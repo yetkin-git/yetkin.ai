@@ -8,6 +8,8 @@ import { PASSWORD_RECOVERY_PATH } from "@/lib/kernel/auth/password";
 export const AUTH_CALLBACK_PATH = "/auth/callback";
 export const AUTH_CALLBACK_ERROR_PATH = "/login";
 export const AUTH_CALLBACK_DEFAULT_NEXT = "/dashboard";
+/** POST — çerezleri siler, 303 ile girişe döner. Kenar kind: public. */
+export const AUTH_LOGOUT_API_PATH = "/api/auth/logout";
 
 /** Dashboard allowlist — path (query `next` aynı origin'de kalır). */
 export const SUPABASE_DASHBOARD_REDIRECT_PATHS = [

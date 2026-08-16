@@ -103,6 +103,10 @@ describe("Supabase SSR 0.12 çerez hizası", () => {
 
     expect(callback).toContain("exchangeCodeForSession");
     expect(callback).toContain("createSupabaseCookieClient");
+    const logout = readSrc("app/api/(kernel)/auth/logout/route.ts");
+    expect(logout).toContain("createSupabaseCookieClient");
+    expect(logout).toContain("signOut");
+    expect(logout).toContain("303");
     expect(callback).toContain("setHeaders: response.headers");
     expect(server).toContain("cookieEncoding: AUTH_COOKIE_ENCODING");
     expect(server).toContain("setAll(cookiesToSet, headers)");

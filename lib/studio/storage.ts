@@ -333,3 +333,26 @@ export function assertStudioStorageCorsHeaders(
   }
   return { origin, methods };
 }
+
+/** Yetkisiz kök dumanı — tarayıcıya joker veya yabancı origin yansıtılmaz. */
+export const STUDIO_STORAGE_CORS_FOREIGN_PROBE_ORIGIN = "https://evil.example" as const;
+
+export function assertStudioStorageCorsRejectsForeignOrigin(
+  headers: { allowOrigin: string | null | undefined },
+  foreignOrigin: string = STUDIO_STORAGE_CORS_FOREIGN_PROBE_ORIGIN,
+): void {
+  const allowOrigin = (headers.allowOrigin ?? "").trim();
+  if (!allowOrigin) {
+    return;
+  }
+  if (allowOrigin === STUDIO_STORAGE_CORS_WILDCARD_ORIGIN) {
+    throw new Error(
+      "Storage CORS yetkisiz köke açık: joker origin (*). Dashboard yalnız Rail origin PUT.",
+    );
+  }
+  if (allowOrigin === foreignOrigin.trim()) {
+    throw new Error(
+      `Storage CORS yetkisiz kökü yansıtır (${foreignOrigin}). Yabancı origin kapatılmalı.`,
+    );
+  }
+}

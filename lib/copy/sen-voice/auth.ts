@@ -20,6 +20,11 @@ export const AUTH_SEN = {
     registerCta: "Kayıt",
     homeCta: "Ana sayfa",
   },
+  logout: {
+    submit: "Çıkış Yap",
+    pending: "Çıkış…",
+    blurb: "Oturumu kapat",
+  },
   register: {
     title: "Kayıt",
     description: "Hesap aç; Türk Lirası cüzdanın seninle kurulur.",

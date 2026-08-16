@@ -39,6 +39,9 @@ describe("HTTP hız tavanı", () => {
     expect(matchEdgeRateLimit("/api/auth/login", "POST")?.keyPrefix).toBe(
       HTTP_RATE_LIMITS.authIp.keyPrefix,
     );
+    expect(matchEdgeRateLimit("/api/auth/logout", "POST")?.keyPrefix).toBe(
+      HTTP_RATE_LIMITS.authIp.keyPrefix,
+    );
     expect(matchEdgeRateLimit("/api/auth/session", "OPTIONS")).toBeNull();
   });
 

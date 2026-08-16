@@ -12,6 +12,8 @@ import {
   assertStudioMimeType,
   assertStudioObjectOwnerPath,
   assertStudioStorageCorsHeaders,
+  assertStudioStorageCorsRejectsForeignOrigin,
+  STUDIO_STORAGE_CORS_FOREIGN_PROBE_ORIGIN,
   buildStudioObjectPath,
   createObjectStoreStudioAssetStorage,
 } from "@/lib/studio/storage";
@@ -48,6 +50,20 @@ describe("Studio depo sözleşmesi (T2-2)", () => {
         "http://localhost:3000",
       ),
     ).toThrow(/yalnız PUT/);
+    expect(() =>
+      assertStudioStorageCorsRejectsForeignOrigin({ allowOrigin: "*" }),
+    ).toThrow(/yetkisiz köke açık/);
+    expect(() =>
+      assertStudioStorageCorsRejectsForeignOrigin({
+        allowOrigin: STUDIO_STORAGE_CORS_FOREIGN_PROBE_ORIGIN,
+      }),
+    ).toThrow(/yetkisiz kökü yansıtır/);
+    expect(() =>
+      assertStudioStorageCorsRejectsForeignOrigin({ allowOrigin: null }),
+    ).not.toThrow();
+    expect(() =>
+      assertStudioStorageCorsRejectsForeignOrigin({ allowOrigin: "http://localhost:3000" }),
+    ).not.toThrow();
     expect(assertStudioMimeType("image/png")).toBe("image/png");
     expect(assertStudioByteSize(1024)).toBe(1024);
     expect(() => assertStudioByteSize(STUDIO_IMAGE_DECODED_MAX_BYTES + 1)).toThrow(PayloadTooLargeError);

@@ -73,6 +73,26 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     expect(hub).toContain('surface.id !== "cuzdan"');
   });
 
+  it("hesap menüsü Çıkış Yap ile mühürlü POST /api/auth/logout ve /login 303 bağlar", () => {
+    const hub = readSrc("components/shell/user-hub.tsx");
+    const logout = readSrc("app/api/(kernel)/auth/logout/route.ts");
+    expect(hub).toContain("AUTH_LOGOUT_API_PATH");
+    expect(hub).toContain("AUTH_SEN.logout.submit");
+    expect(hub).toContain('method="POST"');
+    expect(hub).toContain("text-[var(--rose)]");
+    expect(hub).toContain("IconLogout");
+    expect(hub).not.toContain("router.push");
+    expect(hub).not.toContain("router.refresh");
+    expect(logout).toContain('export const auth = "public"');
+    expect(logout).toContain("supabase.auth.signOut");
+    expect(logout).toContain("createSupabaseCookieClient");
+    expect(logout).toContain("CITIZEN_LOGIN_PATH");
+    expect(logout).toContain("NextResponse.redirect");
+    expect(logout).toContain(", 303");
+    expect(logout).not.toContain("SUPABASE_SERVICE_ROLE_KEY");
+    expect(logout).not.toContain("LOCAL_MOCK_AUTH");
+  });
+
   it("admin görünürlüğü RSC oturum + isSuperAdminUser; kenar ve yol sicili durur", () => {
     const shell = readSrc("components/shell/app-shell.tsx");
     const chrome = readSrc("components/shell/shell-chrome.tsx");

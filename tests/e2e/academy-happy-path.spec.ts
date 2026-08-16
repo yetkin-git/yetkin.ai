@@ -16,11 +16,11 @@ test.describe("O8 akademi nakit & sınav yolculuğu", () => {
     const live = page.getByText(/Canlı sicil/);
     const empty = page.getByText("Yayında kurs yok");
     const unbound = page.getByText("Liste henüz yüklenemedi");
-    await expect(live.or(empty).or(unbound)).toBeVisible();
+    await expect(live.or(empty).or(unbound).first()).toBeVisible();
 
     const verify = await page.goto("/academy/dogrula/not-a-hash");
     expect(verify?.status()).toBeLessThan(400);
-    await expect(page.getByText(/Hash biçimi SHA256/)).toBeVisible();
+    await expect(page.getByText(/Hash biçimi SHA256/).first()).toBeVisible();
 
     const purchase = await request.post("/api/academy/courses/ac_rail_temel/purchase", {
       headers: { "Idempotency-Key": "550e8400-e29b-41d4-a716-446655440000" },

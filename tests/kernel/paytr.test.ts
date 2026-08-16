@@ -150,9 +150,9 @@ describe("PayTR port", () => {
     vi.stubEnv("PAYTR_MERCHANT_KEY", "key-secret");
     vi.stubEnv("PAYTR_MERCHANT_SALT", "salt-secret");
     vi.stubEnv("PAYTR_SANDBOX", "1");
-    let posted: URLSearchParams | null = null;
+    const capture: { posted: URLSearchParams | null } = { posted: null };
     const fetchImpl: typeof fetch = async (_url, init) => {
-      posted = new URLSearchParams(String(init?.body ?? ""));
+      capture.posted = new URLSearchParams(String(init?.body ?? ""));
       return new Response(JSON.stringify({ status: "success", token: "iframe-token" }), {
         status: 200,
       });
@@ -175,14 +175,19 @@ describe("PayTR port", () => {
       expect(result.mockCheckout).toBeUndefined();
       expect(result.sandboxMode).toBe(true);
     }
-    expect(posted?.get("payment_amount")).toBe("1300");
-    expect(posted?.get("no_installment")).toBe("0");
-    expect(posted?.get("max_installment")).toBe("0");
-    expect(posted?.get("payment_type")).toBeNull();
-    expect(posted?.get("non_3d")).toBeNull();
+    const posted = capture.posted;
+    expect(posted).toBeInstanceOf(URLSearchParams);
+    if (!posted) {
+      throw new Error("iframe get-token gövdesi beklenirdi.");
+    }
+    expect(posted.get("payment_amount")).toBe("1300");
+    expect(posted.get("no_installment")).toBe("0");
+    expect(posted.get("max_installment")).toBe("0");
+    expect(posted.get("payment_type")).toBeNull();
+    expect(posted.get("non_3d")).toBeNull();
     const userBasket = encodePaytrUserBasket(basket);
-    expect(posted?.get("user_basket")).toBe(userBasket);
-    expect(posted?.get("paytr_token")).toBe(
+    expect(posted.get("user_basket")).toBe(userBasket);
+    expect(posted.get("paytr_token")).toBe(
       buildPaytrTokenHash({
         credentials: {
           merchantId: "111111",

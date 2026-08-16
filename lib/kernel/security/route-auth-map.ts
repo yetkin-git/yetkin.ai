@@ -18,6 +18,7 @@ export const ROUTE_AUTH_MAP = {
   "/api/arena/tenders/[id]/award": "session",
   "/api/arena/tenders/[id]/refund": "session",
   "/api/arena/tenders/[id]/submissions": "session",
+  "/api/auth/logout": "public",
   "/api/auth/session": "session",
   "/api/career/portfolio": "session",
   "/api/career/pulse": "session",

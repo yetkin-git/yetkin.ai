@@ -157,6 +157,15 @@ export function IconUser(props: IconProps) {
   );
 }
 
+export function IconLogout(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="M10 7V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2v-1" />
+      <path d="M15 12H3M6 9l-3 3 3 3" />
+    </Svg>
+  );
+}
+
 export function IconWallet(props: IconProps) {
   return (
     <Svg {...props}>

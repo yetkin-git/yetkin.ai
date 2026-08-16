@@ -126,6 +126,7 @@ describe("D3 operatör yüzeyi", () => {
     expect(storage).toContain("STUDIO_STORAGE_CORS_WILDCARD_ORIGIN");
     expect(storage).toContain("assertStudioStorageCorsHeaders");
     expect(corsCheck).toContain("assertStudioStorageCorsHeaders");
+    expect(corsCheck).toContain("assertStudioStorageCorsRejectsForeignOrigin");
     expect(inngestRoute).toContain('method: "GET" | "POST" | "PUT"');
     expect(inngestRoute).toContain("shouldFailClosedInngestServe");
     expect(inngestRoute).toContain("inngestNotConfiguredResponse");

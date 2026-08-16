@@ -72,6 +72,8 @@ Dashboard → Storage → Configuration (veya `studio-assets`) → CORS. Kod SSO
 | Allowed Headers | `content-type`, `x-upsert` |
 | **Yasak** | `Access-Control-Allow-Origin: *`, ek origin, GET/HEAD/POST/PATCH/DELETE/TRACE/CONNECT, kamu GET, CDN |
 
+Yetkisiz kök (`https://evil.example`) joker veya yansıyan origin almaz (`assertStudioStorageCorsRejectsForeignOrigin`).
+
 `next.config.ts` ve `proxy.ts` Storage CORS yazmaz. `.env` içinde `API_CORS_ALLOWED_ORIGINS` yoktur. Joker canlıda duruyorsa imzalı PUT bağlanmamalı; debit durur.
 
 ---

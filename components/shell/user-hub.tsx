@@ -4,8 +4,10 @@ import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { HeaderWalletChip } from "@/components/shell/header-wallet-chip";
-import { IconChevronDown, IconUser, ROOM_ICONS } from "@/components/ui/icons";
+import { IconChevronDown, IconLogout, IconUser, ROOM_ICONS } from "@/components/ui/icons";
 import { cn } from "@/components/ui/cn";
+import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
+import { AUTH_LOGOUT_API_PATH } from "@/lib/kernel/auth/redirects";
 import { KERNEL_SURFACES } from "@/lib/kernel/modules";
 
 const HUB_MENU_SURFACES = KERNEL_SURFACES.filter((surface) => surface.id !== "cuzdan");
@@ -19,6 +21,7 @@ export function UserHub({
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
 
@@ -134,6 +137,25 @@ export function UserHub({
               );
             })}
           </ul>
+          <div className="my-1 h-px bg-[var(--border)]" aria-hidden />
+          <form action={AUTH_LOGOUT_API_PATH} method="POST" onSubmit={() => setSigningOut(true)}>
+            <button
+              type="submit"
+              role="menuitem"
+              disabled={signingOut}
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm text-[var(--rose)] transition hover:bg-[var(--rose-soft)] disabled:opacity-60"
+            >
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--rose-soft)] text-[var(--rose)]">
+                <IconLogout className="h-4 w-4" />
+              </span>
+              <span className="min-w-0 text-left">
+                <span className="block font-medium">
+                  {signingOut ? AUTH_SEN.logout.pending : AUTH_SEN.logout.submit}
+                </span>
+                <span className="block text-[11px] text-[var(--muted)]">{AUTH_SEN.logout.blurb}</span>
+              </span>
+            </button>
+          </form>
         </div>
       ) : null}
     </div>

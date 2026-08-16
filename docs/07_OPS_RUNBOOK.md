@@ -234,7 +234,7 @@ T4 kazanç halkası (canlı Direct `:5432` + akademi vizesi olan satıcı + mü�
 
 ## 14. Canlıya çıkış mührü
 
-Beş dikey oda (Akademi, Freelancer, Yetkinİlan, Studio, DevLabs) ve kenar JWKS/CSP kodda mühürlüdür. Bu dosya insan ops SSOT’tur. Seremoni: `docs/tedavi_raporu_11_nihai_canliya_gecis_muhuru.md`. D3 operatör mührü: `docs/07_tedavi_raporu_d3_nihai_muhur.md` (16 Ağustos 2026). `GET /api/health` JSON `phase` taşımaz; sahte `phase` yazılmaz.
+Beş dikey oda (Akademi, Freelancer, Yetkinİlan, Studio, DevLabs) ve kenar JWKS/CSP kodda mühürlüdür. Bu dosya insan ops SSOT’tur. Seremoni: `docs/tedavi_raporu_11_nihai_canliya_gecis_muhuru.md`. D3 operatör mührü: `docs/07_tedavi_raporu_d3_nihai_muhur.md` (16 Ağustos 2026). Operatör kontrol listesi: `docs/06_CANLIYA_CIKIS_RECETESI.md`. Nihai mühür: `docs/06_NIHAI_CANLIYA_CIKIS_RAPORU.md`. `GET /api/health` JSON `phase` taşımaz; sahte `phase` yazılmaz.
 
 Kurumsal altıncı vitrin diye açılmaz. On üçüncü oda yasaktır. S43 çekim kapalıdır. Üretimde `PAYTR_SANDBOX` / mock checkout / boş `INNGEST_SIGNING_KEY` / boş `INNGEST_EVENT_KEY` fail-closed.
 

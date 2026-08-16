@@ -9,8 +9,10 @@
 | Ops | `docs/07_OPS_RUNBOOK.md` |
 | Nesne depo | `docs/08_STORAGE_CONTRACT.md` |
 | Canlıya geçiş | `docs/tedavi_raporu_11_nihai_canliya_gecis_muhuru.md` |
+| Canlı reçete | `docs/06_CANLIYA_CIKIS_RECETESI.md` |
+| Nihai mühür | `docs/06_NIHAI_CANLIYA_CIKIS_RAPORU.md` |
 | D3 mühür | `docs/07_tedavi_raporu_d3_nihai_muhur.md` |
-| Envanter SSOT | `docs/tespit_raporu_v1.md` |
+| Envanter SSOT | `docs/01_tespit_raporu_karsilastirma.md` |
 
 Müze `yetkin.ai/` ilham ve **yasak listesidir** (S9-B). TypeScript, Next tracing ve ESLint import grafının dışındadır. Kör kopya yasaktır.
 
@@ -103,7 +105,7 @@ Süreç-içi bellek. Tek Node süreci dürüst tavanıdır. Redis bu gövdede yo
 
 ## Beş oda canlıya-çıkış mührü
 
-Akademi, Freelancer, Yetkinİlan, Studio, DevLabs + kenar JWKS/CSP kodda mühürlüdür. Kurumsal altıncı vitrin diye açılmaz. Seremoni: `docs/tedavi_raporu_11_nihai_canliya_gecis_muhuru.md`.
+Akademi, Freelancer, Yetkinİlan, Studio, DevLabs + kenar JWKS/CSP kodda mühürlüdür. Kurumsal altıncı vitrin diye açılmaz. Seremoni: `docs/tedavi_raporu_11_nihai_canliya_gecis_muhuru.md`. Operatör reçetesi: `docs/06_CANLIYA_CIKIS_RECETESI.md`. Nihai mühür: `docs/06_NIHAI_CANLIYA_CIKIS_RAPORU.md`.
 
 ---
 

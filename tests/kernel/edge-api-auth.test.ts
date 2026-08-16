@@ -149,7 +149,8 @@ describe("üretilen ROUTE_AUTH_MAP", () => {
     expect(ROUTE_AUTH_MAP["/api/jobs/inngest"]).toBe("webhook");
     expect(ROUTE_AUTH_MAP["/api/studio/generate"]).toBe("session");
     expect(Object.keys(ROUTE_AUTH_MAP).some((path) => path.includes("("))).toBe(false);
-    expect(Object.keys(ROUTE_AUTH_MAP)).toHaveLength(85);
+    expect(Object.keys(ROUTE_AUTH_MAP)).toHaveLength(86);
+    expect(ROUTE_AUTH_MAP["/api/auth/logout"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/kurumsal/jobs/[id]/offers"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/dashboard/pulse"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/admin/catalog"]).toBe("admin");

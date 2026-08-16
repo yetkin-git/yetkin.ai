@@ -61,19 +61,19 @@ test.describe("O9 freelancer nakit & emanet yolculuğu", () => {
     expect(response?.status()).toBeLessThan(400);
     await expect(page.getByRole("heading", { name: "Freelancer tezgâhı" })).toBeVisible();
     await expect(page.getByText("ilan → emanet → teslim")).toBeVisible();
-    await expect(page.getByText("Bakiye kilitlidir")).toBeVisible();
+    await expect(page.getByText("Bakiye kilitlidir").first()).toBeVisible();
     await expect(page.getByRole("link", { name: "İlan oluştur" }).first()).toBeVisible();
 
     const live = page.getByText(/Canlı sicil/);
     const empty = page.getByText("Canlı ilan yok");
     const unbound = page.getByText("Liste henüz yüklenemedi");
-    await expect(live.or(empty).or(unbound)).toBeVisible();
+    await expect(live.or(empty).or(unbound).first()).toBeVisible();
+    await expect(page.getByText("Teslim onayı ile aktarılır").first()).toBeVisible();
+    await expect(page.getByText("İtiraz durumunda tahkim süreci işler").first()).toBeVisible();
 
     await page.getByRole("link", { name: "İlan oluştur" }).first().click();
-    await expect(page).toHaveURL(/\/freelancer\/new\/?$/);
-    await expect(page.getByRole("heading", { name: "İlan oluştur" })).toBeVisible();
-    await expect(page.getByText("Teslim onayı ile aktarılır")).toBeVisible();
-    await expect(page.getByText("İtiraz durumunda tahkim süreci işler")).toBeVisible();
+    await expect(page).toHaveURL(/\/login\/?$/);
+    await expect(page.getByRole("heading", { name: "Giriş" })).toBeVisible();
   });
 
   test("bellek nakit yolu: ilan → fiyat kilidi & emanet → release bakiye aktarımı", async () => {
