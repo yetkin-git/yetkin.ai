@@ -1,0 +1,152 @@
+// Pazaryeri dikey dilimi — Faz 6A dijital/hizmet + Faz 10 Yetkinİlan (S61-A).
+// Emlak ve vasıta açıktır. TKGM / sigorta canlı API değil; hook alanıdır.
+// Fiyat satırda; bant PriceCatalogEntry verisidir (S11-A).
+// escrowHoldId çekirdek kilidine string FK — EscrowHold pazaryeri tanımaz.
+// User şişmez: satıcı ürün + alıcı/satıcı sipariş/teklif ters ilişkileri.
+
+enum MarketplaceProductKind {
+  DIGITAL_GOOD
+  SERVICE
+}
+
+enum MarketplaceProductCategory {
+  DIGITAL_GOOD
+  SERVICE
+  REAL_ESTATE
+  VEHICLE
+}
+
+enum MarketplaceProductStatus {
+  LISTED
+  UNLISTED
+}
+
+enum MarketplaceOrderStatus {
+  SETTLED
+  AWAITING_DELIVERY
+  DELIVERED
+  REFUNDED
+}
+
+enum MarketplaceOfferStatus {
+  OPEN
+  ACCEPTED
+  REJECTED
+}
+
+enum MarketplaceDopingStatus {
+  ACTIVE
+  EXPIRED
+}
+
+model MarketplaceProduct {
+  id                  String                     @id @default(cuid())
+  userId              String                     @map("user_id")
+  slug                String                     @unique
+  title               String
+  summary             String
+  kind                MarketplaceProductKind
+  category            MarketplaceProductCategory @default(DIGITAL_GOOD)
+  amountMinor         Int                        @map("amount_minor")
+  currencyCode        String                     @db.Char(3) @map("currency_code")
+  status              MarketplaceProductStatus   @default(LISTED)
+  isDoped             Boolean                    @default(false) @map("is_doped")
+  isOfferAllowed      Boolean                    @default(false) @map("is_offer_allowed")
+  tkgmBlockParcel     String?                    @map("tkgm_block_parcel")
+  insuranceQuoteHook  String?                    @map("insurance_quote_hook")
+  dopedUntil          DateTime?                  @map("doped_until")
+  createdAt           DateTime                   @default(now()) @map("created_at")
+  updatedAt           DateTime                   @updatedAt @map("updated_at")
+
+  seller  User                 @relation(fields: [userId], references: [id], onDelete: Restrict)
+  orders  MarketplaceOrder[]
+  offers  MarketplaceOffer[]
+  dopings MarketplaceDoping[]
+
+  @@index([userId, status])
+  @@index([status, createdAt])
+  @@index([kind, status])
+  @@index([category, status])
+  @@index([isDoped, status])
+  @@map("marketplace_products")
+}
+
+/// Dijital: SETTLED + ledger split. Hizmet/emlak/vasıta: AWAITING_DELIVERY + EscrowHold.
+model MarketplaceOrder {
+  id            String                  @id @default(cuid())
+  productId     String                  @map("product_id")
+  userId        String                  @map("user_id")
+  sellerUserId  String                  @map("seller_user_id")
+  productTitle  String                  @map("product_title")
+  kind          MarketplaceProductKind
+  priceLockId   String                  @map("price_lock_id")
+  escrowHoldId  String?                 @unique @map("escrow_hold_id")
+  amountMinor   Int                     @map("amount_minor")
+  holdMinor     Int                     @map("hold_minor")
+  netMinor      Int                     @map("net_minor")
+  holdBps       Int                     @map("hold_bps")
+  currencyCode  String                  @db.Char(3) @map("currency_code")
+  status        MarketplaceOrderStatus
+  settledAt     DateTime?               @map("settled_at")
+  deliveredAt   DateTime?               @map("delivered_at")
+  refundedAt    DateTime?               @map("refunded_at")
+  createdAt     DateTime                @default(now()) @map("created_at")
+  updatedAt     DateTime                @updatedAt @map("updated_at")
+
+  product MarketplaceProduct @relation(fields: [productId], references: [id], onDelete: Restrict)
+  buyer   User               @relation("MarketplaceOrderBuyer", fields: [userId], references: [id], onDelete: Restrict)
+  seller  User               @relation("MarketplaceOrderSeller", fields: [sellerUserId], references: [id], onDelete: Restrict)
+  offer   MarketplaceOffer?
+
+  @@unique([userId, productId])
+  @@index([userId, status])
+  @@index([sellerUserId, status])
+  @@index([productId])
+  @@map("marketplace_orders")
+}
+
+/// Alıcı teklifi. Satıcı onayında tutar emanete (kapora) kilitlenir.
+model MarketplaceOffer {
+  id            String                 @id @default(cuid())
+  productId     String                 @map("product_id")
+  userId        String                 @map("user_id")
+  sellerUserId  String                 @map("seller_user_id")
+  amountMinor   Int                    @map("amount_minor")
+  currencyCode  String                 @db.Char(3) @map("currency_code")
+  status        MarketplaceOfferStatus @default(OPEN)
+  escrowHoldId  String?                @unique @map("escrow_hold_id")
+  orderId       String?                @unique @map("order_id")
+  createdAt     DateTime               @default(now()) @map("created_at")
+  updatedAt     DateTime               @updatedAt @map("updated_at")
+
+  product MarketplaceProduct @relation(fields: [productId], references: [id], onDelete: Restrict)
+  buyer   User               @relation("MarketplaceOfferBuyer", fields: [userId], references: [id], onDelete: Restrict)
+  seller  User               @relation("MarketplaceOfferSeller", fields: [sellerUserId], references: [id], onDelete: Restrict)
+  order   MarketplaceOrder?  @relation(fields: [orderId], references: [id], onDelete: Restrict)
+
+  @@index([productId, status])
+  @@index([userId, status])
+  @@index([sellerUserId, status])
+  @@map("marketplace_offers")
+}
+
+/// Doping / öne çıkarma. Tutar PriceCatalogEntry `doping:boost` verisidir.
+model MarketplaceDoping {
+  id           String                   @id @default(cuid())
+  productId    String                   @map("product_id")
+  userId       String                   @map("user_id")
+  amountMinor  Int                      @map("amount_minor")
+  currencyCode String                   @db.Char(3) @map("currency_code")
+  status       MarketplaceDopingStatus  @default(ACTIVE)
+  startsAt     DateTime                 @map("starts_at")
+  expiresAt    DateTime                 @map("expires_at")
+  createdAt    DateTime                 @default(now()) @map("created_at")
+
+  product MarketplaceProduct @relation(fields: [productId], references: [id], onDelete: Restrict)
+  seller  User               @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([productId, status])
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("marketplace_dopings")
+}

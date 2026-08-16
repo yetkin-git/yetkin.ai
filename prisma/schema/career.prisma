@@ -1,0 +1,43 @@
+// Kariyer dikey dilimi — Faz 3B pasaport vizesi ve portföy mührü.
+// Para yoktur. Kanıt: akademi sertifikası veya freelancer RELEASED sözleşme.
+// User şişmez: yalnızca stamp + portfolio ters ilişkileri.
+
+enum CareerVisaSourceKind {
+  ACADEMY_CERTIFICATE
+  FREELANCER_RELEASE
+}
+
+model CareerVisaStamp {
+  id               String               @id @default(cuid())
+  userId           String               @map("user_id")
+  sourceKind       CareerVisaSourceKind @map("source_kind")
+  sourceId         String               @map("source_id")
+  visaKey          String               @map("visa_key")
+  moduleId         String               @map("module_id")
+  title            String
+  certificateHash  String?              @map("certificate_hash")
+  issuedAt         DateTime             @map("issued_at")
+  createdAt        DateTime             @default(now()) @map("created_at")
+
+  user          User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  portfolioItem CareerPortfolioItem?
+
+  @@unique([userId, sourceKind, sourceId])
+  @@index([userId, issuedAt])
+  @@map("career_visa_stamps")
+}
+
+/// Mühürlü portföy satırı — vizesiz serbest içerik Faz 3'te yok.
+model CareerPortfolioItem {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  visaStampId String   @unique @map("visa_stamp_id")
+  title       String
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  visaStamp CareerVisaStamp @relation(fields: [visaStampId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("career_portfolio_items")
+}

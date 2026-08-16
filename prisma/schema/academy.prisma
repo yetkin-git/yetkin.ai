@@ -1,0 +1,137 @@
+// Akademi dikey dilimi — Faz 3A anında settlement + Faz 9 sınav kapısı (S58-A) + D2.1 oynatıcı.
+// Kurs fiyatı PriceCatalogEntry verisidir; course satırında tutar yok (S11-A).
+// Satın al = öğrenme kaydı. Ders içeriği SETTLED olmadan açılmaz. Ustalık belgesi ≥70 sınav mührüdür.
+// User şişmez: purchase + certificate + exam attempt + lesson completion ters ilişkileri.
+
+enum AcademyPurchaseStatus {
+  SETTLED
+}
+
+enum AcademyExamAttemptStatus {
+  GRADED
+}
+
+model AcademyCourse {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  title          String
+  summary        String
+  catalogUnitKey String   @unique @map("catalog_unit_key")
+  isPublished    Boolean  @default(true) @map("is_published")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  purchases    AcademyPurchase[]
+  certificates AcademyCertificate[]
+  exam         AcademyExam?
+  lessonCompletions AcademyLessonCompletion[]
+
+  @@index([isPublished, createdAt])
+  @@map("academy_courses")
+}
+
+/// Instant settlement kaydı. priceLockId çekirdek CheckoutPriceLock'a string FK.
+model AcademyPurchase {
+  id           String                @id @default(cuid())
+  userId       String                @map("user_id")
+  courseId     String                @map("course_id")
+  priceLockId  String                @map("price_lock_id")
+  amountMinor  Int                   @map("amount_minor")
+  currencyCode String                @db.Char(3) @map("currency_code")
+  status       AcademyPurchaseStatus @default(SETTLED)
+  settledAt    DateTime              @map("settled_at")
+  createdAt    DateTime              @default(now()) @map("created_at")
+  updatedAt    DateTime              @updatedAt @map("updated_at")
+
+  user         User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course       AcademyCourse        @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  certificate  AcademyCertificate?
+  examAttempts AcademyExamAttempt[]
+  lessonCompletions AcademyLessonCompletion[]
+
+  @@unique([userId, courseId])
+  @@index([userId, createdAt])
+  @@index([courseId])
+  @@map("academy_purchases")
+}
+
+/// Müfredat sınavı — kursa 1:1. Doğru şıklar sunucuda kalır.
+model AcademyExam {
+  id            String   @id @default(cuid())
+  courseId      String   @unique @map("course_id")
+  title         String
+  passScore     Int      @default(70) @map("pass_score")
+  questionsJson String   @map("questions_json") @db.Text
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  course   AcademyCourse        @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  attempts AcademyExamAttempt[]
+
+  @@map("academy_exams")
+}
+
+model AcademyExamAttempt {
+  id          String                    @id @default(cuid())
+  examId      String                    @map("exam_id")
+  userId      String                    @map("user_id")
+  purchaseId  String                    @map("purchase_id")
+  answersJson String                    @map("answers_json") @db.Text
+  score       Int
+  passed      Boolean
+  status      AcademyExamAttemptStatus  @default(GRADED)
+  submittedAt DateTime                  @map("submitted_at")
+  createdAt   DateTime                  @default(now()) @map("created_at")
+
+  exam        AcademyExam         @relation(fields: [examId], references: [id], onDelete: Restrict)
+  user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  purchase    AcademyPurchase     @relation(fields: [purchaseId], references: [id], onDelete: Restrict)
+  certificate AcademyCertificate?
+
+  @@index([userId, examId])
+  @@index([purchaseId, submittedAt])
+  @@map("academy_exam_attempts")
+}
+
+model AcademyCertificate {
+  id               String   @id @default(cuid())
+  userId           String   @map("user_id")
+  courseId         String   @map("course_id")
+  purchaseId       String   @unique @map("purchase_id")
+  attemptId        String?  @unique @map("attempt_id")
+  title            String
+  serialKey        String   @unique @map("serial_key")
+  certificateHash  String?  @unique @map("certificate_hash")
+  curriculumSeal   String?  @map("curriculum_seal")
+  score            Int?
+  issuedAt         DateTime @map("issued_at")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  user     User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course   AcademyCourse        @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  purchase AcademyPurchase      @relation(fields: [purchaseId], references: [id], onDelete: Restrict)
+  attempt  AcademyExamAttempt?  @relation(fields: [attemptId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, courseId])
+  @@index([userId, issuedAt])
+  @@map("academy_certificates")
+}
+
+/// SETTLED satın alma sonrası ders tamamlama. İçerik kod tohumudur (CMS yok).
+model AcademyLessonCompletion {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  courseId    String   @map("course_id")
+  purchaseId  String   @map("purchase_id")
+  lessonKey   String   @map("lesson_key")
+  completedAt DateTime @map("completed_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course   AcademyCourse   @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  purchase AcademyPurchase @relation(fields: [purchaseId], references: [id], onDelete: Restrict)
+
+  @@unique([purchaseId, lessonKey])
+  @@index([userId, courseId])
+  @@map("academy_lesson_completions")
+}

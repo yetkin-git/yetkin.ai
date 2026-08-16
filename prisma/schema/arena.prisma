@@ -1,0 +1,91 @@
+// Arena dikey dilimi — Faz 5B kurumsal iş / proje ihalesi.
+// Realtime yok (S3-A): HTTP + Inngest tur/zaman aşımı. Socket.IO doğmaz.
+// Ödül havuzu çekirdek EscrowHold. escrowHoldId string FK.
+
+enum ArenaTenderStatus {
+  OPEN
+  EVALUATING
+  AWARDED
+  REFUNDED
+}
+
+enum ArenaTenderRound {
+  SUBMISSION
+  EVALUATION
+  CLOSED
+}
+
+enum ArenaSubmissionStatus {
+  SUBMITTED
+  REJECTED
+  AWARDED
+}
+
+model ArenaTender {
+  id                 String            @id @default(cuid())
+  userId             String            @map("user_id")
+  companyId          String?           @map("company_id")
+  title              String
+  brief              String
+  prizePoolMinor     Int               @map("prize_pool_minor")
+  currencyCode       String            @db.Char(3) @map("currency_code")
+  escrowHoldId       String            @unique @map("escrow_hold_id")
+  status             ArenaTenderStatus
+  round              ArenaTenderRound  @default(SUBMISSION)
+  holdBps            Int               @map("hold_bps")
+  grossMinor         Int               @map("gross_minor")
+  holdMinor          Int               @map("hold_minor")
+  netMinor           Int               @map("net_minor")
+  submissionClosesAt DateTime          @map("submission_closes_at")
+  evaluationClosesAt DateTime          @map("evaluation_closes_at")
+  awardedAt          DateTime?         @map("awarded_at")
+  refundedAt         DateTime?         @map("refunded_at")
+  createdAt          DateTime          @default(now()) @map("created_at")
+  updatedAt          DateTime          @updatedAt @map("updated_at")
+
+  sponsor     User               @relation(fields: [userId], references: [id], onDelete: Restrict)
+  submissions ArenaSubmission[]
+  awards      ArenaAward[]
+
+  @@index([userId, status])
+  @@index([status, round, submissionClosesAt])
+  @@index([status, evaluationClosesAt])
+  @@map("arena_tenders")
+}
+
+model ArenaSubmission {
+  id        String                 @id @default(cuid())
+  tenderId  String                 @map("tender_id")
+  userId    String                 @map("user_id")
+  proposal  String
+  status    ArenaSubmissionStatus  @default(SUBMITTED)
+  createdAt DateTime               @default(now()) @map("created_at")
+  updatedAt DateTime               @updatedAt @map("updated_at")
+
+  tender ArenaTender @relation(fields: [tenderId], references: [id], onDelete: Cascade)
+  author User        @relation(fields: [userId], references: [id], onDelete: Restrict)
+  award  ArenaAward?
+
+  @@unique([tenderId, userId])
+  @@index([userId])
+  @@map("arena_submissions")
+}
+
+/// Kazanan payı. Toplam amountMinor = emanet neti. Çekirdek dağıtımlı release.
+model ArenaAward {
+  id            String   @id @default(cuid())
+  tenderId      String   @map("tender_id")
+  submissionId  String   @unique @map("submission_id")
+  userId        String   @map("user_id")
+  amountMinor   Int      @map("amount_minor")
+  currencyCode  String   @db.Char(3) @map("currency_code")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  tender     ArenaTender     @relation(fields: [tenderId], references: [id], onDelete: Restrict)
+  submission ArenaSubmission @relation(fields: [submissionId], references: [id], onDelete: Restrict)
+  winner     User            @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([tenderId])
+  @@index([userId])
+  @@map("arena_awards")
+}

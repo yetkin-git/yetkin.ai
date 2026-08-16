@@ -1,0 +1,473 @@
+@import "tailwindcss";
+
+@source "./**/*.{js,ts,jsx,tsx}";
+@source "../components/**/*.{js,ts,jsx,tsx}";
+@source "../lib/**/*.{js,ts,jsx,tsx}";
+
+:root {
+  --background: #eef2f7;
+  --foreground: #0f172a;
+  --surface: #ffffff;
+  --surface-muted: #f4f7fb;
+  --surface-ink: #0b1220;
+  --surface-ink-soft: #151d2e;
+  --border: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.14);
+  --muted: #5b677a;
+  --safir: #1a8cff;
+  --safir-deep: #0b63c7;
+  --safir-soft: rgba(26, 140, 255, 0.12);
+  --gold: #b8860b;
+  --gold-soft: rgba(184, 134, 11, 0.14);
+  --emerald: #0f9d7a;
+  --emerald-soft: rgba(15, 157, 122, 0.12);
+  --rose: #e11d48;
+  --rose-soft: rgba(225, 29, 72, 0.1);
+  --amber: #d97706;
+  --amber-soft: rgba(217, 119, 6, 0.12);
+  --violet: #6d5cff;
+  --violet-soft: rgba(109, 92, 255, 0.12);
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 12px 32px rgba(15, 23, 42, 0.06);
+  --shadow-lift: 0 8px 28px rgba(15, 23, 42, 0.1);
+  --radius-card: 1.15rem;
+  --btn-on-accent: #ffffff;
+}
+
+html,
+body {
+  min-height: 100%;
+  background: var(--background);
+  color: var(--foreground);
+  font-family:
+    "Segoe UI",
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    sans-serif;
+  letter-spacing: -0.011em;
+}
+
+body {
+  background-image:
+    radial-gradient(1200px 480px at 12% -8%, rgba(26, 140, 255, 0.09), transparent 55%),
+    radial-gradient(900px 420px at 100% 0%, rgba(109, 92, 255, 0.07), transparent 50%),
+    linear-gradient(180deg, #f7f9fc 0%, var(--background) 42%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: var(--safir-soft);
+  color: var(--foreground);
+}
+
+.rail-glass {
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: blur(18px) saturate(1.2);
+  box-shadow: var(--shadow-card);
+}
+
+.rail-grid-fade {
+  background-image:
+    linear-gradient(to right, rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55), transparent 88%);
+}
+
+.room-scope {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.room-atmosphere-wash,
+.room-atmosphere-grid,
+.room-atmosphere-scan {
+  position: absolute;
+  inset: 0;
+}
+
+.room-atmosphere-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--foreground) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--foreground) 4%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.45), transparent 82%);
+}
+
+@keyframes room-led {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.room-led {
+  animation: room-led 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .room-led,
+  .arena-prize-bar {
+    animation: none;
+  }
+}
+
+/* DevLabs — koyu konsol / terminal */
+[data-room="devlabs"] {
+  --background: #0d1117;
+  --foreground: #e6edf3;
+  --surface: #161b22;
+  --surface-muted: #1c2330;
+  --surface-ink: #010409;
+  --surface-ink-soft: #0d1117;
+  --border: rgba(63, 185, 80, 0.16);
+  --border-strong: rgba(88, 166, 255, 0.28);
+  --muted: #8b9bb4;
+  --safir: #3fb950;
+  --safir-deep: #58a6ff;
+  --safir-soft: rgba(63, 185, 80, 0.14);
+  --gold: #d2a8ff;
+  --gold-soft: rgba(210, 168, 255, 0.16);
+  --emerald: #3fb950;
+  --emerald-soft: rgba(63, 185, 80, 0.16);
+  --shadow-card: 0 0 0 1px rgba(63, 185, 80, 0.08), 0 16px 40px rgba(0, 0, 0, 0.35);
+  --shadow-lift: 0 0 24px rgba(88, 166, 255, 0.12);
+  --radius-card: 0.55rem;
+  --btn-on-accent: #0d1117;
+  font-family: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+  letter-spacing: 0;
+}
+
+[data-room="devlabs"] .room-atmosphere-wash {
+  background:
+    radial-gradient(900px 420px at 0% 0%, rgba(63, 185, 80, 0.12), transparent 55%),
+    radial-gradient(700px 380px at 100% 10%, rgba(88, 166, 255, 0.1), transparent 50%),
+    linear-gradient(180deg, #0d1117 0%, #010409 100%);
+}
+
+[data-room="devlabs"] .room-atmosphere-grid {
+  background-image:
+    linear-gradient(to right, rgba(63, 185, 80, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(88, 166, 255, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+[data-room="devlabs"] .room-atmosphere-scan {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(63, 185, 80, 0.035) 3px
+  );
+}
+
+[data-room="devlabs"] .room-card {
+  box-shadow: inset 3px 0 0 #3fb950, var(--shadow-card);
+}
+
+[data-room="devlabs"] .rail-glass,
+[data-room="arena"] .rail-glass {
+  border-color: color-mix(in srgb, var(--foreground) 12%, transparent);
+}
+
+/* Junior — enerjik gençlik */
+[data-room="junior"] {
+  --background: #fff4ec;
+  --foreground: #3b1d2a;
+  --surface: #ffffff;
+  --surface-muted: #fff0f5;
+  --border: rgba(244, 63, 94, 0.14);
+  --border-strong: rgba(244, 63, 94, 0.28);
+  --muted: #7a5360;
+  --safir: #f43f5e;
+  --safir-deep: #db2777;
+  --safir-soft: rgba(244, 63, 94, 0.12);
+  --gold: #f59e0b;
+  --gold-soft: rgba(245, 158, 11, 0.16);
+  --emerald: #10b981;
+  --emerald-soft: rgba(16, 185, 129, 0.14);
+  --violet: #8b5cf6;
+  --violet-soft: rgba(139, 92, 246, 0.14);
+  --shadow-card: 0 8px 24px rgba(244, 63, 94, 0.08);
+  --shadow-lift: 0 14px 32px rgba(139, 92, 246, 0.14);
+  --radius-card: 1.85rem;
+}
+
+[data-room="junior"] .room-atmosphere-wash {
+  background:
+    radial-gradient(620px 320px at 8% 0%, rgba(251, 191, 36, 0.28), transparent 55%),
+    radial-gradient(540px 280px at 92% 8%, rgba(244, 114, 182, 0.22), transparent 50%),
+    radial-gradient(480px 240px at 50% 100%, rgba(52, 211, 153, 0.16), transparent 55%),
+    linear-gradient(180deg, #fff7ed 0%, #fff4ec 40%, #fdf2f8 100%);
+}
+
+[data-room="junior"] .junior-quest {
+  border-radius: 1.7rem;
+}
+
+[data-room="junior"] .junior-shield-card {
+  background: linear-gradient(135deg, #fff 0%, #ffe4e6 48%, #dbeafe 100%);
+}
+
+/* Arena — ödüllü rekabet */
+[data-room="arena"] {
+  --background: #140e08;
+  --foreground: #fff7e6;
+  --surface: #1f160c;
+  --surface-muted: #2a1c0e;
+  --surface-ink: #0c0804;
+  --surface-ink-soft: #1a1208;
+  --border: rgba(245, 185, 66, 0.22);
+  --border-strong: rgba(255, 138, 0, 0.45);
+  --muted: #d4b48a;
+  --safir: #f5b942;
+  --safir-deep: #ff8a00;
+  --safir-soft: rgba(245, 185, 66, 0.16);
+  --gold: #ffd60a;
+  --gold-soft: rgba(255, 214, 10, 0.18);
+  --amber: #ff8a00;
+  --amber-soft: rgba(255, 138, 0, 0.16);
+  --shadow-card: 0 12px 36px rgba(0, 0, 0, 0.35);
+  --shadow-lift: 0 0 28px rgba(245, 185, 66, 0.22);
+  --radius-card: 1rem;
+  --btn-on-accent: #140e08;
+}
+
+[data-room="arena"] .room-atmosphere-wash {
+  background:
+    radial-gradient(700px 360px at 50% -10%, rgba(255, 214, 10, 0.22), transparent 55%),
+    radial-gradient(520px 280px at 0% 80%, rgba(255, 138, 0, 0.16), transparent 50%),
+    radial-gradient(520px 280px at 100% 80%, rgba(245, 185, 66, 0.14), transparent 50%),
+    linear-gradient(180deg, #1a1208 0%, #140e08 100%);
+}
+
+[data-room="arena"] .room-listing {
+  border-color: rgba(245, 185, 66, 0.28);
+}
+
+@media (min-width: 768px) {
+  .arena-podium {
+    display: grid;
+    grid-template-columns: 1fr 1.12fr 1fr;
+    align-items: stretch;
+  }
+  .arena-podium > :nth-child(1) {
+    order: 2;
+    transform: translateY(-12px);
+  }
+  .arena-podium > :nth-child(2) {
+    order: 1;
+    margin-top: 1.25rem;
+  }
+  .arena-podium > :nth-child(3) {
+    order: 3;
+    margin-top: 1.25rem;
+  }
+}
+
+/* Studio — yaratıcı tuval */
+[data-room="studio"] {
+  --background: #f3eee4;
+  --foreground: #2a2430;
+  --surface: #fffdf8;
+  --surface-muted: #f7f1e6;
+  --border: rgba(124, 92, 255, 0.14);
+  --border-strong: rgba(124, 92, 255, 0.28);
+  --muted: #6b6178;
+  --safir: #7c5cff;
+  --safir-deep: #5b3fd6;
+  --safir-soft: rgba(124, 92, 255, 0.12);
+  --violet: #7c5cff;
+  --violet-soft: rgba(124, 92, 255, 0.14);
+  --shadow-card: 0 10px 28px rgba(91, 63, 214, 0.08);
+  --shadow-lift: 0 16px 36px rgba(91, 63, 214, 0.14);
+  --radius-card: 1.35rem;
+}
+
+[data-room="studio"] .room-atmosphere-wash {
+  background:
+    radial-gradient(640px 300px at 12% 0%, rgba(124, 92, 255, 0.12), transparent 50%),
+    radial-gradient(520px 260px at 100% 20%, rgba(244, 114, 182, 0.1), transparent 50%),
+    repeating-linear-gradient(90deg, rgba(42, 36, 48, 0.03) 0 1px, transparent 1px 48px),
+    linear-gradient(180deg, #f7f2e8 0%, #f3eee4 100%);
+}
+
+[data-room="studio"] .studio-prompt-live {
+  border-radius: 1.5rem 0.4rem 1.5rem 0.4rem;
+  min-height: 12rem;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.9), rgba(247, 241, 230, 0.95)),
+    repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(124, 92, 255, 0.08) 28px);
+}
+
+[data-room="studio"] .studio-easel {
+  border-bottom-width: 10px;
+  border-bottom-color: #c4b49a;
+}
+
+/* Kurumsal — analitik ciddiyet */
+[data-room="kurumsal"] {
+  --background: #e6edf6;
+  --foreground: #0b1f3a;
+  --surface: #f8fbff;
+  --surface-muted: #eef3fa;
+  --border: rgba(30, 58, 138, 0.14);
+  --border-strong: rgba(30, 58, 138, 0.28);
+  --muted: #4b6080;
+  --safir: #1e3a8a;
+  --safir-deep: #172554;
+  --safir-soft: rgba(30, 58, 138, 0.1);
+  --shadow-card: 0 1px 2px rgba(11, 31, 58, 0.05), 0 10px 24px rgba(11, 31, 58, 0.06);
+  --radius-card: 0.5rem;
+}
+
+[data-room="kurumsal"] .room-atmosphere-wash {
+  background:
+    linear-gradient(180deg, #d9e4f2 0%, #e6edf6 42%),
+    repeating-linear-gradient(90deg, rgba(23, 37, 84, 0.04) 0 1px, transparent 1px 72px);
+}
+
+[data-room="kurumsal"] .room-stat,
+[data-room="hibe"] .room-stat {
+  border-radius: 0.5rem;
+}
+
+/* Hibe — resmi eşleşme */
+[data-room="hibe"] {
+  --background: #e8f0f8;
+  --foreground: #0b2a4a;
+  --surface: #f7fbff;
+  --surface-muted: #eaf2fa;
+  --border: rgba(14, 77, 146, 0.14);
+  --border-strong: rgba(14, 77, 146, 0.28);
+  --muted: #4a6884;
+  --safir: #0e4d92;
+  --safir-deep: #0b3a6e;
+  --safir-soft: rgba(14, 77, 146, 0.1);
+  --emerald: #0f766e;
+  --emerald-soft: rgba(15, 118, 110, 0.12);
+  --radius-card: 0.5rem;
+}
+
+[data-room="hibe"] .room-atmosphere-wash {
+  background:
+    radial-gradient(700px 280px at 100% 0%, rgba(14, 77, 146, 0.1), transparent 50%),
+    linear-gradient(180deg, #dce8f4 0%, #e8f0f8 40%);
+}
+
+/* Freelancer — ticaret tezgâhı */
+[data-room="freelancer"] {
+  --background: #f6efe4;
+  --foreground: #3b2415;
+  --surface: #fffaf3;
+  --surface-muted: #f4e8d6;
+  --border: rgba(194, 65, 12, 0.14);
+  --border-strong: rgba(194, 65, 12, 0.28);
+  --muted: #7a5a42;
+  --safir: #c2410c;
+  --safir-deep: #9a3412;
+  --safir-soft: rgba(194, 65, 12, 0.12);
+  --gold: #b45309;
+  --gold-soft: rgba(180, 83, 9, 0.14);
+  --radius-card: 1rem;
+}
+
+[data-room="freelancer"] .room-atmosphere-wash {
+  background:
+    radial-gradient(560px 280px at 0% 0%, rgba(194, 65, 12, 0.12), transparent 50%),
+    repeating-linear-gradient(135deg, rgba(180, 83, 9, 0.04) 0 12px, transparent 12px 24px),
+    linear-gradient(180deg, #fbf4ea 0%, #f6efe4 100%);
+}
+
+/* Yetkinİlan — vitrin tezgâhı (disk oda id: pazaryeri) */
+[data-room="pazaryeri"] {
+  --background: #f7ecd9;
+  --foreground: #3f2a12;
+  --surface: #fff8ec;
+  --surface-muted: #f3e2c7;
+  --border: rgba(180, 83, 9, 0.16);
+  --border-strong: rgba(180, 83, 9, 0.3);
+  --muted: #7c5a32;
+  --safir: #b45309;
+  --safir-deep: #92400e;
+  --safir-soft: rgba(180, 83, 9, 0.14);
+  --gold: #d97706;
+  --gold-soft: rgba(217, 119, 6, 0.16);
+  --radius-card: 1.05rem;
+}
+
+[data-room="pazaryeri"] .room-atmosphere-wash {
+  background:
+    radial-gradient(480px 240px at 90% 0%, rgba(217, 119, 6, 0.18), transparent 50%),
+    repeating-linear-gradient(90deg, rgba(146, 64, 14, 0.05) 0 2px, transparent 2px 28px),
+    linear-gradient(180deg, #fbeed6 0%, #f7ecd9 100%);
+}
+
+[data-room="freelancer"] .room-listing .listing-price,
+[data-room="pazaryeri"] .room-listing .listing-price {
+  font-variant-numeric: tabular-nums;
+  color: var(--safir-deep);
+}
+
+/* Academy / Career / Social — 12 odanın tek tip kırılması */
+[data-room="academy"] {
+  --background: #f6f1e4;
+  --safir: #0f766e;
+  --safir-deep: #115e59;
+  --safir-soft: rgba(15, 118, 110, 0.12);
+}
+
+[data-room="academy"] .room-atmosphere-wash {
+  background:
+    radial-gradient(600px 260px at 10% 0%, rgba(15, 118, 110, 0.1), transparent 50%),
+    linear-gradient(180deg, #fbf6eb 0%, #f6f1e4 100%);
+}
+
+[data-room="career"] {
+  --safir: #1e3a5f;
+  --safir-deep: #152a46;
+  --safir-soft: rgba(30, 58, 95, 0.12);
+  --gold: #b8860b;
+}
+
+[data-room="career"] .room-atmosphere-wash {
+  background:
+    radial-gradient(520px 240px at 100% 0%, rgba(184, 134, 11, 0.12), transparent 50%),
+    linear-gradient(180deg, #eef2f7 0%, #e8eef6 100%);
+}
+
+[data-room="social"] {
+  --background: #faf5ff;
+  --safir: #a21caf;
+  --safir-deep: #86198f;
+  --safir-soft: rgba(162, 28, 175, 0.12);
+  --violet: #a21caf;
+}
+
+[data-room="social"] .room-atmosphere-wash {
+  background:
+    radial-gradient(560px 280px at 50% 0%, rgba(162, 28, 175, 0.12), transparent 55%),
+    linear-gradient(180deg, #fdf4ff 0%, #faf5ff 100%);
+}
+
+/* Yatay şerit — varsayılan tarayıcı scrollbar gizli, kaydırma ve flex-wrap durur */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+[data-room="dashboard"] .room-atmosphere-wash,
+[data-room="kernel"] .room-atmosphere-wash {
+  background:
+    radial-gradient(1200px 480px at 12% -8%, rgba(26, 140, 255, 0.09), transparent 55%),
+    radial-gradient(900px 420px at 100% 0%, rgba(109, 92, 255, 0.07), transparent 50%);
+}

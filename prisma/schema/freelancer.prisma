@@ -1,0 +1,209 @@
+// Freelancer dikey dilimi — birinci çiçek (S7-A) + Faz 8 tahkim/squad (S49–S56).
+// Kontrat FSM modülde; kilit çekirdek EscrowHold'dadır.
+// Squad ikinci cüzdan yok (S54-A). Milestone tablosu yok (S56-C). amountMinor + currencyCode.
+
+enum FreelancerJobStatus {
+  OPEN
+  AWARDED
+  CANCELLED
+}
+
+enum FreelancerBidStatus {
+  SUBMITTED
+  ACCEPTED
+  REJECTED
+}
+
+enum FreelancerContractStatus {
+  FUNDED
+  RELEASED
+  REFUNDED
+  DISPUTED
+}
+
+enum FreelancerDisputeRoundStatus {
+  ROUND_ONE_OPEN
+  ROUND_ONE_SUBMITTED
+  ROUND_TWO_SUBMITTED
+  AI_REPORT_READY
+  SETTLED
+  HUMAN_REVIEW
+}
+
+enum FreelancerContractMessageKind {
+  TEXT
+  DELIVERY
+  REVISION
+}
+
+enum FreelancerSquadKind {
+  PROJECT_EPHEMERAL
+}
+
+enum FreelancerSquadStatus {
+  FORMING
+  ACTIVE
+  DISBANDED
+}
+
+model FreelancerJob {
+  id           String             @id @default(cuid())
+  clientId     String             @map("client_id")
+  title        String
+  brief        String
+  budgetMinor  Int                @map("budget_minor")
+  currencyCode String             @db.Char(3) @map("currency_code")
+  status       FreelancerJobStatus @default(OPEN)
+  createdAt    DateTime           @default(now()) @map("created_at")
+  updatedAt    DateTime           @updatedAt @map("updated_at")
+
+  client    User                 @relation("FreelancerJobClient", fields: [clientId], references: [id], onDelete: Cascade)
+  bids      FreelancerBid[]
+  contract  FreelancerContract?
+
+  @@index([clientId, status])
+  @@index([status, createdAt])
+  @@map("freelancer_jobs")
+}
+
+model FreelancerBid {
+  id           String              @id @default(cuid())
+  jobId        String              @map("job_id")
+  bidderId     String              @map("bidder_id")
+  amountMinor  Int                 @map("amount_minor")
+  currencyCode String              @db.Char(3) @map("currency_code")
+  coverNote    String              @map("cover_note")
+  status       FreelancerBidStatus @default(SUBMITTED)
+  createdAt    DateTime            @default(now()) @map("created_at")
+  updatedAt    DateTime            @updatedAt @map("updated_at")
+
+  job      FreelancerJob       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  bidder   User                @relation("FreelancerBidBidder", fields: [bidderId], references: [id], onDelete: Cascade)
+  contract FreelancerContract?
+
+  @@unique([jobId, bidderId])
+  @@index([bidderId])
+  @@map("freelancer_bids")
+}
+
+/// escrowHoldId çekirdek kilidine string FK — EscrowHold freelancer'ı tanımaz.
+model FreelancerContract {
+  id            String                   @id @default(cuid())
+  jobId         String                   @unique @map("job_id")
+  bidId         String                   @unique @map("bid_id")
+  clientId      String                   @map("client_id")
+  freelancerId  String                   @map("freelancer_id")
+  escrowHoldId  String                   @unique @map("escrow_hold_id")
+  status        FreelancerContractStatus
+  currencyCode  String                   @db.Char(3) @map("currency_code")
+  grossMinor    Int                      @map("gross_minor")
+  holdMinor     Int                      @map("hold_minor")
+  netMinor      Int                      @map("net_minor")
+  holdBps       Int                      @map("hold_bps")
+  fundedAt      DateTime                 @default(now()) @map("funded_at")
+  releasedAt    DateTime?                @map("released_at")
+  refundedAt    DateTime?                @map("refunded_at")
+  createdAt     DateTime                 @default(now()) @map("created_at")
+  updatedAt     DateTime                 @updatedAt @map("updated_at")
+
+  job        FreelancerJob @relation(fields: [jobId], references: [id], onDelete: Restrict)
+  bid        FreelancerBid @relation(fields: [bidId], references: [id], onDelete: Restrict)
+  client     User          @relation("FreelancerContractClient", fields: [clientId], references: [id], onDelete: Restrict)
+  freelancer User          @relation("FreelancerContractFreelancer", fields: [freelancerId], references: [id], onDelete: Restrict)
+  dispute    FreelancerDispute?
+  messages   FreelancerContractMessage[]
+  squad      FreelancerSquad?
+
+  @@index([clientId, status])
+  @@index([freelancerId, status])
+  @@map("freelancer_contracts")
+}
+
+/// 2 turlu AI bilirkişi tahkimi. Hold PENDING kalır; TTL dondurulur (S51-A).
+model FreelancerDispute {
+  id                   String                       @id @default(cuid())
+  contractId           String                       @unique @map("contract_id")
+  initiatorUserId      String                       @map("initiator_user_id")
+  clientId             String                       @map("client_id")
+  freelancerId         String                       @map("freelancer_id")
+  partyAClaim          String                       @map("party_a_claim")
+  partyBRebuttal       String?                      @map("party_b_rebuttal")
+  roundStatus          FreelancerDisputeRoundStatus @default(ROUND_ONE_SUBMITTED) @map("round_status")
+  employerRefundBps    Int?                         @map("employer_refund_bps")
+  rationale            String?
+  arbitrationReady     Boolean                      @default(false) @map("arbitration_ready")
+  reportJson           String?                      @map("report_json")
+  clientApprovedAt     DateTime?                    @map("client_approved_at")
+  freelancerApprovedAt DateTime?                    @map("freelancer_approved_at")
+  rejectedByUserId     String?                      @map("rejected_by_user_id")
+  settledAt            DateTime?                    @map("settled_at")
+  createdAt            DateTime                     @default(now()) @map("created_at")
+  updatedAt            DateTime                     @updatedAt @map("updated_at")
+
+  contract    FreelancerContract @relation(fields: [contractId], references: [id], onDelete: Restrict)
+  initiator   User               @relation("FreelancerDisputeInitiator", fields: [initiatorUserId], references: [id], onDelete: Restrict)
+  client      User               @relation("FreelancerDisputeClient", fields: [clientId], references: [id], onDelete: Restrict)
+  freelancer  User               @relation("FreelancerDisputeFreelancer", fields: [freelancerId], references: [id], onDelete: Restrict)
+
+  @@index([clientId, roundStatus])
+  @@index([freelancerId, roundStatus])
+  @@map("freelancer_disputes")
+}
+
+/// Sözleşme mesajı + teslim/revizyon artifact (S56-C). Milestone tablosu yok.
+model FreelancerContractMessage {
+  id           String                         @id @default(cuid())
+  contractId   String                         @map("contract_id")
+  userId       String                         @map("user_id")
+  clientId     String                         @map("client_id")
+  freelancerId String                         @map("freelancer_id")
+  kind         FreelancerContractMessageKind
+  body         String
+  artifactUrl  String?                        @map("artifact_url")
+  createdAt    DateTime                       @default(now()) @map("created_at")
+
+  contract    FreelancerContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  sender      User               @relation("FreelancerContractMessageSender", fields: [userId], references: [id], onDelete: Restrict)
+  client      User               @relation("FreelancerContractMessageClient", fields: [clientId], references: [id], onDelete: Restrict)
+  freelancer  User               @relation("FreelancerContractMessageFreelancer", fields: [freelancerId], references: [id], onDelete: Restrict)
+
+  @@index([contractId, createdAt])
+  @@index([userId])
+  @@map("freelancer_contract_messages")
+}
+
+/// Proje bazlı iş takımı. İkinci cüzdan yok; pay shareBps (S54-A, S55-A).
+model FreelancerSquad {
+  id           String                 @id @default(cuid())
+  contractId   String                 @unique @map("contract_id")
+  userId       String                 @map("user_id")
+  clientId     String                 @map("client_id")
+  kind         FreelancerSquadKind    @default(PROJECT_EPHEMERAL)
+  status       FreelancerSquadStatus  @default(FORMING)
+  createdAt    DateTime               @default(now()) @map("created_at")
+  updatedAt    DateTime               @updatedAt @map("updated_at")
+
+  contract FreelancerContract      @relation(fields: [contractId], references: [id], onDelete: Restrict)
+  lead     User                    @relation("FreelancerSquadLead", fields: [userId], references: [id], onDelete: Restrict)
+  client   User                    @relation("FreelancerSquadClient", fields: [clientId], references: [id], onDelete: Restrict)
+  members  FreelancerSquadMember[]
+
+  @@index([userId, status])
+  @@index([clientId])
+  @@map("freelancer_squads")
+}
+
+model FreelancerSquadMember {
+  id        String   @id @default(cuid())
+  squadId   String   @map("squad_id")
+  userId    String   @map("user_id")
+  shareBps  Int      @map("share_bps")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  squad FreelancerSquad @relation(fields: [squadId], references: [id], onDelete: Cascade)
+  user  User            @relation("FreelancerSquadMember", fields: [userId], references: [id], onDelete: Restrict)
+
+  @@unique([squadId, userId])
+  @@index([userId])
+  @@map("freelancer_squad_members")
+}

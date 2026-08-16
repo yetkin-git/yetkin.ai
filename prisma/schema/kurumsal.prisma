@@ -1,0 +1,101 @@
+// Kurumsal dikey dilimi — Faz 5A işveren beyni ve mühürlü iş ilanı.
+// İlan anında çekirdek EscrowHold kilitlenir. Freelancer/DevLabs FK string'dir.
+// User şişmez: owner + awardee ters ilişkileri.
+
+enum CorporateCompanyStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+enum CorporateJobPostingStatus {
+  SEALED
+  AWARDED
+  RELEASED
+  REFUNDED
+}
+
+enum CorporateWorkbenchKind {
+  FREELANCER
+  DEVLABS
+}
+
+enum CorporateJobOfferStatus {
+  SUBMITTED
+  ACCEPTED
+  REJECTED
+}
+
+model CorporateCompany {
+  id           String                  @id @default(cuid())
+  userId       String                  @unique @map("user_id")
+  legalName    String                  @map("legal_name")
+  tradeName    String?                 @map("trade_name")
+  jurisdiction String                  @default("TR")
+  taxId        String?                 @map("tax_id")
+  status       CorporateCompanyStatus  @default(ACTIVE)
+  createdAt    DateTime                @default(now()) @map("created_at")
+  updatedAt    DateTime                @updatedAt @map("updated_at")
+
+  owner       User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobPostings CorporateJobPosting[]
+
+  @@index([status, createdAt])
+  @@map("corporate_companies")
+}
+
+/// escrowHoldId çekirdek kilidine string FK — EscrowHold kurumsal'ı tanımaz.
+/// awardedDevLabsProjectId string FK — DevLabs tablosuna Prisma ilişkisi yok.
+model CorporateJobPosting {
+  id                      String                     @id @default(cuid())
+  companyId               String                     @map("company_id")
+  userId                  String                     @map("user_id")
+  title                   String
+  brief                   String
+  budgetMinor             Int                        @map("budget_minor")
+  currencyCode            String                     @db.Char(3) @map("currency_code")
+  workbenchKind           CorporateWorkbenchKind     @map("workbench_kind")
+  escrowHoldId            String                     @unique @map("escrow_hold_id")
+  status                  CorporateJobPostingStatus
+  awardedUserId           String?                    @map("awarded_user_id")
+  awardedDevLabsProjectId String?                    @map("awarded_devlabs_project_id")
+  holdBps                 Int                        @map("hold_bps")
+  grossMinor              Int                        @map("gross_minor")
+  holdMinor               Int                        @map("hold_minor")
+  netMinor                Int                        @map("net_minor")
+  sealedAt                DateTime                   @default(now()) @map("sealed_at")
+  awardedAt               DateTime?                  @map("awarded_at")
+  releasedAt              DateTime?                  @map("released_at")
+  refundedAt              DateTime?                  @map("refunded_at")
+  createdAt               DateTime                   @default(now()) @map("created_at")
+  updatedAt               DateTime                   @updatedAt @map("updated_at")
+
+  owner   User             @relation("CorporateJobOwner", fields: [userId], references: [id], onDelete: Restrict)
+  company CorporateCompany @relation(fields: [companyId], references: [id], onDelete: Restrict)
+  awardee User?            @relation("CorporateJobAwardee", fields: [awardedUserId], references: [id], onDelete: SetNull)
+  offers  CorporateJobOffer[]
+
+  @@index([userId, status])
+  @@index([companyId, status])
+  @@index([awardedUserId, status])
+  @@index([status, createdAt])
+  @@map("corporate_job_postings")
+}
+
+/// Teklif satırı. Tutar yok — mühür anında EscrowHold zaten kilitli (oda ↛ ikinci emanet).
+model CorporateJobOffer {
+  id         String                   @id @default(cuid())
+  postingId  String                   @map("posting_id")
+  bidderId   String                   @map("bidder_id")
+  coverNote  String                   @map("cover_note")
+  status     CorporateJobOfferStatus  @default(SUBMITTED)
+  createdAt  DateTime                 @default(now()) @map("created_at")
+  updatedAt  DateTime                 @updatedAt @map("updated_at")
+
+  posting CorporateJobPosting @relation(fields: [postingId], references: [id], onDelete: Cascade)
+  bidder  User                @relation("CorporateJobOfferBidder", fields: [bidderId], references: [id], onDelete: Cascade)
+
+  @@unique([postingId, bidderId])
+  @@index([bidderId])
+  @@index([postingId, status])
+  @@map("corporate_job_offers")
+}

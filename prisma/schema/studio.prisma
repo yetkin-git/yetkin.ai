@@ -1,0 +1,91 @@
+// Studio dikey dilimi — Faz 4 metin + Faz 9 IMAGE_GEN (S57-A).
+// 19 peron / 14 kapı yok. Maliyet AiTokenUsage + ledger debit; emanet yok.
+// User şişmez: yalnızca draft + generation + digital asset ters ilişkileri.
+
+enum StudioDraftStatus {
+  OPEN
+  ARCHIVED
+}
+
+enum StudioGenerationStatus {
+  SUCCEEDED
+  FAILED
+}
+
+enum StudioAssetType {
+  IMAGE
+}
+
+model StudioDraft {
+  id        String            @id @default(cuid())
+  userId    String            @map("user_id")
+  title     String
+  prompt    String
+  status    StudioDraftStatus @default(OPEN)
+  createdAt DateTime          @default(now()) @map("created_at")
+  updatedAt DateTime          @updatedAt @map("updated_at")
+
+  user         User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  generations  StudioGeneration[]
+
+  @@index([userId, createdAt])
+  @@map("studio_drafts")
+}
+
+/// Üretim kaydı. usageId çekirdek AiTokenUsage'a string FK. Tutar debitMinor + currencyCode.
+model StudioGeneration {
+  id               String                 @id @default(cuid())
+  userId           String                 @map("user_id")
+  draftId          String                 @map("draft_id")
+  prompt           String
+  outputText       String?                @map("output_text")
+  status           StudioGenerationStatus
+  roleKey          String                 @map("role_key")
+  provider         String?
+  model            String?
+  promptTokens     Int                    @default(0) @map("prompt_tokens")
+  completionTokens Int                    @default(0) @map("completion_tokens")
+  totalTokens      Int                    @default(0) @map("total_tokens")
+  costMinor        Int                    @default(0) @map("cost_minor")
+  debitMinor       Int                    @default(0) @map("debit_minor")
+  currencyCode     String                 @db.Char(3) @map("currency_code")
+  usageId          String?                @unique @map("usage_id")
+  ledgerDebitKey   String?                @unique @map("ledger_debit_key")
+  failureReason    String?                @map("failure_reason")
+  createdAt        DateTime               @default(now()) @map("created_at")
+  completedAt      DateTime?              @map("completed_at")
+
+  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  draft        StudioDraft         @relation(fields: [draftId], references: [id], onDelete: Cascade)
+  digitalAsset StudioDigitalAsset?
+
+  @@index([userId, createdAt])
+  @@index([draftId, createdAt])
+  @@map("studio_generations")
+}
+
+/// Telif/hash mührü — SHA256 içerik + prompt. Brand kit / filigran yüzeyi yok (S57-A).
+/// dataBase64 Postgres TEXT tavanı: 2097152 karakter (Paket B CHECK). Nesne depo: docs/08_STORAGE_CONTRACT.md + lib/studio/storage.ts.
+/// T2-2: storage_kind / bucket / object_path / byte_size nullable metadata. Kör data_base64 DROP yok.
+model StudioDigitalAsset {
+  id                  String          @id @default(cuid())
+  userId              String          @map("user_id")
+  generationId        String          @unique @map("generation_id")
+  assetType           StudioAssetType @map("asset_type")
+  mimeType            String          @map("mime_type")
+  contentHash         String          @unique @map("content_hash")
+  promptHash          String          @map("prompt_hash")
+  dataBase64          String          @map("data_base64") @db.Text
+  storageKind         String          @default("inline-base64") @map("storage_kind")
+  bucket              String?
+  objectPath          String?         @map("object_path")
+  byteSize            Int?            @map("byte_size")
+  storageConfirmedAt  DateTime?       @map("storage_confirmed_at")
+  createdAt           DateTime        @default(now()) @map("created_at")
+
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  generation StudioGeneration @relation(fields: [generationId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("studio_digital_assets")
+}

@@ -1,0 +1,84 @@
+// DevLabs dikey dilimi — Faz 5C kasa + Faz 9 generate/linter/artifact (S59-A).
+// Codex/deploy/commerce yok. Exec / sandbox runner yok.
+// API anahtarı düz metin saklanmaz; keyHash HMAC, keyPrefix vitrin.
+
+enum DevLabsProjectStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+enum DevLabsSandboxKind {
+  NARROW
+}
+
+model DevLabsProject {
+  id          String               @id @default(cuid())
+  userId      String               @map("user_id")
+  name        String
+  summary     String
+  status      DevLabsProjectStatus @default(ACTIVE)
+  sandboxKind DevLabsSandboxKind   @default(NARROW) @map("sandbox_kind")
+  createdAt   DateTime             @default(now()) @map("created_at")
+  updatedAt   DateTime             @updatedAt @map("updated_at")
+
+  owner     User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  keys      DevLabsApiKey[]
+  artifacts DevLabsArtifact[]
+
+  @@index([userId, status])
+  @@map("devlabs_projects")
+}
+
+model DevLabsApiKey {
+  id        String    @id @default(cuid())
+  projectId String    @map("project_id")
+  userId    String    @map("user_id")
+  name      String
+  keyPrefix String    @map("key_prefix")
+  keyHash   String    @unique @map("key_hash")
+  revokedAt DateTime? @map("revoked_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  project   DevLabsProject    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  owner     User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  artifacts DevLabsArtifact[]
+
+  @@index([projectId, createdAt])
+  @@index([userId])
+  @@map("devlabs_api_keys")
+}
+
+/// Kod tezgâhı çıktısı. Linter raporu mühürlenir; exec yoktur (S59-A).
+model DevLabsArtifact {
+  id               String   @id @default(cuid())
+  projectId        String   @map("project_id")
+  userId           String   @map("user_id")
+  apiKeyId         String   @map("api_key_id")
+  prompt           String
+  outputCode       String   @map("output_code") @db.Text
+  linterOk         Boolean  @map("linter_ok")
+  linterScore      Int      @map("linter_score")
+  linterReportJson String   @map("linter_report_json") @db.Text
+  contentHash      String   @unique @map("content_hash")
+  roleKey          String   @map("role_key")
+  provider         String?
+  model            String?
+  promptTokens     Int      @default(0) @map("prompt_tokens")
+  completionTokens Int      @default(0) @map("completion_tokens")
+  totalTokens      Int      @default(0) @map("total_tokens")
+  costMinor        Int      @default(0) @map("cost_minor")
+  debitMinor       Int      @default(0) @map("debit_minor")
+  currencyCode     String   @db.Char(3) @map("currency_code")
+  usageId          String?  @unique @map("usage_id")
+  ledgerDebitKey   String?  @unique @map("ledger_debit_key")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  project DevLabsProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  owner   User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  apiKey  DevLabsApiKey  @relation(fields: [apiKeyId], references: [id], onDelete: Restrict)
+
+  @@index([projectId, createdAt])
+  @@index([userId, createdAt])
+  @@index([apiKeyId])
+  @@map("devlabs_artifacts")
+}

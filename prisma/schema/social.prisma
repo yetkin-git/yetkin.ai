@@ -1,0 +1,59 @@
+// YetkinX dikey dilimi — Faz 7B mühürlü kanıt feed'i + başarı meydanı (S2-A, S44-C).
+// Boost / jüri / X-senkron yok. Serbest tık avı postu yok. User şişmez: yazar + etkileşim.
+
+enum ProofFeedSourceKind {
+  CERTIFICATE
+  ESCROW_RELEASE
+  AWARD
+  STUDIO
+}
+
+enum ProofFeedVisibility {
+  SQUARE
+  PRIVATE
+}
+
+enum ProofFeedInteractionKind {
+  ACKNOWLEDGE
+  SHARE
+}
+
+/// Mühürlü kanıt satırı. Başlık/gövde yalnız mühürlü kaynaktan kopyalanır.
+model ProofFeedItem {
+  id              String               @id @default(cuid())
+  userId          String               @map("user_id")
+  sourceKind      ProofFeedSourceKind  @map("source_kind")
+  sourceId        String               @map("source_id")
+  kind            String
+  title           String
+  body            String
+  sealedAt        DateTime             @map("sealed_at")
+  passportVisaKey String?              @map("passport_visa_key")
+  mediaUrl        String?              @map("media_url")
+  visibility      ProofFeedVisibility  @default(SQUARE)
+  createdAt       DateTime             @default(now()) @map("created_at")
+
+  author       User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  interactions ProofFeedInteraction[]
+
+  @@unique([sourceKind, sourceId])
+  @@index([visibility, sealedAt])
+  @@index([userId, sealedAt])
+  @@map("proof_feed_items")
+}
+
+/// Beğeni/boost değildir. Yalnızca onay (acknowledge) ve iç paylaşım kaydı.
+model ProofFeedInteraction {
+  id        String                    @id @default(cuid())
+  userId    String                    @map("user_id")
+  itemId    String                    @map("item_id")
+  kind      ProofFeedInteractionKind
+  createdAt DateTime                  @default(now()) @map("created_at")
+
+  actor User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  item  ProofFeedItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, itemId, kind])
+  @@index([itemId])
+  @@map("proof_feed_interactions")
+}

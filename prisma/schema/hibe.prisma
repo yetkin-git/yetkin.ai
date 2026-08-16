@@ -1,0 +1,65 @@
+// Hibe-Teşvik dikey dilimi — Faz 6B katalog + eşleştirme (S40-C).
+// Canlı devlet başvuru API'si / scraper iddiası yok. Para yok; başarı ücreti v1 vaadi değildir.
+// User şişmez: yalnızca başvuru rehberi ters ilişkisi. Kurumsal FK yok (modül→modül yasak).
+
+enum GrantAgency {
+  KOSGEB
+  TUBITAK
+  OTHER
+}
+
+enum GrantApplicantKind {
+  INDIVIDUAL
+  CORPORATE
+  BOTH
+}
+
+enum GrantApplicationStatus {
+  GUIDE_OPEN
+  CHECKLIST_DONE
+}
+
+model GrantProgram {
+  id                String             @id @default(cuid())
+  slug              String             @unique
+  title             String
+  summary           String
+  agency            GrantAgency
+  jurisdiction      String             @default("TR")
+  applicantKind     GrantApplicantKind @map("applicant_kind")
+  sectorTags        String[]           @map("sector_tags")
+  requiresTaxId     Boolean            @default(false) @map("requires_tax_id")
+  applicationGuide  String             @map("application_guide")
+  maxAwardMinor     Int?               @map("max_award_minor")
+  currencyCode      String             @db.Char(3) @map("currency_code")
+  isPublished       Boolean            @default(true) @map("is_published")
+  createdAt         DateTime           @default(now()) @map("created_at")
+  updatedAt         DateTime           @updatedAt @map("updated_at")
+
+  applications GrantApplication[]
+
+  @@index([isPublished, agency])
+  @@index([jurisdiction, applicantKind])
+  @@map("grant_programs")
+}
+
+/// İç rehber kaydı — devlet sistemine gönderim iddiası yoktur.
+model GrantApplication {
+  id           String                 @id @default(cuid())
+  userId       String                 @map("user_id")
+  programId    String                 @map("program_id")
+  companyHint  String?                @map("company_hint")
+  status       GrantApplicationStatus @default(GUIDE_OPEN)
+  openedAt     DateTime               @map("opened_at")
+  completedAt  DateTime?              @map("completed_at")
+  createdAt    DateTime               @default(now()) @map("created_at")
+  updatedAt    DateTime               @updatedAt @map("updated_at")
+
+  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  program GrantProgram @relation(fields: [programId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, programId])
+  @@index([userId, status])
+  @@index([programId])
+  @@map("grant_applications")
+}

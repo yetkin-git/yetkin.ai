@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Yetkin Rail">
+  <title>Yetkin Rail</title>
+  <style>
+    .plate { fill: #0b1220; }
+    .rail { fill: none; stroke: #f4f1ea; stroke-width: 2.7; stroke-linecap: round; stroke-linejoin: round; }
+    .signal { fill: #c4a35a; }
+    @media (prefers-color-scheme: light) {
+      .plate { fill: #f4f1ea; }
+      .rail { stroke: #0b1220; }
+      .signal { fill: #9a7b2f; }
+    }
+  </style>
+  <rect class="plate" width="32" height="32" rx="8"/>
+  <path class="rail" d="M10.4 24.5 L12.9 8.4"/>
+  <path class="rail" d="M16.8 24.5 L23.2 8.6"/>
+  <circle class="signal" cx="23.2" cy="8.6" r="1.45"/>
+</svg>

@@ -1,0 +1,249 @@
+import { createHmac } from "node:crypto";
+import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
+
+export const PAYTR_GET_TOKEN_URL = "https://www.paytr.com/odeme/api/get-token";
+export const PAYTR_IFRAME_BASE_URL = "https://www.paytr.com/odeme/guvenli";
+
+export type PaytrCheckoutCredentials = {
+  merchantId: string;
+  merchantKey: string;
+  merchantSalt: string;
+  testMode: boolean;
+};
+
+export type PaytrUserBasketItem = {
+  name: string;
+  amountMinor: number;
+  quantity: number;
+};
+
+export type PaytrCheckoutTokenInput = {
+  merchantOid: string;
+  userIp: string;
+  email: string;
+  paymentAmountMinor: number;
+  userName?: string;
+  userPhone?: string;
+  userAddress?: string;
+  merchantOkUrl: string;
+  merchantFailUrl: string;
+  userBasket: PaytrUserBasketItem[];
+  paymentType?: "card" | "eft";
+  installmentCount?: number;
+  currency?: "TL";
+  non3d?: "0" | "1";
+  timeoutLimitMinutes?: number;
+  debugOn?: boolean;
+};
+
+export type PaytrCheckoutTokenResult =
+  | {
+      ok: true;
+      token: string;
+      iframeUrl: string;
+      merchantOid: string;
+      sandboxMode: boolean;
+      /** Yalnız PAYTR_ALLOW_MOCK_CHECKOUT + kimlik yok + üretim dışı. CREDIT yazmaz. */
+      mockCheckout?: boolean;
+    }
+  | {
+      ok: false;
+      reason: "missing_credentials" | "invalid_amount" | "pay_api_error";
+      message: string;
+    };
+
+export const PAYTR_MOCK_TOKEN_PREFIX = "mock-" as const;
+
+export function buildPaytrMockCheckoutToken(merchantOid: string): string {
+  return `${PAYTR_MOCK_TOKEN_PREFIX}${merchantOid.slice(0, 32)}`;
+}
+
+export function isPaytrMockCheckoutAllowed(): boolean {
+  return process.env.PAYTR_ALLOW_MOCK_CHECKOUT?.trim().toLowerCase() === "true";
+}
+
+export function assertPaytrProductionSafety(context: string): void {
+  if (process.env.NODE_ENV !== "production") {
+    return;
+  }
+  if (isPaytrMockCheckoutAllowed()) {
+    throw new Error(`[PAYTR] PAYTR_ALLOW_MOCK_CHECKOUT üretimde yasak — ${context}`);
+  }
+  const sandboxFlag = process.env.PAYTR_SANDBOX?.trim();
+  if (sandboxFlag === "1" || sandboxFlag?.toLowerCase() === "true") {
+    throw new Error(`[PAYTR] PAYTR_SANDBOX üretimde yasak — ${context}`);
+  }
+}
+
+export function getPaytrCheckoutCredentials(): PaytrCheckoutCredentials | null {
+  const merchantId = process.env.PAYTR_MERCHANT_ID?.trim() ?? "";
+  const merchantKey = process.env.PAYTR_MERCHANT_KEY?.trim() ?? "";
+  const merchantSalt = process.env.PAYTR_MERCHANT_SALT?.trim() ?? "";
+  if (!merchantId || !merchantKey || !merchantSalt) {
+    return null;
+  }
+  const sandboxFlag = process.env.PAYTR_SANDBOX?.trim();
+  const testMode = sandboxFlag === "1" || sandboxFlag?.toLowerCase() === "true";
+  return { merchantId, merchantKey, merchantSalt, testMode };
+}
+
+/**
+ * PayTR API sınır katmanı: TRY minor → ondalık string (1300 → "13.00").
+ * `.toFixed(2)` yalnızca burada görülür.
+ */
+export function formatPaytrPaymentAmount(paymentAmountMinor: number): string {
+  if (!Number.isInteger(paymentAmountMinor) || paymentAmountMinor <= 0) {
+    throw new Error("PayTR payment_amount geçersiz.");
+  }
+  toPositiveAmountMinor(paymentAmountMinor);
+  return (paymentAmountMinor / 100).toFixed(2);
+}
+
+export function encodePaytrUserBasket(items: PaytrUserBasketItem[]): string {
+  const payload = items.map((item) => [
+    item.name.slice(0, 128),
+    formatPaytrPaymentAmount(item.amountMinor),
+    item.quantity,
+  ]);
+  return Buffer.from(JSON.stringify(payload)).toString("base64");
+}
+
+export function buildPaytrIframeUrl(token: string): string {
+  return `${PAYTR_IFRAME_BASE_URL}/${encodeURIComponent(token)}`;
+}
+
+export function buildPaytrTokenHash(params: {
+  credentials: PaytrCheckoutCredentials;
+  userIp: string;
+  merchantOid: string;
+  email: string;
+  paymentAmount: string;
+  paymentType: string;
+  installmentCount: string;
+  currency: string;
+  testMode: string;
+  non3d: string;
+}): string {
+  const hashStr =
+    `${params.credentials.merchantId}${params.userIp}${params.merchantOid}` +
+    `${params.email}${params.paymentAmount}${params.paymentType}` +
+    `${params.installmentCount}${params.currency}${params.testMode}${params.non3d}`;
+  return createHmac("sha256", params.credentials.merchantKey)
+    .update(hashStr + params.credentials.merchantSalt)
+    .digest("base64");
+}
+
+export async function requestPaytrCheckoutToken(
+  input: PaytrCheckoutTokenInput,
+  fetchImpl: typeof fetch = fetch,
+): Promise<PaytrCheckoutTokenResult> {
+  assertPaytrProductionSafety("requestPaytrCheckoutToken");
+
+  if (!Number.isInteger(input.paymentAmountMinor) || input.paymentAmountMinor <= 0) {
+    return {
+      ok: false,
+      reason: "invalid_amount",
+      message: "Ödeme tutarı geçersiz.",
+    };
+  }
+
+  const credentials = getPaytrCheckoutCredentials();
+  if (!credentials) {
+    const allowMock = isPaytrMockCheckoutAllowed();
+    if (allowMock && process.env.NODE_ENV !== "production") {
+      const token = buildPaytrMockCheckoutToken(input.merchantOid);
+      return {
+        ok: true,
+        token,
+        iframeUrl: buildPaytrIframeUrl(token),
+        merchantOid: input.merchantOid,
+        sandboxMode: true,
+        mockCheckout: true,
+      };
+    }
+    return {
+      ok: false,
+      reason: "missing_credentials",
+      message: allowMock
+        ? "PayTR kimlik bilgileri tanımlı değil. Mock ödeme yalnızca NODE_ENV !== production iken çalışır."
+        : "PayTR kimlik bilgileri tanımlı değil. Yerel mock için PAYTR_ALLOW_MOCK_CHECKOUT=true gerekir.",
+    };
+  }
+
+  const paymentAmount = formatPaytrPaymentAmount(input.paymentAmountMinor);
+  const paymentType = input.paymentType === "eft" ? "eft" : "card";
+  const installmentCount = String(input.installmentCount ?? 0);
+  const currency = input.currency ?? "TL";
+  const testMode = credentials.testMode ? "1" : "0";
+  const non3d = input.non3d ?? "0";
+
+  const paytrToken = buildPaytrTokenHash({
+    credentials,
+    userIp: input.userIp,
+    merchantOid: input.merchantOid,
+    email: input.email,
+    paymentAmount,
+    paymentType,
+    installmentCount,
+    currency,
+    testMode,
+    non3d,
+  });
+
+  const body = new URLSearchParams({
+    merchant_id: credentials.merchantId,
+    user_ip: input.userIp,
+    merchant_oid: input.merchantOid,
+    email: input.email,
+    payment_amount: paymentAmount,
+    paytr_token: paytrToken,
+    user_basket: encodePaytrUserBasket(input.userBasket),
+    debug_on: (input.debugOn ?? credentials.testMode) ? "1" : "0",
+    test_mode: testMode,
+    non_3d: non3d,
+    payment_type: paymentType,
+    installment_count: installmentCount,
+    currency,
+    merchant_ok_url: input.merchantOkUrl,
+    merchant_fail_url: input.merchantFailUrl,
+    user_name: input.userName ?? "Yetkin Kullanıcı",
+    user_address: input.userAddress ?? "Türkiye",
+    user_phone: input.userPhone ?? "05000000000",
+    timeout_limit: String(input.timeoutLimitMinutes ?? 30),
+  });
+
+  let response: Response;
+  try {
+    response = await fetchImpl(PAYTR_GET_TOKEN_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "PayTR bağlantı hatası.";
+    return { ok: false, reason: "pay_api_error", message };
+  }
+
+  let payload: { status?: string; token?: string; reason?: string };
+  try {
+    payload = (await response.json()) as typeof payload;
+  } catch {
+    return { ok: false, reason: "pay_api_error", message: "PayTR yanıtı okunamadı." };
+  }
+
+  if (payload.status !== "success" || !payload.token) {
+    return {
+      ok: false,
+      reason: "pay_api_error",
+      message: payload.reason ?? "PayTR token alınamadı.",
+    };
+  }
+
+  return {
+    ok: true,
+    token: payload.token,
+    iframeUrl: buildPaytrIframeUrl(payload.token),
+    merchantOid: input.merchantOid,
+    sandboxMode: credentials.testMode,
+  };
+}

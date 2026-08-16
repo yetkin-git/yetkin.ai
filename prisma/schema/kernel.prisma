@@ -1,0 +1,266 @@
+// Kernel şema — çekirdek kimlik, nakit, emanet, fiyat, AI defteri.
+// Modül tabloları kendi prisma/schema/<modül>.prisma dosyasında açılır.
+// User şişmez. amountMinor + currencyCode. amountKurus kolon adı yasak.
+
+enum EscrowHoldStatus {
+  PENDING
+  RELEASED
+  REFUNDED
+}
+
+enum PaymentOrderStatus {
+  PENDING
+  PAID
+  FAILED
+  CLEARED
+}
+
+enum LedgerDirection {
+  CREDIT
+  DEBIT
+}
+
+enum PriceCatalogUnitType {
+  MINOR
+  BPS
+}
+
+/// Kimlik SSOT uygulama yüzeyi. Auth UUID Supabase'ten gelir; Prisma id üretmez.
+/// Kolon şişmesi yok; dikey ters ilişkiler Prisma zorunluluğudur.
+model User {
+  id          String   @id
+  email       String   @unique
+  displayName String?  @map("display_name")
+  locale      String   @default("tr-TR")
+  timeZone    String   @default("Europe/Istanbul") @map("time_zone")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  wallets             Wallet[]
+  ledgerEntries       LedgerEntry[]
+  escrowHolds         EscrowHold[]
+  paymentOrders       PaymentOrder[]
+  checkoutPriceLocks  CheckoutPriceLock[]
+  aiTokenUsages       AiTokenUsage[]
+  freelancerJobs       FreelancerJob[]       @relation("FreelancerJobClient")
+  freelancerBids       FreelancerBid[]       @relation("FreelancerBidBidder")
+  freelancerAsClient   FreelancerContract[]  @relation("FreelancerContractClient")
+  freelancerAsWorker   FreelancerContract[]  @relation("FreelancerContractFreelancer")
+  freelancerDisputesInitiated FreelancerDispute[] @relation("FreelancerDisputeInitiator")
+  freelancerDisputesAsClient  FreelancerDispute[] @relation("FreelancerDisputeClient")
+  freelancerDisputesAsWorker  FreelancerDispute[] @relation("FreelancerDisputeFreelancer")
+  freelancerMessagesSent      FreelancerContractMessage[] @relation("FreelancerContractMessageSender")
+  freelancerMessagesAsClient  FreelancerContractMessage[] @relation("FreelancerContractMessageClient")
+  freelancerMessagesAsWorker  FreelancerContractMessage[] @relation("FreelancerContractMessageFreelancer")
+  freelancerSquadsLead        FreelancerSquad[] @relation("FreelancerSquadLead")
+  freelancerSquadsAsClient    FreelancerSquad[] @relation("FreelancerSquadClient")
+  freelancerSquadMemberships  FreelancerSquadMember[] @relation("FreelancerSquadMember")
+  academyPurchases     AcademyPurchase[]
+  academyCertificates  AcademyCertificate[]
+  academyExamAttempts  AcademyExamAttempt[]
+  academyLessonCompletions AcademyLessonCompletion[]
+  careerPortfolioItems CareerPortfolioItem[]
+  careerVisaStamps     CareerVisaStamp[]
+  studioDrafts         StudioDraft[]
+  studioGenerations    StudioGeneration[]
+  studioDigitalAssets  StudioDigitalAsset[]
+  corporateCompanies   CorporateCompany[]
+  corporateJobsOwned   CorporateJobPosting[] @relation("CorporateJobOwner")
+  corporateJobsAwarded CorporateJobPosting[] @relation("CorporateJobAwardee")
+  corporateJobOffers   CorporateJobOffer[]   @relation("CorporateJobOfferBidder")
+  arenaTenders         ArenaTender[]
+  arenaSubmissions     ArenaSubmission[]
+  arenaAwards          ArenaAward[]
+  devLabsProjects      DevLabsProject[]
+  devLabsApiKeys       DevLabsApiKey[]
+  devLabsArtifacts     DevLabsArtifact[]
+  marketplaceProducts      MarketplaceProduct[]
+  marketplaceOrdersBought  MarketplaceOrder[] @relation("MarketplaceOrderBuyer")
+  marketplaceOrdersSold    MarketplaceOrder[] @relation("MarketplaceOrderSeller")
+  marketplaceOffersBought  MarketplaceOffer[] @relation("MarketplaceOfferBuyer")
+  marketplaceOffersSold    MarketplaceOffer[] @relation("MarketplaceOfferSeller")
+  marketplaceDopings       MarketplaceDoping[]
+  grantApplications        GrantApplication[]
+  juniorProfile            JuniorProfile?     @relation("JuniorProfileChild")
+  juniorWards              JuniorProfile[]    @relation("JuniorProfileGuardian")
+  juniorAllowancesAsChild  JuniorAllowance[]  @relation("JuniorAllowanceChild")
+  juniorAllowancesAsGuardian JuniorAllowance[] @relation("JuniorAllowanceGuardian")
+  proofFeedItems           ProofFeedItem[]
+  proofFeedInteractions    ProofFeedInteraction[]
+  httpIdempotencyRecords   HttpIdempotencyRecord[]
+
+  @@map("users")
+}
+
+/// Tek nakit SSOT. Bir kullanıcı × bir para birimi = bir satır.
+model Wallet {
+  id           String   @id @default(cuid())
+  userId       String   @map("user_id")
+  currencyCode String   @db.Char(3) @map("currency_code")
+  amountMinor  Int      @default(0) @map("amount_minor")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ledgerEntries LedgerEntry[]
+  escrowHolds   EscrowHold[]
+
+  @@unique([userId, currencyCode])
+  @@index([userId])
+  @@map("wallets")
+}
+
+/// Append-only defter. İşaret direction ile; tutar her zaman pozitif minor.
+model LedgerEntry {
+  id             String          @id @default(cuid())
+  walletId       String          @map("wallet_id")
+  userId         String          @map("user_id")
+  amountMinor    Int             @map("amount_minor")
+  currencyCode   String          @db.Char(3) @map("currency_code")
+  direction      LedgerDirection
+  label          String
+  purpose        String
+  idempotencyKey String          @unique @map("idempotency_key")
+  createdAt      DateTime        @default(now()) @map("created_at")
+
+  wallet Wallet @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([walletId, createdAt])
+  @@index([userId, createdAt])
+  @@map("ledger_entries")
+}
+
+/// Emanet kilidi — bakiye türü değil. gross = hold + net.
+model EscrowHold {
+  id            String           @id @default(cuid())
+  walletId      String           @map("wallet_id")
+  userId        String           @map("user_id")
+  referenceKey  String           @unique @map("reference_key")
+  status        EscrowHoldStatus @default(PENDING)
+  currencyCode  String           @db.Char(3) @map("currency_code")
+  grossMinor    Int              @map("gross_minor")
+  holdMinor     Int              @map("hold_minor")
+  netMinor      Int              @map("net_minor")
+  holdBps       Int              @map("hold_bps")
+  createdAt     DateTime         @default(now()) @map("created_at")
+  updatedAt     DateTime         @updatedAt @map("updated_at")
+  releasedAt    DateTime?        @map("released_at")
+  refundedAt    DateTime?        @map("refunded_at")
+  expiresAt     DateTime?        @map("expires_at")
+
+  wallet Wallet @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([walletId, status])
+  @@index([userId, status])
+  @@map("escrow_holds")
+}
+
+/// PSP siparişi. merchantOid idempotency evrenidir.
+model PaymentOrder {
+  id             String             @id @default(cuid())
+  userId         String             @map("user_id")
+  provider       String
+  merchantOid    String             @unique @map("merchant_oid")
+  purpose        String
+  amountMinor    Int                @map("amount_minor")
+  currencyCode   String             @db.Char(3) @map("currency_code")
+  status         PaymentOrderStatus @default(PENDING)
+  clearingStatus String?            @map("clearing_status")
+  createdAt      DateTime           @default(now()) @map("created_at")
+  updatedAt      DateTime           @updatedAt @map("updated_at")
+  paidAt         DateTime?          @map("paid_at")
+  clearedAt      DateTime?          @map("cleared_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([status])
+  @@map("payment_orders")
+}
+
+/// Super Admin fiyat kataloğu — kod sabiti satış fiyatı yok.
+model PriceCatalogEntry {
+  id           String               @id @default(cuid())
+  moduleKey    String               @map("module_key")
+  unitKey      String               @map("unit_key")
+  unitType     PriceCatalogUnitType @default(MINOR) @map("unit_type")
+  amountMinor  Int                  @map("amount_minor")
+  currencyCode String               @db.Char(3) @map("currency_code")
+  isActive     Boolean              @default(true) @map("is_active")
+  minMinor     Int?                 @map("min_minor")
+  maxMinor     Int?                 @map("max_minor")
+  description  String?
+  updatedBy    String?              @map("updated_by")
+  createdAt    DateTime             @default(now()) @map("created_at")
+  updatedAt    DateTime             @updatedAt @map("updated_at")
+
+  @@unique([moduleKey, unitKey])
+  @@index([moduleKey])
+  @@map("price_catalog_entries")
+}
+
+/// 15 dakika checkout kilidi. Süresi bitmiş kilitle debit yok.
+model CheckoutPriceLock {
+  id              String    @id @default(cuid())
+  userId          String    @map("user_id")
+  lockKey         String    @map("lock_key")
+  moduleKey       String    @map("module_key")
+  unitKey         String    @map("unit_key")
+  amountMinor     Int       @map("amount_minor")
+  currencyCode    String    @db.Char(3) @map("currency_code")
+  catalogMinor    Int       @map("catalog_minor")
+  expiresAt       DateTime  @map("expires_at")
+  consumedAt      DateTime? @map("consumed_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lockKey])
+  @@index([userId, expiresAt])
+  @@map("checkout_price_locks")
+}
+
+/// LLM kullanım defteri — gümrük kapısı yazar. costMinor aynı nakit birim.
+model AiTokenUsage {
+  id               String   @id @default(cuid())
+  userId           String?  @map("user_id")
+  source           String
+  provider         String
+  model            String
+  roleKey          String?  @map("role_key")
+  promptTokens     Int      @map("prompt_tokens")
+  completionTokens Int      @map("completion_tokens")
+  totalTokens      Int      @map("total_tokens")
+  costMinor        Int      @map("cost_minor")
+  currencyCode     String   @db.Char(3) @map("currency_code")
+  idempotencyKey   String?  @unique @map("idempotency_key")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([source, createdAt])
+  @@map("ai_token_usages")
+}
+
+/// HTTP Idempotency-Key replay — çift tıklama ikinci finansal emir doğurmaz.
+model HttpIdempotencyRecord {
+  id           String   @id @default(cuid())
+  userId       String   @map("user_id")
+  route        String
+  key          String
+  requestHash  String   @map("request_hash")
+  status       String
+  statusCode   Int      @map("status_code")
+  responseJson String   @map("response_json") @db.Text
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, route, key])
+  @@index([userId])
+  @@map("http_idempotency_records")
+}
