@@ -1,7 +1,7 @@
 import { serve } from "inngest/next";
 import type { NextRequest } from "next/server";
 import { inngest, kernelInngestFunctions, inngestNotConfiguredResponse } from "@/lib/kernel/jobs/inngest";
-import { shouldFailClosedInngestServe } from "@/lib/kernel/jobs/inngest-guard";
+import { canInvokeInngestServe, shouldFailClosedInngestServe } from "@/lib/kernel/jobs/inngest-guard";
 import { arenaInngestFunctions } from "@/lib/arena/jobs";
 import { registerVerticalEscrowRefundHooks } from "../register-escrow-hooks";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
@@ -24,7 +24,7 @@ function getInngestHandlers(): InngestHandlers {
 
 function guard(method: "GET" | "POST" | "PUT") {
   return (request: Request, context?: unknown) => {
-    if (shouldFailClosedInngestServe()) {
+    if (shouldFailClosedInngestServe() || !canInvokeInngestServe()) {
       return inngestNotConfiguredResponse(resolveRequestId(request));
     }
     return getInngestHandlers()[method](request as NextRequest, context);

@@ -41,6 +41,7 @@ import {
   parseDirectConnectionUrl,
   resolveMigratorConnectionUrl,
   runPostApplySeals,
+  withPgLibpqSslCompat,
 } from "./ops-migrate-lib";
 
 const ROOT = process.cwd();
@@ -214,7 +215,7 @@ async function main(): Promise<void> {
   console.log(`   Prisma halka: ${PRISMA_RING_MIGRATIONS.join(" → ")}`);
   runPrismaDeploy();
 
-  const client = new Client({ connectionString: url });
+  const client = new Client({ connectionString: withPgLibpqSslCompat(url) });
   await client.connect();
   try {
     const query = async (text: string, params?: unknown[]) => {

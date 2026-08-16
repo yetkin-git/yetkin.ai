@@ -77,6 +77,9 @@ describe("Dashboard Pulse BFF yüzeyi", () => {
     expect(load).toContain("Promise.all");
     expect(load).toContain("dashboard.pulse.room_failed");
     expect(load).toContain("Composition root");
+    expect(load).toContain("ensurePrismaQueryEngine");
+    expect(load).toContain("ensureSettlementWallet");
+    expect(load).toContain("prismaErrorLabel");
     expect(load).not.toContain("@/lib/kernel/modules");
 
     expect(pulse).not.toContain("/runtime");
@@ -114,5 +117,17 @@ describe("Dashboard Pulse BFF yüzeyi", () => {
     const kernelAuth = readSrc("lib/kernel/auth/session.ts");
     expect(kernelAuth).not.toContain("@/lib/dashboard");
     expect(kernelAuth).not.toContain("/api/dashboard/pulse");
+  });
+
+  it("wallet-strip oturum cüzdanını ham SELECT ile okur; Prisma SQL sızdırmaz", () => {
+    const route = readSrc("app/api/dashboard/wallet-strip/route.ts");
+    expect(route).toContain('export const auth = "session"');
+    expect(route).toContain("ensureSettlementWallet");
+    expect(route).toContain("ensurePrismaQueryEngine");
+    expect(route).toContain("prismaErrorLabel");
+    expect(route).toContain("requireSession");
+    expect(route).not.toContain("findUnique");
+    expect(route).toContain("PrismaClient");
+    expect(route).toContain("Veritabanı erişilemez.");
   });
 });

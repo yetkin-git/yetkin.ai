@@ -52,4 +52,22 @@ describe("cüzdan defter yüzeyi", () => {
     expect(load).toContain("DATABASE_URL");
     expect(load).not.toContain("idempotencyKey");
   });
+
+  it("settlement cüzdan okuması $queryRaw + lazy TRY satırı; FOR UPDATE yazma kilidi değildir", () => {
+    const read = readSrc("lib/kernel/ledger/wallet-read.ts");
+    const db = readSrc("lib/kernel/db.ts");
+    expect(read).toContain('import "server-only"');
+    expect(read).toContain("$queryRaw");
+    expect(read).toContain("ON CONFLICT (user_id, currency_code) DO NOTHING");
+    expect(read).toContain("SETTLEMENT_CURRENCY");
+    expect(read).toContain("ensureSettlementWallet");
+    expect(read).not.toContain("FOR UPDATE");
+    expect(db).toContain("ensurePrismaQueryEngine");
+    expect(db).toContain("prismaErrorLabel");
+    expect(db).toContain("globalThis");
+    expect(db).toContain("__yetkinKernelDb");
+    expect(db).toContain("$queryRaw`SELECT 1`");
+    expect(db).toContain("max: 20");
+    expect(db).toContain("connectionTimeoutMillis: 10_000");
+  });
 });

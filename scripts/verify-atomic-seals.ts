@@ -272,6 +272,8 @@ const REQUIRED_SURFACE_TESTS = [
   "tests/kernel/escrow-timeout-scan-surface.test.ts",
   "tests/kernel/legal-launch-surface.test.ts",
   "tests/freelancer/happy-path-e2e-surface.test.ts",
+  "tests/freelancer/t4-freelancer-loop-surface.test.ts",
+  "tests/academy/t3-academy-loop-surface.test.ts",
   "tests/academy/happy-path-e2e-surface.test.ts",
   "tests/academy/curriculum-player-surface.test.ts",
   "tests/dashboard/pulse-bff-surface.test.ts",

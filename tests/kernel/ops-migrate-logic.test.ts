@@ -19,6 +19,7 @@ import {
   isForbiddenPoolerUrl,
   resolveMigratorConnectionUrl,
   runPostApplySeals,
+  withPgLibpqSslCompat,
   assertStudioDataBase64Check,
   assertHttpIdempotencyRecords,
   assertAcademyLessonCompletions,
@@ -79,6 +80,16 @@ describe("ops:migrate havuz yasağı", () => {
     );
     expect(DIRECT_PORT_OPERATOR_PROTOCOL).toContain("IPv4 add-on");
     expect(DIRECT_PORT_OPERATOR_PROTOCOL).toContain("6543");
+  });
+
+  it("pg libpq SSL uyumu host/port değiştirmez; parametreyi bir kez ekler", () => {
+    const direct = "postgresql://postgres:x@db.abcdefgh.supabase.co:5432/postgres?sslmode=require";
+    const patched = withPgLibpqSslCompat(direct);
+    expect(patched).toContain("uselibpqcompat=true");
+    expect(parseDirectConnectionUrl(patched)?.ok).toBe(true);
+    expect(parseDirectConnectionUrl(patched)?.port).toBe(5432);
+    expect(withPgLibpqSslCompat(patched)).toBe(patched);
+    expect(isForbiddenPoolerUrl(patched)).toBe(false);
   });
 
   it("DIRECT_URL yoksa DATABASE_URL okur; ikisi de boşsa null", () => {

@@ -14,6 +14,8 @@ describe("ops migrate yüzeyi", () => {
     expect(pkg.scripts["ops:migrate"]).toBe("tsx scripts/ops-migrate.ts");
     expect(pkg.scripts["ops:init"]).toBe("npm run ops:migrate");
     expect(pkg.scripts["ops:storage-cors"]).toBe("tsx scripts/ops-storage-cors-check.ts");
+    expect(pkg.scripts["ops:t3-academy-loop"]).toBe("tsx scripts/ops-t3-academy-loop.ts");
+    expect(pkg.scripts["ops:t4-freelancer-loop"]).toBe("tsx scripts/ops-t4-freelancer-loop.ts");
   });
 
   it("script Prisma deploy sonra yedi SQL dosyasını sırayla uygular; izleme tablosu icat etmez", () => {

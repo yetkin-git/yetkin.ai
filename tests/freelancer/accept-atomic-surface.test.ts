@@ -35,6 +35,9 @@ describe("freelancer kabul mühürü — yazma yüzeyi", () => {
     const release = readSrc("app/api/freelancer/contracts/[id]/release/route.ts");
     expect(route).toContain("acceptFreelancerBid");
     expect(route).toContain("createPrismaFreelancerPorts");
+    expect(route).toContain("FREELANCER_ESCROW_HOLD_UNIT_KEY");
+    expect(route).toContain("findActiveEntry");
+    expect(route).toContain("holdBps");
     expect(route).not.toContain("tryIssueCareerVisaStamp");
     expect(route).not.toContain("issueCareerVisaStamp");
     expect(engine).not.toContain("tryIssueCareerVisaStamp");

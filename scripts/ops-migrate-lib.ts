@@ -85,6 +85,22 @@ function isLoopbackHostname(hostname: string): boolean {
   return host === "localhost" || host === "127.0.0.1" || host === "::1";
 }
 
+/**
+ * pg 8.22 `sslmode=require`'ı `verify-full` sayar. Supabase Direct özel Root 2021 CA
+ * kullanır; Prisma CLI (libpq) `require` = şifrele, CA doğrulama. Bu parametre
+ * Node `pg` istemcisini aynı libpq semantiğine çeker. Host/port/şifre değişmez.
+ */
+export function withPgLibpqSslCompat(url: string): string {
+  const trimmed = url.trim();
+  if (!trimmed) {
+    return trimmed;
+  }
+  if (/[?&]uselibpqcompat=/i.test(trimmed)) {
+    return trimmed;
+  }
+  return trimmed.includes("?") ? `${trimmed}&uselibpqcompat=true` : `${trimmed}?uselibpqcompat=true`;
+}
+
 export function parseDirectConnectionUrl(url: string): DirectConnectionShape | null {
   try {
     const parsed = new URL(url.trim());

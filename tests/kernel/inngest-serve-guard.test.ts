@@ -1,5 +1,9 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { shouldFailClosedInngestServe } from "@/lib/kernel/jobs/inngest-guard";
+import {
+  canInvokeInngestServe,
+  isInngestDevEnabled,
+  shouldFailClosedInngestServe,
+} from "@/lib/kernel/jobs/inngest-guard";
 import { inngestNotConfiguredResponse } from "@/lib/kernel/jobs/inngest";
 
 describe("Inngest imza fail-closed", () => {
@@ -60,6 +64,42 @@ describe("Inngest imza fail-closed", () => {
         INNGEST_DEV: "1",
       }),
     ).toBe(true);
+    expect(
+      isInngestDevEnabled({ NODE_ENV: "production", INNGEST_DEV: "1" }),
+    ).toBe(false);
+    expect(
+      canInvokeInngestServe({
+        NODE_ENV: "production",
+        INNGEST_SIGNING_KEY: "",
+        INNGEST_EVENT_KEY: "",
+        INNGEST_DEV: "1",
+      }),
+    ).toBe(false);
+  });
+
+  it("geliştirmede Cloud yoksa INNGEST_DEV olmadan serve açılmaz; INNGEST_DEV=1 dumanı açar", () => {
+    expect(
+      canInvokeInngestServe({
+        NODE_ENV: "development",
+        INNGEST_SIGNING_KEY: "",
+        INNGEST_EVENT_KEY: "",
+      }),
+    ).toBe(false);
+    expect(
+      canInvokeInngestServe({
+        NODE_ENV: "development",
+        INNGEST_SIGNING_KEY: "",
+        INNGEST_EVENT_KEY: "",
+        INNGEST_DEV: "1",
+      }),
+    ).toBe(true);
+    expect(
+      canInvokeInngestServe({
+        NODE_ENV: "development",
+        INNGEST_SIGNING_KEY: "signkey-dev-test",
+        INNGEST_EVENT_KEY: "eventkey-dev-test",
+      }),
+    ).toBe(true);
   });
 });
 
@@ -76,11 +116,26 @@ describe("Inngest HTTP 503", () => {
     expect(body.error).toContain("Inngest Cloud anahtarları");
     expect(body.requestId).toBe("req-1");
   });
+  it("geliştirmede Cloud yok ve INNGEST_DEV yoksa GET 503; serve açılmaz", async () => {
+    vi.stubEnv("NODE_ENV", "development");
+    vi.stubEnv("INNGEST_SIGNING_KEY", "");
+    vi.stubEnv("INNGEST_EVENT_KEY", "");
+    vi.stubEnv("INNGEST_DEV", "");
+    vi.resetModules();
+    const { GET } = await import("@/app/api/(kernel)/jobs/inngest/route");
+    const getRes = await GET(new Request("http://localhost/api/jobs/inngest"));
+    expect(getRes.status).toBe(503);
+    const body = (await getRes.json()) as { ok?: boolean; error?: string };
+    expect(body.ok).toBe(false);
+    expect(body.error).toContain("INNGEST_DEV=1");
+  });
+
   it("üretimde boş çift anahtarda GET/POST/PUT 503; serve açılmaz", async () => {
     vi.stubEnv("NODE_ENV", "production");
     vi.stubEnv("INNGEST_SIGNING_KEY", "");
     vi.stubEnv("INNGEST_EVENT_KEY", "");
     vi.stubEnv("INNGEST_DEV", "1");
+    vi.resetModules();
     const { GET, POST, PUT } = await import("@/app/api/(kernel)/jobs/inngest/route");
     const fake = new Request("http://localhost/api/jobs/inngest", {
       method: "POST",

@@ -176,7 +176,7 @@ export function inngestNotConfiguredResponse(requestId?: string) {
   return NextResponse.json(
     {
       ok: false,
-      error: "Inngest Cloud anahtarları tanımlı değil.",
+      error: "Inngest Cloud anahtarları tanımlı değil. Yerel duman için INNGEST_DEV=1.",
       ...(requestId ? { requestId } : {}),
     },
     {

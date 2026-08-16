@@ -8,6 +8,12 @@ import { logEvent } from "@/lib/kernel/observability/log";
 import { acceptFreelancerBid } from "@/lib/freelancer/engine";
 import { acceptBidInputSchema } from "@/lib/freelancer/schemas";
 import { createPrismaFreelancerPorts } from "@/lib/freelancer/runtime";
+import {
+  FREELANCER_ESCROW_HOLD_UNIT_KEY,
+  FREELANCER_SEED_MODULE_KEY,
+} from "@/lib/freelancer/seed";
+import { HOLD_BPS_DEFAULT, resolveHoldBps } from "@/lib/kernel/pricing/hold-bps";
+import { createPrismaPriceCatalogStore } from "@/lib/kernel/pricing/prisma-catalog-store";
 
 export const auth = "session" as const;
 
@@ -39,10 +45,16 @@ export async function POST(
       },
       async () => {
         const ports = createPrismaFreelancerPorts();
+        const catalog = await createPrismaPriceCatalogStore().findActiveEntry(
+          FREELANCER_SEED_MODULE_KEY,
+          FREELANCER_ESCROW_HOLD_UNIT_KEY,
+        );
+        const holdBps = resolveHoldBps(catalog?.amountMinor ?? HOLD_BPS_DEFAULT);
         const { contract } = await acceptFreelancerBid(ports, {
           jobId: id,
           bidId: parsed.data.bidId,
           actorUserId: user.id,
+          holdBps,
         });
         logEvent({
           level: "info",

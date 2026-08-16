@@ -27,9 +27,8 @@ import { buildHibePulse } from "@/lib/hibe/engine";
 import { createPrismaHibePorts } from "@/lib/hibe/runtime";
 import { buildJuniorPulse } from "@/lib/junior/engine";
 import { createPrismaJuniorPorts } from "@/lib/junior/runtime";
-import { getPrisma } from "@/lib/kernel/db";
-import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
-import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
+import { ensurePrismaQueryEngine, prismaErrorLabel } from "@/lib/kernel/db";
+import { ensureSettlementWallet } from "@/lib/kernel/ledger/wallet-read";
 import { logEvent } from "@/lib/kernel/observability/log";
 import { createPrismaKurumsalPorts } from "@/lib/kurumsal/runtime";
 import { createPrismaPazaryeriPorts } from "@/lib/pazaryeri/runtime";
@@ -49,7 +48,7 @@ async function readRoom<T>(room: string, work: () => Promise<T>, fallback: T): P
       level: "warn",
       event: "dashboard.pulse.room_failed",
       reason: room,
-      errorName: error instanceof Error ? error.name : "unknown",
+      errorName: prismaErrorLabel(error),
       route: "/api/dashboard/pulse",
     });
     return fallback;
@@ -57,18 +56,16 @@ async function readRoom<T>(room: string, work: () => Promise<T>, fallback: T): P
 }
 
 async function readWalletStrip(userId: string): Promise<WalletStripSnapshot> {
-  const prisma = getPrisma();
-  const wallet = await prisma.wallet.findUnique({
-    where: { userId_currencyCode: { userId, currencyCode: SETTLEMENT_CURRENCY } },
-  });
+  const wallet = await ensureSettlementWallet(userId);
   return {
     live: true,
-    amountMinor: toAmountMinor(wallet?.amountMinor ?? 0),
-    currencyCode: SETTLEMENT_CURRENCY,
+    amountMinor: wallet.amountMinor,
+    currencyCode: wallet.currencyCode,
   };
 }
 
 export async function loadDashboardPulse(userId: string): Promise<DashboardPulse> {
+  await ensurePrismaQueryEngine();
   const [
     wallet,
     freelancer,

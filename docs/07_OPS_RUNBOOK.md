@@ -120,6 +120,8 @@ npm run ops:migrate
 
 Post-apply: CHECK 2097152 + `http_idempotency_records` unique. Yeşil olmadan “şema bağlı” denmez.
 
+Node `pg` 8.22 `sslmode=require` değerini `verify-full` sayar. Supabase Direct host özel **Root 2021 CA** kullanır; Prisma CLI (libpq) aynı URI ile bağlanır, Node `pg` `self-signed certificate in certificate chain` ile düşer. `ops:migrate` SQL istemcisi ve runtime `Pool` `uselibpqcompat=true` ekler — şifreleme açık kalır, özel CA Mozilla demetine düşmez. URI’yi havuza çevirmek veya `NODE_TLS_REJECT_UNAUTHORIZED=0` yazmak yasaktır.
+
 ---
 
 ## 3. Super Admin UUID
@@ -148,7 +150,8 @@ Post-apply: CHECK 2097152 + `http_idempotency_records` unique. Yeşil olmadan �
 - Uygulama id: `yetkin-rail`. Serve yolu: `/api/jobs/inngest` (`auth = "webhook"`).
 - Cloud: `INNGEST_EVENT_KEY` + `INNGEST_SIGNING_KEY` (çift anahtar).
 - Üretimde **ikisinden biri** boşsa `serve()` açılmaz. `/api/jobs/inngest` GET/POST/PUT **503** (`Inngest Cloud anahtarları tanımlı değil.`). Sahte event gövdesi handler'a inmez; imza doğrulaması çalışmaz çünkü serve bağlanmaz.
-- `INNGEST_DEV` üretimde bypass etmez. Geliştirmede boş anahtar yerel Inngest Dev'e aittir; üretim kilidini açmaz.
+- `INNGEST_DEV` üretimde bypass etmez. Geliştirmede boş Cloud anahtarı yerel Inngest Dev'e aittir; üretim kilidini açmaz.
+- Geliştirme dumanı: Cloud yoksa `.env.local` içinde `INNGEST_DEV=1` (şablona atama yok). Aksi halde `serve()` çağrılmaz — SDK 500 yerine 503. `GET /api/health` `checks.inngest` yalnız Cloud sicilidir (boş anahtar = `unconfigured`).
 - İşler: PayTR valör (30 dk, `take: 50`), emanet TTL (14 gün PENDING iade), Arena tur tiki. Socket yok.
 
 ---
@@ -207,6 +210,10 @@ Kritik yazmalar `Idempotency-Key` (UUID) ister: `POST /api/wallet/top-up`, akade
 ## 12. Odalar (mutlu yol dumanı)
 
 Omurga bağlandıktan sonra vatandaş yolları: `/academy` (`rail-temel`), `/freelancer`, `/yetkinilan`, `/studio`. Kenar yazma kabukları oturum ister. S43 banka çekimi kapalıdır.
+
+T3 akademi nakit döngüsü (canlı Direct `:5432` + onaylı vatandaş): `npm run ops:t3-academy-loop`. Sahte bakiye ve mock checkout yok. PayTR sandbox get-token + HMAC webhook → `LedgerEntry` CREDIT / `CLEARED`, sonra `rail-temel` kilit / satın alma / müfredat / sınav / `/academy/dogrula/[hash]`.
+
+T4 kazanç halkası (canlı Direct `:5432` + akademi vizesi olan satıcı + müşteri nakit): `npm run ops:t4-freelancer-loop`. OPEN ilan → katalog `escrow:hold` bps → `accept` `EscrowHold` PENDING → teslim → `release` hakediş → `FREELANCER_RELEASE` vize. Sahte bakiye ve ikinci bakiye kolonu yok.
 
 ---
 

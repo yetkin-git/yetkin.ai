@@ -20,6 +20,7 @@ describe("Inngest serve yüzeyi", () => {
     expect(guardIndex).toBeGreaterThan(-1);
     const handlerBind = route.slice(route.indexOf("function guard"));
     expect(handlerBind).toContain("shouldFailClosedInngestServe");
+    expect(handlerBind).toContain("canInvokeInngestServe");
     expect(handlerBind).toContain("inngestNotConfiguredResponse");
     expect(handlerBind).toContain("getInngestHandlers()");
     expect(route).toContain("handlers ??=");
@@ -36,5 +37,7 @@ describe("Inngest serve yüzeyi", () => {
     expect(guard).toContain("isInngestEventKeyConfigured");
     expect(guard).toContain("INNGEST_DEV üretimde bypass etmez");
     expect(guard).toContain("Sahte/doğrulanmamış event kabul edilmez");
+    expect(guard).toContain("isInngestDevEnabled");
+    expect(guard).toContain("canInvokeInngestServe");
   });
 });
