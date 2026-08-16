@@ -112,22 +112,28 @@ export function buildPaytrIframeUrl(token: string): string {
   return `${PAYTR_IFRAME_BASE_URL}/${encodeURIComponent(token)}`;
 }
 
+/**
+ * iFrame get-token HMAC — PayTR resmi sıra:
+ * merchant_id + user_ip + merchant_oid + email + payment_amount + user_basket
+ * + no_installment + max_installment + currency + test_mode + merchant_salt
+ * payment_amount gövdede kuruş tam sayı stringidir; sepet birim fiyatı ondalık TL kalır.
+ */
 export function buildPaytrTokenHash(params: {
   credentials: PaytrCheckoutCredentials;
   userIp: string;
   merchantOid: string;
   email: string;
   paymentAmount: string;
-  paymentType: string;
-  installmentCount: string;
+  userBasket: string;
+  noInstallment: string;
+  maxInstallment: string;
   currency: string;
   testMode: string;
-  non3d: string;
 }): string {
   const hashStr =
     `${params.credentials.merchantId}${params.userIp}${params.merchantOid}` +
-    `${params.email}${params.paymentAmount}${params.paymentType}` +
-    `${params.installmentCount}${params.currency}${params.testMode}${params.non3d}`;
+    `${params.email}${params.paymentAmount}${params.userBasket}` +
+    `${params.noInstallment}${params.maxInstallment}${params.currency}${params.testMode}`;
   return createHmac("sha256", params.credentials.merchantKey)
     .update(hashStr + params.credentials.merchantSalt)
     .digest("base64");
@@ -170,12 +176,12 @@ export async function requestPaytrCheckoutToken(
     };
   }
 
-  const paymentAmount = formatPaytrPaymentAmount(input.paymentAmountMinor);
-  const paymentType = input.paymentType === "eft" ? "eft" : "card";
-  const installmentCount = String(input.installmentCount ?? 0);
+  const paymentAmount = String(toPositiveAmountMinor(input.paymentAmountMinor));
+  const userBasket = encodePaytrUserBasket(input.userBasket);
   const currency = input.currency ?? "TL";
   const testMode = credentials.testMode ? "1" : "0";
-  const non3d = input.non3d ?? "0";
+  const noInstallment = "0";
+  const maxInstallment = "0";
 
   const paytrToken = buildPaytrTokenHash({
     credentials,
@@ -183,11 +189,11 @@ export async function requestPaytrCheckoutToken(
     merchantOid: input.merchantOid,
     email: input.email,
     paymentAmount,
-    paymentType,
-    installmentCount,
+    userBasket,
+    noInstallment,
+    maxInstallment,
     currency,
     testMode,
-    non3d,
   });
 
   const body = new URLSearchParams({
@@ -197,12 +203,11 @@ export async function requestPaytrCheckoutToken(
     email: input.email,
     payment_amount: paymentAmount,
     paytr_token: paytrToken,
-    user_basket: encodePaytrUserBasket(input.userBasket),
+    user_basket: userBasket,
     debug_on: (input.debugOn ?? credentials.testMode) ? "1" : "0",
     test_mode: testMode,
-    non_3d: non3d,
-    payment_type: paymentType,
-    installment_count: installmentCount,
+    no_installment: noInstallment,
+    max_installment: maxInstallment,
     currency,
     merchant_ok_url: input.merchantOkUrl,
     merchant_fail_url: input.merchantFailUrl,

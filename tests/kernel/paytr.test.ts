@@ -1,6 +1,13 @@
 import { createHmac } from "node:crypto";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { formatPaytrPaymentAmount, assertPaytrProductionSafety, requestPaytrCheckoutToken, buildPaytrMockCheckoutToken } from "@/lib/kernel/payments/paytr/checkout";
+import {
+  formatPaytrPaymentAmount,
+  assertPaytrProductionSafety,
+  requestPaytrCheckoutToken,
+  buildPaytrMockCheckoutToken,
+  buildPaytrTokenHash,
+  encodePaytrUserBasket,
+} from "@/lib/kernel/payments/paytr/checkout";
 import { PaytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import {
   computePaytrWebhookHash,
@@ -136,6 +143,64 @@ describe("PayTR port", () => {
       expect(result.sandboxMode).toBe(true);
       expect(result.token).toBe(buildPaytrMockCheckoutToken("wallet-top-up-mock-1"));
     }
+  });
+
+  it("iframe get-token resmi hash, kuruş payment_amount ve no_installment taşır", async () => {
+    vi.stubEnv("PAYTR_MERCHANT_ID", "111111");
+    vi.stubEnv("PAYTR_MERCHANT_KEY", "key-secret");
+    vi.stubEnv("PAYTR_MERCHANT_SALT", "salt-secret");
+    vi.stubEnv("PAYTR_SANDBOX", "1");
+    let posted: URLSearchParams | null = null;
+    const fetchImpl: typeof fetch = async (_url, init) => {
+      posted = new URLSearchParams(String(init?.body ?? ""));
+      return new Response(JSON.stringify({ status: "success", token: "iframe-token" }), {
+        status: 200,
+      });
+    };
+    const basket = [{ name: "yukleme", amountMinor: 1300, quantity: 1 }];
+    const result = await requestPaytrCheckoutToken(
+      {
+        merchantOid: "wallettopuptest1",
+        userIp: "85.105.141.10",
+        email: "e2e@example.com",
+        paymentAmountMinor: 1300,
+        merchantOkUrl: "http://localhost/ok",
+        merchantFailUrl: "http://localhost/fail",
+        userBasket: basket,
+      },
+      fetchImpl,
+    );
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.mockCheckout).toBeUndefined();
+      expect(result.sandboxMode).toBe(true);
+    }
+    expect(posted?.get("payment_amount")).toBe("1300");
+    expect(posted?.get("no_installment")).toBe("0");
+    expect(posted?.get("max_installment")).toBe("0");
+    expect(posted?.get("payment_type")).toBeNull();
+    expect(posted?.get("non_3d")).toBeNull();
+    const userBasket = encodePaytrUserBasket(basket);
+    expect(posted?.get("user_basket")).toBe(userBasket);
+    expect(posted?.get("paytr_token")).toBe(
+      buildPaytrTokenHash({
+        credentials: {
+          merchantId: "111111",
+          merchantKey: "key-secret",
+          merchantSalt: "salt-secret",
+          testMode: true,
+        },
+        userIp: "85.105.141.10",
+        merchantOid: "wallettopuptest1",
+        email: "e2e@example.com",
+        paymentAmount: "1300",
+        userBasket,
+        noInstallment: "0",
+        maxInstallment: "0",
+        currency: "TL",
+        testMode: "1",
+      }),
+    );
   });
 
   it("mock kapalıyken kimlik yoksa token basmaz", async () => {

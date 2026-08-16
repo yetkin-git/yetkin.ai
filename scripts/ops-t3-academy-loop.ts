@@ -307,8 +307,8 @@ async function main(): Promise<void> {
     fail("sandboxMode değil. T3 PayTR sandbox ister.");
   }
   const merchantOid = String(topUp.body.merchantOid ?? "");
-  if (!merchantOid.startsWith("wallet-top-up-")) {
-    fail("merchantOid wallet-top-up öneki taşımıyor.");
+  if (!merchantOid.startsWith("wallettopup")) {
+    fail("merchantOid wallettopup öneki taşımıyor.");
   }
   console.log(`→ PayTR sandbox token alındı oid=${merchantOid.slice(0, 24)}…`);
 

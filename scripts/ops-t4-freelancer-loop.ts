@@ -258,8 +258,8 @@ async function paytrTopUp(base: string, citizen: Citizen, amountMinor: number): 
     fail("sandboxMode değil. T4 PayTR sandbox ister.");
   }
   const merchantOid = String(topUp.body.merchantOid ?? "");
-  if (!merchantOid.startsWith("wallet-top-up-")) {
-    fail("merchantOid wallet-top-up öneki taşımıyor.");
+  if (!merchantOid.startsWith("wallettopup")) {
+    fail("merchantOid wallettopup öneki taşımıyor.");
   }
 
   const pending = await withDirectClient(async (client) => {

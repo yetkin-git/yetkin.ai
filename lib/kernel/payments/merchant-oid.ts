@@ -1,10 +1,10 @@
 import { sha256Hex } from "@/lib/kernel/crypto/sha256";
 
-/** İnce merchantOid sicili — ads/doping/land-drone ormanı yok. */
+/** İnce merchantOid sicili — ads/doping/land-drone ormanı yok. PayTR alfa-numerik (tire yok). */
 export const MERCHANT_OID_PREFIXES = {
-  walletTopUp: "wallet-top-up-",
-  freelancerEscrow: "freelancer-escrow-",
-  academy: "academy-",
+  walletTopUp: "wallettopup",
+  freelancerEscrow: "freelancerescrow",
+  academy: "academy",
 } as const;
 
 export type MerchantOidPurpose = keyof typeof MERCHANT_OID_PREFIXES;
@@ -13,7 +13,7 @@ export type MerchantOidPurpose = keyof typeof MERCHANT_OID_PREFIXES;
 export function buildMerchantOid(purpose: MerchantOidPurpose, seed: string): string {
   const suffix = seed.replace(/[^a-zA-Z0-9]/g, "").slice(0, 16);
   const stamp = Date.now().toString(36);
-  return `${MERCHANT_OID_PREFIXES[purpose]}${suffix}-${stamp}`.slice(0, 64);
+  return `${MERCHANT_OID_PREFIXES[purpose]}${suffix}${stamp}`.slice(0, 64);
 }
 
 /**

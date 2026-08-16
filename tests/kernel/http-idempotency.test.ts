@@ -108,11 +108,12 @@ describe("cüzdan yükleme oid mühürü", () => {
     const first = buildIdempotentMerchantOid("walletTopUp", "user-1", key);
     const second = buildIdempotentMerchantOid("walletTopUp", "user-1", key);
     expect(first).toBe(second);
-    expect(first).toMatch(/^wallet-top-up-[0-9a-f]{24}$/);
+    expect(first).toMatch(/^wallettopup[0-9a-f]{24}$/);
     const other = buildIdempotentMerchantOid("walletTopUp", "user-1", createClientIdempotencyKey());
     expect(other).not.toBe(first);
     const stamped = buildMerchantOid("walletTopUp", "user-1");
-    expect(stamped.startsWith("wallet-top-up-")).toBe(true);
+    expect(stamped.startsWith("wallettopup")).toBe(true);
+    expect(stamped).toMatch(/^[a-zA-Z0-9]+$/);
   });
 
   it("aynı anahtarla ikinci PENDING doğmaz; FAILED oid çatışır", () => {
