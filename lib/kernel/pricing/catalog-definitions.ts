@@ -39,6 +39,16 @@ export const REQUIRED_CATALOG_DEFINITIONS: readonly RequiredCatalogDefinition[] 
     description: "Studio görsel üretim tabanı — debit = max(taban, token) (S32-A).",
   },
   {
+    moduleKey: "devlabs",
+    unitKey: "generation:code",
+    unitType: "MINOR",
+    currencyCode: SETTLEMENT_CURRENCY,
+    seedAmountMinor: 150,
+    seedMinMinor: 150,
+    seedMaxMinor: null,
+    description: "DevLabs kod üretim tabanı — debit = max(taban, token) (S32-A). Exec yoktur.",
+  },
+  {
     moduleKey: "kurumsal",
     unitKey: "job-posting:floor",
     unitType: "MINOR",

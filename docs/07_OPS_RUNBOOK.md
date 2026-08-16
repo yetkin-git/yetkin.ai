@@ -188,7 +188,7 @@ LLM bütçe kalkanı ayrıdır (kullanıcı/günlük token); o da süreç/DB kar
 - Nesne depo: imzalı PUT (`STUDIO_STORAGE_BACKEND = "object-store"`), bucket `studio-assets`, path `{userId}/{generationId}.{png|jpg|webp}`. Prisma hash/mime/size/path; `data_base64` yeni üretimde boş string. `service_role` yok.
 - Bucket + `storage.objects` RLS: `supabase/storage/studio-assets.sql` — **Dashboard SQL Editor**. `ops:migrate` kilitli yedi dosyaya eklenmez. Prisma metadata migrasyonu `prisma migrate deploy` ile gelir.
 - Storage CORS (Dashboard, kodla yazılmaz): origin = `NEXT_PUBLIC_APP_URL` origin (path yok). Metod **yalnız PUT**. `Access-Control-Allow-Origin: *` ve GET/DELETE/POST/PATCH **yasak**. Doğrulama: `npm run ops:storage-cors` (`assertStudioStorageCorsHeaders`). Kamu GET / CDN yok; tezgâh imzalı GET.
-- Katalog birimleri `REQUIRED_CATALOG_DEFINITIONS` + SQL tohum. `studio:generation:image` ops tohumundadır; yoksa görsel üretim vatandaş dilinde 4xx, debit yok.
+- Katalog birimleri `REQUIRED_CATALOG_DEFINITIONS` + SQL tohum. `studio:generation:image` ve `devlabs:generation:code` ops tohumundadır; yoksa üretim vatandaş dilinde 4xx, debit yok.
 
 ---
 

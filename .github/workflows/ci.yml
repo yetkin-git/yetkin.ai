@@ -1,0 +1,35 @@
+# İnce CI — mühür zinciri. Müze workflow kopyası değildir.
+# Canlı Postgres, Playwright, Docker, tam `npm test` yok.
+
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.19"
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Prebuild mühür zinciri
+        run: npm run verify:prebuild
+
+      - name: Typecheck
+        run: npm run typecheck

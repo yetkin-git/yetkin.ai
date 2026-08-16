@@ -118,6 +118,20 @@ VALUES
     'Yetkinİlan ilan doping / öne çıkarma ücreti (S61-A, S11-A).',
     now(),
     now()
+  ),
+  (
+    'cat_devlabs_generation_code',
+    'devlabs',
+    'generation:code',
+    'MINOR',
+    150,
+    'TRY',
+    true,
+    150,
+    NULL,
+    'DevLabs kod üretim tabanı — debit = max(taban, token) (S32-A). Exec yoktur.',
+    now(),
+    now()
   )
 ON CONFLICT (module_key, unit_key) DO UPDATE
 SET
