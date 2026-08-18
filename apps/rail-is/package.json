@@ -1,0 +1,31 @@
+{
+  "name": "rail-is",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Rail İş — Diyar B native dron (mutlu yol ekranları). Amiral app/ değildir. Faz 1 kapanana kadar yayın hattı donuk.",
+  "main": "index.ts",
+  "rail": {
+    "publishFrozenUntilFaz1Close": true
+  },
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.112.3",
+    "expo": "~57.0.14",
+    "expo-secure-store": "~57.0.1",
+    "expo-status-bar": "~57.0.1",
+    "react": "19.2.3",
+    "react-native": "0.86.2"
+  },
+  "devDependencies": {
+    "@types/react": "~19.2.2",
+    "typescript": "~5.9.2"
+  }
+}

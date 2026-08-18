@@ -2,7 +2,7 @@ import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 
-/** Anayasa §2.8 — 12 dikey oda. Kernel bunları import etmez. */
+/** Anayasa §2.8 — 12 dikey oda. Sıra mühürlü; lib/kernel/modules.ts ve scripts/verify-boundaries.ts ile eleman eleman aynı. Kernel bunları import etmez. */
 const VERTICAL_ROOMS = [
   "dashboard",
   "studio",
@@ -200,6 +200,7 @@ const eslintConfig = defineConfig([
     "yetkin.ai/**",
     "scripts/**",
     "coverage/**",
+    "apps/**",
   ]),
 ]);
 

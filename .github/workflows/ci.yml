@@ -1,5 +1,6 @@
 # İnce CI — mühür zinciri. Müze workflow kopyası değildir.
 # Canlı Postgres, Playwright, Docker, tam `npm test` yok.
+# Dron (apps/rail-is) Faz 1 kapanana kadar yayın hattından donuk (mağaza paketi yok).
 
 name: ci
 

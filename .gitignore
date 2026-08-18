@@ -44,4 +44,13 @@ tmp/
 .eslintcache
 
 # Müze — ilham ve yasak listesi (S9-B). Rail git geçmişine girmez.
+# Nested repo; `git add` ve ajan taraması dışındadır. Kod silinmez.
 yetkin.ai/
+
+# Native / Expo
+apps/*/.expo/
+apps/*/dist/
+apps/*/web-build/
+apps/*/expo-env.d.ts
+apps/*/.kotlin/
+
