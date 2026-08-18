@@ -1,4 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import {
   applyHttpRateLimit,
   consumeHttpRateLimit,
@@ -6,6 +8,7 @@ import {
   matchEdgeRateLimit,
   resetHttpRateLimitBucketsForTests,
 } from "@/lib/kernel/security/http-rate-limit";
+import { createInMemoryRateLimitPort } from "@/lib/kernel/security/rate-limit-port";
 
 describe("HTTP hız tavanı", () => {
   afterEach(() => {
@@ -62,5 +65,36 @@ describe("HTTP hız tavanı", () => {
     expect(first.allowed).toBe(true);
     expect(second.allowed).toBe(false);
     expect(otherUser.allowed).toBe(true);
+  });
+});
+
+describe("RateLimitPort", () => {
+  it("süreç-içi bellek kovaları birbirine sızmaz", () => {
+    const a = createInMemoryRateLimitPort();
+    const b = createInMemoryRateLimitPort();
+    const window = { keyPrefix: "port", limit: 1, windowMs: 60_000 };
+    expect(a.consume("x", window, 1_000).allowed).toBe(true);
+    expect(a.consume("x", window, 1_001).allowed).toBe(false);
+    expect(b.consume("x", window, 1_001).allowed).toBe(true);
+  });
+
+  it("dış önbellek istemcisi hız tavanı portuna girmez", () => {
+    const root = process.cwd();
+    const banned = [
+      /from\s+["']ioredis["']/,
+      /from\s+["']redis["']/,
+      /from\s+["']@upstash\/redis["']/,
+      /require\(\s*["']ioredis["']\s*\)/,
+      /require\(\s*["']redis["']\s*\)/,
+    ];
+    for (const relative of [
+      "lib/kernel/security/rate-limit-port.ts",
+      "lib/kernel/security/http-rate-limit.ts",
+    ]) {
+      const source = readFileSync(join(root, relative), "utf8");
+      for (const pattern of banned) {
+        expect(source, `${relative} ${pattern}`).not.toMatch(pattern);
+      }
+    }
   });
 });

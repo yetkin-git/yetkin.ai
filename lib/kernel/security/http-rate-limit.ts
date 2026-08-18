@@ -5,25 +5,19 @@ import {
   isV1JsonRequest,
 } from "@/lib/kernel/http/api-v1";
 import { REQUEST_ID_HEADER, resolveRequestId } from "@/lib/kernel/http/request-id";
+import {
+  createInMemoryRateLimitPort,
+  type RateLimitDecision,
+  type RateLimitWindow,
+} from "@/lib/kernel/security/rate-limit-port";
 
-export type HttpRateLimitConfig = {
-  keyPrefix: string;
-  limit: number;
-  windowMs: number;
-};
+export type HttpRateLimitConfig = RateLimitWindow;
 
-export type HttpRateLimitResult = {
-  allowed: boolean;
-  remaining: number;
-  retryAfterSec: number;
-  limit: number;
+export type HttpRateLimitResult = RateLimitDecision & {
   headers: Record<string, string>;
 };
 
-type Bucket = { count: number; resetAt: number };
-
-const buckets = new Map<string, Bucket>();
-const MAX_BUCKETS = 10_000;
+const httpRateLimitPort = createInMemoryRateLimitPort();
 
 export const HTTP_RATE_LIMITS = {
   walletTopUpIp: { keyPrefix: "wallet-top-up-ip", limit: 10, windowMs: 10 * 60_000 },
@@ -33,18 +27,15 @@ export const HTTP_RATE_LIMITS = {
 
 export const HTTP_RATE_LIMIT_ERROR = "Çok fazla istek. Biraz sonra yeniden dene.";
 
-function pruneBuckets(now: number): void {
-  if (buckets.size < 2_000) {
-    return;
+function withRateLimitHeaders(decision: RateLimitDecision): HttpRateLimitResult {
+  const headers: Record<string, string> = {
+    "X-RateLimit-Limit": String(decision.limit),
+    "X-RateLimit-Remaining": String(decision.remaining),
+  };
+  if (!decision.allowed) {
+    headers["Retry-After"] = String(decision.retryAfterSec);
   }
-  for (const [key, bucket] of buckets) {
-    if (now >= bucket.resetAt) {
-      buckets.delete(key);
-    }
-  }
-  if (buckets.size > MAX_BUCKETS) {
-    buckets.clear();
-  }
+  return { ...decision, headers };
 }
 
 export function resolveRequestIp(request: Request): string {
@@ -62,25 +53,7 @@ export function consumeHttpRateLimit(
   config: HttpRateLimitConfig,
   now: number = Date.now(),
 ): HttpRateLimitResult {
-  pruneBuckets(now);
-  const key = `${config.keyPrefix}:${identityKey}`;
-  let bucket = buckets.get(key);
-  if (!bucket || now >= bucket.resetAt) {
-    bucket = { count: 0, resetAt: now + config.windowMs };
-  }
-  bucket.count += 1;
-  buckets.set(key, bucket);
-  const allowed = bucket.count <= config.limit;
-  const remaining = Math.max(0, config.limit - bucket.count);
-  const retryAfterSec = allowed ? 0 : Math.max(1, Math.ceil((bucket.resetAt - now) / 1000));
-  const headers: Record<string, string> = {
-    "X-RateLimit-Limit": String(config.limit),
-    "X-RateLimit-Remaining": String(remaining),
-  };
-  if (!allowed) {
-    headers["Retry-After"] = String(retryAfterSec);
-  }
-  return { allowed, remaining, retryAfterSec, limit: config.limit, headers };
+  return withRateLimitHeaders(httpRateLimitPort.consume(identityKey, config, now));
 }
 
 export function applyHttpRateLimit(
@@ -130,5 +103,5 @@ export function rateLimitedJsonResponse(
 
 /** Test sızıntısını keser — üretim çağırmaz. */
 export function resetHttpRateLimitBucketsForTests(): void {
-  buckets.clear();
+  httpRateLimitPort.resetForTests();
 }
