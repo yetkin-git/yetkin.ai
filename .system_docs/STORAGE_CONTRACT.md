@@ -1,6 +1,6 @@
 # 08 — Studio Storage Sözleşmesi
 
-İnsan + kod SSOT. Uygulama yüzeyi: `lib/studio/storage.ts`. Bucket SQL: `supabase/storage/studio-assets.sql`. Anayasa: `docs/ANAYASA.md`. Ops: `docs/07_OPS_RUNBOOK.md`.
+İnsan + kod SSOT. Uygulama yüzeyi: `lib/studio/storage.ts`. Bucket SQL: `supabase/storage/studio-assets.sql`. Anayasa: `.system_docs/ANAYASA.md`. Ops: `.system_docs/OPS_RUNBOOK.md`.
 
 Ürün kodu bu dosyayı import etmez. `service_role` JS anahtarı yoktur.
 
