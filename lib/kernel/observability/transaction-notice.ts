@@ -21,7 +21,8 @@ export function setTransactionNoticeSink(next: TransactionNoticeSink | null): vo
 
 /**
  * Temel işlem bildirimi — yapılandırılmış log.
- * Resend/SMTP şişmesi yok; Auth SMTP kimlik maillerine aittir.
+ * Vatandaş e-posta asgarisi `lib/kernel/notice` (Resend yok; SMTP boşsa dürüst atlanır).
+ * Auth SMTP kimlik maillerine aittir.
  * applied=false (replay) ikinci bildirim basmaz.
  */
 export function emitTransactionNotice(notice: TransactionNotice): void {

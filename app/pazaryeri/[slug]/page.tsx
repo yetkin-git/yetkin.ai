@@ -11,7 +11,7 @@ import { CashPhaseBadges } from "@/components/pazaryeri/cash-phase-badges";
 import { loadOffersForProduct, loadProductBySlug, loadPurchaseForUserProduct } from "@/lib/pazaryeri/load";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { getSession } from "@/lib/kernel/auth/session";
-import { categoryLabel, isProductDoped } from "@/lib/pazaryeri/category";
+import { categoryLabel, isAssetCategory, isProductDoped } from "@/lib/pazaryeri/category";
 import { YETKINILAN_BRAND, yetkinIlanHref } from "@/lib/kernel/yetkinilan";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { PRICE_LOCK_GRACE_MINUTES } from "@/lib/kernel/pricing/price-lock";
@@ -41,6 +41,7 @@ export default async function PazaryeriProductPage({
   const isSeller = session?.id === product.userId;
   const doped = isProductDoped(product);
   const copy = SEN_VOICE.pazaryeri;
+  const vitrineOnly = isAssetCategory(product.category);
   const isDigital = product.kind === "DIGITAL_GOOD";
   const lockMinutes = PRICE_LOCK_GRACE_MINUTES;
   const holdPercent = HOLD_BPS_DEFAULT / 100;
@@ -99,6 +100,10 @@ export default async function PazaryeriProductPage({
             </Link>
           </div>
         </Card>
+      ) : vitrineOnly ? (
+        <Card title={copy.product.vitrineTitle} eyebrow={copy.product.vitrineTitle}>
+          <p>{copy.product.vitrineBody}</p>
+        </Card>
       ) : isSeller ? (
         <Card title={copy.product.sellerTitle}>
           <p>{copy.product.sellerBody}</p>
@@ -138,7 +143,12 @@ export default async function PazaryeriProductPage({
           >
             {session ? (
               <div className="mt-3">
-                <PurchaseButton productId={product.id} kind={product.kind} />
+                <PurchaseButton
+                  productId={product.id}
+                  kind={product.kind}
+                  amountMinor={product.amountMinor}
+                  currencyCode={product.currencyCode}
+                />
               </div>
             ) : (
               <div className="mt-3 space-y-4">

@@ -69,5 +69,30 @@ describe("cüzdan defter yüzeyi", () => {
     expect(db).toContain("$queryRaw`SELECT 1`");
     expect(db).toContain("max: 20");
     expect(db).toContain("connectionTimeoutMillis: 10_000");
+    expect(db).toContain("preferIpv6ForDirectHost");
+    expect(db).toContain("ENOENT");
+    const dns = readSrc("lib/kernel/dns-ipv6-first.ts");
+    expect(dns).toContain('setDefaultResultOrder("ipv6first")');
+  });
+
+  it("Prisma 7 istemcisi query compiler'dır; binaryTargets ve SQLite yok", () => {
+    const schema = readSrc("prisma/schema/base.prisma");
+    const nextConfig = readSrc("next.config.ts");
+    const instrumentation = readSrc("instrumentation.ts");
+    expect(schema).toContain('provider = "prisma-client"');
+    expect(schema).toContain('engineType = "client"');
+    expect(schema).toContain('runtime = "nodejs"');
+    expect(schema).toContain('provider = "postgresql"');
+    expect(schema).not.toContain("binaryTargets");
+    expect(schema).not.toContain("sqlite");
+    expect(nextConfig).toContain("@prisma/adapter-pg");
+    expect(nextConfig).toContain("@prisma/client-runtime-utils");
+    expect(nextConfig).toContain("query_compiler_fast_bg.postgresql.wasm-base64.js");
+    expect(nextConfig).toContain("./generated/prisma/**");
+    expect(instrumentation).toContain("preferIpv6ForDirectHost");
+    expect(instrumentation).toContain("NEXT_RUNTIME");
+    expect(instrumentation).toContain("Müze instrumentation kopyası değildir");
+    expect(instrumentation).toContain("ops.inngest.fail_closed");
+    expect(instrumentation).not.toContain("node:dns");
   });
 });

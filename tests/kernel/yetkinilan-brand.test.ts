@@ -14,7 +14,9 @@ import {
 describe("Yetkinİlan marka ve çift rota", () => {
   it("vatandaş etiketi Yetkinİlan’dır; jenerik Pazaryeri yoktur", () => {
     expect(YETKINILAN_BRAND).toBe("Yetkinİlan");
-    expect(YETKINILAN_BLURB).toBe("Dijital üründe anında teslim. Hizmette emanet kilit.");
+    expect(YETKINILAN_BLURB).toBe(
+      "Dijital üründe anında teslim. Hizmette emanet kilit. Emlak/vasıta yalnız vitrin.",
+    );
     expect(YETKINILAN_PATH).toBe("/yetkinilan");
     expect(PAZARYERI_DISK_PATH).toBe("/pazaryeri");
     expect(VERTICAL_ROOMS.map((room) => room.label)).toContain("Yetkinİlan");

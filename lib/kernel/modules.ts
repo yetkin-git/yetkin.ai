@@ -1,5 +1,6 @@
 import { YETKINILAN_BLURB, YETKINILAN_BRAND, YETKINILAN_PATH } from "@/lib/kernel/yetkinilan";
 
+/** Anayasa §2.8 — 12 dikey oda. Sıra mühürlü; eslint.config.mjs ve scripts/verify-boundaries.ts ile eleman eleman aynı. */
 export const VERTICAL_ROOMS = [
   { id: "dashboard", path: "/dashboard", label: "Anasayfa", phase: 2, blurb: "Kaldığın yer ve on iki oda" },
   { id: "studio", path: "/studio", label: "Studio", phase: 4, blurb: "Üretim anında bakiyeden transfer (LLM Debit)." },

@@ -169,6 +169,10 @@ export function createMemoryEscrowStore(): MemoryEscrowStore {
       const id = byRef.get(referenceKey);
       return id ? (byId.get(id) ?? null) : null;
     },
+    async lockByReferenceKey(referenceKey) {
+      const id = byRef.get(referenceKey);
+      return id ? (byId.get(id) ?? null) : null;
+    },
     async findById(id) {
       return byId.get(id) ?? null;
     },
@@ -199,6 +203,9 @@ export function createMemoryEscrowStore(): MemoryEscrowStore {
       if (!hold) {
         throw new Error("Emanet yok.");
       }
+      if (hold.status !== "PENDING") {
+        throw new Error("Emanet PENDING değilken serbest bırakılamaz.");
+      }
       const next: EscrowHoldRecord = { ...hold, status: "RELEASED", releasedAt: at };
       byId.set(id, next);
       return { ...next };
@@ -207,6 +214,9 @@ export function createMemoryEscrowStore(): MemoryEscrowStore {
       const hold = byId.get(id);
       if (!hold) {
         throw new Error("Emanet yok.");
+      }
+      if (hold.status !== "PENDING") {
+        throw new Error("Emanet PENDING değilken iade edilemez.");
       }
       const next: EscrowHoldRecord = { ...hold, status: "REFUNDED", refundedAt: at };
       byId.set(id, next);
@@ -225,6 +235,15 @@ export function createMemoryEscrowStore(): MemoryEscrowStore {
       return [...byId.values()].filter(
         (hold) => hold.status === "PENDING" && hold.expiresAt !== null && hold.expiresAt.getTime() <= now.getTime(),
       );
+    },
+    async listPendingExpiringSoon(now, until) {
+      return [...byId.values()].filter((hold) => {
+        if (hold.status !== "PENDING" || hold.expiresAt === null) {
+          return false;
+        }
+        const at = hold.expiresAt.getTime();
+        return at > now.getTime() && at <= until.getTime();
+      });
     },
   };
 }
@@ -358,6 +377,15 @@ export function createMemoryFreelancerStore(): MemoryFreelancerStore {
       jobs.set(jobId, { ...job, status: "AWARDED", updatedAt: now });
       return true;
     },
+    async claimFundedContract(id, patch) {
+      const contract = contracts.get(id);
+      if (!contract || contract.status !== "FUNDED") {
+        return null;
+      }
+      const next = { ...contract, ...patch };
+      contracts.set(id, next);
+      return { ...next };
+    },
     async insertBid(bid) {
       bids.set(bid.id, bid);
       return { ...bid };
@@ -471,6 +499,20 @@ export function createMemoryFreelancerStore(): MemoryFreelancerStore {
         .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
         .map((row) => ({ ...row }));
     },
+    async listLatestDeliveryAtByContractIds(contractIds) {
+      const wanted = new Set(contractIds);
+      const latest = new Map<string, Date>();
+      for (const row of messages.values()) {
+        if (!wanted.has(row.contractId) || row.kind !== "DELIVERY") {
+          continue;
+        }
+        const prev = latest.get(row.contractId);
+        if (!prev || row.createdAt.getTime() > prev.getTime()) {
+          latest.set(row.contractId, row.createdAt);
+        }
+      }
+      return latest;
+    },
     async insertSquad(squad) {
       squads.set(squad.id, squad);
       return { ...squad };
@@ -533,10 +575,25 @@ export function withMemoryAcceptAtomic<
     escrow: MemoryEscrowStore;
     freelancer: MemoryFreelancerStore;
   },
->(ports: T): T & Pick<FreelancerEnginePorts, "runAcceptAtomic"> {
-  return {
-    ...ports,
-    async runAcceptAtomic<R>(work: (tx: FreelancerAcceptWritePorts) => Promise<R>): Promise<R> {
+>(ports: T): T & Pick<FreelancerEnginePorts, "runAcceptAtomic" | "runReleaseAtomic"> & {
+  runEscrowAtomic<R>(
+    work: (tx: { ledger: MemoryLedgerStore; escrow: MemoryEscrowStore }) => Promise<R>,
+  ): Promise<R>;
+} {
+  let tail = Promise.resolve();
+  function enqueue<R>(work: () => Promise<R>): Promise<R> {
+    const run = tail.then(work, work);
+    tail = run.then(
+      () => undefined,
+      () => undefined,
+    );
+    return run;
+  }
+
+  async function runMoneyAtomic<R>(
+    work: (tx: FreelancerAcceptWritePorts) => Promise<R>,
+  ): Promise<R> {
+    return enqueue(async () => {
       const ledgerSnap = ports.ledger.capture();
       const escrowSnap = ports.escrow.capture();
       const freelancerSnap = ports.freelancer.capture();
@@ -552,6 +609,30 @@ export function withMemoryAcceptAtomic<
         ports.freelancer.restore(freelancerSnap);
         throw error;
       }
+    });
+  }
+
+  return {
+    ...ports,
+    runAcceptAtomic: runMoneyAtomic,
+    runReleaseAtomic: runMoneyAtomic,
+    async runEscrowAtomic<R>(
+      work: (tx: { ledger: MemoryLedgerStore; escrow: MemoryEscrowStore }) => Promise<R>,
+    ): Promise<R> {
+      return enqueue(async () => {
+        const ledgerSnap = ports.ledger.capture();
+        const escrowSnap = ports.escrow.capture();
+        try {
+          return await work({
+            ledger: ports.ledger,
+            escrow: ports.escrow,
+          });
+        } catch (error) {
+          ports.ledger.restore(ledgerSnap);
+          ports.escrow.restore(escrowSnap);
+          throw error;
+        }
+      });
     },
   };
 }

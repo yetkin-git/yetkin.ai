@@ -7,8 +7,15 @@ import { createPrismaHttpIdempotencyStore } from "@/lib/kernel/http/prisma-idemp
 import { logEvent } from "@/lib/kernel/observability/log";
 import { getPrisma } from "@/lib/kernel/db";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
+import { failPaymentOrder } from "@/lib/kernel/payments/clearing";
 import { buildIdempotentMerchantOid } from "@/lib/kernel/payments/merchant-oid";
 import { paytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
+import {
+  assertPaytrLiveUserIp,
+  assertPaytrProductionSafety,
+  resolvePaytrMerchantAppOrigin,
+} from "@/lib/kernel/payments/paytr/checkout";
+import { createPrismaPaymentOrderStore } from "@/lib/kernel/payments/prisma-order-store";
 import {
   assertWalletTopUpAmountMinor,
   decideWalletTopUpReuse,
@@ -43,15 +50,15 @@ export async function POST(request: Request) {
     const user = await requireSession(request);
     const limited = applyHttpRateLimit(request, HTTP_RATE_LIMITS.walletTopUpUser, user.id);
     if (!limited.allowed) {
-      return rateLimitedJsonResponse(limited);
+      return rateLimitedJsonResponse(limited, request);
     }
     const idempotency = readIdempotencyKey(request);
     if (!idempotency.ok) {
-      return jsonFail(idempotency.error, 400, requestId);
+      return jsonFail(idempotency.error, 400, requestId, request);
     }
     const parsed = bodySchema.safeParse(await request.json());
     if (!parsed.success) {
-      return jsonFail("Geçersiz yükleme tutarı.", 400, requestId);
+      return jsonFail("Geçersiz yükleme tutarı.", 400, requestId, request);
     }
     const amountMinor = assertWalletTopUpAmountMinor(parsed.data.amountMinor);
 
@@ -63,6 +70,7 @@ export async function POST(request: Request) {
         key: idempotency.key,
         requestHash: hashIdempotencyPayload({ amountMinor }),
         requestId,
+        request,
       },
       async () => {
         const prisma = getPrisma();
@@ -78,6 +86,24 @@ export async function POST(request: Request) {
                 : "Idempotency-Key başka bir oturuma ait.";
           return { status: 409, body: { error: message } };
         }
+
+        if (order && (order.status === "CLEARED" || order.status === "PAID")) {
+          return {
+            status: 200,
+            body: {
+              merchantOid: order.merchantOid,
+              alreadySettled: order.status === "CLEARED",
+              status: order.status,
+            },
+          };
+        }
+
+        const origin = resolvePaytrMerchantAppOrigin();
+        const forwarded = request.headers.get("x-forwarded-for");
+        const userIp = forwarded?.split(",")[0]?.trim() || "127.0.0.1";
+        assertPaytrProductionSafety("wallet.top_up:before-insert");
+        assertPaytrLiveUserIp(userIp, "wallet.top_up");
+
         if (decision.action === "create") {
           try {
             order = await prisma.paymentOrder.create({
@@ -125,19 +151,22 @@ export async function POST(request: Request) {
           };
         }
 
-        const origin = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-        const forwarded = request.headers.get("x-forwarded-for");
-        const userIp = forwarded?.split(",")[0]?.trim() || "127.0.0.1";
-        const checkout = await paytrPaymentProvider.beginCheckout({
-          merchantOid,
-          userIp,
-          email: user.email,
-          paymentAmountMinor: amountMinor,
-          currencyCode: SETTLEMENT_CURRENCY,
-          merchantOkUrl: `${origin}/cuzdan`,
-          merchantFailUrl: `${origin}/cuzdan`,
-          userBasket: [{ name: "Cuzdan yukleme", amountMinor, quantity: 1 }],
-        });
+        let checkout: Awaited<ReturnType<typeof paytrPaymentProvider.beginCheckout>>;
+        try {
+          checkout = await paytrPaymentProvider.beginCheckout({
+            merchantOid,
+            userIp,
+            email: user.email,
+            paymentAmountMinor: amountMinor,
+            currencyCode: SETTLEMENT_CURRENCY,
+            merchantOkUrl: `${origin}/cuzdan`,
+            merchantFailUrl: `${origin}/cuzdan`,
+            userBasket: [{ name: "Cuzdan yukleme", amountMinor, quantity: 1 }],
+          });
+        } catch (error) {
+          await failPaymentOrder(createPrismaPaymentOrderStore(), merchantOid);
+          throw error;
+        }
 
         if (!checkout.ok) {
           logEvent({
@@ -150,6 +179,8 @@ export async function POST(request: Request) {
             reason: checkout.reason,
             route: WALLET_TOP_UP_ROUTE,
           });
+          // Get-token / beginCheckout 503: aynı istekte PENDING kapanır. CREDIT yok.
+          await failPaymentOrder(createPrismaPaymentOrderStore(), merchantOid);
           return { status: 503, body: { error: checkout.message } };
         }
         logEvent({
@@ -181,6 +212,6 @@ export async function POST(request: Request) {
       route: WALLET_TOP_UP_ROUTE,
       errorName: error instanceof Error ? error.name : "unknown",
     });
-    return jsonFromUnknown(error, 400, requestId);
+    return jsonFromUnknown(error, 400, requestId, request);
   }
 }

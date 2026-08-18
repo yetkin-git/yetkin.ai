@@ -45,10 +45,10 @@ export async function appendLedgerEntry(
     throw new Error("idempotencyKey zorunludur.");
   }
 
-  const existing = await store.findByIdempotencyKey(command.idempotencyKey);
   const wallet = await store.lockWallet(command.userId, command.currencyCode);
   assertWalletCurrency(wallet, command.currencyCode);
 
+  const existing = await store.findByIdempotencyKey(command.idempotencyKey);
   if (existing) {
     return {
       applied: false,

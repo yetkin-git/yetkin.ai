@@ -14,6 +14,7 @@ export const INNGEST_EVENTS = {
   PAYTR_CLEARING_REQUESTED: "payments/paytr.clearing-requested",
   ESCROW_TIMEOUT_REQUESTED: "escrow/timeout-requested",
   ESCROW_REFUNDED: "escrow/refunded",
+  ESCROW_TTL_APPROACHING: "escrow/ttl-approaching",
   ARENA_TENDER_ROUND_TICK: "arena/tender.round-tick",
 } as const;
 
@@ -123,11 +124,20 @@ export const escrowTimeoutScan = inngest.createFunction(
       if (!process.env.DATABASE_URL?.trim()) {
         return { refunded: 0, frozen: 0, refundedHolds: [] as { holdId: string; referenceKey: string }[] };
       }
-      const { createPrismaEscrowStore } = await import("@/lib/kernel/escrow/prisma-store");
-      const { createPrismaLedgerStore } = await import("@/lib/kernel/ledger/prisma-store");
+      const { getPrisma } = await import("@/lib/kernel/db");
+      const { bindEscrowStore } = await import("@/lib/kernel/escrow/prisma-store");
+      const { bindLedgerStore } = await import("@/lib/kernel/ledger/prisma-store");
+      const prisma = getPrisma();
       return runEscrowTimeoutRefunds({
-        escrow: createPrismaEscrowStore(),
-        ledger: createPrismaLedgerStore(),
+        escrow: bindEscrowStore(prisma),
+        ledger: bindLedgerStore(prisma),
+        runEscrowAtomic: (work) =>
+          prisma.$transaction((tx) =>
+            work({
+              ledger: bindLedgerStore(tx),
+              escrow: bindEscrowStore(tx),
+            }),
+          ),
       });
     });
     if (scanned.refundedHolds.length === 0) {
@@ -165,11 +175,74 @@ export const escrowRefundedNotify = inngest.createFunction(
   },
 );
 
+export const escrowTtlApproachingScan = inngest.createFunction(
+  {
+    id: "escrow-ttl-approaching-scan",
+    name: "Emanet TTL yaklaşım tarama",
+    triggers: [{ cron: "TZ=Europe/Istanbul 0 */6 * * *" }],
+  },
+  async ({ step }) => {
+    const scanned = await step.run("scan-ttl-approaching-holds", async () => {
+      if (!process.env.DATABASE_URL?.trim()) {
+        return { warned: 0, holds: [] as { holdId: string; referenceKey: string }[] };
+      }
+      const { createPrismaEscrowStore } = await import("@/lib/kernel/escrow/prisma-store");
+      const { selectEscrowTtlApproachingHolds, escrowTtlWarnScanResult } = await import(
+        "@/lib/kernel/jobs/escrow-ttl-warn"
+      );
+      const holds = await selectEscrowTtlApproachingHolds({
+        escrow: createPrismaEscrowStore(),
+      });
+      return escrowTtlWarnScanResult(holds);
+    });
+    if (scanned.holds.length === 0) {
+      return { warned: scanned.warned };
+    }
+    await step.sendEvent(
+      "dispatch-escrow-ttl-approaching-events",
+      scanned.holds.map((row) => ({
+        name: INNGEST_EVENTS.ESCROW_TTL_APPROACHING,
+        id: `escrow-ttl-warn:${row.holdId}`,
+        data: { holdId: row.holdId, referenceKey: row.referenceKey },
+      })),
+    );
+    return { warned: scanned.warned };
+  },
+);
+
+export const escrowTtlApproachingNotify = inngest.createFunction(
+  {
+    id: "escrow-ttl-approaching-notify",
+    name: "Emanet TTL yaklaşım bildirimi",
+    idempotency: "event.data.holdId",
+    triggers: [{ event: INNGEST_EVENTS.ESCROW_TTL_APPROACHING }],
+  },
+  async ({ event, step }) => {
+    const holdId = String((event.data as { holdId?: string }).holdId ?? "").trim();
+    if (!holdId) {
+      return { skipped: true };
+    }
+    return step.run("notify-ttl-vertical-hooks", async () => {
+      const { createPrismaEscrowStore } = await import("@/lib/kernel/escrow/prisma-store");
+      const { applyEscrowTtlApproachingNotice } = await import(
+        "@/lib/kernel/jobs/escrow-ttl-warn"
+      );
+      const result = await applyEscrowTtlApproachingNotice(
+        { escrow: createPrismaEscrowStore() },
+        holdId,
+      );
+      return { holdId, applied: result.applied };
+    });
+  },
+);
+
 export const kernelInngestFunctions = [
   paytrClearingScan,
   paytrClearingSingle,
   escrowTimeoutScan,
   escrowRefundedNotify,
+  escrowTtlApproachingScan,
+  escrowTtlApproachingNotify,
 ];
 
 export function inngestNotConfiguredResponse(requestId?: string) {

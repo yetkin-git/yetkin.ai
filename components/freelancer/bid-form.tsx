@@ -4,7 +4,10 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
+import { useActionBridge } from "@/components/ui/action-bridge";
 import { FREELANCER_SEN } from "@/lib/copy/sen-voice/freelancer";
+import { UX_SEN } from "@/lib/copy/sen-voice/ux";
 
 export function BidForm({
   jobId,
@@ -16,11 +19,13 @@ export function BidForm({
   visaBlocked?: boolean;
 }) {
   const router = useRouter();
+  const { push } = useActionBridge();
   const [amountMajor, setAmountMajor] = useState(String(maxMinor / 100));
   const [coverNote, setCoverNote] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const idempotency = useIdempotencyKey();
   const copy = FREELANCER_SEN.bid;
 
   if (visaBlocked) {
@@ -35,7 +40,7 @@ export function BidForm({
     const amountMinor = Math.round(Number.parseFloat(amountMajor.replace(",", ".")) * 100);
     const response = await fetch(`/api/freelancer/jobs/${jobId}/bids`, {
       method: "POST",
-      headers: { "content-type": "application/json" },
+      headers: { "content-type": "application/json", ...idempotency.headers() },
       body: JSON.stringify({ amountMinor, coverNote }),
     });
     const body = (await response.json()) as { ok: boolean; error?: string };
@@ -45,6 +50,7 @@ export function BidForm({
       return;
     }
     setNotice(copy.received);
+    push({ title: UX_SEN.bridge.bidSent.title, body: UX_SEN.bridge.bidSent.body, tone: "safir" });
     router.refresh();
   }
 

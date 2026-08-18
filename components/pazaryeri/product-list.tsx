@@ -1,6 +1,6 @@
 import { formatMinor } from "@/lib/kernel/money/format";
 import type { MarketplaceProductRecord } from "@/lib/pazaryeri/types";
-import { categoryLabel, isProductDoped } from "@/lib/pazaryeri/category";
+import { categoryLabel, isAssetCategory, isProductDoped } from "@/lib/pazaryeri/category";
 import { PAZARYERI_SHOWCASE } from "@/lib/showcase/catalog";
 import { ListingCard, Vitrine } from "@/components/showcase/listing-card";
 import { IconStore } from "@/components/ui/icons";
@@ -24,6 +24,9 @@ function categoryTone(category: MarketplaceProductRecord["category"]): BadgeTone
 
 function lockLabel(product: MarketplaceProductRecord): string {
   const copy = PAZARYERI_SEN.list;
+  if (isAssetCategory(product.category)) {
+    return copy.lockVitrine;
+  }
   if (isProductDoped(product)) {
     return copy.lockDoped;
   }

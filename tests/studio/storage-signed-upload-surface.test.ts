@@ -104,8 +104,6 @@ describe("Studio imzalı yükleme yüzeyi (T2-2)", () => {
 
   it("Storage CORS yalnız NEXT_PUBLIC_APP_URL origin PUT; joker ve kenar CORS yok", () => {
     const sql = readSrc("supabase/storage/studio-assets.sql");
-    const runbook = readSrc("docs/07_OPS_RUNBOOK.md");
-    const contract = readSrc("docs/08_STORAGE_CONTRACT.md");
     const nextConfig = readSrc("next.config.ts");
     const proxy = readSrc("proxy.ts");
     const example = readSrc(".env.example");
@@ -114,21 +112,13 @@ describe("Studio imzalı yükleme yüzeyi (T2-2)", () => {
     expect(sql).toContain("NEXT_PUBLIC_APP_URL");
     expect(sql).toContain("PUT");
     expect(sql).toContain("GET/HEAD/POST/PATCH/DELETE");
-    expect(runbook).toContain("ops:storage-cors");
-    expect(runbook).toContain("Access-Control-Allow-Origin: *");
-    expect(contract).toContain("assertStudioStorageCorsHeaders");
-    expect(contract).toContain("Allowed Methods");
-    expect(runbook).toContain("NEXT_PUBLIC_APP_URL");
-    expect(runbook).toContain("Storage CORS");
-    expect(runbook).toContain("yalnız PUT");
-    expect(contract).toContain("NEXT_PUBLIC_APP_URL");
-    expect(contract).toContain("Access-Control-Allow-Origin: *");
     expect(nextConfig).not.toContain("Access-Control-Allow-Origin");
     expect(proxy).not.toContain("Access-Control-Allow-Origin");
     expect(example).not.toMatch(/^API_CORS_ALLOWED_ORIGINS=/m);
     expect(example).toContain('NEXT_PUBLIC_APP_URL="http://localhost:3000"');
     expect(example).toContain("Methods = PUT");
     expect(example).toContain("ops:storage-cors");
+    expect(example).toContain("ops:runtime-readiness");
     expect(envTs).toContain("NEXT_PUBLIC_APP_URL");
   });
 });

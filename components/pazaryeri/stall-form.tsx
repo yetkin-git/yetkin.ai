@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { parseMajorToMinor } from "@/lib/kernel/money/format";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import type { MarketplaceProductCategory } from "@/lib/pazaryeri/types";
-import { settlementKindForCategory } from "@/lib/pazaryeri/category";
+import { cashPathForCategory, isAssetCategory } from "@/lib/pazaryeri/category";
 import { yetkinIlanHref } from "@/lib/kernel/yetkinilan";
 import { PAZARYERI_SEN } from "@/lib/copy/sen-voice/pazaryeri";
 
@@ -24,8 +24,13 @@ export function StallForm() {
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
-  const cashPath = settlementKindForCategory(category);
-  const modelNotice = cashPath === "DIGITAL_GOOD" ? copy.modelSettlement : copy.modelEscrow;
+  const cashPath = cashPathForCategory(category);
+  const modelNotice =
+    cashPath === "DIGITAL_GOOD"
+      ? copy.modelSettlement
+      : cashPath === "SERVICE"
+        ? copy.modelEscrow
+        : copy.modelVitrine;
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -47,7 +52,7 @@ export function StallForm() {
         summary,
         category,
         amountMinor,
-        isOfferAllowed: category === "REAL_ESTATE" || category === "VEHICLE" ? true : isOfferAllowed,
+        isOfferAllowed: isAssetCategory(category) ? false : isOfferAllowed,
         tkgmBlockParcel: category === "REAL_ESTATE" ? tkgmBlockParcel : null,
         insuranceQuoteHook: category === "VEHICLE" ? insuranceQuoteHook : null,
       }),
@@ -87,8 +92,8 @@ export function StallForm() {
           onChange={(event) => {
             const next = event.target.value as MarketplaceProductCategory;
             setCategory(next);
-            if (next === "REAL_ESTATE" || next === "VEHICLE") {
-              setIsOfferAllowed(true);
+            if (isAssetCategory(next)) {
+              setIsOfferAllowed(false);
             }
           }}
         >

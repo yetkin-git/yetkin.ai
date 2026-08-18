@@ -23,15 +23,21 @@ async function signHs256(sub = TEST_USER): Promise<string> {
     .sign(new TextEncoder().encode(TEST_SECRET));
 }
 
-function request(path: string, init?: { cookie?: string; authorization?: string }) {
-  const headers = new Headers();
+function request(
+  path: string,
+  init?: { cookie?: string; authorization?: string; headers?: HeadersInit; method?: string },
+) {
+  const headers = new Headers(init?.headers);
   if (init?.cookie) {
     headers.set("cookie", init.cookie);
   }
   if (init?.authorization) {
     headers.set("authorization", init.authorization);
   }
-  return new NextRequest(new URL(path, "http://localhost:3000"), { headers });
+  return new NextRequest(new URL(path, "http://localhost:3000"), {
+    method: init?.method,
+    headers,
+  });
 }
 
 function expectNonceCsp(response: { headers: Headers }) {
@@ -192,5 +198,132 @@ describe("proxy.ts kenar mühürleri", () => {
     expect(left).toBeTruthy();
     expect(right).toBeTruthy();
     expect(left).not.toBe(right);
+  });
+
+  it("/api/v1 sürüm kapısı 400/426 zarflar; geçerli istek /v1 soyar", async () => {
+    const missing = await proxy(request("/api/v1/freelancer/jobs"));
+    expect(missing.status).toBe(400);
+    const missingBody = (await missing.json()) as {
+      ok: boolean;
+      error: string;
+      apiVersion: string;
+      data: null;
+    };
+    expect(missingBody).toMatchObject({
+      ok: false,
+      error: "Sürüm başlığı gerekli.",
+      apiVersion: "1",
+      data: null,
+    });
+    expect(missingBody.data).toBeNull();
+
+    const stale = await proxy(
+      request("/api/v1/freelancer/jobs", { headers: { "X-Rail-Min-Version": "2" } }),
+    );
+    expect(stale.status).toBe(426);
+    expect(await stale.json()).toMatchObject({
+      ok: false,
+      error: "Bu sunucu henüz o sözleşmeyi konuşmuyor.",
+      apiVersion: "1",
+      data: null,
+    });
+
+    const stripped = await proxy(
+      request("/api/v1/freelancer/jobs", { headers: { "X-Rail-Min-Version": "1" } }),
+    );
+    expect(stripped.status).toBe(401);
+    expect(stripped.headers.get("x-middleware-rewrite")).toBeNull();
+    expect(await stripped.json()).toMatchObject({
+      ok: false,
+      error: "Oturum gerekli.",
+      apiVersion: "1",
+      data: null,
+    });
+
+    const unpublished = await proxy(
+      request("/api/v1/freelancer/jobs/fj_lab_1", {
+        headers: { "X-Rail-Min-Version": "1" },
+      }),
+    );
+    expect(unpublished.status).toBe(404);
+    expect(unpublished.headers.get("x-middleware-rewrite")).toBeNull();
+    expect(await unpublished.json()).toMatchObject({
+      ok: false,
+      error: "API yolu bulunamadı.",
+      apiVersion: "1",
+      data: null,
+    });
+
+    const token = await signHs256();
+    const rewritten = await proxy(
+      request("/api/v1/freelancer/jobs", {
+        authorization: `Bearer ${token}`,
+        headers: { "X-Rail-Min-Version": "1" },
+      }),
+    );
+    expect(rewritten.status).toBe(200);
+    expect(rewritten.headers.get("x-middleware-rewrite")).toBe(
+      "http://localhost:3000/api/freelancer/jobs",
+    );
+    expect(rewritten.headers.get("x-middleware-request-x-rail-api-version")).toBe("1");
+
+    const health = await proxy(request("/api/v1/health"));
+    expect(health.status).toBe(200);
+    expect(health.headers.get("x-middleware-rewrite")).toBe("http://localhost:3000/api/health");
+
+    const cookie = `sb-testref-auth-token=${encodeURIComponent(JSON.stringify({ access_token: token }))}`;
+    const cookieOnly = await proxy(
+      request("/api/v1/freelancer/jobs", {
+        cookie,
+        headers: { "X-Rail-Min-Version": "1" },
+      }),
+    );
+    expect(cookieOnly.status).toBe(401);
+
+    const unversioned = await proxy(request("/api/health"));
+    expect(unversioned.status).toBe(200);
+    expect(unversioned.headers.get("x-middleware-rewrite")).toBeNull();
+  });
+
+  it("/api/v1 OPTIONS CORS yansıtır; joker yok; versiyonsuz CORS basmaz", async () => {
+    vi.stubEnv("RAIL_DRON_ORIGINS", "https://app.yetkin.rail");
+    const allowed = await proxy(
+      request("/api/v1/freelancer/jobs", {
+        method: "OPTIONS",
+        headers: { origin: "https://app.yetkin.rail" },
+      }),
+    );
+    expect(allowed.status).toBe(204);
+    expect(allowed.headers.get("Access-Control-Allow-Origin")).toBe("https://app.yetkin.rail");
+    expect(allowed.headers.get("Access-Control-Allow-Origin")).not.toBe("*");
+    expect(allowed.headers.get("Access-Control-Allow-Credentials")).not.toBe("true");
+
+    const foreign = await proxy(
+      request("/api/v1/freelancer/jobs", {
+        method: "OPTIONS",
+        headers: { origin: "https://evil.example" },
+      }),
+    );
+    expect(foreign.status).toBe(204);
+    expect(foreign.headers.get("Access-Control-Allow-Origin")).toBeNull();
+
+    const unversioned = await proxy(
+      request("/api/freelancer/jobs", {
+        method: "OPTIONS",
+        headers: { origin: "https://app.yetkin.rail" },
+      }),
+    );
+    expect(unversioned.headers.get("Access-Control-Allow-Origin")).toBeNull();
+
+    vi.stubEnv("RAIL_DRON_ORIGINS", "");
+    const emptyOrigins = await proxy(
+      request("/api/v1/freelancer/jobs", {
+        method: "OPTIONS",
+        headers: { origin: "https://lab.yetkin.rail" },
+      }),
+    );
+    expect(emptyOrigins.status).toBe(204);
+    expect(emptyOrigins.headers.get("Access-Control-Allow-Origin")).toBeNull();
+    expect(emptyOrigins.headers.get("Access-Control-Allow-Credentials")).not.toBe("true");
   });
 });

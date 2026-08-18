@@ -10,13 +10,12 @@
  *   npm run ops:t4-freelancer-loop
  *
  * wallets.amount_minor doğrudan yazılmaz. Mock checkout açılmaz.
- * Tohum ilanlar (fj_rail_escrow_audit) hazine sentinel'e aittir; kabul vatandaş
+ * Tohum ilanlar (fj_rail_icon_set) hazine sentinel'e aittir; kabul vatandaş
  * ilanı üzerinden koşar. PayTR localhost'a bildirim gönderemez; HMAC gövdesi
  * production webhook handler'a verilir.
  */
 
-import { randomBytes, randomUUID } from "node:crypto";
-import { appendFileSync } from "node:fs";
+import { randomUUID } from "node:crypto";
 import { resolve } from "node:path";
 import dotenv from "dotenv";
 import { Client } from "pg";
@@ -27,6 +26,7 @@ import { FREELANCER_JOB_SEEDS, FREELANCER_SEED_MODULE_KEY, FREELANCER_ESCROW_HOL
 import { freelancerJobEscrowReferenceKey } from "@/lib/freelancer/fsm";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { computePaytrWebhookHash } from "@/lib/kernel/payments/paytr/webhook";
+import { buildIdempotentMerchantOid } from "@/lib/kernel/payments/merchant-oid";
 import { WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
 import { HOLD_BPS_DEFAULT, HOLD_BPS_MAX, HOLD_BPS_MIN } from "@/lib/kernel/pricing/hold-bps";
 import {
@@ -40,7 +40,7 @@ dotenv.config({ path: resolve(ROOT, ".env") });
 
 const COURSE_ID = "ac_rail_temel";
 const COURSE_SLUG = "rail-temel";
-const SEED_OPEN_JOB_ID = FREELANCER_JOB_SEEDS[0]?.id ?? "fj_rail_escrow_audit";
+const SEED_OPEN_JOB_ID = FREELANCER_JOB_SEEDS[0]?.id ?? "fj_rail_icon_set";
 const JOB_GROSS_MINOR = 10_000;
 const FOREIGN_IP = "85.105.141.10";
 const FORBIDDEN_BALANCE_COLUMNS = [
@@ -81,11 +81,17 @@ async function waitForHealth(base: string, timeoutMs = 90_000): Promise<void> {
       const response = await fetch(`${base}/api/health`);
       const body = (await response.json()) as {
         ok?: boolean;
-        checks?: { db?: string; paytr?: string };
+        checks?: { db?: string; paytr?: string; inngest?: string };
       };
-      last = `HTTP ${response.status} db=${body.checks?.db ?? "?"} paytr=${body.checks?.paytr ?? "?"}`;
+      last = `HTTP ${response.status} db=${body.checks?.db ?? "?"} paytr=${body.checks?.paytr ?? "?"} inngest=${body.checks?.inngest ?? "?"}`;
       if (response.status === 200 && body.ok === true && body.checks?.db === "ok") {
+        if (body.checks.paytr !== "configured") {
+          fail(`checks.paytr=${body.checks.paytr ?? "yok"} — anahtar fail-closed; sahte CREDIT yok.`);
+        }
         console.log(`→ health ${last}`);
+        if (body.checks.inngest !== "configured") {
+          console.log("→ checks.inngest unconfigured — Cloud cron yok; nakit HTTP webhook ile yürür");
+        }
         return;
       }
     } catch (error) {
@@ -114,17 +120,6 @@ async function jsonRequest(
   return { status: response.status, body, text };
 }
 
-function persistPair(prefix: "E2E_T4_WORKER" | "E2E_T4_CLIENT", email: string, password: string): void {
-  if (process.env[`${prefix}_EMAIL`]?.trim() && process.env[`${prefix}_PASSWORD`]?.trim()) {
-    return;
-  }
-  appendFileSync(
-    resolve(ROOT, ".env.local"),
-    `\n# T4 kazanç halkası ${prefix === "E2E_T4_WORKER" ? "satıcı" : "müşteri"} (git dışı; icat Cloud anahtarı değil)\n${prefix}_EMAIL="${email}"\n${prefix}_PASSWORD="${password}"\n`,
-    "utf8",
-  );
-}
-
 async function withDirectClient<T>(work: (client: Client) => Promise<T>): Promise<T> {
   const dbUrl = resolveMigratorConnectionUrl({
     DIRECT_URL: process.env.DIRECT_URL,
@@ -140,27 +135,6 @@ async function withDirectClient<T>(work: (client: Client) => Promise<T>): Promis
   } finally {
     await client.end();
   }
-}
-
-async function confirmAuthEmail(client: Client, userId: string): Promise<void> {
-  const { rows } = await client.query<{ column_name: string; is_generated: string }>(
-    `SELECT column_name, is_generated
-     FROM information_schema.columns
-     WHERE table_schema = 'auth' AND table_name = 'users'
-       AND column_name IN ('email_confirmed_at', 'confirmed_at')`,
-  );
-  const emailConfirm = rows.find((row) => row.column_name === "email_confirmed_at");
-  // GoTrue: confirmed_at üretilmiş kolondur (yalnız DEFAULT). Sahte onay yok.
-  if (emailConfirm?.is_generated === "NEVER") {
-    await client.query(
-      `UPDATE auth.users
-       SET email_confirmed_at = COALESCE(email_confirmed_at, NOW())
-       WHERE id = $1::uuid`,
-      [userId],
-    );
-    return;
-  }
-  fail("auth.users yazılabilir email_confirmed_at yok.");
 }
 
 type Citizen = { accessToken: string; userId: string; email: string };
@@ -180,51 +154,26 @@ async function ensureCitizen(kind: "worker" | "client"): Promise<Citizen> {
     existingPassword = process.env.E2E_T3_PASSWORD?.trim() ?? "";
   }
 
-  if (existingEmail && existingPassword) {
-    const signed = await auth.auth.signInWithPassword({
-      email: existingEmail,
-      password: existingPassword,
-    });
-    if (signed.error || !signed.data.session?.access_token || !signed.data.user?.id) {
-      fail(`Mevcut ${kind} girişi yok: ${signed.error?.message ?? "oturum yok"}`);
-    }
-    console.log(`→ oturum ${kind} ${signed.data.user.id.slice(0, 8)}…`);
-    return {
-      accessToken: signed.data.session.access_token,
-      userId: signed.data.user.id,
-      email: existingEmail,
-    };
-  }
-
-  const email = `t4.${kind}.${Date.now()}@gmail.com`;
-  const password = `T4.${randomBytes(12).toString("base64url")}!aA1`;
-  const signedUp = await auth.auth.signUp({ email, password });
-  const userId = signedUp.data.user?.id;
-  if (signedUp.error || !userId) {
-    fail(`${kind} kaydı açılamadı: ${signedUp.error?.message ?? "kullanıcı yok"}`);
-  }
-  persistPair(prefix, email, password);
-
-  await withDirectClient(async (client) => {
-    await confirmAuthEmail(client, userId);
-    const publicUser = await client.query<{ n: number }>(
-      `SELECT count(*)::int AS n FROM public.users WHERE id = $1::text`,
-      [userId],
+  if (!existingEmail || !existingPassword) {
+    fail(
+      kind === "worker"
+        ? "E2E_T4_WORKER_EMAIL/PASSWORD veya E2E_T3_EMAIL/PASSWORD yok. Yeni kayıt açılmaz (Auth kotası)."
+        : "E2E_T4_CLIENT_EMAIL/PASSWORD yok. Yeni kayıt açılmaz (Auth kotası).",
     );
-    if (Number(publicUser.rows[0]?.n ?? 0) < 1) {
-      fail("public.users satırı yok — handle_new_user tetiklenmedi.");
-    }
-  });
-
-  const signedIn = await auth.auth.signInWithPassword({ email, password });
-  if (signedIn.error || !signedIn.data.session?.access_token) {
-    fail(`${kind} onay sonrası giriş yok: ${signedIn.error?.message ?? "oturum yok"}`);
   }
-  console.log(`→ oturum yeni ${kind} ${userId.slice(0, 8)}… (e-posta SQL onay)`);
+
+  const signed = await auth.auth.signInWithPassword({
+    email: existingEmail,
+    password: existingPassword,
+  });
+  if (signed.error || !signed.data.session?.access_token || !signed.data.user?.id) {
+    fail(`Mevcut ${kind} girişi yok: ${signed.error?.message ?? "oturum yok"}`);
+  }
+  console.log(`→ oturum ${kind} ${signed.data.user.id.slice(0, 8)}…`);
   return {
-    accessToken: signedIn.data.session.access_token,
-    userId,
-    email,
+    accessToken: signed.data.session.access_token,
+    userId: signed.data.user.id,
+    email: existingEmail,
   };
 }
 
@@ -249,7 +198,20 @@ async function paytrTopUp(base: string, citizen: Citizen, amountMinor: number): 
     body: JSON.stringify({ amountMinor }),
   });
   if (topUp.status !== 200 || topUp.body.ok !== true) {
-    fail(`Cüzdan yükleme ${topUp.status}: ${JSON.stringify(topUp.body)}`);
+    const expectedOid = buildIdempotentMerchantOid("walletTopUp", citizen.userId, topUpKey);
+    const closed = await withDirectClient(async (pg) => {
+      const order = await pg.query<{ status: string }>(
+        `SELECT status FROM payment_orders WHERE merchant_oid = $1`,
+        [expectedOid],
+      );
+      return order.rows[0]?.status ?? "";
+    });
+    if (closed === "PENDING") {
+      fail(
+        `Cüzdan yükleme ${topUp.status} PENDING sızıntısı oid=${expectedOid.slice(0, 24)}…: ${JSON.stringify(topUp.body)}`,
+      );
+    }
+    fail(`Cüzdan yükleme ${topUp.status} (emir ${closed || "yok"}): ${JSON.stringify(topUp.body)}`);
   }
   if (topUp.body.mockCheckout === true) {
     fail("mockCheckout=true — sahte checkout T4'te yasak.");
@@ -283,8 +245,8 @@ async function paytrTopUp(base: string, citizen: Citizen, amountMinor: number): 
       hash: "not-a-real-hmac",
     }),
   });
-  if (badWebhook.status !== 400) {
-    fail(`Sahte HMAC ${badWebhook.status} — 400 beklenirdi.`);
+  if (badWebhook.status !== 403) {
+    fail(`Sahte HMAC ${badWebhook.status} — 403 beklenirdi.`);
   }
 
   const hash = computePaytrWebhookHash(
@@ -628,6 +590,19 @@ async function main(): Promise<void> {
   const jobId = job.id;
   console.log(`→ OPEN ilan ${jobId} budget=${JOB_GROSS_MINOR}`);
 
+  const visaDenied = await jsonRequest(`${base}/api/freelancer/jobs/${SEED_OPEN_JOB_ID}/bids`, {
+    method: "POST",
+    headers: authHeaders(client.accessToken),
+    body: JSON.stringify({
+      amountMinor: JOB_GROSS_MINOR,
+      coverNote: "Vizesiz teklif — kapı 403 kalmalı.",
+    }),
+  });
+  if (visaDenied.status !== 403) {
+    fail(`Vizesiz teklif ${visaDenied.status} — HTTP 403 beklenirdi (kapı gevşetilmez).`);
+  }
+  console.log("→ vizesiz müşteri teklifi HTTP 403 (Kariyer Vizesi kapısı)");
+
   const need = Math.max(JOB_GROSS_MINOR - (await walletMinor(client.userId)), 0);
   if (need > 0) {
     await paytrTopUp(base, client, Math.max(need, WALLET_TOP_UP_MIN_MINOR));
@@ -777,7 +752,122 @@ async function main(): Promise<void> {
   console.log(
     `→ RELEASED net=${afterRelease.netCredit} satıcıda; hold=${afterRelease.holdCredit} hazinede; vize FREELANCER_RELEASE`,
   );
+
+  await sealUstaFourRing(base, worker, client, catalogHoldBps);
   console.log("ops:t4-freelancer-loop OK — OPEN ilan + EscrowHold + hakediş + kariyer vizesi.");
+}
+
+async function sealUstaFourRing(
+  base: string,
+  usta: Citizen,
+  counterparty: Citizen,
+  catalogHoldBps: number,
+): Promise<void> {
+  const purposes = await withDirectClient(async (pg) => {
+    const rows = await pg.query<{ purpose: string; direction: string }>(
+      `SELECT DISTINCT purpose, direction FROM ledger_entries WHERE user_id = $1`,
+      [usta.userId],
+    );
+    return new Set(rows.rows.map((row) => `${row.direction}:${row.purpose}`));
+  });
+  const needed = [
+    "CREDIT:wallet-top-up",
+    "DEBIT:academy-purchase",
+    "DEBIT:escrow-hold",
+    "CREDIT:escrow-release-net",
+  ] as const;
+  if (needed.every((key) => purposes.has(key))) {
+    console.log(`→ usta dört halka sicilde ${usta.userId.slice(0, 8)}…`);
+    return;
+  }
+
+  await ensureAcademyVisa(base, counterparty);
+  const need = Math.max(JOB_GROSS_MINOR - (await walletMinor(usta.userId)), 0);
+  if (need > 0) {
+    await paytrTopUp(base, usta, Math.max(need, WALLET_TOP_UP_MIN_MINOR));
+  }
+
+  const created = await jsonRequest(`${base}/api/freelancer/jobs`, {
+    method: "POST",
+    headers: authHeaders(usta.accessToken),
+    body: JSON.stringify({
+      title: "T4 usta dört halka — emanet DEBIT mühürü",
+      brief: "Usta müşteri kolunda hold DEBIT yazar; karşı taraf vizeli teklif verir.",
+      budgetMinor: JOB_GROSS_MINOR,
+    }),
+  });
+  if (created.status !== 201 || created.body.ok !== true) {
+    fail(`Usta ilanı ${created.status}: ${JSON.stringify(created.body)}`);
+  }
+  const job = created.body.job as { id?: string } | undefined;
+  if (!job?.id) {
+    fail("Usta ilan id yok.");
+  }
+  const jobId = job.id;
+
+  const bidRes = await jsonRequest(`${base}/api/freelancer/jobs/${jobId}/bids`, {
+    method: "POST",
+    headers: authHeaders(counterparty.accessToken),
+    body: JSON.stringify({
+      amountMinor: JOB_GROSS_MINOR,
+      coverNote: "Usta defterine escrow-hold DEBIT basmak için vizeli teklif.",
+    }),
+  });
+  if (bidRes.status !== 201 || bidRes.body.ok !== true) {
+    fail(`Usta ilan teklifi ${bidRes.status}: ${JSON.stringify(bidRes.body)}`);
+  }
+  const bid = bidRes.body.bid as { id?: string } | undefined;
+  if (!bid?.id) {
+    fail("Usta ilan teklif id yok.");
+  }
+
+  const accept = await jsonRequest(`${base}/api/freelancer/jobs/${jobId}/accept`, {
+    method: "POST",
+    headers: {
+      ...authHeaders(usta.accessToken),
+      "Idempotency-Key": randomUUID(),
+    },
+    body: JSON.stringify({ bidId: bid.id }),
+  });
+  if (accept.status !== 200 || accept.body.ok !== true) {
+    fail(`Usta kabul ${accept.status}: ${JSON.stringify(accept.body)}`);
+  }
+  const contract = accept.body.contract as { id?: string; netMinor?: number } | undefined;
+  if (!contract?.id) {
+    fail(`Usta sözleşme yok: ${JSON.stringify(contract)}`);
+  }
+
+  const delivery = await jsonRequest(`${base}/api/freelancer/contracts/${contract.id}/messages`, {
+    method: "POST",
+    headers: authHeaders(counterparty.accessToken),
+    body: JSON.stringify({
+      kind: "DELIVERY",
+      body: "T4 usta dört halka teslim.",
+      artifactUrl: "https://example.test/t4-usta-four-ring.zip",
+    }),
+  });
+  if (delivery.status !== 201 || delivery.body.ok !== true) {
+    fail(`Usta teslim ${delivery.status}: ${JSON.stringify(delivery.body)}`);
+  }
+
+  const release = await jsonRequest(`${base}/api/freelancer/contracts/${contract.id}/release`, {
+    method: "POST",
+    headers: authHeaders(usta.accessToken),
+  });
+  if (release.status !== 200 || release.body.ok !== true) {
+    fail(`Usta hakediş ${release.status}: ${JSON.stringify(release.body)}`);
+  }
+
+  const proof = await withDirectClient((pg) =>
+    readHoldProof(pg, jobId, usta.userId, counterparty.userId, contract.id ?? null),
+  );
+  if (proof.status !== "RELEASED" || proof.debitMinor !== JOB_GROSS_MINOR) {
+    fail(`Usta hold mühürü eksik: ${JSON.stringify(proof)}`);
+  }
+  if (proof.holdBps !== catalogHoldBps) {
+    fail(`Usta hold bps ${proof.holdBps} ≠ ${catalogHoldBps}.`);
+  }
+  console.log(`→ usta dört halka kilitlendi ${usta.userId.slice(0, 8)}… hold DEBIT ${proof.debitMinor}`);
 }
 
 void main().catch((error: unknown) => {

@@ -24,7 +24,21 @@ const envSchema = z.object({
   DEVLABS_KEY_PEPPER: z.string().optional(),
   SUPER_ADMIN_USER_ID: z.string().optional(),
   PAYTR_ALLOW_MOCK_CHECKOUT: z.string().optional(),
+  PAYTR_WEBHOOK_IP_ALLOWLIST: z.string().optional(),
   E2E_BASE_URL: z.string().optional(),
+  E2E_T3_EMAIL: z.string().optional(),
+  E2E_T3_PASSWORD: z.string().optional(),
+  E2E_T4_WORKER_EMAIL: z.string().optional(),
+  E2E_T4_WORKER_PASSWORD: z.string().optional(),
+  E2E_T4_CLIENT_EMAIL: z.string().optional(),
+  E2E_T4_CLIENT_PASSWORD: z.string().optional(),
+  STAGING_APP_URL: z.string().optional(),
+  NOTICE_SMTP_HOST: z.string().optional(),
+  NOTICE_SMTP_PORT: z.string().optional(),
+  NOTICE_SMTP_USER: z.string().optional(),
+  NOTICE_SMTP_PASS: z.string().optional(),
+  NOTICE_MAIL_FROM: z.string().optional(),
+  RAIL_DRON_ORIGINS: z.string().optional(),
 });
 
 export type AppEnv = z.infer<typeof envSchema>;

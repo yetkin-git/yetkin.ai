@@ -14,12 +14,12 @@ export async function GET(
     const ports = createPrismaFreelancerPorts();
     const job = await ports.freelancer.getJob(id);
     if (!job) {
-      return jsonFail("İlan bulunamadı.", 404);
+      return jsonFail("İlan bulunamadı.", 404, undefined, request);
     }
     const bids = await ports.freelancer.listBidsForJob(id);
     const contract = await ports.freelancer.getContractByJobId(id);
-    return jsonOk({ job, bids, contract });
+    return jsonOk({ job, bids, contract }, 200, undefined, request);
   } catch (error) {
-    return jsonFromUnknown(error);
+    return jsonFromUnknown(error, 400, undefined, request);
   }
 }

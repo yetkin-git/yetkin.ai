@@ -12,7 +12,7 @@ import {
   computePriceLockExpiresAt,
 } from "@/lib/kernel/pricing/price-lock";
 import { pazaryeriOfferUnitKey, pazaryeriOrderReferenceKey } from "@/lib/pazaryeri/fsm";
-import { listingCatalogUnitKey } from "@/lib/pazaryeri/category";
+import { assertCashPathAllowedForCategory, listingCatalogUnitKey } from "@/lib/pazaryeri/category";
 import type { PazaryeriEnginePorts } from "@/lib/pazaryeri/engine";
 import {
   PAZARYERI_MODULE_KEY,
@@ -58,6 +58,7 @@ export async function submitMarketplaceOffer(
   command: SubmitMarketplaceOfferCommand,
 ): Promise<{ applied: boolean; offer: MarketplaceOfferRecord }> {
   const product = await requireListedProduct(ports, command.productId);
+  assertCashPathAllowedForCategory(product.category);
   if (!product.isOfferAllowed) {
     throw new Error("Bu ilan teklife kapalı.");
   }
@@ -122,6 +123,13 @@ export async function decideMarketplaceOffer(
     throw new Error("Teklifi yalnız satıcı karara bağlar.");
   }
 
+  const gateProduct =
+    (await ports.pazaryeri.getProduct(offer.productId)) ??
+    (await ports.pazaryeri.getProductBySlug(offer.productId));
+  if (gateProduct) {
+    assertCashPathAllowedForCategory(gateProduct.category);
+  }
+
   const now = command.now ?? new Date();
   if (command.decision === "reject") {
     const next = await ports.pazaryeri.updateOffer(offer.id, { status: "REJECTED", updatedAt: now });
@@ -129,6 +137,7 @@ export async function decideMarketplaceOffer(
   }
 
   const product = await requireListedProduct(ports, offer.productId);
+  assertCashPathAllowedForCategory(product.category);
   const existingOrder = await ports.pazaryeri.getOrderByBuyerAndProduct(offer.userId, product.id);
   if (existingOrder) {
     throw new Error("Bu alıcı için sipariş zaten var.");

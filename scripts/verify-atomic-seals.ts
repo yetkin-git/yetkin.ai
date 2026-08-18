@@ -44,12 +44,16 @@ const FILE_RULES: FileRule[] = [
     file: "lib/freelancer/engine.ts",
     must: [
       { needle: "runAcceptAtomic", label: "atomik kabul kapısı" },
+      { needle: "runReleaseAtomic", label: "atomik CREDIT çözülüş kapısı" },
       { needle: "freelancerJobEscrowReferenceKey", label: "job-bazlı emanet anahtarı" },
       { needle: "withUniqueRetry", label: "P2002 retry" },
       { needle: "P2002", label: "unique ihlali" },
       { needle: "healed: !holdApplied", label: "orphan hold heal" },
       { needle: "createEscrowHold", label: "emanet kilit aynı birimde" },
       { needle: "claimJobForAward", label: "ilan satır kilidi / şartlı AWARDED" },
+      { needle: "RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE", label: "v1 yetersiz bakiye 409" },
+      { needle: "ConflictError", label: "yetersiz bakiye ConflictError" },
+      { needle: "AMOUNT_MINOR_OVERFLOW_ERROR", label: "çekirdek overflow iğnesi" },
     ],
     mustNot: [
       { needle: "tryIssueCareerVisaStamp", label: "vize accept tx'e girmez" },
@@ -68,6 +72,7 @@ const FILE_RULES: FileRule[] = [
       { needle: "bindEscrowStore(tx)", label: "tx escrow" },
       { needle: "bindFreelancerStore(tx)", label: "tx freelancer" },
       { needle: "runAcceptAtomic", label: "atomik kapı" },
+      { needle: "runReleaseAtomic", label: "atomik CREDIT kapısı" },
     ],
   },
   {
@@ -85,6 +90,15 @@ const FILE_RULES: FileRule[] = [
     ],
   },
   {
+    file: "lib/kernel/escrow/prisma-store.ts",
+    must: [
+      { needle: "FOR UPDATE", label: "hold satır kilidi" },
+      { needle: "FROM escrow_holds", label: "escrow_holds kilidi" },
+      { needle: "lockByReferenceKey", label: "lockByReferenceKey" },
+      { needle: 'status: "PENDING"', label: "PENDING CAS" },
+    ],
+  },
+  {
     file: "app/api/(kernel)/jobs/inngest/route.ts",
     must: [
       { needle: "shouldFailClosedInngestServe", label: "üretim imza fail-closed" },
@@ -97,6 +111,7 @@ const FILE_RULES: FileRule[] = [
       { needle: "readIdempotencyKey", label: "HTTP Idempotency-Key" },
       { needle: "buildIdempotentMerchantOid", label: "deterministik merchantOid" },
       { needle: "settleHttpIdempotency", label: "HTTP replay kapısı" },
+      { needle: "failPaymentOrder", label: "checkout 503 markFailed" },
     ],
   },
   {
@@ -110,8 +125,9 @@ const FILE_RULES: FileRule[] = [
     file: "app/api/freelancer/jobs/[id]/accept/route.ts",
     must: [
       { needle: "acceptFreelancerBid", label: "kabul motoru" },
-      { needle: "readIdempotencyKey", label: "HTTP Idempotency-Key" },
+      { needle: "requireRailV1IdempotencyKey", label: "HTTP Idempotency-Key" },
       { needle: "settleHttpIdempotency", label: "HTTP replay kapısı" },
+      { needle: "toFreelancerAcceptWire", label: "katı v1 DTO" },
     ],
     mustNot: [
       { needle: "tryIssueCareerVisaStamp", label: "accept'te vize yok" },
@@ -192,6 +208,7 @@ const FILE_RULES: FileRule[] = [
     must: [
       { needle: "createEscrowHold", label: "tek hold yazıcı" },
       { needle: "appendLedgerEntry", label: "append-only defter" },
+      { needle: "lockByReferenceKey", label: "hold satır kilidi" },
     ],
     mustNot: [
       { needle: "ACADEMY_CERTIFICATE", label: "vize emanet motoruna girmez" },
@@ -205,6 +222,7 @@ const FILE_RULES: FileRule[] = [
     file: "lib/kernel/jobs/inngest.ts",
     must: [
       { needle: "runEscrowTimeoutRefunds", label: "çekirdek TTL iade" },
+      { needle: "runEscrowAtomic", label: "TTL hold TX" },
       { needle: "INNGEST_EVENTS.ESCROW_REFUNDED", label: "iade olayı" },
       { needle: "escrowRefundedNotify", label: "iade kanca dinleyicisi" },
       { needle: "reconcilePaytrPaymentOrder", label: "PSP fail-closed reconcile" },
@@ -239,6 +257,7 @@ const FILE_RULES: FileRule[] = [
       { needle: "prisma.$transaction", label: "clearing $transaction" },
       { needle: "bindLedgerStore(tx)", label: "tx ledger" },
       { needle: "runClearingAtomic", label: "atomik clearing" },
+      { needle: "FOR UPDATE", label: "payment_orders satır kilidi" },
     ],
   },
   {
@@ -250,6 +269,34 @@ const FILE_RULES: FileRule[] = [
     mustNot: [
       { needle: "freelancerContract", label: "dikey freelancer tablosu" },
       { needle: "corporateJobPosting", label: "dikey kurumsal tablosu" },
+    ],
+  },
+  {
+    file: "lib/kernel/payments/paytr/mock-checkout.ts",
+    must: [
+      { needle: "PAYTR_MOCK_NO_CREDIT_CLAIM", label: "mock CREDIT iddia etmez" },
+      { needle: "CREDIT yazmaz", label: "mock CREDIT iddia etmez metni" },
+      { needle: 'NODE_ENV === "production"', label: "üretimde mock null" },
+      { needle: "tryPaytrDevOnlyMockCheckout", label: "mock kapısı" },
+    ],
+  },
+  {
+    file: "lib/kernel/payments/paytr/webhook.ts",
+    must: [
+      { needle: "verifyPaytrWebhookHash", label: "HMAC doğrulama" },
+      { needle: "PAYTR_WEBHOOK_PATH", label: "kanonik bildirim yolu" },
+    ],
+    mustNot: [
+      { needle: "mock-checkout", label: "webhook mock checkout import etmez" },
+      { needle: "buildPaytrMockCheckoutToken", label: "webhook mock token basmaz" },
+    ],
+  },
+  {
+    file: "lib/kernel/payments/paytr/callback-guard.ts",
+    must: [
+      { needle: "assertPaytrCallbackRouteIntegrity", label: "callback bütünlük kapısı" },
+      { needle: "/api/paytr/callback", label: "ikinci ağız yasağı" },
+      { needle: "merchant_ok_url", label: "tarayıcı dönüşü CREDIT yazmaz" },
     ],
   },
 ];
@@ -280,7 +327,10 @@ const REQUIRED_SURFACE_TESTS = [
   "tests/kernel/cash-loop-catalog-migrate-surface.test.ts",
   "tests/kernel/cash-loop-e2e-surface.test.ts",
   "tests/kernel/http-idempotency-surface.test.ts",
+  "tests/kernel/api-v1-surface.test.ts",
+  "tests/kernel/rail-is-dron-lab-surface.test.ts",
   "tests/kernel/inngest-serve-guard-surface.test.ts",
+  "tests/kernel/paytr-callback-guard-surface.test.ts",
   "tests/ui/shell-user-hub-surface.test.ts",
   "tests/auth/citizen-surface.test.ts",
   "tests/ui/room-skeleton-surface.test.ts",

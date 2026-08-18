@@ -21,6 +21,7 @@
 
 import { spawnSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
+import dns from "node:dns";
 import net from "node:net";
 import { resolve } from "node:path";
 import dotenv from "dotenv";
@@ -49,6 +50,8 @@ const ROOT = process.cwd();
 dotenv.config({ path: resolve(ROOT, ".env.local") });
 dotenv.config({ path: resolve(ROOT, ".env") });
 
+dns.setDefaultResultOrder("ipv6first");
+
 function fail(message: string): never {
   console.error(`ops:migrate BAŞARISIZ: ${message}`);
   process.exit(1);
@@ -60,7 +63,7 @@ function connectionUrl(): string {
     DATABASE_URL: process.env.DATABASE_URL,
   });
   if (!url) {
-    fail("DIRECT_URL veya DATABASE_URL tanımlı değil. docs/07_OPS_RUNBOOK.md");
+    fail("DIRECT_URL veya DATABASE_URL tanımlı değil. .system_docs/OPS_RUNBOOK.md");
   }
   return url;
 }
@@ -249,7 +252,7 @@ async function main(): Promise<void> {
     "ops:migrate OK — Prisma şema + Auth sync + e-posta senkronu + FORCE RLS + Studio data_base64 CHECK + http_idempotency_records + katalog tohumu + akademi kurs tohumu + freelancer ilan tohumu.",
   );
   console.log(
-    "Sonraki: /register ile ilk kullanıcıyı aç, UUID'yi SUPER_ADMIN_USER_ID yaz (docs/07_OPS_RUNBOOK.md).",
+    "Sonraki: /register ile ilk kullanıcıyı aç, UUID'yi SUPER_ADMIN_USER_ID yaz (.system_docs/OPS_RUNBOOK.md).",
   );
 }
 

@@ -1,6 +1,8 @@
 /**
  * Dürüst readiness. Şema fazı / oda phase / migrasyon klasör adı JSON'da yoktur.
  * Yalnız DB ping HTTP statüsünü belirler (yok/down = 503). Diğer servisler env sicili.
+ * checks.paytr / checks.inngest = anahtar varlığı (fail-closed: biri boşsa unconfigured).
+ * configured ≠ PayTR mağaza canlılığı / Inngest Cloud cron; get-token ops:t3 kanıtıdır.
  */
 
 export const HEALTH_SERVICE = "yetkin-rail" as const;

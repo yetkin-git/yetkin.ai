@@ -1,6 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import { isAdultInTurkey } from "@/lib/junior/age-gate";
 import { JUNIOR_HAPPY_PATH } from "@/lib/junior";
 import { FREELANCER_HAPPY_PATH, FREELANCER_UNHAPPY_PATH } from "@/lib/freelancer";
@@ -11,9 +9,14 @@ import { KURUMSAL_HAPPY_PATH } from "@/lib/kurumsal";
 import { ARENA_HAPPY_PATH, ARENA_TRANSPORT } from "@/lib/arena";
 import { DEVLABS_HAPPY_PATH } from "@/lib/devlabs";
 import { HIBE_CATALOG_HONESTY, HIBE_HAPPY_PATH } from "@/lib/hibe";
-import { PAZARYERI_HAPPY_PATH, PAZARYERI_SURFACES } from "@/lib/pazaryeri";
+import { PAZARYERI_ASSET_VITRINE_PATH, PAZARYERI_HAPPY_PATH, PAZARYERI_SURFACES } from "@/lib/pazaryeri";
 import { SOCIAL_HAPPY_PATH } from "@/lib/social";
 import { RIBBON_ROOMS, VERTICAL_ROOMS } from "@/lib/kernel/modules";
+import {
+  AI_LIVE_MODEL_ROLE_KEYS,
+  AI_MODEL_ROLE_KEYS,
+  AI_SEALED_DEAD_ROLE_KEYS,
+} from "@/lib/kernel/ai/model-roles";
 import type { ProofFeedItemDto } from "@/lib/social/proof-feed.dto";
 
 describe("anayasa yüzey sözleşmeleri", () => {
@@ -72,8 +75,9 @@ describe("anayasa yüzey sözleşmeleri", () => {
     expect(DEVLABS_HAPPY_PATH).toEqual(["project", "issue-key", "generate", "lint", "artifact"]);
   });
 
-  it("pazaryeri mutlu yol ilan → kilit → anında veya emanet → teslim", () => {
+  it("pazaryeri mutlu yol ilan → kilit → anında veya emanet → teslim; emlak/vasıta yalnız listing", () => {
     expect(PAZARYERI_HAPPY_PATH).toEqual(["listing", "price-lock", "settle-or-escrow", "deliver"]);
+    expect(PAZARYERI_ASSET_VITRINE_PATH).toEqual(["listing"]);
     expect(PAZARYERI_SURFACES).toEqual(["digital-goods", "services", "real-estate", "vehicles"]);
   });
 
@@ -95,6 +99,14 @@ describe("anayasa yüzey sözleşmeleri", () => {
     };
     expect(item).not.toHaveProperty("boost");
     expect(item.kind).toBe("visa");
+  });
+
+  it("AI tavanı 8 kanonik; VIDEO_GEN ve VOICE_TTS mühürlü-ölü, canlı listede yok", () => {
+    expect(AI_MODEL_ROLE_KEYS).toHaveLength(8);
+    expect(AI_LIVE_MODEL_ROLE_KEYS).toHaveLength(6);
+    expect(AI_SEALED_DEAD_ROLE_KEYS).toEqual(["VIDEO_GEN", "VOICE_TTS"]);
+    expect([...AI_LIVE_MODEL_ROLE_KEYS]).not.toContain("VIDEO_GEN");
+    expect([...AI_LIVE_MODEL_ROLE_KEYS]).not.toContain("VOICE_TTS");
   });
 
   it("Junior mutlu yol yaş kapısı → vekâlet → harçlık", () => {
@@ -150,28 +162,8 @@ describe("anayasa yüzey sözleşmeleri", () => {
     const yetkinIlan = VERTICAL_ROOMS.find((room) => room.id === "pazaryeri");
     expect(yetkinIlan?.label).toBe("Yetkinİlan");
     expect(yetkinIlan?.path).toBe("/yetkinilan");
-    expect(yetkinIlan?.blurb).toBe("Dijital üründe anında teslim. Hizmette emanet kilit.");
-  });
-
-  it("docs/ANAYASA.md 12 oda tavanı, amountMinor, service_role yasağı ve S43 çeker", () => {
-    const anayasa = readFileSync(join(process.cwd(), "docs/ANAYASA.md"), "utf8");
-    expect(anayasa).toContain("12 oda");
-    expect(anayasa).toContain("amountMinor");
-    expect(anayasa).toContain("amountKurus");
-    expect(anayasa).toMatch(/amountKurus[\s\S]{0,80}yasak/i);
-    expect(anayasa).toContain("service_role");
-    expect(anayasa).toContain("S43");
-    expect(anayasa).toContain("talent");
-    expect(anayasa).toContain("chess");
-    expect(anayasa).toContain("SUPABASE_SERVICE_ROLE_KEY");
-    expect(anayasa).toContain("Idempotency-Key");
-    expect(anayasa).toContain("INNGEST_SIGNING_KEY");
-    expect(anayasa).toContain("INNGEST_EVENT_KEY");
-    expect(anayasa).toContain("http_idempotency_records");
-    expect(anayasa).toContain("data_base64");
-    expect(anayasa).toContain("exec yoktur");
-    expect(anayasa).toContain("JWKS");
-    expect(anayasa).toContain("unsafe-eval");
-    expect(anayasa).toContain("SUPABASE_JWT_SECRET");
+    expect(yetkinIlan?.blurb).toBe(
+      "Dijital üründe anında teslim. Hizmette emanet kilit. Emlak/vasıta yalnız vitrin.",
+    );
   });
 });

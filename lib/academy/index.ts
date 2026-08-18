@@ -22,7 +22,10 @@ export {
   loadAcademyCurriculumPlayer,
 } from "@/lib/academy/curriculum-engine";
 export { curriculumForCourseSlug, isAcademyCurriculumComplete, academyCurriculumSealForSlug } from "@/lib/academy/curriculum";
-export { resolvePublicAcademyCertificate } from "@/lib/academy/certificate-verify";
+export {
+  resolvePublicAcademyCertificate,
+  toPublicAcademyCertificateWire,
+} from "@/lib/academy/certificate-verify";
 export {
   ACADEMY_EXAM_PASS_SCORE,
   ACADEMY_CERTIFICATE_PAYLOAD_VERSION,

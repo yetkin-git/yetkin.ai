@@ -8,8 +8,7 @@ import {
   notifyEscrowRefunded,
   shouldFreezeEscrowTimeout,
 } from "@/lib/kernel/escrow/refund-hooks";
-import type { EscrowStore } from "@/lib/kernel/escrow/types";
-import type { LedgerStore } from "@/lib/kernel/ledger/types";
+import type { EscrowEnginePorts } from "@/lib/kernel/escrow/types";
 
 export type EscrowRefundedEvent = {
   holdId: string;
@@ -34,7 +33,7 @@ export function escrowTimeoutScanResult(
 }
 
 export async function runEscrowTimeoutRefunds(
-  ports: { ledger: LedgerStore; escrow: EscrowStore },
+  ports: EscrowEnginePorts,
   options: {
     now?: Date;
     shouldFreeze?: (holdId: string) => Promise<boolean>;
@@ -55,7 +54,17 @@ export async function runEscrowTimeoutRefunds(
       frozen += 1;
       continue;
     }
-    await refundEscrowHold(ports, { referenceKey: hold.referenceKey, now });
+    try {
+      await refundEscrowHold(ports, { referenceKey: hold.referenceKey, now });
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        (/iken iade edilemez/.test(error.message) || /PENDING değilken/.test(error.message))
+      ) {
+        continue;
+      }
+      throw error;
+    }
     refundedHolds.push({ holdId: hold.id, referenceKey: hold.referenceKey });
     try {
       await onHoldRefunded(hold.id);

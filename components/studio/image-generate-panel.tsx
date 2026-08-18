@@ -4,10 +4,16 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { QuickTopUpModal } from "@/components/kernel/quick-top-up-modal";
+import { fetchWalletStripClient } from "@/components/kernel/fetch-wallet-strip";
+import { useActionBridge } from "@/components/ui/action-bridge";
 import { STUDIO_PROMPT_MAX_CHARS } from "@/lib/studio/schemas";
 import { STUDIO_SEN, studioGenerateCitizenError } from "@/lib/copy/sen-voice/studio";
+import { UX_SEN } from "@/lib/copy/sen-voice/ux";
 import { formatMinor } from "@/lib/kernel/money/format";
+import { isInsufficientBalanceError } from "@/lib/kernel/money/insufficient-balance";
 import { SETTLEMENT_CURRENCY, isCurrencyCode } from "@/lib/kernel/money/currency";
+import { WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
 import { useStudioDebit } from "@/components/studio/studio-debit-context";
 
 export function ImageGeneratePanel({
@@ -18,11 +24,13 @@ export function ImageGeneratePanel({
   maxChars?: number;
 }) {
   const router = useRouter();
-  const { strip, imageFloorMinor, reportSettlement } = useStudioDebit();
+  const { push } = useActionBridge();
+  const { strip, imageFloorMinor, reportSettlement, reportBalance } = useStudioDebit();
   const [prompt, setPrompt] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [topUpOpen, setTopUpOpen] = useState(false);
   const [preview, setPreview] = useState<{
     mimeType: string;
     dataBase64: string;
@@ -31,6 +39,7 @@ export function ImageGeneratePanel({
   } | null>(null);
   const insufficient =
     strip.live && imageFloorMinor != null && strip.amountMinor < imageFloorMinor;
+  const requiredMinor = imageFloorMinor ?? WALLET_TOP_UP_MIN_MINOR;
   const preCheck =
     strip.live && imageFloorMinor != null
       ? STUDIO_SEN.wallet.preCheck(
@@ -40,6 +49,10 @@ export function ImageGeneratePanel({
       : STUDIO_SEN.wallet.preCheckUnbound;
 
   async function onGenerate() {
+    if (insufficient) {
+      setTopUpOpen(true);
+      return;
+    }
     setPending(true);
     setError(null);
     setNotice(STUDIO_SEN.generate.debiting);
@@ -64,7 +77,11 @@ export function ImageGeneratePanel({
     setPending(false);
     if (!body.ok || !body.asset) {
       setNotice(null);
-      setError(studioGenerateCitizenError(response.status, body.error ?? STUDIO_SEN.generate.imageFail));
+      const message = studioGenerateCitizenError(response.status, body.error ?? STUDIO_SEN.generate.imageFail);
+      setError(message);
+      if (isInsufficientBalanceError(body.error) || isInsufficientBalanceError(message)) {
+        setTopUpOpen(true);
+      }
       return;
     }
     setPreview(body.asset);
@@ -82,6 +99,11 @@ export function ImageGeneratePanel({
           formatMinor(body.remainingMinor, currencyCode),
         ),
       );
+      push({
+        title: UX_SEN.bridge.studioSettled.title,
+        body: UX_SEN.bridge.studioSettled.body,
+        tone: "emerald",
+      });
     } else {
       setNotice(null);
     }
@@ -104,17 +126,24 @@ export function ImageGeneratePanel({
           {STUDIO_SEN.wallet.insufficient}
         </p>
       ) : null}
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-xs text-[var(--muted)]">
           {prompt.trim().length}/{maxChars} · {STUDIO_SEN.generate.imageHint}
         </p>
-        <Button
-          type="button"
-          onClick={() => void onGenerate()}
-          disabled={pending || !prompt.trim() || insufficient}
-        >
-          {pending ? STUDIO_SEN.generate.pending : STUDIO_SEN.generate.imageCta}
-        </Button>
+        <div className="flex flex-wrap gap-2">
+          {insufficient ? (
+            <Button type="button" variant="outline" size="sm" onClick={() => setTopUpOpen(true)}>
+              {UX_SEN.topUp.trigger}
+            </Button>
+          ) : null}
+          <Button
+            type="button"
+            onClick={() => void onGenerate()}
+            disabled={pending || !prompt.trim() || insufficient}
+          >
+            {pending ? STUDIO_SEN.generate.pending : STUDIO_SEN.generate.imageCta}
+          </Button>
+        </div>
       </div>
       {notice ? (
         <p aria-live="polite" className="text-xs text-[var(--muted)]">
@@ -161,6 +190,17 @@ export function ImageGeneratePanel({
           })()}
         </figure>
       ) : null}
+      <QuickTopUpModal
+        open={topUpOpen}
+        requiredMinor={requiredMinor}
+        currencyCode={strip.currencyCode}
+        onClose={() => setTopUpOpen(false)}
+        onFunded={() => {
+          setTopUpOpen(false);
+          void fetchWalletStripClient().then(reportBalance);
+          push({ title: UX_SEN.bridge.generateReady.title, body: UX_SEN.bridge.generateReady.body, tone: "emerald" });
+        }}
+      />
     </div>
   );
 }

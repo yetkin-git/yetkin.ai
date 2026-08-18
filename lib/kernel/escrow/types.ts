@@ -1,6 +1,7 @@
 import type { AmountMinor } from "@/lib/kernel/money/amount-minor";
 import type { CurrencyCode } from "@/lib/kernel/money/currency";
 import type { EscrowHoldStatus } from "@/lib/kernel/escrow/split";
+import type { LedgerStore } from "@/lib/kernel/ledger/types";
 
 export type EscrowHoldRecord = {
   id: string;
@@ -21,6 +22,8 @@ export type EscrowHoldRecord = {
 
 export type EscrowStore = {
   findByReferenceKey(referenceKey: string): Promise<EscrowHoldRecord | null>;
+  /** Satır kilidi. Prisma: SELECT … FOR UPDATE (transaction içinde). Bellek: okuma. */
+  lockByReferenceKey(referenceKey: string): Promise<EscrowHoldRecord | null>;
   findById(id: string): Promise<EscrowHoldRecord | null>;
   insertHold(input: {
     id: string;
@@ -38,6 +41,8 @@ export type EscrowStore = {
   markRefunded(id: string, at: Date): Promise<EscrowHoldRecord>;
   freezeExpiry(id: string): Promise<EscrowHoldRecord>;
   listExpiredPending(now: Date): Promise<EscrowHoldRecord[]>;
+  /** PENDING ve expiresAt (now, until] — TTL yaklaşım bildirimi. Yeni tablo yoktur. */
+  listPendingExpiringSoon(now: Date, until: Date): Promise<EscrowHoldRecord[]>;
 };
 
 export type CreateEscrowHoldCommand = {
@@ -79,4 +84,13 @@ export type RefundEscrowCommand = {
 export type EscrowMutationResult = {
   hold: EscrowHoldRecord;
   applied: boolean;
+};
+
+export type EscrowWritePorts = {
+  ledger: LedgerStore;
+  escrow: EscrowStore;
+};
+
+export type EscrowEnginePorts = EscrowWritePorts & {
+  runEscrowAtomic?: <T>(work: (tx: EscrowWritePorts) => Promise<T>) => Promise<T>;
 };

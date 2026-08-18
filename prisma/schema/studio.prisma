@@ -65,7 +65,7 @@ model StudioGeneration {
 }
 
 /// Telif/hash mührü — SHA256 içerik + prompt. Brand kit / filigran yüzeyi yok (S57-A).
-/// dataBase64 Postgres TEXT tavanı: 2097152 karakter (Paket B CHECK). Nesne depo: docs/08_STORAGE_CONTRACT.md + lib/studio/storage.ts.
+/// dataBase64 Postgres TEXT tavanı: 2097152 karakter (Paket B CHECK). Nesne depo: .system_docs/STORAGE_CONTRACT.md + lib/studio/storage.ts.
 /// T2-2: storage_kind / bucket / object_path / byte_size nullable metadata. Kör data_base64 DROP yok.
 model StudioDigitalAsset {
   id                  String          @id @default(cuid())

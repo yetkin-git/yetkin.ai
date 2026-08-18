@@ -174,6 +174,11 @@ export type FreelancerStore = {
   ): Promise<FreelancerDisputeRecord>;
   insertMessage(message: FreelancerContractMessageRecord): Promise<FreelancerContractMessageRecord>;
   listMessagesForContract(contractId: string): Promise<FreelancerContractMessageRecord[]>;
+  /**
+   * Teslim türevi — yalnız `kind=DELIVERY` için contractId → max(createdAt).
+   * Gövde / artifactUrl / userId dönmez.
+   */
+  listLatestDeliveryAtByContractIds(contractIds: readonly string[]): Promise<Map<string, Date>>;
   insertSquad(squad: FreelancerSquadRecord): Promise<FreelancerSquadRecord>;
   getSquad(id: string): Promise<FreelancerSquadRecord | null>;
   getSquadByContractId(contractId: string): Promise<FreelancerSquadRecord | null>;
@@ -192,6 +197,16 @@ export type FreelancerStore = {
    * Prisma: `updateMany` aynı transaction'da satır kilidi tutar.
    */
   claimJobForAward(jobId: string, now: Date): Promise<boolean>;
+  /**
+   * FUNDED → RELEASED veya REFUNDED şartlı. 1 satır = bu settle kazandı.
+   * Prisma: `updateMany` WHERE status = FUNDED.
+   */
+  claimFundedContract(
+    id: string,
+    patch: Partial<
+      Pick<FreelancerContractRecord, "status" | "releasedAt" | "refundedAt" | "updatedAt">
+    >,
+  ): Promise<FreelancerContractRecord | null>;
 };
 
 export type FreelancerLlmInvoker = (
@@ -223,6 +238,11 @@ export type FreelancerEnginePorts = {
    * Prisma: `$transaction`. Bellek: anlık görüntü + rollback.
    */
   runAcceptAtomic<T>(work: (tx: FreelancerAcceptWritePorts) => Promise<T>): Promise<T>;
+  /**
+   * CREDIT çözülüşü (release / refund) tek atomik birim — hold kilidi + defter + sözleşme CAS.
+   * Prisma: `$transaction`. Bellek: kuyruk + anlık görüntü.
+   */
+  runReleaseAtomic<T>(work: (tx: FreelancerAcceptWritePorts) => Promise<T>): Promise<T>;
   usage?: AiTokenUsageStore;
   invokeLlm?: FreelancerLlmInvoker;
   llmDeps?: InvokeLlmDeps;

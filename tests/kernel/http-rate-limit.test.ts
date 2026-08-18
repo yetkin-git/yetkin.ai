@@ -32,6 +32,12 @@ describe("HTTP hız tavanı", () => {
     expect(matchEdgeRateLimit("/api/wallet/top-up", "POST")?.keyPrefix).toBe(
       HTTP_RATE_LIMITS.walletTopUpIp.keyPrefix,
     );
+    expect(matchEdgeRateLimit("/api/v1/wallet/top-up", "POST")?.keyPrefix).toBe(
+      HTTP_RATE_LIMITS.walletTopUpIp.keyPrefix,
+    );
+    expect(matchEdgeRateLimit("/api/v1/auth/session", "GET")?.keyPrefix).toBe(
+      HTTP_RATE_LIMITS.authIp.keyPrefix,
+    );
     expect(matchEdgeRateLimit("/api/wallet/top-up", "GET")).toBeNull();
     expect(matchEdgeRateLimit("/api/auth/session", "GET")?.keyPrefix).toBe(
       HTTP_RATE_LIMITS.authIp.keyPrefix,

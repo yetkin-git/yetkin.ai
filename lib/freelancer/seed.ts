@@ -64,18 +64,39 @@ export const FREELANCER_CATALOG_SEEDS: readonly FreelancerCatalogSeed[] = [
 
 export const FREELANCER_JOB_SEEDS: readonly FreelancerJobSeed[] = [
   {
-    id: "fj_rail_escrow_audit",
-    title: "Yetkin Rail: EscrowHold kilit denetimi",
+    id: "fj_rail_icon_set",
+    title: "Yapay Zekâ Destekli İkon ve İllüstrasyon Seti Teslimi",
     brief:
-      "Yayında OPEN ilan. Teklif kabulünde tutar EscrowHold ile kilitlenir; teslim teyidine kadar serbest kalmaz. Teslimat: mühürlü emek yolunun (ilan, emanet, RELEASED) yazılı denetimi. Sahte settlement yok. Platform hold bps katalog bandındadır.",
-    budgetMinor: 1_250_000,
+      "Alıcı: Yetkin Rail (platform kendi ihtiyacı; organik talep değildir). Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi (akademi sertifikası) ister. Kapsam: 16 adet tek renk SVG ikon (12 oda + 4 sığınak). 24px ızgara, 2px stroke, Quiet Luxury. Lucide, geist ve hazır set yok. Her ikon yerel SVG; dış CDN yok. Yaşayan illustratör tarzı taklidi yok. Teslim (DELIVERY): SVG kaynak + 256px PNG önizleme, ad kuralı is-anahtari.svg, her dosya SHA-256 listesi, kilitli prompt paketi (negatif kısıt, ızgara, palet). İki revizyon turu. Tur 3 yeni emanet farkı ister. Bütçe emanete teklif kabulünde kilitlenir. Sahte settlement yok.",
+    budgetMinor: 850_000,
   },
   {
-    id: "fj_ray_sinyal_brief",
-    title: "Raylı sinyal: Fail-safe brief ve anklaşman özeti",
+    id: "fj_rail_ql_banners",
+    title: "Rail Quiet Luxury Tanıtım Görselleri ve Banner Üretimi",
     brief:
-      "Anklaşman (interlocking) fail-safe ilkesi, ray devresi tespiti ve kırmızı aspekt işletme anlamı için mühürlü teknik brief. Teslim: sözleşme mesajı ve artifact. Ödeme EscrowHold içinde kalır; serbest bırakma RELEASED ve kariyer vizesi kapısıdır.",
-    budgetMinor: 875_000,
+      "Alıcı: Yetkin Rail. Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi ister. Bu iş platformun kendi tanıtım yüzeyi içindir; organik talep diye sunulmaz. Kapsam: üç ölçü — 1440x480 web üst şerit, 1080x1080 kare, 1200x630 paylaşım kartı. Metin: Öğrendiğini mühürle. Mührün kapıyı açsın. İşin emanette dursun. Stok insan fotoğrafı yok. Lucide ikon, geist font, dekoratif ilerleme çubuğu ve cam efekti düşer. Sistem tipi, yerel SVG, sükûnet. Teslim: PNG + kaynak prompt paketi, her dosya SHA-256, palet hex listesi. İki revizyon. Ölçülemeyen daha pop isteği kısıta çevrilmeden üretilmez. Bütçe kabulde EscrowHold ile kilitlenir.",
+    budgetMinor: 750_000,
+  },
+  {
+    id: "fj_rail_academy_copy",
+    title: "Akademi Müfredat Özet Metinlerinin Düzenlenmesi",
+    brief:
+      "Alıcı: Yetkin Rail. Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi ister. İş, yz-icerik-gorsel-uretim kursunun beş ders özetini vatandaş diline çekmektir; sınav şıklarını sızdırmaz. Kapsam: Brief Okuma, Telif/Kullanım Hakları, Prompt Disiplini, Revizyon Yönetimi, Teslim Şartnamesi. Her özet 120-180 sözcük. SEN aksı: sen, siz değil. cüzdanınız, hesabınız, hoş geldiniz yasak. Satın al belge basmaz; baraj 70 ve SHA-256 mühür ders metninde doğru kalır. Teslim: tek Markdown, ders sırası tohumla aynı, SHA-256. İki revizyon. Yeni ders icat edilmez (CMS yok). Bütçe kabulde emanete kilitlenir.",
+    budgetMinor: 350_000,
+  },
+  {
+    id: "fj_rail_devlabs_prompts",
+    title: "DevLabs Örnek Prompt Şablonları Dokümantasyonu",
+    brief:
+      "Alıcı: Yetkin Rail. Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi ister. DevLabs linter'dır, runner değildir; exec yoktur. Şablon komutu tarif eder, sunucuda çalıştırmaz. Kapsam: 8 kilitli prompt paketi (hedef, negatif kısıt, kabul ölçütü, yasak girdi). Konular: ikon ızgarası, Quiet Luxury banner, SEN metin, hash listesi, brief çelişkisi, telif fail-closed, revizyon deltası, teslim checklist. Gizli anahtar, vatandaş kimliği ve bakiye prompta girmez. Teslim: tek Markdown, her şablon ayrı başlık, dosya SHA-256. İki revizyon. Exec örneği, çalıştır butonu ve sahte runner düşer. Bütçe kabulde emanete kilitlenir.",
+    budgetMinor: 400_000,
+  },
+  {
+    id: "fj_rail_seal_social",
+    title: "Mühürlü Kanıt Sosyal Medya Şablon Tasarımları",
+    brief:
+      "Alıcı: Yetkin Rail. Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi ister. YetkinX sosyal ağ değildir; beğeni, takipçi, boost yok. Şablon, /academy/dogrula/[hash] kamu doğrulamasını taşır. userId sızmaz. Hash 64 hex görünür. Kapsam: 1080x1080 ve 1200x630, iki tema (açık/koyu). Cümle: Kanıt burada. Rail kendini tanıtmaz. Quiet Luxury: hazır ikon seti, geist, ilerleme çubuğu yok. Vanity metrik (görüntülenme, beğeni) yüzeye girmez. Teslim: PNG + katman notu + prompt paketi + her dosya SHA-256. İki revizyon. Filigran finalde yok. Bütçe kabulde emanete kilitlenir. Bu ilan Yetkin Rail kendi kanıt yüzeyi içindir.",
+    budgetMinor: 600_000,
   },
 ];
 

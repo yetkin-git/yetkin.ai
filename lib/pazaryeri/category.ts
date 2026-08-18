@@ -1,3 +1,4 @@
+import { ForbiddenError } from "@/lib/kernel/http/errors";
 import type { MarketplaceProductCategory, MarketplaceProductKind, MarketplaceProductRecord } from "@/lib/pazaryeri/types";
 import {
   PAZARYERI_ASSET_FLOOR_UNIT_KEY,
@@ -11,12 +12,49 @@ export const MARKETPLACE_PRODUCT_CATEGORIES = [
   "VEHICLE",
 ] as const;
 
-export function settlementKindForCategory(category: MarketplaceProductCategory): MarketplaceProductKind {
-  return category === "DIGITAL_GOOD" ? "DIGITAL_GOOD" : "SERVICE";
-}
+/** Anayasa Kırmızı çizgi 4 — emlak/vasıta yalnız vitrin. */
+export const ASSET_VITRINE_ONLY_ERROR =
+  "Emlak ve vasıta ilanı yalnız vitrindir. Teklif, emanet, satın alma ve doping EİDS ve yetkili ödeme altyapısı olmadan işletilemez.";
+
+export type MarketplaceCashPath = MarketplaceProductKind | "VITRINE";
 
 export function isAssetCategory(category: MarketplaceProductCategory): boolean {
   return category === "REAL_ESTATE" || category === "VEHICLE";
+}
+
+export function cashPathForCategory(category: MarketplaceProductCategory): MarketplaceCashPath {
+  if (category === "DIGITAL_GOOD") {
+    return "DIGITAL_GOOD";
+  }
+  if (category === "SERVICE") {
+    return "SERVICE";
+  }
+  return "VITRINE";
+}
+
+export function assertCashPathAllowedForCategory(category: MarketplaceProductCategory): void {
+  if (isAssetCategory(category)) {
+    throw new ForbiddenError(ASSET_VITRINE_ONLY_ERROR);
+  }
+}
+
+/**
+ * Nakit yolu (anında settlement veya emanet). Emlak/vasıta vitrindir — SERVICE sayılmaz.
+ */
+export function settlementKindForCategory(category: MarketplaceProductCategory): MarketplaceProductKind {
+  const path = cashPathForCategory(category);
+  if (path === "VITRINE") {
+    throw new ForbiddenError(ASSET_VITRINE_ONLY_ERROR);
+  }
+  return path;
+}
+
+/**
+ * Prisma `kind` sütunu zorunludur. Vitrin satırında yer tutucu yazılır; nakit kapısı kategoriye bakılır.
+ */
+export function listingKindForCategory(category: MarketplaceProductCategory): MarketplaceProductKind {
+  const path = cashPathForCategory(category);
+  return path === "VITRINE" ? "SERVICE" : path;
 }
 
 export function listingCatalogUnitKey(category: MarketplaceProductCategory): string {

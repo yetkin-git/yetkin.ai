@@ -12,16 +12,21 @@ export async function GET(request: Request) {
     const user = await requireSession(request);
     await ensurePrismaQueryEngine();
     const wallet = await ensureSettlementWallet(user.id);
-    return jsonOk({
-      strip: {
-        live: true,
-        amountMinor: wallet.amountMinor,
-        currencyCode: wallet.currencyCode,
+    return jsonOk(
+      {
+        strip: {
+          live: true,
+          amountMinor: wallet.amountMinor,
+          currencyCode: wallet.currencyCode,
+        },
       },
-    });
+      200,
+      undefined,
+      request,
+    );
   } catch (error) {
     if (error instanceof Error && error.message.includes("DATABASE_URL")) {
-      return jsonOk({ strip: EMPTY_WALLET_STRIP });
+      return jsonOk({ strip: EMPTY_WALLET_STRIP }, 200, undefined, request);
     }
     if (error instanceof Error && error.name.startsWith("PrismaClient")) {
       logEvent({
@@ -30,8 +35,8 @@ export async function GET(request: Request) {
         errorName: prismaErrorLabel(error),
         route: "/api/dashboard/wallet-strip",
       });
-      return jsonFail("Veritabanı erişilemez.", 503);
+      return jsonFail("Veritabanı erişilemez.", 503, undefined, request);
     }
-    return jsonFromUnknown(error);
+    return jsonFromUnknown(error, 400, undefined, request);
   }
 }

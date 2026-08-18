@@ -13,6 +13,7 @@ import {
   type JWTVerifyOptions,
 } from "jose";
 import { isSupabaseUserId } from "@/lib/kernel/auth/ids";
+import { isApiV1Pathname } from "@/lib/kernel/http/api-v1";
 import {
   isApiPathname,
   isEdgeOpenApiAuthKind,
@@ -298,7 +299,7 @@ export async function resolveEdgeSessionState(input: {
   }
   const token = extractEdgeAccessToken({
     authorizationHeader: input.authorizationHeader,
-    cookies: input.cookies,
+    cookies: isApiV1Pathname(input.pathname) ? [] : input.cookies,
   });
   if (!token) {
     return { verified: false, userId: null };

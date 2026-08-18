@@ -2,7 +2,10 @@ import "server-only";
 
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/generated/prisma/client";
+import { preferIpv6ForDirectHost } from "@/lib/kernel/dns-ipv6-first";
 import { Pool } from "pg";
+
+preferIpv6ForDirectHost();
 
 type KernelDbGlobal = {
   prisma?: PrismaClient;
@@ -49,11 +52,15 @@ export function prismaErrorLabel(error: unknown): string {
     }
   };
   walk(error, 0);
+  if (error instanceof Error && /\bENOENT\b/.test(error.message) && !codes.includes("ENOENT")) {
+    codes.push("ENOENT");
+  }
   const unique = [...new Set(codes)];
   return unique.length > 0 ? `${name}:${unique.join(",")}` : name;
 }
 
 export function getPrisma(): PrismaClient {
+  preferIpv6ForDirectHost();
   const slot = dbGlobal();
   if (slot.prisma) {
     return slot.prisma;

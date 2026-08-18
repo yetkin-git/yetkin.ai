@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { PRICE_LOCK_GRACE_MS } from "@/lib/kernel/pricing/price-lock";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
+import { ForbiddenError } from "@/lib/kernel/http/errors";
+import { ASSET_VITRINE_ONLY_ERROR } from "@/lib/pazaryeri/category";
 import { PAZARYERI_MODULE_KEY, PAZARYERI_LISTING_FLOOR_UNIT_KEY } from "@/lib/pazaryeri/types";
 import {
   confirmMarketplaceDelivery,
@@ -13,6 +15,7 @@ import { createMemoryLedgerStore, createMemoryEscrowStore } from "../helpers/mem
 import {
   createMemoryPazaryeriStore,
   memoryDigitalProduct,
+  memoryRealEstateProduct,
   memoryServiceProduct,
 } from "../helpers/memory-pazaryeri";
 import {
@@ -232,5 +235,27 @@ describe("pazaryeri satın alma (dijital anında / hizmet teyidi)", () => {
         amountMinor: 100,
       }),
     ).rejects.toThrow(/taban/);
+  });
+
+  it("emlak vitrininde satın alma fail-closed durur; bakiye ve sipariş yazılmaz", async () => {
+    const ports = world();
+    const product = await ports.pazaryeri.insertProduct(memoryRealEstateProduct());
+    await expect(
+      purchaseMarketplaceProduct(ports, {
+        productId: product.id,
+        userId: BUYER,
+        platformUserId: PLATFORM,
+      }),
+    ).rejects.toBeInstanceOf(ForbiddenError);
+    await expect(
+      purchaseMarketplaceProduct(ports, {
+        productId: product.id,
+        userId: BUYER,
+        platformUserId: PLATFORM,
+      }),
+    ).rejects.toThrow(ASSET_VITRINE_ONLY_ERROR);
+    expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(100_000);
+    expect(ports.ledger.snapshot(SELLER).amountMinor).toBe(0);
+    expect(await ports.pazaryeri.getOrderByBuyerAndProduct(BUYER, product.id)).toBeNull();
   });
 });

@@ -88,7 +88,9 @@ describe("akademi vatandaş yüzeyi ve SEN aksı", () => {
     expect(readSrc("components/academy/curriculum-player.tsx")).toContain("aria-live");
     expect(readSrc("app/academy/dogrula/[hash]/page.tsx")).toContain("loadPublicCertificateByHash");
     expect(readSrc("components/academy/purchase-button.tsx")).toContain("aria-live");
+    expect(readSrc("components/academy/purchase-button.tsx")).toContain("QuickTopUpModal");
     expect(readSrc("components/academy/exam-panel.tsx")).toContain("aria-live");
+    expect(readSrc("components/academy/exam-panel.tsx")).toContain("examPassed");
   });
 
   it("doğrulama sayfası SHA256 mühür detayını kimlik sızdırmadan basar", () => {

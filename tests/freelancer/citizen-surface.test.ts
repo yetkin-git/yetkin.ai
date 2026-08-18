@@ -41,6 +41,7 @@ const SEN_SURFACES = [
   "components/freelancer/contract-actions.tsx",
   "components/freelancer/dispute-console.tsx",
   "components/freelancer/contract-message-thread.tsx",
+  "components/freelancer/delivery-hero-card.tsx",
   "components/freelancer/escrow-hold-steps.tsx",
   "lib/copy/sen-voice/freelancer.ts",
 ];
@@ -85,6 +86,7 @@ describe("freelancer vatandaş yüzeyi, emanet mühürü ve SEN aksı", () => {
     expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).toContain("EscrowHoldSteps");
     expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).toContain("AcceptBidButton");
     expect(readSrc("app/freelancer/contracts/[id]/page.tsx")).toContain("EscrowHoldSteps");
+    expect(readSrc("app/freelancer/contracts/[id]/page.tsx")).toContain("DeliveryHeroCard");
     expect(readSrc("app/freelancer/contracts/[id]/page.tsx")).toContain("freelancerDisputeRoundStatusLabel");
     expect(readSrc("components/freelancer/accept-bid-button.tsx")).toContain("holdNotice");
     expect(readSrc("components/freelancer/accept-bid-button.tsx")).toContain("aria-live");

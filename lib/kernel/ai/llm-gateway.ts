@@ -7,6 +7,7 @@ import {
 import { createPrismaBudgetShieldPort } from "@/lib/kernel/ai/prisma-budget-shield";
 import { estimateLlmCostMinor } from "@/lib/kernel/ai/cost";
 import {
+  assertLiveAiModelRole,
   getDefaultModelId,
   isGeminiModelUnavailableError,
   selectFallbackModelId,
@@ -78,6 +79,7 @@ function sleep(ms: number): Promise<void> {
 
 function resolveModel(input: InvokeLlmInput): { model: string; roleKey: string | null } | null {
   if (input.role) {
+    assertLiveAiModelRole(input.role);
     return { model: getDefaultModelId(input.role), roleKey: input.role };
   }
   const explicit = input.model?.trim();
@@ -112,13 +114,17 @@ function isRetriableStatusMessage(message: string): boolean {
 }
 
 /**
- * Tek gümrük kapısı. Yumuşak hatada fırlatmaz — `null` döner.
+ * Tek gümrük kapısı. VIDEO_GEN / VOICE_TTS mühürlü-ölü — AiGatewayForbiddenError.
+ * Diğer yumuşak hatalarda fırlatmaz — `null` döner.
  * Bütçe zırhı ağdan önce fail-closed çalışır.
  */
 export async function invokeLlm(
   input: InvokeLlmInput,
   deps: InvokeLlmDeps = {},
 ): Promise<LlmGatewayResult | null> {
+  if (input.role) {
+    assertLiveAiModelRole(input.role);
+  }
   const providerId = input.provider ?? "gemini";
   const adapter = deps.providers?.[providerId] ?? PROVIDERS[providerId];
   // Üretim varsayılanı Postgres AiTokenUsage — çağrı başına boş bellek kovası yok.

@@ -43,9 +43,11 @@ describe("prebuild atomik mühür zinciri — yazma yüzeyi", () => {
     expect(script).toContain("prisma.$transaction");
     expect(script).toContain("lib/freelancer/engine.ts");
     expect(script).toContain("runAcceptAtomic");
+    expect(script).toContain("runReleaseAtomic");
     expect(script).toContain("freelancerJobEscrowReferenceKey");
     expect(script).toContain("lib/kernel/ledger/prisma-store.ts");
     expect(script).toContain("FOR UPDATE");
+    expect(script).toContain("lockByReferenceKey");
     expect(script).toContain("reconcilePaytrPaymentOrder");
     expect(script).toContain("runPurchaseAtomic");
     expect(script).toContain("runSettleAtomic");

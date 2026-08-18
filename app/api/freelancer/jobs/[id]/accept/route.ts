@@ -1,11 +1,13 @@
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
-import { readIdempotencyKey } from "@/lib/kernel/http/idempotency-key";
+import { requireRailV1IdempotencyKey } from "@/lib/kernel/http/v1-runtime-shield";
 import { hashIdempotencyPayload, settleHttpIdempotency } from "@/lib/kernel/http/idempotency";
 import { createPrismaHttpIdempotencyStore } from "@/lib/kernel/http/prisma-idempotency-store";
 import { logEvent } from "@/lib/kernel/observability/log";
+import { RAIL_V1_ACCEPT_FIELDS_INVALID } from "@/lib/kernel/http/v1-contract";
 import { acceptFreelancerBid } from "@/lib/freelancer/engine";
+import { toFreelancerAcceptWire } from "@/lib/freelancer/contract-view";
 import { acceptBidInputSchema } from "@/lib/freelancer/schemas";
 import { createPrismaFreelancerPorts } from "@/lib/freelancer/runtime";
 import {
@@ -17,6 +19,8 @@ import { createPrismaPriceCatalogStore } from "@/lib/kernel/pricing/prisma-catal
 
 export const auth = "session" as const;
 
+const ACCEPT_ROUTE = "/api/freelancer/jobs/[id]/accept";
+
 export async function POST(
   request: Request,
   context: { params: Promise<{ id: string }> },
@@ -25,23 +29,24 @@ export async function POST(
   try {
     const user = await requireSession(request);
     const { id } = await context.params;
-    const idempotency = readIdempotencyKey(request);
+    const idempotency = requireRailV1IdempotencyKey(request, requestId);
     if (!idempotency.ok) {
-      return jsonFail(idempotency.error, 400, requestId);
+      return idempotency.response;
     }
     const parsed = acceptBidInputSchema.safeParse(await request.json());
     if (!parsed.success) {
-      return jsonFail("Teklif kimliği gerekli.", 400, requestId);
+      return jsonFail(RAIL_V1_ACCEPT_FIELDS_INVALID, 400, requestId, request);
     }
 
-    return settleHttpIdempotency(
+    return await settleHttpIdempotency(
       {
         store: createPrismaHttpIdempotencyStore(),
         userId: user.id,
-        route: "/api/freelancer/jobs/[id]/accept",
+        route: ACCEPT_ROUTE,
         key: idempotency.key,
         requestHash: hashIdempotencyPayload({ jobId: id, bidId: parsed.data.bidId }),
         requestId,
+        request,
       },
       async () => {
         const ports = createPrismaFreelancerPorts();
@@ -61,20 +66,11 @@ export async function POST(
           event: "freelancer.accept.settled",
           requestId,
           userId: user.id,
-          route: "/api/freelancer/jobs/[id]/accept",
+          route: ACCEPT_ROUTE,
         });
         return {
           status: 200,
-          body: {
-            contract: {
-              id: contract.id,
-              jobId: contract.jobId,
-              status: contract.status,
-              grossMinor: contract.grossMinor,
-              holdMinor: contract.holdMinor,
-              netMinor: contract.netMinor,
-            },
-          },
+          body: toFreelancerAcceptWire(contract),
         };
       },
     );
@@ -83,9 +79,9 @@ export async function POST(
       level: "error",
       event: "freelancer.accept.failed",
       requestId,
-      route: "/api/freelancer/jobs/[id]/accept",
+      route: ACCEPT_ROUTE,
       errorName: error instanceof Error ? error.name : "unknown",
     });
-    return jsonFromUnknown(error, 400, requestId);
+    return jsonFromUnknown(error, 400, requestId, request);
   }
 }

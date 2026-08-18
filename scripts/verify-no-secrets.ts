@@ -13,7 +13,7 @@ import { join, relative } from "node:path";
 
 const ROOT = process.cwd();
 
-const SCAN_DIRS = ["lib", "app", "components", "scripts", "prisma", "docs", "tests", "supabase"] as const;
+const SCAN_DIRS = ["lib", "app", "components", "scripts", "prisma", "docs", "tests", "supabase", "apps"] as const;
 const ROOT_FILES = [".env.example", "package.json"] as const;
 
 const SKIP_DIR_NAMES = new Set(["node_modules", "yetkin.ai", "generated", ".next", ".git"]);
@@ -144,7 +144,7 @@ function scanFile(abs: string): Violation[] {
     }
   }
 
-  if (file === ".env.example") {
+  if (file.endsWith(".env.example")) {
     for (const line of source.split(/\r?\n/)) {
       const trimmed = line.trim();
       if (!trimmed || trimmed.startsWith("#")) {

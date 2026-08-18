@@ -7,9 +7,21 @@ import {
   releaseEscrowHoldToPayees,
   resolvePlatformTreasuryUserId,
 } from "@/lib/kernel/escrow";
-import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
+import { AMOUNT_MINOR_OVERFLOW_ERROR, toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY, type CurrencyCode } from "@/lib/kernel/money/currency";
+import { emitCitizenNotice } from "@/lib/kernel/notice/emit";
 import { HOLD_BPS_DEFAULT, resolveHoldBps } from "@/lib/kernel/pricing/hold-bps";
+import { ConflictError, ForbiddenError, NotFoundError } from "@/lib/kernel/http/errors";
+import {
+  RAIL_V1_ACCEPT_FORBIDDEN,
+  RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE,
+  RAIL_V1_OWNER_BIDS_FORBIDDEN,
+  RAIL_V1_OWNER_BIDS_NOT_FOUND,
+  RAIL_V1_RELEASE_FORBIDDEN,
+  RAIL_V1_RELEASE_NOT_FUNDED,
+  type ClientJobBidsView,
+} from "@/lib/kernel/http/v1-contract";
+import { toOwnerBidsWire } from "@/lib/freelancer/contract-view";
 import {
   canAcceptBid,
   canRefundContract,
@@ -32,6 +44,19 @@ import type {
 } from "@/lib/freelancer/types";
 
 export type { FreelancerAcceptResult, FreelancerEnginePorts } from "@/lib/freelancer/types";
+
+function isInsufficientBalanceError(error: unknown): boolean {
+  return error instanceof Error && error.message.includes(AMOUNT_MINOR_OVERFLOW_ERROR);
+}
+
+function isEscrowSettleConflict(error: unknown): boolean {
+  return (
+    error instanceof Error &&
+    (/iken serbest bırakılamaz/.test(error.message) ||
+      /iken iade edilemez/.test(error.message) ||
+      /PENDING değilken/.test(error.message))
+  );
+}
 
 /** Unique ihlali transaction'ı kapatır; aynı callback içinde devam edilmez — dışarıda yeniden girilir. */
 const UNIQUE_RETRY_LIMIT = 3;
@@ -131,6 +156,26 @@ export async function createFreelancerJob(
   });
 }
 
+export async function listOwnerJobBids(
+  ports: Pick<FreelancerEnginePorts, "freelancer">,
+  command: { jobId: string; actorUserId: string },
+): Promise<ClientJobBidsView> {
+  const job = await ports.freelancer.getJob(command.jobId);
+  if (!job) {
+    throw new NotFoundError(RAIL_V1_OWNER_BIDS_NOT_FOUND);
+  }
+  if (command.actorUserId !== job.clientId) {
+    throw new ForbiddenError(RAIL_V1_OWNER_BIDS_FORBIDDEN);
+  }
+  if (job.status !== "OPEN") {
+    return toOwnerBidsWire([]);
+  }
+  const submitted = (await ports.freelancer.listBidsForJob(job.id)).filter(
+    (bid) => bid.status === "SUBMITTED",
+  );
+  return toOwnerBidsWire(submitted);
+}
+
 export async function submitFreelancerBid(
   ports: FreelancerEnginePorts,
   command: SubmitBidCommand,
@@ -159,7 +204,7 @@ export async function submitFreelancerBid(
   }
 
   const now = command.now ?? new Date();
-  return ports.freelancer.insertBid({
+  const bid = await ports.freelancer.insertBid({
     id: randomUUID(),
     jobId: job.id,
     bidderId: command.bidderId,
@@ -170,6 +215,14 @@ export async function submitFreelancerBid(
     createdAt: now,
     updatedAt: now,
   });
+  emitCitizenNotice({
+    kind: "bid_received",
+    userId: job.clientId,
+    reference: bid.id,
+    amountMinor: bid.amountMinor,
+    applied: true,
+  });
+  return bid;
 }
 
 async function sealAcceptInTx(
@@ -276,7 +329,7 @@ export async function acceptFreelancerBid(
     throw new Error("İlan teklif kabulüne kapalı.");
   }
   if (command.actorUserId !== job.clientId) {
-    throw new Error("Yalnız ilan sahibi teklif kabul edebilir.");
+    throw new ForbiddenError(RAIL_V1_ACCEPT_FORBIDDEN);
   }
 
   const bid = await ports.freelancer.getBid(command.bidId);
@@ -294,16 +347,34 @@ export async function acceptFreelancerBid(
   const now = command.now ?? new Date();
   const holdBps = resolveHoldBps(command.holdBps ?? HOLD_BPS_DEFAULT);
 
-  return withUniqueRetry(() =>
-    ports.runAcceptAtomic((tx) =>
-      sealAcceptInTx(tx, {
-        job,
-        bid,
-        now,
-        holdBps,
-      }),
-    ),
-  );
+  let result: FreelancerAcceptResult;
+  try {
+    result = await withUniqueRetry(() =>
+      ports.runAcceptAtomic((tx) =>
+        sealAcceptInTx(tx, {
+          job,
+          bid,
+          now,
+          holdBps,
+        }),
+      ),
+    );
+  } catch (error) {
+    if (isInsufficientBalanceError(error)) {
+      throw new ConflictError(RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE);
+    }
+    throw error;
+  }
+  if (result.applied) {
+    emitCitizenNotice({
+      kind: "bid_accepted",
+      userId: result.contract.freelancerId,
+      reference: result.contract.id,
+      amountMinor: result.contract.grossMinor,
+      applied: true,
+    });
+  }
+  return result;
 }
 
 export async function releaseFreelancerContract(
@@ -315,46 +386,65 @@ export async function releaseFreelancerContract(
     throw new Error("Sözleşme bulunamadı.");
   }
   if (command.actorUserId !== contract.clientId) {
-    throw new Error("Yalnız müşteri emaneti serbest bırakabilir.");
+    throw new ForbiddenError(RAIL_V1_RELEASE_FORBIDDEN);
   }
   if (!canReleaseContract(contract.status)) {
-    if (contract.status === "RELEASED") {
-      return contract;
-    }
-    throw new Error("Sözleşme serbest bırakılamaz.");
+    throw new ConflictError(RAIL_V1_RELEASE_NOT_FUNDED);
   }
 
   const now = command.now ?? new Date();
-  const squadMembers = await loadActiveSquadMembers(ports, contract.id);
-  if (squadMembers) {
-    const payees = allocateMinorByShareBps(contract.netMinor, squadMembers);
-    await releaseEscrowHoldToPayees(
-      { ledger: ports.ledger, escrow: ports.escrow },
-      {
-        referenceKey: await resolveHoldReferenceKey(ports.escrow, contract),
-        payees,
-        platformUserId: command.platformUserId ?? resolvePlatformTreasuryUserId(),
-        now,
-      },
-    );
-    await disbandFreelancerSquad(ports, contract.id, now);
-  } else {
-    await releaseEscrowHold(
-      { ledger: ports.ledger, escrow: ports.escrow },
-      {
-        referenceKey: await resolveHoldReferenceKey(ports.escrow, contract),
-        payeeUserId: contract.freelancerId,
-        platformUserId: command.platformUserId ?? resolvePlatformTreasuryUserId(),
-        now,
-      },
-    );
-  }
+  try {
+    return await ports.runReleaseAtomic(async (tx) => {
+      const holdKey = await resolveHoldReferenceKey(tx.escrow, contract);
+      const hold = await tx.escrow.lockByReferenceKey(holdKey);
+      if (!hold || hold.status !== "PENDING") {
+        throw new ConflictError(RAIL_V1_RELEASE_NOT_FUNDED);
+      }
 
-  return ports.freelancer.updateContract(contract.id, {
-    status: "RELEASED",
-    releasedAt: now,
-    updatedAt: now,
-  });
+      const squadMembers = await loadActiveSquadMembers(tx, contract.id);
+      if (squadMembers) {
+        const payees = allocateMinorByShareBps(contract.netMinor, squadMembers);
+        await releaseEscrowHoldToPayees(
+          { ledger: tx.ledger, escrow: tx.escrow },
+          {
+            referenceKey: holdKey,
+            payees,
+            platformUserId: command.platformUserId ?? resolvePlatformTreasuryUserId(),
+            now,
+          },
+        );
+        await disbandFreelancerSquad(tx, contract.id, now);
+      } else {
+        await releaseEscrowHold(
+          { ledger: tx.ledger, escrow: tx.escrow },
+          {
+            referenceKey: holdKey,
+            payeeUserId: contract.freelancerId,
+            platformUserId: command.platformUserId ?? resolvePlatformTreasuryUserId(),
+            now,
+          },
+        );
+      }
+
+      const claimed = await tx.freelancer.claimFundedContract(contract.id, {
+        status: "RELEASED",
+        releasedAt: now,
+        updatedAt: now,
+      });
+      if (!claimed) {
+        throw new ConflictError(RAIL_V1_RELEASE_NOT_FUNDED);
+      }
+      return claimed;
+    });
+  } catch (error) {
+    if (error instanceof ConflictError || error instanceof ForbiddenError) {
+      throw error;
+    }
+    if (isEscrowSettleConflict(error)) {
+      throw new ConflictError(RAIL_V1_RELEASE_NOT_FUNDED);
+    }
+    throw error;
+  }
 }
 
 export async function refundFreelancerContract(
@@ -378,17 +468,44 @@ export async function refundFreelancerContract(
   }
 
   const now = command.now ?? new Date();
-  await refundEscrowHold(
-    { ledger: ports.ledger, escrow: ports.escrow },
-    {
-      referenceKey: await resolveHoldReferenceKey(ports.escrow, contract),
-      now,
-    },
-  );
+  try {
+    return await ports.runReleaseAtomic(async (tx) => {
+      const holdKey = await resolveHoldReferenceKey(tx.escrow, contract);
+      const hold = await tx.escrow.lockByReferenceKey(holdKey);
+      if (hold?.status === "REFUNDED") {
+        const current = await tx.freelancer.getContract(contract.id);
+        return current ?? contract;
+      }
+      if (!hold || hold.status !== "PENDING") {
+        throw new Error("Sözleşme iade edilemez.");
+      }
 
-  return ports.freelancer.updateContract(contract.id, {
-    status: "REFUNDED",
-    refundedAt: now,
-    updatedAt: now,
-  });
+      await refundEscrowHold(
+        { ledger: tx.ledger, escrow: tx.escrow },
+        {
+          referenceKey: holdKey,
+          now,
+        },
+      );
+
+      const claimed = await tx.freelancer.claimFundedContract(contract.id, {
+        status: "REFUNDED",
+        refundedAt: now,
+        updatedAt: now,
+      });
+      if (!claimed) {
+        const current = await tx.freelancer.getContract(contract.id);
+        if (current?.status === "REFUNDED") {
+          return current;
+        }
+        throw new Error("Sözleşme iade edilemez.");
+      }
+      return claimed;
+    });
+  } catch (error) {
+    if (isEscrowSettleConflict(error)) {
+      throw new Error("Sözleşme iade edilemez.");
+    }
+    throw error;
+  }
 }

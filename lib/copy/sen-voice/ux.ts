@@ -1,0 +1,98 @@
+/** Rail SEN aksı — odalar arası köprü, hızlı yükleme, teslimat kahraman kartı. */
+export const UX_SEN = {
+  topUp: {
+    title: "Hızlı bakiye yükleme",
+    eyebrow: "Kart · PayTR",
+    close: "Kapat",
+    shortfall: (gap: string) => `Bu işlem için ${gap} eksik.`,
+    bandHint: (min: string, max: string) => `Kart yükleme bandı ${min} – ${max}.`,
+    minLift: (suggested: string) => `Eksik tutar bant altına düşüyor. Kart ${suggested} yükler.`,
+    capHint: (max: string) => `Tek seferde en fazla ${max} yüklenir.`,
+    balance: (amount: string) => `Canlı bakiye ${amount}.`,
+    required: (amount: string) => `İşlem tutarı ${amount}.`,
+    amountLabel: "Yükleme tutarı (₺)",
+    submit: "Kart ile yükle",
+    pending: "Hazırlanıyor…",
+    iframeTitle: "Güvenli ödeme",
+    waitingClearing:
+      "Kart tahsil edildiyse valör bekleniyor. CREDIT yalnız Bildirim URL sonrası bakiyeye düşer; bu ekran canlı bakiyeyi izler.",
+    funded: "Bakiye mühürlendi. İşlem yeniden deneniyor.",
+    fail: "Yükleme başlatılamadı.",
+    timeout: "Valör henüz bakiyeye düşmedi. Sahte bakiye yazılmaz. Cüzdanı aç veya bu ekranda kal.",
+    cuzdanCta: "Cüzdanı aç",
+    trigger: "Eksik tutarı yükle",
+  },
+  bridge: {
+    dismiss: "Kapat",
+    kicker: "Sonraki adım",
+    examPassed: {
+      title: "Vizen basıldı",
+      body: "SHA256 mühür ve kariyer vizesi sicile işlendi.",
+      cta: "İlanlara teklif ver",
+    },
+    examHref: "/freelancer",
+    purchaseAcademy: {
+      title: "Kurs kütüphanene eklendi",
+      body: "Settlement mühürlendi. Emanet yok.",
+      cta: "Derse başla",
+    },
+    purchaseMarket: {
+      title: "Sipariş alındı",
+      body: "Çift nakit yolu siparişlerde dürüst yansır.",
+      cta: "Siparişleri aç",
+    },
+    bidAccepted: {
+      title: "Teklif kabul edildi",
+      body: "Tutar emanete kilitlendi. Anında settlement yok.",
+      cta: "Sözleşmeyi aç",
+    },
+    bidSent: {
+      title: "Teklif alındı",
+      body: "İşveren tezgâhta görür.",
+    },
+    topUpSettled: {
+      title: "Bakiye mühürlendi",
+      body: "Kart tahsili bakiyeye düştü.",
+      cta: "Kokpite dön",
+    },
+    topUpHref: "/dashboard",
+    studioSettled: {
+      title: "LLM Debit mühürlendi",
+      body: "Üretim bakiyeden düştü.",
+    },
+    deliveryPosted: {
+      title: "Teslim kanıtı yazıldı",
+      body: "İşveren inceleme kartını sözleşmenin üstünde görür.",
+    },
+    released: {
+      title: "Emanet çözüldü",
+      body: "Net tutar usta cüzdanına işlendi. Çekim yok.",
+      cta: "Cüzdanı aç",
+    },
+    revisionSent: {
+      title: "Revizyon talebi yazıldı",
+      body: "Usta tezgâhta görür.",
+    },
+    generateReady: {
+      title: "Bakiye yetti",
+      body: "Üretime devam et.",
+    },
+  },
+  delivery: {
+    eyebrow: "İnceleme bekleniyor",
+    title: "Teslimat inceleme ve onay",
+    inspect: "Teslim edilen işi incele",
+    noArtifact: "Bağlantı yok — teslim notu aşağıda.",
+    gross: "Brüt emanet",
+    platform: (percent: number) => `Platform payı (%${percent})`,
+    net: "Ustaya net",
+    release: (net: string) => `İşi onayla ve ${net} serbest bırak`,
+    releasing: "Aktarılıyor…",
+    revision: "Revizyon iste",
+    revisionPending: "Yazılıyor…",
+    revisionPlaceholder: "Revizyon notu — ne düzeltilmeli?",
+    revisionDefault: "Revizyon talep edildi.",
+    freelancerWait: "Teslim incelemede. İşveren onayı bekleniyor.",
+    fail: "İşlem başarısız.",
+  },
+} as const;

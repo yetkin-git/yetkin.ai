@@ -1,5 +1,5 @@
-// Pazaryeri dikey dilimi — Faz 6A dijital/hizmet + Faz 10 Yetkinİlan (S61-A).
-// Emlak ve vasıta açıktır. TKGM / sigorta canlı API değil; hook alanıdır.
+// Pazaryeri dikey dilimi — dijital/hizmet nakit yolu; emlak/vasıta yalnız vitrin (S61-A, Anayasa Kırmızı çizgi 4).
+// TKGM / sigorta canlı API değil; hook alanıdır. Teklif ve emanet emlak/vasıtada bağlanmaz.
 // Fiyat satırda; bant PriceCatalogEntry verisidir (S11-A).
 // escrowHoldId çekirdek kilidine string FK — EscrowHold pazaryeri tanımaz.
 // User şişmez: satıcı ürün + alıcı/satıcı sipariş/teklif ters ilişkileri.
@@ -71,7 +71,7 @@ model MarketplaceProduct {
   @@map("marketplace_products")
 }
 
-/// Dijital: SETTLED + ledger split. Hizmet/emlak/vasıta: AWAITING_DELIVERY + EscrowHold.
+/// Dijital: SETTLED + ledger split. Hizmet: AWAITING_DELIVERY + EscrowHold. Emlak/vasıta sipariş doğurmaz (vitrin).
 model MarketplaceOrder {
   id            String                  @id @default(cuid())
   productId     String                  @map("product_id")
@@ -105,7 +105,7 @@ model MarketplaceOrder {
   @@map("marketplace_orders")
 }
 
-/// Alıcı teklifi. Satıcı onayında tutar emanete (kapora) kilitlenir.
+/// Alıcı teklifi — yalnız dijital/hizmet. Satıcı onayında tutar emanete kilitlenir. Emlak/vasıta teklif yazılmaz.
 model MarketplaceOffer {
   id            String                 @id @default(cuid())
   productId     String                 @map("product_id")
@@ -130,7 +130,7 @@ model MarketplaceOffer {
   @@map("marketplace_offers")
 }
 
-/// Doping / öne çıkarma. Tutar PriceCatalogEntry `doping:boost` verisidir.
+/// Doping / öne çıkarma — yalnız dijital/hizmet. Tutar PriceCatalogEntry `doping:boost` verisidir.
 model MarketplaceDoping {
   id           String                   @id @default(cuid())
   productId    String                   @map("product_id")

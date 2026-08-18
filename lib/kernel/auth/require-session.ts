@@ -1,5 +1,6 @@
 import { isSupabaseUserId, type CitizenAuth, type SessionUser } from "@/lib/kernel/auth/ids";
 import { createSupabaseCookieClient } from "@/lib/kernel/auth/supabase-server";
+import { isV1JsonRequest } from "@/lib/kernel/http/api-v1";
 
 export class AuthRequiredError extends Error {
   readonly status = 401 as const;
@@ -128,6 +129,9 @@ export async function getSession(request?: Request): Promise<SessionUser | null>
   if (bearer) {
     return userFromAccessToken(url, anon, bearer);
   }
+  if (request && isV1JsonRequest(request)) {
+    return null;
+  }
   return userFromCookies(url, anon);
 }
 
@@ -148,6 +152,9 @@ export async function getCitizenAuth(request?: Request): Promise<CitizenAuth | n
   const bearer = readBearerToken(request);
   if (bearer) {
     return citizenFromAccessToken(url, anon, bearer);
+  }
+  if (request && isV1JsonRequest(request)) {
+    return null;
   }
   return citizenFromCookies(url, anon);
 }

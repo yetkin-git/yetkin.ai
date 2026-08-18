@@ -90,6 +90,7 @@ describe("DevLabs vatandaş yüzeyi, icra dürüstlüğü ve SEN aksı", () => {
     expect(readSrc("app/devlabs/projeler/[id]/page.tsx")).toContain("SEN_VOICE");
     expect(readSrc("app/devlabs/projeler/[id]/page.tsx")).toContain("WorkbenchHonestySteps");
     expect(readSrc("app/devlabs/projeler/[id]/page.tsx")).toContain("IssueKeyForm");
+    expect(readSrc("components/devlabs/code-bench-panel.tsx")).toContain("QuickTopUpModal");
     expect(readSrc("components/devlabs/issue-key-form.tsx")).toContain("aria-live");
     expect(readSrc("components/devlabs/issue-key-form.tsx")).toContain("copy.copy");
     expect(readSrc("components/devlabs/issue-key-form.tsx")).toContain("copy.hide");

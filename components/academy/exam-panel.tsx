@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useActionBridge } from "@/components/ui/action-bridge";
 import type { AcademyExamPublicQuestion } from "@/lib/academy/types";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
+import { UX_SEN } from "@/lib/copy/sen-voice/ux";
 
 export function ExamPanel({
   courseId,
@@ -18,6 +21,7 @@ export function ExamPanel({
   questions: AcademyExamPublicQuestion[];
 }) {
   const router = useRouter();
+  const { push } = useActionBridge();
   const [choices, setChoices] = useState<Record<string, number>>({});
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -59,6 +63,14 @@ export function ExamPanel({
     const certificateHash = body.certificate?.certificateHash ?? body.certificate?.serialKey ?? null;
     setResult({ passed: body.passed, score: body.score, certificateHash });
     if (body.passed) {
+      push({
+        title: UX_SEN.bridge.examPassed.title,
+        body: UX_SEN.bridge.examPassed.body,
+        href: UX_SEN.bridge.examHref,
+        cta: UX_SEN.bridge.examPassed.cta,
+        tone: "emerald",
+        ttlMs: 14_000,
+      });
       router.refresh();
     }
   }
@@ -112,6 +124,11 @@ export function ExamPanel({
             <p className="break-all font-mono text-xs text-[var(--muted)]">
               {ACADEMY_SEN.certificates.hashLabel}: {result.certificateHash}
             </p>
+          ) : null}
+          {result.passed ? (
+            <Link href={UX_SEN.bridge.examHref} className="inline-flex text-sm font-semibold text-[var(--safir-deep)] hover:underline">
+              {UX_SEN.bridge.examPassed.cta}
+            </Link>
           ) : null}
         </div>
       ) : null}

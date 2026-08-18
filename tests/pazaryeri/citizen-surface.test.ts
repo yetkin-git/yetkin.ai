@@ -78,6 +78,7 @@ describe("Yetkinİlan vatandaş yüzeyi, çift nakit yolu ve SEN aksı", () => {
     expect(SEN_VOICE.pazaryeri.purchase.received).toBe("Sipariş alındı.");
     expect(SEN_VOICE.pazaryeri.stall.modelSettlement).toContain("Settlement");
     expect(SEN_VOICE.pazaryeri.stall.modelEscrow).toContain("Escrow Hold");
+    expect(SEN_VOICE.pazaryeri.stall.modelVitrine).toContain("yalnız vitrindir");
     expect(HOLD_BPS_DEFAULT).toBe(1000);
     expect(PRICE_LOCK_GRACE_MINUTES).toBe(15);
 
@@ -95,7 +96,10 @@ describe("Yetkinİlan vatandaş yüzeyi, çift nakit yolu ve SEN aksı", () => {
     expect(readSrc("app/pazaryeri/tezgah/page.tsx")).toContain("StallForm");
     expect(readSrc("components/pazaryeri/stall-form.tsx")).toContain("modelSettlement");
     expect(readSrc("components/pazaryeri/stall-form.tsx")).toContain("modelEscrow");
+    expect(readSrc("components/pazaryeri/stall-form.tsx")).toContain("modelVitrine");
+    expect(readSrc("app/pazaryeri/[slug]/page.tsx")).toContain("vitrineOnly");
     expect(readSrc("components/pazaryeri/purchase-button.tsx")).toContain("aria-live");
+    expect(readSrc("components/pazaryeri/purchase-button.tsx")).toContain("QuickTopUpModal");
     expect(readSrc("components/pazaryeri/confirm-delivery-button.tsx")).toContain("aria-live");
     expect(readSrc("lib/pazaryeri/engine.ts")).not.toContain("tezgâhınız");
     expect(readSrc("lib/pazaryeri/offer-engine.ts")).not.toContain("siparişiniz");

@@ -2,6 +2,14 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { catalogSqlPreservesOperatorPrice } from "../../scripts/ops-migrate-lib";
+import {
+  LIB_SHARED_TOP_DIRS,
+  missingRegisteredRoomDirs,
+  parseVerticalRoomIdsFromBoundaries,
+  parseVerticalRoomIdsFromEslint,
+  parseVerticalRoomIdsFromModules,
+  unexpectedLibTopDirs,
+} from "../../scripts/room-ceiling-lib";
 
 const ROOT = process.cwd();
 
@@ -20,10 +28,47 @@ describe("ESLint boundary ve katalog mühür yüzeyi", () => {
     expect(eslint).toContain("@/lib/kernel/db");
     expect(eslint).toContain("VERTICAL_ROOMS");
     expect(eslint).toContain("yetkin.ai");
+    expect(eslint).toContain("yetkin.ai/**");
     expect(eslint).toContain("components/**/*.{ts,tsx}");
     expect(eslint).toContain("app/api/**");
     expect(eslint).toContain("EARNINGS_WALL");
     expect(eslint).toContain("room.wall");
+  });
+
+  it("VERTICAL_ROOMS üç kopyası eleman eleman aynıdır; lib/ sicil dışı oda açmaz", () => {
+    const modules = readSrc("lib/kernel/modules.ts");
+    const eslint = readSrc("eslint.config.mjs");
+    const boundaries = readSrc("scripts/verify-boundaries.ts");
+    const modulesIds = parseVerticalRoomIdsFromModules(modules);
+    const eslintIds = parseVerticalRoomIdsFromEslint(eslint);
+    const boundaryIds = parseVerticalRoomIdsFromBoundaries(boundaries);
+    expect(modulesIds).toEqual([
+      "dashboard",
+      "studio",
+      "academy",
+      "career",
+      "freelancer",
+      "devlabs",
+      "kurumsal",
+      "hibe",
+      "arena",
+      "pazaryeri",
+      "junior",
+      "social",
+    ]);
+    expect(eslintIds).toEqual(modulesIds);
+    expect(boundaryIds).toEqual(modulesIds);
+    expect(boundaries).toContain("room.ceiling");
+    expect(boundaries).toContain("room.sicil");
+
+    const libDirs = readdirSync(join(ROOT, "lib"), { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name);
+    expect(unexpectedLibTopDirs(libDirs, modulesIds!)).toEqual([]);
+    expect(missingRegisteredRoomDirs(libDirs, modulesIds!)).toEqual([]);
+    for (const shared of LIB_SHARED_TOP_DIRS) {
+      expect(libDirs, shared).toContain(shared);
+    }
   });
 
   it("package.json verify:boundaries prebuild zincirindedir", () => {
@@ -49,6 +94,16 @@ describe("ESLint boundary ve katalog mühür yüzeyi", () => {
     expect(profile).not.toContain("runDisplayNamePatch");
     expect(profile).not.toContain("getPrisma");
     expect(profile).not.toContain("display-name-write");
+  });
+
+  it("müze yetkin.ai git ve indeks dışında durur", () => {
+    const gitignore = readSrc(".gitignore");
+    const indexing = readSrc(".cursorindexingignore");
+    expect(gitignore).toMatch(/# Müze[\s\S]*yetkin\.ai\//);
+    expect(indexing).toContain("yetkin.ai/");
+    expect(readSrc("next.config.ts")).toContain("yetkin.ai/**");
+    expect(readSrc("tsconfig.json")).toContain("yetkin.ai");
+    expect(readSrc("vitest.config.ts")).toContain("yetkin.ai/**");
   });
 
   it("üç katalog tohumu Super Admin amount_minor / updated_by korur", () => {

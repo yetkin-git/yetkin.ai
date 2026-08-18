@@ -1,3 +1,5 @@
+import { canonicalApiPathname } from "@/lib/kernel/http/api-v1";
+
 export const API_AUTH_KINDS = [
   "session",
   "public",
@@ -50,7 +52,8 @@ export function matchApiAuthKind(
   pathname: string,
   map: Record<string, string>,
 ): string | null {
-  const exact = map[pathname];
+  const path = canonicalApiPathname(pathname);
+  const exact = map[path];
   if (exact) {
     return exact;
   }
@@ -58,7 +61,7 @@ export function matchApiAuthKind(
     .filter((pattern) => pattern.includes("["))
     .sort((left, right) => right.length - left.length);
   for (const pattern of dynamic) {
-    if (patternToRegExp(pattern).test(pathname)) {
+    if (patternToRegExp(pattern).test(path)) {
       return map[pattern] ?? null;
     }
   }

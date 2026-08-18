@@ -50,7 +50,7 @@ async function main(): Promise<void> {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
   if (!appUrl) {
-    fail("NEXT_PUBLIC_APP_URL yok. docs/07_OPS_RUNBOOK.md §9 / docs/08_STORAGE_CONTRACT.md");
+    fail("NEXT_PUBLIC_APP_URL yok. .system_docs/OPS_RUNBOOK.md §9 / .system_docs/STORAGE_CONTRACT.md");
   }
   if (!supabaseUrl) {
     fail("NEXT_PUBLIC_SUPABASE_URL yok. Storage OPTIONS vurulamaz.");

@@ -178,9 +178,18 @@ describe("kenar JWT ihtiyaç kapısı", () => {
     expect(needsEdgeJwtVerification("/dashboard")).toBe(true);
     expect(needsEdgeJwtVerification("/studio")).toBe(true);
     expect(needsEdgeJwtVerification("/api/studio/generate", "POST")).toBe(true);
+    expect(needsEdgeJwtVerification("/api/v1/studio/generate", "POST")).toBe(true);
     expect(needsEdgeJwtVerification("/academy")).toBe(false);
     expect(needsEdgeJwtVerification("/academy/rail-temel/oyna")).toBe(true);
     expect(needsEdgeJwtVerification("/api/health")).toBe(false);
+    expect(needsEdgeJwtVerification("/api/v1/health", "GET")).toBe(false);
+    expect(needsEdgeJwtVerification("/api/academy/certificates", "GET")).toBe(true);
+    expect(
+      needsEdgeJwtVerification(
+        "/api/v1/academy/certificates/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "GET",
+      ),
+    ).toBe(false);
     expect(needsEdgeJwtVerification("/api/payments/webhooks/paytr", "POST")).toBe(false);
     expect(needsEdgeJwtVerification("/api/studio/generate", "OPTIONS")).toBe(false);
   });

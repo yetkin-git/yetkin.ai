@@ -70,17 +70,17 @@ export const PAZARYERI_SHOWCASE = [
   },
   {
     title: "Örnek Emlak (3D/TKGM Uyumlu)",
-    summary: "Ada-parsel mühürlü emlak ilanı. Teklif onayında kapora emanete kilitlenir. 3D vitrin örneğidir; canlı TKGM API iddiası yoktur.",
+    summary: "Ada-parsel mühürlü emlak ilanı. Yalnız vitrindir; teklif ve emanet bağlanmaz. Canlı TKGM API iddiası yoktur.",
     price: "₺4.850.000,00",
     badge: "Emlak",
-    meta: "TKGM ada-parsel · teklife açık",
+    meta: "TKGM ada-parsel · yalnız vitrin",
   },
   {
     title: "Örnek Vasıta (Sigorta Uyumlu)",
-    summary: "Quick/Hepiyi sigorta kancalı vasıta ilanı. Doğrulanmış teklif ve güvenli kapora; canlı poliçe kesilmez.",
+    summary: "Quick/Hepiyi sigorta kancalı vasıta ilanı. Yalnız vitrindir; teklif ve emanet bağlanmaz. Canlı poliçe kesilmez.",
     price: "₺1.245.000,00",
     badge: "Vasıta",
-    meta: "Sigorta kancası · teklife açık",
+    meta: "Sigorta kancası · yalnız vitrin",
   },
 ] as const;
 

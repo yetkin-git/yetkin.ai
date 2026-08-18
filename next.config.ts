@@ -3,6 +3,8 @@ import { EDGE_SECURITY_HEADER_ENTRIES } from "./lib/kernel/security/edge-guard";
 
 /**
  * yetkin.ai müze klasörü build, webpack ve izleme kapsamı dışındadır (S9-B).
+ * Git ve indeks: kök `.gitignore` + `.cursorindexingignore`.
+ * apps/** (Rail İş dron) Amiral derlemesinden dışarıdadır — Faz 1 kapanana kadar yayın hattı donuk.
  * İnce alias seti anayasa §2.1 — KAPAT oda yönlendirmesi yazılmaz.
  * §2.5 `/kayit` CEO tedavi kilidi ile 9. ince alias'tır (`/giris` çifti).
  */
@@ -10,9 +12,27 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   typedRoutes: true,
   outputFileTracingExcludes: {
-    "*": ["yetkin.ai/**"],
+    "*": ["yetkin.ai/**", "apps/**"],
   },
-  serverExternalPackages: ["@prisma/client", "@prisma/adapter-pg", "pg"],
+  outputFileTracingIncludes: {
+    "*": [
+      "./node_modules/@prisma/client/runtime/**",
+      "./node_modules/@prisma/adapter-pg/**",
+      "./generated/prisma/**",
+    ],
+  },
+  serverExternalPackages: [
+    "@prisma/client",
+    "@prisma/adapter-pg",
+    "@prisma/client-runtime-utils",
+    "pg",
+  ],
+  turbopack: {
+    resolveAlias: {
+      "@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm":
+        "./node_modules/@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.js",
+    },
+  },
   async redirects() {
     return [
       { source: "/kariyer", destination: "/career", permanent: true },

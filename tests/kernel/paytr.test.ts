@@ -8,6 +8,7 @@ import {
   buildPaytrTokenHash,
   encodePaytrUserBasket,
 } from "@/lib/kernel/payments/paytr/checkout";
+import { tryPaytrDevOnlyMockCheckout } from "@/lib/kernel/payments/paytr/mock-checkout";
 import { PaytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import {
   computePaytrWebhookHash,
@@ -26,6 +27,7 @@ describe("PayTR port", () => {
     delete process.env.PAYTR_MERCHANT_SALT;
     delete process.env.PAYTR_SANDBOX;
     delete process.env.PAYTR_ALLOW_MOCK_CHECKOUT;
+    delete process.env.PAYTR_WEBHOOK_IP_ALLOWLIST;
     vi.unstubAllEnvs();
   });
 
@@ -94,6 +96,9 @@ describe("PayTR port", () => {
       transferStatus: null,
     });
     expect(verified.ok).toBe(false);
+    if (!verified.ok) {
+      expect(verified.reason).toBe("invalid_signature");
+    }
   });
 
   it("durum sorgusu ondalıklı TL'yi minor'a çevirir; bulunamadı pending'dir", () => {
@@ -112,6 +117,7 @@ describe("PayTR port", () => {
   });
 
   it("üretimde PAYTR_SANDBOX ve PAYTR_ALLOW_MOCK_CHECKOUT fail-closed", () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     vi.stubEnv("NODE_ENV", "production");
     vi.stubEnv("PAYTR_ALLOW_MOCK_CHECKOUT", "true");
     expect(() => assertPaytrProductionSafety("checkout")).toThrow(
@@ -120,6 +126,15 @@ describe("PayTR port", () => {
     vi.stubEnv("PAYTR_ALLOW_MOCK_CHECKOUT", "");
     vi.stubEnv("PAYTR_SANDBOX", "true");
     expect(() => assertPaytrProductionSafety("webhook")).toThrow(/PAYTR_SANDBOX üretimde yasak/);
+    errorSpy.mockRestore();
+  });
+
+  it("üretimde mock checkout token basmaz; CREDIT iddia etmez", () => {
+    const mock = tryPaytrDevOnlyMockCheckout("wallet-top-up-prod", {
+      NODE_ENV: "production",
+      PAYTR_ALLOW_MOCK_CHECKOUT: "true",
+    });
+    expect(mock).toBeNull();
   });
 
   it("kimlik yokken mock checkout token üretir; CREDIT iddia etmez", async () => {
@@ -181,7 +196,7 @@ describe("PayTR port", () => {
       throw new Error("iframe get-token gövdesi beklenirdi.");
     }
     expect(posted.get("payment_amount")).toBe("1300");
-    expect(posted.get("no_installment")).toBe("0");
+    expect(posted.get("no_installment")).toBe("1");
     expect(posted.get("max_installment")).toBe("0");
     expect(posted.get("payment_type")).toBeNull();
     expect(posted.get("non_3d")).toBeNull();
@@ -200,7 +215,7 @@ describe("PayTR port", () => {
         email: "e2e@example.com",
         paymentAmount: "1300",
         userBasket,
-        noInstallment: "0",
+        noInstallment: "1",
         maxInstallment: "0",
         currency: "TL",
         testMode: "1",

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { SidebarNav } from "@/components/shell/sidebar-nav";
 import { HeaderBar } from "@/components/shell/header-bar";
 import { RoomScope } from "@/components/theme/room-scope";
+import { ActionBridgeProvider } from "@/components/ui/action-bridge";
 import { IconClose } from "@/components/ui/icons";
 import { RailMark } from "@/components/ui/rail-mark";
 import { cn } from "@/components/ui/cn";
@@ -80,10 +81,12 @@ export function ShellChrome({
       </aside>
 
       <RoomScope>
-        <div className="relative lg:pl-72">
-          <HeaderBar onMenu={() => setOpen(true)} showAdmin={showAdmin} userEmail={userEmail} />
-          {children}
-        </div>
+        <ActionBridgeProvider>
+          <div className="relative lg:pl-72">
+            <HeaderBar onMenu={() => setOpen(true)} showAdmin={showAdmin} userEmail={userEmail} />
+            {children}
+          </div>
+        </ActionBridgeProvider>
       </RoomScope>
     </>
   );

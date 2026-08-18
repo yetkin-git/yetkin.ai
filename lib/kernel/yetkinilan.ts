@@ -4,7 +4,7 @@ import type { Route } from "next";
 export const YETKINILAN_BRAND = "Yetkinİlan";
 
 export const YETKINILAN_BLURB =
-  "Dijital üründe anında teslim. Hizmette emanet kilit.";
+  "Dijital üründe anında teslim. Hizmette emanet kilit. Emlak/vasıta yalnız vitrin.";
 
 /**
  * Vatandaş marka yolu. Disk `app/pazaryeri` kalır (S8-A klasör ikizi yok).

@@ -83,7 +83,7 @@ export default async function DevlabsProjectPage({
         </Card>
       </div>
       <Card variant="featured" title={copy.bench.title} eyebrow={copy.bench.eyebrow}>
-        <CodeBenchPanel projectId={board.project.id} keys={board.keys} />
+        <CodeBenchPanel projectId={board.project.id} keys={board.keys} floorMinor={board.codeFloorMinor} />
       </Card>
       {board.artifacts.length > 0 ? (
         <Card variant="glass" title={artifacts.title} bodyClassName="text-[var(--foreground)]">

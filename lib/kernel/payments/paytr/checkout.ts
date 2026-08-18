@@ -1,8 +1,24 @@
 import { createHmac } from "node:crypto";
 import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
+import { logEvent } from "@/lib/kernel/observability/log";
+import {
+  isPaytrMockCheckoutAllowed,
+  tryPaytrDevOnlyMockCheckout,
+} from "@/lib/kernel/payments/paytr/mock-checkout";
+
+export {
+  buildPaytrMockCheckoutToken,
+  isPaytrMockCheckoutAllowed,
+  PAYTR_MOCK_TOKEN_PREFIX,
+  tryPaytrDevOnlyMockCheckout,
+} from "@/lib/kernel/payments/paytr/mock-checkout";
 
 export const PAYTR_GET_TOKEN_URL = "https://www.paytr.com/odeme/api/get-token";
 export const PAYTR_IFRAME_BASE_URL = "https://www.paytr.com/odeme/guvenli";
+/** Cüzdan yükleme tek çekim — vade farkı `total_amount` sapmasını kapatır. */
+export const PAYTR_IFRAME_NO_INSTALLMENT = "1" as const;
+export const PAYTR_IFRAME_MAX_INSTALLMENT = "0" as const;
+export const PAYTR_WEBHOOK_PATH = "/api/payments/webhooks/paytr";
 
 export type PaytrCheckoutCredentials = {
   merchantId: string;
@@ -52,14 +68,42 @@ export type PaytrCheckoutTokenResult =
       message: string;
     };
 
-export const PAYTR_MOCK_TOKEN_PREFIX = "mock-" as const;
+export class PaytrProductionSafetyError extends Error {
+  readonly code = "PAYTR_PRODUCTION_SAFETY" as const;
+  readonly flag: "PAYTR_SANDBOX" | "PAYTR_ALLOW_MOCK_CHECKOUT";
 
-export function buildPaytrMockCheckoutToken(merchantOid: string): string {
-  return `${PAYTR_MOCK_TOKEN_PREFIX}${merchantOid.slice(0, 32)}`;
+  constructor(flag: "PAYTR_SANDBOX" | "PAYTR_ALLOW_MOCK_CHECKOUT", context: string) {
+    const message =
+      flag === "PAYTR_ALLOW_MOCK_CHECKOUT"
+        ? `[PAYTR] PAYTR_ALLOW_MOCK_CHECKOUT üretimde yasak — ${context}`
+        : `[PAYTR] PAYTR_SANDBOX üretimde yasak — ${context}`;
+    super(message);
+    this.name = "PaytrProductionSafetyError";
+    this.flag = flag;
+  }
 }
 
-export function isPaytrMockCheckoutAllowed(): boolean {
-  return process.env.PAYTR_ALLOW_MOCK_CHECKOUT?.trim().toLowerCase() === "true";
+export class PaytrMissingCredentialsError extends Error {
+  readonly code = "PAYTR_MISSING_CREDENTIALS" as const;
+
+  constructor(context: string) {
+    super(
+      `PayTR kimlik bilgileri eksik (${context}): PAYTR_MERCHANT_ID, PAYTR_MERCHANT_KEY ve PAYTR_MERCHANT_SALT zorunludur.`,
+    );
+    this.name = "PaytrMissingCredentialsError";
+  }
+}
+
+export function isPaytrProductionSafetyError(
+  error: unknown,
+): error is PaytrProductionSafetyError {
+  return error instanceof PaytrProductionSafetyError;
+}
+
+export function isPaytrMissingCredentialsError(
+  error: unknown,
+): error is PaytrMissingCredentialsError {
+  return error instanceof PaytrMissingCredentialsError;
 }
 
 export function assertPaytrProductionSafety(context: string): void {
@@ -67,11 +111,25 @@ export function assertPaytrProductionSafety(context: string): void {
     return;
   }
   if (isPaytrMockCheckoutAllowed()) {
-    throw new Error(`[PAYTR] PAYTR_ALLOW_MOCK_CHECKOUT üretimde yasak — ${context}`);
+    const error = new PaytrProductionSafetyError("PAYTR_ALLOW_MOCK_CHECKOUT", context);
+    logEvent({
+      level: "error",
+      event: "paytr.production_safety",
+      reason: "PAYTR_ALLOW_MOCK_CHECKOUT",
+      action: context,
+    });
+    throw error;
   }
   const sandboxFlag = process.env.PAYTR_SANDBOX?.trim();
   if (sandboxFlag === "1" || sandboxFlag?.toLowerCase() === "true") {
-    throw new Error(`[PAYTR] PAYTR_SANDBOX üretimde yasak — ${context}`);
+    const error = new PaytrProductionSafetyError("PAYTR_SANDBOX", context);
+    logEvent({
+      level: "error",
+      event: "paytr.production_safety",
+      reason: "PAYTR_SANDBOX",
+      action: context,
+    });
+    throw error;
   }
 }
 
@@ -85,6 +143,61 @@ export function getPaytrCheckoutCredentials(): PaytrCheckoutCredentials | null {
   const sandboxFlag = process.env.PAYTR_SANDBOX?.trim();
   const testMode = sandboxFlag === "1" || sandboxFlag?.toLowerCase() === "true";
   return { merchantId, merchantKey, merchantSalt, testMode };
+}
+
+export function requirePaytrCheckoutCredentials(context: string): PaytrCheckoutCredentials {
+  const credentials = getPaytrCheckoutCredentials();
+  if (!credentials) {
+    throw new PaytrMissingCredentialsError(context);
+  }
+  return credentials;
+}
+
+export function isPaytrLoopbackOrPrivateIp(ip: string): boolean {
+  const trimmed = ip.trim().toLowerCase();
+  if (!trimmed || trimmed === "localhost" || trimmed === "::1" || trimmed === "0.0.0.0") {
+    return true;
+  }
+  if (trimmed.startsWith("127.") || trimmed.startsWith("10.")) {
+    return true;
+  }
+  if (trimmed.startsWith("192.168.") || trimmed.startsWith("169.254.")) {
+    return true;
+  }
+  return /^172\.(1[6-9]|2\d|3[0-1])\./.test(trimmed);
+}
+
+export function assertPaytrLiveUserIp(userIp: string, context: string): void {
+  if (process.env.NODE_ENV !== "production") {
+    return;
+  }
+  if (isPaytrLoopbackOrPrivateIp(userIp)) {
+    throw new Error(`[PAYTR] user_ip üretimde genel IPv4 olmalıdır — ${context}`);
+  }
+}
+
+export function resolvePaytrMerchantAppOrigin(): string {
+  const raw = process.env.NEXT_PUBLIC_APP_URL?.trim() ?? "";
+  if (process.env.NODE_ENV === "production") {
+    if (!raw) {
+      throw new Error("[PAYTR] NEXT_PUBLIC_APP_URL üretimde zorunludur.");
+    }
+    let parsed: URL;
+    try {
+      parsed = new URL(raw);
+    } catch {
+      throw new Error("[PAYTR] NEXT_PUBLIC_APP_URL üretimde geçerli HTTPS köken olmalıdır.");
+    }
+    if (parsed.protocol !== "https:") {
+      throw new Error("[PAYTR] NEXT_PUBLIC_APP_URL üretimde HTTPS olmalıdır.");
+    }
+    const host = parsed.hostname.toLowerCase();
+    if (host === "localhost" || host === "127.0.0.1" || host === "::1") {
+      throw new Error("[PAYTR] NEXT_PUBLIC_APP_URL üretimde localhost olamaz.");
+    }
+    return `${parsed.protocol}//${parsed.host}`;
+  }
+  return (raw || "http://localhost:3000").replace(/\/$/, "");
 }
 
 /**
@@ -144,6 +257,7 @@ export async function requestPaytrCheckoutToken(
   fetchImpl: typeof fetch = fetch,
 ): Promise<PaytrCheckoutTokenResult> {
   assertPaytrProductionSafety("requestPaytrCheckoutToken");
+  assertPaytrLiveUserIp(input.userIp, "requestPaytrCheckoutToken");
 
   if (!Number.isInteger(input.paymentAmountMinor) || input.paymentAmountMinor <= 0) {
     return {
@@ -155,22 +269,21 @@ export async function requestPaytrCheckoutToken(
 
   const credentials = getPaytrCheckoutCredentials();
   if (!credentials) {
-    const allowMock = isPaytrMockCheckoutAllowed();
-    if (allowMock && process.env.NODE_ENV !== "production") {
-      const token = buildPaytrMockCheckoutToken(input.merchantOid);
+    const mock = tryPaytrDevOnlyMockCheckout(input.merchantOid);
+    if (mock) {
       return {
         ok: true,
-        token,
-        iframeUrl: buildPaytrIframeUrl(token),
-        merchantOid: input.merchantOid,
-        sandboxMode: true,
+        token: mock.token,
+        iframeUrl: buildPaytrIframeUrl(mock.token),
+        merchantOid: mock.merchantOid,
+        sandboxMode: mock.sandboxMode,
         mockCheckout: true,
       };
     }
     return {
       ok: false,
       reason: "missing_credentials",
-      message: allowMock
+      message: isPaytrMockCheckoutAllowed()
         ? "PayTR kimlik bilgileri tanımlı değil. Mock ödeme yalnızca NODE_ENV !== production iken çalışır."
         : "PayTR kimlik bilgileri tanımlı değil. Yerel mock için PAYTR_ALLOW_MOCK_CHECKOUT=true gerekir.",
     };
@@ -180,8 +293,8 @@ export async function requestPaytrCheckoutToken(
   const userBasket = encodePaytrUserBasket(input.userBasket);
   const currency = input.currency ?? "TL";
   const testMode = credentials.testMode ? "1" : "0";
-  const noInstallment = "0";
-  const maxInstallment = "0";
+  const noInstallment = PAYTR_IFRAME_NO_INSTALLMENT;
+  const maxInstallment = PAYTR_IFRAME_MAX_INSTALLMENT;
 
   const paytrToken = buildPaytrTokenHash({
     credentials,

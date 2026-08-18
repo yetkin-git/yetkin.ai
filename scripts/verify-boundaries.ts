@@ -6,15 +6,27 @@
  * 1. lib/kernel dikey oda import etmez.
  * 2. UI / sayfa Prisma ve server-only yazma motoru import etmez.
  * 3. Dikey odalar birbirinin engine/runtime/prisma-store dosyasını import etmez.
+ * 4. VERTICAL_ROOMS üç kopyası eleman eleman aynıdır; lib/ sicil dışı oda açmaz.
  */
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { catalogSqlPreservesOperatorPrice } from "./ops-migrate-lib";
+import {
+  extraLibRoomMessage,
+  missingLibRoomMessage,
+  missingRegisteredRoomDirs,
+  parseVerticalRoomIdsFromEslint,
+  parseVerticalRoomIdsFromModules,
+  roomIdListsEqual,
+  unexpectedLibTopDirs,
+  verticalRoomsSicilDriftMessage,
+} from "./room-ceiling-lib";
 
 const ROOT = process.cwd();
 const FILE_RE = /\.(ts|tsx)$/;
 
+/** Anayasa §2.8 — 12 dikey oda. Sıra mühürlü; lib/kernel/modules.ts ve eslint.config.mjs ile eleman eleman aynı. */
 const VERTICAL_ROOMS = [
   "dashboard",
   "studio",
@@ -325,6 +337,75 @@ for (const sqlFile of CATALOG_SQL) {
   }
 }
 
+{
+  const localIds = [...VERTICAL_ROOMS];
+  const modulesPath = join(ROOT, "lib/kernel/modules.ts");
+  const modulesIds = existsSync(modulesPath)
+    ? parseVerticalRoomIdsFromModules(readFileSync(modulesPath, "utf8"))
+    : null;
+  if (!modulesIds) {
+    violations.push({
+      file: "lib/kernel/modules.ts",
+      spec: "VERTICAL_ROOMS bloğu parse edilemedi",
+      ruleId: "room.sicil",
+    });
+  } else if (!roomIdListsEqual(localIds, modulesIds)) {
+    violations.push({
+      file: "lib/kernel/modules.ts",
+      spec: verticalRoomsSicilDriftMessage(
+        "scripts/verify-boundaries.ts",
+        localIds,
+        "lib/kernel/modules.ts",
+        modulesIds,
+      ),
+      ruleId: "room.sicil",
+    });
+  }
+
+  const eslintIds = existsSync(eslintPath)
+    ? parseVerticalRoomIdsFromEslint(readFileSync(eslintPath, "utf8"))
+    : null;
+  if (!eslintIds) {
+    violations.push({
+      file: "eslint.config.mjs",
+      spec: "VERTICAL_ROOMS bloğu parse edilemedi",
+      ruleId: "room.sicil",
+    });
+  } else if (!roomIdListsEqual(localIds, eslintIds)) {
+    violations.push({
+      file: "eslint.config.mjs",
+      spec: verticalRoomsSicilDriftMessage(
+        "scripts/verify-boundaries.ts",
+        localIds,
+        "eslint.config.mjs",
+        eslintIds,
+      ),
+      ruleId: "room.sicil",
+    });
+  }
+
+  const libRoot = join(ROOT, "lib");
+  const libDirs = existsSync(libRoot)
+    ? readdirSync(libRoot, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => entry.name)
+    : [];
+  for (const extra of unexpectedLibTopDirs(libDirs, VERTICAL_ROOMS)) {
+    violations.push({
+      file: `lib/${extra}`,
+      spec: extraLibRoomMessage(extra, VERTICAL_ROOMS),
+      ruleId: "room.ceiling",
+    });
+  }
+  for (const missing of missingRegisteredRoomDirs(libDirs, VERTICAL_ROOMS)) {
+    violations.push({
+      file: `lib/${missing}`,
+      spec: missingLibRoomMessage(missing),
+      ruleId: "room.missing",
+    });
+  }
+}
+
 if (violations.length > 0) {
   console.error(
     [
@@ -340,5 +421,5 @@ if (violations.length > 0) {
 }
 
 console.log(
-  "verify:boundaries OK — kernel↛dikey, UI↛prisma/yazma motoru, oda↛oda engine, freelancer/kurumsal oda duvarı, katalog ON CONFLICT Super Admin tutarını korur.",
+  "verify:boundaries OK — kernel↛dikey, UI↛prisma/yazma motoru, oda↛oda engine, freelancer/kurumsal oda duvarı, 12 oda sicili, katalog ON CONFLICT Super Admin tutarını korur.",
 );

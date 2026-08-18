@@ -38,3 +38,8 @@ export function decideWalletTopUpReuse(
   }
   return { action: "reuse", retryCheckout: existing.status === "PENDING" };
 }
+
+/** beginCheckout ok değilse PENDING aynı istekte kapanır (failPaymentOrder / markFailed). */
+export function shouldFailCloseWalletTopUpCheckout(checkoutOk: boolean): boolean {
+  return checkoutOk === false;
+}

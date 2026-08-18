@@ -22,11 +22,15 @@ describe("T3 akademi canlı nakit döngü yüzeyi", () => {
     expect(script).toContain("Mühür geçerli");
     expect(script).toContain("CLEARED");
     expect(script).toContain("wallet-top-up");
+    expect(script).toContain("E2E_T3_EMAIL");
+    expect(script).toContain("buildIdempotentMerchantOid");
+    expect(script).toContain("PENDING sızıntısı");
+    expect(script).toContain("checks.paytr");
+    expect(script).toContain("checks.inngest");
     expect(script).not.toContain("LOCAL_MOCK_AUTH");
     expect(script).not.toContain("PAYTR_ALLOW_MOCK_CHECKOUT=true");
-    expect(script).toContain("is_generated");
+    expect(script).not.toContain("auth.signUp");
     expect(script).not.toMatch(/confirmed_at = COALESCE\(confirmed_at, NOW\(\)\)/);
-    expect(script).toContain("FROM public.users WHERE id = $1::text");
     expect(script).not.toMatch(/FROM public\.users WHERE id = \$1::uuid/);
     expect(script).not.toMatch(/UPDATE\s+wallets/i);
     expect(script).not.toMatch(/SET\s+amount_minor/i);

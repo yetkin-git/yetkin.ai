@@ -9,7 +9,9 @@ import type {
   FreelancerContractMessageRecord,
 } from "@/lib/freelancer/types";
 import { FREELANCER_SEN } from "@/lib/copy/sen-voice/freelancer";
+import { UX_SEN } from "@/lib/copy/sen-voice/ux";
 import { freelancerMessageKindLabel } from "@/lib/copy/status-labels";
+import { useActionBridge } from "@/components/ui/action-bridge";
 
 export function ContractMessageThread({
   contractId,
@@ -19,6 +21,7 @@ export function ContractMessageThread({
   messages: FreelancerContractMessageRecord[];
 }) {
   const router = useRouter();
+  const { push } = useActionBridge();
   const [kind, setKind] = useState<FreelancerContractMessageKind>("TEXT");
   const [body, setBody] = useState("");
   const [artifactUrl, setArtifactUrl] = useState("");
@@ -46,6 +49,13 @@ export function ContractMessageThread({
     }
     setBody("");
     setArtifactUrl("");
+    if (kind === "DELIVERY") {
+      push({
+        title: UX_SEN.bridge.deliveryPosted.title,
+        body: UX_SEN.bridge.deliveryPosted.body,
+        tone: "emerald",
+      });
+    }
     router.refresh();
   }
 

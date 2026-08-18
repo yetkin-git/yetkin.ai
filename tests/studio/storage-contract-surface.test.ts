@@ -85,27 +85,17 @@ describe("Studio depo sözleşmesi (T2-2)", () => {
     ).rejects.toThrow(/nesne depo bağlı değil/);
   });
 
-  it("docs/08 ve tipler service_role olmadan imzalı PUT tarif eder; CHECK tavanı durur", () => {
-    const contract = readSrc("docs/08_STORAGE_CONTRACT.md");
+  it("şema ve tipler service_role olmadan imzalı PUT tarif eder; CHECK tavanı durur", () => {
     const storage = readSrc("lib/studio/storage.ts");
     const schema = readSrc("prisma/schema/studio.prisma");
     const sql = readSrc("prisma/migrations/20260815160000_studio_data_base64_max_chars/migration.sql");
     const ops = readSrc("scripts/ops-migrate.ts");
     const bucketSql = readSrc("supabase/storage/studio-assets.sql");
 
-    expect(contract).toContain("studio-assets");
-    expect(contract).toContain("createSignedUploadUrl");
-    expect(contract).toContain("2097152");
-    expect(contract).toContain("1572864");
-    expect(contract).toContain("content_hash");
-    expect(contract).toContain("byte_size");
-    expect(contract).toContain("SUPABASE_SERVICE_ROLE_KEY");
-    expect(contract).toContain("auth.uid()");
-    expect(contract).toContain("ops:migrate");
     expect(storage).toContain("SUPABASE_SERVICE_ROLE_KEY");
     expect(storage).toContain("StudioObjectStoreMetadata");
     expect(storage).toContain("StudioSignedUploadIntent");
-    expect(schema).toContain("docs/08_STORAGE_CONTRACT.md");
+    expect(schema).toContain(".system_docs/STORAGE_CONTRACT.md");
     expect(schema).toContain("storageKind");
     expect(schema).toContain("objectPath");
     expect(schema).toContain("byteSize");
@@ -114,6 +104,5 @@ describe("Studio depo sözleşmesi (T2-2)", () => {
     expect(ops).not.toContain("storage.objects");
     expect(bucketSql).toContain("(storage.foldername(name))[1] = auth.uid()::text");
     expect(bucketSql).toContain("NEXT_PUBLIC_APP_URL");
-    expect(contract).toContain("NEXT_PUBLIC_APP_URL");
   });
 });

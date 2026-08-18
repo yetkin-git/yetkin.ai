@@ -15,6 +15,8 @@ describe("K7 emanet TTL çekirdek sınırı", () => {
     expect(source).toContain("INNGEST_EVENTS.ESCROW_REFUNDED");
     expect(source).toContain("escrowRefundedNotify");
     expect(source).toContain("notify-vertical-hooks");
+    expect(source).toContain("ESCROW_TTL_APPROACHING");
+    expect(source).toContain("escrow-ttl-warn:");
     expect(source).not.toContain("freelancerContract");
     expect(source).not.toContain("corporateJobPosting");
     expect(source).not.toContain("arenaTender");
@@ -42,6 +44,7 @@ describe("K7 emanet TTL çekirdek sınırı", () => {
     expect(bindings).toContain("ARENA_ESCROW_REFUND_PURPOSE");
     expect(bindings).toContain("PAZARYERI_ESCROW_REFUND_PURPOSE");
     expect(bindings).toContain("registerEscrowTimeoutGuard");
+    expect(bindings).toContain("registerEscrowTtlApproachingHook");
   });
 
   it("public/favicon.ico kenar 404 kirliliğini keser", () => {

@@ -198,6 +198,17 @@ export function bindFreelancerStore(db: FreelancerWriteDb): FreelancerStore {
       });
       return result.count === 1;
     },
+    async claimFundedContract(id, patch) {
+      const result = await db.freelancerContract.updateMany({
+        where: { id, status: "FUNDED" },
+        data: patch,
+      });
+      if (result.count !== 1) {
+        return null;
+      }
+      const row = await db.freelancerContract.findUnique({ where: { id } });
+      return row ? toContract(row) : null;
+    },
     async insertBid(bid) {
       const row = await db.freelancerBid.create({
         data: {
@@ -347,6 +358,24 @@ export function bindFreelancerStore(db: FreelancerWriteDb): FreelancerStore {
         orderBy: { createdAt: "asc" },
       });
       return rows.map(toMessage);
+    },
+    async listLatestDeliveryAtByContractIds(contractIds) {
+      const ids = [...new Set(contractIds.filter((id) => id.length > 0))];
+      if (ids.length === 0) {
+        return new Map();
+      }
+      const rows = await db.freelancerContractMessage.findMany({
+        where: { contractId: { in: ids }, kind: "DELIVERY" },
+        select: { contractId: true, createdAt: true },
+      });
+      const latest = new Map<string, Date>();
+      for (const row of rows) {
+        const prev = latest.get(row.contractId);
+        if (!prev || row.createdAt.getTime() > prev.getTime()) {
+          latest.set(row.contractId, row.createdAt);
+        }
+      }
+      return latest;
     },
     async insertSquad(squad) {
       const row = await db.freelancerSquad.create({

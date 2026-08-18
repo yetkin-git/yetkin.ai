@@ -44,6 +44,7 @@
     "tests/**/*.ts",
     "prisma.config.ts",
     "next.config.ts",
+    "instrumentation.ts",
     "vitest.config.ts",
     "playwright.config.ts",
     "generated/prisma/**/*.ts",

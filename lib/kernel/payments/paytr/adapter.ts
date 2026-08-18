@@ -5,7 +5,10 @@ import type {
   PaymentProvider,
   WebhookVerification,
 } from "@/lib/kernel/payments/provider";
-import { requestPaytrCheckoutToken } from "@/lib/kernel/payments/paytr/checkout";
+import {
+  isPaytrProductionSafetyError,
+  requestPaytrCheckoutToken,
+} from "@/lib/kernel/payments/paytr/checkout";
 import {
   isPaytrWebhookPayload,
   parsePaytrAmountMinor,
@@ -56,7 +59,10 @@ export class PaytrPaymentProvider implements PaymentProvider {
       if (!verifyPaytrWebhookHash(payload)) {
         return { ok: false, reason: "invalid_signature" };
       }
-    } catch {
+    } catch (error) {
+      if (isPaytrProductionSafetyError(error)) {
+        throw error;
+      }
       return { ok: false, reason: "missing_credentials" };
     }
     const amountMinor = parsePaytrAmountMinor(payload.totalAmount);

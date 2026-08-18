@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { pingPrisma, probeReadiness } from "@/lib/kernel/health/probe";
+import { pingPrisma, probeReadiness, readServiceEnvChecks } from "@/lib/kernel/health/probe";
 
 describe("health readiness probe", () => {
   it("DATABASE_URL yoksa 503 ve db unconfigured", async () => {
@@ -42,6 +42,45 @@ describe("health readiness probe", () => {
     expect(ok.body.ok).toBe(true);
     expect(ok.body.checks.db).toBe("ok");
     expect(ok.body.status).toBe("ok");
+  });
+
+  it("paytr ve inngest kısmi anahtarda unconfigured (fail-closed sicil)", async () => {
+    expect(
+      readServiceEnvChecks({
+        PAYTR_MERCHANT_ID: "id",
+        PAYTR_MERCHANT_KEY: "key",
+      }).paytr,
+    ).toBe("unconfigured");
+    expect(
+      readServiceEnvChecks({
+        INNGEST_EVENT_KEY: "evt",
+      }).inngest,
+    ).toBe("unconfigured");
+    expect(
+      readServiceEnvChecks({
+        PAYTR_MERCHANT_ID: "id",
+        PAYTR_MERCHANT_KEY: "key",
+        PAYTR_MERCHANT_SALT: "salt",
+        INNGEST_EVENT_KEY: "evt",
+        INNGEST_SIGNING_KEY: "sign",
+      }),
+    ).toEqual({
+      supabaseAuth: "unconfigured",
+      inngest: "configured",
+      paytr: "configured",
+    });
+
+    const ok = await probeReadiness({
+      databaseUrl: "postgres://session/rail",
+      pingDb: async () => undefined,
+      env: {
+        PAYTR_MERCHANT_ID: "id",
+        INNGEST_SIGNING_KEY: "sign",
+      },
+    });
+    expect(ok.statusCode).toBe(200);
+    expect(ok.body.checks.paytr).toBe("unconfigured");
+    expect(ok.body.checks.inngest).toBe("unconfigured");
   });
 
   it("pingPrisma timeout'ta fırlatır", async () => {

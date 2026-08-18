@@ -96,7 +96,13 @@ export default async function AcademyCoursePage({
           <p>{copy.purchaseBody(PRICE_LOCK_GRACE_MINUTES)}</p>
           {session ? (
             <div className="mt-4">
-              <PurchaseButton courseId={board.course.id} lockMinutes={PRICE_LOCK_GRACE_MINUTES} />
+              <PurchaseButton
+                courseId={board.course.id}
+                lockMinutes={PRICE_LOCK_GRACE_MINUTES}
+                priceMinor={board.course.priceMinor}
+                currencyCode={board.course.currencyCode}
+                playHref={`/academy/${board.course.slug}/oyna`}
+              />
             </div>
           ) : (
             <div className="mt-4 space-y-4">

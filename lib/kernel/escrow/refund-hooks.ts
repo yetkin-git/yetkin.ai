@@ -19,6 +19,7 @@ export type EscrowTimeoutGuard = (
 
 const refundHooks = new Map<EscrowRefundPurpose, OnEscrowRefunded>();
 const timeoutGuards = new Map<EscrowRefundPurpose, EscrowTimeoutGuard>();
+const ttlApproachingHooks = new Map<EscrowRefundPurpose, OnEscrowRefunded>();
 
 export function registerEscrowRefundHook(
   purpose: EscrowRefundPurpose,
@@ -42,9 +43,21 @@ export function registerEscrowTimeoutGuard(
   timeoutGuards.set(key, guard);
 }
 
+export function registerEscrowTtlApproachingHook(
+  purpose: EscrowRefundPurpose,
+  handler: OnEscrowRefunded,
+): void {
+  const key = purpose.trim();
+  if (!key) {
+    throw new Error("Emanet TTL yaklaşım purpose boş olamaz.");
+  }
+  ttlApproachingHooks.set(key, handler);
+}
+
 export function clearEscrowRefundHooks(): void {
   refundHooks.clear();
   timeoutGuards.clear();
+  ttlApproachingHooks.clear();
 }
 
 export function listedEscrowRefundPurposes(): EscrowRefundPurpose[] {
@@ -77,4 +90,18 @@ export async function shouldFreezeEscrowTimeout(holdId: string): Promise<boolean
     }
   }
   return false;
+}
+
+/**
+ * TTL yaklaşımında kayıtlı dikeylere purpose+holdId basar.
+ * Çekirdek karşı tarafı bilmez; freelancer kancası ustayı bildirir.
+ */
+export async function notifyEscrowTtlApproaching(holdId: string): Promise<void> {
+  const id = holdId.trim();
+  if (!id) {
+    return;
+  }
+  for (const [purpose, handler] of ttlApproachingHooks) {
+    await handler(purpose, id);
+  }
 }

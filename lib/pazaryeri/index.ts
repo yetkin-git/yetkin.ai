@@ -1,12 +1,16 @@
 export const MODULE_ID = "pazaryeri" as const;
 
-/** S61-A: dijital + hizmet + emlak + vasıta. Teklif ve doping çekirdek emanette. */
+/** S61-A: dijital + hizmet nakit; emlak + vasıta yalnız vitrin. Teklif/emanet varlıkta bağlanmaz. */
 export const PAZARYERI_SURFACES = ["digital-goods", "services", "real-estate", "vehicles"] as const;
 
-/** Faz 6A + Faz 10 — ilan → fiyat kilidi / teklif → cüzdan debit → anında net veya teslim teyidi. */
+/** Dijital/hizmet nakit yolu. Emlak/vasıta bu yola girmez. */
 export const PAZARYERI_HAPPY_PATH = ["listing", "price-lock", "settle-or-escrow", "deliver"] as const;
 
+/** Anayasa Kırmızı çizgi 4 — emlak/vasıta yalnız listing (vitrin). */
+export const PAZARYERI_ASSET_VITRINE_PATH = ["listing"] as const;
+
 export type PazaryeriHappyPathStep = (typeof PAZARYERI_HAPPY_PATH)[number];
+export type PazaryeriAssetVitrinePathStep = (typeof PAZARYERI_ASSET_VITRINE_PATH)[number];
 
 export {
   PAZARYERI_ASSET_FLOOR_UNIT_KEY,

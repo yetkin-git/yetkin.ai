@@ -19,12 +19,18 @@ describe("freelancer kabul mühürü — yazma yüzeyi", () => {
     expect(runtime).toContain("bindEscrowStore(tx)");
     expect(runtime).toContain("bindFreelancerStore(tx)");
     expect(types).toContain("runAcceptAtomic");
+    expect(types).toContain("runReleaseAtomic");
     expect(engine).toContain("runAcceptAtomic");
+    expect(engine).toContain("runReleaseAtomic");
+    expect(engine).toContain("runReleaseAtomic");
     expect(engine).toContain("withUniqueRetry");
     expect(engine).toContain("P2002");
     expect(engine).toContain("healed: !holdApplied");
     expect(engine).toContain("createEscrowHold");
     expect(engine).toContain("freelancerJobEscrowReferenceKey");
+    expect(engine).toContain("RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE");
+    expect(engine).toContain("ConflictError");
+    expect(engine).toContain("AMOUNT_MINOR_OVERFLOW_ERROR");
     expect(fsm).toContain("freelancer.contract.job:");
     expect(engine).not.toContain("freelancerContractReferenceKey(contractId)");
   });
@@ -38,6 +44,9 @@ describe("freelancer kabul mühürü — yazma yüzeyi", () => {
     expect(route).toContain("FREELANCER_ESCROW_HOLD_UNIT_KEY");
     expect(route).toContain("findActiveEntry");
     expect(route).toContain("holdBps");
+    expect(route).toContain("requireRailV1IdempotencyKey");
+    expect(route).toContain("return await settleHttpIdempotency");
+    expect(route).toContain("toFreelancerAcceptWire");
     expect(route).not.toContain("tryIssueCareerVisaStamp");
     expect(route).not.toContain("issueCareerVisaStamp");
     expect(engine).not.toContain("tryIssueCareerVisaStamp");

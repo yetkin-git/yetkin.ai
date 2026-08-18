@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
-import { normalizePathname } from "@/lib/kernel/security/edge-guard";
+import {
+  buildV1FailBody,
+  canonicalApiPathname,
+  isV1JsonRequest,
+} from "@/lib/kernel/http/api-v1";
+import { REQUEST_ID_HEADER, resolveRequestId } from "@/lib/kernel/http/request-id";
 
 export type HttpRateLimitConfig = {
   keyPrefix: string;
@@ -92,7 +97,7 @@ export function matchEdgeRateLimit(
   pathname: string,
   method: string,
 ): HttpRateLimitConfig | null {
-  const path = normalizePathname(pathname);
+  const path = canonicalApiPathname(pathname);
   const verb = method.toUpperCase();
   if (verb === "OPTIONS") {
     return null;
@@ -106,7 +111,17 @@ export function matchEdgeRateLimit(
   return null;
 }
 
-export function rateLimitedJsonResponse(result: HttpRateLimitResult): NextResponse {
+export function rateLimitedJsonResponse(
+  result: HttpRateLimitResult,
+  request?: Request,
+): NextResponse {
+  if (request && isV1JsonRequest(request)) {
+    const requestId = resolveRequestId(request);
+    return NextResponse.json(buildV1FailBody(HTTP_RATE_LIMIT_ERROR, requestId), {
+      status: 429,
+      headers: { ...result.headers, [REQUEST_ID_HEADER]: requestId },
+    });
+  }
   return NextResponse.json(
     { ok: false, error: HTTP_RATE_LIMIT_ERROR },
     { status: 429, headers: result.headers },

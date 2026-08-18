@@ -25,6 +25,7 @@ export {
   acceptFreelancerBid,
   createFreelancerJob,
   isFreelancerUniqueViolation,
+  listOwnerJobBids,
   refundFreelancerContract,
   releaseFreelancerContract,
   submitFreelancerBid,
@@ -34,6 +35,7 @@ export {
   onEscrowRefunded as onFreelancerEscrowRefunded,
   shouldFreezeEscrowTimeout as shouldFreezeFreelancerEscrowTimeout,
 } from "@/lib/freelancer/escrow-refund";
+export { onEscrowTtlApproaching as onFreelancerEscrowTtlApproaching } from "@/lib/freelancer/ttl-notice";
 export {
   adjudicateFreelancerDispute,
   approveFreelancerArbitration,
@@ -45,7 +47,17 @@ export {
 export {
   listFreelancerContractMessages,
   postFreelancerContractMessage,
+  postFreelancerDeliveryProof,
+  toFreelancerDeliveryMessageWire,
 } from "@/lib/freelancer/messages";
+export {
+  listFreelancerContractViews,
+  toFreelancerContractViewWire,
+  toFreelancerContractWire,
+  toFreelancerAcceptWire,
+  toFreelancerReleaseWire,
+  toOwnerBidsWire,
+} from "@/lib/freelancer/contract-view";
 export { upsertFreelancerSquad } from "@/lib/freelancer/squad-engine";
 export {
   canAcceptBid,

@@ -58,16 +58,10 @@ describe("Adım 10 — insan ops sözleşmesi (kod mühürü)", () => {
       "https://rail.example/auth/callback",
       "https://rail.example/sifre-yenile",
     ]);
-    const runbook = readSrc("docs/07_OPS_RUNBOOK.md");
-    expect(runbook).toContain("/auth/callback");
-    expect(runbook).toContain("/sifre-yenile");
-    expect(runbook).toContain("emailRedirectTo");
-    expect(runbook).toContain("exchangeCodeForSession");
   });
 
   it("ops:migrate Prisma CHECK ve http_idempotency_records post-apply mühürler", () => {
     const lib = readSrc("scripts/ops-migrate-lib.ts");
-    const runbook = readSrc("docs/07_OPS_RUNBOOK.md");
     expect(lib).toContain("assertStudioDataBase64Check");
     expect(lib).toContain("assertHttpIdempotencyRecords");
     expect(lib).toContain("assertAcademyLessonCompletions");
@@ -76,9 +70,6 @@ describe("Adım 10 — insan ops sözleşmesi (kod mühürü)", () => {
     expect(lib).toContain("studio_digital_assets_data_base64_max_chars");
     expect(lib).toContain("http_idempotency_records");
     expect(lib).toContain("runPostApplySeals");
-    expect(runbook).toContain("studio_digital_assets_data_base64_max_chars");
-    expect(runbook).toContain("http_idempotency_records");
-    expect(runbook).toContain("2097152");
   });
 
   it("INNGEST_SIGNING_KEY veya INNGEST_EVENT_KEY üretimde boşsa serve fail-closed; INNGEST_DEV açmaz", () => {
@@ -108,6 +99,7 @@ describe("Adım 10 — insan ops sözleşmesi (kod mühürü)", () => {
   });
 
   it("PayTR üretimde sandbox ve mock checkout fail-closed", () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     vi.stubEnv("NODE_ENV", "production");
     vi.stubEnv("PAYTR_ALLOW_MOCK_CHECKOUT", "true");
     vi.stubEnv("PAYTR_SANDBOX", "");
@@ -119,6 +111,7 @@ describe("Adım 10 — insan ops sözleşmesi (kod mühürü)", () => {
     expect(() => assertPaytrProductionSafety("smoke")).toThrow(/PAYTR_SANDBOX üretimde yasak/);
     vi.stubEnv("PAYTR_SANDBOX", "");
     expect(() => assertPaytrProductionSafety("smoke")).not.toThrow();
+    errorSpy.mockRestore();
   });
 });
 

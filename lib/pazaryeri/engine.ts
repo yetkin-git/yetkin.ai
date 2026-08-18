@@ -39,11 +39,12 @@ import {
   type PazaryeriStore,
 } from "@/lib/pazaryeri/types";
 import {
+  assertCashPathAllowedForCategory,
   assertCategoryFields,
   isAssetCategory,
   listingCatalogUnitKey,
+  listingKindForCategory,
   resolveListingCategory,
-  settlementKindForCategory,
 } from "@/lib/pazaryeri/category";
 
 export type PazaryeriEnginePorts = {
@@ -146,13 +147,13 @@ export async function listMarketplaceProduct(
   const title = command.title.trim();
   const summary = command.summary.trim();
   const category = resolveListingCategory({ category: command.category, kind: command.kind });
-  const kind = settlementKindForCategory(category);
+  const kind = listingKindForCategory(category);
   const fields = assertCategoryFields({
     category,
     tkgmBlockParcel: command.tkgmBlockParcel,
     insuranceQuoteHook: command.insuranceQuoteHook,
   });
-  const isOfferAllowed = command.isOfferAllowed ?? isAssetCategory(category);
+  const isOfferAllowed = isAssetCategory(category) ? false : (command.isOfferAllowed ?? false);
 
   const catalog = await requireActiveCatalogEntry(
     ports.catalog,
@@ -193,6 +194,7 @@ export async function lockMarketplaceProductPrice(
   command: LockMarketplaceProductCommand,
 ): Promise<{ product: MarketplaceProductRecord; lock: CheckoutPriceLockSnapshot }> {
   const product = await requireListedProduct(ports.pazaryeri, command.productId);
+  assertCashPathAllowedForCategory(product.category);
   const catalog = await requireActiveCatalogEntry(
     ports.catalog,
     PAZARYERI_MODULE_KEY,
@@ -232,6 +234,7 @@ export async function purchaseMarketplaceProduct(
   command: PurchaseMarketplaceProductCommand,
 ): Promise<MarketplacePurchaseResult> {
   const product = await requireListedProduct(ports.pazaryeri, command.productId);
+  assertCashPathAllowedForCategory(product.category);
   if (product.userId === command.userId) {
     throw new Error("Kendi tezgâhtan satın alınamaz.");
   }

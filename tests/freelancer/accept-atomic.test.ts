@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { createEscrowHold } from "@/lib/kernel/escrow";
+import { ConflictError } from "@/lib/kernel/http/errors";
+import { RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE } from "@/lib/kernel/http/v1-contract";
 import {
   acceptFreelancerBid,
   createFreelancerJob,
@@ -236,7 +238,14 @@ describe("freelancer teklif kabulü — atomik emanet", () => {
         bidId: bid.id,
         actorUserId: CLIENT,
       }),
-    ).rejects.toThrow(/mevcut tutarı aşamaz/);
+    ).rejects.toBeInstanceOf(ConflictError);
+    await expect(
+      acceptFreelancerBid(ports, {
+        jobId: job.id,
+        bidId: bid.id,
+        actorUserId: CLIENT,
+      }),
+    ).rejects.toThrow(RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE);
     expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(500);
     expect(await ports.freelancer.getContractByJobId(job.id)).toBeNull();
     expect(await ports.escrow.findByReferenceKey(freelancerJobEscrowReferenceKey(job.id))).toBeNull();

@@ -101,3 +101,21 @@ export async function resolvePublicAcademyCertificate(
     },
   };
 }
+
+/** JSON teli: Date → ISO. userId / attemptId / purchaseId bu nesnede yoktur. */
+export function toPublicAcademyCertificateWire(view: PublicAcademyCertificateView) {
+  return {
+    title: view.title,
+    courseTitle: view.courseTitle,
+    courseSlug: view.courseSlug,
+    score: view.score,
+    issuedAt: view.issuedAt.toISOString(),
+    certificateHash: view.certificateHash,
+    curriculumSeal: view.curriculumSeal,
+    algorithm: view.algorithm,
+    payloadVersion: view.payloadVersion,
+    hashedFields: [...view.hashedFields],
+    sealStatus: view.sealStatus,
+    passScore: view.passScore,
+  };
+}

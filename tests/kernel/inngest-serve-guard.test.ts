@@ -1,7 +1,11 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  assertInngestCronServeReady,
   canInvokeInngestServe,
+  INNGEST_CRON_SERVE_NOT_READY,
+  INNGEST_KERNEL_CRON_FUNCTION_IDS,
   isInngestDevEnabled,
+  resolveInngestServeMode,
   shouldFailClosedInngestServe,
 } from "@/lib/kernel/jobs/inngest-guard";
 import { inngestNotConfiguredResponse } from "@/lib/kernel/jobs/inngest";
@@ -100,6 +104,57 @@ describe("Inngest imza fail-closed", () => {
         INNGEST_EVENT_KEY: "eventkey-dev-test",
       }),
     ).toBe(true);
+  });
+
+  it("cloud ve INNGEST_DEV modunda cron 503'e düşmez; boş anahtarda throw", () => {
+    expect(INNGEST_KERNEL_CRON_FUNCTION_IDS).toEqual([
+      "paytr-clearing-scan",
+      "escrow-timeout-scan",
+      "escrow-ttl-approaching-scan",
+    ]);
+    expect(
+      resolveInngestServeMode({
+        NODE_ENV: "production",
+        INNGEST_SIGNING_KEY: "signkey-prod-test",
+        INNGEST_EVENT_KEY: "eventkey-prod-test",
+      }),
+    ).toBe("cloud");
+    expect(
+      assertInngestCronServeReady({
+        NODE_ENV: "production",
+        INNGEST_SIGNING_KEY: "signkey-prod-test",
+        INNGEST_EVENT_KEY: "eventkey-prod-test",
+      }),
+    ).toBe("cloud");
+    expect(
+      resolveInngestServeMode({
+        NODE_ENV: "development",
+        INNGEST_DEV: "1",
+        INNGEST_SIGNING_KEY: "",
+        INNGEST_EVENT_KEY: "",
+      }),
+    ).toBe("dev");
+    expect(
+      assertInngestCronServeReady({
+        NODE_ENV: "development",
+        INNGEST_DEV: "1",
+      }),
+    ).toBe("dev");
+    expect(
+      resolveInngestServeMode({
+        NODE_ENV: "production",
+        INNGEST_DEV: "1",
+        INNGEST_SIGNING_KEY: "",
+        INNGEST_EVENT_KEY: "",
+      }),
+    ).toBe("fail-closed");
+    expect(() =>
+      assertInngestCronServeReady({
+        NODE_ENV: "production",
+        INNGEST_SIGNING_KEY: "",
+        INNGEST_EVENT_KEY: "",
+      }),
+    ).toThrow(INNGEST_CRON_SERVE_NOT_READY);
   });
 });
 

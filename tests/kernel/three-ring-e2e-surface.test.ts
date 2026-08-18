@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
@@ -132,11 +132,6 @@ describe("D3 operatör yüzeyi", () => {
     expect(inngestRoute).toContain("inngestNotConfiguredResponse");
     expect(guard).toContain("INNGEST_SIGNING_KEY");
     expect(guard).toContain("INNGEST_EVENT_KEY");
-    expect(readSrc("docs/07_OPS_RUNBOOK.md")).toContain("Access-Control-Allow-Origin: *");
-    expect(readSrc("docs/07_OPS_RUNBOOK.md")).toContain("07_tedavi_raporu_d3_nihai_muhur.md");
-    expect(existsSync(join(ROOT, "docs/07_tedavi_raporu_d3_nihai_muhur.md"))).toBe(true);
-    expect(readSrc("docs/07_tedavi_raporu_d3_nihai_muhur.md")).toContain("üç halka");
-    expect(readSrc("docs/07_tedavi_raporu_d3_nihai_muhur.md")).toContain("fail-closed");
   });
 
   it("üç halka yardımcısı tek vatandaş kimliği ve vize kapısı taşır", () => {

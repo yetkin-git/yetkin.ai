@@ -37,13 +37,20 @@ function extractDollarBlob(sql: string, tag: string): string {
 }
 
 describe("akademi kurs tohumu yüzeyi", () => {
-  it("iki yayında teknik kurs taşır; fiyat kurs satırında değil katalog birimindedir", () => {
-    expect(ACADEMY_COURSE_SEEDS).toHaveLength(2);
+  it("üç yayında kurs taşır; ticari dikey ≥10 soru, fiyat kurs satırında değil katalog birimindedir", () => {
+    expect(ACADEMY_COURSE_SEEDS).toHaveLength(3);
     expect(ACADEMY_SEED_MODULE_KEY).toBe(ACADEMY_MODULE_KEY);
     expect(ACADEMY_SEED_CURRENCY).toBe("TRY");
     const slugs = ACADEMY_COURSE_SEEDS.map((row) => row.slug);
     expect(slugs).toContain("rail-temel");
     expect(slugs).toContain("rayli-sinyal-emniyet");
+    expect(slugs).toContain("yz-icerik-gorsel-uretim");
+    const commercial = ACADEMY_COURSE_SEEDS.find((row) => row.slug === "yz-icerik-gorsel-uretim");
+    expect(commercial?.title).toBe("Yapay Zekâ Destekli İçerik ve Görsel Üretim");
+    expect(commercial?.exam.questions.length).toBeGreaterThanOrEqual(10);
+    expect(commercial?.exam.passScore).toBe(ACADEMY_EXAM_PASS_SCORE);
+    const commercialIndexes = new Set(commercial?.exam.questions.map((q) => q.correctIndex));
+    expect(commercialIndexes.size).toBeGreaterThanOrEqual(3);
     for (const row of ACADEMY_COURSE_SEEDS) {
       expect(row.catalogUnitKey.startsWith("course:")).toBe(true);
       expect(row.seedAmountMinor).toBeGreaterThan(0);

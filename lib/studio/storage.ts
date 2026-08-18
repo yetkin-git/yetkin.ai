@@ -2,7 +2,7 @@
  * Studio görsel depolama kalkanı.
  *
  * Taşıyıcı: Supabase Storage imzalı PUT (`kind: "object-store"`).
- * Eski satırlar `inline-base64` okunur (kör DROP yok). Sözleşme: docs/08_STORAGE_CONTRACT.md
+ * Eski satırlar `inline-base64` okunur (kör DROP yok). Sözleşme: .system_docs/STORAGE_CONTRACT.md
  *   - `SUPABASE_SERVICE_ROLE_KEY` JS/env'de yoktur (anayasa).
  *   - Anon + vatandaş JWT; bucket policy `user_id/` öneki.
  *   - Prisma metadata (bucket, path, mime, hash, byteSize); bytes nesne depoda.

@@ -34,8 +34,15 @@ describe("T4 nakit e2e yüzeyi", () => {
 
     expect(checkout).toContain("PAYTR_ALLOW_MOCK_CHECKOUT");
     expect(checkout).toContain("mockCheckout: true");
-    expect(checkout).toContain("buildPaytrMockCheckoutToken");
+    expect(checkout).toContain("tryPaytrDevOnlyMockCheckout");
     expect(checkout).toContain("assertPaytrProductionSafety");
+    const mock = readSrc("lib/kernel/payments/paytr/mock-checkout.ts");
+    expect(mock).toContain("buildPaytrMockCheckoutToken");
+    expect(mock).toContain("CREDIT yazmaz");
+    expect(mock).toContain('NODE_ENV === "production"');
+    expect(readSrc("lib/kernel/payments/paytr/webhook.ts")).not.toContain("mock-checkout");
+    expect(readSrc("lib/kernel/payments/paytr/adapter.ts")).not.toContain("mock-checkout");
+    expect(readSrc("lib/kernel/payments/clearing.ts")).not.toContain("mock-checkout");
   });
 
   it("mock checkout CREDIT yazmaz; üretimde sandbox/mock fail-closed durur", () => {
@@ -51,11 +58,16 @@ describe("T4 nakit e2e yüzeyi", () => {
     expect(clearing).toContain("wallet-top-up");
     const handler = route.slice(route.indexOf("export async function POST"));
     const verifyAt = handler.indexOf("verifyWebhook");
-    const rejectedAt = handler.indexOf("paytr.webhook.rejected");
     const creditAt = handler.indexOf("clearSuccessfulPaymentOrder");
     expect(verifyAt).toBeGreaterThan(-1);
-    expect(rejectedAt).toBeGreaterThan(verifyAt);
-    expect(creditAt).toBeGreaterThan(rejectedAt);
+    expect(creditAt).toBeGreaterThan(verifyAt);
+    expect(handler).toContain("paytr.webhook.rejected");
+    expect(handler).toContain("invalid_signature");
+    expect(handler).toContain("production_safety");
+    expect(handler).toContain("? 403 : 400");
     expect(readSrc("lib/kernel/payments/paytr/adapter.ts")).toContain("invalid_signature");
+    expect(readSrc("lib/kernel/payments/paytr/adapter.ts")).toContain(
+      "isPaytrProductionSafetyError",
+    );
   });
 });

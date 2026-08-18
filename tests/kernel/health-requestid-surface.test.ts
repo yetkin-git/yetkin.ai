@@ -19,6 +19,10 @@ describe("health ve gözlem yüzeyi", () => {
     expect(probe).toContain("503");
     expect(probe).toContain("HEALTH_PROBE");
     expect(probe).toContain('"readiness"');
+    expect(probe).toContain("checks.paytr");
+    expect(probe).toContain("unconfigured");
+    expect(probe).toContain("INNGEST_EVENT_KEY");
+    expect(probe).toContain("PAYTR_MERCHANT_SALT");
     expect(route).toContain("pingPrisma");
     expect(route).toContain("resolveRequestId");
   });

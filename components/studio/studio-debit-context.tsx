@@ -24,6 +24,7 @@ type StudioDebitContextValue = {
   imageFloorMinor: number | null;
   lastSettlement: StudioDebitSettlement | null;
   reportSettlement: (settlement: StudioDebitSettlement) => void;
+  reportBalance: (strip: WalletStripSnapshot) => void;
 };
 
 const StudioDebitContext = createContext<StudioDebitContextValue | null>(null);
@@ -51,6 +52,10 @@ export function StudioDebitProvider({
     });
   }, []);
 
+  const reportBalance = useCallback((next: WalletStripSnapshot) => {
+    setStrip(next);
+  }, []);
+
   const value = useMemo(
     () => ({
       strip,
@@ -58,8 +63,9 @@ export function StudioDebitProvider({
       imageFloorMinor: imageFloorMinor ?? null,
       lastSettlement,
       reportSettlement,
+      reportBalance,
     }),
-    [strip, textFloorMinor, imageFloorMinor, lastSettlement, reportSettlement],
+    [strip, textFloorMinor, imageFloorMinor, lastSettlement, reportSettlement, reportBalance],
   );
 
   return <StudioDebitContext.Provider value={value}>{children}</StudioDebitContext.Provider>;

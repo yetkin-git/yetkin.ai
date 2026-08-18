@@ -1,6 +1,10 @@
 generator client {
   provider = "prisma-client"
   output   = "../../generated/prisma"
+  // Prisma 7 query compiler: Rust query-engine ikilisi yoktur.
+  // Eski prisma-client-js hedef listesi bu üreteçte geçersizdir.
+  engineType = "client"
+  runtime = "nodejs"
 }
 
 datasource db {

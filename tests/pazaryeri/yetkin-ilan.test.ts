@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { ForbiddenError } from "@/lib/kernel/http/errors";
+import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import {
   PAZARYERI_ASSET_FLOOR_UNIT_KEY,
@@ -6,12 +8,21 @@ import {
   PAZARYERI_LISTING_FLOOR_UNIT_KEY,
   PAZARYERI_MODULE_KEY,
 } from "@/lib/pazaryeri/types";
-import { listMarketplaceProduct } from "@/lib/pazaryeri/engine";
+import {
+  listMarketplaceProduct,
+  lockMarketplaceProductPrice,
+  purchaseMarketplaceProduct,
+} from "@/lib/pazaryeri/engine";
 import { decideMarketplaceOffer, submitMarketplaceOffer } from "@/lib/pazaryeri/offer-engine";
 import { purchaseMarketplaceDoping } from "@/lib/pazaryeri/doping-engine";
+import {
+  ASSET_VITRINE_ONLY_ERROR,
+  settlementKindForCategory,
+} from "@/lib/pazaryeri/category";
 import { createMemoryLedgerStore, createMemoryEscrowStore } from "../helpers/memory-money";
 import {
   createMemoryPazaryeriStore,
+  memoryDigitalProduct,
   memoryRealEstateProduct,
   memoryVehicleProduct,
 } from "../helpers/memory-pazaryeri";
@@ -62,8 +73,15 @@ function world(sellerBalance = 50_000, buyerBalance = 1_000_000) {
   return { ledger, catalog, locks, escrow, pazaryeri };
 }
 
-describe("Yetkinİlan — emlak/vasıta, teklif ve doping", () => {
-  it("emlak kategorisi TKGM ada-parsel ile listelenir", async () => {
+describe("Yetkinİlan — emlak/vasıta vitrin, teklif ve doping kapısı", () => {
+  it("settlementKindForCategory emlak/vasıtayı SERVICE (emanet) saymaz", () => {
+    expect(settlementKindForCategory("DIGITAL_GOOD")).toBe("DIGITAL_GOOD");
+    expect(settlementKindForCategory("SERVICE")).toBe("SERVICE");
+    expect(() => settlementKindForCategory("REAL_ESTATE")).toThrow(ForbiddenError);
+    expect(() => settlementKindForCategory("VEHICLE")).toThrow(ASSET_VITRINE_ONLY_ERROR);
+  });
+
+  it("emlak kategorisi TKGM ada-parsel ile vitrin olarak listelenir", async () => {
     const ports = world();
     const product = await listMarketplaceProduct(ports, {
       sellerUserId: SELLER,
@@ -72,10 +90,10 @@ describe("Yetkinİlan — emlak/vasıta, teklif ve doping", () => {
       category: "REAL_ESTATE",
       amountMinor: ASSET_PRICE,
       tkgmBlockParcel: "12/34",
+      isOfferAllowed: true,
     });
     expect(product.category).toBe("REAL_ESTATE");
-    expect(product.kind).toBe("SERVICE");
-    expect(product.isOfferAllowed).toBe(true);
+    expect(product.isOfferAllowed).toBe(false);
     expect(product.tkgmBlockParcel).toBe("Ada 12 / Parsel 34");
   });
 
@@ -92,7 +110,7 @@ describe("Yetkinİlan — emlak/vasıta, teklif ve doping", () => {
     ).rejects.toThrow(/TKGM ada-parsel/);
   });
 
-  it("vasıta kategorisi sigorta kancası ile listelenir", async () => {
+  it("vasıta kategorisi sigorta kancası ile vitrin olarak listelenir", async () => {
     const ports = world();
     const product = await listMarketplaceProduct(ports, {
       sellerUserId: SELLER,
@@ -103,7 +121,7 @@ describe("Yetkinİlan — emlak/vasıta, teklif ve doping", () => {
       insuranceQuoteHook: "Hepiyi",
     });
     expect(product.category).toBe("VEHICLE");
-    expect(product.kind).toBe("SERVICE");
+    expect(product.isOfferAllowed).toBe(false);
     expect(product.insuranceQuoteHook).toBe("hepiyi");
   });
 
@@ -120,90 +138,98 @@ describe("Yetkinİlan — emlak/vasıta, teklif ve doping", () => {
     ).rejects.toThrow(/sigorta kancası/);
   });
 
-  it("alıcı teklif verir, satıcı onayında bakiye emanete kilitlenir", async () => {
-    const ports = world();
-    const product = await ports.pazaryeri.insertProduct(memoryRealEstateProduct());
-    const submitted = await submitMarketplaceOffer(ports, {
-      productId: product.id,
-      buyerUserId: BUYER,
-      amountMinor: OFFER,
-    });
-    expect(submitted.applied).toBe(true);
-    expect(submitted.offer.status).toBe("OPEN");
-    expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(1_000_000);
-
-    const decided = await decideMarketplaceOffer(ports, {
-      offerId: submitted.offer.id,
-      actorUserId: SELLER,
-      decision: "accept",
-      platformUserId: PLATFORM,
-    });
-    expect(decided.applied).toBe(true);
-    expect(decided.offer.status).toBe("ACCEPTED");
-    expect(decided.order?.status).toBe("AWAITING_DELIVERY");
-    expect(decided.order?.escrowHoldId).toBeTruthy();
-    expect(decided.order?.amountMinor).toBe(OFFER);
-    expect(decided.order?.holdMinor).toBe(8_000);
-    expect(decided.order?.netMinor).toBe(72_000);
-    expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(920_000);
-    expect(ports.ledger.snapshot(SELLER).amountMinor).toBe(50_000);
-    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
-
-    const again = await decideMarketplaceOffer(ports, {
-      offerId: submitted.offer.id,
-      actorUserId: SELLER,
-      decision: "accept",
-      platformUserId: PLATFORM,
-    });
-    expect(again.applied).toBe(false);
-    expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(920_000);
-  });
-
-  it("teklife kapalı ilana teklif yazılmaz", async () => {
+  it("emlak ilanında satın alma, fiyat kilidi ve teklif fail-closed 403 durur", async () => {
     const ports = world();
     const product = await ports.pazaryeri.insertProduct(
-      memoryRealEstateProduct({ isOfferAllowed: false }),
+      memoryRealEstateProduct({ isOfferAllowed: true }),
     );
+    await expect(
+      lockMarketplaceProductPrice(ports, { productId: product.id, userId: BUYER }),
+    ).rejects.toBeInstanceOf(ForbiddenError);
+    await expect(
+      purchaseMarketplaceProduct(ports, {
+        productId: product.id,
+        userId: BUYER,
+        platformUserId: PLATFORM,
+      }),
+    ).rejects.toThrow(ASSET_VITRINE_ONLY_ERROR);
     await expect(
       submitMarketplaceOffer(ports, {
         productId: product.id,
         buyerUserId: BUYER,
         amountMinor: OFFER,
       }),
-    ).rejects.toThrow(/teklife kapalı/);
+    ).rejects.toBeInstanceOf(ForbiddenError);
+    expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(1_000_000);
+    expect(await ports.pazaryeri.getOrderByBuyerAndProduct(BUYER, product.id)).toBeNull();
+    expect(await ports.pazaryeri.getOpenOfferByBuyerAndProduct(BUYER, product.id)).toBeNull();
   });
 
-  it("doping cüzdan bakiyesini düşer ve ilanı öne çıkarır", async () => {
+  it("eski açık teklif emlak ilanında kabul veya red ile emanete kilitlenmez", async () => {
     const ports = world();
-    const product = await ports.pazaryeri.insertProduct(memoryVehicleProduct());
-    const boosted = await purchaseMarketplaceDoping(ports, {
+    const product = await ports.pazaryeri.insertProduct(memoryRealEstateProduct());
+    const leftover = await ports.pazaryeri.insertOffer({
+      id: "offer-legacy-1",
       productId: product.id,
+      userId: BUYER,
+      sellerUserId: SELLER,
+      amountMinor: toAmountMinor(OFFER),
+      currencyCode: product.currencyCode,
+      status: "OPEN",
+      escrowHoldId: null,
+      orderId: null,
+      createdAt: new Date("2026-08-14T00:00:00.000Z"),
+      updatedAt: new Date("2026-08-14T00:00:00.000Z"),
+    });
+    await expect(
+      decideMarketplaceOffer(ports, {
+        offerId: leftover.id,
+        actorUserId: SELLER,
+        decision: "accept",
+        platformUserId: PLATFORM,
+      }),
+    ).rejects.toThrow(ASSET_VITRINE_ONLY_ERROR);
+    await expect(
+      decideMarketplaceOffer(ports, {
+        offerId: leftover.id,
+        actorUserId: SELLER,
+        decision: "reject",
+        platformUserId: PLATFORM,
+      }),
+    ).rejects.toBeInstanceOf(ForbiddenError);
+    expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(1_000_000);
+    expect((await ports.pazaryeri.getOffer(leftover.id))?.status).toBe("OPEN");
+  });
+
+  it("vasıta ilanında doping fail-closed durur; dijital ilanda doping çalışır", async () => {
+    const ports = world();
+    const vehicle = await ports.pazaryeri.insertProduct(memoryVehicleProduct());
+    await expect(
+      purchaseMarketplaceDoping(ports, {
+        productId: vehicle.id,
+        sellerUserId: SELLER,
+        platformUserId: PLATFORM,
+      }),
+    ).rejects.toThrow(ASSET_VITRINE_ONLY_ERROR);
+    expect(ports.ledger.snapshot(SELLER).amountMinor).toBe(50_000);
+    expect((await ports.pazaryeri.getProduct(vehicle.id))?.isDoped).toBe(false);
+
+    const digital = await ports.pazaryeri.insertProduct(memoryDigitalProduct());
+    const boosted = await purchaseMarketplaceDoping(ports, {
+      productId: digital.id,
       sellerUserId: SELLER,
       platformUserId: PLATFORM,
     });
     expect(boosted.applied).toBe(true);
     expect(boosted.product.isDoped).toBe(true);
-    expect(boosted.product.dopedUntil).toBeTruthy();
     expect(boosted.doping.amountMinor).toBe(DOPING);
     expect(ports.ledger.snapshot(SELLER).amountMinor).toBe(45_000);
     expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(DOPING);
-
-    const listed = await ports.pazaryeri.listListedProducts();
-    expect(listed[0]?.id).toBe(product.id);
-
-    await expect(
-      purchaseMarketplaceDoping(ports, {
-        productId: product.id,
-        sellerUserId: SELLER,
-        platformUserId: PLATFORM,
-      }),
-    ).rejects.toThrow(/zaten dopingli/);
-    expect(ports.ledger.snapshot(SELLER).amountMinor).toBe(45_000);
   });
 
-  it("yetersiz bakiyede doping yazılmaz", async () => {
+  it("yetersiz bakiyede dijital doping yazılmaz", async () => {
     const ports = world(1_000);
-    const product = await ports.pazaryeri.insertProduct(memoryVehicleProduct());
+    const product = await ports.pazaryeri.insertProduct(memoryDigitalProduct());
     await expect(
       purchaseMarketplaceDoping(ports, {
         productId: product.id,

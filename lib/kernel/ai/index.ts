@@ -1,12 +1,21 @@
 export { invokeLlm, generateImage, normalizeUsage, resolveGeminiGatewayClient } from "@/lib/kernel/ai/llm-gateway";
 export type { InvokeLlmDeps, UsageRecorder } from "@/lib/kernel/ai/llm-gateway";
 export {
+  AI_LIVE_MODEL_ROLE_KEYS,
   AI_MODEL_ROLE_DEFAULTS,
   AI_MODEL_ROLE_KEYS,
+  AI_SEALED_DEAD_FACTORY_ERROR,
+  AI_SEALED_DEAD_ROLE_KEYS,
+  AiGatewayForbiddenError,
+  assertLiveAiModelRole,
   canonicalizeAiModelRole,
   getDefaultModelId,
   isAiModelRoleKey,
+  isLiveAiModelRoleKey,
+  isSealedDeadAiModelRole,
+  type AiLiveModelRoleKey,
   type AiModelRoleKey,
+  type AiSealedDeadRoleKey,
 } from "@/lib/kernel/ai/model-roles";
 export { AI_TOKEN_SOURCES, type AiTokenSource } from "@/lib/kernel/ai/sources";
 export { estimateLlmCostMinor } from "@/lib/kernel/ai/cost";

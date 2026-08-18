@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   addAmountMinor,
+  AMOUNT_MINOR_OVERFLOW_ERROR,
   assertGrossSplitIntegrity,
   computeHoldMinorFromBps,
   subtractAmountMinor,
@@ -22,7 +23,7 @@ describe("amountMinor", () => {
     const b = toAmountMinor(25);
     expect(addAmountMinor(a, b)).toBe(175);
     expect(subtractAmountMinor(a, b)).toBe(125);
-    expect(() => subtractAmountMinor(b, a)).toThrow();
+    expect(() => subtractAmountMinor(b, a)).toThrow(AMOUNT_MINOR_OVERFLOW_ERROR);
   });
 
   it("hold floor üretir ve split bütünlüğünü korur", () => {

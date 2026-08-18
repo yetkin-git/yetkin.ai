@@ -91,7 +91,7 @@ export async function upsertFreelancerSquad(
 }
 
 export async function loadActiveSquadMembers(
-  ports: FreelancerEnginePorts,
+  ports: Pick<FreelancerEnginePorts, "freelancer">,
   contractId: string,
 ): Promise<Array<{ userId: string; shareBps: number }> | null> {
   const squad = await ports.freelancer.getSquadByContractId(contractId);
@@ -106,7 +106,7 @@ export async function loadActiveSquadMembers(
 }
 
 export async function disbandFreelancerSquad(
-  ports: FreelancerEnginePorts,
+  ports: Pick<FreelancerEnginePorts, "freelancer">,
   contractId: string,
   now: Date,
 ): Promise<void> {

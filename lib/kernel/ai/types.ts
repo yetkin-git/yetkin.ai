@@ -1,4 +1,4 @@
-import type { AiModelRoleKey } from "@/lib/kernel/ai/model-roles";
+import type { AiLiveModelRoleKey } from "@/lib/kernel/ai/model-roles";
 import type { AiTokenSource } from "@/lib/kernel/ai/sources";
 import type { LlmGatewayDenialReason } from "@/lib/kernel/ai/budget-shield";
 
@@ -22,7 +22,7 @@ export type LlmUsage = {
 
 export type InvokeLlmInput = {
   provider?: LlmProviderId;
-  role?: AiModelRoleKey;
+  role?: AiLiveModelRoleKey;
   model?: string;
   system: string;
   user: string;
@@ -123,4 +123,8 @@ export type LlmProviderAdapter = {
     input: ProviderGenerateImageInput,
     signal: AbortSignal,
   ): Promise<ProviderGenerateImageResult>;
+  /** VIDEO_GEN / VOICE_TTS factory yok — anayasa kesmesi. */
+  generateVideo?: never;
+  generateSpeech?: never;
+  generateAudio?: never;
 };

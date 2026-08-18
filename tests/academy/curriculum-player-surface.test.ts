@@ -27,5 +27,6 @@ describe("D2.1 müfredat oynatıcı yüzeyi", () => {
     expect(readSrc("lib/academy/exam-engine.ts")).toContain("isAcademyCurriculumComplete");
     expect(curriculumForCourseSlug("rail-temel").length).toBeGreaterThanOrEqual(3);
     expect(curriculumForCourseSlug("rayli-sinyal-emniyet").length).toBeGreaterThanOrEqual(3);
+    expect(curriculumForCourseSlug("yz-icerik-gorsel-uretim").length).toBeGreaterThanOrEqual(5);
   });
 });

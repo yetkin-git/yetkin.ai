@@ -4,7 +4,7 @@ import { resolvePlatformTreasuryUserId } from "@/lib/kernel/escrow";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { requireActiveCatalogEntry } from "@/lib/kernel/pricing/catalog-band";
 import type { PazaryeriEnginePorts } from "@/lib/pazaryeri/engine";
-import { isProductDoped } from "@/lib/pazaryeri/category";
+import { assertCashPathAllowedForCategory, isProductDoped } from "@/lib/pazaryeri/category";
 import {
   PAZARYERI_DOPING_TTL_MS,
   PAZARYERI_DOPING_UNIT_KEY,
@@ -44,6 +44,7 @@ export async function purchaseMarketplaceDoping(
   if (product.status !== "LISTED") {
     throw new Error("Satışa kapalı ilan dopinglenemez.");
   }
+  assertCashPathAllowedForCategory(product.category);
 
   const now = command.now ?? new Date();
   const active = await ports.pazaryeri.getActiveDopingForProduct(product.id, now);

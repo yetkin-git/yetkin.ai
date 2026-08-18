@@ -62,6 +62,8 @@ async function withClearingAtomic<T>(
 /**
  * PayTR webhook birincil; Inngest yedek yalnız PSP doğrulamasından sonra.
  * Aynı merchantOid ikinci kez bakiyeyi değiştirmez.
+ * Prisma: payment_orders FOR UPDATE + LedgerEntry.idempotency_key unique
+ * (`wallet-top-up:{merchantOid}`) + CLEARED kısa devre.
  * Ledger CREDIT + markPaid + markCleared aynı store biriminde (Prisma: $transaction).
  */
 export async function clearSuccessfulPaymentOrder(

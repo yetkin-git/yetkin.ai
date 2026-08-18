@@ -16,8 +16,18 @@ export const EXPECTED_SQL = [
   "20260814110000_freelancer_job_seed.sql",
 ] as const;
 
-export const ACADEMY_SEED_COURSE_IDS = ["ac_rail_temel", "ac_ray_sinyal"] as const;
-export const FREELANCER_SEED_JOB_IDS = ["fj_rail_escrow_audit", "fj_ray_sinyal_brief"] as const;
+export const ACADEMY_SEED_COURSE_IDS = [
+  "ac_rail_temel",
+  "ac_ray_sinyal",
+  "ac_yz_icerik_gorsel",
+] as const;
+export const FREELANCER_SEED_JOB_IDS = [
+  "fj_rail_icon_set",
+  "fj_rail_ql_banners",
+  "fj_rail_academy_copy",
+  "fj_rail_devlabs_prompts",
+  "fj_rail_seal_social",
+] as const;
 export const FREELANCER_SEED_CLIENT_ID = PLATFORM_TREASURY_USER_ID;
 
 export const FORCE_RLS_CORE_TABLES = [
@@ -59,7 +69,7 @@ export const DIRECT_POSTGRES_PORT = 5432;
 export const FORBIDDEN_POOLER_PORT = 6543;
 export const SUPABASE_DIRECT_HOST_RE = /^db\.[a-z0-9]+\.supabase\.co$/i;
 
-/** Operatör sıfır-hata metni — `docs/07_OPS_RUNBOOK.md` §2.1 ile birebir kilit. */
+/** Operatör sıfır-hata metni — `.system_docs/OPS_RUNBOOK.md` §2.1 ile birebir kilit. */
 export const DIRECT_PORT_OPERATOR_PROTOCOL = [
   "Direct Port protokolü fail-closed: db.<ref>.supabase.co:5432.",
   "Havuz pooler.supabase.com ve port 6543 ile geçilmez (P1001 yeşil boyanmaz).",
@@ -237,7 +247,9 @@ export function inspectSqlSealPlan(sqlByFile: Record<string, string>): SqlSealPl
     ownerSelectPolicy: /FOR SELECT TO authenticated/.test(policies),
     academyCourseIds: ACADEMY_SEED_COURSE_IDS.filter((id) => academy.includes(id)),
     academyCatalogUnits:
-      academy.includes("course:rail-temel") && academy.includes("course:rayli-sinyal-emniyet"),
+      academy.includes("course:rail-temel") &&
+      academy.includes("course:rayli-sinyal-emniyet") &&
+      academy.includes("course:yz-icerik-gorsel-uretim"),
     handleUserEmailUpdate: /FUNCTION public\.handle_user_email_update\(\)/.test(email),
     onAuthUserEmailUpdated: /CREATE TRIGGER on_auth_user_email_updated/.test(email),
     freelancerJobIds: FREELANCER_SEED_JOB_IDS.filter((id) => freelancer.includes(id)),
@@ -371,7 +383,11 @@ export async function assertAcademySeed(query: OpsSealQuery): Promise<void> {
   const catalog = await query(
     `SELECT count(*)::int AS n FROM public.price_catalog_entries
      WHERE module_key = 'academy' AND is_active = true
-       AND unit_key IN ('course:rail-temel', 'course:rayli-sinyal-emniyet')`,
+       AND unit_key IN (
+         'course:rail-temel',
+         'course:rayli-sinyal-emniyet',
+         'course:yz-icerik-gorsel-uretim'
+       )`,
   );
   if (Number(catalog.rows[0]?.n ?? 0) < ACADEMY_SEED_COURSE_IDS.length) {
     throw new Error("Akademi kurs katalog birimi eksik. PriceCatalogEntry tohumu uygulanmamış.");
@@ -657,7 +673,11 @@ export function applySqlToMemoryCatalog(catalog: MemoryOpsCatalog, sql: string):
   if (sql.includes("INSERT INTO public.academy_exams")) {
     catalog.academyExams = ACADEMY_SEED_COURSE_IDS.length;
   }
-  if (sql.includes("course:rail-temel") && sql.includes("course:rayli-sinyal-emniyet")) {
+  if (
+    sql.includes("course:rail-temel") &&
+    sql.includes("course:rayli-sinyal-emniyet") &&
+    sql.includes("course:yz-icerik-gorsel-uretim")
+  ) {
     catalog.academyCatalog = ACADEMY_SEED_COURSE_IDS.length;
   }
   for (const id of FREELANCER_SEED_JOB_IDS) {

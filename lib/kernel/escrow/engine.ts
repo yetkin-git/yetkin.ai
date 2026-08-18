@@ -1,14 +1,16 @@
 import { randomUUID } from "node:crypto";
 import { appendLedgerEntry } from "@/lib/kernel/ledger/engine";
-import type { LedgerStore } from "@/lib/kernel/ledger/types";
 import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
+import { emitCitizenNotice } from "@/lib/kernel/notice/emit";
 import { emitTransactionNotice } from "@/lib/kernel/observability/transaction-notice";
 import { assertEscrowReleaseSplit, splitGross } from "@/lib/kernel/escrow/split";
 import type {
   CreateEscrowHoldCommand,
+  EscrowEnginePorts,
   EscrowHoldRecord,
   EscrowMutationResult,
   EscrowStore,
+  EscrowWritePorts,
   RefundEscrowCommand,
   ReleaseEscrowCommand,
   ReleaseEscrowDistributedCommand,
@@ -16,6 +18,9 @@ import type {
 
 /** Mutlu yol zaman aşımı — Inngest tarar, PENDING hold iade edilir (S18-A). */
 export const ESCROW_HOLD_TTL_MS = 14 * 24 * 60 * 60 * 1000;
+
+/** TTL yaklaşım penceresi — iade tarayıcısından ayrı; yeni tablo yoktur. */
+export const ESCROW_TTL_WARN_WINDOW_MS = 2 * 24 * 60 * 60 * 1000;
 
 export const PLATFORM_TREASURY_USER_ID = "00000000-0000-4000-8000-000000000001";
 
@@ -44,8 +49,25 @@ function refundIdempotencyKey(holdId: string): string {
   return `escrow-refund:${holdId}`;
 }
 
+async function withEscrowAtomic<T>(
+  ports: EscrowEnginePorts,
+  work: (tx: EscrowWritePorts) => Promise<T>,
+): Promise<T> {
+  if (ports.runEscrowAtomic) {
+    return ports.runEscrowAtomic(work);
+  }
+  return work({ ledger: ports.ledger, escrow: ports.escrow });
+}
+
+async function loadHoldForSettle(
+  escrow: EscrowStore,
+  referenceKey: string,
+): Promise<EscrowHoldRecord | null> {
+  return escrow.lockByReferenceKey(referenceKey);
+}
+
 export async function createEscrowHold(
-  ports: { ledger: LedgerStore; escrow: EscrowStore },
+  ports: EscrowWritePorts,
   command: CreateEscrowHoldCommand,
 ): Promise<EscrowMutationResult> {
   const existing = await ports.escrow.findByReferenceKey(command.referenceKey);
@@ -87,41 +109,53 @@ export async function createEscrowHold(
 }
 
 export async function releaseEscrowHold(
-  ports: { ledger: LedgerStore; escrow: EscrowStore },
+  ports: EscrowEnginePorts,
   command: ReleaseEscrowCommand,
 ): Promise<EscrowMutationResult> {
-  const hold = await ports.escrow.findByReferenceKey(command.referenceKey);
-  if (!hold) {
-    throw new Error("Emanet kilidi bulunamadı.");
-  }
-  if (hold.status === "RELEASED") {
-    return { hold, applied: false };
-  }
-  if (hold.status !== "PENDING") {
-    throw new Error(`Emanet ${hold.status} iken serbest bırakılamaz.`);
-  }
-  return releaseEscrowHoldToPayees(ports, {
-    referenceKey: command.referenceKey,
-    payees: [{ userId: command.payeeUserId, amountMinor: hold.netMinor }],
-    platformUserId: command.platformUserId,
-    now: command.now,
+  return withEscrowAtomic(ports, async (tx) => {
+    const hold = await loadHoldForSettle(tx.escrow, command.referenceKey);
+    if (!hold) {
+      throw new Error("Emanet kilidi bulunamadı.");
+    }
+    if (hold.status === "RELEASED") {
+      return { hold, applied: false };
+    }
+    if (hold.status !== "PENDING") {
+      throw new Error(`Emanet ${hold.status} iken serbest bırakılamaz.`);
+    }
+    return releaseEscrowHoldToPayeesLocked(tx, hold, {
+      referenceKey: command.referenceKey,
+      payees: [{ userId: command.payeeUserId, amountMinor: hold.netMinor }],
+      platformUserId: command.platformUserId,
+      now: command.now,
+    });
   });
 }
 
 export async function releaseEscrowHoldToPayees(
-  ports: { ledger: LedgerStore; escrow: EscrowStore },
+  ports: EscrowEnginePorts,
   command: ReleaseEscrowDistributedCommand,
 ): Promise<EscrowMutationResult> {
-  const hold = await ports.escrow.findByReferenceKey(command.referenceKey);
-  if (!hold) {
-    throw new Error("Emanet kilidi bulunamadı.");
-  }
-  if (hold.status === "RELEASED") {
-    return { hold, applied: false };
-  }
-  if (hold.status !== "PENDING") {
-    throw new Error(`Emanet ${hold.status} iken serbest bırakılamaz.`);
-  }
+  return withEscrowAtomic(ports, async (tx) => {
+    const hold = await loadHoldForSettle(tx.escrow, command.referenceKey);
+    if (!hold) {
+      throw new Error("Emanet kilidi bulunamadı.");
+    }
+    if (hold.status === "RELEASED") {
+      return { hold, applied: false };
+    }
+    if (hold.status !== "PENDING") {
+      throw new Error(`Emanet ${hold.status} iken serbest bırakılamaz.`);
+    }
+    return releaseEscrowHoldToPayeesLocked(tx, hold, command);
+  });
+}
+
+async function releaseEscrowHoldToPayeesLocked(
+  ports: EscrowWritePorts,
+  hold: EscrowHoldRecord,
+  command: ReleaseEscrowDistributedCommand,
+): Promise<EscrowMutationResult> {
   if (command.payees.length === 0) {
     throw new Error("Emanet neti en az bir alıcıya yazılmalıdır.");
   }
@@ -185,46 +219,67 @@ export async function releaseEscrowHoldToPayees(
   });
 
   const released = await ports.escrow.markReleased(hold.id, now);
+  emitCitizenNotice({
+    kind: "escrow_released",
+    userId: hold.userId,
+    reference: hold.id,
+    amountMinor: hold.grossMinor,
+    applied: true,
+  });
+  for (const share of shares) {
+    if (share.userId === hold.userId || share.userId === command.platformUserId) {
+      continue;
+    }
+    emitCitizenNotice({
+      kind: "escrow_released",
+      userId: share.userId,
+      reference: hold.id,
+      amountMinor: share.amountMinor,
+      applied: true,
+    });
+  }
   return { hold: released, applied: true };
 }
 
 export async function refundEscrowHold(
-  ports: { ledger: LedgerStore; escrow: EscrowStore },
+  ports: EscrowEnginePorts,
   command: RefundEscrowCommand,
 ): Promise<EscrowMutationResult> {
-  const hold = await ports.escrow.findByReferenceKey(command.referenceKey);
-  if (!hold) {
-    throw new Error("Emanet kilidi bulunamadı.");
-  }
-  if (hold.status === "REFUNDED") {
-    return { hold, applied: false };
-  }
-  if (hold.status !== "PENDING") {
-    throw new Error(`Emanet ${hold.status} iken iade edilemez.`);
-  }
+  return withEscrowAtomic(ports, async (tx) => {
+    const hold = await loadHoldForSettle(tx.escrow, command.referenceKey);
+    if (!hold) {
+      throw new Error("Emanet kilidi bulunamadı.");
+    }
+    if (hold.status === "REFUNDED") {
+      return { hold, applied: false };
+    }
+    if (hold.status !== "PENDING") {
+      throw new Error(`Emanet ${hold.status} iken iade edilemez.`);
+    }
 
-  assertEscrowReleaseSplit(hold);
-  const now = command.now ?? new Date();
+    assertEscrowReleaseSplit(hold);
+    const now = command.now ?? new Date();
 
-  await appendLedgerEntry(ports.ledger, {
-    userId: hold.userId,
-    currencyCode: hold.currencyCode,
-    amountMinor: hold.grossMinor,
-    direction: "CREDIT",
-    label: "Emanet iadesi",
-    purpose: "escrow-refund",
-    idempotencyKey: refundIdempotencyKey(hold.id),
+    await appendLedgerEntry(tx.ledger, {
+      userId: hold.userId,
+      currencyCode: hold.currencyCode,
+      amountMinor: hold.grossMinor,
+      direction: "CREDIT",
+      label: "Emanet iadesi",
+      purpose: "escrow-refund",
+      idempotencyKey: refundIdempotencyKey(hold.id),
+    });
+
+    const refunded = await tx.escrow.markRefunded(hold.id, now);
+    emitTransactionNotice({
+      kind: "escrow_refunded",
+      userId: hold.userId,
+      amountMinor: hold.grossMinor,
+      reference: hold.id,
+      applied: true,
+    });
+    return { hold: refunded, applied: true };
   });
-
-  const refunded = await ports.escrow.markRefunded(hold.id, now);
-  emitTransactionNotice({
-    kind: "escrow_refunded",
-    userId: hold.userId,
-    amountMinor: hold.grossMinor,
-    reference: hold.id,
-    applied: true,
-  });
-  return { hold: refunded, applied: true };
 }
 
 /** S51-A: anlaşmazlık süresince TTL durur; Inngest tarayıcısı bu hold'u iade etmez. */

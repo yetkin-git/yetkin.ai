@@ -1,19 +1,30 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { IconCoin } from "@/components/ui/icons";
+import { QuickTopUpModal } from "@/components/kernel/quick-top-up-modal";
+import { fetchWalletStripClient } from "@/components/kernel/fetch-wallet-strip";
+import { useActionBridge } from "@/components/ui/action-bridge";
 import { STUDIO_SEN } from "@/lib/copy/sen-voice/studio";
+import { UX_SEN } from "@/lib/copy/sen-voice/ux";
+import { WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
 import { useStudioDebit } from "@/components/studio/studio-debit-context";
 
 export function TokenBalanceCard() {
-  const { strip, lastSettlement, textFloorMinor, imageFloorMinor } = useStudioDebit();
+  const { push } = useActionBridge();
+  const { strip, lastSettlement, textFloorMinor, imageFloorMinor, reportBalance } = useStudioDebit();
+  const [topUpOpen, setTopUpOpen] = useState(false);
   const floor =
     textFloorMinor != null && imageFloorMinor != null
       ? Math.min(textFloorMinor, imageFloorMinor)
       : (textFloorMinor ?? imageFloorMinor);
+  const insufficient = strip.live && floor != null && strip.amountMinor < floor;
+  const requiredMinor = floor ?? WALLET_TOP_UP_MIN_MINOR;
   const preCheck =
     strip.live && floor != null
       ? STUDIO_SEN.wallet.preCheck(
@@ -44,12 +55,30 @@ export function TokenBalanceCard() {
           {remainingNotice}
         </p>
       ) : null}
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
         <Badge tone="safir">{STUDIO_SEN.wallet.textBadge}</Badge>
-        <Link href="/cuzdan" className="text-xs font-semibold text-white hover:underline">
-          {STUDIO_SEN.wallet.walletCta}
-        </Link>
+        <div className="flex items-center gap-3">
+          {insufficient ? (
+            <Button type="button" variant="outline" size="sm" onClick={() => setTopUpOpen(true)}>
+              {UX_SEN.topUp.trigger}
+            </Button>
+          ) : null}
+          <Link href="/cuzdan" className="text-xs font-semibold text-white hover:underline">
+            {STUDIO_SEN.wallet.walletCta}
+          </Link>
+        </div>
       </div>
+      <QuickTopUpModal
+        open={topUpOpen}
+        requiredMinor={requiredMinor}
+        currencyCode={strip.currencyCode}
+        onClose={() => setTopUpOpen(false)}
+        onFunded={() => {
+          setTopUpOpen(false);
+          void fetchWalletStripClient().then(reportBalance);
+          push({ title: UX_SEN.bridge.generateReady.title, body: UX_SEN.bridge.generateReady.body, tone: "emerald" });
+        }}
+      />
     </Card>
   );
 }

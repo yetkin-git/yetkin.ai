@@ -32,10 +32,13 @@ export function addAmountMinor(a: AmountMinor, b: AmountMinor): AmountMinor {
   return toAmountMinor(a + b);
 }
 
+/** Çekirdek debit iğnesi. HTTP/v1 yüzeyi bunu ConflictError(RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE) yapar. */
+export const AMOUNT_MINOR_OVERFLOW_ERROR = "Çıkarılan tutar mevcut tutarı aşamaz.";
+
 export function subtractAmountMinor(a: AmountMinor, b: AmountMinor): AmountMinor {
   const diff = a - b;
   if (!Number.isInteger(diff) || diff < 0) {
-    throw new Error("Çıkarılan tutar mevcut tutarı aşamaz.");
+    throw new Error(AMOUNT_MINOR_OVERFLOW_ERROR);
   }
   return diff as AmountMinor;
 }

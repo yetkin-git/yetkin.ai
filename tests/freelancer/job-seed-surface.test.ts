@@ -32,8 +32,8 @@ function freelancerSeedSql(): string {
 }
 
 describe("freelancer ilan tohumu yüzeyi", () => {
-  it("iki OPEN teknik ilan taşır; bütçe bandı ve hold katalogda, sahte sözleşme yok", () => {
-    expect(FREELANCER_JOB_SEEDS).toHaveLength(2);
+  it("beş OPEN dikey ilan taşır; bütçe bandı ve hold katalogda, sahte sözleşme yok", () => {
+    expect(FREELANCER_JOB_SEEDS).toHaveLength(5);
     expect(FREELANCER_CATALOG_SEEDS).toHaveLength(2);
     expect(FREELANCER_SEED_MODULE_KEY).toBe(MODULE_ID);
     expect(FREELANCER_SEED_CURRENCY).toBe("TRY");
@@ -42,11 +42,23 @@ describe("freelancer ilan tohumu yüzeyi", () => {
     expect(FREELANCER_ESCROW_HOLD_UNIT_KEY).toBe("escrow:hold");
 
     const ids = FREELANCER_JOB_SEEDS.map((row) => row.id);
-    expect(ids).toContain("fj_rail_escrow_audit");
-    expect(ids).toContain("fj_ray_sinyal_brief");
+    expect(ids).toEqual([
+      "fj_rail_icon_set",
+      "fj_rail_ql_banners",
+      "fj_rail_academy_copy",
+      "fj_rail_devlabs_prompts",
+      "fj_rail_seal_social",
+    ]);
+    const titles = FREELANCER_JOB_SEEDS.map((row) => row.title);
+    expect(titles).toContain("Yapay Zekâ Destekli İkon ve İllüstrasyon Seti Teslimi");
+    expect(titles).toContain("Rail Quiet Luxury Tanıtım Görselleri ve Banner Üretimi");
+    expect(titles).toContain("Akademi Müfredat Özet Metinlerinin Düzenlenmesi");
+    expect(titles).toContain("DevLabs Örnek Prompt Şablonları Dokümantasyonu");
+    expect(titles).toContain("Mühürlü Kanıt Sosyal Medya Şablon Tasarımları");
     for (const row of FREELANCER_JOB_SEEDS) {
       expect(row.title.length).toBeGreaterThanOrEqual(3);
       expect(row.brief.length).toBeGreaterThanOrEqual(8);
+      expect(row.brief.length).toBeLessThanOrEqual(4000);
       expect(row.budgetMinor).toBeGreaterThanOrEqual(FREELANCER_JOB_MIN_MINOR);
       expect(row.budgetMinor).toBeLessThanOrEqual(FREELANCER_JOB_MAX_MINOR);
     }

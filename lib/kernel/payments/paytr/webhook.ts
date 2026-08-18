@@ -2,8 +2,13 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import { toPositiveAmountMinor, type AmountMinor } from "@/lib/kernel/money/amount-minor";
 import {
   assertPaytrProductionSafety,
-  getPaytrCheckoutCredentials,
+  PAYTR_WEBHOOK_PATH,
+  requirePaytrCheckoutCredentials,
 } from "@/lib/kernel/payments/paytr/checkout";
+
+export { PAYTR_WEBHOOK_PATH };
+
+/** Bildirim HMAC: PAYTR_MERCHANT_ID, PAYTR_MERCHANT_KEY, PAYTR_MERCHANT_SALT üçlüsü zorunlu. */
 
 export type PaytrWebhookPayload = {
   merchantOid: string;
@@ -69,14 +74,38 @@ export function isPaytrWebhookPayload(value: unknown): value is PaytrWebhookPayl
   );
 }
 
+export function parsePaytrWebhookIpAllowlist(
+  raw: string | undefined = process.env.PAYTR_WEBHOOK_IP_ALLOWLIST,
+): string[] {
+  return (raw ?? "")
+    .split(",")
+    .map((part) => part.trim())
+    .filter((part) => part.length > 0);
+}
+
+export function readPaytrWebhookRequestIp(request: Request): string {
+  const forwarded = request.headers.get("x-forwarded-for");
+  const first = forwarded?.split(",")[0]?.trim() ?? "";
+  if (first) {
+    return first;
+  }
+  return request.headers.get("x-real-ip")?.trim() ?? "";
+}
+
+export function isPaytrWebhookSourceIpAllowed(requestIp: string, allowlist: string[]): boolean {
+  if (allowlist.length === 0) {
+    return true;
+  }
+  const ip = requestIp.trim();
+  if (!ip) {
+    return false;
+  }
+  return allowlist.includes(ip);
+}
+
 export function verifyPaytrWebhookHash(payload: PaytrWebhookPayload): boolean {
   assertPaytrProductionSafety("verifyPaytrWebhookHash");
-  const credentials = getPaytrCheckoutCredentials();
-  if (!credentials) {
-    throw new Error(
-      "PayTR bildirim imzası yapılandırılamadı: PAYTR_MERCHANT_KEY ve PAYTR_MERCHANT_SALT zorunludur.",
-    );
-  }
+  const credentials = requirePaytrCheckoutCredentials("verifyPaytrWebhookHash");
   if (!payload.merchantOid || !payload.status || !payload.totalAmount || !payload.hash) {
     return false;
   }
@@ -87,10 +116,7 @@ export function verifyPaytrWebhookHash(payload: PaytrWebhookPayload): boolean {
 
 export function verifyPaytrClearanceBoundHash(payload: PaytrWebhookPayload): boolean {
   assertPaytrProductionSafety("verifyPaytrClearanceBoundHash");
-  const credentials = getPaytrCheckoutCredentials();
-  if (!credentials) {
-    return false;
-  }
+  const credentials = requirePaytrCheckoutCredentials("verifyPaytrClearanceBoundHash");
   if (!payload.merchantOid || !payload.status || !payload.totalAmount || !payload.hash) {
     return false;
   }

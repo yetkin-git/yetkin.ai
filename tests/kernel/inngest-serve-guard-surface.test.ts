@@ -39,5 +39,14 @@ describe("Inngest serve yüzeyi", () => {
     expect(guard).toContain("Sahte/doğrulanmamış event kabul edilmez");
     expect(guard).toContain("isInngestDevEnabled");
     expect(guard).toContain("canInvokeInngestServe");
+    expect(guard).toContain("resolveInngestServeMode");
+    expect(guard).toContain("assertInngestCronServeReady");
+    expect(guard).toContain("INNGEST_KERNEL_CRON_FUNCTION_IDS");
+    expect(guard).toContain("cron 503'e düşmez");
+    const inngest = readSrc("lib/kernel/jobs/inngest.ts");
+    expect(inngest).toContain('id: "paytr-clearing-scan"');
+    expect(inngest).toContain('id: "escrow-timeout-scan"');
+    expect(inngest).toContain('id: "escrow-ttl-approaching-scan"');
+    expect(inngest).toContain("kernelInngestFunctions");
   });
 });

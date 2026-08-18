@@ -9,11 +9,13 @@ import { FREELANCER_SEN } from "@/lib/copy/sen-voice/freelancer";
 import { HIBE_SEN } from "@/lib/copy/sen-voice/hibe";
 import { JUNIOR_SEN } from "@/lib/copy/sen-voice/junior";
 import { KURUMSAL_SEN } from "@/lib/copy/sen-voice/kurumsal";
+import { NOTICE_SEN } from "@/lib/copy/sen-voice/notice";
 import { PAZARYERI_SEN } from "@/lib/copy/sen-voice/pazaryeri";
 import { PROFIL_SEN } from "@/lib/copy/sen-voice/profil";
 import { PUBLIC_SEN } from "@/lib/copy/sen-voice/public";
 import { SOCIAL_SEN } from "@/lib/copy/sen-voice/social";
 import { STUDIO_SEN } from "@/lib/copy/sen-voice/studio";
+import { UX_SEN } from "@/lib/copy/sen-voice/ux";
 
 /** Rail SEN aksı — ince paket. Müze 33 dosya kopyalanmaz. */
 export const SEN_VOICE = {
@@ -28,11 +30,13 @@ export const SEN_VOICE = {
   hibe: HIBE_SEN,
   junior: JUNIOR_SEN,
   kurumsal: KURUMSAL_SEN,
+  notice: NOTICE_SEN,
   pazaryeri: PAZARYERI_SEN,
   profil: PROFIL_SEN,
   public: PUBLIC_SEN,
   social: SOCIAL_SEN,
   studio: STUDIO_SEN,
+  ux: UX_SEN,
 } as const;
 
 export {
@@ -47,9 +51,11 @@ export {
   HIBE_SEN,
   JUNIOR_SEN,
   KURUMSAL_SEN,
+  NOTICE_SEN,
   PAZARYERI_SEN,
   PROFIL_SEN,
   PUBLIC_SEN,
   SOCIAL_SEN,
   STUDIO_SEN,
+  UX_SEN,
 };

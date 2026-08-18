@@ -65,7 +65,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
     paragraphs: [
       "Platform on iki oda, tek cüzdan ve tek append-only defter ile çalışır. İkinci nakit yazıcı, banka çekimi, GİB canlı fatura ve müze (`yetkin.ai`) yolları bu gövdede yoktur. Vatandaş hesap e-posta ve şifre ile açılır; oturum çerezi kimlik ipucudur, para işlemi sunucuda JWT ile bağlanır.",
       "Freelancer mutlu yol ilan → emanet → serbest bırakmadır. Platform, işin niteliğini, süresini veya sonucunu garanti etmez. Azami sorumluluk, ilgili emanet kilidinin net tutarı ve defter kaydı ile sınırlıdır; dolaylı, kâr kaybı veya manevi tazminat talep edilemez. Tahkim (anlaşmazlık) açıkken serbest bırakma ve iade kapanır.",
-      "Yasak: yasa dışı iş, reşit olmayanların ebeveynsiz Junior kullanımı, sahte kimlik, ödeme sistemini dolanma. Metin değişirse yürürlük tarihi bu sayfada güncellenir. Çelişki halinde kilitli anayasa (S1–S62) ve `docs/07_OPS_RUNBOOK.md` operasyon cümleleri ürün davranışını bağlar; bu sayfa vatandaş dilidir, yeni oda açmaz.",
+      "Yasak: yasa dışı iş, reşit olmayanların ebeveynsiz Junior kullanımı, sahte kimlik, ödeme sistemini dolanma. Metin değişirse yürürlük tarihi bu sayfada güncellenir. Çelişki halinde kilitli anayasa (S1–S62) ve `.system_docs/OPS_RUNBOOK.md` operasyon cümleleri ürün davranışını bağlar; bu sayfa vatandaş dilidir, yeni oda açmaz.",
     ],
   },
 ];

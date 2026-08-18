@@ -31,7 +31,8 @@ describe("K6 public API yolu", () => {
 describe("K6 kind eşlemesi", () => {
   it("dinamik [id] ve daha uzun alt yolu ayırır", () => {
     expect(matchApiAuthKind("/api/freelancer/jobs/fj_1", MAP)).toBe("session");
-    expect(matchApiAuthKind("/api/freelancer/jobs/fj_1/accept", MAP)).toBe("session");
+    expect(matchApiAuthKind("/api/v1/freelancer/jobs/fj_1", MAP)).toBe("session");
+    expect(matchApiAuthKind("/api/v1/freelancer/jobs/fj_1/accept", MAP)).toBe("session");
     expect(matchApiAuthKind("/api/health", MAP)).toBe("public");
     expect(matchApiAuthKind("/api/unknown", MAP)).toBeNull();
   });
@@ -149,7 +150,11 @@ describe("üretilen ROUTE_AUTH_MAP", () => {
     expect(ROUTE_AUTH_MAP["/api/jobs/inngest"]).toBe("webhook");
     expect(ROUTE_AUTH_MAP["/api/studio/generate"]).toBe("session");
     expect(Object.keys(ROUTE_AUTH_MAP).some((path) => path.includes("("))).toBe(false);
-    expect(Object.keys(ROUTE_AUTH_MAP)).toHaveLength(86);
+    expect(Object.keys(ROUTE_AUTH_MAP)).toHaveLength(89);
+    expect(ROUTE_AUTH_MAP["/api/academy/certificates"]).toBe("session");
+    expect(ROUTE_AUTH_MAP["/api/academy/certificates/[hash]"]).toBe("public");
+    expect(ROUTE_AUTH_MAP["/api/freelancer/contracts"]).toBe("session");
+    expect(ROUTE_AUTH_MAP["/api/client/jobs/[id]/bids"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/auth/logout"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/kurumsal/jobs/[id]/offers"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/dashboard/pulse"]).toBe("session");

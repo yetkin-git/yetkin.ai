@@ -30,5 +30,14 @@ export function createPrismaFreelancerPorts(): FreelancerEnginePorts & {
         }),
       );
     },
+    async runReleaseAtomic(work) {
+      return prisma.$transaction((tx) =>
+        work({
+          ledger: bindLedgerStore(tx),
+          escrow: bindEscrowStore(tx),
+          freelancer: bindFreelancerStore(tx),
+        }),
+      );
+    },
   };
 }

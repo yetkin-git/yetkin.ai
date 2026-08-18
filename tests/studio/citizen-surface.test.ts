@@ -79,6 +79,7 @@ describe("Studio vatandaş yüzeyi, LLM Debit mührü ve SEN aksı", () => {
     expect(readSrc("app/studio/page.tsx")).toContain("StudioDebitProvider");
     expect(readSrc("app/studio/page.tsx")).toContain("loadStudioCitizenDesk");
     expect(readSrc("components/studio/generate-panel.tsx")).toContain("aria-live");
+    expect(readSrc("components/studio/generate-panel.tsx")).toContain("QuickTopUpModal");
     expect(readSrc("components/studio/image-generate-panel.tsx")).toContain("aria-live");
     expect(readSrc("components/studio/image-generate-panel.tsx")).toContain("generate.download");
     expect(readSrc("components/studio/token-balance.tsx")).toContain("remaining");

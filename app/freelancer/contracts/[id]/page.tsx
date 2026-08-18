@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ContractActions } from "@/components/freelancer/contract-actions";
 import { ContractMessageThread } from "@/components/freelancer/contract-message-thread";
+import { DeliveryHeroCard } from "@/components/freelancer/delivery-hero-card";
 import { DisputeConsole } from "@/components/freelancer/dispute-console";
 import { SquadPanel } from "@/components/freelancer/squad-panel";
 import { EscrowHoldSteps } from "@/components/freelancer/escrow-hold-steps";
@@ -18,6 +19,7 @@ import {
   freelancerContractStatusLabel,
   freelancerDisputeRoundStatusLabel,
 } from "@/lib/copy/status-labels";
+import { pickLatestDeliveryMessage, shouldShowDeliveryHero } from "@/lib/freelancer/delivery-hero";
 
 export default async function FreelancerContractPage({
   params,
@@ -40,6 +42,11 @@ export default async function FreelancerContractPage({
   const copy = SEN_VOICE.freelancer;
   const holdPercent = split.holdBps / 100;
   const contractLabel = freelancerContractStatusLabel(board.contract.status);
+  const latestDelivery = pickLatestDeliveryMessage(board.messages);
+  const showHero = shouldShowDeliveryHero({
+    contractStatus: board.contract.status,
+    hasDelivery: Boolean(latestDelivery),
+  });
 
   return (
     <RoomFrame>
@@ -53,6 +60,25 @@ export default async function FreelancerContractPage({
           </LinkButton>
         }
       />
+      {showHero && latestDelivery ? (
+        <DeliveryHeroCard
+          contractId={board.contract.id}
+          isClient={session.id === board.contract.clientId}
+          delivery={{
+            body: latestDelivery.body,
+            artifactUrl: latestDelivery.artifactUrl,
+            createdAt:
+              latestDelivery.createdAt instanceof Date
+                ? latestDelivery.createdAt.toISOString()
+                : String(latestDelivery.createdAt),
+          }}
+          grossMinor={split.grossMinor}
+          holdMinor={split.holdMinor}
+          netMinor={split.netMinor}
+          currencyCode={split.currencyCode}
+          holdPercent={holdPercent}
+        />
+      ) : null}
       <Card title={copy.escrow.title} eyebrow={copy.escrow.eyebrow}>
         <div className="mb-4 flex flex-wrap gap-2">
           <Badge tone={board.contract.status === "DISPUTED" ? "rose" : "safir"}>{contractLabel}</Badge>
@@ -95,6 +121,7 @@ export default async function FreelancerContractPage({
         contractId={board.contract.id}
         isClient={session.id === board.contract.clientId}
         status={board.contract.status}
+        showRelease={!showHero}
       />
       <ContractMessageThread contractId={board.contract.id} messages={board.messages} />
       <DisputeConsole

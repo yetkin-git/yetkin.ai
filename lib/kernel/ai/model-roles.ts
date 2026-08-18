@@ -1,7 +1,21 @@
 /**
  * Kanonik AI roller — yetenek sınıfı, ürün adı değil. Tavan: 8 (anayasa).
+ * 6 canlı + 2 mühürlü-ölü (VIDEO_GEN, VOICE_TTS). Factory yok; çağrı fail-closed.
  * Eski gemini alias patlaması (tarimAgronomist, juniorPracticeAudio…) doğmaz.
  */
+
+import { ForbiddenError } from "@/lib/kernel/http/errors";
+
+export const AI_LIVE_MODEL_ROLE_KEYS = [
+  "EXECUTIVE_BRAIN",
+  "DEEP_RESEARCH",
+  "FAST_STREAM",
+  "LITE_STREAM",
+  "IMAGE_GEN",
+  "OPEN_LOCAL",
+] as const;
+
+export const AI_SEALED_DEAD_ROLE_KEYS = ["VIDEO_GEN", "VOICE_TTS"] as const;
 
 export const AI_MODEL_ROLE_KEYS = [
   "EXECUTIVE_BRAIN",
@@ -14,16 +28,26 @@ export const AI_MODEL_ROLE_KEYS = [
   "OPEN_LOCAL",
 ] as const;
 
+export type AiLiveModelRoleKey = (typeof AI_LIVE_MODEL_ROLE_KEYS)[number];
+export type AiSealedDeadRoleKey = (typeof AI_SEALED_DEAD_ROLE_KEYS)[number];
 export type AiModelRoleKey = (typeof AI_MODEL_ROLE_KEYS)[number];
 
-export const AI_MODEL_ROLE_DEFAULTS: Record<AiModelRoleKey, string> = {
+export const AI_SEALED_DEAD_FACTORY_ERROR =
+  "Video ve ses üretimi kesilmiştir. Bu yuva mühürlüdür; fabrika yoktur.";
+
+export class AiGatewayForbiddenError extends ForbiddenError {
+  constructor(message = AI_SEALED_DEAD_FACTORY_ERROR) {
+    super(message);
+    this.name = "AiGatewayForbiddenError";
+  }
+}
+
+export const AI_MODEL_ROLE_DEFAULTS: Record<AiLiveModelRoleKey, string> = {
   EXECUTIVE_BRAIN: "gemini-2.5-pro",
   DEEP_RESEARCH: "gemini-2.5-pro",
   FAST_STREAM: "gemini-2.5-flash",
   LITE_STREAM: "gemini-2.5-flash-lite",
   IMAGE_GEN: "imagen-4.0-generate-001",
-  VIDEO_GEN: "veo-3.0-generate-001",
-  VOICE_TTS: "gemini-2.5-flash-preview-tts",
   OPEN_LOCAL: "gemma-3-27b-it",
 };
 
@@ -52,12 +76,12 @@ export const AI_MODEL_ROLE_META: Record<
     description: "Görsel üretim (gümrük factory)",
   },
   VIDEO_GEN: {
-    displayName: "Video Üretim",
-    description: "Video üretim (gümrük factory)",
+    displayName: "Video Üretim (mühürlü)",
+    description: "Kesilmiş ölü yuva. Factory yok; çağrı fail-closed.",
   },
   VOICE_TTS: {
-    displayName: "Ses",
-    description: "Ses sentezi",
+    displayName: "Ses (mühürlü)",
+    description: "Kesilmiş ölü yuva. Factory yok; çağrı fail-closed.",
   },
   OPEN_LOCAL: {
     displayName: "Yerel Güç",
@@ -66,9 +90,19 @@ export const AI_MODEL_ROLE_META: Record<
 };
 
 const AI_MODEL_ROLE_KEY_SET = new Set<string>(AI_MODEL_ROLE_KEYS);
+const AI_LIVE_MODEL_ROLE_KEY_SET = new Set<string>(AI_LIVE_MODEL_ROLE_KEYS);
+const AI_SEALED_DEAD_ROLE_KEY_SET = new Set<string>(AI_SEALED_DEAD_ROLE_KEYS);
 
 export function isAiModelRoleKey(value: string): value is AiModelRoleKey {
   return AI_MODEL_ROLE_KEY_SET.has(value);
+}
+
+export function isLiveAiModelRoleKey(value: string): value is AiLiveModelRoleKey {
+  return AI_LIVE_MODEL_ROLE_KEY_SET.has(value);
+}
+
+export function isSealedDeadAiModelRole(value: string): value is AiSealedDeadRoleKey {
+  return AI_SEALED_DEAD_ROLE_KEY_SET.has(value);
 }
 
 export function canonicalizeAiModelRole(roleKey: string): AiModelRoleKey | null {
@@ -76,7 +110,16 @@ export function canonicalizeAiModelRole(roleKey: string): AiModelRoleKey | null 
   return isAiModelRoleKey(trimmed) ? trimmed : null;
 }
 
+export function assertLiveAiModelRole(
+  roleKey: string,
+): asserts roleKey is AiLiveModelRoleKey {
+  if (isSealedDeadAiModelRole(roleKey)) {
+    throw new AiGatewayForbiddenError();
+  }
+}
+
 export function getDefaultModelId(roleKey: AiModelRoleKey): string {
+  assertLiveAiModelRole(roleKey);
   return AI_MODEL_ROLE_DEFAULTS[roleKey];
 }
 

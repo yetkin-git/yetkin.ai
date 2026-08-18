@@ -13,8 +13,7 @@
  * PayTR localhost'a bildirim gönderemez; HMAC gövdesi production webhook handler'a verilir.
  */
 
-import { randomBytes, randomUUID } from "node:crypto";
-import { appendFileSync } from "node:fs";
+import { randomUUID } from "node:crypto";
 import { resolve } from "node:path";
 import dotenv from "dotenv";
 import { Client } from "pg";
@@ -22,6 +21,7 @@ import { createClient } from "@supabase/supabase-js";
 import { academyCourseSeedBySlug } from "@/lib/academy/seed";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import { computePaytrWebhookHash } from "@/lib/kernel/payments/paytr/webhook";
+import { buildIdempotentMerchantOid } from "@/lib/kernel/payments/merchant-oid";
 import { WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
 import {
   resolveMigratorConnectionUrl,
@@ -61,11 +61,17 @@ async function waitForHealth(base: string, timeoutMs = 90_000): Promise<void> {
       const response = await fetch(`${base}/api/health`);
       const body = (await response.json()) as {
         ok?: boolean;
-        checks?: { db?: string; paytr?: string };
+        checks?: { db?: string; paytr?: string; inngest?: string };
       };
-      last = `HTTP ${response.status} db=${body.checks?.db ?? "?"} paytr=${body.checks?.paytr ?? "?"}`;
+      last = `HTTP ${response.status} db=${body.checks?.db ?? "?"} paytr=${body.checks?.paytr ?? "?"} inngest=${body.checks?.inngest ?? "?"}`;
       if (response.status === 200 && body.ok === true && body.checks?.db === "ok") {
+        if (body.checks.paytr !== "configured") {
+          fail(`checks.paytr=${body.checks.paytr ?? "yok"} — anahtar fail-closed; sahte CREDIT yok.`);
+        }
         console.log(`→ health ${last}`);
+        if (body.checks.inngest !== "configured") {
+          console.log("→ checks.inngest unconfigured — Cloud cron yok; nakit HTTP webhook ile yürür");
+        }
         return;
       }
     } catch (error) {
@@ -94,38 +100,6 @@ async function jsonRequest(
   return { status: response.status, body, text };
 }
 
-function persistCitizen(email: string, password: string): void {
-  if (process.env.E2E_T3_EMAIL?.trim() && process.env.E2E_T3_PASSWORD?.trim()) {
-    return;
-  }
-  appendFileSync(
-    resolve(ROOT, ".env.local"),
-    `\n# T3 akademi döngü vatandaşı (git dışı; icat Cloud anahtarı değil)\nE2E_T3_EMAIL="${email}"\nE2E_T3_PASSWORD="${password}"\n`,
-    "utf8",
-  );
-}
-
-async function confirmAuthEmail(client: Client, userId: string): Promise<void> {
-  const { rows } = await client.query<{ column_name: string; is_generated: string }>(
-    `SELECT column_name, is_generated
-     FROM information_schema.columns
-     WHERE table_schema = 'auth' AND table_name = 'users'
-       AND column_name IN ('email_confirmed_at', 'confirmed_at')`,
-  );
-  const emailConfirm = rows.find((row) => row.column_name === "email_confirmed_at");
-  // GoTrue: confirmed_at üretilmiş kolondur (yalnız DEFAULT). Sahte onay yok.
-  if (emailConfirm?.is_generated === "NEVER") {
-    await client.query(
-      `UPDATE auth.users
-       SET email_confirmed_at = COALESCE(email_confirmed_at, NOW())
-       WHERE id = $1::uuid`,
-      [userId],
-    );
-    return;
-  }
-  fail("auth.users yazılabilir email_confirmed_at yok.");
-}
-
 async function ensureCitizen(): Promise<{
   accessToken: string;
   userId: string;
@@ -139,63 +113,43 @@ async function ensureCitizen(): Promise<{
 
   const existingEmail = process.env.E2E_T3_EMAIL?.trim() ?? "";
   const existingPassword = process.env.E2E_T3_PASSWORD?.trim() ?? "";
-  if (existingEmail && existingPassword) {
-    const signed = await auth.auth.signInWithPassword({
-      email: existingEmail,
-      password: existingPassword,
-    });
-    if (signed.error || !signed.data.session?.access_token || !signed.data.user?.id) {
-      fail(`Mevcut T3 vatandaşı giriş yapamadı: ${signed.error?.message ?? "oturum yok"}`);
-    }
-    console.log(`→ oturum mevcut vatandaş ${signed.data.user.id.slice(0, 8)}…`);
-    return {
-      accessToken: signed.data.session.access_token,
-      userId: signed.data.user.id,
-      email: existingEmail,
-    };
+  if (!existingEmail || !existingPassword) {
+    fail("E2E_T3_EMAIL / E2E_T3_PASSWORD yok. Yeni kayıt açılmaz (Auth kotası).");
   }
-
-  const email = `t3.loop.${Date.now()}@gmail.com`;
-  const password = `T3.${randomBytes(12).toString("base64url")}!aA1`;
-  const signedUp = await auth.auth.signUp({ email, password });
-  const userId = signedUp.data.user?.id;
-  if (signedUp.error || !userId) {
-    fail(`Kayıt açılamadı: ${signedUp.error?.message ?? "kullanıcı yok"}`);
+  const signed = await auth.auth.signInWithPassword({
+    email: existingEmail,
+    password: existingPassword,
+  });
+  if (signed.error || !signed.data.session?.access_token || !signed.data.user?.id) {
+    fail(`Mevcut T3 vatandaşı giriş yapamadı: ${signed.error?.message ?? "oturum yok"}`);
   }
-  persistCitizen(email, password);
+  console.log(`→ oturum mevcut vatandaş ${signed.data.user.id.slice(0, 8)}…`);
+  return {
+    accessToken: signed.data.session.access_token,
+    userId: signed.data.user.id,
+    email: existingEmail,
+  };
+}
 
+async function readOrderStatusByOid(merchantOid: string): Promise<string> {
   const dbUrl = resolveMigratorConnectionUrl({
     DIRECT_URL: process.env.DIRECT_URL,
     DATABASE_URL: process.env.DATABASE_URL,
   });
   if (!dbUrl) {
-    fail("DIRECT_URL / DATABASE_URL yok; e-posta SQL ile onaylanamaz.");
+    fail("DIRECT_URL / DATABASE_URL yok.");
   }
   const client = new Client({ connectionString: withPgLibpqSslCompat(dbUrl) });
   await client.connect();
   try {
-    await confirmAuthEmail(client, userId);
-    const publicUser = await client.query<{ n: number }>(
-      `SELECT count(*)::int AS n FROM public.users WHERE id = $1::text`,
-      [userId],
+    const order = await client.query<{ status: string }>(
+      `SELECT status FROM payment_orders WHERE merchant_oid = $1`,
+      [merchantOid],
     );
-    if (Number(publicUser.rows[0]?.n ?? 0) < 1) {
-      fail("public.users satırı yok — handle_new_user tetiklenmedi.");
-    }
+    return order.rows[0]?.status ?? "";
   } finally {
     await client.end();
   }
-
-  const signedIn = await auth.auth.signInWithPassword({ email, password });
-  if (signedIn.error || !signedIn.data.session?.access_token) {
-    fail(`Onay sonrası giriş yok: ${signedIn.error?.message ?? "oturum yok"}`);
-  }
-  console.log(`→ oturum yeni vatandaş ${userId.slice(0, 8)}… (e-posta SQL onay)`);
-  return {
-    accessToken: signedIn.data.session.access_token,
-    userId,
-    email,
-  };
 }
 
 async function readCashProof(
@@ -298,7 +252,16 @@ async function main(): Promise<void> {
     body: JSON.stringify({ amountMinor: topUpMinor }),
   });
   if (topUp.status !== 200 || topUp.body.ok !== true) {
-    fail(`Cüzdan yükleme ${topUp.status}: ${JSON.stringify(topUp.body)}`);
+    const expectedOid = buildIdempotentMerchantOid("walletTopUp", citizen.userId, topUpKey);
+    const closed = await readOrderStatusByOid(expectedOid);
+    if (closed === "PENDING") {
+      fail(
+        `Cüzdan yükleme ${topUp.status} PENDING sızıntısı oid=${expectedOid.slice(0, 24)}…: ${JSON.stringify(topUp.body)}`,
+      );
+    }
+    fail(
+      `Cüzdan yükleme ${topUp.status} (emir ${closed || "yok"}): ${JSON.stringify(topUp.body)}`,
+    );
   }
   if (topUp.body.mockCheckout === true) {
     fail("mockCheckout=true — sahte checkout T3'te yasak.");
@@ -327,8 +290,8 @@ async function main(): Promise<void> {
       hash: "not-a-real-hmac",
     }),
   });
-  if (badWebhook.status !== 400) {
-    fail(`Sahte HMAC ${badWebhook.status} — 400 beklenirdi.`);
+  if (badWebhook.status !== 403) {
+    fail(`Sahte HMAC ${badWebhook.status} — 403 beklenirdi.`);
   }
 
   const hash = computePaytrWebhookHash(

@@ -4,7 +4,7 @@ export const PAZARYERI_SEN = {
     eyebrow: "Yetkinİlan",
     title: "Yetkinİlan",
     description:
-      "Dijital üründe anında teslim / anında bakiyeden transfer (Settlement). Hizmette emanet korumasında kilit (Escrow Hold); teslimat onayında aktarım.",
+      "Dijital üründe anında teslim / anında bakiyeden transfer (Settlement). Hizmette emanet korumasında kilit (Escrow Hold); teslimat onayında aktarım. Emlak ve vasıta yalnız vitrindir; teklif ve emanet bağlanmaz.",
     stallCta: "Tezgâhı yönet",
     ordersCta: "Siparişler",
     live: (count: number) => `Canlı sicil — ${count} ilan`,
@@ -21,18 +21,19 @@ export const PAZARYERI_SEN = {
   },
   list: {
     emptyHint:
-      "Vitrin henüz boş. Kartlar örnek düzendir; dijital anında settlement, hizmet emanet kilit. Emlak/vasıta bu turda derinleşmez.",
+      "Vitrin henüz boş. Kartlar örnek düzendir; dijital anında settlement, hizmet emanet kilit. Emlak/vasıta yalnız vitrindir.",
     openCta: "İlanı aç",
     stallCta: "Tezgâha ekle",
     lockInstant: "Anında teslim",
     lockEscrow: "Emanet kilit",
     lockOffer: "Teklife açık",
+    lockVitrine: "Yalnız vitrin",
     lockDoped: "Dopingli",
   },
   paths: {
     settlementTitle: "Dijital ürün — anında teslim",
     settlementEyebrow: "Settlement",
-    escrowTitle: "Hizmet / ilan — emanet kilit",
+    escrowTitle: "Hizmet — emanet kilit",
     escrowEyebrow: "Escrow Hold",
     settlementSteps: (lockMinutes: number) =>
       [
@@ -82,6 +83,9 @@ export const PAZARYERI_SEN = {
     ownedEscrow: "Sipariş alındı. Tutar emanet korumasında kilitli; teslimat onayında aktarım.",
     sellerTitle: "Satıcı tezgâhı",
     sellerBody: "Bu ilan kendi tezgâhta.",
+    vitrineTitle: "Yalnız vitrin",
+    vitrineBody:
+      "Emlak ve vasıta ilanı görselleştirme vitrinidir. Teklif, emanet, satın alma ve doping EİDS ve yetkili ödeme altyapısı olmadan işletilemez.",
     offerTitle: "Doğrulanmış teklif",
     offerBody: "Satıcı onaylarsa teklif tutarı kapora olarak emanete kilitlenir.",
     purchaseSettlementEyebrow: "Anında teslim",
@@ -93,7 +97,7 @@ export const PAZARYERI_SEN = {
     eyebrow: "Yetkinİlan",
     title: "Tezgâhı yönet",
     description:
-      "Kategori ödeme modelini seçer. Dijital: anında settlement. Hizmet: emanet hold / teslimat onayında aktarım.",
+      "Kategori ödeme modelini seçer. Dijital: anında settlement. Hizmet: emanet hold / teslimat onayında aktarım. Emlak/vasıta: yalnız vitrin.",
     newTitle: "Yeni ilan",
     backCta: "Vitrine dön",
     titleLabel: "Başlık",
@@ -105,12 +109,14 @@ export const PAZARYERI_SEN = {
     insuranceLabel: "Sigorta kancası (Quick / Hepiyi)",
     digitalOption: "Dijital ürün (anında teslim)",
     serviceOption: "Hizmet / ilan (emanet kilit)",
-    realEstateOption: "Emlak (TKGM / emanet)",
-    vehicleOption: "Vasıta (sigorta / emanet)",
+    realEstateOption: "Emlak (yalnız vitrin)",
+    vehicleOption: "Vasıta (yalnız vitrin)",
     modelSettlement:
       "Bu ilanda anında teslim / anında bakiyeden transfer (Settlement) işletilir. Emanet yoktur. Sipariş PAID ve CLEARED aynı anda kapanır.",
     modelEscrow:
       "Bu ilanda emanet korumasında kilit (Escrow Hold) işletilir. Tutar PENDING kalır; teslimat onayında CLEARED aktarım. İade CANCELLED.",
+    modelVitrine:
+      "Bu ilan yalnız vitrindir. Teklif, emanet, satın alma ve doping bağlanmaz. TKGM / sigorta alanı kancadır; canlı tapu veya poliçe iddiası yoktur.",
     submit: "Tezgâha koy",
     pending: "Listeleniyor…",
     fail: "İlan açılamadı.",

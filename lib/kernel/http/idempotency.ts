@@ -92,6 +92,7 @@ export async function settleHttpIdempotency(
     key: string;
     requestHash: string;
     requestId: string;
+    request?: Request;
     now?: Date;
   },
   execute: () => Promise<{ status: number; body: Record<string, unknown> }>,
@@ -108,13 +109,14 @@ export async function settleHttpIdempotency(
       "Idempotency-Key aynı anahtarla farklı gövde kullanılamaz.",
       409,
       input.requestId,
+      input.request,
     );
   }
   if (began.kind === "in_progress") {
-    return jsonFail("Aynı Idempotency-Key işleniyor.", 409, input.requestId);
+    return jsonFail("Aynı Idempotency-Key işleniyor.", 409, input.requestId, input.request);
   }
   if (began.kind === "replay") {
-    return jsonOk(began.record.body, began.record.statusCode, input.requestId);
+    return jsonOk(began.record.body, began.record.statusCode, input.requestId, input.request);
   }
 
   try {
@@ -127,7 +129,7 @@ export async function settleHttpIdempotency(
         statusCode: result.status,
         body: result.body,
       });
-      return jsonOk(result.body, result.status, input.requestId);
+      return jsonOk(result.body, result.status, input.requestId, input.request);
     }
     await input.store.abandon({
       userId: input.userId,
@@ -136,7 +138,7 @@ export async function settleHttpIdempotency(
     });
     const error =
       typeof result.body.error === "string" ? result.body.error : "İşlem başarısız.";
-    return jsonFail(error, result.status, input.requestId);
+    return jsonFail(error, result.status, input.requestId, input.request);
   } catch (error) {
     await input.store.abandon({
       userId: input.userId,

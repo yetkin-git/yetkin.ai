@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
 import { FREELANCER_JOB_MAX_MINOR, FREELANCER_JOB_MIN_MINOR } from "@/lib/freelancer/schemas";
 import { FREELANCER_SEN } from "@/lib/copy/sen-voice/freelancer";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
@@ -15,6 +16,7 @@ export function JobCreateForm() {
   const [budgetMajor, setBudgetMajor] = useState("100");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const idempotency = useIdempotencyKey();
   const copy = FREELANCER_SEN.create;
 
   async function onSubmit(event: FormEvent) {
@@ -24,7 +26,7 @@ export function JobCreateForm() {
     const budgetMinor = Math.round(Number.parseFloat(budgetMajor.replace(",", ".")) * 100);
     const response = await fetch("/api/freelancer/jobs", {
       method: "POST",
-      headers: { "content-type": "application/json" },
+      headers: { "content-type": "application/json", ...idempotency.headers() },
       body: JSON.stringify({ title, brief, budgetMinor }),
     });
     const body = (await response.json()) as { ok: boolean; error?: string; job?: { id: string } };

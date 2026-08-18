@@ -10,11 +10,11 @@ export async function GET(request: Request) {
     const user = await requireSession(request);
     const ports = createPrismaFreelancerPorts();
     const pulse = await ports.freelancer.pulseForUser(user.id);
-    return jsonOk({ pulse: { ...pulse, live: true } });
+    return jsonOk({ pulse: { ...pulse, live: true } }, 200, undefined, request);
   } catch (error) {
     if (error instanceof Error && error.message.includes("DATABASE_URL")) {
-      return jsonOk({ pulse: EMPTY_FREELANCER_PULSE });
+      return jsonOk({ pulse: EMPTY_FREELANCER_PULSE }, 200, undefined, request);
     }
-    return jsonFromUnknown(error);
+    return jsonFromUnknown(error, 400, undefined, request);
   }
 }

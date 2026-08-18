@@ -471,3 +471,69 @@ body {
     radial-gradient(1200px 480px at 12% -8%, rgba(26, 140, 255, 0.09), transparent 55%),
     radial-gradient(900px 420px at 100% 0%, rgba(109, 92, 255, 0.07), transparent 50%);
 }
+
+.action-bridge-stack {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 70;
+  display: flex;
+  width: min(24rem, calc(100vw - 2rem));
+  flex-direction: column-reverse;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+
+.action-bridge-toast {
+  pointer-events: auto;
+}
+
+.quick-top-up-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(11, 18, 32, 0.46);
+  padding: 1rem;
+}
+
+.quick-top-up-dialog {
+  width: min(36rem, 100%);
+  max-height: min(90vh, 44rem);
+  overflow: auto;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--foreground);
+  box-shadow: var(--shadow-lift);
+  padding: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .quick-top-up-overlay {
+    align-items: center;
+  }
+}
+
+@keyframes delivery-hero-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--emerald) 32%, transparent), var(--shadow-lift);
+  }
+  50% {
+    box-shadow: 0 0 0 10px color-mix(in srgb, var(--emerald) 0%, transparent), var(--shadow-lift);
+  }
+}
+
+.delivery-hero-glow {
+  animation: delivery-hero-glow 2.6s ease-in-out infinite;
+  border-color: color-mix(in srgb, var(--emerald) 48%, var(--border));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .delivery-hero-glow {
+    animation: none;
+  }
+}

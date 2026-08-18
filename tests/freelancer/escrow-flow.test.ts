@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
+import { ConflictError } from "@/lib/kernel/http/errors";
+import { RAIL_V1_RELEASE_NOT_FUNDED } from "@/lib/kernel/http/v1-contract";
 import {
   acceptFreelancerBid,
   createFreelancerJob,
@@ -80,12 +82,20 @@ describe("freelancer emanet mutlu yolu", () => {
     const releasedHold = await ports.escrow.findById(contract.escrowHoldId);
     expect(releasedHold?.status).toBe("RELEASED");
 
-    const again = await releaseFreelancerContract(ports, {
-      contractId: contract.id,
-      actorUserId: CLIENT,
-      platformUserId: PLATFORM,
-    });
-    expect(again.status).toBe("RELEASED");
+    await expect(
+      releaseFreelancerContract(ports, {
+        contractId: contract.id,
+        actorUserId: CLIENT,
+        platformUserId: PLATFORM,
+      }),
+    ).rejects.toBeInstanceOf(ConflictError);
+    await expect(
+      releaseFreelancerContract(ports, {
+        contractId: contract.id,
+        actorUserId: CLIENT,
+        platformUserId: PLATFORM,
+      }),
+    ).rejects.toThrow(RAIL_V1_RELEASE_NOT_FUNDED);
     expect(ports.ledger.snapshot(FREELANCER).amountMinor).toBe(9_000);
   });
 
