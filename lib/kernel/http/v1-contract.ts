@@ -6,6 +6,7 @@
  */
 
 import { z } from "zod";
+import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { SHA256_HEX_PATTERN } from "@/lib/kernel/crypto/sha256";
 import {
   RAIL_API_VERSION_LABEL,
@@ -18,6 +19,10 @@ import {
 import { IDEMPOTENCY_KEY_HEADER } from "@/lib/kernel/http/idempotency-key";
 import { CURRENCY_CODES } from "@/lib/kernel/money/currency";
 import { WALLET_TOP_UP_MAX_MINOR, WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
+import {
+  FREELANCER_JOB_MAX_MINOR,
+  FREELANCER_JOB_MIN_MINOR,
+} from "@/lib/kernel/pricing/freelancer-job-band";
 import { PASSPORT_STAMP_SOURCE_KINDS } from "@/lib/kernel/passport/types";
 import { EDGE_API_SESSION_ERROR } from "@/lib/kernel/security/edge-api-auth";
 import {
@@ -28,9 +33,19 @@ import {
   type RailV1FailBody,
   type RailV1OkBody,
 } from "@/lib/kernel/http/v1-envelope";
+import {
+  RAIL_V1_DRON_FORBIDDEN_HOP_IDS,
+  RAIL_V1_HOPS_META,
+  isRailV1HopMetaDronForbidden,
+  type RailV1HopId,
+  type RailV1HopMethod,
+  type RailV1WireAuth,
+} from "@/lib/kernel/http/v1-hops-meta";
+
+export type { RailV1HopId, RailV1HopMethod, RailV1WireAuth };
 
 export const RAIL_V1_OPENAPI_VERSION = "3.0.3" as const;
-export const RAIL_V1_CONTRACT_TITLE = "Yetkin Rail API v1";
+export const RAIL_V1_CONTRACT_TITLE = `${YETKIN_BRAND} API v1`;
 export const RAIL_V1_BEARER_SCHEME = "BearerAuth" as const;
 
 export const RAIL_V1_IDEMPOTENCY_REQUIRED = "Idempotency-Key başlığı zorunludur.";
@@ -46,6 +61,7 @@ export const RAIL_V1_RELEASE_FORBIDDEN = "Yalnız işveren emaneti serbest bıra
 export const RAIL_V1_RELEASE_NOT_FUNDED = "Sözleşme serbest bırakılamaz.";
 export const RAIL_V1_ACCEPT_FORBIDDEN = "Yalnız ilan sahibi teklif kabul edebilir.";
 export const RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE = "Yetersiz bakiye. Teklif kabul edilemez.";
+export const RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE = "Ödeme henüz bağlanmadı";
 export const RAIL_V1_ACCEPT_FIELDS_INVALID = "Teklif kimliği gerekli.";
 export const RAIL_V1_OWNER_BIDS_FORBIDDEN = "Yalnız ilan sahibi teklifleri görebilir.";
 export const RAIL_V1_OWNER_BIDS_NOT_FOUND = "İlan bulunamadı.";
@@ -73,7 +89,10 @@ export const RAIL_V1_ACADEMY_CERTIFICATE_PAYLOAD_VERSION =
   "yetkin-rail.academy.certificate.v2" as const;
 export const RAIL_V1_ACADEMY_EXAM_PASS_SCORE = 70 as const;
 export const RAIL_V1_ACADEMY_CERTIFICATE_ALGORITHM = "SHA256" as const;
+export const RAIL_V1_ACADEMY_CERTIFICATE_INTEGRITY_KIND = "sha256-content-digest" as const;
 export const RAIL_V1_ACADEMY_CERTIFICATE_SEAL_VALID = "valid" as const;
+export const RAIL_V1_ACADEMY_CERTIFICATE_SEAL_REVOKED = "revoked" as const;
+export const RAIL_V1_ACADEMY_PURCHASE_BODY_INVALID = "Satın alma gövdesi geçersiz.";
 
 export const RAIL_V1_JOB_STATUSES = ["OPEN", "AWARDED", "CANCELLED"] as const;
 export const RAIL_V1_BID_STATUSES = ["SUBMITTED", "ACCEPTED", "REJECTED"] as const;
@@ -119,7 +138,7 @@ export const railV1HealthChecksSchema = z.strictObject({
   db: z.enum(["ok", "down", "unconfigured"]),
   supabaseAuth: z.enum(["configured", "unconfigured"]),
   inngest: z.enum(["configured", "unconfigured"]),
-  paytr: z.enum(["configured", "unconfigured"]),
+  payments: z.enum(["configured", "unconfigured"]),
 });
 
 export const railV1HealthDataSchema = z.strictObject({
@@ -148,20 +167,6 @@ export const railV1WalletStripDataSchema = z.strictObject({
   strip: railV1WalletStripSchema,
 });
 
-export const railV1FreelancerPulseSchema = z.strictObject({
-  live: z.boolean(),
-  openJobsPosted: z.int().nonnegative(),
-  fundedAsClient: z.int().nonnegative(),
-  fundedAsFreelancer: z.int().nonnegative(),
-  releasedAsFreelancer: z.int().nonnegative(),
-  pendingEscrowMinor: railV1AmountMinorSchema,
-  currencyCode: railV1CurrencySchema,
-});
-
-export const railV1FreelancerPulseDataSchema = z.strictObject({
-  pulse: railV1FreelancerPulseSchema,
-});
-
 export const railV1JobSchema = z.strictObject({
   id: z.string().min(1),
   clientId: z.string().min(1),
@@ -179,7 +184,7 @@ export const railV1JobsDataSchema = z.strictObject({
 });
 
 export const railV1BidRequestSchema = z.strictObject({
-  amountMinor: z.int().min(WALLET_TOP_UP_MIN_MINOR).max(WALLET_TOP_UP_MAX_MINOR),
+  amountMinor: z.int().min(FREELANCER_JOB_MIN_MINOR).max(FREELANCER_JOB_MAX_MINOR),
   coverNote: z.string().trim().min(4).max(2000),
 });
 
@@ -356,15 +361,65 @@ export const railV1PublicAcademyCertificateDataSchema = z.strictObject({
     z.literal(RAIL_V1_ACADEMY_CERTIFICATE_HASHED_FIELDS[4]),
     z.literal(RAIL_V1_ACADEMY_CERTIFICATE_HASHED_FIELDS[5]),
   ]),
-  sealStatus: z.literal(RAIL_V1_ACADEMY_CERTIFICATE_SEAL_VALID),
+  integrityKind: z.literal(RAIL_V1_ACADEMY_CERTIFICATE_INTEGRITY_KIND),
+  sealStatus: z.enum([
+    RAIL_V1_ACADEMY_CERTIFICATE_SEAL_VALID,
+    RAIL_V1_ACADEMY_CERTIFICATE_SEAL_REVOKED,
+  ]),
+  revokedAt: railV1IsoDateTimeSchema.nullable(),
   passScore: z.literal(RAIL_V1_ACADEMY_EXAM_PASS_SCORE),
 });
 
 export type RailV1PublicAcademyCertificateData = z.infer<typeof railV1PublicAcademyCertificateDataSchema>;
 
-export type RailV1HopMethod = "GET" | "POST";
+export const railV1AcademyPulseSchema = z.strictObject({
+  live: z.boolean(),
+  purchasesCount: z.int().nonnegative(),
+  certificatesHeld: z.int().nonnegative(),
+  lastCertificateTitle: z.string().min(1).nullable(),
+  currencyCode: railV1CurrencySchema,
+});
+
+export const railV1AcademyPulseDataSchema = z.strictObject({
+  pulse: railV1AcademyPulseSchema,
+});
+
+export const railV1AcademyPurchaseRequestSchema = z.strictObject({
+  lockId: z.string().trim().min(1).optional(),
+});
+
+export const railV1AcademyPurchaseDataSchema = z.strictObject({
+  applied: z.boolean(),
+  purchase: z.strictObject({
+    id: z.string().min(1),
+    courseId: z.string().min(1),
+    amountMinor: railV1AmountMinorSchema,
+    status: z.literal("SETTLED"),
+  }),
+  certificate: z
+    .strictObject({
+      id: z.string().min(1),
+      serialKey: z.string().min(1),
+    })
+    .nullable(),
+});
+
+export const railV1CareerPulseSchema = z.strictObject({
+  live: z.boolean(),
+  visaCount: z.int().nonnegative(),
+  portfolioCount: z.int().nonnegative(),
+  lastVisaTitle: z.string().min(1).nullable(),
+});
+
+export const railV1CareerPulseDataSchema = z.strictObject({
+  pulse: railV1CareerPulseSchema,
+});
+
+export const railV1CareerVisasDataSchema = z.strictObject({
+  stamps: z.array(railV1VisaStampSchema),
+});
+
 export type RailV1RouteAuth = "public" | "session";
-export type RailV1WireAuth = "none" | "bearer";
 
 export type RailV1Hop = {
   id: string;
@@ -384,6 +439,11 @@ export type RailV1Hop = {
   requestSchema?: z.ZodType;
   exampleParams?: Readonly<Record<string, string>>;
   errors: readonly string[];
+  /**
+   * Native mağaza (IAP). `forbidden` = Dron istemcisi çağırmaz;
+   * hop Amiral çerez/Bearer + lab protokolündedir.
+   */
+  nativeStore?: "allowed" | "forbidden";
 };
 
 export const RAIL_V1_SHARED_ERRORS = {
@@ -425,16 +485,31 @@ const PUBLIC_CERTIFICATE_ERRORS = [
   RAIL_V1_ACADEMY_CERTIFICATE_INCOMPLETE,
 ] as const;
 
-export const RAIL_V1_HOPS = [
-  {
-    id: "health",
-    method: "GET",
-    v1PathTemplate: "/api/v1/health",
+type RailV1HopContract = Omit<
+  RailV1Hop,
+  "id" | "method" | "v1PathTemplate" | "v1Auth" | "cookieAuth" | "nativeStore"
+>;
+
+function bindRailV1Hop(
+  meta: (typeof RAIL_V1_HOPS_META)[number],
+  contract: RailV1HopContract,
+): RailV1Hop {
+  return {
+    id: meta.id,
+    method: meta.method,
+    v1PathTemplate: meta.v1PathTemplate,
+    v1Auth: meta.v1Auth,
+    cookieAuth: meta.cookieAuth,
+    nativeStore: isRailV1HopMetaDronForbidden(meta) ? "forbidden" : undefined,
+    ...contract,
+  };
+}
+
+const RAIL_V1_HOP_CONTRACTS = {
+  health: {
     canonicalPathTemplate: "/api/health",
     routeAuthPattern: "/api/health",
     routeAuth: "public",
-    v1Auth: "none",
-    cookieAuth: false,
     idempotency: false,
     minVersionHeaderRequired: false,
     successStatus: 200,
@@ -447,20 +522,15 @@ export const RAIL_V1_HOPS = [
       "checks.db",
       "checks.supabaseAuth",
       "checks.inngest",
-      "checks.paytr",
+      "checks.payments",
     ],
     dataSchema: railV1HealthDataSchema,
     errors: ["Veritabanı bağlı değil.", "Veritabanı erişilemez.", "Omurga hazır değil."],
   },
-  {
-    id: "academy-certificate",
-    method: "GET",
-    v1PathTemplate: "/api/v1/academy/certificates/{hash}",
+  "academy-certificate": {
     canonicalPathTemplate: "/api/academy/certificates/{hash}",
     routeAuthPattern: "/api/academy/certificates/[hash]",
     routeAuth: "public",
-    v1Auth: "none",
-    cookieAuth: false,
     idempotency: false,
     minVersionHeaderRequired: true,
     successStatus: 200,
@@ -475,7 +545,9 @@ export const RAIL_V1_HOPS = [
       "algorithm",
       "payloadVersion",
       "hashedFields",
+      "integrityKind",
       "sealStatus",
+      "revokedAt",
       "passScore",
     ],
     publishedDataPaths: [
@@ -489,7 +561,9 @@ export const RAIL_V1_HOPS = [
       "algorithm",
       "payloadVersion",
       "hashedFields",
+      "integrityKind",
       "sealStatus",
+      "revokedAt",
       "passScore",
     ],
     dataSchema: railV1PublicAcademyCertificateDataSchema,
@@ -498,15 +572,53 @@ export const RAIL_V1_HOPS = [
     },
     errors: PUBLIC_CERTIFICATE_ERRORS,
   },
-  {
-    id: "auth-session",
-    method: "GET",
-    v1PathTemplate: "/api/v1/auth/session",
+  "academy-pulse": {
+    canonicalPathTemplate: "/api/academy/pulse",
+    routeAuthPattern: "/api/academy/pulse",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["pulse"],
+    publishedDataPaths: [
+      "pulse",
+      "pulse.live",
+      "pulse.purchasesCount",
+      "pulse.certificatesHeld",
+      "pulse.lastCertificateTitle",
+      "pulse.currencyCode",
+    ],
+    dataSchema: railV1AcademyPulseDataSchema,
+    errors: SESSION_ERRORS,
+  },
+  "academy-purchase": {
+    canonicalPathTemplate: "/api/academy/courses/{id}/purchase",
+    routeAuthPattern: "/api/academy/courses/[id]/purchase",
+    routeAuth: "session",
+    idempotency: true,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["applied", "purchase", "certificate"],
+    publishedDataPaths: [
+      "applied",
+      "purchase",
+      "purchase.id",
+      "purchase.courseId",
+      "purchase.amountMinor",
+      "purchase.status",
+      "certificate",
+      "certificate.id",
+      "certificate.serialKey",
+    ],
+    dataSchema: railV1AcademyPurchaseDataSchema,
+    requestSchema: railV1AcademyPurchaseRequestSchema,
+    exampleParams: { id: "course_lab_1" },
+    errors: [...WRITE_ERRORS, RAIL_V1_ACADEMY_PURCHASE_BODY_INVALID],
+  },
+  "auth-session": {
     canonicalPathTemplate: "/api/auth/session",
     routeAuthPattern: "/api/auth/session",
     routeAuth: "session",
-    v1Auth: "bearer",
-    cookieAuth: false,
     idempotency: false,
     minVersionHeaderRequired: true,
     successStatus: 200,
@@ -515,15 +627,10 @@ export const RAIL_V1_HOPS = [
     dataSchema: railV1SessionDataSchema,
     errors: SESSION_ERRORS,
   },
-  {
-    id: "wallet-strip",
-    method: "GET",
-    v1PathTemplate: "/api/v1/dashboard/wallet-strip",
+  "wallet-strip": {
     canonicalPathTemplate: "/api/dashboard/wallet-strip",
     routeAuthPattern: "/api/dashboard/wallet-strip",
     routeAuth: "session",
-    v1Auth: "bearer",
-    cookieAuth: false,
     idempotency: false,
     minVersionHeaderRequired: true,
     successStatus: 200,
@@ -532,41 +639,10 @@ export const RAIL_V1_HOPS = [
     dataSchema: railV1WalletStripDataSchema,
     errors: [...SESSION_ERRORS, "Veritabanı erişilemez."],
   },
-  {
-    id: "freelancer-pulse",
-    method: "GET",
-    v1PathTemplate: "/api/v1/dashboard/freelancer-pulse",
-    canonicalPathTemplate: "/api/dashboard/freelancer-pulse",
-    routeAuthPattern: "/api/dashboard/freelancer-pulse",
-    routeAuth: "session",
-    v1Auth: "bearer",
-    cookieAuth: false,
-    idempotency: false,
-    minVersionHeaderRequired: true,
-    successStatus: 200,
-    dataKeys: ["pulse"],
-    publishedDataPaths: [
-      "pulse",
-      "pulse.live",
-      "pulse.openJobsPosted",
-      "pulse.fundedAsClient",
-      "pulse.fundedAsFreelancer",
-      "pulse.releasedAsFreelancer",
-      "pulse.pendingEscrowMinor",
-      "pulse.currencyCode",
-    ],
-    dataSchema: railV1FreelancerPulseDataSchema,
-    errors: SESSION_ERRORS,
-  },
-  {
-    id: "freelancer-jobs",
-    method: "GET",
-    v1PathTemplate: "/api/v1/freelancer/jobs",
+  "freelancer-jobs": {
     canonicalPathTemplate: "/api/freelancer/jobs",
     routeAuthPattern: "/api/freelancer/jobs",
     routeAuth: "session",
-    v1Auth: "bearer",
-    cookieAuth: false,
     idempotency: false,
     minVersionHeaderRequired: true,
     successStatus: 200,
@@ -586,15 +662,10 @@ export const RAIL_V1_HOPS = [
     dataSchema: railV1JobsDataSchema,
     errors: SESSION_ERRORS,
   },
-  {
-    id: "client-job-bids",
-    method: "GET",
-    v1PathTemplate: "/api/v1/client/jobs/{id}/bids",
+  "client-job-bids": {
     canonicalPathTemplate: "/api/client/jobs/{id}/bids",
     routeAuthPattern: "/api/client/jobs/[id]/bids",
     routeAuth: "session",
-    v1Auth: "bearer",
-    cookieAuth: false,
     idempotency: false,
     minVersionHeaderRequired: true,
     successStatus: 200,
@@ -610,15 +681,10 @@ export const RAIL_V1_HOPS = [
     exampleParams: { id: "fj_lab_1" },
     errors: [...SESSION_ERRORS, RAIL_V1_OWNER_BIDS_FORBIDDEN, RAIL_V1_OWNER_BIDS_NOT_FOUND],
   },
-  {
-    id: "freelancer-bid",
-    method: "POST",
-    v1PathTemplate: "/api/v1/freelancer/jobs/{id}/bids",
+  "freelancer-bid": {
     canonicalPathTemplate: "/api/freelancer/jobs/{id}/bids",
     routeAuthPattern: "/api/freelancer/jobs/[id]/bids",
     routeAuth: "session",
-    v1Auth: "bearer",
-    cookieAuth: false,
     idempotency: true,
     minVersionHeaderRequired: true,
     successStatus: 201,
@@ -640,15 +706,10 @@ export const RAIL_V1_HOPS = [
     exampleParams: { id: "fj_lab_1" },
     errors: [...WRITE_ERRORS, RAIL_V1_BID_FIELDS_INVALID, RAIL_V1_LISTING_VISA_DENIED],
   },
-  {
-    id: "freelancer-accept",
-    method: "POST",
-    v1PathTemplate: "/api/v1/freelancer/jobs/{id}/accept",
+  "freelancer-accept": {
     canonicalPathTemplate: "/api/freelancer/jobs/{id}/accept",
     routeAuthPattern: "/api/freelancer/jobs/[id]/accept",
     routeAuth: "session",
-    v1Auth: "bearer",
-    cookieAuth: false,
     idempotency: true,
     minVersionHeaderRequired: true,
     successStatus: 200,
@@ -680,18 +741,13 @@ export const RAIL_V1_HOPS = [
       ...WRITE_ERRORS,
       RAIL_V1_ACCEPT_FIELDS_INVALID,
       RAIL_V1_ACCEPT_FORBIDDEN,
-      RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE,
+      RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE,
     ],
   },
-  {
-    id: "freelancer-contracts",
-    method: "GET",
-    v1PathTemplate: "/api/v1/freelancer/contracts",
+  "freelancer-contracts": {
     canonicalPathTemplate: "/api/freelancer/contracts",
     routeAuthPattern: "/api/freelancer/contracts",
     routeAuth: "session",
-    v1Auth: "bearer",
-    cookieAuth: false,
     idempotency: false,
     minVersionHeaderRequired: true,
     successStatus: 200,
@@ -720,15 +776,10 @@ export const RAIL_V1_HOPS = [
     dataSchema: railV1ContractsDataSchema,
     errors: SESSION_ERRORS,
   },
-  {
-    id: "freelancer-delivery",
-    method: "POST",
-    v1PathTemplate: "/api/v1/freelancer/contracts/{id}/messages",
+  "freelancer-delivery": {
     canonicalPathTemplate: "/api/freelancer/contracts/{id}/messages",
     routeAuthPattern: "/api/freelancer/contracts/[id]/messages",
     routeAuth: "session",
-    v1Auth: "bearer",
-    cookieAuth: false,
     idempotency: true,
     minVersionHeaderRequired: true,
     successStatus: 201,
@@ -750,15 +801,10 @@ export const RAIL_V1_HOPS = [
       RAIL_V1_DELIVERY_NOT_FUNDED,
     ],
   },
-  {
-    id: "freelancer-release",
-    method: "POST",
-    v1PathTemplate: "/api/v1/freelancer/contracts/{id}/release",
+  "freelancer-release": {
     canonicalPathTemplate: "/api/freelancer/contracts/{id}/release",
     routeAuthPattern: "/api/freelancer/contracts/[id]/release",
     routeAuth: "session",
-    v1Auth: "bearer",
-    cookieAuth: false,
     idempotency: true,
     minVersionHeaderRequired: true,
     successStatus: 200,
@@ -798,15 +844,10 @@ export const RAIL_V1_HOPS = [
     exampleParams: { id: "fc_lab_1" },
     errors: [...WRITE_ERRORS, RAIL_V1_RELEASE_FORBIDDEN, RAIL_V1_RELEASE_NOT_FUNDED],
   },
-  {
-    id: "freelancer-refund",
-    method: "POST",
-    v1PathTemplate: "/api/v1/freelancer/contracts/{id}/refund",
+  "freelancer-refund": {
     canonicalPathTemplate: "/api/freelancer/contracts/{id}/refund",
     routeAuthPattern: "/api/freelancer/contracts/[id]/refund",
     routeAuth: "session",
-    v1Auth: "bearer",
-    cookieAuth: false,
     idempotency: true,
     minVersionHeaderRequired: true,
     successStatus: 200,
@@ -835,9 +876,59 @@ export const RAIL_V1_HOPS = [
     exampleParams: { id: "fc_lab_1" },
     errors: WRITE_ERRORS,
   },
-] as const satisfies readonly RailV1Hop[];
+  "career-pulse": {
+    canonicalPathTemplate: "/api/career/pulse",
+    routeAuthPattern: "/api/career/pulse",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["pulse"],
+    publishedDataPaths: [
+      "pulse",
+      "pulse.live",
+      "pulse.visaCount",
+      "pulse.portfolioCount",
+      "pulse.lastVisaTitle",
+    ],
+    dataSchema: railV1CareerPulseDataSchema,
+    errors: SESSION_ERRORS,
+  },
+  "career-visas": {
+    canonicalPathTemplate: "/api/career/visas",
+    routeAuthPattern: "/api/career/visas",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["stamps"],
+    publishedDataPaths: [
+      "stamps",
+      "stamps[].id",
+      "stamps[].userId",
+      "stamps[].sourceKind",
+      "stamps[].sourceId",
+      "stamps[].visaKey",
+      "stamps[].moduleId",
+      "stamps[].title",
+      "stamps[].certificateHash",
+      "stamps[].issuedAt",
+      "stamps[].createdAt",
+    ],
+    dataSchema: railV1CareerVisasDataSchema,
+    errors: SESSION_ERRORS,
+  },
+} satisfies Record<RailV1HopId, RailV1HopContract>;
 
-export type RailV1HopId = (typeof RAIL_V1_HOPS)[number]["id"];
+export const RAIL_V1_HOPS: readonly RailV1Hop[] = RAIL_V1_HOPS_META.map((meta) =>
+  bindRailV1Hop(meta, RAIL_V1_HOP_CONTRACTS[meta.id]),
+);
+
+export { RAIL_V1_DRON_FORBIDDEN_HOP_IDS };
+
+export function isRailV1HopForbiddenOnDron(id: string): boolean {
+  return isRailV1HopMetaDronForbidden(id);
+}
 
 export const RAIL_V1_PUBLISHED_FIELD_PATHS: readonly string[] = RAIL_V1_HOPS.flatMap((hop) =>
   hop.publishedDataPaths.map((path) => `${hop.method} ${hop.v1PathTemplate} data.${path}`),
@@ -927,10 +1018,13 @@ function headerParameter(name: string, required: boolean, description: string, e
 
 function hopTag(hop: RailV1Hop): string[] {
   if (hop.id.startsWith("freelancer") || hop.id.startsWith("client")) {
-    return ["Diyar B"];
+    return ["Marketplace"];
   }
-  if (hop.id.startsWith("academy")) {
-    return ["Akademi"];
+  if (hop.id.startsWith("academy") || hop.id.startsWith("career")) {
+    return ["Proof"];
+  }
+  if (hop.id === "wallet-strip") {
+    return ["Payments"];
   }
   return ["Kernel"];
 }
@@ -1026,6 +1120,10 @@ function hopResponses(hop: RailV1Hop): Record<string, unknown> {
       description: RAIL_V1_ACCEPT_FORBIDDEN,
       content: { "application/json": { schema: failRef } },
     };
+    responses["503"] = {
+      description: RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE,
+      content: { "application/json": { schema: failRef } },
+    };
   }
   if (hop.id === "client-job-bids") {
     responses["403"] = {
@@ -1049,7 +1147,7 @@ function hopResponses(hop: RailV1Hop): Record<string, unknown> {
         hop.id === "freelancer-release"
           ? `${RAIL_V1_IDEMPOTENCY_BODY_CONFLICT} ${RAIL_V1_RELEASE_NOT_FUNDED}`
           : hop.id === "freelancer-accept"
-            ? `${RAIL_V1_IDEMPOTENCY_BODY_CONFLICT} ${RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE}`
+            ? `${RAIL_V1_IDEMPOTENCY_BODY_CONFLICT} ${RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE}`
             : RAIL_V1_IDEMPOTENCY_BODY_CONFLICT,
       content: { "application/json": { schema: failRef } },
     };
@@ -1081,7 +1179,7 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
             : hop.id === "freelancer-release"
               ? "Hak ediş serbest bırakma. Actor = contract.clientId (işveren). Usta/üçüncü şahıs 403. Status FUNDED dışında 409; DELIVERY tanığı sunucu şartı değildir (FSM uydurması yok). Cevap RailV1Contract + visaStamp (deliveredAt yok). Alıcı istek gövdesinden okunmaz. Mükerrer UUID ikinci CREDIT yazmaz."
               : hop.id === "freelancer-accept"
-                ? "İşveren teklif kabulü (nakit DEBIT). Actor = job.clientId. Usta/üçüncü şahıs 403. Yetersiz bakiyede 409, ilan OPEN kalır, hold/sözleşme yazılmaz, 2xx yok. Cevap tam RailV1Contract (clientId, freelancerId, escrowHoldId, holdBps, ISO tarihler). deliveredAt ve visaStamp yoktur. Tutar istek gövdesinden okunmaz. Mükerrer UUID ikinci DEBIT yazmaz."
+                ? "İşveren teklif kabulü. Actor = job.clientId. Usta/üçüncü şahıs 403. Pazaryeri split portu yoksa 503; Rail cüzdanına DEBIT yazılmaz, ilan OPEN kalır, hold/sözleşme yazılmaz, 2xx yok. PSP bağlıysa kilit kaydı pspPaymentId taşır. Cevap tam RailV1Contract (clientId, freelancerId, escrowHoldId, holdBps, ISO tarihler). deliveredAt ve visaStamp yoktur. Tutar istek gövdesinden okunmaz. Mükerrer UUID ikinci hold yazmaz."
                 : hop.id === "client-job-bids"
                   ? "Owner-only teklif okuma. Actor = job.clientId. Usta/üçüncü şahıs 403, data:null, bids basılmaz. İlan yok 404. Yalnız SUBMITTED; OPEN değilse bids boş dizi (ikinci bidId uydurulmaz). ClientJobBidsView: bidId, amountMinor, coverNote, createdAt. bidderId / status / updatedAt / currencyCode / jobId sızmaz. GET /freelancer/jobs/{id} bu hop değildir."
                   : "",
@@ -1116,21 +1214,21 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
       title: RAIL_V1_CONTRACT_TITLE,
       version: RAIL_API_VERSION_LABEL,
       description: [
-        "Yetkin Rail Shared Kernel dış sözleşmesi (Diyar B / Rail İş lab hop'ları).",
+        `${YETKIN_BRAND} Modüler Monolit + API-First Dron sözleşmesi — Proof / Marketplace / Payments.`,
         "Kopya `app/api/v1` handler ağacı yoktur; kenar soyar.",
         "Zarf: { ok, error, requestId, apiVersion, data }.",
-        "Versiyonsuz `{ ok, ...data }` serimi bu belgeye girmez.",
+        "X-Rail-Min-Version API sözleşme sürümüdür; mağaza uygulama build'i değildir (X-Rail-App-Build ayrı, v1'de kapı değil).",
+        "Amiral ve Dron aynı v1 zarfı konuşur. Versiyonsuz `{ ok, ...data }` serimi kapalıdır.",
         "Yayınlanmış alan sessizce düşmez. CORS joker ve Allow-Credentials yoktur.",
+        "SHA-256 akademi kaydı kriptografik imza değildir; içerik özeti / bütünlük kaydıdır.",
       ].join(" "),
     },
     servers: [{ url: "/" }],
     tags: [
       { name: "Kernel", description: "Health ve oturum." },
-      { name: "Diyar B", description: "Freelancer ilan / teklif / emanet." },
-      {
-        name: "Akademi",
-        description: "Kamu sertifika mühür doğrulama. Oturum yok. userId / attemptId / purchaseId sızmaz.",
-      },
+      { name: "Proof", description: "Akademi pulse/satın alma, kariyer vizesi, kamu içerik özeti doğrulama." },
+      { name: "Marketplace", description: "Freelancer ilan / teklif / emanet. İç hakediş kilidi 403 olarak durur." },
+      { name: "Payments", description: "Cüzdan şeridi. PayTR top-up v1 hop değildir." },
     ],
     paths,
     components: {
@@ -1147,7 +1245,6 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
         RailV1OkEnvelope: toOpenApiSchema(railV1OkEnvelopeSchema),
         RailV1SessionUser: toOpenApiSchema(railV1SessionUserSchema),
         RailV1WalletStrip: toOpenApiSchema(railV1WalletStripSchema),
-        RailV1FreelancerPulse: toOpenApiSchema(railV1FreelancerPulseSchema),
         RailV1Job: toOpenApiSchema(railV1JobSchema),
         RailV1Bid: toOpenApiSchema(railV1BidSchema),
         RailV1BidRequest: toOpenApiSchema(railV1BidRequestSchema),
@@ -1162,6 +1259,17 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
         RailV1AcceptRequest: toOpenApiSchema(railV1AcceptRequestSchema),
         RailV1AcceptData: toOpenApiSchema(railV1AcceptDataSchema),
         RailV1PublicAcademyCertificate: toOpenApiSchema(railV1PublicAcademyCertificateDataSchema),
+        RailV1AcademyPulse: toOpenApiSchema(railV1AcademyPulseSchema),
+        RailV1AcademyPurchaseRequest: toOpenApiSchema(railV1AcademyPurchaseRequestSchema),
+        RailV1AcademyPurchaseData: toOpenApiSchema(railV1AcademyPurchaseDataSchema),
+        RailV1CareerPulse: toOpenApiSchema(railV1CareerPulseSchema),
+        RailV1CareerVisasData: toOpenApiSchema(railV1CareerVisasDataSchema),
+        RailV1SessionData: toOpenApiSchema(railV1SessionDataSchema),
+        RailV1WalletStripData: toOpenApiSchema(railV1WalletStripDataSchema),
+        RailV1JobsData: toOpenApiSchema(railV1JobsDataSchema),
+        RailV1BidData: toOpenApiSchema(railV1BidDataSchema),
+        RailV1ContractsData: toOpenApiSchema(railV1ContractsDataSchema),
+        RailV1DeliveryData: toOpenApiSchema(railV1DeliveryDataSchema),
       },
       parameters: {
         RailMinVersion: headerParameter(

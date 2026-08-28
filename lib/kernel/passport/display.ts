@@ -1,6 +1,7 @@
 import { parseSha256Hex } from "@/lib/kernel/crypto/sha256";
 import {
   ACADEMY_STAMP_SURFACE_PATH,
+  FREELANCER_CONTRACT_SURFACE_PATH,
   type PassportStampSourceKind,
   type SealedPassportStamp,
 } from "@/lib/kernel/passport/types";
@@ -66,4 +67,18 @@ export function passportAcademyVerifyHref(
     return null;
   }
   return `${ACADEMY_STAMP_SURFACE_PATH}/dogrula/${hash}`;
+}
+
+/** Freelancer teslim mührü → sözleşme detayı. Boş sourceId'de null — uydurma link yok. */
+export function passportFreelancerContractHref(
+  stamp: Pick<SealedPassportStamp, "sourceKind" | "sourceId">,
+): string | null {
+  if (stamp.sourceKind !== "FREELANCER_RELEASE") {
+    return null;
+  }
+  const id = stamp.sourceId.trim();
+  if (!id) {
+    return null;
+  }
+  return `${FREELANCER_CONTRACT_SURFACE_PATH}/${id}`;
 }

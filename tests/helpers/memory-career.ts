@@ -138,6 +138,7 @@ export function createMemoryCareerStore(): MemoryCareerStore {
 
 export function createMemoryCareerProofStore(initial: SealedCareerProof[] = []): CareerProofStore & {
   add(proof: SealedCareerProof): void;
+  remove(sourceKind: CareerVisaSourceKind, sourceId: string): void;
 } {
   const proofs = new Map<string, SealedCareerProof>();
   function key(kind: CareerVisaSourceKind, sourceId: string) {
@@ -150,14 +151,29 @@ export function createMemoryCareerProofStore(initial: SealedCareerProof[] = []):
     add(proof) {
       proofs.set(key(proof.sourceKind, proof.sourceId), proof);
     },
+    remove(sourceKind, sourceId) {
+      proofs.delete(key(sourceKind, sourceId));
+    },
     async getSealedProof(sourceKind, sourceId) {
       const row = proofs.get(key(sourceKind, sourceId));
-      return row ? { ...row, actorUserIds: [...row.actorUserIds], certificateHash: row.certificateHash } : null;
+      return row
+        ? {
+            ...row,
+            actorUserIds: [...row.actorUserIds],
+            certificateHash: row.certificateHash,
+            courseSlug: row.courseSlug,
+          }
+        : null;
     },
     async listSealedProofs(userId) {
       return [...proofs.values()]
         .filter((row) => row.userId === userId)
-        .map((row) => ({ ...row, actorUserIds: [...row.actorUserIds], certificateHash: row.certificateHash }));
+        .map((row) => ({
+          ...row,
+          actorUserIds: [...row.actorUserIds],
+          certificateHash: row.certificateHash,
+          courseSlug: row.courseSlug,
+        }));
     },
   };
 }

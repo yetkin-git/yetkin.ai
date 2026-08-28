@@ -18,6 +18,7 @@ export type NoticeSmtpMail = {
   to: string;
   subject: string;
   text: string;
+  fromName?: string;
 };
 
 const SMTP_TIMEOUT_MS = 8_000;
@@ -189,8 +190,11 @@ export async function sendNoticeSmtp(config: NoticeSmtpConfig, mail: NoticeSmtpM
         await session.command(`MAIL FROM:<${from}>`, 250);
         await session.command(`RCPT TO:<${to}>`, 250);
         await session.command("DATA", 354);
+        const headerFrom = mail.fromName
+          ? `"${mail.fromName.replace(/[\r\n"<>]/g, "")}" <${from}>`
+          : from;
         const body = [
-          `From: ${from}`,
+          `From: ${headerFrom}`,
           `To: ${to}`,
           `Subject: ${encodeSubject(mail.subject)}`,
           "MIME-Version: 1.0",

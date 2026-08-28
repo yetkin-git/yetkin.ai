@@ -9,6 +9,17 @@ node_modules/
 .env.test
 .env.production
 .env.museum-backup.local
+!.env.example
+
+# Kimlik / anahtar kalkanı — verify:no-secrets ile birlikte.
+*.pem
+*.p12
+*.pfx
+*.p8
+*.jks
+*.mobileprovision
+credentials.json
+serviceAccount.json
 
 .next/
 out/
@@ -37,15 +48,17 @@ npm-debug.log*
 test-results/
 playwright-report/
 
+# Saha probe / operatör kalıntısı — kökte durmaz (01 tespit hijyeni).
 .tmp/
 temp/
 tmp/
 .cache/
 .eslintcache
+gitstatus.txt
 
-# Müze — ilham ve yasak listesi (S9-B). Rail git geçmişine girmez.
+# Müze — ilham ve yasak listesi (OPS). Rail git geçmişine girmez.
 # Nested repo; `git add` ve ajan taraması dışındadır. Kod silinmez.
-yetkin.ai/
+yetkin_muze/
 
 # Native / Expo
 apps/*/.expo/

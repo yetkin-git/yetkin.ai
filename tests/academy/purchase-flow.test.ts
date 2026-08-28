@@ -130,4 +130,61 @@ describe("akademi satın alma (anında settlement)", () => {
     expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
     expect(await ports.academy.getPurchaseByUserAndCourse(BUYER, ports.course.id)).toBeNull();
   });
+
+  it("365 gün dolunca lisans yenilenir; aktif lisansa ikinci debit yok", async () => {
+    const ports = world();
+    await ports.academy.insertCourse(ports.course);
+    const firstLock = await lockAcademyCoursePrice(ports, {
+      courseId: ports.course.id,
+      userId: BUYER,
+      now: new Date("2025-08-01T00:00:00.000Z"),
+    });
+    const first = await purchaseAcademyCourse(ports, {
+      courseId: ports.course.id,
+      userId: BUYER,
+      lockId: firstLock.lock.id,
+      platformUserId: PLATFORM,
+      now: new Date("2025-08-01T00:01:00.000Z"),
+      level: "Temel",
+    });
+    expect(first.applied).toBe(true);
+    expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(75_000);
+
+    const again = await purchaseAcademyCourse(ports, {
+      courseId: ports.course.id,
+      userId: BUYER,
+      platformUserId: PLATFORM,
+      now: new Date("2025-08-02T00:00:00.000Z"),
+    });
+    expect(again.applied).toBe(false);
+    expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(75_000);
+
+    await expect(
+      purchaseAcademyCourse(ports, {
+        courseId: ports.course.id,
+        userId: BUYER,
+        platformUserId: PLATFORM,
+        now: new Date("2026-08-02T00:00:00.000Z"),
+        level: "İleri",
+      }),
+    ).rejects.toThrow(/başka bir seviyede/);
+
+    const renewLock = await lockAcademyCoursePrice(ports, {
+      courseId: ports.course.id,
+      userId: BUYER,
+      now: new Date("2026-08-02T00:00:00.000Z"),
+    });
+    const renewed = await purchaseAcademyCourse(ports, {
+      courseId: ports.course.id,
+      userId: BUYER,
+      lockId: renewLock.lock.id,
+      platformUserId: PLATFORM,
+      now: new Date("2026-08-02T00:01:00.000Z"),
+      level: "Temel",
+    });
+    expect(renewed.applied).toBe(true);
+    expect(renewed.purchase.id).toBe(first.purchase.id);
+    expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(50_000);
+    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(50_000);
+  });
 });

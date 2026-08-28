@@ -2,26 +2,28 @@
 
 import { formatMinor } from "@/lib/kernel/money/format";
 import { PulseCard } from "@/components/ui/pulse-card";
-import { IconBriefcase } from "@/components/ui/icons";
 import { useDashboardPulse } from "@/components/dashboard/dashboard-pulse-provider";
+import { SEN_VOICE } from "@/lib/copy/sen-voice";
 
 export function FreelancerPulseWidget() {
   const { freelancer: pulse } = useDashboardPulse();
+  const copy = SEN_VOICE.dashboard.pulse;
+  const activeJobs = pulse.fundedAsClient + pulse.fundedAsFreelancer;
 
   return (
     <PulseCard
-      title="Freelancer özeti"
+      title={copy.freelancerTitle}
       live={pulse.live}
       href="/freelancer"
-      hrefLabel="Freelancer odasına git"
+      hrefLabel={copy.freelancerHrefLabel}
       stats={[
-        { label: "Açık ilan", value: pulse.openJobsPosted, icon: <IconBriefcase /> },
-        { label: "Fonlanmış (müşteri)", value: pulse.fundedAsClient },
-        { label: "Fonlanmış (freelancer)", value: pulse.fundedAsFreelancer },
-        { label: "Serbest bırakılan", value: pulse.releasedAsFreelancer },
+        { label: copy.freelancerOpen, value: pulse.live ? pulse.openJobsPosted : "—" },
+        { label: copy.freelancerActive, value: pulse.live ? activeJobs : "—" },
       ]}
     >
-      Kilitli emanet: {formatMinor(pulse.pendingEscrowMinor, pulse.currencyCode)}
+      {pulse.live
+        ? copy.freelancerEscrow(formatMinor(pulse.pendingEscrowMinor, pulse.currencyCode))
+        : "—"}
     </PulseCard>
   );
 }

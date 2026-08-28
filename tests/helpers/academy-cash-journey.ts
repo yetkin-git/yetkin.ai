@@ -1,7 +1,6 @@
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import { academyCourseSeedBySlug } from "@/lib/academy/seed";
 import { lockAcademyCoursePrice, purchaseAcademyCourse } from "@/lib/academy/engine";
-import { submitAcademyExam } from "@/lib/academy/exam-engine";
 import { completeAcademyCurriculum } from "@/lib/academy/curriculum-engine";
 import { academyCurriculumSealForSlug } from "@/lib/academy/curriculum";
 import { verifyAcademyCertificateHash } from "@/lib/academy/exam";
@@ -12,13 +11,14 @@ import {
   createMemoryCheckoutPriceLockStore,
   createMemoryPriceCatalogStore,
 } from "./memory-pricing";
+import { submitAcademyExamWithFreshSitting } from "./academy-exam-sitting";
 import type { AcademyCertificateRecord, AcademyPurchaseRecord } from "@/lib/academy/types";
 import type { MemoryLedgerStore } from "./memory-money";
 
 export const E2E_ACADEMY_BUYER_ID = "e2e-academy-buyer";
 export const E2E_ACADEMY_PLATFORM_ID = PLATFORM_TREASURY_USER_ID;
 export const E2E_ACADEMY_START_MINOR = 100_000;
-export const E2E_ACADEMY_SLUG = "rail-temel";
+export const E2E_ACADEMY_SLUG = "python-temel";
 
 export type AcademyCashJourneyResult = {
   ledger: MemoryLedgerStore;
@@ -38,7 +38,7 @@ export type AcademyCashJourneyResult = {
 export async function runAcademyCashJourney(): Promise<AcademyCashJourneyResult> {
   const seed = academyCourseSeedBySlug(E2E_ACADEMY_SLUG);
   if (!seed) {
-    throw new Error("rail-temel tohumu yok.");
+    throw new Error("python-temel tohumu yok.");
   }
   const now = new Date("2026-08-15T18:00:00.000Z");
   const course = memoryCourse({
@@ -102,15 +102,10 @@ export async function runAcademyCashJourney(): Promise<AcademyCashJourneyResult>
     throw new Error("Müfredat tamamlanmadı.");
   }
 
-  const passing = seed.exam.questions.map((question) => ({
-    questionId: question.id,
-    choiceIndex: question.correctIndex,
-  }));
   const examNow = new Date("2026-08-15T18:05:00.000Z");
-  const examResult = await submitAcademyExam(ports, {
+  const examResult = await submitAcademyExamWithFreshSitting(ports, {
     courseId: course.id,
     userId: E2E_ACADEMY_BUYER_ID,
-    answers: passing,
     now: examNow,
   });
   if (!examResult.certificate?.certificateHash) {

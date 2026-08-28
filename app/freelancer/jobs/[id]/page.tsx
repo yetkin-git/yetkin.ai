@@ -1,17 +1,21 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { BidForm } from "@/components/freelancer/bid-form";
 import { AcceptBidButton } from "@/components/freelancer/accept-bid-button";
 import { EscrowHoldSteps } from "@/components/freelancer/escrow-hold-steps";
+import { ListingVisaScopeSign } from "@/components/career/listing-visa-scope-sign";
 import { loadJobBoard } from "@/lib/freelancer/load";
-import { loadHasAcademyCareerVisa } from "@/lib/career/load";
+import { loadListingVisaAccess } from "@/lib/career/load";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { getSession } from "@/lib/kernel/auth/session";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { LinkButton } from "@/components/ui/link-button";
+import { BreadcrumbPageLabel } from "@/components/shell/header-breadcrumb";
+import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
+import type { Route } from "next";
 import {
   escrowHoldActiveStep,
   freelancerBidStatusLabel,
@@ -25,21 +29,32 @@ export default async function FreelancerJobDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const board = await loadJobBoard(id);
+  const session = await getSession();
+  const board = await loadJobBoard(id, session?.id ?? null);
   if (!board) {
     notFound();
   }
-  const session = await getSession();
-  const isClient = session?.id === board.job.clientId;
-  const hasAcademyVisa =
+
+  const isClient = board.viewerRole === "owner";
+  const alreadyBid = board.viewerRole === "participant";
+  const listingVisa =
     session && !isClient && board.job.status === "OPEN"
-      ? await loadHasAcademyCareerVisa(session.id)
-      : true;
+      ? await loadListingVisaAccess(session.id, {
+          id: board.job.id,
+          title: board.job.title,
+          brief: board.job.brief,
+          visaPathwayId: board.job.visaPathwayId,
+        })
+      : { allowed: true, code: "ok" as const, message: "" };
+
   const copy = SEN_VOICE.freelancer;
   const holdPercent = HOLD_BPS_DEFAULT / 100;
+  const bidsEmptyCopy =
+    board.viewerRole === "owner" ? copy.job.bidsEmpty : copy.job.bidsHidden;
 
   return (
     <RoomFrame>
+      <BreadcrumbPageLabel href={`/freelancer/jobs/${board.job.id}`} label={board.job.title} />
       <PageHeader
         eyebrow={`${copy.job.eyebrow} · ${freelancerJobStatusLabel(board.job.status)}`}
         title={board.job.title}
@@ -54,6 +69,23 @@ export default async function FreelancerJobDetailPage({
         <p className="font-medium text-[var(--foreground)]">
           {copy.job.budgetLabel}: {formatMinor(board.job.budgetMinor, board.job.currencyCode)}
         </p>
+        <ul className="mt-3 flex flex-wrap gap-1.5" aria-label={copy.stats.barLabel}>
+          <li title={copy.stats.escrowHint}>
+            <Badge tone="safir" className="normal-case tracking-tight">
+              {copy.stats.escrowInline}
+            </Badge>
+          </li>
+          <li title={copy.stats.pathHint}>
+            <Badge tone="emerald" className="normal-case tracking-tight">
+              {copy.stats.pathInline}
+            </Badge>
+          </li>
+          <li title={copy.stats.revisionHint}>
+            <Badge tone="neutral" className="normal-case tracking-tight">
+              {copy.stats.revisionInline}
+            </Badge>
+          </li>
+        </ul>
       </Card>
       <Card title={copy.escrow.title} eyebrow={copy.escrow.eyebrow}>
         <EscrowHoldSteps
@@ -63,14 +95,14 @@ export default async function FreelancerJobDetailPage({
       </Card>
       {board.contract ? (
         <Card title={copy.job.contractTitle}>
-          <Link href={`/freelancer/contracts/${board.contract.id}`} className="text-[var(--safir)] hover:underline">
+          <LinkButton href={`/freelancer/contracts/${board.contract.id}`} variant="primary" size="sm">
             {copy.job.contractCta} ({freelancerContractStatusLabel(board.contract.status)})
-          </Link>
+          </LinkButton>
         </Card>
       ) : null}
       <Card title={copy.job.bidsTitle}>
         {board.bids.length === 0 ? (
-          <p>{copy.job.bidsEmpty}</p>
+          <p>{bidsEmptyCopy}</p>
         ) : (
           <ul className="space-y-3">
             {board.bids.map((bid) => (
@@ -78,7 +110,7 @@ export default async function FreelancerJobDetailPage({
                 <p className="font-medium text-[var(--foreground)]">
                   {formatMinor(bid.amountMinor, bid.currencyCode)} · {freelancerBidStatusLabel(bid.status)}
                 </p>
-                <p>{bid.coverNote}</p>
+                {typeof bid.coverNote === "string" ? <p>{bid.coverNote}</p> : null}
                 {isClient && board.job.status === "OPEN" && bid.status === "SUBMITTED" ? (
                   <div className="mt-2">
                     <AcceptBidButton
@@ -95,28 +127,40 @@ export default async function FreelancerJobDetailPage({
           </ul>
         )}
       </Card>
-      {!isClient && board.job.status === "OPEN" ? (
+      {!isClient && !alreadyBid && board.job.status === "OPEN" ? (
         <Card title={copy.job.bidTitle}>
           {session ? (
-            hasAcademyVisa ? (
+            listingVisa.allowed ? (
               <BidForm jobId={board.job.id} maxMinor={board.job.budgetMinor} />
             ) : (
-              <p>
-                {copy.job.visaGate}{" "}
-                <Link href="/career" className="text-[var(--safir)] hover:underline">
+              <div className="space-y-3">
+                <p className="text-sm text-[var(--muted)]">
+                  {listingVisa.message || copy.job.visaGate}
+                </p>
+                <ListingVisaScopeSign
+                  listing={{
+                    id: board.job.id,
+                    title: board.job.title,
+                    brief: board.job.brief,
+                    visaPathwayId: board.job.visaPathwayId,
+                  }}
+                />
+                <LinkButton href="/career" variant="primary" size="sm">
                   {copy.job.visaCta}
-                </Link>
-                .
-              </p>
+                </LinkButton>
+              </div>
             )
           ) : (
-            <p>
-              {copy.job.loginLead}{" "}
-              <Link href="/login" className="text-[var(--safir)] hover:underline">
+            <div className="space-y-3">
+              <p className="text-sm text-[var(--muted)]">{copy.job.loginLead}</p>
+              <LinkButton
+                href={buildCitizenLoginHref(`/freelancer/jobs/${board.job.id}`) as Route}
+                variant="primary"
+                size="sm"
+              >
                 {copy.job.loginCta}
-              </Link>
-              .
-            </p>
+              </LinkButton>
+            </div>
           )}
         </Card>
       ) : null}

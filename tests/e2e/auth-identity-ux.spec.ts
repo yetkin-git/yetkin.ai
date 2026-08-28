@@ -62,6 +62,12 @@ test.describe("vatandaş kimlik UX", () => {
     await expect(bound.or(missing).or(checking).or(form)).toBeVisible();
   });
 
+  test("/login?next= cüzdan hedefini URL'de tutar", async ({ page }) => {
+    await page.goto("/login?next=%2Fcuzdan");
+    await expect(page).toHaveURL(/\/login\?next=%2Fcuzdan/);
+    await expect(page.getByRole("heading", { name: "Giriş" })).toBeVisible();
+  });
+
   test("/auth/callback codesuz login hata yüzüne düşer; service_role cookie yazmaz", async ({
     page,
   }) => {

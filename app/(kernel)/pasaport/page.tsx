@@ -1,6 +1,5 @@
 import { PassportStampList } from "@/components/kernel/passport-stamp-list";
 import { AuthNeeded } from "@/components/ui/auth-needed";
-import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { IconBadge, IconLock, IconPassport } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/link-button";
@@ -13,67 +12,82 @@ import {
   PASSPORT_UNSET_LABEL,
 } from "@/lib/kernel/passport/display";
 import { loadPassportBoard } from "@/lib/kernel/passport/load";
-import { CAREER_STAMP_SURFACE_PATH } from "@/lib/kernel/passport/types";
+import {
+  ACADEMY_STAMP_SURFACE_PATH,
+  CAREER_STAMP_SURFACE_PATH,
+  FREELANCER_STAMP_SURFACE_PATH,
+} from "@/lib/kernel/passport/types";
+import { SEN_VOICE } from "@/lib/copy/sen-voice";
+
+function PassportShelterActions({ soft = false }: { soft?: boolean }) {
+  const copy = SEN_VOICE.pasaport;
+  const size = soft ? "sm" : "md";
+  return (
+    <div className="flex flex-wrap gap-2">
+      <LinkButton href={CAREER_STAMP_SURFACE_PATH} variant="secondary" size={size}>
+        {copy.careerCta}
+      </LinkButton>
+      <LinkButton href={ACADEMY_STAMP_SURFACE_PATH} variant="outline" size={size}>
+        {copy.academyCta}
+      </LinkButton>
+      <LinkButton href={FREELANCER_STAMP_SURFACE_PATH} variant="ghost" size={size}>
+        {copy.freelancerCta}
+      </LinkButton>
+    </div>
+  );
+}
 
 export default async function PassportPage() {
   const session = await getSession();
   const board = session ? await loadPassportBoard(session.id) : null;
   const stamps = board?.stamps ?? [];
   const latest = latestPassportStamp(stamps);
+  const copy = SEN_VOICE.pasaport;
 
   return (
     <RoomFrame>
       <PageHeader
-        eyebrow="Vatandaş kanıt sığınağı"
-        title="Pasaport"
-        description="Yetkinlik mühürleri CareerVisaStamp sicilinden okunur. Damgayı Kariyer basar; bu oda yalnız listeler."
-        actions={
-          <LinkButton href={CAREER_STAMP_SURFACE_PATH} variant="secondary">
-            Kariyer odası
-          </LinkButton>
-        }
+        eyebrow={copy.eyebrow}
+        title={copy.title}
+        description={copy.description}
+        actions={<PassportShelterActions />}
       />
       <StatGrid
         columns={3}
         items={[
           {
-            label: "Mühür",
-            value: session ? (board ? String(stamps.length) : "—") : "Oturum yok",
-            hint: board ? "CareerVisaStamp sayısı" : "Bağlanınca sicil dolar",
+            label: copy.stats.totalLabel,
+            value: session ? (board ? String(stamps.length) : "—") : copy.stats.guest,
+            hint: board ? copy.stats.totalHintLive : copy.stats.totalHintPending,
             icon: <IconPassport />,
           },
           {
-            label: "Son damga",
+            label: copy.stats.latestLabel,
             value: latest?.title ?? (session ? PASSPORT_UNSET_LABEL : "—"),
-            hint: latest ? "issuedAt desc" : "Uydurma başlık yok",
+            hint: latest ? copy.stats.latestHintLive : copy.stats.latestHintEmpty,
             icon: <IconBadge />,
           },
           {
-            label: "Kaynak",
-            value: board ? String(countPassportSourceKinds(stamps)) : session ? "Bekleniyor" : "—",
-            hint: "Akademi / freelancer kökeni",
+            label: copy.stats.sourceLabel,
+            value: board ? String(countPassportSourceKinds(stamps)) : session ? copy.stats.waiting : "—",
+            hint: copy.stats.sourceHint,
             icon: <IconLock />,
           },
         ]}
       />
       {!session ? (
-        <AuthNeeded message="Pasaport sicili oturum ister. Sahte vize basılmaz." />
+        <AuthNeeded message={copy.auth} />
       ) : board === null ? (
         <div className="space-y-3">
-          <Badge tone="amber">Liste henüz yüklenemedi — örnek düzen</Badge>
-          <p className="text-sm text-[var(--muted)]">
-            Veritabanı bağlanınca gerçek CareerVisaStamp satırları burada durur. Uydurma yetkinlik
-            yok.
-          </p>
+          <p className="text-sm text-[var(--muted)]">{copy.loadSoft}</p>
+          <PassportShelterActions soft />
           <PassportStampList stamps={[]} />
         </div>
       ) : (
         <PassportStampList stamps={stamps} />
       )}
-      <Card variant="ink" title="Salt okunur sığınak" bodyClassName="text-white/70">
-        Bu odada vize ekleme veya düzenleme formu yoktur. Sertifika Akademi sınavından, teslim
-        mührü freelancer serbest bırakmasından doğar; Kariyer damgayı basar. Pasaport yalnız
-        kanıt sığınağıdır.
+      <Card variant="ink" title={copy.honestyTitle} bodyClassName="text-white/70">
+        {copy.honestyBody}
       </Card>
     </RoomFrame>
   );

@@ -35,6 +35,8 @@ export type PassportBoard = {
 export const PASSPORT_SURFACE_PATH = "/pasaport" as const;
 export const CAREER_STAMP_SURFACE_PATH = "/career" as const;
 export const ACADEMY_STAMP_SURFACE_PATH = "/academy" as const;
+export const FREELANCER_STAMP_SURFACE_PATH = "/freelancer" as const;
+export const FREELANCER_CONTRACT_SURFACE_PATH = "/freelancer/contracts" as const;
 
 export function toPassportVisaStamp(stamp: SealedPassportStamp): PassportVisaStamp {
   return {

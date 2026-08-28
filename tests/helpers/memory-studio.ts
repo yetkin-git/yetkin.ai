@@ -10,13 +10,36 @@ import type {
   StudioStore,
 } from "@/lib/studio/types";
 
+type AiTokenUsageMemoryState = {
+  byId: Array<[string, AiTokenUsageRecord]>;
+  byKey: Array<[string, string]>;
+};
+
 export function createMemoryAiTokenUsageStore(): AiTokenUsageStore & {
   list(): AiTokenUsageRecord[];
+  capture(): AiTokenUsageMemoryState;
+  restore(state: AiTokenUsageMemoryState): void;
 } {
   const byId = new Map<string, AiTokenUsageRecord>();
   const byKey = new Map<string, string>();
 
   return {
+    capture() {
+      return {
+        byId: [...byId.entries()].map(([key, value]) => [key, { ...value }]),
+        byKey: [...byKey.entries()],
+      };
+    },
+    restore(state) {
+      byId.clear();
+      byKey.clear();
+      for (const [key, value] of state.byId) {
+        byId.set(key, { ...value });
+      }
+      for (const [key, value] of state.byKey) {
+        byKey.set(key, value);
+      }
+    },
     list() {
       return [...byId.values()].map((row) => ({ ...row }));
     },

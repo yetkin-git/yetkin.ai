@@ -1,17 +1,21 @@
 /**
  * Supabase SSR 0.12 çerez yazımı.
  * `cookieOptions.name` Next.js cookieStore'u karıştırır; localhost'ta Secure/Domain oturumu düşürür.
+ *
+ * Oturum modeli: sunucu Set-Cookie httpOnly + SameSite=Lax.
+ * Üretimde Secure zorunlu; SameSite=None yazılmaz (çapraz-site çerez yok).
+ * Tarayıcı `createBrowserClient` girişte document.cookie yazar (httpOnly koyamaz);
+ * kenar getUser yenilemesi çerezi httpOnly'ye yükseltir.
  */
 
 export type AuthCookieWriteOptions = {
   path: string;
-  sameSite: "lax" | "strict" | "none";
+  sameSite: "lax" | "strict";
   httpOnly: boolean;
   secure: boolean;
   maxAge?: number;
   expires?: Date;
   domain?: string;
-  partitioned?: boolean;
 };
 
 export type AuthCookieOptionsInput = {
@@ -60,9 +64,6 @@ function resolveSameSite(value: AuthCookieOptionsInput["sameSite"]): AuthCookieW
   if (value === true || value === "strict") {
     return "strict";
   }
-  if (value === "none") {
-    return "none";
-  }
   return "lax";
 }
 
@@ -79,7 +80,7 @@ export function normalizeAuthCookieOptions(
   const normalized: AuthCookieWriteOptions = {
     path: options.path ?? "/",
     sameSite: resolveSameSite(options.sameSite),
-    httpOnly: false,
+    httpOnly: true,
     secure: useSecureCookies,
   };
 
@@ -88,9 +89,6 @@ export function normalizeAuthCookieOptions(
   }
   if (options.expires instanceof Date) {
     normalized.expires = options.expires;
-  }
-  if (options.partitioned === true) {
-    normalized.partitioned = true;
   }
   if (options.domain && !isLocalhost) {
     normalized.domain = options.domain;

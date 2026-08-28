@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { HeaderWalletChip } from "@/components/shell/header-wallet-chip";
 import { IconChevronDown, IconLogout, IconUser, ROOM_ICONS } from "@/components/ui/icons";
 import { cn } from "@/components/ui/cn";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
@@ -15,15 +14,19 @@ const HUB_MENU_SURFACES = KERNEL_SURFACES.filter((surface) => surface.id !== "cu
 export function UserHub({
   showAdmin,
   userEmail,
+  walletChip,
 }: {
   showAdmin: boolean;
   userEmail: string | null;
+  walletChip: ReactNode;
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [openPath, setOpenPath] = useState(pathname);
   const [signingOut, setSigningOut] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
+  const menuOpen = open && openPath === pathname;
 
   const menuSurfaces = HUB_MENU_SURFACES.filter(
     (surface) => surface.id !== "admin" || showAdmin,
@@ -33,11 +36,7 @@ export function UserHub({
   );
 
   useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
-    if (!open) {
+    if (!menuOpen) {
       return;
     }
     function onPointerDown(event: PointerEvent) {
@@ -56,36 +55,43 @@ export function UserHub({
       document.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [open]);
+  }, [menuOpen]);
 
   return (
     <div ref={rootRef} className="relative">
       <div className="inline-flex h-10 items-stretch overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-sm">
-        <HeaderWalletChip embedded />
+        {walletChip}
         <span className="my-2 w-px shrink-0 bg-[var(--border)]" aria-hidden />
         <button
           type="button"
           className={cn(
             "inline-flex h-10 items-center gap-1.5 px-2.5 text-sm font-medium transition sm:px-3",
-            open || menuActive
+            menuOpen || menuActive
               ? "bg-[var(--safir-soft)] text-[var(--safir-deep)]"
               : "text-[var(--foreground)] hover:bg-[var(--surface-muted)]",
           )}
-          aria-expanded={open}
+          aria-expanded={menuOpen}
           aria-haspopup="menu"
           aria-controls={menuId}
           aria-label="Hesap menüsü"
-          onClick={() => setOpen((current) => !current)}
+          onClick={() => {
+            if (menuOpen) {
+              setOpen(false);
+              return;
+            }
+            setOpen(true);
+            setOpenPath(pathname);
+          }}
         >
           <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[var(--surface-ink)] text-white">
             <IconUser className="h-3.5 w-3.5" />
           </span>
           <IconChevronDown
-            className={cn("h-3.5 w-3.5 text-[var(--muted)] transition duration-150", open && "rotate-180")}
+            className={cn("h-3.5 w-3.5 text-[var(--muted)] transition duration-150", menuOpen && "rotate-180")}
           />
         </button>
       </div>
-      {open ? (
+      {menuOpen ? (
         <div
           id={menuId}
           role="menu"
@@ -99,7 +105,7 @@ export function UserHub({
             {userEmail ? (
               <p className="mt-0.5 truncate text-sm font-medium text-[var(--foreground)]">{userEmail}</p>
             ) : (
-              <p className="mt-0.5 text-sm text-[var(--muted)]">Oturum yüzeyi</p>
+              <p className="mt-0.5 text-sm text-[var(--muted)]">Giriş</p>
             )}
           </div>
           <div className="my-1 h-px bg-[var(--border)]" aria-hidden />

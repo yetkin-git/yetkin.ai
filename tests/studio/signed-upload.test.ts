@@ -18,6 +18,7 @@ import { createMemoryBudgetShieldPort } from "@/lib/kernel/ai/budget-shield";
 import type { LlmProviderAdapter, ProviderGenerateImageResult } from "@/lib/kernel/ai/types";
 import { createMemoryLedgerStore } from "../helpers/memory-money";
 import { createMemoryPriceCatalogStore } from "../helpers/memory-pricing";
+import { createMemoryPaidCommandStore, mintTestCommandKey } from "../helpers/memory-paid-command";
 import { createMemoryAiTokenUsageStore, createMemoryStudioStore } from "../helpers/memory-studio";
 import type { StudioGenerationRecord, StudioStore } from "@/lib/studio/types";
 
@@ -269,7 +270,8 @@ describe("Studio görsel motoru object-store debit kalkanı", () => {
     ]);
     const usageStore = createMemoryAiTokenUsageStore();
     const studio = createMemoryStudioStore();
-    return { adapter, ledger, usageStore, studio, catalog };
+    const commands = createMemoryPaidCommandStore();
+    return { adapter, ledger, usageStore, studio, catalog, commands };
   }
 
   it("yeni üretim object-store kaydeder; data_base64 boş; debit durur", async () => {
@@ -281,13 +283,14 @@ describe("Studio görsel motoru object-store debit kalkanı", () => {
         catalog: ctx.catalog,
         usage: ctx.usageStore,
         studio: ctx.studio,
+        commands: ctx.commands,
         assetStorage: createObjectStoreStudioAssetStorage(gateway),
         llmDeps: {
           providers: { gemini: ctx.adapter },
           budgetPort: createMemoryBudgetShieldPort({ tokensByUser: {} }),
         },
       },
-      { userId: USER, prompt: "Mühürlü 16:9 ray görseli.", platformUserId: PLATFORM },
+      { userId: USER, commandKey: mintTestCommandKey(), prompt: "Mühürlü 16:9 ray görseli.", platformUserId: PLATFORM },
     );
     expect(result.asset.storageKind).toBe("object-store");
     expect(result.asset.dataBase64).toBe("");
@@ -308,13 +311,14 @@ describe("Studio görsel motoru object-store debit kalkanı", () => {
           catalog: ctx.catalog,
           usage: ctx.usageStore,
           studio: ctx.studio,
+          commands: ctx.commands,
           assetStorage: createObjectStoreStudioAssetStorage(gateway),
           llmDeps: {
             providers: { gemini: ctx.adapter },
             budgetPort: createMemoryBudgetShieldPort({ tokensByUser: {} }),
           },
         },
-        { userId: USER, prompt: "Mühürlü görsel.", platformUserId: PLATFORM },
+        { userId: USER, commandKey: mintTestCommandKey(), prompt: "Mühürlü görsel.", platformUserId: PLATFORM },
       ),
     ).rejects.toThrow(ServiceUnavailableError);
     expect(ctx.adapter.calls).toBe(1);

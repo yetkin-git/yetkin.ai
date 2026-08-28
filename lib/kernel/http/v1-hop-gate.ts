@@ -1,45 +1,40 @@
 /**
  * Kenar `/api/v1` hop allowlist.
  * Sicilde olmayan yol kanonik handler'a rewrite edilmez; 404 zarf.
- * Zod / OpenAPI bu dosyaya girmez. `RAIL_V1_HOPS` ile 1:1 kilit testtedir.
+ * Zod / OpenAPI bu dosyaya girmez. Kimlik `RAIL_V1_HOPS_META` SSOT'tur.
  */
 
 import { isApiV1Pathname } from "@/lib/kernel/http/api-v1";
+import { RAIL_V1_HOPS_META, isRailV1HopMetaDronForbidden } from "@/lib/kernel/http/v1-hops-meta";
 import { EDGE_API_NOT_FOUND_ERROR } from "@/lib/kernel/security/edge-api-auth";
 import { normalizePathname } from "@/lib/kernel/security/edge-guard";
 
 export const RAIL_V1_HOP_NOT_FOUND = EDGE_API_NOT_FOUND_ERROR;
+/** Dron / native mağaza — academy-purchase IAP yasağı (dronForbidden). */
+export const RAIL_V1_HOP_DRON_FORBIDDEN = "Akademi satın alma native istemciden kapalıdır.";
 
 export type RailV1HopGate = {
   id: string;
   method: "GET" | "POST";
   v1PathTemplate: string;
+  dronForbidden: boolean;
 };
 
 export type RailV1HopGateDecision =
   | { kind: "skip" }
   | { kind: "next" }
-  | { kind: "fail"; status: 404; error: string };
+  | { kind: "fail"; status: 403 | 404; error: string };
 
 /**
- * Kenar allowlist — `RAIL_V1_HOPS` id / method / v1PathTemplate ile birebir.
- * Yeni hop önce sözleşmeye, sonra buraya yazılır; test sapmayı kırar.
+ * Kenar allowlist — `RAIL_V1_HOPS_META` id / method / v1PathTemplate / dronForbidden.
+ * Yeni hop yalnız meta siciline yazılır; sözleşme Zod bindirir, kenar türetir.
  */
-export const RAIL_V1_HOP_GATES = [
-  { id: "health", method: "GET", v1PathTemplate: "/api/v1/health" },
-  { id: "academy-certificate", method: "GET", v1PathTemplate: "/api/v1/academy/certificates/{hash}" },
-  { id: "auth-session", method: "GET", v1PathTemplate: "/api/v1/auth/session" },
-  { id: "wallet-strip", method: "GET", v1PathTemplate: "/api/v1/dashboard/wallet-strip" },
-  { id: "freelancer-pulse", method: "GET", v1PathTemplate: "/api/v1/dashboard/freelancer-pulse" },
-  { id: "freelancer-jobs", method: "GET", v1PathTemplate: "/api/v1/freelancer/jobs" },
-  { id: "client-job-bids", method: "GET", v1PathTemplate: "/api/v1/client/jobs/{id}/bids" },
-  { id: "freelancer-bid", method: "POST", v1PathTemplate: "/api/v1/freelancer/jobs/{id}/bids" },
-  { id: "freelancer-accept", method: "POST", v1PathTemplate: "/api/v1/freelancer/jobs/{id}/accept" },
-  { id: "freelancer-contracts", method: "GET", v1PathTemplate: "/api/v1/freelancer/contracts" },
-  { id: "freelancer-delivery", method: "POST", v1PathTemplate: "/api/v1/freelancer/contracts/{id}/messages" },
-  { id: "freelancer-release", method: "POST", v1PathTemplate: "/api/v1/freelancer/contracts/{id}/release" },
-  { id: "freelancer-refund", method: "POST", v1PathTemplate: "/api/v1/freelancer/contracts/{id}/refund" },
-] as const satisfies readonly RailV1HopGate[];
+export const RAIL_V1_HOP_GATES: readonly RailV1HopGate[] = RAIL_V1_HOPS_META.map((hop) => ({
+  id: hop.id,
+  method: hop.method,
+  v1PathTemplate: hop.v1PathTemplate,
+  dronForbidden: isRailV1HopMetaDronForbidden(hop),
+}));
 
 const TEMPLATE_RE = new Map<string, RegExp>(
   RAIL_V1_HOP_GATES.map((hop) => [hop.v1PathTemplate, compileRailV1PathTemplate(hop.v1PathTemplate)]),
@@ -103,7 +98,11 @@ export function decideRailV1HopGate(input: {
     }
     return { kind: "fail", status: 404, error: RAIL_V1_HOP_NOT_FOUND };
   }
-  if (findRailV1Hop(input.pathname, method)) {
+  const hop = findRailV1Hop(input.pathname, method);
+  if (hop) {
+    if (hop.dronForbidden) {
+      return { kind: "fail", status: 403, error: RAIL_V1_HOP_DRON_FORBIDDEN };
+    }
     return { kind: "next" };
   }
   return { kind: "fail", status: 404, error: RAIL_V1_HOP_NOT_FOUND };

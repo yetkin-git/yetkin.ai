@@ -1,6 +1,8 @@
+import { YETKIN_BRAND } from "@/lib/copy/brand";
+
 /** Rail SEN aksı — vatandaş bildirim asgarisi (T-02). Resend yok. */
 export const NOTICE_SEN = {
-  fromName: "Yetkin Rail",
+  fromName: YETKIN_BRAND,
   bidReceived: {
     subject: "İlanına teklif geldi",
     body: "Bir usta ilanına teklif verdi. Tezgâhta teklifi gör ve kabul veya reddet.",
@@ -15,7 +17,7 @@ export const NOTICE_SEN = {
   },
   escrowReleased: {
     subject: "Emanet çözüldü",
-    body: "Emanet serbest bırakıldı. Net tutar cüzdana işlendi. Çekim yoktur; bakiye Rail içinde kalır.",
+    body: "Emanet serbest bırakıldı. Usta payı platform cüzdanına yazılmaz; ödeme kuruluşu dağıtır.",
   },
   escrowTtlApproaching: {
     subject: "Emanet süresi yaklaşıyor",

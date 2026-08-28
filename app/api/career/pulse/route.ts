@@ -9,13 +9,18 @@ export async function GET(request: Request) {
     const user = await requireSession(request);
     const ports = createPrismaCareerPorts();
     const pulse = await ports.career.pulseForUser(user.id);
-    return jsonOk({ pulse: { ...pulse, live: true } });
+    return jsonOk({ pulse: { ...pulse, live: true } }, 200, undefined, request);
   } catch (error) {
     if (error instanceof Error && error.message.includes("DATABASE_URL")) {
-      return jsonOk({
-        pulse: { live: false, visaCount: 0, portfolioCount: 0, lastVisaTitle: null },
-      });
+      return jsonOk(
+        {
+          pulse: { live: false, visaCount: 0, portfolioCount: 0, lastVisaTitle: null },
+        },
+        200,
+        undefined,
+        request,
+      );
     }
-    return jsonFromUnknown(error);
+    return jsonFromUnknown(error, 400, undefined, request);
   }
 }

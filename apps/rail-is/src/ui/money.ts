@@ -61,7 +61,7 @@ export function assertBidAmountMinor(amountMinor: number, budgetMinor?: number):
     throw new Error("amountMinor tam sayı olmalıdır.");
   }
   if (amountMinor < RAIL_V1_BID_AMOUNT_MIN_MINOR || amountMinor > RAIL_V1_BID_AMOUNT_MAX_MINOR) {
-    throw new Error("Teklif ₺10–₺20.000 bandında olmalıdır.");
+    throw new Error("Teklif ₺250–₺50.000 bandında olmalıdır.");
   }
   if (budgetMinor != null && Number.isInteger(budgetMinor) && amountMinor > budgetMinor) {
     throw new Error("Teklif iş bütçesini aşamaz.");

@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import { SOCIAL_HAPPY_PATH } from "@/lib/social";
 import { assertSealedProofDto, toProofFeedItemDto } from "@/lib/social/dto-map";
 import {
-  ingestSealedProof,
   interactWithProof,
   listProofFeedPage,
   syncProofFeed,

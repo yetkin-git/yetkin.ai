@@ -4,10 +4,11 @@ import type { PrismaClient } from "@/generated/prisma/client";
 import { getPrisma } from "@/lib/kernel/db";
 import { bindLedgerStore } from "@/lib/kernel/ledger/prisma-store";
 import { parseCurrencyCode } from "@/lib/kernel/money/currency";
-import type {
-  ClearPaymentOrderPorts,
-  PaymentOrderSnapshot,
-  PaymentOrderStore,
+import {
+  PaymentOrderCasError,
+  type ClearPaymentOrderPorts,
+  type PaymentOrderSnapshot,
+  type PaymentOrderStore,
 } from "@/lib/kernel/payments/clearing";
 
 export type PaymentOrderWriteDb = Pick<PrismaClient, "paymentOrder" | "$queryRaw">;
@@ -73,24 +74,45 @@ export function bindPaymentOrderStore(db: PaymentOrderWriteDb): PaymentOrderStor
       });
     },
     async markPaid(id, at) {
-      const row = await db.paymentOrder.update({
-        where: { id },
+      const result = await db.paymentOrder.updateMany({
+        where: { id, status: { in: ["PENDING", "FAILED"] } },
         data: { status: "PAID", paidAt: at },
       });
+      if (result.count !== 1) {
+        throw new PaymentOrderCasError("PAID");
+      }
+      const row = await db.paymentOrder.findUnique({ where: { id } });
+      if (!row) {
+        throw new Error("Ödeme emri bulunamadı.");
+      }
       return toOrder(row);
     },
     async markCleared(id, at) {
-      const row = await db.paymentOrder.update({
-        where: { id },
+      const result = await db.paymentOrder.updateMany({
+        where: { id, status: "PAID" },
         data: { status: "CLEARED", clearedAt: at, clearingStatus: "cleared" },
       });
+      if (result.count !== 1) {
+        throw new PaymentOrderCasError("CLEARED");
+      }
+      const row = await db.paymentOrder.findUnique({ where: { id } });
+      if (!row) {
+        throw new Error("Ödeme emri bulunamadı.");
+      }
       return toOrder(row);
     },
     async markFailed(id, at) {
-      const row = await db.paymentOrder.update({
-        where: { id },
+      const result = await db.paymentOrder.updateMany({
+        where: { id, status: "PENDING" },
         data: { status: "FAILED", updatedAt: at },
       });
+      if (result.count !== 1) {
+        throw new PaymentOrderCasError("FAILED");
+      }
+      const row = await db.paymentOrder.findUnique({ where: { id } });
+      if (!row) {
+        throw new Error("Ödeme emri bulunamadı.");
+      }
       return toOrder(row);
     },
     async listUnclearedPaid() {

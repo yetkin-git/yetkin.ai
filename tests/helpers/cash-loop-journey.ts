@@ -2,8 +2,6 @@ import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import {
   clearSuccessfulPaymentOrder,
-  type PaymentOrderSnapshot,
-  type PaymentOrderStore,
 } from "@/lib/kernel/payments/clearing";
 import {
   acceptFreelancerBid,
@@ -27,12 +25,13 @@ import {
   type MemoryLedgerStore,
 } from "./memory-money";
 import { createMemoryCareerProofStore, createMemoryCareerStore } from "./memory-career";
+import { createMemoryPaymentOrderStore } from "./memory-payment-orders";
 
 export const CASH_LOOP_CLIENT_ID = "e2e-cash-loop-client";
 export const CASH_LOOP_FREELANCER_ID = "e2e-cash-loop-worker";
 export const CASH_LOOP_PLATFORM_ID = PLATFORM_TREASURY_USER_ID;
 export const CASH_LOOP_TOP_UP_MINOR = 100_000;
-export const CASH_LOOP_GROSS_MINOR = 10_000;
+export const CASH_LOOP_GROSS_MINOR = 25_000;
 export const CASH_LOOP_MERCHANT_OID = "wallet-top-up-e2e-cash-loop";
 
 export type CashLoopJourneyResult = {
@@ -43,41 +42,19 @@ export type CashLoopJourneyResult = {
   bid: FreelancerBidRecord;
   contract: FreelancerContractRecord;
   holdAfterAccept: EscrowHoldRecord | null;
-  released: FreelancerContractRecord;
+  released: FreelancerContractRecord | null;
   holdAfterRelease: EscrowHoldRecord | null;
-  visa: CareerVisaIssueResult;
+  visa: CareerVisaIssueResult | null;
+  payoutFrozen: boolean;
   holdBps: number;
   holdMinor: number;
   netMinor: number;
 };
 
-function memoryPaymentOrders(initial: PaymentOrderSnapshot): PaymentOrderStore {
-  let row = { ...initial };
-  return {
-    async findByMerchantOid(merchantOid) {
-      return merchantOid === row.merchantOid ? { ...row } : null;
-    },
-    async markPaid(id, _at) {
-      row = { ...row, id, status: "PAID" };
-      return { ...row };
-    },
-    async markCleared(id, _at) {
-      row = { ...row, id, status: "CLEARED" };
-      return { ...row };
-    },
-    async markFailed(id, _at) {
-      row = { ...row, id, status: "FAILED" };
-      return { ...row };
-    },
-    async listUnclearedPaid() {
-      return row.status === "PAID" ? [{ ...row }] : [];
-    },
-  };
-}
-
 /**
  * T4 bellek nakit döngüsü:
- * PayTR mock/sandbox sonrası CREDIT (clearing) → freelancer emanet → RELEASE → kariyer vizesi.
+ * PayTR mock/sandbox sonrası CREDIT (clearing) → freelancer emanet hold.
+ * RELEASE iç hakediş kilidine takılır; vize basılmaz.
  * Canlı Auth/Postgres istemez. Studio katalog satırı gerekmez (oda izolasyonu).
  * Checkout token CREDIT yazmaz; para yalnız clearSuccessfulPaymentOrder ile girer.
  */
@@ -87,7 +64,7 @@ export async function runCashLoopJourney(): Promise<CashLoopJourneyResult> {
     { userId: CASH_LOOP_FREELANCER_ID, amountMinor: 0 },
     { userId: CASH_LOOP_PLATFORM_ID, amountMinor: 0 },
   ]);
-  const orders = memoryPaymentOrders({
+  const orders = createMemoryPaymentOrderStore({
     id: "po-e2e-cash-loop",
     userId: CASH_LOOP_CLIENT_ID,
     merchantOid: CASH_LOOP_MERCHANT_OID,
@@ -135,25 +112,28 @@ export async function runCashLoopJourney(): Promise<CashLoopJourneyResult> {
   });
   const holdAfterRelease = await ports.escrow.findById(contract.escrowHoldId);
 
-  const proofs = createMemoryCareerProofStore([
-    {
-      sourceKind: "FREELANCER_RELEASE",
-      sourceId: released.id,
-      userId: CASH_LOOP_FREELANCER_ID,
-      actorUserIds: [CASH_LOOP_FREELANCER_ID, CASH_LOOP_CLIENT_ID],
-      title: job.title,
-      issuedAt: released.releasedAt ?? new Date("2026-08-15T21:02:00.000Z"),
-      certificateHash: null,
-    },
-  ]);
-  const visa = await issueCareerVisaStamp(
-    { career: createMemoryCareerStore(), proofs },
-    {
-      sourceKind: "FREELANCER_RELEASE",
-      sourceId: released.id,
-      actorUserId: CASH_LOOP_CLIENT_ID,
-    },
-  );
+  let visa: CareerVisaIssueResult | null = null;
+  if (released) {
+    const proofs = createMemoryCareerProofStore([
+      {
+        sourceKind: "FREELANCER_RELEASE",
+        sourceId: released.id,
+        userId: CASH_LOOP_FREELANCER_ID,
+        actorUserIds: [CASH_LOOP_FREELANCER_ID, CASH_LOOP_CLIENT_ID],
+        title: job.title,
+        issuedAt: released.releasedAt ?? new Date("2026-08-15T21:02:00.000Z"),
+        certificateHash: null,
+      },
+    ]);
+    visa = await issueCareerVisaStamp(
+      { career: createMemoryCareerStore(), proofs },
+      {
+        sourceKind: "FREELANCER_RELEASE",
+        sourceId: released.id,
+        actorUserId: CASH_LOOP_CLIENT_ID,
+      },
+    );
+  }
 
   return {
     ports,
@@ -166,6 +146,7 @@ export async function runCashLoopJourney(): Promise<CashLoopJourneyResult> {
     released,
     holdAfterRelease,
     visa,
+    payoutFrozen: false,
     holdBps: HOLD_BPS_DEFAULT,
     holdMinor: contract.holdMinor,
     netMinor: contract.netMinor,

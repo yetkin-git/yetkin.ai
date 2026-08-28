@@ -1,7 +1,6 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { DEVLABS_CODE_UNIT_KEY, DEVLABS_MODULE_KEY } from "@/lib/devlabs/types";
 import { REQUIRED_CATALOG_DEFINITIONS } from "@/lib/kernel/pricing/catalog-definitions";
 
 describe("S35 katalog tanımları", () => {
@@ -9,7 +8,7 @@ describe("S35 katalog tanımları", () => {
     const keys = REQUIRED_CATALOG_DEFINITIONS.map((row) => `${row.moduleKey}:${row.unitKey}`);
     expect(keys).toContain("studio:generation:text");
     expect(keys).toContain("studio:generation:image");
-    expect(keys).toContain(`${DEVLABS_MODULE_KEY}:${DEVLABS_CODE_UNIT_KEY}`);
+    expect(keys).toContain("devlabs:generation:code");
     expect(keys).toContain("kurumsal:job-posting:floor");
     expect(keys).toContain("arena:tender-pool:floor");
     expect(keys).toContain("pazaryeri:listing:floor");
@@ -66,13 +65,13 @@ describe("S35 katalog tanımları", () => {
       "utf8",
     );
     const code = REQUIRED_CATALOG_DEFINITIONS.find(
-      (row) => row.moduleKey === DEVLABS_MODULE_KEY && row.unitKey === DEVLABS_CODE_UNIT_KEY,
+      (row) => row.moduleKey === "devlabs" && row.unitKey === "generation:code",
     );
     expect(code).toBeTruthy();
     expect(code?.seedAmountMinor).toBe(150);
     expect(code?.seedMinMinor).toBe(150);
-    expect(sql).toContain(`'${DEVLABS_MODULE_KEY}'`);
-    expect(sql).toContain(`'${DEVLABS_CODE_UNIT_KEY}'`);
+    expect(sql).toContain(`'devlabs'`);
+    expect(sql).toContain(`'generation:code'`);
     expect(sql).toContain(String(code!.seedAmountMinor));
     expect(sql).toContain(code!.description);
     expect(sql).toMatch(/ON CONFLICT \("module_key", "unit_key"\) DO UPDATE/);

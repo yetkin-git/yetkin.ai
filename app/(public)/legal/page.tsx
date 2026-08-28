@@ -12,13 +12,12 @@ import {
 export const metadata: Metadata = {
   title: LEGAL_PAGE_TITLE,
   description:
-    "KVKK aydınlatma, çerez politikası, emanet ve bakiye iadesi, mesafeli hizmet ve platform kullanım şartları.",
+    "KVKK aydınlatma, çerez politikası, mesafeli satış, iade koşulları ve platform kullanım şartları.",
 };
 
 export default function LegalPage() {
   return (
-    <main className="relative mx-auto max-w-3xl px-6 py-16">
-      <div className="pointer-events-none absolute inset-0 rail-grid-fade" />
+    <main className="relative mx-auto max-w-3xl px-6 pb-20 pt-16">
       <div className="relative space-y-6">
         <Badge tone="safir">Hukuk</Badge>
         <h1 className="text-3xl font-semibold tracking-tight">{LEGAL_PAGE_TITLE}</h1>
@@ -28,12 +27,15 @@ export default function LegalPage() {
           {LEGAL_LAUNCH_SECTIONS.map((section) => (
             <a
               key={section.id}
-              href={`#${section.id}`}
+              href={section.href}
               className="font-semibold text-[var(--safir-deep)] hover:underline"
             >
               {section.title}
             </a>
           ))}
+          <a href="/iletisim" className="font-semibold text-[var(--safir-deep)] hover:underline">
+            İletişim
+          </a>
         </nav>
         {LEGAL_LAUNCH_SECTIONS.map((section) => (
           <div key={section.id} id={section.id} className="scroll-mt-24">

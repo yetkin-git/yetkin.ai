@@ -11,6 +11,11 @@ function isDatabaseUnconfigured(error: unknown): boolean {
   return error instanceof Error && error.message.includes("DATABASE_URL");
 }
 
+/** PrismaClientKnownRequestError / Validation / Initialization — boş nabız; 500 yok. */
+function isPrismaClientError(error: unknown): boolean {
+  return error instanceof Error && error.name.startsWith("PrismaClient");
+}
+
 export async function GET(request: Request) {
   const started = Date.now();
   try {
@@ -23,15 +28,15 @@ export async function GET(request: Request) {
       durationMs: Date.now() - started,
       route: DASHBOARD_PULSE_PATH,
     });
-    const response = jsonOk({ pulse });
+    const response = jsonOk({ pulse }, 200, undefined, request);
     response.headers.set("Cache-Control", "private, no-store");
     return response;
   } catch (error) {
-    if (isDatabaseUnconfigured(error)) {
-      const response = jsonOk({ pulse: emptyDashboardPulse() });
+    if (isDatabaseUnconfigured(error) || isPrismaClientError(error)) {
+      const response = jsonOk({ pulse: emptyDashboardPulse() }, 200, undefined, request);
       response.headers.set("Cache-Control", "private, no-store");
       return response;
     }
-    return jsonFromUnknown(error);
+    return jsonFromUnknown(error, 400, undefined, request);
   }
 }

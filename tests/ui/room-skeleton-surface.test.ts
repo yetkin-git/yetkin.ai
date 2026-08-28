@@ -15,18 +15,8 @@ const LOADING_MAP: { file: string; needle: string }[] = [
   { file: "app/(public)/legal/loading.tsx", needle: 'variant="legal"' },
   { file: "app/dashboard/loading.tsx", needle: 'variant="cockpit"' },
   { file: "app/career/loading.tsx", needle: 'variant="hub"' },
-  { file: "app/hibe/loading.tsx", needle: 'variant="metrics"' },
-  { file: "app/hibe/[slug]/loading.tsx", needle: 'variant="detail"' },
-  { file: "app/arena/loading.tsx", needle: 'variant="prize"' },
-  { file: "app/arena/[id]/loading.tsx", needle: 'variant="detail"' },
-  { file: "app/arena/yeni/loading.tsx", needle: 'variant="form"' },
-  { file: "app/junior/loading.tsx", needle: 'variant="youth"' },
-  { file: "app/junior/ebeveyn/loading.tsx", needle: 'variant="shield"' },
-  { file: "app/social/loading.tsx", needle: 'variant="hub"' },
-  { file: "app/social/[id]/loading.tsx", needle: 'variant="detail"' },
-  { file: "app/kurumsal/loading.tsx", needle: 'variant="metrics"' },
-  { file: "app/kurumsal/ilan/[id]/loading.tsx", needle: 'variant="detail"' },
-  { file: "app/kurumsal/ilan/yeni/loading.tsx", needle: 'variant="form"' },
+  { file: "app/academy/loading.tsx", needle: 'variant="catalog"' },
+  { file: "app/freelancer/loading.tsx", needle: 'variant="catalog"' },
 ];
 
 describe("RoomSkeleton CLS mührü", () => {
@@ -50,6 +40,6 @@ describe("RoomSkeleton CLS mührü", () => {
     }
     expect(readSrc("app/dashboard/loading.tsx")).toContain("RoomSkeleton");
     expect(readSrc("app/career/loading.tsx")).toContain("RoomSkeleton");
-    expect(LOADING_MAP).toHaveLength(18);
+    expect(LOADING_MAP).toHaveLength(8);
   });
 });

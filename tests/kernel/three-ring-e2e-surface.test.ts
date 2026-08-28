@@ -1,7 +1,6 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
 import { academyCurriculumSealForSlug } from "@/lib/academy/curriculum";
 import { verifyAcademyCertificateHash } from "@/lib/academy/exam";
 import { LISTING_ACCESS_VISA_DENIED } from "@/lib/career/visa-gate";
@@ -15,6 +14,7 @@ import {
   D3_START_MINOR,
   runThreeRingJourney,
 } from "../helpers/three-ring-journey";
+import { runCashLoopJourney, CASH_LOOP_CLIENT_ID } from "../helpers/cash-loop-journey";
 import {
   PRISMA_RING_MIGRATIONS,
   assertPrismaRingMigrationsPresent,
@@ -28,7 +28,7 @@ function readSrc(relative: string): string {
 
 describe("D3 üç halka — tek vatandaş nakit/vize e2e", () => {
   it("öğrenme → kanıt → kazanç aynı kimlikte kapanır; vizesiz teklif 403", async () => {
-    const seed = academyCourseSeedBySlug("rail-temel");
+    const seed = academyCourseSeedBySlug("python-temel");
     expect(seed).toBeTruthy();
     const journey = await runThreeRingJourney();
 
@@ -37,7 +37,7 @@ describe("D3 üç halka — tek vatandaş nakit/vize e2e", () => {
     expect(journey.academy.purchase.userId).toBe(D3_CITIZEN_ID);
     expect(journey.academy.certificate.score).toBeGreaterThanOrEqual(70);
     expect(journey.academy.certificate.certificateHash).toMatch(/^[a-f0-9]{64}$/);
-    expect(journey.academy.certificate.curriculumSeal).toBe(academyCurriculumSealForSlug("rail-temel"));
+    expect(journey.academy.certificate.curriculumSeal).toBe(academyCurriculumSealForSlug("python-temel"));
     expect(journey.academy.publicVerify.status).toBe("found");
     expect(journey.academy.publicVerify.sealStatus).toBe("valid");
     expect(
@@ -68,25 +68,52 @@ describe("D3 üç halka — tek vatandaş nakit/vize e2e", () => {
 
     expect(journey.freelancer.bid.bidderId).toBe(D3_CITIZEN_ID);
     expect(journey.freelancer.holdAfterAccept?.status).toBe("PENDING");
-    expect(journey.freelancer.released.status).toBe("RELEASED");
-    expect(journey.freelancer.visa.stamp.sourceKind).toBe("FREELANCER_RELEASE");
-    expect(journey.freelancer.visa.stamp.userId).toBe(D3_CITIZEN_ID);
-    expect(journey.freelancer.visa.stamp.certificateHash).toBeNull();
-    expect(journey.freelancer.visa.stamp.sourceId).toBe(journey.freelancer.released.id);
+    expect(journey.freelancer.payoutFrozen).toBe(false);
+    expect(journey.freelancer.released?.status).toBe("RELEASED");
 
     expect(journey.kurumsal.offer.bidderId).toBe(D3_CITIZEN_ID);
     expect(journey.kurumsal.offer.status).toBe("SUBMITTED");
     expect(journey.kurumsal.posting.escrowHoldId).toBeTruthy();
 
-    const holdMinor = Math.trunc((D3_GROSS_MINOR * HOLD_BPS_DEFAULT) / 10_000);
-    const netMinor = D3_GROSS_MINOR - holdMinor;
-    expect(journey.balances.citizenAfterRelease).toBe(
-      D3_START_MINOR - seed!.seedAmountMinor + netMinor,
-    );
-    expect(journey.balances.clientAfterRelease).toBe(D3_START_MINOR - D3_GROSS_MINOR);
-    expect(journey.balances.platformAfterRelease).toBe(seed!.seedAmountMinor + holdMinor);
+    expect(journey.balances.citizenAfterRelease).toBe(D3_START_MINOR - seed!.seedAmountMinor);
+    expect(journey.balances.clientAfterRelease).toBe(D3_START_MINOR);
+    expect(journey.balances.platformAfterRelease).toBe(seed!.seedAmountMinor);
     expect(D3_CLIENT_ID).not.toBe(D3_CITIZEN_ID);
     expect(D3_PLATFORM_ID).toBe("00000000-0000-4000-8000-000000000001");
+
+    const entries = journey.ledger.capture().entries.map(([, row]) => row);
+    const academyDebit = entries.find(
+      (row) => row.userId === D3_CITIZEN_ID && row.purpose === "academy-purchase",
+    );
+    const escrowDebit = entries.find(
+      (row) => row.purpose === "escrow-hold" && row.userId === D3_CLIENT_ID,
+    );
+    const releaseCredit = entries.find(
+      (row) => row.userId === D3_CITIZEN_ID && row.purpose === "escrow-release-net",
+    );
+    expect(academyDebit?.direction).toBe("DEBIT");
+    expect(academyDebit?.amountMinor).toBe(seed!.seedAmountMinor);
+    expect(academyDebit?.label).toBe("Akademi kurs satın alma");
+    expect(escrowDebit).toBeUndefined();
+    expect(releaseCredit).toBeUndefined();
+    expect(entries.some((row) => row.purpose === "wallet-top-up")).toBe(false);
+  });
+
+  it("CREDIT cüzdan yükleme laboratuvar clearing ile basar (token CREDIT yazmaz)", async () => {
+    const cash = await runCashLoopJourney();
+    expect(cash.cleared.applied).toBe(true);
+    expect(cash.cleared.status).toBe("CLEARED");
+    const entries = cash.ports.ledger.capture().entries.map(([, row]) => row);
+    const topUp = entries.find((row) => row.purpose === "wallet-top-up");
+    expect(topUp?.direction).toBe("CREDIT");
+    expect(topUp?.userId).toBe(CASH_LOOP_CLIENT_ID);
+    expect(topUp?.label).toBe("Cüzdan yükleme");
+    expect(topUp?.idempotencyKey).toBe(`wallet-top-up:${cash.merchantOid}`);
+    const escrowDebit = entries.find((row) => row.purpose === "escrow-hold");
+    const releaseCredit = entries.find((row) => row.purpose === "escrow-release-net");
+    expect(escrowDebit).toBeUndefined();
+    expect(releaseCredit).toBeUndefined();
+    expect(cash.payoutFrozen).toBe(false);
   });
 });
 
@@ -119,7 +146,7 @@ describe("D3 operatör yüzeyi", () => {
   });
 
   it("Storage CORS joker yasak; Inngest boş anahtarda GET/POST/PUT 503", () => {
-    const storage = readSrc("lib/studio/storage.ts");
+    const storage = readSrc("archived/lib/studio/storage.ts");
     const corsCheck = readSrc("scripts/ops-storage-cors-check.ts");
     const inngestRoute = readSrc("app/api/(kernel)/jobs/inngest/route.ts");
     const guard = readSrc("lib/kernel/jobs/inngest-guard.ts");
@@ -137,7 +164,7 @@ describe("D3 operatör yüzeyi", () => {
   it("üç halka yardımcısı tek vatandaş kimliği ve vize kapısı taşır", () => {
     const helper = readSrc("tests/helpers/three-ring-journey.ts");
     expect(helper).toContain("D3_CITIZEN_ID");
-    expect(helper).toContain("rail-temel");
+    expect(helper).toContain("python-temel");
     expect(helper).toContain("SETTLED");
     expect(helper).toContain("curriculumSeal");
     expect(helper).toContain("ACADEMY_CERTIFICATE");

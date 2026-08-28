@@ -8,7 +8,7 @@ import type {
 /** S58-A — ustalık belgesi barajı. */
 export const ACADEMY_EXAM_PASS_SCORE = 70 as const;
 
-/** Sıralı ders anahtarları mührü — SKU müfredatının kriptografik özeti. */
+/** Sıralı ders anahtarları mührü — SKU müfredatının içerik özeti (SHA-256). */
 export const ACADEMY_CURRICULUM_SEAL_VERSION = "yetkin-rail.academy.curriculum.v1" as const;
 
 /** SHA256 payload sürümü — vatandaş yüzünde de aynı sicil. D2.2: curriculumSeal eklendi. */

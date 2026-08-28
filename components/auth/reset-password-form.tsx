@@ -4,12 +4,23 @@ import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PasswordInput } from "@/components/auth/password-input";
-import { createSupabaseBrowserClient } from "@/lib/kernel/auth/supabase-browser";
 import {
   CITIZEN_PASSWORD_MIN_LENGTH,
   PASSWORD_RESET_PATH,
 } from "@/lib/kernel/auth/password";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
+import { parseRailClientJson } from "@/lib/ui/parse-rail-json";
+import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
+
+async function readFailMessage(response: Response): Promise<string | null> {
+  const parsed = parseRailClientJson<Record<string, unknown>>(
+    await response.json().catch(() => null),
+  );
+  if (!parsed.ok && parsed.error.trim()) {
+    return parsed.error;
+  }
+  return null;
+}
 
 export function ResetPasswordForm() {
   const copy = AUTH_SEN.reset;
@@ -23,13 +34,12 @@ export function ResetPasswordForm() {
 
   useEffect(() => {
     let cancelled = false;
-    const supabase = createSupabaseBrowserClient();
 
     async function syncSession() {
       try {
-        const { data } = await supabase.auth.getSession();
+        const response = await fetch("/api/auth/session", withRailApiVersion());
         if (!cancelled) {
-          setSessionReady(Boolean(data.session));
+          setSessionReady(response.ok);
         }
       } catch {
         if (!cancelled) {
@@ -39,18 +49,8 @@ export function ResetPasswordForm() {
     }
 
     void syncSession();
-    const { data } = supabase.auth.onAuthStateChange((event, session) => {
-      if (cancelled) {
-        return;
-      }
-      if (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN" || session) {
-        setSessionReady(Boolean(session));
-      }
-    });
-
     return () => {
       cancelled = true;
-      data.subscription.unsubscribe();
     };
   }, []);
 
@@ -74,10 +74,16 @@ export function ResetPasswordForm() {
 
     setPending(true);
     try {
-      const supabase = createSupabaseBrowserClient();
-      const { error: updateError } = await supabase.auth.updateUser({ password });
-      if (updateError) {
-        setError(updateError.message);
+      const response = await fetch(
+        "/api/auth/password",
+        withRailApiVersion({
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ password }),
+        }),
+      );
+      if (!response.ok) {
+        setError((await readFailMessage(response)) || copy.fail);
         setPending(false);
         return;
       }

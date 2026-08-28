@@ -19,20 +19,21 @@ describe("health ve gözlem yüzeyi", () => {
     expect(probe).toContain("503");
     expect(probe).toContain("HEALTH_PROBE");
     expect(probe).toContain('"readiness"');
-    expect(probe).toContain("checks.paytr");
+    expect(probe).toContain("checks.payments");
     expect(probe).toContain("unconfigured");
     expect(probe).toContain("INNGEST_EVENT_KEY");
     expect(probe).toContain("PAYTR_MERCHANT_SALT");
     expect(route).toContain("pingPrisma");
     expect(route).toContain("resolveRequestId");
+    expect(readSrc("app/api/(kernel)/health/live/route.ts")).toContain("probeLiveness");
+    expect(readSrc("lib/kernel/health/probe.ts")).toContain("HEALTH_PROBE_LIVE");
+    expect(readSrc("lib/kernel/health/probe.ts")).toContain("areReadinessDependenciesReady");
   });
 
   it("nakit ve kritik mutasyon yolları requestId + logEvent taşır", () => {
     const files = [
       "app/api/(kernel)/wallet/top-up/route.ts",
       "app/api/(kernel)/payments/webhooks/paytr/route.ts",
-      "app/api/studio/generate/route.ts",
-      "app/api/studio/images/route.ts",
       "app/api/academy/courses/[id]/purchase/route.ts",
       "app/api/freelancer/jobs/[id]/accept/route.ts",
       "lib/kernel/jobs/inngest.ts",
@@ -42,5 +43,6 @@ describe("health ve gözlem yüzeyi", () => {
       expect(source, file).toContain("logEvent");
       expect(source, file).toMatch(/requestId/);
     }
+    expect(readSrc("app/api/_gone/[...path]/route.ts")).toContain("frozenRoomGone");
   });
 });

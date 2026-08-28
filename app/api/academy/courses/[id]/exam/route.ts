@@ -1,6 +1,6 @@
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
-import { loadPublicAcademyExam, submitAcademyExam } from "@/lib/academy/exam-engine";
+import { loadAcademyExam, submitAcademyExam } from "@/lib/academy/exam-engine";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import { submitAcademyExamInputSchema } from "@/lib/academy/schemas";
 import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
@@ -21,15 +21,20 @@ export async function GET(
     if (!course) {
       return jsonFail("Kurs bulunamadı.", 404);
     }
-    const view = await loadPublicAcademyExam(ports, course.id, user.id);
+    const view = await loadAcademyExam(ports, course.id, user.id, undefined, user.email);
     if (!view) {
-      return jsonFail("Sınav için SETTLED satın alma ve tamamlanmış müfredat gerekir.", 403);
+      return jsonFail("Sınav için SETTLED satın alma gerekir (eğitim veya doğrudan sınav/vize yolu).", 403);
     }
     return jsonOk({
       exam: view.exam,
       questions: view.questions,
       purchaseId: view.purchaseId,
       certificate: view.certificate,
+      sessionToken: view.sessionToken,
+      expiresAt: view.expiresAt.toISOString(),
+      durationMs: view.durationMs,
+      drawCount: view.drawCount,
+      proofLessonKey: view.proofLessonKey,
     });
   } catch (error) {
     return jsonFromUnknown(error);
@@ -52,7 +57,11 @@ export async function POST(
     const result = await submitAcademyExam(ports, {
       courseId: course?.id ?? id,
       userId: user.id,
+      email: user.email,
       answers: parsed.data.answers,
+      sessionToken: parsed.data.sessionToken,
+      timedOut: parsed.data.timedOut,
+      proof: parsed.data.proof,
     });
     const visa =
       result.certificate != null

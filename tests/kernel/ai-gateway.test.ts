@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
-import { invokeLlm, generateImage } from "@/lib/kernel/ai/llm-gateway";
+import { afterEach, describe, expect, it } from "vitest";
+import { invokeLlm, generateImage, generateSpeech, resetSpeechGatewayCooldownForTests } from "@/lib/kernel/ai/llm-gateway";
+import { isSpeechGatewayFail } from "@/lib/kernel/ai/types";
 import { createMemoryBudgetShieldPort } from "@/lib/kernel/ai/budget-shield";
 import {
   AI_LIVE_MODEL_ROLE_KEYS,
@@ -21,15 +22,18 @@ const fakeGemini: LlmProviderAdapter = {
 };
 
 describe("invokeLlm gümrük kapısı", () => {
-  it("sekiz kanonik rol taşır; altısı canlı, ikisi mühürlü-ölü", () => {
+  afterEach(() => {
+    resetSpeechGatewayCooldownForTests();
+  });
+  it("sekiz kanonik rol taşır; yedisi canlı, VIDEO_GEN mühürlü-ölü", () => {
     expect(AI_MODEL_ROLE_KEYS).toHaveLength(8);
-    expect(AI_LIVE_MODEL_ROLE_KEYS).toHaveLength(6);
-    expect(AI_SEALED_DEAD_ROLE_KEYS).toEqual(["VIDEO_GEN", "VOICE_TTS"]);
+    expect(AI_LIVE_MODEL_ROLE_KEYS).toHaveLength(7);
+    expect(AI_SEALED_DEAD_ROLE_KEYS).toEqual(["VIDEO_GEN"]);
     expect([...AI_LIVE_MODEL_ROLE_KEYS]).not.toContain("VIDEO_GEN");
-    expect([...AI_LIVE_MODEL_ROLE_KEYS]).not.toContain("VOICE_TTS");
+    expect([...AI_LIVE_MODEL_ROLE_KEYS]).toContain("VOICE_TTS");
   });
 
-  it("VIDEO_GEN ve VOICE_TTS invokeLlm'de AiGatewayForbiddenError fırlatır; sağlayıcı çağrılmaz", async () => {
+  it("VIDEO_GEN invokeLlm'de AiGatewayForbiddenError fırlatır; sağlayıcı çağrılmaz", async () => {
     let completeCalls = 0;
     const fake: LlmProviderAdapter = {
       id: "gemini",
@@ -138,5 +142,254 @@ describe("invokeLlm gümrük kapısı", () => {
     );
     expect(result?.dataBase64).toBe("aaaa");
     expect(result?.mimeType).toBe("image/png");
+  });
+
+  it("generateSpeech adapter yoksa null döner; varsa WAV tamponu basar", async () => {
+    const withoutSpeech = await generateSpeech(
+      {
+        provider: "gemini",
+        role: "VOICE_TTS",
+        text: "Ders gövdesi",
+        billing: { userId: "u1", source: "academy" },
+      },
+      {
+        providers: { gemini: fakeGemini },
+        budgetPort: createMemoryBudgetShieldPort(),
+      },
+    );
+    expect(withoutSpeech).toBeNull();
+
+    let spokenText = "";
+    let spokenInstruction = "";
+    const withSpeech: LlmProviderAdapter = {
+      ...fakeGemini,
+      async generateSpeech(input) {
+        spokenText = input.text;
+        spokenInstruction = input.instruction ?? "";
+        return {
+          mimeType: "audio/wav",
+          dataBase64: "UklGRg==",
+          usage: { promptTokens: 4, completionTokens: 1, totalTokens: 5 },
+        };
+      },
+    };
+    const result = await generateSpeech(
+      {
+        provider: "gemini",
+        role: "VOICE_TTS",
+        text: "Ders gövdesi",
+        billing: { userId: "u1", source: "academy" },
+      },
+      {
+        providers: { gemini: withSpeech },
+        budgetPort: createMemoryBudgetShieldPort(),
+      },
+    );
+    expect(isSpeechGatewayFail(result)).toBe(false);
+    expect(result && "dataBase64" in result ? result.dataBase64 : undefined).toBe("UklGRg==");
+    expect(result && "mimeType" in result ? result.mimeType : undefined).toBe("audio/wav");
+    expect(result && "model" in result ? result.model : undefined).toBe("gemini-3.1-flash-tts-preview");
+    // NO META IN AUDIO: pedagoji mührü text'e sızmaz; instruction kanalındadır.
+    expect(spokenText).toBe("Ders gövdesi");
+    expect(spokenText).not.toContain("le-le-me");
+    expect(spokenInstruction).toContain("le-le-me");
+    expect(spokenInstruction).toContain("el-el-em");
+  });
+
+  it("generateSpeech sağlayıcı hatasında fail zarfı basar; null yutmaz", async () => {
+    const boom: LlmProviderAdapter = {
+      ...fakeGemini,
+      async generateSpeech() {
+        throw Object.assign(new Error("429 RESOURCE_EXHAUSTED quota"), { status: 429 });
+      },
+    };
+    const failed = await generateSpeech(
+      {
+        provider: "gemini",
+        role: "VOICE_TTS",
+        text: "Ders gövdesi",
+        billing: { userId: "u1", source: "academy" },
+        maxAttempts: 1,
+      },
+      {
+        providers: { gemini: boom },
+        budgetPort: createMemoryBudgetShieldPort(),
+      },
+    );
+    expect(isSpeechGatewayFail(failed)).toBe(true);
+    if (isSpeechGatewayFail(failed)) {
+      expect(failed.reason).toBe("gemini-quota");
+    }
+  });
+
+  it("generateSpeech AbortError'u gemini-timeout basar ve bir kez dener", async () => {
+    let calls = 0;
+    const flaky: LlmProviderAdapter = {
+      ...fakeGemini,
+      async generateSpeech() {
+        calls += 1;
+        if (calls === 1) {
+          const abort = new Error("");
+          abort.name = "AbortError";
+          throw abort;
+        }
+        return {
+          mimeType: "audio/wav",
+          dataBase64: "UklGRg==",
+          usage: { promptTokens: 4, completionTokens: 1, totalTokens: 5 },
+        };
+      },
+    };
+    const result = await generateSpeech(
+      {
+        provider: "gemini",
+        role: "VOICE_TTS",
+        text: "Ders gövdesi",
+        billing: { userId: "u1", source: "academy" },
+        timeoutMs: 80,
+      },
+      {
+        providers: { gemini: flaky },
+        budgetPort: createMemoryBudgetShieldPort(),
+      },
+    );
+    expect(calls).toBe(2);
+    expect(isSpeechGatewayFail(result)).toBe(false);
+    expect(result && "dataBase64" in result ? result.dataBase64 : undefined).toBe("UklGRg==");
+  });
+
+  it("generateSpeech ConnectTimeoutError'u yeniden denemez", async () => {
+    let calls = 0;
+    const boom: LlmProviderAdapter = {
+      ...fakeGemini,
+      async generateSpeech() {
+        calls += 1;
+        throw Object.assign(new Error("Connect Timeout Error"), {
+          name: "ConnectTimeoutError",
+          code: "UND_ERR_CONNECT_TIMEOUT",
+        });
+      },
+    };
+    const failed = await generateSpeech(
+      {
+        provider: "gemini",
+        role: "VOICE_TTS",
+        text: "Ders gövdesi",
+        billing: { userId: "u1", source: "academy" },
+        maxAttempts: 5,
+        timeoutMs: 80,
+      },
+      {
+        providers: { gemini: boom },
+        budgetPort: createMemoryBudgetShieldPort(),
+      },
+    );
+    expect(calls).toBe(1);
+    expect(isSpeechGatewayFail(failed)).toBe(true);
+    if (isSpeechGatewayFail(failed)) {
+      expect(failed.reason).toBe("gemini-timeout");
+    }
+  });
+
+  it("generateSpeech 429 kotasında yeniden denemez ve Gemini'yi soğutur", async () => {
+    let calls = 0;
+    const boom: LlmProviderAdapter = {
+      ...fakeGemini,
+      async generateSpeech() {
+        calls += 1;
+        throw Object.assign(new Error("429 RESOURCE_EXHAUSTED quota"), { status: 429 });
+      },
+    };
+    const deps = {
+      providers: { gemini: boom },
+      budgetPort: createMemoryBudgetShieldPort(),
+    };
+    const started = Date.now();
+    const failed = await generateSpeech(
+      {
+        provider: "gemini",
+        role: "VOICE_TTS",
+        text: "Ders gövdesi",
+        billing: { userId: "u1", source: "academy" },
+        maxAttempts: 5,
+      },
+      deps,
+    );
+    expect(Date.now() - started).toBeLessThan(400);
+    expect(calls).toBe(1);
+    expect(isSpeechGatewayFail(failed)).toBe(true);
+    const cooled = await generateSpeech(
+      {
+        provider: "gemini",
+        role: "VOICE_TTS",
+        text: "İkinci dilim",
+        billing: { userId: "u1", source: "academy" },
+        maxAttempts: 5,
+      },
+      deps,
+    );
+    expect(calls).toBe(1);
+    expect(isSpeechGatewayFail(cooled)).toBe(true);
+    if (isSpeechGatewayFail(cooled)) {
+      expect(cooled.reason).toBe("gemini-quota");
+    }
+  });
+
+  it("generateSpeech 50x üst katmanda en fazla bir kez dener", async () => {
+    let calls = 0;
+    const boom: LlmProviderAdapter = {
+      ...fakeGemini,
+      async generateSpeech() {
+        calls += 1;
+        throw Object.assign(new Error("503 Bad Gateway"), { status: 503 });
+      },
+    };
+    const failed = await generateSpeech(
+      {
+        provider: "gemini",
+        role: "VOICE_TTS",
+        text: "Ders gövdesi",
+        billing: { userId: "u1", source: "academy" },
+        maxAttempts: 5,
+      },
+      {
+        providers: { gemini: boom },
+        budgetPort: createMemoryBudgetShieldPort(),
+      },
+    );
+    expect(calls).toBe(2);
+    expect(isSpeechGatewayFail(failed)).toBe(true);
+    if (isSpeechGatewayFail(failed)) {
+      expect(failed.reason).toBe("gemini-upstream");
+    }
+  });
+
+  it("generateSpeech 400 INVALID_ARGUMENT yeniden denemez; gemini-bad-request basar", async () => {
+    let calls = 0;
+    const boom: LlmProviderAdapter = {
+      ...fakeGemini,
+      async generateSpeech() {
+        calls += 1;
+        throw Object.assign(new Error("INVALID_ARGUMENT systemInstruction"), { status: 400 });
+      },
+    };
+    const failed = await generateSpeech(
+      {
+        provider: "gemini",
+        role: "VOICE_TTS",
+        text: "Ders gövdesi",
+        billing: { userId: "u1", source: "academy" },
+        maxAttempts: 5,
+      },
+      {
+        providers: { gemini: boom },
+        budgetPort: createMemoryBudgetShieldPort(),
+      },
+    );
+    expect(calls).toBe(1);
+    expect(isSpeechGatewayFail(failed)).toBe(true);
+    if (isSpeechGatewayFail(failed)) {
+      expect(failed.reason).toBe("gemini-bad-request");
+    }
   });
 });

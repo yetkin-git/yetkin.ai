@@ -1,7 +1,6 @@
 import "server-only";
 
 import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
-import { createPrismaArenaPorts } from "@/lib/arena/runtime";
 import { createPrismaCareerPorts } from "@/lib/career/runtime";
 import {
   assembleDashboardPulse,
@@ -10,39 +9,28 @@ import {
   type DashboardPulse,
 } from "@/lib/dashboard/pulse";
 import { EMPTY_ACADEMY_PULSE } from "@/lib/dashboard/academy-pulse";
-import { EMPTY_ARENA_PULSE } from "@/lib/dashboard/arena-pulse";
 import { EMPTY_CAREER_PULSE } from "@/lib/dashboard/career-pulse";
-import { EMPTY_DEVLABS_PULSE } from "@/lib/dashboard/devlabs-pulse";
 import { EMPTY_FREELANCER_PULSE } from "@/lib/dashboard/freelancer-pulse";
-import { EMPTY_HIBE_PULSE } from "@/lib/dashboard/hibe-pulse";
-import { EMPTY_JUNIOR_PULSE } from "@/lib/dashboard/junior-pulse";
-import { EMPTY_KURUMSAL_PULSE } from "@/lib/dashboard/kurumsal-pulse";
-import { EMPTY_PAZARYERI_PULSE } from "@/lib/dashboard/pazaryeri-pulse";
-import { EMPTY_SOCIAL_PULSE } from "@/lib/dashboard/social-pulse";
-import { EMPTY_STUDIO_PULSE } from "@/lib/dashboard/studio-pulse";
-import { EMPTY_WALLET_STRIP, type WalletStripSnapshot } from "@/lib/dashboard/wallet-strip";
-import { createPrismaDevLabsPorts } from "@/lib/devlabs/runtime";
+import { EMPTY_WALLET_STRIP } from "@/lib/dashboard/wallet-strip";
+import { readWalletStripSnapshot } from "@/lib/dashboard/load-wallet-strip";
 import { createPrismaFreelancerPorts } from "@/lib/freelancer/runtime";
-import { buildHibePulse } from "@/lib/hibe/engine";
-import { createPrismaHibePorts } from "@/lib/hibe/runtime";
-import { buildJuniorPulse } from "@/lib/junior/engine";
-import { createPrismaJuniorPorts } from "@/lib/junior/runtime";
-import { ensurePrismaQueryEngine, prismaErrorLabel } from "@/lib/kernel/db";
-import { ensureSettlementWallet } from "@/lib/kernel/ledger/wallet-read";
+import { ensurePrismaQueryEngine, prismaErrorLabel, withDbReadTimeout } from "@/lib/kernel/db";
 import { logEvent } from "@/lib/kernel/observability/log";
-import { createPrismaKurumsalPorts } from "@/lib/kurumsal/runtime";
-import { createPrismaPazaryeriPorts } from "@/lib/pazaryeri/runtime";
-import { buildSocialPulse } from "@/lib/social/engine";
-import { createPrismaSocialPorts } from "@/lib/social/runtime";
-import { createPrismaStudioPorts } from "@/lib/studio/runtime";
+
+/** Oda okuması bu süreyi aşarsa boş nabız; havuzu 10s kilitlemez. */
+export const DASHBOARD_PULSE_ROOM_TIMEOUT_MS = 600;
+
+/** 4 oda eşzamanlı; havuz max 5 ve oda timeout kilidi tutar. */
+export const DASHBOARD_PULSE_ROOM_CONCURRENCY = 4;
 
 /**
- * Composition root — oda runtime'ları yalnız burada birleşir.
- * lib/dashboard nabız tiplerini taşır; kernel dikey tablo okumaz (§2.8).
+ * Composition root — yalnız çalışan 4 oda + cüzdan. Donmuş 8 oda
+ * paralel Prisma sorgusu yapmaz; boş nabız basılır.
+ * Salt okuma: cüzdan satırı yoksa INSERT yok, live:false.
  */
 async function readRoom<T>(room: string, work: () => Promise<T>, fallback: T): Promise<T> {
   try {
-    return await work();
+    return await withDbReadTimeout(work(), DASHBOARD_PULSE_ROOM_TIMEOUT_MS, `pulse:${room}`);
   } catch (error) {
     logEvent({
       level: "warn",
@@ -55,102 +43,58 @@ async function readRoom<T>(room: string, work: () => Promise<T>, fallback: T): P
   }
 }
 
-async function readWalletStrip(userId: string): Promise<WalletStripSnapshot> {
-  const wallet = await ensureSettlementWallet(userId);
-  return {
-    live: true,
-    amountMinor: wallet.amountMinor,
-    currencyCode: wallet.currencyCode,
-  };
+async function mapPool<T>(tasks: ReadonlyArray<() => Promise<T>>, concurrency: number): Promise<T[]> {
+  const results: T[] = new Array(tasks.length);
+  let cursor = 0;
+  async function worker(): Promise<void> {
+    for (;;) {
+      const index = cursor;
+      cursor += 1;
+      const task = tasks[index];
+      if (!task) {
+        return;
+      }
+      results[index] = await task();
+    }
+  }
+  const size = Math.min(Math.max(1, concurrency), tasks.length);
+  await Promise.all(Array.from({ length: size }, () => worker()));
+  return results;
 }
 
 export async function loadDashboardPulse(userId: string): Promise<DashboardPulse> {
-  await ensurePrismaQueryEngine();
-  const [
-    wallet,
-    freelancer,
-    academy,
-    career,
-    studio,
-    kurumsal,
-    arena,
-    devlabs,
-    pazaryeri,
-    hibe,
-    junior,
-    social,
-  ] = await Promise.all([
-    readRoom("wallet", () => readWalletStrip(userId), EMPTY_WALLET_STRIP),
-    readRoom(
-      "freelancer",
-      async () => withLiveFlag(await createPrismaFreelancerPorts().freelancer.pulseForUser(userId)),
-      EMPTY_FREELANCER_PULSE,
-    ),
-    readRoom(
-      "academy",
-      async () => withLiveFlag(await createPrismaAcademyPorts().academy.pulseForUser(userId)),
-      EMPTY_ACADEMY_PULSE,
-    ),
-    readRoom(
-      "career",
-      async () => withLiveFlag(await createPrismaCareerPorts().career.pulseForUser(userId)),
-      EMPTY_CAREER_PULSE,
-    ),
-    readRoom(
-      "studio",
-      async () => withLiveFlag(await createPrismaStudioPorts().studio.pulseForUser(userId)),
-      EMPTY_STUDIO_PULSE,
-    ),
-    readRoom(
-      "kurumsal",
-      async () => withLiveFlag(await createPrismaKurumsalPorts().kurumsal.pulseForUser(userId)),
-      EMPTY_KURUMSAL_PULSE,
-    ),
-    readRoom(
-      "arena",
-      async () => withLiveFlag(await createPrismaArenaPorts().arena.pulseForUser(userId)),
-      EMPTY_ARENA_PULSE,
-    ),
-    readRoom(
-      "devlabs",
-      async () => withLiveFlag(await createPrismaDevLabsPorts().devlabs.pulseForUser(userId)),
-      EMPTY_DEVLABS_PULSE,
-    ),
-    readRoom(
-      "pazaryeri",
-      async () => withLiveFlag(await createPrismaPazaryeriPorts().pazaryeri.pulseForUser(userId)),
-      EMPTY_PAZARYERI_PULSE,
-    ),
-    readRoom(
-      "hibe",
-      async () => withLiveFlag(await buildHibePulse(createPrismaHibePorts(), userId)),
-      EMPTY_HIBE_PULSE,
-    ),
-    readRoom(
-      "junior",
-      async () => withLiveFlag(await buildJuniorPulse(createPrismaJuniorPorts(), userId)),
-      EMPTY_JUNIOR_PULSE,
-    ),
-    readRoom(
-      "social",
-      async () => withLiveFlag(await buildSocialPulse(createPrismaSocialPorts(), userId)),
-      EMPTY_SOCIAL_PULSE,
-    ),
-  ]);
+  void ensurePrismaQueryEngine();
+  const [wallet, freelancer, academy, career] = await mapPool(
+    [
+      () => readRoom("wallet", () => readWalletStripSnapshot(userId), EMPTY_WALLET_STRIP),
+      () =>
+        readRoom(
+          "freelancer",
+          async () => withLiveFlag(await createPrismaFreelancerPorts().freelancer.pulseForUser(userId)),
+          EMPTY_FREELANCER_PULSE,
+        ),
+      () =>
+        readRoom(
+          "academy",
+          async () => withLiveFlag(await createPrismaAcademyPorts().academy.pulseForUser(userId)),
+          EMPTY_ACADEMY_PULSE,
+        ),
+      () =>
+        readRoom(
+          "career",
+          async () => withLiveFlag(await createPrismaCareerPorts().career.pulseForUser(userId)),
+          EMPTY_CAREER_PULSE,
+        ),
+    ],
+    DASHBOARD_PULSE_ROOM_CONCURRENCY,
+  );
 
   return assembleDashboardPulse({
+    ...EMPTY_DASHBOARD_PULSE,
     wallet,
     freelancer,
     academy,
     career,
-    studio,
-    kurumsal,
-    arena,
-    devlabs,
-    pazaryeri,
-    hibe,
-    junior,
-    social,
   });
 }
 

@@ -11,26 +11,20 @@ export function OwnerBidsScreen({
   job,
   ownerBids,
   accept,
-  walletLive,
-  walletAmountMinor,
   onBack,
   onRetry,
   onOpenConfirm,
   onCloseConfirm,
   onConfirm,
-  onTopUp,
 }: {
   job: RailV1Job;
   ownerBids: OwnerBidsView;
   accept: AcceptFormView;
-  walletLive: boolean;
-  walletAmountMinor: number | null;
   onBack: () => void;
   onRetry: () => void;
   onOpenConfirm: (bidId: string) => void;
   onCloseConfirm: () => void;
   onConfirm: () => void;
-  onTopUp: () => void;
 }) {
   const selected =
     ownerBids.kind === "ready"
@@ -39,11 +33,6 @@ export function OwnerBidsScreen({
   const amountLabel = selected
     ? formatMinorLabel(selected.amountMinor, job.currencyCode)
     : null;
-  const stripShort =
-    walletLive &&
-    walletAmountMinor != null &&
-    selected != null &&
-    walletAmountMinor < selected.amountMinor;
 
   return (
     <View testID="dron-owner-bids" style={styles.wrap}>
@@ -55,10 +44,17 @@ export function OwnerBidsScreen({
       <Text style={styles.meta}>
         {RAIL_IS_COPY.job.budgetLabel}: {formatMinorLabel(job.budgetMinor, job.currencyCode)}
       </Text>
+      <View testID="dron-accept-payments-passive" style={styles.passiveCard}>
+        <Text style={styles.passiveTitle}>{RAIL_IS_COPY.accept.paymentsPassiveTitle}</Text>
+        <Text style={styles.muted}>{RAIL_IS_COPY.accept.paymentsPassiveBody}</Text>
+      </View>
       <Text style={styles.section}>{RAIL_IS_COPY.ownerBids.title}</Text>
       <Text style={styles.hint}>{RAIL_IS_COPY.ownerBids.noPii}</Text>
       {ownerBids.kind === "loading" || ownerBids.kind === "idle" ? (
-        <Text testID={ownerBids.kind === "loading" ? ownerBids.testID : "dron-owner-bids-idle"} style={styles.muted}>
+        <Text
+          testID={ownerBids.kind === "loading" ? ownerBids.testID : "dron-owner-bids-idle"}
+          style={styles.muted}
+        >
           {RAIL_IS_COPY.ownerBids.loading}
         </Text>
       ) : null}
@@ -100,15 +96,8 @@ export function OwnerBidsScreen({
         <View testID={accept.testID} style={styles.errorCard}>
           <Text style={styles.errorTitle}>{RAIL_IS_COPY.accept.errorTitle}</Text>
           <Text style={styles.error}>{accept.error}</Text>
-          {accept.insufficientBalance ? (
-            <>
-              <Text style={styles.muted}>{RAIL_IS_COPY.accept.insufficientHint}</Text>
-              <UiButton
-                testID="dron-accept-top-up"
-                label={RAIL_IS_COPY.wallet.topUp}
-                onPress={onTopUp}
-              />
-            </>
+          {accept.paymentsUnconfigured ? (
+            <Text style={styles.muted}>{RAIL_IS_COPY.accept.paymentsClosedHint}</Text>
           ) : null}
         </View>
       ) : null}
@@ -124,12 +113,11 @@ export function OwnerBidsScreen({
             <Text style={styles.body}>
               {RAIL_IS_COPY.accept.confirmBody.replace("{amount}", amountLabel ?? "—")}
             </Text>
-            {!walletLive ? <Text style={styles.error}>{RAIL_IS_COPY.accept.unboundBlock}</Text> : null}
-            {stripShort ? <Text style={styles.muted}>{RAIL_IS_COPY.accept.stripHint}</Text> : null}
+            <Text style={styles.muted}>{RAIL_IS_COPY.accept.paymentsPassiveBody}</Text>
             <UiButton
               testID="dron-accept-confirm"
               label={accept.pending ? RAIL_IS_COPY.accept.pending : RAIL_IS_COPY.accept.confirm}
-              disabled={accept.pending || !walletLive || !selected}
+              disabled={accept.pending || !selected}
               onPress={onConfirm}
             />
             <UiButton label={RAIL_IS_COPY.accept.cancel} onPress={onCloseConfirm} tone="muted" />
@@ -161,6 +149,15 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   amount: { color: colors.accent, fontSize: 18, fontWeight: "600" },
+  passiveCard: {
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderWidth: 1,
+    borderRadius: 16,
+    padding: 14,
+    gap: 6,
+  },
+  passiveTitle: { color: colors.text, fontSize: 16, fontWeight: "600" },
   errorCard: {
     backgroundColor: colors.surface,
     borderColor: colors.danger,

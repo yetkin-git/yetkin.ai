@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
-import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
+import { PLATFORM_TREASURY_USER_ID, ESCROW_WALLET_FUNDING_FORBIDDEN } from "@/lib/kernel/escrow/engine";
 import { createEscrowHold } from "@/lib/kernel/escrow";
-import { ConflictError } from "@/lib/kernel/http/errors";
-import { RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE } from "@/lib/kernel/http/v1-contract";
+import { ServiceUnavailableError } from "@/lib/kernel/http/errors";
+import { RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE } from "@/lib/kernel/http/v1-contract";
+import { paytrMarketplaceSplitPort } from "@/lib/kernel/payments/marketplace-split";
 import {
   acceptFreelancerBid,
   createFreelancerJob,
@@ -34,7 +35,7 @@ function world(clientBalance = 100_000) {
   });
 }
 
-async function openJobWithBid(ports: ReturnType<typeof world>, amountMinor = 10_000) {
+async function openJobWithBid(ports: ReturnType<typeof world>, amountMinor = 25_000) {
   const job = await createFreelancerJob(ports, {
     clientId: CLIENT,
     title: "Atomik kabul",
@@ -63,7 +64,7 @@ describe("freelancer teklif kabulü — atomik emanet", () => {
     expect(first.applied).toBe(true);
     expect(first.healed).toBe(false);
     expect(first.contract.status).toBe("FUNDED");
-    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(90_000);
+    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(100_000);
     const hold = await ports.escrow.findByReferenceKey(freelancerJobEscrowReferenceKey(job.id));
     expect(hold?.status).toBe("PENDING");
     expect(hold?.id).toBe(first.contract.escrowHoldId);
@@ -76,7 +77,7 @@ describe("freelancer teklif kabulü — atomik emanet", () => {
     expect(second.applied).toBe(false);
     expect(second.healed).toBe(false);
     expect(second.contract.id).toBe(first.contract.id);
-    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(90_000);
+    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(100_000);
     expect(await ports.freelancer.getContractByJobId(job.id)).toEqual(first.contract);
   });
 
@@ -126,10 +127,11 @@ describe("freelancer teklif kabulü — atomik emanet", () => {
         grossMinor: bid.amountMinor,
         holdBps: HOLD_BPS_DEFAULT,
         currencyCode: bid.currencyCode,
+        funding: "psp",
       },
     );
     expect(orphan.applied).toBe(true);
-    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(90_000);
+    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(100_000);
     expect(await ports.freelancer.getContractByJobId(job.id)).toBeNull();
 
     const healed = await acceptFreelancerBid(ports, {
@@ -142,7 +144,7 @@ describe("freelancer teklif kabulü — atomik emanet", () => {
     expect(healed.healed).toBe(true);
     expect(healed.contract.escrowHoldId).toBe(orphan.hold.id);
     expect(healed.contract.status).toBe("FUNDED");
-    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(90_000);
+    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(100_000);
     expect((await ports.freelancer.getJob(job.id))?.status).toBe("AWARDED");
 
     const again = await acceptFreelancerBid(ports, {
@@ -153,7 +155,7 @@ describe("freelancer teklif kabulü — atomik emanet", () => {
     expect(again.applied).toBe(false);
     expect(again.healed).toBe(false);
     expect(again.contract.id).toBe(healed.contract.id);
-    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(90_000);
+    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(100_000);
   });
 
   it("AWARDED okumasında mevcut sözleşmeye döner (TOCTOU); bakiyeyi iki kez düşmez", async () => {
@@ -174,7 +176,7 @@ describe("freelancer teklif kabulü — atomik emanet", () => {
     expect(raced.applied).toBe(false);
     expect(raced.healed).toBe(false);
     expect(raced.contract.id).toBe(winner.contract.id);
-    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(90_000);
+    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(100_000);
   });
 
   it("eşzamanlı unique (P2002) sonrası mevcut sözleşmeyi okur; kaybeden yeni debit basmaz", async () => {
@@ -190,6 +192,7 @@ describe("freelancer teklif kabulü — atomik emanet", () => {
         holdBps: HOLD_BPS_DEFAULT,
         currencyCode: bid.currencyCode,
         now,
+        funding: "psp",
       },
     );
     const preloaded = await ports.freelancer.insertContract({
@@ -225,12 +228,21 @@ describe("freelancer teklif kabulü — atomik emanet", () => {
     expect(raced.applied).toBe(false);
     expect(raced.healed).toBe(false);
     expect(raced.contract.id).toBe(preloaded.id);
-    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(90_000);
+    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(100_000);
     expect((await ports.freelancer.listContractsForUser(CLIENT)).length).toBe(1);
   });
 
-  it("yetersiz bakiyede fail-closed: hold yok, sözleşme yok, ilan OPEN, bakiye aynı", async () => {
-    const ports = world(500);
+  it("PSP yoksa 503; Rail bakiyesi düşük olsa da DEBIT/hold yazılmaz", async () => {
+    const ports = withMemoryAcceptAtomic({
+      ledger: createMemoryLedgerStore([
+        { userId: CLIENT, amountMinor: 500 },
+        { userId: FREELANCER, amountMinor: 0 },
+        { userId: PLATFORM, amountMinor: 0 },
+      ]),
+      escrow: createMemoryEscrowStore(),
+      freelancer: createMemoryFreelancerStore(),
+      marketplace: paytrMarketplaceSplitPort,
+    });
     const { job, bid } = await openJobWithBid(ports);
     await expect(
       acceptFreelancerBid(ports, {
@@ -238,17 +250,54 @@ describe("freelancer teklif kabulü — atomik emanet", () => {
         bidId: bid.id,
         actorUserId: CLIENT,
       }),
-    ).rejects.toBeInstanceOf(ConflictError);
+    ).rejects.toBeInstanceOf(ServiceUnavailableError);
     await expect(
       acceptFreelancerBid(ports, {
         jobId: job.id,
         bidId: bid.id,
         actorUserId: CLIENT,
       }),
-    ).rejects.toThrow(RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE);
+    ).rejects.toThrow(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE);
     expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(500);
     expect(await ports.freelancer.getContractByJobId(job.id)).toBeNull();
     expect(await ports.escrow.findByReferenceKey(freelancerJobEscrowReferenceKey(job.id))).toBeNull();
     expect((await ports.freelancer.getJob(job.id))?.status).toBe("OPEN");
+  });
+
+  it("PSP bağlıysa düşük Rail bakiyesi kabulü durdurmaz; DEBIT yazılmaz", async () => {
+    const ports = world(500);
+    const { job, bid } = await openJobWithBid(ports);
+    const accepted = await acceptFreelancerBid(ports, {
+      jobId: job.id,
+      bidId: bid.id,
+      actorUserId: CLIENT,
+    });
+    expect(accepted.applied).toBe(true);
+    expect(accepted.contract.status).toBe("FUNDED");
+    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(500);
+    expect(
+      ports.ledger
+        .listEntries(CLIENT)
+        .some((row) => row.purpose === "escrow-hold" && row.direction === "DEBIT"),
+    ).toBe(false);
+  });
+
+  it("funding: wallet üçüncü kişi emanetinde yasadışıdır; DEBIT/hold yazılmaz", async () => {
+    const ports = world();
+    await expect(
+      createEscrowHold(
+        { ledger: ports.ledger, escrow: ports.escrow },
+        {
+          userId: CLIENT,
+          referenceKey: "wallet-funding-forbidden",
+          grossMinor: 10_000,
+          holdBps: HOLD_BPS_DEFAULT,
+          currencyCode: "TRY",
+          funding: "wallet",
+        },
+      ),
+    ).rejects.toThrow(ESCROW_WALLET_FUNDING_FORBIDDEN);
+    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(100_000);
+    expect(await ports.escrow.findByReferenceKey("wallet-funding-forbidden")).toBeNull();
   });
 });

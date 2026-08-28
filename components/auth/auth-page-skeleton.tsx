@@ -8,7 +8,7 @@ function SkeletonLine({ className }: { className?: string }) {
 export function AuthPageSkeleton() {
   return (
     <main
-      className="relative mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-16"
+      className="relative mx-auto flex min-h-dvh max-w-md flex-col justify-center px-6 pb-14 pt-16"
       aria-hidden
     >
       <div className="relative">

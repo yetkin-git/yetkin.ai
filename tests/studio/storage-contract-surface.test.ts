@@ -86,7 +86,7 @@ describe("Studio depo sözleşmesi (T2-2)", () => {
   });
 
   it("şema ve tipler service_role olmadan imzalı PUT tarif eder; CHECK tavanı durur", () => {
-    const storage = readSrc("lib/studio/storage.ts");
+    const storage = readSrc("archived/lib/studio/storage.ts");
     const schema = readSrc("prisma/schema/studio.prisma");
     const sql = readSrc("prisma/migrations/20260815160000_studio_data_base64_max_chars/migration.sql");
     const ops = readSrc("scripts/ops-migrate.ts");

@@ -13,6 +13,7 @@ import { createMemoryLedgerStore } from "../helpers/memory-money";
 import { createMemoryPriceCatalogStore } from "../helpers/memory-pricing";
 import { createMemoryAiTokenUsageStore } from "../helpers/memory-studio";
 import { createMemoryDevLabsStore } from "../helpers/memory-devlabs";
+import { createMemoryPaidCommandStore, mintTestCommandKey } from "../helpers/memory-paid-command";
 
 const OWNER = "devlabs-bench-owner";
 const PLATFORM = PLATFORM_TREASURY_USER_ID;
@@ -57,6 +58,7 @@ async function seeded(text: string, buyerBalance = 10_000) {
     ledger,
     catalog,
     usage,
+    commands: createMemoryPaidCommandStore(),
     llmDeps: { providers: { gemini: adapter }, budgetPort: createMemoryBudgetShieldPort() },
   };
   const project = await createDevLabsProject(ports, {
@@ -79,6 +81,7 @@ describe("DevLabs anayasal linter ve kod tezgâhı", () => {
       projectId: ctx.project.id,
       actorUserId: OWNER,
       apiKeyId: ctx.issued.record.id,
+      commandKey: mintTestCommandKey(),
       prompt: "amountMinor debit fonksiyonu yaz.",
       platformUserId: PLATFORM,
     });
@@ -106,6 +109,7 @@ describe("DevLabs anayasal linter ve kod tezgâhı", () => {
       projectId: ctx.project.id,
       actorUserId: OWNER,
       apiKeyId: ctx.issued.record.id,
+      commandKey: mintTestCommandKey(),
       prompt: "kirli örnek",
       platformUserId: PLATFORM,
     });
@@ -121,6 +125,7 @@ describe("DevLabs anayasal linter ve kod tezgâhı", () => {
         projectId: ctx.project.id,
         actorUserId: OWNER,
         apiKeyId: ctx.issued.record.id,
+        commandKey: mintTestCommandKey(),
         prompt: "kod",
         platformUserId: PLATFORM,
       }),
@@ -134,6 +139,7 @@ describe("DevLabs anayasal linter ve kod tezgâhı", () => {
         projectId: rich.project.id,
         actorUserId: OWNER,
         apiKeyId: rich.issued.record.id,
+        commandKey: mintTestCommandKey(),
         prompt: "kod",
         platformUserId: PLATFORM,
       }),

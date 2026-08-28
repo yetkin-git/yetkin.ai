@@ -3,7 +3,8 @@
  * AI Gümrük Kapısı mührü.
  * lib/ ve app/ altında doğrudan sağlayıcı erişimi build'i kırar.
  * İzinli yuva: lib/kernel/ai/llm-gateway.ts + lib/kernel/ai/providers/*
- * VIDEO_GEN / VOICE_TTS mühürlü-ölü: factory yok, dikey çağrı yok.
+ * VIDEO_GEN mühürlü-ölü: factory yok.
+ * VOICE_TTS canlı factory: yalnız generateSpeech gümrük kapısı.
  */
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
@@ -23,6 +24,7 @@ const ALLOWLIST = new Set([
 ]);
 
 const SEALED_ROLE_ALLOW_PREFIX = "lib/kernel/ai/";
+const TTS_MODEL_ALLOW_PREFIX = "lib/kernel/ai/";
 
 const FORBIDDEN = [
   { pattern: "new GoogleGenAI(", label: "doğrudan GoogleGenAI client factory" },
@@ -33,10 +35,8 @@ const FORBIDDEN = [
 const FACTORY_FORBIDDEN = [
   { pattern: "generateVideos(", label: "video factory (generateVideos)" },
   { pattern: "generateVideo(", label: "video factory (generateVideo)" },
-  { pattern: "generateSpeech(", label: "ses factory (generateSpeech)" },
-  { pattern: "generateAudio(", label: "ses factory (generateAudio)" },
+  { pattern: "generateAudio(", label: "paralel ses factory (generateAudio)" },
   { pattern: "export async function generateVideo", label: "generateVideo gümrük export" },
-  { pattern: "export async function generateSpeech", label: "generateSpeech gümrük export" },
   { pattern: "export async function generateVoice", label: "generateVoice gümrük export" },
   { pattern: "export async function generateAudio", label: "generateAudio gümrük export" },
   { pattern: "elevenlabs", label: "ElevenLabs entegrasyonu" },
@@ -44,8 +44,9 @@ const FACTORY_FORBIDDEN = [
   { pattern: "texttospeech.googleapis.com", label: "Cloud TTS HTTP" },
   { pattern: "@google-cloud/text-to-speech", label: "Cloud TTS paket" },
   { pattern: "veo-3.0", label: "Veo model id (ölü yuva tahriki)" },
-  { pattern: "preview-tts", label: "TTS model id (ölü yuva tahriki)" },
 ] as const;
+
+const TTS_MODEL_PATTERNS = ["preview-tts", "flash-tts"] as const;
 
 const CANONICAL_ROLES = [
   "EXECUTIVE_BRAIN",
@@ -64,10 +65,11 @@ const LIVE_ROLES = [
   "FAST_STREAM",
   "LITE_STREAM",
   "IMAGE_GEN",
+  "VOICE_TTS",
   "OPEN_LOCAL",
 ] as const;
 
-const SEALED_DEAD_ROLES = ["VIDEO_GEN", "VOICE_TTS"] as const;
+const SEALED_DEAD_ROLES = ["VIDEO_GEN"] as const;
 
 function walk(dir: string): string[] {
   if (!existsSync(dir)) {
@@ -78,7 +80,7 @@ function walk(dir: string): string[] {
     const fullPath = join(dir, entry);
     const stat = statSync(fullPath);
     if (stat.isDirectory()) {
-      if (entry === "yetkin.ai" || entry === "node_modules") {
+      if (entry === "yetkin_muze" || entry === "yetkin.ai" || entry === "node_modules") {
         continue;
       }
       files.push(...walk(fullPath));
@@ -116,6 +118,13 @@ for (const scanDir of ROLE_LEAK_DIRS) {
         violations.push(`${rel} — ${label}: \`${pattern}\``);
       }
     }
+    if (!rel.startsWith(TTS_MODEL_ALLOW_PREFIX)) {
+      for (const pattern of TTS_MODEL_PATTERNS) {
+        if (sourceLower.includes(pattern)) {
+          violations.push(`${rel} — TTS model id dikeyde: \`${pattern}\``);
+        }
+      }
+    }
     if (rel.startsWith(SEALED_ROLE_ALLOW_PREFIX)) {
       continue;
     }
@@ -135,6 +144,9 @@ if (!gatewaySrc.includes("export async function invokeLlm")) {
 if (!gatewaySrc.includes("export async function generateImage")) {
   violations.push("lib/kernel/ai/llm-gateway.ts — generateImage kayboldu");
 }
+if (!gatewaySrc.includes("export async function generateSpeech")) {
+  violations.push("lib/kernel/ai/llm-gateway.ts — generateSpeech kayboldu");
+}
 if (!gatewaySrc.includes("assertLiveAiModelRole")) {
   violations.push("lib/kernel/ai/llm-gateway.ts — mühürlü rol assertLiveAiModelRole kayboldu");
 }
@@ -144,8 +156,11 @@ const typesSrc = existsSync(types) ? readFileSync(types, "utf8") : "";
 if (!typesSrc.includes("generateVideo?: never")) {
   violations.push("lib/kernel/ai/types.ts — generateVideo?: never tipi kayboldu");
 }
-if (!typesSrc.includes("generateSpeech?: never")) {
-  violations.push("lib/kernel/ai/types.ts — generateSpeech?: never tipi kayboldu");
+if (!typesSrc.includes("generateSpeech?")) {
+  violations.push("lib/kernel/ai/types.ts — generateSpeech factory tipi kayboldu");
+}
+if (typesSrc.includes("generateSpeech?: never")) {
+  violations.push("lib/kernel/ai/types.ts — VOICE_TTS generateSpeech?: never ile yeniden mühürlendi");
 }
 if (!typesSrc.includes("role?: AiLiveModelRoleKey")) {
   violations.push("lib/kernel/ai/types.ts — invokeLlm rol tipi AiLiveModelRoleKey değil");
@@ -178,6 +193,18 @@ if (!roles.includes("export function assertLiveAiModelRole")) {
 if (!roles.includes("Kesilmiş ölü yuva")) {
   violations.push("lib/kernel/ai/model-roles.ts — mühürlü-ölü yuva açıklaması kayboldu");
 }
+if (!roles.includes("gemini-3.1-flash-tts-preview")) {
+  violations.push("lib/kernel/ai/model-roles.ts — VOICE_TTS varsayılan TTS modeli kayboldu");
+}
+
+const gemini = join(ROOT, "lib/kernel/ai/providers/gemini.ts");
+const geminiSrc = existsSync(gemini) ? readFileSync(gemini, "utf8") : "";
+if (!geminiSrc.includes("async generateSpeech")) {
+  violations.push("lib/kernel/ai/providers/gemini.ts — generateSpeech kayboldu");
+}
+if (!geminiSrc.includes("process.env.GEMINI_API_KEY")) {
+  violations.push("lib/kernel/ai/providers/gemini.ts — GEMINI_API_KEY okuma kayboldu");
+}
 
 if (violations.length > 0) {
   console.error(
@@ -187,12 +214,13 @@ if (violations.length > 0) {
       "",
       "Tüm LLM çağrıları lib/kernel/ai/llm-gateway.ts → invokeLlm() üzerinden geçmelidir.",
       "Görsel üretim lib/kernel/ai/llm-gateway.ts → generateImage() factory'sinden geçer.",
-      "VIDEO_GEN / VOICE_TTS mühürlü-ölü yuvadır; factory ve dikey çağrı yasaktır.",
+      "Ses üretimi lib/kernel/ai/llm-gateway.ts → generateSpeech() factory'sinden geçer.",
+      "VIDEO_GEN mühürlü-ölü yuvadır; factory ve dikey çağrı yasaktır.",
     ].join("\n"),
   );
   process.exit(1);
 }
 
 console.log(
-  "verify:ai-gateway OK — gümrük mühürlü; VIDEO_GEN / VOICE_TTS fail-closed (factory yok).",
+  "verify:ai-gateway OK — gümrük mühürlü; VIDEO_GEN fail-closed; VOICE_TTS generateSpeech factory.",
 );

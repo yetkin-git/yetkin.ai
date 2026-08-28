@@ -45,8 +45,11 @@ describe("Inngest serve yüzeyi", () => {
     expect(guard).toContain("cron 503'e düşmez");
     const inngest = readSrc("lib/kernel/jobs/inngest.ts");
     expect(inngest).toContain('id: "paytr-clearing-scan"');
+    expect(inngest).toContain('id: "ledger-reconciliation-scan"');
     expect(inngest).toContain('id: "escrow-timeout-scan"');
     expect(inngest).toContain('id: "escrow-ttl-approaching-scan"');
     expect(inngest).toContain("kernelInngestFunctions");
+    expect(inngest).not.toContain("arena/tender.round-tick");
+    expect(inngest).not.toContain("ARENA_TENDER_ROUND_TICK");
   });
 });

@@ -8,7 +8,9 @@ import { submitFreelancerBid } from "@/lib/freelancer/engine";
 import { submitBidInputSchema } from "@/lib/freelancer/schemas";
 import { createPrismaFreelancerPorts } from "@/lib/freelancer/runtime";
 import { assertAcademyCareerVisaForListing } from "@/lib/career/visa-gate";
+import { createPrismaCareerProofStore } from "@/lib/career/prisma-proofs";
 import { createPrismaCareerStore } from "@/lib/career/prisma-store";
+import { NotFoundError } from "@/lib/kernel/http/errors";
 
 export const auth = "session" as const;
 
@@ -43,8 +45,17 @@ export async function POST(
         request,
       },
       async () => {
-        await assertAcademyCareerVisaForListing(createPrismaCareerStore(), user.id);
         const ports = createPrismaFreelancerPorts();
+        const job = await ports.freelancer.getJob(id);
+        if (!job) {
+          throw new NotFoundError("İlan bulunamadı.");
+        }
+        await assertAcademyCareerVisaForListing(
+          createPrismaCareerStore(),
+          user.id,
+          job,
+          createPrismaCareerProofStore(),
+        );
         const bid = await submitFreelancerBid(ports, {
           jobId: id,
           bidderId: user.id,

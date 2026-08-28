@@ -1,25 +1,55 @@
 import { IdentityCard } from "@/components/kernel/identity-card";
+import { IdentityMeritSummary } from "@/components/kernel/identity-merit-summary";
 import { AuthNeeded } from "@/components/ui/auth-needed";
-import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { IconBadge, IconLock, IconUser } from "@/components/ui/icons";
+import { LinkButton } from "@/components/ui/link-button";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { StatGrid } from "@/components/ui/stat-grid";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { getSession } from "@/lib/kernel/auth/session";
 import { loadIdentityBoard } from "@/lib/kernel/identity/load";
 import { PROFILE_UNSET_LABEL, profileDisplayName } from "@/lib/kernel/identity/display";
+import { WALLET_SURFACE_PATH } from "@/lib/kernel/identity/types";
+import { loadPassportBoard } from "@/lib/kernel/passport/load";
+import { CAREER_STAMP_SURFACE_PATH, PASSPORT_SURFACE_PATH } from "@/lib/kernel/passport/types";
+
+function ProfileShelterActions({ size = "sm" }: { size?: "sm" | "md" }) {
+  const copy = SEN_VOICE.profil;
+  return (
+    <>
+      <LinkButton href={PASSPORT_SURFACE_PATH} variant="secondary" size={size}>
+        {copy.passportCta}
+      </LinkButton>
+      <LinkButton href={WALLET_SURFACE_PATH} variant="outline" size={size}>
+        {copy.walletCta}
+      </LinkButton>
+      <LinkButton href={CAREER_STAMP_SURFACE_PATH} variant="ghost" size={size}>
+        {copy.careerCta}
+      </LinkButton>
+    </>
+  );
+}
 
 export default async function ProfilePage() {
   const session = await getSession();
-  const board = session ? await loadIdentityBoard(session.id) : null;
+  const [board, passportBoard] = session
+    ? await Promise.all([loadIdentityBoard(session.id), loadPassportBoard(session.id)])
+    : [null, null];
   const profile = board?.user ?? null;
   const headline = profile ? profileDisplayName(profile.displayName) : PROFILE_UNSET_LABEL;
   const copy = SEN_VOICE.profil;
+  const stamps = passportBoard?.stamps ?? [];
+  const meritSoft = Boolean(session && passportBoard === null);
 
   return (
     <RoomFrame>
-      <PageHeader eyebrow={copy.eyebrow} title={copy.title} description={copy.description} />
+      <PageHeader
+        eyebrow={copy.eyebrow}
+        title={copy.title}
+        description={copy.description}
+        actions={<ProfileShelterActions />}
+      />
       <StatGrid
         columns={3}
         items={[
@@ -47,18 +77,30 @@ export default async function ProfilePage() {
         <AuthNeeded message={copy.auth} />
       ) : board === null ? (
         <div className="space-y-3">
-          <Badge tone="amber">{copy.unboundBadge}</Badge>
-          <p className="text-sm text-[var(--muted)]">{copy.unboundBody}</p>
+          <p className="text-sm text-[var(--muted)]">{copy.loadSoft}</p>
+          <div className="flex flex-wrap gap-2">
+            <LinkButton href="/dashboard" variant="outline" size="sm">
+              {copy.dashboardCta}
+            </LinkButton>
+            <ProfileShelterActions />
+          </div>
+          <IdentityMeritSummary stamps={[]} soft />
           <IdentityCard profile={null} sessionEmail={session.email} />
         </div>
       ) : profile === null ? (
         <div className="space-y-3">
-          <Badge tone="amber">{copy.missingBadge}</Badge>
-          <p className="text-sm text-[var(--muted)]">{copy.missingBody}</p>
+          <p className="text-sm text-[var(--muted)]">{copy.missingSoft}</p>
+          <div className="flex flex-wrap gap-2">
+            <ProfileShelterActions />
+          </div>
+          <IdentityMeritSummary stamps={stamps} soft={meritSoft} />
           <IdentityCard profile={null} sessionEmail={session.email} />
         </div>
       ) : (
-        <IdentityCard profile={profile} sessionEmail={session.email} />
+        <div className="space-y-6">
+          <IdentityMeritSummary stamps={stamps} soft={meritSoft} />
+          <IdentityCard profile={profile} sessionEmail={session.email} />
+        </div>
       )}
       <Card variant="ink" title={copy.honestyTitle} bodyClassName="text-white/70">
         {copy.honestyBody}

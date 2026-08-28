@@ -1,24 +1,25 @@
 "use client";
 
 import { PulseCard } from "@/components/ui/pulse-card";
-import { IconBook } from "@/components/ui/icons";
 import { useDashboardPulse } from "@/components/dashboard/dashboard-pulse-provider";
+import { SEN_VOICE } from "@/lib/copy/sen-voice";
 
 export function AcademyPulseWidget() {
   const { academy: pulse } = useDashboardPulse();
+  const copy = SEN_VOICE.dashboard.pulse;
 
   return (
     <PulseCard
-      title="Akademi rozeti"
+      title={copy.academyTitle}
       live={pulse.live}
       href="/academy"
-      hrefLabel="Akademi odasına git"
+      hrefLabel={copy.academyHrefLabel}
       stats={[
-        { label: "Satın alma", value: pulse.purchasesCount, icon: <IconBook /> },
-        { label: "Sertifika", value: pulse.certificatesHeld },
+        { label: copy.academyPurchase, value: pulse.live ? pulse.purchasesCount : "—" },
+        { label: copy.academyCertificate, value: pulse.live ? pulse.certificatesHeld : "—" },
       ]}
     >
-      {pulse.lastCertificateTitle ?? "Henüz mühür yok"}
+      {pulse.live ? pulse.lastCertificateTitle ?? copy.academyEmpty : "—"}
     </PulseCard>
   );
 }

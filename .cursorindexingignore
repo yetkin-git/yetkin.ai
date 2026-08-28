@@ -1,0 +1,6 @@
+# OPS: müze dizini Cursor indeksinin dışındadır. Anayasa maddesi (S9-B) değildir.
+# Kör kopya yasaktır. Dizin silinmez; Rail git'ine girmez.
+yetkin_muze/
+
+# Operatör scratch / probe kalıntısı indekslenmez.
+.tmp/

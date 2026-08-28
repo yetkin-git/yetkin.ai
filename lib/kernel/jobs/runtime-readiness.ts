@@ -14,11 +14,15 @@ export type RuntimeReadinessReport = {
   database: RuntimePresence;
   supabaseAuth: RuntimePresence;
   inngest: RuntimePresence;
-  paytr: RuntimePresence;
+  payments: RuntimePresence;
   smtp: RuntimePresence;
+  /** HMAC biberi. Boş = kod varsayılanı (yalnız geliştirme). Nakit 503 değildir. */
+  devlabsPepper: RuntimePresence;
+  /** Kenar HS256 yedek. Boş = JWKS-only (anayasa-uyumlu). */
+  jwtHs256Fallback: RuntimePresence;
   /** serve() kapalı — GET/POST/PUT /api/jobs/inngest 503. */
   inngestServeFailClosed: boolean;
-  /** Üretimde Inngest, PayTR veya DATABASE_URL boş. */
+  /** Üretimde Inngest veya DATABASE_URL boş. PayTR unconfigured süreç bloğu değildir. */
   productionBlocked: boolean;
   blocking: readonly string[];
 };
@@ -40,6 +44,8 @@ export function evaluateRuntimeReadiness(
   const services = readServiceEnvChecks(env);
   const database = presence(Boolean(env.DATABASE_URL?.trim()));
   const smtp = presence(envFilled(env, ["NOTICE_SMTP_HOST", "NOTICE_MAIL_FROM"]));
+  const devlabsPepper = presence(Boolean(env.DEVLABS_KEY_PEPPER?.trim()));
+  const jwtHs256Fallback = presence(Boolean(env.SUPABASE_JWT_SECRET?.trim()));
   const production = env.NODE_ENV === "production";
   const inngestServeFailClosed = resolveInngestServeMode(env) === "fail-closed";
 
@@ -52,19 +58,16 @@ export function evaluateRuntimeReadiness(
       "INNGEST_EVENT_KEY + INNGEST_SIGNING_KEY boş — /api/jobs/inngest 503; valör ve emanet TTL durur.",
     );
   }
-  if (production && services.paytr === "unconfigured") {
-    blocking.push(
-      "PAYTR üçlü boş — Bildirim URL CREDIT yazmaz; webhook missing_credentials.",
-    );
-  }
 
   return {
     production,
     database,
     supabaseAuth: services.supabaseAuth,
     inngest: services.inngest,
-    paytr: services.paytr,
+    payments: services.payments,
     smtp,
+    devlabsPepper,
+    jwtHs256Fallback,
     inngestServeFailClosed,
     productionBlocked: blocking.length > 0,
     blocking,
@@ -81,8 +84,10 @@ export function formatRuntimeReadiness(report: RuntimeReadinessReport): string {
     `database=${report.database}`,
     `supabaseAuth=${report.supabaseAuth}`,
     `inngest=${report.inngest} serveFailClosed=${report.inngestServeFailClosed ? "evet" : "hayır"}`,
-    `paytr=${report.paytr}`,
-    `smtp=${report.smtp} (boşsa nakit durmaz; piyasa kör)`,
+    `payments=${report.payments} (unconfigured ≠ süreç down; tahsilat kapalı)`,
+    `smtp=${report.smtp} (boşsa nakit durmaz; piyasa kör; deliverCitizenNoticeMail → skipped)`,
+    `devlabsPepper=${report.devlabsPepper} (donmuş oda; üretim bloğu değil; boşsa kod varsayılanı)`,
+    `jwtHs256Fallback=${report.jwtHs256Fallback} (boşsa JWKS-only; HS256 düşer)`,
   ];
   if (report.blocking.length > 0) {
     lines.push("Üretim bloğu:");

@@ -33,7 +33,7 @@ describe("T4 freelancer canlı emanet/hakediş yüzeyi", () => {
     expect(script).toContain("sealUstaFourRing");
     expect(script).toContain("escrow-hold");
     expect(script).toContain("PENDING sızıntısı");
-    expect(script).toContain("checks.paytr");
+    expect(script).toContain("checks.payments");
     expect(script).not.toMatch(/confirmed_at = COALESCE\(confirmed_at, NOW\(\)\)/);
     expect(script).not.toMatch(/FROM public\.users WHERE id = \$1::uuid/);
     expect(script).not.toContain("auth.signUp");

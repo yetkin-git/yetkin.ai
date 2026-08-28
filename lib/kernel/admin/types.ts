@@ -18,10 +18,25 @@ export type SealedCatalogEntry = {
   updatedAt: Date;
 };
 
+export type SealedPriceDecision = {
+  id: string;
+  catalogEntryId: string;
+  moduleKey: string;
+  unitKey: string;
+  unitType: PriceCatalogUnitType;
+  reasonCode: string;
+  reason: string;
+  oldMinor: AmountMinor;
+  newMinor: AmountMinor;
+  currencyCode: CurrencyCode;
+  actorUserId: string;
+  createdAt: Date;
+};
+
 export type AdminCatalogBoard =
   | { access: "forbidden" }
   | { access: "unavailable" }
-  | { access: "ok"; entries: SealedCatalogEntry[] };
+  | { access: "ok"; entries: SealedCatalogEntry[]; decisions: SealedPriceDecision[] };
 
 export type CatalogModuleGroup = {
   moduleKey: string;
@@ -30,3 +45,7 @@ export type CatalogModuleGroup = {
 
 export const ADMIN_SURFACE_PATH = "/admin" as const;
 export const CATALOG_WRITE_PATH = "/api/admin/catalog" as const;
+/** Admin sığınak yönlendirmeleri — canlı CTA hedefleri. */
+export const ADMIN_DASHBOARD_SHELTER_PATH = "/dashboard" as const;
+export const ADMIN_ACADEMY_SHELTER_PATH = "/academy" as const;
+export const ADMIN_FREELANCER_SHELTER_PATH = "/freelancer" as const;

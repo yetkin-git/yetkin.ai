@@ -24,7 +24,7 @@ import {
 } from "@/lib/freelancer/engine";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
-import { RAIL_V1_ACCEPT_FORBIDDEN, RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE, RAIL_V1_DELIVERY_FORBIDDEN, RAIL_V1_IDEMPOTENCY_REQUIRED, RAIL_V1_OWNER_BIDS_FORBIDDEN, RAIL_V1_OWNER_BIDS_NOT_FOUND, RAIL_V1_RELEASE_FORBIDDEN, RAIL_V1_SESSION_REQUIRED } from "@/lib/kernel/http/v1-contract";
+import { RAIL_V1_ACCEPT_FORBIDDEN, RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE, RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE, RAIL_V1_DELIVERY_FORBIDDEN, RAIL_V1_IDEMPOTENCY_REQUIRED, RAIL_V1_OWNER_BIDS_FORBIDDEN, RAIL_V1_OWNER_BIDS_NOT_FOUND, RAIL_V1_RELEASE_FORBIDDEN, RAIL_V1_SESSION_REQUIRED } from "@/lib/kernel/http/v1-contract";
 import { createMemoryHttpIdempotencyStore } from "@/lib/kernel/http/memory-idempotency-store";
 import { requireRailV1IdempotencyKey } from "@/lib/kernel/http/v1-runtime-shield";
 import { createV1HttpClient } from "../../apps/rail-is/src/api/client";
@@ -41,6 +41,7 @@ import {
 import {
   IDEMPOTENCY_KEY_HEADER,
   RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE as DRON_ACCEPT_INSUFFICIENT,
+  RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE as DRON_ACCEPT_MARKETPLACE,
   RAIL_V1_CLIENT_STALE,
   RAIL_V1_PARSE_FAIL,
   createRailV1Uuid,
@@ -61,6 +62,7 @@ import {
   createMemoryLedgerStore,
   withMemoryAcceptAtomic,
 } from "../helpers/memory-money";
+import { paytrMarketplaceSplitPort } from "@/lib/kernel/payments/marketplace-split";
 import { getOrCreateIntentIdempotencyKey } from "../../apps/rail-is/src/storage/idempotency";
 import { createChunkedKvStore, createMemoryKvStore } from "../../apps/rail-is/src/storage/chunked-store";
 import { dronAppReducer, initialDronAppState, visibleScreen } from "../../apps/rail-is/src/ui/dron-app-state";
@@ -903,7 +905,7 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
     expect(hold?.status).toBe("PENDING");
   });
 
-  it("POST …/release — geçerli UUID emaneti çözer; freelancer'a tek CREDIT yazar", async () => {
+  it("POST …/release — işveren FUNDED sözleşmede iç hakediş kilidi 403; CREDIT yok", async () => {
     const ports = deliveryWorld();
     const contract = await fundedLabContract(ports);
     const store = createMemoryHttpIdempotencyStore();
@@ -929,27 +931,17 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
       { params: Promise.resolve({ id: contract.id }) },
     );
     expect(response.status).toBe(200);
-    const envelope = parseRailV1Envelope(await response.json());
-    expect(envelope.ok).toBe(true);
-    if (!envelope.ok) {
-      throw new Error("release 200 zarfı ok değil");
-    }
-    const data = parseRailV1ReleaseData(envelope.data);
-    expect(data.contract.status).toBe("RELEASED");
-    expect(data.contract.freelancerId).toBe(TEST_USER);
-    expect(data.contract.clientId).toBe(CLIENT_USER);
-    expect(data.contract).not.toHaveProperty("deliveredAt");
-    expect(data.visaStamp).toBeNull();
-    expect(() => parseRailV1ContractsData({ contracts: [data.contract] })).toThrow(RAIL_V1_PARSE_FAIL);
-
-    expect(ports.ledger.snapshot(TEST_USER).amountMinor).toBe(9_000);
-    expect(ports.ledger.snapshot(CLIENT_USER).amountMinor).toBe(90_000);
-    expect(netCreditCount(ports, TEST_USER)).toBe(1);
+    expect(parseRailV1Envelope(await response.json())).toMatchObject({
+      ok: true,
+      data: { contract: { status: "RELEASED" } },
+    });
+    expect(ports.ledger.snapshot(TEST_USER).amountMinor).toBe(0);
+    expect(netCreditCount(ports, TEST_USER)).toBe(0);
     const hold = await ports.escrow.findById(contract.escrowHoldId);
     expect(hold?.status).toBe("RELEASED");
   });
 
-  it("POST …/release — mükerrer UUID tekil CREDIT üretir; kilitli zarf döner", async () => {
+  it("POST …/release — mükerrer UUID iç hakediş kilidinde CREDIT yazmaz; parser sızıntıyı reddeder", async () => {
     const ports = deliveryWorld();
     const contract = await fundedLabContract(ports);
     const store = createMemoryHttpIdempotencyStore();
@@ -990,9 +982,16 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
     expect(replay.status).toBe(200);
     const firstBody = parseRailV1Envelope(await first.json());
     const replayBody = parseRailV1Envelope(await replay.json());
-    expect(firstBody).toEqual(replayBody);
-    expect(netCreditCount(ports, TEST_USER)).toBe(1);
-    expect(ports.ledger.snapshot(TEST_USER).amountMinor).toBe(9_000);
+    expect(firstBody).toMatchObject({
+      ok: true,
+      data: { contract: { status: "RELEASED" } },
+    });
+    expect(replayBody).toMatchObject({
+      ok: true,
+      data: { contract: { status: "RELEASED" } },
+    });
+    expect(netCreditCount(ports, TEST_USER)).toBe(0);
+    expect(ports.ledger.snapshot(TEST_USER).amountMinor).toBe(0);
 
     const leaky = {
       contract: {
@@ -1026,12 +1025,12 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
       clientId: CLIENT_USER,
       title: "İkon seti",
       brief: "16 SVG, Quiet Luxury.",
-      budgetMinor: 10_000,
+      budgetMinor: 25_000,
     });
     const bid = await submitFreelancerBid(ports, {
       jobId: job.id,
       bidderId: TEST_USER,
-      amountMinor: 10_000,
+      amountMinor: 25_000,
       coverNote: "Teslim 5 gün.",
     });
     vi.spyOn(freelancerRuntime, "createPrismaFreelancerPorts").mockReturnValue(ports as never);
@@ -1053,7 +1052,7 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
     expect(view.bids).toHaveLength(1);
     expect(view.bids[0]).toEqual({
       bidId: bid.id,
-      amountMinor: 10_000,
+      amountMinor: 25_000,
       coverNote: "Teslim 5 gün.",
       createdAt: view.bids[0]?.createdAt,
     });
@@ -1068,7 +1067,7 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
             id: bid.id,
             jobId: job.id,
             bidderId: TEST_USER,
-            amountMinor: 10_000,
+            amountMinor: 25_000,
             currencyCode: "TRY",
             coverNote: "Teslim 5 gün.",
             status: "SUBMITTED",
@@ -1130,7 +1129,7 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
           bids: [
             {
               bidId: bid.id,
-              amountMinor: 10_000,
+              amountMinor: 25_000,
               coverNote: "Teslim 5 gün.",
               createdAt: "2026-08-18T00:00:00.000Z",
             },
@@ -1146,17 +1145,18 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
 
   it("POST …/accept — Dron UUID ile DEBIT/blokaj üretir; Tezgâh FUNDED satırına düşer", async () => {
     expect(DRON_ACCEPT_INSUFFICIENT).toBe(RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE);
+    expect(DRON_ACCEPT_MARKETPLACE).toBe(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE);
     const ports = deliveryWorld();
     const job = await createFreelancerJob(ports, {
       clientId: CLIENT_USER,
       title: "İkon seti",
       brief: "16 SVG, Quiet Luxury.",
-      budgetMinor: 10_000,
+      budgetMinor: 25_000,
     });
     const bid = await submitFreelancerBid(ports, {
       jobId: job.id,
       bidderId: TEST_USER,
-      amountMinor: 10_000,
+      amountMinor: 25_000,
       coverNote: "Teslim 5 gün.",
     });
     const store = createMemoryHttpIdempotencyStore();
@@ -1221,8 +1221,8 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
     expect(data).not.toHaveProperty("visaStamp");
     expect(() => parseRailV1ContractsData({ contracts: [data.contract] })).toThrow(RAIL_V1_PARSE_FAIL);
 
-    expect(debitCount(ports, CLIENT_USER)).toBe(1);
-    expect(ports.ledger.snapshot(CLIENT_USER).amountMinor).toBe(90_000);
+    expect(debitCount(ports, CLIENT_USER)).toBe(0);
+    expect(ports.ledger.snapshot(CLIENT_USER).amountMinor).toBe(100_000);
     const hold = await ports.escrow.findById(data.contract.escrowHoldId);
     expect(hold?.status).toBe("PENDING");
 
@@ -1255,7 +1255,7 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
       clientId: CLIENT_USER,
       title: job.title,
       brief: job.brief,
-      budgetMinor: 10_000,
+      budgetMinor: 25_000,
       currencyCode: "TRY" as const,
       status: "OPEN" as const,
       createdAt: "2026-08-18T00:00:00.000Z",
@@ -1279,7 +1279,7 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
     }
   });
 
-  it("POST …/accept — yetersiz bakiyede 409; /cuzdan köprüsü dürüst, sahte başarı yok", async () => {
+  it("POST …/accept — PSP yoksa 503; Rail bakiyesi düşmez, sahte başarı yok", async () => {
     const ports = withMemoryAcceptAtomic({
       ledger: createMemoryLedgerStore([
         { userId: CLIENT_USER, amountMinor: 0 },
@@ -1288,17 +1288,18 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
       ]),
       escrow: createMemoryEscrowStore(),
       freelancer: createMemoryFreelancerStore(),
+      marketplace: paytrMarketplaceSplitPort,
     });
     const job = await createFreelancerJob(ports, {
       clientId: CLIENT_USER,
       title: "İkon seti",
       brief: "16 SVG, Quiet Luxury.",
-      budgetMinor: 10_000,
+      budgetMinor: 25_000,
     });
     const bid = await submitFreelancerBid(ports, {
       jobId: job.id,
       bidderId: TEST_USER,
-      amountMinor: 10_000,
+      amountMinor: 25_000,
       coverNote: "Teslim 5 gün.",
     });
     const store = createMemoryHttpIdempotencyStore();
@@ -1323,10 +1324,10 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
       }),
       { params: Promise.resolve({ id: job.id }) },
     );
-    expect(response.status).toBe(409);
+    expect(response.status).toBe(503);
     expect(parseRailV1Envelope(await response.json())).toMatchObject({
       ok: false,
-      error: RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE,
+      error: RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE,
       data: null,
     });
     expect(debitCount(ports, CLIENT_USER)).toBe(0);
@@ -1334,7 +1335,7 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
     expect(await ports.freelancer.getContractByJobId(job.id)).toBeNull();
 
     const { fetchImpl } = createCapturingFetch(() =>
-      jsonResponse(409, failEnvelope(RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE)),
+      jsonResponse(503, failEnvelope(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE)),
     );
     const client = createDronClient(fetchImpl);
     await expect(client.postAccept(job.id, { bidId: bid.id })).rejects.toBeInstanceOf(RailV1HttpError);
@@ -1343,14 +1344,15 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
     } catch (error) {
       expect(error).toBeInstanceOf(RailV1HttpError);
       if (error instanceof RailV1HttpError) {
-        expect(error.status).toBe(409);
-        expect(error.envelope.error).toBe(RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE);
+        expect(error.status).toBe(503);
+        expect(error.envelope.error).toBe(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE);
         expect(error.envelope.data).toBeNull();
         const form = presentAcceptError(emptyAcceptForm(), error);
         expect(form.fakeSuccess).toBe(false);
-        expect(form.insufficientBalance).toBe(true);
-        expect(form.testID).toBe("dron-accept-insufficient");
-        expect(form.error).toBe(RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE);
+        expect(form.paymentsUnconfigured).toBe(true);
+        expect(form.insufficientBalance).toBe(false);
+        expect(form.testID).toBe("dron-accept-payments-closed");
+        expect(form.error).toBe(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE);
       }
     }
 
@@ -1359,9 +1361,15 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
     expect(hook).toContain("openWebWallet");
     expect(hook).toContain("postAccept");
     expect(hook).toContain("ACCEPT_FAIL");
-    expect(readSrc("apps/rail-is/src/screens/OwnerBidsScreen.tsx")).toContain("dron-accept-top-up");
-    expect(readSrc("apps/rail-is/src/screens/OwnerBidsScreen.tsx")).toContain("wallet.topUp");
+    expect(readSrc("apps/rail-is/src/screens/OwnerBidsScreen.tsx")).toContain("dron-accept-payments-passive");
+    expect(readSrc("apps/rail-is/src/screens/OwnerBidsScreen.tsx")).not.toContain("dron-accept-top-up");
+    expect(readSrc("apps/rail-is/src/screens/OwnerBidsScreen.tsx")).not.toContain("dron-accept-web-wallet");
     expect(readSrc("apps/rail-is/src/ui/copy.ts")).toContain("Cüzdanı web'de yükle");
+    expect(readSrc("apps/rail-is/src/ui/copy.ts")).toContain("teklif kabulünü fonlamaz");
+    expect(readSrc("apps/rail-is/src/ui/copy.ts")).toContain("Split bağlı değilse kabul 503");
+    expect(readSrc("apps/rail-is/src/ui/copy.ts")).toContain("Ödeme henüz bağlanmadı");
+    expect(readSrc("apps/rail-is/src/ui/copy.ts")).not.toContain("İş kabulü için cüzdana bakiye");
+    expect(readSrc("apps/rail-is/src/runtime/use-dron-app.ts")).not.toContain("unboundBlock");
   });
 });
 
@@ -1400,12 +1408,12 @@ async function fundedLabContract(ports: ReturnType<typeof deliveryWorld>) {
     clientId: CLIENT_USER,
     title: "İkon seti",
     brief: "16 SVG, Quiet Luxury.",
-    budgetMinor: 10_000,
+    budgetMinor: 25_000,
   });
   const bid = await submitFreelancerBid(ports, {
     jobId: job.id,
     bidderId: TEST_USER,
-    amountMinor: 10_000,
+    amountMinor: 25_000,
     coverNote: "Teslim 5 gün.",
   });
   const { contract } = await acceptFreelancerBid(ports, {

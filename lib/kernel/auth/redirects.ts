@@ -4,6 +4,7 @@
  */
 
 import { PASSWORD_RECOVERY_PATH } from "@/lib/kernel/auth/password";
+import { CITIZEN_LOGIN_PATH } from "@/lib/kernel/security/edge-guard";
 
 export const AUTH_CALLBACK_PATH = "/auth/callback";
 export const AUTH_CALLBACK_ERROR_PATH = "/login";
@@ -17,29 +18,77 @@ export const SUPABASE_DASHBOARD_REDIRECT_PATHS = [
   PASSWORD_RECOVERY_PATH,
 ] as const;
 
-const NEXT_ALLOWLIST = new Set([
+const NEXT_EXACT = new Set([
   AUTH_CALLBACK_DEFAULT_NEXT,
   PASSWORD_RECOVERY_PATH,
-  "/login",
+  CITIZEN_LOGIN_PATH,
   "/register",
+]);
+
+/** Vatandaş odaları + sığınaklar. `/admin` yok — Super Admin sığınağına dönüş yok. Donmuş oda next değil. */
+const NEXT_PREFIXES = [
+  "/dashboard",
   "/cuzdan",
   "/profil",
-  "/studio",
+  "/pasaport",
   "/academy",
+  "/career",
   "/freelancer",
-]);
+] as const;
 
 function stripTrailingSlash(origin: string): string {
   return origin.replace(/\/+$/, "");
 }
 
-export function isSafeAuthNextPath(raw: string | null | undefined): boolean {
+function sanitizeNextPathname(raw: string | null | undefined): string | null {
   const path = raw?.trim() ?? "";
   if (!path.startsWith("/") || path.startsWith("//") || path.includes("\\") || path.includes("://")) {
-    return false;
+    return null;
   }
   const pathname = path.split("?")[0]?.split("#")[0] ?? "";
-  return NEXT_ALLOWLIST.has(pathname);
+  if (!pathname || pathname.includes("..")) {
+    return null;
+  }
+  return pathname;
+}
+
+export function isSafeAuthNextPath(raw: string | null | undefined): boolean {
+  const pathname = sanitizeNextPathname(raw);
+  if (!pathname) {
+    return false;
+  }
+  if (NEXT_EXACT.has(pathname)) {
+    return true;
+  }
+  return NEXT_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+}
+
+export function buildCitizenLoginHref(nextPath?: string | null): string {
+  const pathname = sanitizeNextPathname(nextPath);
+  if (!pathname || !isSafeAuthNextPath(pathname)) {
+    return CITIZEN_LOGIN_PATH;
+  }
+  return `${CITIZEN_LOGIN_PATH}?next=${encodeURIComponent(pathname)}`;
+}
+
+export function resolvePostLoginPath(rawNext?: string | null): string {
+  const pathname = sanitizeNextPathname(rawNext);
+  if (pathname && isSafeAuthNextPath(pathname) && pathname !== CITIZEN_LOGIN_PATH && pathname !== "/register") {
+    return pathname;
+  }
+  return AUTH_CALLBACK_DEFAULT_NEXT;
+}
+
+/** `/login?next=...` — query decode + allowlist; açık yön dashboard'a düşer. */
+export function readPostLoginPathFromSearch(
+  search: string | URLSearchParams | null | undefined,
+  nextHint?: string | null,
+): string {
+  const params =
+    search instanceof URLSearchParams
+      ? search
+      : new URLSearchParams(typeof search === "string" ? search.replace(/^\?/, "") : "");
+  return resolvePostLoginPath(params.get("next") ?? nextHint);
 }
 
 export function resolveAuthCallbackNext(input: {

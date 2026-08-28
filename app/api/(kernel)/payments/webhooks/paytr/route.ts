@@ -8,9 +8,12 @@ import {
 } from "@/lib/kernel/payments/paytr/webhook";
 import { paytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import { isPaytrProductionSafetyError } from "@/lib/kernel/payments/paytr/checkout";
-import { clearSuccessfulPaymentOrder, failPaymentOrder } from "@/lib/kernel/payments/clearing";
+import { failPaymentOrder } from "@/lib/kernel/payments/clearing";
 import { createPrismaClearingPorts, createPrismaPaymentOrderStore } from "@/lib/kernel/payments/prisma-order-store";
+import { createPrismaPaymentAnomalyStore } from "@/lib/kernel/payments/prisma-anomaly-store";
+import { settlePaytrWebhookSuccess } from "@/lib/kernel/payments/paytr/webhook-settle";
 import { inngest, INNGEST_EVENTS } from "@/lib/kernel/jobs/inngest";
+import { canSendInngestEvents } from "@/lib/kernel/jobs/inngest-guard";
 import { REQUEST_ID_HEADER, resolveRequestId } from "@/lib/kernel/http/request-id";
 import { logEvent } from "@/lib/kernel/observability/log";
 
@@ -28,6 +31,20 @@ function paytrReject(requestId: string, reason: string, status: 400 | 403) {
     { status: "rejected", reason, requestId },
     { status, headers: { [REQUEST_ID_HEADER]: requestId } },
   );
+}
+
+function paytrRetry(requestId: string, reason: string) {
+  return NextResponse.json(
+    { status: "retry", reason, requestId },
+    { status: 500, headers: { [REQUEST_ID_HEADER]: requestId } },
+  );
+}
+
+function webhookSettlePorts() {
+  return {
+    ...createPrismaClearingPorts(),
+    anomalies: createPrismaPaymentAnomalyStore(),
+  };
 }
 
 export async function POST(request: Request) {
@@ -80,42 +97,55 @@ export async function POST(request: Request) {
 
   if (verified.status === "success") {
     try {
-      const ports = createPrismaClearingPorts();
-      const order = await ports.orders.findByMerchantOid(verified.merchantOid);
-      if (!order || order.amountMinor !== verified.amountMinor) {
-        logEvent({
-          level: "warn",
-          event: "paytr.webhook.skipped",
-          requestId,
-          merchantOid: verified.merchantOid,
-          amountMinor: verified.amountMinor,
-          reason: !order ? "not_found" : "amount_mismatch",
-          route: PAYTR_WEBHOOK_PATH,
-        });
+      const settled = await settlePaytrWebhookSuccess(webhookSettlePorts(), {
+        merchantOid: verified.merchantOid,
+        amountMinor: verified.amountMinor,
+        requestId,
+        sourceIp,
+      });
+      if (settled.disposition === "persist_failed") {
+        return paytrRetry(requestId, "anomaly_unacked");
+      }
+      if (settled.disposition === "anomaly") {
         return paytrOk(requestId);
       }
-      const cleared = await clearSuccessfulPaymentOrder(ports, verified.merchantOid, new Date(), {
-        expectedAmountMinor: verified.amountMinor,
-      });
       logEvent({
         level: "info",
         event: "paytr.webhook.cleared",
         requestId,
         merchantOid: verified.merchantOid,
-        orderId: cleared.order.id,
+        orderId: settled.orderId,
         amountMinor: verified.amountMinor,
-        applied: cleared.applied,
+        applied: settled.applied,
         route: PAYTR_WEBHOOK_PATH,
       });
+      return paytrOk(requestId);
     } catch (error) {
       logEvent({
         level: "error",
         event: "paytr.webhook.clearing_deferred",
         requestId,
         merchantOid: verified.merchantOid,
+        amountMinor: verified.amountMinor,
         errorName: error instanceof Error ? error.name : "unknown",
         route: PAYTR_WEBHOOK_PATH,
       });
+      if (!canSendInngestEvents()) {
+        logEvent({
+          level: "error",
+          event: "paytr.webhook.defer_unacked",
+          requestId,
+          merchantOid: verified.merchantOid,
+          amountMinor: verified.amountMinor,
+          reason: "inngest_event_key_unconfigured",
+          errorName: "InngestEventKeyUnconfigured",
+          route: PAYTR_WEBHOOK_PATH,
+        });
+        return NextResponse.json(
+          { status: "deferred_unacked", reason: "inngest_unconfigured", requestId },
+          { status: 503, headers: { [REQUEST_ID_HEADER]: requestId } },
+        );
+      }
       try {
         await inngest.send({
           name: INNGEST_EVENTS.PAYTR_CLEARING_REQUESTED,
@@ -127,6 +157,7 @@ export async function POST(request: Request) {
           event: "paytr.webhook.defer_unacked",
           requestId,
           merchantOid: verified.merchantOid,
+          amountMinor: verified.amountMinor,
           errorName: sendError instanceof Error ? sendError.name : "unknown",
           route: PAYTR_WEBHOOK_PATH,
         });
@@ -145,6 +176,7 @@ export async function POST(request: Request) {
         event: "paytr.webhook.failed",
         requestId,
         merchantOid: verified.merchantOid,
+        amountMinor: verified.amountMinor,
         route: PAYTR_WEBHOOK_PATH,
       });
     } catch (error) {
@@ -153,6 +185,7 @@ export async function POST(request: Request) {
         event: "paytr.webhook.fail_skipped",
         requestId,
         merchantOid: verified.merchantOid,
+        amountMinor: verified.amountMinor,
         errorName: error instanceof Error ? error.name : "unknown",
         route: PAYTR_WEBHOOK_PATH,
       });

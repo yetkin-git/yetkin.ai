@@ -1,6 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { collectSupabaseAuthCookieRefresh } from "./lib/kernel/auth/refresh-edge-cookies";
+import { buildCitizenLoginHref } from "./lib/kernel/auth/redirects";
 import {
   applyRailV1Cors,
   canonicalApiPathname,
@@ -13,12 +14,18 @@ import {
   railV1FailResponse,
 } from "./lib/kernel/http/api-v1";
 import { decideRailV1HopGate } from "./lib/kernel/http/v1-hop-gate";
-import { decideEdgeApiAuth } from "./lib/kernel/security/edge-api-auth";
+import {
+  decideEdgeApiAuth,
+  EDGE_API_FROZEN_ROOM_ERROR,
+  isFrozenRoomApi,
+} from "./lib/kernel/security/edge-api-auth";
 import {
   applyEdgeSecurityHeaders,
   attachEdgeNonceRequestHeaders,
   createEdgeNonce,
   decideEdgeAction,
+  RAIL_PATHNAME_HEADER,
+  RAIL_REQUEST_METHOD_HEADER,
 } from "./lib/kernel/security/edge-guard";
 import { resolveEdgeSessionState } from "./lib/kernel/security/edge-jwt";
 import {
@@ -26,13 +33,16 @@ import {
   matchEdgeRateLimit,
   rateLimitedJsonResponse,
 } from "./lib/kernel/security/http-rate-limit";
+import { decideWebOriginGuard } from "./lib/kernel/security/origin-guard";
+import { renderFrozenRoomGoneHtml } from "./lib/kernel/http/frozen-410-html";
 
 /**
  * Tek edge girişi (Next 16 `proxy.ts`). Kök `middleware.ts` yoktur.
  * İnce mühür: müze 404, `/kayit` 308, oturumsuz çekirdek → `/giris`,
  * K6 `export const auth` kind, JWKS/HS256 JWT fail-closed, nonce CSP,
  * auth çerez yenileme (0.12 getAll/setAll + Cache-Control),
- * `/api/v1` hop allowlist (`RAIL_V1_HOPS`) + sürüm kapısı + soyma rewrite
+ * çerezli web yazmalarında Origin / Sec-Fetch-Site fail-closed,
+ * `/api/v1` hop allowlist (`RAIL_V1_HOPS_META`) + sürüm kapısı + soyma rewrite
  * (kopya handler ağacı yok; sicil dışı v1 yol 404, kanonik handler'a düşmez).
  */
 export async function proxy(request: NextRequest) {
@@ -70,6 +80,19 @@ export async function proxy(request: NextRequest) {
     return seal(NextResponse.redirect(url, 308));
   }
 
+  if (decision.kind === "frozen-410") {
+    return seal(
+      new NextResponse(renderFrozenRoomGoneHtml(pathname), {
+        status: 410,
+        headers: { "content-type": "text/html; charset=utf-8" },
+      }),
+    );
+  }
+
+  if (isFrozenRoomApi(canonicalPath)) {
+    return seal(railEdgeFailResponse(request, EDGE_API_FROZEN_ROOM_ERROR, 410));
+  }
+
   const hopGate = decideRailV1HopGate({
     pathname,
     method: request.method,
@@ -82,6 +105,7 @@ export async function proxy(request: NextRequest) {
     pathname,
     method: request.method,
     minVersionHeader: request.headers.get(RAIL_MIN_VERSION_HEADER),
+    apiVersionHeader: request.headers.get(RAIL_API_VERSION_REQUEST_HEADER),
   });
   if (versionGate.kind === "fail") {
     return seal(railV1FailResponse(request, versionGate.error, versionGate.status));
@@ -89,6 +113,18 @@ export async function proxy(request: NextRequest) {
 
   if (v1 && request.method.toUpperCase() === "OPTIONS") {
     return seal(new NextResponse(null, { status: 204 }));
+  }
+
+  const originDecision = decideWebOriginGuard({
+    pathname,
+    method: request.method,
+    originHeader: request.headers.get("origin"),
+    secFetchSite: request.headers.get("sec-fetch-site"),
+    cookies: request.cookies.getAll(),
+    requestUrl: request.nextUrl,
+  });
+  if (originDecision.kind === "deny") {
+    return seal(railEdgeFailResponse(request, originDecision.error, 403));
   }
 
   const rateLimitConfig = matchEdgeRateLimit(canonicalPath, request.method);
@@ -105,6 +141,7 @@ export async function proxy(request: NextRequest) {
     method: request.method,
     sessionHint: session.verified,
     sessionUserId: session.userId,
+    sessionEmail: session.email,
   });
   if (apiDecision.kind === "deny") {
     return seal(railEdgeFailResponse(request, apiDecision.error, apiDecision.status));
@@ -112,12 +149,16 @@ export async function proxy(request: NextRequest) {
 
   if (decision.kind === "auth-307") {
     const url = request.nextUrl.clone();
-    url.pathname = decision.to;
-    url.search = "";
+    const login = new URL(buildCitizenLoginHref(pathname), url.origin);
+    url.pathname = login.pathname;
+    url.search = login.search;
     return seal(NextResponse.redirect(url, 307));
   }
 
   const requestHeaders = new Headers(request.headers);
+  requestHeaders.delete(RAIL_PATHNAME_HEADER);
+  requestHeaders.set(RAIL_PATHNAME_HEADER, pathname);
+  requestHeaders.set(RAIL_REQUEST_METHOD_HEADER, request.method);
   attachEdgeNonceRequestHeaders(requestHeaders, nonce);
   if (v1) {
     requestHeaders.set(RAIL_API_VERSION_REQUEST_HEADER, RAIL_API_VERSION_LABEL);

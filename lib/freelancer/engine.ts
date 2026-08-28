@@ -7,20 +7,23 @@ import {
   releaseEscrowHoldToPayees,
   resolvePlatformTreasuryUserId,
 } from "@/lib/kernel/escrow";
-import { AMOUNT_MINOR_OVERFLOW_ERROR, toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
+import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY, type CurrencyCode } from "@/lib/kernel/money/currency";
 import { emitCitizenNotice } from "@/lib/kernel/notice/emit";
 import { HOLD_BPS_DEFAULT, resolveHoldBps } from "@/lib/kernel/pricing/hold-bps";
-import { ConflictError, ForbiddenError, NotFoundError } from "@/lib/kernel/http/errors";
+import type { AcademyPathwayId } from "@/lib/kernel/catalog-ids";
+import { lockFreelancerJobVisaPathway } from "@/lib/freelancer/job-visa-lock";
+import { ConflictError, ForbiddenError, NotFoundError, ServiceUnavailableError } from "@/lib/kernel/http/errors";
 import {
   RAIL_V1_ACCEPT_FORBIDDEN,
-  RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE,
+  RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE,
   RAIL_V1_OWNER_BIDS_FORBIDDEN,
   RAIL_V1_OWNER_BIDS_NOT_FOUND,
   RAIL_V1_RELEASE_FORBIDDEN,
   RAIL_V1_RELEASE_NOT_FUNDED,
   type ClientJobBidsView,
 } from "@/lib/kernel/http/v1-contract";
+import { paytrMarketplaceSplitPort } from "@/lib/kernel/payments/marketplace-split";
 import { toOwnerBidsWire } from "@/lib/freelancer/contract-view";
 import {
   canAcceptBid,
@@ -44,10 +47,6 @@ import type {
 } from "@/lib/freelancer/types";
 
 export type { FreelancerAcceptResult, FreelancerEnginePorts } from "@/lib/freelancer/types";
-
-function isInsufficientBalanceError(error: unknown): boolean {
-  return error instanceof Error && error.message.includes(AMOUNT_MINOR_OVERFLOW_ERROR);
-}
 
 function isEscrowSettleConflict(error: unknown): boolean {
   return (
@@ -100,6 +99,19 @@ export type CreateJobCommand = {
   title: string;
   brief: string;
   budgetMinor: number;
+  visaPathwayId?: AcademyPathwayId | null;
+  currencyCode?: CurrencyCode;
+  now?: Date;
+};
+
+export type CreateDirectOfferCommand = {
+  clientId: string;
+  inviteeId: string;
+  title: string;
+  brief: string;
+  budgetMinor: number;
+  visaPathwayId?: AcademyPathwayId | null;
+  dueDays: number;
   currencyCode?: CurrencyCode;
   now?: Date;
 };
@@ -121,6 +133,19 @@ export type AcceptBidCommand = {
   now?: Date;
 };
 
+export type AcceptDirectOfferCommand = {
+  jobId: string;
+  actorUserId: string;
+  holdBps?: number;
+  now?: Date;
+};
+
+export type DeclineDirectOfferCommand = {
+  jobId: string;
+  actorUserId: string;
+  now?: Date;
+};
+
 export type ContractActorCommand = {
   contractId: string;
   actorUserId: string;
@@ -131,9 +156,17 @@ export type ContractActorCommand = {
 function assertBudgetBand(amountMinor: number): void {
   toPositiveAmountMinor(amountMinor);
   if (amountMinor < FREELANCER_JOB_MIN_MINOR || amountMinor > FREELANCER_JOB_MAX_MINOR) {
+    const minMajor = FREELANCER_JOB_MIN_MINOR / 100;
+    const maxMajor = FREELANCER_JOB_MAX_MINOR / 100;
     throw new Error(
-      `İş tutarı ₺10–₺20.000 aralığında olmalıdır.`,
+      `İş tutarı ₺${minMajor.toLocaleString("tr-TR")}–₺${maxMajor.toLocaleString("tr-TR")} aralığında olmalıdır.`,
     );
+  }
+}
+
+function assertDueDays(dueDays: number): void {
+  if (!Number.isInteger(dueDays) || dueDays < 1 || dueDays > 90) {
+    throw new Error("Teslim süresi 1–90 gün arasında olmalıdır.");
   }
 }
 
@@ -143,13 +176,50 @@ export async function createFreelancerJob(
 ): Promise<FreelancerJobRecord> {
   assertBudgetBand(command.budgetMinor);
   const now = command.now ?? new Date();
+  const title = command.title.trim();
+  const brief = command.brief.trim();
+  const visaPathwayId = lockFreelancerJobVisaPathway(command.visaPathwayId);
   return ports.freelancer.insertJob({
     id: randomUUID(),
     clientId: command.clientId,
-    title: command.title.trim(),
-    brief: command.brief.trim(),
+    title,
+    brief,
     budgetMinor: toPositiveAmountMinor(command.budgetMinor),
     currencyCode: command.currencyCode ?? SETTLEMENT_CURRENCY,
+    visaPathwayId,
+    visibility: "PUBLIC",
+    inviteeId: null,
+    dueDays: null,
+    status: "OPEN",
+    createdAt: now,
+    updatedAt: now,
+  });
+}
+
+export async function createDirectFreelancerOffer(
+  ports: FreelancerEnginePorts,
+  command: CreateDirectOfferCommand,
+): Promise<FreelancerJobRecord> {
+  assertBudgetBand(command.budgetMinor);
+  assertDueDays(command.dueDays);
+  if (command.inviteeId === command.clientId) {
+    throw new Error("Kendine doğrudan iş teklifi gönderilemez.");
+  }
+  const now = command.now ?? new Date();
+  const title = command.title.trim();
+  const brief = command.brief.trim();
+  const visaPathwayId = lockFreelancerJobVisaPathway(command.visaPathwayId);
+  return ports.freelancer.insertJob({
+    id: randomUUID(),
+    clientId: command.clientId,
+    title,
+    brief,
+    budgetMinor: toPositiveAmountMinor(command.budgetMinor),
+    currencyCode: command.currencyCode ?? SETTLEMENT_CURRENCY,
+    visaPathwayId,
+    visibility: "DIRECT",
+    inviteeId: command.inviteeId,
+    dueDays: command.dueDays,
     status: "OPEN",
     createdAt: now,
     updatedAt: now,
@@ -189,6 +259,9 @@ export async function submitFreelancerBid(
   }
   if (command.bidderId === job.clientId) {
     throw new Error("İlan sahibi kendi işine teklif veremez.");
+  }
+  if (job.visibility === "DIRECT" && command.bidderId !== job.inviteeId) {
+    throw new ForbiddenError("Bu doğrudan teklife yalnız davetli usta teklif verebilir.");
   }
   assertBudgetBand(command.amountMinor);
   if (command.amountMinor > job.budgetMinor) {
@@ -257,7 +330,7 @@ async function sealAcceptInTx(
   }
 
   const { hold, applied: holdApplied } = await createEscrowHold(
-    { ledger: tx.ledger, escrow: tx.escrow },
+    { ledger: tx.ledger, escrow: tx.escrow, marketplace: tx.marketplace },
     {
       userId: input.job.clientId,
       referenceKey: freelancerJobEscrowReferenceKey(input.job.id),
@@ -265,6 +338,7 @@ async function sealAcceptInTx(
       holdBps: input.holdBps,
       currencyCode: bid.currencyCode,
       now: input.now,
+      funding: "psp",
     },
   );
 
@@ -272,7 +346,7 @@ async function sealAcceptInTx(
     throw new Error("Emanet kilidi teklif kabulüne uygun değil.");
   }
   if (hold.userId !== input.job.clientId) {
-    throw new Error("Emanet kilidi ilan sahibi cüzdanına ait değil.");
+    throw new Error("Emanet kilidi ilan sahibine ait değil.");
   }
   if (hold.grossMinor !== bid.amountMinor) {
     throw new Error("Emanet tutarı teklif ile uyuşmuyor.");
@@ -306,6 +380,51 @@ async function sealAcceptInTx(
     healed: !holdApplied,
     contract,
   };
+}
+
+async function beginHoldAndSealAccept(
+  ports: FreelancerEnginePorts,
+  input: {
+    job: FreelancerJobRecord;
+    bid: FreelancerBidRecord;
+    holdBps?: number;
+    now: Date;
+  },
+): Promise<FreelancerAcceptResult> {
+  const holdBps = resolveHoldBps(input.holdBps ?? HOLD_BPS_DEFAULT);
+  const marketplace = ports.marketplace ?? paytrMarketplaceSplitPort;
+  const begun = await marketplace.beginHold({
+    buyerUserId: input.job.clientId,
+    artisanUserId: input.bid.bidderId,
+    referenceKey: freelancerJobEscrowReferenceKey(input.job.id),
+    grossMinor: input.bid.amountMinor,
+    holdBps,
+    currencyCode: input.bid.currencyCode,
+  });
+  if (!begun.ok) {
+    throw new ServiceUnavailableError(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE);
+  }
+
+  const result = await withUniqueRetry(() =>
+    ports.runAcceptAtomic((tx) =>
+      sealAcceptInTx(tx, {
+        job: input.job,
+        bid: input.bid,
+        now: input.now,
+        holdBps,
+      }),
+    ),
+  );
+  if (result.applied) {
+    emitCitizenNotice({
+      kind: "bid_accepted",
+      userId: result.contract.freelancerId,
+      reference: result.contract.id,
+      amountMinor: result.contract.grossMinor,
+      applied: true,
+    });
+  }
+  return result;
 }
 
 export async function acceptFreelancerBid(
@@ -345,36 +464,106 @@ export async function acceptFreelancerBid(
   }
 
   const now = command.now ?? new Date();
-  const holdBps = resolveHoldBps(command.holdBps ?? HOLD_BPS_DEFAULT);
+  return beginHoldAndSealAccept(ports, {
+    job,
+    bid,
+    holdBps: command.holdBps,
+    now,
+  });
+}
 
-  let result: FreelancerAcceptResult;
-  try {
-    result = await withUniqueRetry(() =>
-      ports.runAcceptAtomic((tx) =>
-        sealAcceptInTx(tx, {
-          job,
-          bid,
-          now,
-          holdBps,
-        }),
-      ),
-    );
-  } catch (error) {
-    if (isInsufficientBalanceError(error)) {
-      throw new ConflictError(RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE);
+export async function acceptDirectFreelancerOffer(
+  ports: FreelancerEnginePorts,
+  command: AcceptDirectOfferCommand,
+): Promise<FreelancerAcceptResult> {
+  const existing = await ports.freelancer.getContractByJobId(command.jobId);
+  if (existing) {
+    return { applied: false, healed: false, contract: existing };
+  }
+
+  const job = await ports.freelancer.getJob(command.jobId);
+  if (!job) {
+    throw new Error("İlan bulunamadı.");
+  }
+  if (job.visibility !== "DIRECT") {
+    throw new Error("Bu ilan doğrudan teklif değil.");
+  }
+  if (!canAcceptBid(job.status)) {
+    const raced = await ports.freelancer.getContractByJobId(command.jobId);
+    if (raced) {
+      return { applied: false, healed: false, contract: raced };
     }
-    throw error;
+    throw new Error("İlan teklif kabulüne kapalı.");
   }
-  if (result.applied) {
-    emitCitizenNotice({
-      kind: "bid_accepted",
-      userId: result.contract.freelancerId,
-      reference: result.contract.id,
-      amountMinor: result.contract.grossMinor,
-      applied: true,
+  if (job.inviteeId !== command.actorUserId) {
+    throw new ForbiddenError("Yalnız davetli usta bu teklifi kabul edebilir.");
+  }
+
+  const now = command.now ?? new Date();
+  let bid = await ports.freelancer.getBidByJobAndBidder(job.id, command.actorUserId);
+  if (!bid) {
+    bid = await ports.freelancer.insertBid({
+      id: randomUUID(),
+      jobId: job.id,
+      bidderId: command.actorUserId,
+      amountMinor: toPositiveAmountMinor(job.budgetMinor),
+      currencyCode: job.currencyCode,
+      coverNote: "Doğrudan teklif kabulü",
+      status: "SUBMITTED",
+      createdAt: now,
+      updatedAt: now,
     });
+  } else if (bid.status === "ACCEPTED") {
+    const contract = await ports.freelancer.getContractByJobId(job.id);
+    if (contract) {
+      return { applied: false, healed: false, contract };
+    }
+    throw new Error("Teklif kabul edilmiş ama sözleşme yok.");
+  } else if (bid.status !== "SUBMITTED") {
+    throw new Error("Teklif kabul edilebilir durumda değil.");
   }
-  return result;
+
+  return beginHoldAndSealAccept(ports, {
+    job,
+    bid,
+    holdBps: command.holdBps,
+    now,
+  });
+}
+
+/** Davetli usta doğrudan teklifi reddeder; ilan CANCELLED olur, emanet açılmaz. */
+export async function declineDirectFreelancerOffer(
+  ports: Pick<FreelancerEnginePorts, "freelancer">,
+  command: DeclineDirectOfferCommand,
+): Promise<FreelancerJobRecord> {
+  const job = await ports.freelancer.getJob(command.jobId);
+  if (!job) {
+    throw new Error("İlan bulunamadı.");
+  }
+  if (job.visibility !== "DIRECT") {
+    throw new Error("Bu ilan doğrudan teklif değil.");
+  }
+  if (job.inviteeId !== command.actorUserId) {
+    throw new ForbiddenError("Yalnız davetli usta bu teklifi reddedebilir.");
+  }
+  if (job.status === "CANCELLED") {
+    return job;
+  }
+  if (job.status !== "OPEN") {
+    throw new Error("İlan teklif reddine kapalı.");
+  }
+  const existing = await ports.freelancer.getContractByJobId(command.jobId);
+  if (existing) {
+    throw new ConflictError("Sözleşme kurulmuş teklif reddedilemez.");
+  }
+
+  const now = command.now ?? new Date();
+  const bid = await ports.freelancer.getBidByJobAndBidder(job.id, command.actorUserId);
+  if (bid && bid.status === "SUBMITTED") {
+    await ports.freelancer.updateBid(bid.id, { status: "REJECTED", updatedAt: now });
+  }
+
+  return ports.freelancer.updateJob(job.id, { status: "CANCELLED", updatedAt: now });
 }
 
 export async function releaseFreelancerContract(
@@ -405,7 +594,7 @@ export async function releaseFreelancerContract(
       if (squadMembers) {
         const payees = allocateMinorByShareBps(contract.netMinor, squadMembers);
         await releaseEscrowHoldToPayees(
-          { ledger: tx.ledger, escrow: tx.escrow },
+          { ledger: tx.ledger, escrow: tx.escrow, marketplace: ports.marketplace },
           {
             referenceKey: holdKey,
             payees,
@@ -416,7 +605,7 @@ export async function releaseFreelancerContract(
         await disbandFreelancerSquad(tx, contract.id, now);
       } else {
         await releaseEscrowHold(
-          { ledger: tx.ledger, escrow: tx.escrow },
+          { ledger: tx.ledger, escrow: tx.escrow, marketplace: ports.marketplace },
           {
             referenceKey: holdKey,
             payeeUserId: contract.freelancerId,
@@ -458,7 +647,7 @@ export async function refundFreelancerContract(
   const actorOk =
     command.actorUserId === contract.clientId || command.actorUserId === contract.freelancerId;
   if (!actorOk) {
-    throw new Error("Yalnız sözleşme tarafları iade isteyebilir.");
+    throw new ForbiddenError("Yalnız sözleşme tarafları iade isteyebilir.");
   }
   if (!canRefundContract(contract.status)) {
     if (contract.status === "REFUNDED") {

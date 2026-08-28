@@ -1,4 +1,5 @@
 import type { PassportStampSourceKind, SealedPassportStamp } from "@/lib/kernel/passport/types";
+import type { ProofReadPort, SealedProofRecord } from "@/lib/kernel/proof/port";
 
 export { toPassportVisaStamp } from "@/lib/kernel/passport/types";
 
@@ -24,22 +25,11 @@ export type CareerPulse = {
   lastVisaTitle: string | null;
 };
 
-export type SealedCareerProof = {
-  sourceKind: CareerVisaSourceKind;
-  sourceId: string;
-  userId: string;
-  /** Vize sahibi ve mühürlemeye yetkili diğer taraflar (ör. müşteri release). */
-  actorUserIds: string[];
-  title: string;
-  issuedAt: Date;
-  /** Akademi SHA256 mührü; freelancer tesliminde null. */
-  certificateHash: string | null;
-};
+/** Kernel ProofReadPort kaydı; kariyer ikinci şekil tutmaz. */
+export type SealedCareerProof = SealedProofRecord;
 
-export type CareerProofStore = {
-  getSealedProof(sourceKind: CareerVisaSourceKind, sourceId: string): Promise<SealedCareerProof | null>;
-  listSealedProofs(userId: string): Promise<SealedCareerProof[]>;
-};
+/** Kariyer kanıt okuma = çekirdek ProofReadPort. Dikey iç dosya import edilmez. */
+export type CareerProofStore = ProofReadPort;
 
 /** Damga + portföy yazma yüzeyi — atomik birimin içinden de aynı kapılar. */
 export type CareerStampWriteClient = {

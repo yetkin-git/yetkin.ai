@@ -1,9 +1,11 @@
 /**
  * Faz 2 `/api/v1` sürüm kapısı — tek omurga, kopya handler ağacı yok.
- * Kenar soyar ve rewrite eder; `jsonOk` v1'de zarflar, versiyonsuz kök serim durur.
+ * Kenar soyar ve rewrite eder; `jsonOk` yalnız v1 zarf basar.
+ * Versiyonsuz kök serim yayın yüzeyi değildir (P1 kapandı).
  */
 
 import { NextResponse } from "next/server";
+import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { REQUEST_ID_HEADER, resolveRequestId } from "@/lib/kernel/http/request-id";
 import {
   RAIL_V1_API_VERSION_LABEL,
@@ -11,7 +13,7 @@ import {
   type RailV1FailBody,
   type RailV1OkBody,
 } from "@/lib/kernel/http/v1-envelope";
-import { normalizePathname } from "@/lib/kernel/security/edge-guard";
+import { normalizePathname, RAIL_PATHNAME_HEADER } from "@/lib/kernel/security/edge-guard";
 
 export const RAIL_API_VERSION = 1;
 export const RAIL_API_MIN_VERSION = 1;
@@ -23,7 +25,7 @@ export const RAIL_API_VERSION_REQUEST_HEADER = "x-rail-api-version";
 export const RAIL_VERSION_HEADER_REQUIRED = "Sürüm başlığı gerekli.";
 export const RAIL_VERSION_HEADER_INVALID = "Sürüm başlığı geçersiz.";
 export const RAIL_VERSION_CLIENT_STALE =
-  "Bu uygulama güncel değil. Rail İş'i mağazadan güncelle.";
+  `Bu uygulama güncel değil. ${YETKIN_BRAND} uygulamasını mağazadan güncelle.`;
 export const RAIL_VERSION_SERVER_STALE = "Bu sunucu henüz o sözleşmeyi konuşmuyor.";
 
 export const RAIL_V1_CORS_METHODS = "GET, POST, PATCH, PUT, OPTIONS";
@@ -71,6 +73,25 @@ export function isV1JsonRequest(request: Request): boolean {
   }
 }
 
+export const isV1PathRequest = isV1JsonRequest;
+
+/**
+ * Dron `/api/v1` hop'ları çerez oturumu kabul etmez (Bearer zorunlu).
+ * Amiral `/api/...` aynı origin çağrıları sürüm başlığı taşısa da çerez okur —
+ * `x-rail-api-version` yalnız zarf sözleşmesidir, çerez kilidi değildir.
+ */
+export function isV1CookieSessionBlocked(request: Request): boolean {
+  const railPath = request.headers.get(RAIL_PATHNAME_HEADER)?.trim();
+  if (railPath) {
+    return isApiV1Pathname(railPath);
+  }
+  try {
+    return isApiV1Pathname(new URL(request.url).pathname);
+  } catch {
+    return false;
+  }
+}
+
 export function parseRailMinVersionHeader(raw: string | null | undefined): number | null {
   const value = raw?.trim() ?? "";
   if (!value || !/^[1-9]\d*$/.test(value)) {
@@ -89,6 +110,7 @@ export function decideRailApiVersion(input: {
   minVersionHeader?: string | null;
   minVersion?: number;
   apiVersion?: number;
+  apiVersionHeader?: string | null;
 }): RailVersionDecision {
   if (!isApiV1Pathname(input.pathname)) {
     return { kind: "skip" };
@@ -101,10 +123,14 @@ export function decideRailApiVersion(input: {
   const minVersion = input.minVersion ?? RAIL_API_MIN_VERSION;
   const apiVersion = input.apiVersion ?? RAIL_API_VERSION;
   const header = input.minVersionHeader?.trim() ?? "";
+  const apiVersionHeader = input.apiVersionHeader?.trim() ?? "";
   const health = method === "GET" && isRailV1HealthPath(input.pathname);
 
   if (!header) {
     if (health) {
+      return { kind: "next", clientVersion: apiVersion };
+    }
+    if (apiVersionHeader === RAIL_API_VERSION_LABEL) {
       return { kind: "next", clientVersion: apiVersion };
     }
     return { kind: "fail", status: 400, error: RAIL_VERSION_HEADER_REQUIRED };
@@ -169,10 +195,7 @@ export function railEdgeFailResponse(
   error: string,
   status: number,
 ): NextResponse {
-  if (isV1JsonRequest(request) || isApiV1Pathname(safePathname(request))) {
-    return railV1FailResponse(request, error, status);
-  }
-  return NextResponse.json({ ok: false, error }, { status });
+  return railV1FailResponse(request, error, status);
 }
 
 export function parseRailDronOrigins(raw: string | undefined): string[] {

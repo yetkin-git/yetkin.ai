@@ -9,6 +9,7 @@
 /** Valör + emanet TTL taramaları — serve açıkken Inngest Cloud bu id'leri kaydeder. */
 export const INNGEST_KERNEL_CRON_FUNCTION_IDS = [
   "paytr-clearing-scan",
+  "ledger-reconciliation-scan",
   "escrow-timeout-scan",
   "escrow-ttl-approaching-scan",
 ] as const;
@@ -94,3 +95,17 @@ export function assertInngestCronServeReady(
   }
   return mode;
 }
+
+/**
+ * `inngest.send` için EVENT_KEY gerekir. Boşken SDK'ya inilmez —
+ * opaque crash yok; çağıran dürüst 503/retry basar (webhook defer).
+ * Serve fail-closed ile aynı sır ailesi; SIGNING_KEY send için şart değildir.
+ */
+export function canSendInngestEvents(
+  env: Record<string, string | undefined> = process.env,
+): boolean {
+  return isInngestEventKeyConfigured(env);
+}
+
+export const INNGEST_EVENT_SEND_NOT_READY =
+  "INNGEST_EVENT_KEY boş — inngest.send atılmaz; valör defer Ack edilmez.";

@@ -5,7 +5,13 @@ import { isSupabaseUserId } from "@/lib/kernel/auth/ids";
 import { getPrisma } from "@/lib/kernel/db";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { parseCurrencyCode } from "@/lib/kernel/money/currency";
-import type { AdminCatalogBoard, SealedCatalogEntry } from "@/lib/kernel/admin/types";
+import type {
+  AdminCatalogBoard,
+  SealedCatalogEntry,
+  SealedPriceDecision,
+} from "@/lib/kernel/admin/types";
+
+const LEDGER_PREVIEW_LIMIT = 24;
 
 const CATALOG_SELECT = {
   id: true,
@@ -48,6 +54,28 @@ async function findPriceCatalogEntries(): Promise<SealedCatalogEntry[]> {
   }));
 }
 
+async function findPriceDecisions(): Promise<SealedPriceDecision[]> {
+  const prisma = getPrisma();
+  const rows = await prisma.priceCatalogDecisionLedger.findMany({
+    orderBy: { createdAt: "desc" },
+    take: LEDGER_PREVIEW_LIMIT,
+  });
+  return rows.map((row) => ({
+    id: row.id,
+    catalogEntryId: row.catalogEntryId,
+    moduleKey: row.moduleKey,
+    unitKey: row.unitKey,
+    unitType: row.unitType,
+    reasonCode: row.reasonCode,
+    reason: row.reason,
+    oldMinor: toAmountMinor(row.oldMinor),
+    newMinor: toAmountMinor(row.newMinor),
+    currencyCode: parseCurrencyCode(row.currencyCode),
+    actorUserId: row.actorUserId,
+    createdAt: row.createdAt,
+  }));
+}
+
 /**
  * Super Admin fiyat sicili.
  * userId oturumdan gelmelidir; SUPER_ADMIN_USER_ID eşleşmezse Prisma çağrılmaz.
@@ -62,7 +90,11 @@ export async function loadAdminCatalogBoard(userId: string): Promise<AdminCatalo
   }
 
   try {
-    return { access: "ok", entries: await findPriceCatalogEntries() };
+    const [entries, decisions] = await Promise.all([
+      findPriceCatalogEntries(),
+      findPriceDecisions(),
+    ]);
+    return { access: "ok", entries, decisions };
   } catch {
     return { access: "unavailable" };
   }

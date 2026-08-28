@@ -31,7 +31,7 @@ describe("PayTR canlı callback yüzeyi", () => {
     const route = readSrc(PAYTR_CANONICAL_WEBHOOK_APP_ROUTE);
     expect(route).toContain("export const auth = \"webhook\"");
     expect(route).toContain("verifyWebhook");
-    expect(route).toContain("clearSuccessfulPaymentOrder");
+    expect(route).toContain("settlePaytrWebhookSuccess");
     expect(route).toContain("PAYTR_WEBHOOK_PATH");
     expect(readSrc("lib/kernel/payments/paytr/checkout.ts")).toContain(
       `export const PAYTR_WEBHOOK_PATH = "${PAYTR_WEBHOOK_PATH}"`,
@@ -51,8 +51,16 @@ describe("PayTR canlı callback yüzeyi", () => {
     expect(readSrc("lib/kernel/payments/paytr/adapter.ts")).not.toContain("mock-checkout");
     expect(readSrc("lib/kernel/payments/clearing.ts")).not.toContain("mock-checkout");
     expect(readSrc("lib/kernel/payments/paytr/reconcile.ts")).not.toContain("mock-checkout");
+    expect(readSrc("lib/kernel/payments/paytr/webhook-settle.ts")).not.toContain("mock-checkout");
     expect(readSrc(PAYTR_CANONICAL_WEBHOOK_APP_ROUTE)).not.toContain("mock-checkout");
     expect(readSrc("lib/kernel/payments/paytr/checkout.ts")).toContain("tryPaytrDevOnlyMockCheckout");
     expect(readSrc("lib/kernel/payments/paytr/checkout.ts")).toContain("assertPaytrProductionSafety");
+    const webhookRoute = readSrc(PAYTR_CANONICAL_WEBHOOK_APP_ROUTE);
+    expect(webhookRoute).toContain("paytr.webhook.clearing_deferred");
+    expect(webhookRoute).toContain("amountMinor: verified.amountMinor");
+    expect(webhookRoute).toContain("paytr.webhook.defer_unacked");
+    expect(webhookRoute).toContain("canSendInngestEvents");
+    expect(webhookRoute).toContain("inngest_unconfigured");
+    expect(webhookRoute).toContain("inngest_event_key_unconfigured");
   });
 });

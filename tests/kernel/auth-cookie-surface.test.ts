@@ -51,20 +51,23 @@ describe("Supabase SSR 0.12 çerez hizası", () => {
     expect(local.domain).toBeUndefined();
     expect(local.path).toBe("/api");
     expect(local.sameSite).toBe("lax");
-    expect(local.httpOnly).toBe(false);
+    expect(local.httpOnly).toBe(true);
     expect((local as { name?: string }).name).toBeUndefined();
 
     const loopback = normalizeAuthCookieOptions({ secure: true }, new URL("http://127.0.0.1:3000/login"));
     expect(loopback.secure).toBe(false);
     expect(loopback.path).toBe("/");
+    expect(loopback.httpOnly).toBe(true);
 
     vi.stubEnv("NODE_ENV", "production");
     const prod = normalizeAuthCookieOptions(
-      { secure: false, sameSite: "none" },
+      { secure: false, sameSite: "none", httpOnly: false },
       new URL("https://rail.example/auth/callback"),
     );
     expect(prod.secure).toBe(true);
-    expect(prod.sameSite).toBe("none");
+    expect(prod.sameSite).toBe("lax");
+    expect(prod.httpOnly).toBe(true);
+    expect((prod as { partitioned?: boolean }).partitioned).toBeUndefined();
   });
 
   it("giriş/kayıt/callback/şifre çerez ve PKCE mühürler; kenar getUser yeniler", () => {
@@ -89,7 +92,9 @@ describe("Supabase SSR 0.12 çerez hizası", () => {
 
     expect(login).toContain("createSupabaseBrowserClient");
     expect(login).toContain("signInWithPassword");
-    expect(login).toContain('window.location.assign("/dashboard")');
+    expect(login).toContain("readPostLoginPathFromSearch");
+    expect(login).toContain("window.location.search");
+    expect(login).toContain("window.location.assign(");
     expect(login).not.toContain("router.push");
     expect(login).not.toContain("router.refresh");
     expect(register).toContain("signUp");
@@ -97,9 +102,11 @@ describe("Supabase SSR 0.12 çerez hizası", () => {
     expect(register).toContain("buildSignupEmailRedirectTo");
     expect(forgot).toContain("resetPasswordForEmail");
     expect(forgot).toContain("buildPasswordResetRedirectTo");
-    expect(reset).toContain("updateUser");
-    expect(reset).toContain("PASSWORD_RECOVERY");
-    expect(reset).toContain("getSession");
+    expect(reset).toContain("/api/auth/session");
+    expect(reset).toContain("/api/auth/password");
+    expect(reset).not.toContain("createSupabaseBrowserClient");
+    expect(reset).not.toContain("updateUser");
+    expect(reset).not.toContain("PASSWORD_RECOVERY");
 
     expect(callback).toContain("exchangeCodeForSession");
     expect(callback).toContain("createSupabaseCookieClient");

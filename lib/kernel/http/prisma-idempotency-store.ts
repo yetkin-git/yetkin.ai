@@ -13,12 +13,17 @@ import {
 export type HttpIdempotencyWriteDb = Pick<PrismaClient, "httpIdempotencyRecord">;
 
 function isUniqueViolation(error: unknown): boolean {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "code" in error &&
-    (error as { code: unknown }).code === "P2002"
-  );
+  const walk = (value: unknown, depth: number): boolean => {
+    if (depth > 5 || !value || typeof value !== "object") {
+      return false;
+    }
+    const record = value as Record<string, unknown>;
+    if (record.code === "P2002" || record.code === "23505") {
+      return true;
+    }
+    return walk(record.cause, depth + 1);
+  };
+  return walk(error, 0);
 }
 
 function toRecord(row: {

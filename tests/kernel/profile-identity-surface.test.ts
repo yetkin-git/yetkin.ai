@@ -36,9 +36,40 @@ describe("profil kimlik yüzeyi", () => {
     const page = readSrc("app/(kernel)/profil/page.tsx");
     expect(page).not.toContain("RoomSeal");
     expect(page).toContain("loadIdentityBoard");
+    expect(page).toContain("loadPassportBoard");
     expect(page).toContain("getSession");
     expect(page).toContain("IdentityCard");
+    expect(page).toContain("IdentityMeritSummary");
     expect(page).not.toContain("fetch(");
+    expect(page).not.toContain("örnek düzen");
+    expect(page).not.toContain('tone="amber"');
+    expect(page).toContain("loadSoft");
+    expect(page).toContain("LinkButton");
+    expect(page).toContain("PASSPORT_SURFACE_PATH");
+    expect(page).toContain("WALLET_SURFACE_PATH");
+    expect(page).toContain("CAREER_STAMP_SURFACE_PATH");
+    expect(page).not.toContain("syncCareerVisaStamps");
+    expect(page).not.toContain("@/lib/career");
+  });
+
+  it("liyakat özeti Quiet Luxury; amber unbound yok; SEN CTA’lar canlı", () => {
+    const merit = readSrc("components/kernel/identity-merit-summary.tsx");
+    const sen = readSrc("lib/copy/sen-voice/profil.ts");
+    expect(merit).toContain("IdentityMeritSummary");
+    expect(merit).toContain("passportSourceLabel");
+    expect(merit).toContain('tone={SOURCE_TONE[kind]}');
+    expect(merit).not.toContain('tone="amber"');
+    expect(merit).not.toContain("unbound");
+    expect(merit).not.toContain("örnek düzen");
+    expect(merit).toContain("PASSPORT_SURFACE_PATH");
+    expect(merit).toContain("WALLET_SURFACE_PATH");
+    expect(merit).toContain("CAREER_STAMP_SURFACE_PATH");
+    expect(sen).toContain("walletCta");
+    expect(sen).toContain("careerCta");
+    expect(sen).toContain("loadSoft");
+    expect(sen).toContain("merit:");
+    expect(sen).not.toContain("unboundBadge");
+    expect(sen).not.toContain("missingBadge");
   });
 
   it("okuma yalnız oturum id ile findUnique; yazma displayName PATCH; e-posta SSOT", () => {

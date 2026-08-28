@@ -1,10 +1,10 @@
+import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { LinkButton } from "@/components/ui/link-button";
-import { StatGrid, type StatItem } from "@/components/ui/stat-grid";
+import type { StatItem } from "@/components/ui/stat-grid";
 
-type LinkHref = ComponentProps<typeof LinkButton>["href"];
+type LinkHref = ComponentProps<typeof Link>["href"];
 
 export function PulseCard({
   title,
@@ -23,23 +23,40 @@ export function PulseCard({
   href: LinkHref;
   hrefLabel: string;
 }) {
+  const metrics = stats.slice(0, 2);
+
   return (
-    <Card
-      variant="glass"
-      title={title}
-      action={<Badge tone={live ? "emerald" : "neutral"}>{live ? liveHint : "Boş nabız"}</Badge>}
-      bodyClassName="text-[var(--foreground)]"
+    <Link
+      href={href}
+      aria-label={hrefLabel}
+      className="group block h-full min-w-0 rounded-[var(--radius-card)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--safir-soft)] focus-visible:ring-offset-2"
     >
-      <p className="mb-4 text-xs text-[var(--muted)]">
-        {live ? liveHint : "Oturum veya veritabanı yok — dürüst boş nabız"}
-      </p>
-      <StatGrid items={stats} columns={2} />
-      {children ? <div className="mt-4 text-sm text-[var(--muted)]">{children}</div> : null}
-      <div className="mt-5">
-        <LinkButton href={href} variant="outline" size="sm">
-          {hrefLabel}
-        </LinkButton>
-      </div>
-    </Card>
+      <Card
+        variant="default"
+        className="flex h-full min-w-0 flex-col !p-4 shadow-sm transition-[border-color,box-shadow] duration-200 group-hover:border-[color-mix(in_srgb,var(--safir)_28%,transparent)]"
+        title={title}
+        action={<Badge tone={live ? "emerald" : "neutral"}>{live ? liveHint : "Boş nabız"}</Badge>}
+        bodyClassName="flex min-h-0 flex-1 flex-col text-[var(--foreground)]"
+      >
+        <dl className="grid grid-cols-2 gap-x-4 gap-y-1">
+          {metrics.map((item) => (
+            <div key={item.label} className="min-w-0">
+              <dt className="truncate text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
+                {item.label}
+              </dt>
+              <dd className="mt-0.5 truncate text-lg font-semibold tabular-nums tracking-tight text-[var(--foreground)] sm:text-xl">
+                {item.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <div className="mt-auto pt-4">
+          {children ? (
+            <p className="truncate text-xs text-[var(--muted)]">{children}</p>
+          ) : null}
+          <p className="mt-1 text-xs font-medium text-[var(--safir-deep)]">{hrefLabel}</p>
+        </div>
+      </Card>
+    </Link>
   );
 }

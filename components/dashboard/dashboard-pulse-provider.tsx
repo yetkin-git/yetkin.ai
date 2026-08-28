@@ -6,19 +6,37 @@ import {
   EMPTY_DASHBOARD_PULSE,
   type DashboardPulse,
 } from "@/lib/dashboard/pulse";
+import { parseRailClientJson } from "@/lib/ui/parse-rail-json";
+import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
 const DashboardPulseContext = createContext<DashboardPulse>(EMPTY_DASHBOARD_PULSE);
 
-export function DashboardPulseProvider({ children }: { children: ReactNode }) {
-  const [pulse, setPulse] = useState<DashboardPulse>(EMPTY_DASHBOARD_PULSE);
+export function DashboardPulseProvider({
+  children,
+  initialPulse,
+}: {
+  children: ReactNode;
+  initialPulse?: DashboardPulse;
+}) {
+  const [pulse, setPulse] = useState<DashboardPulse>(initialPulse ?? EMPTY_DASHBOARD_PULSE);
+  const hydratedFromServer = initialPulse !== undefined;
 
   useEffect(() => {
+    if (hydratedFromServer) {
+      return;
+    }
     let cancelled = false;
-    void fetch(DASHBOARD_PULSE_PATH)
+    void fetch(DASHBOARD_PULSE_PATH, withRailApiVersion())
       .then(async (response) => {
-        const body = (await response.json()) as { ok: boolean; pulse?: DashboardPulse };
-        if (!cancelled && body.ok && body.pulse) {
-          setPulse(body.pulse);
+        if (!response.ok) {
+          if (!cancelled) {
+            setPulse(EMPTY_DASHBOARD_PULSE);
+          }
+          return;
+        }
+        const parsed = parseRailClientJson<{ pulse?: DashboardPulse }>(await response.json());
+        if (!cancelled && parsed.ok && parsed.data.pulse) {
+          setPulse(parsed.data.pulse);
         }
       })
       .catch(() => {
@@ -29,7 +47,7 @@ export function DashboardPulseProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [hydratedFromServer]);
 
   return <DashboardPulseContext.Provider value={pulse}>{children}</DashboardPulseContext.Provider>;
 }

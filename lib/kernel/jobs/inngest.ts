@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server";
-import { REQUEST_ID_HEADER, resolveRequestId } from "@/lib/kernel/http/request-id";
+import { REQUEST_ID_HEADER } from "@/lib/kernel/http/request-id";
 import { Inngest } from "inngest";
 import {
+  paytrClearingScanNoOpResult,
   paytrClearingScanResult,
+  paytrFailedRecoveryAfter,
   selectPaytrClearingCandidates,
+  shouldNoOpPaytrClearingScan,
 } from "@/lib/kernel/jobs/paytr-clearing-scan";
 import { runEscrowTimeoutRefunds } from "@/lib/kernel/jobs/escrow-timeout-scan";
 
-/** HTTP + Inngest Cloud — Arena realtime yok (S3-A). S18-A: PayTR clearing + emanet timeout. */
+/** HTTP + Inngest Cloud — S18-A: PayTR valör + emanet timeout. Arena olayı sicilde yoktur. */
 export const inngest = new Inngest({ id: "yetkin-rail" });
 
 export const INNGEST_EVENTS = {
@@ -15,7 +18,6 @@ export const INNGEST_EVENTS = {
   ESCROW_TIMEOUT_REQUESTED: "escrow/timeout-requested",
   ESCROW_REFUNDED: "escrow/refunded",
   ESCROW_TTL_APPROACHING: "escrow/ttl-approaching",
-  ARENA_TENDER_ROUND_TICK: "arena/tender.round-tick",
 } as const;
 
 export const paytrClearingScan = inngest.createFunction(
@@ -25,6 +27,18 @@ export const paytrClearingScan = inngest.createFunction(
     triggers: [{ cron: "TZ=Europe/Istanbul */30 * * * *" }],
   },
   async ({ step }) => {
+    // Port kapalıyken DB tarama yok (0 hit); sahte PENDING avı ve Cloud hop gürültüsü yok.
+    if (shouldNoOpPaytrClearingScan()) {
+      const { logEvent } = await import("@/lib/kernel/observability/log");
+      const noop = paytrClearingScanNoOpResult();
+      logEvent({
+        level: "info",
+        event: "paytr.clearing.scan.noop",
+        reason: noop.reason,
+        applied: false,
+      });
+      return noop;
+    }
     const pending = await step.run("scan-pending-paytr-clearing", async () => {
       if (!process.env.DATABASE_URL?.trim()) {
         return [] as { merchantOid: string }[];
@@ -32,7 +46,12 @@ export const paytrClearingScan = inngest.createFunction(
       const { getPrisma } = await import("@/lib/kernel/db");
       const prisma = getPrisma();
       const rows = await prisma.paymentOrder.findMany({
-        where: { status: { in: ["PENDING", "PAID"] } },
+        where: {
+          OR: [
+            { status: { in: ["PENDING", "PAID"] } },
+            { status: "FAILED", updatedAt: { gte: paytrFailedRecoveryAfter(new Date()) } },
+          ],
+        },
         take: 50,
         orderBy: { createdAt: "asc" },
         select: { merchantOid: true },
@@ -69,9 +88,28 @@ export const paytrClearingSingle = inngest.createFunction(
     if (!merchantOid) {
       return { skipped: true };
     }
+    if (shouldNoOpPaytrClearingScan()) {
+      const { logEvent } = await import("@/lib/kernel/observability/log");
+      const noop = paytrClearingScanNoOpResult();
+      logEvent({
+        level: "info",
+        event: "paytr.clearing.single.noop",
+        requestId:
+          typeof (event.data as { requestId?: string }).requestId === "string"
+            ? (event.data as { requestId: string }).requestId
+            : event.id,
+        merchantOid,
+        reason: noop.reason,
+        applied: false,
+      });
+      return { skipped: true, ...noop };
+    }
     return step.run("reconcile-payment-order", async () => {
       const { createPrismaClearingPorts } = await import(
         "@/lib/kernel/payments/prisma-order-store"
+      );
+      const { createPrismaPaymentAnomalyStore } = await import(
+        "@/lib/kernel/payments/prisma-anomaly-store"
       );
       const { reconcilePaytrPaymentOrder } = await import(
         "@/lib/kernel/payments/paytr/reconcile"
@@ -82,7 +120,13 @@ export const paytrClearingSingle = inngest.createFunction(
           ? (event.data as { requestId: string }).requestId
           : event.id;
       try {
-        const result = await reconcilePaytrPaymentOrder(createPrismaClearingPorts(), merchantOid);
+        const result = await reconcilePaytrPaymentOrder(
+          {
+            ...createPrismaClearingPorts(),
+            anomalies: createPrismaPaymentAnomalyStore(),
+          },
+          merchantOid,
+        );
         logEvent({
           level: "info",
           event: "paytr.reconcile",
@@ -109,6 +153,47 @@ export const paytrClearingSingle = inngest.createFunction(
         });
         throw error;
       }
+    });
+  },
+);
+
+export const ledgerReconciliationScan = inngest.createFunction(
+  {
+    id: "ledger-reconciliation-scan",
+    name: "Defter mutabakat tarama",
+    triggers: [{ cron: "TZ=Europe/Istanbul 20 2 * * *" }],
+  },
+  async ({ step }) => {
+    return step.run("scan-wallet-ledger-invariants", async () => {
+      if (!process.env.DATABASE_URL?.trim()) {
+        return {
+          walletsScanned: 0,
+          clearedOrdersScanned: 0,
+          walletDrifts: 0,
+          clearedOrderDrifts: 0,
+          anomaliesWritten: 0,
+        };
+      }
+      const { createPrismaLedgerReconciliationPorts } = await import(
+        "@/lib/kernel/payments/prisma-reconciliation-ports"
+      );
+      const { runLedgerReconciliationScan } = await import(
+        "@/lib/kernel/payments/ledger-reconciliation"
+      );
+      const { logEvent } = await import("@/lib/kernel/observability/log");
+      const result = await runLedgerReconciliationScan(
+        createPrismaLedgerReconciliationPorts(),
+        "ledger-reconciliation-cron",
+      );
+      logEvent({
+        level: result.walletDrifts > 0 || result.clearedOrderDrifts > 0 ? "error" : "info",
+        event: "ledger.reconciliation.scan",
+        requestId: "ledger-reconciliation-cron",
+        reason:
+          result.walletDrifts > 0 || result.clearedOrderDrifts > 0 ? "drift" : "balanced",
+        applied: false,
+      });
+      return result;
     });
   },
 );
@@ -239,6 +324,7 @@ export const escrowTtlApproachingNotify = inngest.createFunction(
 export const kernelInngestFunctions = [
   paytrClearingScan,
   paytrClearingSingle,
+  ledgerReconciliationScan,
   escrowTimeoutScan,
   escrowRefundedNotify,
   escrowTtlApproachingScan,

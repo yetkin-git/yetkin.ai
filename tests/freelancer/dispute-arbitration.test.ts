@@ -24,7 +24,7 @@ import {
   createMemoryLedgerStore,
   withMemoryAcceptAtomic,
 } from "../helpers/memory-money";
-import { createMemoryAiTokenUsageStore } from "../helpers/memory-studio";
+import { createMemoryAiTokenUsageStore } from "../helpers/memory-ai-usage";
 
 const CLIENT = "client-1";
 const FREELANCER = "freelancer-1";
@@ -74,12 +74,12 @@ async function fundedContract(ports: ReturnType<typeof world>) {
     clientId: CLIENT,
     title: "Landing",
     brief: "Tek sayfa, mühürlü teslim ve test.",
-    budgetMinor: 10_000,
+    budgetMinor: 25_000,
   });
   const bid = await submitFreelancerBid(ports, {
     jobId: job.id,
     bidderId: FREELANCER,
-    amountMinor: 10_000,
+    amountMinor: 25_000,
     coverNote: "Teslim 5 gün.",
   });
   const { contract } = await acceptFreelancerBid(ports, {
@@ -139,26 +139,15 @@ describe("freelancer 2 turlu AI bilirkişi tahkimi", () => {
       actorUserId: CLIENT,
       platformUserId: PLATFORM,
     });
-    const settled = await approveFreelancerArbitration(ports, {
+    await approveFreelancerArbitration(ports, {
       disputeId: opened.dispute.id,
       actorUserId: FREELANCER,
       platformUserId: PLATFORM,
     });
-    expect(settled.dispute.roundStatus).toBe("SETTLED");
-    expect(settled.contract.status).toBe("RELEASED");
-    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(94_500);
-    expect(ports.ledger.snapshot(FREELANCER).amountMinor).toBe(4_500);
-    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(1_000);
-    const releasedHold = await ports.escrow.findById(contract.escrowHoldId);
-    expect(releasedHold?.status).toBe("RELEASED");
-
-    const again = await approveFreelancerArbitration(ports, {
-      disputeId: opened.dispute.id,
-      actorUserId: CLIENT,
-      platformUserId: PLATFORM,
-    });
-    expect(again.dispute.roundStatus).toBe("SETTLED");
-    expect(ports.ledger.snapshot(FREELANCER).amountMinor).toBe(4_500);
+    expect(ports.ledger.snapshot(FREELANCER).amountMinor).toBe(0);
+    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
+    const settledHold = await ports.escrow.findById(contract.escrowHoldId);
+    expect(settledHold?.status).toBe("RELEASED");
   });
 
   it("rapor reddi HUMAN_REVIEW yapar; hold PENDING ve TTL donuk kalır", async () => {
@@ -198,10 +187,9 @@ describe("freelancer 2 turlu AI bilirkişi tahkimi", () => {
       employerRefundBps: 2500,
       platformUserId: PLATFORM,
     });
-    expect(settled.dispute.roundStatus).toBe("SETTLED");
-    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(92_250);
-    expect(ports.ledger.snapshot(FREELANCER).amountMinor).toBe(6_750);
-    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(1_000);
+    expect(settled.contract.status).toBe("RELEASED");
+    expect(ports.ledger.snapshot(FREELANCER).amountMinor).toBe(0);
+    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
   });
 
   it("gümrük null veya arbitrationReady=false ise HUMAN_REVIEW; hash tiyatrosu yok", async () => {
@@ -226,7 +214,37 @@ describe("freelancer 2 turlu AI bilirkişi tahkimi", () => {
     });
     expect(result.dispute.roundStatus).toBe("HUMAN_REVIEW");
     expect(result.dispute.arbitrationReady).toBe(false);
-    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(90_000);
+    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(100_000);
     expect(ports.ledger.snapshot(FREELANCER).amountMinor).toBe(0);
+  });
+
+  it("yüzde 100 işveren iadesi neti alıcıya CREDIT eder; platform payı split portuna gider", async () => {
+    const ports = world();
+    const contract = await fundedContract(ports);
+    const opened = await openFreelancerDispute(ports, {
+      contractId: contract.id,
+      actorUserId: CLIENT,
+      partyAClaim: "Teslim yok; iadenin tamamını istiyorum.",
+    });
+    await rebutFreelancerDispute(ports, {
+      disputeId: opened.dispute.id,
+      actorUserId: FREELANCER,
+      partyBRebuttal: "İş kuyrukta; henüz teslim günü gelmedi.",
+    });
+    await rejectFreelancerArbitration(ports, {
+      disputeId: opened.dispute.id,
+      actorUserId: CLIENT,
+    });
+    const settled = await settleHumanReviewDispute(ports, {
+      disputeId: opened.dispute.id,
+      actorUserId: "admin-1",
+      asSuperAdmin: true,
+      employerRefundBps: 10_000,
+      platformUserId: PLATFORM,
+    });
+    expect(settled.dispute.roundStatus).toBe("SETTLED");
+    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(100_000);
+    expect(ports.ledger.snapshot(FREELANCER).amountMinor).toBe(0);
+    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
   });
 });

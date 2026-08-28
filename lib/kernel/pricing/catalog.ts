@@ -17,4 +17,9 @@ export type PriceCatalogEntrySnapshot = {
 
 export type PriceCatalogStore = {
   findActiveEntry(moduleKey: string, unitKey: string): Promise<PriceCatalogEntrySnapshot | null>;
+  /** Tek SELECT — katalog vitrini N+1 `findActiveEntry` açmaz. */
+  listActiveEntries(
+    moduleKey: string,
+    unitKeys?: readonly string[],
+  ): Promise<PriceCatalogEntrySnapshot[]>;
 };

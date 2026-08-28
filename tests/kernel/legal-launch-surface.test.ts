@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
+  LEGAL_FOOTER_LINKS,
   LEGAL_HONESTY_BODY,
   LEGAL_LAUNCH_SECTIONS,
   LEGAL_PAGE_TITLE,
@@ -34,6 +35,12 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(LEGAL_SECTION_IDS.kvkk).toBe("kvkk-cerez");
   });
 
+  it("runbook PayTR bildirim yolunu taşır; sahte VKN yazılmaz", () => {
+    const runbook = readFileSync(join(ROOT, ".system_docs", "OPS_RUNBOOK.md"), "utf8");
+    expect(runbook).toContain("/api/payments/webhooks/paytr");
+    expect(runbook).not.toMatch(/VKN:\s*\d/);
+  });
+
   it("/legal sayfası kopya sicilini basar; sahte VKN/MERSİS yazmaz", () => {
     const page = readSrc("app/(public)/legal/page.tsx");
     const copy = readSrc("lib/copy/legal-launch.ts");
@@ -46,5 +53,43 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(copy).not.toMatch(/VKN:\s*\d/);
     expect(copy).not.toContain("YAPINET");
     expect(copy).not.toContain("hukuk@yetkin.ai");
+  });
+
+  it("bağımsız URL'ler, footer ve robots PayTR vitrine bağlıdır", () => {
+    const slug = readSrc("app/(public)/legal/[slug]/page.tsx");
+    const footer = readSrc("components/legal/legal-site-footer.tsx");
+    const publicLayout = readSrc("app/(public)/layout.tsx");
+    const authLayout = readSrc("app/(auth)/layout.tsx");
+    const home = readSrc("app/(public)/page.tsx");
+    const robots = readSrc("app/robots.ts");
+    const sitemap = readSrc("app/sitemap.ts");
+    expect(slug).toContain("legalSectionBySlug");
+    expect(footer).toContain("LEGAL_FOOTER_LINKS");
+    expect(footer).toContain("fixed");
+    expect(footer).toContain("bottom-0");
+    expect(footer).toContain("link.label");
+    expect(publicLayout).toContain("LegalSiteFooter");
+    expect(authLayout).toContain("LegalSiteFooter");
+    expect(home).not.toContain("/legal/gizlilik");
+    expect(home).not.toContain("/legal/mesafeli-satis");
+    expect(home).not.toContain("/legal/iade");
+    expect(home).not.toContain("legalCta");
+    expect(home).not.toContain("Yasal metinler");
+    expect(robots).toContain("/legal");
+    expect(sitemap).toContain("LEGAL_FOOTER_LINKS");
+    expect(LEGAL_FOOTER_LINKS.map((link) => link.href)).toEqual([
+      "/legal/gizlilik",
+      "/legal/iade",
+      "/legal/mesafeli-satis",
+      "/legal/kullanim-sartlari",
+      "/iletisim",
+    ]);
+    expect(LEGAL_FOOTER_LINKS.map((link) => link.label)).toEqual([
+      "Gizlilik",
+      "İade",
+      "Mesafeli satış",
+      "Kullanım şartları",
+      "İletişim",
+    ]);
   });
 });

@@ -1,12 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { failPaymentOrder, type PaymentOrderSnapshot, type PaymentOrderStore } from "@/lib/kernel/payments/clearing";
+import { failPaymentOrder } from "@/lib/kernel/payments/clearing";
 import {
   assertWalletTopUpAmountMinor,
   decideWalletTopUpReuse,
   shouldFailCloseWalletTopUpCheckout,
+  shouldFailCloseMockTopUp,
   WALLET_TOP_UP_MAX_MINOR,
   WALLET_TOP_UP_MIN_MINOR,
 } from "@/lib/kernel/payments/wallet-top-up";
+import { createMemoryPaymentOrderStore } from "../helpers/memory-payment-orders";
 
 describe("cüzdan yükleme bandı (S15-A)", () => {
   it("₺10 ve ₺20.000 sınırlarını kabul eder", () => {
@@ -24,9 +26,12 @@ describe("cüzdan yükleme checkout fail-closed", () => {
   it("pay_api_error / 503 PENDING'i markFailed eder; CREDIT yok; reuse failed_oid", async () => {
     expect(shouldFailCloseWalletTopUpCheckout(true)).toBe(false);
     expect(shouldFailCloseWalletTopUpCheckout(false)).toBe(true);
+    expect(shouldFailCloseMockTopUp(true)).toBe(true);
+    expect(shouldFailCloseMockTopUp(false)).toBe(false);
+    expect(shouldFailCloseMockTopUp(undefined)).toBe(false);
 
     const oid = "wallettopupfailclosed1";
-    const orders = memoryOrders({
+    const orders = createMemoryPaymentOrderStore({
       id: "po-fail-close",
       userId: "u1",
       merchantOid: oid,
@@ -40,48 +45,10 @@ describe("cüzdan yükleme checkout fail-closed", () => {
     const closed = await failPaymentOrder(orders, oid);
     expect(closed.applied).toBe(true);
     expect(closed.order.status).toBe("FAILED");
-    expect(orders.row().status).toBe("FAILED");
+    expect(orders.row()?.status).toBe("FAILED");
     expect(decideWalletTopUpReuse(orders.row(), "u1", 1000)).toEqual({
       action: "conflict",
       reason: "failed_oid",
     });
   });
 });
-
-function memoryOrders(initial: PaymentOrderSnapshot): PaymentOrderStore & {
-  row(): PaymentOrderSnapshot;
-} {
-  let row = { ...initial };
-  return {
-    row() {
-      return { ...row };
-    },
-    async findByMerchantOid(merchantOid) {
-      return merchantOid === row.merchantOid ? { ...row } : null;
-    },
-    async markPaid(id, _at) {
-      if (row.id !== id) {
-        throw new Error("sipariş yok");
-      }
-      row = { ...row, status: "PAID" };
-      return { ...row };
-    },
-    async markCleared(id, _at) {
-      if (row.id !== id) {
-        throw new Error("sipariş yok");
-      }
-      row = { ...row, status: "CLEARED" };
-      return { ...row };
-    },
-    async markFailed(id, _at) {
-      if (row.id !== id) {
-        throw new Error("sipariş yok");
-      }
-      row = { ...row, status: "FAILED" };
-      return { ...row };
-    },
-    async listUnclearedPaid() {
-      return row.status === "PAID" ? [{ ...row }] : [];
-    },
-  };
-}

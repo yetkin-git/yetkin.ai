@@ -9,18 +9,17 @@ function readSrc(relative: string): string {
 }
 
 describe("O11 Studio LLM Debit E2E yüzeyi", () => {
-  it("Playwright spec şerit mührü, oturumsuz 401 ve giriş kapısını taşır", () => {
+  it("Playwright spec şerit mührü ve donmuş 410 taşır", () => {
     const spec = readSrc("tests/e2e/studio-happy-path.spec.ts");
     expect(spec).toContain("/studio");
-    expect(spec).toContain("Üretim anında bakiyeden transfer (LLM Debit).");
+    expect(spec).toContain("kariyer vizenle uzmanlığını belgele");
     expect(spec).toContain("jeton bakiyenizden düşülür");
     expect(spec).toContain("/api/studio/generate");
     expect(spec).toContain("/api/studio/images");
-    expect(spec).toContain("Oturum gerekli.");
-    expect(spec).toContain("runStudioCashJourney");
-    expect(spec).toContain("runStudioImageCatalogMissingJourney");
-    expect(spec).toContain("STUDIO_IMAGE_CATALOG_MISSING");
-    expect(spec).toContain("413");
+    expect(spec).toContain("Bu oda üretimde kapalı.");
+    expect(spec).toContain("410");
+    expect(spec).not.toContain("Oturum gerekli.");
+    expect(spec).not.toContain("runStudioCashJourney");
     expect(spec).not.toContain("LOCAL_MOCK_AUTH");
   });
 });

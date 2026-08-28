@@ -2,15 +2,16 @@ import { describe, expect, it } from "vitest";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { isAdultInTurkey, evaluateJuniorAge } from "@/lib/junior/age-gate";
 import {
-  consentJuniorProfile,
   grantJuniorAllowance,
   setJuniorWeeklyCap,
   upsertJuniorProfile,
   buildJuniorPulse,
 } from "@/lib/junior/engine";
+import { JUNIOR_PRODUCTION_LOCKED_ERROR } from "@/lib/kernel/compliance/circuit-breakers";
 import { JUNIOR_HAPPY_PATH } from "@/lib/junior";
 import { createMemoryLedgerStore } from "../helpers/memory-money";
 import { createMemoryJuniorStore } from "../helpers/memory-junior";
+import { completeJuniorGuardianship } from "../helpers/junior-bond";
 
 const CHILD = "child-1";
 const GUARDIAN = "guardian-1";
@@ -34,29 +35,17 @@ describe("Junior TR yaş kapısı ve harçlık", () => {
     expect(() => isAdultInTurkey("2026-02-31", NOW)).toThrow(/Geçersiz doğum tarihi/);
   });
 
-  it("18+ ve 10 yaş altı profil açamaz; kendi vekâleti yasaktır", async () => {
+  it("18+ ve 10 yaş altı profil açamaz", async () => {
     const junior = createMemoryJuniorStore();
     await expect(
-      upsertJuniorProfile(
-        { junior },
-        { userId: CHILD, dateOfBirth: "2000-01-01", guardianUserId: GUARDIAN, now: NOW },
-      ),
+      upsertJuniorProfile({ junior }, { userId: CHILD, dateOfBirth: "2000-01-01", now: NOW }),
     ).rejects.toThrow(/18 yaş altı/);
     await expect(
-      upsertJuniorProfile(
-        { junior },
-        { userId: CHILD, dateOfBirth: "2018-08-14", guardianUserId: GUARDIAN, now: NOW },
-      ),
+      upsertJuniorProfile({ junior }, { userId: CHILD, dateOfBirth: "2018-08-14", now: NOW }),
     ).rejects.toThrow(/10 yaş/);
-    await expect(
-      upsertJuniorProfile(
-        { junior },
-        { userId: CHILD, dateOfBirth: "2012-03-21", guardianUserId: CHILD, now: NOW },
-      ),
-    ).rejects.toThrow(/kendi hesabına/);
   });
 
-  it("onay öncesi harçlık yazılmaz; onay sonrası tavan ve aktarım çalışır", async () => {
+  it("onay öncesi harçlık yazılmaz; iki taraflı davet sonrası tavan ve aktarım çalışır", async () => {
     const junior = createMemoryJuniorStore();
     const ledger = createMemoryLedgerStore([
       { userId: GUARDIAN, amountMinor: 100_000 },
@@ -68,17 +57,16 @@ describe("Junior TR yaş kapısı ve harçlık", () => {
     const created = await upsertJuniorProfile(ports, {
       userId: CHILD,
       dateOfBirth: "2014-01-01",
-      guardianUserId: GUARDIAN,
       now: NOW,
     });
     expect(created.applied).toBe(true);
     expect(created.profile.status).toBe("PENDING_GUARDIAN");
+    expect(created.profile.guardianUserId).toBeNull();
     expect(created.profile.mebTrackKey).toBe("meb-ortaokul-beceri");
 
     const again = await upsertJuniorProfile(ports, {
       userId: CHILD,
       dateOfBirth: "2014-01-01",
-      guardianUserId: GUARDIAN,
       now: NOW,
     });
     expect(again.applied).toBe(false);
@@ -90,59 +78,45 @@ describe("Junior TR yaş kapısı ve harçlık", () => {
         weeklyCapMinor: 5_000,
         now: NOW,
       }),
-    ).rejects.toThrow(/Ebeveyn onayı/);
+    ).rejects.toThrow(JUNIOR_PRODUCTION_LOCKED_ERROR);
 
-    const consent = await consentJuniorProfile(ports, {
-      guardianUserId: GUARDIAN,
+    const linked = await completeJuniorGuardianship(ports, {
       childUserId: CHILD,
+      guardianUserId: GUARDIAN,
+      dateOfBirth: "2014-01-01",
       now: NOW,
     });
-    expect(consent.applied).toBe(true);
-    expect(consent.profile.status).toBe("GUARDIAN_LINKED");
-    const consentAgain = await consentJuniorProfile(ports, {
-      guardianUserId: GUARDIAN,
-      childUserId: CHILD,
-      now: NOW,
-    });
-    expect(consentAgain.applied).toBe(false);
+    expect(linked.applied).toBe(true);
+    expect(linked.profile.status).toBe("GUARDIAN_LINKED");
+    expect(linked.profile.guardianUserId).toBe(GUARDIAN);
 
-    const cap = await setJuniorWeeklyCap(ports, {
-      guardianUserId: GUARDIAN,
-      childUserId: CHILD,
-      weeklyCapMinor: 5_000,
-      now: NOW,
-    });
-    expect(cap.amountMinor).toBe(0);
-
-    const granted = await grantJuniorAllowance(ports, {
-      guardianUserId: GUARDIAN,
-      childUserId: CHILD,
-      amountMinor: 1_000,
-      platformUserId: PLATFORM,
-      now: NOW,
-    });
-    expect(granted.applied).toBe(true);
-    expect(granted.allowance.amountMinor).toBe(1_000);
-    expect(ledger.snapshot(GUARDIAN).amountMinor).toBe(99_000);
-    expect(ledger.snapshot(PLATFORM).amountMinor).toBe(1_000);
-    expect(ledger.snapshot(CHILD).amountMinor).toBe(5_000);
+    await expect(
+      setJuniorWeeklyCap(ports, {
+        guardianUserId: GUARDIAN,
+        childUserId: CHILD,
+        weeklyCapMinor: 5_000,
+        now: NOW,
+      }),
+    ).rejects.toThrow(JUNIOR_PRODUCTION_LOCKED_ERROR);
 
     await expect(
       grantJuniorAllowance(ports, {
         guardianUserId: GUARDIAN,
         childUserId: CHILD,
-        amountMinor: 4_500,
+        amountMinor: 1_000,
         platformUserId: PLATFORM,
         now: NOW,
       }),
-    ).rejects.toThrow(/haftalık tavan/);
+    ).rejects.toThrow(JUNIOR_PRODUCTION_LOCKED_ERROR);
+    expect(ledger.snapshot(GUARDIAN).amountMinor).toBe(100_000);
+    expect(ledger.snapshot(PLATFORM).amountMinor).toBe(0);
     expect(ledger.snapshot(CHILD).amountMinor).toBe(5_000);
-    expect(ledger.snapshot(GUARDIAN).amountMinor).toBe(99_000);
 
     const pulse = await buildJuniorPulse(ports, GUARDIAN, NOW);
     expect(pulse.wardsLinked).toBe(1);
     const childPulse = await buildJuniorPulse(ports, CHILD, NOW);
     expect(childPulse.hasGuardianConsent).toBe(true);
-    expect(childPulse.remainingMinor).toBe(1_000);
+    expect(childPulse.bondStatus).toBe("ACTIVE");
+    expect(childPulse.remainingMinor).toBe(0);
   });
 });

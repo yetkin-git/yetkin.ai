@@ -8,11 +8,13 @@ import {
   assertPublishedRailV1Hop,
   decideRailV1HopGate,
   findRailV1Hop,
+  RAIL_V1_HOP_DRON_FORBIDDEN,
   RAIL_V1_HOP_GATES,
   RAIL_V1_HOP_NOT_FOUND,
   RAIL_V1_HOP_UNPUBLISHED,
 } from "@/lib/kernel/http/v1-hop-gate";
 import {
+  isRailV1HopForbiddenOnDron,
   RAIL_V1_HOPS,
   parseRailV1Envelope,
   resolveRailV1HopPaths,
@@ -62,15 +64,17 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     vi.unstubAllEnvs();
   });
 
-  it("RAIL_V1_HOP_GATES, RAIL_V1_HOPS ile 1:1 kilitlenir; 13 hop", () => {
+  it("RAIL_V1_HOP_GATES, RAIL_V1_HOPS ile 1:1 kilitlenir; 16 hop", () => {
     const gateSrc = readFileSync(join(process.cwd(), "lib/kernel/http/v1-hop-gate.ts"), "utf8");
     const proxySrc = readFileSync(join(process.cwd(), "proxy.ts"), "utf8");
     expect(gateSrc).not.toContain("v1-contract");
     expect(gateSrc).not.toContain("from \"zod\"");
+    expect(gateSrc).toContain("v1-hops-meta");
+    expect(gateSrc).not.toContain("v1PathTemplate: \"/api/v1/health\"");
     expect(proxySrc).toContain("decideRailV1HopGate");
     expect(proxySrc).toContain("hopGate.kind === \"fail\"");
-    expect(RAIL_V1_HOPS).toHaveLength(13);
-    expect(RAIL_V1_HOP_GATES).toHaveLength(13);
+    expect(RAIL_V1_HOPS).toHaveLength(16);
+    expect(RAIL_V1_HOP_GATES).toHaveLength(16);
     expect(
       RAIL_V1_HOP_GATES.map((hop) => ({
         id: hop.id,
@@ -115,9 +119,17 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     for (const hop of RAIL_V1_HOPS) {
       const paths = resolveRailV1HopPaths(hop);
       expect(findRailV1Hop(paths.v1, hop.method)?.id, hop.id).toBe(hop.id);
-      expect(decideRailV1HopGate({ pathname: paths.v1, method: hop.method })).toEqual({
-        kind: "next",
-      });
+      if (isRailV1HopForbiddenOnDron(hop.id)) {
+        expect(decideRailV1HopGate({ pathname: paths.v1, method: hop.method })).toEqual({
+          kind: "fail",
+          status: 403,
+          error: RAIL_V1_HOP_DRON_FORBIDDEN,
+        });
+      } else {
+        expect(decideRailV1HopGate({ pathname: paths.v1, method: hop.method })).toEqual({
+          kind: "next",
+        });
+      }
       expect(decideRailV1HopGate({ pathname: paths.v1, method: "OPTIONS" })).toEqual({
         kind: "next",
       });
@@ -191,7 +203,7 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     });
   });
 
-  it("13 kanonik hop Bearer ile rewrite kalır; list GET jobs/{id} değildir", async () => {
+  it("16 kanonik hop Bearer ile rewrite kalır; Dron-forbidden 403; list GET jobs/{id} değildir", async () => {
     const token = await signHs256();
     for (const hop of RAIL_V1_HOPS) {
       const paths = resolveRailV1HopPaths(hop);
@@ -206,6 +218,17 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
           headers,
         }),
       );
+      if (isRailV1HopForbiddenOnDron(hop.id)) {
+        expect(response.status, hop.id).toBe(403);
+        expect(response.headers.get("x-middleware-rewrite"), hop.id).toBeNull();
+        expect(await response.json()).toMatchObject({
+          ok: false,
+          error: RAIL_V1_HOP_DRON_FORBIDDEN,
+          apiVersion: "1",
+          data: null,
+        });
+        continue;
+      }
       expect(response.status, hop.id).toBe(200);
       expect(response.headers.get("x-middleware-rewrite"), hop.id).toBe(
         `http://localhost:3000${paths.canonical}`,
@@ -221,10 +244,15 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     expect(list.headers.get("x-middleware-rewrite")).toBe("http://localhost:3000/api/freelancer/jobs");
   });
 
-  it("versiyonsuz Amiral GET /api/freelancer/jobs/{id} hop kapısından 404 almaz", async () => {
+  it("kanonik Amiral GET /api/freelancer/jobs/{id} hop kapısından 404 almaz", async () => {
     const canonical = await proxy(edgeRequest(`/api/freelancer/jobs/${JOB_ID}`));
     expect(canonical.status).toBe(401);
     expect(canonical.headers.get("x-middleware-rewrite")).toBeNull();
-    expect(await canonical.json()).toEqual({ ok: false, error: "Oturum gerekli." });
+    expect(await canonical.json()).toMatchObject({
+      ok: false,
+      error: "Oturum gerekli.",
+      apiVersion: "1",
+      data: null,
+    });
   });
 });

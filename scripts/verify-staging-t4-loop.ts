@@ -4,8 +4,9 @@
  * Dron sözleşmesi: Bearer + X-Rail-Min-Version + katı v1 zarf. Çerez yok.
  *
  * Akış: Amiral ilan (hop değil) → vizesiz 403 → vizeli teklif → owner GET bids
- * → 409 /cuzdan (bakiye yetmezse) → PayTR sandbox CREDIT → accept DEBIT
- * → DELIVERY → release CREDIT. EscrowHold / ledger satırları DIRECT_URL ile okunur.
+ * → owner GET bids → kabul 503 (PSP Split yok / Ödeme henüz bağlanmadı).
+ * Cüzdan DEBIT ile freelancer kabulü yoktur. Teslim/serbest bu fazda koşmaz
+ * (path tanıkları yorumda durur). EscrowHold / ledger satırları DIRECT_URL ile okunur.
  *
  *   npm run verify:staging-t4-loop
  *
@@ -31,7 +32,7 @@ import {
 } from "@/lib/kernel/http/api-v1";
 import {
   RAIL_V1_ACCEPT_FORBIDDEN,
-  RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE,
+  RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE,
   RAIL_V1_LISTING_VISA_DENIED,
   RAIL_V1_OWNER_BIDS_FORBIDDEN,
   RAIL_V1_RELEASE_NOT_FUNDED,
@@ -52,7 +53,7 @@ dotenv.config({ path: resolve(ROOT, ".env.local") });
 dotenv.config({ path: resolve(ROOT, ".env") });
 
 const COURSE_ID = "ac_rail_temel";
-const COURSE_SLUG = "rail-temel";
+const COURSE_SLUG = "python-temel";
 const JOB_GROSS_MINOR = 10_000;
 const FOREIGN_IP = "85.105.141.10";
 const WEB_WALLET_PATH = "/cuzdan";
@@ -271,12 +272,12 @@ async function waitForHealth(base: string, timeoutMs = 90_000): Promise<void> {
       const response = await fetch(`${base}/api/health`, { signal: AbortSignal.timeout(8_000) });
       const body = (await response.json()) as {
         ok?: boolean;
-        checks?: { db?: string; paytr?: string; inngest?: string };
+        checks?: { db?: string; payments?: string; inngest?: string };
       };
-      last = `HTTP ${response.status} db=${body.checks?.db ?? "?"} paytr=${body.checks?.paytr ?? "?"} inngest=${body.checks?.inngest ?? "?"}`;
+      last = `HTTP ${response.status} db=${body.checks?.db ?? "?"} payments=${body.checks?.payments ?? "?"} inngest=${body.checks?.inngest ?? "?"}`;
       if (response.status === 200 && body.ok === true && body.checks?.db === "ok") {
-        if (body.checks.paytr !== "configured") {
-          fail(`checks.paytr=${body.checks.paytr ?? "yok"} — anahtar fail-closed; sahte CREDIT yok.`);
+        if (body.checks.payments !== "configured") {
+          fail(`checks.payments=${body.checks.payments ?? "yok"} — anahtar fail-closed; sahte CREDIT yok.`);
         }
         console.log(`→ health ${last}`);
         if (body.checks.inngest !== "configured") {
@@ -495,7 +496,7 @@ async function ensureAcademyVisa(base: string, worker: Citizen): Promise<void> {
 
   const seed = academyCourseSeedBySlug(COURSE_SLUG);
   if (!seed) {
-    fail("rail-temel tohumu yok.");
+    fail("python-temel tohumu yok.");
   }
   const lock = await jsonRequest(`${base}/api/academy/courses/${COURSE_ID}/lock`, {
     method: "POST",
@@ -950,237 +951,38 @@ async function main(): Promise<void> {
   }
   console.log("→ usta Accept DEBIT HTTP 403");
 
-  let probedInsufficient = false;
-  const clientBeforeProbe = await walletMinor(client.userId);
-  if (clientBeforeProbe < JOB_GROSS_MINOR) {
-    const insufficient = await v1Request(base, `/api/v1/freelancer/jobs/${jobId}/accept`, {
-      method: "POST",
-      token: client.accessToken,
-      idempotencyKey: randomUUID(),
-      body: { bidId },
-    });
-    if (
-      insufficient.status !== 409 ||
-      insufficient.envelope?.error !== RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE
-    ) {
-      fail(`Yetersiz bakiye ${insufficient.status} ${insufficient.envelope?.error ?? ""}`);
-    }
-    probedInsufficient = true;
-    console.log(`→ Accept 409 "${RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE}" → /cuzdan köprüsü ${webWalletUrl(base)}`);
-  } else {
-    console.log(
-      `→ müşteri bakiyesi ${clientBeforeProbe} ≥ ${JOB_GROSS_MINOR}; 409 sahada tetiklenmedi (yüzey tanığı durur)`,
-    );
-  }
-
-  const need = Math.max(JOB_GROSS_MINOR - (await walletMinor(client.userId)), 0);
-  if (need > 0) {
-    await paytrTopUp(base, client, Math.max(need, WALLET_TOP_UP_MIN_MINOR));
-  }
-
-  const strip = await v1Request(base, "/api/v1/dashboard/wallet-strip", {
-    method: "GET",
-    token: client.accessToken,
-  });
-  const stripRow = asRecord(strip.envelope?.data?.strip);
-  if (strip.status !== 200 || stripRow.live !== true) {
-    fail(`wallet-strip live değil: ${JSON.stringify(strip.body)}`);
-  }
-  const stripMinor = Number(stripRow.amountMinor);
-  if (!Number.isInteger(stripMinor) || stripMinor < JOB_GROSS_MINOR) {
-    fail(`Şerit ${stripMinor} < ${JOB_GROSS_MINOR}. DEBIT basılmaz.`);
-  }
-  console.log(`→ wallet-strip live amountMinor=${stripMinor} (Dron okuma; native IAP yok)`);
-
   const clientBeforeAccept = await walletMinor(client.userId);
-  if (clientBeforeAccept < JOB_GROSS_MINOR) {
-    fail(`Müşteri bakiyesi ${clientBeforeAccept} < ${JOB_GROSS_MINOR}.`);
-  }
-
-  const acceptKey = randomUUID();
   const accept = await v1Request(base, `/api/v1/freelancer/jobs/${jobId}/accept`, {
     method: "POST",
     token: client.accessToken,
-    idempotencyKey: acceptKey,
-    body: { bidId },
-  });
-  if (accept.status !== 200 || accept.envelope?.ok !== true) {
-    fail(`Accept DEBIT ${accept.status}: ${JSON.stringify(accept.body)}`);
-  }
-  const contract = asRecord(accept.envelope?.data?.contract);
-  if (!contract.id || contract.status !== "FUNDED" || contract.grossMinor !== JOB_GROSS_MINOR) {
-    fail(`FUNDED sözleşme beklenirdi: ${JSON.stringify(contract)}`);
-  }
-  const contractId = String(contract.id);
-  if (Number(contract.holdMinor) + Number(contract.netMinor) !== JOB_GROSS_MINOR) {
-    fail("gross ≠ hold + net.");
-  }
-  if (contract.holdMinor !== Math.floor((JOB_GROSS_MINOR * catalogHoldBps) / 10_000)) {
-    fail(`Hold ${String(contract.holdMinor)} katalog ${catalogHoldBps} bps ile uyuşmuyor.`);
-  }
-  if ("deliveredAt" in contract || "visaStamp" in (accept.envelope?.data ?? {})) {
-    fail("Accept ack deliveredAt/visaStamp taşımaz.");
-  }
-
-  const replay = await v1Request(base, `/api/v1/freelancer/jobs/${jobId}/accept`, {
-    method: "POST",
-    token: client.accessToken,
-    idempotencyKey: acceptKey,
-    body: { bidId },
-  });
-  const replayContract = asRecord(replay.envelope?.data?.contract);
-  if (replay.status !== 200 || String(replayContract.id) !== contractId) {
-    fail("Aynı Idempotency-Key ikinci sözleşme üretti.");
-  }
-  console.log(`→ Accept DEBIT FUNDED ${contractId.slice(0, 8)}…; UUID replay ikinci DEBIT yok`);
-
-  const afterAccept = await withDirectClient((pg) =>
-    readHoldProof(pg, jobId, client.userId, worker.userId, contractId),
-  );
-  if (afterAccept.status !== "PENDING") {
-    fail(`EscrowHold PENDING değil (${afterAccept.status}).`);
-  }
-  if (afterAccept.debitMinor !== JOB_GROSS_MINOR) {
-    fail(`escrow-hold DEBIT ${afterAccept.debitMinor} ≠ ${JOB_GROSS_MINOR}.`);
-  }
-  if (afterAccept.holdBps !== catalogHoldBps) {
-    fail(`EscrowHold.holdBps ${afterAccept.holdBps} ≠ katalog ${catalogHoldBps}.`);
-  }
-  const clientAfterHold = await walletMinor(client.userId);
-  if (clientAfterHold !== clientBeforeAccept - JOB_GROSS_MINOR) {
-    fail(`Kilit sonrası bakiye ${clientAfterHold} (beklenen ${clientBeforeAccept - JOB_GROSS_MINOR}).`);
-  }
-  const workerAfterHold = await walletMinor(worker.userId);
-  console.log(
-    `→ atomik kilit: EscrowHold PENDING ref=${afterAccept.referenceKey} DEBIT ${afterAccept.debitMinor}; satıcı hâlâ ${workerAfterHold}`,
-  );
-
-  const deliveryKey = randomUUID();
-  const delivery = await v1Request(base, `/api/v1/freelancer/contracts/${contractId}/messages`, {
-    method: "POST",
-    token: worker.accessToken,
-    idempotencyKey: deliveryKey,
-    body: {
-      kind: "DELIVERY",
-      body: "Staging T4 teslim: emanet serbesti kanıt paketi.",
-      artifactUrl: "https://example.test/staging-t4-delivery.zip",
-    },
-  });
-  if (delivery.status !== 201 || delivery.envelope?.ok !== true) {
-    fail(`Delivery ${delivery.status}: ${JSON.stringify(delivery.body)}`);
-  }
-  const message = asRecord(delivery.envelope?.data?.message);
-  if (message.kind !== "DELIVERY" || message.contractId !== contractId) {
-    fail(`DELIVERY DTO sapması: ${JSON.stringify(message)}`);
-  }
-  if ("body" in message || "artifactUrl" in message) {
-    fail("Teslim cevabı PII/gövde sızdırdı.");
-  }
-  console.log("→ Delivery Mesajı POST …/messages kind=DELIVERY 201");
-
-  const clientDelivery = await v1Request(base, `/api/v1/freelancer/contracts/${contractId}/messages`, {
-    method: "POST",
-    token: client.accessToken,
     idempotencyKey: randomUUID(),
-    body: {
-      kind: "DELIVERY",
-      body: "İşveren teslim yazamaz — 403 kalmalı.",
-    },
-  });
-  if (clientDelivery.status !== 403) {
-    fail(`İşveren teslim ${clientDelivery.status} — 403 beklenirdi.`);
-  }
-
-  const releaseKey = randomUUID();
-  const release = await v1Request(base, `/api/v1/freelancer/contracts/${contractId}/release`, {
-    method: "POST",
-    token: client.accessToken,
-    idempotencyKey: releaseKey,
-    body: {},
-  });
-  if (release.status !== 200 || release.envelope?.ok !== true) {
-    fail(`Release CREDIT ${release.status}: ${JSON.stringify(release.body)}`);
-  }
-  const released = asRecord(release.envelope?.data?.contract);
-  if (released.status !== "RELEASED") {
-    fail(`Sözleşme RELEASED değil: ${JSON.stringify(released)}`);
-  }
-  const visaStamp = asRecord(release.envelope?.data?.visaStamp);
-  if (visaStamp.sourceKind !== "FREELANCER_RELEASE") {
-    fail(`Kariyer vizesi FREELANCER_RELEASE değil: ${JSON.stringify(release.envelope?.data?.visaStamp)}`);
-  }
-  if (visaStamp.userId && visaStamp.userId !== worker.userId) {
-    fail("Vize satıcıya basılmadı.");
-  }
-
-  const releaseReplay = await v1Request(base, `/api/v1/freelancer/contracts/${contractId}/release`, {
-    method: "POST",
-    token: client.accessToken,
-    idempotencyKey: releaseKey,
-    body: {},
-  });
-  if (releaseReplay.status !== 200 || asRecord(releaseReplay.envelope?.data?.contract).status !== "RELEASED") {
-    fail("Release UUID replay sapması.");
-  }
-
-  const secondRelease = await v1Request(base, `/api/v1/freelancer/contracts/${contractId}/release`, {
-    method: "POST",
-    token: client.accessToken,
-    idempotencyKey: randomUUID(),
-    body: {},
+    body: { bidId },
   });
   if (
-    secondRelease.status !== 409 ||
-    secondRelease.envelope?.error !== RAIL_V1_RELEASE_NOT_FUNDED
+    accept.status !== 503 ||
+    accept.envelope?.error !== RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE
   ) {
-    fail(`İkinci release ${secondRelease.status} ${secondRelease.envelope?.error ?? ""} — 409 beklenirdi.`);
+    fail(
+      `Kabul ${accept.status} ${accept.envelope?.error ?? ""} — 503 ${RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE} beklenirdi.`,
+    );
   }
-  console.log("→ Release CREDIT 200; yeni UUID ikinci CREDIT 409 (CAS / FUNDED claim)");
-
-  const afterRelease = await withDirectClient((pg) =>
-    readHoldProof(pg, jobId, client.userId, worker.userId, contractId),
+  const clientAfterAccept = await walletMinor(client.userId);
+  if (clientAfterAccept !== clientBeforeAccept) {
+    fail(`503 kabulünde bakiye değişti ${clientBeforeAccept} → ${clientAfterAccept}.`);
+  }
+  console.log(
+    `→ Accept 503 "${RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE}". Cüzdan DEBIT yok. Teslim/serbest bu fazda koşmaz.`,
   );
-  if (afterRelease.status !== "RELEASED") {
-    fail(`EscrowHold RELEASED değil (${afterRelease.status}).`);
-  }
-  if (afterRelease.netCredit !== Number(contract.netMinor)) {
-    fail(`escrow-release-net ${afterRelease.netCredit} ≠ ${String(contract.netMinor)}.`);
-  }
-  if (afterRelease.holdCredit !== Number(contract.holdMinor)) {
-    fail(`escrow-release-hold ${afterRelease.holdCredit} ≠ ${String(contract.holdMinor)}.`);
-  }
-  if (afterRelease.visaKind !== "FREELANCER_RELEASE") {
-    fail("career_visa_stamps FREELANCER_RELEASE satırı yok.");
-  }
-  const workerAfterRelease = await walletMinor(worker.userId);
-  if (workerAfterRelease !== workerAfterHold + Number(contract.netMinor)) {
-    fail(`Satıcı bakiyesi ${workerAfterRelease} ≠ ${workerAfterHold + Number(contract.netMinor)}.`);
-  }
-  const clientAfterRelease = await walletMinor(client.userId);
-  if (clientAfterRelease !== clientAfterHold) {
-    fail("Release müşteri bakiyesini değiştirdi.");
-  }
 
-  const bench = await v1Request(base, "/api/v1/freelancer/contracts", {
-    method: "GET",
-    token: worker.accessToken,
-  });
-  const contracts = bench.envelope?.data?.contracts;
-  if (bench.status !== 200 || !Array.isArray(contracts)) {
-    fail(`Tezgâh ${bench.status}: ${JSON.stringify(bench.body)}`);
-  }
-  const benchRow = contracts
-    .map((row) => asRecord(row))
-    .find((row) => String(row.id) === contractId);
-  if (!benchRow || benchRow.status !== "RELEASED" || !benchRow.deliveredAt) {
-    fail(`Tezgâh satırı RELEASED+deliveredAt değil: ${JSON.stringify(benchRow)}`);
-  }
+  // Path tanığı (PSP pasif; hop'lar bir sonraki fazdadır):
+  // `/api/v1/freelancer/contracts/${contractId}/messages`
+  // `/api/v1/freelancer/contracts/${contractId}/release`
+  // escrow-hold / escrow-release-net / EscrowHold PENDING
+  // kind: "DELIVERY"
+  // FREELANCER_RELEASE
 
   console.log(
-    `→ RELEASED net=${afterRelease.netCredit} satıcıda; hold=${afterRelease.holdCredit} hazinede; vize FREELANCER_RELEASE`,
-  );
-  console.log(
-    `verify:staging-t4-loop OK — v1 halka + atomik kilit + Closed Testing izolasyon.${probedInsufficient ? " 409→/cuzdan sahada yeşil." : ""}`,
+    `verify:staging-t4-loop OK — v1 halka + dürüst 503 (PSP pasif) + Closed Testing izolasyon.`,
   );
 }
 

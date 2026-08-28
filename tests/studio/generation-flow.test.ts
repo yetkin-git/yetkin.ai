@@ -8,6 +8,8 @@ import { resolveStudioDebitMinor } from "@/lib/studio/billing";
 import { createMemoryLedgerStore } from "../helpers/memory-money";
 import { createMemoryPriceCatalogStore } from "../helpers/memory-pricing";
 import { createMemoryAiTokenUsageStore, createMemoryStudioStore } from "../helpers/memory-studio";
+import { createMemoryPaidCommandStore, mintTestCommandKey } from "../helpers/memory-paid-command";
+import { ConflictError } from "@/lib/kernel/http/errors";
 
 const USER = "studio-user-1";
 const PLATFORM = PLATFORM_TREASURY_USER_ID;
@@ -52,6 +54,7 @@ function world(input?: {
   ]);
   const usageStore = createMemoryAiTokenUsageStore();
   const studio = createMemoryStudioStore();
+  const commands = createMemoryPaidCommandStore();
   return {
     adapter,
     ledger,
@@ -62,6 +65,7 @@ function world(input?: {
       catalog,
       usage: usageStore,
       studio,
+      commands,
       llmDeps: {
         providers: { gemini: adapter },
         budgetPort: createMemoryBudgetShieldPort({
@@ -77,6 +81,7 @@ describe("studio üretim ve jeton debiti", () => {
     const ctx = world();
     const result = await generateStudioContent(ctx.ports, {
       userId: USER,
+      commandKey: mintTestCommandKey(),
       prompt: "Kısa bir iş ilanı taslağı yaz.",
       platformUserId: PLATFORM,
       now: new Date("2026-08-14T00:00:00.000Z"),
@@ -111,6 +116,7 @@ describe("studio üretim ve jeton debiti", () => {
 
     const result = await generateStudioContent(ctx.ports, {
       userId: USER,
+      commandKey: mintTestCommandKey(),
       prompt: "Uzun bir rapor özeti yaz.",
       platformUserId: PLATFORM,
     });
@@ -127,6 +133,7 @@ describe("studio üretim ve jeton debiti", () => {
     await expect(
       generateStudioContent(ctx.ports, {
         userId: USER,
+        commandKey: mintTestCommandKey(),
         prompt: "Bir slogan üret.",
         platformUserId: PLATFORM,
       }),
@@ -145,6 +152,7 @@ describe("studio üretim ve jeton debiti", () => {
     await expect(
       generateStudioContent(ctx.ports, {
         userId: USER,
+        commandKey: mintTestCommandKey(),
         prompt: "Bir slogan üret.",
         platformUserId: PLATFORM,
       }),
@@ -155,5 +163,28 @@ describe("studio üretim ve jeton debiti", () => {
     expect(await ctx.studio.listGenerationsForUser(USER)).toHaveLength(0);
     expect(ctx.ledger.snapshot(USER).amountMinor).toBe(10_000);
     expect(ctx.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
+  });
+
+  it("aynı Idempotency-Key ikinci debit ve ikinci LLM çağrısı doğurmaz", async () => {
+    const ctx = world();
+    const commandKey = mintTestCommandKey();
+    const command = {
+      userId: USER,
+      commandKey,
+      prompt: "Kısa bir iş ilanı taslağı yaz.",
+      platformUserId: PLATFORM,
+    };
+    const first = await generateStudioContent(ctx.ports, command);
+    const second = await generateStudioContent(ctx.ports, command);
+    expect(ctx.adapter.calls).toBe(1);
+    expect(second.generation.id).toBe(first.generation.id);
+    expect(second.generation.id).toBe(commandKey);
+    expect(ctx.ledger.snapshot(USER).amountMinor).toBe(9_900);
+    expect(ctx.ledger.snapshot(PLATFORM).amountMinor).toBe(CATALOG_FLOOR);
+    await expect(
+      generateStudioContent(ctx.ports, { ...command, prompt: "Farklı gövde." }),
+    ).rejects.toBeInstanceOf(ConflictError);
+    expect(ctx.adapter.calls).toBe(1);
+    expect(ctx.ledger.snapshot(USER).amountMinor).toBe(9_900);
   });
 });

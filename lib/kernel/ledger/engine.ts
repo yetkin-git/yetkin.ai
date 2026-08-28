@@ -6,6 +6,7 @@ import {
   type AmountMinor,
 } from "@/lib/kernel/money/amount-minor";
 import { assertSameCurrency } from "@/lib/kernel/money/currency";
+import { assertLedgerCreditPurpose } from "@/lib/kernel/ledger/credit-purposes";
 import type {
   AppendLedgerCommand,
   AppendLedgerResult,
@@ -41,6 +42,9 @@ export async function appendLedgerEntry(
   command: AppendLedgerCommand,
 ): Promise<AppendLedgerResult> {
   toPositiveAmountMinor(command.amountMinor);
+  if (command.direction === "CREDIT") {
+    assertLedgerCreditPurpose(command.purpose);
+  }
   if (!command.idempotencyKey.trim()) {
     throw new Error("idempotencyKey zorunludur.");
   }

@@ -16,5 +16,9 @@ export {
 export {
   SUPER_ADMIN_FORBIDDEN,
   assertSuperAdminUserId,
+  assertSuperAdminActor,
+  isCanonicalSuperAdminEmail,
+  isSuperAdminActor,
   isSuperAdminUser,
+  resolveCanonicalSuperAdminEmail,
 } from "@/lib/kernel/auth/super-admin";

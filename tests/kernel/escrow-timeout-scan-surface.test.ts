@@ -35,14 +35,15 @@ describe("K7 emanet TTL çekirdek sınırı", () => {
     expect(hooks).not.toContain("marketplaceOrder");
   });
 
-  it("kompozisyon kökü API dilimindedir; dört dikey kancayı kaydeder", () => {
+  it("kompozisyon kökü API dilimindedir; yalnız freelancer kancasını kaydeder", () => {
     const route = readSrc("app/api/(kernel)/jobs/inngest/route.ts");
     expect(route).toContain("registerVerticalEscrowRefundHooks");
+    expect(route).not.toContain("arenaInngestFunctions");
     const bindings = readSrc("app/api/(kernel)/jobs/register-escrow-hooks.ts");
     expect(bindings).toContain("FREELANCER_ESCROW_REFUND_PURPOSE");
-    expect(bindings).toContain("KURUMSAL_ESCROW_REFUND_PURPOSE");
-    expect(bindings).toContain("ARENA_ESCROW_REFUND_PURPOSE");
-    expect(bindings).toContain("PAZARYERI_ESCROW_REFUND_PURPOSE");
+    expect(bindings).not.toContain("KURUMSAL_ESCROW_REFUND_PURPOSE");
+    expect(bindings).not.toContain("ARENA_ESCROW_REFUND_PURPOSE");
+    expect(bindings).not.toContain("PAZARYERI_ESCROW_REFUND_PURPOSE");
     expect(bindings).toContain("registerEscrowTimeoutGuard");
     expect(bindings).toContain("registerEscrowTtlApproachingHook");
   });

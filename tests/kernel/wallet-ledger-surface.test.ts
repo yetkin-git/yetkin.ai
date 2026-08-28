@@ -67,8 +67,12 @@ describe("cüzdan defter yüzeyi", () => {
     expect(db).toContain("globalThis");
     expect(db).toContain("__yetkinKernelDb");
     expect(db).toContain("$queryRaw`SELECT 1`");
-    expect(db).toContain("max: 20");
-    expect(db).toContain("connectionTimeoutMillis: 10_000");
+    expect(db).toContain("connection_limit");
+    expect(db).toContain("pool_timeout");
+    expect(db).toContain("PRISMA_POOL_MAX_DEVELOPMENT");
+    expect(db).toContain("PRISMA_POOL_TIMEOUT_MS_DEVELOPMENT");
+    expect(db).toContain("withDbReadTimeout");
+    expect(db).toContain("idleTimeoutMillis");
     expect(db).toContain("preferIpv6ForDirectHost");
     expect(db).toContain("ENOENT");
     const dns = readSrc("lib/kernel/dns-ipv6-first.ts");

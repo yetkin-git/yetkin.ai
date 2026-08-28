@@ -2,8 +2,8 @@
 /**
  * T4 canlı kazanç halkası — Freelancer emanet / hakediş. Sahte bakiye YASAK.
  *
- * OPEN ilan → katalog hold bandı → accept (EscrowHold PENDING + Ledger DEBIT)
- * → teslim → release (net satıcıya, hold hazineye) → FREELANCER_RELEASE vize.
+ * OPEN ilan → katalog hold bandı → accept (PSP hold veya dürüst 503; Rail DEBIT yok)
+ * → teslim → release (split port) → FREELANCER_RELEASE vize.
  * CheckoutPriceLock akademi halkasına aittir; freelancer nakit kilidi EscrowHold'dur
  * (ikinci bakiye kolonu yok). Satıcı teklifi akademi Kariyer vizesi ister.
  *
@@ -22,6 +22,8 @@ import { Client } from "pg";
 import { createClient } from "@supabase/supabase-js";
 import { academyCourseSeedBySlug } from "@/lib/academy/seed";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
+import { academyCanonicalProofSubmission } from "@/lib/academy/proof-of-work";
+import { academyExamAnswersFromPublicQuestions } from "@/lib/academy/exam-sitting";
 import { FREELANCER_JOB_SEEDS, FREELANCER_SEED_MODULE_KEY, FREELANCER_ESCROW_HOLD_UNIT_KEY } from "@/lib/freelancer/seed";
 import { freelancerJobEscrowReferenceKey } from "@/lib/freelancer/fsm";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
@@ -33,13 +35,14 @@ import {
   resolveMigratorConnectionUrl,
   withPgLibpqSslCompat,
 } from "./ops-migrate-lib";
+import { flattenRailV1Record } from "./rail-v1-ops-json";
 
 const ROOT = process.cwd();
 dotenv.config({ path: resolve(ROOT, ".env.local") });
 dotenv.config({ path: resolve(ROOT, ".env") });
 
 const COURSE_ID = "ac_rail_temel";
-const COURSE_SLUG = "rail-temel";
+const COURSE_SLUG = "python-temel";
 const SEED_OPEN_JOB_ID = FREELANCER_JOB_SEEDS[0]?.id ?? "fj_rail_icon_set";
 const JOB_GROSS_MINOR = 10_000;
 const FOREIGN_IP = "85.105.141.10";
@@ -79,14 +82,14 @@ async function waitForHealth(base: string, timeoutMs = 90_000): Promise<void> {
   while (Date.now() - started < timeoutMs) {
     try {
       const response = await fetch(`${base}/api/health`);
-      const body = (await response.json()) as {
+      const body = flattenRailV1Record((await response.json()) as Record<string, unknown>) as {
         ok?: boolean;
-        checks?: { db?: string; paytr?: string; inngest?: string };
+        checks?: { db?: string; payments?: string; inngest?: string };
       };
-      last = `HTTP ${response.status} db=${body.checks?.db ?? "?"} paytr=${body.checks?.paytr ?? "?"} inngest=${body.checks?.inngest ?? "?"}`;
+      last = `HTTP ${response.status} db=${body.checks?.db ?? "?"} payments=${body.checks?.payments ?? "?"} inngest=${body.checks?.inngest ?? "?"}`;
       if (response.status === 200 && body.ok === true && body.checks?.db === "ok") {
-        if (body.checks.paytr !== "configured") {
-          fail(`checks.paytr=${body.checks.paytr ?? "yok"} — anahtar fail-closed; sahte CREDIT yok.`);
+        if (body.checks.payments !== "configured") {
+          fail(`checks.payments=${body.checks.payments ?? "yok"} — anahtar fail-closed; sahte CREDIT yok.`);
         }
         console.log(`→ health ${last}`);
         if (body.checks.inngest !== "configured") {
@@ -112,7 +115,7 @@ async function jsonRequest(
   try {
     const parsed: unknown = JSON.parse(text);
     if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
-      body = parsed as Record<string, unknown>;
+      body = flattenRailV1Record(parsed as Record<string, unknown>);
     }
   } catch {
     body = { raw: text };
@@ -321,7 +324,7 @@ async function ensureAcademyVisa(base: string, worker: Citizen): Promise<void> {
 
   const seed = academyCourseSeedBySlug(COURSE_SLUG);
   if (!seed) {
-    fail("rail-temel tohumu yok.");
+    fail("python-temel tohumu yok.");
   }
   const lock = await jsonRequest(`${base}/api/academy/courses/${COURSE_ID}/lock`, {
     method: "POST",
@@ -362,10 +365,11 @@ async function ensureAcademyVisa(base: string, worker: Citizen): Promise<void> {
 
   const lessons = curriculumForCourseSlug(COURSE_SLUG);
   for (const lesson of lessons) {
+    const proof = academyCanonicalProofSubmission(lesson.key);
     const done = await jsonRequest(`${base}/api/academy/courses/${COURSE_ID}/curriculum`, {
       method: "POST",
       headers: authHeaders(worker.accessToken),
-      body: JSON.stringify({ lessonKey: lesson.key }),
+      body: JSON.stringify({ lessonKey: lesson.key, proof }),
     });
     if (done.status !== 200 || done.body.ok !== true) {
       fail(`Ders ${lesson.key} ${done.status}: ${JSON.stringify(done.body)}`);
@@ -376,21 +380,24 @@ async function ensureAcademyVisa(base: string, worker: Citizen): Promise<void> {
     method: "GET",
     headers: authHeaders(worker.accessToken),
   });
-  const questions = examGet.body.questions as Array<{ id: string }> | undefined;
+  const questions = examGet.body.questions as Array<{ id: string; choices: string[] }> | undefined;
   if (examGet.status !== 200 || !questions?.length) {
     fail(`Sınav GET ${examGet.status}: ${JSON.stringify(examGet.body)}`);
   }
-  const answers = questions.map((question) => {
-    const seeded = seed.exam.questions.find((row) => row.id === question.id);
-    if (!seeded) {
-      fail(`Sınav sorusu tohumda yok: ${question.id}`);
-    }
-    return { questionId: question.id, choiceIndex: seeded.correctIndex };
-  });
+  const sessionToken = examGet.body.sessionToken;
+  if (typeof sessionToken !== "string" || sessionToken.length === 0) {
+    fail("Sınav oturum mührü yok.");
+  }
+  let answers;
+  try {
+    answers = academyExamAnswersFromPublicQuestions(questions, seed.exam.questions);
+  } catch (error) {
+    fail(error instanceof Error ? error.message : String(error));
+  }
   const examPost = await jsonRequest(`${base}/api/academy/courses/${COURSE_ID}/exam`, {
     method: "POST",
     headers: authHeaders(worker.accessToken),
-    body: JSON.stringify({ answers }),
+    body: JSON.stringify({ answers, sessionToken }),
   });
   if (examPost.status !== 200 || examPost.body.passed !== true) {
     fail(`Sınav POST ${examPost.status}: ${JSON.stringify(examPost.body)}`);
@@ -608,9 +615,6 @@ async function main(): Promise<void> {
     await paytrTopUp(base, client, Math.max(need, WALLET_TOP_UP_MIN_MINOR));
   }
   const clientBeforeAccept = await walletMinor(client.userId);
-  if (clientBeforeAccept < JOB_GROSS_MINOR) {
-    fail(`Müşteri bakiyesi ${clientBeforeAccept} < ${JOB_GROSS_MINOR}.`);
-  }
 
   const bidRes = await jsonRequest(`${base}/api/freelancer/jobs/${jobId}/bids`, {
     method: "POST",
@@ -638,6 +642,12 @@ async function main(): Promise<void> {
     },
     body: JSON.stringify({ bidId }),
   });
+  if (accept.status === 503) {
+    console.log(
+      "→ Kabul 503: Ödeme henüz bağlanmadı. Sahte DEBIT yok. T4 nakit halkası dürüst kapanır.",
+    );
+    return;
+  }
   if (accept.status !== 200 || accept.body.ok !== true) {
     fail(`Kabul ${accept.status}: ${JSON.stringify(accept.body)}`);
   }
@@ -677,15 +687,15 @@ async function main(): Promise<void> {
   if (afterAccept.status !== "PENDING") {
     fail(`EscrowHold PENDING değil (${afterAccept.status}).`);
   }
-  if (afterAccept.debitMinor !== JOB_GROSS_MINOR) {
-    fail(`escrow-hold DEBIT ${afterAccept.debitMinor} ≠ ${JOB_GROSS_MINOR}.`);
+  if (afterAccept.debitMinor) {
+    fail(`üçüncü kişi işinde escrow-hold DEBIT yasak (${afterAccept.debitMinor}).`);
   }
   if (afterAccept.holdBps !== catalogHoldBps) {
     fail(`EscrowHold.holdBps ${afterAccept.holdBps} ≠ katalog ${catalogHoldBps}.`);
   }
   const clientAfterHold = await walletMinor(client.userId);
-  if (clientAfterHold !== clientBeforeAccept - JOB_GROSS_MINOR) {
-    fail(`Kilit sonrası bakiye ${clientAfterHold} (beklenen ${clientBeforeAccept - JOB_GROSS_MINOR}).`);
+  if (clientAfterHold !== clientBeforeAccept) {
+    fail(`Kilit sonrası bakiye ${clientAfterHold} (beklenen ${clientBeforeAccept}; Rail DEBIT yok).`);
   }
   const workerAfterHold = await walletMinor(worker.userId);
   console.log(
@@ -773,8 +783,6 @@ async function sealUstaFourRing(
   const needed = [
     "CREDIT:wallet-top-up",
     "DEBIT:academy-purchase",
-    "DEBIT:escrow-hold",
-    "CREDIT:escrow-release-net",
   ] as const;
   if (needed.every((key) => purposes.has(key))) {
     console.log(`→ usta dört halka sicilde ${usta.userId.slice(0, 8)}…`);
@@ -829,6 +837,10 @@ async function sealUstaFourRing(
     },
     body: JSON.stringify({ bidId: bid.id }),
   });
+  if (accept.status === 503) {
+    console.log("→ Usta kabul 503: Pazaryeri henüz bağlı değil. Sahte DEBIT yok.");
+    return;
+  }
   if (accept.status !== 200 || accept.body.ok !== true) {
     fail(`Usta kabul ${accept.status}: ${JSON.stringify(accept.body)}`);
   }
@@ -861,8 +873,8 @@ async function sealUstaFourRing(
   const proof = await withDirectClient((pg) =>
     readHoldProof(pg, jobId, usta.userId, counterparty.userId, contract.id ?? null),
   );
-  if (proof.status !== "RELEASED" || proof.debitMinor !== JOB_GROSS_MINOR) {
-    fail(`Usta hold mühürü eksik: ${JSON.stringify(proof)}`);
+  if (proof.status !== "RELEASED" || proof.debitMinor) {
+    fail(`Usta hold mühürü eksik veya sahte DEBIT: ${JSON.stringify(proof)}`);
   }
   if (proof.holdBps !== catalogHoldBps) {
     fail(`Usta hold bps ${proof.holdBps} ≠ ${catalogHoldBps}.`);

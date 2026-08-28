@@ -1,10 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createMemoryLedgerStore } from "../helpers/memory-money";
+import { createMemoryPaymentAnomalyStore } from "../helpers/memory-payment-anomaly";
+import { createMemoryPaymentOrderStore } from "../helpers/memory-payment-orders";
 import {
   assertPaymentOrderAmountMatches,
   failPaymentOrder,
+  PaymentOrderCasError,
   type PaymentOrderSnapshot,
-  type PaymentOrderStore,
 } from "@/lib/kernel/payments/clearing";
 import {
   PAYTR_PENDING_TIMEOUT_MS,
@@ -28,46 +30,8 @@ function snapshot(overrides?: Partial<PaymentOrderSnapshot>): PaymentOrderSnapsh
   };
 }
 
-function memoryOrders(initial: PaymentOrderSnapshot): PaymentOrderStore & {
-  row(): PaymentOrderSnapshot;
-} {
-  let row = { ...initial };
-  return {
-    row() {
-      return { ...row };
-    },
-    async findByMerchantOid(merchantOid) {
-      return merchantOid === row.merchantOid ? { ...row } : null;
-    },
-    async markPaid(id, _at) {
-      if (row.id !== id) {
-        throw new Error("sipariş yok");
-      }
-      row = { ...row, status: "PAID" };
-      return { ...row };
-    },
-    async markCleared(id, _at) {
-      if (row.id !== id) {
-        throw new Error("sipariş yok");
-      }
-      row = { ...row, status: "CLEARED" };
-      return { ...row };
-    },
-    async markFailed(id, _at) {
-      if (row.id !== id) {
-        throw new Error("sipariş yok");
-      }
-      row = { ...row, status: "FAILED" };
-      return { ...row };
-    },
-    async listUnclearedPaid() {
-      return row.status === "PAID" ? [{ ...row }] : [];
-    },
-  };
-}
-
 function ports(order: PaymentOrderSnapshot) {
-  const orders = memoryOrders(order);
+  const orders = createMemoryPaymentOrderStore(order);
   const ledger = createMemoryLedgerStore([
     { userId: BUYER, amountMinor: 0 },
     { userId: PLATFORM_TREASURY_USER_ID, amountMinor: 0 },
@@ -89,7 +53,7 @@ describe("PayTR fail-closed reconcile", () => {
     expect(result.action).toBe("cleared");
     expect(result.applied).toBe(true);
     expect(world.ledger.snapshot(BUYER).amountMinor).toBe(1300);
-    expect(world.orders.row().status).toBe("CLEARED");
+    expect(world.orders.row()?.status).toBe("CLEARED");
   });
 
   it("PSP yokken PENDING'e CREDIT yazmaz", async () => {
@@ -104,21 +68,27 @@ describe("PayTR fail-closed reconcile", () => {
     );
     expect(result).toMatchObject({ action: "skipped", reason: "still_pending", applied: false });
     expect(world.ledger.snapshot(BUYER).amountMinor).toBe(0);
-    expect(world.orders.row().status).toBe("PENDING");
+    expect(world.orders.row()?.status).toBe("PENDING");
   });
 
   it("tutar eşleşmezse CREDIT yazmaz", async () => {
     const world = ports(snapshot());
+    const anomalies = createMemoryPaymentAnomalyStore();
+    vi.spyOn(console, "error").mockImplementation(() => {});
     const result = await reconcilePaytrPaymentOrder(
       {
         ...world,
+        anomalies,
         inquireStatus: async () => ({ kind: "paid", amountMinor: 9999 }),
       },
       OID,
     );
     expect(result.reason).toBe("amount_mismatch");
     expect(world.ledger.snapshot(BUYER).amountMinor).toBe(0);
-    expect(world.orders.row().status).toBe("PENDING");
+    expect(world.orders.row()?.status).toBe("PENDING");
+    expect(anomalies.list()).toHaveLength(1);
+    expect(anomalies.list()[0]?.kind).toBe("amount_mismatch");
+    vi.restoreAllMocks();
   });
 
   it("PSP failed PENDING'i markFailed eder", async () => {
@@ -131,7 +101,7 @@ describe("PayTR fail-closed reconcile", () => {
       OID,
     );
     expect(result.action).toBe("failed");
-    expect(world.orders.row().status).toBe("FAILED");
+    expect(world.orders.row()?.status).toBe("FAILED");
     expect(world.ledger.snapshot(BUYER).amountMinor).toBe(0);
   });
 
@@ -147,18 +117,97 @@ describe("PayTR fail-closed reconcile", () => {
       new Date(createdAt.getTime() + PAYTR_PENDING_TIMEOUT_MS + 1),
     );
     expect(result.reason).toBe("pending_timeout");
-    expect(world.orders.row().status).toBe("FAILED");
+    expect(world.orders.row()?.status).toBe("FAILED");
   });
 
-  it("failPaymentOrder PENDING'i işletir; CLEARED'i reddeder", async () => {
-    const pending = memoryOrders(snapshot());
+  it("failPaymentOrder PENDING'i işletir; PAID/CLEARED'i ezmez", async () => {
+    const pending = createMemoryPaymentOrderStore(snapshot());
     const failed = await failPaymentOrder(pending, OID);
     expect(failed.applied).toBe(true);
-    expect(pending.row().status).toBe("FAILED");
+    expect(pending.row()?.status).toBe("FAILED");
     const again = await failPaymentOrder(pending, OID);
     expect(again.applied).toBe(false);
-    const cleared = memoryOrders(snapshot({ status: "CLEARED" }));
-    await expect(failPaymentOrder(cleared, OID)).rejects.toThrow(/Temizlenmiş/);
+    const cleared = createMemoryPaymentOrderStore(snapshot({ status: "CLEARED" }));
+    const skipCleared = await failPaymentOrder(cleared, OID);
+    expect(skipCleared.applied).toBe(false);
+    expect(cleared.row()?.status).toBe("CLEARED");
+    const paid = createMemoryPaymentOrderStore(snapshot({ status: "PAID" }));
+    const skipPaid = await failPaymentOrder(paid, OID);
+    expect(skipPaid.applied).toBe(false);
+    expect(paid.row()?.status).toBe("PAID");
+  });
+
+  it("markFailed CLEARED satırı CAS ile reddeder", async () => {
+    const orders = createMemoryPaymentOrderStore(snapshot({ status: "CLEARED" }));
+    await expect(orders.markFailed("po-1", new Date())).rejects.toBeInstanceOf(PaymentOrderCasError);
+    expect(orders.row()?.status).toBe("CLEARED");
+  });
+
+  it("clearing sonrası failPaymentOrder CREDIT ve CLEARED'i ezmez", async () => {
+    const world = ports(snapshot());
+    const cleared = await reconcilePaytrPaymentOrder(
+      {
+        ...world,
+        inquireStatus: async () => ({ kind: "paid", amountMinor: 1300 }),
+      },
+      OID,
+    );
+    expect(cleared.applied).toBe(true);
+    const failed = await failPaymentOrder(world.orders, OID);
+    expect(failed.applied).toBe(false);
+    expect(world.orders.row()?.status).toBe("CLEARED");
+    expect(world.ledger.snapshot(BUYER).amountMinor).toBe(1300);
+  });
+
+  it("FAILED + PSP paid + tutar eşleşmesi geç paid recovery ile CREDIT yazar", async () => {
+    const world = ports(snapshot({ status: "FAILED" }));
+    const result = await reconcilePaytrPaymentOrder(
+      {
+        ...world,
+        inquireStatus: async () => ({ kind: "paid", amountMinor: 1300 }),
+      },
+      OID,
+      new Date("2026-08-15T12:10:00.000Z"),
+    );
+    expect(result).toMatchObject({
+      action: "cleared",
+      applied: true,
+      reason: "late_paid_recovery",
+    });
+    expect(world.ledger.snapshot(BUYER).amountMinor).toBe(1300);
+    expect(world.orders.row()?.status).toBe("CLEARED");
+  });
+
+  it("FAILED + PSP paid + tutar uyuşmazlığı CREDIT yazmaz", async () => {
+    const world = ports(snapshot({ status: "FAILED" }));
+    const anomalies = createMemoryPaymentAnomalyStore();
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const result = await reconcilePaytrPaymentOrder(
+      {
+        ...world,
+        anomalies,
+        inquireStatus: async () => ({ kind: "paid", amountMinor: 9999 }),
+      },
+      OID,
+    );
+    expect(result.reason).toBe("amount_mismatch");
+    expect(world.ledger.snapshot(BUYER).amountMinor).toBe(0);
+    expect(world.orders.row()?.status).toBe("FAILED");
+    vi.restoreAllMocks();
+  });
+
+  it("FAILED + PSP failed CREDIT yazmaz", async () => {
+    const world = ports(snapshot({ status: "FAILED" }));
+    const result = await reconcilePaytrPaymentOrder(
+      {
+        ...world,
+        inquireStatus: async () => ({ kind: "failed" }),
+      },
+      OID,
+    );
+    expect(result).toMatchObject({ action: "failed", reason: "already_failed", applied: false });
+    expect(world.ledger.snapshot(BUYER).amountMinor).toBe(0);
+    expect(world.orders.row()?.status).toBe("FAILED");
   });
 
   it("amountMinor birebir eşitliğini doğrular", () => {

@@ -19,6 +19,7 @@ import {
   ASSET_VITRINE_ONLY_ERROR,
   settlementKindForCategory,
 } from "@/lib/pazaryeri/category";
+import { EIDS_PUBLIC_LISTING_LOCKED_ERROR } from "@/lib/kernel/compliance/circuit-breakers";
 import { createMemoryLedgerStore, createMemoryEscrowStore } from "../helpers/memory-money";
 import {
   createMemoryPazaryeriStore,
@@ -81,20 +82,20 @@ describe("Yetkinİlan — emlak/vasıta vitrin, teklif ve doping kapısı", () =
     expect(() => settlementKindForCategory("VEHICLE")).toThrow(ASSET_VITRINE_ONLY_ERROR);
   });
 
-  it("emlak kategorisi TKGM ada-parsel ile vitrin olarak listelenir", async () => {
+  it("emlak kategorisi EİDS kilidinde LISTED yazılmaz", async () => {
     const ports = world();
-    const product = await listMarketplaceProduct(ports, {
-      sellerUserId: SELLER,
-      title: "Kadıköy örnek daire",
-      summary: "3D/TKGM uyumlu örnek emlak ilanı.",
-      category: "REAL_ESTATE",
-      amountMinor: ASSET_PRICE,
-      tkgmBlockParcel: "12/34",
-      isOfferAllowed: true,
-    });
-    expect(product.category).toBe("REAL_ESTATE");
-    expect(product.isOfferAllowed).toBe(false);
-    expect(product.tkgmBlockParcel).toBe("Ada 12 / Parsel 34");
+    await expect(
+      listMarketplaceProduct(ports, {
+        sellerUserId: SELLER,
+        title: "Kadıköy örnek daire",
+        summary: "3D/TKGM uyumlu örnek emlak ilanı.",
+        category: "REAL_ESTATE",
+        amountMinor: ASSET_PRICE,
+        tkgmBlockParcel: "12/34",
+        isOfferAllowed: true,
+      }),
+    ).rejects.toThrow(EIDS_PUBLIC_LISTING_LOCKED_ERROR);
+    expect(await ports.pazaryeri.listListedProducts()).toHaveLength(0);
   });
 
   it("emlak ilanı ada-parsel olmadan reddedilir", async () => {
@@ -110,19 +111,18 @@ describe("Yetkinİlan — emlak/vasıta vitrin, teklif ve doping kapısı", () =
     ).rejects.toThrow(/TKGM ada-parsel/);
   });
 
-  it("vasıta kategorisi sigorta kancası ile vitrin olarak listelenir", async () => {
+  it("vasıta kategorisi EİDS kilidinde LISTED yazılmaz", async () => {
     const ports = world();
-    const product = await listMarketplaceProduct(ports, {
-      sellerUserId: SELLER,
-      title: "Örnek vasıta",
-      summary: "Sigorta uyumlu örnek vasıta ilanı.",
-      category: "VEHICLE",
-      amountMinor: ASSET_PRICE,
-      insuranceQuoteHook: "Hepiyi",
-    });
-    expect(product.category).toBe("VEHICLE");
-    expect(product.isOfferAllowed).toBe(false);
-    expect(product.insuranceQuoteHook).toBe("hepiyi");
+    await expect(
+      listMarketplaceProduct(ports, {
+        sellerUserId: SELLER,
+        title: "Örnek vasıta",
+        summary: "Sigorta uyumlu örnek vasıta ilanı.",
+        category: "VEHICLE",
+        amountMinor: ASSET_PRICE,
+        insuranceQuoteHook: "Hepiyi",
+      }),
+    ).rejects.toThrow(EIDS_PUBLIC_LISTING_LOCKED_ERROR);
   });
 
   it("vasıta ilanı sigorta kancası olmadan reddedilir", async () => {

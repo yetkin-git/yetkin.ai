@@ -1,4 +1,4 @@
-import { SETTLEMENT_CURRENCY, type CurrencyCode } from "@/lib/kernel/money/currency";
+import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import type { AcademyPulse } from "@/lib/academy/types";
 
 export type AcademyPulseSnapshot = AcademyPulse & { live: boolean };

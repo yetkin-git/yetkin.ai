@@ -22,6 +22,15 @@ function toSnapshot(row: WalletRow): WalletSnapshot {
   };
 }
 
+/**
+ * Settlement cüzdanı — salt SELECT. Satır yoksa null.
+ * Dashboard / wallet-strip okuma yolları yalnız bunu çağırır (INSERT yok).
+ */
+export async function readSettlementWallet(userId: string): Promise<WalletSnapshot | null> {
+  const row = await selectSettlementWallet(userId);
+  return row ? toSnapshot(row) : null;
+}
+
 async function selectSettlementWallet(userId: string): Promise<WalletRow | null> {
   const prisma = getPrisma();
   const rows = await prisma.$queryRaw<WalletRow[]>`
@@ -33,10 +42,9 @@ async function selectSettlementWallet(userId: string): Promise<WalletRow | null>
 }
 
 /**
- * Settlement cüzdanı — okuma $queryRaw.
- * Route Handler'da çağıran ensurePrismaQueryEngine (SELECT 1 + findFirst) ile
- * soğuk query compiler'ı açar; bu fonksiyon ısınmış istemciyi kullanır.
+ * Settlement cüzdanı bootstrap — yazma yüzeyi.
  * Satır yoksa TRY 0 satırı basar (handle_new_user ile aynı ON CONFLICT).
+ * Dashboard / pulse / wallet-strip bu yolu çağırmaz; o yollar `readSettlementWallet`.
  * Defter yazma kilidi değildir; o yol lockWallet SSOT durur.
  */
 export async function ensureSettlementWallet(userId: string): Promise<WalletSnapshot> {

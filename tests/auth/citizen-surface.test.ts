@@ -44,7 +44,7 @@ describe("kimlik yüzeyi SEN aksı", () => {
     expect(readSrc("app/(auth)/loading.tsx")).toContain("AuthPageSkeleton");
     expect(readSrc("app/(auth)/loading.tsx")).not.toContain("use client");
     expect(readSrc("components/auth/auth-page-skeleton.tsx")).not.toContain("use client");
-    expect(readSrc("components/auth/auth-page-skeleton.tsx")).toContain("min-h-screen");
+    expect(readSrc("components/auth/auth-page-skeleton.tsx")).toContain("min-h-dvh");
     expect(readSrc("components/auth/auth-page-skeleton.tsx")).toContain("max-w-md");
   });
 

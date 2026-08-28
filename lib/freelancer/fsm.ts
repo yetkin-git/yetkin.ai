@@ -1,3 +1,4 @@
+import { ForbiddenError } from "@/lib/kernel/http/errors";
 import type {
   FreelancerContractStatus,
   FreelancerDisputeRoundStatus,
@@ -75,5 +76,5 @@ export function counterpartyUserId(input: {
   if (input.actorUserId === input.freelancerId) {
     return input.clientId;
   }
-  throw new Error("Yalnız sözleşme tarafları işlem yapabilir.");
+  throw new ForbiddenError("Yalnız sözleşme tarafları işlem yapabilir.");
 }

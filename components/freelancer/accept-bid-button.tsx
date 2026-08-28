@@ -4,13 +4,15 @@ import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
-import { QuickTopUpModal } from "@/components/kernel/quick-top-up-modal";
 import { useActionBridge } from "@/components/ui/action-bridge";
+import { useCitizenWriteFeedback } from "@/components/ui/use-citizen-write-feedback";
 import { FREELANCER_SEN } from "@/lib/copy/sen-voice/freelancer";
 import { UX_SEN } from "@/lib/copy/sen-voice/ux";
+import { readCitizenEnvelope } from "@/lib/kernel/http/citizen-json";
+import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 import { formatMinor } from "@/lib/kernel/money/format";
-import { isInsufficientBalanceError } from "@/lib/kernel/money/insufficient-balance";
 import type { CurrencyCode } from "@/lib/kernel/money/currency";
+import { isPaymentsUnconfiguredError } from "@/lib/kernel/payments/payments-unconfigured";
 
 export function AcceptBidButton({
   jobId,
@@ -27,9 +29,10 @@ export function AcceptBidButton({
 }) {
   const router = useRouter();
   const { push } = useActionBridge();
+  const report = useCitizenWriteFeedback();
   const [error, setError] = useState<string | null>(null);
+  const [paymentsClosed, setPaymentsClosed] = useState(false);
   const [pending, setPending] = useState(false);
-  const [topUpOpen, setTopUpOpen] = useState(false);
   const idempotency = useIdempotencyKey();
   const copy = FREELANCER_SEN;
   const amount = formatMinor(amountMinor, currencyCode);
@@ -37,68 +40,77 @@ export function AcceptBidButton({
   const onAccept = useCallback(async () => {
     setPending(true);
     setError(null);
-    const response = await fetch(`/api/freelancer/jobs/${jobId}/accept`, {
-      method: "POST",
-      headers: { "content-type": "application/json", ...idempotency.headers() },
-      body: JSON.stringify({ bidId }),
-    });
-    const body = (await response.json()) as {
-      ok: boolean;
-      error?: string;
-      contract?: { id: string };
-    };
-    setPending(false);
-    if (!body.ok || !body.contract) {
-      const message = body.error ?? copy.accept.fail;
-      setError(message);
-      if (isInsufficientBalanceError(message)) {
-        setTopUpOpen(true);
+    setPaymentsClosed(false);
+    try {
+      const response = await fetch(
+        `/api/freelancer/jobs/${jobId}/accept`,
+        withRailApiVersion({
+          method: "POST",
+          headers: { "content-type": "application/json", ...idempotency.headers() },
+          body: JSON.stringify({ bidId }),
+        }),
+      );
+      const envelope = await readCitizenEnvelope(response);
+      const contract = envelope.body.contract;
+      const contractId =
+        contract && typeof contract === "object" && "id" in contract && typeof contract.id === "string"
+          ? contract.id
+          : null;
+      setPending(false);
+      if (!envelope.ok || !contractId) {
+        const message = report(envelope.status, envelope.error, copy.accept.fail);
+        const closed =
+          envelope.status === 503 &&
+          (isPaymentsUnconfiguredError(envelope.error) || isPaymentsUnconfiguredError(message));
+        setPaymentsClosed(closed);
+        setError(closed ? copy.accept.paymentsClosed : message);
+        if (closed) {
+          push({
+            title: copy.accept.paymentsClosed,
+            body: copy.accept.paymentsClosedBody,
+            tone: "amber",
+          });
+        }
+        return;
       }
-      return;
+      push({
+        title: UX_SEN.bridge.bidAccepted.title,
+        body: UX_SEN.bridge.bidAccepted.body,
+        href: `/freelancer/contracts/${contractId}`,
+        cta: UX_SEN.bridge.bidAccepted.cta,
+        tone: "emerald",
+      });
+      router.push(`/freelancer/contracts/${contractId}`);
+      router.refresh();
+    } catch {
+      setPending(false);
+      setPaymentsClosed(false);
+      setError(UX_SEN.http.network);
     }
-    push({
-      title: UX_SEN.bridge.bidAccepted.title,
-      body: UX_SEN.bridge.bidAccepted.body,
-      href: `/freelancer/contracts/${body.contract.id}`,
-      cta: UX_SEN.bridge.bidAccepted.cta,
-      tone: "emerald",
-    });
-    router.push(`/freelancer/contracts/${body.contract.id}`);
-    router.refresh();
-  }, [bidId, copy.accept.fail, idempotency, jobId, push, router]);
+  }, [bidId, copy.accept, idempotency, jobId, push, report, router]);
 
   return (
     <div className="space-y-2">
       <p className="text-xs text-[var(--muted)]">{copy.escrow.holdNotice(amount, holdPercent)}</p>
+      {paymentsClosed ? (
+        <div className="rounded-2xl border border-[var(--amber)]/40 bg-[color-mix(in_srgb,var(--amber)_8%,var(--surface))] p-4">
+          <p className="text-sm font-semibold text-[var(--foreground)]">{copy.accept.paymentsClosed}</p>
+          <p className="mt-1 text-sm text-[var(--muted)]">{copy.accept.paymentsClosedBody}</p>
+        </div>
+      ) : null}
       <Button type="button" onClick={() => void onAccept()} disabled={pending}>
         {pending ? copy.accept.pending : copy.accept.cta}
       </Button>
-      {isInsufficientBalanceError(error) ? (
-        <Button type="button" variant="outline" size="sm" onClick={() => setTopUpOpen(true)}>
-          {UX_SEN.topUp.trigger}
-        </Button>
-      ) : null}
       {pending ? (
         <p aria-live="polite" className="text-xs text-[var(--muted)]">
           {copy.escrow.pendingLive}
         </p>
       ) : null}
-      {error ? (
+      {error && !paymentsClosed ? (
         <p aria-live="assertive" className="text-sm text-[var(--rose)]">
           {error}
         </p>
       ) : null}
-      <QuickTopUpModal
-        open={topUpOpen}
-        requiredMinor={amountMinor}
-        currencyCode={currencyCode}
-        onClose={() => setTopUpOpen(false)}
-        onFunded={() => {
-          setTopUpOpen(false);
-          push({ title: UX_SEN.topUp.funded, tone: "emerald" });
-          void onAccept();
-        }}
-      />
     </div>
   );
 }

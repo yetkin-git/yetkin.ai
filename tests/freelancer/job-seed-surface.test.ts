@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { MODULE_ID } from "@/lib/freelancer";
 import {
   FREELANCER_CATALOG_SEEDS,
@@ -51,7 +52,7 @@ describe("freelancer ilan tohumu yüzeyi", () => {
     ]);
     const titles = FREELANCER_JOB_SEEDS.map((row) => row.title);
     expect(titles).toContain("Yapay Zekâ Destekli İkon ve İllüstrasyon Seti Teslimi");
-    expect(titles).toContain("Rail Quiet Luxury Tanıtım Görselleri ve Banner Üretimi");
+    expect(titles).toContain(`${YETKIN_BRAND} Quiet Luxury Tanıtım Görselleri ve Banner Üretimi`);
     expect(titles).toContain("Akademi Müfredat Özet Metinlerinin Düzenlenmesi");
     expect(titles).toContain("DevLabs Örnek Prompt Şablonları Dokümantasyonu");
     expect(titles).toContain("Mühürlü Kanıt Sosyal Medya Şablon Tasarımları");
@@ -61,6 +62,7 @@ describe("freelancer ilan tohumu yüzeyi", () => {
       expect(row.brief.length).toBeLessThanOrEqual(4000);
       expect(row.budgetMinor).toBeGreaterThanOrEqual(FREELANCER_JOB_MIN_MINOR);
       expect(row.budgetMinor).toBeLessThanOrEqual(FREELANCER_JOB_MAX_MINOR);
+      expect(row.visaPathwayId).toBe("yz-muhendislik-agent");
     }
 
     const floor = FREELANCER_CATALOG_SEEDS.find((row) => row.unitKey === FREELANCER_JOB_FLOOR_UNIT_KEY);
@@ -109,7 +111,7 @@ describe("freelancer ilan tohumu yüzeyi", () => {
     }
   });
 
-  it("vitrin loadOpenJobs ile DB ilanını basar; örnek kart yalnız boş listede kalır", () => {
+  it("vitrin loadOpenJobs ile DB ilanını basar; boş listede showcase yok, dürüst CTA var", () => {
     const page = readSrc("app/freelancer/page.tsx");
     const load = readSrc("lib/freelancer/load.ts");
     const list = readSrc("components/freelancer/job-list.tsx");
@@ -122,8 +124,11 @@ describe("freelancer ilan tohumu yüzeyi", () => {
     expect(page).not.toContain("FREELANCER_SHOWCASE");
     expect(load).toContain("listOpenJobs");
     expect(store).toContain('status: "OPEN"');
-    expect(list).toContain("FREELANCER_SHOWCASE");
+    expect(list).not.toContain("FREELANCER_SHOWCASE");
+    expect(list).not.toContain("Vitrine");
     expect(list).toContain("jobs.length === 0");
+    expect(list).toContain("emptyHint");
+    expect(list).toContain('href="/freelancer/new"');
     expect(list).toContain("/freelancer/jobs/${job.id}");
     expect(detail).toContain("loadJobBoard");
     expect(detail).toContain("BidForm");

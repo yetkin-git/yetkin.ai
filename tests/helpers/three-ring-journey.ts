@@ -1,15 +1,16 @@
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import { academyCourseSeedBySlug } from "@/lib/academy/seed";
 import { lockAcademyCoursePrice, purchaseAcademyCourse } from "@/lib/academy/engine";
-import { submitAcademyExam } from "@/lib/academy/exam-engine";
 import { completeAcademyCurriculum } from "@/lib/academy/curriculum-engine";
 import { academyCurriculumSealForSlug } from "@/lib/academy/curriculum";
 import { resolvePublicAcademyCertificate } from "@/lib/academy/certificate-verify";
 import { verifyAcademyCertificateHash } from "@/lib/academy/exam";
 import { issueCareerVisaStamp, type CareerVisaIssueResult } from "@/lib/career/engine";
 import { assertAcademyCareerVisaForListing } from "@/lib/career/visa-gate";
+import { YZ_ICERIK_LISTING_PATHWAY, YZ_LISTING_VISA_SUBJECT } from "@/lib/career/listing-visa-scope";
 import { ForbiddenError } from "@/lib/kernel/http/errors";
 import { jsonFromUnknown } from "@/lib/kernel/http/json";
+import { postFreelancerContractMessage } from "@/lib/freelancer/messages";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { REQUIRED_CATALOG_DEFINITIONS } from "@/lib/kernel/pricing/catalog-definitions";
@@ -20,12 +21,12 @@ import {
   releaseFreelancerContract,
   submitFreelancerBid,
 } from "@/lib/freelancer/engine";
-import { postFreelancerContractMessage } from "@/lib/freelancer/messages";
 import {
   sealCorporateJobPosting,
   submitCorporateJobOffer,
   upsertCorporateCompany,
 } from "@/lib/kurumsal/engine";
+import { submitAcademyExamWithFreshSitting } from "./academy-exam-sitting";
 import { KURUMSAL_JOB_FLOOR_UNIT_KEY, KURUMSAL_MODULE_KEY } from "@/lib/kurumsal/types";
 import { createMemoryAcademyStore, memoryCourse, memoryExam } from "./memory-academy";
 import { createMemoryCareerProofStore, createMemoryCareerStore } from "./memory-career";
@@ -57,8 +58,8 @@ export const D3_CLIENT_ID = "d3-job-client";
 export const D3_CORP_OWNER_ID = "d3-corp-owner";
 export const D3_PLATFORM_ID = PLATFORM_TREASURY_USER_ID;
 export const D3_START_MINOR = 100_000;
-export const D3_GROSS_MINOR = 10_000;
-export const D3_ACADEMY_SLUG = "rail-temel";
+export const D3_GROSS_MINOR = 25_000;
+export const D3_ACADEMY_SLUG = "python-temel";
 
 export type ThreeRingJourneyResult = {
   citizenId: string;
@@ -82,8 +83,9 @@ export type ThreeRingJourneyResult = {
     job: FreelancerJobRecord;
     bid: FreelancerBidRecord;
     holdAfterAccept: EscrowHoldRecord | null;
-    released: FreelancerContractRecord;
-    visa: CareerVisaIssueResult;
+    released: FreelancerContractRecord | null;
+    visa: CareerVisaIssueResult | null;
+    payoutFrozen: boolean;
   };
   kurumsal: {
     posting: CorporateJobPostingRecord;
@@ -99,7 +101,7 @@ export type ThreeRingJourneyResult = {
 
 async function expectGateDenied(career: CareerStore, userId: string): Promise<ForbiddenError> {
   try {
-    await assertAcademyCareerVisaForListing(career, userId);
+    await assertAcademyCareerVisaForListing(career, userId, YZ_LISTING_VISA_SUBJECT);
     throw new Error("Vize kapısı vizeless teklifi geçirdi.");
   } catch (error) {
     if (error instanceof ForbiddenError) {
@@ -111,7 +113,7 @@ async function expectGateDenied(career: CareerStore, userId: string): Promise<Fo
 
 /**
  * D3 bellek e2e — tek vatandaş:
- * Öğrenme (rail-temel SETTLED → müfredat → ≥70 → SHA256 + curriculumSeal)
+ * Öğrenme (python-temel SETTLED → müfredat → ≥70 → SHA256 + curriculumSeal)
  * → Kanıt (ACADEMY_CERTIFICATE vize + /pasaport /career doğrula bağı)
  * → Kazanç (vizesiz 403 → teklif → emanet → teslim → RELEASE → FREELANCER_RELEASE).
  * Canlı Postgres/Auth istemez. Oda motorları birbirini import etmez.
@@ -119,11 +121,11 @@ async function expectGateDenied(career: CareerStore, userId: string): Promise<Fo
 export async function runThreeRingJourney(): Promise<ThreeRingJourneyResult> {
   const seed = academyCourseSeedBySlug(D3_ACADEMY_SLUG);
   if (!seed) {
-    throw new Error("rail-temel tohumu yok.");
+    throw new Error("python-temel tohumu yok.");
   }
   const curriculumSeal = academyCurriculumSealForSlug(D3_ACADEMY_SLUG);
   if (!curriculumSeal) {
-    throw new Error("rail-temel müfredat mührü yok.");
+    throw new Error("python-temel müfredat mührü yok.");
   }
 
   const now = new Date("2026-08-16T06:00:00.000Z");
@@ -186,14 +188,9 @@ export async function runThreeRingJourney(): Promise<ThreeRingJourneyResult> {
   if (!curriculum.curriculumComplete) {
     throw new Error("Müfredat tamamlanmadı.");
   }
-  const passing = seed.exam.questions.map((question) => ({
-    questionId: question.id,
-    choiceIndex: question.correctIndex,
-  }));
-  const examResult = await submitAcademyExam(academyPorts, {
+  const examResult = await submitAcademyExamWithFreshSitting(academyPorts, {
     courseId: course.id,
     userId: D3_CITIZEN_ID,
-    answers: passing,
     now: examNow,
   });
   const certificate = examResult.certificate;
@@ -245,7 +242,26 @@ export async function runThreeRingJourney(): Promise<ThreeRingJourneyResult> {
       actorUserId: D3_CITIZEN_ID,
     },
   );
-  await assertAcademyCareerVisaForListing(career, D3_CITIZEN_ID);
+  await expectGateDenied(career, D3_CITIZEN_ID);
+  proofs.add({
+    sourceKind: "ACADEMY_CERTIFICATE",
+    sourceId: "cert-yz-d3",
+    userId: D3_CITIZEN_ID,
+    actorUserIds: [D3_CITIZEN_ID],
+    title: "Yapay Zekâ ve Prompt Mühendisliğine Giriş",
+    courseSlug: "ai-temel",
+    issuedAt: examNow,
+    certificateHash: "ab".repeat(32),
+  });
+  await issueCareerVisaStamp(
+    { career, proofs },
+    {
+      sourceKind: "ACADEMY_CERTIFICATE",
+      sourceId: "cert-yz-d3",
+      actorUserId: D3_CITIZEN_ID,
+    },
+  );
+  await assertAcademyCareerVisaForListing(career, D3_CITIZEN_ID, YZ_LISTING_VISA_SUBJECT, proofs);
   const passportHref = passportAcademyVerifyHref(academyVisa.stamp);
   const careerHref = passportAcademyVerifyHref(academyVisa.stamp);
 
@@ -257,10 +273,11 @@ export async function runThreeRingJourney(): Promise<ThreeRingJourneyResult> {
   const job = await createFreelancerJob(freelancerPorts, {
     clientId: D3_CLIENT_ID,
     title: "D3 üç halka — nitelikli emanet",
-    brief: "Vize kapısı, emanet, teslim, RELEASE, iş bitirme damgası.",
+    brief: "Dikey: yapay zekâ destekli içerik ve görsel üretim. Vize kapısı, emanet, teslim, RELEASE, iş bitirme damgası.",
     budgetMinor: D3_GROSS_MINOR,
+    visaPathwayId: YZ_ICERIK_LISTING_PATHWAY,
   });
-  await assertAcademyCareerVisaForListing(career, D3_CITIZEN_ID);
+  await assertAcademyCareerVisaForListing(career, D3_CITIZEN_ID, job, proofs);
   const bid = await submitFreelancerBid(freelancerPorts, {
     jobId: job.id,
     bidderId: D3_CITIZEN_ID,
@@ -287,23 +304,26 @@ export async function runThreeRingJourney(): Promise<ThreeRingJourneyResult> {
     actorUserId: D3_CLIENT_ID,
     platformUserId: D3_PLATFORM_ID,
   });
-  proofs.add({
-    sourceKind: "FREELANCER_RELEASE",
-    sourceId: released.id,
-    userId: D3_CITIZEN_ID,
-    actorUserIds: [D3_CITIZEN_ID, D3_CLIENT_ID],
-    title: job.title,
-    issuedAt: released.releasedAt ?? new Date("2026-08-16T06:20:00.000Z"),
-    certificateHash: null,
-  });
-  const freelancerVisa = await issueCareerVisaStamp(
-    { career, proofs },
-    {
+  let freelancerVisa: CareerVisaIssueResult | null = null;
+  if (released) {
+    proofs.add({
       sourceKind: "FREELANCER_RELEASE",
       sourceId: released.id,
-      actorUserId: D3_CLIENT_ID,
-    },
-  );
+      userId: D3_CITIZEN_ID,
+      actorUserIds: [D3_CITIZEN_ID, D3_CLIENT_ID],
+      title: job.title,
+      issuedAt: released.releasedAt ?? new Date("2026-08-16T06:20:00.000Z"),
+      certificateHash: null,
+    });
+    freelancerVisa = await issueCareerVisaStamp(
+      { career, proofs },
+      {
+        sourceKind: "FREELANCER_RELEASE",
+        sourceId: released.id,
+        actorUserId: D3_CLIENT_ID,
+      },
+    );
+  }
 
   const definition = REQUIRED_CATALOG_DEFINITIONS.find(
     (row) => row.moduleKey === KURUMSAL_MODULE_KEY && row.unitKey === KURUMSAL_JOB_FLOOR_UNIT_KEY,
@@ -332,12 +352,12 @@ export async function runThreeRingJourney(): Promise<ThreeRingJourneyResult> {
   const posting = await sealCorporateJobPosting(kurumsalPorts, {
     actorUserId: D3_CORP_OWNER_ID,
     title: "D3 kurumsal nitelikli ilan",
-    brief: "Aynı akademi vizesi kapıdan geçer; teklif tutar taşımaz.",
+    brief: "Dikey: yapay zekâ destekli içerik ve görsel üretim. Aynı akademi vizesi kapıdan geçer; teklif tutar taşımaz.",
     budgetMinor: D3_GROSS_MINOR,
     workbenchKind: "FREELANCER",
     holdBps: HOLD_BPS_DEFAULT,
   });
-  await assertAcademyCareerVisaForListing(career, D3_CITIZEN_ID);
+  await assertAcademyCareerVisaForListing(career, D3_CITIZEN_ID, posting, proofs);
   const offer = await submitCorporateJobOffer(kurumsalPorts, {
     postingId: posting.id,
     bidderId: D3_CITIZEN_ID,
@@ -371,6 +391,7 @@ export async function runThreeRingJourney(): Promise<ThreeRingJourneyResult> {
       holdAfterAccept,
       released,
       visa: freelancerVisa,
+      payoutFrozen: false,
     },
     kurumsal: {
       posting,

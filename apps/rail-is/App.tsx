@@ -140,14 +140,11 @@ export default function App() {
             job={state.selectedJob}
             ownerBids={state.ownerBidsView}
             accept={state.acceptView}
-            walletLive={state.walletView.kind === "live"}
-            walletAmountMinor={state.walletView.kind === "live" ? state.walletView.amountMinor : null}
             onBack={() => app.dispatch({ type: "BACK_TO_JOBS" })}
             onRetry={() => void app.loadOwnerBids(state.selectedJob!.id)}
             onOpenConfirm={(bidId) => app.dispatch({ type: "ACCEPT_CONFIRM_OPEN", bidId })}
             onCloseConfirm={() => app.dispatch({ type: "ACCEPT_CONFIRM_CLOSE" })}
             onConfirm={() => void app.submitAccept()}
-            onTopUp={() => void app.openWebWallet()}
           />
         ) : null}
         {screen === "job" && state.selectedJob && !isOwnerJob(state.selectedJob, state.user?.id) ? (

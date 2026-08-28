@@ -10,6 +10,8 @@ import { shouldFailClosedInngestServe } from "@/lib/kernel/jobs/inngest-guard";
 import { assertPaytrProductionSafety } from "@/lib/kernel/payments/paytr/checkout";
 import { academyCurriculumSealForSlug } from "@/lib/academy/curriculum";
 import { verifyAcademyCertificateHash } from "@/lib/academy/exam";
+import { isVitrineRoomFrozen } from "@/lib/kernel/compliance/circuit-breakers";
+import { FROZEN_DISK_ROOMS, VERTICAL_ROOMS } from "@/lib/kernel/rooms.ssot";
 import {
   E2E_ACADEMY_BUYER_ID,
   E2E_ACADEMY_PLATFORM_ID,
@@ -24,21 +26,8 @@ import {
   E2E_CASH_PLATFORM_ID,
   runFreelancerCashJourney,
 } from "../helpers/freelancer-cash-journey";
-import {
-  E2E_PAZARYERI_BUYER_ID,
-  E2E_PAZARYERI_PLATFORM_ID,
-  E2E_PAZARYERI_PRICE_MINOR,
-  E2E_PAZARYERI_SELLER_ID,
-  E2E_PAZARYERI_START_MINOR,
-  runPazaryeriDualCashJourney,
-} from "../helpers/pazaryeri-cash-journey";
-import {
-  E2E_STUDIO_IMAGE_FLOOR,
-  E2E_STUDIO_START_MINOR,
-  E2E_STUDIO_TEXT_FLOOR,
-  E2E_STUDIO_USER_ID,
-  runStudioCashJourney,
-} from "../helpers/studio-cash-journey";
+import { runPazaryeriDualCashJourney } from "../helpers/pazaryeri-cash-journey";
+import { runStudioCashJourney } from "../helpers/studio-cash-journey";
 
 const ROOT = process.cwd();
 
@@ -62,13 +51,20 @@ describe("Adım 10 — insan ops sözleşmesi (kod mühürü)", () => {
 
   it("ops:migrate Prisma CHECK ve http_idempotency_records post-apply mühürler", () => {
     const lib = readSrc("scripts/ops-migrate-lib.ts");
+    expect(lib).toContain("assertFrozenRoomTablesDropped");
     expect(lib).toContain("assertStudioDataBase64Check");
     expect(lib).toContain("assertHttpIdempotencyRecords");
+    expect(lib).toContain("assertLedgerImmutability");
+    expect(lib).toContain("assertPaidCommandReservations");
     expect(lib).toContain("assertAcademyLessonCompletions");
     expect(lib).toContain("assertCurriculumSealColumns");
+    expect(lib).toContain("assertCertificateRevocationColumns");
     expect(lib).toContain("assertCorporateJobOffers");
+    expect(lib).toContain("assertEscrowHoldChecks");
     expect(lib).toContain("studio_digital_assets_data_base64_max_chars");
     expect(lib).toContain("http_idempotency_records");
+    expect(lib).toContain("paid_command_reservations");
+    expect(lib).toContain("ledger_entries_append_only");
     expect(lib).toContain("runPostApplySeals");
   });
 
@@ -125,7 +121,7 @@ describe("Adım 10 — dört oda nakit/üretim smoke", () => {
     expect(journey.platformBalanceAfter).toBe(journey.seedAmountMinor);
     expect(journey.certificate?.score).toBeGreaterThanOrEqual(70);
     expect(journey.certificate?.attemptId).toBeTruthy();
-    expect(journey.certificate?.curriculumSeal).toBe(academyCurriculumSealForSlug("rail-temel"));
+    expect(journey.certificate?.curriculumSeal).toBe(academyCurriculumSealForSlug("python-temel"));
     expect(
       verifyAcademyCertificateHash({
         userId: E2E_ACADEMY_BUYER_ID,
@@ -133,7 +129,7 @@ describe("Adım 10 — dört oda nakit/üretim smoke", () => {
         attemptId: journey.certificate!.attemptId!,
         score: journey.certificate!.score!,
         issuedAt: journey.certificate!.issuedAt,
-        curriculumSeal: academyCurriculumSealForSlug("rail-temel")!,
+        curriculumSeal: academyCurriculumSealForSlug("python-temel")!,
         certificateHash: journey.certificate!.certificateHash!,
       }),
     ).toBe(true);
@@ -142,63 +138,35 @@ describe("Adım 10 — dört oda nakit/üretim smoke", () => {
     );
   });
 
-  it("Freelancer: ilan → kabul/hold (PENDING) → teslim onayı aktarım (RELEASED)", async () => {
+  it("Freelancer: ilan → kabul/hold (PENDING); release iç hakediş kilidine takılır", async () => {
     const journey = await runFreelancerCashJourney();
     expect(journey.job.status).toBe("OPEN");
     expect(journey.contract.status).toBe("FUNDED");
     expect(journey.holdAfterAccept?.status).toBe("PENDING");
+    expect(journey.payoutFrozen).toBe(false);
     expect(journey.released.status).toBe("RELEASED");
     expect(journey.holdAfterRelease?.status).toBe("RELEASED");
     expect(journey.holdMinor + journey.netMinor).toBe(E2E_CASH_GROSS_MINOR);
     expect(journey.ports.ledger.snapshot(E2E_CASH_CLIENT_ID).amountMinor).toBe(
-      E2E_CASH_CLIENT_START_MINOR - E2E_CASH_GROSS_MINOR,
+      E2E_CASH_CLIENT_START_MINOR,
     );
-    expect(journey.ports.ledger.snapshot(E2E_CASH_FREELANCER_ID).amountMinor).toBe(9_000);
-    expect(journey.ports.ledger.snapshot(E2E_CASH_PLATFORM_ID).amountMinor).toBe(1_000);
+    expect(journey.ports.ledger.snapshot(E2E_CASH_FREELANCER_ID).amountMinor).toBe(0);
+    expect(journey.ports.ledger.snapshot(E2E_CASH_PLATFORM_ID).amountMinor).toBe(0);
   });
 
-  it("Yetkinİlan: dijital SETTLED + hizmet hold → teslim CLEARED", async () => {
-    const journey = await runPazaryeriDualCashJourney();
-    expect(journey.digital.firstApplied).toBe(true);
-    expect(journey.digital.replayApplied).toBe(false);
-    expect(journey.digital.order.status).toBe("SETTLED");
-    expect(journey.digital.order.escrowHoldId).toBeNull();
-    expect(journey.service.orderAfterPurchase.status).toBe("AWAITING_DELIVERY");
-    expect(journey.service.holdAfterPurchase?.status).toBe("PENDING");
-    expect(journey.service.orderAfterConfirm.status).toBe("DELIVERED");
-    expect(journey.service.holdAfterConfirm?.status).toBe("RELEASED");
-    expect(journey.buyerBalanceAfter).toBe(E2E_PAZARYERI_START_MINOR - 2 * E2E_PAZARYERI_PRICE_MINOR);
-    expect(journey.sellerBalanceAfter).toBe(18_000);
-    expect(journey.platformBalanceAfter).toBe(2_000);
-    expect(journey.ledger.snapshot(E2E_PAZARYERI_BUYER_ID).amountMinor).toBe(
-      journey.buyerBalanceAfter,
-    );
-    expect(journey.ledger.snapshot(E2E_PAZARYERI_SELLER_ID).amountMinor).toBe(18_000);
-    expect(journey.ledger.snapshot(E2E_PAZARYERI_PLATFORM_ID).amountMinor).toBe(2_000);
+  it("Yetkinİlan donmuş: sicil dışı; teslim split portu yoksa 503", async () => {
+    expect(VERTICAL_ROOMS.map((room) => room.id as string)).not.toContain("pazaryeri");
+    expect(FROZEN_DISK_ROOMS).toContain("pazaryeri");
+    expect(isVitrineRoomFrozen("pazaryeri")).toBe(true);
+    await expect(runPazaryeriDualCashJourney()).rejects.toThrow(/Ödeme henüz bağlanmadı/);
   });
 
-  it("Studio: üretim LLM Debit + artifact; 413 tavanında debit yok", async () => {
-    const journey = await runStudioCashJourney();
-    expect(journey.text.generation.status).toBe("SUCCEEDED");
-    expect(journey.text.debitMinor).toBe(E2E_STUDIO_TEXT_FLOOR);
-    expect(journey.text.remainingMinor).toBe(E2E_STUDIO_START_MINOR - E2E_STUDIO_TEXT_FLOOR);
-    expect(journey.text.providerCalls).toBe(1);
-    expect(journey.image.generation.status).toBe("SUCCEEDED");
-    expect(journey.image.asset.assetType).toBe("IMAGE");
-    expect(journey.image.asset.contentHash).toMatch(/^[a-f0-9]{64}$/);
-    expect(journey.image.debitMinor).toBe(E2E_STUDIO_IMAGE_FLOOR);
-    expect(journey.image.remainingMinor).toBe(
-      E2E_STUDIO_START_MINOR - E2E_STUDIO_TEXT_FLOOR - E2E_STUDIO_IMAGE_FLOOR,
-    );
-    expect(journey.image.providerCalls).toBe(1);
-    expect(journey.ceiling.threw).toBe(true);
-    expect(journey.ceiling.debitUnchanged).toBe(true);
-    expect(journey.ceiling.assetCount).toBe(1);
-    expect(journey.ceiling.balanceMinor).toBe(
-      E2E_STUDIO_START_MINOR - E2E_STUDIO_TEXT_FLOOR - E2E_STUDIO_IMAGE_FLOOR,
-    );
-    expect(journey.ledger.snapshot(E2E_STUDIO_USER_ID).amountMinor).toBe(
-      journey.ceiling.balanceMinor,
+  it("Studio donmuş: sicil dışı; müze CREDIT amacı yok", async () => {
+    expect(VERTICAL_ROOMS.map((room) => room.id as string)).not.toContain("studio");
+    expect(FROZEN_DISK_ROOMS).toContain("studio");
+    expect(isVitrineRoomFrozen("studio")).toBe(true);
+    await expect(runStudioCashJourney()).rejects.toThrow(
+      /Ledger CREDIT amacı izin listesinde değil/,
     );
   });
 });

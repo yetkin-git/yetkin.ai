@@ -74,20 +74,21 @@ describe("korumalı çekirdek yolları", () => {
 });
 
 describe("korumalı yazma yolları", () => {
-  it("/freelancer/new /studio /junior/ebeveyn tezgâhı tanır; vitrini korumaz", () => {
+  it("/freelancer/new tezgâhı tanır; donmuş oda yazma listesinde yoktur", () => {
     expect(isProtectedWritePath("/freelancer/new")).toBe(true);
-    expect(isProtectedWritePath("/studio/x")).toBe(true);
-    expect(isProtectedWritePath("/junior/ebeveyn")).toBe(true);
-    expect(isProtectedWritePath("/pazaryeri/tezgah")).toBe(true);
-    expect(isProtectedWritePath("/yetkinilan/tezgah")).toBe(true);
+    expect(isProtectedWritePath("/studio/x")).toBe(false);
+    expect(isProtectedWritePath("/junior/ebeveyn")).toBe(false);
+    expect(isProtectedWritePath("/pazaryeri/tezgah")).toBe(false);
+    expect(isProtectedWritePath("/yetkinilan/tezgah")).toBe(false);
     expect(isProtectedWritePath("/freelancer")).toBe(false);
     expect(isProtectedWritePath("/academy")).toBe(false);
-    expect(isProtectedCitizenPath("/studio")).toBe(true);
+    expect(isProtectedCitizenPath("/studio")).toBe(false);
     expect(isProtectedCitizenPath("/dashboard")).toBe(true);
-    expect(isProtectedCitizenPath("/academy/rail-temel/oyna")).toBe(true);
+    expect(isProtectedCitizenPath("/academy/python-temel/oyna")).toBe(true);
     expect(isProtectedCitizenPath("/academy")).toBe(false);
-    expect(decideEdgeAction("/academy/rail-temel/oyna", false).kind).toBe("auth-307");
-    expect(decideEdgeAction("/academy/rail-temel", false).kind).toBe("next");
+    expect(decideEdgeAction("/academy/python-temel/oyna", false).kind).toBe("auth-307");
+    expect(decideEdgeAction("/academy/python-temel", false).kind).toBe("next");
+    expect(decideEdgeAction("/studio", false).kind).toBe("frozen-410");
   });
 });
 
@@ -114,7 +115,8 @@ describe("kenar kararları", () => {
     expect(decideEdgeAction("/dashboard", true)).toEqual({ kind: "next" });
     expect(decideEdgeAction("/academy", false)).toEqual({ kind: "next" });
     expect(decideEdgeAction("/freelancer/new", false).kind).toBe("auth-307");
-    expect(decideEdgeAction("/studio", false).kind).toBe("auth-307");
+    expect(decideEdgeAction("/studio", false).kind).toBe("frozen-410");
+    expect(decideEdgeAction("/studio", true).kind).toBe("frozen-410");
     expect(decideEdgeAction("/freelancer", false)).toEqual({ kind: "next" });
   });
 });
@@ -136,6 +138,7 @@ describe("kenar güvenlik başlıkları", () => {
     const csp = headers.get("Content-Security-Policy") ?? "";
     expect(readCspNonce(csp)).toBe(nonce);
     expect(csp).toContain("default-src 'self'");
+    expect(csp).toContain("media-src 'self' blob: https://*.supabase.co");
     expect(csp).toContain(`'nonce-${nonce}'`);
     expect(csp).toContain(`frame-src ${EDGE_CSP_PAYTR_FRAME_SRC}`);
     expect(csp).toContain(`connect-src 'self' ${EDGE_CSP_SUPABASE_CONNECT_SRC}`);

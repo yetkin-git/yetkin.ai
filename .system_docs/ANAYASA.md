@@ -1,171 +1,95 @@
-# ANAYASA — yetkin_rail
+# ANAYASA — yetkin.ai
 
-İnsan SSOT. Ürün kodu bu dosyayı import etmez. Ajan ve operatör kırmızı çizgileri buradan okur; kod mühürleri `eslint.config.mjs` §2.8, `scripts/verify-*.ts`, `tests/kernel/constitution-surfaces.test.ts`, `tests/kernel/system-docs-contract-surface.test.ts`, Prisma şema başlıkları ve `lib/kernel/modules.ts` ile aynı kapıyı kilitler.
+İnsan SSOT. Ürün kodu bu dosyayı import etmez.
+
+Bu metin iki katmandır. Üst katman değişmezdir. Alt katman operasyon ve ürün notudur; tadil edilir, greple din yapılmaz.
 
 | Alan | Değer |
 |------|--------|
 | Tarih | 16 Ağustos 2026 |
-| Gövde | 12 dikey oda + 4 çekirdek sığınak |
+| Tadil | **28 Ağustos 2026 (Adım 1 — Omurga sızıntısı):** Müfredat kimliği ve ilan kapısı sicili `lib/kernel/catalog-ids`; kariyer/freelancer `lib/academy` import etmez. Müze yasağı OPS notudur (tarihsel S9-B anayasa maddesi değildir). **27 Ağustos 2026 (Tedavi Evresi):** Mimari dil «Modüler Monolit + API-First Dron Sözleşmesi» olarak hizalandı; `verify:prebuild` yalnız güvenlik kapısı (sır, amountMinor, RLS, IDOR, v1 sözleşme); grep/marka nightly. Proof okuma `ProofReadPort` çekirdek sözleşmesidir. **25 Ağustos 2026 (Adım 2 — Anayasal Esneklik):** Müfredat ders adedi, seviye etiketi ve fiyat maktu bantları OPS/ürün notuna çekildi; sabit ders adedi, maktu fiyat bantları ve «her dikey 3 seviye» dogması kalktı. Aynı gün Adım 1: Donmuş 8 oda canlı `lib/` ve `components/` tavanından silindi. 24 Ağustos: mühür katedrali ve grep-mimari bağlayıcılığı kalktı. |
+| Gövde | 4 çalışan oda + 4 çekirdek sığınak. Donmuş 8 oda asil sicil değildir |
+| Kamu markası / domain | `yetkin.ai` |
 | Kalıcı belgeler | `/.system_docs` |
 | Ops | `.system_docs/OPS_RUNBOOK.md` |
-| Nesne depo | `.system_docs/STORAGE_CONTRACT.md` |
 | Vizyon | `.system_docs/MANIFESTO.md` |
-| Günlük rapor | `/docs` — build fixture değildir; silinmesi derlemeyi kırmaz |
+| Günlük rapor | `/docs` — build fixture değildir |
 
-Müze `yetkin.ai/` ilham ve **yasak listesidir** (S9-B). TypeScript, Next tracing, ESLint import grafı, Vitest, `verify-*` taraması ve HTTP `/yetkin.ai` dışındadır. Rail kök `.gitignore` ve `.cursorindexingignore` dizinini git ve indeksten keser. Kör kopya yasaktır. Dizin bu turda silinmez.
-
-Kalıcı anayasa `/.system_docs` altındadır. `/docs` günlük yap-boz ve raporlama alanıdır. Öğrenme → kanıt → kazanç **üç halka** aynı vatandaş kimliğinde kapanır.
+Müze dizini `yetkin_muze/` ilham ve yasak listesidir. Kör kopya yasaktır.
 
 ---
 
-## Kırmızı çizgi 1 — 12 oda tavanı
+# BÖLÜM A — SERT KIRMIZI ÇİZGİLER (DEĞİŞMEZLER)
 
-Asil sicil **12 oda**dır. 13. oda yasaktır.
+Bunlar yasal / finansal / güvenlik sınırıdır. PR ile “kolaylaştırmak” için esnetilmez. Tadil: tarih + gerekçe + bu dosya.
 
-| id | Vatandaş yolu | Marka |
-|----|----------------|--------|
-| dashboard | `/dashboard` | Anasayfa (şeritte çip yok) |
-| studio | `/studio` | Studio |
-| academy | `/academy` | Akademi |
-| career | `/career` | Kariyer |
-| freelancer | `/freelancer` | Freelancer |
-| devlabs | `/devlabs` | DevLabs |
-| kurumsal | `/kurumsal` | Kurumsal |
-| hibe | `/hibe` | Hibe |
-| arena | `/arena` | Arena |
-| pazaryeri | `/yetkinilan` | Yetkinİlan (disk `pazaryeri/`) |
-| junior | `/junior` | Junior |
-| social | `/social` | YetkinX |
+## A1. Tek defter, tek birim
 
-Çekirdek sığınaklar oda **sayılmaz**: `/profil`, `/cuzdan`, `/pasaport`, `/admin`.
+Şema ve tip adı **`amountMinor`** + `currencyCode`. Float para yasaktır. `amountKurus` kolon adı **yasaktır**.
 
-**Kesilmiştir (geri açılmaz):** chess, anket, lonca, tarım, talent, holding, Socket.IO, Redis, GİB, Turnstile, OAuth şişmesi, Studio 15 peron, DevLabs exec/sandbox/SaaS/Builder/Commerce, VIDEO_GEN / VOICE_TTS factory, 130 BINA düğümü.
+Tek SSOT: `Wallet` satırı + append-only `LedgerEntry`. User’da bakiye kolonu yoktur. Triple-balance, `ModuleWallet`, holding havuzu ve ikinci nakit yazıcı yasaktır.
 
-**Tadil — 17 Ağustos 2026 (CEO kararı):** `reklam` bu listeden çıkarıldı. Kesilmiş olmaktan çıkması serbest olmak değildir; sınırı **Kırmızı çizgi 5** çizer. Diğer kesilenler yerinde durur.
+`EscrowHold` ikinci bakiye değildir. PSP işinde hold `referenceKey` / `pspPaymentId` ile yürür; Wallet yalnız Merchant akademi bakiyesidir.
 
-İnce alias tavanı `next.config.ts` sicilindedir. KAPAT-oda yönlendirmesi yazılmaz. `/yetkin.ai` 404.
+Satış fiyatı kod sabiti değildir; Super Admin katalog SSOT’tur.
 
----
+## A2. Ödeme kuruluşu değiliz (S43)
 
-## Kırmızı çizgi 2 — Tek bakiye / birim
+Nakit **hedefi:** PayTR Merchant Port ile girer; akademide harcanır. Panel veya lisans kapalıyken tahsilat dürüst **503**’tür. Sahte CREDIT yoktur. Freelancer bedeli lisanslı Pazaryeri split’tinde durur. Usta neti Rail cüzdanına CREDIT yazılmaz. Bankaya çekim yoktur. `/api/wallet/withdraw`, GİB, e-arşiv, admin çekim paneli açılmaz.
 
-Şema ve tip adı **`amountMinor`** + `currencyCode`. UI kopyasında “kuruş” denir. Float para yasaktır (S5-A).
+Split portu `not_configured` ise dürüst **503**. Wallet-escrow production fallback değildir.
 
-`amountKurus` kolon adı yasaktır. Triple-balance, `User.balanceKurus`, `ModuleWallet`, holding havuzu ve `merit-swap:` ikinci nakit yazıcı **yasaktır**.
+## A3. Sır ve kimlik
 
-Tek SSOT: `Wallet` satırı + append-only `LedgerEntry`. `EscrowHold` kilitir, ikinci bakiye değildir. User’da bakiye kolonu yoktur. Satış fiyatı kod sabiti değildir; Super Admin katalog SSOT’tur.
+`SUPABASE_SERVICE_ROLE_KEY` / `service_role` kod, `.env` ve JS istemcisinde **kullanılamaz**. Yazma Prisma postgres rolü. Kenar JWT fail-closed. Kritik yazmalarda Idempotency-Key zorunludur.
 
----
+## A4. Kanıt satın alınamaz
 
-## Kırmızı çizgi 3 — Güvenlik ve sır
+Sınav puanı tarayıcıda hesaplanmaz — **sınav** sunucuda puanlanır. Vize admin düğmesiyle basılmaz. Mühür yükü sabittir: `userId · courseId · attemptId · score · issuedAt · curriculumSeal`. Vanity, ödeme veya sıralama bu yüke girmez.
 
-`SUPABASE_SERVICE_ROLE_KEY` kod, `.env`, `.env.example` ve JS istemcisinde **kullanılamaz**. `anon` / publishable + vatandaş JWT. Yazma Prisma **postgres** rolü. Okuma FORCE RLS; sahip yalnız SELECT. `service_role` JS anahtarı yoktur.
+## A5. Dürüst kapalı yüzey
 
-**S43 — kapalı döngü cüzdan.** Nakit PayTR ile girer, 12 odada harcanır, bankaya çıkış/çekim yoktur. `/api/wallet/withdraw`, GİB, e-arşiv, admin çekim paneli açılmaz.
+Boş env/DB/ödeme → vatandaş dilinde “henüz bağlanmadı / yüklenemedi”. Sahte bakiye yok. Sahte CREDIT yok.
 
-Kenar JWT fail-closed: çerez varlığı ipucu değildir. ES256/RS256 **JWKS** kenar doğrulaması; HS256 yedek `SUPABASE_JWT_SECRET`. Boş sırda HS256 token düşer. Kimlik gerçeği handler `getUser`’dadır.
+## A6. Tek v1 zarf
 
-Üretim CSP: istek başına nonce. `unsafe-eval` yasaktır. `next.config` statik CSP yazmaz (nonce’u ezer).
+Amiral ve Dron aynı JSON’u konuşur: `{ ok, error, requestId, apiVersion, data }`. Üçüncü zarf yasaktır.
 
----
+## A7. Asil sicil
 
-## Kırmızı çizgi 4 — Mimari sınırlar
+Çalışan odalar: `dashboard`, `academy`, `career`, `freelancer`. Sığınaklar oda sayılmaz: `/profil`, `/cuzdan`, `/pasaport`, `/admin`. 5. çalışan oda ürün kararı ister. Donmuş 8 oda (Studio, DevLabs, Kurumsal, Hibe, Arena, Yetkinİlan, Junior, YetkinX) 410 envanteridir; `archived/` + kenar 410. **Donmuş 8 oda canlı `lib/` ve `components/` tavanında kesinlikle yoktur.**
 
-### DevLabs linter’dır, runner değildir
+## A8. Kernel sınırı (dürüst cümle)
 
-Kod tezgâhında **exec yoktur** (S59-A). `eval`, `child_process`, `vm.runInContext`, sandbox runner, Codex deploy yasaktır. Generate → anayasal linter → artifact.
+**Kernel runtime dikey motor import etmez; User satırı dikey FK’leri taşır.**
 
-### Idempotency
+Bu bir mikroservis vaadi değildir. Tek Postgres + Prisma, User satırında akademi/kariyer/freelancer ilişkilerini zorunlu kılar. Paylaşılan kernel **klasörüdür**, versiyonlu paket değildir. Fiili gövde: **Modüler Monolit + API-First Dron Sözleşmesi**. Odalar birbirinin motorunu import etmez; çapraz iş `app/api` kompozisyonu veya HTTP’dir.
 
-Kritik yazmalar **Idempotency-Key** (UUID) zorunludur: cüzdan yükleme, akademi satın al, freelancer kabul. Aynı anahtar ikinci finansal emir doğurmaz. Tablo `http_idempotency_records` unique `(user_id, route, key)`.
+Kanıt okuma çekirdek sözleşmedir (`ProofReadPort` / `lib/kernel/proof`). Müfredat ve ilan kapısı kimliği `lib/kernel/catalog-ids` sözleşmesidir. Kariyer akademi veya freelancer iç okuma dosyasını import etmez. Kariyer ve freelancer `lib/academy` klasörünü import etmez.
 
-### Inngest imza
+## A9. Amiral mimarisi (dürüst cümle)
 
-Uygulama id `yetkin-rail`. Serve `/api/jobs/inngest`. Üretimde `INNGEST_SIGNING_KEY` veya `INNGEST_EVENT_KEY` boşsa serve **503** (fail-closed). `INNGEST_DEV` üretimde bypass etmez. Sahte/doğrulanmamış event kabul edilmez. Socket yok. İşler: PayTR valör, emanet TTL, Arena tur.
+Amiral **RSC load + v1 Dron hibritidir**. Web sayfaları çoğu yerde `lib/<oda>/load` ile sunucuda okur. Dron Bearer ile `/api/v1/...` hop sicilini konuşur. Kenar aynı handler’a soyar. “API-First” yalnız Dron kesiti için iddiadır; web BFF/RSC’dir. İkisi de yasaldır. Dış unvan “API-First Core Platform” değildir.
 
-### Studio tavanı
-
-`data_base64` CHECK adı `studio_digital_assets_data_base64_max_chars`; tavan 2097152 karakter. Decoded 1572864 bayt. Aşım 413; debit yok. Kör `data_base64` DROP yok. Nesne depo: `.system_docs/STORAGE_CONTRACT.md`.
-
-### Oda duvarı (§2.8)
-
-Çekirdek ↛ dikey motor. Dikey ↛ başka dikey engine/runtime/prisma-store. Çapraz konuşma HTTP veya kernel sözleşmesi. String FK: odalar `EscrowHold` / `CheckoutPriceLock` / `AiTokenUsage` id’sini string tutar; kernel oda tablosu sorgulamaz.
-
-### LLM gümrüğü
-
-Tek kapı `invokeLlm` / `generateImage`. Ham SDK dikeyde yasaktır (`verify:ai-gateway`). 8 kanonik rol tavanı.
-
-### Dürüst kapalı yüzey
-
-Boş env → “Giriş henüz bağlanmadı”. Boş DB → “Liste henüz yüklenemedi”. Sahte bakiye yok. `LOCAL_MOCK_AUTH` / `MAINTENANCE_MODE` yok. `GET /api/health` JSON `phase` taşımaz.
-
-### Hız tavanı
-
-Süreç-içi bellek. Tek Node süreci dürüst tavanıdır. Redis bu gövdede yoktur.
-
-### Çekirdek + dron: mobil sınırlar
-
-Gövde monolit web sitesi değildir; **JSON omurgalı çekirdektir.** Kenar `Authorization: Bearer` kabul eder, çerez zorunlu değildir. 12 odayı tek tek gezmek vatandaş için zorunlu değildir.
-
-**Dron sınırı oda adına göre değil, ödeme tabiatına göre çizilir.** Dört diyar:
-
-| Diyar | Oda | Mağaza kuralı | Dron |
-|-------|-----|---------------|------|
-| A — dijital kanıt | Akademi, Studio, DevLabs | Apple 3.1.1 / Play Billing → IAP zorunlu | **Yayınlanmaz** |
-| B — gerçek hizmet | Freelancer, Kurumsal, Arena, Yetkinİlan hizmet | Apple 3.1.3(e) → IAP **yasak**, PayTR zorunlu | Serbest |
-| C — öne çıkarma | Yetkinİlan doping, sosyal reklam | Apple 3.1.3(g) → IAP zorunlu | Yayınlanmaz |
-| D — düzenlenmiş | Yetkinİlan emlak/vasıta, Junior | EİDS + yetki belgesi | Yayınlanmaz |
-
-Diyar A native dron olarak yayınlanmaz: IAP fiyat SSOT'unu Super Admin katalogdan mağazaya taşır ve tek taraflı iade, arkasında ödenmiş harç olmayan mühür bırakır. Aynı omurga üzerine oda başına bundle id açılmaz (Apple 4.3(a)).
-
-**API sürüm kapısı.** Mağazaya çıkmış sürüm sözleşmeyi dondurur. Dron öncesi `/api/v1` ön eki ve **asgari sürüm kapısı** zorunludur: desteklenmeyen dron sürümü vatandaş dilinde uyarı alır, sahte veri veya boş ekran almaz. Yayınlanmış sürümün beklediği alan sicilden sessizce düşmez.
-
-### Teknik borç — çift zarf (mühür 18 Ağustos 2026)
-
-İki JSON serimi vardır. Bu bir özellik değil, **bilinçli borçtur.** Versiyonsuz web gövdesini bir gecede v1'e almak Faz 1 yüzey dondurmasını ihlal eder.
-
-| Tüketici | Zarf | Yol |
-|----------|------|-----|
-| Amiral web (çerez) | `{ ok, ...data }` — versiyonsuz | `/api/...` (v1 ön eki yok) |
-| Dron / dış (Bearer) | `{ ok, error, requestId, apiVersion, data }` | `/api/v1/...` |
-
-Aynı handler iki kez yazılmaz; kenar soyar, `jsonOk` istek başlığına göre zarflar.
-
-**Üçüncü zarf yasaktır.** Yeni dış tüketici yalnız v1 konuşur. Versiyonsuz serim yeni hop, yeni istemci veya yeni kök alan ile **genişlemez.** Birleştirme, nakit halkası döndükten sonra major-olmayan sıkılaştırmadır veya v2'dir — bugünün işi değildir.
-
-**Yetkinİlan emlak/vasıta.** Yalnız görselleştirme ve vitrin. **Teklif ve emanet bağlanmaz** — taşınmaz bedelini tutup aktarmak ödeme kuruluşu faaliyetidir. Kamuya ilan yayını EİDS kimlik ve yetki doğrulaması olmadan açılmaz; doğrulama yükümlülüğü ilan platformunundur ve ödeme almamak bu yükümlülüğü kaldırmaz.
+`eval` / `child_process` / sandbox runner yasaktır. LLM yalnız gümrük kapısından çıkar.
 
 ---
 
-## Kırmızı çizgi 5 — Mühür duvarı
+# BÖLÜM B — OPS / ÜRÜN NOTLARI
 
-`reklam` kesilenler listesinden çıktı (Kırmızı çizgi 1 tadili). Duvar şudur: **para görünürlük satın alabilir, kanıt satın alamaz.**
+Bunlar kırmızı çizgi değildir. Değişince bu bölüm ve OPS güncellenir; her satır için yeni mühür betiği yazılmaz. Güvenlik hijyeni (RLS, IDOR, sır, dürüst 503) “dolaylı iş” diye reddedilmez.
 
-| Serbest | Yasak |
-|---------|-------|
-| Reklam envanteri ve öne çıkarma, katalog SSOT fiyatıyla | Mühür yükünü değiştirmek |
-| Etkileşim sayaçları ayrı nesnede | Sayaç veya ödemeyi `certificateHash` yüküne sokmak |
-| Sosyal dikeyde akış ve etkileşim | Kanıt sırasını para ile değiştirmek |
-| Reklamın kanıt nesnesine **komşu** durması | Reklamın kanıt nesnesinin **içine** girmesi |
+- **Uygulama servisi** (`service_role`) Rail JS yüzeyine düşmez; ayrıntı OPS.
+- Inngest uygulama id `yetkin-rail`; üretimde imza boşsa 503. Ayrıntı OPS.
+- Redis mutlak yasak değildir; paylaşılan rate-limit/sayaç OPS kararıdır. Socket.IO ürün yüzeyi açılmaz.
+- Dron yayını (EAS, mağaza) ayrı operasyon kararıdır. Akademi native IAP ile satılmaz.
+- `verify:prebuild` derleme güvenlik kapısıdır (sır, `amountMinor`, RLS, IDOR, v1 sözleşme artefaktı). Anayasa maddesi değildir. Grep/oda duvarı/atomik string taraması ve SEN/marka `verify:grep-seals` + `verify:nightly` kovasına aittir. Para UoW, vize yüzeyi ve emanet iade kancası varsayılan `npm test` kapısındadır.
+- Oda duvarı ESLint ile tutulur; `verify:boundaries` nightly tarama yardımcısıdır. Grep tek başına mimari değildir.
+- Müfredat kimliği (`AcademyPathwayId`) ve freelancer ilan kapısı sicili `lib/kernel/catalog-ids` altındadır. Kariyer ve freelancer `lib/academy` import etmez.
+- Müze dizini (`yetkin_muze/`) git / indeks / webpack / import dışıdır. Bu bir OPS yasağıdır; tarihsel etiket «S9-B» Anayasa maddesi değildir. Kör kopya yine yasaktır.
+- Dashboard sicilde odadır, üründe salt okuma kabuktur.
+- Direct-offer, squad, dispute, AI chat: halkayı döndürmeyen yüzeyler; büyütülmez, dürüst kapalı kalabilir.
+- Quiet Luxury ve SEN aksı duruş / marka notudur; derleme kırıcısı değildir.
+- **Akademi müfredat / fiyat esnekliği (ürün notu, kırmızı çizgi değil):** Konunun hakkı neyse o kadar ders/bölüm yazılır. Fiyatlandırma eğitimin gerçek piyasa değerine göre dinamik belirlenir (canlı tutar katalog SSOT; kodda maktu bant yok). Eğitim yapısı ihtiyaca göre tekil Masterclass veya çoklu modül olabilir; her dikeyin zorunlu üç seviyesi yoktur. Para birimi yine `amountMinor` tamsayısıdır — float para A1’de yasaktır.
 
-**Mühür yükü dondurulmuştur:** `userId · courseId · attemptId · score · issuedAt · curriculumSeal`. Bu yüke hiçbir vanity sayısı, ödeme veya sıralama girdisi eklenmez. Sınav puanı tarayıcıda hesaplanmaz.
-
-**Kamu doğrulama yüzeyi temiz kalır.** `/academy/dogrula/[hash]` reklam, beğeni, erişim sayacı veya sponsor taşımaz — Faz 3'te makine tarafından doğrulanacak yüzey burasıdır.
-
-**Vize kapısı bu istisnanın dışındadır.** Reklam veya etkileşim vize türetmez; vizesiz teklif 403 kalır. Vize tanıyan admin düğmesi yoktur.
-
-**Yürürlük:** doktrin bugün geçerlidir, **uygulama Faz 1 kapanana kadar donuktur.** `PROOF_FEED_FORBIDDEN_KEYS` ve DTO mührü bu turda kaldırılmaz. Mobilde reklam/öne çıkarma satışı IAP zorunludur (Apple 3.1.3(g)); Diyar C dron olarak yayınlanmaz.
-
----
-
-## Beş oda canlıya-çıkış mührü
-
-Akademi, Freelancer, Yetkinİlan, Studio, DevLabs + kenar JWKS/CSP kodda mühürlüdür. Kurumsal altıncı vitrin diye açılmaz. Seremoni günlük raporları `/docs` altındadır; kalıcı bağ `.system_docs` ve kod mühürleridir.
-
----
-
-## Prebuild zinciri
-
-`verify:prebuild` = `no-secrets` → `amount-minor` → `ai-gateway` → `rls-status` → `api-auth` → `boundaries` → `sen-axis` → `atomic-seals` → `test:surface` → `typecheck`.
-
-Build: `prisma generate && verify:prebuild && next build`.
+Build: `prisma generate && verify:prebuild && next build`. `typecheck` ayrı CI adımıdır. `verify:nightly` ayrı CI/Nightly işidir.

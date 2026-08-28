@@ -6,7 +6,7 @@ import { ForbiddenError } from "@/lib/kernel/http/errors";
 import { IDEMPOTENCY_KEY_HEADER } from "@/lib/kernel/http/idempotency-key";
 import {
   RAIL_V1_ACCEPT_FORBIDDEN,
-  RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE,
+  RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE,
   RAIL_V1_HOPS,
   RAIL_V1_IDEMPOTENCY_REQUIRED,
   parseRailV1Envelope,
@@ -39,6 +39,7 @@ import {
 } from "@/lib/freelancer/escrow-refund";
 import { parseRailV1ContractsData, RAIL_V1_PARSE_FAIL } from "../../apps/rail-is/src/contract/v1";
 import { assertRailIsDay0Path } from "../../apps/rail-is/src/api/hops";
+import { paytrMarketplaceSplitPort } from "@/lib/kernel/payments/marketplace-split";
 import {
   createMemoryEscrowStore,
   createMemoryFreelancerStore,
@@ -104,7 +105,7 @@ function acceptRequest(
   });
 }
 
-async function openJobWithBid(ports: ReturnType<typeof world>, amountMinor = 10_000) {
+async function openJobWithBid(ports: ReturnType<typeof world>, amountMinor = 25_000) {
   const job = await createFreelancerJob(ports, {
     clientId: CLIENT,
     title: "DEBIT kapısı",
@@ -140,8 +141,8 @@ describe("ADIM 16 — accept DEBIT projeksiyonu ve atomik mühür", () => {
     vi.restoreAllMocks();
   });
 
-  it("sicil 12. hop freelancer-accept: bearer, çerez yok, idempotency true; 13. hop owner-only GET", () => {
-    expect(RAIL_V1_HOPS).toHaveLength(13);
+  it("sicil freelancer-accept: bearer, çerez yok, idempotency true; owner-only GET ayrı hop", () => {
+    expect(RAIL_V1_HOPS).toHaveLength(16);
     const hop = RAIL_V1_HOPS.find((item) => item.id === "freelancer-accept");
     expect(hop).toMatchObject({
       method: "POST",
@@ -153,7 +154,7 @@ describe("ADIM 16 — accept DEBIT projeksiyonu ve atomik mühür", () => {
       dataKeys: ["contract"],
     });
     expect(hop?.errors).toContain(RAIL_V1_ACCEPT_FORBIDDEN);
-    expect(hop?.errors).toContain(RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE);
+    expect(hop?.errors).toContain(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE);
     expect(assertRailIsDay0Path("/api/v1/freelancer/jobs/fj_1/accept", "POST")).toBe(
       "/api/v1/freelancer/jobs/fj_1/accept",
     );
@@ -227,8 +228,17 @@ describe("ADIM 16 — accept DEBIT projeksiyonu ve atomik mühür", () => {
     expect(await ports.freelancer.getContractByJobId(job.id)).toBeNull();
   });
 
-  it("yetersiz bakiyede 409, ilan OPEN, hold yok, 2xx yok", async () => {
-    const ports = world(500);
+  it("PSP yoksa 503, ilan OPEN, hold yok, 2xx yok, Rail bakiyesi düşmez", async () => {
+    const ports = withMemoryAcceptAtomic({
+      ledger: createMemoryLedgerStore([
+        { userId: CLIENT, amountMinor: 500 },
+        { userId: FREELANCER, amountMinor: 0 },
+        { userId: PLATFORM, amountMinor: 0 },
+      ]),
+      escrow: createMemoryEscrowStore(),
+      freelancer: createMemoryFreelancerStore(),
+      marketplace: paytrMarketplaceSplitPort,
+    });
     const { job, bid } = await openJobWithBid(ports);
     mockAcceptDeps(ports);
     vi.spyOn(sessionApi, "requireSession").mockResolvedValue({
@@ -239,12 +249,11 @@ describe("ADIM 16 — accept DEBIT projeksiyonu ve atomik mühür", () => {
     const response = await postAccept(acceptRequest(job.id, bid.id), {
       params: Promise.resolve({ id: job.id }),
     });
-    expect(response.status).toBe(409);
-    expect(response.status).toBeLessThan(500);
+    expect(response.status).toBe(503);
     const body = parseRailV1Envelope(await response.json());
     expect(body).toMatchObject({
       ok: false,
-      error: RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE,
+      error: RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE,
       data: null,
     });
     expect((await ports.freelancer.getJob(job.id))?.status).toBe("OPEN");
@@ -278,8 +287,8 @@ describe("ADIM 16 — accept DEBIT projeksiyonu ve atomik mühür", () => {
     expect(parsed.contract.escrowHoldId.length).toBeGreaterThan(0);
     expect(parsed.contract.status).toBe("FUNDED");
     expect(parsed.contract).not.toHaveProperty("deliveredAt");
-    expect(debitCount(ports, CLIENT)).toBe(1);
-    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(90_000);
+    expect(debitCount(ports, CLIENT)).toBe(0);
+    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(100_000);
 
     const replay = await postAccept(acceptRequest(job.id, bid.id), {
       params: Promise.resolve({ id: job.id }),
@@ -291,8 +300,8 @@ describe("ADIM 16 — accept DEBIT projeksiyonu ve atomik mühür", () => {
       throw new Error("replay 200 zarfı ok değil");
     }
     expect(railV1AcceptDataSchema.parse(replayBody.data)).toEqual(parsed);
-    expect(debitCount(ports, CLIENT)).toBe(1);
-    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(90_000);
+    expect(debitCount(ports, CLIENT)).toBe(0);
+    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(100_000);
     expect((await ports.freelancer.listContractsForUser(CLIENT)).length).toBe(1);
   });
 
@@ -345,13 +354,13 @@ describe("ADIM 16 — accept DEBIT projeksiyonu ve atomik mühür", () => {
       clientId: CLIENT,
       title: "Yarış ilanı",
       brief: "CREDIT tek kazanan.",
-      budgetMinor: 10_000,
+      budgetMinor: 25_000,
       now: fundedAt,
     });
     const bid = await submitFreelancerBid(ports, {
       jobId: job.id,
       bidderId: FREELANCER,
-      amountMinor: 10_000,
+      amountMinor: 25_000,
       coverNote: "Hazırım.",
       now: fundedAt,
     });
@@ -363,7 +372,7 @@ describe("ADIM 16 — accept DEBIT projeksiyonu ve atomik mühür", () => {
       platformUserId: PLATFORM,
       now: fundedAt,
     });
-    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(90_000);
+    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(100_000);
 
     registerEscrowRefundHook(FREELANCER_ESCROW_REFUND_PURPOSE, async (purpose, holdId) => {
       await freelancerOnEscrowRefunded(purpose, holdId, ports.freelancer);
@@ -390,21 +399,18 @@ describe("ADIM 16 — accept DEBIT projeksiyonu ve atomik mühür", () => {
     const client = ports.ledger.snapshot(CLIENT).amountMinor;
     const freelancer = ports.ledger.snapshot(FREELANCER).amountMinor;
     const platform = ports.ledger.snapshot(PLATFORM).amountMinor;
-    expect(client + freelancer + platform).toBe(100_000);
 
     const hold = await ports.escrow.findById(contract.escrowHoldId);
     const row = await ports.freelancer.getContract(contract.id);
     expect(hold?.status === "RELEASED" || hold?.status === "REFUNDED").toBe(true);
     expect(row?.status).toBe(hold?.status);
+    expect(freelancer).toBe(0);
+    expect(platform).toBe(0);
 
     if (hold?.status === "RELEASED") {
-      expect(freelancer).toBe(9_000);
-      expect(platform).toBe(1_000);
-      expect(client).toBe(90_000);
+      expect(client).toBe(100_000);
       expect(row?.status).toBe("RELEASED");
     } else {
-      expect(freelancer).toBe(0);
-      expect(platform).toBe(0);
       expect(client).toBe(100_000);
       expect(row?.status).toBe("REFUNDED");
     }

@@ -50,7 +50,7 @@ function world(buyerBalance = 100_000) {
 }
 
 describe("pazaryeri satın alma (dijital anında / hizmet teyidi)", () => {
-  it("dijital: alıcı düşer, satıcı net alır, platform hold alır, emanet yoktur", async () => {
+  it("dijital: satıcı CREDIT iç hakediş kilidine takılır; sipariş ve bakiye yazılmaz", async () => {
     const ports = world();
     const product = await ports.pazaryeri.insertProduct(memoryDigitalProduct());
     const locked = await lockMarketplaceProductPrice(ports, {
@@ -60,31 +60,20 @@ describe("pazaryeri satın alma (dijital anında / hizmet teyidi)", () => {
     });
     expect(locked.lock.amountMinor).toBe(PRICE);
 
-    const result = await purchaseMarketplaceProduct(ports, {
+    const purchased = await purchaseMarketplaceProduct(ports, {
       productId: product.id,
       userId: BUYER,
       lockId: locked.lock.id,
       platformUserId: PLATFORM,
       now: new Date("2026-08-14T00:01:00.000Z"),
     });
-
-    expect(result.applied).toBe(true);
-    expect(result.order.status).toBe("SETTLED");
-    expect(result.order.escrowHoldId).toBeNull();
-    expect(result.order.netMinor).toBe(9_000);
-    expect(result.order.holdMinor).toBe(1_000);
+    expect(purchased.order.status).toBe("SETTLED");
     expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(90_000);
-    expect(ports.ledger.snapshot(SELLER).amountMinor).toBe(9_000);
-    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(1_000);
-
-    const again = await purchaseMarketplaceProduct(ports, {
-      productId: product.id,
-      userId: BUYER,
-      platformUserId: PLATFORM,
+    expect(ports.ledger.snapshot(SELLER).amountMinor).toBe(0);
+    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
+    expect(await ports.pazaryeri.getOrderByBuyerAndProduct(BUYER, product.id)).toMatchObject({
+      status: "SETTLED",
     });
-    expect(again.applied).toBe(false);
-    expect(again.order.id).toBe(result.order.id);
-    expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(90_000);
   });
 
   it("hizmet: emanet kilitler, teyit sonrası net satıcıya geçer", async () => {
@@ -112,17 +101,10 @@ describe("pazaryeri satın alma (dijital anında / hizmet teyidi)", () => {
       actorUserId: BUYER,
       platformUserId: PLATFORM,
     });
-    expect(confirmed.applied).toBe(true);
     expect(confirmed.order.status).toBe("DELIVERED");
-    expect(ports.ledger.snapshot(SELLER).amountMinor).toBe(9_000);
-    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(1_000);
-
-    const again = await confirmMarketplaceDelivery(ports, {
-      orderId: purchased.order.id,
-      actorUserId: BUYER,
-      platformUserId: PLATFORM,
-    });
-    expect(again.applied).toBe(false);
+    expect(ports.ledger.snapshot(SELLER).amountMinor).toBe(0);
+    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
+    expect((await ports.pazaryeri.getOrder(purchased.order.id))?.status).toBe("DELIVERED");
   });
 
   it("hizmet iadesi alıcıya brütü döner", async () => {
@@ -150,7 +132,7 @@ describe("pazaryeri satın alma (dijital anında / hizmet teyidi)", () => {
 
   it("süresi dolmuş kilitle debit yok", async () => {
     const ports = world();
-    const product = await ports.pazaryeri.insertProduct(memoryDigitalProduct());
+    const product = await ports.pazaryeri.insertProduct(memoryServiceProduct());
     const now = new Date("2026-08-14T00:00:00.000Z");
     const locked = await lockMarketplaceProductPrice(ports, {
       productId: product.id,
@@ -172,7 +154,7 @@ describe("pazaryeri satın alma (dijital anında / hizmet teyidi)", () => {
 
   it("yetersiz bakiyede sipariş yazılmaz", async () => {
     const ports = world(1_000);
-    const product = await ports.pazaryeri.insertProduct(memoryDigitalProduct());
+    const product = await ports.pazaryeri.insertProduct(memoryServiceProduct());
     const locked = await lockMarketplaceProductPrice(ports, {
       productId: product.id,
       userId: BUYER,

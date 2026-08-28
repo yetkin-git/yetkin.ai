@@ -30,32 +30,28 @@ describe("Yetkinİlan emlak/vasıta vitrin fail-closed yüzeyi", () => {
   });
 
   it("satın alma, teklif, kilit ve doping motorları kategori kapısını çağırır", () => {
-    const engine = readSrc("lib/pazaryeri/engine.ts");
+    const engine = readSrc("archived/lib/pazaryeri/engine.ts");
     expect(engine).toContain("assertCashPathAllowedForCategory");
+    expect(engine).toContain("assertEidsPublicListingAllowed");
     expect(engine).toContain("isAssetCategory(category) ? false");
     expect(engine).not.toContain("command.isOfferAllowed ?? isAssetCategory");
 
-    const offers = readSrc("lib/pazaryeri/offer-engine.ts");
+    const offers = readSrc("archived/lib/pazaryeri/offer-engine.ts");
     expect(offers).toContain("assertCashPathAllowedForCategory");
 
-    const doping = readSrc("lib/pazaryeri/doping-engine.ts");
+    const doping = readSrc("archived/lib/pazaryeri/doping-engine.ts");
     expect(doping).toContain("assertCashPathAllowedForCategory");
 
-    const category = readSrc("lib/pazaryeri/category.ts");
+    const category = readSrc("archived/lib/pazaryeri/category.ts");
     expect(category).not.toContain('category === "DIGITAL_GOOD" ? "DIGITAL_GOOD" : "SERVICE"');
     expect(category).toContain('return "VITRINE"');
   });
 
-  it("API yazma uçları jsonFromUnknown ile 403 kapısını taşır", () => {
-    const routes = [
-      "app/api/pazaryeri/products/[id]/purchase/route.ts",
-      "app/api/pazaryeri/products/[id]/lock/route.ts",
-      "app/api/pazaryeri/offers/route.ts",
-      "app/api/pazaryeri/doping/route.ts",
-    ];
+  it("API yazma uçları donmuş 410 stub'dur", () => {
+    const routes = ["app/api/_gone/[...path]/route.ts"];
     for (const file of routes) {
       const source = readSrc(file);
-      expect(source, file).toContain("jsonFromUnknown");
+      expect(source, file).toContain("frozenRoomGone");
     }
   });
 
@@ -64,7 +60,7 @@ describe("Yetkinİlan emlak/vasıta vitrin fail-closed yüzeyi", () => {
     expect(schema).toContain("emlak/vasıta yalnız vitrin");
     expect(schema).not.toContain("Hizmet/emlak/vasıta: AWAITING_DELIVERY + EscrowHold");
 
-    const index = readSrc("lib/pazaryeri/index.ts");
+    const index = readSrc("archived/lib/pazaryeri/index.ts");
     expect(index).toContain("PAZARYERI_ASSET_VITRINE_PATH");
     expect(index).not.toContain("Teklif ve doping çekirdek emanette");
   });

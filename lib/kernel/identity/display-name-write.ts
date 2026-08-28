@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { SessionUser } from "@/lib/kernel/auth/ids";
 import { isSupabaseUserId } from "@/lib/kernel/auth/ids";
 import { AuthRequiredError } from "@/lib/kernel/auth/require-session";
-import { NotFoundError } from "@/lib/kernel/http/errors";
+import { NotFoundError, BadRequestError } from "@/lib/kernel/http/errors";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import {
   DISPLAY_NAME_MAX_LENGTH,
@@ -31,7 +31,7 @@ export const displayNamePatchBodySchema = z
 export function assertDisplayName(raw: string): string {
   const trimmed = raw.trim();
   if (!trimmed || trimmed.length > DISPLAY_NAME_MAX_LENGTH || /[\r\n\0]/.test(trimmed)) {
-    throw new Error(DISPLAY_NAME_INVALID);
+    throw new BadRequestError(DISPLAY_NAME_INVALID);
   }
   return trimmed;
 }

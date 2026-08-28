@@ -1,6 +1,7 @@
 import { isSupabaseUserId, type CitizenAuth, type SessionUser } from "@/lib/kernel/auth/ids";
+import type { AuthCookieWriteOptions } from "@/lib/kernel/auth/cookie-options";
 import { createSupabaseCookieClient } from "@/lib/kernel/auth/supabase-server";
-import { isV1JsonRequest } from "@/lib/kernel/http/api-v1";
+import { isV1CookieSessionBlocked } from "@/lib/kernel/http/api-v1";
 
 export class AuthRequiredError extends Error {
   readonly status = 401 as const;
@@ -54,22 +55,93 @@ async function citizenFromAccessToken(
   return { id: data.user.id, email: data.user.email, accessToken };
 }
 
-async function userFromCookies(url: string, anon: string): Promise<SessionUser | null> {
-  const { cookies } = await import("next/headers");
-  const cookieStore = await cookies();
+function parseCookieHeader(header: string | null | undefined): { name: string; value: string }[] {
+  if (!header) {
+    return [];
+  }
+  const cookies: { name: string; value: string }[] = [];
+  for (const part of header.split(";")) {
+    const separator = part.indexOf("=");
+    if (separator <= 0) {
+      continue;
+    }
+    const name = part.slice(0, separator).trim();
+    if (!name) {
+      continue;
+    }
+    cookies.push({ name, value: part.slice(separator + 1).trim() });
+  }
+  return cookies;
+}
+
+function mergeCookieLists(
+  primary: ReadonlyArray<{ name: string; value: string }>,
+  fallback: ReadonlyArray<{ name: string; value: string }>,
+): { name: string; value: string }[] {
+  if (fallback.length === 0) {
+    return [...primary];
+  }
+  const byName = new Map<string, string>();
+  for (const cookie of fallback) {
+    byName.set(cookie.name, cookie.value);
+  }
+  for (const cookie of primary) {
+    byName.set(cookie.name, cookie.value);
+  }
+  return [...byName.entries()].map(([name, value]) => ({ name, value }));
+}
+
+function requestUrlOf(request?: Request): URL | undefined {
+  if (!request) {
+    return undefined;
+  }
+  try {
+    return new URL(request.url);
+  } catch {
+    return undefined;
+  }
+}
+
+async function readIncomingCookies(request?: Request): Promise<{
+  list: { name: string; value: string }[];
+  setCookie: (name: string, value: string, options: AuthCookieWriteOptions) => void;
+}> {
+  const fromRequest = parseCookieHeader(request?.headers.get("cookie"));
+  try {
+    const { cookies } = await import("next/headers");
+    const cookieStore = await cookies();
+    return {
+      list: mergeCookieLists(cookieStore.getAll(), fromRequest),
+      setCookie(name, value, options) {
+        try {
+          cookieStore.set(name, value, options);
+        } catch {
+          // Server Component cookie yazamaz; oturum okuma yine de geçerlidir.
+        }
+      },
+    };
+  } catch {
+    return {
+      list: fromRequest,
+      setCookie() {},
+    };
+  }
+}
+
+async function userFromCookies(
+  url: string,
+  anon: string,
+  request?: Request,
+): Promise<SessionUser | null> {
+  const incoming = await readIncomingCookies(request);
   const supabase = createSupabaseCookieClient({
     url,
     anon,
+    requestUrl: requestUrlOf(request),
     getAll() {
-      return cookieStore.getAll();
+      return incoming.list;
     },
-    setCookie(name, value, options) {
-      try {
-        cookieStore.set(name, value, options);
-      } catch {
-        // Server Component cookie yazamaz; oturum okuma yine de geçerlidir.
-      }
-    },
+    setCookie: incoming.setCookie,
   });
   const { data, error } = await supabase.auth.getUser();
   if (error || !data.user?.id || !data.user.email) {
@@ -81,22 +153,20 @@ async function userFromCookies(url: string, anon: string): Promise<SessionUser |
   return { id: data.user.id, email: data.user.email };
 }
 
-async function citizenFromCookies(url: string, anon: string): Promise<CitizenAuth | null> {
-  const { cookies } = await import("next/headers");
-  const cookieStore = await cookies();
+async function citizenFromCookies(
+  url: string,
+  anon: string,
+  request?: Request,
+): Promise<CitizenAuth | null> {
+  const incoming = await readIncomingCookies(request);
   const supabase = createSupabaseCookieClient({
     url,
     anon,
+    requestUrl: requestUrlOf(request),
     getAll() {
-      return cookieStore.getAll();
+      return incoming.list;
     },
-    setCookie(name, value, options) {
-      try {
-        cookieStore.set(name, value, options);
-      } catch {
-        // Server Component cookie yazamaz; oturum okuma yine de geçerlidir.
-      }
-    },
+    setCookie: incoming.setCookie,
   });
   const { data, error } = await supabase.auth.getUser();
   if (error || !data.user?.id || !data.user.email) {
@@ -129,10 +199,10 @@ export async function getSession(request?: Request): Promise<SessionUser | null>
   if (bearer) {
     return userFromAccessToken(url, anon, bearer);
   }
-  if (request && isV1JsonRequest(request)) {
+  if (request && isV1CookieSessionBlocked(request)) {
     return null;
   }
-  return userFromCookies(url, anon);
+  return userFromCookies(url, anon, request);
 }
 
 export async function requireSession(request?: Request): Promise<SessionUser> {
@@ -153,10 +223,10 @@ export async function getCitizenAuth(request?: Request): Promise<CitizenAuth | n
   if (bearer) {
     return citizenFromAccessToken(url, anon, bearer);
   }
-  if (request && isV1JsonRequest(request)) {
+  if (request && isV1CookieSessionBlocked(request)) {
     return null;
   }
-  return citizenFromCookies(url, anon);
+  return citizenFromCookies(url, anon, request);
 }
 
 export async function requireCitizenAuth(request?: Request): Promise<CitizenAuth> {

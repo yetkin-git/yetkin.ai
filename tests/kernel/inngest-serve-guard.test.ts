@@ -2,7 +2,9 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   assertInngestCronServeReady,
   canInvokeInngestServe,
+  canSendInngestEvents,
   INNGEST_CRON_SERVE_NOT_READY,
+  INNGEST_EVENT_SEND_NOT_READY,
   INNGEST_KERNEL_CRON_FUNCTION_IDS,
   isInngestDevEnabled,
   resolveInngestServeMode,
@@ -109,6 +111,7 @@ describe("Inngest imza fail-closed", () => {
   it("cloud ve INNGEST_DEV modunda cron 503'e düşmez; boş anahtarda throw", () => {
     expect(INNGEST_KERNEL_CRON_FUNCTION_IDS).toEqual([
       "paytr-clearing-scan",
+      "ledger-reconciliation-scan",
       "escrow-timeout-scan",
       "escrow-ttl-approaching-scan",
     ]);
@@ -155,6 +158,12 @@ describe("Inngest imza fail-closed", () => {
         INNGEST_EVENT_KEY: "",
       }),
     ).toThrow(INNGEST_CRON_SERVE_NOT_READY);
+  });
+  it("canSendInngestEvents yalnız EVENT_KEY ister; boşken send yolu SDK'ya inmez", () => {
+    expect(canSendInngestEvents({ INNGEST_EVENT_KEY: "" })).toBe(false);
+    expect(canSendInngestEvents({ INNGEST_EVENT_KEY: "   " })).toBe(false);
+    expect(canSendInngestEvents({ INNGEST_EVENT_KEY: "evt" })).toBe(true);
+    expect(INNGEST_EVENT_SEND_NOT_READY).toContain("INNGEST_EVENT_KEY");
   });
 });
 

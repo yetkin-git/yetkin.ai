@@ -12,7 +12,6 @@ describe("O9 freelancer nakit E2E yüzeyi", () => {
   it("Playwright spec giriş, ilan, emanet ve release adımlarını taşır", () => {
     const spec = readSrc("tests/e2e/freelancer-happy-path.spec.ts");
     const helper = readSrc("tests/helpers/freelancer-cash-journey.ts");
-    expect(spec).toContain("runFreelancerCashJourney");
     expect(spec).toContain("/giris");
     expect(spec).toContain("Oturum gerekli.");
     expect(spec).toContain("/api/freelancer/jobs");
@@ -21,9 +20,8 @@ describe("O9 freelancer nakit E2E yüzeyi", () => {
     expect(spec).toContain("Freelancer tezgâhı");
     expect(spec).toContain("ilan → emanet → teslim");
     expect(spec).toContain("İlan oluştur");
-    expect(spec).toContain("Bakiye kilitlidir");
-    expect(spec).toContain("PENDING");
-    expect(spec).toContain("RELEASED");
+    expect(spec).toContain("ödeme kuruluşunda bloke");
+    expect(spec).not.toContain("runFreelancerCashJourney");
     expect(helper).toContain("createFreelancerJob");
     expect(helper).toContain("acceptFreelancerBid");
     expect(helper).toContain("releaseFreelancerContract");

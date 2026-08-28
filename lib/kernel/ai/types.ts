@@ -81,6 +81,87 @@ export type ImageGatewayResult = {
   usage: LlmUsage;
 };
 
+export type InvokeSpeechInput = {
+  provider?: LlmProviderId;
+  role?: "VOICE_TTS";
+  model?: string;
+  /**
+   * Saf konuşma metni (SSOT transcript). Sistem/anayasa/yönerge yok.
+   * Serbest üretim yok — çağıran katman ekran metnini basar.
+   */
+  text: string;
+  /**
+   * Stil yönergesi — sağlayıcı systemInstruction.
+   * Seslendirilecek `text` parametresine asla birleştirilmez.
+   */
+  instruction?: string;
+  voiceName?: string;
+  languageCode?: string;
+  timeoutMs?: number;
+  maxAttempts?: number;
+  rateLimit?: {
+    identifier: string;
+    scope?: string;
+    limit?: number;
+    windowMs?: number;
+  };
+  billing?: {
+    userId?: string | null;
+    source: AiTokenSource;
+    recordUsage?: boolean;
+  };
+};
+
+export type SpeechGatewayResult = {
+  mimeType: string;
+  dataBase64: string;
+  model: string;
+  provider: LlmProviderId;
+  usage: LlmUsage;
+};
+
+/** generateSpeech yumuşak hata — adapter yokluğu `null` kalır. */
+export type SpeechGatewayFail = {
+  ok: false;
+  reason: string;
+};
+
+export type SpeechGatewayOutcome = SpeechGatewayResult | SpeechGatewayFail;
+
+export function isSpeechGatewayFail(
+  value: SpeechGatewayOutcome | null | undefined,
+): value is SpeechGatewayFail {
+  return Boolean(value && typeof value === "object" && "ok" in value && value.ok === false);
+}
+
+export function isSpeechGatewaySuccess(
+  value: SpeechGatewayOutcome | null | undefined,
+): value is SpeechGatewayResult {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+  if ("ok" in value && value.ok === false) {
+    return false;
+  }
+  return "dataBase64" in value && typeof value.dataBase64 === "string" && value.dataBase64.trim().length > 0;
+}
+
+export type ProviderGenerateSpeechInput = {
+  model: string;
+  /** Saf konuşma SSOT — yönerge yok. */
+  text: string;
+  /** Stil — systemInstruction; ses metnine eklenmez. */
+  instruction?: string;
+  voiceName?: string;
+  languageCode?: string;
+};
+
+export type ProviderGenerateSpeechResult = {
+  mimeType: string;
+  dataBase64: string;
+  usage: LlmUsage;
+};
+
 export type LlmGatewayDenied = {
   ok: false;
   reason: LlmGatewayDenialReason;
@@ -123,8 +204,11 @@ export type LlmProviderAdapter = {
     input: ProviderGenerateImageInput,
     signal: AbortSignal,
   ): Promise<ProviderGenerateImageResult>;
-  /** VIDEO_GEN / VOICE_TTS factory yok — anayasa kesmesi. */
+  generateSpeech?(
+    input: ProviderGenerateSpeechInput,
+    signal: AbortSignal,
+  ): Promise<ProviderGenerateSpeechResult>;
+  /** VIDEO_GEN factory yok — anayasa kesmesi. */
   generateVideo?: never;
-  generateSpeech?: never;
   generateAudio?: never;
 };

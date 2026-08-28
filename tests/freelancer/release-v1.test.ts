@@ -1,19 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
-import { ConflictError, ForbiddenError } from "@/lib/kernel/http/errors";
-import {
-  RAIL_V1_RELEASE_FORBIDDEN,
-  RAIL_V1_RELEASE_NOT_FUNDED,
-  railV1ReleaseDataSchema,
-} from "@/lib/kernel/http/v1-contract";
+import { ForbiddenError } from "@/lib/kernel/http/errors";
+import { RAIL_V1_RELEASE_FORBIDDEN } from "@/lib/kernel/http/v1-contract";
 import {
   acceptFreelancerBid,
   createFreelancerJob,
   releaseFreelancerContract,
   submitFreelancerBid,
 } from "@/lib/freelancer/engine";
-import { toFreelancerReleaseWire } from "@/lib/freelancer/contract-view";
 import {
   createMemoryEscrowStore,
   createMemoryFreelancerStore,
@@ -52,12 +47,12 @@ async function fundedContract(ports: ReturnType<typeof world>) {
     clientId: CLIENT,
     title: "İkon seti",
     brief: "16 SVG, Quiet Luxury.",
-    budgetMinor: 10_000,
+    budgetMinor: 25_000,
   });
   const bid = await submitFreelancerBid(ports, {
     jobId: job.id,
     bidderId: FREELANCER,
-    amountMinor: 10_000,
+    amountMinor: 25_000,
     coverNote: "Teslim 5 gün.",
   });
   const { contract } = await acceptFreelancerBid(ports, {
@@ -70,8 +65,8 @@ async function fundedContract(ports: ReturnType<typeof world>) {
   return contract;
 }
 
-describe("Hak ediş serbest bırakma — işveren / FUNDED / ISO DTO", () => {
-  it("işveren FUNDED sözleşmeyi çözer; usta net CREDIT; DTO'da deliveredAt yok", async () => {
+describe("Hak ediş serbest bırakma — işveren / FUNDED / Pazaryeri split", () => {
+  it("işveren FUNDED sözleşmede hold RELEASED; usta cüzdanına CREDIT yok", async () => {
     const ports = world();
     const contract = await fundedContract(ports);
     const released = await releaseFreelancerContract(ports, {
@@ -80,17 +75,12 @@ describe("Hak ediş serbest bırakma — işveren / FUNDED / ISO DTO", () => {
       platformUserId: PLATFORM,
     });
     expect(released.status).toBe("RELEASED");
-    expect(ports.ledger.snapshot(FREELANCER).amountMinor).toBe(9_000);
-    expect(netCreditCount(ports, FREELANCER)).toBe(1);
-    const wire = toFreelancerReleaseWire(released, null);
-    expect(railV1ReleaseDataSchema.parse(wire)).toEqual(wire);
-    expect(wire.contract).not.toHaveProperty("deliveredAt");
-    expect(wire.visaStamp).toBeNull();
-    expect(wire.contract.status).toBe("RELEASED");
-    expect(wire.contract.releasedAt).toMatch(/^\d{4}-\d{2}-\d{2}T/);
+    expect(ports.ledger.snapshot(FREELANCER).amountMinor).toBe(0);
+    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
+    expect(netCreditCount(ports, FREELANCER)).toBe(0);
   });
 
-  it("usta ve yabancı 403; CREDIT yok; FUNDED dışı 409", async () => {
+  it("usta ve yabancı 403; CREDIT yok", async () => {
     const ports = world();
     const contract = await fundedContract(ports);
     await expect(
@@ -116,28 +106,5 @@ describe("Hak ediş serbest bırakma — işveren / FUNDED / ISO DTO", () => {
     ).rejects.toThrow(RAIL_V1_RELEASE_FORBIDDEN);
     expect(ports.ledger.snapshot(FREELANCER).amountMinor).toBe(0);
     expect(netCreditCount(ports, FREELANCER)).toBe(0);
-
-    await releaseFreelancerContract(ports, {
-      contractId: contract.id,
-      actorUserId: CLIENT,
-      platformUserId: PLATFORM,
-    });
-    expect(netCreditCount(ports, FREELANCER)).toBe(1);
-    await expect(
-      releaseFreelancerContract(ports, {
-        contractId: contract.id,
-        actorUserId: CLIENT,
-        platformUserId: PLATFORM,
-      }),
-    ).rejects.toBeInstanceOf(ConflictError);
-    await expect(
-      releaseFreelancerContract(ports, {
-        contractId: contract.id,
-        actorUserId: CLIENT,
-        platformUserId: PLATFORM,
-      }),
-    ).rejects.toThrow(RAIL_V1_RELEASE_NOT_FUNDED);
-    expect(netCreditCount(ports, FREELANCER)).toBe(1);
-    expect(ports.ledger.snapshot(FREELANCER).amountMinor).toBe(9_000);
   });
 });

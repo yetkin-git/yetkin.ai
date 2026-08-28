@@ -528,10 +528,6 @@ export function useDronApp() {
       dispatch({ type: "ACCEPT_LOCAL_FAIL", message: RAIL_IS_COPY.job.openOnly });
       return;
     }
-    if (state.walletView.kind !== "live") {
-      dispatch({ type: "ACCEPT_LOCAL_FAIL", message: RAIL_IS_COPY.accept.unboundBlock });
-      return;
-    }
     const selected =
       state.ownerBidsView.kind === "ready"
         ? state.ownerBidsView.bids.find((bid) => bid.bidId === bidId)

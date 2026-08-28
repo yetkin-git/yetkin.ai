@@ -2,23 +2,32 @@
 
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
+import {
+  DesktopSidebar,
+  ShellMain,
+  SidebarLayoutProvider,
+} from "@/components/shell/desktop-sidebar";
 import { SidebarNav } from "@/components/shell/sidebar-nav";
 import { HeaderBar } from "@/components/shell/header-bar";
+import { BreadcrumbOverrideProvider } from "@/components/shell/header-breadcrumb";
 import { RoomScope } from "@/components/theme/room-scope";
 import { ActionBridgeProvider } from "@/components/ui/action-bridge";
 import { IconClose } from "@/components/ui/icons";
-import { RailMark } from "@/components/ui/rail-mark";
+import { BrandIcon } from "@/components/ui/brand-icon";
 import { cn } from "@/components/ui/cn";
+import { YETKIN_BRAND, YETKIN_SHELL_TAGLINE } from "@/lib/copy/brand";
 
 function BrandMark() {
   return (
-    <Link href="/dashboard" className="flex items-center gap-2.5 px-1 py-0.5">
-      <RailMark tone="onInk" withSleepers className="h-8 w-8 shrink-0" />
-      <span>
-        <span className="block text-sm font-semibold leading-tight tracking-tight text-white">
-          Yetkin Rail
+    <Link href="/dashboard" className="flex min-w-0 items-center gap-2.5 px-1 py-0.5">
+      <BrandIcon className="h-8 w-8 shrink-0" />
+      <span className="min-w-0">
+        <span className="block truncate text-sm font-semibold leading-snug tracking-tight text-white">
+          {YETKIN_BRAND}
         </span>
-        <span className="block text-[11px] leading-tight text-white/40">Mühürlü emek OS</span>
+        <span className="mt-0.5 block truncate text-[11px] leading-snug text-white/40">
+          {YETKIN_SHELL_TAGLINE}
+        </span>
       </span>
     </Link>
   );
@@ -26,30 +35,16 @@ function BrandMark() {
 
 export function ShellChrome({
   children,
-  showAdmin,
-  userEmail,
+  userCluster,
 }: {
   children: ReactNode;
-  showAdmin: boolean;
-  userEmail: string | null;
+  userCluster: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <>
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 flex-col border-r border-white/5 bg-[var(--surface-ink)] lg:flex">
-        <div className="px-3 py-3">
-          <BrandMark />
-        </div>
-        <div className="min-h-0 flex-1 overflow-y-auto px-2.5 pb-2">
-          <SidebarNav />
-        </div>
-        <div className="border-t border-white/5 p-2.5">
-          <p className="rounded-lg bg-white/5 px-2.5 py-1.5 text-[11px] leading-tight text-white/45 line-clamp-1">
-            12 asil oda · tek nakit defter · tek LLM gümrüğü
-          </p>
-        </div>
-      </aside>
+    <SidebarLayoutProvider>
+      <DesktopSidebar />
 
       <div
         className={cn(
@@ -60,34 +55,36 @@ export function ShellChrome({
       />
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-[var(--surface-ink)] transition-transform duration-200 lg:hidden",
+          "fixed inset-y-0 left-0 z-50 flex w-72 flex-col overflow-hidden bg-[var(--surface-ink)] transition-transform duration-200 lg:hidden",
           open ? "translate-x-0" : "-translate-x-full",
         )}
       >
-        <div className="flex items-center justify-between px-3 py-3">
+        <div className="flex min-w-0 items-center justify-between gap-2 px-4 py-4">
           <BrandMark />
           <button
             type="button"
-            className="rounded-lg p-2 text-white/70 hover:bg-white/10"
+            className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg p-2 text-white/70 hover:bg-white/10"
             onClick={() => setOpen(false)}
             aria-label="Menüyü kapat"
           >
             <IconClose className="h-5 w-5" />
           </button>
         </div>
-        <div className="min-h-0 flex-1 overflow-y-auto px-2.5 pb-2">
+        <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-4">
           <SidebarNav onNavigate={() => setOpen(false)} />
         </div>
       </aside>
 
       <RoomScope>
         <ActionBridgeProvider>
-          <div className="relative lg:pl-72">
-            <HeaderBar onMenu={() => setOpen(true)} showAdmin={showAdmin} userEmail={userEmail} />
-            {children}
-          </div>
+          <BreadcrumbOverrideProvider>
+            <ShellMain>
+              <HeaderBar onMenu={() => setOpen(true)} userCluster={userCluster} />
+              {children}
+            </ShellMain>
+          </BreadcrumbOverrideProvider>
         </ActionBridgeProvider>
       </RoomScope>
-    </>
+    </SidebarLayoutProvider>
   );
 }

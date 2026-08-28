@@ -11,6 +11,9 @@ export type AcademyCourseRecord = {
   title: string;
   summary: string;
   catalogUnitKey: string;
+  globalRank: number;
+  localRank: number;
+  trendScore: number;
   isPublished: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -41,6 +44,8 @@ export type AcademyCertificateRecord = {
   curriculumSeal: string | null;
   score: number | null;
   issuedAt: Date;
+  revokedAt: Date | null;
+  revokeReason: string | null;
   createdAt: Date;
 };
 
@@ -87,6 +92,23 @@ export type AcademyExamAttemptRecord = {
   createdAt: Date;
 };
 
+export type AcademyCourseWithPrice = AcademyCourseRecord & {
+  priceMinor: AmountMinor | null;
+  currencyCode: CurrencyCode;
+  purchasable: boolean;
+  /** Serbest seviye etiketi — fiyat bandına kilitli değildir. */
+  level?: string | null;
+  /**
+   * Kart yüzeyi — eğitim vs doğrudan sınav/vize.
+   * BFF `published-catalog` / `purchase-path` SSOT basar.
+   */
+  offerPaths?: readonly {
+    path: "training" | "exam";
+    cta: string;
+    summary: string;
+  }[];
+};
+
 export type AcademyPulse = {
   purchasesCount: number;
   certificatesHeld: number;
@@ -100,6 +122,7 @@ export type AcademyLessonCompletionRecord = {
   courseId: string;
   purchaseId: string;
   lessonKey: string;
+  proofOfWorkHash: string | null;
   completedAt: Date;
   createdAt: Date;
 };
@@ -110,9 +133,20 @@ export type AcademyStore = {
   getCourseBySlug(slug: string): Promise<AcademyCourseRecord | null>;
   listPublishedCourses(): Promise<AcademyCourseRecord[]>;
   insertPurchase(purchase: AcademyPurchaseRecord): Promise<AcademyPurchaseRecord>;
+  updatePurchase(
+    id: string,
+    patch: Partial<
+      Pick<AcademyPurchaseRecord, "settledAt" | "amountMinor" | "priceLockId" | "updatedAt">
+    >,
+  ): Promise<AcademyPurchaseRecord>;
   getPurchase(id: string): Promise<AcademyPurchaseRecord | null>;
   getPurchaseByUserAndCourse(userId: string, courseId: string): Promise<AcademyPurchaseRecord | null>;
+  listPurchasesForUser(userId: string): Promise<AcademyPurchaseRecord[]>;
   insertCertificate(certificate: AcademyCertificateRecord): Promise<AcademyCertificateRecord>;
+  revokeCertificate(
+    id: string,
+    patch: { revokedAt: Date; revokeReason: string },
+  ): Promise<AcademyCertificateRecord>;
   getCertificateByPurchaseId(purchaseId: string): Promise<AcademyCertificateRecord | null>;
   getCertificateByUserAndCourse(userId: string, courseId: string): Promise<AcademyCertificateRecord | null>;
   getCertificateByHash(hash: string): Promise<AcademyCertificateRecord | null>;

@@ -416,6 +416,7 @@ export function dronAppReducer(state: DronAppState, event: DronAppEvent): DronAp
           confirmOpen: false,
           fakeSuccess: false,
           insufficientBalance: false,
+          paymentsUnconfigured: false,
           error: event.message,
           requestId: null,
         },

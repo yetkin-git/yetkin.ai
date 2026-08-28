@@ -9,13 +9,13 @@ function readSrc(relative: string): string {
 }
 
 describe("AI gümrük varsayılan bütçe zırhı yüzeyi", () => {
-  it("invokeLlm ve generateImage çağrı başına bellek kovası açmaz", () => {
+  it("invokeLlm, generateImage ve generateSpeech çağrı başına bellek kovası açmaz", () => {
     const gateway = readSrc("lib/kernel/ai/llm-gateway.ts");
     expect(gateway).toContain("createPrismaBudgetShieldPort()");
     expect(gateway).not.toContain("createMemoryBudgetShieldPort");
     expect(gateway).toContain("deps.budgetPort ?? createPrismaBudgetShieldPort()");
     const defaults = gateway.split("createPrismaBudgetShieldPort()").length - 1;
-    expect(defaults).toBe(2);
+    expect(defaults).toBe(3);
   });
 
   it("Prisma portu AiTokenUsage günlük agrega okur", () => {

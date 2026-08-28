@@ -11,7 +11,7 @@ function readSrc(relative: string): string {
 describe("D2.3 kazanç köprüsü yüzeyi — tek emanet, oda duvarı, vize kapısı", () => {
   it("freelancer ve kurumsal aynı çekirdek EscrowHold yazıcısını çağırır; birbirini import etmez", () => {
     const freelancer = readSrc("lib/freelancer/engine.ts");
-    const kurumsal = readSrc("lib/kurumsal/engine.ts");
+    const kurumsal = readSrc("archived/lib/kurumsal/engine.ts");
     const escrow = readSrc("lib/kernel/escrow/engine.ts");
     expect(freelancer).toContain('from "@/lib/kernel/escrow"');
     expect(freelancer).toContain("createEscrowHold");
@@ -27,15 +27,14 @@ describe("D2.3 kazanç köprüsü yüzeyi — tek emanet, oda duvarı, vize kap�
     expect(escrow).not.toContain("@/lib/kurumsal");
   });
 
-  it("HTTP release FREELANCER_RELEASE damgası basar; accept/teklif hold BPS hesabına vize sokmaz", () => {
+  it("HTTP release FREELANCER_RELEASE damgası basar; kurumsal release 410 stub; accept vize sokmaz", () => {
     const freelancerRelease = readSrc("app/api/freelancer/contracts/[id]/release/route.ts");
-    const kurumsalRelease = readSrc("app/api/kurumsal/jobs/[id]/release/route.ts");
+    const kurumsalRelease = readSrc("app/api/_gone/[...path]/route.ts");
     const accept = readSrc("app/api/freelancer/jobs/[id]/accept/route.ts");
     const helper = readSrc("tests/helpers/earnings-bridge.ts");
     expect(freelancerRelease).toContain("tryIssueCareerVisaStamp");
     expect(freelancerRelease).toContain("FREELANCER_RELEASE");
-    expect(kurumsalRelease).toContain("tryIssueCareerVisaStamp");
-    expect(kurumsalRelease).toContain("FREELANCER_RELEASE");
+    expect(kurumsalRelease).toContain("frozenRoomGone");
     expect(accept).not.toContain("tryIssueCareerVisaStamp");
     expect(helper).toContain("assertAcademyCareerVisaForListing");
     expect(helper).toContain("postFreelancerContractMessage");

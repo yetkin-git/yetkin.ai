@@ -1,6 +1,8 @@
-# Rail İş (Diyar B) istemci sözleşmesi
+# yetkin.ai İş (Diyar B) istemci sözleşmesi
 
 Native ve ikincil istemcinin `/api/v1` ile konuşma kuralı. Anayasa: `.system_docs/ANAYASA.md`. Hop sicili: `lib/kernel/http/v1-contract.ts`. Bu belge yeni bir kimlik sistemi veya Prisma modeli açmaz. Mevcut gerçek: **Supabase Auth JWT**.
+
+Mağaza / vatandaş markası `yetkin.ai`. Native paket adı `yetkin.ai-is`; dizin yolu `apps/rail-is` (operasyonel yol).
 
 Ürün kodu bu dosyayı import etmez. Derleme beşlisi (`ANAYASA`, `MANIFESTO`, `OPS_RUNBOOK`, `STORAGE_CONTRACT`, `README`) durur; bu dosya dron/ikincil istemci ops belgesidir.
 
@@ -19,7 +21,9 @@ Native ve ikincil istemcinin `/api/v1` ile konuşma kuralı. Anayasa: `.system_d
 | Sürüm | Health dışında `X-Rail-Min-Version: 1` zorunlu. |
 | CORS | `RAIL_DRON_ORIGINS` allowlist. Boş = saf native (CORS başlığı yok). Joker `*` yok. `Access-Control-Allow-Credentials` yok. |
 
-Versiyonsuz web serimi (`{ ok: true, jobs: [...] }`) dron gövdesi değildir. Parse fail'i boş liste veya sahte bakiye değildir; protokol hatasıdır. **Üçüncü zarf yasaktır** — yeni dış tüketici yalnız bu v1 zarfını konuşur; versiyonsuz serim genişlemez.
+Versiyonsuz web serimi (`{ ok: true, jobs: [...] }`) kapalıdır (P1). Parse fail'i boş liste veya sahte bakiye değildir; protokol hatasıdır. **Üçüncü zarf yasaktır.**
+
+JSON zarfı (Anayasa A6) Amiral ve Dron için aynıdır: `{ ok, error, requestId, apiVersion, data }`. Bu, Amiral’in bütün web BFF yüzeyini `/api/v1` hop sicili olarak konuştuğu anlamına **gelmez**. Dron yalnız `RAIL_V1_HOPS` alt kümesini konuşur. Web RSC/BFF daha geniştir (ekip, doğrudan teklif, AI sohbet, şifre, admin, inceleme, PDF hop sicilinde yoktur). Gövde **Modüler Monolit + API-First Dron Sözleşmesi**dir; “API-First” yalnız Dron kesitidir (Anayasa A9). Hop sicilini web BFF kadar şişirmek ürün kararı değildir; ajan “her Amiral rotasını v1 hop yap” diye BFF’i bozmaz.
 
 ---
 
@@ -67,7 +71,7 @@ Anayasa: desteklenmeyen sürüm sahte veri veya boş ekran almaz. İstemci JSON'
 | 409 | Idempotency gövde çatışması | Aynı anahtarla farklı gövde gönderme; yeni UUID. |
 | 426 | İstemci asgari sürümü sunucudan yeni veya (ileride) eski | Mağaza güncellemesi veya `"Bu sunucu henüz o sözleşmeyi konuşmuyor."` |
 
-426 vatandaş cümlesi (eski istemci, `minVersion` yükselince): `"Bu uygulama güncel değil. Rail İş'i mağazadan güncelle."`
+426 vatandaş cümlesi (eski istemci, `minVersion` yükselince): `"Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle."`
 
 `data` hata zarfında her zaman `null`. Kökte başka alan yok.
 
@@ -109,11 +113,11 @@ Aynı ekranlar sekiz yüzeyde dokuz hop tüketir; sahte DTO basmaz. Parse fail b
 | İşlerim / Tezgâh | `GET /api/v1/freelancer/contracts` | `FreelancerContractView.deliveredAt` (DELIVERY türevi). Parse fail `"Tezgâh henüz yüklenemedi."` — sahte iş yok. Pull-to-refresh + 30 sn anket |
 | Teslim yazması | `POST /api/v1/freelancer/contracts/{id}/messages` `kind=DELIVERY` + UUID | Usta, FUNDED. 2xx sonrası GET contracts. 400/403/409/500 dürüst kart; sahte yeşil yok. GET thread allowlist dışı |
 | Teslimatı Onayla ve Öde | `POST /api/v1/freelancer/contracts/{id}/release` + UUID | İşveren, Tezgâh `delivered` şeridi. 2xx sonrası GET contracts + wallet-strip. Usta 403. 400/403/409/500 dürüst kart; yerel `lane: "released"` yok |
-| Teklifleri İncele, Kabul Et ve Fonla | `GET /api/v1/client/jobs/{id}/bids` + `POST …/jobs/{id}/accept` + UUID | İşveren, `job.clientId`. Dar DTO (`bidId`, `amountMinor`, `coverNote`, `createdAt`); `bidderId` yok. Teyit modalı. 2xx → Tezgâh + wallet-strip. 409 yetersiz bakiye → `/cuzdan`; sahte yeşil yok. Usta 403. `GET jobs/{id}` kapalı |
+| Teklifleri İncele, Kabul Et ve Fonla | `GET /api/v1/client/jobs/{id}/bids` + `POST …/jobs/{id}/accept` + UUID | İşveren, `job.clientId`. Dar DTO (`bidId`, `amountMinor`, `coverNote`, `createdAt`); `bidderId` yok. Teyit modalı. PSP Split yoksa **503** `"Ödeme henüz bağlanmadı"`; cüzdan DEBIT ile fonlanmaz. Sahte yeşil yok. Usta 403. `GET jobs/{id}` kapalı |
 
 HTTP 426 kilit cümlesi: `"Lütfen uygulamayı güncelleyiniz"`.
 
-Tezgâh şeritleri: `FUNDED` + `deliveredAt == null` → devam (emanet blokeli); `FUNDED` + `deliveredAt` → teslim edildi; `RELEASED` → Hak Ediş Serbest Bırakıldı. `REFUNDED` / `DISPUTED` ayrı basılır; “devam ediyor” boyanmaz. `POST …/deliver` yoktur. `GET …/messages` allowlist dışıdır.
+Tezgâh şeritleri: `FUNDED` + `deliveredAt == null` → devam (emanet blokeli); `FUNDED` + `deliveredAt` → teslim edildi; `RELEASED` → Emanet kilitli — hakediş yazılmaz. `REFUNDED` / `DISPUTED` ayrı basılır; “devam ediyor” boyanmaz. `POST …/deliver` yoktur. `GET …/messages` allowlist dışıdır.
 
 ## 7. Bilinçli olarak olmayanlar
 
@@ -123,5 +127,6 @@ Tezgâh şeritleri: `FUNDED` + `deliveredAt == null` → devam (emanet blokeli);
 - Sicile `GET /api/v1/freelancer/jobs/{id}` — detay listeden çizilir; teklifler owner-only `GET /api/v1/client/jobs/{id}/bids` ile okunur.
 - Dron yazması: `POST …/deliver` (ağız yok), `GET …/messages` (PII thread). Nakit DEBIT `POST …/accept` işveren allowlist'indedir; hak ediş `POST …/release` işveren allowlist'indedir. Refund / top-up / native IAP kapalı.
 - `packages/` SDK (Prisma'lı kernel paketi yok). HTTP istemcisi `apps/rail-is` içindedir; `lib/kernel` import etmez.
+- **Hop alt kümesi ürün kararıdır.** Sicil dışı: ekip, doğrudan teklif, anlaşmazlık GET thread, inceleme, dinle, PDF, müfredat revizyonu, AI sohbet, şifre, admin. Bunlar web BFF’de durabilir; Dron hop’a sessizce eklenmez.
 
 Ops bağlama: `.system_docs/OPS_RUNBOOK.md`. Env: `RAIL_DRON_ORIGINS` (Amiral). Native: `apps/rail-is/.env.example`.

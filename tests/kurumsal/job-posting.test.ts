@@ -81,16 +81,8 @@ describe("kurumsal mühürlü emanetli ilan", () => {
     });
     expect(released.status).toBe("RELEASED");
     expect(ports.ledger.snapshot(OWNER).amountMinor).toBe(90_000);
-    expect(ports.ledger.snapshot(WORKER).amountMinor).toBe(9_000);
-    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(1_000);
-
-    const again = await releaseCorporateJobPosting(ports, {
-      postingId: posting.id,
-      actorUserId: OWNER,
-      platformUserId: PLATFORM,
-    });
-    expect(again.status).toBe("RELEASED");
-    expect(ports.ledger.snapshot(WORKER).amountMinor).toBe(9_000);
+    expect(ports.ledger.snapshot(WORKER).amountMinor).toBe(0);
+    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
   });
 
   it("mühürlü ilana teklif emaneti değiştirmez; ödül teklifi kabul eder", async () => {

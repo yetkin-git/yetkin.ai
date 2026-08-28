@@ -107,7 +107,7 @@ describe("ops:migrate havuz yasağı", () => {
   });
 });
 
-describe("yedi SQL mühür planı", () => {
+describe("sekiz SQL mühür planı", () => {
   it("diskteki dosya adları kilitli sırayla birebir", () => {
     const files = readdirSync(MIG_DIR)
       .filter((name) => name.endsWith(".sql"))
@@ -166,10 +166,10 @@ describe("ops:migrate bellek katalog simülasyonu", () => {
   });
 
   it("Prisma CHECK veya http_idempotency_records yoksa fail-closed çıkar", async () => {
-    const noCheck = createPostPrismaMemoryCatalog();
-    noCheck.studioDataBase64Check = false;
-    await expect(assertStudioDataBase64Check(createMemoryOpsSealQuery(noCheck))).rejects.toThrow(
-      /studio_digital_assets_data_base64_max_chars/,
+    const leftover = createPostPrismaMemoryCatalog();
+    leftover.frozenRoomTablesPresent = true;
+    await expect(assertStudioDataBase64Check(createMemoryOpsSealQuery(leftover))).rejects.toThrow(
+      /Donmuş oda tabloları duruyor/,
     );
 
     const noTable = createPostPrismaMemoryCatalog();
@@ -218,10 +218,10 @@ describe("ops:migrate bellek katalog simülasyonu", () => {
       /certificate_hash/,
     );
 
-    const noOffers = createPostPrismaMemoryCatalog();
-    noOffers.corporateJobOffers = false;
-    await expect(assertCorporateJobOffers(createMemoryOpsSealQuery(noOffers))).rejects.toThrow(
-      /corporate_job_offers/,
+    const leftoverOffers = createPostPrismaMemoryCatalog();
+    leftoverOffers.frozenRoomTablesPresent = true;
+    await expect(assertCorporateJobOffers(createMemoryOpsSealQuery(leftoverOffers))).rejects.toThrow(
+      /Donmuş oda tabloları duruyor/,
     );
   });
 });

@@ -23,6 +23,9 @@ export {
 
 export {
   acceptFreelancerBid,
+  acceptDirectFreelancerOffer,
+  declineDirectFreelancerOffer,
+  createDirectFreelancerOffer,
   createFreelancerJob,
   isFreelancerUniqueViolation,
   listOwnerJobBids,
@@ -58,6 +61,8 @@ export {
   toFreelancerReleaseWire,
   toOwnerBidsWire,
 } from "@/lib/freelancer/contract-view";
+export { projectJobBoard, queryJobBoard } from "@/lib/freelancer/job-board";
+export type { FreelancerJobBoardView } from "@/lib/freelancer/job-board";
 export { upsertFreelancerSquad } from "@/lib/freelancer/squad-engine";
 export {
   canAcceptBid,
@@ -73,6 +78,8 @@ export {
   FREELANCER_JOB_MAX_MINOR,
   FREELANCER_JOB_MIN_MINOR,
   acceptBidInputSchema,
+  acceptDirectOfferInputSchema,
+  createDirectOfferInputSchema,
   createJobInputSchema,
   disputeRequestSchema,
   postContractMessageInputSchema,

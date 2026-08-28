@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import type { CatalogWriteStore } from "@/lib/kernel/admin/catalog-write";
-import type { SealedCatalogEntry } from "@/lib/kernel/admin/types";
+import type { SealedCatalogEntry, SealedPriceDecision } from "@/lib/kernel/admin/types";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import type { CurrencyCode } from "@/lib/kernel/money/currency";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
@@ -51,10 +51,34 @@ export function createMemoryPriceCatalogStore(seeds: MemoryCatalogSeed[] = []): 
       }
       return { ...row };
     },
+    async listActiveEntries(moduleKey, unitKeys) {
+      const wanted = unitKeys ? new Set(unitKeys) : null;
+      const rows: PriceCatalogEntrySnapshot[] = [];
+      for (const row of entries.values()) {
+        if (row.moduleKey !== moduleKey || !row.isActive) {
+          continue;
+        }
+        if (wanted && !wanted.has(row.unitKey)) {
+          continue;
+        }
+        rows.push({ ...row });
+      }
+      return rows;
+    },
   };
 }
 
-export function createMemoryCheckoutPriceLockStore(): CheckoutPriceLockStore {
+export type MemoryCheckoutPriceLockStore = CheckoutPriceLockStore & {
+  capture(): CheckoutLockMemoryState;
+  restore(state: CheckoutLockMemoryState): void;
+};
+
+type CheckoutLockMemoryState = {
+  byId: Array<[string, CheckoutPriceLockSnapshot]>;
+  byUserKey: Array<[string, string]>;
+};
+
+export function createMemoryCheckoutPriceLockStore(): MemoryCheckoutPriceLockStore {
   const byId = new Map<string, CheckoutPriceLockSnapshot>();
   const byUserKey = new Map<string, string>();
 
@@ -63,6 +87,22 @@ export function createMemoryCheckoutPriceLockStore(): CheckoutPriceLockStore {
   }
 
   return {
+    capture() {
+      return {
+        byId: [...byId.entries()].map(([key, value]) => [key, { ...value }]),
+        byUserKey: [...byUserKey.entries()],
+      };
+    },
+    restore(state) {
+      byId.clear();
+      byUserKey.clear();
+      for (const [key, value] of state.byId) {
+        byId.set(key, { ...value });
+      }
+      for (const [key, value] of state.byUserKey) {
+        byUserKey.set(key, value);
+      }
+    },
     async findById(id) {
       const row = byId.get(id);
       return row ? { ...row } : null;
@@ -119,9 +159,13 @@ export type MemoryCatalogWriteSeed = {
 
 export function createMemoryCatalogWriteStore(
   seeds: MemoryCatalogWriteSeed[] = [],
-): CatalogWriteStore & { snapshot(id: string): SealedCatalogEntry | null } {
+): CatalogWriteStore & {
+  snapshot(id: string): SealedCatalogEntry | null;
+  decisions(): SealedPriceDecision[];
+} {
   const byId = new Map<string, SealedCatalogEntry>();
   const byModuleUnit = new Map<string, string>();
+  const ledger: SealedPriceDecision[] = [];
 
   function put(seed: MemoryCatalogWriteSeed) {
     const row: SealedCatalogEntry = {
@@ -151,6 +195,9 @@ export function createMemoryCatalogWriteStore(
       const row = byId.get(id);
       return row ? { ...row } : null;
     },
+    decisions() {
+      return ledger.map((row) => ({ ...row }));
+    },
     async findById(id) {
       const row = byId.get(id);
       return row ? { ...row } : null;
@@ -172,6 +219,20 @@ export function createMemoryCatalogWriteStore(
         updatedAt: new Date("2026-08-15T00:00:00.000Z"),
       };
       byId.set(input.id, next);
+      ledger.unshift({
+        id: `dec_${ledger.length + 1}_${input.id}`,
+        catalogEntryId: input.id,
+        moduleKey: input.moduleKey,
+        unitKey: input.unitKey,
+        unitType: input.unitType,
+        reasonCode: input.reasonCode,
+        reason: input.reason,
+        oldMinor: toAmountMinor(input.previousAmountMinor),
+        newMinor: toAmountMinor(input.amountMinor),
+        currencyCode: input.currencyCode,
+        actorUserId: input.updatedBy,
+        createdAt: new Date("2026-08-15T00:00:00.000Z"),
+      });
       return { ...next };
     },
   };

@@ -1,7 +1,9 @@
 import { requireSession } from "@/lib/kernel/auth/session";
+import { isV1CookieSessionBlocked } from "@/lib/kernel/http/api-v1";
+import { ForbiddenError } from "@/lib/kernel/http/errors";
 import { jsonFail, jsonFromUnknown } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
-import { readIdempotencyKey } from "@/lib/kernel/http/idempotency-key";
+import { requireRailV1IdempotencyKey } from "@/lib/kernel/http/v1-runtime-shield";
 import { hashIdempotencyPayload, settleHttpIdempotency } from "@/lib/kernel/http/idempotency";
 import { createPrismaHttpIdempotencyStore } from "@/lib/kernel/http/prisma-idempotency-store";
 import { logEvent } from "@/lib/kernel/observability/log";
@@ -11,17 +13,31 @@ import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
 
 export const auth = "session" as const;
 
+/** Dron /api/v1 kimliği — nativeStore forbidden; IAP defense-in-depth. */
+export const ACADEMY_PURCHASE_DRON_FORBIDDEN =
+  "Akademi satın alma native istemciden kapalıdır.";
+
 export async function POST(
   request: Request,
   context: { params: Promise<{ id: string }> },
 ) {
   const requestId = resolveRequestId(request);
   try {
+    // Dron v1 rewrite yolu (x-rail-pathname=/api/v1/...) — Amiral çerez/kanonik yol geçer.
+    if (isV1CookieSessionBlocked(request)) {
+      logEvent({
+        level: "warn",
+        event: "academy.purchase.dron_forbidden",
+        requestId,
+        route: "/api/academy/courses/[id]/purchase",
+      });
+      throw new ForbiddenError(ACADEMY_PURCHASE_DRON_FORBIDDEN);
+    }
     const user = await requireSession(request);
     const { id } = await context.params;
-    const idempotency = readIdempotencyKey(request);
+    const idempotency = requireRailV1IdempotencyKey(request, requestId);
     if (!idempotency.ok) {
-      return jsonFail(idempotency.error, 400, requestId);
+      return idempotency.response;
     }
     const parsed = purchaseCourseInputSchema.safeParse(await request.json().catch(() => ({})));
     if (!parsed.success) {
@@ -37,7 +53,12 @@ export async function POST(
         userId: user.id,
         route: "/api/academy/courses/[id]/purchase",
         key: idempotency.key,
-        requestHash: hashIdempotencyPayload({ courseId, lockId: parsed.data.lockId }),
+        requestHash: hashIdempotencyPayload({
+          courseId,
+          lockId: parsed.data.lockId,
+          level: parsed.data.level ?? null,
+          path: parsed.data.path ?? "training",
+        }),
         requestId,
       },
       async () => {
@@ -45,6 +66,7 @@ export async function POST(
           courseId,
           userId: user.id,
           lockId: parsed.data.lockId,
+          level: parsed.data.level,
         });
         logEvent({
           level: "info",
@@ -53,11 +75,13 @@ export async function POST(
           userId: user.id,
           applied: result.applied,
           route: "/api/academy/courses/[id]/purchase",
+          purpose: parsed.data.path ?? "training",
         });
         return {
           status: 200,
           body: {
             applied: result.applied,
+            path: parsed.data.path ?? "training",
             purchase: {
               id: result.purchase.id,
               courseId: result.purchase.courseId,

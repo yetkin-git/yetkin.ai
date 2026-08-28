@@ -33,4 +33,18 @@ export async function register() {
       route: "/api/payments/webhooks/paytr",
     });
   }
+  if (report.devlabsPepper === "unconfigured") {
+    logEvent({
+      level: "warn",
+      event: "ops.devlabs.pepper_unconfigured",
+      reason: "DEVLABS_KEY_PEPPER bos; kod varsayilani yalniz gelistirme",
+    });
+  }
+  if (report.smtp === "unconfigured") {
+    logEvent({
+      level: "info",
+      event: "ops.smtp.honest_skip",
+      reason: "NOTICE_SMTP_HOST/FROM bos; bes bildirim atlanir; nakit durmaz",
+    });
+  }
 }

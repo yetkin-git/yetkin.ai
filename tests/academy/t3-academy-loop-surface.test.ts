@@ -25,7 +25,7 @@ describe("T3 akademi canlı nakit döngü yüzeyi", () => {
     expect(script).toContain("E2E_T3_EMAIL");
     expect(script).toContain("buildIdempotentMerchantOid");
     expect(script).toContain("PENDING sızıntısı");
-    expect(script).toContain("checks.paytr");
+    expect(script).toContain("checks.payments");
     expect(script).toContain("checks.inngest");
     expect(script).not.toContain("LOCAL_MOCK_AUTH");
     expect(script).not.toContain("PAYTR_ALLOW_MOCK_CHECKOUT=true");

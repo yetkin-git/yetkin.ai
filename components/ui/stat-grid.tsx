@@ -16,7 +16,7 @@ export function StatGrid({ items, columns = 4 }: { items: StatItem[]; columns?: 
       {items.map((item) => (
         <div
           key={item.label}
-          className="room-stat rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-card)]"
+          className="room-stat rounded-2xl border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] bg-[var(--surface)] p-4 shadow-sm"
         >
           <div className="flex items-start justify-between gap-3">
             <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">

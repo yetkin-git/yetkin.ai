@@ -41,6 +41,7 @@ export function isApiPathname(pathname: string): boolean {
 function patternToRegExp(pattern: string): RegExp {
   const source = pattern
     .replace(/\[\[\.\.\.([A-Za-z0-9_]+)\]\]/g, "\u0000catchall\u0000")
+    .replace(/\[\.\.\.([A-Za-z0-9_]+)\]/g, "\u0000catchall\u0000")
     .replace(/\[([A-Za-z0-9_]+)\]/g, "\u0000param\u0000")
     .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
     .replace(/\u0000catchall\u0000/g, ".*")

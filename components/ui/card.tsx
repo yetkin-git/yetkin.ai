@@ -5,11 +5,12 @@ export type CardVariant = "default" | "glass" | "featured" | "ink";
 
 const VARIANT: Record<CardVariant, string> = {
   default:
-    "border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-card)]",
-  glass: "rail-glass border border-white/70",
+    "border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] bg-[var(--surface)] shadow-sm",
+  glass:
+    "rail-glass border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] shadow-sm",
   featured:
-    "border border-[var(--safir-soft)] bg-gradient-to-br from-[var(--surface)] via-[var(--surface)] to-[var(--safir-soft)] shadow-[var(--shadow-lift)]",
-  ink: "border border-white/10 bg-[var(--surface-ink)] text-white shadow-[var(--shadow-lift)]",
+    "border border-[color-mix(in_srgb,var(--safir)_18%,transparent)] bg-[var(--surface)] shadow-sm",
+  ink: "border border-white/10 bg-[var(--surface-ink)] text-white shadow-sm",
 };
 
 export function Card({
@@ -32,7 +33,7 @@ export function Card({
   return (
     <section
       className={cn(
-        "room-card rounded-[var(--radius-card)] p-6 transition duration-200 hover:shadow-[var(--shadow-lift)]",
+        "room-card rounded-[var(--radius-card)] p-6 transition-[border-color,box-shadow] duration-200",
         VARIANT[variant],
         className,
       )}

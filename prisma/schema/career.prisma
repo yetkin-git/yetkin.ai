@@ -1,6 +1,6 @@
 // Kariyer dikey dilimi — Faz 3B pasaport vizesi ve portföy mührü.
 // Para yoktur. Kanıt: akademi sertifikası veya freelancer RELEASED sözleşme.
-// User şişmez: yalnızca stamp + portfolio ters ilişkileri.
+// Donmuş kurumsal ilan kanıtı yok. User şişmez: yalnızca stamp + portfolio ters ilişkileri.
 
 enum CareerVisaSourceKind {
   ACADEMY_CERTIFICATE

@@ -1,6 +1,8 @@
 import { AdminCatalogAmountForm } from "@/components/kernel/admin-catalog-amount-form";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { LinkButton } from "@/components/ui/link-button";
+import { ADMIN_SEN } from "@/lib/copy/sen-voice/admin";
 import {
   ADMIN_EMPTY_LABEL,
   ADMIN_UNSET_LABEL,
@@ -12,8 +14,15 @@ import {
   isHoldBpsInCodeBand,
 } from "@/lib/kernel/admin/display";
 import type { SealedCatalogEntry } from "@/lib/kernel/admin/types";
+import {
+  ADMIN_ACADEMY_SHELTER_PATH,
+  ADMIN_DASHBOARD_SHELTER_PATH,
+  ADMIN_FREELANCER_SHELTER_PATH,
+} from "@/lib/kernel/admin/types";
+import { ACADEMY_CURRICULUM_REVISIONS_PATH } from "@/lib/academy/curriculum-revision-paths";
 
 function CatalogEntryTable({ entries }: { entries: SealedCatalogEntry[] }) {
+  const copy = ADMIN_SEN;
   return (
     <div className="overflow-x-auto rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-card)]">
       <table className="w-full min-w-[48rem] text-sm">
@@ -50,7 +59,7 @@ function CatalogEntryTable({ entries }: { entries: SealedCatalogEntry[] }) {
                   {formatCatalogValue(entry.unitType, entry.amountMinor, entry.currencyCode)}
                   {bpsOutOfBand ? (
                     <span className="mt-1 block">
-                      <Badge tone="rose">Kod tavanı dışı</Badge>
+                      <Badge tone="rose">{copy.statusOutOfBand}</Badge>
                     </span>
                   ) : null}
                 </td>
@@ -58,13 +67,14 @@ function CatalogEntryTable({ entries }: { entries: SealedCatalogEntry[] }) {
                   {formatCatalogBand(entry)}
                 </td>
                 <td className="px-4 py-3">
-                  <Badge tone={entry.isActive ? "emerald" : "amber"}>
-                    {entry.isActive ? "Aktif" : "Kapalı"}
+                  <Badge tone={entry.isActive ? "emerald" : "neutral"}>
+                    {entry.isActive ? copy.statusActive : copy.statusInactive}
                   </Badge>
                 </td>
                 <td className="px-4 py-3">
                   <AdminCatalogAmountForm
                     entryId={entry.id}
+                    unitKey={entry.unitKey}
                     unitType={entry.unitType}
                     initialAmountMinor={entry.amountMinor}
                   />
@@ -78,24 +88,51 @@ function CatalogEntryTable({ entries }: { entries: SealedCatalogEntry[] }) {
   );
 }
 
-export function AdminCatalogList({ entries }: { entries: SealedCatalogEntry[] }) {
+/** Boş katalog — denetim odaları birincil; panel ghost. */
+function EmptyCatalogActions() {
+  const copy = ADMIN_SEN;
+  return (
+    <div className="mt-4 flex flex-wrap gap-2">
+      <LinkButton href={ACADEMY_CURRICULUM_REVISIONS_PATH} variant="primary" size="sm">
+        {copy.revisionsCta}
+      </LinkButton>
+      <LinkButton href={ADMIN_ACADEMY_SHELTER_PATH} variant="secondary" size="sm">
+        {copy.academyCta}
+      </LinkButton>
+      <LinkButton href={ADMIN_FREELANCER_SHELTER_PATH} variant="outline" size="sm">
+        {copy.freelancerCta}
+      </LinkButton>
+      <LinkButton href={ADMIN_DASHBOARD_SHELTER_PATH} variant="ghost" size="sm">
+        {copy.dashboardCta}
+      </LinkButton>
+    </div>
+  );
+}
+
+export function AdminCatalogList({
+  entries,
+  showEmptyActions = true,
+}: {
+  entries: SealedCatalogEntry[];
+  /** Soft yüklemede üst CTA zaten varsa çift şerit basılmaz. */
+  showEmptyActions?: boolean;
+}) {
   const groups = groupCatalogEntriesByModule(entries);
+  const copy = ADMIN_SEN;
 
   return (
     <div className="space-y-4">
       {groups.length === 0 ? (
         <Card
-          title="Fiyat kataloğu"
-          eyebrow="PriceCatalogEntry sicili"
+          title={copy.catalogTitle}
+          eyebrow={copy.catalogEyebrow}
           bodyClassName="text-[var(--foreground)]"
         >
-          <p className="mb-4 text-sm text-[var(--muted)]">
-            Satırlar PriceCatalogEntry kayıtlarıdır. amountMinor tamsayıdır; Super Admin günceller.
-          </p>
+          <p className="mb-4 text-sm text-[var(--muted)]">{copy.catalogIntro}</p>
           <p className="rounded-[var(--radius-card)] border border-dashed border-[var(--border)] bg-[var(--surface-muted)] px-4 py-6 text-sm text-[var(--muted)]">
-            {ADMIN_EMPTY_LABEL}. Ops tohumu uygulanınca birimler burada durur. Uydurma fiyat
-            basılmaz.
+            {ADMIN_EMPTY_LABEL}. {copy.emptyBody}
           </p>
+          {showEmptyActions ? <EmptyCatalogActions /> : null}
         </Card>
       ) : (
         groups.map((group) => (
@@ -103,12 +140,10 @@ export function AdminCatalogList({ entries }: { entries: SealedCatalogEntry[] })
             key={group.moduleKey}
             title={catalogModuleLabel(group.moduleKey)}
             eyebrow={group.moduleKey}
-            action={<Badge tone="neutral">{group.entries.length} birim</Badge>}
+            action={<Badge tone="neutral">{copy.unitCount(group.entries.length)}</Badge>}
             bodyClassName="text-[var(--foreground)]"
           >
-            <p className="mb-4 text-sm text-[var(--muted)]">
-              Satırlar PriceCatalogEntry kayıtlarıdır. amountMinor tamsayıdır; Super Admin günceller.
-            </p>
+            <p className="mb-4 text-sm text-[var(--muted)]">{copy.catalogIntro}</p>
             <CatalogEntryTable entries={group.entries} />
           </Card>
         ))

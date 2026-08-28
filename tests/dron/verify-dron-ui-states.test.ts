@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { createV1HttpClient } from "../../apps/rail-is/src/api/client";
 import { RailV1HttpError, RailV1ProtocolError } from "../../apps/rail-is/src/api/errors";
 import {
-  RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE,
+  RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE,
   RAIL_V1_CLIENT_STALE,
   RAIL_V1_PARSE_FAIL,
   RAIL_V1_SESSION_REQUIRED,
@@ -329,8 +329,8 @@ describe("UI tanığı — Native Dron mutlu yol zarf durumları", () => {
     expect(parseMajorToAmountMinor("90")).toBe(9_000);
     expect(parseMajorToAmountMinor("90,50")).toBe(9_050);
     expect(() => parseMajorToAmountMinor("9.50.1")).toThrow();
-    expect(() => assertBidAmountMinor(999)).toThrow(/10/);
-    expect(assertBidAmountMinor(1_000)).toBe(1_000);
+    expect(() => assertBidAmountMinor(24_999)).toThrow(/250/);
+    expect(assertBidAmountMinor(25_000)).toBe(25_000);
     expect(formatMinorLabel(2_000_000, "TRY")).toBe("₺20.000,00");
     expect(() => formatMinorLabel(10.5, "TRY")).toThrow(/tam sayı/);
 
@@ -625,7 +625,7 @@ describe("UI tanığı — Native Dron mutlu yol zarf durumları", () => {
     expect(readSrc("apps/rail-is/src/runtime/use-dron-app.ts")).not.toContain("lane: \"released\"");
   });
 
-  it("Teklifi Kabul Et ve Fonla yalnız işveren dalında; 409 yetersiz bakiye sahte yeşil basmaz; 2xx Tezgâh'a geçer", () => {
+  it("Teklifi kabul et yalnız işveren dalında; 503 pazaryeri sahte yeşil basmaz; 2xx Tezgâh'a geçer", () => {
     const ownerJob: RailV1Job = { ...JOB, clientId: USER.id };
     const ownerBid: ClientJobBidView = {
       bidId: BID.id,
@@ -667,18 +667,21 @@ describe("UI tanığı — Native Dron mutlu yol zarf durumları", () => {
 
     const insufficient = presentAcceptError(
       emptyAcceptForm(),
-      httpError(409, RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE),
+      httpError(503, RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE),
     );
     expect(insufficient.fakeSuccess).toBe(false);
-    expect(insufficient.insufficientBalance).toBe(true);
-    expect(insufficient.testID).toBe("dron-accept-insufficient");
+    expect(insufficient.paymentsUnconfigured).toBe(true);
+    expect(insufficient.insufficientBalance).toBe(false);
+    expect(insufficient.testID).toBe("dron-accept-payments-closed");
+    expect(insufficient.error).toBe("Ödeme henüz bağlanmadı");
 
     const failed = dronAppReducer(state, {
       type: "ACCEPT_FAIL",
-      error: httpError(409, RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE),
+      error: httpError(503, RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE),
     });
     expect(failed.acceptView.fakeSuccess).toBe(false);
-    expect(failed.acceptView.insufficientBalance).toBe(true);
+    expect(failed.acceptView.paymentsUnconfigured).toBe(true);
+    expect(failed.acceptView.insufficientBalance).toBe(false);
     expect(failed.selectedJob?.id).toBe(ownerJob.id);
     expect(visibleScreen(failed)).toBe("job");
 
@@ -707,7 +710,7 @@ describe("UI tanığı — Native Dron mutlu yol zarf durumları", () => {
 
     expect(readSrc("apps/rail-is/App.tsx")).toContain("OwnerBidsScreen");
     expect(readSrc("apps/rail-is/src/screens/OwnerBidsScreen.tsx")).toContain("RAIL_IS_COPY.accept.submit");
-    expect(readSrc("apps/rail-is/src/ui/copy.ts")).toContain("Teklifi Kabul Et ve Fonla");
+    expect(readSrc("apps/rail-is/src/ui/copy.ts")).toContain("Teklifi kabul et");
     expect(readSrc("apps/rail-is/src/screens/OwnerBidsScreen.tsx")).not.toContain("/api/v1/");
     expect(readSrc("apps/rail-is/src/screens/JobDetailScreen.tsx")).not.toContain("listOwnerJobBids");
     expect(readSrc("apps/rail-is/src/runtime/use-dron-app.ts")).toContain("listOwnerJobBids");

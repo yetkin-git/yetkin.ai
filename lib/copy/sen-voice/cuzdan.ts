@@ -1,10 +1,10 @@
 export const CUZDAN_SEN = {
   eyebrow: "Güvenli dijital cüzdan",
   title: "Cüzdan",
-  description: "Tek nakit defter: bakiye Wallet satırından, hareketler LedgerEntry’den okunur. Banka çekimi kapalıdır.",
+  description: "Tek nakit defter: Akademi tahsilatı Wallet satırından okunur. Platform cüzdanından banka çekimi yoktur.",
   balanceLabel: "Ana Bakiye",
   balanceHintLive: "TRY cüzdan SSOT",
-  balanceHintGuest: "12 odada kullanıma hazır",
+  balanceHintGuest: "Defter oturum ister",
   balanceGuestValue: "Oturum yok",
   historyLabel: "Şeffaf İşlem Geçmişi",
   historyHintLive: (take: number) => `Son ${take} satır`,
@@ -14,9 +14,18 @@ export const CUZDAN_SEN = {
   currencyValue: "Türk Lirası",
   currencyHint: "Tutarlar ₺ olarak gösterilir",
   topUpTitle: "Kart ile yükle",
-  closedLoopTitle: "Para girer, çıkmaz",
+  topUpAuth: "Kart yüklemesi oturum ister. Sahte bakiye yazılmaz.",
+  paymentsUnconfigured: "Ödeme henüz bağlanmadı",
+  paymentsUnconfiguredBody:
+    "Ödeme henüz bağlanmadı / pasif. Kart tahsilatı bağlı değil. Sahte bakiye yazılmaz. Kokpite dön veya sonra yeniden dene.",
+  paymentsUnconfiguredCta: "Kokpite dön",
+  topUpBand: (min: string, max: string) =>
+    `Aralık: ${min} – ${max}. Kart ödemesi güvenli ödeme altyapısıyla alınır.`,
+  closedLoopTitle: "Çekim yok, kuruluş dağıtır",
   closedLoopBody:
-    "Bakiye hesapta güvende; 12 odada harcanır. Banka çekimi (S43) kapalı; bu odada havale veya PayTR çekim yüzeyi yok.",
+    "Cüzdan Akademi tahsilatı içindir. Freelancer bedeli lisanslı ödeme kuruluşunda dağılır. Bu odada havale veya karttan çekim yüzeyi yok.",
+  sandboxHint:
+    "Deneme ödemesi: bakiye ancak banka bildirimi geldikten sonra görünür. Önizleme bakiyeyi artırmaz.",
   auth: "Defter dökümü oturum ister. Sahte hareket basılmaz.",
   unboundBadge: "Liste henüz yüklenemedi — örnek düzen",
   unboundBody:

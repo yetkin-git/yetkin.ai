@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { SHARE_BPS_TOTAL } from "@/lib/kernel/escrow/share-bps";
+import { ForbiddenError, NotFoundError } from "@/lib/kernel/http/errors";
 import type { FreelancerEnginePorts } from "@/lib/freelancer/types";
 import type {
   FreelancerSquadMemberRecord,
@@ -21,10 +22,10 @@ export async function upsertFreelancerSquad(
 ): Promise<{ squad: FreelancerSquadRecord; members: FreelancerSquadMemberRecord[] }> {
   const contract = await ports.freelancer.getContract(command.contractId);
   if (!contract) {
-    throw new Error("Sözleşme bulunamadı.");
+    throw new NotFoundError("Sözleşme bulunamadı.");
   }
   if (command.actorUserId !== contract.freelancerId) {
-    throw new Error("Yalnız kazanan freelancer takım kurabilir.");
+    throw new ForbiddenError("Yalnız kazanan freelancer takım kurabilir.");
   }
   if (contract.status !== "FUNDED") {
     throw new Error("Takım yalnız fonlanmış sözleşmede kurulur.");

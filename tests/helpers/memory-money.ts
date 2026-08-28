@@ -9,6 +9,11 @@ import type {
 import type { EscrowHoldRecord, EscrowStore } from "@/lib/kernel/escrow/types";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import type {
+  MarketplaceHoldCommand,
+  MarketplaceSplitIntent,
+  MarketplaceSplitPort,
+} from "@/lib/kernel/payments/marketplace-split";
+import type {
   FreelancerAcceptWritePorts,
   FreelancerBidRecord,
   FreelancerContractMessageRecord,
@@ -41,9 +46,63 @@ type LedgerMemoryState = {
 
 export type MemoryLedgerStore = LedgerStore & {
   snapshot(userId: string, currencyCode?: CurrencyCode): WalletSnapshot;
+  listEntries(userId?: string): LedgerEntryRecord[];
   capture(): LedgerMemoryState;
   restore(state: LedgerMemoryState): void;
 };
+
+type CapturableStore = {
+  capture(): unknown;
+  restore(state: never): void;
+};
+
+/** Bellek Unit of Work: kuyruk + anlık görüntü; hata anında restore. */
+export function createSerializedUnitOfWork() {
+  let tail = Promise.resolve();
+  function enqueue<R>(work: () => Promise<R>): Promise<R> {
+    const run = tail.then(work, work);
+    tail = run.then(
+      () => undefined,
+      () => undefined,
+    );
+    return run;
+  }
+  return {
+    async run<R>(stores: CapturableStore[], work: () => Promise<R>): Promise<R> {
+      return enqueue(async () => {
+        const snaps = stores.map((store) => store.capture());
+        try {
+          return await work();
+        } catch (error) {
+          stores.forEach((store, index) => {
+            store.restore(snaps[index] as never);
+          });
+          throw error;
+        }
+      });
+    },
+  };
+}
+
+export function signedLedgerSum(entries: LedgerEntryRecord[], userId: string): number {
+  return entries
+    .filter((entry) => entry.userId === userId)
+    .reduce(
+      (sum, entry) => sum + (entry.direction === "CREDIT" ? entry.amountMinor : -entry.amountMinor),
+      0,
+    );
+}
+
+export function withMemoryLedgerAtomic(ledger: MemoryLedgerStore): {
+  runAtomic<R>(work: (store: MemoryLedgerStore) => Promise<R>): Promise<R>;
+} {
+  const uow = createSerializedUnitOfWork();
+  return {
+    runAtomic<R>(work: (store: MemoryLedgerStore) => Promise<R>): Promise<R> {
+      return uow.run([ledger], () => work(ledger));
+    },
+  };
+}
 
 export function createMemoryLedgerStore(seeds: MemoryWalletSeed[]): MemoryLedgerStore {
   const wallets = new Map<string, WalletSnapshot>();
@@ -67,6 +126,10 @@ export function createMemoryLedgerStore(seeds: MemoryWalletSeed[]): MemoryLedger
         throw new Error("Cüzdan yok.");
       }
       return { ...wallet };
+    },
+    listEntries(userId) {
+      const all = [...entries.values()].map((row) => ({ ...row }));
+      return userId ? all.filter((row) => row.userId === userId) : all;
     },
     capture() {
       return {
@@ -345,7 +408,22 @@ export function createMemoryFreelancerStore(): MemoryFreelancerStore {
     },
     async listOpenJobs() {
       return [...jobs.values()]
-        .filter((job) => job.status === "OPEN")
+        .filter(
+          (job) =>
+            job.status === "OPEN" &&
+            (job.visibility === "PUBLIC" || job.visibility == null),
+        )
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+        .map((job) => ({ ...job }));
+    },
+    async listDirectOffersForInvitee(inviteeId) {
+      return [...jobs.values()]
+        .filter(
+          (job) =>
+            job.inviteeId === inviteeId &&
+            job.status === "OPEN" &&
+            job.visibility === "DIRECT",
+        )
         .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
         .map((job) => ({ ...job }));
     },
@@ -569,17 +647,32 @@ export function createMemoryFreelancerStore(): MemoryFreelancerStore {
   };
 }
 
+export function createMemoryMarketplaceSplitPort(): MarketplaceSplitPort {
+  return {
+    id: "split",
+    async beginHold(command: MarketplaceHoldCommand) {
+      return { ok: true, pspPaymentId: `mem-hold:${command.referenceKey}` };
+    },
+    async settle(intent: MarketplaceSplitIntent) {
+      return { ok: true, pspSettlementId: `mem-settle:${intent.referenceKey}` };
+    },
+  };
+}
+
 export function withMemoryAcceptAtomic<
   T extends {
     ledger: MemoryLedgerStore;
     escrow: MemoryEscrowStore;
     freelancer: MemoryFreelancerStore;
+    marketplace?: MarketplaceSplitPort;
   },
 >(ports: T): T & Pick<FreelancerEnginePorts, "runAcceptAtomic" | "runReleaseAtomic"> & {
+  marketplace: MarketplaceSplitPort;
   runEscrowAtomic<R>(
-    work: (tx: { ledger: MemoryLedgerStore; escrow: MemoryEscrowStore }) => Promise<R>,
+    work: (tx: { ledger: MemoryLedgerStore; escrow: MemoryEscrowStore; marketplace?: MarketplaceSplitPort }) => Promise<R>,
   ): Promise<R>;
 } {
+  const marketplace = ports.marketplace ?? createMemoryMarketplaceSplitPort();
   let tail = Promise.resolve();
   function enqueue<R>(work: () => Promise<R>): Promise<R> {
     const run = tail.then(work, work);
@@ -602,6 +695,7 @@ export function withMemoryAcceptAtomic<
           ledger: ports.ledger,
           escrow: ports.escrow,
           freelancer: ports.freelancer,
+          marketplace,
         });
       } catch (error) {
         ports.ledger.restore(ledgerSnap);
@@ -614,10 +708,15 @@ export function withMemoryAcceptAtomic<
 
   return {
     ...ports,
+    marketplace,
     runAcceptAtomic: runMoneyAtomic,
     runReleaseAtomic: runMoneyAtomic,
     async runEscrowAtomic<R>(
-      work: (tx: { ledger: MemoryLedgerStore; escrow: MemoryEscrowStore }) => Promise<R>,
+      work: (tx: {
+        ledger: MemoryLedgerStore;
+        escrow: MemoryEscrowStore;
+        marketplace?: MarketplaceSplitPort;
+      }) => Promise<R>,
     ): Promise<R> {
       return enqueue(async () => {
         const ledgerSnap = ports.ledger.capture();
@@ -626,6 +725,7 @@ export function withMemoryAcceptAtomic<
           return await work({
             ledger: ports.ledger,
             escrow: ports.escrow,
+            marketplace,
           });
         } catch (error) {
           ports.ledger.restore(ledgerSnap);

@@ -7,7 +7,10 @@ import {
   loadAcademyCurriculumPlayer,
 } from "@/lib/academy/curriculum-engine";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
-import { ForbiddenError } from "@/lib/kernel/http/errors";
+import { academyCanonicalProofSubmission } from "@/lib/academy/proof-of-work";
+import { ForbiddenError, GoneError } from "@/lib/kernel/http/errors";
+import { prepareAcademyLessonListen } from "@/archived/lib/academy-studio/lesson-listen-engine";
+import { ACADEMY_LESSON_LISTEN_ENABLED } from "@/lib/academy/lesson-listen";
 import { createMemoryLedgerStore } from "../helpers/memory-money";
 import { createMemoryAcademyStore, memoryCourse, memoryExam } from "../helpers/memory-academy";
 import {
@@ -71,6 +74,7 @@ describe("akademi müfredat oynatıcısı", () => {
       courseId: ctx.course.id,
       userId: BUYER,
       lessonKey: lessons[0]!.key,
+      proof: academyCanonicalProofSubmission(lessons[0]!.key) ?? undefined,
     });
     expect(first.applied).toBe(true);
     expect(first.player.lessons[0]?.body.length).toBeGreaterThan(20);
@@ -78,7 +82,30 @@ describe("akademi müfredat oynatıcısı", () => {
       courseId: ctx.course.id,
       userId: BUYER,
       lessonKey: lessons[0]!.key,
+      proof: academyCanonicalProofSubmission(lessons[0]!.key) ?? undefined,
     });
     expect(replay.applied).toBe(false);
+  });
+
+  it("Faz 1: dinle bayrağı kapalı; prepare GoneError basar", async () => {
+    expect(ACADEMY_LESSON_LISTEN_ENABLED).toBe(false);
+    const ctx = world();
+    await ctx.ports.academy.insertCourse(ctx.course);
+    await ctx.ports.academy.insertExam(memoryExam(ctx.course.id));
+    const locked = await lockAcademyCoursePrice(ctx.ports, { courseId: ctx.course.id, userId: BUYER });
+    await purchaseAcademyCourse(ctx.ports, {
+      courseId: ctx.course.id,
+      userId: BUYER,
+      lockId: locked.lock.id,
+      platformUserId: PLATFORM,
+    });
+    const lessonKey = curriculumForCourseSlug(ctx.course.slug)[0]!.key;
+    await expect(
+      prepareAcademyLessonListen(ctx.ports, {
+        courseId: ctx.course.id,
+        userId: BUYER,
+        lessonKey,
+      }),
+    ).rejects.toBeInstanceOf(GoneError);
   });
 });

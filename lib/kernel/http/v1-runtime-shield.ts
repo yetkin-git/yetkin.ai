@@ -1,6 +1,6 @@
 /**
  * `/api/v1` runtime kalkanı — Diyar B kimlik ve Idempotency-Key.
- * Yeni auth modeli yoktur. Hop listesi `RAIL_V1_HOPS` SSOT'tur; bu dosya
+ * Yeni auth modeli yoktur. Hop kimliği `RAIL_V1_HOPS_META` SSOT'tur; bu dosya
  * handler'ın çağırdığı UUID kapısı ve kaynak mührüdür (sicili import etmez).
  */
 

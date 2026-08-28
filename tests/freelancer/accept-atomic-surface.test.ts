@@ -28,9 +28,11 @@ describe("freelancer kabul mühürü — yazma yüzeyi", () => {
     expect(engine).toContain("healed: !holdApplied");
     expect(engine).toContain("createEscrowHold");
     expect(engine).toContain("freelancerJobEscrowReferenceKey");
-    expect(engine).toContain("RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE");
-    expect(engine).toContain("ConflictError");
-    expect(engine).toContain("AMOUNT_MINOR_OVERFLOW_ERROR");
+    expect(engine).toContain("RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE");
+    expect(engine).toContain("ServiceUnavailableError");
+    expect(engine).toContain('funding: "psp"');
+    expect(engine).not.toContain("RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE");
+    expect(engine).not.toContain("AMOUNT_MINOR_OVERFLOW_ERROR");
     expect(fsm).toContain("freelancer.contract.job:");
     expect(engine).not.toContain("freelancerContractReferenceKey(contractId)");
   });

@@ -6,6 +6,7 @@ import {
   formatPassportIssuedAt,
   latestPassportStamp,
   passportAcademyVerifyHref,
+  passportFreelancerContractHref,
   passportModuleLabel,
   passportSourceLabel,
   PASSPORT_UNSET_LABEL,
@@ -32,6 +33,19 @@ const SAMPLE: SealedPassportStamp = {
   createdAt: new Date("2026-08-14T17:03:00.000Z"),
 };
 
+const RELEASE: SealedPassportStamp = {
+  id: "stamp-2",
+  userId: SAMPLE.userId,
+  sourceKind: "FREELANCER_RELEASE",
+  sourceId: "contract_abc",
+  visaKey: "freelancer.release:contract_abc",
+  moduleId: "freelancer",
+  title: "Teslim mührü",
+  certificateHash: null,
+  issuedAt: new Date("2026-08-15T10:00:00.000Z"),
+  createdAt: new Date("2026-08-15T10:00:00.000Z"),
+};
+
 describe("pasaport vize yüzeyi", () => {
   it("kaynak etiketini uydurmaz; ISO DTO issuedAt string taşır", () => {
     expect(passportSourceLabel("ACADEMY_CERTIFICATE")).toBe("Akademi sertifikası");
@@ -51,6 +65,11 @@ describe("pasaport vize yüzeyi", () => {
     expect(
       passportAcademyVerifyHref({ sourceKind: "FREELANCER_RELEASE", certificateHash: SAMPLE.certificateHash }),
     ).toBeNull();
+    expect(passportFreelancerContractHref(RELEASE)).toBe("/freelancer/contracts/contract_abc");
+    expect(passportFreelancerContractHref(SAMPLE)).toBeNull();
+    expect(
+      passportFreelancerContractHref({ sourceKind: "FREELANCER_RELEASE", sourceId: "  " }),
+    ).toBeNull();
   });
 
   it("damga tarihini saat diliminde basar; bozuk dilimde düşmez", () => {
@@ -67,6 +86,14 @@ describe("pasaport vize yüzeyi", () => {
     expect(page).toContain("loadPassportBoard");
     expect(page).toContain("getSession");
     expect(page).toContain("PassportStampList");
+    expect(page).toContain("SEN_VOICE.pasaport");
+    expect(page).not.toContain("örnek düzen");
+    expect(page).not.toContain('tone="amber"');
+    expect(page).not.toContain("unbound");
+    expect(page).toContain("loadSoft");
+    expect(page).toContain("FREELANCER_STAMP_SURFACE_PATH");
+    expect(page).toContain("ACADEMY_STAMP_SURFACE_PATH");
+    expect(page).toContain("CAREER_STAMP_SURFACE_PATH");
     expect(page).not.toContain("loadCareerBoard");
     expect(page).not.toContain("syncCareerVisaStamps");
     expect(page).not.toContain("@/lib/career");
@@ -79,6 +106,7 @@ describe("pasaport vize yüzeyi", () => {
     const load = readSrc("lib/kernel/passport/load.ts");
     const list = readSrc("components/kernel/passport-stamp-list.tsx");
     const page = readSrc("app/(kernel)/pasaport/page.tsx");
+    const sen = readSrc("lib/copy/sen-voice/pasaport.ts");
     const careerStore = readSrc("lib/career/prisma-store.ts");
     const careerLoad = readSrc("lib/career/load.ts");
     const combined = `${page}\n${load}\n${list}`;
@@ -97,6 +125,19 @@ describe("pasaport vize yüzeyi", () => {
     expect(combined).not.toMatch(/Vize ekle/);
     expect(combined).not.toMatch(/visa-form/i);
     expect(list).toContain("passportAcademyVerifyHref");
+    expect(list).toContain("passportFreelancerContractHref");
+    expect(list).toContain("openContractCta");
+    expect(list).toContain("verifyCta");
+    expect(list).toContain("ACADEMY_STAMP_SURFACE_PATH");
+    expect(list).toContain("FREELANCER_STAMP_SURFACE_PATH");
+    expect(list).not.toContain("SEN_VOICE.career");
+    expect(list).not.toContain('tone="amber"');
+    expect(list).not.toContain("unbound");
+    expect(list).not.toContain("örnek düzen");
+    expect(sen).toContain("PASAPORT_SEN");
+    expect(sen).toContain("openContractCta");
+    expect(sen).toContain("Mühür Defteri");
     expect(readSrc("lib/kernel/passport/display.ts")).toContain("/dogrula/");
+    expect(readSrc("lib/kernel/passport/display.ts")).toContain("passportFreelancerContractHref");
   });
 });

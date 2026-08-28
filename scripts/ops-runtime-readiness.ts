@@ -5,27 +5,25 @@
  *
  *   npm run ops:runtime-readiness
  *
- * Üretimde (NODE_ENV=production) Inngest çifti, PayTR üçlüsü veya
- * DATABASE_URL boşsa çıkış 1. Geliştirmede tablo basılır, çıkış 0.
+ * Üretimde (NODE_ENV=production) Inngest çifti, PayTR üçlüsü,
+ * DATABASE_URL boşsa, ya da Direct havuz /
+ * PayTR sandbox-mock / localhost APP_URL duruyorsa çıkış 1.
+ * DEVLABS_KEY_PEPPER donmuş oda; üretim bloğu değildir.
+ * Geliştirmede tablo basılır, çıkış 0. Direct :5432 / session-mode ve
+ * GET /api/health Inngest sicili simüle edilir; canlı DB ping atılmaz.
  */
 
 import { resolve } from "node:path";
 import dotenv from "dotenv";
-import {
-  evaluateRuntimeReadiness,
-  formatRuntimeReadiness,
-  runtimeReadinessExitCode,
-} from "@/lib/kernel/jobs/runtime-readiness";
+import { formatFullRuntimeReadiness } from "./ops-runtime-readiness-lib";
 
 const ROOT = process.cwd();
 dotenv.config({ path: resolve(ROOT, ".env.local") });
 dotenv.config({ path: resolve(ROOT, ".env") });
 
-const report = evaluateRuntimeReadiness(process.env);
-const body = formatRuntimeReadiness(report);
-const code = runtimeReadinessExitCode(report);
+const { body, exitCode } = formatFullRuntimeReadiness(process.env);
 
-if (code !== 0) {
+if (exitCode !== 0) {
   console.error(`ops:runtime-readiness BAŞARISIZ:\n${body}`);
   console.error("Runbook: .system_docs/OPS_RUNBOOK.md §5.1 503 çıkış");
   process.exit(1);

@@ -69,14 +69,30 @@ export function createPrismaCatalogWriteStore(): CatalogWriteStore {
       return row ? toEntry(row) : null;
     },
     async updateAmount(input) {
-      const row = await prisma.priceCatalogEntry.update({
-        where: { id: input.id },
-        data: {
-          amountMinor: input.amountMinor,
-          updatedBy: input.updatedBy,
-        },
-        select: CATALOG_SELECT,
-      });
+      const [row] = await prisma.$transaction([
+        prisma.priceCatalogEntry.update({
+          where: { id: input.id },
+          data: {
+            amountMinor: input.amountMinor,
+            updatedBy: input.updatedBy,
+          },
+          select: CATALOG_SELECT,
+        }),
+        prisma.priceCatalogDecisionLedger.create({
+          data: {
+            catalogEntryId: input.id,
+            moduleKey: input.moduleKey,
+            unitKey: input.unitKey,
+            unitType: input.unitType,
+            reasonCode: input.reasonCode,
+            reason: input.reason,
+            oldMinor: input.previousAmountMinor,
+            newMinor: input.amountMinor,
+            currencyCode: input.currencyCode,
+            actorUserId: input.updatedBy,
+          },
+        }),
+      ]);
       return toEntry(row);
     },
   };

@@ -1,24 +1,49 @@
 /** Rail SEN aksı — kariyer odası. Müze sen-voice kopyalanmaz. */
 export const CAREER_SEN = {
-  eyebrow: "Kariyer pasaportu",
-  title: "Kariyer pasaportu",
+  eyebrow: "Kariyer",
+  title: "Vize ve Geçiş Defteri",
   description:
-    "Akademi sertifikası ve mühürlü freelancer teslimi otomatik vizeye dönüşür. SHA256 mühür tek tıkla doğrulanır.",
+    "Kariyer vize basar; CV editörü değildir. Damga Akademi sınavı ve Freelancer tesliminden düşer. Pasaport sığınağı mühürlerini taşır.",
   auth: "Vize defteri oturum ister.",
-  unbound: "Liste henüz yüklenemedi — örnek düzen",
-  proofsTitle: "Kanıt portföyü",
+  /** Sicil okunamadığında vatandaşa dürüst, gürültüsüz mesaj — geliştirici rozeti yok. */
+  loadSoft: "Sicil şu an okunamadı. Biraz sonra yenile; uydurma damga basılmaz.",
+  ledgerTitle: "Vize ve Geçiş Defteri",
+  /** Geriye dönük alias — ledgerTitle ile aynı. */
+  proofsTitle: "Vize ve Geçiş Defteri",
   visasTitle: "Mühürlü vizeler",
   portfolioTitle: "Portföy",
   proofEmpty:
-    "Henüz mühürlü vize yok. Akademi sertifikası veya freelancer teslim mührü damga basar. Serbest içerik yoktur.",
-  showcaseHint:
-    "Mühürlü vize yok. Örnek damgalar vitrindir; akademi veya serbest bırakılmış iş gerçek damga basar.",
+    "Henüz mühür yok. Akademi’de sınavı geç veya Freelancer’da teslimi tamamla — damga otomatik düşer.",
   academyCta: "Akademiye git",
+  freelancerCta: "Freelancer tezgâhı",
+  passportCta: "Pasaport sığınağı",
   sealed: "Mühürlü",
-  hashLabel: "SHA256 mühür",
+  hashLabel: "SHA-256 içerik özeti",
+  hashNote: "İçerik özetidir; imza değildir.",
   proofLine: "Mühürlü kanıt",
   issuedLabel: "Damga",
-  verifyCta: "Mührü doğrula",
+  verifyCta: "Özeti doğrula",
+  /** Akademi damgası → kurs detayı (slug çözülürse). */
+  openCourseCta: "Akademi dersine git",
+  /** Freelancer teslim damgası → sözleşme detayı. */
+  openContractCta: "Teslim sözleşmesini aç",
+  doorHint: "Bu vize ile açılan kapı: Freelancer Nitelikli Teklif",
+  copyVisa: "Vize anahtarını kopyala",
+  copyHash: "Özeti kopyala",
+  copied: "Kopyalandı",
+  copyFail: "Kopyalanamadı",
   footnote:
-    "Pasaport çekirdeği vizeleri taşır; bu oda damga basar. İlk yetkili okuma eksik vizeyi sessizce onarır.",
+    "Damgayı Kariyer basar; Pasaport sığınağı mühürlerini taşır. İkisi aynı sicilin iki yüzüdür.",
+  footnotePassportCta: "Pasaport sığınağını aç",
+  footnoteAcademyCta: "Akademiye git",
+  scope: {
+    eyebrow: "Vize-ilan tabelası",
+    title: "Bu vize hangi ilanları açar?",
+    lead:
+      "Teklif kapısı dikey kapsama bağlıdır. Aşağıdaki kurslardan biri mühürlenince o dikeyin ilanları açılır. SWOT, mülakat veya pusula vize basmaz.",
+    open: "Kapı açık",
+    closed: "Kurs eksik",
+    missingCta: "Eksik kursu aç",
+    freelancerCta: "Açık ilanları gör",
+  },
 } as const;

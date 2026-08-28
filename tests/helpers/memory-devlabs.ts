@@ -1,3 +1,4 @@
+import type { DevLabsSettleWritePorts, DevLabsBenchPorts } from "@/lib/devlabs/bench";
 import type {
   DevLabsApiKeyRecord,
   DevLabsArtifactRecord,
@@ -5,13 +6,52 @@ import type {
   DevLabsPulse,
   DevLabsStore,
 } from "@/lib/devlabs/types";
+import { createSerializedUnitOfWork, type MemoryLedgerStore } from "./memory-money";
+import type { MemoryAiTokenUsageStore } from "./memory-studio";
 
-export function createMemoryDevLabsStore(): DevLabsStore {
+type DevLabsMemoryState = {
+  projects: Array<[string, DevLabsProjectRecord]>;
+  keys: Array<[string, DevLabsApiKeyRecord]>;
+  artifacts: Array<[string, DevLabsArtifactRecord]>;
+};
+
+export type MemoryDevLabsStore = DevLabsStore & {
+  failNextArtifactInsert(): void;
+  capture(): DevLabsMemoryState;
+  restore(state: DevLabsMemoryState): void;
+};
+
+export function createMemoryDevLabsStore(): MemoryDevLabsStore {
   const projects = new Map<string, DevLabsProjectRecord>();
   const keys = new Map<string, DevLabsApiKeyRecord>();
   const artifacts = new Map<string, DevLabsArtifactRecord>();
+  let failArtifact = false;
 
   return {
+    failNextArtifactInsert() {
+      failArtifact = true;
+    },
+    capture() {
+      return {
+        projects: [...projects.entries()].map(([key, value]) => [key, { ...value }]),
+        keys: [...keys.entries()].map(([key, value]) => [key, { ...value }]),
+        artifacts: [...artifacts.entries()].map(([key, value]) => [key, { ...value }]),
+      };
+    },
+    restore(state) {
+      projects.clear();
+      keys.clear();
+      artifacts.clear();
+      for (const [key, value] of state.projects) {
+        projects.set(key, { ...value });
+      }
+      for (const [key, value] of state.keys) {
+        keys.set(key, { ...value });
+      }
+      for (const [key, value] of state.artifacts) {
+        artifacts.set(key, { ...value });
+      }
+    },
     async insertProject(project) {
       projects.set(project.id, project);
       return { ...project };
@@ -53,6 +93,10 @@ export function createMemoryDevLabsStore(): DevLabsStore {
       return { ...next };
     },
     async insertArtifact(artifact) {
+      if (failArtifact) {
+        failArtifact = false;
+        throw new Error("Artifact yazımı düştü.");
+      }
       artifacts.set(artifact.id, artifact);
       return { ...artifact };
     },
@@ -78,6 +122,28 @@ export function createMemoryDevLabsStore(): DevLabsStore {
         artifactsCount: [...artifacts.values()].filter((row) => row.userId === userId).length,
       };
       return pulse;
+    },
+  };
+}
+
+export function withMemoryDevLabsAtomic<
+  T extends {
+    ledger: MemoryLedgerStore;
+    usage: MemoryAiTokenUsageStore;
+    devlabs: MemoryDevLabsStore;
+  },
+>(ports: T): T & Pick<DevLabsBenchPorts, "runMoneyAtomic"> {
+  const uow = createSerializedUnitOfWork();
+  return {
+    ...ports,
+    async runMoneyAtomic<R>(work: (tx: DevLabsSettleWritePorts) => Promise<R>): Promise<R> {
+      return uow.run([ports.ledger, ports.usage, ports.devlabs], () =>
+        work({
+          ledger: ports.ledger,
+          usage: ports.usage,
+          devlabs: ports.devlabs,
+        }),
+      );
     },
   };
 }

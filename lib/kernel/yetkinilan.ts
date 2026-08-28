@@ -1,21 +1,17 @@
 import type { Route } from "next";
 
-/** Tescilli vatandaş markası. Jenerik «Pazaryeri» etiketi arayüzde yoktur (S62-A). */
+/**
+ * Donmuş Yetkinİlan / tarihsel `/pazaryeri` — yalnız kenar 410 yardımcıları.
+ * Canlı oda, nav veya vitrin değildir. Marka kopyası ürün vaadi taşımaz.
+ */
 export const YETKINILAN_BRAND = "Yetkinİlan";
 
-export const YETKINILAN_BLURB =
-  "Dijital üründe anında teslim. Hizmette emanet kilit. Emlak/vasıta yalnız vitrin.";
-
-/**
- * Vatandaş marka yolu. Disk `app/pazaryeri` kalır (S8-A klasör ikizi yok).
- * `next.config` rewrite: `/yetkinilan` → `/pazaryeri`.
- */
 export const YETKINILAN_PATH = "/yetkinilan" as Route;
 
-/** Disk ve tarihsel vatandaş yolu — aynı oda. */
+/** Disk ve tarihsel vatandaş yolu — aynı donmuş oda. */
 export const PAZARYERI_DISK_PATH = "/pazaryeri";
 
-const YETKINILAN_PREFIXES = ["/yetkinilan", PAZARYERI_DISK_PATH] as const;
+const YETKINILAN_PREFIXES = [YETKINILAN_PATH, PAZARYERI_DISK_PATH] as const;
 
 export function isYetkinIlanPath(pathname: string | null | undefined): boolean {
   if (!pathname) {
@@ -26,6 +22,7 @@ export function isYetkinIlanPath(pathname: string | null | undefined): boolean {
   );
 }
 
+/** 410 yol üretimi — canlı vitrin açmaz. */
 export function yetkinIlanHref(subpath?: string): Route {
   if (!subpath || subpath === "/") {
     return YETKINILAN_PATH;

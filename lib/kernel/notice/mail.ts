@@ -100,7 +100,12 @@ export async function deliverCitizenNoticeMail(notice: CitizenNotice): Promise<"
   }
   const copy = copyFor(notice.kind);
   const text = `${copy.body}\n\n${appOrigin()}/freelancer\n`;
-  await sendNoticeSmtp(config, { to, subject: copy.subject, text });
+  await sendNoticeSmtp(config, {
+    to,
+    subject: copy.subject,
+    text,
+    fromName: NOTICE_SEN.fromName,
+  });
   logEvent({
     level: "info",
     event: "citizen.notice.mail.sent",

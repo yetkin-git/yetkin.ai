@@ -31,6 +31,7 @@ import {
   parseRailV1HopOkBody,
   RAIL_V1_ACADEMY_CERTIFICATE_HASHED_FIELDS,
   RAIL_V1_ACADEMY_CERTIFICATE_HASH_INVALID,
+  RAIL_V1_ACADEMY_CERTIFICATE_INTEGRITY_KIND,
   RAIL_V1_ACADEMY_CERTIFICATE_MISSING,
   RAIL_V1_ACADEMY_CERTIFICATE_PAYLOAD_VERSION,
   RAIL_V1_ACADEMY_EXAM_PASS_SCORE,
@@ -40,11 +41,12 @@ import {
   RAIL_V1_LISTING_VISA_DENIED,
   RAIL_V1_PUBLISHED_FIELD_PATHS,
   RAIL_V1_ACCEPT_FORBIDDEN,
-  RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE,
+  RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE,
   RAIL_V1_OWNER_BIDS_FORBIDDEN,
   RAIL_V1_OWNER_BIDS_NOT_FOUND,
   RAIL_V1_RELEASE_FORBIDDEN,
   RAIL_V1_RELEASE_NOT_FUNDED,
+  isRailV1HopForbiddenOnDron,
   railV1BidRequestSchema,
   railV1BidSchema,
   railV1ClientJobBidSchema,
@@ -65,6 +67,7 @@ import {
   serializeRailV1OpenApiDocument,
   zodObjectKeys,
 } from "@/lib/kernel/http/v1-contract";
+import { RAIL_V1_HOP_DRON_FORBIDDEN } from "@/lib/kernel/http/v1-hop-gate";
 import {
   ACADEMY_CERTIFICATE_HASHED_FIELDS,
   ACADEMY_CERTIFICATE_PAYLOAD_VERSION,
@@ -157,20 +160,43 @@ describe("/api/v1 sözleşme mührü", () => {
     expect(isRailV1Envelope(mixed)).toBe(false);
     expect(railV1OkEnvelopeSchema.safeParse(mixed).success).toBe(false);
 
-    const fromJson = jsonOk({ jobs: [{ id: "fj_1" }] }, 200, REQUEST_ID, v1Request("/api/v1/freelancer/jobs"));
+    const healthOk = {
+      service: "yetkin-rail",
+      probe: "readiness",
+      status: "ok",
+      checks: {
+        db: "ok",
+        supabaseAuth: "configured",
+        inngest: "configured",
+        payments: "configured",
+      },
+    } as const;
+    const fromJson = jsonOk(healthOk, 200, REQUEST_ID, v1Request("/api/v1/health"));
     const enveloped = await fromJson.json();
     expect(parseRailV1Envelope(enveloped)).toMatchObject({
       ok: true,
       error: null,
       apiVersion: "1",
-      data: { jobs: [{ id: "fj_1" }] },
+      data: healthOk,
     });
 
-    const web = jsonOk({ jobs: [{ id: "fj_1" }] });
+    const stubJobs = jsonOk(
+      { jobs: [{ id: "fj_1" }] },
+      200,
+      REQUEST_ID,
+      v1Request("/api/v1/freelancer/jobs"),
+    );
+    expect(stubJobs.status).toBe(500);
+
+    const web = jsonOk({ jobs: [{ id: "fj_1" }] }, 200, REQUEST_ID);
     const webBody = await web.json();
-    expect(detectRailJsonFlavor(webBody)).toBe("unversioned-ok");
-    expect(RAIL_JSON_ENVELOPE_KINDS).toEqual(["v1", "unversioned"]);
-    expect(() => parseRailV1Envelope(webBody)).toThrow(/Versiyonsuz JSON/);
+    expect(detectRailJsonFlavor(webBody)).toBe("v1");
+    expect(RAIL_JSON_ENVELOPE_KINDS).toEqual(["v1"]);
+    expect(parseRailV1Envelope(webBody)).toMatchObject({
+      ok: true,
+      apiVersion: "1",
+      data: { jobs: [{ id: "fj_1" }] },
+    });
 
     const denied = jsonFail(RAIL_VERSION_HEADER_REQUIRED, 400, REQUEST_ID, v1Request("/api/v1/auth/session"));
     expect(parseRailV1Envelope(await denied.json())).toMatchObject({
@@ -181,7 +207,7 @@ describe("/api/v1 sözleşme mührü", () => {
   });
 
   it("yayınlanmış data alanları sessizce düşmez; hop sicili ROUTE_AUTH_MAP ve handler ile örtüşür", () => {
-    expect(RAIL_V1_HOPS).toHaveLength(13);
+    expect(RAIL_V1_HOPS).toHaveLength(16);
     expect(RAIL_V1_PUBLISHED_FIELD_PATHS.length).toBeGreaterThan(40);
     expect(new Set(RAIL_V1_PUBLISHED_FIELD_PATHS).size).toBe(RAIL_V1_PUBLISHED_FIELD_PATHS.length);
 
@@ -192,7 +218,7 @@ describe("/api/v1 sözleşme mührü", () => {
       "db",
       "supabaseAuth",
       "inngest",
-      "paytr",
+      "payments",
     ]);
     expect(zodObjectKeys(railV1JobSchema)).toEqual([
       "id",
@@ -282,7 +308,9 @@ describe("/api/v1 sözleşme mührü", () => {
       "algorithm",
       "payloadVersion",
       "hashedFields",
+      "integrityKind",
       "sealStatus",
+      "revokedAt",
       "passScore",
     ]);
     expect(zodObjectKeys(railV1PublicAcademyCertificateDataSchema)).not.toContain("userId");
@@ -440,7 +468,7 @@ describe("/api/v1 sözleşme mührü", () => {
     expect(acceptHop?.cookieAuth).toBe(false);
     expect(acceptHop?.idempotency).toBe(true);
     expect(acceptHop?.errors).toContain(RAIL_V1_ACCEPT_FORBIDDEN);
-    expect(acceptHop?.errors).toContain(RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE);
+    expect(acceptHop?.errors).toContain(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE);
     const acceptOp = document.paths["/api/v1/freelancer/jobs/{id}/accept"]?.post as {
       security?: unknown[];
       "x-rail-idempotency"?: boolean;
@@ -451,9 +479,9 @@ describe("/api/v1 sözleşme mührü", () => {
     expect(acceptOp.security).toEqual([{ [RAIL_V1_BEARER_SCHEME]: [] }]);
     expect(acceptOp["x-rail-idempotency"]).toBe(true);
     expect(acceptOp["x-rail-cookie-auth"]).toBe(false);
-    expect(acceptOp.description).toContain("DEBIT");
+    expect(acceptOp.description).toContain("DEBIT yazılmaz");
     expect(acceptOp.responses).toHaveProperty("403");
-    expect(acceptOp.responses).toHaveProperty("409");
+    expect(acceptOp.responses).toHaveProperty("503");
     expect(document.components.schemas).toHaveProperty("ClientJobBidsView");
     expect(document.components.schemas).toHaveProperty("ClientJobBidView");
     const ownerHop = RAIL_V1_HOPS.find((hop) => hop.id === "client-job-bids");
@@ -485,8 +513,9 @@ describe("/api/v1 sözleşme mührü", () => {
     expect(readSrc("lib/kernel/security/edge-jwt.ts")).toContain(
       "cookies: isApiV1Pathname(input.pathname) ? [] : input.cookies",
     );
-    expect(readSrc("lib/kernel/auth/require-session.ts")).toContain("isV1JsonRequest(request)");
+    expect(readSrc("lib/kernel/auth/require-session.ts")).toContain("isV1CookieSessionBlocked(request)");
     expect(readSrc("lib/kernel/auth/require-session.ts")).toContain("return null;");
+    expect(readSrc("lib/kernel/http/api-v1.ts")).toContain("isV1CookieSessionBlocked");
     expect(readSrc("lib/kernel/http/api-v1.ts")).not.toContain("Access-Control-Allow-Credentials");
 
     const token = await signHs256();
@@ -502,6 +531,17 @@ describe("/api/v1 sözleşme mührü", () => {
           headers: { "X-Rail-Min-Version": "1" },
         }),
       );
+      if (isRailV1HopForbiddenOnDron(hop.id)) {
+        expect(response.status, hop.id).toBe(403);
+        expect(parseRailV1Envelope(await response.json()), hop.id).toMatchObject({
+          ok: false,
+          error: RAIL_V1_HOP_DRON_FORBIDDEN,
+          apiVersion: "1",
+          data: null,
+        });
+        expect(response.headers.get("set-cookie"), hop.id).toBeNull();
+        continue;
+      }
       expect(response.status, hop.id).toBe(401);
       const body = await response.json();
       expect(parseRailV1Envelope(body), hop.id).toMatchObject({
@@ -705,7 +745,7 @@ describe("/api/v1 sözleşme mührü", () => {
       {
         title: "Rail Temel",
         courseTitle: "Rail Temel",
-        courseSlug: "rail-temel",
+        courseSlug: "python-temel",
         score: 100,
         issuedAt: "2026-08-14T12:00:00.000Z",
         certificateHash: SAMPLE_HASH,
@@ -713,7 +753,9 @@ describe("/api/v1 sözleşme mührü", () => {
         algorithm: "SHA256",
         payloadVersion: RAIL_V1_ACADEMY_CERTIFICATE_PAYLOAD_VERSION,
         hashedFields: [...RAIL_V1_ACADEMY_CERTIFICATE_HASHED_FIELDS],
+        integrityKind: RAIL_V1_ACADEMY_CERTIFICATE_INTEGRITY_KIND,
         sealStatus: "valid",
+        revokedAt: null,
         passScore: RAIL_V1_ACADEMY_EXAM_PASS_SCORE,
       },
       REQUEST_ID,

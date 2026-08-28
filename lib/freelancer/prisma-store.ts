@@ -1,6 +1,10 @@
 import "server-only";
 
 import type { PrismaClient } from "@/generated/prisma/client";
+import {
+  FREELANCER_JOB_DEFAULT_VISA_PATHWAY,
+  parseFreelancerJobVisaPathwayId,
+} from "@/lib/freelancer/job-visa-lock";
 import { getPrisma } from "@/lib/kernel/db";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { parseCurrencyCode, SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
@@ -23,14 +27,29 @@ function toJob(row: {
   brief: string;
   budgetMinor: number;
   currencyCode: string;
+  visaPathwayId: string;
+  visibility?: FreelancerJobRecord["visibility"] | null;
+  inviteeId?: string | null;
+  dueDays?: number | null;
   status: FreelancerJobRecord["status"];
   createdAt: Date;
   updatedAt: Date;
 }): FreelancerJobRecord {
   return {
-    ...row,
+    id: row.id,
+    clientId: row.clientId,
+    title: row.title,
+    brief: row.brief,
     budgetMinor: toAmountMinor(row.budgetMinor),
     currencyCode: parseCurrencyCode(row.currencyCode),
+    visaPathwayId:
+      parseFreelancerJobVisaPathwayId(row.visaPathwayId) ?? FREELANCER_JOB_DEFAULT_VISA_PATHWAY,
+    visibility: row.visibility === "DIRECT" ? "DIRECT" : "PUBLIC",
+    inviteeId: row.inviteeId ?? null,
+    dueDays: row.dueDays ?? null,
+    status: row.status,
+    createdAt: row.createdAt,
+    updatedAt: row.updatedAt,
   };
 }
 
@@ -162,6 +181,10 @@ export function bindFreelancerStore(db: FreelancerWriteDb): FreelancerStore {
           brief: job.brief,
           budgetMinor: job.budgetMinor,
           currencyCode: job.currencyCode,
+          visaPathwayId: job.visaPathwayId,
+          visibility: job.visibility,
+          inviteeId: job.inviteeId,
+          dueDays: job.dueDays,
           status: job.status,
           createdAt: job.createdAt,
           updatedAt: job.updatedAt,
@@ -175,7 +198,14 @@ export function bindFreelancerStore(db: FreelancerWriteDb): FreelancerStore {
     },
     async listOpenJobs() {
       const rows = await db.freelancerJob.findMany({
-        where: { status: "OPEN" },
+        where: { status: "OPEN", visibility: "PUBLIC" },
+        orderBy: { createdAt: "desc" },
+      });
+      return rows.map(toJob);
+    },
+    async listDirectOffersForInvitee(inviteeId) {
+      const rows = await db.freelancerJob.findMany({
+        where: { inviteeId, status: "OPEN", visibility: "DIRECT" },
         orderBy: { createdAt: "desc" },
       });
       return rows.map(toJob);
@@ -432,22 +462,34 @@ export function bindFreelancerStore(db: FreelancerWriteDb): FreelancerStore {
       return rows.map(toSquadMember);
     },
     async pulseForUser(userId) {
-      const [openJobsPosted, fundedAsClient, fundedAsFreelancer, releasedAsFreelancer, fundedClientRows] =
-        await Promise.all([
-          db.freelancerJob.count({ where: { clientId: userId, status: "OPEN" } }),
-          db.freelancerContract.count({ where: { clientId: userId, status: "FUNDED" } }),
-          db.freelancerContract.count({
-            where: { freelancerId: userId, status: "FUNDED" },
-          }),
-          db.freelancerContract.count({
-            where: { freelancerId: userId, status: "RELEASED" },
-          }),
-          db.freelancerContract.findMany({
-            where: { clientId: userId, status: "FUNDED" },
-            select: { grossMinor: true },
-          }),
-        ]);
-      const pendingEscrowMinor = fundedClientRows.reduce((sum, row) => sum + row.grossMinor, 0);
+      const [openJobsPosted, contractRows] = await Promise.all([
+        db.freelancerJob.count({ where: { clientId: userId, status: "OPEN" } }),
+        db.freelancerContract.findMany({
+          where: {
+            OR: [
+              { clientId: userId, status: "FUNDED" },
+              { freelancerId: userId, status: { in: ["FUNDED", "RELEASED"] } },
+            ],
+          },
+          select: { clientId: true, freelancerId: true, status: true, grossMinor: true },
+        }),
+      ]);
+      let fundedAsClient = 0;
+      let fundedAsFreelancer = 0;
+      let releasedAsFreelancer = 0;
+      let pendingEscrowMinor = 0;
+      for (const row of contractRows) {
+        if (row.clientId === userId && row.status === "FUNDED") {
+          fundedAsClient += 1;
+          pendingEscrowMinor += row.grossMinor;
+        }
+        if (row.freelancerId === userId && row.status === "FUNDED") {
+          fundedAsFreelancer += 1;
+        }
+        if (row.freelancerId === userId && row.status === "RELEASED") {
+          releasedAsFreelancer += 1;
+        }
+      }
       const pulse: FreelancerPulse = {
         openJobsPosted,
         fundedAsClient,

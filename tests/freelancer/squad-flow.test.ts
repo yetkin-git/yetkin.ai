@@ -63,12 +63,12 @@ async function fundedContract(ports: ReturnType<typeof world>) {
     clientId: CLIENT,
     title: "Takım işi",
     brief: "İki kişi, pay bps ile tek defter.",
-    budgetMinor: 10_000,
+    budgetMinor: 25_000,
   });
   const bid = await submitFreelancerBid(ports, {
     jobId: job.id,
     bidderId: LEAD,
-    amountMinor: 10_000,
+    amountMinor: 25_000,
     coverNote: "Takım hazır.",
   });
   const { contract } = await acceptFreelancerBid(ports, {
@@ -96,16 +96,17 @@ describe("PROJECT_EPHEMERAL squad hakediş", () => {
     expect(squad.kind).toBe("PROJECT_EPHEMERAL");
     expect(squad.status).toBe("ACTIVE");
 
-    await releaseFreelancerContract(ports, {
+    const released = await releaseFreelancerContract(ports, {
       contractId: contract.id,
       actorUserId: CLIENT,
       platformUserId: PLATFORM,
     });
+    expect(released.status).toBe("RELEASED");
 
-    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(90_000);
-    expect(ports.ledger.snapshot(LEAD).amountMinor).toBe(6_300);
-    expect(ports.ledger.snapshot(PARTNER).amountMinor).toBe(2_700);
-    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(1_000);
+    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(100_000);
+    expect(ports.ledger.snapshot(LEAD).amountMinor).toBe(0);
+    expect(ports.ledger.snapshot(PARTNER).amountMinor).toBe(0);
+    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
     const after = await ports.freelancer.getSquadByContractId(contract.id);
     expect(after?.status).toBe("DISBANDED");
   });
@@ -167,10 +168,9 @@ describe("PROJECT_EPHEMERAL squad hakediş", () => {
       platformUserId: PLATFORM,
     });
 
-    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(92_700);
-    expect(ports.ledger.snapshot(LEAD).amountMinor).toBe(4_410);
-    expect(ports.ledger.snapshot(PARTNER).amountMinor).toBe(1_890);
-    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(1_000);
+    expect(ports.ledger.snapshot(LEAD).amountMinor).toBe(0);
+    expect(ports.ledger.snapshot(PARTNER).amountMinor).toBe(0);
+    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
     const squad = await ports.freelancer.getSquadByContractId(contract.id);
     expect(squad?.status).toBe("DISBANDED");
   });

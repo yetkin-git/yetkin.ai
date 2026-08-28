@@ -17,6 +17,12 @@ model AcademyCourse {
   title          String
   summary        String
   catalogUnitKey String   @unique @map("catalog_unit_key")
+  /// Dünya sırası — düşük = daha trend.
+  globalRank     Int      @default(99) @map("global_rank")
+  /// Türkiye sırası — düşük = daha trend.
+  localRank      Int      @default(99) @map("local_rank")
+  /// Vitrin endeksi: globalRank × localRank (düşük önce).
+  trendScore     Float    @default(0) @map("trend_score")
   isPublished    Boolean  @default(true) @map("is_published")
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
@@ -26,6 +32,7 @@ model AcademyCourse {
   exam         AcademyExam?
   lessonCompletions AcademyLessonCompletion[]
 
+  @@index([isPublished, trendScore])
   @@index([isPublished, createdAt])
   @@map("academy_courses")
 }
@@ -55,7 +62,8 @@ model AcademyPurchase {
   @@map("academy_purchases")
 }
 
-/// Müfredat sınavı — kursa 1:1. Doğru şıklar sunucuda kalır.
+/// Müfredat sınavı — kursa 1:1. questionsJson mühürlü havuzdur (30–50 soru).
+/// Oturum havuzdan rastgele 10 soru çeker, şıkları karıştırır; doğru şıklar sunucuda kalır.
 model AcademyExam {
   id            String   @id @default(cuid())
   courseId      String   @unique @map("course_id")
@@ -105,6 +113,8 @@ model AcademyCertificate {
   curriculumSeal   String?  @map("curriculum_seal")
   score            Int?
   issuedAt         DateTime @map("issued_at")
+  revokedAt        DateTime? @map("revoked_at")
+  revokeReason     String?  @map("revoke_reason")
   createdAt        DateTime @default(now()) @map("created_at")
 
   user     User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -124,6 +134,7 @@ model AcademyLessonCompletion {
   courseId    String   @map("course_id")
   purchaseId  String   @map("purchase_id")
   lessonKey   String   @map("lesson_key")
+  proofOfWorkHash String?  @map("proof_of_work_hash") @db.Char(64)
   completedAt DateTime @map("completed_at")
   createdAt   DateTime @default(now()) @map("created_at")
 
@@ -134,4 +145,24 @@ model AcademyLessonCompletion {
   @@unique([purchaseId, lessonKey])
   @@index([userId, courseId])
   @@map("academy_lesson_completions")
+}
+
+/// Ders TTS kalıcı önbellek. Byte `lesson-audios` bucket'ta; satır yalnız locator.
+/// Gemini yalnız cache miss'te çağrılır. PostgREST yazma yok; Prisma yazar.
+model AcademyAudioCache {
+  id         String   @id @default(cuid())
+  cacheKey   String   @unique @map("cache_key")
+  courseSlug String   @map("course_slug")
+  lessonKey  String   @map("lesson_key")
+  bucket     String
+  objectPath String   @unique @map("object_path")
+  publicUrl  String   @map("public_url")
+  mimeType   String   @map("mime_type")
+  byteSize   Int      @map("byte_size")
+  model      String
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@index([courseSlug, lessonKey])
+  @@map("academy_audio_cache")
 }

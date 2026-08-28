@@ -1,3 +1,11 @@
+export class BadRequestError extends Error {
+  readonly status = 400 as const;
+  constructor(message = "İstek geçersiz.") {
+    super(message);
+    this.name = "BadRequestError";
+  }
+}
+
 export class ForbiddenError extends Error {
   readonly status = 403 as const;
   constructor(message = "Bu işlem için yetki yok.") {
@@ -11,6 +19,14 @@ export class NotFoundError extends Error {
   constructor(message = "Kayıt bulunamadı.") {
     super(message);
     this.name = "NotFoundError";
+  }
+}
+
+export class GoneError extends Error {
+  readonly status = 410 as const;
+  constructor(message = "Bu yüzey üretimde kapalı.") {
+    super(message);
+    this.name = "GoneError";
   }
 }
 

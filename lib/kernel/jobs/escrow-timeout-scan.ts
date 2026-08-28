@@ -3,7 +3,7 @@
  * Çekirdek yalnız EscrowHold + Ledger iade eder; dikey FSM kancaya aittir (K7).
  */
 
-import { refundEscrowHold } from "@/lib/kernel/escrow/engine";
+import { refundEscrowHold, EscrowWalletFundedHoldError } from "@/lib/kernel/escrow/engine";
 import {
   notifyEscrowRefunded,
   shouldFreezeEscrowTimeout,
@@ -57,6 +57,9 @@ export async function runEscrowTimeoutRefunds(
     try {
       await refundEscrowHold(ports, { referenceKey: hold.referenceKey, now });
     } catch (error) {
+      if (error instanceof EscrowWalletFundedHoldError) {
+        continue;
+      }
       if (
         error instanceof Error &&
         (/iken iade edilemez/.test(error.message) || /PENDING değilken/.test(error.message))

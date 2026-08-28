@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Yetkin Rail API v1",
+    "title": "yetkin.ai API v1",
     "version": "1",
-    "description": "Yetkin Rail Shared Kernel dış sözleşmesi (Diyar B / Rail İş lab hop'ları). Kopya `app/api/v1` handler ağacı yoktur; kenar soyar. Zarf: { ok, error, requestId, apiVersion, data }. Versiyonsuz `{ ok, ...data }` serimi bu belgeye girmez. Yayınlanmış alan sessizce düşmez. CORS joker ve Allow-Credentials yoktur."
+    "description": "yetkin.ai Modüler Monolit + API-First Dron sözleşmesi — Proof / Marketplace / Payments. Kopya `app/api/v1` handler ağacı yoktur; kenar soyar. Zarf: { ok, error, requestId, apiVersion, data }. X-Rail-Min-Version API sözleşme sürümüdür; mağaza uygulama build'i değildir (X-Rail-App-Build ayrı, v1'de kapı değil). Amiral ve Dron aynı v1 zarfı konuşur. Versiyonsuz `{ ok, ...data }` serimi kapalıdır. Yayınlanmış alan sessizce düşmez. CORS joker ve Allow-Credentials yoktur. SHA-256 akademi kaydı kriptografik imza değildir; içerik özeti / bütünlük kaydıdır."
   },
   "servers": [
     {
@@ -16,12 +16,16 @@
       "description": "Health ve oturum."
     },
     {
-      "name": "Diyar B",
-      "description": "Freelancer ilan / teklif / emanet."
+      "name": "Proof",
+      "description": "Akademi pulse/satın alma, kariyer vizesi, kamu içerik özeti doğrulama."
     },
     {
-      "name": "Akademi",
-      "description": "Kamu sertifika mühür doğrulama. Oturum yok. userId / attemptId / purchaseId sızmaz."
+      "name": "Marketplace",
+      "description": "Freelancer ilan / teklif / emanet. İç hakediş kilidi 403 olarak durur."
+    },
+    {
+      "name": "Payments",
+      "description": "Cüzdan şeridi. PayTR top-up v1 hop değildir."
     }
   ],
   "paths": {
@@ -135,7 +139,7 @@
                                 "unconfigured"
                               ]
                             },
-                            "paytr": {
+                            "payments": {
                               "type": "string",
                               "enum": [
                                 "configured",
@@ -147,7 +151,7 @@
                             "db",
                             "supabaseAuth",
                             "inngest",
-                            "paytr"
+                            "payments"
                           ],
                           "additionalProperties": false
                         }
@@ -194,7 +198,7 @@
             }
           },
           "426": {
-            "description": "Bu uygulama güncel değil. Rail İş'i mağazadan güncelle.",
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
             "content": {
               "application/json": {
                 "schema": {
@@ -215,7 +219,7 @@
           "checks.db",
           "checks.supabaseAuth",
           "checks.inngest",
-          "checks.paytr"
+          "checks.payments"
         ]
       }
     },
@@ -223,10 +227,10 @@
       "get": {
         "operationId": "academy-certificate",
         "tags": [
-          "Akademi"
+          "Proof"
         ],
         "summary": "/api/v1/academy/certificates/{hash}",
-        "description": "Kanonik yol: /api/academy/certificates/{hash}. Auth: public. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: title, courseTitle, courseSlug, score, issuedAt, certificateHash, curriculumSeal, algorithm, payloadVersion, hashedFields, sealStatus, passScore.",
+        "description": "Kanonik yol: /api/academy/certificates/{hash}. Auth: public. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: title, courseTitle, courseSlug, score, issuedAt, certificateHash, curriculumSeal, algorithm, payloadVersion, hashedFields, integrityKind, sealStatus, revokedAt, passScore.",
         "security": [],
         "parameters": [
           {
@@ -385,11 +389,24 @@
                           "minItems": 6,
                           "maxItems": 6
                         },
+                        "integrityKind": {
+                          "type": "string",
+                          "enum": [
+                            "sha256-content-digest"
+                          ]
+                        },
                         "sealStatus": {
                           "type": "string",
                           "enum": [
-                            "valid"
+                            "valid",
+                            "revoked"
                           ]
+                        },
+                        "revokedAt": {
+                          "nullable": true,
+                          "type": "string",
+                          "format": "date-time",
+                          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
                         },
                         "passScore": {
                           "type": "number",
@@ -409,7 +426,9 @@
                         "algorithm",
                         "payloadVersion",
                         "hashedFields",
+                        "integrityKind",
                         "sealStatus",
+                        "revokedAt",
                         "passScore"
                       ],
                       "additionalProperties": false
@@ -458,7 +477,7 @@
             }
           },
           "426": {
-            "description": "Bu uygulama güncel değil. Rail İş'i mağazadan güncelle.",
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
             "content": {
               "application/json": {
                 "schema": {
@@ -482,9 +501,441 @@
           "algorithm",
           "payloadVersion",
           "hashedFields",
+          "integrityKind",
           "sealStatus",
+          "revokedAt",
           "passScore"
         ]
+      }
+    },
+    "/api/v1/academy/pulse": {
+      "get": {
+        "operationId": "academy-pulse",
+        "tags": [
+          "Proof"
+        ],
+        "summary": "/api/v1/academy/pulse",
+        "description": "Kanonik yol: /api/academy/pulse. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: pulse.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "pulse": {
+                          "type": "object",
+                          "properties": {
+                            "live": {
+                              "type": "boolean"
+                            },
+                            "purchasesCount": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "certificatesHeld": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "lastCertificateTitle": {
+                              "nullable": true,
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "currencyCode": {
+                              "type": "string",
+                              "enum": [
+                                "TRY",
+                                "USD",
+                                "EUR"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "live",
+                            "purchasesCount",
+                            "certificatesHeld",
+                            "lastCertificateTitle",
+                            "currencyCode"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "pulse"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "pulse",
+          "pulse.live",
+          "pulse.purchasesCount",
+          "pulse.certificatesHeld",
+          "pulse.lastCertificateTitle",
+          "pulse.currencyCode"
+        ]
+      }
+    },
+    "/api/v1/academy/courses/{id}/purchase": {
+      "post": {
+        "operationId": "academy-purchase",
+        "tags": [
+          "Proof"
+        ],
+        "summary": "/api/v1/academy/courses/{id}/purchase",
+        "description": "Kanonik yol: /api/academy/courses/{id}/purchase. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key UUID zorunlu (Idempotency-Key). Yayınlanmış data kökleri: applied, purchase, certificate.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Kayıt kimliği (ilan veya sözleşme).",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "UUID. Aynı anahtar ikinci debit doğurmaz.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "applied": {
+                          "type": "boolean"
+                        },
+                        "purchase": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "courseId": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "amountMinor": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "status": {
+                              "type": "string",
+                              "enum": [
+                                "SETTLED"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "courseId",
+                            "amountMinor",
+                            "status"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "certificate": {
+                          "nullable": true,
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "serialKey": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "serialKey"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "applied",
+                        "purchase",
+                        "certificate"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency-Key aynı anahtarla farklı gövde kullanılamaz.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": true,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "applied",
+          "purchase",
+          "purchase.id",
+          "purchase.courseId",
+          "purchase.amountMinor",
+          "purchase.status",
+          "certificate",
+          "certificate.id",
+          "certificate.serialKey"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "lockId": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/auth/session": {
@@ -627,7 +1078,7 @@
             }
           },
           "426": {
-            "description": "Bu uygulama güncel değil. Rail İş'i mağazadan güncelle.",
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
             "content": {
               "application/json": {
                 "schema": {
@@ -651,7 +1102,7 @@
       "get": {
         "operationId": "wallet-strip",
         "tags": [
-          "Kernel"
+          "Payments"
         ],
         "summary": "/api/v1/dashboard/wallet-strip",
         "description": "Kanonik yol: /api/dashboard/wallet-strip. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: strip.",
@@ -794,7 +1245,7 @@
             }
           },
           "426": {
-            "description": "Bu uygulama güncel değil. Rail İş'i mağazadan güncelle.",
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
             "content": {
               "application/json": {
                 "schema": {
@@ -815,207 +1266,11 @@
         ]
       }
     },
-    "/api/v1/dashboard/freelancer-pulse": {
-      "get": {
-        "operationId": "freelancer-pulse",
-        "tags": [
-          "Diyar B"
-        ],
-        "summary": "/api/v1/dashboard/freelancer-pulse",
-        "description": "Kanonik yol: /api/dashboard/freelancer-pulse. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: pulse.",
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "x-rail-min-version",
-            "in": "header",
-            "required": true,
-            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
-            "schema": {
-              "type": "string",
-              "pattern": "^[1-9]\\d*$"
-            }
-          },
-          {
-            "name": "x-request-id",
-            "in": "header",
-            "required": false,
-            "description": "İsteğe bağlı korelasyon UUID.",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "required": true,
-            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
-            "schema": {
-              "type": "string",
-              "pattern": "^Bearer\\s+\\S+"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "ok": {
-                      "type": "boolean",
-                      "enum": [
-                        true
-                      ]
-                    },
-                    "error": {
-                      "type": "string",
-                      "nullable": true,
-                      "enum": [
-                        null
-                      ]
-                    },
-                    "requestId": {
-                      "type": "string",
-                      "format": "uuid",
-                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-                    },
-                    "apiVersion": {
-                      "type": "string",
-                      "enum": [
-                        "1"
-                      ]
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "pulse": {
-                          "type": "object",
-                          "properties": {
-                            "live": {
-                              "type": "boolean"
-                            },
-                            "openJobsPosted": {
-                              "type": "integer",
-                              "minimum": 0,
-                              "maximum": 9007199254740991
-                            },
-                            "fundedAsClient": {
-                              "type": "integer",
-                              "minimum": 0,
-                              "maximum": 9007199254740991
-                            },
-                            "fundedAsFreelancer": {
-                              "type": "integer",
-                              "minimum": 0,
-                              "maximum": 9007199254740991
-                            },
-                            "releasedAsFreelancer": {
-                              "type": "integer",
-                              "minimum": 0,
-                              "maximum": 9007199254740991
-                            },
-                            "pendingEscrowMinor": {
-                              "type": "integer",
-                              "minimum": 0,
-                              "maximum": 9007199254740991
-                            },
-                            "currencyCode": {
-                              "type": "string",
-                              "enum": [
-                                "TRY",
-                                "USD",
-                                "EUR"
-                              ]
-                            }
-                          },
-                          "required": [
-                            "live",
-                            "openJobsPosted",
-                            "fundedAsClient",
-                            "fundedAsFreelancer",
-                            "releasedAsFreelancer",
-                            "pendingEscrowMinor",
-                            "currencyCode"
-                          ],
-                          "additionalProperties": false
-                        }
-                      },
-                      "required": [
-                        "pulse"
-                      ],
-                      "additionalProperties": false
-                    }
-                  },
-                  "required": [
-                    "ok",
-                    "error",
-                    "requestId",
-                    "apiVersion",
-                    "data"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RailV1FailEnvelope"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Oturum gerekli.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RailV1FailEnvelope"
-                }
-              }
-            }
-          },
-          "426": {
-            "description": "Bu uygulama güncel değil. Rail İş'i mağazadan güncelle.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RailV1FailEnvelope"
-                }
-              }
-            }
-          }
-        },
-        "x-rail-cookie-auth": false,
-        "x-rail-idempotency": false,
-        "x-rail-route-auth": "session",
-        "x-rail-published-data-paths": [
-          "pulse",
-          "pulse.live",
-          "pulse.openJobsPosted",
-          "pulse.fundedAsClient",
-          "pulse.fundedAsFreelancer",
-          "pulse.releasedAsFreelancer",
-          "pulse.pendingEscrowMinor",
-          "pulse.currencyCode"
-        ]
-      }
-    },
     "/api/v1/freelancer/jobs": {
       "get": {
         "operationId": "freelancer-jobs",
         "tags": [
-          "Diyar B"
+          "Marketplace"
         ],
         "summary": "/api/v1/freelancer/jobs",
         "description": "Kanonik yol: /api/freelancer/jobs. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: jobs.",
@@ -1198,7 +1453,7 @@
             }
           },
           "426": {
-            "description": "Bu uygulama güncel değil. Rail İş'i mağazadan güncelle.",
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1229,7 +1484,7 @@
       "get": {
         "operationId": "client-job-bids",
         "tags": [
-          "Diyar B"
+          "Marketplace"
         ],
         "summary": "/api/v1/client/jobs/{id}/bids",
         "description": "Kanonik yol: /api/client/jobs/{id}/bids. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: bids. Owner-only teklif okuma. Actor = job.clientId. Usta/üçüncü şahıs 403, data:null, bids basılmaz. İlan yok 404. Yalnız SUBMITTED; OPEN değilse bids boş dizi (ikinci bidId uydurulmaz). ClientJobBidsView: bidId, amountMinor, coverNote, createdAt. bidderId / status / updatedAt / currencyCode / jobId sızmaz. GET /freelancer/jobs/{id} bu hop değildir.",
@@ -1408,7 +1663,7 @@
             }
           },
           "426": {
-            "description": "Bu uygulama güncel değil. Rail İş'i mağazadan güncelle.",
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1434,7 +1689,7 @@
       "post": {
         "operationId": "freelancer-bid",
         "tags": [
-          "Diyar B"
+          "Marketplace"
         ],
         "summary": "/api/v1/freelancer/jobs/{id}/bids",
         "description": "Kanonik yol: /api/freelancer/jobs/{id}/bids. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key UUID zorunlu (Idempotency-Key). Yayınlanmış data kökleri: bid.",
@@ -1654,7 +1909,7 @@
             }
           },
           "426": {
-            "description": "Bu uygulama güncel değil. Rail İş'i mağazadan güncelle.",
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1688,8 +1943,8 @@
                 "properties": {
                   "amountMinor": {
                     "type": "integer",
-                    "minimum": 1000,
-                    "maximum": 2000000
+                    "minimum": 25000,
+                    "maximum": 5000000
                   },
                   "coverNote": {
                     "type": "string",
@@ -1712,10 +1967,10 @@
       "post": {
         "operationId": "freelancer-accept",
         "tags": [
-          "Diyar B"
+          "Marketplace"
         ],
         "summary": "/api/v1/freelancer/jobs/{id}/accept",
-        "description": "Kanonik yol: /api/freelancer/jobs/{id}/accept. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key UUID zorunlu (Idempotency-Key). Yayınlanmış data kökleri: contract. İşveren teklif kabulü (nakit DEBIT). Actor = job.clientId. Usta/üçüncü şahıs 403. Yetersiz bakiyede 409, ilan OPEN kalır, hold/sözleşme yazılmaz, 2xx yok. Cevap tam RailV1Contract (clientId, freelancerId, escrowHoldId, holdBps, ISO tarihler). deliveredAt ve visaStamp yoktur. Tutar istek gövdesinden okunmaz. Mükerrer UUID ikinci DEBIT yazmaz.",
+        "description": "Kanonik yol: /api/freelancer/jobs/{id}/accept. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key UUID zorunlu (Idempotency-Key). Yayınlanmış data kökleri: contract. İşveren teklif kabulü. Actor = job.clientId. Usta/üçüncü şahıs 403. Pazaryeri split portu yoksa 503; Rail cüzdanına DEBIT yazılmaz, ilan OPEN kalır, hold/sözleşme yazılmaz, 2xx yok. PSP bağlıysa kilit kaydı pspPaymentId taşır. Cevap tam RailV1Contract (clientId, freelancerId, escrowHoldId, holdBps, ISO tarihler). deliveredAt ve visaStamp yoktur. Tutar istek gövdesinden okunmaz. Mükerrer UUID ikinci hold yazmaz.",
         "security": [
           {
             "BearerAuth": []
@@ -1971,7 +2226,7 @@
             }
           },
           "409": {
-            "description": "Idempotency-Key aynı anahtarla farklı gövde kullanılamaz. Yetersiz bakiye. Teklif kabul edilemez.",
+            "description": "Idempotency-Key aynı anahtarla farklı gövde kullanılamaz. Ödeme henüz bağlanmadı",
             "content": {
               "application/json": {
                 "schema": {
@@ -1981,7 +2236,17 @@
             }
           },
           "426": {
-            "description": "Bu uygulama güncel değil. Rail İş'i mağazadan güncelle.",
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Ödeme henüz bağlanmadı",
             "content": {
               "application/json": {
                 "schema": {
@@ -2040,7 +2305,7 @@
       "get": {
         "operationId": "freelancer-contracts",
         "tags": [
-          "Diyar B"
+          "Marketplace"
         ],
         "summary": "/api/v1/freelancer/contracts",
         "description": "Kanonik yol: /api/freelancer/contracts. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: contracts. FreelancerContractView: deliveredAt, kind=DELIVERY mesajının max(createdAt) değerinden türetilir; Prisma kolonu yoktur. Mesaj gövdesi / artifactUrl / reportJson sızmaz.",
@@ -2279,7 +2544,7 @@
             }
           },
           "426": {
-            "description": "Bu uygulama güncel değil. Rail İş'i mağazadan güncelle.",
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2319,7 +2584,7 @@
       "post": {
         "operationId": "freelancer-delivery",
         "tags": [
-          "Diyar B"
+          "Marketplace"
         ],
         "summary": "/api/v1/freelancer/contracts/{id}/messages",
         "description": "Kanonik yol: /api/freelancer/contracts/{id}/messages. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key UUID zorunlu (Idempotency-Key). Yayınlanmış data kökleri: message. Dar teslim yazması. Yalnız kind=DELIVERY. Actor = freelancerId; status = FUNDED (emanet blokeli). İşveren/üçüncü şahıs 403. Cevap DTO: message.{id,contractId,kind,createdAt}. body / artifactUrl / userId sızmaz. deliveredAt Tezgâh GET'inden türetilir.",
@@ -2506,7 +2771,7 @@
             }
           },
           "426": {
-            "description": "Bu uygulama güncel değil. Rail İş'i mağazadan güncelle.",
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2564,7 +2829,7 @@
       "post": {
         "operationId": "freelancer-release",
         "tags": [
-          "Diyar B"
+          "Marketplace"
         ],
         "summary": "/api/v1/freelancer/contracts/{id}/release",
         "description": "Kanonik yol: /api/freelancer/contracts/{id}/release. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key UUID zorunlu (Idempotency-Key). Yayınlanmış data kökleri: contract, visaStamp. Hak ediş serbest bırakma. Actor = contract.clientId (işveren). Usta/üçüncü şahıs 403. Status FUNDED dışında 409; DELIVERY tanığı sunucu şartı değildir (FSM uydurması yok). Cevap RailV1Contract + visaStamp (deliveredAt yok). Alıcı istek gövdesinden okunmaz. Mükerrer UUID ikinci CREDIT yazmaz.",
@@ -2898,7 +3163,7 @@
             }
           },
           "426": {
-            "description": "Bu uygulama güncel değil. Rail İş'i mağazadan güncelle.",
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2948,7 +3213,7 @@
       "post": {
         "operationId": "freelancer-refund",
         "tags": [
-          "Diyar B"
+          "Marketplace"
         ],
         "summary": "/api/v1/freelancer/contracts/{id}/refund",
         "description": "Kanonik yol: /api/freelancer/contracts/{id}/refund. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key UUID zorunlu (Idempotency-Key). Yayınlanmış data kökleri: contract.",
@@ -3207,7 +3472,7 @@
             }
           },
           "426": {
-            "description": "Bu uygulama güncel değil. Rail İş'i mağazadan güncelle.",
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3239,6 +3504,392 @@
           "contract.refundedAt",
           "contract.createdAt",
           "contract.updatedAt"
+        ]
+      }
+    },
+    "/api/v1/career/pulse": {
+      "get": {
+        "operationId": "career-pulse",
+        "tags": [
+          "Proof"
+        ],
+        "summary": "/api/v1/career/pulse",
+        "description": "Kanonik yol: /api/career/pulse. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: pulse.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "pulse": {
+                          "type": "object",
+                          "properties": {
+                            "live": {
+                              "type": "boolean"
+                            },
+                            "visaCount": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "portfolioCount": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "lastVisaTitle": {
+                              "nullable": true,
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "live",
+                            "visaCount",
+                            "portfolioCount",
+                            "lastVisaTitle"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "pulse"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "pulse",
+          "pulse.live",
+          "pulse.visaCount",
+          "pulse.portfolioCount",
+          "pulse.lastVisaTitle"
+        ]
+      }
+    },
+    "/api/v1/career/visas": {
+      "get": {
+        "operationId": "career-visas",
+        "tags": [
+          "Proof"
+        ],
+        "summary": "/api/v1/career/visas",
+        "description": "Kanonik yol: /api/career/visas. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: stamps.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "stamps": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "userId": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "sourceKind": {
+                                "type": "string",
+                                "enum": [
+                                  "ACADEMY_CERTIFICATE",
+                                  "FREELANCER_RELEASE"
+                                ]
+                              },
+                              "sourceId": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "visaKey": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "moduleId": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "certificateHash": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "issuedAt": {
+                                "type": "string",
+                                "format": "date-time",
+                                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time",
+                                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "userId",
+                              "sourceKind",
+                              "sourceId",
+                              "visaKey",
+                              "moduleId",
+                              "title",
+                              "certificateHash",
+                              "issuedAt",
+                              "createdAt"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "stamps"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "stamps",
+          "stamps[].id",
+          "stamps[].userId",
+          "stamps[].sourceKind",
+          "stamps[].sourceId",
+          "stamps[].visaKey",
+          "stamps[].moduleId",
+          "stamps[].title",
+          "stamps[].certificateHash",
+          "stamps[].issuedAt",
+          "stamps[].createdAt"
         ]
       }
     }
@@ -3382,57 +4033,6 @@
         ],
         "additionalProperties": false
       },
-      "RailV1FreelancerPulse": {
-        "type": "object",
-        "properties": {
-          "live": {
-            "type": "boolean"
-          },
-          "openJobsPosted": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 9007199254740991
-          },
-          "fundedAsClient": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 9007199254740991
-          },
-          "fundedAsFreelancer": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 9007199254740991
-          },
-          "releasedAsFreelancer": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 9007199254740991
-          },
-          "pendingEscrowMinor": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 9007199254740991
-          },
-          "currencyCode": {
-            "type": "string",
-            "enum": [
-              "TRY",
-              "USD",
-              "EUR"
-            ]
-          }
-        },
-        "required": [
-          "live",
-          "openJobsPosted",
-          "fundedAsClient",
-          "fundedAsFreelancer",
-          "releasedAsFreelancer",
-          "pendingEscrowMinor",
-          "currencyCode"
-        ],
-        "additionalProperties": false
-      },
       "RailV1Job": {
         "type": "object",
         "properties": {
@@ -3566,8 +4166,8 @@
         "properties": {
           "amountMinor": {
             "type": "integer",
-            "minimum": 1000,
-            "maximum": 2000000
+            "minimum": 25000,
+            "maximum": 5000000
           },
           "coverNote": {
             "type": "string",
@@ -4418,11 +5018,24 @@
             "minItems": 6,
             "maxItems": 6
           },
+          "integrityKind": {
+            "type": "string",
+            "enum": [
+              "sha256-content-digest"
+            ]
+          },
           "sealStatus": {
             "type": "string",
             "enum": [
-              "valid"
+              "valid",
+              "revoked"
             ]
+          },
+          "revokedAt": {
+            "nullable": true,
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
           },
           "passScore": {
             "type": "number",
@@ -4442,8 +5055,614 @@
           "algorithm",
           "payloadVersion",
           "hashedFields",
+          "integrityKind",
           "sealStatus",
+          "revokedAt",
           "passScore"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1AcademyPulse": {
+        "type": "object",
+        "properties": {
+          "live": {
+            "type": "boolean"
+          },
+          "purchasesCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "certificatesHeld": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "lastCertificateTitle": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1
+          },
+          "currencyCode": {
+            "type": "string",
+            "enum": [
+              "TRY",
+              "USD",
+              "EUR"
+            ]
+          }
+        },
+        "required": [
+          "live",
+          "purchasesCount",
+          "certificatesHeld",
+          "lastCertificateTitle",
+          "currencyCode"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1AcademyPurchaseRequest": {
+        "type": "object",
+        "properties": {
+          "lockId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "RailV1AcademyPurchaseData": {
+        "type": "object",
+        "properties": {
+          "applied": {
+            "type": "boolean"
+          },
+          "purchase": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "courseId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "amountMinor": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "SETTLED"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "courseId",
+              "amountMinor",
+              "status"
+            ],
+            "additionalProperties": false
+          },
+          "certificate": {
+            "nullable": true,
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "serialKey": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "id",
+              "serialKey"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "applied",
+          "purchase",
+          "certificate"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1CareerPulse": {
+        "type": "object",
+        "properties": {
+          "live": {
+            "type": "boolean"
+          },
+          "visaCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "portfolioCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "lastVisaTitle": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "live",
+          "visaCount",
+          "portfolioCount",
+          "lastVisaTitle"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1CareerVisasData": {
+        "type": "object",
+        "properties": {
+          "stamps": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "userId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sourceKind": {
+                  "type": "string",
+                  "enum": [
+                    "ACADEMY_CERTIFICATE",
+                    "FREELANCER_RELEASE"
+                  ]
+                },
+                "sourceId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "visaKey": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "moduleId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "certificateHash": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "issuedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                }
+              },
+              "required": [
+                "id",
+                "userId",
+                "sourceKind",
+                "sourceId",
+                "visaKey",
+                "moduleId",
+                "title",
+                "certificateHash",
+                "issuedAt",
+                "createdAt"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "stamps"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1SessionData": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+              }
+            },
+            "required": [
+              "id",
+              "email"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "user"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1WalletStripData": {
+        "type": "object",
+        "properties": {
+          "strip": {
+            "type": "object",
+            "properties": {
+              "live": {
+                "type": "boolean"
+              },
+              "amountMinor": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "currencyCode": {
+                "type": "string",
+                "enum": [
+                  "TRY",
+                  "USD",
+                  "EUR"
+                ]
+              }
+            },
+            "required": [
+              "live",
+              "amountMinor",
+              "currencyCode"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "strip"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JobsData": {
+        "type": "object",
+        "properties": {
+          "jobs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "clientId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "brief": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "budgetMinor": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "currencyCode": {
+                  "type": "string",
+                  "enum": [
+                    "TRY",
+                    "USD",
+                    "EUR"
+                  ]
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "OPEN",
+                    "AWARDED",
+                    "CANCELLED"
+                  ]
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                }
+              },
+              "required": [
+                "id",
+                "clientId",
+                "title",
+                "brief",
+                "budgetMinor",
+                "currencyCode",
+                "status",
+                "createdAt",
+                "updatedAt"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "jobs"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1BidData": {
+        "type": "object",
+        "properties": {
+          "bid": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "jobId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "bidderId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "amountMinor": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "currencyCode": {
+                "type": "string",
+                "enum": [
+                  "TRY",
+                  "USD",
+                  "EUR"
+                ]
+              },
+              "coverNote": {
+                "type": "string",
+                "minLength": 1
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "SUBMITTED",
+                  "ACCEPTED",
+                  "REJECTED"
+                ]
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+              }
+            },
+            "required": [
+              "id",
+              "jobId",
+              "bidderId",
+              "amountMinor",
+              "currencyCode",
+              "coverNote",
+              "status",
+              "createdAt",
+              "updatedAt"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "bid"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1ContractsData": {
+        "type": "object",
+        "properties": {
+          "contracts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "jobId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "bidId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "clientId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "freelancerId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "escrowHoldId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "FUNDED",
+                    "RELEASED",
+                    "REFUNDED",
+                    "DISPUTED"
+                  ]
+                },
+                "currencyCode": {
+                  "type": "string",
+                  "enum": [
+                    "TRY",
+                    "USD",
+                    "EUR"
+                  ]
+                },
+                "grossMinor": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "holdMinor": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "netMinor": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "holdBps": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 10000
+                },
+                "fundedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                },
+                "releasedAt": {
+                  "nullable": true,
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                },
+                "refundedAt": {
+                  "nullable": true,
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                },
+                "deliveredAt": {
+                  "nullable": true,
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                }
+              },
+              "required": [
+                "id",
+                "jobId",
+                "bidId",
+                "clientId",
+                "freelancerId",
+                "escrowHoldId",
+                "status",
+                "currencyCode",
+                "grossMinor",
+                "holdMinor",
+                "netMinor",
+                "holdBps",
+                "fundedAt",
+                "releasedAt",
+                "refundedAt",
+                "createdAt",
+                "updatedAt",
+                "deliveredAt"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "contracts"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1DeliveryData": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "contractId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "DELIVERY"
+                ]
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+              }
+            },
+            "required": [
+              "id",
+              "contractId",
+              "kind",
+              "createdAt"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "message"
         ],
         "additionalProperties": false
       }

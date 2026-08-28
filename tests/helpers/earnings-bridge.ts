@@ -4,6 +4,7 @@ import { REQUIRED_CATALOG_DEFINITIONS } from "@/lib/kernel/pricing/catalog-defin
 import { ForbiddenError } from "@/lib/kernel/http/errors";
 import { issueCareerVisaStamp } from "@/lib/career/engine";
 import { assertAcademyCareerVisaForListing } from "@/lib/career/visa-gate";
+import { YZ_ICERIK_LISTING_PATHWAY, YZ_LISTING_VISA_SUBJECT } from "@/lib/career/listing-visa-scope";
 import {
   acceptFreelancerBid,
   createFreelancerJob,
@@ -25,6 +26,7 @@ import {
   createMemoryEscrowStore,
   createMemoryFreelancerStore,
   createMemoryLedgerStore,
+  createMemoryMarketplaceSplitPort,
   withMemoryAcceptAtomic,
 } from "./memory-money";
 import { createMemoryPriceCatalogStore } from "./memory-pricing";
@@ -33,7 +35,7 @@ export const EARNINGS_CLIENT_ID = "d23-earnings-client";
 export const EARNINGS_WORKER_ID = "d23-earnings-worker";
 export const EARNINGS_CORP_OWNER_ID = "d23-earnings-corp";
 export const EARNINGS_PLATFORM_ID = PLATFORM_TREASURY_USER_ID;
-export const EARNINGS_GROSS_MINOR = 10_000;
+export const EARNINGS_GROSS_MINOR = 25_000;
 export const EARNINGS_START_MINOR = 100_000;
 
 const ACADEMY_HASH = "ab".repeat(32);
@@ -46,7 +48,8 @@ async function stampAcademyVisa(userId: string) {
       sourceId: `cert-${userId}`,
       userId,
       actorUserIds: [userId],
-      title: "Raylı sistem temeli",
+      title: "Yapay Zekâ ve Prompt Mühendisliğine Giriş",
+      courseSlug: "ai-temel",
       issuedAt: new Date("2026-08-16T00:00:00.000Z"),
       certificateHash: ACADEMY_HASH,
     },
@@ -71,7 +74,7 @@ export async function runEarningsBridgeJourney() {
   const bareCareer = createMemoryCareerStore();
 
   await expectGateDenied(bareCareer, EARNINGS_WORKER_ID);
-  await assertAcademyCareerVisaForListing(workerCareer, EARNINGS_WORKER_ID);
+  await assertAcademyCareerVisaForListing(workerCareer, EARNINGS_WORKER_ID, YZ_LISTING_VISA_SUBJECT, workerProofs);
 
   const freelancerPorts = withMemoryAcceptAtomic({
     ledger: createMemoryLedgerStore([
@@ -86,10 +89,11 @@ export async function runEarningsBridgeJourney() {
   const job = await createFreelancerJob(freelancerPorts, {
     clientId: EARNINGS_CLIENT_ID,
     title: "D2.3 teslim mühürü",
-    brief: "Teklif kapısı, emanet, teslim, RELEASE, iş bitirme damgası.",
+    brief: "Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif kapısı, emanet, teslim, RELEASE, iş bitirme damgası.",
     budgetMinor: EARNINGS_GROSS_MINOR,
+    visaPathwayId: YZ_ICERIK_LISTING_PATHWAY,
   });
-  await assertAcademyCareerVisaForListing(workerCareer, EARNINGS_WORKER_ID);
+  await assertAcademyCareerVisaForListing(workerCareer, EARNINGS_WORKER_ID, job, workerProofs);
   const bid = await submitFreelancerBid(freelancerPorts, {
     jobId: job.id,
     bidderId: EARNINGS_WORKER_ID,
@@ -116,23 +120,26 @@ export async function runEarningsBridgeJourney() {
     actorUserId: EARNINGS_CLIENT_ID,
     platformUserId: EARNINGS_PLATFORM_ID,
   });
-  workerProofs.add({
-    sourceKind: "FREELANCER_RELEASE",
-    sourceId: released.id,
-    userId: EARNINGS_WORKER_ID,
-    actorUserIds: [EARNINGS_WORKER_ID, EARNINGS_CLIENT_ID],
-    title: job.title,
-    issuedAt: released.releasedAt ?? new Date("2026-08-16T01:00:00.000Z"),
-    certificateHash: null,
-  });
-  const freelancerVisa = await issueCareerVisaStamp(
-    { career: workerCareer, proofs: workerProofs },
-    {
+  let freelancerVisa = null;
+  if (released) {
+    workerProofs.add({
       sourceKind: "FREELANCER_RELEASE",
       sourceId: released.id,
-      actorUserId: EARNINGS_CLIENT_ID,
-    },
-  );
+      userId: EARNINGS_WORKER_ID,
+      actorUserIds: [EARNINGS_WORKER_ID, EARNINGS_CLIENT_ID],
+      title: job.title,
+      issuedAt: released.releasedAt ?? new Date("2026-08-16T01:00:00.000Z"),
+      certificateHash: null,
+    });
+    freelancerVisa = await issueCareerVisaStamp(
+      { career: workerCareer, proofs: workerProofs },
+      {
+        sourceKind: "FREELANCER_RELEASE",
+        sourceId: released.id,
+        actorUserId: EARNINGS_CLIENT_ID,
+      },
+    );
+  }
 
   const definition = REQUIRED_CATALOG_DEFINITIONS.find(
     (row) => row.moduleKey === KURUMSAL_MODULE_KEY && row.unitKey === KURUMSAL_JOB_FLOOR_UNIT_KEY,
@@ -147,6 +154,7 @@ export async function runEarningsBridgeJourney() {
       { userId: EARNINGS_PLATFORM_ID, amountMinor: 0 },
     ]),
     escrow: createMemoryEscrowStore(),
+    marketplace: createMemoryMarketplaceSplitPort(),
     catalog: createMemoryPriceCatalogStore([
       {
         moduleKey: definition.moduleKey,
@@ -165,14 +173,14 @@ export async function runEarningsBridgeJourney() {
   const posting = await sealCorporateJobPosting(kurumsalPorts, {
     actorUserId: EARNINGS_CORP_OWNER_ID,
     title: "D2.3 kurumsal mühür",
-    brief: "Aynı EscrowHold motoru, oda duvarı korunur.",
+    brief: "Dikey: yapay zekâ destekli içerik ve görsel üretim. Aynı EscrowHold motoru, oda duvarı korunur.",
     budgetMinor: EARNINGS_GROSS_MINOR,
     workbenchKind: "FREELANCER",
     holdBps: HOLD_BPS_DEFAULT,
   });
   const holdAfterSeal = await kurumsalPorts.escrow.findById(posting.escrowHoldId);
   const ledgerAfterSeal = kurumsalPorts.ledger.snapshot(EARNINGS_CORP_OWNER_ID).amountMinor;
-  await assertAcademyCareerVisaForListing(workerCareer, EARNINGS_WORKER_ID);
+  await assertAcademyCareerVisaForListing(workerCareer, EARNINGS_WORKER_ID, posting, workerProofs);
   const offer = await submitCorporateJobOffer(kurumsalPorts, {
     postingId: posting.id,
     bidderId: EARNINGS_WORKER_ID,
@@ -190,23 +198,26 @@ export async function runEarningsBridgeJourney() {
     actorUserId: EARNINGS_CORP_OWNER_ID,
     platformUserId: EARNINGS_PLATFORM_ID,
   });
-  workerProofs.add({
-    sourceKind: "FREELANCER_RELEASE",
-    sourceId: corpReleased.id,
-    userId: EARNINGS_WORKER_ID,
-    actorUserIds: [EARNINGS_WORKER_ID, EARNINGS_CORP_OWNER_ID],
-    title: posting.title,
-    issuedAt: corpReleased.releasedAt ?? new Date("2026-08-16T02:00:00.000Z"),
-    certificateHash: null,
-  });
-  const kurumsalVisa = await issueCareerVisaStamp(
-    { career: workerCareer, proofs: workerProofs },
-    {
+  let kurumsalVisa = null;
+  if (corpReleased) {
+    workerProofs.add({
       sourceKind: "FREELANCER_RELEASE",
       sourceId: corpReleased.id,
-      actorUserId: EARNINGS_CORP_OWNER_ID,
-    },
-  );
+      userId: EARNINGS_WORKER_ID,
+      actorUserIds: [EARNINGS_WORKER_ID, EARNINGS_CORP_OWNER_ID],
+      title: posting.title,
+      issuedAt: corpReleased.releasedAt ?? new Date("2026-08-16T02:00:00.000Z"),
+      certificateHash: null,
+    });
+    kurumsalVisa = await issueCareerVisaStamp(
+      { career: workerCareer, proofs: workerProofs },
+      {
+        sourceKind: "FREELANCER_RELEASE",
+        sourceId: corpReleased.id,
+        actorUserId: EARNINGS_CORP_OWNER_ID,
+      },
+    );
+  }
 
   return {
     freelancer: {
@@ -241,7 +252,7 @@ async function expectGateDenied(
   userId: string,
 ): Promise<void> {
   try {
-    await assertAcademyCareerVisaForListing(career, userId);
+    await assertAcademyCareerVisaForListing(career, userId, YZ_LISTING_VISA_SUBJECT);
     throw new Error("Vize kapısı vizeless teklifi geçirdi.");
   } catch (error) {
     if (error instanceof ForbiddenError) {

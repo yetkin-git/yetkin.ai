@@ -1,7 +1,8 @@
 /**
  * Kenar JWT mührü (fail-closed). Cookie/Bearer varlığı ipucu değildir.
  * HS256 → SUPABASE_JWT_SECRET; ES256/RS256 → Supabase JWKS.
- * Kimlik gerçeği (e-posta) handler `getUser`’dadır; kenar yalnız imza + exp + role.
+ * Kimlik gerçeği (e-posta) handler `getUser`’dadır; kenar imza + exp + role.
+ * Super Admin kapısı imzalı `email` claim’ini kanonik adrese karşı okur.
  */
 
 import {
@@ -13,12 +14,14 @@ import {
   type JWTVerifyOptions,
 } from "jose";
 import { isSupabaseUserId } from "@/lib/kernel/auth/ids";
+import { isFrozenShellPagePath } from "@/lib/kernel/compliance/circuit-breakers";
 import { isApiV1Pathname } from "@/lib/kernel/http/api-v1";
 import {
   isApiPathname,
   isEdgeOpenApiAuthKind,
   matchApiAuthKind,
 } from "@/lib/kernel/security/api-auth";
+import { isFrozenRoomApi } from "@/lib/kernel/security/edge-api-auth";
 import {
   hasBearerSessionHint,
   hasSupabaseAuthCookieHint,
@@ -207,6 +210,18 @@ function claimsAreAuthenticated(payload: JWTPayload): boolean {
   return payload["role"] === "authenticated";
 }
 
+function emailFromPayload(payload: JWTPayload): string | null {
+  const raw = payload.email;
+  return typeof raw === "string" && raw.trim() ? raw.trim() : null;
+}
+
+function actorFromPayload(payload: JWTPayload): { userId: string; email: string | null } | null {
+  if (!claimsAreAuthenticated(payload) || typeof payload.sub !== "string") {
+    return null;
+  }
+  return { userId: payload.sub, email: emailFromPayload(payload) };
+}
+
 export async function verifyEdgeAccessToken(
   token: string,
   env: EdgeJwtEnv = readEdgeJwtEnv(),
@@ -218,7 +233,7 @@ export async function verifyEdgeAccessToken(
 export async function verifyEdgeAccessTokenClaims(
   token: string,
   env: EdgeJwtEnv = readEdgeJwtEnv(),
-): Promise<{ userId: string } | null> {
+): Promise<{ userId: string; email: string | null } | null> {
   if (!looksLikeJwt(token)) {
     return null;
   }
@@ -239,10 +254,7 @@ export async function verifyEdgeAccessTokenClaims(
         new TextEncoder().encode(secret),
         verifyOptions(env, ["HS256"]),
       );
-      if (!claimsAreAuthenticated(payload) || typeof payload.sub !== "string") {
-        return null;
-      }
-      return { userId: payload.sub };
+      return actorFromPayload(payload);
     }
     if (alg === "ES256" || alg === "RS256") {
       const jwksUrl = supabaseJwksUrl(env.supabaseUrl);
@@ -254,10 +266,7 @@ export async function verifyEdgeAccessTokenClaims(
         remoteJwks(jwksUrl),
         verifyOptions(env, [...JWKS_ALGORITHMS]),
       );
-      if (!claimsAreAuthenticated(payload) || typeof payload.sub !== "string") {
-        return null;
-      }
-      return { userId: payload.sub };
+      return actorFromPayload(payload);
     }
     return null;
   } catch {
@@ -266,7 +275,7 @@ export async function verifyEdgeAccessTokenClaims(
 }
 
 export function needsEdgeJwtVerification(pathname: string, method?: string): boolean {
-  if (isProtectedCitizenPath(pathname)) {
+  if (isProtectedCitizenPath(pathname) || isFrozenShellPagePath(pathname)) {
     return true;
   }
   if (!isApiPathname(pathname)) {
@@ -274,6 +283,9 @@ export function needsEdgeJwtVerification(pathname: string, method?: string): boo
   }
   if ((method ?? "GET").toUpperCase() === "OPTIONS") {
     return false;
+  }
+  if (isFrozenRoomApi(pathname)) {
+    return true;
   }
   const kind = matchApiAuthKind(pathname, ROUTE_AUTH_MAP as Record<string, string>);
   if (!kind || isEdgeOpenApiAuthKind(kind)) {
@@ -285,6 +297,13 @@ export function needsEdgeJwtVerification(pathname: string, method?: string): boo
 export type EdgeSessionState = {
   verified: boolean;
   userId: string | null;
+  email: string | null;
+};
+
+const ANONYMOUS_EDGE_SESSION: EdgeSessionState = {
+  verified: false,
+  userId: null,
+  email: null,
 };
 
 export async function resolveEdgeSessionState(input: {
@@ -295,20 +314,20 @@ export async function resolveEdgeSessionState(input: {
   env?: EdgeJwtEnv;
 }): Promise<EdgeSessionState> {
   if (!needsEdgeJwtVerification(input.pathname, input.method)) {
-    return { verified: false, userId: null };
+    return ANONYMOUS_EDGE_SESSION;
   }
   const token = extractEdgeAccessToken({
     authorizationHeader: input.authorizationHeader,
     cookies: isApiV1Pathname(input.pathname) ? [] : input.cookies,
   });
   if (!token) {
-    return { verified: false, userId: null };
+    return ANONYMOUS_EDGE_SESSION;
   }
   const claims = await verifyEdgeAccessTokenClaims(token, input.env ?? readEdgeJwtEnv());
   if (!claims) {
-    return { verified: false, userId: null };
+    return ANONYMOUS_EDGE_SESSION;
   }
-  return { verified: true, userId: claims.userId };
+  return { verified: true, userId: claims.userId, email: claims.email };
 }
 
 export async function resolveEdgeSession(input: {

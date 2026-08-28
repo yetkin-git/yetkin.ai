@@ -2,7 +2,9 @@
 
 İnsan ops SSOT. Anayasa: `.system_docs/ANAYASA.md`. Ürün kodu bu dosyayı import etmez; ajan ve operatör buradan bağlar. Credential icat edilmez. Boş anahtar = dürüst kapalı yüzey.
 
-Müze (`yetkin.ai`) `.env` kopyalanmaz. Redis, GİB, Socket, Turnstile, ads, OAuth şişmesi, `LOCAL_MOCK_AUTH`, `MAINTENANCE_MODE`, `SUPABASE_SERVICE_ROLE_KEY` Rail kodunda yoktur.
+**Canlı reçete (A7):** Çalışan 4 oda (Akademi, Kariyer, Freelancer, Dashboard) + 4 sığınak (`/profil`, `/cuzdan`, `/pasaport`, `/admin`). “Çalışan 4 oda” **nakit iddiası taşımaz** — Freelancer: ilan/teklif/mesajlaşma çalışır; lisanslı split henüz bağlı değilse accept **503**. 410 envanteri `archived/` ve kenar 410’dadır; canlı `lib/` / `components/` tavanında donmuş oda yoktur. Vatandaş/Studio nesne deposu yoktur; akademi ders sesi `lesson-audios` istisnası `.system_docs/STORAGE_CONTRACT.md`. Hayalet altyapı adımları **ARŞİV / 410 (GEÇERSİZ)** bölümündedir — canlı bağlama değildir.
+
+Müze dizini (`yetkin_muze/`) OPS yasağıdır (tarihsel etiket S9-B Anayasa maddesi değildir): `.env` kopyalanmaz; git, indeks, webpack ve import dışıdır. Kör kopya yasaktır. Kamu markası `yetkin.ai`. GİB, Turnstile, ads, OAuth şişmesi, `LOCAL_MOCK_AUTH`, `MAINTENANCE_MODE`, `SUPABASE_SERVICE_ROLE_KEY` Rail kodunda yoktur. Socket.IO ürün yüzeyi yoktur. Redis varsayılan yoktur; paylaşılan rate-limit/sayaç için §7 ve §16.
 
 ---
 
@@ -26,7 +28,6 @@ Müze (`yetkin.ai`) `.env` kopyalanmaz. Redis, GİB, Socket, Turnstile, ads, OAu
 | `NOTICE_SMTP_HOST` / `NOTICE_MAIL_FROM` | bildirim | Beş vatandaş e-postası. İkisi de boşsa dürüst atlanır; nakit durmaz. Resend yok. |
 | `NOTICE_SMTP_PORT` / `_USER` / `_PASS` | bildirim | Port boşsa 587 + STARTTLS; 465 örtük TLS. |
 | `GEMINI_API_KEY` / `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` | LLM | En az bir sağlayıcı. Ham SDK dikeyde yasak. |
-| `DEVLABS_KEY_PEPPER` | kasa | Üretimde zorunlu; boşsa kod varsayılanı yalnız geliştirme. |
 | `RAIL_DRON_ORIGINS` | dron CORS | Yalnız `/api/v1`. Virgüllü origin allowlist. **Üretim / Closed Testing / TestFlight: boş bırak** — CORS başlığı yok (saf native Bearer). Joker `*` yasak. İstemci: `.system_docs/DRON_CLIENT_SPEC.md`. Native env: `apps/rail-is/.env.example`. Kapalı test: §15. |
 | `E2E_BASE_URL` | Playwright | Doluysa mevcut sunucuya vurur (`next dev` ikinci kez açılmaz). Boşsa spec kendi `127.0.0.1:3000` sürecini yönetir. |
 | `AI_PLATFORM_DAILY_CAP_MINOR` | bütçe | Boşsa kod varsayılanı. |
@@ -44,7 +45,7 @@ npm run ops:migrate
 
 1. `DIRECT_URL` (yoksa `DATABASE_URL`) okunur. Tanımsızsa fail: `.system_docs/OPS_RUNBOOK.md`.
 2. Host **`db.<ref>.supabase.co:5432`**. `pooler.supabase.com` ve port **6543** migrasyonda YASAK (`FOR UPDATE` / `$transaction` kilidi düşer). Biçim ve TCP ön kontrolü §2.1.
-3. `prisma migrate deploy` — şema + Studio `data_base64` CHECK + `http_idempotency_records` + D2 halkası (`20260816020000_academy_lesson_completions`, `20260816030000_d2_2_curriculum_seal_certificate_hash`, `20260816040000_d2_3_corporate_job_offers`). Disk klasörleri yoksa fail-closed.
+3. `prisma migrate deploy` — şema + `http_idempotency_records` + D2 halkası (`20260816020000_academy_lesson_completions`, `20260816030000_d2_2_curriculum_seal_certificate_hash`, `20260816040000_d2_3_corporate_job_offers`) + P3 donmuş oda DROP (`20260822010000_drop_frozen_room_tables`). Disk klasörleri yoksa fail-closed.
 4. Yedi SQL, kilitli sıra (yeni tablo icat edilmez; idempotent upsert):
 
    1. `20260814010000_handle_new_user_auth_sync.sql` — `handle_new_user` AFTER INSERT
@@ -55,7 +56,7 @@ npm run ops:migrate
    6. `20260814100000_handle_user_email_update.sql` — `handle_user_email_update` AFTER UPDATE
    7. `20260814110000_freelancer_job_seed.sql`
 
-5. Post-apply mühür yoksa fail-closed: `studio_digital_assets_data_base64_max_chars` (tavan **2097152** = `STUDIO_IMAGE_DATA_BASE64_MAX_CHARS`), `http_idempotency_records` unique `(user_id, route, key)`, D2.1 `academy_lesson_completions`, D2.2 `curriculum_seal` + `certificate_hash`, D2.3 `corporate_job_offers`.
+5. Post-apply mühür yoksa fail-closed: donmuş 23 tablo DROP (Studio `data_base64` CHECK **artık beklenmez** — tablo düşmüştür), `http_idempotency_records` unique `(user_id, route, key)`, D2.1 `academy_lesson_completions`, D2.2 `curriculum_seal` + `certificate_hash`, D2.3 `corporate_job_offers`. Bucket SQL / Studio CORS bu zincirin parçası değildir.
 
 Uygulama `DATABASE_URL` **session-mode** ister. Runtime da 6543 yasaktır.
 
@@ -122,7 +123,7 @@ Betik `prisma migrate deploy` öncesi aynı TCP ön kontrolünü çalıştırır
 npm run ops:migrate
 ```
 
-Post-apply: CHECK 2097152 + `http_idempotency_records` unique. Yeşil olmadan “şema bağlı” denmez.
+Post-apply: donmuş tablolar DROP + `http_idempotency_records` unique. Yeşil olmadan “şema bağlı” denmez.
 
 Node `pg` 8.22 `sslmode=require` değerini `verify-full` sayar. Supabase Direct host özel **Root 2021 CA** kullanır; Prisma CLI (libpq) aynı URI ile bağlanır, Node `pg` `self-signed certificate in certificate chain` ile düşer. `ops:migrate` SQL istemcisi ve runtime `Pool` `uselibpqcompat=true` ekler — şifreleme açık kalır, özel CA Mozilla demetine düşmez. URI’yi havuza çevirmek veya `NODE_TLS_REJECT_UNAUTHORIZED=0` yazmak yasaktır.
 
@@ -138,11 +139,25 @@ Node `pg` 8.22 `sslmode=require` değerini `verify-full` sayar. Supabase Direct 
 
 ---
 
-## 4. PayTR webhook (canlı anahtar + Bildirim URL)
+## 4. PayTR — iki port (Merchant ≠ Pazaryeri Split)
 
-Kanonik bildirim yolu: **`{NEXT_PUBLIC_APP_URL}/api/payments/webhooks/paytr`**. `/api/paytr/callback` diye ikinci ağız yoktur; panel bu kanonik HTTPS URL’yi ister.
+PayTR tek düğme değildir. Anayasa S43 iki kapıyı ayırır. Birinin açılması diğerini yeşile boyamaz.
 
-### 4.1 `.env` canlı üçlü
+| Port | Vatandaş adı | Ne döner? | Kod | İdari kapı |
+|------|----------------|-----------|-----|------------|
+| **Merchant Port** | Akademi / üye işyeri (iFrame API) | Cüzdan CREDIT → kurs DEBIT → sınav → mühür | `paymentsPort.merchant`, `/api/wallet/top-up`, webhook | Mağaza paneli + `PAYTR_MERCHANT_ID/KEY/SALT` üçlüsü |
+| **Pazaryeri Split Port** | Freelancer emaneti | `beginHold` / `settle`; usta IBAN’ına kuruluş dağıtır | `paymentsPort.split` (`marketplace-split.ts`) | Alt satıcı onboard + lisanslı Pazaryeri sözleşmesi. Gün 0 **kasıtlı stub** (`not_configured` → kabul 503) |
+
+- Health `checks.payments=configured` yalnız **Merchant** üçlüsünün dolu olduğunu söyler. Split hazır değildir.
+- Merchant açık, split kapalı: akademi halkası dönebilir; freelancer kabul 503 kalır. Bu doğrudur.
+- Wallet-escrow, split gelene kadar “geçici iç banka” olarak **yeniden büyütülmez.**
+- Sahte CREDIT, admin bakiye, `PAYTR_ALLOW_MOCK_CHECKOUT` üretimde yasaktır.
+
+P1 saha hazırlığı **Merchant** üçlüsü + Bildirim URL’dir (§4.1–4.3). Split ayrı kapıdır (P2); bu bölüm onu açmaz.
+
+Merchant kanonik bildirim yolu: **`{NEXT_PUBLIC_APP_URL}/api/payments/webhooks/paytr`**. `/api/paytr/callback` diye ikinci ağız yoktur; panel bu kanonik HTTPS URL’yi ister.
+
+### 4.1 `.env` canlı üçlü — Merchant Port
 
 Laboratuvar şablonu (`.env.example`) `PAYTR_SANDBOX="1"` taşır; **üretim reçetesi değildir.** Canlı mağaza paneli → Destek / Entegrasyon bilgileri:
 
@@ -154,7 +169,7 @@ Laboratuvar şablonu (`.env.example`) `PAYTR_SANDBOX="1"` taşır; **üretim re�
 3. `PAYTR_ALLOW_MOCK_CHECKOUT` üretimde boş. `"true"` throw eder. CREDIT yazmaz.
 4. `NEXT_PUBLIC_APP_URL` üretimde `https://` genel köken (localhost yasak). `merchant_ok_url` / `merchant_fail_url` bu kökene bağlıdır; CREDIT yazmaz.
 5. İsteğe bağlı: `PAYTR_WEBHOOK_IP_ALLOWLIST` — PayTR Destek’ten alınan bildirim IP’leri, virgülle. Boş bırakılırsa yalnız HMAC durur (lab kırılmaz). Doluysa listede olmayan kaynak HTTP 403, defter yazılmaz.
-6. Süreç yeniden (`next start` / platform secret sync). Anahtar varlığı ≠ mağaza canlılığı: `GET /api/health` `checks.paytr=configured` yalnız üçlünün dolu olduğunu söyler.
+6. Süreç yeniden (`next start` / platform secret sync). Anahtar varlığı ≠ mağaza canlılığı: `GET /api/health` `checks.payments=configured` yalnız üçlünün dolu olduğunu söyler.
 
 Canlı ve test anahtar çiftini karıştırma. Preview ortamına canlı üçlü koyma; Preview’da üçlü boş kalır (dürüst `missing_credentials`).
 
@@ -190,7 +205,7 @@ PayTR üye işyeri paneli (iFrame API):
 - Üretimde **ikisinden biri** boşsa `serve()` açılmaz. `/api/jobs/inngest` GET/POST/PUT **503** (`Inngest Cloud anahtarları tanımlı değil.`). Sahte event gövdesi handler'a inmez; imza doğrulaması çalışmaz çünkü serve bağlanmaz.
 - `INNGEST_DEV` üretimde bypass etmez. Geliştirmede boş Cloud anahtarı yerel Inngest Dev'e aittir; üretim kilidini açmaz.
 - Geliştirme dumanı: Cloud yoksa `.env.local` içinde `INNGEST_DEV=1` (şablona atama yok). Aksi halde `serve()` çağrılmaz — SDK 500 yerine 503. `GET /api/health` `checks.inngest` yalnız Cloud sicilidir (boş anahtar = `unconfigured`).
-- İşler: PayTR valör (30 dk, `take: 50`), emanet TTL (14 gün PENDING iade), emanet TTL yaklaşım (48 saat kala, hold başına bir kez), Arena tur tiki. Socket yok.
+- İşler: PayTR valör (30 dk, `take: 50`), emanet TTL (14 gün PENDING iade), emanet TTL yaklaşım (48 saat kala, hold başına bir kez). **`paytr-clearing-scan`:** `isPaymentsPortConfigured()` false ise **no-op** — DB tarama yok (0 hit), dürüst `paytr.clearing.scan.noop` log, sahte PENDING avı yok. Donmuş oda (Arena tur) yeni iş açılmaz. Socket yok.
 
 ### 5.1 Üretim 503 çıkış (Inngest + PayTR webhook)
 
@@ -218,10 +233,27 @@ npm run ops:runtime-readiness
 
 1. Canlı üçlü §4.1. `PAYTR_SANDBOX` / mock üretimde yok.
 2. Panel Bildirim URL: `{NEXT_PUBLIC_APP_URL}/api/payments/webhooks/paytr`.
-3. `GET /api/health` → `checks.paytr = "configured"`. Mağaza canlılığı bu alan **değildir**; get-token `başarılı` ayrı idari kapıdır.
+3. `GET /api/health` → `checks.payments = "configured"`. Mağaza canlılığı bu alan **değildir**; get-token `başarılı` ayrı idari kapıdır.
 4. Başlangıç logu `ops.paytr.unconfigured` varsa üçlü boş.
 
-SMTP boş üretim bloğu **değildir**; beş bildirim atlanır, nakit durmaz.
+SMTP boş üretim bloğu **değildir**; beş bildirim atlanır (`citizen.notice.mail.skipped` / `smtp_unconfigured`), nakit durmaz. Partial SMTP (yalnız host veya yalnız from) de atlanır — TCP denemesi yok.
+
+Webhook clearing hata verip Inngest'e defer ederken `INNGEST_EVENT_KEY` boşsa SDK'ya inilmez: **503** `deferred_unacked` / `inngest_unconfigured` (PayTR yeniden dener). Sahte ACK yok.
+
+### 5.2 Hayalet emanet envanteri
+
+```
+npm run ops:ghost-wallet-holds
+npm run ops:ghost-wallet-holds -- --strict
+```
+
+`wallet_id IS NOT NULL` PENDING + ledger `escrow-hold:{ref}` DEBIT sayımı. **CREDIT / REFUNDED / RELEASED yazılmaz** — motor fail-closed (`EscrowWalletFundedHoldError`). Temizlik = Super Admin incelemesi, otomatik bakiye düzeltme değil.
+
+### 5.3 P3 donmuş oda DROP
+
+Disk: `prisma/migrations/20260822010000_drop_frozen_room_tables/migration.sql` — 23 `DROP TABLE IF EXISTS … CASCADE`. Hosted apply disk planı bu SQL'i mühürler. Migrate **yalnız** Super Admin `ops:migrate` / hosted apply kararıyla; bu runbook paneli açmaz.
+
+`_prisma_migrations` satırı boş gövdeyle applied ise Prisma dosya değişikliğini yeniden koşmaz — yeni DROP migrasyonu gerekir.
 
 ---
 
@@ -238,11 +270,13 @@ Site URL: `NEXT_PUBLIC_APP_URL`.
 
 ---
 
-## 7. Tek süreç hız tavanı
+## 7. Tek süreç hız tavanı (ve paylaşılan store kapısı)
 
-HTTP hız tavanı (`lib/kernel/security/http-rate-limit.ts`) **süreç-içi bellek** `Map`’tir: cüzdan yükleme IP/kullanıcı + auth IP. Çok instance / serverless paylaşılmaz.
+HTTP hız tavanı (`lib/kernel/security/http-rate-limit.ts`) **varsayılan** süreç-içi bellek `Map`’tir: cüzdan yükleme IP/kullanıcı + auth IP. Çok instance / serverless paylaşılmaz.
 
-**Dürüst tavan:** tek Node süreci (tek VM / tek `next start`). İkinci replica aynı IP kotasını görmez — sessiz delik. Paylaşılan store (Redis vb.) bu gövdede yoktur ve T0’da eklenmez. Yatay ölçek öncesi bu cümleyi yalanlama veya store’u taşı.
+**Dürüst tavan (gün 0):** tek Node süreci (tek VM / tek `next start`). İkinci replica aynı IP kotasını görmez — sessiz delik.
+
+**Altyapı kapısı (Faz 2):** Paylaşılan store (Redis vb.) Anayasa mutlak yasağı değildir. Yatay ölçekte rate-limit / sayaç için OPS kararıyla eklenebilir. Ürün yüzeyi olarak Socket.IO veya “Redis çünkü ölçek” sloganı açılmaz — ihtiyaç, ölçüm ve fail-closed sözleşmesi yazılır.
 
 LLM bütçe kalkanı ayrıdır (kullanıcı/günlük token); o da süreç/DB karışımıdır, küme kotası değildir.
 
@@ -254,13 +288,11 @@ LLM bütçe kalkanı ayrıdır (kullanıcı/günlük token); o da süreç/DB kar
 
 ---
 
-## 9. Studio tavanı ve katalog
+## 9. Katalog (canlı)
 
-- Görsel `data_base64` CHECK adı `studio_digital_assets_data_base64_max_chars`; tavan `STUDIO_IMAGE_DATA_BASE64_MAX_CHARS` = **2097152**. Aşım 413; debit yok. Decoded tavan `STUDIO_IMAGE_DECODED_MAX_BYTES` = 1572864.
-- Nesne depo: imzalı PUT (`STUDIO_STORAGE_BACKEND = "object-store"`), bucket `studio-assets`, path `{userId}/{generationId}.{png|jpg|webp}`. Prisma hash/mime/size/path; `data_base64` yeni üretimde boş string. `service_role` yok.
-- Bucket + `storage.objects` RLS: `supabase/storage/studio-assets.sql` — **Dashboard SQL Editor**. `ops:migrate` kilitli yedi dosyaya eklenmez. Prisma metadata migrasyonu `prisma migrate deploy` ile gelir.
-- Storage CORS (Dashboard, kodla yazılmaz): origin = `NEXT_PUBLIC_APP_URL` origin (path yok). Metod **yalnız PUT**. `Access-Control-Allow-Origin: *` ve GET/DELETE/POST/PATCH **yasak**. Doğrulama: `npm run ops:storage-cors` (`assertStudioStorageCorsHeaders`). Kamu GET / CDN yok; tezgâh imzalı GET.
-- Katalog birimleri `REQUIRED_CATALOG_DEFINITIONS` + SQL tohum. `studio:generation:image` ve `devlabs:generation:code` ops tohumundadır; yoksa üretim vatandaş dilinde 4xx, debit yok.
+Katalog birimleri `REQUIRED_CATALOG_DEFINITIONS` + SQL tohum. Kod sabiti satış fiyatı yok; Super Admin satırı `ops:migrate` ile ezilmez (`updated_by` korunur).
+
+**Vatandaş/Studio nesne deposu yoktur.** Studio bucket, imzalı PUT, Dashboard `studio-assets.sql`, Storage CORS ve `studio_digital_assets_data_base64_max_chars` CHECK canlı reçete değildir — `STORAGE_CONTRACT.md` + **ARŞİV / 410 (GEÇERSİZ)**. Akademi ders TTS (`lesson-audios`) dar istisnadır; operatör Studio bucket açmaz.
 
 ---
 
@@ -279,13 +311,15 @@ Kritik yazmalar `Idempotency-Key` (UUID) ister: `POST /api/wallet/top-up`, akade
 
 ---
 
-## 12. Odalar (mutlu yol dumanı)
+## 12. Odalar (dürüst vatandaş yolları)
 
-Omurga bağlandıktan sonra vatandaş yolları: `/academy` (`rail-temel`), `/freelancer`, `/yetkinilan`, `/studio`. Kenar yazma kabukları oturum ister. S43 banka çekimi kapalıdır.
+**Canlı mutlu yol:** `/academy` (`rail-temel`), `/career`, `/freelancer`, `/dashboard` + sığınaklar `/profil`, `/cuzdan`, `/pasaport`, `/admin`. Kenar yazma kabukları oturum ister. S43 banka çekimi kapalıdır.
+
+**410 (donmuş — mutlu yol değildir):** `/studio`, `/yetkinilan` (ve diğer donmuş oda sayfa/API’leri) kenarda **HTTP 410** HTML/JSON döner. Operatör bunları “bağlandı / duman yeşili” saymaz. Envanter: `archived/` + `proxy` / `app/api/_gone`.
 
 T3 akademi nakit döngüsü (canlı Direct `:5432` + onaylı vatandaş): `npm run ops:t3-academy-loop`. Sahte bakiye ve mock checkout yok. PayTR sandbox get-token + HMAC webhook → `LedgerEntry` CREDIT / `CLEARED`, sonra `rail-temel` kilit / satın alma / müfredat / sınav / `/academy/dogrula/[hash]`.
 
-T4 kazanç halkası (canlı Direct `:5432` + akademi vizesi olan satıcı + müşteri nakit): `npm run ops:t4-freelancer-loop`. Vizesiz teklif HTTP 403. OPEN ilan → katalog `escrow:hold` bps → `accept` `EscrowHold` PENDING → teslim → `release` hakediş → `FREELANCER_RELEASE` vize. Sahte bakiye ve ikinci bakiye kolonu yok.
+T4 kazanç halkası (canlı Direct `:5432` + akademi vizesi olan satıcı + müşteri nakit): `npm run ops:t4-freelancer-loop`. Vizesiz teklif HTTP 403. OPEN ilan → katalog `escrow:hold` bps → `accept` — **PayTR Pazaryeri Split stub iken HTTP 503** (Merchant açık olsa bile). Split gelmeden “freelancer nakit halkası yeşil” denmez. Sahte bakiye ve ikinci bakiye kolonu yok.
 
 ---
 
@@ -295,19 +329,17 @@ T4 kazanç halkası (canlı Direct `:5432` + akademi vizesi olan satıcı + mü�
 2. `DATABASE_URL` + `DIRECT_URL` (`db.<ref>.supabase.co:5432`) — §2.1 Direct Port protokolü
 3. `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 4. Direct TCP `:5432` yeşil (IPv6 rota veya IPv4 add-on; havuz yok)
-5. `npm run ops:migrate`
-6. Dashboard SQL Editor: `supabase/storage/studio-assets.sql`
-7. Storage CORS: Allowed Origins = `NEXT_PUBLIC_APP_URL` origin; Allowed Methods = PUT; `*` yok. `npm run ops:storage-cors`
-8. `/register` → UUID → `SUPER_ADMIN_USER_ID` → süreç yeniden
-9. PayTR webhook + Inngest **çift** anahtar (`INNGEST_EVENT_KEY` + `INNGEST_SIGNING_KEY`) + Redirect URLs
-10. Bildirim SMTP (`NOTICE_SMTP_HOST` + `NOTICE_MAIL_FROM`) — boşsa e-posta atlanır; halka yine döner. Resend yok.
-11. `npm run ops:runtime-readiness` (üretimde çıkış 0). `GET /api/health` 200 **ve** `checks.inngest = configured`. `/api/jobs/inngest` üretimde 503 değil.
+5. `npm run ops:migrate` — bucket SQL / Studio CORS **yok** (`STORAGE_CONTRACT.md`)
+6. `/register` → UUID → `SUPER_ADMIN_USER_ID` → süreç yeniden
+7. PayTR webhook + Inngest **çift** anahtar (`INNGEST_EVENT_KEY` + `INNGEST_SIGNING_KEY`) + Redirect URLs
+8. Bildirim SMTP (`NOTICE_SMTP_HOST` + `NOTICE_MAIL_FROM`) — boşsa e-posta atlanır; halka yine döner. Resend yok.
+9. `npm run ops:runtime-readiness` (üretimde çıkış 0). `GET /api/health` 200 **ve** `checks.inngest = configured`. `/api/jobs/inngest` üretimde 503 değil.
 
 ---
 
 ## 14. Canlıya çıkış mührü
 
-Beş dikey oda (Akademi, Freelancer, Yetkinİlan, Studio, DevLabs) ve kenar JWKS/CSP kodda mühürlüdür. Bu dosya insan ops SSOT’tur. D3 **üç halka** (öğrenme → kanıt → kazanç) kodda mühürlüdür ve fail-closed’dır. Günlük mühür raporları `/docs` altındadır; yokluğu ops bağını kırmaz. `GET /api/health` JSON `phase` taşımaz; sahte `phase` yazılmaz.
+**Asil sicil (A7):** Çalışan 4 oda (Akademi, Kariyer, Freelancer, Dashboard) + 4 sığınak; 410 envanteri `archived/` + kenar 410. “Beş dikey oda”, Yetkinİlan/Studio/DevLabs canlı ürün cümlesi **yasaktır**. Kenar JWKS/CSP kodda mühürlüdür. Bu dosya insan ops SSOT’tur. D3 **üç halka** (öğrenme → kanıt → kazanç) kodda mühürlüdür ve fail-closed’dır; kazanç halkası split stub iken accept **503** kalır. Günlük mühür raporları `/docs` altındadır; yokluğu ops bağını kırmaz. `GET /api/health` JSON `phase` taşımaz; sahte `phase` yazılmaz.
 
 Kurumsal altıncı vitrin diye açılmaz. On üçüncü oda yasaktır. S43 çekim kapalıdır. Üretimde `PAYTR_SANDBOX` / mock checkout / boş `INNGEST_SIGNING_KEY` / boş `INNGEST_EVENT_KEY` fail-closed.
 
@@ -354,7 +386,7 @@ Kenar `/api/v1` (health ve `OPTIONS` hariç) `X-Rail-Min-Version` ister. Bugün 
 |------|----------|-----------------|----------|
 | 400 | Başlık yok veya geçersiz | `"Sürüm başlığı gerekli."` / `"Sürüm başlığı geçersiz."` | Paket regress; 426 değildir. |
 | 401 | Bearer yok / çerez-only / JWT fail | `"Oturum gerekli."` | Refresh; olmazsa giriş. Sürüm değil. |
-| 426 | İstemci `< minVersion` | `"Bu uygulama güncel değil. Rail İş'i mağazadan güncelle."` | **Eski APK/IPA.** Mağaza yeni build. |
+| 426 | İstemci `< minVersion` | `"Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle."` | **Eski APK/IPA.** Mağaza yeni build. |
 | 426 | İstemci `> apiVersion` | `"Bu sunucu henüz o sözleşmeyi konuşmuyor."` | **Sunucu geride.** Amiral’i yükselt; minVersion’ı düşürme. |
 
 **Operasyonel sıra (426 görüldüğünde):**
@@ -375,3 +407,105 @@ Sözleşme büyüyünce (yeni zorunlu hop / kırıcı DTO) `RAIL_API_MIN_VERSION
 2. Dron env: üç `EXPO_PUBLIC_*` dolu; `service_role` yok.
 3. İnceleme notu: emanet vardır; IAP yoktur; yükleme web `/cuzdan`; vizesiz teklif 403; iade/sohbet native’de yok.
 4. Hâlâ kapalı (paket kapsamı değil): `GET /api/v1/freelancer/jobs/{id}`, `GET …/messages`, dron `refund` / `dispute` / top-up / native IAP, `POST …/deliver`, 13. oda, S43 çekim.
+
+---
+
+## 16. Anayasadan taşınan operasyon tavanları (Faz 2)
+
+Bu maddeler güvenlik kırmızı çizgisi değildir; altyapı / ürün tavanıdır. Anayasa kısa kalsın diye burada durur. Donmuş oda kilitleri ve Studio depo talimatları **ARŞİV / 410** bölümündedir — canlı reçete değildir.
+
+### 16.1 LLM rol tavanı
+
+8 kanonik rol tavanı kodda mühürlüdür (`verify:ai-gateway` / constitution surfaces). `VOICE_TTS` yalnız Akademi dinleme (`generateSpeech`); `VIDEO_GEN` fail-closed. Ham SDK dikeyde yasaktır.
+
+### 16.2 SEN aksı
+
+`npm run verify:sen-axis` marka/dil taramasıdır. Prebuild derleme kapısında **yoktur**. `verify:grep-seals` / `verify:nightly` kovasındadır. Ürün kalitesi ≠ mali/yasal kırmızı çizgi.
+
+---
+
+## 17. V1 hop vs web-only yazma envanteri (Faz 2)
+
+SSOT hop listesi: `lib/kernel/http/v1-contract.ts` (`RAIL_V1_HOPS`, 16 kayıt). Amiral çerezle `/api/...`, Dron Bearer ile `/api/v1/...` aynı handler’ı konuşur. Aşağıdaki ayrım **bilinçlidir**.
+
+### 17.1 V1 hop sicilinde (Amiral + Dron protokolü)
+
+| Hop id | Method | Yazma? | Not |
+|--------|--------|--------|-----|
+| health | GET | hayır | public |
+| academy-certificate | GET | hayır | public hash doğrulama |
+| academy-pulse | GET | hayır | Bearer |
+| **academy-purchase** | **POST** | **evet** | Idempotency. **Amiral + lab (kanonik `/api/...`).** Dron `/api/v1` kenarda **403** (`RAIL_V1_HOP_DRON_FORBIDDEN`); handler defense-in-depth aynı. `nativeStore: "forbidden"`, `RAIL_V1_DRON_FORBIDDEN_HOP_IDS`. Native IAP yasak. |
+| auth-session | GET | hayır | |
+| wallet-strip | GET | hayır | top-up hop değildir |
+| freelancer-jobs | GET | hayır | |
+| client-job-bids | GET | hayır | owner secrets |
+| **freelancer-bid** | **POST** | **evet** | Diyar B |
+| **freelancer-accept** | **POST** | **evet** | Diyar B; split yoksa 503 |
+| freelancer-contracts | GET | hayır | |
+| **freelancer-delivery** | **POST** | **evet** | messages |
+| **freelancer-release** | **POST** | **evet** | |
+| **freelancer-refund** | **POST** | **evet** | |
+| career-pulse | GET | hayır | |
+| career-visas | GET | hayır | |
+
+### 17.2 Bilinçli web-only (Diyar A / Amiral çerez — v1 hop değil)
+
+Akademi pedagoji ve kanıt yazmaları native drona açılmaz (IAP / mühür iade riski):
+
+| Uç | Method | Gerekçe |
+|----|--------|---------|
+| `/api/academy/courses/[id]/exam` | GET/POST | Sınav oturumu + puan — Diyar A |
+| `/api/academy/courses/[id]/listen` | POST | TTS pedagoji — Diyar A |
+| `/api/academy/courses/[id]/lock` | POST | Fiyat kilidi — Amiral tahsilat öncesi |
+| `/api/academy/courses/[id]/curriculum` | POST | Ders tamamla — Diyar A |
+| `/api/academy/reviews` | POST | Ders yorumu |
+| `/api/academy/certificates` | GET | Kendi listesi (public hash hop ayrı) |
+| `/api/career/portfolio` | GET | Portföy oturum kilidi; v1’de pulse/visas var, portfolio hop yok |
+
+### 17.3 Kernel / admin web-only (dron dışı)
+
+| Uç | Method | Not |
+|----|--------|-----|
+| `/api/wallet/top-up` | POST | PayTR; v1 hop değildir — web `/cuzdan` |
+| `/api/payments/webhooks/paytr` | POST | PSP callback |
+| `/api/profile` | PATCH | |
+| `/api/auth/password` / `logout` | POST | |
+| `/api/ai/chat` | POST | |
+| `/api/admin/*` | PATCH/POST | Super Admin |
+| `/api/freelancer/jobs` | POST | İlan oluşturma — lab hop’ta yok; PO onayı |
+| `/api/freelancer/squad` | POST | |
+| `/api/freelancer/**/dispute` | POST | |
+| `/api/jobs/inngest` | — | Inngest serve |
+
+**Kabul cümlesi:** Dış sözleşme = 16 hop + bu web-only listesi; ikisi de bilinçli. Diyar A native mağaza submit yok.
+
+---
+
+## ARŞİV / 410 (GEÇERSİZ)
+
+**Durum:** Canlı bağlama reçetesi değildir. Operatör bunları provision etmez, Dashboard’da çalıştırmaz, “eksik adım” ticket’ı açmaz. Studio/DevLabs/Junior/Yetkinİlan HTTP **410**. Disk: `archived/` + kenar 410. Sözleşme: `.system_docs/STORAGE_CONTRACT.md` (vatandaş/Studio depo yok; akademi `lesson-audios` istisnası canlıdır, bu arşiv listesinde değildir).
+
+### A.1 Env (donmuş)
+
+| Anahtar | Not |
+|---------|-----|
+| `DEVLABS_KEY_PEPPER` | DevLabs 410. Boşsa tarihsel kod varsayılanı; `ops:runtime-readiness` üretim bloğu **değildir**. Canlı `.env` tablosunda yoktur. |
+
+### A.2 Studio nesne depo (ölü talimat)
+
+Aşağıdakiler **geçersizdir** — canlı §9 / §13’te yoktur:
+
+- Bucket `studio-assets`; imzalı PUT (`STUDIO_STORAGE_BACKEND = "object-store"`); path `{userId}/{generationId}.{png|jpg|webp}`
+- Dashboard SQL Editor: `supabase/storage/studio-assets.sql`
+- Storage CORS: origin = `NEXT_PUBLIC_APP_URL`; metod yalnız PUT; `npm run ops:storage-cors`
+- CHECK `studio_digital_assets_data_base64_max_chars` tavan **2097152**; decoded **1572864**. P3 sonrası tablo DROP — post-apply bu CHECK’i **beklemez**
+- Katalog hayalet birimleri `studio:generation:image`, `devlabs:generation:code` — 410 odanın tarihsel tohumu; canlı mutlu yol değildir
+
+### A.3 Junior / EİDS / Yetkinİlan (donmuş kilit — “yapılacak iş” değil)
+
+Junior 410; production vekâlet / harç donuk (`assertJuniorProductionOpen` / `test:frozen`). Yetkinİlan emlak/vasıta: teklif ve emanet bağlanmaz; EİDS’siz kamu ilan açılmaz. Bunlar backlog ticket’ı değildir — **kapalı yüzey**.
+
+### A.4 Tarihsel mutlu yol (yasak cümle)
+
+Yanlış: vatandaş yolları `/yetkinilan`, `/studio` “omurga bağlandı”. Doğru: kenar **410** HTML/JSON. Yanlış: “beş dikey oda (Akademi, Freelancer, Yetkinİlan, Studio, DevLabs)”. Doğru: **çalışan 4 oda + 4 sığınak**; 410 envanteri `archived/` + kenar.

@@ -1,0 +1,92 @@
+// Junior dikey dilimi — Faz 7A TR yaş kapısı + MEB + ebeveyn vekâleti (S1-A, S44-C).
+// Yetişkin emanet OS'inin çocuk kopyası değildir. Harçlık Wallet satırı değildir.
+// User şişmez: çocuk profili + veli ters ilişkileri + harçlık sahipliği.
+// guardianUserId yalnız ACTIVE (GUARDIAN_LINKED) bağda doludur; rastgele iddia yazılmaz.
+
+enum JuniorProfileStatus {
+  PENDING_GUARDIAN
+  GUARDIAN_LINKED
+}
+
+enum GuardianInviteInitiator {
+  CHILD
+  GUARDIAN
+}
+
+enum GuardianInviteStatus {
+  PENDING
+  CONSUMED
+  REVOKED
+}
+
+/// 18 yaş altı vatandaş. dateOfBirth UI yalanı değil.
+/// Vekâlet SSOT: iki taraflı davet token'ı; guardianUserId yalnız ACTIVE bağda.
+model JuniorProfile {
+  id                String              @id @default(cuid())
+  userId            String              @unique @map("user_id")
+  dateOfBirth       String              @map("date_of_birth")
+  guardianUserId    String?             @map("guardian_user_id")
+  jurisdiction      String              @default("TR")
+  status            JuniorProfileStatus @default(PENDING_GUARDIAN)
+  guardianConsentAt DateTime?           @map("guardian_consent_at")
+  mebTrackKey       String?             @map("meb_track_key")
+  createdAt         DateTime            @default(now()) @map("created_at")
+  updatedAt         DateTime            @updatedAt @map("updated_at")
+
+  child     User                  @relation("JuniorProfileChild", fields: [userId], references: [id], onDelete: Cascade)
+  guardian  User?                 @relation("JuniorProfileGuardian", fields: [guardianUserId], references: [id], onDelete: Restrict)
+  allowance JuniorAllowance?
+  invites   GuardianInviteToken[]
+
+  @@index([guardianUserId, status])
+  @@map("junior_profiles")
+}
+
+/// Tek kullanımlık TTL'li vekâlet daveti. Ham token yazılmaz; yalnız HMAC hash.
+model GuardianInviteToken {
+  id                 String                   @id @default(cuid())
+  userId             String                   @map("user_id")
+  tokenHash          String                   @unique @map("token_hash")
+  tokenPrefix        String                   @map("token_prefix")
+  initiatorRole      GuardianInviteInitiator  @map("initiator_role")
+  juniorProfileId    String?                  @map("junior_profile_id")
+  counterpartUserId  String?                  @map("counterpart_user_id")
+  status             GuardianInviteStatus     @default(PENDING)
+  childApprovedAt    DateTime?                @map("child_approved_at")
+  guardianApprovedAt DateTime?                @map("guardian_approved_at")
+  expiresAt          DateTime                 @map("expires_at")
+  consumedAt         DateTime?                @map("consumed_at")
+  createdAt          DateTime                 @default(now()) @map("created_at")
+  updatedAt          DateTime                 @updatedAt @map("updated_at")
+
+  initiator     User           @relation("GuardianInviteInitiator", fields: [userId], references: [id], onDelete: Cascade)
+  counterpart   User?          @relation("GuardianInviteCounterpart", fields: [counterpartUserId], references: [id], onDelete: SetNull)
+  juniorProfile JuniorProfile? @relation(fields: [juniorProfileId], references: [id], onDelete: SetNull)
+
+  @@index([userId, status])
+  @@index([expiresAt, status])
+  @@map("junior_guardian_invites")
+}
+
+/// Çocuk harçlığı — ayrı risk sınıfı. Çocuk Wallet'ına CREDIT yok. amountMinor kalan havuz.
+model JuniorAllowance {
+  id                     String   @id @default(cuid())
+  juniorProfileId        String   @unique @map("junior_profile_id")
+  userId                 String   @map("user_id")
+  guardianUserId         String   @map("guardian_user_id")
+  currencyCode           String   @db.Char(3) @map("currency_code")
+  amountMinor            Int      @default(0) @map("amount_minor")
+  weeklyCapMinor         Int      @map("weekly_cap_minor")
+  grantedThisPeriodMinor Int      @default(0) @map("granted_this_period_minor")
+  periodStartedAt        DateTime @map("period_started_at")
+  createdAt              DateTime @default(now()) @map("created_at")
+  updatedAt              DateTime @updatedAt @map("updated_at")
+
+  profile  JuniorProfile @relation(fields: [juniorProfileId], references: [id], onDelete: Cascade)
+  child    User          @relation("JuniorAllowanceChild", fields: [userId], references: [id], onDelete: Cascade)
+  guardian User          @relation("JuniorAllowanceGuardian", fields: [guardianUserId], references: [id], onDelete: Restrict)
+
+  @@index([userId])
+  @@index([guardianUserId])
+  @@map("junior_allowances")
+}

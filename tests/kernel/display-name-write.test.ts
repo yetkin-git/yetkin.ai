@@ -54,7 +54,12 @@ describe("profil displayName PATCH yazma", () => {
       getStore: () => createMemoryDisplayNameStore([profile()]),
     });
     expect(response.status).toBe(401);
-    expect(await response.json()).toEqual({ ok: false, error: DISPLAY_NAME_UNAUTHORIZED });
+    expect(await response.json()).toMatchObject({
+      ok: false,
+      error: DISPLAY_NAME_UNAUTHORIZED,
+      apiVersion: "1",
+      data: null,
+    });
   });
 
   it("oturum sahibi görünen adı 200 ile günceller; e-posta dokunulmaz", async () => {
@@ -67,12 +72,12 @@ describe("profil displayName PATCH yazma", () => {
     expect(response.status).toBe(200);
     const body = (await response.json()) as {
       ok: boolean;
-      profile: { displayName: string; email: string; userId: string };
+      data: { profile: { displayName: string; email: string; userId: string } };
     };
     expect(body.ok).toBe(true);
-    expect(body.profile.displayName).toBe("Ayşe Kaya");
-    expect(body.profile.email).toBe("vatandas@yetkin.rail");
-    expect(body.profile.userId).toBe(CITIZEN_ID);
+    expect(body.data.profile.displayName).toBe("Ayşe Kaya");
+    expect(body.data.profile.email).toBe("vatandas@yetkin.rail");
+    expect(body.data.profile.userId).toBe(CITIZEN_ID);
     expect(store.snapshot(CITIZEN_ID)?.displayName).toBe("Ayşe Kaya");
     expect(store.snapshot(CITIZEN_ID)?.email).toBe("vatandas@yetkin.rail");
   });
@@ -88,7 +93,12 @@ describe("profil displayName PATCH yazma", () => {
       getStore: () => store,
     });
     expect(response.status).toBe(400);
-    expect(await response.json()).toEqual({ ok: false, error: DISPLAY_NAME_INVALID });
+    expect(await response.json()).toMatchObject({
+      ok: false,
+      error: DISPLAY_NAME_INVALID,
+      apiVersion: "1",
+      data: null,
+    });
     expect(store.snapshot(CITIZEN_ID)?.displayName).toBeNull();
     expect(store.snapshot(OTHER_ID)?.displayName).toBe("Korunan");
   });
@@ -118,7 +128,12 @@ describe("profil displayName PATCH yazma", () => {
       getStore: () => createMemoryDisplayNameStore([]),
     });
     expect(missing.status).toBe(404);
-    expect(await missing.json()).toEqual({ ok: false, error: DISPLAY_NAME_NOT_FOUND });
+    expect(await missing.json()).toMatchObject({
+      ok: false,
+      error: DISPLAY_NAME_NOT_FOUND,
+      apiVersion: "1",
+      data: null,
+    });
   });
 
   it("yazma yolu /api/profile; tavan 80 karakter", () => {

@@ -72,7 +72,10 @@ describe("çekirdek emanet iade kancası", () => {
       holdBps: HOLD_BPS_DEFAULT,
       currencyCode: SETTLEMENT_CURRENCY,
       now: fundedAt,
+      funding: "psp",
     });
+    expect(hold.walletId).toBeNull();
+    expect(hold.pspPaymentId).toBe("kernel-only-hold");
     const seen: string[] = [];
     registerEscrowRefundHook("pazaryeri", async (purpose, holdId) => {
       seen.push(`${purpose}:${holdId}`);
@@ -100,6 +103,7 @@ describe("çekirdek emanet iade kancası", () => {
       holdBps: HOLD_BPS_DEFAULT,
       currencyCode: SETTLEMENT_CURRENCY,
       now: fundedAt,
+      funding: "psp",
     });
     registerEscrowTimeoutGuard("freelancer", async () => true);
     let hooked = 0;
@@ -115,7 +119,7 @@ describe("çekirdek emanet iade kancası", () => {
     const frozen = await ports.escrow.findById(hold.id);
     expect(frozen?.status).toBe("PENDING");
     expect(frozen?.expiresAt).toBeNull();
-    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(90_000);
+    expect(ports.ledger.snapshot(CLIENT).amountMinor).toBe(100_000);
   });
 
   it("freelancer sözleşmesi TTL ile REFUNDED olur; DISPUTED dondurulur", async () => {
@@ -125,13 +129,13 @@ describe("çekirdek emanet iade kancası", () => {
       clientId: CLIENT,
       title: "TTL ilan",
       brief: "Zaman aşımı iadesi.",
-      budgetMinor: 10_000,
+      budgetMinor: 25_000,
       now: fundedAt,
     });
     const bid = await submitFreelancerBid(ports, {
       jobId: job.id,
       bidderId: FREELANCER,
-      amountMinor: 10_000,
+      amountMinor: 25_000,
       coverNote: "Teslim 5 gün.",
       now: fundedAt,
     });
@@ -163,13 +167,13 @@ describe("çekirdek emanet iade kancası", () => {
       clientId: CLIENT,
       title: "Tahkim ilan",
       brief: "DISPUTED dondurulur.",
-      budgetMinor: 10_000,
+      budgetMinor: 25_000,
       now: fundedAt,
     });
     const bid2 = await submitFreelancerBid(ports2, {
       jobId: job2.id,
       bidderId: FREELANCER,
-      amountMinor: 10_000,
+      amountMinor: 25_000,
       coverNote: "Teslim 5 gün.",
       now: fundedAt,
     });
@@ -197,6 +201,6 @@ describe("çekirdek emanet iade kancası", () => {
     expect(disputedScan.refunded).toBe(0);
     const disputed = await ports2.freelancer.getContract(accepted2.contract.id);
     expect(disputed?.status).toBe("DISPUTED");
-    expect(ports2.ledger.snapshot(CLIENT).amountMinor).toBe(90_000);
+    expect(ports2.ledger.snapshot(CLIENT).amountMinor).toBe(100_000);
   });
 });

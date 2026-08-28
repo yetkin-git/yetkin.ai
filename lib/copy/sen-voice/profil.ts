@@ -1,39 +1,52 @@
 /** Rail SEN aksı — kimlik sığınağı. Müze sen-voice kopyalanmaz. */
 export const PROFIL_SEN = {
-  eyebrow: "Vatandaş kimlik sığınağı",
+  eyebrow: "Kimlik",
   title: "Profil",
   description:
-    "Bu hesap kime ait, çekirdek User satırından okunur. Görünen adını güncellersin; e-posta Auth katmanında kalır.",
+    "Bu hesap kime ait, kimlik kartından okunur. Görünen adını güncellersin; e-posta oturum katmanında kalır. Liyakat özeti Pasaport sicilinden salt okunur.",
   stats: {
     nameLabel: "Görünen ad",
-    nameHintSet: "User.displayName",
-    nameHintEmpty: "Oturumla yazılır; kayıtta boş gelebilir",
+    nameHintSet: "Kartta görünür",
+    nameHintEmpty: "Boş gelebilir; buradan yazılır",
     localeLabel: "Dil",
-    localeHint: "User.locale / timeZone",
+    localeHint: "Dil ve saat dilimin",
     joinedLabel: "Kayıt",
-    joinedHintLive: "User.createdAt",
-    joinedHintPending: "Satır bağlanınca yıl görünür",
+    joinedHintLive: "Kayıt yılı",
+    joinedHintPending: "Kart bağlanınca yıl görünür",
     guest: "Oturum yok",
     waiting: "Bekleniyor",
   },
   auth: "Kimlik kartı oturum ister. Sahte profil basılmaz.",
-  unboundBadge: "Liste henüz yüklenemedi — örnek düzen",
-  unboundBody:
-    "Veritabanı bağlanınca gerçek User satırı burada durur. Uydurma ad yok. Oturum e-postası Auth’tan gelir; o dürüsttür.",
-  missingBadge: "Kimlik satırı henüz yok",
-  missingBody:
-    "Auth UUID var; public.users satırı yok. handle_new_user tetikleyicisi çalışınca kart dolar. E-posta oturumdan gösterilir.",
+  /** Sicil okunamadığında vatandaşa dürüst, gürültüsüz mesaj — geliştirici rozeti yok. */
+  loadSoft: "Kimlik şu an okunamadı. Biraz sonra yenile; uydurma ad basılmaz. Oturum e-postası dürüsttür.",
+  missingSoft:
+    "Oturum var; kimlik kartı henüz oluşmadı. Kart dolunca adın burada durur. E-posta oturumdan gösterilir.",
+  passportCta: "Pasaport sığınağı",
+  walletCta: "Cüzdanı aç",
+  careerCta: "Vize & liyakat defteri",
+  dashboardCta: "Anasayfaya dön",
   honestyTitle: "Kimlik dürüstlüğü",
   honestyBody:
-    "Görünen ad public.users satırına yazılır; e-posta Auth tetikleyicisiyle senkron kalır. Şifre User tablosunda durmaz. Freelancer vitrini ve KYC bu çekirdeğe eklenmez.",
+    "Görünen ad kimlik kartına yazılır; e-posta oturumla senkron kalır. Şifre bu kartta durmaz. Freelancer vitrini ve KYC buraya eklenmez. Vize damgası Kariyer basar; burada yalnız özet okunur.",
   card: {
     title: "Kimlik kartı",
-    eyebrow: "Çekirdek User",
-    intro: "Görünen ad oturum sahibine aittir. E-posta Auth SSOT’tur; bu form onu yazmaz.",
+    eyebrow: "Hesap",
+    intro: "Görünen ad oturum sahibine aittir. E-posta oturumdan gelir; bu form onu yazmaz.",
     name: "Görünen ad",
     email: "E-posta",
     locale: "Dil",
     timeZone: "Saat dilimi",
     createdAt: "Kayıt tarihi",
+  },
+  merit: {
+    title: "Liyakat özeti",
+    eyebrow: "Kanıt özeti",
+    intro:
+      "Mühür sayısı ve vize kökeni Pasaport sicilinden gelir. Burada damga basılmaz; uydurma rozet yok.",
+    loadSoft: "Liyakat sicili şu an okunamadı. Biraz sonra yenile; uydurma mühür basılmaz.",
+    empty: "Henüz mühür yok. Akademi veya Freelancer kanıtı damgaya dönüşünce burada özetlenir.",
+    countLabel: "Toplam mühür",
+    latestLabel: "Son vize",
+    sourcesLabel: "Köken",
   },
 } as const;

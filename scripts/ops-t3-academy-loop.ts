@@ -3,7 +3,7 @@
  * T3 canlı akademi nakit döngüsü — sahte bakiye YASAK.
  *
  * PayTR sandbox get-token (PENDING) + classic HMAC webhook → LedgerEntry CREDIT,
- * PaymentOrder CLEARED. Sonra katalog kilidi, rail-temel satın alma, Idempotency-Key
+ * PaymentOrder CLEARED. Sonra katalog kilidi, python-temel satın alma, Idempotency-Key
  * replay, müfredat, sınav ≥70, SHA256 `/academy/dogrula/[hash]`.
  *
  *   npm run ops:t3-academy-loop
@@ -20,6 +20,8 @@ import { Client } from "pg";
 import { createClient } from "@supabase/supabase-js";
 import { academyCourseSeedBySlug } from "@/lib/academy/seed";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
+import { academyCanonicalProofSubmission } from "@/lib/academy/proof-of-work";
+import { academyExamAnswersFromPublicQuestions } from "@/lib/academy/exam-sitting";
 import { computePaytrWebhookHash } from "@/lib/kernel/payments/paytr/webhook";
 import { buildIdempotentMerchantOid } from "@/lib/kernel/payments/merchant-oid";
 import { WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
@@ -27,13 +29,14 @@ import {
   resolveMigratorConnectionUrl,
   withPgLibpqSslCompat,
 } from "./ops-migrate-lib";
+import { flattenRailV1Record } from "./rail-v1-ops-json";
 
 const ROOT = process.cwd();
 dotenv.config({ path: resolve(ROOT, ".env.local") });
 dotenv.config({ path: resolve(ROOT, ".env") });
 
 const COURSE_ID = "ac_rail_temel";
-const COURSE_SLUG = "rail-temel";
+const COURSE_SLUG = "python-temel";
 const FOREIGN_IP = "85.105.141.10";
 
 function fail(message: string): never {
@@ -59,14 +62,14 @@ async function waitForHealth(base: string, timeoutMs = 90_000): Promise<void> {
   while (Date.now() - started < timeoutMs) {
     try {
       const response = await fetch(`${base}/api/health`);
-      const body = (await response.json()) as {
+      const body = flattenRailV1Record((await response.json()) as Record<string, unknown>) as {
         ok?: boolean;
-        checks?: { db?: string; paytr?: string; inngest?: string };
+        checks?: { db?: string; payments?: string; inngest?: string };
       };
-      last = `HTTP ${response.status} db=${body.checks?.db ?? "?"} paytr=${body.checks?.paytr ?? "?"} inngest=${body.checks?.inngest ?? "?"}`;
+      last = `HTTP ${response.status} db=${body.checks?.db ?? "?"} payments=${body.checks?.payments ?? "?"} inngest=${body.checks?.inngest ?? "?"}`;
       if (response.status === 200 && body.ok === true && body.checks?.db === "ok") {
-        if (body.checks.paytr !== "configured") {
-          fail(`checks.paytr=${body.checks.paytr ?? "yok"} — anahtar fail-closed; sahte CREDIT yok.`);
+        if (body.checks.payments !== "configured") {
+          fail(`checks.payments=${body.checks.payments ?? "yok"} — anahtar fail-closed; sahte CREDIT yok.`);
         }
         console.log(`→ health ${last}`);
         if (body.checks.inngest !== "configured") {
@@ -92,7 +95,7 @@ async function jsonRequest(
   try {
     const parsed: unknown = JSON.parse(text);
     if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
-      body = parsed as Record<string, unknown>;
+      body = flattenRailV1Record(parsed as Record<string, unknown>);
     }
   } catch {
     body = { raw: text };
@@ -208,7 +211,7 @@ async function main(): Promise<void> {
   const merchantSalt = requireEnv("PAYTR_MERCHANT_SALT");
   const seed = academyCourseSeedBySlug(COURSE_SLUG);
   if (!seed) {
-    fail("rail-temel tohumu yok.");
+    fail("python-temel tohumu yok.");
   }
 
   const base = appBase();
@@ -384,10 +387,11 @@ async function main(): Promise<void> {
     fail("Müfredat tohumu boş.");
   }
   for (const lesson of lessons) {
+    const proof = academyCanonicalProofSubmission(lesson.key);
     const done = await jsonRequest(`${base}/api/academy/courses/${COURSE_ID}/curriculum`, {
       method: "POST",
       headers: authHeaders,
-      body: JSON.stringify({ lessonKey: lesson.key }),
+      body: JSON.stringify({ lessonKey: lesson.key, proof }),
     });
     if (done.status !== 200 || done.body.ok !== true) {
       fail(`Ders ${lesson.key} ${done.status}: ${JSON.stringify(done.body)}`);
@@ -410,21 +414,27 @@ async function main(): Promise<void> {
   if (examGet.status !== 200 || examGet.body.ok !== true) {
     fail(`Sınav GET ${examGet.status}: ${JSON.stringify(examGet.body)}`);
   }
-  const questions = examGet.body.questions as Array<{ id: string }> | undefined;
+  const questions = examGet.body.questions as Array<{ id: string; choices: string[] }> | undefined;
   if (!questions?.length) {
     fail("Sınav sorusu yok.");
   }
-  const answers = questions.map((question) => {
-    const seeded = seed.exam.questions.find((row) => row.id === question.id);
-    if (!seeded) {
-      fail(`Sınav sorusu tohumda yok: ${question.id}`);
-    }
-    return { questionId: question.id, choiceIndex: seeded.correctIndex };
-  });
+  if (questions.length !== 10) {
+    fail(`Sınav oturumu 10 soru ister, gelen ${questions.length}.`);
+  }
+  const sessionToken = examGet.body.sessionToken;
+  if (typeof sessionToken !== "string" || sessionToken.length === 0) {
+    fail("Sınav oturum mührü yok.");
+  }
+  let answers;
+  try {
+    answers = academyExamAnswersFromPublicQuestions(questions, seed.exam.questions);
+  } catch (error) {
+    fail(error instanceof Error ? error.message : String(error));
+  }
   const examPost = await jsonRequest(`${base}/api/academy/courses/${COURSE_ID}/exam`, {
     method: "POST",
     headers: authHeaders,
-    body: JSON.stringify({ answers }),
+    body: JSON.stringify({ answers, sessionToken }),
   });
   if (examPost.status !== 200 || examPost.body.ok !== true) {
     fail(`Sınav POST ${examPost.status}: ${JSON.stringify(examPost.body)}`);
@@ -448,7 +458,7 @@ async function main(): Promise<void> {
     fail("Doğrulama sayfası mühür/hash taşımıyor.");
   }
   console.log(`→ /academy/dogrula/${certificateHash.slice(0, 12)}… Mühür geçerli`);
-  console.log("ops:t3-academy-loop OK — nakit CREDIT + rail-temel + SHA256 doğrulandı.");
+  console.log("ops:t3-academy-loop OK — nakit CREDIT + python-temel + SHA256 doğrulandı.");
 }
 
 void main().catch((error: unknown) => {

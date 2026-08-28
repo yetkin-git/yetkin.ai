@@ -47,6 +47,7 @@ describe("emanet TTL yaklaşım bildirimi", () => {
       holdBps: HOLD_BPS_DEFAULT,
       currencyCode: SETTLEMENT_CURRENCY,
       now: fundedAt,
+      funding: "psp",
     });
     expect(isEscrowTtlApproaching(hold, approachingAt)).toBe(true);
     expect(isEscrowTtlApproaching(hold, fundedAt)).toBe(false);

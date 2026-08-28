@@ -1,6 +1,8 @@
+import { YETKIN_BRAND } from "@/lib/copy/brand";
+
 /** Rail SEN aksı — giriş / kayıt / şifre. Müze sen-voice kopyalanmaz. */
 export const AUTH_SEN = {
-  brand: "Yetkin Rail",
+  brand: YETKIN_BRAND,
   skeletonAria: "Kimlik yüzeyi yükleniyor",
   login: {
     title: "Giriş",
@@ -34,6 +36,7 @@ export const AUTH_SEN = {
     submit: "Hesap oluştur",
     pending: "Kayıt…",
     fail: "Kayıt başarısız.",
+    duplicate: "Bu e-posta zaten kayıtlı. Giriş yap.",
     success: "Kayıt alındı. E-posta doğrulaması açıksa gelen kutunu kontrol et.",
     loginCta: "Giriş",
     generatePassword: "Güvenli Şifre Üret",
@@ -52,7 +55,7 @@ export const AUTH_SEN = {
     submit: "Sıfırlama bağlantısı gönder",
     pending: "Gönderiliyor…",
     fail: "Sıfırlama isteği gönderilemedi.",
-    invalidEmail: "Geçerli bir e-posta yazın.",
+    invalidEmail: "Geçerli bir e-posta yaz.",
     sent: "Sıfırlama bağlantısı yola çıktı. Gelen kutunu ve spam klasörünü kontrol et. Bu adres sistemde kayıtlı değilse e-posta gelmez; hesap varlığını burada doğrulamayız.",
     backCta: "Giriş sayfasına dön",
     loginCta: "Giriş",

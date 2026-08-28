@@ -46,23 +46,35 @@ enum FreelancerSquadStatus {
   DISBANDED
 }
 
+enum FreelancerJobVisibility {
+  PUBLIC
+  DIRECT
+}
+
 model FreelancerJob {
-  id           String             @id @default(cuid())
-  clientId     String             @map("client_id")
-  title        String
-  brief        String
-  budgetMinor  Int                @map("budget_minor")
-  currencyCode String             @db.Char(3) @map("currency_code")
-  status       FreelancerJobStatus @default(OPEN)
-  createdAt    DateTime           @default(now()) @map("created_at")
-  updatedAt    DateTime           @updatedAt @map("updated_at")
+  id            String                   @id @default(cuid())
+  clientId      String                   @map("client_id")
+  title         String
+  brief         String
+  budgetMinor   Int                      @map("budget_minor")
+  currencyCode  String                   @db.Char(3) @map("currency_code")
+  visaPathwayId String                   @map("visa_pathway_id")
+  visibility    FreelancerJobVisibility  @default(PUBLIC)
+  inviteeId     String?                  @map("invitee_id")
+  dueDays       Int?                     @map("due_days")
+  status        FreelancerJobStatus      @default(OPEN)
+  createdAt     DateTime                 @default(now()) @map("created_at")
+  updatedAt     DateTime                 @updatedAt @map("updated_at")
 
   client    User                 @relation("FreelancerJobClient", fields: [clientId], references: [id], onDelete: Cascade)
+  invitee   User?                @relation("FreelancerJobInvitee", fields: [inviteeId], references: [id], onDelete: SetNull)
   bids      FreelancerBid[]
   contract  FreelancerContract?
 
   @@index([clientId, status])
   @@index([status, createdAt])
+  @@index([visibility, status, createdAt])
+  @@index([inviteeId, status])
   @@map("freelancer_jobs")
 }
 

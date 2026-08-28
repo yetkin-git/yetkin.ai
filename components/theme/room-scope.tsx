@@ -10,11 +10,9 @@ export function RoomScope({ children }: { children: ReactNode }) {
   const room = roomIdFromPath(pathname);
 
   return (
-    <div data-room={room} className={cn("room-scope relative min-h-screen", room === "devlabs" && "font-mono")}>
+    <div data-room={room} className={cn("room-scope relative min-h-screen")}>
       <div className="room-atmosphere pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
         <div className="room-atmosphere-wash" />
-        <div className="room-atmosphere-grid" />
-        <div className="room-atmosphere-scan" />
       </div>
       <div className="relative">{children}</div>
     </div>

@@ -8,34 +8,30 @@ function readSrc(relative: string): string {
   return readFileSync(join(ROOT, relative), "utf8");
 }
 
-describe("D2.3 Kariyer Vizesi teklif kapısı yüzeyi", () => {
-  it("kapı yalnız ACADEMY_CERTIFICATE okur; hold/BPS/RELEASE yok", () => {
+describe("kariyer vize kapısı — yüzey mühürü", () => {
+  it("visa-gate listinge akademi damgası ister; onboarding slug null iken özel kapı yolu yok", () => {
     const gate = readSrc("lib/career/visa-gate.ts");
+    const scope = readSrc("lib/career/listing-visa-scope.ts");
+    const titles = readSrc("lib/kernel/catalog-ids/course-slugs.ts");
+    expect(gate).toContain("LISTING_ACCESS_VISA_KIND");
     expect(gate).toContain("ACADEMY_CERTIFICATE");
-    expect(gate).toContain("ForbiddenError");
     expect(gate).toContain("assertAcademyCareerVisaForListing");
-    expect(gate).not.toContain("createEscrowHold");
-    expect(gate).not.toContain("holdBps");
-    expect(gate).not.toContain("releaseEscrowHold");
-    expect(gate).not.toContain("splitGross");
-    expect(gate).not.toContain("amountMinor");
+    expect(gate).toContain("LISTING_ACCESS_VISA_ONBOARDING");
+    expect(gate).toContain("LISTING_ACCESS_VISA_SCOPE_DENIED");
+    expect(gate).toContain("hasMatchingAcademyListingVisa");
+    expect(gate).not.toContain("@/lib/academy");
+    expect(scope).toContain("qualifyingCourseSlugsForListingPathway");
+    expect(scope).toContain("listingVisaCourseSlugFromStamp");
+    expect(scope).not.toContain("@/lib/academy");
+    expect(titles).toContain("ACADEMY_ONBOARDING_COURSE_SLUG: AcademyCourseTitleSlug | null = null");
+    expect(gate).not.toContain("FREELANCER_RELEASE");
   });
 
-  it("freelancer ve kurumsal teklif HTTP kapıyı çağırır; motorlar vize import etmez", () => {
+  it("freelancer teklif yolu vize kapısını çağırır; accept vize basmaz", () => {
     const bids = readSrc("app/api/freelancer/jobs/[id]/bids/route.ts");
-    const offers = readSrc("app/api/kurumsal/jobs/[id]/offers/route.ts");
-    const award = readSrc("app/api/kurumsal/jobs/[id]/award/route.ts");
-    const freelancerEngine = readSrc("lib/freelancer/engine.ts");
-    const kurumsalEngine = readSrc("lib/kurumsal/engine.ts");
+    const accept = readSrc("app/api/freelancer/jobs/[id]/accept/route.ts");
     expect(bids).toContain("assertAcademyCareerVisaForListing");
-    expect(bids).toContain("submitFreelancerBid");
-    expect(offers).toContain("assertAcademyCareerVisaForListing");
-    expect(offers).toContain("submitCorporateJobOffer");
-    expect(award).toContain("assertAcademyCareerVisaForListing");
-    expect(freelancerEngine).not.toContain("assertAcademyCareerVisaForListing");
-    expect(freelancerEngine).not.toContain("@/lib/career");
-    expect(kurumsalEngine).not.toContain("assertAcademyCareerVisaForListing");
-    expect(kurumsalEngine).not.toContain("@/lib/career");
-    expect(kurumsalEngine).not.toContain("@/lib/freelancer");
+    expect(accept).not.toContain("issueCareerVisaStamp");
+    expect(accept).not.toContain("tryIssueCareerVisaStamp");
   });
 });

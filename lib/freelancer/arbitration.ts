@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import {
   allocateMinorByShareBps,
@@ -6,7 +7,7 @@ import {
   type AllocatedShare,
 } from "@/lib/kernel/escrow/share-bps";
 
-export const FREELANCER_ARBITRATION_SYSTEM = `Sen Yetkin Rail freelancer tahkim bilirkişisisin.
+export const FREELANCER_ARBITRATION_SYSTEM = `Sen ${YETKIN_BRAND} freelancer tahkim bilirkişisisin.
 Yalnız geçerli JSON üret. Rastgele hash, adillik tiyatrosu veya mahkeme evrakı yok.
 Zorunlu şema:
 {"rationale":"gerekçe","employerRefundBps":0,"arbitrationReady":true}

@@ -5,6 +5,9 @@ export const FREELANCER_SHOWCASE = [
     price: "₺12.500,00",
     badge: "Frontend",
     meta: "Açık ilan · TRY emanet",
+    visaPathwayId: "uiux-tasarim-sistemleri" as const,
+    budgetMinor: 1_250_000,
+    createdAt: "2026-08-20T10:00:00.000Z",
   },
   {
     title: "Veri şeması denetimi",
@@ -12,6 +15,9 @@ export const FREELANCER_SHOWCASE = [
     price: "₺8.750,00",
     badge: "Veri",
     meta: "Açık ilan · 5 gün teslim",
+    visaPathwayId: "fullstack-web-api" as const,
+    budgetMinor: 875_000,
+    createdAt: "2026-08-18T10:00:00.000Z",
   },
   {
     title: "Ödeme bildirimi izleme",
@@ -19,30 +25,33 @@ export const FREELANCER_SHOWCASE = [
     price: "₺15.000,00",
     badge: "Ödeme",
     meta: "Açık ilan · mühürlü teslim",
+    visaPathwayId: "yz-muhendislik-agent" as const,
+    budgetMinor: 1_500_000,
+    createdAt: "2026-08-22T10:00:00.000Z",
   },
 ] as const;
 
 export const ACADEMY_SHOWCASE = [
   {
-    title: "Emanet muhasebesi 101",
-    summary: "Platform payı, brüt = pay + net. Sertifika satın alma sonrası otomatik damga.",
+    title: "Mühürlü müfredat 101",
+    summary: "Dersler ödeme sonrası açılır. Ustalık belgesi sınav barajından sonra basılır.",
     price: "₺490,00",
-    badge: "Öne çıkan",
-    meta: "4 saat · fiyat onayı 15 dk",
+    badge: "Onaylı eğitim",
+    meta: "3 ders · metin müfredat · sınav 70+",
   },
   {
     title: "Yapay zekâ üretim kapısı",
-    summary: "Üretim tek kapıdan geçer. Jeton bakiyenizden düşülür; ayrı sağlayıcı hesabı açılmaz.",
+    summary: "Brief, telif ve teslim şartnamesi. Belge yalnız sınavdan sonra basılır.",
     price: "₺790,00",
-    badge: "Studio",
-    meta: "6 saat · sertifikalı",
+    badge: "Yetkinlik",
+    meta: "5 ders · metin müfredat · sınav 70+",
   },
   {
-    title: "Veri kilidi disiplini",
-    summary: "Her kayıt zorunlu güvenlikle açılır. Dışarıdan doğrudan yazım yoktur.",
+    title: "Sinyal ve emniyet temeli",
+    summary: "Anklaşman, fail-safe ve kırmızı aspekt. Mühendislik yetkinliği sınavla mühürlenir.",
     price: "₺590,00",
-    badge: "Güvenlik",
-    meta: "3 saat · mühürlü kanıt",
+    badge: "Teknik",
+    meta: "3 ders · metin müfredat · sınav 70+",
   },
 ] as const;
 

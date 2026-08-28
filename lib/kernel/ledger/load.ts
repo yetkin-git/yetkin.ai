@@ -75,3 +75,8 @@ export async function loadWalletBoard(userId: string): Promise<WalletBoard | nul
     return null;
   }
 }
+
+/** Vatandaş chrome — amountMinor kimliği sayfa kaynaklarına sızmasın. */
+export function walletAvailableMinor(board: WalletBoard | null): number | null {
+  return board?.wallet?.amountMinor ?? null;
+}

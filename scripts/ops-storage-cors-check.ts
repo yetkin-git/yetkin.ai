@@ -16,7 +16,7 @@ import {
   assertStudioStorageCorsHeaders,
   assertStudioStorageCorsRejectsForeignOrigin,
   studioStorageCorsOrigin,
-} from "@/lib/studio/storage";
+} from "@/archived/lib/studio/storage";
 
 const ROOT = process.cwd();
 dotenv.config({ path: resolve(ROOT, ".env.local") });

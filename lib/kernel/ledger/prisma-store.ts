@@ -1,5 +1,6 @@
 import "server-only";
 
+import { randomUUID } from "node:crypto";
 import type { PrismaClient } from "@/generated/prisma/client";
 import { getPrisma } from "@/lib/kernel/db";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
@@ -120,26 +121,48 @@ export function bindLedgerStore(db: LedgerWriteDb): LedgerStore {
       return record;
     },
     async insertEntry(wallet, command: AppendLedgerCommand, nextBalance: AmountMinor) {
-      await db.ledgerEntry.create({
-        data: {
-          walletId: wallet.id,
-          userId: command.userId,
-          amountMinor: command.amountMinor,
-          currencyCode: command.currencyCode,
-          direction: command.direction,
-          label: command.label,
-          purpose: command.purpose,
-          idempotencyKey: command.idempotencyKey,
-        },
-      });
-      await db.wallet.update({
-        where: { id: wallet.id },
-        data: { amountMinor: nextBalance },
-      });
+      const entryId = randomUUID();
+      const rows = await db.$queryRaw<{ id: string }[]>`
+        WITH inserted AS (
+          INSERT INTO ledger_entries (
+            id, wallet_id, user_id, amount_minor, currency_code, direction, label, purpose, idempotency_key, created_at
+          )
+          VALUES (
+            ${entryId},
+            ${wallet.id},
+            ${command.userId},
+            ${command.amountMinor},
+            ${command.currencyCode},
+            CAST(${command.direction} AS "LedgerDirection"),
+            ${command.label},
+            ${command.purpose},
+            ${command.idempotencyKey},
+            NOW()
+          )
+          RETURNING id
+        ),
+        updated AS (
+          UPDATE wallets
+          SET amount_minor = ${nextBalance}, updated_at = NOW()
+          WHERE id = ${wallet.id}
+            AND user_id = ${command.userId}
+            AND currency_code = ${command.currencyCode}
+            AND amount_minor = ${wallet.amountMinor}
+          RETURNING id
+        )
+        SELECT inserted.id FROM inserted INNER JOIN updated ON TRUE
+      `;
+      if (!rows[0]) {
+        throw new Error("Defter ve cüzdan atomik yazılamadı.");
+      }
     },
   };
 }
 
+/**
+ * Çıplak PrismaClient. `FOR UPDATE` kilidi sorgu bitince düşer.
+ * Nakit yazma yollarında `bindLedgerStore(tx)` + `prisma.$transaction` kullanın.
+ */
 export function createPrismaLedgerStore(): LedgerStore {
   return bindLedgerStore(getPrisma());
 }

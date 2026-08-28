@@ -16,7 +16,7 @@ const VARIANT: Record<ButtonVariant, string> = {
 };
 
 const SIZE: Record<ButtonSize, string> = {
-  sm: "h-8 px-3 text-xs",
+  sm: "min-h-11 px-3 text-xs sm:h-8 sm:min-h-8",
   md: "h-10 px-4 text-sm",
   lg: "h-11 px-5 text-sm",
 };
@@ -27,7 +27,7 @@ export function buttonClassName(
   className = "",
 ): string {
   return cn(
-    "inline-flex items-center justify-center gap-2 rounded-xl font-semibold tracking-tight transition duration-150",
+    "inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl font-semibold tracking-tight transition duration-150",
     VARIANT[variant],
     SIZE[size],
     className,

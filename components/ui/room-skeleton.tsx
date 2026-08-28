@@ -1,7 +1,9 @@
 import { RoomFrame } from "@/components/ui/page-header";
 
 export function SkeletonPulse({ className }: { className: string }) {
-  return <div className={`animate-pulse rounded-2xl bg-[var(--border)] ${className}`} />;
+  return (
+    <div className={`animate-pulse rounded-2xl bg-[var(--border)] motion-reduce:animate-none ${className}`} />
+  );
 }
 
 export type RoomSkeletonVariant =
@@ -28,7 +30,7 @@ export function RoomSkeleton({
 }) {
   if (variant === "public") {
     return (
-      <main className="relative mx-auto flex min-h-screen max-w-6xl flex-col justify-center gap-10 px-6 py-16" aria-hidden>
+      <main className="relative mx-auto flex min-h-dvh max-w-6xl flex-col justify-center gap-10 px-6 pb-20 pt-16" aria-hidden>
         <div className="relative grid items-center gap-10 lg:grid-cols-2">
           <div className="space-y-4">
             <SkeletonPulse className="h-12 w-12 rounded-[8px]" />
@@ -55,7 +57,7 @@ export function RoomSkeleton({
 
   if (variant === "legal") {
     return (
-      <main className="relative mx-auto max-w-3xl px-6 py-16" aria-hidden>
+      <main className="relative mx-auto max-w-3xl px-6 pb-20 pt-16" aria-hidden>
         <div className="relative space-y-6">
           <SkeletonPulse className="h-5 w-20 rounded-full bg-[var(--safir-soft)]" />
           <SkeletonPulse className="h-9 w-56" />
@@ -99,19 +101,15 @@ export function RoomSkeleton({
   if (variant === "cockpit") {
     return (
       <RoomFrame aria-hidden>
-        <HeaderPulses />
-        <SkeletonPulse className="h-20 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
-        <div className="flex flex-wrap gap-2.5">
-          {Array.from({ length: 8 }, (_, index) => (
-            <SkeletonPulse key={index} className="h-9 w-24 rounded-full" />
-          ))}
+        <div className="space-y-3">
+          <HeaderPulses compact />
+          <SkeletonPulse className="h-16 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
         </div>
-        <SkeletonPulse className="h-36 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
-        <div className="grid gap-4 lg:grid-cols-2">
-          {Array.from({ length: 6 }, (_, index) => (
+        <div className="grid min-w-0 gap-4 lg:grid-cols-3">
+          {Array.from({ length: 3 }, (_, index) => (
             <SkeletonPulse
               key={index}
-              className="h-32 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]"
+              className="min-h-40 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]"
             />
           ))}
         </div>
@@ -190,13 +188,15 @@ export function RoomSkeleton({
   );
 }
 
-function HeaderPulses({ action = false }: { action?: boolean }) {
+function HeaderPulses({ action = false, compact = false }: { action?: boolean; compact?: boolean }) {
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-      <div className="max-w-2xl space-y-3">
+    <div
+      className={`flex flex-col sm:flex-row sm:items-end sm:justify-between ${compact ? "gap-2" : "gap-4"}`}
+    >
+      <div className={compact ? "max-w-3xl space-y-2" : "max-w-2xl space-y-3"}>
         <SkeletonPulse className="h-3 w-28 rounded-full bg-[var(--safir-soft)]" />
-        <SkeletonPulse className="h-8 w-56" />
-        <SkeletonPulse className="h-4 w-full max-w-xl" />
+        <SkeletonPulse className={compact ? "h-7 w-48" : "h-8 w-56"} />
+        {compact ? null : <SkeletonPulse className="h-4 w-full max-w-xl" />}
       </div>
       {action ? <SkeletonPulse className="h-10 w-32 rounded-xl" /> : null}
     </div>

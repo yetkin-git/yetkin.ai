@@ -45,6 +45,7 @@ export async function POST(request: Request) {
           title: parsed.data.title,
           brief: parsed.data.brief,
           budgetMinor: parsed.data.budgetMinor,
+          visaPathwayId: parsed.data.visaPathwayId,
         }),
         requestId,
         request,
@@ -56,6 +57,7 @@ export async function POST(request: Request) {
           title: parsed.data.title,
           brief: parsed.data.brief,
           budgetMinor: parsed.data.budgetMinor,
+          visaPathwayId: parsed.data.visaPathwayId,
         });
         return { status: 201, body: { job } };
       },

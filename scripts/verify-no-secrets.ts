@@ -16,7 +16,7 @@ const ROOT = process.cwd();
 const SCAN_DIRS = ["lib", "app", "components", "scripts", "prisma", "docs", "tests", "supabase", "apps"] as const;
 const ROOT_FILES = [".env.example", "package.json"] as const;
 
-const SKIP_DIR_NAMES = new Set(["node_modules", "yetkin.ai", "generated", ".next", ".git"]);
+const SKIP_DIR_NAMES = new Set(["node_modules", "yetkin_muze", "yetkin.ai", "generated", ".next", ".git"]);
 
 const SKIP_FILE_NAMES = new Set([
   ".env",
@@ -26,7 +26,15 @@ const SKIP_FILE_NAMES = new Set([
   ".env.test",
 ]);
 
-const FORBIDDEN_GIT_ENV = [".env", ".env.local", ".env.production", ".env.development"];
+const FORBIDDEN_GIT_ENV = [
+  ".env",
+  ".env.local",
+  ".env.production",
+  ".env.development",
+  ".env.test",
+];
+const FORBIDDEN_GIT_BASENAMES = new Set(["credentials.json", "serviceAccount.json"]);
+const FORBIDDEN_GIT_SUFFIX = /\.(pem|p12|pfx|p8|jks)$/i;
 
 const FORBIDDEN_EXAMPLE_KEYS = [
   "SUPABASE_SERVICE_ROLE_KEY",
@@ -107,7 +115,17 @@ function listTrackedEnvLeaks(): string[] {
       .split("\0")
       .filter(Boolean)
       .map((row) => row.replace(/\\/g, "/"));
-    return tracked.filter((file) => FORBIDDEN_GIT_ENV.includes(file) || file.endsWith("/.env"));
+    return tracked.filter((file) => {
+      const normalized = file.replace(/\\/g, "/");
+      const base = normalized.split("/").pop() ?? normalized;
+      return (
+        FORBIDDEN_GIT_ENV.includes(normalized) ||
+        FORBIDDEN_GIT_ENV.includes(base) ||
+        normalized.endsWith("/.env") ||
+        FORBIDDEN_GIT_BASENAMES.has(base) ||
+        FORBIDDEN_GIT_SUFFIX.test(normalized)
+      );
+    });
   } catch {
     return [];
   }
@@ -115,7 +133,7 @@ function listTrackedEnvLeaks(): string[] {
 
 function scanFile(abs: string): Violation[] {
   const file = rel(abs);
-  if (file.startsWith("yetkin.ai/")) {
+  if (file.startsWith("yetkin_muze/") || file.startsWith("yetkin.ai/")) {
     return [];
   }
   let source: string;

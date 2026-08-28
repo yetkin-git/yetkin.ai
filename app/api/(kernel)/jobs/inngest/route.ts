@@ -2,7 +2,6 @@ import { serve } from "inngest/next";
 import type { NextRequest } from "next/server";
 import { inngest, kernelInngestFunctions, inngestNotConfiguredResponse } from "@/lib/kernel/jobs/inngest";
 import { canInvokeInngestServe, shouldFailClosedInngestServe } from "@/lib/kernel/jobs/inngest-guard";
-import { arenaInngestFunctions } from "@/lib/arena/jobs";
 import { registerVerticalEscrowRefundHooks } from "../register-escrow-hooks";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 
@@ -17,7 +16,7 @@ let handlers: InngestHandlers | null = null;
 function getInngestHandlers(): InngestHandlers {
   handlers ??= serve({
     client: inngest,
-    functions: [...kernelInngestFunctions, ...arenaInngestFunctions],
+    functions: [...kernelInngestFunctions],
   });
   return handlers;
 }

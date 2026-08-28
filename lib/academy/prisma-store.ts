@@ -10,6 +10,7 @@ import {
   serializeAcademyExamAnswers,
   serializeAcademyExamQuestions,
 } from "@/lib/academy/exam";
+import { orderAcademyCatalogByCurriculum } from "@/lib/academy/catalog-filter";
 import type {
   AcademyCertificateRecord,
   AcademyCourseRecord,
@@ -27,6 +28,9 @@ function toCourse(row: {
   title: string;
   summary: string;
   catalogUnitKey: string;
+  globalRank: number;
+  localRank: number;
+  trendScore: number;
   isPublished: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -65,6 +69,8 @@ function toCertificate(row: {
   curriculumSeal: string | null;
   score: number | null;
   issuedAt: Date;
+  revokedAt: Date | null;
+  revokeReason: string | null;
   createdAt: Date;
 }): AcademyCertificateRecord {
   return { ...row };
@@ -122,6 +128,7 @@ function toCompletion(row: {
   courseId: string;
   purchaseId: string;
   lessonKey: string;
+  proofOfWorkHash: string | null;
   completedAt: Date;
   createdAt: Date;
 }): AcademyLessonCompletionRecord {
@@ -148,6 +155,9 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
           title: course.title,
           summary: course.summary,
           catalogUnitKey: course.catalogUnitKey,
+          globalRank: course.globalRank,
+          localRank: course.localRank,
+          trendScore: course.trendScore,
           isPublished: course.isPublished,
           createdAt: course.createdAt,
           updatedAt: course.updatedAt,
@@ -166,9 +176,8 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
     async listPublishedCourses() {
       const rows = await db.academyCourse.findMany({
         where: { isPublished: true },
-        orderBy: { createdAt: "desc" },
       });
-      return rows.map(toCourse);
+      return orderAcademyCatalogByCurriculum(rows.map(toCourse));
     },
     async insertPurchase(purchase) {
       const row = await db.academyPurchase.create({
@@ -187,6 +196,18 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
       });
       return toPurchase(row);
     },
+    async updatePurchase(id, patch) {
+      const row = await db.academyPurchase.update({
+        where: { id },
+        data: {
+          settledAt: patch.settledAt,
+          amountMinor: patch.amountMinor,
+          priceLockId: patch.priceLockId,
+          updatedAt: patch.updatedAt,
+        },
+      });
+      return toPurchase(row);
+    },
     async getPurchase(id) {
       const row = await db.academyPurchase.findUnique({ where: { id } });
       return row ? toPurchase(row) : null;
@@ -196,6 +217,13 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
         where: { userId_courseId: { userId, courseId } },
       });
       return row ? toPurchase(row) : null;
+    },
+    async listPurchasesForUser(userId) {
+      const rows = await db.academyPurchase.findMany({
+        where: { userId },
+        orderBy: { settledAt: "desc" },
+      });
+      return rows.map(toPurchase);
     },
     async insertCertificate(certificate) {
       const row = await db.academyCertificate.create({
@@ -211,8 +239,17 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
           curriculumSeal: certificate.curriculumSeal,
           score: certificate.score,
           issuedAt: certificate.issuedAt,
+          revokedAt: certificate.revokedAt,
+          revokeReason: certificate.revokeReason,
           createdAt: certificate.createdAt,
         },
+      });
+      return toCertificate(row);
+    },
+    async revokeCertificate(id, patch) {
+      const row = await db.academyCertificate.update({
+        where: { id },
+        data: { revokedAt: patch.revokedAt, revokeReason: patch.revokeReason },
       });
       return toCertificate(row);
     },
@@ -291,6 +328,7 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
           courseId: completion.courseId,
           purchaseId: completion.purchaseId,
           lessonKey: completion.lessonKey,
+          proofOfWorkHash: completion.proofOfWorkHash ?? null,
           completedAt: completion.completedAt,
           createdAt: completion.createdAt,
         },
@@ -313,9 +351,9 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
     async pulseForUser(userId) {
       const [purchasesCount, certificatesHeld, latest] = await Promise.all([
         db.academyPurchase.count({ where: { userId } }),
-        db.academyCertificate.count({ where: { userId } }),
+        db.academyCertificate.count({ where: { userId, revokedAt: null } }),
         db.academyCertificate.findFirst({
-          where: { userId },
+          where: { userId, revokedAt: null },
           orderBy: { issuedAt: "desc" },
           select: { title: true },
         }),

@@ -1,0 +1,23 @@
+# Kapalı lab Postgres — hosted Supabase değildir.
+# Auth şeması ops:lab-postgres ile stub'lanır; yedi SQL mühür ops:migrate ile basılır.
+#
+#   docker compose -f docker-compose.postgres.yml up -d
+#   npm run ops:lab-postgres
+#   npm run test:pg
+#
+# Port 5432 ops:migrate Direct Port mührüdür; 6543 / pooler yasaktır.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: yetkin_rail_lab
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d yetkin_rail_lab"]
+      interval: 2s
+      timeout: 5s
+      retries: 20

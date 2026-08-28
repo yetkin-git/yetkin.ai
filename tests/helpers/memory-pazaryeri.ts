@@ -1,6 +1,7 @@
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
-import { isProductDoped } from "@/lib/pazaryeri/category";
+import { isProductDoped, isPubliclyListableProduct } from "@/lib/pazaryeri/category";
+import type { PazaryeriEnginePorts, PazaryeriMoneyWritePorts } from "@/lib/pazaryeri/engine";
 import type {
   MarketplaceDopingRecord,
   MarketplaceOfferRecord,
@@ -9,14 +10,63 @@ import type {
   PazaryeriPulse,
   PazaryeriStore,
 } from "@/lib/pazaryeri/types";
+import {
+  createSerializedUnitOfWork,
+  type MemoryEscrowStore,
+  type MemoryLedgerStore,
+} from "./memory-money";
+import type { MemoryCheckoutPriceLockStore } from "./memory-pricing";
 
-export function createMemoryPazaryeriStore(): PazaryeriStore {
+type PazaryeriMemoryState = {
+  products: Array<[string, MarketplaceProductRecord]>;
+  orders: Array<[string, MarketplaceOrderRecord]>;
+  offers: Array<[string, MarketplaceOfferRecord]>;
+  dopings: Array<[string, MarketplaceDopingRecord]>;
+};
+
+export type MemoryPazaryeriStore = PazaryeriStore & {
+  failNextOrderInsert(): void;
+  capture(): PazaryeriMemoryState;
+  restore(state: PazaryeriMemoryState): void;
+};
+
+export function createMemoryPazaryeriStore(): MemoryPazaryeriStore {
   const products = new Map<string, MarketplaceProductRecord>();
   const orders = new Map<string, MarketplaceOrderRecord>();
   const offers = new Map<string, MarketplaceOfferRecord>();
   const dopings = new Map<string, MarketplaceDopingRecord>();
+  let failOrder = false;
 
   return {
+    failNextOrderInsert() {
+      failOrder = true;
+    },
+    capture() {
+      return {
+        products: [...products.entries()].map(([key, value]) => [key, { ...value }]),
+        orders: [...orders.entries()].map(([key, value]) => [key, { ...value }]),
+        offers: [...offers.entries()].map(([key, value]) => [key, { ...value }]),
+        dopings: [...dopings.entries()].map(([key, value]) => [key, { ...value }]),
+      };
+    },
+    restore(state) {
+      products.clear();
+      orders.clear();
+      offers.clear();
+      dopings.clear();
+      for (const [key, value] of state.products) {
+        products.set(key, { ...value });
+      }
+      for (const [key, value] of state.orders) {
+        orders.set(key, { ...value });
+      }
+      for (const [key, value] of state.offers) {
+        offers.set(key, { ...value });
+      }
+      for (const [key, value] of state.dopings) {
+        dopings.set(key, { ...value });
+      }
+    },
     async insertProduct(product) {
       products.set(product.id, product);
       return { ...product };
@@ -31,7 +81,7 @@ export function createMemoryPazaryeriStore(): PazaryeriStore {
     },
     async listListedProducts() {
       return [...products.values()]
-        .filter((row) => row.status === "LISTED")
+        .filter((row) => isPubliclyListableProduct(row))
         .sort((a, b) => {
           const doped = Number(isProductDoped(b)) - Number(isProductDoped(a));
           if (doped !== 0) {
@@ -57,6 +107,10 @@ export function createMemoryPazaryeriStore(): PazaryeriStore {
       return { ...next };
     },
     async insertOrder(order) {
+      if (failOrder) {
+        failOrder = false;
+        throw new Error("Sipariş yazımı düştü.");
+      }
       orders.set(order.id, order);
       return { ...order };
     },
@@ -160,6 +214,30 @@ export function createMemoryPazaryeriStore(): PazaryeriStore {
         currencyCode: SETTLEMENT_CURRENCY,
       };
       return pulse;
+    },
+  };
+}
+
+export function withMemoryPazaryeriAtomic<
+  T extends {
+    ledger: MemoryLedgerStore;
+    escrow: MemoryEscrowStore;
+    locks: MemoryCheckoutPriceLockStore;
+    pazaryeri: MemoryPazaryeriStore;
+  },
+>(ports: T): T & Pick<PazaryeriEnginePorts, "runMoneyAtomic"> {
+  const uow = createSerializedUnitOfWork();
+  return {
+    ...ports,
+    async runMoneyAtomic<R>(work: (tx: PazaryeriMoneyWritePorts) => Promise<R>): Promise<R> {
+      return uow.run([ports.ledger, ports.escrow, ports.locks, ports.pazaryeri], () =>
+        work({
+          ledger: ports.ledger,
+          escrow: ports.escrow,
+          locks: ports.locks,
+          pazaryeri: ports.pazaryeri,
+        }),
+      );
     },
   };
 }

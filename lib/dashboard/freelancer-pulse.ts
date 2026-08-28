@@ -1,5 +1,4 @@
-import { toAmountMinor, type AmountMinor } from "@/lib/kernel/money/amount-minor";
-import type { CurrencyCode } from "@/lib/kernel/money/currency";
+import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import type { FreelancerPulse } from "@/lib/freelancer/types";
 

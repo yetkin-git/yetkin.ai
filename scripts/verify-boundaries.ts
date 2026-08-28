@@ -1,55 +1,53 @@
 #!/usr/bin/env tsx
 /**
- * Anayasa §2.8 import sınırları — statik (grep). ESLint no-restricted-imports ile aynı sözleşme.
+ * Anayasa A8 import sınırları — statik (grep). ESLint no-restricted-imports ile aynı sözleşme.
  * Canlı Postgres yok.
  *
  * 1. lib/kernel dikey oda import etmez.
  * 2. UI / sayfa Prisma ve server-only yazma motoru import etmez.
  * 3. Dikey odalar birbirinin engine/runtime/prisma-store dosyasını import etmez.
- * 4. VERTICAL_ROOMS üç kopyası eleman eleman aynıdır; lib/ sicil dışı oda açmaz.
+ * 4. VERTICAL_ROOMS tek SSOT (`lib/kernel/rooms.ssot.ts`); eslint ve modules ondan türer.
+ *    Donmuş oda `lib/` altında yoktur; `archived/` + kenar 410. Yeni 5. çalışan oda sicile yazılmadan açılmaz.
+ * 5. `app/api/**` uygulama servisidir (sınav → vize): çalışan odaları birleştirebilir.
+ *    Kaçış deliği değildir — müze, donmuş oda ve UI import'u yasaktır.
+ * 6. Kariyer ve freelancer `lib/academy` import etmez; müfredat kimliği `lib/kernel/catalog-ids`.
  */
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
+import {
+  contextOfPhase1Room,
+  contextOfPrismaModel,
+  isContextPrismaAllowlisted,
+} from "../lib/kernel/bounded-contexts";
 import { catalogSqlPreservesOperatorPrice } from "./ops-migrate-lib";
 import {
   extraLibRoomMessage,
   missingLibRoomMessage,
   missingRegisteredRoomDirs,
-  parseVerticalRoomIdsFromEslint,
-  parseVerticalRoomIdsFromModules,
-  roomIdListsEqual,
+  parseFrozenDiskRoomIdsFromSsot,
+  parseVerticalRoomIdsFromSsot,
+  ROOMS_SSOT_REL,
+  sourceDerivesRoomsSsot,
   unexpectedLibTopDirs,
-  verticalRoomsSicilDriftMessage,
 } from "./room-ceiling-lib";
+import { FROZEN_DISK_ROOMS, VERTICAL_ROOMS as VERTICAL_ROOM_RECORDS } from "../lib/kernel/rooms.ssot";
 
 const ROOT = process.cwd();
 const FILE_RE = /\.(ts|tsx)$/;
 
-/** Anayasa §2.8 — 12 dikey oda. Sıra mühürlü; lib/kernel/modules.ts ve eslint.config.mjs ile eleman eleman aynı. */
-const VERTICAL_ROOMS = [
-  "dashboard",
-  "studio",
-  "academy",
-  "career",
-  "freelancer",
-  "devlabs",
-  "kurumsal",
-  "hibe",
-  "arena",
-  "pazaryeri",
-  "junior",
-  "social",
-] as const;
+/** Çalışan 4 oda — rooms.ssot.ts SSOT (kopya dizi yok). Donmuş oda canlı lib/ tavanında yoktur. */
+const VERTICAL_ROOMS = VERTICAL_ROOM_RECORDS.map((room) => room.id);
+const LIVE_ROOMS = VERTICAL_ROOMS;
 
-type VerticalRoom = (typeof VERTICAL_ROOMS)[number];
+type VerticalRoom = (typeof LIVE_ROOMS)[number];
 
-const VERTICAL_SET = new Set<string>(VERTICAL_ROOMS);
+const VERTICAL_SET = new Set<string>(LIVE_ROOMS);
+const FROZEN_SET = new Set<string>(FROZEN_DISK_ROOMS);
 
 /** D2.3 kazanç duvarı — string FK / HTTP; lib çapraz import yok. */
 const EARNINGS_WALL: Partial<Record<VerticalRoom, ReadonlySet<VerticalRoom>>> = {
-  freelancer: new Set(["kurumsal", "career"]),
-  kurumsal: new Set(["freelancer", "career"]),
+  freelancer: new Set(["career"]),
 };
 
 const SCAN_DIRS = ["lib", "app", "components"] as const;
@@ -63,6 +61,7 @@ const CATALOG_SQL = [
 const FROM_RE = /\bfrom\s+["']([^"']+)["']/g;
 const DYNAMIC_RE = /\bimport\s*\(\s*["']([^"']+)["']\s*\)/g;
 const SIDE_EFFECT_RE = /^import\s+["']([^"']+)["']/gm;
+const PRISMA_DELEGATE_RE = /\b(?:prisma|db)\.([A-Za-z][A-Za-z0-9]*)\./g;
 
 type Zone = "kernel" | "module" | "shared" | "ui" | "page" | "api";
 
@@ -85,7 +84,7 @@ function walk(dir: string): string[] {
     const fullPath = join(dir, entry);
     const stat = statSync(fullPath);
     if (stat.isDirectory()) {
-      if (entry === "node_modules" || entry === "yetkin.ai") {
+      if (entry === "node_modules" || entry === "yetkin_muze" || entry === "yetkin.ai") {
         continue;
       }
       files.push(...walk(fullPath));
@@ -146,6 +145,15 @@ function verticalOfLib(path: string): VerticalRoom | null {
   const id = match?.[1];
   if (id && VERTICAL_SET.has(id)) {
     return id as VerticalRoom;
+  }
+  return null;
+}
+
+function frozenOfLib(path: string): string | null {
+  const match = stripExt(path).match(/^lib\/([^/]+)/);
+  const id = match?.[1];
+  if (id && FROZEN_SET.has(id)) {
+    return id;
   }
   return null;
 }
@@ -222,9 +230,13 @@ function isPrismaSurface(spec: string, resolved: string): boolean {
 
 function isMuseum(spec: string, resolved: string): boolean {
   return (
+    spec === "yetkin_muze" ||
     spec === "yetkin.ai" ||
+    spec.startsWith("yetkin_muze/") ||
     spec.startsWith("yetkin.ai/") ||
+    spec.startsWith("@/yetkin_muze") ||
     spec.startsWith("@/yetkin.ai") ||
+    resolved.startsWith("yetkin_muze") ||
     resolved.startsWith("yetkin.ai")
   );
 }
@@ -249,17 +261,22 @@ for (const dir of SCAN_DIRS) {
       const resolved = resolveSpec(file, spec);
 
       if (isMuseum(spec, resolved)) {
-        add(file, spec, "s9.museum");
+        add(file, spec, "ops.museum");
         continue;
       }
 
       if (zone === "api") {
+        if (resolved.startsWith("components/")) {
+          add(file, spec, "api.ui");
+        }
+        if (resolved.startsWith("archived/") || frozenOfLib(resolved)) {
+          add(file, spec, "api.frozen");
+        }
         continue;
       }
 
       if (zone === "kernel") {
-        const targetRoom = verticalOfLib(resolved);
-        if (targetRoom) {
+        if (verticalOfLib(resolved) || frozenOfLib(resolved)) {
           add(file, spec, "kernel.vertical");
         }
         continue;
@@ -270,6 +287,12 @@ for (const dir of SCAN_DIRS) {
         if (targetRoom && targetRoom !== selfRoom) {
           if (isInnerServerPath(resolved) || isModuleBarrel(resolved)) {
             add(file, spec, "module.engine");
+          }
+          if (
+            (selfRoom === "career" || selfRoom === "freelancer") &&
+            targetRoom === "academy"
+          ) {
+            add(file, spec, "a8.catalog");
           }
           const banned = selfRoom ? EARNINGS_WALL[selfRoom] : undefined;
           if (banned?.has(targetRoom)) {
@@ -291,6 +314,26 @@ for (const dir of SCAN_DIRS) {
         }
       }
     }
+
+    if (zone === "module" && !isContextPrismaAllowlisted(file)) {
+      const selfContext = selfRoom ? contextOfPhase1Room(selfRoom) : null;
+      const prismaCopy = new RegExp(PRISMA_DELEGATE_RE.source, PRISMA_DELEGATE_RE.flags);
+      let prismaMatch: RegExpExecArray | null;
+      while ((prismaMatch = prismaCopy.exec(source)) !== null) {
+        const delegate = prismaMatch[1];
+        if (!delegate) {
+          continue;
+        }
+        const modelContext = contextOfPrismaModel(delegate);
+        if (!modelContext) {
+          continue;
+        }
+        if (selfContext && selfContext === modelContext) {
+          continue;
+        }
+        add(file, `prisma.${delegate}`, "context.prisma");
+      }
+    }
   }
 }
 
@@ -305,12 +348,14 @@ if (!existsSync(eslintPath)) {
   const eslintSource = readFileSync(eslintPath, "utf8");
   for (const needle of [
     "no-restricted-imports",
-    "Anayasa §2.8",
+    "Anayasa A8",
     "lib/kernel",
+    "catalog-ids",
     "catalog-write",
     "VERTICAL_ROOMS",
     "room.wall",
     "EARNINGS_WALL",
+    "BOUNDED_CONTEXTS",
   ]) {
     if (!eslintSource.includes(needle)) {
       violations.push({
@@ -338,48 +383,52 @@ for (const sqlFile of CATALOG_SQL) {
 }
 
 {
-  const localIds = [...VERTICAL_ROOMS];
-  const modulesPath = join(ROOT, "lib/kernel/modules.ts");
-  const modulesIds = existsSync(modulesPath)
-    ? parseVerticalRoomIdsFromModules(readFileSync(modulesPath, "utf8"))
-    : null;
-  if (!modulesIds) {
+  const ssotPath = join(ROOT, ROOMS_SSOT_REL);
+  if (!existsSync(ssotPath)) {
     violations.push({
-      file: "lib/kernel/modules.ts",
-      spec: "VERTICAL_ROOMS bloğu parse edilemedi",
+      file: ROOMS_SSOT_REL,
+      spec: "çalışan oda SSOT yok",
       ruleId: "room.sicil",
     });
-  } else if (!roomIdListsEqual(localIds, modulesIds)) {
+  } else {
+    const ssotSource = readFileSync(ssotPath, "utf8");
+    const ssotIds = parseVerticalRoomIdsFromSsot(ssotSource);
+    const frozenIds = parseFrozenDiskRoomIdsFromSsot(ssotSource);
+    if (!ssotIds || ssotIds.length !== 4) {
+      violations.push({
+        file: ROOMS_SSOT_REL,
+        spec: "VERTICAL_ROOMS bloğu parse edilemedi veya 4 oda değil",
+        ruleId: "room.sicil",
+      });
+    }
+    if (!frozenIds || frozenIds.length !== 8) {
+      violations.push({
+        file: ROOMS_SSOT_REL,
+        spec: "FROZEN_DISK_ROOMS bloğu parse edilemedi veya 8 oda değil",
+        ruleId: "room.sicil",
+      });
+    }
+  }
+
+  const modulesPath = join(ROOT, "lib/kernel/modules.ts");
+  const modulesSource = existsSync(modulesPath) ? readFileSync(modulesPath, "utf8") : "";
+  if (!sourceDerivesRoomsSsot(modulesSource) || !modulesSource.includes("VERTICAL_ROOMS")) {
     violations.push({
       file: "lib/kernel/modules.ts",
-      spec: verticalRoomsSicilDriftMessage(
-        "scripts/verify-boundaries.ts",
-        localIds,
-        "lib/kernel/modules.ts",
-        modulesIds,
-      ),
+      spec: "VERTICAL_ROOMS rooms.ssot.ts SSOT'tan türetilmiyor",
       ruleId: "room.sicil",
     });
   }
 
-  const eslintIds = existsSync(eslintPath)
-    ? parseVerticalRoomIdsFromEslint(readFileSync(eslintPath, "utf8"))
-    : null;
-  if (!eslintIds) {
+  const eslintSourceForSicil = existsSync(eslintPath) ? readFileSync(eslintPath, "utf8") : "";
+  if (
+    !eslintSourceForSicil.includes("rooms.ssot.ts") ||
+    !eslintSourceForSicil.includes("parseSsotIds") ||
+    !eslintSourceForSicil.includes("const VERTICAL_ROOMS")
+  ) {
     violations.push({
       file: "eslint.config.mjs",
-      spec: "VERTICAL_ROOMS bloğu parse edilemedi",
-      ruleId: "room.sicil",
-    });
-  } else if (!roomIdListsEqual(localIds, eslintIds)) {
-    violations.push({
-      file: "eslint.config.mjs",
-      spec: verticalRoomsSicilDriftMessage(
-        "scripts/verify-boundaries.ts",
-        localIds,
-        "eslint.config.mjs",
-        eslintIds,
-      ),
+      spec: "VERTICAL_ROOMS rooms.ssot.ts SSOT'tan türetilmiyor",
       ruleId: "room.sicil",
     });
   }
@@ -421,5 +470,5 @@ if (violations.length > 0) {
 }
 
 console.log(
-  "verify:boundaries OK — kernel↛dikey, UI↛prisma/yazma motoru, oda↛oda engine, freelancer/kurumsal oda duvarı, 12 oda sicili, katalog ON CONFLICT Super Admin tutarını korur.",
+      "verify:boundaries OK — kernel↛dikey, UI↛prisma/yazma motoru, oda↛oda engine, app/api uygulama servisi (müze/donmuş/UI yasak; çalışan oda kompozisyonu yasal), freelancer oda duvarı, kariyer/freelancer↛academy (catalog-ids), çalışan 4 oda sicili, donmuş oda lib/ tavanı yasak (archived/), Proof/Marketplace/Payments tablo sahipliği, katalog ON CONFLICT Super Admin tutarını korur.",
 );

@@ -24,7 +24,7 @@ import type {
 export const E2E_CASH_CLIENT_ID = "e2e-freelancer-client";
 export const E2E_CASH_FREELANCER_ID = "e2e-freelancer-worker";
 export const E2E_CASH_PLATFORM_ID = PLATFORM_TREASURY_USER_ID;
-export const E2E_CASH_GROSS_MINOR = 10_000;
+export const E2E_CASH_GROSS_MINOR = 25_000;
 export const E2E_CASH_CLIENT_START_MINOR = 100_000;
 
 export type FreelancerCashJourneyResult = {
@@ -35,6 +35,7 @@ export type FreelancerCashJourneyResult = {
   holdAfterAccept: EscrowHoldRecord | null;
   holdAfterRelease: EscrowHoldRecord | null;
   released: FreelancerContractRecord;
+  payoutFrozen: boolean;
   holdBps: number;
   holdMinor: number;
   netMinor: number;
@@ -52,8 +53,8 @@ function world(clientBalance = E2E_CASH_CLIENT_START_MINOR) {
 }
 
 /**
- * O9 bellek nakit yolu: ilan → teklif → fiyat kilidi + emanet hold → release.
- * Canlı Postgres ve Auth istemez.
+ * O9 bellek nakit yolu: ilan → teklif → fiyat kilidi + emanet hold → teslim serbesti.
+ * Usta neti Rail cüzdanına CREDIT yazılmaz; Pazaryeri split intent kaydedilir.
  */
 export async function runFreelancerCashJourney(): Promise<FreelancerCashJourneyResult> {
   const ports = world();
@@ -91,6 +92,7 @@ export async function runFreelancerCashJourney(): Promise<FreelancerCashJourneyR
     holdAfterAccept,
     holdAfterRelease,
     released,
+    payoutFrozen: false,
     holdBps: HOLD_BPS_DEFAULT,
     holdMinor: contract.holdMinor,
     netMinor: contract.netMinor,

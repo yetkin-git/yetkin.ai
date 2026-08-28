@@ -7,10 +7,20 @@ import {
   EDGE_CSP_STYLE_SRC_DIRECTIVE,
   readCspNonce,
 } from "@/lib/kernel/security/edge-guard";
+import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 
 const TEST_SECRET = "rail-edge-jwt-test-secret-32bytes-min";
 const TEST_USER = "11111111-1111-4111-8111-111111111111";
 const TEST_URL = "https://edge-test.supabase.co";
+
+function expectV1Fail(body: unknown, error: string) {
+  expect(body).toMatchObject({
+    ok: false,
+    error,
+    apiVersion: "1",
+    data: null,
+  });
+}
 
 async function signHs256(sub = TEST_USER): Promise<string> {
   return new SignJWT({ role: "authenticated" })
@@ -55,6 +65,10 @@ function expectNonceCsp(response: { headers: Headers }) {
   expect(csp).toContain(`script-src 'self' 'nonce-${nonce}'`);
 }
 
+function loginLocation(path: string): string {
+  return `http://localhost:3000${buildCitizenLoginHref(path)}`;
+}
+
 describe("proxy.ts kenar mühürleri", () => {
   beforeEach(() => {
     vi.stubEnv("SUPABASE_JWT_SECRET", TEST_SECRET);
@@ -82,7 +96,7 @@ describe("proxy.ts kenar mühürleri", () => {
     for (const path of ["/dashboard", "/cuzdan", "/profil", "/pasaport", "/admin"]) {
       const response = await proxy(request(path));
       expect(response.status).toBe(307);
-      expect(response.headers.get("location")).toBe("http://localhost:3000/login");
+      expect(response.headers.get("location")).toBe(loginLocation(path));
       expectNonceCsp(response);
     }
   });
@@ -92,7 +106,7 @@ describe("proxy.ts kenar mühürleri", () => {
       request("/dashboard", { cookie: "sb-testref-auth-token=session-chunk" }),
     );
     expect(response.status).toBe(307);
-    expect(response.headers.get("location")).toBe("http://localhost:3000/login");
+    expect(response.headers.get("location")).toBe(loginLocation("/dashboard"));
     expectNonceCsp(response);
   });
 
@@ -111,11 +125,27 @@ describe("proxy.ts kenar mühürleri", () => {
     expectNonceCsp(response);
   });
 
-  it("oturumsuz session API 401; public ve webhook geçer; harita dışı 404", async () => {
-    const studio = await proxy(request("/api/studio/generate"));
-    expect(studio.status).toBe(401);
-    expect(await studio.json()).toEqual({ ok: false, error: "Oturum gerekli." });
-    expectNonceCsp(studio);
+  it("donmuş oda sayfası vatandaş HTML 410 basar", async () => {
+    const response = await proxy(request("/studio"));
+    expect(response.status).toBe(410);
+    expect(response.headers.get("content-type")).toContain("text/html");
+    const html = await response.text();
+    expect(html).toContain("Bu oda üretimde kapalı.");
+    expect(html).toContain("Akademi");
+    expect(html).toContain("href=\"/\"");
+    expectNonceCsp(response);
+  });
+
+  it("oturumsuz session API 401; donmuş oda 410; public ve webhook geçer; harita dışı 404", async () => {
+    const frozen = await proxy(request("/api/studio/generate"));
+    expect(frozen.status).toBe(410);
+    expectV1Fail(await frozen.json(), "Bu oda üretimde kapalı.");
+    expectNonceCsp(frozen);
+
+    const pulse = await proxy(request("/api/dashboard/pulse"));
+    expect(pulse.status).toBe(401);
+    expectV1Fail(await pulse.json(), "Oturum gerekli.");
+    expectNonceCsp(pulse);
 
     const health = await proxy(request("/api/health"));
     expect(health.status).toBe(200);
@@ -132,21 +162,21 @@ describe("proxy.ts kenar mühürleri", () => {
 
     const unknown = await proxy(request("/api/not-a-route"));
     expect(unknown.status).toBe(404);
-    expect(await unknown.json()).toEqual({ ok: false, error: "API yolu bulunamadı." });
+    expectV1Fail(await unknown.json(), "API yolu bulunamadı.");
   });
 
   it("sahte Bearer session API'yi kenarda 401 eker", async () => {
     const response = await proxy(
-      request("/api/studio/generate", { authorization: "Bearer eyJhbGciOi" }),
+      request("/api/dashboard/pulse", { authorization: "Bearer eyJhbGciOi" }),
     );
     expect(response.status).toBe(401);
-    expect(await response.json()).toEqual({ ok: false, error: "Oturum gerekli." });
+    expectV1Fail(await response.json(), "Oturum gerekli.");
   });
 
   it("doğrulanmış Bearer session API'yi kenarda geçirir", async () => {
     const token = await signHs256();
     const response = await proxy(
-      request("/api/studio/generate", { authorization: `Bearer ${token}` }),
+      request("/api/dashboard/pulse", { authorization: `Bearer ${token}` }),
     );
     expect(response.status).toBe(200);
     expectNonceCsp(response);
@@ -157,7 +187,7 @@ describe("proxy.ts kenar mühürleri", () => {
       new NextRequest(new URL("/api/admin/catalog", "http://localhost:3000"), { method: "PATCH" }),
     );
     expect(catalog.status).toBe(401);
-    expect(await catalog.json()).toEqual({ ok: false, error: "Oturum gerekli." });
+    expectV1Fail(await catalog.json(), "Oturum gerekli.");
 
     const profile = await proxy(
       new NextRequest(new URL("/api/profile", "http://localhost:3000"), { method: "PATCH" }),
@@ -184,10 +214,7 @@ describe("proxy.ts kenar mühürleri", () => {
       }),
     );
     expect(citizen.status).toBe(403);
-    expect(await citizen.json()).toEqual({
-      ok: false,
-      error: "Bu sığınak Super Admin kilidine bağlıdır.",
-    });
+    expectV1Fail(await citizen.json(), "Bu sığınak Super Admin kilidine bağlıdır.");
   });
 
   it("her istekte ayrı nonce basar", async () => {
@@ -283,6 +310,27 @@ describe("proxy.ts kenar mühürleri", () => {
     const unversioned = await proxy(request("/api/health"));
     expect(unversioned.status).toBe(200);
     expect(unversioned.headers.get("x-middleware-rewrite")).toBeNull();
+
+    const certHash = "a".repeat(64);
+    const certMissing = await proxy(request(`/api/v1/academy/certificates/${certHash}`));
+    expect(certMissing.status).toBe(400);
+    expect(await certMissing.json()).toMatchObject({
+      ok: false,
+      error: "Sürüm başlığı gerekli.",
+      apiVersion: "1",
+      data: null,
+    });
+
+    const certHop = await proxy(
+      request(`/api/v1/academy/certificates/${certHash}`, {
+        headers: { "x-rail-api-version": "1" },
+      }),
+    );
+    expect(certHop.status).toBe(200);
+    expect(certHop.headers.get("x-middleware-rewrite")).toBe(
+      `http://localhost:3000/api/academy/certificates/${certHash}`,
+    );
+    expect(certHop.headers.get("x-middleware-request-x-rail-api-version")).toBe("1");
   });
 
   it("/api/v1 OPTIONS CORS yansıtır; joker yok; versiyonsuz CORS basmaz", async () => {

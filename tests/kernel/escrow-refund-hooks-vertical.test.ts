@@ -1,32 +1,19 @@
 import { describe, expect, it } from "vitest";
-import { onEscrowRefunded as arenaOnEscrowRefunded } from "@/lib/arena/escrow-refund";
 import { onEscrowRefunded as freelancerOnEscrowRefunded } from "@/lib/freelancer/escrow-refund";
-import { onEscrowRefunded as kurumsalOnEscrowRefunded } from "@/lib/kurumsal/escrow-refund";
-import { onEscrowRefunded as pazaryeriOnEscrowRefunded } from "@/lib/pazaryeri/escrow-refund";
-import { createMemoryArenaStore } from "../helpers/memory-arena";
-import { createMemoryKurumsalStore } from "../helpers/memory-kurumsal";
 import { createMemoryFreelancerStore } from "../helpers/memory-money";
-import { createMemoryPazaryeriStore } from "../helpers/memory-pazaryeri";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 
 const now = new Date("2026-08-15T00:00:00.000Z");
 
-describe("dikey onEscrowRefunded FSM", () => {
+describe("dikey onEscrowRefunded FSM — freelancer (çalışan oda)", () => {
   it("yabancı purpose ve bulunamayan hold no-op; uygun satır REFUNDED olur", async () => {
     const freelancer = createMemoryFreelancerStore();
-    const kurumsal = createMemoryKurumsalStore();
-    const arena = createMemoryArenaStore();
-    const pazaryeri = createMemoryPazaryeriStore();
 
     expect(await freelancerOnEscrowRefunded("kurumsal", "h1", freelancer, now)).toEqual({
       applied: false,
     });
-    expect(await kurumsalOnEscrowRefunded("freelancer", "h1", kurumsal, now)).toEqual({
-      applied: false,
-    });
-    expect(await arenaOnEscrowRefunded("pazaryeri", "h1", arena, now)).toEqual({ applied: false });
-    expect(await pazaryeriOnEscrowRefunded("arena", "h1", pazaryeri, now)).toEqual({
+    expect(await freelancerOnEscrowRefunded("freelancer", "missing-hold", freelancer, now)).toEqual({
       applied: false,
     });
 
@@ -37,6 +24,10 @@ describe("dikey onEscrowRefunded FSM", () => {
       brief: "Brief yeterince uzun.",
       budgetMinor: toAmountMinor(10_000),
       currencyCode: SETTLEMENT_CURRENCY,
+      visaPathwayId: "uiux-tasarim-sistemleri",
+      visibility: "PUBLIC",
+      inviteeId: null,
+      dueDays: null,
       status: "AWARDED",
       createdAt: now,
       updatedAt: now,

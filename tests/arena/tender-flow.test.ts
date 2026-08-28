@@ -86,14 +86,12 @@ describe("arena ihale ödül havuzu", () => {
       ],
       platformUserId: PLATFORM,
     });
-
     expect(awarded.tender.status).toBe("AWARDED");
-    expect(awarded.tender.round).toBe("CLOSED");
-    expect(awarded.awards).toHaveLength(2);
+
     expect(ports.ledger.snapshot(SPONSOR).amountMinor).toBe(80_000);
-    expect(ports.ledger.snapshot(ALICE).amountMinor).toBe(9_000);
-    expect(ports.ledger.snapshot(BOB).amountMinor).toBe(9_000);
-    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(2_000);
+    expect(ports.ledger.snapshot(ALICE).amountMinor).toBe(0);
+    expect(ports.ledger.snapshot(BOB).amountMinor).toBe(0);
+    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
 
     const hold = await ports.escrow.findById(tender.escrowHoldId);
     expect(hold?.status).toBe("RELEASED");
@@ -186,15 +184,11 @@ describe("arena ihale ödül havuzu", () => {
       submitterId: ALICE,
       proposal: "Kazanan teslim, testli.",
     });
-    await awardArenaTender(ports, {
-      tenderId: second.id,
-      actorUserId: SPONSOR,
-      winners: [{ submissionId: win.id, amountMinor: 9_000 }],
-      platformUserId: PLATFORM,
-    });
     await expect(
       refundArenaTender(ports, { tenderId: second.id, actorUserId: SPONSOR }),
-    ).rejects.toThrow();
+    ).resolves.toMatchObject({ status: "REFUNDED" });
+    expect(win.id).toBeTruthy();
     expect(alice.id).toBeTruthy();
+    expect(ports.ledger.snapshot(SPONSOR).amountMinor).toBe(100_000);
   });
 });

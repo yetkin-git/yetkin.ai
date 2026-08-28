@@ -8,7 +8,8 @@ import type { EscrowHoldRecord, EscrowStore } from "@/lib/kernel/escrow/types";
 
 function toHold(row: {
   id: string;
-  walletId: string;
+  walletId: string | null;
+  pspPaymentId: string | null;
   userId: string;
   referenceKey: string;
   status: "PENDING" | "RELEASED" | "REFUNDED";
@@ -25,6 +26,7 @@ function toHold(row: {
   return {
     id: row.id,
     walletId: row.walletId,
+    pspPaymentId: row.pspPaymentId,
     userId: row.userId,
     referenceKey: row.referenceKey,
     status: row.status,
@@ -44,7 +46,8 @@ export type EscrowWriteDb = Pick<PrismaClient, "escrowHold" | "$queryRaw">;
 
 type LockedHoldRow = {
   id: string;
-  wallet_id: string;
+  wallet_id: string | null;
+  psp_payment_id: string | null;
   user_id: string;
   reference_key: string;
   status: "PENDING" | "RELEASED" | "REFUNDED";
@@ -64,7 +67,7 @@ async function selectHoldForUpdate(
   referenceKey: string,
 ): Promise<LockedHoldRow | null> {
   const rows = await db.$queryRaw<LockedHoldRow[]>`
-    SELECT id, wallet_id, user_id, reference_key, status, currency_code,
+    SELECT id, wallet_id, psp_payment_id, user_id, reference_key, status, currency_code,
            gross_minor, hold_minor, net_minor, hold_bps,
            created_at, released_at, refunded_at, expires_at
     FROM escrow_holds
@@ -78,6 +81,7 @@ function toHoldFromLocked(row: LockedHoldRow): EscrowHoldRecord {
   return toHold({
     id: row.id,
     walletId: row.wallet_id,
+    pspPaymentId: row.psp_payment_id,
     userId: row.user_id,
     referenceKey: row.reference_key,
     status: row.status,
@@ -112,6 +116,7 @@ export function bindEscrowStore(db: EscrowWriteDb): EscrowStore {
         data: {
           id: input.id,
           walletId: input.walletId,
+          pspPaymentId: input.pspPaymentId,
           userId: input.userId,
           referenceKey: input.referenceKey,
           currencyCode: input.currencyCode,

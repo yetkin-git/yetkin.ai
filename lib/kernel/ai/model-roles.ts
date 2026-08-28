@@ -1,6 +1,7 @@
 /**
  * Kanonik AI roller — yetenek sınıfı, ürün adı değil. Tavan: 8 (anayasa).
- * 6 canlı + 2 mühürlü-ölü (VIDEO_GEN, VOICE_TTS). Factory yok; çağrı fail-closed.
+ * 7 canlı + 1 mühürlü-ölü (VIDEO_GEN). VOICE_TTS akademi ders dinletme factory'sidir
+ * (`generateSpeech`); invokeLlm complete yolu değildir.
  * Eski gemini alias patlaması (tarimAgronomist, juniorPracticeAudio…) doğmaz.
  */
 
@@ -12,10 +13,11 @@ export const AI_LIVE_MODEL_ROLE_KEYS = [
   "FAST_STREAM",
   "LITE_STREAM",
   "IMAGE_GEN",
+  "VOICE_TTS",
   "OPEN_LOCAL",
 ] as const;
 
-export const AI_SEALED_DEAD_ROLE_KEYS = ["VIDEO_GEN", "VOICE_TTS"] as const;
+export const AI_SEALED_DEAD_ROLE_KEYS = ["VIDEO_GEN"] as const;
 
 export const AI_MODEL_ROLE_KEYS = [
   "EXECUTIVE_BRAIN",
@@ -43,13 +45,17 @@ export class AiGatewayForbiddenError extends ForbiddenError {
 }
 
 export const AI_MODEL_ROLE_DEFAULTS: Record<AiLiveModelRoleKey, string> = {
-  EXECUTIVE_BRAIN: "gemini-2.5-pro",
-  DEEP_RESEARCH: "gemini-2.5-pro",
-  FAST_STREAM: "gemini-2.5-flash",
-  LITE_STREAM: "gemini-2.5-flash-lite",
+  EXECUTIVE_BRAIN: "gemini-3.1-pro-preview",
+  DEEP_RESEARCH: "gemini-3.1-pro-preview",
+  FAST_STREAM: "gemini-3.6-flash",
+  LITE_STREAM: "gemini-3.5-flash-lite",
   IMAGE_GEN: "imagen-4.0-generate-001",
+  VOICE_TTS: "gemini-3.1-flash-tts-preview",
   OPEN_LOCAL: "gemma-3-27b-it",
 };
+
+/** 404 / NOT_FOUND olduğunda VOICE_TTS ikinci model. */
+export const VOICE_TTS_FALLBACK_MODEL_ID = "gemini-2.5-flash-preview-tts";
 
 export const AI_MODEL_ROLE_META: Record<
   AiModelRoleKey,
@@ -80,8 +86,8 @@ export const AI_MODEL_ROLE_META: Record<
     description: "Kesilmiş ölü yuva. Factory yok; çağrı fail-closed.",
   },
   VOICE_TTS: {
-    displayName: "Ses (mühürlü)",
-    description: "Kesilmiş ölü yuva. Factory yok; çağrı fail-closed.",
+    displayName: "Ses",
+    description: "Metinden ses (generateSpeech gümrük factory)",
   },
   OPEN_LOCAL: {
     displayName: "Yerel Güç",

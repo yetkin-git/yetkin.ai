@@ -19,7 +19,7 @@ import {
  * PayTR somut adaptör — PaymentProvider portunun gün 0 tek uygulaması.
  */
 export class PaytrPaymentProvider implements PaymentProvider {
-  readonly id = "paytr" as const;
+  readonly id = "merchant" as const;
 
   async beginCheckout(input: BeginCheckoutInput): Promise<BeginCheckoutResult> {
     if (input.currencyCode !== "TRY") {

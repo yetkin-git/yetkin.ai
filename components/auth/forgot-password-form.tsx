@@ -34,7 +34,7 @@ export function ForgotPasswordForm() {
         redirectTo,
       });
       if (resetError) {
-        setError(resetError.message);
+        setError(copy.fail);
         setPending(false);
         return;
       }
@@ -60,7 +60,11 @@ export function ForgotPasswordForm() {
           required
         />
       </label>
-      {error ? <p className="text-sm text-red-600">{error}</p> : null}
+      {error ? (
+        <p aria-live="assertive" className="text-sm text-[var(--rose)]">
+          {error}
+        </p>
+      ) : null}
       {message ? (
         <p className="text-sm text-[var(--safir)]" role="status">
           {message}

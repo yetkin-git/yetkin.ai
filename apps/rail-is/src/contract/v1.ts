@@ -1,10 +1,68 @@
 /**
- * Dron v1 sözleşme kopyası — OpenAPI / sicil alanlarının dondurulmuş tipi.
- * `lib/kernel` import edilmez. Kernel Zod/Prisma/para motoru bu bundle'a girmez.
+ * Dron v1 sözleşme — tipler OpenAPI'den üretilir (`src/generated/v1.ts`).
+ * Parser'lar fail-closed runtime'dır; kernel import edilmez.
  * Kaynak: lib/kernel/http/openapi-v1.json + .system_docs/DRON_CLIENT_SPEC.md
  */
 
-export const RAIL_V1_API_VERSION = "1" as const;
+import {
+  RAIL_V1_API_VERSION,
+  type ClientJobBidView,
+  type ClientJobBidsView,
+  type FreelancerContractView,
+  type RailV1AcceptData,
+  type RailV1AcceptRequest,
+  type RailV1Bid,
+  type RailV1BidData,
+  type RailV1BidRequest,
+  type RailV1Contract,
+  type RailV1ContractsData,
+  type RailV1DeliveryData,
+  type RailV1DeliveryMessage,
+  type RailV1DeliveryRequest,
+  type RailV1Envelope,
+  type RailV1FailBody,
+  type RailV1Job,
+  type RailV1JobsData,
+  type RailV1OkBody,
+  type RailV1ReleaseData,
+  type RailV1SessionData,
+  type RailV1SessionUser,
+  type RailV1VisaStamp,
+  type RailV1WalletStrip,
+  type RailV1WalletStripData,
+} from "../generated/v1";
+
+export {
+  RAIL_V1_API_VERSION,
+  type ClientJobBidView,
+  type ClientJobBidsView,
+  type FreelancerContractView,
+  type RailV1AcceptData,
+  type RailV1AcceptRequest,
+  type RailV1Bid,
+  type RailV1BidData,
+  type RailV1BidRequest,
+  type RailV1Contract,
+  type RailV1ContractsData,
+  type RailV1DeliveryData,
+  type RailV1DeliveryMessage,
+  type RailV1DeliveryRequest,
+  type RailV1Envelope,
+  type RailV1FailBody,
+  type RailV1Job,
+  type RailV1JobsData,
+  type RailV1OkBody,
+  type RailV1ReleaseData,
+  type RailV1SessionData,
+  type RailV1SessionUser,
+  type RailV1VisaStamp,
+  type RailV1WalletStrip,
+  type RailV1WalletStripData,
+};
+
+export type RailV1FreelancerContractView = import("../generated/v1").FreelancerContractView;
+export type RailV1ContractStatus = import("../generated/v1").FreelancerContractView["status"];
+
 export const RAIL_MIN_VERSION_HEADER = "X-Rail-Min-Version";
 export const RAIL_REQUEST_ID_HEADER = "x-request-id";
 export const IDEMPOTENCY_KEY_HEADER = "Idempotency-Key";
@@ -22,15 +80,17 @@ export const RAIL_V1_SESSION_REQUIRED = "Oturum gerekli.";
 export const RAIL_V1_IDEMPOTENCY_REQUIRED = "Idempotency-Key başlığı zorunludur.";
 export const RAIL_V1_IDEMPOTENCY_UUID = "Idempotency-Key UUID olmalıdır.";
 export const RAIL_V1_VERSION_HEADER_REQUIRED = "Sürüm başlığı gerekli.";
-export const RAIL_V1_CLIENT_STALE = "Bu uygulama güncel değil. Rail İş'i mağazadan güncelle.";
+export const RAIL_V1_CLIENT_STALE =
+  "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.";
 export const RAIL_V1_SERVER_STALE = "Bu sunucu henüz o sözleşmeyi konuşmuyor.";
 export const RAIL_V1_PARSE_FAIL =
   "v1 zarfı okunamadı. Sahte liste veya bakiye üretilmez.";
 export const RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE = "Yetersiz bakiye. Teklif kabul edilemez.";
+export const RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE = "Ödeme henüz bağlanmadı";
 export const RAIL_V1_OWNER_BIDS_FORBIDDEN = "Yalnız ilan sahibi teklifleri görebilir.";
 
-export const RAIL_V1_BID_AMOUNT_MIN_MINOR = 1_000;
-export const RAIL_V1_BID_AMOUNT_MAX_MINOR = 2_000_000;
+export const RAIL_V1_BID_AMOUNT_MIN_MINOR = 25_000;
+export const RAIL_V1_BID_AMOUNT_MAX_MINOR = 5_000_000;
 export const RAIL_V1_BID_COVER_NOTE_MIN = 4;
 export const RAIL_V1_BID_COVER_NOTE_MAX = 2000;
 
@@ -47,190 +107,7 @@ export function createRailV1Uuid(): string {
 
 export type RailV1EnvelopeKey = (typeof RAIL_V1_ENVELOPE_KEYS)[number];
 
-export type RailV1OkBody<T extends Record<string, unknown>> = {
-  ok: true;
-  error: null;
-  requestId: string;
-  apiVersion: typeof RAIL_V1_API_VERSION;
-  data: T;
-};
-
-export type RailV1FailBody = {
-  ok: false;
-  error: string;
-  requestId: string;
-  apiVersion: typeof RAIL_V1_API_VERSION;
-  data: null;
-};
-
-export type RailV1Envelope<T extends Record<string, unknown> = Record<string, unknown>> =
-  | RailV1OkBody<T>
-  | RailV1FailBody;
-
-export type RailV1SessionUser = {
-  id: string;
-  email: string;
-};
-
-export type RailV1SessionData = {
-  user: RailV1SessionUser;
-};
-
-export type RailV1Job = {
-  id: string;
-  clientId: string;
-  title: string;
-  brief: string;
-  budgetMinor: number;
-  currencyCode: "TRY" | "USD" | "EUR";
-  status: "OPEN" | "AWARDED" | "CANCELLED";
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type RailV1JobsData = {
-  jobs: RailV1Job[];
-};
-
-export type RailV1BidRequest = {
-  amountMinor: number;
-  coverNote: string;
-};
-
-export type RailV1Bid = {
-  id: string;
-  jobId: string;
-  bidderId: string;
-  amountMinor: number;
-  currencyCode: "TRY" | "USD" | "EUR";
-  coverNote: string;
-  status: "SUBMITTED" | "ACCEPTED" | "REJECTED";
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type RailV1BidData = {
-  bid: RailV1Bid;
-};
-
-/** GET /api/v1/client/jobs/{id}/bids — OpenAPI ClientJobBidsView. bidderId yok. */
-export type ClientJobBidView = {
-  bidId: string;
-  amountMinor: number;
-  coverNote: string;
-  createdAt: string;
-};
-
-export type ClientJobBidsView = {
-  bids: ClientJobBidView[];
-};
-
-export type RailV1WalletStrip = {
-  live: boolean;
-  amountMinor: number;
-  currencyCode: "TRY" | "USD" | "EUR";
-};
-
-export type RailV1WalletStripData = {
-  strip: RailV1WalletStrip;
-};
-
 export const RAIL_V1_CONTRACT_STATUSES = ["FUNDED", "RELEASED", "REFUNDED", "DISPUTED"] as const;
-
-export type RailV1ContractStatus = (typeof RAIL_V1_CONTRACT_STATUSES)[number];
-
-/** GET /api/v1/freelancer/contracts öğesi — OpenAPI FreelancerContractView. */
-export type FreelancerContractView = {
-  id: string;
-  jobId: string;
-  bidId: string;
-  clientId: string;
-  freelancerId: string;
-  escrowHoldId: string;
-  status: RailV1ContractStatus;
-  currencyCode: "TRY" | "USD" | "EUR";
-  grossMinor: number;
-  holdMinor: number;
-  netMinor: number;
-  holdBps: number;
-  fundedAt: string;
-  releasedAt: string | null;
-  refundedAt: string | null;
-  createdAt: string;
-  updatedAt: string;
-  deliveredAt: string | null;
-};
-
-export type RailV1FreelancerContractView = FreelancerContractView;
-
-export type RailV1ContractsData = {
-  contracts: FreelancerContractView[];
-};
-
-export type RailV1DeliveryRequest = {
-  kind: "DELIVERY";
-  body: string;
-  artifactUrl?: string;
-};
-
-export type RailV1DeliveryMessage = {
-  id: string;
-  contractId: string;
-  kind: "DELIVERY";
-  createdAt: string;
-};
-
-export type RailV1DeliveryData = {
-  message: RailV1DeliveryMessage;
-};
-
-export type RailV1VisaStamp = {
-  id: string;
-  userId: string;
-  sourceKind: "ACADEMY_CERTIFICATE" | "FREELANCER_RELEASE";
-  sourceId: string;
-  visaKey: string;
-  moduleId: string;
-  title: string;
-  certificateHash: string | null;
-  issuedAt: string;
-  createdAt: string;
-};
-
-/** POST /api/v1/freelancer/contracts/{id}/release ack — deliveredAt yok. */
-export type RailV1Contract = {
-  id: string;
-  jobId: string;
-  bidId: string;
-  clientId: string;
-  freelancerId: string;
-  escrowHoldId: string;
-  status: RailV1ContractStatus;
-  currencyCode: "TRY" | "USD" | "EUR";
-  grossMinor: number;
-  holdMinor: number;
-  netMinor: number;
-  holdBps: number;
-  fundedAt: string;
-  releasedAt: string | null;
-  refundedAt: string | null;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type RailV1ReleaseData = {
-  contract: RailV1Contract;
-  visaStamp: RailV1VisaStamp | null;
-};
-
-export type RailV1AcceptRequest = {
-  bidId: string;
-};
-
-/** POST /api/v1/freelancer/jobs/{id}/accept ack — deliveredAt / visaStamp yok. */
-export type RailV1AcceptData = {
-  contract: RailV1Contract;
-};
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value != null && typeof value === "object" && !Array.isArray(value);

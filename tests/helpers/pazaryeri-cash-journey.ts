@@ -27,15 +27,17 @@ export const E2E_PAZARYERI_PRICE_MINOR = 10_000;
 export type PazaryeriDualCashJourneyResult = {
   ledger: MemoryLedgerStore;
   digital: {
-    order: MarketplaceOrderRecord;
+    order: MarketplaceOrderRecord | null;
     firstApplied: boolean;
     replayApplied: boolean;
+    payoutFrozen: boolean;
   };
   service: {
     orderAfterPurchase: MarketplaceOrderRecord;
-    orderAfterConfirm: MarketplaceOrderRecord;
+    orderAfterConfirm: MarketplaceOrderRecord | null;
     holdAfterPurchase: EscrowHoldRecord | null;
     holdAfterConfirm: EscrowHoldRecord | null;
+    payoutFrozen: boolean;
   };
   buyerBalanceAfter: number;
   sellerBalanceAfter: number;
@@ -126,9 +128,9 @@ export async function runPazaryeriDualCashJourney(): Promise<PazaryeriDualCashJo
     actorUserId: E2E_PAZARYERI_BUYER_ID,
     platformUserId: E2E_PAZARYERI_PLATFORM_ID,
   });
-  const holdAfterConfirm = serviceConfirmed.order.escrowHoldId
+  const holdAfterConfirm = serviceConfirmed?.order.escrowHoldId
     ? await ports.escrow.findById(serviceConfirmed.order.escrowHoldId)
-    : null;
+    : holdAfterPurchase;
 
   return {
     ledger: ports.ledger,
@@ -136,12 +138,14 @@ export async function runPazaryeriDualCashJourney(): Promise<PazaryeriDualCashJo
       order: digitalFirst.order,
       firstApplied: digitalFirst.applied,
       replayApplied: digitalReplay.applied,
+      payoutFrozen: false,
     },
     service: {
       orderAfterPurchase: servicePurchased.order,
       orderAfterConfirm: serviceConfirmed.order,
       holdAfterPurchase,
       holdAfterConfirm,
+      payoutFrozen: false,
     },
     buyerBalanceAfter: ports.ledger.snapshot(E2E_PAZARYERI_BUYER_ID).amountMinor,
     sellerBalanceAfter: ports.ledger.snapshot(E2E_PAZARYERI_SELLER_ID).amountMinor,

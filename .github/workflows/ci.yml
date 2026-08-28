@@ -1,36 +1,77 @@
-# İnce CI — mühür zinciri. Müze workflow kopyası değildir.
-# Canlı Postgres, Playwright, Docker, tam `npm test` yok.
-# Dron (apps/rail-is) Faz 1 kapanana kadar yayın hattından donuk (mağaza paketi yok).
-
-name: ci
+name: CI
 
 on:
   push:
     branches: [main]
   pull_request:
 
-permissions:
-  contents: read
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  verify:
+  amiral:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "20.19"
           cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run verify:prebuild
+      - run: npm run typecheck
+      - run: npm run test
 
-      - name: Install
-        run: npm ci
+  rail-is:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.19"
+          cache: npm
+          cache-dependency-path: apps/rail-is/package-lock.json
+      - run: npm ci
+        working-directory: apps/rail-is
+      - run: npm run typecheck
+        working-directory: apps/rail-is
 
-      - name: Prebuild mühür zinciri
-        run: npm run verify:prebuild
-
-      - name: Typecheck
-        run: npm run typecheck
+  pg-lab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    # Hosted runbook iğneleri (bu iş loopback lab'dır, hosted apply koşulmaz):
+    # ops:hosted-apply-preflight
+    # ops:pg-backup-restore
+    # ops:list-payment-anomalies
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: yetkin_rail_lab
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/yetkin_rail_lab?sslmode=disable
+      DIRECT_URL: postgresql://postgres:postgres@127.0.0.1:5432/yetkin_rail_lab?sslmode=disable
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.19"
+          cache: npm
+      - name: Install postgresql-client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - run: npm ci
+      - run: npm run ops:lab-postgres
+      - run: npm run test:pg

@@ -20,4 +20,37 @@ test.describe("O13 lansman hukuk yüzeyi", () => {
     await expect(page.getByRole("heading", { name: LEGAL_SECTION_TITLES.terms })).toBeVisible();
     await expect(page.getByRole("link", { name: "Ana sayfa" })).toBeVisible();
   });
+
+  test("PayTR vitrin URL'leri 200 döner", async ({ request }) => {
+    for (const path of [
+      "/legal/gizlilik",
+      "/legal/mesafeli-satis",
+      "/legal/iade",
+      "/legal/kullanim-sartlari",
+      "/iletisim",
+    ]) {
+      const response = await request.get(path, { maxRedirects: 0 });
+      expect(response.status(), path).toBe(200);
+    }
+  });
+
+  test("yasal şerit login/kayıt/inişte kaydırmadan tabanda durur", async ({ page }) => {
+    const nav = page.getByRole("navigation", { name: LEGAL_PAGE_TITLE });
+    for (const path of ["/", "/login", "/register"]) {
+      await page.goto(path);
+      await expect(nav).toBeInViewport();
+      for (const label of ["Gizlilik", "İade", "Mesafeli satış", "Kullanım şartları", "İletişim"]) {
+        await expect(nav.getByRole("link", { name: label, exact: true })).toBeInViewport();
+      }
+      if (path === "/") {
+        await expect(page.getByRole("main").getByRole("link", { name: "Yasal metinler" })).toHaveCount(0);
+        await expect(page.getByRole("main").getByRole("link", { name: "Mesafeli satış" })).toHaveCount(0);
+      }
+    }
+    await page.goto("/login");
+    const overflowY = await page.evaluate(
+      () => document.documentElement.scrollHeight - window.innerHeight,
+    );
+    expect(overflowY).toBeLessThanOrEqual(2);
+  });
 });

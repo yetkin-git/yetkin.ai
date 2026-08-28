@@ -22,11 +22,11 @@ export default async function NewFreelancerJobPage() {
           </LinkButton>
         }
       />
-      <Card title={SEN_VOICE.freelancer.escrow.title} eyebrow={SEN_VOICE.freelancer.escrow.eyebrow}>
-        <EscrowHoldSteps holdPercent={HOLD_BPS_DEFAULT / 100} />
-      </Card>
       <Card variant="featured">
         <JobCreateForm />
+      </Card>
+      <Card title={SEN_VOICE.freelancer.escrow.title} eyebrow={SEN_VOICE.freelancer.escrow.eyebrow}>
+        <EscrowHoldSteps holdPercent={HOLD_BPS_DEFAULT / 100} />
       </Card>
     </RoomFrame>
   );

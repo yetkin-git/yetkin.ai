@@ -7,7 +7,7 @@ import type { ExpoConfig } from "expo/config";
  * Faz 1 kapanana kadar yayın hattı donuk: eas.json / EAS build / expo publish yok.
  */
 const config: ExpoConfig = {
-  name: "Rail İş",
+  name: "yetkin.ai",
   slug: "rail-is",
   scheme: "rail-is",
   version: "0.0.1",

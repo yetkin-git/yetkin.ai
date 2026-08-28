@@ -4,7 +4,8 @@
  * POST …/messages yalnız kind=DELIVERY dar hop'udur; GET thread PII'si allowlist dışıdır.
  * POST …/release yalnız işveren hak edişidir; usta çağrısı sunucuda 403'tür.
  * GET …/client/jobs/{id}/bids yalnız ilan sahibidir; bidderId sızmaz.
- * POST …/accept yalnız işveren DEBIT'idir; usta çağrısı sunucuda 403'tür.
+ * POST …/accept yalnız işveren PSP hold'udur; usta çağrısı sunucuda 403'tür.
+ * academy-purchase v1 sicilindedir ama bu listede YOKTUR (IAP / native mağaza yasağı).
  */
 
 export const RAIL_IS_DAY0_HOPS = {

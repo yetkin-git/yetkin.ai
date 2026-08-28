@@ -3,13 +3,14 @@
  * Ops omurgası — prisma migrate deploy + supabase/migrations SQL sırası.
  * Tablolar Prisma'dan gelir. Auth trigger / FORCE RLS / katalog / akademi tohumu /
  * e-posta senkronu / freelancer ilan tohumu sonra uygulanır.
- * Prisma deploy Studio data_base64 CHECK ve http_idempotency_records basar;
- * post-apply mühür yoksa fail-closed çıkar. Yeni tablo icat etmez; SQL dosyaları
- * idempotenttir. Canlı DB ister.
+ * Prisma deploy http_idempotency_records ve defter mühürlerini basar;
+ * P3 donmuş 23 tabloyu DROP eder. Post-apply mühür yoksa fail-closed çıkar.
+ * Yeni tablo icat etmez; SQL dosyaları idempotenttir. Canlı DB ister.
  *
  * Sıra (kilitli):
  *   1) prisma migrate deploy (D2.1 academy_lesson_completions, D2.2 curriculum_seal,
- *      D2.3 corporate_job_offers dahil — Direct :5432)
+ *      D2.3 corporate_job_offers (tarihsel), defter immutability + paid_command_reservations,
+ *      P3 drop_frozen_room_tables — Direct :5432)
  *   2) 20260814010000_handle_new_user_auth_sync.sql
  *   3) 20260814020000_enforce_rls_all_tables.sql
  *   4) 20260814030000_rls_user_scoped_policies.sql
@@ -32,13 +33,26 @@ import {
   DIRECT_POSTGRES_PORT,
   EXPECTED_SQL,
   FREELANCER_SEED_JOB_IDS,
+  LEDGER_IMMUTABILITY_MIGRATION,
+  ESCROW_HOLD_CHECKS_MIGRATION,
+  CERTIFICATE_REVOCATION_MIGRATION,
+  FROZEN_ROOM_DROP_MIGRATION,
   PRISMA_RING_MIGRATIONS,
   assertAuthUsers,
+  assertLedgerImmutabilityMigrationPresent,
+  assertEscrowHoldChecksMigrationPresent,
+  assertCertificateRevocationMigrationPresent,
+  assertFrozenRoomDropMigrationPresent,
   assertPublicUsers,
   assertPrismaRingMigrationsPresent,
   assertSqlSealPlanComplete,
+  inspectLedgerMigrationSql,
+  inspectEscrowHoldMigrationSql,
+  inspectCertificateRevocationSql,
+  inspectFrozenRoomDropSql,
   inspectSqlSealPlan,
   isForbiddenPoolerUrl,
+  listPrismaMigrationFolders as listDiskPrismaMigrationFolders,
   parseDirectConnectionUrl,
   resolveMigratorConnectionUrl,
   runPostApplySeals,
@@ -129,10 +143,11 @@ function listPrismaMigrationFolders(): string[] {
   if (!existsSync(dir)) {
     fail("prisma/migrations dizini yok.");
   }
-  return readdirSync(dir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && /^\d{14}_/.test(entry.name))
-    .map((entry) => entry.name)
-    .sort();
+  const folders = listDiskPrismaMigrationFolders(dir);
+  if (folders.length === 0) {
+    fail("prisma/migrations altında klasör yok.");
+  }
+  return folders;
 }
 
 function listSqlFiles(): string[] {
@@ -148,7 +163,7 @@ function listSqlFiles(): string[] {
   }
   if (files.length !== EXPECTED_SQL.length) {
     fail(
-      `SQL sayısı kilitli yedi değil (${files.length}). Ek dosya veya eksik: ${files.join(", ")}`,
+      `SQL sayısı kilitli sekiz değil (${files.length}). Ek dosya veya eksik: ${files.join(", ")}`,
     );
   }
   for (let index = 0; index < EXPECTED_SQL.length; index += 1) {
@@ -204,6 +219,80 @@ async function main(): Promise<void> {
   if (prismaRingIssues.length > 0) {
     fail(`Prisma D2 halka migrasyonu eksik: ${prismaRingIssues.join("; ")}`);
   }
+  const ledgerFolderIssues = assertLedgerImmutabilityMigrationPresent(prismaFolders);
+  if (ledgerFolderIssues.length > 0) {
+    fail(ledgerFolderIssues.join("; "));
+  }
+  const ledgerSqlPath = resolve(
+    ROOT,
+    "prisma",
+    "migrations",
+    LEDGER_IMMUTABILITY_MIGRATION,
+    "migration.sql",
+  );
+  if (!existsSync(ledgerSqlPath)) {
+    fail(`Defter migrasyon SQL yok: ${LEDGER_IMMUTABILITY_MIGRATION}/migration.sql`);
+  }
+  const ledgerSqlIssues = inspectLedgerMigrationSql(readFileSync(ledgerSqlPath, "utf8"));
+  if (ledgerSqlIssues.length > 0) {
+    fail(`Defter migrasyon SQL mühürü eksik: ${ledgerSqlIssues.join("; ")}`);
+  }
+  const escrowFolderIssues = assertEscrowHoldChecksMigrationPresent(prismaFolders);
+  if (escrowFolderIssues.length > 0) {
+    fail(escrowFolderIssues.join("; "));
+  }
+  const escrowSqlPath = resolve(
+    ROOT,
+    "prisma",
+    "migrations",
+    ESCROW_HOLD_CHECKS_MIGRATION,
+    "migration.sql",
+  );
+  if (!existsSync(escrowSqlPath)) {
+    fail(`Emanet CHECK migrasyon SQL yok: ${ESCROW_HOLD_CHECKS_MIGRATION}/migration.sql`);
+  }
+  const escrowSqlIssues = inspectEscrowHoldMigrationSql(readFileSync(escrowSqlPath, "utf8"));
+  if (escrowSqlIssues.length > 0) {
+    fail(`Emanet CHECK migrasyon SQL mühürü eksik: ${escrowSqlIssues.join("; ")}`);
+  }
+  const revocationFolderIssues = assertCertificateRevocationMigrationPresent(prismaFolders);
+  if (revocationFolderIssues.length > 0) {
+    fail(revocationFolderIssues.join("; "));
+  }
+  const revocationSqlPath = resolve(
+    ROOT,
+    "prisma",
+    "migrations",
+    CERTIFICATE_REVOCATION_MIGRATION,
+    "migration.sql",
+  );
+  if (!existsSync(revocationSqlPath)) {
+    fail(`Sertifika iptal migrasyon SQL yok: ${CERTIFICATE_REVOCATION_MIGRATION}/migration.sql`);
+  }
+  const revocationSqlIssues = inspectCertificateRevocationSql(
+    readFileSync(revocationSqlPath, "utf8"),
+  );
+  if (revocationSqlIssues.length > 0) {
+    fail(`Sertifika iptal SQL mühürü eksik: ${revocationSqlIssues.join("; ")}`);
+  }
+  const frozenDropFolderIssues = assertFrozenRoomDropMigrationPresent(prismaFolders);
+  if (frozenDropFolderIssues.length > 0) {
+    fail(frozenDropFolderIssues.join("; "));
+  }
+  const frozenDropSqlPath = resolve(
+    ROOT,
+    "prisma",
+    "migrations",
+    FROZEN_ROOM_DROP_MIGRATION,
+    "migration.sql",
+  );
+  if (!existsSync(frozenDropSqlPath)) {
+    fail(`Donmuş oda DROP SQL yok: ${FROZEN_ROOM_DROP_MIGRATION}/migration.sql`);
+  }
+  const frozenDropSqlIssues = inspectFrozenRoomDropSql(readFileSync(frozenDropSqlPath, "utf8"));
+  if (frozenDropSqlIssues.length > 0) {
+    fail(`Donmuş oda DROP SQL mühürü eksik: ${frozenDropSqlIssues.join("; ")}`);
+  }
   const sqlByFile: Record<string, string> = {};
   const dir = resolve(ROOT, "supabase", "migrations");
   for (const file of files) {
@@ -214,8 +303,13 @@ async function main(): Promise<void> {
     fail(`SQL mühür planı eksik: ${planIssues.join("; ")}`);
   }
 
-  console.log("ops:migrate — Prisma şema (D2.1 ders sicili, D2.2 curriculum_seal, D2.3 corporate_job_offers), sonra yedi SQL.");
+  console.log(
+    "ops:migrate — Prisma şema (D2 halkası, defter immutability, sertifika iptal, P3 donmuş DROP), sonra sekiz SQL.",
+  );
   console.log(`   Prisma halka: ${PRISMA_RING_MIGRATIONS.join(" → ")}`);
+  console.log(`   Defter mührü: ${LEDGER_IMMUTABILITY_MIGRATION}`);
+  console.log(`   İptal mührü: ${CERTIFICATE_REVOCATION_MIGRATION}`);
+  console.log(`   Donmuş DROP: ${FROZEN_ROOM_DROP_MIGRATION}`);
   runPrismaDeploy();
 
   const client = new Client({ connectionString: withPgLibpqSslCompat(url) });
@@ -236,20 +330,27 @@ async function main(): Promise<void> {
     );
     console.log("   auth sync OK — handle_new_user AFTER INSERT + handle_user_email_update AFTER UPDATE.");
     console.log("   FORCE RLS OK — çekirdek tablolar relforcerowsecurity.");
-    console.log("   Studio CHECK OK — studio_digital_assets data_base64 tavanı 2097152.");
+    console.log("   Donmuş 23 tablo DROP OK.");
     console.log("   http_idempotency_records OK — unique user_id+route+key.");
     console.log("   D2.1 academy_lesson_completions OK.");
     console.log("   D2.2 curriculum_seal + certificate_hash OK.");
-    console.log("   D2.3 corporate_job_offers OK.");
+    console.log("   D2.3 corporate_job_offers tarihsel migrasyon durur; tablo DROP.");
+    console.log(
+      "   defter immutability OK — append-only trigger, CHECK tanımları, iki RESTRICT FK.",
+    );
+    console.log(
+      "   paid_command_reservations OK — unique (user_id, scope, command_key) + estimated_minor CHECK.",
+    );
     console.log(
       `   freelancer tohumu OK — ${FREELANCER_SEED_JOB_IDS.length} OPEN ilan, katalog taban + hold bağlı.`,
     );
+    console.log("   sertifika iptal OK — academy_certificates.revoked_at + revoke_reason.");
   } finally {
     await client.end();
   }
 
   console.log(
-    "ops:migrate OK — Prisma şema + Auth sync + e-posta senkronu + FORCE RLS + Studio data_base64 CHECK + http_idempotency_records + katalog tohumu + akademi kurs tohumu + freelancer ilan tohumu.",
+    "ops:migrate OK — Prisma şema + Auth sync + e-posta senkronu + FORCE RLS + donmuş 23 tablo DROP + http_idempotency_records + defter immutability + paid_command_reservations + katalog tohumu + akademi kurs tohumu + freelancer ilan tohumu.",
   );
   console.log(
     "Sonraki: /register ile ilk kullanıcıyı aç, UUID'yi SUPER_ADMIN_USER_ID yaz (.system_docs/OPS_RUNBOOK.md).",

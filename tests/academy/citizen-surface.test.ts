@@ -1,6 +1,9 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { ACADEMY_COURSE_TITLES } from "@/lib/academy/course-titles";
+import { ACADEMY_COURSE_SEEDS } from "@/lib/academy/seed";
+import { academyModuleCodeBySlug } from "@/lib/academy/catalog-filter";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { PRICE_LOCK_GRACE_MINUTES, PRICE_LOCK_GRACE_MS } from "@/lib/kernel/pricing/price-lock";
 
@@ -27,46 +30,19 @@ const SIZ_LEAKS = [
 const SEN_SURFACES = [
   "app/academy/page.tsx",
   "app/academy/[slug]/page.tsx",
-  "app/academy/certificates/page.tsx",
-  "app/academy/dogrula/[hash]/page.tsx",
   "app/academy/[slug]/oyna/page.tsx",
   "app/(kernel)/cuzdan/page.tsx",
-  "components/academy/exam-panel.tsx",
   "components/academy/curriculum-player.tsx",
   "components/academy/purchase-button.tsx",
-  "components/academy/certificate-list.tsx",
-  "components/academy/certificate-seal.tsx",
-  "components/academy/settlement-steps.tsx",
   "lib/copy/sen-voice/academy.ts",
   "lib/copy/sen-voice/cuzdan.ts",
 ];
 
-describe("akademi vatandaş yüzeyi ve SEN aksı", () => {
-  it("oda loading.tsx iskeleti izomorftur (CLS)", () => {
-    const files = [
-      "app/academy/loading.tsx",
-      "app/academy/[slug]/loading.tsx",
-      "app/academy/certificates/loading.tsx",
-      "app/academy/dogrula/[hash]/loading.tsx",
-      "app/academy/[slug]/oyna/loading.tsx",
-      "components/academy/academy-room-skeleton.tsx",
-    ];
-    for (const file of files) {
-      expect(existsSync(join(ROOT, file)), file).toBe(true);
-    }
-    const skeleton = readSrc("components/academy/academy-room-skeleton.tsx");
-    expect(skeleton).toContain("animate-pulse");
-    expect(skeleton).toContain("variant");
-    expect(skeleton).not.toContain("use client");
-    expect(readSrc("app/academy/loading.tsx")).toContain("AcademyRoomSkeleton");
-    expect(readSrc("app/academy/loading.tsx")).not.toContain("use client");
-  });
-
+describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı", () => {
   it("/academy ve /cuzdan siz kaçakları taşımaz; SEN_VOICE bağlar", () => {
-    expect(SEN_VOICE.cuzdan.closedLoopBody).toContain("Bakiye hesapta güvende");
+    expect(SEN_VOICE.cuzdan.closedLoopBody).toContain("Cüzdan Akademi tahsilatı içindir");
     expect(SEN_VOICE.cuzdan.closedLoopBody).not.toContain("Bakiyeniz");
-    expect(SEN_VOICE.academy.catalog.description).toContain("Kursu seç");
-    expect(SEN_VOICE.academy.exam.unanswered).toBe("Tüm soruları yanıtla.");
+    expect(SEN_VOICE.academy.catalog.description).toContain("Eğitimi incele");
     expect(PRICE_LOCK_GRACE_MINUTES).toBe(15);
     expect(PRICE_LOCK_GRACE_MS).toBe(PRICE_LOCK_GRACE_MINUTES * 60 * 1000);
 
@@ -76,35 +52,66 @@ describe("akademi vatandaş yüzeyi ve SEN aksı", () => {
         expect(source, `${file} → ${leak}`).not.toContain(leak);
       }
     }
+
     expect(readSrc("app/academy/page.tsx")).toContain("SEN_VOICE");
     expect(readSrc("app/(kernel)/cuzdan/page.tsx")).toContain("SEN_VOICE");
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("PurchaseButton");
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("SettlementSteps");
-    expect(readSrc("app/academy/[slug]/page.tsx")).toContain("ExamPanel");
+    expect(readSrc("app/academy/[slug]/page.tsx")).toContain("hasAcademyPlayerAccess");
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("/oyna");
     expect(readSrc("app/academy/[slug]/oyna/page.tsx")).toContain("requirePageSession");
+    expect(readSrc("app/academy/[slug]/oyna/page.tsx")).toContain("hasPurchased");
     expect(readSrc("app/academy/[slug]/oyna/page.tsx")).toContain("CurriculumPlayer");
-    expect(readSrc("app/academy/[slug]/oyna/page.tsx")).not.toContain("yetkin.ai");
-    expect(readSrc("components/academy/curriculum-player.tsx")).toContain("aria-live");
-    expect(readSrc("app/academy/dogrula/[hash]/page.tsx")).toContain("loadPublicCertificateByHash");
-    expect(readSrc("components/academy/purchase-button.tsx")).toContain("aria-live");
     expect(readSrc("components/academy/purchase-button.tsx")).toContain("QuickTopUpModal");
-    expect(readSrc("components/academy/exam-panel.tsx")).toContain("aria-live");
-    expect(readSrc("components/academy/exam-panel.tsx")).toContain("examPassed");
+    expect(readSrc("components/academy/curriculum-player.tsx")).toContain("completeLesson");
+    expect(readSrc("components/academy/curriculum-player.tsx")).not.toContain("LessonListenButton");
   });
 
-  it("doğrulama sayfası SHA256 mühür detayını kimlik sızdırmadan basar", () => {
-    const page = readSrc("app/academy/dogrula/[hash]/page.tsx");
-    expect(page).toContain("hashedFields");
-    expect(page).toContain("curriculumSeal");
-    expect(page).toContain("sealStatus");
-    expect(page).toContain("copy.algorithm");
-    expect(readSrc("lib/copy/sen-voice/academy.ts")).toContain('algorithm: "SHA256"');
-    expect(page).not.toContain("userId");
-    expect(page).not.toContain("view.userId");
-    expect(readSrc("lib/academy/certificate-verify.ts")).toContain("userId / attemptId / purchaseId sızmaz");
-    expect(readSrc("lib/academy/exam.ts")).toContain("yetkin-rail.academy.certificate.v2");
-    expect(readSrc("lib/academy/exam.ts")).toContain("curriculumSeal");
-    expect(readSrc("components/academy/certificate-list.tsx")).toContain("/academy/dogrula/");
+  it("vitrin kopyası defter jargonu ve süzgeç UI sızdırmaz; dinle kapalı", () => {
+    const copy = SEN_VOICE.academy;
+    const ledgerLeak = /SETTLED|amountMinor|CheckoutPriceLock|settlement|debit|escrow/i;
+    expect(copy.catalog.description).toContain("Dersler ödeme sonrası açılır");
+    expect(copy.catalog.description).not.toMatch(ledgerLeak);
+    expect(copy.catalog.cardCtaBuy).toBe("Satın Al");
+    expect(copy.course.heroBuyCta("₺490,00")).toBe("Eğitimi Satın Al — ₺490,00");
+    expect(copy.purchase.cta("₺250,00")).toContain("Eğitimi Satın Al & Öğren");
+    expect(copy.player.resumeCta).toBe("Kaldığın Yerden Devam Et");
+    expect(copy.listen.cta).toBe("Dersi Dinle");
+
+    expect(ACADEMY_COURSE_TITLES["python-temel"]).not.toMatch(ledgerLeak);
+    for (const row of ACADEMY_COURSE_SEEDS) {
+      expect(row.title, row.slug).not.toMatch(ledgerLeak);
+    }
+
+    const catalog = readSrc("app/academy/page.tsx");
+    expect(catalog).toContain("CourseList");
+    expect(catalog).toContain("filterAcademyPilotCatalog");
+    expect(catalog).not.toContain("FilterBar");
+    expect(catalog).not.toContain("SETTLED");
+    expect(catalog).not.toContain("amountMinor");
+
+    expect(readSrc("components/academy/course-list.tsx")).not.toContain("FilterBar");
+    expect(readSrc("components/academy/course-list.tsx")).toContain("CourseCard");
+    expect(readSrc("components/academy/course-card.tsx")).not.toContain("MarketPopularityBadge");
+    expect(readSrc("components/academy/course-card.tsx")).toContain("academyModuleCodeBySlug");
+    expect(readSrc("components/academy/level-pathway.tsx")).not.toContain("MarketPopularityBadge");
+    expect(readSrc("components/academy/level-pathway.tsx")).not.toContain("trendScore");
+    expect(readSrc("components/academy/level-pathway.tsx")).not.toContain("proofOfWorkHash");
+    expect(existsSync(join(ROOT, "components/academy/filter-bar.tsx"))).toBe(false);
+
+    expect(copy.catalog.cardLevelContext("Temel", academyModuleCodeBySlug("python-temel"))).toBe(
+      "Temel · PY-101",
+    );
+
+    expect(readSrc("lib/academy/lesson-listen.ts")).toContain("ACADEMY_LESSON_LISTEN_ENABLED = false");
+    expect(readSrc("app/api/academy/courses/[id]/listen/route.ts")).toContain("410");
+    expect(readSrc("lib/academy/curriculum.ts")).not.toContain("CheckoutPriceLock");
+  });
+
+  it("sınav yüzeyi dondurulmuş durur; idor-exam silinmez", () => {
+    expect(existsSync(join(ROOT, "tests/academy/idor-exam-purchase.test.ts"))).toBe(true);
+    expect(readSrc("app/academy/[slug]/page.tsx")).toContain("ExamStartGate");
+    expect(readSrc("app/academy/[slug]/page.tsx")).not.toContain("ExamPanel");
+    expect(readSrc("components/academy/exam-start-gate.tsx")).toContain("ExamPanel");
   });
 });

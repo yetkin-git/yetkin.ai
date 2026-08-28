@@ -1,8 +1,8 @@
 import "server-only";
 
+import { queryJobBoard, type FreelancerJobBoardView } from "@/lib/freelancer/job-board";
 import { createPrismaFreelancerPorts } from "@/lib/freelancer/runtime";
 import type {
-  FreelancerBidRecord,
   FreelancerContractMessageRecord,
   FreelancerContractRecord,
   FreelancerDisputeRecord,
@@ -21,22 +21,24 @@ export async function loadOpenJobs(): Promise<FreelancerJobRecord[] | null> {
   }
 }
 
-export async function loadJobBoard(jobId: string): Promise<{
-  job: FreelancerJobRecord;
-  bids: FreelancerBidRecord[];
-  contract: FreelancerContractRecord | null;
-} | null> {
+export async function loadDirectOffersForInvitee(
+  userId: string,
+): Promise<FreelancerJobRecord[] | null> {
   try {
     const ports = createPrismaFreelancerPorts();
-    const job = await ports.freelancer.getJob(jobId);
-    if (!job) {
-      return null;
-    }
-    const [bids, contract] = await Promise.all([
-      ports.freelancer.listBidsForJob(jobId),
-      ports.freelancer.getContractByJobId(jobId),
-    ]);
-    return { job, bids, contract };
+    return await ports.freelancer.listDirectOffersForInvitee(userId);
+  } catch {
+    return null;
+  }
+}
+
+export async function loadJobBoard(
+  jobId: string,
+  actorUserId: string | null,
+): Promise<FreelancerJobBoardView | null> {
+  try {
+    const ports = createPrismaFreelancerPorts();
+    return await queryJobBoard(ports.freelancer, jobId, actorUserId);
   } catch {
     return null;
   }

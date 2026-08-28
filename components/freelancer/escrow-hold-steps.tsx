@@ -10,6 +10,7 @@ export function EscrowHoldSteps({
 }) {
   const steps = FREELANCER_SEN.escrow.steps(holdPercent);
   return (
+    <div className="space-y-3">
     <ol className="space-y-3">
       {steps.map((step, index) => {
         const current = active === step.key;
@@ -30,5 +31,7 @@ export function EscrowHoldSteps({
         );
       })}
     </ol>
+    <p className="text-sm text-[var(--amber)]">{FREELANCER_SEN.actions.freezeBanner}</p>
+    </div>
   );
 }

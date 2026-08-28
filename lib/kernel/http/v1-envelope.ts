@@ -1,14 +1,14 @@
 /**
- * Kanonik `/api/v1` JSON zarfı — Shared Kernel dış sözleşmesi.
- * Versiyonsuz web gövdesi `{ ok, ...data }` buraya atanamaz; kökte yalnız
- * `ok, error, requestId, apiVersion, data` durur.
- * İki serim vardır; üçüncü zarf yasaktır. Birleştirme Faz 1 işi değildir.
+ * Kanonik `/api/v1` JSON zarfı — API-First Dron sözleşmesi.
+ * Yayınlanan tek zarf v1'dir: kökte yalnız `ok, error, requestId, apiVersion, data`.
+ * Versiyonsuz `{ ok, ...data }` parse'da tanınır ki sızıntı fail olsun; basılmaz, yaşatılmaz.
+ * Üçüncü zarf yasaktır.
  *
  * Zod şemaları `v1-contract.ts` içindedir (kenar/proxy zod taşımaz).
  */
 
-/** İki serim. Üçüncü zarf Anayasa'da yasaktır. */
-export const RAIL_JSON_ENVELOPE_KINDS = ["v1", "unversioned"] as const;
+/** Yayınlanan JSON zarfı yalnız v1'dir. Versiyonsuz gövde parse'da tanınır, basılmaz. */
+export const RAIL_JSON_ENVELOPE_KINDS = ["v1"] as const;
 
 export const RAIL_V1_ENVELOPE_KEYS = [
   "ok",

@@ -13,6 +13,9 @@ export async function requireActiveCatalogEntry(
   return entry;
 }
 
+export const CATALOG_WRITE_BAND_UNDEFINED =
+  "Katalog taban/tavan bandı tanımsız. Sessiz zam yok.";
+
 /** Kullanıcı tutarı katalog tabanı–tavan bandında olmalı. Satış fiyatı kod sabiti değildir. */
 export function assertAmountWithinCatalogBand(
   amountMinor: number,
@@ -27,4 +30,21 @@ export function assertAmountWithinCatalogBand(
     throw new Error(`Tutar katalog tavanını aşar (${entry.maxMinor} minor).`);
   }
   return value;
+}
+
+/**
+ * Super Admin MINOR yazımı — taban ve tavan zorunlu (fail-closed).
+ * BPS `escrow:hold` bu kapıdan geçmez; hold bps kod bandı ayrıdır.
+ */
+export function assertCatalogWriteAmountWithinBand(
+  amountMinor: number,
+  entry: PriceCatalogEntrySnapshot,
+): AmountMinor {
+  if (entry.unitType !== "MINOR") {
+    return toPositiveAmountMinor(amountMinor);
+  }
+  if (entry.minMinor == null || entry.maxMinor == null) {
+    throw new Error(CATALOG_WRITE_BAND_UNDEFINED);
+  }
+  return assertAmountWithinCatalogBand(amountMinor, entry);
 }

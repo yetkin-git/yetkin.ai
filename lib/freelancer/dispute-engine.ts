@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { invokeLlm } from "@/lib/kernel/ai/llm-gateway";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
+import { ForbiddenError, NotFoundError } from "@/lib/kernel/http/errors";
 import { isSuperAdminUser } from "@/lib/kernel/auth/super-admin";
 import {
   freezeEscrowHoldExpiry,
@@ -53,10 +54,10 @@ async function requireContractParty(
 ): Promise<FreelancerContractRecord> {
   const contract = await ports.freelancer.getContract(contractId);
   if (!contract) {
-    throw new Error("Sözleşme bulunamadı.");
+    throw new NotFoundError("Sözleşme bulunamadı.");
   }
   if (actorUserId !== contract.clientId && actorUserId !== contract.freelancerId) {
-    throw new Error("Yalnız sözleşme tarafları işlem yapabilir.");
+    throw new ForbiddenError("Yalnız sözleşme tarafları işlem yapabilir.");
   }
   return contract;
 }
@@ -285,7 +286,7 @@ async function settleDisputeSplit(
   });
 
   await releaseEscrowHoldToPayees(
-    { ledger: ports.ledger, escrow: ports.escrow },
+    { ledger: ports.ledger, escrow: ports.escrow, marketplace: ports.marketplace },
     {
       referenceKey: await resolveFreelancerEscrowReferenceKey(
         (key) => ports.escrow.findByReferenceKey(key),

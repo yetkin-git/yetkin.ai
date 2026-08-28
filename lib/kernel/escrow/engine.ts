@@ -1,9 +1,16 @@
 import { randomUUID } from "node:crypto";
-import { appendLedgerEntry } from "@/lib/kernel/ledger/engine";
 import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { emitCitizenNotice } from "@/lib/kernel/notice/emit";
 import { emitTransactionNotice } from "@/lib/kernel/observability/transaction-notice";
 import { assertEscrowReleaseSplit, splitGross } from "@/lib/kernel/escrow/split";
+import { ServiceUnavailableError } from "@/lib/kernel/http/errors";
+import {
+  buildMarketplaceSplitIntent,
+  MARKETPLACE_PAYMENT_NOT_CONFIGURED_ERROR,
+  paytrMarketplaceSplitPort,
+  settleMarketplaceSplit,
+  type MarketplaceSplitLeg,
+} from "@/lib/kernel/payments/marketplace-split";
 import type {
   CreateEscrowHoldCommand,
   EscrowEnginePorts,
@@ -15,6 +22,24 @@ import type {
   ReleaseEscrowCommand,
   ReleaseEscrowDistributedCommand,
 } from "@/lib/kernel/escrow/types";
+
+/** S43: üçüncü kişi emaneti cüzdan DEBIT ile kilitlenemez. Yalnız PSP (split). */
+export const ESCROW_WALLET_FUNDING_FORBIDDEN =
+  "Üçüncü kişi emaneti cüzdan DEBIT ile kilitlenemez (S43). Yalnız PSP (split).";
+
+/**
+ * Eski wallet-funded PENDING hold — serbest/iade yazılmaz.
+ * Split `ok: false` iken sessiz RELEASED yasaktır.
+ */
+export const ESCROW_WALLET_FUNDED_HOLD_FORBIDDEN =
+  "Cüzdan-fonlu emanet kilit geçersizdir (S43). Serbest bırakılmaz, iade yazılmaz.";
+
+export class EscrowWalletFundedHoldError extends ServiceUnavailableError {
+  constructor(message = ESCROW_WALLET_FUNDED_HOLD_FORBIDDEN) {
+    super(message);
+    this.name = "EscrowWalletFundedHoldError";
+  }
+}
 
 /** Mutlu yol zaman aşımı — Inngest tarar, PENDING hold iade edilir (S18-A). */
 export const ESCROW_HOLD_TTL_MS = 14 * 24 * 60 * 60 * 1000;
@@ -37,16 +62,20 @@ function holdIdempotencyKey(referenceKey: string): string {
   return `escrow-hold:${referenceKey}`;
 }
 
-function releaseNetIdempotencyKey(holdId: string): string {
-  return `escrow-release-net:${holdId}`;
+function isWalletFundedHold(
+  hold: EscrowHoldRecord,
+  walletDebit: Awaited<ReturnType<EscrowWritePorts["ledger"]["findByIdempotencyKey"]>>,
+): boolean {
+  return Boolean(hold.walletId) || Boolean(walletDebit);
 }
 
-function releaseHoldIdempotencyKey(holdId: string): string {
-  return `escrow-release-hold:${holdId}`;
-}
-
-function refundIdempotencyKey(holdId: string): string {
-  return `escrow-refund:${holdId}`;
+function assertPspOnlyHold(
+  hold: EscrowHoldRecord,
+  walletDebit: Awaited<ReturnType<EscrowWritePorts["ledger"]["findByIdempotencyKey"]>>,
+): void {
+  if (isWalletFundedHold(hold, walletDebit)) {
+    throw new EscrowWalletFundedHoldError();
+  }
 }
 
 async function withEscrowAtomic<T>(
@@ -54,9 +83,19 @@ async function withEscrowAtomic<T>(
   work: (tx: EscrowWritePorts) => Promise<T>,
 ): Promise<T> {
   if (ports.runEscrowAtomic) {
-    return ports.runEscrowAtomic(work);
+    return ports.runEscrowAtomic((tx) =>
+      work({
+        ledger: tx.ledger,
+        escrow: tx.escrow,
+        marketplace: tx.marketplace ?? ports.marketplace,
+      }),
+    );
   }
-  return work({ ledger: ports.ledger, escrow: ports.escrow });
+  return work({
+    ledger: ports.ledger,
+    escrow: ports.escrow,
+    marketplace: ports.marketplace,
+  });
 }
 
 async function loadHoldForSettle(
@@ -72,6 +111,10 @@ export async function createEscrowHold(
 ): Promise<EscrowMutationResult> {
   const existing = await ports.escrow.findByReferenceKey(command.referenceKey);
   if (existing) {
+    const walletDebit = await ports.ledger.findByIdempotencyKey(
+      holdIdempotencyKey(command.referenceKey),
+    );
+    assertPspOnlyHold(existing, walletDebit);
     return { hold: existing, applied: false };
   }
 
@@ -82,19 +125,18 @@ export async function createEscrowHold(
     currencyCode: command.currencyCode,
   });
 
-  const debit = await appendLedgerEntry(ports.ledger, {
-    userId: command.userId,
-    currencyCode: command.currencyCode,
-    amountMinor: split.grossMinor,
-    direction: "DEBIT",
-    label: "Emanet kilidi",
-    purpose: "escrow-hold",
-    idempotencyKey: holdIdempotencyKey(command.referenceKey),
-  });
+  const funding = command.funding;
+  if (funding === "wallet") {
+    throw new Error(ESCROW_WALLET_FUNDING_FORBIDDEN);
+  }
+  if (funding !== "psp") {
+    throw new Error("Emanet funding zorunludur (psp). Varsayılan wallet yoktur.");
+  }
 
   const hold = await ports.escrow.insertHold({
     id: randomUUID(),
-    walletId: debit.walletId,
+    walletId: null,
+    pspPaymentId: command.pspPaymentId ?? command.referenceKey,
     userId: command.userId,
     referenceKey: command.referenceKey,
     currencyCode: split.currencyCode,
@@ -191,32 +233,39 @@ async function releaseEscrowHoldToPayeesLocked(
   toPositiveAmountMinor(hold.holdMinor);
 
   const now = command.now ?? new Date();
-  const multiPayee = shares.length > 1;
+  const splitLegs: MarketplaceSplitLeg[] = [];
+  const walletDebit = await ports.ledger.findByIdempotencyKey(
+    holdIdempotencyKey(hold.referenceKey),
+  );
+  assertPspOnlyHold(hold, walletDebit);
 
   for (const share of shares) {
-    const payerCredit = Boolean(command.allowPayerCredit) && share.userId === hold.userId;
-    await appendLedgerEntry(ports.ledger, {
+    splitLegs.push({
+      role: "artisan",
       userId: share.userId,
-      currencyCode: hold.currencyCode,
       amountMinor: share.amountMinor,
-      direction: "CREDIT",
-      label: payerCredit ? "Emanet serbest — işveren iade" : "Emanet serbest — net",
-      purpose: payerCredit ? "escrow-release-payer-refund" : "escrow-release-net",
-      idempotencyKey: multiPayee
-        ? `${releaseNetIdempotencyKey(hold.id)}:${share.userId}`
-        : releaseNetIdempotencyKey(hold.id),
     });
   }
 
-  await appendLedgerEntry(ports.ledger, {
-    userId: command.platformUserId,
-    currencyCode: hold.currencyCode,
-    amountMinor: hold.holdMinor,
-    direction: "CREDIT",
-    label: "Emanet serbest — platform hold",
-    purpose: "escrow-release-hold",
-    idempotencyKey: releaseHoldIdempotencyKey(hold.id),
-  });
+  if (hold.holdMinor > 0) {
+    splitLegs.push({
+      role: "platform",
+      userId: command.platformUserId,
+      amountMinor: hold.holdMinor,
+    });
+  }
+
+  const splitResult = await settleMarketplaceSplit(
+    buildMarketplaceSplitIntent({
+      referenceKey: hold.referenceKey,
+      currencyCode: hold.currencyCode,
+      legs: splitLegs,
+    }),
+    ports.marketplace ?? paytrMarketplaceSplitPort,
+  );
+  if (!splitResult.ok) {
+    throw new ServiceUnavailableError(MARKETPLACE_PAYMENT_NOT_CONFIGURED_ERROR);
+  }
 
   const released = await ports.escrow.markReleased(hold.id, now);
   emitCitizenNotice({
@@ -260,15 +309,10 @@ export async function refundEscrowHold(
     assertEscrowReleaseSplit(hold);
     const now = command.now ?? new Date();
 
-    await appendLedgerEntry(tx.ledger, {
-      userId: hold.userId,
-      currencyCode: hold.currencyCode,
-      amountMinor: hold.grossMinor,
-      direction: "CREDIT",
-      label: "Emanet iadesi",
-      purpose: "escrow-refund",
-      idempotencyKey: refundIdempotencyKey(hold.id),
-    });
+    const walletDebit = await tx.ledger.findByIdempotencyKey(
+      holdIdempotencyKey(hold.referenceKey),
+    );
+    assertPspOnlyHold(hold, walletDebit);
 
     const refunded = await tx.escrow.markRefunded(hold.id, now);
     emitTransactionNotice({

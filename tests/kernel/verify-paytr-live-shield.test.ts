@@ -7,13 +7,17 @@ import {
   submitFreelancerBid,
 } from "@/lib/freelancer/engine";
 import { freelancerJobEscrowReferenceKey } from "@/lib/freelancer/fsm";
-import { createEscrowHold, PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
+import {
+  createEscrowHold,
+  ESCROW_WALLET_FUNDING_FORBIDDEN,
+  PLATFORM_TREASURY_USER_ID,
+} from "@/lib/kernel/escrow/engine";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import {
   clearSuccessfulPaymentOrder,
   type PaymentOrderSnapshot,
-  type PaymentOrderStore,
 } from "@/lib/kernel/payments/clearing";
+import { createMemoryPaymentOrderStore } from "../helpers/memory-payment-orders";
 import { PaytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import {
   assertPaytrLiveUserIp,
@@ -27,8 +31,9 @@ import {
   parsePaytrWebhookIpAllowlist,
 } from "@/lib/kernel/payments/paytr/webhook";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
-import { ConflictError } from "@/lib/kernel/http/errors";
-import { RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE } from "@/lib/kernel/http/v1-contract";
+import { ServiceUnavailableError } from "@/lib/kernel/http/errors";
+import { RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE } from "@/lib/kernel/http/v1-contract";
+import { paytrMarketplaceSplitPort } from "@/lib/kernel/payments/marketplace-split";
 import {
   createMemoryEscrowStore,
   createMemoryFreelancerStore,
@@ -90,30 +95,6 @@ function snapshot(overrides?: Partial<PaymentOrderSnapshot>): PaymentOrderSnapsh
   };
 }
 
-function memoryOrders(initial: PaymentOrderSnapshot): PaymentOrderStore {
-  let row = { ...initial };
-  return {
-    async findByMerchantOid(merchantOid) {
-      return merchantOid === row.merchantOid ? { ...row } : null;
-    },
-    async markPaid(id, _at) {
-      row = { ...row, id, status: "PAID" };
-      return { ...row };
-    },
-    async markCleared(id, _at) {
-      row = { ...row, id, status: "CLEARED" };
-      return { ...row };
-    },
-    async markFailed(id, _at) {
-      row = { ...row, id, status: "FAILED" };
-      return { ...row };
-    },
-    async listUnclearedPaid() {
-      return row.status === "PAID" ? [{ ...row }] : [];
-    },
-  };
-}
-
 describe("PayTR canlı kalkan mührü", () => {
   beforeEach(() => {
     vi.spyOn(console, "error").mockImplementation(() => {});
@@ -158,10 +139,13 @@ describe("PayTR canlı kalkan mührü", () => {
   it("üretimde sandbox/mock sessiz geçmez: throw + log + webhook 403", async () => {
     vi.stubEnv("NODE_ENV", "production");
     vi.stubEnv("PAYTR_SANDBOX", "1");
+    process.env.PAYTR_WEBHOOK_IP_ALLOWLIST = "203.0.113.10";
     expect(() => assertPaytrProductionSafety("live-shield")).toThrow(PaytrProductionSafetyError);
     expect(() => assertPaytrProductionSafety("live-shield")).toThrow(/PAYTR_SANDBOX üretimde yasak/);
 
-    const response = await postWebhook(webhookForm(validHash()));
+    const response = await postWebhook(webhookForm(validHash()), {
+      "x-forwarded-for": "203.0.113.10",
+    });
     expect(response.status).toBe(403);
     const body = (await response.json()) as { reason: string };
     expect(body.reason).toBe("production_safety");
@@ -199,7 +183,7 @@ describe("PayTR canlı kalkan mührü", () => {
   });
 
   it("aynı merchant_oid mükerrer webhook'ta tekil CREDIT üretir", async () => {
-    const orders = memoryOrders(snapshot());
+    const orders = createMemoryPaymentOrderStore(snapshot());
     const ledger = createMemoryLedgerStore([
       { userId: BUYER, amountMinor: 0 },
       { userId: PLATFORM_TREASURY_USER_ID, amountMinor: 0 },
@@ -226,6 +210,25 @@ describe("PayTR canlı kalkan mührü", () => {
     expect(ledger.snapshot(BUYER).amountMinor).toBe(1300);
   });
 
+  it("expectedAmountMinor uyuşmazsa CREDIT yazılmaz; emir PENDING kalır", async () => {
+    const orders = createMemoryPaymentOrderStore(snapshot());
+    const ledger = createMemoryLedgerStore([
+      { userId: BUYER, amountMinor: 0 },
+      { userId: PLATFORM_TREASURY_USER_ID, amountMinor: 0 },
+    ]);
+    await expect(
+      clearSuccessfulPaymentOrder(
+        { ledger, orders },
+        OID,
+        new Date("2026-08-18T00:10:00.000Z"),
+        { expectedAmountMinor: 9999 },
+      ),
+    ).rejects.toThrow(/eşleşmiyor/);
+    expect(ledger.snapshot(BUYER).amountMinor).toBe(0);
+    expect(await ledger.findByIdempotencyKey(`wallet-top-up:${OID}`)).toBeNull();
+    expect((await orders.findByMerchantOid(OID))?.status).toBe("PENDING");
+  });
+
   it("bakiye yetersizliğinde emanet fonlama durur; hold ve sözleşme yazılmaz", async () => {
     const escrow = createMemoryEscrowStore();
     const emptyLedger = createMemoryLedgerStore([
@@ -241,9 +244,10 @@ describe("PayTR canlı kalkan mührü", () => {
           grossMinor: 10_000,
           holdBps: HOLD_BPS_DEFAULT,
           currencyCode: SETTLEMENT_CURRENCY,
+          funding: "wallet",
         },
       ),
-    ).rejects.toThrow(/mevcut tutarı aşamaz/);
+    ).rejects.toThrow(ESCROW_WALLET_FUNDING_FORBIDDEN);
     expect(emptyLedger.snapshot(BUYER).amountMinor).toBe(0);
     expect(await escrow.findByReferenceKey("shield-hold")).toBeNull();
 
@@ -255,17 +259,18 @@ describe("PayTR canlı kalkan mührü", () => {
       ]),
       escrow: createMemoryEscrowStore(),
       freelancer: createMemoryFreelancerStore(),
+      marketplace: paytrMarketplaceSplitPort,
     });
     const job = await createFreelancerJob(ports, {
       clientId: BUYER,
       title: "Kalkan emanet",
       brief: "Yetersiz bakiyede hold açılmaz.",
-      budgetMinor: 10_000,
+      budgetMinor: 25_000,
     });
     const bid = await submitFreelancerBid(ports, {
       jobId: job.id,
       bidderId: FREELANCER,
-      amountMinor: 10_000,
+      amountMinor: 25_000,
       coverNote: "Hazırım.",
     });
     await expect(
@@ -274,14 +279,14 @@ describe("PayTR canlı kalkan mührü", () => {
         bidId: bid.id,
         actorUserId: BUYER,
       }),
-    ).rejects.toBeInstanceOf(ConflictError);
+    ).rejects.toBeInstanceOf(ServiceUnavailableError);
     await expect(
       acceptFreelancerBid(ports, {
         jobId: job.id,
         bidId: bid.id,
         actorUserId: BUYER,
       }),
-    ).rejects.toThrow(RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE);
+    ).rejects.toThrow(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE);
     expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(500);
     expect(await ports.freelancer.getContractByJobId(job.id)).toBeNull();
     expect(await ports.escrow.findByReferenceKey(freelancerJobEscrowReferenceKey(job.id))).toBeNull();

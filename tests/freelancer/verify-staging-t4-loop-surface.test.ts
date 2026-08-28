@@ -49,7 +49,7 @@ describe("Staging T4 saha runner + Closed Testing paket izolasyonu", () => {
     expect(script).toContain("RAIL_V1_LISTING_VISA_DENIED");
     expect(script).toContain("RAIL_V1_OWNER_BIDS_FORBIDDEN");
     expect(script).toContain("bidderId");
-    expect(script).toContain("RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE");
+    expect(script).toContain("RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE");
     expect(script).toContain("escrow-hold");
     expect(script).toContain("escrow-release-net");
     expect(script).toContain("EscrowHold PENDING");
@@ -131,7 +131,7 @@ describe("Staging T4 saha runner + Closed Testing paket izolasyonu", () => {
     expect(webWalletUrl("http://192.168.1.5:3000/")).toBe("http://192.168.1.5:3000/cuzdan");
     expect(readSrc("apps/rail-is/src/runtime/use-dron-app.ts")).toContain("Linking.openURL");
     expect(readSrc("apps/rail-is/src/runtime/use-dron-app.ts")).toContain("openWebWallet");
-    expect(readSrc("apps/rail-is/src/screens/OwnerBidsScreen.tsx")).toContain("dron-accept-top-up");
+    expect(readSrc("apps/rail-is/src/screens/OwnerBidsScreen.tsx")).toContain("dron-accept-payments-passive");
     expect(readSrc("apps/rail-is/app.config.ts")).toContain("IAP / Push / ikinci bundle yoktur");
     expect(readSrc("apps/rail-is/app.config.ts")).not.toContain("in-app-purchase");
     expect(readSrc("apps/rail-is/package.json")).not.toMatch(/iap|billing|play-billing/i);
@@ -139,7 +139,7 @@ describe("Staging T4 saha runner + Closed Testing paket izolasyonu", () => {
 
   it("Dron allowlist 9 hop; ilan POST ve GET jobs/{id} yok", () => {
     expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(9);
-    expect(RAIL_V1_HOPS).toHaveLength(13);
+    expect(RAIL_V1_HOPS).toHaveLength(16);
     expect(() => assertRailIsDay0Path("/api/v1/freelancer/jobs/fj_1", "GET")).toThrow(
       /allowlist dışı/,
     );

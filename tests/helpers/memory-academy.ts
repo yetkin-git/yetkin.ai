@@ -9,17 +9,88 @@ import type {
   AcademyPurchaseRecord,
   AcademyStore,
 } from "@/lib/academy/types";
+import type { AcademyEnginePorts, AcademyPurchaseWritePorts } from "@/lib/academy/engine";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
+import { orderAcademyCatalogByCurriculum } from "@/lib/academy/catalog-filter";
+import { createSerializedUnitOfWork, type MemoryLedgerStore } from "./memory-money";
+import type { MemoryCheckoutPriceLockStore } from "./memory-pricing";
 
-export function createMemoryAcademyStore(): AcademyStore {
+type AcademyMemoryState = {
+  courses: Array<[string, AcademyCourseRecord]>;
+  purchases: Array<[string, AcademyPurchaseRecord]>;
+  certificates: Array<[string, AcademyCertificateRecord]>;
+  exams: Array<[string, AcademyExamRecord]>;
+  attempts: Array<[string, AcademyExamAttemptRecord]>;
+  completions: Array<[string, AcademyLessonCompletionRecord]>;
+};
+
+export type MemoryAcademyStore = AcademyStore & {
+  failNextPurchaseInsert(): void;
+  capture(): AcademyMemoryState;
+  restore(state: AcademyMemoryState): void;
+};
+
+export function createMemoryAcademyStore(): MemoryAcademyStore {
   const courses = new Map<string, AcademyCourseRecord>();
   const purchases = new Map<string, AcademyPurchaseRecord>();
   const certificates = new Map<string, AcademyCertificateRecord>();
   const exams = new Map<string, AcademyExamRecord>();
   const attempts = new Map<string, AcademyExamAttemptRecord>();
   const completions = new Map<string, AcademyLessonCompletionRecord>();
+  let failPurchase = false;
 
   return {
+    failNextPurchaseInsert() {
+      failPurchase = true;
+    },
+    capture() {
+      return {
+        courses: [...courses.entries()].map(([key, value]) => [key, { ...value }]),
+        purchases: [...purchases.entries()].map(([key, value]) => [key, { ...value }]),
+        certificates: [...certificates.entries()].map(([key, value]) => [key, { ...value }]),
+        exams: [...exams.entries()].map(([key, value]) => [
+          key,
+          { ...value, questions: value.questions.map((question) => ({ ...question })) },
+        ]),
+        attempts: [...attempts.entries()].map(([key, value]) => [
+          key,
+          { ...value, answers: value.answers.map((answer) => ({ ...answer })) },
+        ]),
+        completions: [...completions.entries()].map(([key, value]) => [key, { ...value }]),
+      };
+    },
+    restore(state) {
+      courses.clear();
+      purchases.clear();
+      certificates.clear();
+      exams.clear();
+      attempts.clear();
+      completions.clear();
+      for (const [key, value] of state.courses) {
+        courses.set(key, { ...value });
+      }
+      for (const [key, value] of state.purchases) {
+        purchases.set(key, { ...value });
+      }
+      for (const [key, value] of state.certificates) {
+        certificates.set(key, { ...value });
+      }
+      for (const [key, value] of state.exams) {
+        exams.set(key, {
+          ...value,
+          questions: value.questions.map((question) => ({ ...question })),
+        });
+      }
+      for (const [key, value] of state.attempts) {
+        attempts.set(key, {
+          ...value,
+          answers: value.answers.map((answer) => ({ ...answer })),
+        });
+      }
+      for (const [key, value] of state.completions) {
+        completions.set(key, { ...value });
+      }
+    },
     async insertCourse(course) {
       courses.set(course.id, course);
       return { ...course };
@@ -33,14 +104,26 @@ export function createMemoryAcademyStore(): AcademyStore {
       return found ? { ...found } : null;
     },
     async listPublishedCourses() {
-      return [...courses.values()]
-        .filter((row) => row.isPublished)
-        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-        .map((row) => ({ ...row }));
+      return orderAcademyCatalogByCurriculum(
+        [...courses.values()].filter((row) => row.isPublished),
+      ).map((row) => ({ ...row }));
     },
     async insertPurchase(purchase) {
+      if (failPurchase) {
+        failPurchase = false;
+        throw new Error("Satın alma yazımı düştü.");
+      }
       purchases.set(purchase.id, purchase);
       return { ...purchase };
+    },
+    async updatePurchase(id, patch) {
+      const found = purchases.get(id);
+      if (!found) {
+        throw new Error("Satın alma bulunamadı.");
+      }
+      const next: AcademyPurchaseRecord = { ...found, ...patch };
+      purchases.set(id, next);
+      return { ...next };
     },
     async getPurchase(id) {
       const row = purchases.get(id);
@@ -52,9 +135,24 @@ export function createMemoryAcademyStore(): AcademyStore {
       );
       return found ? { ...found } : null;
     },
+    async listPurchasesForUser(userId) {
+      return [...purchases.values()]
+        .filter((row) => row.userId === userId)
+        .sort((a, b) => b.settledAt.getTime() - a.settledAt.getTime())
+        .map((row) => ({ ...row }));
+    },
     async insertCertificate(certificate) {
       certificates.set(certificate.id, certificate);
       return { ...certificate };
+    },
+    async revokeCertificate(id, patch) {
+      const found = certificates.get(id);
+      if (!found) {
+        throw new Error("Sertifika bulunamadı.");
+      }
+      const next = { ...found, revokedAt: patch.revokedAt, revokeReason: patch.revokeReason };
+      certificates.set(id, next);
+      return { ...next };
     },
     async getCertificateByPurchaseId(purchaseId) {
       const found = [...certificates.values()].find((row) => row.purchaseId === purchaseId);
@@ -114,7 +212,9 @@ export function createMemoryAcademyStore(): AcademyStore {
     },
     async pulseForUser(userId) {
       const ownPurchases = [...purchases.values()].filter((row) => row.userId === userId);
-      const ownCerts = [...certificates.values()].filter((row) => row.userId === userId);
+      const ownCerts = [...certificates.values()].filter(
+        (row) => row.userId === userId && row.revokedAt === null,
+      );
       const latest = [...ownCerts].sort((a, b) => b.issuedAt.getTime() - a.issuedAt.getTime())[0];
       const pulse: AcademyPulse = {
         purchasesCount: ownPurchases.length,
@@ -131,10 +231,13 @@ export function memoryCourse(overrides?: Partial<AcademyCourseRecord>): AcademyC
   const now = new Date("2026-08-14T00:00:00.000Z");
   return {
     id: "course-1",
-    slug: "rail-temel",
-    title: "Yetkin Rail temeli",
-    summary: "Tek nakit defter, emanet ve settlement.",
-    catalogUnitKey: "course:rail-temel",
+    slug: "python-temel",
+    title: "yetkin.ai temeli",
+    summary: "Onaylı ödeme ve mühürlü müfredat.",
+    catalogUnitKey: "course:python-temel",
+    globalRank: 99,
+    localRank: 99,
+    trendScore: 0,
     isPublished: true,
     createdAt: now,
     updatedAt: now,
@@ -150,7 +253,7 @@ export function memoryExam(
   return {
     id: "exam-1",
     courseId,
-    title: "Rail temeli müfredat sınavı",
+    title: "yetkin.ai temeli müfredat sınavı",
     passScore: ACADEMY_EXAM_PASS_SCORE,
     questions: [
       {
@@ -181,5 +284,28 @@ export function memoryExam(
     createdAt: now,
     updatedAt: now,
     ...overrides,
+  };
+}
+
+/** Debit + hazine credit + purchase insert tek atomik birim; hata anında restore. */
+export function withMemoryAcademyAtomic<
+  T extends {
+    ledger: MemoryLedgerStore;
+    locks: MemoryCheckoutPriceLockStore;
+    academy: MemoryAcademyStore;
+  },
+>(ports: T): T & Pick<AcademyEnginePorts, "runPurchaseAtomic"> {
+  const uow = createSerializedUnitOfWork();
+  return {
+    ...ports,
+    async runPurchaseAtomic<R>(work: (tx: AcademyPurchaseWritePorts) => Promise<R>): Promise<R> {
+      return uow.run([ports.ledger, ports.locks, ports.academy], () =>
+        work({
+          ledger: ports.ledger,
+          locks: ports.locks,
+          academy: ports.academy,
+        }),
+      );
+    },
   };
 }

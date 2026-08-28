@@ -39,7 +39,7 @@ describe("Studio Base64 tavanı ve depolama arayüzü", () => {
       "utf8",
     );
     const schema = readFileSync(join(ROOT, "prisma/schema/studio.prisma"), "utf8");
-    const storage = readFileSync(join(ROOT, "lib/studio/storage.ts"), "utf8");
+    const storage = readFileSync(join(ROOT, "archived/lib/studio/storage.ts"), "utf8");
     expect(sql).toContain(String(STUDIO_IMAGE_DATA_BASE64_MAX_CHARS));
     expect(sql).toContain("studio_digital_assets_data_base64_max_chars");
     expect(schema).toContain("2097152");

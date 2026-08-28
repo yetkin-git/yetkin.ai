@@ -45,7 +45,22 @@ describe(".env.example ops şablonu", () => {
     expect(example).toContain("00000000-0000-4000-8000-000000000001");
     expect(example).toContain("db.<ref>.supabase.co:5432");
     expect(example).toContain("pooler.supabase.com");
-    expect(example).not.toMatch(/^DATABASE_URL=.*localhost/m);
+    expect(exampleKeys).toContain("PAYTR_MERCHANT_ID");
+    expect(exampleKeys).toContain("PAYTR_MERCHANT_KEY");
+    expect(exampleKeys).toContain("PAYTR_MERCHANT_SALT");
+    expect(exampleKeys).toContain("PAYTR_SANDBOX");
+    expect(exampleKeys).toContain("PAYTR_ALLOW_MOCK_CHECKOUT");
+    expect(exampleKeys).toContain("NOTICE_SMTP_HOST");
+    expect(exampleKeys).toContain("NOTICE_MAIL_FROM");
+    expect(exampleKeys).toContain("NOTICE_SMTP_PASS");
+    expect(example).toContain("CREDIT yazmaz");
+    expect(example).toContain("Resend / Postmark SDK yok");
+    expect(example).toContain("INNGEST_DEV=1 yalnızca .env.local");
+    expect(example).toContain("/api/payments/webhooks/paytr");
+    expect(exampleKeys).toContain("RAIL_DRON_ORIGINS");
+    expect(exampleKeys).toContain("TRUSTED_PROXY_HOPS");
+    expect(example).not.toMatch(/^INNGEST_DEV=/m);
+    expect(example).not.toMatch(/^RESEND_API_KEY=/m);
   });
 
   it("müze / holding anahtarlarını şablona yazmaz", () => {

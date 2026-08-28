@@ -23,6 +23,7 @@ const envSchema = z.object({
   SHADOW_DATABASE_URL: z.string().optional(),
   DEVLABS_KEY_PEPPER: z.string().optional(),
   SUPER_ADMIN_USER_ID: z.string().optional(),
+  CANONICAL_SUPER_ADMIN_EMAIL: z.string().optional(),
   PAYTR_ALLOW_MOCK_CHECKOUT: z.string().optional(),
   PAYTR_WEBHOOK_IP_ALLOWLIST: z.string().optional(),
   E2E_BASE_URL: z.string().optional(),
@@ -39,6 +40,7 @@ const envSchema = z.object({
   NOTICE_SMTP_PASS: z.string().optional(),
   NOTICE_MAIL_FROM: z.string().optional(),
   RAIL_DRON_ORIGINS: z.string().optional(),
+  TRUSTED_PROXY_HOPS: z.string().optional(),
 });
 
 export type AppEnv = z.infer<typeof envSchema>;

@@ -12,6 +12,7 @@ import {
   SupabaseBrowserEnvError,
 } from "@/lib/kernel/auth/supabase-browser";
 import { PASSWORD_RESET_PATH } from "@/lib/kernel/auth/password";
+import { readPostLoginPathFromSearch } from "@/lib/kernel/auth/redirects";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
 
 const LOGIN_DEBUG = "[rail-login]";
@@ -72,7 +73,7 @@ function resolveSignInMessage(message: string, copy: typeof AUTH_SEN.login): str
   return message.trim() || copy.fail;
 }
 
-export function LoginForm() {
+export function LoginForm({ nextPath }: { nextPath?: string }) {
   const copy = AUTH_SEN.login;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -112,8 +113,8 @@ export function LoginForm() {
         setError(next);
         return;
       }
-      console.log(LOGIN_DEBUG, "signIn:ok → /dashboard");
-      window.location.assign("/dashboard");
+      console.log(LOGIN_DEBUG, "signIn:ok → next");
+      window.location.assign(readPostLoginPathFromSearch(window.location.search, nextPath));
     } catch (caught) {
       console.error(LOGIN_DEBUG, "caught", caught);
       setError(resolveLoginFailure(caught, copy));

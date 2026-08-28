@@ -5,6 +5,10 @@ import {
   PAYTR_WEBHOOK_PATH,
   requirePaytrCheckoutCredentials,
 } from "@/lib/kernel/payments/paytr/checkout";
+import {
+  resolveTrustedForwardedIp,
+  UNKNOWN_REQUEST_IP,
+} from "@/lib/kernel/security/trusted-proxy";
 
 export { PAYTR_WEBHOOK_PATH };
 
@@ -84,19 +88,35 @@ export function parsePaytrWebhookIpAllowlist(
 }
 
 export function readPaytrWebhookRequestIp(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for");
-  const first = forwarded?.split(",")[0]?.trim() ?? "";
-  if (first) {
-    return first;
-  }
-  return request.headers.get("x-real-ip")?.trim() ?? "";
+  const ip = resolveTrustedForwardedIp(request.headers);
+  return ip === UNKNOWN_REQUEST_IP ? "" : ip;
 }
 
-export function isPaytrWebhookSourceIpAllowed(requestIp: string, allowlist: string[]): boolean {
+export function isPaytrWebhookIpAllowlistRequired(
+  env: NodeJS.ProcessEnv = process.env,
+): boolean {
+  return env.NODE_ENV === "production";
+}
+
+/**
+ * Lab: boş liste = yalnız HMAC.
+ * Üretim: allowlist dolu ve trusted-proxy kaynak IP listededir; boş liste / boş IP fail-closed.
+ */
+export function isPaytrWebhookSourceIpAllowed(
+  requestIp: string,
+  allowlist: string[],
+  env: NodeJS.ProcessEnv = process.env,
+): boolean {
+  const ip = requestIp.trim();
+  if (isPaytrWebhookIpAllowlistRequired(env)) {
+    if (allowlist.length === 0 || !ip) {
+      return false;
+    }
+    return allowlist.includes(ip);
+  }
   if (allowlist.length === 0) {
     return true;
   }
-  const ip = requestIp.trim();
   if (!ip) {
     return false;
   }

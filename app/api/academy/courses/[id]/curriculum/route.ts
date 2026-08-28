@@ -18,6 +18,8 @@ function publicPlayer(player: Awaited<ReturnType<typeof loadAcademyCurriculumPla
     completedCount: player.completedCount,
     totalCount: player.totalCount,
     curriculumComplete: player.curriculumComplete,
+    workTasksComplete: player.workTasksComplete,
+    curriculumProofHash: player.curriculumProofHash,
     nextLessonKey: player.nextLessonKey,
     certificate: player.certificate
       ? {
@@ -33,6 +35,7 @@ function publicPlayer(player: Awaited<ReturnType<typeof loadAcademyCurriculumPla
       body: lesson.body,
       completed: lesson.completed,
       open: lesson.open,
+      completedAt: lesson.completedAt ? lesson.completedAt.toISOString() : null,
     })),
   };
 }
@@ -52,6 +55,7 @@ export async function GET(
     const player = await loadAcademyCurriculumPlayer(ports, {
       courseId: course.id,
       userId: user.id,
+      email: user.email,
     });
     return jsonOk({ player: publicPlayer(player) });
   } catch (error) {
@@ -68,7 +72,7 @@ export async function POST(
     const { id } = await context.params;
     const parsed = completeAcademyLessonInputSchema.safeParse(await request.json().catch(() => ({})));
     if (!parsed.success) {
-      return jsonFail("Ders anahtarı geçersiz.", 400);
+      return jsonFail("Ders anahtarı veya iş kanıtı geçersiz.", 400);
     }
     const ports = createPrismaAcademyPorts();
     const course = (await ports.academy.getCourse(id)) ?? (await ports.academy.getCourseBySlug(id));
@@ -78,7 +82,9 @@ export async function POST(
     const result = await completeAcademyLesson(ports, {
       courseId: course.id,
       userId: user.id,
+      email: user.email,
       lessonKey: parsed.data.lessonKey,
+      proof: parsed.data.proof,
     });
     return jsonOk({
       applied: result.applied,

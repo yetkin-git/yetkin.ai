@@ -19,7 +19,7 @@ import {
   RAIL_VERSION_HEADER_INVALID,
   RAIL_VERSION_HEADER_REQUIRED,
 } from "@/lib/kernel/http/api-v1";
-import { RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE, RAIL_V1_HOPS, resolveRailV1HopPaths } from "@/lib/kernel/http/v1-contract";
+import { RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE, RAIL_V1_HOPS, isRailV1HopForbiddenOnDron, resolveRailV1HopPaths } from "@/lib/kernel/http/v1-contract";
 import { RAIL_V1_ENVELOPE_KEYS } from "@/lib/kernel/http/v1-envelope";
 import { assertPublishedRailV1Hop } from "@/lib/kernel/http/v1-hop-gate";
 import { hashIdempotencyPayload, settleHttpIdempotency } from "@/lib/kernel/http/idempotency";
@@ -58,9 +58,10 @@ type RailIsLabHop = {
   idempotency: boolean;
   dataKeys: readonly string[];
   versionHeaderOptional?: boolean;
+  dronForbidden: boolean;
 };
 
-/** Rail İş (Diyar B) lab istemcisinin /api/v1 ile konuştuğu dondurulmuş hop — SSOT: v1-contract. */
+/** Rail İş (Diyar B) lab istemcisinin /api/v1 ile konuştuğu dondurulmuş hop — SSOT: v1-hops-meta. */
 const RAIL_IS_LAB_HOPS: readonly RailIsLabHop[] = RAIL_V1_HOPS.map((hop) => {
   const paths = resolveRailV1HopPaths(hop);
   return {
@@ -71,6 +72,7 @@ const RAIL_IS_LAB_HOPS: readonly RailIsLabHop[] = RAIL_V1_HOPS.map((hop) => {
     idempotency: hop.idempotency,
     dataKeys: hop.dataKeys,
     versionHeaderOptional: hop.minVersionHeaderRequired ? undefined : true,
+    dronForbidden: isRailV1HopForbiddenOnDron(hop.id),
   };
 });
 
@@ -175,7 +177,8 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
 
     const strip = readSrc("app/api/dashboard/wallet-strip/route.ts");
     expect(strip).toContain("undefined, request");
-    expect(strip).toContain("amountMinor");
+    expect(strip).toContain("readWalletStripSnapshot");
+    expect(readSrc("lib/dashboard/load-wallet-strip.ts")).toContain("amountMinor");
 
     const pulse = readSrc("app/api/dashboard/freelancer-pulse/route.ts");
     expect(pulse).toContain("jsonOk({ pulse: { ...pulse, live: true } }, 200, undefined, request)");
@@ -267,7 +270,7 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
     expect(health.status).toBe(200);
     expect(health.headers.get("x-middleware-rewrite")).toBe("http://localhost:3000/api/health");
 
-    const checks = { db: "ok", supabaseAuth: "configured", inngest: "unconfigured", paytr: "unconfigured" };
+    const checks = { db: "ok", supabaseAuth: "configured", inngest: "unconfigured", payments: "unconfigured" };
     const enveloped = buildV1OkBody(
       { service: "yetkin-rail", probe: "readiness", status: "ok", checks },
       REQUEST_ID,
@@ -308,7 +311,7 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
   it("Bearer + X-Rail-Min-Version: 1 her session hop'u kanonik yola rewrite eder", async () => {
     const token = await signHs256();
     for (const hop of RAIL_IS_LAB_HOPS) {
-      if (hop.auth !== "session") {
+      if (hop.auth !== "session" || hop.dronForbidden) {
         continue;
       }
       const response = await proxy(
@@ -377,13 +380,13 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
     expect(pulseBody.data).not.toHaveProperty("jobs");
 
     const jobs = jsonOk(
-      { jobs: [{ id: JOB_ID, status: "OPEN", budgetMinor: 10_000 }] },
+      { jobs: [{ id: JOB_ID, status: "OPEN", budgetMinor: 25_000 }] },
       200,
       REQUEST_ID,
       v1Request("/api/v1/freelancer/jobs"),
     );
     await expectV1Envelope(jobs, 200, {
-      jobs: [{ id: JOB_ID, status: "OPEN", budgetMinor: 10_000 }],
+      jobs: [{ id: JOB_ID, status: "OPEN", budgetMinor: 25_000 }],
     });
 
     const contracts = jsonOk(
@@ -549,7 +552,7 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
   it("çerez-only /api/v1 session hop'ları 401 zarf; health kamu kalır", async () => {
     const token = await signHs256();
     const cookie = `sb-testref-auth-token=${encodeURIComponent(JSON.stringify({ access_token: token }))}`;
-    const sessionHops = RAIL_IS_LAB_HOPS.filter((hop) => hop.auth === "session");
+    const sessionHops = RAIL_IS_LAB_HOPS.filter((hop) => hop.auth === "session" && !hop.dronForbidden);
     for (const hop of sessionHops) {
       const response = await proxy(
         edgeRequest(hop.v1, {

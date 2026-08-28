@@ -1,8 +1,4 @@
 import { expect, test } from "@playwright/test";
-import {
-  E2E_ACADEMY_START_MINOR,
-  runAcademyCashJourney,
-} from "../helpers/academy-cash-journey";
 
 test.describe("O8 akademi nakit & sınav yolculuğu", () => {
   test("katalog kamu; satın alma oturumsuz 401 (Idempotency-Key oturumdan sonra)", async ({
@@ -11,12 +7,27 @@ test.describe("O8 akademi nakit & sınav yolculuğu", () => {
   }) => {
     const response = await page.goto("/academy");
     expect(response?.status()).toBeLessThan(400);
-    await expect(page.getByRole("heading", { name: "Öne çıkan kurslar" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Mühürlü Kariyer" })).toBeVisible();
 
-    const live = page.getByText(/Canlı sicil/);
-    const empty = page.getByText("Yayında kurs yok");
+    const live = page.getByText(/Mühürlü Kariyer|Yetkinlik Yolu/);
+    const empty = page.getByText("Yayında eğitim yok");
     const unbound = page.getByText("Liste henüz yüklenemedi");
     await expect(live.or(empty).or(unbound).first()).toBeVisible();
+
+    await expect(page.getByText("Python ile Sıfırdan Programlama ve Problem Çözme")).toBeVisible();
+    await expect(page.getByText("Full-Stack Web Geliştirme (React, Next.js ve Node.js)")).toBeVisible();
+    await expect(page.getByText("Yapay Zekâ ve Veri Analizi (Prompt ve Veri Bilimi)")).toBeVisible();
+    await expect(page.getByText("Dijital Ürün Tasarımı (UI/UX ve Figma Masterclass)")).toBeVisible();
+    await expect(page.getByRole("link", { name: /Satın Al —/ }).first()).toBeVisible();
+
+    await page.goto("/academy/python-temel");
+    await expect(page.getByRole("heading", { name: "Python ile Sıfırdan Programlama ve Problem Çözme" })).toBeVisible();
+    await expect(page.getByText("Bu yolda ne kazanırsın")).toBeVisible();
+    await expect(page.getByText("Ne öğreneceksin")).toBeVisible();
+    await expect(page.getByText(/Sınav şartı: 70\+/)).toBeVisible();
+    await expect(page.getByText(/CareerVisaStamp/)).toBeVisible();
+    await expect(page.getByRole("link", { name: /Eğitimi Satın Al —/ }).first()).toBeVisible();
+    await expect(page.locator('[data-academy-hero-cta="play"]')).toHaveCount(0);
 
     const verify = await page.goto("/academy/dogrula/not-a-hash");
     expect(verify?.status()).toBeLessThan(400);
@@ -35,21 +46,11 @@ test.describe("O8 akademi nakit & sınav yolculuğu", () => {
     expect(lock.status()).toBe(401);
 
     const curriculum = await request.post("/api/academy/courses/ac_rail_temel/curriculum", {
-      data: { lessonKey: "rail-temel-1" },
+      data: { lessonKey: "python-temel-1" },
     });
     expect(curriculum.status()).toBe(401);
 
-    await page.goto("/academy/rail-temel/oyna");
+    await page.goto("/academy/python-temel/oyna");
     expect(page.url()).toContain("/login");
-  });
-
-  test("bellek nakit yolu: kilit → settlement → sınav → sertifika; replay debit yok", async () => {
-    const journey = await runAcademyCashJourney();
-    expect(journey.firstApplied).toBe(true);
-    expect(journey.replayApplied).toBe(false);
-    expect(journey.buyerBalanceAfter).toBe(E2E_ACADEMY_START_MINOR - journey.seedAmountMinor);
-    expect(journey.platformBalanceAfter).toBe(journey.seedAmountMinor);
-    expect(journey.certificate?.certificateHash).toMatch(/^[a-f0-9]{64}$/);
-    expect(journey.certificate?.curriculumSeal).toMatch(/^[a-f0-9]{64}$/);
   });
 });

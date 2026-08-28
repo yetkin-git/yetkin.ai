@@ -145,6 +145,36 @@ export function getPaytrCheckoutCredentials(): PaytrCheckoutCredentials | null {
   return { merchantId, merchantKey, merchantSalt, testMode };
 }
 
+export function isPaytrSandboxEnabled(
+  env: Record<string, string | undefined> = process.env,
+): boolean {
+  const flag = env.PAYTR_SANDBOX?.trim();
+  return flag === "1" || flag?.toLowerCase() === "true";
+}
+
+/** Fail-closed / sandbox sicili. Mock ve boş üçlü CREDIT yazmaz. */
+export type PaytrRuntimeMode = "unconfigured" | "mock" | "sandbox" | "live";
+
+export function readPaytrRuntimeMode(
+  env: Record<string, string | undefined> = process.env,
+): PaytrRuntimeMode {
+  const merchantId = env.PAYTR_MERCHANT_ID?.trim() ?? "";
+  const merchantKey = env.PAYTR_MERCHANT_KEY?.trim() ?? "";
+  const merchantSalt = env.PAYTR_MERCHANT_SALT?.trim() ?? "";
+  const triple = Boolean(merchantId && merchantKey && merchantSalt);
+  if (!triple) {
+    return isPaytrMockCheckoutAllowed(env) ? "mock" : "unconfigured";
+  }
+  return isPaytrSandboxEnabled(env) ? "sandbox" : "live";
+}
+
+/** Yalnız sandbox veya canlı üçlü bakiyeye CREDIT doğurabilir (HMAC / valör sonrası). */
+export function paytrRuntimeCreditsWallet(
+  mode: PaytrRuntimeMode = readPaytrRuntimeMode(),
+): boolean {
+  return mode === "sandbox" || mode === "live";
+}
+
 export function requirePaytrCheckoutCredentials(context: string): PaytrCheckoutCredentials {
   const credentials = getPaytrCheckoutCredentials();
   if (!credentials) {

@@ -1,5 +1,5 @@
 import { requireSession } from "@/lib/kernel/auth/session";
-import { isV1JsonRequest } from "@/lib/kernel/http/api-v1";
+import { isV1PathRequest } from "@/lib/kernel/http/api-v1";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { requireRailV1IdempotencyKey } from "@/lib/kernel/http/v1-runtime-shield";
@@ -49,7 +49,7 @@ export async function POST(
   try {
     const user = await requireSession(request);
     const { id } = await context.params;
-    if (isV1JsonRequest(request)) {
+    if (isV1PathRequest(request)) {
       const idempotency = requireRailV1IdempotencyKey(request, requestId);
       if (!idempotency.ok) {
         return idempotency.response;

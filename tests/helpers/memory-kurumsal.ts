@@ -1,5 +1,6 @@
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
+import type { KurumsalEnginePorts, KurumsalMoneyWritePorts } from "@/lib/kurumsal/engine";
 import type {
   CorporateCompanyRecord,
   CorporateJobOfferRecord,
@@ -7,13 +8,55 @@ import type {
   KurumsalPulse,
   KurumsalStore,
 } from "@/lib/kurumsal/types";
+import {
+  createSerializedUnitOfWork,
+  type MemoryEscrowStore,
+  type MemoryLedgerStore,
+} from "./memory-money";
 
-export function createMemoryKurumsalStore(): KurumsalStore {
+type KurumsalMemoryState = {
+  companies: Array<[string, CorporateCompanyRecord]>;
+  postings: Array<[string, CorporateJobPostingRecord]>;
+  offers: Array<[string, CorporateJobOfferRecord]>;
+};
+
+export type MemoryKurumsalStore = KurumsalStore & {
+  failNextPostingInsert(): void;
+  capture(): KurumsalMemoryState;
+  restore(state: KurumsalMemoryState): void;
+};
+
+export function createMemoryKurumsalStore(): MemoryKurumsalStore {
   const companies = new Map<string, CorporateCompanyRecord>();
   const postings = new Map<string, CorporateJobPostingRecord>();
   const offers = new Map<string, CorporateJobOfferRecord>();
+  let failPosting = false;
 
   return {
+    failNextPostingInsert() {
+      failPosting = true;
+    },
+    capture() {
+      return {
+        companies: [...companies.entries()].map(([key, value]) => [key, { ...value }]),
+        postings: [...postings.entries()].map(([key, value]) => [key, { ...value }]),
+        offers: [...offers.entries()].map(([key, value]) => [key, { ...value }]),
+      };
+    },
+    restore(state) {
+      companies.clear();
+      postings.clear();
+      offers.clear();
+      for (const [key, value] of state.companies) {
+        companies.set(key, { ...value });
+      }
+      for (const [key, value] of state.postings) {
+        postings.set(key, { ...value });
+      }
+      for (const [key, value] of state.offers) {
+        offers.set(key, { ...value });
+      }
+    },
     async insertCompany(company) {
       companies.set(company.id, company);
       return { ...company };
@@ -36,6 +79,10 @@ export function createMemoryKurumsalStore(): KurumsalStore {
       return { ...next };
     },
     async insertPosting(posting) {
+      if (failPosting) {
+        failPosting = false;
+        throw new Error("İlan yazımı düştü.");
+      }
       postings.set(posting.id, posting);
       return { ...posting };
     },
@@ -120,6 +167,28 @@ export function createMemoryKurumsalStore(): KurumsalStore {
         currencyCode: SETTLEMENT_CURRENCY,
       };
       return pulse;
+    },
+  };
+}
+
+export function withMemoryKurumsalAtomic<
+  T extends {
+    ledger: MemoryLedgerStore;
+    escrow: MemoryEscrowStore;
+    kurumsal: MemoryKurumsalStore;
+  },
+>(ports: T): T & Pick<KurumsalEnginePorts, "runMoneyAtomic"> {
+  const uow = createSerializedUnitOfWork();
+  return {
+    ...ports,
+    async runMoneyAtomic<R>(work: (tx: KurumsalMoneyWritePorts) => Promise<R>): Promise<R> {
+      return uow.run([ports.ledger, ports.escrow, ports.kurumsal], () =>
+        work({
+          ledger: ports.ledger,
+          escrow: ports.escrow,
+          kurumsal: ports.kurumsal,
+        }),
+      );
     },
   };
 }

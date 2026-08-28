@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { createMemoryEscrowStore, createMemoryLedgerStore } from "../helpers/memory-money";
+import { createMemoryPaymentOrderStore } from "../helpers/memory-payment-orders";
 import {
   clearSuccessfulPaymentOrder,
   type PaymentOrderSnapshot,
-  type PaymentOrderStore,
 } from "@/lib/kernel/payments/clearing";
 import {
   createEscrowHold,
@@ -31,30 +31,6 @@ function snapshot(overrides?: Partial<PaymentOrderSnapshot>): PaymentOrderSnapsh
     status: "PENDING",
     createdAt: new Date("2026-08-15T12:00:00.000Z"),
     ...overrides,
-  };
-}
-
-function memoryOrders(initial: PaymentOrderSnapshot): PaymentOrderStore {
-  let row = { ...initial };
-  return {
-    async findByMerchantOid(merchantOid) {
-      return merchantOid === row.merchantOid ? { ...row } : null;
-    },
-    async markPaid(id, _at) {
-      row = { ...row, id, status: "PAID" };
-      return { ...row };
-    },
-    async markCleared(id, _at) {
-      row = { ...row, id, status: "CLEARED" };
-      return { ...row };
-    },
-    async markFailed(id, _at) {
-      row = { ...row, id, status: "FAILED" };
-      return { ...row };
-    },
-    async listUnclearedPaid() {
-      return row.status === "PAID" ? [{ ...row }] : [];
-    },
   };
 }
 
@@ -96,7 +72,7 @@ describe("işlem bildirimi", () => {
     const seen: TransactionNotice[] = [];
     setTransactionNoticeSink((notice) => seen.push(notice));
 
-    const orders = memoryOrders(snapshot());
+    const orders = createMemoryPaymentOrderStore(snapshot());
     const ledger = createMemoryLedgerStore([
       { userId: BUYER, amountMinor: 0 },
       { userId: PLATFORM_TREASURY_USER_ID, amountMinor: 0 },
@@ -125,6 +101,7 @@ describe("işlem bildirimi", () => {
         holdBps: HOLD_BPS_DEFAULT,
         currencyCode: SETTLEMENT_CURRENCY,
         now: fundedAt,
+        funding: "psp",
       },
     );
     const refunded = await refundEscrowHold(

@@ -1,11 +1,17 @@
 import {
   RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE,
+  RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE,
 } from "../contract/v1";
 import { classifyV1Failure, type ClassifiedV1Failure } from "./classify";
 import { RAIL_IS_COPY } from "./copy";
 
 export type AcceptFormView = {
-  testID: "dron-accept-form" | "dron-accept-error" | "dron-accept-pending" | "dron-accept-insufficient";
+  testID:
+    | "dron-accept-form"
+    | "dron-accept-error"
+    | "dron-accept-pending"
+    | "dron-accept-insufficient"
+    | "dron-accept-payments-closed";
   pending: boolean;
   error: string | null;
   requestId: string | null;
@@ -13,6 +19,7 @@ export type AcceptFormView = {
   confirmOpen: boolean;
   selectedBidId: string | null;
   insufficientBalance: boolean;
+  paymentsUnconfigured: boolean;
 };
 
 export function emptyAcceptForm(): AcceptFormView {
@@ -25,6 +32,7 @@ export function emptyAcceptForm(): AcceptFormView {
     confirmOpen: false,
     selectedBidId: null,
     insufficientBalance: false,
+    paymentsUnconfigured: false,
   };
 }
 
@@ -36,6 +44,7 @@ export function presentAcceptConfirmOpen(form: AcceptFormView, bidId: string): A
     selectedBidId: bidId,
     error: null,
     insufficientBalance: false,
+    paymentsUnconfigured: false,
     fakeSuccess: false,
   };
 }
@@ -57,6 +66,7 @@ export function presentAcceptPending(form: AcceptFormView): AcceptFormView {
     requestId: null,
     fakeSuccess: false,
     insufficientBalance: false,
+    paymentsUnconfigured: false,
   };
 }
 
@@ -68,25 +78,34 @@ export function presentAcceptFromFailure(
   form: AcceptFormView,
   failure: ClassifiedV1Failure,
 ): AcceptFormView {
-  const insufficientBalance =
-    failure.status === 409 && failure.envelopeError === RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE;
+  const paymentsUnconfigured =
+    failure.status === 503 && failure.envelopeError === RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE;
+  const insufficientBalance = failure.envelopeError === RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE;
   return {
     ...form,
-    testID: insufficientBalance
-      ? RAIL_IS_COPY.accept.insufficientTestID
-      : RAIL_IS_COPY.accept.errorTestID,
+    testID: paymentsUnconfigured
+      ? RAIL_IS_COPY.accept.paymentsClosedTestID
+      : insufficientBalance
+        ? RAIL_IS_COPY.accept.insufficientTestID
+        : RAIL_IS_COPY.accept.errorTestID,
     pending: false,
     confirmOpen: false,
     fakeSuccess: false,
     requestId: failure.requestId,
-    error: failure.message,
+    error: paymentsUnconfigured ? RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE : failure.message,
     insufficientBalance,
+    paymentsUnconfigured,
   };
 }
 
 export function isAcceptInsufficientBalance(error: unknown): boolean {
   const failure = classifyV1Failure(error);
-  return failure.status === 409 && failure.envelopeError === RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE;
+  return failure.envelopeError === RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE;
+}
+
+export function isAcceptPaymentsUnconfigured(error: unknown): boolean {
+  const failure = classifyV1Failure(error);
+  return failure.status === 503 && failure.envelopeError === RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE;
 }
 
 export function acceptIntentId(jobId: string, bidId: string): string {

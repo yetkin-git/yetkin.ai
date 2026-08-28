@@ -1,11 +1,16 @@
-import { notFound } from "next/navigation";
-import { Card } from "@/components/ui/card";
-import { PageHeader, RoomFrame } from "@/components/ui/page-header";
-import { LinkButton } from "@/components/ui/link-button";
+import { notFound, redirect } from "next/navigation";
+import { RoomFrame } from "@/components/ui/page-header";
 import { CurriculumPlayer } from "@/components/academy/curriculum-player";
+import { BreadcrumbPageLabel } from "@/components/shell/header-breadcrumb";
 import { requirePageSession } from "@/lib/kernel/auth/session";
-import { loadCourseBySlug, loadCurriculumPlayerForUser } from "@/lib/academy/load";
-import { SEN_VOICE } from "@/lib/copy/sen-voice";
+import { isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
+import {
+  loadCourseBySlug,
+  loadAcademyCurriculum,
+  loadPurchaseForUserCourse,
+} from "@/lib/academy/load";
+import { hasAcademyPlayerAccess } from "@/lib/academy/access";
+import { hasCommercialAcademyEnrolment } from "@/lib/academy/enrolment";
 
 export default async function AcademyCurriculumPlayerPage({
   params,
@@ -13,47 +18,42 @@ export default async function AcademyCurriculumPlayerPage({
   params: Promise<{ slug: string }>;
 }) {
   const session = await requirePageSession();
+  const userEmail = session.email;
   const { slug } = await params;
   const board = await loadCourseBySlug(slug);
   if (!board) {
     notFound();
   }
-  const player = await loadCurriculumPlayerForUser(session.id, board.course.id);
-  const copy = SEN_VOICE.academy.player;
+  const purchase = await loadPurchaseForUserCourse(session.id, board.course.id, userEmail);
+  const actor = { userId: session.id, email: userEmail };
+  const hasPurchased =
+    hasCommercialAcademyEnrolment(purchase) || hasAcademyPlayerAccess(purchase, actor);
+  const grantStudio = isSuperAdminActor({ id: session.id, email: userEmail });
+
+  if (!hasPurchased) {
+    redirect(`/academy/${board.course.slug}`);
+  }
+
+  const player = await loadAcademyCurriculum(session.id, board.course.id, userEmail);
+  if (!player) {
+    redirect(`/academy/${board.course.slug}`);
+  }
 
   return (
-    <RoomFrame>
-      <PageHeader
-        eyebrow={copy.eyebrow}
-        title={board.course.title}
-        description={player ? copy.progress(player.completedCount, player.totalCount) : copy.locked}
-        actions={
-          <LinkButton href={`/academy/${board.course.slug}`} variant="outline" size="sm">
-            {copy.catalogCta}
-          </LinkButton>
-        }
-      />
-      {player ? (
-        <Card>
-          <CurriculumPlayer
-            courseId={board.course.id}
-            courseSlug={board.course.slug}
-            lessons={player.lessons}
-            completedCount={player.completedCount}
-            totalCount={player.totalCount}
-            curriculumComplete={player.curriculumComplete}
-          />
-        </Card>
-      ) : (
-        <Card title={copy.locked}>
-          <p>{copy.lockedBody}</p>
-          <div className="mt-4">
-            <LinkButton href={`/academy/${board.course.slug}`} size="sm">
-              {copy.catalogCta}
-            </LinkButton>
-          </div>
-        </Card>
-      )}
+    <RoomFrame className="-my-8 flex max-w-none flex-col gap-0 space-y-0 px-3 sm:px-4">
+      <BreadcrumbPageLabel href={`/academy/${board.course.slug}/oyna`} label={board.course.title} />
+      <div className="flex flex-col">
+        {grantStudio ? (
+          <p className="sr-only">Super Admin laboratuvar erişimi</p>
+        ) : null}
+        <CurriculumPlayer
+          courseId={board.course.id}
+          courseSlug={board.course.slug}
+          lessons={player.lessons}
+          curriculumComplete={player.curriculumComplete}
+          workTasksComplete={player.workTasksComplete}
+        />
+      </div>
     </RoomFrame>
   );
 }

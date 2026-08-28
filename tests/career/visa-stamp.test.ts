@@ -67,6 +67,8 @@ describe("kariyer vize mühürü", () => {
       curriculumSeal: null,
       score: 75,
       issuedAt,
+      revokedAt: null,
+      revokeReason: null,
       createdAt: issuedAt,
     });
 
@@ -106,7 +108,7 @@ describe("kariyer vize mühürü", () => {
     expect((await careerPorts.career.listStampsForUser(BUYER)).length).toBe(1);
   });
 
-  it("RELEASED freelancer işini vizeye çevirir; FUNDED kanıt sayılmaz", async () => {
+  it("FUNDED kanıt sayılmaz; iç hakediş kilidi RELEASE vizesini keser", async () => {
     const money = withMemoryAcceptAtomic({
       ledger: createMemoryLedgerStore([
         { userId: CLIENT, amountMinor: 100_000 },
@@ -120,12 +122,12 @@ describe("kariyer vize mühürü", () => {
       clientId: CLIENT,
       title: "API mühürü",
       brief: "Teslim testli olacak.",
-      budgetMinor: 10_000,
+      budgetMinor: 25_000,
     });
     const bid = await submitFreelancerBid(money, {
       jobId: job.id,
       bidderId: FREELANCER,
-      amountMinor: 10_000,
+      amountMinor: 25_000,
       coverNote: "Hazırım.",
     });
     const { contract } = await acceptFreelancerBid(money, {
@@ -147,26 +149,26 @@ describe("kariyer vize mühürü", () => {
       }),
     ).rejects.toThrow(/Mühürlü kanıt/);
 
-    const released = await releaseFreelancerContract(money, {
+    await releaseFreelancerContract(money, {
       contractId: contract.id,
       actorUserId: CLIENT,
       platformUserId: PLATFORM,
     });
-    expect(released.status).toBe("RELEASED");
+    expect(money.ledger.snapshot(FREELANCER).amountMinor).toBe(0);
 
     proofs.add({
       sourceKind: "FREELANCER_RELEASE",
-      sourceId: released.id,
+      sourceId: contract.id,
       userId: FREELANCER,
       actorUserIds: [FREELANCER, CLIENT],
       title: job.title,
-      issuedAt: released.releasedAt ?? new Date(),
+      issuedAt: new Date(),
       certificateHash: null,
     });
 
     const issued = await issueCareerVisaStamp(careerPorts, {
       sourceKind: "FREELANCER_RELEASE",
-      sourceId: released.id,
+      sourceId: contract.id,
       actorUserId: CLIENT,
     });
     expect(issued.applied).toBe(true);
@@ -178,7 +180,7 @@ describe("kariyer vize mühürü", () => {
     await expect(
       issueCareerVisaStamp(careerPorts, {
         sourceKind: "FREELANCER_RELEASE",
-        sourceId: released.id,
+        sourceId: contract.id,
         actorUserId: STRANGER,
       }),
     ).rejects.toThrow(/yetkiniz yok/);

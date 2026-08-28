@@ -1,10 +1,10 @@
 {
-  "name": "rail-is",
+  "name": "yetkin.ai-is",
   "version": "0.0.1",
   "private": true,
-  "description": "Rail İş — Diyar B native dron (mutlu yol ekranları). Amiral app/ değildir. Faz 1 kapanana kadar yayın hattı donuk.",
+  "description": "yetkin.ai İş — Diyar B native dron (mutlu yol ekranları). Amiral app/ değildir. Faz 1 kapanana kadar yayın hattı donuk.",
   "main": "index.ts",
-  "rail": {
+  "yetkin": {
     "publishFrozenUntilFaz1Close": true
   },
   "scripts": {

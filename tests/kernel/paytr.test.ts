@@ -7,6 +7,8 @@ import {
   buildPaytrMockCheckoutToken,
   buildPaytrTokenHash,
   encodePaytrUserBasket,
+  paytrRuntimeCreditsWallet,
+  readPaytrRuntimeMode,
 } from "@/lib/kernel/payments/paytr/checkout";
 import { tryPaytrDevOnlyMockCheckout } from "@/lib/kernel/payments/paytr/mock-checkout";
 import { PaytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
@@ -242,5 +244,29 @@ describe("PayTR port", () => {
     if (!result.ok) {
       expect(result.reason).toBe("missing_credentials");
     }
+  });
+
+  it("fail-closed / sandbox sicili CREDIT yazmaz; yalnız sandbox veya canlı üçlü bakiyeye yol açar", () => {
+    expect(readPaytrRuntimeMode({})).toBe("unconfigured");
+    expect(paytrRuntimeCreditsWallet("unconfigured")).toBe(false);
+    expect(readPaytrRuntimeMode({ PAYTR_ALLOW_MOCK_CHECKOUT: "true" })).toBe("mock");
+    expect(paytrRuntimeCreditsWallet("mock")).toBe(false);
+    expect(
+      readPaytrRuntimeMode({
+        PAYTR_MERCHANT_ID: "id",
+        PAYTR_MERCHANT_KEY: "key",
+        PAYTR_MERCHANT_SALT: "salt",
+        PAYTR_SANDBOX: "1",
+      }),
+    ).toBe("sandbox");
+    expect(paytrRuntimeCreditsWallet("sandbox")).toBe(true);
+    expect(
+      readPaytrRuntimeMode({
+        PAYTR_MERCHANT_ID: "id",
+        PAYTR_MERCHANT_KEY: "key",
+        PAYTR_MERCHANT_SALT: "salt",
+      }),
+    ).toBe("live");
+    expect(paytrRuntimeCreditsWallet("live")).toBe(true);
   });
 });

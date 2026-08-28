@@ -8,6 +8,7 @@ import { STUDIO_IMAGE_DATA_BASE64_MAX_CHARS } from "@/lib/studio/storage";
 import { createMemoryLedgerStore } from "../helpers/memory-money";
 import { createMemoryPriceCatalogStore } from "../helpers/memory-pricing";
 import { createMemoryAiTokenUsageStore, createMemoryStudioStore } from "../helpers/memory-studio";
+import { createMemoryPaidCommandStore, mintTestCommandKey } from "../helpers/memory-paid-command";
 
 const USER = "studio-image-user";
 const PLATFORM = PLATFORM_TREASURY_USER_ID;
@@ -50,6 +51,7 @@ function world(input?: { buyerBalance?: number; tokensUsed?: number; catalogFloo
   ]);
   const usageStore = createMemoryAiTokenUsageStore();
   const studio = createMemoryStudioStore();
+  const commands = createMemoryPaidCommandStore();
   return {
     adapter,
     ledger,
@@ -60,6 +62,7 @@ function world(input?: { buyerBalance?: number; tokensUsed?: number; catalogFloo
       catalog,
       usage: usageStore,
       studio,
+      commands,
       llmDeps: {
         providers: { gemini: adapter },
         budgetPort: createMemoryBudgetShieldPort({
@@ -75,6 +78,7 @@ describe("studio IMAGE_GEN debit ve telif hash", () => {
     const ctx = world();
     const result = await generateStudioImage(ctx.ports, {
       userId: USER,
+      commandKey: mintTestCommandKey(),
       prompt: "Mühürlü 16:9 ray görseli.",
       platformUserId: PLATFORM,
       now: new Date("2026-08-14T12:00:00.000Z"),
@@ -105,6 +109,7 @@ describe("studio IMAGE_GEN debit ve telif hash", () => {
     await expect(
       generateStudioImage(ctx.ports, {
         userId: USER,
+        commandKey: mintTestCommandKey(),
         prompt: "Küçük görsel.",
         platformUserId: PLATFORM,
       }),
@@ -120,6 +125,7 @@ describe("studio IMAGE_GEN debit ve telif hash", () => {
     await expect(
       generateStudioImage(ctx.ports, {
         userId: USER,
+        commandKey: mintTestCommandKey(),
         prompt: "Küçük görsel.",
         platformUserId: PLATFORM,
       }),
@@ -144,6 +150,7 @@ describe("studio IMAGE_GEN debit ve telif hash", () => {
         },
         {
           userId: USER,
+          commandKey: mintTestCommandKey(),
           prompt: "Dev görsel.",
           platformUserId: PLATFORM,
         },
@@ -159,6 +166,7 @@ describe("studio IMAGE_GEN debit ve telif hash", () => {
     await expect(
       generateStudioImage(ctx.ports, {
         userId: USER,
+        commandKey: mintTestCommandKey(),
         prompt: "Mühürlü görsel.",
         platformUserId: PLATFORM,
       }),

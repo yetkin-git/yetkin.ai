@@ -7,11 +7,14 @@ import { Input } from "@/components/ui/input";
 import { IconClose } from "@/components/ui/icons";
 import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
 import { fetchWalletStripClient } from "@/components/kernel/fetch-wallet-strip";
+import { useCitizenWriteFeedback } from "@/components/ui/use-citizen-write-feedback";
 import { UX_SEN } from "@/lib/copy/sen-voice/ux";
 import { WALLET_SURFACE_PATH } from "@/lib/kernel/identity/types";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { SETTLEMENT_CURRENCY, type CurrencyCode } from "@/lib/kernel/money/currency";
 import { WALLET_TOP_UP_MAX_MINOR, WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
+import { readCitizenEnvelope } from "@/lib/kernel/http/citizen-json";
+import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 import {
   computeWalletShortfallMinor,
   isQuickTopUpCapped,
@@ -61,6 +64,7 @@ function QuickTopUpDialog({
 }) {
   const titleId = useId();
   const copy = UX_SEN.topUp;
+  const report = useCitizenWriteFeedback();
   const idempotency = useIdempotencyKey();
   const [balanceMinor, setBalanceMinor] = useState<number | null>(null);
   const [amountMajor, setAmountMajor] = useState("");
@@ -69,6 +73,7 @@ function QuickTopUpDialog({
   const [pending, setPending] = useState(false);
   const [watchStrip, setWatchStrip] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
+  const [sandboxLive, setSandboxLive] = useState(false);
   const onFundedRef = useRef(onFunded);
 
   const shortfall = computeWalletShortfallMinor(requiredMinor, balanceMinor ?? 0);
@@ -141,38 +146,51 @@ function QuickTopUpDialog({
     setIframeUrl(null);
     setTimedOut(false);
     setWatchStrip(false);
-    const amountMinor = Math.round(Number.parseFloat(amountMajor.replace(",", ".")) * 100);
-    const response = await fetch("/api/wallet/top-up", {
-      method: "POST",
-      headers: { "content-type": "application/json", ...idempotency.headers() },
-      body: JSON.stringify({ amountMinor }),
-    });
-    const body = (await response.json()) as {
-      ok: boolean;
-      error?: string;
-      iframeUrl?: string;
-      alreadySettled?: boolean;
-    };
-    setPending(false);
-    if (body.ok && body.alreadySettled) {
-      idempotency.rotate();
-      const strip = await fetchWalletStripClient();
-      setBalanceMinor(strip.amountMinor);
-      if (strip.amountMinor >= requiredMinor) {
-        onFundedRef.current();
-      } else {
-        setWatchStrip(true);
+    try {
+      const amountMinor = Math.round(Number.parseFloat(amountMajor.replace(",", ".")) * 100);
+      const response = await fetch(
+        "/api/wallet/top-up",
+        withRailApiVersion({
+          method: "POST",
+          headers: { "content-type": "application/json", ...idempotency.headers() },
+          body: JSON.stringify({ amountMinor }),
+        }),
+      );
+      const envelope = await readCitizenEnvelope(response);
+      const iframe = typeof envelope.body.iframeUrl === "string" ? envelope.body.iframeUrl : null;
+      if (envelope.body.sandboxMode === true) {
+        setSandboxLive(true);
       }
-      return;
-    }
-    if (!body.ok || !body.iframeUrl) {
+      setPending(false);
+      if (envelope.ok && envelope.body.mockCheckout === true) {
+        idempotency.rotate();
+        setError(copy.mockNoCredit);
+        return;
+      }
+      if (envelope.ok && envelope.body.alreadySettled === true) {
+        idempotency.rotate();
+        const strip = await fetchWalletStripClient();
+        setBalanceMinor(strip.amountMinor);
+        if (strip.amountMinor >= requiredMinor) {
+          onFundedRef.current();
+        } else {
+          setWatchStrip(true);
+        }
+        return;
+      }
+      if (!envelope.ok || !iframe) {
+        idempotency.rotate();
+        setError(report(envelope.status, envelope.error, copy.fail));
+        return;
+      }
       idempotency.rotate();
-      setError(body.error ?? copy.fail);
-      return;
+      setIframeUrl(iframe);
+      setWatchStrip(true);
+    } catch {
+      setPending(false);
+      idempotency.rotate();
+      setError(UX_SEN.http.network);
     }
-    idempotency.rotate();
-    setIframeUrl(body.iframeUrl);
-    setWatchStrip(true);
   }
 
   return (
@@ -209,6 +227,7 @@ function QuickTopUpDialog({
             </p>
           ) : null}
           <p>{copy.bandHint(minLabel, maxLabel)}</p>
+          {sandboxLive ? <p className="text-[var(--amber)]">{copy.sandboxHint}</p> : null}
           {isQuickTopUpMinLift(shortfall, suggested) ? <p>{copy.minLift(formatMinor(suggested, currencyCode))}</p> : null}
           {isQuickTopUpCapped(shortfall, suggested) ? <p>{copy.capHint(maxLabel)}</p> : null}
         </div>

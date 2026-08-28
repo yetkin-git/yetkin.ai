@@ -41,5 +41,16 @@ export function createPrismaPriceCatalogStore(): PriceCatalogStore {
       }
       return toEntry(row);
     },
+    async listActiveEntries(moduleKey, unitKeys) {
+      const keys = unitKeys?.filter((key) => key.length > 0);
+      const rows = await prisma.priceCatalogEntry.findMany({
+        where: {
+          moduleKey,
+          isActive: true,
+          ...(keys && keys.length > 0 ? { unitKey: { in: [...keys] } } : {}),
+        },
+      });
+      return rows.map(toEntry);
+    },
   };
 }

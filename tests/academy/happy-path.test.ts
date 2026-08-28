@@ -9,8 +9,8 @@ import { academyCourseSeedBySlug } from "@/lib/academy/seed";
 
 describe("akademi mutlu yol (katalog → kilit → settlement → müfredat → sınav → sertifika)", () => {
   it("tohum kursu cüzdandan düşer, hazine alır, emanet yoktur, replay debit etmez", async () => {
-    const seed = academyCourseSeedBySlug("rail-temel");
-    expect(seed?.id).toBe("ac_rail_temel");
+    const seed = academyCourseSeedBySlug("python-temel");
+    expect(seed?.id).toBe("ac_python_temel");
     const journey = await runAcademyCashJourney();
 
     expect(journey.firstApplied).toBe(true);

@@ -62,7 +62,7 @@ describe("ledger engine", () => {
       amountMinor: toAmountMinor(500),
       direction: "CREDIT" as const,
       label: "test",
-      purpose: "topup",
+      purpose: "wallet-top-up",
       idempotencyKey: "oid-1",
     };
     const first = await appendLedgerEntry(store, command);

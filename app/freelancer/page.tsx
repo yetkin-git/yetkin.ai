@@ -3,8 +3,6 @@ import { loadOpenJobs } from "@/lib/freelancer/load";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { LinkButton } from "@/components/ui/link-button";
 import { Badge } from "@/components/ui/badge";
-import { StatGrid } from "@/components/ui/stat-grid";
-import { IconBriefcase, IconLock, IconCheck } from "@/components/ui/icons";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 
 export default async function FreelancerPage() {
@@ -14,26 +12,26 @@ export default async function FreelancerPage() {
   const stats = SEN_VOICE.freelancer.stats;
 
   return (
-    <RoomFrame>
+    <RoomFrame className="space-y-5">
       <PageHeader
-        eyebrow={copy.eyebrow}
         title={copy.title}
         description={copy.description}
-        actions={<LinkButton href="/freelancer/new">{copy.createCta}</LinkButton>}
+        actions={
+          <div className="flex flex-col items-stretch gap-2 sm:items-end">
+            <ul className="flex flex-wrap justify-end gap-1.5" aria-label={stats.barLabel}>
+              <li>
+                <Badge tone="neutral" className="normal-case tracking-tight">
+                  {stats.open(live.length)}
+                </Badge>
+              </li>
+            </ul>
+            <LinkButton href="/freelancer/new" variant="primary">
+              {copy.createCta}
+            </LinkButton>
+          </div>
+        }
       />
-      <StatGrid
-        columns={3}
-        items={[
-          { label: stats.openLabel, value: live.length, icon: <IconBriefcase /> },
-          { label: stats.escrowLabel, value: stats.escrowValue, hint: stats.escrowHint, icon: <IconLock /> },
-          { label: stats.pathLabel, value: stats.pathValue, hint: stats.pathHint, icon: <IconCheck /> },
-        ]}
-      />
-      {jobs === null ? (
-        <Badge tone="amber">{copy.unbound}</Badge>
-      ) : live.length > 0 ? (
-        <Badge tone="emerald">{copy.live(live.length)}</Badge>
-      ) : null}
+      <p className="text-sm text-[var(--muted)]">{SEN_VOICE.freelancer.accept.paymentsClosedBody}</p>
       <JobList jobs={live} />
     </RoomFrame>
   );

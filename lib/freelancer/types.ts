@@ -1,3 +1,4 @@
+import type { AcademyPathwayId } from "@/lib/kernel/catalog-ids";
 import type { AmountMinor } from "@/lib/kernel/money/amount-minor";
 import type { CurrencyCode } from "@/lib/kernel/money/currency";
 import type { InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
@@ -5,8 +6,10 @@ import type { InvokeLlmInput, LlmGatewayResult } from "@/lib/kernel/ai/types";
 import type { AiTokenUsageStore } from "@/lib/kernel/ai/usage-store";
 import type { EscrowStore } from "@/lib/kernel/escrow/types";
 import type { LedgerStore } from "@/lib/kernel/ledger/types";
+import type { MarketplaceSplitPort } from "@/lib/kernel/payments/marketplace-split";
 
 export type FreelancerJobStatus = "OPEN" | "AWARDED" | "CANCELLED";
+export type FreelancerJobVisibility = "PUBLIC" | "DIRECT";
 export type FreelancerBidStatus = "SUBMITTED" | "ACCEPTED" | "REJECTED";
 export type FreelancerContractStatus = "FUNDED" | "RELEASED" | "REFUNDED" | "DISPUTED";
 
@@ -29,6 +32,12 @@ export type FreelancerJobRecord = {
   brief: string;
   budgetMinor: AmountMinor;
   currencyCode: CurrencyCode;
+  visaPathwayId: AcademyPathwayId;
+  /** PUBLIC = açık tahta; DIRECT = yalnız davetli ustanın tezgâhı. */
+  visibility: FreelancerJobVisibility;
+  inviteeId: string | null;
+  /** Davetli ustaya sunulan teslim süresi (gün). */
+  dueDays: number | null;
   status: FreelancerJobStatus;
   createdAt: Date;
   updatedAt: Date;
@@ -130,7 +139,10 @@ export type FreelancerPulse = {
 export type FreelancerStore = {
   insertJob(job: FreelancerJobRecord): Promise<FreelancerJobRecord>;
   getJob(id: string): Promise<FreelancerJobRecord | null>;
+  /** Açık tahta — yalnız PUBLIC + OPEN. DIRECT teklifler buraya düşmez. */
   listOpenJobs(): Promise<FreelancerJobRecord[]>;
+  /** Davetli ustanın tezgâhındaki Özel İş Teklifleri (DIRECT + OPEN). */
+  listDirectOffersForInvitee(inviteeId: string): Promise<FreelancerJobRecord[]>;
   listJobsByClient(clientId: string): Promise<FreelancerJobRecord[]>;
   updateJob(id: string, patch: Partial<Pick<FreelancerJobRecord, "status" | "updatedAt">>): Promise<FreelancerJobRecord>;
   insertBid(bid: FreelancerBidRecord): Promise<FreelancerBidRecord>;
@@ -214,11 +226,12 @@ export type FreelancerLlmInvoker = (
   deps?: InvokeLlmDeps,
 ) => Promise<LlmGatewayResult | null>;
 
-/** Teklif kabul yazma birimi — ledger debit + EscrowHold + sözleşme aynı kapıdan. */
+/** Teklif kabul yazma birimi — PSP hold + EscrowHold kilit kaydı + sözleşme. Rail DEBIT yok. */
 export type FreelancerAcceptWritePorts = {
   ledger: LedgerStore;
   escrow: EscrowStore;
   freelancer: FreelancerStore;
+  marketplace?: MarketplaceSplitPort;
 };
 
 export type FreelancerAcceptResult = {
@@ -233,9 +246,10 @@ export type FreelancerEnginePorts = {
   ledger: LedgerStore;
   escrow: EscrowStore;
   freelancer: FreelancerStore;
+  marketplace?: MarketplaceSplitPort;
   /**
-   * Debit + EscrowHold + FreelancerContract (+ ilan/teklif) tek atomik birim.
-   * Prisma: `$transaction`. Bellek: anlık görüntü + rollback.
+   * EscrowHold kilit kaydı + FreelancerContract (+ ilan/teklif) tek atomik birim.
+   * Üçüncü kişi işinde ledger DEBIT yoktur. Prisma: `$transaction`. Bellek: anlık görüntü + rollback.
    */
   runAcceptAtomic<T>(work: (tx: FreelancerAcceptWritePorts) => Promise<T>): Promise<T>;
   /**

@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * Rail markasını public/favicon.ico, app/icon.svg ve app/apple-icon.png olarak basar.
+ * yetkin.ai Y markasını public/favicon.ico, public/icon.svg, app/icon.svg ve app/apple-icon.png olarak basar.
  * Canlı ağ yok. Geometri SSOT: lib/ui/brand-mark-geometry.ts
  */
 import { deflateSync } from "node:zlib";
@@ -8,20 +8,23 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import {
   BRAND_MARK_COLORS,
+  BRAND_MARK_GRADIENT,
+  BRAND_MARK_LETTER_VERTICES,
   BRAND_MARK_PLATE_RADIUS,
-  BRAND_MARK_RAIL_ENDPOINTS,
-  BRAND_MARK_SIGNAL,
+  BRAND_MARK_SHEEN,
   BRAND_MARK_VIEWBOX,
   buildBrandMarkSvg,
+  type BrandMarkVertex,
 } from "../lib/ui/brand-mark-geometry";
 
 const ROOT = process.cwd();
 
 type RGBA = [number, number, number, number];
 
-const INK = hexToRgba(BRAND_MARK_COLORS.ink);
-const IVORY = hexToRgba(BRAND_MARK_COLORS.ivory);
-const GOLD = hexToRgba(BRAND_MARK_COLORS.goldOnInk);
+const VIOLET = hexToRgba(BRAND_MARK_COLORS.violet);
+const VIOLET_MID = hexToRgba(BRAND_MARK_COLORS.violetMid);
+const SAFIR = hexToRgba(BRAND_MARK_COLORS.safir);
+const LETTER = hexToRgba(BRAND_MARK_COLORS.letter);
 
 function hexToRgba(hex: string): RGBA {
   const n = hex.replace("#", "");
@@ -41,18 +44,39 @@ function sdRoundedBox(px: number, py: number, hx: number, hy: number, radius: nu
   return Math.hypot(ox, oy) + Math.min(Math.max(ax, ay), 0) - radius;
 }
 
-function sdCapsule(px: number, py: number, ax: number, ay: number, bx: number, by: number, radius: number): number {
-  const pax = px - ax;
-  const pay = py - ay;
-  const bax = bx - ax;
-  const bay = by - ay;
-  const denom = bax * bax + bay * bay;
-  const h = denom === 0 ? 0 : Math.max(0, Math.min(1, (pax * bax + pay * bay) / denom));
-  return Math.hypot(pax - bax * h, pay - bay * h) - radius;
-}
-
-function sdCircle(px: number, py: number, cx: number, cy: number, radius: number): number {
-  return Math.hypot(px - cx, py - cy) - radius;
+function sdPolygon(px: number, py: number, verts: readonly BrandMarkVertex[]): number {
+  const first = verts[0];
+  if (!first) {
+    return Number.POSITIVE_INFINITY;
+  }
+  let d = (px - first[0]) ** 2 + (py - first[1]) ** 2;
+  let sign = 1;
+  const count = verts.length;
+  for (let i = 0, j = count - 1; i < count; j = i, i += 1) {
+    const current = verts[i];
+    const previous = verts[j];
+    if (!current || !previous) {
+      continue;
+    }
+    const [vix, viy] = current;
+    const [vjx, vjy] = previous;
+    const ex = vjx - vix;
+    const ey = vjy - viy;
+    const wx = px - vix;
+    const wy = py - viy;
+    const denom = ex * ex + ey * ey;
+    const t = denom === 0 ? 0 : Math.max(0, Math.min(1, (wx * ex + wy * ey) / denom));
+    const bx = wx - ex * t;
+    const by = wy - ey * t;
+    d = Math.min(d, bx * bx + by * by);
+    const c0 = py >= viy;
+    const c1 = py < vjy;
+    const c2 = ex * wy > ey * wx;
+    if ((c0 && c1 && c2) || (!c0 && !c1 && !c2)) {
+      sign *= -1;
+    }
+  }
+  return sign * Math.sqrt(d);
 }
 
 function mix(a: RGBA, b: RGBA, t: number): RGBA {
@@ -69,24 +93,41 @@ function coverFromSd(sd: number, pixel: number): number {
   return Math.max(0, Math.min(1, 0.5 - sd / pixel));
 }
 
-function railRadiusForSize(size: number): number {
-  if (size <= 16) {
-    return 2.05;
+function projectT(
+  px: number,
+  py: number,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+): number {
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const denom = dx * dx + dy * dy;
+  return denom === 0 ? 0 : Math.max(0, Math.min(1, ((px - x1) * dx + (py - y1) * dy) / denom));
+}
+
+function gradientAt(px: number, py: number): RGBA {
+  const { x1, y1, x2, y2 } = BRAND_MARK_GRADIENT;
+  const t = projectT(px, py, x1, y1, x2, y2);
+  if (t < 0.52) {
+    return mix(VIOLET, VIOLET_MID, t / 0.52);
   }
-  if (size <= 32) {
-    return 1.35;
-  }
-  return 1.2;
+  return mix(VIOLET_MID, SAFIR, (t - 0.52) / 0.48);
+}
+
+function sheenOpacityAt(px: number, py: number): number {
+  const { x1, y1, x2, y2, stops } = BRAND_MARK_SHEEN;
+  const t = projectT(px, py, x1, y1, x2, y2);
+  const start = stops[0]?.opacity ?? 0;
+  const end = stops[1]?.opacity ?? 0;
+  return start + (end - start) * t;
 }
 
 function renderMark(size: number): Buffer {
   const samples = size <= 32 ? 5 : 3;
   const pixel = BRAND_MARK_VIEWBOX / size;
-  const railR = railRadiusForSize(size);
-  const signalR = size <= 16 ? 1.85 : BRAND_MARK_SIGNAL.r;
   const rgba = Buffer.alloc(size * size * 4);
-  const left = BRAND_MARK_RAIL_ENDPOINTS.left;
-  const right = BRAND_MARK_RAIL_ENDPOINTS.right;
 
   for (let y = 0; y < size; y++) {
     for (let x = 0; x < size; x++) {
@@ -101,22 +142,11 @@ function renderMark(size: number): Buffer {
             sdRoundedBox(cx, cy, BRAND_MARK_VIEWBOX / 2, BRAND_MARK_VIEWBOX / 2, BRAND_MARK_PLATE_RADIUS),
             pixel,
           );
-          const leftRail = coverFromSd(
-            sdCapsule(px, py, left.x1, left.y1, left.x2, left.y2, railR),
-            pixel,
-          );
-          const rightRail = coverFromSd(
-            sdCapsule(px, py, right.x1, right.y1, right.x2, right.y2, railR),
-            pixel,
-          );
-          const signal = coverFromSd(
-            sdCircle(px, py, BRAND_MARK_SIGNAL.cx, BRAND_MARK_SIGNAL.cy, signalR),
-            pixel,
-          );
+          const letter = coverFromSd(sdPolygon(px, py, BRAND_MARK_LETTER_VERTICES), pixel);
           let color: RGBA = [0, 0, 0, 0];
-          color = mix(color, INK, plate);
-          color = mix(color, IVORY, plate * Math.max(leftRail, rightRail));
-          color = mix(color, GOLD, plate * signal);
+          color = mix(color, gradientAt(px, py), plate);
+          color = mix(color, LETTER, plate * sheenOpacityAt(px, py));
+          color = mix(color, LETTER, plate * letter);
           acc = [acc[0] + color[0], acc[1] + color[1], acc[2] + color[2], acc[3] + color[3]];
         }
       }
@@ -200,8 +230,10 @@ function writeOut(relative: string, contents: Buffer | string): void {
 const png16 = encodePng(16, 16, renderMark(16));
 const png32 = encodePng(32, 32, renderMark(32));
 const png180 = encodePng(180, 180, renderMark(180));
+const svg = buildBrandMarkSvg();
 
-writeOut("app/icon.svg", buildBrandMarkSvg());
+writeOut("app/icon.svg", svg);
+writeOut("public/icon.svg", svg);
 writeOut(
   "public/favicon.ico",
   encodeIco([
@@ -211,6 +243,4 @@ writeOut(
 );
 writeOut("app/apple-icon.png", png180);
 
-process.stdout.write(
-  `generate-brand-icons OK — svg ${buildBrandMarkSvg().length}B, ico 16+32, apple 180\n`,
-);
+process.stdout.write(`generate-brand-icons OK — svg ${svg.length}B, ico 16+32, apple 180\n`);

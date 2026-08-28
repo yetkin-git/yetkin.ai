@@ -2,7 +2,7 @@ import { RAIL_V1_CLIENT_STALE, RAIL_V1_PARSE_FAIL } from "../contract/v1";
 
 /** Diyar B vatandaş cümleleri. Sahte başarı / boş home yok. SEN: sen, siz değil. */
 export const RAIL_IS_COPY = {
-  brand: "Rail İş",
+  brand: "yetkin.ai",
   diyar: "Diyar B",
   boot: "Oturum doğrulanıyor.",
   retry: "Yeniden dene",
@@ -46,13 +46,13 @@ export const RAIL_IS_COPY = {
   bid: {
     title: "Teklif",
     amountLabel: "Teklif tutarı (₺)",
-    amountHint: "Tam sayı kuruş (amountMinor). Bant ₺10–₺20.000.",
+    amountHint: "Tam sayı kuruş (amountMinor). Bant ₺250–₺50.000.",
     coverLabel: "Teklif notu",
     submit: "Teklif gönder",
     pending: "Teklif gönderiliyor.",
     success: "Teklif alındı.",
     invalidAmount: "Tutar tam sayı amountMinor üretmedi.",
-    amountBand: "Teklif ₺10–₺20.000 bandında olmalıdır.",
+    amountBand: "Teklif ₺250–₺50.000 bandında olmalıdır.",
     coverBand: "Teklif notu 4–2000 karakter olmalıdır.",
     conflict:
       "Bu niyet farklı bir teklifle kilitli. Yeni UUID sessiz basılmaz; yeni niyet ayrı eylemdir.",
@@ -75,22 +75,30 @@ export const RAIL_IS_COPY = {
     coverLabel: "Teklif notu",
   },
   accept: {
-    submit: "Teklifi Kabul Et ve Fonla",
-    confirmTitle: "Bakiyeyi kilitle",
+    submit: "Teklifi kabul et",
+    confirmTitle: "Teklifi kabul et",
     confirmBody:
-      "Bu onay cüzdanından {amount} çeker ve emanete kilitler. Usta hemen almaz. Teklif tutarı istekten değiştirilemez.",
-    confirm: "Onaylıyorum — bakiyeyi kilitle",
+      "Bu onay lisanslı split (PSP) ile emaneti kilitler. Cüzdan bakiyesi ile fonlanmaz. Usta hemen almaz. Teklif tutarı istekten değiştirilemez.",
+    confirm: "Onaylıyorum",
     cancel: "Vazgeç",
     pending: "Teklif kabul ediliyor.",
     errorTitle: "Teklif kabul edilemedi.",
-    insufficientHint: "İlan açık kaldı. Cüzdanı web'de yükle; native yükleme yoktur.",
+    insufficientHint: "İlan açık kaldı. Freelancer kabulü cüzdan DEBIT ile yapılmaz.",
     stillOpen: "İlan açık kaldı.",
-    unboundBlock: "Cüzdan henüz yüklenemedi. DEBIT basılmaz.",
-    stripHint: "Şerit yetersiz görünüyor; yine de dene veya /cuzdan.",
+    unboundBlock: "Ödeme henüz bağlanmadı. Sahte kilit yazılmaz.",
+    stripHint: "Cüzdan şeridi kabulü fonlamaz. Split bağlı değilse 503 döner.",
     formTestID: "dron-accept-form",
     errorTestID: "dron-accept-error",
     insufficientTestID: "dron-accept-insufficient",
     modalTestID: "dron-accept-confirm",
+    paymentsClosed: "Ödeme sistemi pasif",
+    paymentsClosedHint:
+      "PayTR Pazaryeri Split bu fazda bağlı değil. Teklif kabulü 503 döner; cüzdan bakiyesi ile fonlanmaz. İlan açık kalır; sahte kilit yazılmaz.",
+    paymentsClosedTestID: "dron-accept-payments-closed",
+    paymentsPassiveTitle: "Ödeme sistemi pasif",
+    paymentsPassiveBody:
+      "Ödeme henüz bağlanmadı. PayTR Pazaryeri Split bu fazda pasif. Teklif kabulü cüzdan ile fonlanmaz; deneme dürüst 503 döner.",
+    paymentsPassiveTestID: "dron-accept-payments-passive",
   },
   wallet: {
     liveTestID: "dron-wallet-live",
@@ -102,7 +110,9 @@ export const RAIL_IS_COPY = {
     unboundBody: "live: false sıfır bakiye değildir. Uydurma ₺0 basılmaz.",
     errorTitle: "Cüzdan şeridi okunamadı.",
     topUp: "Cüzdanı web'de yükle",
-    topUpHint: "Yükleme native'de yoktur. Amiral /cuzdan açılır.",
+    webWallet: "Cüzdanı web'de aç",
+    topUpHint:
+      "Yükleme Akademi bakiyesi içindir; teklif kabulünü fonlamaz. Split bağlı değilse kabul 503. Native PayTR yok — Amiral /cuzdan.",
   },
   bench: {
     title: "İşlerim",
@@ -143,7 +153,7 @@ export const RAIL_IS_COPY = {
     pending: "Hak ediş serbest bırakılıyor.",
     errorTitle: "Hak ediş serbest bırakılamadı.",
     success: "Hak Ediş Serbest Bırakıldı",
-    hint: "Bu onay emanetteki neti ustanın cüzdanına CREDIT yazar. Geri alınmaz.",
+    hint: "Usta payı yetkin.ai cüzdanına yazılmaz. Dağıtım lisanslı kuruluştadır; split pasifken 503 döner.",
     gross: "Brüt (kilitli)",
     hold: "Platform hold",
     net: "Usta net",

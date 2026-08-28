@@ -1,4 +1,5 @@
 import { VERTICAL_ROOMS } from "@/lib/kernel/modules";
+import { FROZEN_DISK_ROOM_CATALOG } from "@/lib/kernel/compliance/circuit-breakers";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { HOLD_BPS_MAX, HOLD_BPS_MIN } from "@/lib/kernel/pricing/hold-bps";
 import type { CatalogModuleGroup, SealedCatalogEntry } from "@/lib/kernel/admin/types";
@@ -14,7 +15,9 @@ const UNIT_TYPE_LABEL: Record<PriceCatalogUnitType, string> = {
 };
 
 export function catalogModuleLabel(moduleKey: string): string {
-  const room = VERTICAL_ROOMS.find((row) => row.id === moduleKey);
+  const room =
+    VERTICAL_ROOMS.find((row) => row.id === moduleKey) ??
+    FROZEN_DISK_ROOM_CATALOG.find((row) => row.id === moduleKey);
   return room?.label ?? moduleKey;
 }
 

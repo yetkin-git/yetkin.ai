@@ -1,36 +1,61 @@
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 
-/** Anayasa §2.8 — 12 dikey oda. Sıra mühürlü; lib/kernel/modules.ts ve scripts/verify-boundaries.ts ile eleman eleman aynı. Kernel bunları import etmez. */
-const VERTICAL_ROOMS = [
-  "dashboard",
-  "studio",
-  "academy",
-  "career",
-  "freelancer",
-  "devlabs",
-  "kurumsal",
-  "hibe",
-  "arena",
-  "pazaryeri",
-  "junior",
-  "social",
-];
+/** Çalışan 4 oda — lib/kernel/rooms.ssot.ts SSOT. eslint kopya dizi tutmaz. */
+/** BOUNDED_CONTEXTS — Proof / Marketplace / Payments. Tablo sahipliği scripts/verify-boundaries.ts [context.prisma]. */
+const roomsSsotSource = readFileSync(
+  join(dirname(fileURLToPath(import.meta.url)), "lib/kernel/rooms.ssot.ts"),
+  "utf8",
+);
 
-const MUSEUM_MSG = "S9-B: yetkin.ai müze importu yasaktır. Rail build dışı.";
+function parseSsotIds(exportName, idPattern) {
+  const match = roomsSsotSource.match(
+    new RegExp(`export const ${exportName} = \\[([\\s\\S]*?)\\] as const;`),
+  );
+  if (!match?.[1]) {
+    throw new Error(`eslint.config.mjs: rooms.ssot.ts ${exportName} parse edilemedi`);
+  }
+  return [...match[1].matchAll(idPattern)].map((row) => row[1]);
+}
+
+const VERTICAL_ROOMS = parseSsotIds("VERTICAL_ROOMS", /\bid:\s*"([a-z0-9-]+)"/g);
+const FROZEN_DISK_ROOMS = parseSsotIds("FROZEN_DISK_ROOMS", /"([a-z0-9-]+)"/g);
+/** Canlı oda duvarı yalnız 4 çalışan oda. Donmuş 8 oda sicil/denylist; lib/ override üretmez. */
+const LIVE_ROOMS = VERTICAL_ROOMS;
+
+const MUSEUM_MSG =
+  "OPS: yetkin_muze müze importu yasaktır. Rail build dışı. Anayasa maddesi değildir.";
 const KERNEL_MSG =
-  "Anayasa §2.8: lib/kernel dikey oda import etmez. Kontrat kernel’de kalır.";
+  "Anayasa A8: lib/kernel dikey oda import etmez. Kontrat kernel’de kalır.";
 const MODULE_ENGINE_MSG =
-  "Anayasa §2.8: dikey oda başka odanın engine/runtime/prisma-store dosyasını import etmez. İletişim HTTP veya kernel kontratı.";
+  "Anayasa A8: dikey oda başka odanın engine/runtime/prisma-store dosyasını import etmez. İletişim HTTP veya kernel kontratı.";
+const CATALOG_LEAK_MSG =
+  "Anayasa A8: kariyer/freelancer lib/academy import etmez. Kimlik lib/kernel/catalog-ids.";
 const EARNINGS_WALL_MSG =
-  "D2.3 oda duvarı (room.wall / EARNINGS_WALL): freelancer ↛ kurumsal/kariyer; kurumsal ↛ freelancer/kariyer. Teklif kapısı HTTP; emanet çekirdektedir.";
+  "D2.3 oda duvarı (room.wall / EARNINGS_WALL): freelancer ↛ kariyer. Teklif kapısı HTTP; emanet çekirdektedir.";
 const UI_SERVER_MSG =
   "UI katmanı Prisma / server-only yazma motoru import etmez. Yazma tekil API rotasından gider.";
 
-const museumPaths = [{ name: "yetkin.ai", message: MUSEUM_MSG }];
+const museumPaths = [
+  { name: "yetkin_muze", message: MUSEUM_MSG },
+  { name: "yetkin.ai", message: MUSEUM_MSG },
+];
 const museumPatterns = [
-  { group: ["yetkin.ai/*", "@/yetkin.ai", "@/yetkin.ai/*"], message: MUSEUM_MSG },
+  {
+    group: [
+      "yetkin_muze/*",
+      "@/yetkin_muze",
+      "@/yetkin_muze/*",
+      "yetkin.ai/*",
+      "@/yetkin.ai",
+      "@/yetkin.ai/*",
+    ],
+    message: MUSEUM_MSG,
+  },
 ];
 
 function restrictedImports({ paths = [], patterns = [] } = {}) {
@@ -44,11 +69,11 @@ function restrictedImports({ paths = [], patterns = [] } = {}) {
 }
 
 function kernelVerticalPatterns() {
-  return VERTICAL_ROOMS.flatMap((id) => [`@/lib/${id}`, `@/lib/${id}/*`]);
+  return [...LIVE_ROOMS, ...FROZEN_DISK_ROOMS].flatMap((id) => [`@/lib/${id}`, `@/lib/${id}/*`]);
 }
 
 function otherModuleEnginePatterns(self) {
-  return VERTICAL_ROOMS.filter((id) => id !== self).flatMap((id) => [
+  return LIVE_ROOMS.filter((id) => id !== self).flatMap((id) => [
     `@/lib/${id}/engine`,
     `@/lib/${id}/runtime`,
     `@/lib/${id}/prisma-store`,
@@ -61,16 +86,20 @@ function earningsWallPatterns(self) {
   if (self === "freelancer") {
     return [
       {
-        group: ["@/lib/kurumsal", "@/lib/kurumsal/*", "@/lib/career", "@/lib/career/*"],
+        group: ["@/lib/career", "@/lib/career/*"],
         message: EARNINGS_WALL_MSG,
       },
     ];
   }
-  if (self === "kurumsal") {
+  return [];
+}
+
+function academyCatalogLeakPatterns(self) {
+  if (self === "career" || self === "freelancer") {
     return [
       {
-        group: ["@/lib/freelancer", "@/lib/freelancer/*", "@/lib/career", "@/lib/career/*"],
-        message: EARNINGS_WALL_MSG,
+        group: ["@/lib/academy", "@/lib/academy/*"],
+        message: CATALOG_LEAK_MSG,
       },
     ];
   }
@@ -133,17 +162,18 @@ const eslintConfig = defineConfig([
       }),
     },
   },
-  ...VERTICAL_ROOMS.map((id) => ({
+  ...LIVE_ROOMS.map((id) => ({
     files: [`lib/${id}/**/*.{ts,tsx}`],
     rules: {
       "no-restricted-imports": restrictedImports({
-        paths: VERTICAL_ROOMS.filter((other) => other !== id).map((other) => ({
+        paths: LIVE_ROOMS.filter((other) => other !== id).map((other) => ({
           name: `@/lib/${other}`,
           message: MODULE_ENGINE_MSG,
         })),
         patterns: [
           { group: otherModuleEnginePatterns(id), message: MODULE_ENGINE_MSG },
           ...earningsWallPatterns(id),
+          ...academyCatalogLeakPatterns(id),
         ],
       }),
     },
@@ -152,13 +182,13 @@ const eslintConfig = defineConfig([
     files: ["lib/copy/**/*.{ts,tsx}", "lib/showcase/**/*.{ts,tsx}", "lib/ui/**/*.{ts,tsx}"],
     rules: {
       "no-restricted-imports": restrictedImports({
-        paths: VERTICAL_ROOMS.map((id) => ({
+        paths: LIVE_ROOMS.map((id) => ({
           name: `@/lib/${id}`,
           message: MODULE_ENGINE_MSG,
         })),
         patterns: [
           {
-            group: VERTICAL_ROOMS.flatMap((id) => [
+            group: LIVE_ROOMS.flatMap((id) => [
               `@/lib/${id}/engine`,
               `@/lib/${id}/runtime`,
               `@/lib/${id}/prisma-store`,
@@ -197,10 +227,11 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     "generated/**",
     "node_modules/**",
-    "yetkin.ai/**",
+    "yetkin_muze/**",
     "scripts/**",
     "coverage/**",
     "apps/**",
+    "archived/**",
   ]),
 ]);
 

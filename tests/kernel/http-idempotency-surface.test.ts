@@ -18,13 +18,13 @@ describe("HTTP Idempotency-Key yazma yüzeyi", () => {
     const release = readSrc("app/api/freelancer/contracts/[id]/release/route.ts");
     const refund = readSrc("app/api/freelancer/contracts/[id]/refund/route.ts");
     const delivery = readSrc("app/api/freelancer/contracts/[id]/messages/route.ts");
-    for (const source of [wallet, purchase, jobs]) {
+    for (const source of [wallet, jobs]) {
       expect(source).toContain("readIdempotencyKey");
       expect(source).toContain("settleHttpIdempotency");
       expect(source).toContain("hashIdempotencyPayload");
       expect(source).toContain("createPrismaHttpIdempotencyStore");
     }
-    for (const source of [accept, bids, release, refund, delivery]) {
+    for (const source of [purchase, accept, bids, release, refund, delivery]) {
       expect(source).toContain("requireRailV1IdempotencyKey");
       expect(source).toContain("settleHttpIdempotency");
       expect(source).toContain("hashIdempotencyPayload");
@@ -56,5 +56,19 @@ describe("HTTP Idempotency-Key yazma yüzeyi", () => {
       expect(source).toContain("useIdempotencyKey");
       expect(source).toContain("idempotency.headers()");
     }
+  });
+
+  it("sınav yetkilendirmesi oturum JTI tek tüketimdir; kenar Origin/Sec-Fetch yazma kalkanı durur", () => {
+    const exam = readSrc("lib/academy/exam-engine.ts");
+    const examRoute = readSrc("app/api/academy/courses/[id]/exam/route.ts");
+    const proxy = readSrc("proxy.ts");
+    const origin = readSrc("lib/kernel/security/origin-guard.ts");
+    expect(exam).toContain("consumeAcademyExamSittingJti");
+    expect(examRoute).toContain("submitAcademyExam");
+    expect(examRoute).not.toContain("settleHttpIdempotency");
+    expect(proxy).toContain("decideWebOriginGuard");
+    expect(proxy).toContain('originDecision.kind === "deny"');
+    expect(origin).toContain("WEB_ORIGIN_FORBIDDEN");
+    expect(origin).toContain("Sec-Fetch-Site");
   });
 });

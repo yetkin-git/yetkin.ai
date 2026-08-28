@@ -2,9 +2,10 @@ import { notFound } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ContractActions } from "@/components/freelancer/contract-actions";
-import { ContractMessageThread } from "@/components/freelancer/contract-message-thread";
+import { ContractChatConsole } from "@/components/freelancer/contract-chat-console";
 import { DeliveryHeroCard } from "@/components/freelancer/delivery-hero-card";
 import { DisputeConsole } from "@/components/freelancer/dispute-console";
+import { RevisionTracker } from "@/components/freelancer/revision-tracker";
 import { SquadPanel } from "@/components/freelancer/squad-panel";
 import { EscrowHoldSteps } from "@/components/freelancer/escrow-hold-steps";
 import { loadContractBoard } from "@/lib/freelancer/load";
@@ -13,6 +14,7 @@ import { requirePageSession } from "@/lib/kernel/auth/session";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { LinkButton } from "@/components/ui/link-button";
+import { BreadcrumbPageLabel } from "@/components/shell/header-breadcrumb";
 import {
   escrowHoldActiveStep,
   escrowHoldStatusLabel,
@@ -20,6 +22,11 @@ import {
   freelancerDisputeRoundStatusLabel,
 } from "@/lib/copy/status-labels";
 import { pickLatestDeliveryMessage, shouldShowDeliveryHero } from "@/lib/freelancer/delivery-hero";
+import {
+  DEFAULT_REVISION_ALLOWANCE,
+  countRevisionRequests,
+  remainingRevisions,
+} from "@/lib/freelancer/revision-tracker";
 
 export default async function FreelancerContractPage({
   params,
@@ -43,13 +50,22 @@ export default async function FreelancerContractPage({
   const holdPercent = split.holdBps / 100;
   const contractLabel = freelancerContractStatusLabel(board.contract.status);
   const latestDelivery = pickLatestDeliveryMessage(board.messages);
+  const hasDelivery = Boolean(latestDelivery);
   const showHero = shouldShowDeliveryHero({
     contractStatus: board.contract.status,
-    hasDelivery: Boolean(latestDelivery),
+    hasDelivery,
   });
+  const revisionRemaining = remainingRevisions(
+    countRevisionRequests(board.messages),
+    DEFAULT_REVISION_ALLOWANCE,
+  );
+  const isClient = session.id === board.contract.clientId;
 
   return (
     <RoomFrame>
+      {board.job?.title ? (
+        <BreadcrumbPageLabel href={`/freelancer/contracts/${board.contract.id}`} label={board.job.title} />
+      ) : null}
       <PageHeader
         eyebrow={`${copy.contract.eyebrow} · ${contractLabel}`}
         title={board.job?.title ?? copy.contract.fallbackTitle}
@@ -63,7 +79,7 @@ export default async function FreelancerContractPage({
       {showHero && latestDelivery ? (
         <DeliveryHeroCard
           contractId={board.contract.id}
-          isClient={session.id === board.contract.clientId}
+          isClient={isClient}
           delivery={{
             body: latestDelivery.body,
             artifactUrl: latestDelivery.artifactUrl,
@@ -77,6 +93,7 @@ export default async function FreelancerContractPage({
           netMinor={split.netMinor}
           currencyCode={split.currencyCode}
           holdPercent={holdPercent}
+          revisionRemaining={revisionRemaining}
         />
       ) : null}
       <Card title={copy.escrow.title} eyebrow={copy.escrow.eyebrow}>
@@ -119,24 +136,48 @@ export default async function FreelancerContractPage({
       </Card>
       <ContractActions
         contractId={board.contract.id}
-        isClient={session.id === board.contract.clientId}
+        isClient={isClient}
         status={board.contract.status}
         showRelease={!showHero}
       />
-      <ContractMessageThread contractId={board.contract.id} messages={board.messages} />
-      <DisputeConsole
+      <ContractChatConsole
         contractId={board.contract.id}
-        dispute={board.dispute}
-        isParty={Boolean(isParty)}
-        contractStatus={board.contract.status}
+        messages={board.messages}
+        revisionRemaining={revisionRemaining}
       />
-      <SquadPanel
-        contractId={board.contract.id}
-        freelancerId={board.contract.freelancerId}
-        isFreelancer={session.id === board.contract.freelancerId}
-        squad={board.squad}
-        members={board.squadMembers}
-      />
+      <details
+        className="rounded-[var(--radius-card)] border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] bg-[var(--surface)] p-6 shadow-sm"
+        {...(board.contract.status === "DISPUTED" || board.dispute ? { open: true } : {})}
+      >
+        <summary className="cursor-pointer text-sm font-semibold text-[var(--foreground)]">
+          {copy.contract.advancedSummary}
+        </summary>
+        <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{copy.contract.advancedHint}</p>
+        <div className="mt-4 space-y-4">
+          <RevisionTracker
+            contractId={board.contract.id}
+            isClient={isClient}
+            status={board.contract.status}
+            messages={board.messages}
+            hasDelivery={hasDelivery}
+          />
+          <DisputeConsole
+            contractId={board.contract.id}
+            dispute={board.dispute}
+            isParty={Boolean(isParty)}
+            contractStatus={board.contract.status}
+          />
+          {board.squad ? (
+            <SquadPanel
+              contractId={board.contract.id}
+              freelancerId={board.contract.freelancerId}
+              isFreelancer={session.id === board.contract.freelancerId}
+              squad={board.squad}
+              members={board.squadMembers}
+            />
+          ) : null}
+        </div>
+      </details>
     </RoomFrame>
   );
 }

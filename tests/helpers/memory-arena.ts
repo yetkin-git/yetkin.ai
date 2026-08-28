@@ -1,5 +1,6 @@
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
+import type { ArenaEnginePorts, ArenaMoneyWritePorts } from "@/lib/arena/engine";
 import type {
   ArenaAwardRecord,
   ArenaPulse,
@@ -7,14 +8,60 @@ import type {
   ArenaSubmissionRecord,
   ArenaTenderRecord,
 } from "@/lib/arena/types";
+import {
+  createSerializedUnitOfWork,
+  type MemoryEscrowStore,
+  type MemoryLedgerStore,
+} from "./memory-money";
 
-export function createMemoryArenaStore(): ArenaStore {
+type ArenaMemoryState = {
+  tenders: Array<[string, ArenaTenderRecord]>;
+  submissions: Array<[string, ArenaSubmissionRecord]>;
+  awards: Array<[string, ArenaAwardRecord]>;
+};
+
+export type MemoryArenaStore = ArenaStore & {
+  failNextTenderInsert(): void;
+  capture(): ArenaMemoryState;
+  restore(state: ArenaMemoryState): void;
+};
+
+export function createMemoryArenaStore(): MemoryArenaStore {
   const tenders = new Map<string, ArenaTenderRecord>();
   const submissions = new Map<string, ArenaSubmissionRecord>();
   const awards = new Map<string, ArenaAwardRecord>();
+  let failTender = false;
 
   return {
+    failNextTenderInsert() {
+      failTender = true;
+    },
+    capture() {
+      return {
+        tenders: [...tenders.entries()].map(([key, value]) => [key, { ...value }]),
+        submissions: [...submissions.entries()].map(([key, value]) => [key, { ...value }]),
+        awards: [...awards.entries()].map(([key, value]) => [key, { ...value }]),
+      };
+    },
+    restore(state) {
+      tenders.clear();
+      submissions.clear();
+      awards.clear();
+      for (const [key, value] of state.tenders) {
+        tenders.set(key, { ...value });
+      }
+      for (const [key, value] of state.submissions) {
+        submissions.set(key, { ...value });
+      }
+      for (const [key, value] of state.awards) {
+        awards.set(key, { ...value });
+      }
+    },
     async insertTender(tender) {
+      if (failTender) {
+        failTender = false;
+        throw new Error("İhale yazımı düştü.");
+      }
       tenders.set(tender.id, tender);
       return { ...tender };
     },
@@ -121,6 +168,28 @@ export function createMemoryArenaStore(): ArenaStore {
         currencyCode: SETTLEMENT_CURRENCY,
       };
       return pulse;
+    },
+  };
+}
+
+export function withMemoryArenaAtomic<
+  T extends {
+    ledger: MemoryLedgerStore;
+    escrow: MemoryEscrowStore;
+    arena: MemoryArenaStore;
+  },
+>(ports: T): T & Pick<ArenaEnginePorts, "runMoneyAtomic"> {
+  const uow = createSerializedUnitOfWork();
+  return {
+    ...ports,
+    async runMoneyAtomic<R>(work: (tx: ArenaMoneyWritePorts) => Promise<R>): Promise<R> {
+      return uow.run([ports.ledger, ports.escrow, ports.arena], () =>
+        work({
+          ledger: ports.ledger,
+          escrow: ports.escrow,
+          arena: ports.arena,
+        }),
+      );
     },
   };
 }

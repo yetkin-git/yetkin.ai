@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { SEN_VOICE } from "@/lib/copy/sen-voice";
+import { PAZARYERI_SEN } from "@/archived/lib/copy/sen-voice/pazaryeri";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
 import { PRICE_LOCK_GRACE_MINUTES } from "@/lib/kernel/pricing/price-lock";
 import {
@@ -11,7 +11,7 @@ import {
   pazaryeriOrderCashPhases,
   pazaryeriOrderStatusLabel,
   pazaryeriSettlementActiveStep,
-} from "@/lib/copy/status-labels";
+} from "@/archived/lib/copy/status-labels";
 
 const ROOT = process.cwd();
 
@@ -32,53 +32,53 @@ const SIZ_LEAKS = [
 ];
 
 const SEN_SURFACES = [
-  "app/pazaryeri/page.tsx",
-  "app/pazaryeri/[slug]/page.tsx",
-  "app/pazaryeri/tezgah/page.tsx",
-  "app/pazaryeri/siparisler/page.tsx",
-  "components/pazaryeri/stall-form.tsx",
-  "components/pazaryeri/purchase-button.tsx",
-  "components/pazaryeri/order-list.tsx",
-  "components/pazaryeri/product-list.tsx",
-  "components/pazaryeri/confirm-delivery-button.tsx",
-  "components/pazaryeri/offer-form.tsx",
-  "components/pazaryeri/offer-actions.tsx",
-  "components/pazaryeri/dual-cash-path-steps.tsx",
-  "lib/copy/sen-voice/pazaryeri.ts",
+  "archived/app/pazaryeri/page.tsx",
+  "archived/app/pazaryeri/[slug]/page.tsx",
+  "archived/app/pazaryeri/tezgah/page.tsx",
+  "archived/app/pazaryeri/siparisler/page.tsx",
+  "archived/components/pazaryeri/stall-form.tsx",
+  "archived/components/pazaryeri/purchase-button.tsx",
+  "archived/components/pazaryeri/order-list.tsx",
+  "archived/components/pazaryeri/product-list.tsx",
+  "archived/components/pazaryeri/confirm-delivery-button.tsx",
+  "archived/components/pazaryeri/offer-form.tsx",
+  "archived/components/pazaryeri/offer-actions.tsx",
+  "archived/components/pazaryeri/dual-cash-path-steps.tsx",
+  "archived/lib/copy/sen-voice/pazaryeri.ts",
 ];
 
 describe("Yetkinİlan vatandaş yüzeyi, çift nakit yolu ve SEN aksı", () => {
   it("oda loading.tsx iskeleti izomorftur (CLS)", () => {
     const files = [
-      "app/pazaryeri/loading.tsx",
-      "app/pazaryeri/[slug]/loading.tsx",
-      "app/pazaryeri/tezgah/loading.tsx",
-      "app/pazaryeri/siparisler/loading.tsx",
-      "components/pazaryeri/pazaryeri-room-skeleton.tsx",
+      "archived/app/pazaryeri/loading.tsx",
+      "archived/app/pazaryeri/[slug]/loading.tsx",
+      "archived/app/pazaryeri/tezgah/loading.tsx",
+      "archived/app/pazaryeri/siparisler/loading.tsx",
+      "archived/components/pazaryeri/pazaryeri-room-skeleton.tsx",
     ];
     for (const file of files) {
       expect(existsSync(join(ROOT, file)), file).toBe(true);
     }
-    const skeleton = readSrc("components/pazaryeri/pazaryeri-room-skeleton.tsx");
+    const skeleton = readSrc("archived/components/pazaryeri/pazaryeri-room-skeleton.tsx");
     expect(skeleton).toContain("animate-pulse");
     expect(skeleton).toContain("variant");
     expect(skeleton).not.toContain("use client");
-    expect(readSrc("app/pazaryeri/loading.tsx")).toContain("PazaryeriRoomSkeleton");
-    expect(readSrc("app/pazaryeri/loading.tsx")).not.toContain("use client");
-    expect(readSrc("app/pazaryeri/[slug]/loading.tsx")).not.toContain("use client");
-    expect(readSrc("app/pazaryeri/tezgah/loading.tsx")).not.toContain("use client");
-    expect(readSrc("app/pazaryeri/siparisler/loading.tsx")).not.toContain("use client");
+    expect(readSrc("archived/app/pazaryeri/loading.tsx")).toContain("PazaryeriRoomSkeleton");
+    expect(readSrc("archived/app/pazaryeri/loading.tsx")).not.toContain("use client");
+    expect(readSrc("archived/app/pazaryeri/[slug]/loading.tsx")).not.toContain("use client");
+    expect(readSrc("archived/app/pazaryeri/tezgah/loading.tsx")).not.toContain("use client");
+    expect(readSrc("archived/app/pazaryeri/siparisler/loading.tsx")).not.toContain("use client");
   });
 
   it("/yetkinilan yüzeyleri siz kaçakları taşımaz; SEN_VOICE ve çift nakit yolu bağlar", () => {
-    expect(SEN_VOICE.pazaryeri.catalog.stallCta).toBe("Tezgâhı yönet");
-    expect(SEN_VOICE.pazaryeri.catalog.description).toContain("anında bakiyeden transfer (Settlement)");
-    expect(SEN_VOICE.pazaryeri.catalog.description).toContain("emanet korumasında kilit (Escrow Hold)");
-    expect(SEN_VOICE.pazaryeri.offer.received).toBe("Teklif alındı.");
-    expect(SEN_VOICE.pazaryeri.purchase.received).toBe("Sipariş alındı.");
-    expect(SEN_VOICE.pazaryeri.stall.modelSettlement).toContain("Settlement");
-    expect(SEN_VOICE.pazaryeri.stall.modelEscrow).toContain("Escrow Hold");
-    expect(SEN_VOICE.pazaryeri.stall.modelVitrine).toContain("yalnız vitrindir");
+    expect(PAZARYERI_SEN.catalog.stallCta).toBe("Tezgâhı yönet");
+    expect(PAZARYERI_SEN.catalog.description).toContain("anında bakiyeden transfer (Settlement)");
+    expect(PAZARYERI_SEN.catalog.description).toContain("emanet korumasında kilit (Escrow Hold)");
+    expect(PAZARYERI_SEN.offer.received).toBe("Teklif alındı.");
+    expect(PAZARYERI_SEN.purchase.received).toBe("Sipariş alındı.");
+    expect(PAZARYERI_SEN.stall.modelSettlement).toContain("Settlement");
+    expect(PAZARYERI_SEN.stall.modelEscrow).toContain("Escrow Hold");
+    expect(PAZARYERI_SEN.stall.modelVitrine).toContain("yalnız vitrindir");
     expect(HOLD_BPS_DEFAULT).toBe(1000);
     expect(PRICE_LOCK_GRACE_MINUTES).toBe(15);
 
@@ -88,22 +88,22 @@ describe("Yetkinİlan vatandaş yüzeyi, çift nakit yolu ve SEN aksı", () => {
         expect(source, `${file} → ${leak}`).not.toContain(leak);
       }
     }
-    expect(readSrc("app/pazaryeri/page.tsx")).toContain("SEN_VOICE");
-    expect(readSrc("app/pazaryeri/page.tsx")).toContain("DualCashPathOverview");
-    expect(readSrc("app/pazaryeri/[slug]/page.tsx")).toContain("PurchaseButton");
-    expect(readSrc("app/pazaryeri/[slug]/page.tsx")).toContain("DualCashPathSteps");
-    expect(readSrc("app/pazaryeri/[slug]/page.tsx")).toContain("CashPhaseBadges");
-    expect(readSrc("app/pazaryeri/tezgah/page.tsx")).toContain("StallForm");
-    expect(readSrc("components/pazaryeri/stall-form.tsx")).toContain("modelSettlement");
-    expect(readSrc("components/pazaryeri/stall-form.tsx")).toContain("modelEscrow");
-    expect(readSrc("components/pazaryeri/stall-form.tsx")).toContain("modelVitrine");
-    expect(readSrc("app/pazaryeri/[slug]/page.tsx")).toContain("vitrineOnly");
-    expect(readSrc("components/pazaryeri/purchase-button.tsx")).toContain("aria-live");
-    expect(readSrc("components/pazaryeri/purchase-button.tsx")).toContain("QuickTopUpModal");
-    expect(readSrc("components/pazaryeri/confirm-delivery-button.tsx")).toContain("aria-live");
-    expect(readSrc("lib/pazaryeri/engine.ts")).not.toContain("tezgâhınız");
-    expect(readSrc("lib/pazaryeri/offer-engine.ts")).not.toContain("siparişiniz");
-    expect(readSrc("lib/pazaryeri/offer-engine.ts")).not.toContain("ilanınıza");
+    expect(readSrc("archived/app/pazaryeri/page.tsx")).toContain("SEN_VOICE");
+    expect(readSrc("archived/app/pazaryeri/page.tsx")).toContain("DualCashPathOverview");
+    expect(readSrc("archived/app/pazaryeri/[slug]/page.tsx")).toContain("PurchaseButton");
+    expect(readSrc("archived/app/pazaryeri/[slug]/page.tsx")).toContain("DualCashPathSteps");
+    expect(readSrc("archived/app/pazaryeri/[slug]/page.tsx")).toContain("CashPhaseBadges");
+    expect(readSrc("archived/app/pazaryeri/tezgah/page.tsx")).toContain("StallForm");
+    expect(readSrc("archived/components/pazaryeri/stall-form.tsx")).toContain("modelSettlement");
+    expect(readSrc("archived/components/pazaryeri/stall-form.tsx")).toContain("modelEscrow");
+    expect(readSrc("archived/components/pazaryeri/stall-form.tsx")).toContain("modelVitrine");
+    expect(readSrc("archived/app/pazaryeri/[slug]/page.tsx")).toContain("vitrineOnly");
+    expect(readSrc("archived/components/pazaryeri/purchase-button.tsx")).toContain("aria-live");
+    expect(readSrc("archived/components/pazaryeri/purchase-button.tsx")).toContain("QuickTopUpModal");
+    expect(readSrc("archived/components/pazaryeri/confirm-delivery-button.tsx")).toContain("aria-live");
+    expect(readSrc("archived/lib/pazaryeri/engine.ts")).not.toContain("tezgâhınız");
+    expect(readSrc("archived/lib/pazaryeri/offer-engine.ts")).not.toContain("siparişiniz");
+    expect(readSrc("archived/lib/pazaryeri/offer-engine.ts")).not.toContain("ilanınıza");
   });
 
   it("sipariş durumları PENDING/PAID/CLEARED/CANCELLED vatandaşa dürüst yansır", () => {
@@ -124,9 +124,9 @@ describe("Yetkinİlan vatandaş yüzeyi, çift nakit yolu ve SEN aksı", () => {
     expect(pazaryeriEscrowActiveStep("DELIVERED")).toBe("release");
     expect(pazaryeriOfferStatusLabel("ACCEPTED")).toContain("emanet kilit");
 
-    const settlement = SEN_VOICE.pazaryeri.paths.settlementSteps(PRICE_LOCK_GRACE_MINUTES);
+    const settlement = PAZARYERI_SEN.paths.settlementSteps(PRICE_LOCK_GRACE_MINUTES);
     expect(settlement[1]?.label).toContain("anında bakiyeden transfer (Settlement)");
-    const escrow = SEN_VOICE.pazaryeri.paths.escrowSteps(PRICE_LOCK_GRACE_MINUTES, HOLD_BPS_DEFAULT / 100);
+    const escrow = PAZARYERI_SEN.paths.escrowSteps(PRICE_LOCK_GRACE_MINUTES, HOLD_BPS_DEFAULT / 100);
     expect(escrow[1]?.label).toContain("Emanet korumasında kilit (Escrow Hold)");
     expect(escrow[2]?.label).toBe("Teslimat onayında aktarım");
   });

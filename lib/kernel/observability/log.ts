@@ -17,6 +17,7 @@ export type StructuredLogInput = {
   amountMinor?: number;
   action?: string;
   reason?: string;
+  purpose?: string;
   applied?: boolean;
   route?: string;
   status?: number;
@@ -35,6 +36,7 @@ const SAFE_KEYS = [
   "amountMinor",
   "action",
   "reason",
+  "purpose",
   "applied",
   "route",
   "status",

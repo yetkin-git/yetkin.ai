@@ -14,6 +14,20 @@ import {
 } from "@/lib/kernel/auth/password";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
 
+function resolveSignUpMessage(message: string, copy: typeof AUTH_SEN.register): string {
+  const normalized = message.toLowerCase();
+  if (normalized.includes("already registered") || normalized.includes("user already")) {
+    return copy.duplicate;
+  }
+  if (normalized.includes("failed to fetch") || normalized.includes("network") || normalized.includes("timeout")) {
+    return AUTH_SEN.login.timeout;
+  }
+  if (/[çğıöşüÇĞİÖŞÜ]/.test(message)) {
+    return message.trim() || copy.fail;
+  }
+  return copy.fail;
+}
+
 export function RegisterForm() {
   const copy = AUTH_SEN.register;
   const [email, setEmail] = useState("");
@@ -60,7 +74,7 @@ export function RegisterForm() {
         },
       });
       if (signError) {
-        setError(signError.message);
+        setError(resolveSignUpMessage(signError.message, copy));
         setPending(false);
         return;
       }

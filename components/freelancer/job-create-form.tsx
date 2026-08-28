@@ -5,15 +5,22 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
+import { ACADEMY_LEVEL_PATHWAYS, type AcademyPathwayId } from "@/lib/academy/level-pathway";
 import { FREELANCER_JOB_MAX_MINOR, FREELANCER_JOB_MIN_MINOR } from "@/lib/freelancer/schemas";
 import { FREELANCER_SEN } from "@/lib/copy/sen-voice/freelancer";
+import { UX_SEN } from "@/lib/copy/sen-voice/ux";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
+import { readCitizenEnvelope } from "@/lib/kernel/http/citizen-json";
+import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
+import { useCitizenWriteFeedback } from "@/components/ui/use-citizen-write-feedback";
 
 export function JobCreateForm() {
   const router = useRouter();
+  const report = useCitizenWriteFeedback();
   const [title, setTitle] = useState("");
   const [brief, setBrief] = useState("");
   const [budgetMajor, setBudgetMajor] = useState("100");
+  const [visaPathwayId, setVisaPathwayId] = useState<AcademyPathwayId | "">("");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const idempotency = useIdempotencyKey();
@@ -23,20 +30,31 @@ export function JobCreateForm() {
     event.preventDefault();
     setPending(true);
     setError(null);
-    const budgetMinor = Math.round(Number.parseFloat(budgetMajor.replace(",", ".")) * 100);
-    const response = await fetch("/api/freelancer/jobs", {
-      method: "POST",
-      headers: { "content-type": "application/json", ...idempotency.headers() },
-      body: JSON.stringify({ title, brief, budgetMinor }),
-    });
-    const body = (await response.json()) as { ok: boolean; error?: string; job?: { id: string } };
-    setPending(false);
-    if (!body.ok || !body.job) {
-      setError(body.error ?? copy.fail);
-      return;
+    try {
+      const budgetMinor = Math.round(Number.parseFloat(budgetMajor.replace(",", ".")) * 100);
+      const response = await fetch(
+        "/api/freelancer/jobs",
+        withRailApiVersion({
+          method: "POST",
+          headers: { "content-type": "application/json", ...idempotency.headers() },
+          body: JSON.stringify({ title, brief, budgetMinor, visaPathwayId }),
+        }),
+      );
+      const envelope = await readCitizenEnvelope(response);
+      const job = envelope.body.job;
+      const jobId =
+        job && typeof job === "object" && "id" in job && typeof job.id === "string" ? job.id : null;
+      setPending(false);
+      if (!envelope.ok || !jobId) {
+        setError(report(envelope.status, envelope.error, copy.fail));
+        return;
+      }
+      router.push(`/freelancer/jobs/${jobId}`);
+      router.refresh();
+    } catch {
+      setPending(false);
+      setError(UX_SEN.http.network);
     }
-    router.push(`/freelancer/jobs/${body.job.id}`);
-    router.refresh();
   }
 
   return (
@@ -55,6 +73,24 @@ export function JobCreateForm() {
           minLength={8}
           rows={5}
         />
+      </label>
+      <label className="block text-sm">
+        {copy.pathwayLabel}
+        <select
+          className="mt-1 w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm"
+          value={visaPathwayId}
+          onChange={(event) => setVisaPathwayId(event.target.value as AcademyPathwayId)}
+          required
+        >
+          <option value="" disabled>
+            {copy.pathwayHint}
+          </option>
+          {ACADEMY_LEVEL_PATHWAYS.map((pathway) => (
+            <option key={pathway.id} value={pathway.id}>
+              {pathway.title}
+            </option>
+          ))}
+        </select>
       </label>
       <label className="block text-sm">
         {copy.budgetLabel}

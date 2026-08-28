@@ -25,7 +25,7 @@ describe("kariyer vize mühürü — yazma yüzeyi", () => {
     expect(engine).not.toContain("Vize portföy satırı eksik");
   });
 
-  it("sınav ve release tryIssue kullanır; kariyer load sync ile heal yolunu açar", () => {
+  it("sınav ve freelancer release tryIssue kullanır; kurumsal release 410 stub; load sync heal açar", () => {
     const exam = readSrc("app/api/academy/courses/[id]/exam/route.ts");
     const release = readSrc("app/api/freelancer/contracts/[id]/release/route.ts");
     const load = readSrc("lib/career/load.ts");
@@ -35,9 +35,8 @@ describe("kariyer vize mühürü — yazma yüzeyi", () => {
     expect(exam).toContain("submitAcademyExam");
     expect(exam).not.toContain("syncCareerVisaStamps");
     expect(release).toContain("tryIssueCareerVisaStamp");
-    const kurumsalRelease = readSrc("app/api/kurumsal/jobs/[id]/release/route.ts");
-    expect(kurumsalRelease).toContain("tryIssueCareerVisaStamp");
-    expect(kurumsalRelease).toContain("FREELANCER_RELEASE");
+    const kurumsalRelease = readSrc("app/api/_gone/[...path]/route.ts");
+    expect(kurumsalRelease).toContain("frozenRoomGone");
     expect(load).toContain("syncCareerVisaStamps");
     expect(load).not.toContain("tryIssueCareerVisaStamp");
     expect(visas).toContain("syncCareerVisaStamps");

@@ -53,10 +53,10 @@ describe("HTTP Idempotency-Key", () => {
     expect(runs).toBe(1);
     expect(first.status).toBe(200);
     expect(second.status).toBe(200);
-    const firstJson = (await first.json()) as { merchantOid?: string };
-    const secondJson = (await second.json()) as { merchantOid?: string };
-    expect(firstJson.merchantOid).toBe("wallet-top-up-abc");
-    expect(secondJson.merchantOid).toBe("wallet-top-up-abc");
+    const firstJson = (await first.json()) as { data?: { merchantOid?: string } };
+    const secondJson = (await second.json()) as { data?: { merchantOid?: string } };
+    expect(firstJson.data?.merchantOid).toBe("wallet-top-up-abc");
+    expect(secondJson.data?.merchantOid).toBe("wallet-top-up-abc");
 
     const conflict = await settleHttpIdempotency(
       { ...input, requestHash: hashIdempotencyPayload({ amountMinor: 2000 }) },

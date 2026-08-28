@@ -43,3 +43,11 @@ export function decideWalletTopUpReuse(
 export function shouldFailCloseWalletTopUpCheckout(checkoutOk: boolean): boolean {
   return checkoutOk === false;
 }
+
+/**
+ * Mock token bakiyeye düşmez. PENDING aynı istekte kapanır ki emir 2 saat takılmaz.
+ * Clearing / webhook bu bayrağı okumaz.
+ */
+export function shouldFailCloseMockTopUp(mockCheckout: boolean | undefined): boolean {
+  return mockCheckout === true;
+}

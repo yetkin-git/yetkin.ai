@@ -38,10 +38,10 @@ export async function postFreelancerContractMessage(
 ): Promise<FreelancerContractMessageRecord> {
   const contract = await ports.freelancer.getContract(command.contractId);
   if (!contract) {
-    throw new Error("Sözleşme bulunamadı.");
+    throw new NotFoundError("Sözleşme bulunamadı.");
   }
   if (command.actorUserId !== contract.clientId && command.actorUserId !== contract.freelancerId) {
-    throw new Error("Yalnız sözleşme tarafları mesaj yazabilir.");
+    throw new ForbiddenError("Yalnız sözleşme tarafları mesaj yazabilir.");
   }
   if (contract.status === "REFUNDED") {
     throw new Error("İade edilmiş sözleşmeye mesaj yazılamaz.");
@@ -86,10 +86,10 @@ export async function listFreelancerContractMessages(
 ): Promise<FreelancerContractMessageRecord[]> {
   const contract = await ports.freelancer.getContract(command.contractId);
   if (!contract) {
-    throw new Error("Sözleşme bulunamadı.");
+    throw new NotFoundError("Sözleşme bulunamadı.");
   }
   if (command.actorUserId !== contract.clientId && command.actorUserId !== contract.freelancerId) {
-    throw new Error("Yalnız sözleşme tarafları mesaj okuyabilir.");
+    throw new ForbiddenError("Yalnız sözleşme tarafları mesaj okuyabilir.");
   }
   return ports.freelancer.listMessagesForContract(contract.id);
 }

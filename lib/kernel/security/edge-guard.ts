@@ -8,7 +8,19 @@
  * giriş formunu kilitler. XSS kilidi `script-src` nonce + `strict-dynamic`'tedir.
  */
 
+import { isFrozenShellPagePath } from "../compliance/circuit-breakers";
+import {
+  EDGE_HSTS_VALUE,
+  EDGE_SECURITY_HEADER_ENTRIES,
+} from "./edge-security-headers";
+
+export { EDGE_HSTS_VALUE, EDGE_SECURITY_HEADER_ENTRIES } from "./edge-security-headers";
+
 export const CITIZEN_LOGIN_PATH = "/login";
+
+/** Kenarın yazdığı istek yolu — istemci başlığı güvenilmez, proxy üzerine yazar. */
+export const RAIL_PATHNAME_HEADER = "x-rail-pathname";
+export const RAIL_REQUEST_METHOD_HEADER = "x-rail-request-method";
 
 export const PROTECTED_KERNEL_PATHS = [
   "/dashboard",
@@ -19,21 +31,13 @@ export const PROTECTED_KERNEL_PATHS = [
 ] as const;
 
 /**
- * Dikey yazma kabukları — SEO vitrin (akademi katalog, açık ilan, Yetkinİlan detay) açık kalır.
+ * Dikey yazma kabukları — SEO vitrin (akademi katalog, açık ilan) açık kalır.
+ * Donmuş oda yolları burada yoktur: kenar `frozen-410` auth-307'den önce basar.
  * Kenar JWT doğrular; sayfa `requirePageSession` gerçek getUser yapar.
  */
 export const PROTECTED_WRITE_PATHS = [
   "/freelancer/new",
   "/freelancer/contracts",
-  "/studio",
-  "/junior/ebeveyn",
-  "/pazaryeri/tezgah",
-  "/yetkinilan/tezgah",
-  "/pazaryeri/siparisler",
-  "/yetkinilan/siparisler",
-  "/arena/yeni",
-  "/kurumsal/ilan/yeni",
-  "/devlabs/projeler",
 ] as const;
 
 export const EDGE_CSP_PAYTR_FRAME_SRC = "https://www.paytr.com https://*.paytr.com";
@@ -42,6 +46,8 @@ export const EDGE_CSP_FRAME_SRC_DIRECTIVE =
   "frame-src https://www.paytr.com https://*.paytr.com";
 export const EDGE_CSP_CONNECT_SRC_DIRECTIVE =
   "connect-src 'self' https://*.supabase.co wss://*.supabase.co";
+/** Ders WAV blob URL, aynı köken dinleme ve Supabase CDN. */
+export const EDGE_CSP_MEDIA_SRC_DIRECTIVE = "media-src 'self' blob: https://*.supabase.co";
 /**
  * React/Next istemci stil enjeksiyonu (styleTagTransform, font-styles, CSSOM).
  * Nonce buraya yazılmaz: nonce + `'unsafe-inline'` birlikte gelince tarayıcı
@@ -51,21 +57,13 @@ export const EDGE_CSP_STYLE_SRC_DIRECTIVE = "style-src 'self' 'unsafe-inline'";
 export const EDGE_CSP_STYLE_SRC_ATTR_DIRECTIVE = "style-src-attr 'unsafe-inline'";
 export const EDGE_NONCE_HEADER = "x-nonce";
 
-export const EDGE_HSTS_VALUE = "max-age=63072000; includeSubDomains; preload";
-
-export const EDGE_SECURITY_HEADER_ENTRIES: ReadonlyArray<readonly [string, string]> = [
-  ["X-Content-Type-Options", "nosniff"],
-  ["X-Frame-Options", "DENY"],
-  ["Referrer-Policy", "strict-origin-when-cross-origin"],
-  ["Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()"],
-];
-
 /** Supabase SSR: `sb-<ref>-auth-token` ve parçalı `sb-<ref>-auth-token.N`. */
 export const SUPABASE_AUTH_COOKIE_NAME = /^sb-.+-auth-token(?:\.\d+)?$/;
 
 export type EdgeDecision =
   | { kind: "museum-404" }
   | { kind: "kayit-308" }
+  | { kind: "frozen-410" }
   | { kind: "auth-307"; to: typeof CITIZEN_LOGIN_PATH }
   | { kind: "next" };
 
@@ -142,6 +140,9 @@ export function decideEdgeAction(pathname: string, sessionVerified: boolean): Ed
   if (isKayitPath(pathname)) {
     return { kind: "kayit-308" };
   }
+  if (isFrozenShellPagePath(pathname)) {
+    return { kind: "frozen-410" };
+  }
   if (isProtectedCitizenPath(pathname) && !sessionVerified) {
     return { kind: "auth-307", to: CITIZEN_LOGIN_PATH };
   }
@@ -170,6 +171,7 @@ export function buildEdgeCsp(
     `${EDGE_CSP_STYLE_SRC_ATTR_DIRECTIVE}; ` +
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${scriptEval}; ` +
     `${EDGE_CSP_CONNECT_SRC_DIRECTIVE}; ` +
+    `${EDGE_CSP_MEDIA_SRC_DIRECTIVE}; ` +
     EDGE_CSP_FRAME_SRC_DIRECTIVE +
     upgrade
   );

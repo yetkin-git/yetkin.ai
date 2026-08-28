@@ -41,12 +41,12 @@ async function fundedContract(ports: ReturnType<typeof world>) {
     clientId: CLIENT,
     title: "İkon seti",
     brief: "16 SVG, Quiet Luxury.",
-    budgetMinor: 10_000,
+    budgetMinor: 25_000,
   });
   const bid = await submitFreelancerBid(ports, {
     jobId: job.id,
     bidderId: FREELANCER,
-    amountMinor: 10_000,
+    amountMinor: 25_000,
     coverNote: "Teslim 5 gün.",
   });
   const { contract } = await acceptFreelancerBid(ports, {

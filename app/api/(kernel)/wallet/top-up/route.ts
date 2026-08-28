@@ -11,20 +11,28 @@ import { failPaymentOrder } from "@/lib/kernel/payments/clearing";
 import { buildIdempotentMerchantOid } from "@/lib/kernel/payments/merchant-oid";
 import { paytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import {
+  PAYMENTS_UNCONFIGURED_ERROR,
+  isPaymentsPortConfigured,
+} from "@/lib/kernel/payments/port";
+import {
   assertPaytrLiveUserIp,
   assertPaytrProductionSafety,
+  isPaytrMockCheckoutAllowed,
   resolvePaytrMerchantAppOrigin,
 } from "@/lib/kernel/payments/paytr/checkout";
 import { createPrismaPaymentOrderStore } from "@/lib/kernel/payments/prisma-order-store";
 import {
   assertWalletTopUpAmountMinor,
   decideWalletTopUpReuse,
+  shouldFailCloseMockTopUp,
 } from "@/lib/kernel/payments/wallet-top-up";
 import {
   applyHttpRateLimit,
   HTTP_RATE_LIMITS,
   rateLimitedJsonResponse,
+  resolveRequestIp,
 } from "@/lib/kernel/security/http-rate-limit";
+import { UNKNOWN_REQUEST_IP } from "@/lib/kernel/security/trusted-proxy";
 import { z } from "zod";
 
 export const auth = "session" as const;
@@ -61,6 +69,18 @@ export async function POST(request: Request) {
       return jsonFail("Geçersiz yükleme tutarı.", 400, requestId, request);
     }
     const amountMinor = assertWalletTopUpAmountMinor(parsed.data.amountMinor);
+
+    if (!isPaymentsPortConfigured() && !isPaytrMockCheckoutAllowed()) {
+      logEvent({
+        level: "warn",
+        event: "wallet.top_up.port_unconfigured",
+        requestId,
+        userId: user.id,
+        amountMinor,
+        route: WALLET_TOP_UP_ROUTE,
+      });
+      return jsonFail(PAYMENTS_UNCONFIGURED_ERROR, 503, requestId, request);
+    }
 
     return settleHttpIdempotency(
       {
@@ -99,8 +119,8 @@ export async function POST(request: Request) {
         }
 
         const origin = resolvePaytrMerchantAppOrigin();
-        const forwarded = request.headers.get("x-forwarded-for");
-        const userIp = forwarded?.split(",")[0]?.trim() || "127.0.0.1";
+        const resolvedIp = resolveRequestIp(request);
+        const userIp = resolvedIp === UNKNOWN_REQUEST_IP ? "127.0.0.1" : resolvedIp;
         assertPaytrProductionSafety("wallet.top_up:before-insert");
         assertPaytrLiveUserIp(userIp, "wallet.top_up");
 
@@ -181,7 +201,28 @@ export async function POST(request: Request) {
           });
           // Get-token / beginCheckout 503: aynı istekte PENDING kapanır. CREDIT yok.
           await failPaymentOrder(createPrismaPaymentOrderStore(), merchantOid);
-          return { status: 503, body: { error: checkout.message } };
+          return { status: 503, body: { error: checkout.reason === "missing_credentials" ? PAYMENTS_UNCONFIGURED_ERROR : checkout.message } };
+        }
+        if (shouldFailCloseMockTopUp(checkout.mockCheckout)) {
+          logEvent({
+            level: "warn",
+            event: "wallet.top_up.mock_no_credit",
+            requestId,
+            userId: user.id,
+            merchantOid,
+            amountMinor,
+            reason: "mock_checkout",
+            route: WALLET_TOP_UP_ROUTE,
+          });
+          await failPaymentOrder(createPrismaPaymentOrderStore(), merchantOid);
+          return {
+            status: 200,
+            body: {
+              merchantOid: checkout.merchantOid,
+              sandboxMode: checkout.sandboxMode,
+              mockCheckout: true,
+            },
+          };
         }
         logEvent({
           level: "info",
@@ -199,7 +240,6 @@ export async function POST(request: Request) {
             token: checkout.token,
             iframeUrl: checkout.iframeUrl,
             sandboxMode: checkout.sandboxMode,
-            ...(checkout.mockCheckout ? { mockCheckout: true } : {}),
           },
         };
       },

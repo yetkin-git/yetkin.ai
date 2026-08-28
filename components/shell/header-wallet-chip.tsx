@@ -1,41 +1,35 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { WALLET_SURFACE_PATH } from "@/lib/kernel/identity/types";
-import { EMPTY_WALLET_STRIP, type WalletStripSnapshot } from "@/lib/dashboard/wallet-strip";
+import { type WalletStripSnapshot } from "@/lib/dashboard/wallet-strip";
 import { IconWallet } from "@/components/ui/icons";
 import { cn } from "@/components/ui/cn";
 
-export function HeaderWalletChip({ embedded = false }: { embedded?: boolean }) {
-  const [strip, setStrip] = useState<WalletStripSnapshot>(EMPTY_WALLET_STRIP);
+/** Tutar yuvası — "—" → ₺x,xx değişiminde genişlik zıplamasın. */
+const AMOUNT_SLOT = "inline-flex h-4 min-w-[4.75rem] items-center tabular-nums tracking-tight";
 
-  useEffect(() => {
-    let cancelled = false;
-    void fetch("/api/dashboard/wallet-strip")
-      .then(async (response) => {
-        const body = (await response.json()) as { ok: boolean; strip?: WalletStripSnapshot };
-        if (!cancelled && body.ok && body.strip) {
-          setStrip(body.strip);
-        }
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setStrip(EMPTY_WALLET_STRIP);
-        }
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const amount = formatMinor(strip.amountMinor, strip.currencyCode);
+export function HeaderWalletChip({
+  embedded = false,
+  strip,
+  pending = false,
+}: {
+  embedded?: boolean;
+  strip: WalletStripSnapshot;
+  pending?: boolean;
+}) {
+  const amount = strip.live ? formatMinor(strip.amountMinor, strip.currencyCode) : "—";
+  const live = strip.live && !pending;
+  const label = pending
+    ? "Cüzdan bakiyesi yükleniyor"
+    : live
+      ? `Cüzdan bakiyesi ${amount}`
+      : "Cüzdan henüz yüklenemedi";
 
   return (
     <Link
       href={WALLET_SURFACE_PATH}
-      aria-label={`Cüzdan bakiyesi ${amount}`}
+      aria-label={label}
+      aria-busy={pending || undefined}
       className={cn(
         "inline-flex h-10 items-center gap-2 px-3 text-sm font-semibold transition",
         embedded
@@ -48,12 +42,21 @@ export function HeaderWalletChip({ embedded = false }: { embedded?: boolean }) {
         <span
           className={cn(
             "absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full ring-2 ring-[var(--surface)]",
-            strip.live ? "bg-[var(--emerald)]" : "bg-[var(--muted)]",
+            live ? "bg-[var(--emerald)]" : "bg-[var(--muted)]",
           )}
           aria-hidden
         />
       </span>
-      <span className="tabular-nums tracking-tight">{amount}</span>
+      <span className={AMOUNT_SLOT}>
+        {pending ? (
+          <span
+            className="inline-block h-3.5 w-[4.25rem] animate-pulse rounded bg-[var(--border)] motion-reduce:animate-none"
+            aria-hidden
+          />
+        ) : (
+          amount
+        )}
+      </span>
     </Link>
   );
 }

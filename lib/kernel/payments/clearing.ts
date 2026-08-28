@@ -4,6 +4,25 @@ import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
 import type { CurrencyCode } from "@/lib/kernel/money/currency";
 import { emitTransactionNotice } from "@/lib/kernel/observability/transaction-notice";
 
+export const WALLET_TOP_UP_PURPOSE = "wallet-top-up" as const;
+
+export function walletTopUpLedgerIdempotencyKey(merchantOid: string): string {
+  return `${WALLET_TOP_UP_PURPOSE}:${merchantOid}`;
+}
+
+export class PaymentOrderCasError extends Error {
+  readonly expectedStatus: string;
+  constructor(expectedStatus: string) {
+    super(`Ödeme emri CAS: beklenen ${expectedStatus}.`);
+    this.name = "PaymentOrderCasError";
+    this.expectedStatus = expectedStatus;
+  }
+}
+
+export function isPaymentOrderCasError(error: unknown): error is PaymentOrderCasError {
+  return error instanceof PaymentOrderCasError;
+}
+
 export type PaymentOrderSnapshot = {
   id: string;
   userId: string;
@@ -80,9 +99,6 @@ export async function clearSuccessfulPaymentOrder(
     if (order.status === "CLEARED") {
       return { order, applied: false };
     }
-    if (order.status === "FAILED") {
-      throw new Error("Başarısız ödeme emri temizlenemez.");
-    }
     if (options.expectedAmountMinor != null) {
       assertPaymentOrderAmountMatches(order.amountMinor, options.expectedAmountMinor);
     }
@@ -94,8 +110,8 @@ export async function clearSuccessfulPaymentOrder(
       amountMinor,
       direction: "CREDIT",
       label: "Cüzdan yükleme",
-      purpose: "wallet-top-up",
-      idempotencyKey: `wallet-top-up:${order.merchantOid}`,
+      purpose: WALLET_TOP_UP_PURPOSE,
+      idempotencyKey: walletTopUpLedgerIdempotencyKey(order.merchantOid),
     });
 
     const paid = order.status === "PAID" ? order : await tx.orders.markPaid(order.id, now);
@@ -123,11 +139,8 @@ export async function failPaymentOrder(
   if (order.status === "FAILED") {
     return { order, applied: false };
   }
-  if (order.status === "CLEARED") {
-    throw new Error("Temizlenmiş ödeme emri başarısız işaretlenemez.");
-  }
-  if (order.status === "PAID") {
-    throw new Error("Ödenmiş emir bu yoldan başarısız işaretlenemez.");
+  if (order.status === "CLEARED" || order.status === "PAID") {
+    return { order, applied: false };
   }
   const failed = await orders.markFailed(order.id, now);
   return { order: failed, applied: true };

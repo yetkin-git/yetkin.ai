@@ -15,6 +15,7 @@ import {
   RAIL_V1_ACADEMY_CERTIFICATE_HASH_INVALID,
   RAIL_V1_ACADEMY_CERTIFICATE_HASHED_FIELDS,
   RAIL_V1_ACADEMY_CERTIFICATE_INCOMPLETE,
+  RAIL_V1_ACADEMY_CERTIFICATE_INTEGRITY_KIND,
   RAIL_V1_ACADEMY_CERTIFICATE_MISMATCH,
   RAIL_V1_ACADEMY_CERTIFICATE_MISSING,
   RAIL_V1_ACADEMY_CERTIFICATE_PAYLOAD_VERSION,
@@ -26,6 +27,7 @@ import {
   buildRailV1OpenApiDocument,
   parseRailV1Envelope,
   resolveRailV1HopPaths,
+  isRailV1HopForbiddenOnDron,
 } from "@/lib/kernel/http/v1-contract";
 import {
   assertRailV1HopHandlerShield,
@@ -33,6 +35,7 @@ import {
   railV1HopHandlerFile,
   requireRailV1IdempotencyKey,
 } from "@/lib/kernel/http/v1-runtime-shield";
+import { POST as postPurchase } from "@/app/api/academy/courses/[id]/purchase/route";
 import { POST as postBid } from "@/app/api/freelancer/jobs/[id]/bids/route";
 import { POST as postAccept } from "@/app/api/freelancer/jobs/[id]/accept/route";
 import { POST as postRelease } from "@/app/api/freelancer/contracts/[id]/release/route";
@@ -55,6 +58,10 @@ const JOB_ID = "fj_lab_1";
 const CONTRACT_ID = "fc_lab_1";
 
 const WRITE_HANDLERS = {
+  "academy-purchase": {
+    post: postPurchase,
+    params: { id: "course_lab_1" },
+  },
   "freelancer-bid": {
     post: postBid,
     params: { id: JOB_ID },
@@ -167,6 +174,7 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
     expect(readSrc("lib/kernel/http/v1-runtime-shield.ts")).toContain("readIdempotencyKey");
     const writeHops = RAIL_V1_HOPS.filter((hop) => hop.idempotency);
     expect(writeHops.map((hop) => hop.id)).toEqual([
+      "academy-purchase",
       "freelancer-bid",
       "freelancer-accept",
       "freelancer-delivery",
@@ -236,7 +244,9 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
       id: TEST_USER,
       email: TEST_EMAIL,
     });
-    const writeHops = RAIL_V1_HOPS.filter((hop) => hop.idempotency);
+    const writeHops = RAIL_V1_HOPS.filter(
+      (hop) => hop.idempotency && !isRailV1HopForbiddenOnDron(hop.id),
+    );
     for (const hop of writeHops) {
       const mapped = WRITE_HANDLERS[hop.id as keyof typeof WRITE_HANDLERS];
       expect(mapped, hop.id).toBeTruthy();
@@ -284,8 +294,14 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
   it("Bearer hop çerez-only ve eksik Bearer'da 401 zarf; Set-Cookie yok", async () => {
     const token = await signHs256();
     const cookie = `sb-testref-auth-token=${encodeURIComponent(JSON.stringify({ access_token: token }))}`;
-    const bearerHops = RAIL_V1_HOPS.filter((hop) => hop.v1Auth === "bearer");
-    expect(bearerHops.length).toBe(11);
+    const bearerHops = RAIL_V1_HOPS.filter(
+      (hop) => hop.v1Auth === "bearer" && !isRailV1HopForbiddenOnDron(hop.id),
+    );
+    expect(RAIL_V1_HOPS.filter((hop) => hop.v1Auth === "none").map((hop) => hop.id)).toEqual([
+      "health",
+      "academy-certificate",
+    ]);
+    expect(bearerHops.map((hop) => hop.id)).not.toContain("academy-purchase");
     for (const hop of bearerHops) {
       const paths = resolveRailV1HopPaths(hop);
       const cookieOnly = await proxy(
@@ -329,7 +345,9 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
   it("süresi dolmuş Bearer 401 zarf basar; sahte veri yok", async () => {
     const now = Math.floor(Date.now() / 1000);
     const expired = await signHs256({ iat: now - 3600, exp: now - 120 });
-    const bearerHops = RAIL_V1_HOPS.filter((hop) => hop.v1Auth === "bearer");
+    const bearerHops = RAIL_V1_HOPS.filter(
+      (hop) => hop.v1Auth === "bearer" && !isRailV1HopForbiddenOnDron(hop.id),
+    );
     for (const hop of bearerHops) {
       const paths = resolveRailV1HopPaths(hop);
       const response = await proxy(
@@ -345,7 +363,9 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
   });
 
   it("uyumsuz X-Rail-Min-Version 426 zarf basar; HTML boş sayfa yok", async () => {
-    const hops = RAIL_V1_HOPS.filter((hop) => hop.minVersionHeaderRequired);
+    const hops = RAIL_V1_HOPS.filter(
+      (hop) => hop.minVersionHeaderRequired && !isRailV1HopForbiddenOnDron(hop.id),
+    );
     expect(hops.length).toBeGreaterThan(0);
     for (const hop of hops) {
       const paths = resolveRailV1HopPaths(hop);
@@ -379,11 +399,33 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
     expect(await getSession(request)).toBeNull();
     expect(await getCitizenAuth(request)).toBeNull();
 
+    const rewritten = new Request("http://localhost:3000/api/auth/session", {
+      headers: {
+        "x-rail-api-version": "1",
+        "x-rail-pathname": "/api/v1/auth/session",
+        cookie,
+      },
+    });
+    expect(await getSession(rewritten)).toBeNull();
+    expect(await getCitizenAuth(rewritten)).toBeNull();
+
+    const amiralExam = new Request("http://localhost:3000/api/academy/courses/ac_1/exam", {
+      headers: {
+        "x-rail-api-version": "1",
+        "x-rail-pathname": "/api/academy/courses/ac_1/exam",
+        cookie,
+      },
+    });
+    // Amiral yolu çerez kilidine girmez; Supabase yoksa yine null (oturum çözümlemesi ayrı).
+    const { isV1CookieSessionBlocked } = await import("@/lib/kernel/http/api-v1");
+    expect(isV1CookieSessionBlocked(amiralExam)).toBe(false);
+
     const proxySrc = readSrc("proxy.ts");
     expect(proxySrc).toContain("cookies: v1 ? [] : request.cookies.getAll()");
     expect(proxySrc).toContain("collectSupabaseAuthCookieRefresh");
     expect(proxySrc).toContain("applyTo(_response: NextResponse) {}");
-    expect(readSrc("lib/kernel/auth/require-session.ts")).toContain("isV1JsonRequest(request)");
+    expect(readSrc("lib/kernel/auth/require-session.ts")).toContain("isV1CookieSessionBlocked(request)");
+    expect(readSrc("lib/kernel/http/api-v1.ts")).toContain("isV1CookieSessionBlocked");
     expect(readFileSync(join(ROOT, ".system_docs", "DRON_CLIENT_SPEC.md"), "utf8")).toContain(
       "Authorization: Bearer",
     );
@@ -443,7 +485,7 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
     const validView = {
       title: "Rail Temel",
       courseTitle: "Rail Temel",
-      courseSlug: "rail-temel",
+      courseSlug: "python-temel",
       score: 100,
       issuedAt,
       certificateHash: SAMPLE_HASH,
@@ -451,8 +493,12 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
       algorithm: "SHA256" as const,
       payloadVersion: RAIL_V1_ACADEMY_CERTIFICATE_PAYLOAD_VERSION,
       hashedFields: RAIL_V1_ACADEMY_CERTIFICATE_HASHED_FIELDS,
+      integrityKind: RAIL_V1_ACADEMY_CERTIFICATE_INTEGRITY_KIND,
       sealStatus: "valid" as const,
+      revokedAt: null,
       passScore: RAIL_V1_ACADEMY_EXAM_PASS_SCORE,
+      pathwayMastery: null,
+      hashSubjectKind: "person-certificate" as const,
     };
 
     vi.spyOn(academyVerify, "resolvePublicAcademyCertificate").mockResolvedValueOnce({
@@ -512,8 +558,33 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
       courseTitle: "Rail Temel",
       certificateHash: SAMPLE_HASH,
       curriculumSeal: SAMPLE_SEAL,
+      integrityKind: RAIL_V1_ACADEMY_CERTIFICATE_INTEGRITY_KIND,
       sealStatus: "valid",
+      revokedAt: null,
       score: 100,
+    });
+
+    vi.spyOn(academyVerify, "resolvePublicAcademyCertificate").mockResolvedValueOnce({
+      status: "found",
+      view: {
+        ...validView,
+        sealStatus: "revoked",
+        revokedAt: new Date("2026-08-20T00:00:00.000Z"),
+      },
+    });
+    const revoked = await getAcademyCertificate(hopRequest(hop!), {
+      params: Promise.resolve({ hash: SAMPLE_HASH }),
+    });
+    expect(revoked.status).toBe(200);
+    const revokedBody = parseRailV1Envelope(await revoked.json());
+    expect(revokedBody).toMatchObject({
+      ok: true,
+      error: null,
+      data: {
+        sealStatus: "revoked",
+        integrityKind: RAIL_V1_ACADEMY_CERTIFICATE_INTEGRITY_KIND,
+        revokedAt: "2026-08-20T00:00:00.000Z",
+      },
     });
     const serialized = JSON.stringify(body);
     expect(serialized).not.toContain("userId");

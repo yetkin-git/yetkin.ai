@@ -59,9 +59,14 @@ describe("vatandaş kimlik UX yüzeyi", () => {
     expect(form).toContain("PASSWORD_RESET_PATH");
     expect(form).toContain("AUTH_SEN");
     expect(form).toContain("signInWithPassword");
-    expect(form).toContain('window.location.assign("/dashboard")');
+    expect(form).toContain("readPostLoginPathFromSearch");
+    expect(form).toContain("window.location.search");
+    expect(form).toContain("window.location.assign(");
     expect(form).not.toContain("router.push");
     expect(form).not.toContain("router.refresh");
+    expect(readSrc("app/(auth)/login/page.tsx")).toContain("searchParams");
+    expect(readSrc("app/(auth)/login/page.tsx")).toContain("nextPath");
+    expect(readSrc("app/(auth)/login/page.tsx")).toContain("readPostLoginPathFromSearch");
     expect(form).toContain("createSupabaseBrowserClient");
     expect(form).toContain("describePublicSupabaseBrowserEnv");
     expect(form).toContain("console.log");

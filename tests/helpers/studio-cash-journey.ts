@@ -8,6 +8,7 @@ import { STUDIO_IMAGE_DATA_BASE64_MAX_CHARS } from "@/lib/studio/storage";
 import { createMemoryLedgerStore, type MemoryLedgerStore } from "./memory-money";
 import { createMemoryPriceCatalogStore } from "./memory-pricing";
 import { createMemoryAiTokenUsageStore, createMemoryStudioStore } from "./memory-studio";
+import { createMemoryPaidCommandStore, mintTestCommandKey } from "./memory-paid-command";
 import type { StudioDigitalAssetRecord, StudioGenerationRecord } from "@/lib/studio/types";
 
 export const E2E_STUDIO_USER_ID = "e2e-studio-smoke-user";
@@ -90,11 +91,13 @@ export async function runStudioCashJourney(): Promise<StudioCashJourneyResult> {
   ]);
   const usageStore = createMemoryAiTokenUsageStore();
   const studio = createMemoryStudioStore();
+  const commands = createMemoryPaidCommandStore();
   const ports = {
     ledger,
     catalog,
     usage: usageStore,
     studio,
+    commands,
     llmDeps: {
       providers: { gemini: adapter },
       budgetPort: createMemoryBudgetShieldPort({ tokensByUser: {} }),
@@ -103,6 +106,7 @@ export async function runStudioCashJourney(): Promise<StudioCashJourneyResult> {
 
   const text = await generateStudioContent(ports, {
     userId: E2E_STUDIO_USER_ID,
+    commandKey: mintTestCommandKey(),
     prompt: "Kısa bir iş ilanı taslağı yaz.",
     platformUserId: E2E_STUDIO_PLATFORM_ID,
     now: new Date("2026-08-15T20:10:00.000Z"),
@@ -110,6 +114,7 @@ export async function runStudioCashJourney(): Promise<StudioCashJourneyResult> {
 
   const image = await generateStudioImage(ports, {
     userId: E2E_STUDIO_USER_ID,
+    commandKey: mintTestCommandKey(),
     prompt: "Mühürlü 16:9 ray görseli.",
     platformUserId: E2E_STUDIO_PLATFORM_ID,
     now: new Date("2026-08-15T20:11:00.000Z"),
@@ -131,6 +136,7 @@ export async function runStudioCashJourney(): Promise<StudioCashJourneyResult> {
       },
       {
         userId: E2E_STUDIO_USER_ID,
+        commandKey: mintTestCommandKey(),
         prompt: "Dev görsel.",
         platformUserId: E2E_STUDIO_PLATFORM_ID,
       },
@@ -192,11 +198,13 @@ export async function runStudioImageCatalogMissingJourney(): Promise<StudioImage
   ]);
   const usageStore = createMemoryAiTokenUsageStore();
   const studio = createMemoryStudioStore();
+  const commands = createMemoryPaidCommandStore();
   const ports = {
     ledger,
     catalog,
     usage: usageStore,
     studio,
+    commands,
     llmDeps: {
       providers: { gemini: adapter },
       budgetPort: createMemoryBudgetShieldPort({ tokensByUser: {} }),
@@ -208,6 +216,7 @@ export async function runStudioImageCatalogMissingJourney(): Promise<StudioImage
   try {
     await generateStudioImage(ports, {
       userId: E2E_STUDIO_USER_ID,
+      commandKey: mintTestCommandKey(),
       prompt: "Mühürlü görsel.",
       platformUserId: E2E_STUDIO_PLATFORM_ID,
     });

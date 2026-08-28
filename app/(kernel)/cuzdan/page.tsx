@@ -12,6 +12,8 @@ import { loadWalletBoard } from "@/lib/kernel/ledger/load";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
+import { isPaytrMockCheckoutAllowed, isPaytrSandboxEnabled } from "@/lib/kernel/payments/paytr/checkout";
+import { isPaymentsPortConfigured } from "@/lib/kernel/payments/port";
 
 export default async function WalletPage() {
   const session = await getSession();
@@ -50,7 +52,11 @@ export default async function WalletPage() {
       />
       <div className="grid gap-6 lg:grid-cols-2">
         <Card variant="featured" title={copy.topUpTitle}>
-          <WalletTopUpForm />
+          <WalletTopUpForm
+            enabled={Boolean(session)}
+            paymentsReady={isPaymentsPortConfigured() || isPaytrMockCheckoutAllowed()}
+            sandbox={isPaytrSandboxEnabled()}
+          />
         </Card>
         <Card variant="ink" title={copy.closedLoopTitle} bodyClassName="text-white/70">
           {copy.closedLoopBody}
