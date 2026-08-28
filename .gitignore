@@ -27,8 +27,9 @@ dist/
 coverage/
 *.tsbuildinfo
 
-generated/
-generated/prisma/
+# Prisma çıktısı yalnız kökte. Dron v1 istemcisi (apps/rail-is/src/generated) git'tedir.
+/generated/
+/generated/prisma/
 
 .cursor/
 .vscode/

@@ -167,6 +167,7 @@ describe("Faz 1 kanonikleştirme yüzeyi", () => {
     const pkg = JSON.parse(readSrc("package.json")) as { scripts: Record<string, string> };
     expect(pkg.scripts["generate:openapi-v1"]).toContain("scripts/generate-openapi-v1.ts");
     expect(pkg.scripts["generate:v1-client"]).toContain("scripts/generate-rail-v1-dron-types.ts");
+    expect(pkg.scripts.build).toContain("generate:v1-client");
     expect(pkg.scripts["verify:v1-contract-artifacts"]).toContain("--check");
     expect(pkg.scripts["verify:prebuild"]).toContain("verify:v1-contract-artifacts");
 
