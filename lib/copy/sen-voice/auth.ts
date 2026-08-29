@@ -31,6 +31,8 @@ export const AUTH_SEN = {
     title: "Kayıt",
     description: "Hesap aç; Türk Lirası cüzdanın seninle kurulur.",
     unbound: "Kayıt henüz bağlanmadı. Bağlantı tamamlanınca hesabın ve cüzdanın burada açılır.",
+    fullName: "Ad soyad",
+    fullNameInvalid: "Ad soyad geçersiz.",
     email: "E-posta",
     password: "Şifre",
     submit: "Hesap oluştur",

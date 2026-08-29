@@ -1,14 +1,20 @@
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { RegisterForm } from "@/components/auth/register-form";
-import { isSupabaseConfigured } from "@/lib/kernel/auth/session";
+import { readPostLoginPathFromSearch } from "@/lib/kernel/auth/redirects";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/link-button";
 import { BrandIcon } from "@/components/ui/brand-icon";
 
-export default function RegisterPage() {
-  const configured = isSupabaseConfigured();
+export default async function RegisterPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string | string[] }>;
+}) {
   const copy = SEN_VOICE.auth.register;
+  const params = await searchParams;
+  const nextRaw = Array.isArray(params.next) ? params.next[0] : params.next;
+  const nextPath = readPostLoginPathFromSearch(null, nextRaw);
   return (
     <main className="relative mx-auto flex min-h-dvh max-w-md flex-col justify-center px-6 pb-14 pt-16">
       <div className="relative">
@@ -17,7 +23,7 @@ export default function RegisterPage() {
         <h1 className="mt-3 text-3xl font-semibold tracking-tight">{copy.title}</h1>
         <p className="mt-2 text-sm text-[var(--muted)]">{copy.description}</p>
         <Card variant="glass" className="mt-6">
-          {configured ? <RegisterForm /> : <p>{copy.unbound}</p>}
+          <RegisterForm nextPath={nextPath} />
         </Card>
         <div className="mt-4">
           <LinkButton href="/login" variant="outline" size="sm">

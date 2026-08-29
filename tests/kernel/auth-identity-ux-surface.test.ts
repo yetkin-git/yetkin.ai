@@ -67,6 +67,9 @@ describe("vatandaş kimlik UX yüzeyi", () => {
     expect(readSrc("app/(auth)/login/page.tsx")).toContain("searchParams");
     expect(readSrc("app/(auth)/login/page.tsx")).toContain("nextPath");
     expect(readSrc("app/(auth)/login/page.tsx")).toContain("readPostLoginPathFromSearch");
+    expect(readSrc("app/(auth)/login/page.tsx")).toContain("LoginForm");
+    expect(readSrc("app/(auth)/login/page.tsx")).not.toContain("isSupabaseConfigured");
+    expect(readSrc("app/(auth)/login/page.tsx")).not.toContain("copy.unbound");
     expect(form).toContain("createSupabaseBrowserClient");
     expect(form).toContain("describePublicSupabaseBrowserEnv");
     expect(form).toContain("console.log");
@@ -87,15 +90,28 @@ describe("vatandaş kimlik UX yüzeyi", () => {
   it("kayıt formu güvenli şifre üretir ve kopyalandı bildirimi sunar", () => {
     const form = readSrc("components/auth/register-form.tsx");
     const copy = readSrc("lib/copy/sen-voice/auth.ts");
+    const page = readSrc("app/(auth)/register/page.tsx");
     expect(form).toContain("generateSecurePassword");
     expect(form).toContain("AUTH_SEN");
     expect(copy).toContain("Güvenli Şifre Üret");
     expect(copy).toContain("Kopyalandı");
+    expect(copy).toContain("Ad soyad");
     expect(form).toContain("copyTextToClipboard");
     expect(form).toContain("PasswordInput");
     expect(form).toContain("CITIZEN_PASSWORD_MIN_LENGTH");
     expect(form).toContain("emailRedirectTo");
     expect(form).toContain("buildSignupEmailRedirectTo");
+    expect(form).toContain("buildSignupAuthMetadata");
+    expect(form).toContain("readPostLoginPathFromSearch");
+    expect(form).toContain("window.location.assign(");
+    expect(form).not.toContain("router.push");
+    expect(page).toContain("RegisterForm");
+    expect(page).toContain("searchParams");
+    expect(page).toContain("nextPath");
+    expect(page).not.toContain("isSupabaseConfigured");
+    expect(page).not.toContain("copy.unbound");
+    expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("display_name");
+    expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("full_name");
   });
 
   it("şifremi unuttum sayfası resetPasswordForEmail bağlar; dürüst metin hesap sızdırmaz", () => {

@@ -1,6 +1,5 @@
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { LoginForm } from "@/components/auth/login-form";
-import { isSupabaseConfigured } from "@/lib/kernel/auth/session";
 import { readPostLoginPathFromSearch } from "@/lib/kernel/auth/redirects";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +11,6 @@ export default async function LoginPage({
 }: {
   searchParams: Promise<{ next?: string | string[] }>;
 }) {
-  const configured = isSupabaseConfigured();
   const copy = SEN_VOICE.auth.login;
   const params = await searchParams;
   const nextRaw = Array.isArray(params.next) ? params.next[0] : params.next;
@@ -25,7 +23,7 @@ export default async function LoginPage({
         <h1 className="mt-3 text-3xl font-semibold tracking-tight">{copy.title}</h1>
         <p className="mt-2 text-sm text-[var(--muted)]">{copy.description}</p>
         <Card variant="glass" className="mt-6">
-          {configured ? <LoginForm nextPath={nextPath} /> : <p>{copy.unbound}</p>}
+          <LoginForm nextPath={nextPath} />
         </Card>
         <div className="mt-4 flex gap-3">
           <LinkButton href="/register" variant="outline" size="sm">

@@ -19,9 +19,10 @@ test.describe("O9 freelancer nakit & emanet yolculuğu", () => {
     await expect(page).toHaveURL(/\/login\/?$/);
     await expect(page.getByRole("heading", { name: "Giriş" })).toBeVisible();
 
-    const loginForm = page.locator("form");
-    const loginBound = page.getByText("Giriş henüz bağlanmadı");
-    await expect(loginForm.or(loginBound)).toBeVisible();
+    await expect(page.locator("form")).toBeVisible();
+    await expect(page.getByText("Giriş henüz bağlanmadı")).toHaveCount(0);
+    await expect(page.getByLabel("E-posta")).toBeVisible();
+    await expect(page.getByRole("textbox", { name: "Şifre" })).toBeVisible();
 
     const jobs = await request.post("/api/freelancer/jobs", {
       data: {

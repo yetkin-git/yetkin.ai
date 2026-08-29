@@ -6,13 +6,62 @@ import { Input } from "@/components/ui/input";
 import { IconCopy, IconKey } from "@/components/ui/icons";
 import { PasswordInput } from "@/components/auth/password-input";
 import { copyTextToClipboard } from "@/components/auth/copy-text";
-import { createSupabaseBrowserClient } from "@/lib/kernel/auth/supabase-browser";
-import { buildSignupEmailRedirectTo } from "@/lib/kernel/auth/redirects";
+import {
+  AUTH_BROWSER_FETCH_TIMEOUT_MS,
+  createSupabaseBrowserClient,
+  describePublicSupabaseBrowserEnv,
+  SupabaseBrowserEnvError,
+} from "@/lib/kernel/auth/supabase-browser";
+import { buildSignupEmailRedirectTo, readPostLoginPathFromSearch } from "@/lib/kernel/auth/redirects";
+import { buildSignupAuthMetadata, isDuplicateSignupUser } from "@/lib/kernel/auth/signup-metadata";
 import {
   CITIZEN_PASSWORD_MIN_LENGTH,
   generateSecurePassword,
 } from "@/lib/kernel/auth/password";
+import { DISPLAY_NAME_MAX_LENGTH } from "@/lib/kernel/identity/types";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
+
+async function withWatchdog<T>(work: Promise<T>, ms: number, timeoutError: Error): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      work,
+      new Promise<never>((_, reject) => {
+        timer = setTimeout(() => reject(timeoutError), ms);
+      }),
+    ]);
+  } finally {
+    if (timer !== undefined) {
+      clearTimeout(timer);
+    }
+  }
+}
+
+function resolveSignUpFailure(caught: unknown, copy: typeof AUTH_SEN.register): string {
+  if (caught instanceof SupabaseBrowserEnvError) {
+    return caught.code === "missing" ? AUTH_SEN.login.envMissing : AUTH_SEN.login.timeout;
+  }
+  if (caught instanceof DOMException && (caught.name === "TimeoutError" || caught.name === "AbortError")) {
+    return AUTH_SEN.login.timeout;
+  }
+  if (caught instanceof Error) {
+    const message = caught.message.toLowerCase();
+    if (message.includes("yapılandırılmadı") || message.includes("required to create")) {
+      return AUTH_SEN.login.envMissing;
+    }
+    if (
+      message.includes("failed to fetch") ||
+      message.includes("network") ||
+      message.includes("abort") ||
+      message.includes("timeout") ||
+      message.includes("ulaşılamadı")
+    ) {
+      return AUTH_SEN.login.timeout;
+    }
+    return caught.message.trim() || copy.fail;
+  }
+  return copy.fail;
+}
 
 function resolveSignUpMessage(message: string, copy: typeof AUTH_SEN.register): string {
   const normalized = message.toLowerCase();
@@ -28,8 +77,9 @@ function resolveSignUpMessage(message: string, copy: typeof AUTH_SEN.register): 
   return copy.fail;
 }
 
-export function RegisterForm() {
+export function RegisterForm({ nextPath }: { nextPath?: string }) {
   const copy = AUTH_SEN.register;
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [revealed, setRevealed] = useState(false);
@@ -65,29 +115,65 @@ export function RegisterForm() {
     setError(null);
     setMessage(null);
     try {
+      const metadata = buildSignupAuthMetadata(fullName);
+      if (!metadata) {
+        setError(copy.fullNameInvalid);
+        return;
+      }
+
+      const envProbe = describePublicSupabaseBrowserEnv();
+      if (!envProbe.hasUrl || !envProbe.hasAnon) {
+        throw new SupabaseBrowserEnvError("missing", AUTH_SEN.login.envMissing);
+      }
+
       const supabase = createSupabaseBrowserClient();
-      const { error: signError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: buildSignupEmailRedirectTo(window.location.origin),
-        },
-      });
+      const { data, error: signError } = await withWatchdog(
+        supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: metadata,
+            emailRedirectTo: buildSignupEmailRedirectTo(window.location.origin),
+          },
+        }),
+        AUTH_BROWSER_FETCH_TIMEOUT_MS,
+        new Error(AUTH_SEN.login.timeout),
+      );
       if (signError) {
         setError(resolveSignUpMessage(signError.message, copy));
-        setPending(false);
+        return;
+      }
+      if (isDuplicateSignupUser(data.user)) {
+        setError(copy.duplicate);
+        return;
+      }
+      if (data.session) {
+        window.location.assign(readPostLoginPathFromSearch(window.location.search, nextPath));
         return;
       }
       setMessage(copy.success);
-      setPending(false);
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : copy.fail);
+      setError(resolveSignUpFailure(caught, copy));
+    } finally {
       setPending(false);
     }
   }
 
   return (
     <form onSubmit={onSubmit} className="space-y-3">
+      <label className="block text-sm" htmlFor="register-full-name">
+        {copy.fullName}
+        <Input
+          id="register-full-name"
+          type="text"
+          name="fullName"
+          autoComplete="name"
+          value={fullName}
+          onChange={(event) => setFullName(event.target.value)}
+          required
+          maxLength={DISPLAY_NAME_MAX_LENGTH}
+        />
+      </label>
       <label className="block text-sm" htmlFor="register-email">
         {copy.email}
         <Input
@@ -133,8 +219,20 @@ export function RegisterForm() {
           <p className="mt-1 text-xs text-[var(--muted)]">{copy.passwordHint(CITIZEN_PASSWORD_MIN_LENGTH)}</p>
         )}
       </div>
-      {error ? <p className="text-sm text-red-600">{error}</p> : null}
-      {message ? <p className="text-sm text-[var(--safir)]">{message}</p> : null}
+      {error ? (
+        <div
+          role="alert"
+          data-testid="register-error"
+          className="rounded-[var(--radius-card)] border border-[var(--rose)] bg-[var(--rose-soft)] px-3 py-2 text-sm text-[var(--rose)]"
+        >
+          {error}
+        </div>
+      ) : null}
+      {message ? (
+        <p className="text-sm text-[var(--safir)]" role="status">
+          {message}
+        </p>
+      ) : null}
       <Button type="submit" disabled={pending}>
         {pending ? copy.pending : copy.submit}
       </Button>
