@@ -1,4 +1,9 @@
+import { resolve } from "node:path";
+import dotenv from "dotenv";
 import { defineConfig, devices } from "@playwright/test";
+
+dotenv.config({ path: resolve(".env.local"), quiet: true });
+dotenv.config({ quiet: true });
 
 const BASE_URL = process.env.E2E_BASE_URL?.trim() || "http://127.0.0.1:3000";
 const MANAGES_OWN_SERVER = !process.env.E2E_BASE_URL?.trim();
@@ -24,6 +29,7 @@ export default defineConfig({
   reporter: [["list"]],
   use: {
     baseURL: BASE_URL,
+    headless: true,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     video: "off",
