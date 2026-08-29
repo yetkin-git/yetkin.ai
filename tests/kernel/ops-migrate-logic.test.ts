@@ -23,6 +23,7 @@ import {
   assertStudioDataBase64Check,
   assertHttpIdempotencyRecords,
   assertAcademyLessonCompletions,
+  assertAcademyExamSittings,
   assertCurriculumSealColumns,
   assertCorporateJobOffers,
   assertPrismaRingMigrationsPresent,
@@ -204,6 +205,12 @@ describe("ops:migrate bellek katalog simülasyonu", () => {
     noLessons.academyLessonCompletions = false;
     await expect(assertAcademyLessonCompletions(createMemoryOpsSealQuery(noLessons))).rejects.toThrow(
       /academy_lesson_completions/,
+    );
+
+    const noSittings = createPostPrismaMemoryCatalog();
+    noSittings.academyExamSittings = false;
+    await expect(assertAcademyExamSittings(createMemoryOpsSealQuery(noSittings))).rejects.toThrow(
+      /academy_exam_sittings/,
     );
 
     const noSeal = createPostPrismaMemoryCatalog();

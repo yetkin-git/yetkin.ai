@@ -59,6 +59,7 @@ describe(".env.example ops şablonu", () => {
     expect(example).toContain("/api/payments/webhooks/paytr");
     expect(exampleKeys).toContain("RAIL_DRON_ORIGINS");
     expect(exampleKeys).toContain("TRUSTED_PROXY_HOPS");
+    expect(exampleKeys).toContain("ACADEMY_EXAM_SITTING_SECRET");
     expect(example).not.toMatch(/^INNGEST_DEV=/m);
     expect(example).not.toMatch(/^RESEND_API_KEY=/m);
   });

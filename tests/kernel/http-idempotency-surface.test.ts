@@ -63,7 +63,8 @@ describe("HTTP Idempotency-Key yazma yüzeyi", () => {
     const examRoute = readSrc("app/api/academy/courses/[id]/exam/route.ts");
     const proxy = readSrc("proxy.ts");
     const origin = readSrc("lib/kernel/security/origin-guard.ts");
-    expect(exam).toContain("consumeAcademyExamSittingJti");
+    expect(exam).toContain("consumeExamSitting");
+    expect(exam).toContain("insertExamSitting");
     expect(examRoute).toContain("submitAcademyExam");
     expect(examRoute).not.toContain("settleHttpIdempotency");
     expect(proxy).toContain("decideWebOriginGuard");

@@ -42,7 +42,8 @@ describe("sınav oturumu MAC ve iş kanıtı kapısı", () => {
     expect(src).toContain("yetkin-rail.academy.exam-sitting.mac.v1");
     expect(src).toContain("Sınav oturumu sırrı yok.");
     expect(src).toContain('process.env.VITEST !== "true"');
-    expect(src).toContain("consumeAcademyExamSittingJti");
+    expect(src).toContain("academyExamSittingMayConsume");
+    expect(src).toContain("serializeAcademyExamSittingItems");
     expect(src).not.toContain('createHmac("sha256", ACADEMY_EXAM_SITTING_VERSION)');
   });
 
@@ -156,6 +157,74 @@ describe("sınav oturumu MAC ve iş kanıtı kapısı", () => {
     expect(sealed.passed).toBe(true);
     expect(sealed.score).toBeGreaterThanOrEqual(70);
     expect(sealed.certificate).not.toBeNull();
+  });
+
+  it("HMAC jetonu sunucu sicili olmadan geçmez; sahte oturum barajı açmaz", async () => {
+    const seed = academyCourseSeedBySlug("python-temel");
+    expect(seed).toBeDefined();
+    const course = memoryCourse({
+      id: seed!.id,
+      slug: seed!.slug,
+      title: seed!.title,
+      summary: seed!.summary,
+      catalogUnitKey: seed!.catalogUnitKey,
+    });
+    const exam = memoryExam(course.id, {
+      id: seed!.exam.id,
+      title: seed!.exam.title,
+      passScore: seed!.exam.passScore,
+      questions: seed!.exam.questions,
+    });
+    const ports = {
+      ledger: createMemoryLedgerStore([
+        { userId: BUYER, amountMinor: 100_000 },
+        { userId: PLATFORM, amountMinor: 0 },
+      ]),
+      catalog: createMemoryPriceCatalogStore([
+        { moduleKey: ACADEMY_MODULE_KEY, unitKey: course.catalogUnitKey, amountMinor: seed!.seedAmountMinor },
+      ]),
+      locks: createMemoryCheckoutPriceLockStore(),
+      academy: createMemoryAcademyStore(),
+    };
+    await ports.academy.insertCourse(course);
+    await ports.academy.insertExam(exam);
+    const locked = await lockAcademyCoursePrice(ports, { courseId: course.id, userId: BUYER });
+    await purchaseAcademyCourse(ports, {
+      courseId: course.id,
+      userId: BUYER,
+      lockId: locked.lock.id,
+      platformUserId: PLATFORM,
+    });
+    await completeAcademyCurriculum(ports, { courseId: course.id, userId: BUYER });
+
+    const now = new Date("2026-08-22T12:00:00.000Z");
+    const forged = sealAcademyExamSitting({
+      userId: BUYER,
+      courseId: course.id,
+      examId: exam.id,
+      startedAt: now,
+      expiresAt: new Date(now.getTime() + 30 * 60 * 1000),
+      jti: "forged-sitting-jti",
+      items: exam.questions.slice(0, 4).map((question) => ({
+        id: question.id,
+        permutation: question.choices.map((_, choiceIndex) => choiceIndex),
+      })),
+      proofLessonKey: "python-temel-1",
+    });
+    await expect(
+      submitAcademyExam(ports, {
+        courseId: course.id,
+        userId: BUYER,
+        answers: exam.questions.slice(0, 4).map((question) => ({
+          questionId: question.id,
+          choiceIndex: question.correctIndex,
+        })),
+        sessionToken: forged,
+        now,
+        proof: academyCanonicalProofSubmission("python-temel-1") ?? undefined,
+      }),
+    ).rejects.toThrow(/oturumu geçersiz/);
+    expect(await ports.academy.getCertificateByUserAndCourse(BUYER, course.id)).toBeNull();
   });
 
   it("boş sessionToken fail-closed; havuz puanlama yok", async () => {

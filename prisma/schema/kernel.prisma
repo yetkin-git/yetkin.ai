@@ -60,6 +60,7 @@ model User {
   academyPurchases     AcademyPurchase[]
   academyCertificates  AcademyCertificate[]
   academyExamAttempts  AcademyExamAttempt[]
+  academyExamSittings  AcademyExamSitting[]
   academyLessonCompletions AcademyLessonCompletion[]
   careerPortfolioItems CareerPortfolioItem[]
   careerVisaStamps     CareerVisaStamp[]

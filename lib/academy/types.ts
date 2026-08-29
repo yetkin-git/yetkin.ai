@@ -127,6 +127,25 @@ export type AcademyLessonCompletionRecord = {
   createdAt: Date;
 };
 
+/** Sınav oturumu mühürü — HMAC jetonunun sunucu sicili. */
+export type AcademyExamSittingItem = {
+  id: string;
+  permutation: number[];
+};
+
+export type AcademyExamSittingRecord = {
+  jti: string;
+  userId: string;
+  courseId: string;
+  examId: string;
+  items: AcademyExamSittingItem[];
+  proofLessonKey: string | null;
+  startedAt: Date;
+  expiresAt: Date;
+  consumedAt: Date | null;
+  createdAt: Date;
+};
+
 export type AcademyStore = {
   insertCourse(course: AcademyCourseRecord): Promise<AcademyCourseRecord>;
   getCourse(id: string): Promise<AcademyCourseRecord | null>;
@@ -153,6 +172,16 @@ export type AcademyStore = {
   listCertificatesForUser(userId: string): Promise<AcademyCertificateRecord[]>;
   insertExam(exam: AcademyExamRecord): Promise<AcademyExamRecord>;
   getExamByCourseId(courseId: string): Promise<AcademyExamRecord | null>;
+  insertExamSitting(sitting: AcademyExamSittingRecord): Promise<AcademyExamSittingRecord>;
+  getExamSittingByJti(jti: string): Promise<AcademyExamSittingRecord | null>;
+  consumeExamSitting(input: {
+    jti: string;
+    userId: string;
+    courseId: string;
+    examId: string;
+    items: readonly AcademyExamSittingItem[];
+    now: Date;
+  }): Promise<boolean>;
   insertAttempt(attempt: AcademyExamAttemptRecord): Promise<AcademyExamAttemptRecord>;
   listAttemptsForUserExam(userId: string, examId: string): Promise<AcademyExamAttemptRecord[]>;
   insertLessonCompletion(

@@ -23,7 +23,6 @@ import {
   academyExamSittingExpired,
   ACADEMY_EXAM_DRAW_COUNT,
   ACADEMY_EXAM_DURATION_MS,
-  consumeAcademyExamSittingJti,
   drawAcademyExamQuestionsPinned,
   materializeAcademyExamSitting,
   openAcademyExamSitting,
@@ -111,24 +110,39 @@ async function requireExamForCourse(
   return exam;
 }
 
-function gradeSitting(input: {
+async function gradeSitting(input: {
+  academy: AcademyStore;
   exam: AcademyExamRecord;
+  courseId: string;
   answers: AcademyExamAnswer[];
   sessionToken: string;
   userId: string;
   timedOut?: boolean;
   now: Date;
   proof?: AcademyProofSubmission;
-}): { score: number; questions: AcademyExamQuestion[] } {
+}): Promise<{ score: number; questions: AcademyExamQuestion[] }> {
   const token = input.sessionToken.trim();
   if (!token) {
     throw new Error("Sınav oturumu geçersiz.");
   }
   const sitting = openAcademyExamSitting(token);
-  if (!sitting || sitting.userId !== input.userId || sitting.examId !== input.exam.id) {
+  if (
+    !sitting ||
+    sitting.userId !== input.userId ||
+    sitting.courseId !== input.courseId ||
+    sitting.examId !== input.exam.id
+  ) {
     throw new Error("Sınav oturumu geçersiz.");
   }
-  if (!consumeAcademyExamSittingJti(sitting.jti, sitting.expiresAt, input.now)) {
+  const consumed = await input.academy.consumeExamSitting({
+    jti: sitting.jti,
+    userId: input.userId,
+    courseId: input.courseId,
+    examId: input.exam.id,
+    items: sitting.items,
+    now: input.now,
+  });
+  if (!consumed) {
     throw new Error("Sınav oturumu geçersiz.");
   }
   const questions = materializeAcademyExamSitting(input.exam.questions, sitting.items);
@@ -168,8 +182,10 @@ export async function submitAcademyExam(
 
   const exam = await requireExamForCourse(ports.academy, course.id);
   const now = command.now ?? new Date();
-  const { score } = gradeSitting({
+  const { score } = await gradeSitting({
+    academy: ports.academy,
     exam,
+    courseId: course.id,
     answers: command.answers,
     sessionToken: command.sessionToken,
     userId: command.userId,
@@ -323,15 +339,28 @@ export async function loadAcademyExam(
   const pinned = exam.questions.filter((question) => question.id.startsWith("q_pow_"));
   const pinIds = pinned.length > 0 ? [shuffleCopy(pinned)[0]!.id] : [];
   const drawn = drawAcademyExamQuestionsPinned(exam.questions, pinIds, ACADEMY_EXAM_DRAW_COUNT);
+  const jti = randomUUID();
   const sessionToken = sealAcademyExamSitting({
     userId,
     courseId: course.id,
     examId: exam.id,
     startedAt,
     expiresAt,
-    jti: randomUUID(),
+    jti,
     items: drawn.items,
     proofLessonKey,
+  });
+  await ports.academy.insertExamSitting({
+    jti,
+    userId,
+    courseId: course.id,
+    examId: exam.id,
+    items: drawn.items,
+    proofLessonKey,
+    startedAt,
+    expiresAt,
+    consumedAt: null,
+    createdAt: startedAt,
   });
   return {
     exam: {

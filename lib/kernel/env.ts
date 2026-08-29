@@ -24,6 +24,7 @@ const envSchema = z.object({
   DEVLABS_KEY_PEPPER: z.string().optional(),
   SUPER_ADMIN_USER_ID: z.string().optional(),
   CANONICAL_SUPER_ADMIN_EMAIL: z.string().optional(),
+  ACADEMY_EXAM_SITTING_SECRET: z.string().optional(),
   PAYTR_ALLOW_MOCK_CHECKOUT: z.string().optional(),
   PAYTR_WEBHOOK_IP_ALLOWLIST: z.string().optional(),
   E2E_BASE_URL: z.string().optional(),

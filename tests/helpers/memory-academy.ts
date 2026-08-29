@@ -4,6 +4,7 @@ import type {
   AcademyCourseRecord,
   AcademyExamAttemptRecord,
   AcademyExamRecord,
+  AcademyExamSittingRecord,
   AcademyLessonCompletionRecord,
   AcademyPulse,
   AcademyPurchaseRecord,
@@ -11,6 +12,10 @@ import type {
 } from "@/lib/academy/types";
 import type { AcademyEnginePorts, AcademyPurchaseWritePorts } from "@/lib/academy/engine";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
+import {
+  academyExamSittingMayConsume,
+  cloneAcademyExamSittingItems,
+} from "@/lib/academy/exam-sitting";
 import { orderAcademyCatalogByCurriculum } from "@/lib/academy/catalog-filter";
 import { createSerializedUnitOfWork, type MemoryLedgerStore } from "./memory-money";
 import type { MemoryCheckoutPriceLockStore } from "./memory-pricing";
@@ -22,6 +27,7 @@ type AcademyMemoryState = {
   exams: Array<[string, AcademyExamRecord]>;
   attempts: Array<[string, AcademyExamAttemptRecord]>;
   completions: Array<[string, AcademyLessonCompletionRecord]>;
+  sittings: Array<[string, AcademyExamSittingRecord]>;
 };
 
 export type MemoryAcademyStore = AcademyStore & {
@@ -37,6 +43,7 @@ export function createMemoryAcademyStore(): MemoryAcademyStore {
   const exams = new Map<string, AcademyExamRecord>();
   const attempts = new Map<string, AcademyExamAttemptRecord>();
   const completions = new Map<string, AcademyLessonCompletionRecord>();
+  const sittings = new Map<string, AcademyExamSittingRecord>();
   let failPurchase = false;
 
   return {
@@ -57,6 +64,13 @@ export function createMemoryAcademyStore(): MemoryAcademyStore {
           { ...value, answers: value.answers.map((answer) => ({ ...answer })) },
         ]),
         completions: [...completions.entries()].map(([key, value]) => [key, { ...value }]),
+        sittings: [...sittings.entries()].map(([key, value]) => [
+          key,
+          {
+            ...value,
+            items: cloneAcademyExamSittingItems(value.items),
+          },
+        ]),
       };
     },
     restore(state) {
@@ -66,6 +80,7 @@ export function createMemoryAcademyStore(): MemoryAcademyStore {
       exams.clear();
       attempts.clear();
       completions.clear();
+      sittings.clear();
       for (const [key, value] of state.courses) {
         courses.set(key, { ...value });
       }
@@ -89,6 +104,12 @@ export function createMemoryAcademyStore(): MemoryAcademyStore {
       }
       for (const [key, value] of state.completions) {
         completions.set(key, { ...value });
+      }
+      for (const [key, value] of state.sittings) {
+        sittings.set(key, {
+          ...value,
+          items: cloneAcademyExamSittingItems(value.items),
+        });
       }
     },
     async insertCourse(course) {
@@ -185,6 +206,32 @@ export function createMemoryAcademyStore(): MemoryAcademyStore {
       return found
         ? { ...found, questions: found.questions.map((question) => ({ ...question })) }
         : null;
+    },
+    async insertExamSitting(sitting) {
+      const record: AcademyExamSittingRecord = {
+        ...sitting,
+        items: cloneAcademyExamSittingItems(sitting.items),
+      };
+      sittings.set(record.jti, record);
+      return {
+        ...record,
+        items: cloneAcademyExamSittingItems(record.items),
+      };
+    },
+    async getExamSittingByJti(jti) {
+      const row = sittings.get(jti);
+      return row
+        ? { ...row, items: cloneAcademyExamSittingItems(row.items) }
+        : null;
+    },
+    async consumeExamSitting(input) {
+      const row = sittings.get(input.jti);
+      if (!row || !academyExamSittingMayConsume(row, input)) {
+        return false;
+      }
+      row.consumedAt = input.now;
+      sittings.set(row.jti, row);
+      return true;
     },
     async insertAttempt(attempt) {
       attempts.set(attempt.id, attempt);

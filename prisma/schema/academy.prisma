@@ -30,6 +30,7 @@ model AcademyCourse {
   purchases    AcademyPurchase[]
   certificates AcademyCertificate[]
   exam         AcademyExam?
+  examSittings AcademyExamSitting[]
   lessonCompletions AcademyLessonCompletion[]
 
   @@index([isPublished, trendScore])
@@ -75,6 +76,7 @@ model AcademyExam {
 
   course   AcademyCourse        @relation(fields: [courseId], references: [id], onDelete: Restrict)
   attempts AcademyExamAttempt[]
+  sittings AcademyExamSitting[]
 
   @@map("academy_exams")
 }
@@ -99,6 +101,28 @@ model AcademyExamAttempt {
   @@index([userId, examId])
   @@index([purchaseId, submittedAt])
   @@map("academy_exam_attempts")
+}
+
+/// Sınav oturumu mühürü — HMAC jetonunun sunucu sicili. JTI tek sefer tüketilir.
+model AcademyExamSitting {
+  jti            String    @id
+  userId         String     @map("user_id")
+  courseId       String     @map("course_id")
+  examId         String     @map("exam_id")
+  itemsJson      String     @map("items_json") @db.Text
+  proofLessonKey String?   @map("proof_lesson_key")
+  startedAt      DateTime  @map("started_at")
+  expiresAt      DateTime  @map("expires_at")
+  consumedAt     DateTime? @map("consumed_at")
+  createdAt      DateTime  @default(now()) @map("created_at")
+
+  user   User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course AcademyCourse @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  exam   AcademyExam   @relation(fields: [examId], references: [id], onDelete: Restrict)
+
+  @@index([userId, examId])
+  @@index([expiresAt])
+  @@map("academy_exam_sittings")
 }
 
 model AcademyCertificate {

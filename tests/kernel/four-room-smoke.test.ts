@@ -57,6 +57,7 @@ describe("Adım 10 — insan ops sözleşmesi (kod mühürü)", () => {
     expect(lib).toContain("assertLedgerImmutability");
     expect(lib).toContain("assertPaidCommandReservations");
     expect(lib).toContain("assertAcademyLessonCompletions");
+    expect(lib).toContain("assertAcademyExamSittings");
     expect(lib).toContain("assertCurriculumSealColumns");
     expect(lib).toContain("assertCertificateRevocationColumns");
     expect(lib).toContain("assertCorporateJobOffers");

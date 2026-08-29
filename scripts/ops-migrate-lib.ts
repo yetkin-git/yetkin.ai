@@ -60,6 +60,8 @@ export const PRISMA_RING_MIGRATIONS = [
 
 export const ACADEMY_LESSON_COMPLETIONS_TABLE = "academy_lesson_completions";
 export const ACADEMY_CERTIFICATES_TABLE = "academy_certificates";
+export const ACADEMY_EXAM_SITTINGS_TABLE = "academy_exam_sittings";
+export const ACADEMY_EXAM_SITTINGS_MIGRATION = "20260829100000_academy_exam_sittings";
 export const CURRICULUM_SEAL_COLUMN = "curriculum_seal";
 export const CAREER_VISA_STAMPS_TABLE = "career_visa_stamps";
 export const CERTIFICATE_HASH_COLUMN = "certificate_hash";
@@ -114,7 +116,7 @@ export const FROZEN_ROOM_TABLES = [
 ] as const;
 
 /**
- * Hosted / lab Prisma zinciri — disk klasör adları kilitli 27. Yeni klasör sessiz eklenmez.
+ * Hosted / lab Prisma zinciri — disk klasör adları kilitli 28. Yeni klasör sessiz eklenmez.
  * `ops:hosted-apply-preflight` ve `ops:migrate` aynı listeyi okur.
  */
 export const EXPECTED_PRISMA_MIGRATIONS = [
@@ -145,6 +147,7 @@ export const EXPECTED_PRISMA_MIGRATIONS = [
   "20260824040000_price_catalog_decision_ledger",
   "20260824120000_escrow_hold_psp_decouple",
   "20260826100000_academy_audio_cache",
+  "20260829100000_academy_exam_sittings",
 ] as const;
 
 export const LAB_RESTORE_DATABASE = "yetkin_rail_lab_restore";
@@ -799,6 +802,21 @@ export async function assertAcademyLessonCompletions(query: OpsSealQuery): Promi
   }
 }
 
+/** Prisma deploy sonrası: sınav oturumu mühür sicili (Sitting Seal). */
+export async function assertAcademyExamSittings(query: OpsSealQuery): Promise<void> {
+  const table = await query(
+    `SELECT EXISTS (
+       SELECT 1 FROM information_schema.tables
+       WHERE table_schema = 'public' AND table_name = '${ACADEMY_EXAM_SITTINGS_TABLE}'
+     ) AS exists`,
+  );
+  if (!table.rows[0]?.exists) {
+    throw new Error(
+      `${ACADEMY_EXAM_SITTINGS_TABLE} yok. prisma migrate deploy ${ACADEMY_EXAM_SITTINGS_MIGRATION}`,
+    );
+  }
+}
+
 /** Prisma deploy sonrası: D2.2 curriculum_seal + certificate_hash kolonları. */
 export async function assertCurriculumSealColumns(query: OpsSealQuery): Promise<void> {
   const seal = await query(
@@ -988,6 +1006,9 @@ export function inspectHostedApplyDiskPlan(root: string): HostedApplyDiskPlan {
   issues.push(...assertEscrowHoldChecksMigrationPresent(prismaFolders));
   issues.push(...assertCertificateRevocationMigrationPresent(prismaFolders));
   issues.push(...assertFrozenRoomDropMigrationPresent(prismaFolders));
+  if (!prismaFolders.includes(ACADEMY_EXAM_SITTINGS_MIGRATION)) {
+    issues.push(`Prisma sınav oturumu mührü yok: ${ACADEMY_EXAM_SITTINGS_MIGRATION}`);
+  }
 
   const ledgerSql = readMigrationSql(root, LEDGER_IMMUTABILITY_MIGRATION);
   if (!ledgerSql) {
@@ -1276,6 +1297,7 @@ export type MemoryOpsCatalog = {
   httpIdempotencyRecords: boolean;
   httpIdempotencyUniqueIndex: boolean;
   academyLessonCompletions: boolean;
+  academyExamSittings: boolean;
   curriculumSealColumn: boolean;
   certificateHashColumn: boolean;
   certificateRevokedAtColumn: boolean;
@@ -1316,6 +1338,7 @@ export function createEmptyMemoryOpsCatalog(): MemoryOpsCatalog {
     httpIdempotencyRecords: false,
     httpIdempotencyUniqueIndex: false,
     academyLessonCompletions: false,
+    academyExamSittings: false,
     curriculumSealColumn: false,
     certificateHashColumn: false,
     certificateRevokedAtColumn: false,
@@ -1347,6 +1370,7 @@ export function createPostPrismaMemoryCatalog(): MemoryOpsCatalog {
   catalog.httpIdempotencyRecords = true;
   catalog.httpIdempotencyUniqueIndex = true;
   catalog.academyLessonCompletions = true;
+  catalog.academyExamSittings = true;
   catalog.curriculumSealColumn = true;
   catalog.certificateHashColumn = true;
   catalog.certificateRevokedAtColumn = true;
@@ -1513,6 +1537,9 @@ export function createMemoryOpsSealQuery(catalog: MemoryOpsCatalog): OpsSealQuer
     if (text.includes(`table_name = '${ACADEMY_LESSON_COMPLETIONS_TABLE}'`)) {
       return { rows: [{ exists: catalog.academyLessonCompletions }] };
     }
+    if (text.includes(`table_name = '${ACADEMY_EXAM_SITTINGS_TABLE}'`)) {
+      return { rows: [{ exists: catalog.academyExamSittings }] };
+    }
     if (text.includes(`column_name = '${CURRICULUM_SEAL_COLUMN}'`)) {
       return { rows: [{ exists: catalog.curriculumSealColumn }] };
     }
@@ -1603,6 +1630,7 @@ export async function runPostApplySeals(query: OpsSealQuery): Promise<void> {
   await assertEscrowHoldChecks(query);
   await assertPaidCommandReservations(query);
   await assertAcademyLessonCompletions(query);
+  await assertAcademyExamSittings(query);
   await assertCurriculumSealColumns(query);
   await assertCertificateRevocationColumns(query);
   await assertTreasurySentinel(query);

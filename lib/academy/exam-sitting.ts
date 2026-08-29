@@ -3,11 +3,15 @@ import type {
   AcademyExamAnswer,
   AcademyExamPublicQuestion,
   AcademyExamQuestion,
+  AcademyExamSittingItem,
+  AcademyExamSittingRecord,
 } from "@/lib/academy/types";
 import {
   ACADEMY_EXAM_DRAW_COUNT,
   ACADEMY_EXAM_SUBMIT_GRACE_MS,
 } from "@/lib/academy/exam-duration";
+
+export type { AcademyExamSittingItem };
 
 export {
   ACADEMY_EXAM_DRAW_COUNT,
@@ -36,11 +40,6 @@ function sittingMacKey(): string {
 
 export type AcademyExamRandInt = (maxExclusive: number) => number;
 
-export type AcademyExamSittingItem = {
-  id: string;
-  permutation: number[];
-};
-
 export type AcademyExamSitting = {
   userId: string;
   courseId: string;
@@ -66,43 +65,79 @@ type SittingPayload = {
   pk?: string;
 };
 
-/** Süre + grace sonrası GC; süreç içi consume-once (anti-replay). */
-const consumedSittingJtis = new Map<string, number>();
+export function cloneAcademyExamSittingItems(
+  items: readonly AcademyExamSittingItem[],
+): AcademyExamSittingItem[] {
+  return items.map((item) => ({ id: item.id, permutation: [...item.permutation] }));
+}
 
-function pruneConsumedSittingJtis(nowMs: number) {
-  for (const [jti, purgeAt] of consumedSittingJtis) {
-    if (purgeAt <= nowMs) {
-      consumedSittingJtis.delete(jti);
-    }
+export function serializeAcademyExamSittingItems(
+  items: readonly AcademyExamSittingItem[],
+): string {
+  return JSON.stringify(items.map((item) => ({ id: item.id, p: item.permutation })));
+}
+
+export function parseAcademyExamSittingItems(raw: string): AcademyExamSittingItem[] | null {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return null;
   }
+  if (!Array.isArray(parsed) || parsed.length === 0) {
+    return null;
+  }
+  const items: AcademyExamSittingItem[] = [];
+  for (const row of parsed) {
+    if (
+      !row ||
+      typeof row !== "object" ||
+      typeof (row as { id?: unknown }).id !== "string" ||
+      !Array.isArray((row as { p?: unknown }).p) ||
+      !(row as { p: unknown[] }).p.every((index) => Number.isInteger(index))
+    ) {
+      return null;
+    }
+    items.push({
+      id: (row as { id: string }).id,
+      permutation: (row as { p: number[] }).p.map((index) => Number(index)),
+    });
+  }
+  return items;
+}
+
+export function academyExamSittingItemsEqual(
+  left: readonly AcademyExamSittingItem[],
+  right: readonly AcademyExamSittingItem[],
+): boolean {
+  return serializeAcademyExamSittingItems(left) === serializeAcademyExamSittingItems(right);
 }
 
 /**
- * Jeton jti'sini tek sefer tüketir. Yeniden gönderim false döner.
- * Üretimde çok örnek için Redis/DB gerekir; lab ve tek süreç için fail-closed yeter.
+ * Sunucu sicili jetonla örtüşür ve henüz tüketilmemiştir.
+ * Tüketim AcademyStore.consumeExamSitting ile atomiktir (çok örnek).
  */
-export function consumeAcademyExamSittingJti(
-  jti: string,
-  expiresAt: Date,
-  now: Date = new Date(),
-  graceMs: number = ACADEMY_EXAM_SUBMIT_GRACE_MS,
+export function academyExamSittingMayConsume(
+  row: AcademyExamSittingRecord,
+  input: {
+    userId: string;
+    courseId: string;
+    examId: string;
+    items: readonly AcademyExamSittingItem[];
+  },
 ): boolean {
-  const trimmed = jti.trim();
-  if (!trimmed) {
+  if (row.consumedAt) {
     return false;
   }
-  const nowMs = now.getTime();
-  pruneConsumedSittingJtis(nowMs);
-  if (consumedSittingJtis.has(trimmed)) {
+  if (row.userId !== input.userId || row.courseId !== input.courseId || row.examId !== input.examId) {
     return false;
   }
-  consumedSittingJtis.set(trimmed, expiresAt.getTime() + graceMs);
-  return true;
+  return academyExamSittingItemsEqual(row.items, input.items);
 }
 
-/** Vitest izolasyonu — üretim yolu çağırmaz. */
+/** Vitest izolasyonu — süreç haritası yoktur; bellek deposu test başına yenidir. */
 export function resetAcademyExamSittingConsumptionsForTests(): void {
-  consumedSittingJtis.clear();
+  /* AcademyStore.consumeExamSitting */
 }
 
 export function shuffleCopy<T>(

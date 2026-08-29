@@ -11,11 +11,17 @@ import {
   serializeAcademyExamQuestions,
 } from "@/lib/academy/exam";
 import { orderAcademyCatalogByCurriculum } from "@/lib/academy/catalog-filter";
+import {
+  academyExamSittingMayConsume,
+  parseAcademyExamSittingItems,
+  serializeAcademyExamSittingItems,
+} from "@/lib/academy/exam-sitting";
 import type {
   AcademyCertificateRecord,
   AcademyCourseRecord,
   AcademyExamAttemptRecord,
   AcademyExamRecord,
+  AcademyExamSittingRecord,
   AcademyLessonCompletionRecord,
   AcademyPulse,
   AcademyPurchaseRecord,
@@ -135,6 +141,36 @@ function toCompletion(row: {
   return { ...row };
 }
 
+function toSitting(row: {
+  jti: string;
+  userId: string;
+  courseId: string;
+  examId: string;
+  itemsJson: string;
+  proofLessonKey: string | null;
+  startedAt: Date;
+  expiresAt: Date;
+  consumedAt: Date | null;
+  createdAt: Date;
+}): AcademyExamSittingRecord {
+  const items = parseAcademyExamSittingItems(row.itemsJson);
+  if (!items) {
+    throw new Error("Sınav oturumu mühürü bozuk.");
+  }
+  return {
+    jti: row.jti,
+    userId: row.userId,
+    courseId: row.courseId,
+    examId: row.examId,
+    items,
+    proofLessonKey: row.proofLessonKey,
+    startedAt: row.startedAt,
+    expiresAt: row.expiresAt,
+    consumedAt: row.consumedAt,
+    createdAt: row.createdAt,
+  };
+}
+
 export type AcademyWriteDb = Pick<
   PrismaClient,
   | "academyCourse"
@@ -142,6 +178,7 @@ export type AcademyWriteDb = Pick<
   | "academyCertificate"
   | "academyExam"
   | "academyExamAttempt"
+  | "academyExamSitting"
   | "academyLessonCompletion"
 >;
 
@@ -295,6 +332,42 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
     async getExamByCourseId(courseId) {
       const row = await db.academyExam.findUnique({ where: { courseId } });
       return row ? toExam(row) : null;
+    },
+    async insertExamSitting(sitting) {
+      const row = await db.academyExamSitting.create({
+        data: {
+          jti: sitting.jti,
+          userId: sitting.userId,
+          courseId: sitting.courseId,
+          examId: sitting.examId,
+          itemsJson: serializeAcademyExamSittingItems(sitting.items),
+          proofLessonKey: sitting.proofLessonKey,
+          startedAt: sitting.startedAt,
+          expiresAt: sitting.expiresAt,
+          consumedAt: sitting.consumedAt,
+          createdAt: sitting.createdAt,
+        },
+      });
+      return toSitting(row);
+    },
+    async getExamSittingByJti(jti) {
+      const row = await db.academyExamSitting.findUnique({ where: { jti } });
+      return row ? toSitting(row) : null;
+    },
+    async consumeExamSitting(input) {
+      const row = await db.academyExamSitting.findUnique({ where: { jti: input.jti } });
+      if (!row) {
+        return false;
+      }
+      const record = toSitting(row);
+      if (!academyExamSittingMayConsume(record, input)) {
+        return false;
+      }
+      const updated = await db.academyExamSitting.updateMany({
+        where: { jti: input.jti, consumedAt: null },
+        data: { consumedAt: input.now },
+      });
+      return updated.count === 1;
     },
     async insertAttempt(attempt) {
       const row = await db.academyExamAttempt.create({

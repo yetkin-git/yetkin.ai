@@ -25,7 +25,7 @@ test.describe("O8 akademi nakit & sınav yolculuğu", () => {
     await expect(page.getByText("Bu yolda ne kazanırsın")).toBeVisible();
     await expect(page.getByText("Ne öğreneceksin")).toBeVisible();
     await expect(page.getByText(/Sınav şartı: 70\+/)).toBeVisible();
-    await expect(page.getByText(/CareerVisaStamp/)).toBeVisible();
+    await expect(page.getByText(/CareerVisaStamp/).first()).toBeVisible();
     await expect(page.getByRole("link", { name: /Eğitimi Satın Al —/ }).first()).toBeVisible();
     await expect(page.locator('[data-academy-hero-cta="play"]')).toHaveCount(0);
 
