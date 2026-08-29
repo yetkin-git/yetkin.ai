@@ -24,6 +24,7 @@ export const PROFIL_SEN = {
   passportCta: "Pasaport sığınağı",
   walletCta: "Cüzdanı aç",
   careerCta: "Vize & liyakat defteri",
+  verifyCta: "Sertifika doğrula",
   dashboardCta: "Anasayfaya dön",
   honestyTitle: "Kimlik dürüstlüğü",
   honestyBody:
@@ -48,5 +49,6 @@ export const PROFIL_SEN = {
     countLabel: "Toplam mühür",
     latestLabel: "Son vize",
     sourcesLabel: "Köken",
+    verifyCta: "Son mührü doğrula",
   },
 } as const;

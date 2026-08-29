@@ -33,6 +33,17 @@ test.describe("O8 akademi nakit & sınav yolculuğu", () => {
     expect(verify?.status()).toBeLessThan(400);
     await expect(page.getByText(/Hash biçimi SHA256/).first()).toBeVisible();
 
+    const landing = await page.goto("/academy/dogrula");
+    expect(landing?.status()).toBeLessThan(400);
+    await expect(page.getByRole("heading", { name: "Sertifika doğrula", level: 1 })).toBeVisible();
+
+    const apiInvalid = await request.get("/api/academy/certificates/not-a-hash");
+    expect(apiInvalid.status()).toBe(400);
+    const apiMissing = await request.get(
+      "/api/academy/certificates/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    );
+    expect([400, 404, 503]).toContain(apiMissing.status());
+
     const purchase = await request.post("/api/academy/courses/ac_rail_temel/purchase", {
       headers: { "Idempotency-Key": "550e8400-e29b-41d4-a716-446655440000" },
       data: { lockId: "e2e-lock" },

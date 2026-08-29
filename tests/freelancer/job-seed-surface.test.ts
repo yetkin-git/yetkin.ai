@@ -129,7 +129,8 @@ describe("freelancer ilan tohumu yüzeyi", () => {
     expect(list).toContain("jobs.length === 0");
     expect(list).toContain("emptyHint");
     expect(list).toContain('href="/freelancer/new"');
-    expect(list).toContain("/freelancer/jobs/${job.id}");
+    expect(list).toContain("FreelancerJobCard");
+    expect(readSrc("components/freelancer/job-card.tsx")).toContain("/freelancer/jobs/${job.id}");
     expect(detail).toContain("loadJobBoard");
     expect(detail).toContain("BidForm");
   });

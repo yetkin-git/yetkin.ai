@@ -1,7 +1,7 @@
 import "server-only";
 
 import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
-import { createPrismaCareerPorts } from "@/lib/career/runtime";
+import { loadCareerLivePulse } from "@/lib/career/load";
 import {
   assembleDashboardPulse,
   EMPTY_DASHBOARD_PULSE,
@@ -85,7 +85,7 @@ export async function loadDashboardPulse(userId: string): Promise<DashboardPulse
       () =>
         readRoom(
           "career",
-          async () => withLiveFlag(await createPrismaCareerPorts().career.pulseForUser(userId)),
+          async () => (await loadCareerLivePulse(userId)) ?? EMPTY_CAREER_PULSE,
           EMPTY_CAREER_PULSE,
         ),
     ],

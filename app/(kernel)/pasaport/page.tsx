@@ -30,6 +30,9 @@ function PassportShelterActions({ soft = false }: { soft?: boolean }) {
       <LinkButton href={ACADEMY_STAMP_SURFACE_PATH} variant="outline" size={size}>
         {copy.academyCta}
       </LinkButton>
+      <LinkButton href="/academy/dogrula" variant="outline" size={size}>
+        {copy.verifyCta}
+      </LinkButton>
       <LinkButton href={FREELANCER_STAMP_SURFACE_PATH} variant="ghost" size={size}>
         {copy.freelancerCta}
       </LinkButton>

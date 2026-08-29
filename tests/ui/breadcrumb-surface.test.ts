@@ -56,6 +56,7 @@ describe("dinamik ekmek kırıntısı", () => {
       "Müfredat",
     ]);
     expect(labels("/academy/certificates")).toEqual(["Anasayfa", "Akademi", "Sertifikalar"]);
+    expect(labels("/academy/dogrula")).toEqual(["Anasayfa", "Akademi", "Doğrula"]);
     expect(labels("/academy/dogrula/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")).toEqual(
       ["Anasayfa", "Akademi", "Doğrula"],
     );

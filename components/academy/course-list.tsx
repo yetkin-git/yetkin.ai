@@ -98,9 +98,14 @@ export function CourseList({
             </h1>
             <p className="mt-1 max-w-3xl text-sm leading-6 text-[var(--muted)]">{pathway.lead}</p>
           </div>
-          <LinkButton href="/academy/certificates" variant="outline" className="shrink-0">
-            {certificatesCta}
-          </LinkButton>
+          <div className="flex flex-wrap items-center gap-2">
+            <LinkButton href="/academy/certificates" variant="outline" className="shrink-0">
+              {certificatesCta}
+            </LinkButton>
+            <LinkButton href="/academy/dogrula" variant="ghost" className="shrink-0">
+              {copy.verifyCta}
+            </LinkButton>
+          </div>
         </div>
         {lead}
         <AcademyPilotPath />

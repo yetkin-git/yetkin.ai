@@ -15,6 +15,7 @@ import {
   syncCareerVisaStamps,
   tryIssueCareerVisaStamp,
 } from "@/lib/career/engine";
+import { careerPulseFromLiveBoard, projectLiveCareerBoard } from "@/lib/career/live";
 import type { CareerVisaStampRecord } from "@/lib/career/types";
 import { createMemoryEscrowStore, createMemoryFreelancerStore, createMemoryLedgerStore, withMemoryAcceptAtomic } from "../helpers/memory-money";
 import { createMemoryAcademyStore, memoryCourse } from "../helpers/memory-academy";
@@ -396,6 +397,30 @@ describe("kariyer vize mühürü — atomik yazma ve heal", () => {
     expect(healed.healed).toBe(true);
     expect(healed.stamp.certificateHash).toBe(CERT_HASH);
     expect(healed.portfolioItem.id).toBe("item-orphan");
+  });
+
+  it("iptal kanıtı vize defteri ve nabızdan düşer; zombi damga projeksiyona girmez", async () => {
+    const career = createMemoryCareerStore();
+    const proofs = createMemoryCareerProofStore([academyProof("cert-live")]);
+    await issueCareerVisaStamp(
+      { career, proofs },
+      { sourceKind: "ACADEMY_CERTIFICATE", sourceId: "cert-live", actorUserId: BUYER },
+    );
+    const live = await projectLiveCareerBoard({ career, proofs }, BUYER);
+    expect(live.stamps).toHaveLength(1);
+    expect(live.stamps[0]?.certificateHash).toBe(CERT_HASH);
+    expect(careerPulseFromLiveBoard(live).visaCount).toBe(1);
+
+    proofs.remove("ACADEMY_CERTIFICATE", "cert-live");
+    const after = await projectLiveCareerBoard({ career, proofs }, BUYER);
+    expect(after.stamps).toHaveLength(0);
+    expect(after.portfolio).toHaveLength(0);
+    expect(careerPulseFromLiveBoard(after)).toEqual({
+      visaCount: 0,
+      portfolioCount: 0,
+      lastVisaTitle: null,
+    });
+    expect((await career.listStampsForUser(BUYER)).length).toBe(1);
   });
 });
 

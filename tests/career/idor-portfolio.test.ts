@@ -94,7 +94,7 @@ describe("kariyer portföy IDOR", () => {
 
     const portfolioSrc = readFileSync("app/api/career/portfolio/route.ts", "utf8");
     expect(portfolioSrc).toContain("requireSession");
-    expect(portfolioSrc).toContain("listPortfolioForUser(user.id)");
+    expect(portfolioSrc).toContain("projectLiveCareerBoard");
     expect(portfolioSrc).not.toMatch(/searchParams|userId.*query|body\.userId/i);
 
     requireSession.mockResolvedValueOnce({

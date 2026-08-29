@@ -17,6 +17,8 @@ describe("O8 akademi nakit E2E yüzeyi", () => {
     expect(spec).toContain("/academy");
     expect(spec).toContain("Mühürlü Kariyer");
     expect(spec).toContain("/academy/dogrula/");
+    expect(spec).toContain('page.goto("/academy/dogrula")');
+    expect(spec).toContain("/api/academy/certificates/");
     expect(spec).toContain("/api/academy/courses/ac_rail_temel/purchase");
     expect(spec).toContain("/api/academy/courses/ac_rail_temel/lock");
     expect(spec).toContain("/api/academy/courses/ac_rail_temel/curriculum");

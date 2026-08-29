@@ -37,14 +37,17 @@ export default async function CareerPage() {
           ) : null}
           <h2 className="text-lg font-semibold tracking-tight">{copy.ledgerTitle}</h2>
           <VisaLedger stamps={stamps} items={portfolio} />
-          <VisaScopeBoard stamps={stamps} />
         </>
       )}
+      <VisaScopeBoard stamps={stamps} />
       <Card variant="default" className="shadow-sm">
         <p>{copy.footnote}</p>
         <div className="mt-4 flex flex-wrap gap-2">
           <LinkButton href={PASSPORT_SURFACE_PATH} variant="secondary" size="sm">
             {copy.footnotePassportCta}
+          </LinkButton>
+          <LinkButton href="/academy/dogrula" variant="outline" size="sm">
+            {copy.footnoteVerifyCta}
           </LinkButton>
           <LinkButton href="/academy" variant="outline" size="sm">
             {copy.footnoteAcademyCta}

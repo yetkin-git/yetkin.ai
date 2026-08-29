@@ -2,7 +2,9 @@ import "server-only";
 
 import { isSupabaseUserId } from "@/lib/kernel/auth/ids";
 import { getPrisma } from "@/lib/kernel/db";
+import { projectLivePassportStamps } from "@/lib/kernel/passport/live";
 import type { PassportBoard, SealedPassportStamp } from "@/lib/kernel/passport/types";
+import { createPrismaProofReadPort } from "@/lib/kernel/proof/prisma-read";
 
 const PASSPORT_STAMP_SELECT = {
   id: true,
@@ -54,7 +56,9 @@ export async function loadPassportBoard(userId: string): Promise<PassportBoard |
   }
 
   try {
-    return { stamps: await findPassportStampsForUser(userId) };
+    const stamps = await findPassportStampsForUser(userId);
+    const live = await projectLivePassportStamps(stamps, createPrismaProofReadPort(), userId);
+    return { stamps: live };
   } catch {
     return null;
   }

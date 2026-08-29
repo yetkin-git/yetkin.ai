@@ -5,6 +5,7 @@ export const ACADEMY_SEN = {
     description:
       "Eğitimi incele, müfredatı gör veya doğrudan 70+ mühür sınavına gir. Her eğitimin tek bir eğitmeni vardır; Moderatör Koray stüdyoyu açıp kapatır. Dersler ödeme sonrası açılır. Ustalık belgesi yalnız sınav barajından (≥70) sonra basılır.",
     certificatesCta: "Sertifikalar",
+    verifyCta: "Doğrula",
     live: (count: number) =>
       count > 0 ? "Mühürlü Kariyer — popüler yetkinlik yolları" : "",
     unbound: "Liste henüz yüklenemedi.",
@@ -569,6 +570,13 @@ export const ACADEMY_SEN = {
     courseCta: "Kursa dön",
     catalogCta: "Katalog",
     careerVisaCta: "Kariyer Vize Defteri'ne git",
+    landingTitle: "Sertifika doğrula",
+    landingLead:
+      "Üçüncü şahıs veya kurum, 64 hex SHA-256 özetini yazar. Oturum istenmez; vatandaş kimliği gösterilmez.",
+    hashFieldLabel: "SHA-256 içerik özeti",
+    hashPlaceholder: "64 karakter hex",
+    submitCta: "Özeti doğrula",
+    qrCaption: "Kamera bu sayfayı açar",
     proofEyebrow: "İş kanıtı doğrula",
     proofValid: "Görev mührü geçerli",
     proofValidBody:

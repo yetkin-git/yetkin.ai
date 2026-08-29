@@ -41,7 +41,9 @@ describe("kariyer vize mühürü — yazma yüzeyi", () => {
     expect(load).not.toContain("tryIssueCareerVisaStamp");
     expect(visas).toContain("syncCareerVisaStamps");
     expect(portfolio).toContain("syncCareerVisaStamps");
-    expect(load).toContain("findPassportStampsForUser");
+    expect(load).toContain("projectLiveCareerBoard");
+    expect(visas).toContain("projectLiveCareerBoard");
+    expect(portfolio).toContain("projectLiveCareerBoard");
   });
 
   it("satın alma + sınav + vize tek transaction değildir", () => {

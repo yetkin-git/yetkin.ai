@@ -3,6 +3,8 @@ import {
   resolvePublicAcademyCertificate,
   toPublicAcademyCertificateWire,
 } from "@/lib/academy/certificate-verify";
+import { prismaErrorLabel } from "@/lib/kernel/db";
+import { ServiceUnavailableError } from "@/lib/kernel/http/errors";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import {
@@ -14,6 +16,16 @@ import {
 } from "@/lib/kernel/http/v1-contract";
 
 export const auth = "public" as const;
+
+function isSicilUnavailable(error: unknown): boolean {
+  if (error instanceof Error && error.message.includes("DATABASE_URL")) {
+    return true;
+  }
+  if (error instanceof Error && error.name.startsWith("PrismaClient")) {
+    return true;
+  }
+  return /\bTIMEOUT\b|\bENOENT\b|\bP1001\b/.test(prismaErrorLabel(error));
+}
 
 export async function GET(
   request: Request,
@@ -44,6 +56,9 @@ export async function GET(
     }
     return jsonOk(parsed.data, 200, requestId, request);
   } catch (error) {
+    if (isSicilUnavailable(error)) {
+      return jsonFromUnknown(new ServiceUnavailableError(), 503, requestId, request);
+    }
     return jsonFromUnknown(error, 400, requestId, request);
   }
 }

@@ -5,6 +5,7 @@ import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { WALLET_SURFACE_PATH } from "@/lib/kernel/identity/types";
 import {
   latestPassportStamp,
+  passportAcademyVerifyHref,
   passportSourceLabel,
   PASSPORT_UNSET_LABEL,
 } from "@/lib/kernel/passport/display";
@@ -30,6 +31,7 @@ export function IdentityMeritSummary({
   const copy = SEN_VOICE.profil;
   const merit = copy.merit;
   const latest = latestPassportStamp(stamps);
+  const verifyHref = latest ? passportAcademyVerifyHref(latest) : null;
   const sourceKinds = soft
     ? []
     : ([...new Set(stamps.map((stamp) => stamp.sourceKind))] as PassportStampSourceKind[]);
@@ -72,6 +74,11 @@ export function IdentityMeritSummary({
         </dl>
       )}
       <div className="flex flex-wrap gap-2">
+        {verifyHref ? (
+          <LinkButton href={verifyHref} variant="outline" size="sm">
+            {merit.verifyCta}
+          </LinkButton>
+        ) : null}
         <LinkButton href={PASSPORT_SURFACE_PATH} variant="secondary" size="sm">
           {copy.passportCta}
         </LinkButton>
@@ -80,6 +87,9 @@ export function IdentityMeritSummary({
         </LinkButton>
         <LinkButton href={CAREER_STAMP_SURFACE_PATH} variant="ghost" size="sm">
           {copy.careerCta}
+        </LinkButton>
+        <LinkButton href="/academy/dogrula" variant="ghost" size="sm">
+          {copy.verifyCta}
         </LinkButton>
       </div>
     </Card>

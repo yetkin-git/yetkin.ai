@@ -14,7 +14,6 @@ describe("T4 nakit e2e yüzeyi", () => {
     const helper = readSrc("tests/helpers/cash-loop-journey.ts");
     const checkout = readSrc("lib/kernel/payments/paytr/checkout.ts");
 
-    expect(spec).toContain("runCashLoopJourney");
     expect(spec).toContain("/kayit");
     expect(spec).toContain("/register");
     expect(spec).toContain("/api/dashboard/pulse");
@@ -24,12 +23,15 @@ describe("T4 nakit e2e yüzeyi", () => {
     expect(spec).toContain("Oturum gerekli.");
     expect(spec).toContain("E2E_CASH_SANDBOX");
     expect(spec).toContain("yeşil boyama yok");
-    expect(spec).toContain("CLEARED");
-    expect(spec).toContain("RELEASED");
-    expect(spec).toContain("FREELANCER_RELEASE");
+    expect(spec).toContain("career?.live");
 
+    expect(helper).toContain("runCashLoopJourney");
     expect(helper).toContain("clearSuccessfulPaymentOrder");
     expect(helper).toContain("issueCareerVisaStamp");
+    expect(helper).toContain("FREELANCER_RELEASE");
+    expect(helper).not.toContain("LOCAL_MOCK_AUTH");
+    expect(readSrc("tests/kernel/cash-loop-journey.test.ts")).toContain('"CLEARED"');
+    expect(readSrc("tests/kernel/cash-loop-journey.test.ts")).toContain('"RELEASED"');
     expect(helper).not.toContain("LOCAL_MOCK_AUTH");
 
     expect(checkout).toContain("PAYTR_ALLOW_MOCK_CHECKOUT");
@@ -58,9 +60,12 @@ describe("T4 nakit e2e yüzeyi", () => {
     expect(clearing).toContain("wallet-top-up");
     const handler = route.slice(route.indexOf("export async function POST"));
     const verifyAt = handler.indexOf("verifyWebhook");
-    const creditAt = handler.indexOf("clearSuccessfulPaymentOrder");
+    const settleAt = handler.indexOf("settlePaytrWebhookSuccess");
     expect(verifyAt).toBeGreaterThan(-1);
-    expect(creditAt).toBeGreaterThan(verifyAt);
+    expect(settleAt).toBeGreaterThan(verifyAt);
+    expect(readSrc("lib/kernel/payments/paytr/webhook-settle.ts")).toContain(
+      "clearSuccessfulPaymentOrder",
+    );
     expect(handler).toContain("paytr.webhook.rejected");
     expect(handler).toContain("invalid_signature");
     expect(handler).toContain("production_safety");

@@ -33,8 +33,9 @@ export const CAREER_SEN = {
   copied: "Kopyalandı",
   copyFail: "Kopyalanamadı",
   footnote:
-    "Damgayı Kariyer basar; Pasaport sığınağı mühürlerini taşır. İkisi aynı sicilin iki yüzüdür.",
+    "Damgayı Kariyer basar; Pasaport sığınağı mühürlerini taşır. İkisi aynı sicilin iki yüzüdür. İptal edilmiş akademi mührü defterde görünmez.",
   footnotePassportCta: "Pasaport sığınağını aç",
+  footnoteVerifyCta: "Sertifika doğrula",
   footnoteAcademyCta: "Akademiye git",
   scope: {
     eyebrow: "Vize-ilan tabelası",

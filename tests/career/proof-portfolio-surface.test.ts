@@ -71,6 +71,8 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     const copy = readSrc("lib/copy/sen-voice/career.ts");
     expect(page).toContain("VisaLedger");
     expect(page).toContain("VisaScopeBoard");
+    expect(page).toContain("/academy/dogrula");
+    expect(copy).toContain("footnoteVerifyCta");
     expect(page).not.toContain("CareerCompassPanel");
     expect(page).not.toContain("CareerToolsSection");
     expect(page).not.toContain("buildCareerCompass");

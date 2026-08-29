@@ -9,6 +9,7 @@ import type { AcademyCertificateSealStatus } from "@/lib/academy/certificate-ver
 import { ProofOfWorkCard } from "@/components/academy/proof-of-work-card";
 import { PathwayMasterySeal } from "@/components/academy/pathway-mastery-seal";
 import { CertificateSeal } from "@/components/academy/certificate-seal";
+import { CertificateVerifyQr } from "@/components/academy/certificate-verify-qr";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { parseSha256Hex } from "@/lib/kernel/crypto/sha256";
 
@@ -263,6 +264,7 @@ export default async function AcademyCertificateVerifyPage({
               courseTitle={view.courseTitle}
               showCareerVisa={false}
             />
+            <CertificateVerifyQr hash={view.certificateHash} />
           </div>
         ) : null}
         <p className="mt-3">{sealBody(view.sealStatus)}</p>

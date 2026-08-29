@@ -39,4 +39,5 @@ export const PASAPORT_SEN = {
   careerCta: "Kariyer Planlama & Yol Haritası",
   academyCta: "Akademiye git",
   freelancerCta: "Freelancer tezgâhı",
+  verifyCta: "Sertifika doğrula",
 } as const;

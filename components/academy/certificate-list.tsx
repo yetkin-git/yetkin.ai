@@ -21,6 +21,7 @@ export function CertificateList({ certificates }: { certificates: AcademyCertifi
                 issuedAt={certificate.issuedAt}
                 courseTitle={certificate.title}
                 verifyHref={hash ? `/academy/dogrula/${hash}` : undefined}
+                revoked={Boolean(certificate.revokedAt)}
               />
             </Card>
           </li>

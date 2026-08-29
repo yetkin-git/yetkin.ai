@@ -167,9 +167,11 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
     }
 
     const health = readSrc("app/api/(kernel)/health/route.ts");
-    expect(health).toContain("isV1JsonRequest");
     expect(health).toContain("buildV1OkBody");
+    expect(health).toContain("buildV1FailBody");
+    expect(health).toContain("probeReadiness");
     expect(health).toContain("checks:");
+    expect(health).not.toContain("isV1JsonRequest");
 
     const session = readSrc("app/api/(kernel)/auth/session/route.ts");
     expect(session).toContain("jsonOk({ user }, 200, undefined, request)");
@@ -180,8 +182,12 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
     expect(strip).toContain("readWalletStripSnapshot");
     expect(readSrc("lib/dashboard/load-wallet-strip.ts")).toContain("amountMinor");
 
-    const pulse = readSrc("app/api/dashboard/freelancer-pulse/route.ts");
-    expect(pulse).toContain("jsonOk({ pulse: { ...pulse, live: true } }, 200, undefined, request)");
+    const pulseLoad = readSrc("app/api/dashboard/pulse/load.ts");
+    expect(pulseLoad).toContain("createPrismaFreelancerPorts");
+    expect(pulseLoad).toContain("loadCareerLivePulse");
+    const careerPulse = readSrc("app/api/career/pulse/route.ts");
+    expect(careerPulse).toContain("loadCareerLivePulse");
+    expect(careerPulse).toContain("jsonOk({ pulse }");
 
     const jobs = readSrc("app/api/freelancer/jobs/route.ts");
     expect(jobs).toContain("listOpenJobs");
@@ -231,7 +237,7 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
     expect(delivery).toContain("requireRailV1IdempotencyKey");
     expect(delivery).toContain("settleHttpIdempotency");
     expect(delivery).toContain("postFreelancerDeliveryProof");
-    expect(delivery).toContain("isV1JsonRequest");
+    expect(delivery).toContain("isV1PathRequest");
     expect(delivery).toContain('"/api/freelancer/contracts/[id]/messages"');
     expect(delivery).not.toContain("body: message.body");
 
@@ -354,50 +360,71 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
       {
         pulse: {
           live: true,
-          openJobsPosted: 1,
-          fundedAsClient: 0,
-          fundedAsFreelancer: 1,
-          releasedAsFreelancer: 0,
-          pendingEscrowMinor: 8_000,
-          currencyCode: "TRY",
+          visaCount: 1,
+          portfolioCount: 1,
+          lastVisaTitle: "Python",
         },
       },
       200,
       REQUEST_ID,
-      v1Request("/api/v1/dashboard/freelancer-pulse"),
+      v1Request("/api/v1/career/pulse"),
     );
     const pulseBody = await expectV1Envelope(pulse, 200, {
       pulse: {
         live: true,
-        openJobsPosted: 1,
-        fundedAsClient: 0,
-        fundedAsFreelancer: 1,
-        releasedAsFreelancer: 0,
-        pendingEscrowMinor: 8_000,
-        currencyCode: "TRY",
+        visaCount: 1,
+        portfolioCount: 1,
+        lastVisaTitle: "Python",
       },
     });
     expect(pulseBody.data).not.toHaveProperty("jobs");
 
+    const jobWire = {
+      id: JOB_ID,
+      clientId: TEST_USER,
+      title: "Lab ilan",
+      brief: "Rail İş lab DTO kilidi.",
+      budgetMinor: 25_000,
+      currencyCode: "TRY",
+      status: "OPEN",
+      createdAt: "2026-08-14T12:00:00.000Z",
+      updatedAt: "2026-08-14T12:00:00.000Z",
+    };
     const jobs = jsonOk(
-      { jobs: [{ id: JOB_ID, status: "OPEN", budgetMinor: 25_000 }] },
+      { jobs: [jobWire] },
       200,
       REQUEST_ID,
       v1Request("/api/v1/freelancer/jobs"),
     );
-    await expectV1Envelope(jobs, 200, {
-      jobs: [{ id: JOB_ID, status: "OPEN", budgetMinor: 25_000 }],
-    });
+    await expectV1Envelope(jobs, 200, { jobs: [jobWire] });
 
+    const contractWire = {
+      id: CONTRACT_ID,
+      jobId: JOB_ID,
+      bidId: "fb_lab_1",
+      clientId: TEST_USER,
+      freelancerId: TEST_USER,
+      escrowHoldId: "eh_lab_1",
+      status: "FUNDED",
+      currencyCode: "TRY",
+      grossMinor: 25_000,
+      holdMinor: 2_500,
+      netMinor: 22_500,
+      holdBps: 1000,
+      fundedAt: "2026-08-14T12:00:00.000Z",
+      releasedAt: null,
+      refundedAt: null,
+      createdAt: "2026-08-14T12:00:00.000Z",
+      updatedAt: "2026-08-14T12:00:00.000Z",
+      deliveredAt: null,
+    };
     const contracts = jsonOk(
-      { contracts: [{ id: CONTRACT_ID, status: "FUNDED" }] },
+      { contracts: [contractWire] },
       200,
       REQUEST_ID,
       v1Request("/api/v1/freelancer/contracts"),
     );
-    await expectV1Envelope(contracts, 200, {
-      contracts: [{ id: CONTRACT_ID, status: "FUNDED" }],
-    });
+    await expectV1Envelope(contracts, 200, { contracts: [contractWire] });
 
     for (const hop of RAIL_IS_LAB_HOPS) {
       if (hop.v1 === "/api/v1/health") {
@@ -663,7 +690,10 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
     expect(existsSync(join(ROOT, "apps/rail-is/eas.json"))).toBe(false);
 
     const ci = readSrc(".github/workflows/ci.yml");
-    const ciRunSteps = [...ci.matchAll(/^\s+run:\s*(.+)$/gm)].map((match) => match[1] ?? "");
+    const ciRunSteps = [...ci.matchAll(/^\s+(?:-\s+)?run:\s*(.+)$/gm)].map(
+      (match) => match[1] ?? "",
+    );
+    expect(ci).toContain("npm run verify:prebuild");
     expect(ciRunSteps.join("\n")).toContain("npm run verify:prebuild");
     expect(ciRunSteps.join("\n")).not.toMatch(/\beas\b/i);
     expect(ciRunSteps.join("\n")).not.toMatch(/expo\s+publish/i);
@@ -678,9 +708,9 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
 
     const dronPkg = JSON.parse(readSrc("apps/rail-is/package.json")) as {
       scripts?: Record<string, string>;
-      rail?: { publishFrozenUntilFaz1Close?: boolean };
+      yetkin?: { publishFrozenUntilFaz1Close?: boolean };
     };
-    expect(dronPkg.rail?.publishFrozenUntilFaz1Close).toBe(true);
+    expect(dronPkg.yetkin?.publishFrozenUntilFaz1Close).toBe(true);
     expect(JSON.stringify(dronPkg.scripts ?? {})).not.toMatch(/eas|expo publish|eas build/i);
 
     const appConfig = readSrc("apps/rail-is/app.config.ts");

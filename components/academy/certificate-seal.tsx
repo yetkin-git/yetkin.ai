@@ -15,6 +15,7 @@ export function CertificateSeal({
   courseTitle,
   instructorName,
   variant = "ledger",
+  revoked = false,
 }: {
   hash: string;
   score?: number | null;
@@ -26,15 +27,18 @@ export function CertificateSeal({
   courseTitle?: string;
   instructorName?: string;
   variant?: "ledger" | "diploma";
+  revoked?: boolean;
 }) {
   const copy = ACADEMY_SEN.certificates;
   const diploma = variant === "diploma" || Boolean(courseTitle);
   const holder = holderName?.trim() || ACADEMY_SEN.proof.anonymousHolder;
+  const sealLabel = revoked ? ACADEMY_SEN.verify.revoked : copy.sealed;
+  const careerAllowed = showCareerVisa && !revoked;
 
   if (!diploma) {
     return (
       <div className="space-y-2">
-        <Badge tone="gold">{copy.sealed}</Badge>
+        <Badge tone={revoked ? "rose" : "gold"}>{sealLabel}</Badge>
         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
           {copy.hashLabel}
         </p>
@@ -55,7 +59,7 @@ export function CertificateSeal({
               {copy.verifyCta}
             </LinkButton>
           ) : null}
-          {showCareerVisa ? (
+          {careerAllowed ? (
             <LinkButton href={careerVisaHref as Route} size="sm">
               {copy.careerVisaCta}
             </LinkButton>
@@ -74,7 +78,7 @@ export function CertificateSeal({
       <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--gold)]">
         {ACADEMY_SEN.course.certificateEyebrow}
       </p>
-      <h3 className="mt-2 font-serif text-2xl tracking-tight text-[var(--foreground)]">{copy.sealed}</h3>
+      <h3 className="mt-2 font-serif text-2xl tracking-tight text-[var(--foreground)]">{sealLabel}</h3>
       {courseTitle ? (
         <p className="mt-3 text-lg font-semibold text-[var(--foreground)]">{courseTitle}</p>
       ) : null}
@@ -122,7 +126,7 @@ export function CertificateSeal({
             {copy.verifyCta}
           </LinkButton>
         ) : null}
-        {showCareerVisa ? (
+        {careerAllowed ? (
           <LinkButton href={careerVisaHref as Route} variant="outline" size="sm">
             {copy.careerVisaCta}
           </LinkButton>

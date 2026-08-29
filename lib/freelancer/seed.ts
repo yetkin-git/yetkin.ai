@@ -87,7 +87,7 @@ export const FREELANCER_JOB_SEEDS: readonly FreelancerJobSeed[] = [
     id: "fj_rail_academy_copy",
     title: "Akademi Müfredat Özet Metinlerinin Düzenlenmesi",
     brief:
-      `Alıcı: ${YETKIN_BRAND}. Dikey: yapay zekâ / yz-muhendislik. Teklif Kariyer Vizesi ister. İş, AI / yz-muhendislik dikeyindeki beş ders özetini vatandaş diline çekmektir; sınav şıklarını sızdırmaz. Kapsam: Brief Okuma, Telif/Kullanım Hakları, Prompt Disiplini, Revizyon Yönetimi, Teslim Şartnamesi. Her özet 120-180 sözcük. SEN aksı: sen, siz değil. cüzdanınız, hesabınız, hoş geldiniz yasak. Satın al belge basmaz; baraj 70 ve SHA-256 mühür ders metninde doğru kalır. Teslim: tek Markdown, ders sırası tohumla aynı, SHA-256. İki revizyon. Yeni ders icat edilmez (CMS yok). Bütçe kabulde emanete kilitlenir.`,
+      `Alıcı: ${YETKIN_BRAND}. Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi ister. İş, yz-icerik-gorsel-uretim kursunun beş ders özetini vatandaş diline çekmektir; sınav şıklarını sızdırmaz. Kapsam: Brief Okuma, Telif/Kullanım Hakları, Prompt Disiplini, Revizyon Yönetimi, Teslim Şartnamesi. Her özet 120-180 sözcük. SEN aksı: sen, siz değil. cüzdanınız, hesabınız, hoş geldiniz yasak. Satın al belge basmaz; baraj 70 ve SHA-256 mühür ders metninde doğru kalır. Teslim: tek Markdown, ders sırası tohumla aynı, SHA-256. İki revizyon. Yeni ders icat edilmez (CMS yok). Bütçe kabulde emanete kilitlenir.`,
     budgetMinor: 350_000,
     visaPathwayId: FREELANCER_SEED_VISA_PATHWAY,
   },

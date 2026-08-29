@@ -4,6 +4,11 @@ export const MODULE_ID = "career" as const;
 export const CAREER_HAPPY_PATH = ["proof", "visa-stamp", "portfolio"] as const;
 
 export {
+  careerPulseFromLiveBoard,
+  projectLiveCareerBoard,
+} from "@/lib/career/live";
+export type { LiveCareerBoard, LiveCareerStamp } from "@/lib/career/live";
+export {
   careerStampContractHref,
   careerStampCourseHref,
   careerStampVerifyHref,

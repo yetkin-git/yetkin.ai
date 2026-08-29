@@ -60,7 +60,7 @@ describe("Dashboard Pulse BFF yüzeyi", () => {
     expect(route).not.toContain("createPrismaFreelancerPorts");
 
     expect(load).toContain("createPrismaFreelancerPorts");
-    expect(load).toContain("createPrismaCareerPorts");
+    expect(load).toContain("loadCareerLivePulse");
     expect(load).toContain("createPrismaAcademyPorts");
     expect(load).toContain("Promise.all");
     expect(load).toContain("DASHBOARD_PULSE_ROOM_TIMEOUT_MS");

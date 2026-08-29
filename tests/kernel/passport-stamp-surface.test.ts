@@ -118,7 +118,9 @@ describe("pasaport vize yüzeyi", () => {
     expect(load).not.toContain("@/lib/career");
     expect(load).not.toMatch(/\.(create|update|upsert)\(/);
     expect(careerStore).toContain("findPassportStampsForUser");
-    expect(careerLoad).toContain("findPassportStampsForUser");
+    expect(careerLoad).toContain("projectLiveCareerBoard");
+    expect(load).toContain("projectLivePassportStamps");
+    expect(load).toContain("createPrismaProofReadPort");
     expect(careerStore).not.toContain("prisma.careerVisaStamp.findMany");
     expect(list).not.toContain("onSubmit");
     expect(page).not.toContain("<form");

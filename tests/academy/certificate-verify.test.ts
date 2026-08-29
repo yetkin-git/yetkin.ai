@@ -4,7 +4,10 @@ import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import { lockAcademyCoursePrice, purchaseAcademyCourse } from "@/lib/academy/engine";
 import { completeAcademyCurriculum } from "@/lib/academy/curriculum-engine";
 import { academyCurriculumSealForSlug } from "@/lib/academy/curriculum";
-import { resolvePublicAcademyCertificate } from "@/lib/academy/certificate-verify";
+import {
+  resolvePublicAcademyCertificate,
+  toPublicAcademyCertificateWire,
+} from "@/lib/academy/certificate-verify";
 import { revokeAcademyCertificate } from "@/lib/academy/certificate-lifecycle";
 import {
   ACADEMY_CERTIFICATE_PAYLOAD_VERSION,
@@ -19,6 +22,7 @@ import {
   createMemoryPriceCatalogStore,
 } from "../helpers/memory-pricing";
 import { submitAcademyExamWithFreshSitting } from "../helpers/academy-exam-sitting";
+import { railV1PublicAcademyCertificateDataSchema } from "@/lib/kernel/http/v1-contract";
 
 const BUYER = "exam-buyer";
 const PLATFORM = PLATFORM_TREASURY_USER_ID;
@@ -201,6 +205,11 @@ describe("akademi SHA256 sertifika doğrulama", () => {
     });
     if (resolution.status === "found") {
       expect(resolution.view.revokedAt?.toISOString()).toBe(revokedAt.toISOString());
+      const parsed = railV1PublicAcademyCertificateDataSchema.safeParse(
+        toPublicAcademyCertificateWire(resolution.view),
+      );
+      expect(parsed.success).toBe(true);
+      expect(parsed.data?.sealStatus).toBe("revoked");
     }
   });
 

@@ -22,6 +22,14 @@ test.describe("Faz 1 kamu navigasyonu", () => {
     await expect(page.getByText("Yetkinİlan")).toHaveCount(0);
     await expect(page.getByText("YetkinX")).toHaveCount(0);
   });
+
+  test("kamu /career vize-ilan tabelasını oturumsuz basar", async ({ page }) => {
+    const career = await page.goto("/career");
+    expect(career?.status()).toBeLessThan(400);
+    await expect(page.getByRole("heading", { name: "Vize ve Geçiş Defteri" })).toBeVisible();
+    await expect(page.getByText("Bu vize hangi ilanları açar?")).toBeVisible();
+    await expect(page.getByRole("link", { name: "Sertifika doğrula" })).toBeVisible();
+  });
 });
 
 test.describe("health liveness / readiness", () => {

@@ -64,6 +64,9 @@ describe("profil kimlik yüzeyi", () => {
     expect(merit).toContain("PASSPORT_SURFACE_PATH");
     expect(merit).toContain("WALLET_SURFACE_PATH");
     expect(merit).toContain("CAREER_STAMP_SURFACE_PATH");
+    expect(merit).toContain("passportAcademyVerifyHref");
+    expect(merit).toContain("/academy/dogrula");
+    expect(sen).toContain("verifyCta");
     expect(sen).toContain("walletCta");
     expect(sen).toContain("careerCta");
     expect(sen).toContain("loadSoft");
