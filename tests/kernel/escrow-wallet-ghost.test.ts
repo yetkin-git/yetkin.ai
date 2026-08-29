@@ -10,8 +10,10 @@ import {
 } from "@/lib/kernel/escrow/engine";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
+import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import {
   createMemoryEscrowStore,
+  createMemoryFreelancerStore,
   createMemoryLedgerStore,
   withMemoryAcceptAtomic,
 } from "../helpers/memory-money";
@@ -28,6 +30,7 @@ function world() {
       { userId: PLATFORM, amountMinor: 0 },
     ]),
     escrow: createMemoryEscrowStore(),
+    freelancer: createMemoryFreelancerStore(),
   });
 }
 
@@ -42,9 +45,9 @@ async function seedWalletFundedHold(
     userId: CLIENT,
     referenceKey: input.referenceKey,
     currencyCode: SETTLEMENT_CURRENCY,
-    grossMinor: 10_000,
-    holdMinor: 1_000,
-    netMinor: 9_000,
+    grossMinor: toAmountMinor(10_000),
+    holdMinor: toAmountMinor(1_000),
+    netMinor: toAmountMinor(9_000),
     holdBps: HOLD_BPS_DEFAULT,
     expiresAt: new Date("2026-09-01T00:00:00.000Z"),
   });
@@ -52,7 +55,7 @@ async function seedWalletFundedHold(
     await appendLedgerEntry(ports.ledger, {
       userId: CLIENT,
       currencyCode: SETTLEMENT_CURRENCY,
-      amountMinor: 10_000,
+      amountMinor: toAmountMinor(10_000),
       direction: "DEBIT",
       label: "Eski cüzdan emanet DEBIT",
       purpose: "escrow-hold",

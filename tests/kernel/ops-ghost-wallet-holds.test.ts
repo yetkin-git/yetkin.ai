@@ -34,11 +34,11 @@ describe("ops ghost wallet holds", () => {
 
   it("boş DB envanteri 0; --strict yeşil; CREDIT yazmaz", async () => {
     const db: GhostHoldQuery = {
-      async query(sql) {
+      async query<T extends Record<string, unknown> = Record<string, unknown>>(sql: string) {
         if (/COUNT/i.test(sql)) {
-          return { rows: [{ count: "0" }] };
+          return { rows: [{ count: "0" }] as unknown as T[] };
         }
-        return { rows: [] };
+        return { rows: [] as T[] };
       },
     };
     const inv = await inventoryGhostWalletHolds(db, 20);
@@ -51,12 +51,12 @@ describe("ops ghost wallet holds", () => {
 
   it("wallet_id PENDING sayımı --strict çıkış 1; temizlik CREDIT değildir", async () => {
     const db: GhostHoldQuery = {
-      async query(sql) {
+      async query<T extends Record<string, unknown> = Record<string, unknown>>(sql: string) {
         if (/COUNT/i.test(sql) && /wallet_id IS NOT NULL/i.test(sql)) {
-          return { rows: [{ count: "1" }] };
+          return { rows: [{ count: "1" }] as unknown as T[] };
         }
         if (/COUNT/i.test(sql)) {
-          return { rows: [{ count: "0" }] };
+          return { rows: [{ count: "0" }] as unknown as T[] };
         }
         if (/wallet_id IS NOT NULL/i.test(sql)) {
           return {
@@ -70,10 +70,10 @@ describe("ops ghost wallet holds", () => {
                 gross_minor: 1000,
                 created_at: new Date("2026-08-24T00:00:00.000Z"),
               },
-            ],
+            ] as unknown as T[],
           };
         }
-        return { rows: [] };
+        return { rows: [] as T[] };
       },
     };
     const inv = await inventoryGhostWalletHolds(db, 10);

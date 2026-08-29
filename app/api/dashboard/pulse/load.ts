@@ -43,8 +43,11 @@ async function readRoom<T>(room: string, work: () => Promise<T>, fallback: T): P
   }
 }
 
-async function mapPool<T>(tasks: ReadonlyArray<() => Promise<T>>, concurrency: number): Promise<T[]> {
-  const results: T[] = new Array(tasks.length);
+async function mapPool<const T extends readonly (() => Promise<unknown>)[]>(
+  tasks: T,
+  concurrency: number,
+): Promise<{ [K in keyof T]: Awaited<ReturnType<T[K]>> }> {
+  const results: unknown[] = new Array(tasks.length);
   let cursor = 0;
   async function worker(): Promise<void> {
     for (;;) {
@@ -59,7 +62,7 @@ async function mapPool<T>(tasks: ReadonlyArray<() => Promise<T>>, concurrency: n
   }
   const size = Math.min(Math.max(1, concurrency), tasks.length);
   await Promise.all(Array.from({ length: size }, () => worker()));
-  return results;
+  return results as { [K in keyof T]: Awaited<ReturnType<T[K]>> };
 }
 
 export async function loadDashboardPulse(userId: string): Promise<DashboardPulse> {

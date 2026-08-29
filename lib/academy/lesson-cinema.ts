@@ -67,7 +67,8 @@ function cinemaCaptionElapsedSec(input: {
   const currentTime = Number.isFinite(input.currentTime) ? Math.max(0, input.currentTime) : 0;
   const audioDuration = Number.isFinite(input.audioDuration) ? input.audioDuration : 0;
   const spokenDuration = Number.isFinite(input.spokenDuration) ? input.spokenDuration : 0;
-  const audioLeadInSec = Number.isFinite(input.audioLeadInSec) ? Math.max(0, input.audioLeadInSec) : 0;
+  const rawLead = input.audioLeadInSec ?? 0;
+  const audioLeadInSec = Number.isFinite(rawLead) ? Math.max(0, rawLead) : 0;
   const spokenWithLeadIn = spokenDuration + audioLeadInSec;
   if (audioDuration > 0 && spokenWithLeadIn > 0) {
     return (currentTime / audioDuration) * spokenWithLeadIn;

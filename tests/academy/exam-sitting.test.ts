@@ -41,6 +41,7 @@ describe("sınav oturumu MAC ve iş kanıtı kapısı", () => {
     expect(src).toContain("ACADEMY_EXAM_SITTING_SECRET");
     expect(src).toContain("yetkin-rail.academy.exam-sitting.mac.v1");
     expect(src).toContain("Sınav oturumu sırrı yok.");
+    expect(src).toContain('process.env.VITEST !== "true"');
     expect(src).toContain("consumeAcademyExamSittingJti");
     expect(src).not.toContain('createHmac("sha256", ACADEMY_EXAM_SITTING_VERSION)');
   });

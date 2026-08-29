@@ -28,11 +28,6 @@ describe("akademi sinema kaynağı", () => {
       academyCinemaCaptionText({
         cues: [
           {
-            id: "text:0:sentence:0",
-            blockOffset: 0,
-            kind: "text",
-            unit: "sentence",
-            unitIndex: 0,
             text: "Tutar kuruştur.",
             start: 1,
             end: 4,

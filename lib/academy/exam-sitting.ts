@@ -27,7 +27,8 @@ function sittingMacKey(): string {
   if (env.length >= 16) {
     return env;
   }
-  if (process.env.NODE_ENV === "production") {
+  // Vercel `npm run build` NODE_ENV=production iken prebuild Vitest koşar; canlı süreç değildir.
+  if (process.env.NODE_ENV === "production" && process.env.VITEST !== "true") {
     throw new Error("Sınav oturumu sırrı yok.");
   }
   return ACADEMY_EXAM_SITTING_MAC_FALLBACK;

@@ -78,7 +78,8 @@ describe("akademi iş kanıtı kamu doğrulama", () => {
   it("doğrulama URL'si QR ızgarası basar", () => {
     const hash = canonicalAcademyProofOfWorkHash("python-temel-1", sha256Hex)!;
     const matrix = encodeAcademyQrMatrix(academyVerifyUrl(hash));
-    expect(matrix.size).toBeGreaterThan(20);
-    expect(matrix.modules.some((row) => row.includes(true))).toBe(true);
+    expect(matrix).not.toBeNull();
+    expect(matrix!.size).toBeGreaterThan(20);
+    expect(matrix!.modules.some((row) => row.includes(true))).toBe(true);
   });
 });

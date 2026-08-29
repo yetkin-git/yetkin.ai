@@ -25,7 +25,7 @@ export async function register() {
       status: 503,
     });
   }
-  if (report.paytr === "unconfigured") {
+  if (report.payments === "unconfigured") {
     logEvent({
       level: "warn",
       event: "ops.paytr.unconfigured",
