@@ -103,6 +103,32 @@ describe("PayTR port", () => {
     }
   });
 
+  it("başarısız bildirim HMAC'ini doğrular; tutar parse edilir", () => {
+    process.env.PAYTR_MERCHANT_ID = "id";
+    process.env.PAYTR_MERCHANT_KEY = "key-secret";
+    process.env.PAYTR_MERCHANT_SALT = "salt-secret";
+    const payload = {
+      merchantOid: "wallet-top-up-abc",
+      status: "failed",
+      totalAmount: "1300",
+      hash: "",
+      event: null,
+      transferStatus: null,
+    };
+    payload.hash = computePaytrWebhookHash(
+      payload,
+      process.env.PAYTR_MERCHANT_KEY,
+      process.env.PAYTR_MERCHANT_SALT,
+    );
+    const provider = new PaytrPaymentProvider();
+    const verified = provider.verifyWebhook(payload);
+    expect(verified.ok).toBe(true);
+    if (verified.ok) {
+      expect(verified.status).toBe("failed");
+      expect(verified.amountMinor).toBe(1300);
+    }
+  });
+
   it("durum sorgusu ondalıklı TL'yi minor'a çevirir; bulunamadı pending'dir", () => {
     expect(parsePaytrStatusAmountMinor("13.00")).toBe(1300);
     expect(parsePaytrStatusAmountMinor("1300")).toBe(1300);

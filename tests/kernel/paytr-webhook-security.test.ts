@@ -11,7 +11,10 @@ import {
   isPaytrWebhookIpAllowlistRequired,
   isPaytrWebhookSourceIpAllowed,
 } from "@/lib/kernel/payments/paytr/webhook";
-import { settlePaytrWebhookSuccess } from "@/lib/kernel/payments/paytr/webhook-settle";
+import {
+  settlePaytrWebhookFailure,
+  settlePaytrWebhookSuccess,
+} from "@/lib/kernel/payments/paytr/webhook-settle";
 import { createMemoryLedgerStore } from "../helpers/memory-money";
 import { createMemoryPaymentAnomalyStore } from "../helpers/memory-payment-anomaly";
 import { createMemoryPaymentOrderStore } from "../helpers/memory-payment-orders";
@@ -238,6 +241,54 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
     expect(world.ledger.snapshot(BUYER).amountMinor).toBe(1300);
     expect((await world.orders.findByMerchantOid(OID))?.status).toBe("CLEARED");
     expect(world.anomalies.list()).toHaveLength(0);
+  });
+
+  it("HMAC failed bildirimi CREDIT yazmaz; PENDING FAILED olur", async () => {
+    const world = settlePorts(snapshot());
+    const result = await settlePaytrWebhookFailure(world.orders, {
+      merchantOid: OID,
+      amountMinor: 1300,
+      requestId: REQUEST_ID,
+    });
+    expect(result).toMatchObject({
+      disposition: "failed",
+      ack: true,
+      applied: true,
+      creditApplied: false,
+    });
+    expect(world.ledger.snapshot(BUYER).amountMinor).toBe(0);
+    expect(await world.ledger.findByIdempotencyKey(`wallet-top-up:${OID}`)).toBeNull();
+    expect((await world.orders.findByMerchantOid(OID))?.status).toBe("FAILED");
+  });
+
+  it("FAILED bildirim CLEARED bakiyeyi ezmez; sipariş yoksa ACK ve CREDIT yok", async () => {
+    const cleared = settlePorts(snapshot({ status: "CLEARED" }));
+    const skip = await settlePaytrWebhookFailure(cleared.orders, {
+      merchantOid: OID,
+      amountMinor: 1300,
+      requestId: REQUEST_ID,
+    });
+    expect(skip).toMatchObject({
+      disposition: "failed",
+      ack: true,
+      applied: false,
+      creditApplied: false,
+    });
+    expect(cleared.ledger.snapshot(BUYER).amountMinor).toBe(0);
+    expect((await cleared.orders.findByMerchantOid(OID))?.status).toBe("CLEARED");
+
+    const missing = settlePorts(null);
+    const skipped = await settlePaytrWebhookFailure(missing.orders, {
+      merchantOid: OID,
+      amountMinor: 1300,
+      requestId: REQUEST_ID,
+    });
+    expect(skipped).toMatchObject({
+      disposition: "fail_skipped",
+      ack: true,
+      creditApplied: false,
+    });
+    expect(missing.ledger.snapshot(BUYER).amountMinor).toBe(0);
   });
 
   it("üretimde boş IP allowlist fail-closed; lab boş liste HMAC-only", () => {

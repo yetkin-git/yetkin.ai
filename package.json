@@ -48,7 +48,7 @@
     "verify:atomic-seals": "tsx scripts/verify-atomic-seals.ts",
     "verify:idor-seals": "tsx scripts/verify-idor-seals.ts && vitest run tests/kernel/authorize.test.ts tests/freelancer/idor-job-board.test.ts tests/freelancer/idor-party-forbidden.test.ts tests/freelancer/idor-direct-offers.test.ts tests/academy/idor-exam-purchase.test.ts tests/career/idor-portfolio.test.ts",
     "verify:web-security-seals": "tsx scripts/verify-web-security-seals.ts && vitest run tests/kernel/origin-guard.test.ts tests/kernel/http-rate-limit.test.ts tests/kernel/auth-cookie-surface.test.ts",
-    "verify:paytr-reconciliation-seals": "tsx scripts/verify-paytr-reconciliation-seals.ts && vitest run tests/kernel/paytr-webhook-security.test.ts tests/kernel/ledger-reconciliation.test.ts",
+    "verify:paytr-reconciliation-seals": "tsx scripts/verify-paytr-reconciliation-seals.ts && vitest run tests/kernel/paytr-webhook-security.test.ts tests/kernel/paytr-wallet-flow.test.ts tests/kernel/ledger-reconciliation.test.ts",
     "verify:junior-guardianship-seals": "tsx scripts/verify-junior-guardianship-seals.ts && vitest run --config vitest.frozen.config.ts tests/junior/guardianship.test.ts",
     "verify:academy-pedagogy-seals": "vitest run tests/academy/pedagogy-seals-retired.test.ts",
     "verify:boundaries": "tsx scripts/verify-boundaries.ts",

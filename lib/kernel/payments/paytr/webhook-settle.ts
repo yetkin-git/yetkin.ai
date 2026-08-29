@@ -5,7 +5,9 @@ import {
 } from "@/lib/kernel/payments/anomaly";
 import {
   clearSuccessfulPaymentOrder,
+  failPaymentOrder,
   type ClearPaymentOrderPorts,
+  type PaymentOrderStore,
 } from "@/lib/kernel/payments/clearing";
 import { logEvent } from "@/lib/kernel/observability/log";
 
@@ -137,4 +139,49 @@ export async function settlePaytrWebhookSuccess(
     orderId: cleared.order.id,
     creditApplied: cleared.applied,
   };
+}
+
+export type PaytrWebhookFailResult =
+  | {
+      disposition: "failed";
+      ack: true;
+      applied: boolean;
+      orderId: string;
+      creditApplied: false;
+    }
+  | {
+      disposition: "fail_skipped";
+      ack: true;
+      applied: false;
+      creditApplied: false;
+      errorName: string;
+    };
+
+/**
+ * HMAC sonrası başarısız bildirim. CREDIT yazılmaz.
+ * PENDING FAILED olur; PAID/CLEARED ezilmez. Sipariş yoksa ACK (PSP retry döngüsü yok).
+ */
+export async function settlePaytrWebhookFailure(
+  orders: PaymentOrderStore,
+  input: Pick<PaytrWebhookSettleInput, "merchantOid" | "amountMinor" | "requestId">,
+  now: Date = new Date(),
+): Promise<PaytrWebhookFailResult> {
+  try {
+    const failed = await failPaymentOrder(orders, input.merchantOid, now);
+    return {
+      disposition: "failed",
+      ack: true,
+      applied: failed.applied,
+      orderId: failed.order.id,
+      creditApplied: false,
+    };
+  } catch (error) {
+    return {
+      disposition: "fail_skipped",
+      ack: true,
+      applied: false,
+      creditApplied: false,
+      errorName: error instanceof Error ? error.name : "unknown",
+    };
+  }
 }

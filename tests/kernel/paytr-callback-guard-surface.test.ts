@@ -32,6 +32,7 @@ describe("PayTR canlı callback yüzeyi", () => {
     expect(route).toContain("export const auth = \"webhook\"");
     expect(route).toContain("verifyWebhook");
     expect(route).toContain("settlePaytrWebhookSuccess");
+    expect(route).toContain("settlePaytrWebhookFailure");
     expect(route).toContain("PAYTR_WEBHOOK_PATH");
     expect(readSrc("lib/kernel/payments/paytr/checkout.ts")).toContain(
       `export const PAYTR_WEBHOOK_PATH = "${PAYTR_WEBHOOK_PATH}"`,

@@ -34,6 +34,7 @@ const FILE_RULES: FileRule[] = [
     file: "lib/kernel/payments/paytr/webhook-settle.ts",
     must: [
       { needle: "export async function settlePaytrWebhookSuccess", label: "settle kapısı" },
+      { needle: "export async function settlePaytrWebhookFailure", label: "fail settle kapısı" },
       { needle: "recordPaymentAnomaly", label: "anomali yazımı" },
       { needle: "creditApplied: false", label: "mismatch CREDIT yok" },
       { needle: "persist_failed", label: "yazılamazsa retry" },
@@ -57,6 +58,7 @@ const FILE_RULES: FileRule[] = [
     file: "app/api/(kernel)/payments/webhooks/paytr/route.ts",
     must: [
       { needle: "settlePaytrWebhookSuccess", label: "settle çağrısı" },
+      { needle: "settlePaytrWebhookFailure", label: "fail settle çağrısı" },
       { needle: "anomaly_unacked", label: "persist fail 500" },
       { needle: "isPaytrWebhookSourceIpAllowed", label: "IP allowlist" },
       { needle: "verifyWebhook", label: "HMAC handler" },
@@ -130,6 +132,7 @@ const FILE_RULES: FileRule[] = [
       { needle: "invalid_signature", label: "HMAC testi" },
       { needle: "amount_mismatch", label: "mismatch enjeksiyonu" },
       { needle: "creditApplied", label: "CREDIT yazılmadı assert" },
+      { needle: "settlePaytrWebhookFailure", label: "fail callback" },
       { needle: "anomalies.list()", label: "anomali kaydı" },
       { needle: "ip_not_allowed", label: "üretim IP" },
     ],
@@ -146,6 +149,7 @@ const FILE_RULES: FileRule[] = [
 
 const REQUIRED_FILES = [
   "tests/kernel/paytr-webhook-security.test.ts",
+  "tests/kernel/paytr-wallet-flow.test.ts",
   "tests/kernel/ledger-reconciliation.test.ts",
   "tests/kernel/paytr-reconciliation-seals-surface.test.ts",
   "tests/kernel/paytr-cas-surface.test.ts",
@@ -232,6 +236,9 @@ if (pkgRaw === null) {
   }
   if (!seal.includes("tests/kernel/paytr-webhook-security.test.ts")) {
     issues.push("package.json verify:paytr-reconciliation-seals: webhook güvenlik vitest yok");
+  }
+  if (!seal.includes("tests/kernel/paytr-wallet-flow.test.ts")) {
+    issues.push("package.json verify:paytr-reconciliation-seals: cüzdan halkası vitest yok");
   }
   if (!seal.includes("tests/kernel/ledger-reconciliation.test.ts")) {
     issues.push("package.json verify:paytr-reconciliation-seals: defter mutabakat vitest yok");

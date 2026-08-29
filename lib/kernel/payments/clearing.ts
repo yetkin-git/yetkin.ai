@@ -84,6 +84,7 @@ async function withClearingAtomic<T>(
  * Prisma: payment_orders FOR UPDATE + LedgerEntry.idempotency_key unique
  * (`wallet-top-up:{merchantOid}`) + CLEARED kısa devre.
  * Ledger CREDIT + markPaid + markCleared aynı store biriminde (Prisma: $transaction).
+ * FAILED satır tutar eşleşirse geç paid recovery (revive + clearing).
  */
 export async function clearSuccessfulPaymentOrder(
   ports: ClearPaymentOrderPorts,
@@ -127,6 +128,10 @@ export async function clearSuccessfulPaymentOrder(
   });
 }
 
+/**
+ * FAILED bildirimi. PSP tutarı olmadan CREDIT yazılmaz.
+ * Yalnız PENDING kapanır; PAID/CLEARED/FAILED ezilmez.
+ */
 export async function failPaymentOrder(
   orders: PaymentOrderStore,
   merchantOid: string,
@@ -136,10 +141,7 @@ export async function failPaymentOrder(
   if (!order) {
     throw new Error("Ödeme emri bulunamadı.");
   }
-  if (order.status === "FAILED") {
-    return { order, applied: false };
-  }
-  if (order.status === "CLEARED" || order.status === "PAID") {
+  if (order.status !== "PENDING") {
     return { order, applied: false };
   }
   const failed = await orders.markFailed(order.id, now);

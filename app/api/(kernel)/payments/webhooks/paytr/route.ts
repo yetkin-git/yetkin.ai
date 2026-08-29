@@ -8,10 +8,12 @@ import {
 } from "@/lib/kernel/payments/paytr/webhook";
 import { paytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import { isPaytrProductionSafetyError } from "@/lib/kernel/payments/paytr/checkout";
-import { failPaymentOrder } from "@/lib/kernel/payments/clearing";
 import { createPrismaClearingPorts, createPrismaPaymentOrderStore } from "@/lib/kernel/payments/prisma-order-store";
 import { createPrismaPaymentAnomalyStore } from "@/lib/kernel/payments/prisma-anomaly-store";
-import { settlePaytrWebhookSuccess } from "@/lib/kernel/payments/paytr/webhook-settle";
+import {
+  settlePaytrWebhookFailure,
+  settlePaytrWebhookSuccess,
+} from "@/lib/kernel/payments/paytr/webhook-settle";
 import { inngest, INNGEST_EVENTS } from "@/lib/kernel/jobs/inngest";
 import { canSendInngestEvents } from "@/lib/kernel/jobs/inngest-guard";
 import { REQUEST_ID_HEADER, resolveRequestId } from "@/lib/kernel/http/request-id";
@@ -169,24 +171,30 @@ export async function POST(request: Request) {
       return paytrOk(requestId);
     }
   } else {
-    try {
-      await failPaymentOrder(createPrismaPaymentOrderStore(), verified.merchantOid);
+    const settled = await settlePaytrWebhookFailure(createPrismaPaymentOrderStore(), {
+      merchantOid: verified.merchantOid,
+      amountMinor: verified.amountMinor,
+      requestId,
+    });
+    if (settled.disposition === "failed") {
       logEvent({
         level: "info",
         event: "paytr.webhook.failed",
         requestId,
         merchantOid: verified.merchantOid,
         amountMinor: verified.amountMinor,
+        orderId: settled.orderId,
+        applied: settled.applied,
         route: PAYTR_WEBHOOK_PATH,
       });
-    } catch (error) {
+    } else {
       logEvent({
         level: "warn",
         event: "paytr.webhook.fail_skipped",
         requestId,
         merchantOid: verified.merchantOid,
         amountMinor: verified.amountMinor,
-        errorName: error instanceof Error ? error.name : "unknown",
+        errorName: settled.errorName,
         route: PAYTR_WEBHOOK_PATH,
       });
     }

@@ -20,6 +20,9 @@ describe("PayTR mutabakat mühür zinciri yüzeyi", () => {
       "tests/kernel/paytr-webhook-security.test.ts",
     );
     expect(pkg.scripts["verify:paytr-reconciliation-seals"]).toContain(
+      "tests/kernel/paytr-wallet-flow.test.ts",
+    );
+    expect(pkg.scripts["verify:paytr-reconciliation-seals"]).toContain(
       "tests/kernel/ledger-reconciliation.test.ts",
     );
     expect(prebuild).not.toContain("verify:paytr-reconciliation-seals");
@@ -35,6 +38,7 @@ describe("PayTR mutabakat mühür zinciri yüzeyi", () => {
   it("webhook mismatch sessiz ACK etmez; settle anomali yazar", () => {
     const route = readSrc("app/api/(kernel)/payments/webhooks/paytr/route.ts");
     expect(route).toContain("settlePaytrWebhookSuccess");
+    expect(route).toContain("settlePaytrWebhookFailure");
     expect(route).not.toContain("paytr.webhook.skipped");
     const settle = readSrc("lib/kernel/payments/paytr/webhook-settle.ts");
     expect(settle).toContain("recordPaymentAnomaly");
