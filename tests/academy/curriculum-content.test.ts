@@ -852,4 +852,42 @@ describe("03.30 doğal dil temizliği", () => {
       expect(source, name).not.toMatch(MECHANICAL_LOCK);
     }
   });
+
+  it("18 diyalog SKU tek eğitmen 4 perde taşır; Koray/Maya tiyatrosu ve yasak benzetme yok", () => {
+    const slugs = [
+      "ai-agent-temel",
+      "ai-agent-orta",
+      "ai-agent-ileri",
+      "python-temel",
+      "python-orta",
+      "python-ileri",
+      "fullstack-temel",
+      "fullstack-orta",
+      "fullstack-ileri",
+      "security-temel",
+      "security-orta",
+      "security-ileri",
+      "excel-masterclass",
+      "google-ads-masterclass",
+      "meta-ads-masterclass",
+      "eticaret-masterclass",
+      "canva-masterclass",
+      "linkedin-masterclass",
+    ];
+    for (const slug of slugs) {
+      for (const lesson of curriculumForCourseSlug(slug)) {
+        const spoken = spokenAcademyLessonBody(lesson.body);
+        expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
+        expect(lesson.body, lesson.key).toContain("Geleneksel yapılarda");
+        expect(lesson.body, lesson.key).toContain("Ekrandaki kod bloğunda gördüğünüz üzere");
+        expect(lesson.body, lesson.key).toContain("Bu dersle");
+        expect(spoken, lesson.key).not.toMatch(/\bKoray\b/);
+        expect(spoken, lesson.key).not.toMatch(/çağrı merkez|serbest şiir/iu);
+        expect(spoken, lesson.key).not.toContain("Teşekkürler Koray");
+        expect(spoken, lesson.key).not.toContain("Dışarı bakamıyor");
+        expect(lesson.body, lesson.key).not.toMatch(/^Koray:/mu);
+        expect(lesson.body, lesson.key).not.toMatch(/^Maya:/mu);
+      }
+    }
+  });
 });

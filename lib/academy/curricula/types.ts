@@ -131,9 +131,17 @@ export function dialogueTurn(
 const CAST_NAME_PATTERN =
   /\b(?:Koray|Maya|Can|Ece|Tarık|Gözde)(?:\s+(?:Bey|Hanım))?'?(?:a|e|ın|in|un|ün)?\b/gu;
 const ANSWER_LEAD_PATTERN =
-  /^(?:Değil|Açmaz|Hayır|Evet|O|Kalıyor|Doğru|Aynen(?:\s+öyle)?|Tam olarak bu işte)[,.]?\s+/u;
+  /^(?:Değil|Açmaz|Hayır|Evet|Kalıyor|Doğru|Bakamıyor|Bekleme|Aynen(?:\s+öyle)?|Tam olarak bu işte)[,.]?\s+|^(?:O)[,.]\s+/u;
 const BANNED_ANALOGY_SENTENCE =
-  /[^.?!]*(?:çağrı merkez|serbest şiir|Moderatör|stüdyo sunucu)[^.?!]*[.?!]?/giu;
+  /[^.?!]*(?:çağrı merkez|serbest şiir|Moderatör|stüdyo sunucu|Mutfakta aşçı|tezgâhta fısıltı)[^.?!]*[.?!]?/giu;
+const THEATER_RECAP =
+  /[^.?!]*(?:Kafamda oturdu|Sonraki adımda ne duruyor|doğru mu anlıyorum|Işık yazılıysa)[^.?!]*[.?!]?/giu;
+const SHORT_PING = /^(?:.{0,96}?(?: mi| mı| mu| mü))\.\s*$/u;
+const ONE_WORD_THEATER = /^(?:Susar|Durur|Ezer|Açılmaz|Kesilmez|Kovmak|Aynı|Yetiyor|Tek|Daha dürüst)\.?$/u;
+
+function isAcademyModeratorSpeaker(speaker: DialogueSpeakerId): boolean {
+  return speaker === "koray" || speaker === "can" || speaker === "tarik";
+}
 
 function stripCastNames(text: string): string {
   return text.replace(CAST_NAME_PATTERN, " ").replace(/[ \t]+/gu, " ").replace(/ +([,.;!?])/gu, "$1").trim();
@@ -143,44 +151,85 @@ function stripBannedAnalogies(text: string): string {
   return text.replace(BANNED_ANALOGY_SENTENCE, " ").replace(/\s+/gu, " ").trim();
 }
 
+function stripTheaterRecap(text: string): string {
+  return text.replace(THEATER_RECAP, " ").replace(/\s+/gu, " ").trim();
+}
+
 function stripAnswerLead(text: string): string {
   return text.replace(ANSWER_LEAD_PATTERN, "").trim();
 }
 
-function cleanInstructorProse(text: string, wasReply: boolean): string {
-  let cleaned = stripCastNames(text);
-  cleaned = stripBannedAnalogies(cleaned);
-  if (wasReply) {
+function toStudentFacingProse(text: string, fromModerator: boolean): string {
+  let cleaned = stripTheaterRecap(stripBannedAnalogies(stripCastNames(text)));
+  if (!fromModerator && ANSWER_LEAD_PATTERN.test(cleaned)) {
     cleaned = stripAnswerLead(cleaned);
   }
-  return cleaned.replace(/\s+/gu, " ").trim();
+  if (fromModerator) {
+    cleaned = cleaned.replace(/\?\s*/gu, ". ");
+  }
+  cleaned = cleaned.replace(/\s+/gu, " ").trim();
+  if (!cleaned || SHORT_PING.test(cleaned)) {
+    return "";
+  }
+  return cleaned;
 }
 
 function firstCode(turns: readonly DialogueTurn[]): DialogueTurn["code"] | undefined {
   return turns.find((turn) => turn.code)?.code;
 }
 
-function inferInstructorSpeaker(acts: readonly (readonly DialogueTurn[])[]): DialogueSpeakerId {
-  for (const turns of acts) {
-    for (const turn of turns) {
-      if (isAcademyInstructorSpeaker(turn.speaker)) {
-        return turn.speaker;
-      }
-    }
-  }
-  return "egitmen";
+function joinActProse(turns: readonly DialogueTurn[]): string {
+  const instructor = turns.filter((turn) => !isAcademyModeratorSpeaker(turn.speaker));
+  const moderator = turns.filter((turn) => isAcademyModeratorSpeaker(turn.speaker));
+  const teaching = instructor
+    .map((turn) => toStudentFacingProse(turn.text, false))
+    .filter((part) => part.length > 0);
+  const scene = moderator
+    .map((turn) => toStudentFacingProse(turn.text, true))
+    .filter((part) => part.length > 0);
+  return [...scene, ...teaching].join(" ").replace(/\s+/gu, " ").trim();
 }
 
-function joinActProse(turns: readonly DialogueTurn[]): string {
-  return turns
-    .map((turn) => cleanInstructorProse(turn.text, isAcademyInstructorSpeaker(turn.speaker)))
-    .filter((part) => part.length > 0)
-    .join(" ")
-    .trim();
+function isLeftoverTheaterSentence(sentence: string): boolean {
+  const trimmed = sentence.trim();
+  if (!trimmed) {
+    return true;
+  }
+  if (ONE_WORD_THEATER.test(trimmed)) {
+    return true;
+  }
+  if (/(?:çağrı merkez|serbest şiir|Moderatör|stüdyo sunucu|Mutfakta aşçı|tezgâhta fısıltı)/iu.test(trimmed)) {
+    return true;
+  }
+  if (/(?:Kafamda oturdu|Sonraki adımda ne duruyor|doğru mu anlıyorum|Işık yazılıysa)/iu.test(trimmed)) {
+    return true;
+  }
+  return /(?:Sınava girebilir miyim|Dışarı bakamıyor|Sonraki kapı ne\.|Kapanış o gişe|Kapanış o oda)/iu.test(
+    trimmed,
+  );
+}
+
+function stripTheaterFiller(text: string): string {
+  const stripped = stripCastNames(
+    text
+      .replace(THEATER_RECAP, " ")
+      .replace(BANNED_ANALOGY_SENTENCE, " ")
+      .replace(/\b(?:Bakamıyor|Bekleme)\.\s*/gu, "")
+      .replace(/\bDışarı bakamıyor mu\.\s*/giu, "")
+      .replace(/\bSaha tarafında[^.?!]*[.?!]\s*/gu, "")
+      .replace(/\bPeki sen[^.?!]*[.?!]\s*/gu, "")
+      .replace(/\bBen hâlâ[^.?!]*[.?!]\s*/gu, "")
+      .replace(/\b(?:Sonraki adımda ne duruyor|Sonraki derste eline ne geçiyor)\.\s*/giu, ""),
+  );
+  const kept = stripped
+    .split(/(?<=[.!?])\s+/u)
+    .map((part) => part.trim())
+    .filter((part) => part.length > 0 && !isLeftoverTheaterSentence(part));
+  return kept.join(" ").replace(/\s+/gu, " ").replace(/ +([,.;!?])/gu, "$1").trim();
 }
 
 export function academyInstructorIntro(topic: string, body: string): string {
-  const trimmed = body.trim();
+  const trimmed = stripTheaterFiller(body);
   if (trimmed.includes("Hoş geldiniz. Bu bölümde") && trimmed.includes("konusunu ve neden ihtiyaç duyduğunuzu")) {
     return trimmed;
   }
@@ -189,7 +238,7 @@ export function academyInstructorIntro(topic: string, body: string): string {
 }
 
 export function academyInstructorProblem(body: string, defect = "doğrulanmayan çıktı ve kapısız ilerleme"): string {
-  const trimmed = body.trim();
+  const trimmed = stripTheaterFiller(body);
   if (trimmed.includes("Geleneksel yapılarda") && trimmed.includes("Bu yüzden bu mimariyi kullanırız.")) {
     return trimmed;
   }
@@ -198,34 +247,35 @@ export function academyInstructorProblem(body: string, defect = "doğrulanmayan 
 }
 
 export function academyInstructorApplication(body: string): string {
-  const trimmed = body.trim();
+  const trimmed = stripTheaterFiller(body);
   if (trimmed.includes("Ekrandaki kod bloğunda gördüğünüz üzere")) {
     return trimmed;
   }
   if (!trimmed) {
     return "Ekrandaki kod bloğunda gördüğünüz üzere bu kapı yazılı durur; uydurma orta değer basılmaz.";
   }
-  return `Ekrandaki kod bloğunda gördüğünüz üzere, ${trimmed}`;
+  const rest = trimmed.charAt(0).toLocaleLowerCase("tr-TR") + trimmed.slice(1);
+  return `Ekrandaki kod bloğunda gördüğünüz üzere ${rest}`;
 }
 
 export function academyInstructorSummary(skill: string, body: string, isLastLesson: boolean): string {
-  const trimmed = body.trim();
+  const trimmed = stripTheaterFiller(body);
   if (trimmed.includes("Bu dersle") && trimmed.includes("kazandınız.")) {
     let wrapped = trimmed;
-    if (isLastLesson && !/Sınavda seni/.test(wrapped)) {
+    if (isLastLesson && !/Sınavda sen[iı]/.test(wrapped)) {
       wrapped = `${wrapped} Sınavda seni 70 barajı bekliyor.`;
     }
-    if (!isLastLesson && !/Bir sonraki bölümde seni/.test(wrapped)) {
+    if (!isLastLesson && !/Bir sonraki bölümde sen[iı]/.test(wrapped)) {
       wrapped = `${wrapped} Bir sonraki bölümde seni sonraki kapı bekliyor.`;
     }
-    return wrapped;
+    return wrapped.replace(/\s+/gu, " ").trim();
   }
   const gained = `Bu dersle ${skill} kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz.`;
   let result = trimmed.length > 0 ? `${gained} ${trimmed}` : gained;
-  if (isLastLesson && !/Sınavda seni/.test(result)) {
+  if (isLastLesson && !/Sınavda sen[iı]/.test(result)) {
     result = `${result} Sınavda seni 70 barajı bekliyor.`;
   }
-  if (!isLastLesson && !/Bir sonraki bölümde seni/.test(result)) {
+  if (!isLastLesson && !/Bir sonraki bölümde sen[iı]/.test(result)) {
     result = `${result} Bir sonraki bölümde seni sonraki kapı bekliyor.`;
   }
   return result.replace(/\s+/gu, " ").trim();
@@ -256,7 +306,6 @@ function collapseFiveActToInstructor(
   title: string,
   order: number,
   dialogue: AcademyFiveActDialogue,
-  speaker: DialogueSpeakerId,
 ): AcademyFourActInstructor {
   const introBody = joinActProse(dialogue.warmup);
   const problemBody = joinActProse(dialogue.problem);
@@ -269,6 +318,7 @@ function collapseFiveActToInstructor(
     ...dialogue.conclusion,
   ]);
   const isLast = /mini\s*proje|kapanış|sınav/iu.test(title) || order >= 6;
+  const speaker: DialogueSpeakerId = "egitmen";
   return {
     intro: [dialogueTurn(speaker, academyInstructorIntro(title, introBody))],
     problem: [dialogueTurn(speaker, academyInstructorProblem(problemBody))],
@@ -290,7 +340,7 @@ export function academyInstructorLessonDraft(spec: {
   code?: DialogueTurn["code"];
   quiz: readonly AcademyExamQuestion[];
 }): AcademyLessonDraft {
-  const speaker = spec.speaker ?? "egitmen";
+  const speaker: DialogueSpeakerId = "egitmen";
   if (spec.quiz.length < 3) {
     throw new Error(`Ders sonu quiz 3 soru ister: ${spec.key}`);
   }
@@ -334,8 +384,7 @@ export function academyFiveActLessonDraft(spec: {
   if (spec.quiz.length < 3) {
     throw new Error(`Ders sonu quiz 3 soru ister: ${spec.key}`);
   }
-  const speaker = inferInstructorSpeaker([warmup, problem, development, conclusion]);
-  const collapsed = collapseFiveActToInstructor(spec.title, spec.order, spec.dialogue, speaker);
+  const collapsed = collapseFiveActToInstructor(spec.title, spec.order, spec.dialogue);
   const dialogue = toLegacyDialogue(collapsed);
   return {
     key: spec.key,

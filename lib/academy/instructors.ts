@@ -13,10 +13,7 @@ import {
   type AcademyCourseTitleSlug,
 } from "@/lib/academy/course-titles";
 import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
-import {
-  isAcademyInstructorSpeaker,
-  type DialogueSpeakerId,
-} from "@/lib/academy/curricula/types";
+import { type DialogueSpeakerId } from "@/lib/academy/curricula/types";
 
 export const ACADEMY_INSTRUCTOR_TTS_VOICES = [
   "Zephyr",
@@ -179,26 +176,17 @@ export type AcademyDialogueCast = {
   role: "instructor" | "moderator";
 };
 
-/** CastRegistry — speaker + kurs slug → ses ve tempo mührü. Tek eğitmen rolü. */
+/** CastRegistry — speaker yok sayılır; ders sesi yalnız Master Voice Erinome. */
 export function academyCastForDialogueSpeaker(
   slug: string,
-  speaker: DialogueSpeakerId,
+  _speaker: DialogueSpeakerId,
 ): AcademyDialogueCast {
-  if (isAcademyInstructorSpeaker(speaker) || speaker === "egitmen") {
-    const instructor = academyInstructorBySlug(slug);
-    return {
-      voice: instructor.voice,
-      speechRate: ACADEMY_INSTRUCTOR_SPEECH_RATE,
-      canonicalCharacterName: instructor.name,
-      role: "instructor",
-    };
-  }
-  const moderator = academyModeratorForSlug(slug);
+  const instructor = academyInstructorBySlug(slug);
   return {
-    voice: moderator.voice,
-    speechRate: academyModeratorSpeechRateForSlug(slug),
-    canonicalCharacterName: moderator.name,
-    role: "moderator",
+    voice: ACADEMY_MASTER_VOICE,
+    speechRate: ACADEMY_INSTRUCTOR_SPEECH_RATE,
+    canonicalCharacterName: instructor.name,
+    role: "instructor",
   };
 }
 

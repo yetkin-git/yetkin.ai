@@ -6,8 +6,7 @@
 
 import type { AcademyExamQuestion } from "@/lib/academy/types";
 import {
-  academyFiveActLessonDraft,
-  dialogueTurn,
+  academyInstructorLessonDraft,
   type AcademyLessonDraft,
 } from "@/lib/academy/curricula/types";
 
@@ -20,60 +19,15 @@ function mcq(
   return { id, prompt, choices: [...choices], correctIndex };
 }
 
-const tarik = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("tarik", text, code);
-const gozde = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("gozde", text, code);
-
 export const ETICARET_MASTERCLASS_LESSONS: readonly AcademyLessonDraft[] = [
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "eticaret-masterclass-1",
     order: 1,
     title: "Pazar Yeri Mantığı: Komisyon, Rekabet ve Stok Gerçekliği",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Sen pazarda tezgâhı komşunun rafına koydun mu? Müşteri alır, kasa sende değil. Komisyon kesilir, iade geri gelir. Tezgâh kimin?",
-        ),
-        gozde(
-          "Tezgâh pazar yeridir: Trendyol, Hepsiburada vitrini onlarındır; sen satıcı kaydısın. Komisyon, kargo ve iade kârı yer. Fail-closed (Hata Anında Kapalı): vergi ve kargo sözleşmesi yoksa tezgâh açılmaz.",
-        ),
-      ],
-      problem: [
-        tarik("Ekran yeşil, 40 sipariş. Depoda 8 kutu. Ciro yine doğru mu?"),
-        gozde(
-          "Yanlış. Stoksuz satış iptal ve satıcı puanını yer. Komisyonu düşmeden «kâr» basmak yalandır. Fail-closed: stok sıfırsa ilan durur; net kâr yazılmadan sipariş şişmez.",
-        ),
-      ],
-      development: [
-        tarik("Tezgâh kapısını yaz. Belgesiz ve stoksuz satışı bir kez kır."),
-        gozde(
-          "Pazar yeri komisyonu brütten düşer. Kargo ve iade ayrıca kesilir. Stok adedi gerçektir; «gelecek hafta gelir» ilanı açmaz.",
-          {
-            language: "ts",
-            source: `function tezgahAc(girdi: { vergiNo: string; kargoSozlesme: boolean; stok: number }): "acik" {
-  if (!girdi.vergiNo.trim()) throw new Error("vergi yok; tezgâh durur");
-  if (!girdi.kargoSozlesme) throw new Error("kargo yok; tezgâh durur");
-  if (!Number.isInteger(girdi.stok) || girdi.stok <= 0) throw new Error("stok yok; ilan durur");
-  return "acik";
-}
-if (tezgahAc({ vergiNo: "1234567890", kargoSozlesme: true, stok: 8 }) !== "acik") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        tarik("Komisyonu yok sayıp «kâr yeşil» basarsak?"),
-        gozde(
-          "Brüt ciro kâr değildir. Fail-closed net düşülmeden kâr basmaz. Tezgâh durunca mağaza kapısına geçeriz.",
-        ),
-      ],
-      conclusion: [
-        tarik("Tezgâh onlarındır, sen satıcısın, stok gerçek, komisyon düşer. Sonraki adım?"),
-        gozde(
-          "Tezgâh durunca kapı kaydına geçeriz. Bir sonraki bölümde seni Trendyol ve Hepsiburada mağaza açılışı bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Pazar Yeri Mantığı: Komisyon, Rekabet ve Stok Gerçekliği konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Sen pazarda tezgâhı komşunun rafına koydun mu. Müşteri alır, kasa sende değil. Komisyon kesilir, iade geri gelir. Tezgâh kimin. Tezgâh pazar yeridir: Trendyol, Hepsiburada vitrini onlarındır; sen satıcı kaydısın. Komisyon, kargo ve iade kârı yer. Fail-closed (Hata Anında Kapalı): vergi ve kargo sözleşmesi yoksa tezgâh açılmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Ekran yeşil, 40 sipariş. Depoda 8 kutu. Ciro yine doğru mu. Yanlış. Stoksuz satış iptal ve satıcı puanını yer. Komisyonu düşmeden «kâr» basmak yalandır. Fail-closed: stok sıfırsa ilan durur; net kâr yazılmadan sipariş şişmez.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Tezgâh kapısını yaz. Belgesiz ve stoksuz satışı bir kez kır. Pazar yeri komisyonu brütten düşer. Kargo ve iade ayrıca kesilir. Stok adedi gerçektir; «gelecek hafta gelir» ilanı açmaz. Komisyonu yok sayıp «kâr yeşil» basarsak. Brüt ciro kâr değildir. Fail-closed net düşülmeden kâr basmaz. Tezgâh durunca mağaza kapısına geçeriz.",
+    summary: "Bu dersle Pazar Yeri Mantığı: Komisyon, Rekabet ve Stok Gerçekliği becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Tezgâh onlarındır, sen satıcısın, stok gerçek, komisyon düşer. Sonraki adım. Tezgâh durunca kapı kaydına geçeriz. Bir sonraki bölümde seni Trendyol ve Hepsiburada mağaza açılışı bekliyor.",
     quiz: [
       mcq(
         "q_etic1_1",
@@ -94,63 +48,19 @@ if (tezgahAc({ vergiNo: "1234567890", kargoSozlesme: true, stok: 8 }) !== "acik"
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function tezgahAc(girdi: { vergiNo: string; kargoSozlesme: boolean; stok: number }): \"acik\" {\n  if (!girdi.vergiNo.trim()) throw new Error(\"vergi yok; tezgâh durur\");\n  if (!girdi.kargoSozlesme) throw new Error(\"kargo yok; tezgâh durur\");\n  if (!Number.isInteger(girdi.stok) || girdi.stok <= 0) throw new Error(\"stok yok; ilan durur\");\n  return \"acik\";\n}\nif (tezgahAc({ vergiNo: \"1234567890\", kargoSozlesme: true, stok: 8 }) !== \"acik\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "eticaret-masterclass-2",
     order: 2,
     title: "Trendyol ve Hepsiburada Mağaza Açılışı: Belge, Fatura ve Kargo Kapısı",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Sen tezgâha tabela astın, ruhsat yok. Zabıta gelir. Trendyol’da vergi, IBAN, kargo yokken mağaza açılır mı?",
-        ),
-        gozde(
-          "Açılmaz. Mağaza kaydı vergi numarası, fatura unvanı, IBAN ve kargo sözleşmesi ister. Fail-closed: biri boşsa mağaza durur; «yarın tamamlarız» vitrin açmaz.",
-        ),
-      ],
-      problem: [
-        tarik("Hepsiburada yeşil, fatura unvanı eşleşmiyor. İlk sipariş nasıl patlar?"),
-        gozde(
-          "Ödeme senin IBAN’ına değil, kesintiye takılır. Yanlış unvan fatura iptali doğurur. Fail-closed: unvan, vergi ve IBAN aynı defterde durmadan mağaza açılmaz.",
-        ),
-      ],
-      development: [
-        tarik("Mağaza kapısını yaz. Boş IBAN ve kargosuz kaydı kır."),
-        gozde(
-          "Trendyol ve Hepsiburada aynı kapıyı ister: vergi, unvan, IBAN, kargo. Biri eksikse iki vitrin de durur. Sözlü «kurye arkadaşım var» sözleşme değildir.",
-          {
-            language: "ts",
-            source: `function magazaAc(girdi: {
-  vergiNo: string;
-  unvan: string;
-  iban: string;
-  kargoSozlesme: boolean;
-}): "acik" {
-  if (!girdi.vergiNo.trim() || !girdi.unvan.trim()) throw new Error("vergi/unvan yok; mağaza durur");
-  if (!/^TR[0-9]{24}$/u.test(girdi.iban.replace(/\\s/gu, ""))) throw new Error("IBAN yok; ödeme durur");
-  if (!girdi.kargoSozlesme) throw new Error("kargo yok; mağaza durur");
-  return "acik";
-}
-if (
-  magazaAc({ vergiNo: "1234567890", unvan: "Tezgah Ltd", iban: "TR110006400000111111111111", kargoSozlesme: true }) !==
-  "acik"
-) {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        tarik("Kargo anlaşması yokken «kendi kuryem» deyip mağaza açarsak?"),
-        gozde(
-          "Pazar yeri kargo fişi ister. Fail-closed sözleşme yoksa mağaza durur. Mağaza durunca liste kapısına geçeriz.",
-        ),
-      ],
-      conclusion: [
-        tarik("Vergi, unvan, IBAN, kargo. Biri boşsa mağaza yok. Sonraki adım liste mi?"),
-        gozde(
-          "Mağaza durunca ürün kapısına geçeriz. Bir sonraki bölümde seni listeleme ve SEO bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Trendyol ve Hepsiburada Mağaza Açılışı: Belge, Fatura ve Kargo Kapısı konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Sen tezgâha tabela astın, ruhsat yok. Zabıta gelir. Trendyol’da vergi, IBAN, kargo yokken mağaza açılır mı. Açılmaz. Mağaza kaydı vergi numarası, fatura unvanı, IBAN ve kargo sözleşmesi ister. Fail-closed: biri boşsa mağaza durur; «yarın tamamlarız» vitrin açmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Hepsiburada yeşil, fatura unvanı eşleşmiyor. İlk sipariş nasıl patlar. Ödeme senin IBAN’ına değil, kesintiye takılır. Yanlış unvan fatura iptali doğurur. Fail-closed: unvan, vergi ve IBAN aynı defterde durmadan mağaza açılmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Mağaza kapısını yaz. Boş IBAN ve kargosuz kaydı kır. Trendyol ve Hepsiburada aynı kapıyı ister: vergi, unvan, IBAN, kargo. Biri eksikse iki vitrin de durur. Sözlü «kurye arkadaşım var» sözleşme değildir. Kargo anlaşması yokken «kendi kuryem» deyip mağaza açarsak. Pazar yeri kargo fişi ister. Fail-closed sözleşme yoksa mağaza durur. Mağaza durunca liste kapısına geçeriz.",
+    summary: "Bu dersle Trendyol ve Hepsiburada Mağaza Açılışı: Belge, Fatura ve Kargo Kapısı becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Vergi, unvan, IBAN, kargo. Biri boşsa mağaza yok. Sonraki adım liste mi. Mağaza durunca ürün kapısına geçeriz. Bir sonraki bölümde seni listeleme ve SEO bekliyor.",
     quiz: [
       mcq(
         "q_etic2_1",
@@ -171,65 +81,19 @@ if (
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function magazaAc(girdi: {\n  vergiNo: string;\n  unvan: string;\n  iban: string;\n  kargoSozlesme: boolean;\n}): \"acik\" {\n  if (!girdi.vergiNo.trim() || !girdi.unvan.trim()) throw new Error(\"vergi/unvan yok; mağaza durur\");\n  if (!/^TR[0-9]{24}$/u.test(girdi.iban.replace(/\\s/gu, \"\"))) throw new Error(\"IBAN yok; ödeme durur\");\n  if (!girdi.kargoSozlesme) throw new Error(\"kargo yok; mağaza durur\");\n  return \"acik\";\n}\nif (\n  magazaAc({ vergiNo: \"1234567890\", unvan: \"Tezgah Ltd\", iban: \"TR110006400000111111111111\", kargoSozlesme: true }) !==\n  \"acik\"\n) {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "eticaret-masterclass-3",
     order: 3,
     title: "Ürün Listeleme ve SEO: Başlık, Barkod, Görsel ve Kategori",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Sen pazarda tezgâha «şey» yazıp etiketsiz kutu koydun mu? Alıcı bakmaz, zabıta iner. Başlık ve barkod nerede?",
-        ),
-        gozde(
-          "Liste başlığı marka + ürün + niteliktir. Barkod (GTIN) kutunun kimliğidir. Fail-closed: barkod, kategori ve kendi çekilmiş görsel yoksa ilan durur; çalıntı fotoğraf açılmaz.",
-        ),
-      ],
-      problem: [
-        tarik("SEO için 40 anahtar yığılmış, barkod boş, görsel netten. Sipariş gelir, iade yağar. Ne yalan?"),
-        gozde(
-          "Yığın anahtar arama değil, ceza doğurur. Boş barkod mükerrer ilan ve yanlış üründür. Fail-closed: GTIN yoksa ilan durur; başlık 80 karakterde net durur, spam yığılmaz.",
-        ),
-      ],
-      development: [
-        tarik("Liste kapısını yaz. Boş barkod ve çalıntı görseli kır."),
-        gozde(
-          "Kategori ağacı pazar yerinindir; sen uydurmazsın. Başlıkta marka ve ölçü durur. Görsel senin çekimindir; filigranlı stok fotoğraf kapıyı açmaz.",
-          {
-            language: "ts",
-            source: `function ilanAc(girdi: {
-  baslik: string;
-  barkod: string;
-  kategori: string;
-  gorselSahip: boolean;
-}): "acik" {
-  const baslik = girdi.baslik.trim();
-  if (baslik.length < 12 || baslik.length > 80) throw new Error("başlık yok; ilan durur");
-  if (!/^\\d{8,14}$/u.test(girdi.barkod.trim())) throw new Error("barkod yok; ilan durur");
-  if (!girdi.kategori.trim()) throw new Error("kategori yok; ilan durur");
-  if (!girdi.gorselSahip) throw new Error("görsel çalıntı; ilan durur");
-  return "acik";
-}
-if (
-  ilanAc({ baslik: "Marka Pamuk Tişört M Beyaz", barkod: "8690123456789", kategori: "giyim", gorselSahip: true }) !==
-  "acik"
-) {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        tarik("Rakibin fotoğrafını «hızlı açılsın» diye basarsak?"),
-        gozde(
-          "Çalıntı görsel iade ve ceza doğurur. Fail-closed sahip yoksa ilan durur. Liste durunca stok kapısına geçeriz.",
-        ),
-      ],
-      conclusion: [
-        tarik("Başlık net, barkod, kategori, kendi görsel. Sonraki adım stok mu?"),
-        gozde(
-          "Liste durunca sayaç kapısına geçeriz. Bir sonraki bölümde seni stok ve fiyat otomasyonu bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Ürün Listeleme ve SEO: Başlık, Barkod, Görsel ve Kategori konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Sen pazarda tezgâha «şey» yazıp etiketsiz kutu koydun mu. Alıcı bakmaz, zabıta iner. Başlık ve barkod nerede. Liste başlığı marka + ürün + niteliktir. Barkod (GTIN) kutunun kimliğidir. Fail-closed: barkod, kategori ve kendi çekilmiş görsel yoksa ilan durur; çalıntı fotoğraf açılmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. SEO için 40 anahtar yığılmış, barkod boş, görsel netten. Sipariş gelir, iade yağar. Ne yalan. Yığın anahtar arama değil, ceza doğurur. Boş barkod mükerrer ilan ve yanlış üründür. Fail-closed: GTIN yoksa ilan durur; başlık 80 karakterde net durur, spam yığılmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Liste kapısını yaz. Boş barkod ve çalıntı görseli kır. Kategori ağacı pazar yerinindir; sen uydurmazsın. Başlıkta marka ve ölçü durur. Görsel senin çekimindir; filigranlı stok fotoğraf kapıyı açmaz. Rakibin fotoğrafını «hızlı açılsın» diye basarsak. Çalıntı görsel iade ve ceza doğurur. Fail-closed sahip yoksa ilan durur. Liste durunca stok kapısına geçeriz.",
+    summary: "Bu dersle Ürün Listeleme ve SEO: Başlık, Barkod, Görsel ve Kategori becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Başlık net, barkod, kategori, kendi görsel. Sonraki adım stok mu. Liste durunca sayaç kapısına geçeriz. Bir sonraki bölümde seni stok ve fiyat otomasyonu bekliyor.",
     quiz: [
       mcq(
         "q_etic3_1",
@@ -250,58 +114,19 @@ if (
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function ilanAc(girdi: {\n  baslik: string;\n  barkod: string;\n  kategori: string;\n  gorselSahip: boolean;\n}): \"acik\" {\n  const baslik = girdi.baslik.trim();\n  if (baslik.length < 12 || baslik.length > 80) throw new Error(\"başlık yok; ilan durur\");\n  if (!/^\\d{8,14}$/u.test(girdi.barkod.trim())) throw new Error(\"barkod yok; ilan durur\");\n  if (!girdi.kategori.trim()) throw new Error(\"kategori yok; ilan durur\");\n  if (!girdi.gorselSahip) throw new Error(\"görsel çalıntı; ilan durur\");\n  return \"acik\";\n}\nif (\n  ilanAc({ baslik: \"Marka Pamuk Tişört M Beyaz\", barkod: \"8690123456789\", kategori: \"giyim\", gorselSahip: true }) !==\n  \"acik\"\n) {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "eticaret-masterclass-4",
     order: 4,
     title: "Stok ve Fiyat Otomasyonu: Çoklu Pazar Yeri Senkronu",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Sen aynı kutuyu iki tezgâha yazdın mı? Biri sattı, öteki hâlâ «var» diyor. İkinci müşteri boş kutu alır. Sayaç nerede?",
-        ),
-        gozde(
-          "Stok tek defterdir. Trendyol ve Hepsiburada aynı SKU’yu paylaşır. Fail-closed: senkron yoksa veya fiyat maliyetin altındaysa ilan durur; eksi stok satılmaz.",
-        ),
-      ],
-      problem: [
-        tarik("İki vitrin, stok 3. İkisi birden 3 sattı. Ekran yeşil. Ne patlar?"),
-        gozde(
-          "Oversell: altı sipariş, üç kutu. İptal ve puan düşer. Fail-closed: rezervasyon düşmeden ikinci satış açılmaz; fiyat maliyeti ezmez.",
-        ),
-      ],
-      development: [
-        tarik("Sayaç kapısını yaz. Eksi stok ve maliyet altı fiyatı kır."),
-        gozde(
-          "Merkez stok düşer, vitrinler kopyadır. Fiyat otomasyonu rakibi kör kopyalamaz; taban maliyet + komisyondur. «En ucuz olayım» tabanı ezerse kapı kapanır.",
-          {
-            language: "ts",
-            source: `function stokSat(girdi: { merkez: number; rezerv: number; fiyatKurus: number; tabanKurus: number }): number {
-  if (!Number.isInteger(girdi.merkez) || girdi.merkez < 0) throw new Error("stok yok; satış durur");
-  const kalan = girdi.merkez - girdi.rezerv;
-  if (kalan <= 0) throw new Error("rezerv dolu; oversell yok");
-  if (!Number.isInteger(girdi.fiyatKurus) || girdi.fiyatKurus < girdi.tabanKurus) {
-    throw new Error("fiyat taban altında; ilan durur");
-  }
-  return kalan - 1;
-}
-if (stokSat({ merkez: 3, rezerv: 0, fiyatKurus: 19_900, tabanKurus: 12_000 }) !== 2) {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        tarik("Rakip 1 ₺ indirince biz de eksi kâra inersek?"),
-        gozde(
-          "Kör fiyat savaşı defteri yer. Fail-closed taban altında ilan durur. Sayaç durunca kargo kapısına geçeriz.",
-        ),
-      ],
-      conclusion: [
-        tarik("Tek defter, rezerv, taban fiyat. Oversell yok. Sonraki adım kargo mu?"),
-        gozde(
-          "Sayaç durunca operasyon kapısına geçeriz. Bir sonraki bölümde seni müşteri iletişimi ve kargo/iade bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Stok ve Fiyat Otomasyonu: Çoklu Pazar Yeri Senkronu konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Sen aynı kutuyu iki tezgâha yazdın mı. Biri sattı, öteki hâlâ «var» diyor. İkinci müşteri boş kutu alır. Sayaç nerede. Stok tek defterdir. Trendyol ve Hepsiburada aynı SKU’yu paylaşır. Fail-closed: senkron yoksa veya fiyat maliyetin altındaysa ilan durur; eksi stok satılmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. İki vitrin, stok 3. İkisi birden 3 sattı. Ekran yeşil. Ne patlar. Oversell: altı sipariş, üç kutu. İptal ve puan düşer. Fail-closed: rezervasyon düşmeden ikinci satış açılmaz; fiyat maliyeti ezmez.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Sayaç kapısını yaz. Eksi stok ve maliyet altı fiyatı kır. Merkez stok düşer, vitrinler kopyadır. Fiyat otomasyonu rakibi kör kopyalamaz; taban maliyet + komisyondur. «En ucuz olayım» tabanı ezerse kapı kapanır. Rakip 1 ₺ indirince biz de eksi kâra inersek. Kör fiyat savaşı defteri yer. Fail-closed taban altında ilan durur. Sayaç durunca kargo kapısına geçeriz.",
+    summary: "Bu dersle Stok ve Fiyat Otomasyonu: Çoklu Pazar Yeri Senkronu becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Tek defter, rezerv, taban fiyat. Oversell yok. Sonraki adım kargo mu. Sayaç durunca operasyon kapısına geçeriz. Bir sonraki bölümde seni müşteri iletişimi ve kargo/iade bekliyor.",
     quiz: [
       mcq(
         "q_etic4_1",
@@ -322,55 +147,19 @@ if (stokSat({ merkez: 3, rezerv: 0, fiyatKurus: 19_900, tabanKurus: 12_000 }) !=
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function stokSat(girdi: { merkez: number; rezerv: number; fiyatKurus: number; tabanKurus: number }): number {\n  if (!Number.isInteger(girdi.merkez) || girdi.merkez < 0) throw new Error(\"stok yok; satış durur\");\n  const kalan = girdi.merkez - girdi.rezerv;\n  if (kalan <= 0) throw new Error(\"rezerv dolu; oversell yok\");\n  if (!Number.isInteger(girdi.fiyatKurus) || girdi.fiyatKurus < girdi.tabanKurus) {\n    throw new Error(\"fiyat taban altında; ilan durur\");\n  }\n  return kalan - 1;\n}\nif (stokSat({ merkez: 3, rezerv: 0, fiyatKurus: 19_900, tabanKurus: 12_000 }) !== 2) {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "eticaret-masterclass-5",
     order: 5,
     title: "Müşteri İletişimi, Kargo Takibi ve İade Operasyonu",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Sen tezgâhta soruya cevap vermeden paketi attın mı? Kutu kaybolur, müşteri bağırır. Mesaj ve kargo fişi nerede?",
-        ),
-        gozde(
-          "Mesaj SLA’sı satıcı puanıdır. Kargo takip numarası fiştir. Fail-closed: takip yoksa «teslim» basılmaz; iade kaydı boşsa para iadesi uydurulmaz.",
-        ),
-      ],
-      problem: [
-        tarik("Sohbet 48 saat suskun, kargo «yolda» ama fiş yok. Ekran teslim yeşili. Ne yalan?"),
-        gozde(
-          "Sahte teslim iade ve ceza doğurur. Geç cevap puanı yer, vitrin düşer. Fail-closed: takip numarası ve süre dolmadan teslim basılmaz.",
-        ),
-      ],
-      development: [
-        tarik("Operasyon kapısını yaz. Fişsiz teslim ve boş iadeyi kır."),
-        gozde(
-          "Kargo kaydı barkod ve taşıyıcı ister. İade önce ürün durur, sonra para; «hemen iade ettim» fişsiz yalandır. Mesaj süresi aşıldıysa sipariş kapanmaz, puan durur.",
-          {
-            language: "ts",
-            source: `function teslimBas(girdi: { takipNo: string; mesajSaat: number; iadeKayit: boolean; iadeUrun: boolean }): "ok" {
-  if (!girdi.takipNo.trim()) throw new Error("takip yok; teslim durur");
-  if (girdi.mesajSaat > 24) throw new Error("SLA aşıldı; puan durur");
-  if (girdi.iadeKayit && !girdi.iadeUrun) throw new Error("ürün yok; para iadesi durur");
-  return "ok";
-}
-if (teslimBas({ takipNo: "TR1234567890", mesajSaat: 4, iadeKayit: false, iadeUrun: false }) !== "ok") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        tarik("İade talebinde ürün gelmeden parayı basarsak?"),
-        gozde(
-          "Fişsiz iade defteri yer. Fail-closed ürün kaydı yoksa para durur. Operasyon durunca dört kapı kapanışına geçeriz.",
-        ),
-      ],
-      conclusion: [
-        tarik("Takip fişi, 24 saat mesaj, iade ürün önce. Sonraki adım proje mi?"),
-        gozde(
-          "Operasyon durunca teslim kapısına geçeriz. Bir sonraki bölümde seni mağaza kapanış projesi bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Müşteri İletişimi, Kargo Takibi ve İade Operasyonu konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Sen tezgâhta soruya cevap vermeden paketi attın mı. Kutu kaybolur, müşteri bağırır. Mesaj ve kargo fişi nerede. Mesaj SLA’sı satıcı puanıdır. Kargo takip numarası fiştir. Fail-closed: takip yoksa «teslim» basılmaz; iade kaydı boşsa para iadesi uydurulmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Sohbet 48 saat suskun, kargo «yolda» ama fiş yok. Ekran teslim yeşili. Ne yalan. Sahte teslim iade ve ceza doğurur. Geç cevap puanı yer, vitrin düşer. Fail-closed: takip numarası ve süre dolmadan teslim basılmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Operasyon kapısını yaz. Fişsiz teslim ve boş iadeyi kır. Kargo kaydı barkod ve taşıyıcı ister. İade önce ürün durur, sonra para; «hemen iade ettim» fişsiz yalandır. Mesaj süresi aşıldıysa sipariş kapanmaz, puan durur. İade talebinde ürün gelmeden parayı basarsak. Fişsiz iade defteri yer. Fail-closed ürün kaydı yoksa para durur. Operasyon durunca dört kapı kapanışına geçeriz.",
+    summary: "Bu dersle Müşteri İletişimi, Kargo Takibi ve İade Operasyonu becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Takip fişi, 24 saat mesaj, iade ürün önce. Sonraki adım proje mi. Operasyon durunca teslim kapısına geçeriz. Bir sonraki bölümde seni mağaza kapanış projesi bekliyor.",
     quiz: [
       mcq(
         "q_etic5_1",
@@ -391,61 +180,19 @@ if (teslimBas({ takipNo: "TR1234567890", mesajSaat: 4, iadeKayit: false, iadeUru
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function teslimBas(girdi: { takipNo: string; mesajSaat: number; iadeKayit: boolean; iadeUrun: boolean }): \"ok\" {\n  if (!girdi.takipNo.trim()) throw new Error(\"takip yok; teslim durur\");\n  if (girdi.mesajSaat > 24) throw new Error(\"SLA aşıldı; puan durur\");\n  if (girdi.iadeKayit && !girdi.iadeUrun) throw new Error(\"ürün yok; para iadesi durur\");\n  return \"ok\";\n}\nif (teslimBas({ takipNo: \"TR1234567890\", mesajSaat: 4, iadeKayit: false, iadeUrun: false }) !== \"ok\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "eticaret-masterclass-6",
     order: 6,
     title: "Mini Proje: Mağaza, Liste, Stok ve Kargo Dört Kapısı",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Tezgâh duruyor: belgesiz mağaza, barkodsuz ilan, eksi stok, fişsiz kargo. Sen müdüre hangi vitrini uzatırsın?",
-        ),
-        gozde(
-          "Dört kapı durmadan uzatmazsın. Mağaza, liste, stok, kargo. Fail-closed bir kapı açıkken teslim basılmaz. Bu iskelet canlı Trendyol hesabı iddiası taşımaz.",
-        ),
-      ],
-      problem: [
-        tarik("Ekranda sipariş parlıyor, takip yok. İş bitmiş mi sayılıyor?"),
-        gozde(
-          "Parıltı yalandır. Belgesiz mağaza, boş barkod, oversell, fişsiz teslim — biri duruyorsa mühür vurulmaz. Vitrin defterle aynıdır.",
-        ),
-      ],
-      development: [
-        tarik("Tek fonksiyon: vergi, barkod, stok, takip. Biri kırıkken dur."),
-        gozde(
-          "`vitrin` dört kapıyı sırayla sorar. Vergi boşsa durur. Barkod yoksa durur. Stok sıfırsa durur. Takip yoksa durur. Hepsi durunca «hazir» basılır.",
-          {
-            language: "ts",
-            source: `function vitrin(girdi: {
-  vergiNo: string;
-  barkod: string;
-  stok: number;
-  takipNo: string;
-}): "hazir" {
-  if (!girdi.vergiNo.trim()) throw new Error("vergi yok; mağaza durur");
-  if (!/^\\d{8,14}$/u.test(girdi.barkod.trim())) throw new Error("barkod yok; ilan durur");
-  if (!Number.isInteger(girdi.stok) || girdi.stok <= 0) throw new Error("stok yok; satış durur");
-  if (!girdi.takipNo.trim()) throw new Error("takip yok; teslim durur");
-  return "hazir";
-}
-if (vitrin({ vergiNo: "1234567890", barkod: "8690123456789", stok: 8, takipNo: "TR1" }) !== "hazir") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        tarik("Bu iskelet canlı pazar yeri hesabına bağlı mı? Sınavda ne ölçülür?"),
-        gozde(
-          "Bağlı değildir. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır. Dört kapı: mağaza, liste, stok, kargo.",
-        ),
-      ],
-      conclusion: [
-        tarik("Masterclass kapanış bu mu: tezgâh, mağaza, liste, stok, kargo, sınava gir?"),
-        gozde(
-          "Bu. Tekil Masterclass halkası kapanır. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Mini Proje: Mağaza, Liste, Stok ve Kargo Dört Kapısı konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Tezgâh duruyor: belgesiz mağaza, barkodsuz ilan, eksi stok, fişsiz kargo. Sen müdüre hangi vitrini uzatırsın. Dört kapı durmadan uzatmazsın. Mağaza, liste, stok, kargo. Fail-closed bir kapı açıkken teslim basılmaz. Bu iskelet canlı Trendyol hesabı iddiası taşımaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Ekranda sipariş parlıyor, takip yok. İş bitmiş mi sayılıyor. Parıltı yalandır. Belgesiz mağaza, boş barkod, oversell, fişsiz teslim — biri duruyorsa mühür vurulmaz. Vitrin defterle aynıdır.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Tek fonksiyon: vergi, barkod, stok, takip. Biri kırıkken dur. `vitrin` dört kapıyı sırayla sorar. Vergi boşsa durur. Barkod yoksa durur. Stok sıfırsa durur. Takip yoksa durur. Hepsi durunca «hazir» basılır. Bu iskelet canlı pazar yeri hesabına bağlı mı. Sınavda ne ölçülür. Bağlı değildir. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır. Dört kapı: mağaza, liste, stok, kargo.",
+    summary: "Bu dersle Mini Proje: Mağaza, Liste, Stok ve Kargo Dört Kapısı becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Masterclass kapanış bu mu: tezgâh, mağaza, liste, stok, kargo, sınava gir. Bu. Tekil Masterclass halkası kapanır. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
     quiz: [
       mcq(
         "q_etic6_1",
@@ -466,6 +213,10 @@ if (vitrin({ vergiNo: "1234567890", barkod: "8690123456789", stok: 8, takipNo: "
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function vitrin(girdi: {\n  vergiNo: string;\n  barkod: string;\n  stok: number;\n  takipNo: string;\n}): \"hazir\" {\n  if (!girdi.vergiNo.trim()) throw new Error(\"vergi yok; mağaza durur\");\n  if (!/^\\d{8,14}$/u.test(girdi.barkod.trim())) throw new Error(\"barkod yok; ilan durur\");\n  if (!Number.isInteger(girdi.stok) || girdi.stok <= 0) throw new Error(\"stok yok; satış durur\");\n  if (!girdi.takipNo.trim()) throw new Error(\"takip yok; teslim durur\");\n  return \"hazir\";\n}\nif (vitrin({ vergiNo: \"1234567890\", barkod: \"8690123456789\", stok: 8, takipNo: \"TR1\" }) !== \"hazir\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
 ] as const;
 

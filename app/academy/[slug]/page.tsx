@@ -35,7 +35,7 @@ import { BreadcrumbPageLabel } from "@/components/shell/header-breadcrumb";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
 import { academyCourseCoverPath } from "@/lib/academy/course-cover";
-import { academyInstructorBySlug, academyModeratorForSlug } from "@/lib/academy/instructors";
+import { academyInstructorBySlug } from "@/lib/academy/instructors";
 import { PRICE_LOCK_GRACE_MINUTES } from "@/lib/kernel/pricing/price-lock";
 import { isPaymentsPortConfigured } from "@/lib/kernel/payments/port";
 import { isPaytrMockCheckoutAllowed } from "@/lib/kernel/payments/paytr/checkout";
@@ -109,7 +109,6 @@ export default async function AcademyCoursePage({
   const copy = SEN_VOICE.academy.course;
   const playerCopy = SEN_VOICE.academy.player;
   const instructor = academyInstructorBySlug(board.course.slug);
-  const moderator = academyModeratorForSlug(board.course.slug);
   const certificateHash = examGate?.certificate
     ? (examGate.certificate.certificateHash ?? examGate.certificate.serialKey)
     : null;
@@ -233,7 +232,7 @@ export default async function AcademyCoursePage({
             nextCourseHref={progression.bridge.nextHref}
           />
         ) : (
-          <Card title={playerCopy.eyebrow(instructor.name, moderator.name)}>
+          <Card title={playerCopy.eyebrow(instructor.name)}>
             <p>{copy.ownedNoExam}</p>
             <div className="mt-4">
               <LinkButton href={`/academy/${board.course.slug}/oyna` as Route} size="sm">
@@ -243,7 +242,7 @@ export default async function AcademyCoursePage({
           </Card>
         )
       ) : access === "expired" ? (
-        <Card title={playerCopy.eyebrow(instructor.name, moderator.name)}>
+        <Card title={playerCopy.eyebrow(instructor.name)}>
           <p>{playerCopy.licenseEnded}</p>
         </Card>
       ) : board.course.purchasable ? (

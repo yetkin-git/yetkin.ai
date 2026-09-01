@@ -29,6 +29,36 @@ function isWavBuffer(bytes: Buffer): boolean {
   return bytes.length >= 12 && bytes.subarray(0, 4).toString("ascii") === "RIFF" && bytes.subarray(8, 12).toString("ascii") === "WAVE";
 }
 
+/** PCM WAV süre (saniye) — fmt/data parçalarını yürür; istemci değil. */
+export function pcmWavDurationSec(wav: Buffer): number {
+  if (!isWavBuffer(wav) || wav.length < 44) {
+    return 0;
+  }
+  let offset = 12;
+  let sampleRate = 0;
+  let channels = 0;
+  let bits = 0;
+  let dataSize = 0;
+  while (offset + 8 <= wav.length) {
+    const id = wav.toString("ascii", offset, offset + 4);
+    const size = wav.readUInt32LE(offset + 4);
+    const start = offset + 8;
+    if (id === "fmt " && size >= 16 && start + 16 <= wav.length) {
+      channels = wav.readUInt16LE(start + 2);
+      sampleRate = wav.readUInt32LE(start + 4);
+      bits = wav.readUInt16LE(start + 14);
+    } else if (id === "data") {
+      dataSize = size;
+      break;
+    }
+    offset = start + size + (size % 2);
+  }
+  if (!(sampleRate > 0) || !(channels > 0) || !(bits > 0) || !(dataSize > 0)) {
+    return 0;
+  }
+  return dataSize / (sampleRate * channels * (bits / 8));
+}
+
 /** Sessiz PCM WAV — TTS fallback / metin odaklı mod. */
 export function createSilentPcmWav(
   durationMs = 600,

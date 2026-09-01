@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { AcademyProgressBar } from "@/components/academy/progress-bar";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import type { AcademySyllabus } from "@/lib/academy/curriculum-syllabus";
-import { academyProgressPercent } from "@/lib/academy/lesson-meta";
+import { academyLessonKindLabel, academyProgressPercent } from "@/lib/academy/lesson-meta";
 
 export function CurriculumOutline({
   syllabus,
@@ -43,7 +43,7 @@ export function CurriculumOutline({
               <ol className="space-y-1.5">
                 {module.lessons.map((lesson) => {
                   const completed = done.has(lesson.key);
-                  const kindLabel = lesson.kind === "video" ? copy.kindVideo : copy.kindDocument;
+                  const kindLabel = academyLessonKindLabel(lesson.kind, copy);
                   return (
                     <li
                       key={lesson.key}

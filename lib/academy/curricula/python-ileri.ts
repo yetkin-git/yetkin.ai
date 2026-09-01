@@ -5,8 +5,7 @@
 
 import type { AcademyExamQuestion } from "@/lib/academy/types";
 import {
-  academyFiveActLessonDraft,
-  dialogueTurn,
+  academyInstructorLessonDraft,
   type AcademyLessonDraft,
 } from "@/lib/academy/curricula/types";
 
@@ -19,99 +18,15 @@ function mcq(
   return { id, prompt, choices: [...choices], correctIndex };
 }
 
-const koray = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("koray", text, code);
-const maya = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("maya", text, code);
-
 export const PYTHON_ILERI_LESSONS: readonly AcademyLessonDraft[] = [
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "python-ileri-1",
     order: 1,
     title: "Üst Düzey Fonksiyonlar ve Decorator (Bezetici) Mimarisi",
-    dialogue: {
-      warmup: [
-        koray(
-          "PTT gişesinde her koliye gümrük damgası basılır. Damga kolinin içini değiştirmez; kapıyı sarar. Decorator (bezetici) o damga mı?",
-        ),
-        maya(
-          "O. Fonksiyon işi yapar; bezetici onu sarar: log, süre, yetki, Fail-closed (Hata Anında Kapalı) kapısı. İç tarif aynı kalır, sözleşme dışarıda durur. Damgayı her koliye elle basarsan yarın bir gişe unutulur.",
-        ),
-      ],
-      problem: [
-        koray("Her rotaya `if adet <= 0` kopyalarsak bellek ve CPU nerede sızar?"),
-        maya(
-          "Kopya çoğalır, kapı sapar. Biri eksi adeti geçirir; öbürü sessiz 0 basar. Büyük sistemde darboğaz tarif değil, dağınık kapıdır. Fail-closed tek bezeticide durur: bozuk argüman içeri girmez.",
-        ),
-      ],
-      development: [
-        koray("Tek damga. Eksi adet içeri girmesin."),
-        maya(
-          "`functools.wraps` adı ve imzayı korur. Bezetici `adet <= 0` ise ValueError basar; iç fonksiyon çağrılmaz.",
-          {
-            language: "py",
-            source: `from functools import wraps
-
-
-def pozitif_gerekir(fn):
-    @wraps(fn)
-    def sarmal(adet, *args, **kwargs):
-        if adet <= 0:
-            raise ValueError("adet pozitif olmalı; işlem durur")
-        return fn(adet, *args, **kwargs)
-
-    return sarmal
-
-
-@pozitif_gerekir
-def etiket(adet: int) -> str:
-    return f"{adet} etiket"
-
-
-assert etiket(3) == "3 etiket"
-assert etiket.__name__ == "etiket"
-try:
-    etiket(0)
-except ValueError as hata:
-    assert "pozitif" in str(hata)`,
-          },
-        ),
-        koray("Parametreli damga sıra nasıl durur?"),
-        maya(
-          "Önce fabrika, sonra bezetici, sonra iş. `@kayit(\"gişe\")` önce çağrılır, dekoratör döner, sonra `def` sarılır.",
-          {
-            language: "py",
-            source: `from functools import wraps
-
-
-def kayit(kaynak: str):
-    def bezet(fn):
-        @wraps(fn)
-        def sarmal(*args, **kwargs):
-            sonuc = fn(*args, **kwargs)
-            return {"kaynak": kaynak, "sonuc": sonuc}
-
-        return sarmal
-
-    return bezet
-
-
-@kayit("gişe")
-def ok() -> str:
-    return "tamam"
-
-
-assert ok() == {"kaynak": "gişe", "sonuc": "tamam"}`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("Kapı tek yerde. Üreteç mi sıradaki darboğaz?"),
-        maya(
-          "Bezetici sözleşmeyi sarar; iş fonksiyonu sade kalır. Bir sonraki bölümde seni üreteçler (generators) ve bellek dostu veri akışları bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Üst Düzey Fonksiyonlar ve Decorator (Bezetici) Mimarisi konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. PTT gişesinde her koliye gümrük damgası basılır. Damga kolinin içini değiştirmez; kapıyı sarar. Decorator (bezetici) o damga mı. Fonksiyon işi yapar; bezetici onu sarar: log, süre, yetki, Fail-closed (Hata Anında Kapalı) kapısı. İç tarif aynı kalır, sözleşme dışarıda durur. Damgayı her koliye elle basarsan yarın bir gişe unutulur.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Her rotaya `if adet <= 0` kopyalarsak bellek ve CPU nerede sızar. Kopya çoğalır, kapı sapar. Biri eksi adeti geçirir; öbürü sessiz 0 basar. Büyük sistemde darboğaz tarif değil, dağınık kapıdır. Fail-closed tek bezeticide durur: bozuk argüman içeri girmez.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Tek damga. Eksi adet içeri girmesin. `functools.wraps` adı ve imzayı korur. Bezetici `adet <= 0` ise ValueError basar; iç fonksiyon çağrılmaz. Parametreli damga sıra nasıl durur. Önce fabrika, sonra bezetici, sonra iş. `@kayit(\"gişe\")` önce çağrılır, dekoratör döner, sonra `def` sarılır.",
+    summary: "Bu dersle Üst Düzey Fonksiyonlar ve Decorator (Bezetici) Mimarisi becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Kapı tek yerde. Üreteç mi sıradaki darboğaz. Bezetici sözleşmeyi sarar; iş fonksiyonu sade kalır. Bir sonraki bölümde seni üreteçler (generators) ve bellek dostu veri akışları bekliyor.",
     quiz: [
       mcq(
         "q_pyi1_1",
@@ -132,76 +47,19 @@ assert ok() == {"kaynak": "gişe", "sonuc": "tamam"}`,
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "from functools import wraps\n\n\ndef pozitif_gerekir(fn):\n    @wraps(fn)\n    def sarmal(adet, *args, **kwargs):\n        if adet <= 0:\n            raise ValueError(\"adet pozitif olmalı; işlem durur\")\n        return fn(adet, *args, **kwargs)\n\n    return sarmal\n\n\n@pozitif_gerekir\ndef etiket(adet: int) -> str:\n    return f\"{adet} etiket\"\n\n\nassert etiket(3) == \"3 etiket\"\nassert etiket.__name__ == \"etiket\"\ntry:\n    etiket(0)\nexcept ValueError as hata:\n    assert \"pozitif\" in str(hata)",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "python-ileri-2",
     order: 2,
     title: "Üreteçler (Generators) ve Bellek Dostu Veri Akışları",
-    dialogue: {
-      warmup: [
-        koray(
-          "Gişe fiş makinesi kuyruğa tek fiş verir. Depoyu kamyona boşaltırsan tezgâh çöker. Iterator (yineleyici) fiş, üreteç (generator) o makine mi?",
-        ),
-        maya(
-          "Liste bütün kolileri belleğe yığar. `yield` her adımda bir fiş verir; rastgele erişim belleği (RAM) şişmez. Büyük günlük dosyasında `readlines()` sızıntıdır. Fail-closed kapısı bozuk kayıtta akışı keser; yarım liste uydurmaz.",
-        ),
-      ],
-      problem: [
-        koray("`list(milyon_kayit)` neden bellek sızdırır?"),
-        maya(
-          "Tek seferde hepsi yaşar. Gişe kuyruğu durur, merkeze işlem birimi (CPU) çöp toplamaya gömülür. Iterator protokolü `__iter__` / `__next__`; `StopIteration` dürüst biter. `id` yoksa yield yok.",
-        ),
-      ],
-      development: [
-        koray("Fiş makinesini yaz. `id` yoksa akış dursun."),
-        maya(
-          "`yield` bir kayıt verir, fonksiyonu dondurur. `list(...)` ancak sen istersen yığar. Laboratuvarda üç kayıt yeter; üretimde dosya satırı aynı kapıdan geçer.",
-          {
-            language: "py",
-            source: `def fis_akisi(kayitlar):
-    for kayit in kayitlar:
-        if not isinstance(kayit, dict) or "id" not in kayit:
-            raise ValueError("id yok; akış durur")
-        yield kayit["id"]
-
-
-def topla_lazy(kayitlar) -> int:
-    toplam = 0
-    for kimlik in fis_akisi(kayitlar):
-        toplam += kimlik
-    return toplam
-
-
-assert topla_lazy([{"id": 1}, {"id": 2}]) == 3
-assert list(fis_akisi([{"id": 7}])) == [7]
-try:
-    list(fis_akisi([{"id": 1}, {}]))
-except ValueError as hata:
-    assert "id" in str(hata)`,
-          },
-        ),
-        koray("`next` iki kez; üçüncü ne basar?"),
-        maya(
-          "Üreteç tükenince `StopIteration` dürüst biter. `for` onu yutar. Elle `next` çağırıyorsan tükenişi yakala; sessiz `None` basma.",
-          {
-            language: "py",
-            source: `g = (n for n in (1, 2) if n > 0)
-assert next(g) == 1
-assert next(g) == 2
-try:
-    next(g)
-except StopIteration:
-    pass`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("Bellek fiş fiş. Asenkron gişe mi sırada?"),
-        maya(
-          "Üreteç akışı taşır, liste yığmaz. Bir sonraki bölümde seni asyncio ve async/await mantığı bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Üreteçler (Generators) ve Bellek Dostu Veri Akışları konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Gişe fiş makinesi kuyruğa tek fiş verir. Depoyu kamyona boşaltırsan tezgâh çöker. Iterator (yineleyici) fiş, üreteç (generator) o makine mi. Liste bütün kolileri belleğe yığar. `yield` her adımda bir fiş verir; rastgele erişim belleği (RAM) şişmez. Büyük günlük dosyasında `readlines()` sızıntıdır. Fail-closed kapısı bozuk kayıtta akışı keser; yarım liste uydurmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. `list(milyon_kayit)` neden bellek sızdırır. Tek seferde hepsi yaşar. Gişe kuyruğu durur, merkeze işlem birimi (CPU) çöp toplamaya gömülür. Iterator protokolü `__iter__` / `__next__`; `StopIteration` dürüst biter. `id` yoksa yield yok.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Fiş makinesini yaz. `id` yoksa akış dursun. `yield` bir kayıt verir, fonksiyonu dondurur. `list(...)` ancak sen istersen yığar. Laboratuvarda üç kayıt yeter; üretimde dosya satırı aynı kapıdan geçer. `next` iki kez; üçüncü ne basar. Üreteç tükenince `StopIteration` dürüst biter. `for` onu yutar. Elle `next` çağırıyorsan tükenişi yakala; sessiz `None` basma.",
+    summary: "Bu dersle Üreteçler (Generators) ve Bellek Dostu Veri Akışları becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Bellek fiş fiş. Asenkron gişe mi sırada. Üreteç akışı taşır, liste yığmaz. Bir sonraki bölümde seni asyncio ve async/await mantığı bekliyor.",
     quiz: [
       mcq(
         "q_pyi2_1",
@@ -222,67 +80,19 @@ except StopIteration:
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "def fis_akisi(kayitlar):\n    for kayit in kayitlar:\n        if not isinstance(kayit, dict) or \"id\" not in kayit:\n            raise ValueError(\"id yok; akış durur\")\n        yield kayit[\"id\"]\n\n\ndef topla_lazy(kayitlar) -> int:\n    toplam = 0\n    for kimlik in fis_akisi(kayitlar):\n        toplam += kimlik\n    return toplam\n\n\nassert topla_lazy([{\"id\": 1}, {\"id\": 2}]) == 3\nassert list(fis_akisi([{\"id\": 7}])) == [7]\ntry:\n    list(fis_akisi([{\"id\": 1}, {}]))\nexcept ValueError as hata:\n    assert \"id\" in str(hata)",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "python-ileri-3",
     order: 3,
     title: "Asenkron Programlama: asyncio ve async/await Mantığı",
-    dialogue: {
-      warmup: [
-        koray(
-          "Tek gişeci üç kuyruğa bakar: biri fotokopi beklerken öbürüne damga basar. asyncio olay döngüsü o gişeci mi?",
-        ),
-        maya(
-          "O. `async def` korutin tarifidir; `await` giriş-çıkış (I/O) beklerken gişeyi boşaltır. `time.sleep` gişeyi kapatır; `asyncio.sleep` öbür kuyruğa geçer. Fail-closed: durum 200 değilse kayıt durur, gather orta değer basmaz.",
-        ),
-      ],
-      problem: [
-        koray("`time.sleep` async içinde CPU’yu neden kilitler?"),
-        maya(
-          "Olay döngüsü tek iş parçacığındadır. Senkron uyku bütün gişeyi dondurur; bekleyen korutinler açılmaz. Bellek sızıntısı da burada: iptal edilmeyen görev kuyrukta yaşar. `Task`’i iptal et, istisnayı yutma.",
-        ),
-      ],
-      development: [
-        koray("Üç gişe birden; 500 durdurulsun."),
-        maya(
-          "`asyncio.gather` hepsini birlikte bekler. Biri ValueError basarsa hepsi durur; yarım liste dönmez. `asyncio.run` laboratuvar kapısıdır.",
-          {
-            language: "py",
-            source: `import asyncio
-
-
-async def cek(durum: int, govde: dict) -> dict:
-    await asyncio.sleep(0)
-    if durum != 200:
-        raise ValueError(f"durum {durum}; kayıt durur")
-    if "id" not in govde:
-        raise ValueError("id yok; kayıt durur")
-    return govde
-
-
-async def topla():
-    return await asyncio.gather(
-        cek(200, {"id": 1}),
-        cek(200, {"id": 2}),
-    )
-
-
-sonuc = asyncio.run(topla())
-assert [k["id"] for k in sonuc] == [1, 2]
-try:
-    asyncio.run(cek(500, {"ok": True}))
-except ValueError as hata:
-    assert "500" in str(hata)`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("Gişe beklerken boş durmaz. İş parçacığı mı, süreç mi?"),
-        maya(
-          "await I/O bekler; CPU işini sıraya koymaz. Bir sonraki bölümde seni iş parçacığı ve süreç yönetimi bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Asenkron Programlama: asyncio ve async/await Mantığı konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Tek gişeci üç kuyruğa bakar: biri fotokopi beklerken öbürüne damga basar. asyncio olay döngüsü o gişeci mi. `async def` korutin tarifidir; `await` giriş-çıkış (I/O) beklerken gişeyi boşaltır. `time.sleep` gişeyi kapatır; `asyncio.sleep` öbür kuyruğa geçer. Fail-closed: durum 200 değilse kayıt durur, gather orta değer basmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. `time.sleep` async içinde CPU’yu neden kilitler. Olay döngüsü tek iş parçacığındadır. Senkron uyku bütün gişeyi dondurur; bekleyen korutinler açılmaz. Bellek sızıntısı da burada: iptal edilmeyen görev kuyrukta yaşar. `Task`’i iptal et, istisnayı yutma.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Üç gişe birden; 500 durdurulsun. `asyncio.gather` hepsini birlikte bekler. Biri ValueError basarsa hepsi durur; yarım liste dönmez. `asyncio.run` laboratuvar kapısıdır.",
+    summary: "Bu dersle Asenkron Programlama: asyncio ve async/await Mantığı becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Gişe beklerken boş durmaz. İş parçacığı mı, süreç mi. await I/O bekler; CPU işini sıraya koymaz. Bir sonraki bölümde seni iş parçacığı ve süreç yönetimi bekliyor.",
     quiz: [
       mcq(
         "q_pyi3_1",
@@ -303,77 +113,19 @@ except ValueError as hata:
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "import asyncio\n\n\nasync def cek(durum: int, govde: dict) -> dict:\n    await asyncio.sleep(0)\n    if durum != 200:\n        raise ValueError(f\"durum {durum}; kayıt durur\")\n    if \"id\" not in govde:\n        raise ValueError(\"id yok; kayıt durur\")\n    return govde\n\n\nasync def topla():\n    return await asyncio.gather(\n        cek(200, {\"id\": 1}),\n        cek(200, {\"id\": 2}),\n    )\n\n\nsonuc = asyncio.run(topla())\nassert [k[\"id\"] for k in sonuc] == [1, 2]\ntry:\n    asyncio.run(cek(500, {\"ok\": True}))\nexcept ValueError as hata:\n    assert \"500\" in str(hata)",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "python-ileri-4",
     order: 4,
     title: "Çoklu İş Parçacığı ve Süreç Yönetimi (Threading vs Multiprocessing)",
-    dialogue: {
-      warmup: [
-        koray(
-          "Tek fırın tezgâhında iki çırak aynı merdaneyi paylaşır. Ayrı fırın ayrı tezgâh. Thread merdane, process ayrı fırın mı?",
-        ),
-        maya(
-          "Küresel Yorumlayıcı Kilidi (GIL) aynı yorumlayıcıda CPU işini sıraya koyar: thread I/O’da gişeyi boşaltır, CPU’da birbirini bekler. Ayrı süreç ayrı yorumlayıcıdır; bellek paylaşılmaz. Fail-closed: paylaşılan sayacı korumasız artırma; yarış durumu sessiz sızıntıdır.",
-        ),
-      ],
-      problem: [
-        koray("CPU-yoğun işi thread havuzuna atarsak darboğaz nerede?"),
-        maya(
-          "GIL. Çıraklar aynı merdaneyi kaptırır; süre kısalmaz, bağlam maliyeti artar. I/O-yoğun işte thread doğru seçimdir. CPU-yoğun işte `multiprocessing` ayrı fırın açar. Paylaşılan listeye korumasız `append` bellek ve doğruluk sızdırır.",
-        ),
-      ],
-      development: [
-        koray("Sayaç koruması. Sonra CPU/I/O seçimini yaz."),
-        maya(
-          "`threading.Lock` kritik bölümü tek çıraka verir. Süreç seçimi sözleşmedir: I/O → thread, CPU → process. Laboratuvar assert ile sabitler; üretimde havuz boyutu üst sınırdır.",
-          {
-            language: "py",
-            source: `from threading import Lock
-
-
-class Sayac:
-    def __init__(self):
-        self._n = 0
-        self._manda = Lock()
-
-    def artir(self) -> int:
-        with self._manda:
-            self._n += 1
-            return self._n
-
-
-s = Sayac()
-assert s.artir() == 1
-assert s.artir() == 2
-
-IO_UYGUN = "thread"
-CPU_UYGUN = "process"
-
-
-def cpu_mu(is_turu: str) -> str:
-    if is_turu not in ("bekle", "carpma"):
-        raise ValueError("iş türü yok; seçim durur")
-    return CPU_UYGUN if is_turu == "carpma" else IO_UYGUN
-
-
-assert IO_UYGUN != CPU_UYGUN
-assert cpu_mu("carpma") == CPU_UYGUN
-assert cpu_mu("bekle") == IO_UYGUN
-try:
-    cpu_mu("bilinmez")
-except ValueError as hata:
-    assert "tür" in str(hata)`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("I/O thread, CPU process. Kalıbın kalıbı mı sırada?"),
-        maya(
-          "GIL CPU’yu sıraya koyar; süreç ayrı fırındır. Bir sonraki bölümde seni metaclass ve ileri nesne modeli bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Çoklu İş Parçacığı ve Süreç Yönetimi (Threading vs Multiprocessing) konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Tek fırın tezgâhında iki çırak aynı merdaneyi paylaşır. Ayrı fırın ayrı tezgâh. Thread merdane, process ayrı fırın mı. Küresel Yorumlayıcı Kilidi (GIL) aynı yorumlayıcıda CPU işini sıraya koyar: thread I/O’da gişeyi boşaltır, CPU’da birbirini bekler. Ayrı süreç ayrı yorumlayıcıdır; bellek paylaşılmaz. Fail-closed: paylaşılan sayacı korumasız artırma; yarış durumu sessiz sızıntıdır.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. CPU-yoğun işi thread havuzuna atarsak darboğaz nerede. GIL. Çıraklar aynı merdaneyi kaptırır; süre kısalmaz, bağlam maliyeti artar. I/O-yoğun işte thread doğru seçimdir. CPU-yoğun işte `multiprocessing` ayrı fırın açar. Paylaşılan listeye korumasız `append` bellek ve doğruluk sızdırır.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Sayaç koruması. Sonra CPU/I/O seçimini yaz. `threading.Lock` kritik bölümü tek çıraka verir. Süreç seçimi sözleşmedir: I/O → thread, CPU → process. Laboratuvar assert ile sabitler; üretimde havuz boyutu üst sınırdır.",
+    summary: "Bu dersle Çoklu İş Parçacığı ve Süreç Yönetimi (Threading vs Multiprocessing) becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. I/O thread, CPU process. Kalıbın kalıbı mı sırada. GIL CPU’yu sıraya koyar; süreç ayrı fırındır. Bir sonraki bölümde seni metaclass ve ileri nesne modeli bekliyor.",
     quiz: [
       mcq(
         "q_pyi4_1",
@@ -394,63 +146,19 @@ except ValueError as hata:
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "from threading import Lock\n\n\nclass Sayac:\n    def __init__(self):\n        self._n = 0\n        self._manda = Lock()\n\n    def artir(self) -> int:\n        with self._manda:\n            self._n += 1\n            return self._n\n\n\ns = Sayac()\nassert s.artir() == 1\nassert s.artir() == 2\n\nIO_UYGUN = \"thread\"\nCPU_UYGUN = \"process\"\n\n\ndef cpu_mu(is_turu: str) -> str:\n    if is_turu not in (\"bekle\", \"carpma\"):\n        raise ValueError(\"iş türü yok; seçim durur\")\n    return CPU_UYGUN if is_turu == \"carpma\" else IO_UYGUN\n\n\nassert IO_UYGUN != CPU_UYGUN\nassert cpu_mu(\"carpma\") == CPU_UYGUN\nassert cpu_mu(\"bekle\") == IO_UYGUN\ntry:\n    cpu_mu(\"bilinmez\")\nexcept ValueError as hata:\n    assert \"tür\" in str(hata)",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "python-ileri-5",
     order: 5,
     title: "Metaclass'lar ve İleri Düzey Nesne Modeli",
-    dialogue: {
-      warmup: [
-        koray(
-          "Matbaa klişesi kalıbı basar; kalıp somunu basar. Metaclass klişe, class kalıp, instance somun mu?",
-        ),
-        maya(
-          "O. `type` varsayılan klişedir. Kendi klişen sınıf doğmadan sözleşmeyi tarar: zorunlu metot yoksa sınıf açılmaz. Fail-closed burada sınıf kapısında durur; bozuk kalıp sahaya inmez. Bellek sızıntısı: klişede paylaşılan liste, orta dersteki sınıf değişkeni gibi bütün kalıpları kirletir.",
-        ),
-      ],
-      problem: [
-        koray("Kayıt sınıfı `dogrula` taşımazsa saha nerede patlar?"),
-        maya(
-          "Örnek açılır, `dogrula` AttributeError ile gece patlar. Klişe `__new__` içinde `dogrula` yoksa TypeError basar; sınıf hiç doğmaz. Bu, dekoratörden daha erken kapıdır.",
-        ),
-      ],
-      development: [
-        koray("Klişeyi yaz. `dogrula` yoksa kalıp açılmasın."),
-        maya(
-          "`type.__new__` sınıf nesnesini üretir. Biz önce sözlüğü tararız. `Kayit` açılır; `Bozuk` açılmaz.",
-          {
-            language: "py",
-            source: `class KapaliMeta(type):
-    def __new__(mcs, name, bases, ns):
-        if name != "KapaliMeta" and "dogrula" not in ns:
-            raise TypeError("dogrula yok; sınıf açılmaz")
-        return super().__new__(mcs, name, bases, ns)
-
-
-class Kayit(metaclass=KapaliMeta):
-    def dogrula(self, veri):
-        if not isinstance(veri, dict) or "id" not in veri:
-            raise ValueError("id yok; kayıt durur")
-        return veri
-
-
-k = Kayit()
-assert k.dogrula({"id": 7})["id"] == 7
-try:
-    class Bozuk(metaclass=KapaliMeta):
-        pass
-except TypeError as hata:
-    assert "dogrula" in str(hata)`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("Kalıp doğmadan kapı. Mini proje bu halkaları birleştirir mi?"),
-        maya(
-          "Metaclass sınıf sözleşmesini mühürler. Bir sonraki bölümde seni asenkron veri toplama ve yüksek performanslı işleme motoru bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Metaclass'lar ve İleri Düzey Nesne Modeli konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Matbaa klişesi kalıbı basar; kalıp somunu basar. Metaclass klişe, class kalıp, instance somun mu. `type` varsayılan klişedir. Kendi klişen sınıf doğmadan sözleşmeyi tarar: zorunlu metot yoksa sınıf açılmaz. Fail-closed burada sınıf kapısında durur; bozuk kalıp sahaya inmez. Bellek sızıntısı: klişede paylaşılan liste, orta dersteki sınıf değişkeni gibi bütün kalıpları kirletir.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Kayıt sınıfı `dogrula` taşımazsa saha nerede patlar. Örnek açılır, `dogrula` AttributeError ile gece patlar. Klişe `__new__` içinde `dogrula` yoksa TypeError basar; sınıf hiç doğmaz. Bu, dekoratörden daha erken kapıdır.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Klişeyi yaz. `dogrula` yoksa kalıp açılmasın. `type.__new__` sınıf nesnesini üretir. Biz önce sözlüğü tararız. `Kayit` açılır; `Bozuk` açılmaz.",
+    summary: "Bu dersle Metaclass'lar ve İleri Düzey Nesne Modeli becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Kalıp doğmadan kapı. Mini proje bu halkaları birleştirir mi. Metaclass sınıf sözleşmesini mühürler. Bir sonraki bölümde seni asenkron veri toplama ve yüksek performanslı işleme motoru bekliyor.",
     quiz: [
       mcq(
         "q_pyi5_1",
@@ -471,81 +179,19 @@ except TypeError as hata:
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "class KapaliMeta(type):\n    def __new__(mcs, name, bases, ns):\n        if name != \"KapaliMeta\" and \"dogrula\" not in ns:\n            raise TypeError(\"dogrula yok; sınıf açılmaz\")\n        return super().__new__(mcs, name, bases, ns)\n\n\nclass Kayit(metaclass=KapaliMeta):\n    def dogrula(self, veri):\n        if not isinstance(veri, dict) or \"id\" not in veri:\n            raise ValueError(\"id yok; kayıt durur\")\n        return veri\n\n\nk = Kayit()\nassert k.dogrula({\"id\": 7})[\"id\"] == 7\ntry:\n    class Bozuk(metaclass=KapaliMeta):\n        pass\nexcept TypeError as hata:\n    assert \"dogrula\" in str(hata)",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "python-ileri-6",
     order: 6,
     title: "Mini Proje: Asenkron Veri Toplama ve Yüksek Performanslı İşleme Motoru",
-    dialogue: {
-      warmup: [
-        koray(
-          "Üç kargo gişesinden fiş aynı anda toplanır, teker teker tartılır, bozuk damga tartıya inmez. Motor bu sıra mı?",
-        ),
-        maya(
-          "O. `asyncio.gather` gişeleri birlikte bekler. Üreteç tartıda belleği şişirmez. Bezetici veya açık kapı durum 200 ve `id` ister. Fail-closed: bir gişe 500 ise motor durur; yarım rapor diske inmez.",
-        ),
-      ],
-      problem: [
-        koray("Hepsini listeye yığıp sonra `for` ile işlersek darboğaz nerede durur?"),
-        maya(
-          "RAM şişer, I/O sıraya girer, CPU çöp toplar. Dürüst motor: çek (async) → doğrula → yield ile işle. `return_exceptions=True` ile yutmak ihanettir; hata yukarı fırlar.",
-        ),
-      ],
-      development: [
-        koray("Motoru bas. 500 ve eksik id dursun; iki sağlam fiş 10 ve 20 olsun."),
-        maya(
-          "Sahte gişe ağa çıkmaz. Sözleşme üretim `aiohttp` ile aynıdır: durum, şema, akış. `isle_akim` üreteçtir; `list` ancak kapanışta istenir.",
-          {
-            language: "py",
-            source: `import asyncio
-
-
-async def cek_sube(sube: dict) -> dict:
-    await asyncio.sleep(0)
-    if sube.get("durum") != 200:
-        raise ValueError("durum dürüst değil; motor durur")
-    if "id" not in sube:
-        raise ValueError("id yok; motor durur")
-    return sube
-
-
-def isle_akim(kayitlar):
-    for kayit in kayitlar:
-        yield kayit["id"] * 10
-
-
-async def motor(subeler: list) -> list:
-    ham = await asyncio.gather(*(cek_sube(sube) for sube in subeler))
-    return list(isle_akim(ham))
-
-
-sonuc = asyncio.run(
-    motor(
-        [
-            {"durum": 200, "id": 1},
-            {"durum": 200, "id": 2},
-        ]
-    )
-)
-assert sonuc == [10, 20]
-try:
-    asyncio.run(motor([{"durum": 500, "id": 1}]))
-except ValueError as hata:
-    assert "durum" in str(hata)
-try:
-    asyncio.run(motor([{"durum": 200}]))
-except ValueError as hata:
-    assert "id" in str(hata)`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("Çek, doğrula, akıt. İleri kapanış bu mu?"),
-        maya(
-          "Gişeler birlikte bekler, akış bellek dostudur, bozuk damga tartıya inmez. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Mini Proje: Asenkron Veri Toplama ve Yüksek Performanslı İşleme Motoru konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Üç kargo gişesinden fiş aynı anda toplanır, teker teker tartılır, bozuk damga tartıya inmez. Motor bu sıra mı. `asyncio.gather` gişeleri birlikte bekler. Üreteç tartıda belleği şişirmez. Bezetici veya açık kapı durum 200 ve `id` ister. Fail-closed: bir gişe 500 ise motor durur; yarım rapor diske inmez.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Hepsini listeye yığıp sonra `for` ile işlersek darboğaz nerede durur. RAM şişer, I/O sıraya girer, CPU çöp toplar. Dürüst motor: çek (async) → doğrula → yield ile işle. `return_exceptions=True` ile yutmak ihanettir; hata yukarı fırlar.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Motoru bas. 500 ve eksik id dursun; iki sağlam fiş 10 ve 20 olsun. Sahte gişe ağa çıkmaz. Sözleşme üretim `aiohttp` ile aynıdır: durum, şema, akış. `isle_akim` üreteçtir; `list` ancak kapanışta istenir.",
+    summary: "Bu dersle Mini Proje: Asenkron Veri Toplama ve Yüksek Performanslı İşleme Motoru becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Çek, doğrula, akıt. İleri kapanış bu mu. Gişeler birlikte bekler, akış bellek dostudur, bozuk damga tartıya inmez. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
     quiz: [
       mcq(
         "q_pyi6_1",
@@ -566,6 +212,10 @@ except ValueError as hata:
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "import asyncio\n\n\nasync def cek_sube(sube: dict) -> dict:\n    await asyncio.sleep(0)\n    if sube.get(\"durum\") != 200:\n        raise ValueError(\"durum dürüst değil; motor durur\")\n    if \"id\" not in sube:\n        raise ValueError(\"id yok; motor durur\")\n    return sube\n\n\ndef isle_akim(kayitlar):\n    for kayit in kayitlar:\n        yield kayit[\"id\"] * 10\n\n\nasync def motor(subeler: list) -> list:\n    ham = await asyncio.gather(*(cek_sube(sube) for sube in subeler))\n    return list(isle_akim(ham))\n\n\nsonuc = asyncio.run(\n    motor(\n        [\n            {\"durum\": 200, \"id\": 1},\n            {\"durum\": 200, \"id\": 2},\n        ]\n    )\n)\nassert sonuc == [10, 20]\ntry:\n    asyncio.run(motor([{\"durum\": 500, \"id\": 1}]))\nexcept ValueError as hata:\n    assert \"durum\" in str(hata)\ntry:\n    asyncio.run(motor([{\"durum\": 200}]))\nexcept ValueError as hata:\n    assert \"id\" in str(hata)",
+    },
   }),
 ] as const;
 

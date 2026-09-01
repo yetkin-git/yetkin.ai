@@ -10,6 +10,9 @@
  *   npm run generate:academy-audio -- --dry-run
  *   npm run generate:academy-audio -- --slug=python-temel
  *   npm run generate:academy-audio -- --force
+ *
+ * WAV süresi değişince `ACADEMY_SEALED_AUDIO_DURATION_SEC` (lib/academy/lesson-audio.ts)
+ * oynatma listesi dakikasıyla senkronlanmalıdır.
  */
 import "./load-academy-bake-env";
 
@@ -38,6 +41,7 @@ import {
   createSilentPcmWav,
   mergeGeminiInlineAudioToWav,
   tempoStretchPcmWav,
+  pcmWavDurationSec,
 } from "@/lib/kernel/ai/pcm-wav";
 import { canonicalizeGeminiTtsLanguageCode, canonicalizeGeminiTtsVoiceName } from "@/lib/kernel/ai/tts-voices";
 import { normalizeRuntimeDatabaseUrl } from "@/lib/kernel/postgres-url";
@@ -375,7 +379,7 @@ async function main(): Promise<void> {
         mkdirSync(dirname(diskPath), { recursive: true });
         writeFileSync(diskPath, wav);
         baked += 1;
-        process.stdout.write(`  donduruldu ${wav.byteLength} byte → ${diskPath}\n`);
+        process.stdout.write(`  donduruldu ${wav.byteLength} byte ${pcmWavDurationSec(wav).toFixed(1)}s → ${diskPath}\n`);
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
         failures.push(`${job.courseSlug}/${job.lessonKey}: ${message}`);

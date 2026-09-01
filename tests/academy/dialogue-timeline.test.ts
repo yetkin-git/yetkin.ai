@@ -44,7 +44,7 @@ describe("Tek eğitmen DialogueTurn zaman çizelgesi", () => {
     expect(parseDialogueLine("Isınma")).toBeNull();
   });
 
-  it("Maya ve Ece %95, Koray ve Can %100 tempo mührünü taşır", () => {
+  it("Maya ve Ece Master Voice %100; Koray/Can tempo ayrı durmaz", () => {
     expect(INSTRUCTOR_RATE).toBe(1);
     expect(academyDialogueSpeechRate("maya")).toBe(1);
     expect(academyDialogueSpeechRate("ece")).toBe(1);
@@ -52,9 +52,9 @@ describe("Tek eğitmen DialogueTurn zaman çizelgesi", () => {
     expect(academyDialogueSpeechRate("can")).toBe(1);
     expect(academyDialogueSpeechRate("can", "security-temel")).toBe(1);
     expect(academyDialogueSpeechRate("ece", "security-temel")).toBe(1);
-    expect(academyDialogueSpeechRate("can", "security-orta")).toBe(0.98);
+    expect(academyDialogueSpeechRate("can", "security-orta")).toBe(1);
     expect(academyDialogueSpeechRate("ece", "security-orta")).toBe(1);
-    expect(academyDialogueSpeechRate("can", "security-ileri")).toBe(0.96);
+    expect(academyDialogueSpeechRate("can", "security-ileri")).toBe(1);
     expect(academyDialogueSpeechRate("ece", "security-ileri")).toBe(1);
     expect(academyDialogueSpeechRate("tarik", "excel-masterclass")).toBe(1);
     expect(academyDialogueSpeechRate("gozde", "excel-masterclass")).toBe(1);
@@ -68,12 +68,12 @@ describe("Tek eğitmen DialogueTurn zaman çizelgesi", () => {
     expect(academyDialogueSpeechRate("gozde", "canva-masterclass")).toBe(1);
     expect(academyDialogueSpeechRate("tarik", "linkedin-masterclass")).toBe(1);
     expect(academyDialogueSpeechRate("gozde", "linkedin-masterclass")).toBe(1);
-    expect(academyDialogueSpeechRate("koray", "ai-agent-orta")).toBe(0.98);
-    expect(academyDialogueSpeechRate("koray", "fullstack-orta")).toBe(0.98);
-    expect(academyDialogueSpeechRate("koray", "fullstack-ileri")).toBe(0.96);
+    expect(academyDialogueSpeechRate("koray", "ai-agent-orta")).toBe(1);
+    expect(academyDialogueSpeechRate("koray", "fullstack-orta")).toBe(1);
+    expect(academyDialogueSpeechRate("koray", "fullstack-ileri")).toBe(1);
     expect(academyDialogueSpeechRate("maya", "fullstack-ileri")).toBe(1);
     expect(academyDialogueSpeechRate("maya", "ai-agent-orta")).toBe(1);
-    expect(academyDialogueSpeechRate("koray", "ai-agent-ileri")).toBe(0.96);
+    expect(academyDialogueSpeechRate("koray", "ai-agent-ileri")).toBe(1);
     expect(academyDialogueSpeechRate("maya", "ai-agent-ileri")).toBe(1);
     expect(academyDialogueWordCount("bir iki üç dört")).toBe(4);
     expect(academyDialogueReadingDurationSec("bir iki üç dört", "koray")).toBeCloseTo(

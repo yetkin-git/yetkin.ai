@@ -1,12 +1,11 @@
 /**
- * Kurs detayı — modül, ders türü (video/doküman) ve süre.
+ * Kurs detayı — modül, ders türü (ses/video/doküman) ve süre.
  * Oynatıcı gövdesini açmaz; tohum müfredatından özet basar.
  */
 
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import {
-  academyLessonContentKind,
-  academyLessonDurationMin,
+  academyLessonMediaMeta,
   type AcademyLessonContentKind,
 } from "@/lib/academy/lesson-meta";
 
@@ -122,13 +121,16 @@ function moduleTitleFor(slug: string, moduleIndex: number): string {
 
 export function curriculumSyllabusForCourseSlug(slug: string): AcademySyllabus {
   const seeds = curriculumForCourseSlug(slug);
-  const lessons: AcademySyllabusLesson[] = seeds.map((lesson) => ({
-    key: lesson.key,
-    order: lesson.order,
-    title: lesson.title,
-    kind: academyLessonContentKind(lesson),
-    durationMin: academyLessonDurationMin(lesson),
-  }));
+  const lessons: AcademySyllabusLesson[] = seeds.map((lesson) => {
+    const media = academyLessonMediaMeta({ ...lesson, courseSlug: slug });
+    return {
+      key: lesson.key,
+      order: lesson.order,
+      title: lesson.title,
+      kind: media.kind,
+      durationMin: media.durationMin,
+    };
+  });
   const modules: AcademySyllabusModule[] = [];
   for (let offset = 0; offset < lessons.length; offset += LESSONS_PER_MODULE) {
     const group = lessons.slice(offset, offset + LESSONS_PER_MODULE);

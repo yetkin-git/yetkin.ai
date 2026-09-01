@@ -5,8 +5,7 @@
 
 import type { AcademyExamQuestion } from "@/lib/academy/types";
 import {
-  academyFiveActLessonDraft,
-  dialogueTurn,
+  academyInstructorLessonDraft,
   type AcademyLessonDraft,
 } from "@/lib/academy/curricula/types";
 
@@ -19,78 +18,15 @@ function mcq(
   return { id, prompt, choices: [...choices], correctIndex };
 }
 
-const koray = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("koray", text, code);
-const maya = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("maya", text, code);
-
 export const FULLSTACK_ILERI_LESSONS: readonly AcademyLessonDraft[] = [
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "fullstack-ileri-1",
     order: 1,
     title: "Next.js App Router & Server Components (RSC) Mimarisi ve Server Actions",
-    dialogue: {
-      warmup: [
-        koray(
-          "Fabrikada vitrin camı müşteriye bakar; reçete odası camın arkasındadır. Vitrine sır defterini koyarsan gece çalınır. Uygulama Yönlendiricisi (App Router) bu ayrım mı?",
-        ),
-        maya(
-          "O. Next.js (tam yığın çerçeve) App Router’da sayfa varsayılanı React Sunucu Bileşenleri (RSC)dır: reçete odası. `use client` vitrindir; tıklama ve durum orada durur. Fail-closed (Hata Anında Kapalı): `process.env` sırrı vitrine inmez.",
-        ),
-      ],
-      problem: [
-        koray("Sunucu Eylemi (Server Actions) doğrulamasız form alırsa fabrika nerede çöker?"),
-        maya(
-          "İstemci tarafı kesilir, eylem yine koşar. Boş sku, eksi adet, sır sızıntısı. Fail-closed eylem gövdesinde durur: trim boşsa throw; yeşil `{ok:true}` uydurulmaz.",
-        ),
-      ],
-      development: [
-        koray("Reçete odasını yaz. Sır vitrine inmesin; boş sku dursun."),
-        maya(
-          "Sayfa sunucuda kalır. Eylem `use server` damgası taşır. `STOK_ANAHTAR` yoksa sayfa açılmaz.",
-          {
-            language: "ts",
-            source: `"use server";
-
-async function stokAnahtari(): Promise<string> {
-  const secret = process.env.STOK_ANAHTAR;
-  if (typeof secret !== "string" || secret.trim() === "") {
-    throw new Error("anahtar yok; işlem durur");
-  }
-  return secret;
-}
-
-export async function siparisAl(skuHam: string, adetHam: unknown): Promise<{ sku: string; adet: number }> {
-  const sku = skuHam.trim();
-  if (sku === "") {
-    throw new Error("sku yok; işlem durur");
-  }
-  const adet = typeof adetHam === "number" ? adetHam : Number(adetHam);
-  if (!Number.isInteger(adet) || adet < 1) {
-    throw new Error("adet yok; işlem durur");
-  }
-  await stokAnahtari();
-  return { sku, adet };
-}
-
-const ok = await siparisAl("SOMUN", 2);
-if (ok.adet !== 2) {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        koray("`use client` sayfada secret okursa?"),
-        maya(
-          "Vitrin paketi tarayıcıya iner; sır da iner. Fail-closed: secret yalnız sunucu fonksiyonunda. Bir sonraki bölümde seni monolitten mikroservise geçiş bekliyor.",
-        ),
-      ],
-      conclusion: [
-        koray("RSC reçete, eylem kapı. Zincir tek bantta mı kalır?"),
-        maya(
-          "App Router sunucuyu varsayılan tutar; eylem doğrulamadan yeşil basmaz. Bir sonraki bölümde seni monolit yapıdan mikroservis mimarisine geçiş bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Next.js App Router & Server Components (RSC) Mimarisi ve Server Actions konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Fabrikada vitrin camı müşteriye bakar; reçete odası camın arkasındadır. Vitrine sır defterini koyarsan gece çalınır. Uygulama Yönlendiricisi (App Router) bu ayrım mı. Next.js (tam yığın çerçeve) App Router’da sayfa varsayılanı React Sunucu Bileşenleri (RSC)dır: reçete odası. `use client` vitrindir; tıklama ve durum orada durur. Fail-closed (Hata Anında Kapalı): `process.env` sırrı vitrine inmez.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Sunucu Eylemi (Server Actions) doğrulamasız form alırsa fabrika nerede çöker. İstemci tarafı kesilir, eylem yine koşar. Boş sku, eksi adet, sır sızıntısı. Fail-closed eylem gövdesinde durur: trim boşsa throw; yeşil `{ok:true}` uydurulmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Reçete odasını yaz. Sır vitrine inmesin; boş sku dursun. Sayfa sunucuda kalır. Eylem `use server` damgası taşır. `STOK_ANAHTAR` yoksa sayfa açılmaz. `use client` sayfada secret okursa. Vitrin paketi tarayıcıya iner; sır da iner. Fail-closed: secret yalnız sunucu fonksiyonunda. Bir sonraki bölümde seni monolitten mikroservise geçiş bekliyor.",
+    summary: "Bu dersle Next.js App Router & Server Components (RSC) Mimarisi ve Server Actions becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. RSC reçete, eylem kapı. Zincir tek bantta mı kalır. App Router sunucuyu varsayılan tutar; eylem doğrulamadan yeşil basmaz. Bir sonraki bölümde seni monolit yapıdan mikroservis mimarisine geçiş bekliyor.",
     quiz: [
       mcq(
         "q_fsi1_1",
@@ -111,79 +47,19 @@ if (ok.adet !== 2) {
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "\"use server\";\n\nasync function stokAnahtari(): Promise<string> {\n  const secret = process.env.STOK_ANAHTAR;\n  if (typeof secret !== \"string\" || secret.trim() === \"\") {\n    throw new Error(\"anahtar yok; işlem durur\");\n  }\n  return secret;\n}\n\nexport async function siparisAl(skuHam: string, adetHam: unknown): Promise<{ sku: string; adet: number }> {\n  const sku = skuHam.trim();\n  if (sku === \"\") {\n    throw new Error(\"sku yok; işlem durur\");\n  }\n  const adet = typeof adetHam === \"number\" ? adetHam : Number(adetHam);\n  if (!Number.isInteger(adet) || adet < 1) {\n    throw new Error(\"adet yok; işlem durur\");\n  }\n  await stokAnahtari();\n  return { sku, adet };\n}\n\nconst ok = await siparisAl(\"SOMUN\", 2);\nif (ok.adet !== 2) {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "fullstack-ileri-2",
     order: 2,
     title: "Monolit Yapıdan Mikroservis (Microservices) Mimarisine Geçiş ve Event-Driven İletişim",
-    dialogue: {
-      warmup: [
-        koray(
-          "Fabrikada bütün yük tek banda binince bir rulo durunca hat durur. Bantları ayırıp fişle konuşursan aynı duruş mu?",
-        ),
-        maya(
-          "Tek bant monolit. Mikroservis (Microservices) ayrı banttır; olay güdümlü (Event-Driven) fiş kuyruğudur. Fail-closed (Hata Anında Kapalı): bilinmeyen olay tipi içeri girmez. Zincirleme çöküş (Cascading Failure) tek bantın bütün fabrikayı durdurmasıdır.",
-        ),
-      ],
-      problem: [
-        koray("Stok servisi 500 olunca ödeme hâlâ 201 basarsa ne kırılır?"),
-        maya(
-          "Sahte yeşil. Ödeme fişi stoksuz kalır. Fail-closed: kuyruk boşsa tüketim durur; devre açıkken çağrı çıkmaz. Sessiz retry sonsuz nezaket değildir.",
-        ),
-      ],
-      development: [
-        koray("Fiş sözleşmesini yaz. Tip yoksa dur; üç hata devreyi açsın."),
-        maya(
-          "`yayinla` tipi tarar. `tuket` boş kuyruğu uydurmaz. Devre üç hatada açılır; zincir durur.",
-          {
-            language: "ts",
-            source: `type Olay = { tip: "siparis.alindi"; sku: string };
-
-function yayinla(kuyruk: readonly Olay[], olay: Olay): Olay[] {
-  if (olay.tip !== "siparis.alindi") {
-    throw new Error("bilinmeyen olay; işlem durur");
-  }
-  if (olay.sku.trim() === "") {
-    throw new Error("sku yok; işlem durur");
-  }
-  return [...kuyruk, olay];
-}
-
-function tuket(kuyruk: readonly Olay[]): Olay {
-  const ilk = kuyruk[0];
-  if (!ilk) {
-    throw new Error("kuyruk boş; işlem durur");
-  }
-  return ilk;
-}
-
-function cagir(hataSayisi: number): "stok" {
-  if (!Number.isInteger(hataSayisi) || hataSayisi < 0) {
-    throw new Error("sayaç yok; işlem durur");
-  }
-  if (hataSayisi >= 3) {
-    throw new Error("devre açık; zincir durur");
-  }
-  return "stok";
-}
-
-const kuyruk = yayinla([], { tip: "siparis.alindi", sku: "SOMUN" });
-if (tuket(kuyruk).sku !== "SOMUN") {
-  throw new Error("sözleşme kırıldı");
-}
-if (cagir(0) !== "stok") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("Bantlar ayrı, fiş sözleşmeli. Depo fişi her seferinde fabrikaya mı sorulur?"),
-        maya(
-          "Bilinmeyen olay ve açık devre zinciri keser. Bir sonraki bölümde seni Redis önbelleği ve istek sınırlama bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Monolit Yapıdan Mikroservis (Microservices) Mimarisine Geçiş ve Event-Driven İletişim konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Fabrikada bütün yük tek banda binince bir rulo durunca hat durur. Bantları ayırıp fişle konuşursan aynı duruş mu. Tek bant monolit. Mikroservis (Microservices) ayrı banttır; olay güdümlü (Event-Driven) fiş kuyruğudur. Fail-closed (Hata Anında Kapalı): bilinmeyen olay tipi içeri girmez. Zincirleme çöküş (Cascading Failure) tek bantın bütün fabrikayı durdurmasıdır.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Stok servisi 500 olunca ödeme hâlâ 201 basarsa ne kırılır. Sahte yeşil. Ödeme fişi stoksuz kalır. Fail-closed: kuyruk boşsa tüketim durur; devre açıkken çağrı çıkmaz. Sessiz retry sonsuz nezaket değildir.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Fiş sözleşmesini yaz. Tip yoksa dur; üç hata devreyi açsın. `yayinla` tipi tarar. `tuket` boş kuyruğu uydurmaz. Devre üç hatada açılır; zincir durur.",
+    summary: "Bu dersle Monolit Yapıdan Mikroservis (Microservices) Mimarisine Geçiş ve Event-Driven İletişim becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Bantlar ayrı, fiş sözleşmeli. Depo fişi her seferinde fabrikaya mı sorulur. Bilinmeyen olay ve açık devre zinciri keser. Bir sonraki bölümde seni Redis önbelleği ve istek sınırlama bekliyor.",
     quiz: [
       mcq(
         "q_fsi2_1",
@@ -204,79 +80,19 @@ if (cagir(0) !== "stok") {
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "type Olay = { tip: \"siparis.alindi\"; sku: string };\n\nfunction yayinla(kuyruk: readonly Olay[], olay: Olay): Olay[] {\n  if (olay.tip !== \"siparis.alindi\") {\n    throw new Error(\"bilinmeyen olay; işlem durur\");\n  }\n  if (olay.sku.trim() === \"\") {\n    throw new Error(\"sku yok; işlem durur\");\n  }\n  return [...kuyruk, olay];\n}\n\nfunction tuket(kuyruk: readonly Olay[]): Olay {\n  const ilk = kuyruk[0];\n  if (!ilk) {\n    throw new Error(\"kuyruk boş; işlem durur\");\n  }\n  return ilk;\n}\n\nfunction cagir(hataSayisi: number): \"stok\" {\n  if (!Number.isInteger(hataSayisi) || hataSayisi < 0) {\n    throw new Error(\"sayaç yok; işlem durur\");\n  }\n  if (hataSayisi >= 3) {\n    throw new Error(\"devre açık; zincir durur\");\n  }\n  return \"stok\";\n}\n\nconst kuyruk = yayinla([], { tip: \"siparis.alindi\", sku: \"SOMUN\" });\nif (tuket(kuyruk).sku !== \"SOMUN\") {\n  throw new Error(\"sözleşme kırıldı\");\n}\nif (cagir(0) !== \"stok\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "fullstack-ileri-3",
     order: 3,
     title: "Performans ve Önbellek: Redis Caching ve Rate Limiting (İstek Sınırlama)",
-    dialogue: {
-      warmup: [
-        koray(
-          "Fabrika her vidayı tezgâhtan mı çeker, yoksa raf etiketine mi bakar? Raf yokken «var» dersen tezgâh yalan söyler.",
-        ),
-        maya(
-          "Raf bellek içi sözlük (Redis) önbelleğidir. İstek sınırlama (Rate Limiting) kapıdaki turnikedir. Fail-closed (Hata Anında Kapalı): anahtar boşsa okuma durur; tavan dolunca 429, 200 değil.",
-        ),
-      ],
-      problem: [
-        koray("Önbellek düşünce kaynak 200 boş basarsa? Sınırsız istek?"),
-        maya(
-          "Stampede: herkes tezgâha hücum eder. Fail-closed Redis yoksa sağlık kırmızı; yazma yeşil uydurmaz. Tavan yoksa Saniye Başına İstek (RPS) tezgâhı ezer.",
-        ),
-      ],
-      development: [
-        koray("Rafı ve turnikeyi yaz. Kaçış 429 olsun."),
-        maya(
-          "`oku` kaçırmayı «yok» diye yalanlamaz; throw ile kaynağa iter. `sinirla` tavanı tam sayı ister.",
-          {
-            language: "ts",
-            source: `const ONBELLEK = new Map<string, string>();
-
-function oku(anahtar: string): string {
-  if (anahtar.trim() === "") {
-    throw new Error("anahtar yok; işlem durur");
-  }
-  const deger = ONBELLEK.get(anahtar);
-  if (deger === undefined) {
-    throw new Error("onbellek yok; kaynak sor");
-  }
-  return deger;
-}
-
-function yaz(anahtar: string, deger: string): void {
-  if (anahtar.trim() === "" || deger.trim() === "") {
-    throw new Error("kayit yok; işlem durur");
-  }
-  ONBELLEK.set(anahtar, deger);
-}
-
-function sinirla(sayac: number, tavan: number): void {
-  if (!Number.isInteger(tavan) || tavan < 1) {
-    throw new Error("tavan yok; işlem durur");
-  }
-  if (!Number.isInteger(sayac) || sayac < 0) {
-    throw new Error("sayaç yok; işlem durur");
-  }
-  if (sayac >= tavan) {
-    throw new Error("429; istek durur");
-  }
-}
-
-yaz("sku:SOMUN", "18");
-if (oku("sku:SOMUN") !== "18") {
-  throw new Error("sözleşme kırıldı");
-}
-sinirla(0, 3);`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("Raf etiket, turnike tavan. Kutular nasıl taşınır?"),
-        maya(
-          "Redis kaçırmayı 200 boş saymaz; tavan 429 basar. Bir sonraki bölümde seni Docker ve Docker Compose bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Performans ve Önbellek: Redis Caching ve Rate Limiting (İstek Sınırlama) konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Fabrika her vidayı tezgâhtan mı çeker, yoksa raf etiketine mi bakar. Raf yokken «var» dersen tezgâh yalan söyler. Raf bellek içi sözlük (Redis) önbelleğidir. İstek sınırlama (Rate Limiting) kapıdaki turnikedir. Fail-closed (Hata Anında Kapalı): anahtar boşsa okuma durur; tavan dolunca 429, 200 değil.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Önbellek düşünce kaynak 200 boş basarsa. Sınırsız istek. Stampede: herkes tezgâha hücum eder. Fail-closed Redis yoksa sağlık kırmızı; yazma yeşil uydurmaz. Tavan yoksa Saniye Başına İstek (RPS) tezgâhı ezer.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Rafı ve turnikeyi yaz. Kaçış 429 olsun. `oku` kaçırmayı «yok» diye yalanlamaz; throw ile kaynağa iter. `sinirla` tavanı tam sayı ister.",
+    summary: "Bu dersle Performans ve Önbellek: Redis Caching ve Rate Limiting (İstek Sınırlama) becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Raf etiket, turnike tavan. Kutular nasıl taşınır. Redis kaçırmayı 200 boş saymaz; tavan 429 basar. Bir sonraki bölümde seni Docker ve Docker Compose bekliyor.",
     quiz: [
       mcq(
         "q_fsi3_1",
@@ -297,84 +113,19 @@ sinirla(0, 3);`,
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "const ONBELLEK = new Map<string, string>();\n\nfunction oku(anahtar: string): string {\n  if (anahtar.trim() === \"\") {\n    throw new Error(\"anahtar yok; işlem durur\");\n  }\n  const deger = ONBELLEK.get(anahtar);\n  if (deger === undefined) {\n    throw new Error(\"onbellek yok; kaynak sor\");\n  }\n  return deger;\n}\n\nfunction yaz(anahtar: string, deger: string): void {\n  if (anahtar.trim() === \"\" || deger.trim() === \"\") {\n    throw new Error(\"kayit yok; işlem durur\");\n  }\n  ONBELLEK.set(anahtar, deger);\n}\n\nfunction sinirla(sayac: number, tavan: number): void {\n  if (!Number.isInteger(tavan) || tavan < 1) {\n    throw new Error(\"tavan yok; işlem durur\");\n  }\n  if (!Number.isInteger(sayac) || sayac < 0) {\n    throw new Error(\"sayaç yok; işlem durur\");\n  }\n  if (sayac >= tavan) {\n    throw new Error(\"429; istek durur\");\n  }\n}\n\nyaz(\"sku:SOMUN\", \"18\");\nif (oku(\"sku:SOMUN\") !== \"18\") {\n  throw new Error(\"sözleşme kırıldı\");\n}\nsinirla(0, 3);",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "fullstack-ileri-4",
     order: 4,
     title: "Konteynerizasyon: Docker ve Docker Compose ile Çoklu Servis Yönetimi",
-    dialogue: {
-      warmup: [
-        koray(
-          "Fabrika kamyonu «benim tezgahta çalışıyordu» diye yola çıkarırsa gece durur. Kutuya etiket, sağlık lambası koyarsan aynı kamyon mu?",
-        ),
-        maya(
-          "Konteyner (Docker) o kutudur. Docker Compose çoklu kutu planıdır. Fail-closed (Hata Anında Kapalı): Redis sağlıksızken web ayağa kalkmaz. `REDIS_URL` yoksa süreç durur; localhost uydurulmaz.",
-        ),
-      ],
-      problem: [
-        koray("depends_on yalnız başlatır, sağlık sormazsa? Kök kullanıcı?"),
-        maya(
-          "Web, Redis’e PONG almadan bağlanır; bağlantı kopar, 500 yeşil görünür. Kök imaj sızıntıdır. Fail-closed: `condition: service_healthy` ve `USER node`.",
-        ),
-      ],
-      development: [
-        koray("Planı bas. Redis sağlıklı olmadan web kalkmasın."),
-        maya(
-          "Compose sözleşmesi: sağlık yoksa bağımlılık durur. Sır imaja gömülmez; ortamdan okunur.",
-          {
-            language: "yaml",
-            source: `services:
-  web:
-    build: .
-    depends_on:
-      redis:
-        condition: service_healthy
-    environment:
-      REDIS_URL: redis://redis:6379
-    user: node
-  redis:
-    image: redis:7-alpine
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      retries: 5`,
-          },
-        ),
-        koray("Süreç REDIS_URL boşsa?"),
-        maya(
-          "Açılmaz. Fail-closed ortam kapısı: boş URL ile dinleme yok.",
-          {
-            language: "ts",
-            source: `function redisUrl(ham: unknown): string {
-  if (typeof ham !== "string" || ham.trim() === "") {
-    throw new Error("REDIS_URL yok; işlem durur");
-  }
-  return ham.trim();
-}
-
-function saglik(pong: string): "ok" {
-  if (pong !== "PONG") {
-    throw new Error("redis yok; işlem durur");
-  }
-  return "ok";
-}
-
-if (redisUrl("redis://redis:6379") !== "redis://redis:6379") {
-  throw new Error("sözleşme kırıldı");
-}
-if (saglik("PONG") !== "ok") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("Kutu sağlıklı, sır imajda yok. Kamyon kapıdan nasıl çıkar?"),
-        maya(
-          "Compose sağlık lambası yanmadan web kalkmaz. Bir sonraki bölümde seni GitHub Actions ile CI/CD boru hattı bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Konteynerizasyon: Docker ve Docker Compose ile Çoklu Servis Yönetimi konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Fabrika kamyonu «benim tezgahta çalışıyordu» diye yola çıkarırsa gece durur. Kutuya etiket, sağlık lambası koyarsan aynı kamyon mu. Konteyner (Docker) o kutudur. Docker Compose çoklu kutu planıdır. Fail-closed (Hata Anında Kapalı): Redis sağlıksızken web ayağa kalkmaz. `REDIS_URL` yoksa süreç durur; localhost uydurulmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. depends_on yalnız başlatır, sağlık sormazsa. Kök kullanıcı. Web, Redis’e PONG almadan bağlanır; bağlantı kopar, 500 yeşil görünür. Kök imaj sızıntıdır. Fail-closed: `condition: service_healthy` ve `USER node`.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Planı bas. Redis sağlıklı olmadan web kalkmasın. Compose sözleşmesi: sağlık yoksa bağımlılık durur. Sır imaja gömülmez; ortamdan okunur. Süreç REDIS_URL boşsa. Açılmaz. Fail-closed ortam kapısı: boş URL ile dinleme yok.",
+    summary: "Bu dersle Konteynerizasyon: Docker ve Docker Compose ile Çoklu Servis Yönetimi becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Kutu sağlıklı, sır imajda yok. Kamyon kapıdan nasıl çıkar. Compose sağlık lambası yanmadan web kalkmaz. Bir sonraki bölümde seni GitHub Actions ile CI/CD boru hattı bekliyor.",
     quiz: [
       mcq(
         "q_fsi4_1",
@@ -395,79 +146,19 @@ if (saglik("PONG") !== "ok") {
         1,
       ),
     ],
+    code: {
+      language: "yaml",
+      source: "services:\n  web:\n    build: .\n    depends_on:\n      redis:\n        condition: service_healthy\n    environment:\n      REDIS_URL: redis://redis:6379\n    user: node\n  redis:\n    image: redis:7-alpine\n    healthcheck:\n      test: [\"CMD\", \"redis-cli\", \"ping\"]\n      interval: 5s\n      retries: 5",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "fullstack-ileri-5",
     order: 5,
     title: "Otomatize Dağıtım: GitHub Actions ile CI/CD Pipeline ve Sunucu Yayını",
-    dialogue: {
-      warmup: [
-        koray(
-          "Kamyon kapıdan çıkmadan kalite gişesi kırmızı lamba yakmazsa bozuk somun sahaya iner. Gişe kırmızıysa kamyon durur mu?",
-        ),
-        maya(
-          "O gişe Sürekli Entegrasyon ve Sürekli Teslimat (CI/CD)dır. GitHub Actions o banttır. Fail-closed (Hata Anında Kapalı): test kırıkken `yayin` işi koşmaz. `continue-on-error: true` testte ihanettir.",
-        ),
-      ],
-      problem: [
-        koray("`needs: test` yokken yayin paralel koşarsa? Sır depoda?"),
-        maya(
-          "Kırmızı test yeşil kamyonla çıkar. Fail-closed: `needs: test` ve `if: success()`. Sır `secrets` bağlamındadır; YAML’a yapışmaz.",
-        ),
-      ],
-      development: [
-        koray("Boru hattını yaz. Test kırıkken yayın yok."),
-        maya(
-          "`yayin` `test`e bağlıdır. `continue-on-error` bu tezgâhta yoktur.",
-          {
-            language: "yaml",
-            source: `name: dagitim
-on:
-  push:
-    branches: [main]
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - run: npm ci
-      - run: npm test
-  yayin:
-    needs: test
-    if: success()
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "yayin"`,
-          },
-        ),
-        koray("Kod kapısı: testGecti false iken?"),
-        maya(
-          "Yayın adı basılmaz. Fail-closed fonksiyon aynı sözleşmeyi taşır.",
-          {
-            language: "ts",
-            source: `function yayinKapisi(testGecti: boolean, secretVar: boolean): "yayin" {
-  if (!testGecti) {
-    throw new Error("test kırık; yayın yok");
-  }
-  if (!secretVar) {
-    throw new Error("sır yok; yayın yok");
-  }
-  return "yayin";
-}
-
-if (yayinKapisi(true, true) !== "yayin") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("Gişe kırmızı, kamyon durur. Mini fabrikada hepsi bir arada mı?"),
-        maya(
-          "CI/CD test kırığını sahaya indirmez. Bir sonraki bölümde seni Docker üzerinde Redis destekli otomatik dağıtılan servis bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Otomatize Dağıtım: GitHub Actions ile CI/CD Pipeline ve Sunucu Yayını konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Kamyon kapıdan çıkmadan kalite gişesi kırmızı lamba yakmazsa bozuk somun sahaya iner. Gişe kırmızıysa kamyon durur mu. gişe Sürekli Entegrasyon ve Sürekli Teslimat (CI/CD)dır. GitHub Actions o banttır. Fail-closed (Hata Anında Kapalı): test kırıkken `yayin` işi koşmaz. `continue-on-error: true` testte ihanettir.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. `needs: test` yokken yayin paralel koşarsa. Sır depoda. Kırmızı test yeşil kamyonla çıkar. Fail-closed: `needs: test` ve `if: success()`. Sır `secrets` bağlamındadır; YAML’a yapışmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Boru hattını yaz. Test kırıkken yayın yok. `yayin` `test`e bağlıdır. `continue-on-error` bu tezgâhta yoktur. Kod kapısı: testGecti false iken. Yayın adı basılmaz. Fail-closed fonksiyon aynı sözleşmeyi taşır.",
+    summary: "Bu dersle Otomatize Dağıtım: GitHub Actions ile CI/CD Pipeline ve Sunucu Yayını becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Gişe kırmızı, kamyon durur. Mini fabrikada hepsi bir arada mı. CI/CD test kırığını sahaya indirmez. Bir sonraki bölümde seni Docker üzerinde Redis destekli otomatik dağıtılan servis bekliyor.",
     quiz: [
       mcq(
         "q_fsi5_1",
@@ -488,81 +179,19 @@ if (yayinKapisi(true, true) !== "yayin") {
         1,
       ),
     ],
+    code: {
+      language: "yaml",
+      source: "name: dagitim\non:\n  push:\n    branches: [main]\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: npm ci\n      - run: npm test\n  yayin:\n    needs: test\n    if: success()\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo \"yayin\"",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "fullstack-ileri-6",
     order: 6,
-    title:
-      "Mini Proje: Docker Üzerinde Çalışan, Redis Destekli ve CI/CD İle Otomatik Dağıtılan İleri Düzey Web Servisi",
-    dialogue: {
-      warmup: [
-        koray(
-          "Fabrika: reçete odası, ayrı bant, raf, kutu, kalite gişesi. Bir somun bu beş kapıdan geçmeden kamyona biner mi?",
-        ),
-        maya(
-          "Binmez. Mini servis: RSC/eylem kapısı, olay fişi, Redis rafı, Compose sağlığı, CI/CD gişesi. Fail-closed (Hata Anında Kapalı): biri kırmızıysa yayın yok.",
-        ),
-      ],
-      problem: [
-        koray("Redis PONG değilken /saglik 200? Test kırıkken kamyon?"),
-        maya(
-          "Sahte yeşil. Fail-closed sağlık Redis’e bağlıdır; yayın `testGecti && redisOk` ister. 200 boş teslim değildir.",
-        ),
-      ],
-      development: [
-        koray("Beş kapıyı tek motorda bas. Kırmızıda dur."),
-        maya(
-          "Sözleşme üretimle aynıdır: sku, Redis PONG, tavan, test. Canlı Docker yarın aynı kapıyı doldurur.",
-          {
-            language: "ts",
-            source: `function skuDogrula(ham: string): string {
-  const sku = ham.trim();
-  if (sku === "") {
-    throw new Error("sku yok; işlem durur");
-  }
-  return sku;
-}
-
-function saglik(pong: string): "ok" {
-  if (pong !== "PONG") {
-    throw new Error("redis yok; işlem durur");
-  }
-  return "ok";
-}
-
-function sinirla(sayac: number, tavan: number): void {
-  if (!Number.isInteger(tavan) || tavan < 1 || sayac >= tavan) {
-    throw new Error("429 veya tavan yok; işlem durur");
-  }
-}
-
-function yayinKapisi(testGecti: boolean, redisOk: boolean): "yayin" {
-  if (!testGecti || !redisOk) {
-    throw new Error("kapı kırmızı; yayın yok");
-  }
-  return "yayin";
-}
-
-if (skuDogrula("SOMUN") !== "SOMUN") {
-  throw new Error("sözleşme kırıldı");
-}
-if (saglik("PONG") !== "ok") {
-  throw new Error("sözleşme kırıldı");
-}
-sinirla(0, 3);
-if (yayinKapisi(true, true) !== "yayin") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("Reçete, bant, raf, kutu, gişe. İleri kapanış bu mu?"),
-        maya(
-          "RSC sırrı vitrine indirmez, olay sözleşmeli akar, Redis ve 429 dürüst kalır, Compose sağlık sormadan kalkmaz, CI/CD kırmızı testi sahaya indirmez. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
-        ),
-      ],
-    },
+    title: "Mini Proje: Docker Üzerinde Çalışan, Redis Destekli ve CI/CD İle Otomatik Dağıtılan İleri Düzey Web Servisi",
+    intro: "Hoş geldiniz. Bu bölümde Mini Proje: Docker Üzerinde Çalışan, Redis Destekli ve CI/CD İle Otomatik Dağıtılan İleri Düzey Web Servisi konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Fabrika: reçete odası, ayrı bant, raf, kutu, kalite gişesi. Bir somun bu beş kapıdan geçmeden kamyona biner mi. Binmez. Mini servis: RSC/eylem kapısı, olay fişi, Redis rafı, Compose sağlığı, CI/CD gişesi. Fail-closed (Hata Anında Kapalı): biri kırmızıysa yayın yok.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Redis PONG değilken /saglik 200. Test kırıkken kamyon. Sahte yeşil. Fail-closed sağlık Redis’e bağlıdır; yayın `testGecti && redisOk` ister. 200 boş teslim değildir.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Beş kapıyı tek motorda bas. Kırmızıda dur. Sözleşme üretimle aynıdır: sku, Redis PONG, tavan, test. Canlı Docker yarın aynı kapıyı doldurur.",
+    summary: "Bu dersle Mini Proje: Docker Üzerinde Çalışan, Redis Destekli ve CI/CD İle Otomatik Dağıtılan İleri Düzey Web Servisi becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Reçete, bant, raf, kutu, gişe. İleri kapanış bu mu. RSC sırrı vitrine indirmez, olay sözleşmeli akar, Redis ve 429 dürüst kalır, Compose sağlık sormadan kalkmaz, CI/CD kırmızı testi sahaya indirmez. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
     quiz: [
       mcq(
         "q_fsi6_1",
@@ -583,6 +212,10 @@ if (yayinKapisi(true, true) !== "yayin") {
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function skuDogrula(ham: string): string {\n  const sku = ham.trim();\n  if (sku === \"\") {\n    throw new Error(\"sku yok; işlem durur\");\n  }\n  return sku;\n}\n\nfunction saglik(pong: string): \"ok\" {\n  if (pong !== \"PONG\") {\n    throw new Error(\"redis yok; işlem durur\");\n  }\n  return \"ok\";\n}\n\nfunction sinirla(sayac: number, tavan: number): void {\n  if (!Number.isInteger(tavan) || tavan < 1 || sayac >= tavan) {\n    throw new Error(\"429 veya tavan yok; işlem durur\");\n  }\n}\n\nfunction yayinKapisi(testGecti: boolean, redisOk: boolean): \"yayin\" {\n  if (!testGecti || !redisOk) {\n    throw new Error(\"kapı kırmızı; yayın yok\");\n  }\n  return \"yayin\";\n}\n\nif (skuDogrula(\"SOMUN\") !== \"SOMUN\") {\n  throw new Error(\"sözleşme kırıldı\");\n}\nif (saglik(\"PONG\") !== \"ok\") {\n  throw new Error(\"sözleşme kırıldı\");\n}\nsinirla(0, 3);\nif (yayinKapisi(true, true) !== \"yayin\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
 ] as const;
 

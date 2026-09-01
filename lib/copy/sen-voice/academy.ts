@@ -124,6 +124,7 @@ export const ACADEMY_SEN = {
       "Testi geçince sertifika basılır; mühür Kariyer'de vizeye ve teklif kapısına dönüşür.",
     lockedHint: "Ders gövdesi ödeme sonrası açılır.",
     empty: "Bu eğitimin ders listesi henüz yok.",
+    kindAudio: "Ses",
     kindVideo: "Video",
     kindDocument: "Doküman",
     durationMin: (minutes: number) => `${minutes} dk`,
@@ -213,7 +214,7 @@ export const ACADEMY_SEN = {
     abandonLead: "Cevaplar gönderilmez. Yeniden başlayabilirsin.",
   },
   player: {
-    eyebrow: (name: string, _moderatorName = "Koray") => `Eğitmen ${name}`,
+    eyebrow: (name: string) => `Eğitmen ${name}`,
     instructorLead: (name: string) => `Bu eğitimi ${name} anlatır.`,
     catalogCta: "Eğitime dön",
     locked: "Ödeme alınmadan ders içeriği açılmaz.",
@@ -353,7 +354,7 @@ export const ACADEMY_SEN = {
     challengeSkipped: "Alıştırma geçildi — devam",
   },
   listen: {
-    eyebrow: (name: string, _moderatorName = "Koray") => `Eğitmen ${name}`,
+    eyebrow: (name: string) => `Eğitmen ${name}`,
     cta: "Dersi Dinle",
     preparing: "Hazırlanıyor…",
     playing: (name: string, _moderatorName = "Koray") => `Eğitmen ${name} anlatıyor`,

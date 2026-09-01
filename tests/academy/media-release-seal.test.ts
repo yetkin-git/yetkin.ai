@@ -11,12 +11,10 @@ import {
   academyMediaSealedWavCount,
   isAcademyLessonAudioSealed,
 } from "@/lib/academy/pilot-sku";
-import { academyLessonAudioPublicPath } from "@/lib/academy/lesson-audio";
-import {
-  academyCastForDialogueSpeaker,
-  ACADEMY_INSTRUCTOR_SPEECH_RATE,
-  academyModeratorSpeechRateForSlug,
-} from "@/lib/academy/instructors";
+import { academyLessonAudioPublicPath, ACADEMY_SEALED_AUDIO_DURATION_SEC } from "@/lib/academy/lesson-audio";
+import { academyLessonDurationMin } from "@/lib/academy/lesson-meta";
+import { pcmWavDurationSec } from "@/lib/kernel/ai/pcm-wav";
+import { academyCastForDialogueSpeaker, ACADEMY_INSTRUCTOR_SPEECH_RATE } from "@/lib/academy/instructors";
 import {
   ACADEMY_MEDIA_RELEASE_BUCKET,
   academyLessonAudioDiskPath,
@@ -128,20 +126,21 @@ describe("Zero-Cost Streaming mediaReleaseSeal", () => {
     }
   });
 
-  it("Eğitmen Master Voice %100, Koray/Can/Tarık seviye temposu", () => {
+  it("Eğitmen Master Voice Erinome %100; moderatör ders sesine girmez", () => {
     expect(academyCastForDialogueSpeaker("python-temel", "maya").speechRate).toBe(
       ACADEMY_INSTRUCTOR_SPEECH_RATE,
     );
     expect(academyCastForDialogueSpeaker("python-temel", "maya").voice).toBe("Erinome");
     expect(academyCastForDialogueSpeaker("python-temel", "koray").speechRate).toBe(1);
-    expect(academyCastForDialogueSpeaker("python-temel", "koray").voice).toBe("Charon");
+    expect(academyCastForDialogueSpeaker("python-temel", "koray").voice).toBe("Erinome");
     expect(academyCastForDialogueSpeaker("ai-agent-orta", "koray").speechRate).toBe(
-      academyModeratorSpeechRateForSlug("ai-agent-orta"),
+      ACADEMY_INSTRUCTOR_SPEECH_RATE,
     );
-    expect(academyCastForDialogueSpeaker("security-temel", "ece").voice).toBe("Leda");
-    expect(academyCastForDialogueSpeaker("security-temel", "can").voice).toBe("Enceladus");
-    expect(academyCastForDialogueSpeaker("excel-masterclass", "gozde").voice).toBe("Callirrhoe");
-    expect(academyCastForDialogueSpeaker("excel-masterclass", "tarik").voice).toBe("Iapetus");
+    expect(academyCastForDialogueSpeaker("ai-agent-orta", "koray").voice).toBe("Erinome");
+    expect(academyCastForDialogueSpeaker("security-temel", "ece").voice).toBe("Erinome");
+    expect(academyCastForDialogueSpeaker("security-temel", "can").voice).toBe("Erinome");
+    expect(academyCastForDialogueSpeaker("excel-masterclass", "gozde").voice).toBe("Erinome");
+    expect(academyCastForDialogueSpeaker("excel-masterclass", "tarik").voice).toBe("Erinome");
     expect(ACADEMY_MEDIA_RELEASE_BUCKET).toBe("public");
   });
 
@@ -149,5 +148,20 @@ describe("Zero-Cost Streaming mediaReleaseSeal", () => {
     const chunks = splitAcademySpeechChunks("Bir. ".repeat(400), 40);
     expect(chunks.length).toBeGreaterThan(1);
     expect(chunks.every((chunk) => chunk.length <= 40)).toBe(true);
+  });
+
+  it("mühürlü WAV süresi oynatma listesi tablosuyla senkron", () => {
+    expect(Object.keys(ACADEMY_SEALED_AUDIO_DURATION_SEC)).toHaveLength(16);
+    for (const slug of ACADEMY_MEDIA_SEALED_SKU_SLUGS) {
+      for (const key of ACADEMY_MEDIA_SEALED_AUDIO[slug]) {
+        const wav = readFileSync(join(AUDIO_ROOT, slug, `${key}.wav`));
+        const sec = pcmWavDurationSec(wav);
+        const stamped = ACADEMY_SEALED_AUDIO_DURATION_SEC[key as keyof typeof ACADEMY_SEALED_AUDIO_DURATION_SEC];
+        expect(stamped, key).toBe(Math.round(sec));
+        expect(academyLessonDurationMin({ key, courseSlug: slug }), key).toBe(
+          Math.max(1, Math.round(sec / 60)),
+        );
+      }
+    }
   });
 });

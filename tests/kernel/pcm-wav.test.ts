@@ -8,6 +8,8 @@ import {
   collectGeminiInlineAudioParts,
   mergeGeminiInlineAudioToWav,
   tempoStretchPcmWav,
+  createSilentPcmWav,
+  pcmWavDurationSec,
 } from "@/lib/kernel/ai/pcm-wav";
 
 describe("Gemini TTS PCM → WAV tamponu", () => {
@@ -58,6 +60,11 @@ describe("Gemini TTS PCM → WAV tamponu", () => {
     const ratio = outSamples / (24_000 / 0.95);
     expect(ratio).toBeGreaterThan(0.8);
     expect(ratio).toBeLessThan(1.25);
+  });
+
+  it("pcmWavDurationSec sessiz tamponu milisaniyeye çevirir", () => {
+    expect(pcmWavDurationSec(createSilentPcmWav(600, 24_000))).toBeCloseTo(0.6, 3);
+    expect(pcmWavDurationSec(Buffer.alloc(8))).toBe(0);
   });
 
   it("base64 PCM çözer; mime'den sample rate okur", () => {

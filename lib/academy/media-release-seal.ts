@@ -86,9 +86,9 @@ export function academyMediaReleaseTurnsForLesson(
     if (!spokenText) {
       continue;
     }
-    const cast = academyCastForDialogueSpeaker(courseSlug, turn.speaker);
+    const cast = academyCastForDialogueSpeaker(courseSlug, "egitmen");
     turns.push({
-      speaker: turn.speaker,
+      speaker: "egitmen",
       text: turn.text,
       spokenText,
       voice: cast.voice,

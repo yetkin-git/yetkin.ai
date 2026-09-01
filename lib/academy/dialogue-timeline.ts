@@ -8,13 +8,8 @@ import type { DialogueSpeakerId, DialogueTurn } from "@/lib/academy/curricula/ty
 import {
   academyDialogueSpeakerDisplayName,
   academyDialogueSpeakerIdFromDisplayName,
-  isAcademyInstructorSpeaker,
 } from "@/lib/academy/curricula/types";
-import {
-  ACADEMY_INSTRUCTOR_SPEECH_RATE,
-  ACADEMY_MODERATOR,
-  academyModeratorSpeechRateForSlug,
-} from "@/lib/academy/instructors";
+import { ACADEMY_INSTRUCTOR_SPEECH_RATE } from "@/lib/academy/instructors";
 import {
   ACADEMY_FIVE_ACT_HEADINGS,
   classifyAcademyLessonChunk,
@@ -68,14 +63,8 @@ export function academyDialogueDisplayName(speaker: DialogueSpeakerId): Dialogue
   return academyDialogueSpeakerDisplayName(speaker);
 }
 
-export function academyDialogueSpeechRate(speaker: DialogueSpeakerId, slug?: string): number {
-  if (isAcademyInstructorSpeaker(speaker)) {
-    return ACADEMY_INSTRUCTOR_SPEECH_RATE;
-  }
-  if (slug) {
-    return academyModeratorSpeechRateForSlug(slug);
-  }
-  return ACADEMY_MODERATOR.speechRate;
+export function academyDialogueSpeechRate(_speaker: DialogueSpeakerId, _slug?: string): number {
+  return ACADEMY_INSTRUCTOR_SPEECH_RATE;
 }
 
 export function academyDialogueWordCount(text: string): number {
@@ -136,7 +125,7 @@ function collectDialogueTurns(body: string): UntimedTurn[] {
       const line = parseDialogueLine(paragraph);
       if (line) {
         turns.push({
-          speaker: isAcademyInstructorSpeaker(line.speaker) ? line.speaker : "egitmen",
+          speaker: "egitmen",
           text: line.text,
           act: currentAct,
         });

@@ -7,8 +7,7 @@
 
 import type { AcademyExamQuestion } from "@/lib/academy/types";
 import {
-  academyFiveActLessonDraft,
-  dialogueTurn,
+  academyInstructorLessonDraft,
   type AcademyLessonDraft,
 } from "@/lib/academy/curricula/types";
 
@@ -21,64 +20,15 @@ function mcq(
   return { id, prompt, choices: [...choices], correctIndex };
 }
 
-const can = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("can", text, code);
-const ece = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("ece", text, code);
-
 export const SECURITY_ILERI_LESSONS: readonly AcademyLessonDraft[] = [
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "security-ileri-1",
     order: 1,
     title: "DevSecOps Mimarisi: CI/CD Pipeline'ına Otomatik Güvenlik Testleri (SAST/DAST/SCA) Ekleme",
-    dialogue: {
-      warmup: [
-        can("Kalite damgası basılmadan kamyon rampadan iner mi?"),
-        ece(
-          "İnmez. Geliştirme-Güvenlik-İşletme (DevSecOps) o damga gişesidir: Statik Uygulama Güvenlik Testi (SAST), Dinamik Uygulama Güvenlik Testi (DAST) ve Yazılım Bileşen Analizi (SCA) sırayla basılır. Damga yoksa kamyon çıkmaz. Fail-closed (Hata Anında Kapalı): bir gişe kırmızıysa yayın durur.",
-        ),
-      ],
-      problem: [
-        can("Root sızdı, boru hattı yine yeşil. Kapı nerede kırıldı?"),
-        ece(
-          "Yeşil yalandır. SAST sır kalıbını görmeden, DAST oturumsuz, SCA lisans/CVE tavanı aşılmışken «geç» basmak kamyonu damgasız göndermektir. Fail-closed: üç damga durmadan `yayin` çağrılmaz. Sömürü tarifi burada yoktur; kapı kapanır.",
-        ),
-      ],
-      development: [
-        can("Üç damgayı yaz. Birini kır."),
-        ece(
-          "Varsayılan kapalıdır. `boruHatti` SAST temiz, DAST oturumlu, SCA tavan altında ister. Biri kırıkken yayın durur. CVE sayısı tamsayı değilse durur.",
-          {
-            language: "ts",
-            source: `type Damga = { sastTemiz: boolean; dastOturum: boolean; scaCve: number };
-const CVE_TAVAN = 0;
-
-function boruHatti(damga: Damga): "yayin" {
-  if (!damga.sastTemiz) throw new Error("SAST kırmızı; yayın durur");
-  if (!damga.dastOturum) throw new Error("DAST oturumsuz; yayın durur");
-  if (!Number.isInteger(damga.scaCve) || damga.scaCve > CVE_TAVAN) {
-    throw new Error("SCA tavan aşıldı; yayın durur");
-  }
-  return "yayin";
-}
-
-if (boruHatti({ sastTemiz: true, dastOturum: true, scaCve: 0 }) !== "yayin") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        can("«Uyarı yeter, kamyon çıksın» dersek?"),
-        ece(
-          "Uyarı damga değildir. Fail-closed kırmızıda kamyonu tutar. Sen bu derste boru hattını kapatmayı öğreniyorsun; sonraki bölümde seni Kimlik ve Erişim Yönetimi (IAM) ve Anahtar Yönetim Servisi (KMS) bekliyor.",
-        ),
-      ],
-      conclusion: [
-        can("Üç damga, tavan sıfır, yeşil yalan. Sonraki kapı nedir?"),
-        ece(
-          "Boru hattı durunca bulut anahtarına ineriz. Bir sonraki bölümde seni Amazon Web Servisleri / Azure IAM, en az yetki ve KMS ile veri şifreleme bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde DevSecOps Mimarisi: CI/CD Pipeline'ına Otomatik Güvenlik Testleri (SAST/DAST/SCA) Ekleme konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Kalite damgası basılmadan kamyon rampadan iner mi. İnmez. Geliştirme-Güvenlik-İşletme (DevSecOps) o damga gişesidir: Statik Uygulama Güvenlik Testi (SAST), Dinamik Uygulama Güvenlik Testi (DAST) ve Yazılım Bileşen Analizi (SCA) sırayla basılır. Damga yoksa kamyon çıkmaz. Fail-closed (Hata Anında Kapalı): bir gişe kırmızıysa yayın durur.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Root sızdı, boru hattı yine yeşil. Kapı nerede kırıldı. Yeşil yalandır. SAST sır kalıbını görmeden, DAST oturumsuz, SCA lisans/CVE tavanı aşılmışken «geç» basmak kamyonu damgasız göndermektir. Fail-closed: üç damga durmadan `yayin` çağrılmaz. Sömürü tarifi burada yoktur; kapı kapanır.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Üç damgayı yaz. Birini kır. Varsayılan kapalıdır. `boruHatti` SAST temiz, DAST oturumlu, SCA tavan altında ister. Biri kırıkken yayın durur. CVE sayısı tamsayı değilse durur. «Uyarı yeter, kamyon çıksın» dersek. Uyarı damga değildir. Fail-closed kırmızıda kamyonu tutar. Sen bu derste boru hattını kapatmayı öğreniyorsun; sonraki bölümde seni Kimlik ve Erişim Yönetimi (IAM) ve Anahtar Yönetim Servisi (KMS) bekliyor.",
+    summary: "Bu dersle DevSecOps Mimarisi: CI/CD Pipeline'ına Otomatik Güvenlik Testleri (SAST/DAST/SCA) Ekleme becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Üç damga, tavan sıfır, yeşil yalan. Sonraki kapı nedir. Boru hattı durunca bulut anahtarına ineriz. Bir sonraki bölümde seni Amazon Web Servisleri / Azure IAM, en az yetki ve KMS ile veri şifreleme bekliyor.",
     quiz: [
       mcq(
         "q_seci1_1",
@@ -99,63 +49,19 @@ if (boruHatti({ sastTemiz: true, dastOturum: true, scaCve: 0 }) !== "yayin") {
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "type Damga = { sastTemiz: boolean; dastOturum: boolean; scaCve: number };\nconst CVE_TAVAN = 0;\n\nfunction boruHatti(damga: Damga): \"yayin\" {\n  if (!damga.sastTemiz) throw new Error(\"SAST kırmızı; yayın durur\");\n  if (!damga.dastOturum) throw new Error(\"DAST oturumsuz; yayın durur\");\n  if (!Number.isInteger(damga.scaCve) || damga.scaCve > CVE_TAVAN) {\n    throw new Error(\"SCA tavan aşıldı; yayın durur\");\n  }\n  return \"yayin\";\n}\n\nif (boruHatti({ sastTemiz: true, dastOturum: true, scaCve: 0 }) !== \"yayin\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "security-ileri-2",
     order: 2,
     title: "Bulut Güvenliği ve Erişim Yönetimi: AWS/Azure IAM, Least Privilege ve KMS İle Veri Şifreleme",
-    dialogue: {
-      warmup: [
-        can("Otelde her kapıya usta anahtar mı verilir, yoksa oda fişi mi?"),
-        ece(
-          "Oda fişi. Kimlik ve Erişim Yönetimi (IAM) o fiştir: en az yetki, isimli rol, süre. Anahtar Yönetim Servisi (KMS) kasanın mühürüdür — veri düz metin rafta durmaz. Fail-closed: joker (`*`) veya root kalıcı anahtar varsa işlem durur.",
-        ),
-      ],
-      problem: [
-        can("Root sızınca günlükler de silinir. Fiş nerede yoktu?"),
-        ece(
-          "Usta anahtar her çekmeceyi açar; sızınca kasa da boşalır. Fail-closed: eylem izin listesinde değilse durur. KMS anahtarı yoksa şifreleme uydurulmaz. Bu ders sızma tarifi vermez; fişi daraltmayı öğretir.",
-        ),
-      ],
-      development: [
-        can("Rol, eylem, KMS. Joker ve boş anahtarı kır."),
-        ece(
-          "`iamKapi` rolü ve eylemi kümede ister. Joker eylem düşer. `kmsMuhur` anahtar kimliği boşsa durur. Varsayılan kapalıdır.",
-          {
-            language: "ts",
-            source: `const IZINLI_ROL = new Set(["okur", "yazici"]);
-const IZINLI_EYLEM = new Set(["s3:GetObject", "kms:Decrypt"]);
-
-function iamKapi(rol: string, eylem: string): "kabul" {
-  const r = rol.trim();
-  const e = eylem.trim();
-  if (!IZINLI_ROL.has(r) || e === "*" || !IZINLI_EYLEM.has(e)) {
-    throw new Error("yetki yok; işlem durur");
-  }
-  return "kabul";
-}
-
-function kmsMuhur(anahtarId: string): "sifreli" {
-  if (!anahtarId.trim()) throw new Error("KMS yok; şifreleme durur");
-  return "sifreli";
-}
-
-if (iamKapi("okur", "s3:GetObject") !== "kabul") throw new Error("sözleşme kırıldı");
-if (kmsMuhur("arn:kms:lab") !== "sifreli") throw new Error("sözleşme kırıldı");`,
-          },
-        ),
-        can("«Geçici root, sonra sileriz» dersek?"),
-        ece(
-          "Geçici usta anahtar da usta anahtardır. Fail-closed joker ve root’u reddeder. Sen fişi daraltıyorsun; sonraki bölümde seni olay müdahalesi ve günlük bütünlüğü bekliyor.",
-        ),
-      ],
-      conclusion: [
-        can("İsimli rol, liste, KMS. Sonraki kapı nedir?"),
-        ece(
-          "Fiş daralınca sızma anına ineriz. Bir sonraki bölümde seni Olay Müdahalesi ve dijital adli bilişim mimarisi bekliyor: günlük silinmez.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Bulut Güvenliği ve Erişim Yönetimi: AWS/Azure IAM, Least Privilege ve KMS İle Veri Şifreleme konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Otelde her kapıya usta anahtar mı verilir, yoksa oda fişi mi. Oda fişi. Kimlik ve Erişim Yönetimi (IAM) o fiştir: en az yetki, isimli rol, süre. Anahtar Yönetim Servisi (KMS) kasanın mühürüdür — veri düz metin rafta durmaz. Fail-closed: joker (`*`) veya root kalıcı anahtar varsa işlem durur.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Root sızınca günlükler de silinir. Fiş nerede yoktu. Usta anahtar her çekmeceyi açar; sızınca kasa da boşalır. Fail-closed: eylem izin listesinde değilse durur. KMS anahtarı yoksa şifreleme uydurulmaz. Bu ders sızma tarifi vermez; fişi daraltmayı öğretir.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Rol, eylem, KMS. Joker ve boş anahtarı kır. `iamKapi` rolü ve eylemi kümede ister. Joker eylem düşer. `kmsMuhur` anahtar kimliği boşsa durur. Varsayılan kapalıdır. «Geçici root, sonra sileriz» dersek. Geçici usta anahtar da usta anahtardır. Fail-closed joker ve root’u reddeder. Sen fişi daraltıyorsun; sonraki bölümde seni olay müdahalesi ve günlük bütünlüğü bekliyor.",
+    summary: "Bu dersle Bulut Güvenliği ve Erişim Yönetimi: AWS/Azure IAM, Least Privilege ve KMS İle Veri Şifreleme becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. İsimli rol, liste, KMS. Sonraki kapı nedir. Fiş daralınca sızma anına ineriz. Bir sonraki bölümde seni Olay Müdahalesi ve dijital adli bilişim mimarisi bekliyor: günlük silinmez.",
     quiz: [
       mcq(
         "q_seci2_1",
@@ -176,64 +82,19 @@ if (kmsMuhur("arn:kms:lab") !== "sifreli") throw new Error("sözleşme kırıld�
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "const IZINLI_ROL = new Set([\"okur\", \"yazici\"]);\nconst IZINLI_EYLEM = new Set([\"s3:GetObject\", \"kms:Decrypt\"]);\n\nfunction iamKapi(rol: string, eylem: string): \"kabul\" {\n  const r = rol.trim();\n  const e = eylem.trim();\n  if (!IZINLI_ROL.has(r) || e === \"*\" || !IZINLI_EYLEM.has(e)) {\n    throw new Error(\"yetki yok; işlem durur\");\n  }\n  return \"kabul\";\n}\n\nfunction kmsMuhur(anahtarId: string): \"sifreli\" {\n  if (!anahtarId.trim()) throw new Error(\"KMS yok; şifreleme durur\");\n  return \"sifreli\";\n}\n\nif (iamKapi(\"okur\", \"s3:GetObject\") !== \"kabul\") throw new Error(\"sözleşme kırıldı\");\nif (kmsMuhur(\"arn:kms:lab\") !== \"sifreli\") throw new Error(\"sözleşme kırıldı\");",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "security-ileri-3",
     order: 3,
     title: "Olay Müdahalesi (Incident Response) ve Dijital Adli Bilişim (Digital Forensics) Mimarisi",
-    dialogue: {
-      warmup: [
-        can("Yangında itfaiye hortumu basmadan önce mühürlü torba durur mu?"),
-        ece(
-          "Durur. Olay Müdahalesi (IR) hortum sırasıdır: hazırlık, tespit, çevreleme, kök, toparlanma. Dijital adli bilişim mühürlü torbadadır — günlük hash’lenir, zincir yazılı durur. Fail-closed: torba boş veya hash kopuksa rapor basılmaz.",
-        ),
-      ],
-      problem: [
-        can("Sızma anında günlükler silinirse mahkeme neyi görür?"),
-        ece(
-          "Boş sahne görür. Silinen günlük bütünlüğü kırar. Fail-closed: ekleme-yalnız raf, hash zinciri, imza. Silme eylemi listede yoktur; çağrılırsa işlem durur. Bu ders silme tarifi vermez; torbayı kapatmayı öğretir.",
-        ),
-      ],
-      development: [
-        can("Zinciri yaz. Silme ve kopuk hash’i kır."),
-        ece(
-          "`gunlukEkle` imza ve önceki hash ister. Eylem `sil` ise durur. Hash boşsa durur. `zincirDogrula` kopuk halkada rapor basmaz.",
-          {
-            language: "ts",
-            source: `type Halka = { eylem: string; imza: boolean; oncekiHash: string; hash: string };
-
-function gunlukEkle(halka: Halka): "eklendi" {
-  const e = halka.eylem.trim();
-  if (!e || e === "sil") throw new Error("silme yok; torba durur");
-  if (!halka.imza || !halka.hash.trim() || !halka.oncekiHash.trim()) {
-    throw new Error("zincir kopuk; kayıt durur");
-  }
-  return "eklendi";
-}
-
-function zincirDogrula(onceki: string, gelen: string): "saglam" {
-  if (!onceki.trim() || onceki !== gelen) throw new Error("hash kopuk; rapor durur");
-  return "saglam";
-}
-
-if (gunlukEkle({ eylem: "yaz", imza: true, oncekiHash: "a", hash: "b" }) !== "eklendi") {
-  throw new Error("sözleşme kırıldı");
-}
-if (zincirDogrula("a", "a") !== "saglam") throw new Error("sözleşme kırıldı");`,
-          },
-        ),
-        can("«Önce hortum, torba sonra» dersek?"),
-        ece(
-          "Torbayı yırtmak kanıtı yok eder. Fail-closed önce zinciri kilitler, sonra çevreleme. Sen torbayı kilitliyorsun; sonraki bölümde seni Güvenlik Bilgisi ve Olay Yönetimi (SIEM) bekliyor.",
-        ),
-      ],
-      conclusion: [
-        can("İmza, hash, silme yok. Sonraki kapı nedir?"),
-        ece(
-          "Torba durunca kontrol odasına çıkarız. Bir sonraki bölümde seni SIEM, Güvenlik Operasyon Merkezi (SOC) ve anomali tespiti bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Olay Müdahalesi (Incident Response) ve Dijital Adli Bilişim (Digital Forensics) Mimarisi konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Yangında itfaiye hortumu basmadan önce mühürlü torba durur mu. Durur. Olay Müdahalesi (IR) hortum sırasıdır: hazırlık, tespit, çevreleme, kök, toparlanma. Dijital adli bilişim mühürlü torbadadır — günlük hash’lenir, zincir yazılı durur. Fail-closed: torba boş veya hash kopuksa rapor basılmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Sızma anında günlükler silinirse mahkeme neyi görür. Boş sahne görür. Silinen günlük bütünlüğü kırar. Fail-closed: ekleme-yalnız raf, hash zinciri, imza. Silme eylemi listede yoktur; çağrılırsa işlem durur. Bu ders silme tarifi vermez; torbayı kapatmayı öğretir.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Zinciri yaz. Silme ve kopuk hash’i kır. `gunlukEkle` imza ve önceki hash ister. Eylem `sil` ise durur. Hash boşsa durur. `zincirDogrula` kopuk halkada rapor basmaz. «Önce hortum, torba sonra» dersek. Torbayı yırtmak kanıtı yok eder. Fail-closed önce zinciri kilitler, sonra çevreleme. Sen torbayı kilitliyorsun; sonraki bölümde seni Güvenlik Bilgisi ve Olay Yönetimi (SIEM) bekliyor.",
+    summary: "Bu dersle Olay Müdahalesi (Incident Response) ve Dijital Adli Bilişim (Digital Forensics) Mimarisi becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. İmza, hash, silme yok. Sonraki kapı nedir. Torba durunca kontrol odasına çıkarız. Bir sonraki bölümde seni SIEM, Güvenlik Operasyon Merkezi (SOC) ve anomali tespiti bekliyor.",
     quiz: [
       mcq(
         "q_seci3_1",
@@ -254,67 +115,19 @@ if (zincirDogrula("a", "a") !== "saglam") throw new Error("sözleşme kırıldı
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "type Halka = { eylem: string; imza: boolean; oncekiHash: string; hash: string };\n\nfunction gunlukEkle(halka: Halka): \"eklendi\" {\n  const e = halka.eylem.trim();\n  if (!e || e === \"sil\") throw new Error(\"silme yok; torba durur\");\n  if (!halka.imza || !halka.hash.trim() || !halka.oncekiHash.trim()) {\n    throw new Error(\"zincir kopuk; kayıt durur\");\n  }\n  return \"eklendi\";\n}\n\nfunction zincirDogrula(onceki: string, gelen: string): \"saglam\" {\n  if (!onceki.trim() || onceki !== gelen) throw new Error(\"hash kopuk; rapor durur\");\n  return \"saglam\";\n}\n\nif (gunlukEkle({ eylem: \"yaz\", imza: true, oncekiHash: \"a\", hash: \"b\" }) !== \"eklendi\") {\n  throw new Error(\"sözleşme kırıldı\");\n}\nif (zincirDogrula(\"a\", \"a\") !== \"saglam\") throw new Error(\"sözleşme kırıldı\");",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "security-ileri-4",
     order: 4,
     title: "SIEM, SOC ve Günlük (Log) Analizi: Tehdit Avcılığı ve Anomali Tespiti",
-    dialogue: {
-      warmup: [
-        can("Kontrol odasında kamera kaydı yoksa nöbetçi neyi avlar?"),
-        ece(
-          "Boş duvarı. Güvenlik Bilgisi ve Olay Yönetimi (SIEM) o kaydı toplar; Güvenlik Operasyon Merkezi (SOC) nöbetçidir. Tehdit avcılığı izinli kaynaktan anomali arar — izinsiz ağa girmek değil. Fail-closed: kaynak listede yoksa veya imza yoksa olay düşer.",
-        ),
-      ],
-      problem: [
-        can("Root sızdı, kayıt silindi, ekran yine yeşil. Av nerede kör?"),
-        ece(
-          "Kaynak yok, taban yok, imza yok. Fail-closed: imzasız veya boş gövde olay basmaz. «Her sapma saldırı» modeli değildir; taban yazılı durur. Sömürü tarifi yoktur; kapı kapanır.",
-        ),
-      ],
-      development: [
-        can("Kaynak, imza, taban. Üçünü de kır."),
-        ece(
-          "`siemOlay` izinli kaynak ve imza ister. Taban sıfır veya sapma tanımsızsa durur. Anomali yalnız tabanın üstünde ve imzalı kayıttan basılır.",
-          {
-            language: "ts",
-            source: `const IZINLI_KAYNAK = new Set(["lab-vpc-flow", "lab-cloudtrail"]);
-
-function siemOlay(girdi: {
-  kaynak: string;
-  imza: boolean;
-  taban: number;
-  deger: number;
-}): "anomali" | "normal" {
-  const k = girdi.kaynak.trim();
-  if (!IZINLI_KAYNAK.has(k) || !girdi.imza) throw new Error("kayıt yok; olay düşer");
-  if (!Number.isFinite(girdi.taban) || girdi.taban <= 0) {
-    throw new Error("taban yok; av durur");
-  }
-  if (!Number.isFinite(girdi.deger) || girdi.deger < 0) {
-    throw new Error("geçersiz değer; av durur");
-  }
-  if (girdi.deger > girdi.taban) return "anomali";
-  return "normal";
-}
-
-if (siemOlay({ kaynak: "lab-vpc-flow", imza: true, taban: 10, deger: 12 }) !== "anomali") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        can("«Tabanı sonra koyarız» dersek?"),
-        ece(
-          "Tabansız av uydurmadır. Fail-closed boş tabanda durur. Sen kaydı kilitleyorsun; sonraki bölümde seni Sıfır Güven ve mikro-segmentasyon bekliyor.",
-        ),
-      ],
-      conclusion: [
-        can("İzinli kaynak, imza, taban. Sonraki kapı nedir?"),
-        ece(
-          "Nöbetçi durunca iç ağa ineriz. Bir sonraki bölümde seni Sıfır Güven mimarisi ve ağ mikro-segmentasyonu bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde SIEM, SOC ve Günlük (Log) Analizi: Tehdit Avcılığı ve Anomali Tespiti konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Kontrol odasında kamera kaydı yoksa nöbetçi neyi avlar. Boş duvarı. Güvenlik Bilgisi ve Olay Yönetimi (SIEM) o kaydı toplar; Güvenlik Operasyon Merkezi (SOC) nöbetçidir. Tehdit avcılığı izinli kaynaktan anomali arar — izinsiz ağa girmek değil. Fail-closed: kaynak listede yoksa veya imza yoksa olay düşer.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Root sızdı, kayıt silindi, ekran yine yeşil. Av nerede kör. Kaynak yok, taban yok, imza yok. Fail-closed: imzasız veya boş gövde olay basmaz. «Her sapma saldırı» modeli değildir; taban yazılı durur. Sömürü tarifi yoktur; kapı kapanır.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Kaynak, imza, taban. Üçünü de kır. `siemOlay` izinli kaynak ve imza ister. Taban sıfır veya sapma tanımsızsa durur. Anomali yalnız tabanın üstünde ve imzalı kayıttan basılır. «Tabanı sonra koyarız» dersek. Tabansız av uydurmadır. Fail-closed boş tabanda durur. Sen kaydı kilitleyorsun; sonraki bölümde seni Sıfır Güven ve mikro-segmentasyon bekliyor.",
+    summary: "Bu dersle SIEM, SOC ve Günlük (Log) Analizi: Tehdit Avcılığı ve Anomali Tespiti becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. İzinli kaynak, imza, taban. Sonraki kapı nedir. Nöbetçi durunca iç ağa ineriz. Bir sonraki bölümde seni Sıfır Güven mimarisi ve ağ mikro-segmentasyonu bekliyor.",
     quiz: [
       mcq(
         "q_seci4_1",
@@ -335,61 +148,19 @@ if (siemOlay({ kaynak: "lab-vpc-flow", imza: true, taban: 10, deger: 12 }) !== "
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "const IZINLI_KAYNAK = new Set([\"lab-vpc-flow\", \"lab-cloudtrail\"]);\n\nfunction siemOlay(girdi: {\n  kaynak: string;\n  imza: boolean;\n  taban: number;\n  deger: number;\n}): \"anomali\" | \"normal\" {\n  const k = girdi.kaynak.trim();\n  if (!IZINLI_KAYNAK.has(k) || !girdi.imza) throw new Error(\"kayıt yok; olay düşer\");\n  if (!Number.isFinite(girdi.taban) || girdi.taban <= 0) {\n    throw new Error(\"taban yok; av durur\");\n  }\n  if (!Number.isFinite(girdi.deger) || girdi.deger < 0) {\n    throw new Error(\"geçersiz değer; av durur\");\n  }\n  if (girdi.deger > girdi.taban) return \"anomali\";\n  return \"normal\";\n}\n\nif (siemOlay({ kaynak: \"lab-vpc-flow\", imza: true, taban: 10, deger: 12 }) !== \"anomali\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "security-ileri-5",
     order: 5,
     title: "Zero Trust (Sıfır Güven Mimarisi) ve Ağ Mikro-Segmentasyonu",
-    dialogue: {
-      warmup: [
-        can("Binanın içindeyken her kapı yine rozet ister mi?"),
-        ece(
-          "İster. Sıfır Güven (Zero Trust) o kuraldır: konum güven değildir. Kimlik, cihaz, segment üçlüsü her istekte sorulur. Mikro-segmentasyon koridoru odalara böler. Fail-closed: üçlüden biri boşsa paket düşer.",
-        ),
-      ],
-      problem: [
-        can("Root bir odaya girdi, bütün kat açık. Segment nerede yoktu?"),
-        ece(
-          "Düz ağ usta anahtardır. Fail-closed: kimlik, cihaz onayı ve segment etiketi yazılı durur. «İçerideyim» cümlesi kapı değildir. Bu ders yanal hareket tarifi vermez; koridoru kapatmayı öğretir.",
-        ),
-      ],
-      development: [
-        can("Üçlüyü yaz. Birini kır."),
-        ece(
-          "`sifirGuven` kimlik, cihaz ve segment kümesinde ister. Boş veya listede yoksa paket düşer. Varsayılan kapalıdır: deny by default.",
-          {
-            language: "ts",
-            source: `const IZINLI_KIMLIK = new Set(["rol-okur"]);
-const IZINLI_CIHAZ = new Set(["mdm-lab"]);
-const IZINLI_SEGMENT = new Set(["app-a"]);
-
-function sifirGuven(girdi: { kimlik: string; cihaz: string; segment: string }): "gec" {
-  const k = girdi.kimlik.trim();
-  const c = girdi.cihaz.trim();
-  const s = girdi.segment.trim();
-  if (!IZINLI_KIMLIK.has(k) || !IZINLI_CIHAZ.has(c) || !IZINLI_SEGMENT.has(s)) {
-    throw new Error("üçlü yok; paket düşer");
-  }
-  return "gec";
-}
-
-if (sifirGuven({ kimlik: "rol-okur", cihaz: "mdm-lab", segment: "app-a" }) !== "gec") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        can("«VPN içeri aldı, yeter» dersek?"),
-        ece(
-          "VPN konumdur, rozet değildir. Fail-closed her kapıda üçlüyü sorar. Sen koridoru kapatıyorsun; sonraki bölümde seni otomatize boru hattı ve olay müdahale senaryosu bekliyor.",
-        ),
-      ],
-      conclusion: [
-        can("Kimlik, cihaz, segment. Mini proje bu üçlüyü mi bağlar?"),
-        ece(
-          "Üçlü durunca fabrikayı kurarız. Bir sonraki bölümde seni bulut üzerinde otomatize DevSecOps boru hattı ve olay müdahale senaryosu bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Zero Trust (Sıfır Güven Mimarisi) ve Ağ Mikro-Segmentasyonu konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Binanın içindeyken her kapı yine rozet ister mi. İster. Sıfır Güven (Zero Trust) o kuraldır: konum güven değildir. Kimlik, cihaz, segment üçlüsü her istekte sorulur. Mikro-segmentasyon koridoru odalara böler. Fail-closed: üçlüden biri boşsa paket düşer.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Root bir odaya girdi, bütün kat açık. Segment nerede yoktu. Düz ağ usta anahtardır. Fail-closed: kimlik, cihaz onayı ve segment etiketi yazılı durur. «İçerideyim» cümlesi kapı değildir. Bu ders yanal hareket tarifi vermez; koridoru kapatmayı öğretir.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Üçlüyü yaz. Birini kır. `sifirGuven` kimlik, cihaz ve segment kümesinde ister. Boş veya listede yoksa paket düşer. Varsayılan kapalıdır: deny by default. «VPN içeri aldı, yeter» dersek. VPN konumdur, rozet değildir. Fail-closed her kapıda üçlüyü sorar. Sen koridoru kapatıyorsun; sonraki bölümde seni otomatize boru hattı ve olay müdahale senaryosu bekliyor.",
+    summary: "Bu dersle Zero Trust (Sıfır Güven Mimarisi) ve Ağ Mikro-Segmentasyonu becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Kimlik, cihaz, segment. Mini proje bu üçlüyü mi bağlar. Üçlü durunca fabrikayı kurarız. Bir sonraki bölümde seni bulut üzerinde otomatize DevSecOps boru hattı ve olay müdahale senaryosu bekliyor.",
     quiz: [
       mcq(
         "q_seci5_1",
@@ -410,94 +181,19 @@ if (sifirGuven({ kimlik: "rol-okur", cihaz: "mdm-lab", segment: "app-a" }) !== "
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "const IZINLI_KIMLIK = new Set([\"rol-okur\"]);\nconst IZINLI_CIHAZ = new Set([\"mdm-lab\"]);\nconst IZINLI_SEGMENT = new Set([\"app-a\"]);\n\nfunction sifirGuven(girdi: { kimlik: string; cihaz: string; segment: string }): \"gec\" {\n  const k = girdi.kimlik.trim();\n  const c = girdi.cihaz.trim();\n  const s = girdi.segment.trim();\n  if (!IZINLI_KIMLIK.has(k) || !IZINLI_CIHAZ.has(c) || !IZINLI_SEGMENT.has(s)) {\n    throw new Error(\"üçlü yok; paket düşer\");\n  }\n  return \"gec\";\n}\n\nif (sifirGuven({ kimlik: \"rol-okur\", cihaz: \"mdm-lab\", segment: \"app-a\" }) !== \"gec\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "security-ileri-6",
     order: 6,
     title: "Mini Proje: Bulut Üzerinde Otomatize DevSecOps Boru Hattı ve Olay Müdahale Senaryosu İnşası",
-    dialogue: {
-      warmup: [
-        can("Beş kapı ardına kadar açık: damgasız kamyon, usta anahtar, silinen günlük, kör av, düz koridor. Hangisinden başlarsın?"),
-        ece(
-          "Beşinden birden. Mini proje sömürü labı değildir. Senaryo: boru hattı, IAM/KMS, günlük zinciri, SIEM tabanı, Sıfır Güven. Fail-closed bir kapı açıkken teslim basmaz.",
-        ),
-      ],
-      problem: [
-        can("Ekran «bulut ayakta» deyince iş bitmiş mi? Root sızdı, log silindi?"),
-        ece(
-          "Yeşil yalandır. Damgasız yayın, joker yetki, kopuk hash, tabansız av, rozetsiz segment — biri duruyorsa mühür vurulmaz. Bu iskelet sahte canlı iddiası taşımaz; kapı sözleşmesini gösterir.",
-        ),
-      ],
-      development: [
-        can("Tek fonksiyon: beş kapı. Biri kırıkken dur."),
-        ece(
-          "`kapat` sırayla sorar. SAST/DAST/SCA kırıkken durur. Joker eylem durur. Silme veya kopuk hash durur. Kaynak/taban yoksa durur. Üçlü yoksa durur. Hepsi durunca «kapali» basılır.",
-          {
-            language: "ts",
-            source: `function kapat(girdi: {
-  sastTemiz: boolean;
-  dastOturum: boolean;
-  scaCve: number;
-  eylem: string;
-  kmsId: string;
-  logEylem: string;
-  hashVar: boolean;
-  siemKaynak: string;
-  taban: number;
-  kimlik: string;
-  cihaz: string;
-  segment: string;
-}): "kapali" {
-  if (!girdi.sastTemiz || !girdi.dastOturum || girdi.scaCve !== 0) {
-    throw new Error("damga yok; yayın durur");
-  }
-  if (!girdi.eylem.trim() || girdi.eylem === "*" || !girdi.kmsId.trim()) {
-    throw new Error("yetki yok; işlem durur");
-  }
-  if (!girdi.logEylem.trim() || girdi.logEylem === "sil" || !girdi.hashVar) {
-    throw new Error("torba durur");
-  }
-  if (!girdi.siemKaynak.trim() || !Number.isFinite(girdi.taban) || girdi.taban <= 0) {
-    throw new Error("av durur");
-  }
-  if (!girdi.kimlik.trim() || !girdi.cihaz.trim() || !girdi.segment.trim()) {
-    throw new Error("üçlü yok; paket düşer");
-  }
-  return "kapali";
-}
-
-if (
-  kapat({
-    sastTemiz: true,
-    dastOturum: true,
-    scaCve: 0,
-    eylem: "s3:GetObject",
-    kmsId: "arn:kms:lab",
-    logEylem: "yaz",
-    hashVar: true,
-    siemKaynak: "lab-vpc-flow",
-    taban: 10,
-    kimlik: "rol-okur",
-    cihaz: "mdm-lab",
-    segment: "app-a",
-  }) !== "kapali"
-) {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        can("Bu iskelet canlı buluta bağlı mı? Sınavda ne ölçülür?"),
-        ece(
-          "Bağlı değildir. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır. Beş kapı: damga, fiş, torba, av, üçlü.",
-        ),
-      ],
-      conclusion: [
-        can("İleri kapanış bu mu: damga, fiş, torba, av, üçlü, sınava gir?"),
-        ece(
-          "Boru hattından Sıfır Güven’e kadar Fail-closed durur. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Mini Proje: Bulut Üzerinde Otomatize DevSecOps Boru Hattı ve Olay Müdahale Senaryosu İnşası konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Beş kapı ardına kadar açık: damgasız kamyon, usta anahtar, silinen günlük, kör av, düz koridor. Hangisinden başlarsın. Beşinden birden. Mini proje sömürü labı değildir. Senaryo: boru hattı, IAM/KMS, günlük zinciri, SIEM tabanı, Sıfır Güven. Fail-closed bir kapı açıkken teslim basmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Ekran «bulut ayakta» deyince iş bitmiş mi. Root sızdı, log silindi. Yeşil yalandır. Damgasız yayın, joker yetki, kopuk hash, tabansız av, rozetsiz segment — biri duruyorsa mühür vurulmaz. Bu iskelet sahte canlı iddiası taşımaz; kapı sözleşmesini gösterir.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Tek fonksiyon: beş kapı. Biri kırıkken dur. `kapat` sırayla sorar. SAST/DAST/SCA kırıkken durur. Joker eylem durur. Silme veya kopuk hash durur. Kaynak/taban yoksa durur. Üçlü yoksa durur. Hepsi durunca «kapali» basılır. Bu iskelet canlı buluta bağlı mı. Sınavda ne ölçülür. Bağlı değildir. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır. Beş kapı: damga, fiş, torba, av, üçlü.",
+    summary: "Bu dersle Mini Proje: Bulut Üzerinde Otomatize DevSecOps Boru Hattı ve Olay Müdahale Senaryosu İnşası becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. İleri kapanış bu mu: damga, fiş, torba, av, üçlü, sınava gir. Boru hattından Sıfır Güven’e kadar Fail-closed durur. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
     quiz: [
       mcq(
         "q_seci6_1",
@@ -518,6 +214,10 @@ if (
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function kapat(girdi: {\n  sastTemiz: boolean;\n  dastOturum: boolean;\n  scaCve: number;\n  eylem: string;\n  kmsId: string;\n  logEylem: string;\n  hashVar: boolean;\n  siemKaynak: string;\n  taban: number;\n  kimlik: string;\n  cihaz: string;\n  segment: string;\n}): \"kapali\" {\n  if (!girdi.sastTemiz || !girdi.dastOturum || girdi.scaCve !== 0) {\n    throw new Error(\"damga yok; yayın durur\");\n  }\n  if (!girdi.eylem.trim() || girdi.eylem === \"*\" || !girdi.kmsId.trim()) {\n    throw new Error(\"yetki yok; işlem durur\");\n  }\n  if (!girdi.logEylem.trim() || girdi.logEylem === \"sil\" || !girdi.hashVar) {\n    throw new Error(\"torba durur\");\n  }\n  if (!girdi.siemKaynak.trim() || !Number.isFinite(girdi.taban) || girdi.taban <= 0) {\n    throw new Error(\"av durur\");\n  }\n  if (!girdi.kimlik.trim() || !girdi.cihaz.trim() || !girdi.segment.trim()) {\n    throw new Error(\"üçlü yok; paket düşer\");\n  }\n  return \"kapali\";\n}\n\nif (\n  kapat({\n    sastTemiz: true,\n    dastOturum: true,\n    scaCve: 0,\n    eylem: \"s3:GetObject\",\n    kmsId: \"arn:kms:lab\",\n    logEylem: \"yaz\",\n    hashVar: true,\n    siemKaynak: \"lab-vpc-flow\",\n    taban: 10,\n    kimlik: \"rol-okur\",\n    cihaz: \"mdm-lab\",\n    segment: \"app-a\",\n  }) !== \"kapali\"\n) {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
 ] as const;
 

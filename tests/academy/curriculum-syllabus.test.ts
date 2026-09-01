@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { curriculumSyllabusForCourseSlug } from "@/lib/academy/curriculum-syllabus";
-import { academyLessonContentKind, academyLessonDurationMin, academyProgressPercent } from "@/lib/academy/lesson-meta";
+import {
+  academyLessonContentKind,
+  academyLessonDurationMin,
+  academyLessonKindLabel,
+  academyMediaDurationMin,
+  academyProgressPercent,
+} from "@/lib/academy/lesson-meta";
+import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 
 describe("akademi müfredat özeti — modül, tür, süre", () => {
   it("yüzdeyi 0–100 aralığında basar", () => {
@@ -10,12 +17,37 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
     expect(academyProgressPercent(3, 0)).toBe(0);
   });
 
-  it("mikro-video varsa Video, yoksa Doküman", () => {
+  it("mikro-video varsa Video, diyalog/WAV varsa Ses, yoksa Doküman", () => {
     expect(academyLessonContentKind({ microVideos: [{ durationSec: 6 }] })).toBe("video");
     expect(academyLessonContentKind({ microVideos: [] })).toBe("document");
+    expect(
+      academyLessonContentKind({
+        key: "ai-agent-temel-1",
+        courseSlug: "ai-agent-temel",
+        microVideos: [{ durationSec: 7 }],
+      }),
+    ).toBe("audio");
+    expect(
+      academyLessonContentKind({
+        body: "Eğitmen: Araç yoksa durursun.\n\nEğitmen: Fail-closed kapısı uydurmaz.",
+        microVideos: [{ durationSec: 6 }],
+      }),
+    ).toBe("audio");
   });
 
-  it("süre okuma + videodan dakikaya iner", () => {
+  it("ses süresi WAV veya konuşma saatinden dakikaya iner; 5 dk taban basmaz", () => {
+    expect(
+      academyLessonDurationMin({
+        key: "ai-agent-temel-1",
+        courseSlug: "ai-agent-temel",
+        body: "Eğitmen: Kısa tur.",
+        microVideos: [{ durationSec: 7 }],
+      }),
+    ).toBe(2);
+    expect(
+      academyMediaDurationMin(140),
+    ).toBe(2);
+    expect(academyMediaDurationMin(0)).toBe(0);
     const minutes = academyLessonDurationMin({
       body: Array.from({ length: 320 }, () => "kelime").join(" "),
       microVideos: [{ durationSec: 8 }],
@@ -32,6 +64,11 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
     expect(syllabus.modules[1]?.title).toBe("Hafıza, ReAct ve kapanış ajanı");
     expect(syllabus.modules[0]?.lessons).toHaveLength(4);
     expect(syllabus.durationMin).toBeGreaterThan(0);
+    expect(syllabus.lessons.every((lesson) => lesson.kind === "audio")).toBe(true);
+    expect(syllabus.lessons.every((lesson) => lesson.durationMin >= 1)).toBe(true);
+    expect(ACADEMY_SEN.outline.kindAudio).toBe("Ses");
+    expect(academyLessonKindLabel("audio", ACADEMY_SEN.outline)).toBe("Ses");
+    expect(academyLessonKindLabel("video", ACADEMY_SEN.outline)).toBe("Video");
   });
 
   it("ai-agent-orta 2 modül / 6 ders ve RAG raf başlığı üretir", () => {
@@ -61,9 +98,8 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
     expect(syllabus.modules[0]?.title).toBe("Değişken, tip ve karar");
     expect(syllabus.modules[0]?.lessons).toHaveLength(4);
     expect(syllabus.durationMin).toBeGreaterThan(0);
-    expect(syllabus.lessons.every((lesson) => lesson.kind === "video" || lesson.kind === "document")).toBe(
-      true,
-    );
+    expect(syllabus.lessons.every((lesson) => lesson.kind === "audio")).toBe(true);
+    expect(syllabus.lessons.every((lesson) => lesson.durationMin >= 1)).toBe(true);
   });
 
   it("python-orta 2 modül / 6 ders ve Orta etiketi üretir", () => {

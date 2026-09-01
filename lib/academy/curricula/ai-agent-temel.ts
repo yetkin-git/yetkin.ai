@@ -5,8 +5,7 @@
 
 import type { AcademyExamQuestion } from "@/lib/academy/types";
 import {
-  academyFiveActLessonDraft,
-  dialogueTurn,
+  academyInstructorLessonDraft,
   type AcademyLessonDraft,
 } from "@/lib/academy/curricula/types";
 
@@ -19,172 +18,48 @@ function mcq(
   return { id, prompt, choices: [...choices], correctIndex };
 }
 
-const koray = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("koray", text, code);
-const maya = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("maya", text, code);
-
 export const AI_AGENT_TEMEL_LESSONS: readonly AcademyLessonDraft[] = [
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "ai-agent-temel-1",
     order: 1,
     title: "AI Agent Nedir? LLM vs. Otonom Ajan Mantığı",
-    dialogue: {
-      warmup: [
-        koray(
-          "Sen çağrı merkezinde yalnız konuşan bir temsilci gördün mü? Güzel cümle kurar, fiş kesmez, kargo yazmaz. Elinde klavye olan asistan ise bileti iptal eder, adresi düzeltir. O ikisi aynı meslek mi?",
-        ),
-        maya(
-          "Değil. Büyük Dil Modeli (LLM) o konuşan temsilcidir: metin üretir, elini masadan kaldırmaz. Otonom ajan (AI Agent) klavyeyi alır. Düşünür, araç çağırır, sonucu okur, gerekirse ikinci işi yapar. Sen cümle dinlemezsin; işin bittiğini görürsün.",
-        ),
-      ],
-      problem: [
-        koray("Saha tarafında düz sohbet kutusu neden yalan söylüyor? Dışarı bakamıyor mu?"),
-        maya(
-          "Bakamıyor. Modelin eğitim kesiti dündür; bugünün stoku, senin takvimin, kasa bakiyen yok. Bilmeyince uydurur. Halüsinasyon (uydurma) burada başlar: dış dünya kapalı, ağız açık. Fail-closed (Hata Anında Kapalı) durur: araç yoksa «bilmiyorum» dersin, stok uydurmazsın.",
-        ),
-      ],
-      development: [
-        koray("Aynı soruyu iki kutuya sor. Biri yalnız konuşsun, öbürü aracı çağırsın."),
-        maya(
-          "Sohbet kutusu cümle basar. Ajan ise önce araç adını seçer. Araç yoksa durur; «muhtemelen 18 derece» diye orta değer basmaz.",
-          {
-            language: "py",
-            source: `STOK = {"Ankara": 18, "İstanbul": 14}
-
-
-def sohbet_kutusu(soru):
-    return "Sanırım hava güzel."
-
-
-def ajan_oku(sehir):
-    if sehir not in STOK:
-        raise ValueError("sehir yok; islem durur")
-    return STOK[sehir]
-
-
-assert sohbet_kutusu("Ankara kaç derece?") == "Sanırım hava güzel."
-assert ajan_oku("Ankara") == 18
-try:
-    ajan_oku("Mars")
-except ValueError as hata:
-    assert "durur" in str(hata)`,
-          },
-        ),
-        koray("Yani ajan, modeli bir döngünün içine oturtuyor. Döngü yoksa elinde yine ağız mı kalıyor?"),
-        maya(
-          "Kalıyor. Döngü: gözlem al, karar ver, araç çalıştır, yeni gözlemle devam et. Tek cümle ajan değildir. Sen bu derste o sınırı çiziyorsun; sonraki derslerde tarif, araç ve hafıza o döngüyü doldurur.",
-        ),
-      ],
-      conclusion: [
-        koray("Kafamda oturdu: konuşmak iş bitirmek değil. Sonraki adımda ne duruyor?"),
-        maya(
-          "Ajan, dış dünyaya kapı ister. Kapı yoksa susar. Bir sonraki bölümde seni üretim tarifi ve yapılandırılmış çıktı bekliyor: modelin serbest şiiri JavaScript Nesne Gösterimi (JSON) kapısından geçmezse işlem durur.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde AI Agent Nedir? LLM vs. Otonom Ajan Mantığı konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Büyük Dil Modeli (LLM) metin üretir; bilet iptal etmez, stok yazmaz, kargo basmaz. Elinde klavye olan ajan ise modeli bir döngünün içine oturtur: düşünür, izinli aracı çağırır, sonucu okur, gerekirse ikinci işi yapar. Sen bu derste cümle ile iş bitirme arasındaki sınırı çiziyorsun.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Modelin eğitim kesiti dündür; bugünün stoku, takviminiz ve kasa bakiyeniz orada yoktur. Kapı kapalıyken ağız açık kalırsa halüsinasyon (uydurma) başlar. Fail-closed (Hata Anında Kapalı) kuralı nettir: araç yoksa işlem durur, orta değer basılmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere sohbet kutusu aynı soruya cümle basar, ajan ise önce araç adını seçer. Araç yoksa durur; «muhtemelen 18 derece» diye uydurma yazmaz. Döngü şudur: gözlem al, karar ver, araç çalıştır, yeni gözlemle devam et. Tek cümle ajan değildir. Sonraki derslerde tarif, araç kaydı ve hafıza bu döngüyü doldurur.",
+    summary: "Bu dersle AI Agent Nedir? LLM vs. Otonom Ajan Mantığı becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Ajan dış dünyaya kapı ister; kapı yoksa susar. Bir sonraki bölümde sizi üretim tarifi ve yapılandırılmış çıktı bekliyor.",
     quiz: [
       mcq(
         "q_agt1_1",
         "Büyük Dil Modeli (LLM) ile otonom ajan farkı nedir?",
-        [
-          "Aynıdır; ikisi de yalnız metin üretir",
-          "LLM metin üretir; ajan araç çağırıp iş bitirebilir",
-          "Ajan eğitim kesitini günceller",
-          "LLM her zaman güncel stok okur",
-        ],
+        ["Aynıdır; ikisi de yalnız metin üretir", "LLM metin üretir; ajan araç çağırıp iş bitirebilir", "Ajan eğitim kesitini günceller", "LLM her zaman güncel stok okur"],
         1,
       ),
       mcq(
         "q_agt1_2",
         "Araç yokken Fail-closed (Hata Anında Kapalı) ne yapar?",
-        [
-          "Muhtemel derece uydurur",
-          "İşlemi durdurur; orta değer basmaz",
-          "Önceki sohbeti stok sanır",
-          "Sessizce 0 basar",
-        ],
+        ["Muhtemel derece uydurur", "İşlemi durdurur; orta değer basmaz", "Önceki sohbeti stok sanır", "Sessizce 0 basar"],
         1,
       ),
       mcq(
         "q_agt1_3",
         "Halüsinasyon (uydurma) neden doğar?",
-        [
-          "Model her zaman veritabanına bakıyor",
-          "Dış dünya kapalıyken model yine cümle basar",
-          "Araç çağrısı zorunludur",
-          "JSON şeması uydurmayı keser her zaman",
-        ],
+        ["Model her zaman veritabanına bakıyor", "Dış dünya kapalıyken model yine cümle basar", "Araç çağrısı zorunludur", "JSON şeması uydurmayı keser her zaman"],
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "STOK = {\"Ankara\": 18, \"İstanbul\": 14}\n\n\ndef sohbet_kutusu(soru):\n    return \"Sanırım hava güzel.\"\n\n\ndef ajan_oku(sehir):\n    if sehir not in STOK:\n        raise ValueError(\"sehir yok; islem durur\")\n    return STOK[sehir]\n\n\nassert sohbet_kutusu(\"Ankara kaç derece?\") == \"Sanırım hava güzel.\"\nassert ajan_oku(\"Ankara\") == 18\ntry:\n    ajan_oku(\"Mars\")\nexcept ValueError as hata:\n    assert \"durur\" in str(hata)",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "ai-agent-temel-2",
     order: 2,
     title: "Prompt Mühendisliği ve Yapılandırılmış Çıktı (JSON Output)",
-    dialogue: {
-      warmup: [
-        koray(
-          "Kasada fiş serbest şiir olmaz. Tezgâh «üç ekmek, iki süt» diye bağırır; kasiyer kalıba basar. Modele «güzel JSON yaz» demek o kalıbı açar mı?",
-        ),
-        maya(
-          "Açmaz. «JSON gibi yaz» dilekçedir. JavaScript Nesne Gösterimi (JSON) kapısı parse edilir, zorunlu alan yoksa iş durur. Sen tarifi katmanlarsın: sistem yasağı, kullanıcı işi, biçim şeması ayrı durur.",
-        ),
-      ],
-      problem: [
-        koray("Tek paragrafa yasak, iş ve şema yığılınca saha nasıl patlıyor?"),
-        maya(
-          "Model yasağı iş sanır veya işi süs cümlesine gömer. Tırnak kaçınca parse patlar. «Neredeyse JSON» fiş değildir. Fail-closed (Hata Anında Kapalı) burada durur: json.loads kırılırsa sonraki araç çağrılmaz.",
-        ),
-      ],
-      development: [
-        koray("Geçersiz metni ve eksik alanı bir kez kır. Sonra dürüst şemayı bas."),
-        maya(
-          "Önce çöp. Sonra zorunlu alan. `niyet` veya `sehir` yoksa ajan elini uzatmaz.",
-          {
-            language: "py",
-            source: `import json
-
-ZORUNLU = ("niyet", "sehir")
-
-
-def oku_cikti(ham):
-    try:
-        veri = json.loads(ham)
-    except json.JSONDecodeError as exc:
-        raise ValueError("json degil; islem durur") from exc
-    if not isinstance(veri, dict):
-        raise ValueError("nesne degil; islem durur")
-    for alan in ZORUNLU:
-        if alan not in veri:
-            raise ValueError("alan eksik; islem durur")
-    return veri
-
-
-try:
-    oku_cikti("hava güzel")
-except ValueError as hata:
-    assert "json" in str(hata)
-try:
-    oku_cikti('{"niyet": "hava"}')
-except ValueError as hata:
-    assert "alan" in str(hata)
-assert oku_cikti('{"niyet": "hava", "sehir": "Ankara"}')["sehir"] == "Ankara"`,
-          },
-        ),
-        koray("Sistem katmanına «uydurma, sır yapıştırma» yazıyorum. Kullanıcı katmanı iş mi kalıyor?"),
-        maya(
-          "Evet. Sistem meslek ve yasaktır. Kullanıcı «Ankara hava» der. Biçim yalnız şemadır. Üçü tek bağırış olursa kapı kayar. Şema geçmeden araç adı konuşulmaz.",
-        ),
-      ],
-      conclusion: [
-        koray("Tarif katmanlı, şema kapı. Sonraki derste eline ne geçiyor?"),
-        maya(
-          "Parse edilen nesne, ajanın elindeki fiştir. Bir sonraki bölümde seni araç kullanımı bekliyor: o fişteki ad, gerçek fonksiyonu çağırır; bilinmeyen ad durur.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Prompt Mühendisliği ve Yapılandırılmış Çıktı (JSON Output) konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Modele «güzel JSON yaz» demek kapı açmaz; «JSON gibi yaz» dilekçedir. JavaScript Nesne Gösterimi (JSON) parse edilir, zorunlu alan yoksa iş durur. Siz tarifi katmanlarsınız: sistem yasağı, kullanıcı işi ve biçim şeması ayrı durur.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Tek paragrafa yasak, iş ve şema yığılınca model yasağı iş sanır veya işi süs cümlesine gömer. Tırnak kaçınca parse kırılır. «Neredeyse JSON» geçerli nesne değildir. Fail-closed (Hata Anında Kapalı) burada durur: json.loads kırılırsa sonraki araç çağrılmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere geçersiz metin ve eksik alan bir kez kırılır, sonra dürüst şema basılır. `niyet` veya `sehir` yoksa ajan elini uzatmaz. Sistem katmanı meslek ve yasaktır; kullanıcı katmanı işi taşır; biçim yalnız şemadır. Üçü tek bağırış olursa kapı kayar. Şema geçmeden araç adı konuşulmaz.",
+    summary: "Bu dersle Prompt Mühendisliği ve Yapılandırılmış Çıktı (JSON Output) becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Tarif katmanlıdır, şema kapıdır; parse edilen nesne ajanın elindeki fiştir. Bir sonraki bölümde sizi araç kullanımı bekliyor: fişteki ad gerçek fonksiyonu çağırır, bilinmeyen ad durur.",
     quiz: [
       mcq(
         "q_agt2_1",
@@ -201,89 +76,23 @@ assert oku_cikti('{"niyet": "hava", "sehir": "Ankara"}')["sehir"] == "Ankara"`,
       mcq(
         "q_agt2_3",
         "Üretim tarifi katmanları hangisidir?",
-        [
-          "Tek paragraf yeter",
-          "Sistem yasağı, kullanıcı işi, biçim şeması ayrı durur",
-          "Yalnız few-shot",
-          "Yalnız araç adı",
-        ],
+        ["Tek paragraf yeter", "Sistem yasağı, kullanıcı işi, biçim şeması ayrı durur", "Yalnız few-shot", "Yalnız araç adı"],
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "import json\n\nZORUNLU = (\"niyet\", \"sehir\")\n\n\ndef oku_cikti(ham):\n    try:\n        veri = json.loads(ham)\n    except json.JSONDecodeError as exc:\n        raise ValueError(\"json degil; islem durur\") from exc\n    if not isinstance(veri, dict):\n        raise ValueError(\"nesne degil; islem durur\")\n    for alan in ZORUNLU:\n        if alan not in veri:\n            raise ValueError(\"alan eksik; islem durur\")\n    return veri\n\n\ntry:\n    oku_cikti(\"hava güzel\")\nexcept ValueError as hata:\n    assert \"json\" in str(hata)\ntry:\n    oku_cikti('{\"niyet\": \"hava\"}')\nexcept ValueError as hata:\n    assert \"alan\" in str(hata)\nassert oku_cikti('{\"niyet\": \"hava\", \"sehir\": \"Ankara\"}')[\"sehir\"] == \"Ankara\"",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "ai-agent-temel-3",
     order: 3,
     title: "Araç Kullanımı (Tool Calling / Function Calling) Mantığı",
-    dialogue: {
-      warmup: [
-        koray(
-          "Mutfakta aşçı «tuzluk» diye bağırır. Çırak raftan tuzu alır, «lamba» diye bağırırsa rafta lamba yoktur. Programda o rafta ne duruyor?",
-        ),
-        maya(
-          "Araç kaydı. Tool calling / function calling (araç çağrısı) modelin eline fonksiyon adı ve argüman verir. Sen rafta olmayan adı çalıştırmazsın. Fail-closed (Hata Anında Kapalı): bilinmeyen araç durur.",
-        ),
-      ],
-      problem: [
-        koray("Model «sil_her_seyi» diye uydurursa ne kırılır?"),
-        maya(
-          "Açık rafta o ad yoksa çağrı düşer. İsim benzerliği yetmez. Argüman tipi de kapıdır: şehir yerine boş metin, not yerine sır. Uygulama Programlama Arayüzü (API) anahtarı tarife girmez; araç gövdesine de yapışmaz.",
-        ),
-      ],
-      development: [
-        koray("İki araç yaz: hava ve not. Bilinmeyen adı bir kez kır."),
-        maya(
-          "Sözlük raftır. `ARACLAR.get` yokluğu None basmaz; sen açıkça durursun. Çağrı sonucu gözlemdir, nihai cevap değil.",
-          {
-            language: "py",
-            source: `STOK = {"Ankara": "18 derece"}
-NOTLAR = []
-
-
-def hava_durumu(sehir):
-    if sehir not in STOK:
-        raise ValueError("sehir yok; islem durur")
-    return STOK[sehir]
-
-
-def not_yaz(metin):
-    temiz = metin.strip()
-    if not temiz:
-        raise ValueError("bos not; islem durur")
-    NOTLAR.append(temiz)
-    return len(NOTLAR)
-
-
-ARACLAR = {"hava_durumu": hava_durumu, "not_yaz": not_yaz}
-
-
-def arac_cagir(ad, arguman):
-    fn = ARACLAR.get(ad)
-    if fn is None:
-        raise ValueError("bilinmeyen arac; islem durur")
-    return fn(arguman)
-
-
-assert arac_cagir("hava_durumu", "Ankara") == "18 derece"
-assert arac_cagir("not_yaz", "toplantı 14:00") == 1
-try:
-    arac_cagir("sil_her_seyi", "")
-except ValueError as hata:
-    assert "bilinmeyen" in str(hata)`,
-          },
-        ),
-        koray("Model araç adını metin olarak mı basıyor, yoksa ayrı bir kanal mı?"),
-        maya(
-          "Üretimde çoğu kapı ayrı kanal verir: ad + JSON argüman. Sen yine parse eder, rafta yoksa durursun. Serbest cümle içinden isim kazımak, tezgâhta fısıltı avlamaktır; kapı bozulur.",
-        ),
-      ],
-      conclusion: [
-        koray("Rafta yoksa el uzamaz. Hafıza bu rafa nasıl karışıyor?"),
-        maya(
-          "Araç, anın işidir. Hafıza, dünün işini taşır. Bir sonraki bölümde seni kısa pencere ve uzun süreli depo bekliyor: bağlam dolunca eski cümle kayar; uydurma özet kapı değildir.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Araç Kullanımı (Tool Calling / Function Calling) Mantığı konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Tool calling / function calling (araç çağrısı) modelin eline fonksiyon adı ve argüman verir. Rafta duran şey araç kaydıdır. Siz rafta olmayan adı çalıştırmazsınız. Fail-closed (Hata Anında Kapalı): bilinmeyen araç durur.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Model «sil_her_seyi» diye uydurursa açık rafta o ad yoksa çağrı düşer. İsim benzerliği yetmez. Argüman tipi de kapıdır: şehir yerine boş metin, not yerine sır kabul edilmez. Uygulama Programlama Arayüzü (API) anahtarı tarife girmez; araç gövdesine de yapışmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere hava ve not iki ayrı araçtır; bilinmeyen ad bir kez kırılır. Sözlük raftır. `ARACLAR.get` yokluğu None basmaz; siz açıkça durursunuz. Çağrı sonucu gözlemdir, nihai cevap değildir. Üretimde çoğu kapı ayrı kanal verir: ad ve JSON argüman. Siz yine parse eder, rafta yoksa durursunuz. Serbest cümle içinden isim kazımak kapıyı bozar.",
+    summary: "Bu dersle Araç Kullanımı (Tool Calling / Function Calling) Mantığı becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Rafta yoksa el uzamaz. Araç anın işidir; hafıza dünün işini taşır. Bir sonraki bölümde sizi kısa pencere ve uzun süreli depo bekliyor: bağlam dolunca eski cümle kayar, uydurma özet kapı değildir.",
     quiz: [
       mcq(
         "q_agt3_1",
@@ -304,76 +113,19 @@ except ValueError as hata:
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "STOK = {\"Ankara\": \"18 derece\"}\nNOTLAR = []\n\n\ndef hava_durumu(sehir):\n    if sehir not in STOK:\n        raise ValueError(\"sehir yok; islem durur\")\n    return STOK[sehir]\n\n\ndef not_yaz(metin):\n    temiz = metin.strip()\n    if not temiz:\n        raise ValueError(\"bos not; islem durur\")\n    NOTLAR.append(temiz)\n    return len(NOTLAR)\n\n\nARACLAR = {\"hava_durumu\": hava_durumu, \"not_yaz\": not_yaz}\n\n\ndef arac_cagir(ad, arguman):\n    fn = ARACLAR.get(ad)\n    if fn is None:\n        raise ValueError(\"bilinmeyen arac; islem durur\")\n    return fn(arguman)\n\n\nassert arac_cagir(\"hava_durumu\", \"Ankara\") == \"18 derece\"\nassert arac_cagir(\"not_yaz\", \"toplantı 14:00\") == 1\ntry:\n    arac_cagir(\"sil_her_seyi\", \"\")\nexcept ValueError as hata:\n    assert \"bilinmeyen\" in str(hata)",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "ai-agent-temel-4",
     order: 4,
     title: "Hafıza Mimarisi: Kısa ve Uzun Süreli Hafıza (Context Window & Vector Storage)",
-    dialogue: {
-      warmup: [
-        koray(
-          "Otobüste koltuk dolunca ayakta kalan iner sanılmaz, inmek zorunda kalır. Sohbet uzayınca model eski cümleyi gerçekten hatırlıyor mu?",
-        ),
-        maya(
-          "Hayır. Bağlam penceresi (context window) o koltuk sayısıdır. Dolunca eski tur düşer. Uzun süreli hafıza ayrı raftır: diske veya vektör depoya yazarsın. Pencere «hatırlıyor» sanmak, inen yolcuyu hâlâ koltukta saymaktır.",
-        ),
-      ],
-      problem: [
-        koray("Pencere dolunca sessiz özet uydurmak neden yalan?"),
-        maya(
-          "Özet, kaynaksız iddiadır. Fail-closed (Hata Anında Kapalı): tavan dolunca işi bölersin veya dışarı yazarsın. Vektör depo (vector storage) gerçekte gömülü sayılarla mesafe ölçer. Bu derste sahte gömme uydurmayız; kelime örtüşmesiyle aynı kapıyı gösteririz: eşik altı kayıt yoksa sus.",
-        ),
-      ],
-      development: [
-        koray("Kısa pencereyi listeyle kes. Uzun rafta eşiğin altında uydurma basma."),
-        maya(
-          "Kısa hafıza son N turdur. Uzun raf `getir` ile soruya en yakın kaydı döner. Skor eşiğin altındaysa «belgede yok» dersin; Wikipedia üslubu yasaktır.",
-          {
-            language: "py",
-            source: `def kisa_pencere(turlar, tavan):
-    if tavan <= 0:
-        raise ValueError("tavan pozitif olmali; islem durur")
-    return turlar[-tavan:]
-
-
-def benzerlik(soru, kayit):
-    a = set(soru.lower().split())
-    b = set(kayit.lower().split())
-    if not a or not b:
-        return 0.0
-    return len(a & b) / len(a | b)
-
-
-def getir(soru, depo, esik):
-    if not depo:
-        raise ValueError("depo bos; uydurma yok")
-    en = max(depo, key=lambda kayit: benzerlik(soru, kayit))
-    if benzerlik(soru, en) < esik:
-        raise ValueError("kaynak yok; uydurma yok")
-    return en
-
-
-gecmis = ["merhaba", "ankara stok", "not: toplantı"]
-assert kisa_pencere(gecmis, 2) == ["ankara stok", "not: toplantı"]
-assert getir("toplantı saati", ["not: toplantı 14:00", "hava 18"], 0.2) == "not: toplantı 14:00"
-try:
-    getir("mars kolonisi", ["not: toplantı 14:00"], 0.8)
-except ValueError as hata:
-    assert "kaynak yok" in str(hata)`,
-          },
-        ),
-        koray("Gerçek vektör veri tabanı bu kelime örtüşmesi midir?"),
-        maya(
-          "Değildir. Orada gömme modeli sayıları üretir, mesafe ölçülür. Sen aynı fail-closed kapısını öğreniyorsun: getiri boşsa üretim durur. Sahte gömme listesi «ben vektörüm» diye yalan söylemez.",
-        ),
-      ],
-      conclusion: [
-        koray("Pencere kısa, raf uzun, eşik kapı. Karar döngüsü nereye oturuyor?"),
-        maya(
-          "Hafıza gözlemi besler. Bir sonraki bölümde seni ReAct (Akıl Yürüt ve Eyleme Geç) deseni bekliyor: düşün, araç seç, gözlemi oku, gerekirse dur.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Hafıza Mimarisi: Kısa ve Uzun Süreli Hafıza (Context Window & Vector Storage) konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Bağlam penceresi (context window) tavanıdır: dolunca eski tur düşer. Uzun süreli hafıza ayrı raftır; diske veya vektör depoya yazarsınız. Pencerenin «hatırlıyor» sanılması, düşen turu hâlâ içeride saymaktır. Siz bu derste kısa pencere ile uzun rafı ayırıyorsunuz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Pencere dolunca sessiz özet uydurmak kaynaksız iddiadır. Fail-closed (Hata Anında Kapalı): tavan dolunca işi bölersiniz veya dışarı yazarsınız. Vektör depo (vector storage) gömülü sayılarla mesafe ölçer. Bu derste sahte gömme iddiası yoktur; kelime örtüşmesi aynı kapıyı gösterir: eşik altı kayıt yoksa üretim durur.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere kısa pencere listeyle kesilir, uzun rafta eşiğin altında uydurma basılmaz. Kısa hafıza son N turdur. Uzun raf `getir` ile soruya en yakın kaydı döner. Skor eşiğin altındaysa «belgede yok» dersiniz. Gerçek vektör veri tabanı bu kelime örtüşmesi değildir; orada gömme modeli sayıları üretir. Siz aynı fail-closed kapısını öğreniyorsunuz: getiri boşsa üretim durur.",
+    summary: "Bu dersle Hafıza Mimarisi: Kısa ve Uzun Süreli Hafıza (Context Window & Vector Storage) becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Pencere kısa, raf uzun, eşik kapıdır. Hafıza gözlemi besler. Bir sonraki bölümde sizi ReAct (Akıl Yürüt ve Eyleme Geç) deseni bekliyor: düşün, araç seç, gözlemi oku, gerekirse dur.",
     quiz: [
       mcq(
         "q_agt4_1",
@@ -394,81 +146,19 @@ except ValueError as hata:
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "def kisa_pencere(turlar, tavan):\n    if tavan <= 0:\n        raise ValueError(\"tavan pozitif olmali; islem durur\")\n    return turlar[-tavan:]\n\n\ndef benzerlik(soru, kayit):\n    a = set(soru.lower().split())\n    b = set(kayit.lower().split())\n    if not a or not b:\n        return 0.0\n    return len(a & b) / len(a | b)\n\n\ndef getir(soru, depo, esik):\n    if not depo:\n        raise ValueError(\"depo bos; uydurma yok\")\n    en = max(depo, key=lambda kayit: benzerlik(soru, kayit))\n    if benzerlik(soru, en) < esik:\n        raise ValueError(\"kaynak yok; uydurma yok\")\n    return en\n\n\ngecmis = [\"merhaba\", \"ankara stok\", \"not: toplantı\"]\nassert kisa_pencere(gecmis, 2) == [\"ankara stok\", \"not: toplantı\"]\nassert getir(\"toplantı saati\", [\"not: toplantı 14:00\", \"hava 18\"], 0.2) == \"not: toplantı 14:00\"\ntry:\n    getir(\"mars kolonisi\", [\"not: toplantı 14:00\"], 0.8)\nexcept ValueError as hata:\n    assert \"kaynak yok\" in str(hata)",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "ai-agent-temel-5",
     order: 5,
     title: "Karar Verme Döngüleri: ReAct (Reason + Act) Deseni",
-    dialogue: {
-      warmup: [
-        koray(
-          "Tamirci önce bakır, sonra tornavidayı alır, vidayı çevirir, yine bakar. «Düşünmeden tornavida savurmak» evi deler. Ajan da öyle mi tur atıyor?",
-        ),
-        maya(
-          "ReAct (Akıl Yürüt ve Eyleme Geç) tam o ritimdir: Thought (düşünce), Action (eylem), Observation (gözlem). Düşünce boşsa tornavida savrulmaz. Eylem rafta yoksa durur. Gözlem gelmeden ikinci eylem yasaktır.",
-        ),
-      ],
-      problem: [
-        koray("Model «bitirdim» deyip araç çağırmazsa, ya da sonsuz araç isterse?"),
-        maya(
-          "İkisi de saha kazası. Tur tavanı yazılıdır. Fail-closed (Hata Anında Kapalı): tavan dolunca yeni araç yok, dürüst «bitiremedim» durur. Düşünce yokken eylem, kör savuruştur.",
-        ),
-      ],
-      development: [
-        koray("Bir tur yaz: düşün, araç çağır, gözlemi oku. Tavanı aşınca dur."),
-        maya(
-          "`react_tur` düşünce boşsa girmez. `bitir` nihai yanıttır. Tavan 3: dördüncü eylem düşer.",
-          {
-            language: "py",
-            source: `STOK = {"Ankara": "18 derece"}
-
-
-def hava_durumu(sehir):
-    if sehir not in STOK:
-        raise ValueError("sehir yok; islem durur")
-    return STOK[sehir]
-
-
-ARACLAR = {"hava_durumu": hava_durumu}
-
-
-def react_tur(dusunce, eylem, arguman, tur_no, tavan):
-    if not dusunce.strip():
-        raise ValueError("dusunce bos; islem durur")
-    if tur_no > tavan:
-        raise ValueError("tavan doldu; islem durur")
-    if eylem == "bitir":
-        return {"tur": "yanit", "metin": arguman}
-    fn = ARACLAR.get(eylem)
-    if fn is None:
-        raise ValueError("bilinmeyen arac; islem durur")
-    gozlem = fn(arguman)
-    return {"tur": "gozlem", "metin": gozlem}
-
-
-bir = react_tur("stok lazim", "hava_durumu", "Ankara", 1, 3)
-assert bir["tur"] == "gozlem"
-assert "18" in bir["metin"]
-iki = react_tur("cevap hazır", "bitir", "Ankara 18 derece", 2, 3)
-assert iki["tur"] == "yanit"
-try:
-    react_tur("yine dene", "hava_durumu", "Ankara", 4, 3)
-except ValueError as hata:
-    assert "tavan" in str(hata)`,
-          },
-        ),
-        koray("Gözlem yalan söylerse döngü ne yapar?"),
-        maya(
-          "Gözlem araçtan gelir; sen onu doğrularsın. Şehir yoksa araç zaten durur. Döngü «yok»u cümleye çevirir, stok uydurmaz. ReAct sihir değil, yazılı ritimdir.",
-        ),
-      ],
-      conclusion: [
-        koray("Düşün, eyle, gözle, tavanı say. Mini projede ikisi birden mi duruyor?"),
-        maya(
-          "Evet. Bir sonraki bölümde seni hava durumu ve not alma araçlarını kullanan basit bir Python ajanı bekliyor. Sınav kapısı o laboratuvarın ardından açılır.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Karar Verme Döngüleri: ReAct (Reason + Act) Deseni konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. ReAct (Akıl Yürüt ve Eyleme Geç) yazılı bir ritimdir: Thought (düşünce), Action (eylem), Observation (gözlem). Düşünce boşsa eylem yoktur. Eylem rafta yoksa durur. Gözlem gelmeden ikinci eylem yasaktır. Siz bu derste turu saymayı öğreniyorsunuz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Model «bitirdim» deyip araç çağırmazsa veya sonsuz araç isterse ikisi de kazadır. Tur tavanı yazılıdır. Fail-closed (Hata Anında Kapalı): tavan dolunca yeni araç yoktur, dürüst «bitiremedim» durur. Düşünce yokken eylem kör savuruştur.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere bir tur düşünce, araç çağrısı ve gözlem okumasından oluşur; tavan aşılınca durur. `react_tur` düşünce boşsa girmez. `bitir` nihai yanıttır. Tavan 3 ise dördüncü eylem düşer. Gözlem araçtan gelir; siz onu doğrularsınız. Şehir yoksa araç zaten durur. Döngü «yok»u cümleye çevirir, stok uydurmaz. ReAct sihir değildir.",
+    summary: "Bu dersle Karar Verme Döngüleri: ReAct (Reason + Act) Deseni becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Düşün, eyle, gözle, tavanı say. Bir sonraki bölümde sizi hava durumu ve not alma araçlarını kullanan basit bir Python ajanı bekliyor. Sınav kapısı o laboratuvarın ardından açılır.",
     quiz: [
       mcq(
         "q_agt5_1",
@@ -489,91 +179,19 @@ except ValueError as hata:
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "STOK = {\"Ankara\": \"18 derece\"}\n\n\ndef hava_durumu(sehir):\n    if sehir not in STOK:\n        raise ValueError(\"sehir yok; islem durur\")\n    return STOK[sehir]\n\n\nARACLAR = {\"hava_durumu\": hava_durumu}\n\n\ndef react_tur(dusunce, eylem, arguman, tur_no, tavan):\n    if not dusunce.strip():\n        raise ValueError(\"dusunce bos; islem durur\")\n    if tur_no > tavan:\n        raise ValueError(\"tavan doldu; islem durur\")\n    if eylem == \"bitir\":\n        return {\"tur\": \"yanit\", \"metin\": arguman}\n    fn = ARACLAR.get(eylem)\n    if fn is None:\n        raise ValueError(\"bilinmeyen arac; islem durur\")\n    gozlem = fn(arguman)\n    return {\"tur\": \"gozlem\", \"metin\": gozlem}\n\n\nbir = react_tur(\"stok lazim\", \"hava_durumu\", \"Ankara\", 1, 3)\nassert bir[\"tur\"] == \"gozlem\"\nassert \"18\" in bir[\"metin\"]\niki = react_tur(\"cevap hazır\", \"bitir\", \"Ankara 18 derece\", 2, 3)\nassert iki[\"tur\"] == \"yanit\"\ntry:\n    react_tur(\"yine dene\", \"hava_durumu\", \"Ankara\", 4, 3)\nexcept ValueError as hata:\n    assert \"tavan\" in str(hata)",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "ai-agent-temel-6",
     order: 6,
     title: "Mini Proje: Hava Durumu ve Not Alma Araçlarını Kullanan Basit Bir Python AI Agent",
-    dialogue: {
-      warmup: [
-        koray(
-          "Gişede biri «Ankara hava, sonra toplantıyı not et» der. Sen iki işi bir ağızla uydurmazsın; önce stoka bakarsın, sonra deftere yazarsın. Bu kapanış o gişe mi?",
-        ),
-        maya(
-          "O. Şema parse, araç raftan, ReAct tavanı, hafıza eşiği tek betikte durur. Ağ çağrısı yok: stok sözlüktür, not liste. Sahte servis «canlı hava» diye yalan söylemez.",
-        ),
-      ],
-      problem: [
-        koray("Boş şehir, boş not, bilinmeyen araç, bozuk JSON — dördü birden gelirse?"),
-        maya(
-          "Dördü de ayrı kapı. Çökmek nezaket değildir; ValueError isimlidir. Orta değer yok. Sen `calistir` ile bir kullanıcı cümlesini şemaya basar, tur tur ilerlersin.",
-        ),
-      ],
-      development: [
-        koray("Hava oku, not yaz, bilinmeyeni kır. Hepsi aynı ajan gövdesinde dursun."),
-        maya(
-          "`ajan_adim` şemayı ister. `niyet` hava veya not. Rafta yoksa durur. Bu Temel kapanıştır.",
-          {
-            language: "py",
-            source: `import json
-
-STOK = {"Ankara": "parcali bulutlu, 18", "İstanbul": "yagmurlu, 14"}
-NOTLAR = []
-ARACLAR = {}
-
-
-def hava_durumu(sehir):
-    if sehir not in STOK:
-        raise ValueError("sehir yok; islem durur")
-    return STOK[sehir]
-
-
-def not_yaz(metin):
-    temiz = metin.strip()
-    if not temiz:
-        raise ValueError("bos not; islem durur")
-    NOTLAR.append(temiz)
-    return f"kayit={len(NOTLAR)}"
-
-
-ARACLAR["hava_durumu"] = hava_durumu
-ARACLAR["not_yaz"] = not_yaz
-
-
-def ajan_adim(ham):
-    try:
-        veri = json.loads(ham)
-    except json.JSONDecodeError as exc:
-        raise ValueError("json degil; islem durur") from exc
-    niyet = veri.get("niyet")
-    if niyet not in ARACLAR:
-        raise ValueError("bilinmeyen arac; islem durur")
-    arguman = veri.get("arguman")
-    if not isinstance(arguman, str) or not arguman.strip():
-        raise ValueError("arguman yok; islem durur")
-    return ARACLAR[niyet](arguman)
-
-
-assert ajan_adim('{"niyet": "hava_durumu", "arguman": "Ankara"}') == "parcali bulutlu, 18"
-assert "kayit=1" in ajan_adim('{"niyet": "not_yaz", "arguman": "toplantı 14:00"}')
-try:
-    ajan_adim('{"niyet": "sil", "arguman": "x"}')
-except ValueError as hata:
-    assert "bilinmeyen" in str(hata)`,
-          },
-        ),
-        koray("Bu ajan canlı modele bağlı mı? Sınavda ne ölçülür?"),
-        maya(
-          "Bağlı değil. Kapılar sahte ağ olmadan görünür. Canlı model yarın aynı şemayı doldurur; sen bugün kapıyı mühürledin. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
-        ),
-      ],
-      conclusion: [
-        koray("Temel kapanış: şema, araç, tavan, susma. Sınava girebilir miyim?"),
-        maya(
-          "Girdi şemadan geçer, araç raftan çıkar, hata kapıyı kapatır. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Mini Proje: Hava Durumu ve Not Alma Araçlarını Kullanan Basit Bir Python AI Agent konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. İki işi bir ağızla uydurmazsınız: önce stoka bakarsınız, sonra deftere yazarsınız. Şema parse, araç kaydı, ReAct tavanı ve hafıza eşiği tek betikte durur. Ağ çağrısı yoktur: stok sözlüktür, not listedir. Sahte servis «canlı hava» iddiası taşımaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Boş şehir, boş not, bilinmeyen araç ve bozuk JSON ayrı kapılardır. Çökmek isimsiz olmaz; ValueError isimlidir. Orta değer yoktur. Siz `calistir` ile kullanıcı cümlesini şemaya basar, tur tur ilerlersiniz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere hava okuma, not yazma ve bilinmeyen ad aynı ajan gövdesinde durur. `ajan_adim` şemayı ister. `niyet` hava veya nottur; rafta yoksa durur. Bu Temel kapanıştır. Ajan canlı modele bağlı değildir; kapılar sahte ağ olmadan görünür. Canlı model yarın aynı şemayı doldurur; siz bugün kapıyı mühürlediniz. Sınavda sizi baraj 70 bekler; belge yalnız o kapıdan basılır.",
+    summary: "Bu dersle Mini Proje: Hava Durumu ve Not Alma Araçlarını Kullanan Basit Bir Python AI Agent becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Temel kapanış: şema, araç, tavan, susma. Girdi şemadan geçer, araç raftan çıkar, hata kapıyı kapatır. Sınavda sizi baraj 70 bekler; belge yalnız o kapıdan basılır.",
     quiz: [
       mcq(
         "q_agt6_1",
@@ -594,6 +212,10 @@ except ValueError as hata:
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "import json\n\nSTOK = {\"Ankara\": \"parcali bulutlu, 18\", \"İstanbul\": \"yagmurlu, 14\"}\nNOTLAR = []\nARACLAR = {}\n\n\ndef hava_durumu(sehir):\n    if sehir not in STOK:\n        raise ValueError(\"sehir yok; islem durur\")\n    return STOK[sehir]\n\n\ndef not_yaz(metin):\n    temiz = metin.strip()\n    if not temiz:\n        raise ValueError(\"bos not; islem durur\")\n    NOTLAR.append(temiz)\n    return f\"kayit={len(NOTLAR)}\"\n\n\nARACLAR[\"hava_durumu\"] = hava_durumu\nARACLAR[\"not_yaz\"] = not_yaz\n\n\ndef ajan_adim(ham):\n    try:\n        veri = json.loads(ham)\n    except json.JSONDecodeError as exc:\n        raise ValueError(\"json degil; islem durur\") from exc\n    niyet = veri.get(\"niyet\")\n    if niyet not in ARACLAR:\n        raise ValueError(\"bilinmeyen arac; islem durur\")\n    arguman = veri.get(\"arguman\")\n    if not isinstance(arguman, str) or not arguman.strip():\n        raise ValueError(\"arguman yok; islem durur\")\n    return ARACLAR[niyet](arguman)\n\n\nassert ajan_adim('{\"niyet\": \"hava_durumu\", \"arguman\": \"Ankara\"}') == \"parcali bulutlu, 18\"\nassert \"kayit=1\" in ajan_adim('{\"niyet\": \"not_yaz\", \"arguman\": \"toplantı 14:00\"}')\ntry:\n    ajan_adim('{\"niyet\": \"sil\", \"arguman\": \"x\"}')\nexcept ValueError as hata:\n    assert \"bilinmeyen\" in str(hata)",
+    },
   }),
 ] as const;
 

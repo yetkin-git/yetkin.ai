@@ -6,8 +6,7 @@
 
 import type { AcademyExamQuestion } from "@/lib/academy/types";
 import {
-  academyFiveActLessonDraft,
-  dialogueTurn,
+  academyInstructorLessonDraft,
   type AcademyLessonDraft,
 } from "@/lib/academy/curricula/types";
 
@@ -20,61 +19,15 @@ function mcq(
   return { id, prompt, choices: [...choices], correctIndex };
 }
 
-const tarik = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("tarik", text, code);
-const gozde = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("gozde", text, code);
-
 export const LINKEDIN_MASTERCLASS_LESSONS: readonly AcademyLessonDraft[] = [
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "linkedin-masterclass-1",
     order: 1,
     title: "Profil Optimizasyonu: All-Star Durumu, Fotoğraf ve Başlık",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Sen fuarda kartviziti boş verdin mi? İsim var, iş yok, fotoğraf yok. Karşı taraf cebine koymaz. All-Star neresi?",
-        ),
-        gozde(
-          "Kartvizit LinkedIn profilidir. All-Star fotoğraf, başlık, özet, deneyim ve beceri ister. Fail-closed (Hata Anında Kapalı): fotoğraf veya rol+değer başlığı yoksa profil durur; «açık iş arıyorum» tek satır All-Star basmaz.",
-        ),
-      ],
-      problem: [
-        tarik("Ekran yeşil yüzde, başlık «Uzman | Guru | Ninja». Gelen kutu boş. Profil yine doğru mu?"),
-        gozde(
-          "Yanlış. Boş slogan kartvizit değildir. All-Star çubuğu dolu görünür, kanıt yoktur. Fail-closed: başlıkta rol ve vaat yazılmadan profil yayınlanmaz.",
-        ),
-      ],
-      development: [
-        tarik("Kartvizit kapısını yaz. Boş fotoğraf ve slogansız başlığı kır."),
-        gozde(
-          "Fotoğraf yüz net, arka sakin. Başlık: rol + kimin sorunu + nasıl. Özet kanıt cümlesi ister; «tutkulu» tek başına durmaz.",
-          {
-            language: "ts",
-            source: `function profilAc(girdi: { foto: boolean; baslik: string; ozetKanit: boolean }): "allstar" {
-  if (!girdi.foto) throw new Error("fotoğraf yok; profil durur");
-  const b = girdi.baslik.trim();
-  if (b.length < 12 || /guru|ninja|uzman\\s*\\|\\s*guru/i.test(b)) throw new Error("başlık slogan; profil durur");
-  if (!girdi.ozetKanit) throw new Error("kanıt yok; All-Star basılmaz");
-  return "allstar";
-}
-if (profilAc({ foto: true, baslik: "B2B satış: ICP net, pipeline dürüst", ozetKanit: true }) !== "allstar") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        tarik("Başlığı «Ninja Growth Hacker» deyip All-Star’ı yeşil sayarsak?"),
-        gozde(
-          "Çubuk yalan olabilir. Fail-closed slogan başlık durur. Kartvizit durunca içerik kapısına geçeriz.",
-        ),
-      ],
-      conclusion: [
-        tarik("Fotoğraf, rol+vaat, kanıt özet. Slogan All-Star değil. Sonraki adım içerik mi?"),
-        gozde(
-          "Kartvizit durunca akış kapısına geçeriz. Bir sonraki bölümde seni algoritma dostu içerik bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Profil Optimizasyonu: All-Star Durumu, Fotoğraf ve Başlık konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Sen fuarda kartviziti boş verdin mi. İsim var, iş yok, fotoğraf yok. Karşı taraf cebine koymaz. All-Star neresi. Kartvizit LinkedIn profilidir. All-Star fotoğraf, başlık, özet, deneyim ve beceri ister. Fail-closed (Hata Anında Kapalı): fotoğraf veya rol+değer başlığı yoksa profil durur; «açık iş arıyorum» tek satır All-Star basmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Ekran yeşil yüzde, başlık «Uzman | Guru | Ninja». Gelen kutu boş. Profil yine doğru mu. Yanlış. Boş slogan kartvizit değildir. All-Star çubuğu dolu görünür, kanıt yoktur. Fail-closed: başlıkta rol ve vaat yazılmadan profil yayınlanmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Kartvizit kapısını yaz. Boş fotoğraf ve slogansız başlığı kır. Fotoğraf yüz net, arka sakin. Başlık: rol + kimin sorunu + nasıl. Özet kanıt cümlesi ister; «tutkulu» tek başına durmaz. Başlığı «Ninja Growth Hacker» deyip All-Star’ı yeşil sayarsak. Çubuk yalan olabilir. Fail-closed slogan başlık durur. Kartvizit durunca içerik kapısına geçeriz.",
+    summary: "Bu dersle Profil Optimizasyonu: All-Star Durumu, Fotoğraf ve Başlık becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Fotoğraf, rol+vaat, kanıt özet. Slogan All-Star değil. Sonraki adım içerik mi. Kartvizit durunca akış kapısına geçeriz. Bir sonraki bölümde seni algoritma dostu içerik bekliyor.",
     quiz: [
       mcq(
         "q_lnk1_1",
@@ -95,56 +48,19 @@ if (profilAc({ foto: true, baslik: "B2B satış: ICP net, pipeline dürüst", oz
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function profilAc(girdi: { foto: boolean; baslik: string; ozetKanit: boolean }): \"allstar\" {\n  if (!girdi.foto) throw new Error(\"fotoğraf yok; profil durur\");\n  const b = girdi.baslik.trim();\n  if (b.length < 12 || /guru|ninja|uzman\\s*\\|\\s*guru/i.test(b)) throw new Error(\"başlık slogan; profil durur\");\n  if (!girdi.ozetKanit) throw new Error(\"kanıt yok; All-Star basılmaz\");\n  return \"allstar\";\n}\nif (profilAc({ foto: true, baslik: \"B2B satış: ICP net, pipeline dürüst\", ozetKanit: true }) !== \"allstar\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "linkedin-masterclass-2",
     order: 2,
     title: "Algoritma Dostu İçerik Üretimi: Kanca, Kanıt ve Yorum",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Sen kartviziti duvara 40 hashtag ile astın mı? Kimse okumaz, algoritma cezalar. İlk satır nerede durur?",
-        ),
-        gozde(
-          "İlk satır kancadır; «daha fazlasını gör» öncesi karar oradadır. Fail-closed: kanca yoksa, kanıt yoksa veya hashtag yığını varsa gönderi durur; beğeni avı dağıtım değildir.",
-        ),
-      ],
-      problem: [
-        tarik("«Yorumla 🔥» tuzak, 30 etiket, kanıt yok. Etkileşim sahte. Müşteri gelir mi?"),
-        gozde(
-          "Gelmez. Algoritma duraklama ve yorum kalitesini okur, tuzak tıklamayı değil. Fail-closed: engagement bait ve boş etiket gönderiyi durdurur.",
-        ),
-      ],
-      development: [
-        tarik("Akış kapısını yaz. Tuzak CTA ve hashtag yığınını kır."),
-        gozde(
-          "Kanca bir cümle. Gövde saha kanıtı. Kapanış tek soru. Yorum senin cevabınla derinleşir; «katıl» botu dağıtım değildir.",
-          {
-            language: "ts",
-            source: `function gonderiAc(girdi: { kanca: string; kanit: boolean; hashtag: number; tuzak: boolean }): "yayin" {
-  if (!girdi.kanca.trim() || girdi.kanca.trim().length < 8) throw new Error("kanca yok; gönderi durur");
-  if (!girdi.kanit) throw new Error("kanıt yok; gönderi durur");
-  if (!Number.isInteger(girdi.hashtag) || girdi.hashtag > 3) throw new Error("etiket yığını; gönderi durur");
-  if (girdi.tuzak) throw new Error("beğeni avı; gönderi durur");
-  return "yayin";
-}
-if (gonderiAc({ kanca: "Pipeline durdu çünkü ICP yoktu.", kanit: true, hashtag: 2, tuzak: false }) !== "yayin") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        tarik("«Yorumla kazandırayım» deyip dağıtımı şişirirsek?"),
-        gozde(
-          "Tuzak güven yer. Fail-closed bait durur. Akış durunca kitle kapısına geçeriz.",
-        ),
-      ],
-      conclusion: [
-        tarik("Kanca, kanıt, en çok üç etiket, tuzak yok. Sonraki adım Sales Navigator mı?"),
-        gozde(
-          "Akış durunca hedef kapısına geçeriz. Bir sonraki bölümde seni B2B kitle ve Sales Navigator bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Algoritma Dostu İçerik Üretimi: Kanca, Kanıt ve Yorum konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Sen kartviziti duvara 40 hashtag ile astın mı. Kimse okumaz, algoritma cezalar. İlk satır nerede durur. İlk satır kancadır; «daha fazlasını gör» öncesi karar oradadır. Fail-closed: kanca yoksa, kanıt yoksa veya hashtag yığını varsa gönderi durur; beğeni avı dağıtım değildir.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. «Yorumla 🔥» tuzak, 30 etiket, kanıt yok. Etkileşim sahte. Müşteri gelir mi. Gelmez. Algoritma duraklama ve yorum kalitesini okur, tuzak tıklamayı değil. Fail-closed: engagement bait ve boş etiket gönderiyi durdurur.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Akış kapısını yaz. Tuzak CTA ve hashtag yığınını kır. Kanca bir cümle. Gövde saha kanıtı. Kapanış tek soru. Yorum senin cevabınla derinleşir; «katıl» botu dağıtım değildir. «Yorumla kazandırayım» deyip dağıtımı şişirirsek. Tuzak güven yer. Fail-closed bait durur. Akış durunca kitle kapısına geçeriz.",
+    summary: "Bu dersle Algoritma Dostu İçerik Üretimi: Kanca, Kanıt ve Yorum becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Kanca, kanıt, en çok üç etiket, tuzak yok. Sonraki adım Sales Navigator mı. Akış durunca hedef kapısına geçeriz. Bir sonraki bölümde seni B2B kitle ve Sales Navigator bekliyor.",
     quiz: [
       mcq(
         "q_lnk2_1",
@@ -165,55 +81,19 @@ if (gonderiAc({ kanca: "Pipeline durdu çünkü ICP yoktu.", kanit: true, hashta
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function gonderiAc(girdi: { kanca: string; kanit: boolean; hashtag: number; tuzak: boolean }): \"yayin\" {\n  if (!girdi.kanca.trim() || girdi.kanca.trim().length < 8) throw new Error(\"kanca yok; gönderi durur\");\n  if (!girdi.kanit) throw new Error(\"kanıt yok; gönderi durur\");\n  if (!Number.isInteger(girdi.hashtag) || girdi.hashtag > 3) throw new Error(\"etiket yığını; gönderi durur\");\n  if (girdi.tuzak) throw new Error(\"beğeni avı; gönderi durur\");\n  return \"yayin\";\n}\nif (gonderiAc({ kanca: \"Pipeline durdu çünkü ICP yoktu.\", kanit: true, hashtag: 2, tuzak: false }) !== \"yayin\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "linkedin-masterclass-3",
     order: 3,
     title: "B2B Hedef Kitle Tespiti: Sales Navigator ve ICP Kapısı",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Sen fuarda herkese kartvizit attın mı? Gece yorgun, kimse müşteri değil. ICP ve Navigator filtresi nerede?",
-        ),
-        gozde(
-          "ICP (Ideal Customer Profile) unvan, sektör, ölçek ve coğrafyadır. Sales Navigator o süzgeci kaydeder. Fail-closed: ICP boşken kayıtlı arama ve InMail açılmaz; «her CTO» hedef değildir.",
-        ),
-      ],
-      problem: [
-        tarik("Navigator açık, filtre yok, 2 000 kişi kaydı. InMail kotası bitti. Pipeline neden boş?"),
-        gozde(
-          "Yığın hedef kitle değildir. Fail-closed: sektör + unvan + ölçek yazılmadan liste durur; kayıtlı arama boş süzgeçle kaydedilmez.",
-        ),
-      ],
-      development: [
-        tarik("Kitle kapısını yaz. Boş ICP ve süzgeçsiz listeyi kır."),
-        gozde(
-          "Navigator lead listesi ICP cümlesine bağlıdır. Hesap listesi şirket ölçeği ister. «Türkiye’deki herkes» süzgeç değildir.",
-          {
-            language: "ts",
-            source: `function icpKaydet(girdi: { unvan: string; sektor: string; olcek: string; cografi: string }): "liste" {
-  if (!girdi.unvan.trim() || !girdi.sektor.trim()) throw new Error("ICP yok; liste durur");
-  if (!girdi.olcek.trim() || !girdi.cografi.trim()) throw new Error("ölçek/coğrafya yok; liste durur");
-  if (/herkes|tüm cto/i.test(girdi.unvan + " " + girdi.sektor)) throw new Error("yığın hedef; liste durur");
-  return "liste";
-}
-if (icpKaydet({ unvan: "satınalma müdürü", sektor: "üretici", olcek: "50-200", cografi: "TR" }) !== "liste") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        tarik("«Tüm CTO’lar» deyip 2 000 kişiyi kaydedersek?"),
-        gozde(
-          "Yığın InMail yakar. Fail-closed ICP yoksa liste durur. Kitle durunca outreach kapısına geçeriz.",
-        ),
-      ],
-      conclusion: [
-        tarik("Unvan, sektör, ölçek, coğrafya. Yığın yok. Sonraki adım soğuk mesaj mı?"),
-        gozde(
-          "Kitle durunca kapı yazısına geçeriz. Bir sonraki bölümde seni cold outreach bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde B2B Hedef Kitle Tespiti: Sales Navigator ve ICP Kapısı konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Sen fuarda herkese kartvizit attın mı. Gece yorgun, kimse müşteri değil. ICP ve Navigator filtresi nerede. ICP (Ideal Customer Profile) unvan, sektör, ölçek ve coğrafyadır. Sales Navigator o süzgeci kaydeder. Fail-closed: ICP boşken kayıtlı arama ve InMail açılmaz; «her CTO» hedef değildir.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Navigator açık, filtre yok, 2 000 kişi kaydı. InMail kotası bitti. Pipeline neden boş. Yığın hedef kitle değildir. Fail-closed: sektör + unvan + ölçek yazılmadan liste durur; kayıtlı arama boş süzgeçle kaydedilmez.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Kitle kapısını yaz. Boş ICP ve süzgeçsiz listeyi kır. Navigator lead listesi ICP cümlesine bağlıdır. Hesap listesi şirket ölçeği ister. «Türkiye’deki herkes» süzgeç değildir. «Tüm CTO’lar» deyip 2 000 kişiyi kaydedersek. Yığın InMail yakar. Fail-closed ICP yoksa liste durur. Kitle durunca outreach kapısına geçeriz.",
+    summary: "Bu dersle B2B Hedef Kitle Tespiti: Sales Navigator ve ICP Kapısı becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Unvan, sektör, ölçek, coğrafya. Yığın yok. Sonraki adım soğuk mesaj mı. Kitle durunca kapı yazısına geçeriz. Bir sonraki bölümde seni cold outreach bekliyor.",
     quiz: [
       mcq(
         "q_lnk3_1",
@@ -234,56 +114,19 @@ if (icpKaydet({ unvan: "satınalma müdürü", sektor: "üretici", olcek: "50-20
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function icpKaydet(girdi: { unvan: string; sektor: string; olcek: string; cografi: string }): \"liste\" {\n  if (!girdi.unvan.trim() || !girdi.sektor.trim()) throw new Error(\"ICP yok; liste durur\");\n  if (!girdi.olcek.trim() || !girdi.cografi.trim()) throw new Error(\"ölçek/coğrafya yok; liste durur\");\n  if (/herkes|tüm cto/i.test(girdi.unvan + \" \" + girdi.sektor)) throw new Error(\"yığın hedef; liste durur\");\n  return \"liste\";\n}\nif (icpKaydet({ unvan: \"satınalma müdürü\", sektor: \"üretici\", olcek: \"50-200\", cografi: \"TR\" }) !== \"liste\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "linkedin-masterclass-4",
     order: 4,
     title: "Cold Outreach: İzin, Bağlam ve Toplu Kopya Yasağı",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Sen kartviziti 50 kişiye aynı mektupla attın mı? «Hızlı bir görüşme?» İlk satır spam. Kapı nasıl açılır?",
-        ),
-        gozde(
-          "Soğuk yazı bağlam ve izin ister. Fail-closed: kopya duvar, ilk mesajda «15 dk zoom» ve ICP’siz InMail durur; KVKK/izin yoksa seri mesaj açılmaz.",
-        ),
-      ],
-      problem: [
-        tarik("50 aynı paragraf, isim mail-merge, teklif ilk cümlede. Cevap sıfır, hesap kısıtlandı. Ne kırıldı?"),
-        gozde(
-          "Toplu kopya spam sayılır. İlk mesaj satış değil, gerekçe ve tek sorudur. Fail-closed: özgün bağlam yoksa InMail durur.",
-        ),
-      ],
-      development: [
-        tarik("Yazı kapısını yaz. Kopya duvar ve ilk cümle teklifi kır."),
-        gozde(
-          "Bağlam: onların son içeriği veya saha sorunu. Tek soru. Teklif ikinci turda. Kota ICP listesinden düşer; rastgele 50 kişilik duvar yoktur.",
-          {
-            language: "ts",
-            source: `function mesajAc(girdi: { ozgunBaglam: boolean; ilkTeklif: boolean; kopyaDuvar: boolean; icp: boolean }): "gonder" {
-  if (!girdi.icp) throw new Error("ICP yok; InMail durur");
-  if (girdi.kopyaDuvar) throw new Error("kopya duvar; mesaj durur");
-  if (girdi.ilkTeklif) throw new Error("ilk cümle satış; mesaj durur");
-  if (!girdi.ozgunBaglam) throw new Error("bağlam yok; mesaj durur");
-  return "gonder";
-}
-if (mesajAc({ ozgunBaglam: true, ilkTeklif: false, kopyaDuvar: false, icp: true }) !== "gonder") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        tarik("«Hızlı 15 dakika» ile 50 kişiyi aynı anda basarsak?"),
-        gozde(
-          "Spam kapıyı kapatır. Fail-closed kopya duvar durur. Yazı durunca konumlandırma kapısına geçeriz.",
-        ),
-      ],
-      conclusion: [
-        tarik("ICP, özgün bağlam, ilk mesajda teklif yok. Sonraki adım marka mı?"),
-        gozde(
-          "Yazı durunca konum kapısına geçeriz. Bir sonraki bölümde seni bireysel marka konumlandırma bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Cold Outreach: İzin, Bağlam ve Toplu Kopya Yasağı konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Sen kartviziti 50 kişiye aynı mektupla attın mı. «Hızlı bir görüşme. » İlk satır spam. Kapı nasıl açılır. Soğuk yazı bağlam ve izin ister. Fail-closed: kopya duvar, ilk mesajda «15 dk zoom» ve ICP’siz InMail durur; KVKK/izin yoksa seri mesaj açılmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. 50 aynı paragraf, isim mail-merge, teklif ilk cümlede. Cevap sıfır, hesap kısıtlandı. Ne kırıldı. Toplu kopya spam sayılır. İlk mesaj satış değil, gerekçe ve tek sorudur. Fail-closed: özgün bağlam yoksa InMail durur.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Yazı kapısını yaz. Kopya duvar ve ilk cümle teklifi kır. Bağlam: onların son içeriği veya saha sorunu. Tek soru. Teklif ikinci turda. Kota ICP listesinden düşer; rastgele 50 kişilik duvar yoktur. «Hızlı 15 dakika» ile 50 kişiyi aynı anda basarsak. Spam kapıyı kapatır. Fail-closed kopya duvar durur. Yazı durunca konumlandırma kapısına geçeriz.",
+    summary: "Bu dersle Cold Outreach: İzin, Bağlam ve Toplu Kopya Yasağı becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. ICP, özgün bağlam, ilk mesajda teklif yok. Sonraki adım marka mı. Yazı durunca konum kapısına geçeriz. Bir sonraki bölümde seni bireysel marka konumlandırma bekliyor.",
     quiz: [
       mcq(
         "q_lnk4_1",
@@ -304,55 +147,19 @@ if (mesajAc({ ozgunBaglam: true, ilkTeklif: false, kopyaDuvar: false, icp: true 
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function mesajAc(girdi: { ozgunBaglam: boolean; ilkTeklif: boolean; kopyaDuvar: boolean; icp: boolean }): \"gonder\" {\n  if (!girdi.icp) throw new Error(\"ICP yok; InMail durur\");\n  if (girdi.kopyaDuvar) throw new Error(\"kopya duvar; mesaj durur\");\n  if (girdi.ilkTeklif) throw new Error(\"ilk cümle satış; mesaj durur\");\n  if (!girdi.ozgunBaglam) throw new Error(\"bağlam yok; mesaj durur\");\n  return \"gonder\";\n}\nif (mesajAc({ ozgunBaglam: true, ilkTeklif: false, kopyaDuvar: false, icp: true }) !== \"gonder\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "linkedin-masterclass-5",
     order: 5,
     title: "Bireysel Marka Konumlandırma: Niş, Kanıt ve Tutarsız Mesaj",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Sen kartvizitin bir yüzüne «her iş» yazdın mı? Fuarda kimse durmaz. Niş ve kanıt nerede durur?",
-        ),
-        gozde(
-          "Konum bir cümledir: kimin, hangi sorun, hangi kanıt. Fail-closed: niş yoksa, kanıtsız «düşünce lideri» ve kişisel drama B2B akışına karışırsa marka durur.",
-        ),
-      ],
-      problem: [
-        tarik("Pazartesi koçluk, salı kripto, çarşamba B2B satış. Takipçi şaşkın. Pipeline neden dağılır?"),
-        gozde(
-          "Tutarsız yüz güven yer. Fail-closed: niş cümlesi yazılmadan içerik takvimi açılmaz; kanıtsız unvan basılmaz.",
-        ),
-      ],
-      development: [
-        tarik("Konum kapısını yaz. Kanıtsız unvan ve karışık nişi kır."),
-        gozde(
-          "Haftalık içerik niş cümlesine bağlıdır. Kanıt: vaka, sayı, saha. Drama ve her konu «kişisel marka» değildir.",
-          {
-            language: "ts",
-            source: `function konumAc(girdi: { nis: string; kanit: boolean; konuSayisi: number }): "konum" {
-  if (!girdi.nis.trim() || girdi.nis.trim().length < 12) throw new Error("niş yok; marka durur");
-  if (!girdi.kanit) throw new Error("kanıt yok; unvan basılmaz");
-  if (!Number.isInteger(girdi.konuSayisi) || girdi.konuSayisi !== 1) throw new Error("karışık niş; marka durur");
-  return "konum";
-}
-if (konumAc({ nis: "üretici satınalmaya dürüst pipeline", kanit: true, konuSayisi: 1 }) !== "konum") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        tarik("«Düşünce lideriyim» deyip vaka basmazsak?"),
-        gozde(
-          "Unvan yalandır. Fail-closed kanıt yoksa marka durur. Konum durunca dört kapı kapanışına geçeriz.",
-        ),
-      ],
-      conclusion: [
-        tarik("Bir niş, kanıt, tutarlı yüz. Sonraki adım proje mi?"),
-        gozde(
-          "Konum durunca teslim kapısına geçeriz. Bir sonraki bölümde seni profil kapanış projesi bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Bireysel Marka Konumlandırma: Niş, Kanıt ve Tutarsız Mesaj konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Sen kartvizitin bir yüzüne «her iş» yazdın mı. Fuarda kimse durmaz. Niş ve kanıt nerede durur. Konum bir cümledir: kimin, hangi sorun, hangi kanıt. Fail-closed: niş yoksa, kanıtsız «düşünce lideri» ve kişisel drama B2B akışına karışırsa marka durur.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Pazartesi koçluk, salı kripto, çarşamba B2B satış. Takipçi şaşkın. Pipeline neden dağılır. Tutarsız yüz güven yer. Fail-closed: niş cümlesi yazılmadan içerik takvimi açılmaz; kanıtsız unvan basılmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Konum kapısını yaz. Kanıtsız unvan ve karışık nişi kır. Haftalık içerik niş cümlesine bağlıdır. Kanıt: vaka, sayı, saha. Drama ve her konu «kişisel marka» değildir. «Düşünce lideriyim» deyip vaka basmazsak. Unvan yalandır. Fail-closed kanıt yoksa marka durur. Konum durunca dört kapı kapanışına geçeriz.",
+    summary: "Bu dersle Bireysel Marka Konumlandırma: Niş, Kanıt ve Tutarsız Mesaj becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Bir niş, kanıt, tutarlı yüz. Sonraki adım proje mi. Konum durunca teslim kapısına geçeriz. Bir sonraki bölümde seni profil kapanış projesi bekliyor.",
     quiz: [
       mcq(
         "q_lnk5_1",
@@ -373,61 +180,19 @@ if (konumAc({ nis: "üretici satınalmaya dürüst pipeline", kanit: true, konuS
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function konumAc(girdi: { nis: string; kanit: boolean; konuSayisi: number }): \"konum\" {\n  if (!girdi.nis.trim() || girdi.nis.trim().length < 12) throw new Error(\"niş yok; marka durur\");\n  if (!girdi.kanit) throw new Error(\"kanıt yok; unvan basılmaz\");\n  if (!Number.isInteger(girdi.konuSayisi) || girdi.konuSayisi !== 1) throw new Error(\"karışık niş; marka durur\");\n  return \"konum\";\n}\nif (konumAc({ nis: \"üretici satınalmaya dürüst pipeline\", kanit: true, konuSayisi: 1 }) !== \"konum\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "linkedin-masterclass-6",
     order: 6,
     title: "Mini Proje: Profil, İçerik, ICP ve Outreach Dört Kapısı",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Kartvizit duruyor: slogansız All-Star, tuzak gönderi, yığın liste, kopya InMail. Sen müdüre hangi pipeline’ı uzatırsın?",
-        ),
-        gozde(
-          "Dört kapı durmadan uzatmazsın. Profil, içerik, ICP, outreach. Fail-closed bir kapı açıkken mühür vurulmaz. Bu iskelet canlı LinkedIn hesabı iddiası taşımaz.",
-        ),
-      ],
-      problem: [
-        tarik("Ekranda bağlantı parlıyor, ICP yok. İş bitmiş mi sayılıyor?"),
-        gozde(
-          "Parıltı yalandır. Slogan başlık, bait gönderi, yığın liste, kopya duvar — biri duruyorsa pipeline basılmaz.",
-        ),
-      ],
-      development: [
-        tarik("Tek fonksiyon: fotoğraf, kanca, ICP, bağlam. Biri kırıkken dur."),
-        gozde(
-          "`pipeline` dört kapıyı sırayla sorar. Fotoğraf yoksa durur. Kanca yoksa durur. ICP yoksa durur. Kopya duvar varsa durur. Hepsi durunca «hazir» basılır.",
-          {
-            language: "ts",
-            source: `function pipeline(girdi: {
-  foto: boolean;
-  kanca: string;
-  icp: boolean;
-  kopyaDuvar: boolean;
-}): "hazir" {
-  if (!girdi.foto) throw new Error("fotoğraf yok; profil durur");
-  if (!girdi.kanca.trim()) throw new Error("kanca yok; gönderi durur");
-  if (!girdi.icp) throw new Error("ICP yok; liste durur");
-  if (girdi.kopyaDuvar) throw new Error("kopya duvar; mesaj durur");
-  return "hazir";
-}
-if (pipeline({ foto: true, kanca: "ICP yoksa InMail yanar.", icp: true, kopyaDuvar: false }) !== "hazir") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        tarik("Bu iskelet canlı LinkedIn hesabına bağlı mı? Sınavda ne ölçülür?"),
-        gozde(
-          "Bağlı değildir. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır. Dört kapı: profil, içerik, ICP, outreach.",
-        ),
-      ],
-      conclusion: [
-        tarik("Masterclass kapanış bu mu: kartvizit, akış, kitle, yazı, konum, sınava gir?"),
-        gozde(
-          "Bu. Tekil Masterclass halkası kapanır. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Mini Proje: Profil, İçerik, ICP ve Outreach Dört Kapısı konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Kartvizit duruyor: slogansız All-Star, tuzak gönderi, yığın liste, kopya InMail. Sen müdüre hangi pipeline’ı uzatırsın. Dört kapı durmadan uzatmazsın. Profil, içerik, ICP, outreach. Fail-closed bir kapı açıkken mühür vurulmaz. Bu iskelet canlı LinkedIn hesabı iddiası taşımaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Ekranda bağlantı parlıyor, ICP yok. İş bitmiş mi sayılıyor. Parıltı yalandır. Slogan başlık, bait gönderi, yığın liste, kopya duvar — biri duruyorsa pipeline basılmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Tek fonksiyon: fotoğraf, kanca, ICP, bağlam. Biri kırıkken dur. `pipeline` dört kapıyı sırayla sorar. Fotoğraf yoksa durur. Kanca yoksa durur. ICP yoksa durur. Kopya duvar varsa durur. Hepsi durunca «hazir» basılır. Bu iskelet canlı LinkedIn hesabına bağlı mı. Sınavda ne ölçülür. Bağlı değildir. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır. Dört kapı: profil, içerik, ICP, outreach.",
+    summary: "Bu dersle Mini Proje: Profil, İçerik, ICP ve Outreach Dört Kapısı becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Masterclass kapanış bu mu: kartvizit, akış, kitle, yazı, konum, sınava gir. Bu. Tekil Masterclass halkası kapanır. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
     quiz: [
       mcq(
         "q_lnk6_1",
@@ -448,6 +213,10 @@ if (pipeline({ foto: true, kanca: "ICP yoksa InMail yanar.", icp: true, kopyaDuv
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function pipeline(girdi: {\n  foto: boolean;\n  kanca: string;\n  icp: boolean;\n  kopyaDuvar: boolean;\n}): \"hazir\" {\n  if (!girdi.foto) throw new Error(\"fotoğraf yok; profil durur\");\n  if (!girdi.kanca.trim()) throw new Error(\"kanca yok; gönderi durur\");\n  if (!girdi.icp) throw new Error(\"ICP yok; liste durur\");\n  if (girdi.kopyaDuvar) throw new Error(\"kopya duvar; mesaj durur\");\n  return \"hazir\";\n}\nif (pipeline({ foto: true, kanca: \"ICP yoksa InMail yanar.\", icp: true, kopyaDuvar: false }) !== \"hazir\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
 ] as const;
 

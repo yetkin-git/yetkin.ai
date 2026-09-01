@@ -5,8 +5,7 @@
 
 import type { AcademyExamQuestion } from "@/lib/academy/types";
 import {
-  academyFiveActLessonDraft,
-  dialogueTurn,
+  academyInstructorLessonDraft,
   type AcademyLessonDraft,
 } from "@/lib/academy/curricula/types";
 
@@ -19,88 +18,20 @@ function mcq(
   return { id, prompt, choices: [...choices], correctIndex };
 }
 
-const koray = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("koray", text, code);
-const maya = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("maya", text, code);
-
 export const FULLSTACK_ORTA_LESSONS: readonly AcademyLessonDraft[] = [
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "fullstack-orta-1",
     order: 1,
     title: "Modern Frontend Mimarisi: React Component Yapısı, JSX ve Props Mantığı",
-    dialogue: {
-      warmup: [
-        koray(
-          "Şantiyede prefabrik oda kamyondan iner: kapı, pencere, iş emri poşette durur. Sen o poşeti odanın içinde yırtıp başlığı değiştirir misin, yoksa yeni poşet mi istersin?",
-        ),
-        maya(
-          "Yeni poşet istersin. React bileşeni o odadır; JavaScript XML (JSX) odanın iskelet cümlesidir; props (özellik) poşettir — ebeveyn yazar, çocuk okur. Poşeti içeride yırtmak sözleşmeyi söker.",
-        ),
-      ],
-      problem: [
-        koray("Sahada `props.baslik = \"bitti\"` yazınca ekran bir an yeşil yanıyor. Teslim mi?"),
-        maya(
-          "Teslim değil. Çocuk poşeti yerinde değiştirince ebeveyn hâlâ eski iş emrini tutar; sonraki boyama eski başlığı basar. Fail-closed (Hata Anında Kapalı): props salt okunur kalır. Boş başlık da oda sayılmaz — trim sonrası boşsa işlem durur.",
-        ),
-      ],
-      development: [
-        koray("İş emri tipini yaz. Boş başlığı kes. JSX’te poşeti oku, yerinde yazma."),
-        maya(
-          "`type` poşet kalıbıdır. Bileşen fonksiyonu poşeti açar, JSX cümle basar. `props.baslik =` satırı bu laboratuvarda yoktur.",
-          {
-            language: "tsx",
-            source: `type GorevKartiOzellik = {
-  baslik: string;
-  durum: "acik" | "kapali";
-};
-
-function baslikDogrula(ham: string): string {
-  const temiz = ham.trim();
-  if (temiz === "") {
-    throw new Error("başlık yok; işlem durur");
-  }
-  return temiz;
-}
-
-function GorevKarti({ baslik, durum }: GorevKartiOzellik) {
-  const yazi = baslikDogrula(baslik);
-  return (
-    <article>
-      <h2>{yazi}</h2>
-      <p>{durum}</p>
-    </article>
-  );
-}
-
-const kart = GorevKarti({ baslik: "Kalıp dök", durum: "acik" });
-if (!kart) {
-  throw new Error("oda yok; işlem durur");
-}`,
-          },
-        ),
-        koray("Ebeveyn başlığı değiştirmek isterse çocuk mu yazar, yoksa yeni poşet mi iner?"),
-        maya(
-          "Yeni poşet iner. Fail-closed: çocuk `setState` ile ebeveynin iş emrini çalmaz; ebeveyn yeni props basar. Şantiyede oda poşeti yırtmaz.",
-        ),
-      ],
-      conclusion: [
-        koray("Oda, poşet, iskelet. Sonraki adımda panodaki sayı mı duruyor?"),
-        maya(
-          "Bileşen oda, props poşet, JSX iskelettir; poşet içeride yazılmaz. Bir sonraki bölümde seni React durum kancası (useState), etki kancası (useEffect) ve kontrollü form bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Modern Frontend Mimarisi: React Component Yapısı, JSX ve Props Mantığı konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Şantiyede prefabrik oda kamyondan iner: kapı, pencere, iş emri poşette durur. Sen o poşeti odanın içinde yırtıp başlığı değiştirir misin, yoksa yeni poşet mi istersin. Yeni poşet istersin. React bileşeni o odadır; JavaScript XML (JSX) odanın iskelet cümlesidir; props (özellik) poşettir — ebeveyn yazar, çocuk okur. Poşeti içeride yırtmak sözleşmeyi söker.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Sahada `props.baslik = \"bitti\"` yazınca ekran bir an yeşil yanıyor. Teslim mi. Teslim değil. Çocuk poşeti yerinde değiştirince ebeveyn hâlâ eski iş emrini tutar; sonraki boyama eski başlığı basar. Fail-closed (Hata Anında Kapalı): props salt okunur kalır. Boş başlık da oda sayılmaz — trim sonrası boşsa işlem durur.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, İş emri tipini yaz. Boş başlığı kes. JSX’te poşeti oku, yerinde yazma. `type` poşet kalıbıdır. Bileşen fonksiyonu poşeti açar, JSX cümle basar. `props.baslik =` satırı bu laboratuvarda yoktur. Ebeveyn başlığı değiştirmek isterse çocuk mu yazar, yoksa yeni poşet mi iner. Yeni poşet iner. Fail-closed: çocuk `setState` ile ebeveynin iş emrini çalmaz; ebeveyn yeni props basar. Şantiyede oda poşeti yırtmaz.",
+    summary: "Bu dersle Modern Frontend Mimarisi: React Component Yapısı, JSX ve Props Mantığı becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Oda, poşet, iskelet. Sonraki adımda panodaki sayı mı duruyor. Bileşen oda, props poşet, JSX iskelettir; poşet içeride yazılmaz. Bir sonraki bölümde seni React durum kancası (useState), etki kancası (useEffect) ve kontrollü form bekliyor.",
     quiz: [
       mcq(
         "q_fso1_1",
         "React’te props (özellik) kim yazar?",
-        [
-          "Çocuk bileşen yerinde değiştirir",
-          "Ebeveyn basar; çocuk okur, yazmaz",
-          "JSX otomatik doldurur",
-          "Prisma yazar",
-        ],
+        ["Çocuk bileşen yerinde değiştirir", "Ebeveyn basar; çocuk okur, yazmaz", "JSX otomatik doldurur", "Prisma yazar"],
         1,
       ),
       mcq(
@@ -116,109 +47,19 @@ if (!kart) {
         1,
       ),
     ],
+    code: {
+      language: "tsx",
+      source: "type GorevKartiOzellik = {\n  baslik: string;\n  durum: \"acik\" | \"kapali\";\n};\n\nfunction baslikDogrula(ham: string): string {\n  const temiz = ham.trim();\n  if (temiz === \"\") {\n    throw new Error(\"başlık yok; işlem durur\");\n  }\n  return temiz;\n}\n\nfunction GorevKarti({ baslik, durum }: GorevKartiOzellik) {\n  const yazi = baslikDogrula(baslik);\n  return (\n    <article>\n      <h2>{yazi}</h2>\n      <p>{durum}</p>\n    </article>\n  );\n}\n\nconst kart = GorevKarti({ baslik: \"Kalıp dök\", durum: \"acik\" });\nif (!kart) {\n  throw new Error(\"oda yok; işlem durur\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "fullstack-orta-2",
     order: 2,
     title: "React State Yönetimi (useState, useEffect) ve Form Elemanları",
-    dialogue: {
-      warmup: [
-        koray(
-          "Şantiyede duvardaki pano adeti yazar. Bir işçi her bakışta panoya +1 çizerse koridor ne olur? Sen o işçiyi kapıda tutar mısın?",
-        ),
-        maya(
-          "Tutmazsan koridor donar. useState (durum kancası) o panodur: tek kutu, tek yazar. useEffect (etki kancası) kapı nöbetçisidir — bağımlılık değişince koşar. Form elemanı panodan okur, panoya yazar; serbest `defaultValue` ile kaçmaz.",
-        ),
-      ],
-      problem: [
-        koray("`useEffect(() => setSayac(sayac + 1), [sayac])` sahada ne yakıyor?"),
-        maya(
-          "Sonsuz boyama. Etki panoyu değiştirir, pano değişince etki yine koşar. Fail-closed: aynı kutuyu bağımlılıkta tutup içeride artırmak yasaktır. `fetch` de temizlik yoksa eski yanıt yeni listeyi ezer — yarış.",
-        ),
-      ],
-      development: [
-        koray("Kontrollü başlık, fonksiyonel artırım, etkiyi boş dizi ve iptalle yaz. Sonsuz döngü yok."),
-        maya(
-          "`setAdet(onceki => onceki + 1)` eski kopyayı ezmez. Etki `[]` ile bir kez koşar; `AbortController` ve `iptal` bayrağı eski kuryeyi düşürür. Boş trim’de POST çıkmaz.",
-          {
-            language: "tsx",
-            source: `import { useEffect, useState, type FormEvent } from "react";
-
-function baslikDogrula(ham: string): string {
-  const temiz = ham.trim();
-  if (temiz === "") {
-    throw new Error("boş başlık; işlem durur");
-  }
-  return temiz;
-}
-
-function GorevFormu() {
-  const [baslik, setBaslik] = useState("");
-  const [adet, setAdet] = useState(0);
-  const [hata, setHata] = useState("");
-
-  useEffect(() => {
-    const ac = new AbortController();
-    let iptal = false;
-    fetch("/api/gorev-sayisi", { signal: ac.signal })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("sunucu reddetti; işlem durur");
-        }
-        return res.json();
-      })
-      .then((ham: unknown) => {
-        if (iptal || !ham || typeof ham !== "object" || !("adet" in ham)) {
-          return;
-        }
-        const n = (ham as { adet: unknown }).adet;
-        if (typeof n === "number" && Number.isInteger(n) && n >= 0) {
-          setAdet(n);
-        }
-      })
-      .catch((err: unknown) => {
-        if (iptal) return;
-        setHata(err instanceof Error ? err.message : "işlem durur");
-      });
-    return () => {
-      iptal = true;
-      ac.abort();
-    };
-  }, []);
-
-  function gonder(e: FormEvent) {
-    e.preventDefault();
-    try {
-      baslikDogrula(baslik);
-    } catch (err) {
-      setHata(err instanceof Error ? err.message : "işlem durur");
-      return;
-    }
-    setAdet((onceki) => onceki + 1);
-  }
-
-  return (
-    <form onSubmit={gonder}>
-      <input value={baslik} onChange={(ev) => setBaslik(ev.target.value)} />
-      <p>{adet}</p>
-      <p>{hata}</p>
-    </form>
-  );
-}`,
-          },
-        ),
-        koray("Yani etki içinde `setSayac(sayac + 1)` ve `[sayac]` birlikte durursa şantiye donar mı?"),
-        maya(
-          "Donar. Fail-closed: bağımlılık listesi yalan söylemez; temizlik yoksa eski yanıt durmaz. Kontrollü `value={baslik}` pano ile girdiyi tek tutar.",
-        ),
-      ],
-      conclusion: [
-        koray("Pano, nöbetçi, form. Sonraki adım şantiye ofisi mi?"),
-        maya(
-          "Durum tek kutu, etki temizlikle kapanır, form panodan okur. Bir sonraki bölümde seni Node.js ve Express.js ile Temsili Durum Transferi (REST) kapısı bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde React State Yönetimi (useState, useEffect) ve Form Elemanları konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Şantiyede duvardaki pano adeti yazar. Bir işçi her bakışta panoya +1 çizerse koridor ne olur. Sen o işçiyi kapıda tutar mısın. Tutmazsan koridor donar. useState (durum kancası) o panodur: tek kutu, tek yazar. useEffect (etki kancası) kapı nöbetçisidir — bağımlılık değişince koşar. Form elemanı panodan okur, panoya yazar; serbest `defaultValue` ile kaçmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. `useEffect(() => setSayac(sayac + 1), [sayac])` sahada ne yakıyor. Sonsuz boyama. Etki panoyu değiştirir, pano değişince etki yine koşar. Fail-closed: aynı kutuyu bağımlılıkta tutup içeride artırmak yasaktır. `fetch` de temizlik yoksa eski yanıt yeni listeyi ezer — yarış.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Kontrollü başlık, fonksiyonel artırım, etkiyi boş dizi ve iptalle yaz. Sonsuz döngü yok. `setAdet(onceki => onceki + 1)` eski kopyayı ezmez. Etki `[]` ile bir kez koşar; `AbortController` ve `iptal` bayrağı eski kuryeyi düşürür. Boş trim’de POST çıkmaz. Yani etki içinde `setSayac(sayac + 1)` ve `[sayac]` birlikte durursa şantiye donar mı. Donar. Fail-closed: bağımlılık listesi yalan söylemez; temizlik yoksa eski yanıt durmaz. Kontrollü `value={baslik}` pano ile girdiyi tek tutar.",
+    summary: "Bu dersle React State Yönetimi (useState, useEffect) ve Form Elemanları becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Pano, nöbetçi, form. Sonraki adım şantiye ofisi mi. Durum tek kutu, etki temizlikle kapanır, form panodan okur. Bir sonraki bölümde seni Node.js ve Express.js ile Temsili Durum Transferi (REST) kapısı bekliyor.",
     quiz: [
       mcq(
         "q_fso2_1",
@@ -239,77 +80,19 @@ function GorevFormu() {
         1,
       ),
     ],
+    code: {
+      language: "tsx",
+      source: "import { useEffect, useState, type FormEvent } from \"react\";\n\nfunction baslikDogrula(ham: string): string {\n  const temiz = ham.trim();\n  if (temiz === \"\") {\n    throw new Error(\"boş başlık; işlem durur\");\n  }\n  return temiz;\n}\n\nfunction GorevFormu() {\n  const [baslik, setBaslik] = useState(\"\");\n  const [adet, setAdet] = useState(0);\n  const [hata, setHata] = useState(\"\");\n\n  useEffect(() => {\n    const ac = new AbortController();\n    let iptal = false;\n    fetch(\"/api/gorev-sayisi\", { signal: ac.signal })\n      .then((res) => {\n        if (!res.ok) {\n          throw new Error(\"sunucu reddetti; işlem durur\");\n        }\n        return res.json();\n      })\n      .then((ham: unknown) => {\n        if (iptal || !ham || typeof ham !== \"object\" || !(\"adet\" in ham)) {\n          return;\n        }\n        const n = (ham as { adet: unknown }).adet;\n        if (typeof n === \"number\" && Number.isInteger(n) && n >= 0) {\n          setAdet(n);\n        }\n      })\n      .catch((err: unknown) => {\n        if (iptal) return;\n        setHata(err instanceof Error ? err.message : \"işlem durur\");\n      });\n    return () => {\n      iptal = true;\n      ac.abort();\n    };\n  }, []);\n\n  function gonder(e: FormEvent) {\n    e.preventDefault();\n    try {\n      baslikDogrula(baslik);\n    } catch (err) {\n      setHata(err instanceof Error ? err.message : \"işlem durur\");\n      return;\n    }\n    setAdet((onceki) => onceki + 1);\n  }\n\n  return (\n    <form onSubmit={gonder}>\n      <input value={baslik} onChange={(ev) => setBaslik(ev.target.value)} />\n      <p>{adet}</p>\n      <p>{hata}</p>\n    </form>\n  );\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "fullstack-orta-3",
     order: 3,
     title: "Backend Service Mimarisi: Node.js ve Express.js ile REST API Tasarımı",
-    dialogue: {
-      warmup: [
-        koray(
-          "Şantiye ofisinin penceresi sıra ister: fiş, damga, teslim. Sen damgasız kamyonu arka kapıdan içeri alır mısın?",
-        ),
-        maya(
-          "Almazsın. Express.js o penceredir. Temsili Durum Transferi (REST) kaynağı isimlendirir: `/gorevler` koleksiyon, `POST` yazar, `GET` okur. Ara katman (middleware) damga sırasıdır — gövde, doğrulama, işleyici.",
-        ),
-      ],
-      problem: [
-        koray("Gövde okunmadan `req.body.baslik` deyince, 500’de 200 basınca saha ne yalan söylüyor?"),
-        maya(
-          "`undefined` gelir, `toUpperCase` patlar. Fail-closed: `express.json()` önce durur; şema yoksa 400; işleyici hata basarsa 5xx yeşil değildir. Sırasız `next` kapıyı açık unutur.",
-        ),
-      ],
-      development: [
-        koray("JSON ara katmanı, gövde kapısı, POST 201. Şemasız 400. Ham string birleştirme yok."),
-        maya(
-          "Sıra yazılı durur: json → doğrula → işleyici. `baslik` metin değilse 400. Başarı 201 ve `Location`. `app.all` ile her yola açık kapı yok.",
-          {
-            language: "ts",
-            source: `import express, { type NextFunction, type Request, type Response } from "express";
-
-type GorevGirdi = { baslik: string };
-
-function gorevOku(ham: unknown): GorevGirdi {
-  if (!ham || typeof ham !== "object" || !("baslik" in ham)) {
-    throw new Error("gövde yok; işlem durur");
-  }
-  const baslik = (ham as { baslik: unknown }).baslik;
-  if (typeof baslik !== "string" || baslik.trim() === "") {
-    throw new Error("başlık yok; işlem durur");
-  }
-  return { baslik: baslik.trim() };
-}
-
-function dogrulaGorev(req: Request, res: Response, next: NextFunction): void {
-  try {
-    req.body = gorevOku(req.body);
-    next();
-  } catch (err) {
-    res.status(400).json({
-      hata: err instanceof Error ? err.message : "işlem durur",
-    });
-  }
-}
-
-const app = express();
-app.use(express.json());
-app.post("/gorevler", dogrulaGorev, (_req, res) => {
-  res.status(201).json({ id: "g-1" });
-});`,
-          },
-        ),
-        koray("Doğrulama işleyiciden sonra durursa ne kırılır?"),
-        maya(
-          "İşleyici çöp gövdeyi yazar. Fail-closed: ara katman sırası sözleşmedir; `next` atlanırsa yanıt basılmaz, kapı açık kalmaz — 400 erken döner.",
-        ),
-      ],
-      conclusion: [
-        koray("Pencere, damga, 201. Defter henüz yok. Sonraki adım malzeme defteri mi?"),
-        maya(
-          "REST kaynağı isimlendirir, Express sırayı mühürler, şemasız gövde 400 durur. Bir sonraki bölümde seni PostgreSQL ve Prisma nesne-ilişkisel eşleme (ORM) defteri bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Backend Service Mimarisi: Node.js ve Express.js ile REST API Tasarımı konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Şantiye ofisinin penceresi sıra ister: fiş, damga, teslim. Sen damgasız kamyonu arka kapıdan içeri alır mısın. Almazsın. Express.js o penceredir. Temsili Durum Transferi (REST) kaynağı isimlendirir: `/gorevler` koleksiyon, `POST` yazar, `GET` okur. Ara katman (middleware) damga sırasıdır — gövde, doğrulama, işleyici.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Gövde okunmadan `req.body.baslik` deyince, 500’de 200 basınca saha ne yalan söylüyor. `undefined` gelir, `toUpperCase` patlar. Fail-closed: `express.json()` önce durur; şema yoksa 400; işleyici hata basarsa 5xx yeşil değildir. Sırasız `next` kapıyı açık unutur.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, JSON ara katmanı, gövde kapısı, POST 201. Şemasız 400. Ham string birleştirme yok. Sıra yazılı durur: json → doğrula → işleyici. `baslik` metin değilse 400. Başarı 201 ve `Location`. `app.all` ile her yola açık kapı yok. Doğrulama işleyiciden sonra durursa ne kırılır. İşleyici çöp gövdeyi yazar. Fail-closed: ara katman sırası sözleşmedir; `next` atlanırsa yanıt basılmaz, kapı açık kalmaz — 400 erken döner.",
+    summary: "Bu dersle Backend Service Mimarisi: Node.js ve Express.js ile REST API Tasarımı becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Pencere, damga, 201. Defter henüz yok. Sonraki adım malzeme defteri mi. REST kaynağı isimlendirir, Express sırayı mühürler, şemasız gövde 400 durur. Bir sonraki bölümde seni PostgreSQL ve Prisma nesne-ilişkisel eşleme (ORM) defteri bekliyor.",
     quiz: [
       mcq(
         "q_fso3_1",
@@ -330,73 +113,19 @@ app.post("/gorevler", dogrulaGorev, (_req, res) => {
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "import express, { type NextFunction, type Request, type Response } from \"express\";\n\ntype GorevGirdi = { baslik: string };\n\nfunction gorevOku(ham: unknown): GorevGirdi {\n  if (!ham || typeof ham !== \"object\" || !(\"baslik\" in ham)) {\n    throw new Error(\"gövde yok; işlem durur\");\n  }\n  const baslik = (ham as { baslik: unknown }).baslik;\n  if (typeof baslik !== \"string\" || baslik.trim() === \"\") {\n    throw new Error(\"başlık yok; işlem durur\");\n  }\n  return { baslik: baslik.trim() };\n}\n\nfunction dogrulaGorev(req: Request, res: Response, next: NextFunction): void {\n  try {\n    req.body = gorevOku(req.body);\n    next();\n  } catch (err) {\n    res.status(400).json({\n      hata: err instanceof Error ? err.message : \"işlem durur\",\n    });\n  }\n}\n\nconst app = express();\napp.use(express.json());\napp.post(\"/gorevler\", dogrulaGorev, (_req, res) => {\n  res.status(201).json({ id: \"g-1\" });\n});",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "fullstack-orta-4",
     order: 4,
     title: "İlişkisel Veritabanı ve ORM: PostgreSQL ve Prisma ORM Bağlantısı",
-    dialogue: {
-      warmup: [
-        koray(
-          "Şantiye malzeme defteri satır satır mühürlüdür. Sen müşteri adını defter cümlesine yapıştırıp «SELECT … WHERE ad = '» diye açık bırakır mısın?",
-        ),
-        maya(
-          "Bırakmazsın. PostgreSQL ilişkisel defterdir. Prisma nesne-ilişkisel eşleme (ORM) o deftere parametreli kapı açar. Yapılandırılmış Sorgu Dili (SQL) birleştirmesi enjeksiyon kapısıdır — Fail-closed o kapıyı yok saymaz; hiç açmaz.",
-        ),
-      ],
-      problem: [
-        koray("`$queryRawUnsafe(\"… WHERE id = \" + id)` neden üretimde şantiyeyi yakar?"),
-        maya(
-          "Çünkü `id` içine `1; DELETE FROM gorev` sızar. Ham birleştirme güvensiz sorgudur. Fail-closed: Prisma `findUnique` / `create` veya etiketli `$queryRaw` — kullanıcı metni SQL cümlesine yapışmaz.",
-        ),
-      ],
-      development: [
-        koray("Modeli yaz, findUnique ile oku, yoksa dur. Raw birleştirme yok. create baslik trim ister."),
-        maya(
-          "`model Gorev` tapudur. `findUnique` parametreli arar. Kayıt yoksa 404 cümlesi, uydurma satır değil. `$queryRawUnsafe` bu tezgâhta yoktur.",
-          {
-            language: "ts",
-            source: `import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-
-function idDogrula(ham: unknown): string {
-  if (typeof ham !== "string" || ham.trim() === "") {
-    throw new Error("id yok; işlem durur");
-  }
-  return ham.trim();
-}
-
-async function gorevGetir(hamId: unknown) {
-  const id = idDogrula(hamId);
-  const kayit = await prisma.gorev.findUnique({ where: { id } });
-  if (!kayit) {
-    throw new Error("kayıt yok; işlem durur");
-  }
-  return kayit;
-}
-
-async function gorevYaz(baslikHam: string) {
-  const baslik = baslikHam.trim();
-  if (baslik === "") {
-    throw new Error("başlık yok; işlem durur");
-  }
-  return prisma.gorev.create({ data: { baslik, durum: "acik" } });
-}`,
-          },
-        ),
-        koray("Etiketli `$queryRaw` ile Unsafe farkı nedir? Ben yine + ile birleştirsem?"),
-        maya(
-          "Etiketli şablon parametre bağlar; Unsafe cümleyi olduğu gibi koşturur. Fail-closed: `+ id` yok. Prisma istemcisi yoksa işlem başlamaz — sessiz bellek uydurması yok.",
-        ),
-      ],
-      conclusion: [
-        koray("Defter parametreli, ham yapıştırma yok. Sonraki adım yaka kartı mı?"),
-        maya(
-          "Prisma satırı parametreyle arar; SQL birleştirme enjeksiyon kapısıdır. Bir sonraki bölümde seni JavaScript Nesne Gösterimi Web Jetonu (JWT) ve ara katman kimliği bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde İlişkisel Veritabanı ve ORM: PostgreSQL ve Prisma ORM Bağlantısı konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Şantiye malzeme defteri satır satır mühürlüdür. Sen müşteri adını defter cümlesine yapıştırıp «SELECT … WHERE ad = '» diye açık bırakır mısın. Bırakmazsın. PostgreSQL ilişkisel defterdir. Prisma nesne-ilişkisel eşleme (ORM) o deftere parametreli kapı açar. Yapılandırılmış Sorgu Dili (SQL) birleştirmesi enjeksiyon kapısıdır — Fail-closed o kapıyı yok saymaz; hiç açmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. `$queryRawUnsafe(\"… WHERE id = \" + id)` neden üretimde şantiyeyi yakar. Çünkü `id` içine `1; DELETE FROM gorev` sızar. Ham birleştirme güvensiz sorgudur. Fail-closed: Prisma `findUnique` / `create` veya etiketli `$queryRaw` — kullanıcı metni SQL cümlesine yapışmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Modeli yaz, findUnique ile oku, yoksa dur. Raw birleştirme yok. create baslik trim ister. `model Gorev` tapudur. `findUnique` parametreli arar. Kayıt yoksa 404 cümlesi, uydurma satır değil. `$queryRawUnsafe` bu tezgâhta yoktur. Etiketli `$queryRaw` ile Unsafe farkı nedir. Ben yine + ile birleştirsem. Etiketli şablon parametre bağlar; Unsafe cümleyi olduğu gibi koşturur. Fail-closed: `+ id` yok. Prisma istemcisi yoksa işlem başlamaz — sessiz bellek uydurması yok.",
+    summary: "Bu dersle İlişkisel Veritabanı ve ORM: PostgreSQL ve Prisma ORM Bağlantısı becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Defter parametreli, ham yapıştırma yok. Sonraki adım yaka kartı mı. Prisma satırı parametreyle arar; SQL birleştirme enjeksiyon kapısıdır. Bir sonraki bölümde seni JavaScript Nesne Gösterimi Web Jetonu (JWT) ve ara katman kimliği bekliyor.",
     quiz: [
       mcq(
         "q_fso4_1",
@@ -417,88 +146,19 @@ async function gorevYaz(baslikHam: string) {
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "import { PrismaClient } from \"@prisma/client\";\n\nconst prisma = new PrismaClient();\n\nfunction idDogrula(ham: unknown): string {\n  if (typeof ham !== \"string\" || ham.trim() === \"\") {\n    throw new Error(\"id yok; işlem durur\");\n  }\n  return ham.trim();\n}\n\nasync function gorevGetir(hamId: unknown) {\n  const id = idDogrula(hamId);\n  const kayit = await prisma.gorev.findUnique({ where: { id } });\n  if (!kayit) {\n    throw new Error(\"kayıt yok; işlem durur\");\n  }\n  return kayit;\n}\n\nasync function gorevYaz(baslikHam: string) {\n  const baslik = baslikHam.trim();\n  if (baslik === \"\") {\n    throw new Error(\"başlık yok; işlem durur\");\n  }\n  return prisma.gorev.create({ data: { baslik, durum: \"acik\" } });\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "fullstack-orta-5",
     order: 5,
     title: "Güvenli API: JWT (JSON Web Token) ve Middleware Tabanlı Kimlik Doğrulama",
-    dialogue: {
-      warmup: [
-        koray(
-          "Şantiye kapısında yaka kartı manyetik okunur. Sen kartın üzerindeki isme bakıp imzaya bakmadan içeri alır mısın?",
-        ),
-        maya(
-          "Almazsın. JavaScript Nesne Gösterimi Web Jetonu (JWT) o yaka kartıdır: başlık, yük, imza. `decode` isme bakar; `verify` mührü sorar. Ara katman kapı nöbetçisidir — Bearer yoksa 401, imza yoksa 401.",
-        ),
-      ],
-      problem: [
-        koray("`jwt.decode` ile `sub` okuyup içeri almak neden yalan? Gizli anahtar yoksa?"),
-        maya(
-          "Çünkü sahte kart da `sub` basar. Fail-closed: `JWT_SECRET` yoksa sunucu hiç açılmaz; `verify` fırlatırsa 401, 200 değil. `decode` imza sormaz — kapı açık sayılmaz.",
-        ),
-      ],
-      development: [
-        koray("Secret yoksa dur. Bearer oku. verify. sub yoksa 401. next yalnız mühürden sonra."),
-        maya(
-          "Ara katman sırası: json zaten geçmiş olabilir; kimlik rotadan önce durur. `catch` 401 basar, `next(err)` ile 500 yeşile çevrilmez. Yük `sub` metin değilse işlem durur.",
-          {
-            language: "ts",
-            source: `import jwt from "jsonwebtoken";
-import type { NextFunction, Request, Response } from "express";
-
-function imzaAnahtari(): string {
-  const secret = process.env.JWT_SECRET;
-  if (typeof secret !== "string" || secret.trim() === "") {
-    throw new Error("imza anahtarı yok; işlem durur");
-  }
-  return secret;
-}
-
-function bearerOku(header: unknown): string {
-  if (typeof header !== "string" || !header.startsWith("Bearer ")) {
-    throw new Error("jeton yok; işlem durur");
-  }
-  const jeton = header.slice("Bearer ".length).trim();
-  if (jeton === "") {
-    throw new Error("jeton boş; işlem durur");
-  }
-  return jeton;
-}
-
-export function kimlikAraKatmani(req: Request, res: Response, next: NextFunction): void {
-  let secret: string;
-  try {
-    secret = imzaAnahtari();
-  } catch (err) {
-    res.status(500).json({ hata: err instanceof Error ? err.message : "işlem durur" });
-    return;
-  }
-  try {
-    const jeton = bearerOku(req.headers.authorization);
-    const yuk = jwt.verify(jeton, secret);
-    if (!yuk || typeof yuk !== "object" || typeof yuk.sub !== "string" || yuk.sub.trim() === "") {
-      throw new Error("yük yok; işlem durur");
-    }
-    (req as Request & { kullaniciId: string }).kullaniciId = yuk.sub;
-    next();
-  } catch {
-    res.status(401).json({ hata: "imza geçersiz; işlem durur" });
-  }
-}`,
-          },
-        ),
-        koray("`jwt.decode` ile `verify`’i karıştırsam kapı açılır mı? Süresi dolmuş kart?"),
-        maya(
-          "Açılmaz. Fail-closed: decode imza sormaz, bu tezgâhta yoktur. `verify` süre dolunca fırlatır — 401, sessiz uzatma yok.",
-        ),
-      ],
-      conclusion: [
-        koray("Yaka, mühür, 401. Mini proje bu kapıları bir şantiyede mi toplar?"),
-        maya(
-          "Bearer okunur, verify mührü sorar, secret yoksa sunucu durur. Bir sonraki bölümde seni React + Express + Prisma görev takip kapanışı bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Güvenli API: JWT (JSON Web Token) ve Middleware Tabanlı Kimlik Doğrulama konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Şantiye kapısında yaka kartı manyetik okunur. Sen kartın üzerindeki isme bakıp imzaya bakmadan içeri alır mısın. Almazsın. JavaScript Nesne Gösterimi Web Jetonu (JWT) o yaka kartıdır: başlık, yük, imza. `decode` isme bakar; `verify` mührü sorar. Ara katman kapı nöbetçisidir — Bearer yoksa 401, imza yoksa 401.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. `jwt.decode` ile `sub` okuyup içeri almak neden yalan. Gizli anahtar yoksa. Çünkü sahte kart da `sub` basar. Fail-closed: `JWT_SECRET` yoksa sunucu hiç açılmaz; `verify` fırlatırsa 401, 200 değil. `decode` imza sormaz — kapı açık sayılmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Secret yoksa dur. Bearer oku. verify. sub yoksa 401. next yalnız mühürden sonra. Ara katman sırası: json zaten geçmiş olabilir; kimlik rotadan önce durur. `catch` 401 basar, `next(err)` ile 500 yeşile çevrilmez. Yük `sub` metin değilse işlem durur. `jwt.decode` ile `verify`’i karıştırsam kapı açılır mı. Süresi dolmuş kart. Açılmaz. Fail-closed: decode imza sormaz, bu tezgâhta yoktur. `verify` süre dolunca fırlatır — 401, sessiz uzatma yok.",
+    summary: "Bu dersle Güvenli API: JWT (JSON Web Token) ve Middleware Tabanlı Kimlik Doğrulama becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Yaka, mühür, 401. Mini proje bu kapıları bir şantiyede mi toplar. Bearer okunur, verify mührü sorar, secret yoksa sunucu durur. Bir sonraki bölümde seni React + Express + Prisma görev takip kapanışı bekliyor.",
     quiz: [
       mcq(
         "q_fso5_1",
@@ -519,90 +179,19 @@ export function kimlikAraKatmani(req: Request, res: Response, next: NextFunction
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "import jwt from \"jsonwebtoken\";\nimport type { NextFunction, Request, Response } from \"express\";\n\nfunction imzaAnahtari(): string {\n  const secret = process.env.JWT_SECRET;\n  if (typeof secret !== \"string\" || secret.trim() === \"\") {\n    throw new Error(\"imza anahtarı yok; işlem durur\");\n  }\n  return secret;\n}\n\nfunction bearerOku(header: unknown): string {\n  if (typeof header !== \"string\" || !header.startsWith(\"Bearer \")) {\n    throw new Error(\"jeton yok; işlem durur\");\n  }\n  const jeton = header.slice(\"Bearer \".length).trim();\n  if (jeton === \"\") {\n    throw new Error(\"jeton boş; işlem durur\");\n  }\n  return jeton;\n}\n\nexport function kimlikAraKatmani(req: Request, res: Response, next: NextFunction): void {\n  let secret: string;\n  try {\n    secret = imzaAnahtari();\n  } catch (err) {\n    res.status(500).json({ hata: err instanceof Error ? err.message : \"işlem durur\" });\n    return;\n  }\n  try {\n    const jeton = bearerOku(req.headers.authorization);\n    const yuk = jwt.verify(jeton, secret);\n    if (!yuk || typeof yuk !== \"object\" || typeof yuk.sub !== \"string\" || yuk.sub.trim() === \"\") {\n      throw new Error(\"yük yok; işlem durur\");\n    }\n    (req as Request & { kullaniciId: string }).kullaniciId = yuk.sub;\n    next();\n  } catch {\n    res.status(401).json({ hata: \"imza geçersiz; işlem durur\" });\n  }\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "fullstack-orta-6",
     order: 6,
     title: "Mini Proje: Full-Stack Görev/Proje Takip Uygulaması (React + Express + Prisma)",
-    dialogue: {
-      warmup: [
-        koray(
-          "Şantiye tesliminde oda, pano, ofis penceresi, malzeme defteri ve yaka kartı aynı günde durur. Sen yakasız kamyona defteri açar mısın?",
-        ),
-        maya(
-          "Açmazsın. Bu laboratuvarda React form panoyu tartar, Express sırayı basar, Prisma parametreli yazar, JWT kapıyı kapatır. Dört kapı aynı teslim: doğrula, kimlik, defter, dürüst UI.",
-        ),
-      ],
-      problem: [
-        koray(
-          "Boş başlıkla POST, decode ile içeri, `+ id` SQL, etkide sonsuz `setAdet` — dördü bir arada ne kırar?",
-        ),
-        maya(
-          "Şantiyeyi. Fail-closed dördünü keser: trim boşsa fetch çıkmaz; verify yoksa 401; Prisma `create` parametreli kalır; etki `[]` ve iptal. 401’de yeşil liste yasaktır.",
-        ),
-      ],
-      development: [
-        koray("İstemci tartsın, Bearer taksın, 401’de listeyi silsin. Sunucu verify + Prisma create. Ham SQL yok."),
-        maya(
-          "Mini proje canlı mutfak iddiası taşımaz; kapılar tarayıcıda ve işleyicide görünür. `res.ok` değilse `setListe([])`. `kullaniciId` yoksa create durur.",
-          {
-            language: "ts",
-            source: `function baslikDogrula(ham: string): string {
-  const temiz = ham.trim();
-  if (temiz === "") {
-    throw new Error("boş başlık; işlem durur");
-  }
-  return temiz;
-}
-
-async function gorevEkle(baslikHam: string, jeton: string): Promise<readonly { id: string }[]> {
-  const baslik = baslikDogrula(baslikHam);
-  if (jeton.trim() === "") {
-    throw new Error("jeton yok; işlem durur");
-  }
-  const res = await fetch("/api/gorevler", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + jeton,
-    },
-    body: JSON.stringify({ baslik }),
-  });
-  if (res.status === 401) {
-    throw new Error("imza geçersiz; işlem durur");
-  }
-  if (!res.ok) {
-    throw new Error("sunucu " + String(res.status) + "; yeşil tik yasak");
-  }
-  const ham: unknown = await res.json();
-  if (!Array.isArray(ham)) {
-    throw new Error("liste yok; işlem durur");
-  }
-  return ham.map((satir) => {
-    if (!satir || typeof satir !== "object" || !("id" in satir)) {
-      throw new Error("satır yok; işlem durur");
-    }
-    const id = (satir as { id: unknown }).id;
-    if (typeof id !== "string") {
-      throw new Error("id yok; işlem durur");
-    }
-    return { id };
-  });
-}`,
-          },
-        ),
-        koray("Bu mini proje canlı PostgreSQL’e mi bağlı? Sınavda ne ölçülür?"),
-        maya(
-          "Kapılar sözleşmede görünür; sahte yeşil yok. Canlı defter yarın aynı Prisma ve JWT kapısını doldurur. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
-        ),
-      ],
-      conclusion: [
-        koray("Orta kapanış: oda, pano, pencere, defter, yaka. Sınava girebilir miyim?"),
-        maya(
-          "Props salt okunur, durum sonsuz döngüsüz, Express şemalı, Prisma parametreli, JWT verify fail-closed durur. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Mini Proje: Full-Stack Görev/Proje Takip Uygulaması (React + Express + Prisma) konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Şantiye tesliminde oda, pano, ofis penceresi, malzeme defteri ve yaka kartı aynı günde durur. Sen yakasız kamyona defteri açar mısın. Açmazsın. Bu laboratuvarda React form panoyu tartar, Express sırayı basar, Prisma parametreli yazar, JWT kapıyı kapatır. Dört kapı aynı teslim: doğrula, kimlik, defter, dürüst UI.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Boş başlıkla POST, decode ile içeri, `+ id` SQL, etkide sonsuz `setAdet` — dördü bir arada ne kırar. Şantiyeyi. Fail-closed dördünü keser: trim boşsa fetch çıkmaz; verify yoksa 401; Prisma `create` parametreli kalır; etki `[]` ve iptal. 401’de yeşil liste yasaktır.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, İstemci tartsın, Bearer taksın, 401’de listeyi silsin. Sunucu verify + Prisma create. Ham SQL yok. Mini proje canlı mutfak iddiası taşımaz; kapılar tarayıcıda ve işleyicide görünür. `res.ok` değilse `setListe([])`. `kullaniciId` yoksa create durur. Bu mini proje canlı PostgreSQL’e mi bağlı. Sınavda ne ölçülür. Kapılar sözleşmede görünür; sahte yeşil yok. Canlı defter yarın aynı Prisma ve JWT kapısını doldurur. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
+    summary: "Bu dersle Mini Proje: Full-Stack Görev/Proje Takip Uygulaması (React + Express + Prisma) becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Orta kapanış: oda, pano, pencere, defter, yaka. Sınava girebilir miyim. Props salt okunur, durum sonsuz döngüsüz, Express şemalı, Prisma parametreli, JWT verify fail-closed durur. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
     quiz: [
       mcq(
         "q_fso6_1",
@@ -623,6 +212,10 @@ async function gorevEkle(baslikHam: string, jeton: string): Promise<readonly { i
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function baslikDogrula(ham: string): string {\n  const temiz = ham.trim();\n  if (temiz === \"\") {\n    throw new Error(\"boş başlık; işlem durur\");\n  }\n  return temiz;\n}\n\nasync function gorevEkle(baslikHam: string, jeton: string): Promise<readonly { id: string }[]> {\n  const baslik = baslikDogrula(baslikHam);\n  if (jeton.trim() === \"\") {\n    throw new Error(\"jeton yok; işlem durur\");\n  }\n  const res = await fetch(\"/api/gorevler\", {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      Authorization: \"Bearer \" + jeton,\n    },\n    body: JSON.stringify({ baslik }),\n  });\n  if (res.status === 401) {\n    throw new Error(\"imza geçersiz; işlem durur\");\n  }\n  if (!res.ok) {\n    throw new Error(\"sunucu \" + String(res.status) + \"; yeşil tik yasak\");\n  }\n  const ham: unknown = await res.json();\n  if (!Array.isArray(ham)) {\n    throw new Error(\"liste yok; işlem durur\");\n  }\n  return ham.map((satir) => {\n    if (!satir || typeof satir !== \"object\" || !(\"id\" in satir)) {\n      throw new Error(\"satır yok; işlem durur\");\n    }\n    const id = (satir as { id: unknown }).id;\n    if (typeof id !== \"string\") {\n      throw new Error(\"id yok; işlem durur\");\n    }\n    return { id };\n  });\n}",
+    },
   }),
 ] as const;
 

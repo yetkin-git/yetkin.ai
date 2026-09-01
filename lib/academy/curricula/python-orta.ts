@@ -5,8 +5,7 @@
 
 import type { AcademyExamQuestion } from "@/lib/academy/types";
 import {
-  academyFiveActLessonDraft,
-  dialogueTurn,
+  academyInstructorLessonDraft,
   type AcademyLessonDraft,
 } from "@/lib/academy/curricula/types";
 
@@ -19,83 +18,15 @@ function mcq(
   return { id, prompt, choices: [...choices], correctIndex };
 }
 
-const koray = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("koray", text, code);
-const maya = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("maya", text, code);
-
 export const PYTHON_ORTA_LESSONS: readonly AcademyLessonDraft[] = [
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "python-orta-1",
     order: 1,
     title: "Nesne Yönelimli Programlama: class ve instance mantığı",
-    dialogue: {
-      warmup: [
-        koray(
-          "Fırında pide kalıbı bir tane durur. Her pide ayrı çıkar: biri susamlı, biri sade. Kalıbı paylaşınca ikinci pide birinciyi ezmesin diye ayrı tepsi istersin. Sınıf (class) o kalıp mı, örnek (instance) her pide mi?",
-        ),
-        maya(
-          "O fırın kalıbı tariftir; örnek o tarifin sahadaki somunudur. `Siparis(\"ekmek\", 2)` ile `Siparis(\"ekmek\", 5)` aynı kalıptan çıkar, ayrı tepside durur. Kalıbın cebine liste koyarsan her pide aynı tepsiden yer — sahada sessiz sızıntı budur.",
-        ),
-      ],
-      problem: [
-        koray(
-          "Biz dict’i her fonksiyona gezdirdik. Yarın kim `adet`’i eksi yaptı, iz yok. Sınıf değişkenine liste bağlamak neden veri kaybettirir?",
-        ),
-        maya(
-          "Sınıf gövdesindeki `kalemler = []` tek çekmecedir; bütün örnekler o çekmeceyi paylaşır. Birinin `append`’i öbürünün fişini kirletir. Fail-closed (Hata Anında Kapalı) burada durur: örnek durumu `__init__` içinde doğar, kalıpta yaşamaz. Adet sıfır veya eksi ise örnek açılmaz.",
-        ),
-      ],
-      development: [
-        koray("Paylaşılan listeyi bir kez kır. Sonra dürüst `Siparis` kalıbını bas."),
-        maya(
-          "Önce sızıntıyı gör. `a.kalemler` ve `b.kalemler` aynı listedir. Sonra her örnek kendi `adet`’ini `__init__`’te alır.",
-          {
-            language: "py",
-            source: `class YanlisSepet:
-    kalemler = []
-
-
-a = YanlisSepet()
-b = YanlisSepet()
-a.kalemler.append("ekmek")
-assert b.kalemler == ["ekmek"]  # sızıntı
-assert a.kalemler is b.kalemler`,
-          },
-        ),
-        koray("Kalıbı düzelt. İki sipariş birbirini ezmesin; eksi adet kapıyı kapatsın."),
-        maya(
-          "`self` o tepsinin kendisidir. `bir is iki` False durur: aynı kalıp, ayrı somun.",
-          {
-            language: "py",
-            source: `class Siparis:
-    def __init__(self, kalem: str, adet: int):
-        if adet <= 0:
-            raise ValueError("adet pozitif olmalı; işlem durur")
-        self.kalem = kalem
-        self.adet = adet
-
-
-bir = Siparis("ekmek", 2)
-iki = Siparis("ekmek", 5)
-assert bir.adet == 2
-assert iki.adet == 5
-assert bir is not iki
-assert type(bir) is Siparis
-try:
-    Siparis("süt", 0)
-except ValueError as hata:
-    assert "pozitif" in str(hata)`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("Kalıp ortak, tepsi ayrı. Dict gezdirmek iz bırakmaz, doğru mu?"),
-        maya(
-          "Sınıf tarifi, örnek sahadaki kaydı tutar. Durumu kalıba gömme. Bir sonraki bölümde seni miras alma ve kapsülleme bekliyor: kim neyi görür, kim neyi değiştiremez.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Nesne Yönelimli Programlama: class ve instance mantığı konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Fırında pide kalıbı bir tane durur. Her pide ayrı çıkar: biri susamlı, biri sade. Kalıbı paylaşınca ikinci pide birinciyi ezmesin diye ayrı tepsi istersin. Sınıf (class) o kalıp mı, örnek (instance) her pide mi. fırın kalıbı tariftir; örnek o tarifin sahadaki somunudur. `Siparis(\"ekmek\", 2)` ile `Siparis(\"ekmek\", 5)` aynı kalıptan çıkar, ayrı tepside durur. Kalıbın cebine liste koyarsan her pide aynı tepsiden yer — sahada sessiz sızıntı budur.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Biz dict’i her fonksiyona gezdirdik. Yarın kim `adet`’i eksi yaptı, iz yok. Sınıf değişkenine liste bağlamak neden veri kaybettirir. Sınıf gövdesindeki `kalemler = []` tek çekmecedir; bütün örnekler o çekmeceyi paylaşır. Birinin `append`’i öbürünün fişini kirletir. Fail-closed (Hata Anında Kapalı) burada durur: örnek durumu `__init__` içinde doğar, kalıpta yaşamaz. Adet sıfır veya eksi ise örnek açılmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Paylaşılan listeyi bir kez kır. Sonra dürüst `Siparis` kalıbını bas. Önce sızıntıyı gör. `a.kalemler` ve `b.kalemler` aynı listedir. Sonra her örnek kendi `adet`’ini `__init__`’te alır. Kalıbı düzelt. İki sipariş birbirini ezmesin; eksi adet kapıyı kapatsın. `self` o tepsinin kendisidir. `bir is iki` False durur: aynı kalıp, ayrı somun.",
+    summary: "Bu dersle Nesne Yönelimli Programlama: class ve instance mantığı becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Kalıp ortak, tepsi ayrı. Dict gezdirmek iz bırakmaz, doğru mu. Sınıf tarifi, örnek sahadaki kaydı tutar. Durumu kalıba gömme. Bir sonraki bölümde seni miras alma ve kapsülleme bekliyor: kim neyi görür, kim neyi değiştiremez.",
     quiz: [
       mcq(
         "q_pyo1_1",
@@ -116,75 +47,19 @@ except ValueError as hata:
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "class YanlisSepet:\n    kalemler = []\n\n\na = YanlisSepet()\nb = YanlisSepet()\na.kalemler.append(\"ekmek\")\nassert b.kalemler == [\"ekmek\"]  # sızıntı\nassert a.kalemler is b.kalemler",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "python-orta-2",
     order: 2,
     title: "Miras alma ve kapsülleme: sınırlı erişim",
-    dialogue: {
-      warmup: [
-        koray(
-          "Bakkal tezgâhı oğula geçer; kasa şifresi çekmecede kalır. Miras (inheritance) tezgâh mı, kapsülleme (encapsulation) kasa kilidi mi?",
-        ),
-        maya(
-          "Tezgâh `super().__init__` ile gelir. Kasa `_adet` ile kapalı durur: dışarıdan `raf._adet = -9` yazmak mümkün görünür, sözleşme yasaktır. Dürüst kapı `property` ve `dus` metodudur. Sözleşme yoksa stok eksiye iner, fiş yalan söyler.",
-        ),
-      ],
-      problem: [
-        koray("Alt sınıf tabanın alanını ezerse veya `adet`’i herkese açarsak saha nerede patlar?"),
-        maya(
-          "İki yerde. Biri: alt sınıf `__init__`’i unutup tabanı boş bırakır. Öbürü: `self.adet -= n` herkesin elinde; eksi stok sessizce basılır. Fail-closed kapısı `StokHatasi` fırlatır, orta değer uydurmaz.",
-        ),
-      ],
-      development: [
-        koray("Taban stok, alt sınıf satış. Kapsül kırılsın, hata isimli dursun."),
-        maya(
-          "`_adet` içeridedir. `sat` yalnız `dus` çağırır. Yetersiz stokta işlem durur; kalan 2’de kalır.",
-          {
-            language: "py",
-            source: `class StokHatasi(Exception):
-    pass
-
-
-class Stok:
-    def __init__(self, adet: int):
-        if adet < 0:
-            raise StokHatasi("negatif stok yok")
-        self._adet = adet
-
-    @property
-    def adet(self) -> int:
-        return self._adet
-
-    def dus(self, n: int) -> int:
-        if n > self._adet:
-            raise StokHatasi("stok yetmez; işlem durur")
-        self._adet -= n
-        return self._adet
-
-
-class SatisStogu(Stok):
-    def sat(self, n: int) -> int:
-        return self.dus(n)
-
-
-raf = SatisStogu(4)
-assert raf.sat(2) == 2
-try:
-    raf.sat(9)
-except StokHatasi as hata:
-    assert "yetmez" in str(hata)
-assert raf.adet == 2`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("Miras tezgâhı taşır, kapsül kasayı kilitler. Doğru mu?"),
-        maya(
-          "Alt sınıf tabanın işini tekrar yazmadan genişletir. Alan dışarı açık değilse eksi stok yazılmaz. Bir sonraki bölümde seni dosya ve JavaScript Nesne Gösterimi (JSON) bekliyor: kaydı diske dürüst basma.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Miras alma ve kapsülleme: sınırlı erişim konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Bakkal tezgâhı oğula geçer; kasa şifresi çekmecede kalır. Miras (inheritance) tezgâh mı, kapsülleme (encapsulation) kasa kilidi mi. Tezgâh `super().__init__` ile gelir. Kasa `_adet` ile kapalı durur: dışarıdan `raf._adet = -9` yazmak mümkün görünür, sözleşme yasaktır. Dürüst kapı `property` ve `dus` metodudur. Sözleşme yoksa stok eksiye iner, fiş yalan söyler.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Alt sınıf tabanın alanını ezerse veya `adet`’i herkese açarsak saha nerede patlar. İki yerde. Biri: alt sınıf `__init__`’i unutup tabanı boş bırakır. Öbürü: `self.adet -= n` herkesin elinde; eksi stok sessizce basılır. Fail-closed kapısı `StokHatasi` fırlatır, orta değer uydurmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Taban stok, alt sınıf satış. Kapsül kırılsın, hata isimli dursun. `_adet` içeridedir. `sat` yalnız `dus` çağırır. Yetersiz stokta işlem durur; kalan 2’de kalır.",
+    summary: "Bu dersle Miras alma ve kapsülleme: sınırlı erişim becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Miras tezgâhı taşır, kapsül kasayı kilitler. Doğru mu. Alt sınıf tabanın işini tekrar yazmadan genişletir. Alan dışarı açık değilse eksi stok yazılmaz. Bir sonraki bölümde seni dosya ve JavaScript Nesne Gösterimi (JSON) bekliyor: kaydı diske dürüst basma.",
     quiz: [
       mcq(
         "q_pyo2_1",
@@ -205,77 +80,19 @@ assert raf.adet == 2`,
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "class StokHatasi(Exception):\n    pass\n\n\nclass Stok:\n    def __init__(self, adet: int):\n        if adet < 0:\n            raise StokHatasi(\"negatif stok yok\")\n        self._adet = adet\n\n    @property\n    def adet(self) -> int:\n        return self._adet\n\n    def dus(self, n: int) -> int:\n        if n > self._adet:\n            raise StokHatasi(\"stok yetmez; işlem durur\")\n        self._adet -= n\n        return self._adet\n\n\nclass SatisStogu(Stok):\n    def sat(self, n: int) -> int:\n        return self.dus(n)\n\n\nraf = SatisStogu(4)\nassert raf.sat(2) == 2\ntry:\n    raf.sat(9)\nexcept StokHatasi as hata:\n    assert \"yetmez\" in str(hata)\nassert raf.adet == 2",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "python-orta-3",
     order: 3,
     title: "Dosya işleme ve JSON veri yönetimi",
-    dialogue: {
-      warmup: [
-        koray(
-          "Noter senedini yarım mühürleyip çekmeceye atmak yasaktır. JavaScript Nesne Gösterimi (JSON) o senet mi, `write_text` mühür mü?",
-        ),
-        maya(
-          "JSON metin sözleşmesidir: anahtar-değer, liste, sayı. `json.loads` senedi açar, `json.dumps` mührü basar. `ensure_ascii=False` Türkçe harfi kaçırmaz. Çekmece `pathlib.Path`’tir. Yarım JSON’u diske basmak, boş kâğıda noter damgası vurmak gibidir.",
-        ),
-      ],
-      problem: [
-        koray("Açık dosyayı unutmak veya bozuk JSON’u yutmak sahada ne kırar?"),
-        maya(
-          "`open` + `close` unutulursa kilit kalır. `Path.write_text(..., encoding=\"utf-8\")` kapağı kendisi kapatır. `json.loads(\"{\")` `JSONDecodeError` basar; yutarsan yarın çöp kaydı üretim sanılır. Fail-closed: parse edilmezse yazılmaz. Atomik yol: geçici dosyaya yaz, sonra `replace`.",
-        ),
-      ],
-      development: [
-        koray("Sözlüğü mühürle, bozuk metni reddet. Disk yokken sözleşmeyi kanıtla."),
-        maya(
-          "`adet` yoksa yazım durur. `sort_keys=True` aynı kaydı her seferinde aynı metne basar — mühür karşılaştırılır.",
-          {
-            language: "py",
-            source: `import json
-
-
-def muhurle(veri: dict) -> str:
-    if "adet" not in veri:
-        raise ValueError("adet yok; yazım durur")
-    return json.dumps(veri, ensure_ascii=False, sort_keys=True)
-
-
-assert '"adet": 3' in muhurle({"adet": 3, "kalem": "ekmek"})
-veri = json.loads('{"adet": 3, "para_birimi": "TRY"}')
-assert veri["adet"] == 3
-try:
-    json.loads("{")
-except json.JSONDecodeError:
-    bozuk = True
-else:
-    bozuk = False
-assert bozuk is True`,
-          },
-        ),
-        koray("Disk tarafında kapağı kim kapatır? Üstüne yazma riski nerde durur?"),
-        maya(
-          "`Path.write_text` kapağı kapatır. Üretimde geçici yola yazıp `replace` edersin; yarım senet hedefi kirletmez.",
-          {
-            language: "py",
-            source: `from pathlib import Path
-
-# üretim:
-# hedef = Path("stok.json")
-# tmp = hedef.with_suffix(".tmp")
-# tmp.write_text(muhurle(veri), encoding="utf-8")
-# tmp.replace(hedef)
-
-assert Path("stok.json").suffix == ".json"`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("Parse edilmezse mühür vurulmaz. Sonraki adım hataları isimlendirmek mi?"),
-        maya(
-          "JSON sözleşmesi dürüstse disk yalan söylemez. Bir sonraki bölümde seni try/except ve özel istisnalar bekliyor: hatayı yutma, adı koy.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Dosya işleme ve JSON veri yönetimi konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Noter senedini yarım mühürleyip çekmeceye atmak yasaktır. JavaScript Nesne Gösterimi (JSON) o senet mi, `write_text` mühür mü. JSON metin sözleşmesidir: anahtar-değer, liste, sayı. `json.loads` senedi açar, `json.dumps` mührü basar. `ensure_ascii=False` Türkçe harfi kaçırmaz. Çekmece `pathlib.Path`’tir. Yarım JSON’u diske basmak, boş kâğıda noter damgası vurmak gibidir.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Açık dosyayı unutmak veya bozuk JSON’u yutmak sahada ne kırar. `open` + `close` unutulursa kilit kalır. `Path.write_text(..., encoding=\"utf-8\")` kapağı kendisi kapatır. `json.loads(\"{\")` `JSONDecodeError` basar; yutarsan yarın çöp kaydı üretim sanılır. Fail-closed: parse edilmezse yazılmaz. Atomik yol: geçici dosyaya yaz, sonra `replace`.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Sözlüğü mühürle, bozuk metni reddet. Disk yokken sözleşmeyi kanıtla. `adet` yoksa yazım durur. `sort_keys=True` aynı kaydı her seferinde aynı metne basar — mühür karşılaştırılır. Disk tarafında kapağı kim kapatır. Üstüne yazma riski nerde durur. `Path.write_text` kapağı kapatır. Üretimde geçici yola yazıp `replace` edersin; yarım senet hedefi kirletmez.",
+    summary: "Bu dersle Dosya işleme ve JSON veri yönetimi becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Parse edilmezse mühür vurulmaz. Sonraki adım hataları isimlendirmek mi. JSON sözleşmesi dürüstse disk yalan söylemez. Bir sonraki bölümde seni try/except ve özel istisnalar bekliyor: hatayı yutma, adı koy.",
     quiz: [
       mcq(
         "q_pyo3_1",
@@ -296,70 +113,19 @@ assert Path("stok.json").suffix == ".json"`,
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "import json\n\n\ndef muhurle(veri: dict) -> str:\n    if \"adet\" not in veri:\n        raise ValueError(\"adet yok; yazım durur\")\n    return json.dumps(veri, ensure_ascii=False, sort_keys=True)\n\n\nassert '\"adet\": 3' in muhurle({\"adet\": 3, \"kalem\": \"ekmek\"})\nveri = json.loads('{\"adet\": 3, \"para_birimi\": \"TRY\"}')\nassert veri[\"adet\"] == 3\ntry:\n    json.loads(\"{\")\nexcept json.JSONDecodeError:\n    bozuk = True\nelse:\n    bozuk = False\nassert bozuk is True",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "python-orta-4",
     order: 4,
     title: "Hata yönetimi: try/except ve özel istisnalar",
-    dialogue: {
-      warmup: [
-        koray(
-          "Gişede «üç bilet» denince kepenk inmez; fişe «tamsayı değil» yazılır. `except Exception` her şeyi yutmak, gişeyi sağır etmek midir?",
-        ),
-        maya(
-          "O. `bare except` veya geniş `Exception` KeyboardInterrupt’u da yutar; makine durmaz, sen durursun. Özel istisna (`KayitHatasi`) fişin damgasıdır: kod ve cümle ayrı durur. `raise ... from exc` zinciri koparmaz.",
-        ),
-      ],
-      problem: [
-        koray("Biz `except:` yazıp `pass` koyduk. Log’da iz yok, kasa yanlış kesti. Nerde kırılır?"),
-        maya(
-          "İki yerde. Biri: gerçek bug gizlenir. Öbürü: boş girdi sıfır kabul edilir. Fail-closed kapısı tipi ve sınırı ayırır: boş, tip, sınır — üç damga. Çökmek nezaket değildir; isimsiz yutmak ihanettir.",
-        ),
-      ],
-      development: [
-        koray("Üç damgayı yaz. `üç` ve boş girdi ayrı kod bassın."),
-        maya(
-          "`int` patlayınca `from exc` ile neden durur. `hata.kod` çağıran tarafa sözleşme verir.",
-          {
-            language: "py",
-            source: `class KayitHatasi(Exception):
-    def __init__(self, kod: str, mesaj: str):
-        super().__init__(mesaj)
-        self.kod = kod
-
-
-def oku_adet(ham: str) -> int:
-    temiz = ham.strip()
-    if not temiz:
-        raise KayitHatasi("bos", "boş girdi; işlem durur")
-    try:
-        adet = int(temiz)
-    except ValueError as exc:
-        raise KayitHatasi("tip", "tamsayı değil; işlem durur") from exc
-    if adet <= 0:
-        raise KayitHatasi("sinir", "adet pozitif olmalı")
-    return adet
-
-
-assert oku_adet("4") == 4
-try:
-    oku_adet("üç")
-except KayitHatasi as hata:
-    assert hata.kod == "tip"
-try:
-    oku_adet("  ")
-except KayitHatasi as hata:
-    assert hata.kod == "bos"`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("Yutmak yok, damga var. Ağ kapısında da aynı disiplin mi durur?"),
-        maya(
-          "try dar tutulur, except isimli durur, zincir kopmaz. Bir sonraki bölümde seni Hipermetin Aktarım Protokolü (HTTP) ve requests bekliyor: 200 olmayan yanıtı yeşil sayma.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Hata yönetimi: try/except ve özel istisnalar konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Gişede «üç bilet» denince kepenk inmez; fişe «tamsayı değil» yazılır. `except Exception` her şeyi yutmak, gişeyi sağır etmek midir. `bare except` veya geniş `Exception` KeyboardInterrupt’u da yutar; makine durmaz, sen durursun. Özel istisna (`KayitHatasi`) fişin damgasıdır: kod ve cümle ayrı durur. `raise... from exc` zinciri koparmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Biz `except:` yazıp `pass` koyduk. Log’da iz yok, kasa yanlış kesti. Nerde kırılır. İki yerde. Biri: gerçek bug gizlenir. Öbürü: boş girdi sıfır kabul edilir. Fail-closed kapısı tipi ve sınırı ayırır: boş, tip, sınır — üç damga. Çökmek nezaket değildir; isimsiz yutmak ihanettir.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Üç damgayı yaz. `üç` ve boş girdi ayrı kod bassın. `int` patlayınca `from exc` ile neden durur. `hata.kod` çağıran tarafa sözleşme verir.",
+    summary: "Bu dersle Hata yönetimi: try/except ve özel istisnalar becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Yutmak yok, damga var. Ağ kapısında da aynı disiplin mi durur. try dar tutulur, except isimli durur, zincir kopmaz. Bir sonraki bölümde seni Hipermetin Aktarım Protokolü (HTTP) ve requests bekliyor: 200 olmayan yanıtı yeşil sayma.",
     quiz: [
       mcq(
         "q_pyo4_1",
@@ -380,84 +146,19 @@ except KayitHatasi as hata:
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "class KayitHatasi(Exception):\n    def __init__(self, kod: str, mesaj: str):\n        super().__init__(mesaj)\n        self.kod = kod\n\n\ndef oku_adet(ham: str) -> int:\n    temiz = ham.strip()\n    if not temiz:\n        raise KayitHatasi(\"bos\", \"boş girdi; işlem durur\")\n    try:\n        adet = int(temiz)\n    except ValueError as exc:\n        raise KayitHatasi(\"tip\", \"tamsayı değil; işlem durur\") from exc\n    if adet <= 0:\n        raise KayitHatasi(\"sinir\", \"adet pozitif olmalı\")\n    return adet\n\n\nassert oku_adet(\"4\") == 4\ntry:\n    oku_adet(\"üç\")\nexcept KayitHatasi as hata:\n    assert hata.kod == \"tip\"\ntry:\n    oku_adet(\"  \")\nexcept KayitHatasi as hata:\n    assert hata.kod == \"bos\"",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "python-orta-5",
     order: 5,
     title: "HTTP istekleri ve API entegrasyonu (requests)",
-    dialogue: {
-      warmup: [
-        koray(
-          "PTT gişesinde mektup gitti diye teslim olmaz. Damga 200’dür, 404 adres yoktur, 500 gişe yanmıştır. Hipermetin Aktarım Protokolü (HTTP) bu damga mı?",
-        ),
-        maya(
-          "Bu. `requests.get(url, timeout=8)` mektubu yollar. `timeout` yoksa kuyruk sonsuz bekler. Uygulama Programlama Arayüzü (API) karşı tarafın sözleşmesidir. `yanit.ok` True iken gövde yine çöp olabilir; Fail-closed önce durumu, sonra tipi okur.",
-        ),
-      ],
-      problem: [
-        koray("500 gövdede `{\"ok\": true}` basınca biz yeşil tik yaktık. Veri kaybı nerde?"),
-        maya(
-          "Durum kodu yalanı örtmez. 200 değilse kayıt durur; gövdeye bakılmaz. `yanit.json()` liste gelirse sözlük bekleyen kod KeyError yer. Şema yoksa `id` eksik kaydı mühürlersin. Ağ hatası `requests.RequestException`’dır; yutma.",
-        ),
-      ],
-      development: [
-        koray("Sahte yanıtla kapıyı yaz. 500 durdurulsun, 200 sözlük açılsın."),
-        maya(
-          "`requests` üretim çağrısıdır. Laboratuvarda aynı kapıyı sahte yanıtla deneriz; ağ yok, sözleşme aynıdır.",
-          {
-            language: "py",
-            source: `def oku_json(yanit) -> dict:
-    if yanit.status_code != 200:
-        raise ValueError(f"durum {yanit.status_code}; kayıt durur")
-    veri = yanit.json()
-    if not isinstance(veri, dict):
-        raise ValueError("gövde sözlük değil; kayıt durur")
-    return veri
-
-
-class SahteYanit:
-    def __init__(self, status_code: int, govde):
-        self.status_code = status_code
-        self._govde = govde
-
-    def json(self):
-        return self._govde
-
-
-assert oku_json(SahteYanit(200, {"id": 1}))["id"] == 1
-try:
-    oku_json(SahteYanit(500, {"ok": True}))
-except ValueError as hata:
-    assert "500" in str(hata)
-try:
-    oku_json(SahteYanit(200, [1, 2]))
-except ValueError as hata:
-    assert "sözlük" in str(hata)`,
-          },
-        ),
-        koray("Üretim satırı nasıl durur? Timeout ve import nerde?"),
-        maya(
-          "`requests` üçüncü parti kütüphanedir; sanal ortamda kurulur. Çağrı tek kapıdan geçer: get, timeout, oku_json.",
-          {
-            language: "py",
-            source: `# üretim (ağ gerekir):
-# import requests
-# def cek(url: str) -> dict:
-#     yanit = requests.get(url, timeout=8)
-#     return oku_json(yanit)
-
-TIMEOUT_SN = 8
-assert TIMEOUT_SN == 8`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("Damga 200 değilse çekmeceye senet girmez. Kapanışta bunu JSON’a mühürleyecek miyiz?"),
-        maya(
-          "HTTP durumu sözleşme, gövde ikinci kapıdır. Bir sonraki bölümde seni mini proje bekliyor: Temsili Durum Transferi (REST) yanıtını doğrulayıp JSON dosyasına basma.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde HTTP istekleri ve API entegrasyonu (requests) konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. PTT gişesinde mektup gitti diye teslim olmaz. Damga 200’dür, 404 adres yoktur, 500 gişe yanmıştır. Hipermetin Aktarım Protokolü (HTTP) bu damga mı. Bu. `requests.get(url, timeout=8)` mektubu yollar. `timeout` yoksa kuyruk sonsuz bekler. Uygulama Programlama Arayüzü (API) karşı tarafın sözleşmesidir. `yanit.ok` True iken gövde yine çöp olabilir; Fail-closed önce durumu, sonra tipi okur.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. 500 gövdede `{\"ok\": true}` basınca biz yeşil tik yaktık. Veri kaybı nerde. Durum kodu yalanı örtmez. 200 değilse kayıt durur; gövdeye bakılmaz. `yanit.json()` liste gelirse sözlük bekleyen kod KeyError yer. Şema yoksa `id` eksik kaydı mühürlersin. Ağ hatası `requests.RequestException`’dır; yutma.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Sahte yanıtla kapıyı yaz. 500 durdurulsun, 200 sözlük açılsın. `requests` üretim çağrısıdır. Laboratuvarda aynı kapıyı sahte yanıtla deneriz; ağ yok, sözleşme aynıdır. Üretim satırı nasıl durur. Timeout ve import nerde. `requests` üçüncü parti kütüphanedir; sanal ortamda kurulur. Çağrı tek kapıdan geçer: get, timeout, oku_json.",
+    summary: "Bu dersle HTTP istekleri ve API entegrasyonu (requests) becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Damga 200 değilse çekmeceye senet girmez. Kapanışta bunu JSON’a mühürleyecek miyiz. HTTP durumu sözleşme, gövde ikinci kapıdır. Bir sonraki bölümde seni mini proje bekliyor: Temsili Durum Transferi (REST) yanıtını doğrulayıp JSON dosyasına basma.",
     quiz: [
       mcq(
         "q_pyo5_1",
@@ -478,76 +179,19 @@ assert TIMEOUT_SN == 8`,
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "def oku_json(yanit) -> dict:\n    if yanit.status_code != 200:\n        raise ValueError(f\"durum {yanit.status_code}; kayıt durur\")\n    veri = yanit.json()\n    if not isinstance(veri, dict):\n        raise ValueError(\"gövde sözlük değil; kayıt durur\")\n    return veri\n\n\nclass SahteYanit:\n    def __init__(self, status_code: int, govde):\n        self.status_code = status_code\n        self._govde = govde\n\n    def json(self):\n        return self._govde\n\n\nassert oku_json(SahteYanit(200, {\"id\": 1}))[\"id\"] == 1\ntry:\n    oku_json(SahteYanit(500, {\"ok\": True}))\nexcept ValueError as hata:\n    assert \"500\" in str(hata)\ntry:\n    oku_json(SahteYanit(200, [1, 2]))\nexcept ValueError as hata:\n    assert \"sözlük\" in str(hata)",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "python-orta-6",
     order: 6,
     title: "Mini proje: REST API'den JSON dosyasına mühür",
-    dialogue: {
-      warmup: [
-        koray(
-          "Resmî gazete kupürünü arşiv çekmecesine koyarsın. Kupürde sayı yoksa mühür vurulmaz. Temsili Durum Transferi (REST) yanıtı kupür, JSON dosyası çekmece mi?",
-        ),
-        maya(
-          "O. Akış tek cümledir: çek → durum oku → şema doğrula → mühürle. Ortada `id` yoksa dosya yazılmaz. Fail-closed kapısı yarım arşivi üretmez. `indent=2` insan okur; üretim hash’i `sort_keys` ile sabitlenir.",
-        ),
-      ],
-      problem: [
-        koray("Ağ 200 döndü diye `Path.write_text` çalıştırırsak hangi kayıt kaybolur?"),
-        maya(
-          "Eksik `id`. Liste gövde. 200 olup içi boş sözlük. Bunlar çekmeceye girerse yarın kimse fark etmez. Doğrulama yazımdan önce durur. İstisna yukarı fırlar; çağıran taraf dosyayı açmaz.",
-        ),
-      ],
-      development: [
-        koray("Tek fonksiyon: sahte 200’ü mühürle, `id` yoksa dur."),
-        maya(
-          "Aynı kapı üretime `requests.get` ile bağlanır. Laboratuvar ağa çıkmaz; sözleşme assert ile sabitlenir.",
-          {
-            language: "py",
-            source: `import json
-
-
-def cek_ve_muhurle(yanit, zorunlu=("id",)) -> str:
-    if yanit.status_code != 200:
-        raise ValueError("istek durur; dosya yazılmaz")
-    veri = yanit.json()
-    if not isinstance(veri, dict):
-        raise ValueError("gövde sözlük değil")
-    for alan in zorunlu:
-        if alan not in veri:
-            raise ValueError(f"{alan} yok; mühür durur")
-    return json.dumps(veri, ensure_ascii=False, indent=2)
-
-
-class SahteYanit:
-    def __init__(self, status_code: int, govde):
-        self.status_code = status_code
-        self._govde = govde
-
-    def json(self):
-        return self._govde
-
-
-metin = cek_ve_muhurle(SahteYanit(200, {"id": 7, "adet": 3}))
-assert '"id": 7' in metin
-try:
-    cek_ve_muhurle(SahteYanit(200, {"adet": 3}))
-except ValueError as hata:
-    assert "id" in str(hata)
-try:
-    cek_ve_muhurle(SahteYanit(404, {"id": 7}))
-except ValueError as hata:
-    assert "durur" in str(hata)`,
-          },
-        ),
-      ],
-      conclusion: [
-        koray("Orta kapanış bu mu: sınıf, kapsül, JSON, isimli hata, HTTP damgası, mühür?"),
-        maya(
-          "Çekilir, doğrulanır, mühürlenir. Eksik alan diske inmez. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Mini proje: REST API'den JSON dosyasına mühür konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Resmî gazete kupürünü arşiv çekmecesine koyarsın. Kupürde sayı yoksa mühür vurulmaz. Temsili Durum Transferi (REST) yanıtı kupür, JSON dosyası çekmece mi. Akış tek cümledir: çek → durum oku → şema doğrula → mühürle. Ortada `id` yoksa dosya yazılmaz. Fail-closed kapısı yarım arşivi üretmez. `indent=2` insan okur; üretim hash’i `sort_keys` ile sabitlenir.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Ağ 200 döndü diye `Path.write_text` çalıştırırsak hangi kayıt kaybolur. Eksik `id`. Liste gövde. 200 olup içi boş sözlük. Bunlar çekmeceye girerse yarın kimse fark etmez. Doğrulama yazımdan önce durur. İstisna yukarı fırlar; çağıran taraf dosyayı açmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Tek fonksiyon: sahte 200’ü mühürle, `id` yoksa dur. Aynı kapı üretime `requests.get` ile bağlanır. Laboratuvar ağa çıkmaz; sözleşme assert ile sabitlenir.",
+    summary: "Bu dersle Mini proje: REST API'den JSON dosyasına mühür becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Orta kapanış bu mu: sınıf, kapsül, JSON, isimli hata, HTTP damgası, mühür. Çekilir, doğrulanır, mühürlenir. Eksik alan diske inmez. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
     quiz: [
       mcq(
         "q_pyo6_1",
@@ -568,6 +212,10 @@ except ValueError as hata:
         1,
       ),
     ],
+    code: {
+      language: "py",
+      source: "import json\n\n\ndef cek_ve_muhurle(yanit, zorunlu=(\"id\",)) -> str:\n    if yanit.status_code != 200:\n        raise ValueError(\"istek durur; dosya yazılmaz\")\n    veri = yanit.json()\n    if not isinstance(veri, dict):\n        raise ValueError(\"gövde sözlük değil\")\n    for alan in zorunlu:\n        if alan not in veri:\n            raise ValueError(f\"{alan} yok; mühür durur\")\n    return json.dumps(veri, ensure_ascii=False, indent=2)\n\n\nclass SahteYanit:\n    def __init__(self, status_code: int, govde):\n        self.status_code = status_code\n        self._govde = govde\n\n    def json(self):\n        return self._govde\n\n\nmetin = cek_ve_muhurle(SahteYanit(200, {\"id\": 7, \"adet\": 3}))\nassert '\"id\": 7' in metin\ntry:\n    cek_ve_muhurle(SahteYanit(200, {\"adet\": 3}))\nexcept ValueError as hata:\n    assert \"id\" in str(hata)\ntry:\n    cek_ve_muhurle(SahteYanit(404, {\"id\": 7}))\nexcept ValueError as hata:\n    assert \"durur\" in str(hata)",
+    },
   }),
 ] as const;
 

@@ -28,8 +28,8 @@ import {
 import { parseRailClientJson } from "@/lib/ui/parse-rail-json";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 import {
-  academyLessonContentKind,
-  academyLessonDurationMin,
+  academyLessonKindLabel,
+  academyLessonMediaMeta,
   academyProgressPercent,
 } from "@/lib/academy/lesson-meta";
 
@@ -366,9 +366,8 @@ export function CurriculumPlayer({
         {lessons.map((lesson) => {
           const selected = lesson.key === active?.key;
           const completed = completedKeys.has(lesson.key) || lesson.completed;
-          const kind = academyLessonContentKind(lesson);
-          const durationMin = academyLessonDurationMin(lesson);
-          const kindLabel = kind === "video" ? outline.kindVideo : outline.kindDocument;
+          const media = academyLessonMediaMeta({ ...lesson, courseSlug });
+          const kindLabel = academyLessonKindLabel(media.kind, outline);
           return (
             <li key={lesson.key}>
               <button
@@ -401,7 +400,7 @@ export function CurriculumPlayer({
                     {lesson.order}. {normalizeAcronyms(lesson.title)}
                   </span>
                   <span className={`block text-[11px] ${selected ? "text-white/70" : "text-[var(--muted)]"}`}>
-                    {kindLabel} · {outline.durationMin(durationMin)}
+                    {kindLabel} · {outline.durationMin(media.durationMin)}
                     {completed ? ` · ${copy.alreadyDone}` : ""}
                   </span>
                 </span>

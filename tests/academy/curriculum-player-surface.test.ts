@@ -65,6 +65,8 @@ describe("D2.1 müfredat oynatıcı yüzeyi — üç ekran + dinle kapalı", () 
     expect(player).toContain("AcademyProgressBar");
     expect(player).toContain("copy.completeCta");
     expect(player).toContain("composeAcademyLessonBlocks");
+    expect(player).toContain("academyLessonMediaMeta");
+    expect(player).toContain("academyLessonKindLabel");
     expect(player).not.toContain("durationSec={micro?.durationSec ?? 8}");
     expect(player).not.toContain("LessonListenButton");
     expect(player).not.toContain("LessonCodeLab");

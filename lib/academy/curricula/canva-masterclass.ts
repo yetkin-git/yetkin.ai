@@ -6,8 +6,7 @@
 
 import type { AcademyExamQuestion } from "@/lib/academy/types";
 import {
-  academyFiveActLessonDraft,
-  dialogueTurn,
+  academyInstructorLessonDraft,
   type AcademyLessonDraft,
 } from "@/lib/academy/curricula/types";
 
@@ -20,60 +19,15 @@ function mcq(
   return { id, prompt, choices: [...choices], correctIndex };
 }
 
-const tarik = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("tarik", text, code);
-const gozde = (text: string, code?: { language: string; source: string }) =>
-  dialogueTurn("gozde", text, code);
-
 export const CANVA_MASTERCLASS_LESSONS: readonly AcademyLessonDraft[] = [
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "canva-masterclass-1",
     order: 1,
     title: "Marka Kiti ve Tipografi: Renk, Logo ve Yazı Disiplini",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Sen matbaaya kalıp vermeden her afişi ayrı boyadın mı? Dükkân her gün başka yüz. Kalıp nerede durur?",
-        ),
-        gozde(
-          "Kalıp Brand Kit’tir: logo, hex renk, iki yazı ailesi. Fail-closed (Hata Anında Kapalı): hex ve logo yoksa şablon açılmaz; her karede serbest font basılmaz.",
-        ),
-      ],
-      problem: [
-        tarik("Ekran güzel, her post ayrı font, logo eğik. Marka yine duruyor mu?"),
-        gozde(
-          "Yok. Tutarsız kalıp tanınmaz. Fail-closed: kiti boşken Magic Resize bile kopya basmaz; renk kodu yazılmadan palet uydurulmaz.",
-        ),
-      ],
-      development: [
-        tarik("Kalıp kapısını yaz. Boş hex ve logosuz kiti bir kez kır."),
-        gozde(
-          "Logo korumalı alandır, eğilmez. Tipo hiyerarşisi: başlık bir aile, gövde ikinci. Üçüncü süs fontu kalıbı bozar.",
-          {
-            language: "ts",
-            source: `function kitAc(girdi: { logo: boolean; hex: string; baslikFont: string; govdeFont: string }): "acik" {
-  if (!girdi.logo) throw new Error("logo yok; kalıp durur");
-  if (!/^#[0-9A-Fa-f]{6}$/u.test(girdi.hex.trim())) throw new Error("hex yok; renk uydurulmaz");
-  if (!girdi.baslikFont.trim() || !girdi.govdeFont.trim()) throw new Error("tipo yok; kalıp durur");
-  return "acik";
-}
-if (kitAc({ logo: true, hex: "#1A365D", baslikFont: "Inter", govdeFont: "Source Serif" }) !== "acik") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        tarik("Her karede yeni font «tazelik» diye basarsak?"),
-        gozde(
-          "Tazelik tanınmazlık doğurur. Fail-closed kiti boşken şablon durur. Kalıp durunca sosyal kapıya geçeriz.",
-        ),
-      ],
-      conclusion: [
-        tarik("Logo, hex, iki font. Kalıp yoksa şablon yok. Sonraki adım post mu?"),
-        gozde(
-          "Kalıp durunca vitrin karesine geçeriz. Bir sonraki bölümde seni sosyal medya post ve Reels tasarımı bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Marka Kiti ve Tipografi: Renk, Logo ve Yazı Disiplini konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Sen matbaaya kalıp vermeden her afişi ayrı boyadın mı. Dükkân her gün başka yüz. Kalıp nerede durur. Kalıp Brand Kit’tir: logo, hex renk, iki yazı ailesi. Fail-closed (Hata Anında Kapalı): hex ve logo yoksa şablon açılmaz; her karede serbest font basılmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Ekran güzel, her post ayrı font, logo eğik. Marka yine duruyor mu. Yok. Tutarsız kalıp tanınmaz. Fail-closed: kiti boşken Magic Resize bile kopya basmaz; renk kodu yazılmadan palet uydurulmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Kalıp kapısını yaz. Boş hex ve logosuz kiti bir kez kır. Logo korumalı alandır, eğilmez. Tipo hiyerarşisi: başlık bir aile, gövde ikinci. Üçüncü süs fontu kalıbı bozar. Her karede yeni font «tazelik» diye basarsak. Tazelik tanınmazlık doğurur. Fail-closed kiti boşken şablon durur. Kalıp durunca sosyal kapıya geçeriz.",
+    summary: "Bu dersle Marka Kiti ve Tipografi: Renk, Logo ve Yazı Disiplini becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Logo, hex, iki font. Kalıp yoksa şablon yok. Sonraki adım post mu. Kalıp durunca vitrin karesine geçeriz. Bir sonraki bölümde seni sosyal medya post ve Reels tasarımı bekliyor.",
     quiz: [
       mcq(
         "q_cnv1_1",
@@ -94,54 +48,19 @@ if (kitAc({ logo: true, hex: "#1A365D", baslikFont: "Inter", govdeFont: "Source 
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function kitAc(girdi: { logo: boolean; hex: string; baslikFont: string; govdeFont: string }): \"acik\" {\n  if (!girdi.logo) throw new Error(\"logo yok; kalıp durur\");\n  if (!/^#[0-9A-Fa-f]{6}$/u.test(girdi.hex.trim())) throw new Error(\"hex yok; renk uydurulmaz\");\n  if (!girdi.baslikFont.trim() || !girdi.govdeFont.trim()) throw new Error(\"tipo yok; kalıp durur\");\n  return \"acik\";\n}\nif (kitAc({ logo: true, hex: \"#1A365D\", baslikFont: \"Inter\", govdeFont: \"Source Serif\" }) !== \"acik\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "canva-masterclass-2",
     order: 2,
     title: "Sosyal Medya Post ve Reels Tasarımı: Boyut, Mesaj ve Marka",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Sen bakkal vitrinine tiyatro afişi astın mı? Ölçü yanlış, yazı kesilir. Post karesi ile Reels boyu aynı mı?",
-        ),
-        gozde(
-          "Değil. Feed kare, Hikâye 9:16, Reels dikey video. Fail-closed: boyut işe uymazsa teslim durur; tek karede üç çağrı (CTA) basılmaz.",
-        ),
-      ],
-      problem: [
-        tarik("Tek şablon hem post hem Reels, üç düğme, marka yok. Beğeni var, tıklama yok. Ne kırılır?"),
-        gozde(
-          "Yanlış boy keser. Üç CTA mesajı yok eder. Fail-closed: kit uygulanmadan ve tek mesaj yazılmadan kare yayınlanmaz.",
-        ),
-      ],
-      development: [
-        tarik("Kare kapısını yaz. Yanlış boy ve üç CTA’yı kır."),
-        gozde(
-          "Magic Resize kiti olan kareyi boya uyarlar; kiti yoksa durur. Reels ilk karede kanca durur; 15 saniyede tek iş.",
-          {
-            language: "ts",
-            source: `function kareAc(girdi: { is: "post" | "reels" | "hikaye"; boy: string; cta: number; kit: boolean }): "acik" {
-  const dogru = girdi.is === "post" ? "1:1" : "9:16";
-  if (girdi.boy !== dogru) throw new Error("boy yanlış; teslim durur");
-  if (!girdi.kit) throw new Error("kalıp yok; kare durur");
-  if (!Number.isInteger(girdi.cta) || girdi.cta !== 1) throw new Error("CTA tek durur");
-  return "acik";
-}
-if (kareAc({ is: "reels", boy: "9:16", cta: 1, kit: true }) !== "acik") throw new Error("sözleşme kırıldı");`,
-          },
-        ),
-        tarik("Kareyi Reels’e «sığdır» deyip kenarı kesersek?"),
-        gozde(
-          "Kesik yazı teslim değildir. Fail-closed boy uymazsa durur. Kare durunca broşür kapısına geçeriz.",
-        ),
-      ],
-      conclusion: [
-        tarik("Boy işe göre, tek CTA, kit üstünde. Sonraki adım sunum mu?"),
-        gozde(
-          "Kare durunca kâğıt kapısına geçeriz. Bir sonraki bölümde seni sunum ve broşür bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Sosyal Medya Post ve Reels Tasarımı: Boyut, Mesaj ve Marka konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Sen bakkal vitrinine tiyatro afişi astın mı. Ölçü yanlış, yazı kesilir. Post karesi ile Reels boyu aynı mı. Feed kare, Hikâye 9:16, Reels dikey video. Fail-closed: boyut işe uymazsa teslim durur; tek karede üç çağrı (CTA) basılmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Tek şablon hem post hem Reels, üç düğme, marka yok. Beğeni var, tıklama yok. Ne kırılır. Yanlış boy keser. Üç CTA mesajı yok eder. Fail-closed: kit uygulanmadan ve tek mesaj yazılmadan kare yayınlanmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Kare kapısını yaz. Yanlış boy ve üç CTA’yı kır. Magic Resize kiti olan kareyi boya uyarlar; kiti yoksa durur. Reels ilk karede kanca durur; 15 saniyede tek iş. Kareyi Reels’e «sığdır» deyip kenarı kesersek. Kesik yazı teslim değildir. Fail-closed boy uymazsa durur. Kare durunca broşür kapısına geçeriz.",
+    summary: "Bu dersle Sosyal Medya Post ve Reels Tasarımı: Boyut, Mesaj ve Marka becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Boy işe göre, tek CTA, kit üstünde. Sonraki adım sunum mu. Kare durunca kâğıt kapısına geçeriz. Bir sonraki bölümde seni sunum ve broşür bekliyor.",
     quiz: [
       mcq(
         "q_cnv2_1",
@@ -162,53 +81,19 @@ if (kareAc({ is: "reels", boy: "9:16", cta: 1, kit: true }) !== "acik") throw ne
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function kareAc(girdi: { is: \"post\" | \"reels\" | \"hikaye\"; boy: string; cta: number; kit: boolean }): \"acik\" {\n  const dogru = girdi.is === \"post\" ? \"1:1\" : \"9:16\";\n  if (girdi.boy !== dogru) throw new Error(\"boy yanlış; teslim durur\");\n  if (!girdi.kit) throw new Error(\"kalıp yok; kare durur\");\n  if (!Number.isInteger(girdi.cta) || girdi.cta !== 1) throw new Error(\"CTA tek durur\");\n  return \"acik\";\n}\nif (kareAc({ is: \"reels\", boy: \"9:16\", cta: 1, kit: true }) !== \"acik\") throw new Error(\"sözleşme kırıldı\");",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "canva-masterclass-3",
     order: 3,
     title: "Sunum ve Broşür Hazırlama: Izgara, Okunurluk ve Baskı Payı",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Sen kalıbı masaya taşırıp yazıyı kenara sıktın mı? Matbaa keser, slaytta kimse okumaz. Pay ve punto nerede?",
-        ),
-        gozde(
-          "Izgara ve kenar payı (bleed) kâğıdın nefesidir. Fail-closed: taşan metin, 10 puntodan küçük gövde veya bleed yoksa baskı durur; slayt duvar yazısı basılmaz.",
-        ),
-      ],
-      problem: [
-        tarik("20 slayt, her biri paragraf, broşür kenarsız. Ekran dolu. İş teslim mi?"),
-        gozde(
-          "Hayır. Okunmayan slayt sunum değildir. Kenarsız PDF matbaada kesilir. Fail-closed: satır taşması veya bleed 3 mm yoksa dosya durur.",
-        ),
-      ],
-      development: [
-        tarik("Kâğıt kapısını yaz. Taşan metin ve bleed’siz PDF’i kır."),
-        gozde(
-          "Sunumda bir slayt bir fikir. Broşürde ızgara ve 3 mm pay. Logo güvenli alanda durur, kesime girmez.",
-          {
-            language: "ts",
-            source: `function kagitAc(girdi: { tasma: boolean; punto: number; bleedMm: number }): "acik" {
-  if (girdi.tasma) throw new Error("metin taşar; teslim durur");
-  if (!Number.isFinite(girdi.punto) || girdi.punto < 11) throw new Error("punto küçük; okunmaz");
-  if (!Number.isFinite(girdi.bleedMm) || girdi.bleedMm < 3) throw new Error("pay yok; baskı durur");
-  return "acik";
-}
-if (kagitAc({ tasma: false, punto: 12, bleedMm: 3 }) !== "acik") throw new Error("sözleşme kırıldı");`,
-          },
-        ),
-        tarik("Slayta tüm raporu yapıştırırsak?"),
-        gozde(
-          "Duvar yazısı dinletmez. Fail-closed taşma varsa durur. Kâğıt durunca Magic kapısına geçeriz.",
-        ),
-      ],
-      conclusion: [
-        tarik("Izgara, punto, 3 mm pay. Taşma yok. Sonraki adım yapay zekâ mı?"),
-        gozde(
-          "Kâğıt durunca stüdyo kapısına geçeriz. Bir sonraki bölümde seni Magic Studio araçları bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Sunum ve Broşür Hazırlama: Izgara, Okunurluk ve Baskı Payı konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Sen kalıbı masaya taşırıp yazıyı kenara sıktın mı. Matbaa keser, slaytta kimse okumaz. Pay ve punto nerede. Izgara ve kenar payı (bleed) kâğıdın nefesidir. Fail-closed: taşan metin, 10 puntodan küçük gövde veya bleed yoksa baskı durur; slayt duvar yazısı basılmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. 20 slayt, her biri paragraf, broşür kenarsız. Ekran dolu. İş teslim mi. Okunmayan slayt sunum değildir. Kenarsız PDF matbaada kesilir. Fail-closed: satır taşması veya bleed 3 mm yoksa dosya durur.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Kâğıt kapısını yaz. Taşan metin ve bleed’siz PDF’i kır. Sunumda bir slayt bir fikir. Broşürde ızgara ve 3 mm pay. Logo güvenli alanda durur, kesime girmez. Slayta tüm raporu yapıştırırsak. Duvar yazısı dinletmez. Fail-closed taşma varsa durur. Kâğıt durunca Magic kapısına geçeriz.",
+    summary: "Bu dersle Sunum ve Broşür Hazırlama: Izgara, Okunurluk ve Baskı Payı becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Izgara, punto, 3 mm pay. Taşma yok. Sonraki adım yapay zekâ mı. Kâğıt durunca stüdyo kapısına geçeriz. Bir sonraki bölümde seni Magic Studio araçları bekliyor.",
     quiz: [
       mcq(
         "q_cnv3_1",
@@ -229,56 +114,19 @@ if (kagitAc({ tasma: false, punto: 12, bleedMm: 3 }) !== "acik") throw new Error
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function kagitAc(girdi: { tasma: boolean; punto: number; bleedMm: number }): \"acik\" {\n  if (girdi.tasma) throw new Error(\"metin taşar; teslim durur\");\n  if (!Number.isFinite(girdi.punto) || girdi.punto < 11) throw new Error(\"punto küçük; okunmaz\");\n  if (!Number.isFinite(girdi.bleedMm) || girdi.bleedMm < 3) throw new Error(\"pay yok; baskı durur\");\n  return \"acik\";\n}\nif (kagitAc({ tasma: false, punto: 12, bleedMm: 3 }) !== \"acik\") throw new Error(\"sözleşme kırıldı\");",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "canva-masterclass-4",
     order: 4,
     title: "Magic Studio Yapay Zekâ Araçları: Taslak, Lisans ve PII Kapısı",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Sen kalıbı Magic’e verip müşteri adını tarife yapıştırdın mı? Taslak gelir, lisans belirsiz, isim sızar. Kapı nerede?",
-        ),
-        gozde(
-          "Magic Write ve Magic Media taslaktır, kalıp değildir. Fail-closed: kişisel veri tarife girmez; lisanssız görsel marka diye basılmaz; ham Magic metin sesin olmaz.",
-        ),
-      ],
-      problem: [
-        tarik("Magic Media güzel yüz üretti, lisans «bilinmiyor». Müşteri listesi prompt’ta. Yayınlarız mı?"),
-        gozde(
-          "Hayır. Bilinmeyen lisans dava doğurur. PII tarifte sızar. Fail-closed: lisans ve PII kapısı durmadan dışa aktarma açılmaz.",
-        ),
-      ],
-      development: [
-        tarik("Stüdyo kapısını yaz. PII’li prompt ve lisanssız görseli kır."),
-        gozde(
-          "Magic Resize kiti olanı boyar. Magic Eraser arka planı temizler; yüzü «başka biri» yapmaz. Taslak senin kalıbından geçer, ham basılmaz.",
-          {
-            language: "ts",
-            source: `function magicOnay(girdi: { pii: boolean; lisans: "net" | "bilinmiyor"; hamMetin: boolean; kit: boolean }): "taslak" {
-  if (girdi.pii) throw new Error("PII tarife girmez; üretim durur");
-  if (girdi.lisans !== "net") throw new Error("lisans yok; görsel durur");
-  if (girdi.hamMetin) throw new Error("ham Magic ses değildir");
-  if (!girdi.kit) throw new Error("kalıp yok; taslak durur");
-  return "taslak";
-}
-if (magicOnay({ pii: false, lisans: "net", hamMetin: false, kit: true }) !== "taslak") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        tarik("Müşteri telefonunu «kişiselleştirsin» diye prompt’a yazarsak?"),
-        gozde(
-          "PII tarife yapışmaz. Fail-closed sızdırma durur. Stüdyo durunca teslim formatına geçeriz.",
-        ),
-      ],
-      conclusion: [
-        tarik("Taslak, lisans net, PII yok, kit üstünde. Sonraki adım dışa aktarma mı?"),
-        gozde(
-          "Stüdyo durunca dosya kapısına geçeriz. Bir sonraki bölümde seni baskı ve dijital teslimat formatları bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Magic Studio Yapay Zekâ Araçları: Taslak, Lisans ve PII Kapısı konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Sen kalıbı Magic’e verip müşteri adını tarife yapıştırdın mı. Taslak gelir, lisans belirsiz, isim sızar. Kapı nerede. Magic Write ve Magic Media taslaktır, kalıp değildir. Fail-closed: kişisel veri tarife girmez; lisanssız görsel marka diye basılmaz; ham Magic metin sesin olmaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Magic Media güzel yüz üretti, lisans «bilinmiyor». Müşteri listesi prompt’ta. Yayınlarız mı. Bilinmeyen lisans dava doğurur. PII tarifte sızar. Fail-closed: lisans ve PII kapısı durmadan dışa aktarma açılmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Stüdyo kapısını yaz. PII’li prompt ve lisanssız görseli kır. Magic Resize kiti olanı boyar. Magic Eraser arka planı temizler; yüzü «başka biri» yapmaz. Taslak senin kalıbından geçer, ham basılmaz. Müşteri telefonunu «kişiselleştirsin» diye prompt’a yazarsak. PII tarife yapışmaz. Fail-closed sızdırma durur. Stüdyo durunca teslim formatına geçeriz.",
+    summary: "Bu dersle Magic Studio Yapay Zekâ Araçları: Taslak, Lisans ve PII Kapısı becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Taslak, lisans net, PII yok, kit üstünde. Sonraki adım dışa aktarma mı. Stüdyo durunca dosya kapısına geçeriz. Bir sonraki bölümde seni baskı ve dijital teslimat formatları bekliyor.",
     quiz: [
       mcq(
         "q_cnv4_1",
@@ -299,56 +147,19 @@ if (magicOnay({ pii: false, lisans: "net", hamMetin: false, kit: true }) !== "ta
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function magicOnay(girdi: { pii: boolean; lisans: \"net\" | \"bilinmiyor\"; hamMetin: boolean; kit: boolean }): \"taslak\" {\n  if (girdi.pii) throw new Error(\"PII tarife girmez; üretim durur\");\n  if (girdi.lisans !== \"net\") throw new Error(\"lisans yok; görsel durur\");\n  if (girdi.hamMetin) throw new Error(\"ham Magic ses değildir\");\n  if (!girdi.kit) throw new Error(\"kalıp yok; taslak durur\");\n  return \"taslak\";\n}\nif (magicOnay({ pii: false, lisans: \"net\", hamMetin: false, kit: true }) !== \"taslak\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "canva-masterclass-5",
     order: 5,
     title: "Baskı ve Dijital Teslimat Formatları: RGB, CMYK ve Dışa Aktarma",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Sen kalıbı ekran rengi ile matbaaya verdin mi? Kâğıt soluk çıkar. RGB mi, CMYK mi, hangisi kapı?",
-        ),
-        gozde(
-          "Ekran RGB, baskı CMYK ve 300 dpi ister. Fail-closed: RGB PDF matbaaya gitmez; web PNG 72 dpi ile A4 basılmaz; font çevrilmeden paket durur.",
-        ),
-      ],
-      problem: [
-        tarik("Müşteri «PDF yeter» dedi, RGB, 72 dpi, bleed yok. Matbaa reddetti. Kim yalan söyledi?"),
-        gozde(
-          "Teslim işe göre seçilir. Web PNG/SVG, video MP4, baskı PDF/X + CMYK + pay. Fail-closed: profil ve dpi yazılmadan dosya durur.",
-        ),
-      ],
-      development: [
-        tarik("Dosya kapısını yaz. RGB baskı ve düşük dpi’yi kır."),
-        gozde(
-          "Dijital: sRGB PNG veya MP4. Baskı: CMYK, 300 dpi, 3 mm bleed, font outline veya gömülü. «Ekranda güzel» matbaa fişi değildir.",
-          {
-            language: "ts",
-            source: `function teslimAc(girdi: { is: "web" | "baski"; profil: "sRGB" | "CMYK"; dpi: number; bleedMm: number }): "ok" {
-  if (girdi.is === "baski") {
-    if (girdi.profil !== "CMYK") throw new Error("RGB baskı durur");
-    if (girdi.dpi < 300) throw new Error("dpi düşük; baskı durur");
-    if (girdi.bleedMm < 3) throw new Error("pay yok; baskı durur");
-  }
-  if (girdi.is === "web" && girdi.profil !== "sRGB") throw new Error("web sRGB ister");
-  return "ok";
-}
-if (teslimAc({ is: "baski", profil: "CMYK", dpi: 300, bleedMm: 3 }) !== "ok") throw new Error("sözleşme kırıldı");`,
-          },
-        ),
-        tarik("Web PNG’yi «aynı dosya» deyip matbaaya atarsak?"),
-        gozde(
-          "İş ayrı, dosya ayrı. Fail-closed RGB baskı durur. Dosya durunca dört kapı kapanışına geçeriz.",
-        ),
-      ],
-      conclusion: [
-        tarik("Web sRGB, baskı CMYK 300 dpi pay. Sonraki adım proje mi?"),
-        gozde(
-          "Dosya durunca teslim kapısına geçeriz. Bir sonraki bölümde seni marka teslim projesi bekliyor.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Baskı ve Dijital Teslimat Formatları: RGB, CMYK ve Dışa Aktarma konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Sen kalıbı ekran rengi ile matbaaya verdin mi. Kâğıt soluk çıkar. RGB mi, CMYK mi, hangisi kapı. Ekran RGB, baskı CMYK ve 300 dpi ister. Fail-closed: RGB PDF matbaaya gitmez; web PNG 72 dpi ile A4 basılmaz; font çevrilmeden paket durur.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Müşteri «PDF yeter» dedi, RGB, 72 dpi, bleed yok. Matbaa reddetti. Kim yalan söyledi. Teslim işe göre seçilir. Web PNG/SVG, video MP4, baskı PDF/X + CMYK + pay. Fail-closed: profil ve dpi yazılmadan dosya durur.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Dosya kapısını yaz. RGB baskı ve düşük dpi’yi kır. Dijital: sRGB PNG veya MP4. Baskı: CMYK, 300 dpi, 3 mm bleed, font outline veya gömülü. «Ekranda güzel» matbaa fişi değildir. Web PNG’yi «aynı dosya» deyip matbaaya atarsak. İş ayrı, dosya ayrı. Fail-closed RGB baskı durur. Dosya durunca dört kapı kapanışına geçeriz.",
+    summary: "Bu dersle Baskı ve Dijital Teslimat Formatları: RGB, CMYK ve Dışa Aktarma becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Web sRGB, baskı CMYK 300 dpi pay. Sonraki adım proje mi. Dosya durunca teslim kapısına geçeriz. Bir sonraki bölümde seni marka teslim projesi bekliyor.",
     quiz: [
       mcq(
         "q_cnv5_1",
@@ -369,62 +180,19 @@ if (teslimAc({ is: "baski", profil: "CMYK", dpi: 300, bleedMm: 3 }) !== "ok") th
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function teslimAc(girdi: { is: \"web\" | \"baski\"; profil: \"sRGB\" | \"CMYK\"; dpi: number; bleedMm: number }): \"ok\" {\n  if (girdi.is === \"baski\") {\n    if (girdi.profil !== \"CMYK\") throw new Error(\"RGB baskı durur\");\n    if (girdi.dpi < 300) throw new Error(\"dpi düşük; baskı durur\");\n    if (girdi.bleedMm < 3) throw new Error(\"pay yok; baskı durur\");\n  }\n  if (girdi.is === \"web\" && girdi.profil !== \"sRGB\") throw new Error(\"web sRGB ister\");\n  return \"ok\";\n}\nif (teslimAc({ is: \"baski\", profil: \"CMYK\", dpi: 300, bleedMm: 3 }) !== \"ok\") throw new Error(\"sözleşme kırıldı\");",
+    },
   }),
-  academyFiveActLessonDraft({
+  academyInstructorLessonDraft({
     key: "canva-masterclass-6",
     order: 6,
     title: "Mini Proje: Kit, Format, AI ve Teslim Dört Kapısı",
-    dialogue: {
-      warmup: [
-        tarik(
-          "Kalıp duruyor: kitsiz kare, yanlış boy, PII’li Magic, RGB baskı. Sen müşteriye hangi paketi uzatırsın?",
-        ),
-        gozde(
-          "Dört kapı durmadan uzatmazsın. Kit, format, AI onay, teslim. Fail-closed bir kapı açıkken mühür vurulmaz. Bu iskelet canlı Canva hesabı iddiası taşımaz.",
-        ),
-      ],
-      problem: [
-        tarik("Ekranda şablon parlıyor, hex yok. İş bitmiş mi sayılıyor?"),
-        gozde(
-          "Parıltı yalandır. Kitsiz kare, kesik Reels, lisanssız yüz, RGB PDF — biri duruyorsa paket basılmaz.",
-        ),
-      ],
-      development: [
-        tarik("Tek fonksiyon: kit, boy, lisans, profil. Biri kırıkken dur."),
-        gozde(
-          "`paket` dört kapıyı sırayla sorar. Hex yoksa durur. Boy işe uymazsa durur. Lisans net değilse durur. Baskıda CMYK değilse durur. Hepsi durunca «hazir» basılır.",
-          {
-            language: "ts",
-            source: `function paket(girdi: {
-  hex: string;
-  boyDogru: boolean;
-  lisans: "net" | "bilinmiyor";
-  baski: boolean;
-  profil: "sRGB" | "CMYK";
-}): "hazir" {
-  if (!/^#[0-9A-Fa-f]{6}$/u.test(girdi.hex.trim())) throw new Error("hex yok; kalıp durur");
-  if (!girdi.boyDogru) throw new Error("boy yanlış; kare durur");
-  if (girdi.lisans !== "net") throw new Error("lisans yok; görsel durur");
-  if (girdi.baski && girdi.profil !== "CMYK") throw new Error("RGB baskı durur");
-  return "hazir";
-}
-if (paket({ hex: "#1A365D", boyDogru: true, lisans: "net", baski: true, profil: "CMYK" }) !== "hazir") {
-  throw new Error("sözleşme kırıldı");
-}`,
-          },
-        ),
-        tarik("Bu iskelet canlı Canva hesabına bağlı mı? Sınavda ne ölçülür?"),
-        gozde(
-          "Bağlı değildir. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır. Dört kapı: kit, format, AI, teslim.",
-        ),
-      ],
-      conclusion: [
-        tarik("Masterclass kapanış bu mu: kalıp, kare, kâğıt, Magic, dosya, sınava gir?"),
-        gozde(
-          "Bu. Tekil Masterclass halkası kapanır. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
-        ),
-      ],
-    },
+    intro: "Hoş geldiniz. Bu bölümde Mini Proje: Kit, Format, AI ve Teslim Dört Kapısı konusunu ve neden ihtiyaç duyduğunuzu ele alacağız. Kalıp duruyor: kitsiz kare, yanlış boy, PII’li Magic, RGB baskı. Sen müşteriye hangi paketi uzatırsın. Dört kapı durmadan uzatmazsın. Kit, format, AI onay, teslim. Fail-closed bir kapı açıkken mühür vurulmaz. Bu iskelet canlı Canva hesabı iddiası taşımaz.",
+    problem: "Geleneksel yapılarda doğrulanmayan çıktı ve kapısız ilerleme yaşanır. Bu yüzden bu mimariyi kullanırız. Ekranda şablon parlıyor, hex yok. İş bitmiş mi sayılıyor. Parıltı yalandır. Kitsiz kare, kesik Reels, lisanssız yüz, RGB PDF — biri duruyorsa paket basılmaz.",
+    application: "Ekrandaki kod bloğunda gördüğünüz üzere, Tek fonksiyon: kit, boy, lisans, profil. Biri kırıkken dur. `paket` dört kapıyı sırayla sorar. Hex yoksa durur. Boy işe uymazsa durur. Lisans net değilse durur. Baskıda CMYK değilse durur. Hepsi durunca «hazir» basılır. Bu iskelet canlı Canva hesabına bağlı mı. Sınavda ne ölçülür. Bağlı değildir. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır. Dört kapı: kit, format, AI, teslim.",
+    summary: "Bu dersle Mini Proje: Kit, Format, AI ve Teslim Dört Kapısı becerisini kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz. Masterclass kapanış bu mu: kalıp, kare, kâğıt, Magic, dosya, sınava gir. Bu. Tekil Masterclass halkası kapanır. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
     quiz: [
       mcq(
         "q_cnv6_1",
@@ -445,6 +213,10 @@ if (paket({ hex: "#1A365D", boyDogru: true, lisans: "net", baski: true, profil: 
         1,
       ),
     ],
+    code: {
+      language: "ts",
+      source: "function paket(girdi: {\n  hex: string;\n  boyDogru: boolean;\n  lisans: \"net\" | \"bilinmiyor\";\n  baski: boolean;\n  profil: \"sRGB\" | \"CMYK\";\n}): \"hazir\" {\n  if (!/^#[0-9A-Fa-f]{6}$/u.test(girdi.hex.trim())) throw new Error(\"hex yok; kalıp durur\");\n  if (!girdi.boyDogru) throw new Error(\"boy yanlış; kare durur\");\n  if (girdi.lisans !== \"net\") throw new Error(\"lisans yok; görsel durur\");\n  if (girdi.baski && girdi.profil !== \"CMYK\") throw new Error(\"RGB baskı durur\");\n  return \"hazir\";\n}\nif (paket({ hex: \"#1A365D\", boyDogru: true, lisans: \"net\", baski: true, profil: \"CMYK\" }) !== \"hazir\") {\n  throw new Error(\"sözleşme kırıldı\");\n}",
+    },
   }),
 ] as const;
 

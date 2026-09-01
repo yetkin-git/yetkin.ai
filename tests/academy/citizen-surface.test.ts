@@ -75,6 +75,7 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(copy.catalog.cardCtaBuy).toBe("Satın Al");
     expect(copy.catalog.audioBadge).toBe("Sesli");
     expect(copy.catalog.audioBadgeHint).toBe("Seslendirmeli İçerik");
+    expect(copy.outline.kindAudio).toBe("Ses");
     expect(copy.catalog.vatInclusiveHint).toBe("KDV dahil");
     expect(copy.catalog.priceVatInclusive("₺890,00")).toBe("₺890,00 · KDV dahil");
     expect(copy.course.heroBuyCta("₺890,00")).toBe("Eğitimi Satın Al — ₺890,00");
