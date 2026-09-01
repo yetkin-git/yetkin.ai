@@ -3,7 +3,7 @@
 import { formatMinorCompact } from "@/lib/kernel/money/format";
 import type { AcademyCourseWithPrice } from "@/lib/academy/types";
 import { ListingCard } from "@/components/showcase/listing-card";
-import { IconHeart } from "@/components/ui/icons";
+import { IconHeart, IconVolume } from "@/components/ui/icons";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { academyInstructorBySlug } from "@/lib/academy/instructors";
 import { academyModuleCodeBySlug } from "@/lib/academy/catalog-filter";
@@ -12,6 +12,7 @@ import { academyCatalogSummaryBySlug } from "@/lib/academy/catalog-summaries";
 import type { AcademyCatalogLearnerStatus } from "@/lib/academy/catalog-learner";
 import type { AcademyCatalogViewMode } from "@/lib/academy/catalog-view-pref";
 import { resolveAcademyCatalogCardCta } from "@/lib/academy/storefront-cta";
+import { isAcademyMediaSealedSkuSlug } from "@/lib/academy/pilot-sku";
 import { cn } from "@/components/ui/cn";
 
 export type CourseCardSurface = "catalog" | "library";
@@ -48,7 +49,7 @@ export function CourseCard({
   const summary = academyCatalogSummaryBySlug(course.slug) ?? course.summary;
   const moduleCode = academyModuleCodeBySlug(course.slug) || undefined;
   const levelKicker = levelLabel ? ACADEMY_SEN.catalog.badgeLevel(levelLabel) : undefined;
-    const moneyLabel = course.priceMinor
+  const moneyLabel = course.priceMinor
     ? formatMinorCompact(course.priceMinor, course.currencyCode)
     : ACADEMY_SEN.catalog.priceMissing;
   const storefront = resolveAcademyCatalogCardCta({
@@ -64,7 +65,19 @@ export function CourseCard({
         ? ACADEMY_SEN.catalog.statusCompleted
         : null;
 
-  const chrome =
+  const hasAudio = isAcademyMediaSealedSkuSlug(course.slug);
+  const audioBadge = hasAudio ? (
+    <span
+      data-academy-audio-badge=""
+      title={ACADEMY_SEN.catalog.audioBadgeHint}
+      aria-label={ACADEMY_SEN.catalog.audioBadgeHint}
+      className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[var(--safir-soft)] px-2 py-0.5 text-[10px] font-semibold tracking-wide text-[var(--safir-deep)] ring-1 ring-inset ring-[var(--safir-soft)]"
+    >
+      <IconVolume className="h-3 w-3" />
+      {ACADEMY_SEN.catalog.audioBadge}
+    </span>
+  ) : null;
+  const favoriteButton =
     !isLibrary && onToggleFavorite ? (
       <button
         type="button"
@@ -85,6 +98,12 @@ export function CourseCard({
         <IconHeart filled={favorited} className="h-3.5 w-3.5" />
       </button>
     ) : null;
+  const chrome = audioBadge || favoriteButton ? (
+    <>
+      {audioBadge}
+      {favoriteButton}
+    </>
+  ) : null;
 
   return (
     <ListingCard
@@ -105,6 +124,7 @@ export function CourseCard({
       footerBadge={learnerLabel ?? undefined}
       footerBadgeTone={learnerStatus === "completed" ? "emerald" : "safir"}
       extraBadge={chrome}
+      hitAriaExtra={hasAudio ? ACADEMY_SEN.catalog.audioBadgeHint : undefined}
       className="!p-4"
     />
   );

@@ -32,6 +32,7 @@ export function ListingCard({
   layout = "grid",
   hit = "cta",
   summaryClamp = 2,
+  hitAriaExtra,
 }: {
   title: string;
   summary: string;
@@ -64,6 +65,8 @@ export function ListingCard({
   hit?: "cta" | "card";
   /** Özet satır tavanı — akademi ön yüzü 3; vitrin varsayılanı 2. */
   summaryClamp?: 2 | 3 | 4;
+  /** Kart hit aria-label'ına eklenen dürüst sinyal (örn. seslendirme). */
+  hitAriaExtra?: string;
 }) {
   const isList = layout === "list";
   const cardHit = Boolean(href) && hit === "card";
@@ -206,7 +209,9 @@ export function ListingCard({
       <Link
         href={href}
         className="absolute inset-0 z-0 rounded-[var(--radius-card)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--safir-soft)] focus-visible:ring-offset-2"
-        aria-label={[moduleCode, kicker, title, price, priceCaption, cta].filter(Boolean).join(". ")}
+        aria-label={[moduleCode, kicker, hitAriaExtra, title, price, priceCaption, cta]
+          .filter(Boolean)
+          .join(". ")}
       />
       {card}
     </div>

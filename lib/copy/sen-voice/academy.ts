@@ -38,6 +38,9 @@ export const ACADEMY_SEN = {
       return label || code;
     },
     badgeClosed: "Kayıt kapalı",
+    /** WAV mührü olan SKU — katalog kartı sağ üst ses rozeti. */
+    audioBadge: "Sesli",
+    audioBadgeHint: "Seslendirmeli İçerik",
     priceMissing: "Fiyat yok",
     /** Quiet Luxury Piyasa Talep Skoru — 100 üzerinden Match Score mührü. */
     marketDemandScoreTitle: "Piyasa Talep Skoru",

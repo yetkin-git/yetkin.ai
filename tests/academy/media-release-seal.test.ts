@@ -1,4 +1,4 @@
-import { readdirSync, statSync } from "node:fs";
+import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { CURRICULUM_DRAFTS_BY_SLUG } from "@/lib/academy/curricula";
@@ -69,6 +69,12 @@ describe("Zero-Cost Streaming mediaReleaseSeal", () => {
     expect(isAcademyLessonAudioSealed("ai-agent-ileri", "ai-agent-ileri-4")).toBe(true);
     expect(isAcademyLessonAudioSealed("ai-agent-ileri", "ai-agent-ileri-5")).toBe(false);
     expect(isAcademyLessonAudioSealed("python-temel", "python-temel-1")).toBe(false);
+    expect(readFileSync(join(process.cwd(), "components/academy/course-card.tsx"), "utf8")).toContain(
+      "isAcademyMediaSealedSkuSlug",
+    );
+    expect(readFileSync(join(process.cwd(), "lib/copy/sen-voice/academy.ts"), "utf8")).toContain(
+      "Seslendirmeli İçerik",
+    );
 
     const model = getDefaultModelId("VOICE_TTS");
     let dialogueLessons = 0;

@@ -341,6 +341,8 @@ describe("akademi kurs tohumu yüzeyi", () => {
     expect(readSrc("components/academy/course-card.tsx")).not.toContain("MarketPopularityBadge");
     expect(readSrc("components/academy/course-card.tsx")).toContain('hit="card"');
     expect(readSrc("components/academy/course-card.tsx")).toContain("academyCatalogSummaryBySlug");
+    expect(readSrc("components/academy/course-card.tsx")).toContain("isAcademyMediaSealedSkuSlug");
+    expect(readSrc("components/academy/course-card.tsx")).toContain("data-academy-audio-badge");
     expect(readSrc("components/academy/course-card.tsx")).not.toContain("Temel'den İleri");
     expect(readSrc("lib/academy/catalog-summaries.ts")).toContain(
       "Python ile programlamanın temelleri, kontrol akışları, fonksiyonlar ve veri yapıları.",
