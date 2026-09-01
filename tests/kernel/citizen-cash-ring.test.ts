@@ -1,6 +1,20 @@
 import { describe, expect, it } from "vitest";
 import { academyCourseSeedBySlug } from "@/lib/academy/seed";
-import { signedLedgerSum } from "../helpers/memory-money";
+import {
+  acceptFreelancerBid,
+  createFreelancerJob,
+  submitFreelancerBid,
+} from "@/lib/freelancer/engine";
+import { ServiceUnavailableError } from "@/lib/kernel/http/errors";
+import { RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE } from "@/lib/kernel/http/v1-contract";
+import { paytrMarketplaceSplitPort } from "@/lib/kernel/payments/marketplace-split";
+import {
+  createMemoryEscrowStore,
+  createMemoryFreelancerStore,
+  createMemoryLedgerStore,
+  signedLedgerSum,
+  withMemoryAcceptAtomic,
+} from "../helpers/memory-money";
 import {
   CITIZEN_CASH_RING_CLIENT_ID,
   CITIZEN_CASH_RING_CLIENT_START_MINOR,
@@ -75,5 +89,58 @@ describe("laboratuvar vatandaş nakit halkası", () => {
     expect(report).not.toContain("escrow-release-net");
     expect(report).toContain(journey.witness.certificateHash);
     expect(report).toContain("Checkout token CREDIT yazmaz");
+  });
+
+  it("üretim PayTR split not_configured; accept 503, CREDIT/hold/sözleşme yok", async () => {
+    expect(await paytrMarketplaceSplitPort.beginHold({
+      buyerUserId: CITIZEN_CASH_RING_CLIENT_ID,
+      artisanUserId: CITIZEN_CASH_RING_ID,
+      referenceKey: "lab-prod-split-must-not-hold",
+      grossMinor: CITIZEN_CASH_RING_GROSS_MINOR,
+      holdBps: 1000,
+      currencyCode: "TRY",
+    })).toEqual({ ok: false, reason: "not_configured" });
+
+    const ports = withMemoryAcceptAtomic({
+      ledger: createMemoryLedgerStore([
+        { userId: CITIZEN_CASH_RING_CLIENT_ID, amountMinor: CITIZEN_CASH_RING_CLIENT_START_MINOR },
+        { userId: CITIZEN_CASH_RING_ID, amountMinor: 0 },
+        { userId: CITIZEN_CASH_RING_PLATFORM_ID, amountMinor: 0 },
+      ]),
+      escrow: createMemoryEscrowStore(),
+      freelancer: createMemoryFreelancerStore(),
+      marketplace: paytrMarketplaceSplitPort,
+    });
+    const job = await createFreelancerJob(ports, {
+      clientId: CITIZEN_CASH_RING_CLIENT_ID,
+      title: "Üretim split kapalı",
+      brief: "PSP yokken kabul 503.",
+      budgetMinor: CITIZEN_CASH_RING_GROSS_MINOR,
+    });
+    const bid = await submitFreelancerBid(ports, {
+      jobId: job.id,
+      bidderId: CITIZEN_CASH_RING_ID,
+      amountMinor: CITIZEN_CASH_RING_GROSS_MINOR,
+      coverNote: "Hazırım.",
+    });
+    await expect(
+      acceptFreelancerBid(ports, {
+        jobId: job.id,
+        bidId: bid.id,
+        actorUserId: CITIZEN_CASH_RING_CLIENT_ID,
+      }),
+    ).rejects.toBeInstanceOf(ServiceUnavailableError);
+    await expect(
+      acceptFreelancerBid(ports, {
+        jobId: job.id,
+        bidId: bid.id,
+        actorUserId: CITIZEN_CASH_RING_CLIENT_ID,
+      }),
+    ).rejects.toThrow(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE);
+    expect(ports.ledger.snapshot(CITIZEN_CASH_RING_CLIENT_ID).amountMinor).toBe(
+      CITIZEN_CASH_RING_CLIENT_START_MINOR,
+    );
+    expect(await ports.freelancer.getContractByJobId(job.id)).toBeNull();
+    expect((await ports.freelancer.getJob(job.id))?.status).toBe("OPEN");
   });
 });

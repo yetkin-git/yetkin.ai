@@ -169,6 +169,7 @@ describe("/api/v1 sözleşme mührü", () => {
         supabaseAuth: "configured",
         inngest: "configured",
         payments: "configured",
+        examSitting: "unconfigured",
       },
     } as const;
     const fromJson = jsonOk(healthOk, 200, REQUEST_ID, v1Request("/api/v1/health"));
@@ -219,6 +220,7 @@ describe("/api/v1 sözleşme mührü", () => {
       "supabaseAuth",
       "inngest",
       "payments",
+      "examSitting",
     ]);
     expect(zodObjectKeys(railV1JobSchema)).toEqual([
       "id",

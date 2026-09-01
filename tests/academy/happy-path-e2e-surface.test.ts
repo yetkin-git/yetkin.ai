@@ -15,7 +15,7 @@ describe("O8 akademi nakit E2E yüzeyi", () => {
 
     // Playwright: kamu katalog + oturumsuz BFF kenarı (401); donmuş oda 410 değildir.
     expect(spec).toContain("/academy");
-    expect(spec).toContain("Mühürlü Kariyer");
+    expect(spec).toContain("Akademi");
     expect(spec).toContain("/academy/dogrula/");
     expect(spec).toContain('page.goto("/academy/dogrula")');
     expect(spec).toContain("/api/academy/certificates/");

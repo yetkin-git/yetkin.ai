@@ -35,7 +35,7 @@ export type BeginCheckoutResult =
     }
   | {
       ok: false;
-      reason: "missing_credentials" | "invalid_amount" | "unsupported_currency" | "pay_api_error";
+      reason: "missing_credentials" | "invalid_amount" | "unsupported_currency" | "invalid_user" | "pay_api_error";
       message: string;
     };
 

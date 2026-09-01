@@ -1,114 +1,153 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  IconCaptions,
-  IconMaximize,
-  IconPause,
-  IconPlay,
-  IconVolume,
-  IconVolumeOff,
-} from "@/components/ui/icons";
+import { IconPause, IconPlay, IconVolume, IconVolumeOff } from "@/components/ui/icons";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import {
-  academyCinemaCanPlayNativeHls,
-  academyCinemaDurationSec,
-  formatAcademyCinemaClock,
-  resolveAcademyCinemaSource,
-} from "@/lib/academy/lesson-cinema";
+  activeAcademyDialogueTurnIndex,
+  academyDialogueSpokenElapsedSec,
+  academyFiveActHeading,
+  buildAcademyDialogueTimeline,
+} from "@/lib/academy/dialogue-timeline";
+import { academyLessonAudioPublicPath, isAcademyLessonAudioSealed } from "@/lib/academy/lesson-audio";
+import { formatAcademyCinemaClock } from "@/lib/academy/lesson-cinema";
+import { shouldSealProgressAfterDialogueEnded } from "@/lib/academy/lesson-advance";
 
 export function LessonMediaPlayer({
-  assetKey,
-  videoTitle,
-  durationSec,
+  courseSlug,
+  lessonKey,
+  lessonTitle,
+  body,
+  onActiveTurnChange,
+  onPlayingChange,
+  onEnded,
 }: {
-  assetKey: string;
-  videoTitle: string;
-  durationSec: number;
+  courseSlug: string;
+  lessonKey: string;
+  lessonTitle: string;
+  body: string;
+  onActiveTurnChange?: (index: number) => void;
+  onPlayingChange?: (playing: boolean) => void;
+  onEnded?: () => void;
 }) {
   const copy = ACADEMY_SEN.player;
   const listenCopy = ACADEMY_SEN.listen;
-  const source = useMemo(() => resolveAcademyCinemaSource(assetKey), [assetKey]);
-  const visualDuration = academyCinemaDurationSec({
-    spokenDuration: 0,
-    microDurationSec: durationSec,
+  const timeline = useMemo(() => buildAcademyDialogueTimeline(body, courseSlug), [body, courseSlug]);
+  const audioSealed = isAcademyLessonAudioSealed(courseSlug, lessonKey);
+  const audioSrc = useMemo(
+    () => (audioSealed ? academyLessonAudioPublicPath(courseSlug, lessonKey) : undefined),
+    [audioSealed, courseSlug, lessonKey],
+  );
+  const spokenDuration = timeline.spokenDuration;
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const clockRef = useRef({
+    playing: false,
+    elapsed: 0,
+    lastStamp: 0,
+    duration: spokenDuration,
+    playbackStarted: false,
+    sealed: false,
   });
-  const frameRef = useRef<HTMLDivElement | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const posterRef = useRef<HTMLImageElement | null>(null);
-  const clockRef = useRef({ playing: false, elapsed: 0, lastStamp: 0, duration: visualDuration });
   const pauseLockRef = useRef(false);
   const rafRef = useRef(0);
   const togglePlayRef = useRef<() => void>(() => undefined);
+  const onEndedRef = useRef(onEnded);
+  const onActiveTurnChangeRef = useRef(onActiveTurnChange);
+  const onPlayingChangeRef = useRef(onPlayingChange);
   const [playing, setPlaying] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-  const [duration, setDuration] = useState(visualDuration);
+  const [duration, setDuration] = useState(spokenDuration);
   const [volume, setVolume] = useState(1);
   const [muted, setMuted] = useState(false);
-  const [captionsOn, setCaptionsOn] = useState(true);
-  const [kind, setKind] = useState(source.kind);
+  const [audioReady, setAudioReady] = useState(false);
+  const [audioFailed, setAudioFailed] = useState(false);
+
+  onEndedRef.current = onEnded;
+  onActiveTurnChangeRef.current = onActiveTurnChange;
+  onPlayingChangeRef.current = onPlayingChange;
+
+  const spokenElapsed = academyDialogueSpokenElapsedSec({
+    currentTime: elapsed,
+    audioDuration: audioReady ? duration : 0,
+    spokenDuration,
+  });
+  const activeIndex = activeAcademyDialogueTurnIndex(timeline.turns, spokenElapsed);
+  const activeTurn = timeline.turns[activeIndex] ?? null;
+
+  useEffect(() => {
+    onActiveTurnChangeRef.current?.(activeIndex);
+  }, [activeIndex, lessonKey]);
+
+  useEffect(() => {
+    onPlayingChangeRef.current?.(playing);
+  }, [playing]);
 
   useEffect(() => {
     pauseLockRef.current = true;
-    clockRef.current = { playing: false, elapsed: 0, lastStamp: 0, duration: visualDuration };
+    clockRef.current = {
+      playing: false,
+      elapsed: 0,
+      lastStamp: 0,
+      duration: spokenDuration,
+      playbackStarted: false,
+      sealed: false,
+    };
     if (rafRef.current) {
       window.cancelAnimationFrame(rafRef.current);
       rafRef.current = 0;
     }
     setPlaying(false);
     setElapsed(0);
-    setDuration(visualDuration);
-    setKind(source.kind);
-  }, [assetKey, source.kind, visualDuration]);
+    setDuration(spokenDuration);
+    setAudioReady(false);
+    setAudioFailed(false);
+  }, [audioSrc, lessonKey, spokenDuration]);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video || (kind !== "html5" && kind !== "hls")) {
+    const audio = audioRef.current;
+    if (!audio) {
       return;
     }
-    while (video.firstChild) {
-      video.removeChild(video.firstChild);
-    }
-    video.removeAttribute("src");
-    if (kind === "hls" && academyCinemaCanPlayNativeHls(video)) {
-      video.src = source.hls;
-      video.load();
-      return;
-    }
-    const webm = document.createElement("source");
-    webm.src = source.webm;
-    webm.type = "video/webm";
-    const mp4 = document.createElement("source");
-    mp4.src = source.mp4;
-    mp4.type = "video/mp4";
-    video.appendChild(webm);
-    video.appendChild(mp4);
-    video.poster = source.poster;
-    video.load();
-  }, [kind, source.hls, source.mp4, source.poster, source.webm]);
+    audio.volume = muted ? 0 : volume;
+    audio.muted = muted || volume === 0;
+  }, [muted, volume]);
 
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) {
-      return;
+  const sealIfEnded = useCallback((nextElapsed: number, cap: number) => {
+    const clock = clockRef.current;
+    if (
+      !shouldSealProgressAfterDialogueEnded({
+        playbackStarted: clock.playbackStarted,
+        reachedEnd: cap > 0 && nextElapsed >= cap,
+      })
+    ) {
+      return false;
     }
-    video.volume = muted ? 0 : volume;
-    video.muted = muted || volume === 0;
-  }, [kind, muted, volume]);
+    if (clock.sealed) {
+      return true;
+    }
+    clock.sealed = true;
+    clock.playing = false;
+    pauseLockRef.current = true;
+    setPlaying(false);
+    setElapsed(cap);
+    audioRef.current?.pause();
+    onEndedRef.current?.();
+    return true;
+  }, []);
 
   const applyElapsed = useCallback(
     (next: number) => {
-      const cap = clockRef.current.duration > 0 ? clockRef.current.duration : visualDuration;
+      const cap = clockRef.current.duration > 0 ? clockRef.current.duration : spokenDuration;
       const clamped = Math.max(0, Math.min(next, cap));
       clockRef.current.elapsed = clamped;
       setElapsed(clamped);
-      const video = videoRef.current;
-      if (video && Number.isFinite(video.duration) && video.duration > 0) {
-        video.currentTime = (clamped / cap) * video.duration;
+      const audio = audioRef.current;
+      if (audioReady && audio && Number.isFinite(audio.duration) && audio.duration > 0) {
+        audio.currentTime = clamped;
       }
+      sealIfEnded(clamped, cap);
     },
-    [visualDuration],
+    [audioReady, sealIfEnded, spokenDuration],
   );
 
   const applyPauseLock = useCallback(() => {
@@ -119,7 +158,7 @@ export function LessonMediaPlayer({
       rafRef.current = 0;
     }
     setPlaying(false);
-    videoRef.current?.pause();
+    audioRef.current?.pause();
   }, []);
 
   useEffect(() => {
@@ -137,24 +176,28 @@ export function LessonMediaPlayer({
       }
       const delta = (stamp - clock.lastStamp) / 1000;
       clock.lastStamp = stamp;
-      const video = videoRef.current;
-      if (video && !video.paused && Number.isFinite(video.currentTime) && Number.isFinite(video.duration) && video.duration > 0) {
-        clock.duration = video.duration;
-        clock.elapsed = video.currentTime;
-        setDuration(video.duration);
-        setElapsed(video.currentTime);
-      } else if (video?.paused && pauseLockRef.current) {
-        rafRef.current = 0;
-        return;
+      const audio = audioRef.current;
+      if (
+        audioReady &&
+        audio &&
+        !audio.paused &&
+        Number.isFinite(audio.currentTime) &&
+        Number.isFinite(audio.duration) &&
+        audio.duration > 0
+      ) {
+        clock.duration = audio.duration;
+        clock.elapsed = audio.currentTime;
+        setDuration(audio.duration);
+        setElapsed(audio.currentTime);
+        if (sealIfEnded(audio.currentTime, audio.duration)) {
+          rafRef.current = 0;
+          return;
+        }
       } else {
+        const cap = clock.duration > 0 ? clock.duration : spokenDuration;
         const next = clock.elapsed + delta;
-        if (next >= clock.duration) {
-          clock.elapsed = clock.duration;
-          clock.playing = false;
-          pauseLockRef.current = true;
-          setElapsed(clock.duration);
-          setPlaying(false);
-          video?.pause();
+        if (sealIfEnded(next, cap)) {
+          clock.elapsed = cap;
           rafRef.current = 0;
           return;
         }
@@ -170,24 +213,29 @@ export function LessonMediaPlayer({
       window.cancelAnimationFrame(rafRef.current);
       rafRef.current = 0;
     };
-  }, [playing]);
+  }, [audioReady, playing, sealIfEnded, spokenDuration]);
 
   const togglePlay = useCallback(() => {
     if (clockRef.current.playing || playing) {
       applyPauseLock();
       return;
     }
+    const cap = clockRef.current.duration > 0 ? clockRef.current.duration : spokenDuration;
     pauseLockRef.current = false;
-    if (elapsed >= duration && duration > 0) {
+    if (elapsed >= cap && cap > 0) {
+      clockRef.current.sealed = false;
       applyElapsed(0);
     }
     clockRef.current.playing = true;
+    clockRef.current.playbackStarted = true;
     clockRef.current.lastStamp = 0;
     setPlaying(true);
-    void videoRef.current?.play().catch(() => {
-      setKind("canvas");
-    });
-  }, [applyElapsed, applyPauseLock, duration, elapsed, playing]);
+    if (audioReady) {
+      void audioRef.current?.play().catch(() => {
+        setAudioReady(false);
+      });
+    }
+  }, [applyElapsed, applyPauseLock, audioReady, elapsed, playing, spokenDuration]);
 
   togglePlayRef.current = togglePlay;
 
@@ -214,29 +262,6 @@ export function LessonMediaPlayer({
     };
   }, []);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas || kind !== "canvas") {
-      return;
-    }
-    const ctx = canvas.getContext("2d");
-    if (!ctx) {
-      return;
-    }
-    const ratio = window.devicePixelRatio || 1;
-    const width = 1280;
-    const height = 720;
-    canvas.width = width * ratio;
-    canvas.height = height * ratio;
-    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-    drawCinemaFrame(ctx, {
-      width,
-      height,
-      title: videoTitle,
-      poster: posterRef.current,
-    });
-  }, [elapsed, kind, videoTitle]);
-
   function onSeek(next: number) {
     const wasPlaying = clockRef.current.playing && !pauseLockRef.current;
     clockRef.current.playing = false;
@@ -245,74 +270,87 @@ export function LessonMediaPlayer({
     if (wasPlaying) {
       pauseLockRef.current = false;
       clockRef.current.playing = true;
+      clockRef.current.playbackStarted = true;
       clockRef.current.lastStamp = 0;
       setPlaying(true);
-      void videoRef.current?.play().catch(() => undefined);
+      if (audioReady) {
+        void audioRef.current?.play().catch(() => undefined);
+      }
     }
   }
 
-  function onFullscreen() {
-    const node = frameRef.current;
-    if (!node) {
-      return;
-    }
-    if (document.fullscreenElement === node) {
-      void document.exitFullscreen();
-      return;
-    }
-    void node.requestFullscreen();
-  }
-
-  const caption = captionsOn ? videoTitle : "";
   const progressPct = duration > 0 ? Math.min(100, Math.max(0, (elapsed / duration) * 100)) : 0;
+  const actHeading = academyFiveActHeading(activeTurn?.act ?? null);
+  const preparing = audioSealed && !audioReady && !audioFailed;
 
   return (
     <section
-      ref={frameRef}
-      className="academy-cinema"
-      data-academy-player-cinema=""
-      data-academy-cinema-kind={kind}
+      className="academy-dialogue-player"
+      data-academy-dialogue-player=""
+      data-academy-audio-ready={audioReady ? "true" : "false"}
     >
-      <div className="academy-cinema-stage">
-        {kind === "canvas" ? (
-          <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              ref={posterRef}
-              src={source.loop || source.poster}
-              alt=""
-              className="academy-cinema-poster"
-              onLoad={() => {
-                setElapsed((current) => current);
-              }}
-            />
-            <canvas ref={canvasRef} className="academy-cinema-canvas" data-academy-cinema-canvas="" />
-          </>
+      {audioSrc ? (
+      <audio
+        ref={audioRef}
+        preload="metadata"
+        src={audioSrc}
+        onCanPlay={() => {
+          const audio = audioRef.current;
+          if (audio && Number.isFinite(audio.duration) && audio.duration > 0) {
+            clockRef.current.duration = audio.duration;
+            setDuration(audio.duration);
+            setAudioReady(true);
+            setAudioFailed(false);
+          }
+        }}
+        onLoadedMetadata={() => {
+          const audio = audioRef.current;
+          if (audio && Number.isFinite(audio.duration) && audio.duration > 0) {
+            clockRef.current.duration = audio.duration;
+            setDuration(audio.duration);
+            setAudioReady(true);
+            setAudioFailed(false);
+          }
+        }}
+        onError={() => {
+          setAudioReady(false);
+          setAudioFailed(true);
+          clockRef.current.duration = spokenDuration;
+          setDuration(spokenDuration);
+        }}
+        onEnded={() => {
+          const cap = clockRef.current.duration > 0 ? clockRef.current.duration : spokenDuration;
+          clockRef.current.elapsed = cap;
+          setElapsed(cap);
+          sealIfEnded(cap, cap);
+        }}
+      />
+      ) : null}
+      <div className="academy-dialogue-stage">
+        <p className="academy-dialogue-kicker">{copy.dialogueEyebrow}</p>
+        {preparing ? (
+          <div className="academy-dialogue-preparing" data-academy-audio-preparing="">
+            <p className="academy-dialogue-preparing-title">{copy.audioPreparing}</p>
+            <p className="academy-dialogue-preparing-lead">{copy.audioPreparingLead}</p>
+          </div>
         ) : (
-          // eslint-disable-next-line jsx-a11y/media-has-caption -- altyazı overlay başlıktan basılır
-          <video
-            ref={videoRef}
-            className="academy-cinema-video"
-            playsInline
-            poster={source.poster}
-            onError={() => setKind("canvas")}
-            onLoadedMetadata={() => {
-              const video = videoRef.current;
-              if (video && Number.isFinite(video.duration) && video.duration > 0) {
-                clockRef.current.duration = video.duration;
-                setDuration(video.duration);
-              }
-            }}
-          />
+          <p className="academy-dialogue-title">{lessonTitle}</p>
         )}
-        <p className="academy-cinema-kicker">{copy.cinemaEyebrow}</p>
-        {caption ? (
-          <p className="academy-cinema-caption" data-academy-cinema-caption="">
-            {caption}
-          </p>
-        ) : null}
+        {activeTurn ? (
+          <div
+            className="academy-dialogue-current"
+            data-academy-dialogue-turn={activeTurn.id}
+            data-academy-dialogue-speaker={activeTurn.speaker}
+          >
+            {actHeading ? <p className="academy-dialogue-act">{actHeading}</p> : null}
+            <p className="academy-dialogue-speaker">{activeTurn.displayName}</p>
+            <p className="academy-dialogue-text">{activeTurn.text}</p>
+          </div>
+        ) : (
+          <p className="academy-dialogue-text academy-dialogue-text--empty">{lessonTitle}</p>
+        )}
       </div>
-      <div className="academy-cinema-controls" data-academy-cinema-controls="">
+      <div className="academy-dialogue-controls" data-academy-dialogue-controls="">
         <button
           type="button"
           className="academy-cinema-play"
@@ -322,7 +360,7 @@ export function LessonMediaPlayer({
           {playing ? <IconPause className="h-4 w-4" /> : <IconPlay className="h-4 w-4" />}
         </button>
         <label className="academy-cinema-timeline">
-          <span className="sr-only">{copy.cinemaTimeline}</span>
+          <span className="sr-only">{copy.audioTimeline}</span>
           <input
             type="range"
             min={0}
@@ -344,6 +382,7 @@ export function LessonMediaPlayer({
           className="academy-cinema-icon"
           aria-label={muted ? listenCopy.unmute : listenCopy.mute}
           onClick={() => setMuted((current) => !current)}
+          disabled={preparing}
         >
           {muted || volume === 0 ? <IconVolumeOff className="h-4 w-4" /> : <IconVolume className="h-4 w-4" />}
         </button>
@@ -355,6 +394,7 @@ export function LessonMediaPlayer({
             max={1}
             step={0.05}
             value={muted ? 0 : volume}
+            disabled={preparing}
             onChange={(event) => {
               const next = Number(event.target.value);
               setVolume(next);
@@ -362,58 +402,7 @@ export function LessonMediaPlayer({
             }}
           />
         </label>
-        <button
-          type="button"
-          className={`academy-cinema-icon${captionsOn ? " academy-cinema-icon--on" : ""}`}
-          aria-pressed={captionsOn}
-          aria-label={captionsOn ? copy.cinemaCaptionsOn : copy.cinemaCaptionsOff}
-          onClick={() => setCaptionsOn((current) => !current)}
-        >
-          <IconCaptions className="h-4 w-4" />
-        </button>
-        <button
-          type="button"
-          className="academy-cinema-icon"
-          aria-label={copy.cinemaFullscreen}
-          onClick={onFullscreen}
-        >
-          <IconMaximize className="h-4 w-4" />
-        </button>
       </div>
     </section>
   );
-}
-
-function drawCinemaFrame(
-  ctx: CanvasRenderingContext2D,
-  input: {
-    width: number;
-    height: number;
-    title: string;
-    poster: HTMLImageElement | null;
-  },
-) {
-  const { width, height } = input;
-  ctx.fillStyle = "#070b14";
-  ctx.fillRect(0, 0, width, height);
-  const glow = ctx.createRadialGradient(width * 0.5, height * 0.38, 40, width * 0.5, height * 0.4, width * 0.55);
-  glow.addColorStop(0, "rgba(26, 140, 255, 0.18)");
-  glow.addColorStop(1, "rgba(7, 11, 20, 0)");
-  ctx.fillStyle = glow;
-  ctx.fillRect(0, 0, width, height);
-
-  if (input.poster && input.poster.complete && input.poster.naturalWidth > 0) {
-    const pw = input.poster.naturalWidth;
-    const ph = input.poster.naturalHeight;
-    const scale = Math.min((width * 0.72) / pw, (height * 0.58) / ph);
-    const dw = pw * scale;
-    const dh = ph * scale;
-    ctx.drawImage(input.poster, (width - dw) / 2, height * 0.12, dw, dh);
-  }
-
-  ctx.textAlign = "left";
-  ctx.textBaseline = "alphabetic";
-  ctx.font = "600 28px ui-sans-serif, system-ui, sans-serif";
-  ctx.fillStyle = "rgba(255,255,255,0.88)";
-  ctx.fillText(input.title.slice(0, 72), 48, height - 64);
 }

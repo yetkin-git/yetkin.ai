@@ -1,36 +1,3 @@
-export const FREELANCER_SHOWCASE = [
-  {
-    title: "Emanet sözleşmesi arayüzü",
-    summary: "İlan açılır, teklif kabul edilir, tutar emanette durur. Ödeme iş bitince serbest kalır.",
-    price: "₺12.500,00",
-    badge: "Frontend",
-    meta: "Açık ilan · TRY emanet",
-    visaPathwayId: "uiux-tasarim-sistemleri" as const,
-    budgetMinor: 1_250_000,
-    createdAt: "2026-08-20T10:00:00.000Z",
-  },
-  {
-    title: "Veri şeması denetimi",
-    summary: "Tutarlar tam sayı tutulur; her kayıt güvenli yazılır. Açılışta vitrin kartı değil, gerçek iş doğar.",
-    price: "₺8.750,00",
-    badge: "Veri",
-    meta: "Açık ilan · 5 gün teslim",
-    visaPathwayId: "fullstack-web-api" as const,
-    budgetMinor: 875_000,
-    createdAt: "2026-08-18T10:00:00.000Z",
-  },
-  {
-    title: "Ödeme bildirimi izleme",
-    summary: "Ödeme kaydı tek kez işlenir. Sahte ödeme yüzeyi yoktur.",
-    price: "₺15.000,00",
-    badge: "Ödeme",
-    meta: "Açık ilan · mühürlü teslim",
-    visaPathwayId: "yz-muhendislik-agent" as const,
-    budgetMinor: 1_500_000,
-    createdAt: "2026-08-22T10:00:00.000Z",
-  },
-] as const;
-
 export const ACADEMY_SHOWCASE = [
   {
     title: "Mühürlü müfredat 101",

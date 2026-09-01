@@ -1,4 +1,4 @@
-import { listingVisaCourseSlugFromStampTitle } from "@/lib/career/listing-visa-scope";
+import { listingVisaCourseSlugFromStamp } from "@/lib/career/listing-visa-scope";
 import type { CareerVisaStampRecord } from "@/lib/career/types";
 import {
   passportAcademyVerifyHref,
@@ -11,12 +11,15 @@ import { ACADEMY_STAMP_SURFACE_PATH } from "@/lib/kernel/passport/types";
  * Uydurma slug veya id üretmez; çözülemezse null.
  */
 export function careerStampCourseHref(
-  stamp: Pick<CareerVisaStampRecord, "sourceKind" | "title">,
+  stamp: Pick<CareerVisaStampRecord, "sourceKind" | "title"> & { courseSlug?: string | null },
 ): string | null {
   if (stamp.sourceKind !== "ACADEMY_CERTIFICATE") {
     return null;
   }
-  const slug = listingVisaCourseSlugFromStampTitle(stamp.title);
+  const slug = listingVisaCourseSlugFromStamp({
+    title: stamp.title,
+    courseSlug: stamp.courseSlug,
+  });
   if (!slug) {
     return null;
   }

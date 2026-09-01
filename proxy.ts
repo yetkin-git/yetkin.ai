@@ -35,6 +35,13 @@ import {
 } from "./lib/kernel/security/http-rate-limit";
 import { decideWebOriginGuard } from "./lib/kernel/security/origin-guard";
 import { renderFrozenRoomGoneHtml } from "./lib/kernel/http/frozen-410-html";
+import {
+  isSiteMaintenanceActive,
+  readProcessSiteMaintenanceEnv,
+  resolveRequestHostname,
+  shouldInterceptForSiteMaintenance,
+  siteMaintenanceNextResponse,
+} from "./lib/kernel/http/site-maintenance";
 
 /**
  * Tek edge girişi (Next 16 `proxy.ts`). Kök `middleware.ts` yoktur.
@@ -44,11 +51,28 @@ import { renderFrozenRoomGoneHtml } from "./lib/kernel/http/frozen-410-html";
  * çerezli web yazmalarında Origin / Sec-Fetch-Site fail-closed,
  * `/api/v1` hop allowlist (`RAIL_V1_HOPS_META`) + sürüm kapısı + soyma rewrite
  * (kopya handler ağacı yok; sicil dışı v1 yol 404, kanonik handler'a düşmez).
+ * `SITE_MAINTENANCE_FREEZE=true|1` iken ürün 503; health, `/legal`, `/iletisim`,
+ * robots ve sitemap geçer. Canlı / PayTR: bayrak boş. `NODE_ENV=development` ve localhost yok sayılır.
  */
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const nonce = createEdgeNonce();
   const v1 = isApiV1Pathname(pathname);
+
+  if (
+    shouldInterceptForSiteMaintenance(
+      pathname,
+      isSiteMaintenanceActive(readProcessSiteMaintenanceEnv(), resolveRequestHostname(request)),
+    )
+  ) {
+    const maintenance = siteMaintenanceNextResponse(request, pathname);
+    if (v1) {
+      applyRailV1Cors(maintenance, request);
+    }
+    applyEdgeSecurityHeaders(maintenance, { nonce });
+    return maintenance;
+  }
+
   const canonicalPath = canonicalApiPathname(pathname);
   const refreshed = v1
     ? { applyTo(_response: NextResponse) {} }
@@ -174,5 +198,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/", "/((?!_next/static|_next/image|favicon.ico).*)"],
 };

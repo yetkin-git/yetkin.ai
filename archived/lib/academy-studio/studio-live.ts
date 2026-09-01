@@ -9,6 +9,7 @@ import {
 } from "@/lib/academy/instructors";
 import { ACADEMY_MODERATOR } from "@/lib/academy/instructors";
 import {
+  ACADEMY_LESSON_ACT_HEADINGS,
   classifyAcademyLessonChunk,
   parseAcademyLessonActText,
   spokenAcademyLessonSegment,
@@ -31,6 +32,10 @@ export const ACADEMY_LIVE_ASK_MAX_PER_SECTION = 1;
 export const ACADEMY_STUDIO_BEATS = ["repeat", "live-ask", "live-exhausted"] as const;
 
 export type AcademyStudioBeat = (typeof ACADEMY_STUDIO_BEATS)[number];
+
+function isFourActLessonHeading(act: string): act is AcademyLessonAct {
+  return Object.hasOwn(ACADEMY_LESSON_ACT_HEADINGS, act);
+}
 
 export type AcademyLiveAskSection = AcademyLessonAct;
 
@@ -135,7 +140,7 @@ export function academyLessonActAtBlockIndex(
       continue;
     }
     const parsed = parseAcademyLessonActText(block.text);
-    if (parsed.act) {
+    if (parsed.act && isFourActLessonHeading(parsed.act)) {
       act = parsed.act;
     }
   }
@@ -155,7 +160,7 @@ export function academySectionInstructorTail(
       continue;
     }
     const parsed = parseAcademyLessonActText(trimmed);
-    if (parsed.act) {
+    if (parsed.act && isFourActLessonHeading(parsed.act)) {
       current = parsed.act;
     }
     if (current !== section) {

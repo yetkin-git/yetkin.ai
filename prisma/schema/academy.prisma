@@ -171,21 +171,22 @@ model AcademyLessonCompletion {
   @@map("academy_lesson_completions")
 }
 
-/// Ders TTS kalıcı önbellek. Byte `lesson-audios` bucket'ta; satır yalnız locator.
-/// Gemini yalnız cache miss'te çağrılır. PostgREST yazma yok; Prisma yazar.
+/// Ders TTS kalıcı önbellek. Byte kamu WAV veya `lesson-audios`; satır locator + mediaReleaseSeal.
+/// Gemini yalnız bake miss'te çağrılır. PostgREST yazma yok; Prisma yazar.
 model AcademyAudioCache {
-  id         String   @id @default(cuid())
-  cacheKey   String   @unique @map("cache_key")
-  courseSlug String   @map("course_slug")
-  lessonKey  String   @map("lesson_key")
-  bucket     String
-  objectPath String   @unique @map("object_path")
-  publicUrl  String   @map("public_url")
-  mimeType   String   @map("mime_type")
-  byteSize   Int      @map("byte_size")
-  model      String
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  id               String   @id @default(cuid())
+  cacheKey         String   @unique @map("cache_key")
+  courseSlug       String   @map("course_slug")
+  lessonKey        String   @map("lesson_key")
+  bucket           String
+  objectPath       String   @unique @map("object_path")
+  publicUrl        String   @map("public_url")
+  mimeType         String   @map("mime_type")
+  byteSize         Int      @map("byte_size")
+  model            String
+  mediaReleaseSeal String?  @map("media_release_seal")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
 
   @@index([courseSlug, lessonKey])
   @@map("academy_audio_cache")

@@ -7,6 +7,7 @@ import {
   extractPcmFromWav,
   collectGeminiInlineAudioParts,
   mergeGeminiInlineAudioToWav,
+  tempoStretchPcmWav,
 } from "@/lib/kernel/ai/pcm-wav";
 
 describe("Gemini TTS PCM → WAV tamponu", () => {
@@ -44,6 +45,19 @@ describe("Gemini TTS PCM → WAV tamponu", () => {
     const fromParts = mergeGeminiInlineAudioToWav(parts);
     expect(fromParts.subarray(0, 4).toString("ascii")).toBe("RIFF");
     expect(extractPcmFromWav(fromParts).length).toBe(6);
+  });
+
+  it("tempoStretchPcmWav %95 süreyi uzatır; %100 aynı kalır", () => {
+    const pcm = Buffer.alloc(24_000 * 2);
+    const wav = wrapPcmAsWav(pcm, 24_000);
+    const same = tempoStretchPcmWav(wav, 1);
+    expect(extractPcmFromWav(same).length).toBe(pcm.length);
+    const slower = tempoStretchPcmWav(wav, 0.95);
+    const outSamples = extractPcmFromWav(slower).length / 2;
+    expect(outSamples).toBeGreaterThan(24_000);
+    const ratio = outSamples / (24_000 / 0.95);
+    expect(ratio).toBeGreaterThan(0.8);
+    expect(ratio).toBeLessThan(1.25);
   });
 
   it("base64 PCM çözer; mime'den sample rate okur", () => {

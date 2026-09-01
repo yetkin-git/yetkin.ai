@@ -10,6 +10,7 @@ import {
 } from "@/lib/academy/access";
 import { mergePublishedAcademyCatalog, publishedCoursesFromSeed } from "@/lib/academy/published-catalog";
 import { ACADEMY_COURSE_SEEDS } from "@/lib/academy/seed";
+import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 
 const ADMIN_ID = "11111111-1111-4111-8111-111111111111";
@@ -70,19 +71,16 @@ describe("akademi Super Admin erişimi ve katalog birleştirme", () => {
     expect(isZeroFeeAcademyGrantOpen("development")).toBe(true);
   });
 
-  it("dört büyüme SKU tohumunu basar; müfredat kulvar sırasına kilitlenir", () => {
+  it("mühürlü vitrin SKU tohumunu basar; şablon kartlar ve hayalet rail-temel girmez", () => {
     const seeded = publishedCoursesFromSeed();
-    expect(seeded).toHaveLength(4);
-    expect(seeded.map((row) => row.slug)).toEqual([
-      "python-temel",
-      "ai-temel",
-      "fullstack-temel",
-      "ux-temel",
-    ]);
+    expect(seeded).toHaveLength(20);
+    expect(seeded.map((row) => row.slug)).toEqual([...ACADEMY_GROWTH_SKU_SLUGS]);
     expect(seeded[0]?.trendScore).toBe(1);
     const sortOrders = ACADEMY_COURSE_SEEDS.map((row) => row.catalogSortOrder);
-    expect(new Set(sortOrders).size).toBe(4);
-    expect([...sortOrders].sort((a, b) => a - b)).toEqual([1, 2, 3, 4]);
+    expect(new Set(sortOrders).size).toBe(20);
+    expect([...sortOrders].sort((a, b) => a - b)).toEqual([
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+    ]);
     expect(
       [...ACADEMY_COURSE_SEEDS]
         .sort((a, b) => a.catalogSortOrder - b.catalogSortOrder)
@@ -100,9 +98,23 @@ describe("akademi Super Admin erişimi ve katalog birleştirme", () => {
       },
     ];
     const merged = mergePublishedAcademyCatalog(partial);
-    expect(merged).toHaveLength(4);
+    expect(merged).toHaveLength(20);
     expect(merged[0]?.title).toBe("Canlı başlık");
-    expect(merged.find((row) => row.slug === "python-temel")?.title).toBe("Canlı başlık");
+    expect(merged.find((row) => row.slug === "ai-agent-temel")?.title).toBe("Canlı başlık");
+    expect(merged[0]?.summary).toBe(seeded[0]!.summary);
+    expect(merged[0]?.summary).toBe(
+      "Büyük Dil Modeli ile otonom ajan farkı, yapılandırılmış çıktı, araç çağrısı, hafıza ve ReAct döngüsü; hava ve not ajanı.",
+    );
+    const staleCopy = mergePublishedAcademyCatalog([
+      {
+        ...seeded[0]!,
+        summary: "Temel'den İleri kapanışa 12 bölüm",
+        priceMinor: toAmountMinor(1),
+      },
+    ]);
+    expect(staleCopy[0]?.summary).toBe(seeded[0]!.summary);
+    expect(staleCopy[0]?.summary).not.toContain("12 bölüm");
+    expect(staleCopy[0]?.summary).not.toContain("Temel'den İleri");
     const ghost = {
       ...seeded[0]!,
       id: "ac_rail_temel",
@@ -110,13 +122,11 @@ describe("akademi Super Admin erişimi ve katalog birleştirme", () => {
       title: "Hayalet SKU",
     };
     const sealed = mergePublishedAcademyCatalog([...partial, ghost]);
-    expect(sealed).toHaveLength(4);
-    expect(sealed.map((row) => row.slug)).toEqual([
-      "python-temel",
-      "ai-temel",
-      "fullstack-temel",
-      "ux-temel",
-    ]);
+    expect(sealed).toHaveLength(20);
+    expect(sealed.map((row) => row.slug)).toEqual([...ACADEMY_GROWTH_SKU_SLUGS]);
     expect(sealed.some((row) => row.slug === "rail-temel")).toBe(false);
+    expect(sealed.some((row) => row.slug === "fullstack-temel")).toBe(true);
+    expect(sealed.some((row) => row.slug === "ai-temel")).toBe(true);
+    expect(sealed.some((row) => row.slug === "ux-temel")).toBe(true);
   });
 });

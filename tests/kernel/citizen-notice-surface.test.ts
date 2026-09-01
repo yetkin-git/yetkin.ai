@@ -1,6 +1,8 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { LEGAL_SUPPORT_LINE } from "@/lib/copy/legal-launch";
+import { NOTICE_SEN } from "@/lib/copy/sen-voice/notice";
 import { CITIZEN_NOTICE_KINDS } from "@/lib/kernel/notice";
 
 const ROOT = process.cwd();
@@ -20,9 +22,12 @@ describe("vatandaş bildirim asgarisi yüzeyi", () => {
     const mail = readSrc("lib/kernel/notice/mail.ts");
     expect(mail).toContain("NOTICE_SMTP_HOST");
     expect(mail).toContain("smtp_unconfigured");
+    expect(mail).toContain("NOTICE_SEN.footer");
+    expect(NOTICE_SEN.footer).toBe(LEGAL_SUPPORT_LINE);
     expect(mail).not.toContain("RESEND_API_KEY");
     expect(mail).not.toMatch(/from ["']resend["']/i);
     expect(mail).not.toContain("nodemailer");
+    expect(readSrc("lib/copy/sen-voice/notice.ts")).toContain("LEGAL_SUPPORT_LINE");
 
     const schema = readSrc("prisma/schema/kernel.prisma");
     expect(schema).not.toMatch(/model\s+CitizenNotice/);

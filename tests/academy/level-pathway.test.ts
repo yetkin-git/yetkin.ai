@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { sha256Hex } from "@/lib/kernel/crypto/sha256";
 import { ACADEMY_COURSE_SEEDS } from "@/lib/academy/seed";
 import { ACADEMY_COURSE_TITLES } from "@/lib/academy/course-titles";
+import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 import { publishedCoursesFromSeed } from "@/lib/academy/published-catalog";
 import {
   ACADEMY_LEVEL_PATHWAYS,
@@ -54,70 +55,65 @@ function dummyCertificate(courseId: string, revoked = false): AcademyCertificate
 }
 
 describe("03.37 seviye yol haritası", () => {
-  it("28 dikey vize kapısını taşır; canlı SKU yalnız Amiral Ders'tir", () => {
+  it("11 canlı dikey vize kapısını taşır; mühürlü SKU pathway halkasındadır", () => {
     const slugs = [...academyPathwayCatalogSlugs()];
-    expect(ACADEMY_LEVEL_PATHWAYS).toHaveLength(28);
-    expect(slugs.length).toBeGreaterThanOrEqual(28);
+    expect(ACADEMY_LEVEL_PATHWAYS).toHaveLength(11);
+    expect(slugs.length).toBeGreaterThanOrEqual(20);
     expect(new Set(slugs).size).toBe(slugs.length);
     expect(slugs).toContain("python-temel");
-    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual([
-      "python-temel",
-      "fullstack-temel",
-      "ai-temel",
-      "ux-temel",
-    ]);
+    expect(slugs).toContain("ai-temel");
+    expect(slugs).toContain("ux-temel");
+    expect(slugs).toContain("excel-masterclass");
+    expect(slugs).toContain("canva-masterclass");
+    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual([...ACADEMY_GROWTH_SKU_SLUGS]);
     expect(
       ACADEMY_COURSE_SEEDS.filter((row) => !new Set(slugs).has(row.slug)).map((row) => row.slug),
     ).toEqual([]);
     expect(ACADEMY_LEVEL_PATHWAYS.map((row) => row.id)).toEqual([
       "python-yazilim-veri",
+      "ai-agent-mimarligi",
       "yz-muhendislik-agent",
       "fullstack-web-api",
-      "veri-bilimi-ml-dl",
-      "bulut-devops-guvenlik",
-      "mobil-flutter-crossplatform",
       "siber-guvenlik-pentest",
-      "veritabani-buyuk-veri",
-      "yazilim-mimarisi-ddd",
-      "teknik-urun-yonetimi-agile",
       "uiux-tasarim-sistemleri",
-      "web3-blokzincir-solidity",
       "is-uretkenligi-veri",
       "dijital-pazarlama",
       "icerik-e-ticaret",
-      "kisisel-gelisim",
-      "bulut-mimarisi",
-      "veri-muhendisligi",
-      "kalite-muhendisligi",
-      "kurumsal-java",
-      "capraz-mobil",
-      "oyun-gelistirme",
-      "mlops-llmops",
-      "sistem-tasarimi-olcek",
       "pratik-beceriler-vatandas",
       "pratik-linkedin-vatandas",
-      "pratik-cad-vatandas",
-      "pratik-asistan-vatandas",
     ]);
     expect(ACADEMY_LEVEL_PATHWAYS[0]?.rings).toEqual({
       Temel: "python-temel",
+      Orta: "python-orta",
+      İleri: "python-ileri",
     });
     expect(ACADEMY_LEVEL_PATHWAYS[1]?.rings).toEqual({
+      Temel: "ai-agent-temel",
+      Orta: "ai-agent-orta",
+      İleri: "ai-agent-ileri",
+    });
+    expect(ACADEMY_LEVEL_PATHWAYS[2]?.rings).toEqual({
       Temel: "ai-temel",
-      Orta: "ai-orta",
-      İleri: "ai-ileri",
     });
     expect(ACADEMY_COURSE_TITLES["python-temel"]).toBe(
-      "Python ile Sıfırdan Programlama ve Problem Çözme",
+      "Python ile Programlama ve Problem Çözme",
     );
     const yz = academyPathwayBySlug("ai-temel");
     expect(yz?.id).toBe("yz-muhendislik-agent");
     expect(yz?.title).toContain("Yapay Zekâ");
-    expect(academyPathwayNextSlug("ai-temel")).toBe("ai-orta");
-    expect(academyPathwayNextSlug("ai-orta")).toBe("ai-ileri");
-    expect(academyPathwayNextSlug("ai-ileri")).toBeNull();
-    expect(academyPathwayNextSlug("python-temel")).toBeNull();
+    expect(academyPathwayNextSlug("ai-temel")).toBeNull();
+    expect(academyPathwayNextSlug("ai-agent-temel")).toBe("ai-agent-orta");
+    expect(academyPathwayNextSlug("ai-agent-orta")).toBe("ai-agent-ileri");
+    expect(academyPathwayNextSlug("ai-agent-ileri")).toBeNull();
+    expect(academyPathwayNextSlug("python-temel")).toBe("python-orta");
+    expect(academyPathwayNextSlug("python-orta")).toBe("python-ileri");
+    expect(academyPathwayNextSlug("python-ileri")).toBeNull();
     expect(academyPathwayNextSlug("fullstack-temel")).toBe("fullstack-orta");
+    expect(academyPathwayNextSlug("fullstack-orta")).toBe("fullstack-ileri");
+    expect(academyPathwayNextSlug("fullstack-ileri")).toBeNull();
+    expect(academyPathwayNextSlug("security-temel")).toBe("security-orta");
+    expect(academyPathwayNextSlug("security-orta")).toBe("security-ileri");
+    expect(academyPathwayNextSlug("security-ileri")).toBeNull();
     expect(academyPathwayNextSlug("mlo-temel")).toBeNull();
     expect(academyProgressionHref("ai-ileri", false)).toBe("/academy/ai-ileri");
     expect(academyProgressionHref("ai-ileri", true)).toBe("/academy/ai-ileri/oyna");
@@ -132,19 +128,19 @@ describe("03.37 seviye yol haritası", () => {
       masteryHashByPathway: academyPathwayMasteryHashMap(),
       highlightLevel: "Temel",
     });
-    expect(views).toHaveLength(28);
+    expect(views).toHaveLength(11);
     expect(views[0]?.id).toBe("python-yazilim-veri");
     const python = views.find((row) => row.id === "python-yazilim-veri");
     expect(python).toBeTruthy();
-    expect(python!.mastered).toBe(true);
-    expect(python!.rings).toHaveLength(1);
+    expect(python!.mastered).toBe(false);
+    expect(python!.rings).toHaveLength(3);
     expect(python!.rings[0]?.completed).toBe(true);
     expect(python!.rings[0]).not.toHaveProperty("proofOfWorkHash");
     expect(python!.rings[0]).not.toHaveProperty("trendScore");
     expect(python!.rings[0]?.highlighted).toBe(true);
     expect(python!.rings[0]?.title).toBe(ACADEMY_COURSE_TITLES["python-temel"]);
     const yz = views.find((row) => row.id === "yz-muhendislik-agent");
-    expect(yz!.rings).toHaveLength(3);
+    expect(yz!.rings).toHaveLength(1);
     expect(yz!.rings[0]?.slug).toBe("ai-temel");
     expect(yz!.rings[0]?.completed).toBe(false);
     expect(yz!.rings[0]?.title).toBe(ACADEMY_COURSE_TITLES["ai-temel"]);
@@ -163,7 +159,14 @@ describe("03.37 seviye yol haritası", () => {
     expect(JSON.stringify(publicView)).not.toContain("userId");
     expect(ACADEMY_PATHWAY_MASTERY_VERSION).toContain("pathway-mastery");
     expect(resolvePublicAcademyPathwayMastery("aa".repeat(32))).toBeNull();
-    expect(canonicalAcademyPathwayMasteryHash(academyPathwayBySlug("ai-temel")!, proofs, sha256Hex)).toBeNull();
+    const yzHash = canonicalAcademyPathwayMasteryHash(
+      academyPathwayBySlug("ai-temel")!,
+      proofs,
+      sha256Hex,
+    );
+    expect(yzHash).toMatch(/^[a-f0-9]{64}$/);
+    expect(yzHash).toBe(academyPathwayMasteryHashMap()["yz-muhendislik-agent"]);
+    expect(resolvePublicAcademyPathwayMastery(yzHash!)?.pathwayId).toBe("yz-muhendislik-agent");
   });
 
   it("adayın Amiral Ders belgesi varsa dikey mühür bağlanır; iptal düşer", async () => {
@@ -201,27 +204,21 @@ describe("03.37 seviye yol haritası", () => {
       completedSlugs: new Set(["ai-temel"]),
       nextOwned: false,
     });
-    expect(open.nextSlug).toBe("ai-orta");
-    expect(open.nextHref).toBe("/academy/ai-orta");
-    expect(open.mastered).toBe(false);
-    const owned = academyProgressionBridgeView({
-      currentSlug: "ai-orta",
-      completedSlugs: new Set(["ai-temel", "ai-orta"]),
-      nextOwned: true,
-    });
-    expect(owned.nextHref).toBe("/academy/ai-ileri/oyna");
+    expect(open.nextSlug).toBeNull();
+    expect(open.nextHref).toBeNull();
+    expect(open.mastered).toBe(true);
     const pythonDone = academyProgressionBridgeView({
       currentSlug: "python-temel",
       completedSlugs: new Set(["python-temel"]),
       nextOwned: false,
     });
-    expect(pythonDone.nextHref).toBeNull();
-    expect(pythonDone.mastered).toBe(true);
+    expect(pythonDone.nextHref).toBe("/academy/python-orta");
+    expect(pythonDone.mastered).toBe(false);
     const yz = academyPathwayBySlug("ai-temel")!;
     const all = new Set(academyPathwayRingSlugs(yz));
     expect(academyPathwayIsMastered(yz, all)).toBe(true);
     const done = academyProgressionBridgeView({
-      currentSlug: "ai-ileri",
+      currentSlug: "ai-temel",
       completedSlugs: all,
       nextOwned: false,
     });

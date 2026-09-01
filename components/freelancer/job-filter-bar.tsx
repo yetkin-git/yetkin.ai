@@ -11,7 +11,7 @@ import {
   type JobBoardFilters,
   type JobBoardSort,
 } from "@/lib/freelancer/job-board-filter";
-import type { AcademyPathwayId } from "@/lib/academy/level-pathway";
+import type { FreelancerNeedId } from "@/lib/kernel/catalog-ids";
 import type { JobBoardViewMode } from "@/lib/freelancer/job-board-view-pref";
 
 const SELECT_CLASS = cn(INPUT_SURFACE_CLASS, "mt-0 cursor-pointer");
@@ -33,7 +33,7 @@ export function JobFilterBar({
   budgetMaxMajor: string;
   view: JobBoardViewMode;
   onQueryChange: (value: string) => void;
-  onPathwayChange: (value: AcademyPathwayId | "all") => void;
+  onPathwayChange: (value: FreelancerNeedId | "all") => void;
   onBudgetMinChange: (value: string) => void;
   onBudgetMaxChange: (value: string) => void;
   onSortChange: (value: JobBoardSort) => void;
@@ -59,7 +59,7 @@ export function JobFilterBar({
 
       <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
         <div className="grid flex-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          <label className="block text-xs font-medium text-[var(--muted)]">
+          <label className="block text-sm font-medium text-[var(--foreground)]">
             {copy.pathwayLabel}
             <select
               className={cn(SELECT_CLASS, "mt-1")}
@@ -71,15 +71,15 @@ export function JobFilterBar({
               aria-label={copy.pathwayLabel}
             >
               <option value="all">{copy.pathwayAll}</option>
-              {JOB_BOARD_VISA_PATHWAY_OPTIONS.map((pathway) => (
-                <option key={pathway.id} value={pathway.id}>
-                  {pathway.title}
+              {JOB_BOARD_VISA_PATHWAY_OPTIONS.map((need) => (
+                <option key={need.id} value={need.id}>
+                  {need.title}
                 </option>
               ))}
             </select>
           </label>
 
-          <label className="block text-xs font-medium text-[var(--muted)]">
+          <label className="block text-sm font-medium text-[var(--foreground)]">
             {copy.budgetLabel}
             <div className="mt-1 grid grid-cols-2 gap-2">
               <input
@@ -107,7 +107,7 @@ export function JobFilterBar({
             </div>
           </label>
 
-          <label className="block text-xs font-medium text-[var(--muted)] sm:col-span-2 xl:col-span-1">
+          <label className="block text-sm font-medium text-[var(--foreground)] sm:col-span-2 xl:col-span-1">
             {copy.sortLabel}
             <select
               className={cn(SELECT_CLASS, "mt-1")}

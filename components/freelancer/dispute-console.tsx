@@ -191,7 +191,7 @@ export function DisputeConsole({
       {!dispute && contractStatus === "FUNDED" ? (
         <div className="grid gap-2">
           <textarea
-            className="min-h-24 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3 text-sm"
+            className="min-h-24 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3 text-base"
             placeholder={copy.claimPlaceholder}
             value={claim}
             onChange={(event) => setClaim(event.target.value)}
@@ -223,7 +223,7 @@ export function DisputeConsole({
       {dispute?.roundStatus === "ROUND_ONE_SUBMITTED" ? (
         <div className="grid gap-2">
           <textarea
-            className="min-h-24 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3 text-sm"
+            className="min-h-24 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3 text-base"
             placeholder={copy.rebutPlaceholder}
             value={rebuttal}
             onChange={(event) => setRebuttal(event.target.value)}
@@ -249,7 +249,7 @@ export function DisputeConsole({
               {copy.reportTitle}
             </p>
             <p className="mt-2 text-sm text-[var(--foreground)]">{dispute.rationale}</p>
-            <p className="mt-2 text-xs text-[var(--muted)]">{copy.reportHint}</p>
+            <p className="mt-2 text-xs text-slate-600">{copy.reportHint}</p>
             <p className="mt-3 text-sm font-medium text-[var(--foreground)]">
               {copy.employerRefund}:{" "}
               {dispute.employerRefundBps != null

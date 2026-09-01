@@ -2,14 +2,15 @@ import { formatMinor } from "@/lib/kernel/money/format";
 import type { FreelancerJobRecord } from "@/lib/freelancer/types";
 import type { CurrencyCode } from "@/lib/kernel/money/currency";
 import type { JobBoardViewMode } from "@/lib/freelancer/job-board-view-pref";
+import { jobListingFace, jobListingMetaLine } from "@/lib/freelancer/listing-face";
 import { ListingCard } from "@/components/showcase/listing-card";
 import { IconBriefcase } from "@/components/ui/icons";
 import { freelancerJobStatusLabel } from "@/lib/copy/status-labels";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 
 /**
- * Tezgâh ilan kartı — Quiet Luxury: üst rozet kalabalığı yok;
- * özet `line-clamp-2`; durum fiyat yanında minimal; fiyat + CTA altta hizalı.
+ * İş Pazarı ilan kartı — Quiet Luxury: üst rozet kalabalığı yok;
+ * özet `line-clamp-2`; format ve süre meta satırında; fiyat + CTA altta hizalı.
  */
 export function FreelancerJobCard({
   job,
@@ -19,12 +20,14 @@ export function FreelancerJobCard({
   layout?: JobBoardViewMode;
 }) {
   const copy = SEN_VOICE.freelancer;
+  const face = jobListingFace(job);
 
   return (
     <ListingCard
       layout={layout}
       title={job.title}
       summary={job.brief}
+      meta={jobListingMetaLine(face)}
       price={formatMinor(job.budgetMinor, job.currencyCode as CurrencyCode)}
       footerBadge={freelancerJobStatusLabel(job.status)}
       footerBadgeTone="emerald"

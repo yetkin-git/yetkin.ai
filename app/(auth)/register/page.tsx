@@ -21,7 +21,7 @@ export default async function RegisterPage({
         <BrandIcon className="mb-4 h-10 w-10" />
         <Badge tone="safir">{SEN_VOICE.auth.brand}</Badge>
         <h1 className="mt-3 text-3xl font-semibold tracking-tight">{copy.title}</h1>
-        <p className="mt-2 text-sm text-[var(--muted)]">{copy.description}</p>
+        <p className="mt-2 text-base text-slate-600">{copy.description}</p>
         <Card variant="glass" className="mt-6">
           <RegisterForm nextPath={nextPath} />
         </Card>

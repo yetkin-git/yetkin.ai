@@ -34,13 +34,27 @@ import {
 } from "@/lib/kernel/security/http-rate-limit";
 import { UNKNOWN_REQUEST_IP } from "@/lib/kernel/security/trusted-proxy";
 import { z } from "zod";
+import {
+  CHECKOUT_LEGAL_CONSENT_REQUIRED,
+  checkoutLegalConsentSchema,
+  isCheckoutLegalConsentIssue,
+} from "@/lib/kernel/legal/checkout-consent";
+import {
+  checkoutBillingInfoSchema,
+  checkoutBillingIssueMessage,
+  isCheckoutBillingIssue,
+  paytrUserFromBilling,
+} from "@/lib/kernel/identity/billing-info";
+import { persistCheckoutBilling } from "@/lib/kernel/identity/billing-info-write";
+import { createPrismaBillingInfoStore } from "@/lib/kernel/identity/prisma-billing-info-store";
 
 export const auth = "session" as const;
 
 const WALLET_TOP_UP_ROUTE = "/api/wallet/top-up";
 
-const bodySchema = z.object({
+const bodySchema = checkoutLegalConsentSchema.extend({
   amountMinor: z.number().int(),
+  billing: checkoutBillingInfoSchema,
 });
 
 function isUniqueViolation(error: unknown): boolean {
@@ -66,9 +80,15 @@ export async function POST(request: Request) {
     }
     const parsed = bodySchema.safeParse(await request.json());
     if (!parsed.success) {
-      return jsonFail("Geçersiz yükleme tutarı.", 400, requestId, request);
+      const message = isCheckoutLegalConsentIssue(parsed.error)
+        ? CHECKOUT_LEGAL_CONSENT_REQUIRED
+        : isCheckoutBillingIssue(parsed.error)
+          ? checkoutBillingIssueMessage(parsed.error)
+          : "Geçersiz yükleme tutarı.";
+      return jsonFail(message, 400, requestId, request);
     }
     const amountMinor = assertWalletTopUpAmountMinor(parsed.data.amountMinor);
+    await persistCheckoutBilling(createPrismaBillingInfoStore(), user.id, parsed.data.billing);
 
     if (!isPaymentsPortConfigured() && !isPaytrMockCheckoutAllowed()) {
       logEvent({
@@ -88,7 +108,10 @@ export async function POST(request: Request) {
         userId: user.id,
         route: WALLET_TOP_UP_ROUTE,
         key: idempotency.key,
-        requestHash: hashIdempotencyPayload({ amountMinor }),
+        requestHash: hashIdempotencyPayload({
+          amountMinor,
+          consentVersion: parsed.data.consentVersion,
+        }),
         requestId,
         request,
       },
@@ -172,6 +195,7 @@ export async function POST(request: Request) {
         }
 
         let checkout: Awaited<ReturnType<typeof paytrPaymentProvider.beginCheckout>>;
+        const paytrUser = paytrUserFromBilling(parsed.data.billing);
         try {
           checkout = await paytrPaymentProvider.beginCheckout({
             merchantOid,
@@ -182,6 +206,9 @@ export async function POST(request: Request) {
             merchantOkUrl: `${origin}/cuzdan`,
             merchantFailUrl: `${origin}/cuzdan`,
             userBasket: [{ name: "Cuzdan yukleme", amountMinor, quantity: 1 }],
+            userName: paytrUser.userName,
+            userAddress: paytrUser.userAddress,
+            userPhone: paytrUser.userPhone,
           });
         } catch (error) {
           await failPaymentOrder(createPrismaPaymentOrderStore(), merchantOid);
@@ -201,7 +228,10 @@ export async function POST(request: Request) {
           });
           // Get-token / beginCheckout 503: aynı istekte PENDING kapanır. CREDIT yok.
           await failPaymentOrder(createPrismaPaymentOrderStore(), merchantOid);
-          return { status: 503, body: { error: checkout.reason === "missing_credentials" ? PAYMENTS_UNCONFIGURED_ERROR : checkout.message } };
+          const status = checkout.reason === "invalid_user" || checkout.reason === "invalid_amount" ? 400 : 503;
+          const error =
+            checkout.reason === "missing_credentials" ? PAYMENTS_UNCONFIGURED_ERROR : checkout.message;
+          return { status, body: { error } };
         }
         if (shouldFailCloseMockTopUp(checkout.mockCheckout)) {
           logEvent({
@@ -232,6 +262,7 @@ export async function POST(request: Request) {
           merchantOid,
           amountMinor,
           route: WALLET_TOP_UP_ROUTE,
+          consentVersion: parsed.data.consentVersion,
         });
         return {
           status: 200,

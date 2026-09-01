@@ -80,6 +80,9 @@ INSERT INTO public.freelancer_jobs (
   brief,
   budget_minor,
   currency_code,
+  visa_pathway_id,
+  visibility,
+  due_days,
   status,
   created_at,
   updated_at
@@ -88,10 +91,13 @@ VALUES
   (
     'fj_rail_icon_set',
     '00000000-0000-4000-8000-000000000001',
-    'Yapay Zekâ Destekli İkon ve İllüstrasyon Seti Teslimi',
-    $brief_fj_rail_icon_set$Alıcı: yetkin.ai (platform kendi ihtiyacı; organik talep değildir). Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi (akademi sertifikası) ister. Kapsam: 16 adet tek renk SVG ikon (12 oda + 4 sığınak). 24px ızgara, 2px stroke, Quiet Luxury. Lucide, geist ve hazır set yok. Her ikon yerel SVG; dış CDN yok. Yaşayan illustratör tarzı taklidi yok. Teslim (DELIVERY): SVG kaynak + 256px PNG önizleme, ad kuralı is-anahtari.svg, her dosya SHA-256 listesi, kilitli prompt paketi (negatif kısıt, ızgara, palet). İki revizyon turu. Tur 3 yeni emanet farkı ister. Bütçe emanete teklif kabulünde kilitlenir. Sahte settlement yok.$brief_fj_rail_icon_set$,
+    'SVG İkon Seti Tasarımı',
+    $brief_fj_rail_icon_set$16 adet özel ikon hazırlanması. Teslim formatı: SVG kaynak dosyaları ve 256px PNG önizlemeler. Süre: 7 gün. 3 revizyon hakkı. Teklif için Yapay Zekâ Mühendisliği sertifikası gerekir. İşveren: yetkin.ai.$brief_fj_rail_icon_set$,
     850000,
     'TRY',
+    'ai-agent-entegrasyon',
+    'PUBLIC',
+    7,
     'OPEN',
     TIMESTAMP '2026-08-17 12:05:00',
     TIMESTAMP '2026-08-17 12:05:00'
@@ -99,10 +105,13 @@ VALUES
   (
     'fj_rail_ql_banners',
     '00000000-0000-4000-8000-000000000001',
-    'yetkin.ai Quiet Luxury Tanıtım Görselleri ve Banner Üretimi',
-    $brief_fj_rail_ql_banners$Alıcı: yetkin.ai. Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi ister. Bu iş platformun kendi tanıtım yüzeyi içindir; organik talep diye sunulmaz. Kapsam: üç ölçü — 1440x480 web üst şerit, 1080x1080 kare, 1200x630 paylaşım kartı. Metin: Öğrendiğini mühürle. Mührün kapıyı açsın. İşin emanette dursun. Stok insan fotoğrafı yok. Lucide ikon, geist font, dekoratif ilerleme çubuğu ve cam efekti düşer. Sistem tipi, yerel SVG, sükûnet. Teslim: PNG + kaynak prompt paketi, her dosya SHA-256, palet hex listesi. İki revizyon. Ölçülemeyen daha pop isteği kısıta çevrilmeden üretilmez. Bütçe kabulde EscrowHold ile kilitlenir.$brief_fj_rail_ql_banners$,
+    'Web ve Sosyal Medya Banner Tasarımı',
+    $brief_fj_rail_ql_banners$Üç ölçü tanıtım görseli: 1440×480 web şeridi, 1080×1080 kare ve 1200×630 paylaşım kartı. Teslim formatı: PNG. Süre: 7 gün. 3 revizyon hakkı. Teklif için Yapay Zekâ Mühendisliği sertifikası gerekir. İşveren: yetkin.ai.$brief_fj_rail_ql_banners$,
     750000,
     'TRY',
+    'ai-agent-entegrasyon',
+    'PUBLIC',
+    7,
     'OPEN',
     TIMESTAMP '2026-08-17 12:04:00',
     TIMESTAMP '2026-08-17 12:04:00'
@@ -110,10 +119,13 @@ VALUES
   (
     'fj_rail_academy_copy',
     '00000000-0000-4000-8000-000000000001',
-    'Akademi Müfredat Özet Metinlerinin Düzenlenmesi',
-    $brief_fj_rail_academy_copy$Alıcı: yetkin.ai. Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi ister. İş, yz-icerik-gorsel-uretim kursunun beş ders özetini vatandaş diline çekmektir; sınav şıklarını sızdırmaz. Kapsam: Brief Okuma, Telif/Kullanım Hakları, Prompt Disiplini, Revizyon Yönetimi, Teslim Şartnamesi. Her özet 120-180 sözcük. SEN aksı: sen, siz değil. cüzdanınız, hesabınız, hoş geldiniz yasak. Satın al belge basmaz; baraj 70 ve SHA-256 mühür ders metninde doğru kalır. Teslim: tek Markdown, ders sırası tohumla aynı, SHA-256. İki revizyon. Yeni ders icat edilmez (CMS yok). Bütçe kabulde emanete kilitlenir.$brief_fj_rail_academy_copy$,
+    'Akademi Ders Özetlerinin Düzenlenmesi',
+    $brief_fj_rail_academy_copy$Beş ders özetinin sade Türkçeye çekilmesi (her özet 120–180 sözcük). Teslim formatı: Markdown (.md). Süre: 5 gün. 3 revizyon hakkı. Teklif için Yapay Zekâ Mühendisliği sertifikası gerekir. İşveren: yetkin.ai.$brief_fj_rail_academy_copy$,
     350000,
     'TRY',
+    'ai-agent-entegrasyon',
+    'PUBLIC',
+    5,
     'OPEN',
     TIMESTAMP '2026-08-17 12:03:00',
     TIMESTAMP '2026-08-17 12:03:00'
@@ -121,10 +133,13 @@ VALUES
   (
     'fj_rail_devlabs_prompts',
     '00000000-0000-4000-8000-000000000001',
-    'DevLabs Örnek Prompt Şablonları Dokümantasyonu',
-    $brief_fj_rail_devlabs_prompts$Alıcı: yetkin.ai. Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi ister. DevLabs linter'dır, runner değildir; exec yoktur. Şablon komutu tarif eder, sunucuda çalıştırmaz. Kapsam: 8 kilitli prompt paketi (hedef, negatif kısıt, kabul ölçütü, yasak girdi). Konular: ikon ızgarası, Quiet Luxury banner, SEN metin, hash listesi, brief çelişkisi, telif fail-closed, revizyon deltası, teslim checklist. Gizli anahtar, vatandaş kimliği ve bakiye prompta girmez. Teslim: tek Markdown, her şablon ayrı başlık, dosya SHA-256. İki revizyon. Exec örneği, çalıştır butonu ve sahte runner düşer. Bütçe kabulde emanete kilitlenir.$brief_fj_rail_devlabs_prompts$,
+    'Prompt Şablonları Dokümantasyonu',
+    $brief_fj_rail_devlabs_prompts$8 adet kullanıma hazır prompt şablonu. Teslim formatı: Markdown (.md). Süre: 5 gün. 3 revizyon hakkı. Teklif için Yapay Zekâ Mühendisliği sertifikası gerekir. İşveren: yetkin.ai.$brief_fj_rail_devlabs_prompts$,
     400000,
     'TRY',
+    'ai-agent-entegrasyon',
+    'PUBLIC',
+    5,
     'OPEN',
     TIMESTAMP '2026-08-17 12:02:00',
     TIMESTAMP '2026-08-17 12:02:00'
@@ -132,10 +147,13 @@ VALUES
   (
     'fj_rail_seal_social',
     '00000000-0000-4000-8000-000000000001',
-    'Mühürlü Kanıt Sosyal Medya Şablon Tasarımları',
-    $brief_fj_rail_seal_social$Alıcı: yetkin.ai. Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi ister. YetkinX sosyal ağ değildir; beğeni, takipçi, boost yok. Şablon, /academy/dogrula/[hash] kamu doğrulamasını taşır. userId sızmaz. Hash 64 hex görünür. Kapsam: 1080x1080 ve 1200x630, iki tema (açık/koyu). Cümle: Kanıt burada. yetkin.ai kendini tanıtmaz. Quiet Luxury: hazır ikon seti, geist, ilerleme çubuğu yok. Vanity metrik (görüntülenme, beğeni) yüzeye girmez. Teslim: PNG + katman notu + prompt paketi + her dosya SHA-256. İki revizyon. Filigran finalde yok. Bütçe kabulde emanete kilitlenir. Bu ilan yetkin.ai kendi kanıt yüzeyi içindir.$brief_fj_rail_seal_social$,
+    'Sosyal Medya Paylaşım Şablonları',
+    $brief_fj_rail_seal_social$Sertifika paylaşımı için 1080×1080 ve 1200×630 şablonlar; açık ve koyu tema. Teslim formatı: PNG. Süre: 7 gün. 3 revizyon hakkı. Teklif için Yapay Zekâ Mühendisliği sertifikası gerekir. İşveren: yetkin.ai.$brief_fj_rail_seal_social$,
     600000,
     'TRY',
+    'ai-agent-entegrasyon',
+    'PUBLIC',
+    7,
     'OPEN',
     TIMESTAMP '2026-08-17 12:01:00',
     TIMESTAMP '2026-08-17 12:01:00'
@@ -147,6 +165,9 @@ SET
   brief = EXCLUDED.brief,
   budget_minor = EXCLUDED.budget_minor,
   currency_code = EXCLUDED.currency_code,
+  visa_pathway_id = EXCLUDED.visa_pathway_id,
+  visibility = EXCLUDED.visibility,
+  due_days = EXCLUDED.due_days,
   status = 'OPEN',
   updated_at = now();
 

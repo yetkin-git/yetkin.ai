@@ -1,11 +1,12 @@
 /**
  * Dersi Dinle SSOT — ekran bölümleri ile konuşulan metin aynı diziden okunur.
- * Dört bölüm: Giriş, Kod Örneği, Çalışma Mantığı, Uygulama Taskı.
+ * Dört bölüm (büyüme SKU) veya beş perde (Amiral Ders).
  * Koray/Maya replik ayrımı yok; ilerleme bölüm indeksidir.
  */
 
 import {
   spokenAcademyLessonSegment,
+  type AcademyLessonHeadingAct,
 } from "@/lib/academy/lesson-body";
 import {
   academyListenPlaybackRateForSpeaker,
@@ -78,13 +79,11 @@ function pushCard(
   cards.push({ ...card, durationWeight });
 }
 
-function kindForSectionAct(
-  act: "giris" | "syntax" | "mantik" | "uygulama",
-): AcademyListenScriptCardKind {
-  if (act === "syntax") {
+function kindForSectionAct(act: AcademyLessonHeadingAct): AcademyListenScriptCardKind {
+  if (act === "syntax" || act === "development") {
     return "code";
   }
-  if (act === "uygulama") {
+  if (act === "uygulama" || act === "assessment") {
     return "exercise";
   }
   return "instructor";

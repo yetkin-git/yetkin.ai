@@ -4,7 +4,7 @@ import type {
   CareerPulse,
 } from "@/lib/career/types";
 import {
-  projectLivePassportStamps,
+  bindLivePassportStamps,
   type LivePassportStamp,
 } from "@/lib/kernel/passport/live";
 
@@ -23,11 +23,12 @@ export async function projectLiveCareerBoard(
   ports: CareerEnginePorts,
   userId: string,
 ): Promise<LiveCareerBoard> {
-  const [stamps, portfolio] = await Promise.all([
+  const [stamps, portfolio, sealed] = await Promise.all([
     ports.career.listStampsForUser(userId),
     ports.career.listPortfolioForUser(userId),
+    ports.proofs.listSealedProofs(userId),
   ]);
-  const live = await projectLivePassportStamps(stamps, ports.proofs, userId);
+  const live = bindLivePassportStamps(stamps, sealed, userId);
   const liveIds = new Set(live.map((stamp) => stamp.id));
   return {
     stamps: live,

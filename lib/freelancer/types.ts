@@ -1,4 +1,4 @@
-import type { AcademyPathwayId } from "@/lib/kernel/catalog-ids";
+import type { ListingVisaLockId } from "@/lib/kernel/catalog-ids";
 import type { AmountMinor } from "@/lib/kernel/money/amount-minor";
 import type { CurrencyCode } from "@/lib/kernel/money/currency";
 import type { InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
@@ -32,7 +32,7 @@ export type FreelancerJobRecord = {
   brief: string;
   budgetMinor: AmountMinor;
   currencyCode: CurrencyCode;
-  visaPathwayId: AcademyPathwayId;
+  visaPathwayId: ListingVisaLockId;
   /** PUBLIC = açık tahta; DIRECT = yalnız davetli ustanın tezgâhı. */
   visibility: FreelancerJobVisibility;
   inviteeId: string | null;
@@ -219,6 +219,11 @@ export type FreelancerStore = {
       Pick<FreelancerContractRecord, "status" | "releasedAt" | "refundedAt" | "updatedAt">
     >,
   ): Promise<FreelancerContractRecord | null>;
+  /**
+   * Oturum userId `public.users` satırında mı. Yoksa ilan FK (P2003) 500 basmaz.
+   * Bellek store her zaman true.
+   */
+  hasUser?(userId: string): Promise<boolean>;
 };
 
 export type FreelancerLlmInvoker = (

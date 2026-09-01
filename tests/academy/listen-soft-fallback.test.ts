@@ -54,7 +54,7 @@ function world() {
   const course = memoryCourse({
     slug: "python-temel",
     catalogUnitKey: "course:python-temel",
-    title: "Python ile Sıfırdan Programlama ve Problem Çözme",
+    title: "Python ile Programlama ve Problem Çözme",
   });
   const ledger = createMemoryLedgerStore([
     { userId: BUYER, amountMinor: 100_000 },

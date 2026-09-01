@@ -75,7 +75,7 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
     expect(ARENA_SEN.description).toContain("kazananı sen dağıt");
     expect(KURUMSAL_SEN.description).toContain("Şirket profilini kur");
     expect(HIBE_SEN.openGuidesTitle).toBe("Açık rehberlerin");
-    expect(SEN_VOICE.career.title).toBe("Vize ve Geçiş Defteri");
+    expect(SEN_VOICE.career.title).toBe("Kariyer");
 
     for (const file of SEN_SURFACES) {
       const source = readSrc(file);

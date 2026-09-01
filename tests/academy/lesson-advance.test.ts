@@ -4,6 +4,7 @@ import {
   nextAcademyPlayerLesson,
   prevAcademyPlayerLesson,
   shouldAutoAdvanceAfterListenEnded,
+  shouldSealProgressAfterDialogueEnded,
   shouldStartListenAfterChallengeSkip,
 } from "@/lib/academy/lesson-advance";
 
@@ -39,5 +40,14 @@ describe("akademi ders geçiş mimarisi", () => {
     expect(
       shouldAutoAdvanceAfterListenEnded({ autoAdvanceEnabled: true, fallback: false }),
     ).toBe(true);
+  });
+
+  it("gerçek diyalog bitince ilerleme mühürlenir; sahte 8 sn mühür basmaz", () => {
+    expect(shouldSealProgressAfterDialogueEnded({ playbackStarted: true, reachedEnd: true })).toBe(
+      true,
+    );
+    expect(shouldSealProgressAfterDialogueEnded({ playbackStarted: false, reachedEnd: true })).toBe(
+      false,
+    );
   });
 });

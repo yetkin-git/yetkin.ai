@@ -6,27 +6,24 @@ import {
   loadPublishedCourses,
 } from "@/lib/academy/load-catalog";
 import { isAcademyContinueResumeStrip } from "@/lib/academy/continue-board";
-import {
-  EMPTY_ACADEMY_CATALOG_LEARNER_BOARD,
-  overlayStudioGrowthLearnerBoard,
-} from "@/lib/academy/catalog-learner";
+import { EMPTY_ACADEMY_CATALOG_LEARNER_BOARD } from "@/lib/academy/catalog-learner";
 import { curriculumLessonCountForSlug } from "@/lib/academy/curricula/lesson-index";
-import { ACADEMY_GROWTH_SKU_SLUGS, filterAcademyPilotCatalog } from "@/lib/academy/pilot-sku";
+import { filterAcademyPilotCatalog } from "@/lib/academy/pilot-sku";
 import { RoomFrame } from "@/components/ui/page-header";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { getSession } from "@/lib/kernel/auth/session";
-import { hasUnlimitedAcademyAccess } from "@/lib/academy/access";
 
 /**
- * Büyüme vitrini: dört popüler yetkinlik yolu. Süzgeç / pazar ızgarası yok.
- * Pazarlama bandı yok — oda emri resume komut satırıdır.
+ * Büyüme vitrini: AI Agent Mimarlığı amiral gemisi (üstte), ardından Python, Full-Stack ve Siber Güvenlik.
+ * Seri rafları sabit önceliğe kilitlidir; Temel → Orta → İleri üçlüsünü yan yana basar.
+ * Lab Super Admin overlay vitrinde owned basmaz — nakit olmayan bağış fiyatı gizlemez.
  */
 export default async function AcademyPage() {
   const copy = SEN_VOICE.academy.catalog;
   const sessionPromise = getSession();
   const publishedPromise = loadPublishedCourses();
   const session = await sessionPromise;
-  const [published, continueBoard, learnerRaw] = await Promise.all([
+  const [published, continueBoard, learnerBoard] = await Promise.all([
     publishedPromise,
     session ? loadAcademyContinueBoard(session.id) : Promise.resolve(null),
     session
@@ -34,12 +31,6 @@ export default async function AcademyPage() {
       : Promise.resolve(EMPTY_ACADEMY_CATALOG_LEARNER_BOARD),
   ]);
   const courses = filterAcademyPilotCatalog(published);
-  const learnerBoard = session
-    ? overlayStudioGrowthLearnerBoard(learnerRaw, {
-        studio: hasUnlimitedAcademyAccess({ userId: session.id, email: session.email }),
-        growthSlugs: ACADEMY_GROWTH_SKU_SLUGS,
-      })
-    : EMPTY_ACADEMY_CATALOG_LEARNER_BOARD;
   const lessonCounts = Object.fromEntries(
     courses.map((course) => [course.slug, curriculumLessonCountForSlug(course.slug)] as const),
   );

@@ -11,6 +11,19 @@ export class AuthRequiredError extends Error {
   }
 }
 
+/** Auth UUID var, `public.users` satırı yok — handle_new_user / seed kaçmış. */
+export const SESSION_USER_NOT_IN_DATABASE =
+  "Oturumdaki hesap henüz veritabanında yok. Çıkış yapıp yeniden giriş yap.";
+
+export function sessionUserNotInDatabaseMessage(
+  env: NodeJS.ProcessEnv = process.env,
+): string {
+  if (env.NODE_ENV === "production") {
+    return SESSION_USER_NOT_IN_DATABASE;
+  }
+  return `${SESSION_USER_NOT_IN_DATABASE} Geliştirme: public.users satırı yok; handle_new_user tetikleyicisini veya seed'i kontrol et.`;
+}
+
 function readBearerToken(request?: Request): string | null {
   if (!request) {
     return null;

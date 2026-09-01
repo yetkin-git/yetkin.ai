@@ -2,12 +2,13 @@ import {
   FREELANCER_JOB_MAX_MINOR,
   FREELANCER_JOB_MIN_MINOR,
 } from "@/lib/freelancer/schemas";
-import type { AcademyPathwayId } from "@/lib/kernel/catalog-ids";
+import type { ListingVisaLockId } from "@/lib/kernel/catalog-ids";
 import { FREELANCER_SEED_VISA_PATHWAY } from "@/lib/freelancer/job-visa-lock";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { HOLD_BPS_DEFAULT, HOLD_BPS_MAX, HOLD_BPS_MIN } from "@/lib/kernel/pricing/hold-bps";
+import { FREELANCER_JOB_LISTING_EXTRAS } from "@/lib/freelancer/job-listing-extras";
 
 /**
  * Ops freelancer vitrin tohum sicili (ADIM 11).
@@ -31,7 +32,11 @@ export type FreelancerJobSeed = {
   title: string;
   brief: string;
   budgetMinor: number;
-  visaPathwayId: AcademyPathwayId;
+  visaPathwayId: ListingVisaLockId;
+  formats: readonly string[];
+  durationDays: number;
+  requirements: readonly string[];
+  revisionAllowance: number;
 };
 
 export const FREELANCER_SEED_MODULE_KEY = "freelancer" as const;
@@ -69,43 +74,43 @@ export const FREELANCER_CATALOG_SEEDS: readonly FreelancerCatalogSeed[] = [
 export const FREELANCER_JOB_SEEDS: readonly FreelancerJobSeed[] = [
   {
     id: "fj_rail_icon_set",
-    title: "Yapay Zekâ Destekli İkon ve İllüstrasyon Seti Teslimi",
-    brief:
-      `Alıcı: ${YETKIN_BRAND} (platform kendi ihtiyacı; organik talep değildir). Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi (akademi sertifikası) ister. Kapsam: 16 adet tek renk SVG ikon (12 oda + 4 sığınak). 24px ızgara, 2px stroke, Quiet Luxury. Lucide, geist ve hazır set yok. Her ikon yerel SVG; dış CDN yok. Yaşayan illustratör tarzı taklidi yok. Teslim (DELIVERY): SVG kaynak + 256px PNG önizleme, ad kuralı is-anahtari.svg, her dosya SHA-256 listesi, kilitli prompt paketi (negatif kısıt, ızgara, palet). İki revizyon turu. Tur 3 yeni emanet farkı ister. Bütçe emanete teklif kabulünde kilitlenir. Sahte settlement yok.`,
+    title: "SVG İkon Seti Tasarımı",
+    brief: `16 adet özel ikon hazırlanması. Teslim formatı: SVG kaynak dosyaları ve 256px PNG önizlemeler. Süre: 7 gün. 3 revizyon hakkı. Teklif için Yapay Zekâ Mühendisliği sertifikası gerekir. İşveren: ${YETKIN_BRAND}.`,
     budgetMinor: 850_000,
     visaPathwayId: FREELANCER_SEED_VISA_PATHWAY,
+    ...FREELANCER_JOB_LISTING_EXTRAS.fj_rail_icon_set,
   },
   {
     id: "fj_rail_ql_banners",
-    title: `${YETKIN_BRAND} Quiet Luxury Tanıtım Görselleri ve Banner Üretimi`,
-    brief:
-      `Alıcı: ${YETKIN_BRAND}. Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi ister. Bu iş platformun kendi tanıtım yüzeyi içindir; organik talep diye sunulmaz. Kapsam: üç ölçü — 1440x480 web üst şerit, 1080x1080 kare, 1200x630 paylaşım kartı. Metin: Öğrendiğini mühürle. Mührün kapıyı açsın. İşin emanette dursun. Stok insan fotoğrafı yok. Lucide ikon, geist font, dekoratif ilerleme çubuğu ve cam efekti düşer. Sistem tipi, yerel SVG, sükûnet. Teslim: PNG + kaynak prompt paketi, her dosya SHA-256, palet hex listesi. İki revizyon. Ölçülemeyen daha pop isteği kısıta çevrilmeden üretilmez. Bütçe kabulde EscrowHold ile kilitlenir.`,
+    title: "Web ve Sosyal Medya Banner Tasarımı",
+    brief: `Üç ölçü tanıtım görseli: 1440×480 web şeridi, 1080×1080 kare ve 1200×630 paylaşım kartı. Teslim formatı: PNG. Süre: 7 gün. 3 revizyon hakkı. Teklif için Yapay Zekâ Mühendisliği sertifikası gerekir. İşveren: ${YETKIN_BRAND}.`,
     budgetMinor: 750_000,
     visaPathwayId: FREELANCER_SEED_VISA_PATHWAY,
+    ...FREELANCER_JOB_LISTING_EXTRAS.fj_rail_ql_banners,
   },
   {
     id: "fj_rail_academy_copy",
-    title: "Akademi Müfredat Özet Metinlerinin Düzenlenmesi",
-    brief:
-      `Alıcı: ${YETKIN_BRAND}. Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi ister. İş, yz-icerik-gorsel-uretim kursunun beş ders özetini vatandaş diline çekmektir; sınav şıklarını sızdırmaz. Kapsam: Brief Okuma, Telif/Kullanım Hakları, Prompt Disiplini, Revizyon Yönetimi, Teslim Şartnamesi. Her özet 120-180 sözcük. SEN aksı: sen, siz değil. cüzdanınız, hesabınız, hoş geldiniz yasak. Satın al belge basmaz; baraj 70 ve SHA-256 mühür ders metninde doğru kalır. Teslim: tek Markdown, ders sırası tohumla aynı, SHA-256. İki revizyon. Yeni ders icat edilmez (CMS yok). Bütçe kabulde emanete kilitlenir.`,
+    title: "Akademi Ders Özetlerinin Düzenlenmesi",
+    brief: `Beş ders özetinin sade Türkçeye çekilmesi (her özet 120–180 sözcük). Teslim formatı: Markdown (.md). Süre: 5 gün. 3 revizyon hakkı. Teklif için Yapay Zekâ Mühendisliği sertifikası gerekir. İşveren: ${YETKIN_BRAND}.`,
     budgetMinor: 350_000,
     visaPathwayId: FREELANCER_SEED_VISA_PATHWAY,
+    ...FREELANCER_JOB_LISTING_EXTRAS.fj_rail_academy_copy,
   },
   {
     id: "fj_rail_devlabs_prompts",
-    title: "DevLabs Örnek Prompt Şablonları Dokümantasyonu",
-    brief:
-      `Alıcı: ${YETKIN_BRAND}. Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi ister. DevLabs linter'dır, runner değildir; exec yoktur. Şablon komutu tarif eder, sunucuda çalıştırmaz. Kapsam: 8 kilitli prompt paketi (hedef, negatif kısıt, kabul ölçütü, yasak girdi). Konular: ikon ızgarası, Quiet Luxury banner, SEN metin, hash listesi, brief çelişkisi, telif fail-closed, revizyon deltası, teslim checklist. Gizli anahtar, vatandaş kimliği ve bakiye prompta girmez. Teslim: tek Markdown, her şablon ayrı başlık, dosya SHA-256. İki revizyon. Exec örneği, çalıştır butonu ve sahte runner düşer. Bütçe kabulde emanete kilitlenir.`,
+    title: "Prompt Şablonları Dokümantasyonu",
+    brief: `8 adet kullanıma hazır prompt şablonu. Teslim formatı: Markdown (.md). Süre: 5 gün. 3 revizyon hakkı. Teklif için Yapay Zekâ Mühendisliği sertifikası gerekir. İşveren: ${YETKIN_BRAND}.`,
     budgetMinor: 400_000,
     visaPathwayId: FREELANCER_SEED_VISA_PATHWAY,
+    ...FREELANCER_JOB_LISTING_EXTRAS.fj_rail_devlabs_prompts,
   },
   {
     id: "fj_rail_seal_social",
-    title: "Mühürlü Kanıt Sosyal Medya Şablon Tasarımları",
-    brief:
-      `Alıcı: ${YETKIN_BRAND}. Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi ister. YetkinX sosyal ağ değildir; beğeni, takipçi, boost yok. Şablon, /academy/dogrula/[hash] kamu doğrulamasını taşır. userId sızmaz. Hash 64 hex görünür. Kapsam: 1080x1080 ve 1200x630, iki tema (açık/koyu). Cümle: Kanıt burada. ${YETKIN_BRAND} kendini tanıtmaz. Quiet Luxury: hazır ikon seti, geist, ilerleme çubuğu yok. Vanity metrik (görüntülenme, beğeni) yüzeye girmez. Teslim: PNG + katman notu + prompt paketi + her dosya SHA-256. İki revizyon. Filigran finalde yok. Bütçe kabulde emanete kilitlenir. Bu ilan ${YETKIN_BRAND} kendi kanıt yüzeyi içindir.`,
+    title: "Sosyal Medya Paylaşım Şablonları",
+    brief: `Sertifika paylaşımı için 1080×1080 ve 1200×630 şablonlar; açık ve koyu tema. Teslim formatı: PNG. Süre: 7 gün. 3 revizyon hakkı. Teklif için Yapay Zekâ Mühendisliği sertifikası gerekir. İşveren: ${YETKIN_BRAND}.`,
     budgetMinor: 600_000,
     visaPathwayId: FREELANCER_SEED_VISA_PATHWAY,
+    ...FREELANCER_JOB_LISTING_EXTRAS.fj_rail_seal_social,
   },
 ];
 

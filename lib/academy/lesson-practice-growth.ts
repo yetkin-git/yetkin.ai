@@ -1,9 +1,10 @@
 /**
- * Büyüme SKU laboratuvarları — dört yetkinlik yolu.
+ * Büyüme SKU laboratuvarları — AI Temel / UX.
+ * Full-Stack Temel pratikleri `lesson-practice-fullstack.ts` içindedir.
+ * Python Temel pratikleri `lesson-practice-python.ts` içindedir.
  */
 
 import type { AcademyLessonPractice } from "@/lib/academy/lesson-body";
-import { PYTHON_PATHWAY_PRACTICE } from "@/lib/academy/lesson-practice-python";
 
 function pack(
   params: ReadonlyArray<readonly [string, string]>,
@@ -17,136 +18,6 @@ function pack(
     code: { language, source: source.trim() },
   };
 }
-
-const PYTHON_GROWTH_PRACTICE: Record<string, AcademyLessonPractice> = {
-  "python-temel-7": pack(
-    [
-      ["liste", "[a, b, c]"],
-      ["indeks", "0 tabanlı"],
-      ["son", "sepet[-1]"],
-      ["yasak", "sepet[len(sepet)]"],
-    ],
-    ["sepet = [\"elma\", \"armut\", \"ayva\"] yaz.", "sepet[-1] ile son elemanı oku.", "IndexError üreten satırı yorum satırına al."],
-    "py",
-    `sepet = ["elma", "armut", "ayva"]
-assert sepet[0] == "elma"
-assert sepet[-1] == "ayva"
-# sepet[len(sepet)]  → IndexError`,
-  ),
-  "python-temel-8": pack(
-    [
-      ["sözlük", "{anahtar: değer}"],
-      ["yokluk", ".get"],
-      ["üyelik", "in"],
-      ["yasak", "eksik anahtarda []"],
-    ],
-    ["stok sözlüğünü yaz.", "stok.get(\"armut\", 0) dene.", "KeyError üreten satırı yorumla."],
-    "py",
-    `stok = {"elma": 4}
-assert stok.get("armut", 0) == 0
-assert "elma" in stok
-# stok["armut"]  → KeyError`,
-  ),
-  "python-temel-9": PYTHON_PATHWAY_PRACTICE["python-orta-5"]!,
-  "python-temel-10": PYTHON_PATHWAY_PRACTICE["python-orta-1"]!,
-  "python-temel-11": PYTHON_PATHWAY_PRACTICE["python-orta-4"]!,
-  "python-temel-12": PYTHON_PATHWAY_PRACTICE["python-orta-8"]!,
-};
-
-const FULLSTACK_PRACTICE: Record<string, AcademyLessonPractice> = {
-  "fullstack-temel-1": pack(
-    [["yöntem", "GET"], ["durum", "200 / 4xx / 5xx"], ["gövde", "JSON"], ["yasak", "fişsiz yeşil tik"]],
-    ["Ağ sekmesinde bir GET’in durum kodunu oku.", "2xx ile 5xx farkını tek cümlede yaz.", "Ekran yeşilken 5xx varsa yalanı işaretle."],
-    "http",
-    `GET /api/cart
-HTTP/1.1 200 OK
-{"items":[]}`,
-  ),
-  "fullstack-temel-2": pack(
-    [["adet", "number"], ["metin adet", "string"], ["dönüşüm", "Number"], ["yasak", "\"3\" + 1"]],
-    ["adet = \"3\" tuzağını yaz.", "Number(adet) ile düzelt.", "typeof ile cins doğrula."],
-    "ts",
-    `const adetMetin = "3";
-const adet = Number(adetMetin);
-if (!Number.isFinite(adet)) throw new Error("geçersiz adet");`,
-  ),
-  "fullstack-temel-3": pack(
-    [["arayüz", "interface"], ["qty", "number"], ["derleme", "tsc"], ["yasak", "as any"]],
-    ["CartItem interface yaz.", "string qty’yi reddet.", "as any kullanma."],
-    "ts",
-    `interface CartItem { sku: string; qty: number }
-const item: CartItem = { sku: "A1", qty: 2 };`,
-  ),
-  "fullstack-temel-4": pack(
-    [["olay", "click"], ["meşgul", "disabled"], ["metin", "textContent"], ["yasak", "çift tıklama"]],
-    ["loading iken disabled = true yap.", "Tek durum metni bas.", "İkinci tıklamanın yutulduğunu not et."],
-    "ts",
-    `button.disabled = loading;
-status.textContent = loading ? "Gönderiliyor" : "Hazır";`,
-  ),
-  "fullstack-temel-5": pack(
-    [["fetch", "await"], ["kapı", "res.ok"], ["hata", "dürüst cümle"], ["yasak", "503’te yeşil"]],
-    ["!res.ok dalını yaz.", "Durum kodunu ekrana bas.", "Yeşil sınıf ekleme."],
-    "ts",
-    `const res = await fetch("/api/cart", { method: "POST" });
-if (!res.ok) {
-  status.textContent = \`Sunucu \${res.status}\`;
-}`,
-  ),
-  "fullstack-temel-6": pack(
-    [["qty", "finite number"], ["form", "controlled"], ["istek", "yalnız geçerli"], ["yasak", "boş Post"]],
-    ["Boş qty’de return.", "Number.isFinite kontrolü koy.", "!res.ok dürüst bas."],
-    "ts",
-    `if (!Number.isFinite(qty) || qty < 1) return;
-const res = await fetch("/api/cart/items", { method: "POST" });
-if (!res.ok) throw new Error(String(res.status));`,
-  ),
-  "fullstack-temel-7": pack(
-    [["props", "salt okunur"], ["ebeveyn", "state"], ["çocuk", "gösterim"], ["yasak", "props mutasyonu"]],
-    ["ProductCard Props tipi yaz.", "title’ı çocukta atama.", "onRename yukarı taşı."],
-    "tsx",
-    `type Props = { title: string; onRename: (v: string) => void };
-function Card({ title, onRename }: Props) {
-  return <button type="button" onClick={() => onRename(title)}>{title}</button>;
-}`,
-  ),
-  "fullstack-temel-8": pack(
-    [["faz", "idle|submitting|success|error"], ["SSOT", "tek değer"], ["yasak", "üç bayrak"]],
-    ["Faz birliğini yaz.", "SUBMIT yalnız idle’dan çıksın.", "Çelişen bayrağı reddet."],
-    "ts",
-    `type Phase = "idle" | "submitting" | "success" | "error";
-function canSubmit(phase: Phase) { return phase === "idle"; }`,
-  ),
-  "fullstack-temel-9": pack(
-    [["adres", "/cart"], ["sayfa", "app/cart/page"], ["boş", "dürüst"], ["yasak", "boşken başarı"]],
-    ["Boş sepet metnini yaz.", "Ödeme başarılı şablonunu reddet.", "Link ile /cart bağla."],
-    "tsx",
-    `export default function CartPage({ empty }: { empty: boolean }) {
-  if (empty) return <p>Sepet boş.</p>;
-  return <p>Satırlar duruyor.</p>;
-}`,
-  ),
-  "fullstack-temel-10": pack(
-    [["sıra", "json → validate → handler"], ["Zod", "safeParse"], ["400", "issues"], ["yasak", "şemasız 200"]],
-    ["safeParse başarısızken 400 dön.", "qty: -1 örneğini yaz.", "Handler’ı şemadan sonraya koy."],
-    "ts",
-    `const parsed = schema.safeParse(req.body);
-if (!parsed.success) return res.status(400).json({ issues: parsed.error.issues });`,
-  ),
-  "fullstack-temel-11": pack(
-    [["parametre", "$1"], ["bağ", "params"], ["yasak", "birleştirmeli SQL"], ["CHECK", "qty > 0"]],
-    ["$1 örnek satırı yaz.", "Birleştirmeli sorguyu reddet.", "Repo katmanına taşı."],
-    "sql",
-    `SELECT * FROM cart_items WHERE user_id = $1`,
-  ),
-  "fullstack-temel-12": pack(
-    [["Zod", "şema"], ["tx", "BEGIN"], ["test", "TestClient"], ["yasak", "ok:true 5xx"]],
-    ["Dört kapanış maddesini listele.", "5xx’te ok:true reddet.", "Test üçlüsünü yaz."],
-    "ts",
-    `// Zod + parametre + işlem birimi + TestClient
-expect(res.status).not.toBe(500);`,
-  ),
-};
 
 const AI_PRACTICE: Record<string, AcademyLessonPractice> = {
   "ai-temel-1": pack(
@@ -334,8 +205,6 @@ durum: default / hover / disabled`,
 };
 
 export const ACADEMY_GROWTH_LESSON_PRACTICE: Record<string, AcademyLessonPractice> = {
-  ...PYTHON_GROWTH_PRACTICE,
-  ...FULLSTACK_PRACTICE,
   ...AI_PRACTICE,
   ...UX_PRACTICE,
 };

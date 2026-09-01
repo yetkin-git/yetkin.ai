@@ -18,7 +18,7 @@ Bu klasör kalıcı anayasa ve sistem belgeleridir. Ürün kodu buradaki markdow
 
 İstemci ops (derleme beşlisi değildir): `DRON_CLIENT_SPEC.md` — yetkin.ai İş / Diyar B native ve ikincil istemcinin Bearer, JWT yenileme, Idempotency-Key ve 401/426 kuralları. Yeni auth modeli açmaz. Gün 0 gövde: `apps/rail-is` (paket `yetkin.ai-is`; Amiral `app/` değildir; mutlu yol + İşlerim/Tezgâh ekranları `src/screens`).
 
-Eğitim anlatım anayasası (derleme beşlisi değildir): `PEDAGOJI.md` — iki katman: **Pedagoji Academy** (aktif; Hettich / Quiet Luxury / Fail-Closed / Koray–Maya / Ses-Karakter TTS mühürü / EKSIKSIZ MONTAJ) ve **Pedagoji Junior** (10–18 yaş; donmuş / gelecek faz; üretim yok). Müfredat tohumu (`lib/academy/curricula/`) yalnız Bölüm A’ya hizalanır. Çelişkide `.system_docs/ANAYASA.md` bağlayıcıdır.
+Eğitim anlatım anayasası (derleme beşlisi değildir): `PEDAGOJI.md` — iki katman: **Pedagoji Academy** (aktif; Konunun Hakkı / esnek seviye / Koray–Maya çift-AI diyalog / seviye-bazlı tempo / Zero-Cost Streaming yalnız diskte WAV’i olan derslerde / 5 perdeli montaj 18 SKU + 2 düz taslak istisna) ve **Pedagoji Junior** (10–18 yaş; donmuş / gelecek faz; üretim yok). «AI-Checking-AI» CI kapısı yoktur. Müfredat tohumu (`lib/academy/curricula/`) yalnız Bölüm A’ya hizalanır. Çelişkide `.system_docs/ANAYASA.md` bağlayıcıdır.
 
 Kimlik **Supabase Auth** ile mühürlenir, veri **Prisma** üzerinden Postgres’e yazılır, gövde tek **Next.js** App Router uygulamasıdır (**Modüler Monolit + API-First Dron Sözleşmesi**). Çalışan 4 oda aynı kimlik ve defter omurgasını paylaşır; “4 oda” **nakit halkasının döndüğü** anlamına gelmez. Freelancer: ilan/teklif/mesajlaşma çalışır; lisanslı split henüz bağlı değilse accept **503**. Donmuş 8 oda 410 envanteridir.
 

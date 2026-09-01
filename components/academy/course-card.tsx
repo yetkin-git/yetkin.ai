@@ -1,6 +1,6 @@
 "use client";
 
-import { formatMinor } from "@/lib/kernel/money/format";
+import { formatMinorCompact } from "@/lib/kernel/money/format";
 import type { AcademyCourseWithPrice } from "@/lib/academy/types";
 import { ListingCard } from "@/components/showcase/listing-card";
 import { IconHeart } from "@/components/ui/icons";
@@ -8,6 +8,7 @@ import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { academyInstructorBySlug } from "@/lib/academy/instructors";
 import { academyModuleCodeBySlug } from "@/lib/academy/catalog-filter";
 import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
+import { academyCatalogSummaryBySlug } from "@/lib/academy/catalog-summaries";
 import type { AcademyCatalogLearnerStatus } from "@/lib/academy/catalog-learner";
 import type { AcademyCatalogViewMode } from "@/lib/academy/catalog-view-pref";
 import { resolveAcademyCatalogCardCta } from "@/lib/academy/storefront-cta";
@@ -44,16 +45,17 @@ export function CourseCard({
   const instructor = academyInstructorBySlug(course.slug);
   const isLibrary = surface === "library";
   const levelLabel = course.level?.trim() || academyCourseLevelBySlug(course.slug) || "";
+  const summary = academyCatalogSummaryBySlug(course.slug) ?? course.summary;
   const moduleCode = academyModuleCodeBySlug(course.slug) || undefined;
   const levelKicker = levelLabel ? ACADEMY_SEN.catalog.badgeLevel(levelLabel) : undefined;
-  const moneyLabel = course.priceMinor
-    ? formatMinor(course.priceMinor, course.currencyCode)
+    const moneyLabel = course.priceMinor
+    ? formatMinorCompact(course.priceMinor, course.currencyCode)
     : ACADEMY_SEN.catalog.priceMissing;
   const storefront = resolveAcademyCatalogCardCta({
     slug: course.slug,
     owned,
     learnerStatus,
-    priceLabel: moneyLabel,
+    priceLabel: course.priceMinor ? moneyLabel : null,
   });
   const learnerLabel =
     learnerStatus === "continue"
@@ -91,8 +93,10 @@ export function CourseCard({
       title={course.title}
       moduleCode={moduleCode}
       kicker={levelKicker}
-      summary={course.summary}
+      summary={summary}
+      summaryClamp={2}
       price={storefront.priceLabel}
+      priceCaption={storefront.priceCaption ?? undefined}
       badge={statusBadge ?? undefined}
       lockLabel={course.purchasable ? undefined : ACADEMY_SEN.catalog.badgeClosed}
       meta={ACADEMY_SEN.catalog.cardMeta(lessonCount, instructor.name)}

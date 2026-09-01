@@ -36,10 +36,26 @@ export type AcademyCourseSeed = Omit<AcademyCatalogSeed, "exam"> & {
 };
 
 const LESSON_KEY_PREFIX: Record<AcademyCourseTitleSlug, string> = {
+  "security-temel": "security-temel-",
+  "security-orta": "security-orta-",
+  "security-ileri": "security-ileri-",
+  "ai-agent-temel": "ai-agent-temel-",
+  "ai-agent-orta": "ai-agent-orta-",
+  "ai-agent-ileri": "ai-agent-ileri-",
   "python-temel": "python-temel-",
+  "python-orta": "python-orta-",
+  "python-ileri": "python-ileri-",
   "fullstack-temel": "fullstack-temel-",
+  "fullstack-orta": "fullstack-orta-",
+  "fullstack-ileri": "fullstack-ileri-",
   "ai-temel": "ai-temel-",
   "ux-temel": "ux-temel-",
+  "excel-masterclass": "excel-masterclass-",
+  "google-ads-masterclass": "google-ads-masterclass-",
+  "meta-ads-masterclass": "meta-ads-masterclass-",
+  "eticaret-masterclass": "eticaret-masterclass-",
+  "canva-masterclass": "canva-masterclass-",
+  "linkedin-masterclass": "linkedin-masterclass-",
 };
 
 const SEED_STAMP = new Date("2026-08-21T15:00:00.000Z");
@@ -58,7 +74,7 @@ function workProofExamQuestions(slug: AcademyCourseTitleSlug): AcademyExamQuesti
     if (task.kind === "amount-kurus") {
       questions.push({
         id: `q_pow_${lessonKey}`,
-        prompt: `İş kanıtı (kuruş): ${task.brief} Sunucu hangi kaydı kabul eder?`,
+        prompt: `Uygulama (kuruş): ${task.brief} Sunucu hangi kaydı kabul eder?`,
         choices: [
           "Float lira ve yaklaşık tutar",
           `${task.expectedAmountMinor} kuruş ve TRY`,
@@ -72,7 +88,7 @@ function workProofExamQuestions(slug: AcademyCourseTitleSlug): AcademyExamQuesti
     if (task.kind === "prompt-pack") {
       questions.push({
         id: `q_pow_${lessonKey}`,
-        prompt: `İş kanıtı (tarif paketi): ${task.brief} Fail-closed karar hangisi?`,
+        prompt: `Uygulama (tarif): ${task.brief} Doğru karar hangisi?`,
         choices: [
           "Orta değer uydurulur, üretim başlar",
           "Gerekli cümleler yazılır, yasak düşer, kilitler doğru token ister",
@@ -85,7 +101,7 @@ function workProofExamQuestions(slug: AcademyCourseTitleSlug): AcademyExamQuesti
     }
     questions.push({
       id: `q_pow_${lessonKey}`,
-      prompt: `İş kanıtı (parametre): ${task.brief} Kapı ne zaman açılır?`,
+      prompt: `Uygulama (parametre): ${task.brief} Kapı ne zaman açılır?`,
       choices: [
         "Yaklaşık etiket yeter",
         "Her kilit doğru token ile durunca",

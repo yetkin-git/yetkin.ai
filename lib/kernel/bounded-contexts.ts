@@ -55,6 +55,7 @@ export const RAIL_CONTEXT_PRISMA_MODELS: Readonly<Record<string, RailBoundedCont
   paymentAnomaly: "payments",
   httpIdempotencyRecord: "payments",
   paidCommandReservation: "payments",
+  userBillingInfo: "payments",
 };
 
 /**

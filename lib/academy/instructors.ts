@@ -11,6 +11,11 @@ import {
   academyCourseTitleBySlug,
   type AcademyCourseTitleSlug,
 } from "@/lib/academy/course-titles";
+import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
+import {
+  isAcademyInstructorSpeaker,
+  type DialogueSpeakerId,
+} from "@/lib/academy/curricula/types";
 
 export const ACADEMY_INSTRUCTOR_TTS_VOICES = [
   "Zephyr",
@@ -18,11 +23,15 @@ export const ACADEMY_INSTRUCTOR_TTS_VOICES = [
   "Puck",
   "Fenrir",
   "Aoede",
+  "Leda",
+  "Callirrhoe",
 ] as const;
 
 export const ACADEMY_TTS_VOICES = [
   ...ACADEMY_INSTRUCTOR_TTS_VOICES,
   "Charon",
+  "Enceladus",
+  "Iapetus",
   "Orus",
 ] as const;
 
@@ -42,6 +51,8 @@ export type AcademyCastBinding = {
   role: "instructor" | "moderator" | "announcer";
   voice: AcademyTtsVoice;
   voiceFingerprint: AcademyVoiceFingerprint;
+  /** 1 = %100. Maya (eğitmen) %95 micro-pacing; Koray Temel’de %100. */
+  speechRate: number;
 };
 
 function academyVoiceFingerprint(voice: AcademyTtsVoice): AcademyVoiceFingerprint {
@@ -69,16 +80,123 @@ export type AcademyInstructor = {
   greetingLead: string;
 };
 
+export type AcademyModeratorBinding = {
+  characterId: string;
+  voice: AcademyTtsVoice;
+  voiceFingerprint: AcademyVoiceFingerprint;
+  name: string;
+  title: string;
+  role: string;
+  gender: "erkek";
+  speechRate: number;
+};
+
 /** Stüdyo sunucusu — eğitmenlerden ayrı fiziksel ses mührü. */
-export const ACADEMY_MODERATOR = {
+export const ACADEMY_MODERATOR: AcademyModeratorBinding = {
   characterId: "character.moderator.koray",
   voice: "Charon" as const satisfies AcademyTtsVoice,
   voiceFingerprint: academyVoiceFingerprint("Charon"),
   name: "Koray",
   title: "Moderatör Koray",
   role: "Stüdyo Sunucusu / Moderatör",
-  gender: "erkek" as const,
+  gender: "erkek",
+  /** Temel seviye saha temposu — PEDAGOJI.md; Orta/İleri slug’dan okunur. */
+  speechRate: 1,
 };
+
+/** Siber Güvenlik dikeyi — Can; Koray bu kulvarda konuşmaz. Tempo slug’dan: Temel %100, Orta %98, İleri %96. */
+export const ACADEMY_SECURITY_MODERATOR: AcademyModeratorBinding = {
+  characterId: "character.moderator.can",
+  voice: "Enceladus" as const satisfies AcademyTtsVoice,
+  voiceFingerprint: academyVoiceFingerprint("Enceladus"),
+  name: "Can",
+  title: "Moderatör Can",
+  role: "Stüdyo Sunucusu / Moderatör",
+  gender: "erkek",
+  speechRate: 1,
+};
+
+/** Dijital Beceriler / İş Dünyası — Tarık; Koray ve Can bu kulvarda konuşmaz. Masterclass %100. */
+export const ACADEMY_DIGITAL_SKILLS_MODERATOR: AcademyModeratorBinding = {
+  characterId: "character.moderator.tarik",
+  voice: "Iapetus" as const satisfies AcademyTtsVoice,
+  voiceFingerprint: academyVoiceFingerprint("Iapetus"),
+  name: "Tarık",
+  title: "Moderatör Tarık",
+  role: "Stüdyo Sunucusu / Moderatör",
+  gender: "erkek",
+  speechRate: 1,
+};
+
+export function academyModeratorForSlug(slug: string): AcademyModeratorBinding {
+  if (slug.startsWith("security-")) {
+    return ACADEMY_SECURITY_MODERATOR;
+  }
+  if (isAcademyDigitalSkillsSlug(slug)) {
+    return ACADEMY_DIGITAL_SKILLS_MODERATOR;
+  }
+  return ACADEMY_MODERATOR;
+}
+
+/** Dijital Beceriler / İş Dünyası — Tarık + Gözde; Excel, Ads, E-Ticaret, Canva, LinkedIn. */
+export function isAcademyDigitalSkillsSlug(slug: string): boolean {
+  return (
+    slug.startsWith("excel-") ||
+    slug.startsWith("google-ads-") ||
+    slug.startsWith("meta-ads-") ||
+    slug.startsWith("eticaret-") ||
+    slug.startsWith("canva-") ||
+    slug.startsWith("linkedin-")
+  );
+}
+
+/** Eğitmen usta temposu — Maya ve diğer eğitmenler %95 micro-pacing. */
+export const ACADEMY_INSTRUCTOR_SPEECH_RATE = 0.95 as const;
+
+/** PEDAGOJI.md Koray: Temel %100, Orta %98, İleri %96. */
+export const ACADEMY_MODERATOR_SPEECH_RATE_ORTA = 0.98 as const;
+export const ACADEMY_MODERATOR_SPEECH_RATE_ILERI = 0.96 as const;
+
+export function academyModeratorSpeechRateForSlug(slug: string): number {
+  const level = academyCourseLevelBySlug(slug);
+  if (level === "Orta") {
+    return ACADEMY_MODERATOR_SPEECH_RATE_ORTA;
+  }
+  if (level === "İleri") {
+    return ACADEMY_MODERATOR_SPEECH_RATE_ILERI;
+  }
+  return ACADEMY_MODERATOR.speechRate;
+}
+
+export type AcademyDialogueCast = {
+  voice: AcademyTtsVoice;
+  speechRate: number;
+  canonicalCharacterName: string;
+  role: "instructor" | "moderator";
+};
+
+/** CastRegistry — speaker + kurs slug → ses ve PEDAGOJI tempo mührü. */
+export function academyCastForDialogueSpeaker(
+  slug: string,
+  speaker: DialogueSpeakerId,
+): AcademyDialogueCast {
+  if (isAcademyInstructorSpeaker(speaker)) {
+    const instructor = academyInstructorBySlug(slug);
+    return {
+      voice: instructor.voice,
+      speechRate: ACADEMY_INSTRUCTOR_SPEECH_RATE,
+      canonicalCharacterName: instructor.name,
+      role: "instructor",
+    };
+  }
+  const moderator = academyModeratorForSlug(slug);
+  return {
+    voice: moderator.voice,
+    speechRate: academyModeratorSpeechRateForSlug(slug),
+    canonicalCharacterName: moderator.name,
+    role: "moderator",
+  };
+}
 
 export const ACADEMY_MODERATOR_OPEN_LEAD =
   `Merhaba, ${YETKIN_BRAND} Akademi stüdyosundan selam. Bu yayın senin için.`;
@@ -165,6 +283,26 @@ export const ACADEMY_INSTRUCTORS_BY_VOICE: Record<AcademyInstructorTtsVoice, Aca
     toneLabel: "Kadın / Kurumsal",
     greetingLead: "Merhaba, ben Selin",
   },
+  Leda: {
+    voice: "Leda",
+    voiceFingerprint: academyVoiceFingerprint("Leda"),
+    name: "Ece",
+    title: "Eğitmen Ece",
+    gender: "kadin",
+    tone: "pratik",
+    toneLabel: "Kadın / Pratik",
+    greetingLead: "Merhaba, ben Ece",
+  },
+  Callirrhoe: {
+    voice: "Callirrhoe",
+    voiceFingerprint: academyVoiceFingerprint("Callirrhoe"),
+    name: "Gözde",
+    title: "Eğitmen Gözde",
+    gender: "kadin",
+    tone: "pratik",
+    toneLabel: "Kadın / Pratik",
+    greetingLead: "Merhaba, ben Gözde",
+  },
 };
 
 /** SKU → ses. İsim sesten okunur; sluga ikinci isim yazılmaz. */
@@ -172,10 +310,26 @@ export const ACADEMY_INSTRUCTOR_VOICE_BY_SLUG: Record<
   AcademyCourseTitleSlug,
   AcademyInstructorTtsVoice
 > = {
+  "ai-agent-temel": "Kore",
+  "ai-agent-orta": "Kore",
+  "ai-agent-ileri": "Kore",
   "python-temel": "Kore",
-  "fullstack-temel": "Puck",
+  "python-orta": "Kore",
+  "python-ileri": "Kore",
+  "fullstack-temel": "Kore",
+  "fullstack-orta": "Kore",
+  "fullstack-ileri": "Kore",
   "ai-temel": "Fenrir",
   "ux-temel": "Aoede",
+  "security-temel": "Leda",
+  "security-orta": "Leda",
+  "security-ileri": "Leda",
+  "excel-masterclass": "Callirrhoe",
+  "google-ads-masterclass": "Callirrhoe",
+  "meta-ads-masterclass": "Callirrhoe",
+  "eticaret-masterclass": "Callirrhoe",
+  "canva-masterclass": "Callirrhoe",
+  "linkedin-masterclass": "Callirrhoe",
 };
 
 export type AcademyCourseOpen = {
@@ -184,13 +338,41 @@ export type AcademyCourseOpen = {
 };
 
 export const ACADEMY_COURSE_OPEN: Record<AcademyCourseTitleSlug, AcademyCourseOpen> = {
+  "ai-agent-temel": {
+    field: "AI Agent mimarlığı",
+    topic: "ajan, yapılandırılmış çıktı, araç çağrısı, hafıza ve ReAct döngüsünü",
+  },
+  "ai-agent-orta": {
+    field: "çoklu ajan ve RAG mimarisi",
+    topic: "gömme, vektör sorgu, ajan paslaşması, durum ve insan onay kapısını",
+  },
+  "ai-agent-ileri": {
+    field: "ileri ajan mimarisi ve otonom sistem güvenliği",
+    topic: "durum grafiği, yansıma onarımı, korkuluk, eval ve üretim kuyruğunu",
+  },
   "python-temel": {
     field: "Python yazılım temelleri",
-    topic: "değişken, kontrol akışı, fonksiyon, koleksiyon ve problem çözme laboratuvarını",
+    topic: "değişken, tip, kontrol akışı, fonksiyon, koleksiyon ve Fail-Closed laboratuvarını",
+  },
+  "python-orta": {
+    field: "Python nesne yönelimi ve veri işleme",
+    topic: "sınıf, miras, JSON mühürü, isimli hata ve HTTP damgasını",
+  },
+  "python-ileri": {
+    field: "Python ileri mimari ve performans",
+    topic: "decorator, üreteç, asyncio, süreç seçimi ve metaclass kapısını",
   },
   "fullstack-temel": {
-    field: "Full-stack web geliştirme",
-    topic: "React, Next.js, Node.js ve dürüst Hipermetin Aktarım Protokolü sözleşmesini",
+    field: "modern web temelleri",
+    topic: "HTTP, semantik HTML, CSS ızgarası, JavaScript DOM, fetch ve TypeScript sözleşmesini",
+  },
+  "fullstack-orta": {
+    field: "modern tam yığın uygulama",
+    topic: "React bileşen ve durum, Express REST, Prisma defteri ve JWT kimlik kapısını",
+  },
+  "fullstack-ileri": {
+    field: "ileri tam yığın mimari",
+    topic: "App Router ve RSC, mikroservis, Redis, Docker Compose ve CI/CD kapısını",
   },
   "ai-temel": {
     field: "Yapay zekâ ve veri analizi",
@@ -199,6 +381,42 @@ export const ACADEMY_COURSE_OPEN: Record<AcademyCourseTitleSlug, AcademyCourseOp
   "ux-temel": {
     field: "dijital ürün tasarımı",
     topic: "Kullanıcı Deneyimi araştırması, Figma ve el teslimi paketini",
+  },
+  "security-temel": {
+    field: "siber güvenlik temelleri",
+    topic: "CIA üçlüsü, ağ kapısı, Açık Web Uygulaması Güvenlik Projesi (OWASP) ve Fail-Closed kimlik duvarını",
+  },
+  "security-orta": {
+    field: "uygulamalı sızma testi ve web zafiyet mimarisi",
+    topic: "keşif kapsamı, lab ağ envanteri, IDOR/SSRF, OAuth2/JWT ve SAST kapatma kapısını",
+  },
+  "security-ileri": {
+    field: "ileri DevSecOps, bulut güvenliği ve olay müdahalesi",
+    topic: "boru hattı damgası, IAM/KMS fişi, günlük zinciri, SIEM avı ve Sıfır Güven üçlüsünü",
+  },
+  "excel-masterclass": {
+    field: "Excel ve yapay zekâ destekli veri analizi",
+    topic: "hücre mimarisi, arama formülü, özet tablo, temizlik ve dashboard kapısını",
+  },
+  "google-ads-masterclass": {
+    field: "Google Ads ve arama motoru pazarlaması",
+    topic: "hesap mimarisi, eşleme, ağ, GTM dönüşüm takibi ve kalite puanı kapısını",
+  },
+  "meta-ads-masterclass": {
+    field: "Meta Business Suite ve reklam hunisi",
+    topic: "piksel, CAPI, kitle, kreatif, CBO/ABO ve ROAS kapısını",
+  },
+  "eticaret-masterclass": {
+    field: "e-ticaret ve pazar yeri operasyonu",
+    topic: "tezgâh mantığı, mağaza belgesi, liste SEO, stok senkronu ve kargo/iade kapısını",
+  },
+  "canva-masterclass": {
+    field: "Canva ve yapay zekâ destekli dijital tasarım",
+    topic: "marka kiti, sosyal kare, broşür, Magic Studio ve teslim formatı kapısını",
+  },
+  "linkedin-masterclass": {
+    field: "LinkedIn profesyonel marka ve B2B müşteri bulma",
+    topic: "All-Star profil, algoritma içeriği, Sales Navigator ICP ve outreach kapısını",
   },
 };
 
@@ -217,6 +435,7 @@ export const ACADEMY_CAST_REGISTRY: readonly AcademyCastBinding[] = [
     role: "instructor" as const,
     voice: instructor.voice,
     voiceFingerprint: instructor.voiceFingerprint,
+    speechRate: ACADEMY_INSTRUCTOR_SPEECH_RATE,
   })),
   {
     characterId: ACADEMY_MODERATOR.characterId,
@@ -224,6 +443,23 @@ export const ACADEMY_CAST_REGISTRY: readonly AcademyCastBinding[] = [
     role: "moderator",
     voice: ACADEMY_MODERATOR.voice,
     voiceFingerprint: ACADEMY_MODERATOR.voiceFingerprint,
+    speechRate: ACADEMY_MODERATOR.speechRate,
+  },
+  {
+    characterId: ACADEMY_SECURITY_MODERATOR.characterId,
+    canonicalCharacterName: ACADEMY_SECURITY_MODERATOR.name,
+    role: "moderator",
+    voice: ACADEMY_SECURITY_MODERATOR.voice,
+    voiceFingerprint: ACADEMY_SECURITY_MODERATOR.voiceFingerprint,
+    speechRate: ACADEMY_SECURITY_MODERATOR.speechRate,
+  },
+  {
+    characterId: ACADEMY_DIGITAL_SKILLS_MODERATOR.characterId,
+    canonicalCharacterName: ACADEMY_DIGITAL_SKILLS_MODERATOR.name,
+    role: "moderator",
+    voice: ACADEMY_DIGITAL_SKILLS_MODERATOR.voice,
+    voiceFingerprint: ACADEMY_DIGITAL_SKILLS_MODERATOR.voiceFingerprint,
+    speechRate: ACADEMY_DIGITAL_SKILLS_MODERATOR.speechRate,
   },
   {
     characterId: ACADEMY_ANNOUNCER.characterId,
@@ -231,6 +467,7 @@ export const ACADEMY_CAST_REGISTRY: readonly AcademyCastBinding[] = [
     role: "announcer",
     voice: ACADEMY_ANNOUNCER.voice,
     voiceFingerprint: ACADEMY_ANNOUNCER.voiceFingerprint,
+    speechRate: 1,
   },
 ];
 
@@ -301,6 +538,10 @@ function firstLessonBio(instructor: AcademyInstructor, field: string, topic: str
       return `${handback} ${field} tarafında kural net duruyor. ${topic} emniyet dilinde ele alacağız.`;
     case "Aoede":
       return `${handback} ${field} kurumsal raporda yaşar. ${topic} sloganla değil kanıt satırıyla konuşacağız.`;
+    case "Leda":
+      return `${handback} ${field} tarafında kapı varsayılan kilit durur. Bugün ${topic} konuşacağız.`;
+    case "Callirrhoe":
+      return `${handback} ${field} tarafında tane tane durur. Bugün ${topic} konuşacağız.`;
   }
 }
 

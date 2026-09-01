@@ -1,9 +1,9 @@
 #!/usr/bin/env tsx
 /**
  * Canlı IDOR mühür zinciri — statik bağ. Canlı Postgres yok.
- * Prebuild: kernel authorize + freelancer iş tahtası + doğrudan teklif/ekip/mesaj/tahkim
+ * Prebuild: kernel authorize + freelancer iş tahtası + mesaj/tahkim
  * + akademi sınav/satın alma + kariyer portföy.
- * Donmuş Arena ihale tahtası 410 envanteridir; `test:frozen`.
+ * Squad / direct-offer BFF 410. Donmuş Arena ihale tahtası 410 envanteridir; `test:frozen`.
  */
 
 import { readFileSync } from "node:fs";
@@ -57,19 +57,19 @@ if (nightly.includes("tests/arena/")) {
 const ROUTE_SEALS: ReadonlyArray<{ file: string; needles: readonly string[] }> = [
   {
     file: "app/api/freelancer/direct-offers/route.ts",
-    needles: ["requireSession", "listDirectOffersForInvitee", "user.id"],
+    needles: ["FREELANCER_SATELLITE_GONE", "410", 'auth = "public"'],
   },
   {
     file: "app/api/freelancer/direct-offers/[id]/accept/route.ts",
-    needles: ["actorUserId: user.id", "acceptDirectFreelancerOffer"],
+    needles: ["FREELANCER_SATELLITE_GONE", "410", 'auth = "public"'],
   },
   {
     file: "app/api/freelancer/direct-offers/[id]/decline/route.ts",
-    needles: ["actorUserId: user.id", "declineDirectFreelancerOffer"],
+    needles: ["FREELANCER_SATELLITE_GONE", "410", 'auth = "public"'],
   },
   {
     file: "app/api/freelancer/squad/route.ts",
-    needles: ["user.id !== contract.clientId", "actorUserId: user.id"],
+    needles: ["FREELANCER_SATELLITE_GONE", "410", 'auth = "public"'],
   },
   {
     file: "app/api/freelancer/contracts/[id]/messages/route.ts",
@@ -112,5 +112,5 @@ if (issues.length > 0) {
 }
 
 console.log(
-  "verify:idor-seals OK — canlı zincir kernel authorize + freelancer (iş tahtası, doğrudan teklif, mesaj, ekip, tahkim) + akademi exam/purchase + kariyer portföy; Arena 410 dışı.",
+  "verify:idor-seals OK — canlı zincir kernel authorize + freelancer (iş tahtası, mesaj, tahkim) + akademi exam/purchase + kariyer portföy; squad/direct-offer BFF 410; Arena 410 dışı.",
 );

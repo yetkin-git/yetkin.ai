@@ -31,6 +31,14 @@ describe("HTTP Idempotency-Key yazma yüzeyi", () => {
       expect(source).toContain("createPrismaHttpIdempotencyStore");
     }
     expect(jobs).toContain('route: JOBS_ROUTE');
+    expect(jobs).toContain("ServiceUnavailableError");
+    expect(jobs).toContain("DATABASE_BUSY_ERROR");
+    expect(jobs).toContain("isPrismaUnavailableError");
+    expect(jobs).toContain("ensurePrismaQueryEngine");
+    const idempotencyStore = readSrc("lib/kernel/http/prisma-idempotency-store.ts");
+    expect(idempotencyStore).toContain("isPrismaForeignKeyViolation");
+    expect(idempotencyStore).toContain("bypassed");
+    expect(idempotencyStore).toContain("http.idempotency.user_missing");
     expect(bids).toContain('"/api/freelancer/jobs/[id]/bids"');
     expect(accept).toContain('"/api/freelancer/jobs/[id]/accept"');
     expect(release).toContain('"/api/freelancer/contracts/[id]/release"');

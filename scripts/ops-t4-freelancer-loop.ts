@@ -30,6 +30,8 @@ import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { computePaytrWebhookHash } from "@/lib/kernel/payments/paytr/webhook";
 import { buildIdempotentMerchantOid } from "@/lib/kernel/payments/merchant-oid";
 import { WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
+import { CHECKOUT_LEGAL_CONSENT_PAYLOAD } from "@/lib/kernel/legal/checkout-consent";
+import { CHECKOUT_BILLING_PAYLOAD } from "@/lib/kernel/identity/billing-info";
 import { HOLD_BPS_DEFAULT, HOLD_BPS_MAX, HOLD_BPS_MIN } from "@/lib/kernel/pricing/hold-bps";
 import {
   resolveMigratorConnectionUrl,
@@ -198,7 +200,7 @@ async function paytrTopUp(base: string, citizen: Citizen, amountMinor: number): 
       "Idempotency-Key": topUpKey,
       "x-forwarded-for": FOREIGN_IP,
     },
-    body: JSON.stringify({ amountMinor }),
+    body: JSON.stringify({ amountMinor, ...CHECKOUT_LEGAL_CONSENT_PAYLOAD, billing: CHECKOUT_BILLING_PAYLOAD }),
   });
   if (topUp.status !== 200 || topUp.body.ok !== true) {
     const expectedOid = buildIdempotentMerchantOid("walletTopUp", citizen.userId, topUpKey);
@@ -353,7 +355,7 @@ async function ensureAcademyVisa(base: string, worker: Citizen): Promise<void> {
       ...authHeaders(worker.accessToken),
       "Idempotency-Key": purchaseKey,
     },
-    body: JSON.stringify({ lockId }),
+    body: JSON.stringify({ lockId, ...CHECKOUT_LEGAL_CONSENT_PAYLOAD, billing: CHECKOUT_BILLING_PAYLOAD }),
   });
   if (purchase.status !== 200 || purchase.body.ok !== true) {
     fail(`Satın alma ${purchase.status}: ${JSON.stringify(purchase.body)}`);

@@ -6,6 +6,8 @@ import { emptyDashboardPulse, loadDashboardPulse } from "./load";
 
 export const auth = "session" as const;
 export const dynamic = "force-dynamic";
+/** Hobby 10s tavanı hâlâ bağlar; Pro'da nabız ısınma+4 oda için nefes. */
+export const maxDuration = 15;
 
 function isDatabaseUnconfigured(error: unknown): boolean {
   return error instanceof Error && error.message.includes("DATABASE_URL");

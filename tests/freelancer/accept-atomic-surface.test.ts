@@ -17,7 +17,8 @@ describe("freelancer kabul mühürü — yazma yüzeyi", () => {
     expect(runtime).toContain("prisma.$transaction");
     expect(runtime).toContain("bindLedgerStore(tx)");
     expect(runtime).toContain("bindEscrowStore(tx)");
-    expect(runtime).toContain("bindFreelancerStore(tx)");
+    expect(runtime).toContain("paytrMarketplaceSplitPort");
+    expect(runtime).toContain("marketplace: paytrMarketplaceSplitPort");
     expect(types).toContain("runAcceptAtomic");
     expect(types).toContain("runReleaseAtomic");
     expect(engine).toContain("runAcceptAtomic");

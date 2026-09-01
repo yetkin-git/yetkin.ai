@@ -126,7 +126,7 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
 
   return (
     <form onSubmit={onSubmit} className="space-y-3">
-      <label className="block text-sm" htmlFor="login-email">
+      <label className="block text-sm font-medium" htmlFor="login-email">
         {copy.email}
         <Input
           id="login-email"
@@ -139,7 +139,7 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
         />
       </label>
       <div>
-        <label className="block text-sm" htmlFor="login-password">
+        <label className="block text-sm font-medium" htmlFor="login-password">
           {copy.password}
         </label>
         <PasswordInput

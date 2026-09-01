@@ -76,10 +76,26 @@ export function resolveAcademySeedMoney(input: {
 }
 
 export const ACADEMY_COURSE_LEVEL_BY_SLUG: Record<AcademyCourseTitleSlug, AcademyCourseLevel> = {
+  "security-temel": "Temel",
+  "security-orta": "Orta",
+  "security-ileri": "İleri",
+  "ai-agent-temel": "Temel",
+  "ai-agent-orta": "Orta",
+  "ai-agent-ileri": "İleri",
   "python-temel": "Temel",
+  "python-orta": "Orta",
+  "python-ileri": "İleri",
   "fullstack-temel": "Temel",
+  "fullstack-orta": "Orta",
+  "fullstack-ileri": "İleri",
   "ai-temel": "Temel",
   "ux-temel": "Masterclass",
+  "excel-masterclass": "Masterclass",
+  "google-ads-masterclass": "Masterclass",
+  "meta-ads-masterclass": "Masterclass",
+  "eticaret-masterclass": "Masterclass",
+  "canva-masterclass": "Masterclass",
+  "linkedin-masterclass": "Masterclass",
 };
 
 function academyCommonLevelFromSlugSuffix(slug: string): AcademyCommonLevelLabel | null {

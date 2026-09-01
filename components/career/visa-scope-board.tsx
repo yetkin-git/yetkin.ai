@@ -1,56 +1,44 @@
-import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
-import { CAREER_SEN } from "@/lib/copy/sen-voice/career";
 import { buildCareerVisaScopeBoard } from "@/lib/career/visa-scope-board";
-import type { CareerVisaStampRecord } from "@/lib/career/types";
+import type { LiveCareerStamp } from "@/lib/career/live";
+import { CAREER_SEN } from "@/lib/copy/sen-voice/career";
 
-export function VisaScopeBoard({ stamps }: { stamps: readonly CareerVisaStampRecord[] }) {
+export function VisaScopeBoard({ stamps }: { stamps: readonly LiveCareerStamp[] }) {
   const copy = CAREER_SEN.scope;
   const doors = buildCareerVisaScopeBoard(stamps);
 
   return (
-    <Card eyebrow={copy.eyebrow} title={copy.title} className="shadow-sm">
-      <p className="text-sm leading-6 text-[var(--muted)]">{copy.lead}</p>
-      <ul className="mt-4 space-y-4">
+    <section className="space-y-4">
+      <div>
+        <p className="text-[11px] font-medium uppercase tracking-wide text-[var(--muted)]">{copy.eyebrow}</p>
+        <h2 className="mt-1 text-lg font-semibold tracking-tight text-[var(--foreground)]">{copy.title}</h2>
+        <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{copy.lead}</p>
+      </div>
+      <ul className="grid gap-4">
         {doors.map((door) => (
-          <li
-            key={door.pathwayId}
-            className="rounded-xl border border-[color-mix(in_srgb,var(--foreground)_8%,transparent)] px-3 py-3"
-          >
-            <div className="flex flex-wrap items-center gap-2">
-              <p className="text-sm font-semibold text-[var(--foreground)]">{door.pathwayTitle}</p>
-              <Badge tone={door.open ? "emerald" : "neutral"}>
-                {door.open ? copy.open : copy.closed}
-              </Badge>
-            </div>
-            <ul className="mt-2 space-y-1.5">
-              {door.courses.map((course) => (
-                <li
-                  key={course.slug}
-                  className="flex flex-wrap items-center justify-between gap-2 text-sm"
-                >
-                  <span className={course.held ? "text-[var(--foreground)]" : "text-[var(--muted)]"}>
-                    {course.title}
-                  </span>
-                  {course.held ? (
-                    <Badge tone="safir">{copy.open}</Badge>
-                  ) : (
+          <li key={door.pathwayId}>
+            <Card variant="default" title={door.pathwayTitle} className="shadow-sm">
+              <div className="mb-3">
+                <Badge tone={door.open ? "emerald" : "neutral"}>{door.open ? copy.open : copy.closed}</Badge>
+              </div>
+              <ul className="space-y-2">
+                {door.courses.map((course) => (
+                  <li key={course.slug} className="flex flex-wrap items-center gap-2">
                     <LinkButton href={course.href} variant="outline" size="sm">
-                      {copy.missingCta}
+                      {course.title}
                     </LinkButton>
-                  )}
-                </li>
-              ))}
-            </ul>
+                    <span className="text-xs text-[var(--muted)]">
+                      {course.held ? copy.held : copy.missing}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </Card>
           </li>
         ))}
       </ul>
-      <div className="mt-4">
-        <LinkButton href="/freelancer" variant="secondary" size="sm">
-          {copy.freelancerCta}
-        </LinkButton>
-      </div>
-    </Card>
+    </section>
   );
 }

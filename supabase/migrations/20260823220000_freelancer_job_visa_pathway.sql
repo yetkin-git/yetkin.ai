@@ -3,7 +3,7 @@ ALTER TABLE public.freelancer_jobs
   ADD COLUMN IF NOT EXISTS visa_pathway_id TEXT NOT NULL DEFAULT 'uiux-urun-freelance';
 
 UPDATE public.freelancer_jobs
-SET visa_pathway_id = 'yz-icerik-prompt'
+SET visa_pathway_id = 'ai-agent-entegrasyon'
 WHERE id IN (
   'fj_rail_icon_set',
   'fj_rail_ql_banners',

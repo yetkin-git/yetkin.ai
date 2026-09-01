@@ -16,8 +16,9 @@ export const EMPTY_ACADEMY_CATALOG_LEARNER_BOARD: AcademyCatalogLearnerBoard = {
 };
 
 /**
- * Lab Super Admin — büyüme SKU kartları DURUM B (Derse başla) basar.
- * Ticari `ownedSlugs` değişmez; bağış nakit kaydı değildir. Yeni slug'a continue yazılmaz.
+ * Lab Super Admin — büyüme SKU kartlarını DURUM B (Derse başla) basan helper.
+ * Vitrin (`app/academy/page.tsx`) bunu çağırmaz: bağış nakit değildir, fiyat gizlenmez.
+ * Ticari `ownedSlugs` değişmez; yeni slug'a continue yazılmaz.
  */
 export function overlayStudioGrowthLearnerBoard(
   board: AcademyCatalogLearnerBoard,

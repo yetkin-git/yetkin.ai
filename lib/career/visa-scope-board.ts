@@ -1,7 +1,7 @@
 import {
   academyCourseTitleBySlug,
-  catalogPathwayTitleById,
-  type AcademyPathwayId,
+  listingVisaLockTitle,
+  type ListingVisaLockId,
 } from "@/lib/kernel/catalog-ids";
 import {
   FREELANCER_LISTING_VISA_DOORS,
@@ -25,14 +25,14 @@ export type VisaScopeCourse = {
 };
 
 export type VisaScopeDoor = {
-  pathwayId: AcademyPathwayId;
+  pathwayId: ListingVisaLockId;
   pathwayTitle: string;
   courses: VisaScopeCourse[];
   open: boolean;
 };
 
 export type ListingVisaScopeSignView = {
-  pathwayId: AcademyPathwayId;
+  pathwayId: ListingVisaLockId;
   pathwayTitle: string;
   courses: readonly { slug: string; title: string; href: string }[];
 };
@@ -56,8 +56,8 @@ function stampHoldsSlug(stamp: VisaStampView, slug: string): boolean {
   return held === slug;
 }
 
-function pathwayTitle(pathwayId: AcademyPathwayId): string {
-  return catalogPathwayTitleById(pathwayId) ?? pathwayId;
+function lockTitle(lockId: ListingVisaLockId): string {
+  return listingVisaLockTitle(lockId) ?? lockId;
 }
 
 /** Kariyer odası tabelası — freelancer teklif kapılarının dürüst haritası. */
@@ -73,7 +73,7 @@ export function buildCareerVisaScopeBoard(
     }));
     return {
       pathwayId,
-      pathwayTitle: pathwayTitle(pathwayId),
+      pathwayTitle: lockTitle(pathwayId),
       courses,
       open: courses.some((course) => course.held),
     };
@@ -90,7 +90,7 @@ export function listingVisaScopeSign(listing: ListingVisaSubject): ListingVisaSc
   }));
   return {
     pathwayId,
-    pathwayTitle: pathwayTitle(pathwayId),
+    pathwayTitle: lockTitle(pathwayId),
     courses,
   };
 }

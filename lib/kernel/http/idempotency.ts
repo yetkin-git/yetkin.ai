@@ -21,7 +21,9 @@ export type HttpIdempotencyBeginResult =
   | { kind: "created" }
   | { kind: "replay"; record: HttpIdempotencyRecord }
   | { kind: "in_progress" }
-  | { kind: "conflict" };
+  | { kind: "conflict" }
+  /** P2003 / oturum userId yok — eylem idempotent satır olmadan koşar. */
+  | { kind: "bypassed" };
 
 export type HttpIdempotencyStore = {
   begin(input: {
@@ -119,32 +121,40 @@ export async function settleHttpIdempotency(
     return jsonOk(began.record.body, began.record.statusCode, input.requestId, input.request);
   }
 
+  const persist = began.kind === "created";
+
   try {
     const result = await execute();
     if (result.status >= 200 && result.status < 300) {
-      await input.store.complete({
+      if (persist) {
+        await input.store.complete({
+          userId: input.userId,
+          route: input.route,
+          key: input.key,
+          statusCode: result.status,
+          body: result.body,
+        });
+      }
+      return jsonOk(result.body, result.status, input.requestId, input.request);
+    }
+    if (persist) {
+      await input.store.abandon({
         userId: input.userId,
         route: input.route,
         key: input.key,
-        statusCode: result.status,
-        body: result.body,
       });
-      return jsonOk(result.body, result.status, input.requestId, input.request);
     }
-    await input.store.abandon({
-      userId: input.userId,
-      route: input.route,
-      key: input.key,
-    });
     const error =
       typeof result.body.error === "string" ? result.body.error : "İşlem başarısız.";
     return jsonFail(error, result.status, input.requestId, input.request);
   } catch (error) {
-    await input.store.abandon({
-      userId: input.userId,
-      route: input.route,
-      key: input.key,
-    });
+    if (persist) {
+      await input.store.abandon({
+        userId: input.userId,
+        route: input.route,
+        key: input.key,
+      });
+    }
     throw error;
   }
 }

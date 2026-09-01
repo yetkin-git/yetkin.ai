@@ -54,7 +54,7 @@ describe("akademi fail-closed iş kanıtı", () => {
         curriculumKeys.add(lesson.key);
       }
     }
-    expect(curriculumKeys.size).toBe(48);
+    expect(curriculumKeys.size).toBe(108);
     for (const lessonKey of curriculumKeys) {
       const task = academyInteractiveTaskByKey(lessonKey);
       expect(task, lessonKey).not.toBeNull();

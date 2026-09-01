@@ -20,6 +20,8 @@ export type RuntimeReadinessReport = {
   devlabsPepper: RuntimePresence;
   /** Kenar HS256 yedek. Boş = JWKS-only (anayasa-uyumlu). */
   jwtHs256Fallback: RuntimePresence;
+  /** Sınav oturumu MAC. Boş = akademi sınavı 503; health 503 değildir. */
+  examSitting: RuntimePresence;
   /** serve() kapalı — GET/POST/PUT /api/jobs/inngest 503. */
   inngestServeFailClosed: boolean;
   /** Üretimde Inngest veya DATABASE_URL boş. PayTR unconfigured süreç bloğu değildir. */
@@ -68,6 +70,7 @@ export function evaluateRuntimeReadiness(
     smtp,
     devlabsPepper,
     jwtHs256Fallback,
+    examSitting: services.examSitting,
     inngestServeFailClosed,
     productionBlocked: blocking.length > 0,
     blocking,
@@ -85,6 +88,7 @@ export function formatRuntimeReadiness(report: RuntimeReadinessReport): string {
     `supabaseAuth=${report.supabaseAuth}`,
     `inngest=${report.inngest} serveFailClosed=${report.inngestServeFailClosed ? "evet" : "hayır"}`,
     `payments=${report.payments} (unconfigured ≠ süreç down; tahsilat kapalı)`,
+    `examSitting=${report.examSitting} (boşsa sınav 503; health 503 değildir)`,
     `smtp=${report.smtp} (boşsa nakit durmaz; piyasa kör; deliverCitizenNoticeMail → skipped)`,
     `devlabsPepper=${report.devlabsPepper} (donmuş oda; üretim bloğu değil; boşsa kod varsayılanı)`,
     `jwtHs256Fallback=${report.jwtHs256Fallback} (boşsa JWKS-only; HS256 düşer)`,

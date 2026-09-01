@@ -76,6 +76,63 @@ export function extractPcmFromWav(wav: Buffer): Buffer {
   return wrapped.subarray(44, 44 + Math.max(0, dataSize));
 }
 
+function readInt16Sample(pcm: Buffer, index: number): number {
+  const samples = Math.floor(pcm.length / 2);
+  if (samples <= 0) {
+    return 0;
+  }
+  const clamped = Math.max(0, Math.min(samples - 1, Math.trunc(index)));
+  return pcm.readInt16LE(clamped * 2);
+}
+
+function solaTimeStretchInt16(pcm: Buffer, rate: number): Buffer {
+  const inSamples = Math.floor(pcm.length / 2);
+  if (inSamples < 8) {
+    return Buffer.from(pcm);
+  }
+  const window = 1152;
+  const hopOut = 288;
+  const hopIn = hopOut * rate;
+  const outSamples = Math.max(1, Math.round(inSamples / rate));
+  const acc = new Float64Array(outSamples + window);
+  const weights = new Float64Array(outSamples + window);
+  let inPos = 0;
+  let outPos = 0;
+  while (outPos < outSamples) {
+    for (let i = 0; i < window; i += 1) {
+      const dest = outPos + i;
+      if (dest >= acc.length) {
+        break;
+      }
+      const hann = 0.5 - 0.5 * Math.cos((2 * Math.PI * i) / (window - 1));
+      acc[dest] = (acc[dest] ?? 0) + readInt16Sample(pcm, inPos + i) * hann;
+      weights[dest] = (weights[dest] ?? 0) + hann;
+    }
+    inPos += hopIn;
+    outPos += hopOut;
+    if (inPos >= inSamples) {
+      break;
+    }
+  }
+  const out = Buffer.alloc(outSamples * 2);
+  for (let i = 0; i < outSamples; i += 1) {
+    const weight = weights[i] ?? 0;
+    const sample = weight > 1e-6 ? (acc[i] ?? 0) / weight : 0;
+    out.writeInt16LE(Math.max(-32768, Math.min(32767, Math.round(sample))), i * 2);
+  }
+  return out;
+}
+
+/** Konuşma hızı — 0.95 = %5 yavaşlatma. Süre uzar; perde SOLA ile korunur. */
+export function tempoStretchPcmWav(wav: Buffer, rate: number): Buffer {
+  const wrapped = wrapPcmAsWav(wav);
+  if (!Number.isFinite(rate) || rate <= 0 || Math.abs(rate - 1) < 0.0005) {
+    return wrapped;
+  }
+  const sampleRate = wrapped.length >= 28 ? wrapped.readUInt32LE(24) : GEMINI_TTS_PCM_SAMPLE_RATE;
+  return wrapPcmAsWav(solaTimeStretchInt16(extractPcmFromWav(wrapped), rate), sampleRate);
+}
+
 export function concatPcmWavBuffers(parts: readonly Buffer[]): Buffer {
   if (parts.length === 0) {
     return wrapPcmAsWav(Buffer.alloc(0));

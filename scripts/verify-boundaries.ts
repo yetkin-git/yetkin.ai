@@ -196,7 +196,7 @@ function isInnerServerPath(path: string): boolean {
   if (name.endsWith("-engine")) {
     return true;
   }
-  if (name === "catalog-write" || name === "display-name-write") {
+  if (name === "catalog-write" || name === "display-name-write" || name === "billing-info-write") {
     return true;
   }
   if (base === "lib/kernel/db") {

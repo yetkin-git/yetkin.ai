@@ -13,6 +13,7 @@
     "db:validate": "prisma validate",
     "seed": "tsx prisma/seed.ts",
     "render:academy-media": "tsx scripts/render-academy-lesson-media.ts",
+    "generate:academy-audio": "tsx scripts/generate-academy-lesson-audio.ts",
     "typecheck": "prisma generate && tsc --noEmit -p tsconfig.json",
     "typecheck:rail-is": "npm --prefix apps/rail-is run typecheck",
     "test": "vitest run --exclude **/*surface.test.ts --exclude tests/kernel/earnings-bridge.test.ts",

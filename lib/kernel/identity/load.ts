@@ -2,14 +2,20 @@ import "server-only";
 
 import { cache } from "react";
 import { isSupabaseUserId } from "@/lib/kernel/auth/ids";
-import { ensurePrismaQueryEngine, getPrisma, withDbReadTimeout } from "@/lib/kernel/db";
+import {
+  ensurePrismaQueryEngine,
+  getPrisma,
+  kernelBackgroundReadTimeoutMs,
+  withDbReadTimeout,
+} from "@/lib/kernel/db";
 import type { IdentityProfile } from "@/lib/kernel/identity/types";
 
 export type IdentityBoard = {
   user: IdentityProfile | null;
 };
 
-const IDENTITY_READ_TIMEOUT_MS = 600;
+/** Serverless fail-soft; uzun süreç `kernelBackgroundReadTimeoutMs` ile 8s. */
+const IDENTITY_READ_TIMEOUT_MS = 2_000;
 
 /**
  * Oturum sahibinin çekirdek User satırı.
@@ -24,7 +30,10 @@ export const loadIdentityBoard = cache(async function loadIdentityBoard(
   }
 
   try {
-    await ensurePrismaQueryEngine();
+    const engineReady = await ensurePrismaQueryEngine();
+    if (!engineReady) {
+      return null;
+    }
     const prisma = getPrisma();
     const row = await withDbReadTimeout(
       prisma.user.findUnique({
@@ -38,7 +47,7 @@ export const loadIdentityBoard = cache(async function loadIdentityBoard(
           createdAt: true,
         },
       }),
-      IDENTITY_READ_TIMEOUT_MS,
+      kernelBackgroundReadTimeoutMs(IDENTITY_READ_TIMEOUT_MS),
       "identity.user",
     );
 

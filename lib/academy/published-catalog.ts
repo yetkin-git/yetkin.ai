@@ -33,8 +33,10 @@ export function academyCourseRecordFromSeed(row: AcademyCatalogSeed): AcademyCou
 }
 
 function withCardHonesty(course: AcademyCourseWithPrice): AcademyCourseWithPrice {
+  const seed = academyCatalogSeedMatch(course.slug) ?? academyCatalogSeedMatch(course.id);
   return {
     ...course,
+    summary: seed?.summary ?? course.summary,
     level: academyCourseLevelBySlug(course.slug),
     offerPaths: academyCardOfferPaths(),
   };
@@ -52,8 +54,8 @@ export function publishedAcademyCourseFromSeed(row: AcademyCatalogSeed): Academy
 type AcademyCatalogOrderable = { slug: string; level?: string | null };
 
 /**
- * Vitrin sırası: kulvar SSOT → modül kodu (101→102→103) → slug.
- * Puan kolonu okunmaz; kart dizilimine karışmaz.
+ * Vitrin sırası: sabit kulvar önceliği → modül kodu (101→102→103) → slug.
+ * created_at / puan kolonu okunmaz; kart dizilimine karışmaz.
  */
 export function orderAcademyShowcaseCatalog<T extends AcademyCatalogOrderable>(
   courses: readonly T[],

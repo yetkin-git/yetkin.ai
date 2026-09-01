@@ -35,7 +35,10 @@ function bindLabEnv(): string {
 export const PG_LAB_URL = bindLabEnv();
 
 export async function warmLabPrisma(): Promise<void> {
-  await ensurePrismaQueryEngine();
+  const ready = await ensurePrismaQueryEngine();
+  if (!ready) {
+    throw new Error("lab prisma warmup failed");
+  }
 }
 
 export function labUserId(label: string): string {

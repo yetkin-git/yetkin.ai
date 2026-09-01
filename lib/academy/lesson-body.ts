@@ -6,6 +6,12 @@
  */
 
 import { normalizeAcronyms } from "@/lib/academy/acronym-normalizer";
+import {
+  academyDialogueSpeakerDisplayName,
+  type AcademyFiveActDialogue,
+  type DialogueTurn,
+} from "@/lib/academy/curricula/types";
+import type { AcademyExamQuestion } from "@/lib/academy/types";
 
 export const ACADEMY_LESSON_PARAMS_FENCE = "params";
 export const ACADEMY_LESSON_STEPS_FENCE = "adim";
@@ -189,6 +195,19 @@ export const ACADEMY_LESSON_ACT_HEADINGS = {
 
 export type AcademyLessonAct = keyof typeof ACADEMY_LESSON_ACT_HEADINGS;
 
+/** PEDAGOJI.md — 5 perdeli montaj. */
+export const ACADEMY_FIVE_ACT_HEADINGS = {
+  warmup: "Isınma",
+  problem: "Giriş / Problem",
+  development: "Gelişme / Uygulama",
+  conclusion: "Sonuç / Özet",
+  assessment: "İş Kanıtı / Değerlendirme",
+} as const;
+
+export type AcademyFiveAct = keyof typeof ACADEMY_FIVE_ACT_HEADINGS;
+
+export type AcademyLessonHeadingAct = AcademyLessonAct | AcademyFiveAct;
+
 export const ACADEMY_LESSON_SYNTAX_LEAD = "Bu dersin çalışan sözdizimi aşağıdadır." as const;
 
 export type AcademyLessonPedagogySections = {
@@ -199,8 +218,13 @@ export type AcademyLessonPedagogySections = {
   exercise: string;
 };
 
-export function academyLessonActFromHeading(line: string): AcademyLessonAct | null {
+export function academyLessonActFromHeading(line: string): AcademyLessonHeadingAct | null {
   const trimmed = line.trim();
+  for (const act of Object.keys(ACADEMY_FIVE_ACT_HEADINGS) as AcademyFiveAct[]) {
+    if (ACADEMY_FIVE_ACT_HEADINGS[act] === trimmed) {
+      return act;
+    }
+  }
   for (const act of Object.keys(ACADEMY_LESSON_ACT_HEADINGS) as AcademyLessonAct[]) {
     if (ACADEMY_LESSON_ACT_HEADINGS[act] === trimmed) {
       return act;
@@ -209,8 +233,15 @@ export function academyLessonActFromHeading(line: string): AcademyLessonAct | nu
   return null;
 }
 
-export function attachAcademyLessonActHeading(act: AcademyLessonAct, prose: string): string {
-  const heading = ACADEMY_LESSON_ACT_HEADINGS[act];
+export function academyLessonHeadingForAct(act: AcademyLessonHeadingAct): string {
+  if (act in ACADEMY_FIVE_ACT_HEADINGS) {
+    return ACADEMY_FIVE_ACT_HEADINGS[act as AcademyFiveAct];
+  }
+  return ACADEMY_LESSON_ACT_HEADINGS[act as AcademyLessonAct];
+}
+
+export function attachAcademyLessonActHeading(act: AcademyLessonHeadingAct, prose: string): string {
+  const heading = academyLessonHeadingForAct(act);
   const parts = prose
     .split(/\n\n+/u)
     .map((part) => part.trim())
@@ -223,7 +254,7 @@ export function attachAcademyLessonActHeading(act: AcademyLessonAct, prose: stri
 }
 
 export function parseAcademyLessonActText(text: string): {
-  act: AcademyLessonAct | null;
+  act: AcademyLessonHeadingAct | null;
   heading: string | null;
   body: string;
 } {
@@ -298,7 +329,79 @@ export function composeCompactLessonBody(
   return composePracticalLessonBody(cleaned, practice);
 }
 
+export function serializeDialogueTurns(turns: readonly DialogueTurn[]): string {
+  return turns
+    .map((turn) => {
+      const name = academyDialogueSpeakerDisplayName(turn.speaker);
+      const line = `${name}: ${cleanAcademyArtificialOpenings(turn.text)}`;
+      if (!turn.code) {
+        return line;
+      }
+      return `${line}\n\n${serializeAcademyLessonCode(turn.code)}`;
+    })
+    .join("\n\n");
+}
+
+export function serializeAcademyLessonQuizPrompt(questions: readonly AcademyExamQuestion[]): string {
+  const blocks = questions.map((question, index) => {
+    const choices = question.choices
+      .map((choice, choiceIndex) => `${String.fromCharCode(65 + choiceIndex)}) ${choice}`)
+      .join("\n");
+    return `${index + 1}. ${question.prompt}\n${choices}`;
+  });
+  return [
+    "Baraj 70. Üç soru, her birinde tek doğru şık. Cevabı burada işaretlemiyoruz; ölçüm sınav kapısında durur.",
+    ...blocks,
+  ].join("\n\n");
+}
+
+/**
+ * PEDAGOJI.md 5 perde — Koray/Maya DialogueTurn[] + çalışan kod + ders sonu quiz.
+ */
+export function composeFiveActDialogueLessonBody(
+  dialogue: AcademyFiveActDialogue,
+  quiz: readonly AcademyExamQuestion[],
+  practice: AcademyLessonPractice,
+): string {
+  const warmup = serializeDialogueTurns(dialogue.warmup);
+  const problem = serializeDialogueTurns(dialogue.problem);
+  const development = serializeDialogueTurns(dialogue.development);
+  const conclusion = serializeDialogueTurns(dialogue.conclusion);
+  const assessment = serializeAcademyLessonQuizPrompt(quiz);
+  if (!warmup || !problem || !development || !conclusion || !assessment) {
+    throw new Error("Pedagoji beş perde / quiz eksik.");
+  }
+  if (quiz.length < 3) {
+    throw new Error("Ders sonu quiz 3 soru ister.");
+  }
+  return [
+    attachAcademyLessonActHeading("warmup", warmup),
+    attachAcademyLessonActHeading("problem", problem),
+    attachAcademyLessonActHeading("development", development),
+    serializeAcademyLessonCode(practice.code),
+    serializeAcademyLessonParams(practice.params),
+    serializeAcademyLessonSteps(practice.steps),
+    attachAcademyLessonActHeading("conclusion", conclusion),
+    attachAcademyLessonActHeading("assessment", assessment),
+    serializeAcademyLessonExercise(assessment),
+  ].join("\n\n");
+}
+
+export function academyLessonHasFiveActPedagogy(body: string): boolean {
+  return (
+    body.includes(ACADEMY_FIVE_ACT_HEADINGS.warmup) &&
+    body.includes(ACADEMY_FIVE_ACT_HEADINGS.problem) &&
+    body.includes(ACADEMY_FIVE_ACT_HEADINGS.development) &&
+    body.includes(ACADEMY_FIVE_ACT_HEADINGS.conclusion) &&
+    body.includes(ACADEMY_FIVE_ACT_HEADINGS.assessment) &&
+    body.includes("```" + ACADEMY_LESSON_EXERCISE_FENCE)
+  );
+}
+
 export function academyLessonHasPedagogy(body: string): boolean {
+  if (academyLessonHasFiveActPedagogy(body)) {
+    return true;
+  }
   return (
     body.includes(ACADEMY_LESSON_ACT_HEADINGS.giris) &&
     body.includes(ACADEMY_LESSON_ACT_HEADINGS.syntax) &&
@@ -460,6 +563,26 @@ export function expandAcademySpokenAbbreviations(text: string): string {
       .replace(
         /(?<![.(])\bReact\b(?!\s*\()/gu,
         "React (kullanıcı arayüzü kütüphanesi)",
+      )
+      .replace(
+        /(?<![.(])\bNext\.js\b(?!\s*\()/giu,
+        "Next.js (tam yığın çerçeve)",
+      )
+      .replace(
+        /(?<![.(])\bApp Router\b(?!\s*\()/giu,
+        "Uygulama Yönlendiricisi (App Router)",
+      )
+      .replace(
+        /(?<![.(])\bServer Actions?\b(?!\s*\()/giu,
+        "Sunucu Eylemi (Server Actions)",
+      )
+      .replace(
+        /(?<![.(])\bDocker Compose\b(?!\s*\()/giu,
+        "Docker Compose (çoklu konteyner planı)",
+      )
+      .replace(
+        /(?<![.(])\bGitHub Actions\b(?!\s*\()/giu,
+        "GitHub Actions (iş akışı bandı)",
       )
       .replace(
         /(?<![.(])\bRequirement Gathering\b(?!\s*\()/giu,
@@ -681,7 +804,7 @@ export function spokenAcademyLessonBody(body: string): string {
       parts.push(spoken);
     }
   }
-  return cleanAcademySpokenTextForTts(parts.join(" "));
+  return parts.join(" ");
 }
 
 export function academyLessonHasPractice(body: string): boolean {

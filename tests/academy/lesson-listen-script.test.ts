@@ -12,10 +12,7 @@ import {
   activeAcademyListenScriptCardIndex,
   buildAcademyLessonListenScript,
 } from "@/archived/lib/academy-studio/lesson-listen-script";
-import {
-  academyLessonFlowFromBlocks,
-  ACADEMY_LESSON_FLOW_SECTION_COUNT,
-} from "@/archived/lib/academy-studio/lesson-flow";
+import { academyLessonFlowFromBlocks } from "@/archived/lib/academy-studio/lesson-flow";
 
 function scriptFor(slug: string, lessonIndex: number) {
   const lesson = curriculumForCourseSlug(slug)[lessonIndex]!;
@@ -35,17 +32,17 @@ function scriptFor(slug: string, lessonIndex: number) {
 }
 
 describe("ders dinleme script SSOT", () => {
-  it("dört bölüm kartı TTS sırası ile aynı kaynaktan gelir; anons ve moderatör yok", () => {
-    const { lesson, script, sections } = scriptFor("python-temel", 1);
-    expect(lesson.title).toContain("Değişkenler, tipler ve dürüst isimlendirme");
+  it("beş perde kartı TTS sırası ile aynı kaynaktan gelir; anons ve stüdyo sarmalayıcı yok", () => {
+    const { lesson, script, sections } = scriptFor("python-temel", 0);
+    expect(lesson.title).toContain("Değişkenler, veri tipleri");
     expect(script.lessonKey).toBe(lesson.key);
-    expect(script.cards).toHaveLength(ACADEMY_LESSON_FLOW_SECTION_COUNT);
+    expect(script.cards).toHaveLength(5);
     expect(script.cards.some((card) => card.kind === "announcer")).toBe(false);
     expect(script.cards.some((card) => card.kind === "moderator")).toBe(false);
     expect(script.cards.some((card) => card.kind === "instructor")).toBe(true);
     expect(script.cards.some((card) => card.kind === "code")).toBe(true);
     expect(script.cards.some((card) => card.kind === "exercise")).toBe(true);
-    expect(sections).toHaveLength(ACADEMY_LESSON_FLOW_SECTION_COUNT);
+    expect(sections).toHaveLength(5);
     for (let index = 0; index < sections.length; index += 1) {
       expect(script.cards[index]?.spokenText).toBe(sections[index]?.displayText);
       expect(script.cards[index]?.spokenText).toBe(sections[index]?.spokenText);

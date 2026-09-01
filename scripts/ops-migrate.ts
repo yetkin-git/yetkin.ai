@@ -45,6 +45,7 @@ import {
   assertFrozenRoomDropMigrationPresent,
   assertPublicUsers,
   assertPrismaRingMigrationsPresent,
+  applyAcademyCatalogPriceMap,
   assertSqlSealPlanComplete,
   inspectLedgerMigrationSql,
   inspectEscrowHoldMigrationSql,
@@ -324,9 +325,13 @@ async function main(): Promise<void> {
     await assertPublicUsers(query);
     await assertAuthUsers(query);
     await applySql(client, files);
+    await applyAcademyCatalogPriceMap(query);
     await runPostApplySeals(query);
     console.log(
       `   akademi tohumu OK — ${ACADEMY_SEED_COURSE_IDS.length} yayında kurs, katalog + sınav bağlı.`,
+    );
+    console.log(
+      `   akademi fiyat haritası OK — ${ACADEMY_SEED_COURSE_IDS.length} PriceCatalogEntry amountMinor catalog-pricing.ts ile hizalı.`,
     );
     console.log("   auth sync OK — handle_new_user AFTER INSERT + handle_user_email_update AFTER UPDATE.");
     console.log("   FORCE RLS OK — çekirdek tablolar relforcerowsecurity.");

@@ -360,7 +360,8 @@ body {
 }
 
 [data-room="freelancer"] .room-listing .listing-price,
-[data-room="pazaryeri"] .room-listing .listing-price {
+[data-room="pazaryeri"] .room-listing .listing-price,
+[data-room="academy"] .room-listing .listing-price {
   font-variant-numeric: tabular-nums;
   color: var(--safir-deep);
 }
@@ -446,7 +447,7 @@ body {
 
 .quick-top-up-dialog {
   width: min(36rem, 100%);
-  max-height: min(90vh, 44rem);
+  max-height: min(92vh, 52rem);
   overflow: auto;
   border-radius: var(--radius-card);
   border: 1px solid var(--border);
@@ -824,6 +825,114 @@ html:has(.academy-catalog-viewport-lock) body {
 .academy-player-reading-pane {
   min-height: 0;
   overflow: visible;
+}
+
+.academy-dialogue-player {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 1.15rem;
+  background: #070b14;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--foreground) 10%, transparent),
+    0 24px 48px color-mix(in srgb, #000 28%, transparent);
+}
+
+.academy-dialogue-stage {
+  position: relative;
+  display: flex;
+  min-height: 14rem;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.15rem 1.2rem 1.25rem;
+  background:
+    radial-gradient(120% 80% at 50% 0%, color-mix(in srgb, var(--safir) 22%, transparent), transparent 62%),
+    #070b14;
+}
+
+.academy-dialogue-kicker {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 550;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.academy-dialogue-title {
+  margin: 0;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.academy-dialogue-preparing {
+  border-radius: 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--safir) 28%, transparent);
+  background: color-mix(in srgb, var(--safir) 14%, rgba(7, 11, 20, 0.72));
+  padding: 0.7rem 0.85rem;
+}
+
+.academy-dialogue-preparing-title {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.academy-dialogue-preparing-lead {
+  margin: 0.35rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.academy-dialogue-current {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.academy-dialogue-act {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 550;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.academy-dialogue-speaker {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--safir) 70%, #fff);
+}
+
+.academy-dialogue-text {
+  margin: 0;
+  max-width: 42rem;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.academy-dialogue-text--empty {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.academy-dialogue-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 0.75rem 0.7rem;
+  background: linear-gradient(180deg, rgba(7, 11, 20, 0.2), #070b14);
+}
+
+.academy-dialogue-transcript[data-listening="true"] .academy-transcript-sentence:not([data-academy-transcript-active="true"]) {
+  color: color-mix(in srgb, var(--foreground) 55%, transparent);
 }
 
 .academy-cinema {

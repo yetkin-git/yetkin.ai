@@ -2,6 +2,10 @@ import { createHmac } from "node:crypto";
 import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { logEvent } from "@/lib/kernel/observability/log";
 import {
+  isPaytrCheckoutUserComplete,
+  normalizeTrMobilePhone,
+} from "@/lib/kernel/identity/billing-info";
+import {
   isPaytrMockCheckoutAllowed,
   tryPaytrDevOnlyMockCheckout,
 } from "@/lib/kernel/payments/paytr/mock-checkout";
@@ -64,7 +68,7 @@ export type PaytrCheckoutTokenResult =
     }
   | {
       ok: false;
-      reason: "missing_credentials" | "invalid_amount" | "pay_api_error";
+      reason: "missing_credentials" | "invalid_amount" | "invalid_user" | "pay_api_error";
       message: string;
     };
 
@@ -251,6 +255,35 @@ export function encodePaytrUserBasket(items: PaytrUserBasketItem[]): string {
   return Buffer.from(JSON.stringify(payload)).toString("base64");
 }
 
+/** Sepet Σ(birim × adet) — kart/vitrin amountMinor ile get-token payment_amount aynı kapıda durur. */
+export function paytrUserBasketTotalMinor(items: readonly PaytrUserBasketItem[]): number {
+  let total = 0;
+  for (const item of items) {
+    if (!Number.isInteger(item.amountMinor) || item.amountMinor <= 0) {
+      throw new Error("PayTR sepet tutarı geçersiz.");
+    }
+    if (!Number.isInteger(item.quantity) || item.quantity <= 0) {
+      throw new Error("PayTR sepet adedi geçersiz.");
+    }
+    total += item.amountMinor * item.quantity;
+  }
+  if (!Number.isInteger(total) || total <= 0) {
+    throw new Error("PayTR sepet toplamı geçersiz.");
+  }
+  return total;
+}
+
+export function paytrBasketMatchesPayment(
+  items: readonly PaytrUserBasketItem[],
+  paymentAmountMinor: number,
+): boolean {
+  try {
+    return paytrUserBasketTotalMinor(items) === paymentAmountMinor;
+  } catch {
+    return false;
+  }
+}
+
 export function buildPaytrIframeUrl(token: string): string {
   return `${PAYTR_IFRAME_BASE_URL}/${encodeURIComponent(token)}`;
 }
@@ -297,6 +330,14 @@ export async function requestPaytrCheckoutToken(
     };
   }
 
+  if (!paytrBasketMatchesPayment(input.userBasket, input.paymentAmountMinor)) {
+    return {
+      ok: false,
+      reason: "invalid_amount",
+      message: "PayTR sepet tutarı ödeme tutarı ile eşleşmiyor.",
+    };
+  }
+
   const credentials = getPaytrCheckoutCredentials();
   if (!credentials) {
     const mock = tryPaytrDevOnlyMockCheckout(input.merchantOid);
@@ -339,6 +380,25 @@ export async function requestPaytrCheckoutToken(
     testMode,
   });
 
+  if (!isPaytrCheckoutUserComplete(input)) {
+    return {
+      ok: false,
+      reason: "invalid_user",
+      message: "Ödeme için ad, açık adres ve geçerli cep telefonu zorunludur.",
+    };
+  }
+
+  const userName = input.userName!.trim();
+  const userAddress = input.userAddress!.trim();
+  const userPhone = normalizeTrMobilePhone(input.userPhone);
+  if (!userPhone) {
+    return {
+      ok: false,
+      reason: "invalid_user",
+      message: "Ödeme için ad, açık adres ve geçerli cep telefonu zorunludur.",
+    };
+  }
+
   const body = new URLSearchParams({
     merchant_id: credentials.merchantId,
     user_ip: input.userIp,
@@ -354,9 +414,9 @@ export async function requestPaytrCheckoutToken(
     currency,
     merchant_ok_url: input.merchantOkUrl,
     merchant_fail_url: input.merchantFailUrl,
-    user_name: input.userName ?? "Yetkin Kullanıcı",
-    user_address: input.userAddress ?? "Türkiye",
-    user_phone: input.userPhone ?? "05000000000",
+    user_name: userName,
+    user_address: userAddress,
+    user_phone: userPhone,
     timeout_limit: String(input.timeoutLimitMinutes ?? 30),
   });
 

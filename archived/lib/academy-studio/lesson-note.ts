@@ -1,15 +1,20 @@
 /**
  * Duru ders notu — görsel etiket / şema / mikro-video yok.
- * Giriş / Kod Örneği / Çalışma Mantığı / Uygulama düzyazısı + pratik görev. Client-safe.
+ * Beş perde (Amiral Ders) veya dört bölüm (büyüme SKU) düzyazısı + pratik görev. Client-safe.
  */
 
 import { academyInteractiveTaskByKey, type AcademyProofKind } from "@/lib/academy/proof-of-work";
 import {
+  ACADEMY_FIVE_ACT_HEADINGS,
   ACADEMY_LESSON_ACT_HEADINGS,
+  academyLessonHasFiveActPedagogy,
+  academyLessonHeadingForAct,
   classifyAcademyLessonChunk,
   parseAcademyLessonActText,
   splitAcademyLessonChunks,
+  type AcademyFiveAct,
   type AcademyLessonAct,
+  type AcademyLessonHeadingAct,
   type AcademyLessonParamRow,
 } from "@/lib/academy/lesson-body";
 import { LESSON_PRACTICE } from "@/lib/academy/lesson-practice";
@@ -18,7 +23,7 @@ import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
 import { academyLessonByKey, curriculumForCourseSlug } from "@/lib/academy/curriculum";
 
 export type AcademyLessonNoteSection = {
-  act: AcademyLessonAct;
+  act: AcademyLessonHeadingAct;
   heading: string;
   prose: string;
 };
@@ -59,20 +64,22 @@ function practiceExample(kind: AcademyProofKind, practice: (typeof LESSON_PRACTI
 }
 
 export function plainAcademyLessonSections(body: string): AcademyLessonNoteSection[] {
-  const buckets: Record<AcademyLessonAct, string[]> = {
-    giris: [],
-    syntax: [],
-    mantik: [],
-    uygulama: [],
-  };
-  let current: AcademyLessonAct = "giris";
+  const fiveAct = academyLessonHasFiveActPedagogy(body);
+  const order = fiveAct
+    ? (Object.keys(ACADEMY_FIVE_ACT_HEADINGS) as AcademyFiveAct[])
+    : (Object.keys(ACADEMY_LESSON_ACT_HEADINGS) as AcademyLessonAct[]);
+  const buckets = Object.fromEntries(order.map((act) => [act, [] as string[]])) as Record<
+    AcademyLessonHeadingAct,
+    string[]
+  >;
+  let current: AcademyLessonHeadingAct = order[0]!;
   for (const chunk of splitAcademyLessonChunks(body)) {
     const segment = classifyAcademyLessonChunk(chunk);
     if (segment.kind !== "text") {
       continue;
     }
     const parsed = parseAcademyLessonActText(segment.text);
-    if (parsed.act) {
+    if (parsed.act && parsed.act in buckets) {
       current = parsed.act;
     }
     const prose = collapseProse(parsed.act ? parsed.body : segment.text);
@@ -80,10 +87,10 @@ export function plainAcademyLessonSections(body: string): AcademyLessonNoteSecti
       buckets[current].push(prose);
     }
   }
-  return (Object.keys(ACADEMY_LESSON_ACT_HEADINGS) as AcademyLessonAct[])
+  return order
     .map((act) => ({
       act,
-      heading: ACADEMY_LESSON_ACT_HEADINGS[act],
+      heading: academyLessonHeadingForAct(act),
       prose: buckets[act].join("\n\n"),
     }))
     .filter((section) => section.prose.length > 0);

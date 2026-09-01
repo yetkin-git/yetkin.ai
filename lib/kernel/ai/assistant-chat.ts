@@ -21,6 +21,27 @@ export const ASSISTANT_CHAT_MAX_HISTORY = 8;
 const PROVIDER_LEAK_RE =
   /\b(google|gemini|openai|chatgpt|claude|anthropic|gpt-4|gpt-5|gemma|imagen)\b/gi;
 
+/** En uzun kalıp önce — mühürlü/vizesiz gövdeyi mühür/vize yutmasın. */
+const CITIZEN_JARGON_SCRUBS: ReadonlyArray<readonly [RegExp, string]> = [
+  [/dikey\s+kapsam(?:ı|ın|a|da|dan)?/gi, "uzmanlık alanı"],
+  [/dikey\s+vize(?:si|n|yi|ye)?/gi, "uzmanlık seviyesi"],
+  [/kariyer\s+vize(?:si|n|yi|ye|nle)?/gi, "uzmanlık seviyesi"],
+  [/mühürlenme/gi, "belgelenme"],
+  [/mühürlenmek/gi, "belgelenmek"],
+  [/mühürlenince/gi, "belge alınca"],
+  [/mühürlenir/gi, "belgelenir"],
+  [/mühürlendi/gi, "belgelendi"],
+  [/mühürlen/gi, "belgele"],
+  [/mühürlü/gi, "onaylı"],
+  [/mühürsüz/gi, "belgesiz"],
+  [/mühr(?:ü|ün|e)/gi, "sertifika"],
+  [/mühür(?:ü|ün|e|de|den|le|ler|leri)?/gi, "sertifika"],
+  [/vizesiz/gi, "erişim hakkı olmadan"],
+  [/vizeli/gi, "erişim hakkı olan"],
+  [/vizenle/gi, "uzmanlık seviyenle"],
+  [/vize(?:si|n|yi|ye|de|den|ler|leri)?/gi, "uzmanlık seviyesi"],
+];
+
 const historyTurnSchema = z.object({
   role: z.enum(["user", "assistant"]),
   content: z.string().trim().min(1).max(ASSISTANT_CHAT_MAX_MESSAGE_CHARS),
@@ -74,6 +95,26 @@ export function createHttpAssistantChatQuota(): AssistantChatQuotaPort {
 
 export function scrubAssistantProviderLeak(text: string): string {
   return text.replace(PROVIDER_LEAK_RE, YETKIN_BRAND);
+}
+
+function replaceKeepingTurkishCase(source: string, pattern: RegExp, replacement: string): string {
+  return source.replace(pattern, (matched) => {
+    const first = matched.charAt(0);
+    const upper = first.toLocaleUpperCase("tr-TR");
+    if (upper === first && first.toLocaleLowerCase("tr-TR") !== first) {
+      return replacement.charAt(0).toLocaleUpperCase("tr-TR") + replacement.slice(1);
+    }
+    return replacement;
+  });
+}
+
+/** Vatandaş yanıtından mühür / vize / dikey kapsam kaçağını siler. */
+export function scrubAssistantCitizenJargon(text: string): string {
+  return CITIZEN_JARGON_SCRUBS.reduce(
+    (current, [pattern, replacement]) =>
+      replaceKeepingTurkishCase(current, pattern, replacement),
+    text,
+  );
 }
 
 function normalizeHistory(history: AssistantChatRequest["history"]): LlmChatTurn[] {
@@ -156,7 +197,7 @@ export async function answerAssistantChat(
 
   return {
     ok: true,
-    reply: scrubAssistantProviderLeak(llm.text.trim()),
+    reply: scrubAssistantCitizenJargon(scrubAssistantProviderLeak(llm.text.trim())),
     remaining: slot.remaining,
     limit: slot.limit,
   };

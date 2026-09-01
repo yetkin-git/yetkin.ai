@@ -1,40 +1,37 @@
 /**
- * İlan kapısı sicili — hangi müfredat kimliği pazaryeri teklifini açar.
- * Kelime kestirimi kariyer odasındadır; kapı kimliği çekirdektedir.
+ * İlan kapısı sicili — 6 ihtiyaç kapısı. Eski dikey takma adlar ihtiyaç id'sine yönlenir.
  */
 
 import {
-  isAcademyPathwayId,
-  type AcademyPathwayId,
-} from "@/lib/kernel/catalog-ids/pathway-ids";
+  FREELANCER_DEFAULT_NEED_ID,
+  FREELANCER_NEED_IDS,
+  parseListingVisaLockId,
+  type FreelancerNeedId,
+  type ListingVisaLockId,
+} from "@/lib/kernel/catalog-ids/need-based-mapping";
 
-export const YZ_ICERIK_LISTING_PATHWAY = "yz-muhendislik-agent" satisfies AcademyPathwayId;
-export const YAZILIM_BULUT_LISTING_PATHWAY = "fullstack-web-api" satisfies AcademyPathwayId;
-export const SIBER_AGILE_ESG_LISTING_PATHWAY = "siber-guvenlik-pentest" satisfies AcademyPathwayId;
-export const UIUX_URUN_FREELANCE_LISTING_PATHWAY = "uiux-tasarim-sistemleri" satisfies AcademyPathwayId;
-export const TEKNIK_URUN_AGILE_LISTING_PATHWAY = "teknik-urun-yonetimi-agile" satisfies AcademyPathwayId;
+export const YZ_ICERIK_LISTING_PATHWAY = "ai-agent-entegrasyon" satisfies FreelancerNeedId;
+export const YAZILIM_BULUT_LISTING_PATHWAY = "web-sitesi-yazilim" satisfies FreelancerNeedId;
+export const SIBER_AGILE_ESG_LISTING_PATHWAY = "siber-guvenlik-sunucu-test" satisfies FreelancerNeedId;
+export const UIUX_URUN_FREELANCE_LISTING_PATHWAY = "logo-gorsel-sosyal-medya" satisfies FreelancerNeedId;
+/** PM dikeyi canlı SKU taşımıyor — yazılım kapısına düşer. */
+export const TEKNIK_URUN_AGILE_LISTING_PATHWAY = "web-sitesi-yazilim" satisfies FreelancerNeedId;
 
-/** Organik ilan kilidi — kelime piyangosu yoksa freelancer odasının native dikeyi. */
-export const FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY = UIUX_URUN_FREELANCE_LISTING_PATHWAY;
+/** Organik ilan kilidi — kelime piyangosu yoksa ihtiyaç listesinin ilk kapısı. */
+export const FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY = FREELANCER_DEFAULT_NEED_ID;
 
-/** Freelancer teklif kapıları — akademi dikeylerinin tamamı değil, ilan kilidi sicili. */
-export const FREELANCER_LISTING_VISA_DOORS = [
-  YZ_ICERIK_LISTING_PATHWAY,
-  YAZILIM_BULUT_LISTING_PATHWAY,
-  SIBER_AGILE_ESG_LISTING_PATHWAY,
-  UIUX_URUN_FREELANCE_LISTING_PATHWAY,
-  TEKNIK_URUN_AGILE_LISTING_PATHWAY,
-] as const;
+/** Freelancer teklif kapıları — işveren ihtiyaç listesi; SKU eşlemesi arka plandadır. */
+export const FREELANCER_LISTING_VISA_DOORS = FREELANCER_NEED_IDS;
 
-export type FreelancerListingVisaDoor = (typeof FREELANCER_LISTING_VISA_DOORS)[number];
+export type FreelancerListingVisaDoor = FreelancerNeedId;
 
 /** Geriye dönük takma adlar — test ve arşiv importları. */
 export const RAYLI_BIM_LISTING_PATHWAY = YAZILIM_BULUT_LISTING_PATHWAY;
 export const AGILE_ESG_SIBER_LISTING_PATHWAY = SIBER_AGILE_ESG_LISTING_PATHWAY;
 export const TASARIM_FINTEK_BULUT_LISTING_PATHWAY = UIUX_URUN_FREELANCE_LISTING_PATHWAY;
 
-/** Tohum freelancer ilanları — hepsi YZ mühendislik dikeyi. */
-export const LISTING_VISA_PATHWAY_BY_JOB_ID: Readonly<Record<string, AcademyPathwayId>> = {
+/** Tohum freelancer ilanları — AI Agent ihtiyaç kapısı. */
+export const LISTING_VISA_PATHWAY_BY_JOB_ID: Readonly<Record<string, FreelancerNeedId>> = {
   fj_rail_icon_set: YZ_ICERIK_LISTING_PATHWAY,
   fj_rail_ql_banners: YZ_ICERIK_LISTING_PATHWAY,
   fj_rail_academy_copy: YZ_ICERIK_LISTING_PATHWAY,
@@ -46,9 +43,8 @@ export function isFreelancerListingVisaDoor(value: string): value is FreelancerL
   return (FREELANCER_LISTING_VISA_DOORS as readonly string[]).includes(value);
 }
 
-export function parseListingVisaPathwayId(value: string | null | undefined): AcademyPathwayId | null {
-  if (!value) {
-    return null;
-  }
-  return isAcademyPathwayId(value) ? value : null;
+export function parseListingVisaPathwayId(
+  value: string | null | undefined,
+): ListingVisaLockId | null {
+  return parseListingVisaLockId(value);
 }

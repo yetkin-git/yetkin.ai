@@ -45,6 +45,8 @@ describe(".env.example ops şablonu", () => {
     expect(example).toContain("00000000-0000-4000-8000-000000000001");
     expect(example).toContain("db.<ref>.supabase.co:5432");
     expect(example).toContain("pooler.supabase.com");
+    expect(example).toContain("connection_limit=20");
+    expect(example).toContain("pool_timeout=10");
     expect(exampleKeys).toContain("PAYTR_MERCHANT_ID");
     expect(exampleKeys).toContain("PAYTR_MERCHANT_KEY");
     expect(exampleKeys).toContain("PAYTR_MERCHANT_SALT");
@@ -60,6 +62,7 @@ describe(".env.example ops şablonu", () => {
     expect(exampleKeys).toContain("RAIL_DRON_ORIGINS");
     expect(exampleKeys).toContain("TRUSTED_PROXY_HOPS");
     expect(exampleKeys).toContain("ACADEMY_EXAM_SITTING_SECRET");
+    expect(exampleKeys).toContain("SITE_MAINTENANCE_FREEZE");
     expect(example).not.toMatch(/^INNGEST_DEV=/m);
     expect(example).not.toMatch(/^RESEND_API_KEY=/m);
   });

@@ -1,7 +1,6 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { MODULE_ID } from "@/lib/freelancer";
 import {
   FREELANCER_CATALOG_SEEDS,
@@ -51,18 +50,26 @@ describe("freelancer ilan tohumu yüzeyi", () => {
       "fj_rail_seal_social",
     ]);
     const titles = FREELANCER_JOB_SEEDS.map((row) => row.title);
-    expect(titles).toContain("Yapay Zekâ Destekli İkon ve İllüstrasyon Seti Teslimi");
-    expect(titles).toContain(`${YETKIN_BRAND} Quiet Luxury Tanıtım Görselleri ve Banner Üretimi`);
-    expect(titles).toContain("Akademi Müfredat Özet Metinlerinin Düzenlenmesi");
-    expect(titles).toContain("DevLabs Örnek Prompt Şablonları Dokümantasyonu");
-    expect(titles).toContain("Mühürlü Kanıt Sosyal Medya Şablon Tasarımları");
+    expect(titles).toContain("SVG İkon Seti Tasarımı");
+    expect(titles).toContain("Web ve Sosyal Medya Banner Tasarımı");
+    expect(titles).toContain("Akademi Ders Özetlerinin Düzenlenmesi");
+    expect(titles).toContain("Prompt Şablonları Dokümantasyonu");
+    expect(titles).toContain("Sosyal Medya Paylaşım Şablonları");
     for (const row of FREELANCER_JOB_SEEDS) {
       expect(row.title.length).toBeGreaterThanOrEqual(3);
       expect(row.brief.length).toBeGreaterThanOrEqual(8);
       expect(row.brief.length).toBeLessThanOrEqual(4000);
       expect(row.budgetMinor).toBeGreaterThanOrEqual(FREELANCER_JOB_MIN_MINOR);
       expect(row.budgetMinor).toBeLessThanOrEqual(FREELANCER_JOB_MAX_MINOR);
-      expect(row.visaPathwayId).toBe("yz-muhendislik-agent");
+      expect(row.visaPathwayId).toBe("ai-agent-entegrasyon");
+      expect(row.formats.length).toBeGreaterThan(0);
+      expect(row.durationDays).toBeGreaterThan(0);
+      expect(row.requirements.length).toBeGreaterThan(0);
+      expect(row.brief).not.toMatch(/SHA-256/i);
+      expect(row.brief).not.toMatch(/settlement/i);
+      expect(row.brief).not.toMatch(/Quiet Luxury/i);
+      expect(row.brief).not.toMatch(/Tur 3/i);
+      expect(row.brief).not.toMatch(/EscrowHold/i);
     }
 
     const floor = FREELANCER_CATALOG_SEEDS.find((row) => row.unitKey === FREELANCER_JOB_FLOOR_UNIT_KEY);
@@ -85,6 +92,10 @@ describe("freelancer ilan tohumu yüzeyi", () => {
     expect(sql).toMatch(/ON CONFLICT \(id\) DO UPDATE/);
     expect(sql).toContain("'freelancer'");
     expect(sql).toContain(FREELANCER_SEED_CLIENT_ID);
+    expect(sql).toContain("visa_pathway_id");
+    expect(sql).toContain("due_days");
+    expect(sql).toContain("'ai-agent-entegrasyon'");
+    expect(sql).toContain("'PUBLIC'");
     expect(sql).not.toMatch(/INSERT INTO public\.users/i);
     expect(sql).not.toMatch(/INSERT INTO public\.wallets/i);
     expect(sql).not.toMatch(/INSERT INTO public\.freelancer_bids/i);
@@ -109,6 +120,16 @@ describe("freelancer ilan tohumu yüzeyi", () => {
       expect(sql).toContain(row.brief);
       expect(sql).toContain(String(row.budgetMinor));
     }
+
+    const runnable = readSrc("scripts/seed-freelancer-open-jobs.sql");
+    expect(runnable).toContain("fj_rail_icon_set");
+    expect(runnable).toContain("SVG İkon Seti Tasarımı");
+    expect(runnable).toContain("Web ve Sosyal Medya Banner Tasarımı");
+    expect(runnable).toContain("Akademi Ders Özetlerinin Düzenlenmesi");
+    expect(runnable).toContain("visa_pathway_id");
+    expect(runnable).toContain("due_days");
+    expect(runnable).not.toMatch(/INSERT INTO public\.users/i);
+    expect(runnable).not.toMatch(/INSERT INTO public\.freelancer_bids/i);
   });
 
   it("vitrin loadOpenJobs ile DB ilanını basar; boş listede showcase yok, dürüst CTA var", () => {
@@ -119,19 +140,40 @@ describe("freelancer ilan tohumu yüzeyi", () => {
     const store = readSrc("lib/freelancer/prisma-store.ts");
 
     expect(page).toContain("loadOpenJobs");
+    expect(page).toContain("connection()");
     expect(page).toContain("SEN_VOICE");
-    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Canlı sicil");
+    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("İş Pazarı");
+    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Güvenli Ödeme (Escrow)");
+    expect(detail).toContain("DeliveryProcessPanel");
+    expect(detail).toContain("jobListingFace");
+    expect(readSrc("components/freelancer/job-card.tsx")).toContain("jobListingMetaLine");
+    expect(readSrc("components/freelancer/job-card.tsx")).toContain("job.brief");
     expect(page).not.toContain("FREELANCER_SHOWCASE");
     expect(load).toContain("listOpenJobs");
     expect(store).toContain('status: "OPEN"');
     expect(list).not.toContain("FREELANCER_SHOWCASE");
     expect(list).not.toContain("Vitrine");
-    expect(list).toContain("jobs.length === 0");
+    expect(list).toContain("totalJobs === 0");
+    expect(list).toContain("filteredJobs === 0");
     expect(list).toContain("emptyHint");
     expect(list).toContain('href="/freelancer/new"');
     expect(list).toContain("FreelancerJobCard");
     expect(readSrc("components/freelancer/job-card.tsx")).toContain("/freelancer/jobs/${job.id}");
     expect(detail).toContain("loadJobBoard");
     expect(detail).toContain("BidForm");
+  });
+
+  it("ilan kartı extras format, süre ve gereksinimi taşır; SHA-256 / settlement yok", () => {
+    const extrasSrc = readSrc("lib/freelancer/job-listing-extras.ts");
+    const faceSrc = readSrc("lib/freelancer/listing-face.ts");
+    const card = readSrc("components/freelancer/job-card.tsx");
+    expect(extrasSrc).toContain("16 adet özel ikon hazırlanması");
+    expect(extrasSrc).not.toMatch(/SHA-256/i);
+    expect(extrasSrc).not.toMatch(/settlement/i);
+    expect(faceSrc).toContain("Yapay Zekâ Mühendisliği");
+    expect(card).toContain("jobListingFace");
+    expect(card).toContain("jobListingMetaLine");
+    expect(card).toContain("job.brief");
+    expect(card).not.toContain("face.requirements");
   });
 });

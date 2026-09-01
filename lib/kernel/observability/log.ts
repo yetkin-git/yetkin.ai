@@ -24,6 +24,7 @@ export type StructuredLogInput = {
   db?: string;
   durationMs?: number;
   errorName?: string;
+  consentVersion?: string;
 };
 
 const SAFE_KEYS = [
@@ -43,6 +44,7 @@ const SAFE_KEYS = [
   "db",
   "durationMs",
   "errorName",
+  "consentVersion",
 ] as const;
 
 export function buildStructuredLogLine(

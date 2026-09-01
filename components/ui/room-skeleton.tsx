@@ -59,7 +59,10 @@ export function RoomSkeleton({
     return (
       <main className="relative mx-auto max-w-3xl px-6 pb-20 pt-16" aria-hidden>
         <div className="relative space-y-6">
-          <SkeletonPulse className="h-5 w-20 rounded-full bg-[var(--safir-soft)]" />
+          <div className="space-y-3">
+            <SkeletonPulse className="h-8 w-44 rounded-xl" />
+            <SkeletonPulse className="h-5 w-20 rounded-full bg-[var(--safir-soft)]" />
+          </div>
           <SkeletonPulse className="h-9 w-56" />
           <SkeletonPulse className="h-36 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
           <SkeletonPulse className="h-48 rounded-[var(--radius-card)]" />

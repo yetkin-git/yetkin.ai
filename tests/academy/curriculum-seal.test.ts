@@ -15,7 +15,7 @@ import {
 describe("akademi müfredat mühürü (curriculumSeal)", () => {
   it("Pilot SKU müfredat mührü kilitli SHA-256 basar", () => {
     const keys = orderedAcademyLessonKeys("python-temel");
-    expect(keys).toHaveLength(12);
+    expect(keys).toHaveLength(6);
     expect(keys[0]).toBe("python-temel-1");
     const seal = academyCurriculumSealForSlug("python-temel");
     expect(seal).toMatch(/^[a-f0-9]{64}$/);
@@ -31,12 +31,6 @@ describe("akademi müfredat mühürü (curriculumSeal)", () => {
       "python-temel-4",
       "python-temel-5",
       "python-temel-6",
-      "python-temel-7",
-      "python-temel-8",
-      "python-temel-9",
-      "python-temel-10",
-      "python-temel-11",
-      "python-temel-12",
     ]);
     const seal = computeAcademyCurriculumSeal(keys);
     expect(seal).toMatch(/^[a-f0-9]{64}$/);

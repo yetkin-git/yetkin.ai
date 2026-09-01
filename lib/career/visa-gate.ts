@@ -44,6 +44,9 @@ export function hasMatchingAcademyListingVisa(
     return false;
   }
   const qualifying = new Set(qualifyingCourseSlugsForListingPathway(pathwayId));
+  if (qualifying.size === 0) {
+    return false;
+  }
   return stamps.some((stamp) => {
     if (stamp.sourceKind !== LISTING_ACCESS_VISA_KIND) {
       return false;

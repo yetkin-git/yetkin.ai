@@ -56,7 +56,7 @@ export function freelancerDisputeRoundStatusLabel(status: FreelancerDisputeRound
     case "AI_REPORT_READY":
       return "1. tur AI analizi hazır";
     case "HUMAN_REVIEW":
-      return "2. tur / insan incelemesi — emanet kilitli kalır";
+      return "Sonuç Analiz Raporu — emanet kilitli kalır";
     case "SETTLED":
       return "Tahkim kapandı";
   }

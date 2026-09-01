@@ -1,213 +1,489 @@
-import { academyGrowthLessons } from "@/lib/academy/curricula/growth-draft";
-import { academyLessonDraft } from "@/lib/academy/curricula/types";
+/**
+ * Python Temel Seviye — ilk gerçek mühürlü müfredat.
+ * PEDAGOJI.md: 5 perde, DialogueTurn[], Maya %95 / Koray %100, Fail-Closed.
+ */
 
-export const PYTHON_TEMEL_LESSONS = [
-  academyLessonDraft(
-    "python-temel-1",
-    1,
-    "Kurulum ve ilk program: print ile merhaba dünya",
-    `Bakkal defterinin ilk satırını açmak gibi durur bu an: kalem elde, sayfa boş, insan «ya yanlış yazarsam» diye duraksar. O duraksama tembellik değil; kapının eşiğidir. Bugün eşiği tek satırla geçiyoruz. Ekrana bir cümle yazdıracağız. O cümle sihir değil; senin yazdığın tarifi makinenin yüksek sesle geri okuması.
+import type { AcademyExamQuestion } from "@/lib/academy/types";
+import {
+  academyFiveActLessonDraft,
+  dialogueTurn,
+  type AcademyLessonDraft,
+} from "@/lib/academy/curricula/types";
 
-Python yorumlayıcısı (interpreter, yani satır satır okuyan program) kaynak dosyayı yukarıdan aşağı tarar. print bir fonksiyon çağrısıdır: parantezin içindeki değeri standart çıktıya, yani senin gördüğün o siyah-beyaz panele yazar.
+function mcq(
+  id: string,
+  prompt: string,
+  choices: readonly [string, string, string, string],
+  correctIndex: 0 | 1 | 2 | 3,
+): AcademyExamQuestion {
+  return { id, prompt, choices: [...choices], correctIndex };
+}
 
-İki kapı durur. Biri etkileşimli kabuk: satır yazarsın, cevap hemen düşer; tezgahta tartıyı denemek gibidir. Öbürü dosya: tarifi kaydedersin, sonra çalıştırırsın; defteri kapatıp ertesi gün aynı sayfadan okumak gibidir. İlk program her iki kapıda da aynı sözleşmeyi ister: tırnak, parantez, çağrı. Kabukta «çalıştı» demek, dosyada da çalışacağı anlamına gelmez; kaydetmeden kapanan tezgâh, sabah boş durur.
+const koray = (text: string, code?: { language: string; source: string }) =>
+  dialogueTurn("koray", text, code);
+const maya = (text: string, code?: { language: string; source: string }) =>
+  dialogueTurn("maya", text, code);
 
-Kurulum bu sözleşmenin kapısını açmaktır. Yorumlayıcı yoksa satır okunmaz. Düzenleyici (editör) yoksa tarifi düzgün yazamazsın. İkisi ayrı iştir: biri okur, öbürü yazar. Okuyan yoksa vitrin camı karanlık kalır; yazan yoksa cam parlasa da içeride tarif durmaz. Bu derste tek işimiz o camın arkasındaki ilk cümleyi dürüst basmaktır.
+export const PYTHON_TEMEL_LESSONS: readonly AcademyLessonDraft[] = [
+  academyFiveActLessonDraft({
+    key: "python-temel-1",
+    order: 1,
+    title: "Değişkenler, veri tipleri ve dürüst etiket",
+    dialogue: {
+      warmup: [
+        koray(
+          "Sen kargo şubesinde etiketsiz kutu gördün mü? Elin uzanır, durur. İçinde cam mı, çivi mi, yastık mı — bilmeden istifleyemezsin.",
+        ),
+        maya(
+          "O duraksama tembellik değil. Kutunun üstündeki etiket içeriğin cinsini söyler. Programda değişken adı o etiket, veri tipi de içeriğin cinsi. Yanlış etiket yapıştırırsan kamyon yine gider; varışta kutu patlar.",
+        ),
+      ],
+      problem: [
+        koray(
+          "Saha tarafında bu nasıl patlıyor? Bellek mi şişiyor, yoksa sessiz yanlış mı basılıyor?",
+        ),
+        maya(
+          "İkisi de, gürültü kopmadan. `\"250,00\"` metnini tutar sanıp ikiyle çarparsan 500 çıkmaz; `'250,00250,00'` diye yapışır. Gözün 500 bekler, eline çöp gelir. Float lira ile kuruş gezdirirsen bellek her zaman şişmez; fiş sessizce yalan söyler. Fail-closed (Hata Anında Kapalı) burada durur: cins net değilse işlem durur, uydurulmaz.",
+        ),
+      ],
+      development: [
+        koray(
+          "Peki sen bu kutuları Python’da nasıl açıyorsun? str, int, float, list, dict — hangisi neyin etiketi?",
+        ),
+        maya(
+          "Python dinamik tiplidir: kutuyu açarken cinsi yazmazsın, değerin kendisi cinsi taşır. `type()` ile kapağı açmadan sorarsın. str metindir, int tamsayıdır, float ondalıktır, list sıradır, dict anahtar-değer rafıdır. İsim dürüst durur: `x` yarın seni de unutturur.",
+          {
+            language: "py",
+            source: `musteri_adi = "Ayşe"
+adet = 3
+birim_fiyat = 12.5
+sepet = ["ekmek", "süt", "yumurta"]
+stok = {"ekmek": 4, "süt": 2}
 
-İlk çıktı bir fiştir. Fişte ne yazdıysan odur; «ben öyle demek istemedim» makineyi bağışlatmaz. Büyük bir uygulama beklemeyiz. Tek satır yeter: çağrı durur, metin durur, satır düşer. O satır gelince ortamın açık olduğunu görürsün. Gelmezse kapı henüz açılmamıştır — suç tarifte veya kapıdadır, kaderde değil. Bu fişi bir kez okuyunca sonraki derslerde kutunun üstüne isim yazmaya hazırsın.`,
-    `Tırnak içindeki metin string’dir — metin dizisi; sayı değil, etiket değil, düpedüz harf dizisi.
+assert type(musteri_adi) is str
+assert type(adet) is int
+assert type(birim_fiyat) is float
+assert type(sepet) is list
+assert type(stok) is dict
+assert sepet[0] == "ekmek"
+assert stok.get("peynir", 0) == 0`,
+          },
+        ),
+        koray(
+          "O `'250,00' * 2` satırını bir kez daha göster. Ben hâlâ 500 bekliyorum.",
+        ),
+        maya(
+          "Bekleme. Metin çarpımı tekrardır, hesap değildir. Fail-closed kapısı virgülü noktaya çevirir, sayıya basar, kuruş tamsayı döner. Çevrilemezse durur — orta değer uydurulmaz.",
+          {
+            language: "py",
+            source: `etiketsiz = "250,00"
+print(etiketsiz * 2)  # 250,00250,00
 
-Buraya dikkat... print yazmak büyü değildir. Çağrı gelir, parantez açılır, değer verilir, çıktı düşer. Bu zinciri görmeden «çalıştı» demek, kasa fişini okumadan «ödedim» demek gibidir.
 
-Bunu günlük hayattan bir örnekle ele alırsak... çarşıdaki tezgahtar «hoş geldiniz» yazısını vitrine asar. Yazdığı neyse görünen odur. Tırnağı unutursan vitrin boş kalmaz; cam kırılır: sözdizimi hatası gelir.
+def kurus_carp(ham: str, kat: int) -> int:
+    try:
+        lira = float(ham.replace(",", "."))
+    except ValueError as exc:
+        raise ValueError("tutar sayı değil; işlem durur") from exc
+    return int(round(lira * 100 * kat))
 
-Kırılma anı tam olarak bu adımda yaşanıyor. Kursiyer print Hello yazar, tırnak ve parantez durmaz. Yorumlayıcı «bunu nasıl okuyayım?» diye durur. Doğru satır net durur: print("Merhaba, Yetkin").
 
-Vaka: kursiyer print Hello yazar, tırnak ve parantez unutur. Sözdizimi hatası gelir. Doğru satır: print("Merhaba, Yetkin").`,
-    `İlk programın çalışınca ortamın hazır olduğunu görürsün; çıktı senin kontrol panelin olur. O panel susmuyorsa sen duyulmuşsundur.
-
-Bir sonraki bölümde seni değişkenler ve tipler bekliyor: isim vermeden değeri nasıl tutarsın, kutunun üstüne ne yazarsın.`,
-  ),
-  academyLessonDraft(
-    "python-temel-2",
-    2,
-    "Değişkenler, tipler ve dürüst isimlendirme",
-    `Market rafında etiketsiz bir kavanoz gördün mü? Elin uzanır, sonra durur. İçinde recel mi, turşu mu, tuz mu — bilmeden karıştırmazsın. Program da öyle: değişken adı kavanozun etiketi, tip ise içeriğin cinsidir. x diye bir kutu açmak, markette «şey» yazmak gibidir; yarın sen de unutursun.
-
-int tamsayıdır, float ondalıktır, str metindir, bool doğru ya da yanlıştır. type() ile kutuyu açmadan cinsini sorarsın. İsimler anlamlı durur: adet, fiyat_kurus, musteri_adi.`,
-    `Kısa olduğu için x seçmek, sonra fişi bozar.
-
-Buraya dikkat... «250,00» metin iken sayı sanmak fişi ikiye katlar. Tip netleşmeden ortalama alma; çarpma yapma; «iki katı» diye birleştirme üretme.
-
-Başka bir deyişle... değişken, değeri unutturmayan bir etiket sözleşmesidir. Sözleşme bozulunca sessizce yanlış sonuç çıkar; gürültü kopmaz.
-
-Saha tecrübesiyle söyleyeyim: Buradaki küçük bir detay tüm sonucu değiştirir. tutar = "250,00" iken tutar * 2 sayı üretmez; '250,00250,00' diye metni yapıştırır. Gözün «500» bekler, eline çöp gelir.
-
-Vaka: tutar = "250,00" iken tutar * 2 birleştirme üretir. int’e çevirmeden çarpım yapılmaz.`,
-    `Tip ve isim netleşince sonraki işlemler güvenli yürür. Kutunun üstü dürüstse mutfak karışmaz.
-
-Bir sonraki bölümde seni kontrol akışı bekliyor: if ve else ile karar nasıl yazılır, ışık ne zaman yanar.`,
-  ),
-  academyLessonDraft(
-    "python-temel-3",
-    3,
-    "Kontrol akışı: if, elif, else ile karar",
-    `Otobüs şoförü her durakta aynı hareketi yapmaz. Zil çaldıysa durur, çalmadıysa geçer. Program da bir cümle kurar: «şu doğruysa şunu yap, değilse öbürünü.» if bloğu yalnızca koşul doğruysa çalışır. Yanlışsa o kapı kapalı kalır; inat etmez.
-
-Karşılaştırma operatörleri (==, !=, <, >, <=, >=) bool üretir — doğru ya da yanlış. Birden fazla dal için elif zinciri durur; else kalan durumları yakalar.`,
-    `Girinti (indentation) blok sınırıdır; Python’da süslü parantez yok, boşluk konuşur.
-
-Buraya dikkat... = atama, == karşılaştırmadır. Karışınca sessiz hata doğar: kapıyı kilitlemek isterken anahtarı duvara çakarsın.
-
-Bunu günlük hayattan bir örnekle ele alırsak... «bakiye yeterliyse öde, değilse uyar» cümlesi birebir if/else’tir. Gişede görevli bakiyeye bakmadan «geç» demez.
-
-Kırılma anı tam olarak bu adımda yaşanıyor. not_ort = 68 iken «geçti» yazdıran kod 70 barajını kaçırır. Koşul not_ort >= 70 olmalı; 68 «tekrar» dalına düşer.
-
-Vaka: not_ort = 68 iken «geçti» yazdıran kod 70 barajını kaçırır. Koşul not_ort >= 70 olmalı.`,
-    `Koşullu dallanma, programın «ne zaman ne yapacağını» okunur kılar. Işık yazılıysa kavga bitmez.
-
-Bir sonraki bölümde seni döngüler bekliyor: tekrarlayan işi bir kez yazıp çok kez koşturma.`,
-  ),
-  academyLessonDraft(
-    "python-temel-4",
-    4,
-    "Döngüler: for ve while ile tekrar",
-    `Çay ocağında aynı bardağı yüz kez elde yıkamak mümkün. Kimse övünmez. Makineye «yüz kez yıka» dersen tarif bir yerde durur, iş yüz kez olur. for bilinen bir koleksiyonu gezer; while koşul doğru kaldıkça sürer. Farkı şudur: birinde liste hazırdır, öbüründe «daha bitmedi» cümlesi durur.
-
-range(n) 0’dan n-1’e kadar üretir. break döngüyü erken bitirir; continue o turu atlar. Sonsuz while’dan kaçınmak için sayaç veya koşul net tutulur.`,
-    `while True yazıp çıkış unutmak, çay ocağının musluğunu açık bırakmaktır.
-
-Buraya dikkat... while True yazıp çıkış koşulu unutmak editörü dondurur. Makine durmaz; sen durursun.
-
-Başka bir deyişle... döngü, «tekrar»ı kod tekrarına çevirmeden halletmektir. Aynı satırı kopyalayıp alt alta dizmek tarif değildir; kopya defteridir.
-
-İşte işin düğümlendiği, kritik nokta tam da burası. 1’den 5’e kadar toplam isteniyor. for i in range(1, 6) ile toplam += i doğru kalıptır. range(5) 0..4 üretir; 5’i kaçırırsan toplam 10 kalır, 15 değil.
-
-Vaka: 1’den 5’e kadar toplam isteniyor; for i in range(1, 6) ile toplam += i doğru kalıptır.`,
-    `Döngü oturunca listeleri ve toplu işlemleri rahat okursun. Tekrar korkusu düşer.
-
-Bir sonraki bölümde seni fonksiyonlar bekliyor: işi adlandırıp yeniden kullanma, tarifi bir kez yazma.`,
-  ),
-  academyLessonDraft(
-    "python-temel-5",
-    5,
-    "Fonksiyonlar: parametre, dönüş ve yeniden kullanım",
-    `Esnafın «standart poşet»i vardır: kilo gelir, poşet çıkar, tarife bakılmaz her seferinde. def ortalama(sayilar) de odur. Çağıran taraf içindeki tartıyı bilmek zorunda kalmaz. Her seferinde aynı formülü kopyalamak, poşeti her müşteri için yeniden dikmek gibidir.
-
-def ile tanım, return ile sonuç döner. Parametre varsayılan değer alabilir. Fonksiyon içi değişken yereldir; dışarı sızdırmaz. Docstring kısa amaç yazar — «bu tartı ne işe yarar» cümlesi.`,
-    `Buraya dikkat... return olmadan fonksiyon None döner; «sonucu yazdırdım» ile «sonucu verdim» aynı değildir. Tezgâhta bağırmak, tartı fişi kesmek değildir.
-
-Bunu günlük hayattan bir örnekle ele alırsak... mutfakta ölçü kabı: girdiyi alıp standart çıktı üretir. Unu göz kararı dökmezsin; kap konuşur.
-
-Saha tecrübesiyle söyleyeyim: Buradaki küçük bir detay tüm sonucu değiştirir. Fiyatları kuruşa çeviren fonksiyon float lira basıyorsa kasa kuruş bekler, ondalık gelir. int(round(lira * 100)) ile tamsayı kuruş döner.
-
-Vaka: fiyatları kuruşa çeviren fonksiyon float lira basıyor. int(round(lira * 100)) ile tamsayı kuruş döner.`,
-    `Fonksiyon, okunur ve test edilebilir adımların temel birimidir. İsmi olan iş, tekrar yazılmaz.
-
-Bir sonraki bölümde seni küçük proje bekliyor: girdi alan, hesaplayan, sonuç yazan etkileşimli betik.`,
-  ),
-  academyLessonDraft(
-    "python-temel-6",
-    6,
-    "Mini proje: etkileşimli hesap ve girdi doğrulama",
-    `Gişede «kaç bilet?» diye sorarsın. Biri «üç» der. Kızmazsın; «sayı olarak söyler misiniz?» dersin. Program da öyle. Öğrendiklerini tek parçada birleştiriyoruz: kullanıcıdan metin al, tipe çevir, hata olursa kibarca uyar, doğruysa sonucu yazdır. Çökmek nezaket değildir.
-
-input() her zaman str döner — metin dizisi. try/except ile ValueError yakalanır; boş girdi reddedilir. Program bitince özet satırı basılır. Bu Temel seviyenin kapanış laboratuvarıdır: girdi, doğrula, hesapla, yazdır.`,
-    `Buraya dikkat... kullanıcıya kızmak yerine net mesaj ver: «Lütfen tamsayı gir.» Makine küfretmez; cümle kurar.
-
-Başka bir deyişle... etkileşim, makineyi insan diline çevirmektir. İnsan «üç» deyince int("üç") patlar; except o patlamayı yutar, döngü yeniden sorar.
-
-Şimdi bu kısmı bir kez daha farklı bir örnekle oturtalım... «kaç adet?» sorusuna «üç» yazılınca çökmemeli. except ile yeniden sorulmalı. Çökmek, gişenin kepenk indirmesidir; müşteri kapıda kalır.
-
-Vaka: «kaç adet?» sorusuna «üç» yazılınca çökmemeli; except ile yeniden sorulmalı.`,
-    `Girdi → doğrula → hesapla → yazdır döngüsü Temel kapanışın özetidir. İleri halkada koleksiyon, dosya ve tablo bekliyor.
-
-Bir sonraki bölümde seni listeler ve sözlükler bekliyor: sırayı ve anahtarı nasıl tutarsın.`,
-  ),
-  ...academyGrowthLessons([
-    {
-      key: "python-temel-7",
-      order: 7,
-      title: "Listeler: sıra, indeks ve dilimleme disiplini",
-      intro: `Pazar tezgâhında sebzeler sırayla durur: birinci patates, ikinci soğan. Liste (list) odur — sırası olan kutu dizisi. Köşeli parantez açarsın, elemanları virgülle koyarsın. İndeks sıfırdan başlar; «birinci» dediğin şey kodda sıfırıncı raftır. Bu kafa karışıklığı utanç değil, tezgâh kuralıdır.
-
-len ile uzunluk, append ile sona ekleme, for ile tur. Dilimleme (slicing) rafın bir dilimini koparır; asıl tezgâh yerinde kalır. İsim dürüst durur: sepet, notlar, satirlar.`,
-      trap: `Sepet[1] «birinci eleman» sanılır. Değildir; ikinci raftır. Kursiyer sepet[len(sepet)] yazar, IndexError gelir. Sınır, uzunluk eksi birdir.`,
-      analogy: `otobüs durakları: ilk durak sıfırıncı levhadır. «üçüncü durakta ineceğim» dersen indeks iki durur. Levha kayınca yanlış mahallede inersin.`,
-      vaka: `kursiyer sepet[len(sepet)] ile son elemanı okur, IndexError gelir. Doğru satır sepet[-1] veya sepet[len(sepet) - 1].`,
-      conclusion: `Liste, sırayı unutmayan tezgâhtır. İndeks dürüst durur; dilim kopya niyetini yazar.
-
-Bir sonraki bölümde seni sözlükler bekliyor: anahtarla değeri nasıl bağlarsın.`,
+assert kurus_carp("250,00", 2) == 50_000`,
+          },
+        ),
+      ],
+      conclusion: [
+        koray(
+          "Kafamda oturdu: etiket yoksa kamyona yükleme. Sonraki adımda ne duruyor?",
+        ),
+        maya(
+          "Tip ve isim netleşince işlem güvenli yürür. Kutunun üstü dürüstse mutfak karışmaz. Bir sonraki bölümde seni kontrol akışı bekliyor: if ve else ile karar nasıl yazılır.",
+        ),
+      ],
     },
-    {
-      key: "python-temel-8",
-      order: 8,
-      title: "Sözlükler: anahtar, değer ve dürüst etiket",
-      intro: `Dolap rafında kavanozun üstünde etiket vardır: recel, turşu, tuz. Sözlük (dict) odur — anahtar etikettir, değer içerik. Süslü parantez, iki nokta üst üste. «üçüncü kavanoz» diye saymak yerine «recel» dersin; sıra değişse de etiket durur.
+    quiz: [
+      mcq(
+        "q_py1_1",
+        "`tutar = \"250,00\"` iken `tutar * 2` ne üretir?",
+        ["500", "Birleştirilmiş metin: '250,00250,00'", "TypeError her zaman", "250"],
+        1,
+      ),
+      mcq(
+        "q_py1_2",
+        "Fail-closed (Hata Anında Kapalı) tutar çevrilemezse ne yapar?",
+        ["0 kabul eder", "İşlemi durdurur; orta değer uydurmaz", "float tahmini basar", "Metni iki kez yazar"],
+        1,
+      ),
+      mcq(
+        "q_py1_3",
+        "Eksik sözlük anahtarında dürüst yol hangisidir?",
+        ["stok[\"armut\"]", "stok.get(\"armut\", 0) veya \"armut\" in stok", "eval", "print şifre"],
+        1,
+      ),
+    ],
+  }),
+  academyFiveActLessonDraft({
+    key: "python-temel-2",
+    order: 2,
+    title: "Kontrol akışı: if, elif, else ile karar",
+    dialogue: {
+      warmup: [
+        koray(
+          "Otobüs şoförü her durakta aynı hareketi yapmaz. Zil çaldıysa durur, çalmadıysa geçer. Program da öyle mi?",
+        ),
+        maya(
+          "Aynen. if bloğu yalnız koşul doğruysa çalışır. Yanlışsa o kapı kapalı kalır; inat etmez. elif zinciri ek kapıdır, else kalanı yakalar.",
+        ),
+      ],
+      problem: [
+        koray(
+          "Saha tarafında `=` ile `==` karışınca ne kırılır?",
+        ),
+        maya(
+          "`=` atama, `==` karşılaştırmadır. Karışınca sessiz hata doğar: kapıyı kilitlemek isterken anahtarı duvara çakarsın. Girinti (indentation) blok sınırıdır; Python’da süslü parantez yok, boşluk konuşur. 70 barajını `>` yazarsan 70 kalanın dışına düşer.",
+        ),
+      ],
+      development: [
+        koray("68 alan bir notu 70 barajından geçirme. Doğru satır nedir?"),
+        maya(
+          "Koşul `not_ort >= 70` durur. 68 tekrar dalına düşer. Karşılaştırma bool üretir — True veya False.",
+          {
+            language: "py",
+            source: `not_ort = 68
+if not_ort >= 70:
+    karar = "geçti"
+elif not_ort >= 50:
+    karar = "bütünleme"
+else:
+    karar = "tekrar"
+assert karar == "bütünleme"
 
-.get ile yokluğu kibarca sorarsın; köşeli parantez yok anahtarda KeyError basar. Anahtar hash’lenebilir durur: metin, tamsayı. Liste anahtar olmaz. İsimler: stok, musteri, kayit.`,
-      trap: `stok["elma"] yokken çökmek, rafta etiket arayıp tezgâhı devirmektir. .get("elma", 0) yokluğu sıfır kabul eder; ya da anahtarı önce in ile sorarsın.`,
-      analogy: `nüfus cüzdanı: isim anahtar, adres değer. Sıra numarasıyla vatandaşı aramazsın; isimle ararsın. Yanlış isim boş döner, mahalle karışmaz.`,
-      vaka: `kursiyer stok["armut"] okur, anahtar yok, KeyError gelir. stok.get("armut", 0) veya "armut" in stok ile yokluk dürüst kalır.`,
-      conclusion: `Sözlük, etiketi sıradan ayırır. Yokluğu çökmeden sorarsın.
-
-Bir sonraki bölümde seni dosya yolları bekliyor: pathlib ile okuma ve yazma.`,
+not_ort = 72
+if not_ort >= 70:
+    karar = "geçti"
+else:
+    karar = "tekrar"
+assert karar == "geçti"`,
+          },
+        ),
+      ],
+      conclusion: [
+        koray("Işık yazılıysa kavga bitmez, doğru mu?"),
+        maya(
+          "Koşullu dallanma, programın ne zaman ne yapacağını okunur kılar. Bir sonraki bölümde seni döngüler bekliyor: tekrarlayan işi bir kez yazıp çok kez koşturma.",
+        ),
+      ],
     },
-    {
-      key: "python-temel-9",
-      order: 9,
-      title: "Dosya yolları: pathlib, okuma ve atomik yazım",
-      intro: `Faturayı orijinal klasörden silip fotokopiyi aynı isimle bırakmak yarın izi kaybettirir. pathlib.Path yol nesnesidir; işletim sisteminin eğik çizgisini sen ezbere yazmazsın. Kaynak klasör ayrı, çıktı klasör ayrı durur. glob ile «bütün virgülle ayrılmış değerler» listelenir.
+    quiz: [
+      mcq(
+        "q_py2_1",
+        "`=` ile `==` farkı nedir?",
+        ["Aynıdır", "= atama, == karşılaştırma", "İkisi de karşılaştırma", "İkisi de atama"],
+        1,
+      ),
+      mcq(
+        "q_py2_2",
+        "`not_ort = 68` iken baraj 70 ise doğru dal hangisidir?",
+        ["geçti", "tekrar veya bütünleme; 68 >= 70 yanlıştır", "elif yasak", "else çalışmaz"],
+        1,
+      ),
+      mcq(
+        "q_py2_3",
+        "Python’da if bloğunun sınırını ne belirler?",
+        ["Virgül", "Girinti (indentation)", "Noktalı virgül", "Büyük harf"],
+        1,
+      ),
+    ],
+  }),
+  academyFiveActLessonDraft({
+    key: "python-temel-3",
+    order: 3,
+    title: "Döngüler: for ve while ile tekrar",
+    dialogue: {
+      warmup: [
+        koray(
+          "Çay ocağında aynı bardağı yüz kez elde yıkamak mümkün. Kimse övünmez. Makineye «yüz kez yıka» dersen tarif bir yerde durur, iş yüz kez olur — bu mu döngü?",
+        ),
+        maya(
+          "Bu. for bilinen bir koleksiyonu gezer; while koşul doğru kaldıkça sürer. Birinde liste hazırdır, öbüründe «daha bitmedi» cümlesi durur.",
+        ),
+      ],
+      problem: [
+        koray("`while True` yazıp çıkışı unutmak neye benzer?"),
+        maya(
+          "Musluğu açık bırakmaya. Makine durmaz; sen durursun. `range(5)` 0..4 üretir; 1’den 5’e toplam istiyorsan `range(1, 6)` durur. 5’i kaçırırsan toplam 10 kalır, 15 değil.",
+        ),
+      ],
+      development: [
+        koray("1’den 5’e kadar toplamı bir kez yaz, beş kez koştur."),
+        maya(
+          "`toplam += i` akkümülatördür. break döngüyü erken bitirir; continue o turu atlar.",
+          {
+            language: "py",
+            source: `toplam = 0
+for i in range(1, 6):
+    toplam += i
+assert toplam == 15
 
-open ile metin okunur, encoding dürüst yazılır. Yazarken geçici dosya, sonra rename: atomik teslim. index=False ile Pandas yazımı boş indeks basmaz. Kimlik sütunu rapora girmez.`,
-      trap: `Aynı yola üzerine yazmak, faturanın üstüne karalamaktır. Kursiyer open(hedef, "w") ile kaynağı ezer. Geçici yol + replace, asıl dosyayı son anda değiştirir.`,
-      analogy: `noter mührü: taslak kâğıda yazılır, imza bitince asıl dosyaya konur. Taslağı asıl sandığında mühür kaybolur.`,
-      vaka: `kursiyer girdi.csv üzerine işlenmiş tabloyu yazar, kaynak silinir. pathlib ile girdi/ ve cikti/ ayrılır; yazım geçici→rename olur.`,
-      conclusion: `Yol nesnesi, kaynağı ve teslimi ayırır. Atomik yazım, yarın aynı yemeği pişirmenin tarifidir.
-
-Bir sonraki bölümde seni Pandas tablo sözleşmesi bekliyor: cins yazılı değilse ortalama yalandır.`,
+sayac = 3
+while sayac > 0:
+    sayac -= 1
+assert sayac == 0`,
+          },
+        ),
+      ],
+      conclusion: [
+        koray("Tekrar korkusu düşünce listeler rahat okunur, değil mi?"),
+        maya(
+          "Döngü oturunca toplu işlem korkmaz. Bir sonraki bölümde seni fonksiyonlar bekliyor: işi adlandırıp yeniden kullanma.",
+        ),
+      ],
     },
-    {
-      key: "python-temel-10",
-      order: 10,
-      title: "Pandas tablo sözleşmesi: dtypes ve kuruş tamsayı",
-      intro: `Pazarda tartısız tezgâha «üç kilo» deyip para uzatmazsın. DataFrame satır-sütun sözleşmesidir. pd.read_csv okur, dtypes cinsleri gösterir. Tutar sütunu int64 kuruş durur; «250,00» metni ortalama üretmez, birleştirilmiş saçmalık üretir.
+    quiz: [
+      mcq(
+        "q_py3_1",
+        "`range(1, 6)` hangi sayıları üretir?",
+        ["1..6", "1, 2, 3, 4, 5", "0..5", "0..6"],
+        1,
+      ),
+      mcq(
+        "q_py3_2",
+        "`while True` riski nedir?",
+        ["Yavaşlık", "Çıkış yoksa sonsuz döngü", "Tip hatası", "Import hatası"],
+        1,
+      ),
+      mcq(
+        "q_py3_3",
+        "`break` ne yapar?",
+        ["Fonksiyon siler", "Döngüyü erken bitirir", "Dosya kapatır", "Tip değiştirir"],
+        1,
+      ),
+    ],
+  }),
+  academyFiveActLessonDraft({
+    key: "python-temel-4",
+    order: 4,
+    title: "Fonksiyonlar: parametre, dönüş ve yeniden kullanım",
+    dialogue: {
+      warmup: [
+        koray(
+          "Esnafın standart poşeti vardır: kilo gelir, poşet çıkar, tarife her seferinde bakılmaz. `def ortalama(sayilar)` de o mu?",
+        ),
+        maya(
+          "O. Çağıran taraf içindeki tartıyı bilmek zorunda kalmaz. Her seferinde aynı formülü kopyalamak, poşeti her müşteri için yeniden dikmek gibidir.",
+        ),
+      ],
+      problem: [
+        koray("`return` olmadan fonksiyon ne basar? Ben «yazdırdım» deyince iş bitti sanıyorum."),
+        maya(
+          "`return` yoksa `None` döner. Tezgâhta bağırmak, tartı fişi kesmek değildir. `print` senin gözün içindir; `return` çağıran tarafın elinedir. Fiyatı float lira basıp kasa kuruş beklerse fiş bozulur.",
+        ),
+      ],
+      development: [
+        koray("18,45 lirayı kuruş tamsayıya çevir. Yuvarlama nerde durur?"),
+        maya(
+          "`int(round(lira * 100))` dürüst kalıptır. Fonksiyon içi değişken yereldir; dışarı sızdırmaz.",
+          {
+            language: "py",
+            source: `def lira_to_kurus(lira: float) -> int:
+    return int(round(lira * 100))
 
-info() teşhis basar. Kimlik sütunu rapora düşmez; drop ile çıkar. İsimler: amount_kurus, status, hafta. Float lira ortalama tuzağı burada da durur: kuruş tamsayı, yuvarlama ayrı adım.`,
-      trap: `df["tutar"].mean() metin sütunda sessizce yanlış veya hata basar. Cins yazılı değilse ortalama yalandır. astype("int64") öncesi boşluk ve virgül temizlenir.`,
-      analogy: `manav tartısı: kilo yazılmadan fiyat konuşulmaz. Cins yoksa «ortalama» vitrin mankenidir.`,
-      vaka: `kursiyer amount_kurus’u object bırakıp mean basar. dtypes kontrolü int64 ister; metin satır temizlenmeden ortalama yayımlanmaz.`,
-      conclusion: `Tablo, yazılı cinsle konuşur. Teşhis, rapordan önce gelir.
+assert lira_to_kurus(18.45) == 1845
+assert lira_to_kurus(12.5) == 1250
 
-Bir sonraki bölümde seni parametreli Yapılandırılmış Sorgu Dili bekliyor: değer ayrı, cümle ayrı.`,
+def yazdir_sadece(lira: float) -> None:
+    print(int(round(lira * 100)))
+
+assert yazdir_sadece(1.0) is None`,
+          },
+        ),
+      ],
+      conclusion: [
+        koray("İsmi olan iş tekrar yazılmaz, doğru mu?"),
+        maya(
+          "Fonksiyon, okunur ve test edilebilir adımların temel birimidir. Bir sonraki bölümde seni listeler ve sözlükler bekliyor: sırayı ve anahtarı nasıl tutarsın.",
+        ),
+      ],
     },
-    {
-      key: "python-temel-11",
-      order: 11,
-      title: "Parametreli SQL köprüsü: değer ayrı, cümle ayrı",
-      intro: `Kapıdaki görevliye kimliğini bağırarak söylemek yerine fiş uzatırsın. Yapılandırılmış Sorgu Dili (SQL) cümlesi tariftir; kullanıcı kimliği malzemedir. f-string ile sorgu birleştirmek, tarife yabancı el yazısı karıştırmaktır. sqlite3 veya SQLAlchemy bağlantısında parametre yer tutucusu durur: soru işareti veya isimli bağ.
+    quiz: [
+      mcq(
+        "q_py4_1",
+        "`return` olmadan fonksiyon ne döner?",
+        ["0", "None", "Boş string", "Hata zorunlu"],
+        1,
+      ),
+      mcq(
+        "q_py4_2",
+        "Kuruş dönüşümü için doğru yaklaşım hangisidir?",
+        ["float basmak", "int(round(lira * 100))", "str çarpmak", "hex"],
+        1,
+      ),
+      mcq(
+        "q_py4_3",
+        "`def` ne başlatır?",
+        ["Sınıf", "Fonksiyon tanımı", "Modül", "Paket"],
+        1,
+      ),
+    ],
+  }),
+  academyFiveActLessonDraft({
+    key: "python-temel-5",
+    order: 5,
+    title: "Listeler ve sözlükler: sıra, anahtar ve sınır",
+    dialogue: {
+      warmup: [
+        koray(
+          "Pazar tezgâhında sebzeler sırayla durur; dolapta kavanozun üstünde etiket vardır. Liste ile sözlük bu iki raf mı?",
+        ),
+        maya(
+          "Liste sıradır — indeks sıfırdan başlar. Sözlük etikettir — anahtarla değeri bağlarsın. «Birinci» dediğin şey kodda sıfırıncı raftır. Bu kafa karışıklığı utanç değil, tezgâh kuralıdır.",
+        ),
+      ],
+      problem: [
+        koray("`sepet[len(sepet)]` ile son elemanı okumak neden patlar?"),
+        maya(
+          "Sınır, uzunluk eksi birdir. `sepet[-1]` son raftır. Sözlükte `stok[\"armut\"]` yokken KeyError basar; `.get(\"armut\", 0)` yokluğu sıfır kabul eder. Çökmek nezaket değildir.",
+        ),
+      ],
+      development: [
+        koray("Üç meyve ve bir stok rafı yaz. Son elemanı ve eksik anahtarı dürüst oku."),
+        maya(
+          "İndeks sıfırdan. Anahtar hash’lenebilir durur: metin, tamsayı. Liste anahtar olmaz.",
+          {
+            language: "py",
+            source: `sepet = ["elma", "armut", "ayva"]
+assert sepet[0] == "elma"
+assert sepet[-1] == "ayva"
+assert len(sepet) == 3
+# sepet[len(sepet)]  → IndexError
 
-pd.read_sql DataFrame döner. Bağlantı with ile kapanır. Kullanıcı girdisi cümleye yapışmaz; params tuple gider. Bu köprü, dosya laboratuvarını depo kapısına taşır.`,
-      trap: `f"SELECT * FROM orders WHERE user_id = {user_id}" enjeksiyon kapısı açar. Kursiyer «çalıştı» deyince teslim sanır. Parametre bağlanmadan yeşil tik basılmaz.`,
-      analogy: `noter fişi: metin kalıp, kimlik kutusu ayrı. Kutuya yazılan cümleyi değiştirmez; sadece boşluğu doldurur.`,
-      vaka: `kursiyer kullanıcı kimliğini f-string ile sorguya yapıştırır. pd.read_sql(..., params=(user_id,)) ile değer ayrı durur; birleştirmeli cümle reddedilir.`,
-      conclusion: `Sorgu cümlesi tariftir, değer parametredir. Köprü dürüstse tablo kirlenmez.
-
-Bir sonraki bölümde seni kapanış laboratuvarı bekliyor: oku, doğrula, yaz, sınava hazırlan.`,
+stok = {"elma": 4}
+assert stok.get("armut", 0) == 0
+assert "elma" in stok
+# stok["armut"]  → KeyError`,
+          },
+        ),
+      ],
+      conclusion: [
+        koray("Sıra ve etiket ayrı dürüstlük, doğru mu?"),
+        maya(
+          "Liste sırayı unutmaz; sözlük etiketi sıradan ayırır. Yokluğu çökmeden sorarsın. Bir sonraki bölümde seni kapanış laboratuvarı bekliyor: girdi al, doğrula, hesapla, yazdır.",
+        ),
+      ],
     },
-    {
-      key: "python-temel-12",
-      order: 12,
-      title: "Kapanış laboratuvarı: girdi, tablo ve yenilenebilir özet",
-      intro: `Yarın aynı yemeği yapmak için tarif defteri gerekir; ekran görüntüsü yetmez. Bu bölüm Temel ve İleri halkayı tek betikte toplar: girdi al, doğrula, liste veya sözlükte tut, dosyadan oku, Pandas ile cins kontrol et, özet yaz. main() kapısı, yeniden koşmayan raporun ölüm ilanıdır.
+    quiz: [
+      mcq(
+        "q_py5_1",
+        "Liste indeksi nereden başlar?",
+        ["1", "0", "len", "-2 zorunlu"],
+        1,
+      ),
+      mcq(
+        "q_py5_2",
+        "Son elemanı okumanın dürüst yolu hangisidir?",
+        ["sepet[len(sepet)]", "sepet[-1] veya sepet[len(sepet) - 1]", "sepet[1]", "eval"],
+        1,
+      ),
+      mcq(
+        "q_py5_3",
+        "Eksik sözlük anahtarında çökmeden okuma hangisidir?",
+        ["Köşeli parantez", ".get veya in", "print şifre", "del zorunlu"],
+        1,
+      ),
+    ],
+  }),
+  academyFiveActLessonDraft({
+    key: "python-temel-6",
+    order: 6,
+    title: "Mini proje: girdi doğrulama ve Fail-Closed kapanış",
+    dialogue: {
+      warmup: [
+        koray(
+          "Gişede «kaç bilet?» diye sorarsın. Biri «üç» der. Kızmazsın; «sayı olarak söyler misiniz?» dersin. Program da öyle mi durur?",
+        ),
+        maya(
+          "Öyle. `input()` her zaman str döner — metin dizisi. int(\"üç\") patlar. Fail-closed (Hata Anında Kapalı) o patlamayı yutar, döngü yeniden sorar. Çökmek, gişenin kepenk indirmesidir.",
+        ),
+      ],
+      problem: [
+        koray("Boş girdi veya «üç» yazılınca ne kırılır?"),
+        maya(
+          "strip sonrası boşluk reddedilir. ValueError yakalanır; kullanıcıya kızılmaz, net cümle basılır: «Lütfen tamsayı gir.» Makine küfretmez; cümle kurar.",
+        ),
+      ],
+      development: [
+        koray("Kaç adet diye sor, doğrula, geçersizse yeniden sor, geçerliyse yazdır."),
+        maya(
+          "Girdi → doğrula → hesapla → yazdır. Bu Temel kapanışın özetidir. `main` kapısı, yarın aynı yemeği pişirmenin tarifidir.",
+          {
+            language: "py",
+            source: `def oku_adet(ham: str) -> int:
+    temiz = ham.strip()
+    if not temiz:
+        raise ValueError("boş girdi")
+    try:
+        return int(temiz)
+    except ValueError as exc:
+        raise ValueError("tamsayı değil") from exc
 
-İş kanıtı burada da durur: kuruş tamsayı, kimlik raporda yok, parametreli sorgu. Çökmek nezaket değildir; except ile insan cümlesi basılır. Bu kapanış, sınav kapısının eşiğidir.`,
-      trap: `Ekran görüntüsünü teslim saymak, faturayı fotoğraflayıp defteri yakmaktır. Betik yarın aynı girdiyle aynı özeti basmazsa laboratuvar bitmemiştir.`,
-      analogy: `esnaf defteri: akşam kasa, sabah aynı kalemle açılır. Defter yoksa «dün sattım» sözdür, kanıt değil.`,
-      vaka: `kursiyer PNG yapıştırıp «bitti» der. oku→doğrula→özet→yaz betiği yok. Yeniden koşan main ve yazılı payda olmadan teslim kabul edilmez.`,
-      conclusion: `On iki bölüm tek cümlede: girdi doğrulanır, koleksiyon tutulur, tablo cinsle konuşur, sorgu parametrelidir.
 
-Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.`,
+assert oku_adet("3") == 3
+try:
+    oku_adet("üç")
+except ValueError as hata:
+    assert "tamsayı" in str(hata)`,
+          },
+        ),
+      ],
+      conclusion: [
+        koray("Temel kapanış bu mu: doğrula, hesapla, yazdır, sınava gir?"),
+        maya(
+          "Girdi doğrulanır, tip dürüst durur, hata kapıyı kapatır. Sınavda seni baraj 70 bekler; belge yalnız o kapıdan basılır.",
+        ),
+      ],
     },
-  ]),
+    quiz: [
+      mcq(
+        "q_py6_1",
+        "`input()` ne döner?",
+        ["Her zaman int", "Her zaman str", "bool", "None"],
+        1,
+      ),
+      mcq(
+        "q_py6_2",
+        "`int(\"üç\")` patlayınca dürüst yol hangisidir?",
+        ["Programı kapat", "try/except ValueError ile yeniden sor", "0 kabul et", "eval"],
+        1,
+      ),
+      mcq(
+        "q_py6_3",
+        "Sertifika ne zaman basılır?",
+        ["Satın alınca", "Sınav barajı (≥70) üstünde", "İlk derste", "PDF indirince"],
+        1,
+      ),
+    ],
+  }),
 ] as const;
+
+const PYTHON_TEMEL_LESSON_QUIZZES: AcademyExamQuestion[] = PYTHON_TEMEL_LESSONS.flatMap(
+  (lesson) => [...(lesson.quiz ?? [])],
+);
+
+/** Kurs sınav havuzu — ders quiz’i + sentez soruları (30–50 bandı). */
+export const PYTHON_TEMEL_EXAM_QUESTIONS: AcademyExamQuestion[] = [
+  ...PYTHON_TEMEL_LESSON_QUIZZES,
+  mcq("q_py_p1", "type() ne işe yarar?", ["Dosya açar", "Değerin tipini gösterir", "Döngü kırar", "Modül yükler"], 1),
+  mcq("q_py_p2", "bool hangi ikilidir?", ["1 ve 2", "True / False", "yes / no", "on / off string"], 1),
+  mcq("q_py_p3", "Anlamlı değişken adı neden iyidir?", ["Zorunlu sözdizimi", "Okunur sözleşme", "Daha hızlı CPU", "Garbage collector"], 1),
+  mcq("q_py_p4", "continue ne yapar?", ["Programı bitirir", "O turu atlar", "Dosya siler", "Import"], 1),
+  mcq("q_py_p5", "Yerel değişken dışarı sızar mı?", ["Evet her zaman", "Hayır; fonksiyon kapsamındadır", "Evet global olur", "Yalnız return ile aynı"], 1),
+  mcq("q_py_p6", "elif ne işe yarar?", ["Import", "Ek koşul dalı", "Döngü", "Sınıf"], 1),
+  mcq("q_py_p7", "Karşılaştırma sonucu tipi nedir?", ["str", "bool", "list", "dict"], 1),
+  mcq("q_py_p8", "Boş girdi nasıl ele alınır?", ["Yoksay", "strip sonrası reddet / yeniden sor", "0 kabul et", "None bas"], 1),
+  mcq("q_py_p9", "int('72') başarılı mı?", ["Hayır", "Evet", "Yalnız float", "Yalnız hex"], 1),
+  mcq("q_py_p10", "list anahtar olarak dict’te durur mu?", ["Evet her zaman", "Hayır; liste hash’lenemez", "Yalnız boş liste", "Yalnız str ile karışık"], 1),
+  mcq("q_py_p11", "float lira ortalama tuzağı nedir?", ["Hızlanır", "Yaklaşık / yuvarlama hatası", "Daha doğru", "Tip gerekmez"], 1),
+  mcq("q_py_p12", "Baraj kaçtır?", ["50", "70+", "100", "Yok"], 1),
+  mcq("q_py_p13", "Satın alma belge midir?", ["Evet", "Hayır; belge sınav barajından sonra", "Evet; hash", "Hayır; yalnız satın alma"], 1),
+  mcq("q_py_p14", "Etkileşimli betik özeti nedir?", ["Yalnız print", "Girdi→doğrula→hesapla→yazdır", "Yalnız import", "Yalnız class"], 1),
+];

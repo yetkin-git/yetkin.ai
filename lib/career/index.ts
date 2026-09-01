@@ -1,6 +1,6 @@
 export const MODULE_ID = "career" as const;
 
-/** Kanıt → vize → portföy. Tabela vize-ilan eşleşmesidir; SWOT/mülakat canlı tavan değildir. */
+/** Kanıt → damga → portföy. Oda vitrini mühürden vize ve teklif kapısı okur; vize basmaz. */
 export const CAREER_HAPPY_PATH = ["proof", "visa-stamp", "portfolio"] as const;
 
 export {

@@ -3,13 +3,15 @@ import {
   FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY,
   LISTING_VISA_PATHWAY_BY_JOB_ID,
   SIBER_AGILE_ESG_LISTING_PATHWAY,
-  TEKNIK_URUN_AGILE_LISTING_PATHWAY,
   UIUX_URUN_FREELANCE_LISTING_PATHWAY,
   YAZILIM_BULUT_LISTING_PATHWAY,
   YZ_ICERIK_LISTING_PATHWAY,
   academySlugFromCourseTitle,
   catalogPathwayRingSlugs,
-  type AcademyPathwayId,
+  isFreelancerNeedId,
+  qualifyingCourseSlugsForNeed,
+  type FreelancerNeedId,
+  type ListingVisaLockId,
 } from "@/lib/kernel/catalog-ids";
 
 export {
@@ -32,14 +34,14 @@ export type ListingVisaSubject = {
   id?: string;
   title: string;
   brief: string;
-  /** Kilitli dikey. Varsa regex/kelime tahmini kullanılmaz. */
-  visaPathwayId?: AcademyPathwayId | null;
+  /** Kilitli ihtiyaç veya eski dikey. Varsa regex/kelime tahmini kullanılmaz. */
+  visaPathwayId?: ListingVisaLockId | null;
 };
 
 export type ListingVisaPathwaySource = "explicit" | "job-id" | "phrase" | "none";
 
 export type ListingVisaPathwayResolution = {
-  pathwayId: AcademyPathwayId | null;
+  pathwayId: ListingVisaLockId | null;
   source: ListingVisaPathwaySource;
 };
 
@@ -58,9 +60,11 @@ export const FREELANCE_LISTING_VISA_SUBJECT: ListingVisaSubject = {
 export const BIM_LISTING_VISA_SUBJECT = FREELANCE_LISTING_VISA_SUBJECT;
 
 export function qualifyingCourseSlugsForListingPathway(
-  pathwayId: AcademyPathwayId,
+  lockId: ListingVisaLockId,
 ): readonly string[] {
-  const slugs = catalogPathwayRingSlugs(pathwayId);
+  const slugs = isFreelancerNeedId(lockId)
+    ? qualifyingCourseSlugsForNeed(lockId)
+    : catalogPathwayRingSlugs(lockId);
   if (ACADEMY_ONBOARDING_COURSE_SLUG === null) {
     return slugs;
   }
@@ -68,7 +72,7 @@ export function qualifyingCourseSlugsForListingPathway(
 }
 
 type ListingVisaPhraseRule = {
-  pathwayId: AcademyPathwayId;
+  pathwayId: FreelancerNeedId;
   phrases: readonly string[];
   weight: number;
 };
@@ -84,11 +88,6 @@ const LISTING_VISA_PHRASE_RULES: readonly ListingVisaPhraseRule[] = [
     pathwayId: SIBER_AGILE_ESG_LISTING_PATHWAY,
     weight: 3,
     phrases: ["kvkk", "iso 27001", "iso27001", "esg", "siber", "pentest", "etik hacker"],
-  },
-  {
-    pathwayId: TEKNIK_URUN_AGILE_LISTING_PATHWAY,
-    weight: 3,
-    phrases: ["scrum", "agile", "urun yonet", "product owner", "is analist"],
   },
   {
     pathwayId: UIUX_URUN_FREELANCE_LISTING_PATHWAY,
@@ -148,9 +147,9 @@ function listingVisaNeedle(phrase: string): string {
   return ` ${folded} `;
 }
 
-function scoreListingVisaPhrases(listing: ListingVisaSubject): Map<AcademyPathwayId, number> {
+function scoreListingVisaPhrases(listing: ListingVisaSubject): Map<FreelancerNeedId, number> {
   const haystack = listingVisaHaystack(listing);
-  const scores = new Map<AcademyPathwayId, number>();
+  const scores = new Map<FreelancerNeedId, number>();
   for (const rule of LISTING_VISA_PHRASE_RULES) {
     for (const phrase of rule.phrases) {
       if (!haystack.includes(listingVisaNeedle(phrase))) {
@@ -162,8 +161,8 @@ function scoreListingVisaPhrases(listing: ListingVisaSubject): Map<AcademyPathwa
   return scores;
 }
 
-function winningListingVisaPathway(scores: Map<AcademyPathwayId, number>): AcademyPathwayId | null {
-  let winner: AcademyPathwayId | null = null;
+function winningListingVisaPathway(scores: Map<FreelancerNeedId, number>): FreelancerNeedId | null {
+  let winner: FreelancerNeedId | null = null;
   let best = 0;
   let tied = false;
   for (const [pathwayId, score] of scores) {
@@ -197,12 +196,12 @@ export function inspectListingVisaPathway(listing: ListingVisaSubject): ListingV
   return { pathwayId, source: "phrase" };
 }
 
-export function resolveListingVisaPathway(listing: ListingVisaSubject): AcademyPathwayId | null {
+export function resolveListingVisaPathway(listing: ListingVisaSubject): ListingVisaLockId | null {
   return inspectListingVisaPathway(listing).pathwayId;
 }
 
 /** İlan yazım kilidi: açık id → kestirim → oda varsayılanı. Hiçbir zaman null. */
-export function lockListingVisaPathway(listing: ListingVisaSubject): AcademyPathwayId {
+export function lockListingVisaPathway(listing: ListingVisaSubject): ListingVisaLockId {
   return inspectListingVisaPathway(listing).pathwayId ?? FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY;
 }
 

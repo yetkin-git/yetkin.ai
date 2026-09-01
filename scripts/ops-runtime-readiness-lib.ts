@@ -1,7 +1,7 @@
 /**
  * ops:runtime-readiness ek sicili — sır basmaz, canlı DB ping atmaz.
- * Direct :5432 / session-mode, PayTR üçlü + iFrame kök, Inngest health simülasyonu.
- * Transaction-mode :6543 ve pooler.supabase.com yasaktır.
+ * DIRECT_URL: Direct :5432. DATABASE_URL: Vercel'de transaction pooler :6543.
+ * Migrasyon `pooler.supabase.com` / :6543 yasaktır; runtime havuzu değildir.
  * Kernel `evaluateRuntimeReadiness` nakit 503 davranışını değiştirmez; bu katman
  * operatör tablosudur (DEVLABS_KEY_PEPPER, SMTP, JWT yedek, auth yön, hız tavanı).
  */
@@ -21,6 +21,11 @@ import {
   isForbiddenPoolerUrl,
   parseDirectConnectionUrl,
 } from "./ops-migrate-lib";
+import {
+  isRuntimePoolerUrl,
+  isSupabaseDirectSessionUrl,
+  supabasePoolerUsernameOk,
+} from "@/lib/kernel/postgres-url";
 
 export const PAYTR_WEBHOOK_PATH = "/api/payments/webhooks/paytr" as const;
 
@@ -31,6 +36,7 @@ export type PostgresHostClass =
   | "unconfigured"
   | "unparseable"
   | "supabase-direct"
+  | "supabase-pooler"
   | "forbidden-pooler"
   | "loopback"
   | "other";
@@ -43,6 +49,8 @@ export type PostgresUrlOps = {
   sessionMode: boolean;
   transactionModeForbidden: boolean;
   okForDirectProtocol: boolean;
+  okForRuntime: boolean;
+  poolerUsernameOk: boolean;
 };
 
 export type AppUrlClass = "unconfigured" | "unparseable" | "localhost" | "https-public" | "http-public";
@@ -61,6 +69,7 @@ export type HealthSimChecks = {
   supabaseAuth: "configured" | "unconfigured";
   inngest: "configured" | "unconfigured";
   payments: "configured" | "unconfigured";
+  examSitting: "configured" | "unconfigured";
 };
 
 export type HealthSimulation = {
@@ -126,9 +135,12 @@ function classifyPostgresUrl(
       sessionMode: false,
       transactionModeForbidden: false,
       okForDirectProtocol: false,
+      okForRuntime: false,
+      poolerUsernameOk: true,
     };
   }
   const forbidden = isForbiddenPoolerUrl(trimmed);
+  const runtimePooler = isRuntimePoolerUrl(trimmed);
   const shape = parseDirectConnectionUrl(trimmed);
   if (!shape) {
     return {
@@ -137,8 +149,25 @@ function classifyPostgresUrl(
       hostClass: "unparseable",
       port: null,
       sessionMode: false,
-      transactionModeForbidden: forbidden,
+      transactionModeForbidden: forbidden && name === "DIRECT_URL",
       okForDirectProtocol: false,
+      okForRuntime: false,
+      poolerUsernameOk: true,
+    };
+  }
+  const poolerUsernameOk = !runtimePooler || supabasePoolerUsernameOk(trimmed);
+  if (name === "DATABASE_URL" && runtimePooler) {
+    const sessionPooler = shape.port === DIRECT_POSTGRES_PORT;
+    return {
+      name,
+      present: true,
+      hostClass: "supabase-pooler",
+      port: shape.port,
+      sessionMode: sessionPooler,
+      transactionModeForbidden: false,
+      okForDirectProtocol: false,
+      okForRuntime: poolerUsernameOk,
+      poolerUsernameOk,
     };
   }
   const hostClass: PostgresHostClass = forbidden
@@ -148,14 +177,20 @@ function classifyPostgresUrl(
       : shape.isLoopback
         ? "loopback"
         : "other";
+  const okForRuntime =
+    hostClass === "supabase-direct" ||
+    hostClass === "loopback" ||
+    hostClass === "other";
   return {
     name,
     present: true,
     hostClass,
     port: shape.port,
     sessionMode: shape.isDirectPort && !forbidden,
-    transactionModeForbidden: forbidden || shape.port === FORBIDDEN_POOLER_PORT,
+    transactionModeForbidden: name === "DIRECT_URL" && (forbidden || shape.port === FORBIDDEN_POOLER_PORT),
     okForDirectProtocol: shape.ok,
+    okForRuntime: name === "DATABASE_URL" ? okForRuntime : shape.ok,
+    poolerUsernameOk,
   };
 }
 
@@ -212,6 +247,7 @@ export function simulateHealthEnv(env: Record<string, string | undefined>): Heal
       supabaseAuth: services.supabaseAuth,
       inngest: services.inngest,
       payments: services.payments,
+      examSitting: services.examSitting,
     },
     inngestServeFailClosed: resolveInngestServeMode(env) === "fail-closed",
     inngestServeMode: resolveInngestServeMode(env),
@@ -262,20 +298,37 @@ export function extraProductionBlocks(
   }
   const { database, direct } = inspectPostgresOps(env);
   const blocking: string[] = [];
-  for (const row of [database, direct]) {
-    if (!row.present) {
-      continue;
+  const vercel = env.VERCEL?.trim() === "1" || Boolean(env.VERCEL_ENV?.trim());
+
+  if (database.present) {
+    if (!database.poolerUsernameOk) {
+      blocking.push(
+        "DATABASE_URL havuz kullanıcısı postgres.<project-ref> olmalı (düz postgres tenant not found).",
+      );
+    } else if (database.hostClass === "loopback") {
+      blocking.push(
+        `DATABASE_URL loopback (lab) — üretim Direct veya transaction pooler ister. yetkin_rail_lab production .env'e yapışmaz.`,
+      );
+    } else if (database.hostClass === "unparseable") {
+      blocking.push("DATABASE_URL URI parse edilemedi — Direct :5432 veya pooler :6543 beklenir.");
+    } else if (vercel && isSupabaseDirectSessionUrl(env.DATABASE_URL ?? "")) {
+      blocking.push(
+        `DATABASE_URL Direct host — Vercel serverless IPv4 transaction pooler :${FORBIDDEN_POOLER_PORT} ister.`,
+      );
     }
-    if (row.transactionModeForbidden) {
+  }
+
+  if (direct.present) {
+    if (direct.transactionModeForbidden || direct.hostClass === "forbidden-pooler") {
       blocking.push(
-        `${row.name} transaction-mode/havuz (:${FORBIDDEN_POOLER_PORT} veya pooler.supabase.com) — Direct :${DIRECT_POSTGRES_PORT} gerekir.`,
+        `DIRECT_URL transaction-mode/havuz (:${FORBIDDEN_POOLER_PORT} veya pooler.supabase.com) — migrate Direct :${DIRECT_POSTGRES_PORT} ister.`,
       );
-    } else if (row.hostClass === "loopback") {
+    } else if (direct.hostClass === "loopback") {
       blocking.push(
-        `${row.name} loopback (lab) — üretim Direct db.<ref>.supabase.co:${DIRECT_POSTGRES_PORT} ister. yetkin_rail_lab production .env'e yapışmaz.`,
+        `DIRECT_URL loopback (lab) — üretim Direct db.<ref>.supabase.co:${DIRECT_POSTGRES_PORT} ister.`,
       );
-    } else if (row.hostClass === "unparseable") {
-      blocking.push(`${row.name} URI parse edilemedi — Direct session-mode beklenir.`);
+    } else if (direct.hostClass === "unparseable") {
+      blocking.push(`DIRECT_URL URI parse edilemedi — Direct session-mode beklenir.`);
     }
   }
   const paytr = inspectPaytrOps(env);
@@ -308,12 +361,24 @@ export function formatPostgresLine(row: PostgresUrlOps): string {
   if (!row.present) {
     return `${row.name}=unconfigured`;
   }
-  const mode = row.sessionMode
-    ? "session-mode"
-    : row.transactionModeForbidden
-      ? "transaction-mode-YASAK"
-      : "port-belirsiz";
-  const protocol = row.okForDirectProtocol ? "direct-ok" : "direct-fail";
+  const mode =
+    row.hostClass === "supabase-pooler"
+      ? row.port === FORBIDDEN_POOLER_PORT
+        ? "transaction-pooler"
+        : "session-pooler"
+      : row.sessionMode
+        ? "session-mode"
+        : row.transactionModeForbidden
+          ? "transaction-mode-YASAK"
+          : "port-belirsiz";
+  const protocol =
+    row.name === "DIRECT_URL"
+      ? row.okForDirectProtocol
+        ? "direct-ok"
+        : "direct-fail"
+      : row.okForRuntime
+        ? "runtime-ok"
+        : "runtime-fail";
   return `${row.name} host=${row.hostClass} port=${row.port ?? "?"} ${mode} ${protocol}`;
 }
 
@@ -415,7 +480,7 @@ export function formatFullRuntimeReadiness(env: Record<string, string | undefine
     "OPS-1 Database (sır yok, ping yok):",
     formatPostgresLine(postgres.database),
     formatPostgresLine(postgres.direct),
-    `beklenen Direct/session port=${DIRECT_POSTGRES_PORT}; yasak pooler port=${FORBIDDEN_POOLER_PORT}`,
+    `DIRECT_URL Direct :${DIRECT_POSTGRES_PORT}; DATABASE_URL runtime transaction pooler :${FORBIDDEN_POOLER_PORT} (session-mode pooler :${DIRECT_POSTGRES_PORT})`,
     "",
     "OPS-2 PayTR (webhook + iFrame kök):",
     ...formatPaytrLines(paytr),

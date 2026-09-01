@@ -154,6 +154,8 @@ export type ProviderGenerateSpeechInput = {
   instruction?: string;
   voiceName?: string;
   languageCode?: string;
+  /** HTTP tavanı (ms). Boşsa sağlayıcı varsayılanı. */
+  timeoutMs?: number;
 };
 
 export type ProviderGenerateSpeechResult = {

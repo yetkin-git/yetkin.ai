@@ -23,7 +23,7 @@ export async function GET(
     }
     const view = await loadAcademyExam(ports, course.id, user.id, undefined, user.email);
     if (!view) {
-      return jsonFail("Sınav için SETTLED satın alma gerekir (eğitim veya doğrudan sınav/vize yolu).", 403);
+      return jsonFail("Sınav için bu eğitimi satın almış olman gerekir.", 403);
     }
     return jsonOk({
       exam: view.exam,

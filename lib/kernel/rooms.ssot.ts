@@ -9,8 +9,8 @@
 export const VERTICAL_ROOMS = [
   { id: "dashboard", path: "/dashboard", label: "Anasayfa", blurb: "Genel bakış" },
   { id: "academy", path: "/academy", label: "Akademi", blurb: "Kurs, ödeme onayı, sertifika" },
-  { id: "career", path: "/career", label: "Kariyer", blurb: "Vize ve pasaport projeksiyonu" },
-  { id: "freelancer", path: "/freelancer", label: "Freelancer", blurb: "İlan, emanet, teslim" },
+  { id: "career", path: "/career", label: "Kariyer", blurb: "Mühürden vize ve teklif kapısı" },
+  { id: "freelancer", path: "/freelancer", label: "Freelancer", blurb: "İş ilanı, teklif, güvenli ödeme" },
 ] as const;
 
 export type VerticalRoomId = (typeof VERTICAL_ROOMS)[number]["id"];

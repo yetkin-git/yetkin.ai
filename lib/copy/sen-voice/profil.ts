@@ -23,7 +23,7 @@ export const PROFIL_SEN = {
     "Oturum var; kimlik kartı henüz oluşmadı. Kart dolunca adın burada durur. E-posta oturumdan gösterilir.",
   passportCta: "Pasaport sığınağı",
   walletCta: "Cüzdanı aç",
-  careerCta: "Vize & liyakat defteri",
+  careerCta: "Mücevher vitrini",
   verifyCta: "Sertifika doğrula",
   dashboardCta: "Anasayfaya dön",
   honestyTitle: "Kimlik dürüstlüğü",

@@ -85,10 +85,20 @@ describe("Super Admin akademi lab bağışı", () => {
   });
 
   it("eksik kursa course+grant, mevcut bağışı atlar, ticari kaydı ezmez", () => {
-    const python = SEEDS[0]!;
+    const python = SEEDS.find((row) => row.slug === "python-temel")!;
+    const draft: SuperAdminGrantCourseSeed = {
+      id: "ac_ai_temel",
+      slug: "ai-temel",
+      title: "ai-temel",
+      summary: "ai-temel",
+      catalogUnitKey: "course:ai-temel",
+      globalRank: 1,
+      localRank: 2,
+      trendScore: 2,
+    };
     const plan = planSuperAdminAcademyGrants({
       slugs: ["python-temel", "ai-temel"],
-      seeds: SEEDS,
+      seeds: [...SEEDS, draft],
       liveCourses: [{ id: python.id, slug: python.slug }],
       purchases: [{ courseId: python.id, priceLockId: `${ACADEMY_GRANT_LOCK_PREFIX}u:${python.id}` }],
     });
@@ -96,7 +106,7 @@ describe("Super Admin akademi lab bağışı", () => {
       { slug: "python-temel", courseId: python.id, action: "skip-existing-grant" },
       {
         slug: "ai-temel",
-        courseId: SEEDS.find((row) => row.slug === "ai-temel")!.id,
+        courseId: draft.id,
         action: "insert-course-and-grant",
       },
     ]);
@@ -124,7 +134,7 @@ describe("Super Admin akademi lab bağışı", () => {
     });
     expect(result.items.every((row) => row.applied)).toBe(true);
     expect(result.items.map((row) => row.slug)).toEqual([...ACADEMY_GROWTH_SKU_SLUGS]);
-    expect(written).toHaveLength(4);
+    expect(written).toHaveLength(ACADEMY_GROWTH_SKU_SLUGS.length);
     expect(written.every((row) => row.amountMinor === 0)).toBe(true);
     expect(result.ledgerCountBefore).toBe(0);
     expect(result.ledgerCountAfter).toBe(0);
@@ -149,7 +159,7 @@ describe("Super Admin akademi lab bağışı", () => {
         email: "a@b.com",
         nodeEnv: "development",
         seeds: SEEDS,
-        slugs: ["ai-temel"],
+        slugs: ["python-temel"],
         now: NOW,
       }),
     ).rejects.toThrow(/nakit defterine yazdı/);

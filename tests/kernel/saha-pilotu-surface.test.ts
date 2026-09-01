@@ -24,8 +24,8 @@ function readSrc(relative: string): string {
 }
 
 describe("saha pilotu — hosted apply disk planı", () => {
-  it("28 Prisma + sekiz SQL birebir; ops:migrate lab stub basmaz", () => {
-    expect(EXPECTED_PRISMA_MIGRATIONS).toHaveLength(28);
+  it("31 Prisma + sekiz SQL birebir; ops:migrate lab stub basmaz", () => {
+    expect(EXPECTED_PRISMA_MIGRATIONS).toHaveLength(31);
     expect(EXPECTED_SQL).toHaveLength(8);
     const plan = inspectHostedApplyDiskPlan(ROOT);
     expect(plan.issues).toEqual([]);
@@ -114,23 +114,27 @@ describe("saha pilotu — PayTR sandbox ve usta kopyası", () => {
   });
 
   it("kazandın / bakiyen arttı yok; freeze metni usta yüzeyinde durur", () => {
-    const surfaces = [
+    const ustaSurfaces = [
       readSrc("lib/copy/sen-voice/freelancer.ts"),
-      readSrc("lib/copy/sen-voice/ux.ts"),
       readSrc("lib/copy/sen-voice/dashboard.ts"),
       readSrc("lib/copy/sen-voice/notice.ts"),
       readSrc("apps/rail-is/src/ui/copy.ts"),
       readSrc("components/freelancer/contract-actions.tsx"),
       readSrc("components/freelancer/delivery-hero-card.tsx"),
     ].join("\n");
-    expect(surfaces.toLocaleLowerCase("tr")).not.toContain("kazandın");
-    expect(surfaces.toLocaleLowerCase("tr")).not.toContain("bakiyen arttı");
-    expect(surfaces).not.toContain("Aktarılıyor");
+    expect(ustaSurfaces.toLocaleLowerCase("tr")).not.toContain("kazandın");
+    expect(ustaSurfaces.toLocaleLowerCase("tr")).not.toContain("bakiyen arttı");
+    expect(ustaSurfaces).not.toContain("Aktarılıyor");
     expect(readSrc("lib/copy/sen-voice/ux.ts")).not.toContain("İşi onayla ve");
-    expect(SEN_VOICE.freelancer.actions.freezeBanner).toContain("cüzdanına yazılmaz");
+    expect(readSrc("lib/copy/sen-voice/ux.ts").toLocaleLowerCase("tr")).not.toContain(
+      "bakiyen arttı",
+    );
+    expect(SEN_VOICE.ux.bridge.bidAccepted.title.toLocaleLowerCase("tr")).not.toContain("kazandın");
+    expect(SEN_VOICE.freelancer.actions.freezeBanner).toContain("yazılmaz");
     expect(SEN_VOICE.ux.bridge.released.body).toContain("yazılmaz");
     expect(SEN_VOICE.ux.delivery.releaseFrozen("₺10,00")).toContain("henüz yazılmaz");
     expect(RAIL_IS_COPY.release.hint).toContain("cüzdanına yazılmaz");
-    expect(readSrc("components/freelancer/escrow-hold-steps.tsx")).toContain("freezeBanner");
+    expect(readSrc("components/freelancer/escrow-hold-steps.tsx")).not.toContain("freezeBanner");
+    expect(readSrc("components/freelancer/delivery-hero-card.tsx")).toContain("freezeBanner");
   });
 });

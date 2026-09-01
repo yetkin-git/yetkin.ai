@@ -10,8 +10,9 @@ export const UX_SEN = {
     minLift: (suggested: string) => `Eksik tutar bant altına düşüyor. Kart ${suggested} yükler.`,
     capHint: (max: string) => `Tek seferde en fazla ${max} yüklenir.`,
     balance: (amount: string) => `Canlı bakiye ${amount}.`,
-    required: (amount: string) => `İşlem tutarı ${amount}.`,
+    required: (amount: string) => `İşlem tutarı ${amount} (KDV dahil).`,
     amountLabel: "Yükleme tutarı (₺)",
+    amountLocked: "Yükleme tutarı eğitim fiyatına kilitlidir; PayTR sepeti bu kuruşu taşır.",
     submit: "Kart ile yükle",
     pending: "Hazırlanıyor…",
     iframeTitle: "Güvenli ödeme",
@@ -30,9 +31,9 @@ export const UX_SEN = {
     dismiss: "Kapat",
     kicker: "Sonraki adım",
     examPassed: {
-      title: "Belgen mühürlendi",
-      body: "Ustalık belgen ve kariyer vizen sicile işlendi.",
-      cta: "Belgeni gör",
+      title: "Yetkinlik kazandın",
+      body: "Sertifikan ve yetkinliğin Kariyer sayfasına işlendi.",
+      cta: "Sertifikanı gör",
     },
     examHref: "/academy/certificates",
     examCareerHref: "/career",
@@ -43,7 +44,7 @@ export const UX_SEN = {
     },
     bidAccepted: {
       title: "Teklif kabul edildi",
-      body: "Tutar emanete kilitlendi. Anında settlement yok.",
+      body: "Bütçe güvenli ödemeye alındı. Teslim onayından sonra bakiyene geçer.",
       cta: "Sözleşmeyi aç",
     },
     bidSent: {
@@ -62,7 +63,7 @@ export const UX_SEN = {
     },
     released: {
       title: "Teslim onaylandı",
-      body: "Usta payı yetkin.ai cüzdanına yazılmaz. Dağıtım lisanslı kuruluştadır; split pasifken 503 döner.",
+      body: "Teslim onaylandı. Platform cüzdanına usta payı yazılmaz.",
       cta: "Sözleşmeye dön",
     },
     revisionSent: {
@@ -75,23 +76,23 @@ export const UX_SEN = {
     title: "Teslimat inceleme ve onay",
     inspect: "Teslim edilen işi incele",
     noArtifact: "Bağlantı yok — teslim notu aşağıda.",
-    gross: "Brüt emanet",
+    gross: "Toplam tutar",
     platform: (percent: number) => `Platform payı (%${percent})`,
     net: "Ustaya net",
-    release: (net: string) => `İşi onayla — ${net} henüz yazılmaz; lisanslı kuruluş dağıtır.`,
+    release: (net: string) => `İşi onayla — ${net} henüz yazılmaz; teslim onayından sonra hesabına geçer.`,
     releasing: "Onay yazılıyor…",
     revision: "Revizyon İstiyorum",
     revisionPending: "Yazılıyor…",
     revisionPlaceholder: "Revizyon notu — ne düzeltilmeli?",
     revisionDefault: "Revizyon talep edildi.",
     revisionExhausted:
-      "Revizyon hakkı bitti. Teslimatı onayla ve hakedişi aktar.",
+      "Revizyon hakkı bitti. Teslimatı onayla.",
     freelancerWait: "Teslim incelemede. İşveren onayı bekleniyor.",
     fail: "İşlem başarısız.",
     freezeBanner:
-      "Usta payı yetkin.ai cüzdanına yazılmaz. Teslim onayı, ödemeyi lisanslı kuruluşun dağıtımına bırakır.",
+      "Onaydan sonra tutar hesabına geçer. Platform cüzdanına usta payı yazılmaz.",
     releaseFrozen: (net: string) =>
-      `İşi onayla — ${net} henüz yazılmaz; lisanslı kuruluş dağıtır.`,
+      `İşi onayla — ${net} henüz yazılmaz; teslim onayından sonra hesabına geçer.`,
   },
   http: {
     network: "Ağ yanıt vermedi. Yeniden dene.",

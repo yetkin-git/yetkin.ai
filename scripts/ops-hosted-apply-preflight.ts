@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 /**
  * Hosted DIRECT_URL apply ön kontrolü.
- * Lab Auth stub basmaz. 28 Prisma + sekiz SQL disk mührü.
+ * Lab Auth stub basmaz. 31 Prisma + sekiz SQL disk mührü.
  * Hosted URL varsa TCP :5432; apply için `npm run ops:migrate`.
  *
  *   npm run ops:hosted-apply-preflight

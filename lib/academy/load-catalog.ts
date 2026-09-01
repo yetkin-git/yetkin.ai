@@ -34,7 +34,10 @@ export type { AcademyCourseWithPrice };
 export type { AcademyContinueBoard };
 export type { AcademyCatalogLearnerBoard };
 
-/** Vitrin soğuk start — tohum kartlar 800ms içinde basılır; DB bekletmez. */
+/**
+ * Öğrenen panosu / devam şeridi — para basmaz; soğuk start tohum kartı bekletmez.
+ * Fiyat listesi bu bütçeyi kullanmaz (kart ≠ kilit yalanı).
+ */
 export const ACADEMY_CATALOG_READ_TIMEOUT_MS = 800;
 
 function courseSlugFromCatalog(
@@ -53,33 +56,32 @@ export const loadPublishedCourses = cache(async function loadPublishedCourses():
 > {
   const seeded = publishedCoursesFromSeed();
   try {
-    return await withDbReadTimeout(
-      (async () => {
-        await ensurePrismaQueryEngine();
-        const ports = createPrismaAcademyPorts();
-        const courses = await ports.academy.listPublishedCourses();
-        const seedSlugs = new Set(seeded.map((row) => row.slug));
-        const relevant = courses.filter((course) => seedSlugs.has(course.slug));
-        const unitKeys = [...new Set(relevant.map((course) => course.catalogUnitKey))];
-        const entries =
-          unitKeys.length > 0
-            ? await ports.catalog.listActiveEntries(ACADEMY_MODULE_KEY, unitKeys)
-            : [];
-        const byUnit = new Map(entries.map((entry) => [entry.unitKey, entry] as const));
-        const live = relevant.map((course) => {
-          const entry = byUnit.get(course.catalogUnitKey);
-          return overlaySeedCatalogPrice({
-            ...course,
-            priceMinor: entry?.amountMinor ?? null,
-            currencyCode: entry?.currencyCode ?? SETTLEMENT_CURRENCY,
-            purchasable: Boolean(entry) && course.isPublished,
-          });
-        });
-        return mergePublishedAcademyCatalog(live, seeded);
-      })(),
-      ACADEMY_CATALOG_READ_TIMEOUT_MS,
-      "academy.catalog",
-    );
+    // Fiyat, kilit ve PayTR aynı `PriceCatalogEntry` satırındandır.
+    // 800ms tohum düşüşü vitrinde yeni haritayı, antrede/kilitte eski tutarı basardı.
+    const engineReady = await ensurePrismaQueryEngine();
+    if (!engineReady) {
+      return seeded;
+    }
+    const ports = createPrismaAcademyPorts();
+    const courses = await ports.academy.listPublishedCourses();
+    const seedSlugs = new Set(seeded.map((row) => row.slug));
+    const relevant = courses.filter((course) => seedSlugs.has(course.slug));
+    const unitKeys = [...new Set(relevant.map((course) => course.catalogUnitKey))];
+    const entries =
+      unitKeys.length > 0
+        ? await ports.catalog.listActiveEntries(ACADEMY_MODULE_KEY, unitKeys)
+        : [];
+    const byUnit = new Map(entries.map((entry) => [entry.unitKey, entry] as const));
+    const live = relevant.map((course) => {
+      const entry = byUnit.get(course.catalogUnitKey);
+      return overlaySeedCatalogPrice({
+        ...course,
+        priceMinor: entry?.amountMinor ?? null,
+        currencyCode: entry?.currencyCode ?? SETTLEMENT_CURRENCY,
+        purchasable: Boolean(entry) && course.isPublished,
+      });
+    });
+    return mergePublishedAcademyCatalog(live, seeded);
   } catch {
     return seeded;
   }
@@ -92,7 +94,10 @@ export const loadAcademyCatalogLearnerBoard = cache(async function loadAcademyCa
   try {
     return await withDbReadTimeout(
       (async () => {
-        await ensurePrismaQueryEngine();
+        const engineReady = await ensurePrismaQueryEngine();
+        if (!engineReady) {
+          return EMPTY_ACADEMY_CATALOG_LEARNER_BOARD;
+        }
         const ports = createPrismaAcademyPorts();
         const [purchases, certificates] = await Promise.all([
           ports.academy.listPurchasesForUser(userId),
@@ -146,7 +151,10 @@ export const loadAcademyContinueBoard = cache(async function loadAcademyContinue
   try {
     return await withDbReadTimeout(
       (async () => {
-        await ensurePrismaQueryEngine();
+        const engineReady = await ensurePrismaQueryEngine();
+        if (!engineReady) {
+          return null;
+        }
         const ports = createPrismaAcademyPorts();
         const [purchases, certificates] = await Promise.all([
           ports.academy.listPurchasesForUser(userId),

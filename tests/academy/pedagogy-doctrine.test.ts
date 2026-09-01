@@ -10,6 +10,7 @@ import {
   ACADEMY_PEDAGOGY_REFRAME,
 } from "@/archived/lib/academy-studio/pedagogy-doctrine";
 import { ACADEMY_COURSE_SEEDS } from "@/lib/academy/seed";
+import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 import {
   ACADEMY_LESSON_LISTEN_TTS_INSTRUCTION,
   ACADEMY_TTS_NO_LETTER_SPELLING_RULE,
@@ -50,9 +51,22 @@ describe("kültürel analoji ve yerel benzetme doktrini", () => {
     expect(ACADEMY_TTS_NO_LETTER_SPELLING_RULE).toMatch(/le-le-me/u);
     expect(ACADEMY_TTS_NO_LETTER_SPELLING_RULE).toMatch(/el-el-em/u);
     expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.LLM).toBe("Büyük Dil Modeli (LLM)");
+    expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.ReAct).toBe("Akıl Yürüt ve Eyleme Geç (ReAct)");
     expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.RAG).toBe(
       "Artırılmış Geri Çapraz Sorgulama (RAG)",
     );
+    expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.LangGraph).toBe(
+      "grafik ajan çizelgesi (LangGraph)",
+    );
+    expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.StateGraph).toBe("Durum Grafiği (StateGraph)");
+    expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.FastAPI).toBe(
+      "Hızlı Uygulama Programlama Arayüzü (FastAPI)",
+    );
+    expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.Guardrails).toBe(
+      "Güvenlik korkuluğu (Guardrails)",
+    );
+    expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.HITL).toBe("İnsan Döngüde (HITL)");
+    expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.VectorDB).toBe("vektör veritabanı (VectorDB)");
     expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.DDD).toBe(
       "Etki Alanı Odaklı Tasarım (Domain-Driven Design)",
     );
@@ -109,7 +123,9 @@ describe("kültürel analoji ve yerel benzetme doktrini", () => {
       "Web İçeriği Erişilebilirlik Kılavuzu (WCAG)",
     );
     expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.HTML).toBe("Hipermetin İşaretleme Dili (HTML)");
+    expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.JSX).toBe("JavaScript XML (JSX)");
     expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.CSS).toBe("Basamaklı Stil Sayfaları (CSS)");
+    expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.DOM).toBe("Belge Nesne Modeli (DOM)");
     expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.ARIA).toBe(
       "Erişilebilir Zengin İnternet Uygulamaları (ARIA)",
     );
@@ -130,12 +146,19 @@ describe("kültürel analoji ve yerel benzetme doktrini", () => {
     expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.FPS).toBe("Saniye Başına Kare Sayısı (FPS)");
     expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.SDK).toBe("Yazılım Geliştirme Kiti (SDK)");
     expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.RAM).toBe("Rastgele Erişim Belleği (RAM)");
+    expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.GIL).toBe("Küresel Yorumlayıcı Kilidi (GIL)");
     expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.RPS).toBe("Saniye Başına İstek Sayısı (RPS)");
     expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.CAP).toBe(
       "Tutarlılık-Erişilebilirlik-Bölünme Toleransı (CAP)",
     );
     expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.p95).toBe("yüzde doksan beş (p95)");
     expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.p99).toBe("yüzde doksan dokuz (p99)");
+    expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.RSC).toBe(
+      "React Sunucu Bileşenleri (RSC)",
+    );
+    expect(ACADEMY_SPEECH_ACRONYM_EXPANSIONS.Redis).toBe(
+      "bellek içi sözlük (Redis)",
+    );
 
     const gateway = readFileSync(join(ROOT, "lib", "kernel", "ai", "llm-gateway.ts"), "utf8");
     expect(gateway).toContain("VOICE_TTS_NO_LETTER_SPELLING_RULE");
@@ -154,13 +177,88 @@ describe("kültürel analoji ve yerel benzetme doktrini", () => {
     expect(generateSpeechRoute).not.toContain("loadAcademyLessonListenAudio");
 
     const python1 = curriculumForCourseSlug("python-temel")[0]!;
-    expect(python1.body).toContain("Bunu günlük hayattan bir örnekle ele alırsak...");
+    expect(python1.body).toContain("kargo");
+    expect(python1.body).toMatch(/Koray:/);
+    expect(python1.body).toMatch(/Maya:/);
 
-    expect(ACADEMY_COURSE_SEEDS).toHaveLength(4);
+    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual([...ACADEMY_GROWTH_SKU_SLUGS]);
     for (const row of ACADEMY_COURSE_SEEDS) {
       const lessons = curriculumForCourseSlug(row.slug);
       const bodies = lessons.map((lesson) => lesson.body).join("\n");
-      expect(bodies, row.slug).toContain("Bunu günlük hayattan bir örnekle ele alırsak...");
+      if (row.slug === "python-temel") {
+        expect(bodies, row.slug).toContain("kargo");
+        expect(bodies, row.slug).toMatch(/Koray:/);
+      } else if (row.slug === "python-orta") {
+        expect(bodies, row.slug).toContain("fırın");
+        expect(bodies, row.slug).toMatch(/Koray:/);
+        expect(bodies, row.slug).toMatch(/Maya:/);
+      } else if (row.slug === "python-ileri") {
+        expect(bodies, row.slug).toContain("gişe");
+        expect(bodies, row.slug).toMatch(/Koray:/);
+        expect(bodies, row.slug).toMatch(/Maya:/);
+      } else if (row.slug === "ai-agent-temel") {
+        expect(bodies, row.slug).toContain("klavye");
+        expect(bodies, row.slug).toMatch(/Koray:/);
+        expect(bodies, row.slug).toMatch(/Maya:/);
+      } else if (row.slug === "ai-agent-orta") {
+        expect(bodies, row.slug).toContain("kütüphaneci");
+        expect(bodies, row.slug).toMatch(/Koray:/);
+        expect(bodies, row.slug).toMatch(/Maya:/);
+      } else if (row.slug === "ai-agent-ileri") {
+        expect(bodies, row.slug).toContain("makas");
+        expect(bodies, row.slug).toMatch(/Koray:/);
+        expect(bodies, row.slug).toMatch(/Maya:/);
+      } else if (row.slug === "fullstack-temel") {
+        expect(bodies, row.slug).toContain("bina");
+        expect(bodies, row.slug).toMatch(/Koray:/);
+        expect(bodies, row.slug).toMatch(/Maya:/);
+      } else if (row.slug === "fullstack-orta") {
+        expect(bodies, row.slug).toContain("şantiye");
+        expect(bodies, row.slug).toMatch(/Koray:/);
+        expect(bodies, row.slug).toMatch(/Maya:/);
+      } else if (row.slug === "fullstack-ileri") {
+        expect(bodies, row.slug).toContain("fabrika");
+        expect(bodies, row.slug).toMatch(/Koray:/);
+        expect(bodies, row.slug).toMatch(/Maya:/);
+      } else if (row.slug === "security-temel") {
+        expect(bodies, row.slug).toContain("kale");
+        expect(bodies, row.slug).toMatch(/Can:/);
+        expect(bodies, row.slug).toMatch(/Ece:/);
+      } else if (row.slug === "security-orta") {
+        expect(bodies, row.slug).toContain("müfettiş");
+        expect(bodies, row.slug).toMatch(/Can:/);
+        expect(bodies, row.slug).toMatch(/Ece:/);
+      } else if (row.slug === "security-ileri") {
+        expect(bodies, row.slug).toContain("damga");
+        expect(bodies, row.slug).toMatch(/Can:/);
+        expect(bodies, row.slug).toMatch(/Ece:/);
+      } else if (row.slug === "excel-masterclass") {
+        expect(bodies, row.slug).toContain("defter");
+        expect(bodies, row.slug).toMatch(/Tarık:/);
+        expect(bodies, row.slug).toMatch(/Gözde:/);
+      } else if (row.slug === "google-ads-masterclass") {
+        expect(bodies, row.slug).toContain("tabela");
+        expect(bodies, row.slug).toMatch(/Tarık:/);
+        expect(bodies, row.slug).toMatch(/Gözde:/);
+      } else if (row.slug === "meta-ads-masterclass") {
+        expect(bodies, row.slug).toContain("vitrin");
+        expect(bodies, row.slug).toMatch(/Tarık:/);
+        expect(bodies, row.slug).toMatch(/Gözde:/);
+      } else if (row.slug === "eticaret-masterclass") {
+        expect(bodies, row.slug).toContain("tezgâh");
+        expect(bodies, row.slug).toMatch(/Tarık:/);
+        expect(bodies, row.slug).toMatch(/Gözde:/);
+      } else if (row.slug === "canva-masterclass") {
+        expect(bodies, row.slug).toContain("kalıp");
+        expect(bodies, row.slug).toMatch(/Tarık:/);
+        expect(bodies, row.slug).toMatch(/Gözde:/);
+      } else if (row.slug === "linkedin-masterclass") {
+        expect(bodies, row.slug).toContain("kartvizit");
+        expect(bodies, row.slug).toMatch(/Tarık:/);
+        expect(bodies, row.slug).toMatch(/Gözde:/);
+      } else {
+        expect(bodies, row.slug).toContain("Bunu günlük hayattan bir örnekle ele alırsak...");
+      }
       for (const lesson of lessons) {
         const spoken = spokenAcademyLessonBody(lesson.body);
         expect(lesson.body, `${lesson.key}:visual`).not.toMatch(ARTIFICIAL_OPENING);
@@ -171,7 +269,7 @@ describe("kültürel analoji ve yerel benzetme doktrini", () => {
         }
       }
     }
-    expect(bodiesFor("python-temel")).toContain("print");
+    expect(bodiesFor("python-temel")).toContain("kargo");
   });
 });
 

@@ -8,7 +8,7 @@ import {
   toAmountMinor,
   toPositiveAmountMinor,
 } from "@/lib/kernel/money/amount-minor";
-import { formatMinor, parseMajorToMinor } from "@/lib/kernel/money/format";
+import { formatMinor, formatMinorCompact, parseMajorToMinor, stripZeroKurusFromTryLabel } from "@/lib/kernel/money/format";
 import { parseCurrencyCode } from "@/lib/kernel/money/currency";
 
 describe("amountMinor", () => {
@@ -40,5 +40,14 @@ describe("amountMinor", () => {
     expect(minor).toBe(1350);
     expect(formatMinor(minor, "TRY")).toContain("13,50");
     expect(parseCurrencyCode("try")).toBe("TRY");
+  });
+
+  it("vitrin compact tamsayı lirada kuruş hanesini gizler", () => {
+    expect(formatMinorCompact(159_000, "TRY")).toBe(formatMinor(159_000, "TRY").replace(/,00$/, ""));
+    expect(formatMinorCompact(159_000, "TRY")).not.toMatch(/,00$/);
+    expect(formatMinorCompact(89_000, "TRY")).toBe(formatMinor(89_000, "TRY").replace(/,00$/, ""));
+    expect(formatMinorCompact(159_050, "TRY")).toBe(formatMinor(159_050, "TRY"));
+    expect(stripZeroKurusFromTryLabel("₺1.590,00")).toBe("₺1.590");
+    expect(stripZeroKurusFromTryLabel("₺1.590,50")).toBe("₺1.590,50");
   });
 });

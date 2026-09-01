@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   FREELANCE_LISTING_VISA_SUBJECT,
+  FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY,
   LISTING_VISA_PATHWAY_BY_JOB_ID,
   UIUX_URUN_FREELANCE_LISTING_PATHWAY,
   YAZILIM_BULUT_LISTING_PATHWAY,
@@ -33,7 +34,7 @@ describe("ilan vize kapsamı çözümü", () => {
     });
     expect(resolution).toEqual({ pathwayId: YZ_ICERIK_LISTING_PATHWAY, source: "explicit" });
     expect(lockListingVisaPathway({ title: "Genel teslim", brief: "Kapsam belirsiz." })).toBe(
-      UIUX_URUN_FREELANCE_LISTING_PATHWAY,
+      FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY,
     );
   });
 

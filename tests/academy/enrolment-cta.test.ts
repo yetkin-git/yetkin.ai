@@ -59,15 +59,15 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
   it("satın alınmadıysa fiyat durur ve birincil CTA ödeme kapısına gider", () => {
     const hero = resolveAcademyAntreHeroCta({
       access: "unenrolled",
-      priceLabel: "₺490,00",
+      priceLabel: "₺890,00",
       purchasable: true,
       session: true,
       courseSlug: "python-temel",
       loginHref: "/login?next=%2Facademy%2Fpython-temel",
     });
-    expect(hero.priceLabel).toBe("₺490,00");
+    expect(hero.priceLabel).toBe(ACADEMY_SEN.catalog.priceVatInclusive("₺890,00"));
     expect(hero.action).toBe("buy");
-    expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺490,00"));
+    expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺890,00"));
     expect(hero.primaryLabel).toContain("Eğitimi Satın Al");
     expect(hero.primaryLabel).not.toBe(ACADEMY_SEN.player.openCta);
     expect(hero.primaryHref).toBe("/academy/python-temel#satin-al");
@@ -76,7 +76,7 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
   it("oturumsuz satın alma girişe düşer; Derse başla basılmaz", () => {
     const hero = resolveAcademyAntreHeroCta({
       access: "unenrolled",
-      priceLabel: "₺490,00",
+      priceLabel: "₺890,00",
       purchasable: true,
       session: false,
       courseSlug: "python-temel",
@@ -90,7 +90,7 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
   it("satın alındıysa fiyat Erişim Açık olur ve CTA /oyna açar", () => {
     const hero = resolveAcademyAntreHeroCta({
       access: "enrolled",
-      priceLabel: "₺490,00",
+      priceLabel: "₺890,00",
       purchasable: true,
       continueCompletedCount: 0,
       continuePhase: "lesson",
@@ -107,7 +107,7 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
   it("yarım müfredatta kaldığın yerden devam et basar", () => {
     const hero = resolveAcademyAntreHeroCta({
       access: "enrolled",
-      priceLabel: "₺490,00",
+      priceLabel: "₺890,00",
       purchasable: true,
       continueCompletedCount: 3,
       continuePhase: "lesson",
@@ -125,20 +125,25 @@ describe("vitrin kartı CTA", () => {
     const locked = resolveAcademyCatalogCardCta({
       slug: "python-temel",
       owned: false,
-      priceLabel: "₺490,00",
+      priceLabel: "₺890,00",
     });
-    expect(locked.cta).toBe(ACADEMY_SEN.catalog.cardCtaBuyPriced("₺490,00"));
-    expect(locked.priceLabel).toBe("₺490,00");
+    expect(locked.cta).toBe(ACADEMY_SEN.catalog.cardCtaBuy);
+    expect(locked.cta).not.toMatch(/₺/);
+    expect(locked.priceLabel).toBe("₺890");
+    expect(locked.priceCaption).toBe(ACADEMY_SEN.catalog.vatInclusiveHint);
     expect(locked.href).toBe("/academy/python-temel");
+    expect(locked.priceLabel).not.toBe(ACADEMY_SEN.course.accessOpen);
+    expect(locked.cta).not.toContain(ACADEMY_SEN.course.accessOpen);
 
     const owned = resolveAcademyCatalogCardCta({
       slug: "python-temel",
       owned: true,
       learnerStatus: "continue",
-      priceLabel: "₺490,00",
+      priceLabel: "₺890,00",
     });
     expect(owned.cta).toBe(ACADEMY_SEN.catalog.statusContinue);
     expect(owned.priceLabel).toBe(ACADEMY_SEN.course.accessOpen);
+    expect(owned.priceCaption).toBeNull();
     expect(owned.href).toBe("/academy/python-temel/oyna");
     for (const slug of ["fullstack-temel", "ai-temel", "ux-temel"] as const) {
       const buy = resolveAcademyCatalogCardCta({
@@ -146,7 +151,10 @@ describe("vitrin kartı CTA", () => {
         owned: false,
         priceLabel: "₺1.090,00",
       });
-      expect(buy.cta).toBe(ACADEMY_SEN.catalog.cardCtaBuyPriced("₺1.090,00"));
+      expect(buy.cta).toBe(ACADEMY_SEN.catalog.cardCtaBuy);
+      expect(buy.priceLabel).toBe("₺1.090");
+      expect(buy.priceCaption).toBe(ACADEMY_SEN.catalog.vatInclusiveHint);
+      expect(buy.priceLabel).not.toBe(ACADEMY_SEN.course.accessOpen);
       expect(buy.href).toBe(`/academy/${slug}`);
       const play = resolveAcademyCatalogCardCta({
         slug,

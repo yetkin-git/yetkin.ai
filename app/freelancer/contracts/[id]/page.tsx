@@ -6,7 +6,6 @@ import { ContractChatConsole } from "@/components/freelancer/contract-chat-conso
 import { DeliveryHeroCard } from "@/components/freelancer/delivery-hero-card";
 import { DisputeConsole } from "@/components/freelancer/dispute-console";
 import { RevisionTracker } from "@/components/freelancer/revision-tracker";
-import { SquadPanel } from "@/components/freelancer/squad-panel";
 import { EscrowHoldSteps } from "@/components/freelancer/escrow-hold-steps";
 import { loadContractBoard } from "@/lib/freelancer/load";
 import { formatMinor } from "@/lib/kernel/money/format";
@@ -167,15 +166,6 @@ export default async function FreelancerContractPage({
             isParty={Boolean(isParty)}
             contractStatus={board.contract.status}
           />
-          {board.squad ? (
-            <SquadPanel
-              contractId={board.contract.id}
-              freelancerId={board.contract.freelancerId}
-              isFreelancer={session.id === board.contract.freelancerId}
-              squad={board.squad}
-              members={board.squadMembers}
-            />
-          ) : null}
         </div>
       </details>
     </RoomFrame>

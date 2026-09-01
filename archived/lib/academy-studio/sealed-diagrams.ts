@@ -230,6 +230,13 @@ const SPECS: readonly AcademySealedDiagramSpec[] = [
   stack("py-cleanse", ["eksik", "tekrar", "kural"], D7),
   gate3("py-metric-chart", ["Metrik", "Grafik", "Kaynak"], D8),
   flow3("py-pipeline", ["oku", "dönüştür", "yaz"], D5, ["main", "hash"]),
+  // Python Orta — OOP / JSON / HTTP (mühürlü PY-102)
+  stack("py-oop-class", ["Sınıf", "Örnek", "Durum"], D7),
+  flow3("py-oop-inherit", ["Taban", "Miras", "Kapsül"], D6, ["super", "_alan"]),
+  flow3("py-json-file", ["oku", "JSON", "yaz"], D7, ["utf-8", "atomik"]),
+  gate3("py-try-except", ["try", "except", "özel hata"], D5),
+  flow3("py-http-get", ["GET", "durum", "gövde"], D6, ["timeout", "200"]),
+  flow3("py-api-seal", ["çek", "doğrula", "mühürle"], D8, ["id", "JSON"]),
   // Python İleri
   flow3("py-fastapi-route", ["İstek", "rota", "JSON"], D6, ["GET", "200"]),
   stack("py-pydantic-schema", ["JSON", "BaseModel", "422"], D7),
@@ -241,6 +248,20 @@ const SPECS: readonly AcademySealedDiagramSpec[] = [
   stack("py-docker-image", ["build", "imaj", "çalıştır"], D5),
   flow3("py-observe-logs", ["request_id", "log", "metrik"], D6, ["ms", "PII yok"]),
   cycle4("py-capstone-api", ["Şema", "Auth", "Test", "Docker"], D7),
+  // Python İleri — PY-103 mimari / async (mühürlü)
+  flow3("py-decorator-wrap", ["iş", "bezetici", "kapı"], D6, ["wraps", "adet"]),
+  flow3("py-generator-flow", ["kayıt", "yield", "fiş"], D7, ["id", "akış"]),
+  gate3("py-asyncio-loop", ["await", "gather", "sonuç"], D5),
+  stack("py-gil-process", ["I/O", "thread", "process"], D6),
+  gate3("py-metaclass-gate", ["klişe", "dogrula", "sınıf"], D8),
+  flow3("py-async-engine", ["çek", "doğrula", "akıt"], D7, ["gather", "yield"]),
+  // AI Agent Temel (AI-101)
+  flow3("agt-llm-vs-agent", ["LLM", "araç", "iş"], D7, ["konuş", "bitir"]),
+  gate3("agt-json-schema", ["metin", "JSON parse", "araç"], D6),
+  flow3("agt-tool-dispatch", ["ad", "raf", "sonuç"], D7, ["kayıt", "dur"]),
+  stack("agt-memory-window", ["pencere", "eşik", "raf"], D6),
+  cycle4("agt-react-loop", ["düşün", "eylem", "gözlem", "bitir"], D7),
+  flow3("agt-weather-notes", ["şema", "hava/not", "dur"], D8, ["araç", "kayıt"]),
   // AI Temel
   flow3("ai-llm-window", ["Metin", "token", "pencere"], D6, ["böl", "tavan"]),
   stack("ai-prompt-layers", ["sistem", "kullanıcı", "biçim"], D7),
@@ -295,6 +316,13 @@ const SPECS: readonly AcademySealedDiagramSpec[] = [
   cycle4("fs-tx-consistency", ["BEGIN", "yaz", "COMMIT", "ROLLBACK"], D5),
   flow3("fs-testclient-migration", ["migrate", "TestClient", "CI"], D6, ["400", "201"]),
   cycle4("fs-cart-api-capstone", ["Zod", "JWT", "tx", "test"], D7),
+  // Full-stack İleri FS-103 — App Router / Docker / CI-CD
+  flow3("fs-rsc-server-action", ["RSC", "eylem", "throw"], D6, ["sunucu", "sku"]),
+  flow3("fs-micro-event-bus", ["yayın", "kuyruk", "devre"], D7, ["tip", "3 hata"]),
+  gate3("fs-redis-rate-limit", ["anahtar", "kaçırma", "429"], D6),
+  flow3("fs-docker-compose-health", ["web", "health", "redis"], D7, ["depends", "PONG"]),
+  gate3("fs-github-actions-cicd", ["test", "needs", "yayın"], D6),
+  cycle4("fs-docker-redis-capstone", ["sku", "PONG", "429", "yayın"], D8),
   // DevOps Temel
   flow3("do-cloud-shared-responsibility", ["IaaS", "PaaS", "SaaS"], D6, ["sorumluluk", "sınır"]),
   stack("do-linux-fs-permissions", ["yol", "rwx", "chmod"], D7),

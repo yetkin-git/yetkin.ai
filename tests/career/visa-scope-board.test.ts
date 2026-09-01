@@ -18,7 +18,7 @@ describe("vize-ilan kapsama tabelası", () => {
 
   it("ilan tabelası kilitli dikeyin kurslarını gösterir", () => {
     const sign = listingVisaScopeSign(YZ_LISTING_VISA_SUBJECT);
-    expect(sign.pathwayId).toBe("yz-muhendislik-agent");
+    expect(sign.pathwayId).toBe("ai-agent-entegrasyon");
     expect(sign.courses.some((course) => course.slug === "ai-temel")).toBe(true);
     expect(sign.courses[0]?.href).toMatch(/^\/academy\//);
     expect(sign.courses[0]?.title).toBeTruthy();

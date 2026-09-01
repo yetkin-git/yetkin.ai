@@ -50,7 +50,7 @@ export const PUBLIC_SEN = {
     codeLabel: "Kod:",
     rooms: {
       academy: "Akademi odası yüklenemedi. Tekrar dene veya kataloga dön.",
-      career: "Kariyer odası yüklenemedi. Tekrar dene veya vize defterine dön.",
+      career: "Kariyer sayfası yüklenemedi. Tekrar dene veya Kariyer'e dön.",
       freelancer: "Freelancer odası yüklenemedi. Tekrar dene veya tezgâha dön.",
       dashboard: "Anasayfa yüklenemedi. Tekrar dene veya panele dön.",
     },

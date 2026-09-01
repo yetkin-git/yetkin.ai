@@ -6,7 +6,7 @@
 |------|--------|
 | Tarih | 17 Ağustos 2026 |
 | Statü | Vizyon mührü. Anayasa'nın yerine geçmez; Anayasa'nın *neden* var olduğunu söyler. |
-| Tadil | **27 Ağustos 2026 (Tedavi Evresi):** Mimari dil «Modüler Monolit + API-First Dron Sözleşmesi»; icra kılavuzu güvenlik hijyenini halka düşmanı saymaz; Quiet Luxury / SEN duruştur, derleme kırıcısı değildir. A1–A5, S43, vize 403, IAP yasağı durur. **25 Ağustos 2026 (Anayasal Esneklik):** Sabit ders adedi, maktu fiyat bantları ve «her dikey 3 seviye» dogması kalktı; müfredat/fiyat piyasa ve pedagoji ihtiyacına göre esnek. 24 Ağustos: Anayasa sert çizgi / OPS notu diye ikiye ayrıldı. Bağlayıcı mühendislik: `.system_docs/ANAYASA.md`. |
+| Tadil | **31 Ağustos 2026 (Tedavi Ameliyatı):** Mimari unvan **Modüler Monolit + API-First Dron Sözleşmesi**. Shared Kernel klasör disiplinidir; versiyonlu paket veya mikroservis altyapısı değildir. Pedagoji ses mührü diskteki 16 WAV ile hizalıdır. **27 Ağustos 2026 (Tedavi Evresi):** Mimari dil «Modüler Monolit + API-First Dron Sözleşmesi»; icra kılavuzu güvenlik hijyenini halka düşmanı saymaz; Quiet Luxury / SEN duruştur, derleme kırıcısı değildir. A1–A5, S43, vize 403, IAP yasağı durur. **25 Ağustos 2026 (Anayasal Esneklik):** Sabit ders adedi, maktu fiyat bantları ve «her dikey 3 seviye» dogması kalktı; müfredat/fiyat piyasa ve pedagoji ihtiyacına göre esnek. 24 Ağustos: Anayasa sert çizgi / OPS notu diye ikiye ayrıldı. Bağlayıcı mühendislik: `.system_docs/ANAYASA.md`. |
 | Yer | `/.system_docs/MANIFESTO.md` |
 | Çelişki | Bir cümle Anayasa ile çatışırsa `.system_docs/ANAYASA.md` kazanır. Tartışma yok. |
 
@@ -196,7 +196,7 @@ Kodda mühürlü davranışlar:
 | Devlet API'si yok | Kodda açıkça `catalog-not-live-government-api` |
 | Kod çalıştırma yok | DevLabs'ta "Exec Yoktur / Çalıştırma Yapılmaz" |
 | Ödeme sağlayıcı hata verdi | Emir **FAILED** kapanır; bakiyeye tek kuruş yazılmaz |
-| Yapay zekâ tahkim raporu düşerse | Uydurma paylaşım yok; **insan incelemesine** düşer |
+| Yapay zekâ tahkim raporu düşerse | Uydurma paylaşım yok; tutar emanette kalır, yasal yollar açıktır |
 
 **Neden yasak?**
 
@@ -256,7 +256,7 @@ Oda sayılmayan dört çekirdek sığınak: `/profil`, `/cuzdan` (Akademi tahsil
 
 **Gün 0 dürüst sicil:** İlan, teklif, mesajlaşma çalışır; lisanslı split henüz bağlı olmadığından iş kabulü/emanet (accept) **503 Service Unavailable** döner. Sahte bakiye veya sahte CREDIT yazılmaz (fail-closed). Wallet-escrow “geçici banka” olarak büyütülmez.
 
-**Yasak olan:** Vizesiz teklif kabul edilmez (403). Kabulde **anında ödeme yoktur** — emanet vardır. Sahte teklif, sahte sözleşme, sahte emanet kaydı basılmaz. Anlaşmazlıkta yapay zekâ raporu düşerse uydurma bir paylaşım oranı yazılmaz; **insan incelemesine** gider. Rail'in kendi açtığı tohum ilanlar hiçbir yerde "organik talep" diye sunulmaz — alıcı açıkça yetkin.ai'dir. Wallet-escrow, PSP gelene kadar “geçici iç banka” olarak yeniden büyütülmez.
+**Yasak olan:** Vizesiz teklif kabul edilmez (403). Kabulde **anında ödeme yoktur** — emanet vardır. Sahte teklif, sahte sözleşme, sahte emanet kaydı basılmaz. Anlaşmazlıkta yapay zekâ raporu düşerse uydurma bir paylaşım oranı yazılmaz; tutar emanette kilitli kalır ve resmi yasal başvuru yolları açıktır — platform yönetimi karar mercii değildir. Rail'in kendi açtığı tohum ilanlar hiçbir yerde "organik talep" diye sunulmaz — alıcı açıkça yetkin.ai'dir. Wallet-escrow, PSP gelene kadar “geçici iç banka” olarak yeniden büyütülmez.
 
 ---
 

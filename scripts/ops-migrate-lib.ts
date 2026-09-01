@@ -6,13 +6,14 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
+  ACADEMY_CATALOG_SEEDS,
   ACADEMY_SEED_CATALOG_UNITS,
   ACADEMY_SEED_COURSE_IDS,
-} from "@/lib/academy/seed";
+} from "@/lib/academy/catalog-seed";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { STUDIO_IMAGE_DATA_BASE64_MAX_CHARS } from "@/lib/kernel/storage/byte-ceilings";
 
-/** Akademi tohum kimlikleri lib/academy/seed.ts (ac_rail_temel + 03.8 piyasa SKU). */
+/** Akademi tohum kimlikleri lib/academy/catalog-seed.ts (20 büyüme SKU). Eski ac_rail_temel HARD RESET. */
 export { ACADEMY_SEED_CATALOG_UNITS, ACADEMY_SEED_COURSE_IDS };
 
 export const EXPECTED_SQL = [
@@ -62,6 +63,12 @@ export const ACADEMY_LESSON_COMPLETIONS_TABLE = "academy_lesson_completions";
 export const ACADEMY_CERTIFICATES_TABLE = "academy_certificates";
 export const ACADEMY_EXAM_SITTINGS_TABLE = "academy_exam_sittings";
 export const ACADEMY_EXAM_SITTINGS_MIGRATION = "20260829100000_academy_exam_sittings";
+export const ACADEMY_AUDIO_MEDIA_RELEASE_SEAL_MIGRATION =
+  "20260830180000_academy_audio_media_release_seal";
+export const USER_BILLING_INFO_TABLE = "user_billing_info";
+export const USER_BILLING_INFO_MIGRATION = "20260831140000_user_billing_info";
+export const USER_BILLING_PHONE_COLUMN = "phone";
+export const USER_BILLING_PHONE_MIGRATION = "20260831190000_user_billing_phone";
 export const CURRICULUM_SEAL_COLUMN = "curriculum_seal";
 export const CAREER_VISA_STAMPS_TABLE = "career_visa_stamps";
 export const CERTIFICATE_HASH_COLUMN = "certificate_hash";
@@ -116,7 +123,7 @@ export const FROZEN_ROOM_TABLES = [
 ] as const;
 
 /**
- * Hosted / lab Prisma zinciri — disk klasör adları kilitli 28. Yeni klasör sessiz eklenmez.
+ * Hosted / lab Prisma zinciri — disk klasör adları kilitli 31. Yeni klasör sessiz eklenmez.
  * `ops:hosted-apply-preflight` ve `ops:migrate` aynı listeyi okur.
  */
 export const EXPECTED_PRISMA_MIGRATIONS = [
@@ -148,6 +155,9 @@ export const EXPECTED_PRISMA_MIGRATIONS = [
   "20260824120000_escrow_hold_psp_decouple",
   "20260826100000_academy_audio_cache",
   "20260829100000_academy_exam_sittings",
+  "20260830180000_academy_audio_media_release_seal",
+  "20260831140000_user_billing_info",
+  "20260831190000_user_billing_phone",
 ] as const;
 
 export const LAB_RESTORE_DATABASE = "yetkin_rail_lab_restore";
@@ -200,12 +210,12 @@ export const SUPABASE_DIRECT_HOST_RE = /^db\.[a-z0-9]+\.supabase\.co$/i;
 /** Operatör sıfır-hata metni — `.system_docs/OPS_RUNBOOK.md` §2.1 ile birebir kilit. */
 export const DIRECT_PORT_OPERATOR_PROTOCOL = [
   "Direct Port protokolü fail-closed: db.<ref>.supabase.co:5432.",
-  "Havuz pooler.supabase.com ve port 6543 ile geçilmez (P1001 yeşil boyanmaz).",
+  "Havuz pooler.supabase.com ve port 6543 migrasyonda geçilmez (P1001 yeşil boyanmaz).",
   "Direct host çoğu projede yalnız AAAA (IPv6) yayınlar.",
   "Operatör makinesinde IPv6 varsayılan rota yoksa getaddrinfo ENOENT / P1001 durur.",
   "Yol A: Supabase IPv4 add-on (Direct host A kaydı).",
   "Yol B: makinede IPv6 bağını ve ::/0 rotasını aç; Test-NetConnection db.<ref>.supabase.co -Port 5432.",
-  "Yol C yasak: DATABASE_URL veya DIRECT_URL = *.pooler.supabase.com:6543.",
+  "Yol C yasak: DIRECT_URL = *.pooler.supabase.com:6543. Runtime DATABASE_URL Vercel'de transaction pooler :6543 kullanır.",
 ].join(" ");
 
 export type DirectConnectionShape = {
@@ -228,16 +238,7 @@ function isLoopbackHostname(hostname: string): boolean {
  * kullanır; Prisma CLI (libpq) `require` = şifrele, CA doğrulama. Bu parametre
  * Node `pg` istemcisini aynı libpq semantiğine çeker. Host/port/şifre değişmez.
  */
-export function withPgLibpqSslCompat(url: string): string {
-  const trimmed = url.trim();
-  if (!trimmed) {
-    return trimmed;
-  }
-  if (/[?&]uselibpqcompat=/i.test(trimmed)) {
-    return trimmed;
-  }
-  return trimmed.includes("?") ? `${trimmed}&uselibpqcompat=true` : `${trimmed}?uselibpqcompat=true`;
-}
+export { withPgLibpqSslCompat } from "@/lib/kernel/postgres-url";
 
 export function parseDirectConnectionUrl(url: string): DirectConnectionShape | null {
   try {
@@ -688,6 +689,73 @@ export async function assertAcademySeed(query: OpsSealQuery): Promise<void> {
   }
 }
 
+/** SQL yorum mührü — bellek katalog bu metni tanır. */
+export const ACADEMY_CATALOG_PRICE_MAP_APPLY = "academy-catalog-price-map-apply";
+export const ACADEMY_CATALOG_PRICE_MAP_SEAL = "academy-catalog-price-map-seal";
+
+/**
+ * 20 SKU vitrin tutarı — `lib/academy/catalog-pricing.ts` → PriceCatalogEntry.
+ * SQL ON CONFLICT Super Admin `updated_by` satırını korur; bu adım haritayı yazar.
+ * Akademi course:* birimleri SSOT tohumdur; freelancer/studio satırına dokunmaz.
+ */
+export async function applyAcademyCatalogPriceMap(query: OpsSealQuery): Promise<void> {
+  for (const row of ACADEMY_CATALOG_SEEDS) {
+    await query(
+      `/* ${ACADEMY_CATALOG_PRICE_MAP_APPLY} */
+       UPDATE public.price_catalog_entries
+       SET
+         amount_minor = $1,
+         min_minor = $2,
+         max_minor = $3,
+         is_active = true,
+         updated_at = now()
+       WHERE module_key = 'academy'
+         AND unit_key = $4`,
+      [row.seedAmountMinor, row.seedMinMinor, row.seedMaxMinor, row.catalogUnitKey],
+    );
+  }
+}
+
+export async function assertAcademyCatalogPriceMap(query: OpsSealQuery): Promise<void> {
+  const { rows } = await query(
+    `/* ${ACADEMY_CATALOG_PRICE_MAP_SEAL} */
+     SELECT unit_key, amount_minor, min_minor, max_minor, is_active
+     FROM public.price_catalog_entries
+     WHERE module_key = 'academy'
+       AND unit_key = ANY($1::text[])`,
+    [[...ACADEMY_SEED_CATALOG_UNITS]],
+  );
+  const byUnit = new Map(
+    rows.map((row) => [String(row.unit_key), row] as const),
+  );
+  for (const seed of ACADEMY_CATALOG_SEEDS) {
+    const live = byUnit.get(seed.catalogUnitKey);
+    if (!live) {
+      throw new Error(
+        `Akademi katalog fiyatı eksik: ${seed.catalogUnitKey}. PriceCatalogEntry tohumu uygulanmamış.`,
+      );
+    }
+    if (Number(live.amount_minor) !== seed.seedAmountMinor) {
+      throw new Error(
+        `Akademi katalog fiyatı tohumla uyumsuz: ${seed.catalogUnitKey} ${String(live.amount_minor)} ≠ ${seed.seedAmountMinor}`,
+      );
+    }
+    if (Number(live.min_minor) !== seed.seedMinMinor) {
+      throw new Error(
+        `Akademi katalog minMinor tohumla uyumsuz: ${seed.catalogUnitKey}`,
+      );
+    }
+    if (Number(live.max_minor) !== seed.seedMaxMinor) {
+      throw new Error(
+        `Akademi katalog maxMinor tohumla uyumsuz: ${seed.catalogUnitKey}`,
+      );
+    }
+    if (live.is_active !== true && Number(live.is_active) !== 1) {
+      throw new Error(`Akademi katalog satırı pasif: ${seed.catalogUnitKey}`);
+    }
+  }
+}
+
 export async function assertEmailUpdateTrigger(query: OpsSealQuery): Promise<void> {
   const fn = await query(
     `SELECT count(*)::int AS n
@@ -813,6 +881,34 @@ export async function assertAcademyExamSittings(query: OpsSealQuery): Promise<vo
   if (!table.rows[0]?.exists) {
     throw new Error(
       `${ACADEMY_EXAM_SITTINGS_TABLE} yok. prisma migrate deploy ${ACADEMY_EXAM_SITTINGS_MIGRATION}`,
+    );
+  }
+}
+
+/** Prisma deploy sonrası: fatura künyesi + PayTR user_phone kolonu. Checkout tıkamaz. */
+export async function assertUserBillingPhone(query: OpsSealQuery): Promise<void> {
+  const table = await query(
+    `SELECT EXISTS (
+       SELECT 1 FROM information_schema.tables
+       WHERE table_schema = 'public' AND table_name = '${USER_BILLING_INFO_TABLE}'
+     ) AS exists`,
+  );
+  if (!table.rows[0]?.exists) {
+    throw new Error(
+      `${USER_BILLING_INFO_TABLE} yok. prisma migrate deploy ${USER_BILLING_INFO_MIGRATION}`,
+    );
+  }
+  const phone = await query(
+    `SELECT EXISTS (
+       SELECT 1 FROM information_schema.columns
+       WHERE table_schema = 'public'
+         AND table_name = '${USER_BILLING_INFO_TABLE}'
+         AND column_name = '${USER_BILLING_PHONE_COLUMN}'
+     ) AS exists`,
+  );
+  if (!phone.rows[0]?.exists) {
+    throw new Error(
+      `${USER_BILLING_INFO_TABLE}.${USER_BILLING_PHONE_COLUMN} yok. prisma migrate deploy ${USER_BILLING_PHONE_MIGRATION}`,
     );
   }
 }
@@ -1008,6 +1104,15 @@ export function inspectHostedApplyDiskPlan(root: string): HostedApplyDiskPlan {
   issues.push(...assertFrozenRoomDropMigrationPresent(prismaFolders));
   if (!prismaFolders.includes(ACADEMY_EXAM_SITTINGS_MIGRATION)) {
     issues.push(`Prisma sınav oturumu mührü yok: ${ACADEMY_EXAM_SITTINGS_MIGRATION}`);
+  }
+  if (!prismaFolders.includes(ACADEMY_AUDIO_MEDIA_RELEASE_SEAL_MIGRATION)) {
+    issues.push(`Prisma ders sesi mühür kolonu yok: ${ACADEMY_AUDIO_MEDIA_RELEASE_SEAL_MIGRATION}`);
+  }
+  if (!prismaFolders.includes(USER_BILLING_INFO_MIGRATION)) {
+    issues.push(`Prisma fatura künyesi yok: ${USER_BILLING_INFO_MIGRATION}`);
+  }
+  if (!prismaFolders.includes(USER_BILLING_PHONE_MIGRATION)) {
+    issues.push(`Prisma fatura cep kolonu yok: ${USER_BILLING_PHONE_MIGRATION}`);
   }
 
   const ledgerSql = readMigrationSql(root, LEDGER_IMMUTABILITY_MIGRATION);
@@ -1298,6 +1403,8 @@ export type MemoryOpsCatalog = {
   httpIdempotencyUniqueIndex: boolean;
   academyLessonCompletions: boolean;
   academyExamSittings: boolean;
+  userBillingInfo: boolean;
+  userBillingPhone: boolean;
   curriculumSealColumn: boolean;
   certificateHashColumn: boolean;
   certificateRevokedAtColumn: boolean;
@@ -1339,6 +1446,8 @@ export function createEmptyMemoryOpsCatalog(): MemoryOpsCatalog {
     httpIdempotencyUniqueIndex: false,
     academyLessonCompletions: false,
     academyExamSittings: false,
+    userBillingInfo: false,
+    userBillingPhone: false,
     curriculumSealColumn: false,
     certificateHashColumn: false,
     certificateRevokedAtColumn: false,
@@ -1371,6 +1480,8 @@ export function createPostPrismaMemoryCatalog(): MemoryOpsCatalog {
   catalog.httpIdempotencyUniqueIndex = true;
   catalog.academyLessonCompletions = true;
   catalog.academyExamSittings = true;
+  catalog.userBillingInfo = true;
+  catalog.userBillingPhone = true;
   catalog.curriculumSealColumn = true;
   catalog.certificateHashColumn = true;
   catalog.certificateRevokedAtColumn = true;
@@ -1540,6 +1651,15 @@ export function createMemoryOpsSealQuery(catalog: MemoryOpsCatalog): OpsSealQuer
     if (text.includes(`table_name = '${ACADEMY_EXAM_SITTINGS_TABLE}'`)) {
       return { rows: [{ exists: catalog.academyExamSittings }] };
     }
+    if (
+      text.includes(`table_name = '${USER_BILLING_INFO_TABLE}'`) &&
+      text.includes(`column_name = '${USER_BILLING_PHONE_COLUMN}'`)
+    ) {
+      return { rows: [{ exists: catalog.userBillingPhone }] };
+    }
+    if (text.includes(`table_name = '${USER_BILLING_INFO_TABLE}'`)) {
+      return { rows: [{ exists: catalog.userBillingInfo }] };
+    }
     if (text.includes(`column_name = '${CURRICULUM_SEAL_COLUMN}'`)) {
       return { rows: [{ exists: catalog.curriculumSealColumn }] };
     }
@@ -1599,6 +1719,20 @@ export function createMemoryOpsSealQuery(catalog: MemoryOpsCatalog): OpsSealQuer
         rows: [...catalog.academyCourses].map((id) => ({ id })),
       };
     }
+    if (text.includes(ACADEMY_CATALOG_PRICE_MAP_APPLY)) {
+      return { rows: [] };
+    }
+    if (text.includes(ACADEMY_CATALOG_PRICE_MAP_SEAL)) {
+      return {
+        rows: ACADEMY_CATALOG_SEEDS.map((row) => ({
+          unit_key: row.catalogUnitKey,
+          amount_minor: row.seedAmountMinor,
+          min_minor: row.seedMinMinor,
+          max_minor: row.seedMaxMinor,
+          is_active: true,
+        })),
+      };
+    }
     if (text.includes("module_key = 'academy'")) {
       return { rows: [{ n: catalog.academyCatalog }] };
     }
@@ -1631,10 +1765,12 @@ export async function runPostApplySeals(query: OpsSealQuery): Promise<void> {
   await assertPaidCommandReservations(query);
   await assertAcademyLessonCompletions(query);
   await assertAcademyExamSittings(query);
+  await assertUserBillingPhone(query);
   await assertCurriculumSealColumns(query);
   await assertCertificateRevocationColumns(query);
   await assertTreasurySentinel(query);
   await assertAcademySeed(query);
+  await assertAcademyCatalogPriceMap(query);
   await assertEmailUpdateTrigger(query);
   await assertFreelancerSeed(query);
 }

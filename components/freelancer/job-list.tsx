@@ -6,6 +6,7 @@ import type { FreelancerJobRecord } from "@/lib/freelancer/types";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LinkButton } from "@/components/ui/link-button";
+import { IconBriefcase, IconSearch } from "@/components/ui/icons";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { JobFilterBar } from "@/components/freelancer/job-filter-bar";
 import { FreelancerJobCard } from "@/components/freelancer/job-card";
@@ -23,12 +24,51 @@ import {
   writeJobBoardViewToStorage,
   type JobBoardViewMode,
 } from "@/lib/freelancer/job-board-view-pref";
-import type { AcademyPathwayId } from "@/lib/academy/level-pathway";
+import type { FreelancerNeedId } from "@/lib/kernel/catalog-ids";
 
 type LiveBoardItem = FreelancerJobRecord & { kind: "live" };
+type JobBoardEmptyKind = "catalog" | "filtered";
 
 function gridClass(view: JobBoardViewMode): string {
   return view === "list" ? "grid gap-3" : "grid gap-4 md:grid-cols-2 xl:grid-cols-3";
+}
+
+function JobBoardEmptyState({
+  kind,
+  onClearFilters,
+}: {
+  kind: JobBoardEmptyKind;
+  onClearFilters?: () => void;
+}) {
+  const copy = SEN_VOICE.freelancer.list;
+  const isCatalogEmpty = kind === "catalog";
+
+  return (
+    <Card variant="default" className="border-dashed shadow-sm">
+      <div className="flex flex-col items-center px-2 py-8 text-center sm:py-12">
+        <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--safir-soft)] text-[var(--safir-deep)]">
+          {isCatalogEmpty ? <IconBriefcase /> : <IconSearch />}
+        </span>
+        <p className="mt-4 text-base font-semibold tracking-tight text-[var(--foreground)]">
+          {isCatalogEmpty ? copy.emptyHint : copy.filteredEmpty}
+        </p>
+        <p className="mt-2 max-w-md text-sm leading-6 text-[var(--muted)]">
+          {isCatalogEmpty ? copy.emptyBody : copy.filteredEmptyHint}
+        </p>
+        <div className="mt-5">
+          {isCatalogEmpty ? (
+            <LinkButton href="/freelancer/new" variant="primary" size="sm">
+              {copy.emptyCta}
+            </LinkButton>
+          ) : (
+            <Button type="button" variant="outline" size="sm" onClick={onClearFilters}>
+              {copy.clearFiltersCta}
+            </Button>
+          )}
+        </div>
+      </div>
+    </Card>
+  );
 }
 
 export function JobList({ jobs }: { jobs: FreelancerJobRecord[] }) {
@@ -68,7 +108,7 @@ export function JobList({ jobs }: { jobs: FreelancerJobRecord[] }) {
     activeFilters.budgetMaxMinor !== null ||
     activeFilters.sort !== "newest";
 
-  function onPathwayChange(value: AcademyPathwayId | "all") {
+  function onPathwayChange(value: FreelancerNeedId | "all") {
     setFilters((prev) => ({ ...prev, visaPathwayId: value }));
   }
 
@@ -96,36 +136,14 @@ export function JobList({ jobs }: { jobs: FreelancerJobRecord[] }) {
     </ul>
   );
 
+  const totalJobs = jobs.length;
+  const filteredJobs = visible.length;
+
   let body: ReactNode;
-  if (jobs.length === 0) {
-    body = (
-      <Card variant="default" className="border-dashed shadow-sm">
-        <p className="text-base font-semibold text-[var(--foreground)]">{copy.list.emptyHint}</p>
-        <p className="mt-2 text-sm text-[var(--muted)]">{copy.list.filteredEmptyHint}</p>
-        <div className="mt-4">
-          <LinkButton href="/freelancer/new" variant="primary" size="sm">
-            {copy.catalog.createCta}
-          </LinkButton>
-        </div>
-      </Card>
-    );
-  } else if (visible.length === 0) {
-    body = (
-      <Card variant="default" className="border-dashed shadow-sm">
-        <p className="text-base font-semibold text-[var(--foreground)]">{copy.list.filteredEmpty}</p>
-        <p className="mt-2 text-sm text-[var(--muted)]">{copy.list.filteredEmptyHint}</p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {filtersActive ? (
-            <Button type="button" variant="outline" size="sm" onClick={clearFilters}>
-              {copy.list.clearFiltersCta}
-            </Button>
-          ) : null}
-          <LinkButton href="/freelancer/new" variant="primary" size="sm">
-            {copy.catalog.createCta}
-          </LinkButton>
-        </div>
-      </Card>
-    );
+  if (totalJobs === 0) {
+    body = <JobBoardEmptyState kind="catalog" />;
+  } else if (filteredJobs === 0) {
+    body = <JobBoardEmptyState kind="filtered" onClearFilters={clearFilters} />;
   } else {
     body = list;
   }
@@ -136,9 +154,9 @@ export function JobList({ jobs }: { jobs: FreelancerJobRecord[] }) {
         <h2 className="text-lg font-semibold tracking-tight text-[var(--foreground)]">
           {copy.list.boardTitle}
         </h2>
-        {filtersActive && visible.length > 0 ? (
+        {filtersActive && filteredJobs > 0 ? (
           <p className="text-xs text-[var(--muted)]">
-            {visible.length}/{sourceItems.length}
+            {filteredJobs}/{sourceItems.length}
           </p>
         ) : null}
       </div>

@@ -145,13 +145,21 @@
                                 "configured",
                                 "unconfigured"
                               ]
+                            },
+                            "examSitting": {
+                              "type": "string",
+                              "enum": [
+                                "configured",
+                                "unconfigured"
+                              ]
                             }
                           },
                           "required": [
                             "db",
                             "supabaseAuth",
                             "inngest",
-                            "payments"
+                            "payments",
+                            "examSitting"
                           ],
                           "additionalProperties": false
                         }
@@ -219,7 +227,8 @@
           "checks.db",
           "checks.supabaseAuth",
           "checks.inngest",
-          "checks.payments"
+          "checks.payments",
+          "checks.examSitting"
         ]
       }
     },

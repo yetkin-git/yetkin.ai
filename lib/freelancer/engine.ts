@@ -11,8 +11,13 @@ import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY, type CurrencyCode } from "@/lib/kernel/money/currency";
 import { emitCitizenNotice } from "@/lib/kernel/notice/emit";
 import { HOLD_BPS_DEFAULT, resolveHoldBps } from "@/lib/kernel/pricing/hold-bps";
-import type { AcademyPathwayId } from "@/lib/kernel/catalog-ids";
+import type { ListingVisaLockId } from "@/lib/kernel/catalog-ids";
 import { lockFreelancerJobVisaPathway } from "@/lib/freelancer/job-visa-lock";
+import {
+  AuthRequiredError,
+  sessionUserNotInDatabaseMessage,
+} from "@/lib/kernel/auth/require-session";
+import { isPrismaForeignKeyViolation } from "@/lib/kernel/db-errors";
 import { ConflictError, ForbiddenError, NotFoundError, ServiceUnavailableError } from "@/lib/kernel/http/errors";
 import {
   RAIL_V1_ACCEPT_FORBIDDEN,
@@ -69,6 +74,26 @@ export function isFreelancerUniqueViolation(error: unknown): boolean {
   );
 }
 
+async function assertJobClientExists(
+  freelancer: FreelancerEnginePorts["freelancer"],
+  clientId: string,
+): Promise<void> {
+  if (!freelancer.hasUser) {
+    return;
+  }
+  const exists = await freelancer.hasUser(clientId);
+  if (!exists) {
+    throw new AuthRequiredError(sessionUserNotInDatabaseMessage());
+  }
+}
+
+function rethrowMissingJobClient(error: unknown): never {
+  if (isPrismaForeignKeyViolation(error)) {
+    throw new AuthRequiredError(sessionUserNotInDatabaseMessage());
+  }
+  throw error;
+}
+
 async function withUniqueRetry<T>(work: () => Promise<T>): Promise<T> {
   let lastError: unknown;
   for (let attempt = 0; attempt < UNIQUE_RETRY_LIMIT; attempt += 1) {
@@ -99,7 +124,7 @@ export type CreateJobCommand = {
   title: string;
   brief: string;
   budgetMinor: number;
-  visaPathwayId?: AcademyPathwayId | null;
+  visaPathwayId?: ListingVisaLockId | null;
   currencyCode?: CurrencyCode;
   now?: Date;
 };
@@ -110,7 +135,7 @@ export type CreateDirectOfferCommand = {
   title: string;
   brief: string;
   budgetMinor: number;
-  visaPathwayId?: AcademyPathwayId | null;
+  visaPathwayId?: ListingVisaLockId | null;
   dueDays: number;
   currencyCode?: CurrencyCode;
   now?: Date;
@@ -175,25 +200,30 @@ export async function createFreelancerJob(
   command: CreateJobCommand,
 ): Promise<FreelancerJobRecord> {
   assertBudgetBand(command.budgetMinor);
+  await assertJobClientExists(ports.freelancer, command.clientId);
   const now = command.now ?? new Date();
   const title = command.title.trim();
   const brief = command.brief.trim();
   const visaPathwayId = lockFreelancerJobVisaPathway(command.visaPathwayId);
-  return ports.freelancer.insertJob({
-    id: randomUUID(),
-    clientId: command.clientId,
-    title,
-    brief,
-    budgetMinor: toPositiveAmountMinor(command.budgetMinor),
-    currencyCode: command.currencyCode ?? SETTLEMENT_CURRENCY,
-    visaPathwayId,
-    visibility: "PUBLIC",
-    inviteeId: null,
-    dueDays: null,
-    status: "OPEN",
-    createdAt: now,
-    updatedAt: now,
-  });
+  try {
+    return await ports.freelancer.insertJob({
+      id: randomUUID(),
+      clientId: command.clientId,
+      title,
+      brief,
+      budgetMinor: toPositiveAmountMinor(command.budgetMinor),
+      currencyCode: command.currencyCode ?? SETTLEMENT_CURRENCY,
+      visaPathwayId,
+      visibility: "PUBLIC",
+      inviteeId: null,
+      dueDays: null,
+      status: "OPEN",
+      createdAt: now,
+      updatedAt: now,
+    });
+  } catch (error) {
+    rethrowMissingJobClient(error);
+  }
 }
 
 export async function createDirectFreelancerOffer(
@@ -205,25 +235,30 @@ export async function createDirectFreelancerOffer(
   if (command.inviteeId === command.clientId) {
     throw new Error("Kendine doğrudan iş teklifi gönderilemez.");
   }
+  await assertJobClientExists(ports.freelancer, command.clientId);
   const now = command.now ?? new Date();
   const title = command.title.trim();
   const brief = command.brief.trim();
   const visaPathwayId = lockFreelancerJobVisaPathway(command.visaPathwayId);
-  return ports.freelancer.insertJob({
-    id: randomUUID(),
-    clientId: command.clientId,
-    title,
-    brief,
-    budgetMinor: toPositiveAmountMinor(command.budgetMinor),
-    currencyCode: command.currencyCode ?? SETTLEMENT_CURRENCY,
-    visaPathwayId,
-    visibility: "DIRECT",
-    inviteeId: command.inviteeId,
-    dueDays: command.dueDays,
-    status: "OPEN",
-    createdAt: now,
-    updatedAt: now,
-  });
+  try {
+    return await ports.freelancer.insertJob({
+      id: randomUUID(),
+      clientId: command.clientId,
+      title,
+      brief,
+      budgetMinor: toPositiveAmountMinor(command.budgetMinor),
+      currencyCode: command.currencyCode ?? SETTLEMENT_CURRENCY,
+      visaPathwayId,
+      visibility: "DIRECT",
+      inviteeId: command.inviteeId,
+      dueDays: command.dueDays,
+      status: "OPEN",
+      createdAt: now,
+      updatedAt: now,
+    });
+  } catch (error) {
+    rethrowMissingJobClient(error);
+  }
 }
 
 export async function listOwnerJobBids(

@@ -94,6 +94,7 @@ describe("health readiness / liveness probe", () => {
       supabaseAuth: "unconfigured",
       inngest: "configured",
       payments: "configured",
+      examSitting: "unconfigured",
     });
 
     const unready = await probeReadiness({

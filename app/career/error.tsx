@@ -17,7 +17,7 @@ export default function CareerError({
       eyebrow="Kariyer"
       description={PUBLIC_SEN.error.rooms.career}
       backHref="/career"
-      backLabel="Vize defteri"
+      backLabel="Kariyer'e dön"
     />
   );
 }

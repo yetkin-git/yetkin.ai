@@ -5,12 +5,19 @@ import {
   ACADEMY_ONBOARDING_COURSE_SLUG,
   ACADEMY_PATHWAY_IDS,
   ACADEMY_PATHWAY_RINGS,
+  ACADEMY_COURSE_TITLES,
+  ACADEMY_NEED_SKU_CODES,
   FREELANCER_LISTING_VISA_DOORS,
+  FREELANCER_NEED_IDS,
+  FREELANCER_NEED_SKU_CODES,
   FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY,
+  ACADEMY_SKU_SLUG_BY_CODE,
   catalogPathwayRingSlugs,
   isAcademyPathwayId,
+  isFreelancerNeedId,
   parseAcademyPathwayId,
 } from "@/lib/kernel/catalog-ids";
+import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 import { ACADEMY_LEVEL_PATHWAYS, academyPathwayRingSlugs } from "@/lib/academy/level-pathway";
 
 const ROOT = process.cwd();
@@ -29,13 +36,28 @@ function walkTs(dir: string): string[] {
 }
 
 describe("kernel catalog-ids — omurga kimliği", () => {
-  it("28 pathway id ve 5 ilan kapısı tutarlıdır", () => {
-    expect(ACADEMY_PATHWAY_IDS).toHaveLength(28);
-    expect(FREELANCER_LISTING_VISA_DOORS).toHaveLength(5);
-    expect(FREELANCER_LISTING_VISA_DOORS.every((id) => isAcademyPathwayId(id))).toBe(true);
-    expect(isAcademyPathwayId(FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY)).toBe(true);
+  it("11 canlı pathway, 20 SKU ve 6 ihtiyaç kapısı tutarlıdır", () => {
+    expect(ACADEMY_PATHWAY_IDS).toHaveLength(11);
+    expect(FREELANCER_NEED_IDS).toHaveLength(6);
+    expect(FREELANCER_LISTING_VISA_DOORS).toHaveLength(6);
+    expect(FREELANCER_LISTING_VISA_DOORS).toEqual([...FREELANCER_NEED_IDS]);
+    expect(FREELANCER_LISTING_VISA_DOORS.every((id) => isFreelancerNeedId(id))).toBe(true);
+    expect(isFreelancerNeedId(FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY)).toBe(true);
+    expect(isAcademyPathwayId(FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY)).toBe(false);
     expect(parseAcademyPathwayId("yok")).toBeNull();
+    expect(ACADEMY_NEED_SKU_CODES).toHaveLength(20);
+    expect(new Set(Object.values(ACADEMY_SKU_SLUG_BY_CODE)).size).toBe(20);
+    expect(new Set(Object.values(ACADEMY_SKU_SLUG_BY_CODE))).toEqual(
+      new Set(Object.keys(ACADEMY_COURSE_TITLES)),
+    );
     expect(ACADEMY_ONBOARDING_COURSE_SLUG).toBeNull();
+    expect(new Set(ACADEMY_GROWTH_SKU_SLUGS)).toEqual(new Set(Object.keys(ACADEMY_COURSE_TITLES)));
+    expect(ACADEMY_GROWTH_SKU_SLUGS).toHaveLength(20);
+    for (const needId of FREELANCER_NEED_IDS) {
+      for (const code of FREELANCER_NEED_SKU_CODES[needId]) {
+        expect(ACADEMY_SKU_SLUG_BY_CODE[code]).toBeTruthy();
+      }
+    }
   });
 
   it("akademi yol haritası kimliği kernel sicilinden türer", () => {

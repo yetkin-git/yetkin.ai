@@ -99,7 +99,7 @@ export async function deliverCitizenNoticeMail(notice: CitizenNotice): Promise<"
     return "skipped";
   }
   const copy = copyFor(notice.kind);
-  const text = `${copy.body}\n\n${appOrigin()}/freelancer\n`;
+  const text = `${copy.body}\n\n${appOrigin()}/freelancer\n\n${NOTICE_SEN.footer}\n`;
   await sendNoticeSmtp(config, {
     to,
     subject: copy.subject,

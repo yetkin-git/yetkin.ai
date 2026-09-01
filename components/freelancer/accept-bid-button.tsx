@@ -91,7 +91,7 @@ export function AcceptBidButton({
 
   return (
     <div className="space-y-2">
-      <p className="text-xs text-[var(--muted)]">{copy.escrow.holdNotice(amount, holdPercent)}</p>
+      <p className="text-xs text-slate-600">{copy.escrow.holdNotice(amount, holdPercent)}</p>
       {paymentsClosed ? (
         <div className="rounded-2xl border border-[var(--amber)]/40 bg-[color-mix(in_srgb,var(--amber)_8%,var(--surface))] p-4">
           <p className="text-sm font-semibold text-[var(--foreground)]">{copy.accept.paymentsClosed}</p>

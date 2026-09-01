@@ -24,6 +24,7 @@ describe("health ve gözlem yüzeyi", () => {
     expect(probe).toContain("INNGEST_EVENT_KEY");
     expect(probe).toContain("PAYTR_MERCHANT_SALT");
     expect(route).toContain("pingPrisma");
+    expect(route).toContain("refreshPrismaConnection");
     expect(route).toContain("resolveRequestId");
     expect(readSrc("app/api/(kernel)/health/live/route.ts")).toContain("probeLiveness");
     expect(readSrc("lib/kernel/health/probe.ts")).toContain("HEALTH_PROBE_LIVE");

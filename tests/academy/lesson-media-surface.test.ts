@@ -68,8 +68,8 @@ describe("akademi mikro-video ve şema mimarisi", () => {
         expect(blocks.some((block) => block.kind === "exercise"), lesson.key).toBe(true);
       }
     }
-    expect(lessonCount).toBe(48);
-    expect(seenDiagrams.size).toBeGreaterThanOrEqual(12);
+    expect(lessonCount).toBe(108);
+    expect(seenDiagrams.size).toBeGreaterThanOrEqual(6);
     expect(ACADEMY_SEALED_DIAGRAM_KEYS.length).toBeGreaterThanOrEqual(6);
   });
 
@@ -105,8 +105,12 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     expect(player).not.toContain("academy-lesson-figure");
     expect(player).not.toContain("academyDiagramPublicPath");
     expect(player).not.toContain("autoPlay");
-    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("<video");
-    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("data-academy-cinema-canvas");
+    expect(player).not.toContain("durationSec={micro?.durationSec ?? 8}");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("<audio");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("data-academy-audio-preparing");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("copy.audioPreparing");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).not.toContain("<video");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).not.toContain("data-academy-cinema-canvas");
     expect(player).not.toContain("scrollIntoView");
     expect(player).not.toContain("academy-listen-focus");
     expect(player).not.toContain("generateVideo");
@@ -123,7 +127,9 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     expect(ACADEMY_SEN.visual.stepsEyebrow).toBe("Teknik adım");
     expect(ACADEMY_SEN.visual.codeEyebrow).toBe("Örnek kayıt");
     expect(ACADEMY_SEN.visual.videoMeta(6)).toBe("6 sn · sessiz döngü");
+    expect(ACADEMY_SEN.player.audioPreparing).toBe("Ders Ses Medyası Hazırlanıyor");
     expect(readSrc("app/globals.css")).toContain("academy-listen-focus");
     expect(readSrc("app/globals.css")).toContain("academy-listen-cockpit");
+    expect(readSrc("app/globals.css")).toContain("academy-dialogue-player");
   }, 20_000);
 });

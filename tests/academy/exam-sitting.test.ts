@@ -40,7 +40,8 @@ describe("sınav oturumu MAC ve iş kanıtı kapısı", () => {
     const src = readFileSync(join(process.cwd(), "lib/academy/exam-sitting.ts"), "utf8");
     expect(src).toContain("ACADEMY_EXAM_SITTING_SECRET");
     expect(src).toContain("yetkin-rail.academy.exam-sitting.mac.v1");
-    expect(src).toContain("Sınav oturumu sırrı yok.");
+    expect(src).toContain("Sınav oturumu henüz bağlanmadı.");
+    expect(src).toContain("ServiceUnavailableError");
     expect(src).toContain('process.env.VITEST !== "true"');
     expect(src).toContain("academyExamSittingMayConsume");
     expect(src).toContain("serializeAcademyExamSittingItems");

@@ -31,6 +31,7 @@ describe("laboratuvar vatandaş nakit halkası yüzeyi", () => {
     expect(helper).toContain("escrow-release-net");
     expect(helper).toContain("certificateHash");
     expect(helper).toContain("resolvePublicAcademyCertificate");
+    expect(helper).toContain("createMemoryMarketplaceSplitPort");
     expect(helper).toContain("CREDIT yazmaz");
     expect(helper).not.toContain("LOCAL_MOCK_AUTH");
   });

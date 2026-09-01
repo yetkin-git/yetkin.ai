@@ -26,6 +26,11 @@ enum PriceCatalogUnitType {
   BPS
 }
 
+enum BillingInvoiceType {
+  INDIVIDUAL
+  CORPORATE
+}
+
 /// Kimlik SSOT uygulama yüzeyi. Auth UUID Supabase'ten gelir; Prisma id üretmez.
 /// Kolon şişmesi yok; dikey ters ilişkiler Prisma zorunluluğudur.
 model User {
@@ -66,8 +71,29 @@ model User {
   careerVisaStamps     CareerVisaStamp[]
   httpIdempotencyRecords   HttpIdempotencyRecord[]
   paidCommandReservations  PaidCommandReservation[]
+  userBillingInfo          UserBillingInfo?
 
   @@map("users")
+}
+
+/// Kullanıcı fatura künyesi — Bireysel / Kurumsal. User satırı şişmez. Cep PayTR user_phone.
+model UserBillingInfo {
+  id           String             @id @default(cuid())
+  userId       String             @unique @map("user_id")
+  invoiceType  BillingInvoiceType @map("invoice_type")
+  fullName     String?            @map("full_name")
+  tckn         String?            @db.VarChar(11)
+  companyTitle String?            @map("company_title")
+  taxOffice    String?            @map("tax_office")
+  vkn          String?            @db.VarChar(10)
+  phone        String             @db.VarChar(16)
+  address      String             @db.Text
+  createdAt    DateTime           @default(now()) @map("created_at")
+  updatedAt    DateTime           @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_billing_info")
 }
 
 /// Tek nakit SSOT. Bir kullanıcı × bir para birimi = bir satır.

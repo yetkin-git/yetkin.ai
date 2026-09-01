@@ -39,3 +39,26 @@ export {
   parseListingVisaPathwayId,
   type FreelancerListingVisaDoor,
 } from "@/lib/kernel/catalog-ids/listing-doors";
+
+export {
+  ACADEMY_NEED_SKU_CODES,
+  ACADEMY_SKU_SLUG_BY_CODE,
+  FREELANCER_DEFAULT_NEED_ID,
+  FREELANCER_NEED_CATALOG,
+  FREELANCER_NEED_IDS,
+  FREELANCER_NEED_SKU_CODES,
+  FREELANCER_NEED_TITLES,
+  LEGACY_PATHWAY_TO_NEED,
+  academySlugForNeedSku,
+  catalogNeedTitleById,
+  isFreelancerNeedId,
+  isListingVisaLockId,
+  listingNeedId,
+  listingVisaLockTitle,
+  parseFreelancerNeedId,
+  parseListingVisaLockId,
+  qualifyingCourseSlugsForNeed,
+  type AcademyNeedSkuCode,
+  type FreelancerNeedId,
+  type ListingVisaLockId,
+} from "@/lib/kernel/catalog-ids/need-based-mapping";

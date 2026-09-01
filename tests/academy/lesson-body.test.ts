@@ -89,7 +89,7 @@ describe("uygulamalı ders gövdesi", () => {
     expect(spoken).not.toContain("amountMinor");
   });
 
-  it("48 yayında derste pratik tohum ve ses tavanı durur", { timeout: 20_000 }, () => {
+  it("yayındaki her derste pratik tohum ve ses tavanı durur", { timeout: 20_000 }, () => {
     const keys = new Set<string>();
     for (const row of ACADEMY_COURSE_SEEDS) {
       for (const lesson of curriculumForCourseSlug(row.slug)) {
@@ -103,11 +103,11 @@ describe("uygulamalı ders gövdesi", () => {
         expect(spoken, lesson.key).not.toContain("```");
       }
     }
-    expect(keys.size).toBe(48);
+    expect(keys.size).toBe(108);
     for (const key of keys) {
       expect(LESSON_PRACTICE[key], key).toBeTruthy();
     }
-    expect(Object.keys(LESSON_PRACTICE).length).toBe(48);
+    expect(Object.keys(LESSON_PRACTICE).length).toBe(132);
   });
 
   it("görsel bölüm başlığı ekranda ve seste aynı durur; köprü cümlesi eklenmez", () => {
@@ -293,6 +293,9 @@ describe("TTS metin gümrüğü", () => {
     );
     expect(cleanAcademySpokenTextForTts("Meta Ads ve Google Ads.")).toBe(
       "Meta Reklamları (Meta Ads) ve Google Reklamları (Google Ads).",
+    );
+    expect(cleanAcademySpokenTextForTts("GTM, CAPI, CBO ve ABO.")).toBe(
+      "Google Etiket Yöneticisi (GTM), Dönüşüm sunucu arayüzü (CAPI), Kampanya Bütçe Optimizasyonu (CBO) ve Reklam Seti Bütçe Optimizasyonu (ABO).",
     );
     expect(cleanAcademySpokenTextForTts("Meta Pixel ve Events Manager.")).toBe(
       "Meta Piksel (Meta Pixel) ve Olay Yöneticisi (Events Manager).",

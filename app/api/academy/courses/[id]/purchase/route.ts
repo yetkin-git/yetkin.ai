@@ -10,6 +10,16 @@ import { logEvent } from "@/lib/kernel/observability/log";
 import { purchaseAcademyCourse } from "@/lib/academy/engine";
 import { purchaseCourseInputSchema } from "@/lib/academy/schemas";
 import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
+import {
+  CHECKOUT_LEGAL_CONSENT_REQUIRED,
+  isCheckoutLegalConsentIssue,
+} from "@/lib/kernel/legal/checkout-consent";
+import {
+  checkoutBillingIssueMessage,
+  isCheckoutBillingIssue,
+} from "@/lib/kernel/identity/billing-info";
+import { persistCheckoutBilling } from "@/lib/kernel/identity/billing-info-write";
+import { createPrismaBillingInfoStore } from "@/lib/kernel/identity/prisma-billing-info-store";
 
 export const auth = "session" as const;
 
@@ -41,8 +51,14 @@ export async function POST(
     }
     const parsed = purchaseCourseInputSchema.safeParse(await request.json().catch(() => ({})));
     if (!parsed.success) {
-      return jsonFail("Satın alma gövdesi geçersiz.", 400, requestId);
+      const message = isCheckoutLegalConsentIssue(parsed.error)
+        ? CHECKOUT_LEGAL_CONSENT_REQUIRED
+        : isCheckoutBillingIssue(parsed.error)
+          ? checkoutBillingIssueMessage(parsed.error)
+          : "Satın alma gövdesi geçersiz.";
+      return jsonFail(message, 400, requestId);
     }
+    await persistCheckoutBilling(createPrismaBillingInfoStore(), user.id, parsed.data.billing);
     const ports = createPrismaAcademyPorts();
     const course = (await ports.academy.getCourse(id)) ?? (await ports.academy.getCourseBySlug(id));
     const courseId = course?.id ?? id;
@@ -58,6 +74,7 @@ export async function POST(
           lockId: parsed.data.lockId,
           level: parsed.data.level ?? null,
           path: parsed.data.path ?? "training",
+          consentVersion: parsed.data.consentVersion,
         }),
         requestId,
       },
@@ -76,6 +93,7 @@ export async function POST(
           applied: result.applied,
           route: "/api/academy/courses/[id]/purchase",
           purpose: parsed.data.path ?? "training",
+          consentVersion: parsed.data.consentVersion,
         });
         return {
           status: 200,

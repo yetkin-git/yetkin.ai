@@ -8,8 +8,7 @@ import { CertificateSeal } from "@/components/academy/certificate-seal";
 import { AcademyContinuePanel } from "@/components/academy/continue-panel";
 import { SettlementSteps } from "@/components/academy/settlement-steps";
 import { CurriculumOutline } from "@/components/academy/curriculum-outline";
-import { CurriculumOutcomes } from "@/components/academy/curriculum-outcomes";
-import { AcademyPilotPath } from "@/components/academy/pilot-path";
+import { AcademyProgressBar } from "@/components/academy/progress-bar";
 import {
   loadAcademyHolderName,
   loadAcademyProgressionForCourse,
@@ -18,14 +17,14 @@ import {
   loadCurriculumPlayerForUser,
   loadExamGateForUserCourse,
   loadPurchaseForUserCourse,
-  publishedLessonCount,
 } from "@/lib/academy/load";
 import { academyStorefrontAccess, hasCommercialAcademyEnrolment } from "@/lib/academy/enrolment";
 import { resolveAcademyAntreHeroCta } from "@/lib/academy/storefront-cta";
 import { hasAcademyPlayerAccess } from "@/lib/academy/access";
 import { resolveAcademyContinueBoard } from "@/lib/academy/continue-board";
 import { LinkButton } from "@/components/ui/link-button";
-import { curriculumOutlineForCourseSlug } from "@/lib/academy/curriculum";
+import { curriculumSyllabusForCourseSlug } from "@/lib/academy/curriculum-syllabus";
+import { academyProgressPercent } from "@/lib/academy/lesson-meta";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { getSession } from "@/lib/kernel/auth/session";
@@ -36,8 +35,7 @@ import { BreadcrumbPageLabel } from "@/components/shell/header-breadcrumb";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
 import { academyCourseTitleBySlug } from "@/lib/academy/course-titles";
-import { academyInstructorBySlug } from "@/lib/academy/instructors";
-import { canonicalAcademyCurriculumProofHash } from "@/lib/academy/proof-of-work-verify";
+import { academyInstructorBySlug, academyModeratorForSlug } from "@/lib/academy/instructors";
 import { PRICE_LOCK_GRACE_MINUTES } from "@/lib/kernel/pricing/price-lock";
 import { isPaymentsPortConfigured } from "@/lib/kernel/payments/port";
 import { isPaytrMockCheckoutAllowed } from "@/lib/kernel/payments/paytr/checkout";
@@ -78,12 +76,10 @@ export default async function AcademyCoursePage({
     ? await loadArtifactPurchaseForUserCourse(session.id, board.course.id, session.email)
     : null;
   const actor = session ? { userId: session.id, email: session.email } : null;
-  const enrolled =
-    hasCommercialAcademyEnrolment(purchase) ||
-    (actor != null && hasAcademyPlayerAccess(purchase, actor));
+  const labPlayer = actor != null && hasAcademyPlayerAccess(purchase, actor);
+  const enrolled = hasCommercialAcademyEnrolment(purchase);
   const access = enrolled ? "enrolled" : academyStorefrontAccess(artifact);
   const holderName = session ? await loadAcademyHolderName(session.id) : "Aday";
-  const curriculumProofHash = canonicalAcademyCurriculumProofHash(board.course.slug);
   const examGate =
     session && enrolled
       ? await loadExamGateForUserCourse(session.id, board.course.id, session.email)
@@ -94,10 +90,11 @@ export default async function AcademyCoursePage({
   const copy = SEN_VOICE.academy.course;
   const playerCopy = SEN_VOICE.academy.player;
   const instructor = academyInstructorBySlug(board.course.slug);
+  const moderator = academyModeratorForSlug(board.course.slug);
   const certificateHash = examGate?.certificate
     ? (examGate.certificate.certificateHash ?? examGate.certificate.serialKey)
     : null;
-  const outline = curriculumOutlineForCourseSlug(board.course.slug);
+  const syllabus = curriculumSyllabusForCourseSlug(board.course.slug);
   const priceLabel = board.course.priceMinor
     ? formatMinor(board.course.priceMinor, board.course.currencyCode)
     : null;
@@ -111,15 +108,16 @@ export default async function AcademyCoursePage({
     session && enrolled && !examGate?.certificate
       ? await loadCurriculumPlayerForUser(session.id, board.course.id, session.email)
       : null;
+  const completedKeys = examGate?.certificate
+    ? syllabus.lessons.map((lesson) => lesson.key)
+    : (player?.lessons.filter((lesson) => lesson.completed).map((lesson) => lesson.key) ?? []);
   const continueBoard =
     player && !examGate?.certificate
       ? resolveAcademyContinueBoard({
           courseId: board.course.id,
           courseSlug: board.course.slug,
           courseTitle: board.course.title,
-          completedLessonKeys: player.lessons
-            .filter((lesson) => lesson.completed)
-            .map((lesson) => lesson.key),
+          completedLessonKeys: completedKeys,
           hasCertificate: false,
         })
       : null;
@@ -141,9 +139,10 @@ export default async function AcademyCoursePage({
     continueBoard && continueBoard.completedCount > 0
       ? playerCopy.resumeCta
       : playerCopy.openCta;
+  const progressPercent = academyProgressPercent(completedKeys.length, syllabus.lessonCount);
 
   return (
-    <RoomFrame className="space-y-5">
+    <RoomFrame className="space-y-5" data-academy-lab-player={labPlayer ? "true" : undefined}>
       <BreadcrumbPageLabel href={`/academy/${board.course.slug}`} label={board.course.title} />
       <PageHeader
         eyebrow={copy.eyebrow}
@@ -161,11 +160,11 @@ export default async function AcademyCoursePage({
           />
         }
       />
-      <AcademyPilotPath passScore={ACADEMY_EXAM_PASS_SCORE} />
-      <CurriculumOutcomes slug={board.course.slug} />
-      <CurriculumOutline lessons={outline} passScore={ACADEMY_EXAM_PASS_SCORE} />
-      {!revealExamGate ? (
-        <p className="text-xs leading-relaxed text-[var(--muted)]">{copy.libraryGuarantee}</p>
+      {enrolled && syllabus.lessonCount > 0 ? (
+        <AcademyProgressBar
+          value={progressPercent}
+          label={playerCopy.progress(completedKeys.length, syllabus.lessonCount)}
+        />
       ) : null}
       {continueBoard && !revealExamGate ? <AcademyContinuePanel board={continueBoard} /> : null}
       {enrolled ? (
@@ -194,18 +193,12 @@ export default async function AcademyCoursePage({
             durationMs={examGate.durationMs}
             holderName={holderName}
             instructorName={instructor.name}
-            curriculumProofHash={curriculumProofHash}
             nextCourseTitle={progression.bridge.nextTitle}
             nextCourseHref={progression.bridge.nextHref}
-            pathwayMastery={progression.mastery}
           />
-        ) : continueBoard ? null : (
-          <Card title={playerCopy.eyebrow(instructor.name)}>
+        ) : (
+          <Card title={playerCopy.eyebrow(instructor.name, moderator.name)}>
             <p>{copy.ownedNoExam}</p>
-            <p className="mt-2 text-xs text-[var(--muted)]">
-              {playerCopy.lessonCount(publishedLessonCount(board.course.slug))}
-            </p>
-            <p className="mt-2 text-xs text-[var(--muted)]">{SEN_VOICE.academy.purchase.licenseNote}</p>
             <div className="mt-4">
               <LinkButton href={`/academy/${board.course.slug}/oyna` as Route} size="sm">
                 {playLabel}
@@ -214,7 +207,7 @@ export default async function AcademyCoursePage({
           </Card>
         )
       ) : access === "expired" ? (
-        <Card title={playerCopy.eyebrow(instructor.name)}>
+        <Card title={playerCopy.eyebrow(instructor.name, moderator.name)}>
           <p>{playerCopy.licenseEnded}</p>
         </Card>
       ) : board.course.purchasable ? (
@@ -251,6 +244,15 @@ export default async function AcademyCoursePage({
       ) : (
         <Card>{copy.notPurchasable}</Card>
       )}
+      <CurriculumOutline
+        syllabus={syllabus}
+        passScore={ACADEMY_EXAM_PASS_SCORE}
+        completedKeys={completedKeys}
+        showProgress={enrolled}
+      />
+      {!enrolled && board.course.purchasable ? (
+        <p className="text-xs leading-relaxed text-[var(--muted)]">{copy.libraryGuarantee}</p>
+      ) : null}
       {!enrolled && board.course.purchasable ? (
         <Card eyebrow={SEN_VOICE.academy.settlement.title} className="opacity-90">
           <SettlementSteps lockMinutes={PRICE_LOCK_GRACE_MINUTES} />

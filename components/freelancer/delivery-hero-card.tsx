@@ -208,7 +208,7 @@ export function DeliveryHeroCard({
             </div>
             {revisionRemaining > 0 ? (
               <textarea
-                className="min-h-20 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3 text-sm"
+                className="min-h-20 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3 text-base"
                 placeholder={copy.revisionPlaceholder}
                 value={revisionNote}
                 onChange={(event) => setRevisionNote(event.target.value)}

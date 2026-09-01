@@ -4,7 +4,8 @@ import { describe, expect, it } from "vitest";
 import { ACADEMY_COURSE_SEEDS } from "@/lib/academy/seed";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import {
-  ACADEMY_LESSON_ACT_HEADINGS,
+  ACADEMY_FIVE_ACT_HEADINGS,
+  academyLessonHasFiveActPedagogy,
   academyLessonHasPedagogy,
   expandAcademySpokenAbbreviations,
   spokenAcademyLessonBody,
@@ -16,7 +17,7 @@ import {
   isAcademyCourseLevel,
 } from "@/lib/academy/course-level";
 import { ACADEMY_LESSON_LISTEN_MAX_CHARS } from "@/archived/lib/academy-studio/lesson-listen";
-import { ACADEMY_MENTOR_BRIDGES, ACADEMY_TERM } from "@/archived/lib/academy-studio/term-glossary";
+import { ACADEMY_TERM } from "@/archived/lib/academy-studio/term-glossary";
 import {
   ACADEMY_INSTRUCTORS_BY_VOICE,
   ACADEMY_INSTRUCTOR_TTS_VOICES,
@@ -28,9 +29,12 @@ import {
   ACADEMY_MODERATOR_OPEN_LEAD,
   ACADEMY_TTS_VOICES,
   academyInstructorBySlug,
+  academyModeratorForSlug,
   ACADEMY_INSTRUCTOR_ASK_REPLY,
   academyInstructorHonorific,
   academyInstructorDativeHonorific,
+  ACADEMY_SECURITY_MODERATOR,
+  ACADEMY_DIGITAL_SKILLS_MODERATOR,
 } from "@/lib/academy/instructors";
 import {
   academyModeratorAskForSlug,
@@ -43,7 +47,11 @@ import {
   ACADEMY_MODERATOR_SUMMARY_LEAD,
   ACADEMY_MODERATOR_SUMMARY_RECAP,
 } from "@/archived/lib/academy-studio/mentor-voice";
-import { ACADEMY_PILOT_SKU_LESSON_COUNT, ACADEMY_PILOT_SKU_SLUG } from "@/lib/academy/pilot-sku";
+import {
+  ACADEMY_GROWTH_SKU_SLUGS,
+  ACADEMY_PILOT_SKU_LESSON_COUNT,
+  ACADEMY_PILOT_SKU_SLUG,
+} from "@/lib/academy/pilot-sku";
 
 const ROOT = process.cwd();
 const CURRICULA_DIR = join(ROOT, "lib", "academy", "curricula");
@@ -62,10 +70,10 @@ const MECHANICAL_LOCK =
   /kilitlemiştik|kilitliyoruz|kilitliyorum|kilitleyeceğiz|kilitleyince|kilitleniyor|kilitlenir|kilitlersin|kilitleme\b|kilitli paket|nasıl kilitleniyor/iu;
 
 describe("03.16 gerçek müfredat gövdesi", () => {
-  it("Amiral Ders ders metni vaka, parametre ve tavan taşır; mock cümle yok", { timeout: 20_000 }, () => {
+  it("Amiral Ders beş perde, DialogueTurn ve quiz taşır; mock cümle yok", { timeout: 20_000 }, () => {
     const keys = new Set<string>();
-    expect(ACADEMY_COURSE_SEEDS).toHaveLength(4);
-    expect(ACADEMY_COURSE_SEEDS[0]?.slug).toBe(PILOT);
+    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual([...ACADEMY_GROWTH_SKU_SLUGS]);
+    expect(ACADEMY_COURSE_SEEDS[0]?.slug).toBe("ai-agent-temel");
     const lessons = curriculumForCourseSlug(PILOT);
     expect(lessons).toHaveLength(ACADEMY_PILOT_SKU_LESSON_COUNT);
     for (const lesson of lessons) {
@@ -73,26 +81,25 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Vaka:/);
+      expect(lesson.body, lesson.key).toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
       expect(academyLessonHasPedagogy(lesson.body), lesson.key).toBe(true);
-      expect(lesson.body, lesson.key).toContain(ACADEMY_LESSON_ACT_HEADINGS.giris);
-      expect(lesson.body, lesson.key).toContain(ACADEMY_LESSON_ACT_HEADINGS.syntax);
-      expect(lesson.body, lesson.key).toContain(ACADEMY_LESSON_ACT_HEADINGS.mantik);
-      expect(lesson.body, lesson.key).toContain(ACADEMY_LESSON_ACT_HEADINGS.uygulama);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.problem);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.development);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.conclusion);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.assessment);
       expect(lesson.body, lesson.key).toContain("```alistirma");
       expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
       const spoken = spokenAcademyLessonBody(lesson.body);
       expect(spoken.length, lesson.key).toBeGreaterThan(400);
-      expect(spoken, lesson.key).toContain(ACADEMY_LESSON_ACT_HEADINGS.giris);
-      expect(spoken, lesson.key).toContain(ACADEMY_LESSON_ACT_HEADINGS.syntax);
-      expect(spoken, lesson.key).toContain(ACADEMY_LESSON_ACT_HEADINGS.mantik);
-      expect(spoken, lesson.key).toContain(ACADEMY_LESSON_ACT_HEADINGS.uygulama);
+      expect(spoken, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(spoken, lesson.key).toContain("Koray");
+      expect(spoken, lesson.key).toContain("Maya");
       expect(spoken, lesson.key).not.toContain("Giriş. Problem.");
       expect(spoken, lesson.key).not.toContain("Gelişme. Uygulama.");
       expect(spoken, lesson.key).not.toContain("Sonuç. Toparlama.");
-      expect(spoken, lesson.key).not.toContain("Giriş / Problem");
-      expect(spoken, lesson.key).not.toContain("Gelişme / Uygulama");
-      expect(spoken, lesson.key).not.toContain("Sonuç / Toparlama");
       for (const phrase of MOCK_PHRASES) {
         expect(lesson.title, `${lesson.key} title`).not.toContain(phrase);
         expect(lesson.body, `${lesson.key} body`).not.toContain(phrase);
@@ -101,15 +108,367 @@ describe("03.16 gerçek müfredat gövdesi", () => {
     expect(keys.size).toBe(ACADEMY_PILOT_SKU_LESSON_COUNT);
   });
 
+  it("Python Orta beş perde, DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("python-orta");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+  });
+
+  it("Python İleri beş perde, DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("python-ileri");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+  });
+
+  it("AI Agent Temel beş perde, DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("ai-agent-temel");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+  });
+
+  it("AI Agent Orta beş perde, DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("ai-agent-orta");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+  });
+
+  it("AI Agent İleri beş perde, DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("ai-agent-ileri");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+  });
+
+  it("Full-Stack Temel beş perde, DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("fullstack-temel");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+  });
+
+  it("Full-Stack Orta beş perde, DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("fullstack-orta");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+  });
+
+  it("Full-Stack İleri beş perde, DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("fullstack-ileri");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+  });
+
+  it("Siber Güvenlik Temel beş perde, Can/Ece DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("security-temel");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Can:/);
+      expect(lesson.body, lesson.key).toMatch(/Ece:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+    expect(lessons[0]!.body).toContain("kale");
+    expect(lessons[1]!.title).toMatch(/Wireshark/);
+  });
+
+  it("Siber Güvenlik Orta beş perde, Can/Ece DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("security-orta");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Can:/);
+      expect(lesson.body, lesson.key).toMatch(/Ece:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+    expect(lessons[0]!.body).toContain("müfettiş");
+    expect(lessons[2]!.title).toMatch(/IDOR/);
+  });
+
+  it("Siber Güvenlik İleri beş perde, Can/Ece DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("security-ileri");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Can:/);
+      expect(lesson.body, lesson.key).toMatch(/Ece:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+    expect(lessons[0]!.body).toContain("damga");
+    expect(lessons[4]!.title).toMatch(/Zero Trust|Sıfır Güven/);
+  });
+
+  it("Excel Masterclass beş perde, Tarık/Gözde DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("excel-masterclass");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Tarık:/);
+      expect(lesson.body, lesson.key).toMatch(/Gözde:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Can:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Ece:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+    expect(lessons[0]!.body).toContain("defter");
+    expect(lessons[1]!.title).toMatch(/XLOOKUP|ÇAPRAZARA/);
+  });
+
+  it("Google Ads Masterclass beş perde, Tarık/Gözde DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("google-ads-masterclass");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Tarık:/);
+      expect(lesson.body, lesson.key).toMatch(/Gözde:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Can:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Ece:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+    expect(lessons[0]!.body).toContain("tabela");
+    expect(lessons[3]!.title).toMatch(/GTM|Tag Manager|Dönüşüm/);
+  });
+
+  it("Meta Ads Masterclass beş perde, Tarık/Gözde DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("meta-ads-masterclass");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Tarık:/);
+      expect(lesson.body, lesson.key).toMatch(/Gözde:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Can:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Ece:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+    expect(lessons[0]!.body).toContain("vitrin");
+    expect(lessons[3]!.title).toMatch(/Piksel|CAPI|Pixel/);
+  });
+
+  it("E-Ticaret Masterclass beş perde, Tarık/Gözde DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("eticaret-masterclass");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Tarık:/);
+      expect(lesson.body, lesson.key).toMatch(/Gözde:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Can:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Ece:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+    expect(lessons[0]!.body).toContain("tezgâh");
+    expect(lessons[1]!.title).toMatch(/Trendyol|Hepsiburada|Mağaza/);
+  });
+
+  it("Canva Masterclass beş perde, Tarık/Gözde DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("canva-masterclass");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Tarık:/);
+      expect(lesson.body, lesson.key).toMatch(/Gözde:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Can:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Ece:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+    expect(lessons[0]!.body).toContain("kalıp");
+    expect(lessons[3]!.title).toMatch(/Magic|Yapay Zekâ|AI/);
+  });
+
+  it("LinkedIn Masterclass beş perde, Tarık/Gözde DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
+    const lessons = curriculumForCourseSlug("linkedin-masterclass");
+    expect(lessons).toHaveLength(6);
+    for (const lesson of lessons) {
+      expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
+      expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
+      expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+      expect(lesson.body, lesson.key).toMatch(/Tarık:/);
+      expect(lesson.body, lesson.key).toMatch(/Gözde:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Can:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Ece:/);
+      expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toContain("```alistirma");
+      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+    }
+    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+    expect(lessons[0]!.body).toContain("kartvizit");
+    expect(lessons[2]!.title).toMatch(/Sales Navigator|ICP|Hedef Kitle/);
+  });
+
   it("tohum klasörü ve curriculum.ts mock başlık taşımaz", () => {
     const files = readdirSync(CURRICULA_DIR).filter((name) => name.endsWith(".ts"));
     expect(files.sort()).toEqual([
+      "ai-agent-ileri.ts",
+      "ai-agent-orta.ts",
+      "ai-agent-temel.ts",
       "ai-temel.ts",
+      "canva-masterclass.ts",
+      "eticaret-masterclass.ts",
+      "excel-masterclass.ts",
+      "fullstack-ileri.ts",
+      "fullstack-orta.ts",
       "fullstack-temel.ts",
-      "growth-draft.ts",
+      "google-ads-masterclass.ts",
       "index.ts",
       "lesson-index.ts",
+      "linkedin-masterclass.ts",
+      "meta-ads-masterclass.ts",
+      "python-ileri.ts",
+      "python-orta.ts",
       "python-temel.ts",
+      "security-ileri.ts",
+      "security-orta.ts",
+      "security-temel.ts",
       "types.ts",
       "ux-temel.ts",
     ]);
@@ -153,20 +512,14 @@ describe("03.19 seviye ve pedagoji", () => {
 });
 
 describe("03.20 insani diyalog ve terim parantezleri", () => {
-  it("Amiral Ders mentor bağlacı ve Türkçe terim parantezi taşır", { timeout: 20_000 }, () => {
-    const seenBridges = new Set<string>();
+  it("Amiral Ders Koray/Maya DialogueTurn ve Türkçe terim parantezi taşır", { timeout: 20_000 }, () => {
     for (const lesson of curriculumForCourseSlug(PILOT)) {
-      const hits = ACADEMY_MENTOR_BRIDGES.filter((bridge) => lesson.body.includes(bridge));
-      expect(hits.length, lesson.key).toBeGreaterThanOrEqual(2);
-      for (const bridge of hits) {
-        seenBridges.add(bridge);
-      }
+      expect(lesson.body, lesson.key).toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toMatch(/Maya:/);
       expect(lesson.body, lesson.key).toMatch(/\([^)]{4,80}\)/u);
       const spoken = spokenAcademyLessonBody(lesson.body);
       expect(spoken, lesson.key).toMatch(/: /u);
     }
-    expect(seenBridges.size).toBeGreaterThanOrEqual(2);
-    expect(seenBridges.size).toBeLessThanOrEqual(ACADEMY_MENTOR_BRIDGES.length);
   });
 
   it("kanonik terimler parantezli Türkçe taşır; TTS uzman yönergesi durur", () => {
@@ -186,35 +539,32 @@ describe("03.20 insani diyalog ve terim parantezleri", () => {
     const python = curriculumForCourseSlug(PILOT)
       .map((lesson) => lesson.body)
       .join("\n");
-    expect(python).toContain("print");
-    expect(python).toContain("interpreter");
+    expect(python).toContain("Fail-closed");
+    expect(python).toContain("kargo");
   });
 });
 
 describe("03.21 eğitmen Maya ve doğaçlama anlatım", () => {
-  it("Amiral Ders ansiklopedik kip taşımaz; doğaçlama bağlaç kümesi doludur", () => {
+  it("Amiral Ders ansiklopedik kip taşımaz; DialogueTurn doludur", () => {
     const encyclopedic = /yapılmaktadır|olacaktır|edilmektedir|edilecektir/u;
-    const seenBridges = new Set<string>();
     for (const lesson of curriculumForCourseSlug(PILOT)) {
       expect(lesson.body, lesson.key).not.toMatch(encyclopedic);
-      const hits = ACADEMY_MENTOR_BRIDGES.filter((bridge) => lesson.body.includes(bridge));
-      expect(hits.length, lesson.key).toBeGreaterThanOrEqual(2);
-      for (const bridge of hits) {
-        seenBridges.add(bridge);
-      }
+      expect(lesson.body, lesson.key).toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toMatch(/Maya:/);
     }
-    expect(seenBridges.size).toBeGreaterThanOrEqual(2);
   });
 });
 
 describe("03.22 tek ses tek isim", () => {
-  it("beş TTS kodu beş Türkçe isme mühürlüdür; ikinci isim yok", () => {
+  it("altı TTS kodu yedi Türkçe isme mühürlüdür; ikinci isim yok", () => {
     expect(ACADEMY_INSTRUCTOR_TTS_VOICES).toEqual([
       "Zephyr",
       "Kore",
       "Puck",
       "Fenrir",
       "Aoede",
+      "Leda",
+      "Callirrhoe",
     ]);
     expect(ACADEMY_TTS_VOICES).toEqual([
       "Zephyr",
@@ -222,7 +572,11 @@ describe("03.22 tek ses tek isim", () => {
       "Puck",
       "Fenrir",
       "Aoede",
+      "Leda",
+      "Callirrhoe",
       "Charon",
+      "Enceladus",
+      "Iapetus",
       "Orus",
     ]);
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Zephyr.name).toBe("Deniz");
@@ -230,10 +584,12 @@ describe("03.22 tek ses tek isim", () => {
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Puck.name).toBe("Aras");
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Fenrir.name).toBe("Boran");
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Aoede.name).toBe("Selin");
+    expect(ACADEMY_INSTRUCTORS_BY_VOICE.Leda.name).toBe("Ece");
+    expect(ACADEMY_INSTRUCTORS_BY_VOICE.Callirrhoe.name).toBe("Gözde");
     const names = ACADEMY_INSTRUCTOR_TTS_VOICES.map(
       (voice) => ACADEMY_INSTRUCTORS_BY_VOICE[voice].name,
     );
-    expect(new Set(names).size).toBe(5);
+    expect(new Set(names).size).toBe(7);
     for (const voice of ACADEMY_INSTRUCTOR_TTS_VOICES) {
       expect(ACADEMY_INSTRUCTORS_BY_VOICE[voice].voice).toBe(voice);
     }
@@ -244,20 +600,67 @@ describe("03.22 tek ses tek isim", () => {
     expect(ACADEMY_TTS_VOICES).toContain(ACADEMY_ANNOUNCER.voice);
   });
 
-  it("Amiral Ders dört bölümle açılır; stüdyo repliği gövdeye sızmaz", () => {
-    expect(ACADEMY_COURSE_SEEDS).toHaveLength(4);
+  it("Amiral Ders beş perdeyle açılır; stüdyo sarmalayıcı gövdeye sızmaz", () => {
+    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual([...ACADEMY_GROWTH_SKU_SLUGS]);
     expect(ACADEMY_MODERATOR.name).toBe("Koray");
     expect(ACADEMY_MODERATOR.voice).toBe("Charon");
+    expect(ACADEMY_SECURITY_MODERATOR.name).toBe("Can");
+    expect(ACADEMY_SECURITY_MODERATOR.voice).toBe("Enceladus");
+    expect(ACADEMY_SECURITY_MODERATOR.speechRate).toBe(1);
+    expect(academyModeratorForSlug("security-temel").name).toBe("Can");
+    expect(academyInstructorBySlug("security-temel").name).toBe("Ece");
+    expect(academyInstructorBySlug("security-temel").voice).toBe("Leda");
+    expect(academyModeratorForSlug("security-orta").name).toBe("Can");
+    expect(academyInstructorBySlug("security-orta").name).toBe("Ece");
+    expect(academyInstructorBySlug("security-orta").voice).toBe("Leda");
+    expect(academyModeratorForSlug("security-ileri").name).toBe("Can");
+    expect(academyInstructorBySlug("security-ileri").name).toBe("Ece");
+    expect(academyInstructorBySlug("security-ileri").voice).toBe("Leda");
+    expect(ACADEMY_DIGITAL_SKILLS_MODERATOR.name).toBe("Tarık");
+    expect(ACADEMY_DIGITAL_SKILLS_MODERATOR.voice).toBe("Iapetus");
+    expect(ACADEMY_DIGITAL_SKILLS_MODERATOR.speechRate).toBe(1);
+    expect(academyModeratorForSlug("excel-masterclass").name).toBe("Tarık");
+    expect(academyInstructorBySlug("excel-masterclass").name).toBe("Gözde");
+    expect(academyInstructorBySlug("excel-masterclass").voice).toBe("Callirrhoe");
+    expect(academyModeratorForSlug("google-ads-masterclass").name).toBe("Tarık");
+    expect(academyInstructorBySlug("google-ads-masterclass").name).toBe("Gözde");
+    expect(academyModeratorForSlug("meta-ads-masterclass").name).toBe("Tarık");
+    expect(academyInstructorBySlug("meta-ads-masterclass").name).toBe("Gözde");
+    expect(academyModeratorForSlug("eticaret-masterclass").name).toBe("Tarık");
+    expect(academyInstructorBySlug("eticaret-masterclass").name).toBe("Gözde");
+    expect(academyInstructorBySlug("eticaret-masterclass").voice).toBe("Callirrhoe");
+    expect(academyModeratorForSlug("canva-masterclass").name).toBe("Tarık");
+    expect(academyInstructorBySlug("canva-masterclass").name).toBe("Gözde");
+    expect(academyModeratorForSlug("linkedin-masterclass").name).toBe("Tarık");
+    expect(academyInstructorBySlug("linkedin-masterclass").name).toBe("Gözde");
+    expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Gözde")?.speechRate).toBe(
+      0.95,
+    );
+    expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Tarık")?.speechRate).toBe(
+      1,
+    );
     expect(ACADEMY_ANNOUNCER.voice).toBe("Orus");
     expect(ACADEMY_MODERATOR.role).toBe("Stüdyo Sunucusu / Moderatör");
     const instructor = academyInstructorBySlug(PILOT);
     expect(instructor.name).toBe("Maya");
     expect(instructor.voice).toBe("Kore");
+    expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Maya")?.speechRate).toBe(
+      0.95,
+    );
+    expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Koray")?.speechRate).toBe(
+      1,
+    );
+    expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Ece")?.speechRate).toBe(
+      0.95,
+    );
+    expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Can")?.speechRate).toBe(
+      1,
+    );
     const lessons = curriculumForCourseSlug(PILOT);
     const first = lessons[0]!;
     const last = lessons[lessons.length - 1]!;
-    expect(first.body).toContain(ACADEMY_LESSON_ACT_HEADINGS.giris);
-    expect(first.body).toContain(ACADEMY_LESSON_ACT_HEADINGS.syntax);
+    expect(first.body).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+    expect(first.body).toContain(ACADEMY_FIVE_ACT_HEADINGS.problem);
     expect(first.body).not.toContain(ACADEMY_MODERATOR_OPEN_LEAD);
     expect(first.body).not.toContain(ACADEMY_INSTRUCTOR_HANDBACK_LEAD);
     expect(last.body).not.toContain(ACADEMY_MODERATOR_CLOSE_TAIL);
@@ -276,13 +679,13 @@ describe("03.22 tek ses tek isim", () => {
   });
 });
 
-describe("03.26 dört bölüm ders akışı", () => {
-  it("ilk ders Koray/Maya repliği taşımaz; dört bölüm ve 1:1 ses durur", () => {
+describe("03.26 beş perde ders akışı", () => {
+  it("ilk ders DialogueTurn taşır; stüdyo sarmalayıcı yok, 1:1 ses durur", () => {
     const instructor = academyInstructorBySlug(PILOT);
     const lessons = curriculumForCourseSlug(PILOT);
     const first = lessons[0]!;
     const last = lessons[lessons.length - 1]!;
-    const seed = ACADEMY_COURSE_SEEDS[0]!;
+    const seed = ACADEMY_COURSE_SEEDS.find((row) => row.slug === PILOT)!;
     expect(first.body).not.toContain("Mikrofonu kendisine bırakıyorum...");
     expect(first.body).not.toContain("Teşekkürler Koray, herkese merhaba");
     expect(first.body).not.toContain("Sağ ol, hoş bulduk");
@@ -290,10 +693,11 @@ describe("03.26 dört bölüm ders akışı", () => {
       `${academyInstructorDativeHonorific(instructor)} bu anlatım için çok teşekkür ediyoruz`,
     );
     expect(last.body).not.toContain("mühürlü sertifikasyon");
-    expect(first.body).toContain("print");
-    expect(first.body).toContain(ACADEMY_LESSON_ACT_HEADINGS.giris);
+    expect(first.body).toContain("kargo");
+    expect(first.body).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
     const spokenFirst = spokenAcademyLessonBody(first.body);
-    expect(spokenFirst).toContain("print");
+    expect(spokenFirst).toContain("kargo");
+    expect(spokenFirst).toContain("Koray");
     expect(spokenFirst).not.toContain(ACADEMY_MODERATOR_OPEN_LEAD);
     const spokenLast = spokenAcademyLessonBody(last.body);
     expect(spokenLast).not.toContain(ACADEMY_MODERATOR_CLOSE_TAIL);
@@ -301,8 +705,8 @@ describe("03.26 dört bölüm ders akışı", () => {
   });
 });
 
-describe("03.27 stüdyo ara soru gövdeye karışmaz", () => {
-  it("Amiral Ders gövdesi Koray pası taşımaz; dört bölüm durur", () => {
+describe("03.27 stüdyo sarmalayıcı gövdeye karışmaz", () => {
+  it("Amiral Ders gövdesi stüdyo pası taşımaz; beş perde ve DialogueTurn durur", () => {
     const instructor = academyInstructorBySlug(PILOT);
     const honorific = academyInstructorHonorific(instructor);
     const ask = academyModeratorAskForSlug(PILOT);
@@ -311,7 +715,9 @@ describe("03.27 stüdyo ara soru gövdeye karışmaz", () => {
       expect(lesson.body, lesson.key).not.toContain(ACADEMY_INSTRUCTOR_ASK_REPLY);
       expect(lesson.body, lesson.key).not.toContain(academyModeratorVakaAskForSlug(PILOT));
       expect(lesson.body, lesson.key).not.toContain(academyModeratorParamsAskForSlug(PILOT));
-      expect(lesson.body, lesson.key).toContain(ACADEMY_LESSON_ACT_HEADINGS.giris);
+      expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
+      expect(lesson.body, lesson.key).toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toMatch(/Maya:/);
       const spoken = spokenAcademyLessonBody(lesson.body);
       expect(spoken, lesson.key).not.toContain(expandAcademySpokenAbbreviations(ask));
       expect(spoken, lesson.key).not.toContain(ACADEMY_INSTRUCTOR_ASK_REPLY);
@@ -374,8 +780,8 @@ describe("03.29 temel pedagoji ve Koray teyidi", () => {
     const python = curriculumForCourseSlug(PILOT)
       .map((lesson) => lesson.body)
       .join("\n");
-    expect(python).toContain("print");
-    expect(python).toContain("Merhaba, Yetkin");
+    expect(python).toContain("kargo");
+    expect(python).toContain("Fail-closed");
     expect(academyCourseLevelBySlug(PILOT)).toBe("Temel");
   });
 
@@ -411,11 +817,11 @@ describe("03.30 doğal dil temizliği", () => {
     expect(recapNext).not.toBe(recap);
   });
 
-  it("Python Amiral Ders konuşulan gövdesinde kısaltmayı açılımıyla taşır", () => {
+  it("Python Amiral Ders konuşulan gövdesinde Fail-Closed ve kargo analojisi taşır", () => {
     const spoken = curriculumForCourseSlug(PILOT)
       .map((lesson) => spokenAcademyLessonBody(lesson.body))
       .join("\n");
-    expect(spoken).toContain("Yapılandırılmış Sorgu Dili");
+    expect(spoken).toContain("Hata Anında Kapalı");
     expect(curriculumForCourseSlug(PILOT)[1]!.body).not.toContain("İçimden şunu geçirdim");
   });
 

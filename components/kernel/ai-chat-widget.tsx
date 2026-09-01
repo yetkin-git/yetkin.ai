@@ -177,13 +177,7 @@ export function AiChatWidget({
             <h2 id={`${titleId}-heading`} className="truncate text-sm font-semibold tracking-tight">
               {ASSISTANT_SEN.title}
             </h2>
-            <p className="truncate text-[11px] text-white/75">
-              {limitReached
-                ? ASSISTANT_SEN.limitReached
-                : remaining == null
-                  ? ASSISTANT_SEN.quotaHint
-                  : ASSISTANT_SEN.remaining(remaining, limit)}
-            </p>
+            <p className="truncate text-[11px] text-white/75">{ASSISTANT_SEN.role}</p>
           </div>
           <button
             type="button"
@@ -222,6 +216,29 @@ export function AiChatWidget({
         </div>
 
         <form onSubmit={onSubmit} className="border-t border-[var(--border)] bg-[var(--surface)] p-3">
+          <div className="mb-2 flex flex-wrap gap-1.5">
+            <Link
+              href="/academy"
+              className="inline-flex min-h-8 items-center rounded-full border border-[var(--border)] bg-[var(--surface-muted)] px-2.5 text-[11px] font-medium text-[var(--foreground)] hover:border-[var(--safir)]"
+              onClick={() => setOpen(false)}
+            >
+              {ASSISTANT_SEN.academyCta}
+            </Link>
+            <Link
+              href="/career"
+              className="inline-flex min-h-8 items-center rounded-full border border-[var(--border)] bg-[var(--surface-muted)] px-2.5 text-[11px] font-medium text-[var(--foreground)] hover:border-[var(--safir)]"
+              onClick={() => setOpen(false)}
+            >
+              {ASSISTANT_SEN.careerCta}
+            </Link>
+          </div>
+          <p className="mb-2 text-[11px] text-[var(--muted)]">
+            {limitReached
+              ? ASSISTANT_SEN.limitReached
+              : remaining == null
+                ? ASSISTANT_SEN.quotaHint
+                : ASSISTANT_SEN.remaining(remaining, limit)}
+          </p>
           {error && needsLogin ? (
             <p className="mb-2 text-xs text-[var(--amber)]">
               {error}{" "}
@@ -240,7 +257,7 @@ export function AiChatWidget({
               rows={2}
               maxLength={2000}
               disabled={pending || limitReached}
-              className="min-h-[2.75rem] w-full resize-none rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] px-3 py-2 text-sm outline-none transition placeholder:text-[var(--muted)] focus:border-[var(--safir)] focus:ring-4 focus:ring-[var(--safir-soft)] disabled:opacity-60"
+              className="min-h-[2.75rem] w-full resize-none rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] px-3 py-2 text-base outline-none transition placeholder:text-[var(--muted)] focus:border-[var(--safir)] focus:ring-4 focus:ring-[var(--safir-soft)] disabled:opacity-60"
             />
             <button
               type="submit"

@@ -22,6 +22,7 @@ import {
   ServiceUnavailableError,
   GoneError,
 } from "@/lib/kernel/http/errors";
+import { DATABASE_BUSY_ERROR, isPrismaUnavailableError } from "@/lib/kernel/db-errors";
 import {
   peekRailHttpContextMethod,
   peekRailHttpContextPathname,
@@ -176,6 +177,9 @@ export function jsonFromUnknown(
   const id = envelopeRequestId(requestId, request);
   if (error instanceof Error && error.message.includes("DATABASE_URL")) {
     return jsonFail("Veritabanı bağlı değil.", 503, id, request);
+  }
+  if (isPrismaUnavailableError(error)) {
+    return jsonFail(DATABASE_BUSY_ERROR, 503, id, request);
   }
   logEvent({
     level: "error",

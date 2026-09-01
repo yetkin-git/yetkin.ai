@@ -8,6 +8,7 @@ import {
   ASSISTANT_CHAT_LIMIT_ERROR,
   ASSISTANT_CHAT_MESSAGE_LIMIT,
   ASSISTANT_CHAT_PATH,
+  scrubAssistantCitizenJargon,
   scrubAssistantProviderLeak,
   type AssistantChatQuotaPort,
 } from "@/lib/kernel/ai/assistant-chat";
@@ -49,16 +50,17 @@ describe("yetkin.ai asistan sohbet kotası", () => {
       expect(input.role).toBe("LITE_STREAM");
       expect(input.system).toBe(ASSISTANT_SEN.system);
       expect(input.system).not.toMatch(/gemini|google|openai|anthropic/i);
-      expect(input.user).toBe("Akademi vizesi nasıl alınır?");
+      expect(input.user).toBe("Akademi belgesi nasıl alınır?");
       return llmResult("Kursu bitir, sınavı geç, kariyer vizesi sicile basılır.");
     });
     const result = await answerAssistantChat(
-      { userId: "user-1", message: "Akademi vizesi nasıl alınır?" },
+      { userId: "user-1", message: "Akademi belgesi nasıl alınır?" },
       { invoke, quota: memoryQuota() },
     );
     expect(result.ok).toBe(true);
     if (result.ok) {
-      expect(result.reply).toContain("kariyer vizesi");
+      expect(result.reply).toContain("uzmanlık seviyesi");
+      expect(result.reply).not.toMatch(/vize|mühür|dikey kapsam/i);
       expect(result.remaining).toBe(4);
       expect(result.limit).toBe(5);
     }
@@ -124,18 +126,50 @@ describe("yetkin.ai asistan sohbet kotası", () => {
       `Bu ${YETKIN_BRAND} modelidir, ${YETKIN_BRAND} üretir.`,
     );
   });
+
+  it("yanıttan mühür / vize / dikey kapsam kaçağını siler", () => {
+    expect(
+      scrubAssistantCitizenJargon(
+        "Mühürlenince kariyer vizesi ve dikey kapsam açılır; mühürlü belge vizeli teklif kapısını açar.",
+      ),
+    ).toBe(
+      "Belge alınca uzmanlık seviyesi ve uzmanlık alanı açılır; onaylı belge erişim hakkı olan teklif kapısını açar.",
+    );
+  });
 });
 
 describe("asistan yüzey mührü", () => {
   it("widget ve rota yetkin.ai Asistanı taşır; Gemini vitrine çıkmaz", () => {
     expect(ASSISTANT_CHAT_PATH).toBe("/api/ai/chat");
     expect(ASSISTANT_SEN.title).toBe(`${YETKIN_BRAND} Asistanı`);
+    expect(ASSISTANT_SEN.role).toBe("Kariyer Danışmanı");
     expect(ASSISTANT_CHAT_LIMIT_ERROR).toBe("Bugünlük soru limitine ulaştın.");
-    expect(ASSISTANT_SEN.welcome).toContain(`${YETKIN_BRAND} yapay zekâ asistanıyım`);
+    expect(ASSISTANT_SEN.welcome).toContain(`${YETKIN_BRAND} kariyer danışmanınım`);
+    expect(ASSISTANT_SEN.welcome).toContain("Akademi veya Kariyer");
+    expect(ASSISTANT_SEN.system).toContain("/academy");
+    expect(ASSISTANT_SEN.system).toContain("/career");
+    expect(ASSISTANT_SEN.system).toContain("Sertifika");
+    expect(ASSISTANT_SEN.system).toContain("Doğrulanmış Rozet");
+    expect(ASSISTANT_SEN.system).toContain("Yetkinlik Belgesi");
+    expect(ASSISTANT_SEN.system).toContain("Uzmanlık Seviyesi");
+    expect(ASSISTANT_SEN.system).toContain("Erişim Hakkı");
+    expect(ASSISTANT_SEN.system).toContain(ASSISTANT_SEN.templates.certificate);
+    const citizenFacing = [
+      ASSISTANT_SEN.welcome,
+      ASSISTANT_SEN.unavailable,
+      ASSISTANT_SEN.placeholder,
+      ...Object.values(ASSISTANT_SEN.templates),
+    ].join("\n");
+    expect(citizenFacing).not.toMatch(/mühür|vize|dikey kapsam/i);
     const widget = readSrc("components/kernel/ai-chat-widget.tsx");
     const route = readSrc("app/api/(kernel)/ai/chat/route.ts");
     const engine = readSrc("lib/kernel/ai/assistant-chat.ts");
     expect(widget).toContain("ASSISTANT_SEN.title");
+    expect(widget).toContain("ASSISTANT_SEN.role");
+    expect(widget).toContain("ASSISTANT_SEN.academyCta");
+    expect(widget).toContain("ASSISTANT_SEN.careerCta");
+    expect(widget).toContain('href="/academy"');
+    expect(widget).toContain('href="/career"');
     expect(widget).toContain("bottom-6 right-6");
     expect(widget).toContain("z-50");
     expect(widget).toContain("pointer-events-none fixed z-50");
@@ -148,6 +182,8 @@ describe("asistan yüzey mührü", () => {
     expect(route).toContain("answerAssistantChat");
     expect(engine).toContain("LITE_STREAM");
     expect(engine).toContain("invokeLlm");
+    expect(engine).toContain("scrubAssistantCitizenJargon");
+    expect(readSrc("components/shell/app-shell-switch.tsx")).toContain("AiChatWidget");
     expect(readSrc("components/shell/app-shell.tsx")).not.toContain("AiChatWidget");
     expect(readSrc("app/dashboard/page.tsx")).not.toContain("AiChatWidget");
     expect(readSrc("app/(public)/layout.tsx")).not.toContain("AiChatWidget");

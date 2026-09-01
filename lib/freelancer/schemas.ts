@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ACADEMY_PATHWAY_IDS } from "@/lib/kernel/catalog-ids";
+import { FREELANCER_NEED_IDS } from "@/lib/kernel/catalog-ids";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import {
   FREELANCER_JOB_MAX_MINOR,
@@ -12,14 +12,14 @@ export const createJobInputSchema = z.object({
   title: z.string().trim().min(3).max(120),
   brief: z.string().trim().min(8).max(4000),
   budgetMinor: z.number().int().min(FREELANCER_JOB_MIN_MINOR).max(FREELANCER_JOB_MAX_MINOR),
-  visaPathwayId: z.enum(ACADEMY_PATHWAY_IDS),
+  visaPathwayId: z.enum(FREELANCER_NEED_IDS),
 });
 
 export const createDirectOfferInputSchema = z.object({
   title: z.string().trim().min(3).max(120),
   brief: z.string().trim().min(8).max(4000),
   budgetMinor: z.number().int().min(FREELANCER_JOB_MIN_MINOR).max(FREELANCER_JOB_MAX_MINOR),
-  visaPathwayId: z.enum(ACADEMY_PATHWAY_IDS),
+  visaPathwayId: z.enum(FREELANCER_NEED_IDS),
   inviteeId: z.string().trim().min(1),
   dueDays: z.number().int().min(1).max(90),
 });

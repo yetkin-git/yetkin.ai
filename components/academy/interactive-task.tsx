@@ -61,16 +61,16 @@ export function InteractiveTask({
       <p className="text-sm text-[var(--muted)]">{task.brief}</p>
       {task.kind === "amount-kurus" ? (
         <div className="grid gap-3 sm:grid-cols-2">
-          <label className="text-sm text-[var(--foreground)]">
+          <label className="text-sm font-medium text-[var(--foreground)]">
             {copy.amountLabel}
             <Input
               value={amountText}
               onChange={(event) => setAmountText(event.target.value)}
               disabled={disabled || Boolean(sealedHash)}
             />
-            <span className="mt-1 block text-xs text-[var(--muted)]">{copy.amountHint}</span>
+            <span className="mt-1 block text-xs text-slate-600">{copy.amountHint}</span>
           </label>
-          <label className="text-sm text-[var(--foreground)]">
+          <label className="text-sm font-medium text-[var(--foreground)]">
             {copy.currencyLabel}
             <Input
               value={currencyText}
@@ -81,10 +81,10 @@ export function InteractiveTask({
         </div>
       ) : null}
       {task.kind === "prompt-pack" ? (
-        <label className="block text-sm text-[var(--foreground)]">
+        <label className="block text-sm font-medium text-[var(--foreground)]">
           {copy.promptLabel}
           <textarea
-            className="mt-1 min-h-24 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm"
+            className="mt-1 min-h-24 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-base"
             value={prompt}
             placeholder={copy.promptPlaceholder}
             onChange={(event) => setPrompt(event.target.value)}
@@ -94,12 +94,12 @@ export function InteractiveTask({
       ) : null}
       {task.kind === "prompt-pack" || task.kind === "param-lock" ? (
         <div className="space-y-2">
-          <p className="text-xs font-medium text-[var(--muted)]">{copy.bank}</p>
+          <p className="text-xs font-medium text-slate-600">{copy.bank}</p>
           {task.slots.map((slot) => (
-            <label key={slot.id} className="block text-sm text-[var(--foreground)]">
+            <label key={slot.id} className="block text-sm font-medium text-[var(--foreground)]">
               {slot.label}
               <select
-                className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm"
+                className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-base"
                 value={slots[slot.id] ?? ""}
                 onChange={(event) =>
                   setSlots((current) => ({ ...current, [slot.id]: event.target.value }))

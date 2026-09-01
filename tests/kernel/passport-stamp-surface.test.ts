@@ -120,6 +120,8 @@ describe("pasaport vize yüzeyi", () => {
     expect(careerStore).toContain("findPassportStampsForUser");
     expect(careerLoad).toContain("projectLiveCareerBoard");
     expect(load).toContain("projectLivePassportStamps");
+    expect(readSrc("lib/kernel/passport/live.ts")).toContain("bindLivePassportStamps");
+    expect(readSrc("lib/career/live.ts")).toContain("bindLivePassportStamps");
     expect(load).toContain("createPrismaProofReadPort");
     expect(careerStore).not.toContain("prisma.careerVisaStamp.findMany");
     expect(list).not.toContain("onSubmit");

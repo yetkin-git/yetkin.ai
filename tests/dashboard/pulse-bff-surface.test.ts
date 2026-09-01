@@ -2,6 +2,12 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
+  DASHBOARD_PULSE_ROOM_CONCURRENCY,
+  DASHBOARD_PULSE_ROOM_TIMEOUT_MS,
+  dashboardPulseRoomConcurrency,
+  dashboardPulseRoomTimeoutMs,
+} from "@/app/api/dashboard/pulse/load";
+import {
   assembleDashboardPulse,
   DASHBOARD_PULSE_PATH,
   DASHBOARD_PULSE_ROOMS,
@@ -44,6 +50,16 @@ describe("Dashboard Pulse BFF yüzeyi", () => {
     expect(assembled.wallet.amountMinor).toBe(0);
   });
 
+  it("oda bütçesi uzun süreçte 8s, Vercel'de 2s; serverless eşzamanlılık 1", () => {
+    expect(DASHBOARD_PULSE_ROOM_TIMEOUT_MS).toBe(2_000);
+    expect(DASHBOARD_PULSE_ROOM_CONCURRENCY).toBe(2);
+    expect(dashboardPulseRoomTimeoutMs({ NODE_ENV: "development" })).toBe(8_000);
+    expect(dashboardPulseRoomTimeoutMs({ NODE_ENV: "production" })).toBe(8_000);
+    expect(dashboardPulseRoomTimeoutMs({ VERCEL: "1", NODE_ENV: "production" })).toBe(2_000);
+    expect(dashboardPulseRoomConcurrency({ NODE_ENV: "development" })).toBe(2);
+    expect(dashboardPulseRoomConcurrency({ VERCEL: "1" })).toBe(1);
+  });
+
   it("BFF rotası session kind, force-dynamic, no-store; composition API kökündedir", async () => {
     const route = readSrc("app/api/dashboard/pulse/route.ts");
     const load = readSrc("app/api/dashboard/pulse/load.ts");
@@ -65,17 +81,30 @@ describe("Dashboard Pulse BFF yüzeyi", () => {
     expect(load).toContain("Promise.all");
     expect(load).toContain("DASHBOARD_PULSE_ROOM_TIMEOUT_MS");
     expect(load).toContain("DASHBOARD_PULSE_ROOM_CONCURRENCY");
-    expect(load).toContain("withDbReadTimeout");
+    expect(load).toContain("dashboardPulseRoomTimeoutMs");
+    expect(load).toContain("dashboardPulseRoomConcurrency");
+    expect(load).toContain("kernelBackgroundReadTimeoutMs");
+    expect(load).toContain("withFailEarlyDbRead");
     expect(load).toContain("dashboard.pulse.room_failed");
     expect(load).toContain("Composition root");
     expect(load).toContain("ensurePrismaQueryEngine");
+    expect(load).toContain("await ensurePrismaQueryEngine()");
+    expect(load).not.toContain("void ensurePrismaQueryEngine");
+    expect(load).toContain("if (!engineReady)");
+    expect(load).toContain("EMPTY_DASHBOARD_PULSE");
     expect(load).toContain("readWalletStripSnapshot");
     expect(load).not.toContain("ensureSettlementWallet");
     expect(load).toContain("prismaErrorLabel");
+    expect(load).toContain("cache(");
+    expect(load).toContain("pulseInflight");
+    expect(route).toContain("maxDuration");
     const db = readSrc("lib/kernel/db.ts");
     expect(db).toContain("refreshPrismaConnection");
     expect(db).toContain("isPrismaEngineEnoent");
     expect(db).toContain("prisma.engine.warmup_failed");
+    expect(db).toContain("prisma.engine.warmup_pending");
+    expect(db).toContain("PRISMA_WARMUP_CIRCUIT_MS");
+    expect(db).toContain("Promise<boolean>");
     expect(db).toContain("ENOENT");
     expect(load).not.toContain("@/lib/kernel/modules");
     expect(load).not.toContain("createPrismaStudioPorts");
@@ -112,6 +141,7 @@ describe("Dashboard Pulse BFF yüzeyi", () => {
     expect(page).toContain("DashboardPulseProvider");
     expect(page).toContain("initialPulse");
     expect(page).toContain("loadDashboardPulse");
+    expect(page).toContain("maxDuration");
     expect(page).not.toContain("FrozenRoomBanner");
     expect(page).not.toContain("studio-pulse");
     expect(shell).not.toContain("FrozenRoomBanner");

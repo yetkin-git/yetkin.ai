@@ -69,7 +69,7 @@ export function ContractChatConsole({
 
   return (
     <Card title={copy.title} eyebrow={copy.eyebrow}>
-      <p className="mb-4 text-xs leading-5 text-[var(--muted)]">{copy.evidenceNote}</p>
+      <p className="mb-4 text-xs leading-5 text-slate-600">{copy.evidenceNote}</p>
       <ul className="mb-4 space-y-3">
         {messages.length === 0 ? (
           <li className="text-sm text-[var(--muted)]">{copy.empty}</li>
@@ -96,7 +96,7 @@ export function ContractChatConsole({
       </ul>
       <div className="grid gap-2">
         <select
-          className="h-10 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 text-sm"
+          className="h-10 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 text-base"
           value={kind === "REVISION" && !revisionAllowed ? "TEXT" : kind}
           onChange={(event) => setKind(event.target.value as FreelancerContractMessageKind)}
         >
@@ -105,13 +105,13 @@ export function ContractChatConsole({
           {revisionAllowed ? <option value="REVISION">{copy.kindRevision}</option> : null}
         </select>
         <textarea
-          className="min-h-24 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3 text-sm"
+          className="min-h-24 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3 text-base"
           placeholder={copy.placeholder}
           value={body}
           onChange={(event) => setBody(event.target.value)}
         />
         <input
-          className="h-10 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 text-sm"
+          className="h-10 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 text-base"
           placeholder={copy.artifactPlaceholder}
           value={artifactUrl}
           onChange={(event) => setArtifactUrl(event.target.value)}

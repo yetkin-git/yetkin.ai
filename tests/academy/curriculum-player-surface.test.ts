@@ -28,6 +28,7 @@ describe("D2.1 müfredat oynatıcı yüzeyi — üç ekran + dinle kapalı", () 
     const catalog = readSrc("app/academy/page.tsx");
     expect(catalog).toContain("CourseList");
     expect(catalog).toContain("filterAcademyPilotCatalog");
+    expect(catalog).not.toContain("overlayStudioGrowthLearnerBoard");
     expect(catalog).not.toContain("FilterBar");
     expect(catalog).not.toContain("AcademyLevelPathway");
 
@@ -36,9 +37,11 @@ describe("D2.1 müfredat oynatıcı yüzeyi — üç ekran + dinle kapalı", () 
     expect(antre).toContain("SettlementSteps");
     expect(antre).toContain("hasAcademyPlayerAccess");
     expect(antre).toContain("hasCommercialAcademyEnrolment");
+    expect(antre).not.toContain("hasCommercialAcademyEnrolment(purchase) ||");
     expect(antre).toContain("/oyna");
     expect(antre).not.toContain("FilterBar");
     expect(antre).not.toContain("ProofOfWorkCard");
+    expect(antre).not.toContain("AcademyPilotPath");
     expect(antre).toContain("ExamStartGate");
 
     const oyna = readSrc("app/academy/[slug]/oyna/page.tsx");
@@ -55,6 +58,12 @@ describe("D2.1 müfredat oynatıcı yüzeyi — üç ekran + dinle kapalı", () 
     expect(player).toContain("LessonMediaPlayer");
     expect(player).toContain("completeLesson");
     expect(player).toContain("goToNextLesson");
+    expect(player).toContain("onDialogueEnded");
+    expect(player).toContain("LessonDialogueTranscript");
+    expect(player).toContain("AcademyProgressBar");
+    expect(player).toContain("copy.completeCta");
+    expect(player).toContain("composeAcademyLessonBlocks");
+    expect(player).not.toContain("durationSec={micro?.durationSec ?? 8}");
     expect(player).not.toContain("LessonListenButton");
     expect(player).not.toContain("LessonCodeLab");
     expect(player).not.toContain("LessonDiscussion");
@@ -83,11 +92,25 @@ describe("D2.1 müfredat oynatıcı yüzeyi — üç ekran + dinle kapalı", () 
     expect(existsSync(join(ROOT, "tests/academy/access.test.ts"))).toBe(true);
     expect(existsSync(join(ROOT, "tests/academy/happy-path.test.ts"))).toBe(true);
 
-    expect(curriculumForCourseSlug("python-temel")).toHaveLength(12);
+    expect(curriculumForCourseSlug("python-temel")).toHaveLength(6);
+    expect(curriculumForCourseSlug("ai-agent-orta")).toHaveLength(6);
+    expect(curriculumForCourseSlug("ai-agent-ileri")).toHaveLength(6);
     expect(curriculumForCourseSlug("ai-temel")).toHaveLength(12);
-    expect(curriculumForCourseSlug("fullstack-temel")).toHaveLength(12);
+    expect(curriculumForCourseSlug("fullstack-temel")).toHaveLength(6);
+    expect(curriculumForCourseSlug("fullstack-orta")).toHaveLength(6);
+    expect(curriculumForCourseSlug("fullstack-ileri")).toHaveLength(6);
+    expect(curriculumForCourseSlug("security-temel")).toHaveLength(6);
+    expect(curriculumForCourseSlug("security-orta")).toHaveLength(6);
+    expect(curriculumForCourseSlug("security-ileri")).toHaveLength(6);
+    expect(curriculumForCourseSlug("excel-masterclass")).toHaveLength(6);
+    expect(curriculumForCourseSlug("google-ads-masterclass")).toHaveLength(6);
+    expect(curriculumForCourseSlug("meta-ads-masterclass")).toHaveLength(6);
+    expect(curriculumForCourseSlug("eticaret-masterclass")).toHaveLength(6);
+    expect(curriculumForCourseSlug("canva-masterclass")).toHaveLength(6);
+    expect(curriculumForCourseSlug("linkedin-masterclass")).toHaveLength(6);
     expect(curriculumForCourseSlug("ux-temel")).toHaveLength(12);
-    expect(curriculumForCourseSlug("python-orta")).toHaveLength(0);
+    expect(curriculumForCourseSlug("python-orta")).toHaveLength(6);
+    expect(curriculumForCourseSlug("python-ileri")).toHaveLength(6);
 
     expect(existsSync(join(ROOT, "components/academy/filter-bar.tsx"))).toBe(false);
     expect(readSrc("lib/academy/catalog-filter.ts")).not.toContain("trendScore");

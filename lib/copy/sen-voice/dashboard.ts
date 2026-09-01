@@ -35,7 +35,7 @@ export const DASHBOARD_SEN = {
   description:
     "Eğitimlerin, kanıtlanmış uzmanlıkların ve çalışma süreçlerin tek bir güvenli panelde.",
   featured:
-    "Öğren, sınav ol, mühürlen, vize al. Akademiden başla.",
+    "Kariyer yolculuğuna başlamak için Akademi'den sana uygun eğitimi seçebilir veya Kariyer odasından hedefini belirleyebilirsin.",
   /** Kişiselleştirilmiş Sıradaki Eylem — nabız sinyallerine göre. */
   nextBestAction: {
     eyebrow: "Sıradaki Eylem",
@@ -51,8 +51,8 @@ export const DASHBOARD_SEN = {
       cta: "Teklifleri gör",
     },
     careerVisa: {
-      body: "Aktif vizen damgalı. Mühür kapıyı açar; defterden sonraki işi seç.",
-      cta: "Vizenı aç",
+      body: "Mühürlü yetkinliğin vitrinde. Pusuladan sıradaki halkayı seç.",
+      cta: "Vitrini aç",
     },
     academyContinue: {
       body: "Satın aldığın eğitim yolunda öğren, sınav ol, mühürlen.",
@@ -67,9 +67,9 @@ export const DASHBOARD_SEN = {
     academyEmpty: "Henüz mühür yok",
     careerTitle: "Kariyer nabzı",
     careerHrefLabel: "Kariyer odası",
-    careerVisa: "Vize",
+    careerVisa: "Rozet",
     careerPortfolio: "Portföy",
-    careerEmpty: "Henüz damga yok",
+    careerEmpty: "Henüz mühür yok",
     freelancerTitle: "Freelancer nabzı",
     freelancerHrefLabel: "Freelancer odası",
     freelancerOpen: "Açık ilan",

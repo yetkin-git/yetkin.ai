@@ -9,7 +9,9 @@ import {
   assertAuthUsers,
   assertPublicUsers,
   assertSqlSealPlanComplete,
+  applyAcademyCatalogPriceMap,
   applySqlToMemoryCatalog,
+  assertAcademyCatalogPriceMap,
   createMemoryOpsSealQuery,
   createPostPrismaMemoryCatalog,
   inspectSqlSealPlan,
@@ -147,6 +149,8 @@ describe("ops:migrate bellek katalog simülasyonu", () => {
     }
 
     await expect(runPostApplySeals(query)).resolves.toBeUndefined();
+    await applyAcademyCatalogPriceMap(query);
+    await expect(assertAcademyCatalogPriceMap(query)).resolves.toBeUndefined();
   });
 
   it("auth.users yokken fail-closed çıkar; e-posta SQL'i atlanırsa tetikleyici assert kırılır", async () => {

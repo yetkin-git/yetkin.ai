@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next";
-import { LEGAL_FOOTER_LINKS } from "@/lib/copy/legal-launch";
+import { LEGAL_SITE_PATHS } from "@/lib/copy/legal-launch";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date("2026-08-20");
-  const paths = ["/", "/legal", ...LEGAL_FOOTER_LINKS.map((link) => link.href)];
+  const lastModified = new Date("2026-08-31");
+  const paths = ["/", "/legal", ...LEGAL_SITE_PATHS];
   const unique = [...new Set(paths)];
   return unique.map((path) => ({
     url: path,

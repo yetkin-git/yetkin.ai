@@ -52,17 +52,14 @@ test.describe("O9 freelancer nakit & emanet yolculuğu", () => {
   test("ilan listeleme: tezgâh, mutlu yol kopyası ve ilan ver yüzeyi", async ({ page }) => {
     const response = await page.goto("/freelancer");
     expect(response?.status()).toBeLessThan(400);
-    await expect(page.getByRole("heading", { name: "Freelancer tezgâhı" })).toBeVisible();
-    await expect(page.getByText("ilan → emanet → teslim")).toBeVisible();
-    await expect(page.getByText("ödeme kuruluşunda bloke").first()).toBeVisible();
+    await expect(page.getByRole("heading", { name: "İş Pazarı" })).toBeVisible();
+    await expect(page.getByText("Güvenli ödeme havuzuyla açık ilanlara teklif ver.")).toBeVisible();
     await expect(page.getByRole("link", { name: "İlan oluştur" }).first()).toBeVisible();
 
-    const live = page.getByText(/Canlı sicil/);
-    const empty = page.getByText("Henüz canlı ilan bulunmuyor");
-    const unbound = page.getByText("Liste henüz yüklenemedi");
+    const live = page.getByText(/Açık İlan/);
+    const empty = page.getByText("Henüz açık ilan bulunmuyor");
+    const unbound = page.getByText("İlan listesi şu an okunamadı");
     await expect(live.or(empty).or(unbound).first()).toBeVisible();
-    await expect(page.getByText("Teslim onayı ile aktarılır").first()).toBeVisible();
-    await expect(page.getByText("İtiraz durumunda tahkim süreci işler").first()).toBeVisible();
 
     await page.getByRole("link", { name: "İlan oluştur" }).first().click();
     await expect(page).toHaveURL(/\/login/);

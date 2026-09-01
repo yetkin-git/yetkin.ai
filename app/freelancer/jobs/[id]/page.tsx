@@ -4,9 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import { BidForm } from "@/components/freelancer/bid-form";
 import { AcceptBidButton } from "@/components/freelancer/accept-bid-button";
 import { EscrowHoldSteps } from "@/components/freelancer/escrow-hold-steps";
-import { ListingVisaScopeSign } from "@/components/career/listing-visa-scope-sign";
+import { DeliveryProcessPanel } from "@/components/freelancer/delivery-process-panel";
 import { loadJobBoard } from "@/lib/freelancer/load";
 import { loadListingVisaAccess } from "@/lib/career/load";
+import { listingVisaScopeSign } from "@/lib/career/visa-scope-board";
+import { jobListingFace, listingCertShortName } from "@/lib/freelancer/listing-face";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { getSession } from "@/lib/kernel/auth/session";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
@@ -51,6 +53,15 @@ export default async function FreelancerJobDetailPage({
   const holdPercent = HOLD_BPS_DEFAULT / 100;
   const bidsEmptyCopy =
     board.viewerRole === "owner" ? copy.job.bidsEmpty : copy.job.bidsHidden;
+  const face = jobListingFace(board.job);
+  const certName = listingCertShortName(board.job.visaPathwayId);
+  const visaSign = listingVisaScopeSign({
+    id: board.job.id,
+    title: board.job.title,
+    brief: board.job.brief,
+    visaPathwayId: board.job.visaPathwayId,
+  });
+  const academyHref = (visaSign.courses[0]?.href ?? "/academy") as Route;
 
   return (
     <RoomFrame>
@@ -66,20 +77,39 @@ export default async function FreelancerJobDetailPage({
         }
       />
       <Card>
-        <p className="font-medium text-[var(--foreground)]">
-          {copy.job.budgetLabel}: {formatMinor(board.job.budgetMinor, board.job.currencyCode)}
-        </p>
+        <dl className="grid gap-2 text-[var(--foreground)]">
+          <div className="flex justify-between gap-3">
+            <dt>{copy.job.budgetLabel}</dt>
+            <dd className="font-medium">
+              {formatMinor(board.job.budgetMinor, board.job.currencyCode)}
+            </dd>
+          </div>
+          {face.formats.length > 0 ? (
+            <div className="flex justify-between gap-3">
+              <dt>{copy.job.formatsLabel}</dt>
+              <dd>{face.formats.join(", ")}</dd>
+            </div>
+          ) : null}
+          {face.durationDays != null ? (
+            <div className="flex justify-between gap-3">
+              <dt>{copy.job.durationLabel}</dt>
+              <dd>{copy.job.durationDays(face.durationDays)}</dd>
+            </div>
+          ) : null}
+        </dl>
         <ul className="mt-3 flex flex-wrap gap-1.5" aria-label={copy.stats.barLabel}>
           <li title={copy.stats.escrowHint}>
             <Badge tone="safir" className="normal-case tracking-tight">
               {copy.stats.escrowInline}
             </Badge>
           </li>
-          <li title={copy.stats.pathHint}>
-            <Badge tone="emerald" className="normal-case tracking-tight">
-              {copy.stats.pathInline}
-            </Badge>
-          </li>
+          {face.formats.map((format) => (
+            <li key={format}>
+              <Badge tone="neutral" className="normal-case tracking-tight">
+                {format}
+              </Badge>
+            </li>
+          ))}
           <li title={copy.stats.revisionHint}>
             <Badge tone="neutral" className="normal-case tracking-tight">
               {copy.stats.revisionInline}
@@ -87,12 +117,22 @@ export default async function FreelancerJobDetailPage({
           </li>
         </ul>
       </Card>
+      {face.requirements.length > 0 ? (
+        <Card title={copy.job.requirementsTitle}>
+          <ul className="list-disc space-y-1 pl-5 text-[var(--foreground)]">
+            {face.requirements.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </Card>
+      ) : null}
       <Card title={copy.escrow.title} eyebrow={copy.escrow.eyebrow}>
         <EscrowHoldSteps
           holdPercent={holdPercent}
           active={escrowHoldActiveStep({ contractStatus: board.contract?.status })}
         />
       </Card>
+      <DeliveryProcessPanel remaining={face.revisionAllowance} allowance={face.revisionAllowance} />
       {board.contract ? (
         <Card title={copy.job.contractTitle}>
           <LinkButton href={`/freelancer/contracts/${board.contract.id}`} variant="primary" size="sm">
@@ -134,18 +174,8 @@ export default async function FreelancerJobDetailPage({
               <BidForm jobId={board.job.id} maxMinor={board.job.budgetMinor} />
             ) : (
               <div className="space-y-3">
-                <p className="text-sm text-[var(--muted)]">
-                  {listingVisa.message || copy.job.visaGate}
-                </p>
-                <ListingVisaScopeSign
-                  listing={{
-                    id: board.job.id,
-                    title: board.job.title,
-                    brief: board.job.brief,
-                    visaPathwayId: board.job.visaPathwayId,
-                  }}
-                />
-                <LinkButton href="/career" variant="primary" size="sm">
+                <p className="text-sm text-[var(--foreground)]">{copy.job.visaRequired(certName)}</p>
+                <LinkButton href={academyHref} variant="primary" size="sm">
                   {copy.job.visaCta}
                 </LinkButton>
               </div>

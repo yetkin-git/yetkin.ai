@@ -2,10 +2,15 @@ import "server-only";
 
 import { cache } from "react";
 import { EMPTY_WALLET_STRIP, type WalletStripSnapshot } from "@/lib/dashboard/wallet-strip";
-import { ensurePrismaQueryEngine, withDbReadTimeout } from "@/lib/kernel/db";
+import {
+  ensurePrismaQueryEngine,
+  kernelBackgroundReadTimeoutMs,
+  withDbReadTimeout,
+} from "@/lib/kernel/db";
 import { readSettlementWallet } from "@/lib/kernel/ledger/wallet-read";
 
-const WALLET_STRIP_READ_TIMEOUT_MS = 600;
+/** Serverless fail-soft; uzun süreç `kernelBackgroundReadTimeoutMs` ile 8s. */
+const WALLET_STRIP_READ_TIMEOUT_MS = 2_000;
 
 /**
  * Settlement cüzdan şeridi — salt SELECT. INSERT yok.
@@ -15,7 +20,10 @@ export const readWalletStripSnapshot = cache(async (userId: string): Promise<Wal
   try {
     return await withDbReadTimeout(
       (async () => {
-        await ensurePrismaQueryEngine();
+        const engineReady = await ensurePrismaQueryEngine();
+        if (!engineReady) {
+          return EMPTY_WALLET_STRIP;
+        }
         const wallet = await readSettlementWallet(userId);
         if (!wallet) {
           return EMPTY_WALLET_STRIP;
@@ -26,7 +34,7 @@ export const readWalletStripSnapshot = cache(async (userId: string): Promise<Wal
           currencyCode: wallet.currencyCode,
         };
       })(),
-      WALLET_STRIP_READ_TIMEOUT_MS,
+      kernelBackgroundReadTimeoutMs(WALLET_STRIP_READ_TIMEOUT_MS),
       "wallet.strip",
     );
   } catch {

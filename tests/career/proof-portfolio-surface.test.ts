@@ -37,6 +37,18 @@ const DEAD_CAREER_TOOLS = [
   "lib/career/premium-report.ts",
   "lib/career/compass.ts",
   "lib/career/growth.ts",
+  "lib/career/atelier.ts",
+  "components/career/talent-radar.tsx",
+  "components/career/swot-panel.tsx",
+  "components/career/career-blueprint.tsx",
+  "components/career/badge-vitrine.tsx",
+  "components/career/career-coach.tsx",
+  "components/career/interview-drill.tsx",
+];
+
+const LIVE_LEDGER = [
+  "components/career/visa-ledger.tsx",
+  "components/career/visa-scope-board.tsx",
 ];
 
 function stamp(
@@ -60,11 +72,14 @@ function stamp(
 }
 
 describe("kariyer kanıt portföyü yüzeyi", () => {
-  it("vize defteri + vize-ilan tabelası birincil yoldur; SWOT/pusula canlı tavan değildir", () => {
+  it("vize defteri ve teklif kapısı basar; koç/SWOT/radar sökülüdür", () => {
     expect(existsSync(join(ROOT, "components/career/visa-ledger.tsx"))).toBe(true);
     expect(existsSync(join(ROOT, "components/career/visa-scope-board.tsx"))).toBe(true);
     for (const file of DEAD_CAREER_TOOLS) {
       expect(existsSync(join(ROOT, file)), file).toBe(false);
+    }
+    for (const file of LIVE_LEDGER) {
+      expect(existsSync(join(ROOT, file)), file).toBe(true);
     }
     const page = readSrc("app/career/page.tsx");
     const ledger = readSrc("components/career/visa-ledger.tsx");
@@ -72,35 +87,33 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     expect(page).toContain("VisaLedger");
     expect(page).toContain("VisaScopeBoard");
     expect(page).toContain("/academy/dogrula");
-    expect(copy).toContain("footnoteVerifyCta");
+    expect(page).not.toContain("TalentRadar");
+    expect(page).not.toContain("SwotPanel");
+    expect(page).not.toContain("CareerBlueprintPanel");
+    expect(page).not.toContain("BadgeVitrine");
+    expect(page).not.toContain("CareerCoach");
+    expect(page).not.toContain("projectCareerAtelier");
     expect(page).not.toContain("CareerCompassPanel");
     expect(page).not.toContain("CareerToolsSection");
-    expect(page).not.toContain("buildCareerCompass");
-    expect(page).not.toContain("buildSwotRadar");
     expect(page).toContain("SEN_VOICE");
     expect(page).not.toContain("PortfolioList");
-    expect(page).not.toContain("showcase");
-    expect(page).not.toContain("tone=\"amber\"");
-    expect(ledger).toContain("careerStampVerifyHref");
-    expect(ledger).toContain("careerStampCourseHref");
-    expect(ledger).toContain("careerStampContractHref");
+    expect(copy).toContain("footnoteVerifyCta");
+    expect(copy).toContain("openCourseCta");
+    expect(copy).toContain("openContractCta");
+    expect(copy).toContain("Vize-ilan tabelası");
+    expect(copy).not.toContain("örnek düzen");
+    expect(copy).not.toContain("premiumModal");
+    expect(copy).not.toContain("mülakat koçu");
+    expect(copy).not.toContain("SWOT");
     expect(ledger).toContain("certificateHash");
     expect(ledger).toContain("openCourseCta");
     expect(ledger).toContain("openContractCta");
-    expect(ledger).not.toContain("Vitrine");
-    expect(ledger).not.toContain("CAREER_SHOWCASE");
-    expect(copy).toContain("Vize ve Geçiş Defteri");
-    expect(copy).toContain("Vize-ilan tabelası");
-    expect(copy).toContain("openCourseCta");
-    expect(copy).toContain("openContractCta");
-    expect(copy).not.toContain("örnek düzen");
-    expect(copy).not.toContain("Vitrin");
-    expect(copy).not.toContain("premiumModal");
-    expect(SEN_VOICE.career.ledgerTitle).toBe("Vize ve Geçiş Defteri");
-    expect(SEN_VOICE.career.proofsTitle).toBe("Vize ve Geçiş Defteri");
-    expect(SEN_VOICE.career.title).toBe("Vize ve Geçiş Defteri");
-    expect(SEN_VOICE.career.verifyCta).toBe("Özeti doğrula");
-    expect(SEN_VOICE.career.scope.title).toBe("Bu vize hangi ilanları açar?");
+    expect(ledger).not.toContain("issueCareerVisaStamp");
+    expect(SEN_VOICE.career.ledgerTitle).toBe("Vize defteri");
+    expect(SEN_VOICE.career.proofsTitle).toBe("Vize defteri");
+    expect(SEN_VOICE.career.title).toBe("Kariyer");
+    expect(SEN_VOICE.career.verifyCta).toBe("Sertifikayı doğrula");
+    expect(SEN_VOICE.career.scope.title).toBe("Vize-ilan tabelası");
     for (const noise of MUSEUM_ROUTE_NOISE) {
       expect(page.toLowerCase()).not.toContain(noise);
       expect(ledger.toLowerCase()).not.toContain(noise);
@@ -137,16 +150,19 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     expect(careerStampCourseHref(releaseStamp)).toBeNull();
   });
 
-  it("vize-ilan tabelası damgayı dikey kapıya bağlar; SWOT vize basmaz", () => {
+  it("ilan kapısı damgayı ihtiyaç yoluna bağlar; vize elle basılmaz", () => {
     const doors = buildCareerVisaScopeBoard([]);
     expect(doors.length).toBeGreaterThan(0);
     expect(doors.every((door) => door.open === false)).toBe(true);
 
-    const uxTitle = "UX Araştırma, Wireframing ve Figma Temelleri";
     const held = buildCareerVisaScopeBoard([
-      stamp({ sourceKind: "ACADEMY_CERTIFICATE", title: uxTitle, courseSlug: "ux-temel" }),
+      stamp({
+        sourceKind: "ACADEMY_CERTIFICATE",
+        title: ACADEMY_COURSE_TITLES["ux-temel"],
+        courseSlug: "ux-temel",
+      }),
     ]);
-    const uxDoor = held.find((door) => door.pathwayId === "uiux-tasarim-sistemleri");
+    const uxDoor = held.find((door) => door.pathwayId === "logo-gorsel-sosyal-medya");
     expect(uxDoor?.open).toBe(true);
     expect(uxDoor?.courses.some((course) => course.slug === "ux-temel" && course.held)).toBe(true);
   });

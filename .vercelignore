@@ -1,0 +1,20 @@
+# Amiral üretim paketi — Vercel zaten gitignore kullanır; bu dosya
+# CLI yüklemesini .next / müze / dron / arşiv ile şişirmez.
+.next
+node_modules
+yetkin_muze
+.tmp
+.cursor
+coverage
+test-results
+playwright-report
+.git
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+.env.test
+*.log
+.eslintcache
+tsconfig.tsbuildinfo

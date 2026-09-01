@@ -6,6 +6,8 @@ export {
   isSupabaseConfigured,
   requireCitizenAuth,
   requireSession,
+  SESSION_USER_NOT_IN_DATABASE,
+  sessionUserNotInDatabaseMessage,
 } from "@/lib/kernel/auth/require-session";
 export { requirePageSession } from "@/lib/kernel/auth/require-page-session";
 export {

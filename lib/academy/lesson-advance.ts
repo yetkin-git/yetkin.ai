@@ -34,6 +34,17 @@ export function shouldAutoAdvanceAfterListenEnded(input: {
   return input.autoAdvanceEnabled && !input.fallback;
 }
 
+/**
+ * Diyalog zaman çizelgesi bittiğinde ilerleme mühürlenir.
+ * 8 sn sahte sinema veya oynatılmamış kaset mühür basmaz.
+ */
+export function shouldSealProgressAfterDialogueEnded(input: {
+  playbackStarted: boolean;
+  reachedEnd: boolean;
+}): boolean {
+  return input.playbackStarted && input.reachedEnd;
+}
+
 export type AcademyPlayerAdvanceLesson = {
   key: string;
   open: boolean;

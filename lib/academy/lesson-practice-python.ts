@@ -21,38 +21,32 @@ function pack(
 export const PYTHON_PATHWAY_PRACTICE: Record<string, AcademyLessonPractice> = {
   "python-temel-1": pack(
     [
-      ["çağrı", "print(...)"],
-      ["metin", "tırnak içinde string"],
-      ["çıktı", "standart çıktı"],
-      ["yasak", "tırnaksız Hello yazmak"],
+      ["etiket", "değişken adı"],
+      ["tip", "str / int / float / list / dict"],
+      ["kontrol", "type(deger)"],
+      ["yasak", "metin tutarı çarpmak"],
     ],
     [
-      "Boş bir .py dosyası aç.",
-      'print("Merhaba, Yetkin") satırını yaz.',
-      "Dosyayı çalıştırıp çıktıyı oku.",
+      "musteri_adi, adet, birim_fiyat, sepet, stok kutularını aç.",
+      "type() ile beş cinsi doğrula.",
+      "kurus_carp(\"250,00\", 2) ile 50000 bekle.",
     ],
     "py",
-    `print("Merhaba, Yetkin")
-# Beklenen çıktı: Merhaba, Yetkin`,
+    `musteri_adi = "Ayşe"
+adet = 3
+birim_fiyat = 12.5
+sepet = ["ekmek", "süt", "yumurta"]
+stok = {"ekmek": 4, "süt": 2}
+print(musteri_adi)
+print(adet)
+
+def kurus_carp(ham, kat):
+    lira = float(ham.replace(",", "."))
+    return int(round(lira * 100 * kat))
+
+print(kurus_carp("250,00", 2))`,
   ),
   "python-temel-2": pack(
-    [
-      ["tutar", "kuruş tamsayı (int)"],
-      ["metin tutar", "str — çarpılmaz"],
-      ["kontrol", "type(deger)"],
-      ["isim", "anlamlı etiket"],
-    ],
-    [
-      "tutar_kurus = 25000 ata.",
-      "type(tutar_kurus) ile int olduğunu doğrula.",
-      "Metin «250,00» ile çarpma deneme.",
-    ],
-    "py",
-    `tutar_kurus = 25000
-assert type(tutar_kurus) is int
-# yanlis = "250,00" * 2  → '250,00250,00'`,
-  ),
-  "python-temel-3": pack(
     [
       ["karşılaştırma", "==  /  >="],
       ["atama", "= (karıştırma)"],
@@ -71,7 +65,7 @@ if not_ort >= 70:
 else:
     print("tekrar")`,
   ),
-  "python-temel-4": pack(
+  "python-temel-3": pack(
     [
       ["for", "range ile bilinen tur"],
       ["while", "koşul doğruysa sür"],
@@ -89,7 +83,7 @@ for i in range(1, 6):
     toplam += i
 print(toplam)  # 15`,
   ),
-  "python-temel-5": pack(
+  "python-temel-4": pack(
     [
       ["tanım", "def ad(...):"],
       ["dönüş", "return"],
@@ -98,393 +92,404 @@ print(toplam)  # 15`,
     ],
     [
       "lira_to_kurus fonksiyonunu yaz.",
-      "1.845 ile çağırıp 1845 bekle.",
+      "18.45 ile çağırıp 1845 bekle.",
       "return olmadan None geldiğini gör.",
     ],
     "py",
     `def lira_to_kurus(lira: float) -> int:
     return int(round(lira * 100))
 
-assert lira_to_kurus(1.845) == 1845`,
+assert lira_to_kurus(18.45) == 1845`,
+  ),
+  "python-temel-5": pack(
+    [
+      ["liste", "[a, b, c]"],
+      ["indeks", "0 tabanlı"],
+      ["son", "sepet[-1]"],
+      ["yokluk", ".get"],
+    ],
+    [
+      "sepet = [\"elma\", \"armut\", \"ayva\"] yaz.",
+      "sepet[-1] ile son elemanı oku.",
+      "stok.get(\"armut\", 0) ile yokluğu sıfır kabul et.",
+    ],
+    "py",
+    `sepet = ["elma", "armut", "ayva"]
+assert sepet[0] == "elma"
+assert sepet[-1] == "ayva"
+stok = {"elma": 4}
+assert stok.get("armut", 0) == 0`,
   ),
   "python-temel-6": pack(
     [
       ["girdi", "input() → str"],
       ["doğrulama", "try / except ValueError"],
       ["boş", "reddeder"],
-      ["özet", "sonuç satırı"],
+      ["fail-closed", "Hata Anında Kapalı"],
     ],
     [
-      "Kullanıcıdan adet iste.",
-      "int’e çevir; hata olursa yeniden sor.",
-      "Geçerli adedi yazdır.",
+      "oku_adet(\"3\") ile 3 bekle.",
+      "oku_adet(\"üç\") ValueError bassın.",
+      "Boş girdi reddedilsin.",
     ],
     "py",
-    `while True:
-    ham = input("kaç adet? ").strip()
-    try:
-        adet = int(ham)
-        break
-    except ValueError:
-        print("Lütfen tamsayı gir.")
-print(f"adet={adet}")`,
+    `def oku_adet(ham):
+    temiz = ham.strip()
+    return int(temiz)
+
+print(oku_adet("3"))`,
   ),
   "python-orta-1": pack(
     [
-      ["okuma", "pd.read_csv"],
-      ["teşhis", "dtypes / info"],
-      ["tutar", "int64 kuruş"],
-      ["kimlik", "rapora girmez"],
+      ["kalıp", "class"],
+      ["örnek", "__init__ / self"],
+      ["yasak", "sınıf listesi paylaşmak"],
+      ["kapı", "adet > 0"],
     ],
     [
-      "Virgülle ayrılmış değerleri DataFrame’e oku.",
-      "dtypes ile sütun tiplerini yazdır.",
-      "Kimlik sütununu çıktı şemasından çıkar.",
+      "Siparis kalıbını yaz; iki ayrı örnek aç.",
+      "adet <= 0 iken ValueError bekle.",
+      "Sınıf gövdesine liste koyma.",
     ],
     "py",
-    `import pandas as pd
-df = pd.read_csv("satis.csv")
-assert df["amount_kurus"].dtype == "int64"
-rapor = df.drop(columns=["national_id"], errors="ignore")`,
+    `class Siparis:
+    def __init__(self, kalem, adet):
+        if adet <= 0:
+            raise ValueError("adet pozitif olmalı")
+        self.kalem = kalem
+        self.adet = adet
+
+bir = Siparis("ekmek", 2)
+iki = Siparis("ekmek", 5)
+assert bir.adet == 2
+assert iki is not bir`,
   ),
   "python-orta-2": pack(
     [
-      ["seçim", "loc / sütun listesi"],
-      ["süzgeç", "boolean mask"],
-      ["türetim", "yeni sütun"],
-      ["kopya", ".copy() niyeti"],
+      ["miras", "super().__init__"],
+      ["kapsül", "_adet + property"],
+      ["kapı", "StokHatasi"],
+      ["yasak", "eksi stok yazmak"],
     ],
     [
-      "status == 'done' satırlarını süz.",
-      "İhtiyacın olan sütunları seç.",
-      "Türetilmiş oran sütunu ekle.",
+      "Stok tabanını ve SatisStogu alt sınıfını yaz.",
+      "sat(2) sonrası adet 2 kalsın.",
+      "Yetersiz stokta StokHatasi bekle.",
     ],
     "py",
-    `done = df.loc[df["status"] == "done"].copy()
-done["oran"] = done["done_count"] / done["assigned_count"]`,
+    `class StokHatasi(Exception):
+    pass
+
+class Stok:
+    def __init__(self, adet):
+        self._adet = adet
+
+    @property
+    def adet(self):
+        return self._adet
+
+    def dus(self, n):
+        if n > self._adet:
+            raise StokHatasi("stok yetmez")
+        self._adet -= n
+        return self._adet
+
+class SatisStogu(Stok):
+    def sat(self, n):
+        return self.dus(n)
+
+raf = SatisStogu(4)
+assert raf.sat(2) == 2`,
   ),
   "python-orta-3": pack(
     [
-      ["payda", "yazılı grup paydası"],
-      ["birleştirme", "validate='1:1'"],
-      ["sızıntı", "hedef özellikteyse dur"],
-      ["şişme", "sessiz kabul yok"],
+      ["aç", "json.loads"],
+      ["bas", "dumps ensure_ascii=False"],
+      ["yaz", "Path.write_text utf-8"],
+      ["atomik", "tmp → replace"],
     ],
     [
-      "groupby ile özet çıkar.",
-      "merge’i validate=1:1 ile doğrula.",
-      "Paydayı satır notuna yaz.",
+      "Sözlüğü json.dumps ile mühürle.",
+      "Bozuk metinde JSONDecodeError bekle.",
+      "adet yoksa yazımı durdur.",
     ],
     "py",
-    `ozet = df.groupby("hafta", as_index=False).agg(adet=("id", "count"))
-birlesik = sol.merge(sag, on="person_id", validate="1:1")`,
+    `import json
+
+def muhurle(veri):
+    if "adet" not in veri:
+        raise ValueError("adet yok")
+    return json.dumps(veri, ensure_ascii=False, sort_keys=True)
+
+assert '"adet": 3' in muhurle({"adet": 3, "kalem": "ekmek"})`,
   ),
   "python-orta-4": pack(
     [
-      ["bağlantı", "sqlite3 / SQLAlchemy"],
-      ["parametre", "? veya :name"],
-      ["yasak", "f-string Yapılandırılmış Sorgu Dili"],
-      ["sonuç", "DataFrame"],
+      ["damga", "KayitHatasi.kod"],
+      ["zincir", "raise ... from exc"],
+      ["yasak", "bare except"],
+      ["sınır", "adet > 0"],
     ],
     [
-      "Parametreli SELECT yaz.",
-      "read_sql ile DataFrame al.",
-      "Bağlantıyı kapat.",
+      "oku_adet(\"4\") ile 4 bekle.",
+      "oku_adet(\"üç\") kod=tip bassın.",
+      "Boş girdide kod=bos bassın.",
     ],
     "py",
-    `import sqlite3
-import pandas as pd
-with sqlite3.connect("app.db") as conn:
-    df = pd.read_sql("SELECT * FROM orders WHERE user_id = ?", conn, params=(user_id,))`,
+    `class KayitHatasi(Exception):
+    def __init__(self, kod, mesaj):
+        super().__init__(mesaj)
+        self.kod = kod
+
+def oku_adet(ham):
+    temiz = ham.strip()
+    if not temiz:
+        raise KayitHatasi("bos", "boş girdi")
+    try:
+        return int(temiz)
+    except ValueError as exc:
+        raise KayitHatasi("tip", "tamsayı değil") from exc
+
+assert oku_adet("4") == 4`,
   ),
   "python-orta-5": pack(
     [
-      ["yol", "pathlib.Path"],
-      ["liste", "glob('*.csv')"],
-      ["yazım", "index=False"],
-      ["atomik", "geçici → rename"],
+      ["çağrı", "requests.get + timeout"],
+      ["damga", "status_code == 200"],
+      ["gövde", "dict zorunlu"],
+      ["yasak", "500’ü yeşil saymak"],
     ],
     [
-      "girdi klasöründeki virgülle ayrılmış değerleri listele.",
-      "İşlenmiş çıktıyı ayrı klasöre yaz.",
-      "Kaynağın üstüne yazma.",
+      "oku_json 200 sözlüğü açsın.",
+      "500’de ValueError bekle.",
+      "Liste gövdeyi reddet.",
     ],
     "py",
-    `from pathlib import Path
-girdi = Path("girdi")
-for yol in girdi.glob("*.csv"):
-    print(yol.name)
-# cikti.to_csv(tmp); tmp.replace(hedef)`,
+    `def oku_json(yanit):
+    if yanit.status_code != 200:
+        raise ValueError("durum durur")
+    veri = yanit.json()
+    if not isinstance(veri, dict):
+        raise ValueError("gövde sözlük değil")
+    return veri
+
+class SahteYanit:
+    def __init__(self, status_code, govde):
+        self.status_code = status_code
+        self._govde = govde
+    def json(self):
+        return self._govde
+
+assert oku_json(SahteYanit(200, {"id": 1}))["id"] == 1`,
   ),
   "python-orta-6": pack(
     [
-      ["eksik", "isna / bilinçli fill"],
-      ["tekrar", "drop_duplicates"],
-      ["aykırı", "iş kuralı"],
-      ["log", "adım kaydı"],
+      ["çek", "durum 200"],
+      ["şema", "zorunlu id"],
+      ["mühür", "json.dumps"],
+      ["yasak", "eksik alan yazmak"],
     ],
     [
-      "Boş tutarı 0 yapmadan önce kural yaz.",
-      "Anahtar sütunlarla tekrarları düşür.",
-      "Her adımı print/log ile bırak.",
+      "id’li 200 yanıtını mühürle.",
+      "id yoksa ValueError bekle.",
+      "404’te dosya yazma.",
     ],
     "py",
-    `temiz = df.drop_duplicates(subset=["order_id"]).copy()
-eksik = temiz["amount_kurus"].isna().sum()
-print({"eksik_tutar": int(eksik)})`,
-  ),
-  "python-orta-7": pack(
-    [
-      ["metrik", "ad+formül+payda+dönem+filtre"],
-      ["grafik", "eksen, birim, kaynak"],
-      ["3D pasta", "red"],
-      ["n", "dipnot"],
-    ],
-    [
-      "Metrik tanımını dict olarak yaz.",
-      "Çubuk grafik için eksen etiketle.",
-      "n ve kaynağı başlığa ekle.",
-    ],
-    "json",
-    `{
-  "name": "completion_rate",
-  "formula": "done / assigned",
-  "period": "ISO-week",
-  "n": 42,
-  "source": "exam-sittings"
-}`,
-  ),
-  "python-orta-8": pack(
-    [
-      ["giriş", "main() sırası"],
-      ["adımlar", "oku→temizle→metrik→yaz"],
-      ["parametre", "dönem / süzgeç"],
-      ["teslim", "betik; PNG değil"],
-    ],
-    [
-      "Pipeline fonksiyonlarını sırayla çağır.",
-      "Çıktı özetini yazdır.",
-      "Ekran görüntüsü gönderme.",
-    ],
-    "py",
-    `def main(donem: str) -> None:
-    ham = oku()
-    temiz = temizle(ham)
-    metrik = olc(temiz, donem=donem)
-    yaz(metrik)
-    print({"donem": donem, "satir": len(temiz)})`,
+    `import json
+
+def cek_ve_muhurle(yanit, zorunlu=("id",)):
+    if yanit.status_code != 200:
+        raise ValueError("istek durur")
+    veri = yanit.json()
+    for alan in zorunlu:
+        if alan not in veri:
+            raise ValueError(alan + " yok")
+    return json.dumps(veri, ensure_ascii=False, indent=2)
+
+class SahteYanit:
+    def __init__(self, status_code, govde):
+        self.status_code = status_code
+        self._govde = govde
+    def json(self):
+        return self._govde
+
+metin = cek_ve_muhurle(SahteYanit(200, {"id": 7, "adet": 3}))
+assert '"id": 7' in metin`,
   ),
   "python-ileri-1": pack(
     [
-      ["çerçeve", "FastAPI"],
-      ["rota", "@app.get"],
-      ["yanıt", "ceyson sözlük"],
-      ["sözleşme", "/docs açık arayüz"],
+      ["bezetici", "@wraps"],
+      ["kapı", "adet > 0"],
+      ["fabrika", "parametreli damga"],
+      ["yasak", "eksi adet içeri"],
     ],
     [
-      "FastAPI uygulaması oluştur.",
-      "/saglik ucunu yaz.",
-      "200 ve {\"ok\": true} doğrula.",
+      "pozitif_gerekir bezeticisini yaz.",
+      "etiket(3) ile '3 etiket' bekle.",
+      "etiket(0) ValueError bassın.",
     ],
     "py",
-    `from fastapi import FastAPI
-app = FastAPI()
+    `from functools import wraps
 
-@app.get("/saglik")
-def saglik():
-    return {"ok": True}`,
+def pozitif_gerekir(fn):
+    @wraps(fn)
+    def sarmal(adet, *args, **kwargs):
+        if adet <= 0:
+            raise ValueError("adet pozitif olmalı; işlem durur")
+        return fn(adet, *args, **kwargs)
+    return sarmal
+
+@pozitif_gerekir
+def etiket(adet):
+    return f"{adet} etiket"
+
+assert etiket(3) == "3 etiket"
+assert etiket.__name__ == "etiket"`,
   ),
   "python-ileri-2": pack(
     [
-      ["şema", "BaseModel"],
-      ["alan", "tip anotasyonu"],
-      ["hata", "422 ValidationError"],
-      ["yasak", "elle sözlük parçalama"],
+      ["yield", "fiş fiş"],
+      ["yığın", "liste yasak"],
+      ["kapı", "id zorunlu"],
+      ["bitiş", "StopIteration"],
     ],
     [
-      "amount_kurus: int modeli yaz.",
-      "str gönderip 422 bekle.",
-      "Geçerli gövdeyi kabul et.",
+      "fis_akisi ile id akıt.",
+      "topla_lazy iki kayıtta 3 bekle.",
+      "id yoksa ValueError bekle.",
     ],
     "py",
-    `from pydantic import BaseModel, Field
+    `def fis_akisi(kayitlar):
+    for kayit in kayitlar:
+        if "id" not in kayit:
+            raise ValueError("id yok; akış durur")
+        yield kayit["id"]
 
-class Kalem(BaseModel):
-    amount_kurus: int = Field(ge=0)
-    currency: str = "TRY"`,
+def topla_lazy(kayitlar):
+    toplam = 0
+    for kimlik in fis_akisi(kayitlar):
+        toplam += kimlik
+    return toplam
+
+assert topla_lazy([{"id": 1}, {"id": 2}]) == 3`,
   ),
   "python-ileri-3": pack(
     [
-      ["Depends", "ortak kaynak"],
-      ["servis", "iş kuralı"],
-      ["rota", "Hipermetin Aktarım Protokolü çevirmeni"],
-      ["test", "override"],
-    ],
-    [
-      "get_db benzeri bağımlılık yaz.",
-      "Serviste fiyat kuralını tut.",
-      "Rotada yalnız çağır.",
-    ],
-    "py",
-    `from fastapi import Depends
-
-def get_service():
-    return PricingService()
-
-@app.post("/fiyat")
-def fiyat(svc=Depends(get_service)):
-    return svc.quote()`,
-  ),
-  "python-ileri-4": pack(
-    [
       ["async def", "korutin"],
       ["await", "giriş-çıkış bekler"],
-      ["gather", "eşzamanlı"],
-      ["yasak", "time.sleep async’te"],
+      ["gather", "birlikte"],
+      ["yasak", "time.sleep"],
     ],
     [
-      "Üç async çağrıyı gather ile birleştir.",
-      "asyncio.sleep ile beklemeyi simüle et.",
-      "Toplam süreyi gözlemle.",
+      "cek 200 ve id kabul etsin.",
+      "gather iki kaydı birleştir.",
+      "500 ValueError bassın.",
     ],
     "py",
     `import asyncio
 
-async def fetch(i: int) -> int:
-    await asyncio.sleep(0.3)
-    return i
+async def cek(durum, govde):
+    await asyncio.sleep(0)
+    if durum != 200:
+        raise ValueError("durum " + str(durum) + "; kayıt durur")
+    if "id" not in govde:
+        raise ValueError("id yok; kayıt durur")
+    return govde
 
-async def main():
-    return await asyncio.gather(fetch(1), fetch(2), fetch(3))`,
+async def topla():
+    return await asyncio.gather(cek(200, {"id": 1}), cek(200, {"id": 2}))
+
+sonuc = asyncio.run(topla())
+assert [k["id"] for k in sonuc] == [1, 2]`,
+  ),
+  "python-ileri-4": pack(
+    [
+      ["GIL", "CPU sırası"],
+      ["thread", "I/O bekler"],
+      ["process", "ayrı fırın"],
+      ["manda", "Lock"],
+    ],
+    [
+      "Sayac.artir iki kez 1 ve 2 versin.",
+      "cpu_mu('carpma') process dönsün.",
+      "bilinmez tür ValueError bassın.",
+    ],
+    "py",
+    `from threading import Lock
+
+class Sayac:
+    def __init__(self):
+        self._n = 0
+        self._manda = Lock()
+    def artir(self):
+        with self._manda:
+            self._n += 1
+            return self._n
+
+s = Sayac()
+assert s.artir() == 1
+assert s.artir() == 2`,
   ),
   "python-ileri-5": pack(
     [
-      ["Bearer", "Authorization başlığı"],
-      ["401", "geçersiz token"],
-      ["403", "yetkisiz"],
-      ["sır", ".env — koda gömme"],
+      ["klişe", "metaclass"],
+      ["type", "varsayılan"],
+      ["kapı", "dogrula zorunlu"],
+      ["yasak", "boş kalıp"],
     ],
     [
-      "HTTPBearer bağımlılığı ekle.",
-      "Geçersiz tokenda 401 dön.",
-      "Log’a token yazma.",
+      "KapaliMeta dogrula istesin.",
+      "Kayit örneği id kabul etsin.",
+      "Bozuk sınıf TypeError bassın.",
     ],
     "py",
-    `from fastapi import Depends, HTTPException
-from fastapi.security import HTTPBearer
+    `class KapaliMeta(type):
+    def __new__(mcs, name, bases, ns):
+        if name != "KapaliMeta" and "dogrula" not in ns:
+            raise TypeError("dogrula yok; sınıf açılmaz")
+        return super().__new__(mcs, name, bases, ns)
 
-security = HTTPBearer()
+class Kayit(metaclass=KapaliMeta):
+    def dogrula(self, veri):
+        if "id" not in veri:
+            raise ValueError("id yok")
+        return veri
 
-def require_token(cred=Depends(security)):
-    if cred.credentials != "secret":
-        raise HTTPException(status_code=401, detail="unauthorized")
-    return cred`,
+k = Kayit()
+assert k.dogrula({"id": 7})["id"] == 7`,
   ),
   "python-ileri-6": pack(
     [
-      ["404", "kaynak yok"],
-      ["422", "şema bozuk"],
-      ["500", "beklenmeyen"],
-      ["yasak", "hep 200 + error"],
+      ["çek", "gather"],
+      ["doğrula", "durum 200 + id"],
+      ["akıt", "üreteç"],
+      ["yasak", "yarım rapor"],
     ],
     [
-      "Bulunamayan kayıt için 404 fırlat.",
-      "İstemciye stack trace sızdırma.",
-      "Korelasyon kimliğini logla.",
+      "İki sağlam gişede [10, 20] bekle.",
+      "500 motoru dursun.",
+      "id yoksa mühür yok.",
     ],
     "py",
-    `from fastapi import HTTPException
+    `import asyncio
 
-def get_order(order_id: str):
-    row = repo.find(order_id)
-    if row is None:
-        raise HTTPException(status_code=404, detail="not_found")
-    return row`,
-  ),
-  "python-ileri-7": pack(
-    [
-      ["TestClient", "sözleşme testi"],
-      ["mutlu yol", "200"],
-      ["eksik alan", "422"],
-      ["sürekli entegrasyon", "kırmadan imaj yok"],
-    ],
-    [
-      "TestClient ile /saglik çağır.",
-      "Eksik gövde için 422 bekle.",
-      "Fixture ile app’i paylaş.",
-    ],
-    "py",
-    `from fastapi.testclient import TestClient
+async def cek_sube(sube):
+    await asyncio.sleep(0)
+    if sube.get("durum") != 200:
+        raise ValueError("durum dürüst değil; motor durur")
+    if "id" not in sube:
+        raise ValueError("id yok; motor durur")
+    return sube
 
-client = TestClient(app)
-assert client.get("/saglik").status_code == 200
-assert client.post("/kalemler", json={}).status_code == 422`,
-  ),
-  "python-ileri-8": pack(
-    [
-      ["Dockerfile", "çok aşamalı"],
-      ["ENV", "yapılandırma"],
-      ["healthcheck", "/saglik"],
-      ["yasak", "sır BUILD arg"],
-    ],
-    [
-      "İnce runtime imajı yaz.",
-      "HEALTHCHECK ekle.",
-      ".env’i imaja kopyalama.",
-    ],
-    "dockerfile",
-    `FROM python:3.12-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-COPY app ./app
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]`,
-  ),
-  "python-ileri-9": pack(
-    [
-      ["request_id", "middleware"],
-      ["log", "yapısal ceyson"],
-      ["kişisel gizli veri", "log’a girmez"],
-      ["metrik", "gecikme"],
-    ],
-    [
-      "Her isteğe request_id ekle.",
-      "Hata log’unda e-posta yazma.",
-      "Latency’yi ölç.",
-    ],
-    "py",
-    `import logging, time, uuid
-log = logging.getLogger("api")
+def isle_akim(kayitlar):
+    for kayit in kayitlar:
+        yield kayit["id"] * 10
 
-@app.middleware("http")
-async def add_request_id(request, call_next):
-    rid = str(uuid.uuid4())
-    started = time.perf_counter()
-    response = await call_next(request)
-    log.info({"request_id": rid, "ms": (time.perf_counter() - started) * 1000})
-    response.headers["X-Request-Id"] = rid
-    return response`,
-  ),
-  "python-ileri-10": pack(
-    [
-      ["CRUD iskeleti", "/kalemler"],
-      ["doğrulama", "Pydantic"],
-      ["test", "TestClient yeşil"],
-      ["paket", "Dockerfile + README"],
-    ],
-    [
-      "Korumalı okuma + şemalı yazma birleştir.",
-      "Testleri çalıştır.",
-      "İmaj build et; yalnız main.py gönderme.",
-    ],
-    "py",
-    `# Teslim kontrol listesi
-checks = {
-    "schema": True,
-    "auth": True,
-    "tests": True,
-    "dockerfile": True,
-}
-assert all(checks.values())`,
+async def motor(subeler):
+    ham = await asyncio.gather(*(cek_sube(sube) for sube in subeler))
+    return list(isle_akim(ham))
+
+sonuc = asyncio.run(motor([{"durum": 200, "id": 1}, {"durum": 200, "id": 2}]))
+assert sonuc == [10, 20]`,
   ),
 };

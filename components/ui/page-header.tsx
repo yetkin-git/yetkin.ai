@@ -8,6 +8,7 @@ export function PageHeader({
   actions,
   className,
   compact = false,
+  tight = false,
 }: {
   eyebrow?: string;
   title: string;
@@ -16,27 +17,29 @@ export function PageHeader({
   className?: string;
   /** Anasayfa vb. — tek satırlık karşılama; yükseklik ve padding sade. */
   compact?: boolean;
+  /** Katalog vb. — küçük başlık, altta tek satır açıklama, aksiyonlar başlık hizasında. */
+  tight?: boolean;
 }) {
   return (
     <div
       className={cn(
-        "flex flex-col sm:flex-row sm:items-end sm:justify-between",
-        compact ? "gap-2" : "gap-4",
+        "flex flex-col sm:flex-row sm:justify-between",
+        tight ? "gap-2 sm:items-start" : compact ? "gap-2 sm:items-end" : "gap-4 sm:items-end",
         className,
       )}
     >
-      <div className={cn(compact ? "max-w-3xl" : "max-w-2xl")}>
+      <div className={cn(compact && !tight ? "max-w-3xl" : "max-w-2xl")}>
         {eyebrow ? (
           <p
             className={cn(
               "room-kicker text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--safir-deep)]",
-              compact ? "mb-1" : "mb-2",
+              compact || tight ? "mb-1" : "mb-2",
             )}
           >
             {eyebrow}
           </p>
         ) : null}
-        {compact ? (
+        {compact && !tight ? (
           <h1 className="text-pretty text-xl font-semibold tracking-tight text-[var(--foreground)] sm:text-2xl">
             <span>{title}</span>
             {description ? (
@@ -50,16 +53,32 @@ export function PageHeader({
           </h1>
         ) : (
           <>
-            <h1 className="text-3xl font-semibold tracking-tight text-[var(--foreground)]">{title}</h1>
+            <h1
+              className={cn(
+                "font-semibold tracking-tight text-[var(--foreground)]",
+                tight ? "text-2xl" : "text-3xl",
+              )}
+            >
+              {title}
+            </h1>
             {description ? (
-              <div className="mt-2 max-w-2xl text-pretty text-sm leading-6 text-[var(--muted)]">
+              <div
+                className={cn(
+                  "max-w-2xl text-pretty",
+                  tight
+                    ? "mt-1 text-sm leading-5 text-[var(--muted)]"
+                    : "mt-2 text-base leading-7 text-slate-600",
+                )}
+              >
                 {description}
               </div>
             ) : null}
           </>
         )}
       </div>
-      {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
+      {actions ? (
+        <div className={cn("flex flex-wrap items-center gap-2", tight && "shrink-0")}>{actions}</div>
+      ) : null}
     </div>
   );
 }

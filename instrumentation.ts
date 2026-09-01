@@ -1,6 +1,6 @@
 /**
  * Next.js sunucu örneği ayağa kalkarken bir kez çalışır.
- * Node sürecinde Direct host AAAA sırası; Edge bu dosyayı yüklemez.
+ * Node sürecinde Direct host AAAA sırası; pooler DATABASE_URL ipv4first. Edge bu dosyayı yüklemez.
  * Müze instrumentation kopyası değildir.
  * Üretimde boş Inngest/PayTR sır basmadan fail-closed uyarısı yazar.
  */
@@ -45,6 +45,14 @@ export async function register() {
       level: "info",
       event: "ops.smtp.honest_skip",
       reason: "NOTICE_SMTP_HOST/FROM bos; bes bildirim atlanir; nakit durmaz",
+    });
+  }
+  if (report.examSitting === "unconfigured") {
+    logEvent({
+      level: "warn",
+      event: "ops.exam_sitting.unconfigured",
+      reason: "ACADEMY_EXAM_SITTING_SECRET bos veya kisa; sinav 503, site ayakta",
+      route: "/api/academy/courses/[id]/exam",
     });
   }
 }

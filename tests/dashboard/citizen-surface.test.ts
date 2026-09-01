@@ -35,10 +35,11 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(SEN_VOICE.dashboard.description).toContain("güvenli panelde");
     expect(SEN_VOICE.dashboard.description).not.toContain("yönetilir");
     expect(SEN_VOICE.dashboard.description).not.toContain("split");
-    expect(SEN_VOICE.dashboard.featured).toContain("Öğren");
-    expect(SEN_VOICE.dashboard.featured).toContain("sınav ol");
-    expect(SEN_VOICE.dashboard.featured).toContain("mühürlen");
-    expect(SEN_VOICE.dashboard.featured).toContain("vize al");
+    expect(SEN_VOICE.dashboard.featured).toContain("Kariyer yolculuğuna");
+    expect(SEN_VOICE.dashboard.featured).toContain("Akademi'den");
+    expect(SEN_VOICE.dashboard.featured).toContain("Kariyer odasından");
+    expect(SEN_VOICE.dashboard.featured).not.toContain("Öğren, sınav ol");
+    expect(SEN_VOICE.dashboard.featured).not.toContain("mühürlen, vize al");
     expect(SEN_VOICE.dashboard.featured).not.toContain("kokpit");
     expect(SEN_VOICE.dashboard.featured).not.toContain("sicilde");
     expect(SEN_VOICE.dashboard.featured).not.toContain("Çalışan odalar");
@@ -109,10 +110,10 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(existsSync(join(ROOT, "components/dashboard/wallet-balance-strip.tsx"))).toBe(false);
   });
 
-  it("asistan FAB kokpitte yok; genel kabuk ve kamu/auth sessiz", () => {
+  it("asistan FAB kabukta sağ altta durur; kokpit ve kamu/auth sessiz", () => {
+    expect(readSrc("components/shell/app-shell-switch.tsx")).toContain("AiChatWidget");
     expect(readSrc("app/dashboard/page.tsx")).not.toContain("AiChatWidget");
     expect(readSrc("components/shell/app-shell.tsx")).not.toContain("AiChatWidget");
-    expect(readSrc("components/shell/app-shell-switch.tsx")).not.toContain("assistant");
     expect(readSrc("app/(public)/layout.tsx")).not.toContain("AiChatWidget");
     expect(readSrc("app/(auth)/layout.tsx")).not.toContain("AiChatWidget");
     const widget = readSrc("components/kernel/ai-chat-widget.tsx");

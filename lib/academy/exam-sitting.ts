@@ -1,4 +1,5 @@
 import { createHmac, randomInt, randomUUID, timingSafeEqual } from "node:crypto";
+import { ServiceUnavailableError } from "@/lib/kernel/http/errors";
 import type {
   AcademyExamAnswer,
   AcademyExamPublicQuestion,
@@ -25,15 +26,23 @@ export {
 const ACADEMY_EXAM_SITTING_VERSION = "yetkin-rail.academy.exam-sitting.v1" as const;
 /** Sürüm dizesi MAC anahtarı değildir. Üretimde env; laboratuvarda ayrı sabit. */
 const ACADEMY_EXAM_SITTING_MAC_FALLBACK = "yetkin-rail.academy.exam-sitting.mac.v1" as const;
+export const ACADEMY_EXAM_SITTING_SECRET_MIN_LENGTH = 16 as const;
+export const ACADEMY_EXAM_SITTING_SECRET_MISSING = "Sınav oturumu henüz bağlanmadı." as const;
+
+export function isAcademyExamSittingSecretReady(
+  env: Record<string, string | undefined> = process.env,
+): boolean {
+  return (env.ACADEMY_EXAM_SITTING_SECRET?.trim() ?? "").length >= ACADEMY_EXAM_SITTING_SECRET_MIN_LENGTH;
+}
 
 function sittingMacKey(): string {
   const env = process.env.ACADEMY_EXAM_SITTING_SECRET?.trim() ?? "";
-  if (env.length >= 16) {
+  if (env.length >= ACADEMY_EXAM_SITTING_SECRET_MIN_LENGTH) {
     return env;
   }
   // Vercel `npm run build` NODE_ENV=production iken prebuild Vitest koşar; canlı süreç değildir.
   if (process.env.NODE_ENV === "production" && process.env.VITEST !== "true") {
-    throw new Error("Sınav oturumu sırrı yok.");
+    throw new ServiceUnavailableError(ACADEMY_EXAM_SITTING_SECRET_MISSING);
   }
   return ACADEMY_EXAM_SITTING_MAC_FALLBACK;
 }

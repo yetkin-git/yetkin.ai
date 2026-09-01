@@ -71,12 +71,29 @@ describe("cüzdan defter yüzeyi", () => {
     expect(db).toContain("pool_timeout");
     expect(db).toContain("PRISMA_POOL_MAX_DEVELOPMENT");
     expect(db).toContain("PRISMA_POOL_TIMEOUT_MS_DEVELOPMENT");
+    expect(db).toContain("PRISMA_POOL_MAX_SERVERLESS");
+    expect(db).toContain("normalizeRuntimeDatabaseUrl");
     expect(db).toContain("withDbReadTimeout");
+    expect(db).toContain("withFailEarlyDbRead");
+    expect(db).toContain("isKernelDbPoolBusy");
+    expect(db).toContain("kernelBackgroundReadTimeoutMs");
+    expect(db).toContain("KERNEL_BACKGROUND_READ_TIMEOUT_MS_LONG_RUNNING");
+    expect(db).toContain("withPrismaTransientRetry");
     expect(db).toContain("idleTimeoutMillis");
     expect(db).toContain("preferIpv6ForDirectHost");
     expect(db).toContain("ENOENT");
+    expect(db).toContain("prismaWarmupBudgetMs");
+    expect(db).toContain("prisma.engine.warmup_pending");
+    expect(db).toContain("PRISMA_WARMUP_CIRCUIT_MS");
+    expect(db).toContain("isPrismaWarmupCircuitOpen");
+    expect(db).toContain("isPrismaQueryEngineReady");
+    expect(db).toContain("prisma.engine.runtime_direct_host");
+    expect(db).toContain("Promise<boolean>");
+    expect(db).not.toContain("prisma.warmup.retry");
     const dns = readSrc("lib/kernel/dns-ipv6-first.ts");
     expect(dns).toContain('setDefaultResultOrder("ipv6first")');
+    expect(dns).toContain('setDefaultResultOrder("ipv4first")');
+    expect(dns).toContain("isRuntimePoolerUrl");
   });
 
   it("Prisma 7 istemcisi query compiler'dır; binaryTargets ve SQLite yok", () => {

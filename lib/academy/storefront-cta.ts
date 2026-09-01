@@ -6,6 +6,7 @@
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import type { AcademyCatalogLearnerStatus } from "@/lib/academy/catalog-learner";
 import type { AcademyStorefrontAccess } from "@/lib/academy/enrolment";
+import { stripZeroKurusFromTryLabel } from "@/lib/kernel/money/format";
 
 export type AcademyAntreHeroAction = "buy" | "play" | "exam" | "none";
 
@@ -18,9 +19,27 @@ export type AcademyAntreHeroCta = {
 
 export type AcademyCatalogCardCta = {
   priceLabel: string;
+  /** Satın alınmamış kartta fiyatın altında küçük KDV ipucu; owned'da null. */
+  priceCaption: string | null;
   cta: string;
   href: string;
 };
+
+export function academyStorefrontMoneyLabel(priceLabel: string | null | undefined): string | null {
+  const trimmed = priceLabel?.trim() ?? "";
+  if (!trimmed || trimmed === ACADEMY_SEN.course.accessOpen) {
+    return null;
+  }
+  return trimmed;
+}
+
+export function academyStorefrontVatLabel(priceLabel: string | null | undefined): string {
+  const money = academyStorefrontMoneyLabel(priceLabel);
+  if (!money) {
+    return ACADEMY_SEN.catalog.priceMissing;
+  }
+  return ACADEMY_SEN.catalog.priceVatInclusive(money);
+}
 
 export function resolveAcademyAntreHeroCta(input: {
   access: AcademyStorefrontAccess;
@@ -66,19 +85,19 @@ export function resolveAcademyAntreHeroCta(input: {
   }
 
   if (!input.purchasable) {
+    const money = academyStorefrontMoneyLabel(input.priceLabel);
     return {
-      priceLabel: input.priceLabel ?? copy.course.noPrice,
+      priceLabel: money ? copy.catalog.priceVatInclusive(money) : copy.course.noPrice,
       primaryLabel: null,
       primaryHref: null,
       action: "none",
     };
   }
 
+  const money = academyStorefrontMoneyLabel(input.priceLabel);
   return {
-    priceLabel: input.priceLabel ?? copy.course.noPrice,
-    primaryLabel: input.priceLabel
-      ? copy.course.heroBuyCta(input.priceLabel)
-      : copy.course.heroBuyCtaIdle,
+    priceLabel: money ? copy.catalog.priceVatInclusive(money) : copy.course.noPrice,
+    primaryLabel: money ? copy.course.heroBuyCta(money) : copy.course.heroBuyCtaIdle,
     primaryHref: buyHref,
     action: "buy",
   };
@@ -95,15 +114,17 @@ export function resolveAcademyCatalogCardCta(input: {
     const started = input.learnerStatus === "continue";
     return {
       priceLabel: copy.course.accessOpen,
+      priceCaption: null,
       cta: started ? copy.catalog.statusContinue : copy.player.openCta,
       href: `/academy/${input.slug}/oyna`,
     };
   }
+  const money = academyStorefrontMoneyLabel(input.priceLabel);
+  const display = money ? stripZeroKurusFromTryLabel(money) : null;
   return {
-    priceLabel: input.priceLabel ?? copy.catalog.priceMissing,
-    cta: input.priceLabel
-      ? copy.catalog.cardCtaBuyPriced(input.priceLabel)
-      : copy.catalog.cardCtaBuy,
+    priceLabel: display ?? copy.catalog.priceMissing,
+    priceCaption: display ? copy.catalog.vatInclusiveHint : null,
+    cta: copy.catalog.cardCtaBuy,
     href: `/academy/${input.slug}`,
   };
 }

@@ -26,13 +26,13 @@ export const ACADEMY_CARD_OFFER_PATHS: readonly AcademyCardOfferPath[] = [
     path: "training",
     cta: "Eğitimi Satın Al & Öğren",
     summary:
-      "Ders materyalleri, kod laboratuvarı ve uygulamalı içerik. Belge sınav barajından (70+) sonra basılır.",
+      "Video, doküman ve uygulamalı dersler. Sertifika test barajından (70+) sonra basılır.",
   },
   {
     path: "exam",
-    cta: "Doğrudan Sınava Gir & Vize Al",
+    cta: "Doğrudan teste gir ve yetkinlik kazan",
     summary:
-      "Eğitimsiz yol: yalnız 70+ barajlı mühür testi. Ders gövdesi açılmaz; belge ve kariyer vizesi sınav sonucuna bağlıdır.",
+      "Dersleri atla; yalnız 70+ barajlı test. Belge ve Kariyer yetkinliği test sonucuna bağlıdır.",
   },
 ] as const;
 

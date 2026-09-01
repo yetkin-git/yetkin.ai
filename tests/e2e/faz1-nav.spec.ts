@@ -23,11 +23,20 @@ test.describe("Faz 1 kamu navigasyonu", () => {
     await expect(page.getByText("YetkinX")).toHaveCount(0);
   });
 
-  test("kamu /career vize-ilan tabelasını oturumsuz basar", async ({ page }) => {
+  test("kamu /career vize defterini oturumsuz basar", async ({ page }) => {
     const career = await page.goto("/career");
     expect(career?.status()).toBeLessThan(400);
-    await expect(page.getByRole("heading", { name: "Vize ve Geçiş Defteri" })).toBeVisible();
-    await expect(page.getByText("Bu vize hangi ilanları açar?")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Kariyer", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Vize ve geçiş defteri" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Vize-ilan tabelası" })).toBeVisible();
+    await expect(page.getByText("Kariyer sayfasını görmek için giriş yap.")).toBeVisible();
+    await expect(
+      page.getByText(
+        "Henüz bir vizen yok. Akademi'de bir eğitimi tamamla veya Freelancer'da bir iş teslim et — mühür burada görünür.",
+      ),
+    ).toBeVisible();
+    await expect(page.getByText("Yetenek Radarı")).toHaveCount(0);
+    await expect(page.getByText("SWOT")).toHaveCount(0);
     await expect(page.getByRole("link", { name: "Sertifika doğrula" })).toBeVisible();
   });
 });

@@ -9,6 +9,9 @@ import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { getSession } from "@/lib/kernel/auth/session";
 import { loadIdentityBoard } from "@/lib/kernel/identity/load";
 
+/** RSC nabız+kimlik; Hobby 10s tavanı bağlar. */
+export const maxDuration = 15;
+
 export default async function DashboardPage() {
   const copy = SEN_VOICE.dashboard;
   const session = await getSession();

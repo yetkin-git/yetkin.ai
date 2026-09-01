@@ -87,6 +87,7 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
   const [message, setMessage] = useState<string | null>(null);
   const [copyNotice, setCopyNotice] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [ageConfirmed, setAgeConfirmed] = useState(false);
 
   async function announceCopy(value: string) {
     const copied = await copyTextToClipboard(value);
@@ -115,6 +116,11 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
     setError(null);
     setMessage(null);
     try {
+      if (!ageConfirmed) {
+        setError(copy.ageRequired);
+        return;
+      }
+
       const metadata = buildSignupAuthMetadata(fullName);
       if (!metadata) {
         setError(copy.fullNameInvalid);
@@ -161,7 +167,7 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
 
   return (
     <form onSubmit={onSubmit} className="space-y-3">
-      <label className="block text-sm" htmlFor="register-full-name">
+      <label className="block text-sm font-medium" htmlFor="register-full-name">
         {copy.fullName}
         <Input
           id="register-full-name"
@@ -174,7 +180,7 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
           maxLength={DISPLAY_NAME_MAX_LENGTH}
         />
       </label>
-      <label className="block text-sm" htmlFor="register-email">
+      <label className="block text-sm font-medium" htmlFor="register-email">
         {copy.email}
         <Input
           id="register-email"
@@ -187,7 +193,7 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
         />
       </label>
       <div>
-        <label className="block text-sm" htmlFor="register-password">
+        <label className="block text-sm font-medium" htmlFor="register-password">
           {copy.password}
         </label>
         <PasswordInput
@@ -216,9 +222,21 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
             {copyNotice}
           </p>
         ) : (
-          <p className="mt-1 text-xs text-[var(--muted)]">{copy.passwordHint(CITIZEN_PASSWORD_MIN_LENGTH)}</p>
+          <p className="mt-1 text-xs text-slate-600">{copy.passwordHint(CITIZEN_PASSWORD_MIN_LENGTH)}</p>
         )}
       </div>
+      <label className="flex cursor-pointer items-start gap-2 text-sm font-medium" htmlFor="register-age-confirm">
+        <input
+          id="register-age-confirm"
+          type="checkbox"
+          name="ageConfirm"
+          className="mt-1 accent-[var(--safir)]"
+          checked={ageConfirmed}
+          onChange={(event) => setAgeConfirmed(event.target.checked)}
+          required
+        />
+        <span>{copy.ageConfirm}</span>
+      </label>
       {error ? (
         <div
           role="alert"

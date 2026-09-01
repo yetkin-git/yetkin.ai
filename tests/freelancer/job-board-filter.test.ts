@@ -6,7 +6,7 @@ import {
   parseBudgetMajorToMinor,
   type JobBoardFilterable,
 } from "@/lib/freelancer/job-board-filter";
-import { ACADEMY_PATHWAY_IDS } from "@/lib/kernel/catalog-ids";
+import { FREELANCER_NEED_IDS } from "@/lib/kernel/catalog-ids";
 import {
   JOB_BOARD_DEFAULT_VIEW,
   parseJobBoardViewMode,
@@ -37,9 +37,9 @@ const SAMPLE: JobBoardFilterable[] = [
 ];
 
 describe("freelancer job board filter / view", () => {
-  it("vize seçenekleri ACADEMY_PATHWAY_IDS SSOT ile hizalıdır", () => {
+  it("vize seçenekleri ihtiyaç listesi SSOT ile hizalıdır", () => {
     expect(JOB_BOARD_VISA_PATHWAY_OPTIONS.map((o) => o.id).sort()).toEqual(
-      [...ACADEMY_PATHWAY_IDS].sort(),
+      [...FREELANCER_NEED_IDS].sort(),
     );
   });
 
@@ -55,14 +55,14 @@ describe("freelancer job board filter / view", () => {
   it("visaPathwayId süzgeci dürüst eşleşir; sahte sonuç üretmez", () => {
     const found = filterAndSortJobs(SAMPLE, {
       ...JOB_BOARD_DEFAULT_FILTERS,
-      visaPathwayId: "fullstack-web-api",
+      visaPathwayId: "web-sitesi-yazilim",
     });
     expect(found).toHaveLength(1);
     expect(found[0]?.visaPathwayId).toBe("fullstack-web-api");
 
     const empty = filterAndSortJobs(SAMPLE, {
       ...JOB_BOARD_DEFAULT_FILTERS,
-      visaPathwayId: "siber-guvenlik-pentest",
+      visaPathwayId: "siber-guvenlik-sunucu-test",
     });
     expect(empty).toEqual([]);
   });

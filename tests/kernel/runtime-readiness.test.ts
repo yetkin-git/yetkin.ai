@@ -160,7 +160,7 @@ describe("üretim runtime readiness (Inngest / PayTR)", () => {
 });
 
 describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
-  it("OPS-1: Direct :5432 session-mode geçer; :6543 ve pooler yasak", () => {
+  it("OPS-1: Direct :5432 session-mode geçer; runtime DATABASE_URL pooler :6543 serbest", () => {
     const ok = inspectPostgresOps({
       DATABASE_URL: "postgresql://postgres:x@db.abcdefgh.supabase.co:5432/postgres",
       DIRECT_URL: "postgresql://postgres:x@db.abcdefgh.supabase.co:5432/postgres",
@@ -172,11 +172,21 @@ describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
     expect(ok.direct.okForDirectProtocol).toBe(true);
 
     const pooler = inspectPostgresOps({
-      DATABASE_URL: "postgresql://postgres:x@aws-0-eu-central-1.pooler.supabase.com:6543/postgres",
+      DATABASE_URL:
+        "postgresql://postgres.abcdefgh:x@aws-0-eu-central-1.pooler.supabase.com:6543/postgres",
     });
-    expect(pooler.database.hostClass).toBe("forbidden-pooler");
-    expect(pooler.database.transactionModeForbidden).toBe(true);
+    expect(pooler.database.hostClass).toBe("supabase-pooler");
+    expect(pooler.database.transactionModeForbidden).toBe(false);
     expect(pooler.database.sessionMode).toBe(false);
+    expect(pooler.database.okForRuntime).toBe(true);
+    expect(pooler.database.port).toBe(6543);
+
+    const directPooler = inspectPostgresOps({
+      DIRECT_URL:
+        "postgresql://postgres.abcdefgh:x@aws-0-eu-central-1.pooler.supabase.com:6543/postgres",
+    });
+    expect(directPooler.direct.hostClass).toBe("forbidden-pooler");
+    expect(directPooler.direct.transactionModeForbidden).toBe(true);
   });
 
   it("OPS-2: PayTR üçlü ve iFrame kök sınıfı; sır basılmaz", () => {
@@ -224,11 +234,34 @@ describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
     expect(empty.inngestServeFailClosed).toBe(true);
   });
 
-  it("üretimde pooler/sandbox ek bloğu basar; geliştirmede çıkış 0", () => {
+  it("üretimde DIRECT_URL pooler / Vercel Direct DATABASE_URL ek bloğu basar; runtime pooler geçerlidir", () => {
+    expect(
+      extraProductionBlocks({
+        NODE_ENV: "production",
+        DATABASE_URL:
+          "postgresql://postgres.abcdefgh:x@aws-0-eu-central-1.pooler.supabase.com:6543/postgres",
+      }),
+    ).toEqual([]);
+
     expect(
       extraProductionBlocks({
         NODE_ENV: "production",
         DATABASE_URL: "postgresql://postgres:x@aws-0.pooler.supabase.com:6543/postgres",
+      }).some((row) => row.includes("postgres.<project-ref>")),
+    ).toBe(true);
+
+    expect(
+      extraProductionBlocks({
+        NODE_ENV: "production",
+        DIRECT_URL: "postgresql://postgres:x@aws-0.pooler.supabase.com:6543/postgres",
+      }).some((row) => row.includes("6543")),
+    ).toBe(true);
+
+    expect(
+      extraProductionBlocks({
+        NODE_ENV: "production",
+        VERCEL: "1",
+        DATABASE_URL: "postgresql://postgres:x@db.abcdefgh.supabase.co:5432/postgres",
       }).some((row) => row.includes("6543")),
     ).toBe(true);
 

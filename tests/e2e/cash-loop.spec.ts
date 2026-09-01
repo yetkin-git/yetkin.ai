@@ -76,7 +76,19 @@ test.describe("T4 nakit döngüsü — kayıt → yükleme → emanet → vize",
 
     const idempotencyKey = crypto.randomUUID();
     const topUp = await request.post("/api/wallet/top-up", {
-      data: { amountMinor: 10_000 },
+      data: {
+        amountMinor: 10_000,
+        distanceContractAccepted: true,
+        digitalImmediatePerformanceAccepted: true,
+        consentVersion: "2026-08-31",
+        billing: {
+          invoiceType: "individual",
+          fullName: "Ayşe Kaya",
+          tckn: "10000000078",
+          phone: "05321234567",
+          address: "İnönü Mah. 157 Sk. No:3/C Akhisar",
+        },
+      },
       headers: {
         Authorization: `Bearer ${clientToken}`,
         "Idempotency-Key": idempotencyKey,

@@ -38,7 +38,7 @@ describe("dinamik ekmek kırıntısı", () => {
 
   it("akademi kurs slug'ını tohum başlığına çözer; müfredat dördüncü kırıntıdır", () => {
     expect(ACADEMY_COURSE_TITLES["python-temel"]).toBe(
-      "Python ile Sıfırdan Programlama ve Problem Çözme",
+      "Python ile Programlama ve Problem Çözme",
     );
     for (const seed of ACADEMY_COURSE_SEEDS) {
       expect(academyCourseTitleBySlug(seed.slug)).toBe(seed.title);
@@ -52,7 +52,7 @@ describe("dinamik ekmek kırıntısı", () => {
     expect(labels("/academy/python-temel/oyna")).toEqual([
       "Anasayfa",
       "Akademi",
-      "Python ile Sıfırdan Programlama ve Problem Çözme",
+      "Python ile Programlama ve Problem Çözme",
       "Müfredat",
     ]);
     expect(labels("/academy/certificates")).toEqual(["Anasayfa", "Akademi", "Sertifikalar"]);

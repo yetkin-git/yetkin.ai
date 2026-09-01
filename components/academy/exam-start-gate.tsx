@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { ExamPanel } from "@/components/academy/exam-panel";
 import { IconClose } from "@/components/ui/icons";
 import type { AcademyExamPublicQuestion } from "@/lib/academy/types";
-import type { AcademyPathwayMasteryView } from "@/lib/academy/level-pathway";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { parseRailClientJson } from "@/lib/ui/parse-rail-json";
 import { withRailSession } from "@/lib/ui/rail-session-client-fetch";
@@ -34,10 +33,8 @@ export function ExamStartGate({
   durationMs,
   holderName,
   instructorName,
-  curriculumProofHash,
   nextCourseTitle,
   nextCourseHref,
-  pathwayMastery,
 }: {
   courseId: string;
   courseTitle?: string;
@@ -46,10 +43,8 @@ export function ExamStartGate({
   durationMs: number;
   holderName?: string;
   instructorName?: string;
-  curriculumProofHash?: string | null;
   nextCourseTitle?: string | null;
   nextCourseHref?: string | null;
-  pathwayMastery?: AcademyPathwayMasteryView | null;
 }) {
   const copy = ACADEMY_SEN.exam;
   const titleId = useId();
@@ -138,7 +133,7 @@ export function ExamStartGate({
           className="mx-auto max-w-3xl space-y-3"
         >
           <div className="flex items-start justify-between gap-3">
-            <p className="pt-1 text-xs text-[var(--muted)]">{copy.abandonLead}</p>
+            <p className="pt-1 text-xs text-slate-600">{copy.abandonLead}</p>
             <Button
               type="button"
               variant="outline"
@@ -166,10 +161,8 @@ export function ExamStartGate({
             proofLessonKey={sitting.proofLessonKey}
             holderName={holderName}
             instructorName={instructorName}
-            curriculumProofHash={curriculumProofHash}
             nextCourseTitle={nextCourseTitle}
             nextCourseHref={nextCourseHref}
-            pathwayMastery={pathwayMastery}
             onAbandon={abandonSitting}
           />
         </div>
@@ -182,7 +175,7 @@ export function ExamStartGate({
       <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--safir-deep)]">
         {copy.chamberEyebrow}
       </p>
-      <p className="text-sm text-[var(--muted)]">{copy.startLead(minutes, passScore)}</p>
+      <p className="text-base text-slate-600">{copy.startLead(minutes, passScore)}</p>
       <Button type="button" onClick={() => void onStart()} disabled={pending} size="lg" className="min-h-11">
         {pending ? copy.starting : copy.startCta(minutes, passScore)}
       </Button>

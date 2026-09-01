@@ -104,6 +104,9 @@ describe("vatandaş kimlik UX yüzeyi", () => {
     expect(form).toContain("buildSignupAuthMetadata");
     expect(form).toContain("readPostLoginPathFromSearch");
     expect(form).toContain("window.location.assign(");
+    expect(form).toContain("ageConfirmed");
+    expect(form).toContain("register-age-confirm");
+    expect(copy).toContain("18 yaşından büyüğüm");
     expect(form).not.toContain("router.push");
     expect(page).toContain("RegisterForm");
     expect(page).toContain("searchParams");

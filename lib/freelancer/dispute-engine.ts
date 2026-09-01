@@ -1,3 +1,9 @@
+/**
+ * İtiraz mimarisi: iki turlu iddia/cevap + AI Sonuç Analiz Raporu.
+ * Rapor tavsiye niteliğindedir; platform yönetimi karar mercii değildir.
+ * Taraflar onaylarsa ödeme dağılır. Çözülemezse tutar kilitli kalır; resmi yasal yollar açıktır.
+ * HUMAN_REVIEW teknik kilit durumudur (rapor sonrası / LLM düşüşü) — vatandaş dilinde yasal başvuru açıktır.
+ */
 import { randomUUID } from "node:crypto";
 import { invokeLlm } from "@/lib/kernel/ai/llm-gateway";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";

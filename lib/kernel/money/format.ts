@@ -29,6 +29,35 @@ export function formatMinor(
 }
 
 /**
+ * Vitrin tutarı — tamsayı majörde kesir hanesini gizler (₺1.590,00 → ₺1.590).
+ * Kuruşlu tutar olduğu gibi durur (₺1.590,50). Defter/fiş `formatMinor` kullanır.
+ */
+export function formatMinorCompact(
+  amountMinor: AmountMinor | number,
+  currencyCode: CurrencyCode,
+): string {
+  const full = formatMinor(amountMinor, currencyCode);
+  const config = getCurrencyConfig(currencyCode);
+  const signed = toSignedAmountMinor(Math.trunc(amountMinor));
+  const remainingMinor = Math.abs(signed) % config.minorUnitsPerMajor;
+  if (remainingMinor !== 0) {
+    return full;
+  }
+  const decimal = currencyCode === "TRY" ? "," : ".";
+  const exponent = Math.max(0, String(config.minorUnitsPerMajor - 1).length);
+  const suffix = `${decimal}${"0".repeat(exponent)}`;
+  if (full.endsWith(suffix)) {
+    return full.slice(0, -suffix.length);
+  }
+  return full;
+}
+
+/** TRY vitrin etiketi — tamsayı lirada `,00` kuruş hanesini düşürür. */
+export function stripZeroKurusFromTryLabel(label: string): string {
+  return label.replace(/,00(?!\d)/gu, "");
+}
+
+/**
  * UI major girdisi → minor. Sınır katmanı; ledger bu fonksiyonu çağırmaz.
  * Ondalık ayırıcı virgül veya nokta olabilir; sonuç tam sayıdır.
  */

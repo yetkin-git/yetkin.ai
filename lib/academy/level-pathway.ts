@@ -18,6 +18,7 @@ import {
   ACADEMY_PATHWAY_TITLES,
   type AcademyPathwayId,
 } from "@/lib/kernel/catalog-ids";
+import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { SETTLEMENT_CURRENCY, type CurrencyCode } from "@/lib/kernel/money/currency";
 
@@ -43,61 +44,27 @@ export type AcademyPathwayDefinition = {
 
 const ACADEMY_PATHWAY_SUMMARIES = {
   "python-yazilim-veri":
-    "Piyasa dikeyi: sıfırdan Python → Pandas ve Yapılandırılmış Sorgu Dili veri boru hattı → FastAPI, doğrulama, Docker ve eşzamansız bekleyiş.",
+    "Piyasa dikeyi: sıfırdan Python → nesne yönelimi, JSON ve Uygulama Programlama Arayüzü boru hattı → decorator, üreteç, asyncio, süreç seçimi ve metaclass motoru.",
+  "ai-agent-mimarligi":
+    "Piyasa dikeyi: Büyük Dil Modeli ile ajan farkı → RAG, vektör sorgu ve araştırmacı+yazar pası → durum grafiği, yansıma onarımı, korkuluk, eval ve üretim kuyruğu.",
   "yz-muhendislik-agent":
-    "Piyasa dikeyi: prompt & structured output → RAG/vektör DB → otonom agent ve multi-agent sistemler.",
+    "Piyasa dikeyi: prompt ve yapılandırılmış çıktı. Tekil Temel SKU; Orta / İleri halkası yayınlanmadı.",
   "fullstack-web-api":
-    "Piyasa dikeyi: modern web mimarisi → React & Node.js full-stack → Node/Express/PostgreSQL prod REST API.",
-  "veri-bilimi-ml-dl":
-    "Piyasa dikeyi: NumPy/Pandas EDA → Scikit-Learn ML ve metrikler → PyTorch sinir ağları ve model yaygınlaştırma.",
-  "bulut-devops-guvenlik":
-    "Piyasa dikeyi: bulut ve Linux temelleri → konteyner, Sürekli Entegrasyon ve Sürekli Teslimat → Geliştirme-Güvenlik-İşletme, bilgi güvenliği ve Kişisel Verilerin Korunması Kanunu uyumlu mimari.",
-  "mobil-flutter-crossplatform":
-    "Piyasa dikeyi: Dart ve bileşen temelleri → durum yönetimi, Temsili Durum Transferi ve yerel veri → yerel platform köprüsü, Sürekli Entegrasyon ve Sürekli Teslimat ile mağaza dağıtımı.",
+    "Piyasa dikeyi: HTML/CSS/JS/TS temelleri → React, Express, Prisma ve JWT orta yığın → App Router, mikroservis, Redis, Docker ve CI/CD üretim mimarisi.",
   "siber-guvenlik-pentest":
     "Piyasa dikeyi: ağ/Linux/keşif temelleri → OWASP web zafiyet analizi → tersine mühendislik, exploit disiplini ve ağ sızma simülasyonu.",
-  "veritabani-buyuk-veri":
-    "Piyasa dikeyi: ilişkisel Yapılandırılmış Sorgu Dili / modelleme → PostgreSQL performans ve sorgu ayarı → Redis, MongoDB, Apache Kafka ile olay güdümlü büyük veri.",
-  "yazilim-mimarisi-ddd":
-    "Piyasa dikeyi: OOP/SOLID/Clean Code → GoF kalıpları ve OO mimari → microservices, DDD ve event-driven sistemler.",
-  "teknik-urun-yonetimi-agile":
-    "Piyasa dikeyi: gereksinim toplama / kullanıcı hikayesi → çevik çerçeveler, Scrum / Kanban ve JIRA iş takip panosu → ürün analitiği, Hedefler ve Anahtar Sonuçlar / Temel Performans Göstergeleri ve ikili karşılaştırma testi.",
   "uiux-tasarim-sistemleri":
-    "Piyasa dikeyi: Kullanıcı Deneyimi araştırması ve tel çerçeve → Tasarım Sistemi ve prototip → Figma’dan React / Tailwind el teslimi ve kullanılabilirlik testi.",
-  "web3-blokzincir-solidity":
-    "Piyasa dikeyi: blokzincir / kriptografi ve Solidity → Ethereum Yorum Talebi Standartları ve sözleşme güvenliği → Dağıtık Uygulama, Ethers.js / Web3.js ve Centralize Olmayan Finans / Merkeziyetsiz Finans mimarileri.",
+    "Piyasa dikeyi: Kullanıcı Deneyimi araştırması ve tel çerçeve. Tekil Temel SKU.",
   "is-uretkenligi-veri":
-    "Piyasa dikeyi: ileri Excel analiz → Power BI gösterge panosu ve Veri Çözümleme İfadeleri → Google E-Tablolar / Uygulama Senaryosu otomasyon.",
+    "Piyasa dikeyi: Excel ve yapay zekâ destekli veri analizi Masterclass.",
   "dijital-pazarlama":
-    "Piyasa dikeyi: Meta Ads performans → Google Ads arama/display → SEO, içerik ve growth döngüleri.",
+    "Piyasa dikeyi: Google Ads ve Meta Ads Masterclass (katalog komşuları; pedagoji seviyesi değildir).",
   "icerik-e-ticaret":
-    "Piyasa dikeyi: YouTube kanal büyümesi → kısa dikey video prodüksiyon → e-ticaret, doğrudan sevkiyat ve birim ekonomi.",
-  "kisisel-gelisim":
-    "Piyasa dikeyi: ikna ve sunum → duygusal zekâ ve liderlik iletişimi → etik NLP ve zaman yönetimi sistemleri.",
-  "bulut-mimarisi":
-    "Piyasa dikeyi: hesap ve fatura disiplini → yük dengeleyici, ölçek, yönetilen kasa ve sunucusuz mantık → Kubernetes, Kod Olarak Altyapı / Terraform ve GitOps üretim bandı.",
-  "veri-muhendisligi":
-    "Piyasa dikeyi: Ayıkla-Dönüştür-Yükle / Ayıkla-Yükle-Dönüştür, Veri Gölü, Veri Ambarı, boyut modelleme ve Veri Dönüştürme Aracı → Hava Akışı orkestrasyonu, veri kalitesi ve Hizmet Seviyesi Anlaşması → Madalya mimarisi, Kıvılcım Veri İşleme Motoru ve soğuk depo maliyeti.",
-  "kalite-muhendisligi":
-    "Piyasa dikeyi: damga, terazi, reçete ve tutanak → robotik uçtan uca, kararsız test yasağı ve kırmızı kalite kapısı → sözleşme testi, baraj basıncı ve yüzde doksan beş bütçe.",
-  "kurumsal-java":
-    "Piyasa dikeyi: Java Sanal Makinesi, Nesne Yönelimli Programlama ve derleme damgası → Spring Boot kapısı, Temsili Durum Transferi ve şema dışı paket yasağı → Outbox, sır kasası ve merkezi izleme kulesi.",
-  "capraz-mobil":
-    "Piyasa dikeyi: çapraz platform pasaportu, vitrin dizilimi ve kaydırma bandı → çevrimdışı emanet kasası, sahte yeşil yasağı ve şifreli yerel depo → yerel köprü tercümanı, mağaza onay gişesi ve red metni tutanağı.",
-  "oyun-gelistirme":
-    "Piyasa dikeyi: tiyatro sahnesi, kukla ipleri ve tek sahneli oynanır prototip → jeton otomatı, montaj hattı ve paketleme kutusu → canlı dekor değişimi, dürüst bilet gişesi ve kumar yasağı tutanağı.",
-  "mlops-llmops":
-    "Piyasa dikeyi: fırın parti defteri, reçete kağıdı ve Model Sicili damgası — Yapay Zekâ yüz üç mezununa üretim takibi köprüsü; Orta / İleri halkaları henüz tohumlanmamıştır.",
-  "sistem-tasarimi-olcek":
-    "Piyasa dikeyi: kavşak lambası, büfe vitrini ve mahalle PTT şubesi — Mimari yüz üç ve Full-Stack yüz üç mezununa ölçek laboratuvarı köprüsü; Orta / İleri halkaları henüz tohumlanmamıştır.",
+    "Piyasa dikeyi: e-ticaret ve pazar yeri yönetimi Masterclass.",
   "pratik-beceriler-vatandas":
-    "Vatandaş menüsü — vitrin: şablon, çekmece, vesikalık ölçü ve bakkal panosu. İsimlik veya plan şart değildir.",
+    "Vatandaş menüsü — Canva Masterclass.",
   "pratik-linkedin-vatandas":
-    "Vatandaş menüsü — isimlik: kapı tabelası, vesikalık, bakkal camı ve ev tanıtımı. İş vaadi yoktur.",
-  "pratik-cad-vatandas":
-    "Vatandaş menüsü — plan: kuşbakışı ev haritası, çekmece, bakkal işaretleri ve matbaa kopya. Meslek diploması yoktur.",
-  "pratik-asistan-vatandas":
-    "Vatandaş menüsü — yazıcı komşu: komşu gibi sor, vesikalık sırrı caddeye asma, matbaa prova oku — tarif mühendisliği değildir.",
+    "Vatandaş menüsü — LinkedIn Masterclass. İş vaadi yoktur.",
 } as const satisfies Record<AcademyPathwayId, string>;
 
 export const ACADEMY_LEVEL_PATHWAYS: readonly AcademyPathwayDefinition[] = ACADEMY_PATHWAY_IDS.map(
@@ -335,9 +302,13 @@ export function buildAcademyPathwayCatalog(input: {
           purchasable: course?.purchasable ?? false,
           lessonCount: curriculumLessonCountForSlug(slug),
           priceLabel:
-            typeof priceMinor === "number" && priceMinor > 0
-              ? formatMinor(priceMinor, (currency as CurrencyCode) ?? SETTLEMENT_CURRENCY)
-              : null,
+            owned
+              ? ACADEMY_SEN.course.accessOpen
+              : typeof priceMinor === "number" && priceMinor > 0
+                ? ACADEMY_SEN.catalog.priceVatInclusive(
+                    formatMinor(priceMinor, (currency as CurrencyCode) ?? SETTLEMENT_CURRENCY),
+                  )
+                : null,
           owned,
         } satisfies AcademyPathwayRingView,
       ];

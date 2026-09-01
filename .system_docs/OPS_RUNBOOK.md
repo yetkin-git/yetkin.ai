@@ -14,9 +14,10 @@ Müze dizini (`yetkin_muze/`) OPS yasağıdır (tarihsel etiket S9-B Anayasa mad
 
 | Anahtar | Zorunluluk | Not |
 |---------|------------|-----|
-| `DATABASE_URL` | runtime | Postgres **session-mode** (port 5432 veya session pooler). Transaction-mode `:6543` yasak. |
-| `DIRECT_URL` | `ops:migrate` | `db.<ref>.supabase.co:5432`. Host `pooler.supabase.com` yasak. |
+| `DATABASE_URL` | runtime | Vercel: Supabase **transaction pooler** `:6543` (`postgres.<ref>@aws-0-<bölge>.pooler.supabase.com`). Session pooler `:5432` aynı hostta yedek. Direct `:5432` Vercel'de yasak (IPv6 / bağlantı tavanı). |
+| `DIRECT_URL` | `ops:migrate` | `db.<ref>.supabase.co:5432`. Host `pooler.supabase.com` ve port **6543** migrasyonda yasak. |
 | `NEXT_PUBLIC_APP_URL` | auth yön | Redirect URLs kökeni. |
+| `SITE_MAINTENANCE_FREEZE` | isteğe bağlı | `"true"` / `"1"` = ürün 503. `/legal`, `/iletisim`, robots, sitemap ve health geçer. Müze `MAINTENANCE_MODE` değildir. `NODE_ENV=development` ve localhost yok sayılır. **Canlı / PayTR: boş.** Acil bakım hariç üretimde `true` yazılmaz. Yerelde boş. |
 | `NEXT_PUBLIC_SUPABASE_URL` | auth | Boşsa giriş/kayıt dürüst kapalı. |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | auth | `anon` / `publishable`. `service_role` yazılmaz. |
 | `SUPABASE_JWT_SECRET` | kenar HS256 yedek | Boşsa ES256 JWKS ile doğrulanır; HS256 token fail-closed düşer. |
@@ -44,7 +45,7 @@ npm run ops:migrate
 (`ops:init` aynı betik.)
 
 1. `DIRECT_URL` (yoksa `DATABASE_URL`) okunur. Tanımsızsa fail: `.system_docs/OPS_RUNBOOK.md`.
-2. Host **`db.<ref>.supabase.co:5432`**. `pooler.supabase.com` ve port **6543** migrasyonda YASAK (`FOR UPDATE` / `$transaction` kilidi düşer). Biçim ve TCP ön kontrolü §2.1.
+2. Host **`db.<ref>.supabase.co:5432`**. `pooler.supabase.com` ve port **6543** **migrasyonda** YASAK. Prisma `$transaction` + `FOR UPDATE` runtime'da adapter'ın pinlediği bağlantıda çalışır; DDL/migrate session ister. Biçim ve TCP ön kontrolü §2.1.
 3. `prisma migrate deploy` — şema + `http_idempotency_records` + D2 halkası (`20260816020000_academy_lesson_completions`, `20260816030000_d2_2_curriculum_seal_certificate_hash`, `20260816040000_d2_3_corporate_job_offers`) + P3 donmuş oda DROP (`20260822010000_drop_frozen_room_tables`). Disk klasörleri yoksa fail-closed.
 4. Yedi SQL, kilitli sıra (yeni tablo icat edilmez; idempotent upsert):
 
@@ -58,22 +59,22 @@ npm run ops:migrate
 
 5. Post-apply mühür yoksa fail-closed: donmuş 23 tablo DROP (Studio `data_base64` CHECK **artık beklenmez** — tablo düşmüştür), `http_idempotency_records` unique `(user_id, route, key)`, D2.1 `academy_lesson_completions`, D2.2 `curriculum_seal` + `certificate_hash`, D2.3 `corporate_job_offers`. Bucket SQL / Studio CORS bu zincirin parçası değildir.
 
-Uygulama `DATABASE_URL` **session-mode** ister. Runtime da 6543 yasaktır.
+Uygulama `DATABASE_URL` Vercel'de **transaction pooler `:6543`** ister. `DIRECT_URL` Direct `:5432` kalır.
 
-### 2.1 Direct Port (`:5432`) — operatör sıfır-hata protokolü
+### 2.1 Direct Port (`:5432`) — operatör sıfır-hata protokolü (yalnız migrate)
 
-Kod metni (`DIRECT_PORT_OPERATOR_PROTOCOL`): Direct Port protokolü fail-closed: `db.<ref>.supabase.co:5432`. Havuz `pooler.supabase.com` ve port 6543 ile geçilmez (P1001 yeşil boyanmaz). Direct host çoğu projede yalnız AAAA (IPv6) yayınlar. Operatör makinesinde IPv6 varsayılan rota yoksa `getaddrinfo ENOENT` / `P1001` durur. Yol A: Supabase IPv4 add-on (Direct host A kaydı). Yol B: makinede IPv6 bağını ve `::/0` rotasını aç; `Test-NetConnection db.<ref>.supabase.co -Port 5432`. Yol C yasak: `DATABASE_URL` veya `DIRECT_URL` = `*.pooler.supabase.com:6543`.
+Kod metni (`DIRECT_PORT_OPERATOR_PROTOCOL`): Direct Port protokolü fail-closed: `db.<ref>.supabase.co:5432`. Havuz `pooler.supabase.com` ve port 6543 migrasyonda geçilmez (P1001 yeşil boyanmaz). Direct host çoğu projede yalnız AAAA (IPv6) yayınlar. Operatör makinesinde IPv6 varsayılan rota yoksa `getaddrinfo ENOENT` / `P1001` durur. Yol A: Supabase IPv4 add-on (Direct host A kaydı). Yol B: makinede IPv6 bağını ve `::/0` rotasını aç; `Test-NetConnection db.<ref>.supabase.co -Port 5432`. Yol C yasak: `DIRECT_URL` = `*.pooler.supabase.com:6543`. Runtime `DATABASE_URL` Vercel'de transaction pooler `:6543` kullanır.
 
-**Hedef URI (Direct, session):** `postgresql://postgres:<şifre>@db.<ref>.supabase.co:5432/postgres`
+**Hedef URI (Direct, migrate):** `postgresql://postgres:<şifre>@db.<ref>.supabase.co:5432/postgres?sslmode=require`
 
-Bu URI hem `DIRECT_URL` (migrasyon) hem runtime `DATABASE_URL` içindir. `aws-*.pooler.supabase.com` **her portta** yasaktır.
+Bu URI yalnız `DIRECT_URL` (migrasyon / ops CLI) içindir. Vercel `DATABASE_URL` §2.2.
 
-#### Adım 0 — URI biçimi
+#### Adım 0 — URI biçimi (DIRECT_URL)
 
 1. Dashboard → Project Settings → Database → Connection string → **URI** → **Direct connection**.
-2. Host yalnız `db.<project-ref>.supabase.co`. `pooler.supabase.com` görünürse yanlış kopya — dur.
-3. Port **5432**. `:6543` görürsen dur. Transaction-mode pooler `FOR UPDATE` düşürür.
-4. `.env.local` içine `DIRECT_URL` ve `DATABASE_URL` olarak **aynı Direct URI** yaz.
+2. Host yalnız `db.<project-ref>.supabase.co`. `pooler.supabase.com` `DIRECT_URL` ise yanlış kopya — dur.
+3. Port **5432**. `:6543` `DIRECT_URL` ise dur.
+4. `.env.local` / Vercel env: `DIRECT_URL` = Direct URI. `DATABASE_URL` = §2.2 pooler URI (aynı Direct yapıştırılmaz).
 
 `npm run ops:migrate` biçimi `parseDirectConnectionUrl` ile mühürler. Pooler veya 6543 → fail-closed.
 
@@ -91,7 +92,7 @@ Resolve-DnsName db.<ref>.supabase.co
 | A (IPv4) + AAAA | IPv4 add-on açık | Adım 3 |
 | Kayıt yok | Yanlış ref | URI'yi Dashboard'dan yeniden kopyala |
 
-Pooler hostunun IPv4 A kaydı olsa bile **kullanılmaz**.
+Pooler hostunun IPv4 A kaydı runtime `DATABASE_URL` içindir; migrate `DIRECT_URL` olmaz.
 
 #### Adım 2 — IPv6 rota yoksa Direct bağlanmaz
 
@@ -105,7 +106,7 @@ Windows'ta IPv6 kapalı veya `::/0` yoksa AAAA-only host `P1001` / `getaddrinfo 
 2. `Get-NetRoute -AddressFamily IPv6` içinde `::/0` varsayılan rota.
 3. VPN IPv6'yı düşürüyorsa split-tunnel veya IPv6'yı VPN dışında tut.
 
-**Yol C yasak:** `DATABASE_URL` / `DIRECT_URL` = `*.pooler.supabase.com:6543`. Betik reddeder.
+**Yol C yasak:** `DIRECT_URL` = `*.pooler.supabase.com:6543`. Betik reddeder. Vercel runtime için §2.2.
 
 #### Adım 3 — TCP 5432
 
@@ -113,7 +114,7 @@ Windows'ta IPv6 kapalı veya `::/0` yoksa AAAA-only host `P1001` / `getaddrinfo 
 Test-NetConnection db.<ref>.supabase.co -Port 5432
 ```
 
-`TcpTestSucceeded : True` değilse güvenlik duvarı / VPN / hâlâ IPv6 yok. Port **6543** deneme.
+`TcpTestSucceeded : True` değilse güvenlik duvarı / VPN / hâlâ IPv6 yok. Port **6543** `DIRECT_URL` deneme.
 
 Betik `prisma migrate deploy` öncesi aynı TCP ön kontrolünü çalıştırır. Timeout / ENOENT → bu protokolü tekrarla.
 
@@ -125,7 +126,27 @@ npm run ops:migrate
 
 Post-apply: donmuş tablolar DROP + `http_idempotency_records` unique. Yeşil olmadan “şema bağlı” denmez.
 
-Node `pg` 8.22 `sslmode=require` değerini `verify-full` sayar. Supabase Direct host özel **Root 2021 CA** kullanır; Prisma CLI (libpq) aynı URI ile bağlanır, Node `pg` `self-signed certificate in certificate chain` ile düşer. `ops:migrate` SQL istemcisi ve runtime `Pool` `uselibpqcompat=true` ekler — şifreleme açık kalır, özel CA Mozilla demetine düşmez. URI’yi havuza çevirmek veya `NODE_TLS_REJECT_UNAUTHORIZED=0` yazmak yasaktır.
+Node `pg` 8.22 `sslmode=require` değerini `verify-full` sayar. Supabase Direct host özel **Root 2021 CA** kullanır; Prisma CLI (libpq) aynı URI ile bağlanır, Node `pg` `self-signed certificate in certificate chain` ile düşer. `ops:migrate` SQL istemcisi ve runtime `Pool` `uselibpqcompat=true` ekler — şifreleme açık kalır, özel CA Mozilla demetine düşmez. `NODE_TLS_REJECT_UNAUTHORIZED=0` yazmak yasaktır.
+
+### 2.2 Vercel runtime — Transaction pooler (`:6543`)
+
+Vercel Serverless izolatı Direct `:5432` (çoğu projede yalnız AAAA) ve bağlantı tavanını taşımaz. `GET /api/health` `Veritabanı erişilemez` bu kopmanın dürüst cevabıdır.
+
+Dashboard → Connect → ORMs / **Transaction pooler** (port **6543**):
+
+```
+DATABASE_URL=postgresql://postgres.<PROJECT_REF>:<PASSWORD>@aws-0-<REGION>.pooler.supabase.com:6543/postgres?sslmode=require
+DIRECT_URL=postgresql://postgres:<PASSWORD>@db.<PROJECT_REF>.supabase.co:5432/postgres?sslmode=require
+```
+
+- Kullanıcı **`postgres.<PROJECT_REF>`** (nokta zorunlu). Düz `postgres` havuzda `Tenant or user not found`.
+- Şifrede `@ : / ? #` varsa URL-encode.
+- `<REGION>` Dashboard kopyasındaki `aws-0-eu-central-1` (veya projenin bölgesi) — uydurma.
+- Prisma şablonundaki `pgbouncer=true` isteğe bağlı; runtime soyar (Node `pg` startup paramı değildir).
+- Session pooler aynı host **`:5432`**: IPv4 + oturum. Vercel'de `:6543` tercih (çok izolat).
+- `DIRECT_URL` Vercel'e de yazılır (Prisma migrate CLI / gelecekteki build); runtime Prisma `DATABASE_URL` okur.
+
+Prisma 7 adapter (`PrismaPg`) hazır ifadeleri adlandırmadan çalıştırır; `$transaction` + `FOR UPDATE` aynı TCP'de kalır. Serverless havuz `max=1`.
 
 ---
 
@@ -170,6 +191,8 @@ Laboratuvar şablonu (`.env.example`) `PAYTR_SANDBOX="1"` taşır; **üretim re�
 4. `NEXT_PUBLIC_APP_URL` üretimde `https://` genel köken (localhost yasak). `merchant_ok_url` / `merchant_fail_url` bu kökene bağlıdır; CREDIT yazmaz.
 5. İsteğe bağlı: `PAYTR_WEBHOOK_IP_ALLOWLIST` — PayTR Destek’ten alınan bildirim IP’leri, virgülle. Boş bırakılırsa yalnız HMAC durur (lab kırılmaz). Doluysa listede olmayan kaynak HTTP 403, defter yazılmaz.
 6. Süreç yeniden (`next start` / platform secret sync). Anahtar varlığı ≠ mağaza canlılığı: `GET /api/health` `checks.payments=configured` yalnız üçlünün dolu olduğunu söyler.
+
+**Mağaza onayı beklerken:** kod ve env *adları* hazırdır. Onay + canlı üçlü gelince yalnız Vercel Production secret store güncellenir; PR gerekmez. Preview’a canlı üçlü yazılmaz.
 
 Canlı ve test anahtar çiftini karıştırma. Preview ortamına canlı üçlü koyma; Preview’da üçlü boş kalır (dürüst `missing_credentials`).
 
@@ -326,9 +349,9 @@ T4 kazanç halkası (canlı Direct `:5432` + akademi vizesi olan satıcı + mü�
 ## 13. İlk bağlama sırası
 
 1. `.env.example` → `.env.local`
-2. `DATABASE_URL` + `DIRECT_URL` (`db.<ref>.supabase.co:5432`) — §2.1 Direct Port protokolü
+2. `DATABASE_URL` (Vercel: pooler `:6543`) + `DIRECT_URL` (`db.<ref>.supabase.co:5432`) — §2.1 migrate, §2.2 runtime
 3. `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-4. Direct TCP `:5432` yeşil (IPv6 rota veya IPv4 add-on; havuz yok)
+4. Direct TCP `:5432` yeşil (IPv6 rota veya IPv4 add-on) — yalnız `ops:migrate`
 5. `npm run ops:migrate` — bucket SQL / Studio CORS **yok** (`STORAGE_CONTRACT.md`)
 6. `/register` → UUID → `SUPER_ADMIN_USER_ID` → süreç yeniden
 7. PayTR webhook + Inngest **çift** anahtar (`INNGEST_EVENT_KEY` + `INNGEST_SIGNING_KEY`) + Redirect URLs

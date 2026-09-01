@@ -12,6 +12,7 @@ export function ListingCard({
   title,
   summary,
   price,
+  priceCaption,
   badge,
   badgeTone = "safir",
   meta,
@@ -30,10 +31,13 @@ export function ListingCard({
   rank,
   layout = "grid",
   hit = "cta",
+  summaryClamp = 2,
 }: {
   title: string;
   summary: string;
   price?: string;
+  /** Fiyatın altında küçük ipucu (örn. KDV dahil). */
+  priceCaption?: string;
   badge?: string;
   badgeTone?: BadgeTone;
   meta?: string;
@@ -58,6 +62,8 @@ export function ListingCard({
   layout?: "grid" | "list";
   /** `card`: gövde hit target; iç CTA yok. `cta`: yalnız düğme (Freelancer). */
   hit?: "cta" | "card";
+  /** Özet satır tavanı — akademi ön yüzü 3; vitrin varsayılanı 2. */
+  summaryClamp?: 2 | 3 | 4;
 }) {
   const isList = layout === "list";
   const cardHit = Boolean(href) && hit === "card";
@@ -133,29 +139,57 @@ export function ListingCard({
             {title}
           </h3>
         </div>
-        <p className="mt-2 line-clamp-2 text-sm leading-6 text-[var(--muted)] sm:mt-1">{summary}</p>
+        <p
+          className={cn(
+            "mt-2 text-sm leading-6 text-[var(--muted)] sm:mt-1",
+            summaryClamp === 3 ? "line-clamp-3" : summaryClamp === 4 ? "line-clamp-4" : "line-clamp-2",
+          )}
+        >
+          {summary}
+        </p>
         {meta ? <p className="mt-3 text-xs text-[var(--muted)] sm:mt-2">{meta}</p> : null}
       </div>
       <div
         className={cn(
-          "flex items-center justify-between gap-3",
-          isList ? "shrink-0 sm:min-w-[11rem] sm:flex-col sm:items-end sm:justify-center" : "mt-auto pt-4",
+          "flex items-center justify-between gap-4",
+          isList
+            ? "shrink-0 sm:min-w-[11rem] sm:flex-col sm:items-end sm:justify-center sm:gap-3"
+            : "mt-auto pt-4",
         )}
       >
-        <div className="flex min-w-0 items-center gap-2">
-          {price ? <p className="listing-price text-lg font-semibold tracking-tight">{price}</p> : <span />}
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          <div className="min-w-0">
+            {price ? (
+              <p className="listing-price truncate text-lg font-semibold tracking-tight" data-listing-price="">
+                {price}
+              </p>
+            ) : (
+              <span />
+            )}
+            {priceCaption ? (
+              <p className="mt-0.5 truncate text-xs leading-4 text-[var(--muted)]">{priceCaption}</p>
+            ) : null}
+          </div>
           {footerBadge ? (
-            <Badge tone={footerBadgeTone} className="normal-case tracking-tight">
+            <Badge tone={footerBadgeTone} className="shrink-0 normal-case tracking-tight">
               {footerBadge}
             </Badge>
           ) : null}
         </div>
         {href && hit === "cta" ? (
-          <LinkButton href={href} variant={showcase ? "outline" : "primary"} size="sm">
+          <LinkButton
+            href={href}
+            variant={showcase ? "outline" : "primary"}
+            size="sm"
+            className="shrink-0 whitespace-nowrap"
+          >
             {cta}
           </LinkButton>
         ) : hit === "card" && cta ? (
-          <span className={buttonClassName("primary", "sm", "pointer-events-none")} aria-hidden="true">
+          <span
+            className={buttonClassName("primary", "sm", "pointer-events-none shrink-0 whitespace-nowrap")}
+            aria-hidden="true"
+          >
             {cta}
           </span>
         ) : null}
@@ -172,7 +206,7 @@ export function ListingCard({
       <Link
         href={href}
         className="absolute inset-0 z-0 rounded-[var(--radius-card)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--safir-soft)] focus-visible:ring-offset-2"
-        aria-label={[moduleCode, kicker, title, cta].filter(Boolean).join(". ")}
+        aria-label={[moduleCode, kicker, title, price, priceCaption, cta].filter(Boolean).join(". ")}
       />
       {card}
     </div>

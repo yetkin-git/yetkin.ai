@@ -115,7 +115,9 @@ const uiServerPaths = [
   { name: "@/lib/kernel/admin/prisma-catalog-write", message: UI_SERVER_MSG },
   { name: "@/lib/kernel/identity", message: UI_SERVER_MSG },
   { name: "@/lib/kernel/identity/display-name-write", message: UI_SERVER_MSG },
+  { name: "@/lib/kernel/identity/billing-info-write", message: UI_SERVER_MSG },
   { name: "@/lib/kernel/identity/prisma-display-name-write", message: UI_SERVER_MSG },
+  { name: "@/lib/kernel/identity/prisma-billing-info-store", message: UI_SERVER_MSG },
 ];
 
 const uiServerPatterns = [
@@ -130,6 +132,7 @@ const uiServerPatterns = [
       "@/lib/**/*-engine",
       "@/lib/kernel/admin/catalog-write",
       "@/lib/kernel/identity/display-name-write",
+      "@/lib/kernel/identity/billing-info-write",
     ],
     message: UI_SERVER_MSG,
   },

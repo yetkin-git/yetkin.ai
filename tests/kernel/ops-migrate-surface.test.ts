@@ -56,6 +56,8 @@ describe("ops migrate yüzeyi", () => {
     expect(script).toContain("inspectLedgerMigrationSql");
     expect(script).toContain("assertLedgerImmutabilityMigrationPresent");
     expect(script).toContain("assertAcademyLessonCompletions");
+    expect(script).toContain("applyAcademyCatalogPriceMap");
+    expect(script).toContain("assertAcademyCatalogPriceMap");
     expect(script).toContain("assertAcademyExamSittings");
     expect(script).toContain("assertCurriculumSealColumns");
     expect(script).toContain("assertCorporateJobOffers");
@@ -73,6 +75,10 @@ describe("ops migrate yüzeyi", () => {
     expect(script).toContain("20260816040000_d2_3_corporate_job_offers");
     expect(script).toContain("20260826100000_academy_audio_cache");
     expect(script).toContain("20260829100000_academy_exam_sittings");
+    expect(script).toContain("20260830180000_academy_audio_media_release_seal");
+    expect(script).toContain("20260831140000_user_billing_info");
+    expect(script).toContain("20260831190000_user_billing_phone");
+    expect(script).toContain("assertUserBillingPhone");
     expect(script).toContain("academy_exam_sittings");
     expect(script).toContain("http_idempotency_records");
     expect(script).toContain("paid_command_reservations");

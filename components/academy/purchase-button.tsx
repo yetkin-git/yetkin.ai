@@ -17,6 +17,11 @@ import { SETTLEMENT_CURRENCY, type CurrencyCode } from "@/lib/kernel/money/curre
 import { WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
 import type { AcademyPurchasePath } from "@/lib/academy/purchase-path";
 import { academyCardOfferPaths } from "@/lib/academy/purchase-path";
+import { CheckoutConsentFields } from "@/components/legal/checkout-consent-fields";
+import { CheckoutBillingFields } from "@/components/legal/checkout-billing-fields";
+import { useCheckoutBilling } from "@/components/legal/use-checkout-billing";
+import { LEGAL_CHECKOUT_CONSENT_COPY } from "@/lib/copy/legal-launch";
+import { CHECKOUT_LEGAL_CONSENT_VERSION } from "@/lib/kernel/legal/checkout-consent";
 
 export function PurchaseButton({
   courseId,
@@ -50,7 +55,11 @@ export function PurchaseButton({
   const [phase, setPhase] = useState<"idle" | "locking" | "settling">("idle");
   const [activePath, setActivePath] = useState<AcademyPurchasePath | null>(null);
   const [topUpOpen, setTopUpOpen] = useState(false);
+  const [distanceAccepted, setDistanceAccepted] = useState(false);
+  const [digitalAccepted, setDigitalAccepted] = useState(false);
+  const billing = useCheckoutBilling();
   const idempotency = useIdempotencyKey();
+  const consentReady = distanceAccepted && digitalAccepted;
   const pending = phase !== "idle";
   const requiredMinor = priceMinor && priceMinor > 0 ? priceMinor : WALLET_TOP_UP_MIN_MINOR;
   const needsTopUp =
@@ -60,6 +69,15 @@ export function PurchaseButton({
 
   const onBuy = useCallback(
     async (path: AcademyPurchasePath) => {
+      if (!distanceAccepted || !digitalAccepted) {
+        setError(LEGAL_CHECKOUT_CONSENT_COPY.required);
+        return;
+      }
+      const billingPayload = billing.payload();
+      if (!billingPayload.ok) {
+        setError(billingPayload.error);
+        return;
+      }
       setActivePath(path);
       setPhase("locking");
       setError(null);
@@ -85,7 +103,15 @@ export function PurchaseButton({
           withRailApiVersion({
             method: "POST",
             headers: { "content-type": "application/json", ...idempotency.headers() },
-            body: JSON.stringify({ lockId, level: courseLevel ?? undefined, path }),
+            body: JSON.stringify({
+              lockId,
+              level: courseLevel ?? undefined,
+              path,
+              distanceContractAccepted: true,
+              digitalImmediatePerformanceAccepted: true,
+              consentVersion: CHECKOUT_LEGAL_CONSENT_VERSION,
+              billing: billingPayload.billing,
+            }),
           }),
         );
         const buyEnvelope = await readCitizenEnvelope(buyResponse);
@@ -126,7 +152,7 @@ export function PurchaseButton({
         setError(UX_SEN.http.network);
       }
     },
-    [courseId, courseLevel, examHref, idempotency, paymentsReady, push, report, router, trainingHref],
+    [billing, consentReady, courseId, courseLevel, examHref, idempotency, paymentsReady, push, report, router, trainingHref],
   );
 
   const status =
@@ -169,6 +195,13 @@ export function PurchaseButton({
           active={phase === "locking" ? "lock" : phase === "settling" ? "settle" : null}
         />
       ) : null}
+      <CheckoutBillingFields value={billing.form} onChange={billing.setForm} hadSaved={billing.hadSaved} />
+      <CheckoutConsentFields
+        distanceAccepted={distanceAccepted}
+        digitalAccepted={digitalAccepted}
+        onDistanceChange={setDistanceAccepted}
+        onDigitalChange={setDigitalAccepted}
+      />
       <div className="grid gap-3">
         {offers.map((offer) => (
           <div
@@ -182,6 +215,15 @@ export function PurchaseButton({
               variant={offer.path === "exam" ? "secondary" : "primary"}
               onClick={() => {
                 if (cardClosed) {
+                  return;
+                }
+                if (!consentReady) {
+                  setError(LEGAL_CHECKOUT_CONSENT_COPY.required);
+                  return;
+                }
+                const billingPayload = billing.payload();
+                if (!billingPayload.ok) {
+                  setError(billingPayload.error);
                   return;
                 }
                 if (shortfall && phase === "idle") {
@@ -208,11 +250,12 @@ export function PurchaseButton({
           {error}
         </p>
       ) : null}
-      <p className="text-xs text-[var(--muted)]">{ACADEMY_SEN.purchase.licenseNote}</p>
-      <QuickTopUpModal
+      <p className="text-xs text-slate-600">{ACADEMY_SEN.purchase.licenseNote}</p>
+        <QuickTopUpModal
         open={paymentsReady && topUpOpen}
         requiredMinor={requiredMinor}
         currencyCode={currencyCode}
+        lockSuggestedAmount
         onClose={() => setTopUpOpen(false)}
         onFunded={() => {
           setTopUpOpen(false);

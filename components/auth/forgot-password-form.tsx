@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { createSupabaseBrowserClient } from "@/lib/kernel/auth/supabase-browser";
 import { buildPasswordResetRedirectTo } from "@/lib/kernel/auth/redirects";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
+import { LEGAL_SUPPORT_EMAIL, LEGAL_SUPPORT_MAILTO } from "@/lib/copy/legal-launch";
 
 export function ForgotPasswordForm() {
   const copy = AUTH_SEN.forgot;
@@ -48,7 +49,7 @@ export function ForgotPasswordForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-3">
-      <label className="block text-sm" htmlFor="reset-email">
+      <label className="block text-sm font-medium" htmlFor="reset-email">
         {copy.email}
         <Input
           id="reset-email"
@@ -73,6 +74,16 @@ export function ForgotPasswordForm() {
       <Button type="submit" disabled={pending}>
         {pending ? copy.pending : copy.submit}
       </Button>
+      <p className="text-sm text-[var(--muted)]">
+        {copy.supportLead}{" "}
+        <a
+          href={LEGAL_SUPPORT_MAILTO}
+          className="font-medium text-[var(--foreground)] underline-offset-2 hover:text-[var(--safir-deep)] hover:underline"
+        >
+          {LEGAL_SUPPORT_EMAIL}
+        </a>{" "}
+        {copy.supportTail}
+      </p>
       <p className="text-sm text-[var(--muted)]">
         <Link
           href="/login"

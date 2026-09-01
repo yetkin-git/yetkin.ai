@@ -2,8 +2,9 @@
  * Dürüst liveness / readiness.
  * Şema fazı / oda phase / migrasyon klasör adı JSON'da yoktur.
  * Liveness: süreç ayakta (DB yok). Readiness: DB ping + Auth + Inngest sicili.
- * checks.payments bilgi alanıdır (Payments port); unconfigured ≠ 503.
+ * checks.payments ve checks.examSitting bilgi alanıdır; unconfigured ≠ 503.
  * checks.inngest = anahtar varlığı. configured ≠ mağaza canlılığı / Cloud cron.
+ * Uptime: GET /api/health/live. Readiness 503 = valör/Inngest veya DB; yasal sayfa açık kalır.
  */
 
 export const HEALTH_SERVICE = "yetkin-rail" as const;
@@ -12,6 +13,7 @@ export const HEALTH_PROBE_LIVE = "liveness" as const;
 export const HEALTH_PROBE_READY = "readiness" as const;
 export const HEALTH_DB_PING_TIMEOUT_MS = 2_000;
 export const HEALTH_DEPENDENCY_UNREADY_ERROR = "Omurga bağımlılıkları hazır değil.";
+export const ACADEMY_EXAM_SITTING_SECRET_MIN_LENGTH = 16 as const;
 
 export type HealthDbState = "ok" | "down" | "unconfigured";
 export type HealthEnvState = "configured" | "unconfigured";
@@ -22,6 +24,7 @@ export type HealthChecks = {
   supabaseAuth: HealthEnvState;
   inngest: HealthEnvState;
   payments: HealthEnvState;
+  examSitting: HealthEnvState;
 };
 
 export type HealthBody = {
@@ -46,6 +49,12 @@ function envConfigured(env: Record<string, string | undefined>, keys: readonly s
   return keys.every((key) => Boolean(env[key]?.trim())) ? "configured" : "unconfigured";
 }
 
+function examSittingConfigured(env: Record<string, string | undefined>): HealthEnvState {
+  return (env.ACADEMY_EXAM_SITTING_SECRET?.trim() ?? "").length >= ACADEMY_EXAM_SITTING_SECRET_MIN_LENGTH
+    ? "configured"
+    : "unconfigured";
+}
+
 export function readServiceEnvChecks(
   env: Record<string, string | undefined> = process.env,
 ): Omit<HealthChecks, "db"> {
@@ -53,6 +62,7 @@ export function readServiceEnvChecks(
     supabaseAuth: envConfigured(env, ["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY"]),
     inngest: envConfigured(env, ["INNGEST_EVENT_KEY", "INNGEST_SIGNING_KEY"]),
     payments: envConfigured(env, ["PAYTR_MERCHANT_ID", "PAYTR_MERCHANT_KEY", "PAYTR_MERCHANT_SALT"]),
+    examSitting: examSittingConfigured(env),
   };
 }
 

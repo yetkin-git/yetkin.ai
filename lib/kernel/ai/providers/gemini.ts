@@ -224,6 +224,7 @@ export const geminiProvider: LlmProviderAdapter = {
           instruction: input.instruction,
           voiceName,
           languageCode,
+          timeoutMs: input.timeoutMs,
           signal,
         });
       } catch (error) {
@@ -324,11 +325,16 @@ async function invokeGeminiSpeech(input: {
   instruction?: string;
   voiceName: string;
   languageCode?: string;
+  timeoutMs?: number;
   signal: AbortSignal;
 }): Promise<GeminiSpeechResponse> {
   // Gemini TTS (AUDIO) systemInstruction kabul etmez — 400 INVALID_ARGUMENT.
   // Stil mührü konuşma metnine de birleştirilmez (NO META-INSTRUCTION IN AUDIO).
   void input.instruction;
+  const httpTimeout =
+    Number.isFinite(input.timeoutMs) && (input.timeoutMs ?? 0) > 0
+      ? Math.trunc(input.timeoutMs ?? GEMINI_TTS_CONNECT_TIMEOUT_MS)
+      : GEMINI_TTS_CONNECT_TIMEOUT_MS;
   const response = await input.client.models.generateContent({
     model: input.model,
     contents: [
@@ -341,7 +347,10 @@ async function invokeGeminiSpeech(input: {
       responseModalities: ["AUDIO"],
       speechConfig: geminiSpeechConfig(input.voiceName, input.languageCode),
       abortSignal: input.signal,
-      httpOptions: GEMINI_TTS_FAST_FAIL_HTTP_OPTIONS,
+      httpOptions: {
+        ...GEMINI_TTS_FAST_FAIL_HTTP_OPTIONS,
+        timeout: httpTimeout,
+      },
     },
   });
   return response as GeminiSpeechResponse;
@@ -354,6 +363,7 @@ async function requestGeminiSpeech(input: {
   instruction?: string;
   voiceName: string;
   languageCode?: string;
+  timeoutMs?: number;
   signal: AbortSignal;
 }): Promise<GeminiSpeechResponse> {
   // Mühür SSOT durur; TTS isteğine systemInstruction olarak basılmaz.

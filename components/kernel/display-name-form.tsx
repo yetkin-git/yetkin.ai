@@ -48,7 +48,7 @@ export function DisplayNameForm({ initialDisplayName }: { initialDisplayName: st
           required
         />
       </Label>
-      <p className="text-xs text-[var(--muted)]">
+      <p className="text-xs text-slate-600">
         En fazla {DISPLAY_NAME_MAX_LENGTH} karakter. E-posta Auth katmanında kalır; buradan
         değişmez.
       </p>

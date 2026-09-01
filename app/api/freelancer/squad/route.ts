@@ -1,49 +1,17 @@
-import { requireSession } from "@/lib/kernel/auth/session";
-import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
-import { upsertSquadInputSchema } from "@/lib/freelancer/schemas";
-import { upsertFreelancerSquad } from "@/lib/freelancer/squad-engine";
-import { createPrismaFreelancerPorts } from "@/lib/freelancer/runtime";
+import { jsonFail } from "@/lib/kernel/http/json";
+import { FREELANCER_SATELLITE_GONE } from "@/lib/freelancer/satellite-gone";
 
-export const auth = "session" as const;
+/**
+ * Takım / Squad BFF — bu fazda kapalı. Kenar oturum istemez; her yöntem 410.
+ */
+export const auth = "public" as const;
 
-export async function GET(request: Request) {
-  try {
-    const user = await requireSession(request);
-    const contractId = new URL(request.url).searchParams.get("contractId")?.trim() ?? "";
-    if (!contractId) {
-      return jsonFail("Sözleşme kimliği gerekli.", 400);
-    }
-    const ports = createPrismaFreelancerPorts();
-    const contract = await ports.freelancer.getContract(contractId);
-    if (!contract) {
-      return jsonFail("Sözleşme bulunamadı.", 404);
-    }
-    if (user.id !== contract.clientId && user.id !== contract.freelancerId) {
-      return jsonFail("Bu takıma erişim yok.", 403);
-    }
-    const squad = await ports.freelancer.getSquadByContractId(contractId);
-    const members = squad ? await ports.freelancer.listSquadMembers(squad.id) : [];
-    return jsonOk({ squad, members });
-  } catch (error) {
-    return jsonFromUnknown(error);
-  }
+async function gone(request: Request) {
+  return jsonFail(FREELANCER_SATELLITE_GONE.squad, 410, undefined, request);
 }
 
-export async function POST(request: Request) {
-  try {
-    const user = await requireSession(request);
-    const parsed = upsertSquadInputSchema.safeParse(await request.json().catch(() => ({})));
-    if (!parsed.success) {
-      return jsonFail("Takım gövdesi geçersiz.", 400);
-    }
-    const ports = createPrismaFreelancerPorts();
-    const result = await upsertFreelancerSquad(ports, {
-      contractId: parsed.data.contractId,
-      actorUserId: user.id,
-      members: parsed.data.members,
-    });
-    return jsonOk(result, 201);
-  } catch (error) {
-    return jsonFromUnknown(error);
-  }
-}
+export const GET = gone;
+export const POST = gone;
+export const PUT = gone;
+export const PATCH = gone;
+export const DELETE = gone;

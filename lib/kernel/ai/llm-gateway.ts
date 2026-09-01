@@ -580,6 +580,7 @@ export async function generateSpeech(
           instruction,
           voiceName: input.voiceName,
           languageCode: input.languageCode,
+          timeoutMs,
         },
         controller.signal,
       );

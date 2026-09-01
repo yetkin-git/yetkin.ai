@@ -25,6 +25,8 @@ import { academyExamAnswersFromPublicQuestions } from "@/lib/academy/exam-sittin
 import { computePaytrWebhookHash } from "@/lib/kernel/payments/paytr/webhook";
 import { buildIdempotentMerchantOid } from "@/lib/kernel/payments/merchant-oid";
 import { WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
+import { CHECKOUT_LEGAL_CONSENT_PAYLOAD } from "@/lib/kernel/legal/checkout-consent";
+import { CHECKOUT_BILLING_PAYLOAD } from "@/lib/kernel/identity/billing-info";
 import {
   resolveMigratorConnectionUrl,
   withPgLibpqSslCompat,
@@ -252,7 +254,11 @@ async function main(): Promise<void> {
       "Idempotency-Key": topUpKey,
       "x-forwarded-for": FOREIGN_IP,
     },
-    body: JSON.stringify({ amountMinor: topUpMinor }),
+    body: JSON.stringify({
+      amountMinor: topUpMinor,
+      ...CHECKOUT_LEGAL_CONSENT_PAYLOAD,
+      billing: CHECKOUT_BILLING_PAYLOAD,
+    }),
   });
   if (topUp.status !== 200 || topUp.body.ok !== true) {
     const expectedOid = buildIdempotentMerchantOid("walletTopUp", citizen.userId, topUpKey);
@@ -342,7 +348,7 @@ async function main(): Promise<void> {
       ...authHeaders,
       "Idempotency-Key": purchaseKey,
     },
-    body: JSON.stringify({ lockId }),
+    body: JSON.stringify({ lockId, ...CHECKOUT_LEGAL_CONSENT_PAYLOAD, billing: CHECKOUT_BILLING_PAYLOAD }),
   });
   if (purchase.status !== 200 || purchase.body.ok !== true) {
     fail(`Satın alma ${purchase.status}: ${JSON.stringify(purchase.body)}`);
@@ -364,7 +370,7 @@ async function main(): Promise<void> {
       ...authHeaders,
       "Idempotency-Key": purchaseKey,
     },
-    body: JSON.stringify({ lockId }),
+    body: JSON.stringify({ lockId, ...CHECKOUT_LEGAL_CONSENT_PAYLOAD, billing: CHECKOUT_BILLING_PAYLOAD }),
   });
   if (replay.status !== 200 || replay.body.ok !== true) {
     fail(`Idempotency replay ${replay.status}: ${JSON.stringify(replay.body)}`);

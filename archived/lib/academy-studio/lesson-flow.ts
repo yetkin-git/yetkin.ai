@@ -5,10 +5,11 @@
 
 import {
   ACADEMY_LESSON_ACT_HEADINGS,
+  academyLessonHeadingForAct,
   collapseAcademyLessonProse,
   displayAcademyLessonSegment,
   parseAcademyLessonActText,
-  type AcademyLessonAct,
+  type AcademyLessonHeadingAct,
   type AcademyLessonSegment,
 } from "@/lib/academy/lesson-body";
 import type { AcademyLessonBlock } from "@/lib/academy/lesson-media";
@@ -17,7 +18,7 @@ import { splitAcademyStudioDialogue } from "@/archived/lib/academy-studio/studio
 export const ACADEMY_LESSON_FLOW_SECTION_COUNT = 4 as const;
 
 export type AcademyLessonFlowSection = {
-  act: AcademyLessonAct;
+  act: AcademyLessonHeadingAct;
   heading: string;
   index: number;
   blocks: AcademyLessonBlock[];
@@ -72,10 +73,10 @@ export function academyLessonFlowFromBlocks(
   const buckets: AcademyLessonFlowSection[] = [];
   let current: AcademyLessonFlowSection | null = null;
 
-  function openSection(act: AcademyLessonAct) {
+  function openSection(act: AcademyLessonHeadingAct) {
     current = {
       act,
-      heading: ACADEMY_LESSON_ACT_HEADINGS[act],
+      heading: academyLessonHeadingForAct(act),
       index: buckets.length,
       blocks: [],
       displayText: "",

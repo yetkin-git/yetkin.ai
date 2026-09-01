@@ -21,6 +21,11 @@ import {
   isQuickTopUpMinLift,
   suggestQuickTopUpAmountMinor,
 } from "@/lib/kernel/payments/quick-top-up";
+import { CheckoutConsentFields } from "@/components/legal/checkout-consent-fields";
+import { CheckoutBillingFields } from "@/components/legal/checkout-billing-fields";
+import { useCheckoutBilling } from "@/components/legal/use-checkout-billing";
+import { LEGAL_CHECKOUT_CONSENT_COPY } from "@/lib/copy/legal-launch";
+import { CHECKOUT_LEGAL_CONSENT_VERSION } from "@/lib/kernel/legal/checkout-consent";
 
 const POLL_MS = 2_500;
 const POLL_MAX_MS = 90_000;
@@ -29,12 +34,15 @@ export function QuickTopUpModal({
   open,
   requiredMinor,
   currencyCode = SETTLEMENT_CURRENCY,
+  lockSuggestedAmount = false,
   onClose,
   onFunded,
 }: {
   open: boolean;
   requiredMinor: number;
   currencyCode?: CurrencyCode;
+  /** Akademi kapısı — kullanıcı PayTR tutarını kart fiyatından sapıtamaz. */
+  lockSuggestedAmount?: boolean;
   onClose: () => void;
   onFunded: () => void;
 }) {
@@ -45,6 +53,7 @@ export function QuickTopUpModal({
     <QuickTopUpDialog
       requiredMinor={requiredMinor}
       currencyCode={currencyCode}
+      lockSuggestedAmount={lockSuggestedAmount}
       onClose={onClose}
       onFunded={onFunded}
     />
@@ -54,11 +63,13 @@ export function QuickTopUpModal({
 function QuickTopUpDialog({
   requiredMinor,
   currencyCode,
+  lockSuggestedAmount,
   onClose,
   onFunded,
 }: {
   requiredMinor: number;
   currencyCode: CurrencyCode;
+  lockSuggestedAmount: boolean;
   onClose: () => void;
   onFunded: () => void;
 }) {
@@ -74,6 +85,9 @@ function QuickTopUpDialog({
   const [watchStrip, setWatchStrip] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
   const [sandboxLive, setSandboxLive] = useState(false);
+  const [distanceAccepted, setDistanceAccepted] = useState(false);
+  const [digitalAccepted, setDigitalAccepted] = useState(false);
+  const billing = useCheckoutBilling();
   const onFundedRef = useRef(onFunded);
 
   const shortfall = computeWalletShortfallMinor(requiredMinor, balanceMinor ?? 0);
@@ -141,19 +155,36 @@ function QuickTopUpDialog({
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
+    if (!distanceAccepted || !digitalAccepted) {
+      setError(LEGAL_CHECKOUT_CONSENT_COPY.required);
+      return;
+    }
+    const billingPayload = billing.payload();
+    if (!billingPayload.ok) {
+      setError(billingPayload.error);
+      return;
+    }
     setPending(true);
     setError(null);
     setIframeUrl(null);
     setTimedOut(false);
     setWatchStrip(false);
     try {
-      const amountMinor = Math.round(Number.parseFloat(amountMajor.replace(",", ".")) * 100);
+      const amountMinor = lockSuggestedAmount
+        ? suggested
+        : Math.round(Number.parseFloat(amountMajor.replace(",", ".")) * 100);
       const response = await fetch(
         "/api/wallet/top-up",
         withRailApiVersion({
           method: "POST",
           headers: { "content-type": "application/json", ...idempotency.headers() },
-          body: JSON.stringify({ amountMinor }),
+          body: JSON.stringify({
+            amountMinor,
+            distanceContractAccepted: true,
+            digitalImmediatePerformanceAccepted: true,
+            consentVersion: CHECKOUT_LEGAL_CONSENT_VERSION,
+            billing: billingPayload.billing,
+          }),
         }),
       );
       const envelope = await readCitizenEnvelope(response);
@@ -226,22 +257,35 @@ function QuickTopUpDialog({
               {copy.shortfall(formatMinor(shortfall, currencyCode))}
             </p>
           ) : null}
-          <p>{copy.bandHint(minLabel, maxLabel)}</p>
+          {lockSuggestedAmount ? <p>{copy.amountLocked}</p> : null}
           {sandboxLive ? <p className="text-[var(--amber)]">{copy.sandboxHint}</p> : null}
           {isQuickTopUpMinLift(shortfall, suggested) ? <p>{copy.minLift(formatMinor(suggested, currencyCode))}</p> : null}
           {isQuickTopUpCapped(shortfall, suggested) ? <p>{copy.capHint(maxLabel)}</p> : null}
         </div>
         <form onSubmit={(event) => void onSubmit(event)} className="mt-4 space-y-3">
-          <label className="block text-sm text-[var(--foreground)]">
+          <label className="block text-sm font-medium text-[var(--foreground)]">
             {copy.amountLabel}
-            <Input value={amountMajor} onChange={(event) => setAmountMajor(event.target.value)} required />
+            <Input
+              value={amountMajor}
+              onChange={(event) => setAmountMajor(event.target.value)}
+              required
+              readOnly={lockSuggestedAmount}
+            />
           </label>
+          <CheckoutBillingFields value={billing.form} onChange={billing.setForm} hadSaved={billing.hadSaved} />
+          <CheckoutConsentFields
+            distanceAccepted={distanceAccepted}
+            digitalAccepted={digitalAccepted}
+            onDistanceChange={setDistanceAccepted}
+            onDigitalChange={setDigitalAccepted}
+            showWalletHint
+          />
           {error ? (
             <p aria-live="assertive" className="text-sm text-[var(--rose)]">
               {error}
             </p>
           ) : null}
-          <Button type="submit" disabled={pending}>
+          <Button type="submit" disabled={pending || !distanceAccepted || !digitalAccepted}>
             {pending ? copy.pending : copy.submit}
           </Button>
         </form>
@@ -253,7 +297,7 @@ function QuickTopUpDialog({
           />
         ) : null}
         {waitingClearing ? (
-          <p aria-live="polite" className="mt-3 text-xs text-[var(--muted)]">
+          <p aria-live="polite" className="mt-3 text-xs text-slate-600">
             {copy.waitingClearing}
           </p>
         ) : null}

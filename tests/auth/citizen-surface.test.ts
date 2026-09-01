@@ -53,7 +53,10 @@ describe("kimlik yüzeyi SEN aksı", () => {
     expect(SEN_VOICE.auth.register.description).toContain("cüzdanın");
     expect(SEN_VOICE.auth.register.description).not.toContain("cüzdanınız");
     expect(SEN_VOICE.auth.forgot.sent).toContain("hesap varlığını burada doğrulamayız");
+    expect(SEN_VOICE.auth.forgot.supportLead).toBe("Bağlantı gelmezse");
     expect(SEN_VOICE.auth.reset.success).toBe("Şifre güncellendi. Şimdi giriş yap.");
+    expect(readSrc("components/auth/forgot-password-form.tsx")).toContain("LEGAL_SUPPORT_EMAIL");
+    expect(readSrc("components/auth/forgot-password-form.tsx")).toContain("LEGAL_SUPPORT_MAILTO");
 
     for (const file of SEN_SURFACES) {
       const source = readSrc(file);

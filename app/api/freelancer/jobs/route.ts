@@ -1,5 +1,8 @@
 import { requireSession } from "@/lib/kernel/auth/session";
+import { DATABASE_BUSY_ERROR, isPrismaUnavailableError } from "@/lib/kernel/db-errors";
+import { ensurePrismaQueryEngine } from "@/lib/kernel/db";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
+import { ServiceUnavailableError } from "@/lib/kernel/http/errors";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { readIdempotencyKey } from "@/lib/kernel/http/idempotency-key";
 import { hashIdempotencyPayload, settleHttpIdempotency } from "@/lib/kernel/http/idempotency";
@@ -27,6 +30,9 @@ export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
+    if (!(await ensurePrismaQueryEngine())) {
+      throw new ServiceUnavailableError(DATABASE_BUSY_ERROR);
+    }
     const idempotency = readIdempotencyKey(request);
     if (!idempotency.ok) {
       return jsonFail(idempotency.error, 400, requestId, request);
@@ -63,6 +69,12 @@ export async function POST(request: Request) {
       },
     );
   } catch (error) {
+    if (error instanceof ServiceUnavailableError) {
+      return jsonFromUnknown(error, 503, requestId, request);
+    }
+    if (isPrismaUnavailableError(error)) {
+      return jsonFromUnknown(new ServiceUnavailableError(DATABASE_BUSY_ERROR), 503, requestId, request);
+    }
     return jsonFromUnknown(error, 400, requestId, request);
   }
 }

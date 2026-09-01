@@ -7,25 +7,27 @@ test.describe("O8 akademi nakit & sınav yolculuğu", () => {
   }) => {
     const response = await page.goto("/academy");
     expect(response?.status()).toBeLessThan(400);
-    await expect(page.getByRole("heading", { name: "Mühürlü Kariyer" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Akademi" })).toBeVisible();
 
-    const live = page.getByText(/Mühürlü Kariyer|Yetkinlik Yolu/);
+    const live = page.getByText(/Eğitimi incele|Yayında eğitim yok|Liste henüz yüklenemedi/);
     const empty = page.getByText("Yayında eğitim yok");
     const unbound = page.getByText("Liste henüz yüklenemedi");
     await expect(live.or(empty).or(unbound).first()).toBeVisible();
 
-    await expect(page.getByText("Python ile Sıfırdan Programlama ve Problem Çözme")).toBeVisible();
-    await expect(page.getByText("Full-Stack Web Geliştirme (React, Next.js ve Node.js)")).toBeVisible();
+    await expect(page.getByText("Python ile Programlama ve Problem Çözme")).toBeVisible();
+    await expect(page.getByText("Modern Web Geliştirme Temelleri (HTML, CSS, JavaScript ve TypeScript)")).toBeVisible();
     await expect(page.getByText("Yapay Zekâ ve Veri Analizi (Prompt ve Veri Bilimi)")).toBeVisible();
     await expect(page.getByText("Dijital Ürün Tasarımı (UI/UX ve Figma Masterclass)")).toBeVisible();
-    await expect(page.getByRole("link", { name: /Satın Al —/ }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: /Satın Al/ }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: /Satın Al —/ })).toHaveCount(0);
+    await expect(page.getByText(/KDV dahil/).first()).toBeVisible();
+    await expect(page.getByText("Erişim Açık")).toHaveCount(0);
 
     await page.goto("/academy/python-temel");
-    await expect(page.getByRole("heading", { name: "Python ile Sıfırdan Programlama ve Problem Çözme" })).toBeVisible();
-    await expect(page.getByText("Bu yolda ne kazanırsın")).toBeVisible();
-    await expect(page.getByText("Ne öğreneceksin")).toBeVisible();
-    await expect(page.getByText(/Sınav şartı: 70\+/)).toBeVisible();
-    await expect(page.getByText(/CareerVisaStamp/).first()).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Python ile Programlama ve Problem Çözme" })).toBeVisible();
+    await expect(page.getByText("Ders listesi")).toBeVisible();
+    await expect(page.getByText(/Baraj 70/)).toBeVisible();
+    await expect(page.getByText(/Kariyer'de vizeye/).first()).toBeVisible();
     await expect(page.getByRole("link", { name: /Eğitimi Satın Al —/ }).first()).toBeVisible();
     await expect(page.locator('[data-academy-hero-cta="play"]')).toHaveCount(0);
 

@@ -1,15 +1,16 @@
 import {
-  ACADEMY_PATHWAY_IDS,
-  ACADEMY_PATHWAY_TITLES,
-  isAcademyPathwayId,
-  type AcademyPathwayId,
+  FREELANCER_NEED_CATALOG,
+  isFreelancerNeedId,
+  listingNeedId,
+  type FreelancerNeedId,
+  type ListingVisaLockId,
 } from "@/lib/kernel/catalog-ids";
 
 export type JobBoardSort = "newest" | "budget-desc" | "budget-asc";
 
 export type JobBoardFilters = {
   query: string;
-  visaPathwayId: AcademyPathwayId | "all";
+  visaPathwayId: FreelancerNeedId | "all";
   budgetMinMinor: number | null;
   budgetMaxMinor: number | null;
   sort: JobBoardSort;
@@ -20,7 +21,7 @@ export type JobBoardFilterable = {
   title: string;
   brief: string;
   budgetMinor: number;
-  visaPathwayId: AcademyPathwayId;
+  visaPathwayId: ListingVisaLockId;
   createdAt: Date | string | number;
 };
 
@@ -32,13 +33,10 @@ export const JOB_BOARD_DEFAULT_FILTERS: JobBoardFilters = {
   sort: "newest",
 };
 
-export const JOB_BOARD_VISA_PATHWAY_OPTIONS = ACADEMY_PATHWAY_IDS.map((id) => ({
-  id,
-  title: ACADEMY_PATHWAY_TITLES[id],
-})) as readonly { id: AcademyPathwayId; title: string }[];
+export const JOB_BOARD_VISA_PATHWAY_OPTIONS = FREELANCER_NEED_CATALOG;
 
-export function isJobBoardVisaPathwayId(value: string): value is AcademyPathwayId {
-  return isAcademyPathwayId(value);
+export function isJobBoardVisaPathwayId(value: string): value is FreelancerNeedId {
+  return isFreelancerNeedId(value);
 }
 
 export function isJobBoardSort(value: string): value is JobBoardSort {
@@ -65,8 +63,11 @@ function matchesQuery(item: JobBoardFilterable, query: string): boolean {
   return haystack.includes(needle);
 }
 
-function matchesVisa(item: JobBoardFilterable, visaPathwayId: AcademyPathwayId | "all"): boolean {
-  return visaPathwayId === "all" || item.visaPathwayId === visaPathwayId;
+function matchesVisa(item: JobBoardFilterable, visaPathwayId: FreelancerNeedId | "all"): boolean {
+  if (visaPathwayId === "all") {
+    return true;
+  }
+  return listingNeedId(item.visaPathwayId) === visaPathwayId;
 }
 
 function matchesBudget(

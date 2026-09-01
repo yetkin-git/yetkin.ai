@@ -124,10 +124,7 @@ export function AcademyRoomSkeleton({
           </div>
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto pr-2 pb-8">
-          <ul className="grid gap-4 sm:grid-cols-2" data-academy-skeleton-grid="">
-            <li>
-              <Pulse className="h-40 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
-            </li>
+          <ul className="grid gap-4 md:grid-cols-3" data-academy-skeleton-grid="">
             <li>
               <Pulse className="h-40 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
             </li>

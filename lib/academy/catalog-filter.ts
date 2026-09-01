@@ -1,23 +1,34 @@
 /**
- * Akademi vitrin sırası — kulvar prefix’i → seviye kodu (101→102→103) → slug.
- * Süzgeç / puan kolonu yok. Client-safe: curriculum / node:crypto çekilmez.
+ * Akademi vitrin sırası — sabit kulvar önceliği → seviye kodu (101→102→103) → slug.
+ * created_at / girdi sırası / puan kolonu okunmaz. Client-safe: curriculum / node:crypto çekilmez.
  */
 
 import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
+import {
+  ACADEMY_PATHWAY_IDS,
+  ACADEMY_PATHWAY_TITLES,
+  catalogPathwayRingSlugs,
+} from "@/lib/kernel/catalog-ids";
 
 export type AcademyCatalogSortable = {
   slug: string;
   level?: string | null;
 };
 
-/** Kulvar sırası — eski süzgeç grup SSOT’sunun yassı izi. Aynı index paylaşan prefix’ler slug ile ayrılır. */
+/**
+ * Kulvar (seri raf) önceliği — vitrin rafları bu diziye kilitlidir.
+ * 1 AI Agent Mimarlığı (amiral gemisi) · 2 Python · 3 Full-Stack · 4 Siber Güvenlik.
+ * Aynı index paylaşan prefix’ler slug ile ayrılır. `ai-agent-` `ai-`’den önce durur.
+ */
 const CATALOG_PREFIX_ORDER: readonly (readonly string[])[] = [
+  ["ai-agent-"],
   ["python-"],
+  ["fullstack-"],
+  ["security-"],
   ["ds-"],
   ["eng-"],
   ["ai-"],
   ["mlo-"],
-  ["fullstack-"],
   ["jav-"],
   ["qa-"],
   ["arch-"],
@@ -36,13 +47,28 @@ const CATALOG_PREFIX_ORDER: readonly (readonly string[])[] = [
   ["mnt-"],
   ["ex-"],
   ["pd-"],
-  ["canva-", "linkedin-", "cad-", "pra-"],
+  ["cad-", "pra-"],
+  ["excel-", "google-ads-", "meta-ads-"],
+  ["eticaret-"],
+  ["canva-"],
+  ["linkedin-"],
 ];
+
+/** Tekil Beceriler rafı — Excel, Ads, E-Ticaret, Canva, LinkedIn aynı sırada durur. */
+const TEKIL_BECERI_PREFIXES = [
+  "excel-",
+  "google-ads-",
+  "meta-ads-",
+  "eticaret-",
+  "canva-",
+  "linkedin-",
+] as const;
 
 const STEM_PREFIX: Record<string, string> = {
   python: "PY",
   ai: "AI",
   fullstack: "FS",
+  security: "SEC",
   devops: "DEV",
   flutter: "FLT",
   sec: "SEC",
@@ -61,10 +87,14 @@ const STEM_PREFIX: Record<string, string> = {
   ux: "UX",
   w3: "W3",
   ex: "EX",
+  excel: "EXC",
+  google: "GADS",
+  meta: "META",
   mkt: "MKT",
   mnt: "MNT",
   pd: "PD",
-  canva: "CANVA",
+  eticaret: "ETIC",
+  canva: "CNV",
   linkedin: "LNK",
   cad: "CAD",
   pra: "PRA",
@@ -79,6 +109,9 @@ const LEVEL_CODE: Record<string, string> = {
 
 /** Kart SKU — PY-101 / FS-102 / UX-MC. Sıra yardımcısı ve vitrin kartı paylaşır. */
 export function academyModuleCodeBySlug(slug: string): string | null {
+  if (slug === "ai-temel") {
+    return "YZ-101";
+  }
   const stem = slug.split("-")[0] ?? "";
   const prefix = STEM_PREFIX[stem];
   if (!prefix) {
@@ -94,6 +127,7 @@ export function academyModuleCodeBySlug(slug: string): string | null {
 const MODULE_PREFIX_SPOKEN: Record<string, string> = {
   PY: "Python",
   AI: "Yapay Zekâ",
+  YZ: "Yapay Zekâ Veri",
   FS: "Full-Stack",
   DEV: "DevOps",
   FLT: "Mobil",
@@ -113,10 +147,15 @@ const MODULE_PREFIX_SPOKEN: Record<string, string> = {
   UX: "Tasarım",
   W3: "Web Üç",
   EX: "İş Zekâsı",
+  EXC: "Excel",
+  GADS: "Google Ads",
+  META: "Meta",
   MKT: "Pazarlama",
   MNT: "Dijital İçerik",
   PD: "Kişisel Gelişim",
   CANVA: "Canva",
+  CNV: "Canva",
+  ETIC: "E-Ticaret",
   LNK: "LinkedIn",
   CAD: "AutoCAD",
   PRA: "Pratik Asistan",
@@ -188,7 +227,7 @@ function catalogModuleLevelOrderIndex(item: AcademyCatalogSortable): number {
   return 9_999;
 }
 
-/** Varsayılan vitrin sırası: dikey → 101→102→103 → slug. Puan kolonu okunmaz. */
+/** Varsayılan vitrin sırası: sabit dikey öncelik → 101→102→103 → slug. created_at / puan kolonu okunmaz. */
 export function compareAcademyCatalogCurriculumOrder(
   a: AcademyCatalogSortable,
   b: AcademyCatalogSortable,
@@ -208,4 +247,74 @@ export function orderAcademyCatalogByCurriculum<T extends AcademyCatalogSortable
   items: readonly T[],
 ): T[] {
   return [...items].sort(compareAcademyCatalogCurriculumOrder);
+}
+
+export type AcademyCatalogSeriesShelf<T extends { slug: string }> = {
+  key: string;
+  title: string | null;
+  courses: T[];
+};
+
+function catalogSeriesKey(slug: string): string {
+  if (TEKIL_BECERI_PREFIXES.some((prefix) => slug.startsWith(prefix))) {
+    return "excel";
+  }
+  for (const prefixes of CATALOG_PREFIX_ORDER) {
+    const match = prefixes.find((prefix) => slug.startsWith(prefix));
+    if (match) {
+      return match.replace(/-$/, "");
+    }
+  }
+  return slug;
+}
+
+function academyCatalogSeriesTitle(key: string, slugs: readonly string[]): string | null {
+  if (key === "excel") {
+    return "Tekil Beceriler & Masterclass";
+  }
+  for (const slug of slugs) {
+    for (const id of ACADEMY_PATHWAY_IDS) {
+      if (catalogPathwayRingSlugs(id).includes(slug)) {
+        return ACADEMY_PATHWAY_TITLES[id];
+      }
+    }
+  }
+  for (const id of ACADEMY_PATHWAY_IDS) {
+    const rings = catalogPathwayRingSlugs(id);
+    if (rings.some((slug) => catalogSeriesKey(slug) === key)) {
+      return ACADEMY_PATHWAY_TITLES[id];
+    }
+  }
+  return null;
+}
+
+/**
+ * Seviye yolu rafları — her dikey Temel → Orta → İleri üçlüsünü kendi satırında tutar.
+ * Raf sırası CATALOG_PREFIX_ORDER’a kilitlidir (created_at / girdi sırası okunmaz); hayalet halka basılmaz.
+ */
+export function groupAcademyCatalogBySeries<T extends AcademyCatalogSortable>(
+  items: readonly T[],
+): AcademyCatalogSeriesShelf<T>[] {
+  const shelves: AcademyCatalogSeriesShelf<T>[] = [];
+  const indexByKey = new Map<string, number>();
+
+  for (const item of orderAcademyCatalogByCurriculum(items)) {
+    const key = catalogSeriesKey(item.slug);
+    const existing = indexByKey.get(key);
+    if (existing !== undefined) {
+      shelves[existing]!.courses.push(item);
+      continue;
+    }
+    indexByKey.set(key, shelves.length);
+    shelves.push({ key, title: null, courses: [item] });
+  }
+
+  return shelves.map((shelf) => ({
+    ...shelf,
+    courses: orderAcademyCatalogByCurriculum(shelf.courses),
+    title: academyCatalogSeriesTitle(
+      shelf.key,
+      shelf.courses.map((course) => course.slug),
+    ),
+  }));
 }

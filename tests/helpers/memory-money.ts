@@ -402,6 +402,9 @@ export function createMemoryFreelancerStore(): MemoryFreelancerStore {
       jobs.set(job.id, job);
       return { ...job };
     },
+    async hasUser() {
+      return true;
+    },
     async getJob(id) {
       const job = jobs.get(id);
       return job ? { ...job } : null;

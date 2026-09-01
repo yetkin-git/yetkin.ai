@@ -65,7 +65,7 @@ describe("anayasa yüzey sözleşmeleri", () => {
     expect(RIBBON_ROOMS.map((room) => room.label)).not.toContain("Anasayfa");
     expect(RIBBON_ROOMS.map((room) => room.label)).not.toContain("Pazaryeri");
     expect(VERTICAL_ROOMS.find((room) => room.id === "career")?.blurb).toBe(
-      "Vize ve pasaport projeksiyonu",
+      "Mühürden vize ve teklif kapısı",
     );
     expect(isEidsPublicListingLocked()).toBe(true);
     expect(isJuniorProductionFrozen()).toBe(true);

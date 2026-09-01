@@ -29,6 +29,7 @@ import {
   createMemoryEscrowStore,
   createMemoryFreelancerStore,
   createMemoryLedgerStore,
+  createMemoryMarketplaceSplitPort,
   withMemoryAcceptAtomic,
   type MemoryLedgerStore,
 } from "./memory-money";
@@ -92,9 +93,10 @@ export type CitizenCashRingJourneyResult = {
 };
 
 /**
- * Laboratuvar tek vatandaş — PayTR CREDIT → Akademi DEBIT (+ hazine settlement CREDIT) → freelancer PSP hold (Rail DEBIT yok).
+ * Laboratuvar tek vatandaş — PayTR CREDIT → Akademi DEBIT (+ hazine settlement CREDIT) → freelancer bellek-PSP hold (Rail DEBIT yok).
  * Checkout token CREDIT yazmaz; para yalnız clearSuccessfulPaymentOrder ile girer.
  * escrow-hold / escrow-release-net Rail satırı yazılmaz (funding: psp).
+ * Üretim `paytrMarketplaceSplitPort` burada yok; o port not_configured → 503 (sahte CREDIT yok).
  */
 export async function runCitizenCashRingJourney(): Promise<CitizenCashRingJourneyResult> {
   const seed = academyCourseSeedBySlug("python-temel");
@@ -254,6 +256,7 @@ export async function runCitizenCashRingJourney(): Promise<CitizenCashRingJourne
     ledger,
     escrow: createMemoryEscrowStore(),
     freelancer: createMemoryFreelancerStore(),
+    marketplace: createMemoryMarketplaceSplitPort(),
   });
   const job = await createFreelancerJob(freelancerPorts, {
     clientId: CITIZEN_CASH_RING_CLIENT_ID,

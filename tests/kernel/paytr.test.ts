@@ -33,6 +33,25 @@ describe("PayTR port", () => {
     vi.unstubAllEnvs();
   });
 
+  it("sepet toplamı payment_amount ile eşleşmezse get-token açılmaz", async () => {
+    vi.stubEnv("PAYTR_MERCHANT_ID", "111111");
+    vi.stubEnv("PAYTR_MERCHANT_KEY", "key-secret");
+    vi.stubEnv("PAYTR_MERCHANT_SALT", "salt-secret");
+    const result = await requestPaytrCheckoutToken({
+      merchantOid: "wallet-top-up-mismatch",
+      userIp: "127.0.0.1",
+      email: "e2e@example.com",
+      paymentAmountMinor: 89_000,
+      merchantOkUrl: "http://localhost/ok",
+      merchantFailUrl: "http://localhost/fail",
+      userBasket: [{ name: "yukleme", amountMinor: 49_000, quantity: 1 }],
+    });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.reason).toBe("invalid_amount");
+    }
+  });
+
   it("minor tutarı yalnızca sınırda ondalık stringe çevirir", () => {
     expect(formatPaytrPaymentAmount(1300)).toBe("13.00");
     expect(() => formatPaytrPaymentAmount(13.5)).toThrow();
@@ -210,6 +229,9 @@ describe("PayTR port", () => {
         merchantOkUrl: "http://localhost/ok",
         merchantFailUrl: "http://localhost/fail",
         userBasket: basket,
+        userName: "Ayşe Kaya",
+        userAddress: "İnönü Mah. 157 Sk. No:3/C Akhisar",
+        userPhone: "05321234567",
       },
       fetchImpl,
     );
@@ -230,6 +252,10 @@ describe("PayTR port", () => {
     expect(posted.get("non_3d")).toBeNull();
     const userBasket = encodePaytrUserBasket(basket);
     expect(posted.get("user_basket")).toBe(userBasket);
+    expect(posted.get("user_phone")).toBe("05321234567");
+    expect(posted.get("user_name")).toBe("Ayşe Kaya");
+    expect(posted.get("user_address")).toBe("İnönü Mah. 157 Sk. No:3/C Akhisar");
+    expect(posted.get("user_phone")).not.toBe("05000000000");
     expect(posted.get("paytr_token")).toBe(
       buildPaytrTokenHash({
         credentials: {
@@ -249,6 +275,28 @@ describe("PayTR port", () => {
         testMode: "1",
       }),
     );
+  });
+
+  it("geçerli kimlik olsa bile sahte telefon ile get-token açılmaz", async () => {
+    vi.stubEnv("PAYTR_MERCHANT_ID", "111111");
+    vi.stubEnv("PAYTR_MERCHANT_KEY", "key-secret");
+    vi.stubEnv("PAYTR_MERCHANT_SALT", "salt-secret");
+    const result = await requestPaytrCheckoutToken({
+      merchantOid: "wallettopuptest2",
+      userIp: "85.105.141.10",
+      email: "e2e@example.com",
+      paymentAmountMinor: 1300,
+      merchantOkUrl: "http://localhost/ok",
+      merchantFailUrl: "http://localhost/fail",
+      userBasket: [{ name: "yukleme", amountMinor: 1300, quantity: 1 }],
+      userName: "Ayşe Kaya",
+      userAddress: "İnönü Mah. 157 Sk. No:3/C Akhisar",
+      userPhone: "05000000000",
+    });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.reason).toBe("invalid_user");
+    }
   });
 
   it("mock kapalıyken kimlik yoksa token basmaz", async () => {

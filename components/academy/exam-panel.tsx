@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { LinkButton } from "@/components/ui/link-button";
 import { useActionBridge } from "@/components/ui/action-bridge";
 import { CertificateSeal } from "@/components/academy/certificate-seal";
-import { ProofOfWorkCard } from "@/components/academy/proof-of-work-card";
 import { AcademyProgressionBridge } from "@/components/academy/progression-bridge";
 import { InteractiveTask } from "@/components/academy/interactive-task";
 import type { AcademyExamPublicQuestion } from "@/lib/academy/types";
@@ -16,7 +15,6 @@ import { UX_SEN } from "@/lib/copy/sen-voice/ux";
 import { formatAcademyExamRemaining } from "@/lib/academy/exam-duration";
 import { parseRailClientJson } from "@/lib/ui/parse-rail-json";
 import { withRailSession } from "@/lib/ui/rail-session-client-fetch";
-import type { AcademyPathwayMasteryView } from "@/lib/academy/level-pathway";
 
 export function ExamPanel({
   courseId,
@@ -31,10 +29,8 @@ export function ExamPanel({
   lead,
   holderName,
   instructorName,
-  curriculumProofHash,
   nextCourseTitle,
   nextCourseHref,
-  pathwayMastery,
   onAbandon,
 }: {
   courseId: string;
@@ -49,10 +45,8 @@ export function ExamPanel({
   lead?: string;
   holderName?: string;
   instructorName?: string;
-  curriculumProofHash?: string | null;
   nextCourseTitle?: string | null;
   nextCourseHref?: string | null;
-  pathwayMastery?: AcademyPathwayMasteryView | null;
   /** Focus Chamber: oturumu iptal et; JTI tüketilmez. */
   onAbandon?: () => void;
 }) {
@@ -186,17 +180,6 @@ export function ExamPanel({
             result.certificateHash ? `/academy/dogrula/${result.certificateHash}` : UX_SEN.bridge.examHref
           }
         />
-        {curriculumProofHash && courseTitle && instructorName ? (
-          <ProofOfWorkCard
-            model={{
-              lessonTitle: courseTitle,
-              courseTitle,
-              instructorName,
-              proofOfWorkHash: curriculumProofHash,
-              kind: "curriculum",
-            }}
-          />
-        ) : null}
         <div className="flex flex-wrap gap-3">
           <LinkButton
             href={
@@ -220,7 +203,6 @@ export function ExamPanel({
         <AcademyProgressionBridge
           nextTitle={nextCourseTitle}
           nextHref={nextCourseHref}
-          mastery={pathwayMastery}
         />
       </div>
     );
@@ -237,13 +219,13 @@ export function ExamPanel({
             {eyebrow ?? copy.chamberEyebrow}
           </p>
           <p className="mt-1 font-semibold text-[var(--foreground)]">{examTitle}</p>
-          {lead ? <p className="mt-1 text-sm text-[var(--muted)]">{lead}</p> : null}
-          <p className="text-xs text-[var(--muted)]">{copy.barajHint(passScore)}</p>
+          {lead ? <p className="mt-1 text-base text-slate-600">{lead}</p> : null}
+          <p className="text-xs text-slate-600">{copy.barajHint(passScore)}</p>
           {proofLessonKey ? (
-            <p className="mt-1 text-xs text-[var(--muted)]">{copy.workProofLead}</p>
+            <p className="mt-1 text-xs text-slate-600">{copy.workProofLead}</p>
           ) : null}
           {result && !result.passed ? (
-            <p className="mt-1 text-xs text-[var(--muted)]">{copy.retryHint}</p>
+            <p className="mt-1 text-xs text-slate-600">{copy.retryHint}</p>
           ) : null}
         </div>
         {clock ? (
@@ -291,7 +273,7 @@ export function ExamPanel({
           );
         })}
       </ol>
-      <p className="text-xs text-[var(--muted)]">
+      <p className="text-xs text-slate-600">
         {copy.stepOf(stepIndex + 1, questions.length)} · {answeredCount}/{questions.length}
       </p>
 
@@ -315,7 +297,7 @@ export function ExamPanel({
                 <label
                   key={`${activeQuestion.id}-${choiceIndex}`}
                   data-selected={selected ? "true" : "false"}
-                  className="academy-exam-choice flex cursor-pointer items-center gap-3 rounded-xl border border-[var(--border)] px-4 py-3 text-sm transition-[border-color,background,box-shadow]"
+                  className="academy-exam-choice flex cursor-pointer items-center gap-3 rounded-xl border border-[var(--border)] px-4 py-3 text-base font-medium transition-[border-color,background,box-shadow]"
                 >
                   <input
                     type="radio"

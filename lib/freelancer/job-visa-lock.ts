@@ -1,13 +1,13 @@
 import {
   FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY,
   YZ_ICERIK_LISTING_PATHWAY,
-  parseAcademyPathwayId,
-  type AcademyPathwayId,
+  parseListingVisaLockId,
+  type ListingVisaLockId,
 } from "@/lib/kernel/catalog-ids";
 
 /**
  * Freelancer ilan yazım kilidi — Kariyer inspect'ine import yok (oda duvarı).
- * İşveren seçmezse oda native dikeyi; kelime piyangosu yazımda kullanılmaz.
+ * İşveren ihtiyaç seçmezse oda native ihtiyacı; kelime piyangosu yazımda kullanılmaz.
  */
 export const FREELANCER_JOB_DEFAULT_VISA_PATHWAY = FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY;
 
@@ -16,12 +16,12 @@ export const FREELANCER_SEED_VISA_PATHWAY = YZ_ICERIK_LISTING_PATHWAY;
 
 export function parseFreelancerJobVisaPathwayId(
   value: string | null | undefined,
-): AcademyPathwayId | null {
-  return parseAcademyPathwayId(value);
+): ListingVisaLockId | null {
+  return parseListingVisaLockId(value);
 }
 
 export function lockFreelancerJobVisaPathway(
-  explicit?: AcademyPathwayId | null,
-): AcademyPathwayId {
+  explicit?: ListingVisaLockId | null,
+): ListingVisaLockId {
   return parseFreelancerJobVisaPathwayId(explicit) ?? FREELANCER_JOB_DEFAULT_VISA_PATHWAY;
 }

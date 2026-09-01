@@ -93,6 +93,9 @@ describe("PayTR cüzdan yükleme halkası — başlatma, callback, bakiye", () =
         merchantOkUrl: "https://rail.example/cuzdan",
         merchantFailUrl: "https://rail.example/cuzdan",
         userBasket: basket,
+        userName: "Ayşe Kaya",
+        userAddress: "İnönü Mah. 157 Sk. No:3/C Akhisar",
+        userPhone: "05321234567",
       },
       async (_url, init) => {
         capture.posted = new URLSearchParams(String(init?.body ?? ""));

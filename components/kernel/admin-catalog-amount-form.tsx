@@ -94,7 +94,7 @@ export function AdminCatalogAmountForm({
               setReasonCode(event.target.value as (typeof PRICE_DECISION_REASON_CODES)[number])
             }
             aria-label={copy.reasonCodeLabel}
-            className={cn(INPUT_SURFACE_CLASS, "mt-0 h-9 py-1 text-xs")}
+            className={cn(INPUT_SURFACE_CLASS, "mt-0 h-9 py-1")}
             required
           >
             {PRICE_DECISION_REASON_CODES.map((code) => (
@@ -110,7 +110,7 @@ export function AdminCatalogAmountForm({
           onChange={(event) => setReason(event.target.value)}
           aria-label={copy.reasonNoteLabel}
           placeholder={copy.reasonNotePlaceholder}
-          className="mt-0 h-9 w-full py-1 text-xs"
+          className="mt-0 h-9 w-full py-1"
           minLength={8}
           maxLength={500}
           required

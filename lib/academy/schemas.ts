@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { checkoutLegalConsentSchema } from "@/lib/kernel/legal/checkout-consent";
+import { checkoutBillingInfoSchema } from "@/lib/kernel/identity/billing-info";
 
 const lessonKeySchema = z
   .string()
@@ -26,12 +28,13 @@ export const academyProofSubmissionSchema = z.discriminatedUnion("kind", [
   }),
 ]);
 
-export const purchaseCourseInputSchema = z.object({
+export const purchaseCourseInputSchema = checkoutLegalConsentSchema.extend({
   lockId: z.string().trim().min(1).optional(),
   /** Serbest seviye etiketi — kapalı Temel/Orta/İleri enum’u değildir. */
   level: z.string().trim().min(1).max(64).optional(),
   /** Dürüst kapı — eğitim oynatıcı veya doğrudan sınav/vize. */
   path: z.enum(["training", "exam"]).optional(),
+  billing: checkoutBillingInfoSchema,
 });
 
 export const submitAcademyExamInputSchema = z.object({

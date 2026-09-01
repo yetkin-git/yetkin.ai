@@ -139,6 +139,7 @@ export const railV1HealthChecksSchema = z.strictObject({
   supabaseAuth: z.enum(["configured", "unconfigured"]),
   inngest: z.enum(["configured", "unconfigured"]),
   payments: z.enum(["configured", "unconfigured"]),
+  examSitting: z.enum(["configured", "unconfigured"]),
 });
 
 export const railV1HealthDataSchema = z.strictObject({
@@ -523,6 +524,7 @@ const RAIL_V1_HOP_CONTRACTS = {
       "checks.supabaseAuth",
       "checks.inngest",
       "checks.payments",
+      "checks.examSitting",
     ],
     dataSchema: railV1HealthDataSchema,
     errors: ["Veritabanı bağlı değil.", "Veritabanı erişilemez.", "Omurga hazır değil."],

@@ -91,6 +91,39 @@ describe("HTTP Idempotency-Key", () => {
     expect(retry.status).toBe(200);
   });
 
+  it("bypassed depoda eylem yine koşar; complete çağrılmaz", async () => {
+    let completes = 0;
+    const store = {
+      async begin() {
+        return { kind: "bypassed" as const };
+      },
+      async complete() {
+        completes += 1;
+      },
+      async abandon() {
+        throw new Error("abandon çağrılmamalı");
+      },
+    };
+    let runs = 0;
+    const first = await settleHttpIdempotency(
+      {
+        store,
+        userId: "user-1",
+        route: "/api/freelancer/jobs",
+        key: "550e8400-e29b-41d4-a716-446655440000",
+        requestHash: hashIdempotencyPayload({ title: "ilan" }),
+        requestId: "550e8400-e29b-41d4-a716-446655440000",
+      },
+      async () => {
+        runs += 1;
+        return { status: 201, body: { job: { id: "fj_1" } } };
+      },
+    );
+    expect(first.status).toBe(201);
+    expect(runs).toBe(1);
+    expect(completes).toBe(0);
+  });
+
   it("started TTL dolunca slot çalınır", () => {
     const createdAt = new Date("2026-08-15T12:00:00.000Z");
     expect(

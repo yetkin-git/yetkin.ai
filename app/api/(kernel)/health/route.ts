@@ -1,4 +1,4 @@
-import { getPrisma } from "@/lib/kernel/db";
+import { getPrisma, refreshPrismaConnection } from "@/lib/kernel/db";
 import { probeReadiness, pingPrisma } from "@/lib/kernel/health/probe";
 import { buildV1FailBody, buildV1OkBody } from "@/lib/kernel/http/api-v1";
 import { REQUEST_ID_HEADER, resolveRequestId } from "@/lib/kernel/http/request-id";
@@ -14,7 +14,12 @@ export async function GET(request: Request) {
     databaseUrl: process.env.DATABASE_URL,
     env: process.env,
     pingDb: async () => {
-      await pingPrisma(getPrisma());
+      try {
+        await pingPrisma(getPrisma());
+      } catch {
+        await refreshPrismaConnection();
+        await pingPrisma(getPrisma());
+      }
     },
   });
 

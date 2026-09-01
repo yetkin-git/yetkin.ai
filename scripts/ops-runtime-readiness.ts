@@ -6,11 +6,11 @@
  *   npm run ops:runtime-readiness
  *
  * Üretimde (NODE_ENV=production) Inngest çifti, PayTR üçlüsü,
- * DATABASE_URL boşsa, ya da Direct havuz /
- * PayTR sandbox-mock / localhost APP_URL duruyorsa çıkış 1.
+ * DATABASE_URL boşsa, ya da DIRECT_URL havuz /
+ * Vercel'de Direct DATABASE_URL / PayTR sandbox-mock / localhost APP_URL duruyorsa çıkış 1.
  * DEVLABS_KEY_PEPPER donmuş oda; üretim bloğu değildir.
- * Geliştirmede tablo basılır, çıkış 0. Direct :5432 / session-mode ve
- * GET /api/health Inngest sicili simüle edilir; canlı DB ping atılmaz.
+ * Geliştirmede tablo basılır, çıkış 0. DATABASE_URL transaction pooler :6543,
+ * DIRECT_URL Direct :5432 ve GET /api/health Inngest sicili simüle edilir; canlı DB ping atılmaz.
  */
 
 import { resolve } from "node:path";

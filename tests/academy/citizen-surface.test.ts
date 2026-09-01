@@ -73,10 +73,22 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(copy.catalog.description).toContain("Dersler ödeme sonrası açılır");
     expect(copy.catalog.description).not.toMatch(ledgerLeak);
     expect(copy.catalog.cardCtaBuy).toBe("Satın Al");
-    expect(copy.course.heroBuyCta("₺490,00")).toBe("Eğitimi Satın Al — ₺490,00");
+    expect(copy.catalog.vatInclusiveHint).toBe("KDV dahil");
+    expect(copy.catalog.priceVatInclusive("₺890,00")).toBe("₺890,00 · KDV dahil");
+    expect(copy.course.heroBuyCta("₺890,00")).toBe("Eğitimi Satın Al — ₺890,00");
     expect(copy.purchase.cta("₺250,00")).toContain("Eğitimi Satın Al & Öğren");
     expect(copy.player.resumeCta).toBe("Kaldığın Yerden Devam Et");
     expect(copy.listen.cta).toBe("Dersi Dinle");
+    expect(copy.player.completeCta).toBe("Dersi Tamamladım");
+    expect(copy.exam.startCta(30, 70)).toBe("Testi Başlat");
+    expect(copy.pilotPath.steps(70).map((step) => step.label)).toEqual([
+      "Eğitimi Tamamla",
+      "Testi Başlat",
+      "Sertifika / Yetkinlik Kazan",
+      "Kariyer sayfası",
+    ]);
+    expect(JSON.stringify(copy)).not.toContain("Mühür düşer");
+    expect(JSON.stringify(copy)).not.toContain("Dikey vize");
 
     expect(ACADEMY_COURSE_TITLES["python-temel"]).not.toMatch(ledgerLeak);
     for (const row of ACADEMY_COURSE_SEEDS) {
@@ -86,14 +98,19 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     const catalog = readSrc("app/academy/page.tsx");
     expect(catalog).toContain("CourseList");
     expect(catalog).toContain("filterAcademyPilotCatalog");
+    expect(catalog).not.toContain("overlayStudioGrowthLearnerBoard");
     expect(catalog).not.toContain("FilterBar");
     expect(catalog).not.toContain("SETTLED");
     expect(catalog).not.toContain("amountMinor");
 
     expect(readSrc("components/academy/course-list.tsx")).not.toContain("FilterBar");
     expect(readSrc("components/academy/course-list.tsx")).toContain("CourseCard");
+    expect(readSrc("components/academy/course-list.tsx")).not.toContain("AcademyPilotPath");
+    expect(readSrc("components/academy/course-list.tsx")).toContain("groupAcademyCatalogBySeries");
+    expect(readSrc("components/academy/course-list.tsx")).toContain("md:grid-cols-3");
     expect(readSrc("components/academy/course-card.tsx")).not.toContain("MarketPopularityBadge");
     expect(readSrc("components/academy/course-card.tsx")).toContain("academyModuleCodeBySlug");
+    expect(readSrc("components/academy/course-card.tsx")).toContain("academyCatalogSummaryBySlug");
     expect(readSrc("components/academy/level-pathway.tsx")).not.toContain("MarketPopularityBadge");
     expect(readSrc("components/academy/level-pathway.tsx")).not.toContain("trendScore");
     expect(readSrc("components/academy/level-pathway.tsx")).not.toContain("proofOfWorkHash");

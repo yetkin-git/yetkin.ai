@@ -61,11 +61,17 @@ describe("mühürlü PDF ders notu", () => {
     expect(academyPdfEncodesTurkishSample()).toBe(true);
   });
 
-  it("görsel etiketsiz üç perde ve pratik görev basar", () => {
+  it("görsel etiketsiz beş perde ve pratik görev basar", () => {
     const lesson = academyLessonByKey("python-temel", "python-temel-1");
     expect(lesson).not.toBeNull();
     const sections = plainAcademyLessonSections(lesson!.body);
-    expect(sections.map((row) => row.act)).toEqual(["giris", "syntax", "mantik", "uygulama"]);
+    expect(sections.map((row) => row.act)).toEqual([
+      "warmup",
+      "problem",
+      "development",
+      "conclusion",
+      "assessment",
+    ]);
     expect(sections.some((row) => row.prose.includes("Teknik şema"))).toBe(false);
     expect(sections.some((row) => row.prose.includes("Mikro-video"))).toBe(false);
     const hash = canonicalAcademyProofOfWorkHash("python-temel-1", sha256Hex)!;
@@ -150,7 +156,7 @@ describe("mühürlü PDF ders notu", () => {
       const course = memoryCourse({
         id: "ac_python_lab",
         slug: "python-temel",
-        title: "Python ile Sıfırdan Programlama ve Problem Çözme",
+        title: "Python ile Programlama ve Problem Çözme",
         catalogUnitKey: "course:python-temel",
       });
       const ports = {

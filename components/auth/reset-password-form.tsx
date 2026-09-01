@@ -125,7 +125,7 @@ export function ResetPasswordForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-3">
       <div>
-        <label className="block text-sm" htmlFor="new-password">
+        <label className="block text-sm font-medium" htmlFor="new-password">
           {copy.newPassword}
         </label>
         <PasswordInput
@@ -141,7 +141,7 @@ export function ResetPasswordForm() {
         />
       </div>
       <div>
-        <label className="block text-sm" htmlFor="confirm-password">
+        <label className="block text-sm font-medium" htmlFor="confirm-password">
           {copy.confirmPassword}
         </label>
         <PasswordInput

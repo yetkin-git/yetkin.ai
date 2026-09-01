@@ -1,6 +1,36 @@
-import { academyGrowthLessons } from "@/lib/academy/curricula/growth-draft";
+import { academyLessonDraft, type AcademyLessonDraft } from "@/lib/academy/curricula/types";
 
-export const UX_TEMEL_LESSONS = academyGrowthLessons([
+type LessonSpec = {
+  key: string;
+  order: number;
+  title: string;
+  intro: string;
+  trap: string;
+  analogy: string;
+  vaka: string;
+  conclusion: string;
+};
+
+function lessons(specs: readonly LessonSpec[]): AcademyLessonDraft[] {
+  return specs.map((spec) =>
+    academyLessonDraft(
+      spec.key,
+      spec.order,
+      spec.title,
+      spec.intro,
+      `${spec.trap}
+
+Bu adımda acele etmek sessiz hata doğurur; gürültü kopmaz, fiş bozulur.
+
+Bunu günlük hayattan bir örnekle ele alırsak... ${spec.analogy}
+
+${spec.vaka}`,
+      spec.conclusion,
+    ),
+  );
+}
+
+export const UX_TEMEL_LESSONS = lessons([
   {
     key: "ux-temel-1",
     order: 1,
