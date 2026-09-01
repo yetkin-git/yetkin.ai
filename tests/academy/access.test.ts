@@ -1,13 +1,16 @@
 import { afterEach, describe, expect, it } from "vitest";
 import {
   ACADEMY_GRANT_PURPOSE,
+  createAcademyAdminBypassPurchase,
   createAcademyGrantPurchase,
+  hasAcademyAdminBypass,
   hasPurchased,
   hasUnlimitedAcademyAccess,
   hasAcademyArtifactAccess,
   hasAcademyPlayerAccess,
   isZeroFeeAcademyGrantOpen,
 } from "@/lib/academy/access";
+import { hasCommercialAcademyEnrolment } from "@/lib/academy/enrolment";
 import { mergePublishedAcademyCatalog, publishedCoursesFromSeed } from "@/lib/academy/published-catalog";
 import { ACADEMY_COURSE_SEEDS } from "@/lib/academy/seed";
 import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
@@ -69,6 +72,23 @@ describe("akademi Super Admin erişimi ve katalog birleştirme", () => {
     expect(isZeroFeeAcademyGrantOpen("production")).toBe(false);
     expect(isZeroFeeAcademyGrantOpen("test")).toBe(true);
     expect(isZeroFeeAcademyGrantOpen("development")).toBe(true);
+  });
+
+  it("ADMIN / SUPER_ADMIN satın almadan oynatıcıyı açar; vatandaş kapalı kalır", () => {
+    delete process.env.SUPER_ADMIN_USER_ID;
+    process.env.CANONICAL_SUPER_ADMIN_EMAIL = ADMIN_EMAIL;
+    expect(hasAcademyAdminBypass({ userId: ADMIN_ID, email: ADMIN_EMAIL })).toBe(true);
+    expect(hasAcademyPlayerAccess(null, { userId: ADMIN_ID, email: ADMIN_EMAIL })).toBe(true);
+    expect(hasPurchased(null, { userId: ADMIN_ID, email: ADMIN_EMAIL })).toBe(true);
+    const preview = createAcademyAdminBypassPurchase(ADMIN_ID, "ac_python_temel");
+    expect(preview.status).toBe("SETTLED");
+    expect(preview.amountMinor).toBe(0);
+    expect(hasCommercialAcademyEnrolment(preview)).toBe(false);
+    expect(hasAcademyAdminBypass({ userId: ADMIN_ID, email: "vatandas@yetkin.rail" })).toBe(false);
+    expect(hasAcademyPlayerAccess(null, { userId: "citizen-1", email: "vatandas@yetkin.rail" })).toBe(
+      false,
+    );
+    expect(hasPurchased(null, { userId: "citizen-1", email: "vatandas@yetkin.rail" })).toBe(false);
   });
 
   it("mühürlü vitrin SKU tohumunu basar; şablon kartlar ve hayalet rail-temel girmez", () => {

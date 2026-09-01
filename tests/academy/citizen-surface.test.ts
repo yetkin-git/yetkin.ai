@@ -113,9 +113,13 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(readSrc("components/academy/course-card.tsx")).not.toContain("MarketPopularityBadge");
     expect(readSrc("components/academy/course-card.tsx")).toContain("academyModuleCodeBySlug");
     expect(readSrc("components/academy/course-card.tsx")).toContain("academyCatalogSummaryBySlug");
-    expect(readSrc("components/academy/course-card.tsx")).toContain("isAcademyMediaSealedSkuSlug");
+    expect(readSrc("components/academy/course-card.tsx")).toContain("academyCourseHasSealedAudio");
     expect(readSrc("components/academy/course-card.tsx")).toContain("data-academy-audio-badge");
     expect(readSrc("components/academy/course-card.tsx")).toContain("audioBadgeHint");
+    expect(readSrc("components/academy/course-card.tsx")).not.toContain("hasAudio = true");
+    expect(readSrc("components/academy/course-list.tsx")).not.toContain("Sesli");
+    expect(readSrc("components/academy/level-pathway.tsx")).not.toContain("Sesli");
+    expect(readSrc("components/academy/level-pathway.tsx")).not.toContain("audioBadge");
     expect(readSrc("components/academy/level-pathway.tsx")).not.toContain("MarketPopularityBadge");
     expect(readSrc("components/academy/level-pathway.tsx")).not.toContain("trendScore");
     expect(readSrc("components/academy/level-pathway.tsx")).not.toContain("proofOfWorkHash");

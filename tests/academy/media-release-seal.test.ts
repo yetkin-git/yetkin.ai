@@ -7,6 +7,7 @@ import {
   ACADEMY_GROWTH_SKU_SLUGS,
   ACADEMY_MEDIA_SEALED_AUDIO,
   ACADEMY_MEDIA_SEALED_SKU_SLUGS,
+  academyCourseHasSealedAudio,
   academyMediaSealedWavCount,
   isAcademyLessonAudioSealed,
 } from "@/lib/academy/pilot-sku";
@@ -69,8 +70,16 @@ describe("Zero-Cost Streaming mediaReleaseSeal", () => {
     expect(isAcademyLessonAudioSealed("ai-agent-ileri", "ai-agent-ileri-4")).toBe(true);
     expect(isAcademyLessonAudioSealed("ai-agent-ileri", "ai-agent-ileri-5")).toBe(false);
     expect(isAcademyLessonAudioSealed("python-temel", "python-temel-1")).toBe(false);
+    expect(ACADEMY_GROWTH_SKU_SLUGS.filter(academyCourseHasSealedAudio)).toEqual([
+      "ai-agent-temel",
+      "ai-agent-orta",
+      "ai-agent-ileri",
+    ]);
+    expect(academyCourseHasSealedAudio("python-temel")).toBe(false);
+    expect(academyCourseHasSealedAudio("ai-temel")).toBe(false);
+    expect(academyCourseHasSealedAudio("ux-temel")).toBe(false);
     expect(readFileSync(join(process.cwd(), "components/academy/course-card.tsx"), "utf8")).toContain(
-      "isAcademyMediaSealedSkuSlug",
+      "academyCourseHasSealedAudio",
     );
     expect(readFileSync(join(process.cwd(), "lib/copy/sen-voice/academy.ts"), "utf8")).toContain(
       "Seslendirmeli İçerik",

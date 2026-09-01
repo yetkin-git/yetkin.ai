@@ -12,7 +12,7 @@ import { academyCatalogSummaryBySlug } from "@/lib/academy/catalog-summaries";
 import type { AcademyCatalogLearnerStatus } from "@/lib/academy/catalog-learner";
 import type { AcademyCatalogViewMode } from "@/lib/academy/catalog-view-pref";
 import { resolveAcademyCatalogCardCta } from "@/lib/academy/storefront-cta";
-import { isAcademyMediaSealedSkuSlug } from "@/lib/academy/pilot-sku";
+import { academyCourseHasSealedAudio } from "@/lib/academy/pilot-sku";
 import { cn } from "@/components/ui/cn";
 
 export type CourseCardSurface = "catalog" | "library";
@@ -65,7 +65,7 @@ export function CourseCard({
         ? ACADEMY_SEN.catalog.statusCompleted
         : null;
 
-  const hasAudio = isAcademyMediaSealedSkuSlug(course.slug);
+  const hasAudio = academyCourseHasSealedAudio(course.slug);
   const audioBadge = hasAudio ? (
     <span
       data-academy-audio-badge=""

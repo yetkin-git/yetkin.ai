@@ -1,7 +1,7 @@
 /**
  * Vitrin / Antre ticari kayıt durumu — harçlı SETTLED lisans.
  * Super Admin lab bağışı (`sa_grant:`) nakit değildir; "satın alındı" sayılmaz.
- * Ders kapısı lab'ta `hasAcademyPlayerAccess` (access.ts) ile açılır.
+ * Ders kapısı ADMIN / SUPER_ADMIN için `hasAcademyPlayerAccess` (access.ts) ile açılır.
  * Client-safe: Prisma / engine import etmez.
  */
 
@@ -20,7 +20,7 @@ export function isAcademyGrantPurchase(
 
 /**
  * Antre / vitrin ticari CTA — harçlı SETTLED + 365 gün lisans.
- * Lab bağışı burada yeşil basmaz. Super Admin oynatıcı vizesi `hasAcademyPlayerAccess`.
+ * Lab bağışı burada yeşil basmaz. ADMIN oynatıcı vizesi `hasAcademyPlayerAccess`.
  */
 export function hasCommercialAcademyEnrolment(
   purchase: AcademyPurchaseRecord | null | undefined,

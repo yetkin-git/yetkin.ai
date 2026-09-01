@@ -341,7 +341,7 @@ describe("akademi kurs tohumu yüzeyi", () => {
     expect(readSrc("components/academy/course-card.tsx")).not.toContain("MarketPopularityBadge");
     expect(readSrc("components/academy/course-card.tsx")).toContain('hit="card"');
     expect(readSrc("components/academy/course-card.tsx")).toContain("academyCatalogSummaryBySlug");
-    expect(readSrc("components/academy/course-card.tsx")).toContain("isAcademyMediaSealedSkuSlug");
+    expect(readSrc("components/academy/course-card.tsx")).toContain("academyCourseHasSealedAudio");
     expect(readSrc("components/academy/course-card.tsx")).toContain("data-academy-audio-badge");
     expect(readSrc("components/academy/course-card.tsx")).not.toContain("Temel'den İleri");
     expect(readSrc("lib/academy/catalog-summaries.ts")).toContain(
@@ -358,6 +358,7 @@ describe("akademi kurs tohumu yüzeyi", () => {
     expect(list).toContain("courses.length === 0");
     expect(detail).toContain("loadCourseBySlug");
     expect(detail).toContain("hasCommercialAcademyEnrolment");
+    expect(detail).toContain("hasAccess");
     expect(detail).not.toContain("hasCommercialAcademyEnrolment(purchase) ||");
     expect(detail).toContain("PurchaseButton");
     expect(detail).toContain("ExamStartGate");

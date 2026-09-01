@@ -26,8 +26,9 @@ export default async function AcademyCurriculumPlayerPage({
   }
   const purchase = await loadPurchaseForUserCourse(session.id, board.course.id, userEmail);
   const actor = { userId: session.id, email: userEmail };
-  const hasPurchased =
+  const canAccess =
     hasCommercialAcademyEnrolment(purchase) || hasAcademyPlayerAccess(purchase, actor);
+  const hasPurchased = canAccess;
   const grantStudio = isSuperAdminActor({ id: session.id, email: userEmail });
 
   if (!hasPurchased) {

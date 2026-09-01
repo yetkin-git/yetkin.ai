@@ -29,15 +29,23 @@ export function isZeroFeeAcademyGrantOpen(
   return nodeEnv !== "production";
 }
 
+/**
+ * ADMIN / SUPER_ADMIN — kanonik e-posta veya SUPER_ADMIN_USER_ID.
+ * Prisma rol kolonu yok; env Super Admin kimliği her iki rol adını karşılar.
+ */
+export function hasAcademyAdminBypass(actor: AcademyActor): boolean {
+  return isCanonicalSuperAdminEmail(actor.email) || isSuperAdminUser(actor.userId);
+}
+
 export function hasUnlimitedAcademyAccess(actor: AcademyActor): boolean {
   if (!isZeroFeeAcademyGrantOpen()) {
     return false;
   }
-  return isCanonicalSuperAdminEmail(actor.email) || isSuperAdminUser(actor.userId);
+  return hasAcademyAdminBypass(actor);
 }
 
 /**
- * Ders oynatıcı + Antre DURUM B — ticari lisans veya lab Super Admin.
+ * Ders oynatıcı + Antre içerik kapısı — ticari lisans veya ADMIN bypass.
  * `hasCommercialAcademyEnrolment` ayrı kalır: bağış "satın alındı" değildir, nakit yazılmaz.
  */
 export function hasAcademyPlayerAccess(
@@ -45,19 +53,19 @@ export function hasAcademyPlayerAccess(
   actor: AcademyActor,
   now: Date = new Date(),
 ): boolean {
-  if (hasUnlimitedAcademyAccess(actor)) {
+  if (hasAcademyAdminBypass(actor)) {
     return true;
   }
   return hasCommercialAcademyEnrolment(purchase, now);
 }
 
-/** Satın alma yoksa bile kanonik SUPER_ADMIN / env admin SETTLED sayılır — motor / lab. */
+/** Satın alma yoksa bile ADMIN / SUPER_ADMIN SETTLED sayılır — içerik kapısı. */
 export function hasPurchased(
   purchase: AcademyPurchaseRecord | null,
   actor: AcademyActor,
   now: Date = new Date(),
 ): boolean {
-  if (hasUnlimitedAcademyAccess(actor)) {
+  if (hasAcademyAdminBypass(actor)) {
     return true;
   }
   if (purchase?.status !== "SETTLED") {
@@ -74,10 +82,48 @@ export function hasAcademyArtifactAccess(
   purchase: AcademyPurchaseRecord | null,
   actor: AcademyActor,
 ): boolean {
-  if (hasUnlimitedAcademyAccess(actor)) {
+  if (hasAcademyAdminBypass(actor)) {
     return true;
   }
   return purchase?.status === "SETTLED";
+}
+
+function academyGrantPurchaseRecord(
+  userId: string,
+  courseId: string,
+  now: Date,
+): AcademyPurchaseRecord {
+  return {
+    id: randomUUID(),
+    userId,
+    courseId,
+    priceLockId: `${ACADEMY_GRANT_LOCK_PREFIX}${userId}:${courseId}`,
+    amountMinor: toAmountMinor(0),
+    currencyCode: SETTLEMENT_CURRENCY,
+    status: "SETTLED",
+    settledAt: now,
+    createdAt: now,
+    updatedAt: now,
+  };
+}
+
+/** Üretimde kalıcı yazılmaz; oynatıcı / Antre içeriği için bellek içi SATIR. */
+export function createAcademyAdminBypassPurchase(
+  userId: string,
+  courseId: string,
+  now: Date = new Date(),
+): AcademyPurchaseRecord {
+  logEvent({
+    level: "warn",
+    event: "academy.admin-bypass",
+    purpose: ACADEMY_GRANT_PURPOSE,
+    userId,
+    action: "academy-admin-bypass",
+    amountMinor: 0,
+    applied: true,
+    reason: courseId,
+  });
+  return academyGrantPurchaseRecord(userId, courseId, now);
 }
 
 export function createAcademyGrantPurchase(
@@ -98,18 +144,7 @@ export function createAcademyGrantPurchase(
     applied: true,
     reason: courseId,
   });
-  return {
-    id: randomUUID(),
-    userId,
-    courseId,
-    priceLockId: `${ACADEMY_GRANT_LOCK_PREFIX}${userId}:${courseId}`,
-    amountMinor: toAmountMinor(0),
-    currencyCode: SETTLEMENT_CURRENCY,
-    status: "SETTLED",
-    settledAt: now,
-    createdAt: now,
-    updatedAt: now,
-  };
+  return academyGrantPurchaseRecord(userId, courseId, now);
 }
 
 export async function resolveSettledAcademyPurchase(
@@ -120,26 +155,26 @@ export async function resolveSettledAcademyPurchase(
 ): Promise<AcademyPurchaseRecord | null> {
   const existing = await store.getPurchaseByUserAndCourse(actor.userId, courseId);
   if (existing?.status === "SETTLED") {
-    if (hasUnlimitedAcademyAccess(actor) || isAcademyLicenseActive(existing.settledAt)) {
+    if (hasAcademyAdminBypass(actor) || isAcademyLicenseActive(existing.settledAt)) {
       return existing;
     }
     return null;
   }
-  if (!hasUnlimitedAcademyAccess(actor)) {
+  if (!hasAcademyAdminBypass(actor)) {
     return existing;
   }
-  if (!options.persistGrant) {
-    return existing ?? createAcademyGrantPurchase(actor.userId, courseId);
+  if (options.persistGrant && isZeroFeeAcademyGrantOpen()) {
+    if (existing) {
+      return existing;
+    }
+    try {
+      return await store.insertPurchase(createAcademyGrantPurchase(actor.userId, courseId));
+    } catch {
+      const raced = await store.getPurchaseByUserAndCourse(actor.userId, courseId);
+      return raced ?? createAcademyGrantPurchase(actor.userId, courseId);
+    }
   }
-  if (existing) {
-    return existing;
-  }
-  try {
-    return await store.insertPurchase(createAcademyGrantPurchase(actor.userId, courseId));
-  } catch {
-    const raced = await store.getPurchaseByUserAndCourse(actor.userId, courseId);
-    return raced ?? createAcademyGrantPurchase(actor.userId, courseId);
-  }
+  return existing ?? createAcademyAdminBypassPurchase(actor.userId, courseId);
 }
 
 /** SETTLED satır lisans süresi dolsa da döner. Super Admin tohum bağışı oynatıcıdaki gibi. */

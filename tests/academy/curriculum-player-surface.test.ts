@@ -37,6 +37,7 @@ describe("D2.1 müfredat oynatıcı yüzeyi — üç ekran + dinle kapalı", () 
     expect(antre).toContain("SettlementSteps");
     expect(antre).toContain("hasAcademyPlayerAccess");
     expect(antre).toContain("hasCommercialAcademyEnrolment");
+    expect(antre).toContain("hasAccess");
     expect(antre).not.toContain("hasCommercialAcademyEnrolment(purchase) ||");
     expect(antre).toContain("/oyna");
     expect(antre).not.toContain("FilterBar");
@@ -47,6 +48,7 @@ describe("D2.1 müfredat oynatıcı yüzeyi — üç ekran + dinle kapalı", () 
     const oyna = readSrc("app/academy/[slug]/oyna/page.tsx");
     expect(oyna).toContain("requirePageSession");
     expect(oyna).toContain("hasAcademyPlayerAccess");
+    expect(oyna).toContain("canAccess");
     expect(oyna).toContain("hasPurchased");
     expect(oyna).toContain("loadAcademyCurriculum");
     expect(oyna).toContain("CurriculumPlayer");
@@ -72,6 +74,7 @@ describe("D2.1 müfredat oynatıcı yüzeyi — üç ekran + dinle kapalı", () 
 
     expect(readSrc("lib/academy/load.ts")).toContain("hasAcademyPlayerAccess");
     expect(readSrc("lib/academy/access.ts")).toContain("hasAcademyPlayerAccess");
+    expect(readSrc("lib/academy/access.ts")).toContain("hasAcademyAdminBypass");
     expect(readSrc("components/academy/purchase-button.tsx")).toContain("licenseNote");
     expect(readSrc("lib/academy/purchase-path.ts")).toContain("Eğitimi Satın Al & Öğren");
 

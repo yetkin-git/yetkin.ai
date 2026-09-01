@@ -42,7 +42,8 @@ import {
   resolveAcademyCourseFromSeed,
 } from "@/lib/academy/published-catalog";
 import {
-  createAcademyGrantPurchase,
+  createAcademyAdminBypassPurchase,
+  hasAcademyAdminBypass,
   hasAcademyPlayerAccess,
   hasUnlimitedAcademyAccess,
   resolveAcademyArtifactPurchase,
@@ -113,7 +114,7 @@ export async function loadPurchaseForUserCourse(
       persistGrant: hasUnlimitedAcademyAccess(actor),
     });
   } catch {
-    return hasUnlimitedAcademyAccess(actor) ? createAcademyGrantPurchase(userId, courseId) : null;
+    return hasAcademyAdminBypass(actor) ? createAcademyAdminBypassPurchase(userId, courseId) : null;
   }
 }
 
@@ -127,7 +128,9 @@ export async function loadArtifactPurchaseForUserCourse(
     const ports = createPrismaAcademyPorts();
     return await resolveAcademyArtifactPurchase(ports.academy, actor, courseId);
   } catch {
-    return hasUnlimitedAcademyAccess(actor) ? createAcademyGrantPurchase(userId, courseId) : null;
+    return hasAcademyAdminBypass(actor)
+      ? createAcademyAdminBypassPurchase(userId, courseId)
+      : null;
   }
 }
 
@@ -169,7 +172,7 @@ export async function loadCurriculumPlayerForUser(
     const ports = createPrismaAcademyPorts();
     return await loadAcademyCurriculumPlayer(ports, { courseId, userId, email });
   } catch {
-    if (!hasUnlimitedAcademyAccess(actor)) {
+    if (!hasAcademyAdminBypass(actor)) {
       return null;
     }
     const seeded = resolveAcademyCourseFromSeed(courseId);

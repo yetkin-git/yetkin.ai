@@ -96,14 +96,15 @@ export default async function AcademyCoursePage({
   const actor = session ? { userId: session.id, email: session.email } : null;
   const labPlayer = actor != null && hasAcademyPlayerAccess(purchase, actor);
   const enrolled = hasCommercialAcademyEnrolment(purchase);
-  const access = enrolled ? "enrolled" : academyStorefrontAccess(artifact);
+  const hasAccess = enrolled || labPlayer;
+  const access = hasAccess ? "enrolled" : academyStorefrontAccess(artifact);
   const holderName = session ? await loadAcademyHolderName(session.id) : "Aday";
   const examGate =
     session && enrolled
       ? await loadExamGateForUserCourse(session.id, board.course.id, session.email)
       : null;
   const preferExamGate = gate === "exam" && Boolean(examGate && !examGate.certificate);
-  const wallet = session && !enrolled ? await loadWalletBoard(session.id) : null;
+  const wallet = session && !hasAccess ? await loadWalletBoard(session.id) : null;
   const paymentsReady = isPaymentsPortConfigured() || isPaytrMockCheckoutAllowed();
   const copy = SEN_VOICE.academy.course;
   const playerCopy = SEN_VOICE.academy.player;
@@ -123,7 +124,7 @@ export default async function AcademyCoursePage({
     currentSlug: board.course.slug,
   });
   const player =
-    session && enrolled && !examGate?.certificate
+    session && hasAccess && !examGate?.certificate
       ? await loadCurriculumPlayerForUser(session.id, board.course.id, session.email)
       : null;
   const completedKeys = examGate?.certificate
@@ -195,15 +196,15 @@ export default async function AcademyCoursePage({
           />
         }
       />
-      {enrolled && syllabus.lessonCount > 0 ? (
+      {hasAccess && syllabus.lessonCount > 0 ? (
         <AcademyProgressBar
           value={progressPercent}
           label={playerCopy.progress(completedKeys.length, syllabus.lessonCount)}
         />
       ) : null}
       {continueBoard && !revealExamGate ? <AcademyContinuePanel board={continueBoard} /> : null}
-      {enrolled ? (
-        examGate?.certificate ? (
+      {hasAccess ? (
+        enrolled && examGate?.certificate ? (
           <Card title={copy.certificateEyebrow}>
             <p>{copy.certificateBody}</p>
             <div className="mt-4 space-y-4">
@@ -283,12 +284,12 @@ export default async function AcademyCoursePage({
         syllabus={syllabus}
         passScore={ACADEMY_EXAM_PASS_SCORE}
         completedKeys={completedKeys}
-        showProgress={enrolled}
+        showProgress={hasAccess}
       />
-      {!enrolled && board.course.purchasable ? (
+      {!hasAccess && board.course.purchasable ? (
         <p className="text-xs leading-relaxed text-[var(--muted)]">{copy.libraryGuarantee}</p>
       ) : null}
-      {!enrolled && board.course.purchasable ? (
+      {!hasAccess && board.course.purchasable ? (
         <Card eyebrow={SEN_VOICE.academy.settlement.title} className="opacity-90">
           <SettlementSteps lockMinutes={PRICE_LOCK_GRACE_MINUTES} />
         </Card>

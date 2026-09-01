@@ -132,6 +132,11 @@ export function isAcademyMediaSealedSkuSlug(slug: string): slug is AcademyMediaS
   return (ACADEMY_MEDIA_SEALED_SKU_SLUGS as readonly string[]).includes(slug);
 }
 
+/** Katalog Sesli rozeti — yalnız diske basılmış WAV anahtarı olan SKU. */
+export function academyCourseHasSealedAudio(slug: string): boolean {
+  return academyMediaSealedLessonKeys(slug).length > 0;
+}
+
 export function academyMediaSealedLessonKeys(courseSlug: string): readonly string[] {
   if (!isAcademyMediaSealedSkuSlug(courseSlug)) {
     return [];
