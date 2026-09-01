@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
   LEGAL_CHECKOUT_CONSENT_COPY,
   LEGAL_ENTITY,
@@ -249,6 +249,23 @@ describe("lansman hukuk yüzeyi (O13)", () => {
       "destek@yetkin.ai",
     ]);
     expect(LEGAL_SITE_PATHS).not.toContain("mailto:destek@yetkin.ai");
+  });
+
+  it("sitemap loc alanları https://yetkin.ai mutlak adresidir", async () => {
+    vi.stubEnv("NEXT_PUBLIC_APP_URL", "http://localhost:3000");
+    const { default: sitemap } = await import("@/app/sitemap");
+    const { default: robots } = await import("@/app/robots");
+    const urls = sitemap().map((entry) => entry.url);
+    expect(urls).toContain("https://yetkin.ai/");
+    expect(urls).toContain("https://yetkin.ai/legal");
+    expect(urls).toContain("https://yetkin.ai/legal/gizlilik");
+    expect(urls).toContain("https://yetkin.ai/iletisim");
+    for (const url of urls) {
+      expect(url.startsWith("https://yetkin.ai")).toBe(true);
+      expect(url.startsWith("/")).toBe(false);
+    }
+    expect(robots().sitemap).toBe("https://yetkin.ai/sitemap.xml");
+    vi.unstubAllEnvs();
   });
 
   it("yasal sayfalar Hukuk rozetinin üstünde anasayfa çıkışı basar", () => {

@@ -7,5 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: ["/", "/legal", ...LEGAL_SITE_PATHS],
     },
+    sitemap: "https://yetkin.ai/sitemap.xml",
   };
 }
