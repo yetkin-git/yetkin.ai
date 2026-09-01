@@ -81,8 +81,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Koray:/);
-      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
       expect(academyLessonHasPedagogy(lesson.body), lesson.key).toBe(true);
       expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
@@ -95,8 +95,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       const spoken = spokenAcademyLessonBody(lesson.body);
       expect(spoken.length, lesson.key).toBeGreaterThan(400);
       expect(spoken, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
-      expect(spoken, lesson.key).toContain("Koray");
-      expect(spoken, lesson.key).toContain("Maya");
+      expect(spoken, lesson.key).not.toMatch(/\bKoray\b/);
+      expect(spoken, lesson.key).toContain("Hoş geldiniz");
       expect(spoken, lesson.key).not.toContain("Giriş. Problem.");
       expect(spoken, lesson.key).not.toContain("Gelişme. Uygulama.");
       expect(spoken, lesson.key).not.toContain("Sonuç. Toparlama.");
@@ -115,8 +115,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Koray:/);
-      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
       expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
       expect(lesson.body, lesson.key).toContain("```alistirma");
@@ -132,8 +132,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Koray:/);
-      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
       expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
       expect(lesson.body, lesson.key).toContain("```alistirma");
@@ -149,8 +149,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Koray:/);
-      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
       expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
       expect(lesson.body, lesson.key).toContain("```alistirma");
@@ -166,8 +166,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Koray:/);
-      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
       expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
       expect(lesson.body, lesson.key).toContain("```alistirma");
@@ -183,8 +183,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Koray:/);
-      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
       expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
       expect(lesson.body, lesson.key).toContain("```alistirma");
@@ -200,8 +200,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Koray:/);
-      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
       expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
       expect(lesson.body, lesson.key).toContain("```alistirma");
@@ -217,8 +217,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Koray:/);
-      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
       expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
       expect(lesson.body, lesson.key).toContain("```alistirma");
@@ -234,8 +234,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Koray:/);
-      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
       expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
       expect(lesson.body, lesson.key).toContain("```alistirma");
@@ -251,8 +251,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Can:/);
-      expect(lesson.body, lesson.key).toMatch(/Ece:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Can:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
       expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
       expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
@@ -272,8 +272,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Can:/);
-      expect(lesson.body, lesson.key).toMatch(/Ece:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Can:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
       expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
       expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
@@ -293,8 +293,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Can:/);
-      expect(lesson.body, lesson.key).toMatch(/Ece:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Can:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
       expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
       expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
@@ -314,8 +314,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Tarık:/);
-      expect(lesson.body, lesson.key).toMatch(/Gözde:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Tarık:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
       expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
       expect(lesson.body, lesson.key).not.toMatch(/Can:/);
@@ -337,8 +337,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Tarık:/);
-      expect(lesson.body, lesson.key).toMatch(/Gözde:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Tarık:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
       expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
       expect(lesson.body, lesson.key).not.toMatch(/Can:/);
@@ -360,8 +360,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Tarık:/);
-      expect(lesson.body, lesson.key).toMatch(/Gözde:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Tarık:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
       expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
       expect(lesson.body, lesson.key).not.toMatch(/Can:/);
@@ -383,8 +383,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Tarık:/);
-      expect(lesson.body, lesson.key).toMatch(/Gözde:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Tarık:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
       expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
       expect(lesson.body, lesson.key).not.toMatch(/Can:/);
@@ -406,8 +406,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Tarık:/);
-      expect(lesson.body, lesson.key).toMatch(/Gözde:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Tarık:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
       expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
       expect(lesson.body, lesson.key).not.toMatch(/Can:/);
@@ -429,8 +429,8 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.title.length, lesson.key).toBeGreaterThan(24);
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-      expect(lesson.body, lesson.key).toMatch(/Tarık:/);
-      expect(lesson.body, lesson.key).toMatch(/Gözde:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Tarık:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
       expect(lesson.body, lesson.key).not.toMatch(/Maya:/);
       expect(lesson.body, lesson.key).not.toMatch(/Can:/);
@@ -514,8 +514,8 @@ describe("03.19 seviye ve pedagoji", () => {
 describe("03.20 insani diyalog ve terim parantezleri", () => {
   it("Amiral Ders Koray/Maya DialogueTurn ve Türkçe terim parantezi taşır", { timeout: 20_000 }, () => {
     for (const lesson of curriculumForCourseSlug(PILOT)) {
-      expect(lesson.body, lesson.key).toMatch(/Koray:/);
-      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       expect(lesson.body, lesson.key).toMatch(/\([^)]{4,80}\)/u);
       const spoken = spokenAcademyLessonBody(lesson.body);
       expect(spoken, lesson.key).toMatch(/: /u);
@@ -549,8 +549,8 @@ describe("03.21 eğitmen Maya ve doğaçlama anlatım", () => {
     const encyclopedic = /yapılmaktadır|olacaktır|edilmektedir|edilecektir/u;
     for (const lesson of curriculumForCourseSlug(PILOT)) {
       expect(lesson.body, lesson.key).not.toMatch(encyclopedic);
-      expect(lesson.body, lesson.key).toMatch(/Koray:/);
-      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
     }
   });
 });
@@ -559,7 +559,7 @@ describe("03.22 tek ses tek isim", () => {
   it("altı TTS kodu yedi Türkçe isme mühürlüdür; ikinci isim yok", () => {
     expect(ACADEMY_INSTRUCTOR_TTS_VOICES).toEqual([
       "Zephyr",
-      "Kore",
+      "Erinome",
       "Puck",
       "Fenrir",
       "Aoede",
@@ -568,7 +568,7 @@ describe("03.22 tek ses tek isim", () => {
     ]);
     expect(ACADEMY_TTS_VOICES).toEqual([
       "Zephyr",
-      "Kore",
+      "Erinome",
       "Puck",
       "Fenrir",
       "Aoede",
@@ -580,7 +580,7 @@ describe("03.22 tek ses tek isim", () => {
       "Orus",
     ]);
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Zephyr.name).toBe("Deniz");
-    expect(ACADEMY_INSTRUCTORS_BY_VOICE.Kore.name).toBe("Maya");
+    expect(ACADEMY_INSTRUCTORS_BY_VOICE.Erinome.name).toBe("Maya");
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Puck.name).toBe("Aras");
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Fenrir.name).toBe("Boran");
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Aoede.name).toBe("Selin");
@@ -634,7 +634,7 @@ describe("03.22 tek ses tek isim", () => {
     expect(academyModeratorForSlug("linkedin-masterclass").name).toBe("Tarık");
     expect(academyInstructorBySlug("linkedin-masterclass").name).toBe("Gözde");
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Gözde")?.speechRate).toBe(
-      0.95,
+      1,
     );
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Tarık")?.speechRate).toBe(
       1,
@@ -643,15 +643,15 @@ describe("03.22 tek ses tek isim", () => {
     expect(ACADEMY_MODERATOR.role).toBe("Stüdyo Sunucusu / Moderatör");
     const instructor = academyInstructorBySlug(PILOT);
     expect(instructor.name).toBe("Maya");
-    expect(instructor.voice).toBe("Kore");
+    expect(instructor.voice).toBe("Erinome");
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Maya")?.speechRate).toBe(
-      0.95,
+      1,
     );
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Koray")?.speechRate).toBe(
       1,
     );
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Ece")?.speechRate).toBe(
-      0.95,
+      1,
     );
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Can")?.speechRate).toBe(
       1,
@@ -697,7 +697,7 @@ describe("03.26 beş perde ders akışı", () => {
     expect(first.body).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
     const spokenFirst = spokenAcademyLessonBody(first.body);
     expect(spokenFirst).toContain("kargo");
-    expect(spokenFirst).toContain("Koray");
+    expect(spokenFirst).not.toMatch(/\bKoray\b/);
     expect(spokenFirst).not.toContain(ACADEMY_MODERATOR_OPEN_LEAD);
     const spokenLast = spokenAcademyLessonBody(last.body);
     expect(spokenLast).not.toContain(ACADEMY_MODERATOR_CLOSE_TAIL);
@@ -716,8 +716,8 @@ describe("03.27 stüdyo sarmalayıcı gövdeye karışmaz", () => {
       expect(lesson.body, lesson.key).not.toContain(academyModeratorVakaAskForSlug(PILOT));
       expect(lesson.body, lesson.key).not.toContain(academyModeratorParamsAskForSlug(PILOT));
       expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
-      expect(lesson.body, lesson.key).toMatch(/Koray:/);
-      expect(lesson.body, lesson.key).toMatch(/Maya:/);
+      expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
+      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
       const spoken = spokenAcademyLessonBody(lesson.body);
       expect(spoken, lesson.key).not.toContain(expandAcademySpokenAbbreviations(ask));
       expect(spoken, lesson.key).not.toContain(ACADEMY_INSTRUCTOR_ASK_REPLY);

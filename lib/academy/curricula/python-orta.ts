@@ -1,6 +1,6 @@
 /**
  * Python Orta Seviye — Nesne Yönelimli Programlama ve Veri İşleme.
- * PEDAGOJI.md: 5 perde, DialogueTurn[], Maya %95 / Koray %98 (uygulamacı uzman), Fail-Closed.
+ * PEDAGOJI.md: 4 perde, tek eğitmen, Fail-Closed.
  */
 
 import type { AcademyExamQuestion } from "@/lib/academy/types";

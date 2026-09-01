@@ -23,7 +23,7 @@ describe("akademi iş kanıtı kamu doğrulama", () => {
         .map((lesson) => lesson.key)
         .filter((key) => academyInteractiveTaskByKey(key) != null),
     );
-    expect(keys.length).toBe(108);
+    expect(keys.length).toBe(132);
     const hashes = new Set<string>();
     for (const lessonKey of keys) {
       const hash = canonicalAcademyProofOfWorkHash(lessonKey, sha256Hex);

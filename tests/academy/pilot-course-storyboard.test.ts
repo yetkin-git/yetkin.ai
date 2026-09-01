@@ -43,7 +43,7 @@ function flowForPilotLesson(lessonIndex: number) {
   return { lesson, script, sections };
 }
 
-describe("Amiral Ders (Pilot SKU) beş perde DialogueTurn akışı", () => {
+describe("Amiral Ders (Pilot SKU) dört perde tek eğitmen akışı", () => {
   it("vitrin yalnız mühürlü Python Temel basar; şablon ve hayalet SKU girmez", () => {
     expect(Object.keys(ACADEMY_COURSE_TITLES)).toEqual([
       "security-temel",
@@ -120,8 +120,8 @@ describe("Amiral Ders (Pilot SKU) beş perde DialogueTurn akışı", () => {
       ACADEMY_FIVE_ACT_HEADINGS.conclusion,
       ACADEMY_FIVE_ACT_HEADINGS.assessment,
     ]);
-    expect(lesson.body).toMatch(/Koray:/);
-    expect(lesson.body).toMatch(/Maya:/);
+    expect(lesson.body).not.toMatch(/Koray:/);
+    expect(lesson.body).toContain("Hoş geldiniz. Bu bölümde");
     expect(academyInstructorBySlug(ACADEMY_PILOT_SKU_SLUG).name).toBe("Maya");
     expect(ACADEMY_MODERATOR.name).toBe("Koray");
     expect(ACADEMY_MODERATOR.speechRate).toBe(1);

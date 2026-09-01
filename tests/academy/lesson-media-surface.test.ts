@@ -68,7 +68,7 @@ describe("akademi mikro-video ve şema mimarisi", () => {
         expect(blocks.some((block) => block.kind === "exercise"), lesson.key).toBe(true);
       }
     }
-    expect(lessonCount).toBe(108);
+    expect(lessonCount).toBe(132);
     expect(seenDiagrams.size).toBeGreaterThanOrEqual(6);
     expect(ACADEMY_SEALED_DIAGRAM_KEYS.length).toBeGreaterThanOrEqual(6);
   });

@@ -1,6 +1,6 @@
 /**
  * LinkedIn İle Profesyonel Marka İnşası ve B2B Müşteri Bulma Masterclass (LNK-MC) — mühürlü müfredat.
- * PEDAGOJI.md: tekil Masterclass, 5 perde, DialogueTurn[], Gözde %95 / Tarık %100.
+ * PEDAGOJI.md: tekil Masterclass, 4 perde, tek eğitmen, Fail-Closed.
  * Üretim: Grok 4.6. Denetim: Gemini 3.7 Flash — boş All-Star, ICP’siz InMail, kopya duvar yok.
  */
 

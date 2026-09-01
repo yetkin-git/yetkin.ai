@@ -1,6 +1,6 @@
 /**
  * Excel ve Yapay Zekâ Destekli Veri Analizi Masterclass (EXC-MC) — mühürlü müfredat.
- * PEDAGOJI.md: tekil Masterclass, 5 perde, DialogueTurn[], Gözde %95 / Tarık %100.
+ * PEDAGOJI.md: tekil Masterclass, 4 perde, tek eğitmen, Fail-Closed.
  * Denetim: formül mantığı Fail-closed; boş aralık ortalama uydurmaz, XLOOKUP tam eşleşme.
  */
 

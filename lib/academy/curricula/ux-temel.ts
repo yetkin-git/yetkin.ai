@@ -1,4 +1,11 @@
-import { academyLessonDraft, type AcademyLessonDraft } from "@/lib/academy/curricula/types";
+import {
+  academyInstructorApplication,
+  academyInstructorIntro,
+  academyInstructorProblem,
+  academyInstructorSummary,
+  academyLessonDraft,
+  type AcademyLessonDraft,
+} from "@/lib/academy/curricula/types";
 
 type LessonSpec = {
   key: string;
@@ -12,22 +19,24 @@ type LessonSpec = {
 };
 
 function lessons(specs: readonly LessonSpec[]): AcademyLessonDraft[] {
-  return specs.map((spec) =>
-    academyLessonDraft(
+  return specs.map((spec) => {
+    const intro = academyInstructorIntro(spec.title, spec.intro);
+    const problem = academyInstructorProblem(spec.trap);
+    const application = academyInstructorApplication(`${spec.analogy} ${spec.vaka}`);
+    const summary = academyInstructorSummary(
+      `${spec.title} becerisini`,
+      spec.conclusion,
+      spec.order >= 12 || /el teslimi|kariyer/iu.test(spec.title),
+    );
+    return academyLessonDraft(
       spec.key,
       spec.order,
       spec.title,
-      spec.intro,
-      `${spec.trap}
-
-Bu adımda acele etmek sessiz hata doğurur; gürültü kopmaz, fiş bozulur.
-
-Bunu günlük hayattan bir örnekle ele alırsak... ${spec.analogy}
-
-${spec.vaka}`,
-      spec.conclusion,
-    ),
-  );
+      `Giriş & Bağlam\n${intro}`,
+      `Problem\n${problem}\n\nKod & Uygulama Mantığı\n${application}`,
+      `Özet & Kazanım\n${summary}`,
+    );
+  }).map((draft) => ({ ...draft, format: "compact" as const }));
 }
 
 export const UX_TEMEL_LESSONS = lessons([

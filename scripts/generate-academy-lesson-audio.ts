@@ -43,9 +43,13 @@ import { canonicalizeGeminiTtsLanguageCode, canonicalizeGeminiTtsVoiceName } fro
 import { normalizeRuntimeDatabaseUrl } from "@/lib/kernel/postgres-url";
 
 const SPEECH_TIMEOUT_MS = 120_000;
-/** Google AI Studio Tier 1 RPM 10 — 6,5 sn ara ile dakikada 9 istek. */
-const TURN_PAUSE_MS = 6_500;
-const RATE_LIMIT_RETRY_MS = 10_000;
+/** Google AI Studio Tier 1 RPM 10 — 8 sn ara ile dakikada ~7 istek; preview DSQ 429 için pay bırakır. */
+const TURN_PAUSE_MS = 8_000;
+const RATE_LIMIT_RETRY_MS = 20_000;
+const RATE_LIMIT_RETRY_CAP_MS = 120_000;
+
+/** Preview 3.1 DSQ dolunca 2.5'e yapış; her turda 3.1'i yeniden deneme. */
+let preferredTtsModel: string | null = null;
 const MIN_WAV_BYTES = 2_048;
 const MIN_GEMINI_KEY_CHARS = 8;
 const SPEECH_ATTEMPTS = 12;
@@ -200,8 +204,9 @@ async function synthesizeChunk(input: {
 }): Promise<Buffer> {
   const voiceName = canonicalizeGeminiTtsVoiceName(input.voiceName);
   const languageCode = canonicalizeGeminiTtsLanguageCode(ACADEMY_MEDIA_RELEASE_LANGUAGE);
-  let model = input.model;
+  let model = preferredTtsModel ?? input.model;
   let attempt = 0;
+  let rateLimitStreak = 0;
   for (;;) {
     try {
       const wav = await requestSpeechWav({
@@ -211,17 +216,30 @@ async function synthesizeChunk(input: {
         voiceName,
         languageCode,
       });
+      preferredTtsModel = model;
       return wav;
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       if (/NOT_FOUND|model .+ not found|does not exist/i.test(message) && model !== VOICE_TTS_FALLBACK_MODEL_ID) {
         model = VOICE_TTS_FALLBACK_MODEL_ID;
+        preferredTtsModel = model;
         process.stdout.write(`  model yedek: ${model}\n`);
         continue;
       }
       if (isRateLimitError(error)) {
-        process.stdout.write(`  429; ${RATE_LIMIT_RETRY_MS / 1000}s sonra aynı tur tekrar\n`);
-        await sleep(RATE_LIMIT_RETRY_MS);
+        if (model !== VOICE_TTS_FALLBACK_MODEL_ID) {
+          model = VOICE_TTS_FALLBACK_MODEL_ID;
+          preferredTtsModel = model;
+          process.stdout.write(`  429; model yedek: ${model}\n`);
+          continue;
+        }
+        rateLimitStreak += 1;
+        const waitMs = Math.min(
+          RATE_LIMIT_RETRY_CAP_MS,
+          RATE_LIMIT_RETRY_MS * 2 ** Math.min(rateLimitStreak - 1, 3),
+        );
+        process.stdout.write(`  429; ${Math.round(waitMs / 1000)}s sonra aynı tur tekrar\n`);
+        await sleep(waitMs);
         continue;
       }
       attempt += 1;

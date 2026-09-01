@@ -56,13 +56,21 @@ function parseDialogueSpeakerLine(paragraph: string): { speaker: string; text: s
 
 function textBlockIsDialogueOnly(text: string): boolean {
   const parsed = parseAcademyLessonActText(text);
+  if (
+    parsed.act === "warmup" ||
+    parsed.act === "problem" ||
+    parsed.act === "development" ||
+    parsed.act === "conclusion"
+  ) {
+    return true;
+  }
   const body = parsed.body || (parsed.heading ? "" : text);
   const paragraphs = body
     .split(/\n\n+/u)
     .map((part) => part.trim())
     .filter((part) => part.length > 0);
   if (paragraphs.length === 0) {
-    return Boolean(parsed.act === "warmup" || parsed.act === "problem" || parsed.act === "development" || parsed.act === "conclusion");
+    return false;
   }
   return paragraphs.every((paragraph) => parseDialogueLine(paragraph) != null);
 }

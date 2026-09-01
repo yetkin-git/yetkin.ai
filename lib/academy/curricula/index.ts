@@ -20,22 +20,28 @@ import { ETICARET_MASTERCLASS_LESSONS } from "@/lib/academy/curricula/eticaret-m
 import { CANVA_MASTERCLASS_LESSONS } from "@/lib/academy/curricula/canva-masterclass";
 import { LINKEDIN_MASTERCLASS_LESSONS } from "@/lib/academy/curricula/linkedin-masterclass";
 
-export type {
-  AcademyFiveActDialogue,
-  AcademyLessonDraft,
-  DialogueSpeakerId,
-  DialogueTurn,
-} from "@/lib/academy/curricula/types";
 export {
   academyCompactLessonDraft,
   academyDialogueSpeakerDisplayName,
   academyDialogueSpeakerIdFromDisplayName,
   academyFiveActLessonDraft,
+  academyInstructorApplication,
+  academyInstructorIntro,
+  academyInstructorLessonDraft,
+  academyInstructorProblem,
+  academyInstructorSummary,
   academyLessonDraft,
   academyLessonDraftWithStudio,
   dialogueTurn,
   DIALOGUE_SPEAKER_DISPLAY,
   isAcademyInstructorSpeaker,
+} from "@/lib/academy/curricula/types";
+export type {
+  AcademyFiveActDialogue,
+  AcademyFourActInstructor,
+  AcademyLessonDraft,
+  DialogueSpeakerId,
+  DialogueTurn,
 } from "@/lib/academy/curricula/types";
 export {
   PYTHON_TEMEL_EXAM_QUESTIONS,

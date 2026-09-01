@@ -4,6 +4,7 @@
  * Client-safe: sınav şıkları ve GEMINI_API_KEY yoktur.
  * Faz 3: pusula / Koray montajı `archived/lib/academy-studio/` (field-voice, studio-cast).
  * Bu dosya vitrin biyografisi ve ses mührüdür; fabrika import etmez.
+ * Master Voice: Erinome — net, berrak, yakın mikrofon; boğuk tempo yavaşlatması yok.
  */
 
 import { YETKIN_BRAND } from "@/lib/copy/brand";
@@ -19,7 +20,7 @@ import {
 
 export const ACADEMY_INSTRUCTOR_TTS_VOICES = [
   "Zephyr",
-  "Kore",
+  "Erinome",
   "Puck",
   "Fenrir",
   "Aoede",
@@ -51,7 +52,7 @@ export type AcademyCastBinding = {
   role: "instructor" | "moderator" | "announcer";
   voice: AcademyTtsVoice;
   voiceFingerprint: AcademyVoiceFingerprint;
-  /** 1 = %100. Maya (eğitmen) %95 micro-pacing; Koray Temel’de %100. */
+  /** 1 = %100. Tek eğitmen Master Voice; boğuk micro-pacing yok. */
   speechRate: number;
 };
 
@@ -150,8 +151,11 @@ export function isAcademyDigitalSkillsSlug(slug: string): boolean {
   );
 }
 
-/** Eğitmen usta temposu — Maya ve diğer eğitmenler %95 micro-pacing. */
-export const ACADEMY_INSTRUCTOR_SPEECH_RATE = 0.95 as const;
+/** Eğitmen usta temposu — Master Voice net yakın mikrofon; yavaşlatma yok. */
+export const ACADEMY_INSTRUCTOR_SPEECH_RATE = 1 as const;
+
+/** Gemini TTS Master Voice — yüksek frekans, berrak, yakın mikrofon. */
+export const ACADEMY_MASTER_VOICE = "Erinome" as const satisfies AcademyInstructorTtsVoice;
 
 /** PEDAGOJI.md Koray: Temel %100, Orta %98, İleri %96. */
 export const ACADEMY_MODERATOR_SPEECH_RATE_ORTA = 0.98 as const;
@@ -175,12 +179,12 @@ export type AcademyDialogueCast = {
   role: "instructor" | "moderator";
 };
 
-/** CastRegistry — speaker + kurs slug → ses ve PEDAGOJI tempo mührü. */
+/** CastRegistry — speaker + kurs slug → ses ve tempo mührü. Tek eğitmen rolü. */
 export function academyCastForDialogueSpeaker(
   slug: string,
   speaker: DialogueSpeakerId,
 ): AcademyDialogueCast {
-  if (isAcademyInstructorSpeaker(speaker)) {
+  if (isAcademyInstructorSpeaker(speaker) || speaker === "egitmen") {
     const instructor = academyInstructorBySlug(slug);
     return {
       voice: instructor.voice,
@@ -243,14 +247,14 @@ export const ACADEMY_INSTRUCTORS_BY_VOICE: Record<AcademyInstructorTtsVoice, Aca
     toneLabel: "Erkek / Sakin",
     greetingLead: "Selamlar, ben Deniz",
   },
-  Kore: {
-    voice: "Kore",
-    voiceFingerprint: academyVoiceFingerprint("Kore"),
+  Erinome: {
+    voice: "Erinome",
+    voiceFingerprint: academyVoiceFingerprint("Erinome"),
     name: "Maya",
     title: "Eğitmen Maya",
     gender: "kadin",
     tone: "enerjik",
-    toneLabel: "Kadın / Enerjik",
+    toneLabel: "Kadın / Net Master Voice",
     greetingLead: "Merhaba, ben Maya",
   },
   Puck: {
@@ -310,15 +314,15 @@ export const ACADEMY_INSTRUCTOR_VOICE_BY_SLUG: Record<
   AcademyCourseTitleSlug,
   AcademyInstructorTtsVoice
 > = {
-  "ai-agent-temel": "Kore",
-  "ai-agent-orta": "Kore",
-  "ai-agent-ileri": "Kore",
-  "python-temel": "Kore",
-  "python-orta": "Kore",
-  "python-ileri": "Kore",
-  "fullstack-temel": "Kore",
-  "fullstack-orta": "Kore",
-  "fullstack-ileri": "Kore",
+  "ai-agent-temel": "Erinome",
+  "ai-agent-orta": "Erinome",
+  "ai-agent-ileri": "Erinome",
+  "python-temel": "Erinome",
+  "python-orta": "Erinome",
+  "python-ileri": "Erinome",
+  "fullstack-temel": "Erinome",
+  "fullstack-orta": "Erinome",
+  "fullstack-ileri": "Erinome",
   "ai-temel": "Fenrir",
   "ux-temel": "Aoede",
   "security-temel": "Leda",
@@ -530,7 +534,7 @@ function firstLessonBio(instructor: AcademyInstructor, field: string, topic: str
   switch (instructor.voice) {
     case "Zephyr":
       return `${handback} ${field} tarafında yıllardır sahada ter döken biriyim. Bugün seninle ${topic} konuşacağız.`;
-    case "Kore":
+    case "Erinome":
       return `${handback} ${field} tarafında sahada koşturan biriyim. Bugün ${topic} dalıyoruz.`;
     case "Puck":
       return `${handback} ${field} işini masada değil sahada çözüyorum. ${topic} pratik taraftan konuşacağız.`;

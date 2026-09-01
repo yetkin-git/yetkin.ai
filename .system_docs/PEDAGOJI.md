@@ -14,34 +14,31 @@ Bu doküman platformun eğitim ilkelerini, pedagojik mühendislik kurallarını,
 * **Dinamik Fiyat & Tek Celsede Tamlık:** Öğrenme vaadi tek celsede eksiksiz kapanır. Fiyatlandırma piyasa değerine göre katalogda (`amountMinor`) mühürlenir.
 * **SEN Dili & Yalınlık:** Anlatım doğrudan kullanıcıya ("sen") hitap eder. Süslü laf kalabalığı, yapay açılış dolguları ("Şey...", "Eeee...") hem metinden hem sesten temizlenir.
 
-## 2. ÇİFT-AI DİYALOG FORMATI VE SES/TEMPO STANDARTLARI
-Eğitimler monolog sunum değil, iki AI persona arasındaki canlı saha sohbetidir:
-* **Koray (Moderatör / Saha):** Kullanıcının sesidir. Seviyeye göre rolü ve ağırlığı değişir:
-  - *Temel Seviye:* Meraklı, sorular soran, süreci canlı tutan profil (%100 konuşma hızı).
-  - *Orta Seviye:* Uygulamacı uzman profil (%98 konuşma hızı).
-  - *İleri Seviye:* Tecrübeli partner profil; az konuşur, sadece kilit mimari noktalarda araya girer (%96 konuşma hızı).
-* **Maya (Eğitmen / Usta):** Sahada pişmiş uzmandır. Kavramların pürüzsüz anlaşılması için sabit **%95 anlatım temposu (%5 yavaşlatılmış micro-pacing)** ile konuşur.
-* **Siber Güvenlik kadrosu:** Bu dikeyde moderatör **Can** (Google TTS erkek, %100), eğitmen **Ece** (Google TTS kadın, %95). Ses-karakter tekilliği `CastRegistry` mührüdür; Can Charon/Koray’ın, Ece Kore/Maya’nın sesini taşımaz.
-* **Dijital Beceriler / İş Dünyası kadrosu:** Bu dikeyde moderatör **Tarık** (Google TTS erkek, %100; meraklı, pratik sorular soran saha profili), eğitmen **Gözde** (Google TTS kadın, %95; tane tane anlatan usta profili). Tarık Charon/Koray/Can sesini, Gözde Kore/Maya/Ece sesini taşımaz.
+## 2. TEK EĞİTMEN FORMATI VE SES/TEMPO STANDARTLARI
+Eğitimler çift-AI tiyatrosu (Koray/Maya sohbeti) değildir. Tek sorumlu rol **Eğitmen**dir; öğrenciye doğrudan hitap eder.
+* **Eğitmen (Master Voice):** Gemini TTS `Erinome` — yüksek frekanslı, net, berrak, yakın mikrofon. Konuşma hızı **%100**; boğuk/derinden gelen tempo yavaşlatması yoktur.
+* **Katalog isimleri:** Vitrin biyografisi Maya / Ece / Gözde olarak kalabilir; ders gövdesinde konuşmacı etiketi yalnız **Eğitmen**dir. Moderatör (Koray/Can/Tarık) ders kopyasına ve mühürlü WAV’a girmez.
+* **Siber Güvenlik kadrosu:** Vitrin eğitmeni **Ece** (Leda). Ders metni tek eğitmen formatındadır.
+* **Dijital Beceriler / İş Dünyası kadrosu:** Vitrin eğitmeni **Gözde** (Callirrhoe). Ders metni tek eğitmen formatındadır.
 
 **Ses-Karakter Mühür Kuralı:**
-* Moderatör ve Eğitmen sesleri merkezi `CastRegistry` içinde mühürlenir.
-* Yapısal speaker ayrımı `DialogueTurn[]` JSON veri yapısıyla mühürlenir.
+* Eğitmen sesi merkezi `CastRegistry` içinde `ACADEMY_MASTER_VOICE` (Erinome) ve dikey sesleriyle mühürlenir.
+* Yapısal tur ayrımı `DialogueTurn[]` JSON veri yapısıyla mühürlenir; her tur eğitmen rolündedir.
 
 ## 3. ÜRETİM NOTU VE MEDYA MÜHRÜ (SÜREÇ; DERLEME ŞARTI DEĞİL)
 * Müfredat taslağı ve `DialogueTurn[]` ajan oturumunda üretilir. İkinci model ile otomatik «AI-Checking-AI» CI kapısı **yoktur**; bu bir süreç notudur, derleme şartı değildir.
-* **Diyalog mührü:** 18 SKU beş perdeli `DialogueTurn[]` taşır. `ai-temel` ve `ux-temel` 12 bölüm düz taslaktır; diyalog ve WAV iddiası yoktur.
+* **Diyalog mührü:** 18 SKU dört perdeli tek eğitmen `DialogueTurn[]` taşır. `ai-temel` ve `ux-temel` 12 bölüm düz taslaktır; WAV iddiası yoktur.
 * **WAV mührü (disk):** `ACADEMY_MEDIA_SEALED_AUDIO` yalnız `public/media/academy/audio` altındaki gerçek dosyalarladır. Bu an: **16 WAV** — `ai-agent-temel` 6, `ai-agent-orta` 6, `ai-agent-ileri` 1–4. Python / fullstack / security / masterclass WAV **yoktur**. `ai-agent-ileri-5` ve `ai-agent-ileri-6` yoktur. Olmayan ses için sahte beyan yapılmaz.
-* **Sıfır Maliyetli Medya (Zero-Cost Streaming):** Mühürlü derslerde izleme anında canlı TTS tetiklenmez; dondurulmuş WAV oynatılır. Mühürsüz derste diyalog metni okunur; oynatıcı sahte «ses hazırlanıyor» iddiasında bulunmaz.
+* **Sıfır Maliyetli Medya (Zero-Cost Streaming):** Mühürlü derslerde izleme anında canlı TTS tetiklenmez; dondurulmuş WAV oynatılır. Mühürsüz derste eğitmen metni okunur; oynatıcı sahte «ses hazırlanıyor» iddiasında bulunmaz.
 
-## 4. DERS AKIŞ ŞABLONU (5 PERDELİ MONTAJ)
-1. **Isınma (Warmup):** Hayatın içinden somut bir kanca/analoji.
-2. **Giriş / Problem:** Gerçek saha problemi ve teknik risk.
-3. **Gelişme / Uygulama:** Koray ve Maya'nın diyalog halinde Fail-Closed mantığıyla çözümü.
-4. **Sonuç / Özet:** Dersin net özeti ve sonraki adıma geçiş.
-5. **İş Kanıtı / Değerlendirme:** Ders/Modül sonu testler ve SHA-256 yetkinlik mühürü.
+## 4. DERS AKIŞ ŞABLONU (4 PERDELİ TEK EĞİTMEN)
+1. **Giriş & Bağlam:** "Hoş geldiniz. Bu bölümde [Konu Adı] konusunu ve neden ihtiyaç duyduğunuzu ele alacağız."
+2. **Problem:** "Geleneksel yapılarda [X Yanlışı/Eksiği] yaşanır. Bu yüzden bu mimariyi kullanırız."
+3. **Kod & Uygulama Mantığı:** "Ekrandaki kod bloğunda gördüğünüz üzere..." — kodun mantığı doğrudan öğrenciye anlatılır.
+4. **Özet & Kazanım:** "Bu dersle [Y Becerisi] kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz."
+5. **İş Kanıtı / Değerlendirme:** Ders sonu quiz ve kurs sınavı (baraj 70); SHA-256 yetkinlik mührü. Bu perde konuşma tiyatrosu değildir.
 
-18 diyalog SKU bu beş perdeyi taşır. İki düz taslak (`ai-temel`, `ux-temel`) istisnadır.
+18 diyalog SKU bu dört perdeyi taşır. İki düz taslak (`ai-temel`, `ux-temel`) istisnadır; aynı dört başlıkla öğrenciye hitap eder.
 
 ---
 

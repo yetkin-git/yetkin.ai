@@ -1,6 +1,6 @@
 /**
- * PEDAGOJI.md Çift-AI diyalog — Koray/Maya DialogueTurn[] zaman çizelgesi.
- * Kelime saati: 420 ms / kelime; Koray seviye temposu, Maya %95 micro-pacing.
+ * PEDAGOJI.md tek eğitmen — DialogueTurn[] zaman çizelgesi.
+ * Kelime saati: 420 ms / kelime; eğitmen Master Voice %100 (yavaşlatma yok).
  * Canlı TTS üretmez; oynatıcı mühürlü WAV veya okuma saati ile senkronlar.
  */
 
@@ -41,7 +41,7 @@ export type AcademyDialogueTimeline = {
   spokenDuration: number;
 };
 
-const DIALOGUE_LINE = /^(Koray|Maya|Can|Ece|Tarık|Gözde):\s+([\s\S]+)$/u;
+const DIALOGUE_LINE = /^(Eğitmen|Koray|Maya|Can|Ece|Tarık|Gözde):\s+([\s\S]+)$/u;
 
 function isSpokenFiveAct(act: string | null): act is AcademyFiveAct {
   return act === "warmup" || act === "problem" || act === "development" || act === "conclusion";
@@ -134,14 +134,21 @@ function collectDialogueTurns(body: string): UntimedTurn[] {
       .filter((part) => part.length > 0);
     for (const paragraph of paragraphs) {
       const line = parseDialogueLine(paragraph);
-      if (!line) {
+      if (line) {
+        turns.push({
+          speaker: isAcademyInstructorSpeaker(line.speaker) ? line.speaker : "egitmen",
+          text: line.text,
+          act: currentAct,
+        });
         continue;
       }
-      turns.push({
-        speaker: line.speaker,
-        text: line.text,
-        act: currentAct,
-      });
+      if (currentAct && isSpokenFiveAct(currentAct) && paragraph.length > 0) {
+        turns.push({
+          speaker: "egitmen",
+          text: paragraph,
+          act: currentAct,
+        });
+      }
     }
   }
   return turns;

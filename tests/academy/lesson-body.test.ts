@@ -103,7 +103,7 @@ describe("uygulamalı ders gövdesi", () => {
         expect(spoken, lesson.key).not.toContain("```");
       }
     }
-    expect(keys.size).toBe(108);
+    expect(keys.size).toBe(132);
     for (const key of keys) {
       expect(LESSON_PRACTICE[key], key).toBeTruthy();
     }

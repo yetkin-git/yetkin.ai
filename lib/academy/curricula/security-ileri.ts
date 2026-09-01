@@ -1,6 +1,6 @@
 /**
  * Siber Güvenlik İleri Seviye (SEC-103) — mühürlü müfredat.
- * PEDAGOJI.md: 5 perde, DialogueTurn[], Ece %95 / Can %96 (tecrübeli partner), Fail-Closed.
+ * PEDAGOJI.md: 4 perde, tek eğitmen, Fail-Closed.
  * Denetim: güvenlik mantığı varsayılan kapalı; sömürü tarifi yok.
  * Üretim: Grok 4.6. Denetim: Gemini 3.7 Flash — kapı açıkken yeşil yok.
  */

@@ -1,6 +1,6 @@
 /**
  * Full-Stack Web Geliştirme Temel Seviye (FS-101) — mühürlü müfredat.
- * PEDAGOJI.md: 5 perde, DialogueTurn[], Maya %95 / Koray %100, Fail-Closed.
+ * PEDAGOJI.md: 4 perde, tek eğitmen, Fail-Closed.
  */
 
 import type { AcademyExamQuestion } from "@/lib/academy/types";

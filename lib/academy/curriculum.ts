@@ -10,6 +10,7 @@ import {
   composeCompactLessonBody,
   composeFiveActDialogueLessonBody,
   composePedagogicalLessonBody,
+  serializeAcademyLessonExercise,
 } from "@/lib/academy/lesson-body";
 import {
   attachAcademyLessonVisuals,
@@ -361,11 +362,12 @@ function sealCurriculumLessons(
     const visual = LESSON_VISUALS[lesson.key];
     const practice = LESSON_PRACTICE[lesson.key];
     if (lesson.format === "compact") {
+      const compactBody = composeCompactLessonBody(draftProse(lesson), practice ?? null);
       const sealed = {
         key: lesson.key,
         order: lesson.order,
         title: lesson.title,
-        body: composeCompactLessonBody(draftProse(lesson), practice ?? null),
+        body: `${compactBody}\n\n${serializeAcademyLessonExercise(draftExercise(lesson))}`,
       };
       return visual ? attachAcademyLessonVisuals(sealed, visual) : emptyLessonMedia(sealed);
     }

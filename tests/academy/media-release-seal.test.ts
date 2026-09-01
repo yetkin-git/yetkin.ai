@@ -128,11 +128,11 @@ describe("Zero-Cost Streaming mediaReleaseSeal", () => {
     }
   });
 
-  it("Maya/Ece/Gözde %95, Koray/Can/Tarık seviye temposu", () => {
+  it("Eğitmen Master Voice %100, Koray/Can/Tarık seviye temposu", () => {
     expect(academyCastForDialogueSpeaker("python-temel", "maya").speechRate).toBe(
       ACADEMY_INSTRUCTOR_SPEECH_RATE,
     );
-    expect(academyCastForDialogueSpeaker("python-temel", "maya").voice).toBe("Kore");
+    expect(academyCastForDialogueSpeaker("python-temel", "maya").voice).toBe("Erinome");
     expect(academyCastForDialogueSpeaker("python-temel", "koray").speechRate).toBe(1);
     expect(academyCastForDialogueSpeaker("python-temel", "koray").voice).toBe("Charon");
     expect(academyCastForDialogueSpeaker("ai-agent-orta", "koray").speechRate).toBe(

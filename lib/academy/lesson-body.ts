@@ -7,7 +7,6 @@
 
 import { normalizeAcronyms } from "@/lib/academy/acronym-normalizer";
 import {
-  academyDialogueSpeakerDisplayName,
   type AcademyFiveActDialogue,
   type DialogueTurn,
 } from "@/lib/academy/curricula/types";
@@ -195,12 +194,12 @@ export const ACADEMY_LESSON_ACT_HEADINGS = {
 
 export type AcademyLessonAct = keyof typeof ACADEMY_LESSON_ACT_HEADINGS;
 
-/** PEDAGOJI.md — 5 perdeli montaj. */
+/** PEDAGOJI.md — tek eğitmen, öğrenciye doğrudan hitap. Anahtarlar zaman çizelgesi mührüdür. */
 export const ACADEMY_FIVE_ACT_HEADINGS = {
-  warmup: "Isınma",
-  problem: "Giriş / Problem",
-  development: "Gelişme / Uygulama",
-  conclusion: "Sonuç / Özet",
+  warmup: "Giriş & Bağlam",
+  problem: "Problem",
+  development: "Kod & Uygulama Mantığı",
+  conclusion: "Özet & Kazanım",
   assessment: "İş Kanıtı / Değerlendirme",
 } as const;
 
@@ -332,8 +331,7 @@ export function composeCompactLessonBody(
 export function serializeDialogueTurns(turns: readonly DialogueTurn[]): string {
   return turns
     .map((turn) => {
-      const name = academyDialogueSpeakerDisplayName(turn.speaker);
-      const line = `${name}: ${cleanAcademyArtificialOpenings(turn.text)}`;
+      const line = cleanAcademyArtificialOpenings(turn.text);
       if (!turn.code) {
         return line;
       }
@@ -356,7 +354,7 @@ export function serializeAcademyLessonQuizPrompt(questions: readonly AcademyExam
 }
 
 /**
- * PEDAGOJI.md 5 perde — Koray/Maya DialogueTurn[] + çalışan kod + ders sonu quiz.
+ * PEDAGOJI.md 4 perde — tek eğitmen, öğrenciye doğrudan hitap + çalışan kod + ders sonu quiz.
  */
 export function composeFiveActDialogueLessonBody(
   dialogue: AcademyFiveActDialogue,
@@ -398,8 +396,17 @@ export function academyLessonHasFiveActPedagogy(body: string): boolean {
   );
 }
 
+export function academyLessonHasFourActInstructorPedagogy(body: string): boolean {
+  return (
+    body.includes(ACADEMY_FIVE_ACT_HEADINGS.warmup) &&
+    body.includes(ACADEMY_FIVE_ACT_HEADINGS.problem) &&
+    body.includes(ACADEMY_FIVE_ACT_HEADINGS.development) &&
+    body.includes(ACADEMY_FIVE_ACT_HEADINGS.conclusion)
+  );
+}
+
 export function academyLessonHasPedagogy(body: string): boolean {
-  if (academyLessonHasFiveActPedagogy(body)) {
+  if (academyLessonHasFiveActPedagogy(body) || academyLessonHasFourActInstructorPedagogy(body)) {
     return true;
   }
   return (

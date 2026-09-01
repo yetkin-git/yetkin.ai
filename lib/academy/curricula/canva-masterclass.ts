@@ -1,6 +1,6 @@
 /**
  * Canva ve Yapay Zekâ İle Dijital Tasarım Masterclass (CNV-MC) — mühürlü müfredat.
- * PEDAGOJI.md: tekil Masterclass, 5 perde, DialogueTurn[], Gözde %95 / Tarık %100.
+ * PEDAGOJI.md: tekil Masterclass, 4 perde, tek eğitmen, Fail-Closed.
  * Üretim: Grok 4.6. Denetim: Gemini 3.7 Flash — kitsiz şablon, PII’li Magic, RGB baskı yok.
  */
 

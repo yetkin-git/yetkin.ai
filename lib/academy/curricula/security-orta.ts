@@ -1,6 +1,6 @@
 /**
  * Siber Güvenlik Orta Seviye (SEC-102) — mühürlü müfredat.
- * PEDAGOJI.md: 5 perde, DialogueTurn[], Ece %95 / Can %98 (uygulamacı uzman), Fail-Closed.
+ * PEDAGOJI.md: 4 perde, tek eğitmen, Fail-Closed.
  * Denetim: güvenlik mantığı varsayılan kapalı; sömürü tarifi yok.
  */
 

@@ -213,8 +213,7 @@ export const ACADEMY_SEN = {
     abandonLead: "Cevaplar gönderilmez. Yeniden başlayabilirsin.",
   },
   player: {
-    eyebrow: (name: string, moderatorName = "Koray") =>
-      `Moderatör ${moderatorName} · Eğitmen ${name}`,
+    eyebrow: (name: string, _moderatorName = "Koray") => `Eğitmen ${name}`,
     instructorLead: (name: string) => `Bu eğitimi ${name} anlatır.`,
     catalogCta: "Eğitime dön",
     locked: "Ödeme alınmadan ders içeriği açılmaz.",
@@ -245,9 +244,9 @@ export const ACADEMY_SEN = {
     cinemaCaptionsOn: "Altyazı açık",
     cinemaCaptionsOff: "Altyazı kapalı",
     cinemaPreparing: "Yayın hazırlanıyor…",
-    dialogueEyebrow: "Çift-AI diyalog",
+    dialogueEyebrow: "Ders anlatımı",
     audioPreparing: "Ders Ses Medyası Hazırlanıyor",
-    audioPreparingLead: "Ses dosyası henüz bağlanmadı. Diyalog metnini okuyarak takip edebilirsin.",
+    audioPreparingLead: "Ses dosyası henüz bağlanmadı. Ders metnini okuyarak takip edebilirsin.",
     audioTimeline: "Ses zaman çizelgesi",
     labEyebrow: "Kod laboratuvarı",
     labRun: "Çalıştır",
@@ -354,12 +353,10 @@ export const ACADEMY_SEN = {
     challengeSkipped: "Alıştırma geçildi — devam",
   },
   listen: {
-    eyebrow: (name: string, moderatorName = "Koray") =>
-      `Moderatör ${moderatorName} · Eğitmen ${name}`,
+    eyebrow: (name: string, _moderatorName = "Koray") => `Eğitmen ${name}`,
     cta: "Dersi Dinle",
     preparing: "Hazırlanıyor…",
-    playing: (name: string, moderatorName = "Koray") =>
-      `Stüdyo yayını · ${moderatorName} ve ${name}`,
+    playing: (name: string, _moderatorName = "Koray") => `Eğitmen ${name} anlatıyor`,
     stop: "Durdur",
     replay: "Tekrar dinle",
     fail: "Ses üretilemedi.",
@@ -396,7 +393,7 @@ export const ACADEMY_SEN = {
     askHint: "Bu bölümde bir canlı soru hakkı var.",
     exhaustedHint: "Bu bölümde canlı soru hakkı doldu. Sonraki bölümde yeni hak açılır.",
     askTitle: "Canlı stüdyo sorusu",
-    askLead: "Sorunu yaz, Koray mikrofonu açsın.",
+    askLead: "Sorunu yaz, eğitmen yanıtlasın.",
     askSend: "Soruyu ilet",
     askPending: "İletiliyor…",
     askPlaceholder: "Bu bölümde takıldığın nokta",
@@ -519,9 +516,9 @@ export const ACADEMY_SEN = {
     masteryCta: "Alan sertifikası",
     masteryLead: "Bu alanın üç seviyesini tamamladın. Doğrulama sayfası belgeyi gösterir.",
   },
-  /** Ders → ders Sokratik köprü (Moderatör Koray pekiştirme). */
+  /** Ders → ders pekiştirme köprüsü. */
   moderatorBridge: {
-    eyebrow: "Moderatör Koray · Geçiş köprüsü",
+    eyebrow: "Eğitmen · Geçiş köprüsü",
     logEyebrow: "Stüdyo köprü günlüğü",
     confirmCta: "Evet, doğru anlamışız",
     reinforceCta: "Pekiştirip devam et",
