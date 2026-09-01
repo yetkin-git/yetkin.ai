@@ -18,7 +18,7 @@ export function AcademyRoomSkeleton({
   if (variant === "play") {
     return (
       <RoomFrame
-        className="academy-player-viewport-lock -my-8 flex h-[calc(100vh-theme(spacing.16))] max-h-[calc(100vh-theme(spacing.16))] max-w-none flex-col overflow-hidden px-3 pt-8 sm:px-4"
+        className="academy-player-viewport-lock -mt-8 -mb-16 flex h-[calc(100dvh-theme(spacing.16))] max-h-[calc(100dvh-theme(spacing.16))] max-w-none flex-col overflow-hidden px-3 pt-2 pb-12 sm:px-4"
         aria-hidden
       >
         <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-6">

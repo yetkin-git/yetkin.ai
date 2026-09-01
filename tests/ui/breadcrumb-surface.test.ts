@@ -6,6 +6,7 @@ import { ACADEMY_COURSE_TITLES, academyCourseTitleBySlug } from "@/lib/academy/c
 import {
   applyBreadcrumbOverrides,
   breadcrumbsFromPathname,
+  isAcademyCurriculumPlayerPath,
   looksLikeOpaqueId,
   normalizeBreadcrumbPath,
 } from "@/lib/ui/breadcrumbs";
@@ -122,8 +123,11 @@ describe("dinamik ekmek kırıntısı", () => {
     expect(trail).toContain("from \"next/link\"");
     expect(chrome).toContain("BreadcrumbOverrideProvider");
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("BreadcrumbPageLabel");
-    expect(readSrc("app/academy/[slug]/oyna/page.tsx")).toContain("BreadcrumbPageLabel");
+    expect(readSrc("app/academy/[slug]/oyna/page.tsx")).not.toContain("BreadcrumbPageLabel");
     expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).toContain("BreadcrumbPageLabel");
+    expect(isAcademyCurriculumPlayerPath("/academy/python-temel/oyna")).toBe(true);
+    expect(isAcademyCurriculumPlayerPath("/academy/python-temel")).toBe(false);
+    expect(trail).toContain("isAcademyCurriculumPlayerPath");
     expect(looksLikeOpaqueId("fj_rail_icon_set")).toBe(true);
     expect(looksLikeOpaqueId("yz-icerik-gorsel-uretim")).toBe(false);
   });

@@ -604,6 +604,14 @@ body {
   min-height: 0;
 }
 
+.academy-player-focus {
+  flex: 1 1 0;
+}
+
+.academy-player-main {
+  overflow: hidden;
+}
+
 .academy-player-code,
 .academy-player-quiz {
   display: flex;
@@ -630,7 +638,8 @@ body {
 .academy-player-cinema {
   display: flex;
   min-width: 0;
-  flex-shrink: 0;
+  min-height: 0;
+  flex: 1 1 0;
   flex-direction: column;
   overflow: hidden;
   border-radius: 1.15rem;
@@ -642,8 +651,11 @@ body {
 
 .academy-player-widescreen {
   position: relative;
+  flex: 1 1 0;
+  min-height: 0;
   width: 100%;
   aspect-ratio: 16 / 9;
+  max-height: 100%;
   overflow: hidden;
   background: #070b14;
 }
@@ -775,7 +787,7 @@ body {
 
 .academy-player-notes[open] {
   display: flex;
-  max-height: min(36vh, 18rem);
+  max-height: min(28vh, 14rem);
   min-height: 0;
   flex-direction: column;
 }

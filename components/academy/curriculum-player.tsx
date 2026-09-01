@@ -8,7 +8,6 @@ import { IconChevronDown } from "@/components/ui/icons";
 import { LessonMediaPlayer } from "@/components/academy/lesson-media-player";
 import { LessonDialogueTranscript } from "@/components/academy/lesson-dialogue-transcript";
 import { LessonSyntaxCode } from "@/components/academy/lesson-syntax-code";
-import { AcademyProgressBar } from "@/components/academy/progress-bar";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { ACADEMY_FIVE_ACT_HEADINGS, parseAcademyLessonActText } from "@/lib/academy/lesson-body";
 import { normalizeAcronyms } from "@/lib/academy/acronym-normalizer";
@@ -33,7 +32,6 @@ import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 import {
   academyLessonKindLabel,
   academyLessonMediaMeta,
-  academyProgressPercent,
 } from "@/lib/academy/lesson-meta";
 
 export type CurriculumPlayerLesson = {
@@ -341,8 +339,6 @@ export function CurriculumPlayer({
   const canGoPrev = Boolean(prevLesson?.open);
   const canGoNext = Boolean(nextLesson && (nextLesson.open || canAdvance));
   const activeCompleted = active ? completedKeys.has(active.key) || active.completed : false;
-  const doneCount = completedKeys.size;
-  const percent = academyProgressPercent(doneCount, lessons.length);
 
   const activeTitle = active ? normalizeAcronyms(active.title) : "";
   const dialogueTimeline = useMemo(
@@ -522,20 +518,19 @@ export function CurriculumPlayer({
 
   return (
     <div
-      className="academy-player-shell grid min-h-0 flex-1 grid-cols-1 grid-rows-[minmax(0,1fr)_auto] gap-3 overflow-hidden lg:grid-cols-[minmax(0,1fr)_19rem] lg:grid-rows-[minmax(0,1fr)] lg:gap-6"
+      className="academy-player-shell grid min-h-0 flex-1 grid-cols-1 grid-rows-[minmax(0,1fr)_auto] gap-2 overflow-hidden lg:grid-cols-[minmax(0,1fr)_19rem] lg:grid-rows-[minmax(0,1fr)] lg:gap-5"
       data-academy-player="standard"
       data-academy-player-layout="fit-screen"
     >
       {active ? (
         <>
-          <div className="academy-player-main relative flex min-h-0 min-w-0 flex-col gap-3 overflow-y-auto lg:col-start-1">
-            <header className="shrink-0 space-y-2 px-1 pt-1 sm:px-0">
-              <AcademyProgressBar value={percent} label={copy.progress(doneCount, lessons.length)} />
+          <div className="academy-player-main relative flex min-h-0 min-w-0 flex-col gap-2 overflow-hidden lg:col-start-1">
+            <header className="shrink-0 px-1 sm:px-0">
               <h2 className="truncate text-[1.125rem] font-semibold tracking-[-0.032em] text-[var(--foreground)] sm:text-[1.375rem] sm:leading-[1.2]">
                 {activeTitle}
               </h2>
             </header>
-            <div className="academy-player-focus flex min-h-0 flex-col">
+            <div className="academy-player-focus flex min-h-0 flex-1 flex-col">
               <div className="academy-player-cinema" data-academy-player-canvas="">
                 <LessonWidescreenStage
                   code={stagedCode}

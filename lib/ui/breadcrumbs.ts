@@ -79,6 +79,11 @@ export function normalizeBreadcrumbPath(pathname: string | null | undefined): st
   return path || BREADCRUMB_HOME_HREF;
 }
 
+/** Müfredat oynatıcı — üst şerit sayfa yolu kromunu basmaz. */
+export function isAcademyCurriculumPlayerPath(pathname: string | null | undefined): boolean {
+  return /^\/academy\/[^/]+\/oyna$/.test(normalizeBreadcrumbPath(pathname));
+}
+
 export function breadcrumbsFromPathname(pathname: string | null | undefined): BreadcrumbCrumb[] {
   const path = normalizeBreadcrumbPath(pathname);
   if (path === BREADCRUMB_HOME_HREF) {

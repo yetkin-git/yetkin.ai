@@ -15,6 +15,7 @@ import { cn } from "@/components/ui/cn";
 import {
   applyBreadcrumbOverrides,
   breadcrumbsFromPathname,
+  isAcademyCurriculumPlayerPath,
   type BreadcrumbOverride,
 } from "@/lib/ui/breadcrumbs";
 
@@ -61,6 +62,9 @@ export function BreadcrumbPageLabel({ href, label }: { href: string; label: stri
 export function HeaderBreadcrumb() {
   const pathname = usePathname();
   const { overrides } = useContext(BreadcrumbOverrideContext);
+  if (isAcademyCurriculumPlayerPath(pathname)) {
+    return null;
+  }
   const crumbs = applyBreadcrumbOverrides(breadcrumbsFromPathname(pathname), overrides);
   const lastIndex = crumbs.length - 1;
 

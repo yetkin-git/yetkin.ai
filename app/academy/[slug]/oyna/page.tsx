@@ -1,7 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import { RoomFrame } from "@/components/ui/page-header";
 import { CurriculumPlayer } from "@/components/academy/curriculum-player";
-import { BreadcrumbPageLabel } from "@/components/shell/header-breadcrumb";
 import { requirePageSession } from "@/lib/kernel/auth/session";
 import { isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
 import {
@@ -40,8 +39,7 @@ export default async function AcademyCurriculumPlayerPage({
   }
 
   return (
-    <RoomFrame className="academy-player-viewport-lock -my-8 flex h-[calc(100vh-theme(spacing.16))] max-h-[calc(100vh-theme(spacing.16))] max-w-none flex-col gap-0 space-y-0 overflow-hidden px-3 pt-8 sm:px-4">
-      <BreadcrumbPageLabel href={`/academy/${board.course.slug}/oyna`} label={board.course.title} />
+    <RoomFrame className="academy-player-viewport-lock -mt-8 -mb-16 flex h-[calc(100dvh-theme(spacing.16))] max-h-[calc(100dvh-theme(spacing.16))] max-w-none flex-col gap-0 space-y-0 overflow-hidden px-3 pt-2 pb-12 sm:px-4">
       <div className="flex min-h-0 flex-1 flex-col">
         {grantStudio ? (
           <p className="sr-only">Super Admin laboratuvar erişimi</p>
