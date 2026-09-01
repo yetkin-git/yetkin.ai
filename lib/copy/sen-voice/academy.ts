@@ -226,6 +226,8 @@ export const ACADEMY_SEN = {
     prevLessonCta: "Önceki Ders",
     nextOrCompleteCta: "Dersi Tamamladım",
     playlistLabel: "Oynatma listesi",
+    notesLabel: "Ders Notları / Transkript",
+    codeViewerLabel: "Kod",
     companionEyebrow: "Ders açıklaması",
     descriptionEyebrow: "Ders açıklaması",
     resourcesEyebrow: "Kaynaklar",

@@ -38,6 +38,7 @@ describe("D2.1 müfredat oynatıcı yüzeyi — üç ekran + dinle kapalı", () 
     expect(antre).toContain("hasAcademyPlayerAccess");
     expect(antre).toContain("hasCommercialAcademyEnrolment");
     expect(antre).toContain("hasAccess");
+    expect(antre).toContain("Promise.all");
     expect(antre).not.toContain("hasCommercialAcademyEnrolment(purchase) ||");
     expect(antre).toContain("/oyna");
     expect(antre).not.toContain("FilterBar");
@@ -62,6 +63,14 @@ describe("D2.1 müfredat oynatıcı yüzeyi — üç ekran + dinle kapalı", () 
     expect(player).toContain("goToNextLesson");
     expect(player).toContain("onDialogueEnded");
     expect(player).toContain("LessonDialogueTranscript");
+    expect(player).toContain("copy.notesLabel");
+    expect(player).toContain("copy.codeViewerLabel");
+    expect(player).toContain("data-academy-lesson-notes");
+    expect(player).toContain("data-academy-code-viewer");
+    expect(player).toContain("data-academy-quiz-panel");
+    expect(player).toContain("<details");
+    expect(player).toContain("data-academy-player-layout=\"fit-screen\"");
+    expect(oyna).toContain("academy-player-viewport-lock");
     expect(player).toContain("AcademyProgressBar");
     expect(player).toContain("copy.completeCta");
     expect(player).toContain("composeAcademyLessonBlocks");
@@ -75,6 +84,9 @@ describe("D2.1 müfredat oynatıcı yüzeyi — üç ekran + dinle kapalı", () 
     expect(player).not.toContain("listenPlayback");
 
     expect(readSrc("lib/academy/load.ts")).toContain("hasAcademyPlayerAccess");
+    expect(readSrc("lib/academy/load.ts")).toContain("persistGrant: false");
+    expect(readSrc("lib/academy/load.ts")).toContain("cache(");
+    expect(readSrc("lib/academy/load.ts")).toContain("Promise.all");
     expect(readSrc("lib/academy/access.ts")).toContain("hasAcademyPlayerAccess");
     expect(readSrc("lib/academy/access.ts")).toContain("hasAcademyAdminBypass");
     expect(readSrc("components/academy/purchase-button.tsx")).toContain("licenseNote");

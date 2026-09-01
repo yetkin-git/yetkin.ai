@@ -18,17 +18,17 @@ export function AcademyRoomSkeleton({
   if (variant === "play") {
     return (
       <RoomFrame
-        className="-my-8 flex max-w-none flex-col px-3 sm:px-4"
+        className="academy-player-viewport-lock -my-8 flex h-[calc(100vh-theme(spacing.16))] max-h-[calc(100vh-theme(spacing.16))] max-w-none flex-col overflow-hidden px-3 pt-8 sm:px-4"
         aria-hidden
       >
-        <div className="grid gap-8 pb-8 lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-start lg:gap-10">
-          <div className="flex flex-col gap-4 lg:col-start-1">
-            <Pulse className="h-8 w-64 rounded-lg" />
-            <Pulse className="aspect-video w-full rounded-[1.15rem]" />
-            <Pulse className="h-40 w-full rounded-[1.15rem]" />
-            <Pulse className="h-4 w-full max-w-xl rounded-md" />
+        <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-6">
+          <div className="flex min-h-0 flex-col gap-3 lg:col-start-1">
+            <Pulse className="h-7 w-56 rounded-lg" />
+            <Pulse className="h-24 w-full rounded-[1.15rem]" />
+            <Pulse className="min-h-0 flex-1 w-full rounded-[1.15rem]" />
+            <Pulse className="h-11 w-full rounded-[0.9rem]" />
           </div>
-          <div className="space-y-1.5 lg:sticky lg:top-20">
+          <div className="hidden min-h-0 space-y-1.5 overflow-hidden lg:block">
             <Pulse className="h-11 rounded-[0.9rem]" />
             <Pulse className="h-11 rounded-[0.9rem]" />
             <Pulse className="h-11 rounded-[0.9rem]" />

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import {
   academyFiveActHeading,
   type TimedDialogueTurn,
@@ -16,7 +15,6 @@ export function LessonDialogueTranscript({
   activeIndex: number;
   listening: boolean;
 }) {
-  const copy = ACADEMY_SEN.visual;
   const activeRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -58,16 +56,6 @@ export function LessonDialogueTranscript({
                 {turn.text}
               </p>
             </article>
-            {turn.code ? (
-              <div className="max-w-2xl space-y-2">
-                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--muted)]">
-                  {copy.codeEyebrow}
-                </p>
-                <pre className="overflow-x-auto rounded-xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--foreground)_4%,var(--surface))] p-4 text-[13px] leading-6">
-                  <code>{turn.code.source}</code>
-                </pre>
-              </div>
-            ) : null}
           </li>
         );
       })}

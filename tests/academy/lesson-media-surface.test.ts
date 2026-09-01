@@ -127,6 +127,8 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     expect(ACADEMY_SEN.visual.stepsEyebrow).toBe("Teknik adım");
     expect(ACADEMY_SEN.visual.codeEyebrow).toBe("Örnek kayıt");
     expect(ACADEMY_SEN.visual.videoMeta(6)).toBe("6 sn · sessiz döngü");
+    expect(ACADEMY_SEN.player.notesLabel).toBe("Ders Notları / Transkript");
+    expect(ACADEMY_SEN.player.codeViewerLabel).toBe("Kod");
     expect(ACADEMY_SEN.player.audioPreparing).toBe("Ders Ses Medyası Hazırlanıyor");
     expect(readSrc("app/globals.css")).toContain("academy-listen-focus");
     expect(readSrc("app/globals.css")).toContain("academy-listen-cockpit");
