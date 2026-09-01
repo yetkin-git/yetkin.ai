@@ -15,12 +15,9 @@ import {
   LEGAL_PAGE_TITLE,
   LEGAL_UPDATED_LABEL,
 } from "@/lib/copy/legal-launch";
+import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 
-export const metadata: Metadata = {
-  title: LEGAL_PAGE_TITLE,
-  description:
-    "KVKK aydınlatma, çerez politikası, mesafeli satış, ön bilgilendirme, iade koşulları ve platform kullanım şartları.",
-};
+export const metadata: Metadata = pageMetadata(PAGE_SEO.legal);
 
 export default function LegalPage() {
   return (

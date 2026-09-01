@@ -3,7 +3,6 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/link-button";
 import { LegalEntityColophon, LegalHonestyCard, LegalSupportEmailLine } from "@/components/legal/legal-section-articles";
-import { YETKIN_BRAND } from "@/lib/copy/brand";
 import {
   LEGAL_ADMIN_EMAIL,
   LEGAL_ADMIN_MAILTO,
@@ -12,11 +11,9 @@ import {
   LEGAL_UPDATED_LABEL,
   LEGAL_WHATSAPP_HREF,
 } from "@/lib/copy/legal-launch";
+import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 
-export const metadata: Metadata = {
-  title: "İletişim",
-  description: `${YETKIN_BRAND} iletişim ve destek kanalı.`,
-};
+export const metadata: Metadata = pageMetadata(PAGE_SEO.contact);
 
 export default function ContactPage() {
   return (

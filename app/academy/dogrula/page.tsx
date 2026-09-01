@@ -4,11 +4,9 @@ import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
-import { YETKIN_BRAND } from "@/lib/copy/brand";
+import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 
-export const metadata: Metadata = {
-  title: `Doğrula · Akademi · ${YETKIN_BRAND}`,
-};
+export const metadata: Metadata = pageMetadata(PAGE_SEO.academyVerify);
 
 export default function AcademyCertificateVerifyLandingPage() {
   const copy = SEN_VOICE.academy.verify;

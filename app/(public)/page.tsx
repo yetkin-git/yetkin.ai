@@ -1,13 +1,17 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { VERTICAL_ROOMS } from "@/lib/kernel/modules";
 import { isPhase1PublicNavRoom } from "@/lib/kernel/compliance/circuit-breakers";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
+import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
 import { ROOM_ICONS } from "@/components/ui/icons";
 import { BrandIcon } from "@/components/ui/brand-icon";
 import { getSession } from "@/lib/kernel/auth/session";
+
+export const metadata: Metadata = pageMetadata(PAGE_SEO.home);
 
 export default async function PublicHomePage() {
   const copy = SEN_VOICE.public.home;

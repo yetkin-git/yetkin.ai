@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { connection } from "next/server";
 import { JobList } from "@/components/freelancer/job-list";
 import { loadOpenJobs } from "@/lib/freelancer/load";
@@ -5,6 +6,9 @@ import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { LinkButton } from "@/components/ui/link-button";
 import { Badge } from "@/components/ui/badge";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
+import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
+
+export const metadata: Metadata = pageMetadata(PAGE_SEO.freelancer);
 
 export default async function FreelancerPage() {
   await connection();

@@ -17,6 +17,7 @@ import {
   legalSectionBySlug,
   legalSectionLead,
 } from "@/lib/copy/legal-launch";
+import { pageMetadata } from "@/lib/copy/seo";
 
 export function generateStaticParams() {
   return LEGAL_LAUNCH_SECTIONS.map((section) => ({ slug: section.slug }));
@@ -32,7 +33,11 @@ export async function generateMetadata({
   if (!section) {
     return { title: "Yasal sayfa" };
   }
-  return { title: section.title, description: legalSectionLead(section) };
+  return pageMetadata({
+    title: section.title,
+    description: legalSectionLead(section),
+    path: `/legal/${section.slug}`,
+  });
 }
 
 export default async function LegalSectionPage({

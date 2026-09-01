@@ -1,10 +1,17 @@
+import type { Metadata } from "next";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
+import { AUTH_ROBOTS, PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { LoginForm } from "@/components/auth/login-form";
 import { readPostLoginPathFromSearch } from "@/lib/kernel/auth/redirects";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/link-button";
 import { BrandIcon } from "@/components/ui/brand-icon";
+
+export const metadata: Metadata = pageMetadata({
+  ...PAGE_SEO.login,
+  robots: AUTH_ROBOTS,
+});
 
 export default async function LoginPage({
   searchParams,

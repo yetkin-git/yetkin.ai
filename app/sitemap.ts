@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 import { LEGAL_SITE_PATHS } from "@/lib/copy/legal-launch";
+import { CANONICAL_SITE_ORIGIN } from "@/lib/copy/seo";
 
 /** Google Search Console `<loc>` için kanonik canlı köken. Bağıl yol yasak. */
-const CANONICAL_SITE_ORIGIN = "https://yetkin.ai";
 
 function publicSiteOrigin(): string {
   const raw = process.env.NEXT_PUBLIC_APP_URL?.trim();

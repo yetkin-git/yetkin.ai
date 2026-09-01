@@ -5,11 +5,29 @@ import { connection } from "next/server";
 import { NavigationProgressBar } from "@/components/shell/navigation-progress-bar";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { PUBLIC_SEN } from "@/lib/copy/sen-voice/public";
+import {
+  CANONICAL_SITE_ORIGIN,
+  PAGE_SEO,
+  TITLE_TEMPLATE,
+  pageMetadata,
+} from "@/lib/copy/seo";
 import "./globals.css";
 
+const homeSeo = pageMetadata(PAGE_SEO.home);
+
 export const metadata: Metadata = {
-  title: YETKIN_BRAND,
-  description: PUBLIC_SEN.home.title,
+  metadataBase: new URL(CANONICAL_SITE_ORIGIN),
+  title: {
+    default: PUBLIC_SEN.home.title,
+    template: TITLE_TEMPLATE,
+  },
+  description: homeSeo.description,
+  alternates: homeSeo.alternates,
+  openGraph: {
+    ...homeSeo.openGraph,
+    siteName: YETKIN_BRAND,
+  },
+  twitter: homeSeo.twitter,
 };
 
 /** Nonce CSP istek anında basılır; statik kabuk nonce taşıyamaz. */

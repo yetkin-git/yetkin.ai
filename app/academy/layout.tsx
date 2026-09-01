@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { AppShell } from "@/components/shell/app-shell";
-import { YETKIN_BRAND } from "@/lib/copy/brand";
+import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 
-export const metadata: Metadata = {
-  title: `Akademi · ${YETKIN_BRAND}`,
-};
+export const metadata: Metadata = pageMetadata(PAGE_SEO.academy);
 
 export default function AcademyLayout({ children }: { children: ReactNode }) {
   return <AppShell>{children}</AppShell>;

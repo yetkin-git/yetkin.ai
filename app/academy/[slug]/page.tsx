@@ -40,7 +40,7 @@ import { PRICE_LOCK_GRACE_MINUTES } from "@/lib/kernel/pricing/price-lock";
 import { isPaymentsPortConfigured } from "@/lib/kernel/payments/port";
 import { isPaytrMockCheckoutAllowed } from "@/lib/kernel/payments/paytr/checkout";
 import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
-import { YETKIN_BRAND } from "@/lib/copy/brand";
+import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import type { Route } from "next";
 
 export async function generateMetadata({
@@ -50,9 +50,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const title = academyCourseTitleBySlug(slug);
-  return {
-    title: title ? `${title} · Akademi · ${YETKIN_BRAND}` : `Akademi · ${YETKIN_BRAND}`,
-  };
+  return pageMetadata({
+    title: title ? `${title} · Akademi` : PAGE_SEO.academy.title,
+    description: title
+      ? `${title} — yetkin.ai Akademi. Dersi bitir, testi geç, kariyer vizen işlensin.`
+      : PAGE_SEO.academy.description,
+    path: `/academy/${slug}`,
+  });
 }
 
 export default async function AcademyCoursePage({

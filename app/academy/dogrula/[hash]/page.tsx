@@ -10,8 +10,8 @@ import { ProofOfWorkCard } from "@/components/academy/proof-of-work-card";
 import { PathwayMasterySeal } from "@/components/academy/pathway-mastery-seal";
 import { CertificateSeal } from "@/components/academy/certificate-seal";
 import { CertificateVerifyQr } from "@/components/academy/certificate-verify-qr";
-import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { parseSha256Hex } from "@/lib/kernel/crypto/sha256";
+import { pageMetadata } from "@/lib/copy/seo";
 
 export async function generateMetadata({
   params,
@@ -20,11 +20,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { hash } = await params;
   const preview = parseSha256Hex(hash)?.slice(0, 12);
-  return {
-    title: preview
-      ? `Doğrula ${preview} · Akademi · ${YETKIN_BRAND}`
-      : `Doğrula · Akademi · ${YETKIN_BRAND}`,
-  };
+  const title = preview ? `Doğrula ${preview} · Akademi` : "Doğrula · Akademi";
+  return pageMetadata({
+    title,
+    description:
+      "Akademi sertifikasının SHA-256 bütünlük kaydı. Oturum istenmez; vatandaş kimliği gösterilmez.",
+    path: `/academy/dogrula/${hash}`,
+  });
 }
 
 function hashSubjectRow(label: string, body: string) {

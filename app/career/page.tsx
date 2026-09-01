@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { VisaLedger } from "@/components/career/visa-ledger";
 import { VisaScopeBoard } from "@/components/career/visa-scope-board";
 import { AuthNeeded } from "@/components/ui/auth-needed";
@@ -7,7 +8,10 @@ import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { loadCareerBoard } from "@/lib/career/load";
 import { getSession } from "@/lib/kernel/auth/session";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
+import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { PASSPORT_SURFACE_PATH } from "@/lib/kernel/passport/types";
+
+export const metadata: Metadata = pageMetadata(PAGE_SEO.career);
 
 export default async function CareerPage() {
   const session = await getSession();
