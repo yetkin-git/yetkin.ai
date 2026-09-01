@@ -232,6 +232,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(robots).toContain("/legal");
     expect(robots).toContain("LEGAL_SITE_PATHS");
     expect(sitemap).toContain("LEGAL_SITE_PATHS");
+    expect(sitemap).toContain("PRODUCT_ROOM_PATHS");
+    expect(sitemap).toContain("publishedCoursesFromSeed");
     expect(LEGAL_FOOTER_LINKS.map((link) => link.href)).toEqual([
       "/legal/gizlilik",
       "/legal/iade",
@@ -260,6 +262,9 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(urls).toContain("https://yetkin.ai/legal");
     expect(urls).toContain("https://yetkin.ai/legal/gizlilik");
     expect(urls).toContain("https://yetkin.ai/iletisim");
+    expect(urls).toContain("https://yetkin.ai/academy");
+    expect(urls).toContain("https://yetkin.ai/career");
+    expect(urls).toContain("https://yetkin.ai/freelancer");
     for (const url of urls) {
       expect(url.startsWith("https://yetkin.ai")).toBe(true);
       expect(url.startsWith("/")).toBe(false);

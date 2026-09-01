@@ -78,10 +78,47 @@ type PageSeoInput = {
   description: string;
   path: string;
   robots?: Metadata["robots"];
+  /** Bağıl kamu yolu — `metadataBase` ile mutlak `og:image` olur. */
+  image?: string;
 };
 
+export const PRODUCT_ROOM_PATHS = ["/academy", "/career", "/freelancer"] as const;
+
+export type SitemapChangeFrequency =
+  | "always"
+  | "hourly"
+  | "daily"
+  | "weekly"
+  | "monthly"
+  | "yearly"
+  | "never";
+
+/**
+ * Aşama 2 sitemap önceliği: ana sayfa/akademi 1.0, kurs 0.8, yasal/iletişim 0.5.
+ * Kariyer ve freelancer ürün odaları 0.9.
+ */
+export function sitemapRoutePolicy(path: string): {
+  changeFrequency: SitemapChangeFrequency;
+  priority: number;
+} {
+  if (path === "/" || path === "/academy") {
+    return { changeFrequency: "weekly", priority: 1 };
+  }
+  if (path === "/career" || path === "/freelancer") {
+    return { changeFrequency: "weekly", priority: 0.9 };
+  }
+  if (path.startsWith("/academy/") && !path.startsWith("/academy/dogrula")) {
+    return { changeFrequency: "weekly", priority: 0.8 };
+  }
+  if (path.startsWith("/legal") || path === "/iletisim") {
+    return { changeFrequency: "monthly", priority: 0.5 };
+  }
+  return { changeFrequency: "weekly", priority: 0.7 };
+}
+
 /** Kamuya açık sayfa metadata'sı: canonical + Open Graph (tr_TR) + Twitter Card. */
-export function pageMetadata({ title, description, path, robots }: PageSeoInput): Metadata {
+export function pageMetadata({ title, description, path, robots, image }: PageSeoInput): Metadata {
+  const images = image ? [{ url: image, alt: title }] : undefined;
   return {
     title,
     description,
@@ -93,11 +130,13 @@ export function pageMetadata({ title, description, path, robots }: PageSeoInput)
       siteName: YETKIN_BRAND,
       title,
       description,
+      ...(images ? { images } : {}),
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      ...(image ? { images: [image] } : {}),
     },
     ...(robots ? { robots } : {}),
   };

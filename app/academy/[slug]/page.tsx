@@ -34,12 +34,13 @@ import { CourseHeroActions } from "@/components/academy/course-hero-actions";
 import { BreadcrumbPageLabel } from "@/components/shell/header-breadcrumb";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
-import { academyCourseTitleBySlug } from "@/lib/academy/course-titles";
+import { academyCourseCoverPath } from "@/lib/academy/course-cover";
 import { academyInstructorBySlug, academyModeratorForSlug } from "@/lib/academy/instructors";
 import { PRICE_LOCK_GRACE_MINUTES } from "@/lib/kernel/pricing/price-lock";
 import { isPaymentsPortConfigured } from "@/lib/kernel/payments/port";
 import { isPaytrMockCheckoutAllowed } from "@/lib/kernel/payments/paytr/checkout";
 import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
+import { resolveAcademyCourseFromSeed } from "@/lib/academy/published-catalog";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import type { Route } from "next";
 
@@ -49,13 +50,19 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const title = academyCourseTitleBySlug(slug);
+  const course = resolveAcademyCourseFromSeed(slug);
+  if (!course) {
+    return pageMetadata({
+      title: PAGE_SEO.academy.title,
+      description: PAGE_SEO.academy.description,
+      path: `/academy/${slug}`,
+    });
+  }
   return pageMetadata({
-    title: title ? `${title} · Akademi` : PAGE_SEO.academy.title,
-    description: title
-      ? `${title} — yetkin.ai Akademi. Dersi bitir, testi geç, kariyer vizen işlensin.`
-      : PAGE_SEO.academy.description,
-    path: `/academy/${slug}`,
+    title: `${course.title} · Akademi`,
+    description: course.summary,
+    path: `/academy/${course.slug}`,
+    image: academyCourseCoverPath(course.slug),
   });
 }
 
