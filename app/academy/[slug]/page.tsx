@@ -41,6 +41,13 @@ import { isPaymentsPortConfigured } from "@/lib/kernel/payments/port";
 import { isPaytrMockCheckoutAllowed } from "@/lib/kernel/payments/paytr/checkout";
 import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 import { resolveAcademyCourseFromSeed } from "@/lib/academy/published-catalog";
+import { JsonLd } from "@/components/seo/json-ld";
+import {
+  academyCourseBreadcrumbs,
+  breadcrumbListJsonLd,
+  courseJsonLd,
+  jsonLdDocument,
+} from "@/lib/copy/json-ld";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import type { Route } from "next";
 
@@ -154,6 +161,23 @@ export default async function AcademyCoursePage({
 
   return (
     <RoomFrame className="space-y-5" data-academy-lab-player={labPlayer ? "true" : undefined}>
+      <JsonLd
+        data={jsonLdDocument([
+          courseJsonLd({
+            slug: board.course.slug,
+            title: board.course.title,
+            description: board.course.summary,
+            imagePath: academyCourseCoverPath(board.course.slug),
+            datePublished: board.course.createdAt,
+          }),
+          breadcrumbListJsonLd(
+            academyCourseBreadcrumbs({
+              slug: board.course.slug,
+              title: board.course.title,
+            }),
+          ),
+        ])}
+      />
       <BreadcrumbPageLabel href={`/academy/${board.course.slug}`} label={board.course.title} />
       <PageHeader
         eyebrow={copy.eyebrow}

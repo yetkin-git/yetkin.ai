@@ -164,6 +164,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(slug).toContain("LegalBackToHome");
     expect(slug).toContain("LegalSupportEmailLine");
     expect(slug).toContain("LegalEntityColophon");
+    expect(slug).toContain("legalSectionBreadcrumbs");
+    expect(slug).toContain("breadcrumbListJsonLd");
     expect(slug).not.toContain("LEGAL_SUPPORT_LINE");
     expect(articles).toContain("LEGAL_SUPPORT_LINE_LABEL");
     expect(articles).toContain("LEGAL_ENTITY_COLOPHON");

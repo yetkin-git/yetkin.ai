@@ -17,6 +17,12 @@ import {
   legalSectionBySlug,
   legalSectionLead,
 } from "@/lib/copy/legal-launch";
+import { JsonLd } from "@/components/seo/json-ld";
+import {
+  breadcrumbListJsonLd,
+  jsonLdDocument,
+  legalSectionBreadcrumbs,
+} from "@/lib/copy/json-ld";
 import { pageMetadata } from "@/lib/copy/seo";
 
 export function generateStaticParams() {
@@ -53,6 +59,16 @@ export default async function LegalSectionPage({
 
   return (
     <main className="relative mx-auto max-w-3xl px-6 pb-20 pt-16">
+      <JsonLd
+        data={jsonLdDocument([
+          breadcrumbListJsonLd(
+            legalSectionBreadcrumbs({
+              slug: section.slug,
+              title: section.title,
+            }),
+          ),
+        ])}
+      />
       <div className="relative space-y-6">
         <div className="space-y-3">
           <LegalBackToHome />

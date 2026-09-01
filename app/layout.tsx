@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Suspense } from "react";
 import { connection } from "next/server";
+import { JsonLd } from "@/components/seo/json-ld";
 import { NavigationProgressBar } from "@/components/shell/navigation-progress-bar";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
+import { siteGraphJsonLd } from "@/lib/copy/json-ld";
 import { PUBLIC_SEN } from "@/lib/copy/sen-voice/public";
 import {
   CANONICAL_SITE_ORIGIN,
@@ -43,6 +45,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Suspense fallback={null}>
           <RequestBoundCsp />
         </Suspense>
+        <JsonLd data={siteGraphJsonLd()} />
         <NavigationProgressBar />
         {children}
       </body>

@@ -8,6 +8,14 @@ import { PUBLIC_SEN } from "@/lib/copy/sen-voice/public";
 /** Google / OG mutlak URL kökü — sitemap ile aynı canlı domain. */
 export const CANONICAL_SITE_ORIGIN = "https://yetkin.ai" as const;
 
+/** JSON-LD ve OG için kanonik mutlak URL. Bağıl yol `https://yetkin.ai` köküne bağlanır. */
+export function canonicalUrl(path: string): string {
+  if (path.startsWith("https://") || path.startsWith("http://")) {
+    return path;
+  }
+  return new URL(path, `${CANONICAL_SITE_ORIGIN}/`).href;
+}
+
 /** Çocuk segment title'ına eklenen kök şablon. Markayı title string'ine ikinci kez yazma. */
 export const TITLE_TEMPLATE = `%s · ${YETKIN_BRAND}` as const;
 
