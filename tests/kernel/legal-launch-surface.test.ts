@@ -255,6 +255,16 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(LEGAL_SITE_PATHS).not.toContain("mailto:destek@yetkin.ai");
   });
 
+  it("eski yasal URL'ler next.config kalıcı 301 ile kanonik sluga döner", () => {
+    const config = readSrc("next.config.ts");
+    expect(config).toContain('source: "/legal/iade-sartlari"');
+    expect(config).toContain('destination: "/legal/iade"');
+    expect(config).toContain('source: "/legal/kullanici-sozlesmesi"');
+    expect(config).toContain('destination: "/legal/kullanim-sartlari"');
+    expect(config).toContain('source: "/legal/mesafeli-satis-sozlesmesi"');
+    expect(config).toContain('destination: "/legal/mesafeli-satis"');
+  });
+
   it("sitemap loc alanları https://yetkin.ai mutlak adresidir", async () => {
     vi.stubEnv("NEXT_PUBLIC_APP_URL", "http://localhost:3000");
     const { default: sitemap } = await import("@/app/sitemap");
