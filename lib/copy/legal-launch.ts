@@ -53,6 +53,7 @@ export const LEGAL_WHATSAPP_HREF = `https://wa.me/${LEGAL_ENTITY.whatsappE164}` 
 
 export const LEGAL_SECTION_TITLES = {
   kvkk: "Gizlilik Politikası ve KVKK Aydınlatma Metni",
+  cookies: "Çerez Politikası",
   refund: "İptal ve İade Koşulları",
   distance: "Ön Bilgilendirme Formu ve Mesafeli Satış Sözleşmesi",
   terms: "Platform Kullanım Şartları & Sorumluluk Sınırları",
@@ -60,6 +61,7 @@ export const LEGAL_SECTION_TITLES = {
 
 export const LEGAL_SECTION_IDS = {
   kvkk: "kvkk-cerez",
+  cookies: "cerez-politikasi",
   refund: "iade-iptal",
   distance: "mesafeli-hizmet",
   terms: "kullanim-sartlari",
@@ -67,9 +69,10 @@ export const LEGAL_SECTION_IDS = {
 
 export const LEGAL_PAGE_SLUGS = {
   gizlilik: "gizlilik",
+  cerez: "cerez",
   mesafeli: "mesafeli-satis",
   iade: "iade",
-  terms: "kullanim-sartlari",
+  terms: "kullanim",
 } as const;
 
 export type LegalLaunchArticle = {
@@ -145,6 +148,36 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         paragraphs: [
           "Hesap hareketleri sonradan değiştirilemez; bakiyeniz bu kayıtlardan hesaplanır. Akademi sınavı sunucuda değerlendirilir. Herkese açık sertifika doğrulama sayfası kişisel bilgi (ad, e-posta) göstermez; yalnız dijital olarak doğrulanabilir sertifika kodu kontrol edilir.",
           `6698 sayılı Kanun’un 11. maddesindeki haklarınız (erişim, düzeltme, silme, itiraz) ${LEGAL_SUPPORT_EMAIL} ve hesap içi bildirim kanalından kullanılır.`,
+        ],
+      },
+    ],
+  },
+  {
+    id: LEGAL_SECTION_IDS.cookies,
+    slug: LEGAL_PAGE_SLUGS.cerez,
+    href: "/legal/cerez",
+    title: LEGAL_SECTION_TITLES.cookies,
+    articles: [
+      {
+        id: "zorunlu-cerez",
+        heading: "1. Hangi çerezler kullanılır?",
+        paragraphs: [
+          `Bu çerez politikası ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}) tarafından sunulan ${LEGAL_ENTITY.brandName} platformu içindir. Tebligat adresi: ${LEGAL_ENTITY.address}.`,
+          "Oturumunuzu açık tutmak için zorunlu kimlik çerezleri kullanılır. Sitemizde reklam, yeniden hedefleme veya üçüncü taraf analitik izleme kodu bulunmamaktadır.",
+        ],
+      },
+      {
+        id: "odeme-cerez",
+        heading: "2. Ödeme sayfası çerezleri",
+        paragraphs: [
+          "Kart ödemesinde Yetkili Ödeme Kuruluşu kendi sayfasını açabilir; o çerezler sağlayıcının politikasına tabidir. Zorunlu oturum çerezi olmadan hesabınıza giriş yapılamaz. Pazarlama çerezi kullanılmadığı için bu konuda ayrı bir izin istenmez.",
+        ],
+      },
+      {
+        id: "cerez-talep",
+        heading: "3. Talepler",
+        paragraphs: [
+          `Çerez ve gizlilik talepleriniz ${LEGAL_SUPPORT_EMAIL} üzerinden alınır.`,
         ],
       },
     ],
@@ -244,7 +277,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
   {
     id: LEGAL_SECTION_IDS.terms,
     slug: LEGAL_PAGE_SLUGS.terms,
-    href: "/legal/kullanim-sartlari",
+    href: "/legal/kullanim",
     title: LEGAL_SECTION_TITLES.terms,
     articles: [
       {
@@ -291,9 +324,10 @@ export const LEGAL_CONTACT_HREF = "/iletisim" as const;
 /** Vitrin şeridi — tam hukuki başlık `title`, tek satır etiket `label`. */
 export const LEGAL_FOOTER_LABELS = {
   gizlilik: "Gizlilik",
+  cerez: "Çerez",
   iade: "İade",
   "mesafeli-satis": "Mesafeli satış",
-  "kullanim-sartlari": "Kullanım şartları",
+  kullanim: "Kullanım şartları",
   iletisim: "İletişim",
   destek: LEGAL_SUPPORT_EMAIL,
 } as const;

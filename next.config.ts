@@ -65,10 +65,14 @@ const nextConfig: NextConfig = {
       { source: "/giris", destination: "/login", permanent: true },
       // §2.5 vatandaş çifti — CEO tedavi kilidi: 8 tavanına /kayit eklenir.
       { source: "/kayit", destination: "/register", permanent: true },
+      { source: "/legal/gizlilik-politikasi", destination: "/legal/gizlilik", permanent: true },
+      { source: "/legal/cerez-politikasi", destination: "/legal/cerez", permanent: true },
       { source: "/legal/iade-sartlari", destination: "/legal/iade", permanent: true },
+      { source: "/legal/kullanim-kosullari", destination: "/legal/kullanim", permanent: true },
+      { source: "/legal/kullanim-sartlari", destination: "/legal/kullanim", permanent: true },
       {
         source: "/legal/kullanici-sozlesmesi",
-        destination: "/legal/kullanim-sartlari",
+        destination: "/legal/kullanim",
         permanent: true,
       },
       {

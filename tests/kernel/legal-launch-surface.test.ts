@@ -35,7 +35,7 @@ function readSrc(relative: string): string {
 }
 
 describe("lansman hukuk yüzeyi (O13)", () => {
-  it("resmi şirket kartını basar; dört lansman başlığını taşır", () => {
+  it("resmi şirket kartını basar; yasal başlıkları taşır", () => {
     expect(LEGAL_HONESTY_BODY).toContain(LEGAL_ENTITY.tradeName);
     expect(LEGAL_HONESTY_BODY).toContain(`VKN: ${LEGAL_ENTITY.vkn} / ${LEGAL_ENTITY.taxOffice}`);
     expect(LEGAL_HONESTY_BODY).toContain(`MERSİS No: ${LEGAL_ENTITY.mersis}`);
@@ -63,9 +63,10 @@ describe("lansman hukuk yüzeyi (O13)", () => {
       `VKN: ${LEGAL_ENTITY.vkn} / ${LEGAL_ENTITY.taxOffice}, MERSİS No: ${LEGAL_ENTITY.mersis}`,
     );
     expect(LEGAL_PAGE_TITLE).toBe("Gizlilik ve yasal çerçeve");
-    expect(LEGAL_LAUNCH_SECTIONS).toHaveLength(4);
+    expect(LEGAL_LAUNCH_SECTIONS).toHaveLength(5);
     expect(LEGAL_LAUNCH_SECTIONS.map((row) => row.title)).toEqual([
       LEGAL_SECTION_TITLES.kvkk,
+      LEGAL_SECTION_TITLES.cookies,
       LEGAL_SECTION_TITLES.refund,
       LEGAL_SECTION_TITLES.distance,
       LEGAL_SECTION_TITLES.terms,
@@ -227,6 +228,7 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(authLayout).toContain("LegalSiteFooter");
     expect(shell).toContain("LegalSiteFooter");
     expect(home).not.toContain("/legal/gizlilik");
+    expect(home).not.toContain("/legal/cerez");
     expect(home).not.toContain("/legal/mesafeli-satis");
     expect(home).not.toContain("/legal/iade");
     expect(home).not.toContain("legalCta");
@@ -238,14 +240,16 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(sitemap).toContain("publishedCoursesFromSeed");
     expect(LEGAL_FOOTER_LINKS.map((link) => link.href)).toEqual([
       "/legal/gizlilik",
+      "/legal/cerez",
       "/legal/iade",
       "/legal/mesafeli-satis",
-      "/legal/kullanim-sartlari",
+      "/legal/kullanim",
       "/iletisim",
       "mailto:destek@yetkin.ai",
     ]);
     expect(LEGAL_FOOTER_LINKS.map((link) => link.label)).toEqual([
       "Gizlilik",
+      "Çerez",
       "İade",
       "Mesafeli satış",
       "Kullanım şartları",
@@ -257,10 +261,16 @@ describe("lansman hukuk yüzeyi (O13)", () => {
 
   it("eski yasal URL'ler next.config kalıcı 301 ile kanonik sluga döner", () => {
     const config = readSrc("next.config.ts");
+    expect(config).toContain('source: "/legal/gizlilik-politikasi"');
+    expect(config).toContain('destination: "/legal/gizlilik"');
+    expect(config).toContain('source: "/legal/cerez-politikasi"');
+    expect(config).toContain('destination: "/legal/cerez"');
     expect(config).toContain('source: "/legal/iade-sartlari"');
     expect(config).toContain('destination: "/legal/iade"');
+    expect(config).toContain('source: "/legal/kullanim-kosullari"');
+    expect(config).toContain('destination: "/legal/kullanim"');
+    expect(config).toContain('source: "/legal/kullanim-sartlari"');
     expect(config).toContain('source: "/legal/kullanici-sozlesmesi"');
-    expect(config).toContain('destination: "/legal/kullanim-sartlari"');
     expect(config).toContain('source: "/legal/mesafeli-satis-sozlesmesi"');
     expect(config).toContain('destination: "/legal/mesafeli-satis"');
   });
@@ -273,6 +283,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(urls).toContain("https://yetkin.ai/");
     expect(urls).toContain("https://yetkin.ai/legal");
     expect(urls).toContain("https://yetkin.ai/legal/gizlilik");
+    expect(urls).toContain("https://yetkin.ai/legal/cerez");
+    expect(urls).toContain("https://yetkin.ai/legal/kullanim");
     expect(urls).toContain("https://yetkin.ai/iletisim");
     expect(urls).toContain("https://yetkin.ai/academy");
     expect(urls).toContain("https://yetkin.ai/career");

@@ -8,7 +8,7 @@ import {
 } from "../../lib/copy/legal-launch";
 
 test.describe("O13 lansman hukuk yüzeyi", () => {
-  test("/legal dürüst kartı ve dört lansman bölümünü basar", async ({ page, request }) => {
+  test("/legal dürüst kartı ve yasal bölümleri basar", async ({ page, request }) => {
     const headers = await request.get("/legal", { maxRedirects: 0 });
     expect(headers.status()).toBe(200);
     expect(headers.headers()["content-security-policy"] ?? "").toContain("default-src 'self'");
@@ -18,6 +18,7 @@ test.describe("O13 lansman hukuk yüzeyi", () => {
     await expect(page.getByText(LEGAL_HONESTY_BODY)).toBeVisible();
     await expect(page.getByText(LEGAL_ENTITY.address).first()).toBeVisible();
     await expect(page.getByRole("heading", { name: LEGAL_SECTION_TITLES.kvkk })).toBeVisible();
+    await expect(page.getByRole("heading", { name: LEGAL_SECTION_TITLES.cookies })).toBeVisible();
     await expect(page.getByRole("heading", { name: LEGAL_SECTION_TITLES.refund })).toBeVisible();
     await expect(page.getByRole("heading", { name: LEGAL_SECTION_TITLES.distance })).toBeVisible();
     await expect(page.getByRole("heading", { name: LEGAL_SECTION_TITLES.terms })).toBeVisible();
@@ -62,9 +63,10 @@ test.describe("O13 lansman hukuk yüzeyi", () => {
   test("yasal sayfa URL'leri 200 döner", async ({ request }) => {
     for (const path of [
       "/legal/gizlilik",
+      "/legal/cerez",
       "/legal/mesafeli-satis",
       "/legal/iade",
-      "/legal/kullanim-sartlari",
+      "/legal/kullanim",
       "/iletisim",
     ]) {
       const response = await request.get(path, { maxRedirects: 0 });
@@ -79,6 +81,7 @@ test.describe("O13 lansman hukuk yüzeyi", () => {
       await expect(nav).toBeInViewport();
       for (const label of [
         "Gizlilik",
+        "Çerez",
         "İade",
         "Mesafeli satış",
         "Kullanım şartları",
