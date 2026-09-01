@@ -70,6 +70,9 @@ describe("D2.1 müfredat oynatıcı yüzeyi — üç ekran + dinle kapalı", () 
     expect(player).toContain("data-academy-quiz-panel");
     expect(player).toContain("<details");
     expect(player).toContain("data-academy-player-layout=\"fit-screen\"");
+    expect(player).toContain("academy-player-widescreen");
+    expect(player).toContain("LessonSyntaxCode");
+    expect(player).not.toContain("<details open");
     expect(oyna).toContain("academy-player-viewport-lock");
     expect(player).toContain("AcademyProgressBar");
     expect(player).toContain("copy.completeCta");

@@ -108,7 +108,9 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     expect(player).not.toContain("durationSec={micro?.durationSec ?? 8}");
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("<audio");
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("data-academy-audio-preparing");
-    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("copy.audioPreparing");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("academy-player-audio-bar");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).not.toContain("academy-dialogue-stage");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).not.toContain("academy-dialogue-text");
     expect(readSrc("components/academy/lesson-media-player.tsx")).not.toContain("<video");
     expect(readSrc("components/academy/lesson-media-player.tsx")).not.toContain("data-academy-cinema-canvas");
     expect(player).not.toContain("scrollIntoView");
@@ -133,5 +135,7 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     expect(readSrc("app/globals.css")).toContain("academy-listen-focus");
     expect(readSrc("app/globals.css")).toContain("academy-listen-cockpit");
     expect(readSrc("app/globals.css")).toContain("academy-dialogue-player");
+    expect(readSrc("app/globals.css")).toContain("academy-player-widescreen");
+    expect(readSrc("app/globals.css")).toContain("aspect-ratio: 16 / 9");
   }, 20_000);
 });

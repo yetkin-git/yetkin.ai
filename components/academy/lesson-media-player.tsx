@@ -6,7 +6,6 @@ import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import {
   activeAcademyDialogueTurnIndex,
   academyDialogueSpokenElapsedSec,
-  academyFiveActHeading,
   buildAcademyDialogueTimeline,
 } from "@/lib/academy/dialogue-timeline";
 import { academyLessonAudioPublicPath, isAcademyLessonAudioSealed } from "@/lib/academy/lesson-audio";
@@ -72,7 +71,6 @@ export function LessonMediaPlayer({
     spokenDuration,
   });
   const activeIndex = activeAcademyDialogueTurnIndex(timeline.turns, spokenElapsed);
-  const activeTurn = timeline.turns[activeIndex] ?? null;
 
   useEffect(() => {
     onActiveTurnChangeRef.current?.(activeIndex);
@@ -280,14 +278,16 @@ export function LessonMediaPlayer({
   }
 
   const progressPct = duration > 0 ? Math.min(100, Math.max(0, (elapsed / duration) * 100)) : 0;
-  const actHeading = academyFiveActHeading(activeTurn?.act ?? null);
   const preparing = audioSealed && !audioReady && !audioFailed;
 
   return (
     <section
-      className="academy-dialogue-player"
+      className="academy-dialogue-player academy-player-audio-bar"
       data-academy-dialogue-player=""
       data-academy-audio-ready={audioReady ? "true" : "false"}
+      data-academy-audio-preparing={preparing ? "true" : undefined}
+      aria-label={lessonTitle}
+      aria-busy={preparing}
     >
       {audioSrc ? (
       <audio
@@ -326,31 +326,7 @@ export function LessonMediaPlayer({
         }}
       />
       ) : null}
-      <div className="academy-dialogue-stage">
-        <p className="academy-dialogue-kicker">{copy.dialogueEyebrow}</p>
-        {preparing ? (
-          <div className="academy-dialogue-preparing" data-academy-audio-preparing="">
-            <p className="academy-dialogue-preparing-title">{copy.audioPreparing}</p>
-            <p className="academy-dialogue-preparing-lead">{copy.audioPreparingLead}</p>
-          </div>
-        ) : (
-          <p className="academy-dialogue-title">{lessonTitle}</p>
-        )}
-        {activeTurn ? (
-          <div
-            className="academy-dialogue-current"
-            data-academy-dialogue-turn={activeTurn.id}
-            data-academy-dialogue-speaker={activeTurn.speaker}
-          >
-            {actHeading ? <p className="academy-dialogue-act">{actHeading}</p> : null}
-            <p className="academy-dialogue-speaker">{activeTurn.displayName}</p>
-            <p className="academy-dialogue-text">{activeTurn.text}</p>
-          </div>
-        ) : (
-          <p className="academy-dialogue-text academy-dialogue-text--empty">{lessonTitle}</p>
-        )}
-      </div>
-      <div className="academy-dialogue-controls" data-academy-dialogue-controls="">
+      <div className="academy-dialogue-controls academy-player-audio-controls" data-academy-dialogue-controls="">
         <button
           type="button"
           className="academy-cinema-play"

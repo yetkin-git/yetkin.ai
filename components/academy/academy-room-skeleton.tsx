@@ -24,8 +24,8 @@ export function AcademyRoomSkeleton({
         <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-6">
           <div className="flex min-h-0 flex-col gap-3 lg:col-start-1">
             <Pulse className="h-7 w-56 rounded-lg" />
-            <Pulse className="h-24 w-full rounded-[1.15rem]" />
-            <Pulse className="min-h-0 flex-1 w-full rounded-[1.15rem]" />
+            <Pulse className="aspect-video w-full rounded-[1.15rem]" />
+            <Pulse className="h-11 w-full rounded-none" />
             <Pulse className="h-11 w-full rounded-[0.9rem]" />
           </div>
           <div className="hidden min-h-0 space-y-1.5 overflow-hidden lg:block">

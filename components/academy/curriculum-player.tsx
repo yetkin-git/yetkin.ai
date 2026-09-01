@@ -7,6 +7,7 @@ import { LinkButton } from "@/components/ui/link-button";
 import { IconChevronDown } from "@/components/ui/icons";
 import { LessonMediaPlayer } from "@/components/academy/lesson-media-player";
 import { LessonDialogueTranscript } from "@/components/academy/lesson-dialogue-transcript";
+import { LessonSyntaxCode } from "@/components/academy/lesson-syntax-code";
 import { AcademyProgressBar } from "@/components/academy/progress-bar";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { ACADEMY_FIVE_ACT_HEADINGS, parseAcademyLessonActText } from "@/lib/academy/lesson-body";
@@ -151,22 +152,34 @@ function uniqueLessonCodes(
   return out;
 }
 
+type SurfaceDiagram = {
+  diagramKey: string;
+  title: string;
+  caption: string;
+};
+
 function splitAcademyPlayerSurface({
   body,
   diagrams,
+  microVideos,
 }: {
   body: string;
   diagrams?: readonly AcademyLessonDiagramSlot[];
+  microVideos?: readonly AcademyLessonMicroVideoSlot[];
 }): {
   codes: LessonCodeSnippet[];
   quizPrompt: string | null;
   notes: ReactNode[];
+  diagrams: SurfaceDiagram[];
+  visualKey: string | null;
 } {
   const visual = ACADEMY_SEN.visual;
-  const blocks = composeAcademyLessonBlocks({ body, diagrams, microVideos: [] });
+  const blocks = composeAcademyLessonBlocks({ body, diagrams, microVideos });
   const codes: LessonCodeSnippet[] = [];
+  const stageDiagrams: SurfaceDiagram[] = [];
   const notes: ReactNode[] = [];
   let quizPrompt: string | null = null;
+  let visualKey: string | null = null;
   for (const [index, block] of blocks.entries()) {
     const key = `${block.kind}:${index}`;
     if (block.kind === "text") {
@@ -181,22 +194,16 @@ function splitAcademyPlayerSurface({
       notes.push(<LessonProse key={key} text={block.text} />);
       continue;
     }
+    if (block.kind === "micro-video") {
+      visualKey = block.assetKey;
+      continue;
+    }
     if (block.kind === "diagram") {
-      notes.push(
-        <figure key={key} className="space-y-2">
-          <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--muted)]">
-            {visual.diagramEyebrow}
-          </p>
-          <img
-            src={`/media/academy/diagrams/${block.diagramKey}.svg`}
-            alt={block.title}
-            className="w-full max-w-2xl rounded-xl border border-[var(--border)] bg-[var(--surface)]"
-          />
-          {block.caption ? (
-            <figcaption className="text-[13px] text-[var(--muted)]">{block.caption}</figcaption>
-          ) : null}
-        </figure>,
-      );
+      stageDiagrams.push({
+        diagramKey: block.diagramKey,
+        title: block.title,
+        caption: block.caption,
+      });
       continue;
     }
     if (block.kind === "params") {
@@ -240,41 +247,46 @@ function splitAcademyPlayerSurface({
       quizPrompt = block.prompt;
     }
   }
-  return { codes, quizPrompt, notes };
+  return { codes, quizPrompt, notes, diagrams: stageDiagrams, visualKey };
 }
 
-function LessonCodeViewer({
-  codes,
-  activeSource,
+function LessonWidescreenStage({
+  code,
+  diagram,
+  visualKey,
   label,
 }: {
-  codes: readonly LessonCodeSnippet[];
-  activeSource: string | null;
+  code: LessonCodeSnippet | null;
+  diagram: SurfaceDiagram | null;
+  visualKey: string | null;
   label: string;
 }) {
-  if (codes.length === 0) {
-    return null;
-  }
   return (
-    <section className="academy-player-code" data-academy-code-viewer="">
-      <p className="px-1 text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--muted)] sm:px-0">
-        {label}
-      </p>
-      <div className="academy-player-code-scroll mt-2 space-y-3">
-        {codes.map((snippet, index) => {
-          const active = activeSource != null && snippet.source === activeSource;
-          return (
-            <pre
-              key={`${index}:${snippet.language}`}
-              data-academy-code-active={active ? "true" : undefined}
-              className="overflow-x-auto rounded-xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--foreground)_4%,var(--surface))] p-4 text-[13px] leading-6"
-            >
-              <code>{snippet.source}</code>
-            </pre>
-          );
-        })}
-      </div>
-    </section>
+    <div className="academy-player-widescreen" data-academy-player-stage="">
+      <span className="sr-only">{label}</span>
+      {code ? (
+        <pre
+          className="academy-player-widescreen-code"
+          data-academy-code-viewer=""
+          data-academy-code-active="true"
+        >
+          <LessonSyntaxCode language={code.language} source={code.source} />
+        </pre>
+      ) : diagram ? (
+        <figure className="academy-player-widescreen-visual">
+          <img
+            src={`/media/academy/diagrams/${diagram.diagramKey}.svg`}
+            alt={diagram.title}
+          />
+        </figure>
+      ) : visualKey ? (
+        <figure className="academy-player-widescreen-visual">
+          <img src={`/media/academy/micro/${visualKey}.poster.svg`} alt="" />
+        </figure>
+      ) : (
+        <div className="academy-player-widescreen-empty" />
+      )}
+    </div>
   );
 }
 
@@ -342,15 +354,25 @@ export function CurriculumPlayer({
       splitAcademyPlayerSurface({
         body: active?.body ?? "",
         diagrams: active?.diagrams,
+        microVideos: active?.microVideos,
       }),
-    [active?.body, active?.diagrams],
+    [active?.body, active?.diagrams, active?.microVideos],
   );
   const lessonCodes = useMemo(
     () => uniqueLessonCodes(dialogueTimeline.turns, surface.codes),
     [dialogueTimeline.turns, surface.codes],
   );
-  const activeCodeSource = dialogueTimeline.turns[activeTurnIndex]?.code?.source.trim() ?? null;
-  const showNotes = dialogueTimeline.turns.length > 0 || surface.notes.length > 0;
+  const stagedCode = useMemo(() => {
+    for (let index = activeTurnIndex; index >= 0; index -= 1) {
+      const snippet = dialogueTimeline.turns[index]?.code;
+      if (snippet?.source.trim()) {
+        return { language: snippet.language, source: snippet.source };
+      }
+    }
+    return lessonCodes[0] ?? null;
+  }, [activeTurnIndex, dialogueTimeline.turns, lessonCodes]);
+  const showNotes =
+    dialogueTimeline.turns.length > 0 || surface.notes.length > 0 || Boolean(surface.quizPrompt);
 
   useEffect(() => {
     setActiveTurnIndex(0);
@@ -506,15 +528,21 @@ export function CurriculumPlayer({
     >
       {active ? (
         <>
-          <div className="academy-player-main relative flex min-h-0 min-w-0 flex-col gap-3 overflow-hidden lg:col-start-1">
+          <div className="academy-player-main relative flex min-h-0 min-w-0 flex-col gap-3 overflow-y-auto lg:col-start-1">
             <header className="shrink-0 space-y-2 px-1 pt-1 sm:px-0">
               <AcademyProgressBar value={percent} label={copy.progress(doneCount, lessons.length)} />
               <h2 className="truncate text-[1.125rem] font-semibold tracking-[-0.032em] text-[var(--foreground)] sm:text-[1.375rem] sm:leading-[1.2]">
                 {activeTitle}
               </h2>
             </header>
-            <div className="academy-player-focus flex min-h-0 flex-1 flex-col gap-3">
-              <div className="academy-player-canvas shrink-0" data-academy-player-canvas="">
+            <div className="academy-player-focus flex min-h-0 flex-col">
+              <div className="academy-player-cinema" data-academy-player-canvas="">
+                <LessonWidescreenStage
+                  code={stagedCode}
+                  diagram={surface.diagrams[0] ?? null}
+                  visualKey={surface.visualKey}
+                  label={copy.codeViewerLabel}
+                />
                 <LessonMediaPlayer
                   key={active.key}
                   courseSlug={courseSlug}
@@ -525,14 +553,6 @@ export function CurriculumPlayer({
                   onPlayingChange={setDialoguePlaying}
                   onEnded={onDialogueEnded}
                 />
-              </div>
-              <div className="academy-player-workspace flex min-h-0 flex-1 flex-col gap-3 overflow-hidden">
-                <LessonCodeViewer
-                  codes={lessonCodes}
-                  activeSource={activeCodeSource}
-                  label={copy.codeViewerLabel}
-                />
-                {surface.quizPrompt ? <LessonQuizPanel prompt={surface.quizPrompt} /> : null}
               </div>
             </div>
             {showNotes ? (
@@ -563,6 +583,7 @@ export function CurriculumPlayer({
                       {surface.notes}
                     </div>
                   ) : null}
+                  {surface.quizPrompt ? <LessonQuizPanel prompt={surface.quizPrompt} /> : null}
                 </div>
               </details>
             ) : null}
