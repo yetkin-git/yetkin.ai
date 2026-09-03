@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
   DATABASE_BUSY_ERROR,
+  isPrismaClientError,
   isPrismaForeignKeyViolation,
   isPrismaPoolBusyError,
   isPrismaTransientConnectionError,
+  isPrismaUniqueViolation,
   isPrismaUnavailableError,
 } from "@/lib/kernel/db-errors";
 
@@ -39,7 +41,19 @@ describe("Prisma havuz / kopuk soket etiketleri", () => {
 
     const unique = withCode("Unique constraint failed", "P2002");
     expect(isPrismaUnavailableError(unique)).toBe(false);
+    expect(isPrismaUniqueViolation(unique)).toBe(true);
     expect(DATABASE_BUSY_ERROR).toMatch(/meşgul/);
+  });
+
+  it("P2002 / 23505 unique ihlali mevcut satır olarak yakalanır", () => {
+    const prisma = withCode("Unique constraint failed on the constraint: `academy_purchases_user_id_course_id_key`", "P2002");
+    expect(isPrismaUniqueViolation(prisma)).toBe(true);
+    expect(isPrismaUnavailableError(prisma)).toBe(false);
+
+    const pg = withCode("duplicate key value violates unique constraint", "23505");
+    expect(isPrismaUniqueViolation(pg)).toBe(true);
+    expect(isPrismaClientError(prisma)).toBe(true);
+    expect(isPrismaClientError(new Error("plain"))).toBe(false);
   });
 
   it("P2003 yabancı anahtar 503 değildir; oturum senkronu olarak yakalanır", () => {

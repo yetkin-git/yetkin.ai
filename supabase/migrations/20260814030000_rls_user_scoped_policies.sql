@@ -1,8 +1,10 @@
 -- Faz 1.1 — Owner-scoped SELECT. PostgREST INSERT/UPDATE/DELETE politikası yoktur (yazma yasağı).
 -- Sıra: prisma migrate deploy → handle_new_user → FORCE RLS → bu dosya → katalog tohumu.
 -- Sicil: lib/kernel/security/rls-policy-registry.ts ile birebir aynı olmalıdır.
--- Sahiplik kolonu olmayan tablolar (price_catalog_entries, academy_courses, …) politika almaz;
--- FORCE RLS + politika yok = PostgREST sıfır satır. Katalog okuma Prisma + Super Admin.
+-- Prisma / postgres / service_role BYPASSRLS — yazma politikası gerekmez, yazmayı da açmaz.
+-- Sahiplik kolonu olmayan tablolar (price_catalog_entries, academy_courses, …)
+-- rls_deny_unscoped SELECT USING (false) alır: Supabase "RLS Enabled No Policy" kapanır,
+-- PostgREST sıfır satır kalır. Katalog okuma Prisma + Super Admin.
 
 CREATE OR REPLACE FUNCTION public.yetkin_auth_user_id()
 RETURNS text
@@ -111,6 +113,93 @@ $$;
 COMMENT ON FUNCTION public.yetkin_apply_rls_owner_policies(text) IS
   'Faz 1.1 — sahiplik kolonu başına authenticated SELECT. Yazma politikası üretilmez.';
 
+CREATE OR REPLACE FUNCTION public.yetkin_apply_rls_unscoped_deny(target_table text)
+RETURNS boolean
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pg_catalog, public
+AS $$
+DECLARE
+  policy_count integer;
+BEGIN
+  IF target_table IS NULL
+     OR target_table = ''
+     OR target_table LIKE 'pg\_%'
+     OR target_table LIKE '\_prisma%'
+     OR target_table IN ('schema_migrations', 'spatial_ref_sys', '_supabase_migrations')
+  THEN
+    RETURN false;
+  END IF;
+
+  PERFORM 1
+  FROM pg_class c
+  JOIN pg_namespace n ON n.oid = c.relnamespace
+  WHERE n.nspname = 'public'
+    AND c.relname = target_table
+    AND c.relkind = 'r';
+
+  IF NOT FOUND THEN
+    RETURN false;
+  END IF;
+
+  EXECUTE format('DROP POLICY IF EXISTS rls_deny_unscoped ON public.%I', target_table);
+
+  SELECT count(*)::int INTO policy_count
+  FROM pg_policy p
+  JOIN pg_class c ON c.oid = p.polrelid
+  JOIN pg_namespace n ON n.oid = c.relnamespace
+  WHERE n.nspname = 'public'
+    AND c.relname = target_table;
+
+  IF policy_count > 0 THEN
+    RETURN false;
+  END IF;
+
+  EXECUTE format(
+    'CREATE POLICY rls_deny_unscoped ON public.%I FOR SELECT TO anon, authenticated USING (false)',
+    target_table
+  );
+  RETURN true;
+END;
+$$;
+
+COMMENT ON FUNCTION public.yetkin_apply_rls_unscoped_deny(text) IS
+  'Faz 1.1 — sahiplik politikası yoksa fail-closed SELECT. INSERT/UPDATE/DELETE üretilmez.';
+
+CREATE OR REPLACE FUNCTION public.yetkin_seal_rls_policies_for_table(target_table text)
+RETURNS integer
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pg_catalog, public
+AS $$
+DECLARE
+  produced integer;
+BEGIN
+  produced := public.yetkin_apply_rls_owner_policies(target_table);
+
+  IF target_table = 'users' THEN
+    EXECUTE 'DROP POLICY IF EXISTS "users_select_own" ON public.users';
+    EXECUTE $policy$
+      CREATE POLICY "users_select_own"
+        ON public.users
+        FOR SELECT
+        TO authenticated
+        USING (id::text = public.yetkin_auth_user_id())
+    $policy$;
+    produced := produced + 1;
+  END IF;
+
+  IF public.yetkin_apply_rls_unscoped_deny(target_table) THEN
+    produced := produced + 1;
+  END IF;
+
+  RETURN produced;
+END;
+$$;
+
+COMMENT ON FUNCTION public.yetkin_seal_rls_policies_for_table(text) IS
+  'Faz 1.1 — owner SELECT veya kapsamsız deny SELECT. PostgREST yazma yok.';
+
 DO $$
 DECLARE
   tbl text;
@@ -126,14 +215,14 @@ BEGIN
       AND c.relkind = 'r'
     ORDER BY c.relname
   LOOP
-    produced := public.yetkin_apply_rls_owner_policies(tbl);
+    produced := public.yetkin_seal_rls_policies_for_table(tbl);
     total := total + produced;
     IF produced > 0 THEN
       covered := covered + 1;
     END IF;
   END LOOP;
 
-  RAISE NOTICE 'Faz 1.1 RLS: % tabloda % sahiplik SELECT politikası üretildi.', covered, total;
+  RAISE NOTICE 'Faz 1.1 RLS: % tabloda % SELECT politikası üretildi (owner + deny).', covered, total;
 END $$;
 
 DROP POLICY IF EXISTS "users_select_own" ON public.users;
@@ -161,7 +250,7 @@ BEGIN
       AND schema_name = 'public'
   LOOP
     tbl := trim(both '"' from split_part(obj.object_identity, '.', 2));
-    PERFORM public.yetkin_apply_rls_owner_policies(tbl);
+    PERFORM public.yetkin_seal_rls_policies_for_table(tbl);
   END LOOP;
 END;
 $$;
@@ -173,4 +262,4 @@ CREATE EVENT TRIGGER yetkin_auto_apply_rls_policies_on_create
   EXECUTE FUNCTION public.yetkin_auto_apply_rls_policies();
 
 COMMENT ON FUNCTION public.yetkin_auto_apply_rls_policies() IS
-  'Faz 1.1 — public CREATE TABLE sonrası owner SELECT politikalarını üretir.';
+  'Faz 1.1 — public CREATE TABLE sonrası owner SELECT veya kapsamsız deny SELECT.';

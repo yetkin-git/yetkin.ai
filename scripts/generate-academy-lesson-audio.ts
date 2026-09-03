@@ -3,16 +3,19 @@
  * Zero-Cost Streaming TTS bake — PEDAGOJI.md mediaReleaseSeal.
  * Canlı izleme generateSpeech çağırmaz; bu operatör hattı WAV dondurur.
  *
- * Google AI Studio Tier 1 RPM 10: TTS istekleri sırayla atılır; her sesten
- * sonra 6,5 sn beklenir (dakikada 9). 429 gelirse 10 sn bekleyip aynı tur tekrarlanır.
+ * Gemini TTS varsayılan KAPALI. API çağrısı yalnız --confirm-gemini-spend ile.
+ * İstekler perde (ana paragraf) sınırında; 300 karakterlik mikro dilim/dikiş YASAK.
+ * SOLA / tempoStretch / %93 hız bükme YASAK — Gemini ham temposu korunur.
+ * İstekler arası 4000ms. --force mevcut WAV üzerine ana TTS modelini yeniden sentezler.
  *
- *   npm run generate:academy-audio
  *   npm run generate:academy-audio -- --dry-run
- *   npm run generate:academy-audio -- --slug=python-temel
- *   npm run generate:academy-audio -- --force
+ *   npm run generate:academy-audio -- --key=ai-agent-temel-1 --confirm-gemini-spend
+ *   npm run generate:academy-audio -- --slug=ai-agent-temel --confirm-gemini-spend
  *
  * WAV süresi değişince `ACADEMY_SEALED_AUDIO_DURATION_SEC` (lib/academy/lesson-audio.ts)
- * oynatma listesi dakikasıyla senkronlanmalıdır.
+ * oynatma listesi dakikasıyla senkronlanmalıdır. Aynı bake `ACADEMY_SEALED_AUDIO_CACHE_V`
+ * damgasını yükseltir; tarayıcı eski WAV'ı immutable cache'ten çalmaz.
+ * Çıkış: +8 dB gain + 48 kHz resample (Chrome 24 kHz 1:47 takılması).
  */
 import "./load-academy-bake-env";
 
@@ -22,7 +25,7 @@ import { dirname } from "node:path";
 import { GoogleGenAI } from "@google/genai";
 import { Client } from "pg";
 import { CURRICULUM_DRAFTS_BY_SLUG } from "@/lib/academy/curricula";
-import { ACADEMY_DIALOGUE_TURN_GAP_SEC } from "@/lib/academy/dialogue-timeline";
+import { ACADEMY_DIALOGUE_TURN_GAP_SEC, academyDialogueReadingDurationSec } from "@/lib/academy/dialogue-timeline";
 import { ACADEMY_MEDIA_SEALED_SKU_SLUGS, isAcademyLessonAudioSealed } from "@/lib/academy/pilot-sku";
 import {
   ACADEMY_MEDIA_RELEASE_BUCKET,
@@ -30,33 +33,38 @@ import {
   ACADEMY_MEDIA_RELEASE_MAX_BYTES,
   academyLessonAudioDiskPath,
   academyMediaReleaseJobForLesson,
-  splitAcademySpeechChunks,
   type AcademyMediaReleaseJob,
   type AcademySealedSkuSlug,
 } from "@/lib/academy/media-release-seal";
-import { getDefaultModelId, VOICE_TTS_FALLBACK_MODEL_ID } from "@/lib/kernel/ai/model-roles";
+import { getDefaultModelId } from "@/lib/kernel/ai/model-roles";
 import {
+  boostPcmWavGain,
   collectGeminiInlineAudioParts,
   concatPcmWavBuffers,
   createSilentPcmWav,
   mergeGeminiInlineAudioToWav,
-  tempoStretchPcmWav,
   pcmWavDurationSec,
+  PCM_WAV_GAIN_DB,
+  PCM_WAV_PLAYBACK_SAMPLE_RATE,
+  resamplePcmWav,
 } from "@/lib/kernel/ai/pcm-wav";
 import { canonicalizeGeminiTtsLanguageCode, canonicalizeGeminiTtsVoiceName } from "@/lib/kernel/ai/tts-voices";
 import { normalizeRuntimeDatabaseUrl } from "@/lib/kernel/postgres-url";
 
-const SPEECH_TIMEOUT_MS = 120_000;
-/** Google AI Studio Tier 1 RPM 10 — 8 sn ara ile dakikada ~7 istek; preview DSQ 429 için pay bırakır. */
-const TURN_PAUSE_MS = 8_000;
+/** Gemini ~4 dk tavanının altında; perde bu süreyi aşarsa cümle sınırından paketlenir. */
+const SENTENCE_CHUNK_BUDGET_SEC = 200;
+const SPEECH_TIMEOUT_MS = 180_000;
+/** İstekler arası zorunlu bekleme. */
+const TURN_PAUSE_MS = 4_000;
 const RATE_LIMIT_RETRY_MS = 20_000;
 const RATE_LIMIT_RETRY_CAP_MS = 120_000;
+const RATE_LIMIT_RETRY_MAX = 2;
+const NETWORK_RETRY_CAP = 4;
 
-/** Preview 3.1 DSQ dolunca 2.5'e yapış; her turda 3.1'i yeniden deneme. */
-let preferredTtsModel: string | null = null;
 const MIN_WAV_BYTES = 2_048;
 const MIN_GEMINI_KEY_CHARS = 8;
 const SPEECH_ATTEMPTS = 12;
+const MIN_SPEECH_CHUNK_RETRY_CHARS = 80;
 
 type GeminiSpeechPart = {
   inlineData?: { data?: string; mimeType?: string | null };
@@ -75,8 +83,10 @@ type GeminiSpeechResponse = {
 function parseArgs(argv: readonly string[]): {
   dryRun: boolean;
   force: boolean;
+  confirmGeminiSpend: boolean;
   noDb: boolean;
   slug: AcademySealedSkuSlug | null;
+  key: string | null;
 } {
   let slug: AcademySealedSkuSlug | null = null;
   const slugArg = argv.find((part) => part.startsWith("--slug="))?.slice("--slug=".length)?.trim();
@@ -86,11 +96,22 @@ function parseArgs(argv: readonly string[]): {
     }
     slug = slugArg as AcademySealedSkuSlug;
   }
+  const rawKey = argv.find((part) => part.startsWith("--key="))?.slice("--key=".length)?.trim() || null;
+  const keyAliases: Record<string, string> = {
+    "prompt-muhendisligi-ve-yapisandirilmis-cikti": "ai-agent-temel-2",
+    "arac-kullanimi-tool-calling-mantigi": "ai-agent-temel-3",
+    "hafiza-mimarisi-context-window-vector-storage": "ai-agent-temel-4",
+    "karar-verme-donguleri-react-deseni": "ai-agent-temel-5",
+    "mini-proje-hava-durumu-ve-not-alma-araclarini-kullanan-basit-bir-python-ai-agent": "ai-agent-temel-6",
+  };
+  const key = rawKey ? (keyAliases[rawKey] ?? rawKey) : null;
   return {
     dryRun: argv.includes("--dry-run"),
     force: argv.includes("--force"),
+    confirmGeminiSpend: argv.includes("--confirm-gemini-spend"),
     noDb: argv.includes("--no-db"),
     slug,
+    key,
   };
 }
 
@@ -125,6 +146,14 @@ function isRateLimitError(error: unknown): boolean {
   }
   const message = error instanceof Error ? error.message : String(error ?? "");
   return /RESOURCE_EXHAUSTED|\b429\b|quota/i.test(message);
+}
+
+function isTransientNetworkError(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error ?? "");
+  const cause = error instanceof Error && error.cause instanceof Error ? error.cause.message : "";
+  return /fetch failed|ECONNRESET|ETIMEDOUT|ENOTFOUND|socket hang up|UND_ERR|ConnectTimeout|network/i.test(
+    `${message} ${cause}`,
+  );
 }
 
 function wavFromSpeechResponse(response: GeminiSpeechResponse): Buffer {
@@ -178,7 +207,11 @@ async function requestSpeechWav(input: {
   return wavFromSpeechResponse(response);
 }
 
-function collectJobs(model: string, slugFilter: AcademySealedSkuSlug | null): AcademyMediaReleaseJob[] {
+function collectJobs(
+  model: string,
+  slugFilter: AcademySealedSkuSlug | null,
+  keyFilter: string | null,
+): AcademyMediaReleaseJob[] {
   const slugs = slugFilter ? [slugFilter] : [...ACADEMY_MEDIA_SEALED_SKU_SLUGS];
   const jobs: AcademyMediaReleaseJob[] = [];
   for (const slug of slugs) {
@@ -187,7 +220,11 @@ function collectJobs(model: string, slugFilter: AcademySealedSkuSlug | null): Ac
       throw new Error(`Müfredat yok: ${slug}`);
     }
     for (const lesson of lessons) {
-      if (!isAcademyLessonAudioSealed(slug, lesson.key)) {
+      if (keyFilter && lesson.key !== keyFilter) {
+        continue;
+      }
+      // `--key=` kota sonrası ilk mühür için mühür tablosunda olmayan dersi de alır.
+      if (!keyFilter && !isAcademyLessonAudioSealed(slug, lesson.key)) {
         continue;
       }
       const job = academyMediaReleaseJobForLesson(slug, lesson, model);
@@ -197,7 +234,28 @@ function collectJobs(model: string, slugFilter: AcademySealedSkuSlug | null): Ac
       jobs.push(job);
     }
   }
+  if (keyFilter && jobs.length === 0) {
+    throw new Error(`TTS işi yok: ${keyFilter}`);
+  }
   return jobs;
+}
+
+function splitSpeechChunkInHalf(text: string): [string, string] | null {
+  const trimmed = text.replace(/\s+/gu, " ").trim();
+  if (trimmed.length < MIN_SPEECH_CHUNK_RETRY_CHARS * 2) {
+    return null;
+  }
+  const mid = Math.floor(trimmed.length / 2);
+  const windowStart = Math.max(0, mid - 80);
+  const window = trimmed.slice(windowStart, Math.min(trimmed.length, mid + 80));
+  const rel = window.search(/[.!?…]\s+/u);
+  const cut = rel >= 0 ? windowStart + rel + 1 : mid;
+  const left = trimmed.slice(0, cut).trim();
+  const right = trimmed.slice(cut).trim();
+  if (left.length < MIN_SPEECH_CHUNK_RETRY_CHARS || right.length < MIN_SPEECH_CHUNK_RETRY_CHARS) {
+    return null;
+  }
+  return [left, right];
 }
 
 async function synthesizeChunk(input: {
@@ -208,9 +266,10 @@ async function synthesizeChunk(input: {
 }): Promise<Buffer> {
   const voiceName = canonicalizeGeminiTtsVoiceName(input.voiceName);
   const languageCode = canonicalizeGeminiTtsLanguageCode(ACADEMY_MEDIA_RELEASE_LANGUAGE);
-  let model = preferredTtsModel ?? input.model;
+  const model = input.model;
   let attempt = 0;
   let rateLimitStreak = 0;
+  let networkStreak = 0;
   for (;;) {
     try {
       const wav = await requestSpeechWav({
@@ -220,29 +279,32 @@ async function synthesizeChunk(input: {
         voiceName,
         languageCode,
       });
-      preferredTtsModel = model;
       return wav;
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      if (/NOT_FOUND|model .+ not found|does not exist/i.test(message) && model !== VOICE_TTS_FALLBACK_MODEL_ID) {
-        model = VOICE_TTS_FALLBACK_MODEL_ID;
-        preferredTtsModel = model;
-        process.stdout.write(`  model yedek: ${model}\n`);
-        continue;
-      }
       if (isRateLimitError(error)) {
-        if (model !== VOICE_TTS_FALLBACK_MODEL_ID) {
-          model = VOICE_TTS_FALLBACK_MODEL_ID;
-          preferredTtsModel = model;
-          process.stdout.write(`  429; model yedek: ${model}\n`);
-          continue;
-        }
         rateLimitStreak += 1;
+        if (rateLimitStreak > RATE_LIMIT_RETRY_MAX) {
+          throw error;
+        }
         const waitMs = Math.min(
           RATE_LIMIT_RETRY_CAP_MS,
           RATE_LIMIT_RETRY_MS * 2 ** Math.min(rateLimitStreak - 1, 3),
         );
         process.stdout.write(`  429; ${Math.round(waitMs / 1000)}s sonra aynı tur tekrar\n`);
+        await sleep(waitMs);
+        continue;
+      }
+      if (isTransientNetworkError(error)) {
+        networkStreak += 1;
+        if (networkStreak >= NETWORK_RETRY_CAP && input.text.length >= MIN_SPEECH_CHUNK_RETRY_CHARS * 2) {
+          throw error;
+        }
+        const waitMs = Math.min(
+          RATE_LIMIT_RETRY_CAP_MS,
+          RATE_LIMIT_RETRY_MS * 2 ** Math.min(networkStreak - 1, 3),
+        );
+        process.stdout.write(`  ağ; ${Math.round(waitMs / 1000)}s sonra aynı tur tekrar\n`);
         await sleep(waitMs);
         continue;
       }
@@ -260,6 +322,84 @@ async function synthesizeChunk(input: {
   }
 }
 
+async function synthesizeChunkFull(input: {
+  client: GoogleGenAI;
+  text: string;
+  voiceName: string;
+  model: string;
+}): Promise<Buffer> {
+  const wav = await synthesizeChunk(input);
+  const expected = academyDialogueReadingDurationSec(input.text, "egitmen");
+  const actual = pcmWavDurationSec(wav);
+  if (input.text.length > MIN_SPEECH_CHUNK_RETRY_CHARS * 2 && expected > 2.5 && actual < expected * 0.55) {
+    const halves = splitSpeechChunkInHalf(input.text);
+    if (halves) {
+      process.stdout.write(
+        `  dilim kısık (${actual.toFixed(1)}s < ${expected.toFixed(1)}s); ikiye bölündü\n`,
+      );
+      const left = await synthesizeChunkFull({ ...input, text: halves[0] });
+      const right = await synthesizeChunkFull({ ...input, text: halves[1] });
+      return concatPcmWavBuffers([left, right]);
+    }
+  }
+  return wav;
+}
+
+async function synthesizeSeamlessScript(input: {
+  client: GoogleGenAI;
+  text: string;
+  voiceName: string;
+  model: string;
+}): Promise<Buffer> {
+  try {
+    return await synthesizeChunkFull(input);
+  } catch (error) {
+    const halves = splitSpeechChunkInHalf(input.text);
+    if (!halves) {
+      throw error;
+    }
+    const message = error instanceof Error ? error.message : String(error);
+    process.stdout.write(`  tek parça bölündü (${message.slice(0, 120)})\n`);
+    const left = await synthesizeSeamlessScript({ ...input, text: halves[0] });
+    await sleep(TURN_PAUSE_MS);
+    const right = await synthesizeSeamlessScript({ ...input, text: halves[1] });
+    return concatPcmWavBuffers([left, right]);
+  }
+}
+
+function splitAtSentenceBudget(text: string, budgetSec: number): string[] {
+  const trimmed = text.replace(/\s+/gu, " ").trim();
+  if (!trimmed) {
+    return [];
+  }
+  if (academyDialogueReadingDurationSec(trimmed, "egitmen") <= budgetSec) {
+    return [trimmed];
+  }
+  const sentences = trimmed.split(/(?<=[.!?…])\s+/u).filter((part) => part.trim().length > 0);
+  if (sentences.length === 0) {
+    return [trimmed];
+  }
+  const chunks: string[] = [];
+  let current = "";
+  for (const sentence of sentences) {
+    const piece = sentence.trim();
+    if (!piece) {
+      continue;
+    }
+    const next = current ? `${current} ${piece}` : piece;
+    if (current && academyDialogueReadingDurationSec(next, "egitmen") > budgetSec) {
+      chunks.push(current);
+      current = piece;
+    } else {
+      current = next;
+    }
+  }
+  if (current) {
+    chunks.push(current);
+  }
+  return chunks.filter((chunk) => chunk.length > 0);
+}
+
 async function bakeLessonWav(
   client: GoogleGenAI,
   job: AcademyMediaReleaseJob,
@@ -268,30 +408,39 @@ async function bakeLessonWav(
   const parts: Buffer[] = [];
   for (let turnIndex = 0; turnIndex < job.turns.length; turnIndex += 1) {
     const turn = job.turns[turnIndex]!;
-    const chunks = splitAcademySpeechChunks(turn.spokenText);
-    const turnWavs: Buffer[] = [];
-    for (const chunk of chunks) {
-      const wav = await synthesizeChunk({
-        client,
-        text: chunk,
-        voiceName: turn.voice,
-        model,
-      });
-      turnWavs.push(tempoStretchPcmWav(wav, turn.speechRate));
-      await sleep(TURN_PAUSE_MS);
-    }
-    if (turnWavs.length === 0) {
+    const pieces = splitAtSentenceBudget(turn.spokenText, SENTENCE_CHUNK_BUDGET_SEC);
+    if (pieces.length === 0) {
       throw new Error(`Boş tur: ${job.lessonKey} #${turnIndex}`);
+    }
+    process.stdout.write(
+      `    perde ${turnIndex + 1}/${job.turns.length} ${turn.canonicalCharacterName} ${turn.voice} ${turn.spokenText.length} karakter ${pieces.length} parça +${PCM_WAV_GAIN_DB} dB / ${PCM_WAV_PLAYBACK_SAMPLE_RATE / 1000} kHz\n`,
+    );
+    const turnWavs: Buffer[] = [];
+    for (let pieceIndex = 0; pieceIndex < pieces.length; pieceIndex += 1) {
+      const piece = pieces[pieceIndex]!;
+      process.stdout.write(
+        `      cümle ${pieceIndex + 1}/${pieces.length} ${piece.length} karakter ${academyDialogueReadingDurationSec(piece, "egitmen").toFixed(0)}s\n`,
+      );
+      turnWavs.push(
+        await synthesizeSeamlessScript({
+          client,
+          text: piece,
+          voiceName: turn.voice,
+          model,
+        }),
+      );
+      if (pieceIndex < pieces.length - 1) {
+        await sleep(TURN_PAUSE_MS);
+      }
     }
     parts.push(concatPcmWavBuffers(turnWavs));
     if (turnIndex < job.turns.length - 1) {
       parts.push(createSilentPcmWav(Math.round(ACADEMY_DIALOGUE_TURN_GAP_SEC * 1000)));
+      await sleep(TURN_PAUSE_MS);
     }
-    process.stdout.write(
-      `    tur ${turnIndex + 1}/${job.turns.length} ${turn.canonicalCharacterName} ${turn.voice} @${Math.round(turn.speechRate * 100)}%\n`,
-    );
   }
-  return concatPcmWavBuffers(parts);
+  const merged = concatPcmWavBuffers(parts);
+  return resamplePcmWav(boostPcmWavGain(merged, PCM_WAV_GAIN_DB), PCM_WAV_PLAYBACK_SAMPLE_RATE);
 }
 
 async function stampMediaReleaseSeal(job: AcademyMediaReleaseJob, wav: Buffer, model: string): Promise<void> {
@@ -338,8 +487,12 @@ async function stampMediaReleaseSeal(job: AcademyMediaReleaseJob, wav: Buffer, m
 async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
   const model = getDefaultModelId("VOICE_TTS");
-  const jobs = collectJobs(model, args.slug);
+  const jobs = collectJobs(model, args.slug, args.key);
   const turnCount = jobs.reduce((sum, job) => sum + job.turns.length, 0);
+  const forceBake = args.force;
+  if (forceBake) {
+    process.stdout.write("--force — mevcut WAV üzerine ana TTS modeli yeniden sentezlenir.\n");
+  }
   process.stdout.write(
     `academy-audio bake — ${jobs.length} ders, ${turnCount} tur, model=${model}${args.dryRun ? " (dry-run)" : ""}\n`,
   );
@@ -350,6 +503,12 @@ async function main(): Promise<void> {
       );
     }
     return;
+  }
+  if (!args.confirmGeminiSpend) {
+    process.stderr.write(
+      "academy-audio bake KAPALI — Gemini TTS isteği atılmadı. Manuel onay: --confirm-gemini-spend\n",
+    );
+    process.exit(1);
   }
   const apiKey = sanitizeGeminiApiKey(process.env.GEMINI_API_KEY);
   if (!apiKey) {
@@ -365,7 +524,7 @@ async function main(): Promise<void> {
     const diskPath = academyLessonAudioDiskPath(job.courseSlug, job.lessonKey);
     process.stdout.write(`[${index + 1}/${jobs.length}] ${job.courseSlug}/${job.lessonKey} — ${job.title}\n`);
     let wav: Buffer | null = null;
-    const existing = !args.force && existsSync(diskPath) && statSync(diskPath).size >= MIN_WAV_BYTES;
+    const existing = !forceBake && existsSync(diskPath) && statSync(diskPath).size >= MIN_WAV_BYTES;
     if (existing) {
       process.stdout.write("  WAV var; TTS atlandı.\n");
       skipped += 1;

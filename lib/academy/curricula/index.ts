@@ -1,4 +1,5 @@
 import type { AcademyLessonDraft } from "@/lib/academy/curricula/types";
+import { academySealLessonDraft } from "@/lib/academy/instructors";
 import { PYTHON_TEMEL_LESSONS } from "@/lib/academy/curricula/python-temel";
 import { PYTHON_ORTA_LESSONS } from "@/lib/academy/curricula/python-orta";
 import { PYTHON_ILERI_LESSONS } from "@/lib/academy/curricula/python-ileri";
@@ -32,7 +33,10 @@ export {
   academyInstructorSummary,
   academyLessonDraft,
   academyLessonDraftWithStudio,
+  academyPreviousLessonBridge,
   dialogueTurn,
+  ACADEMY_INSTRUCTOR_SECTION_CLOSE,
+  ACADEMY_PREVIOUS_LESSON_RECAP_HEADING,
   DIALOGUE_SPEAKER_DISPLAY,
   isAcademyInstructorSpeaker,
 } from "@/lib/academy/curricula/types";
@@ -118,25 +122,32 @@ export {
   LINKEDIN_MASTERCLASS_LESSONS,
 } from "@/lib/academy/curricula/linkedin-masterclass";
 
+function sealCurriculum(
+  slug: string,
+  lessons: readonly AcademyLessonDraft[],
+): readonly AcademyLessonDraft[] {
+  return lessons.map((lesson) => academySealLessonDraft(slug, lesson));
+}
+
 export const CURRICULUM_DRAFTS_BY_SLUG: Record<string, readonly AcademyLessonDraft[]> = {
-  "ai-agent-temel": AI_AGENT_TEMEL_LESSONS,
-  "ai-agent-orta": AI_AGENT_ORTA_LESSONS,
-  "ai-agent-ileri": AI_AGENT_ILERI_LESSONS,
-  "python-temel": PYTHON_TEMEL_LESSONS,
-  "python-orta": PYTHON_ORTA_LESSONS,
-  "python-ileri": PYTHON_ILERI_LESSONS,
-  "fullstack-temel": FULLSTACK_TEMEL_LESSONS,
-  "fullstack-orta": FULLSTACK_ORTA_LESSONS,
-  "fullstack-ileri": FULLSTACK_ILERI_LESSONS,
+  "ai-agent-temel": sealCurriculum("ai-agent-temel", AI_AGENT_TEMEL_LESSONS),
+  "ai-agent-orta": sealCurriculum("ai-agent-orta", AI_AGENT_ORTA_LESSONS),
+  "ai-agent-ileri": sealCurriculum("ai-agent-ileri", AI_AGENT_ILERI_LESSONS),
+  "python-temel": sealCurriculum("python-temel", PYTHON_TEMEL_LESSONS),
+  "python-orta": sealCurriculum("python-orta", PYTHON_ORTA_LESSONS),
+  "python-ileri": sealCurriculum("python-ileri", PYTHON_ILERI_LESSONS),
+  "fullstack-temel": sealCurriculum("fullstack-temel", FULLSTACK_TEMEL_LESSONS),
+  "fullstack-orta": sealCurriculum("fullstack-orta", FULLSTACK_ORTA_LESSONS),
+  "fullstack-ileri": sealCurriculum("fullstack-ileri", FULLSTACK_ILERI_LESSONS),
   "ai-temel": AI_TEMEL_LESSONS,
   "ux-temel": UX_TEMEL_LESSONS,
-  "security-temel": SECURITY_TEMEL_LESSONS,
-  "security-orta": SECURITY_ORTA_LESSONS,
-  "security-ileri": SECURITY_ILERI_LESSONS,
-  "excel-masterclass": EXCEL_MASTERCLASS_LESSONS,
-  "google-ads-masterclass": GOOGLE_ADS_MASTERCLASS_LESSONS,
-  "meta-ads-masterclass": META_ADS_MASTERCLASS_LESSONS,
-  "eticaret-masterclass": ETICARET_MASTERCLASS_LESSONS,
-  "canva-masterclass": CANVA_MASTERCLASS_LESSONS,
-  "linkedin-masterclass": LINKEDIN_MASTERCLASS_LESSONS,
+  "security-temel": sealCurriculum("security-temel", SECURITY_TEMEL_LESSONS),
+  "security-orta": sealCurriculum("security-orta", SECURITY_ORTA_LESSONS),
+  "security-ileri": sealCurriculum("security-ileri", SECURITY_ILERI_LESSONS),
+  "excel-masterclass": sealCurriculum("excel-masterclass", EXCEL_MASTERCLASS_LESSONS),
+  "google-ads-masterclass": sealCurriculum("google-ads-masterclass", GOOGLE_ADS_MASTERCLASS_LESSONS),
+  "meta-ads-masterclass": sealCurriculum("meta-ads-masterclass", META_ADS_MASTERCLASS_LESSONS),
+  "eticaret-masterclass": sealCurriculum("eticaret-masterclass", ETICARET_MASTERCLASS_LESSONS),
+  "canva-masterclass": sealCurriculum("canva-masterclass", CANVA_MASTERCLASS_LESSONS),
+  "linkedin-masterclass": sealCurriculum("linkedin-masterclass", LINKEDIN_MASTERCLASS_LESSONS),
 };

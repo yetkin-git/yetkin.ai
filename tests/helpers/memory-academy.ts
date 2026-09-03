@@ -134,6 +134,15 @@ export function createMemoryAcademyStore(): MemoryAcademyStore {
         failPurchase = false;
         throw new Error("Satın alma yazımı düştü.");
       }
+      const duplicate = [...purchases.values()].find(
+        (row) => row.userId === purchase.userId && row.courseId === purchase.courseId,
+      );
+      if (duplicate) {
+        const error = new Error("Unique constraint failed");
+        error.name = "PrismaClientKnownRequestError";
+        (error as unknown as { code: string }).code = "P2002";
+        throw error;
+      }
       purchases.set(purchase.id, purchase);
       return { ...purchase };
     },
@@ -244,7 +253,18 @@ export function createMemoryAcademyStore(): MemoryAcademyStore {
         .map((row) => ({ ...row, answers: row.answers.map((answer) => ({ ...answer })) }));
     },
     async insertLessonCompletion(completion) {
-      completions.set(`${completion.purchaseId}:${completion.lessonKey}`, completion);
+      const key = `${completion.purchaseId}:${completion.lessonKey}`;
+      const existing = completions.get(key);
+      if (existing) {
+        const next = {
+          ...existing,
+          proofOfWorkHash: completion.proofOfWorkHash ?? existing.proofOfWorkHash,
+          completedAt: completion.completedAt,
+        };
+        completions.set(key, next);
+        return { ...next };
+      }
+      completions.set(key, completion);
       return { ...completion };
     },
     async getLessonCompletion(purchaseId, lessonKey) {

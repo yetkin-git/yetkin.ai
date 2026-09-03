@@ -130,9 +130,9 @@ export const FREELANCER_SEN = {
     cta: "Teklifi kabul et — güvenli ödemeyi başlat",
     pending: "Güvenli ödeme başlatılıyor…",
     fail: "Teklif kabul edilemedi.",
-    paymentsClosed: "Güvenli ödeme henüz bağlanmadı",
+    paymentsClosed: "Pazaryeri emanet altyapımız entegrasyon aşamasındadır",
     paymentsClosedBody:
-      "Güvenli ödeme henüz bağlanmadı. İlan ve teklif çalışır; iş kabulünde ödeme alınmaz.",
+      "Güvenli ödeme henüz bağlanmadı. Pazaryeri emanet altyapımız entegrasyon aşamasındadır — Pilot projeler için destek@yetkin.ai",
     paymentsClosedCta: "Anlaşıldı",
   },
   bid: {

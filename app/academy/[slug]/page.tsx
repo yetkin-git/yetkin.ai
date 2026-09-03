@@ -12,6 +12,7 @@ import { AcademyProgressBar } from "@/components/academy/progress-bar";
 import {
   loadAcademyHolderName,
   loadAcademyProgressionForCourse,
+  loadAcademyWalletBoard,
   loadArtifactPurchaseForUserCourse,
   loadCourseBySlug,
   loadCurriculumPlayerForUser,
@@ -28,7 +29,7 @@ import { academyProgressPercent } from "@/lib/academy/lesson-meta";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { getSession } from "@/lib/kernel/auth/session";
-import { loadWalletBoard, walletAvailableMinor } from "@/lib/kernel/ledger/load";
+import { walletAvailableMinor } from "@/lib/kernel/ledger/load";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { CourseHeroActions } from "@/components/academy/course-hero-actions";
 import { BreadcrumbPageLabel } from "@/components/shell/header-breadcrumb";
@@ -80,31 +81,47 @@ export default async function AcademyCoursePage({
   params: Promise<{ slug: string }>;
   searchParams?: Promise<{ gate?: string }>;
 }) {
-  const { slug } = await params;
-  const gate = searchParams ? (await searchParams).gate : undefined;
+  const [{ slug }, session, gateQuery] = await Promise.all([
+    params,
+    getSession(),
+    searchParams ?? Promise.resolve(undefined),
+  ]);
+  const gate = gateQuery?.gate;
   const board = await loadCourseBySlug(slug);
   if (!board) {
     notFound();
   }
-  const session = await getSession();
-  const purchase = session
-    ? await loadPurchaseForUserCourse(session.id, board.course.id, session.email)
-    : null;
-  const artifact = session
-    ? await loadArtifactPurchaseForUserCourse(session.id, board.course.id, session.email)
-    : null;
+  const [purchase, artifact, holderName, progression] = await Promise.all([
+    session
+      ? loadPurchaseForUserCourse(session.id, board.course.id, session.email)
+      : Promise.resolve(null),
+    session
+      ? loadArtifactPurchaseForUserCourse(session.id, board.course.id, session.email)
+      : Promise.resolve(null),
+    session ? loadAcademyHolderName(session.id) : Promise.resolve("Aday"),
+    loadAcademyProgressionForCourse({
+      userId: session?.id ?? null,
+      email: session?.email,
+      currentSlug: board.course.slug,
+    }),
+  ]);
   const actor = session ? { userId: session.id, email: session.email } : null;
   const labPlayer = actor != null && hasAcademyPlayerAccess(purchase, actor);
   const enrolled = hasCommercialAcademyEnrolment(purchase);
   const hasAccess = enrolled || labPlayer;
   const access = hasAccess ? "enrolled" : academyStorefrontAccess(artifact);
-  const holderName = session ? await loadAcademyHolderName(session.id) : "Aday";
-  const examGate =
+  const [examGate, wallet, player] = await Promise.all([
     session && enrolled
-      ? await loadExamGateForUserCourse(session.id, board.course.id, session.email)
-      : null;
+      ? loadExamGateForUserCourse(session.id, board.course.id, session.email)
+      : Promise.resolve(null),
+    session && !hasAccess
+      ? loadAcademyWalletBoard(session.id)
+      : Promise.resolve(null),
+    session && hasAccess
+      ? loadCurriculumPlayerForUser(session.id, board.course.id, session.email)
+      : Promise.resolve(null),
+  ]);
   const preferExamGate = gate === "exam" && Boolean(examGate && !examGate.certificate);
-  const wallet = session && !hasAccess ? await loadWalletBoard(session.id) : null;
   const paymentsReady = isPaymentsPortConfigured() || isPaytrMockCheckoutAllowed();
   const copy = SEN_VOICE.academy.course;
   const playerCopy = SEN_VOICE.academy.player;
@@ -117,15 +134,6 @@ export default async function AcademyCoursePage({
     ? formatMinor(board.course.priceMinor, board.course.currencyCode)
     : null;
   const level = academyCourseLevelBySlug(board.course.slug);
-  const progression = await loadAcademyProgressionForCourse({
-    userId: session?.id ?? null,
-    email: session?.email,
-    currentSlug: board.course.slug,
-  });
-  const player =
-    session && hasAccess && !examGate?.certificate
-      ? await loadCurriculumPlayerForUser(session.id, board.course.id, session.email)
-      : null;
   const completedKeys = examGate?.certificate
     ? syllabus.lessons.map((lesson) => lesson.key)
     : (player?.lessons.filter((lesson) => lesson.completed).map((lesson) => lesson.key) ?? []);

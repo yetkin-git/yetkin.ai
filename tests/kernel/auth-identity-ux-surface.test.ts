@@ -115,6 +115,9 @@ describe("vatandaş kimlik UX yüzeyi", () => {
     expect(page).not.toContain("copy.unbound");
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("display_name");
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("full_name");
+    expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("age_confirmed_at");
+    expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("is_adult");
+    expect(form).toContain("buildSignupAuthMetadata(fullName, ageConfirmed)");
   });
 
   it("şifremi unuttum sayfası resetPasswordForEmail bağlar; dürüst metin hesap sızdırmaz", () => {

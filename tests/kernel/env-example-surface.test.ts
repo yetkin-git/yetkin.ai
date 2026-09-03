@@ -45,7 +45,7 @@ describe(".env.example ops şablonu", () => {
     expect(example).toContain("00000000-0000-4000-8000-000000000001");
     expect(example).toContain("db.<ref>.supabase.co:5432");
     expect(example).toContain("pooler.supabase.com");
-    expect(example).toContain("connection_limit=20");
+    expect(example).toContain("connection_limit=10");
     expect(example).toContain("pool_timeout=10");
     expect(exampleKeys).toContain("PAYTR_MERCHANT_ID");
     expect(exampleKeys).toContain("PAYTR_MERCHANT_KEY");

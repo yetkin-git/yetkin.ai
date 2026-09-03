@@ -41,7 +41,7 @@ export async function warmLabPrisma(): Promise<void> {
   }
 }
 
-export function labUserId(label: string): string {
+export function labUserId(_label: string): string {
   return randomUUID();
 }
 

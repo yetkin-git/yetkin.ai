@@ -72,5 +72,11 @@ describe("fatura künyesi checkout yüzeyi", () => {
     expect(write).toContain("actorUserId");
     expect(write).toContain("store.read(actorUserId)");
     expect(write).toContain("userId: actorUserId");
+    const profilePage = readSrc("app/(kernel)/profil/page.tsx");
+    const profileForm = readSrc("components/kernel/profile-billing-form.tsx");
+    expect(profilePage).toContain("ProfileBillingForm");
+    expect(profileForm).toContain("CheckoutBillingFields");
+    expect(profileForm).toContain("PROFILE_BILLING_PATH");
+    expect(profileForm).toContain('method: "PUT"');
   });
 });

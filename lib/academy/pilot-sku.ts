@@ -6,7 +6,7 @@
  * EXC-MC / GADS-MC / META-MC / ETIC-MC / CNV-MC / LNK-MC. created_at okunmaz.
  *
  * DialogueTurn[] mührü `ACADEMY_DIALOGUE_SKU_SLUGS` (18). WAV mührü yalnız
- * `ACADEMY_MEDIA_SEALED_AUDIO` (16 dosya: ai-agent temel 6 + orta 6 + ileri 4).
+ * `ACADEMY_MEDIA_SEALED_AUDIO` (13 dosya: ai-agent temel 6 + orta 3 + ileri 4).
  * `ai-temel` / `ux-temel` 12 bölüm düz taslak; vitrine girer, yalan WAV basılmaz.
  */
 
@@ -61,7 +61,8 @@ export const ACADEMY_DIALOGUE_SKU_SLUGS = [
 
 /**
  * Diskteki WAV mührü — `public/media/academy/audio` altındaki wav dosyalarıyla birebir.
- * 16 dosya. `ai-agent-ileri-5` ve `ai-agent-ileri-6` yoktur; SKU kısmi mühürdür.
+ * 13 dosya. `ai-agent-orta-4`..`6` ve `ai-agent-ileri-5`/`6` yok
+ * (Gemini TTS günlük kota / yeniden bake bekliyor); SKU kısmi mühürdür.
  */
 export const ACADEMY_MEDIA_SEALED_AUDIO = {
   "ai-agent-temel": [
@@ -76,9 +77,6 @@ export const ACADEMY_MEDIA_SEALED_AUDIO = {
     "ai-agent-orta-1",
     "ai-agent-orta-2",
     "ai-agent-orta-3",
-    "ai-agent-orta-4",
-    "ai-agent-orta-5",
-    "ai-agent-orta-6",
   ],
   "ai-agent-ileri": [
     "ai-agent-ileri-1",
@@ -88,7 +86,7 @@ export const ACADEMY_MEDIA_SEALED_AUDIO = {
   ],
 } as const;
 
-/** WAV’i olan SKU — 3 kurs; 16 ders dosyası. Olmayan SKU bu listede yoktur. */
+/** WAV’i olan SKU — 3 kurs; 13 ders dosyası. Olmayan SKU bu listede yoktur. */
 export const ACADEMY_MEDIA_SEALED_SKU_SLUGS = [
   "ai-agent-temel",
   "ai-agent-orta",

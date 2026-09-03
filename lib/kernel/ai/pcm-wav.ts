@@ -1,6 +1,17 @@
 /** Gemini TTS PCM / WAV tamponu. Disk yok. */
 
 export const GEMINI_TTS_PCM_SAMPLE_RATE = 24_000;
+/** Chrome 24 kHz WAV ~1:47'de currentTime dondurur; oynatma 48 kHz ister. */
+export const PCM_WAV_PLAYBACK_SAMPLE_RATE = 48_000;
+/** Laptop hoparlörü — TTS tepe zaten yakınsa limiter +8 dB RMS yükseltir. */
+export const PCM_WAV_GAIN_DB = 8;
+
+type PcmWavAudio = {
+  sampleRate: number;
+  channels: number;
+  bits: number;
+  pcm: Buffer;
+};
 
 export type GeminiInlineAudioPart = {
   data?: string;
@@ -29,34 +40,48 @@ function isWavBuffer(bytes: Buffer): boolean {
   return bytes.length >= 12 && bytes.subarray(0, 4).toString("ascii") === "RIFF" && bytes.subarray(8, 12).toString("ascii") === "WAVE";
 }
 
-/** PCM WAV süre (saniye) — fmt/data parçalarını yürür; istemci değil. */
-export function pcmWavDurationSec(wav: Buffer): number {
-  if (!isWavBuffer(wav) || wav.length < 44) {
-    return 0;
+function parsePcmWavAudio(wav: Buffer): PcmWavAudio | null {
+  const wrapped = wrapPcmAsWav(wav);
+  if (!isWavBuffer(wrapped) || wrapped.length < 44) {
+    return null;
   }
   let offset = 12;
   let sampleRate = 0;
   let channels = 0;
   let bits = 0;
-  let dataSize = 0;
-  while (offset + 8 <= wav.length) {
-    const id = wav.toString("ascii", offset, offset + 4);
-    const size = wav.readUInt32LE(offset + 4);
+  let pcm: Buffer | null = null;
+  while (offset + 8 <= wrapped.length) {
+    const id = wrapped.toString("ascii", offset, offset + 4);
+    const size = wrapped.readUInt32LE(offset + 4);
     const start = offset + 8;
-    if (id === "fmt " && size >= 16 && start + 16 <= wav.length) {
-      channels = wav.readUInt16LE(start + 2);
-      sampleRate = wav.readUInt32LE(start + 4);
-      bits = wav.readUInt16LE(start + 14);
+    if (id === "fmt " && size >= 16 && start + 16 <= wrapped.length) {
+      channels = wrapped.readUInt16LE(start + 2);
+      sampleRate = wrapped.readUInt32LE(start + 4);
+      bits = wrapped.readUInt16LE(start + 14);
     } else if (id === "data") {
-      dataSize = size;
+      const end = Math.min(wrapped.length, start + Math.max(0, size));
+      pcm = wrapped.subarray(start, end);
       break;
     }
     offset = start + size + (size % 2);
   }
-  if (!(sampleRate > 0) || !(channels > 0) || !(bits > 0) || !(dataSize > 0)) {
+  if (!pcm || !(sampleRate > 0) || !(channels > 0) || !(bits > 0)) {
+    return null;
+  }
+  return { sampleRate, channels, bits, pcm };
+}
+
+/** PCM WAV süre (saniye) — fmt/data parçalarını yürür; istemci değil. */
+export function pcmWavDurationSec(wav: Buffer): number {
+  if (!isWavBuffer(wav)) {
     return 0;
   }
-  return dataSize / (sampleRate * channels * (bits / 8));
+  const parsed = parsePcmWavAudio(wav);
+  if (!parsed) {
+    return 0;
+  }
+  const bytesPerSec = parsed.sampleRate * parsed.channels * (parsed.bits / 8);
+  return bytesPerSec > 0 ? parsed.pcm.length / bytesPerSec : 0;
 }
 
 /** Sessiz PCM WAV — TTS fallback / metin odaklı mod. */
@@ -98,12 +123,58 @@ export function wrapPcmAsWav(
 }
 
 export function extractPcmFromWav(wav: Buffer): Buffer {
-  const wrapped = wrapPcmAsWav(wav);
-  if (wrapped.length < 44) {
-    return Buffer.alloc(0);
+  return parsePcmWavAudio(wav)?.pcm ?? Buffer.alloc(0);
+}
+
+/** +gainDb, tepe limiter. Sessiz TTS'i laptop %50'de gürleştirir. */
+export function boostPcmWavGain(wav: Buffer, gainDb = PCM_WAV_GAIN_DB): Buffer {
+  const parsed = parsePcmWavAudio(wav);
+  if (!parsed || parsed.bits !== 16) {
+    return wrapPcmAsWav(wav);
   }
-  const dataSize = wrapped.readUInt32LE(40);
-  return wrapped.subarray(44, 44 + Math.max(0, dataSize));
+  const linear = 10 ** (gainDb / 20);
+  const limit = 32767 * 10 ** (-0.3 / 20);
+  const out = Buffer.alloc(parsed.pcm.length);
+  const samples = Math.floor(parsed.pcm.length / 2);
+  for (let index = 0; index < samples; index += 1) {
+    const boosted = parsed.pcm.readInt16LE(index * 2) * linear;
+    const limited = limit * Math.tanh(boosted / limit);
+    out.writeInt16LE(Math.max(-32768, Math.min(32767, Math.round(limited))), index * 2);
+  }
+  return wrapPcmAsWav(out, parsed.sampleRate, parsed.channels, 16);
+}
+
+/** Lineer yeniden örnekleme — 24 kHz Chrome takılmasını 48 kHz ile keser. */
+export function resamplePcmWav(wav: Buffer, targetRate = PCM_WAV_PLAYBACK_SAMPLE_RATE): Buffer {
+  const parsed = parsePcmWavAudio(wav);
+  if (!parsed || parsed.bits !== 16) {
+    return wrapPcmAsWav(wav);
+  }
+  if (!Number.isFinite(targetRate) || targetRate <= 0 || parsed.sampleRate === targetRate) {
+    return wrapPcmAsWav(parsed.pcm, parsed.sampleRate, parsed.channels, 16);
+  }
+  const inFrames = Math.floor(parsed.pcm.length / 2 / parsed.channels);
+  if (inFrames <= 0) {
+    return wrapPcmAsWav(Buffer.alloc(0), targetRate, parsed.channels, 16);
+  }
+  const outFrames = Math.max(1, Math.round((inFrames * targetRate) / parsed.sampleRate));
+  const out = Buffer.alloc(outFrames * parsed.channels * 2);
+  const ratio = parsed.sampleRate / targetRate;
+  for (let frame = 0; frame < outFrames; frame += 1) {
+    const src = frame * ratio;
+    const i0 = Math.min(inFrames - 1, Math.floor(src));
+    const i1 = Math.min(inFrames - 1, i0 + 1);
+    const frac = src - i0;
+    for (let channel = 0; channel < parsed.channels; channel += 1) {
+      const s0 = parsed.pcm.readInt16LE((i0 * parsed.channels + channel) * 2);
+      const s1 = parsed.pcm.readInt16LE((i1 * parsed.channels + channel) * 2);
+      out.writeInt16LE(
+        Math.round(s0 + (s1 - s0) * frac),
+        (frame * parsed.channels + channel) * 2,
+      );
+    }
+  }
+  return wrapPcmAsWav(out, targetRate, parsed.channels, 16);
 }
 
 function readInt16Sample(pcm: Buffer, index: number): number {
@@ -155,12 +226,14 @@ function solaTimeStretchInt16(pcm: Buffer, rate: number): Buffer {
 
 /** Konuşma hızı — 0.95 = %5 yavaşlatma. Süre uzar; perde SOLA ile korunur. */
 export function tempoStretchPcmWav(wav: Buffer, rate: number): Buffer {
-  const wrapped = wrapPcmAsWav(wav);
-  if (!Number.isFinite(rate) || rate <= 0 || Math.abs(rate - 1) < 0.0005) {
-    return wrapped;
+  const parsed = parsePcmWavAudio(wav);
+  if (!parsed) {
+    return wrapPcmAsWav(wav);
   }
-  const sampleRate = wrapped.length >= 28 ? wrapped.readUInt32LE(24) : GEMINI_TTS_PCM_SAMPLE_RATE;
-  return wrapPcmAsWav(solaTimeStretchInt16(extractPcmFromWav(wrapped), rate), sampleRate);
+  if (!Number.isFinite(rate) || rate <= 0 || Math.abs(rate - 1) < 0.0005) {
+    return wrapPcmAsWav(parsed.pcm, parsed.sampleRate, parsed.channels, parsed.bits);
+  }
+  return wrapPcmAsWav(solaTimeStretchInt16(parsed.pcm, rate), parsed.sampleRate, parsed.channels, parsed.bits);
 }
 
 export function concatPcmWavBuffers(parts: readonly Buffer[]): Buffer {
@@ -171,15 +244,70 @@ export function concatPcmWavBuffers(parts: readonly Buffer[]): Buffer {
     return wrapPcmAsWav(parts[0]!);
   }
   let sampleRate = GEMINI_TTS_PCM_SAMPLE_RATE;
+  let channels = 1;
   const pcms: Buffer[] = [];
   for (const part of parts) {
-    const wav = wrapPcmAsWav(part, sampleRate);
-    if (isWavBuffer(wav) && wav.length >= 28) {
-      sampleRate = wav.readUInt32LE(24);
+    const parsed = parsePcmWavAudio(part);
+    if (parsed) {
+      sampleRate = parsed.sampleRate;
+      channels = parsed.channels;
+      pcms.push(parsed.pcm);
+    } else {
+      pcms.push(extractPcmFromWav(wrapPcmAsWav(part, sampleRate)));
     }
-    pcms.push(extractPcmFromWav(wav));
   }
-  return wrapPcmAsWav(Buffer.concat(pcms), sampleRate);
+  return wrapPcmAsWav(Buffer.concat(pcms), sampleRate, channels);
+}
+
+/** Dilim birleşiminde tık ve ton sıçramasını eşit-güç çapraz solukla yumuşatır. */
+export function concatPcmWavBuffersSeamless(
+  parts: readonly Buffer[],
+  crossfadeMs = 120,
+): Buffer {
+  if (parts.length <= 1 || !(crossfadeMs > 0)) {
+    return concatPcmWavBuffers(parts);
+  }
+  let sampleRate = GEMINI_TTS_PCM_SAMPLE_RATE;
+  const pcms: Buffer[] = [];
+  for (const part of parts) {
+    const parsed = parsePcmWavAudio(part);
+    if (parsed) {
+      sampleRate = parsed.sampleRate;
+      pcms.push(parsed.pcm);
+    } else {
+      pcms.push(extractPcmFromWav(wrapPcmAsWav(part, sampleRate)));
+    }
+  }
+  const fadeSamples = Math.max(1, Math.round((sampleRate * crossfadeMs) / 1000));
+  let acc = pcms[0] ?? Buffer.alloc(0);
+  for (let index = 1; index < pcms.length; index += 1) {
+    acc = crossfadeInt16Pcm(acc, pcms[index]!, fadeSamples);
+  }
+  return wrapPcmAsWav(acc, sampleRate, 1, 16);
+}
+
+function crossfadeInt16Pcm(left: Buffer, right: Buffer, fadeSamples: number): Buffer {
+  const leftSamples = Math.floor(left.length / 2);
+  const rightSamples = Math.floor(right.length / 2);
+  if (leftSamples <= 0) {
+    return Buffer.from(right);
+  }
+  if (rightSamples <= 0) {
+    return Buffer.from(left);
+  }
+  const overlap = Math.min(fadeSamples, leftSamples, rightSamples);
+  const out = Buffer.alloc((leftSamples + rightSamples - overlap) * 2);
+  left.copy(out, 0, 0, (leftSamples - overlap) * 2);
+  for (let i = 0; i < overlap; i += 1) {
+    const t = overlap <= 1 ? 1 : i / (overlap - 1);
+    const a = Math.cos((t * Math.PI) / 2);
+    const b = Math.sin((t * Math.PI) / 2);
+    const mixed =
+      left.readInt16LE((leftSamples - overlap + i) * 2) * a + right.readInt16LE(i * 2) * b;
+    out.writeInt16LE(Math.max(-32768, Math.min(32767, Math.round(mixed))), (leftSamples - overlap + i) * 2);
+  }
+  right.copy(out, leftSamples * 2, overlap * 2);
+  return out;
 }
 
 function audioInlineFromPart(part: GeminiInlineAudioCarrier | null | undefined): GeminiInlineAudioPart | null {

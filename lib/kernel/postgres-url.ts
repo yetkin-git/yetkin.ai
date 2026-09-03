@@ -17,7 +17,7 @@ const PRISMA_ENGINE_QUERY_PARAMS = [
 ] as const;
 
 /** Adapter yolunda URL'den okunur; pg Pool.max / connectionTimeoutMillis'e yazılır. */
-export const PRISMA_URL_CONNECTION_LIMIT = 20;
+export const PRISMA_URL_CONNECTION_LIMIT = 10;
 export const PRISMA_URL_POOL_TIMEOUT_SECONDS = 10;
 
 export type PrismaEnginePoolParams = {

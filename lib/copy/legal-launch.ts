@@ -138,7 +138,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         heading: "5. Çerez politikası",
         paragraphs: [
           "Oturumunuzu açık tutmak için zorunlu kimlik çerezleri kullanılır. Sitemizde reklam, yeniden hedefleme veya üçüncü taraf analitik izleme kodu bulunmamaktadır.",
-          "Kart ödemesinde Yetkili Ödeme Kuruluşu kendi sayfasını açabilir; o çerezler sağlayıcının politikasına tabidir. Zorunlu oturum çerezi olmadan hesabınıza giriş yapılamaz. Pazarlama çerezi kullanılmadığı için bu konuda ayrı bir izin istenmez.",
+          "Kart ödemesinde Yetkili Ödeme Kuruluşu kendi sayfasını açabilir; o çerezler sağlayıcının politikasına tabidir. Zorunlu oturum çerezi olmadan hesabına giriş yapılamaz. Pazarlama çerezi kullanılmadığı için bu konuda ayrı bir izin istenmez.",
           `Çerez ve gizlilik talepleriniz ${LEGAL_SUPPORT_EMAIL} üzerinden alınır.`,
         ],
       },
@@ -170,7 +170,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "odeme-cerez",
         heading: "2. Ödeme sayfası çerezleri",
         paragraphs: [
-          "Kart ödemesinde Yetkili Ödeme Kuruluşu kendi sayfasını açabilir; o çerezler sağlayıcının politikasına tabidir. Zorunlu oturum çerezi olmadan hesabınıza giriş yapılamaz. Pazarlama çerezi kullanılmadığı için bu konuda ayrı bir izin istenmez.",
+          "Kart ödemesinde Yetkili Ödeme Kuruluşu kendi sayfasını açabilir; o çerezler sağlayıcının politikasına tabidir. Zorunlu oturum çerezi olmadan hesabına giriş yapılamaz. Pazarlama çerezi kullanılmadığı için bu konuda ayrı bir izin istenmez.",
         ],
       },
       {

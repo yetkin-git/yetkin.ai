@@ -1,19 +1,27 @@
 "use client";
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import type { Route } from "next";
 import { Button } from "@/components/ui/button";
 import { LinkButton } from "@/components/ui/link-button";
 import { IconChevronDown } from "@/components/ui/icons";
 import { LessonMediaPlayer } from "@/components/academy/lesson-media-player";
 import { LessonDialogueTranscript } from "@/components/academy/lesson-dialogue-transcript";
 import { LessonSyntaxCode } from "@/components/academy/lesson-syntax-code";
+import { LessonTeleprompter } from "@/components/academy/lesson-teleprompter";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { ACADEMY_FIVE_ACT_HEADINGS, parseAcademyLessonActText } from "@/lib/academy/lesson-body";
 import { normalizeAcronyms } from "@/lib/academy/acronym-normalizer";
 import {
+  academyLessonStageFrame,
+  academySpokenHighlightElapsedSec,
+  activeAcademyDialogueTurnIndex,
   buildAcademyDialogueTimeline,
+  buildAcademyTeleprompterCues,
   parseDialogueLine,
+  type AcademyTeleprompterCue,
   type TimedDialogueTurn,
 } from "@/lib/academy/dialogue-timeline";
 import { academyDialogueSpeakerDisplayName } from "@/lib/academy/curricula/types";
@@ -33,6 +41,7 @@ import {
   academyLessonKindLabel,
   academyLessonMediaMeta,
 } from "@/lib/academy/lesson-meta";
+import { isAcademyLessonAudioSealed } from "@/lib/academy/lesson-audio";
 
 export type CurriculumPlayerLesson = {
   key: string;
@@ -248,42 +257,95 @@ function splitAcademyPlayerSurface({
   return { codes, quizPrompt, notes, diagrams: stageDiagrams, visualKey };
 }
 
+function LessonCodeCallout() {
+  const copy = ACADEMY_SEN.player;
+  return (
+    <aside className="academy-player-code-callout" data-academy-code-callout="">
+      <p className="academy-player-code-callout-title">{copy.codeCalloutTitle}</p>
+      <p className="academy-player-code-callout-lead">{copy.codeCalloutLead}</p>
+      <p className="academy-player-code-callout-invite">
+        {copy.codeCalloutInviteBefore}
+        <Link className="academy-player-code-callout-link" href={copy.codeCalloutHref as Route}>
+          {copy.codeCalloutModule}
+        </Link>
+        {copy.codeCalloutInviteAfter}
+      </p>
+    </aside>
+  );
+}
+
 function LessonWidescreenStage({
+  heading,
   code,
+  codeLineIndex,
   diagram,
   visualKey,
   label,
+  act,
+  cues,
+  elapsedSec,
+  playing,
 }: {
+  heading: string | null;
   code: LessonCodeSnippet | null;
+  codeLineIndex: number | null;
   diagram: SurfaceDiagram | null;
   visualKey: string | null;
   label: string;
+  act: string | null;
+  cues: readonly AcademyTeleprompterCue[];
+  elapsedSec: number;
+  playing: boolean;
 }) {
+  const hasScript = cues.length > 0;
+  const overlay = Boolean(code);
+  const showVisual = !code && !hasScript;
   return (
-    <div className="academy-player-widescreen" data-academy-player-stage="">
+    <div
+      className="academy-player-widescreen"
+      data-academy-player-stage=""
+      data-academy-stage-act={act ?? undefined}
+      data-academy-stage-code={code ? "true" : undefined}
+    >
       <span className="sr-only">{label}</span>
+      {heading && !code ? (
+        <p className="academy-player-widescreen-kicker">{heading}</p>
+      ) : null}
       {code ? (
-        <pre
-          className="academy-player-widescreen-code"
-          data-academy-code-viewer=""
-          data-academy-code-active="true"
-        >
-          <LessonSyntaxCode language={code.language} source={code.source} />
-        </pre>
-      ) : diagram ? (
+        <div className="academy-player-code-stack">
+          <pre
+            className="academy-player-widescreen-code"
+            data-academy-code-viewer=""
+            data-academy-code-active="true"
+          >
+            <LessonSyntaxCode language={code.language} source={code.source} activeLine={codeLineIndex} />
+          </pre>
+        </div>
+      ) : null}
+      {showVisual && diagram ? (
         <figure className="academy-player-widescreen-visual">
           <img
             src={`/media/academy/diagrams/${diagram.diagramKey}.svg`}
             alt={diagram.title}
           />
         </figure>
-      ) : visualKey ? (
+      ) : null}
+      {showVisual && !diagram && visualKey ? (
         <figure className="academy-player-widescreen-visual">
           <img src={`/media/academy/micro/${visualKey}.poster.svg`} alt="" />
         </figure>
-      ) : (
+      ) : null}
+      {showVisual && !diagram && !visualKey ? (
         <div className="academy-player-widescreen-empty" />
-      )}
+      ) : null}
+      {hasScript ? (
+        <LessonTeleprompter
+          cues={cues}
+          elapsedSec={elapsedSec}
+          overlay={overlay}
+          playing={playing}
+        />
+      ) : null}
     </div>
   );
 }
@@ -321,7 +383,7 @@ export function CurriculumPlayer({
   const [activeKey, setActiveKey] = useState(firstOpen?.key ?? lessons[0]?.key ?? "");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
-  const [activeTurnIndex, setActiveTurnIndex] = useState(0);
+  const [spokenElapsed, setSpokenElapsed] = useState(0);
   const [dialoguePlaying, setDialoguePlaying] = useState(false);
   const [completedKeys, setCompletedKeys] = useState(
     () => new Set(lessons.filter((lesson) => lesson.completed).map((lesson) => lesson.key)),
@@ -358,20 +420,35 @@ export function CurriculumPlayer({
     () => uniqueLessonCodes(dialogueTimeline.turns, surface.codes),
     [dialogueTimeline.turns, surface.codes],
   );
-  const stagedCode = useMemo(() => {
-    for (let index = activeTurnIndex; index >= 0; index -= 1) {
-      const snippet = dialogueTimeline.turns[index]?.code;
-      if (snippet?.source.trim()) {
-        return { language: snippet.language, source: snippet.source };
-      }
-    }
-    return lessonCodes[0] ?? null;
-  }, [activeTurnIndex, dialogueTimeline.turns, lessonCodes]);
+  const teleprompterCues = useMemo(
+    () => buildAcademyTeleprompterCues(dialogueTimeline.turns),
+    [dialogueTimeline.turns],
+  );
+  const highlightElapsed = academySpokenHighlightElapsedSec(spokenElapsed);
+  const highlightTurnIndex = activeAcademyDialogueTurnIndex(
+    dialogueTimeline.turns,
+    highlightElapsed,
+  );
+  const stageFrame = useMemo(
+    () =>
+      academyLessonStageFrame({
+        turns: dialogueTimeline.turns,
+        activeIndex: highlightTurnIndex,
+        elapsedSec: highlightElapsed,
+        fallbackCodes: lessonCodes,
+      }),
+    [highlightElapsed, highlightTurnIndex, dialogueTimeline.turns, lessonCodes],
+  );
+  const showCodeCallout =
+    !courseSlug.startsWith("python-") && Boolean(stageFrame.code ?? lessonCodes[0]);
   const showNotes =
-    dialogueTimeline.turns.length > 0 || surface.notes.length > 0 || Boolean(surface.quizPrompt);
+    dialogueTimeline.turns.length > 0 ||
+    surface.notes.length > 0 ||
+    Boolean(surface.quizPrompt) ||
+    showCodeCallout;
 
   useEffect(() => {
-    setActiveTurnIndex(0);
+    setSpokenElapsed(0);
     setDialoguePlaying(false);
   }, [activeKey]);
 
@@ -396,33 +473,39 @@ export function CurriculumPlayer({
   async function completeLesson(lessonKey: string): Promise<{ ok: boolean; nextLessonKey: string | null }> {
     setPending(true);
     setError(null);
-    const response = await fetch(
-      `/api/academy/courses/${courseId}/curriculum`,
-      withRailApiVersion({
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ lessonKey }),
-      }),
-    );
-    const parsed = parseRailClientJson<{
-      player?: { curriculumComplete?: boolean; nextLessonKey?: string | null };
-    }>(await response.json());
-    setPending(false);
-    if (!parsed.ok) {
-      setError(parsed.error || copy.completeFail);
+    try {
+      const response = await fetch(
+        `/api/academy/courses/${courseId}/curriculum`,
+        withRailApiVersion({
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ lessonKey }),
+        }),
+      );
+      const parsed = parseRailClientJson<{
+        player?: { curriculumComplete?: boolean; nextLessonKey?: string | null };
+      }>(await response.json());
+      if (!parsed.ok) {
+        setError(parsed.error || copy.completeFail);
+        return { ok: false, nextLessonKey: null };
+      }
+      setCompletedKeys((current) => {
+        const next = new Set(current);
+        next.add(lessonKey);
+        return next;
+      });
+      const nextKey = parsed.data.player?.nextLessonKey ?? null;
+      if (nextKey) {
+        goToNextLesson(nextKey);
+      }
+      router.refresh();
+      return { ok: true, nextLessonKey: nextKey };
+    } catch {
+      setError(copy.completeFail);
       return { ok: false, nextLessonKey: null };
+    } finally {
+      setPending(false);
     }
-    setCompletedKeys((current) => {
-      const next = new Set(current);
-      next.add(lessonKey);
-      return next;
-    });
-    const nextKey = parsed.data.player?.nextLessonKey ?? null;
-    if (nextKey) {
-      goToNextLesson(nextKey);
-    }
-    router.refresh();
-    return { ok: true, nextLessonKey: nextKey };
   }
 
   function onPrevLesson() {
@@ -516,6 +599,8 @@ export function CurriculumPlayer({
     </aside>
   );
 
+  const isAudioSealed = active ? isAcademyLessonAudioSealed(courseSlug, active.key) : false;
+
   return (
     <div
       className="academy-player-shell grid min-h-0 flex-1 grid-cols-1 grid-rows-[minmax(0,1fr)_auto] gap-2 overflow-hidden lg:grid-cols-[minmax(0,1fr)_19rem] lg:grid-rows-[minmax(0,1fr)] lg:gap-5"
@@ -525,18 +610,35 @@ export function CurriculumPlayer({
       {active ? (
         <>
           <div className="academy-player-main relative flex min-h-0 min-w-0 flex-col gap-2 overflow-hidden lg:col-start-1">
-            <header className="shrink-0 px-1 sm:px-0">
+            <header className="shrink-0 px-1 sm:px-0 flex flex-wrap items-center justify-between gap-2">
               <h2 className="truncate text-[1.125rem] font-semibold tracking-[-0.032em] text-[var(--foreground)] sm:text-[1.375rem] sm:leading-[1.2]">
                 {activeTitle}
               </h2>
+              <span
+                data-academy-mode-badge=""
+                className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                  isAudioSealed
+                    ? "bg-[var(--safir-soft)] text-[var(--safir-deep)]"
+                    : "border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--muted)]"
+                }`}
+              >
+                <span className={`h-1.5 w-1.5 rounded-full ${isAudioSealed ? "bg-[var(--safir)]" : "bg-slate-400"}`} />
+                {isAudioSealed ? "Sesli Anlatım" : "Yazılı & Kod İnceleme Modu"}
+              </span>
             </header>
             <div className="academy-player-focus flex min-h-0 flex-1 flex-col">
               <div className="academy-player-cinema" data-academy-player-canvas="">
                 <LessonWidescreenStage
-                  code={stagedCode}
+                  heading={stageFrame.heading}
+                  code={stageFrame.code}
+                  codeLineIndex={stageFrame.codeLineIndex}
                   diagram={surface.diagrams[0] ?? null}
                   visualKey={surface.visualKey}
                   label={copy.codeViewerLabel}
+                  act={stageFrame.act}
+                  cues={teleprompterCues}
+                  elapsedSec={spokenElapsed}
+                  playing={dialoguePlaying}
                 />
                 <LessonMediaPlayer
                   key={active.key}
@@ -544,7 +646,7 @@ export function CurriculumPlayer({
                   lessonKey={active.key}
                   lessonTitle={activeTitle}
                   body={active.body}
-                  onActiveTurnChange={setActiveTurnIndex}
+                  onSpokenElapsedChange={setSpokenElapsed}
                   onPlayingChange={setDialoguePlaying}
                   onEnded={onDialogueEnded}
                 />
@@ -553,7 +655,7 @@ export function CurriculumPlayer({
             {showNotes ? (
               <details
                 key={active.key}
-                className="academy-player-notes shrink-0"
+                className="academy-player-notes relative z-0 min-h-0 max-h-[350px] overflow-y-auto"
                 data-academy-player-companion=""
                 data-academy-lesson-notes=""
               >
@@ -562,14 +664,15 @@ export function CurriculumPlayer({
                   <IconChevronDown className="academy-player-notes-chevron h-4 w-4 shrink-0" />
                 </summary>
                 <div
-                  className="academy-player-notes-body academy-player-reading-pane"
+                  className="academy-player-notes-body academy-player-reading-pane max-h-[350px] overflow-y-auto pr-2"
                   aria-live="polite"
                   data-academy-lesson-body=""
                 >
+                  {showCodeCallout ? <LessonCodeCallout /> : null}
                   {dialogueTimeline.turns.length > 0 ? (
                     <LessonDialogueTranscript
                       turns={dialogueTimeline.turns}
-                      activeIndex={activeTurnIndex}
+                      activeIndex={highlightTurnIndex}
                       listening={dialoguePlaying}
                     />
                   ) : null}
@@ -583,7 +686,7 @@ export function CurriculumPlayer({
               </details>
             ) : null}
             <div
-              className="academy-player-dock academy-player-action-bar shrink-0 px-1 py-2 sm:px-0"
+              className="academy-player-dock academy-player-action-bar relative z-10 shrink-0 px-1 py-2 sm:px-0"
               data-academy-player-dock=""
             >
               <div className="academy-player-dock-inner flex flex-wrap items-center justify-between gap-2">

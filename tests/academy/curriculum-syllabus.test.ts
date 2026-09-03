@@ -8,6 +8,7 @@ import {
   academyProgressPercent,
 } from "@/lib/academy/lesson-meta";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
+import { academySealedAudioDurationSec } from "@/lib/academy/lesson-audio";
 
 describe("akademi müfredat özeti — modül, tür, süre", () => {
   it("yüzdeyi 0–100 aralığında basar", () => {
@@ -36,17 +37,17 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
   });
 
   it("ses süresi WAV veya konuşma saatinden dakikaya iner; 5 dk taban basmaz", () => {
-    expect(
-      academyLessonDurationMin({
-        key: "ai-agent-temel-1",
-        courseSlug: "ai-agent-temel",
-        body: "Eğitmen: Kısa tur.",
-        microVideos: [{ durationSec: 7 }],
-      }),
-    ).toBe(2);
-    expect(
-      academyMediaDurationMin(140),
-    ).toBe(2);
+    const sealedMinutes = academyLessonDurationMin({
+      key: "ai-agent-temel-1",
+      courseSlug: "ai-agent-temel",
+      body: "Eğitmen: Kısa tur.",
+      microVideos: [{ durationSec: 7 }],
+    });
+    expect(sealedMinutes).toBe(
+      academyMediaDurationMin(academySealedAudioDurationSec("ai-agent-temel", "ai-agent-temel-1")),
+    );
+    expect(sealedMinutes).toBeGreaterThanOrEqual(1);
+    expect(academyMediaDurationMin(140)).toBe(2);
     expect(academyMediaDurationMin(0)).toBe(0);
     const minutes = academyLessonDurationMin({
       body: Array.from({ length: 320 }, () => "kelime").join(" "),

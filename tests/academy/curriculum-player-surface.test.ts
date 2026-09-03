@@ -66,12 +66,71 @@ describe("D2.1 müfredat oynatıcı yüzeyi — üç ekran + dinle kapalı", () 
     expect(player).toContain("copy.notesLabel");
     expect(player).toContain("copy.codeViewerLabel");
     expect(player).toContain("data-academy-lesson-notes");
+    expect(player).toContain("max-h-[350px]");
+    expect(player).toContain("overflow-y-auto");
+    expect(player).toContain("academy-player-notes relative z-0 min-h-0 max-h-[350px] overflow-y-auto");
+    expect(player).toContain("academy-player-notes-body academy-player-reading-pane max-h-[350px] overflow-y-auto pr-2");
+    expect(player).toContain("academy-player-dock academy-player-action-bar relative z-10");
     expect(player).toContain("data-academy-code-viewer");
+    expect(player).toContain("data-academy-code-callout");
+    expect(player).toContain("copy.codeCalloutTitle");
+    expect(player).toContain("copy.codeCalloutHref");
+    expect(player).toContain("LessonCodeCallout");
+    expect(player).toContain("academy-player-code-stack");
+    const notesSection = player.slice(player.indexOf("data-academy-lesson-notes"));
+    expect(notesSection).toContain("<LessonCodeCallout");
+    const stageSection = player.slice(
+      player.indexOf("function LessonWidescreenStage"),
+      player.indexOf("function LessonQuizPanel"),
+    );
+    expect(stageSection).not.toContain("LessonCodeCallout");
+    expect(stageSection).not.toContain("showCodeCallout");
+    expect(player).not.toContain("/academy/python-veri-muhendisligi");
     expect(player).toContain("data-academy-quiz-panel");
     expect(player).toContain("<details");
     expect(player).toContain("data-academy-player-layout=\"fit-screen\"");
     expect(player).toContain("academy-player-widescreen");
-    expect(player).toContain("LessonSyntaxCode");
+    expect(player).toContain("academyLessonStageFrame");
+    expect(player).toContain("onSpokenElapsedChange");
+    expect(player).toContain("LessonTeleprompter");
+    expect(player).toContain("buildAcademyTeleprompterCues");
+    expect(player).not.toContain("hasScript && !code");
+    expect(player).toContain("overlay={overlay}");
+    expect(player).toContain("const overlay = Boolean(code)");
+    expect(player).not.toContain("Boolean(code || diagram || visualKey)");
+    expect(player).toContain("playing={dialoguePlaying}");
+    expect(player).toContain("code={stageFrame.code}");
+    expect(player).not.toContain("code={stageFrame.code ?? lessonCodes[0]");
+    expect(player).toContain("data-academy-stage-code");
+    expect(player).toContain("showVisual");
+    expect(player).toContain("LessonDialogueTranscript");
+    const teleprompter = readSrc("components/academy/lesson-teleprompter.tsx");
+    expect(teleprompter).toContain("data-academy-stage-sentence");
+    expect(teleprompter).toContain("data-academy-stage-paragraph");
+    expect(teleprompter).toContain("data-academy-teleprompter");
+    expect(teleprompter).toContain("data-academy-teleprompter-near");
+    expect(teleprompter).toContain('data-academy-teleprompter-align="center"');
+    expect(teleprompter).toContain("ACADEMY_TELEPROMPTER_FOCUS_RATIO");
+    expect(teleprompter).toContain("[progress.cueIndex, overlay]");
+    expect(teleprompter).not.toContain("stampRef");
+    expect(teleprompter).not.toContain("requestAnimationFrame");
+    expect(readSrc("app/globals.css")).toContain("calc(50cqh + 4.5em)");
+    const playerCss = readSrc("app/globals.css");
+    expect(playerCss).toMatch(/\.academy-player-code-stack\s*\{[^}]*gap:\s*1\.15rem/s);
+    expect(playerCss).toContain("clamp(1.12rem, 2.4vw, 1.68rem)");
+    expect(playerCss).toMatch(/\.academy-teleprompter--overlay\s*\{[^}]*flex:\s*0 0 7\.5rem/s);
+    expect(playerCss).not.toContain(":has(.academy-player-code-stack) .academy-teleprompter,");
+    expect(playerCss).toContain(".academy-player-notes-body");
+    expect(playerCss).toMatch(/\.academy-player-notes-body\s*\{[^}]*max-height:\s*350px/s);
+    expect(playerCss).toMatch(/\.academy-player-notes-body\s*\{[^}]*overflow-y:\s*auto/s);
+    expect(playerCss).toMatch(/\.academy-player-notes\[open\]\s*\{[^}]*max-height:\s*350px/s);
+    expect(playerCss).toMatch(/\.academy-player-notes\[open\]\s*\{[^}]*overflow-y:\s*auto/s);
+    expect(playerCss).toMatch(/\.academy-player-dock\s*\{[^}]*z-index:\s*10/s);
+    expect(playerCss).not.toContain("max-height: min(28vh, 14rem)");
+    expect(player).toContain("listening={dialoguePlaying}");
+    expect(player).toContain("codeLineIndex");
+    expect(player).toContain("data-academy-stage-act");
+    expect(player).not.toContain("key={caption}");
     expect(player).not.toContain("<details open");
     expect(oyna).toContain("academy-player-viewport-lock");
     expect(oyna).toContain("100dvh");
@@ -90,10 +149,31 @@ describe("D2.1 müfredat oynatıcı yüzeyi — üç ekran + dinle kapalı", () 
     expect(player).not.toContain("ProofOfWorkCard");
     expect(player).not.toContain("listenPlayback");
 
+    expect(readSrc("lib/academy/prisma-store.ts")).toContain("isPrismaUniqueViolation");
+    expect(readSrc("lib/academy/prisma-store.ts")).toContain("upsert");
+    expect(readSrc("app/api/academy/courses/[id]/curriculum/route.ts")).toContain(
+      "ensurePrismaQueryEngine",
+    );
+    expect(readSrc("app/api/academy/courses/[id]/curriculum/route.ts")).toContain(
+      "isPrismaUniqueViolation",
+    );
+    expect(readSrc("app/api/academy/courses/[id]/curriculum/route.ts")).toContain(
+      "isPrismaClientError",
+    );
+    expect(readSrc("lib/kernel/db-errors.ts")).toContain("isPrismaClientError");
+    expect(readSrc("components/academy/curriculum-player.tsx")).toContain("finally");
+    expect(readSrc("components/academy/curriculum-player.tsx")).toContain(
+      "academySpokenHighlightElapsedSec",
+    );
+    expect(readSrc("lib/academy/dialogue-timeline.ts")).toContain("ACADEMY_SPOKEN_HIGHLIGHT_LAG_SEC");
+    expect(readSrc("lib/academy/curriculum-engine.ts")).toContain("lookupAcademyCurriculumCourse");
+    expect(readSrc("lib/academy/curriculum-engine.ts")).toContain("requireWritableCourse");
     expect(readSrc("lib/academy/load.ts")).toContain("hasAcademyPlayerAccess");
     expect(readSrc("lib/academy/load.ts")).toContain("persistGrant: false");
     expect(readSrc("lib/academy/load.ts")).toContain("cache(");
     expect(readSrc("lib/academy/load.ts")).toContain("Promise.all");
+    expect(readSrc("lib/academy/load.ts")).toContain("isPrismaQueryEngineReady");
+    expect(readSrc("lib/academy/load.ts")).toContain("buildUnlimitedSeedCurriculumPlayer");
     expect(readSrc("lib/academy/access.ts")).toContain("hasAcademyPlayerAccess");
     expect(readSrc("lib/academy/access.ts")).toContain("hasAcademyAdminBypass");
     expect(readSrc("components/academy/purchase-button.tsx")).toContain("licenseNote");

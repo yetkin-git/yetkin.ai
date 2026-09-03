@@ -4,7 +4,7 @@
  * Client-safe: sınav şıkları ve GEMINI_API_KEY yoktur.
  * Faz 3: pusula / Koray montajı `archived/lib/academy-studio/` (field-voice, studio-cast).
  * Bu dosya vitrin biyografisi ve ses mührüdür; fabrika import etmez.
- * Master Voice: Erinome — net, berrak, yakın mikrofon; boğuk tempo yavaşlatması yok.
+ * Master Voice: Erinome — net, berrak, yakın mikrofon; teknik anlatım %93 tempo.
  */
 
 import { YETKIN_BRAND } from "@/lib/copy/brand";
@@ -13,7 +13,11 @@ import {
   type AcademyCourseTitleSlug,
 } from "@/lib/academy/course-titles";
 import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
-import { type DialogueSpeakerId } from "@/lib/academy/curricula/types";
+import {
+  type AcademyLessonDraft,
+  type DialogueSpeakerId,
+  type DialogueTurn,
+} from "@/lib/academy/curricula/types";
 
 export const ACADEMY_INSTRUCTOR_TTS_VOICES = [
   "Zephyr",
@@ -49,7 +53,7 @@ export type AcademyCastBinding = {
   role: "instructor" | "moderator" | "announcer";
   voice: AcademyTtsVoice;
   voiceFingerprint: AcademyVoiceFingerprint;
-  /** 1 = %100. Tek eğitmen Master Voice; boğuk micro-pacing yok. */
+  /** 0.93 = teknik akademi temposu; 1 = %100. */
   speechRate: number;
 };
 
@@ -76,6 +80,10 @@ export type AcademyInstructor = {
   tone: AcademyInstructorTone;
   /** Ders ilk paragrafı bu önekle açılır. */
   greetingLead: string;
+  /** Kıdem / uzmanlık — vitrin ve tanışma cümlesi. */
+  roleTitle: string;
+  /** İlk ders özgeçmişi; greetingLead'den sonra konuşulur. */
+  bio: string;
 };
 
 export type AcademyModeratorBinding = {
@@ -148,8 +156,8 @@ export function isAcademyDigitalSkillsSlug(slug: string): boolean {
   );
 }
 
-/** Eğitmen usta temposu — Master Voice net yakın mikrofon; yavaşlatma yok. */
-export const ACADEMY_INSTRUCTOR_SPEECH_RATE = 1 as const;
+/** Eğitmen usta temposu — teknik kavramlar acele etmeden, %93. */
+export const ACADEMY_INSTRUCTOR_SPEECH_RATE = 0.93 as const;
 
 /** Gemini TTS Master Voice — yüksek frekans, berrak, yakın mikrofon. */
 export const ACADEMY_MASTER_VOICE = "Erinome" as const satisfies AcademyInstructorTtsVoice;
@@ -229,71 +237,85 @@ export const ACADEMY_INSTRUCTORS_BY_VOICE: Record<AcademyInstructorTtsVoice, Aca
     voice: "Zephyr",
     voiceFingerprint: academyVoiceFingerprint("Zephyr"),
     name: "Deniz",
-    title: "Eğitmen Deniz",
+    title: "Kıdemli Yazılım Mimarı",
     gender: "erkek",
     tone: "sakin",
     toneLabel: "Erkek / Sakin",
     greetingLead: "Selamlar, ben Deniz",
+    roleTitle: "Kıdemli Yazılım Mimarı",
+    bio: "Yazılım sistemleri uzmanıyım. Kıdemli Yazılım Mimarı olarak sahada kapı ve sözleşme kuruyorum.",
   },
   Erinome: {
     voice: "Erinome",
     voiceFingerprint: academyVoiceFingerprint("Erinome"),
     name: "Maya",
-    title: "Eğitmen Maya",
+    title: "Kıdemli Yapay Zeka Mimarı",
     gender: "kadin",
     tone: "enerjik",
     toneLabel: "Kadın / Net Master Voice",
     greetingLead: "Merhaba, ben Maya",
+    roleTitle: "Kıdemli Yapay Zeka Mimarı",
+    bio: "Yapay Zeka Sistemleri Uzmanıyım. Kıdemli Yapay Zeka Mimarı olarak sahada ajan, araç ve Fail-closed kapıları kuruyorum.",
   },
   Puck: {
     voice: "Puck",
     voiceFingerprint: academyVoiceFingerprint("Puck"),
     name: "Aras",
-    title: "Eğitmen Aras",
+    title: "Kıdemli Uygulama Mimarı",
     gender: "erkek",
     tone: "pratik",
     toneLabel: "Erkek / Pratik",
     greetingLead: "Selam, ben Aras",
+    roleTitle: "Kıdemli Uygulama Mimarı",
+    bio: "Uygulama sistemleri uzmanıyım. Kıdemli Uygulama Mimarı olarak işi masada değil sahada çözüyorum.",
   },
   Fenrir: {
     voice: "Fenrir",
     voiceFingerprint: academyVoiceFingerprint("Fenrir"),
     name: "Boran",
-    title: "Eğitmen Boran",
+    title: "Kıdemli Veri Mimarı",
     gender: "erkek",
     tone: "otoriter",
     toneLabel: "Erkek / Otoriter",
     greetingLead: "Merhaba, ben Boran",
+    roleTitle: "Kıdemli Veri Mimarı",
+    bio: "Veri ve yapay zekâ uzmanıyım. Kıdemli Veri Mimarı olarak kuralı emniyet dilinde tutuyorum.",
   },
   Aoede: {
     voice: "Aoede",
     voiceFingerprint: academyVoiceFingerprint("Aoede"),
     name: "Selin",
-    title: "Eğitmen Selin",
+    title: "Kıdemli Ürün Tasarım Mimarı",
     gender: "kadin",
     tone: "kurumsal",
     toneLabel: "Kadın / Kurumsal",
     greetingLead: "Merhaba, ben Selin",
+    roleTitle: "Kıdemli Ürün Tasarım Mimarı",
+    bio: "Dijital ürün tasarımı uzmanıyım. Kıdemli Ürün Tasarım Mimarı olarak sloganla değil kanıt satırıyla konuşuyorum.",
   },
   Leda: {
     voice: "Leda",
     voiceFingerprint: academyVoiceFingerprint("Leda"),
     name: "Ece",
-    title: "Eğitmen Ece",
+    title: "Kıdemli Siber Güvenlik Mimarı",
     gender: "kadin",
     tone: "pratik",
     toneLabel: "Kadın / Pratik",
     greetingLead: "Merhaba, ben Ece",
+    roleTitle: "Kıdemli Siber Güvenlik Mimarı",
+    bio: "Siber güvenlik uzmanıyım. Kıdemli Siber Güvenlik Mimarı olarak kapıyı varsayılan kilitte tutuyorum.",
   },
   Callirrhoe: {
     voice: "Callirrhoe",
     voiceFingerprint: academyVoiceFingerprint("Callirrhoe"),
     name: "Gözde",
-    title: "Eğitmen Gözde",
+    title: "Kıdemli Dijital Beceriler Eğitmeni",
     gender: "kadin",
     tone: "pratik",
     toneLabel: "Kadın / Pratik",
     greetingLead: "Merhaba, ben Gözde",
+    roleTitle: "Kıdemli Dijital Beceriler Eğitmeni",
+    bio: "Dijital beceriler uzmanıyım. Kıdemli Dijital Beceriler Eğitmeni olarak iş dünyası araçlarını tane tane kuruyorum.",
   },
 };
 
@@ -518,23 +540,7 @@ export function academyInstructorBySlugOrNull(slug: string): AcademyInstructor |
 }
 
 function firstLessonBio(instructor: AcademyInstructor, field: string, topic: string): string {
-  const handback = ACADEMY_INSTRUCTOR_HANDBACK_LEAD;
-  switch (instructor.voice) {
-    case "Zephyr":
-      return `${handback} ${field} tarafında yıllardır sahada ter döken biriyim. Bugün seninle ${topic} konuşacağız.`;
-    case "Erinome":
-      return `${handback} ${field} tarafında sahada koşturan biriyim. Bugün ${topic} dalıyoruz.`;
-    case "Puck":
-      return `${handback} ${field} işini masada değil sahada çözüyorum. ${topic} pratik taraftan konuşacağız.`;
-    case "Fenrir":
-      return `${handback} ${field} tarafında kural net duruyor. ${topic} emniyet dilinde ele alacağız.`;
-    case "Aoede":
-      return `${handback} ${field} kurumsal raporda yaşar. ${topic} sloganla değil kanıt satırıyla konuşacağız.`;
-    case "Leda":
-      return `${handback} ${field} tarafında kapı varsayılan kilit durur. Bugün ${topic} konuşacağız.`;
-    case "Callirrhoe":
-      return `${handback} ${field} tarafında tane tane durur. Bugün ${topic} konuşacağız.`;
-  }
+  return `${instructor.greetingLead}. ${instructor.bio} ${field} tarafında sahada duruyorum. Bugün seninle ${topic} konuşacağız.`;
 }
 
 export function academyModeratorOpenForSlug(slug: string): string {
@@ -576,6 +582,59 @@ export function academyFirstLessonIntroForSlug(slug: string): string {
     throw new Error(`Ders açılışı yok: ${slug}`);
   }
   return `${academyModeratorOpenForSlug(slug)}\n${firstLessonBio(instructor, open.field, open.topic)}`;
+}
+
+/** İlk ders tanışması — selam + özgeçmiş. PEDAGOJI.md kural 2. */
+export function academyInstructorSpokenOpen(slug: string, order: number): string {
+  if (order !== 1) {
+    return "";
+  }
+  const instructor = academyInstructorBySlugOrNull(slug);
+  if (!instructor) {
+    return "";
+  }
+  return `${instructor.greetingLead}. ${instructor.bio}`;
+}
+
+function prefixInstructorOpen(text: string, open: string): string {
+  const trimmed = text.replace(/\s+/gu, " ").trim();
+  if (!open || !trimmed) {
+    return trimmed;
+  }
+  if (trimmed.includes(open) || trimmed.startsWith(open.split(".")[0]!)) {
+    return trimmed;
+  }
+  return `${open} ${trimmed}`.replace(/\s+/gu, " ").trim();
+}
+
+function sealDialogueTurn(turn: DialogueTurn, open: string, index: number): DialogueTurn {
+  if (index !== 0 || !open) {
+    return turn;
+  }
+  return { ...turn, text: prefixInstructorOpen(turn.text, open) };
+}
+
+/** Müfredat tohumuna tanışma mührü — bake ve ekran aynı DialogueTurn'dan okur. */
+export function academySealLessonDraft(slug: string, draft: AcademyLessonDraft): AcademyLessonDraft {
+  if (draft.format === "compact" || !draft.dialogue) {
+    return draft;
+  }
+  const open = academyInstructorSpokenOpen(slug, draft.order);
+  if (!open) {
+    return draft;
+  }
+  const warmup = draft.dialogue.warmup.map((turn, index) => sealDialogueTurn(turn, open, index));
+  const dialogue = {
+    ...draft.dialogue,
+    warmup,
+  };
+  const introWarmup = warmup.map((turn) => turn.text.trim()).join("\n\n");
+  const introProblem = draft.dialogue.problem.map((turn) => turn.text.trim()).join("\n\n");
+  return {
+    ...draft,
+    intro: `${introWarmup}\n\n${introProblem}`,
+    dialogue,
+  };
 }
 
 /** Sonraki derslerin ilk paragrafı — isim + nefes. */

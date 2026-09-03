@@ -87,6 +87,54 @@ describe("akademi müfredat oynatıcısı", () => {
     expect(replay.applied).toBe(false);
   });
 
+  it("tohum kurs id'si canlı slug satırına bağlanır; mükerrer tamamlama unique 500 değildir", async () => {
+    const live = memoryCourse({
+      id: "live_ai_agent_temel",
+      slug: "ai-agent-temel",
+      title: "AI Agent Temel",
+      catalogUnitKey: "course:ai-agent-temel",
+    });
+    const ledger = createMemoryLedgerStore([
+      { userId: BUYER, amountMinor: 100_000 },
+      { userId: PLATFORM, amountMinor: 0 },
+    ]);
+    const ports = {
+      ledger,
+      catalog: createMemoryPriceCatalogStore([
+        { moduleKey: ACADEMY_MODULE_KEY, unitKey: live.catalogUnitKey, amountMinor: 25_000 },
+      ]),
+      locks: createMemoryCheckoutPriceLockStore(),
+      academy: createMemoryAcademyStore(),
+    };
+    await ports.academy.insertCourse(live);
+    await ports.academy.insertExam(memoryExam(live.id));
+    const locked = await lockAcademyCoursePrice(ports, { courseId: live.id, userId: BUYER });
+    await purchaseAcademyCourse(ports, {
+      courseId: live.id,
+      userId: BUYER,
+      lockId: locked.lock.id,
+      platformUserId: PLATFORM,
+    });
+    const lessonKey = curriculumForCourseSlug("ai-agent-temel")[0]!.key;
+    const first = await completeAcademyLesson(ports, {
+      courseId: "ac_ai_agent_temel",
+      userId: BUYER,
+      lessonKey,
+      proof: academyCanonicalProofSubmission(lessonKey) ?? undefined,
+    });
+    expect(first.applied).toBe(true);
+    expect(first.player.courseId).toBe(live.id);
+
+    const replay = await completeAcademyLesson(ports, {
+      courseId: "ac_ai_agent_temel",
+      userId: BUYER,
+      lessonKey,
+      proof: academyCanonicalProofSubmission(lessonKey) ?? undefined,
+    });
+    expect(replay.applied).toBe(false);
+    expect(replay.player.courseId).toBe(live.id);
+  });
+
   it("Faz 1: dinle bayrağı kapalı; prepare GoneError basar", async () => {
     expect(ACADEMY_LESSON_LISTEN_ENABLED).toBe(false);
     const ctx = world();

@@ -93,9 +93,15 @@ export function AcceptBidButton({
     <div className="space-y-2">
       <p className="text-xs text-slate-600">{copy.escrow.holdNotice(amount, holdPercent)}</p>
       {paymentsClosed ? (
-        <div className="rounded-2xl border border-[var(--amber)]/40 bg-[color-mix(in_srgb,var(--amber)_8%,var(--surface))] p-4">
+        <div className="rounded-2xl border border-[var(--amber)]/40 bg-[color-mix(in_srgb,var(--amber)_8%,var(--surface))] p-4 space-y-2">
           <p className="text-sm font-semibold text-[var(--foreground)]">{copy.accept.paymentsClosed}</p>
-          <p className="mt-1 text-sm text-[var(--muted)]">{copy.accept.paymentsClosedBody}</p>
+          <p className="text-sm text-[var(--muted)]">{copy.accept.paymentsClosedBody}</p>
+          <a
+            href="mailto:destek@yetkin.ai?subject=Freelancer%20Pilot%20Proje%20Ba%C5%9Fvurusu"
+            className="inline-block text-xs font-medium text-[var(--safir)] underline hover:opacity-80"
+          >
+            destek@yetkin.ai ile iletişime geç
+          </a>
         </div>
       ) : null}
       <Button type="button" onClick={() => void onAccept()} disabled={pending}>

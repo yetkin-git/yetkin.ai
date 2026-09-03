@@ -200,14 +200,15 @@ describe("kültürel analoji ve yerel benzetme doktrini", () => {
         expect(bodies, row.slug).toContain("Hoş geldiniz. Bu bölümde");
         expect(bodies, row.slug).not.toMatch(/Maya:/);
       } else if (row.slug === "ai-agent-temel") {
-        expect(bodies, row.slug).toContain("klavye");
+        expect(bodies, row.slug).toContain("garson");
         expect(bodies, row.slug).not.toMatch(/Koray:/);
         expect(bodies, row.slug).toContain("Hoş geldiniz. Bu bölümde");
         expect(bodies, row.slug).not.toMatch(/Maya:/);
       } else if (row.slug === "ai-agent-orta") {
-        expect(bodies, row.slug).toContain("kütüphaneci");
+        expect(bodies, row.slug).toContain("garson");
         expect(bodies, row.slug).not.toMatch(/Koray:/);
-        expect(bodies, row.slug).toContain("Hoş geldiniz. Bu bölümde");
+        expect(bodies, row.slug).toContain("Selamlar! Ben Maya");
+        expect(bodies, row.slug).not.toContain("Hoş geldiniz. Bu bölümde");
         expect(bodies, row.slug).not.toMatch(/Maya:/);
       } else if (row.slug === "ai-agent-ileri") {
         expect(bodies, row.slug).toContain("makas");

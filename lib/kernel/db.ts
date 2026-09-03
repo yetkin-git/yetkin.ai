@@ -28,10 +28,17 @@ type KernelDbGlobal = {
   refreshing?: Promise<void>;
 };
 
-const g = globalThis as typeof globalThis & { __yetkinKernelDb?: KernelDbGlobal };
+/**
+ * HMR / RSC / Route Handler: tek PrismaClient.
+ * `globalThis.prisma` klasik singleton; `__yetkinKernelDb` havuz + ısınma slotu.
+ */
+const g = globalThis as typeof globalThis & {
+  __yetkinKernelDb?: KernelDbGlobal;
+  prisma?: PrismaClient;
+};
 
 /**
- * Uzun süreç (next dev / Node): `connection_limit=20&pool_timeout=10`.
+ * Uzun süreç (next dev / Node): `connection_limit=10&pool_timeout=10`.
  * Adapter URL'den okur; pg'ye `connection_limit` gitmez (Pool.max).
  * Prisma Dashboard `connection_limit=1` kopyası uzun süreçte yok sayılır.
  */
@@ -62,9 +69,9 @@ export const PRISMA_WARMUP_TIMEOUT_MS = 1_500;
 
 /**
  * Uzun süreç ısınma. Havuz `pool_timeout` (10s) ile kilitlenmez.
- * TR→EU soğuk TLS bazen 2s'ye yaslanır; 3s false-circuit'i keser, 10s+8s oda zincirini doğurmaz.
+ * TR→EU soğuk TLS 3s'yi aşınca false-circuit ve warmup_pending spam doğurur.
  */
-export const PRISMA_WARMUP_TIMEOUT_MS_LONG_RUNNING = 3_000;
+export const PRISMA_WARMUP_TIMEOUT_MS_LONG_RUNNING = 8_000;
 
 /**
  * Isınma kaçırınca yeni SELECT 1 açılmaz. In-flight bağlanırsa `engineOk` yeşile döner.
@@ -79,7 +86,7 @@ export const KERNEL_BACKGROUND_READ_TIMEOUT_MS_LONG_RUNNING = 8_000;
 
 /**
  * Isınma bütçesi `pool_timeout`'tan bağımsızdır.
- * 10s ısınma + 8s oda = 26s+ sayfa kilidi; kaçırınca 3s fail-fast + circuit.
+ * 8s ısınma + 8s oda = 26s+ sayfa kilidi; kaçırınca 8s fail-fast + circuit.
  */
 export function prismaWarmupBudgetMs(env: NodeJS.ProcessEnv = process.env): number {
   if (isServerlessRuntime(env)) {
@@ -136,6 +143,14 @@ export function kernelBackgroundReadTimeoutMs(
   if (isServerlessRuntime(env)) {
     return serverlessMs;
   }
+  const customMs = env.KERNEL_BACKGROUND_READ_TIMEOUT_MS
+    ? Number(env.KERNEL_BACKGROUND_READ_TIMEOUT_MS)
+    : env.DB_READ_TIMEOUT_MS
+      ? Number(env.DB_READ_TIMEOUT_MS)
+      : null;
+  if (customMs && Number.isFinite(customMs) && customMs > 0) {
+    return Math.max(serverlessMs, customMs);
+  }
   return Math.max(serverlessMs, KERNEL_BACKGROUND_READ_TIMEOUT_MS_LONG_RUNNING);
 }
 
@@ -143,7 +158,15 @@ export function isServerlessRuntime(env: NodeJS.ProcessEnv = process.env): boole
   return env.VERCEL === "1" || Boolean(env.VERCEL_ENV?.trim());
 }
 
-function resolveLongRunningPoolMax(url: string, fallback: number): number {
+function resolveLongRunningPoolMax(
+  url: string,
+  fallback: number,
+  env: NodeJS.ProcessEnv = process.env,
+): number {
+  const envMax = env.PRISMA_POOL_MAX ? Number(env.PRISMA_POOL_MAX) : null;
+  if (envMax && Number.isInteger(envMax) && envMax > 0) {
+    return Math.min(envMax, 30);
+  }
   const parsed = parsePrismaEnginePoolParams(url);
   if (parsed.connectionLimit == null || parsed.connectionLimit <= 1) {
     return fallback;
@@ -151,12 +174,22 @@ function resolveLongRunningPoolMax(url: string, fallback: number): number {
   return Math.min(parsed.connectionLimit, PRISMA_URL_CONNECTION_LIMIT);
 }
 
-function resolvePoolTimeoutMs(url: string, fallbackMs: number): number {
+function resolvePoolTimeoutMs(
+  url: string,
+  fallbackMs: number,
+  env: NodeJS.ProcessEnv = process.env,
+): number {
+  const envTimeout = env.PRISMA_POOL_TIMEOUT_MS ? Number(env.PRISMA_POOL_TIMEOUT_MS) : null;
+  if (envTimeout && Number.isFinite(envTimeout) && envTimeout > 0) {
+    return envTimeout;
+  }
   const parsed = parsePrismaEnginePoolParams(url);
   if (parsed.poolTimeoutSeconds == null) {
     return fallbackMs;
   }
-  return Math.min(Math.max(parsed.poolTimeoutSeconds, 1), 30) * 1_000;
+  const fromUrl = Math.min(Math.max(parsed.poolTimeoutSeconds, 1), 30) * 1_000;
+  // Dashboard `pool_timeout=5` TR→EU TLS'i ısınma bütçesinden önce keser; taban fallback.
+  return Math.max(fromUrl, fallbackMs);
 }
 
 export function prismaPoolLimits(env: NodeJS.ProcessEnv = process.env): {
@@ -184,8 +217,8 @@ export function prismaPoolLimits(env: NodeJS.ProcessEnv = process.env): {
     ? PRISMA_POOL_TIMEOUT_MS_DEVELOPMENT
     : PRISMA_POOL_TIMEOUT_MS_PRODUCTION;
   return {
-    max: resolveLongRunningPoolMax(url, fallbackMax),
-    connectionTimeoutMillis: resolvePoolTimeoutMs(url, fallbackTimeoutMs),
+    max: resolveLongRunningPoolMax(url, fallbackMax, env),
+    connectionTimeoutMillis: resolvePoolTimeoutMs(url, fallbackTimeoutMs, env),
     idleTimeoutMillis: development
       ? PRISMA_POOL_IDLE_MS_DEVELOPMENT
       : PRISMA_POOL_IDLE_MS_PRODUCTION,
@@ -202,7 +235,19 @@ function dbGlobal(): KernelDbGlobal {
   if (!g.__yetkinKernelDb) {
     g.__yetkinKernelDb = {};
   }
-  return g.__yetkinKernelDb;
+  const slot = g.__yetkinKernelDb;
+  if (!slot.prisma && g.prisma) {
+    slot.prisma = g.prisma;
+  }
+  return slot;
+}
+
+function bindPrismaSingleton(client: PrismaClient): PrismaClient {
+  const slot = dbGlobal();
+  slot.prisma = client;
+  g.prisma = client;
+  g.__yetkinKernelDb = slot;
+  return client;
 }
 
 /**
@@ -238,8 +283,13 @@ export function prismaErrorLabel(error: unknown): string {
     if (/\bP2024\b/.test(message) && !codes.includes("P2024")) {
       codes.push("P2024");
     }
-    if (/^db_read_timeout:/.test(message) && !codes.includes("TIMEOUT")) {
-      codes.push("TIMEOUT");
+    if (/^db_read_timeout:/.test(message)) {
+      if (!codes.includes("TIMEOUT")) {
+        codes.push("TIMEOUT");
+      }
+      if (/:pool_busy\b/.test(message) && !codes.includes("POOL_BUSY")) {
+        codes.push("POOL_BUSY");
+      }
     } else if (/\btimeout\b/i.test(message) && !codes.includes("TIMEOUT")) {
       codes.push("TIMEOUT");
     }
@@ -273,7 +323,7 @@ type PgPoolStats = {
  * Yazma (ilan POST) zaten kuyruktayken nabız ek istek açmaz.
  * Serverless `max=1`: tek meşgul soket kuyruk değildir — aksi halde nabız hiç SELECT açamaz.
  */
-export function isKernelDbPoolBusy(): boolean {
+export function isKernelDbPoolBusy(env: NodeJS.ProcessEnv = process.env): boolean {
   if (isPrismaWarmupCircuitOpen()) {
     return true;
   }
@@ -285,6 +335,23 @@ export function isKernelDbPoolBusy(): boolean {
   const waiting = pool.waitingCount ?? 0;
   const idle = pool.idleCount ?? 0;
   const total = pool.totalCount ?? 0;
+
+  // Boşta soket varsa havuz meşgul değildir (pg-pool connect() sırasında idle olsa bile pendingItem tutabilir)
+  if (idle > 0) {
+    return false;
+  }
+
+  // Havuz henüz maksimum bağlantı tavanına ulaşmadıysa yeni TCP açabilir; meşgul değildir
+  if (max > 0 && total < max) {
+    return false;
+  }
+
+  // Geliştirme ortamında (localhost dev) tek geliştirici çalışırken geçici bağlantı yarışında nabız düşürülmez
+  if (!isServerlessRuntime(env) && env.NODE_ENV === "development") {
+    // Sadece havuz tavanı dolmuş ve belirgin bir kuyruk birikmişse fail-early devreye girer
+    return max > 1 && total >= max && waiting >= 3;
+  }
+
   if (waiting > 0) {
     return true;
   }
@@ -355,8 +422,10 @@ export async function refreshPrismaConnection(): Promise<void> {
     slot.circuitOpenUntil = undefined;
     slot.prisma = undefined;
     slot.pool = undefined;
+    g.prisma = undefined;
     if (prisma) {
       try {
+        // Yalnız kopuk havuz yenilemesi. İstek/RSC sonunda $disconnect YASAK.
         await prisma.$disconnect();
       } catch {
         /* stale istemci — yut */
@@ -379,6 +448,13 @@ export async function refreshPrismaConnection(): Promise<void> {
 
 export const PRISMA_TRANSIENT_RETRY_ATTEMPTS = 1;
 
+function isPrismaWarmupRecoverableError(error: unknown): boolean {
+  if (isPrismaEngineEnoent(error) || isStalePrismaPoolError(error) || isPrismaPoolBusyError(error)) {
+    return true;
+  }
+  return /\bTIMEOUT\b/.test(prismaErrorLabel(error));
+}
+
 /**
  * Kopuk soket için bir kez taze havuz. P2024 (havuz dolu) yeniden denenmez.
  */
@@ -398,6 +474,13 @@ export async function withPrismaTransientRetry<T>(work: () => Promise<T>): Promi
   throw lastError;
 }
 
+function kickPrismaEngineWarmup(client: PrismaClient, slot: KernelDbGlobal): void {
+  if (slot.engineOk || slot.engineReady || isPrismaWarmupCircuitOpen()) {
+    return;
+  }
+  trackPrismaEngineWarmup(client, slot);
+}
+
 export function getPrisma(): PrismaClient {
   const url = process.env.DATABASE_URL?.trim();
   preferIpv6ForDirectHost(url);
@@ -406,6 +489,8 @@ export function getPrisma(): PrismaClient {
   }
   const slot = dbGlobal();
   if (slot.prisma) {
+    bindPrismaSingleton(slot.prisma);
+    kickPrismaEngineWarmup(slot.prisma, slot);
     return slot.prisma;
   }
   if (!url) {
@@ -429,51 +514,64 @@ export function getPrisma(): PrismaClient {
         : {}),
     });
     slot.pool.on("error", (error) => {
-      console.warn(
-        JSON.stringify({
-          event: "prisma.pool.error",
-          errorName: prismaErrorLabel(error),
-        }),
-      );
-    });
-  }
-  slot.prisma = new PrismaClient({
-    adapter: new PrismaPg(slot.pool, {
-      onPoolError: (error) => {
+      queueMicrotask(() => {
         console.warn(
           JSON.stringify({
             event: "prisma.pool.error",
             errorName: prismaErrorLabel(error),
           }),
         );
+      });
+    });
+  }
+  const client = new PrismaClient({
+    adapter: new PrismaPg(slot.pool, {
+      onPoolError: (error) => {
+        queueMicrotask(() => {
+          console.warn(
+            JSON.stringify({
+              event: "prisma.pool.error",
+              errorName: prismaErrorLabel(error),
+            }),
+          );
+        });
       },
       onConnectionError: (error) => {
-        console.warn(
-          JSON.stringify({
-            event: "prisma.pool.connection_error",
-            errorName: prismaErrorLabel(error),
-          }),
-        );
+        queueMicrotask(() => {
+          console.warn(
+            JSON.stringify({
+              event: "prisma.pool.connection_error",
+              errorName: prismaErrorLabel(error),
+            }),
+          );
+        });
       },
     }),
   });
-  g.__yetkinKernelDb = slot;
-  return slot.prisma;
+  bindPrismaSingleton(client);
+  kickPrismaEngineWarmup(client, slot);
+  return client;
 }
 
 function startPrismaEngineWarmup(client: PrismaClient): Promise<void> {
   return (async () => {
     await client.$queryRaw`SELECT 1`;
-    await client.wallet.findFirst({ select: { id: true } });
+    // Model derleyicisi ısınması yanıt yolunu kilitlemez.
+    void client.wallet.findFirst({ select: { id: true } }).then(
+      () => undefined,
+      () => undefined,
+    );
   })();
 }
 
+let prismaWarmupPendingLogged = false;
+
 function trackPrismaEngineWarmup(client: PrismaClient, slot: KernelDbGlobal): Promise<void> {
-  let tracked: Promise<void>;
-  tracked = startPrismaEngineWarmup(client).then(
+  const tracked: Promise<void> = startPrismaEngineWarmup(client).then(
     () => {
       slot.engineOk = true;
       slot.circuitOpenUntil = undefined;
+      prismaWarmupPendingLogged = false;
     },
     (error: unknown) => {
       slot.engineOk = false;
@@ -498,9 +596,10 @@ function trackPrismaEngineWarmup(client: PrismaClient, slot: KernelDbGlobal): Pr
  * globalThis ile RSC/RH aynı istemciyi paylaşır.
  * `true` = motor hazır, odalar SELECT açabilir. `false` = fail-soft; çağıran boş dilim basar.
  * TIMEOUT → in-flight sürer (bağlanırsa yeşile döner); circuit 15s ikinci SELECT 1 yok.
- * ENOENT → havuz yenilenir; istek yolunda ikinci ısınma beklenmez.
+ * warmup_failed (kopuk soket / havuz TIMEOUT) → bir kez taze havuz; ikinci SELECT 1.
+ * ENOENT → havuz yenilenir; kurtarma kaçırırsa circuit.
  */
-export async function ensurePrismaQueryEngine(): Promise<boolean> {
+export async function ensurePrismaQueryEngine(recover = true): Promise<boolean> {
   const slot = dbGlobal();
   if (slot.engineOk) {
     return true;
@@ -534,26 +633,47 @@ export async function ensurePrismaQueryEngine(): Promise<boolean> {
     const label = prismaErrorLabel(error);
     const hostKind = runtimeHostKindForLog();
     if (isDbReadTimeout(error)) {
-      console.warn(
-        JSON.stringify({
-          event: "prisma.engine.warmup_pending",
-          errorName: label,
-          hostKind,
-          budgetMs,
-          circuitMs: PRISMA_WARMUP_CIRCUIT_MS,
-        }),
-      );
+      if (!prismaWarmupPendingLogged) {
+        prismaWarmupPendingLogged = true;
+        queueMicrotask(() => {
+          console.warn(
+            JSON.stringify({
+              event: "prisma.engine.warmup_pending",
+              errorName: label,
+              hostKind,
+              budgetMs,
+              circuitMs: PRISMA_WARMUP_CIRCUIT_MS,
+            }),
+          );
+        });
+      }
       openPrismaWarmupCircuit(slot);
       return false;
     }
-    console.warn(
-      JSON.stringify({
-        event: "prisma.engine.warmup_failed",
-        errorName: label,
-        hostKind,
-      }),
-    );
+    queueMicrotask(() => {
+      console.warn(
+        JSON.stringify({
+          event: "prisma.engine.warmup_failed",
+          errorName: label,
+          hostKind,
+        }),
+      );
+    });
     slot.engineReady = undefined;
+    const recoverable = recover && isPrismaWarmupRecoverableError(error);
+    if (recoverable) {
+      queueMicrotask(() => {
+        console.warn(
+          JSON.stringify({
+            event: "prisma.engine.warmup_recover",
+            errorName: label,
+            hostKind,
+          }),
+        );
+      });
+      await refreshPrismaConnection().catch(() => undefined);
+      return ensurePrismaQueryEngine(false);
+    }
     openPrismaWarmupCircuit(slot);
     if (isPrismaEngineEnoent(error) || isStalePrismaPoolError(error)) {
       void refreshPrismaConnection().catch(() => undefined);

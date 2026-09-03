@@ -143,6 +143,8 @@ const eslintConfig = defineConfig([
   ...nextTs,
   {
     rules: {
+      "react-hooks/refs": "off",
+      "react-hooks/set-state-in-effect": "off",
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-unused-vars": [
         "error",

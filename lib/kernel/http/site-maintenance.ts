@@ -12,9 +12,15 @@ import { buildBrandMarkSvg } from "@/lib/ui/brand-mark-geometry";
  */
 export type SiteMaintenanceEnv = {
   SITE_MAINTENANCE_FREEZE?: string;
+  SITE_MAINTENANCE_BYPASS_TOKEN?: string;
+  MAINTENANCE_BYPASS_SECRET?: string;
+  SUPER_ADMIN_USER_ID?: string;
   NODE_ENV?: string;
   VITEST?: string;
 };
+
+export const MAINTENANCE_BYPASS_HEADER = "x-yetkin-maintenance-bypass";
+export const MAINTENANCE_BYPASS_COOKIE = "yetkin_maintenance_bypass";
 
 export const SITE_MAINTENANCE_API_ERROR =
   "Sistem güncelleniyor. Bakım nedeniyle geçici olarak kapalıyız.";
@@ -29,6 +35,9 @@ export const SITE_MAINTENANCE_ENGLISH = "Under Construction";
 export function readProcessSiteMaintenanceEnv(): SiteMaintenanceEnv {
   return {
     SITE_MAINTENANCE_FREEZE: process.env.SITE_MAINTENANCE_FREEZE,
+    SITE_MAINTENANCE_BYPASS_TOKEN: process.env.SITE_MAINTENANCE_BYPASS_TOKEN,
+    MAINTENANCE_BYPASS_SECRET: process.env.MAINTENANCE_BYPASS_SECRET,
+    SUPER_ADMIN_USER_ID: process.env.SUPER_ADMIN_USER_ID,
     NODE_ENV: process.env.NODE_ENV,
     VITEST: process.env.VITEST,
   };
@@ -94,8 +103,34 @@ export function isHealthProbePath(pathname: string): boolean {
   return canonical === "/api/health" || canonical === "/api/health/live";
 }
 
+export function hasSiteMaintenanceBypass(
+  request: Pick<NextRequest, "headers" | "cookies">,
+  env: SiteMaintenanceEnv = readProcessSiteMaintenanceEnv(),
+): boolean {
+  const secret =
+    env.SITE_MAINTENANCE_BYPASS_TOKEN?.trim() ||
+    env.MAINTENANCE_BYPASS_SECRET?.trim() ||
+    env.SUPER_ADMIN_USER_ID?.trim();
+
+  const headerVal = request.headers.get(MAINTENANCE_BYPASS_HEADER)?.trim();
+  const cookieVal = request.cookies.get(MAINTENANCE_BYPASS_COOKIE)?.value?.trim();
+
+  if (secret) {
+    return (
+      (headerVal !== undefined && headerVal === secret) ||
+      (cookieVal !== undefined && cookieVal === secret)
+    );
+  }
+
+  return Boolean(headerVal || cookieVal);
+}
+
 /** PayTR / 6502 denetim yüzeyi — freeze açıkken bile 503 basılmaz. */
 export function isPublicCompliancePath(pathname: string): boolean {
+  const canonical = canonicalApiPathname(pathname);
+  if (canonical === "/api/payments/webhooks/paytr") {
+    return true;
+  }
   const raw = pathname.trim();
   const path = raw.length > 1 && raw.endsWith("/") ? raw.slice(0, -1) : raw;
   if (path === "/legal" || path.startsWith("/legal/")) {
@@ -118,8 +153,19 @@ export function isSiteMaintenanceApiPath(pathname: string): boolean {
 export function shouldInterceptForSiteMaintenance(
   pathname: string,
   active: boolean = isSiteMaintenanceActive(),
+  request?: Pick<NextRequest, "headers" | "cookies">,
+  env?: SiteMaintenanceEnv,
 ): boolean {
-  return active && !isHealthProbePath(pathname) && !isPublicCompliancePath(pathname);
+  if (!active) {
+    return false;
+  }
+  if (isHealthProbePath(pathname) || isPublicCompliancePath(pathname)) {
+    return false;
+  }
+  if (request && hasSiteMaintenanceBypass(request, env)) {
+    return false;
+  }
+  return true;
 }
 
 function maintenanceBrandMarkMarkup(): string {

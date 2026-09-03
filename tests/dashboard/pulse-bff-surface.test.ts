@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
+  DASHBOARD_PULSE_LOAD_BUDGET_MS,
   DASHBOARD_PULSE_ROOM_CONCURRENCY,
   DASHBOARD_PULSE_ROOM_TIMEOUT_MS,
   dashboardPulseRoomConcurrency,
@@ -52,11 +53,12 @@ describe("Dashboard Pulse BFF yüzeyi", () => {
 
   it("oda bütçesi uzun süreçte 8s, Vercel'de 2s; serverless eşzamanlılık 1", () => {
     expect(DASHBOARD_PULSE_ROOM_TIMEOUT_MS).toBe(2_000);
-    expect(DASHBOARD_PULSE_ROOM_CONCURRENCY).toBe(2);
+    expect(DASHBOARD_PULSE_ROOM_CONCURRENCY).toBe(4);
+    expect(DASHBOARD_PULSE_LOAD_BUDGET_MS).toBe(12_000);
     expect(dashboardPulseRoomTimeoutMs({ NODE_ENV: "development" })).toBe(8_000);
     expect(dashboardPulseRoomTimeoutMs({ NODE_ENV: "production" })).toBe(8_000);
     expect(dashboardPulseRoomTimeoutMs({ VERCEL: "1", NODE_ENV: "production" })).toBe(2_000);
-    expect(dashboardPulseRoomConcurrency({ NODE_ENV: "development" })).toBe(2);
+    expect(dashboardPulseRoomConcurrency({ NODE_ENV: "development" })).toBe(4);
     expect(dashboardPulseRoomConcurrency({ VERCEL: "1" })).toBe(1);
   });
 
@@ -78,9 +80,11 @@ describe("Dashboard Pulse BFF yüzeyi", () => {
     expect(load).toContain("createPrismaFreelancerPorts");
     expect(load).toContain("loadCareerLivePulse");
     expect(load).toContain("createPrismaAcademyPorts");
-    expect(load).toContain("Promise.all");
+    expect(load).toContain("Promise.allSettled");
+    expect(load).not.toMatch(/await Promise\.all\(/);
     expect(load).toContain("DASHBOARD_PULSE_ROOM_TIMEOUT_MS");
     expect(load).toContain("DASHBOARD_PULSE_ROOM_CONCURRENCY");
+    expect(load).toContain("DASHBOARD_PULSE_LOAD_BUDGET_MS");
     expect(load).toContain("dashboardPulseRoomTimeoutMs");
     expect(load).toContain("dashboardPulseRoomConcurrency");
     expect(load).toContain("kernelBackgroundReadTimeoutMs");
@@ -103,6 +107,7 @@ describe("Dashboard Pulse BFF yüzeyi", () => {
     expect(db).toContain("isPrismaEngineEnoent");
     expect(db).toContain("prisma.engine.warmup_failed");
     expect(db).toContain("prisma.engine.warmup_pending");
+    expect(db).toContain("prisma.engine.warmup_recover");
     expect(db).toContain("PRISMA_WARMUP_CIRCUIT_MS");
     expect(db).toContain("Promise<boolean>");
     expect(db).toContain("ENOENT");

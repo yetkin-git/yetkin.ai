@@ -36,18 +36,18 @@ export type AcademyCurriculumOutlineItem = {
 const LESSON_VISUALS: Record<string, AcademyLessonVisualCopy> = {
   "ai-agent-temel-1": {
     diagramKey: "agt-llm-vs-agent",
-    diagramTitle: "LLM ve ajan",
-    diagramCaption: "Konuşmak iş bitirmek değildir.",
-    videoTitle: "Araç yoksa sus",
-    videoCaption: "Uydurma derece yok.",
+    diagramTitle: "Şef ve garson",
+    diagramCaption: "Konuşan AI iş bitirmez.",
+    videoTitle: "Garson mutfağa gider",
+    videoCaption: "ChatGPT konuşur, Cursor çalışır.",
     durationSec: 7,
   },
   "ai-agent-temel-2": {
     diagramKey: "agt-json-schema",
-    diagramTitle: "JSON kapısı",
-    diagramCaption: "Parse edilmezse araç yok.",
-    videoTitle: "Şema alanları",
-    videoCaption: "Neredeyse JSON fiş değil.",
+    diagramTitle: "Kutucuk",
+    diagramCaption: "Yazılım kutuyu okur, romanı okumaz.",
+    videoTitle: "Ağız bantlı form",
+    videoCaption: "durum acil ya da durum normal.",
     durationSec: 6,
   },
   "ai-agent-temel-3": {

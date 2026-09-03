@@ -48,25 +48,22 @@ print(ajan_oku("Mars"))`,
   ),
   "ai-agent-temel-2": pack(
     [
-      ["katman", "sistem / kullanıcı / biçim"],
-      ["şema", "niyet + sehir"],
-      ["parse", "geçersiz metin durur"],
-      ["yasak", "neredeyse JSON"],
+      ["roman", "yazılım yemez"],
+      ["kutu", "durum"],
+      ["acil", "SMS gider"],
+      ["yasak", "serbest metin"],
     ],
     [
-      "niyet ve sehir alanlarını kontrol et.",
-      "Eksik alanda durur yazdır.",
-      "İkisi de varsa sehir yazdır.",
+      "durum kutusunu oku.",
+      "acil veya normal değilse durur yazdır.",
+      "Kutu doluysa durum yazdır.",
     ],
     "py",
-    `niyet = "hava"
-sehir = "Ankara"
-if niyet == "":
-    print("alan eksik; islem durur")
-elif sehir == "":
-    print("alan eksik; islem durur")
+    `durum = "acil"
+if durum != "acil" and durum != "normal":
+    print("durum yok; islem durur")
 else:
-    print(sehir)`,
+    print(durum)`,
   ),
   "ai-agent-temel-3": pack(
     [

@@ -39,6 +39,16 @@ export const PROFIL_SEN = {
     timeZone: "Saat dilimi",
     createdAt: "Kayıt tarihi",
   },
+  billing: {
+    title: "Fatura künyesi",
+    eyebrow: "Kasa öncesi",
+    intro:
+      "Bireysel veya kurumsal fatura bilgilerini burada kaydedersin. Kasa bunları hazır bulur; gitmeden önce de güncellenir.",
+    save: "Künyeyi kaydet",
+    pending: "Kaydediliyor…",
+    saved: "Fatura künyen kaydedildi.",
+    saveFail: "Fatura künyesi kaydedilemedi.",
+  },
   merit: {
     title: "Liyakat özeti",
     eyebrow: "Kanıt özeti",

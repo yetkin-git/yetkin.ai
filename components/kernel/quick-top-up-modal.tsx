@@ -92,7 +92,7 @@ function QuickTopUpDialog({
 
   const shortfall = computeWalletShortfallMinor(requiredMinor, balanceMinor ?? 0);
   const suggested = suggestQuickTopUpAmountMinor(shortfall);
-  const minLabel = formatMinor(WALLET_TOP_UP_MIN_MINOR, currencyCode);
+  const _minLabel = formatMinor(WALLET_TOP_UP_MIN_MINOR, currencyCode);
   const maxLabel = formatMinor(WALLET_TOP_UP_MAX_MINOR, currencyCode);
   const waitingClearing = watchStrip && !timedOut;
 

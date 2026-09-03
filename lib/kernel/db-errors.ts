@@ -67,6 +67,27 @@ export function isPrismaTransientConnectionError(error: unknown): boolean {
 }
 
 /**
+ * P2002 / PG 23505 — unique. Aynı satırı yeniden yazmak 500 değildir; mevcut satır okunur.
+ */
+export function isPrismaUniqueViolation(error: unknown): boolean {
+  const codes = walkCodes(error);
+  if (codes.includes("P2002") || codes.includes("23505")) {
+    return true;
+  }
+  const name = error instanceof Error ? error.name : "";
+  if (name === "UniqueConstraintViolation" || name.includes("UniqueConstraint")) {
+    return true;
+  }
+  const message = errorMessage(error);
+  return (
+    /\bP2002\b/.test(message) ||
+    /\b23505\b/.test(message) ||
+    /Unique constraint failed/i.test(message) ||
+    /duplicate key value violates unique constraint/i.test(message)
+  );
+}
+
+/**
  * P2003 / PG 23503 — yabancı anahtar. Idempotency `user_id` yoksa 500 değildir.
  */
 export function isPrismaForeignKeyViolation(error: unknown): boolean {
@@ -89,4 +110,9 @@ export function isPrismaForeignKeyViolation(error: unknown): boolean {
 
 export function isPrismaUnavailableError(error: unknown): boolean {
   return isPrismaPoolBusyError(error) || isPrismaTransientConnectionError(error);
+}
+
+/** PrismaClientKnownRequestError / Validation / Initialization — ham 500 değil. */
+export function isPrismaClientError(error: unknown): boolean {
+  return error instanceof Error && error.name.startsWith("PrismaClient");
 }

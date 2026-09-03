@@ -7,6 +7,7 @@
 DO $$
 DECLARE
   tbl text;
+  sealed integer := 0;
 BEGIN
   FOR tbl IN
     SELECT tablename
@@ -19,10 +20,13 @@ BEGIN
         'spatial_ref_sys',
         '_supabase_migrations'
       )
+    ORDER BY tablename
   LOOP
     EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY', tbl);
     EXECUTE format('ALTER TABLE public.%I FORCE ROW LEVEL SECURITY', tbl);
+    sealed := sealed + 1;
   END LOOP;
+  RAISE NOTICE 'Faz 1.1 RLS: % public tablo ENABLE+FORCE.', sealed;
 END $$;
 
 CREATE OR REPLACE FUNCTION public.yetkin_auto_enable_rls()

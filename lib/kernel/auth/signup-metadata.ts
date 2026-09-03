@@ -3,6 +3,8 @@ import { DISPLAY_NAME_MAX_LENGTH } from "@/lib/kernel/identity/types";
 export type SignupAuthMetadata = {
   display_name: string;
   full_name: string;
+  age_confirmed_at: string;
+  is_adult: true;
 };
 
 export function normalizeSignupFullName(raw: string): string | null {
@@ -13,7 +15,18 @@ export function normalizeSignupFullName(raw: string): string | null {
   return trimmed;
 }
 
-export function buildSignupAuthMetadata(fullName: string): SignupAuthMetadata | null {
+/**
+ * Fail-closed kayıt metadata’sı. 18+ onayı yoksa `null` — `signUp` gitmez.
+ * `age_confirmed_at` Auth user_metadata’da hukuki kanıttır.
+ */
+export function buildSignupAuthMetadata(
+  fullName: string,
+  ageConfirmed: boolean,
+  now: Date = new Date(),
+): SignupAuthMetadata | null {
+  if (!ageConfirmed) {
+    return null;
+  }
   const displayName = normalizeSignupFullName(fullName);
   if (!displayName) {
     return null;
@@ -21,6 +34,8 @@ export function buildSignupAuthMetadata(fullName: string): SignupAuthMetadata | 
   return {
     display_name: displayName,
     full_name: displayName,
+    age_confirmed_at: now.toISOString(),
+    is_adult: true,
   };
 }
 

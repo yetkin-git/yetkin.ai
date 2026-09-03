@@ -9,7 +9,6 @@ import { academyCourseSeedBySlug } from "@/lib/academy/seed";
 import {
   D3_CITIZEN_ID,
   D3_CLIENT_ID,
-  D3_GROSS_MINOR,
   D3_PLATFORM_ID,
   D3_START_MINOR,
   runThreeRingJourney,

@@ -49,7 +49,7 @@ describe("UI/UX sürtünme giderme yüzeyi", () => {
   });
 
   it("SEN aksı siz kaçakları taşımaz; köprü metinleri sen dilindedir", () => {
-    expect(SEN_VOICE.ux.bridge.examPassed.cta).toBe("Belgeni gör");
+    expect(SEN_VOICE.ux.bridge.examPassed.cta).toBe("Sertifikanı gör");
     expect(SEN_VOICE.ux.topUp.trigger).toBe("Eksik tutarı yükle");
     expect(SEN_VOICE.ux.topUp.mockNoCredit).toContain("Yerel mock bakiyeye düşmez");
     expect(SEN_VOICE.ux.delivery.releaseFrozen("₺100,00")).toContain("henüz yazılmaz");

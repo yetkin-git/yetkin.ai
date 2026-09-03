@@ -7,7 +7,6 @@ import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { assertHoldBps } from "@/lib/kernel/pricing/hold-bps";
 import {
-  assertAmountWithinCatalogBand,
   assertCatalogWriteAmountWithinBand,
 } from "@/lib/kernel/pricing/catalog-band";
 import {

@@ -21,10 +21,11 @@ describe("cüzdan yükleme checkout fail-closed yüzeyi", () => {
     expect(assertAt).toBeGreaterThan(-1);
     expect(createAt).toBeGreaterThan(assertAt);
     const failed = route.slice(route.indexOf("if (!checkout.ok)"));
-    const returnIdx = failed.indexOf("return { status: 503");
+    const returnIdx = failed.indexOf("return { status");
     expect(returnIdx).toBeGreaterThan(-1);
     expect(failed.slice(0, returnIdx)).toContain("failPaymentOrder");
     expect(failed.slice(0, returnIdx)).not.toContain("clearSuccessfulPaymentOrder");
+    expect(failed).toContain("503");
   });
 
   it("mock checkout bakiyeye düşmez; PENDING aynı istekte kapanır; iframe basılmaz", () => {

@@ -42,7 +42,7 @@ function memoryPort(input: {
 }): SuperAdminGrantPort {
   const courses = [...(input.courses ?? [])];
   const purchases = [...(input.purchases ?? [])];
-  let ledger = input.ledger ?? 0;
+  const ledger = input.ledger ?? 0;
   const wallets = input.wallets ?? 0;
   return {
     async findUserByEmail(email) {

@@ -105,6 +105,7 @@ describe("Supabase SSR 0.12 çerez hizası", () => {
     expect(register).toContain("window.location.assign(");
     expect(register).not.toContain("router.push");
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("display_name");
+    expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("age_confirmed_at");
     expect(forgot).toContain("resetPasswordForEmail");
     expect(forgot).toContain("buildPasswordResetRedirectTo");
     expect(reset).toContain("/api/auth/session");

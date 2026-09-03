@@ -98,7 +98,17 @@ const nextConfig: NextConfig = {
         value: "max-age=63072000; includeSubDomains; preload",
       });
     }
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      {
+        source: "/media/academy/audio/:path*",
+        headers: [
+          { key: "Content-Type", value: "audio/wav" },
+          { key: "Accept-Ranges", value: "bytes" },
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      { source: "/:path*", headers: securityHeaders },
+    ];
   },
 };
 

@@ -48,6 +48,7 @@ describe("ops migrate yüzeyi", () => {
     expect(script).toContain("fj_rail_icon_set");
     expect(script).toContain("assertNewUserTrigger");
     expect(script).toContain("assertForceRls");
+    expect(script).toContain("assertPublicRlsPolicies");
     expect(script).toContain("assertFrozenRoomTablesDropped");
     expect(script).toContain("assertStudioDataBase64Check");
     expect(script).toContain("assertHttpIdempotencyRecords");

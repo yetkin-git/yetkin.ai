@@ -12,13 +12,16 @@ import {
 } from "@/lib/academy/instructors";
 import { ACADEMY_MEDIA_SEALED_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 import { academyLessonAudioPublicPath } from "@/lib/academy/lesson-audio";
-import { normalizeAcronyms } from "@/lib/academy/acronym-normalizer";
-import { cleanAcademySpokenTextForTts } from "@/lib/academy/lesson-body";
+import {
+  cleanAcademySpokenTextForTts,
+  collapseAcademyLessonProse,
+} from "@/lib/academy/lesson-body";
 
 export const ACADEMY_MEDIA_RELEASE_BUCKET = "public" as const;
 export const ACADEMY_MEDIA_RELEASE_LANGUAGE = "tr-TR" as const;
 export const ACADEMY_MEDIA_RELEASE_MAX_BYTES = 80 * 1024 * 1024;
-export const ACADEMY_MEDIA_RELEASE_SPEECH_CHUNK_CHARS = 900;
+/** Perde/cümle ölçeği — 300 karakterlik mikro dilim yok. */
+export const ACADEMY_MEDIA_RELEASE_SPEECH_CHUNK_CHARS = 12_000;
 
 export type AcademySealedSkuSlug = (typeof ACADEMY_MEDIA_SEALED_SKU_SLUGS)[number];
 
@@ -73,7 +76,7 @@ export function collectAcademyLessonDialogueTurns(
 }
 
 export function spokenAcademyDialogueTurnText(text: string): string {
-  return cleanAcademySpokenTextForTts(normalizeAcronyms(text));
+  return cleanAcademySpokenTextForTts(collapseAcademyLessonProse(text));
 }
 
 export function academyMediaReleaseTurnsForLesson(

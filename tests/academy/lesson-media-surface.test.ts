@@ -92,8 +92,9 @@ describe("akademi mikro-video ve şema mimarisi", () => {
       expect(existsSync(loop), loop).toBe(true);
       const svg = renderSealedDiagramSvgByKey(key, { animate: false });
       expect(svg, key).toContain("<svg");
-      expect(readSrc(`public/media/academy/diagrams/${key}.svg`)).toBe(svg);
-      expect(readSrc(`public/media/academy/micro/${key}.poster.svg`)).toBe(svg);
+      const normalize = (s: string) => s.replace(/\r\n/g, "\n").trim();
+      expect(normalize(readSrc(`public/media/academy/diagrams/${key}.svg`))).toBe(normalize(svg));
+      expect(normalize(readSrc(`public/media/academy/micro/${key}.poster.svg`))).toBe(normalize(svg));
     }
 
     const player = readSrc("components/academy/curriculum-player.tsx");
@@ -106,9 +107,25 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     expect(player).not.toContain("academyDiagramPublicPath");
     expect(player).not.toContain("autoPlay");
     expect(player).not.toContain("durationSec={micro?.durationSec ?? 8}");
-    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("<audio");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("onTimeUpdate");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("current !== next");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain(
+      "Math.abs(audio.currentTime - clockRef.current.lastAudioTime) < 0.04",
+    );
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain('type="audio/wav"');
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("academyLessonAudioPlaybackSrc");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("key={audioSrc}");
+    expect(readSrc("next.config.ts")).toContain("audio/wav");
+    expect(readSrc("next.config.ts")).toContain("/media/academy/audio/:path*");
+    expect(readSrc("proxy.ts")).toContain("favicon.ico|media/");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("academyPlayerClockDurationSec");
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("data-academy-audio-preparing");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("data-academy-audio-pending");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("data-academy-quota-waiting");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("quotaWaitingTitle");
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("academy-player-audio-bar");
+    expect(readSrc("lib/copy/sen-voice/academy.ts")).toContain("Kota bekleniyor");
+    expect(readSrc("lib/copy/sen-voice/academy.ts").toLowerCase()).toContain("kota sıfırlanınca");
     expect(readSrc("components/academy/lesson-media-player.tsx")).not.toContain("academy-dialogue-stage");
     expect(readSrc("components/academy/lesson-media-player.tsx")).not.toContain("academy-dialogue-text");
     expect(readSrc("components/academy/lesson-media-player.tsx")).not.toContain("<video");
@@ -131,6 +148,14 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     expect(ACADEMY_SEN.visual.videoMeta(6)).toBe("6 sn · sessiz döngü");
     expect(ACADEMY_SEN.player.notesLabel).toBe("Ders Notları / Transkript");
     expect(ACADEMY_SEN.player.codeViewerLabel).toBe("Kod");
+    expect(ACADEMY_SEN.player.codeCalloutTitle).toBe("💡 KOD BİLMEYENLER İÇİN NOT");
+    expect(ACADEMY_SEN.player.codeCalloutHref).toBe("/academy/python-temel");
+    expect(ACADEMY_SEN.player.codeCalloutModule).toBe("Python ile Yazılım ve Veri Mühendisliği");
+    expect(ACADEMY_SEN.player.codeCalloutLead).toContain("JSON");
+    expect(readSrc("app/globals.css")).toContain("academy-player-code-callout");
+    expect(readSrc("app/globals.css")).toMatch(
+      /\.academy-player-code-callout\s*\{[^}]*var\(--surface-muted\)/s,
+    );
     expect(ACADEMY_SEN.player.audioPreparing).toBe("Ders Ses Medyası Hazırlanıyor");
     expect(readSrc("app/globals.css")).toContain("academy-listen-focus");
     expect(readSrc("app/globals.css")).toContain("academy-listen-cockpit");

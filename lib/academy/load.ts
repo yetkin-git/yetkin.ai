@@ -1,5 +1,6 @@
 import "server-only";
 
+import { cache } from "react";
 import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import { loadAcademyExamGateStatus } from "@/lib/academy/exam-engine";
@@ -27,9 +28,14 @@ import {
   type AcademyPathwayView,
   type AcademyProgressionBridgeView,
 } from "@/lib/academy/level-pathway";
+import {
+  ensurePrismaQueryEngine,
+  isPrismaQueryEngineReady,
+  withDbReadTimeout,
+} from "@/lib/kernel/db";
+import { loadWalletBoard } from "@/lib/kernel/ledger/load";
 import { loadIdentityBoard } from "@/lib/kernel/identity/load";
 import type {
-  AcademyCourseRecord,
   AcademyCourseWithPrice,
   AcademyCertificateRecord,
   AcademyPurchaseRecord,
@@ -45,7 +51,6 @@ import {
   createAcademyAdminBypassPurchase,
   hasAcademyAdminBypass,
   hasAcademyPlayerAccess,
-  hasUnlimitedAcademyAccess,
   resolveAcademyArtifactPurchase,
   resolveSettledAcademyPurchase,
   type AcademyActor,
@@ -53,6 +58,7 @@ import {
 import type { AcademyContinueBoard } from "@/lib/academy/continue-board";
 import type { AcademyCatalogLearnerBoard } from "@/lib/academy/catalog-learner";
 import {
+  ACADEMY_CATALOG_READ_TIMEOUT_MS,
   loadAcademyCatalogLearnerBoard,
   loadAcademyContinueBoard,
   loadPublishedCourses,
@@ -69,56 +75,103 @@ export {
   publishedLessonCount,
 };
 
-export async function loadCourseBySlug(slug: string): Promise<{
+const ACADEMY_COURSE_OVERLAY_TIMEOUT_MS = 250;
+
+function academySeedBoard(slug: string): { course: AcademyCourseWithPrice } | null {
+  const priced = publishedCoursesFromSeed().find((row) => row.slug === slug);
+  return priced ? { course: priced } : null;
+}
+
+async function academySsrRead<T>(work: () => Promise<T>, label: string): Promise<T> {
+  const engineReady = await ensurePrismaQueryEngine();
+  if (!engineReady) {
+    throw new Error(`db_read_timeout:${label}:warmup_pending`);
+  }
+  return withDbReadTimeout(work(), ACADEMY_CATALOG_READ_TIMEOUT_MS, label);
+}
+
+export const loadCourseBySlug = cache(async function loadCourseBySlug(slug: string): Promise<{
   course: AcademyCourseWithPrice;
 } | null> {
   const seeded = resolveAcademyCourseFromSeed(slug);
   if (!seeded) {
     return null;
   }
+  const fallback = academySeedBoard(seeded.slug);
+  if (!fallback) {
+    return null;
+  }
+  const engineReady = await ensurePrismaQueryEngine();
+  if (!engineReady) {
+    return fallback;
+  }
   try {
     const ports = createPrismaAcademyPorts();
-    const course =
-      (await ports.academy.getCourseBySlug(slug)) ??
-      (await ports.academy.getCourse(seeded.id));
+    const [bySlug, byId, entry] = await withDbReadTimeout(
+      Promise.all([
+        ports.academy.getCourseBySlug(slug),
+        ports.academy.getCourse(seeded.id),
+        ports.catalog.findActiveEntry(ACADEMY_MODULE_KEY, seeded.catalogUnitKey),
+      ]),
+      ACADEMY_COURSE_OVERLAY_TIMEOUT_MS,
+      "academy.course",
+    );
+    const course = bySlug ?? byId;
     if (course) {
-      return { course: overlaySeedCatalogPrice(await enrichCourse(ports, course)) };
+      return {
+        course: overlaySeedCatalogPrice({
+          ...course,
+          priceMinor: entry?.amountMinor ?? null,
+          currencyCode: entry?.currencyCode ?? SETTLEMENT_CURRENCY,
+          purchasable: Boolean(entry) && course.isPublished,
+        }),
+      };
     }
   } catch {
     // Tohum vitrini DB bağlanmasa da Amiral Ders'i basar.
   }
-  const priced = publishedCoursesFromSeed().find((row) => row.slug === seeded.slug);
-  return priced ? { course: priced } : null;
-}
+  return fallback;
+});
 
-export async function loadCertificatesForUser(
+export const loadCertificatesForUser = cache(async function loadCertificatesForUser(
   userId: string,
 ): Promise<AcademyCertificateRecord[] | null> {
   try {
     const ports = createPrismaAcademyPorts();
-    return await ports.academy.listCertificatesForUser(userId);
+    return await academySsrRead(
+      () => ports.academy.listCertificatesForUser(userId),
+      "academy.certificates",
+    );
   } catch {
     return null;
   }
-}
+});
 
-export async function loadPurchaseForUserCourse(
+export const loadPurchaseForUserCourse = cache(async function loadPurchaseForUserCourse(
   userId: string,
   courseId: string,
   email?: string | null,
 ): Promise<AcademyPurchaseRecord | null> {
   const actor: AcademyActor = { userId, email };
+  if (hasAcademyAdminBypass(actor) && !isPrismaQueryEngineReady()) {
+    void ensurePrismaQueryEngine();
+    return createAcademyAdminBypassPurchase(userId, courseId);
+  }
   try {
     const ports = createPrismaAcademyPorts();
-    return await resolveSettledAcademyPurchase(ports.academy, actor, courseId, {
-      persistGrant: hasUnlimitedAcademyAccess(actor),
-    });
+    return await academySsrRead(
+      () =>
+        resolveSettledAcademyPurchase(ports.academy, actor, courseId, {
+          persistGrant: false,
+        }),
+      "academy.purchase",
+    );
   } catch {
     return hasAcademyAdminBypass(actor) ? createAcademyAdminBypassPurchase(userId, courseId) : null;
   }
-}
+});
 
-export async function loadArtifactPurchaseForUserCourse(
+export const loadArtifactPurchaseForUserCourse = cache(async function loadArtifactPurchaseForUserCourse(
   userId: string,
   courseId: string,
   email?: string | null,
@@ -126,16 +179,22 @@ export async function loadArtifactPurchaseForUserCourse(
   const actor: AcademyActor = { userId, email };
   try {
     const ports = createPrismaAcademyPorts();
-    return await resolveAcademyArtifactPurchase(ports.academy, actor, courseId);
+    return await academySsrRead(
+      () =>
+        resolveAcademyArtifactPurchase(ports.academy, actor, courseId, {
+          persistGrant: false,
+        }),
+      "academy.artifact",
+    );
   } catch {
     return hasAcademyAdminBypass(actor)
       ? createAcademyAdminBypassPurchase(userId, courseId)
       : null;
   }
-}
+});
 
 /** Kapı meta — oturum/timer yok; sınav yalnız kullanıcı Başla deyince açılır. */
-export async function loadExamGateForUserCourse(
+export const loadExamGateForUserCourse = cache(async function loadExamGateForUserCourse(
   userId: string,
   courseId: string,
   email?: string | null,
@@ -146,31 +205,40 @@ export async function loadExamGateForUserCourse(
   durationMs: number;
 } | null> {
   try {
-    const ports = createPrismaAcademyPorts();
-    const view = await loadAcademyExamGateStatus(ports, courseId, userId, undefined, email);
-    if (!view) {
-      return null;
-    }
-    return {
-      examTitle: view.exam.title,
-      passScore: view.exam.passScore,
-      certificate: view.certificate,
-      durationMs: view.durationMs,
-    };
+    return await academySsrRead(async () => {
+      const ports = createPrismaAcademyPorts();
+      const view = await loadAcademyExamGateStatus(ports, courseId, userId, undefined, email);
+      if (!view) {
+        return null;
+      }
+      return {
+        examTitle: view.exam.title,
+        passScore: view.exam.passScore,
+        certificate: view.certificate,
+        durationMs: view.durationMs,
+      };
+    }, "academy.exam-gate");
   } catch {
     return null;
   }
-}
+});
 
-export async function loadCurriculumPlayerForUser(
+export const loadCurriculumPlayerForUser = cache(async function loadCurriculumPlayerForUser(
   userId: string,
   courseId: string,
   email?: string | null,
 ): Promise<AcademyCurriculumPlayerView | null> {
   const actor: AcademyActor = { userId, email };
+  if (hasAcademyAdminBypass(actor) && !isPrismaQueryEngineReady()) {
+    void ensurePrismaQueryEngine();
+    const seeded = resolveAcademyCourseFromSeed(courseId);
+    return seeded ? buildUnlimitedSeedCurriculumPlayer(seeded, userId) : null;
+  }
   try {
-    const ports = createPrismaAcademyPorts();
-    return await loadAcademyCurriculumPlayer(ports, { courseId, userId, email });
+    return await academySsrRead(async () => {
+      const ports = createPrismaAcademyPorts();
+      return await loadAcademyCurriculumPlayer(ports, { courseId, userId, email });
+    }, "academy.player");
   } catch {
     if (!hasAcademyAdminBypass(actor)) {
       return null;
@@ -178,7 +246,7 @@ export async function loadCurriculumPlayerForUser(
     const seeded = resolveAcademyCourseFromSeed(courseId);
     return seeded ? buildUnlimitedSeedCurriculumPlayer(seeded, userId) : null;
   }
-}
+});
 
 /** Oynatıcı render katmanı — `loadAcademyCurriculumPlayer` + Super Admin tohum yedeği. */
 export const loadAcademyCurriculum = loadCurriculumPlayerForUser;
@@ -268,7 +336,7 @@ export async function loadAcademyPathwayCatalog(input: {
   });
 }
 
-export async function loadAcademyProgressionForCourse(input: {
+export const loadAcademyProgressionForCourse = cache(async function loadAcademyProgressionForCourse(input: {
   userId: string | null;
   email?: string | null;
   currentSlug: string;
@@ -277,25 +345,23 @@ export async function loadAcademyProgressionForCourse(input: {
   bridge: AcademyProgressionBridgeView;
   mastery: AcademyPathwayMasteryView | null;
 }> {
-  const courses = input.courses ?? (await loadPublishedCourses());
+  const courses = input.courses ?? publishedCoursesFromSeed();
   const nextSlug = academyPathwayNextSlug(input.currentSlug);
-  let nextOwned = false;
-  if (input.userId && nextSlug) {
-    const next =
-      courses.find((course) => course.slug === nextSlug) ??
-      (await loadCourseBySlug(nextSlug))?.course ??
-      null;
-    if (next) {
+  const next = nextSlug ? (courses.find((course) => course.slug === nextSlug) ?? null) : null;
+  const [nextOwned, certificates] = await Promise.all([
+    (async () => {
+      if (!input.userId || !next) {
+        return false;
+      }
       const purchase = await loadPurchaseForUserCourse(input.userId, next.id, input.email);
-      nextOwned = hasAcademyPlayerAccess(purchase, {
+      return hasAcademyPlayerAccess(purchase, {
         userId: input.userId,
         email: input.email,
       });
-    }
-  }
-  const certificates =
-    input.userId != null ? ((await loadCertificatesForUser(input.userId)) ?? []) : [];
-  const completedSlugs = academyCompletedSlugsFromCertificates(certificates, courses);
+    })(),
+    input.userId != null ? loadCertificatesForUser(input.userId) : Promise.resolve(null),
+  ]);
+  const completedSlugs = academyCompletedSlugsFromCertificates(certificates ?? [], courses);
   const bridge = academyProgressionBridgeView({
     currentSlug: input.currentSlug,
     completedSlugs,
@@ -307,32 +373,35 @@ export async function loadAcademyProgressionForCourse(input: {
   const masteryHash = academyPathwayMasteryHashMap()[bridge.pathwayId] ?? null;
   const mastery = masteryHash ? resolvePublicAcademyPathwayMastery(masteryHash) : null;
   return { bridge, mastery };
-}
+});
 
-export async function loadAcademyHolderName(userId: string): Promise<string> {
-  const board = await loadIdentityBoard(userId);
-  const name = board?.user?.displayName?.trim();
-  return name && name.length > 0 ? name : "Aday";
-}
-
-async function enrichCourse(
-  ports: ReturnType<typeof createPrismaAcademyPorts>,
-  course: AcademyCourseRecord,
-): Promise<AcademyCourseWithPrice> {
+export const loadAcademyHolderName = cache(async function loadAcademyHolderName(
+  userId: string,
+): Promise<string> {
   try {
-    const entry = await ports.catalog.findActiveEntry(ACADEMY_MODULE_KEY, course.catalogUnitKey);
-    return overlaySeedCatalogPrice({
-      ...course,
-      priceMinor: entry?.amountMinor ?? null,
-      currencyCode: entry?.currencyCode ?? SETTLEMENT_CURRENCY,
-      purchasable: Boolean(entry) && course.isPublished,
-    });
+    const board = await withDbReadTimeout(
+      loadIdentityBoard(userId),
+      ACADEMY_CATALOG_READ_TIMEOUT_MS,
+      "academy.holder",
+    );
+    const name = board?.user?.displayName?.trim();
+    return name && name.length > 0 ? name : "Aday";
   } catch {
-    return overlaySeedCatalogPrice({
-      ...course,
-      priceMinor: null,
-      currencyCode: SETTLEMENT_CURRENCY,
-      purchasable: false,
-    });
+    return "Aday";
   }
-}
+});
+
+export const loadAcademyWalletBoard = cache(async function loadAcademyWalletBoard(
+  userId: string,
+) {
+  try {
+    return await withDbReadTimeout(
+      loadWalletBoard(userId),
+      ACADEMY_CATALOG_READ_TIMEOUT_MS,
+      "academy.wallet",
+    );
+  } catch {
+    return null;
+  }
+});
+

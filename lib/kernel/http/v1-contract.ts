@@ -18,7 +18,6 @@ import {
 } from "@/lib/kernel/http/api-v1";
 import { IDEMPOTENCY_KEY_HEADER } from "@/lib/kernel/http/idempotency-key";
 import { CURRENCY_CODES } from "@/lib/kernel/money/currency";
-import { WALLET_TOP_UP_MAX_MINOR, WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
 import {
   FREELANCER_JOB_MAX_MINOR,
   FREELANCER_JOB_MIN_MINOR,

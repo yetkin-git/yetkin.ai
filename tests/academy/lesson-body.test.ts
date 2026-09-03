@@ -14,6 +14,7 @@ import {
   parseAcademyLessonActText,
   spokenAcademyLessonBody,
   spokenAcademyLessonSegment,
+  expandAcademySpokenAbbreviations,
 } from "@/lib/academy/lesson-body";
 import { normalizeAcronyms } from "@/lib/academy/acronym-normalizer";
 import { LESSON_PRACTICE } from "@/lib/academy/lesson-practice";
@@ -87,6 +88,12 @@ describe("uygulamalı ders gövdesi", () => {
     expect(spoken).toContain("tutar: kuruş.");
     expect(spoken).not.toContain("```");
     expect(spoken).not.toContain("amountMinor");
+  });
+
+  it("TTS vs. kısaltmasını veya diye okur; VS Code yutulmaz", () => {
+    expect(expandAcademySpokenAbbreviations("LLM vs. Otonom Ajan")).toContain("veya");
+    expect(expandAcademySpokenAbbreviations("LLM vs. Otonom Ajan")).not.toMatch(/\bvs\./iu);
+    expect(expandAcademySpokenAbbreviations("VS Code ile ajan")).toContain("VS Code");
   });
 
   it("yayındaki her derste pratik tohum ve ses tavanı durur", { timeout: 20_000 }, () => {

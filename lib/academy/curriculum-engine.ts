@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { ForbiddenError } from "@/lib/kernel/http/errors";
+import { AuthRequiredError, sessionUserNotInDatabaseMessage } from "@/lib/kernel/auth/require-session";
 import { sha256Hex } from "@/lib/kernel/crypto/sha256";
 import {
   academyLessonByKey,
@@ -37,6 +38,7 @@ import type {
   AcademyPurchaseRecord,
   AcademyStore,
 } from "@/lib/academy/types";
+import { isPrismaForeignKeyViolation, isPrismaUniqueViolation } from "@/lib/kernel/db-errors";
 
 export type AcademyCurriculumPorts = {
   academy: AcademyStore;
@@ -116,15 +118,79 @@ export function buildUnlimitedSeedCurriculumPlayer(
   };
 }
 
+async function resolveLiveAcademyCourse(
+  store: AcademyStore,
+  idOrSlug: string,
+): Promise<AcademyCourseRecord | null> {
+  const byId = await store.getCourse(idOrSlug);
+  if (byId) {
+    return byId;
+  }
+  const bySlug = await store.getCourseBySlug(idOrSlug);
+  if (bySlug) {
+    return bySlug;
+  }
+  const seed = resolveAcademyCourseFromSeed(idOrSlug);
+  if (!seed) {
+    return null;
+  }
+  if (seed.id !== idOrSlug) {
+    const bySeedId = await store.getCourse(seed.id);
+    if (bySeedId) {
+      return bySeedId;
+    }
+  }
+  return store.getCourseBySlug(seed.slug);
+}
+
+async function persistSeedAcademyCourse(
+  store: AcademyStore,
+  seed: AcademyCourseRecord,
+): Promise<AcademyCourseRecord> {
+  try {
+    return await store.insertCourse(seed);
+  } catch (error) {
+    const existing = (await store.getCourse(seed.id)) ?? (await store.getCourseBySlug(seed.slug));
+    if (existing) {
+      return existing;
+    }
+    throw error;
+  }
+}
+
+/** Oynatıcı / müfredat API — tohum id, canlı slug veya DB satırı. */
+export async function lookupAcademyCurriculumCourse(
+  store: AcademyStore,
+  idOrSlug: string,
+): Promise<AcademyCourseRecord | null> {
+  return (await resolveLiveAcademyCourse(store, idOrSlug)) ?? resolveAcademyCourseFromSeed(idOrSlug);
+}
+
 async function requireCourse(
   store: AcademyStore,
   courseId: string,
 ): Promise<AcademyCourseRecord> {
-  const course = (await store.getCourse(courseId)) ?? resolveAcademyCourseFromSeed(courseId);
+  const course = await lookupAcademyCurriculumCourse(store, courseId);
   if (!course) {
     throw new ForbiddenError("Kurs bulunamadı.");
   }
   return course;
+}
+
+/** Bağış / tamamlama yazımı — slug-id çakışmasında canlı satır; yoksa tohumu basar. */
+async function requireWritableCourse(
+  store: AcademyStore,
+  courseId: string,
+): Promise<AcademyCourseRecord> {
+  const live = await resolveLiveAcademyCourse(store, courseId);
+  if (live) {
+    return live;
+  }
+  const seed = resolveAcademyCourseFromSeed(courseId);
+  if (!seed) {
+    throw new ForbiddenError("Kurs bulunamadı.");
+  }
+  return persistSeedAcademyCourse(store, seed);
 }
 
 async function requireSettledPurchase(
@@ -146,7 +212,9 @@ export async function loadAcademyCurriculumPlayer(
 ): Promise<AcademyCurriculumPlayerView> {
   const actor = actorOf(command);
   const unlimited = hasUnlimitedAcademyAccess(actor);
-  const course = await requireCourse(ports.academy, command.courseId);
+  const course = unlimited
+    ? await requireWritableCourse(ports.academy, command.courseId)
+    : await requireCourse(ports.academy, command.courseId);
   const lessons = curriculumForCourseSlug(course.slug);
   if (lessons.length === 0) {
     throw new ForbiddenError("Müfredat tohumu yok.");
@@ -256,7 +324,7 @@ export async function completeAcademyLesson(
 ): Promise<{ applied: boolean; completion: AcademyLessonCompletionRecord; player: AcademyCurriculumPlayerView }> {
   const actor = actorOf(command);
   const unlimited = hasUnlimitedAcademyAccess(actor);
-  const course = await requireCourse(ports.academy, command.courseId);
+  const course = await requireWritableCourse(ports.academy, command.courseId);
   const lesson = academyLessonByKey(course.slug, command.lessonKey);
   if (!lesson) {
     throw new ForbiddenError("Ders müfredatta yok.");
@@ -268,7 +336,7 @@ export async function completeAcademyLesson(
     return {
       applied: false,
       completion: existing,
-      player: await loadAcademyCurriculumPlayer(ports, command),
+      player: await loadAcademyCurriculumPlayer(ports, { ...command, courseId: course.id }),
     };
   }
   if (!existing) {
@@ -282,28 +350,37 @@ export async function completeAcademyLesson(
     }
   }
   const hash = sealLessonProof(purchase.id, lesson.key, command.proof);
-  if (existing) {
-    return {
-      applied: true,
-      completion: { ...existing, proofOfWorkHash: hash },
-      player: await loadAcademyCurriculumPlayer(ports, command),
-    };
-  }
   const now = command.now ?? new Date();
-  const completion = await ports.academy.insertLessonCompletion({
-    id: randomUUID(),
-    userId: command.userId,
-    courseId: course.id,
-    purchaseId: purchase.id,
-    lessonKey: lesson.key,
-    proofOfWorkHash: hash,
-    completedAt: now,
-    createdAt: now,
-  });
+  let completion: AcademyLessonCompletionRecord;
+  try {
+    completion = await ports.academy.insertLessonCompletion({
+      id: existing?.id ?? randomUUID(),
+      userId: command.userId,
+      courseId: course.id,
+      purchaseId: purchase.id,
+      lessonKey: lesson.key,
+      proofOfWorkHash: hash,
+      completedAt: existing?.completedAt ?? now,
+      createdAt: existing?.createdAt ?? now,
+    });
+  } catch (error) {
+    if (isPrismaForeignKeyViolation(error)) {
+      throw new AuthRequiredError(sessionUserNotInDatabaseMessage());
+    }
+    const raced = await ports.academy.getLessonCompletion(purchase.id, lesson.key);
+    if (raced && (isPrismaUniqueViolation(error) || raced.lessonKey === lesson.key)) {
+      return {
+        applied: false,
+        completion: attachAcademyProofOfWorkHash(raced),
+        player: await loadAcademyCurriculumPlayer(ports, { ...command, courseId: course.id }),
+      };
+    }
+    throw error;
+  }
   return {
     applied: true,
     completion: attachAcademyProofOfWorkHash(completion),
-    player: await loadAcademyCurriculumPlayer(ports, command),
+    player: await loadAcademyCurriculumPlayer(ports, { ...command, courseId: course.id }),
   };
 }
 

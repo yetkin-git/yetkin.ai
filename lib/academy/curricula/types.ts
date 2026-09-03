@@ -129,11 +129,11 @@ export function dialogueTurn(
 }
 
 const CAST_NAME_PATTERN =
-  /\b(?:Koray|Maya|Can|Ece|Tarık|Gözde)(?:\s+(?:Bey|Hanım))?'?(?:a|e|ın|in|un|ün)?\b/gu;
+  /\b(?:Koray|Can|Tarık)(?:\s+(?:Bey|Hanım))?'?(?:a|e|ın|in|un|ün)?\b/gu;
 const ANSWER_LEAD_PATTERN =
   /^(?:Değil|Açmaz|Hayır|Evet|Kalıyor|Doğru|Bakamıyor|Bekleme|Aynen(?:\s+öyle)?|Tam olarak bu işte)[,.]?\s+|^(?:O)[,.]\s+/u;
 const BANNED_ANALOGY_SENTENCE =
-  /[^.?!]*(?:çağrı merkez|serbest şiir|Moderatör|stüdyo sunucu|Mutfakta aşçı|tezgâhta fısıltı)[^.?!]*[.?!]?/giu;
+  /[^.?!]*(?:çağrı merkez|serbest şiir|Moderatör|stüdyo sunucu|tezgâhta fısıltı)[^.?!]*[.?!]?/giu;
 const THEATER_RECAP =
   /[^.?!]*(?:Kafamda oturdu|Sonraki adımda ne duruyor|doğru mu anlıyorum|Işık yazılıysa)[^.?!]*[.?!]?/giu;
 const SHORT_PING = /^(?:.{0,96}?(?: mi| mı| mu| mü))\.\s*$/u;
@@ -198,7 +198,7 @@ function isLeftoverTheaterSentence(sentence: string): boolean {
   if (ONE_WORD_THEATER.test(trimmed)) {
     return true;
   }
-  if (/(?:çağrı merkez|serbest şiir|Moderatör|stüdyo sunucu|Mutfakta aşçı|tezgâhta fısıltı)/iu.test(trimmed)) {
+  if (/(?:çağrı merkez|serbest şiir|Moderatör|stüdyo sunucu|tezgâhta fısıltı)/iu.test(trimmed)) {
     return true;
   }
   if (/(?:Kafamda oturdu|Sonraki adımda ne duruyor|doğru mu anlıyorum|Işık yazılıysa)/iu.test(trimmed)) {
@@ -228,27 +228,53 @@ function stripTheaterFiller(text: string): string {
   return kept.join(" ").replace(/\s+/gu, " ").replace(/ +([,.;!?])/gu, "$1").trim();
 }
 
+/** 2. dersten itibaren giriş: 1–2 dk «Ne Öğrenmiştik?» + kontrol listesi köprüsü. */
+export const ACADEMY_PREVIOUS_LESSON_RECAP_HEADING = "Ne Öğrenmiştik?";
+
+export function academyPreviousLessonBridge(spec: {
+  recap: string;
+  checks: readonly [string, string, string];
+  whyNext: string;
+}): string {
+  return `${ACADEMY_PREVIOUS_LESSON_RECAP_HEADING} Bir önceki bölümde ne öğrendik? Acele etmeden geri saralım. Yeni kapı, dünün durduğu yerin üzerine konur. Unutulan kapı bugün yalan doğurur. ${spec.recap.trim()} Kontrol listesini birlikte işaretleyelim. Bir: ${spec.checks[0]} İki: ${spec.checks[1]} Üç: ${spec.checks[2]} Bu üç madde durmuyorsa bugünün işine geçmeyiz. Duruyorsa elimiz temizdir. ${spec.whyNext.trim()}`;
+}
+
+/**
+ * Kompakt SKU (ai-temel / ux-temel) için giriş sarmalayıcısı.
+ * `academyInstructorLessonDraft` bu kapıyı çağırmaz — diyalog müfredatı birebir kalır.
+ */
 export function academyInstructorIntro(topic: string, body: string): string {
   const trimmed = stripTheaterFiller(body);
   if (trimmed.includes("Hoş geldiniz. Bu bölümde") && trimmed.includes("konusunu ve neden ihtiyaç duyduğunuzu")) {
+    return trimmed;
+  }
+  if (trimmed.includes("Bu bölümde") && /ele alacağız/u.test(trimmed)) {
+    return trimmed;
+  }
+  if (/^(?:Merhaba|Selamlar)\b/u.test(trimmed)) {
     return trimmed;
   }
   const rest = trimmed.length > 0 ? ` ${trimmed}` : "";
   return `Hoş geldiniz. Bu bölümde ${topic} konusunu ve neden ihtiyaç duyduğunuzu ele alacağız.${rest}`;
 }
 
+/** Kompakt SKU problem sarmalayıcısı — diyalog taslağı bu kapıyı çağırmaz. */
 export function academyInstructorProblem(body: string, defect = "doğrulanmayan çıktı ve kapısız ilerleme"): string {
   const trimmed = stripTheaterFiller(body);
   if (trimmed.includes("Geleneksel yapılarda") && trimmed.includes("Bu yüzden bu mimariyi kullanırız.")) {
+    return trimmed;
+  }
+  if (trimmed.length > 120) {
     return trimmed;
   }
   const rest = trimmed.length > 0 ? ` ${trimmed}` : "";
   return `Geleneksel yapılarda ${defect} yaşanır. Bu yüzden bu mimariyi kullanırız.${rest}`;
 }
 
+/** Kompakt SKU uygulama sarmalayıcısı — diyalog taslağı bu kapıyı çağırmaz. */
 export function academyInstructorApplication(body: string): string {
   const trimmed = stripTheaterFiller(body);
-  if (trimmed.includes("Ekrandaki kod bloğunda gördüğünüz üzere")) {
+  if (/Ekrandaki kod bloğunda/u.test(trimmed)) {
     return trimmed;
   }
   if (!trimmed) {
@@ -258,14 +284,24 @@ export function academyInstructorApplication(body: string): string {
   return `Ekrandaki kod bloğunda gördüğünüz üzere ${rest}`;
 }
 
+/** Müfredat özetinde birebir kullanın; oynatıcı/özet derleyici otomatik eklemez. */
+export const ACADEMY_INSTRUCTOR_SECTION_CLOSE = "Bir sonraki bölümde görüşmek üzere.";
+
+/**
+ * Kompakt SKU özet sarmalayıcısı — diyalog taslağı (`academyInstructorLessonDraft`) bu kapıyı çağırmaz.
+ * Kapanış cümlesi diyalog müfredatında yazılı olmalıdır.
+ */
 export function academyInstructorSummary(skill: string, body: string, isLastLesson: boolean): string {
   const trimmed = stripTheaterFiller(body);
-  if (trimmed.includes("Bu dersle") && trimmed.includes("kazandınız.")) {
+  if (/^Tebrikler!/.test(trimmed)) {
+    return trimmed.replace(/\s+/gu, " ").trim();
+  }
+  if (trimmed.includes("Bu dersle") && /kazandınız\.|kavradınız\./.test(trimmed)) {
     let wrapped = trimmed;
     if (isLastLesson && !/Sınavda sen[iı]/.test(wrapped)) {
       wrapped = `${wrapped} Sınavda seni 70 barajı bekliyor.`;
     }
-    if (!isLastLesson && !/Bir sonraki bölümde sen[iı]/.test(wrapped)) {
+    if (!isLastLesson && !/Bir sonraki bölümde/.test(wrapped)) {
       wrapped = `${wrapped} Bir sonraki bölümde seni sonraki kapı bekliyor.`;
     }
     return wrapped.replace(/\s+/gu, " ").trim();
@@ -303,8 +339,8 @@ function toLegacyDialogue(acts: AcademyFourActInstructor): AcademyFiveActDialogu
 }
 
 function collapseFiveActToInstructor(
-  title: string,
-  order: number,
+  _title: string,
+  _order: number,
   dialogue: AcademyFiveActDialogue,
 ): AcademyFourActInstructor {
   const introBody = joinActProse(dialogue.warmup);
@@ -317,17 +353,16 @@ function collapseFiveActToInstructor(
     ...dialogue.development,
     ...dialogue.conclusion,
   ]);
-  const isLast = /mini\s*proje|kapanış|sınav/iu.test(title) || order >= 6;
   const speaker: DialogueSpeakerId = "egitmen";
   return {
-    intro: [dialogueTurn(speaker, academyInstructorIntro(title, introBody))],
-    problem: [dialogueTurn(speaker, academyInstructorProblem(problemBody))],
-    application: [dialogueTurn(speaker, academyInstructorApplication(applicationBody), code)],
-    summary: [dialogueTurn(speaker, academyInstructorSummary(`${title} becerisini`, summaryBody, isLast))],
+    intro: [dialogueTurn(speaker, introBody.trim())],
+    problem: [dialogueTurn(speaker, problemBody.trim())],
+    application: [dialogueTurn(speaker, applicationBody.trim(), code)],
+    summary: [dialogueTurn(speaker, summaryBody.trim())],
   };
 }
 
-/** PEDAGOJI.md — tek eğitmen, öğrenciye doğrudan hitap, 4 perde. */
+/** PEDAGOJI.md — tek eğitmen, öğrenciye doğrudan hitap, 4 perde. Metin birebir; şablon eklenmez. */
 export function academyInstructorLessonDraft(spec: {
   key: string;
   order: number;
@@ -344,11 +379,10 @@ export function academyInstructorLessonDraft(spec: {
   if (spec.quiz.length < 3) {
     throw new Error(`Ders sonu quiz 3 soru ister: ${spec.key}`);
   }
-  const intro = academyInstructorIntro(spec.title, spec.intro);
-  const problem = academyInstructorProblem(spec.problem);
-  const application = academyInstructorApplication(spec.application);
-  const isLast = /mini\s*proje|kapanış|sınav/iu.test(spec.title) || spec.order >= 6;
-  const summary = academyInstructorSummary(`${spec.title} becerisini`, spec.summary, isLast);
+  const intro = spec.intro.trim();
+  const problem = spec.problem.trim();
+  const application = spec.application.trim();
+  const summary = spec.summary.trim();
   const acts: AcademyFourActInstructor = {
     intro: [dialogueTurn(speaker, intro)],
     problem: [dialogueTurn(speaker, problem)],

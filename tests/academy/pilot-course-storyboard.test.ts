@@ -148,7 +148,7 @@ describe("Amiral Ders (Pilot SKU) dört perde tek eğitmen akışı", () => {
     const { sections } = flowForPilotLesson(0);
     expect(sections).toHaveLength(5);
 
-    let state = createStoryboardState(sections.length);
+    const state = createStoryboardState(sections.length);
     expect(storyboardProgress(state)).toEqual({
       current: 1,
       total: 5,

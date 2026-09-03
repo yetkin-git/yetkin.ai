@@ -1,7 +1,12 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { RLS_OWNERSHIP_COLUMNS } from "@/lib/kernel/security/rls-policy-registry";
+import {
+  POSTGREST_WRITE_POLICY_FORBIDDEN,
+  RLS_FORCE_TABLES,
+  RLS_OWNERSHIP_COLUMNS,
+  RLS_UNSCOPED_DENY_POLICY,
+} from "@/lib/kernel/security/rls-policy-registry";
 import { isSupabaseUserId } from "@/lib/kernel/auth/ids";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 
@@ -31,6 +36,8 @@ describe("Faz 1.1 RLS / Auth mühürleri", () => {
     expect(sql).toMatch(/REVOKE ALL ON FUNCTION public\.handle_new_user\(\) FROM PUBLIC/);
     expect(sql).toContain("supabase_auth_admin");
     expect(sql).toMatch(/e-posta boş/);
+    expect(sql).toContain("age_confirmed_at");
+    expect(sql).toMatch(/18 yaş onayı yok/);
   });
 
   it("handle_user_email_update Auth e-postasını public.users'a kopyalar", () => {
@@ -65,6 +72,9 @@ describe("Faz 1.1 RLS / Auth mühürleri", () => {
     expect(sql).toMatch(/FUNCTION public\.yetkin_rls_ownership_columns\(\)/);
     expect(sql).toMatch(/FOR SELECT TO authenticated/);
     expect(sql).toMatch(/CREATE EVENT TRIGGER yetkin_auto_apply_rls_policies_on_create/);
+    expect(sql).toContain("yetkin_apply_rls_unscoped_deny");
+    expect(sql).toContain("rls_deny_unscoped");
+    expect(sql).toMatch(/USING \(false\)/);
     expect(sql).not.toMatch(/FOR INSERT/);
     expect(sql).not.toMatch(/FOR UPDATE/);
     expect(sql).not.toMatch(/FOR DELETE/);
@@ -76,6 +86,9 @@ describe("Faz 1.1 RLS / Auth mühürleri", () => {
       expect(sql).toContain(`'${column}'`);
     }
     expect(new Set(columns).size).toBe(RLS_OWNERSHIP_COLUMNS.length);
+    expect(POSTGREST_WRITE_POLICY_FORBIDDEN).toBe(true);
+    expect(RLS_UNSCOPED_DENY_POLICY).toBe("rls_deny_unscoped");
+    expect(RLS_FORCE_TABLES.length).toBeGreaterThan(10);
   });
 
   it("treasury UUID Supabase biçimindedir", () => {

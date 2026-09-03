@@ -65,8 +65,8 @@ describe("runtime Postgres URI", () => {
 
   it("connection_limit ve pool_timeout'u URL'den okur; soyma öncesi", () => {
     expect(
-      parsePrismaEnginePoolParams(`${POOLER_TX}?connection_limit=20&pool_timeout=10`),
-    ).toEqual({ connectionLimit: 20, poolTimeoutSeconds: 10 });
+      parsePrismaEnginePoolParams(`${POOLER_TX}?connection_limit=10&pool_timeout=10`),
+    ).toEqual({ connectionLimit: 10, poolTimeoutSeconds: 10 });
     expect(parsePrismaEnginePoolParams(POOLER_TX)).toEqual({
       connectionLimit: null,
       poolTimeoutSeconds: null,
@@ -75,32 +75,39 @@ describe("runtime Postgres URI", () => {
 });
 
 describe("Prisma havuz tavanı", () => {
-  it("Vercel izolatında max=1 ve kısa idle; uzun süreçte connection_limit=20 pool_timeout=10s", () => {
+  it("Vercel izolatında max=1 ve kısa idle; uzun süreçte connection_limit=10 pool_timeout=10s", () => {
     expect(prismaPoolLimits({ VERCEL: "1", NODE_ENV: "production" }).max).toBe(1);
     expect(prismaPoolLimits({ VERCEL_ENV: "production", NODE_ENV: "production" }).max).toBe(1);
-    expect(prismaPoolLimits({ NODE_ENV: "development" }).max).toBe(20);
+    expect(prismaPoolLimits({ NODE_ENV: "development" }).max).toBe(10);
     expect(prismaPoolLimits({ NODE_ENV: "development" }).connectionTimeoutMillis).toBe(10_000);
-    expect(prismaPoolLimits({ NODE_ENV: "production" }).max).toBe(20);
+    expect(prismaPoolLimits({ NODE_ENV: "production" }).max).toBe(10);
     expect(prismaPoolLimits({ NODE_ENV: "production" }).connectionTimeoutMillis).toBe(10_000);
   });
 
-  it("DATABASE_URL connection_limit=1 (Dashboard kopyası) uzun süreçte 20'ye yükselir", () => {
+  it("DATABASE_URL connection_limit=1 (Dashboard kopyası) uzun süreçte 10'a yükselir", () => {
     const url = `${POOLER_TX}?connection_limit=1&pool_timeout=10`;
-    expect(prismaPoolLimits({ NODE_ENV: "development", DATABASE_URL: url }).max).toBe(20);
+    expect(prismaPoolLimits({ NODE_ENV: "development", DATABASE_URL: url }).max).toBe(10);
     expect(
       prismaPoolLimits({ NODE_ENV: "development", DATABASE_URL: url }).connectionTimeoutMillis,
     ).toBe(10_000);
   });
 
-  it("DATABASE_URL connection_limit=8 pool_timeout=5 uzun süreçte uygulanır", () => {
+  it("DATABASE_URL connection_limit=8 pool_timeout=5 uzun süreçte taban 10s'e yükselir", () => {
     const url = `${POOLER_TX}?connection_limit=8&pool_timeout=5`;
     expect(prismaPoolLimits({ NODE_ENV: "development", DATABASE_URL: url }).max).toBe(8);
     expect(
       prismaPoolLimits({ NODE_ENV: "development", DATABASE_URL: url }).connectionTimeoutMillis,
-    ).toBe(5_000);
+    ).toBe(10_000);
   });
 
-  it("ısınma bütçesi pool_timeout'tan bağımsızdır; serverless 1.5s, uzun süreç 3s", () => {
+  it("DATABASE_URL pool_timeout=15 uzun süreçte 15s uygulanır", () => {
+    const url = `${POOLER_TX}?connection_limit=8&pool_timeout=15`;
+    expect(
+      prismaPoolLimits({ NODE_ENV: "development", DATABASE_URL: url }).connectionTimeoutMillis,
+    ).toBe(15_000);
+  });
+
+  it("ısınma bütçesi pool_timeout'tan bağımsızdır; serverless 1.5s, uzun süreç 8s", () => {
     expect(prismaWarmupBudgetMs({ NODE_ENV: "development" })).toBe(
       PRISMA_WARMUP_TIMEOUT_MS_LONG_RUNNING,
     );
@@ -110,7 +117,7 @@ describe("Prisma havuz tavanı", () => {
     expect(prismaWarmupBudgetMs({ VERCEL: "1", NODE_ENV: "production" })).toBe(
       PRISMA_WARMUP_TIMEOUT_MS,
     );
-    expect(PRISMA_WARMUP_TIMEOUT_MS_LONG_RUNNING).toBe(3_000);
+    expect(PRISMA_WARMUP_TIMEOUT_MS_LONG_RUNNING).toBe(8_000);
     expect(PRISMA_WARMUP_TIMEOUT_MS).toBe(1_500);
   });
 

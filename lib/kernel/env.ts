@@ -43,6 +43,13 @@ const envSchema = z.object({
   NOTICE_MAIL_FROM: z.string().optional(),
   RAIL_DRON_ORIGINS: z.string().optional(),
   TRUSTED_PROXY_HOPS: z.string().optional(),
+  DASHBOARD_PULSE_ROOM_TIMEOUT_MS: z.string().optional(),
+  DASHBOARD_PULSE_LOAD_BUDGET_MS: z.string().optional(),
+  DASHBOARD_PULSE_ROOM_CONCURRENCY: z.string().optional(),
+  PRISMA_POOL_MAX: z.string().optional(),
+  PRISMA_POOL_TIMEOUT_MS: z.string().optional(),
+  KERNEL_BACKGROUND_READ_TIMEOUT_MS: z.string().optional(),
+  DB_READ_TIMEOUT_MS: z.string().optional(),
 });
 
 export type AppEnv = z.infer<typeof envSchema>;

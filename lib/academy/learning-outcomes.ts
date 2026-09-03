@@ -28,7 +28,7 @@ export const ACADEMY_LEARNING_OUTCOMES: Record<AcademyCourseTitleSlug, readonly 
     "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
   ],
   "ai-agent-temel": [
-    "Büyük Dil Modeli ile otonom ajan farkını çizer, araç yoksa uydurmazsın.",
+    "Şef ile garsonu ayırır: ChatGPT konuşur, Cursor çalışır; araç yoksa uydurmazsın.",
     "Üretim tarifini katmanlar, JSON şemasını parse eder, geçersiz çıktıda durursun.",
     "Araç kaydından çağrı yapar; bilinmeyen adı Fail-closed (Hata Anında Kapalı) kesersin.",
     "Kısa pencere ve uzun raf eşiğini ayırır, ReAct tur tavanını yazarsın.",

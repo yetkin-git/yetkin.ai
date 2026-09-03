@@ -1,5 +1,6 @@
 import { IdentityCard } from "@/components/kernel/identity-card";
 import { IdentityMeritSummary } from "@/components/kernel/identity-merit-summary";
+import { ProfileBillingForm } from "@/components/kernel/profile-billing-form";
 import { AuthNeeded } from "@/components/ui/auth-needed";
 import { Card } from "@/components/ui/card";
 import { IconBadge, IconLock, IconUser } from "@/components/ui/icons";
@@ -100,6 +101,7 @@ export default async function ProfilePage() {
         <div className="space-y-6">
           <IdentityMeritSummary stamps={stamps} soft={meritSoft} />
           <IdentityCard profile={profile} sessionEmail={session.email} />
+          <ProfileBillingForm />
         </div>
       )}
       <Card variant="ink" title={copy.honestyTitle} bodyClassName="text-white/70">

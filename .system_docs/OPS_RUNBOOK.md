@@ -152,7 +152,7 @@ Prisma 7 adapter (`PrismaPg`) hazır ifadeleri adlandırmadan çalıştırır; `
 
 ## 3. Super Admin UUID
 
-1. `/register` ile ilk vatandaş hesabını aç.
+1. `/register` ile ilk vatandaş hesabını aç. Form 18+ tiki basar; `age_confirmed_at` Auth metadata’sına yazılır. Dashboard’dan elle kullanıcı açarsan aynı alanı `raw_user_meta_data` içine yaz — yoksa `handle_new_user` fail-closed düşer.
 2. Supabase Dashboard → Authentication → Users → UUID kopyala.
 3. `.env.local` içine `SUPER_ADMIN_USER_ID=<uuid>` yaz. **Hazine sentinel’i yazma:** `00000000-0000-4000-8000-000000000001`.
 4. `npm run dev` yeniden. Boş env = kimse admin değildir (`isSuperAdminUser` UUID eşitliği).
@@ -502,6 +502,19 @@ Akademi pedagoji ve kanıt yazmaları native drona açılmaz (IAP / mühür iade
 | `/api/jobs/inngest` | — | Inngest serve |
 
 **Kabul cümlesi:** Dış sözleşme = 16 hop + bu web-only listesi; ikisi de bilinçli. Diyar A native mağaza submit yok.
+
+---
+
+## 18. KVKK m.11 — hesap silme ve veri indirme (manuel)
+
+Ürün içi self-serve silme veya arşiv indirme **yoktur**. 6698 sayılı Kanun m.11 talepleri (erişim, düzeltme, silme, itiraz) şimdilik `destek@yetkin.ai` üzerinden Super Admin tarafından manuel yürütülür.
+
+Operatör:
+
+1. Talebi **kayıtlı hesap e-postası** ile doğrula. Yabancı adresten gelen talep, hesap sahibinin kayıtlı e-postasına teyit ister.
+2. **Veri indirme:** ilgili `User`, fatura künyesi (`UserBillingInfo`), akademi kayıt ve pasaport damgalarının dışa aktarımı e-posta eki olarak teslim edilir. Sahte / uydurma paket basılmaz.
+3. **Hesap kapatma:** Auth kullanıcısı dondurulur veya silinir; profil ve fatura künyesi temizlenir. **Defter satırları (`LedgerEntry`) append-only’dir; nakit sicili silinmez.** Yasal saklama defteri durdurmaz.
+4. Süre: makul süre; hedef 30 gün. Otomasyon veya self-serve kapı **açılmaz** — ledger / 6502 sicili ile «hesabı sil» çatışır; vatandaşa bu sınır yasal metinde zaten e-posta kanalı olarak yazılıdır.
 
 ---
 

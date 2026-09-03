@@ -65,7 +65,11 @@ describe("cüzdan defter yüzeyi", () => {
     expect(db).toContain("ensurePrismaQueryEngine");
     expect(db).toContain("prismaErrorLabel");
     expect(db).toContain("globalThis");
+    expect(db).toContain("globalThis.prisma");
     expect(db).toContain("__yetkinKernelDb");
+    expect(db).toContain("g.prisma");
+    expect(db).toContain("bindPrismaSingleton");
+    expect(db).toContain("İstek/RSC sonunda $disconnect YASAK");
     expect(db).toContain("$queryRaw`SELECT 1`");
     expect(db).toContain("connection_limit");
     expect(db).toContain("pool_timeout");
@@ -84,6 +88,7 @@ describe("cüzdan defter yüzeyi", () => {
     expect(db).toContain("ENOENT");
     expect(db).toContain("prismaWarmupBudgetMs");
     expect(db).toContain("prisma.engine.warmup_pending");
+    expect(db).toContain("prisma.engine.warmup_recover");
     expect(db).toContain("PRISMA_WARMUP_CIRCUIT_MS");
     expect(db).toContain("isPrismaWarmupCircuitOpen");
     expect(db).toContain("isPrismaQueryEngineReady");

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { IconCopy, IconKey } from "@/components/ui/icons";
@@ -88,6 +89,7 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
   const [copyNotice, setCopyNotice] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [ageConfirmed, setAgeConfirmed] = useState(false);
+  const [termsConfirmed, setTermsConfirmed] = useState(false);
 
   async function announceCopy(value: string) {
     const copied = await copyTextToClipboard(value);
@@ -116,14 +118,14 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
     setError(null);
     setMessage(null);
     try {
-      if (!ageConfirmed) {
-        setError(copy.ageRequired);
+      if (!termsConfirmed) {
+        setError(copy.termsRequired);
         return;
       }
 
-      const metadata = buildSignupAuthMetadata(fullName);
+      const metadata = buildSignupAuthMetadata(fullName, ageConfirmed);
       if (!metadata) {
-        setError(copy.fullNameInvalid);
+        setError(ageConfirmed ? copy.fullNameInvalid : copy.ageRequired);
         return;
       }
 
@@ -236,6 +238,37 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
           required
         />
         <span>{copy.ageConfirm}</span>
+      </label>
+      <label className="flex cursor-pointer items-start gap-2 text-sm font-medium" htmlFor="register-terms-confirm">
+        <input
+          id="register-terms-confirm"
+          type="checkbox"
+          name="termsConfirm"
+          className="mt-1 accent-[var(--safir)]"
+          checked={termsConfirmed}
+          onChange={(event) => setTermsConfirmed(event.target.checked)}
+          required
+        />
+        <span>
+          <Link
+            href="/legal/kullanim"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[var(--safir)] underline hover:opacity-80"
+          >
+            {copy.termsTermsLink}
+          </Link>
+          {" ve "}
+          <Link
+            href="/legal/gizlilik"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[var(--safir)] underline hover:opacity-80"
+          >
+            {copy.termsKvkkLink}
+          </Link>
+          {copy.termsConsentSuffix}
+        </span>
       </label>
       {error ? (
         <div

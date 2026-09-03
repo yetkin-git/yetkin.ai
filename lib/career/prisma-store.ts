@@ -105,19 +105,19 @@ export function createPrismaCareerStore(): CareerStore {
       return rows.map(toItem);
     },
     async pulseForUser(userId) {
-      const [visaCount, portfolioCount, latest] = await Promise.all([
-        prisma.careerVisaStamp.count({ where: { userId } }),
-        prisma.careerPortfolioItem.count({ where: { userId } }),
-        prisma.careerVisaStamp.findFirst({
+      const [stamps, portfolioCount] = await Promise.all([
+        prisma.careerVisaStamp.findMany({
           where: { userId },
           orderBy: { issuedAt: "desc" },
           select: { title: true },
+          take: 100,
         }),
+        prisma.careerPortfolioItem.count({ where: { userId } }),
       ]);
       const pulse: CareerPulse = {
-        visaCount,
+        visaCount: stamps.length,
         portfolioCount,
-        lastVisaTitle: latest?.title ?? null,
+        lastVisaTitle: stamps[0]?.title ?? null,
       };
       return pulse;
     },

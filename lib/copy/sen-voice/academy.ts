@@ -228,6 +228,13 @@ export const ACADEMY_SEN = {
     playlistLabel: "Oynatma listesi",
     notesLabel: "Ders Notları / Transkript",
     codeViewerLabel: "Kod",
+    codeCalloutTitle: "💡 KOD BİLMEYENLER İÇİN NOT",
+    codeCalloutLead:
+      "Bu dersteki amacımız kod ezberlemek veya yazmak değil; yapay zekanın veriyi nasıl bir formata (JSON) soktuğunu kavramaktır.",
+    codeCalloutInviteBefore: "Eğer Python temellerinizi güçlendirmek ve kodlama tarafında derinleşmek isterseniz Akademi ana sayfamızdaki ",
+    codeCalloutModule: "Python ile Yazılım ve Veri Mühendisliği",
+    codeCalloutInviteAfter: " modülümüze göz atabilirsiniz.",
+    codeCalloutHref: "/academy/python-temel",
     companionEyebrow: "Ders açıklaması",
     descriptionEyebrow: "Ders açıklaması",
     resourcesEyebrow: "Kaynaklar",
@@ -372,9 +379,14 @@ export const ACADEMY_SEN = {
     fallbackNotice: "Pürüzsüz Okuma Modu",
     studioPreparing: "Pürüzsüz Okuma Modu",
     failVoiceBinding:
-      "Bu dersin ses kaydı doğrulanamadı; metin açık, ses hazırlanırken yanlış ses sunulmaz.",
+      "Bu dersin mühürlü ses kaydı henüz yok; metin açık, eski veya uydurma ses çalınmaz. Kota sıfırlanınca yeniden basılmaya hazırdır.",
     failKey: "Ses servisi şu an yapılandırılmamış.",
+    /** Arşiv dinleme düşüşü — Okuma Modu cümlesi (stüdyo hoparlörü yok). */
     failQuota: "Pürüzsüz Okuma Modu",
+    /** Canlı oynatıcı — mühürsüz ders (kota / bake bekler). */
+    quotaWaitingTitle: "Kota bekleniyor",
+    quotaWaitingBody:
+      "Ses sentezi kotası dolu. Onaylı Maya metni açık; eski veya uydurma ses çalınmaz. Kota sıfırlanınca mühürlü kayıt yeniden basılmaya hazırdır.",
     failTimeout: "Pürüzsüz Okuma Modu",
     webSpeech: "Tarayıcı sesi",
     failUpstream: "Pürüzsüz Okuma Modu",

@@ -16,6 +16,12 @@ BEGIN
     RAISE EXCEPTION 'handle_new_user: e-posta boş. public.users.email NOT NULL (S13-A). Telefon-only Auth açılmaz.';
   END IF;
 
+  -- Fail-closed 18+: Auth SignUp API tik olmadan metadata basamaz; tetikleyici de reddeder.
+  IF NEW.raw_user_meta_data IS NULL
+     OR COALESCE(btrim(NEW.raw_user_meta_data->>'age_confirmed_at'), '') = '' THEN
+    RAISE EXCEPTION 'handle_new_user: 18 yaş onayı yok. age_confirmed_at zorunludur.';
+  END IF;
+
   INSERT INTO public.users (id, email, locale, time_zone, created_at, updated_at)
   VALUES (
     NEW.id::text,
@@ -67,7 +73,7 @@ BEGIN
 END $$;
 
 COMMENT ON FUNCTION public.handle_new_user() IS
-  'Faz 1.1 — auth.users INSERT sonrası users + TRY wallets (amount_minor). Wallet hatası kullanıcıyı geri almaz. EXECUTE: postgres/service_role/supabase_auth_admin.';
+  'Faz 1.1 — auth.users INSERT sonrası users + TRY wallets (amount_minor). 18+ age_confirmed_at yoksa fail-closed. Wallet hatası kullanıcıyı geri almaz. EXECUTE: postgres/service_role/supabase_auth_admin.';
 
 -- Platform hold hazinesi (Auth login değildir). Release holdMinor buraya CREDİT edilir.
 -- Bu UUID SUPER_ADMIN_USER_ID değildir; Auth kullanıcı listesinden kopyalanmaz.

@@ -27,6 +27,7 @@ import type {
   AcademyPurchaseRecord,
   AcademyStore,
 } from "@/lib/academy/types";
+import { isPrismaUniqueViolation } from "@/lib/kernel/db-errors";
 
 function toCourse(row: {
   id: string;
@@ -185,22 +186,57 @@ export type AcademyWriteDb = Pick<
 export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
   return {
     async insertCourse(course) {
-      const row = await db.academyCourse.create({
-        data: {
-          id: course.id,
-          slug: course.slug,
-          title: course.title,
-          summary: course.summary,
-          catalogUnitKey: course.catalogUnitKey,
-          globalRank: course.globalRank,
-          localRank: course.localRank,
-          trendScore: course.trendScore,
-          isPublished: course.isPublished,
-          createdAt: course.createdAt,
-          updatedAt: course.updatedAt,
-        },
-      });
-      return toCourse(row);
+      const existing =
+        (await db.academyCourse.findUnique({ where: { id: course.id } })) ??
+        (await db.academyCourse.findUnique({ where: { slug: course.slug } })) ??
+        (await db.academyCourse.findUnique({
+          where: { catalogUnitKey: course.catalogUnitKey },
+        }));
+      if (existing) {
+        return toCourse(existing);
+      }
+      const payload = {
+        id: course.id,
+        slug: course.slug,
+        title: course.title,
+        summary: course.summary,
+        catalogUnitKey: course.catalogUnitKey,
+        globalRank: course.globalRank,
+        localRank: course.localRank,
+        trendScore: course.trendScore,
+        isPublished: course.isPublished,
+        createdAt: course.createdAt,
+        updatedAt: course.updatedAt,
+      };
+      try {
+        const row = await db.academyCourse.upsert({
+          where: { id: course.id },
+          create: payload,
+          update: {
+            title: course.title,
+            summary: course.summary,
+            globalRank: course.globalRank,
+            localRank: course.localRank,
+            trendScore: course.trendScore,
+            isPublished: course.isPublished,
+          },
+        });
+        return toCourse(row);
+      } catch (error) {
+        if (!isPrismaUniqueViolation(error)) {
+          throw error;
+        }
+        const raced =
+          (await db.academyCourse.findUnique({ where: { id: course.id } })) ??
+          (await db.academyCourse.findUnique({ where: { slug: course.slug } })) ??
+          (await db.academyCourse.findUnique({
+            where: { catalogUnitKey: course.catalogUnitKey },
+          }));
+        if (!raced) {
+          throw error;
+        }
+        return toCourse(raced);
+      }
     },
     async getCourse(id) {
       const row = await db.academyCourse.findUnique({ where: { id } });
@@ -217,21 +253,42 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
       return orderAcademyCatalogByCurriculum(rows.map(toCourse));
     },
     async insertPurchase(purchase) {
-      const row = await db.academyPurchase.create({
-        data: {
-          id: purchase.id,
-          userId: purchase.userId,
-          courseId: purchase.courseId,
-          priceLockId: purchase.priceLockId,
-          amountMinor: purchase.amountMinor,
-          currencyCode: purchase.currencyCode,
-          status: purchase.status,
-          settledAt: purchase.settledAt,
-          createdAt: purchase.createdAt,
-          updatedAt: purchase.updatedAt,
-        },
+      const existing = await db.academyPurchase.findUnique({
+        where: { userId_courseId: { userId: purchase.userId, courseId: purchase.courseId } },
       });
-      return toPurchase(row);
+      if (existing) {
+        return toPurchase(existing);
+      }
+      try {
+        const row = await db.academyPurchase.upsert({
+          where: { userId_courseId: { userId: purchase.userId, courseId: purchase.courseId } },
+          create: {
+            id: purchase.id,
+            userId: purchase.userId,
+            courseId: purchase.courseId,
+            priceLockId: purchase.priceLockId,
+            amountMinor: purchase.amountMinor,
+            currencyCode: purchase.currencyCode,
+            status: purchase.status,
+            settledAt: purchase.settledAt,
+            createdAt: purchase.createdAt,
+            updatedAt: purchase.updatedAt,
+          },
+          update: { status: purchase.status },
+        });
+        return toPurchase(row);
+      } catch (error) {
+        if (isPrismaUniqueViolation(error)) {
+          const raced =
+            (await db.academyPurchase.findUnique({
+              where: { userId_courseId: { userId: purchase.userId, courseId: purchase.courseId } },
+            })) ?? (await db.academyPurchase.findUnique({ where: { id: purchase.id } }));
+          if (raced) {
+            return toPurchase(raced);
+          }
+        }
+        throw error;
+      }
     },
     async updatePurchase(id, patch) {
       const row = await db.academyPurchase.update({
@@ -394,19 +451,54 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
       return rows.map(toAttempt);
     },
     async insertLessonCompletion(completion) {
-      const row = await db.academyLessonCompletion.create({
-        data: {
-          id: completion.id,
-          userId: completion.userId,
-          courseId: completion.courseId,
-          purchaseId: completion.purchaseId,
-          lessonKey: completion.lessonKey,
-          proofOfWorkHash: completion.proofOfWorkHash ?? null,
-          completedAt: completion.completedAt,
-          createdAt: completion.createdAt,
-        },
-      });
-      return toCompletion(row);
+      const proofOfWorkHash = completion.proofOfWorkHash ?? null;
+      try {
+        const row = await db.academyLessonCompletion.upsert({
+          where: {
+            purchaseId_lessonKey: {
+              purchaseId: completion.purchaseId,
+              lessonKey: completion.lessonKey,
+            },
+          },
+          create: {
+            id: completion.id,
+            userId: completion.userId,
+            courseId: completion.courseId,
+            purchaseId: completion.purchaseId,
+            lessonKey: completion.lessonKey,
+            proofOfWorkHash,
+            completedAt: completion.completedAt,
+            createdAt: completion.createdAt,
+          },
+          update: {
+            proofOfWorkHash,
+            completedAt: completion.completedAt,
+          },
+        });
+        return toCompletion(row);
+      } catch (error) {
+        if (isPrismaUniqueViolation(error)) {
+          const raced = await db.academyLessonCompletion.findUnique({
+            where: {
+              purchaseId_lessonKey: {
+                purchaseId: completion.purchaseId,
+                lessonKey: completion.lessonKey,
+              },
+            },
+          });
+          if (raced) {
+            if (proofOfWorkHash && raced.proofOfWorkHash !== proofOfWorkHash) {
+              const updated = await db.academyLessonCompletion.update({
+                where: { id: raced.id },
+                data: { proofOfWorkHash, completedAt: completion.completedAt },
+              });
+              return toCompletion(updated);
+            }
+            return toCompletion(raced);
+          }
+        }
+        throw error;
+      }
     },
     async getLessonCompletion(purchaseId, lessonKey) {
       const row = await db.academyLessonCompletion.findUnique({
@@ -422,19 +514,19 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
       return rows.map(toCompletion);
     },
     async pulseForUser(userId) {
-      const [purchasesCount, certificatesHeld, latest] = await Promise.all([
+      const [purchasesCount, certificates] = await Promise.all([
         db.academyPurchase.count({ where: { userId } }),
-        db.academyCertificate.count({ where: { userId, revokedAt: null } }),
-        db.academyCertificate.findFirst({
+        db.academyCertificate.findMany({
           where: { userId, revokedAt: null },
           orderBy: { issuedAt: "desc" },
           select: { title: true },
+          take: 100,
         }),
       ]);
       const pulse: AcademyPulse = {
         purchasesCount,
-        certificatesHeld,
-        lastCertificateTitle: latest?.title ?? null,
+        certificatesHeld: certificates.length,
+        lastCertificateTitle: certificates[0]?.title ?? null,
         currencyCode: SETTLEMENT_CURRENCY,
       };
       return pulse;

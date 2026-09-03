@@ -533,6 +533,8 @@ body {
 }
 
 .academy-player-dock {
+  position: relative;
+  z-index: 10;
   pointer-events: auto;
   max-height: none;
   overflow: visible;
@@ -651,6 +653,8 @@ body {
 
 .academy-player-widescreen {
   position: relative;
+  display: flex;
+  flex-direction: column;
   flex: 1 1 0;
   min-height: 0;
   width: 100%;
@@ -660,6 +664,150 @@ body {
   background: #070b14;
 }
 
+.academy-player-widescreen-kicker {
+  position: absolute;
+  top: 0.85rem;
+  left: 1.1rem;
+  z-index: 2;
+  margin: 0;
+  max-width: calc(100% - 2.2rem);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, #e6edf3 78%, transparent);
+}
+
+.academy-player-widescreen-caption {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.75rem 1.5rem;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 0%, color-mix(in srgb, var(--safir) 18%, transparent), transparent 62%),
+    #070b14;
+}
+
+.academy-player-widescreen-caption p {
+  margin: 0;
+  max-width: 46rem;
+  max-height: 100%;
+  overflow: hidden;
+  font-size: clamp(0.98rem, 1.7vw, 1.22rem);
+  line-height: 1.62;
+  letter-spacing: -0.015em;
+  color: #e6edf3;
+  text-align: left;
+  text-wrap: pretty;
+}
+
+.academy-player-widescreen-caption-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  box-sizing: border-box;
+  padding: 2.5rem 1.5rem 1rem;
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, #070b14 92%, transparent) 42%, #070b14 78%);
+}
+
+.academy-player-widescreen-caption-overlay p {
+  margin: 0;
+  max-width: 46rem;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  font-size: clamp(0.88rem, 1.4vw, 1.08rem);
+  line-height: 1.5;
+  letter-spacing: -0.014em;
+  color: #e6edf3;
+  text-wrap: pretty;
+}
+
+.academy-teleprompter {
+  box-sizing: border-box;
+  position: relative;
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  container-type: size;
+  background:
+    radial-gradient(120% 80% at 50% 0%, color-mix(in srgb, var(--safir) 18%, transparent), transparent 62%),
+    #070b14;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+
+.academy-teleprompter--overlay {
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  z-index: 2;
+  flex: 0 0 7.5rem;
+  height: 7.5rem;
+  max-height: 38%;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, #070b14 55%, transparent) 14%,
+    color-mix(in srgb, #070b14 92%, transparent) 48%,
+    #070b14 100%
+  );
+  box-shadow: inset 0 1px 0 color-mix(in srgb, #e6edf3 8%, transparent);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 88%, transparent 100%);
+}
+
+.academy-teleprompter-track {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: calc(50cqh + 4.5em) 1.75rem;
+  will-change: transform;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.academy-teleprompter--overlay .academy-teleprompter-track {
+  padding: calc(50cqh + 3.25em) 1.5rem;
+}
+
+.academy-teleprompter-cue {
+  margin: 0 0 1.15em;
+  font-size: clamp(1.12rem, 2.4vw, 1.68rem);
+  line-height: 1.55;
+  letter-spacing: -0.022em;
+  color: #e6edf3;
+  text-align: left;
+  text-wrap: pretty;
+  opacity: 0.34;
+  transition: opacity 0.45s ease;
+}
+
+.academy-teleprompter--overlay .academy-teleprompter-cue {
+  font-size: clamp(0.88rem, 1.4vw, 1.08rem);
+  line-height: 1.5;
+  letter-spacing: -0.014em;
+}
+
+.academy-teleprompter-cue[data-academy-teleprompter-near="true"] {
+  opacity: 0.7;
+}
+
+.academy-teleprompter-cue[data-academy-teleprompter-active="true"] {
+  opacity: 1;
+}
+
 .academy-player-widescreen-code {
   margin: 0;
   box-sizing: border-box;
@@ -667,7 +815,7 @@ body {
   height: 100%;
   overflow: auto;
   overscroll-behavior: contain;
-  padding: 1.15rem 1.35rem;
+  padding: 2.6rem 1.35rem 5.5rem;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   font-size: clamp(0.78rem, 1.15vw, 1.02rem);
   line-height: 1.65;
@@ -677,10 +825,100 @@ body {
     #070b14;
 }
 
+.academy-player-code-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  width: 100%;
+  flex: 1 1 0;
+  height: auto;
+  min-height: 0;
+  isolation: isolate;
+  z-index: 1;
+}
+
+.academy-player-widescreen:has(.academy-player-code-stack) .academy-player-widescreen-kicker {
+  display: none;
+}
+
+.academy-player-code-stack .academy-player-widescreen-code {
+  flex: 1 1 0;
+  height: auto;
+  min-height: 0;
+  padding-bottom: 1.5rem;
+}
+
+.academy-player-code-callout {
+  box-sizing: border-box;
+  margin: 0 0 1rem;
+  padding: 0.55rem 0.85rem 0.6rem;
+  border-radius: 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--safir) 14%, var(--border));
+  border-left-width: 2.5px;
+  border-left-color: color-mix(in srgb, var(--safir) 55%, #8aa4c0);
+  background: color-mix(in srgb, var(--safir) 7%, var(--surface-muted));
+  color: var(--foreground);
+}
+
+.academy-player-code-callout-title {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--foreground) 88%, var(--safir));
+}
+
+.academy-player-code-callout-lead,
+.academy-player-code-callout-invite {
+  margin: 0.28rem 0 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  letter-spacing: -0.011em;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.academy-player-code-callout-link {
+  color: var(--safir-deep);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+}
+
+.academy-player-code-callout-link:hover,
+.academy-player-code-callout-link:focus-visible {
+  color: var(--safir);
+}
+
+@media (max-width: 639px) {
+  .academy-player-code-callout {
+    margin: 0 0 0.85rem;
+    padding: 0.5rem 0.7rem 0.55rem;
+  }
+
+  .academy-player-code-callout-lead,
+  .academy-player-code-callout-invite {
+    font-size: 0.75rem;
+    line-height: 1.45;
+  }
+}
+
 .academy-player-syntax {
   font-family: inherit;
   font-size: inherit;
   white-space: pre;
+}
+
+.academy-syntax-line {
+  display: inline;
+}
+
+.academy-syntax-line-active {
+  background: color-mix(in srgb, var(--safir) 32%, transparent);
+  border-radius: 0.2rem;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 .academy-syntax-keyword {
@@ -706,7 +944,9 @@ body {
 .academy-player-widescreen-visual {
   display: flex;
   width: 100%;
-  height: 100%;
+  flex: 1 1 0;
+  height: auto;
+  min-height: 0;
   margin: 0;
   align-items: center;
   justify-content: center;
@@ -742,6 +982,39 @@ body {
   box-shadow: none;
 }
 
+.academy-player-audio-pending {
+  margin: 0;
+  padding: 0.55rem 0.85rem 0.15rem;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: color-mix(in srgb, #f4efe6 72%, transparent);
+}
+
+.academy-player-quota-card {
+  margin: 0.55rem 0.75rem 0.2rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid color-mix(in srgb, #f4efe6 14%, transparent);
+  border-radius: 0.65rem;
+  background: color-mix(in srgb, #f4efe6 6%, #070b14);
+}
+
+.academy-player-quota-card-title {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: #f4efe6;
+}
+
+.academy-player-quota-card-body {
+  margin: 0.35rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: color-mix(in srgb, #f4efe6 72%, transparent);
+}
+
 .academy-player-audio-controls,
 .academy-dialogue-controls {
   display: flex;
@@ -753,6 +1026,8 @@ body {
 }
 
 .academy-player-notes {
+  position: relative;
+  z-index: 0;
   border: 1px solid color-mix(in srgb, var(--foreground) 9%, transparent);
   border-radius: 0.9rem;
   background: color-mix(in srgb, var(--surface) 70%, transparent);
@@ -787,16 +1062,21 @@ body {
 
 .academy-player-notes[open] {
   display: flex;
-  max-height: min(28vh, 14rem);
+  flex: 0 1 auto;
+  max-height: 350px;
   min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
   flex-direction: column;
 }
 
 .academy-player-notes-body {
   min-height: 0;
-  overflow: auto;
+  max-height: 350px;
+  overflow-x: hidden;
+  overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 0 1rem 1rem;
+  padding: 0 0.5rem 1rem 1rem;
 }
 
 .academy-player-code pre[data-academy-code-active="true"] {
@@ -1034,7 +1314,6 @@ html:has(.academy-player-viewport-lock) body {
 
 .academy-player-reading-pane {
   min-height: 0;
-  overflow: visible;
 }
 
 .academy-dialogue-player {
@@ -1390,6 +1669,12 @@ html:has(.academy-player-viewport-lock) body {
     transform: none;
   }
   .academy-stage-dialogue > .academy-stage-beat {
+    transition: none;
+  }
+  .academy-teleprompter-track {
+    transition: none;
+  }
+  .academy-teleprompter-cue {
     transition: none;
   }
   .academy-listen-waveform > span {

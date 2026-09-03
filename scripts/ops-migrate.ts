@@ -334,7 +334,7 @@ async function main(): Promise<void> {
       `   akademi fiyat haritası OK — ${ACADEMY_SEED_COURSE_IDS.length} PriceCatalogEntry amountMinor catalog-pricing.ts ile hizalı.`,
     );
     console.log("   auth sync OK — handle_new_user AFTER INSERT + handle_user_email_update AFTER UPDATE.");
-    console.log("   FORCE RLS OK — çekirdek tablolar relforcerowsecurity.");
+    console.log("   FORCE RLS OK — çekirdek tablolar relforcerowsecurity + SELECT politikası.");
     console.log("   Donmuş 23 tablo DROP OK.");
     console.log("   http_idempotency_records OK — unique user_id+route+key.");
     console.log("   D2.1 academy_lesson_completions OK.");

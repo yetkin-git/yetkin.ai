@@ -1,11 +1,20 @@
-import { requireSession } from "@/lib/kernel/auth/session";
+import { requireSession, sessionUserNotInDatabaseMessage } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import {
   completeAcademyLesson,
   loadAcademyCurriculumPlayer,
+  lookupAcademyCurriculumCourse,
 } from "@/lib/academy/curriculum-engine";
 import { completeAcademyLessonInputSchema } from "@/lib/academy/schemas";
 import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
+import {
+  DATABASE_BUSY_ERROR,
+  isPrismaClientError,
+  isPrismaForeignKeyViolation,
+  isPrismaUniqueViolation,
+  isPrismaUnavailableError,
+} from "@/lib/kernel/db-errors";
+import { ensurePrismaQueryEngine } from "@/lib/kernel/db";
 
 export const auth = "session" as const;
 
@@ -40,6 +49,25 @@ function publicPlayer(player: Awaited<ReturnType<typeof loadAcademyCurriculumPla
   };
 }
 
+async function loadPublicPlayerOrBusy(
+  ports: ReturnType<typeof createPrismaAcademyPorts>,
+  command: { courseId: string; userId: string; email?: string | null },
+  applied: boolean,
+) {
+  try {
+    const player = await loadAcademyCurriculumPlayer(ports, command);
+    return jsonOk({
+      applied,
+      player: publicPlayer(player),
+    });
+  } catch (error) {
+    if (isPrismaUnavailableError(error) || isPrismaClientError(error)) {
+      return jsonFail(DATABASE_BUSY_ERROR, 503);
+    }
+    throw error;
+  }
+}
+
 export async function GET(
   request: Request,
   context: { params: Promise<{ id: string }> },
@@ -47,17 +75,30 @@ export async function GET(
   try {
     const user = await requireSession(request);
     const { id } = await context.params;
+    if (!(await ensurePrismaQueryEngine())) {
+      return jsonFail(DATABASE_BUSY_ERROR, 503);
+    }
     const ports = createPrismaAcademyPorts();
-    const course = (await ports.academy.getCourse(id)) ?? (await ports.academy.getCourseBySlug(id));
+    const course = await lookupAcademyCurriculumCourse(ports.academy, id);
     if (!course) {
       return jsonFail("Kurs bulunamadı.", 404);
     }
-    const player = await loadAcademyCurriculumPlayer(ports, {
-      courseId: course.id,
-      userId: user.id,
-      email: user.email,
-    });
-    return jsonOk({ player: publicPlayer(player) });
+    try {
+      const player = await loadAcademyCurriculumPlayer(ports, {
+        courseId: course.id,
+        userId: user.id,
+        email: user.email,
+      });
+      return jsonOk({ player: publicPlayer(player) });
+    } catch (error) {
+      if (isPrismaForeignKeyViolation(error)) {
+        return jsonFail(sessionUserNotInDatabaseMessage(), 401);
+      }
+      if (isPrismaUnavailableError(error) || isPrismaClientError(error)) {
+        return jsonFail(DATABASE_BUSY_ERROR, 503);
+      }
+      throw error;
+    }
   } catch (error) {
     return jsonFromUnknown(error);
   }
@@ -74,23 +115,48 @@ export async function POST(
     if (!parsed.success) {
       return jsonFail("Ders anahtarı veya iş kanıtı geçersiz.", 400);
     }
+    if (!(await ensurePrismaQueryEngine())) {
+      return jsonFail(DATABASE_BUSY_ERROR, 503);
+    }
     const ports = createPrismaAcademyPorts();
-    const course = (await ports.academy.getCourse(id)) ?? (await ports.academy.getCourseBySlug(id));
+    const course = await lookupAcademyCurriculumCourse(ports.academy, id);
     if (!course) {
       return jsonFail("Kurs bulunamadı.", 404);
     }
-    const result = await completeAcademyLesson(ports, {
+    const actor = {
       courseId: course.id,
       userId: user.id,
       email: user.email,
-      lessonKey: parsed.data.lessonKey,
-      proof: parsed.data.proof,
-    });
-    return jsonOk({
-      applied: result.applied,
-      player: publicPlayer(result.player),
-    });
+    };
+    try {
+      const result = await completeAcademyLesson(ports, {
+        ...actor,
+        lessonKey: parsed.data.lessonKey,
+        proof: parsed.data.proof,
+      });
+      return jsonOk({
+        applied: result.applied,
+        player: publicPlayer(result.player),
+      });
+    } catch (error) {
+      if (isPrismaForeignKeyViolation(error)) {
+        return jsonFail(sessionUserNotInDatabaseMessage(), 401);
+      }
+      if (isPrismaUniqueViolation(error)) {
+        return loadPublicPlayerOrBusy(ports, actor, false);
+      }
+      if (isPrismaUnavailableError(error) || isPrismaClientError(error)) {
+        return jsonFail(DATABASE_BUSY_ERROR, 503);
+      }
+      throw error;
+    }
   } catch (error) {
+    if (isPrismaForeignKeyViolation(error)) {
+      return jsonFail(sessionUserNotInDatabaseMessage(), 401);
+    }
+    if (isPrismaUnavailableError(error) || isPrismaClientError(error)) {
+      return jsonFail(DATABASE_BUSY_ERROR, 503);
+    }
     return jsonFromUnknown(error);
   }
 }

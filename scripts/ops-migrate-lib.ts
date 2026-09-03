@@ -11,6 +11,7 @@ import {
   ACADEMY_SEED_COURSE_IDS,
 } from "@/lib/academy/catalog-seed";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
+import { RLS_FORCE_TABLES } from "@/lib/kernel/security/rls-policy-registry";
 import { STUDIO_IMAGE_DATA_BASE64_MAX_CHARS } from "@/lib/kernel/storage/byte-ceilings";
 
 /** Akademi tohum kimlikleri lib/academy/catalog-seed.ts (20 büyüme SKU). Eski ac_rail_temel HARD RESET. */
@@ -36,18 +37,7 @@ export const FREELANCER_SEED_JOB_IDS = [
 ] as const;
 export const FREELANCER_SEED_CLIENT_ID = PLATFORM_TREASURY_USER_ID;
 
-export const FORCE_RLS_CORE_TABLES = [
-  "users",
-  "wallets",
-  "ledger_entries",
-  "ai_token_usages",
-  "price_catalog_entries",
-  "academy_courses",
-  "academy_exams",
-  "freelancer_jobs",
-  "http_idempotency_records",
-  "paid_command_reservations",
-] as const;
+export const FORCE_RLS_CORE_TABLES = RLS_FORCE_TABLES;
 
 /**
  * Prisma migrate deploy — D2.1 ders sicili, D2.2 mühür kolonları, D2.3 tarihsel kurumsal teklif (P3 DROP).
@@ -490,6 +480,7 @@ export type SqlSealPlan = {
   onAuthUserCreated: boolean;
   forceRls: boolean;
   ownerSelectPolicy: boolean;
+  unscopedDenyPolicy: boolean;
   academyCourseIds: string[];
   academyCatalogUnits: boolean;
   handleUserEmailUpdate: boolean;
@@ -538,6 +529,10 @@ export function inspectSqlSealPlan(sqlByFile: Record<string, string>): SqlSealPl
     onAuthUserCreated: /CREATE TRIGGER on_auth_user_created/.test(authSync),
     forceRls: /FORCE ROW LEVEL SECURITY/.test(rls),
     ownerSelectPolicy: /FOR SELECT TO authenticated/.test(policies),
+    unscopedDenyPolicy:
+      /FUNCTION public\.yetkin_apply_rls_unscoped_deny\(/.test(policies) &&
+      /rls_deny_unscoped/.test(policies) &&
+      /USING \(false\)/.test(policies),
     academyCourseIds: ACADEMY_SEED_COURSE_IDS.filter((id) => academy.includes(id)),
     academyCatalogUnits: ACADEMY_SEED_CATALOG_UNITS.every((unit) => academy.includes(unit)),
     handleUserEmailUpdate: /FUNCTION public\.handle_user_email_update\(\)/.test(email),
@@ -561,6 +556,7 @@ export function assertSqlSealPlanComplete(plan: SqlSealPlan): string[] {
   if (!plan.onAuthUserCreated) issues.push("on_auth_user_created yok");
   if (!plan.forceRls) issues.push("FORCE RLS yok");
   if (!plan.ownerSelectPolicy) issues.push("owner SELECT politikası yok");
+  if (!plan.unscopedDenyPolicy) issues.push("kapsamsız tablo deny SELECT yok");
   if (plan.academyCourseIds.length !== ACADEMY_SEED_COURSE_IDS.length) {
     issues.push("akademi kurs tohumu eksik");
   }
@@ -655,6 +651,27 @@ export async function assertForceRls(query: OpsSealQuery): Promise<void> {
   if (rows.length > 0) {
     const names = rows.map((row) => String(row.name)).join(", ");
     throw new Error(`FORCE RLS eksik: ${names}. 20260814020000_enforce_rls_all_tables.sql`);
+  }
+}
+
+export async function assertPublicRlsPolicies(query: OpsSealQuery): Promise<void> {
+  const { rows } = await query(
+    `SELECT c.relname AS name
+     FROM pg_class c
+     JOIN pg_namespace n ON n.oid = c.relnamespace
+     WHERE n.nspname = 'public'
+       AND c.relkind = 'r'
+       AND c.relname = ANY($1::text[])
+       AND NOT EXISTS (
+         SELECT 1 FROM pg_policy p WHERE p.polrelid = c.oid
+       )`,
+    [[...FORCE_RLS_CORE_TABLES]],
+  );
+  if (rows.length > 0) {
+    const names = rows.map((row) => String(row.name)).join(", ");
+    throw new Error(
+      `RLS politikası eksik (Supabase RLS Enabled No Policy): ${names}. 20260814030000_rls_user_scoped_policies.sql`,
+    );
   }
 }
 
@@ -1392,6 +1409,7 @@ export type MemoryOpsCatalog = {
   handleUserEmailUpdate: boolean;
   onAuthUserEmailUpdated: boolean;
   forceRlsTables: Set<string>;
+  rlsPoliciesSealed: boolean;
   academyCourses: Set<string>;
   academyExams: number;
   academyCatalog: number;
@@ -1435,6 +1453,7 @@ export function createEmptyMemoryOpsCatalog(): MemoryOpsCatalog {
     handleUserEmailUpdate: false,
     onAuthUserEmailUpdated: false,
     forceRlsTables: new Set(),
+    rlsPoliciesSealed: false,
     academyCourses: new Set(),
     academyExams: 0,
     academyCatalog: 0,
@@ -1521,6 +1540,9 @@ export function applySqlToMemoryCatalog(catalog: MemoryOpsCatalog, sql: string):
     for (const table of FORCE_RLS_CORE_TABLES) {
       catalog.forceRlsTables.add(table);
     }
+  }
+  if (/rls_deny_unscoped/.test(sql) && /FUNCTION public\.yetkin_apply_rls_unscoped_deny\(/.test(sql)) {
+    catalog.rlsPoliciesSealed = true;
   }
   for (const id of ACADEMY_SEED_COURSE_IDS) {
     if (sql.includes(`'${id}'`)) {
@@ -1714,6 +1736,12 @@ export function createMemoryOpsSealQuery(catalog: MemoryOpsCatalog): OpsSealQuer
       );
       return { rows: missing };
     }
+    if (text.includes("pg_policy") && text.includes("polrelid")) {
+      if (catalog.rlsPoliciesSealed) {
+        return { rows: [] };
+      }
+      return { rows: [{ name: "users" }] };
+    }
     if (text.includes("FROM public.academy_courses")) {
       return {
         rows: [...catalog.academyCourses].map((id) => ({ id })),
@@ -1758,6 +1786,7 @@ export function createMemoryOpsSealQuery(catalog: MemoryOpsCatalog): OpsSealQuer
 export async function runPostApplySeals(query: OpsSealQuery): Promise<void> {
   await assertNewUserTrigger(query);
   await assertForceRls(query);
+  await assertPublicRlsPolicies(query);
   await assertFrozenRoomTablesDropped(query);
   await assertHttpIdempotencyRecords(query);
   await assertLedgerImmutability(query);

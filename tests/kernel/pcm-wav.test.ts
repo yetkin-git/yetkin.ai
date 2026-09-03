@@ -4,12 +4,16 @@ import {
   parsePcmSampleRateFromMime,
   wrapPcmAsWav,
   concatPcmWavBuffers,
+  concatPcmWavBuffersSeamless,
   extractPcmFromWav,
   collectGeminiInlineAudioParts,
   mergeGeminiInlineAudioToWav,
   tempoStretchPcmWav,
   createSilentPcmWav,
   pcmWavDurationSec,
+  boostPcmWavGain,
+  resamplePcmWav,
+  PCM_WAV_PLAYBACK_SAMPLE_RATE,
 } from "@/lib/kernel/ai/pcm-wav";
 
 describe("Gemini TTS PCM → WAV tamponu", () => {
@@ -47,6 +51,13 @@ describe("Gemini TTS PCM → WAV tamponu", () => {
     const fromParts = mergeGeminiInlineAudioToWav(parts);
     expect(fromParts.subarray(0, 4).toString("ascii")).toBe("RIFF");
     expect(extractPcmFromWav(fromParts).length).toBe(6);
+
+    const faded = concatPcmWavBuffersSeamless(
+      [wrapPcmAsWav(Buffer.alloc(480, 1), 24_000), wrapPcmAsWav(Buffer.alloc(480, 2), 24_000)],
+      5,
+    );
+    expect(faded.subarray(0, 4).toString("ascii")).toBe("RIFF");
+    expect(extractPcmFromWav(faded).length).toBe(720);
   });
 
   it("tempoStretchPcmWav %95 süreyi uzatır; %100 aynı kalır", () => {
@@ -72,5 +83,53 @@ describe("Gemini TTS PCM → WAV tamponu", () => {
     expect(decodeGeminiInlineAudio(pcm.toString("base64")).equals(pcm)).toBe(true);
     expect(parsePcmSampleRateFromMime("audio/L16;codec=pcm;rate=24000")).toBe(24_000);
     expect(parsePcmSampleRateFromMime("audio/wav")).toBe(24_000);
+  });
+
+  it("boostPcmWavGain tepeyi limiter içinde tutar; resample 48 kHz'e çıkarır", () => {
+    const samples = 240;
+    const pcm = Buffer.alloc(samples * 2);
+    for (let i = 0; i < samples; i += 1) {
+      pcm.writeInt16LE(4_000, i * 2);
+    }
+    const wav = wrapPcmAsWav(pcm, 24_000);
+    const boosted = boostPcmWavGain(wav, 8);
+    const boostedPcm = extractPcmFromWav(boosted);
+    let peak = 0;
+    let sum = 0;
+    for (let i = 0; i < samples; i += 1) {
+      const sample = Math.abs(boostedPcm.readInt16LE(i * 2));
+      peak = Math.max(peak, sample);
+      sum += sample;
+    }
+    expect(peak).toBeGreaterThan(4_000);
+    expect(peak).toBeLessThanOrEqual(32_767);
+    expect(sum / samples).toBeGreaterThan(6_000);
+
+    const resampled = resamplePcmWav(wav, PCM_WAV_PLAYBACK_SAMPLE_RATE);
+    expect(resampled.readUInt32LE(24)).toBe(48_000);
+    expect(extractPcmFromWav(resampled).length / 2).toBe(samples * 2);
+    expect(pcmWavDurationSec(resampled)).toBeCloseTo(pcmWavDurationSec(wav), 3);
+  });
+
+  it("extractPcmFromWav fmt sonrası data parçasını yürür", () => {
+    const pcm = Buffer.from([1, 0, 2, 0, 3, 0, 4, 0]);
+    const wav = wrapPcmAsWav(pcm, 24_000);
+    expect(extractPcmFromWav(wav).equals(pcm)).toBe(true);
+    const header = Buffer.alloc(46);
+    header.write("RIFF", 0);
+    header.writeUInt32LE(38 + pcm.length, 4);
+    header.write("WAVE", 8);
+    header.write("fmt ", 12);
+    header.writeUInt32LE(18, 16);
+    header.writeUInt16LE(1, 20);
+    header.writeUInt16LE(1, 22);
+    header.writeUInt32LE(24_000, 24);
+    header.writeUInt32LE(48_000, 28);
+    header.writeUInt16LE(2, 32);
+    header.writeUInt16LE(16, 34);
+    header.writeUInt16LE(0, 36);
+    header.write("data", 38);
+    header.writeUInt32LE(pcm.length, 42);
+    expect(extractPcmFromWav(Buffer.concat([header, pcm])).equals(pcm)).toBe(true);
   });
 });

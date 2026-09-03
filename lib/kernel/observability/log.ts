@@ -72,7 +72,9 @@ export function logEvent(entry: StructuredLogInput): void {
     return;
   }
   if (entry.level === "warn") {
-    console.warn(line);
+    queueMicrotask(() => {
+      console.warn(line);
+    });
     return;
   }
   console.log(line);

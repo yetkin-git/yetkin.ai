@@ -9,9 +9,10 @@ import {
   isCanonicalSuperAdminEmail,
   isSuperAdminUser,
 } from "@/lib/kernel/auth/super-admin";
+import { AuthRequiredError, sessionUserNotInDatabaseMessage } from "@/lib/kernel/auth/require-session";
+import { isPrismaForeignKeyViolation } from "@/lib/kernel/db-errors";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
-import { logEvent } from "@/lib/kernel/observability/log";
 
 export { isCanonicalSuperAdminEmail };
 
@@ -113,16 +114,6 @@ export function createAcademyAdminBypassPurchase(
   courseId: string,
   now: Date = new Date(),
 ): AcademyPurchaseRecord {
-  logEvent({
-    level: "warn",
-    event: "academy.admin-bypass",
-    purpose: ACADEMY_GRANT_PURPOSE,
-    userId,
-    action: "academy-admin-bypass",
-    amountMinor: 0,
-    applied: true,
-    reason: courseId,
-  });
   return academyGrantPurchaseRecord(userId, courseId, now);
 }
 
@@ -134,16 +125,6 @@ export function createAcademyGrantPurchase(
   if (!isZeroFeeAcademyGrantOpen()) {
     throw new Error("Üretimde sıfır harçlı akademi bağışı kapalıdır.");
   }
-  logEvent({
-    level: "warn",
-    event: "academy.grant",
-    purpose: ACADEMY_GRANT_PURPOSE,
-    userId,
-    action: ACADEMY_GRANT_PURPOSE,
-    amountMinor: 0,
-    applied: true,
-    reason: courseId,
-  });
   return academyGrantPurchaseRecord(userId, courseId, now);
 }
 
@@ -169,9 +150,15 @@ export async function resolveSettledAcademyPurchase(
     }
     try {
       return await store.insertPurchase(createAcademyGrantPurchase(actor.userId, courseId));
-    } catch {
+    } catch (error) {
       const raced = await store.getPurchaseByUserAndCourse(actor.userId, courseId);
-      return raced ?? createAcademyGrantPurchase(actor.userId, courseId);
+      if (raced) {
+        return raced;
+      }
+      if (isPrismaForeignKeyViolation(error)) {
+        throw new AuthRequiredError(sessionUserNotInDatabaseMessage());
+      }
+      throw error;
     }
   }
   return existing ?? createAcademyAdminBypassPurchase(actor.userId, courseId);
@@ -182,6 +169,7 @@ export async function resolveAcademyArtifactPurchase(
   store: Pick<AcademyStore, "getPurchaseByUserAndCourse" | "insertPurchase">,
   actor: AcademyActor,
   courseId: string,
+  options: { persistGrant?: boolean } = {},
 ): Promise<AcademyPurchaseRecord | null> {
   const existing = await store.getPurchaseByUserAndCourse(actor.userId, courseId);
   if (existing?.status === "SETTLED") {
@@ -189,6 +177,9 @@ export async function resolveAcademyArtifactPurchase(
   }
   if (!hasUnlimitedAcademyAccess(actor)) {
     return existing;
+  }
+  if (options.persistGrant === false) {
+    return existing ?? createAcademyAdminBypassPurchase(actor.userId, courseId);
   }
   // Lab grant kalıcı olsun — PDF / iş kanıtı tamamlamalarla aynı purchaseId paylaşsın.
   return resolveSettledAcademyPurchase(store, actor, courseId, { persistGrant: true });

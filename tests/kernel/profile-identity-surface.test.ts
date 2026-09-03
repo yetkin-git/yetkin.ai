@@ -40,6 +40,7 @@ describe("profil kimlik yüzeyi", () => {
     expect(page).toContain("getSession");
     expect(page).toContain("IdentityCard");
     expect(page).toContain("IdentityMeritSummary");
+    expect(page).toContain("ProfileBillingForm");
     expect(page).not.toContain("fetch(");
     expect(page).not.toContain("örnek düzen");
     expect(page).not.toContain('tone="amber"');
@@ -98,6 +99,7 @@ describe("profil kimlik yüzeyi", () => {
     expect(card).toContain("readOnly");
     expect(card).toContain("IdentityCard");
     expect(card).toContain("DisplayNameForm");
+    expect(page).toContain("ProfileBillingForm");
     expect(form).toContain("onSubmit");
     expect(form).toContain('method: "PATCH"');
     expect(form).toContain("PROFILE_WRITE_PATH");

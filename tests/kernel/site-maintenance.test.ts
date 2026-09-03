@@ -190,10 +190,25 @@ describe("proxy bakım 503 (donma env açık, üretim host)", () => {
   });
 
   it("yasal sayfalar, iletişim, robots ve sitemap freeze açıkken 503 almaz", async () => {
-    for (const path of ["/legal", "/legal/gizlilik", "/legal/iade", "/iletisim", "/robots.txt", "/sitemap.xml"]) {
+    for (const path of ["/legal", "/legal/gizlilik", "/legal/iade", "/iletisim", "/robots.txt", "/sitemap.xml", "/api/payments/webhooks/paytr"]) {
       const response = await proxy(request(path, PRODUCTION_ORIGIN));
       expect(response.status, path).not.toBe(503);
     }
+  });
+
+  it("header veya cookie ile bakım modu bypass edilir", async () => {
+    vi.stubEnv("SITE_MAINTENANCE_BYPASS_TOKEN", "secret-ops-token");
+    const bypassedReq = new NextRequest(new URL("/", PRODUCTION_ORIGIN), {
+      headers: { "x-yetkin-maintenance-bypass": "secret-ops-token" },
+    });
+    const response = await proxy(bypassedReq);
+    expect(response.status).not.toBe(503);
+
+    const cookieReq = new NextRequest(new URL("/", PRODUCTION_ORIGIN), {
+      headers: { cookie: "yetkin_maintenance_bypass=secret-ops-token" },
+    });
+    const cookieResp = await proxy(cookieReq);
+    expect(cookieResp.status).not.toBe(503);
   });
 
   it("localhost ve /career donmayı görmez", async () => {

@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { ACADEMY_COURSE_SEEDS } from "@/lib/academy/seed";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
+import { buildAcademyDialogueTimeline } from "@/lib/academy/dialogue-timeline";
 import {
   ACADEMY_FIVE_ACT_HEADINGS,
   academyLessonHasFiveActPedagogy,
@@ -150,13 +151,42 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
       expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
-      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
+      if (lesson.key === "ai-agent-temel-2") {
+        expect(lesson.body, lesson.key).toContain("Merhaba arkadaşlar, ben Maya");
+        expect(lesson.body, lesson.key).toContain("Bu bölümde Prompt Mühendisliği");
+      } else if (lesson.key === "ai-agent-temel-3") {
+        expect(lesson.body, lesson.key).toContain("Merhaba arkadaşlar, ben Maya");
+        expect(lesson.body, lesson.key).toContain("Bu bölümde Araç Kullanımı");
+      } else if (lesson.key === "ai-agent-temel-4") {
+        expect(lesson.body, lesson.key).toContain("Merhaba sevgili arkadaşlar, ben Maya");
+        expect(lesson.body, lesson.key).toContain("Bu bölümde Hafıza Mimarisi");
+      } else if (lesson.key === "ai-agent-temel-5") {
+        expect(lesson.body, lesson.key).toContain("Selamlar arkadaşlar, ben Maya");
+        expect(lesson.body, lesson.key).toContain("Bu bölümde, ajanın kendi kendine mantık yürütüp");
+      } else if (lesson.key === "ai-agent-temel-6") {
+        expect(lesson.body, lesson.key).toContain("Selamlar arkadaşlar, ben Maya");
+        expect(lesson.body, lesson.key).toContain("Geldik Modül 1'in büyük finaline");
+      } else {
+        expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
+      }
       expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
       expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
       expect(lesson.body, lesson.key).toContain("```alistirma");
-      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+      if (
+        lesson.key === "ai-agent-temel-3" ||
+        lesson.key === "ai-agent-temel-4"
+      ) {
+        expect(lesson.body, lesson.key).toContain("Bir sonraki bölümde görüşmek üzere.");
+      } else if (lesson.key === "ai-agent-temel-5") {
+        expect(lesson.body, lesson.key).toContain("Sıradaki projede görüşmek üzere");
+      } else if (lesson.key === "ai-agent-temel-6") {
+        expect(lesson.body, lesson.key).toContain("Yapay Zeka Mimarı");
+        expect(lesson.body, lesson.key).toContain("Kendinize çok iyi bakın");
+      } else {
+        expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+      }
     }
-    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+    expect(lessons[lessons.length - 1]!.body).toContain("Yapay Zeka Mimarı");
   });
 
   it("AI Agent Orta beş perde, DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
@@ -167,13 +197,34 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.body.length, lesson.key).toBeGreaterThan(900);
       expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
       expect(lesson.body, lesson.key).not.toMatch(/Koray:/);
-      expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
+      expect(lesson.body, lesson.key).toContain("Selamlar! Ben Maya");
+      expect(lesson.body, lesson.key).not.toContain("Hoş geldiniz. Bu bölümde");
       expect(academyLessonHasFiveActPedagogy(lesson.body), lesson.key).toBe(true);
       expect(lesson.body, lesson.key).toContain(ACADEMY_FIVE_ACT_HEADINGS.warmup);
       expect(lesson.body, lesson.key).toContain("```alistirma");
-      expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
+      if (lesson.key === "ai-agent-orta-6") {
+        expect(lesson.body, lesson.key).toContain("Yapay Zeka Mimarı");
+        expect(lesson.body, lesson.key).toContain("Kendinize çok iyi bakın");
+      } else {
+        expect(lesson.body, lesson.key).toContain("Bir sonraki bölümde görüşmek üzere.");
+      }
     }
-    expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+    expect(lessons[3]!.title).toBe("Çoklu Ajan Mimarileri (Multi-Agent Workflows)");
+    expect(lessons[3]!.body).toContain(
+      "Selamlar! Ben Maya. Yapay Zeka Sistemleri Uzmanıyım ve orta seviye maratonumuzda işin en heyecan verici boyutuna adım atıyoruz.",
+    );
+    expect(lessons[3]!.body).toContain(
+      "Yazılım dünyasında çoklu ajan kurgularken yapılan en büyük hata",
+    );
+    expect(lessons[3]!.body).toContain(
+      "Ekrandaki kod bloğunda, endüstri standardı olan Supervisor Mimarisi",
+    );
+    expect(lessons[3]!.body).toContain(
+      "Bu dersle birlikte kompleks iş süreçlerini",
+    );
+    expect(lessons[4]!.title).toBe("Hata Yönetimi ve Graceful Degradation");
+    expect(lessons[4]!.body).toContain("Graceful Degradation");
+    expect(lessons[lessons.length - 1]!.body).toContain("Yapay Zeka Mimarı");
   });
 
   it("AI Agent İleri beş perde, DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
@@ -191,6 +242,144 @@ describe("03.16 gerçek müfredat gövdesi", () => {
       expect(lesson.body, lesson.key).toMatch(/Bir sonraki bölümde seni |Sınavda seni /);
     }
     expect(lessons[lessons.length - 1]!.body).toContain("Sınavda seni");
+  });
+
+  it("AI Agent 2. dersten itibaren bölüm tekrarı taşır; 4 dk+", {
+    timeout: 20_000,
+  }, () => {
+    for (const slug of ["ai-agent-temel", "ai-agent-orta", "ai-agent-ileri"] as const) {
+      const lessons = curriculumForCourseSlug(slug);
+      expect(lessons).toHaveLength(6);
+      for (const lesson of lessons) {
+        const timeline = buildAcademyDialogueTimeline(lesson.body, slug);
+        if (
+          lesson.key === "ai-agent-temel-3" ||
+          lesson.key === "ai-agent-temel-4" ||
+          lesson.key === "ai-agent-temel-5"
+        ) {
+          expect(timeline.spokenDuration, lesson.key).toBeGreaterThanOrEqual(120);
+        } else if (lesson.key === "ai-agent-temel-6") {
+          expect(timeline.spokenDuration, lesson.key).toBeGreaterThanOrEqual(90);
+        } else if (lesson.key.startsWith("ai-agent-orta-")) {
+          expect(timeline.spokenDuration, lesson.key).toBeGreaterThanOrEqual(120);
+        } else {
+          expect(timeline.spokenDuration, lesson.key).toBeGreaterThanOrEqual(240);
+        }
+        expect(timeline.turns.some((turn) => turn.act === "warmup"), lesson.key).toBe(true);
+        expect(timeline.turns.some((turn) => turn.act === "problem"), lesson.key).toBe(true);
+        expect(timeline.turns.some((turn) => turn.act === "development"), lesson.key).toBe(true);
+        expect(timeline.turns.some((turn) => turn.act === "conclusion"), lesson.key).toBe(true);
+        expect(timeline.turns.every((turn) => !/Baraj 70/.test(turn.text)), lesson.key).toBe(true);
+        if (lesson.key === "ai-agent-temel-1") {
+          expect(lesson.body, lesson.key).toMatch(/şef/iu);
+          expect(lesson.body, lesson.key).toMatch(/garson/iu);
+          expect(lesson.body, lesson.key).toContain("ChatGPT");
+          expect(lesson.body, lesson.key).toContain("Cursor");
+          expect(lesson.body, lesson.key).toContain("Konuşan AI değil, Çalışan AI");
+          expect(lesson.body, lesson.key).not.toMatch(/yani bu şu demek/iu);
+          expect(lesson.body, lesson.key).not.toMatch(/\bvs\./iu);
+          expect(lesson.title, lesson.key).toContain("veya");
+        } else if (lesson.key === "ai-agent-temel-2") {
+          expect(lesson.body, lesson.key).toMatch(/serbest metin/iu);
+          expect(lesson.body, lesson.key).toMatch(/kutucuk/iu);
+          expect(lesson.body, lesson.key).toMatch(/durum acil/iu);
+          expect(lesson.body, lesson.key).toMatch(/durum normal/iu);
+          expect(lesson.body, lesson.key).toMatch(/roman/iu);
+          expect(lesson.body, lesson.key).toContain("şef-garson mantığını hatırlayalım");
+          expect(lesson.body, lesson.key).toContain("onaylar ve geçer");
+          expect(lesson.body, lesson.key).not.toMatch(/(?:^|[.!?]\s+)Geçer\./u);
+          expect(lesson.body, lesson.key).not.toMatch(/Yeni kapı, dünün durduğu yerin üzerine konur/u);
+          expect(lesson.body, lesson.key).not.toMatch(/Unutulan kapı bugün yalan doğurur/u);
+          expect(lesson.body, lesson.key).not.toMatch(/e-fatura/iu);
+          expect(lesson.body, lesson.key).not.toMatch(/kıdemli bir yazar/iu);
+          expect(lesson.body, lesson.key).not.toMatch(/üç katman/iu);
+          expect(lesson.body, lesson.key).toContain("ChatGPT");
+          expect(lesson.body, lesson.key).toContain("Cursor");
+          expect(lesson.body, lesson.key).not.toMatch(/yani bu şu demek/iu);
+          expect(lesson.body, lesson.key).not.toMatch(/\bvs\./iu);
+          expect(lesson.body, lesson.key).not.toMatch(/\bOutput\b/);
+        } else if (lesson.key === "ai-agent-temel-3") {
+          expect(lesson.body, lesson.key).toMatch(/halüsinasyon/iu);
+          expect(lesson.body, lesson.key).toContain("hava_durumu_getir");
+          expect(lesson.body, lesson.key).toContain("hesap_makinesi");
+          expect(lesson.body, lesson.key).toContain("termometre");
+          expect(lesson.body, lesson.key).toMatch(/tam eşleşme/iu);
+          expect(lesson.body, lesson.key).toContain("Ekrandaki kod bloğunda gördüğünüz bu yapılar");
+          expect(lesson.body, lesson.key).toContain("Kod bilmiyorsanız kesinlikle endişelenmeyin");
+          expect(lesson.body, lesson.key).not.toContain("veya dünkü borsa");
+          expect(lesson.body, lesson.key).not.toContain("Siz de inanırsınız");
+          expect(lesson.body, lesson.key).not.toMatch(/Yeni kapı, dünün durduğu yerin üzerine konur/u);
+          expect(lesson.body, lesson.key).not.toMatch(/Unutulan kapı bugün yalan doğurur/u);
+          expect(lesson.body, lesson.key).not.toMatch(/yani bu şu demek/iu);
+          expect(lesson.body, lesson.key).not.toMatch(/\bvs\./iu);
+        } else if (lesson.key === "ai-agent-temel-4") {
+          expect(lesson.body, lesson.key).toMatch(/balık hafıza/iu);
+          expect(lesson.body, lesson.key).toContain("kisa_sureli_hafiza");
+          expect(lesson.body, lesson.key).toContain("uzun_sureli_hafiza");
+          expect(lesson.body, lesson.key).toContain("Context Window");
+          expect(lesson.body, lesson.key).toContain("Vector Storage");
+          expect(lesson.body, lesson.key).not.toMatch(/Yeni kapı, dünün durduğu yerin üzerine konur/u);
+          expect(lesson.body, lesson.key).not.toMatch(/Unutulan kapı bugün yalan doğurur/u);
+          expect(lesson.body, lesson.key).not.toMatch(/yani bu şu demek/iu);
+          expect(lesson.body, lesson.key).not.toMatch(/\bvs\./iu);
+        } else if (lesson.key === "ai-agent-temel-5") {
+          expect(lesson.body, lesson.key).toContain("Düşün, Eyleme Geç ve Gözlemle");
+          expect(lesson.body, lesson.key).toContain("depo_sorgula");
+          expect(lesson.body, lesson.key).toContain("DUSUN (Thought)");
+          expect(lesson.body, lesson.key).toContain("maksimum adım sınırı");
+          expect(lesson.body, lesson.key).not.toMatch(/Yeni kapı, dünün durduğu yerin üzerine konur/u);
+          expect(lesson.body, lesson.key).not.toMatch(/Unutulan kapı bugün yalan doğurur/u);
+          expect(lesson.body, lesson.key).not.toMatch(/yani bu şu demek/iu);
+          expect(lesson.body, lesson.key).not.toMatch(/\bvs\./iu);
+        } else if (lesson.key === "ai-agent-temel-6") {
+          expect(lesson.body, lesson.key).toContain("hava_durumu_getir");
+          expect(lesson.body, lesson.key).toContain("not_kaydet");
+          expect(lesson.body, lesson.key).toContain("notlar.txt");
+          expect(lesson.body, lesson.key).toContain("ReAct");
+          expect(lesson.body, lesson.key).toContain("Yapay Zeka Mimarı");
+          expect(lesson.body, lesson.key).not.toMatch(/Yeni kapı, dünün durduğu yerin üzerine konur/u);
+          expect(lesson.body, lesson.key).not.toMatch(/Unutulan kapı bugün yalan doğurur/u);
+          expect(lesson.body, lesson.key).not.toMatch(/yani bu şu demek/iu);
+          expect(lesson.body, lesson.key).not.toMatch(/\bvs\./iu);
+        } else if (lesson.key.startsWith("ai-agent-orta-")) {
+          expect(lesson.body, lesson.key).not.toMatch(/yani bu şu demek/iu);
+        } else {
+          expect(lesson.body, lesson.key).toMatch(/yani bu şu demek/iu);
+        }
+        if (lesson.key === "ai-agent-temel-2") {
+          expect(lesson.body, lesson.key).toContain("Merhaba arkadaşlar, ben Maya");
+          expect(lesson.body, lesson.key).toContain("Kontrol listesini birlikte işaretleyelim");
+        } else if (lesson.key === "ai-agent-temel-3") {
+          expect(lesson.body, lesson.key).toContain("Merhaba arkadaşlar, ben Maya");
+          expect(lesson.body, lesson.key).toContain("Geçen bölümde ne kurgulamıştık");
+        } else if (lesson.key === "ai-agent-temel-4") {
+          expect(lesson.body, lesson.key).toContain("Merhaba sevgili arkadaşlar, ben Maya");
+          expect(lesson.body, lesson.key).toContain("Önceki bölümde ne öğrenmiştik");
+        } else if (lesson.key === "ai-agent-temel-5") {
+          expect(lesson.body, lesson.key).toContain("Selamlar arkadaşlar, ben Maya");
+          expect(lesson.body, lesson.key).toContain("Önceki bölümde ajanın unutkanlığını çözdük");
+        } else if (lesson.key === "ai-agent-temel-6") {
+          expect(lesson.body, lesson.key).toContain("Selamlar arkadaşlar, ben Maya");
+          expect(lesson.body, lesson.key).toContain("Buraya kadar parça parça ne öğrendik");
+        } else if (lesson.key.startsWith("ai-agent-orta-")) {
+          expect(lesson.body, lesson.key).toContain("Selamlar! Ben Maya");
+          expect(lesson.body, lesson.key).toContain("Yapay Zeka Sistemleri Uzmanıyım");
+          expect(lesson.body, lesson.key).not.toContain("Hoş geldiniz. Bu bölümde");
+          expect(lesson.body, lesson.key).not.toContain("Ne Öğrenmiştik?");
+        } else if (lesson.order >= 2) {
+          expect(lesson.body, lesson.key).toContain("Ne Öğrenmiştik?");
+          expect(lesson.body, lesson.key).toContain("Bir önceki bölümde ne öğrendik?");
+          expect(lesson.body, lesson.key).toContain("Kontrol listesini birlikte işaretleyelim.");
+        } else {
+          expect(lesson.body, lesson.key).not.toContain("Bir önceki bölümde ne öğrendik?");
+          expect(lesson.body, lesson.key).toContain("Merhaba, ben Maya");
+          expect(lesson.body, lesson.key).toContain("Yapay Zeka Sistemleri Uzmanıyım");
+        }
+        if (lesson.key.startsWith("ai-agent-orta-") && lesson.order < 6) {
+          expect(lesson.body, lesson.key).toContain("Bir sonraki bölümde görüşmek üzere.");
+        }
+      }
+    }
   });
 
   it("Full-Stack Temel beş perde, DialogueTurn ve quiz taşır", { timeout: 20_000 }, () => {
@@ -634,7 +823,7 @@ describe("03.22 tek ses tek isim", () => {
     expect(academyModeratorForSlug("linkedin-masterclass").name).toBe("Tarık");
     expect(academyInstructorBySlug("linkedin-masterclass").name).toBe("Gözde");
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Gözde")?.speechRate).toBe(
-      1,
+      0.93,
     );
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Tarık")?.speechRate).toBe(
       1,
@@ -645,13 +834,13 @@ describe("03.22 tek ses tek isim", () => {
     expect(instructor.name).toBe("Maya");
     expect(instructor.voice).toBe("Erinome");
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Maya")?.speechRate).toBe(
-      1,
+      0.93,
     );
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Koray")?.speechRate).toBe(
       1,
     );
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Ece")?.speechRate).toBe(
-      1,
+      0.93,
     );
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Can")?.speechRate).toBe(
       1,
@@ -668,7 +857,12 @@ describe("03.22 tek ses tek isim", () => {
     for (const lesson of lessons) {
       expect(lesson.body, lesson.key).not.toContain(ACADEMY_MODERATOR_OPEN_LEAD);
       expect(lesson.body, lesson.key).not.toContain(ACADEMY_MODERATOR_CLOSE_TAIL);
-      expect(lesson.body, lesson.key).not.toContain(instructor.greetingLead);
+      if (lesson.order === 1) {
+        expect(lesson.body, lesson.key).toContain(instructor.greetingLead);
+        expect(lesson.body, lesson.key).toContain(instructor.bio);
+      } else {
+        expect(lesson.body, lesson.key).not.toContain(instructor.greetingLead);
+      }
       for (const other of Object.values(ACADEMY_INSTRUCTORS_BY_VOICE)) {
         if (other.name === instructor.name) {
           continue;
@@ -877,10 +1071,50 @@ describe("03.30 doğal dil temizliği", () => {
     for (const slug of slugs) {
       for (const lesson of curriculumForCourseSlug(slug)) {
         const spoken = spokenAcademyLessonBody(lesson.body);
-        expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
-        expect(lesson.body, lesson.key).toContain("Geleneksel yapılarda");
-        expect(lesson.body, lesson.key).toContain("Ekrandaki kod bloğunda gördüğünüz üzere");
-        expect(lesson.body, lesson.key).toContain("Bu dersle");
+        if (lesson.key === "ai-agent-temel-2") {
+          expect(lesson.body, lesson.key).toContain("Merhaba arkadaşlar, ben Maya");
+          expect(lesson.body, lesson.key).toContain("Bu bölümde Prompt Mühendisliği");
+        } else if (lesson.key === "ai-agent-temel-3") {
+          expect(lesson.body, lesson.key).toContain("Merhaba arkadaşlar, ben Maya");
+          expect(lesson.body, lesson.key).toContain("Bu bölümde Araç Kullanımı");
+        } else if (lesson.key === "ai-agent-temel-4") {
+          expect(lesson.body, lesson.key).toContain("Merhaba sevgili arkadaşlar, ben Maya");
+          expect(lesson.body, lesson.key).toContain("Bu bölümde Hafıza Mimarisi");
+        } else if (lesson.key === "ai-agent-temel-5") {
+          expect(lesson.body, lesson.key).toContain("Selamlar arkadaşlar, ben Maya");
+          expect(lesson.body, lesson.key).toContain("Bu bölümde, ajanın kendi kendine mantık yürütüp");
+        } else if (lesson.key === "ai-agent-temel-6") {
+          expect(lesson.body, lesson.key).toContain("Selamlar arkadaşlar, ben Maya");
+          expect(lesson.body, lesson.key).toContain("Geldik Modül 1'in büyük finaline");
+        } else if (lesson.key.startsWith("ai-agent-orta-")) {
+          expect(lesson.body, lesson.key).toContain("Selamlar! Ben Maya");
+          expect(lesson.body, lesson.key).not.toContain("Hoş geldiniz. Bu bölümde");
+        } else {
+          expect(lesson.body, lesson.key).toContain("Hoş geldiniz. Bu bölümde");
+        }
+        if (lesson.key === "ai-agent-temel-3") {
+          expect(lesson.body, lesson.key).toContain("halüsinasyon");
+          expect(lesson.body, lesson.key).toContain("Ekrandaki kod bloğunda gördüğünüz bu yapılar");
+        } else if (lesson.key === "ai-agent-temel-4") {
+          expect(lesson.body, lesson.key).toContain("balık hafızalıdır");
+          expect(lesson.body, lesson.key).toContain("Ekrandaki kod bloğunda gördüğünüz üzere");
+        } else if (lesson.key === "ai-agent-temel-5") {
+          expect(lesson.body, lesson.key).toContain("Düşün, Eyleme Geç ve Gözlemle");
+          expect(lesson.body, lesson.key).toContain("Ekrandaki kod bloğunda gördüğünüz bu yapı");
+        } else if (lesson.key === "ai-agent-temel-6") {
+          expect(lesson.body, lesson.key).toContain("Ekrandaki kod bloğunda bu 5 dersin");
+          expect(lesson.body, lesson.key).toContain("hava_durumu_getir");
+        } else if (lesson.key.startsWith("ai-agent-orta-")) {
+          expect(lesson.body, lesson.key).toContain("Ekrandaki kod bloğunda");
+        } else {
+          expect(lesson.body, lesson.key).toContain("Geleneksel yapılarda");
+          expect(lesson.body, lesson.key).toContain("Ekrandaki kod bloğunda gördüğünüz üzere");
+        }
+        if (lesson.key === "ai-agent-temel-6" || lesson.key === "ai-agent-orta-6") {
+          expect(lesson.body, lesson.key).toContain("Tebrikler!");
+        } else {
+          expect(lesson.body, lesson.key).toContain("Bu dersle");
+        }
         expect(spoken, lesson.key).not.toMatch(/\bKoray\b/);
         expect(spoken, lesson.key).not.toMatch(/çağrı merkez|serbest şiir/iu);
         expect(spoken, lesson.key).not.toContain("Teşekkürler Koray");

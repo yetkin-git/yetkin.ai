@@ -23,11 +23,17 @@ export async function projectLiveCareerBoard(
   ports: CareerEnginePorts,
   userId: string,
 ): Promise<LiveCareerBoard> {
-  const [stamps, portfolio, sealed] = await Promise.all([
+  const [stamps, portfolio] = await Promise.all([
     ports.career.listStampsForUser(userId),
     ports.career.listPortfolioForUser(userId),
-    ports.proofs.listSealedProofs(userId),
   ]);
+  if (stamps.length === 0) {
+    return {
+      stamps: [],
+      portfolio: [],
+    };
+  }
+  const sealed = await ports.proofs.listSealedProofs(userId);
   const live = bindLivePassportStamps(stamps, sealed, userId);
   const liveIds = new Set(live.map((stamp) => stamp.id));
   return {

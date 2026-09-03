@@ -59,10 +59,13 @@ export async function proxy(request: NextRequest) {
   const nonce = createEdgeNonce();
   const v1 = isApiV1Pathname(pathname);
 
+  const maintenanceEnv = readProcessSiteMaintenanceEnv();
   if (
     shouldInterceptForSiteMaintenance(
       pathname,
-      isSiteMaintenanceActive(readProcessSiteMaintenanceEnv(), resolveRequestHostname(request)),
+      isSiteMaintenanceActive(maintenanceEnv, resolveRequestHostname(request)),
+      request,
+      maintenanceEnv,
     )
   ) {
     const maintenance = siteMaintenanceNextResponse(request, pathname);
@@ -198,5 +201,6 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/((?!_next/static|_next/image|favicon.ico).*)"],
+  // /media/academy/audio WAV — kenar JWT/getUser Range isteğini kesmesin.
+  matcher: ["/", "/((?!_next/static|_next/image|favicon.ico|media/).*)"],
 };

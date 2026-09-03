@@ -441,10 +441,11 @@ function ensureTwoProseParagraphs(prose: string): string {
   return [sentences.slice(0, mid).join(" "), sentences.slice(mid).join(" ")].join("\n\n");
 }
 
-/** TTS kısaltma genişletmesi — görsel metin değişmez; yalnızca spokenText. */
+/** TTS kısaltma genişletmesi — ekran ve ses aynı kanondan geçer. */
 export function expandAcademySpokenAbbreviations(text: string): string {
   return normalizeAcronyms(
     text
+      .replace(/\bvs\./giu, "veya")
       .replace(/\bY\s*\.\s*Z\s*\.?/giu, "Yapay Zekâ")
       .replace(/\bYZ\b/giu, "Yapay Zekâ")
       .replace(
@@ -773,33 +774,30 @@ export function cleanAcademySpokenTextForTts(text: string): string {
 
 /**
  * Ekranda görünen düzyazı — başlık + gövde. Kod çiti boş (görsel blok).
- * Ses metni bu dizginin TTS gümrüğünden geçer; ek köprü / diyalog yok.
+ * Ses metni ile birebir: aynı gümrük, aynı kısaltma açılımı.
  */
 export function displayAcademyLessonSegment(segment: AcademyLessonSegment): string {
+  let prose = "";
   if (segment.kind === "text") {
     const parsed = parseAcademyLessonActText(segment.text);
-    if (parsed.heading) {
-      return collapseAcademyLessonProse(`${parsed.heading} ${parsed.body}`);
-    }
-    return collapseAcademyLessonProse(segment.text);
-  }
-  if (segment.kind === "steps") {
-    return collapseAcademyLessonProse(
+    prose = parsed.heading
+      ? collapseAcademyLessonProse(`${parsed.heading} ${parsed.body}`)
+      : collapseAcademyLessonProse(segment.text);
+  } else if (segment.kind === "steps") {
+    prose = collapseAcademyLessonProse(
       segment.items.map((item, index) => `${index + 1}. ${item}`).join(" "),
     );
+  } else if (segment.kind === "params") {
+    prose = collapseAcademyLessonProse(segment.rows.map((row) => `${row.label}: ${row.value}.`).join(" "));
+  } else if (segment.kind === "exercise") {
+    prose = collapseAcademyLessonProse(segment.prompt);
   }
-  if (segment.kind === "params") {
-    return collapseAcademyLessonProse(segment.rows.map((row) => `${row.label}: ${row.value}.`).join(" "));
-  }
-  if (segment.kind === "exercise") {
-    return collapseAcademyLessonProse(segment.prompt);
-  }
-  return "";
+  return prose ? cleanAcademySpokenTextForTts(prose) : "";
 }
 
-/** TTS: tek segmentin konuşulan metni. Ekran metni ile birebir (gümrük sonrası). */
+/** TTS: tek segmentin konuşulan metni. Ekran metni ile %100 birebir. */
 export function spokenAcademyLessonSegment(segment: AcademyLessonSegment): string {
-  return cleanAcademySpokenTextForTts(displayAcademyLessonSegment(segment));
+  return displayAcademyLessonSegment(segment);
 }
 
 /** TTS: kod çiti düşer; adım ve parametre düz cümle olur. */

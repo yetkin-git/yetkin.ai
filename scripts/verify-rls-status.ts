@@ -6,7 +6,7 @@
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { RLS_OWNERSHIP_COLUMNS } from "@/lib/kernel/security/rls-policy-registry";
+import { RLS_FORCE_TABLES, RLS_OWNERSHIP_COLUMNS, RLS_UNSCOPED_DENY_POLICY } from "@/lib/kernel/security/rls-policy-registry";
 
 const ROOT = process.cwd();
 const SCHEMA_DIR = join(ROOT, "prisma", "schema");
@@ -77,6 +77,7 @@ if (!auth) {
     { re: /GRANT EXECUTE ON FUNCTION public\.handle_new_user\(\)/, label: "GRANT EXECUTE handle_new_user" },
     { re: /REVOKE ALL ON FUNCTION public\.handle_new_user\(\) FROM PUBLIC/, label: "REVOKE PUBLIC handle_new_user" },
     { re: /supabase_auth_admin/, label: "supabase_auth_admin EXECUTE" },
+    { re: /age_confirmed_at/, label: "18+ age_confirmed_at" },
   ]) {
     if (!marker.re.test(auth.sql)) {
       issues.push(`${auth.file}: eksik mühür — ${marker.label}`);
@@ -132,6 +133,9 @@ if (!policy) {
     { re: /FUNCTION public\.yetkin_rls_ownership_columns\(\)/, label: "ownership sicili" },
     { re: /CREATE POLICY/, label: "CREATE POLICY" },
     { re: /FOR SELECT TO authenticated/, label: "SELECT only" },
+    { re: /FUNCTION public\.yetkin_apply_rls_unscoped_deny\(/, label: "unscoped deny" },
+    { re: new RegExp(RLS_UNSCOPED_DENY_POLICY), label: "rls_deny_unscoped" },
+    { re: /USING \(false\)/, label: "deny USING false" },
     {
       re: /CREATE\s+EVENT\s+TRIGGER\s+yetkin_auto_apply_rls_policies_on_create/,
       label: "policy event trigger",
@@ -161,6 +165,14 @@ if (!policy) {
 const tables = extractPrismaTables();
 if (tables.length === 0) {
   issues.push("prisma/schema altında model yok.");
+} else {
+  const force = [...RLS_FORCE_TABLES].sort();
+  const prismaSorted = [...tables].sort();
+  if (force.join(",") !== prismaSorted.join(",")) {
+    issues.push(
+      `RLS FORCE sicil sapması. sicil=[${force.join(", ")}] Prisma=[${prismaSorted.join(", ")}]`,
+    );
+  }
 }
 
 if (issues.length > 0) {
@@ -169,5 +181,5 @@ if (issues.length > 0) {
 }
 
 console.log(
-  `verify:rls-status OK — Auth sync + e-posta senkronu + FORCE RLS + owner SELECT. Prisma tabloları: ${tables.join(", ")}.`,
+  `verify:rls-status OK — Auth sync + e-posta senkronu + FORCE RLS + owner SELECT + kapsamsız deny. Prisma tabloları: ${tables.join(", ")}.`,
 );
