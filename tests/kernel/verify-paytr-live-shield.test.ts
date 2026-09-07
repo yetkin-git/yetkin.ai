@@ -296,6 +296,8 @@ describe("PayTR canlı kalkan mührü", () => {
   it("boş IP allowlist HMAC-only bırakır; dolu listede yabancı IP kesilir", () => {
     expect(parsePaytrWebhookIpAllowlist("")).toEqual([]);
     expect(isPaytrWebhookSourceIpAllowed("1.2.3.4", [])).toBe(true);
+    expect(isPaytrWebhookSourceIpAllowed("1.2.3.4", [], { NODE_ENV: "production" })).toBe(true);
+    expect(isPaytrWebhookSourceIpAllowed("185.22.184.10", ["185.22.184.0/22"])).toBe(true);
     expect(isPaytrWebhookSourceIpAllowed("1.2.3.4", ["5.6.7.8"])).toBe(false);
     expect(isPaytrWebhookSourceIpAllowed("5.6.7.8", ["5.6.7.8"])).toBe(true);
     expect(isPaytrWebhookSourceIpAllowed("", ["5.6.7.8"])).toBe(false);

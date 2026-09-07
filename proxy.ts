@@ -53,11 +53,35 @@ import {
  * (kopya handler ağacı yok; sicil dışı v1 yol 404, kanonik handler'a düşmez).
  * `SITE_MAINTENANCE_FREEZE=true|1` iken ürün 503; health, `/legal`, `/iletisim`,
  * robots ve sitemap geçer. Canlı / PayTR: bayrak boş. `NODE_ENV=development` ve localhost yok sayılır.
+ * PayTR Bildirim URL (`/api/paytr/callback`, `/api/payments/webhooks/paytr`) JWT / Origin /
+ * rate-limit / bakım kenarını atlar; HMAC handler'dadır.
  */
+const PAYTR_NOTIFICATION_EDGE_PATHS = new Set([
+  "/api/payments/webhooks/paytr",
+  "/api/paytr/callback",
+]);
+
+function isPaytrNotificationEdgePath(pathname: string): boolean {
+  return PAYTR_NOTIFICATION_EDGE_PATHS.has(canonicalApiPathname(pathname));
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const nonce = createEdgeNonce();
   const v1 = isApiV1Pathname(pathname);
+
+  if (isPaytrNotificationEdgePath(pathname)) {
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.delete(RAIL_PATHNAME_HEADER);
+    requestHeaders.set(RAIL_PATHNAME_HEADER, pathname);
+    requestHeaders.set(RAIL_REQUEST_METHOD_HEADER, request.method);
+    attachEdgeNonceRequestHeaders(requestHeaders, nonce);
+    const response = NextResponse.next({
+      request: { headers: requestHeaders },
+    });
+    applyEdgeSecurityHeaders(response, { nonce });
+    return response;
+  }
 
   const maintenanceEnv = readProcessSiteMaintenanceEnv();
   if (

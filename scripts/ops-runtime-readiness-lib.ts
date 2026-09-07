@@ -349,11 +349,6 @@ export function extraProductionBlocks(
       "NEXT_PUBLIC_APP_URL üretimde https genel köken ister (localhost / http Bildirim URL'yi kırar).",
     );
   }
-  if (paytr.triple === "configured" && !paytr.webhookIpAllowlistSet) {
-    blocking.push(
-      "PAYTR_WEBHOOK_IP_ALLOWLIST üretimde zorunlu — boş liste HMAC-only lab içindir; IP spoof ile webhook açılmaz.",
-    );
-  }
   return blocking;
 }
 

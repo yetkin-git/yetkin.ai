@@ -180,6 +180,25 @@ describe("proxy.ts kenar mühürleri", () => {
     expectV1Fail(await unknown.json(), "API yolu bulunamadı.");
   });
 
+  it("PayTR bildirim yolları JWT/Origin/bakım kenarını atlar", async () => {
+    vi.stubEnv("SITE_MAINTENANCE_FREEZE", "true");
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("VITEST", "false");
+    for (const path of ["/api/payments/webhooks/paytr", "/api/paytr/callback"]) {
+      const response = await proxy(
+        new NextRequest(new URL(path, "http://localhost:3000"), {
+          method: "POST",
+          headers: {
+            origin: "https://evil.example",
+            "sec-fetch-site": "cross-site",
+          },
+        }),
+      );
+      expect(response.status, path).toBe(200);
+      expectNonceCsp(response);
+    }
+  });
+
   it("sahte Bearer session API'yi kenarda 401 eker", async () => {
     const response = await proxy(
       request("/api/dashboard/pulse", { authorization: "Bearer eyJhbGciOi" }),

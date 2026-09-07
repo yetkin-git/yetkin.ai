@@ -128,10 +128,14 @@ describe("üretim runtime readiness (Inngest / PayTR)", () => {
     expect(report.productionBlocked).toBe(false);
   });
 
-  it("yüzey: ops betiği prebuild'de yoktur; sır basmaz", () => {
+  it("yüzey: ops betiği prebuild zincirinde üretim kapısıdır; sır basmaz", () => {
     const pkg = JSON.parse(readSrc("package.json")) as { scripts: Record<string, string> };
     expect(pkg.scripts["ops:runtime-readiness"]).toBe("tsx scripts/ops-runtime-readiness.ts");
-    expect(pkg.scripts["verify:prebuild"]).not.toContain("ops:runtime-readiness");
+    // Phase 2 tedavisi: readiness verify:prebuild zincirindedir — geliştirmede tablo basar
+    // çıkış 0; yalnız NODE_ENV=production derlemesinde eksik env build hatasına döner
+    // (env'siz prod deploy'un sessiz 503'ü build kapısında yakalanır).
+    expect(pkg.scripts["verify:prebuild"]).toContain("ops:runtime-readiness");
+    expect(pkg.scripts["build"]).toContain("verify:prebuild");
     const script = readSrc("scripts/ops-runtime-readiness.ts");
     expect(script).toContain("Sır basmaz");
     expect(script).toContain("§5.1");
@@ -301,7 +305,7 @@ describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
         PAYTR_MERCHANT_SALT: "salt",
         NEXT_PUBLIC_APP_URL: "https://rail.example",
       }).some((row) => row.includes("PAYTR_WEBHOOK_IP_ALLOWLIST")),
-    ).toBe(true);
+    ).toBe(false);
 
     const missingPepper = extraProductionBlocks({
       NODE_ENV: "production",

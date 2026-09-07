@@ -3,9 +3,9 @@ import {
   isPaytrNotificationProbe,
   isPaytrWebhookSourceIpAllowed,
   parsePaytrWebhookForm,
-  parsePaytrWebhookIpAllowlist,
   PAYTR_WEBHOOK_PATH,
   readPaytrWebhookRequestIp,
+  resolvePaytrWebhookIpAllowlist,
 } from "@/lib/kernel/payments/paytr/webhook";
 import { paytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import { isPaytrProductionSafetyError } from "@/lib/kernel/payments/paytr/checkout";
@@ -94,7 +94,7 @@ export async function POST(request: Request) {
     return paytrOk(requestId);
   }
 
-  const allowlist = parsePaytrWebhookIpAllowlist();
+  const allowlist = resolvePaytrWebhookIpAllowlist();
   const sourceIp = readPaytrWebhookRequestIp(request);
   if (!isPaytrWebhookSourceIpAllowed(sourceIp, allowlist)) {
     logEvent({

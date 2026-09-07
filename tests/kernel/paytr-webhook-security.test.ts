@@ -13,6 +13,8 @@ import {
   isPaytrWebhookIpAllowlistRequired,
   isPaytrWebhookSourceIpAllowed,
   parsePaytrWebhookForm,
+  PAYTR_OFFICIAL_WEBHOOK_IP_CIDRS,
+  resolvePaytrWebhookIpAllowlist,
 } from "@/lib/kernel/payments/paytr/webhook";
 import {
   settlePaytrWebhookFailure,
@@ -294,9 +296,10 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
     expect(missing.ledger.snapshot(BUYER).amountMinor).toBe(0);
   });
 
-  it("üretimde boş IP allowlist fail-closed; lab boş liste HMAC-only", () => {
-    expect(isPaytrWebhookIpAllowlistRequired({ NODE_ENV: "production" })).toBe(true);
-    expect(isPaytrWebhookSourceIpAllowed("1.2.3.4", [], { NODE_ENV: "production" })).toBe(false);
+  it("üretimde boş IP allowlist HMAC-only; lab boş liste HMAC-only; CIDR resmi blokları açar", () => {
+    expect(isPaytrWebhookIpAllowlistRequired({ NODE_ENV: "production" })).toBe(false);
+    expect(isPaytrWebhookSourceIpAllowed("1.2.3.4", [], { NODE_ENV: "production" })).toBe(true);
+    expect(isPaytrWebhookSourceIpAllowed("", [], { NODE_ENV: "production" })).toBe(true);
     expect(isPaytrWebhookSourceIpAllowed("", ["203.0.113.10"], { NODE_ENV: "production" })).toBe(
       false,
     );
@@ -304,16 +307,24 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
       isPaytrWebhookSourceIpAllowed("203.0.113.10", ["203.0.113.10"], { NODE_ENV: "production" }),
     ).toBe(true);
     expect(isPaytrWebhookSourceIpAllowed("1.2.3.4", [], { NODE_ENV: "test" })).toBe(true);
+    expect(isPaytrWebhookSourceIpAllowed("185.22.184.10", ["185.22.184.0/22"])).toBe(true);
+    expect(isPaytrWebhookSourceIpAllowed("185.22.187.255", ["185.22.184.0/22"])).toBe(true);
+    expect(isPaytrWebhookSourceIpAllowed("185.22.188.1", ["185.22.184.0/22"])).toBe(false);
+    expect(resolvePaytrWebhookIpAllowlist("")).toEqual([]);
+    expect(resolvePaytrWebhookIpAllowlist("203.0.113.10")).toEqual([
+      ...PAYTR_OFFICIAL_WEBHOOK_IP_CIDRS,
+      "203.0.113.10",
+    ]);
   });
 
-  it("üretimde boş allowlist webhook 403 ip_not_allowed; CREDIT yok", async () => {
+  it("üretimde boş allowlist IP yüzünden 403 basmaz; HMAC kapısı durur", async () => {
     vi.stubEnv("NODE_ENV", "production");
-    const response = await postWebhook(webhookForm(validHash()), {
+    const response = await postWebhook(webhookForm("bad-hash"), {
       "x-forwarded-for": "203.0.113.10",
     });
     expect(response.status).toBe(403);
     const body = (await response.json()) as { reason: string };
-    expect(body.reason).toBe("ip_not_allowed");
+    expect(body.reason).toBe("invalid_signature");
   });
 
   it("trusted-proxy sağ hop allowlist'te değilse spoof sol IP 403", async () => {

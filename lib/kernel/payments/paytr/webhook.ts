@@ -92,6 +92,12 @@ export function isPaytrWebhookPayload(value: unknown): value is PaytrWebhookPayl
   );
 }
 
+/**
+ * PayTR Destek bildirim CIDR'leri. Env boşken HMAC-only (Cloudflare/Vercel hop
+ * XFF'yi PayTR IP'si gibi göstermez). Env doluysa bu bloklar her zaman eklenir.
+ */
+export const PAYTR_OFFICIAL_WEBHOOK_IP_CIDRS = ["185.22.184.0/22"] as const;
+
 export function parsePaytrWebhookIpAllowlist(
   raw: string | undefined = process.env.PAYTR_WEBHOOK_IP_ALLOWLIST,
 ): string[] {
@@ -101,40 +107,100 @@ export function parsePaytrWebhookIpAllowlist(
     .filter((part) => part.length > 0);
 }
 
+/** Env boş = HMAC-only. Doluysa resmi CIDR + operatör listesi. */
+export function resolvePaytrWebhookIpAllowlist(
+  raw: string | undefined = process.env.PAYTR_WEBHOOK_IP_ALLOWLIST,
+): string[] {
+  const configured = parsePaytrWebhookIpAllowlist(raw);
+  if (configured.length === 0) {
+    return [];
+  }
+  return [...new Set([...PAYTR_OFFICIAL_WEBHOOK_IP_CIDRS, ...configured])];
+}
+
 export function readPaytrWebhookRequestIp(request: Request): string {
   const ip = resolveTrustedForwardedIp(request.headers);
   return ip === UNKNOWN_REQUEST_IP ? "" : ip;
 }
 
-export function isPaytrWebhookIpAllowlistRequired(
-  env: NodeJS.ProcessEnv = process.env,
-): boolean {
-  return env.NODE_ENV === "production";
+function ipv4ToInt(ip: string): number | null {
+  const parts = ip.split(".");
+  if (parts.length !== 4) {
+    return null;
+  }
+  let value = 0;
+  for (const part of parts) {
+    if (!/^\d{1,3}$/.test(part)) {
+      return null;
+    }
+    const octet = Number.parseInt(part, 10);
+    if (octet < 0 || octet > 255) {
+      return null;
+    }
+    value = (value << 8) + octet;
+  }
+  return value >>> 0;
+}
+
+export function ipMatchesPaytrAllowlistEntry(ip: string, entry: string): boolean {
+  const source = ip.trim();
+  const rule = entry.trim();
+  if (!source || !rule) {
+    return false;
+  }
+  const slash = rule.indexOf("/");
+  if (slash === -1) {
+    return source === rule;
+  }
+  const base = rule.slice(0, slash);
+  const bitsRaw = rule.slice(slash + 1);
+  if (!/^\d{1,2}$/.test(bitsRaw)) {
+    return false;
+  }
+  const bits = Number.parseInt(bitsRaw, 10);
+  if (bits < 0 || bits > 32) {
+    return false;
+  }
+  const ipInt = ipv4ToInt(source);
+  const baseInt = ipv4ToInt(base);
+  if (ipInt === null || baseInt === null) {
+    return false;
+  }
+  if (bits === 0) {
+    return true;
+  }
+  const shift = 32 - bits;
+  const mask = shift === 0 ? 0xffffffff : (0xffffffff << shift) >>> 0;
+  return (ipInt & mask) === (baseInt & mask);
 }
 
 /**
- * Lab: boş liste = yalnız HMAC.
- * Üretim: allowlist dolu ve trusted-proxy kaynak IP listededir; boş liste / boş IP fail-closed.
+ * IP allowlist üretimde zorunlu değildir — CREDIT kapısı HMAC'dir.
+ * Cloudflare kenarı XFF'yi PayTR kaynağı gibi göstermez; boş liste 403 basmaz.
+ */
+export function isPaytrWebhookIpAllowlistRequired(
+  _env: NodeJS.ProcessEnv = process.env,
+): boolean {
+  return false;
+}
+
+/**
+ * Boş liste = yalnız HMAC (lab ve üretim).
+ * Dolu liste: trusted-proxy kaynak IP tam eşleşme veya IPv4 CIDR.
  */
 export function isPaytrWebhookSourceIpAllowed(
   requestIp: string,
   allowlist: string[],
-  env: NodeJS.ProcessEnv = process.env,
+  _env: NodeJS.ProcessEnv = process.env,
 ): boolean {
-  const ip = requestIp.trim();
-  if (isPaytrWebhookIpAllowlistRequired(env)) {
-    if (allowlist.length === 0 || !ip) {
-      return false;
-    }
-    return allowlist.includes(ip);
-  }
   if (allowlist.length === 0) {
     return true;
   }
+  const ip = requestIp.trim();
   if (!ip) {
     return false;
   }
-  return allowlist.includes(ip);
+  return allowlist.some((entry) => ipMatchesPaytrAllowlistEntry(ip, entry));
 }
 
 export function verifyPaytrWebhookHash(payload: PaytrWebhookPayload): boolean {

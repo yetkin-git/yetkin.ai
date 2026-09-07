@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 /**
  * PayTR webhook mutabakat / anomali mühürleri — statik (grep). Canlı Postgres yok.
- * HMAC, üretim IP allowlist, tutar uyuşmazlığında CREDIT yok, gece defter taraması.
+ * HMAC, isteğe bağlı IP allowlist + resmi CIDR, tutar uyuşmazlığında CREDIT yok, gece defter taraması.
  * Davranış testleri package.json zincirinde vitest ile koşar.
  */
 
@@ -48,8 +48,9 @@ const FILE_RULES: FileRule[] = [
   {
     file: "lib/kernel/payments/paytr/webhook.ts",
     must: [
-      { needle: "export function isPaytrWebhookIpAllowlistRequired", label: "üretim allowlist kapısı" },
-      { needle: 'env.NODE_ENV === "production"', label: "üretim zorunluluğu" },
+      { needle: "export function isPaytrWebhookIpAllowlistRequired", label: "allowlist kapısı" },
+      { needle: "PAYTR_OFFICIAL_WEBHOOK_IP_CIDRS", label: "PayTR resmi CIDR" },
+      { needle: "resolvePaytrWebhookIpAllowlist", label: "HMAC-only boş liste" },
       { needle: "resolveTrustedForwardedIp", label: "trusted-proxy IP" },
       { needle: "verifyPaytrWebhookHash", label: "HMAC" },
     ],
@@ -60,6 +61,7 @@ const FILE_RULES: FileRule[] = [
       { needle: "settlePaytrWebhookSuccess", label: "settle çağrısı" },
       { needle: "settlePaytrWebhookFailure", label: "fail settle çağrısı" },
       { needle: "anomaly_unacked", label: "persist fail 500" },
+      { needle: "resolvePaytrWebhookIpAllowlist", label: "IP allowlist çözümü" },
       { needle: "isPaytrWebhookSourceIpAllowed", label: "IP allowlist" },
       { needle: "verifyWebhook", label: "HMAC handler" },
     ],
@@ -255,5 +257,5 @@ if (issues.length > 0) {
 }
 
 console.log(
-  "verify:paytr-reconciliation-seals OK — HMAC, üretim IP allowlist, mismatch anomali/CREDIT yok, gece defter taraması kilitli.",
+  "verify:paytr-reconciliation-seals OK — HMAC, isteğe bağlı IP allowlist + resmi CIDR, mismatch anomali/CREDIT yok, gece defter taraması kilitli.",
 );
