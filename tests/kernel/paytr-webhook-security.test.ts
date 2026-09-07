@@ -115,6 +115,20 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
     const body = (await response.json()) as { reason: string };
     expect(body.reason).toBe("invalid_signature");
 
+    const hmacLog = vi
+      .mocked(console.error)
+      .mock.calls.map((call) => String(call[0] ?? ""))
+      .find((line) => line.includes("paytr.webhook.hmac_mismatch"));
+    expect(hmacLog).toBeDefined();
+    const mismatch = JSON.parse(hmacLog ?? "{}") as {
+      receivedHash: string;
+      calculatedHash: string;
+      hashesEqual: boolean;
+    };
+    expect(mismatch.receivedHash).toBe(fakeHash);
+    expect(mismatch.calculatedHash).toBe(validHash());
+    expect(mismatch.hashesEqual).toBe(false);
+
     const provider = new PaytrPaymentProvider();
     const verified = provider.verifyWebhook({
       merchantOid: OID,

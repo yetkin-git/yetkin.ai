@@ -2,6 +2,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import { toPositiveAmountMinor, type AmountMinor } from "@/lib/kernel/money/amount-minor";
 import {
   assertPaytrProductionSafety,
+  getPaytrCheckoutCredentials,
   PAYTR_WEBHOOK_PATH,
   requirePaytrCheckoutCredentials,
 } from "@/lib/kernel/payments/paytr/checkout";
@@ -32,11 +33,23 @@ function timingSafeHashEqual(expected: string, received: string): boolean {
   return timingSafeEqual(expectedBuffer, receivedBuffer);
 }
 
+/**
+ * application/x-www-form-urlencoded `+` karakterini boşluğa çevirir;
+ * PayTR Base64 hash'indeki `+` işaretini geri koyar.
+ */
+export function normalizePaytrPostedHash(hash: string): string {
+  return hash.trim().replaceAll(" ", "+");
+}
+
 export function buildPaytrWebhookClassicToken(
   payload: Pick<PaytrWebhookPayload, "merchantOid" | "status" | "totalAmount">,
-  merchantSalt: string,
+  merchant_salt: string,
 ): string {
-  return `${payload.merchantOid}${merchantSalt}${payload.status}${payload.totalAmount}`;
+  const merchant_oid = payload.merchantOid;
+  const status = payload.status;
+  const total_amount = payload.totalAmount;
+  const hash_str = merchant_oid + merchant_salt + status + total_amount;
+  return hash_str;
 }
 
 export function buildPaytrWebhookClearanceBoundToken(
@@ -51,10 +64,14 @@ export function buildPaytrWebhookClearanceBoundToken(
 }
 
 /**
- * PayTR PHP: `base64_encode(hash_hmac('sha256', $oid.$salt.$status.$total, $key, true))`.
+ * PayTR resmi bildirim HMAC:
+ * hash_str = merchant_oid + merchant_salt + status + total_amount
+ * calculated_hash = HMAC-SHA256(hash_str, PAYTR_MERCHANT_KEY) → Base64
+ * PHP: base64_encode(hash_hmac('sha256', $hash_str, $merchant_key, true))
  * Test ve canlı aynı formül; `test_mode` bildirim HMAC'ine girmez.
  */
-function hmacBase64(token: string, merchantKey: string): string {
+function hmacBase64(hash_str: string, merchantKey: string): string {
+  const token = hash_str;
   return createHmac("sha256", merchantKey).update(token, "utf8").digest("base64");
 }
 
@@ -63,7 +80,7 @@ export function parsePaytrWebhookForm(formData: FormData): PaytrWebhookPayload {
     merchantOid: String(formData.get("merchant_oid") ?? "").trim(),
     status: String(formData.get("status") ?? "").trim(),
     totalAmount: String(formData.get("total_amount") ?? "").trim(),
-    hash: String(formData.get("hash") ?? "").trim(),
+    hash: normalizePaytrPostedHash(String(formData.get("hash") ?? "")),
     event: String(formData.get("event") ?? "").trim() || null,
     transferStatus: String(formData.get("transfer_status") ?? "").trim() || null,
   };
@@ -206,23 +223,58 @@ export function isPaytrWebhookSourceIpAllowed(
 export function verifyPaytrWebhookHash(payload: PaytrWebhookPayload): boolean {
   assertPaytrProductionSafety("verifyPaytrWebhookHash");
   const credentials = requirePaytrCheckoutCredentials("verifyPaytrWebhookHash");
-  if (!payload.merchantOid || !payload.status || !payload.totalAmount || !payload.hash) {
+  const receivedHash = normalizePaytrPostedHash(payload.hash);
+  if (!payload.merchantOid || !payload.status || !payload.totalAmount || !receivedHash) {
     return false;
   }
-  const token = buildPaytrWebhookClassicToken(payload, credentials.merchantSalt);
-  const expected = hmacBase64(token, credentials.merchantKey);
-  return timingSafeHashEqual(expected, payload.hash);
+  const hash_str = buildPaytrWebhookClassicToken(payload, credentials.merchantSalt);
+  const calculated_hash = hmacBase64(hash_str, credentials.merchantKey);
+  return timingSafeHashEqual(calculated_hash, receivedHash);
+}
+
+/** Panel testinde kilitlenmemek için alınan hash ile hesaplanan geçerli hash'i ayrıntılı basar. */
+export function logPaytrWebhookHmacMismatch(
+  payload: PaytrWebhookPayload,
+  meta: { requestId: string; route: string },
+): void {
+  const credentials = getPaytrCheckoutCredentials();
+  const receivedHash = normalizePaytrPostedHash(payload.hash);
+  const calculatedHash = credentials
+    ? hmacBase64(
+        buildPaytrWebhookClassicToken(payload, credentials.merchantSalt),
+        credentials.merchantKey,
+      )
+    : "";
+  console.error(
+    JSON.stringify({
+      ts: new Date().toISOString(),
+      level: "error",
+      event: "paytr.webhook.hmac_mismatch",
+      requestId: meta.requestId,
+      route: meta.route,
+      merchantOid: payload.merchantOid,
+      status: payload.status,
+      totalAmount: payload.totalAmount,
+      receivedHash,
+      calculatedHash,
+      hashesEqual: calculatedHash === receivedHash,
+      merchantIdLength: credentials?.merchantId.length ?? 0,
+      merchantKeyLength: credentials?.merchantKey.length ?? 0,
+      merchantSaltLength: credentials?.merchantSalt.length ?? 0,
+    }),
+  );
 }
 
 export function verifyPaytrClearanceBoundHash(payload: PaytrWebhookPayload): boolean {
   assertPaytrProductionSafety("verifyPaytrClearanceBoundHash");
   const credentials = requirePaytrCheckoutCredentials("verifyPaytrClearanceBoundHash");
-  if (!payload.merchantOid || !payload.status || !payload.totalAmount || !payload.hash) {
+  const receivedHash = normalizePaytrPostedHash(payload.hash);
+  if (!payload.merchantOid || !payload.status || !payload.totalAmount || !receivedHash) {
     return false;
   }
   const token = buildPaytrWebhookClearanceBoundToken(payload, credentials.merchantSalt);
   const expected = hmacBase64(token, credentials.merchantKey);
-  return timingSafeHashEqual(expected, payload.hash);
+  return timingSafeHashEqual(expected, receivedHash);
 }
 
 function claimsPaytrClearance(payload: PaytrWebhookPayload): boolean {

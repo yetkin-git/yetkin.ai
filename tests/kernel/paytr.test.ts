@@ -15,6 +15,7 @@ import { PaytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import {
   computePaytrWebhookHash,
   parsePaytrAmountMinor,
+  parsePaytrWebhookForm,
 } from "@/lib/kernel/payments/paytr/webhook";
 import {
   interpretPaytrStatusPayload,
@@ -104,13 +105,16 @@ describe("PayTR port", () => {
   });
 
   it("bildirim HMAC PayTR PHP hash_hmac(raw)+base64 formülüdür", () => {
+    const hash_str = "oid" + "salt-secret" + "success" + "1300";
+    const calculated_hash = createHmac("sha256", "key-secret").update(hash_str).digest("base64");
     expect(
       computePaytrWebhookHash(
         { merchantOid: "oid", status: "success", totalAmount: "1300" },
         "key-secret",
         "salt-secret",
       ),
-    ).toBe("00tpo4LZQ+Zd1N6fGvh7w+G6Bftc/UjLeWihSi6ujOA=");
+    ).toBe(calculated_hash);
+    expect(calculated_hash).toBe("00tpo4LZQ+Zd1N6fGvh7w+G6Bftc/UjLeWihSi6ujOA=");
   });
 
   it("sahte HMAC'i reddeder", () => {
@@ -130,6 +134,37 @@ describe("PayTR port", () => {
     if (!verified.ok) {
       expect(verified.reason).toBe("invalid_signature");
     }
+  });
+
+  it("urlencoded boşluğa dönen Base64 + işaretini HMAC karşılaştırmasında geri koyar", () => {
+    process.env.PAYTR_MERCHANT_ID = "id";
+    process.env.PAYTR_MERCHANT_KEY = "key-secret";
+    process.env.PAYTR_MERCHANT_SALT = "salt-secret";
+    const payload = {
+      merchantOid: "oid",
+      status: "success",
+      totalAmount: "1300",
+      hash: "",
+      event: null,
+      transferStatus: null,
+    };
+    const calculated = computePaytrWebhookHash(
+      payload,
+      process.env.PAYTR_MERCHANT_KEY,
+      process.env.PAYTR_MERCHANT_SALT,
+    );
+    expect(calculated).toContain("+");
+    payload.hash = calculated.replaceAll("+", " ");
+    const form = new FormData();
+    form.set("merchant_oid", payload.merchantOid);
+    form.set("status", payload.status);
+    form.set("total_amount", payload.totalAmount);
+    form.set("hash", payload.hash);
+    const parsed = parsePaytrWebhookForm(form);
+    expect(parsed.hash).toBe(calculated);
+    const provider = new PaytrPaymentProvider();
+    const verified = provider.verifyWebhook({ ...payload, hash: payload.hash });
+    expect(verified.ok).toBe(true);
   });
 
   it("başarısız bildirim HMAC'ini doğrular; tutar parse edilir", () => {

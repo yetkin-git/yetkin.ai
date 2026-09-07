@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import {
   isPaytrNotificationProbe,
   isPaytrWebhookSourceIpAllowed,
+  logPaytrWebhookHmacMismatch,
   parsePaytrWebhookForm,
   PAYTR_WEBHOOK_PATH,
   readPaytrWebhookRequestIp,
@@ -126,12 +127,17 @@ export async function POST(request: Request) {
   }
 
   if (!verified.ok) {
+    if (verified.reason === "invalid_signature") {
+      logPaytrWebhookHmacMismatch(payload, { requestId, route });
+    }
     const status = verified.reason === "invalid_signature" ? 403 : 400;
     logEvent({
       level: "warn",
       event: "paytr.webhook.rejected",
       requestId,
       reason: verified.reason,
+      merchantOid: payload.merchantOid || undefined,
+      errorName: verified.reason === "invalid_signature" ? "hmac_mismatch" : undefined,
       route,
     });
     return paytrReject(requestId, verified.reason, status);
