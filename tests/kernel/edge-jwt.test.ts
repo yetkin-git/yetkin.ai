@@ -180,6 +180,9 @@ describe("kenar JWT ihtiyaç kapısı", () => {
     expect(needsEdgeJwtVerification("/api/studio/generate", "POST")).toBe(true);
     expect(needsEdgeJwtVerification("/api/v1/studio/generate", "POST")).toBe(true);
     expect(needsEdgeJwtVerification("/academy")).toBe(false);
+    expect(needsEdgeJwtVerification("/academy/certificates")).toBe(true);
+    expect(needsEdgeJwtVerification("/career")).toBe(true);
+    expect(needsEdgeJwtVerification("/academy/dogrula")).toBe(false);
     expect(needsEdgeJwtVerification("/academy/python-temel/oyna")).toBe(true);
     expect(needsEdgeJwtVerification("/api/health")).toBe(false);
     expect(needsEdgeJwtVerification("/api/v1/health", "GET")).toBe(false);
@@ -191,6 +194,8 @@ describe("kenar JWT ihtiyaç kapısı", () => {
       ),
     ).toBe(false);
     expect(needsEdgeJwtVerification("/api/payments/webhooks/paytr", "POST")).toBe(false);
+    expect(needsEdgeJwtVerification("/api/paytr/callback", "GET")).toBe(false);
+    expect(needsEdgeJwtVerification("/api/paytr/callback", "POST")).toBe(false);
     expect(needsEdgeJwtVerification("/api/studio/generate", "OPTIONS")).toBe(false);
   });
 

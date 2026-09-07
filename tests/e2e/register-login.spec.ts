@@ -101,7 +101,7 @@ test.describe("vatandaş /register ve /login", () => {
     await page.getByRole("button", { name: "Hesap oluştur" }).click();
     await expect(page.getByTestId("register-error")).toBeVisible({ timeout: 30_000 });
     await expect(page.getByTestId("register-error")).toHaveText(
-      /Bu e-posta zaten kayıtlı|Kayıt başarısız/,
+      /Bu e-posta zaten kayıtlı|Kayıt başarısız|Doğrulama e-postası gönderilemedi/,
     );
     await expect(page).toHaveURL(/\/register\/?$/);
   });

@@ -9,18 +9,20 @@ import { PasswordInput } from "@/components/auth/password-input";
 import { copyTextToClipboard } from "@/components/auth/copy-text";
 import {
   AUTH_BROWSER_FETCH_TIMEOUT_MS,
-  createSupabaseBrowserClient,
   describePublicSupabaseBrowserEnv,
   SupabaseBrowserEnvError,
 } from "@/lib/kernel/auth/supabase-browser";
-import { buildSignupEmailRedirectTo, readPostLoginPathFromSearch } from "@/lib/kernel/auth/redirects";
-import { buildSignupAuthMetadata, isDuplicateSignupUser } from "@/lib/kernel/auth/signup-metadata";
+import { AUTH_REGISTER_API_PATH, readPostLoginPathFromSearch } from "@/lib/kernel/auth/redirects";
+import { resolveSignupAuthError } from "@/lib/kernel/auth/signup-errors";
+import { buildSignupAuthMetadata } from "@/lib/kernel/auth/signup-metadata";
 import {
   CITIZEN_PASSWORD_MIN_LENGTH,
   generateSecurePassword,
 } from "@/lib/kernel/auth/password";
 import { DISPLAY_NAME_MAX_LENGTH } from "@/lib/kernel/identity/types";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
+
+const REGISTER_DEBUG = "[rail-register]";
 
 async function withWatchdog<T>(work: Promise<T>, ms: number, timeoutError: Error): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined;
@@ -59,21 +61,14 @@ function resolveSignUpFailure(caught: unknown, copy: typeof AUTH_SEN.register): 
     ) {
       return AUTH_SEN.login.timeout;
     }
-    return caught.message.trim() || copy.fail;
+    return resolveSignupAuthError(caught.message, copy);
   }
   return copy.fail;
 }
 
-function resolveSignUpMessage(message: string, copy: typeof AUTH_SEN.register): string {
-  const normalized = message.toLowerCase();
-  if (normalized.includes("already registered") || normalized.includes("user already")) {
-    return copy.duplicate;
-  }
-  if (normalized.includes("failed to fetch") || normalized.includes("network") || normalized.includes("timeout")) {
-    return AUTH_SEN.login.timeout;
-  }
-  if (/[çğıöşüÇĞİÖŞÜ]/.test(message)) {
-    return message.trim() || copy.fail;
+function readRegisterFailMessage(body: unknown, copy: typeof AUTH_SEN.register): string {
+  if (body && typeof body === "object" && "error" in body && typeof body.error === "string") {
+    return resolveSignupAuthError(body.error, copy);
   }
   return copy.fail;
 }
@@ -114,56 +109,72 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
+    console.log(REGISTER_DEBUG, "submit:start");
     setPending(true);
     setError(null);
     setMessage(null);
     try {
-      if (!termsConfirmed) {
-        setError(copy.termsRequired);
-        return;
-      }
-
-      const metadata = buildSignupAuthMetadata(fullName, ageConfirmed);
+      const metadata = buildSignupAuthMetadata(fullName, ageConfirmed, termsConfirmed);
       if (!metadata) {
+        if (!termsConfirmed) {
+          setError(copy.termsRequired);
+          return;
+        }
         setError(ageConfirmed ? copy.fullNameInvalid : copy.ageRequired);
         return;
       }
 
       const envProbe = describePublicSupabaseBrowserEnv();
+      console.log(REGISTER_DEBUG, "env:probe", envProbe);
       if (!envProbe.hasUrl || !envProbe.hasAnon) {
         throw new SupabaseBrowserEnvError("missing", AUTH_SEN.login.envMissing);
       }
 
-      const supabase = createSupabaseBrowserClient();
-      const { data, error: signError } = await withWatchdog(
-        supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: metadata,
-            emailRedirectTo: buildSignupEmailRedirectTo(window.location.origin),
-          },
+      console.log(REGISTER_DEBUG, "register:request");
+      const response = await withWatchdog(
+        fetch(AUTH_REGISTER_API_PATH, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            email,
+            password,
+            fullName,
+            ageConfirmed,
+            termsConfirmed,
+          }),
         }),
         AUTH_BROWSER_FETCH_TIMEOUT_MS,
         new Error(AUTH_SEN.login.timeout),
       );
-      if (signError) {
-        setError(resolveSignUpMessage(signError.message, copy));
+      const body: unknown = await response.json().catch(() => null);
+      console.log(REGISTER_DEBUG, "register:result", {
+        status: response.status,
+        ok: Boolean(body && typeof body === "object" && "ok" in body && body.ok),
+      });
+      if (!response.ok || !body || typeof body !== "object" || !("ok" in body) || body.ok !== true) {
+        const next = readRegisterFailMessage(body, copy);
+        console.error(REGISTER_DEBUG, "register:error", response.status, next);
+        setError(next);
         return;
       }
-      if (isDuplicateSignupUser(data.user)) {
-        setError(copy.duplicate);
-        return;
-      }
-      if (data.session) {
+      const session =
+        "data" in body &&
+        body.data &&
+        typeof body.data === "object" &&
+        "session" in body.data &&
+        body.data.session === true;
+      if (session) {
+        console.log(REGISTER_DEBUG, "register:ok → next");
         window.location.assign(readPostLoginPathFromSearch(window.location.search, nextPath));
         return;
       }
       setMessage(copy.success);
     } catch (caught) {
+      console.error(REGISTER_DEBUG, "caught", caught);
       setError(resolveSignUpFailure(caught, copy));
     } finally {
       setPending(false);
+      console.log(REGISTER_DEBUG, "submit:finally pending=false");
     }
   }
 

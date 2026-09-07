@@ -11,6 +11,10 @@ export const AUTH_CALLBACK_ERROR_PATH = "/login";
 export const AUTH_CALLBACK_DEFAULT_NEXT = "/dashboard";
 /** POST — çerezleri siler, 303 ile girişe döner. Kenar kind: public. */
 export const AUTH_LOGOUT_API_PATH = "/api/auth/logout";
+/** POST — vatandaş kaydı. Kenar kind: public. Auth SMTP yoksa geliştirmede onaylı yedek. */
+export const AUTH_REGISTER_API_PATH = "/api/auth/register";
+/** POST — şifre sıfırlama e-postası. Kenar kind: public. SMTP 500 Türkçe basılır. */
+export const AUTH_RESET_PASSWORD_API_PATH = "/api/auth/reset-password";
 
 /** Dashboard allowlist — path (query `next` aynı origin'de kalır). */
 export const SUPABASE_DASHBOARD_REDIRECT_PATHS = [
@@ -41,15 +45,28 @@ function stripTrailingSlash(origin: string): string {
 }
 
 function sanitizeNextPathname(raw: string | null | undefined): string | null {
+  return parseSafeAuthNext(raw)?.pathname ?? null;
+}
+
+/** Allowlist path + isteğe bağlı güvenli çapa (`#satin-al`). Query ve açık yön yok. */
+const SAFE_NEXT_HASH = /^[a-z][a-z0-9-]{0,47}$/;
+
+function parseSafeAuthNext(
+  raw: string | null | undefined,
+): { pathname: string; hash: string } | null {
   const path = raw?.trim() ?? "";
   if (!path.startsWith("/") || path.startsWith("//") || path.includes("\\") || path.includes("://")) {
     return null;
   }
-  const pathname = path.split("?")[0]?.split("#")[0] ?? "";
+  const withoutQuery = path.split("?")[0] ?? "";
+  const hashIndex = withoutQuery.indexOf("#");
+  const pathname = hashIndex >= 0 ? withoutQuery.slice(0, hashIndex) : withoutQuery;
+  const hashRaw = hashIndex >= 0 ? withoutQuery.slice(hashIndex + 1) : "";
   if (!pathname || pathname.includes("..")) {
     return null;
   }
-  return pathname;
+  const hash = hashRaw && SAFE_NEXT_HASH.test(hashRaw) ? `#${hashRaw}` : "";
+  return { pathname, hash };
 }
 
 export function isSafeAuthNextPath(raw: string | null | undefined): boolean {
@@ -64,17 +81,23 @@ export function isSafeAuthNextPath(raw: string | null | undefined): boolean {
 }
 
 export function buildCitizenLoginHref(nextPath?: string | null): string {
-  const pathname = sanitizeNextPathname(nextPath);
-  if (!pathname || !isSafeAuthNextPath(pathname)) {
+  const parsed = parseSafeAuthNext(nextPath);
+  if (!parsed || !isSafeAuthNextPath(parsed.pathname)) {
     return CITIZEN_LOGIN_PATH;
   }
-  return `${CITIZEN_LOGIN_PATH}?next=${encodeURIComponent(pathname)}`;
+  const next = `${parsed.pathname}${parsed.hash}`;
+  return `${CITIZEN_LOGIN_PATH}?next=${encodeURIComponent(next)}`;
 }
 
 export function resolvePostLoginPath(rawNext?: string | null): string {
-  const pathname = sanitizeNextPathname(rawNext);
-  if (pathname && isSafeAuthNextPath(pathname) && pathname !== CITIZEN_LOGIN_PATH && pathname !== "/register") {
-    return pathname;
+  const parsed = parseSafeAuthNext(rawNext);
+  if (
+    parsed &&
+    isSafeAuthNextPath(parsed.pathname) &&
+    parsed.pathname !== CITIZEN_LOGIN_PATH &&
+    parsed.pathname !== "/register"
+  ) {
+    return `${parsed.pathname}${parsed.hash}`;
   }
   return AUTH_CALLBACK_DEFAULT_NEXT;
 }
@@ -98,8 +121,9 @@ export function resolveAuthCallbackNext(input: {
   if (input.type?.trim() === "recovery") {
     return PASSWORD_RECOVERY_PATH;
   }
-  if (isSafeAuthNextPath(input.next)) {
-    return input.next!.trim().split("?")[0]!.split("#")[0]!;
+  const parsed = parseSafeAuthNext(input.next);
+  if (parsed && isSafeAuthNextPath(parsed.pathname)) {
+    return `${parsed.pathname}${parsed.hash}`;
   }
   return AUTH_CALLBACK_DEFAULT_NEXT;
 }
@@ -108,7 +132,10 @@ export function buildAuthCallbackRedirectTo(origin: string, next?: string): stri
   const base = stripTrailingSlash(origin);
   const url = new URL(AUTH_CALLBACK_PATH, `${base}/`);
   if (next && isSafeAuthNextPath(next)) {
-    url.searchParams.set("next", next.split("?")[0]!.split("#")[0]!);
+    const parsed = parseSafeAuthNext(next);
+    if (parsed) {
+      url.searchParams.set("next", `${parsed.pathname}${parsed.hash}`);
+    }
   }
   return url.toString();
 }

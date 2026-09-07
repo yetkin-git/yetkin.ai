@@ -47,5 +47,10 @@ test.describe("K6 kenar API kind", () => {
     });
     expect(webhook.status()).not.toBe(401);
     expect(webhook.status()).not.toBe(307);
+
+    const panelGet = await request.get("/api/paytr/callback", { maxRedirects: 0 });
+    expect(panelGet.status()).toBe(200);
+    expect(panelGet.headers()["content-type"] ?? "").toMatch(/text\/plain/);
+    expect((await panelGet.text()).trim()).toBe("OK");
   });
 });

@@ -97,17 +97,30 @@ describe("Supabase SSR 0.12 çerez hizası", () => {
     expect(login).toContain("window.location.assign(");
     expect(login).not.toContain("router.push");
     expect(login).not.toContain("router.refresh");
-    expect(register).toContain("signUp");
-    expect(register).toContain("emailRedirectTo");
-    expect(register).toContain("buildSignupEmailRedirectTo");
-    expect(register).toContain("buildSignupAuthMetadata");
+    expect(register).toContain("AUTH_REGISTER_API_PATH");
+    expect(register).not.toContain("createSupabaseBrowserClient");
+    expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("signUp");
+    expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("emailRedirectTo");
+    expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("upsertCitizenUserAndWallet");
+    expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("clearOrphanCitizenRows");
+    expect(readSrc("lib/kernel/auth/provision-citizen-profile.ts")).toContain(
+      "ON CONFLICT (id) DO UPDATE",
+    );
+    expect(readSrc("lib/kernel/auth/provision-citizen-profile.ts")).toContain(
+      "ON CONFLICT (user_id, currency_code) DO UPDATE",
+    );
+    expect(readSrc("lib/kernel/auth/register-citizen.ts")).toContain("buildSignupEmailRedirectTo");
+    expect(readSrc("lib/kernel/auth/register-citizen.ts")).toContain("buildSignupAuthMetadata");
     expect(register).toContain("readPostLoginPathFromSearch");
     expect(register).toContain("window.location.assign(");
     expect(register).not.toContain("router.push");
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("display_name");
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("age_confirmed_at");
-    expect(forgot).toContain("resetPasswordForEmail");
-    expect(forgot).toContain("buildPasswordResetRedirectTo");
+    expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("terms_accepted_at");
+    expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("consent_version");
+    expect(forgot).toContain("AUTH_RESET_PASSWORD_API_PATH");
+    expect(readSrc("app/api/(kernel)/auth/reset-password/route.ts")).toContain("resetPasswordForEmail");
+    expect(readSrc("lib/kernel/auth/reset-password-email.ts")).toContain("buildPasswordResetRedirectTo");
     expect(reset).toContain("/api/auth/session");
     expect(reset).toContain("/api/auth/password");
     expect(reset).not.toContain("createSupabaseBrowserClient");

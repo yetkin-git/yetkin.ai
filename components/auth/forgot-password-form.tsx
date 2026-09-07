@@ -4,10 +4,11 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { createSupabaseBrowserClient } from "@/lib/kernel/auth/supabase-browser";
-import { buildPasswordResetRedirectTo } from "@/lib/kernel/auth/redirects";
+import { AUTH_RESET_PASSWORD_API_PATH } from "@/lib/kernel/auth/redirects";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
 import { LEGAL_SUPPORT_EMAIL, LEGAL_SUPPORT_MAILTO } from "@/lib/copy/legal-launch";
+import { parseRailClientJson } from "@/lib/ui/parse-rail-json";
+import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
 export function ForgotPasswordForm() {
   const copy = AUTH_SEN.forgot;
@@ -29,13 +30,19 @@ export function ForgotPasswordForm() {
 
     setPending(true);
     try {
-      const supabase = createSupabaseBrowserClient();
-      const redirectTo = buildPasswordResetRedirectTo(window.location.origin);
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(trimmed, {
-        redirectTo,
-      });
-      if (resetError) {
-        setError(copy.fail);
+      const response = await fetch(
+        AUTH_RESET_PASSWORD_API_PATH,
+        withRailApiVersion({
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ email: trimmed }),
+        }),
+      );
+      const parsed = parseRailClientJson<{ sent?: boolean }>(
+        await response.json().catch(() => null),
+      );
+      if (!response.ok || !parsed.ok) {
+        setError(!parsed.ok && parsed.error.trim() ? parsed.error : copy.fail);
         setPending(false);
         return;
       }

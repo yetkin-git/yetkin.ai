@@ -30,6 +30,7 @@ export function isSuperAdminUser(userId: string): boolean {
   return Boolean(fromEnv && fromEnv === userId);
 }
 
+/** Super Admin SSOT — UUID veya kanonik e-posta. Akademi bypass ve sığınak aynı kişiyi tanır. */
 export function isSuperAdminActor(actor: SuperAdminActor): boolean {
   if (isCanonicalSuperAdminEmail(actor.email)) {
     return true;

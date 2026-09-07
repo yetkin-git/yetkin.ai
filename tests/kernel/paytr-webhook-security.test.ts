@@ -1,6 +1,7 @@
 import { createHmac } from "node:crypto";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { POST as postPaytrWebhook } from "@/app/api/(kernel)/payments/webhooks/paytr/route";
+import { POST as postPaytrWebhook, GET as getPaytrWebhook } from "@/app/api/(kernel)/payments/webhooks/paytr/route";
+import { POST as postPaytrPanelCallback, GET as getPaytrPanelCallback } from "@/app/api/paytr/callback/route";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import {
   type PaymentOrderSnapshot,
@@ -8,8 +9,10 @@ import {
 import { PaytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import {
   computePaytrWebhookHash,
+  isPaytrNotificationProbe,
   isPaytrWebhookIpAllowlistRequired,
   isPaytrWebhookSourceIpAllowed,
+  parsePaytrWebhookForm,
 } from "@/lib/kernel/payments/paytr/webhook";
 import {
   settlePaytrWebhookFailure,
@@ -321,5 +324,46 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
     expect(spoofed.status).toBe(403);
     const body = (await spoofed.json()) as { reason: string };
     expect(body.reason).toBe("ip_not_allowed");
+  });
+
+  it("GET ve boş POST yoklama HTTP 200 düz metin OK döner; CREDIT yok", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    const getResponse = await getPaytrWebhook(
+      new Request("http://localhost/api/payments/webhooks/paytr", {
+        method: "GET",
+        headers: { "x-request-id": REQUEST_ID },
+      }),
+    );
+    expect(getResponse.status).toBe(200);
+    expect(getResponse.headers.get("content-type")).toMatch(/^text\/plain/);
+    expect(await getResponse.text()).toBe("OK");
+
+    const emptyPost = await postWebhook(new FormData());
+    expect(emptyPost.status).toBe(200);
+    expect(emptyPost.headers.get("content-type")).toMatch(/^text\/plain/);
+    expect(await emptyPost.text()).toBe("OK");
+
+    const panelGet = await getPaytrPanelCallback(
+      new Request("http://localhost/api/paytr/callback", {
+        method: "GET",
+        headers: { "x-request-id": REQUEST_ID },
+      }),
+    );
+    expect(panelGet.status).toBe(200);
+    expect(await panelGet.text()).toBe("OK");
+
+    const panelPost = await postPaytrPanelCallback(
+      new Request("http://localhost/api/paytr/callback", {
+        method: "POST",
+        headers: { "x-request-id": REQUEST_ID },
+        body: new FormData(),
+      }),
+    );
+    expect(panelPost.status).toBe(200);
+    expect(await panelPost.text()).toBe("OK");
+
+    const probe = parsePaytrWebhookForm(new FormData());
+    expect(isPaytrNotificationProbe(probe)).toBe(true);
+    expect(isPaytrNotificationProbe(parsePaytrWebhookForm(webhookForm(validHash())))).toBe(false);
   });
 });

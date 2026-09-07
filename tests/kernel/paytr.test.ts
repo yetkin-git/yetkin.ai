@@ -103,6 +103,16 @@ describe("PayTR port", () => {
     expect(parsePaytrAmountMinor("13.00")).toBeNull();
   });
 
+  it("bildirim HMAC PayTR PHP hash_hmac(raw)+base64 formülüdür", () => {
+    expect(
+      computePaytrWebhookHash(
+        { merchantOid: "oid", status: "success", totalAmount: "1300" },
+        "key-secret",
+        "salt-secret",
+      ),
+    ).toBe("00tpo4LZQ+Zd1N6fGvh7w+G6Bftc/UjLeWihSi6ujOA=");
+  });
+
   it("sahte HMAC'i reddeder", () => {
     process.env.PAYTR_MERCHANT_ID = "id";
     process.env.PAYTR_MERCHANT_KEY = "key-secret";

@@ -92,8 +92,16 @@ describe("proxy.ts kenar mühürleri", () => {
     expectNonceCsp(response);
   });
 
-  it("oturumsuz /dashboard /cuzdan /profil /pasaport /admin → /login 307", async () => {
-    for (const path of ["/dashboard", "/cuzdan", "/profil", "/pasaport", "/admin"]) {
+  it("oturumsuz /dashboard /cuzdan /profil /pasaport /career /admin /academy/certificates → /login 307", async () => {
+    for (const path of [
+      "/dashboard",
+      "/cuzdan",
+      "/profil",
+      "/pasaport",
+      "/career",
+      "/admin",
+      "/academy/certificates",
+    ]) {
       const response = await proxy(request(path));
       expect(response.status).toBe(307);
       expect(response.headers.get("location")).toBe(loginLocation(path));
@@ -159,6 +167,13 @@ describe("proxy.ts kenar mühürleri", () => {
       }),
     );
     expect(webhook.status).toBe(200);
+
+    const panel = await proxy(
+      new NextRequest(new URL("/api/paytr/callback", "http://localhost:3000"), {
+        method: "GET",
+      }),
+    );
+    expect(panel.status).toBe(200);
 
     const unknown = await proxy(request("/api/not-a-route"));
     expect(unknown.status).toBe(404);

@@ -4,6 +4,8 @@ import { describe, expect, it } from "vitest";
 import {
   PAYTR_CANONICAL_WEBHOOK_APP_ROUTE,
   PAYTR_FORBIDDEN_CALLBACK_APP_ROUTES,
+  PAYTR_PANEL_WEBHOOK_APP_ROUTE,
+  PAYTR_PANEL_WEBHOOK_PATH,
   PAYTR_WEBHOOK_PATH,
   assertPaytrCallbackRouteIntegrity,
   inspectPaytrCallbackAppRoutes,
@@ -16,14 +18,16 @@ function readSrc(relative: string): string {
 }
 
 describe("PayTR canlı callback yüzeyi", () => {
-  it("kanonik Bildirim URL durur; /api/paytr/callback ikinci ağız yoktur", () => {
+  it("kanonik Bildirim URL durur; /api/paytr/callback panel alias'ıdır, bağımsız CREDIT ağızı değildir", () => {
     const inventory = inspectPaytrCallbackAppRoutes((relative) =>
       existsSync(join(ROOT, relative)),
     );
     expect(inventory.canonicalRouteExists).toBe(true);
+    expect(inventory.aliasRouteExists).toBe(true);
     expect(inventory.forbiddenExistingPaths).toEqual([]);
     expect(() => assertPaytrCallbackRouteIntegrity(inventory)).not.toThrow();
     expect(existsSync(join(ROOT, PAYTR_CANONICAL_WEBHOOK_APP_ROUTE))).toBe(true);
+    expect(existsSync(join(ROOT, PAYTR_PANEL_WEBHOOK_APP_ROUTE))).toBe(true);
     for (const banned of PAYTR_FORBIDDEN_CALLBACK_APP_ROUTES) {
       expect(existsSync(join(ROOT, banned)), banned).toBe(false);
     }
@@ -34,14 +38,24 @@ describe("PayTR canlı callback yüzeyi", () => {
     expect(route).toContain("settlePaytrWebhookSuccess");
     expect(route).toContain("settlePaytrWebhookFailure");
     expect(route).toContain("PAYTR_WEBHOOK_PATH");
+    expect(route).toContain("text/plain; charset=utf-8");
+    expect(route).toContain("export async function GET");
+    expect(route).toContain("isPaytrNotificationProbe");
     expect(readSrc("lib/kernel/payments/paytr/checkout.ts")).toContain(
       `export const PAYTR_WEBHOOK_PATH = "${PAYTR_WEBHOOK_PATH}"`,
     );
+
+    const alias = readSrc(PAYTR_PANEL_WEBHOOK_APP_ROUTE);
+    expect(alias).toContain("export const auth = \"webhook\"");
+    expect(alias).toContain("export { GET, POST }");
+    expect(alias).not.toContain("settlePaytrWebhookSuccess");
+    expect(PAYTR_PANEL_WEBHOOK_PATH).toBe("/api/paytr/callback");
 
     const topUp = readSrc("app/api/(kernel)/wallet/top-up/route.ts");
     expect(topUp).toContain("merchantOkUrl: `${origin}/cuzdan`");
     expect(topUp).toContain("merchantFailUrl: `${origin}/cuzdan`");
     expect(topUp).not.toContain("merchantOkUrl: `${origin}/api/payments/webhooks/paytr`");
+    expect(topUp).not.toContain("merchantOkUrl: `${origin}/api/paytr/callback`");
   });
 
   it("mock checkout canlı webhook/clearing grafına girmez", () => {

@@ -23,6 +23,8 @@ export const ROUTE_AUTH_MAP = {
   "/api/ai/chat": "session",
   "/api/auth/logout": "public",
   "/api/auth/password": "session",
+  "/api/auth/register": "public",
+  "/api/auth/reset-password": "public",
   "/api/auth/session": "session",
   "/api/career/portfolio": "session",
   "/api/career/pulse": "session",
@@ -49,6 +51,7 @@ export const ROUTE_AUTH_MAP = {
   "/api/health/live": "public",
   "/api/jobs/inngest": "webhook",
   "/api/payments/webhooks/paytr": "webhook",
+  "/api/paytr/callback": "webhook",
   "/api/profile": "session",
   "/api/profile/billing": "session",
   "/api/wallet/top-up": "session"

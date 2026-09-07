@@ -45,6 +45,10 @@ export const AUTH_SEN = {
     pending: "Kayıt…",
     fail: "Kayıt başarısız.",
     duplicate: "Bu e-posta zaten kayıtlı. Giriş yap.",
+    confirmEmail:
+      "Doğrulama e-postası gönderilemedi. Confirm Email açık ve Auth SMTP bağlı değil.",
+    database:
+      "Kayıt veritabanında düştü. Kullanıcı veya cüzdan tetikleyicisi kısıtı olabilir.",
     success: "Kayıt alındı. E-posta doğrulaması açıksa gelen kutunu kontrol et.",
     loginCta: "Giriş",
     generatePassword: "Güvenli Şifre Üret",
@@ -63,6 +67,7 @@ export const AUTH_SEN = {
     submit: "Sıfırlama bağlantısı gönder",
     pending: "Gönderiliyor…",
     fail: "Sıfırlama isteği gönderilemedi.",
+    smtpDown: "E-posta servisi şu an aktif değil, lütfen destek ile iletişime geçin",
     invalidEmail: "Geçerli bir e-posta yaz.",
     sent: "Sıfırlama bağlantısı yola çıktı. Gelen kutunu ve spam klasörünü kontrol et. Bu adres sistemde kayıtlı değilse e-posta gelmez; hesap varlığını burada doğrulamayız.",
     supportLead: "Bağlantı gelmezse",

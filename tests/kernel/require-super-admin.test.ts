@@ -5,11 +5,19 @@ import {
   requireSuperAdmin,
   resolveSuperAdminAccess,
 } from "@/lib/kernel/auth/require-super-admin";
-import { assertSuperAdminUserId, isSuperAdminUser } from "@/lib/kernel/auth/super-admin";
+import {
+  assertSuperAdminActor,
+  assertSuperAdminUserId,
+  isSuperAdminActor,
+  isSuperAdminUser,
+} from "@/lib/kernel/auth/super-admin";
+import { hasAcademyAdminBypass } from "@/lib/academy/access";
 
 const ADMIN_ID = "11111111-1111-4111-8111-111111111111";
 const CITIZEN_ID = "22222222-2222-4222-8222-222222222222";
+const ADMIN_EMAIL = "admin@yetkin.test";
 const ORIGINAL = process.env.SUPER_ADMIN_USER_ID;
+const ORIGINAL_EMAIL = process.env.CANONICAL_SUPER_ADMIN_EMAIL;
 
 describe("requireSuperAdmin tek merkez", () => {
   afterEach(() => {
@@ -17,6 +25,11 @@ describe("requireSuperAdmin tek merkez", () => {
       delete process.env.SUPER_ADMIN_USER_ID;
     } else {
       process.env.SUPER_ADMIN_USER_ID = ORIGINAL;
+    }
+    if (ORIGINAL_EMAIL == null) {
+      delete process.env.CANONICAL_SUPER_ADMIN_EMAIL;
+    } else {
+      process.env.CANONICAL_SUPER_ADMIN_EMAIL = ORIGINAL_EMAIL;
     }
   });
 
@@ -32,6 +45,24 @@ describe("requireSuperAdmin tek merkez", () => {
     delete process.env.SUPER_ADMIN_USER_ID;
     expect(isSuperAdminUser(ADMIN_ID)).toBe(false);
     expect(() => assertSuperAdminUserId(ADMIN_ID)).toThrow(ForbiddenError);
+  });
+
+  it("isSuperAdminActor SSOT: e-posta veya UUID; academy bypass aynı kişiyi tanır", () => {
+    delete process.env.SUPER_ADMIN_USER_ID;
+    process.env.CANONICAL_SUPER_ADMIN_EMAIL = ADMIN_EMAIL;
+    expect(isSuperAdminActor({ id: ADMIN_ID, email: ADMIN_EMAIL })).toBe(true);
+    expect(isSuperAdminActor({ id: ADMIN_ID, email: "vatandas@yetkin.rail" })).toBe(false);
+    expect(hasAcademyAdminBypass({ userId: ADMIN_ID, email: ADMIN_EMAIL })).toBe(true);
+    expect(hasAcademyAdminBypass({ userId: ADMIN_ID, email: "vatandas@yetkin.rail" })).toBe(false);
+    expect(() => assertSuperAdminActor({ id: ADMIN_ID, email: ADMIN_EMAIL })).not.toThrow();
+    expect(() =>
+      assertSuperAdminActor({ id: ADMIN_ID, email: "vatandas@yetkin.rail" }),
+    ).toThrow(ForbiddenError);
+
+    delete process.env.CANONICAL_SUPER_ADMIN_EMAIL;
+    process.env.SUPER_ADMIN_USER_ID = ADMIN_ID;
+    expect(isSuperAdminActor({ id: ADMIN_ID, email: "vatandas@yetkin.rail" })).toBe(true);
+    expect(hasAcademyAdminBypass({ userId: ADMIN_ID, email: "vatandas@yetkin.rail" })).toBe(true);
   });
 
   it("oturum yoksa 401; gayri-admin 403 — getSession sahte oturum basmaz", async () => {

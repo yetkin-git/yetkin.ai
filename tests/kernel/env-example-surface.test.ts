@@ -59,6 +59,7 @@ describe(".env.example ops şablonu", () => {
     expect(example).toContain("Resend / Postmark SDK yok");
     expect(example).toContain("INNGEST_DEV=1 yalnızca .env.local");
     expect(example).toContain("/api/payments/webhooks/paytr");
+    expect(example).toContain("/api/paytr/callback");
     expect(exampleKeys).toContain("RAIL_DRON_ORIGINS");
     expect(exampleKeys).toContain("TRUSTED_PROXY_HOPS");
     expect(exampleKeys).toContain("ACADEMY_EXAM_SITTING_SECRET");

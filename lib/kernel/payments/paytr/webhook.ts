@@ -50,8 +50,12 @@ export function buildPaytrWebhookClearanceBoundToken(
   return `${classic}|e:${payload.event ?? ""}|t:${payload.transferStatus ?? ""}`;
 }
 
+/**
+ * PayTR PHP: `base64_encode(hash_hmac('sha256', $oid.$salt.$status.$total, $key, true))`.
+ * Test ve canlı aynı formül; `test_mode` bildirim HMAC'ine girmez.
+ */
 function hmacBase64(token: string, merchantKey: string): string {
-  return createHmac("sha256", merchantKey).update(token).digest("base64");
+  return createHmac("sha256", merchantKey).update(token, "utf8").digest("base64");
 }
 
 export function parsePaytrWebhookForm(formData: FormData): PaytrWebhookPayload {
@@ -63,6 +67,16 @@ export function parsePaytrWebhookForm(formData: FormData): PaytrWebhookPayload {
     event: String(formData.get("event") ?? "").trim() || null,
     transferStatus: String(formData.get("transfer_status") ?? "").trim() || null,
   };
+}
+
+/** Panel canlı-mod URL yoklaması: gövdede ödeme alanı yok, CREDIT yok. */
+export function isPaytrNotificationProbe(payload: PaytrWebhookPayload): boolean {
+  return (
+    payload.merchantOid === "" &&
+    payload.status === "" &&
+    payload.totalAmount === "" &&
+    payload.hash === ""
+  );
 }
 
 export function isPaytrWebhookPayload(value: unknown): value is PaytrWebhookPayload {

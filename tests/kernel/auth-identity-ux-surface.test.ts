@@ -99,13 +99,14 @@ describe("vatandaş kimlik UX yüzeyi", () => {
     expect(form).toContain("copyTextToClipboard");
     expect(form).toContain("PasswordInput");
     expect(form).toContain("CITIZEN_PASSWORD_MIN_LENGTH");
-    expect(form).toContain("emailRedirectTo");
-    expect(form).toContain("buildSignupEmailRedirectTo");
+    expect(form).toContain("AUTH_REGISTER_API_PATH");
     expect(form).toContain("buildSignupAuthMetadata");
     expect(form).toContain("readPostLoginPathFromSearch");
     expect(form).toContain("window.location.assign(");
     expect(form).toContain("ageConfirmed");
     expect(form).toContain("register-age-confirm");
+    expect(form).toContain("console.log");
+    expect(form).toContain("console.error");
     expect(copy).toContain("18 yaşından büyüğüm");
     expect(form).not.toContain("router.push");
     expect(page).toContain("RegisterForm");
@@ -116,24 +117,34 @@ describe("vatandaş kimlik UX yüzeyi", () => {
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("display_name");
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("full_name");
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("age_confirmed_at");
+    expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("terms_accepted_at");
+    expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("consent_version");
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("is_adult");
-    expect(form).toContain("buildSignupAuthMetadata(fullName, ageConfirmed)");
+    expect(form).toContain("buildSignupAuthMetadata(fullName, ageConfirmed, termsConfirmed)");
+    expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("emailRedirectTo");
+    expect(readSrc("lib/kernel/auth/register-citizen.ts")).toContain("buildSignupEmailRedirectTo");
   });
 
-  it("şifremi unuttum sayfası resetPasswordForEmail bağlar; dürüst metin hesap sızdırmaz", () => {
+  it("şifremi unuttum sayfası reset-password API bağlar; dürüst metin hesap sızdırmaz", () => {
     const page = readSrc("app/(auth)/sifremi-unuttum/page.tsx");
     const form = readSrc("components/auth/forgot-password-form.tsx");
     const recovery = readSrc("app/(auth)/sifre-yenile/page.tsx");
     const copy = readSrc("lib/copy/sen-voice/auth.ts");
+    const route = readSrc("app/api/(kernel)/auth/reset-password/route.ts");
+    const engine = readSrc("lib/kernel/auth/reset-password-email.ts");
     expect(page).toContain("ForgotPasswordForm");
     expect(page).toContain("isSupabaseConfigured");
     expect(page).toContain("SEN_VOICE");
-    expect(form).toContain("resetPasswordForEmail");
-    expect(form).toContain("buildPasswordResetRedirectTo");
+    expect(form).toContain("AUTH_RESET_PASSWORD_API_PATH");
     expect(form).toContain("AUTH_SEN");
+    expect(form).not.toContain("resetPasswordForEmail");
+    expect(route).toContain("resetPasswordForEmail");
+    expect(route).toContain("resolvePasswordResetAuthError");
+    expect(engine).toContain("buildPasswordResetRedirectTo");
     expect(copy).toContain("hesap varlığını burada doğrulamayız");
     expect(copy).toContain("spam");
     expect(copy).toContain("Şifremi Unuttum");
+    expect(copy).toContain("E-posta servisi şu an aktif değil, lütfen destek ile iletişime geçin");
     expect(recovery).toContain("ResetPasswordForm");
     expect(copy).toContain("Şifre Yenile");
   });

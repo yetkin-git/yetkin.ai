@@ -4,20 +4,27 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { NextRequest } from "next/server";
 import { proxy } from "../../proxy";
 import {
+  hasSiteMaintenanceBypass,
   isHealthProbePath,
   isLoopbackHostname,
   isSiteMaintenanceActive,
   isSiteMaintenanceApiPath,
   isSiteMaintenanceFlagOn,
+  MAINTENANCE_BYPASS_COOKIE,
+  MAINTENANCE_BYPASS_HEADER,
   renderSiteMaintenanceHtml,
   resolveRequestHostname,
+  resolveSiteMaintenanceBypassSecret,
   shouldInterceptForSiteMaintenance,
   SITE_MAINTENANCE_API_ERROR,
+  SITE_MAINTENANCE_COMPLIANCE_NOTE,
   SITE_MAINTENANCE_ENGLISH,
+  SITE_MAINTENANCE_LEGAL_LINKS,
   SITE_MAINTENANCE_SUBTITLE,
   SITE_MAINTENANCE_TITLE,
   siteMaintenanceNextResponse,
 } from "@/lib/kernel/http/site-maintenance";
+import { LEGAL_ENTITY } from "@/lib/copy/legal-launch";
 
 const ROOT = process.cwd();
 
@@ -135,6 +142,32 @@ describe("canlı yayın bakım dondurması", () => {
     expect(html).toContain("Canlı yayın duraklatıldı");
   });
 
+  it("bakım HTML'i PayTR inceleme yüzeyini basar: yasal linkler + künye", () => {
+    const html = renderSiteMaintenanceHtml();
+    expect(html).toContain(SITE_MAINTENANCE_COMPLIANCE_NOTE);
+    expect(SITE_MAINTENANCE_COMPLIANCE_NOTE).toBe(
+      "PayTR ve Yasal İncelemeler İçin Alt Servisler Aktiftir",
+    );
+    // İnceleme linkleri — isPublicCompliancePath muafiyeti ile hizalı; çerez dahil.
+    expect(SITE_MAINTENANCE_LEGAL_LINKS.map((link) => link.href)).toEqual([
+      "/legal/gizlilik",
+      "/legal/cerez",
+      "/legal/kullanim",
+      "/legal/mesafeli-satis",
+      "/legal/iade",
+      "/iletisim",
+    ]);
+    for (const link of SITE_MAINTENANCE_LEGAL_LINKS) {
+      expect(html).toContain(`href="${link.href}"`);
+      expect(shouldInterceptForSiteMaintenance(link.href, true)).toBe(false);
+    }
+    // Şirket künyesi SSOT'tan basılır.
+    expect(html).toContain(LEGAL_ENTITY.tradeName);
+    expect(html).toContain(`VKN ${LEGAL_ENTITY.vkn}`);
+    expect(html).toContain(`MERSİS ${LEGAL_ENTITY.mersis}`);
+    expect(html).toContain(LEGAL_ENTITY.address);
+  });
+
   it("proxy.ts health ve yasal yüzey hariç erken 503 basar", () => {
     const proxySrc = readSrc("proxy.ts");
     expect(proxySrc).toContain("isSiteMaintenanceActive");
@@ -190,7 +223,7 @@ describe("proxy bakım 503 (donma env açık, üretim host)", () => {
   });
 
   it("yasal sayfalar, iletişim, robots ve sitemap freeze açıkken 503 almaz", async () => {
-    for (const path of ["/legal", "/legal/gizlilik", "/legal/iade", "/iletisim", "/robots.txt", "/sitemap.xml", "/api/payments/webhooks/paytr"]) {
+    for (const path of ["/legal", "/legal/gizlilik", "/legal/iade", "/iletisim", "/robots.txt", "/sitemap.xml", "/api/payments/webhooks/paytr", "/api/paytr/callback"]) {
       const response = await proxy(request(path, PRODUCTION_ORIGIN));
       expect(response.status, path).not.toBe(503);
     }
@@ -211,11 +244,83 @@ describe("proxy bakım 503 (donma env açık, üretim host)", () => {
     expect(cookieResp.status).not.toBe(503);
   });
 
+  it("sır yokken header veya cookie bypass etmez (fail-closed)", async () => {
+    vi.stubEnv("SITE_MAINTENANCE_BYPASS_TOKEN", "");
+    vi.stubEnv("MAINTENANCE_BYPASS_SECRET", "");
+    const headerReq = new NextRequest(new URL("/", PRODUCTION_ORIGIN), {
+      headers: { "x-yetkin-maintenance-bypass": "anything-nonzero" },
+    });
+    expect((await proxy(headerReq)).status).toBe(503);
+
+    const cookieReq = new NextRequest(new URL("/", PRODUCTION_ORIGIN), {
+      headers: { cookie: "yetkin_maintenance_bypass=anything-nonzero" },
+    });
+    expect((await proxy(cookieReq)).status).toBe(503);
+  });
+
+  it("SUPER_ADMIN_USER_ID tek başına bypass sırrı değildir", async () => {
+    vi.stubEnv("SITE_MAINTENANCE_BYPASS_TOKEN", "");
+    vi.stubEnv("MAINTENANCE_BYPASS_SECRET", "");
+    vi.stubEnv("SUPER_ADMIN_USER_ID", "11111111-1111-4111-8111-111111111111");
+    const req = new NextRequest(new URL("/", PRODUCTION_ORIGIN), {
+      headers: { "x-yetkin-maintenance-bypass": "11111111-1111-4111-8111-111111111111" },
+    });
+    expect((await proxy(req)).status).toBe(503);
+  });
+
+  it("yanlış token ile bypass açılmaz", async () => {
+    vi.stubEnv("SITE_MAINTENANCE_BYPASS_TOKEN", "secret-ops-token");
+    const req = new NextRequest(new URL("/", PRODUCTION_ORIGIN), {
+      headers: { "x-yetkin-maintenance-bypass": "wrong-token" },
+    });
+    expect((await proxy(req)).status).toBe(503);
+  });
+
   it("localhost ve /career donmayı görmez", async () => {
     const home = await proxy(request("/"));
     expect(home.status).not.toBe(503);
     const career = await proxy(request("/career"));
     expect(career.status).not.toBe(503);
+  });
+});
+
+describe("hasSiteMaintenanceBypass fail-closed", () => {
+  it("sır boşken dolu header/cookie false döner", () => {
+    const req = new NextRequest(new URL("/", PRODUCTION_ORIGIN), {
+      headers: { [MAINTENANCE_BYPASS_HEADER]: "guess" },
+    });
+    expect(resolveSiteMaintenanceBypassSecret({})).toBe("");
+    expect(hasSiteMaintenanceBypass(req, {})).toBe(false);
+    expect(
+      hasSiteMaintenanceBypass(req, { SUPER_ADMIN_USER_ID: "11111111-1111-4111-8111-111111111111" } as never),
+    ).toBe(false);
+  });
+
+  it("yalnız tanımlı sır eşitliğinde true döner", () => {
+    const env = { SITE_MAINTENANCE_BYPASS_TOKEN: "ops-secret" };
+    const hit = new NextRequest(new URL("/", PRODUCTION_ORIGIN), {
+      headers: { [MAINTENANCE_BYPASS_HEADER]: "ops-secret" },
+    });
+    const miss = new NextRequest(new URL("/", PRODUCTION_ORIGIN), {
+      headers: { [MAINTENANCE_BYPASS_HEADER]: "nope" },
+    });
+    expect(hasSiteMaintenanceBypass(hit, env)).toBe(true);
+    expect(hasSiteMaintenanceBypass(miss, env)).toBe(false);
+    expect(
+      hasSiteMaintenanceBypass(
+        new NextRequest(new URL("/", PRODUCTION_ORIGIN), {
+          headers: { cookie: `${MAINTENANCE_BYPASS_COOKIE}=ops-secret` },
+        }),
+        env,
+      ),
+    ).toBe(true);
+  });
+
+  it("kaynak SUPER_ADMIN_USER_ID okumaz", () => {
+    const src = readSrc("lib/kernel/http/site-maintenance.ts");
+    expect(src).not.toContain("env.SUPER_ADMIN_USER_ID");
+    expect(src).toContain("fail-closed");
+    expect(src).toContain("resolveSiteMaintenanceBypassSecret");
   });
 });
 

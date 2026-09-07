@@ -1,6 +1,6 @@
 import { isSupabaseUserId, type SessionUser } from "@/lib/kernel/auth/ids";
 import { getSession, requireSession } from "@/lib/kernel/auth/require-session";
-import { assertSuperAdminUserId, isSuperAdminUser } from "@/lib/kernel/auth/super-admin";
+import { assertSuperAdminActor, isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
 
 export type SuperAdminAccess =
   | { kind: "unauthenticated" }
@@ -8,12 +8,13 @@ export type SuperAdminAccess =
   | { kind: "ok"; user: SessionUser };
 
 /**
- * Super Admin tek kapı: oturum (getUser) + SUPER_ADMIN_USER_ID eşitliği.
- * Boş env kimseyi admin yapmaz. Kenar `auth = "admin"` aynı UUID'yi okur.
+ * Super Admin tek kapı: oturum (getUser) + `isSuperAdminActor`
+ * (SUPER_ADMIN_USER_ID veya CANONICAL_SUPER_ADMIN_EMAIL).
+ * Boş env kimseyi admin yapmaz. Kenar `auth = "admin"` aynı SSOT'u okur.
  */
 export async function requireSuperAdmin(request?: Request): Promise<SessionUser> {
   const session = await requireSession(request);
-  assertSuperAdminUserId(session.id);
+  assertSuperAdminActor({ id: session.id, email: session.email });
   return session;
 }
 
@@ -22,7 +23,7 @@ export async function resolveSuperAdminAccess(request?: Request): Promise<SuperA
   if (!session) {
     return { kind: "unauthenticated" };
   }
-  if (!isSupabaseUserId(session.id) || !isSuperAdminUser(session.id)) {
+  if (!isSupabaseUserId(session.id) || !isSuperAdminActor({ id: session.id, email: session.email })) {
     return { kind: "forbidden" };
   }
   return { kind: "ok", user: session };

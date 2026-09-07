@@ -29,6 +29,7 @@ describe("K6 public API yolu", () => {
     expect(toPublicApiPath("app/api/(kernel)/payments/webhooks/paytr/route.ts")).toBe(
       "/api/payments/webhooks/paytr",
     );
+    expect(toPublicApiPath("app/api/paytr/callback/route.ts")).toBe("/api/paytr/callback");
     expect(toPublicApiPath("app/api/studio/generate/route.ts")).toBe("/api/studio/generate");
   });
 });
@@ -65,6 +66,14 @@ describe("K6 kenar kararı", () => {
         method: "POST",
         sessionHint: false,
         map: MAP,
+      }).kind,
+    ).toBe("next");
+    expect(
+      decideEdgeApiAuth({
+        pathname: "/api/paytr/callback",
+        method: "GET",
+        sessionHint: false,
+        map: { ...MAP, "/api/paytr/callback": "webhook" },
       }).kind,
     ).toBe("next");
     expect(
@@ -203,13 +212,14 @@ describe("üretilen ROUTE_AUTH_MAP", () => {
     expect(ROUTE_AUTH_MAP["/api/health"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/health/live"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/payments/webhooks/paytr"]).toBe("webhook");
+    expect(ROUTE_AUTH_MAP["/api/paytr/callback"]).toBe("webhook");
     expect(ROUTE_AUTH_MAP["/api/jobs/inngest"]).toBe("webhook");
     expect(Object.hasOwn(ROUTE_AUTH_MAP, "/api/studio/generate")).toBe(false);
     expect(Object.hasOwn(ROUTE_AUTH_MAP, "/api/kurumsal/jobs/[id]/offers")).toBe(false);
     expect(ROUTE_AUTH_MAP["/api/_gone/[...path]"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/ai/chat"]).toBe("session");
     expect(Object.keys(ROUTE_AUTH_MAP).some((path) => path.includes("("))).toBe(false);
-    expect(Object.keys(ROUTE_AUTH_MAP)).toHaveLength(49);
+    expect(Object.keys(ROUTE_AUTH_MAP)).toHaveLength(52);
     expect(ROUTE_AUTH_MAP["/api/academy/courses/[id]/listen"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/academy/courses/[id]/pdf"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/academy/reviews"]).toBe("public");
@@ -225,6 +235,8 @@ describe("üretilen ROUTE_AUTH_MAP", () => {
     expect(ROUTE_AUTH_MAP["/api/freelancer/squad"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/client/jobs/[id]/bids"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/auth/logout"]).toBe("public");
+    expect(ROUTE_AUTH_MAP["/api/auth/register"]).toBe("public");
+    expect(ROUTE_AUTH_MAP["/api/auth/reset-password"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/auth/password"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/dashboard/pulse"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/admin/catalog"]).toBe("admin");

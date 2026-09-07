@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import {
+  isPaytrNotificationProbe,
   isPaytrWebhookSourceIpAllowed,
   parsePaytrWebhookForm,
   parsePaytrWebhookIpAllowlist,
@@ -21,11 +22,38 @@ import { logEvent } from "@/lib/kernel/observability/log";
 
 export const auth = "webhook" as const;
 
+const PAYTR_OK_BODY = "OK";
+const PAYTR_OK_CONTENT_TYPE = "text/plain; charset=utf-8";
+
 function paytrOk(requestId: string) {
-  return new NextResponse("OK", {
+  return new NextResponse(PAYTR_OK_BODY, {
     status: 200,
-    headers: { [REQUEST_ID_HEADER]: requestId },
+    headers: {
+      "Content-Type": PAYTR_OK_CONTENT_TYPE,
+      [REQUEST_ID_HEADER]: requestId,
+    },
   });
+}
+
+function notificationRoute(request: Request): string {
+  try {
+    return new URL(request.url).pathname;
+  } catch {
+    return PAYTR_WEBHOOK_PATH;
+  }
+}
+
+/** PayTR canlı-mod URL yoklaması — CREDIT yok; gövde yalnız düz metin OK. */
+export async function GET(request: Request) {
+  const requestId = resolveRequestId(request);
+  logEvent({
+    level: "info",
+    event: "paytr.webhook.probe",
+    requestId,
+    action: "GET",
+    route: notificationRoute(request),
+  });
+  return paytrOk(requestId);
 }
 
 function paytrReject(requestId: string, reason: string, status: 400 | 403) {
@@ -53,6 +81,18 @@ export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
   const formData = await request.formData();
   const payload = parsePaytrWebhookForm(formData);
+  const route = notificationRoute(request);
+
+  if (isPaytrNotificationProbe(payload)) {
+    logEvent({
+      level: "info",
+      event: "paytr.webhook.probe",
+      requestId,
+      action: "POST",
+      route,
+    });
+    return paytrOk(requestId);
+  }
 
   const allowlist = parsePaytrWebhookIpAllowlist();
   const sourceIp = readPaytrWebhookRequestIp(request);
@@ -62,7 +102,7 @@ export async function POST(request: Request) {
       event: "paytr.webhook.rejected",
       requestId,
       reason: "ip_not_allowed",
-      route: PAYTR_WEBHOOK_PATH,
+      route,
     });
     return paytrReject(requestId, "ip_not_allowed", 403);
   }
@@ -78,7 +118,7 @@ export async function POST(request: Request) {
         requestId,
         reason: "production_safety",
         errorName: error.name,
-        route: PAYTR_WEBHOOK_PATH,
+        route,
       });
       return paytrReject(requestId, "production_safety", 403);
     }
@@ -92,7 +132,7 @@ export async function POST(request: Request) {
       event: "paytr.webhook.rejected",
       requestId,
       reason: verified.reason,
-      route: PAYTR_WEBHOOK_PATH,
+      route,
     });
     return paytrReject(requestId, verified.reason, status);
   }
@@ -119,7 +159,7 @@ export async function POST(request: Request) {
         orderId: settled.orderId,
         amountMinor: verified.amountMinor,
         applied: settled.applied,
-        route: PAYTR_WEBHOOK_PATH,
+        route,
       });
       return paytrOk(requestId);
     } catch (error) {
@@ -130,7 +170,7 @@ export async function POST(request: Request) {
         merchantOid: verified.merchantOid,
         amountMinor: verified.amountMinor,
         errorName: error instanceof Error ? error.name : "unknown",
-        route: PAYTR_WEBHOOK_PATH,
+        route,
       });
       if (!canSendInngestEvents()) {
         logEvent({
@@ -141,7 +181,7 @@ export async function POST(request: Request) {
           amountMinor: verified.amountMinor,
           reason: "inngest_event_key_unconfigured",
           errorName: "InngestEventKeyUnconfigured",
-          route: PAYTR_WEBHOOK_PATH,
+          route,
         });
         return NextResponse.json(
           { status: "deferred_unacked", reason: "inngest_unconfigured", requestId },
@@ -161,7 +201,7 @@ export async function POST(request: Request) {
           merchantOid: verified.merchantOid,
           amountMinor: verified.amountMinor,
           errorName: sendError instanceof Error ? sendError.name : "unknown",
-          route: PAYTR_WEBHOOK_PATH,
+          route,
         });
         return NextResponse.json(
           { status: "deferred_unacked", requestId },
@@ -185,7 +225,7 @@ export async function POST(request: Request) {
         amountMinor: verified.amountMinor,
         orderId: settled.orderId,
         applied: settled.applied,
-        route: PAYTR_WEBHOOK_PATH,
+        route,
       });
     } else {
       logEvent({
@@ -195,7 +235,7 @@ export async function POST(request: Request) {
         merchantOid: verified.merchantOid,
         amountMinor: verified.amountMinor,
         errorName: settled.errorName,
-        route: PAYTR_WEBHOOK_PATH,
+        route,
       });
     }
   }

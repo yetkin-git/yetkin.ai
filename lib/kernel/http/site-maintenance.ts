@@ -1,12 +1,16 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
+import { LEGAL_ENTITY } from "@/lib/copy/legal-launch";
 import { canonicalApiPathname, railEdgeFailResponse } from "@/lib/kernel/http/api-v1";
 import { buildBrandMarkSvg } from "@/lib/ui/brand-mark-geometry";
 
 /**
  * Canlı yayın dondurma — Vercel / `.env` `SITE_MAINTENANCE_FREEZE=true|1`
  * iken kenar ürünü 503 basar. Health, `/legal`, `/iletisim`, robots ve sitemap geçer.
+ * Bakım HTML'i donma sırasında bile yasal sözleşme linklerini, iletişim yolunu
+ * ve şirket künyesini (VKN / MERSİS / adres) basar; PayTR ve yasal inceleme
+ * uzmanı 503 ekranından muaf yüzeye tek tıkla iner.
  * Müze `MAINTENANCE_MODE` env yoktur. `NODE_ENV=development` ve localhost yok sayılır.
  * Canlı / PayTR: bayrak boş.
  */
@@ -14,7 +18,6 @@ export type SiteMaintenanceEnv = {
   SITE_MAINTENANCE_FREEZE?: string;
   SITE_MAINTENANCE_BYPASS_TOKEN?: string;
   MAINTENANCE_BYPASS_SECRET?: string;
-  SUPER_ADMIN_USER_ID?: string;
   NODE_ENV?: string;
   VITEST?: string;
 };
@@ -31,13 +34,29 @@ export const SITE_MAINTENANCE_TITLE = "Sistem Güncelleniyor";
 export const SITE_MAINTENANCE_SUBTITLE = "Bakım Modundayız";
 export const SITE_MAINTENANCE_ENGLISH = "Under Construction";
 
+/** 503 ekranında inceleme uzmanına gösterilen muafiyet ibaresi. */
+export const SITE_MAINTENANCE_COMPLIANCE_NOTE =
+  "PayTR ve Yasal İncelemeler İçin Alt Servisler Aktiftir";
+
+/**
+ * Bakım ekranında basılan yasal inceleme bağlantıları — `isPublicCompliancePath`
+ * ile hizalıdır; freeze açıkken bile bu yollar 503 almaz.
+ */
+export const SITE_MAINTENANCE_LEGAL_LINKS = [
+  { href: "/legal/gizlilik", label: "Gizlilik" },
+  { href: "/legal/cerez", label: "Çerez Politikası" },
+  { href: "/legal/kullanim", label: "Kullanım Şartları" },
+  { href: "/legal/mesafeli-satis", label: "Mesafeli Satış" },
+  { href: "/legal/iade", label: "İade" },
+  { href: "/iletisim", label: "İletişim" },
+] as const;
+
 /** Kenar demeti Next'in statik `process.env.*` okumasını ister. */
 export function readProcessSiteMaintenanceEnv(): SiteMaintenanceEnv {
   return {
     SITE_MAINTENANCE_FREEZE: process.env.SITE_MAINTENANCE_FREEZE,
     SITE_MAINTENANCE_BYPASS_TOKEN: process.env.SITE_MAINTENANCE_BYPASS_TOKEN,
     MAINTENANCE_BYPASS_SECRET: process.env.MAINTENANCE_BYPASS_SECRET,
-    SUPER_ADMIN_USER_ID: process.env.SUPER_ADMIN_USER_ID,
     NODE_ENV: process.env.NODE_ENV,
     VITEST: process.env.VITEST,
   };
@@ -103,32 +122,43 @@ export function isHealthProbePath(pathname: string): boolean {
   return canonical === "/api/health" || canonical === "/api/health/live";
 }
 
+/**
+ * Operatör bypass sırrı — yalnız `SITE_MAINTENANCE_BYPASS_TOKEN` veya
+ * `MAINTENANCE_BYPASS_SECRET`. `SUPER_ADMIN_USER_ID` bypass sırrı değildir.
+ * Sır boşsa fail-closed: header/cookie dolu olsa bile bypass yoktur.
+ */
+export function resolveSiteMaintenanceBypassSecret(
+  env: SiteMaintenanceEnv = readProcessSiteMaintenanceEnv(),
+): string {
+  return (
+    env.SITE_MAINTENANCE_BYPASS_TOKEN?.trim() ||
+    env.MAINTENANCE_BYPASS_SECRET?.trim() ||
+    ""
+  );
+}
+
 export function hasSiteMaintenanceBypass(
   request: Pick<NextRequest, "headers" | "cookies">,
   env: SiteMaintenanceEnv = readProcessSiteMaintenanceEnv(),
 ): boolean {
-  const secret =
-    env.SITE_MAINTENANCE_BYPASS_TOKEN?.trim() ||
-    env.MAINTENANCE_BYPASS_SECRET?.trim() ||
-    env.SUPER_ADMIN_USER_ID?.trim();
+  const secret = resolveSiteMaintenanceBypassSecret(env);
+  if (!secret) {
+    return false;
+  }
 
   const headerVal = request.headers.get(MAINTENANCE_BYPASS_HEADER)?.trim();
   const cookieVal = request.cookies.get(MAINTENANCE_BYPASS_COOKIE)?.value?.trim();
 
-  if (secret) {
-    return (
-      (headerVal !== undefined && headerVal === secret) ||
-      (cookieVal !== undefined && cookieVal === secret)
-    );
-  }
-
-  return Boolean(headerVal || cookieVal);
+  return headerVal === secret || cookieVal === secret;
 }
 
 /** PayTR / 6502 denetim yüzeyi — freeze açıkken bile 503 basılmaz. */
 export function isPublicCompliancePath(pathname: string): boolean {
   const canonical = canonicalApiPathname(pathname);
-  if (canonical === "/api/payments/webhooks/paytr") {
+  if (
+    canonical === "/api/payments/webhooks/paytr" ||
+    canonical === "/api/paytr/callback"
+  ) {
     return true;
   }
   const raw = pathname.trim();
@@ -271,6 +301,41 @@ export function renderSiteMaintenanceHtml(): string {
         70% { box-shadow: 0 0 0 0.55rem rgba(217, 119, 6, 0); }
         100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
       }
+      .compliance {
+        margin-top: 1.5rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid rgba(15, 23, 42, 0.08);
+      }
+      .compliance-note {
+        margin: 0;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #0b63c7;
+      }
+      .links {
+        margin-top: 0.7rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.2rem 0.35rem;
+      }
+      .links a {
+        padding: 0.2rem 0.5rem;
+        border-radius: 0.45rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #0b63c7;
+        text-decoration: none;
+      }
+      .links a:hover { text-decoration: underline; }
+      .colophon {
+        margin: 0.85rem 0 0;
+        font-size: 0.68rem;
+        line-height: 1.55;
+        color: #5b677a;
+      }
       @media (prefers-reduced-motion: reduce) {
         .dot { animation: none; }
       }
@@ -283,8 +348,17 @@ export function renderSiteMaintenanceHtml(): string {
       <h1>${SITE_MAINTENANCE_TITLE}</h1>
       <p class="sub">${SITE_MAINTENANCE_SUBTITLE}</p>
       <p class="en">${SITE_MAINTENANCE_ENGLISH}</p>
-      <p class="copy">Sayfalar ve API geçici olarak kapalı. Kısa bir bakım çalışmasındayız; birazdan tekrar buradayız.</p>
+      <p class="copy">Sayfalar ve API geçici olarak kapalı. Kısa bir bakım çalışmasındayız; birazdan tekrar buradayız. Yasal sözleşmeler ve iletişim sayfalarımız bakım sırasında da açıktır.</p>
       <p class="pill"><span class="dot" aria-hidden="true"></span>Canlı yayın duraklatıldı</p>
+      <div class="compliance">
+        <p class="compliance-note">${SITE_MAINTENANCE_COMPLIANCE_NOTE}</p>
+        <nav class="links" aria-label="Yasal sayfalar">
+          ${SITE_MAINTENANCE_LEGAL_LINKS.map(
+            (link) => `<a href="${link.href}">${link.label}</a>`,
+          ).join("\n          ")}
+        </nav>
+        <p class="colophon">${LEGAL_ENTITY.tradeName} · VKN ${LEGAL_ENTITY.vkn} · MERSİS ${LEGAL_ENTITY.mersis} · ${LEGAL_ENTITY.address}</p>
+      </div>
     </main>
   </body>
 </html>`;
