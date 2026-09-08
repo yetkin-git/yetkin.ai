@@ -390,7 +390,7 @@
                               {
                                 "type": "string",
                                 "enum": [
-                                  "müfredat mühürü"
+                                  "müfredat özeti"
                                 ]
                               }
                             ]
@@ -618,6 +618,16 @@
                               "type": "string",
                               "minLength": 1
                             },
+                            "lastCourseSlug": {
+                              "nullable": true,
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "nextLessonKey": {
+                              "nullable": true,
+                              "type": "string",
+                              "minLength": 1
+                            },
                             "currencyCode": {
                               "type": "string",
                               "enum": [
@@ -632,6 +642,8 @@
                             "purchasesCount",
                             "certificatesHeld",
                             "lastCertificateTitle",
+                            "lastCourseSlug",
+                            "nextLessonKey",
                             "currencyCode"
                           ],
                           "additionalProperties": false
@@ -695,6 +707,8 @@
           "pulse.purchasesCount",
           "pulse.certificatesHeld",
           "pulse.lastCertificateTitle",
+          "pulse.lastCourseSlug",
+          "pulse.nextLessonKey",
           "pulse.currencyCode"
         ]
       }
@@ -5019,7 +5033,7 @@
                 {
                   "type": "string",
                   "enum": [
-                    "müfredat mühürü"
+                    "müfredat özeti"
                   ]
                 }
               ]
@@ -5092,6 +5106,16 @@
             "type": "string",
             "minLength": 1
           },
+          "lastCourseSlug": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1
+          },
+          "nextLessonKey": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1
+          },
           "currencyCode": {
             "type": "string",
             "enum": [
@@ -5106,6 +5130,8 @@
           "purchasesCount",
           "certificatesHeld",
           "lastCertificateTitle",
+          "lastCourseSlug",
+          "nextLessonKey",
           "currencyCode"
         ],
         "additionalProperties": false

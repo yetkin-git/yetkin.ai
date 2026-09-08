@@ -42,15 +42,20 @@ describe("fatura künyesi checkout yüzeyi", () => {
     const billingRoute = readSrc("app/api/(kernel)/profile/billing/route.ts");
     const prismaStore = readSrc("lib/kernel/identity/prisma-billing-info-store.ts");
     const write = readSrc("lib/kernel/identity/billing-info-write.ts");
-    for (const source of [purchaseUi, wallet, modal]) {
+    for (const source of [purchaseUi, wallet]) {
       expect(source).toContain("CheckoutBillingFields");
-      expect(source).toContain("billing: billingPayload.billing");
     }
+    expect(purchaseUi).toContain("billing: billingInfo");
+    expect(wallet).toContain("billing: billingPayload.billing");
+    expect(modal).not.toContain("CheckoutBillingFields");
+    expect(modal).toContain("presetBilling");
+    expect(modal).toContain("billing: presetBilling");
     expect(fields).toContain("copy.individual");
     expect(fields).toContain("copy.corporate");
-    expect(fields).toContain("copy.tckn");
+    expect(fields).not.toContain("copy.tckn");
     expect(fields).toContain("copy.vkn");
     expect(fields).toContain("copy.phone");
+    expect(fields).toContain("collapsible");
     expect(copy).toContain("Bireysel");
     expect(copy).toContain("Kurumsal");
     expect(copy).toContain("TCKN");

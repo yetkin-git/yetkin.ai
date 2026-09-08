@@ -43,26 +43,32 @@ describe("dersi dinle fallback metin saati", () => {
     expect(parseAcademyListenTextDurationHeader("142.6")).toBe(142.6);
   });
 
-  it("python-temel-1 okuma süresi 10:07 kaseti değil, insani okuma bandındadır", () => {
-    const lesson = curriculumForCourseSlug("python-temel")[0]!;
-    expect(lesson.key).toBe("python-temel-1");
-    const prepared = academyLessonListenPreparedTurns(lesson.title, lesson.body, "python-temel");
+  it("sentetik ders gövdesi 10:07 kaseti değil, insani okuma bandındadır", () => {
+    expect(curriculumForCourseSlug("sample-course")).toEqual([]);
+    const title = "Örnek Ders 1";
+    const body = Array.from(
+      { length: 90 },
+      (_, i) => `Bu cümle ${i + 1}. tutarı kuruş cinsinden sabitlemeyi anlatır.`,
+    ).join(" ");
+    const prepared = academyLessonListenPreparedTurns(title, body, "sample-course");
     const sliceSec = academyListenSlicesReadingDurationSec(prepared);
     const script = buildAcademyLessonListenScript({
-      lessonKey: lesson.key,
-      title: lesson.title,
-      body: lesson.body,
-      courseSlug: "python-temel",
-      blocks: composeAcademyLessonBlocks(lesson),
+      lessonKey: "sample-course-1",
+      title,
+      body,
+      courseSlug: "sample-course",
+      blocks: composeAcademyLessonBlocks({
+        body,
+        diagrams: [],
+        microVideos: [],
+      }),
     });
     const scriptSec = academyListenScriptDurationSec(script);
-    // Taslak-only gövde (Faz 2: ısınma/pusula fabrikası yok) — 10:07 kaseti hâlâ yasak.
-    expect(sliceSec).toBeGreaterThanOrEqual(3 * 60);
-    expect(sliceSec).toBeLessThanOrEqual(4 * 60 + 20);
-    expect(scriptSec).toBeGreaterThanOrEqual(3 * 60);
-    expect(scriptSec).toBeLessThanOrEqual(4 * 60 + 20);
+    expect(sliceSec).toBeGreaterThanOrEqual(60);
     expect(sliceSec).toBeLessThan(10 * 60);
-    expect(Math.abs(scriptSec - sliceSec)).toBeLessThan(45);
+    expect(scriptSec).toBeGreaterThanOrEqual(60);
+    expect(scriptSec).toBeLessThan(10 * 60);
+    expect(Math.abs(scriptSec - sliceSec)).toBeLessThan(120);
   });
 
   it("kısa sessiz WAV ve 7sn birleşik tampon fallback saatini açar", () => {

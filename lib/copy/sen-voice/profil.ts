@@ -25,7 +25,7 @@ export const PROFIL_SEN = {
   walletCta: "Cüzdanı aç",
   careerCta: "Mücevher vitrini",
   verifyCta: "Sertifika doğrula",
-  dashboardCta: "Anasayfaya dön",
+  dashboardCta: "Panele dön",
   honestyTitle: "Kimlik dürüstlüğü",
   honestyBody:
     "Görünen ad kimlik kartına yazılır; e-posta oturumla senkron kalır. Şifre bu kartta durmaz. Freelancer vitrini ve KYC buraya eklenmez. Vize damgası Kariyer basar; burada yalnız özet okunur.",

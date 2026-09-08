@@ -126,6 +126,8 @@ describe("üretim runtime readiness (Inngest / PayTR)", () => {
     expect(report.devlabsPepper).toBe("unconfigured");
     expect(report.jwtHs256Fallback).toBe("unconfigured");
     expect(report.productionBlocked).toBe(false);
+    expect(report.liveDay0Warnings.some((row) => row.includes("NOTICE_SMTP"))).toBe(true);
+    expect(report.liveDay0Warnings.some((row) => row.includes("TRUSTED_PROXY_HOPS"))).toBe(true);
   });
 
   it("yüzey: ops betiği prebuild zincirinde üretim kapısıdır; sır basmaz", () => {
@@ -160,6 +162,7 @@ describe("üretim runtime readiness (Inngest / PayTR)", () => {
     expect(lib).not.toContain("PAYTR_MERCHANT_SALT=");
     expect(readSrc("instrumentation.ts")).toContain("ops.devlabs.pepper_unconfigured");
     expect(readSrc("instrumentation.ts")).toContain("ops.smtp.honest_skip");
+    expect(readSrc("instrumentation.ts")).toContain("ops.proxy.trusted_hops");
   });
 });
 

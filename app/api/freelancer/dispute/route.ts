@@ -1,5 +1,5 @@
 import { requireSession } from "@/lib/kernel/auth/session";
-import { isSuperAdminUser } from "@/lib/kernel/auth/super-admin";
+import { isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { disputeRequestSchema } from "@/lib/freelancer/schemas";
 import {
@@ -86,7 +86,7 @@ export async function POST(request: Request) {
       return jsonOk(result);
     }
     if (body.action === "human-settle") {
-      if (!isSuperAdminUser(user.id)) {
+      if (!isSuperAdminActor({ id: user.id, email: user.email })) {
         return jsonFail("İnsan incelemesini yalnız Super Admin sonuçlandırır.", 403);
       }
       if (body.employerRefundBps == null) {
@@ -94,6 +94,7 @@ export async function POST(request: Request) {
       }
       const result = await settleHumanReviewDispute(ports, {
         ...actor,
+        actorEmail: user.email,
         employerRefundBps: body.employerRefundBps,
       });
       return jsonOk(result);

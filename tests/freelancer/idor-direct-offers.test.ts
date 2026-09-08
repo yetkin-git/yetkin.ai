@@ -44,7 +44,7 @@ async function seededOffer(ports: ReturnType<typeof world>) {
     title: "Özel teklif",
     brief: "Yalnız davetli ustanın tezgâhına düşer.",
     budgetMinor: 25_000,
-    visaPathwayId: "uiux-tasarim-sistemleri",
+    visaPathwayId: "logo-gorsel-sosyal-medya",
     dueDays: 7,
   });
 }

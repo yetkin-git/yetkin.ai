@@ -1,17 +1,21 @@
 /** Rail SEN aksı — freelancer odası. Müze sen-voice kopyalanmaz. */
 export const FREELANCER_SEN = {
   catalog: {
-    eyebrow: "İş Pazarı",
-    title: "İş Pazarı",
-    description: "Güvenli ödeme havuzuyla açık ilanlara teklif ver.",
+    eyebrow: "Freelancer İlan Panosu",
+    title: "Freelancer İlan Panosu",
+    description:
+      "Freelancer arka plan odasıdır. Tohum ilanlar platform örneğidir; emanet kapalıdır (kabul 503). İlan ve teklif kodu durur; sahte pazar basılmaz.",
     createCta: "İlan oluştur",
+    passportCta: "Pasaport",
+    careerCta: "Kariyer",
+    certificatesCta: "Sertifikalarım",
     live: (count: number) => `Açık ilan — ${count}`,
     unbound: "İlan listesi şu an okunamadı. Biraz sonra yenile.",
   },
   stats: {
     open: (count: number) => `${count} Açık İlan`,
-    escrowInline: "Güvenli Ödeme",
-    escrowHint: "Güvenli Ödeme (Escrow): teklif onayında bütçe havuza alınır",
+    escrowInline: "İlan ve teklif",
+    escrowHint: "Emanet kapalıdır; kabul 503 fail-closed döner",
     pathInline: "3 Adımda Teslim",
     pathHint: "Teklif → Teslim → Onay",
     revisionInline: "3 Revizyon Hakkı",
@@ -21,21 +25,27 @@ export const FREELANCER_SEN = {
   list: {
     emptyHint: "Henüz açık ilan bulunmuyor",
     emptyBody:
-      "Pazaryerinde ilk ilanı sen oluşturarak onaylı uzmanlardan teklif almaya başlayabilirsin.",
+      "Pazaryerinde ilk ilanı sen oluşturarak Doğrulanmış Rozetli uzmanlardan teklif almaya başlayabilirsin.",
     emptyCta: "İlan Oluştur",
     openCta: "İncele / Teklif Ver",
+    exampleCta: "Örneği incele",
     inspectBidCta: "İncele / Teklif Ver",
-    lockLabel: "Güvenli ödeme",
+    lockLabel: "İlan açık",
     boardTitle: "Açık ilanlar",
+    exampleBoardTitle: "Platform örnekleri",
+    exampleBoardLead:
+      "Platform örneği / Emanet kapalı. Tohum ilan gerçek işveren işi değildir. Kabul 503 döner; ilan ve teklif kodları durur.",
     filteredEmpty: "Aramanıza uygun ilan bulunamadı.",
     filteredEmptyHint:
-      "Arama terimini veya bütçe/ihtiyaç filtrelerini gevşeterek tekrar deneyebilirsin.",
+      "Arama terimini veya bütçe/Teklif Kapısı filtrelerini gevşeterek tekrar deneyebilirsin.",
     clearFiltersCta: "Filtreleri Sıfırla",
   },
   filter: {
     searchPlaceholder: "İlanlarda ara...",
-    pathwayAll: "Tüm ihtiyaçlar",
-    pathwayLabel: "İhtiyaç",
+    pathwayAll: "Tüm Teklif Kapıları",
+    pathwayLabel: "Teklif Kapısı",
+    guaranteedGroup: "Yetkin.ai Garantili Kapılar",
+    marketplaceGroup: "Standart Pazaryeri — Vize istenmez",
     budgetMinPlaceholder: "Min ₺",
     budgetMaxPlaceholder: "Max ₺",
     budgetLabel: "Bütçe",
@@ -62,50 +72,62 @@ export const FREELANCER_SEN = {
     bidTitle: "Teklif ver",
     loginLead: "Teklif veya kabul için oturum gerekir.",
     loginCta: "Giriş Yap",
-    visaGate: "Bu işe teklif verebilmek için Akademi sertifikası gereklidir.",
+    visaGate: "Bu işe teklif verebilmek için Doğrulanmış Rozet gerekir.",
     visaRequired: (certName: string) =>
-      `Bu işe teklif verebilmek için «${certName}» ihtiyacına uygun Akademi belgesi gerekir.`,
-    visaCta: "Eğitime Git",
-    visaScopeTitle: "Bu iş için gereken eğitim",
+      `Bu işe teklif verebilmek için «${certName}» Teklif Kapısına uygun Doğrulanmış Rozet gerekir.`,
+    visaCta: "Eğitime Git / Erişim Hakkı Kazan",
+    visaScopeTitle: "Bu işin Teklif Kapısı",
     visaScopeLead: (pathway: string) =>
-      `Teklif için «${pathway}» ihtiyacına uygun belgelerden en az biri gerekir. Aşağıdaki eğitimlerden birini tamamla.`,
+      `Bu Teklif Kapısını «${pathway}» Doğrulanmış Rozeti (Pasaport Vize Damgası) açar. Erişim Hakkı kazanmak için aşağıdaki Büyüme Beşlisi eğitimini tamamla.`,
+    exampleBanner:
+      "Platform örneği / Emanet kapalı. Bu ilan gerçek işveren işi değildir. Teklif kabulü 503 fail-closed döner; ilan ve teklif kodları durur.",
   },
   create: {
-    eyebrow: "İş Pazarı",
+    eyebrow: "Freelancer İlan Panosu",
     title: "İlan oluştur",
     description:
-      "Bütçe, teslim edilecek işi ve ihtiyacı yaz. Teklif kabul edilince tutar güvenli ödemeye alınır; teslim onaylanınca bakiyene geçer.",
-    backCta: "İş Pazarı'na dön",
+      "Bütçe, teslim edilecek işi ve Teklif Kapısını yaz. İlan ve teklif kodu durur; emanet kapalıdır (kabul 503).",
+    backCta: "Freelancer İlan Panosu'na dön",
     titleLabel: "Başlık",
     briefLabel: "İş tanımı",
     budgetLabel: "Bütçe (₺)",
-    pathwayLabel: "İhtiyaç",
-    pathwayHint: "Teklif yalnız bu ihtiyaca uygun Akademi belgesi taşıyan ustalara açılır.",
+    pathwayLabel: "Teklif Kapısı",
+    pathwayHint:
+      "Nitelikli ilan Doğrulanmış Rozet ister. Standart pazaryeri ve Açık Deneme Erişim Hakkı istenmez.",
+    guaranteedGroup: "Yetkin.ai Garantili Kapılar",
+    marketplaceGroup: "Standart Pazaryeri — Vize istenmez",
     band: (minMajor: number, maxMajor: number, holdPercent: number) =>
-      `Bütçe bandı: ₺${minMajor} – ₺${maxMajor}. Teklif kabulünde tutar güvenli ödemeye alınır; platform payı %${holdPercent}.`,
+      `Bütçe bandı: ₺${minMajor} – ₺${maxMajor}. Emanet nakit akışı yakında; kabul nakit doğurmaz. Platform payı (%${holdPercent}) split açılınca uygulanır.`,
     submit: "İlan oluştur",
     pending: "Oluşturuluyor…",
     fail: "İlan açılamadı.",
   },
+  cancel: {
+    cta: "İlanı Kapat / Sil",
+    pending: "Kapatılıyor…",
+    fail: "İlan kapatılamadı.",
+    confirm: "İlan arşive alınır ve teklife kapanır. Sert silinmez. Devam?",
+  },
   escrow: {
-    title: "Güvenli Ödeme (Escrow)",
-    eyebrow: "Havuz · teslim · onay",
-    lead: "İşveren teklifi onayladığında bütçe güvenli havuza alınır. İşi teslim edip işveren onayladığında bakiyene aktarılır.",
+    title: "Emanet ödeme — Şimdilik Devre Dışı",
+    eyebrow: "Şimdilik Devre Dışı / Yakında",
+    disabledStamp: "Şimdilik Devre Dışı",
+    lead: "İlan ve teklif çalışır. Emanet nakit kilidi şimdilik devre dışıdır (Yakında). Bugün kabul nakit doğurmaz; sahte kazanç yazılmaz.",
     holdNotice: (amount: string, holdPercent: number) =>
-      `Kabul, ${amount} tutarını güvenli ödemeye alır (platform payı %${holdPercent}).`,
-    pendingLive: "Güvenli ödeme başlatılıyor…",
+      `Emanet şimdilik devre dışı. ${amount} (pay %${holdPercent}) lisanslı kilitlenmez. Kabul 503 fail-closed döner; sahte kazanç yazılmaz.`,
+    pendingLive: "Emanet başlatılıyor…",
     steps: (holdPercent: number) =>
       [
         {
           key: "hold" as const,
-          label: "Bütçe güvenli havuza alınır",
+          label: "Bütçe emanete alınır — Şimdilik Devre Dışı",
           detail:
-            "İşveren teklifi onaylayınca tutar kilitlenir. Freelancer henüz almaz.",
+            "Split açılınca işveren teklifi onayladığında tutar lisanslı kuruluşta kilitlenir. Freelancer henüz almaz. Bugün kabul nakit doğurmaz.",
         },
         {
           key: "release" as const,
-          label: "Teslim onayında bakiyene geçer",
-          detail: `İşi teslim et; işveren onaylayınca tutar bakiyene aktarılır. Platform payı %${holdPercent}.`,
+          label: "Teslim onayında IBAN'a geçer",
+          detail: `İşi teslim et; işveren onaylayınca kuruluş dağıtır. Platform payı %${holdPercent}. Platform cüzdanına usta ücreti yazılmaz.`,
         },
         {
           key: "dispute" as const,
@@ -127,12 +149,12 @@ export const FREELANCER_SEN = {
     remainingHint: "İşveren teslimden sonra revizyon isteyebilir. Hak bitince onay öne çıkar.",
   },
   accept: {
-    cta: "Teklifi kabul et — güvenli ödemeyi başlat",
-    pending: "Güvenli ödeme başlatılıyor…",
+    cta: "Teklifi kabul et",
+    pending: "Kabul deneniyor…",
     fail: "Teklif kabul edilemedi.",
-    paymentsClosed: "Pazaryeri emanet altyapımız entegrasyon aşamasındadır",
+    paymentsClosed: "Emanet ödeme şimdilik devre dışı",
     paymentsClosedBody:
-      "Güvenli ödeme henüz bağlanmadı. Pazaryeri emanet altyapımız entegrasyon aşamasındadır — Pilot projeler için destek@yetkin.ai",
+      "Emanet nakit akışı henüz bağlanmadı (Yakında). Pazaryeri Split kapalıdır — kabul 503 fail-closed döner; sahte kazanç yazılmaz. Pilot işler için destek@yetkin.ai",
     paymentsClosedCta: "Anlaşıldı",
   },
   bid: {
@@ -142,9 +164,9 @@ export const FREELANCER_SEN = {
     pending: "Gönderiliyor…",
     received: "Teklif alındı.",
     fail: "Teklif gönderilemedi.",
-    visaDenied: "Bu işe teklif verebilmek için Akademi sertifikası gereklidir.",
+    visaDenied: "Bu işe teklif verebilmek için Doğrulanmış Rozet gerekir.",
     freeBidNote:
-      "Teklif ücretsizdir. Bazı işler Akademi sertifikası ister.",
+      "Teklif ücretsizdir. Nitelikli işler Doğrulanmış Rozet ister; Açık Deneme Erişim Hakkı istenmez.",
   },
   chat: {
     title: "Sözleşme içi iletişim",
@@ -191,7 +213,7 @@ export const FREELANCER_SEN = {
     platformShare: (percent: number) => `Platform payı (%${percent})`,
     freelancerShare: "Freelancer payı",
     lock: "Ödeme",
-    backCta: "İş Pazarı'na dön",
+    backCta: "Freelancer İlan Panosu'na dön",
     advancedSummary: "Gelişmiş: revizyon ve anlaşmazlık",
     advancedHint:
       "Mutlu yol teslim ve onaydır. Anlaşmazlık yalnız ihtilaf içindir; ekip paneli yalnız kurulu takımda açılır.",
@@ -270,7 +292,7 @@ export const FREELANCER_SEN = {
       "Takım paylaşımı halkayı döndürmez. Teklif tek ustadan, açık ilandan geçer. Bu yüzey dondurulmuştur.",
     directOfferTitle: "Doğrudan iş teklifi",
     directOfferBody:
-      "Doğrudan teklif bu fazda kapalı. İş açık ilan ve vize kapısından yürür.",
+      "Doğrudan teklif bu fazda kapalı. İş açık ilan ve Teklif Kapısından yürür.",
   },
   squad: {
     title: "Takım / Squad",
@@ -286,7 +308,7 @@ export const FREELANCER_SEN = {
     bidAsTeamToggle: "Takım niyeti ile teklif",
     bidAsTeamSolo: "Tek kişi teklif",
     readyPickLabel: "Hazır Takımlarımdan Seç",
-    readyPickEmpty: "Henüz ön takım yok — İş Pazarı'nda Takım / Squad Kur ile hazır kıta kurulur.",
+    readyPickEmpty: "Henüz ön takım yok — Freelancer İlan Panosu'nda Takım / Squad Kur ile hazır kıta kurulur.",
     readyPickManual: "Elle yaz",
     paytrNote: "Ödeme iş bitiminde üyelerin hesaplarına bölünür.",
     honestyNote:
@@ -331,10 +353,10 @@ export const FREELANCER_SEN = {
     briefLabel: "İş tanımı",
     budgetLabel: "Özel bütçe (₺)",
     dueDaysLabel: "Teslim süresi (gün)",
-    pathwayLabel: "İhtiyaç",
-    pathwayHint: "Ustanın bu ihtiyaca uygun Akademi belgesi yoksa teklif gönderilemez.",
-    visaOk: "Eğitim uyumu: seçilen ihtiyaç usta belgesiyle eşleşmeli (sunucu denetler).",
-    visaBadgesLabel: "Akademi sertifikaları",
+    pathwayLabel: "Teklif Kapısı",
+    pathwayHint: "Ustanın bu Teklif Kapısına uygun Doğrulanmış Rozeti yoksa teklif gönderilemez.",
+    visaOk: "Eğitim uyumu: seçilen Teklif Kapısı usta belgesiyle eşleşmeli (sunucu denetler).",
+    visaBadgesLabel: "Doğrulanmış Rozetler",
     submit: "Teklifi gönder",
     pending: "Gönderiliyor…",
     fail: "Doğrudan teklif gönderilemedi.",

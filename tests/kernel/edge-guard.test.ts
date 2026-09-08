@@ -52,13 +52,15 @@ describe("kenar oturum ipucu", () => {
 });
 
 describe("korumalı çekirdek yolları", () => {
-  it("/dashboard /cuzdan /profil /pasaport /admin ve alt yollarını tanır", () => {
+  it("/dashboard /cuzdan /profil /pasaport /career /admin ve alt yollarını tanır", () => {
     expect(isProtectedKernelPath("/dashboard")).toBe(true);
     expect(isProtectedKernelPath("/dashboard/")).toBe(true);
     expect(isProtectedKernelPath("/cuzdan/hareket")).toBe(true);
     expect(isProtectedKernelPath("/profil")).toBe(true);
     expect(isProtectedKernelPath("/pasaport")).toBe(true);
     expect(isProtectedKernelPath("/pasaport/vize")).toBe(true);
+    expect(isProtectedKernelPath("/career")).toBe(true);
+    expect(isProtectedKernelPath("/career/")).toBe(true);
     expect(isProtectedKernelPath("/admin/katalog")).toBe(true);
   });
 
@@ -85,9 +87,15 @@ describe("korumalı yazma yolları", () => {
     expect(isProtectedCitizenPath("/studio")).toBe(false);
     expect(isProtectedCitizenPath("/dashboard")).toBe(true);
     expect(isProtectedCitizenPath("/academy/python-temel/oyna")).toBe(true);
+    expect(isProtectedCitizenPath("/academy/certificates")).toBe(true);
+    expect(isProtectedCitizenPath("/career")).toBe(true);
     expect(isProtectedCitizenPath("/academy")).toBe(false);
+    expect(isProtectedCitizenPath("/academy/dogrula")).toBe(false);
     expect(decideEdgeAction("/academy/python-temel/oyna", false).kind).toBe("auth-307");
+    expect(decideEdgeAction("/academy/certificates", false).kind).toBe("auth-307");
+    expect(decideEdgeAction("/career", false).kind).toBe("auth-307");
     expect(decideEdgeAction("/academy/python-temel", false).kind).toBe("next");
+    expect(decideEdgeAction("/academy/dogrula", false).kind).toBe("next");
     expect(decideEdgeAction("/studio", false).kind).toBe("frozen-410");
   });
 });
@@ -108,6 +116,10 @@ describe("kenar kararları", () => {
     expect(decideEdgeAction("/profil", false).kind).toBe("auth-307");
     expect(decideEdgeAction("/admin", false).kind).toBe("auth-307");
     expect(decideEdgeAction("/pasaport", false)).toEqual({
+      kind: "auth-307",
+      to: CITIZEN_LOGIN_PATH,
+    });
+    expect(decideEdgeAction("/career", false)).toEqual({
       kind: "auth-307",
       to: CITIZEN_LOGIN_PATH,
     });

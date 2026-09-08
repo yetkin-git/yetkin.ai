@@ -405,6 +405,7 @@ export function createMemoryFreelancerStore(): MemoryFreelancerStore {
     async hasUser() {
       return true;
     },
+    async ensureUser() {},
     async getJob(id) {
       const job = jobs.get(id);
       return job ? { ...job } : null;

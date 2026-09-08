@@ -16,15 +16,18 @@ import { paytrBasketMatchesPayment } from "@/lib/kernel/payments/paytr/checkout"
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 
 describe("akademi katalog fiyat haritası — KDV dahil, PayTR hizası", () => {
-  it("20 SKU tohum tutarı harita ile birebir; seviye bandı sıkıştırmaz", () => {
-    expect(Object.keys(ACADEMY_CATALOG_PRICE_MINOR)).toHaveLength(20);
-    expect(ACADEMY_GROWTH_SKU_SLUGS).toHaveLength(20);
+  it("aktif SKU tohum tutarı harita ile birebir; seviye bandı sıkıştırmaz", () => {
+    expect(ACADEMY_GROWTH_SKU_SLUGS).toHaveLength(5);
+    expect(ACADEMY_COURSE_SEEDS).toHaveLength(5);
     for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
-      expect(ACADEMY_CATALOG_PRICE_MINOR[slug]).toBeGreaterThan(0);
+      expect(ACADEMY_CATALOG_PRICE_MINOR[slug as keyof typeof ACADEMY_CATALOG_PRICE_MINOR]).toBeGreaterThan(
+        0,
+      );
     }
-    expect(ACADEMY_COURSE_SEEDS).toHaveLength(20);
     for (const row of ACADEMY_COURSE_SEEDS) {
-      expect(row.seedAmountMinor).toBe(ACADEMY_CATALOG_PRICE_MINOR[row.slug]);
+      expect(row.seedAmountMinor).toBe(
+        ACADEMY_CATALOG_PRICE_MINOR[row.slug as keyof typeof ACADEMY_CATALOG_PRICE_MINOR],
+      );
       expect(row.seedMinMinor).toBe(ACADEMY_CATALOG_PRICE_WINDOW.minMinor);
       expect(row.seedMaxMinor).toBe(ACADEMY_CATALOG_PRICE_WINDOW.maxMinor);
       expect(academyCatalogPriceFitsPaytrBand(row.seedAmountMinor)).toBe(true);
@@ -75,12 +78,23 @@ describe("akademi katalog fiyat haritası — KDV dahil, PayTR hizası", () => {
     }
   });
 
-  it("canlı PriceCatalogEntry tutarı tohum haritasıyla ezilmez", () => {
-    const seed = publishedCoursesFromSeed().find((row) => row.slug === "python-temel");
-    expect(seed?.priceMinor).toBe(ACADEMY_CATALOG_PRICE_MINOR["python-temel"]);
+  it("canlı PriceCatalogEntry tutarı tohum haritası dışında overlay kabul eder", () => {
+    expect(publishedCoursesFromSeed().map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
     const live = overlaySeedCatalogPrice({
-      ...seed!,
+      id: "ac_sample",
+      slug: "sample-course",
+      title: "Örnek Kurs",
+      summary: "Örnek",
+      catalogUnitKey: "course:sample-course",
+      globalRank: 1,
+      localRank: 1,
+      trendScore: 1,
+      isPublished: true,
+      createdAt: new Date("2026-08-14T00:00:00.000Z"),
+      updatedAt: new Date("2026-08-14T00:00:00.000Z"),
       priceMinor: toAmountMinor(49_000),
+      currencyCode: "TRY",
+      purchasable: true,
     });
     expect(live.priceMinor).toBe(49_000);
   });

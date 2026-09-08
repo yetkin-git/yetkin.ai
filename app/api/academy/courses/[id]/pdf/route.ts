@@ -1,5 +1,8 @@
 import { jsonFail } from "@/lib/kernel/http/json";
-import { ACADEMY_STUDIO_GONE } from "@/lib/academy/studio-gone";
+
+const ACADEMY_STUDIO_GONE = {
+  pdf: "Ders notu PDF kapalı.",
+} as const;
 
 /**
  * Ders notu PDF — not fabrikası arşivde. Kenar oturum istemez; her yöntem 410.

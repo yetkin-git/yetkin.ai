@@ -73,7 +73,7 @@ export const RAIL_V1_ACADEMY_CERTIFICATE_MISSING =
 export const RAIL_V1_ACADEMY_CERTIFICATE_MISMATCH =
   "Kayıt var; yeniden hesaplanan SHA256 saklanan hash ile örtüşmüyor. Belge güvenilir sayılmaz.";
 export const RAIL_V1_ACADEMY_CERTIFICATE_INCOMPLETE =
-  "Kayıt var; deneme, puan veya müfredat mühürü eksik olduğu için mühür yeniden hesaplanamaz.";
+  "Kayıt var; deneme, puan veya müfredat özeti eksik olduğu için bütünlük kaydı yeniden hesaplanamaz.";
 
 /** Akademi HTML mührü ile aynı kapsama cümleleri — kernel oda import etmez. */
 export const RAIL_V1_ACADEMY_CERTIFICATE_HASHED_FIELDS = [
@@ -82,7 +82,7 @@ export const RAIL_V1_ACADEMY_CERTIFICATE_HASHED_FIELDS = [
   "sınav denemesi",
   "puan",
   "basım anı",
-  "müfredat mühürü",
+  "müfredat özeti",
 ] as const;
 export const RAIL_V1_ACADEMY_CERTIFICATE_PAYLOAD_VERSION =
   "yetkin-rail.academy.certificate.v2" as const;
@@ -377,6 +377,8 @@ export const railV1AcademyPulseSchema = z.strictObject({
   purchasesCount: z.int().nonnegative(),
   certificatesHeld: z.int().nonnegative(),
   lastCertificateTitle: z.string().min(1).nullable(),
+  lastCourseSlug: z.string().min(1).nullable(),
+  nextLessonKey: z.string().min(1).nullable(),
   currencyCode: railV1CurrencySchema,
 });
 
@@ -587,6 +589,8 @@ const RAIL_V1_HOP_CONTRACTS = {
       "pulse.purchasesCount",
       "pulse.certificatesHeld",
       "pulse.lastCertificateTitle",
+      "pulse.lastCourseSlug",
+      "pulse.nextLessonKey",
       "pulse.currencyCode",
     ],
     dataSchema: railV1AcademyPulseDataSchema,

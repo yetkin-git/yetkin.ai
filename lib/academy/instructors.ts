@@ -198,6 +198,17 @@ export function academyCastForDialogueSpeaker(
   };
 }
 
+/** Compact stüdyo bake — SKU eğitmen sesi (ofis: Callirrhoe / Gözde). */
+export function academyInstructorTtsCast(slug: string): AcademyDialogueCast {
+  const instructor = academyInstructorBySlug(slug);
+  return {
+    voice: instructor.voice,
+    speechRate: ACADEMY_INSTRUCTOR_SPEECH_RATE,
+    canonicalCharacterName: instructor.name,
+    role: "instructor",
+  };
+}
+
 export const ACADEMY_MODERATOR_OPEN_LEAD =
   `Merhaba, ${YETKIN_BRAND} Akademi stüdyosundan selam. Bu yayın senin için.`;
 
@@ -324,26 +335,19 @@ export const ACADEMY_INSTRUCTOR_VOICE_BY_SLUG: Record<
   AcademyCourseTitleSlug,
   AcademyInstructorTtsVoice
 > = {
-  "ai-agent-temel": "Erinome",
-  "ai-agent-orta": "Erinome",
-  "ai-agent-ileri": "Erinome",
-  "python-temel": "Erinome",
-  "python-orta": "Erinome",
-  "python-ileri": "Erinome",
-  "fullstack-temel": "Erinome",
-  "fullstack-orta": "Erinome",
-  "fullstack-ileri": "Erinome",
-  "ai-temel": "Fenrir",
-  "ux-temel": "Aoede",
-  "security-temel": "Leda",
-  "security-orta": "Leda",
-  "security-ileri": "Leda",
-  "excel-masterclass": "Callirrhoe",
-  "google-ads-masterclass": "Callirrhoe",
-  "meta-ads-masterclass": "Callirrhoe",
-  "eticaret-masterclass": "Callirrhoe",
-  "canva-masterclass": "Callirrhoe",
-  "linkedin-masterclass": "Callirrhoe",
+  "01_office_ai": "Callirrhoe",
+  "02_ecommerce_ai": "Callirrhoe",
+  "03_social_media_ai": "Callirrhoe",
+  "04_chatbot_nocode": "Callirrhoe",
+  "05_prompt_practice": "Callirrhoe",
+  "06_n8n_automation": "Zephyr",
+  "07_langgraph_agents": "Fenrir",
+  "08_production_rag": "Erinome",
+  "09_nextjs_ai": "Puck",
+  "10_data_analytics_ai": "Aoede",
+  "11_llm_redteam": "Fenrir",
+  "12_onprem_finetune": "Puck",
+  "13_ai_governance": "Leda",
 };
 
 export type AcademyCourseOpen = {
@@ -352,85 +356,57 @@ export type AcademyCourseOpen = {
 };
 
 export const ACADEMY_COURSE_OPEN: Record<AcademyCourseTitleSlug, AcademyCourseOpen> = {
-  "ai-agent-temel": {
-    field: "AI Agent mimarlığı",
-    topic: "ajan, yapılandırılmış çıktı, araç çağrısı, hafıza ve ReAct döngüsünü",
+  "01_office_ai": {
+    field: "Ofis üretkenliği",
+    topic: "Excel, Word, PowerPoint ve e-posta otomasyonu",
   },
-  "ai-agent-orta": {
-    field: "çoklu ajan ve RAG mimarisi",
-    topic: "gömme, vektör sorgu, ajan paslaşması, durum ve insan onay kapısını",
+  "02_ecommerce_ai": {
+    field: "E-ticaret operasyonu",
+    topic: "Pazaryeri listeleme, açıklama, fiyat ve iade yönetimi",
   },
-  "ai-agent-ileri": {
-    field: "ileri ajan mimarisi ve otonom sistem güvenliği",
-    topic: "durum grafiği, yansıma onarımı, korkuluk, eval ve üretim kuyruğunu",
+  "03_social_media_ai": {
+    field: "Sosyal medya içeriği",
+    topic: "Görsel, Reels ve video fabrikası",
   },
-  "python-temel": {
-    field: "Python yazılım temelleri",
-    topic: "değişken, tip, kontrol akışı, fonksiyon, koleksiyon ve Fail-Closed laboratuvarını",
+  "04_chatbot_nocode": {
+    field: "Kodsuz müşteri hizmetleri",
+    topic: "WhatsApp ve web chatbot kurulumu",
   },
-  "python-orta": {
-    field: "Python nesne yönelimi ve veri işleme",
-    topic: "sınıf, miras, JSON mühürü, isimli hata ve HTTP damgasını",
+  "05_prompt_practice": {
+    field: "Günlük üretkenlik",
+    topic: "Pratik prompt mühendisliği",
   },
-  "python-ileri": {
-    field: "Python ileri mimari ve performans",
-    topic: "decorator, üreteç, asyncio, süreç seçimi ve metaclass kapısını",
+  "06_n8n_automation": {
+    field: "İş akışı otomasyonu",
+    topic: "n8n, Make ve AI entegrasyonları",
   },
-  "fullstack-temel": {
-    field: "modern web temelleri",
-    topic: "HTTP, semantik HTML, CSS ızgarası, JavaScript DOM, fetch ve TypeScript sözleşmesini",
+  "07_langgraph_agents": {
+    field: "Otonom ajan mimarisi",
+    topic: "LangGraph, CrewAI ve tool-calling",
   },
-  "fullstack-orta": {
-    field: "modern tam yığın uygulama",
-    topic: "React bileşen ve durum, Express REST, Prisma defteri ve JWT kimlik kapısını",
+  "08_production_rag": {
+    field: "Kurumsal arama",
+    topic: "Production RAG ve GraphRAG",
   },
-  "fullstack-ileri": {
-    field: "ileri tam yığın mimari",
-    topic: "App Router ve RSC, mikroservis, Redis, Docker Compose ve CI/CD kapısını",
+  "09_nextjs_ai": {
+    field: "AI-native web",
+    topic: "Next.js, Vercel AI SDK ve Generative UI",
   },
-  "ai-temel": {
-    field: "Yapay zekâ ve veri analizi",
-    topic: "üretim tarifi, yapılandırılmış çıktı ve kaynaklı veri disiplinini",
+  "10_data_analytics_ai": {
+    field: "Veri analitiği",
+    topic: "SQL, Power BI ve AI analytics",
   },
-  "ux-temel": {
-    field: "dijital ürün tasarımı",
-    topic: "Kullanıcı Deneyimi araştırması, Figma ve el teslimi paketini",
+  "11_llm_redteam": {
+    field: "Yapay zekâ güvenliği",
+    topic: "LLM red teaming ve guardrails",
   },
-  "security-temel": {
-    field: "siber güvenlik temelleri",
-    topic: "CIA üçlüsü, ağ kapısı, Açık Web Uygulaması Güvenlik Projesi (OWASP) ve Fail-Closed kimlik duvarını",
+  "12_onprem_finetune": {
+    field: "Yerel model dağıtımı",
+    topic: "LoRA/QLoRA ve vLLM",
   },
-  "security-orta": {
-    field: "uygulamalı sızma testi ve web zafiyet mimarisi",
-    topic: "keşif kapsamı, lab ağ envanteri, IDOR/SSRF, OAuth2/JWT ve SAST kapatma kapısını",
-  },
-  "security-ileri": {
-    field: "ileri DevSecOps, bulut güvenliği ve olay müdahalesi",
-    topic: "boru hattı damgası, IAM/KMS fişi, günlük zinciri, SIEM avı ve Sıfır Güven üçlüsünü",
-  },
-  "excel-masterclass": {
-    field: "Excel ve yapay zekâ destekli veri analizi",
-    topic: "hücre mimarisi, arama formülü, özet tablo, temizlik ve dashboard kapısını",
-  },
-  "google-ads-masterclass": {
-    field: "Google Ads ve arama motoru pazarlaması",
-    topic: "hesap mimarisi, eşleme, ağ, GTM dönüşüm takibi ve kalite puanı kapısını",
-  },
-  "meta-ads-masterclass": {
-    field: "Meta Business Suite ve reklam hunisi",
-    topic: "piksel, CAPI, kitle, kreatif, CBO/ABO ve ROAS kapısını",
-  },
-  "eticaret-masterclass": {
-    field: "e-ticaret ve pazar yeri operasyonu",
-    topic: "tezgâh mantığı, mağaza belgesi, liste SEO, stok senkronu ve kargo/iade kapısını",
-  },
-  "canva-masterclass": {
-    field: "Canva ve yapay zekâ destekli dijital tasarım",
-    topic: "marka kiti, sosyal kare, broşür, Magic Studio ve teslim formatı kapısını",
-  },
-  "linkedin-masterclass": {
-    field: "LinkedIn profesyonel marka ve B2B müşteri bulma",
-    topic: "All-Star profil, algoritma içeriği, Sales Navigator ICP ve outreach kapısını",
+  "13_ai_governance": {
+    field: "AI yönetişimi",
+    topic: "EU AI Act, KVKK ve kurumsal uyum",
   },
 };
 

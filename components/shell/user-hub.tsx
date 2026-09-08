@@ -60,8 +60,6 @@ export function UserHub({
   return (
     <div ref={rootRef} className="relative">
       <div className="inline-flex h-10 items-stretch overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-sm">
-        {walletChip}
-        <span className="my-2 w-px shrink-0 bg-[var(--border)]" aria-hidden />
         <button
           type="button"
           className={cn(
@@ -108,6 +106,13 @@ export function UserHub({
               <p className="mt-0.5 text-sm text-[var(--muted)]">Giriş</p>
             )}
           </div>
+          {userEmail ? (
+            <div className="px-1.5 pb-1.5" data-user-hub-wallet="">
+              <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface-muted)]">
+                {walletChip}
+              </div>
+            </div>
+          ) : null}
           <div className="my-1 h-px bg-[var(--border)]" aria-hidden />
           <ul className="space-y-0.5">
             {menuSurfaces.map((surface) => {

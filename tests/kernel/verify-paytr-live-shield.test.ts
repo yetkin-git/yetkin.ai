@@ -318,6 +318,8 @@ describe("PayTR canlı kalkan mührü", () => {
     expect(() => assertPaytrLiveUserIp("127.0.0.1", "shield")).toThrow(/user_ip üretimde genel IPv4/);
     expect(() => assertPaytrLiveUserIp("10.0.0.1", "shield")).toThrow(/user_ip/);
     expect(() => assertPaytrLiveUserIp("85.105.141.10", "shield")).not.toThrow();
+    expect(() => assertPaytrLiveUserIp("unknown", "shield")).toThrow(/user_ip üretimde genel IPv4/);
+    expect(() => assertPaytrLiveUserIp("2001:db8::1", "shield")).toThrow(/ipv6/);
     vi.stubEnv("NEXT_PUBLIC_APP_URL", "http://localhost:3000");
     expect(() => resolvePaytrMerchantAppOrigin()).toThrow(/HTTPS/);
     vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://rail.example");

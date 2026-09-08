@@ -1,5 +1,5 @@
 import { ForbiddenError } from "@/lib/kernel/http/errors";
-import { ACADEMY_ONBOARDING_COURSE_SLUG } from "@/lib/kernel/catalog-ids";
+import { ACADEMY_ONBOARDING_COURSE_SLUG, isOpenTrialNeed } from "@/lib/kernel/catalog-ids";
 import type { CareerProofStore, CareerStore, CareerVisaStampRecord } from "@/lib/career/types";
 import {
   listingVisaCourseSlugFromStamp,
@@ -42,6 +42,9 @@ export function hasMatchingAcademyListingVisa(
   const pathwayId = resolveListingVisaPathway(listing);
   if (!pathwayId) {
     return false;
+  }
+  if (isOpenTrialNeed(pathwayId)) {
+    return true;
   }
   const qualifying = new Set(qualifyingCourseSlugsForListingPathway(pathwayId));
   if (qualifying.size === 0) {
@@ -96,6 +99,9 @@ export async function inspectAcademyCareerVisaForListing(
 ): Promise<ListingVisaGateDecision> {
   const stamps = await store.listStampsForUser(userId);
   const academyStamps = await liveAcademyListingStamps(stamps, proofs);
+  if (isOpenTrialNeed(resolveListingVisaPathway(listing) ?? "")) {
+    return { ok: true, code: "ok" };
+  }
   if (academyStamps.length === 0) {
     return { ok: false, code: "denied", message: LISTING_ACCESS_VISA_DENIED };
   }

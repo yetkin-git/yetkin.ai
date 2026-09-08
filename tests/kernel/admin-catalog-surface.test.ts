@@ -151,8 +151,8 @@ describe("admin katalog yüzeyi", () => {
     const route = readSrc("app/api/(kernel)/admin/catalog/route.ts");
     const sen = readSrc("lib/copy/sen-voice/admin.ts");
     expect(load).toContain('import "server-only"');
-    expect(load).toContain("isSupabaseUserId(userId)");
-    expect(load).toContain("isSuperAdminUser(userId)");
+    expect(load).toContain("isSupabaseUserId(actor.id)");
+    expect(load).toContain("isSuperAdminActor(actor)");
     expect(load).toContain("prisma.priceCatalogEntry.findMany");
     expect(load).toContain("prisma.priceCatalogDecisionLedger.findMany");
     expect(load).toContain("DATABASE_URL");

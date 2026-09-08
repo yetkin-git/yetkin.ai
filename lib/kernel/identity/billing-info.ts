@@ -9,8 +9,6 @@ export const CHECKOUT_BILLING_COPY = {
   individual: "Bireysel",
   corporate: "Kurumsal",
   fullName: "Ad Soyad",
-  tckn: "TCKN (isteğe bağlı)",
-  tcknHint: "11 hane. Boş bırakılabilir.",
   phone: "Cep telefonu",
   phoneHint: "05XX XXX XX XX. Ödeme kuruluşu tahsilatı için zorunludur.",
   address: "Açık Adres",
@@ -19,6 +17,8 @@ export const CHECKOUT_BILLING_COPY = {
   vkn: "VKN",
   vknHint: "10 haneli vergi kimlik numarası.",
   savedHint: "Kayıtlı fatura bilgilerin yüklendi. Değiştirirsen sonraki ödemelerde de bunlar kullanılır.",
+  change: "Değiştir",
+  useSaved: "Kayıtlı fatura bilgileri ile devam.",
   fullNameRequired: "Ad soyad zorunludur.",
   addressRequired: "Açık adres zorunludur.",
   companyTitleRequired: "Şirket unvanı zorunludur.",
@@ -234,6 +234,25 @@ export function billingToForm(billing: CheckoutBillingInfo): CheckoutBillingForm
 export function parseBillingFromUnknown(value: unknown): CheckoutBillingInfo | null {
   const parsed = checkoutBillingInfoSchema.safeParse(value);
   return parsed.success ? parsed.data : null;
+}
+
+export function isCheckoutBillingComplete(
+  form: CheckoutBillingFormState | CheckoutBillingInfo | z.infer<typeof billingInputSchema>,
+): boolean {
+  return normalizeBillingInput(form).ok;
+}
+
+/** Kasa özeti — kayıtlı künyeyi tek satırda basar; TCKN/VKN tam metin sızmaz. */
+export function checkoutBillingSummaryLine(
+  form: CheckoutBillingFormState | CheckoutBillingInfo,
+): string {
+  if (form.invoiceType === "corporate") {
+    const title = "companyTitle" in form ? form.companyTitle.trim() : "";
+    return title || CHECKOUT_BILLING_COPY.corporate;
+  }
+  const name = "fullName" in form ? form.fullName.trim() : "";
+  const phone = form.phone.trim();
+  return [name, phone].filter((part) => part.length > 0).join(" · ");
 }
 
 export function paytrUserFromBilling(billing: CheckoutBillingInfo): {

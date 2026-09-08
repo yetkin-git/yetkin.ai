@@ -1,18 +1,18 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { IconClose } from "@/components/ui/icons";
 import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
 import { fetchWalletStripClient } from "@/components/kernel/fetch-wallet-strip";
 import { useCitizenWriteFeedback } from "@/components/ui/use-citizen-write-feedback";
+import { useActionBridge } from "@/components/ui/action-bridge";
 import { UX_SEN } from "@/lib/copy/sen-voice/ux";
 import { WALLET_SURFACE_PATH } from "@/lib/kernel/identity/types";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { SETTLEMENT_CURRENCY, type CurrencyCode } from "@/lib/kernel/money/currency";
-import { WALLET_TOP_UP_MAX_MINOR, WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
+import { WALLET_TOP_UP_MAX_MINOR } from "@/lib/kernel/payments/wallet-top-up";
 import { readCitizenEnvelope } from "@/lib/kernel/http/citizen-json";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 import {
@@ -21,11 +21,9 @@ import {
   isQuickTopUpMinLift,
   suggestQuickTopUpAmountMinor,
 } from "@/lib/kernel/payments/quick-top-up";
-import { CheckoutConsentFields } from "@/components/legal/checkout-consent-fields";
-import { CheckoutBillingFields } from "@/components/legal/checkout-billing-fields";
-import { useCheckoutBilling } from "@/components/legal/use-checkout-billing";
-import { LEGAL_CHECKOUT_CONSENT_COPY } from "@/lib/copy/legal-launch";
+import { SecurePaymentMarks } from "@/components/legal/secure-payment-marks";
 import { CHECKOUT_LEGAL_CONSENT_VERSION } from "@/lib/kernel/legal/checkout-consent";
+import type { CheckoutBillingInfo } from "@/lib/kernel/identity/billing-info";
 
 const POLL_MS = 2_500;
 const POLL_MAX_MS = 90_000;
@@ -35,6 +33,9 @@ export function QuickTopUpModal({
   requiredMinor,
   currencyCode = SETTLEMENT_CURRENCY,
   lockSuggestedAmount = false,
+  tokenPending = false,
+  presetIframeUrl = null,
+  presetBilling = null,
   onClose,
   onFunded,
 }: {
@@ -43,6 +44,12 @@ export function QuickTopUpModal({
   currencyCode?: CurrencyCode;
   /** Akademi kapısı — kullanıcı PayTR tutarını kart fiyatından sapıtamaz. */
   lockSuggestedAmount?: boolean;
+  /** Hero CTA — token isteği sürüyor. */
+  tokenPending?: boolean;
+  /** Hero CTA — hazır PayTR iFrame adresi. */
+  presetIframeUrl?: string | null;
+  /** Sayfada toplanmış fatura — modal form basmaz; yalnız iFrame / yeniden dene. */
+  presetBilling?: CheckoutBillingInfo | null;
   onClose: () => void;
   onFunded: () => void;
 }) {
@@ -54,6 +61,9 @@ export function QuickTopUpModal({
       requiredMinor={requiredMinor}
       currencyCode={currencyCode}
       lockSuggestedAmount={lockSuggestedAmount}
+      tokenPending={tokenPending}
+      presetIframeUrl={presetIframeUrl}
+      presetBilling={presetBilling}
       onClose={onClose}
       onFunded={onFunded}
     />
@@ -64,41 +74,52 @@ function QuickTopUpDialog({
   requiredMinor,
   currencyCode,
   lockSuggestedAmount,
+  tokenPending,
+  presetIframeUrl,
+  presetBilling,
   onClose,
   onFunded,
 }: {
   requiredMinor: number;
   currencyCode: CurrencyCode;
   lockSuggestedAmount: boolean;
+  tokenPending: boolean;
+  presetIframeUrl: string | null;
+  presetBilling: CheckoutBillingInfo | null;
   onClose: () => void;
   onFunded: () => void;
 }) {
   const titleId = useId();
   const copy = UX_SEN.topUp;
   const report = useCitizenWriteFeedback();
+  const { push } = useActionBridge();
   const idempotency = useIdempotencyKey();
   const [balanceMinor, setBalanceMinor] = useState<number | null>(null);
-  const [amountMajor, setAmountMajor] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [watchStrip, setWatchStrip] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
   const [sandboxLive, setSandboxLive] = useState(false);
-  const [distanceAccepted, setDistanceAccepted] = useState(false);
-  const [digitalAccepted, setDigitalAccepted] = useState(false);
-  const billing = useCheckoutBilling();
   const onFundedRef = useRef(onFunded);
 
   const shortfall = computeWalletShortfallMinor(requiredMinor, balanceMinor ?? 0);
   const suggested = suggestQuickTopUpAmountMinor(shortfall);
-  const _minLabel = formatMinor(WALLET_TOP_UP_MIN_MINOR, currencyCode);
   const maxLabel = formatMinor(WALLET_TOP_UP_MAX_MINOR, currencyCode);
   const waitingClearing = watchStrip && !timedOut;
 
   useEffect(() => {
     onFundedRef.current = onFunded;
   }, [onFunded]);
+
+  useEffect(() => {
+    if (!presetIframeUrl) {
+      return;
+    }
+    setIframeUrl(presetIframeUrl);
+    setWatchStrip(true);
+    setTimedOut(false);
+  }, [presetIframeUrl]);
 
   useEffect(() => {
     let cancelled = false;
@@ -109,10 +130,7 @@ function QuickTopUpDialog({
       setBalanceMinor(strip.amountMinor);
       if (strip.live && strip.amountMinor >= requiredMinor) {
         onFundedRef.current();
-        return;
       }
-      const gap = computeWalletShortfallMinor(requiredMinor, strip.amountMinor);
-      setAmountMajor(String(suggestQuickTopUpAmountMinor(gap) / 100));
     });
     return () => {
       cancelled = true;
@@ -153,15 +171,8 @@ function QuickTopUpDialog({
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  async function onSubmit(event: FormEvent) {
-    event.preventDefault();
-    if (!distanceAccepted || !digitalAccepted) {
-      setError(LEGAL_CHECKOUT_CONSENT_COPY.required);
-      return;
-    }
-    const billingPayload = billing.payload();
-    if (!billingPayload.ok) {
-      setError(billingPayload.error);
+  async function retryPaytr() {
+    if (!presetBilling) {
       return;
     }
     setPending(true);
@@ -170,9 +181,7 @@ function QuickTopUpDialog({
     setTimedOut(false);
     setWatchStrip(false);
     try {
-      const amountMinor = lockSuggestedAmount
-        ? suggested
-        : Math.round(Number.parseFloat(amountMajor.replace(",", ".")) * 100);
+      const amountMinor = suggested;
       const response = await fetch(
         "/api/wallet/top-up",
         withRailApiVersion({
@@ -183,7 +192,7 @@ function QuickTopUpDialog({
             distanceContractAccepted: true,
             digitalImmediatePerformanceAccepted: true,
             consentVersion: CHECKOUT_LEGAL_CONSENT_VERSION,
-            billing: billingPayload.billing,
+            billing: presetBilling,
           }),
         }),
       );
@@ -195,6 +204,8 @@ function QuickTopUpDialog({
       setPending(false);
       if (envelope.ok && envelope.body.mockCheckout === true) {
         idempotency.rotate();
+        console.error("PayTR iFrame alınamadı:", copy.mockNoCredit, envelope.body);
+        push({ title: UX_SEN.topUp.iframeFailTitle, body: copy.mockNoCredit, tone: "amber" });
         setError(copy.mockNoCredit);
         return;
       }
@@ -211,18 +222,26 @@ function QuickTopUpDialog({
       }
       if (!envelope.ok || !iframe) {
         idempotency.rotate();
-        setError(report(envelope.status, envelope.error, copy.fail));
+        const message = report(envelope.status, envelope.error, copy.fail);
+        console.error("PayTR iFrame alınamadı:", message, envelope.error ?? envelope.body);
+        push({ title: UX_SEN.topUp.iframeFailTitle, body: message, tone: "amber" });
+        setError(message);
         return;
       }
       idempotency.rotate();
       setIframeUrl(iframe);
       setWatchStrip(true);
-    } catch {
+    } catch (err) {
       setPending(false);
       idempotency.rotate();
+      console.error("PayTR iFrame alınamadı:", UX_SEN.http.network, err);
+      push({ title: UX_SEN.topUp.iframeFailTitle, body: UX_SEN.http.network, tone: "amber" });
       setError(UX_SEN.http.network);
     }
   }
+
+  const liveIframe = iframeUrl ?? presetIframeUrl;
+  const showRetry = Boolean(presetBilling) && !liveIframe && !tokenPending;
 
   return (
     <div className="quick-top-up-overlay" role="presentation" onClick={onClose}>
@@ -231,13 +250,14 @@ function QuickTopUpDialog({
         aria-modal="true"
         aria-labelledby={titleId}
         className="quick-top-up-dialog"
+        data-paytr-iframe-only=""
         onClick={(event) => event.stopPropagation()}
       >
         <header className="mb-4 flex items-start justify-between gap-3">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">{copy.eyebrow}</p>
             <h2 id={titleId} className="text-lg font-semibold tracking-tight text-[var(--foreground)]">
-              {copy.title}
+              {copy.iframeTitle}
             </h2>
           </div>
           <button
@@ -262,39 +282,35 @@ function QuickTopUpDialog({
           {isQuickTopUpMinLift(shortfall, suggested) ? <p>{copy.minLift(formatMinor(suggested, currencyCode))}</p> : null}
           {isQuickTopUpCapped(shortfall, suggested) ? <p>{copy.capHint(maxLabel)}</p> : null}
         </div>
-        <form onSubmit={(event) => void onSubmit(event)} className="mt-4 space-y-3">
-          <label className="block text-sm font-medium text-[var(--foreground)]">
-            {copy.amountLabel}
-            <Input
-              value={amountMajor}
-              onChange={(event) => setAmountMajor(event.target.value)}
-              required
-              readOnly={lockSuggestedAmount}
+        {tokenPending && !liveIframe ? (
+          <p aria-live="polite" className="mt-4 text-sm font-medium text-[var(--foreground)]">
+            {copy.pending}
+          </p>
+        ) : null}
+        {liveIframe ? (
+          <>
+            <iframe
+              title={copy.iframeTitle}
+              src={liveIframe}
+              data-paytr-iframe=""
+              className="mt-4 h-[min(24rem,55vh)] w-full rounded-xl border border-[var(--border)]"
             />
-          </label>
-          <CheckoutBillingFields value={billing.form} onChange={billing.setForm} hadSaved={billing.hadSaved} />
-          <CheckoutConsentFields
-            distanceAccepted={distanceAccepted}
-            digitalAccepted={digitalAccepted}
-            onDistanceChange={setDistanceAccepted}
-            onDigitalChange={setDigitalAccepted}
-            showWalletHint
-          />
-          {error ? (
-            <p aria-live="assertive" className="text-sm text-[var(--rose)]">
-              {error}
-            </p>
-          ) : null}
-          <Button type="submit" disabled={pending || !distanceAccepted || !digitalAccepted}>
-            {pending ? copy.pending : copy.submit}
-          </Button>
-        </form>
-        {iframeUrl ? (
-          <iframe
-            title={copy.iframeTitle}
-            src={iframeUrl}
-            className="mt-4 h-[min(24rem,55vh)] w-full rounded-xl border border-[var(--border)]"
-          />
+            <div className="mt-3">
+              <SecurePaymentMarks compact />
+            </div>
+          </>
+        ) : null}
+        {showRetry ? (
+          <div className="mt-4 space-y-3">
+            {error ? (
+              <p aria-live="assertive" className="text-sm text-[var(--rose)]">
+                {error}
+              </p>
+            ) : null}
+            <Button type="button" disabled={pending} onClick={() => void retryPaytr()}>
+              {pending ? copy.pending : copy.retry}
+            </Button>
+          </div>
         ) : null}
         {waitingClearing ? (
           <p aria-live="polite" className="mt-3 text-xs text-slate-600">

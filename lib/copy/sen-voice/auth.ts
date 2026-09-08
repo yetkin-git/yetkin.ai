@@ -49,7 +49,10 @@ export const AUTH_SEN = {
       "Doğrulama e-postası gönderilemedi. Confirm Email açık ve Auth SMTP bağlı değil.",
     database:
       "Kayıt veritabanında düştü. Kullanıcı veya cüzdan tetikleyicisi kısıtı olabilir.",
-    success: "Kayıt alındı. E-posta doğrulaması açıksa gelen kutunu kontrol et.",
+    pendingVerification:
+      "E-posta adresine doğrulama bağlantısı gönderildi. Gelen kutudaki bağlantıyı aç; onaylanmadan panele girilmez.",
+    devFallback:
+      "Geliştirme: doğrulama e-postası gönderilemedi. Hesap açıldı; giriş sayfasından devam et.",
     loginCta: "Giriş",
     generatePassword: "Güvenli Şifre Üret",
     copy: "Kopyala",

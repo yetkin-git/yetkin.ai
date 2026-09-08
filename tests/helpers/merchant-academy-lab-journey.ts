@@ -1,14 +1,13 @@
 /**
  * Merchant (Akademi) laboratuvar halkası — bellek.
- * PayTR clearing CREDIT (wallet-top-up) → Akademi DEBIT → müfredat → sınav → mühür.
- * Freelancer / split / emanet yoluna girmez. Üretim flag simülasyonu ayrı yüzey testinde.
+ * PayTR clearing CREDIT (wallet-top-up) → Akademi DEBIT;
+ * müfredat varsa → sınav → mühür. Freelancer / split / emanet yoluna girmez.
  */
 
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
-import { academyCourseSeedBySlug } from "@/lib/academy/seed";
 import { lockAcademyCoursePrice, purchaseAcademyCourse } from "@/lib/academy/engine";
 import { completeAcademyCurriculum } from "@/lib/academy/curriculum-engine";
-import { academyCurriculumSealForSlug } from "@/lib/academy/curriculum";
+import { curriculumForCourseSlug, academyCurriculumSealForSlug } from "@/lib/academy/curriculum";
 import { resolvePublicAcademyCertificate } from "@/lib/academy/certificate-verify";
 import { verifyAcademyCertificateHash } from "@/lib/academy/exam";
 import { issueCareerVisaStamp, type CareerVisaIssueResult } from "@/lib/career/engine";
@@ -20,7 +19,7 @@ import {
   type MarketplaceSplitSettleResult,
 } from "@/lib/kernel/payments/marketplace-split";
 import { passportAcademyVerifyHref } from "@/lib/kernel/passport/display";
-import { createMemoryAcademyStore, memoryCourse, memoryExam } from "./memory-academy";
+import { createMemoryAcademyStore, memoryPublishedSku } from "./memory-academy";
 import { createMemoryCareerProofStore, createMemoryCareerStore } from "./memory-career";
 import { submitAcademyExamWithFreshSitting } from "./academy-exam-sitting";
 import { createMemoryLedgerStore, type MemoryLedgerStore } from "./memory-money";
@@ -36,47 +35,36 @@ export const MERCHANT_LAB_CITIZEN_ID = "lab-merchant-academy-citizen";
 export const MERCHANT_LAB_PLATFORM_ID = PLATFORM_TREASURY_USER_ID;
 export const MERCHANT_LAB_TOP_UP_MINOR = 100_000;
 export const MERCHANT_LAB_MERCHANT_OID = "wallet-top-up-merchant-academy-lab";
-export const MERCHANT_LAB_COURSE_SLUG = "python-temel";
+export const MERCHANT_LAB_COURSE_SLUG = "01_office_ai";
+export const MERCHANT_LAB_AMOUNT_MINOR = 89_000;
 
 export type MerchantAcademyLabResult = {
   ledger: MemoryLedgerStore;
   cleared: { applied: boolean; status: string };
   replayCleared: { applied: boolean; status: string };
-  academy: { purchase: AcademyPurchaseRecord; certificate: AcademyCertificateRecord };
-  academyVisa: CareerVisaIssueResult;
+  academy: { purchase: AcademyPurchaseRecord; certificate: AcademyCertificateRecord | null };
+  academyVisa: CareerVisaIssueResult | null;
   chain: {
     paytrCredit: LedgerEntryRecord;
     academyDebit: LedgerEntryRecord;
   };
   witness: {
-    certificateHash: string;
-    curriculumSeal: string;
+    certificateHash: string | null;
+    curriculumSeal: string | null;
     hashVerified: boolean;
-    publicVerifyStatus: string;
-    sealStatus: string;
-    verifyHref: string;
+    publicVerifyStatus: string | null;
+    sealStatus: string | null;
+    verifyHref: string | null;
   };
   split: {
     beginHold: MarketplaceHoldResult;
     settle: MarketplaceSplitSettleResult;
   };
   balances: { citizen: number; platform: number };
+  seedAmountMinor: number;
 };
 
-/**
- * Tek test tahsilatı (clearing) → wallet-top-up CREDIT → akademi DEBIT → sınav → mühür.
- * Split adaptörü çağrılır ama not_configured kalır; Freelancer sızmaz.
- */
 export async function runMerchantAcademyLabJourney(): Promise<MerchantAcademyLabResult> {
-  const seed = academyCourseSeedBySlug(MERCHANT_LAB_COURSE_SLUG);
-  if (!seed) {
-    throw new Error("python-temel tohumu yok.");
-  }
-  const curriculumSeal = academyCurriculumSealForSlug(MERCHANT_LAB_COURSE_SLUG);
-  if (!curriculumSeal) {
-    throw new Error("python-temel müfredat mührü yok.");
-  }
-
   const now = new Date("2026-08-24T12:00:00.000Z");
   const ledger = createMemoryLedgerStore([
     { userId: MERCHANT_LAB_CITIZEN_ID, amountMinor: 0 },
@@ -106,31 +94,21 @@ export async function runMerchantAcademyLabJourney(): Promise<MerchantAcademyLab
   );
 
   const academyStore = createMemoryAcademyStore();
+  const published = memoryPublishedSku(MERCHANT_LAB_COURSE_SLUG);
+  const course = published.course;
+  const exam = published.exam;
   const academyPorts = {
     ledger,
     catalog: createMemoryPriceCatalogStore([
       {
         moduleKey: ACADEMY_MODULE_KEY,
-        unitKey: seed.catalogUnitKey,
-        amountMinor: seed.seedAmountMinor,
+        unitKey: course.catalogUnitKey,
+        amountMinor: published.amountMinor,
       },
     ]),
     locks: createMemoryCheckoutPriceLockStore(),
     academy: academyStore,
   };
-  const course = memoryCourse({
-    id: seed.id,
-    slug: seed.slug,
-    title: seed.title,
-    summary: seed.summary,
-    catalogUnitKey: seed.catalogUnitKey,
-  });
-  const exam = memoryExam(course.id, {
-    id: seed.exam.id,
-    title: seed.exam.title,
-    passScore: seed.exam.passScore,
-    questions: seed.exam.questions,
-  });
   await academyStore.insertCourse(course);
   await academyStore.insertExam(exam);
 
@@ -150,59 +128,93 @@ export async function runMerchantAcademyLabJourney(): Promise<MerchantAcademyLab
     throw new Error("Akademi satın alma SETTLED değil.");
   }
 
-  const curriculum = await completeAcademyCurriculum(academyPorts, {
-    courseId: course.id,
-    userId: MERCHANT_LAB_CITIZEN_ID,
-    now: new Date("2026-08-24T12:03:00.000Z"),
-  });
-  if (!curriculum.curriculumComplete) {
-    throw new Error("Müfredat tamamlanmadı.");
-  }
+  let certificate: AcademyCertificateRecord | null = null;
+  let academyVisa: CareerVisaIssueResult | null = null;
+  let witness: MerchantAcademyLabResult["witness"] = {
+    certificateHash: null,
+    curriculumSeal: null,
+    hashVerified: false,
+    publicVerifyStatus: null,
+    sealStatus: null,
+    verifyHref: null,
+  };
 
-  const examNow = new Date("2026-08-24T12:04:00.000Z");
-  const examResult = await submitAcademyExamWithFreshSitting(academyPorts, {
-    courseId: course.id,
-    userId: MERCHANT_LAB_CITIZEN_ID,
-    now: examNow,
-  });
-  const certificate = examResult.certificate;
-  if (!certificate?.certificateHash || !certificate.curriculumSeal) {
-    throw new Error("SHA256 sertifika veya curriculumSeal basılmadı.");
+  if (curriculumForCourseSlug(MERCHANT_LAB_COURSE_SLUG).length !== 6) {
+    throw new Error("01_office_ai müfredatı 6 compact ders ister.");
   }
-  const hashOk = verifyAcademyCertificateHash({
-    userId: MERCHANT_LAB_CITIZEN_ID,
-    courseId: course.id,
-    attemptId: examResult.attempt.id,
-    score: examResult.score,
-    issuedAt: examNow,
-    curriculumSeal,
-    certificateHash: certificate.certificateHash,
-  });
-  const publicVerify = await resolvePublicAcademyCertificate(
-    academyStore as AcademyStore,
-    certificate.certificateHash,
-  );
-
-  const career = createMemoryCareerStore();
-  const proofs = createMemoryCareerProofStore([
-    {
-      sourceKind: "ACADEMY_CERTIFICATE",
-      sourceId: certificate.id,
+  {
+    const curriculumSeal = academyCurriculumSealForSlug(MERCHANT_LAB_COURSE_SLUG);
+    if (!curriculumSeal) {
+      throw new Error("Müfredat mührü yok.");
+    }
+    const curriculum = await completeAcademyCurriculum(academyPorts, {
+      courseId: course.id,
       userId: MERCHANT_LAB_CITIZEN_ID,
-      actorUserIds: [MERCHANT_LAB_CITIZEN_ID],
-      title: certificate.title,
-      issuedAt: certificate.issuedAt,
+      now: new Date("2026-08-24T12:03:00.000Z"),
+    });
+    if (!curriculum.curriculumComplete) {
+      throw new Error("Müfredat tamamlanmadı.");
+    }
+
+    const examNow = new Date("2026-08-24T12:04:00.000Z");
+    const examResult = await submitAcademyExamWithFreshSitting(academyPorts, {
+      courseId: course.id,
+      userId: MERCHANT_LAB_CITIZEN_ID,
+      now: examNow,
+    });
+    certificate = examResult.certificate;
+    if (!certificate?.certificateHash || !certificate.curriculumSeal) {
+      throw new Error("SHA256 sertifika veya curriculumSeal basılmadı.");
+    }
+    const hashOk = verifyAcademyCertificateHash({
+      userId: MERCHANT_LAB_CITIZEN_ID,
+      courseId: course.id,
+      attemptId: examResult.attempt.id,
+      score: examResult.score,
+      issuedAt: examNow,
+      curriculumSeal,
       certificateHash: certificate.certificateHash,
-    },
-  ]);
-  const academyVisa = await issueCareerVisaStamp(
-    { career, proofs },
-    {
-      sourceKind: "ACADEMY_CERTIFICATE",
-      sourceId: certificate.id,
-      actorUserId: MERCHANT_LAB_CITIZEN_ID,
-    },
-  );
+    });
+    const publicVerify = await resolvePublicAcademyCertificate(
+      academyStore as AcademyStore,
+      certificate.certificateHash,
+    );
+
+    const career = createMemoryCareerStore();
+    const proofs = createMemoryCareerProofStore([
+      {
+        sourceKind: "ACADEMY_CERTIFICATE",
+        sourceId: certificate.id,
+        userId: MERCHANT_LAB_CITIZEN_ID,
+        actorUserIds: [MERCHANT_LAB_CITIZEN_ID],
+        title: certificate.title,
+        courseSlug: MERCHANT_LAB_COURSE_SLUG,
+        issuedAt: certificate.issuedAt,
+        certificateHash: certificate.certificateHash,
+      },
+    ]);
+    academyVisa = await issueCareerVisaStamp(
+      { career, proofs },
+      {
+        sourceKind: "ACADEMY_CERTIFICATE",
+        sourceId: certificate.id,
+        actorUserId: MERCHANT_LAB_CITIZEN_ID,
+      },
+    );
+
+    const verifyHref =
+      passportAcademyVerifyHref(academyVisa.stamp) ??
+      `/academy/dogrula/${certificate.certificateHash}`;
+
+    witness = {
+      certificateHash: certificate.certificateHash,
+      curriculumSeal: certificate.curriculumSeal ?? curriculumSeal,
+      hashVerified: hashOk,
+      publicVerifyStatus: publicVerify.status,
+      sealStatus: publicVerify.status === "found" ? publicVerify.view.sealStatus : "missing",
+      verifyHref,
+    };
+  }
 
   const beginHold = await paytrMarketplaceSplitPort.beginHold({
     buyerUserId: MERCHANT_LAB_CITIZEN_ID,
@@ -212,7 +224,7 @@ export async function runMerchantAcademyLabJourney(): Promise<MerchantAcademyLab
     currencyCode: "TRY",
   });
   const settle = await paytrMarketplaceSplitPort.settle({
-        providerId: "split",
+    providerId: "split",
     referenceKey: "merchant-lab-must-not-settle",
     currencyCode: "TRY",
     status: "recorded_pending_psp",
@@ -240,10 +252,6 @@ export async function runMerchantAcademyLabJourney(): Promise<MerchantAcademyLab
     throw new Error("Merchant lab Freelancer/emanet defter satırı sızdırdı.");
   }
 
-  const verifyHref =
-    passportAcademyVerifyHref(academyVisa.stamp) ??
-    `/academy/dogrula/${certificate.certificateHash}`;
-
   return {
     ledger,
     cleared: { applied: cleared.applied, status: cleared.order.status },
@@ -251,19 +259,13 @@ export async function runMerchantAcademyLabJourney(): Promise<MerchantAcademyLab
     academy: { purchase: purchased.purchase, certificate },
     academyVisa,
     chain: { paytrCredit, academyDebit },
-    witness: {
-      certificateHash: certificate.certificateHash,
-      curriculumSeal: certificate.curriculumSeal ?? curriculumSeal,
-      hashVerified: hashOk,
-      publicVerifyStatus: publicVerify.status,
-      sealStatus: publicVerify.status === "found" ? publicVerify.view.sealStatus : "missing",
-      verifyHref,
-    },
+    witness,
     split: { beginHold, settle },
     balances: {
       citizen: ledger.snapshot(MERCHANT_LAB_CITIZEN_ID).amountMinor,
       platform: ledger.snapshot(MERCHANT_LAB_PLATFORM_ID).amountMinor,
     },
+    seedAmountMinor: published.amountMinor,
   };
 }
 
@@ -272,9 +274,9 @@ export function formatMerchantAcademyLabReport(result: MerchantAcademyLabResult)
     "merchant-academy-lab",
     `wallet-top-up CREDIT=${result.chain.paytrCredit.amountMinor}`,
     `academy-purchase DEBIT=${result.chain.academyDebit.amountMinor}`,
-    `certificate=${result.witness.certificateHash}`,
+    `certificate=${result.witness.certificateHash ?? "none"}`,
     `split.beginHold=${result.split.beginHold.ok ? "ok" : result.split.beginHold.reason}`,
     `split.settle=${result.split.settle.ok ? "ok" : result.split.settle.reason}`,
-    "Freelancer/emanet yok; Checkout token CREDIT yazmaz",
+    "Freelancer/emanet yok; Checkout token CREDIT yazmaz; split not_configured",
   ].join("\n");
 }

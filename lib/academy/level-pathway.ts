@@ -42,38 +42,28 @@ export type AcademyPathwayDefinition = {
   };
 };
 
-const ACADEMY_PATHWAY_SUMMARIES = {
-  "python-yazilim-veri":
-    "Piyasa dikeyi: sıfırdan Python → nesne yönelimi, JSON ve Uygulama Programlama Arayüzü boru hattı → decorator, üreteç, asyncio, süreç seçimi ve metaclass motoru.",
-  "ai-agent-mimarligi":
-    "Piyasa dikeyi: Büyük Dil Modeli ile ajan farkı → RAG, vektör sorgu ve araştırmacı+yazar pası → durum grafiği, yansıma onarımı, korkuluk, eval ve üretim kuyruğu.",
-  "yz-muhendislik-agent":
-    "Piyasa dikeyi: prompt ve yapılandırılmış çıktı. Tekil Temel SKU; Orta / İleri halkası yayınlanmadı.",
-  "fullstack-web-api":
-    "Piyasa dikeyi: HTML/CSS/JS/TS temelleri → React, Express, Prisma ve JWT orta yığın → App Router, mikroservis, Redis, Docker ve CI/CD üretim mimarisi.",
-  "siber-guvenlik-pentest":
-    "Piyasa dikeyi: ağ/Linux/keşif temelleri → OWASP web zafiyet analizi → tersine mühendislik, exploit disiplini ve ağ sızma simülasyonu.",
-  "uiux-tasarim-sistemleri":
-    "Piyasa dikeyi: Kullanıcı Deneyimi araştırması ve tel çerçeve. Tekil Temel SKU.",
-  "is-uretkenligi-veri":
-    "Piyasa dikeyi: Excel ve yapay zekâ destekli veri analizi Masterclass.",
-  "dijital-pazarlama":
-    "Piyasa dikeyi: Google Ads ve Meta Ads Masterclass (katalog komşuları; pedagoji seviyesi değildir).",
-  "icerik-e-ticaret":
-    "Piyasa dikeyi: e-ticaret ve pazar yeri yönetimi Masterclass.",
-  "pratik-beceriler-vatandas":
-    "Vatandaş menüsü — Canva Masterclass.",
-  "pratik-linkedin-vatandas":
-    "Vatandaş menüsü — LinkedIn Masterclass. İş vaadi yoktur.",
-} as const satisfies Record<AcademyPathwayId, string>;
+/**
+ * Boş vitrin dürüst tipi — pathway-ids.ts ile aynı sözleşme:
+ * `AcademyPathwayId = never` iken `Record<string, ...>` geniş ilanı; `satisfies`
+ * halka eklendiğinde eksik özeti derleme zamanında yakalar.
+ */
+const ACADEMY_PATHWAY_SUMMARIES: Readonly<Record<string, string>> = {} satisfies Record<
+  AcademyPathwayId,
+  string
+>;
 
 export const ACADEMY_LEVEL_PATHWAYS: readonly AcademyPathwayDefinition[] = ACADEMY_PATHWAY_IDS.map(
-  (id) => ({
-    id,
-    title: ACADEMY_PATHWAY_TITLES[id],
-    summary: ACADEMY_PATHWAY_SUMMARIES[id],
-    rings: { ...ACADEMY_PATHWAY_RINGS[id] },
-  }),
+  (id) => {
+    const title = ACADEMY_PATHWAY_TITLES[id];
+    const summary = ACADEMY_PATHWAY_SUMMARIES[id];
+    const rings = ACADEMY_PATHWAY_RINGS[id];
+    if (!title || !summary || !rings) {
+      // `satisfies` guard'ları eksik sicili derleme zamanında yakalar; bu dal yalnızca
+      // guard atlanırsa devreye girer — boş halkalı hayalet pathway sessizce basılmaz.
+      throw new Error(`Akademi pathway sicili eksik: ${id}`);
+    }
+    return { id, title, summary, rings };
+  },
 );
 
 export type AcademyPathwayRingView = {

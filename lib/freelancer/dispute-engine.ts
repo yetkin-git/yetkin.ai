@@ -8,7 +8,7 @@ import { randomUUID } from "node:crypto";
 import { invokeLlm } from "@/lib/kernel/ai/llm-gateway";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import { ForbiddenError, NotFoundError } from "@/lib/kernel/http/errors";
-import { isSuperAdminUser } from "@/lib/kernel/auth/super-admin";
+import { isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
 import {
   freezeEscrowHoldExpiry,
   releaseEscrowHoldToPayees,
@@ -50,6 +50,7 @@ export type RebutDisputeCommand = DisputeActorCommand & {
 export type HumanSettleCommand = DisputeActorCommand & {
   employerRefundBps: number;
   asSuperAdmin?: boolean;
+  actorEmail?: string | null;
   platformUserId?: string;
 };
 
@@ -387,7 +388,9 @@ export async function settleHumanReviewDispute(
   if (!contract) {
     throw new Error("Sözleşme bulunamadı.");
   }
-  const adminOk = command.asSuperAdmin === true || isSuperAdminUser(command.actorUserId);
+  const adminOk =
+    command.asSuperAdmin === true ||
+    isSuperAdminActor({ id: command.actorUserId, email: command.actorEmail });
   if (!adminOk) {
     throw new Error("İnsan incelemesini yalnız Super Admin sonuçlandırır.");
   }

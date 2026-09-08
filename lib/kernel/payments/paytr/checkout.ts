@@ -9,6 +9,10 @@ import {
   isPaytrMockCheckoutAllowed,
   tryPaytrDevOnlyMockCheckout,
 } from "@/lib/kernel/payments/paytr/mock-checkout";
+import {
+  classifyForwardedIp,
+  isPrivateOrLoopbackIp,
+} from "@/lib/kernel/security/trusted-proxy";
 
 export {
   buildPaytrMockCheckoutToken,
@@ -188,25 +192,16 @@ export function requirePaytrCheckoutCredentials(context: string): PaytrCheckoutC
 }
 
 export function isPaytrLoopbackOrPrivateIp(ip: string): boolean {
-  const trimmed = ip.trim().toLowerCase();
-  if (!trimmed || trimmed === "localhost" || trimmed === "::1" || trimmed === "0.0.0.0") {
-    return true;
-  }
-  if (trimmed.startsWith("127.") || trimmed.startsWith("10.")) {
-    return true;
-  }
-  if (trimmed.startsWith("192.168.") || trimmed.startsWith("169.254.")) {
-    return true;
-  }
-  return /^172\.(1[6-9]|2\d|3[0-1])\./.test(trimmed);
+  return isPrivateOrLoopbackIp(ip);
 }
 
 export function assertPaytrLiveUserIp(userIp: string, context: string): void {
   if (process.env.NODE_ENV !== "production") {
     return;
   }
-  if (isPaytrLoopbackOrPrivateIp(userIp)) {
-    throw new Error(`[PAYTR] user_ip üretimde genel IPv4 olmalıdır — ${context}`);
+  const kind = classifyForwardedIp(userIp);
+  if (kind !== "public_ipv4") {
+    throw new Error(`[PAYTR] user_ip üretimde genel IPv4 olmalıdır (${kind}) — ${context}`);
   }
 }
 

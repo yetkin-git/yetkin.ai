@@ -32,12 +32,18 @@ import {
   rateLimitedJsonResponse,
   resolveRequestIp,
 } from "@/lib/kernel/security/http-rate-limit";
-import { UNKNOWN_REQUEST_IP } from "@/lib/kernel/security/trusted-proxy";
+import {
+  CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS,
+  classifyForwardedIp,
+  parseTrustedProxyHops,
+  UNKNOWN_REQUEST_IP,
+} from "@/lib/kernel/security/trusted-proxy";
 import { z } from "zod";
 import {
   CHECKOUT_LEGAL_CONSENT_REQUIRED,
   checkoutLegalConsentSchema,
   isCheckoutLegalConsentIssue,
+  toCheckoutConsentEvidence,
 } from "@/lib/kernel/legal/checkout-consent";
 import {
   checkoutBillingInfoSchema,
@@ -142,8 +148,37 @@ export async function POST(request: Request) {
         }
 
         const origin = resolvePaytrMerchantAppOrigin();
+        const hops = parseTrustedProxyHops();
         const resolvedIp = resolveRequestIp(request);
-        const userIp = resolvedIp === UNKNOWN_REQUEST_IP ? "127.0.0.1" : resolvedIp;
+        const ipKind = classifyForwardedIp(resolvedIp);
+        const userIp =
+          process.env.NODE_ENV === "production"
+            ? resolvedIp
+            : resolvedIp === UNKNOWN_REQUEST_IP
+              ? "127.0.0.1"
+              : resolvedIp;
+        logEvent({
+          level:
+            process.env.NODE_ENV === "production" && ipKind !== "public_ipv4" ? "warn" : "info",
+          event: "paytr.user_ip.resolved",
+          requestId,
+          userId: user.id,
+          route: WALLET_TOP_UP_ROUTE,
+          reason: `hops=${hops} ipKind=${ipKind}`,
+        });
+        if (
+          process.env.NODE_ENV === "production" &&
+          hops < CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS
+        ) {
+          logEvent({
+            level: "warn",
+            event: "ops.proxy.hops_edge_mismatch",
+            requestId,
+            userId: user.id,
+            route: WALLET_TOP_UP_ROUTE,
+            reason: `TRUSTED_PROXY_HOPS=${hops}; Cloudflare+Vercel canli recete=${CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS}`,
+          });
+        }
         assertPaytrProductionSafety("wallet.top_up:before-insert");
         assertPaytrLiveUserIp(userIp, "wallet.top_up");
 
@@ -158,6 +193,7 @@ export async function POST(request: Request) {
                 amountMinor,
                 currencyCode: SETTLEMENT_CURRENCY,
                 status: "PENDING",
+                ...toCheckoutConsentEvidence(parsed.data),
               },
             });
           } catch (error) {

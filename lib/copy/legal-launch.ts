@@ -36,12 +36,25 @@ export const LEGAL_PAGE_TITLE = "Gizlilik ve yasal çerçeve";
 
 /** Yasal sayfa üst çıkışı — doğrudan inişte site dışına back yapılmaz. */
 export const LEGAL_HOME_HREF = "/" as const;
-export const LEGAL_HOME_CTA = "Anasayfaya Dön" as const;
+export const LEGAL_HOME_CTA = "Ana Sayfaya Dön" as const;
 
 export const LEGAL_HONESTY_BODY =
   `İşbu platform hizmetleri ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}) tarafından sunulmaktadır. Platform kullanımı 18 yaş ve üzerindeki kullanıcılar içindir.`;
 
-export const LEGAL_UPDATED_LABEL = "Yürürlük: 31 Ağustos 2026";
+/**
+ * Faaliyet konusu şeffaflığı — sicil unvanı «gayrimenkul ve e-ticaret» taşır;
+ * platform ise dijital eğitim ve yetkinlik hizmeti sunar. NACE / unvan-faaliyet
+ * uyumsuzluğu riski, uydurma unvan icat etmek yerine dürüst anlatımla bertaraf
+ * edilir. /iletisim kartı ve yasal metinler tek kaynaktan okur.
+ */
+export const LEGAL_ACTIVITY_SCOPE_BODY =
+  `${LEGAL_ENTITY.brandName}, ${LEGAL_ENTITY.tradeName} bünyesinde yürütülen dijital eğitim ve yetkinlik platformudur. Sunulan hizmetler; elektronik ortamda ifa edilen eğitim içeriği, sunucu değerlendirmeli yetkinlik sınavı ve freelancer aracılık hizmetidir.`;
+
+/** Cüzdan iadesi — S43 dürüst metin. Otomatik karta dönüş vaadi yok. */
+export const LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH =
+  "Platform cüzdanına yüklenen bakiyeler yalnızca platform içi hizmetlerde kullanılabilir; farklı bir banka hesabına nakit transferi yapılamaz. Kullanılmamış bakiye otomatik olarak karta dönmez; nakit çekim bu gövdede yoktur. İade talepleri destek kanalından alınır ve henüz harcanmamış yükleme, ödeme kuruluşu takası ile operatör tarafından değerlendirilir.";
+
+export const LEGAL_UPDATED_LABEL = "Yürürlük: 5 Eylül 2026";
 
 export const LEGAL_SUPPORT_EMAIL = LEGAL_ENTITY.supportEmail;
 export const LEGAL_SUPPORT_MAILTO = `mailto:${LEGAL_SUPPORT_EMAIL}` as const;
@@ -105,6 +118,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         heading: "1. Veri sorumlusu ve kimlik şeffaflığı",
         paragraphs: [
           `Bu aydınlatma, 6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında sunulur. Veri sorumlusu: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}). Tebligat adresi: ${LEGAL_ENTITY.address}.`,
+          LEGAL_ACTIVITY_SCOPE_BODY,
           `Marka adı ${LEGAL_ENTITY.brandName}’dir. KVKK m.11 talepleri ve destek, kayıtlı hesap e-postası ile ${LEGAL_SUPPORT_EMAIL} üzerinden yürür. WhatsApp destek: ${LEGAL_ENTITY.whatsappDisplay}.`,
         ],
       },
@@ -200,7 +214,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "cuzdan-yukleme",
         heading: "2. Cüzdan / bakiye yükleme",
         paragraphs: [
-          "Platform cüzdanına yüklenen bakiyeler yalnızca platform içi hizmetlerde kullanılabilir; farklı bir banka hesabına nakit transferi yapılamaz. Kullanılmamış bakiye otomatik olarak karta dönmez; nakit çekim bu gövdede yoktur. İade talepleri destek kanalından alınır ve henüz harcanmamış yükleme, ödeme kuruluşu takası ile operatör tarafından değerlendirilir.",
+          LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH,
           "Kart ile yapılan yüklemeler platform cüzdanına ön ödeme mahiyetindedir. Ödeme dökümünde işlem 'Cüzdan Yükleme' olarak yer alır. Bakiye yükleme işlemi ders erişimini doğrudan açmaz; eğitimin cüzdan bakiyesiyle ayrıca satın alınması gerekir.",
           "Kullanılmamış bakiye kendiliğinden karta dönmez. Ödeme sağlayıcısı iadesi yalnız henüz harcanmamış yükleme ve sağlayıcı/operatör takası ile yürür; valör bankaya bağlıdır.",
         ],
@@ -240,7 +254,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "on-bilgilendirme",
         heading: "A. Ön Bilgilendirme Formu",
         paragraphs: [
-          `Satıcı / sağlayıcı: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}), marka: ${LEGAL_ENTITY.brandName}. Adres: ${LEGAL_ENTITY.address}. Destek: ${LEGAL_SUPPORT_EMAIL}, WhatsApp ${LEGAL_ENTITY.whatsappDisplay} ve /iletisim. Platform kullanımı 18 yaş ve üzeri içindir.`,
+          `Satıcı / sağlayıcı: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}), marka: ${LEGAL_ENTITY.brandName}. Adres: ${LEGAL_ENTITY.address}. Destek: ${LEGAL_SUPPORT_EMAIL}, WhatsApp ${LEGAL_ENTITY.whatsappDisplay} ve /iletisim. Platform kullanımı 18 yaş ve üzeri içindir. ${LEGAL_ACTIVITY_SCOPE_BODY}`,
           "Hizmetin niteliği: (1) Akademi — dijital eğitim içeriği (metin, diyagram, varsa ses/video), 365 gün lisans, sunucu sınavı, baraj 70, dijital sertifika kodu. Satın alma belge basmaz. (2) Freelancer — işveren ile usta arasında aracılık; iş ürününün tarafı platform değildir. (3) Kariyer — mühürden türetilen vize projeksiyonu; ücretli ilan tahtası değildir.",
           "Ödeme işlemleri Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle gerçekleştirilir. Kart tahsilatları ve cüzdan bakiyeleri Türk Lirası (TL) cinsinden işlenir. Kurs bedelleri kataloğumuzda ilan edilen güncel fiyatlar üzerinden tahsil edilir.",
           "İfa: Akademide bakiye yükleme / tahsilat işlemi tamamlandığında ders gövdesi açılır. Bu, 6502 sayılı Kanun uyarınca elektronik ortamda anında ifa edilen hizmet / maddi ortamda sunulmayan dijital içeriktir. Teslimat adresi veya kargo yoktur. Freelancer’da ifa, tarafların teslim ve onayına bağlıdır; emanet Yetkili Ödeme Kuruluşundadır.",
@@ -272,6 +286,14 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
           "Satın alınan hizmet ve eğitimlere ait faturalar yasal süreçlere uygun düzenlenir. Fatura, kayıtlı e-posta adresine iletilir; bu iletim otomatik e-Arşiv paneli veya anında GİB gönderimi anlamına gelmez. İlan edilen tüm fiyatlara KDV dahildir.",
         ],
       },
+      {
+        id: "uyusmazlik-cozumu",
+        heading: "B.7 Uyuşmazlık çözümü — Tüketici Hakem Heyetleri ve yetkili mahkeme",
+        paragraphs: [
+          "İşbu sözleşmeden doğan uyuşmazlıklarda tüketici; 6502 sayılı Kanun’un 68. ve 73. maddeleri uyarınca, Ticaret Bakanlığınca her yıl ilan edilen parasal sınırlar dahilinde kalan başvurular için yerleşim yerindeki veya işlemin yapıldığı yerdeki Tüketici Hakem Heyetine, bu sınırları aşan uyuşmazlıklarda ise yerleşim yeri veya işlemin yapıldığı yerdeki Tüketici Mahkemesine başvurabilir.",
+          `Satıcı / sağlayıcı künyesi ve tebligat adresi: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}), ${LEGAL_ENTITY.address}. Uyuşmazlık öncesi ${LEGAL_SUPPORT_EMAIL} üzerinden çözüm talebi iletilebilir; bu kanal yasal başvuru hakkını ortadan kaldırmaz.`,
+        ],
+      },
     ],
   },
   {
@@ -284,7 +306,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "kapsam",
         heading: "1. Kapsam ve odalar",
         paragraphs: [
-          "Platform dört çalışan oda (Anasayfa, Akademi, Kariyer, Freelancer) ile çalışır. Diskte duran diğer odalar pazarlanmaz. İkinci nakit yazıcı, platform cüzdanından banka çekimi, GİB canlı fatura ve müze yolları bu gövdede yoktur.",
+          `${LEGAL_ACTIVITY_SCOPE_BODY} Platform dört çalışan oda (Panel, Akademi, Kariyer, Freelancer) ile çalışır. Diskte duran diğer odalar pazarlanmaz. İkinci nakit yazıcı, platform cüzdanından banka çekimi, GİB canlı fatura ve müze yolları bu gövdede yoktur.`,
           "Vatandaş hesap e-posta ve şifre ile açılır; oturum çerezi kimlik ipucudur, para işlemi sunucuda JWT ile bağlanır. Native mağaza (IAP) akademi satmaz.",
         ],
       },

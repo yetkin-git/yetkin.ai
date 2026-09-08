@@ -459,6 +459,8 @@ const FILE_RULES: FileRule[] = [
     must: [
       { needle: "verifyPaytrWebhookHash", label: "HMAC doğrulama" },
       { needle: "PAYTR_WEBHOOK_PATH", label: "kanonik bildirim yolu" },
+      { needle: 'update(token, "utf8")', label: "HMAC UTF-8" },
+      { needle: "isPaytrNotificationProbe", label: "panel yoklama" },
     ],
     mustNot: [
       { needle: "mock-checkout", label: "webhook mock checkout import etmez" },
@@ -487,6 +489,9 @@ const FILE_RULES: FileRule[] = [
     must: [
       { needle: 'export const auth = "webhook"', label: "webhook auth" },
       { needle: '{ status: "rejected", reason, requestId }', label: "PSP rejected gövdesi" },
+      { needle: "text/plain; charset=utf-8", label: "PayTR düz metin OK" },
+      { needle: "export async function GET", label: "PayTR URL yoklaması" },
+      { needle: "isPaytrNotificationProbe", label: "boş yoklama CREDIT yazmaz" },
     ],
     mustNot: [
       { needle: "jsonOk", label: "PayTR v1 zarfına sarılmaz" },
@@ -496,10 +501,21 @@ const FILE_RULES: FileRule[] = [
     ],
   },
   {
+    file: "app/api/paytr/callback/route.ts",
+    must: [
+      { needle: 'export const auth = "webhook"', label: "panel alias webhook auth" },
+      { needle: "export { GET, POST }", label: "panel alias aynı handler" },
+    ],
+    mustNot: [
+      { needle: "settlePaytrWebhookSuccess", label: "alias CREDIT yazmaz" },
+      { needle: "mock-checkout", label: "alias mock checkout yok" },
+    ],
+  },
+  {
     file: "lib/kernel/payments/paytr/callback-guard.ts",
     must: [
       { needle: "assertPaytrCallbackRouteIntegrity", label: "callback bütünlük kapısı" },
-      { needle: "/api/paytr/callback", label: "ikinci ağız yasağı" },
+      { needle: "/api/paytr/callback", label: "panel Bildirim URL alias" },
       { needle: "merchant_ok_url", label: "tarayıcı dönüşü CREDIT yazmaz" },
     ],
   },

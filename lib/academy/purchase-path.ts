@@ -5,6 +5,8 @@
  * Baraj sayısı `ACADEMY_EXAM_PASS_SCORE` (70) ile hizalıdır; exam motorunu import etmez.
  */
 
+import { academyCourseHasSealedAudio } from "@/lib/academy/pilot-sku";
+
 export const ACADEMY_PURCHASE_PATHS = ["training", "exam"] as const;
 
 export type AcademyPurchasePath = (typeof ACADEMY_PURCHASE_PATHS)[number];
@@ -21,12 +23,16 @@ export type AcademyCardOfferPath = {
  * Her dikey eğitim kartında sunulan iki seçenek.
  * Aynı seviye fiyatı; ürün vaadi ayrılır.
  */
+export const ACADEMY_TRAINING_OFFER_SUMMARY_SEALED =
+  "Sesli anlatım + kayan metin; Prompt Box sahnenin altında.";
+export const ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN =
+  "Yazılı compact dersler. Sertifika test barajından (70+) sonra basılır.";
+
 export const ACADEMY_CARD_OFFER_PATHS: readonly AcademyCardOfferPath[] = [
   {
     path: "training",
     cta: "Eğitimi Satın Al & Öğren",
-    summary:
-      "Video, doküman ve uygulamalı dersler. Sertifika test barajından (70+) sonra basılır.",
+    summary: ACADEMY_TRAINING_OFFER_SUMMARY_SEALED,
   },
   {
     path: "exam",
@@ -40,8 +46,16 @@ export function isAcademyPurchasePath(value: string): value is AcademyPurchasePa
   return (ACADEMY_PURCHASE_PATHS as readonly string[]).includes(value);
 }
 
-export function academyCardOfferPaths(): readonly AcademyCardOfferPath[] {
-  return ACADEMY_CARD_OFFER_PATHS;
+export function academyCardOfferPaths(courseSlug?: string): readonly AcademyCardOfferPath[] {
+  if (!courseSlug) {
+    return ACADEMY_CARD_OFFER_PATHS;
+  }
+  const trainingSummary = academyCourseHasSealedAudio(courseSlug)
+    ? ACADEMY_TRAINING_OFFER_SUMMARY_SEALED
+    : ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN;
+  return ACADEMY_CARD_OFFER_PATHS.map((offer) =>
+    offer.path === "training" ? { ...offer, summary: trainingSummary } : offer,
+  );
 }
 
 /** SETTLED sonrası yön — eğitim oynatıcı veya sınav kapısı. */

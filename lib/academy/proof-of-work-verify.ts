@@ -26,7 +26,7 @@ export const ACADEMY_PROOF_HASHED_FIELDS = ["ders anahtarı", "görev başarı p
 export const ACADEMY_CURRICULUM_PROOF_HASHED_FIELDS = [
   "kurs anahtarı",
   "ders iş kanıtları",
-  "müfredat mühürü",
+  "müfredat özeti",
 ] as const;
 
 export type AcademyHashSubjectKind = "person-certificate" | "canonical-task";

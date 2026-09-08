@@ -65,15 +65,11 @@ export function academyLessonMediaMeta(input: AcademyLessonMediaMetaInput): Acad
   const sealed = Boolean(
     input.courseSlug && input.key && isAcademyLessonAudioSealed(input.courseSlug, input.key),
   );
-  const timeline = input.body
-    ? buildAcademyDialogueTimeline(input.body, input.courseSlug)
-    : { turns: [] as const, spokenDuration: 0 };
-  const audioSec = resolveAudioDurationSec(input, timeline.spokenDuration);
-  const hasAudio =
-    sealed ||
-    timeline.turns.length > 0 ||
-    (typeof input.audioDurationSec === "number" && input.audioDurationSec > 0);
-  if (hasAudio) {
+  if (sealed) {
+    const timeline = input.body
+      ? buildAcademyDialogueTimeline(input.body, input.courseSlug)
+      : { turns: [] as const, spokenDuration: 0 };
+    const audioSec = resolveAudioDurationSec(input, timeline.spokenDuration);
     const durationMin = academyMediaDurationMin(audioSec) || readingPlusVideoMin(input);
     return { kind: "audio", durationMin };
   }

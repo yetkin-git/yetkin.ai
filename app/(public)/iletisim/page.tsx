@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/link-button";
 import { LegalEntityColophon, LegalHonestyCard, LegalSupportEmailLine } from "@/components/legal/legal-section-articles";
 import {
+  LEGAL_ACTIVITY_SCOPE_BODY,
   LEGAL_ADMIN_EMAIL,
   LEGAL_ADMIN_MAILTO,
   LEGAL_ENTITY,
@@ -23,6 +24,9 @@ export default function ContactPage() {
         <h1 className="text-3xl font-semibold tracking-tight">İletişim</h1>
         <p className="text-xs text-[var(--muted)]">{LEGAL_UPDATED_LABEL}</p>
         <LegalHonestyCard />
+        <Card title="Faaliyet konusu">
+          <p className="text-base leading-relaxed text-slate-700">{LEGAL_ACTIVITY_SCOPE_BODY}</p>
+        </Card>
         <Card title="Resmi şirket bilgileri">
           <dl className="space-y-3">
             <div>

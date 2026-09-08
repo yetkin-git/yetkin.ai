@@ -1,8 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { PRICE_LOCK_GRACE_MS } from "@/lib/kernel/pricing/price-lock";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
+import { GoneError } from "@/lib/kernel/http/errors";
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import { lockAcademyCoursePrice, purchaseAcademyCourse } from "@/lib/academy/engine";
+import { ACADEMY_RETIRED_COURSE_GONE_MESSAGE } from "@/lib/academy/retired-storefront";
+import { CHECKOUT_LEGAL_CONSENT_PAYLOAD } from "@/lib/kernel/legal/checkout-consent";
 import { createMemoryLedgerStore } from "../helpers/memory-money";
 import { createMemoryAcademyStore, memoryCourse } from "../helpers/memory-academy";
 import {
@@ -73,6 +76,26 @@ describe("akademi satın alma (anında settlement)", () => {
     expect(again.purchase.id).toBe(result.purchase.id);
     expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(75_000);
     expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(COURSE_PRICE);
+  });
+
+  it("ticari satın alma kasa rızasını purchase satırına yazar", async () => {
+    const ports = world();
+    await ports.academy.insertCourse(ports.course);
+    const locked = await lockAcademyCoursePrice(ports, {
+      courseId: ports.course.id,
+      userId: BUYER,
+    });
+    const result = await purchaseAcademyCourse(ports, {
+      courseId: ports.course.id,
+      userId: BUYER,
+      lockId: locked.lock.id,
+      platformUserId: PLATFORM,
+      consent: CHECKOUT_LEGAL_CONSENT_PAYLOAD,
+    });
+    expect(result.applied).toBe(true);
+    expect(result.purchase.consentVersion).toBe(CHECKOUT_LEGAL_CONSENT_PAYLOAD.consentVersion);
+    expect(result.purchase.distanceContractAccepted).toBe(true);
+    expect(result.purchase.digitalImmediatePerformanceAccepted).toBe(true);
   });
 
   it("süresi dolmuş kilitle debit yok", async () => {
@@ -159,6 +182,7 @@ describe("akademi satın alma (anında settlement)", () => {
     expect(again.applied).toBe(false);
     expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(75_000);
 
+    // sample-course'un mühürlü seviye etiketi yoktur; seviye sapması yerine kilit zorunludur.
     await expect(
       purchaseAcademyCourse(ports, {
         courseId: ports.course.id,
@@ -167,7 +191,7 @@ describe("akademi satın alma (anında settlement)", () => {
         now: new Date("2026-08-02T00:00:00.000Z"),
         level: "İleri",
       }),
-    ).rejects.toThrow(/başka bir seviyede/);
+    ).rejects.toThrow(/Fiyat kilidi/);
 
     const renewLock = await lockAcademyCoursePrice(ports, {
       courseId: ports.course.id,
@@ -186,5 +210,23 @@ describe("akademi satın alma (anında settlement)", () => {
     expect(renewed.purchase.id).toBe(first.purchase.id);
     expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(50_000);
     expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(50_000);
+  });
+
+  it("eski vitrin SKU yeni satışı 410 kapatır; lisans satırı silinmez", async () => {
+    const ports = world();
+    const retired = memoryCourse({
+      id: "ac_python_temel",
+      slug: "python-temel",
+      catalogUnitKey: "course:python-temel",
+      isPublished: true,
+    });
+    await ports.academy.insertCourse(retired);
+    await expect(
+      lockAcademyCoursePrice(ports, { courseId: retired.id, userId: BUYER }),
+    ).rejects.toBeInstanceOf(GoneError);
+    await expect(
+      lockAcademyCoursePrice(ports, { courseId: retired.id, userId: BUYER }),
+    ).rejects.toThrow(ACADEMY_RETIRED_COURSE_GONE_MESSAGE);
+    expect(await ports.academy.listPurchasesForUser(BUYER)).toEqual([]);
   });
 });

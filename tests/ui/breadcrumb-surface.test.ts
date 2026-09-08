@@ -26,53 +26,53 @@ function hrefs(pathname: string): string[] {
 }
 
 describe("dinamik ekmek kırıntısı", () => {
-  it("çalışan oda köklerini Anasayfa hiyerarşisine bağlar", () => {
-    expect(labels("/dashboard")).toEqual(["Anasayfa"]);
+  it("çalışan oda köklerini Panel hiyerarşisine bağlar", () => {
+    expect(labels("/dashboard")).toEqual(["Panel"]);
     expect(hrefs("/dashboard")).toEqual(["/dashboard"]);
-    expect(labels("/academy")).toEqual(["Anasayfa", "Akademi"]);
+    expect(labels("/academy")).toEqual(["Panel", "Akademi"]);
     expect(hrefs("/academy")).toEqual(["/dashboard", "/academy"]);
-    expect(labels("/career")).toEqual(["Anasayfa", "Kariyer"]);
-    expect(labels("/freelancer")).toEqual(["Anasayfa", "Freelancer"]);
-    expect(labels("/profil")).toEqual(["Anasayfa", "Profil"]);
-    expect(labels("/cuzdan")).toEqual(["Anasayfa", "Cüzdan"]);
+    expect(labels("/career")).toEqual(["Panel", "Kariyer"]);
+    expect(labels("/freelancer")).toEqual(["Panel", "Freelancer"]);
+    expect(labels("/profil")).toEqual(["Panel", "Profil"]);
+    expect(labels("/cuzdan")).toEqual(["Panel", "Cüzdan"]);
   });
 
   it("akademi kurs slug'ını tohum başlığına çözer; müfredat dördüncü kırıntıdır", () => {
-    expect(ACADEMY_COURSE_TITLES["python-temel"]).toBe(
-      "Python ile Programlama ve Problem Çözme",
+    expect(ACADEMY_COURSE_TITLES["01_office_ai"]).toBe(
+      "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Otomasyonu)",
     );
     for (const seed of ACADEMY_COURSE_SEEDS) {
       expect(academyCourseTitleBySlug(seed.slug)).toBe(seed.title);
-      expect(labels(`/academy/${seed.slug}`)).toEqual(["Anasayfa", "Akademi", seed.title]);
+      expect(labels(`/academy/${seed.slug}`)).toEqual(["Panel", "Akademi", seed.title]);
       expect(hrefs(`/academy/${seed.slug}`)).toEqual([
         "/dashboard",
         "/academy",
         `/academy/${seed.slug}`,
       ]);
     }
-    expect(labels("/academy/python-temel/oyna")).toEqual([
-      "Anasayfa",
+    expect(labels("/academy/01_office_ai/oyna")).toEqual([
+      "Panel",
       "Akademi",
-      "Python ile Programlama ve Problem Çözme",
+      "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Otomasyonu)",
       "Müfredat",
     ]);
-    expect(labels("/academy/certificates")).toEqual(["Anasayfa", "Akademi", "Sertifikalar"]);
-    expect(labels("/academy/dogrula")).toEqual(["Anasayfa", "Akademi", "Doğrula"]);
+    expect(labels("/academy/certificates")).toEqual(["Panel", "Akademi", "Sertifikalar"]);
+    expect(labels("/academy/dogrula")).toEqual(["Panel", "Akademi", "Doğrula"]);
     expect(labels("/academy/dogrula/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")).toEqual(
-      ["Anasayfa", "Akademi", "Doğrula"],
+      ["Panel", "Akademi", "Doğrula"],
     );
   });
 
   it("freelancer alt yollarında koleksiyon klasörünü basmaz", () => {
-    expect(labels("/freelancer/new")).toEqual(["Anasayfa", "Freelancer", "İlan oluştur"]);
-    expect(labels("/freelancer/jobs/fj_rail_icon_set")).toEqual(["Anasayfa", "Freelancer", "İlan"]);
+    expect(labels("/freelancer/new")).toEqual(["Panel", "Freelancer", "İlan oluştur"]);
+    expect(labels("/freelancer/jobs/fj_rail_icon_set")).toEqual(["Panel", "Freelancer", "İlan"]);
     expect(hrefs("/freelancer/jobs/fj_rail_icon_set")).toEqual([
       "/dashboard",
       "/freelancer",
       "/freelancer/jobs/fj_rail_icon_set",
     ]);
     expect(labels("/freelancer/contracts/cabcdefghijklmnopqrstuvwx")).toEqual([
-      "Anasayfa",
+      "Panel",
       "Freelancer",
       "Sözleşme",
     ]);
@@ -87,7 +87,7 @@ describe("dinamik ekmek kırıntısı", () => {
       },
     ]);
     expect(next.map((crumb) => crumb.label)).toEqual([
-      "Anasayfa",
+      "Panel",
       "Akademi",
       "Yapay Zekâ ve Prompt Mühendisliğine Giriş",
       "Müfredat",
@@ -95,12 +95,12 @@ describe("dinamik ekmek kırıntısı", () => {
     const job = applyBreadcrumbOverrides(breadcrumbsFromPathname("/freelancer/jobs/abc"), [
       { href: "/freelancer/jobs/abc", label: "İkon seti teslimi" },
     ]);
-    expect(job.map((crumb) => crumb.label)).toEqual(["Anasayfa", "Freelancer", "İkon seti teslimi"]);
+    expect(job.map((crumb) => crumb.label)).toEqual(["Panel", "Freelancer", "İkon seti teslimi"]);
   });
 
   it("pazaryeri disk yolunu Yetkinİlan vatandaş yoluna çeker", () => {
     expect(normalizeBreadcrumbPath("/pazaryeri/tezgah")).toBe("/yetkinilan/tezgah");
-    expect(labels("/pazaryeri/tezgah")).toEqual(["Anasayfa", "Yetkinİlan", "Tezgâh"]);
+    expect(labels("/pazaryeri/tezgah")).toEqual(["Panel", "Yetkinİlan", "Tezgâh"]);
     expect(hrefs("/yetkinilan/siparisler")).toEqual([
       "/dashboard",
       "/yetkinilan",

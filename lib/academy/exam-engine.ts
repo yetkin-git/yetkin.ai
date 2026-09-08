@@ -41,6 +41,7 @@ import {
   resolveSettledAcademyPurchase,
 } from "@/lib/academy/access";
 import { resolveAcademyCourseFromSeed } from "@/lib/academy/published-catalog";
+import { assertAcademyCurriculumComplete } from "@/lib/academy/curriculum-engine";
 import { resolveAcademyExamFromSeed } from "@/lib/academy/seed";
 
 export type AcademyExamPorts = {
@@ -160,7 +161,8 @@ async function gradeSitting(input: {
 
 /**
  * S58-A: satın al ≠ sertifika. Baraj ≥70. Hash SHA256.
- * Dürüst iki kapı: SETTLED satın alma sınavı açar (müfredat zorunlu değildir).
+ * Sınav kapısı SETTLED lisans + müfredat tamamı ister (doğrudan atlama yok).
+ * Super Admin `assertAcademyCurriculumComplete` içinde sınırsız erişimle geçer.
  * Oturum jetonu zorunlu; yalnız çekilen iş kanıtı / müfredat soruları puanlanır.
  */
 export async function submitAcademyExam(
@@ -179,6 +181,12 @@ export async function submitAcademyExam(
   if (!purchase) {
     throw new Error("Sınav için kurs satın alma kaydı gerekir.");
   }
+  await assertAcademyCurriculumComplete(ports, {
+    courseId: course.id,
+    userId: command.userId,
+    courseSlug: course.slug,
+    email: command.email,
+  });
 
   const exam = await requireExamForCourse(ports.academy, course.id);
   const now = command.now ?? new Date();
@@ -287,7 +295,12 @@ async function resolveAcademyExamEligibility(
   if (!purchase || purchase.status !== "SETTLED") {
     return null;
   }
-  // Doğrudan sınav/vize yolu: SETTLED yeter; müfredat tamamı zorunlu değildir.
+  await assertAcademyCurriculumComplete(ports, {
+    courseId: course.id,
+    userId,
+    courseSlug: course.slug,
+    email,
+  });
   const exam = await requireExamForCourse(ports.academy, course.id).catch(() => null);
   if (!exam) {
     return null;
@@ -379,6 +392,16 @@ export async function loadAcademyExam(
     proofLessonKey,
   };
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

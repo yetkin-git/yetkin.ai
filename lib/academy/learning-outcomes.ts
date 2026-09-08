@@ -1,150 +1,90 @@
+import type { AcademyCourseTitleSlug } from "@/lib/academy/course-titles";
+
 /**
- * Antre öğrenim çıktıları — vitrin kartı değil, kurs sayfası (2 nolu) sicili.
+ * Antre öğrenim çıktıları — vitrin kartı değil, kurs sayfası sicili.
  * Client-safe: sınav şıkkı yok.
  */
 
-import type { AcademyCourseTitleSlug } from "@/lib/academy/course-titles";
-
 export const ACADEMY_LEARNING_OUTCOMES: Record<AcademyCourseTitleSlug, readonly string[]> = {
-  "security-temel": [
-    "CIA üçlüsünü çizer; varlık-tehdit-etki boşsa Fail-closed (Hata Anında Kapalı) durursun.",
-    "TCP/IP ve port izin listesini yazarsın; listede yoksa paket düşer.",
-    "OWASP kapılarında parametreli sorgu, textContent ve CSRF jetonu istersin.",
-    "Parolayı hash’lersin, MFA yoksa oturum açmazsın; güvenlik duvarı ve RoE yazılı durur.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
+  "01_office_ai": [
+    "Yapay zekâyı ofiste akıllı bir stajyer olarak konumlandırmak",
+    "Excel formül ve veri temizliği tariflerini doğal dille yazmak",
+    "Word rapor, dilekçe ve sözleşme özeti üretmek",
+    "PowerPoint slayt iskeleti ve konuşmacı notu çıkarmak",
+    "E-posta özeti, öncelik ve diplomatik yanıt taslağı hazırlamak",
+    "KVKK maskeleme ve halüsinasyon denetimi uygulamak",
   ],
-  "security-orta": [
-    "Yazılı RoE ve izinli hedef olmadan keşfi Fail-closed (Hata Anında Kapalı) durdurursun.",
-    "Lab arayüzü ve envanter listesini yazarsın; lab dışı paket düşer.",
-    "IDOR’da sahip eşleşmesini, SSRF’de konak izin listesini istersin.",
-    "JWT imza ve algoritma listesini doğrular, SAST sır kalıbında derlemeyi kesersin.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
+  "02_ecommerce_ai": [
+    "Pazaryeri SEO başlığı ve vitrin maddesi üretmek",
+    "AIDA/PAS ile fayda odaklı ürün açıklaması yazmak",
+    "Yorum duygu analizi ve kapalı döngü SSS kurmak",
+    "Buybox, bundle ve stop-loss fiyat kilidi uygulamak",
+    "0.8 saniye kuralına uygun görsel ve Reels kancası üretmek",
+    "İade kriz protokolü, seller score ve KVKK maskelemesi uygulamak",
   ],
-  "security-ileri": [
-    "Boru hattında SAST/DAST/SCA damgası yoksa yayını Fail-closed (Hata Anında Kapalı) durdurursun.",
-    "IAM’de joker ve kalıcı root’u reddeder, KMS anahtarı olmadan şifrelemezsin.",
-    "Olay müdahalesinde günlük silmeyi keser, hash zinciri kopuksa rapor basmazsın.",
-    "SIEM’de izinsiz kaynağı düşürür, Sıfır Güven üçlüsü yoksa paketi kesersin.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
+  "03_social_media_ai": [
+    "Görsel ve video fabrikası iş akışını ve yayın takvimini kurmak",
+    "Midjourney & Canva AI ile stüdyo kalitesinde ürün ve marka görselleri üretmek",
+    "Reels/TikTok için yüksek etkileşimli kanca (hook) ve metin şablonları hazırlamak",
+    "HeyGen ve ElevenLabs ile yapay zekâ avatarları ve doğal seslendirmeler oluşturmak",
+    "CapCut AI ile otonom video kurgu hattı ve Reels/Shorts içerikleri hazırlamak",
+    "Otonom içerik yayınlama, CCaaS (İçerik Hizmeti) paketleme ve müşteri teslim protokolü yürütmek",
   ],
-  "ai-agent-temel": [
-    "Şef ile garsonu ayırır: ChatGPT konuşur, Cursor çalışır; araç yoksa uydurmazsın.",
-    "Üretim tarifini katmanlar, JSON şemasını parse eder, geçersiz çıktıda durursun.",
-    "Araç kaydından çağrı yapar; bilinmeyen adı Fail-closed (Hata Anında Kapalı) kesersin.",
-    "Kısa pencere ve uzun raf eşiğini ayırır, ReAct tur tavanını yazarsın.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
+  "04_chatbot_nocode": [
+    "Kodsuz chatbot dünyasında satış kapatan ve müşteri tutan diyalog mimarisi kurmak",
+    "Voiceflow ile görsel akış, mantık ve web sohbet asistanı tasarlamak",
+    "Botpress ile yapay zekâ (LLM/RAG) entegrasyonu ve bilgi tabanı bağlamak",
+    "Meta WhatsApp Cloud API entegrasyonu ile otonom WhatsApp hattı açmak",
+    "Make.com, Webhooks ve CRM bağlantıları ile insan temsilciye devir (handoff) hattı kurmak",
+    "KOBİ’lere satılabilir 1 günlük chatbot paketi (CaaS) hazırlamak ve ticari teslim protokolü yürütmek",
   ],
-  "ai-agent-orta": [
-    "RAG akışında önce kanıt getirir, boş getiriyle cümle basmazsın.",
-    "Vektör koleksiyonunu sorgular; eşik altında Fail-closed (Hata Anında Kapalı) durursun.",
-    "Araştırmacı ve yazar ajanı paslaştırır, ortak durumu tek yazar kuralıyla korursun.",
-    "Riskli gönderimi insan onayına bağlar, kaşesiz aracı çalıştırmazsın.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
+  "05_prompt_practice": [
+    "5 yapı taşlı prompt zihniyeti ile net, kısıtlı ve denetlenebilir tarifler yazmak",
+    "Few-Shot ve Chain-of-Thought (CoT) teknikleriyle karmaşık konularda sıfır-hata akıl yürütmek",
+    "İş e-postası, rapor, teklif ve profesyonel metin üretim süreçlerini otomatize etmek",
+    "SWOT, risk ve karar destek promptları ile verileri analiz edip stratejik kararlar almak",
+    "Görsel ve multimodal yapay zekâ modelleri için hassas komutlar kurgulamak",
+    "Tekrar kullanılabilir parametreli prompt kütüphanesi oluşturmak ve günlük akışa entegre etmek",
   ],
-  "ai-agent-ileri": [
-    "Durum Grafiği düğüm ve kenarını çizer, tur tavanında Fail-closed (Hata Anında Kapalı) durursun.",
-    "Yansıma döngüsünde kırığı bir kez onarır, sonsuz denemeyi kesersin.",
-    "Korkulukta izin listesi ve tarama kapısını varsayılan kilit ile korursun.",
-    "Eval barajını ve PII’siz izi basar; üretim kuyruğunda bilinmeyen rotayı düşürürsün.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
+  "06_n8n_automation": [
+    "Self-hosted n8n ile ERP/CRM/e-posta hatlarını bağlamak",
+    "Manuel veri girişini sıfırlayan iş akışı tasarlamak",
+    "KOBİ otomasyon projesini faturalanabilir paket haline getirmek",
   ],
-  "python-temel": [
-    "Değişken, tip ve Fail-closed (Hata Anında Kapalı) kapısını dürüst isimlerle yazarsın.",
-    "Kontrol akışı, döngü ve fonksiyonla küçük işi tekrar yazmadan bitirirsin.",
-    "Liste ve sözlükte sıra ile anahtarı ayırır, yokluğu çökmeden sorarsın.",
-    "Girdi doğrular, hata yakalar, girdi→doğrula→hesapla→yazdır döngüsünü kapatırsın.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
+  "07_langgraph_agents": [
+    "Tool-calling ajanını LangGraph/CrewAI ile kurmak",
+    "SQL ve API araçlarını fail-closed döngüye bağlamak",
+    "Hata durumunda alternatif deneyen dijital çalışan tasarlamak",
   ],
-  "python-orta": [
-    "Sınıf ve örnek ayrımını yazarsın; kalıp durumunu paylaşmazsın.",
-    "Miras ve kapsülleme ile stok sınırını Fail-closed (Hata Anında Kapalı) kapıdan korursun.",
-    "JSON sözleşmesini parse eder, utf-8 ve atomik yazımla diske basarsın.",
-    "try/except’i dar tutar, özel istisna ve HTTP durum kodunu dürüst okursun.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
+  "08_production_rag": [
+    "Vektör + anahtar kelime hibrit arama kurmak",
+    "Alıntısız cümleyi reddeden production RAG basmak",
+    "GraphRAG ile kurumsal belge sızdırmazlığını korumak",
   ],
-  "python-ileri": [
-    "Decorator (bezetici) ile kapıyı tek yerde sarar, iç tarifi dağıtmazsın.",
-    "Üreteç ve iterator ile belleği şişirmeden akış tartarsın.",
-    "asyncio ile giriş-çıkış beklerken gişeyi boşaltır, time.sleep tuzağına düşmezsin.",
-    "GIL’e göre thread/process seçer; metaclass ile sınıf sözleşmesini doğmadan kesersin.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
+  "09_nextjs_ai": [
+    "Vercel AI SDK ile streaming arayüz basmak",
+    "Generative UI desenini Next.js App Router’a bağlamak",
+    "AI-native fullstack ürün iskeleti çıkarmak",
   ],
-  "fullstack-temel": [
-    "HTTP ve Alan Adı Sistemi fişini dürüst okur, 5xx’te yeşil tik basmazsın.",
-    "Semantik HTML5 iskeleti ile Flexbox ve Grid yerleşimini tapuya bağlarsın.",
-    "JavaScript DOM’da yuvayı sorar, textContent basar, innerHTML ile XSS açmazsın.",
-    "fetch, Promise ve TypeScript arayüzü ile formu Fail-closed (Hata Anında Kapalı) doğrularsın.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
+  "10_data_analytics_ai": [
+    "SQL/Excel tablosundan yönetici özeti üretmek",
+    "Anomali ve payda dürüstlüğü kuralını uygulamak",
+    "Power BI ve Python analitiğini yapay zekâ ile hızlandırmak",
   ],
-  "fullstack-orta": [
-    "Bileşen ve props sözleşmesini çizer, JavaScript XML (JSX) iskeleti dürüst poşetle basarsın.",
-    "useState/useEffect ve kontrollü formda sonsuz boyamayı Fail-closed (Hata Anında Kapalı) kesersin.",
-    "Express REST ve Prisma ile parametreli yazarsın; ham SQL birleştirmezsin.",
-    "JWT ara katmanında imza yoksa 401 basar, decode ile kapı açmazsın.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
+  "11_llm_redteam": [
+    "Prompt injection ve araç sızdırma senaryosunu kırmızı takımla denemek",
+    "Guardrails katmanını üretim kapısına bağlamak",
+    "Canlıya çıkış öncesi güvenlik denetim raporunu basmak",
   ],
-  "fullstack-ileri": [
-    "App Router’da RSC varsayılanını çizer, sırrı vitrine indirmezsin.",
-    "Server Action gövdesini Fail-closed (Hata Anında Kapalı) doğrular; boş sku yeşil basmazsın.",
-    "Mikroservis olay fişini ve açık devreyi yazarsın; zincirleme çöküşü kesersin.",
-    "Redis kaçırmayı 200 saymaz, 429 tavanını basar; Compose sağlık ve CI/CD kırmızı testi sahaya indirmezsin.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
+  "12_onprem_finetune": [
+    "LoRA/QLoRA ile yerel ince ayar yapmak",
+    "vLLM ile on-prem inferans işletmek",
+    "Veriyi buluta göndermeden model dağıtmak",
   ],
-  "ai-temel": [
-    "Token, bağlam penceresi ve üretim tarifi katmanlarını ayırırsın.",
-    "Yapılandırılmış çıktı, few-shot ve sır/kişisel veri yasağını uygularsın.",
-    "Tablo okur, temizler, metrik paydasını yazmadan yüzde basmazsın.",
-    "Kaynaklı getiri (RAG) ile uydurmayı keser, kanıt satırı istersin.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
-  ],
-  "ux-temel": [
-    "Kullanıcı Deneyimi ile Kullanıcı Arayüzü sınırını çizersin.",
-    "Araştırma, persona, yolculuk ve bilgi mimarisini kanıtla kurarsın.",
-    "Tel çerçeve ve Figma’da çerçeve, otomatik yerleşim, bileşen kullanırsın.",
-    "İzgara, tipo, jeton, prototip ve erişilebilirlik barajını teslim paketine bağlarsın.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
-  ],
-  "excel-masterclass": [
-    "Hücrede adres, değer ve biçimi ayırır; TOPLA/ORTALAMA/SAY tartısını n yazmadan basmazsın.",
-    "XLOOKUP tam eşleşme ve sola bakış kapısını yazar; yaklaşık VLOOKUP fiyatı uydurmazsın.",
-    "Özet Tablo ve dilimleyicide kimliği SAY ile sayar; fatura numarasını TOPLA etmezsin.",
-    "Yinelenen, ayırıcı ve «N/A» kaydını Fail-closed (Hata Anında Kapalı) düşürür; sıfır uydurmazsın.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
-  ],
-  "google-ads-masterclass": [
-    "Hesap katını çizer; dönüşüm eylemi yoksa harcamayı Fail-closed (Hata Anında Kapalı) durdurursun.",
-    "Geniş/sıralı/tam eşlemeyi yazar; 30 dönüşümsüz geniş eşlemeyi açmazsın.",
-    "Arama ve görüntülü ağı ayırır; bakışı satış saymazsın.",
-    "GTM’i teşekkür + sipariş id ile bağlar; kırık etikette Smart Bidding açmazsın.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
-  ],
-  "meta-ads-masterclass": [
-    "Business Suite ve Ads Manager katını çizer; piksel yoksa harcamayı Fail-closed (Hata Anında Kapalı) durdurursun.",
-    "Özel kitleyi purchase kaynağından kurar; beğeni Lookalike’ı açmazsın.",
-    "Piksel ve CAPI’yi event_id ile birleştirir; değersiz ROAS basmazsın.",
-    "CBO/ABO ve A/B tek değişkenini yazar; öğrenmede %20 üstü ölçek açmazsın.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
-  ],
-  "eticaret-masterclass": [
-    "Pazar yeri tezgâhını çizer; vergi ve kargo yoksa mağazayı Fail-closed (Hata Anında Kapalı) durdurursun.",
-    "Trendyol/Hepsiburada kaydında unvan, IBAN ve sözleşmeyi yazar; sözlü kuryeyi kapı saymazsın.",
-    "Liste başlığı, GTIN ve kendi görseli basar; çalıntı fotoğraf ve stoksuz satışı açmazsın.",
-    "Merkez stok ve kargo takibini senkronlar; oversell ve fişsiz teslim basmazsın.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
-  ],
-  "canva-masterclass": [
-    "Brand Kit’te logo, hex ve iki yazı ailesini yazar; boş paleti Fail-closed (Hata Anında Kapalı) durdurursun.",
-    "Post/Reels boyutunu ve tek CTA’yı basar; kitsiz Resize ve üç çağrıyı açmazsın.",
-    "Magic taslağını lisans ve PII kapısından geçirir; ham metni marka sesi saymazsın.",
-    "Baskıda CMYK 300 dpi ve 3 mm pay ister; RGB PDF’i matbaaya göndermezsin.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
-  ],
-  "linkedin-masterclass": [
-    "All-Star profilde fotoğraf ve rol+vaat başlığı yazar; sloganı Fail-closed (Hata Anında Kapalı) durdurursun.",
-    "Kanca ve kanıtlı gönderi basar; beğeni avı ve hashtag yığınını açmazsın.",
-    "Sales Navigator’da ICP süzgecini kaydeder; yığın CTO listesini InMail’e dökmezsin.",
-    "Soğuk yazıda özgün bağlam ve tek soru ister; kopya duvarı ve ilk cümle teklifi basmazsın.",
-    "Sınav barajı (≥70) üstünde SHA-256 mühür ve kariyer vizesi damgası alırsın.",
+  "13_ai_governance": [
+    "EU AI Act ve KVKK risk sınıflarını haritalamak",
+    "Kurumsal AI politika ve denetim dilini yazmak",
+    "Hukuk ve risk komitesine uyum özeti basmak",
   ],
 };
 

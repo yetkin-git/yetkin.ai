@@ -1,0 +1,40 @@
+<!--
+  Stüdyo konuşma metni — 01_office_ai-2
+  Duvar saati: 420 sn (7 dk). Cue SSOT: lesson-cues/01_office_ai-2.json
+  Ses: Gözde / Callirrhoe. Kod çiti yok. SEN aksı.
+  TTS: 3–5 sn noktalama dilimleri; parça arası 0.3–0.5 sn taze nefes. Tek parça devasa blok yok.
+-->
+
+<!-- cue:cue-01 start:0 end:40 section:Giriş & Köprü -->
+
+Tekrar merhaba. Ben Gözde. Kahveni tazelediysen masaya otur; ikinci ders başladı. Excel'de formül ezberleme baskısı bugünden itibaren masadan kalkıyor. İlk derste o iki saatin ilk dilimini geri aldık.
+
+Cebinde iki kural duruyor. Bir: yapay zekâ masandaki hevesli stajyerdir. Kütüphaneleri bilir; niyetini okuyamaz. Ona rolünü, verinin yapısını ve ne istediğini söylemeden mucize bekleme. İki: altın güvenlik. Gerçek ad yok. Kimlik yok. Gizli ciro yok. Müşteri A, Bay X, Şube 1 yeter. Mantık oturunca formülü kendi orijinal dosyana taşırsın. Stajyer örneği görsün; sırları sen sakla. Kalkan hazırsa ofisin korkulu rüyasına giriyoruz. Bugün parantez değil, niyet konuşacak.
+
+<!-- cue:cue-02 start:40 end:110 section:Parantez Cehennemi -->
+
+Yöneticin İzmir şubesinin beş bin üzeri satışlarını istediği an kalbin hızlanır. Ya da A sütunundaki müşteri kodunu öteki sayfadaki cari listeyle eşleştir dendiği an. El eşittire gider. Düşey ara yazarsın. Parantezi açarsın. Zihin karışır. Önce aranan değer miydi, tablo dizisi miydi? Noktalı virgül mü, iki nokta mı? Kaçıncı sütunu baştan sayıyordun? Sonuna sıfır mı yazıyorduk, yanlış mı? Enter. Ekranda değer hatası. Yok hatası. Başvuru hatası. Ad hatası.
+
+O anda insan kendini suçlar. Ben Excel bilmiyorum der. Matematiğim yetmiyor der. Google açılır. Forum taranır. Videolar iki kat hızda ileri sarılır. Ofiste Excel'i iyi bilen arkadaşa mahcup gidilir. İki sütunu eşleştirmek öğleden sonrayı yer. Bazen yalnız bir koşullu toplam için koca bir saat gider. Şimdi müjde net. Bugünden sonra tek bir Excel formülü ezberlemek zorunda değilsin. Beş yüz fonksiyonun sözdizimini aklında tutacak kişi sen değilsin. Senin işin veri ameleliği değil. Niyeti Türkçe tarif etmek. Formülü yazmak ve hatayı onarmak stajyerin işi. Sen yönetici kal.
+
+<!-- cue:cue-03 start:110 end:230 section:Metinden Formüle -->
+
+Ne hesaplamak istediğini Türkçe söyle; formülü stajyer yazsın. Çift yönlü köprü kuruyoruz. Bir: metinden formüle. İhtiyacı günlük dille tarif et; stajyer hücre adresleriyle çalışan formülü yazsın. İki: formülden metne. Eski dosyadaki yılan gibi formülü yapıştır; stajyer on yaşındaki birinin anlayacağı durulukta anlatsın.
+
+Önce birinci sihir. Klavyeni çek. Hangi araç açıksa o kalsın. Mantık hepsinde aynı. Önünde beş sütunluk satış tablosu var. Sipariş numarası. Şube adı. Satış temsilcisi. Tutar. Tarih. Yönetici diyor: İzmir şubesinde beş bin liradan büyük satışların toplamını F iki hücresine yaz. Eski sende çoketopla stresi. Aralıkları ters yazarsan sonuç sıfır çıkar ya da sessizce yanlış toplanır.
+
+Şimdi modele dön. Kıdemli veri analisti ve Excel uzmanı rolünü ver. Tabloyu sütun sütun anlat. İhtiyacı bir cümlede söyle. Kuralları da söyle. Türkçe Excel ve İngilizce Excel için ayrı ayrı iste. Mantığı iki cümlede anlatsın. Hangi aralık ne işe yarar, tek tek yazsın. Temiz blokta versin ki kopyalayasın. Gönder. Üç saniyede gelir. Toplanacak sütun tutardır. Birinci süzgeç şube İzmir. İkinci süzgeç tutar beş binden büyük. Kopyala. F ikiye yapıştır. Bir satırla kontrol et. İş bitti. Noktalı virgül nereye konur, büyüktür işareti tırnak içine mi alınır diye düşünme. Stajyer koyar. Sen yönetici kal. Formülü ezberleme. Sütunu, eşiği ve niyeti anlat. Anlatırken birim ve istisna da söyle. İade satırlarını düş. Şu şubeyi hariç tut. Stajyer ayrıntıyı sever.
+
+<!-- cue:cue-04 start:230 end:340 section:Hata Doktoru -->
+
+Kırmızı hücrede panik yok; hatayı stajyerine teşhis ettir. Düşey ara yazdın. Fiyat listesi sayfasında üç sütun var: kod, ad, fiyat. Formül dördüncü sütunu istiyor. Hücre başvuru hatası verir. Sakın formülü baştan yazma. Modele hata doktoru rolünü ver. Kullandığın formülü yapıştır. Tabloyu anlat. Amacını söyle: A iki hücresindeki kodun fiyatını çekmek. Görev net olsun. Nedenini bir cümlede istesin. Düzeltilmiş hali kopyalanabilir gelsin.
+
+Varsa daha modern ve hataya dayanıklı bir alternatif de iste. Çapraz ara sütun sırasına kilitlenmez; kod sütununu ve fiyat sütununu ayrı gösterir. Gelen teşhisi oku. Aralık üç sütun. Sen dördü istedin. Excel başvuru üretir. Düzelti üç. Yapıştır. Hücre susar. Dakikalarca ekranı kısmazsın. Nerede hata yaptığını nazikçe öğrenirsin.
+
+Aynı köprü tersine de çalışır. Senden önce çalışan biri bir dosya bırakmış. Finansin yılan gibi uzayan formülü. İç içe eğerler. Durum tamamlandıysa ve tutar on bini geçiyorsa yüzde on beş. Tamamlandıysa ve on bin veya altındaysa yüzde sekiz. Değilse sıfır. Bakarken başın döner. Hücreyi değiştirirsem ne bozulur diye korkarsın. Kopyala. Modele de: bunu matematik bilmeyen birine anlatır gibi Türkçe çöz. Hangi kural hangi primi verir, adım adım yazsın. Kapalı kutu açılır. Kimsenin dosyası röntgen isteyince kilitli kalmaz. Sen artık formülü taşıyan değil; kuralı anlayan kişisin.
+
+<!-- cue:cue-05 start:340 end:420 section:Kapanış & Saha Görevi -->
+
+Kendi hücrende çalışan formülü görmeden üçüncü bölüme geçme. Küçük olsun. Mükemmel olmasın. Bitmiş olsun. Üç kural cebine. Bir: formül ismini unut. Sütununu ve niyetini anlat. Excel'e değil, stajyerine konuş. İki: hata kodundan korkma. Değer hatası ya da yok hatası gördüğünde kendini suçlama. Teşhisi stajyerine bırak. Üç: Türkçe Excel noktalı virgül kullanır. İngilizce Excel virgül kullanır. Sürümü baştan söyle ki tek seferde doğru gelsin.
+
+Şimdi iki dakikalık kanıt. Kendi dosyandan gerçek bir ihtiyaç seç. Bir şubenin belli tutar üstü satışlarını toplamak yeter. Metinden formüle yazdır. Kendi hücrene yapıştır. Çalıştığını kendi gözünle gör. Elinde kırık bir formül varsa hata doktoruna ver. Kanıtın cebinde olsun. Sonraki derste dağınık veri var. İsimler küçük büyük karışık. Ad soyad tek sütuna yapışmış. Telefonların kiminde sıfır beş, kiminde artı doksan. Tarihler yarısı nokta yarısı eğik çizgi. Eski usul iki saatini alırdı. Orada çöpü tek komutla standart tabloya çevireceğiz. Kahveni al. Masada kal. Formül ezberi bitti. Niyet kaldı. Yarın aynı stajyer yine masanda olacak.

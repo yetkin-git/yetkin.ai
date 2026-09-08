@@ -72,6 +72,10 @@ const ROUTE_SEALS: ReadonlyArray<{ file: string; needles: readonly string[] }> =
     needles: ["FREELANCER_SATELLITE_GONE", "410", 'auth = "public"'],
   },
   {
+    file: "app/api/freelancer/jobs/[id]/route.ts",
+    needles: ["export async function DELETE", "cancelFreelancerJob", "actorUserId: user.id"],
+  },
+  {
     file: "app/api/freelancer/contracts/[id]/messages/route.ts",
     needles: ["actorUserId: user.id", "listFreelancerContractMessages"],
   },
@@ -81,7 +85,12 @@ const ROUTE_SEALS: ReadonlyArray<{ file: string; needles: readonly string[] }> =
   },
   {
     file: "lib/freelancer/engine.ts",
-    needles: ["job.inviteeId !== command.actorUserId", "ForbiddenError"],
+    needles: [
+      "job.inviteeId !== command.actorUserId",
+      "command.actorUserId !== job.clientId",
+      "cancelFreelancerJob",
+      "ForbiddenError",
+    ],
   },
   {
     file: "lib/freelancer/messages.ts",

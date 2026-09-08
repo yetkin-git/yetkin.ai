@@ -12,6 +12,7 @@ export function CareerPulseWidget() {
     <PulseCard
       title={copy.careerTitle}
       live={pulse.live}
+      unavailableHint={copy.unavailable}
       href="/career"
       hrefLabel={copy.careerHrefLabel}
       stats={[
@@ -19,7 +20,7 @@ export function CareerPulseWidget() {
         { label: copy.careerPortfolio, value: pulse.live ? pulse.portfolioCount : "—" },
       ]}
     >
-      {pulse.live ? pulse.lastVisaTitle ?? copy.careerEmpty : "—"}
+      {pulse.live ? pulse.lastVisaTitle ?? copy.careerEmpty : copy.unavailable}
     </PulseCard>
   );
 }

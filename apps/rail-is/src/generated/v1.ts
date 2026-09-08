@@ -235,7 +235,7 @@ export type RailV1PublicAcademyCertificate = {
   "curriculumSeal": string;
   "algorithm": "SHA256";
   "payloadVersion": "yetkin-rail.academy.certificate.v2";
-  "hashedFields": Array<"vatandaş kimliği" | "kurs kimliği" | "sınav denemesi" | "puan" | "basım anı" | "müfredat mühürü">;
+  "hashedFields": Array<"vatandaş kimliği" | "kurs kimliği" | "sınav denemesi" | "puan" | "basım anı" | "müfredat özeti">;
   "integrityKind": "sha256-content-digest";
   "sealStatus": "valid" | "revoked";
   "revokedAt": string | null;
@@ -247,6 +247,8 @@ export type RailV1AcademyPulse = {
   "purchasesCount": number;
   "certificatesHeld": number;
   "lastCertificateTitle": string | null;
+  "lastCourseSlug": string | null;
+  "nextLessonKey": string | null;
   "currencyCode": "TRY" | "USD" | "EUR";
 };
 

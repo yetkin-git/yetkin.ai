@@ -1,14 +1,13 @@
 import { IdentityCard } from "@/components/kernel/identity-card";
 import { IdentityMeritSummary } from "@/components/kernel/identity-merit-summary";
 import { ProfileBillingForm } from "@/components/kernel/profile-billing-form";
-import { AuthNeeded } from "@/components/ui/auth-needed";
 import { Card } from "@/components/ui/card";
 import { IconBadge, IconLock, IconUser } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/link-button";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { StatGrid } from "@/components/ui/stat-grid";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
-import { getSession } from "@/lib/kernel/auth/session";
+import { requirePageSession } from "@/lib/kernel/auth/session";
 import { loadIdentityBoard } from "@/lib/kernel/identity/load";
 import { PROFILE_UNSET_LABEL, profileDisplayName } from "@/lib/kernel/identity/display";
 import { WALLET_SURFACE_PATH } from "@/lib/kernel/identity/types";
@@ -33,15 +32,16 @@ function ProfileShelterActions({ size = "sm" }: { size?: "sm" | "md" }) {
 }
 
 export default async function ProfilePage() {
-  const session = await getSession();
-  const [board, passportBoard] = session
-    ? await Promise.all([loadIdentityBoard(session.id), loadPassportBoard(session.id)])
-    : [null, null];
+  const session = await requirePageSession();
+  const [board, passportBoard] = await Promise.all([
+    loadIdentityBoard(session.id),
+    loadPassportBoard(session.id),
+  ]);
   const profile = board?.user ?? null;
   const headline = profile ? profileDisplayName(profile.displayName) : PROFILE_UNSET_LABEL;
   const copy = SEN_VOICE.profil;
   const stamps = passportBoard?.stamps ?? [];
-  const meritSoft = Boolean(session && passportBoard === null);
+  const meritSoft = passportBoard === null;
 
   return (
     <RoomFrame>
@@ -56,27 +56,25 @@ export default async function ProfilePage() {
         items={[
           {
             label: copy.stats.nameLabel,
-            value: session ? headline : copy.stats.guest,
+            value: headline,
             hint: profile?.displayName?.trim() ? copy.stats.nameHintSet : copy.stats.nameHintEmpty,
             icon: <IconUser />,
           },
           {
             label: copy.stats.localeLabel,
-            value: profile?.locale ?? (session ? PROFILE_UNSET_LABEL : "—"),
+            value: profile?.locale ?? PROFILE_UNSET_LABEL,
             hint: profile ? profile.timeZone : copy.stats.localeHint,
             icon: <IconLock />,
           },
           {
             label: copy.stats.joinedLabel,
-            value: profile ? String(profile.createdAt.getFullYear()) : session ? copy.stats.waiting : "—",
+            value: profile ? String(profile.createdAt.getFullYear()) : copy.stats.waiting,
             hint: profile ? copy.stats.joinedHintLive : copy.stats.joinedHintPending,
             icon: <IconBadge />,
           },
         ]}
       />
-      {!session ? (
-        <AuthNeeded message={copy.auth} />
-      ) : board === null ? (
+      {board === null ? (
         <div className="space-y-3">
           <p className="text-sm text-[var(--muted)]">{copy.loadSoft}</p>
           <div className="flex flex-wrap gap-2">

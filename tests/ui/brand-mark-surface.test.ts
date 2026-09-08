@@ -88,10 +88,11 @@ describe("yetkin.ai marka / favicon yüzeyi", () => {
     expect(YETKIN_BRAND).toBe("yetkin.ai");
     expect(AUTH_SEN.brand).toBe(YETKIN_BRAND);
     expect(PUBLIC_SEN.home.badge).toBe(YETKIN_BRAND);
-    expect(PUBLIC_SEN.home.versionBadge).toBe(YETKIN_RELEASE_LABEL);
+    expect(PUBLIC_SEN.home).not.toHaveProperty("versionBadge");
     expect(YETKIN_RELEASE_LABEL).toBe("v1.0.0 Beta");
     expect(readSrc("app/(public)/page.tsx")).toContain("YETKIN_BRAND");
-    expect(readSrc("app/(public)/page.tsx")).toContain("copy.versionBadge");
+    expect(readSrc("app/(public)/page.tsx")).not.toContain("copy.versionBadge");
+    expect(readSrc("app/(public)/page.tsx")).not.toContain("v1.0.0 Beta");
     expect(PUBLIC_SEN.error.eyebrow).toBe(YETKIN_BRAND);
     expect(PUBLIC_SEN.notFound.description).toContain(YETKIN_BRAND);
     expect(buildBrandMarkSvg()).toContain(`aria-label="${YETKIN_BRAND}"`);
@@ -125,9 +126,10 @@ describe("yetkin.ai marka / favicon yüzeyi", () => {
     expect(PUBLIC_SEN.home.trustTitle).toBe("Güven taahhüdü");
     expect(PUBLIC_SEN.home.trust.join("\n")).not.toMatch(/Türk Lirası|₺/);
     expect(PUBLIC_SEN.home.trust).toContain(
-      "Ödeme henüz bağlanmadı / pasif — sahte bakiye yazılmaz",
+      "PayTR Merchant onayı sürecindedir. PayTR iFrame altyapısı hazırdır; kart numarası platformda tutulmaz",
     );
     expect(PUBLIC_SEN.home.trust.join("\n")).not.toContain("güvenli ödeme altyapısı");
+    expect(PUBLIC_SEN.home.trust.join("\n")).not.toContain("Ödeme henüz bağlanmadı / pasif");
     expect(readSrc("app/(public)/page.tsx")).toContain("copy.trust.map");
   });
 });

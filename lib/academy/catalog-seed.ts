@@ -16,9 +16,9 @@ import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { ACADEMY_CATALOG_SUMMARIES } from "@/lib/academy/catalog-summaries";
 
 /**
- * Katalog kart tohumu — slug, başlık, özet, fiyat, sıra. Sınav şıkkı yok.
- * `exam-pools` / proof-of-work bu dosyaya girmez; soru gövdesi `seed.ts` yolundadır.
+ * Katalog kart tohumu — slug, başlık, özet, fiyat, sıra.
  * SQL: `supabase/migrations/20260814090000_academy_course_seed.sql`.
+ * Kanon 13 SKU `SEED_META` içinde dondurulur; vitrin tohumu ingest edilmiş alt kümedir.
  */
 export type AcademyCatalogExamMeta = {
   id: string;
@@ -58,145 +58,96 @@ const SEED_META: Record<
     localRank: number;
   }
 > = {
-  "security-temel": {
-    id: "ac_security_temel",
-    catalogEntryId: "cat_academy_course_security_temel",
-    examId: "exam_security_temel",
+  "01_office_ai": {
+    id: "ac_01_office_ai",
+    catalogEntryId: "cat_academy_course_01_office_ai",
+    examId: "exam_01_office_ai",
     globalRank: 1,
     localRank: 1,
   },
-  "security-orta": {
-    id: "ac_security_orta",
-    catalogEntryId: "cat_academy_course_security_orta",
-    examId: "exam_security_orta",
-    globalRank: 1,
-    localRank: 2,
-  },
-  "security-ileri": {
-    id: "ac_security_ileri",
-    catalogEntryId: "cat_academy_course_security_ileri",
-    examId: "exam_security_ileri",
-    globalRank: 1,
-    localRank: 3,
-  },
-  "ai-agent-temel": {
-    id: "ac_ai_agent_temel",
-    catalogEntryId: "cat_academy_course_ai_agent_temel",
-    examId: "exam_ai_agent_temel",
-    globalRank: 1,
+  "02_ecommerce_ai": {
+    id: "ac_02_ecommerce_ai",
+    catalogEntryId: "cat_academy_course_02_ecommerce_ai",
+    examId: "exam_02_ecommerce_ai",
+    globalRank: 2,
     localRank: 1,
   },
-  "ai-agent-orta": {
-    id: "ac_ai_agent_orta",
-    catalogEntryId: "cat_academy_course_ai_agent_orta",
-    examId: "exam_ai_agent_orta",
-    globalRank: 1,
-    localRank: 2,
-  },
-  "ai-agent-ileri": {
-    id: "ac_ai_agent_ileri",
-    catalogEntryId: "cat_academy_course_ai_agent_ileri",
-    examId: "exam_ai_agent_ileri",
-    globalRank: 1,
-    localRank: 3,
-  },
-  "python-temel": {
-    id: "ac_python_temel",
-    catalogEntryId: "cat_academy_course_python_temel",
-    examId: "exam_python_temel",
-    globalRank: 1,
+  "03_social_media_ai": {
+    id: "ac_03_social_media_ai",
+    catalogEntryId: "cat_academy_course_03_social_media_ai",
+    examId: "exam_03_social_media_ai",
+    globalRank: 3,
     localRank: 1,
   },
-  "python-orta": {
-    id: "ac_python_orta",
-    catalogEntryId: "cat_academy_course_python_orta",
-    examId: "exam_python_orta",
-    globalRank: 1,
-    localRank: 2,
-  },
-  "python-ileri": {
-    id: "ac_python_ileri",
-    catalogEntryId: "cat_academy_course_python_ileri",
-    examId: "exam_python_ileri",
-    globalRank: 1,
-    localRank: 3,
-  },
-  "fullstack-temel": {
-    id: "ac_fullstack_temel",
-    catalogEntryId: "cat_academy_course_fullstack_temel",
-    examId: "exam_fullstack_temel",
-    globalRank: 1,
+  "04_chatbot_nocode": {
+    id: "ac_04_chatbot_nocode",
+    catalogEntryId: "cat_academy_course_04_chatbot_nocode",
+    examId: "exam_04_chatbot_nocode",
+    globalRank: 4,
     localRank: 1,
   },
-  "fullstack-orta": {
-    id: "ac_fullstack_orta",
-    catalogEntryId: "cat_academy_course_fullstack_orta",
-    examId: "exam_fullstack_orta",
-    globalRank: 1,
-    localRank: 2,
-  },
-  "fullstack-ileri": {
-    id: "ac_fullstack_ileri",
-    catalogEntryId: "cat_academy_course_fullstack_ileri",
-    examId: "exam_fullstack_ileri",
-    globalRank: 1,
-    localRank: 3,
-  },
-  "ai-temel": {
-    id: "ac_ai_temel",
-    catalogEntryId: "cat_academy_course_ai_temel",
-    examId: "exam_ai_temel",
-    globalRank: 1,
-    localRank: 3,
-  },
-  "ux-temel": {
-    id: "ac_ux_temel",
-    catalogEntryId: "cat_academy_course_ux_temel",
-    examId: "exam_ux_temel",
-    globalRank: 1,
-    localRank: 4,
-  },
-  "excel-masterclass": {
-    id: "ac_excel_masterclass",
-    catalogEntryId: "cat_academy_course_excel_masterclass",
-    examId: "exam_excel_masterclass",
-    globalRank: 1,
+  "05_prompt_practice": {
+    id: "ac_05_prompt_practice",
+    catalogEntryId: "cat_academy_course_05_prompt_practice",
+    examId: "exam_05_prompt_practice",
+    globalRank: 5,
     localRank: 1,
   },
-  "google-ads-masterclass": {
-    id: "ac_google_ads_masterclass",
-    catalogEntryId: "cat_academy_course_google_ads_masterclass",
-    examId: "exam_google_ads_masterclass",
-    globalRank: 1,
+  "06_n8n_automation": {
+    id: "ac_06_n8n_automation",
+    catalogEntryId: "cat_academy_course_06_n8n_automation",
+    examId: "exam_06_n8n_automation",
+    globalRank: 6,
     localRank: 2,
   },
-  "meta-ads-masterclass": {
-    id: "ac_meta_ads_masterclass",
-    catalogEntryId: "cat_academy_course_meta_ads_masterclass",
-    examId: "exam_meta_ads_masterclass",
-    globalRank: 1,
+  "07_langgraph_agents": {
+    id: "ac_07_langgraph_agents",
+    catalogEntryId: "cat_academy_course_07_langgraph_agents",
+    examId: "exam_07_langgraph_agents",
+    globalRank: 7,
+    localRank: 2,
+  },
+  "08_production_rag": {
+    id: "ac_08_production_rag",
+    catalogEntryId: "cat_academy_course_08_production_rag",
+    examId: "exam_08_production_rag",
+    globalRank: 8,
+    localRank: 2,
+  },
+  "09_nextjs_ai": {
+    id: "ac_09_nextjs_ai",
+    catalogEntryId: "cat_academy_course_09_nextjs_ai",
+    examId: "exam_09_nextjs_ai",
+    globalRank: 9,
+    localRank: 2,
+  },
+  "10_data_analytics_ai": {
+    id: "ac_10_data_analytics_ai",
+    catalogEntryId: "cat_academy_course_10_data_analytics_ai",
+    examId: "exam_10_data_analytics_ai",
+    globalRank: 10,
+    localRank: 2,
+  },
+  "11_llm_redteam": {
+    id: "ac_11_llm_redteam",
+    catalogEntryId: "cat_academy_course_11_llm_redteam",
+    examId: "exam_11_llm_redteam",
+    globalRank: 11,
     localRank: 3,
   },
-  "eticaret-masterclass": {
-    id: "ac_eticaret_masterclass",
-    catalogEntryId: "cat_academy_course_eticaret_masterclass",
-    examId: "exam_eticaret_masterclass",
-    globalRank: 1,
-    localRank: 4,
+  "12_onprem_finetune": {
+    id: "ac_12_onprem_finetune",
+    catalogEntryId: "cat_academy_course_12_onprem_finetune",
+    examId: "exam_12_onprem_finetune",
+    globalRank: 12,
+    localRank: 3,
   },
-  "canva-masterclass": {
-    id: "ac_canva_masterclass",
-    catalogEntryId: "cat_academy_course_canva_masterclass",
-    examId: "exam_canva_masterclass",
-    globalRank: 1,
-    localRank: 5,
-  },
-  "linkedin-masterclass": {
-    id: "ac_linkedin_masterclass",
-    catalogEntryId: "cat_academy_course_linkedin_masterclass",
-    examId: "exam_linkedin_masterclass",
-    globalRank: 1,
-    localRank: 6,
+  "13_ai_governance": {
+    id: "ac_13_ai_governance",
+    catalogEntryId: "cat_academy_course_13_ai_governance",
+    examId: "exam_13_ai_governance",
+    globalRank: 13,
+    localRank: 3,
   },
 };
 
@@ -249,7 +200,7 @@ export const ACADEMY_SEED_COURSE_IDS = ACADEMY_CATALOG_SEEDS.map((row) => row.id
 
 export const ACADEMY_SEED_CATALOG_UNITS = ACADEMY_CATALOG_SEEDS.map((row) => row.catalogUnitKey);
 
-/** Eski RAIL / jenerik / sentetik yığın — hard-reset DELETE/PURGE. */
+/** Eski pasif / jenerik / taslak yığın — yayını kapat (lisans DROP yok). */
 export const ACADEMY_LEGACY_PURGE_COURSE_IDS = [
   "ac_rail_temel",
   "ac_ray_sinyal",
@@ -327,6 +278,28 @@ export const ACADEMY_LEGACY_PURGE_COURSE_IDS = [
   "ac_pra_temel",
   "ac_linkedin_temel",
   "ac_cad_temel",
+  // Eski varsayılan katalog taslakları (Full-Stack, Siber Güvenlik, Python, AI Agent vb.)
+  "ac_security_temel",
+  "ac_security_orta",
+  "ac_security_ileri",
+  "ac_ai_agent_temel",
+  "ac_ai_agent_orta",
+  "ac_ai_agent_ileri",
+  "ac_python_temel",
+  "ac_python_orta",
+  "ac_python_ileri",
+  "ac_fullstack_temel",
+  "ac_fullstack_orta",
+  "ac_fullstack_ileri",
+  "ac_ai_temel",
+  "ac_ux_temel",
+  "ac_excel_masterclass",
+  "ac_google_ads_masterclass",
+  "ac_meta_ads_masterclass",
+  "ac_eticaret_masterclass",
+  "ac_canva_masterclass",
+  "ac_linkedin_masterclass",
+  "ac_production_rag_graphrag",
 ] as const;
 
 export const ACADEMY_LEGACY_PURGE_CATALOG_UNITS = [
@@ -406,6 +379,28 @@ export const ACADEMY_LEGACY_PURGE_CATALOG_UNITS = [
   "course:pra-temel",
   "course:linkedin-temel",
   "course:cad-temel",
+  // Eski varsayılan katalog taslakları
+  "course:security-temel",
+  "course:security-orta",
+  "course:security-ileri",
+  "course:ai-agent-temel",
+  "course:ai-agent-orta",
+  "course:ai-agent-ileri",
+  "course:python-temel",
+  "course:python-orta",
+  "course:python-ileri",
+  "course:fullstack-temel",
+  "course:fullstack-orta",
+  "course:fullstack-ileri",
+  "course:ai-temel",
+  "course:ux-temel",
+  "course:excel-masterclass",
+  "course:google-ads-masterclass",
+  "course:meta-ads-masterclass",
+  "course:eticaret-masterclass",
+  "course:canva-masterclass",
+  "course:linkedin-masterclass",
+  "course:production-rag-graphrag",
 ] as const;
 
 export function academyCatalogSeedMatch(idOrSlug: string): AcademyCatalogSeed | undefined {

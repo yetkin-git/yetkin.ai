@@ -1,6 +1,10 @@
 import { randomUUID } from "node:crypto";
 import { appendLedgerEntry } from "@/lib/kernel/ledger/engine";
 import type { LedgerStore } from "@/lib/kernel/ledger/types";
+import {
+  toCheckoutConsentEvidence,
+  type CheckoutLegalConsent,
+} from "@/lib/kernel/legal/checkout-consent";
 import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { resolvePlatformTreasuryUserId } from "@/lib/kernel/escrow/engine";
 import type { PriceCatalogStore } from "@/lib/kernel/pricing/catalog";
@@ -13,7 +17,12 @@ import type { CheckoutPriceLockSnapshot } from "@/lib/kernel/pricing/price-lock"
 import { academyCourseLevelBySlug, type AcademyCourseLevel } from "@/lib/academy/course-level";
 import { isAcademyLicenseActive } from "@/lib/academy/license";
 import { resolveAcademyCourseFromSeed } from "@/lib/academy/published-catalog";
+import {
+  ACADEMY_RETIRED_COURSE_GONE_MESSAGE,
+  isAcademyRetiredStorefrontSlug,
+} from "@/lib/academy/retired-storefront";
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
+import { GoneError } from "@/lib/kernel/http/errors";
 import type {
   AcademyCertificateRecord,
   AcademyCourseRecord,
@@ -52,6 +61,8 @@ export type PurchaseAcademyCourseCommand = {
   platformUserId?: string;
   now?: Date;
   level?: AcademyCourseLevel;
+  /** Ticari kasa rızası — API Zod sonrası basar; bağış/lab yolu boş bırakır. */
+  consent?: CheckoutLegalConsent;
 };
 
 export type AcademyPurchaseResult = {
@@ -111,8 +122,12 @@ async function requirePublishedCourse(
   if (!course) {
     throw new Error("Kurs bulunamadı.");
   }
-  if (!course.isPublished) {
-    throw new Error("Kurs satışa kapalı.");
+  if (isAcademyRetiredStorefrontSlug(course.slug) || !course.isPublished) {
+    throw new GoneError(
+      isAcademyRetiredStorefrontSlug(course.slug)
+        ? ACADEMY_RETIRED_COURSE_GONE_MESSAGE
+        : "Kurs satışa kapalı.",
+    );
   }
   return course;
 }
@@ -240,6 +255,7 @@ export async function purchaseAcademyCourse(
           settledAt: now,
           createdAt: now,
           updatedAt: now,
+          ...(command.consent ? toCheckoutConsentEvidence(command.consent) : {}),
         });
 
     await tx.locks.markConsumed(openLock.id, now);

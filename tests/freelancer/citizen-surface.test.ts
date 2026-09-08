@@ -35,6 +35,7 @@ const SEN_SURFACES = [
   "app/freelancer/jobs/[id]/page.tsx",
   "app/freelancer/contracts/[id]/page.tsx",
   "components/freelancer/accept-bid-button.tsx",
+  "components/freelancer/cancel-job-button.tsx",
   "components/freelancer/bid-form.tsx",
   "components/freelancer/job-create-form.tsx",
   "components/freelancer/job-list.tsx",
@@ -83,18 +84,17 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
 
   it("/freelancer yüzeyleri siz kaçakları taşımaz; SEN_VOICE ve güvenli ödeme bağlar", () => {
     expect(SEN_VOICE.freelancer.catalog.createCta).toBe("İlan oluştur");
-    expect(SEN_VOICE.freelancer.catalog.title).toBe("İş Pazarı");
+    expect(SEN_VOICE.freelancer.catalog.title).toBe("Freelancer İlan Panosu");
     expect(SEN_VOICE.freelancer.catalog.description).toBe(
-      "Güvenli ödeme havuzuyla açık ilanlara teklif ver.",
+      "Freelancer arka plan odasıdır. Tohum ilanlar platform örneğidir; emanet kapalıdır (kabul 503). İlan ve teklif kodu durur; sahte pazar basılmaz.",
     );
-    expect(SEN_VOICE.freelancer.catalog.description).not.toContain("503");
     expect(SEN_VOICE.freelancer.catalog.description).not.toContain("settlement");
-    expect(SEN_VOICE.freelancer.create.description).toContain("güvenli ödemeye alınır");
-    expect(SEN_VOICE.freelancer.create.description).not.toContain("503");
+    expect(SEN_VOICE.freelancer.create.description).toContain("emanet kapalıdır (kabul 503)");
+    expect(SEN_VOICE.freelancer.create.description).not.toContain("güvenli ödemeye alınır");
     expect(SEN_VOICE.freelancer.create.description).not.toContain("cüzdanda kilitlenir");
     expect(SEN_VOICE.freelancer.accept.cta).not.toContain("bakiyeyi kilitle");
-    expect(SEN_VOICE.freelancer.accept.paymentsClosedBody).toContain("Güvenli ödeme henüz bağlanmadı");
-    expect(SEN_VOICE.freelancer.accept.paymentsClosedBody).not.toContain("503");
+    expect(SEN_VOICE.freelancer.accept.paymentsClosedBody).toContain("Emanet nakit akışı henüz bağlanmadı");
+    expect(SEN_VOICE.freelancer.accept.paymentsClosedBody).toContain("503 fail-closed");
     expect(SEN_VOICE.freelancer.stats.escrowHint).not.toMatch(/bakiye kilitlidir/i);
     expect(SEN_VOICE.freelancer.bid.received).toBe("Teklif alındı.");
     expect(HOLD_BPS_DEFAULT).toBe(1000);
@@ -106,6 +106,15 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
       }
     }
     expect(readSrc("app/freelancer/page.tsx")).toContain("SEN_VOICE");
+    expect(readSrc("app/freelancer/page.tsx")).toContain("PASSPORT_SURFACE_PATH");
+    expect(readSrc("app/freelancer/page.tsx")).toContain("CAREER_STAMP_SURFACE_PATH");
+    expect(readSrc("app/freelancer/page.tsx")).toContain("ACADEMY_CERTIFICATES_SURFACE_PATH");
+    expect(readSrc("app/freelancer/page.tsx")).toContain("copy.passportCta");
+    expect(readSrc("app/freelancer/page.tsx")).toContain("copy.careerCta");
+    expect(readSrc("app/freelancer/page.tsx")).toContain("copy.certificatesCta");
+    expect(SEN_VOICE.freelancer.catalog.passportCta).toBe("Pasaport");
+    expect(SEN_VOICE.freelancer.catalog.careerCta).toBe("Kariyer");
+    expect(SEN_VOICE.freelancer.catalog.certificatesCta).toBe("Sertifikalarım");
     expect(readSrc("app/freelancer/page.tsx")).not.toContain("SquadCreateButton");
     expect(readSrc("app/freelancer/page.tsx")).not.toContain("DirectOfferInbox");
     expect(readSrc("app/freelancer/page.tsx")).not.toContain("UstaExpertiseList");
@@ -119,7 +128,7 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
     expect(readSrc("app/freelancer/page.tsx")).not.toContain("escrow.lead");
     expect(existsSync(join(ROOT, "app/freelancer/error.tsx"))).toBe(true);
     expect(readSrc("app/freelancer/error.tsx")).toContain("retry");
-    expect(SEN_VOICE.freelancer.stats.escrowInline).toBe("Güvenli Ödeme");
+    expect(SEN_VOICE.freelancer.stats.escrowInline).toBe("İlan ve teklif");
     expect(SEN_VOICE.freelancer.stats.pathInline).toBe("3 Adımda Teslim");
     expect(SEN_VOICE.freelancer.stats.revisionInline).toBe("3 Revizyon Hakkı");
     expect(SEN_VOICE.freelancer.stats.open(0)).toBe("0 Açık İlan");
@@ -127,8 +136,19 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
     expect(SEN_VOICE.freelancer.satellite.squadBody).toContain("Takım paylaşımı halkayı döndürmez");
     expect(SEN_VOICE.freelancer.satellite.directOfferBody).toContain("Doğrudan teklif bu fazda kapalı");
     expect(SEN_VOICE.freelancer.list.clearFiltersCta).toBe("Filtreleri Sıfırla");
+    expect(SEN_VOICE.freelancer.filter.pathwayLabel).toBe("Teklif Kapısı");
+    expect(SEN_VOICE.freelancer.create.pathwayLabel).toBe("Teklif Kapısı");
+    expect(SEN_VOICE.freelancer.job.visaScopeTitle).toBe("Bu işin Teklif Kapısı");
+    expect(SEN_VOICE.freelancer.create.pathwayHint).toContain("Doğrulanmış Rozet");
+    expect(SEN_VOICE.freelancer.create.pathwayHint).toContain("Erişim Hakkı istenmez");
+    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Doğrulanmış Rozet");
+    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Pasaport Vize Damgası");
+    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Teklif Kapısı");
+    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Erişim Hakkı");
+    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).not.toContain("vizesizdir");
+    expect(readSrc("app/freelancer/error.tsx")).toContain("Freelancer İlan Panosu");
     expect(SEN_VOICE.freelancer.job.loginCta).toBe("Giriş Yap");
-    expect(SEN_VOICE.freelancer.job.visaCta).toBe("Eğitime Git");
+    expect(SEN_VOICE.freelancer.job.visaCta).toBe("Eğitime Git / Erişim Hakkı Kazan");
     expect(readSrc("components/freelancer/direct-job-offer-modal.tsx")).toContain("FrozenDirectOfferNotice");
     expect(readSrc("components/freelancer/direct-job-offer-button.tsx")).toContain("FrozenDirectOfferNotice");
     expect(readSrc("components/freelancer/usta-expertise-list.tsx")).toContain("FrozenDirectOfferNotice");
@@ -143,7 +163,7 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
     expect(readSrc("components/freelancer/job-card.tsx")).not.toContain("lockLabel");
     expect(readSrc("components/freelancer/job-card.tsx")).not.toContain("extraBadge");
     expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).toContain("LinkButton");
-    expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).toContain("visaCta");
+    expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).toContain("ListingVisaScopeSign");
     expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).toContain("loginCta");
     expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).not.toContain("hover:underline");
     expect(readSrc("app/api/freelancer/direct-offers/route.ts")).toContain("FREELANCER_SATELLITE_GONE");
@@ -156,12 +176,29 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
     );
     expect(readSrc("app/api/freelancer/squad/route.ts")).toContain("FREELANCER_SATELLITE_GONE");
     expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).toContain("EscrowHoldSteps");
+    expect(readSrc("components/freelancer/escrow-hold-steps.tsx")).toContain("data-escrow-disabled-stamp");
+    expect(readSrc("components/freelancer/accept-bid-button.tsx")).toContain("data-escrow-disabled-stamp");
     expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).toContain("DeliveryProcessPanel");
     expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).toContain("AcceptBidButton");
+    expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).toContain("CancelJobButton");
+    expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).toContain(
+      'isClient && board.job.status === "OPEN"',
+    );
+    expect(readSrc("components/freelancer/cancel-job-button.tsx")).toContain("method: \"DELETE\"");
+    expect(readSrc("components/freelancer/cancel-job-button.tsx")).toContain("/api/freelancer/jobs/");
+    expect(readSrc("components/freelancer/job-card.tsx")).not.toContain("CancelJobButton");
+    expect(SEN_VOICE.freelancer.cancel.cta).toBe("İlanı Kapat / Sil");
+    expect(readSrc("components/freelancer/job-create-form.tsx")).toContain(
+      "useState(String(FREELANCER_JOB_MIN_MINOR / 100))",
+    );
+    expect(readSrc("components/freelancer/job-create-form.tsx")).toContain(
+      "min={FREELANCER_JOB_MIN_MINOR / 100}",
+    );
+    expect(readSrc("components/freelancer/job-create-form.tsx")).not.toContain('useState("100")');
     expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).not.toContain("SquadTeaser");
-    expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).toContain("visaRequired");
-    expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).toContain("listingCertShortName");
-    expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).not.toContain("ListingVisaScopeSign");
+    expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).toContain("showVisaSign");
+    expect(readSrc("components/career/listing-visa-scope-sign.tsx")).toContain("visaCta");
+    expect(readSrc("components/career/listing-visa-scope-sign.tsx")).toContain("course.href");
     expect(readSrc("app/freelancer/contracts/[id]/page.tsx")).toContain("EscrowHoldSteps");
     expect(readSrc("app/freelancer/contracts/[id]/page.tsx")).toContain("DeliveryHeroCard");
     expect(readSrc("app/freelancer/contracts/[id]/page.tsx")).toContain("<details");
@@ -188,7 +225,8 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
     expect(readSrc("components/freelancer/delivery-hero-card.tsx")).toContain("escrowInline");
     expect(readSrc("components/freelancer/delivery-hero-card.tsx")).toContain("FREELANCER_SEN");
     expect(SEN_VOICE.freelancer.bid.freeBidNote).toContain("ücretsiz");
-    expect(SEN_VOICE.freelancer.bid.freeBidNote).toContain("Akademi sertifikası");
+    expect(SEN_VOICE.freelancer.bid.freeBidNote).toContain("Doğrulanmış Rozet");
+    expect(SEN_VOICE.freelancer.bid.freeBidNote).toContain("Erişim Hakkı istenmez");
     expect(SEN_VOICE.freelancer.chat.evidenceNote).toContain("incelemede delil");
     expect(SEN_VOICE.freelancer.revision.releaseCta).toBe("Teslimatı Onayla");
     expect(SEN_VOICE.freelancer.revision.requestCta).toBe("Revizyon İstiyorum");
@@ -254,12 +292,13 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
     expect(escrowHoldActiveStep({ contractStatus: "DISPUTED", holdStatus: "PENDING" })).toBe("dispute");
 
     const steps = SEN_VOICE.freelancer.escrow.steps(HOLD_BPS_DEFAULT / 100);
-    expect(SEN_VOICE.freelancer.escrow.lead).toContain("güvenli havuza alınır");
-    expect(SEN_VOICE.freelancer.escrow.lead).toContain("bakiyene aktarılır");
-    expect(SEN_VOICE.freelancer.escrow.title).toBe("Güvenli Ödeme (Escrow)");
+    expect(SEN_VOICE.freelancer.escrow.lead).toContain("şimdilik devre dışıdır");
+    expect(SEN_VOICE.freelancer.escrow.lead).toContain("Yakında");
+    expect(SEN_VOICE.freelancer.escrow.title).toBe("Emanet ödeme — Şimdilik Devre Dışı");
+    expect(SEN_VOICE.freelancer.escrow.disabledStamp).toBe("Şimdilik Devre Dışı");
     expect(steps[0]?.detail).toContain("Freelancer henüz almaz");
-    expect(steps[1]?.detail).toContain("bakiyene aktarılır");
-    expect(steps[1]?.label).toBe("Teslim onayında bakiyene geçer");
+    expect(steps[1]?.detail).toContain("kuruluş dağıtır");
+    expect(steps[1]?.label).toBe("Teslim onayında IBAN'a geçer");
     expect(steps[2]?.label).toBe("Anlaşmazlıkta süreç durur");
     expect(steps[2]?.detail).toBe(
       "İtiraz durumunda bütçe havuzda bloke edilir. AI asistanı 2 turlu itiraz ve cevap sürecini inceleyerek Sonuç Analiz Raporu yayınlar. Çözülemeyen uyuşmazlıklarda resmi yasal başvuru yolları açıktır.",

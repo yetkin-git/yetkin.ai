@@ -19,10 +19,17 @@ describe("O8 akademi nakit E2E yüzeyi", () => {
     expect(spec).toContain("/academy/dogrula/");
     expect(spec).toContain('page.goto("/academy/dogrula")');
     expect(spec).toContain("/api/academy/certificates/");
-    expect(spec).toContain("/api/academy/courses/ac_rail_temel/purchase");
-    expect(spec).toContain("/api/academy/courses/ac_rail_temel/lock");
-    expect(spec).toContain("/api/academy/courses/ac_rail_temel/curriculum");
-    expect(spec).toContain("/academy/python-temel/oyna");
+    expect(spec).toContain("/api/academy/courses/ac_01_office_ai/purchase");
+    expect(spec).toContain("/api/academy/courses/ac_01_office_ai/lock");
+    expect(spec).toContain("/api/academy/courses/ac_01_office_ai/curriculum");
+    expect(spec).toContain("/academy/01_office_ai/oyna");
+    expect(spec).toContain("Ofiste Yapay Zekâ");
+    expect(spec).toContain("E-Ticaret ve Pazaryeri Yapay Zekâ");
+    expect(spec).toContain("Sosyal Medya İçerik Üretimi");
+    expect(spec).toContain("Kodsuz WhatsApp");
+    expect(spec).toContain("Pratik Prompt Mühendisliği");
+    expect(spec).not.toContain("python-temel");
+    expect(spec).not.toContain("ac_rail_temel");
     expect(spec).toContain("Idempotency-Key");
     expect(spec).toContain("Oturum gerekli.");
     expect(spec).toContain("purchase.status()).toBe(401)");
@@ -30,6 +37,9 @@ describe("O8 akademi nakit E2E yüzeyi", () => {
     expect(spec).toContain("curriculum.status()).toBe(401)");
     expect(spec).toContain('page.url()).toContain("/login")');
     expect(spec).not.toContain("LOCAL_MOCK_AUTH");
+    expect(spec).toContain("data-academy-hero-paytr");
+    expect(spec).toContain("/api/wallet/top-up");
+    expect(spec).toContain("iframe[data-paytr-iframe]");
 
     // Bellek mutlu yol helper — Playwright’a gömülmez; unit/E2E yardımcı SSOT.
     expect(helper).toContain("runAcademyCashJourney");
@@ -38,7 +48,9 @@ describe("O8 akademi nakit E2E yüzeyi", () => {
     expect(helper).toContain("completeAcademyCurriculum");
     expect(helper).toContain("submitAcademyExam");
     expect(helper).toContain("verifyAcademyCertificateHash");
-    expect(helper).toContain("python-temel");
+    expect(helper).toContain("01_office_ai");
+    expect(helper).toContain("E2E_ACADEMY_SLUG");
+    expect(helper).not.toContain("sample-course");
     expect(helper).not.toContain("LOCAL_MOCK_AUTH");
   });
 });

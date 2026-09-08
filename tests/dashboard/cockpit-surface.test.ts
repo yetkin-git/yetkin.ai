@@ -62,6 +62,11 @@ describe("dashboard kokpit kompozisyonu", () => {
     expect(pulse).not.toContain("StatGrid");
     expect(pulse).not.toContain("pointer-events-none");
     expect(pulse).not.toContain("Oturum veya veritabanı yok");
+    expect(pulse).not.toContain("Boş nabız");
+    expect(pulse).toContain("Henüz yüklenemedi");
+    expect(pulse).toContain("unavailableHint");
+    expect(freelancer).toContain("MARKETPLACE_SPLIT_LIVE");
+    expect(freelancer).toContain("freelancerEscrowInactive");
     expect(freelancer).toContain("freelancerOpen");
     expect(freelancer).toContain("freelancerActive");
     expect(freelancer).toContain("fundedAsClient");

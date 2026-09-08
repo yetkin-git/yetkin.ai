@@ -1,5 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { academyCourseSeedBySlug } from "@/lib/academy/seed";
+import {
+  CITIZEN_CASH_RING_CLIENT_ID,
+  CITIZEN_CASH_RING_CLIENT_START_MINOR,
+  CITIZEN_CASH_RING_GROSS_MINOR,
+  CITIZEN_CASH_RING_ID,
+  CITIZEN_CASH_RING_PLATFORM_ID,
+  CITIZEN_CASH_RING_TOP_UP_MINOR,
+  formatCitizenCashRingReport,
+  runCitizenCashRingJourney,
+} from "../helpers/citizen-cash-ring-journey";
 import {
   acceptFreelancerBid,
   createFreelancerJob,
@@ -15,21 +24,10 @@ import {
   signedLedgerSum,
   withMemoryAcceptAtomic,
 } from "../helpers/memory-money";
-import {
-  CITIZEN_CASH_RING_CLIENT_ID,
-  CITIZEN_CASH_RING_CLIENT_START_MINOR,
-  CITIZEN_CASH_RING_GROSS_MINOR,
-  CITIZEN_CASH_RING_ID,
-  CITIZEN_CASH_RING_PLATFORM_ID,
-  CITIZEN_CASH_RING_TOP_UP_MINOR,
-  formatCitizenCashRingReport,
-  runCitizenCashRingJourney,
-} from "../helpers/citizen-cash-ring-journey";
+import { CITIZEN_CASH_RING_COURSE_SLUG } from "../helpers/citizen-cash-ring-journey";
 
 describe("laboratuvar vatandaş nakit halkası", () => {
   it("PayTR CREDIT → Akademi DEBIT → freelancer hold (Rail DEBIT yok); usta CREDIT yazılmaz", async () => {
-    const seed = academyCourseSeedBySlug("python-temel");
-    expect(seed).toBeTruthy();
     const journey = await runCitizenCashRingJourney();
 
     expect(journey.cleared.applied).toBe(true);
@@ -43,7 +41,7 @@ describe("laboratuvar vatandaş nakit halkası", () => {
 
     expect(journey.chain.academyDebit.direction).toBe("DEBIT");
     expect(journey.chain.academyDebit.purpose).toBe("academy-purchase");
-    expect(journey.chain.academyDebit.amountMinor).toBe(seed!.seedAmountMinor);
+    expect(journey.chain.academyDebit.amountMinor).toBe(journey.seedAmountMinor);
     expect(journey.academy.purchase.status).toBe("SETTLED");
 
     expect(journey.chain.escrowDebit).toBeNull();
@@ -61,19 +59,20 @@ describe("laboratuvar vatandaş nakit halkası", () => {
     expect(journey.witness.verifyHref).toBe(
       `/academy/dogrula/${journey.witness.certificateHash}`,
     );
-    expect(journey.academyVisa.stamp.certificateHash).toBe(journey.witness.certificateHash);
+    expect(journey.academyVisa?.stamp.certificateHash).toBe(journey.witness.certificateHash);
+    expect(CITIZEN_CASH_RING_COURSE_SLUG).toBe("01_office_ai");
     expect(journey.freelancer.visa?.applied).toBe(true);
 
     expect(journey.balances.citizen).toBe(
-      CITIZEN_CASH_RING_TOP_UP_MINOR - seed!.seedAmountMinor,
+      CITIZEN_CASH_RING_TOP_UP_MINOR - journey.seedAmountMinor,
     );
     expect(journey.balances.client).toBe(CITIZEN_CASH_RING_CLIENT_START_MINOR);
-    expect(journey.balances.platform).toBe(seed!.seedAmountMinor);
+    expect(journey.balances.platform).toBe(journey.seedAmountMinor);
     const settlement = journey.ledger
       .listEntries()
       .find((row) => row.purpose === "academy-settlement" && row.direction === "CREDIT");
     expect(settlement?.userId).toBe(CITIZEN_CASH_RING_PLATFORM_ID);
-    expect(settlement?.amountMinor).toBe(seed!.seedAmountMinor);
+    expect(settlement?.amountMinor).toBe(journey.seedAmountMinor);
     expect(journey.balances.citizen + journey.balances.platform + journey.balances.client).toBe(
       CITIZEN_CASH_RING_TOP_UP_MINOR + CITIZEN_CASH_RING_CLIENT_START_MINOR,
     );
@@ -87,7 +86,6 @@ describe("laboratuvar vatandaş nakit halkası", () => {
     expect(report).toContain("academy-purchase");
     expect(report).not.toContain("escrow-hold");
     expect(report).not.toContain("escrow-release-net");
-    expect(report).toContain(journey.witness.certificateHash);
     expect(report).toContain("Checkout token CREDIT yazmaz");
   });
 

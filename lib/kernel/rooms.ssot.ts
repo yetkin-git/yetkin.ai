@@ -7,10 +7,10 @@
  */
 
 export const VERTICAL_ROOMS = [
-  { id: "dashboard", path: "/dashboard", label: "Anasayfa", blurb: "Genel bakış" },
+  { id: "dashboard", path: "/dashboard", label: "Panel", blurb: "Genel bakış" },
   { id: "academy", path: "/academy", label: "Akademi", blurb: "Kurs, ödeme onayı, sertifika" },
-  { id: "career", path: "/career", label: "Kariyer", blurb: "Mühürden vize ve teklif kapısı" },
-  { id: "freelancer", path: "/freelancer", label: "Freelancer", blurb: "İş ilanı, teklif, güvenli ödeme" },
+  { id: "career", path: "/career", label: "Kariyer", blurb: "Doğrulanmış Rozet ve Teklif Kapısı" },
+  { id: "freelancer", path: "/freelancer", label: "Freelancer", blurb: "Arka plan · emanet kapalı" },
 ] as const;
 
 export type VerticalRoomId = (typeof VERTICAL_ROOMS)[number]["id"];

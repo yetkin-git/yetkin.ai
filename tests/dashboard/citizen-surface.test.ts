@@ -62,7 +62,7 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     }
     expect(readSrc("app/dashboard/page.tsx")).toContain("SEN_VOICE");
     expect(readSrc("app/dashboard/page.tsx")).toContain("welcomeTitle");
-    expect(readSrc("app/dashboard/page.tsx")).toContain("getSession");
+    expect(readSrc("app/dashboard/page.tsx")).toContain("requirePageSession");
     expect(readSrc("app/dashboard/page.tsx")).toContain("loadIdentityBoard");
     expect(readSrc("app/dashboard/page.tsx")).toContain("NextBestActionCard");
     expect(readSrc("app/dashboard/page.tsx")).not.toContain("Kaldığın yer");
@@ -102,6 +102,15 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(WALLET_SURFACE_PATH).toBe("/cuzdan");
     expect(SEN_VOICE.dashboard.walletStrip.openCta).toBe("Cüzdanı aç");
     expect(SEN_VOICE.dashboard.walletStrip.escrowLabel).toBe("Kilitli emanet");
+    expect(SEN_VOICE.dashboard.pulse.unavailable).toBe("Henüz yüklenemedi");
+    expect(SEN_VOICE.dashboard.pulse.freelancerEscrowInactive).toBe(
+      "Emanet akışı henüz aktif değil",
+    );
+    expect(SEN_VOICE.dashboard.pulse.academyTitle).toBe("Akademi");
+    expect(SEN_VOICE.dashboard.pulse.careerTitle).toBe("Kariyer");
+    expect(SEN_VOICE.dashboard.pulse.freelancerTitle).toBe("Freelancer");
+    expect(SEN_VOICE.dashboard.pulse.academyEmpty).toBe("Henüz sertifika yok");
+    expect(SEN_VOICE.dashboard.pulse.careerEmpty).toBe("Henüz doğrulanmış rozet yok");
     expect(chip).toContain("WALLET_SURFACE_PATH");
     expect(chip).toContain("tabular-nums");
     expect(page).not.toContain("WalletBalanceStrip");
@@ -123,9 +132,9 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(widget).toContain("invisible");
   });
 
-  it("sol menü Anasayfa açıklaması Genel Bakış'tır; kaldığın yer yoktur", () => {
+  it("sol menü Panel açıklaması Genel Bakış'tır; kaldığın yer yoktur", () => {
     const dashboard = VERTICAL_ROOMS.find((room) => room.id === "dashboard");
-    expect(dashboard?.label).toBe("Anasayfa");
+    expect(dashboard?.label).toBe("Panel");
     expect(dashboard?.blurb).toBe("Genel bakış");
     expect(dashboard?.blurb).not.toContain("Kaldığın yer");
     expect(readSrc("lib/kernel/modules.ts")).not.toContain("Kaldığın yer");

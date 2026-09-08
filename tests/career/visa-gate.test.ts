@@ -78,8 +78,8 @@ describe("Kariyer Vizesi teklif kapısı", () => {
       sourceId: "cert-1",
       userId: USER,
       actorUserIds: [USER],
-      title: "Yapay Zekâ ve Prompt Mühendisliğine Giriş",
-      courseSlug: "ai-temel",
+      title: ACADEMY_COURSE_TITLES["04_chatbot_nocode"],
+      courseSlug: "04_chatbot_nocode",
       issuedAt: new Date("2026-08-16T00:00:00.000Z"),
       certificateHash: HASH,
     });
@@ -92,22 +92,23 @@ describe("Kariyer Vizesi teklif kapısı", () => {
     ).resolves.toBeUndefined();
   });
 
-  it("python-temel YZ ilanına teklif açmaz; ai dikeyi açar (onboarding slug null)", async () => {
-    const python = await stampAcademyTitle(ACADEMY_COURSE_TITLES["python-temel"], "cert-py", "python-temel");
-    expect(hasValidAcademyCareerVisa(await python.career.listStampsForUser(USER))).toBe(true);
+  it("yayın dışı ofis slug'ı YZ ilanına teklif açmaz; chatbot dikeyi açar", async () => {
+    expect(ACADEMY_COURSE_TITLES["01_office_ai"]).toContain("Ofiste Yapay Zekâ");
+    const office = await stampAcademyTitle("Yayın dışı ofis kursu", "cert-off", "01_office_ai");
+    expect(hasValidAcademyCareerVisa(await office.career.listStampsForUser(USER))).toBe(true);
     expect(
-      hasMatchingAcademyListingVisa(await python.career.listStampsForUser(USER), YZ_LISTING_VISA_SUBJECT),
+      hasMatchingAcademyListingVisa(await office.career.listStampsForUser(USER), YZ_LISTING_VISA_SUBJECT),
     ).toBe(false);
     await expect(
       assertAcademyCareerVisaForListing(
-        python.career,
+        office.career,
         USER,
         YZ_LISTING_VISA_SUBJECT,
-        python.proofs,
+        office.proofs,
       ),
     ).rejects.toThrow(LISTING_ACCESS_VISA_SCOPE_DENIED);
 
-    const yz = await stampAcademyTitle("Yapay Zekâ ve Prompt Mühendisliğine Giriş", "cert-ai", "ai-temel");
+    const yz = await stampAcademyTitle(ACADEMY_COURSE_TITLES["04_chatbot_nocode"], "cert-ai", "04_chatbot_nocode");
     await expect(
       assertAcademyCareerVisaForListing(yz.career, USER, YZ_LISTING_VISA_SUBJECT, yz.proofs),
     ).resolves.toBeUndefined();
@@ -116,18 +117,26 @@ describe("Kariyer Vizesi teklif kapısı", () => {
     ).rejects.toThrow(LISTING_ACCESS_VISA_SCOPE_DENIED);
   });
 
-  it("freelance ilanı ux halkası ister; python-temel yetmez", async () => {
-    const ux = await stampAcademyTitle("UX Araştırma, Wireframing ve Figma Temelleri", "cert-ux", "ux-temel");
+  it("freelance ilanı sosyal medya halkası ister; ofis halkası yetmez", async () => {
+    const social = await stampAcademyTitle(
+      ACADEMY_COURSE_TITLES["03_social_media_ai"],
+      "cert-sm",
+      "03_social_media_ai",
+    );
     await expect(
-      assertAcademyCareerVisaForListing(ux.career, USER, BIM_LISTING_VISA_SUBJECT, ux.proofs),
+      assertAcademyCareerVisaForListing(social.career, USER, BIM_LISTING_VISA_SUBJECT, social.proofs),
     ).resolves.toBeUndefined();
     await expect(
-      assertAcademyCareerVisaForListing(ux.career, USER, YZ_LISTING_VISA_SUBJECT, ux.proofs),
+      assertAcademyCareerVisaForListing(social.career, USER, YZ_LISTING_VISA_SUBJECT, social.proofs),
     ).rejects.toThrow(LISTING_ACCESS_VISA_SCOPE_DENIED);
   });
 
   it("iptal edilmiş akademi mührü zombi damgayı teklif kapısından düşürür", async () => {
-    const yz = await stampAcademyTitle("Yapay Zekâ ve Prompt Mühendisliğine Giriş", "cert-ai-zombie", "ai-temel");
+    const yz = await stampAcademyTitle(
+      ACADEMY_COURSE_TITLES["04_chatbot_nocode"],
+      "cert-ai-zombie",
+      "04_chatbot_nocode",
+    );
     await expect(
       assertAcademyCareerVisaForListing(yz.career, USER, YZ_LISTING_VISA_SUBJECT, yz.proofs),
     ).resolves.toBeUndefined();

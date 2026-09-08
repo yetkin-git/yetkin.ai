@@ -3,7 +3,7 @@ export const ACADEMY_SEN = {
     eyebrow: "Akademi",
     title: "Akademi",
     description:
-      "Eğitimi incele, dersleri tamamla, testi geç. Dersler ödeme sonrası açılır. Sertifika ve yetkinlik, test barajını (≥70) geçince Kariyer sayfana işlenir.",
+      "Eğitimi incele, dersleri tamamla, testi geç. Amiral kursta mühürlü dersler sesli anlatımdır; Prompt Box ve özet videonun altında pratik araçtır. Diğer SKU'lar yazılı compact makaledir. Dersler ödeme sonrası açılır. Sertifika ve yetkinlik, test barajını (≥70) geçince Kariyer sayfana işlenir.",
     certificatesCta: "Sertifikalar",
     verifyCta: "Doğrula",
     live: (count: number) => (count > 0 ? "Eğitimler — ders, test ve yetkinlik" : ""),
@@ -38,9 +38,30 @@ export const ACADEMY_SEN = {
       return label || code;
     },
     badgeClosed: "Kayıt kapalı",
-    /** WAV mührü olan SKU — katalog kartı sağ üst ses rozeti. */
-    audioBadge: "Sesli",
-    audioBadgeHint: "Seslendirmeli İçerik",
+    /** WAV mührü olan SKU — katalog kartı sağ üst; mühürsüz ders karaoke basmaz. */
+    audioBadge: "Sesli anlatım",
+    audioBadgeHint: "Mühürlü derslerde ses ve kayan metin; Prompt Box videonun altında",
+    /** Antre hero — mühürlü ses vaadi; karttaki kısa rozet değil. */
+    heroAudioBadge: "Sesli anlatım — amiral hat",
+    /** WAV mührü olmayan compact SKU — makale / pratik, ses vaadi yok. */
+    articleBadge: "Makale / Pratik",
+    articleBadgeHint: "Yazılı compact dersler ve pratik; mühürlü ses bu SKU'da yok",
+    heroArticleBadge: "Yazılı compact — makale ve pratik",
+    /** Antre hero kimlik şeridi — Temel Seviye · OFF-101. */
+    heroLevelIdentity: (level?: string | null, moduleCode?: string | null) => {
+      const raw = level?.trim() ?? "";
+      const label =
+        raw === "Temel"
+          ? "Temel Seviye"
+          : raw === "Orta"
+            ? "Orta Seviye"
+            : raw === "İleri"
+              ? "İleri Seviye"
+              : raw;
+      const code = moduleCode?.trim() ?? "";
+      if (label && code) return `${label} · ${code}`;
+      return label || code;
+    },
     priceMissing: "Fiyat yok",
     /** Quiet Luxury Piyasa Talep Skoru — 100 üzerinden Match Score mührü. */
     marketDemandScoreTitle: "Piyasa Talep Skoru",
@@ -53,7 +74,7 @@ export const ACADEMY_SEN = {
         .join(" · "),
     infoBand: (count: number) =>
       count > 0
-        ? "Eğitimler · Dersler ödeme sonrası açılır · Test barajı 70+ · Sertifika ve yetkinlik Kariyer sayfasına işlenir"
+        ? "Eğitimler · Amiral hat seslidir · Prompt Box videonun altındadır · Test barajı 70+ · Sertifika Kariyer sayfasına işlenir"
         : "",
     seriesPath: "Seviye Yolu",
     boardTitle: "Eğitim kataloğu",
@@ -88,7 +109,7 @@ export const ACADEMY_SEN = {
     catalogCta: "Akademi",
     noPrice: "Fiyat henüz yok — kayıt kapalı",
     notPurchasable: "Bu eğitim şu an kayıt almıyor.",
-    /** Antre hero — DURUM A (satın alınmadı). */
+    /** Antre hero — DURUM A. Fiyat yalnız bu CTA içinde; bağımsız ₺ satırı yok. */
     heroBuyCta: (priceLabel: string) => `Eğitimi Satın Al — ${priceLabel}`,
     heroBuyCtaIdle: "Satın Al",
     /** Antre / vitrin fiyat yerine — DURUM B (satın alındı). */
@@ -101,16 +122,16 @@ export const ACADEMY_SEN = {
     ownedNoExam: "Dersler açık. Bitirince testi başlatırsın.",
     certificateEyebrow: "Sertifika",
     certificateBody:
-      "Testi geçtin. Mührün Kariyer'de vizeye dönüşür; teklif kapıları orada görünür.",
+      "Testi geçtin. Sertifikan Kariyer sayfana işlendi; Freelancer teklif kapıları orada görünür.",
     examEyebrow: "Değerlendirme testi",
     libraryGuarantee:
       "Satın aldığın eğitim kütüphanende 365 gün kalır. Sertifika yalnız testi 70+ ile geçince basılır.",
     purchaseEyebrow: "Eğitimi başlat",
     purchaseBody:
-      "Dersleri bitir, testi 70+ ile geç. Sertifika ve yetkinlik Kariyer sayfana işlenir. Satın alma tek başına sertifika basmaz. Gösterilen tutar KDV dahildir.",
+      "Dersleri bitir, testi 70+ ile geç. Sertifika ve yetkinlik Kariyer sayfana işlenir. Satın alma tek başına sertifika basmaz. Gösterilen tutar KDV dahildir. Sınav, 6 yazılı compact dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
     pathTrainingCta: (priceLabel: string) => `Eğitimi Satın Al & Öğren (${priceLabel})`,
     pathTrainingCtaIdle: "Eğitimi Satın Al & Öğren",
-    pathTrainingBody: "Video, doküman ve uygulamalı dersler.",
+    pathTrainingBody: "Mühürlü dersler sesli anlatımdır; Prompt Box ve özet videonun altında pratik araçtır.",
     pathExamCta: (priceLabel: string) => `Doğrudan teste gir ve yetkinlik kazan (${priceLabel})`,
     pathExamCtaIdle: "Doğrudan teste gir ve yetkinlik kazan",
     pathExamBody: "Dersleri atla; yalnız test. Belge 70+ puanla gelir.",
@@ -120,13 +141,16 @@ export const ACADEMY_SEN = {
     title: "Ders listesi",
     exam: (passScore: number) =>
       `Eğitim bitince test. Baraj ${passScore}. Geçince sertifika ve yetkinlik Kariyer sayfana işlenir.`,
-    visaPromise:
-      "Testi geçince sertifika basılır; mühür Kariyer'de vizeye ve teklif kapısına dönüşür.",
+    /** Amiral ve kardeş compact SKU — 6 ders bitmeden sınav kapısı kapalı. */
+    examShield:
+      "Sınav, 6 yazılı compact dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
+    visaPromise: (passScore: number, listingLabel: string, listingId: string) =>
+      `Sınavı ${passScore}+ puanla tamamladığında sertifikan Pasaport siciline işlenir, Kariyer sayfanda doğrulanır ve Freelancer alanındaki ${listingLabel} (${listingId}) iş ilanlarına teklif verme hakkın açılır.`,
     lockedHint: "Ders gövdesi ödeme sonrası açılır.",
     empty: "Bu eğitimin ders listesi henüz yok.",
     kindAudio: "Ses",
     kindVideo: "Video",
-    kindDocument: "Doküman",
+    kindDocument: "Yazılı Compact",
     durationMin: (minutes: number) => `${minutes} dk`,
     moduleMeta: (lessons: number, minutes: number) => `${lessons} ders · ${minutes} dk`,
     totalMeta: (lessons: number, minutes: number) => `${lessons} ders · ${minutes} dk`,
@@ -231,10 +255,11 @@ export const ACADEMY_SEN = {
     codeCalloutTitle: "💡 KOD BİLMEYENLER İÇİN NOT",
     codeCalloutLead:
       "Bu dersteki amacımız kod ezberlemek veya yazmak değil; yapay zekanın veriyi nasıl bir formata (JSON) soktuğunu kavramaktır.",
-    codeCalloutInviteBefore: "Eğer Python temellerinizi güçlendirmek ve kodlama tarafında derinleşmek isterseniz Akademi ana sayfamızdaki ",
-    codeCalloutModule: "Python ile Yazılım ve Veri Mühendisliği",
-    codeCalloutInviteAfter: " modülümüze göz atabilirsiniz.",
-    codeCalloutHref: "/academy/python-temel",
+    codeCalloutInviteBefore:
+      "Kod ezberlemeden günlük işini hızlandırmak istersen Akademi vitrinindeki ",
+    codeCalloutModule: "Pratik Prompt Mühendisliği",
+    codeCalloutInviteAfter: " eğitimine göz at.",
+    codeCalloutHref: "/academy/05_prompt_practice",
     companionEyebrow: "Ders açıklaması",
     descriptionEyebrow: "Ders açıklaması",
     resourcesEyebrow: "Kaynaklar",
@@ -274,6 +299,8 @@ export const ACADEMY_SEN = {
     examReady: "Dersler bitti. Testi başlat (baraj 70+).",
     examBlocked: "Tüm dersler bitmeden test kapalı.",
     examCta: "Testi Başlat",
+    examLaunchCta: (done: number, total: number, passScore: number) =>
+      `${done}/${total} Bitti. Baraj ${passScore}. Testi Başlat!`,
     alreadyDone: "Ders tamam",
     nextHint: "Sıradaki ders açık. Atlanan ders tamamlanmaz.",
     openCta: "Derse başla",
@@ -389,6 +416,12 @@ export const ACADEMY_SEN = {
       "Ses sentezi kotası dolu. Onaylı Maya metni açık; eski veya uydurma ses çalınmaz. Kota sıfırlanınca mühürlü kayıt yeniden basılmaya hazırdır.",
     failTimeout: "Pürüzsüz Okuma Modu",
     webSpeech: "Tarayıcı sesi",
+    writtenMode: "Yazılı Okuma Modu",
+    writtenModeClose: "Yazılı okumayı kapat",
+    writtenModeLead:
+      "Tarayıcı sesi kesilirse veya ses çıkmazsa metnin tamamını burada okuyabilirsin. Aşama 1: tam metin yazılıdır.",
+    browserRead: "Tarayıcıda oku",
+    browserReadStop: "Okumayı durdur",
     failUpstream: "Pürüzsüz Okuma Modu",
     failEmpty: "Okunacak ders metni yok.",
     focusCurrent: "Okunan bölüm",
@@ -549,21 +582,24 @@ export const ACADEMY_SEN = {
     description:
       "Sertifika, testi 70+ ile geçince basılır. Satın alma tek başına belge değildir. Yetkinlik Kariyer sayfasına işlenir.",
     catalogCta: "Katalog",
+    passportCta: "Pasaport",
+    careerBridgeCta: "Kariyer",
+    verifyPublicCta: "Kamu Doğrulama",
     auth: "Sertifikalar oturum ister.",
     /** Sicil okunamadığında vatandaşa dürüst, gürültüsüz mesaj — geliştirici rozeti yok. */
     unbound: "Sertifika sicili şu an okunamadı. Biraz sonra yenile; uydurma belge basılmaz.",
     empty:
       "Henüz sertifika yok. Eğitimi al, dersleri bitir, testi 70+ ile geç.",
     emptyCta: "Kataloga dön",
-    sealed: "Onaylı",
+    sealed: "Doğrulanmış Rozet",
     hashLabel: "SHA-256 içerik özeti",
     scoreLabel: "Puan",
     issuedLabel: "Veriliş",
     verifyCta: "Doğrula",
-    /** Mühürlü belge → Kariyer vitrini tek tık. */
+    /** Doğrulanmış rozet → Kariyer erişim hakkı tek tık. */
     careerVisaCta: "Kariyer sayfasında gör",
     careerVisaLead:
-      "Mührün Kariyer'de vizeye dönüşür. Teklif kapıları orada görünür.",
+      "Doğrulanmış Rozetin Pasaport Vize Damgası olarak sicile düşer; Kariyer Erişim Hakkını açar.",
   },
   verify: {
     eyebrow: "Sertifika doğrula",
@@ -600,7 +636,12 @@ export const ACADEMY_SEN = {
     revokedLabel: "İptal",
     courseCta: "Kursa dön",
     catalogCta: "Katalog",
+    homeCta: "Ana sayfa",
+    academyCta: "Akademi",
+    careerCta: "Kariyer",
+    navLabel: "Platform köprüleri",
     careerVisaCta: "Kariyer sayfasında gör",
+    privacyA4: "Vatandaş kimliği Anayasa A4 uyarınca bu sayfada gizlenir",
     landingTitle: "Sertifika doğrula",
     landingLead:
       "Üçüncü şahıs veya kurum, 64 hex SHA-256 özetini yazar. Oturum istenmez; vatandaş kimliği gösterilmez.",

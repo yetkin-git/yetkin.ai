@@ -13,6 +13,7 @@ import { emitCitizenNotice } from "@/lib/kernel/notice/emit";
 import { HOLD_BPS_DEFAULT, resolveHoldBps } from "@/lib/kernel/pricing/hold-bps";
 import type { ListingVisaLockId } from "@/lib/kernel/catalog-ids";
 import { lockFreelancerJobVisaPathway } from "@/lib/freelancer/job-visa-lock";
+import { isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
 import {
   AuthRequiredError,
   sessionUserNotInDatabaseMessage,
@@ -76,15 +77,25 @@ export function isFreelancerUniqueViolation(error: unknown): boolean {
 
 async function assertJobClientExists(
   freelancer: FreelancerEnginePorts["freelancer"],
-  clientId: string,
+  client: { clientId: string; clientEmail?: string },
 ): Promise<void> {
   if (!freelancer.hasUser) {
     return;
   }
-  const exists = await freelancer.hasUser(clientId);
-  if (!exists) {
-    throw new AuthRequiredError(sessionUserNotInDatabaseMessage());
+  const exists = await freelancer.hasUser(client.clientId);
+  if (exists) {
+    return;
   }
+  const email = client.clientEmail?.trim() ?? "";
+  if (
+    email &&
+    freelancer.ensureUser &&
+    isSuperAdminActor({ id: client.clientId, email })
+  ) {
+    await freelancer.ensureUser({ id: client.clientId, email });
+    return;
+  }
+  throw new AuthRequiredError(sessionUserNotInDatabaseMessage());
 }
 
 function rethrowMissingJobClient(error: unknown): never {
@@ -121,6 +132,7 @@ async function resolveHoldReferenceKey(
 
 export type CreateJobCommand = {
   clientId: string;
+  clientEmail?: string;
   title: string;
   brief: string;
   budgetMinor: number;
@@ -131,6 +143,7 @@ export type CreateJobCommand = {
 
 export type CreateDirectOfferCommand = {
   clientId: string;
+  clientEmail?: string;
   inviteeId: string;
   title: string;
   brief: string;
@@ -200,7 +213,7 @@ export async function createFreelancerJob(
   command: CreateJobCommand,
 ): Promise<FreelancerJobRecord> {
   assertBudgetBand(command.budgetMinor);
-  await assertJobClientExists(ports.freelancer, command.clientId);
+  await assertJobClientExists(ports.freelancer, command);
   const now = command.now ?? new Date();
   const title = command.title.trim();
   const brief = command.brief.trim();
@@ -235,7 +248,7 @@ export async function createDirectFreelancerOffer(
   if (command.inviteeId === command.clientId) {
     throw new Error("Kendine doğrudan iş teklifi gönderilemez.");
   }
-  await assertJobClientExists(ports.freelancer, command.clientId);
+  await assertJobClientExists(ports.freelancer, command);
   const now = command.now ?? new Date();
   const title = command.title.trim();
   const brief = command.brief.trim();
@@ -564,6 +577,39 @@ export async function acceptDirectFreelancerOffer(
     holdBps: command.holdBps,
     now,
   });
+}
+
+export type CancelJobCommand = {
+  jobId: string;
+  actorUserId: string;
+  now?: Date;
+};
+
+/**
+ * İşveren kendi OPEN ilanını arşivler (`CANCELLED`). Sert satır silme yok.
+ * Sahiplik kalkanı: yalnız `job.clientId`. Sözleşmeli veya kapalı ilan 409.
+ */
+export async function cancelFreelancerJob(
+  ports: Pick<FreelancerEnginePorts, "freelancer">,
+  command: CancelJobCommand,
+): Promise<FreelancerJobRecord> {
+  const job = await ports.freelancer.getJob(command.jobId);
+  if (!job) {
+    throw new NotFoundError("İlan bulunamadı.");
+  }
+  if (command.actorUserId !== job.clientId) {
+    throw new ForbiddenError("Yalnız ilan sahibi ilanı kapatabilir.");
+  }
+  if (job.status !== "OPEN") {
+    throw new ConflictError("Yalnız açık ilan kapatılabilir.");
+  }
+  const existing = await ports.freelancer.getContractByJobId(command.jobId);
+  if (existing) {
+    throw new ConflictError("Sözleşmesi olan ilan kapatılamaz.");
+  }
+
+  const now = command.now ?? new Date();
+  return ports.freelancer.updateJob(job.id, { status: "CANCELLED", updatedAt: now });
 }
 
 /** Davetli usta doğrudan teklifi reddeder; ilan CANCELLED olur, emanet açılmaz. */

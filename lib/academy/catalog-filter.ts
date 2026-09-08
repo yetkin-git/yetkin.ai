@@ -17,87 +17,46 @@ export type AcademyCatalogSortable = {
 
 /**
  * Kulvar (seri raf) önceliği — vitrin rafları bu diziye kilitlidir.
- * 1 AI Agent Mimarlığı (amiral gemisi) · 2 Python · 3 Full-Stack · 4 Siber Güvenlik.
- * Aynı index paylaşan prefix’ler slug ile ayrılır. `ai-agent-` `ai-`’den önce durur.
+ * Katman 1 (kitlesel) → Katman 2 (mesleki) → Katman 3 (kurumsal).
  */
 const CATALOG_PREFIX_ORDER: readonly (readonly string[])[] = [
-  ["ai-agent-"],
-  ["python-"],
-  ["fullstack-"],
-  ["security-"],
-  ["ds-"],
-  ["eng-"],
-  ["ai-"],
-  ["mlo-"],
-  ["jav-"],
-  ["qa-"],
-  ["arch-"],
-  ["sys-"],
-  ["devops-"],
-  ["cld-"],
-  ["rn-"],
-  ["gam-"],
-  ["flutter-"],
-  ["sec-"],
-  ["db-"],
-  ["w3-"],
-  ["ux-"],
-  ["pm-"],
-  ["mkt-"],
-  ["mnt-"],
-  ["ex-"],
-  ["pd-"],
-  ["cad-", "pra-"],
-  ["excel-", "google-ads-", "meta-ads-"],
-  ["eticaret-"],
-  ["canva-"],
-  ["linkedin-"],
+  ["01_office_ai", "01_"],
+  ["02_ecommerce_ai", "02_"],
+  ["03_social_media_ai", "03_"],
+  ["04_chatbot_nocode", "04_"],
+  ["05_prompt_practice", "05_"],
+  ["06_n8n_automation", "06_"],
+  ["07_langgraph_agents", "07_"],
+  ["08_production_rag", "08_"],
+  ["09_nextjs_ai", "09_"],
+  ["10_data_analytics_ai", "10_"],
+  ["11_llm_redteam", "11_"],
+  ["12_onprem_finetune", "12_"],
+  ["13_ai_governance", "13_"],
 ];
 
-/** Tekil Beceriler rafı — Excel, Ads, E-Ticaret, Canva, LinkedIn aynı sırada durur. */
-const TEKIL_BECERI_PREFIXES = [
-  "excel-",
-  "google-ads-",
-  "meta-ads-",
-  "eticaret-",
-  "canva-",
-  "linkedin-",
-] as const;
+/** Tekil Beceriler rafı */
+const TEKIL_BECERI_PREFIXES: readonly string[] = [];
+
+const MODULE_CODE_BY_SLUG: Record<string, string> = {
+  "01_office_ai": "OFF-101",
+  "office-ai": "OFF-101",
+  "02_ecommerce_ai": "EC-102",
+  "03_social_media_ai": "SM-103",
+  "04_chatbot_nocode": "BOT-104",
+  "05_prompt_practice": "PR-105",
+  "06_n8n_automation": "N8N-201",
+  "07_langgraph_agents": "LG-202",
+  "08_production_rag": "RAG-203",
+  "09_nextjs_ai": "NX-204",
+  "10_data_analytics_ai": "DA-205",
+  "11_llm_redteam": "RT-301",
+  "12_onprem_finetune": "FT-302",
+  "13_ai_governance": "GV-303",
+};
 
 const STEM_PREFIX: Record<string, string> = {
-  python: "PY",
-  ai: "AI",
-  fullstack: "FS",
-  security: "SEC",
-  devops: "DEV",
-  flutter: "FLT",
-  sec: "SEC",
-  db: "DB",
-  ds: "DS",
-  arch: "ARCH",
-  cld: "CLD",
-  eng: "ENG",
-  qa: "QA",
-  jav: "JAV",
-  rn: "RN",
-  gam: "GAM",
-  mlo: "MLO",
-  sys: "SYS",
-  pm: "PM",
-  ux: "UX",
-  w3: "W3",
-  ex: "EX",
-  excel: "EXC",
-  google: "GADS",
-  meta: "META",
-  mkt: "MKT",
-  mnt: "MNT",
-  pd: "PD",
-  eticaret: "ETIC",
-  canva: "CNV",
-  linkedin: "LNK",
-  cad: "CAD",
-  pra: "PRA",
+  office: "OFF",
 };
 
 const LEVEL_CODE: Record<string, string> = {
@@ -107,10 +66,11 @@ const LEVEL_CODE: Record<string, string> = {
   Masterclass: "MC",
 };
 
-/** Kart SKU — PY-101 / FS-102 / UX-MC. Sıra yardımcısı ve vitrin kartı paylaşır. */
+/** Kart SKU — OFF-101 / EC-102 / N8N-201. Sıra yardımcısı ve vitrin kartı paylaşır. */
 export function academyModuleCodeBySlug(slug: string): string | null {
-  if (slug === "ai-temel") {
-    return "YZ-101";
+  const explicit = MODULE_CODE_BY_SLUG[slug];
+  if (explicit) {
+    return explicit;
   }
   const stem = slug.split("-")[0] ?? "";
   const prefix = STEM_PREFIX[stem];
@@ -125,40 +85,19 @@ export function academyModuleCodeBySlug(slug: string): string | null {
 
 /** TTS anonsu — arşiv dinle motoru okur; harf harf kod okunmaz. */
 const MODULE_PREFIX_SPOKEN: Record<string, string> = {
-  PY: "Python",
-  AI: "Yapay Zekâ",
-  YZ: "Yapay Zekâ Veri",
-  FS: "Full-Stack",
-  DEV: "DevOps",
-  FLT: "Mobil",
-  SEC: "Siber Güvenlik",
-  DB: "Veritabanı",
-  DS: "Veri Bilimi",
-  ARCH: "Mimari",
-  CLD: "Bulut Mimarisi",
-  ENG: "Veri Mühendisliği",
-  QA: "Kalite Mühendisliği",
-  JAV: "Kurumsal Java",
-  RN: "Çapraz Mobil",
-  GAM: "Oyun Geliştirme",
-  MLO: "Model İşletmesi",
-  SYS: "Sistem Tasarımı",
-  PM: "Ürün Yönetimi",
-  UX: "Tasarım",
-  W3: "Web Üç",
-  EX: "İş Zekâsı",
-  EXC: "Excel",
-  GADS: "Google Ads",
-  META: "Meta",
-  MKT: "Pazarlama",
-  MNT: "Dijital İçerik",
-  PD: "Kişisel Gelişim",
-  CANVA: "Canva",
-  CNV: "Canva",
-  ETIC: "E-Ticaret",
-  LNK: "LinkedIn",
-  CAD: "AutoCAD",
-  PRA: "Pratik Asistan",
+  OFF: "Ofis",
+  EC: "E-ticaret",
+  SM: "Sosyal medya",
+  BOT: "Chatbot",
+  PR: "Prompt",
+  N8N: "Otomasyon",
+  LG: "Ajan",
+  RAG: "RAG",
+  NX: "Next.js",
+  DA: "Veri",
+  RT: "Kırmızı takım",
+  FT: "İnce ayar",
+  GV: "Yönetişim",
 };
 
 const MODULE_LEVEL_SPOKEN: Record<string, string> = {
@@ -269,20 +208,26 @@ function catalogSeriesKey(slug: string): string {
 }
 
 function academyCatalogSeriesTitle(key: string, slugs: readonly string[]): string | null {
+  if (key === "01_office_ai" || key === "office_ai" || key === "01_" || key === "office-ai") {
+    return "İş Hayatında ve Ofiste Yapay Zekâ (Kitlesel Başlangıç)";
+  }
+  if (key === "02_ecommerce_ai" || key === "02_") {
+    return "E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı";
+  }
   if (key === "excel") {
     return "Tekil Beceriler & Masterclass";
   }
   for (const slug of slugs) {
     for (const id of ACADEMY_PATHWAY_IDS) {
       if (catalogPathwayRingSlugs(id).includes(slug)) {
-        return ACADEMY_PATHWAY_TITLES[id];
+        return ACADEMY_PATHWAY_TITLES[id] ?? null;
       }
     }
   }
   for (const id of ACADEMY_PATHWAY_IDS) {
     const rings = catalogPathwayRingSlugs(id);
     if (rings.some((slug) => catalogSeriesKey(slug) === key)) {
-      return ACADEMY_PATHWAY_TITLES[id];
+      return ACADEMY_PATHWAY_TITLES[id] ?? null;
     }
   }
   return null;

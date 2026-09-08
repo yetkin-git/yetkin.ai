@@ -1,6 +1,5 @@
 import { LinkButton } from "@/components/ui/link-button";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
-import { ACADEMY_STUDIO_GONE } from "@/lib/academy/studio-gone";
 import {
   ADMIN_ACADEMY_SHELTER_PATH,
   ADMIN_DASHBOARD_SHELTER_PATH,
@@ -8,6 +7,10 @@ import {
   ADMIN_SURFACE_PATH,
 } from "@/lib/kernel/admin/types";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
+
+const ACADEMY_STUDIO_GONE = {
+  revisions: "Müfredat revizyon kuyruğu kapalı.",
+} as const;
 
 function RevisionShelterActions() {
   const copy = ACADEMY_SEN.revisions;

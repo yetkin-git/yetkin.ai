@@ -31,7 +31,7 @@ export function HeaderWalletChip({
       aria-label={label}
       aria-busy={pending || undefined}
       className={cn(
-        "inline-flex h-10 items-center gap-2 px-3 text-sm font-semibold transition",
+        "inline-flex h-10 w-full items-center gap-2 px-3 text-sm font-semibold transition",
         embedded
           ? "rounded-none text-[var(--safir-deep)] hover:bg-[var(--safir-soft)]"
           : "rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-sm hover:border-[var(--safir)]",

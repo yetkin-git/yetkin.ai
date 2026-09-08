@@ -101,17 +101,21 @@ describe("vatandaş kimlik UX yüzeyi", () => {
     expect(form).toContain("CITIZEN_PASSWORD_MIN_LENGTH");
     expect(form).toContain("AUTH_REGISTER_API_PATH");
     expect(form).toContain("buildSignupAuthMetadata");
-    expect(form).toContain("readPostLoginPathFromSearch");
-    expect(form).toContain("window.location.assign(");
+    expect(form).toContain("pendingVerification");
+    expect(form).toContain("data-testid=\"register-pending\"");
+    expect(form).not.toContain("window.location.assign(");
     expect(form).toContain("ageConfirmed");
     expect(form).toContain("register-age-confirm");
     expect(form).toContain("console.log");
     expect(form).toContain("console.error");
     expect(copy).toContain("18 yaşından büyüğüm");
+    expect(copy).toContain("E-posta adresine doğrulama bağlantısı gönderildi");
     expect(form).not.toContain("router.push");
     expect(page).toContain("RegisterForm");
     expect(page).toContain("searchParams");
     expect(page).toContain("nextPath");
+    expect(page).toContain("readPostLoginPathFromSearch");
+    expect(page).toContain("buildCitizenLoginHref");
     expect(page).not.toContain("isSupabaseConfigured");
     expect(page).not.toContain("copy.unbound");
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("display_name");
@@ -122,6 +126,7 @@ describe("vatandaş kimlik UX yüzeyi", () => {
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("is_adult");
     expect(form).toContain("buildSignupAuthMetadata(fullName, ageConfirmed, termsConfirmed)");
     expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("emailRedirectTo");
+    expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("pendingVerification");
     expect(readSrc("lib/kernel/auth/register-citizen.ts")).toContain("buildSignupEmailRedirectTo");
   });
 

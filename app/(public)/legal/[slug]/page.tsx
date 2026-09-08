@@ -29,6 +29,9 @@ export function generateStaticParams() {
   return LEGAL_LAUNCH_SECTIONS.map((section) => ({ slug: section.slug }));
 }
 
+/** Bilinmeyen slug (ör. /legal/kvkk alias'ı next.config'te 301) gerçek 404; yumuşak 200 yok. */
+export const dynamicParams = false;
+
 export async function generateMetadata({
   params,
 }: {

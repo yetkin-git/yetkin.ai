@@ -13,10 +13,6 @@ export const WEBSITE_ID = `${CANONICAL_SITE_ORIGIN}/#website` as const;
 /** Kamu marka mührü — `public/icon.svg` sabit yol. */
 export const ORGANIZATION_LOGO_PATH = "/icon.svg" as const;
 
-/** Akademi katalog araması — Google sitelinks arama kutusu hedefi. */
-export const SITE_SEARCH_URL_TEMPLATE =
-  `${CANONICAL_SITE_ORIGIN}/academy?q={search_term_string}` as const;
-
 /**
  * Resmi kamu profilleri. Instagram / LinkedIn / X uydurulmaz;
  * sicilde duran kanal `LEGAL_WHATSAPP_HREF`.
@@ -81,14 +77,6 @@ export function websiteJsonLd(): JsonLdObject {
     url: `${CANONICAL_SITE_ORIGIN}/`,
     inLanguage: "tr-TR",
     publisher: { "@id": ORGANIZATION_ID },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: SITE_SEARCH_URL_TEMPLATE,
-      },
-      "query-input": "required name=search_term_string",
-    },
   };
 }
 

@@ -62,5 +62,6 @@ describe("müfredat ders indeksi (katalog grafı)", () => {
     expect(readSrc("lib/academy/seed.ts")).toContain("@/lib/academy/exam-pools");
     expect(examEngine).toContain("@/lib/academy/seed");
     expect(examEngine).toContain("resolveAcademyExamFromSeed");
+    expect(examEngine).toContain("assertAcademyCurriculumComplete");
   });
 });

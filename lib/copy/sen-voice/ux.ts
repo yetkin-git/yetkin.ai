@@ -16,10 +16,12 @@ export const UX_SEN = {
     submit: "Kart ile yükle",
     pending: "Hazırlanıyor…",
     iframeTitle: "Güvenli ödeme",
+    retry: "Kart ekranını yeniden aç",
     waitingClearing:
       "Kart tahsil edildiyse valör bekleniyor. CREDIT yalnız Bildirim URL sonrası bakiyeye düşer; bu ekran canlı bakiyeyi izler.",
     funded: "Bakiye mühürlendi. İşlem yeniden deneniyor.",
     fail: "Yükleme başlatılamadı.",
+    iframeFailTitle: "Ödeme ekranı açılamadı",
     timeout: "Valör henüz bakiyeye düşmedi. Sahte bakiye yazılmaz. Cüzdanı aç veya bu ekranda kal.",
     cuzdanCta: "Cüzdanı aç",
     trigger: "Eksik tutarı yükle",
@@ -44,7 +46,7 @@ export const UX_SEN = {
     },
     bidAccepted: {
       title: "Teklif kabul edildi",
-      body: "Bütçe güvenli ödemeye alındı. Teslim onayından sonra bakiyene geçer.",
+      body: "Kabul kaydı alındı. Emanet nakit akışı yakında; split kapalıyken 503 fail-closed döner.",
       cta: "Sözleşmeyi aç",
     },
     bidSent: {

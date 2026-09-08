@@ -17,21 +17,21 @@ const SAMPLE: JobBoardFilterable[] = [
     title: "React arayüz",
     brief: "Dashboard bileşenleri",
     budgetMinor: 500_000,
-    visaPathwayId: "uiux-tasarim-sistemleri",
+    visaPathwayId: "logo-gorsel-sosyal-medya",
     createdAt: "2026-08-10T00:00:00.000Z",
   },
   {
     title: "Prompt paket",
     brief: "YZ içerik ve RAG",
     budgetMinor: 1_200_000,
-    visaPathwayId: "yz-muhendislik-agent",
+    visaPathwayId: "prompt-uretkenlik",
     createdAt: "2026-08-20T00:00:00.000Z",
   },
   {
     title: "API iskeleti",
     brief: "Node ve bulut deploy",
     budgetMinor: 800_000,
-    visaPathwayId: "fullstack-web-api",
+    visaPathwayId: "eticaret-pazaryeri",
     createdAt: "2026-08-15T00:00:00.000Z",
   },
 ];
@@ -55,14 +55,14 @@ describe("freelancer job board filter / view", () => {
   it("visaPathwayId süzgeci dürüst eşleşir; sahte sonuç üretmez", () => {
     const found = filterAndSortJobs(SAMPLE, {
       ...JOB_BOARD_DEFAULT_FILTERS,
-      visaPathwayId: "web-sitesi-yazilim",
+      visaPathwayId: "eticaret-pazaryeri",
     });
     expect(found).toHaveLength(1);
-    expect(found[0]?.visaPathwayId).toBe("fullstack-web-api");
+    expect(found[0]?.visaPathwayId).toBe("eticaret-pazaryeri");
 
     const empty = filterAndSortJobs(SAMPLE, {
       ...JOB_BOARD_DEFAULT_FILTERS,
-      visaPathwayId: "siber-guvenlik-sunucu-test",
+      visaPathwayId: "acik-deneme",
     });
     expect(empty).toEqual([]);
   });

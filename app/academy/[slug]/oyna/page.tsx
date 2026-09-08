@@ -10,6 +10,17 @@ import {
 } from "@/lib/academy/load";
 import { hasAcademyPlayerAccess } from "@/lib/academy/access";
 import { hasCommercialAcademyEnrolment } from "@/lib/academy/enrolment";
+import {
+  academyStorefrontStaticParams,
+  isAcademyGrowthSkuSlug,
+} from "@/lib/academy/pilot-sku";
+
+export function generateStaticParams() {
+  return academyStorefrontStaticParams();
+}
+
+/** Vitrinde olmayan slug yumuşak 200 değil, HTTP 404. */
+export const dynamicParams = false;
 
 export default async function AcademyCurriculumPlayerPage({
   params,
@@ -17,6 +28,9 @@ export default async function AcademyCurriculumPlayerPage({
   params: Promise<{ slug: string }>;
 }) {
   const [session, { slug }] = await Promise.all([requirePageSession(), params]);
+  if (!isAcademyGrowthSkuSlug(slug)) {
+    notFound();
+  }
   const userEmail = session.email;
   const board = await loadCourseBySlug(slug);
   if (!board) {
@@ -39,7 +53,7 @@ export default async function AcademyCurriculumPlayerPage({
   }
 
   return (
-    <RoomFrame className="academy-player-viewport-lock -mt-8 -mb-16 flex h-[calc(100dvh-theme(spacing.16))] max-h-[calc(100dvh-theme(spacing.16))] max-w-none flex-col gap-0 space-y-0 overflow-hidden px-3 pt-2 pb-12 sm:px-4">
+    <RoomFrame cinema className="flex flex-col gap-0 space-y-0 px-1 pt-1 pb-8 sm:px-2">
       <div className="flex min-h-0 flex-1 flex-col">
         {grantStudio ? (
           <p className="sr-only">Super Admin laboratuvar erişimi</p>

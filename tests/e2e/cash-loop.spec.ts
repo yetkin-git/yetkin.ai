@@ -80,7 +80,7 @@ test.describe("T4 nakit döngüsü — kayıt → yükleme → emanet → vize",
         amountMinor: 10_000,
         distanceContractAccepted: true,
         digitalImmediatePerformanceAccepted: true,
-        consentVersion: "2026-08-31",
+        consentVersion: "2026-09-05",
         billing: {
           invoiceType: "individual",
           fullName: "Ayşe Kaya",

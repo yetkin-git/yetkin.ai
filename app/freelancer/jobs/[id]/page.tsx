@@ -3,12 +3,14 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BidForm } from "@/components/freelancer/bid-form";
 import { AcceptBidButton } from "@/components/freelancer/accept-bid-button";
+import { CancelJobButton } from "@/components/freelancer/cancel-job-button";
 import { EscrowHoldSteps } from "@/components/freelancer/escrow-hold-steps";
 import { DeliveryProcessPanel } from "@/components/freelancer/delivery-process-panel";
+import { ListingVisaScopeSign } from "@/components/career/listing-visa-scope-sign";
 import { loadJobBoard } from "@/lib/freelancer/load";
 import { loadListingVisaAccess } from "@/lib/career/load";
 import { listingVisaScopeSign } from "@/lib/career/visa-scope-board";
-import { jobListingFace, listingCertShortName } from "@/lib/freelancer/listing-face";
+import { jobListingFace, jobListingStatusFace } from "@/lib/freelancer/listing-face";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { getSession } from "@/lib/kernel/auth/session";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
@@ -22,7 +24,6 @@ import {
   escrowHoldActiveStep,
   freelancerBidStatusLabel,
   freelancerContractStatusLabel,
-  freelancerJobStatusLabel,
 } from "@/lib/copy/status-labels";
 
 export default async function FreelancerJobDetailPage({
@@ -54,28 +55,44 @@ export default async function FreelancerJobDetailPage({
   const bidsEmptyCopy =
     board.viewerRole === "owner" ? copy.job.bidsEmpty : copy.job.bidsHidden;
   const face = jobListingFace(board.job);
-  const certName = listingCertShortName(board.job.visaPathwayId);
-  const visaSign = listingVisaScopeSign({
+  const statusFace = jobListingStatusFace(board.job);
+  const listingSubject = {
     id: board.job.id,
     title: board.job.title,
     brief: board.job.brief,
     visaPathwayId: board.job.visaPathwayId,
-  });
-  const academyHref = (visaSign.courses[0]?.href ?? "/academy") as Route;
+  };
+  const visaSign = listingVisaScopeSign(listingSubject);
+  const showVisaSign =
+    !isClient &&
+    !alreadyBid &&
+    board.job.status === "OPEN" &&
+    visaSign.courses.length > 0 &&
+    (!session || !listingVisa.allowed);
 
   return (
     <RoomFrame>
       <BreadcrumbPageLabel href={`/freelancer/jobs/${board.job.id}`} label={board.job.title} />
       <PageHeader
-        eyebrow={`${copy.job.eyebrow} · ${freelancerJobStatusLabel(board.job.status)}`}
+        eyebrow={`${copy.job.eyebrow} · ${statusFace.label}`}
         title={board.job.title}
         description={board.job.brief}
         actions={
-          <LinkButton href="/freelancer" variant="outline" size="sm">
-            {copy.create.backCta}
-          </LinkButton>
+          <>
+            {isClient && board.job.status === "OPEN" ? (
+              <CancelJobButton jobId={board.job.id} />
+            ) : null}
+            <LinkButton href="/freelancer" variant="outline" size="sm">
+              {copy.create.backCta}
+            </LinkButton>
+          </>
         }
       />
+      {statusFace.isSystemListing ? (
+        <Card>
+          <p className="text-sm leading-6 text-[var(--foreground)]">{copy.job.exampleBanner}</p>
+        </Card>
+      ) : null}
       <Card>
         <dl className="grid gap-2 text-[var(--foreground)]">
           <div className="flex justify-between gap-3">
@@ -167,19 +184,15 @@ export default async function FreelancerJobDetailPage({
           </ul>
         )}
       </Card>
-      {!isClient && !alreadyBid && board.job.status === "OPEN" ? (
+      {showVisaSign ? (
+        <Card>
+          <ListingVisaScopeSign listing={listingSubject} />
+        </Card>
+      ) : null}
+      {!isClient && !alreadyBid && board.job.status === "OPEN" && (!session || listingVisa.allowed) ? (
         <Card title={copy.job.bidTitle}>
           {session ? (
-            listingVisa.allowed ? (
-              <BidForm jobId={board.job.id} maxMinor={board.job.budgetMinor} />
-            ) : (
-              <div className="space-y-3">
-                <p className="text-sm text-[var(--foreground)]">{copy.job.visaRequired(certName)}</p>
-                <LinkButton href={academyHref} variant="primary" size="sm">
-                  {copy.job.visaCta}
-                </LinkButton>
-              </div>
-            )
+            <BidForm jobId={board.job.id} maxMinor={board.job.budgetMinor} />
           ) : (
             <div className="space-y-3">
               <p className="text-sm text-[var(--muted)]">{copy.job.loginLead}</p>

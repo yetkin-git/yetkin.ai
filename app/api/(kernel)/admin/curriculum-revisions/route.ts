@@ -1,5 +1,8 @@
 import { jsonFail } from "@/lib/kernel/http/json";
-import { ACADEMY_STUDIO_GONE } from "@/lib/academy/studio-gone";
+
+const ACADEMY_STUDIO_GONE = {
+  revisions: "Müfredat revizyon kuyruğu kapalı.",
+} as const;
 
 /**
  * Müfredat revizyon kuyruğu — motor arşivde. Kenar oturum istemez; her yöntem 410.

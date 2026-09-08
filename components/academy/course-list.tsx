@@ -11,12 +11,13 @@ import {
   EMPTY_ACADEMY_CATALOG_LEARNER_BOARD,
   type AcademyCatalogLearnerBoard,
 } from "@/lib/academy/catalog-learner";
-import { groupAcademyCatalogBySeries } from "@/lib/academy/catalog-filter";
-import { filterAcademyPilotCatalog } from "@/lib/academy/pilot-sku";
+import { orderAcademyCatalogByCurriculum } from "@/lib/academy/catalog-filter";
+import { ACADEMY_FLAGSHIP_SKU_SLUG, filterAcademyPilotCatalog } from "@/lib/academy/pilot-sku";
+import { cn } from "@/components/ui/cn";
 
 export type AcademyCatalogShelf = "catalog" | "owned" | "favorites";
 
-/** Seviye yolu — her seri Temel → Orta → İleri üçlüsünü yan yana basar. */
+/** Tek raf — beş compact SKU; amiral `md:col-span-2`. */
 export const ACADEMY_CATALOG_GRID_CLASS = "grid gap-4 md:grid-cols-3";
 
 export function CourseList({
@@ -28,6 +29,7 @@ export function CourseList({
   title = ACADEMY_SEN.catalog.title,
   certificatesCta = ACADEMY_SEN.catalog.certificatesCta,
   lead = null,
+  footer = null,
 }: {
   courses: AcademyCourseWithPrice[];
   extraBadge?: string | null;
@@ -40,10 +42,12 @@ export function CourseList({
   certificatesCta?: string;
   /** Resume şeridi — başlık satırı ile liste arasında. */
   lead?: ReactNode;
+  /** Yasal künye — katalog gövdesinin sonunda, doğal kaydırmada. */
+  footer?: ReactNode;
 }) {
   const copy = ACADEMY_SEN.catalog;
   const visible = useMemo(() => filterAcademyPilotCatalog(courses), [courses]);
-  const series = useMemo(() => groupAcademyCatalogBySeries(visible), [visible]);
+  const ordered = useMemo(() => orderAcademyCatalogByCurriculum(visible), [visible]);
   const ownedSet = useMemo(() => new Set(learnerBoard.ownedSlugs), [learnerBoard.ownedSlugs]);
 
   let body: ReactNode;
@@ -56,57 +60,45 @@ export function CourseList({
     );
   } else {
     body = (
-      <div className="flex flex-col gap-8" data-academy-catalog-series-list="">
-        {series.map((shelf) => (
-          <section
-            key={shelf.key}
-            className="space-y-3"
-            data-academy-catalog-series={shelf.key}
-            aria-label={shelf.title ?? copy.seriesPath}
-          >
-            {shelf.title ? (
-              <div className="space-y-0.5">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--safir-deep)]">
-                  {copy.seriesPath}
-                </p>
-                <h2 className="text-base font-semibold tracking-tight text-[var(--foreground)]">
-                  {shelf.title}
-                </h2>
-              </div>
-            ) : null}
-            <ul className={ACADEMY_CATALOG_GRID_CLASS}>
-              {shelf.courses.map((course) => {
-                const owned = ownedSet.has(course.slug);
-                const cardSurface: CourseCardSurface =
-                  surface === "library" || owned ? "library" : "catalog";
-                return (
-                  <li key={course.id} className="h-full">
-                    <CourseCard
-                      course={course}
-                      statusBadge={extraBadge}
-                      surface={cardSurface}
-                      layout="grid"
-                      lessonCount={lessonCounts[course.slug] ?? 0}
-                      learnerStatus={learnerBoard.statusBySlug[course.slug]}
-                      owned={owned}
-                    />
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-        ))}
-      </div>
+      <section data-academy-catalog-series-list="">
+        <ul className={ACADEMY_CATALOG_GRID_CLASS}>
+          {ordered.map((course) => {
+            const owned = ownedSet.has(course.slug);
+            const cardSurface: CourseCardSurface =
+              surface === "library" || owned ? "library" : "catalog";
+            const featured = course.slug === ACADEMY_FLAGSHIP_SKU_SLUG;
+            return (
+              <li
+                key={course.id}
+                className={cn("h-full", featured && "md:col-span-2")}
+                data-academy-catalog-series={course.slug}
+                data-academy-flagship-card={featured ? "" : undefined}
+              >
+                <CourseCard
+                  course={course}
+                  statusBadge={extraBadge}
+                  surface={cardSurface}
+                  layout="grid"
+                  featured={featured}
+                  lessonCount={lessonCounts[course.slug] ?? 0}
+                  learnerStatus={learnerBoard.statusBySlug[course.slug]}
+                  owned={owned}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </section>
     );
   }
 
   return (
     <section
       aria-label={title}
-      className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden"
+      className="flex flex-col gap-3"
       data-academy-pilot-room=""
     >
-      <div className="relative z-10 flex flex-shrink-0 flex-col gap-3">
+      <div className="relative z-10 flex flex-col gap-3">
         <div
           className="flex flex-wrap items-center justify-between gap-2"
           data-academy-catalog-header=""
@@ -131,11 +123,13 @@ export function CourseList({
         </div>
         {lead}
       </div>
-      <div
-        className="min-h-0 flex-1 overflow-y-auto pr-2 pb-8"
-        data-academy-catalog-scroll=""
-      >
+      <div className="pb-4" data-academy-catalog-scroll="">
         {body}
+        {footer ? (
+          <div data-academy-catalog-colophon="" className="mt-4">
+            {footer}
+          </div>
+        ) : null}
       </div>
     </section>
   );

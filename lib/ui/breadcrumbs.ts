@@ -15,7 +15,7 @@ export type BreadcrumbOverride = {
 };
 
 export const BREADCRUMB_HOME_HREF = "/dashboard" as Route;
-export const BREADCRUMB_HOME_LABEL = "Anasayfa";
+export const BREADCRUMB_HOME_LABEL = "Panel";
 
 const HOME: BreadcrumbCrumb = {
   href: BREADCRUMB_HOME_HREF,

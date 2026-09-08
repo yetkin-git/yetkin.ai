@@ -27,6 +27,7 @@ export const PROTECTED_KERNEL_PATHS = [
   "/cuzdan",
   "/profil",
   "/pasaport",
+  "/career",
   "/admin",
 ] as const;
 
@@ -103,11 +104,17 @@ export function isAcademyCurriculumPlayerPath(pathname: string): boolean {
   return /^\/academy\/[^/]+\/oyna$/.test(path);
 }
 
+/** Sertifikalarım sığınağı — katalog ve kamu `/academy/dogrula` açık kalır. */
+export function isAcademyCertificatesPath(pathname: string): boolean {
+  return normalizePathname(pathname) === "/academy/certificates";
+}
+
 export function isProtectedCitizenPath(pathname: string): boolean {
   return (
     isProtectedKernelPath(pathname) ||
     isProtectedWritePath(pathname) ||
-    isAcademyCurriculumPlayerPath(pathname)
+    isAcademyCurriculumPlayerPath(pathname) ||
+    isAcademyCertificatesPath(pathname)
   );
 }
 

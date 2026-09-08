@@ -9,6 +9,12 @@ import {
 } from "@/archived/lib/academy-studio/lesson-listen-web-speech";
 import { isAcademyListenAbortError } from "@/archived/lib/academy-studio/lesson-listen";
 
+const SYNTHETIC_TITLE = "Örnek Ders 1";
+const SYNTHETIC_BODY = Array.from(
+  { length: 40 },
+  (_, i) => `Bu cümle ${i + 1}. tutarı kuruş cinsinden sabitlemeyi anlatır.`,
+).join(" ");
+
 describe("dersi dinle Web Speech yedek hoparlör", () => {
   it("AbortError adını tanır", () => {
     const abort = new Error("The operation was aborted.");
@@ -17,9 +23,9 @@ describe("dersi dinle Web Speech yedek hoparlör", () => {
     expect(isAcademyListenAbortError(new Error("network"))).toBe(false);
   });
 
-  it("konuşma metni ders gövdesinden üretilir ve cümlelere bölünür", () => {
-    const lesson = curriculumForCourseSlug("python-temel")[0]!;
-    const script = academyListenWebSpeechScript(lesson.title, lesson.body, "python-temel");
+  it("konuşma metni sentetik gövdeden üretilir ve cümlelere bölünür", () => {
+    expect(curriculumForCourseSlug("sample-course")).toEqual([]);
+    const script = academyListenWebSpeechScript(SYNTHETIC_TITLE, SYNTHETIC_BODY, "sample-course");
     expect(script.length).toBeGreaterThan(80);
     const chunks = splitAcademyWebSpeechChunks(script);
     expect(chunks.length).toBeGreaterThan(1);

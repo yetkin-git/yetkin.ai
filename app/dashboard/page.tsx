@@ -6,7 +6,7 @@ import { DashboardPulseProvider } from "@/components/dashboard/dashboard-pulse-p
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { emptyDashboardPulse, loadDashboardPulse } from "@/app/api/dashboard/pulse/load";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
-import { getSession } from "@/lib/kernel/auth/session";
+import { requirePageSession } from "@/lib/kernel/auth/session";
 import { loadIdentityBoard } from "@/lib/kernel/identity/load";
 
 /** RSC nabız+kimlik; Hobby 10s tavanı bağlar. */
@@ -14,15 +14,13 @@ export const maxDuration = 15;
 
 export default async function DashboardPage() {
   const copy = SEN_VOICE.dashboard;
-  const session = await getSession();
-  const [board, pulse] = session
-    ? await Promise.all([
-        loadIdentityBoard(session.id),
-        loadDashboardPulse(session.id).catch(() => emptyDashboardPulse()),
-      ])
-    : [null, emptyDashboardPulse()];
+  const session = await requirePageSession();
+  const [board, pulse] = await Promise.all([
+    loadIdentityBoard(session.id),
+    loadDashboardPulse(session.id).catch(() => emptyDashboardPulse()),
+  ]);
   const title = copy.welcomeTitle({
-    signedIn: Boolean(session),
+    signedIn: true,
     displayName: board?.user?.displayName,
   });
 

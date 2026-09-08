@@ -5,7 +5,11 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
-import { FREELANCER_NEED_CATALOG, type FreelancerNeedId } from "@/lib/kernel/catalog-ids";
+import {
+  FREELANCER_GUARANTEED_NEED_CATALOG,
+  FREELANCER_MARKETPLACE_NEED_CATALOG,
+  type FreelancerNeedId,
+} from "@/lib/kernel/catalog-ids";
 import { FREELANCER_JOB_MAX_MINOR, FREELANCER_JOB_MIN_MINOR } from "@/lib/freelancer/schemas";
 import { FREELANCER_SEN } from "@/lib/copy/sen-voice/freelancer";
 import { UX_SEN } from "@/lib/copy/sen-voice/ux";
@@ -19,7 +23,7 @@ export function JobCreateForm() {
   const report = useCitizenWriteFeedback();
   const [title, setTitle] = useState("");
   const [brief, setBrief] = useState("");
-  const [budgetMajor, setBudgetMajor] = useState("100");
+  const [budgetMajor, setBudgetMajor] = useState(String(FREELANCER_JOB_MIN_MINOR / 100));
   const [visaPathwayId, setVisaPathwayId] = useState<FreelancerNeedId | "">("");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -85,16 +89,29 @@ export function JobCreateForm() {
           <option value="" disabled>
             {copy.pathwayHint}
           </option>
-          {FREELANCER_NEED_CATALOG.map((need) => (
-            <option key={need.id} value={need.id}>
-              {need.title}
-            </option>
-          ))}
+          <optgroup label={copy.guaranteedGroup}>
+            {FREELANCER_GUARANTEED_NEED_CATALOG.map((need) => (
+              <option key={need.id} value={need.id}>
+                {need.title}
+              </option>
+            ))}
+          </optgroup>
+          <optgroup label={copy.marketplaceGroup}>
+            {FREELANCER_MARKETPLACE_NEED_CATALOG.map((need) => (
+              <option key={need.id} value={need.id}>
+                {need.title}
+              </option>
+            ))}
+          </optgroup>
         </select>
       </label>
       <label className="block text-sm font-medium">
         {copy.budgetLabel}
         <Input
+          type="number"
+          min={FREELANCER_JOB_MIN_MINOR / 100}
+          max={FREELANCER_JOB_MAX_MINOR / 100}
+          step={1}
           value={budgetMajor}
           onChange={(event) => setBudgetMajor(event.target.value)}
           required

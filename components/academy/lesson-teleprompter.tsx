@@ -5,8 +5,14 @@ import {
   ACADEMY_TELEPROMPTER_FOCUS_RATIO,
   academyTeleprompterProgress,
   academyTeleprompterTranslateY,
-  type AcademyTeleprompterCue,
 } from "@/lib/academy/dialogue-timeline";
+
+export type LessonTeleprompterCue = {
+  id: string;
+  text: string;
+  start: number;
+  end: number;
+};
 
 function applyTeleprompterTransform(input: {
   viewport: HTMLDivElement;
@@ -32,7 +38,7 @@ export function LessonTeleprompter({
   overlay = false,
   playing = false,
 }: {
-  cues: readonly AcademyTeleprompterCue[];
+  cues: readonly LessonTeleprompterCue[];
   elapsedSec: number;
   overlay?: boolean;
   playing?: boolean;
@@ -96,7 +102,7 @@ export function LessonTeleprompter({
       }
       data-academy-stage-caption=""
       data-academy-teleprompter=""
-      data-academy-teleprompter-align="center"
+      data-academy-teleprompter-align={overlay ? "end" : "center"}
       data-academy-teleprompter-overlay={overlay ? "true" : undefined}
       data-academy-teleprompter-playing={playing ? "true" : undefined}
     >

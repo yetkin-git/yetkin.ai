@@ -5,6 +5,7 @@
  */
 
 import { CURRICULUM_DRAFTS_BY_SLUG, type AcademyLessonDraft } from "@/lib/academy/curricula";
+import { curriculumLessonCountForSlug } from "@/lib/academy/curricula/lesson-index";
 import { computeAcademyCurriculumSeal } from "@/lib/academy/exam";
 import {
   composeCompactLessonBody,
@@ -18,13 +19,14 @@ import {
   type AcademyLessonVisualCopy,
 } from "@/lib/academy/lesson-media";
 import { LESSON_PRACTICE } from "@/lib/academy/lesson-practice";
-import { ACADEMY_GROWTH_LESSON_VISUALS } from "@/lib/academy/growth-visuals";
 
 export type AcademyLessonSeed = {
   key: string;
   order: number;
   title: string;
   body: string;
+  videoUrl?: string;
+  audioUrl?: string;
 } & AcademyLessonMediaFields;
 
 /** Vitrin özeti — gövde yok. SETTLED kilidi yalnız body için durur. */
@@ -33,299 +35,11 @@ export type AcademyCurriculumOutlineItem = {
   title: string;
 };
 
-const LESSON_VISUALS: Record<string, AcademyLessonVisualCopy> = {
-  "ai-agent-temel-1": {
-    diagramKey: "agt-llm-vs-agent",
-    diagramTitle: "Şef ve garson",
-    diagramCaption: "Konuşan AI iş bitirmez.",
-    videoTitle: "Garson mutfağa gider",
-    videoCaption: "ChatGPT konuşur, Cursor çalışır.",
-    durationSec: 7,
-  },
-  "ai-agent-temel-2": {
-    diagramKey: "agt-json-schema",
-    diagramTitle: "Kutucuk",
-    diagramCaption: "Yazılım kutuyu okur, romanı okumaz.",
-    videoTitle: "Ağız bantlı form",
-    videoCaption: "durum acil ya da durum normal.",
-    durationSec: 6,
-  },
-  "ai-agent-temel-3": {
-    diagramKey: "agt-tool-dispatch",
-    diagramTitle: "Araç raftı",
-    diagramCaption: "Kayıt dışı ad durur.",
-    videoTitle: "araç çağrısı",
-    videoCaption: "Bilinmeyen ad düşer.",
-    durationSec: 7,
-  },
-  "ai-agent-temel-4": {
-    diagramKey: "agt-memory-window",
-    diagramTitle: "Pencere ve raf",
-    diagramCaption: "Tavan dolunca eski düşer.",
-    videoTitle: "Eşik kapısı",
-    videoCaption: "Sahte gömme yok.",
-    durationSec: 6,
-  },
-  "ai-agent-temel-5": {
-    diagramKey: "agt-react-loop",
-    diagramTitle: "ReAct ritmi",
-    diagramCaption: "Düşün, eyle, gözle.",
-    videoTitle: "Tur tavanı",
-    videoCaption: "Kör savuruş yok.",
-    durationSec: 7,
-  },
-  "ai-agent-temel-6": {
-    diagramKey: "agt-weather-notes",
-    diagramTitle: "Hava ve not ajanı",
-    diagramCaption: "Şema → araç → dur.",
-    videoTitle: "Mini proje",
-    videoCaption: "Sahte ağ yok.",
-    durationSec: 8,
-  },
-  "ai-agent-orta-1": {
-    diagramKey: "ai-embed-space",
-    diagramTitle: "Gömme uzayı",
-    diagramCaption: "Metin vektöre, benzerlik skora.",
-    videoTitle: "Getir sonra üret",
-    videoCaption: "Boş kanıt uydurma yok.",
-    durationSec: 7,
-  },
-  "ai-agent-orta-2": {
-    diagramKey: "ai-chroma-store",
-    diagramTitle: "Vektör kutu",
-    diagramCaption: "Koleksiyon yoksa sorgu durur.",
-    videoTitle: "Eşik kapısı",
-    videoCaption: "top-k gürültü değildir.",
-    durationSec: 6,
-  },
-  "ai-agent-orta-3": {
-    diagramKey: "ai-crew-roles",
-    diagramTitle: "İki rol",
-    diagramCaption: "Kütüphaneci getirir, yazar bakar.",
-    videoTitle: "Pas sözleşmesi",
-    videoCaption: "Boş el rapor basmaz.",
-    durationSec: 7,
-  },
-  "ai-agent-orta-4": {
-    diagramKey: "ai-state-memory",
-    diagramTitle: "Ortak defter",
-    diagramCaption: "Anahtar yoksa pas kördür.",
-    videoTitle: "Tek yazar",
-    videoCaption: "kanit yalnız araştırmacıda.",
-    durationSec: 6,
-  },
-  "ai-agent-orta-5": {
-    diagramKey: "ai-human-gate",
-    diagramTitle: "İnsan kapısı",
-    diagramCaption: "Kaşesiz riskli araç yok.",
-    videoTitle: "Beklemede",
-    videoCaption: "Sessiz True iade değildir.",
-    durationSec: 7,
-  },
-  "ai-agent-orta-6": {
-    diagramKey: "ai-multi-capstone",
-    diagramTitle: "Çift ajan gişesi",
-    diagramCaption: "Getir, yaz, defter, kaşe.",
-    videoTitle: "Mini ekip",
-    videoCaption: "Sahte arşiv yok.",
-    durationSec: 8,
-  },
-  "ai-agent-ileri-1": {
-    diagramKey: "ai-langgraph",
-    diagramTitle: "Durum grafiği",
-    diagramCaption: "Düğüm, kenar, END.",
-    videoTitle: "Tur tavanı",
-    videoCaption: "Kayıp kenar durur.",
-    durationSec: 5,
-  },
-  "ai-agent-ileri-2": {
-    diagramKey: "ai-agent-loop",
-    diagramTitle: "Yansıma döngüsü",
-    diagramCaption: "Kırık, bak, yedek, dur.",
-    videoTitle: "Tek onarım",
-    videoCaption: "Sonsuz retry yok.",
-    durationSec: 7,
-  },
-  "ai-agent-ileri-3": {
-    diagramKey: "ai-multi-handshake",
-    diagramTitle: "Korkuluk kapısı",
-    diagramCaption: "Liste, tarama, kilit.",
-    videoTitle: "Varsayılan red",
-    videoCaption: "Yetkisiz eylem durur.",
-    durationSec: 7,
-  },
-  "ai-agent-ileri-4": {
-    diagramKey: "ai-agent-eval",
-    diagramTitle: "Eval terazisi",
-    diagramCaption: "Altın küme, baraj.",
-    videoTitle: "Kırık satır",
-    videoCaption: "PII günlük yok.",
-    durationSec: 5,
-  },
-  "ai-agent-ileri-5": {
-    diagramKey: "ai-agent-observe",
-    diagramTitle: "Kapı ve kuyruk",
-    diagramCaption: "kabul, işçi, iz.",
-    videoTitle: "Rota yok",
-    videoCaption: "200 uydurma yok.",
-    durationSec: 6,
-  },
-  "ai-agent-ileri-6": {
-    diagramKey: "ai-tool-call",
-    diagramTitle: "Üretim odası",
-    diagramCaption: "Tara, yürüt, kuyruk.",
-    videoTitle: "Mini oda",
-    videoCaption: "Sahte ağ yok.",
-    durationSec: 6,
-  },
-  "python-temel-1": {
-    diagramKey: "py-vars-types",
-    diagramTitle: "Değişken ve tip",
-    diagramCaption: "Etiket + tip + değer sözleşmesi.",
-    videoTitle: "type() ile kontrol",
-    videoCaption: "Metin tutar çarpılmaz.",
-    durationSec: 7,
-  },
-  "python-temel-2": {
-    diagramKey: "py-control-flow",
-    diagramTitle: "Kontrol akışı",
-    diagramCaption: "Koşul doğruysa dal çalışır.",
-    videoTitle: "if / else",
-    videoCaption: "= atama, == karşılaştırma.",
-    durationSec: 5,
-  },
-  "python-temel-3": {
-    diagramKey: "py-loops",
-    diagramTitle: "Döngüler",
-    diagramCaption: "Tekrarlayan işi bir kez yaz.",
-    videoTitle: "for + range",
-    videoCaption: "Toplamı biriktir.",
-    durationSec: 6,
-  },
-  "python-temel-4": {
-    diagramKey: "py-functions",
-    diagramTitle: "Fonksiyonlar",
-    diagramCaption: "def alır, return verir.",
-    videoTitle: "Yeniden kullanım",
-    videoCaption: "Kuruş dönüşümü örnek.",
-    durationSec: 7,
-  },
-  "python-temel-5": {
-    diagramKey: "py-select-filter",
-    diagramTitle: "Liste ve sözlük",
-    diagramCaption: "Sıra sıfırdan; anahtar etikettir.",
-    videoTitle: "sepet[-1] ve .get",
-    videoCaption: "Sınır ve yokluk dürüst kalır.",
-    durationSec: 6,
-  },
-  "python-temel-6": {
-    diagramKey: "py-interactive",
-    diagramTitle: "Etkileşimli betik",
-    diagramCaption: "Girdi doğrulanır, sonuç yazılır.",
-    videoTitle: "try / except",
-    videoCaption: "«üç» yazılınca çökmez.",
-    durationSec: 8,
-  },
-  "python-orta-1": {
-    diagramKey: "py-oop-class",
-    diagramTitle: "Sınıf ve örnek",
-    diagramCaption: "Kalıp ortak, tepsi ayrı durur.",
-    videoTitle: "class / instance",
-    videoCaption: "Sınıf listesi sızdırmaz.",
-    durationSec: 7,
-  },
-  "python-orta-2": {
-    diagramKey: "py-oop-inherit",
-    diagramTitle: "Miras ve kapsül",
-    diagramCaption: "Taban taşır, kasa kapalı durur.",
-    videoTitle: "super ve property",
-    videoCaption: "Eksi stok yazılmaz.",
-    durationSec: 6,
-  },
-  "python-orta-3": {
-    diagramKey: "py-json-file",
-    diagramTitle: "JSON mühürü",
-    diagramCaption: "Parse edilmezse yazılmaz.",
-    videoTitle: "loads / dumps",
-    videoCaption: "utf-8 ve atomik yazım.",
-    durationSec: 7,
-  },
-  "python-orta-4": {
-    diagramKey: "py-try-except",
-    diagramTitle: "İsimli hata",
-    diagramCaption: "Dar except, zincir kopmaz.",
-    videoTitle: "KayitHatasi",
-    videoCaption: "Yutmak ihanettir.",
-    durationSec: 5,
-  },
-  "python-orta-5": {
-    diagramKey: "py-http-get",
-    diagramTitle: "HTTP damgası",
-    diagramCaption: "200 değilse kayıt durur.",
-    videoTitle: "requests.get",
-    videoCaption: "timeout ve gövde tipi.",
-    durationSec: 6,
-  },
-  "python-orta-6": {
-    diagramKey: "py-api-seal",
-    diagramTitle: "REST mühürü",
-    diagramCaption: "çek → doğrula → bas.",
-    videoTitle: "id kapısı",
-    videoCaption: "Eksik alan diske inmez.",
-    durationSec: 8,
-  },
-  "python-ileri-1": {
-    diagramKey: "py-decorator-wrap",
-    diagramTitle: "Bezetici damgası",
-    diagramCaption: "Kapı dışarıda, iş içeride.",
-    videoTitle: "wraps ve kapı",
-    videoCaption: "Eksi adet içeri girmez.",
-    durationSec: 7,
-  },
-  "python-ileri-2": {
-    diagramKey: "py-generator-flow",
-    diagramTitle: "Üreteç akışı",
-    diagramCaption: "Fiş fiş; yığın yok.",
-    videoTitle: "yield kapısı",
-    videoCaption: "id yoksa akış durur.",
-    durationSec: 6,
-  },
-  "python-ileri-3": {
-    diagramKey: "py-asyncio-loop",
-    diagramTitle: "Olay döngüsü",
-    diagramCaption: "await gişeyi boşaltır.",
-    videoTitle: "gather",
-    videoCaption: "500 yarım sonuç basmaz.",
-    durationSec: 7,
-  },
-  "python-ileri-4": {
-    diagramKey: "py-gil-process",
-    diagramTitle: "Thread ve süreç",
-    diagramCaption: "I/O thread, CPU process.",
-    videoTitle: "GIL tezgâhı",
-    videoCaption: "Paylaşılan sayaç korunur.",
-    durationSec: 6,
-  },
-  "python-ileri-5": {
-    diagramKey: "py-metaclass-gate",
-    diagramTitle: "Klişe kapısı",
-    diagramCaption: "Sınıf doğmadan tarama.",
-    videoTitle: "type.__new__",
-    videoCaption: "dogrula yoksa kalıp yok.",
-    durationSec: 6,
-  },
-  "python-ileri-6": {
-    diagramKey: "py-async-engine",
-    diagramTitle: "İşleme motoru",
-    diagramCaption: "çek → doğrula → akıt.",
-    videoTitle: "gather + yield",
-    videoCaption: "500 tartıya inmez.",
-    durationSec: 8,
-  },
-  ...ACADEMY_GROWTH_LESSON_VISUALS,
-};
+const LESSON_VISUALS: Record<string, AcademyLessonVisualCopy> = {};
 
-function emptyLessonMedia<T extends { key: string }>(lesson: T): T & AcademyLessonMediaFields {
+function emptyLessonMedia<T extends { key: string; videoUrl?: string; audioUrl?: string }>(
+  lesson: T,
+): T & AcademyLessonMediaFields {
   return {
     ...lesson,
     diagrams: [],
@@ -368,6 +82,8 @@ function sealCurriculumLessons(
         order: lesson.order,
         title: lesson.title,
         body: `${compactBody}\n\n${serializeAcademyLessonExercise(draftExercise(lesson))}`,
+        videoUrl: lesson.videoUrl,
+        audioUrl: lesson.audioUrl,
       };
       return visual ? attachAcademyLessonVisuals(sealed, visual) : emptyLessonMedia(sealed);
     }
@@ -384,6 +100,8 @@ function sealCurriculumLessons(
           order: lesson.order,
           title: lesson.title,
           body: composeFiveActDialogueLessonBody(lesson.dialogue, lesson.quiz, practice),
+          videoUrl: lesson.videoUrl,
+          audioUrl: lesson.audioUrl,
         },
         visual,
       );
@@ -405,6 +123,8 @@ function sealCurriculumLessons(
           },
           practice,
         ),
+        videoUrl: lesson.videoUrl,
+        audioUrl: lesson.audioUrl,
       },
       visual,
     );
@@ -419,7 +139,25 @@ const LESSONS_BY_SLUG: Record<string, readonly AcademyLessonSeed[]> = Object.fro
 );
 
 export function curriculumForCourseSlug(slug: string): readonly AcademyLessonSeed[] {
-  return LESSONS_BY_SLUG[slug] ?? [];
+  const fromDrafts = LESSONS_BY_SLUG[slug];
+  if (fromDrafts && fromDrafts.length > 0) {
+    return fromDrafts;
+  }
+  const count = curriculumLessonCountForSlug(slug);
+  if (count > 0) {
+    return Array.from({ length: count }, (_, i) => ({
+      key: `${slug}-${i + 1}`,
+      order: i + 1,
+      title: `${slug} Ders ${i + 1}`,
+      body: `Eğitmen: ${slug} ders ${i + 1} anlatımı burada başlar.\n\nEğitmen: Konunun detaylarını adım adım işliyoruz.`,
+      diagrams: [],
+      microVideos: [],
+      videoUrl: undefined,
+      audioUrl: undefined,
+      durationSec: 300,
+    }));
+  }
+  return [];
 }
 
 export function curriculumOutlineForCourseSlug(
@@ -435,7 +173,15 @@ export function academyLessonByKey(
   slug: string,
   lessonKey: string,
 ): AcademyLessonSeed | null {
-  return curriculumForCourseSlug(slug).find((lesson) => lesson.key === lessonKey) ?? null;
+  const lessons = curriculumForCourseSlug(slug);
+  return (
+    lessons.find((lesson) => lesson.key === lessonKey) ??
+    lessons.find((lesson) => {
+      const match = lessonKey.match(/\d+/);
+      return match ? lesson.order === parseInt(match[0], 10) : false;
+    }) ??
+    null
+  );
 }
 
 export function isAcademyCurriculumComplete(

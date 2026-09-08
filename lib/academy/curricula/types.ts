@@ -76,6 +76,8 @@ export type AcademyLessonDraft = {
   format?: "five-act" | "four-act" | "compact";
   dialogue?: AcademyFiveActDialogue;
   quiz?: readonly AcademyExamQuestion[];
+  videoUrl?: string;
+  audioUrl?: string;
 };
 
 export function academyLessonDraft(
@@ -95,6 +97,7 @@ export function academyCompactLessonDraft(
   order: number,
   title: string,
   body: string,
+  media?: Pick<AcademyLessonDraft, "videoUrl" | "audioUrl">,
 ): AcademyLessonDraft {
   return {
     key,
@@ -104,6 +107,8 @@ export function academyCompactLessonDraft(
     development: "",
     conclusion: "",
     format: "compact",
+    videoUrl: media?.videoUrl,
+    audioUrl: media?.audioUrl,
   };
 }
 
@@ -432,3 +437,36 @@ export function academyFiveActLessonDraft(spec: {
     quiz: spec.quiz,
   };
 }
+
+export interface VoiceConfig {
+  voice: string;
+  style: string;
+  gender: string;
+}
+
+export interface Section {
+  sectionNumber: number;
+  title: string;
+  targetDurationMinutes: number;
+  estimatedWordCount: number;
+  pedagogicalObjective: string;
+  contentMarkdown: string;
+  videoUrl?: string;
+  audioUrl?: string;
+}
+
+export interface CurriculumModule {
+  moduleCode: string;
+  title: string;
+  instructor: string;
+  category: string;
+  targetAudience: string[];
+  methodology: string;
+  estimatedTotalMinutes: number;
+  voiceConfig: VoiceConfig;
+  sections: Section[];
+  examQuestions?: readonly AcademyExamQuestion[];
+  videoUrl?: string;
+  audioUrl?: string;
+}
+

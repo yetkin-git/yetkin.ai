@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   canAdvanceAcademyPlayerLesson,
+  isAcademyPlayerExamReady,
   nextAcademyPlayerLesson,
   prevAcademyPlayerLesson,
   shouldAutoAdvanceAfterListenEnded,
@@ -49,5 +50,32 @@ describe("akademi ders geçiş mimarisi", () => {
     expect(shouldSealProgressAfterDialogueEnded({ playbackStarted: false, reachedEnd: true })).toBe(
       false,
     );
+  });
+
+  it("6/6 yerel mühürde sınav kapısı refresh beklemeden açılır", () => {
+    const lessons = [
+      { key: "l1", completed: true },
+      { key: "l2", completed: true },
+      { key: "l3", completed: true },
+      { key: "l4", completed: true },
+      { key: "l5", completed: true },
+      { key: "l6", completed: false },
+    ];
+    expect(
+      isAcademyPlayerExamReady({
+        curriculumComplete: false,
+        workTasksComplete: false,
+        lessons,
+        completedKeys: new Set(["l1", "l2", "l3", "l4", "l5"]),
+      }),
+    ).toBe(false);
+    expect(
+      isAcademyPlayerExamReady({
+        curriculumComplete: false,
+        workTasksComplete: false,
+        lessons,
+        completedKeys: new Set(["l1", "l2", "l3", "l4", "l5", "l6"]),
+      }),
+    ).toBe(true);
   });
 });

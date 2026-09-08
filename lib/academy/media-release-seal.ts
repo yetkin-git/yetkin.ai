@@ -8,6 +8,7 @@ import { join } from "node:path";
 import type { AcademyLessonDraft, DialogueSpeakerId, DialogueTurn } from "@/lib/academy/curricula/types";
 import {
   academyCastForDialogueSpeaker,
+  academyInstructorTtsCast,
   type AcademyTtsVoice,
 } from "@/lib/academy/instructors";
 import { ACADEMY_MEDIA_SEALED_SKU_SLUGS } from "@/lib/academy/pilot-sku";
@@ -16,12 +17,15 @@ import {
   cleanAcademySpokenTextForTts,
   collapseAcademyLessonProse,
 } from "@/lib/academy/lesson-body";
+import { loadAcademySpokenScriptParagraphs, loadAcademySpokenScriptProse } from "@/lib/academy/spoken-scripts";
 
 export const ACADEMY_MEDIA_RELEASE_BUCKET = "public" as const;
 export const ACADEMY_MEDIA_RELEASE_LANGUAGE = "tr-TR" as const;
 export const ACADEMY_MEDIA_RELEASE_MAX_BYTES = 80 * 1024 * 1024;
-/** Perde/cümle ölçeği — 300 karakterlik mikro dilim yok. */
+/** Perde/cümle ölçeği — karakter mikro dilimi değil; süre bütçesi `tts-breath-chunks`. */
 export const ACADEMY_MEDIA_RELEASE_SPEECH_CHUNK_CHARS = 12_000;
+/** Dilimler arası taze nefes — 300–500 ms sessizlik. */
+export const ACADEMY_TTS_PARAGRAPH_PAUSE_SEC = 0.4;
 
 export type AcademySealedSkuSlug = (typeof ACADEMY_MEDIA_SEALED_SKU_SLUGS)[number];
 
@@ -99,7 +103,36 @@ export function academyMediaReleaseTurnsForLesson(
       canonicalCharacterName: cast.canonicalCharacterName,
     });
   }
-  return turns;
+  if (turns.length > 0) {
+    return turns;
+  }
+  const paragraphs = loadAcademySpokenScriptParagraphs(lesson.key);
+  if (paragraphs.length > 0) {
+    const cast = academyInstructorTtsCast(courseSlug);
+    return paragraphs.map((spokenText) => ({
+      speaker: "egitmen" as const,
+      text: spokenText,
+      spokenText,
+      voice: cast.voice,
+      speechRate: cast.speechRate,
+      canonicalCharacterName: cast.canonicalCharacterName,
+    }));
+  }
+  const spokenText = loadAcademySpokenScriptProse(lesson.key);
+  if (!spokenText) {
+    return [];
+  }
+  const cast = academyInstructorTtsCast(courseSlug);
+  return [
+    {
+      speaker: "egitmen",
+      text: spokenText,
+      spokenText,
+      voice: cast.voice,
+      speechRate: cast.speechRate,
+      canonicalCharacterName: cast.canonicalCharacterName,
+    },
+  ];
 }
 
 export function computeAcademyMediaReleaseSeal(job: {

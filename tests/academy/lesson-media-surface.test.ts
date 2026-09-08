@@ -30,7 +30,7 @@ function readSrc(relative: string): string {
 }
 
 describe("akademi mikro-video ve şema mimarisi", () => {
-  it("her yayında derste mühürlü şema + 5–8 sn mikro-video yuvası vardır", () => {
+  it("compact amiral derste mühürlü şema/mikro-video yuvası yoktur", () => {
     const seenDiagrams = new Set<string>();
     let lessonCount = 0;
     for (const row of ACADEMY_COURSE_SEEDS) {
@@ -38,39 +38,21 @@ describe("akademi mikro-video ve şema mimarisi", () => {
       expect(lessons.length).toBeGreaterThan(0);
       for (const lesson of lessons) {
         lessonCount += 1;
-        expect(lesson.diagrams, lesson.key).toHaveLength(1);
-        expect(lesson.microVideos, lesson.key).toHaveLength(1);
-        const diagram = lesson.diagrams[0]!;
-        const video = lesson.microVideos[0]!;
-        expect(academySealedDiagramByKey(diagram.diagramKey), diagram.diagramKey).not.toBeNull();
-        expect(video.assetKey).toBe(diagram.diagramKey);
-        expect(isAcademyMicroVideoDurationSec(video.durationSec)).toBe(true);
-        expect(video.durationSec).toBeGreaterThanOrEqual(ACADEMY_MICRO_VIDEO_DURATION_MIN_SEC);
-        expect(video.durationSec).toBeLessThanOrEqual(ACADEMY_MICRO_VIDEO_DURATION_MAX_SEC);
-        seenDiagrams.add(diagram.diagramKey);
+        expect(lesson.diagrams, lesson.key).toEqual([]);
+        expect(lesson.microVideos, lesson.key).toEqual([]);
+        expect(LESSON_PRACTICE[lesson.key], lesson.key).toBeUndefined();
+        expect(academyLessonHasPractice(lesson.body), lesson.key).toBe(false);
         const blocks = composeAcademyLessonBlocks(lesson);
         expect(blocks.some((block) => block.kind === "text")).toBe(true);
-        expect(blocks.some((block) => block.kind === "micro-video")).toBe(true);
-        expect(blocks.some((block) => block.kind === "diagram")).toBe(true);
-        expect(blocks.some((block) => block.kind === "params"), lesson.key).toBe(true);
-        expect(blocks.some((block) => block.kind === "steps"), lesson.key).toBe(true);
-        expect(blocks.some((block) => block.kind === "code"), lesson.key).toBe(true);
-        expect(academyLessonHasPractice(lesson.body), lesson.key).toBe(true);
-        expect(LESSON_PRACTICE[lesson.key], lesson.key).toBeTruthy();
-        expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
-        const firstVisual = blocks.find(
-          (block) => block.kind === "micro-video" || block.kind === "diagram",
-        );
-        expect(firstVisual?.kind).toBe("micro-video");
-        const kinds = blocks.map((block) => block.kind);
-        expect(kinds.slice(0, 4), lesson.key).toEqual(["text", "micro-video", "text", "diagram"]);
-        expect(kinds.at(-1), lesson.key).toBe("exercise");
-        expect(blocks.some((block) => block.kind === "exercise"), lesson.key).toBe(true);
+        expect(blocks.some((block) => block.kind === "micro-video")).toBe(false);
+        expect(blocks.some((block) => block.kind === "diagram")).toBe(false);
       }
     }
-    expect(lessonCount).toBe(132);
-    expect(seenDiagrams.size).toBeGreaterThanOrEqual(6);
-    expect(ACADEMY_SEALED_DIAGRAM_KEYS.length).toBeGreaterThanOrEqual(6);
+    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
+    expect(lessonCount).toBe(ACADEMY_COURSE_SEEDS.length * 6);
+    expect(curriculumForCourseSlug("sample-course")).toEqual([]);
+    expect(ACADEMY_SEALED_DIAGRAM_KEYS.length).toBeGreaterThanOrEqual(1);
+    void seenDiagrams;
   });
 
   it("statik /media/academy path bağlar; sayfa API video üretmez", () => {
@@ -120,16 +102,13 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     expect(readSrc("proxy.ts")).toContain("favicon.ico|media/");
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("academyPlayerClockDurationSec");
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("data-academy-audio-preparing");
-    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("data-academy-audio-pending");
-    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("data-academy-quota-waiting");
-    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("quotaWaitingTitle");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain('data-academy-clock="currentTime"');
+    expect(readSrc("components/academy/lesson-media-player.tsx")).not.toContain("buildAcademyDialogueTimeline");
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("academy-player-audio-bar");
-    expect(readSrc("lib/copy/sen-voice/academy.ts")).toContain("Kota bekleniyor");
-    expect(readSrc("lib/copy/sen-voice/academy.ts").toLowerCase()).toContain("kota sıfırlanınca");
     expect(readSrc("components/academy/lesson-media-player.tsx")).not.toContain("academy-dialogue-stage");
     expect(readSrc("components/academy/lesson-media-player.tsx")).not.toContain("academy-dialogue-text");
     expect(readSrc("components/academy/lesson-media-player.tsx")).not.toContain("<video");
-    expect(readSrc("components/academy/lesson-media-player.tsx")).not.toContain("data-academy-cinema-canvas");
+    expect(readSrc("components/academy/lesson-visual-stage.tsx")).toContain("data-academy-teleprompter-stage");
     expect(player).not.toContain("scrollIntoView");
     expect(player).not.toContain("academy-listen-focus");
     expect(player).not.toContain("generateVideo");
@@ -149,8 +128,9 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     expect(ACADEMY_SEN.player.notesLabel).toBe("Ders Notları / Transkript");
     expect(ACADEMY_SEN.player.codeViewerLabel).toBe("Kod");
     expect(ACADEMY_SEN.player.codeCalloutTitle).toBe("💡 KOD BİLMEYENLER İÇİN NOT");
-    expect(ACADEMY_SEN.player.codeCalloutHref).toBe("/academy/python-temel");
-    expect(ACADEMY_SEN.player.codeCalloutModule).toBe("Python ile Yazılım ve Veri Mühendisliği");
+    expect(ACADEMY_SEN.player.codeCalloutHref).toBe("/academy/05_prompt_practice");
+    expect(ACADEMY_SEN.player.codeCalloutModule).toBe("Pratik Prompt Mühendisliği");
+    expect(ACADEMY_SEN.player.codeCalloutHref).not.toContain("python-temel");
     expect(ACADEMY_SEN.player.codeCalloutLead).toContain("JSON");
     expect(readSrc("app/globals.css")).toContain("academy-player-code-callout");
     expect(readSrc("app/globals.css")).toMatch(
@@ -162,5 +142,8 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     expect(readSrc("app/globals.css")).toContain("academy-dialogue-player");
     expect(readSrc("app/globals.css")).toContain("academy-player-widescreen");
     expect(readSrc("app/globals.css")).toContain("aspect-ratio: 16 / 9");
+    expect(player).toContain("academy-player-widescreen");
+    expect(player).toContain("academy-cinema-stage");
+    expect(player).not.toContain("max-height: 14rem");
   }, 20_000);
 });

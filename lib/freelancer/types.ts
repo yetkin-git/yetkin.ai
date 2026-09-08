@@ -224,6 +224,11 @@ export type FreelancerStore = {
    * Bellek store her zaman true.
    */
   hasUser?(userId: string): Promise<boolean>;
+  /**
+   * Super Admin test ilanı — `public.users` satırı yoksa Auth UUID + e-posta basar.
+   * Vatandaş kaydı handle_new_user SSOT kalır; bu yol yalnız admin actor içindir.
+   */
+  ensureUser?(user: { id: string; email: string }): Promise<void>;
 };
 
 export type FreelancerLlmInvoker = (

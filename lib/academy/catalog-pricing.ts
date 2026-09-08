@@ -1,7 +1,10 @@
 /**
  * Akademi vitrin tutarı — KDV dahil, kuruş tamsayısı.
- * Seviye bandı (Temel ₺490 vb.) uygulanmaz; SKU başına serbest analiz tutarıdır.
+ * Seviye bandı uygulanmaz; SKU başına serbest analiz tutarıdır.
  * Canlı kilit ve vitrin `PriceCatalogEntry.amountMinor`. Bu harita tohum SQL / DB yokken soğuk vitrin.
+ *
+ * 13 kanon SKU fiyatı dondurulmuştur. Katman 1 ₺490–1.490, Katman 2 ₺2.900–7.500,
+ * Katman 3 PayTR cüzdan tavanına (₺20.000) sığan kurumsal bant.
  */
 
 import type { AcademyCourseTitleSlug } from "@/lib/academy/course-titles";
@@ -18,30 +21,23 @@ export const ACADEMY_CATALOG_PRICE_WINDOW = {
 } as const;
 
 /**
- * 20 SKU · KDV dahil liste (kuruş).
- * Gerekçe: `docs/FIYATLANDIRMA_RAPORU.md`
+ * KDV dahil liste (kuruş). 13 kanon SKU.
+ * Amiral: ₺890. E-ticaret: ₺990.
  */
 export const ACADEMY_CATALOG_PRICE_MINOR = {
-  "ai-agent-temel": 129_000,
-  "ai-agent-orta": 159_000,
-  "ai-agent-ileri": 199_000,
-  "python-temel": 89_000,
-  "python-orta": 119_000,
-  "python-ileri": 149_000,
-  "fullstack-temel": 119_000,
-  "fullstack-orta": 149_000,
-  "fullstack-ileri": 199_000,
-  "security-temel": 129_000,
-  "security-orta": 159_000,
-  "security-ileri": 199_000,
-  "ai-temel": 99_000,
-  "ux-temel": 99_000,
-  "excel-masterclass": 99_000,
-  "google-ads-masterclass": 109_000,
-  "meta-ads-masterclass": 109_000,
-  "eticaret-masterclass": 99_000,
-  "canva-masterclass": 69_000,
-  "linkedin-masterclass": 79_000,
+  "01_office_ai": 89_000,
+  "02_ecommerce_ai": 99_000,
+  "03_social_media_ai": 89_000,
+  "04_chatbot_nocode": 129_000,
+  "05_prompt_practice": 49_000,
+  "06_n8n_automation": 390_000,
+  "07_langgraph_agents": 590_000,
+  "08_production_rag": 690_000,
+  "09_nextjs_ai": 490_000,
+  "10_data_analytics_ai": 349_000,
+  "11_llm_redteam": 1_500_000,
+  "12_onprem_finetune": 1_900_000,
+  "13_ai_governance": 1_500_000,
 } as const satisfies Record<AcademyCourseTitleSlug, number>;
 
 export function academyCatalogPriceMinorForSlug(slug: string): number | null {

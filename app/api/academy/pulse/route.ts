@@ -19,6 +19,8 @@ export async function GET(request: Request) {
             purchasesCount: 0,
             certificatesHeld: 0,
             lastCertificateTitle: null,
+            lastCourseSlug: null,
+            nextLessonKey: null,
             currencyCode: "TRY",
           },
         },

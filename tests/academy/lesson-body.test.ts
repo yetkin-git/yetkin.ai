@@ -96,25 +96,23 @@ describe("uygulamalı ders gövdesi", () => {
     expect(expandAcademySpokenAbbreviations("VS Code ile ajan")).toContain("VS Code");
   });
 
-  it("yayındaki her derste pratik tohum ve ses tavanı durur", { timeout: 20_000 }, () => {
+  it("yayındaki compact derste makale gövdesi durur; diyalog pratik mühürü yoktur", { timeout: 20_000 }, () => {
     const keys = new Set<string>();
     for (const row of ACADEMY_COURSE_SEEDS) {
       for (const lesson of curriculumForCourseSlug(row.slug)) {
         keys.add(lesson.key);
-        expect(LESSON_PRACTICE[lesson.key], lesson.key).toBeTruthy();
-        expect(academyLessonHasPractice(lesson.body), lesson.key).toBe(true);
-        expect(academyLessonHasPedagogy(lesson.body), lesson.key).toBe(true);
-        expect(lesson.body.length, lesson.key).toBeLessThanOrEqual(ACADEMY_LESSON_LISTEN_MAX_CHARS);
+        expect(LESSON_PRACTICE[lesson.key], lesson.key).toBeUndefined();
+        expect(academyLessonHasPractice(lesson.body), lesson.key).toBe(false);
+        expect(academyLessonHasPedagogy(lesson.body), lesson.key).toBe(false);
+        expect(lesson.body.length, lesson.key).toBeGreaterThan(200);
         const spoken = spokenAcademyLessonBody(lesson.body);
         expect(spoken.length, lesson.key).toBeGreaterThan(40);
         expect(spoken, lesson.key).not.toContain("```");
       }
     }
-    expect(keys.size).toBe(132);
-    for (const key of keys) {
-      expect(LESSON_PRACTICE[key], key).toBeTruthy();
-    }
-    expect(Object.keys(LESSON_PRACTICE).length).toBe(132);
+    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
+    expect(keys.size).toBe(ACADEMY_COURSE_SEEDS.length * 6);
+    expect(curriculumForCourseSlug("sample-course")).toEqual([]);
   });
 
   it("görsel bölüm başlığı ekranda ve seste aynı durur; köprü cümlesi eklenmez", () => {

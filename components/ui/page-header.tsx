@@ -9,16 +9,18 @@ export function PageHeader({
   className,
   compact = false,
   tight = false,
+  titleClassName,
 }: {
   eyebrow?: string;
   title: string;
   description?: ReactNode;
   actions?: ReactNode;
   className?: string;
-  /** Anasayfa vb. — tek satırlık karşılama; yükseklik ve padding sade. */
+  /** Panel vb. — tek satırlık karşılama; yükseklik ve padding sade. */
   compact?: boolean;
   /** Katalog vb. — küçük başlık, altta tek satır açıklama, aksiyonlar başlık hizasında. */
   tight?: boolean;
+  titleClassName?: string;
 }) {
   return (
     <div
@@ -40,7 +42,12 @@ export function PageHeader({
           </p>
         ) : null}
         {compact && !tight ? (
-          <h1 className="text-pretty text-xl font-semibold tracking-tight text-[var(--foreground)] sm:text-2xl">
+          <h1
+            className={cn(
+              "text-pretty text-xl font-semibold tracking-tight text-[var(--foreground)] sm:text-2xl",
+              titleClassName,
+            )}
+          >
             <span>{title}</span>
             {description ? (
               <span className="font-normal text-[var(--muted)]">
@@ -57,6 +64,7 @@ export function PageHeader({
               className={cn(
                 "font-semibold tracking-tight text-[var(--foreground)]",
                 tight ? "text-2xl" : "text-3xl",
+                titleClassName,
               )}
             >
               {title}
@@ -86,16 +94,29 @@ export function PageHeader({
 export function RoomFrame({
   children,
   className,
+  cinema = false,
   ...rest
 }: {
   children: ReactNode;
   className?: string;
+  /** Oynatıcı sahnesi — max-w-6xl basılmaz; max-w-none tek sınıfta çözülür. */
+  cinema?: boolean;
 } & HTMLAttributes<HTMLDivElement>) {
-  const spacingOverride = Boolean(
-    className?.split(/\s+/).some((token) => /!?space-y-/.test(token)),
-  );
+  const tokens = className?.split(/\s+/).filter(Boolean) ?? [];
+  const spacingOverride = tokens.some((token) => /!?space-y-/.test(token));
+  const widthOverride = cinema || tokens.some((token) => /!?max-w-/.test(token));
   return (
-    <div className={cn("mx-auto max-w-6xl", !spacingOverride && "space-y-8", className)} {...rest}>
+    <div
+      className={cn(
+        "mx-auto",
+        !widthOverride && "max-w-6xl",
+        cinema && "max-w-none",
+        !spacingOverride && "space-y-8",
+        className,
+      )}
+      data-room-cinema={cinema ? "true" : undefined}
+      {...rest}
+    >
       {children}
     </div>
   );

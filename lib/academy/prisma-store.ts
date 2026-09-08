@@ -11,6 +11,7 @@ import {
   serializeAcademyExamQuestions,
 } from "@/lib/academy/exam";
 import { orderAcademyCatalogByCurriculum } from "@/lib/academy/catalog-filter";
+import { filterAcademyGrowthCatalog } from "@/lib/academy/pilot-sku";
 import {
   academyExamSittingMayConsume,
   parseAcademyExamSittingItems,
@@ -28,6 +29,10 @@ import type {
   AcademyStore,
 } from "@/lib/academy/types";
 import { isPrismaUniqueViolation } from "@/lib/kernel/db-errors";
+import {
+  academyPulseContinueFields,
+  pickLastIncompleteAcademyPurchase,
+} from "@/lib/academy/pulse-continue";
 
 function toCourse(row: {
   id: string;
@@ -54,6 +59,9 @@ function toPurchase(row: {
   currencyCode: string;
   status: AcademyPurchaseRecord["status"];
   settledAt: Date;
+  consentVersion?: string | null;
+  distanceContractAccepted?: boolean | null;
+  digitalImmediatePerformanceAccepted?: boolean | null;
   createdAt: Date;
   updatedAt: Date;
 }): AcademyPurchaseRecord {
@@ -61,6 +69,9 @@ function toPurchase(row: {
     ...row,
     amountMinor: toAmountMinor(row.amountMinor),
     currencyCode: parseCurrencyCode(row.currencyCode),
+    consentVersion: row.consentVersion ?? null,
+    distanceContractAccepted: row.distanceContractAccepted ?? null,
+    digitalImmediatePerformanceAccepted: row.digitalImmediatePerformanceAccepted ?? null,
   };
 }
 
@@ -250,7 +261,9 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
       const rows = await db.academyCourse.findMany({
         where: { isPublished: true },
       });
-      return orderAcademyCatalogByCurriculum(rows.map(toCourse));
+      return orderAcademyCatalogByCurriculum(
+        filterAcademyGrowthCatalog(rows.map(toCourse)),
+      );
     },
     async insertPurchase(purchase) {
       const existing = await db.academyPurchase.findUnique({
@@ -273,6 +286,9 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
             settledAt: purchase.settledAt,
             createdAt: purchase.createdAt,
             updatedAt: purchase.updatedAt,
+            consentVersion: purchase.consentVersion ?? null,
+            distanceContractAccepted: purchase.distanceContractAccepted ?? null,
+            digitalImmediatePerformanceAccepted: purchase.digitalImmediatePerformanceAccepted ?? null,
           },
           update: { status: purchase.status },
         });
@@ -514,19 +530,37 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
       return rows.map(toCompletion);
     },
     async pulseForUser(userId) {
-      const [purchasesCount, certificates] = await Promise.all([
+      const [purchasesCount, certificates, purchaseRows] = await Promise.all([
         db.academyPurchase.count({ where: { userId } }),
         db.academyCertificate.findMany({
           where: { userId, revokedAt: null },
           orderBy: { issuedAt: "desc" },
-          select: { title: true },
+          select: { title: true, purchaseId: true },
           take: 100,
         }),
+        db.academyPurchase.findMany({
+          where: { userId },
+          orderBy: { settledAt: "desc" },
+          select: {
+            id: true,
+            settledAt: true,
+            course: { select: { slug: true } },
+            lessonCompletions: { select: { lessonKey: true } },
+          },
+        }),
       ]);
+      const certifiedPurchaseIds = new Set(certificates.map((row) => row.purchaseId));
+      const resume = pickLastIncompleteAcademyPurchase(purchaseRows, certifiedPurchaseIds);
+      const continueFields = academyPulseContinueFields({
+        courseSlug: resume?.course.slug,
+        completedLessonKeys: resume?.lessonCompletions.map((row) => row.lessonKey) ?? [],
+      });
       const pulse: AcademyPulse = {
         purchasesCount,
         certificatesHeld: certificates.length,
         lastCertificateTitle: certificates[0]?.title ?? null,
+        lastCourseSlug: continueFields.lastCourseSlug,
+        nextLessonKey: continueFields.nextLessonKey,
         currencyCode: SETTLEMENT_CURRENCY,
       };
       return pulse;

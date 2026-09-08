@@ -50,7 +50,6 @@ export function renderFrozenRoomGoneHtml(pathname: string): string {
         <a href="/">${copy.homeCta}</a>
         <a href="/academy">${copy.academyCta}</a>
         <a href="/career">${copy.careerCta}</a>
-        <a href="/freelancer">${copy.freelancerCta}</a>
       </nav>
     </main>
   </body>

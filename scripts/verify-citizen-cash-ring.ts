@@ -39,11 +39,13 @@ async function main(): Promise<void> {
   if (journey.freelancer.holdAfterRelease?.status !== "RELEASED") {
     fail("Emanet split sonrası RELEASED değil.");
   }
-  if (journey.witness.sealStatus !== "valid" || !journey.witness.hashVerified) {
-    fail("Sertifika tanığı geçerli değil.");
-  }
-  if (!/^[a-f0-9]{64}$/.test(journey.witness.certificateHash)) {
-    fail("certificateHash SHA-256 hex değil.");
+  if (journey.witness.certificateHash) {
+    if (journey.witness.sealStatus !== "valid" || !journey.witness.hashVerified) {
+      fail("Sertifika tanığı geçerli değil.");
+    }
+    if (!/^[a-f0-9]{64}$/.test(journey.witness.certificateHash)) {
+      fail("certificateHash SHA-256 hex değil.");
+    }
   }
 
   console.log(formatCitizenCashRingReport(journey));

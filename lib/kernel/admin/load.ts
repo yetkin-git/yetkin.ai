@@ -1,6 +1,6 @@
 import "server-only";
 
-import { isSuperAdminUser } from "@/lib/kernel/auth/super-admin";
+import { isSuperAdminActor, type SuperAdminActor } from "@/lib/kernel/auth/super-admin";
 import { isSupabaseUserId } from "@/lib/kernel/auth/ids";
 import { getPrisma } from "@/lib/kernel/db";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
@@ -78,11 +78,11 @@ async function findPriceDecisions(): Promise<SealedPriceDecision[]> {
 
 /**
  * Super Admin fiyat sicili.
- * userId oturumdan gelmelidir; SUPER_ADMIN_USER_ID eşleşmezse Prisma çağrılmaz.
+ * Actor oturumdan gelmelidir; `isSuperAdminActor` eşleşmezse Prisma çağrılmaz.
  * DATABASE_URL yoksa veya Prisma patlarsa unavailable — sahte fiyat yok.
  */
-export async function loadAdminCatalogBoard(userId: string): Promise<AdminCatalogBoard> {
-  if (!isSupabaseUserId(userId) || !isSuperAdminUser(userId)) {
+export async function loadAdminCatalogBoard(actor: SuperAdminActor): Promise<AdminCatalogBoard> {
+  if (!isSupabaseUserId(actor.id) || !isSuperAdminActor(actor)) {
     return { access: "forbidden" };
   }
   if (!process.env.DATABASE_URL?.trim()) {

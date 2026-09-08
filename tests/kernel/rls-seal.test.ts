@@ -26,6 +26,8 @@ describe("Faz 1.1 RLS / Auth mühürleri", () => {
     const sql = readMig("handle_new_user_auth_sync.sql");
     expect(sql).toMatch(/FUNCTION public\.handle_new_user\(\)/);
     expect(sql).toContain("INSERT INTO public.users");
+    expect(sql).toContain("display_name");
+    expect(sql).toContain("row_security = off");
     expect(sql).toContain("INSERT INTO public.wallets");
     expect(sql).toContain("amount_minor");
     expect(sql).toContain("'TRY'");
@@ -38,6 +40,13 @@ describe("Faz 1.1 RLS / Auth mühürleri", () => {
     expect(sql).toMatch(/e-posta boş/);
     expect(sql).toContain("age_confirmed_at");
     expect(sql).toMatch(/18 yaş onayı yok/);
+    expect(sql).toContain("terms_accepted_at");
+    expect(sql).toContain("consent_version");
+    expect(sql).toMatch(/kullanım\/KVKK rızası yok/);
+    expect(sql).toContain("ON CONFLICT (id) DO UPDATE");
+    expect(sql).toContain("ON CONFLICT (user_id, currency_code) DO UPDATE");
+    expect(sql).toContain("users_email_key");
+    expect(sql).toContain("yetim");
   });
 
   it("handle_user_email_update Auth e-postasını public.users'a kopyalar", () => {

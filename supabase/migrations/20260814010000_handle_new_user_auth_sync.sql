@@ -10,6 +10,7 @@ RETURNS TRIGGER
 LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = public, pg_catalog
+SET row_security = off
 AS $$
 BEGIN
   IF NEW.email IS NULL OR btrim(NEW.email) = '' THEN
@@ -22,18 +23,69 @@ BEGIN
     RAISE EXCEPTION 'handle_new_user: 18 yaş onayı yok. age_confirmed_at zorunludur.';
   END IF;
 
-  INSERT INTO public.users (id, email, locale, time_zone, created_at, updated_at)
-  VALUES (
-    NEW.id::text,
-    NEW.email,
-    'tr-TR',
-    'Europe/Istanbul',
-    NOW(),
-    NOW()
-  )
-  ON CONFLICT (id) DO UPDATE
-    SET email = EXCLUDED.email,
-        updated_at = NOW();
+  -- Fail-closed kullanım + KVKK: tek kayıt tiki terms_accepted_at + consent_version basar.
+  IF COALESCE(btrim(NEW.raw_user_meta_data->>'terms_accepted_at'), '') = ''
+     OR COALESCE(btrim(NEW.raw_user_meta_data->>'consent_version'), '') = '' THEN
+    RAISE EXCEPTION 'handle_new_user: kullanım/KVKK rızası yok. terms_accepted_at ve consent_version zorunludur.';
+  END IF;
+
+  -- Auth satırı silinip e-posta yeniden açılınca public.users yetim kalır; ON CONFLICT (id)
+  -- e-posta unique'i yakalamaz. Defteri olmayan yetimi sil, sonra UPSERT.
+  IF EXISTS (
+    SELECT 1
+    FROM public.users u
+    WHERE lower(u.email) = lower(NEW.email)
+      AND u.id <> NEW.id::text
+  ) THEN
+    IF EXISTS (
+      SELECT 1
+      FROM public.users u
+      WHERE lower(u.email) = lower(NEW.email)
+        AND u.id <> NEW.id::text
+        AND (
+          EXISTS (SELECT 1 FROM auth.users a WHERE a.id::text = u.id)
+          OR EXISTS (SELECT 1 FROM public.ledger_entries le WHERE le.user_id = u.id)
+        )
+    ) THEN
+      RAISE EXCEPTION 'handle_new_user: e-posta public.users unique kısıtına takıldı (users_email_key).';
+    END IF;
+    BEGIN
+      DELETE FROM public.wallets w
+      WHERE w.user_id IN (
+        SELECT u.id FROM public.users u
+        WHERE lower(u.email) = lower(NEW.email) AND u.id <> NEW.id::text
+      );
+      DELETE FROM public.users u
+      WHERE lower(u.email) = lower(NEW.email) AND u.id <> NEW.id::text;
+    EXCEPTION
+      WHEN foreign_key_violation THEN
+        RAISE EXCEPTION 'handle_new_user: yetim public.users silinemedi (FK). e-posta unique kısıtı.';
+      WHEN OTHERS THEN
+        RAISE EXCEPTION 'handle_new_user: yetim public.users temizliği başarısız: %', SQLERRM;
+    END;
+  END IF;
+
+  BEGIN
+    INSERT INTO public.users (id, email, display_name, locale, time_zone, created_at, updated_at)
+    VALUES (
+      NEW.id::text,
+      NEW.email,
+      NULLIF(btrim(COALESCE(NEW.raw_user_meta_data->>'display_name', NEW.raw_user_meta_data->>'full_name')), ''),
+      'tr-TR',
+      'Europe/Istanbul',
+      NOW(),
+      NOW()
+    )
+    ON CONFLICT (id) DO UPDATE
+      SET email = EXCLUDED.email,
+          display_name = COALESCE(public.users.display_name, EXCLUDED.display_name),
+          updated_at = NOW();
+  EXCEPTION
+    WHEN unique_violation THEN
+      RAISE EXCEPTION 'handle_new_user: public.users e-posta unique kısıtı (users_email_key).';
+    WHEN OTHERS THEN
+      RAISE EXCEPTION 'handle_new_user: public.users UPSERT başarısız: %', SQLERRM;
+  END;
 
   BEGIN
     INSERT INTO public.wallets (id, user_id, currency_code, amount_minor, created_at, updated_at)
@@ -45,7 +97,8 @@ BEGIN
       NOW(),
       NOW()
     )
-    ON CONFLICT (user_id, currency_code) DO NOTHING;
+    ON CONFLICT (user_id, currency_code) DO UPDATE
+      SET updated_at = NOW();
   EXCEPTION
     WHEN OTHERS THEN
       RAISE WARNING 'handle_new_user wallet bootstrap failed for %: %', NEW.id, SQLERRM;
@@ -73,7 +126,7 @@ BEGIN
 END $$;
 
 COMMENT ON FUNCTION public.handle_new_user() IS
-  'Faz 1.1 — auth.users INSERT sonrası users + TRY wallets (amount_minor). 18+ age_confirmed_at yoksa fail-closed. Wallet hatası kullanıcıyı geri almaz. EXECUTE: postgres/service_role/supabase_auth_admin.';
+  'Faz 1.1 — auth.users INSERT sonrası users + TRY wallets UPSERT (amount_minor). Yetim e-posta unique temizlenir. 18+ age_confirmed_at ve kullanım/KVKK terms_accepted_at+consent_version yoksa fail-closed. Wallet hatası kullanıcıyı geri almaz. EXECUTE: postgres/service_role/supabase_auth_admin.';
 
 -- Platform hold hazinesi (Auth login değildir). Release holdMinor buraya CREDİT edilir.
 -- Bu UUID SUPER_ADMIN_USER_ID değildir; Auth kullanıcı listesinden kopyalanmaz.

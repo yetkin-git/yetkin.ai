@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ExamPanel } from "@/components/academy/exam-panel";
 import { IconClose } from "@/components/ui/icons";
 import type { AcademyExamPublicQuestion } from "@/lib/academy/types";
+import { ACADEMY_EXAM_GATE_ANCHOR } from "@/lib/academy/continue-board";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { parseRailClientJson } from "@/lib/ui/parse-rail-json";
 import { withRailSession } from "@/lib/ui/rail-session-client-fetch";
@@ -171,7 +172,11 @@ export function ExamStartGate({
   }
 
   return (
-    <div className="academy-exam-chamber space-y-4 rounded-[var(--radius-card)] border p-6">
+    <div
+      id={ACADEMY_EXAM_GATE_ANCHOR}
+      className="academy-exam-chamber scroll-mt-28 space-y-4 rounded-[var(--radius-card)] border p-6"
+      data-academy-exam-gate=""
+    >
       <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--safir-deep)]">
         {copy.chamberEyebrow}
       </p>

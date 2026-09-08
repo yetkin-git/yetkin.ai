@@ -5,7 +5,9 @@
  * OPEN ilan → katalog hold bandı → accept (PSP hold veya dürüst 503; Rail DEBIT yok)
  * → teslim → release (split port) → FREELANCER_RELEASE vize.
  * CheckoutPriceLock akademi halkasına aittir; freelancer nakit kilidi EscrowHold'dur
- * (ikinci bakiye kolonu yok). Satıcı teklifi akademi Kariyer vizesi ister.
+ * Satıcı teklifi akademi Kariyer vizesi ister: yayın SKU `01_office_ai`
+ * (`ac_01_office_ai`) → ihtiyaç `excel-veri-otomasyon`. Eski RAIL tohumları
+ * yayından kapalıdır; T4 yayın kataloğuyla konuşur.
  *
  *   npm run ops:t4-freelancer-loop
  *
@@ -21,6 +23,7 @@ import dotenv from "dotenv";
 import { Client } from "pg";
 import { createClient } from "@supabase/supabase-js";
 import { academyCourseSeedBySlug } from "@/lib/academy/seed";
+import { ACADEMY_COURSE_TITLES } from "@/lib/academy/course-titles";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import { academyCanonicalProofSubmission } from "@/lib/academy/proof-of-work";
 import { academyExamAnswersFromPublicQuestions } from "@/lib/academy/exam-sitting";
@@ -43,8 +46,8 @@ const ROOT = process.cwd();
 dotenv.config({ path: resolve(ROOT, ".env.local") });
 dotenv.config({ path: resolve(ROOT, ".env") });
 
-const COURSE_ID = "ac_rail_temel";
-const COURSE_SLUG = "python-temel";
+const COURSE_SLUG = "01_office_ai" as const;
+const OFFICE_VISA_PATHWAY = "excel-veri-otomasyon" as const;
 const SEED_OPEN_JOB_ID = FREELANCER_JOB_SEEDS[0]?.id ?? "fj_rail_icon_set";
 const JOB_GROSS_MINOR = 10_000;
 const FOREIGN_IP = "85.105.141.10";
@@ -317,17 +320,25 @@ async function ensureAcademyVisa(base: string, worker: Citizen): Promise<void> {
     headers: authHeaders(worker.accessToken),
   });
   if (visas.status === 200 && visas.body.ok === true) {
-    const stamps = visas.body.stamps as Array<{ sourceKind?: string }> | undefined;
-    if (stamps?.some((stamp) => stamp.sourceKind === "ACADEMY_CERTIFICATE")) {
-      console.log("→ satıcı akademi vizesi mevcut");
+    const stamps = visas.body.stamps as Array<{ sourceKind?: string; title?: string }> | undefined;
+    if (
+      stamps?.some(
+        (stamp) =>
+          stamp.sourceKind === "ACADEMY_CERTIFICATE" &&
+          stamp.title === ACADEMY_COURSE_TITLES[COURSE_SLUG],
+      )
+    ) {
+      console.log("→ satıcı 01_office_ai akademi vizesi mevcut");
       return;
     }
   }
 
   const seed = academyCourseSeedBySlug(COURSE_SLUG);
   if (!seed) {
-    fail("python-temel tohumu yok.");
+    fail("01_office_ai tohumu yok.");
   }
+  const COURSE_ID = seed.id;
+  console.log(`→ T4 akademi SKU ${COURSE_SLUG} (${COURSE_ID}) → ${OFFICE_VISA_PATHWAY}`);
   const lock = await jsonRequest(`${base}/api/academy/courses/${COURSE_ID}/lock`, {
     method: "POST",
     headers: authHeaders(worker.accessToken),
@@ -371,7 +382,7 @@ async function ensureAcademyVisa(base: string, worker: Citizen): Promise<void> {
     const done = await jsonRequest(`${base}/api/academy/courses/${COURSE_ID}/curriculum`, {
       method: "POST",
       headers: authHeaders(worker.accessToken),
-      body: JSON.stringify({ lessonKey: lesson.key, proof }),
+      body: JSON.stringify(proof ? { lessonKey: lesson.key, proof } : { lessonKey: lesson.key }),
     });
     if (done.status !== 200 || done.body.ok !== true) {
       fail(`Ders ${lesson.key} ${done.status}: ${JSON.stringify(done.body)}`);
@@ -582,11 +593,15 @@ async function main(): Promise<void> {
 
   const created = await jsonRequest(`${base}/api/freelancer/jobs`, {
     method: "POST",
-    headers: authHeaders(client.accessToken),
+    headers: {
+      ...authHeaders(client.accessToken),
+      "Idempotency-Key": randomUUID(),
+    },
     body: JSON.stringify({
       title: "T4 kazanç halkası — emanet mühürü",
-      brief: "OPEN ilan. Teklif kabulünde EscrowHold kilitler; teslim sonrası RELEASE hakediş ve vize basar.",
+      brief: "OPEN ilan. Teklif kabulünde EscrowHold kilitler; teslim sonrası RELEASE hakediş ve vize basar. Ofis vizesi (excel-veri-otomasyon) gerekir.",
       budgetMinor: JOB_GROSS_MINOR,
+      visaPathwayId: OFFICE_VISA_PATHWAY,
     }),
   });
   if (created.status !== 201 || created.body.ok !== true) {
@@ -799,11 +814,15 @@ async function sealUstaFourRing(
 
   const created = await jsonRequest(`${base}/api/freelancer/jobs`, {
     method: "POST",
-    headers: authHeaders(usta.accessToken),
+    headers: {
+      ...authHeaders(usta.accessToken),
+      "Idempotency-Key": randomUUID(),
+    },
     body: JSON.stringify({
       title: "T4 usta dört halka — emanet DEBIT mühürü",
-      brief: "Usta müşteri kolunda hold DEBIT yazar; karşı taraf vizeli teklif verir.",
+      brief: "Usta müşteri kolunda hold DEBIT yazar; karşı taraf vizeli teklif verir. Ofis vizesi (excel-veri-otomasyon) gerekir.",
       budgetMinor: JOB_GROSS_MINOR,
+      visaPathwayId: OFFICE_VISA_PATHWAY,
     }),
   });
   if (created.status !== 201 || created.body.ok !== true) {

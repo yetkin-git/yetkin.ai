@@ -10,6 +10,7 @@ export function PulseCard({
   title,
   live,
   liveHint = "Canlı",
+  unavailableHint = "Henüz yüklenemedi",
   stats,
   children,
   href,
@@ -18,6 +19,7 @@ export function PulseCard({
   title: string;
   live: boolean;
   liveHint?: string;
+  unavailableHint?: string;
   stats: StatItem[];
   children?: ReactNode;
   href: LinkHref;
@@ -35,7 +37,9 @@ export function PulseCard({
         variant="default"
         className="flex h-full min-w-0 flex-col !p-4 shadow-sm transition-[border-color,box-shadow] duration-200 group-hover:border-[color-mix(in_srgb,var(--safir)_28%,transparent)]"
         title={title}
-        action={<Badge tone={live ? "emerald" : "neutral"}>{live ? liveHint : "Boş nabız"}</Badge>}
+        action={
+          <Badge tone={live ? "emerald" : "amber"}>{live ? liveHint : unavailableHint}</Badge>
+        }
         bodyClassName="flex min-h-0 flex-1 flex-col text-[var(--foreground)]"
       >
         <dl className="grid grid-cols-2 gap-x-4 gap-y-1">

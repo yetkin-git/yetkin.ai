@@ -12,7 +12,7 @@ import {
   describePublicSupabaseBrowserEnv,
   SupabaseBrowserEnvError,
 } from "@/lib/kernel/auth/supabase-browser";
-import { AUTH_REGISTER_API_PATH, readPostLoginPathFromSearch } from "@/lib/kernel/auth/redirects";
+import { AUTH_REGISTER_API_PATH } from "@/lib/kernel/auth/redirects";
 import { resolveSignupAuthError } from "@/lib/kernel/auth/signup-errors";
 import { buildSignupAuthMetadata } from "@/lib/kernel/auth/signup-metadata";
 import {
@@ -66,6 +66,19 @@ function resolveSignUpFailure(caught: unknown, copy: typeof AUTH_SEN.register): 
   return copy.fail;
 }
 
+function readRegisterOkState(body: unknown): { fallback: boolean } | null {
+  if (!body || typeof body !== "object" || !("ok" in body) || body.ok !== true) {
+    return null;
+  }
+  if (!("data" in body) || !body.data || typeof body.data !== "object") {
+    return { fallback: false };
+  }
+  const data = body.data;
+  return {
+    fallback: "fallback" in data && data.fallback === true,
+  };
+}
+
 function readRegisterFailMessage(body: unknown, copy: typeof AUTH_SEN.register): string {
   if (body && typeof body === "object" && "error" in body && typeof body.error === "string") {
     return resolveSignupAuthError(body.error, copy);
@@ -73,7 +86,7 @@ function readRegisterFailMessage(body: unknown, copy: typeof AUTH_SEN.register):
   return copy.fail;
 }
 
-export function RegisterForm({ nextPath }: { nextPath?: string }) {
+export function RegisterForm() {
   const copy = AUTH_SEN.register;
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -157,18 +170,9 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
         setError(next);
         return;
       }
-      const session =
-        "data" in body &&
-        body.data &&
-        typeof body.data === "object" &&
-        "session" in body.data &&
-        body.data.session === true;
-      if (session) {
-        console.log(REGISTER_DEBUG, "register:ok → next");
-        window.location.assign(readPostLoginPathFromSearch(window.location.search, nextPath));
-        return;
-      }
-      setMessage(copy.success);
+      const okState = readRegisterOkState(body);
+      console.log(REGISTER_DEBUG, "register:ok → pending-verification");
+      setMessage(okState?.fallback ? copy.devFallback : copy.pendingVerification);
     } catch (caught) {
       console.error(REGISTER_DEBUG, "caught", caught);
       setError(resolveSignUpFailure(caught, copy));
@@ -291,7 +295,11 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
         </div>
       ) : null}
       {message ? (
-        <p className="text-sm text-[var(--safir)]" role="status">
+        <p
+          className="text-sm text-[var(--safir)]"
+          role="status"
+          data-testid="register-pending"
+        >
           {message}
         </p>
       ) : null}

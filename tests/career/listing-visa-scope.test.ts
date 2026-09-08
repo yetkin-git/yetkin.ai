@@ -15,15 +15,17 @@ import {
 import { ACADEMY_COURSE_TITLES } from "@/lib/academy/course-titles";
 
 describe("ilan vize kapsamı çözümü", () => {
-  it("tohum iş kimliği regex'ten önce YZ dikeyini kilitler", () => {
-    const [seedId] = Object.keys(LISTING_VISA_PATHWAY_BY_JOB_ID);
-    expect(seedId).toBeTruthy();
+  it("tohum iş kimliği regex'ten önce sicil kilidini basar", () => {
+    const seedId = "fj_rail_icon_set";
     const resolution = inspectListingVisaPathway({
       id: seedId,
       title: "Nitelikli freelance teslimi",
-      brief: "UI/UX ve pazaryeri — yine de tohum YZ kilitlidir.",
+      brief: "Chatbot ve Voiceflow — yine de tohum Excel kapısı kilitlidir.",
     });
-    expect(resolution).toEqual({ pathwayId: YZ_ICERIK_LISTING_PATHWAY, source: "job-id" });
+    expect(resolution).toEqual({
+      pathwayId: LISTING_VISA_PATHWAY_BY_JOB_ID[seedId],
+      source: "job-id",
+    });
   });
 
   it("açık visaPathwayId kelime kestirimini ezer", () => {
@@ -42,14 +44,14 @@ describe("ilan vize kapsamı çözümü", () => {
     expect(resolveListingVisaPathway(YZ_LISTING_VISA_SUBJECT)).toBe(YZ_ICERIK_LISTING_PATHWAY);
     expect(
       inspectListingVisaPathway({
-        title: "YZ içerik teslimi",
-        brief: "Yapay zekâ destekli görsel üretim; freelance teslim.",
+        title: "Chatbot kurulumu",
+        brief: "WhatsApp ve Voiceflow; freelance teslim.",
       }).source,
     ).toBe("phrase");
     expect(
       resolveListingVisaPathway({
-        title: "YZ içerik teslimi",
-        brief: "Yapay zekâ destekli görsel üretim; freelance teslim.",
+        title: "Chatbot kurulumu",
+        brief: "WhatsApp ve Voiceflow; freelance teslim.",
       }),
     ).toBe(YZ_ICERIK_LISTING_PATHWAY);
   });
@@ -69,26 +71,45 @@ describe("ilan vize kapsamı çözümü", () => {
     );
   });
 
-  it("yazılım ifadeleri bulut dikeyini seçer", () => {
+  it("e-ticaret ifadeleri pazaryeri asistanlığı kapısını seçer; fullstack/sızma kapı açmaz", () => {
+    expect(
+      resolveListingVisaPathway({
+        title: "Trendyol mağaza asistanlığı",
+        brief: "Hepsiburada ve Shopify ürün açıklamaları.",
+      }),
+    ).toBe(YAZILIM_BULUT_LISTING_PATHWAY);
     expect(
       resolveListingVisaPathway({
         title: "Full stack React teslimi",
         brief: "Node.js ve AWS DevOps.",
       }),
-    ).toBe(YAZILIM_BULUT_LISTING_PATHWAY);
+    ).toBeNull();
+    expect(
+      resolveListingVisaPathway({
+        title: "Sızma testi",
+        brief: "Pentest ve etik hacker raporu.",
+      }),
+    ).toBeNull();
   });
 
   it("kurs slug'ı başlıktan önce damgadaki courseSlug'ı kullanır", () => {
     expect(
       listingVisaCourseSlugFromStamp({
         title: "Eski başlık",
-        courseSlug: "ai-temel",
+        courseSlug: "04_chatbot_nocode",
       }),
-    ).toBe("ai-temel");
+    ).toBe("04_chatbot_nocode");
     expect(
       listingVisaCourseSlugFromStamp({
-        title: ACADEMY_COURSE_TITLES["python-temel"],
+        title: "Yayın dışı ofis kursu",
+        courseSlug: "sample-course",
       }),
-    ).toBe("python-temel");
+    ).toBe("sample-course");
+    expect(ACADEMY_COURSE_TITLES["01_office_ai"]).toContain("Ofiste Yapay Zekâ");
+    expect(
+      listingVisaCourseSlugFromStamp({
+        title: "Yayın dışı ofis kursu",
+      }),
+    ).toBeNull();
   });
 });

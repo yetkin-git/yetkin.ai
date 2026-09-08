@@ -124,6 +124,8 @@ describe("sekiz SQL mühür planı", () => {
     expect(plan.academyCourseIds).toEqual([...ACADEMY_SEED_COURSE_IDS]);
     expect(plan.freelancerJobIds).toEqual([...FREELANCER_SEED_JOB_IDS]);
     expect(plan.catalogOperatorPricePreserve).toBe(true);
+    expect(plan.handleNewUserConsent).toBe(true);
+    expect(plan.academyLegacyUnpublish).toBe(true);
   });
 
   it("kör EXCLUDED amount_minor yazımını Super Admin koruması saymaz", () => {

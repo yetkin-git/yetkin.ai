@@ -9,11 +9,13 @@ export function CurriculumOutline({
   passScore,
   completedKeys = [],
   showProgress = false,
+  visaPromise = null,
 }: {
   syllabus: AcademySyllabus;
   passScore: number;
   completedKeys?: readonly string[];
   showProgress?: boolean;
+  visaPromise?: string | null;
 }) {
   const copy = ACADEMY_SEN.outline;
   const done = new Set(completedKeys);
@@ -68,6 +70,14 @@ export function CurriculumOutline({
         </div>
       )}
       <p className="mt-4 text-sm text-[var(--foreground)]">{copy.exam(passScore)}</p>
+      <p className="mt-2 text-sm text-[var(--foreground)]" data-academy-exam-shield="">
+        {copy.examShield}
+      </p>
+      {visaPromise ? (
+        <p className="mt-2 text-sm text-[var(--foreground)]" data-academy-visa-promise="">
+          {visaPromise}
+        </p>
+      ) : null}
       {!showProgress ? <p className="mt-2 text-xs text-[var(--muted)]">{copy.lockedHint}</p> : null}
     </Card>
   );

@@ -69,8 +69,8 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
   });
 
   it("kamu, profil ve kalan odalar siz kaçakları taşımaz; SEN_VOICE bağlar", () => {
-    expect(SEN_VOICE.public.home.description).toContain("kariyer vizenle");
-    expect(SEN_VOICE.public.home.description).toContain("ödeme henüz bağlanmadı");
+    expect(SEN_VOICE.public.home.description).toContain("kurslarını incele");
+    expect(SEN_VOICE.public.home.description).toContain("PayTR iFrame");
     expect(SEN_VOICE.profil.description).toContain("Görünen adını");
     expect(ARENA_SEN.description).toContain("kazananı sen dağıt");
     expect(KURUMSAL_SEN.description).toContain("Şirket profilini kur");

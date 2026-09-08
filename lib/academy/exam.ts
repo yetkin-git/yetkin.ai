@@ -21,7 +21,7 @@ export const ACADEMY_CERTIFICATE_HASHED_FIELDS = [
   "sınav denemesi",
   "puan",
   "basım anı",
-  "müfredat mühürü",
+  "müfredat özeti",
 ] as const;
 
 export function parseAcademyCertificateHash(raw: string): string | null {

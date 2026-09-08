@@ -58,7 +58,10 @@ describe("dikey yazma kenar yüzeyi", () => {
     }
     expect((await proxy(request("/academy"))).status).toBe(200);
     expect((await proxy(request("/freelancer"))).status).toBe(200);
+    expect((await proxy(request("/academy/dogrula"))).status).toBe(200);
     expect((await proxy(request("/academy/python-temel/oyna"))).status).toBe(307);
+    expect((await proxy(request("/academy/certificates"))).status).toBe(307);
+    expect((await proxy(request("/career"))).status).toBe(307);
   });
 
   it("yazma sayfaları requirePageSession bağlar; CSP PayTR frame-src taşır", () => {

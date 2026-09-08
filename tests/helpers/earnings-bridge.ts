@@ -49,7 +49,7 @@ async function stampAcademyVisa(userId: string) {
       userId,
       actorUserIds: [userId],
       title: "Yapay Zekâ ve Prompt Mühendisliğine Giriş",
-      courseSlug: "ai-temel",
+      courseSlug: "04_chatbot_nocode",
       issuedAt: new Date("2026-08-16T00:00:00.000Z"),
       certificateHash: ACADEMY_HASH,
     },

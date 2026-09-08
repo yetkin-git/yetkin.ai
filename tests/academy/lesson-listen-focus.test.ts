@@ -88,20 +88,17 @@ describe("dersi dinle odak zaman çizelgesi", () => {
     expect(academyLessonListenProgressRatio(0, 0)).toBe(0);
   });
 
-  it("36 yayında derste mikro-video ve şema kuyruk odağındadır", { timeout: 40_000 }, () => {
-    for (const row of ACADEMY_COURSE_SEEDS) {
-      for (const lesson of curriculumForCourseSlug(row.slug)) {
-        const blocks = composeAcademyLessonBlocks(lesson);
-        const cues = academyLessonListenFocusCues(blocks);
-        const kinds = new Set(cues.map((cue) => blocks[cue.blockIndex]!.kind));
-        expect(kinds.has("text"), lesson.key).toBe(true);
-        expect(kinds.has("micro-video"), lesson.key).toBe(true);
-        expect(kinds.has("diagram"), lesson.key).toBe(true);
-        expect(kinds.has("params"), lesson.key).toBe(true);
-        expect(kinds.has("steps"), lesson.key).toBe(true);
-        expect(kinds.has("code"), lesson.key).toBe(false);
-        expect(cues.at(-1)?.end, lesson.key).toBe(spokenAcademyLessonBody(lesson.body).length);
-      }
-    }
+  it("yayın tohumu compact müfredat taşır; örnek slug boştur", () => {
+    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
+    expect(curriculumForCourseSlug("sample-course")).toEqual([]);
+    const blocks = fixtureBlocks();
+    const cues = academyLessonListenFocusCues(blocks);
+    const kinds = new Set(cues.map((cue) => blocks[cue.blockIndex]!.kind));
+    expect(kinds.has("text")).toBe(true);
+    expect(kinds.has("micro-video")).toBe(true);
+    expect(kinds.has("diagram")).toBe(true);
+    expect(kinds.has("params")).toBe(true);
+    expect(kinds.has("steps")).toBe(true);
+    expect(kinds.has("code")).toBe(false);
   });
 });

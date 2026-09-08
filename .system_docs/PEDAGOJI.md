@@ -1,75 +1,102 @@
-# PEDAGOJI.md — Eğitim ve Anlatım Anayasası
+# PEDAGOJI.md — Eğitim ve anlatım ilkeleri
 
-Bu doküman platformun eğitim ilkelerini, pedagojik mühendislik kurallarını, üretim boru hattını ve müfredat mühür standartlarını tanımlar.
+Bu belge platformun **canlı** eğitim felsefesini, Aşama 1 (makale) yayın standardını ve Aşama 2–3 üretim disiplinini tanımlar.
 
----
+- **Aşama 1 (B):** Yayın makalesi. Compact markdown + sekme + sunucu sınavı.
+- **Aşama 2–3 (E):** Sinematik katman — sesli anlatım, zaman damgalı kayan metin, görsel. İnsan `--seal` onayı olmadan harici TTS veya video bake yok.
+- **Stüdyo sayıları** (dilim, duraklama, model id, ses yuvası, sahne bütçesi): `docs/OPS_STUDYO_SAYILARI.md`. Bu dosyaya kopyalanmaz.
 
-# BÖLÜM A: PEDAGOJİ ACADEMY (AKTİF)
-
-## 0. ANA KURAL — ŞİİR OKUMA, GARSONU GÖSTER
-
-Akademi teorik ders anlatmaz. Kavramı tarif etmek yetmez; masadaki işi göstermek zorunludur.
-
-* **Şiir okumak yasaktır.** Şefin tarifini hoparlörden dinletmek, akademik tanım yığmak, «ajan otonom bir döngüdür» diye konuşmak şiir okumaktır. Öğrenci tabak görmeden restorandan çıkmış olur.
-* **Garsonu göstermek zorunludur.** Her kavram bir sahnede, bir markada, bir kapıda durur. Garson siparişi alır, mutfağa gider, araç çantasına uzanır, not defterine bakar, tabağı koyar ya da durur. Sen bu sahneyi anlatırsın; soyut cümleyi değil.
-
-**Kavram kanonu (benzeme zorunlu; akademik çeviri yasak):**
-
-| Kavram | Benzetme | Konuşan örnek | Çalışan örnek |
-| --- | --- | --- | --- |
-| Büyük Dil Modeli (LLM) | Mutfaktaki **şef** | ChatGPT, Gemini, Claude | — |
-| AI Agent | Masadaki **garson / çalışan** | — | Cursor, Devin, AutoGPT |
-| Tool | **Araç çantası** (tepsi, termometre, kasa) | — | Dosya yazma, tarayıcı, API çağrısı |
-| Memory | **Not defteri** | — | Kısa pencere / uzun raf |
-
-Vizyon cümlesi: **Konuşan AI değil, Çalışan AI.** ChatGPT tarif okur. Cursor tabağı getirir. İkisini aynı iş sanmak, şefi garson sanmaktır.
-
-## 1. TEMEL İLKELER VE SEVİYE MİMARİSİ
-* **Konunun Hakkı:** Konunun hakkı neyse o kadar ders/bölüm yazılır. Sabit ders adedi veya bölüm kısıtlaması yoktur. İlan edilen öğrenme çıktılarının tamamı öğretilir ve ölçülür.
-* **Ana Dikey / Esnek Seviye Mantığı:**
-  - Ana uzmanlık hatlarında (Python, AI Agent, Web Dev vb.) hedef koymayı kolaylaştıran **Temel, Orta ve İleri Seviye** basamakları kullanılır.
-  - Spesifik/dar kapsamlı konularda (Git/GitHub, Docker temelleri vb.) yapay 3 seviye zorlaması yapılmaz; tekil Masterclass veya modül yapısı korunur.
-* **Dinamik Fiyat & Tek Celsede Tamlık:** Öğrenme vaadi tek celsede eksiksiz kapanır. Fiyatlandırma piyasa değerine göre katalogda (`amountMinor`) mühürlenir.
-* **SEN Dili & Yalınlık:** Anlatım doğrudan kullanıcıya ("sen") hitap eder. Süslü laf kalabalığı, yapay açılış dolguları ("Şey...", "Eeee...") hem metinden hem sesten temizlenir. Sözlük maddesi gibi «yani bu şu demek» yığınları yerine sahne konur.
-
-## 2. YEDİ ALTIN KURAL (SES VE PEDAGOJİ MÜHRÜ)
-Eğitimler çift-AI tiyatrosu (Koray/Maya sohbeti) değildir. Tek sorumlu rol **Eğitmen**dir; öğrenciye doğrudan hitap eder. Aşağıdaki yedi kural hem ekran kopyasını hem mühürlü WAV’ı bağlar.
-
-1. **Eğitmen kimliği = sabit ses.** Katalog profili (ör. Maya — Kıdemli Yapay Zeka Mimarı) tek TTS voice ID ile mühürlenir. Maya = Gemini `Erinome`. Ece = `Leda`. Gözde = `Callirrhoe`. İkinci isim, ikinci ses yasaktır.
-2. **Tanışma selamı ve özgeçmiş.** İlk dersin girişi eğitmeni adlandırır: «Merhaba, ben Maya. Yapay Zeka Sistemleri Uzmanıyım…» Konuşmacı etiketi ekranda yine **Eğitmen**dir; selam gövde düzyazısındadır. Moderatör (Koray/Can/Tarık) ders kopyasına ve mühürlü WAV’a girmez.
-3. **Bölüm kapanışı.** Özet perdesi «Bir sonraki bölümde görüşmek üzere.» ile biter (son ders / sınav kapısı hariç).
-4. **Bölüm tekrarı (spaced repetition).** 2. dersten itibaren giriş, önceki dersin 1–2 dakikalık «Ne Öğrenmiştik?» özeti ve üç maddelik kontrol listesiyle açılır.
-5. **Ham TTS mühür hattı.** Eğitmen sesi Gemini TTS ana modelinin (`gemini-3.1-flash-tts-preview`) **ham** çıktısıdır. Metinler ana perdeler halinde modele girer. WAV mühründe yalnız **48 kHz resample** ve **+8 dB limiter** uygulanır.
-   * **Yasak:** %93 hız bükme, SOLA, `tempoStretchPcmWav`, konuşma hızı çarpanı ile PCM uzatma.
-   * **Yasak:** 300 karakterlik mikro parçalama ve dikiş. Perde (ana paragraf) modele bütün girer. Gemini tavanı aşılırsa yalnız cümle sınırından paketlemeye izin vardır; karakter kotasıyla dilim yok.
-6. **Ses-metin %100 birebir.** Ekranda görünen paragraf düzyazısı ile sentezlenen kopya aynı kaynaktır. Kısaltma açılımı, gümrük ve boşluk hem ekrana hem sese aynı uygulanır.
-7. **SEN dili ve Fail-closed.** Anlatım «sen»e hitap eder. Yapay açılış dolgusu yoktur. Kapı kapalıysa işlem durur; orta değer uydurulmaz. Garson mutfak kapalıyken tabak uydurmaz.
-
-* **Eğitmen (Master Voice):** Gemini TTS `Erinome` — yüksek frekanslı, net, berrak, yakın mikrofon.
-* **Siber Güvenlik kadrosu:** Vitrin eğitmeni **Ece** (Leda). Ders metni tek eğitmen formatındadır.
-* **Dijital Beceriler / İş Dünyası kadrosu:** Vitrin eğitmeni **Gözde** (Callirrhoe). Ders metni tek eğitmen formatındadır.
-
-**Ses-Karakter Mühür Kuralı:**
-* Eğitmen sesi merkezi `CastRegistry` içinde `ACADEMY_MASTER_VOICE` (Erinome) ve dikey sesleriyle mühürlenir.
-* Yapısal tur ayrımı `DialogueTurn[]` JSON veri yapısıyla mühürlenir; her tur eğitmen rolündedir.
-* Oynatıcı kelime saati (420 ms) PCM’e hız bükme olarak basılmaz.
-
-## 3. ÜRETİM NOTU VE MEDYA MÜHRÜ (SÜREÇ; DERLEME ŞARTI DEĞİL)
-* Müfredat taslağı ve `DialogueTurn[]` ajan oturumunda üretilir. İkinci model ile otomatik «AI-Checking-AI» CI kapısı **yoktur**; bu bir süreç notudur, derleme şartı değildir.
-* **Diyalog mührü:** 18 SKU dört perdeli tek eğitmen `DialogueTurn[]` taşır. `ai-temel` ve `ux-temel` 12 bölüm düz taslaktır; WAV iddiası yoktur.
-* **WAV mührü (disk):** `ACADEMY_MEDIA_SEALED_AUDIO` yalnız `public/media/academy/audio` altındaki gerçek dosyalarladır. Bu an: **13 WAV** — `ai-agent-temel` 6, `ai-agent-orta` 3, `ai-agent-ileri` 1–4. Python / fullstack / security / masterclass WAV **yoktur**. `ai-agent-orta-4`..`6` ve `ai-agent-ileri-5` / `ai-agent-ileri-6` yoktur. Olmayan ses için sahte beyan yapılmaz.
-* **Sıfır Maliyetli Medya (Zero-Cost Streaming):** Mühürlü derslerde izleme anında canlı TTS tetiklenmez; dondurulmuş WAV oynatılır. Mühürsüz derste eğitmen metni okunur; oynatıcı sahte «ses hazırlanıyor» iddiasında bulunmaz.
-
-## 4. DERS AKIŞ ŞABLONU (4 PERDELİ TEK EĞİTMEN)
-1. **Giriş & Bağlam:** İlk derste tanışma («Merhaba, ben [Eğitmen]. …») + "Hoş geldiniz. Bu bölümde [Konu Adı] konusunu ve neden ihtiyaç duyduğunuzu ele alacağız." 2. dersten «Ne Öğrenmiştik?» özeti. Kavram şef, garson, araç çantası, not defteri ve gerçek marka ile sahneye konur; tanım maddesiyle açılmaz.
-2. **Problem:** "Geleneksel yapılarda [X Yanlışı/Eksiği] yaşanır. Bu yüzden bu mimariyi kullanırız." Yanlış, şefi garson sanmaktır: ChatGPT güzel konuşur, tabak gelmez.
-3. **Kod & Uygulama Mantığı:** "Ekrandaki kod bloğunda gördüğünüz üzere..." — kodun her satırı masadaki bir harekettir. Garson deftere bakar ya da durur. Şef parametreyi yok sayıp cümle basar.
-4. **Özet & Kazanım:** "Bu dersle [Y Becerisi] kazandınız. Şimdi bölüm sonu değerlendirmesine geçebilirsiniz." Kazanım «Konuşan AI değil, Çalışan AI» ayrımıdır.
-5. **İş Kanıtı / Değerlendirme:** Ders sonu quiz ve kurs sınavı (baraj 70); SHA-256 yetkinlik mührü. Bu perde konuşma tiyatrosu değildir.
-
-18 diyalog SKU bu dört perdeyi taşır. İki düz taslak (`ai-temel`, `ux-temel`) istisnadır; aynı dört başlıkla öğrenciye hitap eder.
+Çelişkide `.system_docs/ANAYASA.md` bağlayıcıdır. Canlı model kimliği `lib/kernel/ai/model-roles.ts` SSOT’tur.
 
 ---
 
-# BÖLÜM B: PEDAGOJİ JUNIOR (10-18 YAŞ) — [DONMUŞ / GELECEK FAZ]
-* Şimdilik donmuş durumdadır. Üretim, route veya kod yazımı yapılmaz.
+# A. Eğitim felsefesi
+
+## 1. Somut ve uygulamalı anlatım ("Garsonu göster")
+
+Soyut tanım yığılmaz. Bilginin masada nasıl çalıştığı gösterilir.
+
+* **Çalışan örnek:** «Ajan otonom bir döngüdür» demek yerine sipariş, araç, bellek ve teslim adımı yazılı durur.
+* **Konunun doğası:** Ofis/Excel, e-ticaret, sosyal içerik, chatbot ve prompt — her SKU kendi iş dilini kullanır. Tek şablon her alana zorla dayatılmaz.
+* **SEN dili:** Anlatıcı öğrenciye «sen» diye hitap eder. Dolgu («Şey…», «Eeee…») ve bürokratik dolambaç yok.
+
+## 2. Konunun hakkı
+
+Sabit ders adedi, maktu dakika veya kelime tavanı **yayın makalesini kesmez** (Anayasa B4). Bir kurs kaç bölüm isterse o kadar yazar; ingest ve vitrin o gerçeği taşır.
+
+**Kanon vs yayın:** Kimlik sicili 13 odaklı eğitim başlığı tutar (`ACADEMY_COURSE_TITLES`). **Canlı vitrin** ingest edilmiş 5 compact SKU’dur: `01_office_ai`, `02_ecommerce_ai`, `03_social_media_ai`, `04_chatbot_nocode`, `05_prompt_practice`. 06–13 onaylı ingest bekleyen taslaktır; vitrin cümlesi 13 satmaz.
+
+Eski Temel/Orta/İleri Python–AI Agent–Fullstack ve Excel/Canva/Ads masterclass müfredatı silinmiştir. Belge onları yaşatmaz.
+
+---
+
+# B. Canlı standart — Aşama 1 (Makale / Compact Markdown)
+
+**Yayın formatı budur.** Vatandaş için standart deneyim Aşama 1 makale okumasıdır. Karaoke/Teleprompter yalnız mühürlü derslerde cue + `currentTime` ile opsiyoneldir.
+
+1. Ders gövdesi `docs/curriculum/` altında `.md` yazılır; `scripts/ingest-course-sections.ts` `lib/academy/curricula/<klasör>/` üretir.
+2. Oynatıcı tek kabuk: `CurriculumPlayer` + `AcademyMarkdownRenderer` + `LessonStudyTabs`. Mühürlü derste aynı kabuğun alt katmanı göz + medya + cue overlay’dir.
+3. Soğuk şablon başlıkları (`TANIŞMA`, `GİRİŞ`, `BÖLÜM N`) ekranda kırpılır; asıl ders H2/H3 ve gövde ile başlar.
+4. Compact derste etkileşimli lab zorunlu değildir; okuma mührü yeter.
+5. **Ses vaadi mühürle dardır.** Vitrin 5 kurs satar. Vatandaş karaoke yalnız `ACADEMY_MEDIA_SEALED_AUDIO` sicilindeki derslerde açılır. Amiral SKU (`01_office_ai`) Aşama 2–3 prodüksiyon kuyruğu 3–6. dersler için açıktır; WAV mühürlenmeden teleprompter basılmaz. `generateSpeech` / `listen` kapıları **410**. İzlemede canlı TTS yoktur. Kelime-saati yayın senkronu değildir.
+
+Amiral SKU (`01_office_ai`) Aşama 2–3’e çıkarılacak ilk üründür. Diğer compact kurslar Aşama 1’de kalabilir; geçiş zorunlu değildir.
+
+---
+
+# C. Kanıt zinciri
+
+1. Giriş ve bağlam.
+2. İş problemi / senaryo.
+3. Uygulama (tablo, prompt, adım; yazılımda çalışan örnek).
+4. Özet ve saha görevi.
+5. Kurs sonu sınav: baraj **70**, **sunucu puan**. Sertifika satın alınmaz.
+
+---
+
+# D. Aşama 2 ve Aşama 3 — geçiş disiplini
+
+Geçmiş felaket (UI + TTS + DOM’u aynı anda çözmek, hayalet `.chunks`) tekrarlanmaz. Üretim sırası **metin → konuşma metni → mühürlü ses → cue → görsel**’dir; tersine değil.
+
+* **Aşama 2 (taslak):** Yalnız yerel/mock ses ve taslak cue. Eski chunk fiziken silinir. Vatandaş yüzeyine taslak WAV basılmaz.
+* **Aşama 3 (mühür):** İnsan `--seal` / `--mode=production` onayı olmadan harici TTS veya video bake yok.
+
+Süre/kelime bütçesi **ses mühürlü** derse aittir; compact makale gövdesini kesmez (Anayasa B4). Sayılar OPS defterindedir.
+
+---
+
+# E. Görsel, Ses ve Video Üretim SOP (Aşama 2 & 3)
+
+Satın alınan Akademi ürününün *hedef* deneyimi: **sesli anlatım + ekranda senkron kayan metin + görsel destek.** Gün 0 gerçeği Aşama 1 makaledir; sinema sonradan gelir.
+
+İzleme anında harici üretici API **çağrılmaz**. Bütün medya Aşama 3’te dondurulur; oynatıcı yalnız kamu dosyası ve cue listesini okur.
+
+## E.1 Seslendirme
+
+* **Model kimliği Pedagoji’de durmaz.** `VOICE_TTS` ve yedek `lib/kernel/ai/model-roles.ts` içindedir.
+* **Anlatım dili:** SEN aksı. Doğal, akıcı. Dolgu ve harf harf heceleme yok. Nefes, dilimler arası duraklamadır; dolgu duraksaması değildir. Süre OPS’tedir.
+* **Konuşma metni ≠ makale gövdesi.** Kod çiti, tablo hamlığı ve soğuk şablon başlıkları seslendirilmez. Makale «Tam Ders Metni»nde kalır.
+* **Nefes kuralı:** Metin tek blokta gönderilmez; noktalama parçalarına bölünür, araya duraklama konur. Cue ve timings gerçek bake süresine kilitlenir. Fonksiyon adları OPS’tedir.
+* **Vatandaş kapısı:** `generateSpeech` / `listen` **410**. Bake yalnız onaylı operatör script’idir.
+
+## E.2 Ekranda Kayan Metin & Senkronizasyon
+
+* Oynatıcı **yalnız mühürlü derste** ses çalarken zaman damgalı kayan metin sunar. Mühürsüz derste teleprompter basılmaz.
+* Saat kaynağı HTMLMediaElement `currentTime`’dır — kelime-saati tahmini yayın senkronu değildir.
+* Taslak cue vatandaş yüzeyine girmez.
+* Compact `diagrams: []` / `microVideos: []` durur — Compact şema yuvası sinema sahnesi değildir.
+* Teleprompter tiyatrosu (çoklu anlatıcı, hayalet `.chunks`) geri gelmez. Tek eğitmen, tek iz.
+
+## E.3 Görsel ve video
+
+* Kısa sinematik sahne ve illüstrasyon bake’i operatör script’i + `--seal` ile yapılır; izleme üreticiyi vurmaz.
+* Canlı gateway’de `VIDEO_GEN` fail-closed durur (`generateVideo?: never`).
+* Placeholder test-pattern vatandaşa basılmaz.
+* Birim bütçe ve sahne listesi onaylı batch’tedir; bu belgeye fiyat gömülmez.
+
+## E.4 Bütçe & Maliyet Kalkanı
+
+* TTS ve video jenerasyonu **strictly `--seal`** ve onaylı batch script’leri üzerinden yürür.
+* İzlemede canlı/anlık API çağrısı **yoktur.** Kota, 429 ve gizli fatura vatandaş oturumuna sızmaz.
+* `--dry-run` varsayılan keşif yoludur. `--seal` / `--confirm-gemini-spend` / `--mode=production` insan onayından sonra harici çağrı açılır.
+* Compact makale kelime tavanı maliyet kalkanı değildir. Kalkan, mühürlenecek **konuşma metni + sahne listesi** üzerinedir.

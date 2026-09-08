@@ -28,6 +28,7 @@
     "ops:health-probe": "tsx scripts/ops-health-probe.ts",
     "ops:revoke-academy-certificate": "tsx scripts/ops-revoke-academy-certificate.ts",
     "ops:super-admin-academy-grant": "tsx scripts/ops-super-admin-academy-grant.ts",
+    "ops:set-auth-password": "tsx scripts/ops-set-auth-password.ts",
     "ops:list-payment-anomalies": "tsx scripts/ops-list-payment-anomalies.ts",
     "ops:lab-postgres": "tsx scripts/ops-lab-postgres.ts",
     "ops:init": "npm run ops:migrate",
@@ -59,7 +60,7 @@
     "verify:sen-axis": "tsx scripts/verify-sen-axis.ts",
     "test:surface": "vitest run surface.test.ts constitution-surfaces.test.ts",
     "verify:grep-seals": "npm run verify:api-auth && npm run verify:boundaries && npm run verify:atomic-seals && npm run verify:sen-axis",
-    "verify:prebuild": "npm run verify:no-secrets && npm run verify:amount-minor && npm run verify:rls-status && npm run verify:v1-contract-artifacts && npm run verify:idor-seals",
+    "verify:prebuild": "npm run verify:no-secrets && npm run verify:amount-minor && npm run verify:rls-status && npm run verify:v1-contract-artifacts && npm run verify:idor-seals && npm run ops:runtime-readiness",
     "verify:nightly": "npm run verify:grep-seals && npm run verify:ai-gateway && npm run verify:web-security-seals && npm run verify:paytr-reconciliation-seals && npm run test:surface"
   },
   "engines": {

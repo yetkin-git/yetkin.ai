@@ -2,7 +2,6 @@ import {
   ACADEMY_ONBOARDING_COURSE_SLUG,
   FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY,
   LISTING_VISA_PATHWAY_BY_JOB_ID,
-  SIBER_AGILE_ESG_LISTING_PATHWAY,
   UIUX_URUN_FREELANCE_LISTING_PATHWAY,
   YAZILIM_BULUT_LISTING_PATHWAY,
   YZ_ICERIK_LISTING_PATHWAY,
@@ -46,14 +45,14 @@ export type ListingVisaPathwayResolution = {
 };
 
 export const YZ_LISTING_VISA_SUBJECT: ListingVisaSubject = {
-  title: "YZ içerik teslimi",
-  brief: "Dikey: yapay zekâ destekli içerik ve görsel üretim. Teklif Kariyer Vizesi ister.",
+  title: "Chatbot kurulumu",
+  brief: "WhatsApp ve web chatbot; Voiceflow ve Botpress. Teklif Kariyer Vizesi ister.",
 };
 
-/** Freelancer / pazaryeri ilanı — UI/UX & freelance dikeyi. */
+/** Freelancer / pazaryeri ilanı — sosyal içerik & görsel üretim. */
 export const FREELANCE_LISTING_VISA_SUBJECT: ListingVisaSubject = {
   title: "Nitelikli freelance teslimi",
-  brief: "Dikey: UI/UX, ürün ve freelance pazaryeri. Teklif Kariyer Vizesi ister.",
+  brief: "Dikey: sosyal medya içerik, görsel üretim ve freelance pazaryeri. Teklif Kariyer Vizesi ister.",
 };
 
 /** @deprecated Eski BIM konusu; yeni freelance öznesine yönlendir. */
@@ -77,22 +76,25 @@ type ListingVisaPhraseRule = {
   weight: number;
 };
 
-/** Kelime kataloğu — ilk eşleşen regex değil; ağırlıklı skor. Beraberlikte kapı kapanır. */
+/**
+ * Kelime kataloğu — yayın 5 SKU ile dürüst. Siber/sızma ve fullstack
+ * ifadeleri kapı açmaz (fail-closed); pentest belgesi vitrinde yoktur.
+ */
 const LISTING_VISA_PHRASE_RULES: readonly ListingVisaPhraseRule[] = [
+  {
+    pathwayId: "excel-veri-otomasyon",
+    weight: 3,
+    phrases: ["excel", "ofis yapay zeka", "word otomasyon", "e-posta otomasyon"],
+  },
   {
     pathwayId: YAZILIM_BULUT_LISTING_PATHWAY,
     weight: 3,
-    phrases: ["full stack", "fullstack", "react", "nodejs", "node js", "devops", "aws", "azure", "bulut"],
-  },
-  {
-    pathwayId: SIBER_AGILE_ESG_LISTING_PATHWAY,
-    weight: 3,
-    phrases: ["kvkk", "iso 27001", "iso27001", "esg", "siber", "pentest", "etik hacker"],
+    phrases: ["trendyol", "hepsiburada", "shopify", "e-ticaret", "eticaret", "pazaryeri asistan"],
   },
   {
     pathwayId: UIUX_URUN_FREELANCE_LISTING_PATHWAY,
     weight: 3,
-    phrases: ["ui ux", "uiux", "figma", "pazaryeri"],
+    phrases: ["sosyal medya", "gorsel uretim", "midjourney", "capcut", "figma", "ui ux", "uiux"],
   },
   {
     pathwayId: UIUX_URUN_FREELANCE_LISTING_PATHWAY,
@@ -102,16 +104,12 @@ const LISTING_VISA_PHRASE_RULES: readonly ListingVisaPhraseRule[] = [
   {
     pathwayId: YZ_ICERIK_LISTING_PATHWAY,
     weight: 3,
-    phrases: [
-      "yapay zeka",
-      "yz icerik",
-      "gorsel uretim",
-      "prompt muhendis",
-      "icerik ve gorsel",
-      "ai agent",
-      "rag",
-      "yz muhendis",
-    ],
+    phrases: ["chatbot", "whatsapp", "voiceflow", "botpress", "kodsuz bot"],
+  },
+  {
+    pathwayId: "prompt-uretkenlik",
+    weight: 3,
+    phrases: ["prompt", "chatgpt", "claude", "perplexity"],
   },
 ];
 

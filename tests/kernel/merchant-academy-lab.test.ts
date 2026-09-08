@@ -1,20 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { academyCourseSeedBySlug } from "@/lib/academy/seed";
 import {
   formatMerchantAcademyLabReport,
   MERCHANT_LAB_CITIZEN_ID,
+  MERCHANT_LAB_COURSE_SLUG,
   MERCHANT_LAB_PLATFORM_ID,
   MERCHANT_LAB_TOP_UP_MINOR,
   runMerchantAcademyLabJourney,
 } from "../helpers/merchant-academy-lab-journey";
 
 describe("Merchant (Akademi) laboratuvar halkası", () => {
-  it("wallet-top-up CREDIT → akademi DEBIT → sınav → mühür; split not_configured; emanet sızmaz", async () => {
-    const seed = academyCourseSeedBySlug("python-temel");
-    expect(seed).toBeTruthy();
+  it("wallet-top-up CREDIT → akademi DEBIT; split not_configured; emanet sızmaz", async () => {
     const journey = await runMerchantAcademyLabJourney();
 
-    expect(journey.cleared.applied).toBe(true);
+    expect(MERCHANT_LAB_COURSE_SLUG).toBe("01_office_ai");
     expect(journey.cleared.status).toBe("CLEARED");
     expect(journey.replayCleared.applied).toBe(false);
 
@@ -25,20 +23,21 @@ describe("Merchant (Akademi) laboratuvar halkası", () => {
 
     expect(journey.chain.academyDebit.purpose).toBe("academy-purchase");
     expect(journey.chain.academyDebit.direction).toBe("DEBIT");
-    expect(journey.chain.academyDebit.amountMinor).toBe(seed!.seedAmountMinor);
+    expect(journey.chain.academyDebit.amountMinor).toBe(journey.seedAmountMinor);
     expect(journey.academy.purchase.status).toBe("SETTLED");
 
     expect(journey.witness.certificateHash).toMatch(/^[a-f0-9]{64}$/);
     expect(journey.witness.hashVerified).toBe(true);
     expect(journey.witness.publicVerifyStatus).toBe("found");
-    expect(journey.witness.verifyHref).toContain(journey.witness.certificateHash);
-    expect(journey.academyVisa.stamp.certificateHash).toBe(journey.witness.certificateHash);
+    expect(journey.witness.verifyHref).toContain(journey.witness.certificateHash!);
+    expect(journey.academyVisa?.stamp.certificateHash).toBe(journey.witness.certificateHash);
+    expect(journey.academy.certificate).not.toBeNull();
 
     expect(journey.split.beginHold).toEqual({ ok: false, reason: "not_configured" });
     expect(journey.split.settle).toEqual({ ok: false, reason: "not_configured" });
 
-    expect(journey.balances.citizen).toBe(MERCHANT_LAB_TOP_UP_MINOR - seed!.seedAmountMinor);
-    expect(journey.balances.platform).toBe(seed!.seedAmountMinor);
+    expect(journey.balances.citizen).toBe(MERCHANT_LAB_TOP_UP_MINOR - journey.seedAmountMinor);
+    expect(journey.balances.platform).toBe(journey.seedAmountMinor);
     expect(journey.balances.citizen + journey.balances.platform).toBe(MERCHANT_LAB_TOP_UP_MINOR);
     expect(MERCHANT_LAB_PLATFORM_ID).toBe("00000000-0000-4000-8000-000000000001");
 

@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/components/ui/cn";
 
-export type ButtonVariant = "primary" | "ghost" | "secondary" | "outline" | "danger";
+export type ButtonVariant = "primary" | "ghost" | "secondary" | "outline" | "danger" | "success";
 export type ButtonSize = "sm" | "md" | "lg";
 
 const VARIANT: Record<ButtonVariant, string> = {
@@ -13,6 +13,8 @@ const VARIANT: Record<ButtonVariant, string> = {
   outline:
     "border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--foreground)] hover:border-[var(--safir)] hover:text-[var(--safir-deep)] disabled:opacity-50",
   danger: "bg-[var(--rose-soft)] text-[var(--rose)] hover:bg-[var(--rose)] hover:text-white disabled:opacity-50",
+  success:
+    "bg-[var(--emerald)] text-white shadow-[0_8px_18px_color-mix(in_srgb,var(--emerald)_32%,transparent)] hover:brightness-110 disabled:opacity-50",
 };
 
 const SIZE: Record<ButtonSize, string> = {

@@ -129,26 +129,18 @@ async function main(): Promise<void> {
       });
     }
 
-    // HARD RESET — eski RAIL / jenerik tohumları FK sırasıyla tamamen düşür (DELETE/PURGE).
+    // Eski SKU: yayını ve fiyatı kapat. Lisans / mühür / tamamlanma DROP yok.
     const legacyCourseIds = [...ACADEMY_LEGACY_PURGE_COURSE_IDS];
     const seedCourseIds = [...ACADEMY_SEED_COURSE_IDS];
     const seedCatalogUnits = ACADEMY_COURSE_SEEDS.map((row) => row.catalogUnitKey);
-    const purgeCourseIds = {
-      OR: [{ id: { in: legacyCourseIds } }, { id: { notIn: seedCourseIds } }],
-    };
-    const purgeByCourseId = {
-      OR: [{ courseId: { in: legacyCourseIds } }, { courseId: { notIn: seedCourseIds } }],
-    };
 
-    await prisma.academyCertificate.deleteMany({ where: purgeByCourseId });
-    await prisma.academyExamAttempt.deleteMany({
-      where: { exam: { course: purgeCourseIds } },
+    await prisma.academyCourse.updateMany({
+      where: {
+        OR: [{ id: { in: legacyCourseIds } }, { id: { notIn: seedCourseIds } }],
+      },
+      data: { isPublished: false },
     });
-    await prisma.academyLessonCompletion.deleteMany({ where: purgeByCourseId });
-    await prisma.academyPurchase.deleteMany({ where: purgeByCourseId });
-    await prisma.academyExam.deleteMany({ where: purgeByCourseId });
-    await prisma.academyCourse.deleteMany({ where: purgeCourseIds });
-    await prisma.priceCatalogEntry.deleteMany({
+    await prisma.priceCatalogEntry.updateMany({
       where: {
         moduleKey: ACADEMY_SEED_MODULE_KEY,
         OR: [
@@ -159,10 +151,11 @@ async function main(): Promise<void> {
           },
         ],
       },
+      data: { isActive: false },
     });
 
     process.stdout.write(
-      `OK academy seed: ${ACADEMY_COURSE_SEEDS.length} Matrix SKU; legacy hard-purge ${ACADEMY_LEGACY_PURGE_COURSE_IDS.length}\n`,
+      `OK academy seed: ${ACADEMY_COURSE_SEEDS.length} compact SKU; legacy unpublish (no license DROP) ${ACADEMY_LEGACY_PURGE_COURSE_IDS.length}\n`,
     );
   } finally {
     await prisma.$disconnect();

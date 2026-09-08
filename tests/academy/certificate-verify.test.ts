@@ -2,8 +2,6 @@ import { describe, expect, it, afterEach } from "vitest";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import { lockAcademyCoursePrice, purchaseAcademyCourse } from "@/lib/academy/engine";
-import { completeAcademyCurriculum } from "@/lib/academy/curriculum-engine";
-import { academyCurriculumSealForSlug } from "@/lib/academy/curriculum";
 import {
   resolvePublicAcademyCertificate,
   toPublicAcademyCertificateWire,
@@ -12,6 +10,7 @@ import { revokeAcademyCertificate } from "@/lib/academy/certificate-lifecycle";
 import {
   ACADEMY_CERTIFICATE_PAYLOAD_VERSION,
   computeAcademyCertificateHash,
+  computeAcademyCurriculumSeal,
   parseAcademyCertificateHash,
 } from "@/lib/academy/exam";
 import { resetAcademyExamSittingConsumptionsForTests } from "@/lib/academy/exam-sitting";
@@ -21,13 +20,13 @@ import {
   createMemoryCheckoutPriceLockStore,
   createMemoryPriceCatalogStore,
 } from "../helpers/memory-pricing";
-import { submitAcademyExamWithFreshSitting } from "../helpers/academy-exam-sitting";
 import { railV1PublicAcademyCertificateDataSchema } from "@/lib/kernel/http/v1-contract";
 
 const BUYER = "exam-buyer";
 const PLATFORM = PLATFORM_TREASURY_USER_ID;
 const COURSE_PRICE = 25_000;
 const MISSING_HASH = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+const FIXTURE_SEAL = computeAcademyCurriculumSeal(["lesson-a", "lesson-b"]);
 
 function world() {
   const course = memoryCourse();
@@ -52,7 +51,10 @@ function world() {
   };
 }
 
-async function settleAndPass(ctx: ReturnType<typeof world>, now = new Date("2026-08-14T12:00:00.000Z")) {
+async function insertSealedCertificate(
+  ctx: ReturnType<typeof world>,
+  now = new Date("2026-08-14T12:00:00.000Z"),
+) {
   await ctx.ports.academy.insertCourse(ctx.course);
   await ctx.ports.academy.insertExam(ctx.exam);
   const locked = await lockAcademyCoursePrice(ctx.ports, { courseId: ctx.course.id, userId: BUYER });
@@ -62,27 +64,47 @@ async function settleAndPass(ctx: ReturnType<typeof world>, now = new Date("2026
     lockId: locked.lock.id,
     platformUserId: PLATFORM,
   });
-  await completeAcademyCurriculum(ctx.ports, { courseId: ctx.course.id, userId: BUYER });
-  return submitAcademyExamWithFreshSitting(ctx.ports, {
-    courseId: ctx.course.id,
+  const attemptId = "attempt-sealed-1";
+  const certificateHash = computeAcademyCertificateHash({
     userId: BUYER,
-    now,
+    courseId: ctx.course.id,
+    attemptId,
+    score: 100,
+    issuedAt: now,
+    curriculumSeal: FIXTURE_SEAL,
   });
+  const certificate = await ctx.ports.academy.insertCertificate({
+    id: "cert-sealed-1",
+    userId: BUYER,
+    courseId: ctx.course.id,
+    purchaseId: "purchase-sealed-1",
+    attemptId,
+    title: ctx.course.title,
+    serialKey: certificateHash,
+    certificateHash,
+    curriculumSeal: FIXTURE_SEAL,
+    score: 100,
+    issuedAt: now,
+    revokedAt: null,
+    revokeReason: null,
+    createdAt: now,
+  });
+  return { certificate, attemptId, certificateHash };
 }
 
 describe("akademi SHA256 sertifika doğrulama", () => {
   afterEach(() => {
     resetAcademyExamSittingConsumptionsForTests();
   });
+
   it("geçerli hash mühür tutar; vatandaş kimliği sızmaz", async () => {
     const ctx = world();
     const now = new Date("2026-08-14T12:00:00.000Z");
-    const result = await settleAndPass(ctx, now);
-    const hash = result.certificate?.certificateHash;
-    expect(hash).toMatch(/^[a-f0-9]{64}$/);
-    expect(parseAcademyCertificateHash(` ${hash!.toUpperCase()} `)).toBe(hash);
+    const { certificateHash, attemptId } = await insertSealedCertificate(ctx, now);
+    expect(certificateHash).toMatch(/^[a-f0-9]{64}$/);
+    expect(parseAcademyCertificateHash(` ${certificateHash.toUpperCase()} `)).toBe(certificateHash);
 
-    const resolution = await resolvePublicAcademyCertificate(ctx.ports.academy, hash!);
+    const resolution = await resolvePublicAcademyCertificate(ctx.ports.academy, certificateHash);
     expect(resolution.status).toBe("found");
     if (resolution.status !== "found") {
       return;
@@ -92,13 +114,13 @@ describe("akademi SHA256 sertifika doğrulama", () => {
     expect(resolution.view.integrityKind).toBe("sha256-content-digest");
     expect(resolution.view.revokedAt).toBeNull();
     expect(resolution.view.payloadVersion).toBe(ACADEMY_CERTIFICATE_PAYLOAD_VERSION);
-    expect(resolution.view.courseSlug).toBe("python-temel");
+    expect(resolution.view.courseSlug).toBe("sample-course");
     expect(resolution.view.score).toBe(100);
-    expect(resolution.view.curriculumSeal).toBe(academyCurriculumSealForSlug("python-temel"));
-    expect(resolution.view.hashedFields).toContain("müfredat mühürü");
+    expect(resolution.view.curriculumSeal).toBe(FIXTURE_SEAL);
+    expect(resolution.view.hashedFields).toContain("müfredat özeti");
     const serialized = JSON.stringify(resolution.view);
     expect(serialized).not.toContain(BUYER);
-    expect(serialized).not.toContain(result.attempt.id);
+    expect(serialized).not.toContain(attemptId);
     expect(serialized).not.toContain("userId");
   });
 
@@ -114,15 +136,13 @@ describe("akademi SHA256 sertifika doğrulama", () => {
     const ctx = world();
     await ctx.ports.academy.insertCourse(ctx.course);
     const now = new Date("2026-08-14T12:00:00.000Z");
-    const curriculumSeal = academyCurriculumSealForSlug("python-temel");
-    expect(curriculumSeal).toMatch(/^[a-f0-9]{64}$/);
     const realHash = computeAcademyCertificateHash({
       userId: BUYER,
       courseId: ctx.course.id,
       attemptId: "attempt-1",
       score: 100,
       issuedAt: now,
-      curriculumSeal: curriculumSeal!,
+      curriculumSeal: FIXTURE_SEAL,
     });
     await ctx.ports.academy.insertCertificate({
       id: "cert-tamper",
@@ -133,7 +153,7 @@ describe("akademi SHA256 sertifika doğrulama", () => {
       title: ctx.course.title,
       serialKey: MISSING_HASH,
       certificateHash: MISSING_HASH,
-      curriculumSeal,
+      curriculumSeal: FIXTURE_SEAL,
       score: 100,
       issuedAt: now,
       revokedAt: null,
@@ -172,35 +192,33 @@ describe("akademi SHA256 sertifika doğrulama", () => {
   it("iptal sicili hash'i değiştirmez; kamu görünümü revoked basar; ikinci iptal no-op", async () => {
     const ctx = world();
     const now = new Date("2026-08-14T12:00:00.000Z");
-    const result = await settleAndPass(ctx, now);
-    const hash = result.certificate?.certificateHash;
-    expect(hash).toMatch(/^[a-f0-9]{64}$/);
+    const { certificateHash } = await insertSealedCertificate(ctx, now);
 
     const revokedAt = new Date("2026-08-20T00:00:00.000Z");
     const first = await revokeAcademyCertificate(ctx.ports.academy, {
-      hash: hash!,
+      hash: certificateHash,
       reason: "Müfredat geri çekildi.",
       now: revokedAt,
     });
     expect(first.applied).toBe(true);
-    expect(first.certificate.certificateHash).toBe(hash);
+    expect(first.certificate.certificateHash).toBe(certificateHash);
     expect(first.certificate.revokedAt?.toISOString()).toBe(revokedAt.toISOString());
 
     const second = await revokeAcademyCertificate(ctx.ports.academy, {
-      hash: hash!,
+      hash: certificateHash,
       reason: "Müfredat geri çekildi.",
       now: new Date("2026-08-21T00:00:00.000Z"),
     });
     expect(second.applied).toBe(false);
     expect(second.certificate.revokedAt?.toISOString()).toBe(revokedAt.toISOString());
 
-    const resolution = await resolvePublicAcademyCertificate(ctx.ports.academy, hash!);
+    const resolution = await resolvePublicAcademyCertificate(ctx.ports.academy, certificateHash);
     expect(resolution).toMatchObject({
       status: "found",
       view: {
         sealStatus: "revoked",
         integrityKind: "sha256-content-digest",
-        certificateHash: hash,
+        certificateHash,
       },
     });
     if (resolution.status === "found") {
@@ -217,7 +235,6 @@ describe("akademi SHA256 sertifika doğrulama", () => {
     const ctx = world();
     await ctx.ports.academy.insertCourse(ctx.course);
     const now = new Date("2026-08-14T12:00:00.000Z");
-    const curriculumSeal = academyCurriculumSealForSlug("python-temel");
     await ctx.ports.academy.insertCertificate({
       id: "cert-revoked-mismatch",
       userId: BUYER,
@@ -227,7 +244,7 @@ describe("akademi SHA256 sertifika doğrulama", () => {
       title: ctx.course.title,
       serialKey: MISSING_HASH,
       certificateHash: MISSING_HASH,
-      curriculumSeal,
+      curriculumSeal: FIXTURE_SEAL,
       score: 100,
       issuedAt: now,
       revokedAt: new Date("2026-08-20T00:00:00.000Z"),

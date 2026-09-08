@@ -113,16 +113,19 @@ describe("Adım 10 — insan ops sözleşmesi (kod mühürü)", () => {
 });
 
 describe("Adım 10 — dört oda nakit/üretim smoke", () => {
-  it("Akademi: fiyat kilidi → anında settlement → müfredat → sınav ≥70 → SHA256 mühür", async () => {
+  it("Akademi: fiyat kilidi → anında settlement; müfredat varsa sınav ≥70 → SHA256 mühür", async () => {
     const journey = await runAcademyCashJourney();
     expect(journey.firstApplied).toBe(true);
     expect(journey.replayApplied).toBe(false);
     expect(journey.purchase.status).toBe("SETTLED");
     expect(journey.buyerBalanceAfter).toBe(E2E_ACADEMY_START_MINOR - journey.seedAmountMinor);
     expect(journey.platformBalanceAfter).toBe(journey.seedAmountMinor);
-    expect(journey.certificate?.score).toBeGreaterThanOrEqual(70);
-    expect(journey.certificate?.attemptId).toBeTruthy();
-    expect(journey.certificate?.curriculumSeal).toBe(academyCurriculumSealForSlug("python-temel"));
+    const seal = academyCurriculumSealForSlug("01_office_ai");
+    expect(seal).toBeTruthy();
+    expect(journey.certificate).not.toBeNull();
+    expect(journey.certificate!.score).toBeGreaterThanOrEqual(70);
+    expect(journey.certificate!.attemptId).toBeTruthy();
+    expect(journey.certificate!.curriculumSeal).toBe(seal);
     expect(
       verifyAcademyCertificateHash({
         userId: E2E_ACADEMY_BUYER_ID,
@@ -130,7 +133,7 @@ describe("Adım 10 — dört oda nakit/üretim smoke", () => {
         attemptId: journey.certificate!.attemptId!,
         score: journey.certificate!.score!,
         issuedAt: journey.certificate!.issuedAt,
-        curriculumSeal: academyCurriculumSealForSlug("python-temel")!,
+        curriculumSeal: seal!,
         certificateHash: journey.certificate!.certificateHash!,
       }),
     ).toBe(true);

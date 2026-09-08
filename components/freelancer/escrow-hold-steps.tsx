@@ -11,29 +11,35 @@ export function EscrowHoldSteps({
   const steps = FREELANCER_SEN.escrow.steps(holdPercent);
   return (
     <div className="space-y-3">
-    {FREELANCER_SEN.escrow.lead ? (
-      <p className="text-sm leading-6 text-[var(--foreground)]">{FREELANCER_SEN.escrow.lead}</p>
-    ) : null}
-    <ol className="space-y-3">
-      {steps.map((step, index) => {
-        const current = active === step.key;
-        return (
-          <li
-            key={step.key}
-            className={`rounded-2xl border px-4 py-3 ${
-              current
-                ? "border-[var(--safir)] bg-[var(--safir-soft)]"
-                : "border-[var(--border)] bg-[var(--surface)]"
-            }`}
-          >
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
-              {index + 1}. {step.label}
-            </p>
-            <p className="mt-1 text-sm text-[var(--foreground)]">{step.detail}</p>
-          </li>
-        );
-      })}
-    </ol>
+      <p
+        data-escrow-disabled-stamp=""
+        className="inline-flex rounded-full border border-[color-mix(in_srgb,var(--amber)_45%,transparent)] bg-[color-mix(in_srgb,var(--amber)_12%,var(--surface))] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--foreground)]"
+      >
+        {FREELANCER_SEN.escrow.disabledStamp}
+      </p>
+      {FREELANCER_SEN.escrow.lead ? (
+        <p className="text-sm leading-6 text-[var(--foreground)]">{FREELANCER_SEN.escrow.lead}</p>
+      ) : null}
+      <ol className="space-y-3 opacity-60">
+        {steps.map((step, index) => {
+          const current = active === step.key;
+          return (
+            <li
+              key={step.key}
+              className={`rounded-2xl border px-4 py-3 ${
+                current
+                  ? "border-[var(--safir)] bg-[var(--safir-soft)]"
+                  : "border-[var(--border)] bg-[var(--surface)]"
+              }`}
+            >
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
+                {index + 1}. {step.label}
+              </p>
+              <p className="mt-1 text-sm text-[var(--foreground)]">{step.detail}</p>
+            </li>
+          );
+        })}
+      </ol>
     </div>
   );
 }

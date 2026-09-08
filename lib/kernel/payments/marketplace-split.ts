@@ -1,6 +1,8 @@
 import { SETTLEMENT_CURRENCY, type CurrencyCode } from "@/lib/kernel/money/currency";
 import { logEvent } from "@/lib/kernel/observability/log";
 
+export { MARKETPLACE_SPLIT_LIVE } from "@/lib/kernel/payments/marketplace-split-live";
+
 /**
  * Lisanslı pazaryeri (split payment) portu.
  *
@@ -61,7 +63,8 @@ export type MarketplaceSplitPort = {
 /**
  * PayTR Pazaryeri gün 0 adaptörü — mağaza/alt satıcı onboard edilmeden
  * gerçek dağıtım çağrılmaz. beginHold ve settle dürüst `not_configured`
- * döner; üçüncü kişi fonu Rail cüzdanına girmez.
+ * döner; üçüncü kişi fonu Rail cüzdanına girmez. Ürün yüzeyi
+ * `MARKETPLACE_SPLIT_LIVE` (marketplace-split-live.ts) ile aynı gerçeği taşır.
  */
 export const paytrMarketplaceSplitPort: MarketplaceSplitPort = {
   id: "split",

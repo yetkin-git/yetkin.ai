@@ -12,60 +12,42 @@ import {
   computeAcademyCurriculumSeal,
 } from "@/lib/academy/exam";
 
+const FIXTURE_KEYS = ["lesson-a", "lesson-b", "lesson-c"] as const;
+
 describe("akademi müfredat mühürü (curriculumSeal)", () => {
-  it("Pilot SKU müfredat mührü kilitli SHA-256 basar", () => {
-    const keys = orderedAcademyLessonKeys("python-temel");
-    expect(keys).toHaveLength(6);
-    expect(keys[0]).toBe("python-temel-1");
-    const seal = academyCurriculumSealForSlug("python-temel");
+  it("boş yayın müfredatı mühür basmaz; sentetik anahtarlar SHA-256 basar", () => {
+    expect(orderedAcademyLessonKeys("sample-course")).toEqual([]);
+    expect(academyCurriculumSealForSlug("sample-course")).toBeNull();
+    const seal = computeAcademyCurriculumSeal(FIXTURE_KEYS);
     expect(seal).toMatch(/^[a-f0-9]{64}$/);
-    expect(seal).toBe(computeAcademyCurriculumSeal(keys));
+    expect(seal).toBe(computeAcademyCurriculumSeal([...FIXTURE_KEYS]));
   });
 
   it("sıralı ders anahtarlarından deterministik SHA256 basar", () => {
-    const keys = orderedAcademyLessonKeys("python-temel");
-    expect(keys).toEqual([
-      "python-temel-1",
-      "python-temel-2",
-      "python-temel-3",
-      "python-temel-4",
-      "python-temel-5",
-      "python-temel-6",
-    ]);
-    const seal = computeAcademyCurriculumSeal(keys);
+    const seal = computeAcademyCurriculumSeal(FIXTURE_KEYS);
     expect(seal).toMatch(/^[a-f0-9]{64}$/);
-    expect(academyCurriculumSealForSlug("python-temel")).toBe(seal);
-    expect(computeAcademyCurriculumSeal(keys)).toBe(seal);
+    expect(computeAcademyCurriculumSeal(FIXTURE_KEYS)).toBe(seal);
     expect(ACADEMY_CURRICULUM_SEAL_VERSION).toBe("yetkin-rail.academy.curriculum.v1");
   });
 
   it("eksik veya sırası bozulmuş anahtar farklı mühür üretir; tamamlanmamış küme basılmaz", () => {
-    const keys = orderedAcademyLessonKeys("python-temel");
-    const full = computeAcademyCurriculumSeal(keys);
-    const skipped = computeAcademyCurriculumSeal(["python-temel-1", "python-temel-3"]);
-    const reordered = computeAcademyCurriculumSeal([
-      "python-temel-2",
-      "python-temel-1",
-      "python-temel-3",
-      "python-temel-4",
-      "python-temel-5",
-      "python-temel-6",
-    ]);
+    const full = computeAcademyCurriculumSeal(FIXTURE_KEYS);
+    const skipped = computeAcademyCurriculumSeal(["lesson-a", "lesson-c"]);
+    const reordered = computeAcademyCurriculumSeal(["lesson-b", "lesson-a", "lesson-c"]);
     expect(skipped).not.toBe(full);
     expect(reordered).not.toBe(full);
     expect(academyCurriculumSealForSlug("devops-temel")).toBeNull();
-    expect(academyCurriculumSealFromCompletions("python-temel", ["python-temel-1"])).toBeNull();
-    expect(academyCurriculumSealFromCompletions("python-temel", keys)).toBe(full);
+    expect(academyCurriculumSealFromCompletions("sample-course", ["lesson-a"])).toBeNull();
     expect(
-      orderedCompletedAcademyLessonKeys("python-temel", ["python-temel-3", "python-temel-1", "ghost"]),
-    ).toEqual(["python-temel-1", "python-temel-3"]);
+      orderedCompletedAcademyLessonKeys("sample-course", ["lesson-c", "lesson-a", "ghost"]),
+    ).toEqual([]);
     expect(() => computeAcademyCurriculumSeal([])).toThrow(/boş ders/);
   });
 
   it("sertifika hash'i curriculumSeal değişince düşer; v2 payload mühürü taşır", () => {
     const now = new Date("2026-08-16T00:00:00.000Z");
-    const pythonSeal = academyCurriculumSealForSlug("python-temel")!;
-    const otherSeal = computeAcademyCurriculumSeal(["python-temel-1"]);
+    const fixtureSeal = computeAcademyCurriculumSeal(FIXTURE_KEYS);
+    const otherSeal = computeAcademyCurriculumSeal(["lesson-a"]);
     const base = {
       userId: "buyer",
       courseId: "course-1",
@@ -73,10 +55,10 @@ describe("akademi müfredat mühürü (curriculumSeal)", () => {
       score: 100,
       issuedAt: now,
     };
-    const withPython = computeAcademyCertificateHash({ ...base, curriculumSeal: pythonSeal });
+    const withFixture = computeAcademyCertificateHash({ ...base, curriculumSeal: fixtureSeal });
     const withOther = computeAcademyCertificateHash({ ...base, curriculumSeal: otherSeal });
-    expect(withPython).toMatch(/^[a-f0-9]{64}$/);
-    expect(withOther).not.toBe(withPython);
+    expect(withFixture).toMatch(/^[a-f0-9]{64}$/);
+    expect(withOther).not.toBe(withFixture);
     expect(ACADEMY_CERTIFICATE_PAYLOAD_VERSION).toBe("yetkin-rail.academy.certificate.v2");
   });
 });

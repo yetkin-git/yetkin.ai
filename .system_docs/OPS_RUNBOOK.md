@@ -25,8 +25,9 @@ Müze dizini (`yetkin_muze/`) OPS yasağıdır (tarihsel etiket S9-B Anayasa mad
 | `PLATFORM_TREASURY_USER_ID` | hazine sentinel | SQL ile aynı; Super Admin olarak **yazılmaz**. Varsayılan `00000000-0000-4000-8000-000000000001`. |
 | `PAYTR_MERCHANT_ID` / `_KEY` / `_SALT` | yükleme | Üçlü birlikte dolu olmalı. Üretimde `PAYTR_SANDBOX` ve `PAYTR_ALLOW_MOCK_CHECKOUT` yasak (throw). |
 | `PAYTR_WEBHOOK_IP_ALLOWLIST` | isteğe bağlı | Virgüllü PayTR Destek bildirim IP/CIDR’leri (`185.22.184.0/22`). Boş = yalnız HMAC (lab ve üretim). Cloudflare hop yüzünden boş liste 403 basmaz; CREDIT kapısı HMAC’dir. |
+| `TRUSTED_PROXY_HOPS` | PayTR user_ip | XFF sağdan. Kod boş varsayılanı 1. **Cloudflare → Vercel canlı = 2.** §4.3. |
 | `INNGEST_EVENT_KEY` / `INNGEST_SIGNING_KEY` | işler | Üretimde imza veya event anahtarı boşsa serve fail-closed. |
-| `NOTICE_SMTP_HOST` / `NOTICE_MAIL_FROM` | bildirim | Beş vatandaş e-postası. İkisi de boşsa dürüst atlanır; nakit durmaz. Resend yok. |
+| `NOTICE_SMTP_HOST` / `NOTICE_MAIL_FROM` | bildirim | Gün 0 dolu olmalı. Beş freelancer e-postası; Akademi satın alma makbuzu bu kanalda yoktur. İkisi boşsa dürüst atlanır; nakit durmaz. Production warn. Resend yok. |
 | `NOTICE_SMTP_PORT` / `_USER` / `_PASS` | bildirim | Port boşsa 587 + STARTTLS; 465 örtük TLS. |
 | `GEMINI_API_KEY` / `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` | LLM | En az bir sağlayıcı. Ham SDK dikeyde yasak. |
 | `RAIL_DRON_ORIGINS` | dron CORS | Yalnız `/api/v1`. Virgüllü origin allowlist. **Üretim / Closed Testing / TestFlight: boş bırak** — CORS başlığı yok (saf native Bearer). Joker `*` yasak. İstemci: `.system_docs/DRON_CLIENT_SPEC.md`. Native env: `apps/rail-is/.env.example`. Kapalı test: §15. |
@@ -153,7 +154,7 @@ Prisma 7 adapter (`PrismaPg`) hazır ifadeleri adlandırmadan çalıştırır; `
 
 ## 3. Super Admin UUID
 
-1. `/register` ile ilk vatandaş hesabını aç. Form 18+ tiki basar; `age_confirmed_at` Auth metadata’sına yazılır. Dashboard’dan elle kullanıcı açarsan aynı alanı `raw_user_meta_data` içine yaz — yoksa `handle_new_user` fail-closed düşer.
+1. `/register` ile ilk vatandaş hesabını aç. Form 18+ tiki basar; `age_confirmed_at` Auth metadata’sına yazılır. **Confirm email açık olmalı** (Dashboard → Authentication → Providers → Email). Kayıt oturum yazmaz; gelen kutudaki bağlantı `/auth/callback` üzerinden panele düşer. Dashboard’dan elle kullanıcı açarsan aynı alanı `raw_user_meta_data` içine yaz — yoksa `handle_new_user` fail-closed düşer. Auth doğrulama e-postası **Dashboard Auth SMTP**’dir; `NOTICE_SMTP_*` freelancer bildirimidir, kayıt onayını taşımaz.
 2. Supabase Dashboard → Authentication → Users → UUID kopyala.
 3. `.env.local` içine `SUPER_ADMIN_USER_ID=<uuid>` yaz. **Hazine sentinel’i yazma:** `00000000-0000-4000-8000-000000000001`.
 4. `npm run dev` yeniden. Boş env = kimse admin değildir (`isSuperAdminUser` UUID eşitliği).
@@ -216,7 +217,9 @@ PayTR üye işyeri paneli (iFrame API):
 - `total_amount === amountMinor` değilse clearing yok. Cüzdan yükleme `no_installment=1` (tek çekim).
 - Valör tarayıcı PSP doğrulaması olmadan **PENDING** siparişe CREDIT yazmaz; adayları kör **credit etmez**. Başarısız / timeout emir `markFailed` ile kapanır.
 - Clearing throw → Inngest `payments/paytr.clearing-requested`. `inngest.send` düşerse `"OK"` dönülmez (HTTP 500); PayTR tekrarlar.
-- Üretim `user_ip` loopback / RFC1918 ise get-token fail-closed. Kenar `x-forwarded-for` gerçek müşteri IPv4 basmalı.
+- Üretim `user_ip` loopback / RFC1918 / `unknown` / IPv6 ise get-token fail-closed. Kenar `x-forwarded-for` gerçek müşteri **genel IPv4** basmalı.
+- `TRUSTED_PROXY_HOPS`: XFF sağdan sayılır. Kod boş varsayılanı **1** (spoof güvenli). **Cloudflare → Vercel** canlı reçete **2**’dir (`.env.example` ve Production secret). Hop 1 iken çözülen adres Cloudflare kenarı olabilir; PayTR çürük IP ile token reddeder. Boot logu `ops.proxy.trusted_hops`; cüzdan yüklemede `paytr.user_ip.resolved` (`hops` + `ipKind`, ham IP yok).
+- İlk canlı kartta defter CREDIT ile PayTR panel `user_ip` aynı IPv4 ailesi olmalı. IPv6-only müşteri fail-closed kalır (PayTR get-token IPv4 ister).
 
 İlk canlı tanık (ekran görüntüsü değil): `PaymentOrder.status=CLEARED` + `LedgerEntry` CREDIT `wallet-top-up:{oid}` + cüzdan `amount_minor`. Band ₺10–₺20.000. Elle SQL CREDIT yasak.
 
@@ -356,7 +359,7 @@ T4 kazanç halkası (canlı Direct `:5432` + akademi vizesi olan satıcı + mü�
 5. `npm run ops:migrate` — bucket SQL / Studio CORS **yok** (`STORAGE_CONTRACT.md`)
 6. `/register` → UUID → `SUPER_ADMIN_USER_ID` → süreç yeniden
 7. PayTR webhook + Inngest **çift** anahtar (`INNGEST_EVENT_KEY` + `INNGEST_SIGNING_KEY`) + Redirect URLs
-8. Bildirim SMTP (`NOTICE_SMTP_HOST` + `NOTICE_MAIL_FROM`) — boşsa e-posta atlanır; halka yine döner. Resend yok.
+8. Bildirim SMTP (`NOTICE_SMTP_HOST` + `NOTICE_MAIL_FROM`) — **gün 0 operatör zorunluluğu.** Boşsa nakit durmaz (dürüst skip); müşteri mail almaz. Production boot `ops.smtp.honest_skip` **warn**. `ops:runtime-readiness` SMTP’yi süreç bloğu saymaz; Gün 0 uyarısı basar. Resend yok. Bugünkü SMTP kanalı freelancer beşlisidir; Akademi satın alma makbuzu ayrı iştir (Tedavi raporu).
 9. `npm run ops:runtime-readiness` (üretimde çıkış 0). `GET /api/health` 200 **ve** `checks.inngest = configured`. `/api/jobs/inngest` üretimde 503 değil.
 
 ---

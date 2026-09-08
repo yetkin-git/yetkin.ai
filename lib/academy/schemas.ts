@@ -7,7 +7,7 @@ const lessonKeySchema = z
   .trim()
   .min(1)
   .max(64)
-  .regex(/^[a-z0-9-]+$/);
+  .regex(/^[a-z0-9-_]+$/);
 
 const proofSlotsSchema = z.record(z.string(), z.string());
 

@@ -14,7 +14,7 @@ import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { RLS_FORCE_TABLES } from "@/lib/kernel/security/rls-policy-registry";
 import { STUDIO_IMAGE_DATA_BASE64_MAX_CHARS } from "@/lib/kernel/storage/byte-ceilings";
 
-/** Akademi tohum kimlikleri lib/academy/catalog-seed.ts (20 büyüme SKU). Eski ac_rail_temel HARD RESET. */
+/** Akademi tohum kimlikleri lib/academy/catalog-seed.ts (13 kanon SKU; vitrin ingest: Katman 1 `01`–`05`). Eski ac_rail_temel yayını kapanır, lisans DROP yok. */
 export { ACADEMY_SEED_CATALOG_UNITS, ACADEMY_SEED_COURSE_IDS };
 
 export const EXPECTED_SQL = [
@@ -31,9 +31,10 @@ export const EXPECTED_SQL = [
 export const FREELANCER_SEED_JOB_IDS = [
   "fj_rail_icon_set",
   "fj_rail_ql_banners",
+  "fj_rail_seal_social",
   "fj_rail_academy_copy",
   "fj_rail_devlabs_prompts",
-  "fj_rail_seal_social",
+  "fj_yetkin_acik_deneme",
 ] as const;
 export const FREELANCER_SEED_CLIENT_ID = PLATFORM_TREASURY_USER_ID;
 
@@ -59,6 +60,10 @@ export const USER_BILLING_INFO_TABLE = "user_billing_info";
 export const USER_BILLING_INFO_MIGRATION = "20260831140000_user_billing_info";
 export const USER_BILLING_PHONE_COLUMN = "phone";
 export const USER_BILLING_PHONE_MIGRATION = "20260831190000_user_billing_phone";
+export const CHECKOUT_CONSENT_EVIDENCE_MIGRATION = "20260905010000_checkout_consent_evidence";
+export const PAYMENT_ORDERS_TABLE = "payment_orders";
+export const ACADEMY_PURCHASES_TABLE = "academy_purchases";
+export const CHECKOUT_CONSENT_VERSION_COLUMN = "consent_version";
 export const CURRICULUM_SEAL_COLUMN = "curriculum_seal";
 export const CAREER_VISA_STAMPS_TABLE = "career_visa_stamps";
 export const CERTIFICATE_HASH_COLUMN = "certificate_hash";
@@ -113,7 +118,7 @@ export const FROZEN_ROOM_TABLES = [
 ] as const;
 
 /**
- * Hosted / lab Prisma zinciri — disk klasör adları kilitli 31. Yeni klasör sessiz eklenmez.
+ * Hosted / lab Prisma zinciri — disk klasör adları kilitli 32. Yeni klasör sessiz eklenmez.
  * `ops:hosted-apply-preflight` ve `ops:migrate` aynı listeyi okur.
  */
 export const EXPECTED_PRISMA_MIGRATIONS = [
@@ -148,6 +153,7 @@ export const EXPECTED_PRISMA_MIGRATIONS = [
   "20260830180000_academy_audio_media_release_seal",
   "20260831140000_user_billing_info",
   "20260831190000_user_billing_phone",
+  "20260905010000_checkout_consent_evidence",
 ] as const;
 
 export const LAB_RESTORE_DATABASE = "yetkin_rail_lab_restore";
@@ -477,12 +483,15 @@ export function inspectLedgerMigrationSql(sql: string): string[] {
 
 export type SqlSealPlan = {
   handleNewUser: boolean;
+  handleNewUserConsent: boolean;
   onAuthUserCreated: boolean;
   forceRls: boolean;
   ownerSelectPolicy: boolean;
   unscopedDenyPolicy: boolean;
   academyCourseIds: string[];
   academyCatalogUnits: boolean;
+  /** Eski SKU is_published=false; lisans / mühür DELETE yok. */
+  academyLegacyUnpublish: boolean;
   handleUserEmailUpdate: boolean;
   onAuthUserEmailUpdated: boolean;
   freelancerJobIds: string[];
@@ -526,6 +535,10 @@ export function inspectSqlSealPlan(sqlByFile: Record<string, string>): SqlSealPl
 
   return {
     handleNewUser: /FUNCTION public\.handle_new_user\(\)/.test(authSync),
+    handleNewUserConsent:
+      /terms_accepted_at/.test(authSync) &&
+      /consent_version/.test(authSync) &&
+      /kullanım\/KVKK rızası yok/.test(authSync),
     onAuthUserCreated: /CREATE TRIGGER on_auth_user_created/.test(authSync),
     forceRls: /FORCE ROW LEVEL SECURITY/.test(rls),
     ownerSelectPolicy: /FOR SELECT TO authenticated/.test(policies),
@@ -535,6 +548,11 @@ export function inspectSqlSealPlan(sqlByFile: Record<string, string>): SqlSealPl
       /USING \(false\)/.test(policies),
     academyCourseIds: ACADEMY_SEED_COURSE_IDS.filter((id) => academy.includes(id)),
     academyCatalogUnits: ACADEMY_SEED_CATALOG_UNITS.every((unit) => academy.includes(unit)),
+    academyLegacyUnpublish:
+      /UPDATE public\.academy_courses/.test(academy) &&
+      /is_published = false/.test(academy) &&
+      !/DELETE FROM public\.academy_purchases/.test(academy) &&
+      !/DELETE FROM public\.academy_certificates/.test(academy),
     handleUserEmailUpdate: /FUNCTION public\.handle_user_email_update\(\)/.test(email),
     onAuthUserEmailUpdated: /CREATE TRIGGER on_auth_user_email_updated/.test(email),
     freelancerJobIds: FREELANCER_SEED_JOB_IDS.filter((id) => freelancer.includes(id)),
@@ -553,6 +571,9 @@ export function inspectSqlSealPlan(sqlByFile: Record<string, string>): SqlSealPl
 export function assertSqlSealPlanComplete(plan: SqlSealPlan): string[] {
   const issues: string[] = [];
   if (!plan.handleNewUser) issues.push("handle_new_user yok");
+  if (!plan.handleNewUserConsent) {
+    issues.push("handle_new_user terms_accepted_at/consent_version fail-closed yok");
+  }
   if (!plan.onAuthUserCreated) issues.push("on_auth_user_created yok");
   if (!plan.forceRls) issues.push("FORCE RLS yok");
   if (!plan.ownerSelectPolicy) issues.push("owner SELECT politikası yok");
@@ -561,6 +582,9 @@ export function assertSqlSealPlanComplete(plan: SqlSealPlan): string[] {
     issues.push("akademi kurs tohumu eksik");
   }
   if (!plan.academyCatalogUnits) issues.push("akademi katalog birimi eksik");
+  if (!plan.academyLegacyUnpublish) {
+    issues.push("akademi tohumu eski SKU unpublish (lisans DROP yok) eksik");
+  }
   if (!plan.handleUserEmailUpdate) issues.push("handle_user_email_update yok");
   if (!plan.onAuthUserEmailUpdated) issues.push("on_auth_user_email_updated yok");
   if (plan.freelancerJobIds.length !== FREELANCER_SEED_JOB_IDS.length) {
@@ -633,6 +657,19 @@ export async function assertNewUserTrigger(query: OpsSealQuery): Promise<void> {
   if (Number(trg.rows[0]?.n ?? 0) < 1) {
     throw new Error(
       "on_auth_user_created tetikleyicisi yok. 20260814010000_handle_new_user_auth_sync.sql",
+    );
+  }
+  const def = await query(
+    `SELECT pg_get_functiondef(p.oid) AS def
+     FROM pg_proc p
+     JOIN pg_namespace n ON n.oid = p.pronamespace
+     WHERE n.nspname = 'public'
+       AND p.proname = 'handle_new_user'`,
+  );
+  const body = String(def.rows[0]?.def ?? "");
+  if (!body.includes("terms_accepted_at") || !body.includes("consent_version")) {
+    throw new Error(
+      "handle_new_user kayıt rızası yok (terms_accepted_at / consent_version). 20260814010000_handle_new_user_auth_sync.sql",
     );
   }
 }
@@ -711,7 +748,7 @@ export const ACADEMY_CATALOG_PRICE_MAP_APPLY = "academy-catalog-price-map-apply"
 export const ACADEMY_CATALOG_PRICE_MAP_SEAL = "academy-catalog-price-map-seal";
 
 /**
- * 20 SKU vitrin tutarı — `lib/academy/catalog-pricing.ts` → PriceCatalogEntry.
+ * 13 kanon SKU fiyat haritası — vitrin ingest (`01_office_ai`, `02_ecommerce_ai`) `lib/academy/catalog-pricing.ts` → PriceCatalogEntry.
  * SQL ON CONFLICT Super Admin `updated_by` satırını korur; bu adım haritayı yazar.
  * Akademi course:* birimleri SSOT tohumdur; freelancer/studio satırına dokunmaz.
  */
@@ -930,6 +967,36 @@ export async function assertUserBillingPhone(query: OpsSealQuery): Promise<void>
   }
 }
 
+/** Prisma deploy sonrası: kasa rızası PaymentOrder + AcademyPurchase kolonları. */
+export async function assertCheckoutConsentEvidence(query: OpsSealQuery): Promise<void> {
+  const orderCol = await query(
+    `SELECT EXISTS (
+       SELECT 1 FROM information_schema.columns
+       WHERE table_schema = 'public'
+         AND table_name = '${PAYMENT_ORDERS_TABLE}'
+         AND column_name = '${CHECKOUT_CONSENT_VERSION_COLUMN}'
+     ) AS exists`,
+  );
+  if (!orderCol.rows[0]?.exists) {
+    throw new Error(
+      `${PAYMENT_ORDERS_TABLE}.${CHECKOUT_CONSENT_VERSION_COLUMN} yok. prisma migrate deploy ${CHECKOUT_CONSENT_EVIDENCE_MIGRATION}`,
+    );
+  }
+  const purchaseCol = await query(
+    `SELECT EXISTS (
+       SELECT 1 FROM information_schema.columns
+       WHERE table_schema = 'public'
+         AND table_name = '${ACADEMY_PURCHASES_TABLE}'
+         AND column_name = '${CHECKOUT_CONSENT_VERSION_COLUMN}'
+     ) AS exists`,
+  );
+  if (!purchaseCol.rows[0]?.exists) {
+    throw new Error(
+      `${ACADEMY_PURCHASES_TABLE}.${CHECKOUT_CONSENT_VERSION_COLUMN} yok. prisma migrate deploy ${CHECKOUT_CONSENT_EVIDENCE_MIGRATION}`,
+    );
+  }
+}
+
 /** Prisma deploy sonrası: D2.2 curriculum_seal + certificate_hash kolonları. */
 export async function assertCurriculumSealColumns(query: OpsSealQuery): Promise<void> {
   const seal = await query(
@@ -1130,6 +1197,9 @@ export function inspectHostedApplyDiskPlan(root: string): HostedApplyDiskPlan {
   }
   if (!prismaFolders.includes(USER_BILLING_PHONE_MIGRATION)) {
     issues.push(`Prisma fatura cep kolonu yok: ${USER_BILLING_PHONE_MIGRATION}`);
+  }
+  if (!prismaFolders.includes(CHECKOUT_CONSENT_EVIDENCE_MIGRATION)) {
+    issues.push(`Prisma kasa rıza kolonları yok: ${CHECKOUT_CONSENT_EVIDENCE_MIGRATION}`);
   }
 
   const ledgerSql = readMigrationSql(root, LEDGER_IMMUTABILITY_MIGRATION);
@@ -1405,6 +1475,7 @@ export type MemoryOpsCatalog = {
   publicUsers: boolean;
   authUsers: boolean;
   handleNewUser: boolean;
+  handleNewUserConsent: boolean;
   onAuthUserCreated: boolean;
   handleUserEmailUpdate: boolean;
   onAuthUserEmailUpdated: boolean;
@@ -1423,6 +1494,7 @@ export type MemoryOpsCatalog = {
   academyExamSittings: boolean;
   userBillingInfo: boolean;
   userBillingPhone: boolean;
+  checkoutConsentEvidence: boolean;
   curriculumSealColumn: boolean;
   certificateHashColumn: boolean;
   certificateRevokedAtColumn: boolean;
@@ -1449,6 +1521,7 @@ export function createEmptyMemoryOpsCatalog(): MemoryOpsCatalog {
     publicUsers: false,
     authUsers: false,
     handleNewUser: false,
+    handleNewUserConsent: false,
     onAuthUserCreated: false,
     handleUserEmailUpdate: false,
     onAuthUserEmailUpdated: false,
@@ -1467,6 +1540,7 @@ export function createEmptyMemoryOpsCatalog(): MemoryOpsCatalog {
     academyExamSittings: false,
     userBillingInfo: false,
     userBillingPhone: false,
+    checkoutConsentEvidence: false,
     curriculumSealColumn: false,
     certificateHashColumn: false,
     certificateRevokedAtColumn: false,
@@ -1501,6 +1575,7 @@ export function createPostPrismaMemoryCatalog(): MemoryOpsCatalog {
   catalog.academyExamSittings = true;
   catalog.userBillingInfo = true;
   catalog.userBillingPhone = true;
+  catalog.checkoutConsentEvidence = true;
   catalog.curriculumSealColumn = true;
   catalog.certificateHashColumn = true;
   catalog.certificateRevokedAtColumn = true;
@@ -1526,6 +1601,8 @@ export function createPostPrismaMemoryCatalog(): MemoryOpsCatalog {
 export function applySqlToMemoryCatalog(catalog: MemoryOpsCatalog, sql: string): void {
   if (/FUNCTION public\.handle_new_user\(\)/.test(sql)) {
     catalog.handleNewUser = true;
+    catalog.handleNewUserConsent =
+      sql.includes("terms_accepted_at") && sql.includes("consent_version");
   }
   if (/CREATE TRIGGER on_auth_user_created/.test(sql)) {
     catalog.onAuthUserCreated = true;
@@ -1682,6 +1759,18 @@ export function createMemoryOpsSealQuery(catalog: MemoryOpsCatalog): OpsSealQuer
     if (text.includes(`table_name = '${USER_BILLING_INFO_TABLE}'`)) {
       return { rows: [{ exists: catalog.userBillingInfo }] };
     }
+    if (
+      text.includes(`table_name = '${PAYMENT_ORDERS_TABLE}'`) &&
+      text.includes(`column_name = '${CHECKOUT_CONSENT_VERSION_COLUMN}'`)
+    ) {
+      return { rows: [{ exists: catalog.checkoutConsentEvidence }] };
+    }
+    if (
+      text.includes(`table_name = '${ACADEMY_PURCHASES_TABLE}'`) &&
+      text.includes(`column_name = '${CHECKOUT_CONSENT_VERSION_COLUMN}'`)
+    ) {
+      return { rows: [{ exists: catalog.checkoutConsentEvidence }] };
+    }
     if (text.includes(`column_name = '${CURRICULUM_SEAL_COLUMN}'`)) {
       return { rows: [{ exists: catalog.curriculumSealColumn }] };
     }
@@ -1717,6 +1806,17 @@ export function createMemoryOpsSealQuery(catalog: MemoryOpsCatalog): OpsSealQuer
     }
     if (text.includes("table_schema = 'auth'") && text.includes("table_name = 'users'")) {
       return { rows: [{ exists: catalog.authUsers }] };
+    }
+    if (text.includes("pg_get_functiondef") && text.includes("handle_new_user")) {
+      return {
+        rows: catalog.handleNewUserConsent
+          ? [
+              {
+                def: "CREATE FUNCTION public.handle_new_user() terms_accepted_at consent_version",
+              },
+            ]
+          : [{ def: "CREATE FUNCTION public.handle_new_user() age_confirmed_at" }],
+      };
     }
     if (text.includes("p.proname = 'handle_new_user'")) {
       return { rows: [{ n: catalog.handleNewUser ? 1 : 0 }] };
@@ -1795,6 +1895,7 @@ export async function runPostApplySeals(query: OpsSealQuery): Promise<void> {
   await assertAcademyLessonCompletions(query);
   await assertAcademyExamSittings(query);
   await assertUserBillingPhone(query);
+  await assertCheckoutConsentEvidence(query);
   await assertCurriculumSealColumns(query);
   await assertCertificateRevocationColumns(query);
   await assertTreasurySentinel(query);

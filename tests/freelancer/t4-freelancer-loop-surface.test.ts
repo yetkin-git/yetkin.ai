@@ -22,7 +22,11 @@ describe("T4 freelancer canlı emanet/hakediş yüzeyi", () => {
     expect(script).toContain("escrow-hold");
     expect(script).toContain("escrow-release-net");
     expect(script).toContain("FREELANCER_RELEASE");
-    expect(script).toContain("fj_rail_icon_set");
+    expect(script).toContain("01_office_ai");
+    expect(script).toContain("ac_01_office_ai");
+    expect(script).toContain("excel-veri-otomasyon");
+    expect(script).not.toContain("python-temel");
+    expect(script).not.toContain("ac_rail_temel");
     expect(script).toContain("information_schema.columns");
     expect(script).toContain("amount_minor");
     expect(script).toContain("DELIVERY");

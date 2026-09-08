@@ -26,11 +26,27 @@ describe("freelancer IDOR yüzeyi — teklif projeksiyonu", () => {
 
     expect(route).toContain("queryJobBoard");
     expect(route).toContain("requireSession");
+    expect(route).toContain("export async function DELETE");
+    expect(route).toContain("cancelFreelancerJob");
+    expect(route).toContain("actorUserId: user.id");
     expect(route).not.toContain("listBidsForJob");
+    expect(route).not.toContain("freelancerJob.delete");
 
     expect(page).toContain("loadJobBoard");
     expect(page).toContain("getSession");
     expect(page).toContain("session?.id ?? null");
     expect(page).toContain("bidsHidden");
+    expect(page).toContain("CancelJobButton");
+    expect(page).toContain('isClient && board.job.status === "OPEN"');
+
+    const engine = readSrc("lib/freelancer/engine.ts");
+    expect(engine).toContain("export async function cancelFreelancerJob");
+    expect(engine).toContain("command.actorUserId !== job.clientId");
+    expect(engine).toContain('status: "CANCELLED"');
+    expect(engine).not.toContain("deleteJob");
+
+    const card = readSrc("components/freelancer/job-card.tsx");
+    expect(card).not.toContain("CancelJobButton");
+    expect(card).not.toContain("İlanı Kapat");
   });
 });

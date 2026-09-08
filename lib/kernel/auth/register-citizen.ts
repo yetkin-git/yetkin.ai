@@ -26,8 +26,10 @@ export type RegisterCitizenInput = {
 export type RegisterCitizenOk = {
   ok: true;
   created: true;
-  session: boolean;
+  /** Kayıt tarayıcı oturumu açmaz; e-posta onayı bekler. */
+  session: false;
   fallback: boolean;
+  pendingVerification: true;
 };
 
 export type RegisterCitizenFail = {
@@ -53,10 +55,8 @@ export type RegisterCitizenAuthPort = {
     metadata: SignupAuthMetadata;
     emailRedirectTo: string;
   }) => Promise<RegisterSignUpResult>;
-  signInWithPassword: (input: {
-    email: string;
-    password: string;
-  }) => Promise<{ session: { access_token?: string } | null; error: { message: string } | null }>;
+  /** Confirm Email kapalıysa signUp oturum basar; kayıt bunu düşürür. */
+  signOut: () => Promise<void>;
 };
 
 export type RegisterCitizenFallbackPort = (input: {
@@ -191,19 +191,13 @@ export async function executeCitizenRegister(input: {
         prepared.email,
         prepared.metadata.display_name,
       );
-      const signedIn = await auth.signInWithPassword({
-        email: prepared.email,
-        password: prepared.password,
-      });
-      if (signedIn.error || !signedIn.session) {
-        return {
-          ok: true,
-          created: true,
-          session: false,
-          fallback: true,
-        };
-      }
-      return { ok: true, created: true, session: true, fallback: true };
+      return {
+        ok: true,
+        created: true,
+        session: false,
+        fallback: true,
+        pendingVerification: true,
+      };
     }
     const duplicate = isDuplicateSignupUser(signed.user) || mapped === AUTH_SEN.register.duplicate;
     return {
@@ -223,6 +217,9 @@ export async function executeCitizenRegister(input: {
       errorName: "duplicate",
     };
   }
+  if (signed.session) {
+    await auth.signOut();
+  }
   await upsertRegisteredProfile(
     input.upsertProfile,
     signed.user?.id,
@@ -232,7 +229,8 @@ export async function executeCitizenRegister(input: {
   return {
     ok: true,
     created: true,
-    session: Boolean(signed.session),
+    session: false,
     fallback: false,
+    pendingVerification: true,
   };
 }

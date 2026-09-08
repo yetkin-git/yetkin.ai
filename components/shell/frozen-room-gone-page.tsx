@@ -29,9 +29,6 @@ export function FrozenRoomGonePage({ roomId }: { roomId: FrozenShellRoomId }) {
         <LinkButton href="/career" variant="outline" size="sm">
           {copy.careerCta}
         </LinkButton>
-        <LinkButton href="/freelancer" variant="outline" size="sm">
-          {copy.freelancerCta}
-        </LinkButton>
       </div>
     </RoomFrame>
   );

@@ -63,9 +63,13 @@ describe("anayasa yüzey sözleşmeleri", () => {
     expect(RIBBON_ROOMS.map((room) => room.id)).toEqual(["academy", "career", "freelancer"]);
     expect(RIBBON_ROOMS.map((room) => room.id)).not.toContain("dashboard");
     expect(RIBBON_ROOMS.map((room) => room.label)).not.toContain("Anasayfa");
+    expect(RIBBON_ROOMS.map((room) => room.label)).not.toContain("Panel");
     expect(RIBBON_ROOMS.map((room) => room.label)).not.toContain("Pazaryeri");
     expect(VERTICAL_ROOMS.find((room) => room.id === "career")?.blurb).toBe(
-      "Mühürden vize ve teklif kapısı",
+      "Doğrulanmış Rozet ve Teklif Kapısı",
+    );
+    expect(VERTICAL_ROOMS.find((room) => room.id === "freelancer")?.blurb).toBe(
+      "Arka plan · emanet kapalı",
     );
     expect(isEidsPublicListingLocked()).toBe(true);
     expect(isJuniorProductionFrozen()).toBe(true);

@@ -1,6 +1,5 @@
 import {
   FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY,
-  YZ_ICERIK_LISTING_PATHWAY,
   parseListingVisaLockId,
   type ListingVisaLockId,
 } from "@/lib/kernel/catalog-ids";
@@ -11,8 +10,8 @@ import {
  */
 export const FREELANCER_JOB_DEFAULT_VISA_PATHWAY = FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY;
 
-/** Tohum ilanlar YZ mühendislik dikeyine kilitlenir (sicil id haritası ile aynı). */
-export const FREELANCER_SEED_VISA_PATHWAY = YZ_ICERIK_LISTING_PATHWAY;
+/** Tohum ilan varsayılanı — sosyal içerik belgesi (tasarım işleri). */
+export const FREELANCER_SEED_VISA_PATHWAY = FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY;
 
 export function parseFreelancerJobVisaPathwayId(
   value: string | null | undefined,

@@ -13,6 +13,7 @@ import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
 import {
   CHECKOUT_LEGAL_CONSENT_REQUIRED,
   isCheckoutLegalConsentIssue,
+  toCheckoutConsentEvidence,
 } from "@/lib/kernel/legal/checkout-consent";
 import {
   checkoutBillingIssueMessage,
@@ -84,6 +85,7 @@ export async function POST(
           userId: user.id,
           lockId: parsed.data.lockId,
           level: parsed.data.level,
+          consent: toCheckoutConsentEvidence(parsed.data),
         });
         logEvent({
           level: "info",

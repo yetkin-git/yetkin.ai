@@ -1,7 +1,8 @@
 #!/usr/bin/env tsx
 /**
  * Üretim Inngest / PayTR webhook 503-kör kalmasın diye env sicili.
- * Sır basmaz. Prebuild zincirinde yoktur (yerel boş anahtar yeşil kalır).
+ * Sır basmaz. `verify:prebuild` zincirindedir — geliştirmede tablo basar çıkış 0;
+ * NODE_ENV=production derlemesinde (Vercel build) eksik env build hatasına döner.
  *
  *   npm run ops:runtime-readiness
  *

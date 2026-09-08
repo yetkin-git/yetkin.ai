@@ -140,3 +140,26 @@ export function canAdvanceAcademyPlayerLesson(
   }
   return Boolean(current?.open && !current.completed);
 }
+
+/**
+ * Dock sınav kapısı — sunucu `curriculumComplete` yenilenmeden önce
+ * yerel mühür kümesi 6/6 olunca yeşile döner. Refresh beklenmez.
+ */
+export function isAcademyPlayerExamReady(input: {
+  curriculumComplete: boolean;
+  workTasksComplete?: boolean;
+  lessons: readonly { key: string; completed: boolean }[];
+  completedKeys: ReadonlySet<string>;
+}): boolean {
+  const fromServer =
+    input.curriculumComplete && (input.workTasksComplete ?? input.curriculumComplete);
+  if (fromServer) {
+    return true;
+  }
+  if (input.lessons.length === 0) {
+    return false;
+  }
+  return input.lessons.every(
+    (lesson) => input.completedKeys.has(lesson.key) || lesson.completed,
+  );
+}

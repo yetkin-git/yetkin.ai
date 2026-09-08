@@ -1,20 +1,25 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Faz 1 kamu navigasyonu", () => {
-  test("iniş Akademi → Kanıt → İlan basar; Junior ve donmuş odalar kartta yok", async ({
+  test("iniş Akademi kahramanı basar; Freelancer/pazaryeri dipnotu yok; Junior yok", async ({
     page,
   }) => {
     const home = await page.goto("/");
     expect(home?.status()).toBeLessThan(400);
-    await expect(page.getByRole("heading", { name: "Güvenli kariyer ve iş platformu" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Yetkinliğini kanıtlayan yapay zekâ eğitimleri" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Eğitimleri İncele" })).toHaveAttribute("href", "/academy");
     await expect(page.getByRole("link", { name: "Giriş Yap" })).toHaveAttribute("href", "/login");
     await expect(page.getByRole("link", { name: "Kayıt Ol" })).toHaveAttribute("href", "/register");
+    await expect(page.getByRole("link", { name: "Panele geç" })).toHaveCount(0);
     await expect(page.getByRole("link", { name: "Anasayfaya geç" })).toHaveCount(0);
     await expect(page.getByRole("link", { name: "Anasayfaya gir" })).toHaveCount(0);
-    await expect(page.getByText("Nasıl başlarsın")).toBeVisible();
+    await expect(page.getByText("Bugün satılan ürün")).toBeVisible();
     await expect(page.getByText("Öğren ve sınavı geç")).toBeVisible();
-    await expect(page.getByText("Uzmanlığını belgele", { exact: true })).toBeVisible();
-    await expect(page.getByText("İlan ver veya teklif et")).toBeVisible();
+    await expect(page.getByText("Freelancer")).toHaveCount(0);
+    await expect(page.getByText("İlan ver veya teklif et")).toHaveCount(0);
+    await expect(page.getByText("Split pasifken")).toHaveCount(0);
+    await expect(page.getByText("Belgenin vitrini")).toHaveCount(0);
+    await expect(page.getByText("Platform örneği · emanet kapalı")).toHaveCount(0);
     await expect(page.getByText("Junior", { exact: true })).toHaveCount(0);
     await expect(page.getByText("Kurumsal")).toHaveCount(0);
     await expect(page.getByText("Hibe")).toHaveCount(0);
@@ -23,21 +28,17 @@ test.describe("Faz 1 kamu navigasyonu", () => {
     await expect(page.getByText("YetkinX")).toHaveCount(0);
   });
 
-  test("kamu /career vize defterini oturumsuz basar", async ({ page }) => {
-    const career = await page.goto("/career");
-    expect(career?.status()).toBeLessThan(400);
-    await expect(page.getByRole("heading", { name: "Kariyer", exact: true })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Vize ve geçiş defteri" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Vize-ilan tabelası" })).toBeVisible();
-    await expect(page.getByText("Kariyer sayfasını görmek için giriş yap.")).toBeVisible();
-    await expect(
-      page.getByText(
-        "Henüz bir vizen yok. Akademi'de bir eğitimi tamamla veya Freelancer'da bir iş teslim et — mühür burada görünür.",
-      ),
-    ).toBeVisible();
+  test("kamu /career oturumsuz /login 307 sığınağına gider", async ({ page, request }) => {
+    const career = await request.get("/career", { maxRedirects: 0 });
+    expect(career.status()).toBe(307);
+    expect(career.headers().location ?? "").toContain("/login?next=%2Fcareer");
+
+    const followed = await page.goto("/career");
+    expect(followed?.status()).toBeLessThan(400);
+    await expect(page).toHaveURL(/\/login\?next=%2Fcareer/);
+    await expect(page.getByRole("heading", { name: "Kariyer", exact: true })).toHaveCount(0);
     await expect(page.getByText("Yetenek Radarı")).toHaveCount(0);
     await expect(page.getByText("SWOT")).toHaveCount(0);
-    await expect(page.getByRole("link", { name: "Sertifika doğrula" })).toBeVisible();
   });
 });
 

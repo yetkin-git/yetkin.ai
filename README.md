@@ -1,6 +1,6 @@
 # yetkin.ai
 
-Güvenli kariyer ve iş platformu. Öğrendiğini mühürle. Mührün kapıyı açsın. İşin emanette dursun.
+Yetkinliğini kanıtlayan yapay zekâ eğitimleri. Öğrendiğini mühürle. Mührün kapıyı açsın. İşin güvende olsun.
 
 Vatandaş ve dış dünya markası **yetkin.ai**. npm paketi `yetkin.ai`. Lab veritabanı (`yetkin_rail_lab`), Inngest app id (`yetkin-rail`) ve dizin yolu `apps/rail-is` operasyonel kimlik olarak durur.
 
@@ -8,7 +8,7 @@ Vatandaş ve dış dünya markası **yetkin.ai**. npm paketi `yetkin.ai`. Lab ve
 
 | Oda | Yol | Ne işe yarar |
 |-----|-----|----------------|
-| Anasayfa | `/dashboard` | Kabuk, cüzdan şeridi, pasaport |
+| Panel | `/dashboard` | Kabuk, cüzdan şeridi, pasaport |
 | Akademi | `/academy` | Kurs, müfredat, sınav, SHA-256 belge |
 | Kariyer | `/career` | Akademi mühründen vize |
 | Freelancer | `/freelancer` | İlan, teklif, mesajlaşma; kabul/emanet henüz bağlı değil |

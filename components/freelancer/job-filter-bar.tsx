@@ -5,13 +5,18 @@ import { IconGrid, IconList, IconSearch } from "@/components/ui/icons";
 import { cn } from "@/components/ui/cn";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import {
-  JOB_BOARD_VISA_PATHWAY_OPTIONS,
   isJobBoardSort,
   isJobBoardVisaPathwayId,
   type JobBoardFilters,
   type JobBoardSort,
 } from "@/lib/freelancer/job-board-filter";
-import type { FreelancerNeedId } from "@/lib/kernel/catalog-ids";
+import {
+  FREELANCER_GUARANTEED_NEED_CATALOG,
+  FREELANCER_MARKETPLACE_NEED_CATALOG,
+  FREELANCER_NEED_TITLES,
+  FREELANCER_OPEN_TRIAL_NEED_ID,
+  type FreelancerNeedId,
+} from "@/lib/kernel/catalog-ids";
 import type { JobBoardViewMode } from "@/lib/freelancer/job-board-view-pref";
 
 const SELECT_CLASS = cn(INPUT_SURFACE_CLASS, "mt-0 cursor-pointer");
@@ -71,11 +76,23 @@ export function JobFilterBar({
               aria-label={copy.pathwayLabel}
             >
               <option value="all">{copy.pathwayAll}</option>
-              {JOB_BOARD_VISA_PATHWAY_OPTIONS.map((need) => (
-                <option key={need.id} value={need.id}>
-                  {need.title}
+              <optgroup label={copy.guaranteedGroup}>
+                {FREELANCER_GUARANTEED_NEED_CATALOG.map((need) => (
+                  <option key={need.id} value={need.id}>
+                    {need.title}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label={copy.marketplaceGroup}>
+                {FREELANCER_MARKETPLACE_NEED_CATALOG.map((need) => (
+                  <option key={need.id} value={need.id}>
+                    {need.title}
+                  </option>
+                ))}
+                <option value={FREELANCER_OPEN_TRIAL_NEED_ID}>
+                  {FREELANCER_NEED_TITLES[FREELANCER_OPEN_TRIAL_NEED_ID]}
                 </option>
-              ))}
+              </optgroup>
             </select>
           </label>
 

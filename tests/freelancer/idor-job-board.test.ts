@@ -1,6 +1,11 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { GET as getJob } from "@/app/api/freelancer/jobs/[id]/route";
-import { createFreelancerJob, submitFreelancerBid } from "@/lib/freelancer/engine";
+import { DELETE as deleteJob, GET as getJob } from "@/app/api/freelancer/jobs/[id]/route";
+import {
+  cancelFreelancerJob,
+  createFreelancerJob,
+  submitFreelancerBid,
+} from "@/lib/freelancer/engine";
+import { ForbiddenError } from "@/lib/kernel/http/errors";
 import { queryJobBoard } from "@/lib/freelancer/job-board";
 import { AuthRequiredError } from "@/lib/kernel/auth/require-session";
 import * as sessionApi from "@/lib/kernel/auth/session";
@@ -71,6 +76,12 @@ function publicSecrets(): string[] {
 function jobGetRequest(jobId: string): Request {
   return new Request(new URL(`/api/freelancer/jobs/${jobId}`, "http://localhost:3000"), {
     method: "GET",
+  });
+}
+
+function jobDeleteRequest(jobId: string): Request {
+  return new Request(new URL(`/api/freelancer/jobs/${jobId}`, "http://localhost:3000"), {
+    method: "DELETE",
   });
 }
 
@@ -155,5 +166,78 @@ describe("freelancer iş detayı IDOR — teklif ve coverNote", () => {
     expect(anonBody.ok).toBe(false);
     expect(anonBody.bids).toBeUndefined();
     assertWireOmits(anonBody, publicSecrets());
+  });
+
+  it("yalnız ilan sahibi OPEN ilanı kapatır; üçüncü şahıs 403 alır", async () => {
+    const ports = world();
+    const { job } = await seededJob(ports);
+
+    await expect(
+      cancelFreelancerJob(ports, { jobId: job.id, actorUserId: STRANGER }),
+    ).rejects.toBeInstanceOf(ForbiddenError);
+    await expect(
+      cancelFreelancerJob(ports, { jobId: job.id, actorUserId: ALICE }),
+    ).rejects.toBeInstanceOf(ForbiddenError);
+    const stillOpen = await ports.freelancer.getJob(job.id);
+    expect(stillOpen?.status).toBe("OPEN");
+
+    const closed = await cancelFreelancerJob(ports, { jobId: job.id, actorUserId: CLIENT });
+    expect(closed.status).toBe("CANCELLED");
+    const stored = await ports.freelancer.getJob(job.id);
+    expect(stored?.status).toBe("CANCELLED");
+  });
+
+  it("DELETE /api/freelancer/jobs/[id] sahip için CANCELLED yazar; yabancı 403, oturumsuz 401", async () => {
+    const ports = world();
+    const owned = await createFreelancerJob(ports, {
+      clientId: CLIENT,
+      title: "Sahip kapatma",
+      brief: "Yalnız işveren arşivler.",
+      budgetMinor: JOB_BUDGET,
+    });
+    const foreign = await createFreelancerJob(ports, {
+      clientId: CLIENT,
+      title: "Yabancı kapatma",
+      brief: "Üçüncü şahıs 403 görmeli.",
+      budgetMinor: JOB_BUDGET,
+    });
+    vi.spyOn(freelancerRuntime, "createPrismaFreelancerPorts").mockReturnValue(ports as never);
+    const requireSession = vi.spyOn(sessionApi, "requireSession");
+
+    requireSession.mockResolvedValueOnce({
+      id: STRANGER,
+      email: "stranger@yetkin.rail",
+    });
+    const strangerRes = await deleteJob(jobDeleteRequest(foreign.id), {
+      params: Promise.resolve({ id: foreign.id }),
+    });
+    expect(strangerRes.status).toBe(403);
+    const strangerBody = (await strangerRes.json()) as { ok: boolean; error?: string };
+    expect(strangerBody.ok).toBe(false);
+    expect(strangerBody.error).toBe("Yalnız ilan sahibi ilanı kapatabilir.");
+    expect((await ports.freelancer.getJob(foreign.id))?.status).toBe("OPEN");
+
+    requireSession.mockRejectedValueOnce(new AuthRequiredError());
+    const anonRes = await deleteJob(jobDeleteRequest(foreign.id), {
+      params: Promise.resolve({ id: foreign.id }),
+    });
+    expect(anonRes.status).toBe(401);
+    expect((await ports.freelancer.getJob(foreign.id))?.status).toBe("OPEN");
+
+    requireSession.mockResolvedValueOnce({
+      id: CLIENT,
+      email: "owner@yetkin.rail",
+    });
+    const ownerRes = await deleteJob(jobDeleteRequest(owned.id), {
+      params: Promise.resolve({ id: owned.id }),
+    });
+    expect(ownerRes.status).toBe(200);
+    const ownerBody = (await ownerRes.json()) as {
+      ok: boolean;
+      data?: { job?: { status?: string } };
+    };
+    expect(ownerBody.ok).toBe(true);
+    expect(ownerBody.data?.job?.status).toBe("CANCELLED");
+    expect((await ports.freelancer.getJob(owned.id))?.status).toBe("CANCELLED");
   });
 });

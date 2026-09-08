@@ -1,121 +1,73 @@
 /**
- * Akademi vitrin kataloğu — `ACADEMY_COURSE_TITLES` ile aynı 20 yayın SKU.
- * Vitrin bu slug listesine kilitlidir; Prisma hayalet SKU vitrine girmez.
- * Sabit raf önceliği: AI-101/102/103 (amiral gemisi), PY-101/102/103, FS-101/102/103,
- * SEC-101/102/103, YZ-101 (`ai-temel`), UX-MC (`ux-temel`),
- * EXC-MC / GADS-MC / META-MC / ETIC-MC / CNV-MC / LNK-MC. created_at okunmaz.
+ * Akademi vitrin kataloğu — ingest edilmiş yayın SKU listesi.
+ * Kanon 13 SKU `ACADEMY_COURSE_TITLES` içindedir; vitrin yalnız müfredatı
+ * ve 30 soruluk sınav havuzu olan alt kümeyi satar. Prisma hayalet SKU girmez.
  *
- * DialogueTurn[] mührü `ACADEMY_DIALOGUE_SKU_SLUGS` (18). WAV mührü yalnız
- * `ACADEMY_MEDIA_SEALED_AUDIO` (13 dosya: ai-agent temel 6 + orta 3 + ileri 4).
- * `ai-temel` / `ux-temel` 12 bölüm düz taslak; vitrine girer, yalan WAV basılmaz.
+ * Yayın: Katman 1 compact makale (`01`–`05`). Ses mührü ders anahtarıyladır;
+ * compact okuma kanıtı durur.
  */
 
 import type { AcademyCourseTitleSlug } from "@/lib/kernel/catalog-ids/course-slugs";
 
-export const ACADEMY_PILOT_SKU_SLUG = "python-temel" as const;
+export const ACADEMY_PILOT_SKU_SLUG = null;
 
 export const ACADEMY_GROWTH_SKU_SLUGS = [
-  "ai-agent-temel",
-  "ai-agent-orta",
-  "ai-agent-ileri",
-  "python-temel",
-  "python-orta",
-  "python-ileri",
-  "fullstack-temel",
-  "fullstack-orta",
-  "fullstack-ileri",
-  "security-temel",
-  "security-orta",
-  "security-ileri",
-  "ai-temel",
-  "ux-temel",
-  "excel-masterclass",
-  "google-ads-masterclass",
-  "meta-ads-masterclass",
-  "eticaret-masterclass",
-  "canva-masterclass",
-  "linkedin-masterclass",
+  "01_office_ai",
+  "02_ecommerce_ai",
+  "03_social_media_ai",
+  "04_chatbot_nocode",
+  "05_prompt_practice",
 ] as const satisfies readonly AcademyCourseTitleSlug[];
 
-/** DialogueTurn[] mührü — vitrin 20’nin 18’i. WAV iddiası değildir. */
-export const ACADEMY_DIALOGUE_SKU_SLUGS = [
-  "ai-agent-temel",
-  "ai-agent-orta",
-  "ai-agent-ileri",
-  "python-temel",
-  "python-orta",
-  "python-ileri",
-  "fullstack-temel",
-  "fullstack-orta",
-  "fullstack-ileri",
-  "security-temel",
-  "security-orta",
-  "security-ileri",
-  "excel-masterclass",
-  "google-ads-masterclass",
-  "meta-ads-masterclass",
-  "eticaret-masterclass",
-  "canva-masterclass",
-  "linkedin-masterclass",
-] as const satisfies readonly AcademyCourseTitleSlug[];
+/** Amiral SKU — vitrin ızgarasında görsel olarak öne çıkar (Sesli Anlatım). */
+export const ACADEMY_FLAGSHIP_SKU_SLUG = ACADEMY_GROWTH_SKU_SLUGS[0];
+
+/** Antre / oynatıcı `generateStaticParams` — vitrinde olmayan slug HTTP 404. */
+export function academyStorefrontStaticParams(): { slug: AcademyGrowthSkuSlug }[] {
+  return ACADEMY_GROWTH_SKU_SLUGS.map((slug) => ({ slug }));
+}
+
+/** DialogueTurn[] mührü — düz metin okuma kilidinde kapalı. */
+export const ACADEMY_DIALOGUE_SKU_SLUGS = [] as const satisfies readonly AcademyCourseTitleSlug[];
 
 /**
- * Diskteki WAV mührü — `public/media/academy/audio` altındaki wav dosyalarıyla birebir.
- * 13 dosya. `ai-agent-orta-4`..`6` ve `ai-agent-ileri-5`/`6` yok
- * (Gemini TTS günlük kota / yeniden bake bekliyor); SKU kısmi mühürdür.
+ * Diskteki ses mührü — kurs slug → mühürlü ders anahtarları.
+ * Ofis AI: `01_office_ai-1` ve `01_office_ai-2`.
+ * 3–6. dersler prodüksiyon kuyruğundadır; WAV mühürlenmeden karaoke basılmaz.
  */
-export const ACADEMY_MEDIA_SEALED_AUDIO = {
-  "ai-agent-temel": [
-    "ai-agent-temel-1",
-    "ai-agent-temel-2",
-    "ai-agent-temel-3",
-    "ai-agent-temel-4",
-    "ai-agent-temel-5",
-    "ai-agent-temel-6",
-  ],
-  "ai-agent-orta": [
-    "ai-agent-orta-1",
-    "ai-agent-orta-2",
-    "ai-agent-orta-3",
-  ],
-  "ai-agent-ileri": [
-    "ai-agent-ileri-1",
-    "ai-agent-ileri-2",
-    "ai-agent-ileri-3",
-    "ai-agent-ileri-4",
-  ],
-} as const;
+export const ACADEMY_MEDIA_SEALED_AUDIO: Readonly<Record<string, readonly string[]>> = {
+  "01_office_ai": ["01_office_ai-1", "01_office_ai-2"],
+};
 
-/** WAV’i olan SKU — 3 kurs; 13 ders dosyası. Olmayan SKU bu listede yoktur. */
-export const ACADEMY_MEDIA_SEALED_SKU_SLUGS = [
-  "ai-agent-temel",
-  "ai-agent-orta",
-  "ai-agent-ileri",
-] as const satisfies readonly (keyof typeof ACADEMY_MEDIA_SEALED_AUDIO)[];
+/**
+ * Bake kuyruğu — konuşma metni + cue hazır; vatandaş karaoke yok.
+ * SUPER ADMIN kota kalkınca operatör `--key=` ile tek ders mühürler.
+ */
+export const ACADEMY_MEDIA_PRODUCTION_QUEUE: Readonly<Record<string, readonly string[]>> = {
+  "01_office_ai": ["01_office_ai-3", "01_office_ai-4", "01_office_ai-5", "01_office_ai-6"],
+};
 
-export type AcademyPilotSkuSlug = typeof ACADEMY_PILOT_SKU_SLUG;
+/** Sesi olan SKU listesi — en az bir mühürlü ders. */
+export const ACADEMY_MEDIA_SEALED_SKU_SLUGS = ["01_office_ai"] as const satisfies readonly string[];
+
+export type AcademyPilotSkuSlug = never;
 export type AcademyGrowthSkuSlug = (typeof ACADEMY_GROWTH_SKU_SLUGS)[number];
 export type AcademyDialogueSkuSlug = (typeof ACADEMY_DIALOGUE_SKU_SLUGS)[number];
 export type AcademyMediaSealedSkuSlug = (typeof ACADEMY_MEDIA_SEALED_SKU_SLUGS)[number];
 
-type MissingFromVitrine = Exclude<AcademyCourseTitleSlug, AcademyGrowthSkuSlug>;
+/** Vitrin kanonun alt kümesidir; kanonda olmayan slug vitrine giremez. */
 type ExtraOnVitrine = Exclude<AcademyGrowthSkuSlug, AcademyCourseTitleSlug>;
-type _VitrineMatchesTitles = [MissingFromVitrine] extends [never]
-  ? [ExtraOnVitrine] extends [never]
-    ? true
-    : ExtraOnVitrine
-  : MissingFromVitrine;
-const _vitrineMatchesTitles: _VitrineMatchesTitles = true;
-void _vitrineMatchesTitles;
+type _VitrineSubsetOfCanon = [ExtraOnVitrine] extends [never] ? true : ExtraOnVitrine;
+const _vitrineSubsetOfCanon: _VitrineSubsetOfCanon = true;
+void _vitrineSubsetOfCanon;
 
-/** Amiral Ders (python-temel) bölüm sayısı — konunun hakkı, şablon 12 değil. */
-export const ACADEMY_PILOT_SKU_LESSON_COUNT = 6 as const;
+/** Amiral Ders (eski pilot) — ayrı SKU yok. Compact Katman 1 kursları 6 makale. */
+export const ACADEMY_PILOT_SKU_LESSON_COUNT = 0 as const;
 
-/** 12 bölüm düz taslak (`ai-temel`, `ux-temel`) — vitrine girer, TTS DialogueTurn mührü yoktur. */
-export const ACADEMY_GROWTH_LESSON_COUNT = 12 as const;
+export const ACADEMY_GROWTH_LESSON_COUNT = 6 as const;
 
-export function isAcademyPilotSkuSlug(slug: string): slug is AcademyPilotSkuSlug {
-  return slug === ACADEMY_PILOT_SKU_SLUG;
+export function isAcademyPilotSkuSlug(_slug: string): _slug is AcademyPilotSkuSlug {
+  return false;
 }
 
 export function isAcademyGrowthSkuSlug(slug: string): slug is AcademyGrowthSkuSlug {
@@ -127,10 +79,34 @@ export function isAcademyDialogueSkuSlug(slug: string): slug is AcademyDialogueS
 }
 
 export function isAcademyMediaSealedSkuSlug(slug: string): slug is AcademyMediaSealedSkuSlug {
-  return (ACADEMY_MEDIA_SEALED_SKU_SLUGS as readonly string[]).includes(slug);
+  return Object.prototype.hasOwnProperty.call(ACADEMY_MEDIA_SEALED_AUDIO, slug);
 }
 
-/** Katalog Sesli rozeti — yalnız diske basılmış WAV anahtarı olan SKU. */
+/** Compact makale SKU — diyalog tiyatrosu yoktur. Ses mührü üstüne biner. */
+export function isAcademyCompactArticleSku(slug: string): boolean {
+  return isAcademyGrowthSkuSlug(slug) && !isAcademyDialogueSkuSlug(slug);
+}
+
+/** `01_office_ai-1` → `01_office_ai`. Compact müfredat anahtarı `${slug}-${n}`. */
+export function academyCourseSlugFromLessonKey(lessonKey: string): string | null {
+  const lastDash = lessonKey.lastIndexOf("-");
+  if (lastDash <= 0) {
+    return null;
+  }
+  const suffix = lessonKey.slice(lastDash + 1);
+  if (!/^\d+$/u.test(suffix)) {
+    return null;
+  }
+  return lessonKey.slice(0, lastDash);
+}
+
+/** Compact makale dersi — etkileşimli iş kanıtı tohumu yoktur; okuma mührü yeter. */
+export function isAcademyCompactLessonKey(lessonKey: string): boolean {
+  const slug = academyCourseSlugFromLessonKey(lessonKey);
+  return slug ? isAcademyCompactArticleSku(slug) : false;
+}
+
+/** Katalog Sesli rozeti — en az bir mühürlü ders. */
 export function academyCourseHasSealedAudio(slug: string): boolean {
   return academyMediaSealedLessonKeys(slug).length > 0;
 }
@@ -139,28 +115,34 @@ export function academyMediaSealedLessonKeys(courseSlug: string): readonly strin
   if (!isAcademyMediaSealedSkuSlug(courseSlug)) {
     return [];
   }
-  return ACADEMY_MEDIA_SEALED_AUDIO[courseSlug];
+  // noUncheckedIndexedAccess: Record<string, ...> erişimi undefined dönebilir; guard'a rağmen dürüst daraltma.
+  return ACADEMY_MEDIA_SEALED_AUDIO[courseSlug] ?? [];
 }
 
 export function isAcademyLessonAudioSealed(courseSlug: string, lessonKey: string): boolean {
   return academyMediaSealedLessonKeys(courseSlug).includes(lessonKey);
 }
 
+export function academyMediaProductionLessonKeys(courseSlug: string): readonly string[] {
+  return ACADEMY_MEDIA_PRODUCTION_QUEUE[courseSlug] ?? [];
+}
+
+export function isAcademyLessonAudioInProduction(courseSlug: string, lessonKey: string): boolean {
+  return academyMediaProductionLessonKeys(courseSlug).includes(lessonKey);
+}
+
 export function academyMediaSealedWavCount(): number {
   let count = 0;
-  for (const slug of ACADEMY_MEDIA_SEALED_SKU_SLUGS) {
-    count += ACADEMY_MEDIA_SEALED_AUDIO[slug].length;
+  for (const keys of Object.values(ACADEMY_MEDIA_SEALED_AUDIO)) {
+    count += keys.length;
   }
   return count;
 }
 
 /**
  * Vitrin — mühürlü SKU sırası.
- * Eski adı `filterAcademyPilotCatalog` durur; süzgeç yalnız hazır içeriği basar.
  */
-export function filterAcademyGrowthCatalog<T extends { slug: string }>(
-  courses: readonly T[],
-): T[] {
+export function filterAcademyGrowthCatalog<T extends { slug: string }>(courses: readonly T[]): T[] {
   const bySlug = new Map(courses.map((row) => [row.slug, row] as const));
   const next: T[] = [];
   for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
@@ -173,8 +155,6 @@ export function filterAcademyGrowthCatalog<T extends { slug: string }>(
 }
 
 /** @deprecated Büyüme vitrini — `filterAcademyGrowthCatalog` ile aynı. */
-export function filterAcademyPilotCatalog<T extends { slug: string }>(
-  courses: readonly T[],
-): T[] {
+export function filterAcademyPilotCatalog<T extends { slug: string }>(courses: readonly T[]): T[] {
   return filterAcademyGrowthCatalog(courses);
 }

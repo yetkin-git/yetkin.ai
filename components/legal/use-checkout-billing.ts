@@ -5,6 +5,7 @@ import { readCitizenEnvelope } from "@/lib/kernel/http/citizen-json";
 import {
   billingToForm,
   EMPTY_CHECKOUT_BILLING_FORM,
+  isCheckoutBillingComplete,
   normalizeBillingInput,
   parseBillingFromUnknown,
   type CheckoutBillingFormState,
@@ -16,6 +17,7 @@ import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 export function useCheckoutBilling() {
   const [form, setForm] = useState<CheckoutBillingFormState>(EMPTY_CHECKOUT_BILLING_FORM);
   const [hadSaved, setHadSaved] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -34,6 +36,11 @@ export function useCheckoutBilling() {
       })
       .catch(() => {
         /* kayıtlı künye yoksa boş form */
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setHydrated(true);
+        }
       });
     return () => {
       cancelled = true;
@@ -44,5 +51,12 @@ export function useCheckoutBilling() {
     return normalizeBillingInput(form);
   }
 
-  return { form, setForm, hadSaved, payload };
+  return {
+    form,
+    setForm,
+    hadSaved,
+    hydrated,
+    complete: isCheckoutBillingComplete(form),
+    payload,
+  };
 }

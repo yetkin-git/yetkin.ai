@@ -169,7 +169,7 @@ export type FreelancerWriteDb = Pick<
   | "freelancerSquad"
   | "freelancerSquadMember"
 > & {
-  user?: Pick<PrismaClient["user"], "findUnique">;
+  user?: Pick<PrismaClient["user"], "findUnique" | "upsert">;
 };
 
 export function bindFreelancerStore(db: FreelancerWriteDb): FreelancerStore {
@@ -183,6 +183,20 @@ export function bindFreelancerStore(db: FreelancerWriteDb): FreelancerStore {
         select: { id: true },
       });
       return row != null;
+    },
+    async ensureUser(user) {
+      if (!db.user) {
+        return;
+      }
+      const email = user.email.trim();
+      if (!email) {
+        return;
+      }
+      await db.user.upsert({
+        where: { id: user.id },
+        create: { id: user.id, email },
+        update: { email },
+      });
     },
     async insertJob(job) {
       const row = await db.freelancerJob.create({

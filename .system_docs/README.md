@@ -10,22 +10,20 @@ Bu klasör kalıcı anayasa ve sistem belgeleridir. Ürün kodu buradaki markdow
 
 | Dosya | Neden zorunlu |
 |-------|----------------|
-| `ANAYASA.md` | Asil sicil 4 oda + 4 sığınak, 410 envanteri, `amountMinor`, `service_role` yasağı ve S43 kırmızı çizgilerinin insan SSOT’u. Yoksa proje anayasasız derlenmiş sayılır. |
-| `MANIFESTO.md` | Anayasa’nın *neden* var olduğunu söyler; yerine geçmez. Vizyon sapması 13. oda baskısını doğurur. |
+| `ANAYASA.md` | **A Katmanı** (A1–A5): `amountMinor`, tek defter, S43, RLS/IDOR, sunucu mühür, dürüst yüzey. **B Katmanı** (B1–B5): modüler monolit, odaklar, prebuild, müfredat, entegrasyon. Yoksa proje anayasasız derlenmiş sayılır. |
+| `MANIFESTO.md` | Anayasa’nın *neden* var olduğunu söyler; yerine geçmez. Vizyon sapması odak şişmesini doğurur. |
 | `OPS_RUNBOOK.md` | Operatör bağlama SSOT’u (env, Direct Port, Super Admin, PayTR, Inngest, Storage CORS). Credential icat edilmez. |
-| `STORAGE_CONTRACT.md` | Vatandaş/Studio nesne deposu yok (410). Akademi ders sesi `lesson-audios` dar istisnadır. Beşlinin beşincisi. |
+| `STORAGE_CONTRACT.md` | Vatandaş/Studio nesne deposu yok (410). Akademi mühürlü WAV **2** (`01_office_ai-1`, `01_office_ai-2`). `lesson-audios` yayın vaadi değildir. Beşlinin beşincisi. |
 | `README.md` | Bu klasörün kendisini ve `/docs` ayrımını tarif eder. |
 
 İstemci ops (derleme beşlisi değildir): `DRON_CLIENT_SPEC.md` — yetkin.ai İş / Diyar B native ve ikincil istemcinin Bearer, JWT yenileme, Idempotency-Key ve 401/426 kuralları. Yeni auth modeli açmaz. Gün 0 gövde: `apps/rail-is` (paket `yetkin.ai-is`; Amiral `app/` değildir; mutlu yol + İşlerim/Tezgâh ekranları `src/screens`).
 
-Eğitim anlatım anayasası (derleme beşlisi değildir): `PEDAGOJI.md` — iki katman: **Pedagoji Academy** (aktif; ana kural **Şiir Okuma, Garsonu Göster**; Konunun Hakkı / esnek seviye / Yedi Altın Kural: sabit eğitmen-ses mührü, tanışma, bölüm kapanışı, spaced repetition, ham Gemini TTS + 48 kHz / +8 dB, %93 SOLA ve 300 karakterlik mikro dilim yasak, ses-metin birebir, SEN + Fail-closed / Zero-Cost Streaming yalnız diskte WAV’i olan derslerde / 4 perdeli tek eğitmen 18 diyalog SKU + 2 düz taslak istisna; **WAV mührü 13 dosya** — `ai-agent-temel` 6, `orta` 3, `ileri` 4) ve **Pedagoji Junior** (10–18 yaş; donmuş / gelecek faz; üretim yok). «AI-Checking-AI» CI kapısı yoktur. Müfredat tohumu (`lib/academy/curricula/`) yalnız Bölüm A’ya hizalanır. Çelişkide `.system_docs/ANAYASA.md` bağlayıcıdır.
+Eğitim anlatım ve pedagoji ilkeleri (derleme beşlisi değildir): `PEDAGOJI.md` — Canlı standart **Aşama 1 compact markdown**’dır. Ses mührü ve bake sayıları vizyona yazılmaz; `docs/OPS_STUDYO_SAYILARI.md`. Amiral SKU `01_office_ai`. Sabit 6 bölüm / kelime tavanı makale gövdesini kesmez. Çelişkide `.system_docs/ANAYASA.md` bağlayıcıdır.
 
-Kimlik **Supabase Auth** ile mühürlenir, veri **Prisma** üzerinden Postgres’e yazılır, gövde tek **Next.js** App Router uygulamasıdır (**Modüler Monolit + API-First Dron Sözleşmesi**). Çalışan 4 oda aynı kimlik ve defter omurgasını paylaşır; “4 oda” **nakit halkasının döndüğü** anlamına gelmez. Freelancer: ilan/teklif/mesajlaşma çalışır; lisanslı split henüz bağlı değilse accept **503**. Donmuş 8 oda 410 envanteridir.
+Kimlik **Supabase Auth** ile mühürlenir, veri **Prisma** üzerinden Postgres’e yazılır, gövde tek **Next.js** App Router uygulamasıdır (**B1: Pragmatik Modüler Monolit**). Dron ve harici tüketiciler **B1 dış sözleşmesi** ile `/api/v1` JSON zarfını konuşur; Amiral RSC yükler. Çalışan odaklar (`dashboard`, `academy`, `career`, `freelancer`) aynı kimlik ve defter omurgasını paylaşır; “odak” **nakit halkasının döndüğü** anlamına gelmez. Freelancer: ilan/teklif/mesajlaşma çalışır; lisanslı split henüz bağlı değilse accept **503** (A2). Donmuş 8 oda 410 envanteridir. B2, bildirim/yardım/analitik gibi meşru genişlemeyi “13. oda” dogmasına takmadan izin verir.
 
-Zarf tek v1’dir (**üçüncü zarf yasağı**; çift zarf P1 ile kapatıldı). `.system_docs/ANAYASA.md` Kırmızı çizgi 4. Altıncı sistem dosyası açılmaz. Yeni dış tüketici yalnız `/api/v1` konuşur.
-
-PayTR omurga değil, **iki porttur:** Merchant (Akademi/üye işyeri) ve Pazaryeri Split (Freelancer). Ayrıntı Anayasa S43 ve `OPS_RUNBOOK.md` §4.
+PayTR omurga değil, **iki porttur:** Merchant (Akademi/üye işyeri) ve Pazaryeri Split (Freelancer). Ayrıntı Anayasa **A2 (S43)** ve `OPS_RUNBOOK.md` §4.
 
 KVKK m.11 (hesap silme / veri indirme) ürün içi self-serve değildir; Super Admin `destek@yetkin.ai` kuyruğundan manuel yürütür. Süreç notu: `OPS_RUNBOOK.md` §18.
 
-Omurgayı bağlamak: `.env.example` → `.env.local`, sonra `npm run ops:migrate`. Adımlar `.system_docs/OPS_RUNBOOK.md`. Çelişki hâlinde `.system_docs/ANAYASA.md` bağlayıcıdır.
+Omurgayı bağlamak: `.env.example` → `.env.local`, sonra `npm run ops:migrate`. Adımlar `.system_docs/OPS_RUNBOOK.md`. Çelişki hâlinde `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır; B Katmanı yaşayan ops/mühendislik notudur.

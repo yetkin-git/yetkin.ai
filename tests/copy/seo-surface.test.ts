@@ -10,7 +10,6 @@ import {
   ORGANIZATION_ID,
   ORGANIZATION_LOGO_PATH,
   ORGANIZATION_SAME_AS,
-  SITE_SEARCH_URL_TEMPLATE,
   WEBSITE_ID,
   academyCourseBreadcrumbs,
   breadcrumbListJsonLd,
@@ -23,6 +22,9 @@ import {
 import {
   AUTH_ROBOTS,
   CANONICAL_SITE_ORIGIN,
+  DEFAULT_OG_IMAGE,
+  DEFAULT_OG_IMAGE_ALT,
+  OG_IMAGE_SIZE,
   OG_LOCALE,
   PAGE_SEO,
   PRODUCT_ROOM_PATHS,
@@ -78,6 +80,23 @@ describe("Aşama 1 SEO yüzeyi", () => {
     expect(helper).toContain("locale: OG_LOCALE");
     expect(helper).toContain('card: "summary_large_image"');
     expect(helper).toContain("url: path");
+    expect(PAGE_SEO.home.image).toBe(DEFAULT_OG_IMAGE);
+    expect(DEFAULT_OG_IMAGE).toBe("/opengraph-image");
+    expect(DEFAULT_OG_IMAGE_ALT).toContain(PUBLIC_SEN.home.title);
+    expect(OG_IMAGE_SIZE).toEqual({ width: 1200, height: 630 });
+    const homeMeta = pageMetadata(PAGE_SEO.home);
+    expect(homeMeta.openGraph).toMatchObject({
+      images: [{ url: DEFAULT_OG_IMAGE, alt: PAGE_SEO.home.title }],
+    });
+    expect(homeMeta.twitter).toMatchObject({
+      card: "summary_large_image",
+      images: [DEFAULT_OG_IMAGE],
+    });
+    expect(existsSync(join(ROOT, "app/opengraph-image.tsx"))).toBe(true);
+    expect(existsSync(join(ROOT, "app/twitter-image.tsx"))).toBe(true);
+    expect(readSrc("app/opengraph-image.tsx")).toContain("ImageResponse");
+    expect(readSrc("app/opengraph-image.tsx")).toContain("OG_IMAGE_SIZE");
+    expect(readSrc("app/twitter-image.tsx")).toContain("./opengraph-image");
     for (const file of [
       "app/academy/layout.tsx",
       "app/(public)/iletisim/page.tsx",
@@ -119,10 +138,23 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     });
   });
 
-  it("yayınlanmış her vitrin SKU’sunun kapak posteri diskte durur", () => {
+  it("eski /academy/courses/[slug] alias'ı kanonik /academy/[slug] adresine 301 döner", () => {
+    const config = readSrc("next.config.ts");
+    expect(config).toContain('source: "/academy/courses/:slug"');
+    expect(config).toContain('destination: "/academy/:slug"');
+    expect(config).toContain("statusCode: 301");
+    const alias = readSrc("app/academy/courses/[slug]/page.tsx");
+    expect(alias).toContain("permanentRedirect");
+    expect(alias).not.toContain("AcademyCoursePage");
+    expect(alias).not.toContain("baseGenerateMetadata");
+  });
+
+  it("yayınlanmış her vitrin SKU’sunun kapak posteri veya marka mührü durur", () => {
     for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
       const cover = academyCourseCoverPath(slug);
-      expect(cover, slug).toMatch(/^\/media\/academy\/micro\/.+\.poster\.svg$/);
+      expect(cover === "/icon.svg" || /^\/media\/academy\/micro\/.+\.poster\.svg$/.test(cover), slug).toBe(
+        true,
+      );
       expect(existsSync(join(ROOT, "public", cover.slice(1))), cover).toBe(true);
     }
   });
@@ -147,12 +179,13 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
       expect(entry?.priority).toBe(0.8);
       expect(entry?.changeFrequency).toBe("weekly");
       expect(entry?.images?.[0]).toBe(`https://yetkin.ai${academyCourseCoverPath(row.slug)}`);
+      expect(byPath.has(`/academy/courses/${row.slug}`), `/academy/courses/${row.slug}`).toBe(false);
     }
 
     expect(byPath.get("/")?.priority).toBe(1);
     expect(byPath.get("/academy")?.priority).toBe(1);
     expect(byPath.get("/career")?.priority).toBe(0.9);
-    expect(byPath.get("/freelancer")?.priority).toBe(0.9);
+    expect(byPath.get("/freelancer")?.priority).toBe(0.4);
     expect(byPath.get("/legal")?.priority).toBe(0.5);
     expect(byPath.get("/iletisim")?.priority).toBe(0.5);
     expect(byPath.get("/legal")?.changeFrequency).toBe("monthly");
@@ -197,17 +230,9 @@ describe("Aşama 3 SEO — JSON-LD yapısal veri", () => {
       name: YETKIN_BRAND,
       url: "https://yetkin.ai/",
     });
-    expect(site?.potentialAction).toMatchObject({
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: SITE_SEARCH_URL_TEMPLATE,
-      },
-      "query-input": "required name=search_term_string",
-    });
-    expect(SITE_SEARCH_URL_TEMPLATE).toBe(
-      "https://yetkin.ai/academy?q={search_term_string}",
-    );
+    expect(site?.potentialAction).toBeUndefined();
+    expect(readSrc("lib/copy/json-ld.ts")).not.toContain("SearchAction");
+    expect(readSrc("lib/copy/json-ld.ts")).not.toContain("academy?q=");
   });
 
   it("kurs sayfası Course ve BreadcrumbList giyer", () => {

@@ -1,5 +1,8 @@
 import { jsonFail } from "@/lib/kernel/http/json";
-import { ACADEMY_STUDIO_GONE } from "@/lib/academy/studio-gone";
+
+const ACADEMY_STUDIO_GONE = {
+  listen: "Dersi dinle kapalı.",
+} as const;
 
 /**
  * Ders dinle — stüdyo motoru arşivde. Kenar oturum istemez; her yöntem 410.

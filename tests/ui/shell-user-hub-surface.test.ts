@@ -14,7 +14,7 @@ function readSrc(relative: string): string {
 }
 
 describe("kabuk kullanıcı hub yüzeyi", () => {
-  it("çekirdek sicili dört sığınak taşır; cüzdan ayrı CTA, diğerleri menüdür", () => {
+  it("çekirdek sicili dört sığınak taşır; cüzdan hesap menüsünde, diğerleri menüdür", () => {
     expect(KERNEL_SURFACES.map((surface) => surface.id)).toEqual([
       "profil",
       "cuzdan",
@@ -71,7 +71,7 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     expect(desktop).not.toContain("Faz 1 · Akademi → Kanıt → İş · 4 oda");
   });
 
-  it("sağ üst komuta şeridi bakiyeyi /cuzdan’a, menüyü KERNEL_SURFACES’e bağlar", () => {
+  it("sağ üst komuta şeridi bakiyeyi hesap menüsüne, menüyü KERNEL_SURFACES’e bağlar", () => {
     const hub = readSrc("components/shell/user-hub.tsx");
     const header = readSrc("components/shell/header-bar.tsx");
     const chip = readSrc("components/shell/header-wallet-chip.tsx");
@@ -89,6 +89,8 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     expect(chip).toContain("min-w-[4.75rem]");
     expect(hub).toContain("KERNEL_SURFACES");
     expect(hub).toContain("walletChip");
+    expect(hub).toContain("data-user-hub-wallet");
+    expect(hub.indexOf("data-user-hub-wallet")).toBeGreaterThan(hub.indexOf("Hesabım"));
     expect(hub).not.toContain("HeaderWalletChip");
     expect(sessionHub).toContain("HeaderWalletChip");
     expect(sessionHub).toContain("readWalletStripSnapshot");
@@ -135,6 +137,7 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
       "/cuzdan",
       "/profil",
       "/pasaport",
+      "/career",
       "/admin",
     ]);
   });

@@ -3,6 +3,8 @@ import { z } from "zod";
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   SITE_MAINTENANCE_FREEZE: z.string().optional(),
+  SITE_MAINTENANCE_BYPASS_TOKEN: z.string().optional(),
+  MAINTENANCE_BYPASS_SECRET: z.string().optional(),
   DATABASE_URL: z.string().optional(),
   DIRECT_URL: z.string().optional(),
   NEXT_PUBLIC_APP_URL: z.string().optional(),

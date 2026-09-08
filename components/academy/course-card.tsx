@@ -3,7 +3,7 @@
 import { formatMinorCompact } from "@/lib/kernel/money/format";
 import type { AcademyCourseWithPrice } from "@/lib/academy/types";
 import { ListingCard } from "@/components/showcase/listing-card";
-import { IconHeart, IconVolume } from "@/components/ui/icons";
+import { IconBook, IconHeart, IconVolume } from "@/components/ui/icons";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { academyInstructorBySlug } from "@/lib/academy/instructors";
 import { academyModuleCodeBySlug } from "@/lib/academy/catalog-filter";
@@ -28,6 +28,7 @@ export function CourseCard({
   layout = "grid",
   lessonCount = 0,
   learnerStatus,
+  featured = false,
   owned = false,
   favorited = false,
   onToggleFavorite,
@@ -38,6 +39,8 @@ export function CourseCard({
   layout?: AcademyCatalogViewMode;
   lessonCount?: number;
   learnerStatus?: AcademyCatalogLearnerStatus;
+  /** Amiral SKU — vitrinde daha geniş kart ve üç satır özet. */
+  featured?: boolean;
   /** Satın alınmış eğitim — Super Admin lab overlay vitrinde owned basabilir; nakit değildir. */
   owned?: boolean;
   favorited?: boolean;
@@ -76,7 +79,17 @@ export function CourseCard({
       <IconVolume className="h-3 w-3" />
       {ACADEMY_SEN.catalog.audioBadge}
     </span>
-  ) : null;
+  ) : (
+    <span
+      data-academy-article-badge=""
+      title={ACADEMY_SEN.catalog.articleBadgeHint}
+      aria-label={ACADEMY_SEN.catalog.articleBadgeHint}
+      className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[var(--surface)] px-2 py-0.5 text-[10px] font-semibold tracking-wide text-[var(--muted)] ring-1 ring-inset ring-[var(--border)]"
+    >
+      <IconBook className="h-3 w-3" />
+      {ACADEMY_SEN.catalog.articleBadge}
+    </span>
+  );
   const favoriteButton =
     !isLibrary && onToggleFavorite ? (
       <button
@@ -113,7 +126,7 @@ export function CourseCard({
       moduleCode={moduleCode}
       kicker={levelKicker}
       summary={summary}
-      summaryClamp={2}
+      summaryClamp={featured ? 3 : 2}
       price={storefront.priceLabel}
       priceCaption={storefront.priceCaption ?? undefined}
       badge={statusBadge ?? undefined}
@@ -124,8 +137,12 @@ export function CourseCard({
       footerBadge={learnerLabel ?? undefined}
       footerBadgeTone={learnerStatus === "completed" ? "emerald" : "safir"}
       extraBadge={chrome}
-      hitAriaExtra={hasAudio ? ACADEMY_SEN.catalog.audioBadgeHint : undefined}
-      className="!p-4"
+      hitAriaExtra={hasAudio ? ACADEMY_SEN.catalog.audioBadgeHint : ACADEMY_SEN.catalog.articleBadgeHint}
+      className={cn(
+        "!p-4",
+        featured &&
+          "ring-1 ring-[color-mix(in_srgb,var(--safir)_42%,transparent)] bg-[color-mix(in_srgb,var(--safir-soft)_55%,var(--surface))]",
+      )}
     />
   );
 }

@@ -6,10 +6,11 @@ import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import { lockAcademyCoursePrice, purchaseAcademyCourse } from "@/lib/academy/engine";
 import { loadAcademyExam, submitAcademyExam } from "@/lib/academy/exam-engine";
 import { completeAcademyCurriculum } from "@/lib/academy/curriculum-engine";
+import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import * as sessionApi from "@/lib/kernel/auth/session";
 import * as academyRuntime from "@/lib/academy/runtime";
 import { createMemoryLedgerStore } from "../helpers/memory-money";
-import { createMemoryAcademyStore, memoryCourse, memoryExam } from "../helpers/memory-academy";
+import { createMemoryAcademyStore, memoryPublishedSku } from "../helpers/memory-academy";
 import {
   createMemoryCheckoutPriceLockStore,
   createMemoryPriceCatalogStore,
@@ -19,7 +20,6 @@ import { assertWireContains, assertWireOmits } from "../helpers/idor-leak";
 const BUYER = "academy-idor-buyer";
 const STRANGER = "academy-idor-stranger";
 const PLATFORM = PLATFORM_TREASURY_USER_ID;
-const COURSE_PRICE = 25_000;
 const PASSING = [
   { questionId: "q1", choiceIndex: 1 },
   { questionId: "q2", choiceIndex: 1 },
@@ -28,20 +28,23 @@ const PASSING = [
 ];
 
 function world() {
-  const course = memoryCourse({ id: "course-idor-1", slug: "python-temel" });
-  const exam = memoryExam(course.id);
+  const published = memoryPublishedSku();
   const ledger = createMemoryLedgerStore([
-    { userId: BUYER, amountMinor: 100_000 },
-    { userId: STRANGER, amountMinor: 100_000 },
+    { userId: BUYER, amountMinor: 200_000 },
+    { userId: STRANGER, amountMinor: 200_000 },
     { userId: PLATFORM, amountMinor: 0 },
   ]);
   const catalog = createMemoryPriceCatalogStore([
-    { moduleKey: ACADEMY_MODULE_KEY, unitKey: course.catalogUnitKey, amountMinor: COURSE_PRICE },
+    {
+      moduleKey: ACADEMY_MODULE_KEY,
+      unitKey: published.course.catalogUnitKey,
+      amountMinor: published.amountMinor,
+    },
   ]);
   const academy = createMemoryAcademyStore();
   return {
-    course,
-    exam,
+    course: published.course,
+    exam: published.exam,
     ports: {
       ledger,
       catalog,
@@ -51,21 +54,19 @@ function world() {
   };
 }
 
-async function settleBuyer(ctx: ReturnType<typeof world>) {
+async function purchaseBuyer(ctx: ReturnType<typeof world>) {
   await ctx.ports.academy.insertCourse(ctx.course);
   await ctx.ports.academy.insertExam(ctx.exam);
   const locked = await lockAcademyCoursePrice(ctx.ports, {
     courseId: ctx.course.id,
     userId: BUYER,
   });
-  const purchased = await purchaseAcademyCourse(ctx.ports, {
+  return purchaseAcademyCourse(ctx.ports, {
     courseId: ctx.course.id,
     userId: BUYER,
     lockId: locked.lock.id,
     platformUserId: PLATFORM,
   });
-  await completeAcademyCurriculum(ctx.ports, { courseId: ctx.course.id, userId: BUYER });
-  return purchased;
 }
 
 describe("akademi sınav/satın alma IDOR", () => {
@@ -75,8 +76,10 @@ describe("akademi sınav/satın alma IDOR", () => {
 
   it("yabancı SETTLED satın almayı ve sınav oturumunu açamaz; satın alma userId ile kilitlidir", async () => {
     const ctx = world();
-    const purchased = await settleBuyer(ctx);
+    const purchased = await purchaseBuyer(ctx);
     expect(purchased.purchase.userId).toBe(BUYER);
+    expect(curriculumForCourseSlug(ctx.course.slug)).toHaveLength(6);
+    await completeAcademyCurriculum(ctx.ports, { courseId: ctx.course.id, userId: BUYER });
 
     const ownerView = await loadAcademyExam(ctx.ports, ctx.course.id, BUYER);
     expect(ownerView).not.toBeNull();
@@ -105,7 +108,8 @@ describe("akademi sınav/satın alma IDOR", () => {
 
   it("GET/POST exam ve sertifika listesi oturum aktörüne kilitli; yabancı purchaseId/sessionToken sızdırmaz", async () => {
     const ctx = world();
-    const purchased = await settleBuyer(ctx);
+    const purchased = await purchaseBuyer(ctx);
+    await completeAcademyCurriculum(ctx.ports, { courseId: ctx.course.id, userId: BUYER });
 
     vi.spyOn(academyRuntime, "createPrismaAcademyPorts").mockReturnValue(ctx.ports as never);
     const requireSession = vi.spyOn(sessionApi, "requireSession");

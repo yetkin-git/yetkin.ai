@@ -11,6 +11,7 @@ type ProvisionResult = { ok: true; userId: string } | { ok: false; error: string
  * GoTrue Confirm Email + SMTP 500'ünde geliştirme yedeği.
  * auth.users INSERT handle_new_user tetikler (users + TRY wallet).
  * Üretim bu yolu çağırmaz — `isDevSignupFallbackEnabled`.
+ * Kayıt yine oturum yazmaz; lab hesabı giriş sayfasından açılır.
  */
 export async function provisionConfirmedAuthUser(input: {
   email: string;

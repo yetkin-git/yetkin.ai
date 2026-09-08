@@ -21,16 +21,18 @@ function readSrc(relative: string): string {
   return readFileSync(join(ROOT, relative), "utf8");
 }
 
-const SEEDS: SuperAdminGrantCourseSeed[] = ACADEMY_GROWTH_SKU_SLUGS.map((slug, index) => ({
-  id: `ac_${slug.replace("-", "_")}`,
-  slug,
-  title: slug,
-  summary: slug,
-  catalogUnitKey: `course:${slug}`,
-  globalRank: 1,
-  localRank: index + 1,
-  trendScore: index + 1,
-}));
+const SEEDS: SuperAdminGrantCourseSeed[] = (ACADEMY_GROWTH_SKU_SLUGS as readonly string[]).map(
+  (slug, index) => ({
+    id: `ac_${slug.replace("-", "_")}`,
+    slug,
+    title: slug,
+    summary: slug,
+    catalogUnitKey: `course:${slug}`,
+    globalRank: 1,
+    localRank: index + 1,
+    trendScore: index + 1,
+  }),
+);
 
 function memoryPort(input: {
   user: { id: string; email: string };
@@ -85,36 +87,45 @@ describe("Super Admin akademi lab bağışı", () => {
   });
 
   it("eksik kursa course+grant, mevcut bağışı atlar, ticari kaydı ezmez", () => {
-    const python = SEEDS.find((row) => row.slug === "python-temel")!;
+    const existing: SuperAdminGrantCourseSeed = {
+      id: "ac_existing_course",
+      slug: "existing-course",
+      title: "existing-course",
+      summary: "existing-course",
+      catalogUnitKey: "course:existing-course",
+      globalRank: 1,
+      localRank: 1,
+      trendScore: 1,
+    };
     const draft: SuperAdminGrantCourseSeed = {
-      id: "ac_ai_temel",
-      slug: "ai-temel",
-      title: "ai-temel",
-      summary: "ai-temel",
-      catalogUnitKey: "course:ai-temel",
+      id: "ac_sample_course",
+      slug: "sample-course",
+      title: "sample-course",
+      summary: "sample-course",
+      catalogUnitKey: "course:sample-course",
       globalRank: 1,
       localRank: 2,
       trendScore: 2,
     };
     const plan = planSuperAdminAcademyGrants({
-      slugs: ["python-temel", "ai-temel"],
-      seeds: [...SEEDS, draft],
-      liveCourses: [{ id: python.id, slug: python.slug }],
-      purchases: [{ courseId: python.id, priceLockId: `${ACADEMY_GRANT_LOCK_PREFIX}u:${python.id}` }],
+      slugs: ["existing-course", "sample-course"],
+      seeds: [existing, draft],
+      liveCourses: [{ id: existing.id, slug: existing.slug }],
+      purchases: [{ courseId: existing.id, priceLockId: `${ACADEMY_GRANT_LOCK_PREFIX}u:${existing.id}` }],
     });
     expect(plan).toEqual([
-      { slug: "python-temel", courseId: python.id, action: "skip-existing-grant" },
+      { slug: "existing-course", courseId: existing.id, action: "skip-existing-grant" },
       {
-        slug: "ai-temel",
+        slug: "sample-course",
         courseId: draft.id,
         action: "insert-course-and-grant",
       },
     ]);
     const commercial = planSuperAdminAcademyGrants({
-      slugs: ["python-temel"],
-      seeds: SEEDS,
-      liveCourses: [{ id: python.id, slug: python.slug }],
-      purchases: [{ courseId: python.id, priceLockId: "lock_paytr" }],
+      slugs: ["existing-course"],
+      seeds: [existing],
+      liveCourses: [{ id: existing.id, slug: existing.slug }],
+      purchases: [{ courseId: existing.id, priceLockId: "lock_paytr" }],
     });
     expect(commercial[0]?.action).toBe("skip-commercial");
   });
@@ -158,8 +169,19 @@ describe("Super Admin akademi lab bağışı", () => {
       runSuperAdminAcademyGrants(port, {
         email: "a@b.com",
         nodeEnv: "development",
-        seeds: SEEDS,
-        slugs: ["python-temel"],
+        slugs: ["sample-course"],
+        seeds: [
+          {
+            id: "ac_sample_course",
+            slug: "sample-course",
+            title: "sample-course",
+            summary: "sample-course",
+            catalogUnitKey: "course:sample-course",
+            globalRank: 1,
+            localRank: 1,
+            trendScore: 1,
+          },
+        ],
         now: NOW,
       }),
     ).rejects.toThrow(/nakit defterine yazdı/);

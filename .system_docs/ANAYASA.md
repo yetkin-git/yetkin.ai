@@ -1,95 +1,91 @@
 # ANAYASA — yetkin.ai
 
-İnsan SSOT. Ürün kodu bu dosyayı import etmez.
+İnsan SSOT (Tek Gerçek Kaynak). Ürün kodu bu dosyayı doğrudan import etmez.
 
-Bu metin iki katmandır. Üst katman değişmezdir. Alt katman operasyon ve ürün notudur; tadil edilir, greple din yapılmaz.
+Bu belge iki katmandan oluşur:
+- **A Katmanı (Sert Kırmızı Çizgiler):** Yasal, finansal ve temel güvenlik zorunluluklarıdır. Değişmez ve taviz verilemez.
+- **B Katmanı (Esnek Ops ve Mühendislik Notları):** Mimari, operasyonel ve ürün rehberliğidir. Geliştirme hızını kesmeyen, ekip ve AI ajanının hareket alanını genişleten, gerektiğinde güncellenebilen yaşayan ilkelerdir. Greple kural polisliği yapılmaz.
 
 | Alan | Değer |
 |------|--------|
 | Tarih | 16 Ağustos 2026 |
-| Tadil | **28 Ağustos 2026 (Adım 1 — Omurga sızıntısı):** Müfredat kimliği ve ilan kapısı sicili `lib/kernel/catalog-ids`; kariyer/freelancer `lib/academy` import etmez. Müze yasağı OPS notudur (tarihsel S9-B anayasa maddesi değildir). **27 Ağustos 2026 (Tedavi Evresi):** Mimari dil «Modüler Monolit + API-First Dron Sözleşmesi» olarak hizalandı; `verify:prebuild` yalnız güvenlik kapısı (sır, amountMinor, RLS, IDOR, v1 sözleşme); grep/marka nightly. Proof okuma `ProofReadPort` çekirdek sözleşmesidir. **25 Ağustos 2026 (Adım 2 — Anayasal Esneklik):** Müfredat ders adedi, seviye etiketi ve fiyat maktu bantları OPS/ürün notuna çekildi; sabit ders adedi, maktu fiyat bantları ve «her dikey 3 seviye» dogması kalktı. Aynı gün Adım 1: Donmuş 8 oda canlı `lib/` ve `components/` tavanından silindi. 24 Ağustos: mühür katedrali ve grep-mimari bağlayıcılığı kalktı. |
-| Gövde | 4 çalışan oda + 4 çekirdek sığınak. Donmuş 8 oda asil sicil değildir |
+| Son Reform | **Eylül 2026 (Teknik Lider & Kurucu İrade Reformu):** Katı grep yasakları, kelime avı yapan test dogmaları ve aşırı kısıtlayıcı katman duvarları B Katmanı'na çekilerek esnetildi. Geliştirici ve AI ajanın hareket alanı açıldı; A Katmanı yalnızca temel yasal (S43), finansal (`amountMinor`), güvenlik (RLS/IDOR/Sır) ve kanıt (sunucu puanlı mühür) çizgilerine odaklandı. |
 | Kamu markası / domain | `yetkin.ai` |
 | Kalıcı belgeler | `/.system_docs` |
 | Ops | `.system_docs/OPS_RUNBOOK.md` |
 | Vizyon | `.system_docs/MANIFESTO.md` |
 | Günlük rapor | `/docs` — build fixture değildir |
 
-Müze dizini `yetkin_muze/` ilham ve yasak listesidir. Kör kopya yasaktır.
-
 ---
 
 # BÖLÜM A — SERT KIRMIZI ÇİZGİLER (DEĞİŞMEZLER)
 
-Bunlar yasal / finansal / güvenlik sınırıdır. PR ile “kolaylaştırmak” için esnetilmez. Tadil: tarih + gerekçe + bu dosya.
+Bu bölüm doğrudan yasal yaptırım, finansal kayıp ve kritik veri güvenliği risklerini önleyen sınırları tanımlar. PR ile "kolaylaştırmak" veya geçici kısayollar adına gevşetilemez.
 
-## A1. Tek defter, tek birim
+## A1. Tek Defter, Tek Birim (`amountMinor`) ve Finansal SSOT
 
-Şema ve tip adı **`amountMinor`** + `currencyCode`. Float para yasaktır. `amountKurus` kolon adı **yasaktır**.
+* **Para Birimi Tamsayıdır:** Tüm şema ve tiplerde tutarlar **`amountMinor`** (kuruş cinsinden pozitif tamsayı) ve `currencyCode` olarak tutulur. Float (ondalıklı) para kullanımı kesinlikle yasaktır.
+* **Tek Finansal SSOT:** Sistemdeki tek bakiye kaynağı `Wallet` satırı ve append-only (yalnızca eklemeli) çalışan `LedgerEntry` defteridir. `User` modelinde bakiye kolonu bulunamaz. Çift bakiye, kontrolsüz holding havuzları ve defter dışı nakit yazıcılar yasaktır.
+* **Emanet İkinci Bakiye Değildir:** `EscrowHold` tablosu bağımsız bir sanal para havuzu değildir; lisanslı ödeme sağlayıcısı (PSP) nezdindeki işlem referansı (`referenceKey` / `pspPaymentId`) ile eşleşir. `Wallet`, platform içi merchant işlem bakiyesidir.
+* **Fiyat Dinamiktir:** Satış fiyatları kod içerisine gömülü sabitler olamaz; Super Admin yönetimindeki dinamik katalog fiyatı SSOT'tur.
 
-Tek SSOT: `Wallet` satırı + append-only `LedgerEntry`. User’da bakiye kolonu yoktur. Triple-balance, `ModuleWallet`, holding havuzu ve ikinci nakit yazıcı yasaktır.
+## A2. Ödeme Kuruluşu Değiliz (S43 ve 6493 Sayılı Kanun Uyumu)
 
-`EscrowHold` ikinci bakiye değildir. PSP işinde hold `referenceKey` / `pspPaymentId` ile yürür; Wallet yalnız Merchant akademi bakiyesidir.
+* **Lisanssız Para Tutma ve Çekim Yasağı:** yetkin.ai bir banka veya lisanslı ödeme kuruluşu değildir. Platform içinden harici banka hesaplarına doğrudan para transferi veya çekim rotası (`/api/wallet/withdraw`) açılamaz. GİB, e-arşiv ve banka çekim paneli kurgulanamaz.
+* **Tahsilat ve Hakediş Dağıtımı:**
+  - Akademi eğitim ve sınav harçları lisanslı ödeme kuruluşu (PayTR Merchant Port) aracılığıyla tahsil edilir.
+  - Freelancer iş bedelleri lisanslı kuruluşun Pazaryeri Split altyapısında emanet ve bloke statüsünde tutulur; iş tesliminde ustanın net hakedişi doğrudan ödeme kuruluşu tarafından ustanın IBAN'ına aktarılır. Usta net hakedişi platform içi Rail cüzdanına CREDIT olarak yazılamaz.
+* **Dürüst Durum (Fail-Closed):** Ödeme sağlayıcısı veya split portu bağlı değilse sahte onay verilmez; sistem dürüstçe ilgili işlemin henüz bağlanmadığını (`not_configured` / 503) bildirir.
 
-Satış fiyatı kod sabiti değildir; Super Admin katalog SSOT’tur.
+## A3. Güvenlik, Kimlik ve İzolasyon (RLS, IDOR, Sır Koruması)
 
-## A2. Ödeme kuruluşu değiliz (S43)
+* **Servis Anahtarı İstemciye Sızamaz:** `SUPABASE_SERVICE_ROLE_KEY` / `service_role` anahtarı istemci tarafı (browser/frontend JS) koduna, açık `.env` değişkenlerine veya kullanıcıya açık yüzeylere asla sızdırılamaz. İstemci katmanı yalnızca doğrulanmış JWT oturumu ile konuşur.
+* **Sunucu Tarafı Güvenli Erişim:** Sunucu tarafındaki veri erişimleri Prisma Postgres rolü ile yetkilendirilir. Arka plan görevleri ve izole sunucu işlemleri güvenli ortamda yürütülür.
+* **RLS ve IDOR Koruması:** Tüm kullanıcı kaynaklarında Satır Düzeyinde Güvenlik (RLS) ve IDOR (Insecure Direct Object Reference) kontrolleri zorunludur. Hiçbir kullanıcı başka bir kullanıcının cüzdanına, teklifine, sözleşmesine veya sınav oturumuna izinsiz erişemez.
+* **Idempotency:** Kritik mali yazma ve ödeme tamamlama işlemlerinde mükerrer işlem riskine karşı `Idempotency-Key` kullanımı esastır.
 
-Nakit **hedefi:** PayTR Merchant Port ile girer; akademide harcanır. Panel veya lisans kapalıyken tahsilat dürüst **503**’tür. Sahte CREDIT yoktur. Freelancer bedeli lisanslı Pazaryeri split’tinde durur. Usta neti Rail cüzdanına CREDIT yazılmaz. Bankaya çekim yoktur. `/api/wallet/withdraw`, GİB, e-arşiv, admin çekim paneli açılmaz.
+## A4. Kanıt Satın Alınamaz (Sunucu Değerlendirmeli Mühür)
 
-Split portu `not_configured` ise dürüst **503**. Wallet-escrow production fallback değildir.
+* **Sunucu Tarafı Puanlama:** Sınav puanları ve başarı kriterleri asla tarayıcıda/istemcide hesaplanamaz. Puanlama ve değerlendirme sunucu tarafında yetkili motor tarafından icra edilir.
+* **Kriptografik Mühür:** Akademi sertifikası ve başarı kanıtı para ödenerek satın alınamaz (baraj ≥70 puandır). Mühür yükü kriptografik olarak kilitlenir: `userId · courseId · attemptId · score · issuedAt · curriculumSeal`. Bu yük içerisine ödeme miktarı, vanity bilgileri veya sıralama dahil edilmez.
+* **Açık Doğrulama:** Sertifika `/academy/dogrula/[hash]` adresinden kamuya açık, oturum gerektirmeksizin doğrulanabilir.
 
-## A3. Sır ve kimlik
+## A5. Dürüst Kapalı Yüzey (Sahte Bakiye ve Veri Yasağı)
 
-`SUPABASE_SERVICE_ROLE_KEY` / `service_role` kod, `.env` ve JS istemcisinde **kullanılamaz**. Yazma Prisma postgres rolü. Kenar JWT fail-closed. Kritik yazmalarda Idempotency-Key zorunludur.
-
-## A4. Kanıt satın alınamaz
-
-Sınav puanı tarayıcıda hesaplanmaz — **sınav** sunucuda puanlanır. Vize admin düğmesiyle basılmaz. Mühür yükü sabittir: `userId · courseId · attemptId · score · issuedAt · curriculumSeal`. Vanity, ödeme veya sıralama bu yüke girmez.
-
-## A5. Dürüst kapalı yüzey
-
-Boş env/DB/ödeme → vatandaş dilinde “henüz bağlanmadı / yüklenemedi”. Sahte bakiye yok. Sahte CREDIT yok.
-
-## A6. Tek v1 zarf
-
-Amiral ve Dron aynı JSON’u konuşur: `{ ok, error, requestId, apiVersion, data }`. Üçüncü zarf yasaktır.
-
-## A7. Asil sicil
-
-Çalışan odalar: `dashboard`, `academy`, `career`, `freelancer`. Sığınaklar oda sayılmaz: `/profil`, `/cuzdan`, `/pasaport`, `/admin`. 5. çalışan oda ürün kararı ister. Donmuş 8 oda (Studio, DevLabs, Kurumsal, Hibe, Arena, Yetkinİlan, Junior, YetkinX) 410 envanteridir; `archived/` + kenar 410. **Donmuş 8 oda canlı `lib/` ve `components/` tavanında kesinlikle yoktur.**
-
-## A8. Kernel sınırı (dürüst cümle)
-
-**Kernel runtime dikey motor import etmez; User satırı dikey FK’leri taşır.**
-
-Bu bir mikroservis vaadi değildir. Tek Postgres + Prisma, User satırında akademi/kariyer/freelancer ilişkilerini zorunlu kılar. Paylaşılan kernel **klasörüdür**, versiyonlu paket değildir. Fiili gövde: **Modüler Monolit + API-First Dron Sözleşmesi**. Odalar birbirinin motorunu import etmez; çapraz iş `app/api` kompozisyonu veya HTTP’dir.
-
-Kanıt okuma çekirdek sözleşmedir (`ProofReadPort` / `lib/kernel/proof`). Müfredat ve ilan kapısı kimliği `lib/kernel/catalog-ids` sözleşmesidir. Kariyer akademi veya freelancer iç okuma dosyasını import etmez. Kariyer ve freelancer `lib/academy` klasörünü import etmez.
-
-## A9. Amiral mimarisi (dürüst cümle)
-
-Amiral **RSC load + v1 Dron hibritidir**. Web sayfaları çoğu yerde `lib/<oda>/load` ile sunucuda okur. Dron Bearer ile `/api/v1/...` hop sicilini konuşur. Kenar aynı handler’a soyar. “API-First” yalnız Dron kesiti için iddiadır; web BFF/RSC’dir. İkisi de yasaldır. Dış unvan “API-First Core Platform” değildir.
-
-`eval` / `child_process` / sandbox runner yasaktır. LLM yalnız gümrük kapısından çıkar.
+* **Gerçek Neyse O:** Bağlı olmayan bir API, eksik bir ortam değişkeni veya yapılandırılmamış bir ödeme kanalı için kullanıcıya hayali başarı mesajı veya sahte onay gösterilemez. Kullanıcıya açık ve dürüstçe "henüz bağlanmadı / yüklenemedi" bilgisi verilir.
+* **Sahte Finansal Veri Yasaktır:** Gerçek karşılığı olmayan sahte bakiye veya uydurma CREDIT satırı açılamaz.
 
 ---
 
-# BÖLÜM B — OPS / ÜRÜN NOTLARI
+# BÖLÜM B — OPS, ÜRÜN VE MİMARİ NOTLARI (ESNEK KATMAN)
 
-Bunlar kırmızı çizgi değildir. Değişince bu bölüm ve OPS güncellenir; her satır için yeni mühür betiği yazılmaz. Güvenlik hijyeni (RLS, IDOR, sır, dürüst 503) “dolaylı iş” diye reddedilmez.
+Bu bölümdeki maddeler kırmızı çizgi değildir; operasyonel, mimari ve ürün geliştirme rehberliğidir. Ekibin ve AI ajanın geliştirme hızını kilitleyen, kelime avı yapan veya aşırı bürokratik katman kontrolleri bu katmanda esnetilmiştir.
 
-- **Uygulama servisi** (`service_role`) Rail JS yüzeyine düşmez; ayrıntı OPS.
-- Inngest uygulama id `yetkin-rail`; üretimde imza boşsa 503. Ayrıntı OPS.
-- Redis mutlak yasak değildir; paylaşılan rate-limit/sayaç OPS kararıdır. Socket.IO ürün yüzeyi açılmaz.
-- Dron yayını (EAS, mağaza) ayrı operasyon kararıdır. Akademi native IAP ile satılmaz.
-- `verify:prebuild` derleme güvenlik kapısıdır (sır, `amountMinor`, RLS, IDOR, v1 sözleşme artefaktı). Anayasa maddesi değildir. Grep/oda duvarı/atomik string taraması ve SEN/marka `verify:grep-seals` + `verify:nightly` kovasına aittir. Para UoW, vize yüzeyi ve emanet iade kancası varsayılan `npm test` kapısındadır.
-- Oda duvarı ESLint ile tutulur; `verify:boundaries` nightly tarama yardımcısıdır. Grep tek başına mimari değildir.
-- Müfredat kimliği (`AcademyPathwayId`) ve freelancer ilan kapısı sicili `lib/kernel/catalog-ids` altındadır. Kariyer ve freelancer `lib/academy` import etmez.
-- Müze dizini (`yetkin_muze/`) git / indeks / webpack / import dışıdır. Bu bir OPS yasağıdır; tarihsel etiket «S9-B» Anayasa maddesi değildir. Kör kopya yine yasaktır.
-- Dashboard sicilde odadır, üründe salt okuma kabuktur.
-- Direct-offer, squad, dispute, AI chat: halkayı döndürmeyen yüzeyler; büyütülmez, dürüst kapalı kalabilir.
-- Quiet Luxury ve SEN aksı duruş / marka notudur; derleme kırıcısı değildir.
-- **Akademi müfredat / fiyat esnekliği (ürün notu, kırmızı çizgi değil):** Konunun hakkı neyse o kadar ders/bölüm yazılır. Fiyatlandırma eğitimin gerçek piyasa değerine göre dinamik belirlenir (canlı tutar katalog SSOT; kodda maktu bant yok). Eğitim yapısı ihtiyaca göre tekil Masterclass veya çoklu modül olabilir; her dikeyin zorunlu üç seviyesi yoktur. Para birimi yine `amountMinor` tamsayısıdır — float para A1’de yasaktır.
+## B1. Pragmatik Modüler Monolit ve Mimari Serbestlik
 
-Build: `prisma generate && verify:prebuild && next build`. `typecheck` ayrı CI adımıdır. `verify:nightly` ayrı CI/Nightly işidir.
+* **Grep Polisliğinin Sonu:** Katman denetimleri regex/grep ile kelime veya ithalat avı yaparak geliştiriciyi kilitleyemez. Kodun modülerliği ESLint kuralları, TypeScript tip sistemi ve sağlıklı yazılım prensipleriyle korunur.
+* **Katmanlar Arası Sağlıklı İletişim:** Web sayfaları (Next.js React Server Components), servis katmanları (`lib/<modul>`) ve API rotaları pragmatik ihtiyaçlar doğrultusunda birbirini çağırabilir. Yapay dosya/klasör sınırları inovasyonun önüne geçemez.
+* **Dış Sözleşme Standartlığı:** Mobil istemciler ve harici dronlar için `/api/v1` rotaları standart JSON zarfı `{ ok, error, requestId, apiVersion, data }` ile konuşur. Web arayüzü (Amiral) ise Next.js'in modern RSC veri yükleme (`load`) kabiliyetlerini serbestçe kullanır.
+
+## B2. Odaklar ve Dinamik Modül Alanı
+
+* **Ana Odaklar:** Platformun çekirdek kullanıcı deneyimi `dashboard`, `academy`, `career` ve `freelancer` alanlarında yoğunlaşır. Çekirdek sığınaklar (`/profil`, `/cuzdan`, `/pasaport`, `/admin`) destekleyici alanlardır.
+* **Genişleme Alanı:** Bildirim sistemleri, yardım masası, analitik panelleri veya kurumsal pilot ekranları gibi meşru ürün ihtiyaçları "katı oda sınırı" dogmasına takılmaksızın monolit içerisinde temiz modüller olarak kurgulanabilir.
+* **Arşiv ve Müze:** Arşivlenmiş eski kodlar (`yetkin_muze/`, `archived/`) ana akışı kirletmediği sürece cezalandırıcı kurallarla değil, standart git ve paket disipliniyle yönetilir.
+
+## B3. Geliştirici Dostu Test ve CI Politikası
+
+* **Ön Derleme Kapısı (`verify:prebuild`):** Bu kapı yalnızca A Katmanı'ndaki hayati güvenlik ve finansal unsurları denetler (sır taraması, tamsayı para, RLS durumu, IDOR testleri ve temel API sözleşmesi).
+* **Esnek Grep ve Stil Taramaları:** Belirli Türkçe kelimeleri, metin kalıplarını veya stil tercihlerini denetleyen taramalar (`verify:atomic-seals`, `verify:sen-axis` vb.) derlemeyi kıran mutlak engeller değildir; isteğe bağlı kalite veya nightly raporlama araçlarıdır.
+* **Geliştirici ve AI Ajan Özgürlüğü:** Mühendisler ve otonom ajanlar iş mantığını kurarken yapay test kırılmalarından endişe etmeden, doğrudan katma değer üreten kod yazma esnekliğine sahiptir.
+
+## B4. Müfredat, Pedagoji ve Dinamik Fiyatlandırma
+
+* **Konunun Hakkı İlkesi:** Eğitim müfredatları konunun gereksinimine göre şekillenir. Sabit ders adedi, zorunlu 3 seviye basamağı veya katı format zorlaması yoktur; tekil Masterclass veya çok modüllü yapılar serbesttir.
+* **Piyasa Odaklı Fiyat:** Fiyatlar piyasa dinamiklerine göre Super Admin kataloğunda belirlenir. Kod içerisine maktu fiyat bantları gömülmez. Tohum tutarı soğuk vitrin / ops soft default’tur; canlı kilit `PriceCatalogEntry`’dir.
+* **Çoklu Modalite:** Eğitimler yalnızca sese bağımlı değildir. Canlı gün 0 oynatıcı **makale (compact markdown)** modundadır. Pedagoji B.4 süre/kelime bütçesi yalnız **ses mühürlü** dersler için TTS maliyet kalkanıdır; compact makale müfredatını boğmaz.
+
+## B5. Harici Entegrasyonlar ve Pilot İş Modelleri
+
+* **Pazaryeri Geçiş Dönemi:** Pazaryeri Split bağlı değilse platform üzerinden nakit kabul edilmez; işlem A2 fail-closed ile `not_configured` / 503 döner. Ticari teklifler, kurumsal pilotlar ve işbirlikleri haricen yönetilir: platform dışı sözleşme ve fatura ile yürütülür, deftere nakit yazılmaz, sahte "tamamen hazır" iddiası basılmaz.
+* **Altyapı Servisleri:** Redis, Inngest, e-posta sağlayıcıları gibi üçüncü taraf servisler operasyonel ihtiyaçlara göre devreye alınır; konfigürasyon eksikliğinde sistem zarifçe (graceful degradation) çalışmasını sürdürür.

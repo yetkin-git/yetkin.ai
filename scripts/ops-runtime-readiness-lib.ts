@@ -22,6 +22,10 @@ import {
   parseDirectConnectionUrl,
 } from "./ops-migrate-lib";
 import {
+  CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS,
+  parseTrustedProxyHops,
+} from "@/lib/kernel/security/trusted-proxy";
+import {
   isRuntimePoolerUrl,
   isSupabaseDirectSessionUrl,
   supabasePoolerUsernameOk,
@@ -62,6 +66,7 @@ export type PaytrOps = {
   webhookIpAllowlistSet: boolean;
   appUrlClass: AppUrlClass;
   webhookPath: typeof PAYTR_WEBHOOK_PATH;
+  trustedProxyHops: number;
 };
 
 export type HealthSimChecks = {
@@ -115,6 +120,7 @@ export type SafeDefaultOps = {
   llm: LlmProviderOps;
   rateLimitStore: RateLimitStoreMode;
   hosting: HostingClass;
+  trustedProxyHops: number;
 };
 
 function filled(env: Record<string, string | undefined>, key: string): boolean {
@@ -234,6 +240,7 @@ export function inspectPaytrOps(env: Record<string, string | undefined>): PaytrO
     webhookIpAllowlistSet: filled(env, "PAYTR_WEBHOOK_IP_ALLOWLIST"),
     appUrlClass: classifyAppUrl(env.NEXT_PUBLIC_APP_URL),
     webhookPath: PAYTR_WEBHOOK_PATH,
+    trustedProxyHops: parseTrustedProxyHops(env as NodeJS.ProcessEnv),
   };
 }
 
@@ -283,6 +290,7 @@ export function inspectSafeDefaultOps(env: Record<string, string | undefined>): 
     },
     rateLimitStore: "in-process-single-node",
     hosting: env.VERCEL?.trim() === "1" || filled(env, "VERCEL_ENV") ? "vercel" : "unspecified",
+    trustedProxyHops: parseTrustedProxyHops(env as NodeJS.ProcessEnv),
   };
 }
 
@@ -382,6 +390,7 @@ export function formatPaytrLines(paytr: PaytrOps): string[] {
     `paytrTriple=${paytr.triple} sandboxSet=${paytr.sandboxSet ? "evet" : "hayır"} mockCheckoutSet=${paytr.mockCheckoutSet ? "evet" : "hayır"}`,
     `paytrWebhookPath=${paytr.webhookPath} ipAllowlistSet=${paytr.webhookIpAllowlistSet ? "evet" : "hayır"}`,
     `paytrAppUrl=${paytr.appUrlClass} (iFrame yetkisi panel; env yok)`,
+    `trustedProxyHops=${paytr.trustedProxyHops} (CF+Vercel canlı reçete=${CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS}; kod boş varsayılan=1)`,
   ];
 }
 
@@ -404,7 +413,8 @@ export function formatSafeDefaultLines(ops: SafeDefaultOps): string[] {
     "OPS-4 Güvenli varsayılanlar (sır yok; boş = dürüst kapalı):",
     `  devlabsPepper=${ops.devlabsPepper} (donmuş oda; üretim bloğu değil; kod varsayılanını env'e yapıştırma)`,
     `  jwtFallback=${ops.jwtFallback} (boş = JWKS-only; HS256 token düşer)`,
-    `  noticeSmtp=${smtp.mode} host=${yesNo(smtp.host)} port=${yesNo(smtp.port)} user=${yesNo(smtp.user)} pass=${yesNo(smtp.pass)} from=${yesNo(smtp.mailFrom)} (boşsa nakit durmaz; piyasa kör)`,
+    `  noticeSmtp=${smtp.mode} host=${yesNo(smtp.host)} port=${yesNo(smtp.port)} user=${yesNo(smtp.user)} pass=${yesNo(smtp.pass)} from=${yesNo(smtp.mailFrom)} (gün 0 dolu olmalı; boşsa nakit durmaz)`,
+    `  trustedProxyHops=${ops.trustedProxyHops} (CF+Vercel=2)`,
     `  railDronOrigins=${ops.railDronOrigins} (üretim doğru varsayılan: native-no-cors)`,
     `  superAdmin=${ops.superAdmin}`,
     `  authRedirects=${ops.authRedirectPaths.join(" ")} originClass=${ops.appUrlClass} (Dashboard Redirect URLs; origin basılmaz)`,
@@ -437,7 +447,7 @@ export function formatSuperAdminChecklistLines(
   const lines = [
     "OPS-6 Super Admin kontrol listesi (Sıra 7 — Merchant mühürü öncesi):",
     `  [ ] Inngest: serve=${serveMode} (üretim fail-closed=503; EVENT_KEY yoksa webhook defer 503, SDK crash yok)`,
-    `  [ ] SMTP: mode=${smtp.mode} (honest-skip/partial → mail atlanır, nakit durmaz; partial host+from tamamla veya boşalt)`,
+    `  [ ] SMTP: mode=${smtp.mode} (gün 0 NOTICE_SMTP_HOST + NOTICE_MAIL_FROM dolu; honest-skip/partial → mail atlanır, nakit durmaz)`,
     `  [ ] npm run ops:runtime-readiness → çıkış ${runtimeReadinessExitCode(report) === 0 ? "0 (beklenen lab)" : "1 (üretim bloğu)"}`,
     "  [ ] npm run ops:ghost-wallet-holds — PENDING wallet_id / ledger DEBIT hayalet sayımı (CREDIT yazmaz)",
     "  [ ] P3 DROP disk: prisma/migrations/20260822010000_drop_frozen_room_tables/migration.sql DROP TABLE mühürlü",
@@ -445,6 +455,16 @@ export function formatSuperAdminChecklistLines(
     "  [ ] Merchant lab iskeleti: vitest merchant-academy-lab + ops:t3-academy-loop (canlı panel ayrı idari kapı)",
     "  [ ] Split stub: beginHold/settle not_configured — Freelancer kazanç mühürü bu pakette verilmez",
   ];
+  if (smtp.mode === "honest-skip" || smtp.mode === "partial") {
+    lines.push(
+      "  UYARI: Gün 0 SMTP eksik — müşteri makbuz/bildirim almaz. NOTICE_SMTP_HOST + NOTICE_MAIL_FROM doldur.",
+    );
+  }
+  if (paytr.trustedProxyHops < CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS) {
+    lines.push(
+      `  UYARI: TRUSTED_PROXY_HOPS=${paytr.trustedProxyHops} — Cloudflare+Vercel canlı reçete ${CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS}.`,
+    );
+  }
   if (smtp.mode === "partial") {
     lines.push(
       "  UYARI: SMTP partial — NOTICE_SMTP_HOST + NOTICE_MAIL_FROM birlikte veya ikisi de boş olmalı.",

@@ -23,7 +23,7 @@ describe("cüzdan defter yüzeyi", () => {
     const page = readSrc("app/(kernel)/cuzdan/page.tsx");
     expect(page).not.toContain("RoomSeal");
     expect(page).toContain("loadWalletBoard");
-    expect(page).toContain("getSession");
+    expect(page).toContain("requirePageSession");
     expect(page).toContain("LedgerHistory");
     expect(page).toContain("WalletTopUpForm");
   });

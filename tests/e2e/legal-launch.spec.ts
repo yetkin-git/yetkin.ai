@@ -5,6 +5,7 @@ import {
   LEGAL_HONESTY_BODY,
   LEGAL_PAGE_TITLE,
   LEGAL_SECTION_TITLES,
+  LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH,
 } from "../../lib/copy/legal-launch";
 
 test.describe("O13 lansman hukuk yüzeyi", () => {
@@ -42,11 +43,7 @@ test.describe("O13 lansman hukuk yüzeyi", () => {
     await expect(
       page.getByRole("main").getByRole("link", { name: "destek@yetkin.ai", exact: true }),
     ).toHaveCount(1);
-    await expect(
-      page.getByText(
-        "Platform cüzdanına yüklenen bakiyeler yalnızca platform içi hizmetlerde kullanılabilir; farklı bir banka hesabına nakit transferi yapılamaz. Hesabın kapatılması veya iade talebi durumunda, henüz harcanmamış olan bakiye yüklemenin yapıldığı orijinal kredi/banka kartına ödeme altyapısı üzerinden iade edilir.",
-      ),
-    ).toBeVisible();
+    await expect(page.getByText(LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH)).toBeVisible();
     await expect(page.locator("[data-legal-colophon]")).toContainText("MERSİS No: 937068336100017");
     await expect(page.locator("[data-legal-colophon]")).toContainText(LEGAL_ENTITY.taxOffice);
     await expect(page.locator("[data-legal-colophon]")).toContainText(`VKN: ${LEGAL_ENTITY.vkn} / ${LEGAL_ENTITY.taxOffice}`);

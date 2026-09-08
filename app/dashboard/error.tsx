@@ -14,7 +14,7 @@ export default function DashboardError({
     <RoomErrorView
       error={error}
       retry={retry}
-      eyebrow="Anasayfa"
+      eyebrow="Panel"
       description={PUBLIC_SEN.error.rooms.dashboard}
       backHref="/dashboard"
       backLabel="Panele dön"

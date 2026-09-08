@@ -1,8 +1,7 @@
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
-import { academyCourseSeedBySlug } from "@/lib/academy/seed";
 import { lockAcademyCoursePrice, purchaseAcademyCourse } from "@/lib/academy/engine";
 import { completeAcademyCurriculum } from "@/lib/academy/curriculum-engine";
-import { academyCurriculumSealForSlug } from "@/lib/academy/curriculum";
+import { curriculumForCourseSlug, academyCurriculumSealForSlug } from "@/lib/academy/curriculum";
 import { resolvePublicAcademyCertificate } from "@/lib/academy/certificate-verify";
 import { verifyAcademyCertificateHash } from "@/lib/academy/exam";
 import { issueCareerVisaStamp, type CareerVisaIssueResult } from "@/lib/career/engine";
@@ -28,7 +27,7 @@ import {
 } from "@/lib/kurumsal/engine";
 import { submitAcademyExamWithFreshSitting } from "./academy-exam-sitting";
 import { KURUMSAL_JOB_FLOOR_UNIT_KEY, KURUMSAL_MODULE_KEY } from "@/lib/kurumsal/types";
-import { createMemoryAcademyStore, memoryCourse, memoryExam } from "./memory-academy";
+import { createMemoryAcademyStore, memoryPublishedSku } from "./memory-academy";
 import { createMemoryCareerProofStore, createMemoryCareerStore } from "./memory-career";
 import { createMemoryKurumsalStore } from "./memory-kurumsal";
 import {
@@ -52,26 +51,26 @@ import type {
   FreelancerJobRecord,
 } from "@/lib/freelancer/types";
 
-/** D3 — üç halka tek vatandaş. Müşteri / kurumsal sahip ayrı aktörlerdir. */
 export const D3_CITIZEN_ID = "d3-citizen";
 export const D3_CLIENT_ID = "d3-job-client";
 export const D3_CORP_OWNER_ID = "d3-corp-owner";
 export const D3_PLATFORM_ID = PLATFORM_TREASURY_USER_ID;
-export const D3_START_MINOR = 100_000;
+export const D3_START_MINOR = 200_000;
 export const D3_GROSS_MINOR = 25_000;
-export const D3_ACADEMY_SLUG = "python-temel";
+export const D3_ACADEMY_SLUG = "01_office_ai";
+export const D3_ACADEMY_AMOUNT_MINOR = 89_000;
 
 export type ThreeRingJourneyResult = {
   citizenId: string;
   ledger: MemoryLedgerStore;
   academy: {
     purchase: AcademyPurchaseRecord;
-    certificate: AcademyCertificateRecord;
-    curriculumSeal: string;
-    publicVerify: { status: string; sealStatus?: string };
+    certificate: AcademyCertificateRecord | null;
+    curriculumSeal: string | null;
+    publicVerify: { status: string; sealStatus?: string } | null;
   };
   proof: {
-    academyVisa: CareerVisaIssueResult;
+    academyVisa: CareerVisaIssueResult | null;
     passportHref: string | null;
     careerHref: string | null;
   };
@@ -97,6 +96,7 @@ export type ThreeRingJourneyResult = {
     clientAfterRelease: number;
     platformAfterRelease: number;
   };
+  seedAmountMinor: number;
 };
 
 async function expectGateDenied(career: CareerStore, userId: string): Promise<ForbiddenError> {
@@ -111,23 +111,7 @@ async function expectGateDenied(career: CareerStore, userId: string): Promise<Fo
   }
 }
 
-/**
- * D3 bellek e2e — tek vatandaş:
- * Öğrenme (python-temel SETTLED → müfredat → ≥70 → SHA256 + curriculumSeal)
- * → Kanıt (ACADEMY_CERTIFICATE vize + /pasaport /career doğrula bağı)
- * → Kazanç (vizesiz 403 → teklif → emanet → teslim → RELEASE → FREELANCER_RELEASE).
- * Canlı Postgres/Auth istemez. Oda motorları birbirini import etmez.
- */
 export async function runThreeRingJourney(): Promise<ThreeRingJourneyResult> {
-  const seed = academyCourseSeedBySlug(D3_ACADEMY_SLUG);
-  if (!seed) {
-    throw new Error("python-temel tohumu yok.");
-  }
-  const curriculumSeal = academyCurriculumSealForSlug(D3_ACADEMY_SLUG);
-  if (!curriculumSeal) {
-    throw new Error("python-temel müfredat mührü yok.");
-  }
-
   const now = new Date("2026-08-16T06:00:00.000Z");
   const examNow = new Date("2026-08-16T06:10:00.000Z");
   const ledger = createMemoryLedgerStore([
@@ -137,31 +121,21 @@ export async function runThreeRingJourney(): Promise<ThreeRingJourneyResult> {
     { userId: D3_PLATFORM_ID, amountMinor: 0 },
   ]);
   const academyStore = createMemoryAcademyStore();
+  const published = memoryPublishedSku(D3_ACADEMY_SLUG);
+  const course = published.course;
+  const exam = published.exam;
   const academyPorts = {
     ledger,
     catalog: createMemoryPriceCatalogStore([
       {
         moduleKey: ACADEMY_MODULE_KEY,
-        unitKey: seed.catalogUnitKey,
-        amountMinor: seed.seedAmountMinor,
+        unitKey: course.catalogUnitKey,
+        amountMinor: published.amountMinor,
       },
     ]),
     locks: createMemoryCheckoutPriceLockStore(),
     academy: academyStore,
   };
-  const course = memoryCourse({
-    id: seed.id,
-    slug: seed.slug,
-    title: seed.title,
-    summary: seed.summary,
-    catalogUnitKey: seed.catalogUnitKey,
-  });
-  const exam = memoryExam(course.id, {
-    id: seed.exam.id,
-    title: seed.exam.title,
-    passScore: seed.exam.passScore,
-    questions: seed.exam.questions,
-  });
   await academyStore.insertCourse(course);
   await academyStore.insertExam(exam);
 
@@ -180,68 +154,89 @@ export async function runThreeRingJourney(): Promise<ThreeRingJourneyResult> {
   if (purchased.purchase.status !== "SETTLED") {
     throw new Error("Akademi satın alma SETTLED değil.");
   }
-  const curriculum = await completeAcademyCurriculum(academyPorts, {
-    courseId: course.id,
-    userId: D3_CITIZEN_ID,
-    now,
-  });
-  if (!curriculum.curriculumComplete) {
-    throw new Error("Müfredat tamamlanmadı.");
-  }
-  const examResult = await submitAcademyExamWithFreshSitting(academyPorts, {
-    courseId: course.id,
-    userId: D3_CITIZEN_ID,
-    now: examNow,
-  });
-  const certificate = examResult.certificate;
-  if (!certificate?.certificateHash || !certificate.curriculumSeal) {
-    throw new Error("SHA256 sertifika veya curriculumSeal basılmadı.");
-  }
-  if (certificate.curriculumSeal !== curriculumSeal) {
-    throw new Error("curriculumSeal tohum mührü ile sapıyor.");
-  }
-  const hashOk = verifyAcademyCertificateHash({
-    userId: D3_CITIZEN_ID,
-    courseId: course.id,
-    attemptId: examResult.attempt.id,
-    score: examResult.score,
-    issuedAt: examNow,
-    curriculumSeal,
-    certificateHash: certificate.certificateHash,
-  });
-  if (!hashOk) {
-    throw new Error("Sertifika hash doğrulanamadı.");
-  }
-  const publicVerify = await resolvePublicAcademyCertificate(
-    academyStore as AcademyStore,
-    certificate.certificateHash,
-  );
-  const citizenAfterAcademy = ledger.snapshot(D3_CITIZEN_ID).amountMinor;
+
+  let certificate: AcademyCertificateRecord | null = null;
+  let curriculumSeal: string | null = null;
+  let publicVerify: ThreeRingJourneyResult["academy"]["publicVerify"] = null;
+  let academyVisa: CareerVisaIssueResult | null = null;
+  let passportHref: string | null = null;
 
   const career = createMemoryCareerStore();
-  const proofs = createMemoryCareerProofStore([
-    {
+  const proofs = createMemoryCareerProofStore([]);
+  const visalessError = await expectGateDenied(createMemoryCareerStore(), D3_CITIZEN_ID);
+  const visalessResponse = jsonFromUnknown(visalessError);
+  const visalessBody = (await visalessResponse.json()) as { error?: string };
+
+  if (curriculumForCourseSlug(D3_ACADEMY_SLUG).length !== 6) {
+    throw new Error("01_office_ai müfredatı 6 compact ders ister.");
+  }
+  {
+    curriculumSeal = academyCurriculumSealForSlug(D3_ACADEMY_SLUG);
+    if (!curriculumSeal) {
+      throw new Error("Müfredat mührü yok.");
+    }
+    const curriculum = await completeAcademyCurriculum(academyPorts, {
+      courseId: course.id,
+      userId: D3_CITIZEN_ID,
+      now,
+    });
+    if (!curriculum.curriculumComplete) {
+      throw new Error("Müfredat tamamlanmadı.");
+    }
+    const examResult = await submitAcademyExamWithFreshSitting(academyPorts, {
+      courseId: course.id,
+      userId: D3_CITIZEN_ID,
+      now: examNow,
+    });
+    certificate = examResult.certificate;
+    if (!certificate?.certificateHash || !certificate.curriculumSeal) {
+      throw new Error("SHA256 sertifika veya curriculumSeal basılmadı.");
+    }
+    if (certificate.curriculumSeal !== curriculumSeal) {
+      throw new Error("curriculumSeal tohum mührü ile sapıyor.");
+    }
+    const hashOk = verifyAcademyCertificateHash({
+      userId: D3_CITIZEN_ID,
+      courseId: course.id,
+      attemptId: examResult.attempt.id,
+      score: examResult.score,
+      issuedAt: examNow,
+      curriculumSeal,
+      certificateHash: certificate.certificateHash,
+    });
+    if (!hashOk) {
+      throw new Error("Sertifika hash doğrulanamadı.");
+    }
+    const resolved = await resolvePublicAcademyCertificate(
+      academyStore as AcademyStore,
+      certificate.certificateHash,
+    );
+    publicVerify = {
+      status: resolved.status,
+      sealStatus: resolved.status === "found" ? resolved.view.sealStatus : undefined,
+    };
+    proofs.add({
       sourceKind: "ACADEMY_CERTIFICATE",
       sourceId: certificate.id,
       userId: D3_CITIZEN_ID,
       actorUserIds: [D3_CITIZEN_ID],
       title: certificate.title,
+      courseSlug: D3_ACADEMY_SLUG,
       issuedAt: certificate.issuedAt,
       certificateHash: certificate.certificateHash,
-    },
-  ]);
-  const visalessError = await expectGateDenied(createMemoryCareerStore(), D3_CITIZEN_ID);
-  const visalessResponse = jsonFromUnknown(visalessError);
-  const visalessBody = (await visalessResponse.json()) as { error?: string };
+    });
+    academyVisa = await issueCareerVisaStamp(
+      { career, proofs },
+      {
+        sourceKind: "ACADEMY_CERTIFICATE",
+        sourceId: certificate.id,
+        actorUserId: D3_CITIZEN_ID,
+      },
+    );
+    passportHref = passportAcademyVerifyHref(academyVisa.stamp);
+  }
 
-  const academyVisa = await issueCareerVisaStamp(
-    { career, proofs },
-    {
-      sourceKind: "ACADEMY_CERTIFICATE",
-      sourceId: certificate.id,
-      actorUserId: D3_CITIZEN_ID,
-    },
-  );
+  const citizenAfterAcademy = ledger.snapshot(D3_CITIZEN_ID).amountMinor;
   await expectGateDenied(career, D3_CITIZEN_ID);
   proofs.add({
     sourceKind: "ACADEMY_CERTIFICATE",
@@ -249,7 +244,7 @@ export async function runThreeRingJourney(): Promise<ThreeRingJourneyResult> {
     userId: D3_CITIZEN_ID,
     actorUserIds: [D3_CITIZEN_ID],
     title: "Yapay Zekâ ve Prompt Mühendisliğine Giriş",
-    courseSlug: "ai-temel",
+    courseSlug: "04_chatbot_nocode",
     issuedAt: examNow,
     certificateHash: "ab".repeat(32),
   });
@@ -262,8 +257,6 @@ export async function runThreeRingJourney(): Promise<ThreeRingJourneyResult> {
     },
   );
   await assertAcademyCareerVisaForListing(career, D3_CITIZEN_ID, YZ_LISTING_VISA_SUBJECT, proofs);
-  const passportHref = passportAcademyVerifyHref(academyVisa.stamp);
-  const careerHref = passportAcademyVerifyHref(academyVisa.stamp);
 
   const freelancerPorts = withMemoryAcceptAtomic({
     ledger,
@@ -352,7 +345,7 @@ export async function runThreeRingJourney(): Promise<ThreeRingJourneyResult> {
   const posting = await sealCorporateJobPosting(kurumsalPorts, {
     actorUserId: D3_CORP_OWNER_ID,
     title: "D3 kurumsal nitelikli ilan",
-    brief: "Dikey: yapay zekâ destekli içerik ve görsel üretim. Aynı akademi vizesi kapıdan geçer; teklif tutar taşımaz.",
+    brief: "Chatbot ve Voiceflow. Aynı akademi vizesi kapıdan geçer; teklif tutar taşımaz.",
     budgetMinor: D3_GROSS_MINOR,
     workbenchKind: "FREELANCER",
     holdBps: HOLD_BPS_DEFAULT,
@@ -371,15 +364,12 @@ export async function runThreeRingJourney(): Promise<ThreeRingJourneyResult> {
       purchase: purchased.purchase,
       certificate,
       curriculumSeal,
-      publicVerify: {
-        status: publicVerify.status,
-        sealStatus: publicVerify.status === "found" ? publicVerify.view.sealStatus : undefined,
-      },
+      publicVerify,
     },
     proof: {
       academyVisa,
       passportHref,
-      careerHref,
+      careerHref: passportHref,
     },
     gate: {
       visalessStatus: visalessResponse.status,
@@ -403,5 +393,6 @@ export async function runThreeRingJourney(): Promise<ThreeRingJourneyResult> {
       clientAfterRelease: ledger.snapshot(D3_CLIENT_ID).amountMinor,
       platformAfterRelease: ledger.snapshot(D3_PLATFORM_ID).amountMinor,
     },
+    seedAmountMinor: published.amountMinor,
   };
 }

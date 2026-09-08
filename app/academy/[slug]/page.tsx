@@ -8,6 +8,7 @@ import { CertificateSeal } from "@/components/academy/certificate-seal";
 import { AcademyContinuePanel } from "@/components/academy/continue-panel";
 import { SettlementSteps } from "@/components/academy/settlement-steps";
 import { CurriculumOutline } from "@/components/academy/curriculum-outline";
+import { CurriculumOutcomes } from "@/components/academy/curriculum-outcomes";
 import { AcademyProgressBar } from "@/components/academy/progress-bar";
 import {
   loadAcademyHolderName,
@@ -20,12 +21,13 @@ import {
   loadPurchaseForUserCourse,
 } from "@/lib/academy/load";
 import { academyStorefrontAccess, hasCommercialAcademyEnrolment } from "@/lib/academy/enrolment";
-import { resolveAcademyAntreHeroCta } from "@/lib/academy/storefront-cta";
+import { resolveAcademyAntreHeroCta, academyCheckoutHref, ACADEMY_CHECKOUT_HASH } from "@/lib/academy/storefront-cta";
 import { hasAcademyPlayerAccess } from "@/lib/academy/access";
 import { resolveAcademyContinueBoard } from "@/lib/academy/continue-board";
 import { LinkButton } from "@/components/ui/link-button";
 import { curriculumSyllabusForCourseSlug } from "@/lib/academy/curriculum-syllabus";
 import { academyProgressPercent } from "@/lib/academy/lesson-meta";
+import { academyAntreVisaPromise } from "@/lib/academy/antre-visa";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { getSession } from "@/lib/kernel/auth/session";
@@ -35,6 +37,7 @@ import { CourseHeroActions } from "@/components/academy/course-hero-actions";
 import { BreadcrumbPageLabel } from "@/components/shell/header-breadcrumb";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
+import { academyModuleCodeBySlug } from "@/lib/academy/catalog-filter";
 import { academyCourseCoverPath } from "@/lib/academy/course-cover";
 import { academyInstructorBySlug } from "@/lib/academy/instructors";
 import { PRICE_LOCK_GRACE_MINUTES } from "@/lib/kernel/pricing/price-lock";
@@ -42,6 +45,11 @@ import { isPaymentsPortConfigured } from "@/lib/kernel/payments/port";
 import { isPaytrMockCheckoutAllowed } from "@/lib/kernel/payments/paytr/checkout";
 import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 import { resolveAcademyCourseFromSeed } from "@/lib/academy/published-catalog";
+import {
+  academyCourseHasSealedAudio,
+  academyStorefrontStaticParams,
+  isAcademyGrowthSkuSlug,
+} from "@/lib/academy/pilot-sku";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   academyCourseBreadcrumbs,
@@ -49,8 +57,15 @@ import {
   courseJsonLd,
   jsonLdDocument,
 } from "@/lib/copy/json-ld";
-import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
+import { pageMetadata } from "@/lib/copy/seo";
 import type { Route } from "next";
+
+export function generateStaticParams() {
+  return academyStorefrontStaticParams();
+}
+
+/** Vitrinde olmayan slug (python-temel, 06_n8n, eski dikey) next.config 301 → /academy; harita dışı 404. Satın alma bekletmesi yok. */
+export const dynamicParams = false;
 
 export async function generateMetadata({
   params,
@@ -58,13 +73,12 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  if (!isAcademyGrowthSkuSlug(slug)) {
+    notFound();
+  }
   const course = resolveAcademyCourseFromSeed(slug);
   if (!course) {
-    return pageMetadata({
-      title: PAGE_SEO.academy.title,
-      description: PAGE_SEO.academy.description,
-      path: `/academy/${slug}`,
-    });
+    notFound();
   }
   return pageMetadata({
     title: `${course.title} · Akademi`,
@@ -86,6 +100,9 @@ export default async function AcademyCoursePage({
     getSession(),
     searchParams ?? Promise.resolve(undefined),
   ]);
+  if (!isAcademyGrowthSkuSlug(slug)) {
+    notFound();
+  }
   const gate = gateQuery?.gate;
   const board = await loadCourseBySlug(slug);
   if (!board) {
@@ -130,6 +147,7 @@ export default async function AcademyCoursePage({
     ? (examGate.certificate.certificateHash ?? examGate.certificate.serialKey)
     : null;
   const syllabus = curriculumSyllabusForCourseSlug(board.course.slug);
+  const visaPromise = academyAntreVisaPromise(board.course.slug, ACADEMY_EXAM_PASS_SCORE);
   const priceLabel = board.course.priceMinor
     ? formatMinor(board.course.priceMinor, board.course.currencyCode)
     : null;
@@ -159,7 +177,7 @@ export default async function AcademyCoursePage({
     continuePhase: continueBoard?.phase ?? null,
     session: Boolean(session),
     courseSlug: board.course.slug,
-    loginHref: buildCitizenLoginHref(`/academy/${board.course.slug}`),
+    loginHref: buildCitizenLoginHref(academyCheckoutHref(board.course.slug)),
   });
   const playLabel =
     continueBoard && continueBoard.completedCount > 0
@@ -195,9 +213,12 @@ export default async function AcademyCoursePage({
           <CourseHeroActions
             priceLabel={hero.priceLabel}
             level={level}
+            moduleCode={academyModuleCodeBySlug(board.course.slug)}
+            hasSealedAudio={academyCourseHasSealedAudio(board.course.slug)}
             primaryHref={hero.primaryHref}
             primaryLabel={hero.primaryLabel}
             primaryAction={hero.action}
+            paytrCheckout={Boolean(session) && hero.action === "buy" && paymentsReady}
             catalogHref={"/academy" as Route}
             catalogLabel={copy.catalogCta}
           />
@@ -214,6 +235,11 @@ export default async function AcademyCoursePage({
         enrolled && examGate?.certificate ? (
           <Card title={copy.certificateEyebrow}>
             <p>{copy.certificateBody}</p>
+            {visaPromise ? (
+              <p className="mt-2 text-sm text-[var(--foreground)]" data-academy-visa-promise="">
+                {visaPromise}
+              </p>
+            ) : null}
             <div className="mt-4 space-y-4">
               <CertificateSeal
                 variant="diploma"
@@ -254,13 +280,19 @@ export default async function AcademyCoursePage({
           <p>{playerCopy.licenseEnded}</p>
         </Card>
       ) : board.course.purchasable ? (
-        <div className="scroll-mt-24" id="satin-al">
+        <div className="scroll-mt-24" id={ACADEMY_CHECKOUT_HASH}>
           <Card title={copy.purchaseEyebrow}>
             <p>{copy.purchaseBody}</p>
+            {visaPromise ? (
+              <p className="mt-2 text-sm text-[var(--foreground)]" data-academy-visa-promise="">
+                {visaPromise}
+              </p>
+            ) : null}
             {session ? (
               <div className="mt-4" data-academy-purchase-gate="">
                 <PurchaseButton
                   courseId={board.course.id}
+                  courseSlug={board.course.slug}
                   lockMinutes={PRICE_LOCK_GRACE_MINUTES}
                   priceMinor={board.course.priceMinor}
                   priceLabel={priceLabel}
@@ -272,10 +304,19 @@ export default async function AcademyCoursePage({
                 />
               </div>
             ) : (
-              <div className="mt-4" data-academy-purchase-gate="">
+              <div className="mt-4 space-y-3" data-academy-purchase-gate="">
+                {hero.primaryHref && hero.primaryLabel ? (
+                  <LinkButton
+                    href={hero.primaryHref as Route}
+                    size="sm"
+                    data-academy-checkout-cta={hero.action}
+                  >
+                    {hero.primaryLabel}
+                  </LinkButton>
+                ) : null}
                 <p>
                   {copy.loginLead}{" "}
-                  <Link href={buildCitizenLoginHref(`/academy/${board.course.slug}`) as Route} className="text-[var(--safir)] hover:underline">
+                  <Link href={buildCitizenLoginHref(academyCheckoutHref(board.course.slug)) as Route} className="text-[var(--safir)] hover:underline">
                     {copy.loginCta}
                   </Link>
                   .
@@ -287,11 +328,13 @@ export default async function AcademyCoursePage({
       ) : (
         <Card>{copy.notPurchasable}</Card>
       )}
+      <CurriculumOutcomes slug={board.course.slug} />
       <CurriculumOutline
         syllabus={syllabus}
         passScore={ACADEMY_EXAM_PASS_SCORE}
         completedKeys={completedKeys}
         showProgress={hasAccess}
+        visaPromise={visaPromise}
       />
       {!hasAccess && board.course.purchasable ? (
         <p className="text-xs leading-relaxed text-[var(--muted)]">{copy.libraryGuarantee}</p>

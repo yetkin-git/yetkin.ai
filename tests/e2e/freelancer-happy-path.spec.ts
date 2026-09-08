@@ -52,8 +52,8 @@ test.describe("O9 freelancer nakit & emanet yolculuğu", () => {
   test("ilan listeleme: tezgâh, mutlu yol kopyası ve ilan ver yüzeyi", async ({ page }) => {
     const response = await page.goto("/freelancer");
     expect(response?.status()).toBeLessThan(400);
-    await expect(page.getByRole("heading", { name: "İş Pazarı" })).toBeVisible();
-    await expect(page.getByText("Güvenli ödeme havuzuyla açık ilanlara teklif ver.")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Freelancer İlan Panosu" })).toBeVisible();
+    await expect(page.getByText("Freelancer arka plan odasıdır. Tohum ilanlar platform örneğidir; emanet kapalıdır (kabul 503). İlan ve teklif kodu durur; sahte pazar basılmaz.")).toBeVisible();
     await expect(page.getByRole("link", { name: "İlan oluştur" }).first()).toBeVisible();
 
     const live = page.getByText(/Açık İlan/);

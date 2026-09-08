@@ -4,6 +4,8 @@ import {
   CHECKOUT_BILLING_PAYLOAD,
   checkoutBillingInfoSchema,
   checkoutBillingIssueMessage,
+  checkoutBillingSummaryLine,
+  isCheckoutBillingComplete,
   isCheckoutBillingIssue,
   normalizeBillingInput,
 } from "@/lib/kernel/identity/billing-info";
@@ -74,6 +76,35 @@ describe("fatura künyesi doğrulama", () => {
         phone: "+90 532 123 45 67",
       }),
     ).toMatchObject({ ok: true, billing: { phone: "05321234567" } });
+  });
+
+  it("kayıtlı künye özeti TCKN basmaz; bireysel form TCKN olmadan tamamlanır", () => {
+    expect(isCheckoutBillingComplete(CHECKOUT_BILLING_PAYLOAD)).toBe(true);
+    expect(
+      checkoutBillingSummaryLine({
+        invoiceType: "individual",
+        fullName: "Ayşe Kaya",
+        tckn: "10000000078",
+        companyTitle: "",
+        taxOffice: "",
+        vkn: "",
+        phone: "05321234567",
+        address: "İnönü Mah. 157 Sk. No:3/C Akhisar",
+      }),
+    ).toBe("Ayşe Kaya · 05321234567");
+    expect(checkoutBillingSummaryLine(CHECKOUT_BILLING_PAYLOAD)).not.toContain("10000000078");
+    expect(
+      isCheckoutBillingComplete({
+        invoiceType: "individual",
+        fullName: "Ayşe Kaya",
+        tckn: "",
+        companyTitle: "",
+        taxOffice: "",
+        vkn: "",
+        phone: "05321234567",
+        address: "İnönü Mah. 157 Sk. No:3/C Akhisar",
+      }),
+    ).toBe(true);
   });
 
   it("kurumsal: unvan, vergi dairesi, VKN ve adres zorunlu", () => {

@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { createAcademyGrantPurchase, hasAcademyPlayerAccess } from "@/lib/academy/access";
 import {
   academyStorefrontAccess,
@@ -10,7 +12,14 @@ import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 import {
   resolveAcademyAntreHeroCta,
   resolveAcademyCatalogCardCta,
+  academyCheckoutHref,
 } from "@/lib/academy/storefront-cta";
+import {
+  ACADEMY_CARD_OFFER_PATHS,
+  ACADEMY_TRAINING_OFFER_SUMMARY_SEALED,
+  ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
+  academyCardOfferPaths,
+} from "@/lib/academy/purchase-path";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
@@ -56,7 +65,7 @@ describe("akademi ticari kayıt vs lab bağışı", () => {
 });
 
 describe("Antre hero CTA — Satın Al vs Derse başla", () => {
-  it("satın alınmadıysa fiyat durur ve birincil CTA ödeme kapısına gider", () => {
+  it("satın alınmadıysa fiyat yalnız CTA içinde compact durur", () => {
     const hero = resolveAcademyAntreHeroCta({
       access: "unenrolled",
       priceLabel: "₺890,00",
@@ -65,26 +74,120 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
       courseSlug: "python-temel",
       loginHref: "/login?next=%2Facademy%2Fpython-temel",
     });
-    expect(hero.priceLabel).toBe(ACADEMY_SEN.catalog.priceVatInclusive("₺890,00"));
+    expect(hero.priceLabel).toBe("₺890");
+    expect(hero.priceLabel).not.toContain("KDV dahil");
     expect(hero.action).toBe("buy");
-    expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺890,00"));
+    expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺890"));
+    expect(hero.primaryLabel).toBe("Eğitimi Satın Al — ₺890");
     expect(hero.primaryLabel).toContain("Eğitimi Satın Al");
     expect(hero.primaryLabel).not.toBe(ACADEMY_SEN.player.openCta);
     expect(hero.primaryHref).toBe("/academy/python-temel#satin-al");
   });
 
   it("oturumsuz satın alma girişe düşer; Derse başla basılmaz", () => {
+    const loginHref = "/login?next=%2Facademy%2F01_office_ai%23satin-al";
     const hero = resolveAcademyAntreHeroCta({
       access: "unenrolled",
       priceLabel: "₺890,00",
       purchasable: true,
       session: false,
-      courseSlug: "python-temel",
-      loginHref: "/login?next=%2Facademy%2Fpython-temel",
+      courseSlug: "01_office_ai",
+      loginHref,
     });
     expect(hero.action).toBe("buy");
-    expect(hero.primaryHref).toBe("/login?next=%2Facademy%2Fpython-temel");
+    expect(hero.primaryHref).toBe(loginHref);
+    expect(hero.primaryHref).toContain("%23satin-al");
     expect(hero.primaryLabel).not.toBe(ACADEMY_SEN.player.openCta);
+    expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺890"));
+    expect(academyCheckoutHref("01_office_ai")).toBe("/academy/01_office_ai#satin-al");
+  });
+
+  it("e-ticaret misafir kasası hero ile aynı giriş next'ini taşır", () => {
+    const loginHref = "/login?next=%2Facademy%2F02_ecommerce_ai%23satin-al";
+    const hero = resolveAcademyAntreHeroCta({
+      access: "unenrolled",
+      priceLabel: "₺990,00",
+      purchasable: true,
+      session: false,
+      courseSlug: "02_ecommerce_ai",
+      loginHref,
+    });
+    expect(hero.action).toBe("buy");
+    expect(hero.primaryHref).toBe(loginHref);
+    expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺990"));
+    expect(hero.primaryLabel).toBe("Eğitimi Satın Al — ₺990");
+    expect(academyCheckoutHref("02_ecommerce_ai")).toBe("/academy/02_ecommerce_ai#satin-al");
+  });
+
+  it("sosyal medya misafir kasası hero ile aynı giriş next'ini taşır", () => {
+    const loginHref = "/login?next=%2Facademy%2F03_social_media_ai%23satin-al";
+    const hero = resolveAcademyAntreHeroCta({
+      access: "unenrolled",
+      priceLabel: "₺890,00",
+      purchasable: true,
+      session: false,
+      courseSlug: "03_social_media_ai",
+      loginHref,
+    });
+    expect(hero.action).toBe("buy");
+    expect(hero.primaryHref).toBe(loginHref);
+    expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺890"));
+    expect(hero.primaryLabel).toBe("Eğitimi Satın Al — ₺890");
+    expect(academyCheckoutHref("03_social_media_ai")).toBe("/academy/03_social_media_ai#satin-al");
+  });
+
+  it("chatbot misafir kasası hero ile aynı giriş next'ini taşır", () => {
+    const loginHref = "/login?next=%2Facademy%2F04_chatbot_nocode%23satin-al";
+    const hero = resolveAcademyAntreHeroCta({
+      access: "unenrolled",
+      priceLabel: "₺1.290,00",
+      purchasable: true,
+      session: false,
+      courseSlug: "04_chatbot_nocode",
+      loginHref,
+    });
+    expect(hero.action).toBe("buy");
+    expect(hero.primaryHref).toBe(loginHref);
+    expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺1.290"));
+    expect(hero.primaryLabel).toBe("Eğitimi Satın Al — ₺1.290");
+    expect(academyCheckoutHref("04_chatbot_nocode")).toBe("/academy/04_chatbot_nocode#satin-al");
+  });
+
+  it("prompt misafir kasası hero ile aynı giriş next'ini taşır", () => {
+    const loginHref = "/login?next=%2Facademy%2F05_prompt_practice%23satin-al";
+    const hero = resolveAcademyAntreHeroCta({
+      access: "unenrolled",
+      priceLabel: "₺490,00",
+      purchasable: true,
+      session: false,
+      courseSlug: "05_prompt_practice",
+      loginHref,
+    });
+    expect(hero.action).toBe("buy");
+    expect(hero.primaryHref).toBe(loginHref);
+    expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺490"));
+    expect(hero.primaryLabel).toBe("Eğitimi Satın Al — ₺490");
+    expect(academyCheckoutHref("05_prompt_practice")).toBe("/academy/05_prompt_practice#satin-al");
+  });
+
+  it("misafir #satin-al kartı hero CTA'yı birincil buton olarak basar", () => {
+    const page = readFileSync(join(process.cwd(), "app/academy/[slug]/page.tsx"), "utf8");
+    expect(page).toContain("data-academy-checkout-cta");
+    expect(page).toContain("hero.primaryHref");
+    expect(page).toContain("hero.primaryLabel");
+    expect(page).toContain("copy.loginCta");
+    expect(page).toContain("paytrCheckout");
+  });
+
+  it("hero bağımsız ₺ satırı basmaz; fiyat yalnız satın al CTA içindedir", () => {
+    const hero = readFileSync(join(process.cwd(), "components/academy/course-hero-actions.tsx"), "utf8");
+    expect(hero).toContain("buyPriced");
+    expect(hero).toContain("data-academy-hero-status");
+    expect(hero).not.toMatch(/<p[\s\S]*data-academy-hero-price/);
+    expect(hero).toContain("data-academy-hero-price");
+    const purchase = readFileSync(join(process.cwd(), "components/academy/purchase-button.tsx"), "utf8");
+    expect(purchase).toContain("stripZeroKurusFromTryLabel");
+    expect(purchase).toContain("data-checkout-pay-cta");
   });
 
   it("satın alındıysa fiyat Erişim Açık olur ve CTA /oyna açar", () => {
@@ -214,5 +317,32 @@ describe("Super Admin lab oynatıcı — DURUM B, ticari enrolled değil", () =>
         { studio: false, growthSlugs: ACADEMY_GROWTH_SKU_SLUGS },
       ).ownedSlugs,
     ).toEqual(["python-temel"]);
+  });
+});
+
+describe("kasa eğitim özeti — Aşama 1 ses mührü", () => {
+  it("amiral SKU mühürlü ses özeti basar; diğer compact yazılı kalır", () => {
+    expect(ACADEMY_CARD_OFFER_PATHS.find((offer) => offer.path === "training")?.summary).toBe(
+      ACADEMY_TRAINING_OFFER_SUMMARY_SEALED,
+    );
+    expect(ACADEMY_TRAINING_OFFER_SUMMARY_SEALED).toBe(
+      "Sesli anlatım + kayan metin; Prompt Box sahnenin altında.",
+    );
+    expect(ACADEMY_TRAINING_OFFER_SUMMARY_SEALED).not.toMatch(/Video/i);
+    expect(academyCardOfferPaths("01_office_ai").find((offer) => offer.path === "training")?.summary).toBe(
+      ACADEMY_TRAINING_OFFER_SUMMARY_SEALED,
+    );
+    expect(academyCardOfferPaths("02_ecommerce_ai").find((offer) => offer.path === "training")?.summary).toBe(
+      ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
+    );
+    expect(academyCardOfferPaths("03_social_media_ai").find((offer) => offer.path === "training")?.summary).toBe(
+      ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
+    );
+    expect(academyCardOfferPaths("04_chatbot_nocode").find((offer) => offer.path === "training")?.summary).toBe(
+      ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
+    );
+    expect(academyCardOfferPaths("05_prompt_practice").find((offer) => offer.path === "training")?.summary).toBe(
+      ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
+    );
   });
 });

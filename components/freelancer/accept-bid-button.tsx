@@ -91,6 +91,12 @@ export function AcceptBidButton({
 
   return (
     <div className="space-y-2">
+      <p
+        data-escrow-disabled-stamp=""
+        className="inline-flex rounded-full border border-[color-mix(in_srgb,var(--amber)_45%,transparent)] bg-[color-mix(in_srgb,var(--amber)_12%,var(--surface))] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--foreground)]"
+      >
+        {copy.escrow.disabledStamp}
+      </p>
       <p className="text-xs text-slate-600">{copy.escrow.holdNotice(amount, holdPercent)}</p>
       {paymentsClosed ? (
         <div className="rounded-2xl border border-[var(--amber)]/40 bg-[color-mix(in_srgb,var(--amber)_8%,var(--surface))] p-4 space-y-2">

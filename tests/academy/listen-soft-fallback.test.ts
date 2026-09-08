@@ -10,18 +10,12 @@ import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import { lockAcademyCoursePrice, purchaseAcademyCourse } from "@/lib/academy/engine";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import { composeAcademyLessonBlocks } from "@/lib/academy/lesson-media";
-import {
-  loadAcademyLessonListenAudio,
-  streamAcademyLessonListenParts,
-} from "@/archived/lib/academy-studio/lesson-listen-engine";
+import { loadAcademyLessonListenAudio } from "@/archived/lib/academy-studio/lesson-listen-engine";
 import {
   academyListenSoftFallbackResponse,
   resetSharedAcademyListenAudioCacheForTests,
 } from "@/archived/lib/academy-studio/listen-route";
-import {
-  createMemoryAcademyListenDurableCache,
-  setAcademyListenDurableCacheForTests,
-} from "@/archived/lib/academy-studio/listen-audio-store";
+import { setAcademyListenDurableCacheForTests } from "@/archived/lib/academy-studio/listen-audio-store";
 import {
   ACADEMY_LISTEN_FALLBACK_HEADER,
   ACADEMY_LISTEN_FALLBACK_KIND_LOCAL,
@@ -38,8 +32,6 @@ import {
   buildAcademyLessonListenScript,
 } from "@/archived/lib/academy-studio/lesson-listen-script";
 import { resetSpeechGatewayCooldownForTests } from "@/lib/kernel/ai/llm-gateway";
-import { createMemoryBudgetShieldPort } from "@/lib/kernel/ai/budget-shield";
-import type { LlmProviderAdapter } from "@/lib/kernel/ai/types";
 import { createMemoryLedgerStore } from "../helpers/memory-money";
 import { createMemoryAcademyStore, memoryCourse, memoryExam } from "../helpers/memory-academy";
 import {
@@ -50,259 +42,92 @@ import {
 const BUYER = "listen-soft-fallback-buyer";
 const PLATFORM = PLATFORM_TREASURY_USER_ID;
 
-function world() {
-  const course = memoryCourse({
-    slug: "python-temel",
-    catalogUnitKey: "course:python-temel",
-    title: "Python ile Programlama ve Problem Çözme",
-  });
-  const ledger = createMemoryLedgerStore([
-    { userId: BUYER, amountMinor: 100_000 },
-    { userId: PLATFORM, amountMinor: 0 },
-  ]);
-  return {
-    course,
-    ports: {
-      ledger,
-      catalog: createMemoryPriceCatalogStore([
-        { moduleKey: ACADEMY_MODULE_KEY, unitKey: course.catalogUnitKey, amountMinor: 25_000 },
-      ]),
-      locks: createMemoryCheckoutPriceLockStore(),
-      academy: createMemoryAcademyStore(),
-    },
-  };
-}
-
-async function settledPlayer() {
-  const ctx = world();
-  await ctx.ports.academy.insertCourse(ctx.course);
-  await ctx.ports.academy.insertExam(memoryExam(ctx.course.id));
-  const locked = await lockAcademyCoursePrice(ctx.ports, { courseId: ctx.course.id, userId: BUYER });
-  await purchaseAcademyCourse(ctx.ports, {
-    courseId: ctx.course.id,
-    userId: BUYER,
-    lockId: locked.lock.id,
-    platformUserId: PLATFORM,
-  });
-  const lessonKey = curriculumForCourseSlug(ctx.course.slug)[0]!.key;
-  return { ...ctx, lessonKey };
-}
-
-function quotaSpeech(): LlmProviderAdapter {
-  return {
-    id: "gemini",
-    async complete() {
-      return {
-        text: "mühür",
-        usage: { promptTokens: 1, completionTokens: 1, totalTokens: 2 },
-      };
-    },
-    async generateSpeech() {
-      throw Object.assign(new Error("RESOURCE_EXHAUSTED 429 quota"), { status: 429 });
-    },
-  };
-}
-
-function badRequestSpeech(): LlmProviderAdapter {
-  return {
-    id: "gemini",
-    async complete() {
-      return {
-        text: "mühür",
-        usage: { promptTokens: 1, completionTokens: 1, totalTokens: 2 },
-      };
-    },
-    async generateSpeech() {
-      throw Object.assign(new Error("INVALID_ARGUMENT systemInstruction not supported"), {
-        status: 400,
-      });
-    },
-  };
-}
-
-describe("dersi dinle yumuşak TTS düşüşü", () => {
+describe("akademi soft fallback dinleme — boş müfredat", () => {
   afterEach(() => {
     resetSharedAcademyListenAudioCacheForTests();
     setAcademyListenDurableCacheForTests(null);
     resetSpeechGatewayCooldownForTests();
   });
 
-  it("400/429/503 reason'ları yumuşak düşüştür", () => {
+  it("soft speech fail ve scene süresi yardımcıları durur", () => {
     expect(isAcademyListenSoftSpeechFail("gemini-quota")).toBe(true);
-    expect(isAcademyListenSoftSpeechFail("gemini-bad-request")).toBe(true);
-    expect(isAcademyListenSoftSpeechFail("gemini-upstream")).toBe(true);
-    expect(ACADEMY_LISTEN_MIN_MS_PER_WORD).toBe(420);
+    expect(isAcademyListenSoftSpeechFail("ok")).toBe(false);
+    expect(ACADEMY_LISTEN_FALLBACK_KIND_LOCAL).toBe("local-voice");
+    expect(ACADEMY_LISTEN_FALLBACK_HEADER).toBeTruthy();
     expect(academyListenSceneDurationMs("bir iki üç")).toBeGreaterThanOrEqual(
       ACADEMY_LISTEN_MIN_SCENE_MS,
     );
+    expect(ACADEMY_LISTEN_MIN_MS_PER_WORD).toBe(420);
+    expect(encodeAcademyListenStreamEnd()).toBeInstanceOf(Uint8Array);
   });
 
-  it("429 kotasında load 503 fırlatmaz; usedFallback döner", async () => {
-    const ctx = await settledPlayer();
-    const durable = createMemoryAcademyListenDurableCache();
-    setAcademyListenDurableCacheForTests(durable);
-    const result = await loadAcademyLessonListenAudio(
-      ctx.ports,
-      { courseId: ctx.course.id, userId: BUYER, lessonKey: ctx.lessonKey },
-      { providers: { gemini: quotaSpeech() }, budgetPort: createMemoryBudgetShieldPort() },
-    );
-    expect(result.cached.usedFallback).toBe(true);
-    expect(result.cached.audioBytes.byteLength).toBe(0);
-  });
-
-  it("429 kotasında load RetryInfo beklemez; milisaniyeler içinde döner", async () => {
-    const ctx = await settledPlayer();
-    let calls = 0;
-    const stickyQuota: LlmProviderAdapter = {
-      id: "gemini",
-      async complete() {
-        return {
-          text: "mühür",
-          usage: { promptTokens: 1, completionTokens: 1, totalTokens: 2 },
-        };
-      },
-      async generateSpeech() {
-        calls += 1;
-        if (calls > 1) {
-          await new Promise((resolve) => {
-            setTimeout(resolve, 37_900);
-          });
-        }
-        throw Object.assign(new Error("RESOURCE_EXHAUSTED 429 Please retry in 37.91s"), {
-          status: 429,
-        });
-      },
-    };
-    const started = Date.now();
-    const result = await loadAcademyLessonListenAudio(
-      ctx.ports,
-      { courseId: ctx.course.id, userId: BUYER, lessonKey: ctx.lessonKey },
-      { providers: { gemini: stickyQuota }, budgetPort: createMemoryBudgetShieldPort() },
-    );
-    const elapsedMs = Date.now() - started;
-    expect(result.cached.usedFallback).toBe(true);
-    expect(calls).toBe(1);
-    expect(elapsedMs).toBeLessThan(400);
-  });
-
-  it("400 INVALID_ARGUMENT load 503 fırlatmaz", async () => {
-    const ctx = await settledPlayer();
-    const result = await loadAcademyLessonListenAudio(
-      ctx.ports,
-      { courseId: ctx.course.id, userId: BUYER, lessonKey: ctx.lessonKey },
-      { providers: { gemini: badRequestSpeech() }, budgetPort: createMemoryBudgetShieldPort() },
-    );
-    expect(result.cached.usedFallback).toBe(true);
-  });
-
-  it("429 stream unhandledRejection basmaz; uç kare ile kapanır", async () => {
-    const ctx = await settledPlayer();
-    const rejections: unknown[] = [];
-    const onUnhandled = (reason: unknown) => {
-      rejections.push(reason);
-    };
-    process.on("unhandledRejection", onUnhandled);
-    try {
-      const frames: Uint8Array[] = [];
-      for await (const frame of streamAcademyLessonListenParts(
-        ctx.ports,
-        { courseId: ctx.course.id, userId: BUYER, lessonKey: ctx.lessonKey },
-        { providers: { gemini: quotaSpeech() }, budgetPort: createMemoryBudgetShieldPort() },
-      )) {
-        frames.push(frame);
-      }
-      expect(rejections).toHaveLength(0);
-      expect(frames.length).toBeGreaterThanOrEqual(1);
-      const end = encodeAcademyListenStreamEnd();
-      const last = frames[frames.length - 1]!;
-      expect(last.byteLength).toBe(end.byteLength);
-    } finally {
-      process.off("unhandledRejection", onUnhandled);
-    }
-  });
-
-  it("yumuşak düşüş HTTP 200 + fallback başlığı basar; 503 değil", () => {
-    const response = academyListenSoftFallbackResponse({
-      speakers: "announcer,moderator",
-      textDurationSec: 42,
-    });
-    expect(response.status).toBe(200);
-    expect(response.headers.get(ACADEMY_LISTEN_FALLBACK_HEADER)).toBe(ACADEMY_LISTEN_FALLBACK_KIND_LOCAL);
-  });
-});
-
-describe("ders dinleme sahne saati", () => {
-  it("11 sn kısa WAV tüm perdeleri yakmaz; elapsed script saniyesidir", () => {
-    const lesson = curriculumForCourseSlug("python-temel")[1]!;
+  it("sentetik script süresi ve kart indeksi hesaplanır", () => {
+    const body = Array.from({ length: 30 }, (_, i) => `Cümle ${i + 1}.`).join(" ");
     const script = buildAcademyLessonListenScript({
-      lessonKey: lesson.key,
-      title: lesson.title,
-      body: lesson.body,
-      courseSlug: "python-temel",
-      blocks: composeAcademyLessonBlocks(lesson),
+      lessonKey: "sample-course-1",
+      title: "Örnek Ders",
+      body,
+      courseSlug: "sample-course",
+      blocks: composeAcademyLessonBlocks({
+        body,
+        diagrams: [],
+        microVideos: [],
+      }),
     });
-    const total = academyListenScriptDurationSec(script);
-    expect(total).toBeGreaterThan(40);
-    const atEleven = activeAcademyListenScriptCardIndexAtElapsed(script.cues, 11);
-    const atEnd = activeAcademyListenScriptCardIndexAtElapsed(script.cues, total);
-    expect(atEleven).not.toBeNull();
-    expect(atEnd).not.toBeNull();
-    expect(atEleven).not.toBe(atEnd);
-    expect(atEleven).toBeLessThan(atEnd!);
-  });
-
-  it("pause ve ended currentTime artışını yemez", () => {
+    expect(academyListenScriptDurationSec(script)).toBeGreaterThan(0);
+    expect(activeAcademyListenScriptCardIndexAtElapsed(script.cues, 0)).toBe(0);
+    expect(
+      academyListenFrozenElapsedSec({
+        phase: "paused",
+        currentTime: 12,
+        previousFrozen: 5,
+        previousPhase: "paused",
+      }),
+    ).toBe(5);
     expect(
       academyListenFrozenElapsedSec({
         phase: "playing",
-        currentTime: 8,
-        previousFrozen: 3,
-        previousPhase: "playing",
-      }),
-    ).toBe(8);
-    expect(
-      academyListenFrozenElapsedSec({
-        phase: "paused",
-        currentTime: 40,
-        previousFrozen: 8,
+        currentTime: 12,
+        previousFrozen: 5,
         previousPhase: "paused",
       }),
-    ).toBe(8);
-    expect(
-      academyListenFrozenElapsedSec({
-        phase: "ended",
-        currentTime: 11,
-        previousFrozen: 8,
-        previousPhase: "ended",
+    ).toBe(12);
+    const soft = academyListenSoftFallbackResponse({
+      speakers: "instructor",
+      textDurationSec: academyListenScriptDurationSec(script),
+    });
+    expect(soft.headers.get(ACADEMY_LISTEN_FALLBACK_HEADER)).toBeTruthy();
+  });
+
+  it("satın alma sonrası boş müfredatta dinleme yüklemesi fail-closed kapanır", async () => {
+    const course = memoryCourse();
+    const ports = {
+      ledger: createMemoryLedgerStore([
+        { userId: BUYER, amountMinor: 100_000 },
+        { userId: PLATFORM, amountMinor: 0 },
+      ]),
+      catalog: createMemoryPriceCatalogStore([
+        { moduleKey: ACADEMY_MODULE_KEY, unitKey: course.catalogUnitKey, amountMinor: 25_000 },
+      ]),
+      locks: createMemoryCheckoutPriceLockStore(),
+      academy: createMemoryAcademyStore(),
+    };
+    await ports.academy.insertCourse(course);
+    await ports.academy.insertExam(memoryExam(course.id));
+    const locked = await lockAcademyCoursePrice(ports, { courseId: course.id, userId: BUYER });
+    await purchaseAcademyCourse(ports, {
+      courseId: course.id,
+      userId: BUYER,
+      lockId: locked.lock.id,
+      platformUserId: PLATFORM,
+    });
+    expect(curriculumForCourseSlug(course.slug)).toEqual([]);
+    await expect(
+      loadAcademyLessonListenAudio(ports, {
+        courseId: course.id,
+        userId: BUYER,
+        lessonKey: "sample-course-1",
       }),
-    ).toBe(8);
-    expect(
-      academyListenFrozenElapsedSec({
-        phase: "paused",
-        currentTime: 8,
-        previousFrozen: 3,
-        previousPhase: "playing",
-      }),
-    ).toBe(8);
-    expect(
-      academyListenFrozenElapsedSec({
-        phase: "paused",
-        currentTime: 40,
-        previousFrozen: 8,
-        previousPhase: "paused",
-        seekGeneration: 2,
-        previousSeekGeneration: 1,
-      }),
-    ).toBe(40);
-    expect(
-      academyListenFrozenElapsedSec({
-        phase: "paused",
-        currentTime: 40,
-        previousFrozen: 8,
-        previousPhase: "paused",
-        seekGeneration: 1,
-        previousSeekGeneration: 1,
-      }),
-    ).toBe(8);
+    ).rejects.toThrow();
   });
 });

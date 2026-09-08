@@ -1,5 +1,6 @@
 import {
   academyCourseTitleBySlug,
+  isOpenTrialNeed,
   listingVisaLockTitle,
   type ListingVisaLockId,
 } from "@/lib/kernel/catalog-ids";
@@ -75,7 +76,7 @@ export function buildCareerVisaScopeBoard(
       pathwayId,
       pathwayTitle: lockTitle(pathwayId),
       courses,
-      open: courses.some((course) => course.held),
+      open: isOpenTrialNeed(pathwayId) || courses.some((course) => course.held),
     };
   });
 }

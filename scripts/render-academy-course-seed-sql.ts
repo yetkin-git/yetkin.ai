@@ -94,8 +94,8 @@ function main(): void {
 -- Kurs fiyatı Super Admin PATCH ile yazıldıysa (updated_by dolu) amount_minor ezilmez.
 -- Müfredat JSON'u hâlâ tohumla hizalanır; katalog tutarı yalnız boş satırda dolar.
 -- Sahiplik kolonu yok: academy_courses / academy_exams PostgREST fail-closed (politika üretilmez).
--- Kaynak sicil: lib/academy/seed.ts — ${ACADEMY_COURSE_SEEDS.length} büyüme SKU.
--- HARD RESET: eski RAIL / jenerik tohumlar FK sırasıyla DELETE (kurs + bağımlılar + katalog).
+-- Kaynak sicil: lib/academy/seed.ts — ${ACADEMY_COURSE_SEEDS.length} ingest edilmiş kanon SKU.
+-- Eski SKU: is_published=false + fiyat is_active=false. Lisans / mühür / satın alma DROP yok.
 
 INSERT INTO public.price_catalog_entries (
   id,
@@ -177,35 +177,14 @@ SET
   questions_json = EXCLUDED.questions_json,
   updated_at = now();
 
--- HARD RESET: eski RAIL / jenerik tohumları tamamen düşür (büyüme SKU dışı — DELETE/PURGE).
-DELETE FROM public.academy_certificates
-WHERE course_id IN (${ACADEMY_LEGACY_PURGE_COURSE_IDS.map((id) => sqlString(id)).join(", ")})
-   OR course_id NOT IN (${ACADEMY_SEED_COURSE_IDS.map((id) => sqlString(id)).join(", ")});
-
-DELETE FROM public.academy_exam_attempts
-WHERE exam_id IN (
-  SELECT id FROM public.academy_exams
-  WHERE course_id IN (${ACADEMY_LEGACY_PURGE_COURSE_IDS.map((id) => sqlString(id)).join(", ")})
-     OR course_id NOT IN (${ACADEMY_SEED_COURSE_IDS.map((id) => sqlString(id)).join(", ")})
-);
-
-DELETE FROM public.academy_lesson_completions
-WHERE course_id IN (${ACADEMY_LEGACY_PURGE_COURSE_IDS.map((id) => sqlString(id)).join(", ")})
-   OR course_id NOT IN (${ACADEMY_SEED_COURSE_IDS.map((id) => sqlString(id)).join(", ")});
-
-DELETE FROM public.academy_purchases
-WHERE course_id IN (${ACADEMY_LEGACY_PURGE_COURSE_IDS.map((id) => sqlString(id)).join(", ")})
-   OR course_id NOT IN (${ACADEMY_SEED_COURSE_IDS.map((id) => sqlString(id)).join(", ")});
-
-DELETE FROM public.academy_exams
-WHERE course_id IN (${ACADEMY_LEGACY_PURGE_COURSE_IDS.map((id) => sqlString(id)).join(", ")})
-   OR course_id NOT IN (${ACADEMY_SEED_COURSE_IDS.map((id) => sqlString(id)).join(", ")});
-
-DELETE FROM public.academy_courses
+-- Eski SKU: vitrin ve yeni satış kapalı. academy_purchases / academy_certificates durur.
+UPDATE public.academy_courses
+SET is_published = false, updated_at = now()
 WHERE id IN (${ACADEMY_LEGACY_PURGE_COURSE_IDS.map((id) => sqlString(id)).join(", ")})
    OR id NOT IN (${ACADEMY_SEED_COURSE_IDS.map((id) => sqlString(id)).join(", ")});
 
-DELETE FROM public.price_catalog_entries
+UPDATE public.price_catalog_entries
+SET is_active = false, updated_at = now()
 WHERE module_key = 'academy'
   AND (
     unit_key IN (${ACADEMY_LEGACY_PURGE_CATALOG_UNITS.map((u) => sqlString(u)).join(", ")})
@@ -217,7 +196,7 @@ WHERE module_key = 'academy'
 `;
 
   writeFileSync(OUT, sql, "utf8");
-  process.stdout.write(`OK ${ACADEMY_COURSE_SEEDS.length} büyüme SKU → ${OUT}\n`);
+  process.stdout.write(`OK ${ACADEMY_COURSE_SEEDS.length} ingest edilmiş kanon SKU → ${OUT}\n`);
 }
 
 main();

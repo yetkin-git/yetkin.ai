@@ -59,7 +59,7 @@ describe("canlı anlatım metni zaman çizelgesi", () => {
       lessonKey: "fixture-1",
       title: "Tutar nasıl tutulur",
       body: FIXTURE_BODY,
-      courseSlug: "python-temel",
+      courseSlug: "sample-course",
       blocks,
     });
     expect(track.leadInSec).toBeGreaterThan(0);
@@ -76,13 +76,13 @@ describe("canlı anlatım metni zaman çizelgesi", () => {
     expect(activeAcademyTranscriptCueIndex(track.cues, track.leadInSec - 0.01)).toBeNull();
     expect(activeAcademyTranscriptCueIndex(track.cues, track.leadInSec)).toBe(0);
     expect(track.cues[0]?.text).toBe("Giriş");
-    const turns = academyLessonListenPreparedTurns("Tutar nasıl tutulur", FIXTURE_BODY, "python-temel");
+    const turns = academyLessonListenPreparedTurns("Tutar nasıl tutulur", FIXTURE_BODY, "sample-course");
     expect(turns[0]?.speaker).toBe("announcer");
     expect(academyListenReadingDurationSec(turns[0]!.text)).toBeGreaterThan(0);
     const scriptLeadIn = academyTranscriptScriptLeadInSec(
       "Tutar nasıl tutulur",
       FIXTURE_BODY,
-      "python-temel",
+      "sample-course",
     );
     expect(track.leadInSec).toBeCloseTo(scriptLeadIn, 5);
   });
@@ -109,7 +109,7 @@ describe("canlı anlatım metni zaman çizelgesi", () => {
       lessonKey: "fixture-1",
       title: "Tutar nasıl tutulur",
       body: FIXTURE_BODY,
-      courseSlug: "python-temel",
+      courseSlug: "sample-course",
       blocks,
     });
     const earlyIndex = activeAcademyTranscriptCueIndex(track.cues, track.leadInSec + 0.02);
@@ -123,19 +123,31 @@ describe("canlı anlatım metni zaman çizelgesi", () => {
     expect(lateIndex).toBeLessThan(track.cues.length);
   });
 
-  it("yayındaki Python dersinde cümle cue’ları TTS gövdesiyle aynı sırada akar", () => {
-    const lesson = curriculumForCourseSlug("python-temel")[1]!;
-    const blocks = composeAcademyLessonBlocks(lesson).filter(
+  it("sentetik ders gövdesinde cümle cue’ları TTS gövdesiyle aynı sırada akar", () => {
+    expect(curriculumForCourseSlug("sample-course")).toEqual([]);
+    const title = "Örnek Ders 2";
+    const body = [
+      "Giriş",
+      "Birinci cümle burada kalır. İkinci cümle büyük harfle başlar.",
+      "İkinci paragraf şemadan önce durur.",
+      "Gelişme bölümünde tutarı sabitleyeceğiz.",
+      "Kapanışta tek satır kalır.",
+    ].join("\n\n");
+    const blocks = composeAcademyLessonBlocks({
+      body,
+      diagrams: [],
+      microVideos: [],
+    }).filter(
       (block) => block.kind !== "diagram" && block.kind !== "micro-video" && block.kind !== "exercise",
     );
     const track = buildAcademyTranscriptTrack({
-      lessonKey: lesson.key,
-      title: lesson.title,
-      body: lesson.body,
-      courseSlug: "python-temel",
+      lessonKey: "sample-course-2",
+      title,
+      body,
+      courseSlug: "sample-course",
       blocks,
     });
-    expect(track.cues.length).toBeGreaterThan(6);
+    expect(track.cues.length).toBeGreaterThan(2);
     const textUnits = blocks
       .filter((block) => block.kind === "text")
       .flatMap((block) => academyTranscriptTextUnits(block.text));
@@ -143,7 +155,7 @@ describe("canlı anlatım metni zaman çizelgesi", () => {
     const firstText = track.cues.find((cue) => cue.kind === "text");
     expect(firstText?.text).toBe(textUnits[0]?.text);
     expect(track.leadInSec).toBeCloseTo(
-      academyTranscriptScriptLeadInSec(lesson.title, lesson.body, "python-temel"),
+      academyTranscriptScriptLeadInSec(title, body, "sample-course"),
       5,
     );
     expect(track.leadInSec).toBeLessThan(track.spokenDuration - track.bodyDuration);

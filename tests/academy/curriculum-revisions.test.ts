@@ -20,12 +20,12 @@ const ADMIN_ID = "11111111-1111-4111-8111-111111111111";
 const CITIZEN_ID = "22222222-2222-4222-8222-222222222222";
 const ORIGINAL_ADMIN = process.env.SUPER_ADMIN_USER_ID;
 
-function queued(lessonKey: string | null = "python-temel-1") {
+function queued(lessonKey: string | null = "sample-course-1") {
   return enqueueAcademyCurriculumRevision({
     reviewId: `rev-${lessonKey ?? "course"}`,
     userId: "buyer-1",
     courseId: "course-1",
-    courseSlug: "python-temel",
+    courseSlug: "sample-course",
     lessonKey,
     stars: 2,
     comment: "Parametre tablosu eksik, şema da çelişiyor.",
@@ -50,7 +50,7 @@ describe("03.33 müfredat revizyon kuyruğu", () => {
     expect(ACADEMY_LESSON_CONTENT_VERSION_BASE).toBe("v1.0");
     expect(bumpAcademyContentVersion("v1.0")).toBe("v1.1");
     expect(bumpAcademyContentVersion("v1.1")).toBe("v1.2");
-    expect(getAcademyLessonContentVersion("python-temel-1")).toBe("v1.0");
+    expect(getAcademyLessonContentVersion("sample-course-1")).toBe("v1.0");
   });
 
   it("yalnız REVİZYON_TALEBİ kuyruğa düşer; onay sürümü ve tohum günlüğünü yazar", () => {
@@ -59,8 +59,8 @@ describe("03.33 müfredat revizyon kuyruğu", () => {
         reviewId: "r-a",
         userId: "u",
         courseId: "course-1",
-        courseSlug: "python-temel",
-        lessonKey: "python-temel-1",
+        courseSlug: "sample-course",
+        lessonKey: "sample-course-1",
         stars: 4,
         comment: "yanılgı",
         decision: "KULLANICI_YANILGISI",
@@ -79,7 +79,7 @@ describe("03.33 müfredat revizyon kuyruğu", () => {
     expect(approved.revision.status).toBe("APPROVED");
     expect(approved.revision.fromVersion).toBe("v1.0");
     expect(approved.revision.toVersion).toBe("v1.1");
-    expect(getAcademyLessonContentVersion("python-temel-1")).toBe("v1.1");
+    expect(getAcademyLessonContentVersion("sample-course-1")).toBe("v1.1");
     expect(approved.log.note).toContain("v1.0 → v1.1");
     expect(listAcademySeedUpdateLog()).toHaveLength(1);
     expect(listPendingAcademyCurriculumRevisions()).toHaveLength(0);
@@ -94,7 +94,7 @@ describe("03.33 müfredat revizyon kuyruğu", () => {
     ).toThrow(NotFoundError);
 
     process.env.SUPER_ADMIN_USER_ID = ADMIN_ID;
-    const queuedRow = queued("python-temel-2");
+    const queuedRow = queued("sample-course-2");
     const unauth = await runAcademyCurriculumRevisionApprove({
       session: null,
       body: { revisionId: queuedRow!.id },

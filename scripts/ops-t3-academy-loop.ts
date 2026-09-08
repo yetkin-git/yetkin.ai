@@ -3,10 +3,13 @@
  * T3 canlı akademi nakit döngüsü — sahte bakiye YASAK.
  *
  * PayTR sandbox get-token (PENDING) + classic HMAC webhook → LedgerEntry CREDIT,
- * PaymentOrder CLEARED. Sonra katalog kilidi, python-temel satın alma, Idempotency-Key
- * replay, müfredat, sınav ≥70, SHA256 `/academy/dogrula/[hash]`.
+ * PaymentOrder CLEARED. Sonra katalog kilidi, amiral SKU (01_office_ai / 02_ecommerce_ai)
+ * satın alma, Idempotency-Key replay, müfredat, sınav ≥70, SHA256 `/academy/dogrula/[hash]`.
  *
  *   npm run ops:t3-academy-loop
+ *   T3_COURSE_SLUG=02_ecommerce_ai npm run ops:t3-academy-loop
+ *
+ * Varsayılan SKU: 01_office_ai. Eski RAIL tohumları yayından kapalıdır; T3 reddeder.
  *
  * Sahte oturum bayrağı yok. Mock checkout açılmaz.
  * wallets.amount_minor doğrudan yazılmaz; CREDIT yalnız clearSuccessfulPaymentOrder.
@@ -19,8 +22,9 @@ import dotenv from "dotenv";
 import { Client } from "pg";
 import { createClient } from "@supabase/supabase-js";
 import { academyCourseSeedBySlug } from "@/lib/academy/seed";
-import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
+import { ACADEMY_GROWTH_SKU_SLUGS, isAcademyGrowthSkuSlug } from "@/lib/academy/pilot-sku";
 import { academyCanonicalProofSubmission } from "@/lib/academy/proof-of-work";
+import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import { academyExamAnswersFromPublicQuestions } from "@/lib/academy/exam-sitting";
 import { computePaytrWebhookHash } from "@/lib/kernel/payments/paytr/webhook";
 import { buildIdempotentMerchantOid } from "@/lib/kernel/payments/merchant-oid";
@@ -37,9 +41,19 @@ const ROOT = process.cwd();
 dotenv.config({ path: resolve(ROOT, ".env.local") });
 dotenv.config({ path: resolve(ROOT, ".env") });
 
-const COURSE_ID = "ac_rail_temel";
-const COURSE_SLUG = "python-temel";
 const FOREIGN_IP = "85.105.141.10";
+const T3_DEFAULT_COURSE_SLUG = "01_office_ai" as const;
+const T3_FLAGSHIP_SLUGS = ACADEMY_GROWTH_SKU_SLUGS;
+
+function resolveT3CourseSlug(): (typeof T3_FLAGSHIP_SLUGS)[number] {
+  const requested = process.env.T3_COURSE_SLUG?.trim() || T3_DEFAULT_COURSE_SLUG;
+  if (!isAcademyGrowthSkuSlug(requested)) {
+    fail(
+      `T3_COURSE_SLUG=${requested} amiral SKU değil. İzinli: ${T3_FLAGSHIP_SLUGS.join(", ")}.`,
+    );
+  }
+  return requested;
+}
 
 function fail(message: string): never {
   console.error(`ops:t3-academy-loop BAŞARISIZ: ${message}`);
@@ -211,10 +225,13 @@ async function main(): Promise<void> {
   }
   const merchantKey = requireEnv("PAYTR_MERCHANT_KEY");
   const merchantSalt = requireEnv("PAYTR_MERCHANT_SALT");
+  const COURSE_SLUG = resolveT3CourseSlug();
   const seed = academyCourseSeedBySlug(COURSE_SLUG);
   if (!seed) {
-    fail("python-temel tohumu yok.");
+    fail(`${COURSE_SLUG} tohumu yok.`);
   }
+  const COURSE_ID = seed.id;
+  console.log(`→ T3 amiral SKU ${COURSE_SLUG} (${COURSE_ID})`);
 
   const base = appBase();
   await waitForHealth(base);
@@ -397,7 +414,7 @@ async function main(): Promise<void> {
     const done = await jsonRequest(`${base}/api/academy/courses/${COURSE_ID}/curriculum`, {
       method: "POST",
       headers: authHeaders,
-      body: JSON.stringify({ lessonKey: lesson.key, proof }),
+      body: JSON.stringify(proof ? { lessonKey: lesson.key, proof } : { lessonKey: lesson.key }),
     });
     if (done.status !== 200 || done.body.ok !== true) {
       fail(`Ders ${lesson.key} ${done.status}: ${JSON.stringify(done.body)}`);
@@ -464,7 +481,29 @@ async function main(): Promise<void> {
     fail("Doğrulama sayfası mühür/hash taşımıyor.");
   }
   console.log(`→ /academy/dogrula/${certificateHash.slice(0, 12)}… Mühür geçerli`);
-  console.log("ops:t3-academy-loop OK — nakit CREDIT + python-temel + SHA256 doğrulandı.");
+
+  const visaStamp = examPost.body.visaStamp as { sourceKind?: string } | undefined;
+  if (visaStamp?.sourceKind === "ACADEMY_CERTIFICATE") {
+    console.log("→ CareerVisaStamp ACADEMY_CERTIFICATE (exam yanıtı)");
+  } else {
+    const visas = await jsonRequest(`${base}/api/career/visas`, {
+      method: "GET",
+      headers: authHeaders,
+    });
+    const stamps = visas.body.stamps as Array<{ sourceKind?: string }> | undefined;
+    if (
+      visas.status !== 200 ||
+      visas.body.ok !== true ||
+      !stamps?.some((stamp) => stamp.sourceKind === "ACADEMY_CERTIFICATE")
+    ) {
+      fail(
+        `CareerVisaStamp ACADEMY_CERTIFICATE yok: visaStamp=${JSON.stringify(examPost.body.visaStamp)} visas=${JSON.stringify(visas.body)}`,
+      );
+    }
+    console.log("→ CareerVisaStamp ACADEMY_CERTIFICATE (career/visas senkron)");
+  }
+
+  console.log(`ops:t3-academy-loop OK — nakit CREDIT + ${COURSE_SLUG} + SHA256 + CareerVisaStamp doğrulandı.`);
 }
 
 void main().catch((error: unknown) => {

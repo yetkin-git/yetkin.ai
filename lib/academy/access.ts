@@ -7,7 +7,7 @@ import { isAcademyLicenseActive } from "@/lib/academy/license";
 import type { AcademyPurchaseRecord, AcademyStore } from "@/lib/academy/types";
 import {
   isCanonicalSuperAdminEmail,
-  isSuperAdminUser,
+  isSuperAdminActor,
 } from "@/lib/kernel/auth/super-admin";
 import { AuthRequiredError, sessionUserNotInDatabaseMessage } from "@/lib/kernel/auth/require-session";
 import { isPrismaForeignKeyViolation } from "@/lib/kernel/db-errors";
@@ -31,11 +31,11 @@ export function isZeroFeeAcademyGrantOpen(
 }
 
 /**
- * ADMIN / SUPER_ADMIN — kanonik e-posta veya SUPER_ADMIN_USER_ID.
- * Prisma rol kolonu yok; env Super Admin kimliği her iki rol adını karşılar.
+ * Akademi içerik bypass — Super Admin SSOT (`isSuperAdminActor`).
+ * Prisma rol kolonu yok; UUID veya kanonik e-posta aynı kişiyi tanımlar.
  */
 export function hasAcademyAdminBypass(actor: AcademyActor): boolean {
-  return isCanonicalSuperAdminEmail(actor.email) || isSuperAdminUser(actor.userId);
+  return isSuperAdminActor({ id: actor.userId, email: actor.email });
 }
 
 export function hasUnlimitedAcademyAccess(actor: AcademyActor): boolean {

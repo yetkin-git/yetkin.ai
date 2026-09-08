@@ -168,20 +168,25 @@ model EscrowHold {
 }
 
 /// PSP siparişi. merchantOid idempotency evrenidir.
+/// Kasa rızası (consentVersion + iki tik) sipariş satırında mühürlenir; yalnız log değil.
 model PaymentOrder {
-  id             String             @id @default(cuid())
-  userId         String             @map("user_id")
-  provider       String
-  merchantOid    String             @unique @map("merchant_oid")
-  purpose        String
-  amountMinor    Int                @map("amount_minor")
-  currencyCode   String             @db.Char(3) @map("currency_code")
-  status         PaymentOrderStatus @default(PENDING)
-  clearingStatus String?            @map("clearing_status")
-  createdAt      DateTime           @default(now()) @map("created_at")
-  updatedAt      DateTime           @updatedAt @map("updated_at")
-  paidAt         DateTime?          @map("paid_at")
-  clearedAt      DateTime?          @map("cleared_at")
+  id                                    String             @id @default(cuid())
+  userId                                String             @map("user_id")
+  provider                              String
+  merchantOid                           String             @unique @map("merchant_oid")
+  purpose                               String
+  amountMinor                           Int                @map("amount_minor")
+  currencyCode                          String             @db.Char(3) @map("currency_code")
+  status                                PaymentOrderStatus @default(PENDING)
+  clearingStatus                        String?            @map("clearing_status")
+  /// 6502 kasa rızası — mesafeli sözleşme + anında ifa. Eski satırlar NULL (dürüst boş).
+  consentVersion                        String?            @map("consent_version")
+  distanceContractAccepted              Boolean?           @map("distance_contract_accepted")
+  digitalImmediatePerformanceAccepted   Boolean?           @map("digital_immediate_performance_accepted")
+  createdAt                             DateTime           @default(now()) @map("created_at")
+  updatedAt                             DateTime           @updatedAt @map("updated_at")
+  paidAt                                DateTime?          @map("paid_at")
+  clearedAt                             DateTime?          @map("cleared_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

@@ -17,7 +17,7 @@ export default function FreelancerError({
       eyebrow="Freelancer"
       description={PUBLIC_SEN.error.rooms.freelancer}
       backHref="/freelancer"
-      backLabel="Freelancer tezgâhı"
+      backLabel="Freelancer İlan Panosu"
     />
   );
 }

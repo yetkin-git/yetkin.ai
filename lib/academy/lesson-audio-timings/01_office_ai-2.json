@@ -1,0 +1,728 @@
+{
+  "lessonKey": "01_office_ai-2",
+  "pauseSec": 0.4,
+  "durationSec": 441.437,
+  "cacheV": 441437,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 6.211,
+      "text": "Tekrar merhaba. Ben Gözde. Kahveni tazelediysen masaya otur; ikinci ders başladı."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 6.611,
+      "end": 11.702,
+      "text": "Excel'de formül ezberleme baskısı bugünden itibaren masadan kalkıyor."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 2,
+      "start": 12.102,
+      "end": 15.233,
+      "text": "İlk derste o iki saatin ilk dilimini geri aldık."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 15.633,
+      "end": 21.044,
+      "text": "Cebinde iki kural duruyor. Bir: yapay zekâ masandaki hevesli stajyerdir."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 21.444,
+      "end": 29.815,
+      "text": "Kütüphaneleri bilir; niyetini okuyamaz. Ona rolünü, verinin yapısını ve ne istediğini söylemeden mucize bekleme."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 30.215,
+      "end": 35.786,
+      "text": "İki: altın güvenlik. Gerçek ad yok. Kimlik yok. Gizli ciro yok."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 36.186,
+      "end": 40.237,
+      "text": "Müşteri A, Bay X, Şube 1 yeter."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 40.637,
+      "end": 44.888,
+      "text": "Mantık oturunca formülü kendi orijinal dosyana taşırsın."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 5,
+      "start": 45.288,
+      "end": 52.499,
+      "text": "Stajyer örneği görsün; sırları sen sakla. Kalkan hazırsa ofisin korkulu rüyasına giriyoruz."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 6,
+      "start": 52.899,
+      "end": 56.19,
+      "text": "Bugün parantez değil, niyet konuşacak."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 56.59,
+      "end": 61.561,
+      "text": "Yöneticin İzmir şubesinin beş bin üzeri satışlarını istediği an kalbin hızlanır."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 61.961,
+      "end": 67.812,
+      "text": "Ya da A sütunundaki müşteri kodunu öteki sayfadaki cari listeyle eşleştir dendiği an."
+    },
+    {
+      "index": 12,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 2,
+      "start": 68.212,
+      "end": 74.502,
+      "text": "El eşittire gider. Düşey ara yazarsın. Parantezi açarsın. Zihin karışır."
+    },
+    {
+      "index": 13,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 3,
+      "start": 74.902,
+      "end": 78.393,
+      "text": "Önce aranan değer miydi, tablo dizisi miydi?"
+    },
+    {
+      "index": 14,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 4,
+      "start": 78.793,
+      "end": 83.924,
+      "text": "Noktalı virgül mü, iki nokta mı? Kaçıncı sütunu baştan sayıyordun?"
+    },
+    {
+      "index": 15,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 5,
+      "start": 84.324,
+      "end": 89.615,
+      "text": "Sonuna sıfır mı yazıyorduk, yanlış mı? Enter. Ekranda değer hatası."
+    },
+    {
+      "index": 16,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 6,
+      "start": 90.015,
+      "end": 94.466,
+      "text": "Yok hatası. Başvuru hatası. Ad hatası."
+    },
+    {
+      "index": 17,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 94.866,
+      "end": 98.717,
+      "text": "O anda insan kendini suçlar. Ben Excel bilmiyorum der."
+    },
+    {
+      "index": 18,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 99.117,
+      "end": 104.128,
+      "text": "Matematiğim yetmiyor der. Google açılır. Forum taranır."
+    },
+    {
+      "index": 19,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 104.528,
+      "end": 110.259,
+      "text": "Videolar iki kat hızda ileri sarılır. Ofiste Excel'i iyi bilen arkadaşa mahcup gidilir."
+    },
+    {
+      "index": 20,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 110.659,
+      "end": 117.63,
+      "text": "İki sütunu eşleştirmek öğleden sonrayı yer. Bazen yalnız bir koşullu toplam için koca bir saat gider."
+    },
+    {
+      "index": 21,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 118.03,
+      "end": 123.481,
+      "text": "Şimdi müjde net. Bugünden sonra tek bir Excel formülü ezberlemek zorunda değilsin."
+    },
+    {
+      "index": 22,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 5,
+      "start": 123.881,
+      "end": 127.852,
+      "text": "Beş yüz fonksiyonun sözdizimini aklında tutacak kişi sen değilsin."
+    },
+    {
+      "index": 23,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 6,
+      "start": 128.252,
+      "end": 132.063,
+      "text": "Senin işin veri ameleliği değil. Niyeti Türkçe tarif etmek."
+    },
+    {
+      "index": 24,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 7,
+      "start": 132.463,
+      "end": 137.794,
+      "text": "Formülü yazmak ve hatayı onarmak stajyerin işi. Sen yönetici kal."
+    },
+    {
+      "index": 25,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 138.194,
+      "end": 142.245,
+      "text": "Ne hesaplamak istediğini Türkçe söyle; formülü stajyer yazsın."
+    },
+    {
+      "index": 26,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 142.645,
+      "end": 146.656,
+      "text": "Çift yönlü köprü kuruyoruz. Bir: metinden formüle."
+    },
+    {
+      "index": 27,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 2,
+      "start": 147.056,
+      "end": 152.227,
+      "text": "İhtiyacı günlük dille tarif et; stajyer hücre adresleriyle çalışan formülü yazsın."
+    },
+    {
+      "index": 28,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 3,
+      "start": 152.627,
+      "end": 161.358,
+      "text": "İki: formülden metne. Eski dosyadaki yılan gibi formülü yapıştır; stajyer on yaşındaki birinin anlayacağı durulukta anlatsın."
+    },
+    {
+      "index": 29,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 161.758,
+      "end": 166.849,
+      "text": "Önce birinci sihir. Klavyeni çek. Hangi araç açıksa o kalsın."
+    },
+    {
+      "index": 30,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 167.249,
+      "end": 172.5,
+      "text": "Mantık hepsinde aynı. Önünde beş sütunluk satış tablosu var. Sipariş numarası."
+    },
+    {
+      "index": 31,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 172.9,
+      "end": 177.231,
+      "text": "Şube adı. Satış temsilcisi. Tutar. Tarih."
+    },
+    {
+      "index": 32,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 177.631,
+      "end": 184.362,
+      "text": "Yönetici diyor: İzmir şubesinde beş bin liradan büyük satışların toplamını F iki hücresine yaz."
+    },
+    {
+      "index": 33,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 184.762,
+      "end": 192.613,
+      "text": "Eski sende çoketopla stresi. Aralıkları ters yazarsan sonuç sıfır çıkar ya da sessizce yanlış toplanır."
+    },
+    {
+      "index": 34,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 193.013,
+      "end": 197.504,
+      "text": "Şimdi modele dön. Kıdemli veri analisti ve Excel uzmanı rolünü ver."
+    },
+    {
+      "index": 35,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 1,
+      "start": 197.904,
+      "end": 203.355,
+      "text": "Tabloyu sütun sütun anlat. İhtiyacı bir cümlede söyle. Kuralları da söyle."
+    },
+    {
+      "index": 36,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 2,
+      "start": 203.755,
+      "end": 208.325,
+      "text": "Türkçe Excel ve İngilizce Excel için ayrı ayrı iste."
+    },
+    {
+      "index": 37,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 3,
+      "start": 208.725,
+      "end": 213.976,
+      "text": "Mantığı iki cümlede anlatsın. Hangi aralık ne işe yarar, tek tek yazsın."
+    },
+    {
+      "index": 38,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 4,
+      "start": 214.376,
+      "end": 219.187,
+      "text": "Temiz blokta versin ki kopyalayasın. Gönder. Üç saniyede gelir."
+    },
+    {
+      "index": 39,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 5,
+      "start": 219.587,
+      "end": 224.518,
+      "text": "Toplanacak sütun tutardır. Birinci süzgeç şube İzmir."
+    },
+    {
+      "index": 40,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 6,
+      "start": 224.918,
+      "end": 230.409,
+      "text": "İkinci süzgeç tutar beş binden büyük. Kopyala. F ikiye yapıştır."
+    },
+    {
+      "index": 41,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 7,
+      "start": 230.809,
+      "end": 233.42,
+      "text": "Bir satırla kontrol et. İş bitti."
+    },
+    {
+      "index": 42,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 8,
+      "start": 233.82,
+      "end": 238.511,
+      "text": "Noktalı virgül nereye konur, büyüktür işareti tırnak içine mi alınır diye düşünme."
+    },
+    {
+      "index": 43,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 9,
+      "start": 238.911,
+      "end": 243.322,
+      "text": "Stajyer koyar. Sen yönetici kal. Formülü ezberleme."
+    },
+    {
+      "index": 44,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 10,
+      "start": 243.722,
+      "end": 249.253,
+      "text": "Sütunu, eşiği ve niyeti anlat. Anlatırken birim ve istisna da söyle."
+    },
+    {
+      "index": 45,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 11,
+      "start": 249.653,
+      "end": 255.144,
+      "text": "İade satırlarını düş. Şu şubeyi hariç tut. Stajyer ayrıntıyı sever."
+    },
+    {
+      "index": 46,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 255.544,
+      "end": 260.995,
+      "text": "Kırmızı hücrede panik yok; hatayı stajyerine teşhis ettir. Düşey ara yazdın."
+    },
+    {
+      "index": 47,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 261.395,
+      "end": 267.446,
+      "text": "Fiyat listesi sayfasında üç sütun var: kod, ad, fiyat."
+    },
+    {
+      "index": 48,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 2,
+      "start": 267.846,
+      "end": 272.057,
+      "text": "Formül dördüncü sütunu istiyor. Hücre başvuru hatası verir."
+    },
+    {
+      "index": 49,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 3,
+      "start": 272.457,
+      "end": 276.788,
+      "text": "Sakın formülü baştan yazma. Modele hata doktoru rolünü ver."
+    },
+    {
+      "index": 50,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 4,
+      "start": 277.188,
+      "end": 284.079,
+      "text": "Kullandığın formülü yapıştır. Tabloyu anlat. Amacını söyle: A iki hücresindeki kodun fiyatını çekmek."
+    },
+    {
+      "index": 51,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 5,
+      "start": 284.479,
+      "end": 290.17,
+      "text": "Görev net olsun. Nedenini bir cümlede istesin. Düzeltilmiş hali kopyalanabilir gelsin."
+    },
+    {
+      "index": 52,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 290.57,
+      "end": 294.261,
+      "text": "Varsa daha modern ve hataya dayanıklı bir alternatif de iste."
+    },
+    {
+      "index": 53,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 294.661,
+      "end": 300.192,
+      "text": "Çapraz ara sütun sırasına kilitlenmez; kod sütununu ve fiyat sütununu ayrı gösterir."
+    },
+    {
+      "index": 54,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 300.592,
+      "end": 305.243,
+      "text": "Gelen teşhisi oku. Aralık üç sütun. Sen dördü istedin."
+    },
+    {
+      "index": 55,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 305.643,
+      "end": 313.014,
+      "text": "Excel başvuru üretir. Düzelti üç. Yapıştır. Hücre susar. Dakikalarca ekranı kısmazsın."
+    },
+    {
+      "index": 56,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 313.414,
+      "end": 316.265,
+      "text": "Nerede hata yaptığını nazikçe öğrenirsin."
+    },
+    {
+      "index": 57,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 316.665,
+      "end": 321.836,
+      "text": "Aynı köprü tersine de çalışır. Senden önce çalışan biri bir dosya bırakmış."
+    },
+    {
+      "index": 58,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 1,
+      "start": 322.236,
+      "end": 326.647,
+      "text": "Finansin yılan gibi uzayan formülü. İç içe eğerler."
+    },
+    {
+      "index": 59,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 2,
+      "start": 327.047,
+      "end": 331.417,
+      "text": "Durum tamamlandıysa ve tutar on bini geçiyorsa yüzde on beş."
+    },
+    {
+      "index": 60,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 3,
+      "start": 331.817,
+      "end": 337.108,
+      "text": "Tamamlandıysa ve on bin veya altındaysa yüzde sekiz. Değilse sıfır."
+    },
+    {
+      "index": 61,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 4,
+      "start": 337.508,
+      "end": 342.839,
+      "text": "Bakarken başın döner. Hücreyi değiştirirsem ne bozulur diye korkarsın. Kopyala."
+    },
+    {
+      "index": 62,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 5,
+      "start": 343.239,
+      "end": 348.85,
+      "text": "Modele de: bunu matematik bilmeyen birine anlatır gibi Türkçe çöz."
+    },
+    {
+      "index": 63,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 6,
+      "start": 349.25,
+      "end": 353.821,
+      "text": "Hangi kural hangi primi verir, adım adım yazsın. Kapalı kutu açılır."
+    },
+    {
+      "index": 64,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 7,
+      "start": 354.221,
+      "end": 361.792,
+      "text": "Kimsenin dosyası röntgen isteyince kilitli kalmaz. Sen artık formülü taşıyan değil; kuralı anlayan kişisin."
+    },
+    {
+      "index": 65,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 362.192,
+      "end": 366.963,
+      "text": "Kendi hücrende çalışan formülü görmeden üçüncü bölüme geçme. Küçük olsun."
+    },
+    {
+      "index": 66,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 367.363,
+      "end": 374.134,
+      "text": "Mükemmel olmasın. Bitmiş olsun. Üç kural cebine. Bir: formül ismini unut."
+    },
+    {
+      "index": 67,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 2,
+      "start": 374.534,
+      "end": 378.945,
+      "text": "Sütununu ve niyetini anlat. Excel'e değil, stajyerine konuş."
+    },
+    {
+      "index": 68,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 3,
+      "start": 379.345,
+      "end": 385.636,
+      "text": "İki: hata kodundan korkma. Değer hatası ya da yok hatası gördüğünde kendini suçlama."
+    },
+    {
+      "index": 69,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 4,
+      "start": 386.036,
+      "end": 391.007,
+      "text": "Teşhisi stajyerine bırak. Üç: Türkçe Excel noktalı virgül kullanır."
+    },
+    {
+      "index": 70,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 5,
+      "start": 391.407,
+      "end": 393.178,
+      "text": "İngilizce Excel virgül kullanır. Sürümü baştan söyle ki tek seferde doğru gelsin."
+    },
+    {
+      "index": 71,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 393.578,
+      "end": 397.909,
+      "text": "Şimdi iki dakikalık kanıt. Kendi dosyandan gerçek bir ihtiyaç seç."
+    },
+    {
+      "index": 72,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 398.309,
+      "end": 403.28,
+      "text": "Bir şubenin belli tutar üstü satışlarını toplamak yeter. Metinden formüle yazdır."
+    },
+    {
+      "index": 73,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 403.68,
+      "end": 407.371,
+      "text": "Kendi hücrene yapıştır. Çalıştığını kendi gözünle gör."
+    },
+    {
+      "index": 74,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 407.771,
+      "end": 412.702,
+      "text": "Elinde kırık bir formül varsa hata doktoruna ver. Kanıtın cebinde olsun."
+    },
+    {
+      "index": 75,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 413.102,
+      "end": 417.833,
+      "text": "Sonraki derste dağınık veri var. İsimler küçük büyük karışık."
+    },
+    {
+      "index": 76,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 5,
+      "start": 418.233,
+      "end": 423.724,
+      "text": "Ad soyad tek sütuna yapışmış. Telefonların kiminde sıfır beş, kiminde artı doksan."
+    },
+    {
+      "index": 77,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 6,
+      "start": 424.124,
+      "end": 429.575,
+      "text": "Tarihler yarısı nokta yarısı eğik çizgi. Eski usul iki saatini alırdı."
+    },
+    {
+      "index": 78,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 7,
+      "start": 429.975,
+      "end": 435.226,
+      "text": "Orada çöpü tek komutla standart tabloya çevireceğiz. Kahveni al. Masada kal."
+    },
+    {
+      "index": 79,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 8,
+      "start": 435.626,
+      "end": 441.437,
+      "text": "Formül ezberi bitti. Niyet kaldı. Yarın aynı stajyer yine masanda olacak."
+    }
+  ]
+}

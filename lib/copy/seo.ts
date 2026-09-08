@@ -23,6 +23,11 @@ export const OG_LOCALE = "tr_TR" as const;
 
 export const AUTH_ROBOTS = { index: false, follow: true } as const;
 
+/** Twitter `summary_large_image` plakası — `app/opengraph-image.tsx` üretir. */
+export const OG_IMAGE_SIZE = { width: 1200, height: 630 } as const;
+export const DEFAULT_OG_IMAGE = "/opengraph-image" as const;
+export const DEFAULT_OG_IMAGE_ALT = `${PUBLIC_SEN.home.title} · ${YETKIN_BRAND}` as const;
+
 /**
  * Aşama 1 SEO — kamuya açık ana sayfaların özgün title / description kopyası.
  * H1 sen-voice ile aynı olmak zorunda değildir; meta tekil ve zengin kalır.
@@ -31,19 +36,20 @@ export const PAGE_SEO = {
   home: {
     title: PUBLIC_SEN.home.title,
     description:
-      "Yapay zekâ destekli akademi, kariyer vizesi ve freelancer iş pazarı. Yetkinliğini geliştir, sınavı geç, uzmanlığını belgele. Mühür sunucuda doğrulanır; sahte kazanç yazılmaz.",
+      "Yetkinliğini kanıtlayan yapay zekâ eğitimleri. Dersleri bitir, testi geç; belgen sunucuda mühürlenir. PayTR Merchant onayı sürecindedir; PayTR iFrame altyapısı hazırdır. Kart numarası platformda tutulmaz.",
     path: "/",
+    image: DEFAULT_OG_IMAGE,
   },
   career: {
-    title: "Kariyer vizesi ve uzmanlık belgesi",
+    title: "Kariyer Erişim Hakkı ve uzmanlık belgesi",
     description:
-      "Akademi sınavı ve freelancer tesliminden türeyen kariyer vizen. Mühür pasaporta işlenir; sahte rozet eklenmez. Uzmanlığını belgele, iş kapısını aç.",
+      "Akademi sınavı ve freelancer tesliminden türeyen Doğrulanmış Rozetin. Pasaport Vize Damgası sicile işlenir; sahte rozet eklenmez. Uzmanlığını belgele, Teklif Kapısını aç.",
     path: "/career",
   },
   freelancer: {
-    title: "Freelancer iş pazarı",
+    title: "Freelancer İlan Panosu",
     description:
-      "Açık iş ilanlarına teklif ver. Teslim onayında bütçe emanete alınır; yetkin.ai iş pazarında sahte kazanç ve uydurma bakiye yazılmaz.",
+      "Freelancer arka plan odasıdır. Tohum ilanlar platform örneğidir; emanet kapalıdır (kabul 503). İlan ve teklif kodu durur; sahte kazanç yazılmaz.",
     path: "/freelancer",
   },
   academy: {
@@ -55,7 +61,7 @@ export const PAGE_SEO = {
   academyVerify: {
     title: "Sertifika doğrula",
     description:
-      "Akademi sertifikasının SHA-256 özetini doğrula. Oturum istenmez; vatandaş kimliği gösterilmez. Uydurma mühür geçerli damga basmaz.",
+      "Akademi sertifikasının SHA-256 sicil bütünlük kaydını doğrula. Oturum istenmez; vatandaş kimliği gösterilmez. Müfredat özeti sicile bağlıdır. Uydurma geçerli damga basılmaz.",
     path: "/academy/dogrula",
   },
   contact: {
@@ -103,7 +109,7 @@ export type SitemapChangeFrequency =
 
 /**
  * Aşama 2 sitemap önceliği: ana sayfa/akademi 1.0, kurs 0.8, yasal/iletişim 0.5.
- * Kariyer ve freelancer ürün odaları 0.9.
+ * Kariyer 0.9. Freelancer arka plan odası 0.4.
  */
 export function sitemapRoutePolicy(path: string): {
   changeFrequency: SitemapChangeFrequency;
@@ -112,8 +118,11 @@ export function sitemapRoutePolicy(path: string): {
   if (path === "/" || path === "/academy") {
     return { changeFrequency: "weekly", priority: 1 };
   }
-  if (path === "/career" || path === "/freelancer") {
+  if (path === "/career") {
     return { changeFrequency: "weekly", priority: 0.9 };
+  }
+  if (path === "/freelancer") {
+    return { changeFrequency: "weekly", priority: 0.4 };
   }
   if (path.startsWith("/academy/") && !path.startsWith("/academy/dogrula")) {
     return { changeFrequency: "weekly", priority: 0.8 };

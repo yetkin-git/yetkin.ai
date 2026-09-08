@@ -31,7 +31,7 @@ export function CertificateSeal({
 }) {
   const copy = ACADEMY_SEN.certificates;
   const diploma = variant === "diploma" || Boolean(courseTitle);
-  const holder = holderName?.trim() || ACADEMY_SEN.proof.anonymousHolder;
+  const namedHolder = holderName?.trim() || null;
   const sealLabel = revoked ? ACADEMY_SEN.verify.revoked : copy.sealed;
   const careerAllowed = showCareerVisa && !revoked;
 
@@ -83,12 +83,21 @@ export function CertificateSeal({
         <p className="mt-3 text-lg font-semibold text-[var(--foreground)]">{courseTitle}</p>
       ) : null}
       <dl className="mt-6 grid gap-4 sm:grid-cols-2">
-        <div>
-          <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
-            {ACADEMY_SEN.proof.studentLabel}
-          </dt>
-          <dd className="text-base font-medium text-[var(--foreground)]">{holder}</dd>
-        </div>
+        {namedHolder ? (
+          <div>
+            <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
+              {ACADEMY_SEN.proof.studentLabel}
+            </dt>
+            <dd className="text-base font-medium text-[var(--foreground)]">{namedHolder}</dd>
+          </div>
+        ) : (
+          <div className="sm:col-span-2">
+            <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
+              {ACADEMY_SEN.verify.hashSubjectLabel}
+            </dt>
+            <dd className="text-sm leading-6 text-[var(--foreground)]">{ACADEMY_SEN.verify.privacyA4}</dd>
+          </div>
+        )}
         {instructorName ? (
           <div>
             <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">

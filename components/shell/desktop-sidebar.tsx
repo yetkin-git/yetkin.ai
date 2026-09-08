@@ -15,12 +15,14 @@ import {
   type ReactNode,
 } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { SidebarNav } from "@/components/shell/sidebar-nav";
 import { IconChevronLeft } from "@/components/ui/icons";
 import { BrandIcon } from "@/components/ui/brand-icon";
 import { cn } from "@/components/ui/cn";
 import { YETKIN_BRAND, YETKIN_SHELL_TAGLINE } from "@/lib/copy/brand";
 import {
+  isAcademyPlayPath,
   SIDEBAR_WIDTH_DEFAULT,
   SIDEBAR_WIDTH_MAX,
   SIDEBAR_WIDTH_MIN,
@@ -30,6 +32,7 @@ import {
   layoutFromDragX,
   nudgeSidebarWidth,
   resolveSidebarDisplayWidth,
+  resolveSidebarLayoutForRoute,
   subscribeSidebarLayout,
   writeSidebarLayoutToStorage,
   type SidebarLayout,
@@ -48,6 +51,7 @@ type SidebarLayoutApi = {
 const SidebarLayoutContext = createContext<SidebarLayoutApi | null>(null);
 
 export function SidebarLayoutProvider({ children }: { children: ReactNode }) {
+  const pathname = usePathname() ?? "";
   const stored = useSyncExternalStore(
     subscribeSidebarLayout,
     getSidebarLayoutClientSnapshot,
@@ -55,14 +59,32 @@ export function SidebarLayoutProvider({ children }: { children: ReactNode }) {
   );
   const [draft, setDraftState] = useState<SidebarLayout | null>(null);
   const [dragging, setDragging] = useState(false);
-  const layout = draft ?? stored;
+  const [playPath, setPlayPath] = useState(pathname);
+  const [playCollapsedOverride, setPlayCollapsedOverride] = useState<boolean | null>(null);
+
+  if (pathname !== playPath) {
+    setPlayPath(pathname);
+    setPlayCollapsedOverride(null);
+  }
+
+  const routed = resolveSidebarLayoutForRoute(stored, pathname, playCollapsedOverride);
+  const layout = draft ?? routed;
   const displayWidth = resolveSidebarDisplayWidth(layout);
 
-  const commit = useCallback((next: SidebarLayout) => {
-    writeSidebarLayoutToStorage(next);
-    setDraftState(null);
-    setDragging(false);
-  }, []);
+  const commit = useCallback(
+    (next: SidebarLayout) => {
+      const onPlay = isAcademyPlayPath(pathname);
+      if (onPlay) {
+        setPlayCollapsedOverride(next.collapsed);
+        writeSidebarLayoutToStorage({ width: next.width, collapsed: stored.collapsed });
+      } else {
+        writeSidebarLayoutToStorage(next);
+      }
+      setDraftState(null);
+      setDragging(false);
+    },
+    [pathname, stored.collapsed],
+  );
 
   const setDraft = useCallback((next: SidebarLayout) => {
     setDraftState(next);
@@ -107,7 +129,7 @@ export function SidebarLayoutProvider({ children }: { children: ReactNode }) {
   return <SidebarLayoutContext.Provider value={value}>{children}</SidebarLayoutContext.Provider>;
 }
 
-function useSidebarLayoutApi(): SidebarLayoutApi {
+export function useSidebarLayoutApi(): SidebarLayoutApi {
   const context = useContext(SidebarLayoutContext);
   if (!context) {
     throw new Error("SidebarLayoutProvider missing");

@@ -18,6 +18,7 @@ import { formatMinor } from "@/lib/kernel/money/format";
 import { WALLET_TOP_UP_MAX_MINOR, WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
 import { CheckoutConsentFields } from "@/components/legal/checkout-consent-fields";
 import { CheckoutBillingFields } from "@/components/legal/checkout-billing-fields";
+import { SecurePaymentMarks } from "@/components/legal/secure-payment-marks";
 import { useCheckoutBilling } from "@/components/legal/use-checkout-billing";
 import { LEGAL_CHECKOUT_CONSENT_COPY } from "@/lib/copy/legal-launch";
 import { CHECKOUT_LEGAL_CONSENT_VERSION } from "@/lib/kernel/legal/checkout-consent";
@@ -182,19 +183,29 @@ export function WalletTopUpForm({
 
   return (
     <form onSubmit={onSubmit} className="space-y-3">
-      <label className="block text-sm font-medium">
-        {copy.amountLabel}
-        <Input value={amountMajor} onChange={(event) => setAmountMajor(event.target.value)} required />
-      </label>
-      <p className="text-xs text-slate-600">{CUZDAN_SEN.topUpBand(minLabel, maxLabel)}</p>
-      <CheckoutBillingFields value={billing.form} onChange={billing.setForm} hadSaved={billing.hadSaved} />
-      <CheckoutConsentFields
-        distanceAccepted={distanceAccepted}
-        digitalAccepted={digitalAccepted}
-        onDistanceChange={setDistanceAccepted}
-        onDigitalChange={setDigitalAccepted}
-        showWalletHint
-      />
+      {!iframeUrl ? (
+        <>
+          <label className="block text-sm font-medium">
+            {copy.amountLabel}
+            <Input value={amountMajor} onChange={(event) => setAmountMajor(event.target.value)} required />
+          </label>
+          <p className="text-xs text-slate-600">{CUZDAN_SEN.topUpBand(minLabel, maxLabel)}</p>
+          <CheckoutBillingFields
+            value={billing.form}
+            onChange={billing.setForm}
+            hadSaved={billing.hadSaved}
+            collapsible
+          />
+          <CheckoutConsentFields
+            distanceAccepted={distanceAccepted}
+            digitalAccepted={digitalAccepted}
+            onDistanceChange={setDistanceAccepted}
+            onDigitalChange={setDigitalAccepted}
+            showWalletHint
+          />
+        </>
+      ) : null}
+      <SecurePaymentMarks compact />
       {sandboxLive ? (
         <p className="text-xs text-[var(--amber)]">{CUZDAN_SEN.sandboxHint}</p>
       ) : null}
@@ -203,16 +214,17 @@ export function WalletTopUpForm({
           {error}
         </p>
       ) : null}
-      <Button type="submit" disabled={pending || !distanceAccepted || !digitalAccepted}>
-        {pending ? copy.pending : copy.submit}
-      </Button>
-      {iframeUrl ? (
+      {!iframeUrl ? (
+        <Button type="submit" disabled={pending || !distanceAccepted || !digitalAccepted || !billing.hydrated}>
+          {pending ? copy.pending : copy.submit}
+        </Button>
+      ) : (
         <iframe
           title={copy.iframeTitle}
           src={iframeUrl}
           className="mt-3 h-[min(24rem,55vh)] w-full rounded-md border border-[var(--border)]"
         />
-      ) : null}
+      )}
       {waitingClearing ? (
         <p aria-live="polite" className="text-xs text-slate-600">
           {copy.waitingClearing}

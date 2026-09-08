@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
-import { ForbiddenError } from "@/lib/kernel/http/errors";
+import { ConflictError, ForbiddenError } from "@/lib/kernel/http/errors";
 import { jsonFromUnknown } from "@/lib/kernel/http/json";
 import {
   acceptFreelancerBid,
+  cancelFreelancerJob,
   createFreelancerJob,
   submitFreelancerBid,
 } from "@/lib/freelancer/engine";
@@ -118,5 +119,39 @@ describe("freelancer taraf IDOR — 403", () => {
         partyAClaim: "Taraf değilim; kapı 403 olmalı.",
       }),
     ).rejects.toBeInstanceOf(ForbiddenError);
+  });
+
+  it("yabancı OPEN ilanı kapatınca 403 döner; sahip CANCELLED yazar", async () => {
+    const ports = world();
+    const job = await createFreelancerJob(ports, {
+      clientId: CLIENT,
+      title: "Kapatılacak ilan",
+      brief: "Sahiplik kalkanı üçüncü şahsı keser.",
+      budgetMinor: 25_000,
+    });
+    await expect(
+      cancelFreelancerJob(ports, { jobId: job.id, actorUserId: STRANGER }),
+    ).rejects.toBeInstanceOf(ForbiddenError);
+    try {
+      await cancelFreelancerJob(ports, { jobId: job.id, actorUserId: STRANGER });
+    } catch (error) {
+      const response = jsonFromUnknown(error);
+      expect(response.status).toBe(403);
+    }
+    expect((await ports.freelancer.getJob(job.id))?.status).toBe("OPEN");
+
+    const closed = await cancelFreelancerJob(ports, {
+      jobId: job.id,
+      actorUserId: CLIENT,
+    });
+    expect(closed.status).toBe("CANCELLED");
+  });
+
+  it("sözleşmeli ilanı sahip kapatınca 409 döner", async () => {
+    const ports = world();
+    const contract = await fundedContract(ports);
+    await expect(
+      cancelFreelancerJob(ports, { jobId: contract.jobId, actorUserId: CLIENT }),
+    ).rejects.toBeInstanceOf(ConflictError);
   });
 });

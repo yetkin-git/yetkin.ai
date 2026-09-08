@@ -11,9 +11,12 @@ import {
   type AcademyLessonSeed,
 } from "@/lib/academy/curriculum";
 import { ACADEMY_LESSON_CONTENT_VERSION_BASE } from "@/lib/academy/curriculum-revision-paths";
+import { isAcademyCompactLessonKey } from "@/lib/academy/pilot-sku";
 import {
   academyCanonicalProofSubmission,
+  academyCompactReadCanonicalJson,
   academyCurriculumProofCanonicalJson,
+  academyInteractiveTaskByKey,
   academyLessonProofHashList,
   academyProofOfWorkCanonicalJson,
   academyProofOfWorkHash,
@@ -290,6 +293,19 @@ function sealLessonProof(
   lessonKey: string,
   proof: AcademyProofSubmission | undefined,
 ): string {
+  if (isAcademyCompactLessonKey(lessonKey) && !academyInteractiveTaskByKey(lessonKey)) {
+    if (proof) {
+      throw new ForbiddenError("Compact makalede etkileşimli iş kanıtı yoktur.");
+    }
+    const hash = academyProofOfWorkHash(academyCompactReadCanonicalJson(lessonKey), sha256Hex);
+    bindAcademyProofOfWork({
+      purchaseId,
+      lessonKey,
+      hash,
+      success: { kind: "compact-read", lessonKey },
+    });
+    return hash;
+  }
   const submitted = proof ?? academyCanonicalProofSubmission(lessonKey) ?? undefined;
   if (!submitted) {
     throw new ForbiddenError("İş kanıtı olmadan ders kapanmaz.");
@@ -390,8 +406,8 @@ export async function completeAcademyCurriculum(
 ): Promise<AcademyCurriculumPlayerView> {
   let player = await loadAcademyCurriculumPlayer(ports, command);
   while (player.nextLessonKey) {
-    const proof = academyCanonicalProofSubmission(player.nextLessonKey);
-    if (!proof) {
+    const proof = academyCanonicalProofSubmission(player.nextLessonKey) ?? undefined;
+    if (!proof && !isAcademyCompactLessonKey(player.nextLessonKey)) {
       throw new ForbiddenError("İş kanıtı tohumu yok.");
     }
     const result = await completeAcademyLesson(ports, {

@@ -8,5 +8,7 @@ export const EMPTY_ACADEMY_PULSE: AcademyPulseSnapshot = {
   purchasesCount: 0,
   certificatesHeld: 0,
   lastCertificateTitle: null,
+  lastCourseSlug: null,
+  nextLessonKey: null,
   currencyCode: SETTLEMENT_CURRENCY,
 };

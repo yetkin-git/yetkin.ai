@@ -22,7 +22,7 @@ export default async function AdminPage() {
   const access = await resolveSuperAdminAccess();
   const signedIn = access.kind !== "unauthenticated";
   const isAdmin = access.kind === "ok";
-  const board = access.kind === "ok" ? await loadAdminCatalogBoard(access.user.id) : null;
+  const board = access.kind === "ok" ? await loadAdminCatalogBoard(access.user) : null;
   const entries = board?.access === "ok" ? board.entries : [];
   const decisions = board?.access === "ok" ? board.decisions : [];
   const live = board?.access === "ok";

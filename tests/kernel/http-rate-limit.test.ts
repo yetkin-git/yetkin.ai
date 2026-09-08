@@ -109,6 +109,17 @@ describe("HTTP hız tavanı", () => {
     });
     expect(resolveRequestIp(request)).toBe(UNKNOWN_REQUEST_IP);
   });
+
+  it("TRUSTED_PROXY_HOPS=2 Cloudflare+Vercel zincirinde müşteri IPv4 alınır", () => {
+    vi.stubEnv("TRUSTED_PROXY_HOPS", "2");
+    const dualHop = new Request("http://localhost/api/wallet/top-up", {
+      headers: { "x-forwarded-for": "203.0.113.50, 104.16.1.1" },
+    });
+    expect(resolveRequestIp(dualHop)).toBe("203.0.113.50");
+
+    vi.stubEnv("TRUSTED_PROXY_HOPS", "1");
+    expect(resolveRequestIp(dualHop)).toBe("104.16.1.1");
+  });
 });
 
 describe("RateLimitPort", () => {

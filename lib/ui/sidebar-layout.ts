@@ -55,6 +55,43 @@ export function resolveSidebarDisplayWidth(layout: SidebarLayout): number {
   return layout.collapsed ? SIDEBAR_WIDTH_ICON : layout.width;
 }
 
+function normalizeSidebarPath(pathname: string | null | undefined): string {
+  if (!pathname) {
+    return "";
+  }
+  const path = pathname.split("?")[0]?.split("#")[0] ?? pathname;
+  if (path.length > 1) {
+    return path.replace(/\/+$/, "");
+  }
+  return path;
+}
+
+/**
+ * Ders oynatıcı — `/academy/[slug]/oyna`.
+ * Katalog, kurs vitrini, sertifika ve doğrulama rotalarında false döner.
+ */
+export function isAcademyPlayPath(pathname: string | null | undefined): boolean {
+  return /^\/academy\/[^/]+\/oyna$/.test(normalizeSidebarPath(pathname));
+}
+
+/**
+ * /oyna girişinde simge modu; kullanıcı bu ziyarette toggle ettiyse o tercih.
+ * Diğer rotalarda kayıtlı genişlik/katlama aynen kalır — auto-collapse persist edilmez.
+ */
+export function resolveSidebarLayoutForRoute(
+  stored: SidebarLayout,
+  pathname: string | null | undefined,
+  playCollapsedOverride: boolean | null,
+): SidebarLayout {
+  if (!isAcademyPlayPath(pathname)) {
+    return stored;
+  }
+  if (playCollapsedOverride !== null) {
+    return { width: stored.width, collapsed: playCollapsedOverride };
+  }
+  return { width: stored.width, collapsed: true };
+}
+
 /** Simge modundayken sağa çekmek genişletir; açıkken genişlik MIN–MAX arasında sıkışır. */
 export function layoutFromDragX(clientX: number, previous: SidebarLayout): SidebarLayout {
   if (!Number.isFinite(clientX)) {

@@ -12,6 +12,7 @@ export function AcademyPulseWidget() {
     <PulseCard
       title={copy.academyTitle}
       live={pulse.live}
+      unavailableHint={copy.unavailable}
       href="/academy"
       hrefLabel={copy.academyHrefLabel}
       stats={[
@@ -19,7 +20,7 @@ export function AcademyPulseWidget() {
         { label: copy.academyCertificate, value: pulse.live ? pulse.certificatesHeld : "—" },
       ]}
     >
-      {pulse.live ? pulse.lastCertificateTitle ?? copy.academyEmpty : "—"}
+      {pulse.live ? pulse.lastCertificateTitle ?? copy.academyEmpty : copy.unavailable}
     </PulseCard>
   );
 }

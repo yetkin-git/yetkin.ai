@@ -9,6 +9,7 @@ import type { AcademyCertificateSealStatus } from "@/lib/academy/certificate-ver
 import { ProofOfWorkCard } from "@/components/academy/proof-of-work-card";
 import { PathwayMasterySeal } from "@/components/academy/pathway-mastery-seal";
 import { CertificateSeal } from "@/components/academy/certificate-seal";
+import { CertificateVerifyNav } from "@/components/academy/certificate-verify-nav";
 import { CertificateVerifyQr } from "@/components/academy/certificate-verify-qr";
 import { parseSha256Hex } from "@/lib/kernel/crypto/sha256";
 import { pageMetadata } from "@/lib/copy/seo";
@@ -94,8 +95,11 @@ export default async function AcademyCertificateVerifyPage({
           eyebrow={copy.eyebrow}
           title={copy.title}
           description={SEN_VOICE.academy.certificates.unbound}
+          actions={<CertificateVerifyNav />}
         />
-        <Card>{SEN_VOICE.academy.certificates.unbound}</Card>
+        <Card>
+          <p>{SEN_VOICE.academy.certificates.unbound}</p>
+        </Card>
       </RoomFrame>
     );
   }
@@ -103,14 +107,14 @@ export default async function AcademyCertificateVerifyPage({
   if (resolution.status === "invalid-format") {
     return (
       <RoomFrame>
-        <PageHeader eyebrow={copy.eyebrow} title={copy.title} description={copy.invalidFormat} />
+        <PageHeader
+          eyebrow={copy.eyebrow}
+          title={copy.title}
+          description={copy.invalidFormat}
+          actions={<CertificateVerifyNav />}
+        />
         <Card>
           <p>{copy.invalidFormat}</p>
-          <div className="mt-4">
-            <LinkButton href="/academy" variant="outline" size="sm">
-              {copy.catalogCta}
-            </LinkButton>
-          </div>
         </Card>
       </RoomFrame>
     );
@@ -119,15 +123,15 @@ export default async function AcademyCertificateVerifyPage({
   if (resolution.status === "missing") {
     return (
       <RoomFrame>
-        <PageHeader eyebrow={copy.eyebrow} title={copy.missing} description={copy.missingBody} />
+        <PageHeader
+          eyebrow={copy.eyebrow}
+          title={copy.missing}
+          description={copy.missingBody}
+          actions={<CertificateVerifyNav />}
+        />
         <Card>
           <p className="break-all font-mono text-xs">{hash}</p>
           <p className="mt-3">{copy.missingBody}</p>
-          <div className="mt-4">
-            <LinkButton href="/academy" variant="outline" size="sm">
-              {copy.catalogCta}
-            </LinkButton>
-          </div>
         </Card>
       </RoomFrame>
     );
@@ -141,11 +145,7 @@ export default async function AcademyCertificateVerifyPage({
           eyebrow={copy.eyebrow}
           title={copy.masteryTitle}
           description={copy.privacy}
-          actions={
-            <LinkButton href="/academy" variant="outline" size="sm">
-              {copy.catalogCta}
-            </LinkButton>
-          }
+          actions={<CertificateVerifyNav />}
         />
         <Card variant="featured" title={copy.masteryTitle}>
           <dl className="mb-4 space-y-2 text-sm">
@@ -165,11 +165,7 @@ export default async function AcademyCertificateVerifyPage({
           eyebrow={copy.proofEyebrow}
           title={view.courseTitle}
           description={copy.privacy}
-          actions={
-            <LinkButton href="/academy" variant="outline" size="sm">
-              {copy.catalogCta}
-            </LinkButton>
-          }
+          actions={<CertificateVerifyNav />}
         />
         <Card variant="featured" title={view.kind === "curriculum" ? copy.proofCurriculumValid : copy.proofValid}>
           <Badge tone="emerald">
@@ -230,7 +226,7 @@ export default async function AcademyCertificateVerifyPage({
             />
           </div>
           {view.courseSlug ? (
-            <div className="mt-4">
+            <div className="mt-4 flex flex-wrap gap-2">
               <LinkButton href={`/academy/${view.courseSlug}`} variant="outline" size="sm">
                 {copy.courseCta}
               </LinkButton>
@@ -248,11 +244,7 @@ export default async function AcademyCertificateVerifyPage({
         eyebrow={copy.eyebrow}
         title={view.courseTitle}
         description={copy.privacy}
-        actions={
-          <LinkButton href="/academy" variant="outline" size="sm">
-            {copy.catalogCta}
-          </LinkButton>
-        }
+        actions={<CertificateVerifyNav />}
       />
       <Card variant="featured" title={sealTitle(view.sealStatus)}>
         <Badge tone={sealTone(view.sealStatus)}>{sealTitle(view.sealStatus)}</Badge>
@@ -326,22 +318,18 @@ export default async function AcademyCertificateVerifyPage({
             </div>
           ) : null}
         </dl>
-        {view.courseSlug ? (
+        {view.courseSlug || view.sealStatus === "valid" ? (
           <div className="mt-4 flex flex-wrap gap-2">
-            <LinkButton href={`/academy/${view.courseSlug}`} variant="outline" size="sm">
-              {copy.courseCta}
-            </LinkButton>
+            {view.courseSlug ? (
+              <LinkButton href={`/academy/${view.courseSlug}`} variant="outline" size="sm">
+                {copy.courseCta}
+              </LinkButton>
+            ) : null}
             {view.sealStatus === "valid" ? (
               <LinkButton href="/career" size="sm">
                 {copy.careerVisaCta}
               </LinkButton>
             ) : null}
-          </div>
-        ) : view.sealStatus === "valid" ? (
-          <div className="mt-4">
-            <LinkButton href="/career" size="sm">
-              {copy.careerVisaCta}
-            </LinkButton>
           </div>
         ) : null}
         {view.pathwayMastery ? (

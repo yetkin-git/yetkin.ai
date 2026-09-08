@@ -2,8 +2,8 @@ export const MODULE_ID = "academy" as const;
 
 /**
  * Faz 9 + D2.1 — satın al = SETTLED erişim.
- * Dürüst iki kapı: (a) müfredat oynatıcı → sınav, (b) doğrudan sınav/vize (70+).
- * Ustalık belgesi yalnız sınav kapısından basılır (S58-A).
+ * Sınav kapısı müfredat tamamını ister; doğrudan atlama API'de kapalıdır.
+ * Ustalık belgesi yalnız sınav kapısından basılır (S58-A, baraj 70).
  */
 export const ACADEMY_HAPPY_PATH = [
   "catalog",
@@ -64,4 +64,15 @@ export type {
   AcademyPurchaseRecord,
   AcademyStore,
 } from "@/lib/academy/types";
+export type {
+  CurriculumModule,
+  Section,
+  VoiceConfig,
+} from "@/lib/academy/curricula/types";
+export {
+  ACADEMY_DEMO_AUDIO_PUBLIC_PATH,
+  ACADEMY_DEMO_VIDEO_PUBLIC_PATH,
+} from "@/lib/academy/lesson-playback";
+export { ACADEMY_GEMINI_TTS_SLOT, requestAcademyGeminiTts } from "@/lib/academy/lesson-tts-slot";
+
 

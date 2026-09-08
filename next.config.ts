@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { academyRetiredStorefrontRedirects } from "./lib/academy/retired-storefront";
 import { EDGE_SECURITY_HEADER_ENTRIES } from "./lib/kernel/security/edge-security-headers";
 
 /**
@@ -66,6 +67,7 @@ const nextConfig: NextConfig = {
       // §2.5 vatandaş çifti — CEO tedavi kilidi: 8 tavanına /kayit eklenir.
       { source: "/kayit", destination: "/register", permanent: true },
       { source: "/legal/gizlilik-politikasi", destination: "/legal/gizlilik", permanent: true },
+      { source: "/legal/kvkk", destination: "/legal/gizlilik", permanent: true },
       { source: "/legal/cerez-politikasi", destination: "/legal/cerez", permanent: true },
       { source: "/legal/iade-sartlari", destination: "/legal/iade", permanent: true },
       { source: "/legal/kullanim-kosullari", destination: "/legal/kullanim", permanent: true },
@@ -79,6 +81,16 @@ const nextConfig: NextConfig = {
         source: "/legal/mesafeli-satis-sozlesmesi",
         destination: "/legal/mesafeli-satis",
         permanent: true,
+      },
+      // Eski 13+ vitrin SKU — 301 katalog (antre, oynatıcı, courses alias).
+      // SUPER ADMIN: gerçekleşmiş satın alma yok; lisans bekletmesi yok. API 410.
+      // Bu blok, genel `/academy/courses/:slug` alias'ından önce durur (tek hop).
+      ...academyRetiredStorefrontRedirects(),
+      // Akademi antre kanonik yolu `/academy/[slug]`. Compact SKU alias duplicate içerik üretir.
+      {
+        source: "/academy/courses/:slug",
+        destination: "/academy/:slug",
+        statusCode: 301,
       },
     ];
   },
@@ -100,7 +112,37 @@ const nextConfig: NextConfig = {
     }
     return [
       {
+        source: "/audio/:path*",
+        headers: [
+          { key: "Content-Type", value: "audio/wav" },
+          { key: "Accept-Ranges", value: "bytes" },
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
         source: "/media/academy/audio/:path*",
+        headers: [
+          { key: "Content-Type", value: "audio/wav" },
+          { key: "Accept-Ranges", value: "bytes" },
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/academy/cinema/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/academy/demo/office-ai-intro.mp4",
+        headers: [
+          { key: "Content-Type", value: "video/mp4" },
+          { key: "Accept-Ranges", value: "bytes" },
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/academy/demo/office-ai-podcast.wav",
         headers: [
           { key: "Content-Type", value: "audio/wav" },
           { key: "Accept-Ranges", value: "bytes" },

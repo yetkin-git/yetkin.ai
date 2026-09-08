@@ -58,17 +58,24 @@ export type AcademyCinemaCaptionCue = {
   end: number;
 };
 
-function cinemaCaptionElapsedSec(input: {
+/** `media`: WAV saniyesi = cue saniyesi. `proportional`: kısa demo kaseti 450 sn’ye oranlar. */
+export type AcademyCinemaClockMode = "media" | "proportional";
+
+export function academyCinemaElapsedSec(input: {
   currentTime: number;
   audioDuration: number;
   spokenDuration: number;
   audioLeadInSec?: number;
+  clock?: AcademyCinemaClockMode;
 }): number {
   const currentTime = Number.isFinite(input.currentTime) ? Math.max(0, input.currentTime) : 0;
   const audioDuration = Number.isFinite(input.audioDuration) ? input.audioDuration : 0;
   const spokenDuration = Number.isFinite(input.spokenDuration) ? input.spokenDuration : 0;
   const rawLead = input.audioLeadInSec ?? 0;
   const audioLeadInSec = Number.isFinite(rawLead) ? Math.max(0, rawLead) : 0;
+  if (input.clock === "media") {
+    return currentTime + audioLeadInSec;
+  }
   const spokenWithLeadIn = spokenDuration + audioLeadInSec;
   if (audioDuration > 0 && spokenWithLeadIn > 0) {
     return (currentTime / audioDuration) * spokenWithLeadIn;
@@ -103,24 +110,37 @@ function activeCinemaCaptionCueIndex(
   return cues.length - 1;
 }
 
+export function academyCinemaActiveCue<T extends AcademyCinemaCaptionCue>(input: {
+  cues: readonly T[];
+  currentTime: number;
+  audioDuration: number;
+  spokenDuration: number;
+  audioLeadInSec: number;
+  clock?: AcademyCinemaClockMode;
+}): T | null {
+  const elapsed = academyCinemaElapsedSec({
+    currentTime: input.currentTime,
+    audioDuration: input.audioDuration,
+    spokenDuration: input.spokenDuration,
+    audioLeadInSec: input.audioLeadInSec,
+    clock: input.clock,
+  });
+  const index = activeCinemaCaptionCueIndex(input.cues, elapsed);
+  if (index == null) {
+    return null;
+  }
+  return input.cues[index] ?? null;
+}
+
 export function academyCinemaCaptionText(input: {
   cues: readonly AcademyCinemaCaptionCue[];
   currentTime: number;
   audioDuration: number;
   spokenDuration: number;
   audioLeadInSec: number;
+  clock?: AcademyCinemaClockMode;
 }): string {
-  const elapsed = cinemaCaptionElapsedSec({
-    currentTime: input.currentTime,
-    audioDuration: input.audioDuration,
-    spokenDuration: input.spokenDuration,
-    audioLeadInSec: input.audioLeadInSec,
-  });
-  const index = activeCinemaCaptionCueIndex(input.cues, elapsed);
-  if (index == null) {
-    return "";
-  }
-  return input.cues[index]?.text ?? "";
+  return academyCinemaActiveCue(input)?.text ?? "";
 }
 
 export function academyCinemaSeekAudioSeconds(input: {

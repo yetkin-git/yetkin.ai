@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { academyCourseCoverPath } from "@/lib/academy/course-cover";
-import { filterAcademyGrowthCatalog } from "@/lib/academy/pilot-sku";
-import { publishedCoursesFromSeed } from "@/lib/academy/published-catalog";
+import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 import { LEGAL_SITE_PATHS } from "@/lib/copy/legal-launch";
 import {
   CANONICAL_SITE_ORIGIN,
@@ -51,22 +50,26 @@ function sitemapEntry(
 }
 
 /**
- * Yayın vitrin SKU’ları — katalog tohumu SSOT.
- * Prisma overlay hayalet slug eklemez (`mergePublishedAcademyCatalog`).
+ * Yayın vitrin SKU’ları — `ACADEMY_GROWTH_SKU_SLUGS` SSOT.
+ * Fiyat/tohum/Prisma katmanı sitemap’e girmez; katalog throw 500 üretmez.
  */
 function publishedAcademyCourseEntries(lastModified: Date): MetadataRoute.Sitemap {
-  return filterAcademyGrowthCatalog(publishedCoursesFromSeed())
-    .filter((row) => row.isPublished)
-    .map((row) => {
-      const cover = academyCourseCoverPath(row.slug);
-      return sitemapEntry(`/academy/${row.slug}`, row.updatedAt ?? lastModified, [
-        absoluteSiteUrl(cover),
-      ]);
+  try {
+    return ACADEMY_GROWTH_SKU_SLUGS.map((slug) => {
+      let images: string[] | undefined;
+      try {
+        images = [absoluteSiteUrl(academyCourseCoverPath(slug))];
+      } catch {
+        images = undefined;
+      }
+      return sitemapEntry(`/academy/${slug}`, lastModified, images);
     });
+  } catch {
+    return [];
+  }
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date("2026-08-31");
+function staticSitemapEntries(lastModified: Date): MetadataRoute.Sitemap {
   const staticPaths = [
     "/",
     ...PRODUCT_ROOM_PATHS,
@@ -75,16 +78,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...LEGAL_SITE_PATHS,
   ];
   const uniqueStatic = [...new Set(staticPaths)];
-  const staticEntries = uniqueStatic.map((path) => sitemapEntry(path, lastModified));
-  const courseEntries = publishedAcademyCourseEntries(lastModified);
-  const seen = new Set<string>();
-  const merged: MetadataRoute.Sitemap = [];
-  for (const entry of [...staticEntries, ...courseEntries]) {
-    if (seen.has(entry.url)) {
-      continue;
+  return uniqueStatic.map((path) => sitemapEntry(path, lastModified));
+}
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const lastModified = new Date("2026-09-05");
+  try {
+    const staticEntries = staticSitemapEntries(lastModified);
+    const courseEntries = publishedAcademyCourseEntries(lastModified);
+    const seen = new Set<string>();
+    const merged: MetadataRoute.Sitemap = [];
+    for (const entry of [...staticEntries, ...courseEntries]) {
+      if (seen.has(entry.url)) {
+        continue;
+      }
+      seen.add(entry.url);
+      merged.push(entry);
     }
-    seen.add(entry.url);
-    merged.push(entry);
+    return merged;
+  } catch {
+    return staticSitemapEntries(lastModified);
   }
-  return merged;
 }

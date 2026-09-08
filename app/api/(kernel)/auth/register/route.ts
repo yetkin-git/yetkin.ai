@@ -1,5 +1,4 @@
 import type { NextRequest } from "next/server";
-import type { AuthCookieWriteOptions } from "@/lib/kernel/auth/cookie-options";
 import { createSupabaseCookieClient } from "@/lib/kernel/auth/supabase-server";
 import { provisionConfirmedAuthUser } from "@/lib/kernel/auth/dev-signup-fallback";
 import {
@@ -70,9 +69,6 @@ export async function POST(request: NextRequest) {
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ?? "";
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ?? "";
-    const pendingCookies: Array<{ name: string; value: string; options: AuthCookieWriteOptions }> =
-      [];
-
     const supabase = createSupabaseCookieClient({
       url,
       anon,
@@ -80,8 +76,8 @@ export async function POST(request: NextRequest) {
       getAll() {
         return request.cookies.getAll();
       },
-      setCookie(name, value, options) {
-        pendingCookies.push({ name, value, options });
+      setCookie() {
+        // Kayıt tarayıcı oturumu yazmaz. Confirm Email kapalı olsa bile Set-Cookie düşer.
       },
     });
 
@@ -104,12 +100,8 @@ export async function POST(request: NextRequest) {
               : null,
           };
         },
-        async signInWithPassword({ email, password }) {
-          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-          return {
-            session: data.session,
-            error: error ? { message: error.message } : null,
-          };
+        async signOut() {
+          await supabase.auth.signOut();
         },
       },
       fallback: isDevSignupFallbackEnabled() ? provisionConfirmedAuthUser : undefined,
@@ -135,20 +127,21 @@ export async function POST(request: NextRequest) {
       event: "auth.register",
       requestId,
       route: AUTH_REGISTER_API_PATH,
-      reason: result.fallback ? "fallback" : result.session ? "session" : "confirm",
+      reason: result.fallback ? "fallback" : "confirm",
       status: 200,
     });
 
-    const response = jsonOk(
-      { created: result.created, session: result.session },
+    return jsonOk(
+      {
+        created: result.created,
+        session: false,
+        pendingVerification: true,
+        fallback: result.fallback,
+      },
       200,
       requestId,
       request,
     );
-    for (const cookie of pendingCookies) {
-      response.cookies.set(cookie.name, cookie.value, cookie.options);
-    }
-    return response;
   } catch (error) {
     return jsonFromUnknown(error, 500, requestId, request);
   }

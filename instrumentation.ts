@@ -42,11 +42,19 @@ export async function register() {
   }
   if (report.smtp === "unconfigured") {
     logEvent({
-      level: "info",
+      level: "warn",
       event: "ops.smtp.honest_skip",
-      reason: "NOTICE_SMTP_HOST/FROM bos; bes bildirim atlanir; nakit durmaz",
+      reason: "NOTICE_SMTP_HOST/FROM bos; gun 0 makbuz yok; nakit durmaz",
     });
   }
+  logEvent({
+    level: report.trustedProxyHops < 2 ? "warn" : "info",
+    event: "ops.proxy.trusted_hops",
+    reason:
+      report.trustedProxyHops < 2
+        ? `TRUSTED_PROXY_HOPS=${report.trustedProxyHops}; Cloudflare+Vercel canli recete=2`
+        : `TRUSTED_PROXY_HOPS=${report.trustedProxyHops}`,
+  });
   if (report.examSitting === "unconfigured") {
     logEvent({
       level: "warn",

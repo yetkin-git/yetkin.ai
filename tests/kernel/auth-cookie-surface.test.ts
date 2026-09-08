@@ -101,6 +101,7 @@ describe("Supabase SSR 0.12 çerez hizası", () => {
     expect(register).not.toContain("createSupabaseBrowserClient");
     expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("signUp");
     expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("emailRedirectTo");
+    expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("pendingVerification");
     expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("upsertCitizenUserAndWallet");
     expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("clearOrphanCitizenRows");
     expect(readSrc("lib/kernel/auth/provision-citizen-profile.ts")).toContain(
@@ -111,8 +112,8 @@ describe("Supabase SSR 0.12 çerez hizası", () => {
     );
     expect(readSrc("lib/kernel/auth/register-citizen.ts")).toContain("buildSignupEmailRedirectTo");
     expect(readSrc("lib/kernel/auth/register-citizen.ts")).toContain("buildSignupAuthMetadata");
-    expect(register).toContain("readPostLoginPathFromSearch");
-    expect(register).toContain("window.location.assign(");
+    expect(register).not.toContain("readPostLoginPathFromSearch");
+    expect(register).not.toContain("window.location.assign(");
     expect(register).not.toContain("router.push");
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("display_name");
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("age_confirmed_at");

@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { submitAcademyReview } from "@/archived/lib/academy-studio/reviews-engine";
 import { getAcademyReview, resetAcademyReviewsForTests } from "@/archived/lib/academy-studio/reviews";
 import {
@@ -19,6 +19,14 @@ import {
   createMemoryCheckoutPriceLockStore,
   createMemoryPriceCatalogStore,
 } from "../helpers/memory-pricing";
+
+vi.mock("@/lib/academy/instructors", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/lib/academy/instructors")>();
+  return {
+    ...actual,
+    academyInstructorBySlug: () => actual.ACADEMY_INSTRUCTORS_BY_VOICE.Erinome,
+  };
+});
 
 const BUYER = "review-buyer";
 const PLATFORM = PLATFORM_TREASURY_USER_ID;
@@ -47,6 +55,10 @@ describe("akademi mühürlü değerlendirme", () => {
     resetAcademyCurriculumRevisionsForTests();
   });
 
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
   it("SETTLED olmadan yorum yazılmaz", async () => {
     const ctx = world();
     await ctx.ports.academy.insertCourse(ctx.course);
@@ -54,7 +66,7 @@ describe("akademi mühürlü değerlendirme", () => {
       submitAcademyReview(ctx.ports, {
         userId: BUYER,
         courseId: ctx.course.id,
-        lessonKey: "python-temel-1",
+        lessonKey: "sample-course-1",
         stars: 5,
         comment: "net",
       }),
@@ -77,7 +89,7 @@ describe("akademi mühürlü değerlendirme", () => {
       {
         userId: BUYER,
         courseId: ctx.course.id,
-        lessonKey: "python-temel-1",
+        lessonKey: "sample-course-1",
         stars: 5,
         comment: "Anlatım saha gibi durdu.",
       },
@@ -89,7 +101,7 @@ describe("akademi mühürlü değerlendirme", () => {
     const again = await submitAcademyReview(ctx.ports, {
       userId: BUYER,
       courseId: ctx.course.id,
-      lessonKey: "python-temel-1",
+      lessonKey: "sample-course-1",
       stars: 1,
       comment: "tekrar",
     });
@@ -114,20 +126,20 @@ describe("akademi mühürlü değerlendirme", () => {
         {
           userId: BUYER,
           courseId: ctx.course.id,
-          lessonKey: "python-temel-1",
+          lessonKey: "sample-course-1",
           stars: 1,
           comment: "amk berbat",
         },
         { budgetPort: createMemoryBudgetShieldPort() },
       ),
     ).rejects.toBeInstanceOf(BadRequestError);
-    expect(getAcademyReview(bought.purchase.id, "python-temel-1")).toBeNull();
+    expect(getAcademyReview(bought.purchase.id, "sample-course-1")).toBeNull();
     const result = await submitAcademyReview(
       ctx.ports,
       {
         userId: BUYER,
         courseId: ctx.course.id,
-        lessonKey: "python-temel-1",
+        lessonKey: "sample-course-1",
         stars: 4,
         comment: "Anlatım saha gibi durdu.",
       },
@@ -155,7 +167,7 @@ describe("akademi mühürlü değerlendirme", () => {
       {
         userId: BUYER,
         courseId: ctx.course.id,
-        lessonKey: "python-temel-1",
+        lessonKey: "sample-course-1",
         stars: 3,
         comment: "Satın alma belge basıyor sanıyordum, baraj 50 değil mi?",
       },
@@ -170,7 +182,7 @@ describe("akademi mühürlü değerlendirme", () => {
       {
         userId: BUYER,
         courseId: ctx.course.id,
-        lessonKey: "python-temel-2",
+        lessonKey: "sample-course-2",
         stars: 4,
         comment: "Neden Kubernetes bu Temel derste yok, anlatılmalıydı.",
       },
@@ -184,7 +196,7 @@ describe("akademi mühürlü değerlendirme", () => {
       {
         userId: BUYER,
         courseId: ctx.course.id,
-        lessonKey: "python-temel-3",
+        lessonKey: "sample-course-3",
         stars: 1,
         comment: "Parametre tablosu eksik, şema da çelişiyor.",
       },
@@ -193,8 +205,8 @@ describe("akademi mühürlü değerlendirme", () => {
     expect(revision.review.decision).toBe("REVİZYON_TALEBİ");
     expect(revision.review.moderatorReply).toBe(ACADEMY_SEN.review.revisionQueued);
     expect(listPendingAcademyCurriculumRevisions()).toHaveLength(1);
-    expect(listPendingAcademyCurriculumRevisions()[0]?.lessonKey).toBe("python-temel-3");
-    expect(getAcademyLessonContentVersion("python-temel-3")).toBe("v1.0");
+    expect(listPendingAcademyCurriculumRevisions()[0]?.lessonKey).toBe("sample-course-3");
+    expect(getAcademyLessonContentVersion("sample-course-3")).toBe("v1.0");
   });
 
   it("LLM C kararı mühürlü süzgeci ezer ve kuyruğa yazar", async () => {
@@ -222,7 +234,7 @@ describe("akademi mühürlü değerlendirme", () => {
       {
         userId: BUYER,
         courseId: ctx.course.id,
-        lessonKey: "python-temel-1",
+        lessonKey: "sample-course-1",
         stars: 5,
         comment: "Anlatım saha gibi durdu.",
       },

@@ -1,5 +1,8 @@
 import { jsonFail } from "@/lib/kernel/http/json";
-import { ACADEMY_STUDIO_GONE } from "@/lib/academy/studio-gone";
+
+const ACADEMY_STUDIO_GONE = {
+  discussion: "Ders tartışması kapalı.",
+} as const;
 
 /**
  * Ders tartışması — bellek sicili arşivde. Kenar oturum istemez; her yöntem 410.

@@ -8,6 +8,15 @@ import type { AcademyCatalogLearnerStatus } from "@/lib/academy/catalog-learner"
 import type { AcademyStorefrontAccess } from "@/lib/academy/enrolment";
 import { stripZeroKurusFromTryLabel } from "@/lib/kernel/money/format";
 
+export const ACADEMY_CHECKOUT_HASH = "satin-al";
+
+/** Oturumlu Antre hero "Eğitimi Satın Al" — hash kaydırmaz; PayTR iFrame tetikler. */
+export const ACADEMY_HERO_PAYTR_EVENT = "yetkin:academy-hero-paytr";
+
+export function academyCheckoutHref(courseSlug: string): string {
+  return `/academy/${courseSlug.trim()}#${ACADEMY_CHECKOUT_HASH}`;
+}
+
 export type AcademyAntreHeroAction = "buy" | "play" | "exam" | "none";
 
 export type AcademyAntreHeroCta = {
@@ -33,6 +42,14 @@ export function academyStorefrontMoneyLabel(priceLabel: string | null | undefine
   return trimmed;
 }
 
+/** Antre CTA tutarı — tamsayı lirada `,00` düşer (₺990,00 → ₺990). */
+export function academyStorefrontCompactMoneyLabel(
+  priceLabel: string | null | undefined,
+): string | null {
+  const money = academyStorefrontMoneyLabel(priceLabel);
+  return money ? stripZeroKurusFromTryLabel(money) : null;
+}
+
 export function academyStorefrontVatLabel(priceLabel: string | null | undefined): string {
   const money = academyStorefrontMoneyLabel(priceLabel);
   if (!money) {
@@ -55,7 +72,7 @@ export function resolveAcademyAntreHeroCta(input: {
   const slug = input.courseSlug.trim();
   const courseHref = `/academy/${slug}`;
   const playHref = `${courseHref}/oyna`;
-  const buyHref = input.session ? `${courseHref}#satin-al` : input.loginHref;
+  const buyHref = input.session ? academyCheckoutHref(slug) : input.loginHref;
 
   if (input.access === "enrolled") {
     if (input.continuePhase === "exam") {
@@ -85,19 +102,19 @@ export function resolveAcademyAntreHeroCta(input: {
   }
 
   if (!input.purchasable) {
-    const money = academyStorefrontMoneyLabel(input.priceLabel);
+    const compact = academyStorefrontCompactMoneyLabel(input.priceLabel);
     return {
-      priceLabel: money ? copy.catalog.priceVatInclusive(money) : copy.course.noPrice,
+      priceLabel: compact ?? copy.course.noPrice,
       primaryLabel: null,
       primaryHref: null,
       action: "none",
     };
   }
 
-  const money = academyStorefrontMoneyLabel(input.priceLabel);
+  const compact = academyStorefrontCompactMoneyLabel(input.priceLabel);
   return {
-    priceLabel: money ? copy.catalog.priceVatInclusive(money) : copy.course.noPrice,
-    primaryLabel: money ? copy.course.heroBuyCta(money) : copy.course.heroBuyCtaIdle,
+    priceLabel: compact ?? copy.course.noPrice,
+    primaryLabel: compact ? copy.course.heroBuyCta(compact) : copy.course.heroBuyCtaIdle,
     primaryHref: buyHref,
     action: "buy",
   };

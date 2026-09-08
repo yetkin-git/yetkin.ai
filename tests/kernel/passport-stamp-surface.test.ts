@@ -1,6 +1,9 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
+import { SEN_VOICE } from "@/lib/copy/sen-voice";
+import { ACADEMY_COURSE_TITLES } from "@/lib/kernel/catalog-ids";
 import {
   countPassportSourceKinds,
   formatPassportIssuedAt,
@@ -11,6 +14,16 @@ import {
   passportSourceLabel,
   PASSPORT_UNSET_LABEL,
 } from "@/lib/kernel/passport/display";
+import {
+  buildPassportGrowthCard,
+  PASSPORT_GROWTH_DOOR_LABELS,
+  PASSPORT_GROWTH_LOCKED_LABEL,
+  passportFreelancerStamps,
+  passportGrowthDoorLabel,
+  passportNonGrowthAcademyStamps,
+  passportStampCourseHref,
+  passportStampCourseSlug,
+} from "@/lib/kernel/passport/growth-card";
 import { toPassportVisaStamp } from "@/lib/kernel/passport/types";
 import type { SealedPassportStamp } from "@/lib/kernel/passport/types";
 
@@ -49,10 +62,10 @@ const RELEASE: SealedPassportStamp = {
 describe("pasaport vize yüzeyi", () => {
   it("kaynak etiketini uydurmaz; ISO DTO issuedAt string taşır", () => {
     expect(passportSourceLabel("ACADEMY_CERTIFICATE")).toBe("Akademi sertifikası");
-    expect(passportSourceLabel("FREELANCER_RELEASE")).toBe("Freelancer teslim mührü");
+    expect(passportSourceLabel("FREELANCER_RELEASE")).toBe("Freelancer teslim damgası");
     expect(passportModuleLabel("academy")).toBe("Akademi");
     expect(passportModuleLabel("freelancer")).toBe("Freelancer");
-    expect(PASSPORT_UNSET_LABEL).toBe("Henüz mühür yok");
+    expect(PASSPORT_UNSET_LABEL).toBe("Henüz damga yok");
     const dto = toPassportVisaStamp(SAMPLE);
     expect(dto.issuedAt).toBe("2026-08-14T17:03:00.000Z");
     expect(dto.visaKey).toBe(SAMPLE.visaKey);
@@ -84,7 +97,7 @@ describe("pasaport vize yüzeyi", () => {
     const page = readSrc("app/(kernel)/pasaport/page.tsx");
     expect(page).not.toContain("RoomSeal");
     expect(page).toContain("loadPassportBoard");
-    expect(page).toContain("getSession");
+    expect(page).toContain("requirePageSession");
     expect(page).toContain("PassportStampList");
     expect(page).toContain("SEN_VOICE.pasaport");
     expect(page).not.toContain("örnek düzen");
@@ -94,6 +107,10 @@ describe("pasaport vize yüzeyi", () => {
     expect(page).toContain("FREELANCER_STAMP_SURFACE_PATH");
     expect(page).toContain("ACADEMY_STAMP_SURFACE_PATH");
     expect(page).toContain("CAREER_STAMP_SURFACE_PATH");
+    expect(page).toContain("ACADEMY_CERTIFICATES_SURFACE_PATH");
+    expect(page).toContain("LegalColophonStrip");
+    expect(page).toContain("copy.certificatesCta");
+    expect(page).toContain("copy.freelancerBoardCta");
     expect(page).not.toContain("loadCareerBoard");
     expect(page).not.toContain("syncCareerVisaStamps");
     expect(page).not.toContain("@/lib/career");
@@ -123,7 +140,7 @@ describe("pasaport vize yüzeyi", () => {
     expect(readSrc("lib/kernel/passport/live.ts")).toContain("bindLivePassportStamps");
     expect(readSrc("lib/career/live.ts")).toContain("bindLivePassportStamps");
     expect(load).toContain("createPrismaProofReadPort");
-    expect(careerStore).not.toContain("prisma.careerVisaStamp.findMany");
+    expect(careerStore).toContain("return findPassportStampsForUser(userId)");
     expect(list).not.toContain("onSubmit");
     expect(page).not.toContain("<form");
     expect(combined).not.toMatch(/Vize ekle/);
@@ -140,8 +157,77 @@ describe("pasaport vize yüzeyi", () => {
     expect(list).not.toContain("örnek düzen");
     expect(sen).toContain("PASAPORT_SEN");
     expect(sen).toContain("openContractCta");
-    expect(sen).toContain("Mühür Defteri");
+    expect(sen).toContain("Pasaport Vize Damgası");
+    expect(sen).toContain("Doğrulanmış Rozet");
+    expect(sen).toContain("Teklif Kapısı");
+    expect(sen).toContain("Erişim Hakkı");
+    expect(sen).toContain("Sertifikalarım");
+    expect(sen).toContain("Freelancer İlan Panosu");
+    expect(sen).not.toContain("Mühür Defteri");
+    expect(sen).not.toContain("Mühürlü");
+    expect(sen).not.toContain("Freelancer Nitelikli Teklif");
     expect(readSrc("lib/kernel/passport/display.ts")).toContain("/dogrula/");
     expect(readSrc("lib/kernel/passport/display.ts")).toContain("passportFreelancerContractHref");
+  });
+
+  it("Büyüme Beşlisi karnesi beş compact SKU yuvasını kilitli basar; sahte damga yok", () => {
+    const list = readSrc("components/kernel/passport-stamp-list.tsx");
+    const growth = readSrc("lib/kernel/passport/growth-card.ts");
+    expect(list).toContain("buildPassportGrowthCard");
+    expect(list).toContain("PASSPORT_GROWTH_LOCKED_LABEL");
+    expect(list).toContain("data-passport-growth-card");
+    expect(list).not.toContain("@/lib/career");
+    expect(growth).toContain("01_office_ai");
+    expect(growth).toContain("05_prompt_practice");
+    expect(growth).not.toContain("@/lib/academy");
+    expect(growth).not.toContain("@/lib/career");
+    const empty = buildPassportGrowthCard([]);
+    expect(empty).toHaveLength(ACADEMY_GROWTH_SKU_SLUGS.length);
+    expect(empty.map((slot) => slot.slug)).toEqual([...ACADEMY_GROWTH_SKU_SLUGS]);
+    expect(empty.every((slot) => slot.held === false)).toBe(true);
+    expect(empty.every((slot) => slot.stampId === null)).toBe(true);
+    expect(PASSPORT_GROWTH_LOCKED_LABEL).toBe("Henüz damga yok / Kilitli");
+    expect(SEN_VOICE.pasaport.growth.locked).toBe(PASSPORT_GROWTH_LOCKED_LABEL);
+    expect(SEN_VOICE.pasaport.list.sealed).toBe("Doğrulanmış Rozet");
+    expect(SEN_VOICE.pasaport.careerCta).toBe("Kariyer");
+    expect(SEN_VOICE.pasaport.certificatesCta).toBe("Sertifikalarım");
+    expect(SEN_VOICE.pasaport.freelancerBoardCta).toBe("Freelancer İlan Panosu");
+    expect(PASSPORT_GROWTH_DOOR_LABELS["01_office_ai"]).toBe("Ofis Yapay Zekâ");
+    expect(PASSPORT_GROWTH_DOOR_LABELS["02_ecommerce_ai"]).toBe("E-Ticaret Asistanlığı");
+    expect(PASSPORT_GROWTH_DOOR_LABELS["03_social_media_ai"]).toBe("Görsel/Sosyal Medya");
+    expect(PASSPORT_GROWTH_DOOR_LABELS["04_chatbot_nocode"]).toBe("Chatbot & Müşteri Hizmetleri");
+    expect(PASSPORT_GROWTH_DOOR_LABELS["05_prompt_practice"]).toBe("Prompt & Üretkenlik");
+    expect(passportGrowthDoorLabel("06_n8n_automation")).toBeNull();
+    expect(passportFreelancerStamps([])).toEqual([]);
+    expect(passportNonGrowthAcademyStamps([])).toEqual([]);
+  });
+
+  it("kazanılmış SKU yalnız kendi Teklif Kapısını açar; freelancer teslimi karnede damga uydurmaz", () => {
+    const office: SealedPassportStamp = {
+      ...SAMPLE,
+      courseSlug: "01_office_ai",
+      title: ACADEMY_COURSE_TITLES["01_office_ai"],
+    };
+    const byTitle: SealedPassportStamp = {
+      ...SAMPLE,
+      id: "stamp-title",
+      courseSlug: null,
+      title: ACADEMY_COURSE_TITLES["05_prompt_practice"],
+    };
+    const card = buildPassportGrowthCard([office, RELEASE, byTitle]);
+    expect(card.find((slot) => slot.slug === "01_office_ai")?.held).toBe(true);
+    expect(card.find((slot) => slot.slug === "01_office_ai")?.doorLabel).toBe("Ofis Yapay Zekâ");
+    expect(card.find((slot) => slot.slug === "05_prompt_practice")?.held).toBe(true);
+    expect(card.find((slot) => slot.slug === "05_prompt_practice")?.doorLabel).toBe(
+      "Prompt & Üretkenlik",
+    );
+    expect(card.filter((slot) => slot.held)).toHaveLength(2);
+    expect(card.find((slot) => slot.slug === "02_ecommerce_ai")?.held).toBe(false);
+    expect(passportStampCourseSlug(office)).toBe("01_office_ai");
+    expect(passportStampCourseSlug(RELEASE)).toBeNull();
+    expect(passportStampCourseHref(office)).toBe("/academy/01_office_ai");
+    expect(passportStampCourseHref(RELEASE)).toBeNull();
+    expect(passportFreelancerStamps([office, RELEASE])).toEqual([RELEASE]);
+    expect(passportNonGrowthAcademyStamps([office, byTitle, RELEASE])).toEqual([]);
   });
 });

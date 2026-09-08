@@ -1,5 +1,6 @@
 import { CourseList } from "@/components/academy/course-list";
 import { AcademyContinuePanel } from "@/components/academy/continue-panel";
+import { LegalColophonStrip } from "@/components/legal/legal-colophon-strip";
 import {
   loadAcademyCatalogLearnerBoard,
   loadAcademyContinueBoard,
@@ -14,9 +15,8 @@ import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { getSession } from "@/lib/kernel/auth/session";
 
 /**
- * Büyüme vitrini: AI Agent Mimarlığı amiral gemisi (üstte), ardından Python, Full-Stack ve Siber Güvenlik.
- * Seri rafları sabit önceliğe kilitlidir; Temel → Orta → İleri üçlüsünü yan yana basar.
- * Lab Super Admin overlay vitrinde owned basmaz — nakit olmayan bağış fiyatı gizlemez.
+ * Katalog vitrini — Katman 1 compact SKU (`01_office_ai` … `05_prompt_practice`).
+ * Sıra `ACADEMY_GROWTH_SKU_SLUGS`; her kurs 6 makale.
  */
 export default async function AcademyPage() {
   const copy = SEN_VOICE.academy.catalog;
@@ -36,7 +36,7 @@ export default async function AcademyPage() {
   );
 
   return (
-    <RoomFrame className="academy-catalog-viewport-lock -my-8 flex h-[calc(100vh-theme(spacing.16))] max-h-[calc(100vh-theme(spacing.16))] flex-col overflow-hidden space-y-3 pt-8">
+    <RoomFrame className="space-y-3 pb-8">
       <CourseList
         courses={courses}
         learnerBoard={learnerBoard}
@@ -48,6 +48,7 @@ export default async function AcademyPage() {
             <AcademyContinuePanel board={continueBoard} />
           ) : null
         }
+        footer={<LegalColophonStrip />}
       />
     </RoomFrame>
   );

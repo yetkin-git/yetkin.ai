@@ -6,13 +6,13 @@ import {
   type SealedPassportStamp,
 } from "@/lib/kernel/passport/types";
 
-export const PASSPORT_UNSET_LABEL = "Henüz mühür yok" as const;
+export const PASSPORT_UNSET_LABEL = "Henüz damga yok" as const;
 export const PASSPORT_DEFAULT_LOCALE = "tr-TR" as const;
 export const PASSPORT_DEFAULT_TIME_ZONE = "Europe/Istanbul" as const;
 
 const SOURCE_LABEL: Record<PassportStampSourceKind, string> = {
   ACADEMY_CERTIFICATE: "Akademi sertifikası",
-  FREELANCER_RELEASE: "Freelancer teslim mührü",
+  FREELANCER_RELEASE: "Freelancer teslim damgası",
 };
 
 const MODULE_LABEL: Record<string, string> = {
@@ -69,7 +69,7 @@ export function passportAcademyVerifyHref(
   return `${ACADEMY_STAMP_SURFACE_PATH}/dogrula/${hash}`;
 }
 
-/** Freelancer teslim mührü → sözleşme detayı. Boş sourceId'de null — uydurma link yok. */
+/** Freelancer teslim damgası → sözleşme detayı. Boş sourceId'de null — uydurma link yok. */
 export function passportFreelancerContractHref(
   stamp: Pick<SealedPassportStamp, "sourceKind" | "sourceId">,
 ): string | null {

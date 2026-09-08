@@ -31,7 +31,7 @@ export const ACADEMY_LESSON_LISTEN_ENABLED = false;
 
 export const ACADEMY_LESSON_LISTEN_LANGUAGE = "tr-TR";
 /** Beş dakikalık sakin kopya + kod çiti + quiz gövdesi sığsın. */
-export const ACADEMY_LESSON_LISTEN_MAX_CHARS = 16_000;
+export const ACADEMY_LESSON_LISTEN_MAX_CHARS = 24_000;
 /** Gemini TTS parça tavanı — 3–5 sn yanıt; uzun dersler WAV birleştirmesi ile okunur. */
 export const ACADEMY_LESSON_LISTEN_CHUNK_CHARS = 900;
 /** ConnectTimeoutError / UND_ERR_CONNECT_TIMEOUT — 500 ms; 2 dk kilit yok. */

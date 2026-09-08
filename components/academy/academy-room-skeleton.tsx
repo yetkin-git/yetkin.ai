@@ -17,15 +17,12 @@ export function AcademyRoomSkeleton({
 }) {
   if (variant === "play") {
     return (
-      <RoomFrame
-        className="academy-player-viewport-lock -mt-8 -mb-16 flex h-[calc(100dvh-theme(spacing.16))] max-h-[calc(100dvh-theme(spacing.16))] max-w-none flex-col overflow-hidden px-3 pt-2 pb-12 sm:px-4"
-        aria-hidden
-      >
-        <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-6">
+      <RoomFrame cinema className="flex flex-col px-1 pt-1 pb-8 sm:px-2" aria-hidden>
+        <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-start lg:gap-6">
           <div className="flex min-h-0 flex-col gap-3 lg:col-start-1">
             <Pulse className="h-7 w-56 rounded-lg" />
             <Pulse className="aspect-video w-full rounded-[1.15rem]" />
-            <Pulse className="h-11 w-full rounded-none" />
+            <Pulse className="h-64 w-full rounded-2xl" />
             <Pulse className="h-11 w-full rounded-[0.9rem]" />
           </div>
           <div className="hidden min-h-0 space-y-1.5 overflow-hidden lg:block">
@@ -96,12 +93,9 @@ export function AcademyRoomSkeleton({
   }
 
   return (
-    <RoomFrame
-      className="academy-catalog-viewport-lock -my-8 flex h-[calc(100vh-theme(spacing.16))] max-h-[calc(100vh-theme(spacing.16))] flex-col overflow-hidden space-y-3 pt-8"
-      aria-hidden
-    >
-      <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden">
-        <div className="relative z-10 flex flex-shrink-0 flex-col gap-3">
+    <RoomFrame className="space-y-3 pb-8" aria-hidden>
+      <div className="flex flex-col gap-3">
+        <div className="relative z-10 flex flex-col gap-3">
           <div
             className="flex flex-wrap items-center justify-between gap-2"
             data-academy-skeleton-header=""
@@ -112,30 +106,24 @@ export function AcademyRoomSkeleton({
             </div>
             <Pulse className="h-10 w-28 rounded-xl" />
           </div>
-          <Pulse
-            className="h-9 w-full rounded-lg bg-[var(--safir-soft)]/60"
-            data-academy-skeleton-command=""
-          />
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4" data-academy-skeleton-path="">
-            <Pulse className="h-24 rounded-xl" />
-            <Pulse className="h-24 rounded-xl" />
-            <Pulse className="h-24 rounded-xl" />
-            <Pulse className="h-24 rounded-xl" />
-          </div>
         </div>
-        <div className="min-h-0 flex-1 overflow-y-auto pr-2 pb-8">
-          <ul className="grid gap-4 md:grid-cols-3" data-academy-skeleton-grid="">
-            <li>
-              <Pulse className="h-40 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
-            </li>
-            <li>
-              <Pulse className="h-40 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
-            </li>
-            <li>
-              <Pulse className="h-40 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
-            </li>
-          </ul>
-        </div>
+        <ul className="grid gap-4 md:grid-cols-3" data-academy-skeleton-grid="">
+          <li className="md:col-span-2">
+            <Pulse className="h-48 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
+          </li>
+          <li>
+            <Pulse className="h-48 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
+          </li>
+          <li>
+            <Pulse className="h-40 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
+          </li>
+          <li>
+            <Pulse className="h-40 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
+          </li>
+          <li>
+            <Pulse className="h-40 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
+          </li>
+        </ul>
       </div>
     </RoomFrame>
   );

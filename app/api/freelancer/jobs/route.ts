@@ -1,4 +1,5 @@
 import { requireSession } from "@/lib/kernel/auth/session";
+import { isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
 import { DATABASE_BUSY_ERROR, isPrismaUnavailableError } from "@/lib/kernel/db-errors";
 import { ensurePrismaQueryEngine } from "@/lib/kernel/db";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
@@ -41,7 +42,11 @@ export async function POST(request: Request) {
     if (!parsed.success) {
       return jsonFail("İlan alanları geçersiz.", 400, requestId, request);
     }
-    return settleHttpIdempotency(
+    const ports = createPrismaFreelancerPorts();
+    if (isSuperAdminActor(user) && ports.freelancer.ensureUser) {
+      await ports.freelancer.ensureUser({ id: user.id, email: user.email });
+    }
+    return await settleHttpIdempotency(
       {
         store: createPrismaHttpIdempotencyStore(),
         userId: user.id,
@@ -57,9 +62,9 @@ export async function POST(request: Request) {
         request,
       },
       async () => {
-        const ports = createPrismaFreelancerPorts();
         const job = await createFreelancerJob(ports, {
           clientId: user.id,
+          clientEmail: user.email,
           title: parsed.data.title,
           brief: parsed.data.brief,
           budgetMinor: parsed.data.budgetMinor,

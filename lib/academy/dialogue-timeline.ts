@@ -1,7 +1,8 @@
 /**
  * PEDAGOJI.md tek eğitmen — DialogueTurn[] zaman çizelgesi.
- * Kelime saati: 420 ms / kelime; eğitmen Master Voice %93.
- * Canlı TTS üretmez; oynatıcı mühürlü WAV veya okuma saati ile senkronlar.
+ * Kelime saati: 420 ms / kelime. Bu tahmin **yayın senkronu değildir**.
+ * Canlı vatandaş oynatıcısı (`CurriculumPlayer`) bu çizelgeyi kullanmaz;
+ * mühürlü ders HTMLAudio `currentTime` + cue/timings JSON okur.
  */
 
 import type { DialogueSpeakerId, DialogueTurn } from "@/lib/academy/curricula/types";
@@ -68,11 +69,15 @@ export function academyDialogueSpeechRate(_speaker: DialogueSpeakerId, _slug?: s
 }
 
 export function academyDialogueWordCount(text: string): number {
-  const trimmed = text.replace(/\s+/gu, " ").trim();
+  const trimmed = text
+    .replace(/^\|?[\s-:|]+\|?$/gm, "")
+    .replace(/\|/g, " ")
+    .replace(/\s+/gu, " ")
+    .trim();
   if (!trimmed) {
     return 0;
   }
-  return trimmed.split(" ").length;
+  return trimmed.split(" ").filter((w) => w.length > 0 && w !== "/").length;
 }
 
 /** Okuma süresi (saniye) — PEDAGOJI.md tempo mührü. */
@@ -136,6 +141,71 @@ function collectDialogueTurns(body: string): UntimedTurn[] {
           speaker: "egitmen",
           text: paragraph,
           act: currentAct,
+        });
+      }
+    }
+  }
+  if (turns.length === 0) {
+    let fallbackAct: AcademyFiveAct = "warmup";
+    for (const chunk of splitAcademyLessonChunks(body)) {
+      const segment = classifyAcademyLessonChunk(chunk);
+      if (segment.kind === "code") {
+        const last = turns.at(-1);
+        if (last && !last.code) {
+          last.code = { language: segment.language, source: segment.source };
+        }
+        // Müfredat anlatımındaki istem ve tablolar seslendirme akışına dahildir
+        const codeLines = segment.source
+          .split(/\n\n+/u)
+          .map((p) => p.trim())
+          .filter((p) => p.length > 0 && p !== "---");
+        for (const line of codeLines) {
+          turns.push({
+            speaker: "egitmen",
+            text: line,
+            act: "development",
+          });
+        }
+        continue;
+      }
+      if (segment.kind === "steps") {
+        for (const item of segment.items) {
+          turns.push({
+            speaker: "egitmen",
+            text: item,
+            act: fallbackAct,
+          });
+        }
+        continue;
+      }
+      if (segment.kind !== "text") {
+        continue;
+      }
+      const rawParagraphs = segment.text
+        .split(/(?:\r?\n){2,}|(?:\r?\n)(?=[-*+]\s+)/u)
+        .map((p) => p.trim())
+        .filter((p) => p.length > 0);
+      for (const p of rawParagraphs) {
+        if (p === "---" || /^[-*_]{3,}$/.test(p)) {
+          continue;
+        }
+        const lower = p.toLowerCase();
+        if (lower.includes("özet") || lower.includes("kapanış") || lower.includes("görev")) {
+          fallbackAct = "conclusion";
+        } else if (lower.includes("problem") || lower.includes("hata") || lower.includes("hırsız")) {
+          fallbackAct = "problem";
+        } else if (lower.includes("uygulama") || lower.includes("çözüm") || lower.includes("formül") || lower.includes("adım")) {
+          fallbackAct = "development";
+        } else if (turns.length === 0) {
+          fallbackAct = "warmup";
+        }
+        if (p.startsWith("#") && p.length < 80) {
+          continue;
+        }
+        turns.push({
+          speaker: "egitmen",
+          text: p,
+          act: fallbackAct,
         });
       }
     }
@@ -222,18 +292,63 @@ const MAX_STAGE_PARAGRAPH_WORDS = 64;
 const MAX_STAGE_PARAGRAPH_CHARS = 420;
 
 export function splitAcademySpokenSentences(text: string): string[] {
-  const trimmed = text.replace(/\s+/gu, " ").trim();
-  if (!trimmed) {
+  // 1. Tablo ayırıcı çizgilerini (|---|---|) ve yatay çizgileri (---) temizle
+  const cleaned = text
+    .replace(/^\|?[\s-:|]+\|?$/gm, "")
+    .replace(/^[-*_]{3,}$/gm, "")
+    .trim();
+
+  if (!cleaned) {
     return [];
   }
-  const parts = trimmed.split(/(?<=[.!?…])\s+/u).map((part) => part.trim()).filter((part) => part.length > 0);
-  if (parts.length === 0) {
-    return [trimmed];
+
+  // 2. Parçalara ayır: Cümle sonları (. ! ? …) VEYA satır başı tablo satırları VEYA başlıklar
+  const rawLines = cleaned.split(/\r?\n+/u).map((l) => l.trim()).filter((l) => l.length > 0);
+  const parts: string[] = [];
+
+  for (const line of rawLines) {
+    if (/^\|?[\s-:|]+\|?$/.test(line)) {
+      continue;
+    }
+    // Tablo satırı ise tek parça olarak al
+    if (line.startsWith("|") && line.endsWith("|") && line.includes("|", 1)) {
+      parts.push(line);
+      continue;
+    }
+    // Başlık satırı ise tek parça olarak al
+    if (line.startsWith("#")) {
+      parts.push(line);
+      continue;
+    }
+    // Normal metin ise cümle sınırlarından böl
+    const subParts = line
+      .split(/(?<=[.!?…])\s+/u)
+      .map((part) => part.trim())
+      .filter((part) => part.length > 0);
+    parts.push(...subParts);
   }
+
+  if (parts.length === 0) {
+    return [];
+  }
+
   const merged: string[] = [];
   for (const part of parts) {
+    const isTable = part.startsWith("|") && part.endsWith("|");
+    const isHeading = part.startsWith("#");
     const last = merged.at(-1);
-    if (last && academyDialogueWordCount(last) < MIN_STAGE_SENTENCE_WORDS) {
+    const lastIsTable = last ? last.startsWith("|") && last.endsWith("|") : false;
+    const lastIsHeading = last ? last.startsWith("#") : false;
+
+    // Tablo satırları ve başlıklar bağımsız kalmalı, birbirine veya normal cümleye kaynaşmamalı
+    if (
+      last &&
+      !isTable &&
+      !isHeading &&
+      !lastIsTable &&
+      !lastIsHeading &&
+      academyDialogueWordCount(last) < MIN_STAGE_SENTENCE_WORDS
+    ) {
       merged[merged.length - 1] = `${last} ${part}`;
     } else {
       merged.push(part);
@@ -340,70 +455,86 @@ export function academySpokenHighlightElapsedSec(elapsedSec: number): number {
   return Math.max(0, elapsed - ACADEMY_SPOKEN_HIGHLIGHT_LAG_SEC);
 }
 
-/** Cümle damgaları — ses saatiyle kayar yazı. Metin bloğu değişmez. */
+/**
+ * Paragraf damgaları — düz metin takip; cümle-cümle zıplama/döngü yok.
+ * `sentenceIndex` alanı turn içi paragraf indeksidir (API uyumluluğu).
+ * start/end strictly monotonic (geri sargı yok).
+ */
 export function buildAcademyTeleprompterCues(
   turns: readonly TimedDialogueTurn[],
 ): AcademyTeleprompterCue[] {
   const cues: AcademyTeleprompterCue[] = [];
+  let monotonicCursor = 0;
   for (let turnIndex = 0; turnIndex < turns.length; turnIndex += 1) {
     const turn = turns[turnIndex]!;
-    const sentences = splitAcademySpokenSentences(turn.text);
-    if (sentences.length === 0) {
+    const paragraphs = splitAcademySpokenParagraphs(turn.text);
+    if (paragraphs.length === 0) {
       continue;
     }
-    const totalWords = sentences.reduce(
-      (sum, sentence) => sum + Math.max(1, academyDialogueWordCount(sentence)),
+    const totalWords = paragraphs.reduce(
+      (sum, paragraph) => sum + Math.max(1, academyDialogueWordCount(paragraph)),
       0,
     );
     const span = Math.max(0.001, turn.end - turn.start);
     let offset = 0;
-    for (let sentenceIndex = 0; sentenceIndex < sentences.length; sentenceIndex += 1) {
-      const text = sentences[sentenceIndex]!;
+    for (let paragraphIndex = 0; paragraphIndex < paragraphs.length; paragraphIndex += 1) {
+      const text = paragraphs[paragraphIndex]!;
       const words = Math.max(1, academyDialogueWordCount(text));
       const duration = span * (words / totalWords);
-      const start = turn.start + offset;
-      const end = sentenceIndex === sentences.length - 1 ? turn.end : start + duration;
+      const rawStart = turn.start + offset;
+      const start = Math.max(rawStart, monotonicCursor);
+      const rawEnd = paragraphIndex === paragraphs.length - 1 ? turn.end : rawStart + duration;
+      const end = Math.max(rawEnd, start + 0.001);
       cues.push({
-        id: `${turn.id}:${sentenceIndex}`,
+        id: `${turn.id}:p${paragraphIndex}`,
         text,
         turnIndex,
-        sentenceIndex,
+        sentenceIndex: paragraphIndex,
         act: turn.act,
         start,
         end,
       });
       offset += duration;
+      monotonicCursor = end;
     }
   }
   return cues;
 }
 
 export function academyTeleprompterProgress(
-  cues: readonly AcademyTeleprompterCue[],
+  cues: readonly Pick<AcademyTeleprompterCue, "start" | "end">[],
   elapsedSec: number,
+  minCueIndex = 0,
 ): AcademyTeleprompterProgress {
   if (cues.length === 0) {
     return { cueIndex: 0, localRatio: 0 };
   }
   const elapsed = academySpokenHighlightElapsedSec(elapsedSec);
-  const last = cues[cues.length - 1]!;
+  const lastIndex = cues.length - 1;
+  const floor = Math.max(0, Math.min(Math.floor(minCueIndex), lastIndex));
+  const last = cues[lastIndex]!;
   if (elapsed >= last.end) {
-    return { cueIndex: cues.length - 1, localRatio: 1 };
+    return { cueIndex: lastIndex, localRatio: 1 };
   }
-  for (let index = 0; index < cues.length; index += 1) {
+  let resolved = floor;
+  let localRatio = 0;
+  for (let index = floor; index <= lastIndex; index += 1) {
     const cue = cues[index]!;
-    if (elapsed < cue.start) {
-      return { cueIndex: Math.max(0, index - 1), localRatio: 0 };
+    if (elapsed >= cue.end) {
+      resolved = index;
+      localRatio = 1;
+      continue;
     }
-    if (elapsed < cue.end) {
+    if (elapsed >= cue.start) {
       const span = Math.max(0.001, cue.end - cue.start);
       return {
-        cueIndex: index,
+        cueIndex: Math.max(floor, index),
         localRatio: Math.max(0, Math.min(1, (elapsed - cue.start) / span)),
       };
     }
+    break;
   }
-  return { cueIndex: cues.length - 1, localRatio: 1 };
+  return { cueIndex: Math.max(floor, resolved), localRatio };
 }
 
 /** Okunan cümleyi kutunun tam ortasında tutar (`block: 'center'`). Ses bitmeden sonraki cue'ya kaymaz. */

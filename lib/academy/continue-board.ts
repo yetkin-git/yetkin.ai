@@ -26,6 +26,13 @@ export type AcademyContinueBoard = {
   href: string;
 };
 
+/** Antre ExamStartGate çapa — dock ve devam paneli aynı yutağa iner. */
+export const ACADEMY_EXAM_GATE_ANCHOR = "academy-exam-gate" as const;
+
+export function academyExamStartGateHref(courseSlug: string): string {
+  return `/academy/${courseSlug}?gate=exam#${ACADEMY_EXAM_GATE_ANCHOR}`;
+}
+
 export function resolveAcademyContinueBoard(input: {
   courseId: string;
   courseSlug: string;
@@ -59,7 +66,7 @@ export function resolveAcademyContinueBoard(input: {
       totalCount: curriculumLessonCountForSlug(slug),
       nextLessonKey: null,
       phase: "exam",
-      href: `/academy/${slug}`,
+      href: academyExamStartGateHref(slug),
     };
   }
   return {

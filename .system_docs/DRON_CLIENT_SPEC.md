@@ -23,7 +23,7 @@ Mağaza / vatandaş markası `yetkin.ai`. Native paket adı `yetkin.ai-is`; dizi
 
 Versiyonsuz web serimi (`{ ok: true, jobs: [...] }`) kapalıdır (P1). Parse fail'i boş liste veya sahte bakiye değildir; protokol hatasıdır. **Üçüncü zarf yasaktır.**
 
-JSON zarfı (Anayasa A6) Amiral ve Dron için aynıdır: `{ ok, error, requestId, apiVersion, data }`. Bu, Amiral’in bütün web BFF yüzeyini `/api/v1` hop sicili olarak konuştuğu anlamına **gelmez**. Dron yalnız `RAIL_V1_HOPS` alt kümesini konuşur. Web RSC/BFF daha geniştir (ekip, doğrudan teklif, AI sohbet, şifre, admin, inceleme, PDF hop sicilinde yoktur). Gövde **Modüler Monolit + API-First Dron Sözleşmesi**dir; “API-First” yalnız Dron kesitidir (Anayasa A9). Hop sicilini web BFF kadar şişirmek ürün kararı değildir; ajan “her Amiral rotasını v1 hop yap” diye BFF’i bozmaz.
+JSON zarfı (Anayasa B1 dış sözleşmesi) Amiral ve Dron için aynıdır: `{ ok, error, requestId, apiVersion, data }`. Bu, Amiral’in bütün web BFF yüzeyini `/api/v1` hop sicili olarak konuştuğu anlamına **gelmez**. Dron yalnız `RAIL_V1_HOPS` alt kümesini konuşur. Web RSC/BFF daha geniştir (ekip, doğrudan teklif, AI sohbet, şifre, admin, inceleme, PDF hop sicilinde yoktur). Gövde **Modüler Monolit + dar Dron hop sözleşmesi**dir; “API-First” yalnız Dron kesitidir (Anayasa B1). Hop sicilini web BFF kadar şişirmek ürün kararı değildir; ajan “her Amiral rotasını v1 hop yap” diye BFF’i bozmaz.
 
 ---
 

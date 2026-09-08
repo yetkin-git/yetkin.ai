@@ -1,5 +1,6 @@
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
+import { cancelFreelancerJob } from "@/lib/freelancer/engine";
 import { queryJobBoard } from "@/lib/freelancer/job-board";
 import { createPrismaFreelancerPorts } from "@/lib/freelancer/runtime";
 
@@ -28,6 +29,24 @@ export async function GET(
       undefined,
       request,
     );
+  } catch (error) {
+    return jsonFromUnknown(error, 400, undefined, request);
+  }
+}
+
+export async function DELETE(
+  request: Request,
+  context: { params: Promise<{ id: string }> },
+) {
+  try {
+    const user = await requireSession(request);
+    const { id } = await context.params;
+    const ports = createPrismaFreelancerPorts();
+    const job = await cancelFreelancerJob(ports, {
+      jobId: id,
+      actorUserId: user.id,
+    });
+    return jsonOk({ job }, 200, undefined, request);
   } catch (error) {
     return jsonFromUnknown(error, 400, undefined, request);
   }

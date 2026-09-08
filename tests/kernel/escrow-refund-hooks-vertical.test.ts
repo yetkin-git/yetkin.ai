@@ -24,7 +24,7 @@ describe("dikey onEscrowRefunded FSM — freelancer (çalışan oda)", () => {
       brief: "Brief yeterince uzun.",
       budgetMinor: toAmountMinor(10_000),
       currencyCode: SETTLEMENT_CURRENCY,
-      visaPathwayId: "uiux-tasarim-sistemleri",
+      visaPathwayId: "logo-gorsel-sosyal-medya",
       visibility: "PUBLIC",
       inviteeId: null,
       dueDays: null,

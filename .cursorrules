@@ -1,0 +1,117 @@
+# yetkin.ai — Agent / Composer bağlam kuralları
+
+Bu dosya, ajan taraması ve kod analizinde bağlamı şişirmemek için zorunlu dışlama kurallarını tanımlar.
+
+---
+
+## CRITICAL FILE EXCLUSION RULES
+
+Aşağıdaki klasör ve dosyalar **kesinlikle taranmamalı**, aranmamalı, okunmamalı ve yanıtlara dahil edilmemelidir — kullanıcı açıkça istemedikçe.
+
+### Bağımlılıklar ve paket yöneticisi çıktıları
+- `node_modules/`
+- `apps/*/node_modules/`
+- `.pnp`, `.pnp.js`
+
+### Derleme, test ve dağıtım çıktıları
+- `.next/`
+- `out/`
+- `dist/`
+- `coverage/`
+- `*.tsbuildinfo` (ör. `tsconfig.tsbuildinfo`)
+- `/generated/` (kök Prisma istemci çıktısı)
+- `apps/*/dist/`
+- `apps/*/web-build/`
+- `apps/*/.expo/`
+- `apps/*/.kotlin/`
+
+### Otomatik üretilmiş kaynak (git'te olabilir; yine de tarama dışı)
+- `apps/rail-is/src/generated/`
+
+### Geçici, önbellek ve operatör kalıntıları
+- `.tmp/`, `temp/`, `tmp/`
+- `.cache/`
+- `.eslintcache`
+- `logs/`
+- `*.log`, `npm-debug.log*`
+- `gitstatus.txt`
+- `supabase/.temp/`
+
+### IDE, araç ve dağıtım meta
+- `.cursor/`
+- `.vercel/`
+- `.vscode/`
+- `.idea/`
+- `*.swp`, `*.swo`, `*~`
+
+### Test artefaktları
+- `test-results/`
+- `playwright-report/`
+
+### Arşiv, müze ve dondurulmuş kod
+- `archived/` (pazaryeri, studio, devlabs, junior, arena, hibe, kurumsal, social vb. eski odalar)
+- `yetkin_muze/` (nested müze; Rail git'ine girmez)
+
+### Ortam ve kimlik dosyaları (gizli)
+- `.env`, `.env.local`, `.env.*.local`
+- `.env.development`, `.env.test`, `.env.production`, `.env.museum-backup.local`
+- `*.pem`, `*.p12`, `*.pfx`, `*.p8`, `*.jks`, `*.mobileprovision`
+- `credentials.json`, `serviceAccount.json`
+
+### Git ve sistem dosyaları
+- `.git/`
+- `.DS_Store`, `Thumbs.db`, `Desktop.ini`
+
+### Toplu medya ve statik varlıklar (bağlam şişirici)
+- `public/media/` (1900+ SVG, WAV ve benzeri academy medyası)
+- `public/media/academy/diagrams/`
+- `public/media/academy/micro/`
+- `public/media/academy/audio/`
+
+---
+
+## Tarama ve analiz talimatları
+
+1. Kod arama, sembol çözümleme, dosya okuma ve yanıt üretiminde yukarıdaki yollar **tamamen göz ardı edilir**.
+2. Bu yolları taramak veya içeriklerini özetlemek yasaktır; yalnızca kullanıcı açıkça bir yol belirtirse ve o görev için zorunluysa istisna uygulanır.
+3. Geniş glob aramaları (`**/*`) yapılmadan önce dışlama listesi uygulanır; sonuçlar bu listeyle filtrelenir.
+4. `archived/` ve `yetkin_muze/` aktif ürün kodu değildir; canlı davranış için referans alınmaz.
+5. `public/media/` altındaki dosyalar kod değildir; medya üretim scriptleri (`scripts/render-academy-lesson-media.ts` vb.) üzerinden anlaşılır.
+
+---
+
+## Bağımlılık kontrolü
+
+- Paket sürümleri, script'ler ve bağımlılık listesi için **yalnızca** kök `package.json` ve gerektiğinde `apps/rail-is/package.json` okunur.
+- `node_modules/` içindeki dosyalar **asla** okunmaz veya listelenmez.
+- `package-lock.json` / `apps/rail-is/package-lock.json` yalnızca kilit çakışması veya sürüm tutarlılığı sorulduğunda, minimal diff için kullanılır.
+
+---
+
+## Aktif kaynak kod odak alanları
+
+Öncelikli tarama ve düzenleme alanları:
+
+| Dizin | Açıklama |
+|-------|----------|
+| `app/` | Next.js App Router — sayfalar, layout, API route'ları |
+| `components/` | React UI bileşenleri |
+| `lib/` | İş mantığı, kernel, academy, freelancer, career |
+| `prisma/` | Şema (`schema/`), migration'lar, seed |
+| `middleware/` | API auth ve ara katman |
+| `tests/` | Vitest ve Playwright testleri (aktif suite) |
+| `scripts/` | Ops, verify ve generate script'leri |
+| `supabase/migrations/` | RLS ve DB migration SQL |
+| `apps/rail-is/src/` | Dron (React Native) kaynak — `generated/` hariç |
+| `docs/` | Günlük rapor ve müfredat dokümantasyonu |
+| `.system_docs/` | Anayasa, manifesto, ops runbook |
+
+Kök yapılandırma dosyaları gerektiğinde okunabilir: `next.config.ts`, `tsconfig.json`, `eslint.config.mjs`, `vitest*.config.ts`, `playwright.config.ts`, `prisma.config.ts`, `proxy.ts`, `instrumentation.ts`, `.env.example`.
+
+`public/` altında yalnızca `media/` dışındaki küçük statik dosyalar (favicon, manifest vb.) gerektiğinde okunur.
+
+---
+
+## Özet ilke
+
+Bağlamı canlı ürün koduna sıkıştır: **app → components → lib → prisma → middleware → tests → scripts**. Derleme çıktısı, bağımlılık, arşiv, müze ve toplu medya dosyalarına girme.

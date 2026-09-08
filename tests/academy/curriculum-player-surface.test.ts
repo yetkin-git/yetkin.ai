@@ -2,7 +2,14 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { ACADEMY_HAPPY_PATH } from "@/lib/academy";
+import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
+import { loadAcademyTeleprompterFlow } from "@/lib/academy/lesson-teleprompter-flow";
+import {
+  ACADEMY_GROWTH_SKU_SLUGS,
+  ACADEMY_PILOT_SKU_SLUG,
+  isAcademyLessonAudioSealed,
+} from "@/lib/academy/pilot-sku";
 
 const ROOT = process.cwd();
 
@@ -10,8 +17,8 @@ function readSrc(relative: string): string {
   return readFileSync(join(ROOT, relative), "utf8");
 }
 
-describe("D2.1 müfredat oynatıcı yüzeyi — üç ekran + dinle kapalı", () => {
-  it("mutlu yol vitrin → kasa → oynatıcı; dinle 410; sınav dondurulmuş", () => {
+describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü karaoke", () => {
+  it("mutlu yol vitrin → kasa → müfredat durur; dinle/TTS kapıları 410", () => {
     expect(ACADEMY_HAPPY_PATH).toEqual([
       "catalog",
       "price-lock",
@@ -25,201 +32,109 @@ describe("D2.1 müfredat oynatıcı yüzeyi — üç ekran + dinle kapalı", () 
     expect(existsSync(join(ROOT, "app/academy/[slug]/oyna/page.tsx"))).toBe(true);
     expect(existsSync(join(ROOT, "app/api/academy/courses/[id]/curriculum/route.ts"))).toBe(true);
 
-    const catalog = readSrc("app/academy/page.tsx");
-    expect(catalog).toContain("CourseList");
-    expect(catalog).toContain("filterAcademyPilotCatalog");
-    expect(catalog).not.toContain("overlayStudioGrowthLearnerBoard");
-    expect(catalog).not.toContain("FilterBar");
-    expect(catalog).not.toContain("AcademyLevelPathway");
-
-    const antre = readSrc("app/academy/[slug]/page.tsx");
-    expect(antre).toContain("PurchaseButton");
-    expect(antre).toContain("SettlementSteps");
-    expect(antre).toContain("hasAcademyPlayerAccess");
-    expect(antre).toContain("hasCommercialAcademyEnrolment");
-    expect(antre).toContain("hasAccess");
-    expect(antre).toContain("Promise.all");
-    expect(antre).not.toContain("hasCommercialAcademyEnrolment(purchase) ||");
-    expect(antre).toContain("/oyna");
-    expect(antre).not.toContain("FilterBar");
-    expect(antre).not.toContain("ProofOfWorkCard");
-    expect(antre).not.toContain("AcademyPilotPath");
-    expect(antre).toContain("ExamStartGate");
-
     const oyna = readSrc("app/academy/[slug]/oyna/page.tsx");
-    expect(oyna).toContain("requirePageSession");
-    expect(oyna).toContain("hasAcademyPlayerAccess");
-    expect(oyna).toContain("canAccess");
-    expect(oyna).toContain("hasPurchased");
-    expect(oyna).toContain("loadAcademyCurriculum");
     expect(oyna).toContain("CurriculumPlayer");
-    expect(oyna).toContain("redirect");
-    expect(oyna).not.toContain("yetkin.ai");
+    expect(oyna).toContain("loadAcademyCurriculum");
+    expect(oyna).toContain("cinema");
     expect(oyna).not.toContain("LessonListenButton");
+    expect(oyna).not.toContain("academy-player-viewport-lock");
+    expect(oyna).not.toContain("-mt-8");
+    expect(oyna).not.toContain("max-w-none");
 
-    const player = readSrc("components/academy/curriculum-player.tsx");
-    expect(player).toContain("LessonMediaPlayer");
-    expect(player).toContain("completeLesson");
-    expect(player).toContain("goToNextLesson");
-    expect(player).toContain("onDialogueEnded");
-    expect(player).toContain("LessonDialogueTranscript");
-    expect(player).toContain("copy.notesLabel");
-    expect(player).toContain("copy.codeViewerLabel");
-    expect(player).toContain("data-academy-lesson-notes");
-    expect(player).toContain("max-h-[350px]");
-    expect(player).toContain("overflow-y-auto");
-    expect(player).toContain("academy-player-notes relative z-0 min-h-0 max-h-[350px] overflow-y-auto");
-    expect(player).toContain("academy-player-notes-body academy-player-reading-pane max-h-[350px] overflow-y-auto pr-2");
-    expect(player).toContain("academy-player-dock academy-player-action-bar relative z-10");
-    expect(player).toContain("data-academy-code-viewer");
-    expect(player).toContain("data-academy-code-callout");
-    expect(player).toContain("copy.codeCalloutTitle");
-    expect(player).toContain("copy.codeCalloutHref");
-    expect(player).toContain("LessonCodeCallout");
-    expect(player).toContain("academy-player-code-stack");
-    const notesSection = player.slice(player.indexOf("data-academy-lesson-notes"));
-    expect(notesSection).toContain("<LessonCodeCallout");
-    const stageSection = player.slice(
-      player.indexOf("function LessonWidescreenStage"),
-      player.indexOf("function LessonQuizPanel"),
-    );
-    expect(stageSection).not.toContain("LessonCodeCallout");
-    expect(stageSection).not.toContain("showCodeCallout");
-    expect(player).not.toContain("/academy/python-veri-muhendisligi");
-    expect(player).toContain("data-academy-quiz-panel");
-    expect(player).toContain("<details");
-    expect(player).toContain("data-academy-player-layout=\"fit-screen\"");
-    expect(player).toContain("academy-player-widescreen");
-    expect(player).toContain("academyLessonStageFrame");
-    expect(player).toContain("onSpokenElapsedChange");
-    expect(player).toContain("LessonTeleprompter");
-    expect(player).toContain("buildAcademyTeleprompterCues");
-    expect(player).not.toContain("hasScript && !code");
-    expect(player).toContain("overlay={overlay}");
-    expect(player).toContain("const overlay = Boolean(code)");
-    expect(player).not.toContain("Boolean(code || diagram || visualKey)");
-    expect(player).toContain("playing={dialoguePlaying}");
-    expect(player).toContain("code={stageFrame.code}");
-    expect(player).not.toContain("code={stageFrame.code ?? lessonCodes[0]");
-    expect(player).toContain("data-academy-stage-code");
-    expect(player).toContain("showVisual");
-    expect(player).toContain("LessonDialogueTranscript");
-    const teleprompter = readSrc("components/academy/lesson-teleprompter.tsx");
-    expect(teleprompter).toContain("data-academy-stage-sentence");
-    expect(teleprompter).toContain("data-academy-stage-paragraph");
-    expect(teleprompter).toContain("data-academy-teleprompter");
-    expect(teleprompter).toContain("data-academy-teleprompter-near");
-    expect(teleprompter).toContain('data-academy-teleprompter-align="center"');
-    expect(teleprompter).toContain("ACADEMY_TELEPROMPTER_FOCUS_RATIO");
-    expect(teleprompter).toContain("[progress.cueIndex, overlay]");
-    expect(teleprompter).not.toContain("stampRef");
-    expect(teleprompter).not.toContain("requestAnimationFrame");
-    expect(readSrc("app/globals.css")).toContain("calc(50cqh + 4.5em)");
-    const playerCss = readSrc("app/globals.css");
-    expect(playerCss).toMatch(/\.academy-player-code-stack\s*\{[^}]*gap:\s*1\.15rem/s);
-    expect(playerCss).toContain("clamp(1.12rem, 2.4vw, 1.68rem)");
-    expect(playerCss).toMatch(/\.academy-teleprompter--overlay\s*\{[^}]*flex:\s*0 0 7\.5rem/s);
-    expect(playerCss).not.toContain(":has(.academy-player-code-stack) .academy-teleprompter,");
-    expect(playerCss).toContain(".academy-player-notes-body");
-    expect(playerCss).toMatch(/\.academy-player-notes-body\s*\{[^}]*max-height:\s*350px/s);
-    expect(playerCss).toMatch(/\.academy-player-notes-body\s*\{[^}]*overflow-y:\s*auto/s);
-    expect(playerCss).toMatch(/\.academy-player-notes\[open\]\s*\{[^}]*max-height:\s*350px/s);
-    expect(playerCss).toMatch(/\.academy-player-notes\[open\]\s*\{[^}]*overflow-y:\s*auto/s);
-    expect(playerCss).toMatch(/\.academy-player-dock\s*\{[^}]*z-index:\s*10/s);
-    expect(playerCss).not.toContain("max-height: min(28vh, 14rem)");
-    expect(player).toContain("listening={dialoguePlaying}");
-    expect(player).toContain("codeLineIndex");
-    expect(player).toContain("data-academy-stage-act");
-    expect(player).not.toContain("key={caption}");
-    expect(player).not.toContain("<details open");
-    expect(oyna).toContain("academy-player-viewport-lock");
-    expect(oyna).toContain("100dvh");
-    expect(oyna).toContain("pb-12");
-    expect(oyna).not.toContain("BreadcrumbPageLabel");
-    expect(player).not.toContain("AcademyProgressBar");
-    expect(player).not.toContain("copy.progress");
-    expect(player).toContain("copy.completeCta");
-    expect(player).toContain("composeAcademyLessonBlocks");
-    expect(player).toContain("academyLessonMediaMeta");
-    expect(player).toContain("academyLessonKindLabel");
-    expect(player).not.toContain("durationSec={micro?.durationSec ?? 8}");
-    expect(player).not.toContain("LessonListenButton");
-    expect(player).not.toContain("LessonCodeLab");
-    expect(player).not.toContain("LessonDiscussion");
-    expect(player).not.toContain("ProofOfWorkCard");
-    expect(player).not.toContain("listenPlayback");
-
-    expect(readSrc("lib/academy/prisma-store.ts")).toContain("isPrismaUniqueViolation");
-    expect(readSrc("lib/academy/prisma-store.ts")).toContain("upsert");
-    expect(readSrc("app/api/academy/courses/[id]/curriculum/route.ts")).toContain(
-      "ensurePrismaQueryEngine",
-    );
-    expect(readSrc("app/api/academy/courses/[id]/curriculum/route.ts")).toContain(
-      "isPrismaUniqueViolation",
-    );
-    expect(readSrc("app/api/academy/courses/[id]/curriculum/route.ts")).toContain(
-      "isPrismaClientError",
-    );
-    expect(readSrc("lib/kernel/db-errors.ts")).toContain("isPrismaClientError");
-    expect(readSrc("components/academy/curriculum-player.tsx")).toContain("finally");
-    expect(readSrc("components/academy/curriculum-player.tsx")).toContain(
-      "academySpokenHighlightElapsedSec",
-    );
-    expect(readSrc("lib/academy/dialogue-timeline.ts")).toContain("ACADEMY_SPOKEN_HIGHLIGHT_LAG_SEC");
-    expect(readSrc("lib/academy/curriculum-engine.ts")).toContain("lookupAcademyCurriculumCourse");
-    expect(readSrc("lib/academy/curriculum-engine.ts")).toContain("requireWritableCourse");
-    expect(readSrc("lib/academy/load.ts")).toContain("hasAcademyPlayerAccess");
-    expect(readSrc("lib/academy/load.ts")).toContain("persistGrant: false");
-    expect(readSrc("lib/academy/load.ts")).toContain("cache(");
-    expect(readSrc("lib/academy/load.ts")).toContain("Promise.all");
-    expect(readSrc("lib/academy/load.ts")).toContain("isPrismaQueryEngineReady");
-    expect(readSrc("lib/academy/load.ts")).toContain("buildUnlimitedSeedCurriculumPlayer");
-    expect(readSrc("lib/academy/access.ts")).toContain("hasAcademyPlayerAccess");
-    expect(readSrc("lib/academy/access.ts")).toContain("hasAcademyAdminBypass");
-    expect(readSrc("components/academy/purchase-button.tsx")).toContain("licenseNote");
-    expect(readSrc("lib/academy/purchase-path.ts")).toContain("Eğitimi Satın Al & Öğren");
+    const frame = readSrc("components/ui/page-header.tsx");
+    expect(frame).toContain("cinema?: boolean");
+    expect(frame).toContain("widthOverride");
+    expect(frame).toContain('cinema && "max-w-none"');
+    expect(frame).toContain('!widthOverride && "max-w-6xl"');
 
     expect(readSrc("lib/academy/lesson-listen.ts")).toContain("ACADEMY_LESSON_LISTEN_ENABLED = false");
-    expect(existsSync(join(ROOT, "app/api/academy/courses/[id]/listen/route.ts"))).toBe(true);
-    expect(existsSync(join(ROOT, "app/api/academy/generateSpeech/route.ts"))).toBe(true);
-    const listen = readSrc("app/api/academy/courses/[id]/listen/route.ts");
-    expect(listen).toContain('export const auth = "public" as const');
-    expect(listen).toContain("ACADEMY_STUDIO_GONE");
-    expect(listen).toContain("410");
-    expect(listen).not.toContain("prepareAcademyLessonListen");
-    const speech = readSrc("app/api/academy/generateSpeech/route.ts");
-    expect(speech).toContain("ACADEMY_STUDIO_GONE");
-    expect(speech).toContain("410");
+    expect(readSrc("app/api/academy/courses/[id]/listen/route.ts")).toContain("410");
+    expect(readSrc("app/api/academy/generateSpeech/route.ts")).toContain("410");
+  });
 
-    expect(existsSync(join(ROOT, "tests/academy/idor-exam-purchase.test.ts"))).toBe(true);
-    expect(existsSync(join(ROOT, "tests/academy/purchase-flow.test.ts"))).toBe(true);
-    expect(existsSync(join(ROOT, "tests/academy/access.test.ts"))).toBe(true);
-    expect(existsSync(join(ROOT, "tests/academy/happy-path.test.ts"))).toBe(true);
+  it("28 mühürsüz ders article katmanıdır; 01_office_ai-1 ve 01_office_ai-2 karaoke bağlar", () => {
+    let karaokeCount = 0;
+    let articleCount = 0;
+    for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
+      const lessons = curriculumForCourseSlug(slug);
+      expect(lessons).toHaveLength(6);
+      for (const lesson of lessons) {
+        const layer = academyCitizenPlayerLayer(slug, lesson.key);
+        if (layer.kind === "article+karaoke") {
+          karaokeCount += 1;
+          expect(["01_office_ai-1", "01_office_ai-2"]).toContain(lesson.key);
+          expect(isAcademyLessonAudioSealed(slug, lesson.key)).toBe(true);
+          expect(layer.audioSrc).toContain(`/media/academy/audio/01_office_ai/${lesson.key}.wav`);
+          expect(layer.cues.length).toBeGreaterThan(0);
+          expect(layer.cues).toEqual(loadAcademyTeleprompterFlow(lesson.key));
+          expect(layer.durationSec).toBeGreaterThan(360);
+        } else {
+          articleCount += 1;
+          expect(layer.kind).toBe("article");
+          expect(isAcademyLessonAudioSealed(slug, lesson.key)).toBe(false);
+        }
+      }
+    }
+    expect(karaokeCount).toBe(2);
+    expect(articleCount).toBe(28);
+    expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-3").kind).toBe("article");
+    expect(ACADEMY_PILOT_SKU_SLUG).toBeNull();
+  });
 
-    expect(curriculumForCourseSlug("python-temel")).toHaveLength(6);
-    expect(curriculumForCourseSlug("ai-agent-orta")).toHaveLength(6);
-    expect(curriculumForCourseSlug("ai-agent-ileri")).toHaveLength(6);
-    expect(curriculumForCourseSlug("ai-temel")).toHaveLength(12);
-    expect(curriculumForCourseSlug("fullstack-temel")).toHaveLength(6);
-    expect(curriculumForCourseSlug("fullstack-orta")).toHaveLength(6);
-    expect(curriculumForCourseSlug("fullstack-ileri")).toHaveLength(6);
-    expect(curriculumForCourseSlug("security-temel")).toHaveLength(6);
-    expect(curriculumForCourseSlug("security-orta")).toHaveLength(6);
-    expect(curriculumForCourseSlug("security-ileri")).toHaveLength(6);
-    expect(curriculumForCourseSlug("excel-masterclass")).toHaveLength(6);
-    expect(curriculumForCourseSlug("google-ads-masterclass")).toHaveLength(6);
-    expect(curriculumForCourseSlug("meta-ads-masterclass")).toHaveLength(6);
-    expect(curriculumForCourseSlug("eticaret-masterclass")).toHaveLength(6);
-    expect(curriculumForCourseSlug("canva-masterclass")).toHaveLength(6);
-    expect(curriculumForCourseSlug("linkedin-masterclass")).toHaveLength(6);
-    expect(curriculumForCourseSlug("ux-temel")).toHaveLength(12);
-    expect(curriculumForCourseSlug("python-orta")).toHaveLength(6);
-    expect(curriculumForCourseSlug("python-ileri")).toHaveLength(6);
+  it("CurriculumPlayer makale kabuğuna sekmeleri bağlar; karaoke currentTime ile mühürlü derse kilitlenir", () => {
+    const player = readSrc("components/academy/curriculum-player.tsx");
+    expect(player).toContain("export function CurriculumPlayer");
+    expect(player).toMatch(/from\s+"@\/components\/academy\/lesson-study-tabs"/);
+    expect(player).toMatch(/from\s+"@\/lib\/academy\/citizen-player-layer"/);
+    expect(player).toContain("<LessonStudyTabs");
+    expect(player).toContain("lg:items-start");
+    expect(player).toContain("lg:self-start");
+    expect(player).toContain("line-clamp-2");
+    expect(player).toContain("academyCitizenPlayerLayer");
+    expect(player).toContain("data-academy-hybrid=\"media-then-study\"");
+    expect(player).toContain('kind === "article+karaoke"');
+    expect(player).toContain("<LessonMediaPlayer");
+    expect(player).toContain("<LessonTeleprompter");
+    expect(player).toContain("overlay");
+    expect(player).toContain("academy-player-widescreen");
+    expect(player).toContain("LessonCinemaEyeLayer");
+    expect(player).toContain("loadAcademyLessonVisualStage");
+    expect(player).toContain("onSpokenElapsedChange={setMediaElapsed}");
+    expect(player).toContain("elapsedSec={mediaElapsed}");
+    expect(player).toContain("completeLesson");
+    expect(player).toContain("isAcademyPlayerExamReady");
+    expect(player).toContain("academyExamStartGateHref");
+    expect(player).toContain("examLaunchCta");
+    expect(player).toContain("data-academy-exam-launch");
+    expect(player).toContain('variant="success"');
+    expect(player).not.toContain("buildAcademyDialogueTimeline");
+    expect(player).not.toContain("ACADEMY_DIALOGUE_MS_PER_WORD");
+    expect(player).not.toContain("CourseAudioPreview");
+    expect(player).not.toContain("LessonDialogueTranscript");
+    expect(player).not.toContain("LessonListenButton");
+    expect(player).not.toContain("generateSpeech");
+    expect(player).not.toContain("python-");
 
-    expect(existsSync(join(ROOT, "components/academy/filter-bar.tsx"))).toBe(false);
-    expect(readSrc("lib/academy/catalog-filter.ts")).not.toContain("trendScore");
-    expect(readSrc("app/api/academy/courses/[id]/curriculum/route.ts")).not.toContain(
-      "proofOfWorkHash: lesson.proofOfWorkHash",
-    );
+    const media = readSrc("components/academy/lesson-media-player.tsx");
+    expect(media).not.toContain("buildAcademyDialogueTimeline");
+    expect(media).toContain('data-academy-clock="currentTime"');
+    expect(media).toContain("audio.currentTime");
+    expect(media).toContain("onSpokenElapsedChangeRef.current?.(elapsed)");
+
+    const tabs = readSrc("components/academy/lesson-study-tabs.tsx");
+    expect(tabs).toContain("export function LessonStudyTabs");
+    expect(tabs).toContain("AcademyMarkdownRenderer");
+    expect(tabs).toContain("data-academy-study-tabs");
+    expect(tabs).toContain("academy-player-study");
+    expect(tabs).toContain("overflow-y-auto");
+    expect(tabs).toContain("min-h-[18rem]");
+    const karaokeAt = player.indexOf("academy-player-karaoke");
+    const studyAt = player.indexOf("<LessonStudyTabs");
+    expect(karaokeAt).toBeGreaterThan(0);
+    expect(studyAt).toBeGreaterThan(karaokeAt);
+    expect(tabs).toContain("academyExamStartGateHref");
+    expect(tabs).toContain("examLaunchCta");
+
+    expect(existsSync(join(ROOT, "components/academy/course-audio-preview.tsx"))).toBe(false);
   });
 });

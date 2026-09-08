@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import {
+  LEGAL_ACTIVITY_SCOPE_BODY,
   LEGAL_CHECKOUT_CONSENT_COPY,
   LEGAL_ENTITY,
   LEGAL_ENTITY_COLOPHON,
@@ -19,11 +20,14 @@ import {
   LEGAL_SUPPORT_EMAIL,
   LEGAL_SUPPORT_LINE,
   LEGAL_SUPPORT_MAILTO,
+  LEGAL_UPDATED_LABEL,
+  LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH,
 } from "@/lib/copy/legal-launch";
 import {
   CHECKOUT_LEGAL_CONSENT_PAYLOAD,
   CHECKOUT_LEGAL_CONSENT_VERSION,
   checkoutLegalConsentSchema,
+  toCheckoutConsentEvidence,
 } from "@/lib/kernel/legal/checkout-consent";
 import { purchaseCourseInputSchema } from "@/lib/academy/schemas";
 import { CHECKOUT_BILLING_PAYLOAD } from "@/lib/kernel/identity/billing-info";
@@ -88,13 +92,15 @@ describe("lansman hukuk yüzeyi (O13)", () => {
       .join("\n");
     expect(distance?.articles.some((article) => article.id === "on-bilgilendirme")).toBe(true);
     expect(distance?.articles.some((article) => article.id === "dijital-ifa-istisnasi")).toBe(true);
+    expect(distance?.articles.some((article) => article.id === "uyusmazlik-cozumu")).toBe(true);
+    expect(body).toContain("Tüketici Hakem Heyetine");
+    expect(body).toContain("Tüketici Mahkemesine");
+    expect(body).toContain("68. ve 73. maddeleri");
     expect(body).toContain("elektronik ortamda anında ifa edilen hizmet");
     expect(body).toContain("6502 sayılı Kanun");
     expect(body).toContain("ders içeriklerine erişim açıldığı anda");
     expect(body).toContain("Cüzdan Yükleme");
-    expect(body).toContain(
-      "Platform cüzdanına yüklenen bakiyeler yalnızca platform içi hizmetlerde kullanılabilir; farklı bir banka hesabına nakit transferi yapılamaz. Kullanılmamış bakiye otomatik olarak karta dönmez; nakit çekim bu gövdede yoktur. İade talepleri destek kanalından alınır ve henüz harcanmamış yükleme, ödeme kuruluşu takası ile operatör tarafından değerlendirilir.",
-    );
+    expect(body).toContain(LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH);
     expect(body).toContain("emanet zaman aşımı");
     expect(body).toContain(
       "Satın alınan hizmet ve eğitimlere ait faturalar yasal süreçlere uygun düzenlenir. Fatura, kayıtlı e-posta adresine iletilir; bu iletim otomatik e-Arşiv paneli veya anında GİB gönderimi anlamına gelmez. İlan edilen tüm fiyatlara KDV dahildir.",
@@ -118,8 +124,14 @@ describe("lansman hukuk yüzeyi (O13)", () => {
   });
 
   it("kasa rızası fail-closed’dır; sahte sürüm geçmez", () => {
-    expect(CHECKOUT_LEGAL_CONSENT_VERSION).toBe("2026-08-31");
+    expect(CHECKOUT_LEGAL_CONSENT_VERSION).toBe("2026-09-05");
+    expect(LEGAL_UPDATED_LABEL).toBe("Yürürlük: 5 Eylül 2026");
     expect(checkoutLegalConsentSchema.safeParse(CHECKOUT_LEGAL_CONSENT_PAYLOAD).success).toBe(true);
+    expect(toCheckoutConsentEvidence(CHECKOUT_LEGAL_CONSENT_PAYLOAD)).toEqual({
+      consentVersion: CHECKOUT_LEGAL_CONSENT_VERSION,
+      distanceContractAccepted: true,
+      digitalImmediatePerformanceAccepted: true,
+    });
     expect(purchaseCourseInputSchema.safeParse({ lockId: "lock-1" }).success).toBe(false);
     expect(
       purchaseCourseInputSchema.safeParse({
@@ -198,7 +210,17 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(contact).toContain("LEGAL_ENTITY_VKN");
     expect(contact).toContain("LEGAL_ENTITY.mersis");
     expect(contact).toContain("LEGAL_ENTITY.address");
+    expect(contact).toContain("LEGAL_ACTIVITY_SCOPE_BODY");
     expect(contact).not.toContain("PayTR");
+    // Faaliyet konusu şeffaflığı — unvan/faaliyet hizası tek kaynaktan beslenir.
+    expect(LEGAL_ACTIVITY_SCOPE_BODY).toContain(LEGAL_ENTITY.tradeName);
+    expect(LEGAL_ACTIVITY_SCOPE_BODY).toContain("dijital eğitim ve yetkinlik platformudur");
+    expect(copy).toContain("LEGAL_ACTIVITY_SCOPE_BODY");
+    for (const slug of ["gizlilik", "mesafeli-satis", "kullanim"]) {
+      const section = LEGAL_LAUNCH_SECTIONS.find((row) => row.slug === slug);
+      const sectionBody = section?.articles.flatMap((article) => article.paragraphs).join("\n") ?? "";
+      expect(sectionBody, slug).toContain(LEGAL_ACTIVITY_SCOPE_BODY);
+    }
     expect(LEGAL_SUPPORT_EMAIL).toBe("destek@yetkin.ai");
     expect(LEGAL_SUPPORT_MAILTO).toBe("mailto:destek@yetkin.ai");
     for (const section of LEGAL_LAUNCH_SECTIONS) {
@@ -220,13 +242,47 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     const robots = readSrc("app/robots.ts");
     const sitemap = readSrc("app/sitemap.ts");
     expect(slug).toContain("legalSectionBySlug");
+    expect(slug).toContain("dynamicParams = false");
     expect(footer).toContain("LEGAL_FOOTER_LINKS");
     expect(footer).toContain("fixed");
     expect(footer).toContain("bottom-0");
+    expect(footer).not.toContain("opacity-55");
     expect(footer).toContain("link.label");
+    expect(footer).toContain("LEGAL_ENTITY.tradeName");
+    expect(footer).toContain("LEGAL_ENTITY.vkn");
+    expect(footer).toContain("LEGAL_ENTITY.mersis");
+    expect(footer).toContain("LEGAL_ENTITY.address");
+    expect(footer).toContain("SecurePaymentMarks");
+    expect(footer).toContain("data-legal-entity-colophon");
     expect(publicLayout).toContain("LegalSiteFooter");
-    expect(authLayout).toContain("LegalSiteFooter");
-    expect(shell).toContain("LegalSiteFooter");
+    expect(publicLayout).toContain("pb-36");
+    expect(authLayout).not.toContain("LegalSiteFooter");
+    expect(authLayout).not.toContain("pb-36");
+    expect(shell).not.toContain("LegalSiteFooter");
+    expect(shell).not.toContain("pb-36");
+    // PayTR inceleme yüzeyi: ürün vitrinleri satır içi künye şeridi taşır;
+    // fixed kamu tabanı AppShell sidebar'ı ile çakıştığı için şerit akış içidir.
+    const strip = readSrc("components/legal/legal-colophon-strip.tsx");
+    expect(strip).toContain("LEGAL_FOOTER_LINKS");
+    expect(strip).toContain("LEGAL_ENTITY.tradeName");
+    expect(strip).toContain("LEGAL_ENTITY.vkn");
+    expect(strip).toContain("LEGAL_ENTITY.mersis");
+    expect(strip).toContain("LEGAL_ENTITY.address");
+    expect(strip).toContain("SecurePaymentMarks");
+    expect(strip).toContain("opacity-90");
+    expect(strip).not.toContain("opacity-70");
+    expect(strip).not.toContain("fixed inset-x-0");
+    for (const layout of [
+      "app/academy/layout.tsx",
+      "app/career/layout.tsx",
+      "app/freelancer/layout.tsx",
+    ]) {
+      expect(readSrc(layout), layout).toContain("LegalColophonStrip");
+    }
+    expect(readSrc("app/(kernel)/pasaport/page.tsx")).toContain("LegalColophonStrip");
+    expect(readSrc("app/academy/layout.tsx")).toContain("pageMetadata");
+    expect(readSrc("app/dashboard/layout.tsx")).not.toContain("LegalSiteFooter");
+    expect(readSrc("app/dashboard/layout.tsx")).not.toContain("LegalColophonStrip");
     expect(home).not.toContain("/legal/gizlilik");
     expect(home).not.toContain("/legal/cerez");
     expect(home).not.toContain("/legal/mesafeli-satis");
@@ -237,7 +293,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(robots).toContain("LEGAL_SITE_PATHS");
     expect(sitemap).toContain("LEGAL_SITE_PATHS");
     expect(sitemap).toContain("PRODUCT_ROOM_PATHS");
-    expect(sitemap).toContain("publishedCoursesFromSeed");
+    expect(sitemap).toContain("ACADEMY_GROWTH_SKU_SLUGS");
+    expect(sitemap).not.toContain("publishedCoursesFromSeed");
     expect(LEGAL_FOOTER_LINKS.map((link) => link.href)).toEqual([
       "/legal/gizlilik",
       "/legal/cerez",
@@ -263,6 +320,7 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     const config = readSrc("next.config.ts");
     expect(config).toContain('source: "/legal/gizlilik-politikasi"');
     expect(config).toContain('destination: "/legal/gizlilik"');
+    expect(config).toContain('source: "/legal/kvkk"');
     expect(config).toContain('source: "/legal/cerez-politikasi"');
     expect(config).toContain('destination: "/legal/cerez"');
     expect(config).toContain('source: "/legal/iade-sartlari"');
@@ -301,7 +359,7 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     const back = readSrc("components/legal/legal-back-to-home.tsx");
     const page = readSrc("app/(public)/legal/page.tsx");
     const slug = readSrc("app/(public)/legal/[slug]/page.tsx");
-    expect(LEGAL_HOME_CTA).toBe("Anasayfaya Dön");
+    expect(LEGAL_HOME_CTA).toBe("Ana Sayfaya Dön");
     expect(LEGAL_HOME_HREF).toBe("/");
     expect(back).toContain("LEGAL_HOME_CTA");
     expect(back).toContain("LEGAL_HOME_HREF");
@@ -318,16 +376,51 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     const modal = readSrc("components/kernel/quick-top-up-modal.tsx");
     const purchaseApi = readSrc("app/api/academy/courses/[id]/purchase/route.ts");
     const topUpApi = readSrc("app/api/(kernel)/wallet/top-up/route.ts");
-    for (const source of [purchaseUi, wallet, modal]) {
+    for (const source of [purchaseUi, wallet]) {
       expect(source).toContain("CheckoutConsentFields");
       expect(source).toContain("CheckoutBillingFields");
       expect(source).toContain("CHECKOUT_LEGAL_CONSENT_VERSION");
+      expect(source).toContain("SecurePaymentMarks");
     }
+    expect(modal).not.toContain("CheckoutConsentFields");
+    expect(modal).not.toContain("CheckoutBillingFields");
+    expect(modal).toContain("CHECKOUT_LEGAL_CONSENT_VERSION");
+    expect(modal).toContain("SecurePaymentMarks");
+    expect(purchaseUi).toContain("data-checkout-tik-tak");
+    expect(modal).toContain("data-paytr-iframe-only");
     expect(purchaseApi).toContain("CHECKOUT_LEGAL_CONSENT_REQUIRED");
     expect(topUpApi).toContain("CHECKOUT_LEGAL_CONSENT_REQUIRED");
+    expect(purchaseApi).toContain("toCheckoutConsentEvidence");
+    expect(topUpApi).toContain("toCheckoutConsentEvidence");
     expect(purchaseApi).toContain("consentVersion");
     expect(topUpApi).toContain("consentVersion");
+    expect(topUpApi).toContain("paymentOrder.create");
     expect(purchaseApi).toContain("persistCheckoutBilling");
     expect(topUpApi).toContain("persistCheckoutBilling");
+  });
+
+  it("E2E iade senaryosu SSOT cüzdan maddesini arar; otomatik karta iade vaadi yok", () => {
+    const e2e = readSrc("tests/e2e/legal-launch.spec.ts");
+    expect(e2e).toContain("LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH");
+    expect(e2e).not.toContain("orijinal kredi");
+    expect(e2e).not.toContain("orijinal kredi/banka kartına");
+    expect(LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH).toContain("otomatik olarak karta dönmez");
+    expect(LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH).not.toContain("orijinal kredi");
+  });
+
+  it("sözleşme metni PayTR yazmaz; kasa/footer logo ve SSL görseli istisnadır", () => {
+    const marks = readSrc("lib/copy/payment-marks.ts");
+    const badge = readSrc("components/legal/secure-payment-marks.tsx");
+    const footer = readSrc("components/legal/legal-site-footer.tsx");
+    const copy = readSrc("lib/copy/legal-launch.ts");
+    expect(copy).not.toMatch(/\bPayTR\b/);
+    expect(marks).toContain("PAYTR_MARK_LABEL");
+    expect(marks).toContain('"PayTR"');
+    expect(marks).toContain("/paytr-logo.svg");
+    expect(marks).toContain("SSL / Güvenli Ödeme");
+    expect(badge).toContain("PAYTR_LOGO_SRC");
+    expect(badge).toContain("data-paytr-mark");
+    expect(badge).toContain("data-ssl-mark");
+    expect(footer).toContain("SecurePaymentMarks");
   });
 });

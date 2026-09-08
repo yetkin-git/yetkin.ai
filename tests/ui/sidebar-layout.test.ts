@@ -10,10 +10,12 @@ import {
   SIDEBAR_WIDTH_MIN,
   SIDEBAR_WIDTH_STEP,
   clampSidebarWidth,
+  isAcademyPlayPath,
   layoutFromDragX,
   nudgeSidebarWidth,
   parseStoredSidebarLayout,
   resolveSidebarDisplayWidth,
+  resolveSidebarLayoutForRoute,
 } from "@/lib/ui/sidebar-layout";
 
 const ROOT = process.cwd();
@@ -71,6 +73,46 @@ describe("sol ray genişlik ve katlama tercihi", () => {
     expect(nudgeSidebarWidth({ width: 300, collapsed: false }, -SIDEBAR_WIDTH_STEP).width).toBe(284);
   });
 
+  it("isAcademyPlayPath yalnızca /academy/[slug]/oyna rotasında true döner", () => {
+    expect(isAcademyPlayPath("/academy/01_office_ai/oyna")).toBe(true);
+    expect(isAcademyPlayPath("/academy/01_office_ai/oyna/")).toBe(true);
+    expect(isAcademyPlayPath("/academy/python-temel/oyna")).toBe(true);
+    expect(isAcademyPlayPath("/academy/01_office_ai")).toBe(false);
+    expect(isAcademyPlayPath("/academy/python-temel")).toBe(false);
+    expect(isAcademyPlayPath("/academy")).toBe(false);
+    expect(isAcademyPlayPath("/academy/")).toBe(false);
+    expect(isAcademyPlayPath("/academy/certificates")).toBe(false);
+    expect(isAcademyPlayPath("/academy/dogrula")).toBe(false);
+    expect(isAcademyPlayPath("/academy/dogrula/abc123")).toBe(false);
+    expect(isAcademyPlayPath("/dashboard")).toBe(false);
+    expect(isAcademyPlayPath("/career")).toBe(false);
+    expect(isAcademyPlayPath("/freelancer")).toBe(false);
+    expect(isAcademyPlayPath(null)).toBe(false);
+  });
+
+  it("/oyna girişinde kayıtlı genişliği koruyarak daraltır; diğer sayfalar stored haliyle kalır", () => {
+    const expanded = { width: 320, collapsed: false };
+    const collapsed = { width: 320, collapsed: true };
+    expect(resolveSidebarLayoutForRoute(expanded, "/academy/01_office_ai/oyna", null)).toEqual({
+      width: 320,
+      collapsed: true,
+    });
+    expect(resolveSidebarLayoutForRoute(expanded, "/academy/01_office_ai/oyna", false)).toEqual({
+      width: 320,
+      collapsed: false,
+    });
+    expect(resolveSidebarLayoutForRoute(expanded, "/academy/01_office_ai/oyna", true)).toEqual({
+      width: 320,
+      collapsed: true,
+    });
+    expect(resolveSidebarLayoutForRoute(expanded, "/academy/01_office_ai", null)).toEqual(expanded);
+    expect(resolveSidebarLayoutForRoute(expanded, "/academy", null)).toEqual(expanded);
+    expect(resolveSidebarLayoutForRoute(expanded, "/dashboard", null)).toEqual(expanded);
+    expect(resolveSidebarLayoutForRoute(expanded, "/career", null)).toEqual(expanded);
+    expect(resolveSidebarLayoutForRoute(expanded, "/freelancer", null)).toEqual(expanded);
+    expect(resolveSidebarLayoutForRoute(collapsed, "/dashboard", null)).toEqual(collapsed);
+  });
+
   it("kabuk tutamağı, daralt düğmesi ve localStorage anahtarını bağlar; dipnot kalabalığı yoktur", () => {
     const chrome = readSrc("components/shell/shell-chrome.tsx");
     const desktop = readSrc("components/shell/desktop-sidebar.tsx");
@@ -89,6 +131,11 @@ describe("sol ray genişlik ve katlama tercihi", () => {
     expect(desktop).toContain('role="separator"');
     expect(desktop).toContain("cursor-col-resize");
     expect(desktop).toContain("collapsed");
+    expect(desktop).toContain("isAcademyPlayPath");
+    expect(desktop).toContain("resolveSidebarLayoutForRoute");
+    expect(desktop).toContain("usePathname");
+    expect(desktop).not.toContain("isAcademyCourseDetailPath");
+    expect(desktop).not.toContain("lastAutoCollapsedPathRef");
     expect(desktop).not.toContain("SidebarFootnote");
     expect(desktop).not.toContain("Faz 1");
     expect(desktop).not.toContain("Akademi → Kanıt → İş");

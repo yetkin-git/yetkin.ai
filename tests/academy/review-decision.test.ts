@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
-import { academyInstructorBySlug } from "@/lib/academy/instructors";
+import { ACADEMY_INSTRUCTORS_BY_VOICE } from "@/lib/academy/instructors";
 import {
   ACADEMY_REVIEW_DECISION_A,
   ACADEMY_REVIEW_DECISION_B,
@@ -11,17 +11,19 @@ import {
 import { sealedAcademyReviewDecisionReply } from "@/archived/lib/academy-studio/reviews";
 import { parseAcademyReviewAiDecision } from "@/archived/lib/academy-studio/reviews-engine";
 
+const INSTRUCTOR = ACADEMY_INSTRUCTORS_BY_VOICE.Erinome;
+
 describe("03.33 üç kanallı yorum kararı", () => {
   it("kategori A — kullanıcı yanılgısına nazik düzeltme basar", () => {
     const verdict = classifyAcademyReviewDecision({
       comment: "Satın alma belge basıyor sanıyordum, baraj 50 değil mi?",
       stars: 3,
-      courseSlug: "python-temel",
+      courseSlug: "sample-course",
       courseLevel: "Temel",
     });
     expect(verdict.decision).toBe(ACADEMY_REVIEW_DECISION_A);
     expect(verdict.correction).toContain("70");
-    const instructor = academyInstructorBySlug("python-temel");
+    const instructor = INSTRUCTOR;
     const reply = sealedAcademyReviewDecisionReply({
       decision: ACADEMY_REVIEW_DECISION_A,
       instructor,
@@ -35,11 +37,11 @@ describe("03.33 üç kanallı yorum kararı", () => {
     const verdict = classifyAcademyReviewDecision({
       comment: "Neden Kubernetes bu Temel derste yok, anlatılmalıydı.",
       stars: 4,
-      courseSlug: "python-temel",
+      courseSlug: "sample-course",
       courseLevel: "Temel",
     });
     expect(verdict.decision).toBe(ACADEMY_REVIEW_DECISION_B);
-    const instructor = academyInstructorBySlug("python-temel");
+    const instructor = INSTRUCTOR;
     expect(
       sealedAcademyReviewDecisionReply({ decision: ACADEMY_REVIEW_DECISION_B, instructor }),
     ).toContain(ACADEMY_SEN.review.outOfScope);
@@ -49,14 +51,14 @@ describe("03.33 üç kanallı yorum kararı", () => {
     const verdict = classifyAcademyReviewDecision({
       comment: "Parametre tablosu eksik, şema da çelişiyor.",
       stars: 2,
-      courseSlug: "python-temel",
+      courseSlug: "sample-course",
       courseLevel: "Temel",
     });
     expect(verdict.decision).toBe(ACADEMY_REVIEW_DECISION_C);
     expect(verdict.decision).toBe(ACADEMY_REVIEW_REVISION_TAG);
     expect(sealedAcademyReviewDecisionReply({
       decision: ACADEMY_REVIEW_DECISION_C,
-      instructor: academyInstructorBySlug("python-temel"),
+      instructor: INSTRUCTOR,
     })).toBe(ACADEMY_SEN.review.revisionQueued);
   });
 
@@ -65,12 +67,12 @@ describe("03.33 üç kanallı yorum kararı", () => {
       classifyAcademyReviewDecision({
         comment: "Anlatım saha gibi durdu.",
         stars: 5,
-        courseSlug: "python-temel",
+        courseSlug: "sample-course",
         courseLevel: "Temel",
       }).decision,
     ).toBeNull();
     expect(
-      classifyAcademyReviewDecision({ comment: "", stars: 5, courseSlug: "python-temel" }).decision,
+      classifyAcademyReviewDecision({ comment: "", stars: 5, courseSlug: "sample-course" }).decision,
     ).toBeNull();
   });
 

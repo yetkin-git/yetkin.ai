@@ -7,9 +7,7 @@ import {
   loadAcademyCurriculumPlayer,
 } from "@/lib/academy/curriculum-engine";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
-import { academyCanonicalProofSubmission } from "@/lib/academy/proof-of-work";
-import { ForbiddenError, GoneError } from "@/lib/kernel/http/errors";
-import { prepareAcademyLessonListen } from "@/archived/lib/academy-studio/lesson-listen-engine";
+import { ForbiddenError } from "@/lib/kernel/http/errors";
 import { ACADEMY_LESSON_LISTEN_ENABLED } from "@/lib/academy/lesson-listen";
 import { createMemoryLedgerStore } from "../helpers/memory-money";
 import { createMemoryAcademyStore, memoryCourse, memoryExam } from "../helpers/memory-academy";
@@ -49,7 +47,7 @@ describe("akademi müfredat oynatıcısı", () => {
     ).rejects.toBeInstanceOf(ForbiddenError);
   });
 
-  it("satın alma sonrası sırayla tamamlar; atlanan ders kapanır", async () => {
+  it("satın alma sonrası boş müfredatta ders tamamlanamaz", async () => {
     const ctx = world();
     await ctx.ports.academy.insertCourse(ctx.course);
     await ctx.ports.academy.insertExam(memoryExam(ctx.course.id));
@@ -60,100 +58,72 @@ describe("akademi müfredat oynatıcısı", () => {
       lockId: locked.lock.id,
       platformUserId: PLATFORM,
     });
-    const lessons = curriculumForCourseSlug(ctx.course.slug);
-    expect(lessons.length).toBeGreaterThanOrEqual(3);
+    expect(curriculumForCourseSlug(ctx.course.slug)).toEqual([]);
     await expect(
       completeAcademyLesson(ctx.ports, {
         courseId: ctx.course.id,
         userId: BUYER,
-        lessonKey: lessons[2]!.key,
+        lessonKey: "sample-course-1",
       }),
-    ).rejects.toBeInstanceOf(ForbiddenError);
-
-    const first = await completeAcademyLesson(ctx.ports, {
-      courseId: ctx.course.id,
-      userId: BUYER,
-      lessonKey: lessons[0]!.key,
-      proof: academyCanonicalProofSubmission(lessons[0]!.key) ?? undefined,
-    });
-    expect(first.applied).toBe(true);
-    expect(first.player.lessons[0]?.body.length).toBeGreaterThan(20);
-    const replay = await completeAcademyLesson(ctx.ports, {
-      courseId: ctx.course.id,
-      userId: BUYER,
-      lessonKey: lessons[0]!.key,
-      proof: academyCanonicalProofSubmission(lessons[0]!.key) ?? undefined,
-    });
-    expect(replay.applied).toBe(false);
+    ).rejects.toThrow();
   });
 
-  it("tohum kurs id'si canlı slug satırına bağlanır; mükerrer tamamlama unique 500 değildir", async () => {
-    const live = memoryCourse({
-      id: "live_ai_agent_temel",
-      slug: "ai-agent-temel",
-      title: "AI Agent Temel",
-      catalogUnitKey: "course:ai-agent-temel",
+  it("Faz 1: dinle bayrağı kapalı", () => {
+    expect(ACADEMY_LESSON_LISTEN_ENABLED).toBe(false);
+  });
+
+  it("01_office_ai compact makale etkileşimli proof olmadan kapanır", async () => {
+    const BUYER_OFFICE = "curriculum-office-buyer";
+    const course = memoryCourse({
+      id: "ac_01_office_ai",
+      slug: "01_office_ai",
+      title: "Ofiste Yapay Zekâ",
+      catalogUnitKey: "course:01_office_ai",
     });
     const ledger = createMemoryLedgerStore([
-      { userId: BUYER, amountMinor: 100_000 },
+      { userId: BUYER_OFFICE, amountMinor: 200_000 },
       { userId: PLATFORM, amountMinor: 0 },
     ]);
     const ports = {
       ledger,
       catalog: createMemoryPriceCatalogStore([
-        { moduleKey: ACADEMY_MODULE_KEY, unitKey: live.catalogUnitKey, amountMinor: 25_000 },
+        { moduleKey: ACADEMY_MODULE_KEY, unitKey: course.catalogUnitKey, amountMinor: 89_000 },
       ]),
       locks: createMemoryCheckoutPriceLockStore(),
       academy: createMemoryAcademyStore(),
     };
-    await ports.academy.insertCourse(live);
-    await ports.academy.insertExam(memoryExam(live.id));
-    const locked = await lockAcademyCoursePrice(ports, { courseId: live.id, userId: BUYER });
+    await ports.academy.insertCourse(course);
+    await ports.academy.insertExam(memoryExam(course.id));
+    const locked = await lockAcademyCoursePrice(ports, { courseId: course.id, userId: BUYER_OFFICE });
     await purchaseAcademyCourse(ports, {
-      courseId: live.id,
-      userId: BUYER,
+      courseId: course.id,
+      userId: BUYER_OFFICE,
       lockId: locked.lock.id,
       platformUserId: PLATFORM,
     });
-    const lessonKey = curriculumForCourseSlug("ai-agent-temel")[0]!.key;
-    const first = await completeAcademyLesson(ports, {
-      courseId: "ac_ai_agent_temel",
-      userId: BUYER,
-      lessonKey,
-      proof: academyCanonicalProofSubmission(lessonKey) ?? undefined,
-    });
-    expect(first.applied).toBe(true);
-    expect(first.player.courseId).toBe(live.id);
-
-    const replay = await completeAcademyLesson(ports, {
-      courseId: "ac_ai_agent_temel",
-      userId: BUYER,
-      lessonKey,
-      proof: academyCanonicalProofSubmission(lessonKey) ?? undefined,
-    });
-    expect(replay.applied).toBe(false);
-    expect(replay.player.courseId).toBe(live.id);
-  });
-
-  it("Faz 1: dinle bayrağı kapalı; prepare GoneError basar", async () => {
-    expect(ACADEMY_LESSON_LISTEN_ENABLED).toBe(false);
-    const ctx = world();
-    await ctx.ports.academy.insertCourse(ctx.course);
-    await ctx.ports.academy.insertExam(memoryExam(ctx.course.id));
-    const locked = await lockAcademyCoursePrice(ctx.ports, { courseId: ctx.course.id, userId: BUYER });
-    await purchaseAcademyCourse(ctx.ports, {
-      courseId: ctx.course.id,
-      userId: BUYER,
-      lockId: locked.lock.id,
-      platformUserId: PLATFORM,
-    });
-    const lessonKey = curriculumForCourseSlug(ctx.course.slug)[0]!.key;
+    const lessons = curriculumForCourseSlug("01_office_ai");
+    expect(lessons).toHaveLength(6);
     await expect(
-      prepareAcademyLessonListen(ctx.ports, {
-        courseId: ctx.course.id,
-        userId: BUYER,
-        lessonKey,
+      completeAcademyLesson(ports, {
+        courseId: course.id,
+        userId: BUYER_OFFICE,
+        lessonKey: lessons[0]!.key,
+        proof: { kind: "param-lock", slots: {} },
       }),
-    ).rejects.toBeInstanceOf(GoneError);
+    ).rejects.toBeInstanceOf(ForbiddenError);
+    for (const lesson of lessons) {
+      const done = await completeAcademyLesson(ports, {
+        courseId: course.id,
+        userId: BUYER_OFFICE,
+        lessonKey: lesson.key,
+      });
+      expect(done.applied).toBe(true);
+    }
+    const player = await loadAcademyCurriculumPlayer(ports, {
+      courseId: course.id,
+      userId: BUYER_OFFICE,
+    });
+    expect(player.curriculumComplete).toBe(true);
+    expect(player.workTasksComplete).toBe(true);
   });
 });

@@ -1,3 +1,5 @@
+import { academyCourseRecordFromSeed } from "@/lib/academy/published-catalog";
+import { academyCourseSeedBySlug, academyExamRecordFromSeed } from "@/lib/academy/seed";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import type {
   AcademyCertificateRecord,
@@ -17,6 +19,10 @@ import {
   cloneAcademyExamSittingItems,
 } from "@/lib/academy/exam-sitting";
 import { orderAcademyCatalogByCurriculum } from "@/lib/academy/catalog-filter";
+import {
+  academyPulseContinueFields,
+  pickLastIncompleteAcademyPurchase,
+} from "@/lib/academy/pulse-continue";
 import { createSerializedUnitOfWork, type MemoryLedgerStore } from "./memory-money";
 import type { MemoryCheckoutPriceLockStore } from "./memory-pricing";
 
@@ -283,10 +289,24 @@ export function createMemoryAcademyStore(): MemoryAcademyStore {
         (row) => row.userId === userId && row.revokedAt === null,
       );
       const latest = [...ownCerts].sort((a, b) => b.issuedAt.getTime() - a.issuedAt.getTime())[0];
+      const certifiedPurchaseIds = new Set(ownCerts.map((row) => row.purchaseId));
+      const resume = pickLastIncompleteAcademyPurchase(ownPurchases, certifiedPurchaseIds);
+      const course = resume ? courses.get(resume.courseId) : null;
+      const done = resume
+        ? [...completions.values()]
+            .filter((row) => row.purchaseId === resume.id)
+            .map((row) => row.lessonKey)
+        : [];
+      const continueFields = academyPulseContinueFields({
+        courseSlug: course?.slug,
+        completedLessonKeys: done,
+      });
       const pulse: AcademyPulse = {
         purchasesCount: ownPurchases.length,
         certificatesHeld: ownCerts.length,
         lastCertificateTitle: latest?.title ?? null,
+        lastCourseSlug: continueFields.lastCourseSlug,
+        nextLessonKey: continueFields.nextLessonKey,
         currencyCode: SETTLEMENT_CURRENCY,
       };
       return pulse;
@@ -294,14 +314,30 @@ export function createMemoryAcademyStore(): MemoryAcademyStore {
   };
 }
 
+/** Yayın amiral SKU — bellek halkaları `sample-course` yerine bunu basar. */
+export const MEMORY_FLAGSHIP_SKU_SLUG = "01_office_ai" as const;
+
+export function memoryPublishedSku(slug: string = MEMORY_FLAGSHIP_SKU_SLUG) {
+  const seed = academyCourseSeedBySlug(slug);
+  if (!seed) {
+    throw new Error(`${slug} tohumu yok.`);
+  }
+  return {
+    seed,
+    course: academyCourseRecordFromSeed(seed),
+    exam: academyExamRecordFromSeed(seed),
+    amountMinor: seed.seedAmountMinor,
+  };
+}
+
 export function memoryCourse(overrides?: Partial<AcademyCourseRecord>): AcademyCourseRecord {
   const now = new Date("2026-08-14T00:00:00.000Z");
   return {
     id: "course-1",
-    slug: "python-temel",
-    title: "yetkin.ai temeli",
+    slug: "sample-course",
+    title: "Örnek Kurs",
     summary: "Onaylı ödeme ve mühürlü müfredat.",
-    catalogUnitKey: "course:python-temel",
+    catalogUnitKey: "course:sample-course",
     globalRank: 99,
     localRank: 99,
     trendScore: 0,

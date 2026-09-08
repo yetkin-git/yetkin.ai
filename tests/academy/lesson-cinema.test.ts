@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  academyCinemaActiveCue,
   academyCinemaCaptionText,
   academyCinemaDurationSec,
   academyCinemaSeekAudioSeconds,
@@ -39,5 +40,22 @@ describe("akademi sinema kaynağı", () => {
         audioLeadInSec: 0,
       }),
     ).toBe("Tutar kuruştur.");
+    expect(
+      academyCinemaActiveCue({
+        cues: [
+          {
+            id: "cue-ledger",
+            text: "Tutar kuruştur.",
+            start: 1,
+            end: 4,
+            section: "Kasa",
+          },
+        ],
+        currentTime: 2,
+        audioDuration: 0,
+        spokenDuration: 4,
+        audioLeadInSec: 0,
+      })?.id,
+    ).toBe("cue-ledger");
   });
 });

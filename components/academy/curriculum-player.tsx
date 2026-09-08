@@ -1,37 +1,22 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ReactNode } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import type { Route } from "next";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { LinkButton } from "@/components/ui/link-button";
-import { IconChevronDown } from "@/components/ui/icons";
 import { LessonMediaPlayer } from "@/components/academy/lesson-media-player";
-import { LessonDialogueTranscript } from "@/components/academy/lesson-dialogue-transcript";
-import { LessonSyntaxCode } from "@/components/academy/lesson-syntax-code";
+import { LessonStudyTabs } from "@/components/academy/lesson-study-tabs";
 import { LessonTeleprompter } from "@/components/academy/lesson-teleprompter";
+import { LessonCinemaEyeLayer } from "@/components/academy/lesson-visual-stage";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
-import { ACADEMY_FIVE_ACT_HEADINGS, parseAcademyLessonActText } from "@/lib/academy/lesson-body";
 import { normalizeAcronyms } from "@/lib/academy/acronym-normalizer";
-import {
-  academyLessonStageFrame,
-  academySpokenHighlightElapsedSec,
-  activeAcademyDialogueTurnIndex,
-  buildAcademyDialogueTimeline,
-  buildAcademyTeleprompterCues,
-  parseDialogueLine,
-  type AcademyTeleprompterCue,
-  type TimedDialogueTurn,
-} from "@/lib/academy/dialogue-timeline";
-import { academyDialogueSpeakerDisplayName } from "@/lib/academy/curricula/types";
-import {
-  composeAcademyLessonBlocks,
-  type AcademyLessonDiagramSlot,
-  type AcademyLessonMicroVideoSlot,
-} from "@/lib/academy/lesson-media";
+import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
+import { academyExamStartGateHref } from "@/lib/academy/continue-board";
+import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import {
   canAdvanceAcademyPlayerLesson,
+  isAcademyPlayerExamReady,
   nextAcademyPlayerLesson,
   prevAcademyPlayerLesson,
 } from "@/lib/academy/lesson-advance";
@@ -41,7 +26,8 @@ import {
   academyLessonKindLabel,
   academyLessonMediaMeta,
 } from "@/lib/academy/lesson-meta";
-import { isAcademyLessonAudioSealed } from "@/lib/academy/lesson-audio";
+import { loadAcademyLessonVisualStage } from "@/lib/academy/lesson-visual-stage";
+import type { AcademyLessonDiagramSlot, AcademyLessonMicroVideoSlot } from "@/lib/academy/lesson-media";
 
 export type CurriculumPlayerLesson = {
   key: string;
@@ -55,313 +41,6 @@ export type CurriculumPlayerLesson = {
   diagrams?: readonly AcademyLessonDiagramSlot[];
   microVideos?: readonly AcademyLessonMicroVideoSlot[];
 };
-
-function parseDialogueSpeakerLine(paragraph: string): { speaker: string; text: string } | null {
-  const match = parseDialogueLine(paragraph);
-  if (!match) {
-    return null;
-  }
-  return { speaker: academyDialogueSpeakerDisplayName(match.speaker), text: match.text };
-}
-
-function textBlockIsDialogueOnly(text: string): boolean {
-  const parsed = parseAcademyLessonActText(text);
-  if (
-    parsed.act === "warmup" ||
-    parsed.act === "problem" ||
-    parsed.act === "development" ||
-    parsed.act === "conclusion"
-  ) {
-    return true;
-  }
-  const body = parsed.body || (parsed.heading ? "" : text);
-  const paragraphs = body
-    .split(/\n\n+/u)
-    .map((part) => part.trim())
-    .filter((part) => part.length > 0);
-  if (paragraphs.length === 0) {
-    return false;
-  }
-  return paragraphs.every((paragraph) => parseDialogueLine(paragraph) != null);
-}
-
-function LessonProse({ text }: { text: string }) {
-  const parsed = parseAcademyLessonActText(text);
-  const body = parsed.body || (parsed.heading ? "" : text);
-  const paragraphs = body
-    .split(/\n\n+/u)
-    .map((part) => part.trim())
-    .filter((part) => part.length > 0);
-  return (
-    <div className="academy-stage-prose w-full max-w-2xl space-y-5">
-      {parsed.heading ? (
-        <h3 className="text-[1.0625rem] font-semibold tracking-[-0.022em] text-[var(--foreground)]">
-          {parsed.heading}
-        </h3>
-      ) : null}
-      {paragraphs.map((paragraph, paragraphOffset) => {
-        const dialogue = parseDialogueSpeakerLine(paragraph);
-        if (dialogue) {
-          return (
-            <div
-              key={`${paragraphOffset}:${dialogue.speaker}:${dialogue.text.slice(0, 24)}`}
-              className="space-y-1"
-            >
-              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--muted)]">
-                {dialogue.speaker}
-              </p>
-              <p className="text-[15px] leading-[1.7] text-[color-mix(in_srgb,var(--foreground)_92%,transparent)]">
-                {dialogue.text}
-              </p>
-            </div>
-          );
-        }
-        return (
-          <p
-            key={`${paragraphOffset}:${paragraph.slice(0, 24)}`}
-            className="text-[15px] leading-[1.7] text-[color-mix(in_srgb,var(--foreground)_92%,transparent)]"
-          >
-            {paragraph}
-          </p>
-        );
-      })}
-    </div>
-  );
-}
-
-type LessonCodeSnippet = {
-  language: string;
-  source: string;
-};
-
-function uniqueLessonCodes(
-  turns: readonly TimedDialogueTurn[],
-  bodyCodes: readonly LessonCodeSnippet[],
-): LessonCodeSnippet[] {
-  const seen = new Set<string>();
-  const out: LessonCodeSnippet[] = [];
-  function push(snippet: LessonCodeSnippet) {
-    const source = snippet.source.trim();
-    if (!source || seen.has(source)) {
-      return;
-    }
-    seen.add(source);
-    out.push({ language: snippet.language, source });
-  }
-  for (const turn of turns) {
-    if (turn.code) {
-      push({ language: turn.code.language, source: turn.code.source });
-    }
-  }
-  for (const snippet of bodyCodes) {
-    push(snippet);
-  }
-  return out;
-}
-
-type SurfaceDiagram = {
-  diagramKey: string;
-  title: string;
-  caption: string;
-};
-
-function splitAcademyPlayerSurface({
-  body,
-  diagrams,
-  microVideos,
-}: {
-  body: string;
-  diagrams?: readonly AcademyLessonDiagramSlot[];
-  microVideos?: readonly AcademyLessonMicroVideoSlot[];
-}): {
-  codes: LessonCodeSnippet[];
-  quizPrompt: string | null;
-  notes: ReactNode[];
-  diagrams: SurfaceDiagram[];
-  visualKey: string | null;
-} {
-  const visual = ACADEMY_SEN.visual;
-  const blocks = composeAcademyLessonBlocks({ body, diagrams, microVideos });
-  const codes: LessonCodeSnippet[] = [];
-  const stageDiagrams: SurfaceDiagram[] = [];
-  const notes: ReactNode[] = [];
-  let quizPrompt: string | null = null;
-  let visualKey: string | null = null;
-  for (const [index, block] of blocks.entries()) {
-    const key = `${block.kind}:${index}`;
-    if (block.kind === "text") {
-      const parsed = parseAcademyLessonActText(block.text);
-      if (
-        parsed.act === "giris" ||
-        parsed.act === "assessment" ||
-        textBlockIsDialogueOnly(block.text)
-      ) {
-        continue;
-      }
-      notes.push(<LessonProse key={key} text={block.text} />);
-      continue;
-    }
-    if (block.kind === "micro-video") {
-      visualKey = block.assetKey;
-      continue;
-    }
-    if (block.kind === "diagram") {
-      stageDiagrams.push({
-        diagramKey: block.diagramKey,
-        title: block.title,
-        caption: block.caption,
-      });
-      continue;
-    }
-    if (block.kind === "params") {
-      notes.push(
-        <div key={key} className="max-w-2xl space-y-2">
-          <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--muted)]">
-            {visual.paramsEyebrow}
-          </p>
-          <dl className="space-y-1 rounded-xl border border-[var(--border)] px-4 py-3 text-[14px]">
-            {block.rows.map((row) => (
-              <div key={row.label} className="flex flex-wrap justify-between gap-2">
-                <dt className="text-[var(--muted)]">{row.label}</dt>
-                <dd className="font-medium text-[var(--foreground)]">{row.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>,
-      );
-      continue;
-    }
-    if (block.kind === "steps") {
-      notes.push(
-        <div key={key} className="max-w-2xl space-y-2">
-          <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--muted)]">
-            {visual.stepsEyebrow}
-          </p>
-          <ol className="list-decimal space-y-1.5 pl-5 text-[15px] leading-6 text-[var(--foreground)]">
-            {block.items.map((item, itemIndex) => (
-              <li key={`${itemIndex}:${item.slice(0, 24)}`}>{item}</li>
-            ))}
-          </ol>
-        </div>,
-      );
-      continue;
-    }
-    if (block.kind === "code") {
-      codes.push({ language: block.language, source: block.source });
-      continue;
-    }
-    if (block.kind === "exercise") {
-      quizPrompt = block.prompt;
-    }
-  }
-  return { codes, quizPrompt, notes, diagrams: stageDiagrams, visualKey };
-}
-
-function LessonCodeCallout() {
-  const copy = ACADEMY_SEN.player;
-  return (
-    <aside className="academy-player-code-callout" data-academy-code-callout="">
-      <p className="academy-player-code-callout-title">{copy.codeCalloutTitle}</p>
-      <p className="academy-player-code-callout-lead">{copy.codeCalloutLead}</p>
-      <p className="academy-player-code-callout-invite">
-        {copy.codeCalloutInviteBefore}
-        <Link className="academy-player-code-callout-link" href={copy.codeCalloutHref as Route}>
-          {copy.codeCalloutModule}
-        </Link>
-        {copy.codeCalloutInviteAfter}
-      </p>
-    </aside>
-  );
-}
-
-function LessonWidescreenStage({
-  heading,
-  code,
-  codeLineIndex,
-  diagram,
-  visualKey,
-  label,
-  act,
-  cues,
-  elapsedSec,
-  playing,
-}: {
-  heading: string | null;
-  code: LessonCodeSnippet | null;
-  codeLineIndex: number | null;
-  diagram: SurfaceDiagram | null;
-  visualKey: string | null;
-  label: string;
-  act: string | null;
-  cues: readonly AcademyTeleprompterCue[];
-  elapsedSec: number;
-  playing: boolean;
-}) {
-  const hasScript = cues.length > 0;
-  const overlay = Boolean(code);
-  const showVisual = !code && !hasScript;
-  return (
-    <div
-      className="academy-player-widescreen"
-      data-academy-player-stage=""
-      data-academy-stage-act={act ?? undefined}
-      data-academy-stage-code={code ? "true" : undefined}
-    >
-      <span className="sr-only">{label}</span>
-      {heading && !code ? (
-        <p className="academy-player-widescreen-kicker">{heading}</p>
-      ) : null}
-      {code ? (
-        <div className="academy-player-code-stack">
-          <pre
-            className="academy-player-widescreen-code"
-            data-academy-code-viewer=""
-            data-academy-code-active="true"
-          >
-            <LessonSyntaxCode language={code.language} source={code.source} activeLine={codeLineIndex} />
-          </pre>
-        </div>
-      ) : null}
-      {showVisual && diagram ? (
-        <figure className="academy-player-widescreen-visual">
-          <img
-            src={`/media/academy/diagrams/${diagram.diagramKey}.svg`}
-            alt={diagram.title}
-          />
-        </figure>
-      ) : null}
-      {showVisual && !diagram && visualKey ? (
-        <figure className="academy-player-widescreen-visual">
-          <img src={`/media/academy/micro/${visualKey}.poster.svg`} alt="" />
-        </figure>
-      ) : null}
-      {showVisual && !diagram && !visualKey ? (
-        <div className="academy-player-widescreen-empty" />
-      ) : null}
-      {hasScript ? (
-        <LessonTeleprompter
-          cues={cues}
-          elapsedSec={elapsedSec}
-          overlay={overlay}
-          playing={playing}
-        />
-      ) : null}
-    </div>
-  );
-}
-
-function LessonQuizPanel({ prompt }: { prompt: string }) {
-  return (
-    <section className="academy-player-quiz" data-academy-quiz-panel="">
-      <p className="px-1 text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--muted)] sm:px-0">
-        {ACADEMY_FIVE_ACT_HEADINGS.assessment}
-      </p>
-      <div className="academy-player-quiz-scroll mt-2 rounded-xl border border-[var(--border)] px-4 py-3">
-        <p className="whitespace-pre-wrap text-[15px] leading-6 text-[var(--foreground)]">{prompt}</p>
-      </div>
-    </section>
-  );
-}
 
 export function CurriculumPlayer({
   courseId,
@@ -383,8 +62,8 @@ export function CurriculumPlayer({
   const [activeKey, setActiveKey] = useState(firstOpen?.key ?? lessons[0]?.key ?? "");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
-  const [spokenElapsed, setSpokenElapsed] = useState(0);
-  const [dialoguePlaying, setDialoguePlaying] = useState(false);
+  const [mediaElapsed, setMediaElapsed] = useState(0);
+  const [mediaPlaying, setMediaPlaying] = useState(false);
   const [completedKeys, setCompletedKeys] = useState(
     () => new Set(lessons.filter((lesson) => lesson.completed).map((lesson) => lesson.key)),
   );
@@ -394,76 +73,30 @@ export function CurriculumPlayer({
   }, [lessons]);
 
   const active = lessons.find((lesson) => lesson.key === activeKey) ?? firstOpen;
-  const examOpen = curriculumComplete && (workTasksComplete ?? curriculumComplete);
+  const examOpen = isAcademyPlayerExamReady({
+    curriculumComplete,
+    workTasksComplete,
+    lessons,
+    completedKeys,
+  });
   const nextLesson = active ? nextAcademyPlayerLesson(lessons, active.key) : null;
   const prevLesson = active ? prevAcademyPlayerLesson(lessons, active.key) : null;
   const canAdvance = canAdvanceAcademyPlayerLesson(active ?? null, nextLesson);
   const canGoPrev = Boolean(prevLesson?.open);
   const canGoNext = Boolean(nextLesson && (nextLesson.open || canAdvance));
   const activeCompleted = active ? completedKeys.has(active.key) || active.completed : false;
-
   const activeTitle = active ? normalizeAcronyms(active.title) : "";
-  const dialogueTimeline = useMemo(
-    () => buildAcademyDialogueTimeline(active?.body ?? "", courseSlug),
-    [active?.body, courseSlug],
+  const playerLayer = useMemo(
+    () => (active ? academyCitizenPlayerLayer(courseSlug, active.key) : { kind: "article" as const }),
+    [active, courseSlug],
   );
-  const surface = useMemo(
-    () =>
-      splitAcademyPlayerSurface({
-        body: active?.body ?? "",
-        diagrams: active?.diagrams,
-        microVideos: active?.microVideos,
-      }),
-    [active?.body, active?.diagrams, active?.microVideos],
-  );
-  const lessonCodes = useMemo(
-    () => uniqueLessonCodes(dialogueTimeline.turns, surface.codes),
-    [dialogueTimeline.turns, surface.codes],
-  );
-  const teleprompterCues = useMemo(
-    () => buildAcademyTeleprompterCues(dialogueTimeline.turns),
-    [dialogueTimeline.turns],
-  );
-  const highlightElapsed = academySpokenHighlightElapsedSec(spokenElapsed);
-  const highlightTurnIndex = activeAcademyDialogueTurnIndex(
-    dialogueTimeline.turns,
-    highlightElapsed,
-  );
-  const stageFrame = useMemo(
-    () =>
-      academyLessonStageFrame({
-        turns: dialogueTimeline.turns,
-        activeIndex: highlightTurnIndex,
-        elapsedSec: highlightElapsed,
-        fallbackCodes: lessonCodes,
-      }),
-    [highlightElapsed, highlightTurnIndex, dialogueTimeline.turns, lessonCodes],
-  );
-  const showCodeCallout =
-    !courseSlug.startsWith("python-") && Boolean(stageFrame.code ?? lessonCodes[0]);
-  const showNotes =
-    dialogueTimeline.turns.length > 0 ||
-    surface.notes.length > 0 ||
-    Boolean(surface.quizPrompt) ||
-    showCodeCallout;
+  const karaoke = playerLayer.kind === "article+karaoke" ? playerLayer : null;
+  const eyeStage = karaoke ? loadAcademyLessonVisualStage(karaoke.lessonKey) : null;
 
   useEffect(() => {
-    setSpokenElapsed(0);
-    setDialoguePlaying(false);
+    setMediaElapsed(0);
+    setMediaPlaying(false);
   }, [activeKey]);
-
-  function onDialogueEnded() {
-    if (!active || pending) {
-      return;
-    }
-    if (active.open && !activeCompleted) {
-      void completeLesson(active.key);
-      return;
-    }
-    if (nextLesson && canGoNext) {
-      goToNextLesson(nextLesson.key);
-    }
-  }
 
   function goToNextLesson(lessonKey: string) {
     setError(null);
@@ -508,6 +141,19 @@ export function CurriculumPlayer({
     }
   }
 
+  function onMediaEnded() {
+    if (!active || pending) {
+      return;
+    }
+    if (active.open && !activeCompleted) {
+      void completeLesson(active.key);
+      return;
+    }
+    if (nextLesson && canGoNext) {
+      goToNextLesson(nextLesson.key);
+    }
+  }
+
   function onPrevLesson() {
     if (!prevLesson?.open) {
       return;
@@ -529,10 +175,15 @@ export function CurriculumPlayer({
     }
   }
 
+  const examLaunchLabel = copy.examLaunchCta(
+    lessons.filter((lesson) => completedKeys.has(lesson.key) || lesson.completed).length,
+    lessons.length,
+    ACADEMY_EXAM_PASS_SCORE,
+  );
   const primaryLabel = pending
     ? copy.completing
     : examOpen
-      ? copy.examCta
+      ? examLaunchLabel
       : active && active.open && !activeCompleted
         ? copy.completeCta
         : copy.nextLessonCta;
@@ -540,14 +191,14 @@ export function CurriculumPlayer({
 
   const playlist = (
     <aside
-      className="academy-player-rail flex min-h-0 flex-col overflow-hidden max-lg:max-h-28"
+      className="academy-player-rail flex min-h-0 flex-col overflow-hidden max-lg:max-h-28 lg:sticky lg:top-3 lg:max-h-[calc(100dvh-5.5rem)] lg:self-start"
       data-academy-player-playlist=""
     >
       <p className="shrink-0 px-1 pb-2 text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--muted)]">
         {copy.playlistLabel}
       </p>
       <ol
-        className="flex min-h-0 gap-2 overflow-x-auto overscroll-contain pr-1 lg:flex-1 lg:flex-col lg:space-y-1.5 lg:gap-0 lg:overflow-y-auto"
+        className="flex min-h-0 gap-2 overflow-x-auto overscroll-contain pr-1 lg:flex-1 lg:flex-col lg:space-y-2 lg:gap-0 lg:overflow-y-auto"
         aria-label={copy.playlistLabel}
       >
         {lessons.map((lesson) => {
@@ -583,7 +234,7 @@ export function CurriculumPlayer({
                   }`}
                 />
                 <span className="min-w-0 flex-1">
-                  <span className={`block font-medium ${selected ? "text-white" : "text-[var(--foreground)]"}`}>
+                  <span className={`block line-clamp-2 font-medium ${selected ? "text-white" : "text-[var(--foreground)]"}`}>
                     {lesson.order}. {normalizeAcronyms(lesson.title)}
                   </span>
                   <span className={`block text-[11px] ${selected ? "text-white/70" : "text-[var(--muted)]"}`}>
@@ -599,92 +250,78 @@ export function CurriculumPlayer({
     </aside>
   );
 
-  const isAudioSealed = active ? isAcademyLessonAudioSealed(courseSlug, active.key) : false;
-
   return (
     <div
-      className="academy-player-shell grid min-h-0 flex-1 grid-cols-1 grid-rows-[minmax(0,1fr)_auto] gap-2 overflow-hidden lg:grid-cols-[minmax(0,1fr)_19rem] lg:grid-rows-[minmax(0,1fr)] lg:gap-5"
-      data-academy-player="standard"
-      data-academy-player-layout="fit-screen"
+      className="academy-player-shell grid min-h-0 flex-1 grid-cols-1 grid-rows-[auto_auto] gap-5 overflow-visible lg:grid-cols-[minmax(0,1fr)_19rem] lg:grid-rows-[auto] lg:items-start lg:gap-6"
+      data-academy-player="article"
+      data-academy-player-layout="document"
     >
       {active ? (
         <>
-          <div className="academy-player-main relative flex min-h-0 min-w-0 flex-col gap-2 overflow-hidden lg:col-start-1">
+          <div
+            className="academy-player-main relative flex min-h-0 min-w-0 flex-col gap-5 lg:col-start-1"
+            data-academy-hybrid="media-then-study"
+          >
             <header className="shrink-0 px-1 sm:px-0 flex flex-wrap items-center justify-between gap-2">
-              <h2 className="truncate text-[1.125rem] font-semibold tracking-[-0.032em] text-[var(--foreground)] sm:text-[1.375rem] sm:leading-[1.2]">
+              <h2 className="truncate text-[1.125rem] font-semibold tracking-[-0.032em] text-slate-900 sm:text-[1.375rem] sm:leading-[1.2]">
                 {activeTitle}
               </h2>
               <span
                 data-academy-mode-badge=""
+                data-academy-mode={karaoke ? "karaoke" : "article"}
                 className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                  isAudioSealed
+                  karaoke
                     ? "bg-[var(--safir-soft)] text-[var(--safir-deep)]"
-                    : "border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--muted)]"
+                    : "border border-slate-200 bg-white text-slate-600"
                 }`}
               >
-                <span className={`h-1.5 w-1.5 rounded-full ${isAudioSealed ? "bg-[var(--safir)]" : "bg-slate-400"}`} />
-                {isAudioSealed ? "Sesli Anlatım" : "Yazılı & Kod İnceleme Modu"}
+                <span className={`h-1.5 w-1.5 rounded-full ${karaoke ? "bg-[var(--safir)]" : "bg-slate-400"}`} />
+                {karaoke ? "Sesli anlatım" : "Makale"}
               </span>
             </header>
-            <div className="academy-player-focus flex min-h-0 flex-1 flex-col">
-              <div className="academy-player-cinema" data-academy-player-canvas="">
-                <LessonWidescreenStage
-                  heading={stageFrame.heading}
-                  code={stageFrame.code}
-                  codeLineIndex={stageFrame.codeLineIndex}
-                  diagram={surface.diagrams[0] ?? null}
-                  visualKey={surface.visualKey}
-                  label={copy.codeViewerLabel}
-                  act={stageFrame.act}
-                  cues={teleprompterCues}
-                  elapsedSec={spokenElapsed}
-                  playing={dialoguePlaying}
+
+            {karaoke ? (
+              <section
+                className="academy-player-karaoke academy-player-widescreen academy-cinema-stage overflow-hidden rounded-2xl border border-slate-200 bg-slate-950"
+                data-academy-karaoke="sealed"
+                data-academy-media="sealed-wav"
+              >
+                {eyeStage ? (
+                  <LessonCinemaEyeLayer
+                    stage={eyeStage}
+                    currentTime={mediaElapsed}
+                    playing={mediaPlaying}
+                    captions={false}
+                  />
+                ) : null}
+                <LessonTeleprompter
+                  cues={karaoke.cues}
+                  elapsedSec={mediaElapsed}
+                  playing={mediaPlaying}
+                  overlay
                 />
                 <LessonMediaPlayer
                   key={active.key}
                   courseSlug={courseSlug}
                   lessonKey={active.key}
                   lessonTitle={activeTitle}
-                  body={active.body}
-                  onSpokenElapsedChange={setSpokenElapsed}
-                  onPlayingChange={setDialoguePlaying}
-                  onEnded={onDialogueEnded}
+                  onSpokenElapsedChange={setMediaElapsed}
+                  onPlayingChange={setMediaPlaying}
+                  onEnded={onMediaEnded}
                 />
-              </div>
-            </div>
-            {showNotes ? (
-              <details
-                key={active.key}
-                className="academy-player-notes relative z-0 min-h-0 max-h-[350px] overflow-y-auto"
-                data-academy-player-companion=""
-                data-academy-lesson-notes=""
-              >
-                <summary className="academy-player-notes-summary">
-                  <span>{copy.notesLabel}</span>
-                  <IconChevronDown className="academy-player-notes-chevron h-4 w-4 shrink-0" />
-                </summary>
-                <div
-                  className="academy-player-notes-body academy-player-reading-pane max-h-[350px] overflow-y-auto pr-2"
-                  aria-live="polite"
-                  data-academy-lesson-body=""
-                >
-                  {showCodeCallout ? <LessonCodeCallout /> : null}
-                  {dialogueTimeline.turns.length > 0 ? (
-                    <LessonDialogueTranscript
-                      turns={dialogueTimeline.turns}
-                      activeIndex={highlightTurnIndex}
-                      listening={dialoguePlaying}
-                    />
-                  ) : null}
-                  {surface.notes.length > 0 ? (
-                    <div className="academy-player-reading mt-5 flex w-full flex-col gap-6">
-                      {surface.notes}
-                    </div>
-                  ) : null}
-                  {surface.quizPrompt ? <LessonQuizPanel prompt={surface.quizPrompt} /> : null}
-                </div>
-              </details>
+              </section>
             ) : null}
+
+            <LessonStudyTabs
+              lessonKey={active.key}
+              articleBody={active.body}
+              courseSlug={courseSlug}
+              examOpen={examOpen}
+              lessonOrder={active.order}
+              lessonTotal={lessons.length}
+              nextLessonTitle={nextLesson ? normalizeAcronyms(nextLesson.title) : undefined}
+            />
+
             <div
               className="academy-player-dock academy-player-action-bar relative z-10 shrink-0 px-1 py-2 sm:px-0"
               data-academy-player-dock=""
@@ -703,12 +340,14 @@ export function CurriculumPlayer({
                 </Button>
                 {examOpen ? (
                   <LinkButton
-                    href={`/academy/${courseSlug}`}
+                    href={academyExamStartGateHref(courseSlug) as Route}
                     size="sm"
+                    variant="success"
                     className="min-h-10 rounded-full px-5 text-[13px]"
                     data-academy-next-lesson-cta=""
+                    data-academy-exam-launch=""
                   >
-                    {copy.examCta}
+                    {examLaunchLabel}
                   </LinkButton>
                 ) : (
                   <Button

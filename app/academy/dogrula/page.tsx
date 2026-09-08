@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { CertificateVerifyForm } from "@/components/academy/certificate-verify-form";
+import { CertificateVerifyNav } from "@/components/academy/certificate-verify-nav";
 import { Card } from "@/components/ui/card";
-import { LinkButton } from "@/components/ui/link-button";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
@@ -16,11 +16,7 @@ export default function AcademyCertificateVerifyLandingPage() {
         eyebrow={copy.eyebrow}
         title={copy.landingTitle}
         description={copy.landingLead}
-        actions={
-          <LinkButton href="/academy" variant="outline" size="sm">
-            {copy.catalogCta}
-          </LinkButton>
-        }
+        actions={<CertificateVerifyNav />}
       />
       <Card variant="featured">
         <p className="mb-4 text-sm text-[var(--muted)]">{copy.privacy}</p>

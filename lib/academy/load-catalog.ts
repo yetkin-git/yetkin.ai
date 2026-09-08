@@ -57,13 +57,15 @@ export const loadPublishedCourses = cache(async function loadPublishedCourses():
   const seeded = publishedCoursesFromSeed();
   try {
     // Fiyat, kilit ve PayTR aynı `PriceCatalogEntry` satırındandır.
-    // 800ms tohum düşüşü vitrinde yeni haritayı, antrede/kilitte eski tutarı basardı.
     const engineReady = await ensurePrismaQueryEngine();
     if (!engineReady) {
       return seeded;
     }
     const ports = createPrismaAcademyPorts();
     const courses = await ports.academy.listPublishedCourses();
+    if (courses.length === 0) {
+      return seeded;
+    }
     const seedSlugs = new Set(seeded.map((row) => row.slug));
     const relevant = courses.filter((course) => seedSlugs.has(course.slug));
     const unitKeys = [...new Set(relevant.map((course) => course.catalogUnitKey))];

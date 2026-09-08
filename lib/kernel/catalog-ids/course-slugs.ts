@@ -1,32 +1,87 @@
 /**
  * Yayın SKU kimliği — vize damgası başlık eşlemesi.
  * Vitrin metni akademi odasında çoğaltılmaz; bu sicil SSOT’tur.
+ *
+ * Kanon: pazar analizindeki 13 odaklı eğitim (Katman 1×5 + Katman 2×5 + Katman 3×3).
+ * Canlı vitrin `ACADEMY_GROWTH_SKU_SLUGS` ingest edilmiş alt kümedir.
  */
 
+export const ACADEMY_CANON_SKU_SLUGS = [
+  "01_office_ai",
+  "02_ecommerce_ai",
+  "03_social_media_ai",
+  "04_chatbot_nocode",
+  "05_prompt_practice",
+  "06_n8n_automation",
+  "07_langgraph_agents",
+  "08_production_rag",
+  "09_nextjs_ai",
+  "10_data_analytics_ai",
+  "11_llm_redteam",
+  "12_onprem_finetune",
+  "13_ai_governance",
+] as const;
+
 export const ACADEMY_COURSE_TITLES = {
-  "security-temel": "Siber Güvenlik Temelleri, Ağ Güvenliği ve AÇS (OWASP)",
-  "security-orta": "Uygulamalı Sızma Testi, Ağ Analizi ve Web Zafiyet Mimarisi",
-  "security-ileri": "İleri Düzey DevSecOps, Bulut Güvenliği ve Olay Müdahalesi (Incident Response)",
-  "ai-agent-temel": "AI Agent Mimarlığı ve Otonom Sistemlere Giriş",
-  "ai-agent-orta": "Çoklu AI Agent Sistemleri ve RAG Mimarisi",
-  "ai-agent-ileri": "İleri Düzey AI Agent Mimarisi, LangGraph ve Otonom Sistem Güvenliği",
-  "python-temel": "Python ile Programlama ve Problem Çözme",
-  "python-orta": "Python ile Nesne Yönelimli Programlama ve Veri İşleme",
-  "python-ileri": "Python ile İleri Düzey Mimari, Asenkron Programlama ve Performans",
-  "fullstack-temel": "Modern Web Geliştirme Temelleri (HTML, CSS, JavaScript ve TypeScript)",
-  "fullstack-orta": "React, Node.js ve PostgreSQL ile Modern Uygulama Geliştirme",
-  "fullstack-ileri": "İleri Düzey Full-Stack Mimari: Next.js App Router, Microservices, Docker ve CI/CD",
-  "ai-temel": "Yapay Zekâ ve Veri Analizi (Prompt ve Veri Bilimi)",
-  "ux-temel": "Dijital Ürün Tasarımı (UI/UX ve Figma Masterclass)",
-  "excel-masterclass": "Sıfırdan Uygulamalı Excel ve Yapay Zekâ Destekli Veri Analizi Masterclass",
-  "google-ads-masterclass": "A’dan Z’ye Google Ads ve Arama Motoru Pazarlaması Masterclass",
-  "meta-ads-masterclass": "Meta Business Suite ile Instagram ve Facebook Reklamcılığı Masterclass",
-  "eticaret-masterclass": "Sıfırdan E-Ticaret ve Pazar Yeri Yönetimi Masterclass",
-  "canva-masterclass": "Canva ve Yapay Zekâ İle Dijital Tasarım Masterclass",
-  "linkedin-masterclass": "LinkedIn İle Profesyonel Marka İnşası ve B2B Müşteri Bulma Masterclass",
-} as const;
+  "01_office_ai":
+    "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Otomasyonu)",
+  "02_ecommerce_ai":
+    "E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı (Trendyol, Hepsiburada, Amazon & Shopify)",
+  "03_social_media_ai":
+    "Yapay Zekâ ile Sosyal Medya İçerik Üretimi ve Görsel/Video Fabrikası (Midjourney, Runway, Kling & CapCut)",
+  "04_chatbot_nocode":
+    "Müşteri Hizmetleri ve Satış İçin Kodsuz WhatsApp / Web Chatbot Kurulumu (Voiceflow & Botpress)",
+  "05_prompt_practice":
+    "Pratik Prompt Mühendisliği ve Günlük Üretkenlik Rehberi (ChatGPT, Claude & Perplexity)",
+  "06_n8n_automation":
+    "Kurumsal İş Akışı Otomasyonu (Self-Hosted n8n, Make & AI Entegrasyonları)",
+  "07_langgraph_agents":
+    "Otonom Yapay Zekâ Ajanları Mimarisi (LangGraph, CrewAI & Tool-Calling)",
+  "08_production_rag":
+    "Production RAG ve Kurumsal Arama Sistemleri (Vektör Veritabanları, GraphRAG & Hibrit Arama)",
+  "09_nextjs_ai":
+    "AI-Native Fullstack Web Geliştirme (Next.js, Vercel AI SDK & Reaktif Arayüzler)",
+  "10_data_analytics_ai":
+    "Veri Analitiği, SQL ve İş Zekâsı İçin Yapay Zekâ (Power BI, Python & AI Analytics)",
+  "11_llm_redteam":
+    "Yapay Zekâ Güvenliği, LLM Red Teaming & Guardrails Mimarisi",
+  "12_onprem_finetune":
+    "Yerel Model Dağıtımı ve İnce Ayar (Applied Fine-Tuning, LoRA/QLoRA & vLLM)",
+  "13_ai_governance":
+    "Kurumsal AI Yönetişimi, Hukuk ve Regülasyon Uyumu (AB Yapay Zekâ Yasası & KVKK)",
+} as const satisfies Record<(typeof ACADEMY_CANON_SKU_SLUGS)[number], string>;
 
 export type AcademyCourseTitleSlug = keyof typeof ACADEMY_COURSE_TITLES;
+
+export const ACADEMY_CATALOG_LAYER_BY_SLUG = {
+  "01_office_ai": 1,
+  "02_ecommerce_ai": 1,
+  "03_social_media_ai": 1,
+  "04_chatbot_nocode": 1,
+  "05_prompt_practice": 1,
+  "06_n8n_automation": 2,
+  "07_langgraph_agents": 2,
+  "08_production_rag": 2,
+  "09_nextjs_ai": 2,
+  "10_data_analytics_ai": 2,
+  "11_llm_redteam": 3,
+  "12_onprem_finetune": 3,
+  "13_ai_governance": 3,
+} as const satisfies Record<AcademyCourseTitleSlug, 1 | 2 | 3>;
+
+type CanonLength = (typeof ACADEMY_CANON_SKU_SLUGS)["length"];
+const _canonIsThirteen: CanonLength extends 13 ? true : never = true;
+void _canonIsThirteen;
+
+type MissingTitle = Exclude<(typeof ACADEMY_CANON_SKU_SLUGS)[number], AcademyCourseTitleSlug>;
+type ExtraTitle = Exclude<AcademyCourseTitleSlug, (typeof ACADEMY_CANON_SKU_SLUGS)[number]>;
+type _TitlesMatchCanon = [MissingTitle] extends [never]
+  ? [ExtraTitle] extends [never]
+    ? true
+    : ExtraTitle
+  : MissingTitle;
+const _titlesMatchCanon: _TitlesMatchCanon = true;
+void _titlesMatchCanon;
 
 /**
  * Matrix kilidi sonrası ayrı onboarding SKU yoktur.
@@ -46,4 +101,8 @@ export function academySlugFromCourseTitle(title: string): AcademyCourseTitleSlu
     }
   }
   return null;
+}
+
+export function isAcademyCanonSkuSlug(slug: string): slug is AcademyCourseTitleSlug {
+  return Object.prototype.hasOwnProperty.call(ACADEMY_COURSE_TITLES, slug);
 }

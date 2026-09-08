@@ -1,11 +1,16 @@
 /**
  * Üretim iş kuyruğu ve nakit webhook env sicili — sır basmaz.
  * Fail-closed (503 / CREDIT yok) üretimin *doğru* cevabıdır; bu rapor
- * o cevabın üretimde *unutulmaması* içindir. Prebuild zincirinde yoktur.
+ * o cevabın üretimde *unutulmaması* içindir. `verify:prebuild` zincirindedir —
+ * yalnız NODE_ENV=production iken bloklar; geliştirme derlemesi yeşil kalır.
  */
 
 import { readServiceEnvChecks } from "@/lib/kernel/health/probe";
 import { resolveInngestServeMode } from "@/lib/kernel/jobs/inngest-guard";
+import {
+  CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS,
+  parseTrustedProxyHops,
+} from "@/lib/kernel/security/trusted-proxy";
 
 export type RuntimePresence = "configured" | "unconfigured";
 
@@ -22,6 +27,10 @@ export type RuntimeReadinessReport = {
   jwtHs256Fallback: RuntimePresence;
   /** Sınav oturumu MAC. Boş = akademi sınavı 503; health 503 değildir. */
   examSitting: RuntimePresence;
+  /** XFF sağdan hop. Cloudflare+Vercel canlı reçete 2; kod boş varsayılanı 1. */
+  trustedProxyHops: number;
+  /** Gün 0 operatör uyarıları — süreç bloğu değildir (nakit durmaz). */
+  liveDay0Warnings: readonly string[];
   /** serve() kapalı — GET/POST/PUT /api/jobs/inngest 503. */
   inngestServeFailClosed: boolean;
   /** Üretimde Inngest veya DATABASE_URL boş. PayTR unconfigured süreç bloğu değildir. */
@@ -50,6 +59,7 @@ export function evaluateRuntimeReadiness(
   const jwtHs256Fallback = presence(Boolean(env.SUPABASE_JWT_SECRET?.trim()));
   const production = env.NODE_ENV === "production";
   const inngestServeFailClosed = resolveInngestServeMode(env) === "fail-closed";
+  const trustedProxyHops = parseTrustedProxyHops(env as NodeJS.ProcessEnv);
 
   const blocking: string[] = [];
   if (production && database === "unconfigured") {
@@ -58,6 +68,18 @@ export function evaluateRuntimeReadiness(
   if (production && services.inngest === "unconfigured") {
     blocking.push(
       "INNGEST_EVENT_KEY + INNGEST_SIGNING_KEY boş — /api/jobs/inngest 503; valör ve emanet TTL durur.",
+    );
+  }
+
+  const liveDay0Warnings: string[] = [];
+  if (production && smtp === "unconfigured") {
+    liveDay0Warnings.push(
+      "NOTICE_SMTP_HOST + NOTICE_MAIL_FROM boş — gün 0 makbuz/bildirim yok; nakit durmaz.",
+    );
+  }
+  if (production && trustedProxyHops < CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS) {
+    liveDay0Warnings.push(
+      `TRUSTED_PROXY_HOPS=${trustedProxyHops} — Cloudflare+Vercel canlı reçete ${CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS}; user_ip Cloudflare kenarı olabilir.`,
     );
   }
 
@@ -71,6 +93,8 @@ export function evaluateRuntimeReadiness(
     devlabsPepper,
     jwtHs256Fallback,
     examSitting: services.examSitting,
+    trustedProxyHops,
+    liveDay0Warnings,
     inngestServeFailClosed,
     productionBlocked: blocking.length > 0,
     blocking,
@@ -89,10 +113,17 @@ export function formatRuntimeReadiness(report: RuntimeReadinessReport): string {
     `inngest=${report.inngest} serveFailClosed=${report.inngestServeFailClosed ? "evet" : "hayır"}`,
     `payments=${report.payments} (unconfigured ≠ süreç down; tahsilat kapalı)`,
     `examSitting=${report.examSitting} (boşsa sınav 503; health 503 değildir)`,
-    `smtp=${report.smtp} (boşsa nakit durmaz; piyasa kör; deliverCitizenNoticeMail → skipped)`,
+    `smtp=${report.smtp} (boşsa nakit durmaz; gün 0 makbuz yok; deliverCitizenNoticeMail → skipped)`,
+    `trustedProxyHops=${report.trustedProxyHops} (CF+Vercel canlı reçete=${CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS}; kod boş varsayılan=1)`,
     `devlabsPepper=${report.devlabsPepper} (donmuş oda; üretim bloğu değil; boşsa kod varsayılanı)`,
     `jwtHs256Fallback=${report.jwtHs256Fallback} (boşsa JWKS-only; HS256 düşer)`,
   ];
+  if (report.liveDay0Warnings.length > 0) {
+    lines.push("Gün 0 uyarı (süreç bloğu değil):");
+    for (const row of report.liveDay0Warnings) {
+      lines.push(`- ${row}`);
+    }
+  }
   if (report.blocking.length > 0) {
     lines.push("Üretim bloğu:");
     for (const row of report.blocking) {

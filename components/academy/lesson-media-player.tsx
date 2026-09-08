@@ -3,11 +3,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { IconPause, IconPlay, IconVolume, IconVolumeOff } from "@/components/ui/icons";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
-import {
-  activeAcademyDialogueTurnIndex,
-  academyDialogueSpokenElapsedSec,
-  buildAcademyDialogueTimeline,
-} from "@/lib/academy/dialogue-timeline";
 import { academyLessonAudioPlaybackSrc, academyPlayerClockDurationSec, academySealedAudioDurationSec, isAcademyLessonAudioSealed } from "@/lib/academy/lesson-audio";
 import { formatAcademyCinemaClock } from "@/lib/academy/lesson-cinema";
 import { shouldSealProgressAfterDialogueEnded } from "@/lib/academy/lesson-advance";
@@ -16,8 +11,6 @@ export function LessonMediaPlayer({
   courseSlug,
   lessonKey,
   lessonTitle,
-  body,
-  onActiveTurnChange,
   onSpokenElapsedChange,
   onPlayingChange,
   onEnded,
@@ -25,23 +18,19 @@ export function LessonMediaPlayer({
   courseSlug: string;
   lessonKey: string;
   lessonTitle: string;
-  body: string;
-  onActiveTurnChange?: (index: number) => void;
   onSpokenElapsedChange?: (elapsedSec: number) => void;
   onPlayingChange?: (playing: boolean) => void;
   onEnded?: () => void;
 }) {
   const copy = ACADEMY_SEN.player;
   const listenCopy = ACADEMY_SEN.listen;
-  const timeline = useMemo(() => buildAcademyDialogueTimeline(body, courseSlug), [body, courseSlug]);
   const audioSealed = isAcademyLessonAudioSealed(courseSlug, lessonKey);
   const audioSrc = useMemo(
     () => (audioSealed ? academyLessonAudioPlaybackSrc(courseSlug, lessonKey) : undefined),
     [audioSealed, courseSlug, lessonKey],
   );
-  const spokenDuration = timeline.spokenDuration;
   const sealedDuration = academySealedAudioDurationSec(courseSlug, lessonKey);
-  const fallbackDuration = sealedDuration || spokenDuration;
+  const fallbackDuration = sealedDuration;
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const clockRef = useRef({
     playing: false,
@@ -58,7 +47,6 @@ export function LessonMediaPlayer({
   const rafRef = useRef(0);
   const togglePlayRef = useRef<() => void>(() => undefined);
   const onEndedRef = useRef(onEnded);
-  const onActiveTurnChangeRef = useRef(onActiveTurnChange);
   const onSpokenElapsedChangeRef = useRef(onSpokenElapsedChange);
   const onPlayingChangeRef = useRef(onPlayingChange);
   const [playing, setPlaying] = useState(false);
@@ -74,9 +62,9 @@ export function LessonMediaPlayer({
       academyPlayerClockDurationSec({
         audioDuration,
         sealedDuration,
-        spokenDuration,
+        spokenDuration: 0,
       }),
-    [sealedDuration, spokenDuration],
+    [sealedDuration],
   );
 
   const commitDuration = useCallback(
@@ -94,24 +82,12 @@ export function LessonMediaPlayer({
     [resolveClockDuration],
   );
   onEndedRef.current = onEnded;
-  onActiveTurnChangeRef.current = onActiveTurnChange;
   onSpokenElapsedChangeRef.current = onSpokenElapsedChange;
   onPlayingChangeRef.current = onPlayingChange;
 
-  const spokenElapsed = academyDialogueSpokenElapsedSec({
-    currentTime: elapsed,
-    audioDuration: audioReady ? duration : 0,
-    spokenDuration,
-  });
-  const activeIndex = activeAcademyDialogueTurnIndex(timeline.turns, spokenElapsed);
-
   useEffect(() => {
-    onActiveTurnChangeRef.current?.(activeIndex);
-  }, [activeIndex, lessonKey]);
-
-  useEffect(() => {
-    onSpokenElapsedChangeRef.current?.(spokenElapsed);
-  }, [spokenElapsed, lessonKey]);
+    onSpokenElapsedChangeRef.current?.(elapsed);
+  }, [elapsed, lessonKey]);
 
   useEffect(() => {
     onPlayingChangeRef.current?.(playing);
@@ -336,7 +312,6 @@ export function LessonMediaPlayer({
 
   const progressPct = duration > 0 ? Math.min(100, Math.max(0, (elapsed / duration) * 100)) : 0;
   const preparing = audioSealed && !audioReady && !audioFailed;
-  const quotaWaiting = !audioSealed;
   const audioFailedNotice = audioSealed && audioFailed ? listenCopy.failVoiceBinding : null;
 
   return (
@@ -345,24 +320,11 @@ export function LessonMediaPlayer({
       data-academy-dialogue-player=""
       data-academy-audio-ready={audioReady ? "true" : "false"}
       data-academy-audio-preparing={preparing ? "true" : undefined}
-      data-academy-audio-pending={quotaWaiting ? "true" : undefined}
+      data-academy-clock="currentTime"
       aria-label={lessonTitle}
       aria-busy={preparing}
     >
-      {quotaWaiting ? (
-        <aside
-          className="academy-player-quota-card"
-          role="status"
-          data-academy-audio-pending-notice=""
-          data-academy-quota-waiting=""
-        >
-          <p className="academy-player-quota-card-title">{listenCopy.quotaWaitingTitle}</p>
-          <p className="academy-player-quota-card-body">{listenCopy.quotaWaitingBody}</p>
-          <p className="mt-1 text-xs text-[var(--muted)]">
-            Bu derste teleprompter ve görsel kod akışı devrededir; adımları yazılı ve etkileşimli olarak takip edebilirsin.
-          </p>
-        </aside>
-      ) : audioFailedNotice ? (
+      {audioFailedNotice ? (
         <p className="academy-player-audio-pending" role="status" data-academy-audio-pending-notice="">
           {audioFailedNotice}
         </p>

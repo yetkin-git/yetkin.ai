@@ -15,6 +15,12 @@ import {
   FREELANCER_JOB_MAX_MINOR,
   FREELANCER_JOB_MIN_MINOR,
 } from "@/lib/freelancer/schemas";
+import {
+  FREELANCER_GUARANTEED_NEED_IDS,
+  FREELANCER_OPEN_TRIAL_NEED_ID,
+  LISTING_VISA_PATHWAY_BY_JOB_ID,
+} from "@/lib/kernel/catalog-ids";
+import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { HOLD_BPS_DEFAULT, HOLD_BPS_MAX, HOLD_BPS_MIN } from "@/lib/kernel/pricing/hold-bps";
 
@@ -32,8 +38,8 @@ function freelancerSeedSql(): string {
 }
 
 describe("freelancer ilan tohumu yüzeyi", () => {
-  it("beş OPEN dikey ilan taşır; bütçe bandı ve hold katalogda, sahte sözleşme yok", () => {
-    expect(FREELANCER_JOB_SEEDS).toHaveLength(5);
+  it("altı OPEN sistem ilanı taşır; Büyüme Beşlisi 1:1 + Açık Deneme; bütçe bandı ve hold katalogda, sahte sözleşme yok", () => {
+    expect(FREELANCER_JOB_SEEDS).toHaveLength(FREELANCER_GUARANTEED_NEED_IDS.length + 1);
     expect(FREELANCER_CATALOG_SEEDS).toHaveLength(2);
     expect(FREELANCER_SEED_MODULE_KEY).toBe(MODULE_ID);
     expect(FREELANCER_SEED_CURRENCY).toBe("TRY");
@@ -45,23 +51,33 @@ describe("freelancer ilan tohumu yüzeyi", () => {
     expect(ids).toEqual([
       "fj_rail_icon_set",
       "fj_rail_ql_banners",
+      "fj_rail_seal_social",
       "fj_rail_academy_copy",
       "fj_rail_devlabs_prompts",
-      "fj_rail_seal_social",
+      "fj_yetkin_acik_deneme",
     ]);
     const titles = FREELANCER_JOB_SEEDS.map((row) => row.title);
-    expect(titles).toContain("SVG İkon Seti Tasarımı");
-    expect(titles).toContain("Web ve Sosyal Medya Banner Tasarımı");
-    expect(titles).toContain("Akademi Ders Özetlerinin Düzenlenmesi");
-    expect(titles).toContain("Prompt Şablonları Dokümantasyonu");
-    expect(titles).toContain("Sosyal Medya Paylaşım Şablonları");
+    expect(titles).toEqual([
+      `${YETKIN_BRAND} Örnek Görev — Excel Veri Otomasyonu`,
+      `${YETKIN_BRAND} Örnek Görev — E-Ticaret Pazaryeri Asistanlığı`,
+      `${YETKIN_BRAND} Örnek Görev — Sosyal Medya İçerik Üretimi`,
+      `${YETKIN_BRAND} Örnek Görev — WhatsApp Chatbot Kurulumu`,
+      `${YETKIN_BRAND} Örnek Görev — Prompt ve Günlük Üretkenlik`,
+      `${YETKIN_BRAND} Örnek Görev — Açık Deneme`,
+    ]);
+    expect(FREELANCER_JOB_SEEDS.map((row) => row.visaPathwayId)).toEqual([
+      ...FREELANCER_GUARANTEED_NEED_IDS,
+      FREELANCER_OPEN_TRIAL_NEED_ID,
+    ]);
     for (const row of FREELANCER_JOB_SEEDS) {
+      expect(LISTING_VISA_PATHWAY_BY_JOB_ID[row.id]).toBe(row.visaPathwayId);
+      expect(row.title.startsWith(`${YETKIN_BRAND} Örnek Görev — `)).toBe(true);
+      expect(row.brief).toContain(`İşveren: ${YETKIN_BRAND} Ekosistem.`);
       expect(row.title.length).toBeGreaterThanOrEqual(3);
       expect(row.brief.length).toBeGreaterThanOrEqual(8);
       expect(row.brief.length).toBeLessThanOrEqual(4000);
       expect(row.budgetMinor).toBeGreaterThanOrEqual(FREELANCER_JOB_MIN_MINOR);
       expect(row.budgetMinor).toBeLessThanOrEqual(FREELANCER_JOB_MAX_MINOR);
-      expect(row.visaPathwayId).toBe("ai-agent-entegrasyon");
       expect(row.formats.length).toBeGreaterThan(0);
       expect(row.durationDays).toBeGreaterThan(0);
       expect(row.requirements.length).toBeGreaterThan(0);
@@ -94,7 +110,10 @@ describe("freelancer ilan tohumu yüzeyi", () => {
     expect(sql).toContain(FREELANCER_SEED_CLIENT_ID);
     expect(sql).toContain("visa_pathway_id");
     expect(sql).toContain("due_days");
-    expect(sql).toContain("'ai-agent-entegrasyon'");
+    for (const need of FREELANCER_JOB_SEEDS.map((row) => row.visaPathwayId)) {
+      expect(sql).toContain(`'${need}'`);
+    }
+    expect(sql).not.toContain("'ai-agent-entegrasyon'");
     expect(sql).toContain("'PUBLIC'");
     expect(sql).not.toMatch(/INSERT INTO public\.users/i);
     expect(sql).not.toMatch(/INSERT INTO public\.wallets/i);
@@ -123,9 +142,10 @@ describe("freelancer ilan tohumu yüzeyi", () => {
 
     const runnable = readSrc("scripts/seed-freelancer-open-jobs.sql");
     expect(runnable).toContain("fj_rail_icon_set");
-    expect(runnable).toContain("SVG İkon Seti Tasarımı");
-    expect(runnable).toContain("Web ve Sosyal Medya Banner Tasarımı");
-    expect(runnable).toContain("Akademi Ders Özetlerinin Düzenlenmesi");
+    expect(runnable).toContain("fj_yetkin_acik_deneme");
+    expect(runnable).toContain(`${YETKIN_BRAND} Örnek Görev — Excel Veri Otomasyonu`);
+    expect(runnable).toContain(`${YETKIN_BRAND} Örnek Görev — WhatsApp Chatbot Kurulumu`);
+    expect(runnable).toContain(`${YETKIN_BRAND} Örnek Görev — Açık Deneme`);
     expect(runnable).toContain("visa_pathway_id");
     expect(runnable).toContain("due_days");
     expect(runnable).not.toMatch(/INSERT INTO public\.users/i);
@@ -140,13 +160,16 @@ describe("freelancer ilan tohumu yüzeyi", () => {
     const store = readSrc("lib/freelancer/prisma-store.ts");
 
     expect(page).toContain("loadOpenJobs");
+    expect(page).toContain("partitionFreelancerBoardJobs");
     expect(page).toContain("connection()");
     expect(page).toContain("SEN_VOICE");
-    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("İş Pazarı");
-    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Güvenli Ödeme (Escrow)");
+    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Freelancer İlan Panosu");
+    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).not.toContain("İş Pazarı");
+    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Emanet ödeme — Şimdilik Devre Dışı");
     expect(detail).toContain("DeliveryProcessPanel");
     expect(detail).toContain("jobListingFace");
     expect(readSrc("components/freelancer/job-card.tsx")).toContain("jobListingMetaLine");
+    expect(readSrc("components/freelancer/job-card.tsx")).toContain("jobListingStatusFace");
     expect(readSrc("components/freelancer/job-card.tsx")).toContain("job.brief");
     expect(page).not.toContain("FREELANCER_SHOWCASE");
     expect(load).toContain("listOpenJobs");
@@ -167,13 +190,30 @@ describe("freelancer ilan tohumu yüzeyi", () => {
     const extrasSrc = readSrc("lib/freelancer/job-listing-extras.ts");
     const faceSrc = readSrc("lib/freelancer/listing-face.ts");
     const card = readSrc("components/freelancer/job-card.tsx");
-    expect(extrasSrc).toContain("16 adet özel ikon hazırlanması");
+    expect(extrasSrc).toContain("Power Query ile üç özet sayfa ve bir gösterge paneli");
     expect(extrasSrc).not.toMatch(/SHA-256/i);
     expect(extrasSrc).not.toMatch(/settlement/i);
-    expect(faceSrc).toContain("Yapay Zekâ Mühendisliği");
+    expect(faceSrc).toContain("Sosyal Medya İçerik");
     expect(card).toContain("jobListingFace");
     expect(card).toContain("jobListingMetaLine");
+    expect(card).toContain("jobListingStatusFace");
     expect(card).toContain("job.brief");
+    expect(card).not.toContain("freelancerJobStatusLabel");
     expect(card).not.toContain("face.requirements");
+  });
+
+  it("tohum OPEN ilanı yeşil Açık basmaz; organik OPEN Açık kalır", () => {
+    const faceSrc = readSrc("lib/freelancer/listing-face.ts");
+    const card = readSrc("components/freelancer/job-card.tsx");
+    const detail = readSrc("app/freelancer/jobs/[id]/page.tsx");
+    expect(faceSrc).toContain("Platform örneği / Emanet kapalı");
+    expect(faceSrc).toContain("isFreelancerSystemListing");
+    expect(faceSrc).toContain("partitionFreelancerBoardJobs");
+    expect(card).toContain("statusFace.label");
+    expect(card).toContain("statusFace.isSystemListing");
+    expect(card).not.toContain('footerBadgeTone="emerald"');
+    expect(detail).toContain("jobListingStatusFace");
+    expect(detail).toContain("exampleBanner");
+    expect(detail).not.toContain("freelancerJobStatusLabel");
   });
 });

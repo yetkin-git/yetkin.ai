@@ -28,7 +28,7 @@ export function dashboardWelcomeTitle(input: {
 }
 
 export const DASHBOARD_SEN = {
-  eyebrow: "Anasayfa",
+  eyebrow: "Panel",
   title: WELCOME_TITLE,
   overviewTitle: OVERVIEW_TITLE,
   welcomeTitle: dashboardWelcomeTitle,
@@ -51,30 +51,32 @@ export const DASHBOARD_SEN = {
       cta: "Teklifleri gör",
     },
     careerVisa: {
-      body: "Mühürlü yetkinliğin vitrinde. Pusuladan sıradaki halkayı seç.",
+      body: "Doğrulanmış rozetin Kariyer vitrinde durur. Sıradaki adımı oradan seç.",
       cta: "Vitrini aç",
     },
     academyContinue: {
-      body: "Satın aldığın eğitim yolunda öğren, sınav ol, mühürlen.",
+      body: "Satın aldığın eğitimde kaldığın dersten devam et. Öğren, sınav ol, sertifikanı al.",
       cta: "Eğitime dön",
     },
   },
   pulse: {
-    academyTitle: "Akademi nabzı",
+    academyTitle: "Akademi",
     academyHrefLabel: "Akademi odası",
     academyPurchase: "Satın alma",
     academyCertificate: "Sertifika",
-    academyEmpty: "Henüz mühür yok",
-    careerTitle: "Kariyer nabzı",
+    unavailable: "Henüz yüklenemedi",
+    academyEmpty: "Henüz sertifika yok",
+    careerTitle: "Kariyer",
     careerHrefLabel: "Kariyer odası",
     careerVisa: "Rozet",
     careerPortfolio: "Portföy",
-    careerEmpty: "Henüz mühür yok",
-    freelancerTitle: "Freelancer nabzı",
+    careerEmpty: "Henüz doğrulanmış rozet yok",
+    freelancerTitle: "Freelancer",
     freelancerHrefLabel: "Freelancer odası",
     freelancerOpen: "Açık ilan",
     freelancerActive: "Aktif iş",
     freelancerEscrow: (amount: string) => `Kilitli emanet: ${amount}`,
+    freelancerEscrowInactive: "Emanet akışı henüz aktif değil",
   },
   walletStrip: {
     eyebrow: "Cüzdan bakiyesi",

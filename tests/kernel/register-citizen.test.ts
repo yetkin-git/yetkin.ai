@@ -87,15 +87,21 @@ describe("kayıt vatandaş motoru", () => {
             error: { message: "Error sending confirmation email", status: 500 },
           };
         },
-        async signInWithPassword() {
-          return { session: { access_token: "tok" }, error: null };
+        async signOut() {
+          throw new Error("signOut çağrılmamalı");
         },
       },
       async fallback() {
         return { ok: true };
       },
     });
-    expect(result).toEqual({ ok: true, created: true, session: true, fallback: true });
+    expect(result).toEqual({
+      ok: true,
+      created: true,
+      session: false,
+      fallback: true,
+      pendingVerification: true,
+    });
   });
 
   it("üretimde SMTP yedeği kapalıdır; Auth mesajı istemciye gider", async () => {
@@ -125,8 +131,8 @@ describe("kayıt vatandaş motoru", () => {
             error: { message: "Error sending confirmation email", status: 500 },
           };
         },
-        async signInWithPassword() {
-          return { session: null, error: { message: "unused" } };
+        async signOut() {
+          throw new Error("üretim signOut çağrılmamalı");
         },
       },
       async fallback() {
@@ -178,17 +184,24 @@ describe("kayıt vatandaş motoru", () => {
             error: null,
           };
         },
-        async signInWithPassword() {
-          throw new Error("signIn çağrılmamalı");
+        async signOut() {
+          calls.push("signOut");
         },
       },
     });
     expect(calls).toEqual([
       "clear:vision@example.com",
       "signUp",
+      "signOut",
       "upsert:11111111-1111-4111-8111-111111111111:vision@example.com",
     ]);
-    expect(result).toEqual({ ok: true, created: true, session: true, fallback: false });
+    expect(result).toEqual({
+      ok: true,
+      created: true,
+      session: false,
+      fallback: false,
+      pendingVerification: true,
+    });
   });
 
   it("yetim temizliği düşerse signUp gitmez", async () => {
@@ -217,8 +230,8 @@ describe("kayıt vatandaş motoru", () => {
           signed = true;
           return { user: null, session: null, error: null };
         },
-        async signInWithPassword() {
-          return { session: null, error: null };
+        async signOut() {
+          throw new Error("signOut çağrılmamalı");
         },
       },
     });
@@ -230,5 +243,87 @@ describe("kayıt vatandaş motoru", () => {
       reason: "auth",
       errorName: "ledger_restrict",
     });
+  });
+
+  it("Confirm Email açıkken oturum yoksa signOut gitmez; pending verification döner", async () => {
+    const prepared = registerCitizen(
+      {
+        email: "vision@example.com",
+        password: "rail-test-8",
+        fullName: "Yetkin Vision",
+        ageConfirmed: true,
+        termsConfirmed: true,
+      },
+      "https://yetkin.ai",
+    );
+    expect(prepared.ok).toBe(true);
+    if (!prepared.ok) {
+      return;
+    }
+    let signedOut = false;
+    const result = await executeCitizenRegister({
+      prepared,
+      env: { NODE_ENV: "production" },
+      auth: {
+        async signUp() {
+          return {
+            user: { id: "11111111-1111-4111-8111-111111111111", identities: [{ provider: "email" }] },
+            session: null,
+            error: null,
+          };
+        },
+        async signOut() {
+          signedOut = true;
+        },
+      },
+    });
+    expect(signedOut).toBe(false);
+    expect(result).toEqual({
+      ok: true,
+      created: true,
+      session: false,
+      fallback: false,
+      pendingVerification: true,
+    });
+  });
+
+  it("Confirm Email kapalıysa signUp oturumunu düşürür; panele oturum basılmaz", async () => {
+    const prepared = registerCitizen(
+      {
+        email: "vision@example.com",
+        password: "rail-test-8",
+        fullName: "Yetkin Vision",
+        ageConfirmed: true,
+        termsConfirmed: true,
+      },
+      "https://yetkin.ai",
+    );
+    expect(prepared.ok).toBe(true);
+    if (!prepared.ok) {
+      return;
+    }
+    let signedOut = false;
+    const result = await executeCitizenRegister({
+      prepared,
+      env: { NODE_ENV: "production" },
+      auth: {
+        async signUp() {
+          return {
+            user: { id: "11111111-1111-4111-8111-111111111111", identities: [{ provider: "email" }] },
+            session: { access_token: "tok" },
+            error: null,
+          };
+        },
+        async signOut() {
+          signedOut = true;
+        },
+      },
+    });
+    expect(signedOut).toBe(true);
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.session).toBe(false);
+      expect(result.pendingVerification).toBe(true);
+    }
   });
 });

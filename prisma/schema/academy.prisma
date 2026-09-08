@@ -39,17 +39,21 @@ model AcademyCourse {
 }
 
 /// Instant settlement kaydı. priceLockId çekirdek CheckoutPriceLock'a string FK.
+/// Ticari kasa rızası satırda mühürlenir; Super Admin bağışı NULL bırakır (nakit değil).
 model AcademyPurchase {
-  id           String                @id @default(cuid())
-  userId       String                @map("user_id")
-  courseId     String                @map("course_id")
-  priceLockId  String                @map("price_lock_id")
-  amountMinor  Int                   @map("amount_minor")
-  currencyCode String                @db.Char(3) @map("currency_code")
-  status       AcademyPurchaseStatus @default(SETTLED)
-  settledAt    DateTime              @map("settled_at")
-  createdAt    DateTime              @default(now()) @map("created_at")
-  updatedAt    DateTime              @updatedAt @map("updated_at")
+  id                                    String                @id @default(cuid())
+  userId                                String                @map("user_id")
+  courseId                              String                @map("course_id")
+  priceLockId                           String                @map("price_lock_id")
+  amountMinor                           Int                   @map("amount_minor")
+  currencyCode                          String                @db.Char(3) @map("currency_code")
+  status                                AcademyPurchaseStatus @default(SETTLED)
+  settledAt                             DateTime              @map("settled_at")
+  consentVersion                        String?               @map("consent_version")
+  distanceContractAccepted              Boolean?              @map("distance_contract_accepted")
+  digitalImmediatePerformanceAccepted   Boolean?              @map("digital_immediate_performance_accepted")
+  createdAt                             DateTime              @default(now()) @map("created_at")
+  updatedAt                             DateTime              @updatedAt @map("updated_at")
 
   user         User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   course       AcademyCourse        @relation(fields: [courseId], references: [id], onDelete: Restrict)

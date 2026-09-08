@@ -37,7 +37,7 @@ describe("profil kimlik yüzeyi", () => {
     expect(page).not.toContain("RoomSeal");
     expect(page).toContain("loadIdentityBoard");
     expect(page).toContain("loadPassportBoard");
-    expect(page).toContain("getSession");
+    expect(page).toContain("requirePageSession");
     expect(page).toContain("IdentityCard");
     expect(page).toContain("IdentityMeritSummary");
     expect(page).toContain("ProfileBillingForm");

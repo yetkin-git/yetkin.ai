@@ -76,29 +76,22 @@ export function resolveAcademySeedMoney(input: {
 }
 
 export const ACADEMY_COURSE_LEVEL_BY_SLUG: Record<AcademyCourseTitleSlug, AcademyCourseLevel> = {
-  "security-temel": "Temel",
-  "security-orta": "Orta",
-  "security-ileri": "İleri",
-  "ai-agent-temel": "Temel",
-  "ai-agent-orta": "Orta",
-  "ai-agent-ileri": "İleri",
-  "python-temel": "Temel",
-  "python-orta": "Orta",
-  "python-ileri": "İleri",
-  "fullstack-temel": "Temel",
-  "fullstack-orta": "Orta",
-  "fullstack-ileri": "İleri",
-  "ai-temel": "Temel",
-  "ux-temel": "Masterclass",
-  "excel-masterclass": "Masterclass",
-  "google-ads-masterclass": "Masterclass",
-  "meta-ads-masterclass": "Masterclass",
-  "eticaret-masterclass": "Masterclass",
-  "canva-masterclass": "Masterclass",
-  "linkedin-masterclass": "Masterclass",
+  "01_office_ai": "Temel",
+  "02_ecommerce_ai": "Temel",
+  "03_social_media_ai": "Temel",
+  "04_chatbot_nocode": "Masterclass",
+  "05_prompt_practice": "Masterclass",
+  "06_n8n_automation": "Orta",
+  "07_langgraph_agents": "Orta",
+  "08_production_rag": "Orta",
+  "09_nextjs_ai": "Orta",
+  "10_data_analytics_ai": "Orta",
+  "11_llm_redteam": "İleri",
+  "12_onprem_finetune": "İleri",
+  "13_ai_governance": "İleri",
 };
 
-function academyCommonLevelFromSlugSuffix(slug: string): AcademyCommonLevelLabel | null {
+function academyCommonLevelFromSlugSuffix(slug: string): string | null {
   if (slug.endsWith("-ileri")) {
     return "İleri";
   }
@@ -107,6 +100,9 @@ function academyCommonLevelFromSlugSuffix(slug: string): AcademyCommonLevelLabel
   }
   if (slug.endsWith("-temel")) {
     return "Temel";
+  }
+  if (slug.includes("masterclass")) {
+    return "Masterclass";
   }
   return null;
 }

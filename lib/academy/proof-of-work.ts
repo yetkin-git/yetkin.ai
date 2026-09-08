@@ -7,9 +7,11 @@
  */
 
 import { LESSON_PRACTICE } from "@/lib/academy/lesson-practice";
+import { isAcademyCompactLessonKey } from "@/lib/academy/pilot-sku";
 import type { AcademyLessonCompletionRecord } from "@/lib/academy/types";
 
 export const ACADEMY_PROOF_OF_WORK_VERSION = "yetkin-rail.academy.proof-of-work.v1" as const;
+export const ACADEMY_COMPACT_READ_PROOF_VERSION = "yetkin-rail.academy.compact-read.v1" as const;
 export const ACADEMY_CURRICULUM_PROOF_VERSION = "yetkin-rail.academy.proof-of-work-curriculum.v1" as const;
 export const ACADEMY_PROOF_OF_WORK_HASH_PATTERN = /^[a-f0-9]{64}$/;
 export const ACADEMY_PROOF_INTEGRITY_KIND = "sha256-task-digest" as const;
@@ -77,6 +79,10 @@ export type AcademyProofSuccessParams =
   | {
       kind: "param-lock";
       slotMap: Record<string, string>;
+    }
+  | {
+      kind: "compact-read";
+      lessonKey: string;
     };
 
 export type AcademyProofJudgement =
@@ -319,23 +325,41 @@ export function academyProofOfWorkHash(canonicalJson: string, digest: (value: st
   return hash;
 }
 
+export function academyCompactReadCanonicalJson(lessonKey: string): string {
+  return JSON.stringify({
+    v: ACADEMY_COMPACT_READ_PROOF_VERSION,
+    lessonKey,
+    kind: "compact-read",
+  });
+}
+
+export function canonicalAcademyCompactReadHash(
+  lessonKey: string,
+  digest: (value: string) => string,
+): string | null {
+  if (!isAcademyCompactLessonKey(lessonKey) || academyInteractiveTaskByKey(lessonKey)) {
+    return null;
+  }
+  return academyProofOfWorkHash(academyCompactReadCanonicalJson(lessonKey), digest);
+}
+
 /** Kanonik doğru gönderimin SHA-256 mührü — öğrenci parmak izi değil, görev mührü. */
 export function canonicalAcademyProofOfWorkHash(
   lessonKey: string,
   digest: (value: string) => string,
 ): string | null {
   const proof = academyCanonicalProofSubmission(lessonKey);
-  if (!proof) {
-    return null;
+  if (proof) {
+    const judged = evaluateAcademyProofSubmission(lessonKey, proof);
+    if (!judged.ok) {
+      return null;
+    }
+    return academyProofOfWorkHash(
+      academyProofOfWorkCanonicalJson({ lessonKey, success: judged.success }),
+      digest,
+    );
   }
-  const judged = evaluateAcademyProofSubmission(lessonKey, proof);
-  if (!judged.ok) {
-    return null;
-  }
-  return academyProofOfWorkHash(
-    academyProofOfWorkCanonicalJson({ lessonKey, success: judged.success }),
-    digest,
-  );
+  return canonicalAcademyCompactReadHash(lessonKey, digest);
 }
 
 export function academyCurriculumProofCanonicalJson(input: {

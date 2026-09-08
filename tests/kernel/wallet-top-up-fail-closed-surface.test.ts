@@ -43,6 +43,8 @@ describe("cüzdan yükleme checkout fail-closed yüzeyi", () => {
     expect(mockBranch).toContain("mockCheckout: true");
     expect(mockBranch.slice(mockReturn, mockReturn + 400)).not.toContain("iframeUrl");
     expect(route).toContain("wallet.top_up.pending");
+    expect(route).toContain("paytr.user_ip.resolved");
+    expect(route).toContain("ops.proxy.hops_edge_mismatch");
 
     const form = readSrc("components/kernel/wallet-top-up-form.tsx");
     expect(form).toContain("mockCheckout");

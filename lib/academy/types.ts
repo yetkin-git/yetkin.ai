@@ -28,6 +28,10 @@ export type AcademyPurchaseRecord = {
   currencyCode: CurrencyCode;
   status: AcademyPurchaseStatus;
   settledAt: Date;
+  /** Ticari kasa rızası; Super Admin bağışında yok. */
+  consentVersion?: string | null;
+  distanceContractAccepted?: boolean | null;
+  digitalImmediatePerformanceAccepted?: boolean | null;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -113,6 +117,10 @@ export type AcademyPulse = {
   purchasesCount: number;
   certificatesHeld: number;
   lastCertificateTitle: string | null;
+  /** Son satın alınan, henüz sertifikasız kurs. Yoksa null. */
+  lastCourseSlug: string | null;
+  /** O kursta sıradaki ders anahtarı. Müfredat bittiyse null. */
+  nextLessonKey: string | null;
   currencyCode: CurrencyCode;
 };
 

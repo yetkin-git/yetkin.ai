@@ -25,6 +25,8 @@ export type SealedPassportStamp = {
   certificateHash: string | null;
   issuedAt: Date;
   createdAt: Date;
+  /** Canlı kanıttan; yoksa başlık eşlemesi. Sahte SKU uydurulmaz. */
+  courseSlug?: string | null;
 };
 
 export type PassportBoard = {
@@ -35,6 +37,7 @@ export type PassportBoard = {
 export const PASSPORT_SURFACE_PATH = "/pasaport" as const;
 export const CAREER_STAMP_SURFACE_PATH = "/career" as const;
 export const ACADEMY_STAMP_SURFACE_PATH = "/academy" as const;
+export const ACADEMY_CERTIFICATES_SURFACE_PATH = "/academy/certificates" as const;
 export const FREELANCER_STAMP_SURFACE_PATH = "/freelancer" as const;
 export const FREELANCER_CONTRACT_SURFACE_PATH = "/freelancer/contracts" as const;
 

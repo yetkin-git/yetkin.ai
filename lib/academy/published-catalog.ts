@@ -38,7 +38,7 @@ function withCardHonesty(course: AcademyCourseWithPrice): AcademyCourseWithPrice
     ...course,
     summary: seed?.summary ?? course.summary,
     level: academyCourseLevelBySlug(course.slug),
-    offerPaths: academyCardOfferPaths(),
+    offerPaths: academyCardOfferPaths(course.slug),
   };
 }
 
@@ -97,5 +97,8 @@ export function mergePublishedAcademyCatalog(
 
 export function resolveAcademyCourseFromSeed(idOrSlug: string): AcademyCourseRecord | null {
   const seed = academyCatalogSeedMatch(idOrSlug);
-  return seed ? academyCourseRecordFromSeed(seed) : null;
+  if (seed) {
+    return academyCourseRecordFromSeed(seed);
+  }
+  return null;
 }
