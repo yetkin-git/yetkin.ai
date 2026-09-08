@@ -14,10 +14,10 @@ describe("trusted-proxy XFF hop ve user_ip sınıfı", () => {
   });
 
   it("boş env varsayılanı 1; Cloudflare+Vercel reçetesi 2", () => {
-    expect(parseTrustedProxyHops({})).toBe(DEFAULT_TRUSTED_PROXY_HOPS);
+    expect(parseTrustedProxyHops({ NODE_ENV: "test" })).toBe(DEFAULT_TRUSTED_PROXY_HOPS);
     expect(DEFAULT_TRUSTED_PROXY_HOPS).toBe(1);
     expect(CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS).toBe(2);
-    expect(parseTrustedProxyHops({ TRUSTED_PROXY_HOPS: "2" })).toBe(2);
+    expect(parseTrustedProxyHops({ NODE_ENV: "test", TRUSTED_PROXY_HOPS: "2" })).toBe(2);
   });
 
   it("sınıf: unknown / private / ipv6 / public_ipv4", () => {
@@ -33,7 +33,11 @@ describe("trusted-proxy XFF hop ve user_ip sınıfı", () => {
     const headers = new Headers({
       "x-forwarded-for": "203.0.113.50, 104.16.1.1",
     });
-    expect(resolveTrustedForwardedIp(headers, { TRUSTED_PROXY_HOPS: "2" })).toBe("203.0.113.50");
-    expect(resolveTrustedForwardedIp(headers, { TRUSTED_PROXY_HOPS: "1" })).toBe("104.16.1.1");
+    expect(resolveTrustedForwardedIp(headers, { NODE_ENV: "test", TRUSTED_PROXY_HOPS: "2" })).toBe(
+      "203.0.113.50",
+    );
+    expect(resolveTrustedForwardedIp(headers, { NODE_ENV: "test", TRUSTED_PROXY_HOPS: "1" })).toBe(
+      "104.16.1.1",
+    );
   });
 });
