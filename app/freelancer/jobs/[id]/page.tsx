@@ -40,6 +40,7 @@ export default async function FreelancerJobDetailPage({
 
   const isClient = board.viewerRole === "owner";
   const alreadyBid = board.viewerRole === "participant";
+  const listing = jobListingDisplayCopy(board.job);
   const listingVisa =
     session && !isClient && board.job.status === "OPEN"
       ? await loadListingVisaAccess(session.id, {
@@ -56,7 +57,6 @@ export default async function FreelancerJobDetailPage({
     board.viewerRole === "owner" ? copy.job.bidsEmpty : copy.job.bidsHidden;
   const face = jobListingFace(board.job);
   const statusFace = jobListingStatusFace(board.job);
-  const listing = jobListingDisplayCopy(board.job);
   const listingSubject = {
     id: board.job.id,
     title: listing.title,
