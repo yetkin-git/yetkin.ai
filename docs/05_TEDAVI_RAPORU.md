@@ -4,7 +4,7 @@
 |------|--------|
 | Tarih | 8 Eylül 2026 |
 | Makam | Cursor ajanı (Grok 4.6) — 05 nolu panel derin tarama |
-| Kanon | `origin/main` (bu rapordaki commit) → Vercel Production |
+| Kanon | `origin/main` @ `a7cc626` → Vercel Production `dpl_F4axfsYWAkc3yLNxev4rrhYmqz3j` |
 | Hedef | Oturum açılmış panelde PayTR denetçisinin “pazaryeri / emanet / split / hak ediş” kelimesi görmemesi |
 | Durum | **Panel kopyası YEŞİL.** Üç SUPER ADMIN sapması + tarama çıkan tüm iç yüzey metinleri B2C eğitim diline çekildi. Kod Production’a basıldı. |
 | Girdi | SUPER ADMIN canlı panel taraması; `/docs/04_TEDAVI_RAPORU.md` |
@@ -75,19 +75,34 @@ Tohum SQL (`supabase/migrations/20260814110000_freelancer_job_seed.sql` + `scrip
 
 ### 3.1 Git
 
-Kopya + yüzey testleri + bu rapor `main`’e basılır. `docs/Bilgiler/` ve `node_modules` commit’e girmez.
+| | |
+|--|--|
+| Kopya | `bab9904` `fix(copy): strip marketplace language from the signed-in panel for PayTR review` |
+| Derleme yaması | `a7cc626` `fix(build): declare listing copy before visa access load` |
+| Remote | `https://github.com/yetkin-git/yetkin.ai.git` `main` |
+
+`docs/Bilgiler/` ve `node_modules` commit’e girmez.
 
 ### 3.2 Vercel
 
-Push `origin/main` → GitHub → Vercel Production alias `https://yetkin.ai`. Deployment id ve Ready damgası push sonrası bu dosyanın §3.3 satırına işlenir (veya SUPER ADMIN Vercel dashboard’dan okur).
+| | |
+|--|--|
+| İlk deneme | `dpl_AZBxyWcLP2WCM7isvgHLq9Vi8TrQ` **Error** — `listing` değişkeni `jobs/[id]` sayfasında erken okundu |
+| Canlı sürüm | `https://yetkin-lvxvht1c4-yetkin-git.vercel.app` **Ready** (~18:09 TR) |
+| Deployment id | `dpl_F4axfsYWAkc3yLNxev4rrhYmqz3j` |
+| Alias | `https://yetkin.ai`, `https://www.yetkin.ai` |
 
 ### 3.3 Canlı teyit
 
-Oturumsuz `GET /dashboard`, `/freelancer`, `/career` oturum kapısına düşer; HTML gövdesinde SEN cümlesi yoktur. Teyit yöntemi:
+Ölçüm: 8 Eylül 2026 ~18:12 TR. `curl` + UTF-8 gövde. `Cache-Control: no-cache`.
 
-1. Kaynak: `SEN_VOICE.freelancer.list.emptyBody`, `CAREER_SEN.proofEmpty`, `DASHBOARD_SEN.pulse.freelancerEscrowInactive` / `freelancerLiveHint` bu rapordaki yeni metinlerdir.
-2. SUPER ADMIN gizli pencerede giriş yapıp üç URL’i okur (aşağıda bildirim).
-3. `Pazaryerinde`, `Emanet akışı henüz aktif değil`, `Freelancer'da bir iş teslim` sen-voice’ta **yok**.
+| URL | HTTP | Metin |
+|-----|------|--------|
+| `GET /dashboard` | **307** → `/login?next=/dashboard` | Oturum kapısı. Kart kopyası giriş sonrası. |
+| `GET /career` | **307** → `/login?next=/career` | Oturum kapısı. Boş damga metni giriş sonrası. |
+| `GET /freelancer` | **200** (oturumsuz da basar) | **İlk örnek ilanı inceleyerek** var. **İlan ve teklif modülü pasiftir** var. **Platform örneği / Pasif** var. **Arka plan** var. `Pazaryerinde` **yok**. `Pazaryeri Split` **yok**. `Standart Pazaryeri` **yok**. `Emanet akışı` **yok**. `Emanet kapalı` **yok**. `Emanet ödeme` **yok**. |
+
+`/freelancer` oturumsuz 200 basması 04’ün “denetçi giriş yapmasın” varsayımını zayıflatır; 05 kopyası bu yüzden kamu HTML’de de ölçülür. Dashboard ve Kariyer için SUPER ADMIN giriş teyidi hâlâ gerekir.
 
 ---
 
