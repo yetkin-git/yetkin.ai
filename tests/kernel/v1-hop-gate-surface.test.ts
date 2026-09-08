@@ -19,7 +19,7 @@ import {
   parseRailV1Envelope,
   resolveRailV1HopPaths,
 } from "@/lib/kernel/http/v1-contract";
-import { EDGE_API_NOT_FOUND_ERROR } from "@/lib/kernel/security/edge-api-auth";
+import { EDGE_API_FROZEN_ROOM_ERROR, EDGE_API_NOT_FOUND_ERROR, isFrozenRoomApi } from "@/lib/kernel/security/edge-api-auth";
 import { isRailV1SuccessStatus } from "@/lib/kernel/http/v1-runtime-shield";
 
 const TEST_SECRET = "rail-edge-jwt-test-secret-32bytes-min";
@@ -149,7 +149,7 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     ).toEqual({ kind: "fail", status: 404, error: RAIL_V1_HOP_NOT_FOUND });
   });
 
-  it("GET /api/v1/freelancer/jobs/{id} Bearer ile 404 zarf; rewrite yok; bids sızmaz", async () => {
+  it("GET /api/v1/freelancer/jobs/{id} kamu kilidi 410; rewrite yok; bids sızmaz", async () => {
     const token = await signHs256();
     const leak = await proxy(
       edgeRequest(`/api/v1/freelancer/jobs/${JOB_ID}`, {
@@ -157,14 +157,14 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
         headers: { "X-Rail-Min-Version": "1" },
       }),
     );
-    expect(leak.status).toBe(404);
+    expect(leak.status).toBe(410);
     expect(isRailV1SuccessStatus(leak.status)).toBe(false);
     expect(leak.headers.get("x-middleware-rewrite")).toBeNull();
     expect(leak.headers.get("set-cookie")).toBeNull();
     const body = parseRailV1Envelope(await leak.json());
     expect(body).toEqual({
       ok: false,
-      error: RAIL_V1_HOP_NOT_FOUND,
+      error: EDGE_API_FROZEN_ROOM_ERROR,
       requestId: expect.any(String),
       apiVersion: "1",
       data: null,
@@ -178,7 +178,6 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
       { path: `/api/v1/freelancer/jobs/${JOB_ID}/bids` },
       { path: `/api/v1/freelancer/contracts/${CONTRACT_ID}` },
       { path: `/api/v1/freelancer/contracts/${CONTRACT_ID}/messages` },
-      { path: "/api/v1/wallet/top-up", method: "POST" },
       { path: "/api/v1/freelancer/jobs", method: "POST" },
     ];
     for (const item of leakPaths) {
@@ -189,15 +188,25 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
           headers: { "X-Rail-Min-Version": "1" },
         }),
       );
-      expect(response.status, item.path).toBe(404);
+      expect(response.status, item.path).toBe(410);
       expect(response.headers.get("x-middleware-rewrite"), item.path).toBeNull();
     }
 
+    const walletUnpublished = await proxy(
+      edgeRequest("/api/v1/wallet/top-up", {
+        method: "POST",
+        authorization: `Bearer ${token}`,
+        headers: { "X-Rail-Min-Version": "1" },
+      }),
+    );
+    expect(walletUnpublished.status).toBe(404);
+    expect(walletUnpublished.headers.get("x-middleware-rewrite")).toBeNull();
+
     const probe = await proxy(edgeRequest(`/api/v1/freelancer/jobs/${JOB_ID}`));
-    expect(probe.status).toBe(404);
+    expect(probe.status).toBe(410);
     expect(await probe.json()).toMatchObject({
       ok: false,
-      error: RAIL_V1_HOP_NOT_FOUND,
+      error: EDGE_API_FROZEN_ROOM_ERROR,
       apiVersion: "1",
       data: null,
     });
@@ -218,6 +227,17 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
           headers,
         }),
       );
+      if (isFrozenRoomApi(paths.canonical) || isFrozenRoomApi(paths.v1)) {
+        expect(response.status, hop.id).toBe(410);
+        expect(response.headers.get("x-middleware-rewrite"), hop.id).toBeNull();
+        expect(await response.json()).toMatchObject({
+          ok: false,
+          error: EDGE_API_FROZEN_ROOM_ERROR,
+          apiVersion: "1",
+          data: null,
+        });
+        continue;
+      }
       if (isRailV1HopForbiddenOnDron(hop.id)) {
         expect(response.status, hop.id).toBe(403);
         expect(response.headers.get("x-middleware-rewrite"), hop.id).toBeNull();
@@ -241,16 +261,17 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
         headers: { "X-Rail-Min-Version": "1" },
       }),
     );
-    expect(list.headers.get("x-middleware-rewrite")).toBe("http://localhost:3000/api/freelancer/jobs");
+    expect(list.status).toBe(410);
+    expect(list.headers.get("x-middleware-rewrite")).toBeNull();
   });
 
-  it("kanonik Amiral GET /api/freelancer/jobs/{id} hop kapısından 404 almaz", async () => {
+  it("kanonik Amiral GET /api/freelancer/jobs/{id} kamu kilidi 410", async () => {
     const canonical = await proxy(edgeRequest(`/api/freelancer/jobs/${JOB_ID}`));
-    expect(canonical.status).toBe(401);
+    expect(canonical.status).toBe(410);
     expect(canonical.headers.get("x-middleware-rewrite")).toBeNull();
     expect(await canonical.json()).toMatchObject({
       ok: false,
-      error: "Oturum gerekli.",
+      error: EDGE_API_FROZEN_ROOM_ERROR,
       apiVersion: "1",
       data: null,
     });

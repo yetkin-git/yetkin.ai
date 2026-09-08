@@ -155,6 +155,7 @@ describe("canlı yayın bakım dondurması", () => {
       "/legal/kullanim",
       "/legal/mesafeli-satis",
       "/legal/iade",
+      "/hakkimizda",
       "/iletisim",
     ]);
     for (const link of SITE_MAINTENANCE_LEGAL_LINKS) {

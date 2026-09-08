@@ -126,10 +126,11 @@ describe("kenar kararları", () => {
     expect(decideEdgeAction("/pasaport/vize", false).kind).toBe("auth-307");
     expect(decideEdgeAction("/dashboard", true)).toEqual({ kind: "next" });
     expect(decideEdgeAction("/academy", false)).toEqual({ kind: "next" });
-    expect(decideEdgeAction("/freelancer/new", false).kind).toBe("auth-307");
+    expect(decideEdgeAction("/freelancer/new", false).kind).toBe("frozen-410");
     expect(decideEdgeAction("/studio", false).kind).toBe("frozen-410");
     expect(decideEdgeAction("/studio", true).kind).toBe("frozen-410");
-    expect(decideEdgeAction("/freelancer", false)).toEqual({ kind: "next" });
+    expect(decideEdgeAction("/freelancer", false)).toEqual({ kind: "frozen-410" });
+    expect(decideEdgeAction("/freelancer", true).kind).toBe("frozen-410");
   });
 });
 

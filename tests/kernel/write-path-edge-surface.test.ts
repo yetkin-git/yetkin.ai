@@ -8,7 +8,6 @@ import {
   isProtectedWritePath,
   PROTECTED_WRITE_PATHS,
 } from "@/lib/kernel/security/edge-guard";
-import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 
 const ROOT = process.cwd();
 
@@ -39,11 +38,6 @@ describe("dikey yazma kenar yüzeyi", () => {
   });
 
   it("oturumsuz canlı yazma /login 307; donmuş oda 410; akademi geçer", async () => {
-    for (const path of ["/freelancer/new"]) {
-      const response = await proxy(request(path));
-      expect(response.status, path).toBe(307);
-      expect(response.headers.get("location")).toBe(`http://localhost:3000${buildCitizenLoginHref(path)}`);
-    }
     for (const path of [
       "/studio",
       "/junior/ebeveyn",
@@ -52,12 +46,14 @@ describe("dikey yazma kenar yüzeyi", () => {
       "/arena/yeni",
       "/kurumsal/ilan/yeni",
       "/devlabs/projeler/e2e",
+      "/freelancer",
+      "/freelancer/new",
+      "/freelancer/jobs/fj_1",
     ]) {
       const response = await proxy(request(path));
       expect(response.status, path).toBe(410);
     }
     expect((await proxy(request("/academy"))).status).toBe(200);
-    expect((await proxy(request("/freelancer"))).status).toBe(200);
     expect((await proxy(request("/academy/dogrula"))).status).toBe(200);
     expect((await proxy(request("/academy/python-temel/oyna"))).status).toBe(307);
     expect((await proxy(request("/academy/certificates"))).status).toBe(307);

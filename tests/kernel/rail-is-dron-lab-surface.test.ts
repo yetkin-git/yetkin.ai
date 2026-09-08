@@ -8,6 +8,7 @@ import {
   LISTING_ACCESS_VISA_DENIED,
   assertAcademyCareerVisaForListing,
 } from "@/lib/career/visa-gate";
+import { YZ_LISTING_VISA_SUBJECT } from "@/lib/career/listing-visa-scope";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import {
   applyRailV1Cors,
@@ -22,6 +23,7 @@ import {
 import { RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE, RAIL_V1_HOPS, isRailV1HopForbiddenOnDron, resolveRailV1HopPaths } from "@/lib/kernel/http/v1-contract";
 import { RAIL_V1_ENVELOPE_KEYS } from "@/lib/kernel/http/v1-envelope";
 import { assertPublishedRailV1Hop } from "@/lib/kernel/http/v1-hop-gate";
+import { isFrozenRoomApi } from "@/lib/kernel/security/edge-api-auth";
 import { hashIdempotencyPayload, settleHttpIdempotency } from "@/lib/kernel/http/idempotency";
 import { createMemoryHttpIdempotencyStore } from "@/lib/kernel/http/memory-idempotency-store";
 import { ForbiddenError } from "@/lib/kernel/http/errors";
@@ -300,7 +302,7 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
     });
 
     const zero = await proxy(
-      edgeRequest("/api/v1/freelancer/jobs", { headers: { "X-Rail-Min-Version": "0" } }),
+      edgeRequest("/api/v1/career/pulse", { headers: { "X-Rail-Min-Version": "0" } }),
     );
     expect(zero.status).toBe(400);
     expect(await zero.json()).toEqual(
@@ -318,6 +320,9 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
     const token = await signHs256();
     for (const hop of RAIL_IS_LAB_HOPS) {
       if (hop.auth !== "session" || hop.dronForbidden) {
+        continue;
+      }
+      if (isFrozenRoomApi(hop.canonical) || isFrozenRoomApi(hop.v1)) {
         continue;
       }
       const response = await proxy(
@@ -436,10 +441,10 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
 
   it("vizeli teklif 201 zarf; vizesiz 403 zarf; Idempotency-Key ikinci debit doğurmaz", async () => {
     const career = createMemoryCareerStore();
-    await expect(assertAcademyCareerVisaForListing(career, TEST_USER)).rejects.toBeInstanceOf(
+    await expect(assertAcademyCareerVisaForListing(career, TEST_USER, YZ_LISTING_VISA_SUBJECT)).rejects.toBeInstanceOf(
       ForbiddenError,
     );
-    await expect(assertAcademyCareerVisaForListing(career, TEST_USER)).rejects.toThrow(
+    await expect(assertAcademyCareerVisaForListing(career, TEST_USER, YZ_LISTING_VISA_SUBJECT)).rejects.toThrow(
       LISTING_ACCESS_VISA_DENIED,
     );
 
@@ -579,7 +584,13 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
   it("çerez-only /api/v1 session hop'ları 401 zarf; health kamu kalır", async () => {
     const token = await signHs256();
     const cookie = `sb-testref-auth-token=${encodeURIComponent(JSON.stringify({ access_token: token }))}`;
-    const sessionHops = RAIL_IS_LAB_HOPS.filter((hop) => hop.auth === "session" && !hop.dronForbidden);
+    const sessionHops = RAIL_IS_LAB_HOPS.filter(
+      (hop) =>
+        hop.auth === "session" &&
+        !hop.dronForbidden &&
+        !isFrozenRoomApi(hop.canonical) &&
+        !isFrozenRoomApi(hop.v1),
+    );
     for (const hop of sessionHops) {
       const response = await proxy(
         edgeRequest(hop.v1, {
@@ -624,7 +635,7 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
 
     vi.stubEnv("RAIL_DRON_ORIGINS", "*");
     const wildcard = await proxy(
-      edgeRequest("/api/v1/freelancer/jobs", {
+      edgeRequest("/api/v1/health", {
         method: "OPTIONS",
         headers: { origin: "https://evil.example" },
       }),
@@ -647,7 +658,7 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
     expect(allowed.get("Access-Control-Allow-Credentials")).not.toBe("true");
 
     const foreign = await proxy(
-      edgeRequest("/api/v1/freelancer/jobs", {
+      edgeRequest("/api/v1/health", {
         method: "OPTIONS",
         headers: { origin: "https://evil.example" },
       }),

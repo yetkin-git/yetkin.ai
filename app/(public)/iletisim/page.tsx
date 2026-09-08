@@ -101,6 +101,9 @@ export default function ContactPage() {
           </div>
         </Card>
         <div className="flex flex-wrap gap-3">
+          <LinkButton href="/hakkimizda" variant="outline" size="sm">
+            Hakkımızda
+          </LinkButton>
           <LinkButton href="/legal" variant="outline" size="sm">
             Yasal metinler
           </LinkButton>

@@ -165,8 +165,8 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     const entries = sitemap();
     const byPath = new Map(entries.map((entry) => [sitemapPathname(entry.url), entry]));
 
-    expect(PRODUCT_ROOM_PATHS).toEqual(["/academy", "/career", "/freelancer"]);
-    for (const path of ["/", ...PRODUCT_ROOM_PATHS, "/academy/dogrula", "/legal", "/iletisim"]) {
+    expect(PRODUCT_ROOM_PATHS).toEqual(["/academy", "/career"]);
+    for (const path of ["/", ...PRODUCT_ROOM_PATHS, "/academy/dogrula", "/legal", "/iletisim", "/hakkimizda"]) {
       expect(byPath.has(path), path).toBe(true);
     }
 
@@ -185,7 +185,8 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(byPath.get("/")?.priority).toBe(1);
     expect(byPath.get("/academy")?.priority).toBe(1);
     expect(byPath.get("/career")?.priority).toBe(0.9);
-    expect(byPath.get("/freelancer")?.priority).toBe(0.4);
+    expect(byPath.has("/freelancer")).toBe(false);
+    expect(byPath.get("/hakkimizda")?.priority).toBe(0.5);
     expect(byPath.get("/legal")?.priority).toBe(0.5);
     expect(byPath.get("/iletisim")?.priority).toBe(0.5);
     expect(byPath.get("/legal")?.changeFrequency).toBe("monthly");

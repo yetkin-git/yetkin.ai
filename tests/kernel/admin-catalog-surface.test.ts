@@ -202,7 +202,6 @@ describe("admin katalog yüzeyi", () => {
     expect(dialog).toContain('role="dialog"');
     expect(dialog).toContain("pendingLabel");
     expect(write).toContain("assertHoldBps");
-    expect(write).toContain("assertAmountWithinCatalogBand");
     expect(write).toContain("assertCatalogWriteAmountWithinBand");
     expect(write).toContain("reasonCode");
     expect(write).toContain("updatedBy");

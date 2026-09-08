@@ -118,7 +118,7 @@ describe("resolveNextBestAction", () => {
   });
 
   it("birincil odayı featured sırasının başına alır", () => {
-    expect(orderFeaturedRooms("career")).toEqual(["career", "academy", "freelancer"]);
-    expect(orderFeaturedRooms("freelancer")).toEqual(["freelancer", "academy", "career"]);
+    expect(orderFeaturedRooms("career")).toEqual(["career", "academy"]);
+    expect(orderFeaturedRooms("freelancer")).toEqual(["academy", "career"]);
   });
 });

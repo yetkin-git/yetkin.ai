@@ -140,6 +140,8 @@ export async function proxy(request: NextRequest) {
     );
   }
 
+  // Donmuş oda API + Freelancer kamu kilidi (`FREELANCER_PUBLIC_SURFACE_LOCKED`):
+  // `/api/freelancer/*`, `/api/client/jobs/*` ve soyulmuş `/api/v1/freelancer/*` 410.
   if (isFrozenRoomApi(canonicalPath)) {
     return seal(railEdgeFailResponse(request, EDGE_API_FROZEN_ROOM_ERROR, 410));
   }

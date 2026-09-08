@@ -44,7 +44,7 @@ export const PUBLIC_SEN = {
     eyebrow: "Kapalı",
     headline: "Bu oda üretimde kapalı.",
     description:
-      "Çalışan ürün Akademi’dir. Kariyer belge vitrinidir; Freelancer arka plan odasıdır. Bu yüzey donmuş backlog’tur; yeni iş burada açılmaz. Sahte vitrin basılmaz.",
+      "Çalışan ürün Akademi’dir. Kariyer belge vitrinidir. Bu yüzey donmuş backlog’tur; yeni iş burada açılmaz. Sahte vitrin basılmaz.",
     homeCta: "Ana sayfa",
     academyCta: "Akademi",
     careerCta: "Kariyer",

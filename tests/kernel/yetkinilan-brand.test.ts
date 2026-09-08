@@ -23,7 +23,7 @@ describe("Yetkinİlan marka ve çift rota", () => {
     expect(VERTICAL_ROOMS.map((room) => room.label)).not.toContain("Pazaryeri");
     expect(VERTICAL_ROOMS.map((room) => room.label)).not.toContain("Yetkinİlan");
     expect(RIBBON_ROOMS.map((room) => room.label)).not.toContain("Pazaryeri");
-    expect(RIBBON_ROOMS.map((room) => room.id)).toEqual(["academy", "career", "freelancer"]);
+    expect(RIBBON_ROOMS.map((room) => room.id)).toEqual(["academy", "career"]);
   });
 
   it("hem /yetkinilan hem /pazaryeri aynı donmuş odayı tanır", () => {

@@ -101,7 +101,10 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(body).toContain("ders içeriklerine erişim açıldığı anda");
     expect(body).toContain("Cüzdan Yükleme");
     expect(body).toContain(LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH);
-    expect(body).toContain("emanet zaman aşımı");
+    expect(body).not.toContain("emanet zaman aşımı");
+    expect(body).not.toContain("freelancer aracılık");
+    expect(body).not.toContain("paylaştırmalı tahsilat");
+    expect(body).not.toContain("usta IBAN");
     expect(body).toContain(
       "Satın alınan hizmet ve eğitimlere ait faturalar yasal süreçlere uygun düzenlenir. Fatura, kayıtlı e-posta adresine iletilir; bu iletim otomatik e-Arşiv paneli veya anında GİB gönderimi anlamına gelmez. İlan edilen tüm fiyatlara KDV dahildir.",
     );
@@ -125,7 +128,7 @@ describe("lansman hukuk yüzeyi (O13)", () => {
 
   it("kasa rızası fail-closed’dır; sahte sürüm geçmez", () => {
     expect(CHECKOUT_LEGAL_CONSENT_VERSION).toBe("2026-09-05");
-    expect(LEGAL_UPDATED_LABEL).toBe("Yürürlük: 5 Eylül 2026");
+    expect(LEGAL_UPDATED_LABEL).toBe("Yürürlük: 8 Eylül 2026");
     expect(checkoutLegalConsentSchema.safeParse(CHECKOUT_LEGAL_CONSENT_PAYLOAD).success).toBe(true);
     expect(toCheckoutConsentEvidence(CHECKOUT_LEGAL_CONSENT_PAYLOAD)).toEqual({
       consentVersion: CHECKOUT_LEGAL_CONSENT_VERSION,
@@ -191,7 +194,11 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(copy).toContain("Adres: ${LEGAL_ENTITY.address}");
     expect(copy).toContain(LEGAL_ENTITY.iban);
     expect(copy).toContain(LEGAL_ENTITY.adminEmail);
-    expect(copy).toContain("emanet zaman aşımı");
+    expect(copy).not.toContain("emanet zaman aşımı");
+    expect(copy).not.toContain("freelancer aracılık");
+    expect(copy).not.toContain("paylaştırmalı tahsilat");
+    expect(copy).not.toMatch(/usta IBAN/);
+    expect(copy).not.toContain("pazaryeri altyapısı");
     expect(copy).toContain(
       "Satın alınan hizmet ve eğitimlere ait faturalar yasal süreçlere uygun düzenlenir. Fatura, kayıtlı e-posta adresine iletilir; bu iletim otomatik e-Arşiv paneli veya anında GİB gönderimi anlamına gelmez. İlan edilen tüm fiyatlara KDV dahildir.",
     );
@@ -215,6 +222,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     // Faaliyet konusu şeffaflığı — unvan/faaliyet hizası tek kaynaktan beslenir.
     expect(LEGAL_ACTIVITY_SCOPE_BODY).toContain(LEGAL_ENTITY.tradeName);
     expect(LEGAL_ACTIVITY_SCOPE_BODY).toContain("dijital eğitim ve yetkinlik platformudur");
+    expect(LEGAL_ACTIVITY_SCOPE_BODY).toContain("dijital sertifikasyon hizmetidir (B2C)");
+    expect(LEGAL_ACTIVITY_SCOPE_BODY).not.toContain("freelancer");
     expect(copy).toContain("LEGAL_ACTIVITY_SCOPE_BODY");
     for (const slug of ["gizlilik", "mesafeli-satis", "kullanim"]) {
       const section = LEGAL_LAUNCH_SECTIONS.find((row) => row.slug === slug);
@@ -293,6 +302,9 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(robots).toContain("LEGAL_SITE_PATHS");
     expect(sitemap).toContain("LEGAL_SITE_PATHS");
     expect(sitemap).toContain("PRODUCT_ROOM_PATHS");
+    expect(readSrc("app/(public)/hakkimizda/page.tsx")).toContain("LEGAL_ABOUT_LEAD");
+    expect(readSrc("app/(public)/hakkimizda/page.tsx")).toContain("LEGAL_ACTIVITY_SCOPE_BODY");
+    expect(readSrc("app/(public)/hakkimizda/page.tsx")).toContain("LEGAL_ENTITY.tradeName");
     expect(sitemap).toContain("ACADEMY_GROWTH_SKU_SLUGS");
     expect(sitemap).not.toContain("publishedCoursesFromSeed");
     expect(LEGAL_FOOTER_LINKS.map((link) => link.href)).toEqual([
@@ -301,6 +313,7 @@ describe("lansman hukuk yüzeyi (O13)", () => {
       "/legal/iade",
       "/legal/mesafeli-satis",
       "/legal/kullanim",
+      "/hakkimizda",
       "/iletisim",
       "mailto:destek@yetkin.ai",
     ]);
@@ -310,6 +323,7 @@ describe("lansman hukuk yüzeyi (O13)", () => {
       "İade",
       "Mesafeli satış",
       "Kullanım şartları",
+      "Hakkımızda",
       "İletişim",
       "destek@yetkin.ai",
     ]);
@@ -346,7 +360,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(urls).toContain("https://yetkin.ai/iletisim");
     expect(urls).toContain("https://yetkin.ai/academy");
     expect(urls).toContain("https://yetkin.ai/career");
-    expect(urls).toContain("https://yetkin.ai/freelancer");
+    expect(urls).toContain("https://yetkin.ai/hakkimizda");
+    expect(urls).not.toContain("https://yetkin.ai/freelancer");
     for (const url of urls) {
       expect(url.startsWith("https://yetkin.ai")).toBe(true);
       expect(url.startsWith("/")).toBe(false);

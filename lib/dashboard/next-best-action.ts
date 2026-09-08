@@ -1,4 +1,5 @@
 import type { DashboardPulse } from "@/lib/dashboard/pulse";
+import { FREELANCER_PUBLIC_SURFACE_LOCKED } from "@/lib/kernel/compliance/circuit-breakers";
 import { MARKETPLACE_SPLIT_LIVE } from "@/lib/kernel/payments/marketplace-split-live";
 
 /** Kokpit «Sıradaki Eylem» kimliği — nabız sinyallerinden türetilir. */
@@ -59,7 +60,7 @@ function academyOrVisaOrDefault(pulse: DashboardPulse): NextBestAction {
  * kilitli iş → açık ilan önce gelir. Salt okuma; yazma yok.
  */
 export function resolveNextBestAction(pulse: DashboardPulse): NextBestAction {
-  if (MARKETPLACE_SPLIT_LIVE && pulse.freelancer.live) {
+  if (!FREELANCER_PUBLIC_SURFACE_LOCKED && MARKETPLACE_SPLIT_LIVE && pulse.freelancer.live) {
     const escrowLocked = Number(pulse.freelancer.pendingEscrowMinor) > 0;
     const workLive =
       pulse.freelancer.fundedAsClient > 0 ||
@@ -78,6 +79,12 @@ export function resolveNextBestAction(pulse: DashboardPulse): NextBestAction {
 
 /** Featured aksiyon sırası — birincil oda başa alınır. */
 export function orderFeaturedRooms(primary: NextBestActionRoom): NextBestActionRoom[] {
-  const base: NextBestActionRoom[] = ["academy", "career", "freelancer"];
-  return [primary, ...base.filter((room) => room !== primary)];
+  const base: NextBestActionRoom[] = FREELANCER_PUBLIC_SURFACE_LOCKED
+    ? ["academy", "career"]
+    : ["academy", "career", "freelancer"];
+  const rest = base.filter((room) => room !== primary);
+  if ((base as readonly string[]).includes(primary)) {
+    return [primary, ...rest];
+  }
+  return [...base];
 }

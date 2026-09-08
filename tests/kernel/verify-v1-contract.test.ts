@@ -6,6 +6,7 @@ import { NextRequest } from "next/server";
 import { proxy } from "../../proxy";
 import { LISTING_ACCESS_VISA_DENIED } from "@/lib/career/visa-gate";
 import { jsonFail, jsonOk } from "@/lib/kernel/http/json";
+import { EDGE_API_FROZEN_ROOM_ERROR, isFrozenRoomApi } from "@/lib/kernel/security/edge-api-auth";
 import {
   applyRailV1Cors,
   buildV1FailBody,
@@ -538,6 +539,17 @@ describe("/api/v1 sözleşme mührü", () => {
         expect(parseRailV1Envelope(await response.json()), hop.id).toMatchObject({
           ok: false,
           error: RAIL_V1_HOP_DRON_FORBIDDEN,
+          apiVersion: "1",
+          data: null,
+        });
+        expect(response.headers.get("set-cookie"), hop.id).toBeNull();
+        continue;
+      }
+      if (isFrozenRoomApi(paths.canonical) || isFrozenRoomApi(paths.v1)) {
+        expect(response.status, hop.id).toBe(410);
+        expect(parseRailV1Envelope(await response.json()), hop.id).toMatchObject({
+          ok: false,
+          error: EDGE_API_FROZEN_ROOM_ERROR,
           apiVersion: "1",
           data: null,
         });

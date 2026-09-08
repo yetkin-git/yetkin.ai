@@ -29,6 +29,7 @@ import {
   resolveRailV1HopPaths,
   isRailV1HopForbiddenOnDron,
 } from "@/lib/kernel/http/v1-contract";
+import { isFrozenRoomApi } from "@/lib/kernel/security/edge-api-auth";
 import {
   assertRailV1HopHandlerShield,
   isRailV1SuccessStatus,
@@ -296,7 +297,10 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
     const cookie = `sb-testref-auth-token=${encodeURIComponent(JSON.stringify({ access_token: token }))}`;
     const bearerHops = RAIL_V1_HOPS.filter(
       (hop) => hop.v1Auth === "bearer" && !isRailV1HopForbiddenOnDron(hop.id),
-    );
+    ).filter((hop) => {
+      const paths = resolveRailV1HopPaths(hop);
+      return !isFrozenRoomApi(paths.canonical) && !isFrozenRoomApi(paths.v1);
+    });
     expect(RAIL_V1_HOPS.filter((hop) => hop.v1Auth === "none").map((hop) => hop.id)).toEqual([
       "health",
       "academy-certificate",
@@ -347,7 +351,10 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
     const expired = await signHs256({ iat: now - 3600, exp: now - 120 });
     const bearerHops = RAIL_V1_HOPS.filter(
       (hop) => hop.v1Auth === "bearer" && !isRailV1HopForbiddenOnDron(hop.id),
-    );
+    ).filter((hop) => {
+      const paths = resolveRailV1HopPaths(hop);
+      return !isFrozenRoomApi(paths.canonical) && !isFrozenRoomApi(paths.v1);
+    });
     for (const hop of bearerHops) {
       const paths = resolveRailV1HopPaths(hop);
       const response = await proxy(
@@ -365,7 +372,10 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
   it("uyumsuz X-Rail-Min-Version 426 zarf basar; HTML boş sayfa yok", async () => {
     const hops = RAIL_V1_HOPS.filter(
       (hop) => hop.minVersionHeaderRequired && !isRailV1HopForbiddenOnDron(hop.id),
-    );
+    ).filter((hop) => {
+      const paths = resolveRailV1HopPaths(hop);
+      return !isFrozenRoomApi(paths.canonical) && !isFrozenRoomApi(paths.v1);
+    });
     expect(hops.length).toBeGreaterThan(0);
     for (const hop of hops) {
       const paths = resolveRailV1HopPaths(hop);
@@ -439,7 +449,12 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
 
   it("GET Bearer hop Idempotency-Key olmadan kenarda rewrite olur", async () => {
     const token = await signHs256();
-    const getHops = RAIL_V1_HOPS.filter((hop) => hop.method === "GET" && hop.v1Auth === "bearer");
+    const getHops = RAIL_V1_HOPS.filter((hop) => hop.method === "GET" && hop.v1Auth === "bearer").filter(
+      (hop) => {
+        const paths = resolveRailV1HopPaths(hop);
+        return !isFrozenRoomApi(paths.canonical) && !isFrozenRoomApi(paths.v1);
+      },
+    );
     for (const hop of getHops) {
       const paths = resolveRailV1HopPaths(hop);
       const response = await proxy(

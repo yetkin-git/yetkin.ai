@@ -470,5 +470,5 @@ if (violations.length > 0) {
 }
 
 console.log(
-      "verify:boundaries OK — kernel↛dikey, UI↛prisma/yazma motoru, oda↛oda engine, app/api uygulama servisi (müze/donmuş/UI yasak; çalışan oda kompozisyonu yasal), freelancer oda duvarı, kariyer/freelancer↛academy (catalog-ids), çalışan 4 oda sicili, donmuş oda lib/ tavanı yasak (archived/), Proof/Marketplace/Payments tablo sahipliği, katalog ON CONFLICT Super Admin tutarını korur.",
+      "verify:boundaries OK — kernel↛dikey, UI↛prisma/yazma motoru, oda↛oda engine, app/api uygulama servisi (müze/donmuş/UI yasak; çalışan oda kompozisyonu yasal), freelancer oda duvarı, kariyer/freelancer↛academy (catalog-ids), çalışan oda sicili (kamu vitrin 3 oda; freelancer yüzey kilitli), donmuş oda lib/ tavanı yasak (archived/), Proof/Marketplace/Payments tablo sahipliği, katalog ON CONFLICT Super Admin tutarını korur.",
 );

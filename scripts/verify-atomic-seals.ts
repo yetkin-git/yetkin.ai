@@ -384,7 +384,8 @@ const FILE_RULES: FileRule[] = [
     must: [
       { needle: "EIDS_PUBLIC_LISTING_LOCKED = true", label: "EİDS kilidi açık" },
       { needle: "JUNIOR_PRODUCTION_LOCKED = true", label: "Junior kilidi açık" },
-      { needle: "WORKING_SHELL_NAV_ROOM_IDS", label: "çalışan 4 oda sicili" },
+      { needle: "FREELANCER_PUBLIC_SURFACE_LOCKED = true", label: "Freelancer kamu yüzeyi kilitli" },
+      { needle: "WORKING_SHELL_NAV_ROOM_IDS", label: "kamu vitrin oda sicili" },
     ],
   },
   {

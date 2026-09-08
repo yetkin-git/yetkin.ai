@@ -1,3 +1,4 @@
+import { FREELANCER_PUBLIC_SURFACE_LOCKED } from "@/lib/kernel/compliance/circuit-breakers";
 import { FreelancerPulseWidget } from "@/components/dashboard/freelancer-pulse-widget";
 import { AcademyPulseWidget } from "@/components/dashboard/academy-pulse-widget";
 import { CareerPulseWidget } from "@/components/dashboard/career-pulse-widget";
@@ -31,10 +32,16 @@ export default async function DashboardPage() {
           <PageHeader compact eyebrow={copy.eyebrow} title={title} />
           <NextBestActionCard />
         </div>
-        <div className="grid min-w-0 items-stretch gap-4 lg:grid-cols-3">
+        <div
+          className={
+            FREELANCER_PUBLIC_SURFACE_LOCKED
+              ? "grid min-w-0 items-stretch gap-4 lg:grid-cols-2"
+              : "grid min-w-0 items-stretch gap-4 lg:grid-cols-3"
+          }
+        >
           <AcademyPulseWidget />
           <CareerPulseWidget />
-          <FreelancerPulseWidget />
+          {FREELANCER_PUBLIC_SURFACE_LOCKED ? null : <FreelancerPulseWidget />}
         </div>
       </RoomFrame>
     </DashboardPulseProvider>

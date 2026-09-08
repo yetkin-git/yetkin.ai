@@ -1,7 +1,9 @@
 /**
  * Çalışan oda sicili — tek SSOT.
- * Dört oda canlıdır (dashboard kokpit, academy, career, freelancer).
- * Eski ürün-faz numarası sicilde yoktur; ajan kafa karıştırmaz.
+ * Motor sicili dört dikeydir (dashboard, academy, career, freelancer).
+ * Kamu vitrin / sol menü üç odadır (Panel, Akademi, Kariyer).
+ * Freelancer kamu yüzeyi `FREELANCER_PUBLIC_SURFACE_LOCKED` ile kenar 410;
+ * `lib/freelancer` silinmez. Donmuş odalar `archived/` + kenar 410.
  * eslint.config.mjs, scripts/verify-boundaries.ts ve vitest.aliases bu dosyadan türer.
  * 5. çalışan oda ürün kararı olmadan eklenmez.
  */

@@ -48,13 +48,13 @@ export const LEGAL_HONESTY_BODY =
  * edilir. /iletisim kartı ve yasal metinler tek kaynaktan okur.
  */
 export const LEGAL_ACTIVITY_SCOPE_BODY =
-  `${LEGAL_ENTITY.brandName}, ${LEGAL_ENTITY.tradeName} bünyesinde yürütülen dijital eğitim ve yetkinlik platformudur. Sunulan hizmetler; elektronik ortamda ifa edilen eğitim içeriği, sunucu değerlendirmeli yetkinlik sınavı ve freelancer aracılık hizmetidir.`;
+  `${LEGAL_ENTITY.brandName}, ${LEGAL_ENTITY.tradeName} bünyesinde yürütülen dijital eğitim ve yetkinlik platformudur. Sunulan hizmetler elektronik ortamda ifa edilen eğitim içeriği, sunucu değerlendirmeli yetkinlik sınavı ve dijital sertifikasyon hizmetidir (B2C).`;
 
 /** Cüzdan iadesi — S43 dürüst metin. Otomatik karta dönüş vaadi yok. */
 export const LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH =
   "Platform cüzdanına yüklenen bakiyeler yalnızca platform içi hizmetlerde kullanılabilir; farklı bir banka hesabına nakit transferi yapılamaz. Kullanılmamış bakiye otomatik olarak karta dönmez; nakit çekim bu gövdede yoktur. İade talepleri destek kanalından alınır ve henüz harcanmamış yükleme, ödeme kuruluşu takası ile operatör tarafından değerlendirilir.";
 
-export const LEGAL_UPDATED_LABEL = "Yürürlük: 5 Eylül 2026";
+export const LEGAL_UPDATED_LABEL = "Yürürlük: 8 Eylül 2026";
 
 export const LEGAL_SUPPORT_EMAIL = LEGAL_ENTITY.supportEmail;
 export const LEGAL_SUPPORT_MAILTO = `mailto:${LEGAL_SUPPORT_EMAIL}` as const;
@@ -126,7 +126,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "gizlilik-politikasi",
         heading: "2. Gizlilik politikası — Ne toplanır, ne toplanmaz?",
         paragraphs: [
-          "İşlenen başlıca veriler: Hesap e-postası, görünen ad, oturum çerezleri, bakiye bilgisi, değiştirilemez hesap hareketleri (işlem tutarları ve para birimi), emanet kilit kayıtları, freelancer ilan/teklif/sözleşme metinleri, akademi sınav oturumu/cevapları ve dijital olarak doğrulanabilir sertifika kodlarıdır.",
+          "İşlenen başlıca veriler: Hesap e-postası, görünen ad, oturum çerezleri, bakiye bilgisi, değiştirilemez hesap hareketleri (işlem tutarları ve para birimi), akademi sınav oturumu/cevapları ve dijital olarak doğrulanabilir sertifika kodlarıdır.",
           "Sitemizde kişiselleştirilmiş reklam takibi, çerez tabanlı yeniden hedefleme (retargeting) veya üçüncü taraf analitik izleme kodları bulunmamaktadır. Kredi kartı numaranız platform sunucularımızda asla tutulmaz; kart tahsilatları Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle yürütülür.",
         ],
       },
@@ -134,8 +134,8 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "amac-hukuki-sebep",
         heading: "3. Veriler neden işlenir?",
         paragraphs: [
-          "Verilerinizi şu amaçlarla işleriz: hesap açmak, satın aldığınız dijital içeriği sunmak, freelancer aracılığını yürütmek, akademi sınavını değerlendirmek, sertifika doğrulamasını sağlamak ve güvenliği (sahtecilik, mükerrer ödeme, oturum) korumak.",
-          "Hukuki sebepler: sözleşmenin yerine getirilmesi (satın alma, emanet, sınav), meşru menfaat (oturum ve sahtecilik önleme) ve kanuni yükümlülüktür. Pazarlama izni alınmaz; pazarlama e-postası gönderilmez.",
+          "Verilerinizi şu amaçlarla işleriz: hesap açmak, satın aldığınız dijital eğitim içeriğini sunmak, akademi sınavını değerlendirmek, sertifika doğrulamasını sağlamak ve güvenliği (sahtecilik, mükerrer ödeme, oturum) korumak.",
+          "Hukuki sebepler: sözleşmenin yerine getirilmesi (satın alma, sınav, sertifika), meşru menfaat (oturum ve sahtecilik önleme) ve kanuni yükümlülüktür. Pazarlama izni alınmaz; pazarlama e-postası gönderilmez.",
         ],
       },
       {
@@ -143,7 +143,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         heading: "4. Veriler kimlerle paylaşılır?",
         paragraphs: [
           "Hesap ve verileriniz, kimlik doğrulama ve veritabanı hizmetleri sağlayan bulut altyapısında tutulur. Sunucuların bulunduğu ülke, ilgili hizmet sağlayıcısının kayıtlarında yer alır; bu metinde uydurma bir konum yazılmaz.",
-          "Kart ödemesinde Yetkili Ödeme Kuruluşuna e-posta adresiniz, bağlantı IP’niz, sipariş numarası ve sepet tutarı iletilir. Freelancer iş bedeli, pazaryeri altyapısı bağlıysa Lisanslı Ödeme Hizmet Sağlayıcısında kilitlenir; bağlı değilse işlem kabul edilmez, para ve veri kaydı oluşmaz.",
+          "Kart ödemesinde Yetkili Ödeme Kuruluşuna e-posta adresiniz, bağlantı IP’niz, sipariş numarası ve sepet tutarı iletilir.",
           "Hesap bildirimleri e-posta ile gönderilebilir. E-posta altyapısı yoksa bildirim atlanır; ödeme işleminiz durmaz. Üçüncü taraf pazarlama e-posta hizmeti kullanılmaz.",
         ],
       },
@@ -220,24 +220,8 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         ],
       },
       {
-        id: "emanet",
-        heading: "3. Freelancer emanet",
-        paragraphs: [
-          "Emanet: teklif kabulünde brüt tutar Yetkili Ödeme Kuruluşunda kilit kaydına bağlanır; platform cüzdanına bakiye yükleme / tahsilat işlemi yazılmaz. Pazaryeri altyapısı bağlı değilse işlem kabul edilmez. İş onaylanıp serbest bırakılmadan önce iade, kuruluş üzerinden alıcıya döner; freelancer ve platform payı yazılmaz.",
-          "Serbest bırakılmış kilit aynı yoldan iade edilmez. Anlaşmazlık açıkken iade kapalıdır. Bekleyen kilit, 14 günlük süre dolunca iade edilebilir. Bu 14 gün, dijital içerik cayma süresi değildir; emanet zaman aşımıdır.",
-        ],
-      },
-      {
-        id: "split-ve-pay",
-        heading: "4. Platform payı ve paylaştırmalı tahsilat",
-        paragraphs: [
-          "Freelancer iş bedeli Yetkili Ödeme Kuruluşunun paylaştırmalı tahsilat modeline tabidir. Ana para usta IBAN’ına, komisyon platforma kuruluş tarafından dağıtılır. Platform payı yalnız serbest bırakmada doğar; iade edilen emanette platform payı doğmaz.",
-          `${YETKIN_BRAND} bir ödeme veya finans kuruluşu değildir. Freelancer hakedişleri platform bünyesinde bakiye olarak tutulmaz; iş teslimi onaylandığında ödeme, Lisanslı Ödeme Hizmet Sağlayıcısı altyapısı üzerinden doğrudan freelancer'ın banka hesabına (IBAN) aktarılır.`,
-        ],
-      },
-      {
         id: "iade-iletisim",
-        heading: "5. İletişim",
+        heading: "3. İletişim",
         paragraphs: [
           `Sağlayıcı künye: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}). İptal, iade ve ödeme itirazları ${LEGAL_SUPPORT_EMAIL}, WhatsApp (${LEGAL_ENTITY.whatsappDisplay}) ve /iletisim üzerinden yürür. Kart tahsilatı itirazı Yetkili Ödeme Kuruluşunun kendi kanalı ile birlikte okunur. Tebligat adresi: ${LEGAL_ENTITY.address}.`,
         ],
@@ -255,17 +239,17 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         heading: "A. Ön Bilgilendirme Formu",
         paragraphs: [
           `Satıcı / sağlayıcı: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}), marka: ${LEGAL_ENTITY.brandName}. Adres: ${LEGAL_ENTITY.address}. Destek: ${LEGAL_SUPPORT_EMAIL}, WhatsApp ${LEGAL_ENTITY.whatsappDisplay} ve /iletisim. Platform kullanımı 18 yaş ve üzeri içindir. ${LEGAL_ACTIVITY_SCOPE_BODY}`,
-          "Hizmetin niteliği: (1) Akademi — dijital eğitim içeriği (metin, diyagram, varsa ses/video), 365 gün lisans, sunucu sınavı, baraj 70, dijital sertifika kodu. Satın alma belge basmaz. (2) Freelancer — işveren ile usta arasında aracılık; iş ürününün tarafı platform değildir. (3) Kariyer — mühürden türetilen vize projeksiyonu; ücretli ilan tahtası değildir.",
+          "Hizmetin niteliği: (1) Akademi — dijital eğitim içeriği (metin, diyagram, varsa ses/video), 365 gün lisans, sunucu sınavı, baraj 70, dijital sertifika kodu. Satın alma belge basmaz. (2) Kariyer — mühürden türetilen vize projeksiyonu; ücretli ilan tahtası değildir.",
           "Ödeme işlemleri Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle gerçekleştirilir. Kart tahsilatları ve cüzdan bakiyeleri Türk Lirası (TL) cinsinden işlenir. Kurs bedelleri kataloğumuzda ilan edilen güncel fiyatlar üzerinden tahsil edilir.",
-          "İfa: Akademide bakiye yükleme / tahsilat işlemi tamamlandığında ders gövdesi açılır. Bu, 6502 sayılı Kanun uyarınca elektronik ortamda anında ifa edilen hizmet / maddi ortamda sunulmayan dijital içeriktir. Teslimat adresi veya kargo yoktur. Freelancer’da ifa, tarafların teslim ve onayına bağlıdır; emanet Yetkili Ödeme Kuruluşundadır.",
-          "Cayma: Ön bilgi ve mesafeli sözleşme kasa tikleriyle kabul edilir. Akademi erişimi açılınca cayma hakkı istisna kapsamındadır (aşağıda B.5). Kullanılmamış cüzdan bakiyesi otomatik karta dönmez. Emanet iadesi serbest bırakmadan önceki emanet kurallarına tabidir.",
+          "İfa: Akademide bakiye yükleme / tahsilat işlemi tamamlandığında ders gövdesi açılır. Bu, 6502 sayılı Kanun uyarınca elektronik ortamda anında ifa edilen hizmet / maddi ortamda sunulmayan dijital içeriktir. Teslimat adresi veya kargo yoktur.",
+          "Cayma: Ön bilgi ve mesafeli sözleşme kasa tikleriyle kabul edilir. Akademi erişimi açılınca cayma hakkı istisna kapsamındadır (aşağıda B.5). Kullanılmamış cüzdan bakiyesi otomatik karta dönmez.",
         ],
       },
       {
         id: "mesafeli-sozlesme",
         heading: "B. Mesafeli Satış Sözleşmesi",
         paragraphs: [
-          `Satıcı künye: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}). Adres: ${LEGAL_ENTITY.address}. Bu sözleşme, 6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği çerçevesinde dijital hizmet / dijital içerik ifasını anlatır. ${YETKIN_BRAND}, freelancer işinde aracı platformdur; iş ürününün tarafı freelancer ve müşteridir. Akademide ifa elektronik teslimdir.`,
+          `Satıcı künye: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}). Adres: ${LEGAL_ENTITY.address}. Bu sözleşme, 6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği çerçevesinde dijital hizmet / dijital içerik ifasını anlatır. ${YETKIN_BRAND} dijital eğitim ve sertifikasyon hizmeti sunar; ödeme veya finans kuruluşu değildir. Akademide ifa elektronik teslimdir.`,
           `Sözleşme, tüketicinin kasa veya cüzdan yükleme ekranında Mesafeli Satış Sözleşmesi ile Ön Bilgilendirme Formunu kabul etmesi ve dijital içeriğin anında ifa edileceğine açık rıza vermesiyle kurulur. Rıza, ödeme isteğinde ${CHECKOUT_LEGAL_CONSENT_VERSION} sürümü ile doğrulanır. Tik yoksa tahsilat ve bakiye yükleme / tahsilat işlemi durur.`,
         ],
       },
@@ -275,7 +259,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         paragraphs: [
           "Akademi kurslarında ödeme (bakiye yükleme / tahsilat işlemi) yapılıp ders içeriklerine erişim açıldığı anda ifa başlamış olur. 6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği’nin «elektronik ortamda anında ifa edilen hizmetler» ile maddi ortamda sunulmayan dijital içeriğe ilişkin istisnası bu anda işler.",
           "Tüketici, kasa tikinde «Dijital içeriğin anında ifa edileceğini kabul ediyorum» ifadesiyle ifanın derhal başlayacağını ve bu durumda cayma hakkının istisna kapsamında sona ereceğini kabul eder. İfa başlamadan önce tik verilmezse satın alma ve kart yükleme isteği reddedilir.",
-          "Cüzdan yükleme tek başına ders açmaz; yüklenen bakiye platformun dijital hizmetleri içindir. Akademi tahsilat işlemi ile erişim açılınca istisna işler. 14 günlük yasal cayma süresi, emanet süresi ve dijital ifa istisnası ile birlikte okunur — çifte iade yoktur.",
+          "Cüzdan yükleme tek başına ders açmaz; yüklenen bakiye platformun dijital hizmetleri içindir. Akademi tahsilat işlemi ile erişim açılınca istisna işler. 14 günlük yasal cayma süresi dijital ifa istisnası ile birlikte okunur — çifte iade yoktur.",
         ],
       },
       {
@@ -306,16 +290,16 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "kapsam",
         heading: "1. Kapsam ve odalar",
         paragraphs: [
-          `${LEGAL_ACTIVITY_SCOPE_BODY} Platform dört çalışan oda (Panel, Akademi, Kariyer, Freelancer) ile çalışır. Diskte duran diğer odalar pazarlanmaz. İkinci nakit yazıcı, platform cüzdanından banka çekimi, GİB canlı fatura ve müze yolları bu gövdede yoktur.`,
+          `${LEGAL_ACTIVITY_SCOPE_BODY} Platform üç çalışan oda (Panel, Akademi, Kariyer) ile çalışır. Diskte duran diğer odalar pazarlanmaz. İkinci nakit yazıcı, platform cüzdanından banka çekimi, GİB canlı fatura ve müze yolları bu gövdede yoktur.`,
           "Vatandaş hesap e-posta ve şifre ile açılır; oturum çerezi kimlik ipucudur, para işlemi sunucuda JWT ile bağlanır. Native mağaza (IAP) akademi satmaz.",
         ],
       },
       {
-        id: "freelancer-sorumluluk",
-        heading: "2. Freelancer aracılığı ve sorumluluk",
+        id: "hizmet-sorumluluk",
+        heading: "2. Hizmet niteliği ve sorumluluk",
         paragraphs: [
-          `Freelancer mutlu yol ilan → emanet kaydı → teslim onayıdır. İş bedeli Yetkili Ödeme Kuruluşunda paylaştırmalı tahsilat ile dağılır; ${YETKIN_BRAND} ödeme kuruluşu değildir. Kabul anında platform cüzdanına bakiye yükleme / tahsilat işlemi yazılmaz. Platform, işin niteliğini, süresini veya sonucunu garanti etmez.`,
-          "Azami sorumluluk, ilgili iş bedelinin net tutarı ve defter kaydı ile sınırlıdır; dolaylı, kâr kaybı veya manevi tazminat talep edilemez. Tahkim açıkken serbest bırakma ve iade kapanır. Paylaştırmalı tahsilat bağlı değilken işlem kabul edilmez; sahte kazanç yazılmaz.",
+          `Platform dijital eğitim içeriği, sunucu değerlendirmeli yetkinlik sınavı ve dijital sertifika sunar. ${YETKIN_BRAND} bir ödeme veya finans kuruluşu değildir. Kariyer odası belge vitrinidir; ücretli ilan tahtası değildir. Platform, eğitimin işe yerleşmeyi veya gelir elde etmeyi garanti etmez.`,
+          "Azami sorumluluk, ilgili dijital hizmet bedelinin net tutarı ve defter kaydı ile sınırlıdır; dolaylı, kâr kaybı veya manevi tazminat talep edilemez.",
         ],
       },
       {
@@ -342,6 +326,17 @@ export function legalSectionBySlug(slug: string): LegalLaunchSection | undefined
 }
 
 export const LEGAL_CONTACT_HREF = "/iletisim" as const;
+export const LEGAL_ABOUT_HREF = "/hakkimizda" as const;
+export const LEGAL_ABOUT_TITLE = "Hakkımızda" as const;
+
+export const LEGAL_ABOUT_LEAD =
+  `${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}) bünyesinde yürütülen ${LEGAL_ENTITY.brandName}, vatandaşa dijital eğitim, sunucu sınavı ve sertifikasyon sunan bir B2C yetkinlik platformudur.`;
+
+export const LEGAL_ABOUT_STORY = [
+  "Şirket sicil unvanı gayrimenkul ve e-ticaret faaliyetlerini taşır. yetkin.ai üzerindeki tek ve ana faaliyet konusu dijital eğitim, yetkinlik sınavı ve sertifikasyondur. Uydurma unvan yazılmaz; unvan-faaliyet farkı bu sayfada dürüstçe belirtilir.",
+  "Vatandaş kayıt olur, Akademi kataloğundan kurs satın alır, müfredatı tamamlar, sunucuda değerlendirilen sınavı geçer ve belgesini kamu hash ile doğrulatır. Kariyer odası bu mühürden türetilen belge vitrinidir; ücretli ilan tahtası değildir.",
+  "Platform bir ödeme veya finans kuruluşu değildir. Kart tahsilatı Yetkili Ödeme Kuruluşu altyapısı üzerinden yürür; kart numarası platform sunucularında tutulmaz. Hizmet 18 yaş ve üzeri içindir.",
+] as const;
 
 /** Vitrin şeridi — tam hukuki başlık `title`, tek satır etiket `label`. */
 export const LEGAL_FOOTER_LABELS = {
@@ -350,6 +345,7 @@ export const LEGAL_FOOTER_LABELS = {
   iade: "İade",
   "mesafeli-satis": "Mesafeli satış",
   kullanim: "Kullanım şartları",
+  hakkimizda: LEGAL_ABOUT_TITLE,
   iletisim: "İletişim",
   destek: LEGAL_SUPPORT_EMAIL,
 } as const;
@@ -360,6 +356,7 @@ export const LEGAL_FOOTER_LINKS = [
     title: section.title,
     label: LEGAL_FOOTER_LABELS[section.slug],
   })),
+  { href: LEGAL_ABOUT_HREF, title: LEGAL_ABOUT_TITLE, label: LEGAL_FOOTER_LABELS.hakkimizda },
   { href: LEGAL_CONTACT_HREF, title: LEGAL_FOOTER_LABELS.iletisim, label: LEGAL_FOOTER_LABELS.iletisim },
   {
     href: LEGAL_SUPPORT_MAILTO,

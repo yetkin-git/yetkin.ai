@@ -19,6 +19,7 @@ import {
   FREELANCER_STAMP_SURFACE_PATH,
 } from "@/lib/kernel/passport/types";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
+import { FREELANCER_PUBLIC_SURFACE_LOCKED } from "@/lib/kernel/compliance/circuit-breakers";
 
 function PassportShelterActions({ soft = false }: { soft?: boolean }) {
   const copy = SEN_VOICE.pasaport;
@@ -31,9 +32,11 @@ function PassportShelterActions({ soft = false }: { soft?: boolean }) {
       <LinkButton href={ACADEMY_CERTIFICATES_SURFACE_PATH} variant="outline" size={size}>
         {copy.certificatesCta}
       </LinkButton>
-      <LinkButton href={FREELANCER_STAMP_SURFACE_PATH} variant="outline" size={size}>
-        {copy.freelancerBoardCta}
-      </LinkButton>
+      {FREELANCER_PUBLIC_SURFACE_LOCKED ? null : (
+        <LinkButton href={FREELANCER_STAMP_SURFACE_PATH} variant="outline" size={size}>
+          {copy.freelancerBoardCta}
+        </LinkButton>
+      )}
     </div>
   );
 }

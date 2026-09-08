@@ -101,8 +101,8 @@ describe("K6 kenar kararı", () => {
         method: "POST",
         sessionHint: true,
         map: MAP,
-      }).kind,
-    ).toBe("next");
+      }),
+    ).toEqual({ kind: "deny", status: 410, error: EDGE_API_FROZEN_ROOM_ERROR });
   });
 
   it("donmuş oda yazması ve okuması 410; freelancer kabulü durur", () => {
@@ -125,6 +125,22 @@ describe("K6 kenar kararı", () => {
     expect(
       decideEdgeApiAuth({
         pathname: "/api/studio/pulse",
+        method: "GET",
+        sessionHint: true,
+        map: MAP,
+      }),
+    ).toEqual({ kind: "deny", status: 410, error: EDGE_API_FROZEN_ROOM_ERROR });
+    expect(
+      decideEdgeApiAuth({
+        pathname: "/api/client/jobs/fj_1/bids",
+        method: "GET",
+        sessionHint: true,
+        map: MAP,
+      }),
+    ).toEqual({ kind: "deny", status: 410, error: EDGE_API_FROZEN_ROOM_ERROR });
+    expect(
+      decideEdgeApiAuth({
+        pathname: "/api/v1/freelancer/jobs",
         method: "GET",
         sessionHint: true,
         map: MAP,

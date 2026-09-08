@@ -43,6 +43,9 @@ export default function LegalPage() {
               {section.title}
             </a>
           ))}
+          <a href="/hakkimizda" className="font-semibold text-[var(--safir-deep)] hover:underline">
+            Hakkımızda
+          </a>
           <a href="/iletisim" className="font-semibold text-[var(--safir-deep)] hover:underline">
             İletişim
           </a>

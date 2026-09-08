@@ -69,6 +69,11 @@ export const PAGE_SEO = {
     description: `${YETKIN_BRAND} iletişim ve destek kanalı.`,
     path: "/iletisim",
   },
+  about: {
+    title: "Hakkımızda",
+    description: `${YETKIN_BRAND} — Yapınet Gayrimenkul ve E-Ticaret Limited Şirketi bünyesinde dijital eğitim, sınav ve sertifikasyon (B2C).`,
+    path: "/hakkimizda",
+  },
   legal: {
     title: LEGAL_PAGE_TITLE,
     description:
@@ -96,7 +101,7 @@ type PageSeoInput = {
   image?: string;
 };
 
-export const PRODUCT_ROOM_PATHS = ["/academy", "/career", "/freelancer"] as const;
+export const PRODUCT_ROOM_PATHS = ["/academy", "/career"] as const;
 
 export type SitemapChangeFrequency =
   | "always"
@@ -108,8 +113,8 @@ export type SitemapChangeFrequency =
   | "never";
 
 /**
- * Aşama 2 sitemap önceliği: ana sayfa/akademi 1.0, kurs 0.8, yasal/iletişim 0.5.
- * Kariyer 0.9. Freelancer arka plan odası 0.4.
+ * Aşama 2 sitemap önceliği: ana sayfa/akademi 1.0, kurs 0.8, yasal/iletişim/hakkımızda 0.5.
+ * Kariyer 0.9.
  */
 export function sitemapRoutePolicy(path: string): {
   changeFrequency: SitemapChangeFrequency;
@@ -121,13 +126,10 @@ export function sitemapRoutePolicy(path: string): {
   if (path === "/career") {
     return { changeFrequency: "weekly", priority: 0.9 };
   }
-  if (path === "/freelancer") {
-    return { changeFrequency: "weekly", priority: 0.4 };
-  }
   if (path.startsWith("/academy/") && !path.startsWith("/academy/dogrula")) {
     return { changeFrequency: "weekly", priority: 0.8 };
   }
-  if (path.startsWith("/legal") || path === "/iletisim") {
+  if (path.startsWith("/legal") || path === "/iletisim" || path === "/hakkimizda") {
     return { changeFrequency: "monthly", priority: 0.5 };
   }
   return { changeFrequency: "weekly", priority: 0.7 };

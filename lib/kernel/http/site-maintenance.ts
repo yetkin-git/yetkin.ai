@@ -48,6 +48,7 @@ export const SITE_MAINTENANCE_LEGAL_LINKS = [
   { href: "/legal/kullanim", label: "Kullanım Şartları" },
   { href: "/legal/mesafeli-satis", label: "Mesafeli Satış" },
   { href: "/legal/iade", label: "İade" },
+  { href: "/hakkimizda", label: "Hakkımızda" },
   { href: "/iletisim", label: "İletişim" },
 ] as const;
 
@@ -166,7 +167,7 @@ export function isPublicCompliancePath(pathname: string): boolean {
   if (path === "/legal" || path.startsWith("/legal/")) {
     return true;
   }
-  if (path === "/iletisim") {
+  if (path === "/iletisim" || path === "/hakkimizda") {
     return true;
   }
   if (path === "/robots.txt" || path === "/sitemap.xml") {

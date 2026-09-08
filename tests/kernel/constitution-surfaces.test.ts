@@ -59,8 +59,8 @@ describe("anayasa yüzey sözleşmeleri", () => {
   });
 
   it("anasayfa şeridi Anasayfa çipini düşürür; çalışan 3 oda kalır", () => {
-    expect(RIBBON_ROOMS).toHaveLength(3);
-    expect(RIBBON_ROOMS.map((room) => room.id)).toEqual(["academy", "career", "freelancer"]);
+    expect(RIBBON_ROOMS).toHaveLength(2);
+    expect(RIBBON_ROOMS.map((room) => room.id)).toEqual(["academy", "career"]);
     expect(RIBBON_ROOMS.map((room) => room.id)).not.toContain("dashboard");
     expect(RIBBON_ROOMS.map((room) => room.label)).not.toContain("Anasayfa");
     expect(RIBBON_ROOMS.map((room) => room.label)).not.toContain("Panel");
@@ -75,5 +75,6 @@ describe("anayasa yüzey sözleşmeleri", () => {
     expect(isJuniorProductionFrozen()).toBe(true);
     expect(isVitrineRoomFrozen("junior")).toBe(true);
     expect(isVitrineRoomFrozen("studio")).toBe(true);
+    expect(isVitrineRoomFrozen("freelancer")).toBe(true);
   });
 });

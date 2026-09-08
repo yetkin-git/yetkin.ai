@@ -16,6 +16,7 @@ import { EMPTY_FREELANCER_PULSE } from "@/lib/dashboard/freelancer-pulse";
 import { EMPTY_WALLET_STRIP } from "@/lib/dashboard/wallet-strip";
 import { readWalletStripSnapshot } from "@/lib/dashboard/load-wallet-strip";
 import { createPrismaFreelancerPorts } from "@/lib/freelancer/runtime";
+import { FREELANCER_PUBLIC_SURFACE_LOCKED } from "@/lib/kernel/compliance/circuit-breakers";
 import {
   ensurePrismaQueryEngine,
   isServerlessRuntime,
@@ -195,12 +196,14 @@ async function loadDashboardPulseFresh(userId: string): Promise<DashboardPulse> 
     [
       () => readRoom("wallet", () => readWalletStripSnapshot(userId), EMPTY_WALLET_STRIP, roomTimeoutMs),
       () =>
-        readRoom(
-          "freelancer",
-          async () => withLiveFlag(await createPrismaFreelancerPorts().freelancer.pulseForUser(userId)),
-          EMPTY_FREELANCER_PULSE,
-          roomTimeoutMs,
-        ),
+        FREELANCER_PUBLIC_SURFACE_LOCKED
+          ? Promise.resolve(EMPTY_FREELANCER_PULSE)
+          : readRoom(
+              "freelancer",
+              async () => withLiveFlag(await createPrismaFreelancerPorts().freelancer.pulseForUser(userId)),
+              EMPTY_FREELANCER_PULSE,
+              roomTimeoutMs,
+            ),
       () =>
         readRoom(
           "academy",

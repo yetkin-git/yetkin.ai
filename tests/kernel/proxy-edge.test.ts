@@ -262,7 +262,7 @@ describe("proxy.ts kenar mühürleri", () => {
   });
 
   it("/api/v1 sürüm kapısı 400/426 zarflar; geçerli istek /v1 soyar", async () => {
-    const missing = await proxy(request("/api/v1/freelancer/jobs"));
+    const missing = await proxy(request("/api/v1/career/pulse"));
     expect(missing.status).toBe(400);
     const missingBody = (await missing.json()) as {
       ok: boolean;
@@ -279,7 +279,7 @@ describe("proxy.ts kenar mühürleri", () => {
     expect(missingBody.data).toBeNull();
 
     const stale = await proxy(
-      request("/api/v1/freelancer/jobs", { headers: { "X-Rail-Min-Version": "2" } }),
+      request("/api/v1/career/pulse", { headers: { "X-Rail-Min-Version": "2" } }),
     );
     expect(stale.status).toBe(426);
     expect(await stale.json()).toMatchObject({
@@ -290,7 +290,7 @@ describe("proxy.ts kenar mühürleri", () => {
     });
 
     const stripped = await proxy(
-      request("/api/v1/freelancer/jobs", { headers: { "X-Rail-Min-Version": "1" } }),
+      request("/api/v1/career/pulse", { headers: { "X-Rail-Min-Version": "1" } }),
     );
     expect(stripped.status).toBe(401);
     expect(stripped.headers.get("x-middleware-rewrite")).toBeNull();
@@ -302,7 +302,8 @@ describe("proxy.ts kenar mühürleri", () => {
     });
 
     const unpublished = await proxy(
-      request("/api/v1/freelancer/jobs/fj_lab_1", {
+      request("/api/v1/wallet/top-up", {
+        method: "POST",
         headers: { "X-Rail-Min-Version": "1" },
       }),
     );
@@ -317,16 +318,31 @@ describe("proxy.ts kenar mühürleri", () => {
 
     const token = await signHs256();
     const rewritten = await proxy(
-      request("/api/v1/freelancer/jobs", {
+      request("/api/v1/career/pulse", {
         authorization: `Bearer ${token}`,
         headers: { "X-Rail-Min-Version": "1" },
       }),
     );
     expect(rewritten.status).toBe(200);
     expect(rewritten.headers.get("x-middleware-rewrite")).toBe(
-      "http://localhost:3000/api/freelancer/jobs",
+      "http://localhost:3000/api/career/pulse",
     );
     expect(rewritten.headers.get("x-middleware-request-x-rail-api-version")).toBe("1");
+
+    const lockedFreelancer = await proxy(
+      request("/api/v1/freelancer/jobs", {
+        authorization: `Bearer ${token}`,
+        headers: { "X-Rail-Min-Version": "1" },
+      }),
+    );
+    expect(lockedFreelancer.status).toBe(410);
+    expect(lockedFreelancer.headers.get("x-middleware-rewrite")).toBeNull();
+    expect(await lockedFreelancer.json()).toMatchObject({
+      ok: false,
+      error: "Bu oda üretimde kapalı.",
+      apiVersion: "1",
+      data: null,
+    });
 
     const health = await proxy(request("/api/v1/health"));
     expect(health.status).toBe(200);
@@ -334,7 +350,7 @@ describe("proxy.ts kenar mühürleri", () => {
 
     const cookie = `sb-testref-auth-token=${encodeURIComponent(JSON.stringify({ access_token: token }))}`;
     const cookieOnly = await proxy(
-      request("/api/v1/freelancer/jobs", {
+      request("/api/v1/career/pulse", {
         cookie,
         headers: { "X-Rail-Min-Version": "1" },
       }),
@@ -370,7 +386,7 @@ describe("proxy.ts kenar mühürleri", () => {
   it("/api/v1 OPTIONS CORS yansıtır; joker yok; versiyonsuz CORS basmaz", async () => {
     vi.stubEnv("RAIL_DRON_ORIGINS", "https://app.yetkin.rail");
     const allowed = await proxy(
-      request("/api/v1/freelancer/jobs", {
+      request("/api/v1/health", {
         method: "OPTIONS",
         headers: { origin: "https://app.yetkin.rail" },
       }),
@@ -381,7 +397,7 @@ describe("proxy.ts kenar mühürleri", () => {
     expect(allowed.headers.get("Access-Control-Allow-Credentials")).not.toBe("true");
 
     const foreign = await proxy(
-      request("/api/v1/freelancer/jobs", {
+      request("/api/v1/health", {
         method: "OPTIONS",
         headers: { origin: "https://evil.example" },
       }),
@@ -399,7 +415,7 @@ describe("proxy.ts kenar mühürleri", () => {
 
     vi.stubEnv("RAIL_DRON_ORIGINS", "");
     const emptyOrigins = await proxy(
-      request("/api/v1/freelancer/jobs", {
+      request("/api/v1/health", {
         method: "OPTIONS",
         headers: { origin: "https://lab.yetkin.rail" },
       }),

@@ -65,6 +65,7 @@ test.describe("O13 lansman hukuk yüzeyi", () => {
       "/legal/iade",
       "/legal/kullanim",
       "/iletisim",
+      "/hakkimizda",
     ]) {
       const response = await request.get(path, { maxRedirects: 0 });
       expect(response.status(), path).toBe(200);
@@ -82,6 +83,7 @@ test.describe("O13 lansman hukuk yüzeyi", () => {
         "İade",
         "Mesafeli satış",
         "Kullanım şartları",
+        "Hakkımızda",
         "İletişim",
         "destek@yetkin.ai",
       ]) {

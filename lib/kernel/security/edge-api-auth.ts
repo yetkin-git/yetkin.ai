@@ -7,7 +7,11 @@
  */
 
 import { isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
-import { FROZEN_SHELL_ROOM_IDS } from "@/lib/kernel/compliance/circuit-breakers";
+import {
+  FREELANCER_LOCKED_API_PREFIXES,
+  FREELANCER_PUBLIC_SURFACE_LOCKED,
+  FROZEN_SHELL_ROOM_IDS,
+} from "@/lib/kernel/compliance/circuit-breakers";
 import { canonicalApiPathname } from "@/lib/kernel/http/api-v1";
 import {
   isApiPathname,
@@ -31,6 +35,14 @@ const MUTATING_HTTP_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 
 export function isFrozenRoomApi(pathname: string): boolean {
   const path = canonicalApiPathname(pathname);
+  if (
+    FREELANCER_PUBLIC_SURFACE_LOCKED &&
+    FREELANCER_LOCKED_API_PREFIXES.some(
+      (prefix) => path === prefix || path.startsWith(`${prefix}/`),
+    )
+  ) {
+    return true;
+  }
   return (FROZEN_SHELL_ROOM_IDS as readonly string[]).some(
     (id) => path === `/api/${id}` || path.startsWith(`/api/${id}/`),
   );
