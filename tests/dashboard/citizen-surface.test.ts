@@ -44,7 +44,7 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(SEN_VOICE.dashboard.featured).not.toContain("sicilde");
     expect(SEN_VOICE.dashboard.featured).not.toContain("Çalışan odalar");
     expect(SEN_VOICE.dashboard.walletStrip.body).toContain("Bakiye Akademi tahsilatı içindir");
-    expect(SEN_VOICE.dashboard.walletStrip.body).toContain("accept 503");
+    expect(SEN_VOICE.dashboard.walletStrip.body).toContain("Eğitim satın alımı bu bakiyeden düşer");
     expect(SEN_VOICE.dashboard.walletStrip.body).not.toContain("Bakiyeniz");
     expect(SEN_VOICE.dashboard.walletStrip).not.toHaveProperty("modalTitle");
     expect(SEN_VOICE.dashboard.walletStrip).not.toHaveProperty("emptyLedger");
@@ -101,10 +101,10 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     const page = readSrc("app/dashboard/page.tsx");
     expect(WALLET_SURFACE_PATH).toBe("/cuzdan");
     expect(SEN_VOICE.dashboard.walletStrip.openCta).toBe("Cüzdanı aç");
-    expect(SEN_VOICE.dashboard.walletStrip.escrowLabel).toBe("Kilitli emanet");
+    expect(SEN_VOICE.dashboard.walletStrip.escrowLabel).toBe("Pasif kilit");
     expect(SEN_VOICE.dashboard.pulse.unavailable).toBe("Henüz yüklenemedi");
     expect(SEN_VOICE.dashboard.pulse.freelancerEscrowInactive).toBe(
-      "Emanet akışı henüz aktif değil",
+      "İlan ve teklif modülü pasiftir.",
     );
     expect(SEN_VOICE.dashboard.pulse.academyTitle).toBe("Akademi");
     expect(SEN_VOICE.dashboard.pulse.careerTitle).toBe("Kariyer");

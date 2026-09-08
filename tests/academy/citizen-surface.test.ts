@@ -40,7 +40,7 @@ const SEN_SURFACES = [
 
 describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı", () => {
   it("/academy ve /cuzdan siz kaçakları taşımaz; SEN_VOICE bağlar", () => {
-    expect(SEN_VOICE.cuzdan.closedLoopBody).toContain("Cüzdan Akademi tahsilatı içindir");
+    expect(SEN_VOICE.cuzdan.closedLoopBody).toContain("Cüzdan Akademi eğitim tahsilatı içindir");
     expect(SEN_VOICE.cuzdan.closedLoopBody).not.toContain("Bakiyeniz");
     expect(SEN_VOICE.academy.catalog.description).toContain("Eğitimi incele");
     expect(PRICE_LOCK_GRACE_MINUTES).toBe(15);

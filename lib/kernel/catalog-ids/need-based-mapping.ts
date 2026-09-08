@@ -4,7 +4,7 @@
  * Client-safe: Prisma / node:crypto / müfredat gövdesi yok.
  *
  * Bölüm A: 5 compact SKU ile birebir dürüst kapı (vize/rozet şartı).
- * Bölüm B: serbest pazaryeri kategorileri — arka planda Açık Deneme mantığı (vize yok, OPEN).
+ * Bölüm B: serbest örnek kategorileri — arka planda Açık Deneme mantığı (vize yok, OPEN).
  * Eski meslek id'leri (fullstack / sızma testi / UI-UX) okumada kanona düşer.
  */
 
@@ -25,7 +25,7 @@ export const FREELANCER_GUARANTEED_NEED_IDS = [
   "prompt-uretkenlik",
 ] as const;
 
-/** Bölüm B — Standart Pazaryeri. Vize istenmez; Açık Deneme mantığına bağlanır. */
+/** Bölüm B — Açık Deneme. Vize istenmez; Açık Deneme mantığına bağlanır. */
 export const FREELANCER_MARKETPLACE_NEED_IDS = [
   "yazilim-web-mobil",
   "grafik-tasarim-kimlik",
@@ -50,7 +50,7 @@ export type ListingVisaLockId = FreelancerNeedId | AcademyPathwayId;
 
 export const FREELANCER_NEED_TITLES = {
   "excel-veri-otomasyon": "Ofis Yapay Zekâ (Excel, Word, e-posta)",
-  "eticaret-pazaryeri": "E-Ticaret ve Pazaryeri Asistanlığı",
+  "eticaret-pazaryeri": "E-Ticaret Asistanlığı",
   "logo-gorsel-sosyal-medya": "Sosyal Medya İçerik ve Görsel Üretimi",
   "chatbot-musteri-hizmetleri": "Kodsuz Chatbot ve Müşteri Hizmetleri",
   "prompt-uretkenlik": "Prompt ve Günlük Üretkenlik",

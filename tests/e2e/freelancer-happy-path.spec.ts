@@ -53,7 +53,7 @@ test.describe("O9 freelancer nakit & emanet yolculuğu", () => {
     const response = await page.goto("/freelancer");
     expect(response?.status()).toBeLessThan(400);
     await expect(page.getByRole("heading", { name: "Freelancer İlan Panosu" })).toBeVisible();
-    await expect(page.getByText("Freelancer arka plan odasıdır. Tohum ilanlar platform örneğidir; emanet kapalıdır (kabul 503). İlan ve teklif kodu durur; sahte pazar basılmaz.")).toBeVisible();
+    await expect(page.getByText("Freelancer arka plan odasıdır. Tohum ilanlar platform örneğidir. İlan ve teklif modülü pasiftir; sahte kazanç yazılmaz.")).toBeVisible();
     await expect(page.getByRole("link", { name: "İlan oluştur" }).first()).toBeVisible();
 
     const live = page.getByText(/Açık İlan/);

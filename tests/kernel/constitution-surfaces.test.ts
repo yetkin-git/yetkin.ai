@@ -69,7 +69,7 @@ describe("anayasa yüzey sözleşmeleri", () => {
       "Doğrulanmış Rozet ve Teklif Kapısı",
     );
     expect(VERTICAL_ROOMS.find((room) => room.id === "freelancer")?.blurb).toBe(
-      "Arka plan · emanet kapalı",
+      "Arka plan · modül pasif",
     );
     expect(isEidsPublicListingLocked()).toBe(true);
     expect(isJuniorProductionFrozen()).toBe(true);

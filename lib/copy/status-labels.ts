@@ -37,7 +37,7 @@ export function freelancerContractStatusLabel(status: FreelancerContractStatus):
     case "FUNDED":
       return "Ödeme kuruluşunda kilitli";
     case "RELEASED":
-      return "Teslim onayı ile aktarıldı";
+      return "Teslim onaylandı";
     case "REFUNDED":
       return "İade";
     case "DISPUTED":
@@ -56,7 +56,7 @@ export function freelancerDisputeRoundStatusLabel(status: FreelancerDisputeRound
     case "AI_REPORT_READY":
       return "1. tur AI analizi hazır";
     case "HUMAN_REVIEW":
-      return "Sonuç Analiz Raporu — emanet kilitli kalır";
+      return "Sonuç Analiz Raporu — süreç durur";
     case "SETTLED":
       return "Tahkim kapandı";
   }
@@ -105,7 +105,7 @@ export function escrowHoldStatusLabel(status: EscrowHoldStatus | undefined): str
     case "PENDING":
       return "Ödeme kuruluşunda kilitli";
     case "RELEASED":
-      return "Teslim onayı ile aktarıldı";
+      return "Teslim onaylandı";
     case "REFUNDED":
       return "İade";
     default:

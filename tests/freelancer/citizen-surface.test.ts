@@ -86,15 +86,15 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
     expect(SEN_VOICE.freelancer.catalog.createCta).toBe("İlan oluştur");
     expect(SEN_VOICE.freelancer.catalog.title).toBe("Freelancer İlan Panosu");
     expect(SEN_VOICE.freelancer.catalog.description).toBe(
-      "Freelancer arka plan odasıdır. Tohum ilanlar platform örneğidir; emanet kapalıdır (kabul 503). İlan ve teklif kodu durur; sahte pazar basılmaz.",
+      "Freelancer arka plan odasıdır. Tohum ilanlar platform örneğidir. İlan ve teklif modülü pasiftir; sahte kazanç yazılmaz.",
     );
     expect(SEN_VOICE.freelancer.catalog.description).not.toContain("settlement");
-    expect(SEN_VOICE.freelancer.create.description).toContain("emanet kapalıdır (kabul 503)");
+    expect(SEN_VOICE.freelancer.create.description).toContain("ödeme modülü pasiftir");
     expect(SEN_VOICE.freelancer.create.description).not.toContain("güvenli ödemeye alınır");
     expect(SEN_VOICE.freelancer.create.description).not.toContain("cüzdanda kilitlenir");
     expect(SEN_VOICE.freelancer.accept.cta).not.toContain("bakiyeyi kilitle");
-    expect(SEN_VOICE.freelancer.accept.paymentsClosedBody).toContain("Emanet nakit akışı henüz bağlanmadı");
-    expect(SEN_VOICE.freelancer.accept.paymentsClosedBody).toContain("503 fail-closed");
+    expect(SEN_VOICE.freelancer.accept.paymentsClosedBody).toContain("İlan ve teklif modülü pasiftir");
+    expect(SEN_VOICE.freelancer.accept.paymentsClosedBody).toContain("sahte kazanç yazılmaz");
     expect(SEN_VOICE.freelancer.stats.escrowHint).not.toMatch(/bakiye kilitlidir/i);
     expect(SEN_VOICE.freelancer.bid.received).toBe("Teklif alındı.");
     expect(HOLD_BPS_DEFAULT).toBe(1000);
@@ -244,7 +244,7 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
     expect(readSrc("components/freelancer/job-list.tsx")).not.toContain("örnek düzen");
     expect(SEN_VOICE.freelancer.catalog.unbound).not.toContain("örnek düzen");
     expect(SEN_VOICE.freelancer.list.emptyHint).toBe("Henüz açık ilan bulunmuyor");
-    expect(SEN_VOICE.freelancer.list.emptyBody).toContain("ilk ilanı sen oluşturarak");
+    expect(SEN_VOICE.freelancer.list.emptyBody).toContain("İlk örnek ilanı inceleyerek");
     expect(SEN_VOICE.freelancer.list.emptyCta).toBe("İlan Oluştur");
     expect(readSrc("components/freelancer/job-list.tsx")).toContain("IconBriefcase");
     expect(SEN_VOICE.freelancer.list.filteredEmpty).toBe("Aramanıza uygun ilan bulunamadı.");
@@ -262,9 +262,9 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
 
   it("güvenli ödeme ve teslim etiketleri vatandaşa sade yansır", () => {
     expect(escrowHoldStatusLabel("PENDING")).toBe("Ödeme kuruluşunda kilitli");
-    expect(escrowHoldStatusLabel("RELEASED")).toBe("Teslim onayı ile aktarıldı");
+    expect(escrowHoldStatusLabel("RELEASED")).toBe("Teslim onaylandı");
     expect(freelancerContractStatusLabel("FUNDED")).toBe("Ödeme kuruluşunda kilitli");
-    expect(freelancerContractStatusLabel("RELEASED")).toBe("Teslim onayı ile aktarıldı");
+    expect(freelancerContractStatusLabel("RELEASED")).toBe("Teslim onaylandı");
     expect(freelancerContractStatusLabel("DISPUTED")).toBe("Tahkimde");
     expect(freelancerDisputeRoundStatusLabel("ROUND_ONE_SUBMITTED")).toBe(
       "1. tur — cevap bekleniyor",
@@ -273,7 +273,7 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
       "1. tur — AI analizi üretiliyor",
     );
     expect(freelancerDisputeRoundStatusLabel("AI_REPORT_READY")).toBe("1. tur AI analizi hazır");
-    expect(freelancerDisputeRoundStatusLabel("HUMAN_REVIEW")).toContain("emanet kilitli kalır");
+    expect(freelancerDisputeRoundStatusLabel("HUMAN_REVIEW")).toContain("süreç durur");
     expect(freelancerDisputeRoundStatusLabel("HUMAN_REVIEW")).toContain("Sonuç Analiz Raporu");
     expect(freelancerDisputeRoundStatusLabel("HUMAN_REVIEW")).not.toMatch(/insan incelemesi/i);
     expect(SEN_VOICE.freelancer.dispute.roundLabels.claim).toBe("İddia");
@@ -292,16 +292,16 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
     expect(escrowHoldActiveStep({ contractStatus: "DISPUTED", holdStatus: "PENDING" })).toBe("dispute");
 
     const steps = SEN_VOICE.freelancer.escrow.steps(HOLD_BPS_DEFAULT / 100);
-    expect(SEN_VOICE.freelancer.escrow.lead).toContain("şimdilik devre dışıdır");
-    expect(SEN_VOICE.freelancer.escrow.lead).toContain("Yakında");
-    expect(SEN_VOICE.freelancer.escrow.title).toBe("Emanet ödeme — Şimdilik Devre Dışı");
+    expect(SEN_VOICE.freelancer.escrow.lead).toContain("Ödeme modülü pasiftir");
+    expect(SEN_VOICE.freelancer.escrow.lead).toContain("sahte kazanç yazılmaz");
+    expect(SEN_VOICE.freelancer.escrow.title).toBe("Ödeme modülü — Şimdilik Devre Dışı");
     expect(SEN_VOICE.freelancer.escrow.disabledStamp).toBe("Şimdilik Devre Dışı");
-    expect(steps[0]?.detail).toContain("Freelancer henüz almaz");
-    expect(steps[1]?.detail).toContain("kuruluş dağıtır");
-    expect(steps[1]?.label).toBe("Teslim onayında IBAN'a geçer");
+    expect(steps[0]?.detail).toContain("Kabul nakit doğurmaz");
+    expect(steps[1]?.detail).toContain("nakit doğurmaz");
+    expect(steps[1]?.label).toBe("Teslim onayı — Şimdilik Devre Dışı");
     expect(steps[2]?.label).toBe("Anlaşmazlıkta süreç durur");
     expect(steps[2]?.detail).toBe(
-      "İtiraz durumunda bütçe havuzda bloke edilir. AI asistanı 2 turlu itiraz ve cevap sürecini inceleyerek Sonuç Analiz Raporu yayınlar. Çözülemeyen uyuşmazlıklarda resmi yasal başvuru yolları açıktır.",
+      "İtiraz durumunda süreç durur. AI asistanı 2 turlu itiraz ve cevap sürecini inceleyerek Sonuç Analiz Raporu yayınlar. Çözülemeyen uyuşmazlıklarda resmi yasal başvuru yolları açıktır.",
     );
     expect(steps[2]?.detail).not.toMatch(/insan incelemesi|admin|platform yönet/i);
     expect(SEN_VOICE.freelancer.dispute.lead).toContain("Sonuç Analiz Raporu");

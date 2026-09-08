@@ -96,12 +96,12 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
   it("amiral antre vize vaadi Ofis Otomasyonu kapısını SEN ile adlandırır", () => {
     const visa = academyAntreVisaPromise("01_office_ai", 70);
     expect(visa).toBe(
-      "Sınavı 70+ puanla tamamladığında sertifikan Pasaport siciline işlenir, Kariyer sayfanda doğrulanır ve Freelancer alanındaki Ofis Otomasyonu (excel-veri-otomasyon) iş ilanlarına teklif verme hakkın açılır.",
+      "Sınavı 70+ puanla tamamladığında «Ofis Otomasyonu» sertifikan Pasaport siciline işlenir ve Kariyer sayfanda doğrulanır.",
     );
     expect(visa).not.toMatch(/mühür/i);
     expect(visa).not.toContain("CareerVisaStamp");
     expect(academyAntreVisaPromise("02_ecommerce_ai", 70)).toBe(
-      "Sınavı 70+ puanla tamamladığında sertifikan Pasaport siciline işlenir, Kariyer sayfanda doğrulanır ve Freelancer alanındaki E-Ticaret ve Pazaryeri Asistanlığı (eticaret-pazaryeri) iş ilanlarına teklif verme hakkın açılır.",
+      "Sınavı 70+ puanla tamamladığında «E-Ticaret Asistanlığı» sertifikan Pasaport siciline işlenir ve Kariyer sayfanda doğrulanır.",
     );
     expect(academyAntreVisaPromise("02_ecommerce_ai", 70)).not.toContain("excel-veri-otomasyon");
   });

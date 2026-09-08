@@ -16,19 +16,19 @@ export const PASAPORT_SEN = {
     latestHintLive: "Son Pasaport Vize Damgası",
     latestHintEmpty: "Uydurma başlık yok",
     sourceLabel: "Kaynak",
-    sourceHint: "Akademi veya Freelancer kökeni",
+    sourceHint: "Akademi sınavı kökeni",
     waiting: "Bekleniyor",
   },
   honestyTitle: "Salt okunur sığınak",
   honestyBody:
-    "Bu odada damga ekleme veya düzenleme formu yoktur. Sertifika Akademi sınavından, teslim damgası freelancer serbest bırakmasından doğar; Kariyer damgayı basar. Pasaport yalnız kanıt sığınağıdır. Erişim Hakkı Teklif Kapısında okunur.",
+    "Bu odada damga ekleme veya düzenleme formu yoktur. Sertifika Akademi sınavından doğar; Kariyer damgayı basar. Pasaport yalnız kanıt sığınağıdır.",
   list: {
     title: "Pasaport Vize Damgası",
     eyebrow: "Salt okunur sicil",
     intro:
-      "Akademi sertifikaları ve Freelancer teslim damgaları burada listelenir. Damgayı Kariyer basar; bu defter yalnız taşır.",
+      "Akademi sertifikaları burada listelenir. Damgayı Kariyer basar; bu defter yalnız taşır.",
     empty:
-      "Henüz damga yok. Akademi sertifikası ve freelancer teslim damgası Kariyer odasında Pasaport Vize Damgasına dönüşür; uydurma damga basılmaz.",
+      "Henüz damga yok. Akademi sertifikası Kariyer odasında Pasaport Vize Damgasına dönüşür; uydurma damga basılmaz.",
     sealed: "Doğrulanmış Rozet",
     doorHint: "Teklif Kapısı",
     copyVisa: "Damga anahtarını kopyala",
@@ -41,14 +41,14 @@ export const PASAPORT_SEN = {
     title: "Büyüme Beşlisi Geçiş Karnesi",
     eyebrow: "Teklif Kapısı",
     intro:
-      "Beş compact yetkinlik. Kazanılan damga ilgili Freelancer İlan Kapısını açar; kazanılmamış sayfa kilitli kalır — uydurma damga basılmaz.",
+      "Beş compact yetkinlik. Kazanılan damga ilgili uzmanlık belgesini açar; kazanılmamış sayfa kilitli kalır — uydurma damga basılmaz.",
     locked: "Henüz damga yok / Kilitli",
     held: "Erişim Hakkı açık",
   },
   freelancerStrip: {
-    title: "Freelancer teslim damgası",
+    title: "Sertifika damgası",
     empty:
-      "Henüz teslim damgası yok. Teslim serbest bırakılınca burada görünür; uydurma damga basılmaz.",
+      "Henüz teslim damgası yok. Akademi belgesi Kariyer’de görünür; uydurma damga basılmaz.",
   },
   careerCta: "Kariyer",
   academyCta: "Akademiye git",

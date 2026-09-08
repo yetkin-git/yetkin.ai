@@ -28,7 +28,7 @@ export const PROFIL_SEN = {
   dashboardCta: "Panele dön",
   honestyTitle: "Kimlik dürüstlüğü",
   honestyBody:
-    "Görünen ad kimlik kartına yazılır; e-posta oturumla senkron kalır. Şifre bu kartta durmaz. Freelancer vitrini ve KYC buraya eklenmez. Vize damgası Kariyer basar; burada yalnız özet okunur.",
+    "Görünen ad kimlik kartına yazılır; e-posta oturumla senkron kalır. Şifre bu kartta durmaz. KYC buraya eklenmez. Vize damgası Kariyer basar; burada yalnız özet okunur.",
   card: {
     title: "Kimlik kartı",
     eyebrow: "Hesap",
@@ -55,7 +55,7 @@ export const PROFIL_SEN = {
     intro:
       "Mühür sayısı ve vize kökeni Pasaport sicilinden gelir. Burada damga basılmaz; uydurma rozet yok.",
     loadSoft: "Liyakat sicili şu an okunamadı. Biraz sonra yenile; uydurma mühür basılmaz.",
-    empty: "Henüz mühür yok. Akademi veya Freelancer kanıtı damgaya dönüşünce burada özetlenir.",
+    empty: "Henüz mühür yok. Akademi sertifikası damgaya dönüşünce burada özetlenir.",
     countLabel: "Toplam mühür",
     latestLabel: "Son vize",
     sourcesLabel: "Köken",

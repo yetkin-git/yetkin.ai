@@ -3,7 +3,7 @@ export const CAREER_SEN = {
   eyebrow: "Kariyer",
   title: "Kariyer",
   description:
-    "Doğrulanmış Rozetin Pasaport Vize Damgası olarak sicile düşer; Teklif Kapısını ve Erişim Hakkını açar. Pasaport damgaları listeler; damgayı burası basar. Hedef rol, yetenek haritası veya mülakat oyunu yok.",
+    "Doğrulanmış Rozetin Pasaport Vize Damgası olarak sicile düşer. Akademi sınavı belgeni burada doğrular. Hedef rol, yetenek haritası veya mülakat oyunu yok.",
   auth: "Kariyer sayfasını görmek için giriş yap.",
   /** Sicil okunamadığında vatandaşa dürüst, gürültüsüz mesaj — geliştirici rozeti yok. */
   loadSoft: "Kariyer bilgilerin şu an yüklenemedi. Biraz sonra sayfayı yenile.",
@@ -11,7 +11,7 @@ export const CAREER_SEN = {
   proofsTitle: "Pasaport Vize Damgası",
   visasTitle: "Pasaport Vize Damgaları",
   proofEmpty:
-    "Henüz bir Pasaport Vize Damgan yok. Akademi'de bir eğitimi tamamla veya Freelancer'da bir iş teslim et — Doğrulanmış Rozetin burada görünür.",
+    "Henüz bir Pasaport Vize Damgan yok. Akademi'de bir eğitimi tamamla veya mühürlü sertifikanı doğrulatarak profilini güncelle. — Doğrulanmış Rozetin burada görünür.",
   academyCta: "Akademiye git",
   freelancerCta: "Freelancer'a git",
   passportCta: "Pasaport",
@@ -30,7 +30,7 @@ export const CAREER_SEN = {
   copied: "Kopyalandı",
   copyFail: "Kopyalanamadı",
   footnote:
-    "Pasaport Vize Damgası yalnız Akademi sınavı ve Freelancer tesliminden türer. Elle basılmaz. Pasaport listeler; damgayı Kariyer basar. İptal edilmiş Akademi belgesi burada görünmez.",
+    "Pasaport Vize Damgası yalnız Akademi sınavından türer. Elle basılmaz. Pasaport listeler; damgayı Kariyer basar. İptal edilmiş Akademi belgesi burada görünmez.",
   footnotePassportCta: "Pasaportu aç",
   footnoteVerifyCta: "Sertifika doğrula",
   footnoteAcademyCta: "Akademiye git",
@@ -42,7 +42,7 @@ export const CAREER_SEN = {
   scope: {
     eyebrow: "Teklif Kapısı",
     title: "Teklif Kapısı",
-    lead: "Açık Erişim Hakkı, Doğrulanmış Rozetinin hangi işe teklif vereceğini gösterir. Teklif Kapısı elle açılmaz.",
+    lead: "Açık Erişim Hakkı, Doğrulanmış Rozetinin hangi uzmanlık belgesine bağlı olduğunu gösterir. Kapı elle açılmaz.",
     open: "Erişim Hakkı açık",
     closed: "Erişim Hakkı kapalı",
     held: "Belgen var",

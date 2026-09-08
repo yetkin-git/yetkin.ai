@@ -49,10 +49,10 @@ export const YZ_LISTING_VISA_SUBJECT: ListingVisaSubject = {
   brief: "WhatsApp ve web chatbot; Voiceflow ve Botpress. Teklif Kariyer Vizesi ister.",
 };
 
-/** Freelancer / pazaryeri ilanı — sosyal içerik & görsel üretim. */
+/** Freelancer örnek ilanı — sosyal içerik & görsel üretim. */
 export const FREELANCE_LISTING_VISA_SUBJECT: ListingVisaSubject = {
   title: "Nitelikli freelance teslimi",
-  brief: "Dikey: sosyal medya içerik, görsel üretim ve freelance pazaryeri. Teklif Kariyer Vizesi ister.",
+  brief: "Dikey: sosyal medya içerik ve görsel üretim. Teklif Kariyer belgesi ister.",
 };
 
 /** @deprecated Eski BIM konusu; yeni freelance öznesine yönlendir. */

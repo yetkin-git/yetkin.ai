@@ -18,6 +18,7 @@ export function FreelancerPulseWidget() {
     <PulseCard
       title={copy.freelancerTitle}
       live={pulse.live}
+      liveHint={copy.freelancerLiveHint}
       unavailableHint={copy.unavailable}
       href="/freelancer"
       hrefLabel={copy.freelancerHrefLabel}

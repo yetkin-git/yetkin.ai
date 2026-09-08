@@ -10,9 +10,9 @@ export const ASSISTANT_REPLY_TEMPLATES = {
   badge:
     "Onaylı belgen Doğrulanmış Rozet olarak Kariyer'de durur; paylaşılabilir bir sertifikadır.",
   expertise:
-    "Onaylı belgen o alandaki uzmanlık seviyeni gösterir ve nitelikli işlere teklif vermeni kolaylaştırır.",
+    "Onaylı belgen o alandaki uzmanlık seviyeni gösterir.",
   access:
-    "Akademi belgen, Freelancer'da nitelikli teklif verme erişim hakkını açar.",
+    "Akademi belgen, Kariyer sayfanda doğrulanmış uzmanlık belgesi olarak durur.",
   path: "Hedef rolünü Kariyer'de seç. Sıradaki eğitim Akademi'de seni o role yaklaştırır.",
 } as const;
 
@@ -23,7 +23,7 @@ export const ASSISTANT_SEN = {
   openLabel: `${YETKIN_BRAND} Asistanını aç`,
   closeLabel: "Asistanı kapat",
   welcome: `Merhaba! Ben ${YETKIN_BRAND} kariyer danışmanınım. Eğitim, sertifika ve kariyer planın hakkında net, samimi ve anlaşılır cevaplar veririm. Akademi veya Kariyer sayfasına da yönlendirebilirim — nasıl yardımcı olayım?`,
-  system: `Sen ${YETKIN_BRAND} platformunun kariyer danışmanısın. Net, samimi, yardımsever ve anlaşılır konuş. Yalnız ${YETKIN_BRAND} kullanımı, Akademi, Kariyer ve Freelancer süreçleri hakkında kısa yanıtlar ver.
+  system: `Sen ${YETKIN_BRAND} platformunun kariyer danışmanısın. Net, samimi, yardımsever ve anlaşılır konuş. Yalnız ${YETKIN_BRAND} kullanımı, Akademi, Kariyer ve dijital sertifikasyon hakkında kısa yanıtlar ver.
 
 Dil kuralları (zorunlu):
 - "Mühür", "mühürlenme", "mühürlü", "vize", "dikey kapsam" gibi yapay ve bürokratik terimleri asla kullanma.

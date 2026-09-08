@@ -10,7 +10,7 @@ import { ListingVisaScopeSign } from "@/components/career/listing-visa-scope-sig
 import { loadJobBoard } from "@/lib/freelancer/load";
 import { loadListingVisaAccess } from "@/lib/career/load";
 import { listingVisaScopeSign } from "@/lib/career/visa-scope-board";
-import { jobListingFace, jobListingStatusFace } from "@/lib/freelancer/listing-face";
+import { jobListingDisplayCopy, jobListingFace, jobListingStatusFace } from "@/lib/freelancer/listing-face";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { getSession } from "@/lib/kernel/auth/session";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
@@ -44,8 +44,8 @@ export default async function FreelancerJobDetailPage({
     session && !isClient && board.job.status === "OPEN"
       ? await loadListingVisaAccess(session.id, {
           id: board.job.id,
-          title: board.job.title,
-          brief: board.job.brief,
+          title: listing.title,
+          brief: listing.brief,
           visaPathwayId: board.job.visaPathwayId,
         })
       : { allowed: true, code: "ok" as const, message: "" };
@@ -56,10 +56,11 @@ export default async function FreelancerJobDetailPage({
     board.viewerRole === "owner" ? copy.job.bidsEmpty : copy.job.bidsHidden;
   const face = jobListingFace(board.job);
   const statusFace = jobListingStatusFace(board.job);
+  const listing = jobListingDisplayCopy(board.job);
   const listingSubject = {
     id: board.job.id,
-    title: board.job.title,
-    brief: board.job.brief,
+    title: listing.title,
+    brief: listing.brief,
     visaPathwayId: board.job.visaPathwayId,
   };
   const visaSign = listingVisaScopeSign(listingSubject);
@@ -72,11 +73,11 @@ export default async function FreelancerJobDetailPage({
 
   return (
     <RoomFrame>
-      <BreadcrumbPageLabel href={`/freelancer/jobs/${board.job.id}`} label={board.job.title} />
+      <BreadcrumbPageLabel href={`/freelancer/jobs/${board.job.id}`} label={listing.title} />
       <PageHeader
         eyebrow={`${copy.job.eyebrow} · ${statusFace.label}`}
-        title={board.job.title}
-        description={board.job.brief}
+        title={listing.title}
+        description={listing.brief}
         actions={
           <>
             {isClient && board.job.status === "OPEN" ? (

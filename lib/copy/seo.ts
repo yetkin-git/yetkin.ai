@@ -43,13 +43,13 @@ export const PAGE_SEO = {
   career: {
     title: "Kariyer Erişim Hakkı ve uzmanlık belgesi",
     description:
-      "Akademi sınavı ve freelancer tesliminden türeyen Doğrulanmış Rozetin. Pasaport Vize Damgası sicile işlenir; sahte rozet eklenmez. Uzmanlığını belgele, Teklif Kapısını aç.",
+      "Akademi sınavından türeyen Doğrulanmış Rozetin. Pasaport Vize Damgası sicile işlenir; sahte rozet eklenmez. Uzmanlığını belgele.",
     path: "/career",
   },
   freelancer: {
     title: "Freelancer İlan Panosu",
     description:
-      "Freelancer arka plan odasıdır. Tohum ilanlar platform örneğidir; emanet kapalıdır (kabul 503). İlan ve teklif kodu durur; sahte kazanç yazılmaz.",
+      "Freelancer arka plan odasıdır. Tohum ilanlar platform örneğidir. İlan ve teklif modülü pasiftir; sahte kazanç yazılmaz.",
     path: "/freelancer",
   },
   academy: {

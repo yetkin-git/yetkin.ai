@@ -2,7 +2,7 @@ import { formatMinor } from "@/lib/kernel/money/format";
 import type { FreelancerJobRecord } from "@/lib/freelancer/types";
 import type { CurrencyCode } from "@/lib/kernel/money/currency";
 import type { JobBoardViewMode } from "@/lib/freelancer/job-board-view-pref";
-import { jobListingFace, jobListingMetaLine, jobListingStatusFace } from "@/lib/freelancer/listing-face";
+import { jobListingDisplayCopy, jobListingFace, jobListingMetaLine, jobListingStatusFace } from "@/lib/freelancer/listing-face";
 import { ListingCard } from "@/components/showcase/listing-card";
 import { IconBriefcase } from "@/components/ui/icons";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
@@ -21,12 +21,13 @@ export function FreelancerJobCard({
   const copy = SEN_VOICE.freelancer;
   const face = jobListingFace(job);
   const statusFace = jobListingStatusFace(job);
+  const listing = jobListingDisplayCopy(job);
 
   return (
     <ListingCard
       layout={layout}
-      title={job.title}
-      summary={job.brief}
+      title={listing.title}
+      summary={listing.brief}
       meta={jobListingMetaLine(face)}
       price={formatMinor(job.budgetMinor, job.currencyCode as CurrencyCode)}
       footerBadge={statusFace.label}

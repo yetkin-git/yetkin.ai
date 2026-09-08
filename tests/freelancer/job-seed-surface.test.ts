@@ -59,7 +59,7 @@ describe("freelancer ilan tohumu yüzeyi", () => {
     const titles = FREELANCER_JOB_SEEDS.map((row) => row.title);
     expect(titles).toEqual([
       `${YETKIN_BRAND} Örnek Görev — Excel Veri Otomasyonu`,
-      `${YETKIN_BRAND} Örnek Görev — E-Ticaret Pazaryeri Asistanlığı`,
+      `${YETKIN_BRAND} Örnek Görev — E-Ticaret Asistanlığı`,
       `${YETKIN_BRAND} Örnek Görev — Sosyal Medya İçerik Üretimi`,
       `${YETKIN_BRAND} Örnek Görev — WhatsApp Chatbot Kurulumu`,
       `${YETKIN_BRAND} Örnek Görev — Prompt ve Günlük Üretkenlik`,
@@ -165,12 +165,12 @@ describe("freelancer ilan tohumu yüzeyi", () => {
     expect(page).toContain("SEN_VOICE");
     expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Freelancer İlan Panosu");
     expect(readSrc("lib/copy/sen-voice/freelancer.ts")).not.toContain("İş Pazarı");
-    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Emanet ödeme — Şimdilik Devre Dışı");
+    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Ödeme modülü — Şimdilik Devre Dışı");
     expect(detail).toContain("DeliveryProcessPanel");
     expect(detail).toContain("jobListingFace");
     expect(readSrc("components/freelancer/job-card.tsx")).toContain("jobListingMetaLine");
     expect(readSrc("components/freelancer/job-card.tsx")).toContain("jobListingStatusFace");
-    expect(readSrc("components/freelancer/job-card.tsx")).toContain("job.brief");
+    expect(readSrc("components/freelancer/job-card.tsx")).toContain("jobListingDisplayCopy");
     expect(page).not.toContain("FREELANCER_SHOWCASE");
     expect(load).toContain("listOpenJobs");
     expect(store).toContain('status: "OPEN"');
@@ -197,7 +197,7 @@ describe("freelancer ilan tohumu yüzeyi", () => {
     expect(card).toContain("jobListingFace");
     expect(card).toContain("jobListingMetaLine");
     expect(card).toContain("jobListingStatusFace");
-    expect(card).toContain("job.brief");
+    expect(card).toContain("jobListingDisplayCopy");
     expect(card).not.toContain("freelancerJobStatusLabel");
     expect(card).not.toContain("face.requirements");
   });
@@ -206,7 +206,7 @@ describe("freelancer ilan tohumu yüzeyi", () => {
     const faceSrc = readSrc("lib/freelancer/listing-face.ts");
     const card = readSrc("components/freelancer/job-card.tsx");
     const detail = readSrc("app/freelancer/jobs/[id]/page.tsx");
-    expect(faceSrc).toContain("Platform örneği / Emanet kapalı");
+    expect(faceSrc).toContain("Platform örneği / Pasif");
     expect(faceSrc).toContain("isFreelancerSystemListing");
     expect(faceSrc).toContain("partitionFreelancerBoardJobs");
     expect(card).toContain("statusFace.label");

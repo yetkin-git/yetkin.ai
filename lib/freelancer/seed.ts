@@ -92,8 +92,8 @@ export const FREELANCER_JOB_SEEDS: readonly FreelancerJobSeed[] = [
   },
   {
     id: "fj_rail_ql_banners",
-    title: exampleJobTitle("E-Ticaret Pazaryeri Asistanlığı"),
-    brief: `Beş compact SKU için pazaryeri ürün kartı: başlık, özellik maddeleri, 150–200 sözcük açıklama ve 5 SSS. Teslim formatı: Markdown. Süre: 7 gün. 3 revizyon hakkı. Teklif için E-Ticaret Asistanlığı belgesi gerekir. ${SEED_EMPLOYER}`,
+    title: exampleJobTitle("E-Ticaret Asistanlığı"),
+    brief: `Beş compact SKU için e-ticaret ürün kartı: başlık, özellik maddeleri, 150–200 sözcük açıklama ve 5 SSS. Teslim formatı: Markdown. Süre: 7 gün. 3 revizyon hakkı. Teklif için E-Ticaret Asistanlığı belgesi gerekir. ${SEED_EMPLOYER}`,
     budgetMinor: 750_000,
     visaPathwayId: "eticaret-pazaryeri",
     ...FREELANCER_JOB_LISTING_EXTRAS.fj_rail_ql_banners,

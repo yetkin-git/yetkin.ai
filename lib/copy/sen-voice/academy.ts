@@ -122,7 +122,7 @@ export const ACADEMY_SEN = {
     ownedNoExam: "Dersler açık. Bitirince testi başlatırsın.",
     certificateEyebrow: "Sertifika",
     certificateBody:
-      "Testi geçtin. Sertifikan Kariyer sayfana işlendi; Freelancer teklif kapıları orada görünür.",
+      "Testi geçtin. Sertifikan Kariyer sayfana işlendi.",
     examEyebrow: "Değerlendirme testi",
     libraryGuarantee:
       "Satın aldığın eğitim kütüphanende 365 gün kalır. Sertifika yalnız testi 70+ ile geçince basılır.",
@@ -144,8 +144,8 @@ export const ACADEMY_SEN = {
     /** Amiral ve kardeş compact SKU — 6 ders bitmeden sınav kapısı kapalı. */
     examShield:
       "Sınav, 6 yazılı compact dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
-    visaPromise: (passScore: number, listingLabel: string, listingId: string) =>
-      `Sınavı ${passScore}+ puanla tamamladığında sertifikan Pasaport siciline işlenir, Kariyer sayfanda doğrulanır ve Freelancer alanındaki ${listingLabel} (${listingId}) iş ilanlarına teklif verme hakkın açılır.`,
+    visaPromise: (passScore: number, listingLabel: string, _listingId: string) =>
+      `Sınavı ${passScore}+ puanla tamamladığında «${listingLabel}» sertifikan Pasaport siciline işlenir ve Kariyer sayfanda doğrulanır.`,
     lockedHint: "Ders gövdesi ödeme sonrası açılır.",
     empty: "Bu eğitimin ders listesi henüz yok.",
     kindAudio: "Ses",

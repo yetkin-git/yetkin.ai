@@ -106,8 +106,8 @@ VALUES
   (
     'fj_rail_ql_banners',
     '00000000-0000-4000-8000-000000000001',
-    'yetkin.ai Örnek Görev — E-Ticaret Pazaryeri Asistanlığı',
-    $brief_fj_rail_ql_banners$Beş compact SKU için pazaryeri ürün kartı: başlık, özellik maddeleri, 150–200 sözcük açıklama ve 5 SSS. Teslim formatı: Markdown. Süre: 7 gün. 3 revizyon hakkı. Teklif için E-Ticaret Asistanlığı belgesi gerekir. İşveren: yetkin.ai Ekosistem.$brief_fj_rail_ql_banners$,
+    'yetkin.ai Örnek Görev — E-Ticaret Asistanlığı',
+    $brief_fj_rail_ql_banners$Beş compact SKU için e-ticaret ürün kartı: başlık, özellik maddeleri, 150–200 sözcük açıklama ve 5 SSS. Teslim formatı: Markdown. Süre: 7 gün. 3 revizyon hakkı. Teklif için E-Ticaret Asistanlığı belgesi gerekir. İşveren: yetkin.ai Ekosistem.$brief_fj_rail_ql_banners$,
     750000,
     'TRY',
     'eticaret-pazaryeri',

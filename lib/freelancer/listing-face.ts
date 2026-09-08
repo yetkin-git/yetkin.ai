@@ -40,7 +40,17 @@ export type JobListingStatusFace = {
 };
 
 /** Tohum/sistem OPEN ilanı — yeşil «Açık» piyasa yanılsaması yok. */
-export const FREELANCER_SYSTEM_LISTING_STATUS_LABEL = "Platform örneği / Emanet kapalı" as const;
+export const FREELANCER_SYSTEM_LISTING_STATUS_LABEL = "Platform örneği / Pasif" as const;
+
+/** Canlı DB tohumu gecikse bile vatandaş yüzü pazaryeri kelimesini basmaz. */
+export function jobListingDisplayCopy(
+  job: Pick<FreelancerJobRecord, "id" | "title" | "brief">,
+): { title: string; brief: string } {
+  return {
+    title: job.title.replaceAll("E-Ticaret Pazaryeri Asistanlığı", "E-Ticaret Asistanlığı"),
+    brief: job.brief.replaceAll("pazaryeri ürün kartı", "e-ticaret ürün kartı"),
+  };
+}
 
 export function listingCertShortName(lockId: ListingVisaLockId): string {
   const canonical = parseFreelancerNeedId(lockId) ?? lockId;

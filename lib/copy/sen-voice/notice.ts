@@ -11,18 +11,18 @@ export const NOTICE_SEN = {
   },
   bidAccepted: {
     subject: "Teklifin kabul edildi",
-    body: "İşveren teklifini kabul etti. Emanet kilitlendi. Teslimi tezgâhta yaz.",
+    body: "İşveren teklifini kabul etti. Teslimi tezgâhta yaz.",
   },
   deliveryPosted: {
     subject: "Teslim mesajı düştü",
-    body: "Sözleşmeye teslim kanıtı yazıldı. Tezgâhta incele; onaylarsan emanet çözülür.",
+    body: "Sözleşmeye teslim kanıtı yazıldı. Tezgâhta incele.",
   },
   escrowReleased: {
-    subject: "Emanet çözüldü",
-    body: "Emanet serbest bırakıldı. Usta payı platform cüzdanına yazılmaz; ödeme kuruluşu dağıtır.",
+    subject: "Teslim onaylandı",
+    body: "Teslim onaylandı. Platform cüzdanına usta payı yazılmaz.",
   },
   escrowTtlApproaching: {
-    subject: "Emanet süresi yaklaşıyor",
-    body: "Emanet kilidinin süresi dolmak üzere. Teslimi tamamla veya iade yolunu tezgâhta aç; aksi halde kilit iade edilir.",
+    subject: "Süre yaklaşıyor",
+    body: "Süre dolmak üzere. Teslimi tamamla veya iade yolunu tezgâhta aç.",
   },
 } as const;

@@ -135,7 +135,7 @@ export function PrizePoolHero({
 
 export function StallTrustRow() {
   const items = [
-    { label: "Emanet kilit", hint: "Ödeme güvencede", icon: <IconLock /> },
+    { label: "Güvenli kasa", hint: "Ödeme güvencede", icon: <IconLock /> },
     { label: "Fiyat kartı", hint: "Türk Lirası (₺)" },
     { label: "Hızlı teklif", hint: "İlan → kabul" },
     { label: "Vitrin", hint: "Dürüst stok" },

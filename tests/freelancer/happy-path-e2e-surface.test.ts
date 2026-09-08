@@ -18,7 +18,7 @@ describe("O9 freelancer nakit E2E yüzeyi", () => {
     expect(spec).toContain("/api/freelancer/jobs/e2e-job/accept");
     expect(spec).toContain("/api/freelancer/contracts/e2e-contract/release");
     expect(spec).toContain("Freelancer İlan Panosu");
-    expect(spec).toContain("Freelancer arka plan odasıdır. Tohum ilanlar platform örneğidir; emanet kapalıdır (kabul 503). İlan ve teklif kodu durur; sahte pazar basılmaz.");
+    expect(spec).toContain("Freelancer arka plan odasıdır. Tohum ilanlar platform örneğidir. İlan ve teklif modülü pasiftir; sahte kazanç yazılmaz.");
     expect(spec).toContain("İlan oluştur");
     expect(spec).not.toContain("runFreelancerCashJourney");
     expect(helper).toContain("createFreelancerJob");

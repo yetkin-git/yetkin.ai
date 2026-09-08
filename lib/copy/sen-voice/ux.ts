@@ -46,7 +46,7 @@ export const UX_SEN = {
     },
     bidAccepted: {
       title: "Teklif kabul edildi",
-      body: "Kabul kaydı alındı. Emanet nakit akışı yakında; split kapalıyken 503 fail-closed döner.",
+      body: "Kabul kaydı alındı. Ödeme modülü pasiftir; nakit bu odada doğmaz.",
       cta: "Sözleşmeyi aç",
     },
     bidSent: {
@@ -81,7 +81,7 @@ export const UX_SEN = {
     gross: "Toplam tutar",
     platform: (percent: number) => `Platform payı (%${percent})`,
     net: "Ustaya net",
-    release: (net: string) => `İşi onayla — ${net} henüz yazılmaz; teslim onayından sonra hesabına geçer.`,
+    release: (net: string) => `İşi onayla — ${net} henüz yazılmaz; ödeme modülü pasiftir.`,
     releasing: "Onay yazılıyor…",
     revision: "Revizyon İstiyorum",
     revisionPending: "Yazılıyor…",
@@ -92,9 +92,9 @@ export const UX_SEN = {
     freelancerWait: "Teslim incelemede. İşveren onayı bekleniyor.",
     fail: "İşlem başarısız.",
     freezeBanner:
-      "Onaydan sonra tutar hesabına geçer. Platform cüzdanına usta payı yazılmaz.",
+      "Onay kaydı yazılır. Platform cüzdanına usta payı yazılmaz.",
     releaseFrozen: (net: string) =>
-      `İşi onayla — ${net} henüz yazılmaz; teslim onayından sonra hesabına geçer.`,
+      `İşi onayla — ${net} henüz yazılmaz; ödeme modülü pasiftir.`,
   },
   http: {
     network: "Ağ yanıt vermedi. Yeniden dene.",

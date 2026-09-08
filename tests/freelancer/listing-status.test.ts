@@ -36,12 +36,12 @@ describe("freelancer ilan statü yüzü ve örnek görev sicili", () => {
     }
   });
 
-  it("sistem OPEN ilanı Platform örneği / Emanet kapalı basar; organik OPEN yeşil Açık kalır", () => {
+  it("sistem OPEN ilanı Platform örneği / Pasif basar; organik OPEN yeşil Açık kalır", () => {
     const seed = FREELANCER_JOB_SEEDS[0];
     expect(seed).toBeDefined();
     const systemOpen = jobListingStatusFace({ id: seed!.id, status: "OPEN" });
     expect(systemOpen.label).toBe(FREELANCER_SYSTEM_LISTING_STATUS_LABEL);
-    expect(systemOpen.label).toBe("Platform örneği / Emanet kapalı");
+    expect(systemOpen.label).toBe("Platform örneği / Pasif");
     expect(systemOpen.tone).toBe("safir");
     expect(systemOpen.isSystemListing).toBe(true);
     expect(systemOpen.label).not.toBe(freelancerJobStatusLabel("OPEN"));

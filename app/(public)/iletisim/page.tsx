@@ -96,7 +96,7 @@ export default function ContactPage() {
             <p>
               Oturumlu hesapta bildirim ve kayıtlı e-posta aynı talebi taşır. Ödeme itirazları
               (kart tahsilatı) Yetkili Ödeme Kuruluşunun kendi kanalları ve platform iade
-              kurallarıyla birlikte okunur. Usta iş bedeli platform cüzdanından IBAN’a çekilmez.
+              kurallarıyla birlikte okunur. Cüzdan bakiyesi Akademi eğitim tahsilatı içindir.
             </p>
           </div>
         </Card>

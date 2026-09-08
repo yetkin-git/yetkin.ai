@@ -22,11 +22,12 @@ describe("kokpit fail ile boş nabız ayrımı", () => {
   it("split kapalıyken freelancer emanet sıfır lira vaadi basmaz", () => {
     expect(MARKETPLACE_SPLIT_LIVE).toBe(false);
     expect(SEN_VOICE.dashboard.pulse.freelancerEscrowInactive).toBe(
-      "Emanet akışı henüz aktif değil",
+      "İlan ve teklif modülü pasiftir.",
     );
     const widget = readSrc("components/dashboard/freelancer-pulse-widget.tsx");
     expect(widget).toContain("MARKETPLACE_SPLIT_LIVE");
     expect(widget).toContain("freelancerEscrowInactive");
+    expect(widget).toContain("freelancerLiveHint");
     expect(widget).toContain("copy.unavailable");
   });
 });
