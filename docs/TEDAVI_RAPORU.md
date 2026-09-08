@@ -87,14 +87,15 @@ Checkout tik metni (`CHECKOUT_LEGAL_CONSENT_VERSION = 2026-09-05`) kasayı bozma
 | `verify-v1-contract` | Çerez sızma turunda kilitli hop 410 zarfı; DTO sicili freelancer hop’larını silmez |
 | Katalog yüzey | `assertCatalogWriteAmountWithinBand` (önceden kırık iğne; B2C dışı, yüzey paketini yeşile çekmek için hizalandı) |
 
-Çalıştırılanlar (bu tedavi turu):
+Çalıştırılanlar (bu tedavi turu + son mühür, 8 Eylül 2026):
 
 - `npx tsx scripts/verify-boundaries.ts` — OK
 - `npx tsx scripts/verify-atomic-seals.ts` — OK
 - `npx tsc --noEmit` — OK
-- `npm run test` — 170 dosya yeşil (kilitli hop 410 mührü dahil)
+- `npm run test` — 170 dosya / 819 test yeşil (kilitli hop 410 mührü dahil)
 - `npm run test:surface` — 83 dosya / 306 test yeşil
 - `npm run verify:prebuild` — OK (geliştirme çıkış 0; Production secret bu makinede onay değildir)
+- `npm run build` — OK (Next.js 16.3.1; `/hakkimizda` rotası üretim ağacında)
 
 Lab nakit / accept / emanet testleri durur ve yeşil kalır: kamu 410, handler laboratuvarı açık.
 
@@ -119,7 +120,7 @@ Lab nakit / accept / emanet testleri durur ve yeşil kalır: kamu 410, handler l
 
 ## 1. Tedavi sonrası sistem PayTR B2C incelemesine tamamen hazır mı?
 
-**Kod ve kamu yüzeyi hazırdır; operatör paneli bu rapordan onaylanmış sayılmaz.**
+**Kod ve kamu yüzeyi CEO / SUPER ADMIN tarafından onaylanmıştır. Operatör paneli (canlı merchant, Vercel Production secret, insan mutlu yol) bu rapordan onaylanmış sayılmaz.**
 
 Hazır olan: vatandaş `/freelancer` ve freelancer API görmez (410); menü üç oda; yasal metin Akademi B2C; Hakkımızda + künye; Junior kapalı; split kapalı.
 
@@ -150,4 +151,13 @@ Hazır olmayan / bu makinede doğrulanamayan: canlı PayTR merchant üçlüsü, 
 
 ---
 
-*Tedavi uygulandı. SUPER ADMIN ve CEO onayı beklenir.*
+## ADIM 6 — CEO / SUPER ADMIN mühürü (8 Eylül 2026)
+
+Strateji A ameliyatı CEO ve SUPER ADMIN tarafından onaylanmıştır.
+
+- NACE **47.91.14** ve şirket sicili (Yapınet Gayrimenkul ve E-Ticaret Ltd. Şti.) B2C dijital eğitim satışı ile uyumlu kabul edildi.
+- Freelancer kamu yüzeyi 410, üç odalı vitrin (Panel / Akademi / Kariyer), `/hakkimizda` ve B2C yasal gövde canlı paket olarak kilitlendi.
+- Son mühür komutları sıfır hata: `verify:prebuild`, `test`, `test:surface`, `build`.
+- Sicil `origin/main` üzerine basılır; Vercel Production deploy operatör panelinden izlenir.
+
+*Tedavi uygulandı ve onaylandı. PayTR merchant paneli, Production secret ve insan Akademi mutlu yolu SUPER ADMIN işidir.*

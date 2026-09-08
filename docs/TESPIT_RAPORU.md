@@ -567,4 +567,10 @@ Sicil / test (aynı PR veya hemen sonraki):
 
 ---
 
-*Rapor sonu. Tedavi uygulanmamıştır; yalnızca tespit ve tavsiye.*
+## Karar mühürü (8 Eylül 2026)
+
+Bu belge teşhis olarak durur. Tedavi **Strateji A** (Junior kalıbı / yüzey kilitleme) olarak uygulandı; sicil `docs/TEDAVI_RAPORU.md`.
+
+CEO ve SUPER ADMIN: NACE **47.91.14** ve Yapınet Ltd. Şti. sicili B2C dijital eğitim satışı ile uyumlu kabul edildi. Unvan-faaliyet gerilimi inceleme paketini durdurmaz.
+
+*Tespit kapanmıştır. Tedavi ve onay: `docs/TEDAVI_RAPORU.md`.*
