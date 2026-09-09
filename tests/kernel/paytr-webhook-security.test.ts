@@ -1,7 +1,7 @@
 import { createHmac } from "node:crypto";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { POST as postPaytrWebhook, GET as getPaytrWebhook } from "@/app/api/(kernel)/payments/webhooks/paytr/route";
-import { POST as postPaytrPanelCallback, GET as getPaytrPanelCallback } from "@/app/api/paytr/callback/route";
+import { POST as postPaytrWebhook, GET as getPaytrWebhook, HEAD as headPaytrWebhook } from "@/app/api/(kernel)/payments/webhooks/paytr/route";
+import { POST as postPaytrPanelCallback, GET as getPaytrPanelCallback, HEAD as headPaytrPanelCallback } from "@/app/api/paytr/callback/route";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import {
   type PaymentOrderSnapshot,
@@ -10,12 +10,16 @@ import { PaytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import {
   computePaytrWebhookHash,
   isPaytrNotificationProbe,
+  isPaytrOfficialWebhookIp,
   isPaytrWebhookIpAllowlistRequired,
+  isPaytrWebhookRequestIpAllowed,
   isPaytrWebhookSourceIpAllowed,
   parsePaytrWebhookForm,
   parsePaytrWebhookUrlEncoded,
   readPaytrWebhookPayload,
+  PAYTR_OFFICIAL_WEBHOOK_IPS,
   PAYTR_OFFICIAL_WEBHOOK_IP_CIDRS,
+  requestHasPaytrOfficialNotificationIp,
   resolvePaytrWebhookIpAllowlist,
 } from "@/lib/kernel/payments/paytr/webhook";
 import {
@@ -340,6 +344,18 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
     expect(isPaytrWebhookSourceIpAllowed("185.22.184.10", ["185.22.184.0/22"])).toBe(true);
     expect(isPaytrWebhookSourceIpAllowed("185.22.187.255", ["185.22.184.0/22"])).toBe(true);
     expect(isPaytrWebhookSourceIpAllowed("185.22.188.1", ["185.22.184.0/22"])).toBe(false);
+    expect(PAYTR_OFFICIAL_WEBHOOK_IPS).toEqual([
+      "185.187.184.84",
+      "212.252.97.250",
+      "213.74.97.150",
+    ]);
+    expect(isPaytrOfficialWebhookIp("185.187.184.84")).toBe(true);
+    expect(isPaytrOfficialWebhookIp("212.252.97.250")).toBe(true);
+    expect(isPaytrOfficialWebhookIp("213.74.97.150")).toBe(true);
+    expect(isPaytrOfficialWebhookIp("203.0.113.10")).toBe(false);
+    expect(PAYTR_OFFICIAL_WEBHOOK_IP_CIDRS).toEqual(
+      expect.arrayContaining([...PAYTR_OFFICIAL_WEBHOOK_IPS, "185.22.184.0/22"]),
+    );
     expect(resolvePaytrWebhookIpAllowlist("")).toEqual([]);
     expect(resolvePaytrWebhookIpAllowlist("203.0.113.10")).toEqual([
       ...PAYTR_OFFICIAL_WEBHOOK_IP_CIDRS,
@@ -367,6 +383,49 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
     expect(body.reason).toBe("ip_not_allowed");
   });
 
+  it("PayTR Destek IP zincirdeyse allowlist Cloudflare hop'unda 403 basmaz", () => {
+    process.env.PAYTR_WEBHOOK_IP_ALLOWLIST = "203.0.113.10";
+    const allowlist = resolvePaytrWebhookIpAllowlist();
+    const request = new Request("http://localhost/api/payments/webhooks/paytr", {
+      method: "POST",
+      headers: { "x-forwarded-for": "185.187.184.84, 104.16.1.1" },
+    });
+    expect(isPaytrWebhookRequestIpAllowed(request, allowlist)).toBe(true);
+    expect(requestHasPaytrOfficialNotificationIp(request)).toBe(true);
+    const foreign = new Request("http://localhost/api/payments/webhooks/paytr", {
+      method: "POST",
+      headers: { "x-forwarded-for": "203.0.113.10, 198.51.100.99" },
+    });
+    expect(isPaytrWebhookRequestIpAllowed(foreign, allowlist)).toBe(false);
+    expect(requestHasPaytrOfficialNotificationIp(foreign)).toBe(false);
+  });
+
+  it("PayTR Destek IP'sinden bozuk bildirim CREDIT yazmadan düz metin HTTP 200 OK döner", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    process.env.PAYTR_WEBHOOK_IP_ALLOWLIST = "203.0.113.10";
+    const fromPaytr = await postUrlEncoded(
+      `merchant_oid=${OID}&status=success&total_amount=1300&hash=not-a-valid-hash`,
+      { "x-forwarded-for": "185.187.184.84" },
+    );
+    expect(fromPaytr.status).toBe(200);
+    expect(fromPaytr.headers.get("content-type")).toMatch(/^text\/plain/);
+    expect(await fromPaytr.text()).toBe("OK");
+
+    const behindCloudflare = await postUrlEncoded(
+      `merchant_oid=${OID}&status=success&total_amount=1300&hash=not-a-valid-hash`,
+      { "x-forwarded-for": "212.252.97.250, 104.16.1.1" },
+    );
+    expect(behindCloudflare.status).toBe(200);
+    expect(await behindCloudflare.text()).toBe("OK");
+
+    const otherOfficial = await postUrlEncoded(
+      `merchant_oid=${OID}&status=success&total_amount=0&hash=not-a-valid-hash`,
+      { "x-forwarded-for": "213.74.97.150" },
+    );
+    expect(otherOfficial.status).toBe(200);
+    expect(await otherOfficial.text()).toBe("OK");
+  });
+
   it("GET ve boş POST yoklama HTTP 200 düz metin OK döner; CREDIT yok", async () => {
     vi.stubEnv("NODE_ENV", "production");
     const getResponse = await getPaytrWebhook(
@@ -378,6 +437,15 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
     expect(getResponse.status).toBe(200);
     expect(getResponse.headers.get("content-type")).toMatch(/^text\/plain/);
     expect(await getResponse.text()).toBe("OK");
+
+    const headResponse = await headPaytrWebhook(
+      new Request("http://localhost/api/payments/webhooks/paytr", {
+        method: "HEAD",
+        headers: { "x-request-id": REQUEST_ID },
+      }),
+    );
+    expect(headResponse.status).toBe(200);
+    expect(await headResponse.text()).toBe("OK");
 
     const emptyPost = await postWebhook(new FormData());
     expect(emptyPost.status).toBe(200);
@@ -392,6 +460,15 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
     );
     expect(panelGet.status).toBe(200);
     expect(await panelGet.text()).toBe("OK");
+
+    const panelHead = await headPaytrPanelCallback(
+      new Request("http://localhost/api/paytr/callback", {
+        method: "HEAD",
+        headers: { "x-request-id": REQUEST_ID },
+      }),
+    );
+    expect(panelHead.status).toBe(200);
+    expect(await panelHead.text()).toBe("OK");
 
     const panelPost = await postPaytrPanelCallback(
       new Request("http://localhost/api/paytr/callback", {

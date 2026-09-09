@@ -24,7 +24,7 @@ Müze dizini (`yetkin_muze/`) OPS yasağıdır (tarihsel etiket S9-B Anayasa mad
 | `SUPER_ADMIN_USER_ID` | admin | Auth kullanıcı UUID. Boşsa kimse admin değildir. |
 | `PLATFORM_TREASURY_USER_ID` | hazine sentinel | SQL ile aynı; Super Admin olarak **yazılmaz**. Varsayılan `00000000-0000-4000-8000-000000000001`. |
 | `PAYTR_MERCHANT_ID` / `_KEY` / `_SALT` | yükleme | Üçlü birlikte dolu olmalı. Üretimde `PAYTR_SANDBOX` ve `PAYTR_ALLOW_MOCK_CHECKOUT` yasak (throw). |
-| `PAYTR_WEBHOOK_IP_ALLOWLIST` | isteğe bağlı | Virgüllü PayTR Destek bildirim IP/CIDR’leri (`185.22.184.0/22`). Boş = yalnız HMAC (lab ve üretim). Cloudflare hop yüzünden boş liste 403 basmaz; CREDIT kapısı HMAC’dir. |
+| `PAYTR_WEBHOOK_IP_ALLOWLIST` | isteğe bağlı | Virgüllü PayTR Destek bildirim IP/CIDR’leri. Kod env doluyken `185.187.184.84`, `212.252.97.250`, `213.74.97.150` (+ `185.22.184.0/22`) birleştirir. Bu üç IP’den URL testi HMAC olmasa da düz metin HTTP 200 `OK` (CREDIT yok). Boş = yalnız HMAC. Cloudflare hop yüzünden boş liste 403 basmaz; CREDIT kapısı HMAC’dir. |
 | `TRUSTED_PROXY_HOPS` | PayTR user_ip | XFF sağdan. Kod boş varsayılanı 1. **Cloudflare → Vercel canlı = 2.** §4.3. |
 | `INNGEST_EVENT_KEY` / `INNGEST_SIGNING_KEY` | işler | Üretimde imza veya event anahtarı boşsa serve fail-closed. |
 | `NOTICE_SMTP_HOST` / `NOTICE_MAIL_FROM` | bildirim | Gün 0 dolu olmalı. Beş freelancer e-postası; Akademi satın alma makbuzu bu kanalda yoktur. İkisi boşsa dürüst atlanır; nakit durmaz. Production warn. Resend yok. |
@@ -191,7 +191,7 @@ Laboratuvar şablonu (`.env.example`) `PAYTR_SANDBOX="1"` taşır; **üretim re�
 2. Üretimde `PAYTR_SANDBOX` **boş** (sil veya `""`). `"1"` / `"true"` runtime’da **throw** eder; sandbox sessizce yok sayılmaz.
 3. `PAYTR_ALLOW_MOCK_CHECKOUT` üretimde boş. `"true"` throw eder. CREDIT yazmaz.
 4. `NEXT_PUBLIC_APP_URL` üretimde `https://` genel köken (localhost yasak). `merchant_ok_url` / `merchant_fail_url` bu kökene bağlıdır; CREDIT yazmaz.
-5. `PAYTR_WEBHOOK_IP_ALLOWLIST` — isteğe bağlı. PayTR Destek bildirim IP/CIDR’leri, virgülle (`185.22.184.0/22`). Boş = yalnız HMAC (lab ve üretim). Cloudflare/Vercel hop XFF’yi PayTR IP’si gibi göstermez; boş liste 403 `ip_not_allowed` basmaz. CREDIT kapısı HMAC’dir.
+5. `PAYTR_WEBHOOK_IP_ALLOWLIST` — isteğe bağlı. PayTR Destek bildirim IP/CIDR’leri, virgülle. Kod env doluyken resmi host’ları birleştirir: `185.187.184.84`, `212.252.97.250`, `213.74.97.150` (eski blok `185.22.184.0/22` da eklenir). Bu üç IP XFF zincirindeyse Cloudflare hop’u `ip_not_allowed` basmaz. Aynı host’lardan gelen URL testi / bozuk HMAC **düz metin HTTP 200 `OK`** döner; CREDIT yazılmaz. Boş = yalnız HMAC (lab ve üretim). Cloudflare/Vercel hop XFF’yi PayTR IP’si gibi göstermez; boş liste 403 `ip_not_allowed` basmaz. CREDIT kapısı HMAC’dir.
 6. Süreç yeniden (`next start` / platform secret sync). Anahtar varlığı ≠ mağaza canlılığı: `GET /api/health` `checks.payments=configured` yalnız üçlünün dolu olduğunu söyler.
 
 **Mağaza onayı beklerken:** kod ve env *adları* hazırdır. Onay + canlı üçlü gelince yalnız Vercel Production secret store güncellenir; PR gerekmez. Preview’a canlı üçlü yazılmaz.
@@ -210,8 +210,8 @@ PayTR üye işyeri paneli (iFrame API):
 
 ### 4.3 Runtime kalkan
 
-- HMAC: `merchant_oid + merchant_salt + status + total_amount`, timing-safe. Geçersiz imza **HTTP 403**, `invalid_signature`. CREDIT yok.
-- Üçlü env eksik: **HTTP 400**, `missing_credentials`. CREDIT yok.
+- HMAC: `merchant_oid + merchant_salt + status + total_amount`, timing-safe. Geçersiz imza **HTTP 403**, `invalid_signature`. CREDIT yok. PayTR Destek host’ları (`185.187.184.84`, `212.252.97.250`, `213.74.97.150`) panel URL testinde **HTTP 200 düz metin `OK`** alır; CREDIT yine HMAC’siz yazılmaz.
+- Üçlü env eksik: **HTTP 400**, `missing_credentials`. CREDIT yok. Aynı üç Destek IP’sinden gelen isteklerde panel kilidi olmasın diye **HTTP 200 `OK`** (CREDIT yok).
 - Üretimde sandbox/mock: throw + log (`paytr.production_safety`) + webhook **403** `production_safety`.
 - Aynı `merchant_oid` tekrarında tekil CREDIT: `payment_orders FOR UPDATE` + `LedgerEntry.idempotency_key` unique (`wallet-top-up:{oid}`) + `CLEARED` kısa devre.
 - `total_amount === amountMinor` değilse clearing yok. Cüzdan yükleme `no_installment=1` (tek çekim).

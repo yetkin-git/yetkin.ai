@@ -4,4 +4,4 @@
  */
 export const auth = "webhook" as const;
 
-export { GET, POST } from "@/app/api/(kernel)/payments/webhooks/paytr/route";
+export { GET, HEAD, POST } from "@/app/api/(kernel)/payments/webhooks/paytr/route";

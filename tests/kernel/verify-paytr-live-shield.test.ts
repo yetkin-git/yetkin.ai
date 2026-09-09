@@ -298,6 +298,9 @@ describe("PayTR canlı kalkan mührü", () => {
     expect(isPaytrWebhookSourceIpAllowed("1.2.3.4", [])).toBe(true);
     expect(isPaytrWebhookSourceIpAllowed("1.2.3.4", [], { NODE_ENV: "production" })).toBe(true);
     expect(isPaytrWebhookSourceIpAllowed("185.22.184.10", ["185.22.184.0/22"])).toBe(true);
+    expect(isPaytrWebhookSourceIpAllowed("185.187.184.84", ["185.187.184.84"])).toBe(true);
+    expect(isPaytrWebhookSourceIpAllowed("212.252.97.250", ["212.252.97.250"])).toBe(true);
+    expect(isPaytrWebhookSourceIpAllowed("213.74.97.150", ["213.74.97.150"])).toBe(true);
     expect(isPaytrWebhookSourceIpAllowed("1.2.3.4", ["5.6.7.8"])).toBe(false);
     expect(isPaytrWebhookSourceIpAllowed("5.6.7.8", ["5.6.7.8"])).toBe(true);
     expect(isPaytrWebhookSourceIpAllowed("", ["5.6.7.8"])).toBe(false);

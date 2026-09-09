@@ -3,6 +3,7 @@ import {
   classifyForwardedIp,
   CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS,
   DEFAULT_TRUSTED_PROXY_HOPS,
+  listForwardedIps,
   parseTrustedProxyHops,
   resolveTrustedForwardedIp,
   UNKNOWN_REQUEST_IP,
@@ -39,5 +40,6 @@ describe("trusted-proxy XFF hop ve user_ip sınıfı", () => {
     expect(resolveTrustedForwardedIp(headers, { NODE_ENV: "test", TRUSTED_PROXY_HOPS: "1" })).toBe(
       "104.16.1.1",
     );
+    expect(listForwardedIps(headers)).toEqual(["203.0.113.50", "104.16.1.1"]);
   });
 });

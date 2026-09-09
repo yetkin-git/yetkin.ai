@@ -7,6 +7,7 @@ import {
   requirePaytrCheckoutCredentials,
 } from "@/lib/kernel/payments/paytr/checkout";
 import {
+  listForwardedIps,
   resolveTrustedForwardedIp,
   UNKNOWN_REQUEST_IP,
 } from "@/lib/kernel/security/trusted-proxy";
@@ -140,10 +141,24 @@ export function isPaytrWebhookPayload(value: unknown): value is PaytrWebhookPayl
 }
 
 /**
- * PayTR Destek bildirim CIDR'leri. Env boşken HMAC-only (Cloudflare/Vercel hop
- * XFF'yi PayTR IP'si gibi göstermez). Env doluysa bu bloklar her zaman eklenir.
+ * PayTR Destek'in güncel bildirim sunucu IPv4'leri (Mağaza paneli URL testi).
+ * CREDIT kapısı HMAC'dir; bu listeden gelen istekler 400/403 basmaz.
  */
-export const PAYTR_OFFICIAL_WEBHOOK_IP_CIDRS = ["185.22.184.0/22"] as const;
+export const PAYTR_OFFICIAL_WEBHOOK_IPS = [
+  "185.187.184.84",
+  "212.252.97.250",
+  "213.74.97.150",
+] as const;
+
+/**
+ * PayTR Destek bildirim CIDR + güncel host'lar. Env boşken HMAC-only
+ * (Cloudflare/Vercel hop XFF'yi PayTR IP'si gibi göstermez). Env doluysa
+ * bu bloklar her zaman eklenir.
+ */
+export const PAYTR_OFFICIAL_WEBHOOK_IP_CIDRS = [
+  "185.22.184.0/22",
+  ...PAYTR_OFFICIAL_WEBHOOK_IPS,
+] as const;
 
 export function parsePaytrWebhookIpAllowlist(
   raw: string | undefined = process.env.PAYTR_WEBHOOK_IP_ALLOWLIST,
@@ -248,6 +263,46 @@ export function isPaytrWebhookSourceIpAllowed(
     return false;
   }
   return allowlist.some((entry) => ipMatchesPaytrAllowlistEntry(ip, entry));
+}
+
+export function isPaytrOfficialWebhookIp(ip: string): boolean {
+  const source = ip.trim();
+  if (!source) {
+    return false;
+  }
+  return PAYTR_OFFICIAL_WEBHOOK_IPS.some((entry) => ipMatchesPaytrAllowlistEntry(source, entry));
+}
+
+function forwardedChainMatchesOfficialCidr(headers: Headers): boolean {
+  return listForwardedIps(headers).some((ip) =>
+    PAYTR_OFFICIAL_WEBHOOK_IP_CIDRS.some((entry) => ipMatchesPaytrAllowlistEntry(ip, entry)),
+  );
+}
+
+/** XFF zincirinde PayTR Destek host'u — Cloudflare hop'u trusted IP'yi gizlese de tanınır. */
+export function requestHasPaytrOfficialNotificationIp(request: Request): boolean {
+  if (isPaytrOfficialWebhookIp(readPaytrWebhookRequestIp(request))) {
+    return true;
+  }
+  return listForwardedIps(request.headers).some((ip) => isPaytrOfficialWebhookIp(ip));
+}
+
+/**
+ * Operatör allowlist'i trusted hop üzerindendir (sol XFF spoof 403).
+ * PayTR resmi CIDR/host zincirdeyse Cloudflare kenarı kesmez.
+ */
+export function isPaytrWebhookRequestIpAllowed(
+  request: Request,
+  allowlist: string[],
+  env: NodeJS.ProcessEnv = process.env,
+): boolean {
+  if (allowlist.length === 0) {
+    return true;
+  }
+  if (isPaytrWebhookSourceIpAllowed(readPaytrWebhookRequestIp(request), allowlist, env)) {
+    return true;
+  }
+  return forwardedChainMatchesOfficialCidr(request.headers);
 }
 
 export function verifyPaytrWebhookHash(payload: PaytrWebhookPayload): boolean {

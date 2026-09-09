@@ -50,6 +50,9 @@ const FILE_RULES: FileRule[] = [
     must: [
       { needle: "export function isPaytrWebhookIpAllowlistRequired", label: "allowlist kapısı" },
       { needle: "PAYTR_OFFICIAL_WEBHOOK_IP_CIDRS", label: "PayTR resmi CIDR" },
+      { needle: "PAYTR_OFFICIAL_WEBHOOK_IPS", label: "PayTR Destek host" },
+      { needle: "requestHasPaytrOfficialNotificationIp", label: "XFF resmi IP" },
+      { needle: "isPaytrWebhookRequestIpAllowed", label: "zincir allowlist" },
       { needle: "resolvePaytrWebhookIpAllowlist", label: "HMAC-only boş liste" },
       { needle: "resolveTrustedForwardedIp", label: "trusted-proxy IP" },
       { needle: "verifyPaytrWebhookHash", label: "HMAC" },
@@ -62,7 +65,9 @@ const FILE_RULES: FileRule[] = [
       { needle: "settlePaytrWebhookFailure", label: "fail settle çağrısı" },
       { needle: "anomaly_unacked", label: "persist fail 500" },
       { needle: "resolvePaytrWebhookIpAllowlist", label: "IP allowlist çözümü" },
-      { needle: "isPaytrWebhookSourceIpAllowed", label: "IP allowlist" },
+      { needle: "isPaytrWebhookRequestIpAllowed", label: "IP allowlist" },
+      { needle: "requestHasPaytrOfficialNotificationIp", label: "PayTR resmi IP" },
+      { needle: "paytr.webhook.official_ip_ack", label: "resmi IP 200 ACK" },
       { needle: "verifyWebhook", label: "HMAC handler" },
     ],
     mustNot: [

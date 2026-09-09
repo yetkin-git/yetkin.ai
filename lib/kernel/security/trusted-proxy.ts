@@ -86,6 +86,15 @@ export function classifyForwardedIp(ip: string): ForwardedIpKind {
   return "unknown";
 }
 
+/** XFF zincirindeki tüm makul adresler (soldan sağa). Spoof sol taraftadır. */
+export function listForwardedIps(headers: Headers): string[] {
+  const forwarded = headers.get("x-forwarded-for") ?? "";
+  return forwarded
+    .split(",")
+    .map((part) => part.trim())
+    .filter(isPlausibleForwardedIp);
+}
+
 /**
  * `hops=1` → XFF'nin sağındaki adres (en yakın proxy'nin gördüğü istemci).
  * `hops=2` → bir hop daha içeriden (Cloudflare+Vercel: gerçek müşteri IPv4).
@@ -99,11 +108,7 @@ export function resolveTrustedForwardedIp(
   if (hops <= 0) {
     return UNKNOWN_REQUEST_IP;
   }
-  const forwarded = headers.get("x-forwarded-for") ?? "";
-  const parts = forwarded
-    .split(",")
-    .map((part) => part.trim())
-    .filter(isPlausibleForwardedIp);
+  const parts = listForwardedIps(headers);
   if (parts.length === 0) {
     return UNKNOWN_REQUEST_IP;
   }

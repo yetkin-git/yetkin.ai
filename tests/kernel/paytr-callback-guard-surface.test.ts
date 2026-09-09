@@ -40,6 +40,7 @@ describe("PayTR canlı callback yüzeyi", () => {
     expect(route).toContain("PAYTR_WEBHOOK_PATH");
     expect(route).toContain("text/plain; charset=utf-8");
     expect(route).toContain("export async function GET");
+    expect(route).toContain("export async function HEAD");
     expect(route).toContain("isPaytrNotificationProbe");
     expect(route).toContain("readPaytrWebhookPayload");
     expect(readSrc("lib/kernel/payments/paytr/checkout.ts")).toContain(
@@ -48,7 +49,7 @@ describe("PayTR canlı callback yüzeyi", () => {
 
     const alias = readSrc(PAYTR_PANEL_WEBHOOK_APP_ROUTE);
     expect(alias).toContain("export const auth = \"webhook\"");
-    expect(alias).toContain("export { GET, POST }");
+    expect(alias).toContain("export { GET, HEAD, POST }");
     expect(alias).not.toContain("settlePaytrWebhookSuccess");
     expect(PAYTR_PANEL_WEBHOOK_PATH).toBe("/api/paytr/callback");
 

@@ -494,6 +494,7 @@ const FILE_RULES: FileRule[] = [
       { needle: '{ status: "rejected", reason, requestId }', label: "PSP rejected gövdesi" },
       { needle: "text/plain; charset=utf-8", label: "PayTR düz metin OK" },
       { needle: "export async function GET", label: "PayTR URL yoklaması" },
+      { needle: "export async function HEAD", label: "PayTR HEAD yoklaması" },
       { needle: "isPaytrNotificationProbe", label: "boş yoklama CREDIT yazmaz" },
       { needle: "readPaytrWebhookPayload", label: "urlencoded gövde formData 400 basmaz" },
     ],
@@ -508,7 +509,7 @@ const FILE_RULES: FileRule[] = [
     file: "app/api/paytr/callback/route.ts",
     must: [
       { needle: 'export const auth = "webhook"', label: "panel alias webhook auth" },
-      { needle: "export { GET, POST }", label: "panel alias aynı handler" },
+      { needle: "export { GET, HEAD, POST }", label: "panel alias aynı handler" },
     ],
     mustNot: [
       { needle: "settlePaytrWebhookSuccess", label: "alias CREDIT yazmaz" },
