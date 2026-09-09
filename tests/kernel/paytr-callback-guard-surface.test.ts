@@ -41,6 +41,7 @@ describe("PayTR canlı callback yüzeyi", () => {
     expect(route).toContain("text/plain; charset=utf-8");
     expect(route).toContain("export async function GET");
     expect(route).toContain("isPaytrNotificationProbe");
+    expect(route).toContain("readPaytrWebhookPayload");
     expect(readSrc("lib/kernel/payments/paytr/checkout.ts")).toContain(
       `export const PAYTR_WEBHOOK_PATH = "${PAYTR_WEBHOOK_PATH}"`,
     );

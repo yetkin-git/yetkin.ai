@@ -16,6 +16,7 @@ import {
   computePaytrWebhookHash,
   parsePaytrAmountMinor,
   parsePaytrWebhookForm,
+  parsePaytrWebhookUrlEncoded,
 } from "@/lib/kernel/payments/paytr/webhook";
 import {
   interpretPaytrStatusPayload,
@@ -162,6 +163,9 @@ describe("PayTR port", () => {
     form.set("hash", payload.hash);
     const parsed = parsePaytrWebhookForm(form);
     expect(parsed.hash).toBe(calculated);
+    expect(parsePaytrWebhookUrlEncoded(`hash=${calculated.replaceAll("+", "%2B")}`).hash).toBe(
+      calculated,
+    );
     const provider = new PaytrPaymentProvider();
     const verified = provider.verifyWebhook({ ...payload, hash: payload.hash });
     expect(verified.ok).toBe(true);

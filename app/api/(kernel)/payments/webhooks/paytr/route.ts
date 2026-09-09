@@ -3,7 +3,7 @@ import {
   isPaytrNotificationProbe,
   isPaytrWebhookSourceIpAllowed,
   logPaytrWebhookHmacMismatch,
-  parsePaytrWebhookForm,
+  readPaytrWebhookPayload,
   PAYTR_WEBHOOK_PATH,
   readPaytrWebhookRequestIp,
   resolvePaytrWebhookIpAllowlist,
@@ -80,8 +80,7 @@ function webhookSettlePorts() {
 
 export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
-  const formData = await request.formData();
-  const payload = parsePaytrWebhookForm(formData);
+  const payload = await readPaytrWebhookPayload(request);
   const route = notificationRoute(request);
 
   if (isPaytrNotificationProbe(payload)) {

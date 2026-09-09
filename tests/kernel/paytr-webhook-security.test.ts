@@ -13,6 +13,8 @@ import {
   isPaytrWebhookIpAllowlistRequired,
   isPaytrWebhookSourceIpAllowed,
   parsePaytrWebhookForm,
+  parsePaytrWebhookUrlEncoded,
+  readPaytrWebhookPayload,
   PAYTR_OFFICIAL_WEBHOOK_IP_CIDRS,
   resolvePaytrWebhookIpAllowlist,
 } from "@/lib/kernel/payments/paytr/webhook";
@@ -60,6 +62,20 @@ function postWebhook(form: FormData, extraHeaders?: HeadersInit): Promise<Respon
       method: "POST",
       headers: { "x-request-id": REQUEST_ID, ...extraHeaders },
       body: form,
+    }),
+  );
+}
+
+function postUrlEncoded(body: string, extraHeaders?: HeadersInit): Promise<Response> {
+  return postPaytrWebhook(
+    new Request("http://localhost/api/payments/webhooks/paytr", {
+      method: "POST",
+      headers: {
+        "x-request-id": REQUEST_ID,
+        "content-type": "application/x-www-form-urlencoded",
+        ...extraHeaders,
+      },
+      body,
     }),
   );
 }
@@ -390,5 +406,59 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
     const probe = parsePaytrWebhookForm(new FormData());
     expect(isPaytrNotificationProbe(probe)).toBe(true);
     expect(isPaytrNotificationProbe(parsePaytrWebhookForm(webhookForm(validHash())))).toBe(false);
+  });
+
+  it("PayTR urlencoded yoklama ve hash formData() 400 basmadan OK/403 döner", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    const emptyUrlEncoded = await postUrlEncoded("");
+    expect(emptyUrlEncoded.status).toBe(200);
+    expect(emptyUrlEncoded.headers.get("content-type")).toMatch(/^text\/plain/);
+    expect(await emptyUrlEncoded.text()).toBe("OK");
+
+    const charsetProbe = await postUrlEncoded("", {
+      "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+    });
+    expect(charsetProbe.status).toBe(200);
+    expect(await charsetProbe.text()).toBe("OK");
+
+    const panelUrlEncoded = await postPaytrPanelCallback(
+      new Request("http://localhost/api/paytr/callback", {
+        method: "POST",
+        headers: {
+          "x-request-id": REQUEST_ID,
+          "content-type": "application/x-www-form-urlencoded",
+        },
+        body: "",
+      }),
+    );
+    expect(panelUrlEncoded.status).toBe(200);
+    expect(await panelUrlEncoded.text()).toBe("OK");
+
+    const liveHash = validHash();
+    const encoded = new URLSearchParams({
+      merchant_oid: OID,
+      status: "success",
+      total_amount: "1300",
+      hash: liveHash,
+    }).toString();
+    const parsed = parsePaytrWebhookUrlEncoded(encoded);
+    expect(parsed.hash).toBe(liveHash);
+
+    const fromRequest = await readPaytrWebhookPayload(
+      new Request("http://localhost/api/paytr/callback", {
+        method: "POST",
+        headers: { "content-type": "application/x-www-form-urlencoded" },
+        body: encoded,
+      }),
+    );
+    expect(fromRequest.hash).toBe(liveHash);
+    expect(isPaytrNotificationProbe(fromRequest)).toBe(false);
+
+    const badHash = await postUrlEncoded(
+      `merchant_oid=${OID}&status=success&total_amount=1300&hash=not-a-valid-hash`,
+    );
+    expect(badHash.status).toBe(403);
+    const rejected = (await badHash.json()) as { reason: string };
+    expect(rejected.reason).toBe("invalid_signature");
   });
 });

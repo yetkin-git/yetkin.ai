@@ -462,6 +462,8 @@ const FILE_RULES: FileRule[] = [
       { needle: "PAYTR_WEBHOOK_PATH", label: "kanonik bildirim yolu" },
       { needle: 'update(token, "utf8")', label: "HMAC UTF-8" },
       { needle: "isPaytrNotificationProbe", label: "panel yoklama" },
+      { needle: "parsePaytrWebhookUrlEncoded", label: "PayTR urlencoded parse" },
+      { needle: "readPaytrWebhookPayload", label: "urlencoded formData 400 yok" },
     ],
     mustNot: [
       { needle: "mock-checkout", label: "webhook mock checkout import etmez" },
@@ -493,6 +495,7 @@ const FILE_RULES: FileRule[] = [
       { needle: "text/plain; charset=utf-8", label: "PayTR düz metin OK" },
       { needle: "export async function GET", label: "PayTR URL yoklaması" },
       { needle: "isPaytrNotificationProbe", label: "boş yoklama CREDIT yazmaz" },
+      { needle: "readPaytrWebhookPayload", label: "urlencoded gövde formData 400 basmaz" },
     ],
     mustNot: [
       { needle: "jsonOk", label: "PayTR v1 zarfına sarılmaz" },

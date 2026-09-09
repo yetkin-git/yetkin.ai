@@ -75,15 +75,45 @@ function hmacBase64(hash_str: string, merchantKey: string): string {
   return createHmac("sha256", merchantKey).update(token, "utf8").digest("base64");
 }
 
-export function parsePaytrWebhookForm(formData: FormData): PaytrWebhookPayload {
+function parsePaytrWebhookFields(get: (name: string) => string): PaytrWebhookPayload {
   return {
-    merchantOid: String(formData.get("merchant_oid") ?? "").trim(),
-    status: String(formData.get("status") ?? "").trim(),
-    totalAmount: String(formData.get("total_amount") ?? "").trim(),
-    hash: normalizePaytrPostedHash(String(formData.get("hash") ?? "")),
-    event: String(formData.get("event") ?? "").trim() || null,
-    transferStatus: String(formData.get("transfer_status") ?? "").trim() || null,
+    merchantOid: get("merchant_oid").trim(),
+    status: get("status").trim(),
+    totalAmount: get("total_amount").trim(),
+    hash: normalizePaytrPostedHash(get("hash")),
+    event: get("event").trim() || null,
+    transferStatus: get("transfer_status").trim() || null,
   };
+}
+
+export function parsePaytrWebhookForm(formData: FormData): PaytrWebhookPayload {
+  return parsePaytrWebhookFields((name) => {
+    const value = formData.get(name);
+    return typeof value === "string" ? value : "";
+  });
+}
+
+/** PayTR resmi gövde: `application/x-www-form-urlencoded`. */
+export function parsePaytrWebhookUrlEncoded(raw: string): PaytrWebhookPayload {
+  const params = new URLSearchParams(raw);
+  return parsePaytrWebhookFields((name) => params.get(name) ?? "");
+}
+
+/**
+ * PayTR Bildirim URL gövdesini okur.
+ * `request.formData()` urlencoded POST'ta Next/undici "Failed to parse body as FormData"
+ * ile HTTP 400 basabilir; resmi Content-Type text + URLSearchParams ile okunur.
+ */
+export async function readPaytrWebhookPayload(request: Request): Promise<PaytrWebhookPayload> {
+  const contentType = (request.headers.get("content-type") ?? "").toLowerCase();
+  try {
+    if (contentType.includes("multipart/form-data")) {
+      return parsePaytrWebhookForm(await request.formData());
+    }
+    return parsePaytrWebhookUrlEncoded(await request.text());
+  } catch {
+    return parsePaytrWebhookUrlEncoded("");
+  }
 }
 
 /** Panel canlı-mod URL yoklaması: gövdede ödeme alanı yok, CREDIT yok. */
