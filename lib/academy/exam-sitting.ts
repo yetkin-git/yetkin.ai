@@ -24,8 +24,10 @@ export {
 } from "@/lib/academy/exam-duration";
 
 const ACADEMY_EXAM_SITTING_VERSION = "yetkin-rail.academy.exam-sitting.v1" as const;
-/** Sürüm dizesi MAC anahtarı değildir. Üretimde env; laboratuvarda ayrı sabit. */
-const ACADEMY_EXAM_SITTING_MAC_FALLBACK = "yetkin-rail.academy.exam-sitting.mac.v1" as const;
+/** Sürüm dizesi MAC anahtarı değildir. Yalnız laboratuvar / Vitest. */
+export const ACADEMY_EXAM_SITTING_MAC_FALLBACK = "yetkin-rail.academy.exam-sitting.mac.v1" as const;
+/** JWT sırrından domain-ayrılmış derive — üretim yedek; public lab dizesi değildir. */
+const ACADEMY_EXAM_SITTING_MAC_DERIVE_INFO = "yetkin-rail.academy.exam-sitting.mac.derive.v1" as const;
 export const ACADEMY_EXAM_SITTING_SECRET_MIN_LENGTH = 16 as const;
 export const ACADEMY_EXAM_SITTING_SECRET_MISSING = "Sınav oturumu henüz bağlanmadı." as const;
 
@@ -35,16 +37,40 @@ export function isAcademyExamSittingSecretReady(
   return (env.ACADEMY_EXAM_SITTING_SECRET?.trim() ?? "").length >= ACADEMY_EXAM_SITTING_SECRET_MIN_LENGTH;
 }
 
+function deriveSittingMacKey(seed: string): string {
+  return createHmac("sha256", seed).update(ACADEMY_EXAM_SITTING_MAC_DERIVE_INFO).digest("hex");
+}
+
+function isVitestEnv(env: Record<string, string | undefined>): boolean {
+  return env.VITEST === "true";
+}
+
+/**
+ * Sınav oturumu HMAC anahtarı.
+ * 1) Dedicated `ACADEMY_EXAM_SITTING_SECRET` ≥16
+ * 2) Üretim yedek: `SUPABASE_JWT_SECRET` ≥16 üzerinden domain-ayrılmış derive (sınav 503 değil)
+ * 3) Lab / Vitest: public sabit
+ * 4) Canlı süreçte ikisi de yoksa 503
+ */
+export function resolveAcademyExamSittingMacKey(
+  env: Record<string, string | undefined> = process.env,
+): string {
+  const dedicated = env.ACADEMY_EXAM_SITTING_SECRET?.trim() ?? "";
+  if (dedicated.length >= ACADEMY_EXAM_SITTING_SECRET_MIN_LENGTH) {
+    return dedicated;
+  }
+  const jwt = env.SUPABASE_JWT_SECRET?.trim() ?? "";
+  if (jwt.length >= ACADEMY_EXAM_SITTING_SECRET_MIN_LENGTH) {
+    return deriveSittingMacKey(jwt);
+  }
+  if (env.NODE_ENV !== "production" || isVitestEnv(env)) {
+    return ACADEMY_EXAM_SITTING_MAC_FALLBACK;
+  }
+  throw new ServiceUnavailableError(ACADEMY_EXAM_SITTING_SECRET_MISSING);
+}
+
 function sittingMacKey(): string {
-  const env = process.env.ACADEMY_EXAM_SITTING_SECRET?.trim() ?? "";
-  if (env.length >= ACADEMY_EXAM_SITTING_SECRET_MIN_LENGTH) {
-    return env;
-  }
-  // Vercel `npm run build` NODE_ENV=production iken prebuild Vitest koşar; canlı süreç değildir.
-  if (process.env.NODE_ENV === "production" && process.env.VITEST !== "true") {
-    throw new ServiceUnavailableError(ACADEMY_EXAM_SITTING_SECRET_MISSING);
-  }
-  return ACADEMY_EXAM_SITTING_MAC_FALLBACK;
+  return resolveAcademyExamSittingMacKey(process.env);
 }
 
 export type AcademyExamRandInt = (maxExclusive: number) => number;

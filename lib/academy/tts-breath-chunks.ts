@@ -1,19 +1,57 @@
 /**
- * TTS nefes dilimleyici — Gemini'ye tek dev blok gitmez.
- * Noktalama sınırında 3–5 sn doğal konuşma parçası; tek cümle biraz taşabilir.
- * Dilimler arasına 0.3–0.5 sn sessizlik bake hattında konur (dikiş/crossfade değil).
+ * TTS paragraf bloğu — Gemini'ye 3–5 sn mikro dilim gitmez.
+ * Ders metni 12–15 doğal nefes bloğuna paketlenir; ders başı istek 10–12 bandındadır.
+ * Cümle geçişlerindeki [pause] bake hattında enjekte edilir (teleprompter metni temiz kalır).
+ * Dilimler arasına 0.3–0.5 sn sessizlik + 6.5 sn RPM kalkanı konur.
  */
 
 import { academyDialogueReadingDurationSec } from "@/lib/academy/dialogue-timeline";
 
-/** Hedef konuşma penceresi — paketleme tavanı. */
-export const ACADEMY_TTS_BREATH_CHUNK_MIN_SEC = 3;
-export const ACADEMY_TTS_BREATH_CHUNK_MAX_SEC = 5;
+/** Hedef konuşma penceresi — anlamlı paragraf bloğu; 3–5 sn mikro dilim YASAK. */
+export const ACADEMY_TTS_BREATH_CHUNK_MIN_SEC = 18;
+export const ACADEMY_TTS_BREATH_CHUNK_MAX_SEC = 70;
 /**
  * Tek noktalama birimi bu süreyi aşarsa virgül/noktalı virgül sınırından bölünür.
- * 42 sn'lik perde yasağı durur; 6–8 sn'lik doğal cümle kesilmez.
+ * Normal stüdyo paragrafı (~40–65 sn) tek istek kalır.
  */
-export const ACADEMY_TTS_BREATH_ATOMIC_MAX_SEC = 8;
+export const ACADEMY_TTS_BREATH_ATOMIC_MAX_SEC = 80;
+/** RPM 10/dk tavanının altında kalmak için istekler arası zorunlu boşluk. */
+export const ACADEMY_TTS_RPM_GAP_MS = 6_500;
+/** Nefes bloğu tavanı — bir ders API’ye en fazla bu kadar doğal blok gider. */
+export const ACADEMY_TTS_LESSON_BREATH_BLOCK_MAX = 15;
+/** Ders başı istek hedef bandı (kota / request shaping). */
+export const ACADEMY_TTS_LESSON_REQUEST_MIN = 10;
+export const ACADEMY_TTS_LESSON_REQUEST_MAX = 12;
+
+export type AcademyTtsLessonRequestBudget = {
+  count: number;
+  inTargetBand: boolean;
+  withinHardMax: boolean;
+};
+
+export function academyTtsLessonRequestBudget(count: number): AcademyTtsLessonRequestBudget {
+  return {
+    count,
+    inTargetBand: count >= ACADEMY_TTS_LESSON_REQUEST_MIN && count <= ACADEMY_TTS_LESSON_REQUEST_MAX,
+    withinHardMax: count > 0 && count <= ACADEMY_TTS_LESSON_BREATH_BLOCK_MAX,
+  };
+}
+
+/** Yeni fırınlama: tavan 15; 10–12 hedef. Mühürlü kaset kotayı ezer (sıfır re-bake). */
+export function assertAcademyTtsLessonRequestBudget(count: number, sealed: boolean): void {
+  if (sealed) {
+    return;
+  }
+  const budget = academyTtsLessonRequestBudget(count);
+  if (!budget.withinHardMax) {
+    throw new Error(
+      `TTS istek tavanı aşıldı: ${count} (hedef ${ACADEMY_TTS_LESSON_REQUEST_MIN}–${ACADEMY_TTS_LESSON_REQUEST_MAX}, tavan ${ACADEMY_TTS_LESSON_BREATH_BLOCK_MAX}). Paragrafları 10–12 doğal nefes bloğuna birleştir.`,
+    );
+  }
+}
+
+/** Gemini native TTS nefes etiketi — cümle geçişinde model duraksar, okumaz. */
+export const ACADEMY_TTS_BREATH_PAUSE_TAG = "[pause]";
 
 function speechSec(text: string): number {
   return academyDialogueReadingDurationSec(text, "egitmen");
@@ -30,6 +68,7 @@ function splitBy(text: string, pattern: RegExp): string[] {
 const SENTENCE_BOUNDARY = /(?<=[.!?…])\s+/u;
 /** Uzun cümle: virgül, noktalı virgül, iki nokta, tire. */
 const CLAUSE_BOUNDARY = /(?<=[,;:—–])\s+/u;
+const PAUSE_TAG_RE = /\s*\[pause\]\s*/giu;
 
 function splitOversizedUnit(text: string): string[] {
   if (speechSec(text) <= ACADEMY_TTS_BREATH_ATOMIC_MAX_SEC) {
@@ -102,9 +141,29 @@ function packSpeechChunks(units: readonly string[]): string[] {
   return chunks.filter((chunk) => chunk.length > 0);
 }
 
-/** Noktalamadan 3–5 sn TTS isteği. Tek cümle en fazla ~8 sn kalabilir. */
+export function stripAcademyTtsBreathPauses(text: string): string {
+  return text.replace(PAUSE_TAG_RE, " ").replace(/\s+/gu, " ").trim();
+}
+
+/**
+ * Cümle geçişlerine Gemini nefes etiketi koyar.
+ * Nokta/ünlem sonrası `[pause]`; virgül zaten modelin doğal esidir.
+ */
+export function injectAcademyTtsBreathPauses(text: string): string {
+  const trimmed = stripAcademyTtsBreathPauses(text);
+  if (!trimmed) {
+    return "";
+  }
+  const sentences = splitBy(trimmed, SENTENCE_BOUNDARY);
+  if (sentences.length <= 1) {
+    return trimmed;
+  }
+  return sentences.join(` ${ACADEMY_TTS_BREATH_PAUSE_TAG} `);
+}
+
+/** Anlamlı paragraf bloğu. Stüdyo paragrafı tek istek; yalnızca tavanı aşan birim bölünür. */
 export function splitAcademyTtsBreathChunks(text: string): string[] {
-  const trimmed = text.replace(/\s+/gu, " ").trim();
+  const trimmed = stripAcademyTtsBreathPauses(text);
   if (!trimmed) {
     return [];
   }

@@ -1,0 +1,116 @@
+{
+  "lessonKey": "04_chatbot_nocode-4",
+  "pauseSec": 0.4,
+  "durationSec": 414.6,
+  "cacheV": 414600,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 41.56,
+      "text": "Tekrar selam. Ben Kaan. Dördüncü istasyon: Vatsap ve Me ta. Türkiye'de vitrin webdir. Kasa Vatsap'tır. Klinik, emlak, butik. Müşteri bakır, karar hattında verir. Danışmanın elinde tek telefon. Kırk sohbet. Şarj biter. Gece susar. Toplu mesaj ban yer. Bu ilkel hat bugün yıkılır. Cloud Uygulama Programlama Arayüzü (API) omurga. Bot arkada. İnsan gerektiğinde. Para orada kapanır. Telefona hapsolmuş hat satış değil, krizdir."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 41.96,
+      "end": 76.32,
+      "text": "Erişim net. developers nokta feysbuk nokta kom. Me ta for Developers. Business uygulaması. Vatsap ürünü. Sendboks test numarası. Kendi cep. İlk merhaba. Kahvenden bir yudum al. Derin bir nefes al. Yeşil uygulama ile Cloud Uygulama Programlama Arayüzü (API)'yi ayıracağız. Yirmi dört saat kuralı. Şablon. Spam kalkanı. Meniçet tünel ayrı. Botpres asistan ayrı. Başlıyoruz."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 76.72,
+      "end": 96.52,
+      "text": "Kapı kilitliyse bant durur. İşletme yöneticisi yoksa bugün davet al. Ücretsiz Sendboks yeter. Canlı numara yarın. Yeşil tik yarın. Bugün test mesajı telefonuna düşsün. Sonra şablon taslağı. Evrak sonra. Önce kanıt. Telefona düşmeyen merhaba canlıya basılmaz."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 96.92,
+      "end": 134.68,
+      "text": "Soyut tanımları bir kenara bırakıyoruz; doğrudan hattaki yanılgıya bakıyoruz. Vatsap Business uygulaması otomasyon değildir. Telefon ölür, hat ölür. Ekip giremez. Botpres bağlanmaz. Yüz kişilik blast numara yer. Cloud Uygulama Programlama Arayüzü (API) telefonsuz borudur. Me ta sunucusunda yaşar. Arkasına Botpres, Meniçet veya Meyk nokta kom takılır. Meniçet reklam tüneli. Botpres belge beyni ve kurumsal hat. Karıştırma. Reklam tüneli ayrı. Klinik asistanı ayrı. Yanlış kapı, yanlış ürün."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 135.08,
+      "end": 178.2,
+      "text": "Beş adım. Bir: developers nokta feysbuk nokta kom. Business Manager ile gir. İki: Create App, Business, Vatsap. Üç: Sendboks. Test Number. Kendi cep alıcı. İlk mesaj. Dört: canlı numara. Üstünde kişisel Vatsap olmasın. Sabit hat bulut santrale. Ses santrale. Mesaj bota. Beş: işletme doğrulama. Vergi levhası. İmza. Fatura. Unvan harf harf. Sonra yeşil rozet başvurusu. klik tu Vatsap reklam aynı numaraya akar. Bot karşılar. Reklam bütçesi boşa gitmez. Kişisel hat bu beş adıma giremez. Sil, taşı, bağla."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 178.6,
+      "end": 216.08,
+      "text": "Yirmi dört saat kuralı. Müşteri yazdıysa serbest cevap. Pencere kapanınca şablon. Me ta şablonu inceler. Onaysız çıkmaz. Üç örnek. Randevu hatırlatma. Operasyon bakımı. Sepet kurtarma. Değişkenler çift kıvrık. Pazarlama pahalı. Fayda ucuz. Hizmet kotası değişir. Canlı tarife Me ta panelinden. Hız limiti. Kuyruk. İPTAL satırı. Spam işaretlenirse kalite düşer. Hat kısıtlanır. Bot talep edene yazar. Yağdırmaz. Saygı omurgadır."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 216.48,
+      "end": 250.48,
+      "text": "Open ey ay burada mesaj taşımaz. Me ta taşır. Botpres veya Meyk nokta kom beyni bağlar. platform nokta open ey ay nokta kom anahtarı Botpres El el em kutusunda kalır. Me ta paneline yapıştırılmaz. Karıştırma. Üç kapı. developers nokta feysbuk nokta kom. botpres nokta kom kanal. meyk nokta kom kuyruk. Sen yönetici kal. Anahtar sızmasın. Hat ban yemesin. Yanlış kutuya yapıştırılan anahtar hem ban hem fatura demektir. Kutuları ayır."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 250.88,
+      "end": 280.76,
+      "text": "Kritik durum burada başlar. Kişisel hatta bot bağlama. Ban riski. İkinci tuzak: canlı numarada eski Vatsap bırakmak. Tahsis olmaz. Üçüncü tuzak: onaylı şablonsuz hatırlatma. Pencere kapalı, mesaj düşmez. Dördüncü tuzak: izinsiz pazarlama. Kalite kırmızı. Onay sende kalır. Sendboks yeşil olmadan canlı numara alma. Evrak uyuşmazsa doğrulama düşer. Acele yayın felakettir."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 281.16,
+      "end": 319.92,
+      "text": "Aynı kalkanı erişimde kuruyorsun. developers nokta feysbuk nokta kom. Vatsap. Sendboks. biznis nokta feysbuk nokta kom doğrulama. botpres nokta kom kanal bağla. meyk nokta kom kuyruk. platform nokta open ey ay nokta kom ayrı kutu. Panik yok. Test merhaba telefonuna düşsün. Şablon taslağını kâğıda yaz. Canlıya acele etme. Yeşil tik ego değil, güven rozeti. Evrak hazırsa bas. Değilse Sendboks'ta kal. Kapı adı yeter. Evrak harf harf uyuşmazsa doğrulama düşer. Unvanı kopyala, uydurma."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 320.32,
+      "end": 355.2,
+      "text": "Spam kalkanı da saha. Toplu gece mesajı yok. Reklam şablonuna İPTAL. Şikayet gelirse dur. Kalite sarıysa hacmi kes. Bot randevu ve bilgi. Yağmur değil. Sen kalkanı tutarsın. Stajyer kampanya ister. Sen kuyruğu tutarsın. Kalite puanı yeşil kalsın. Kırmızı hat kilitlenir. Me ta kırmızıya düşünce botun zekâsı yetmez. Hat ölür. Kuyruk ve İPTAL omurgadır."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 355.6,
+      "end": 388.44,
+      "text": "Üç anahtarı cebine koy. Bir: yeşil uygulama otomasyon değil. Cloud Uygulama Programlama Arayüzü (API) borudur. İki: developers nokta feysbuk nokta kom, Sendboks, sonra doğrulama. Üç: yirmi dört saat, onaylı şablon, spam kalkanı. Meniçet tünel. Botpres asistan. Kapı adlarını deftere yaz. Test mesajı telefonuna düşmeden beşinci bölüme geçme. Orada Meyk nokta kom fişi fırlatır. Takvim ve tablo orada uyanır."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 388.84,
+      "end": 414.6,
+      "text": "Şimdi iki dakikalık kanıt. developers nokta feysbuk nokta kom'da test uygulaması aç. Vatsap ürününü aç. Sendboks'tan kendi cepine ilk merhaba gönder. Ardından tek randevu hatırlatma şablonu yaz. Test mesajı telefonuna düşmeden beşinci bölüme geçme. Kahveni tazele. Bugün hattın resmi kapısını açtın. Yarın fiş mutfağa gidecek. Başladık."
+    }
+  ]
+}

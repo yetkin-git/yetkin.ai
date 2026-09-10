@@ -14,7 +14,11 @@ import {
   EDGE_SECURITY_HEADER_ENTRIES,
 } from "./edge-security-headers";
 
-export { EDGE_HSTS_VALUE, EDGE_SECURITY_HEADER_ENTRIES } from "./edge-security-headers";
+export {
+  EDGE_HSTS_VALUE,
+  EDGE_PERMISSIONS_POLICY_VALUE,
+  EDGE_SECURITY_HEADER_ENTRIES,
+} from "./edge-security-headers";
 
 export const CITIZEN_LOGIN_PATH = "/login";
 
@@ -42,11 +46,13 @@ export const PROTECTED_WRITE_PATHS = [
 ] as const;
 
 export const EDGE_CSP_PAYTR_FRAME_SRC = "https://www.paytr.com https://*.paytr.com";
+/** iframeResizer.min.js?v2 — CSP2 allowlist; CSP3 `strict-dynamic` child script. */
+export const EDGE_CSP_PAYTR_SCRIPT_SRC = "https://www.paytr.com";
 export const EDGE_CSP_SUPABASE_CONNECT_SRC = "https://*.supabase.co wss://*.supabase.co";
 export const EDGE_CSP_FRAME_SRC_DIRECTIVE =
   "frame-src https://www.paytr.com https://*.paytr.com";
 export const EDGE_CSP_CONNECT_SRC_DIRECTIVE =
-  "connect-src 'self' https://*.supabase.co wss://*.supabase.co";
+  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://www.paytr.com https://*.paytr.com";
 /** Ders WAV blob URL, aynı köken dinleme ve Supabase CDN. */
 export const EDGE_CSP_MEDIA_SRC_DIRECTIVE = "media-src 'self' blob: https://*.supabase.co";
 /**
@@ -176,7 +182,7 @@ export function buildEdgeCsp(
     "img-src 'self' data: blob:; " +
     `${EDGE_CSP_STYLE_SRC_DIRECTIVE}; ` +
     `${EDGE_CSP_STYLE_SRC_ATTR_DIRECTIVE}; ` +
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${scriptEval}; ` +
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${scriptEval} ${EDGE_CSP_PAYTR_SCRIPT_SRC}; ` +
     `${EDGE_CSP_CONNECT_SRC_DIRECTIVE}; ` +
     `${EDGE_CSP_MEDIA_SRC_DIRECTIVE}; ` +
     EDGE_CSP_FRAME_SRC_DIRECTIVE +

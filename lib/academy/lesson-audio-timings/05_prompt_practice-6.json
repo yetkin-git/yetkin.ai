@@ -1,0 +1,116 @@
+{
+  "lessonKey": "05_prompt_practice-6",
+  "pauseSec": 0.4,
+  "durationSec": 465.96,
+  "cacheV": 465960,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 42.84,
+      "text": "Tekrar merhaba. Ben Gözde. Seninle gurur duyuyorum. Bu noktaya kadar geldiysen, kullanıcıların yüzde doksan dokuzunun ötesindesin. Artık bana bir şeyler yaz deyip saçma sonuca kızan kalabalığın parçası değilsin. Sistemin zihnini okuyan, rolünü biçen, sınırını çizen, düşünce zincirini kilitleyen bir istem mimarısın. Kritik soru şu. Her sabah bu promptları sıfırdan mı yazacaksın? Tekerleği her gün mü icat edeceksin? Hayır. Bugün tekrar kullanılabilir kütüphaneyi kuruyoruz. Sonra Katman 1 perdesini aralıyoruz. Kahvenden bir yudum al. Derin bir nefes al. Başlıyoruz."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 43.24,
+      "end": 76.04,
+      "text": "Kapılar aynı. Çetcipiti için çetcipiti nokta kom. Klod için klod nokta ey ay. Perpleksiti için perpleksiti nokta ey ay. Ücretsiz kotayla ilk şablonu görmen yeter. Kapı kilitliyse bant durur. Bugün bir hesap. Yarın ölçek. Link ezberi yok. Kapı adı yeter. Kütüphane kapının içinde değil. Senin defterinde. Notion. Obsidian. Docs. Düz metin. Önemli olan yer değil. Organizasyon."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 76.44,
+      "end": 101.96,
+      "text": "Aşçı her seferinde tuzu aramaz. Baharatlık bellidir. Senin de alet çantan olmalı. Masana iş geldiğinde panik yok. Klasörü aç. Şablonu kopyala. Değişkeni doldur. Otuz saniye. Mükemmel sonuç. Tek seferlik istem entelektüel sermaye değildir. Parametreli şablon sermayedir. Bir kere inşa et. Bin kere verim al."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 102.36,
+      "end": 155.44,
+      "text": "Soyut tanımları bir kenara bırakıyoruz; doğrudan kütüphane iskeletindeki gerçek probleme bakıyoruz. Beş klasör. Bir: iletişim ve e-posta. Tahsilat. Soğuk satış. Ret. Tebrik. İki: metin ve içerik. Blog. Linkıdin. Bülten. Basın. Üç: yönetim ve strateji. Uzman paneli. Pri mortem. Svot. Toplantı aksiyonu. Dört: pazarlama ve satış. Ayda. Pas. Lansman. İtiraz göğüsleme. Beş: multimodal. Midcörni ürün fotoğrafı. Vijın Kullanıcı Deneyimi (UX). İnfografik metin. Klasör durursa otuz saniye yeter. Durmazsa her sabah sıfırdan başlarsın."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 155.84,
+      "end": 204.48,
+      "text": "Ölçeklenebilir şablonun sırrı köşeli parantezdir. Büyük harf. Şirket adı. Hedef kitle. Ana ürün. Fiyat. Özel şart. Gel satış sayfası şablonunu parametreleyelim. Rol: doğrudan pazarlama yazarı. Görev: şirket adı markasının ürün veya hizmeti için satış sayfası. Bağlam: hedef kitle tanımı. En büyük acı. Ürünün çözümü. Fiyat ve kampanya. Kısıt: soyut övgü yasak. Pas formülü. Üç yüz kelime. Çıktı: ana başlık, alt başlık, üç acı maddesi, çözüm, eylem çağrısı butonu."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 204.88,
+      "end": 234.64,
+      "text": "Düşün. Bu tek şablon diş kliniğine de uyar. Yazılım kursuna da. Organik sabun butiğine de. Köşeli parantezin içini doldurman yeter. Kurumsal verimlilik budur. Bir kere inşa et. Bin kere verim al. Ekip içi paylaşım da buradan doğar. Herkes kendi dilini uydurmaz. Ortak iskelet durur. Değişken değişir. Kalite kilitlenir. Sen mimarsın. Şablon omurgadır."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 235.04,
+      "end": 284.04,
+      "text": "Katman 1 panoraması. Modül bir, ofis. Rutin zaman hırsızı. Excel çilesi bitti. Günlük iki saat cebinde. Modül iki, e-ticaret. Pazaryeri algoritması. Ayda. Pas. İade kalkanı. Baybaks. Modül üç, sosyal. İlham perisi beklenmedi. Midcörni. Ilevın Labs. Kepkat. Otuz günlük hat. Modül dört, kodsuz chatbot. Voysflov. Botpres. Meyk nokta kom. Si ey as. Modül beş, bugün. Beş taş. Fyu şat. Çeyn ov tot. Pri mortem. Kütüphane. Sen artık aranan bir yapay zekâ uygulayıcısısın. Farkında mısın?"
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 284.44,
+      "end": 322.2,
+      "text": "Kritik durum burada başlar. Şablonu kafada tutup diske yazmamak. Sabah sıfırlanır. İkinci tuzak: değişkeni doldurmadan göndermek. Köşeli parantez açık kalırsa model uydurur. Üçüncü tuzak: kütüphaneyi ekiple paylaşırken ham müşteri örneği bırakmak. Maskele. Dördüncü tuzak: mezuniyeti satın alınmış belge sanmak. Sertifika kanıtlayınca iner. Sınav. Yetmiş baraj. On soru. Otuz havuz. SHA-256 mühür. Satın alınca değil. Kanıtlayınca."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 322.6,
+      "end": 353.36,
+      "text": "Aynı kalkanı erişimde kuruyorsun. çetcipiti nokta kom günlük şablon. klod nokta ey ay uzun kütüphane metni. perpleksiti nokta ey ay kaynak teyidi. Ücretli plan şart değil. Ücretsiz kotayla ilk üç şablonu kaydetmen yeter. Kapı kilitliyse bant çalışmaz. Bugün bir hesap. Yarın ölçek. Panik yok. Kapıyı aç. Klasörü kur. Üç şablonu yaz. Link ezberi yok. Kapı adı yeter."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 353.76,
+      "end": 391.24,
+      "text": "Gelecekten korkma. Yapay zekâ işimizi elimizden alacak mı diyen kalabalıktan olma. Yapay zekâ senin işini almayacak. Onu ustalıkla kullanan, reddedenin işini devralacak. Sen masanın kazanan tarafındasın. Katman 2 kapıda. n8n. grafik ajan çizelgesi (LangGraph). Kurumsal Artırılmış Geri Çapraz Sorgulama (RAG). O güne kadar her gün kullan. Cesur ol. Hata yapmaktan korkma. Üret. Onay sende kalır. Uydurma şablonu silersin. Şiir kalan kütüphane çöptür."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 391.64,
+      "end": 432.32,
+      "text": "Üç anahtarı cebine koy. Bir: beş klasör. İletişim. İçerik. Yönetim. Pazarlama. Multimodal. İki: köşeli parantez değişken. Bir inşa, bin verim. Üç: sınav. Yetmiş baraj. Mühürlü Katman 1 sertifikası. Kapı adları aynı. çetcipiti nokta kom. klod nokta ey ay. perpleksiti nokta ey ay. Yarın o kapılardan gireceksin. Kütüphanesiz mimar boş kutuya döner."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 432.72,
+      "end": 465.96,
+      "text": "Şimdi iki dakikalık kanıt. Kütüphane iskeletini bugün kur. Beş klasörü aç. Bu derste en çok işine yarayan üç şablonu değişkenleriyle kaydet. Kütüphanenin ilk üç şablonu cebinde olmadan kendini mezun sayma. Altında Katman 1 kapsamlı değerlendirme sınavı bekler. On soru. Yetmiş baraj. Geçince resmi başarı sertifikan üretilir. Linkıdin'e koy. Özgeçmişe koy. Yolun açık. Zihnin berrak. Başarıların daim olsun. Kendine iyi bak. Hoşça kal."
+    }
+  ]
+}

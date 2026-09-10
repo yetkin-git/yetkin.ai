@@ -32,6 +32,7 @@ export type {
   AcademyFiveActDialogue,
   AcademyFourActInstructor,
   AcademyLessonDraft,
+  AcademyVoiceGender,
   CurriculumModule,
   DialogueSpeakerId,
   DialogueTurn,

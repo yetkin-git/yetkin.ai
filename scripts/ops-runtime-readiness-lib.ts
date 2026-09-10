@@ -447,7 +447,7 @@ export function formatSuperAdminChecklistLines(
   const lines = [
     "OPS-6 Super Admin kontrol listesi (Sıra 7 — Merchant mühürü öncesi):",
     `  [ ] Inngest: serve=${serveMode} (üretim fail-closed=503; EVENT_KEY yoksa webhook defer 503, SDK crash yok)`,
-    `  [ ] SMTP: mode=${smtp.mode} (gün 0 NOTICE_SMTP_HOST + NOTICE_MAIL_FROM dolu; honest-skip/partial → mail atlanır, nakit durmaz)`,
+    `  [ ] SMTP: mode=${smtp.mode} (gün 0 NOTICE_SMTP_HOST + NOTICE_MAIL_FROM dolu — akademi makbuzu E5; honest-skip/partial → mail atlanır, nakit durmaz)`,
     `  [ ] npm run ops:runtime-readiness → çıkış ${runtimeReadinessExitCode(report) === 0 ? "0 (beklenen lab)" : "1 (üretim bloğu)"}`,
     "  [ ] npm run ops:ghost-wallet-holds — PENDING wallet_id / ledger DEBIT hayalet sayımı (CREDIT yazmaz)",
     "  [ ] P3 DROP disk: prisma/migrations/20260822010000_drop_frozen_room_tables/migration.sql DROP TABLE mühürlü",
@@ -457,7 +457,7 @@ export function formatSuperAdminChecklistLines(
   ];
   if (smtp.mode === "honest-skip" || smtp.mode === "partial") {
     lines.push(
-      "  UYARI: Gün 0 SMTP eksik — müşteri makbuz/bildirim almaz. NOTICE_SMTP_HOST + NOTICE_MAIL_FROM doldur.",
+      "  UYARI: Gün 0 SMTP eksik — müşteri akademi makbuzu/bildirim almaz. NOTICE_SMTP_HOST + NOTICE_MAIL_FROM doldur.",
     );
   }
   if (paytr.trustedProxyHops < CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS) {

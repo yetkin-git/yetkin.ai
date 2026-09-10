@@ -141,32 +141,16 @@ describe("ADIM 16 — accept DEBIT projeksiyonu ve atomik mühür", () => {
     vi.restoreAllMocks();
   });
 
-  it("sicil freelancer-accept: bearer, çerez yok, idempotency true; owner-only GET ayrı hop", () => {
-    expect(RAIL_V1_HOPS).toHaveLength(16);
-    const hop = RAIL_V1_HOPS.find((item) => item.id === "freelancer-accept");
-    expect(hop).toMatchObject({
-      method: "POST",
-      v1PathTemplate: "/api/v1/freelancer/jobs/{id}/accept",
-      v1Auth: "bearer",
-      cookieAuth: false,
-      idempotency: true,
-      successStatus: 200,
-      dataKeys: ["contract"],
-    });
-    expect(hop?.errors).toContain(RAIL_V1_ACCEPT_FORBIDDEN);
-    expect(hop?.errors).toContain(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE);
+  it("PayTR B2C: freelancer-accept v1 sicilinde yok; DTO + hata metinleri kanonik handler'da durur", () => {
+    expect(RAIL_V1_HOPS).toHaveLength(8);
+    expect(RAIL_V1_HOPS.some((item) => item.id === "freelancer-accept")).toBe(false);
+    expect(RAIL_V1_HOPS.some((item) => item.id === "client-job-bids")).toBe(false);
+    // Donuk Dron istemci allowlist'i dokunulmaz; server sicili B2C vitrinidir.
     expect(assertRailIsDay0Path("/api/v1/freelancer/jobs/fj_1/accept", "POST")).toBe(
       "/api/v1/freelancer/jobs/fj_1/accept",
     );
-    const ownerHop = RAIL_V1_HOPS.find((item) => item.id === "client-job-bids");
-    expect(ownerHop).toMatchObject({
-      method: "GET",
-      v1PathTemplate: "/api/v1/client/jobs/{id}/bids",
-      v1Auth: "bearer",
-      cookieAuth: false,
-      idempotency: false,
-      dataKeys: ["bids"],
-    });
+    expect(RAIL_V1_ACCEPT_FORBIDDEN.length).toBeGreaterThan(0);
+    expect(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE).toBe("Ödeme henüz bağlanmadı");
   });
 
   it("kısmi 6 alan parse olmaz; tam railV1ContractSchema geçer; view parser Tezgâh [] değildir", async () => {

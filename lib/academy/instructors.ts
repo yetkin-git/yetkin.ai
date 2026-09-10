@@ -18,6 +18,10 @@ import {
   type DialogueSpeakerId,
   type DialogueTurn,
 } from "@/lib/academy/curricula/types";
+import {
+  academyTtsVoiceGenderFromLabel,
+  type AcademyTtsVoiceGender,
+} from "@/lib/academy/production-standard";
 
 export const ACADEMY_INSTRUCTOR_TTS_VOICES = [
   "Zephyr",
@@ -27,6 +31,7 @@ export const ACADEMY_INSTRUCTOR_TTS_VOICES = [
   "Aoede",
   "Leda",
   "Callirrhoe",
+  "Kore",
 ] as const;
 
 export const ACADEMY_TTS_VOICES = [
@@ -198,7 +203,7 @@ export function academyCastForDialogueSpeaker(
   };
 }
 
-/** Compact stüdyo bake — SKU eğitmen sesi (ofis: Callirrhoe / Gözde). */
+/** Compact stüdyo bake — SKU eğitmen sesi (ofis: Callirrhoe / Gözde; e-ticaret: Kore / Aylin; sosyal: Zephyr / Deniz; chatbot: Puck / Kaan). */
 export function academyInstructorTtsCast(slug: string): AcademyDialogueCast {
   const instructor = academyInstructorBySlug(slug);
   return {
@@ -248,13 +253,13 @@ export const ACADEMY_INSTRUCTORS_BY_VOICE: Record<AcademyInstructorTtsVoice, Aca
     voice: "Zephyr",
     voiceFingerprint: academyVoiceFingerprint("Zephyr"),
     name: "Deniz",
-    title: "Kıdemli Yazılım Mimarı",
+    title: "Kıdemli Sosyal Medya ve Görsel Fabrika Eğitmeni",
     gender: "erkek",
-    tone: "sakin",
-    toneLabel: "Erkek / Sakin",
-    greetingLead: "Selamlar, ben Deniz",
-    roleTitle: "Kıdemli Yazılım Mimarı",
-    bio: "Yazılım sistemleri uzmanıyım. Kıdemli Yazılım Mimarı olarak sahada kapı ve sözleşme kuruyorum.",
+    tone: "pratik",
+    toneLabel: "Erkek / Pratik Ajans",
+    greetingLead: "Selam, ben Deniz",
+    roleTitle: "Kıdemli Sosyal Medya ve Görsel Fabrika Eğitmeni",
+    bio: "Ajans ve sosyal medya üretim hattı uzmanıyım. Kıdemli Sosyal Medya ve Görsel Fabrika Eğitmeni olarak sahada görsel ve video fabrikasını kuruyorum.",
   },
   Erinome: {
     voice: "Erinome",
@@ -271,14 +276,14 @@ export const ACADEMY_INSTRUCTORS_BY_VOICE: Record<AcademyInstructorTtsVoice, Aca
   Puck: {
     voice: "Puck",
     voiceFingerprint: academyVoiceFingerprint("Puck"),
-    name: "Aras",
-    title: "Kıdemli Uygulama Mimarı",
+    name: "Kaan",
+    title: "Kıdemli Otomasyon ve Chatbot Eğitmeni",
     gender: "erkek",
     tone: "pratik",
-    toneLabel: "Erkek / Pratik",
-    greetingLead: "Selam, ben Aras",
-    roleTitle: "Kıdemli Uygulama Mimarı",
-    bio: "Uygulama sistemleri uzmanıyım. Kıdemli Uygulama Mimarı olarak işi masada değil sahada çözüyorum.",
+    toneLabel: "Erkek / Teknik Otomasyon",
+    greetingLead: "Selam, ben Kaan",
+    roleTitle: "Kıdemli Otomasyon ve Chatbot Eğitmeni",
+    bio: "Kodsuz otomasyon ve diyalog sistemleri uzmanıyım. Kıdemli Otomasyon ve Chatbot Eğitmeni olarak Voiceflow, Botpress ve WhatsApp hattını sahada kuruyorum.",
   },
   Fenrir: {
     voice: "Fenrir",
@@ -328,6 +333,18 @@ export const ACADEMY_INSTRUCTORS_BY_VOICE: Record<AcademyInstructorTtsVoice, Aca
     roleTitle: "Kıdemli Dijital Beceriler Eğitmeni",
     bio: "Dijital beceriler uzmanıyım. Kıdemli Dijital Beceriler Eğitmeni olarak iş dünyası araçlarını tane tane kuruyorum.",
   },
+  Kore: {
+    voice: "Kore",
+    voiceFingerprint: academyVoiceFingerprint("Kore"),
+    name: "Aylin",
+    title: "Kıdemli E-Ticaret ve Yapay Zekâ Eğitmeni",
+    gender: "kadin",
+    tone: "enerjik",
+    toneLabel: "Kadın / Dinamik",
+    greetingLead: "Merhaba, ben Aylin",
+    roleTitle: "Kıdemli E-Ticaret ve Yapay Zekâ Eğitmeni",
+    bio: "E-ticaret ve pazaryeri uzmanıyım. Kıdemli E-Ticaret ve Yapay Zekâ Eğitmeni olarak satış vitrinini tane tane kuruyorum.",
+  },
 };
 
 /** SKU → ses. İsim sesten okunur; sluga ikinci isim yazılmaz. */
@@ -336,9 +353,9 @@ export const ACADEMY_INSTRUCTOR_VOICE_BY_SLUG: Record<
   AcademyInstructorTtsVoice
 > = {
   "01_office_ai": "Callirrhoe",
-  "02_ecommerce_ai": "Callirrhoe",
-  "03_social_media_ai": "Callirrhoe",
-  "04_chatbot_nocode": "Callirrhoe",
+  "02_ecommerce_ai": "Kore",
+  "03_social_media_ai": "Zephyr",
+  "04_chatbot_nocode": "Puck",
   "05_prompt_practice": "Callirrhoe",
   "06_n8n_automation": "Zephyr",
   "07_langgraph_agents": "Fenrir",
@@ -349,6 +366,34 @@ export const ACADEMY_INSTRUCTOR_VOICE_BY_SLUG: Record<
   "12_onprem_finetune": "Puck",
   "13_ai_governance": "Leda",
 };
+
+export function academyInstructorGenderToTtsVoiceGender(
+  gender: AcademyInstructorGender,
+): AcademyTtsVoiceGender {
+  return gender === "kadin" ? "female" : "male";
+}
+
+export const ACADEMY_DEFAULT_INSTRUCTOR_VOICE_BY_GENDER = {
+  kadin: "Callirrhoe",
+  erkek: "Fenrir",
+} as const satisfies Record<AcademyInstructorGender, AcademyInstructorTtsVoice>;
+
+/** Fırınlama varsayılanı — slug ses mührü bu seçimi ezer (PEDAGOJI.md §F.3). */
+export function academyDefaultInstructorVoiceForGender(
+  gender: AcademyInstructorGender,
+): AcademyInstructorTtsVoice {
+  return ACADEMY_DEFAULT_INSTRUCTOR_VOICE_BY_GENDER[gender];
+}
+
+export function academyBakeVoiceForGenderLabel(raw: string | null | undefined): AcademyInstructorTtsVoice | null {
+  const gender = academyTtsVoiceGenderFromLabel(raw);
+  if (!gender) {
+    return null;
+  }
+  return gender === "female"
+    ? ACADEMY_DEFAULT_INSTRUCTOR_VOICE_BY_GENDER.kadin
+    : ACADEMY_DEFAULT_INSTRUCTOR_VOICE_BY_GENDER.erkek;
+}
 
 export type AcademyCourseOpen = {
   field: string;

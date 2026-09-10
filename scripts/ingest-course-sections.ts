@@ -38,6 +38,7 @@ import {
   ACADEMY_COURSE_TITLES,
   type AcademyCourseTitleSlug,
 } from "@/lib/kernel/catalog-ids/course-slugs";
+import { academyTtsVoiceGenderFromLabel } from "@/lib/academy/production-standard";
 
 const ROOT = process.cwd();
 
@@ -470,6 +471,12 @@ function resolveModuleMeta(
   if (meta.targetAudience.length === 0) missing.push('targetAudience (--audience "a;b;c" veya frontmatter)');
   if (!meta.methodology) missing.push("methodology (--methodology veya frontmatter)");
   if (!meta.voiceStyle) missing.push("voiceConfig.style (--voice-style veya frontmatter)");
+  const voiceGender = academyTtsVoiceGenderFromLabel(meta.voiceGender);
+  if (!voiceGender) {
+    missing.push("voiceConfig.gender (female|male — fırınlama sesi)");
+  } else {
+    meta.voiceGender = voiceGender;
+  }
   if (missing.length > 0) {
     throw new Error(`Modül metası eksik:\n- ${missing.join("\n- ")}`);
   }

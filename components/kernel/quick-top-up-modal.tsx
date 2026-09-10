@@ -21,6 +21,8 @@ import {
   isQuickTopUpMinLift,
   suggestQuickTopUpAmountMinor,
 } from "@/lib/kernel/payments/quick-top-up";
+import { PaytrCheckoutIframe } from "@/components/kernel/paytr-checkout-iframe";
+import { readPaytrIframeSrcFromCheckout } from "@/lib/kernel/payments/paytr/iframe-embed";
 import { SecurePaymentMarks } from "@/components/legal/secure-payment-marks";
 import { CHECKOUT_LEGAL_CONSENT_VERSION } from "@/lib/kernel/legal/checkout-consent";
 import type { CheckoutBillingInfo } from "@/lib/kernel/identity/billing-info";
@@ -197,7 +199,7 @@ function QuickTopUpDialog({
         }),
       );
       const envelope = await readCitizenEnvelope(response);
-      const iframe = typeof envelope.body.iframeUrl === "string" ? envelope.body.iframeUrl : null;
+      const iframe = readPaytrIframeSrcFromCheckout(envelope.body);
       if (envelope.body.sandboxMode === true) {
         setSandboxLive(true);
       }
@@ -289,11 +291,10 @@ function QuickTopUpDialog({
         ) : null}
         {liveIframe ? (
           <>
-            <iframe
-              title={copy.iframeTitle}
+            <PaytrCheckoutIframe
               src={liveIframe}
-              data-paytr-iframe=""
-              className="mt-4 h-[min(24rem,55vh)] w-full rounded-xl border border-[var(--border)]"
+              title={copy.iframeTitle}
+              className="mt-4 min-h-[24rem] w-full rounded-xl border border-[var(--border)]"
             />
             <div className="mt-3">
               <SecurePaymentMarks compact />

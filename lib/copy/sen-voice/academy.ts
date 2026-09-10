@@ -3,7 +3,7 @@ export const ACADEMY_SEN = {
     eyebrow: "Akademi",
     title: "Akademi",
     description:
-      "Eğitimi incele, dersleri tamamla, testi geç. Amiral kursta mühürlü dersler sesli anlatımdır; Prompt Box ve özet videonun altında pratik araçtır. Diğer SKU'lar yazılı compact makaledir. Dersler ödeme sonrası açılır. Sertifika ve yetkinlik, test barajını (≥70) geçince Kariyer sayfana işlenir.",
+      "Eğitimi incele, dersleri tamamla, testi geç. Amiral kursta mühürlü dersler sesli anlatım + kayan metin (karaoke) taşır. Diğer dört eğitim yazılı compact ders + uygulamalı senaryodur. Vitrin beş yayında eğitimdir. Dersler ödeme sonrası açılır. Sertifika ve yetkinlik, test barajını (≥70) geçince Kariyer sayfana işlenir.",
     certificatesCta: "Sertifikalar",
     verifyCta: "Doğrula",
     live: (count: number) => (count > 0 ? "Eğitimler — ders, test ve yetkinlik" : ""),
@@ -40,13 +40,13 @@ export const ACADEMY_SEN = {
     badgeClosed: "Kayıt kapalı",
     /** WAV mührü olan SKU — katalog kartı sağ üst; mühürsüz ders karaoke basmaz. */
     audioBadge: "Sesli anlatım",
-    audioBadgeHint: "Mühürlü derslerde ses ve kayan metin; Prompt Box videonun altında",
+    audioBadgeHint: "Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika",
     /** Antre hero — mühürlü ses vaadi; karttaki kısa rozet değil. */
-    heroAudioBadge: "Sesli anlatım — amiral hat",
+    heroAudioBadge: "Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika",
     /** WAV mührü olmayan compact SKU — makale / pratik, ses vaadi yok. */
-    articleBadge: "Makale / Pratik",
-    articleBadgeHint: "Yazılı compact dersler ve pratik; mühürlü ses bu SKU'da yok",
-    heroArticleBadge: "Yazılı compact — makale ve pratik",
+    articleBadge: "Yazılı compact",
+    articleBadgeHint: "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+    heroArticleBadge: "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
     /** Antre hero kimlik şeridi — Temel Seviye · OFF-101. */
     heroLevelIdentity: (level?: string | null, moduleCode?: string | null) => {
       const raw = level?.trim() ?? "";
@@ -74,7 +74,7 @@ export const ACADEMY_SEN = {
         .join(" · "),
     infoBand: (count: number) =>
       count > 0
-        ? "Eğitimler · Amiral hat seslidir · Prompt Box videonun altındadır · Test barajı 70+ · Sertifika Kariyer sayfasına işlenir"
+        ? "Eğitimler · Amiral hat sesli + karaoke · Diğerleri yazılı compact · Test barajı 70+ · Sertifika Kariyer sayfasına işlenir"
         : "",
     seriesPath: "Seviye Yolu",
     boardTitle: "Eğitim kataloğu",
@@ -131,7 +131,8 @@ export const ACADEMY_SEN = {
       "Dersleri bitir, testi 70+ ile geç. Sertifika ve yetkinlik Kariyer sayfana işlenir. Satın alma tek başına sertifika basmaz. Gösterilen tutar KDV dahildir. Sınav, 6 yazılı compact dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
     pathTrainingCta: (priceLabel: string) => `Eğitimi Satın Al & Öğren (${priceLabel})`,
     pathTrainingCtaIdle: "Eğitimi Satın Al & Öğren",
-    pathTrainingBody: "Mühürlü dersler sesli anlatımdır; Prompt Box ve özet videonun altında pratik araçtır.",
+    pathTrainingBody:
+      "Amiral: sesli anlatım + kayan metin (karaoke) + sınav + mühürlü sertifika. Diğer vitrin eğitimleri yazılı compact ders + uygulamalı senaryo taşır.",
     pathExamCta: (priceLabel: string) => `Doğrudan teste gir ve yetkinlik kazan (${priceLabel})`,
     pathExamCtaIdle: "Doğrudan teste gir ve yetkinlik kazan",
     pathExamBody: "Dersleri atla; yalnız test. Belge 70+ puanla gelir.",

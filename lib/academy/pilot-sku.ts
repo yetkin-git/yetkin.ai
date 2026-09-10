@@ -4,7 +4,7 @@
  * ve 30 soruluk sınav havuzu olan alt kümeyi satar. Prisma hayalet SKU girmez.
  *
  * Yayın: Katman 1 compact makale (`01`–`05`). Ses mührü ders anahtarıyladır;
- * compact okuma kanıtı durur.
+ * compact okuma kanıtı durur. Mühürlü üretim bandı 6–8 ders (PEDAGOJI.md §F).
  */
 
 import type { AcademyCourseTitleSlug } from "@/lib/kernel/catalog-ids/course-slugs";
@@ -32,23 +32,73 @@ export const ACADEMY_DIALOGUE_SKU_SLUGS = [] as const satisfies readonly Academy
 
 /**
  * Diskteki ses mührü — kurs slug → mühürlü ders anahtarları.
- * Ofis AI: `01_office_ai-1` ve `01_office_ai-2`.
- * 3–6. dersler prodüksiyon kuyruğundadır; WAV mühürlenmeden karaoke basılmaz.
+ * Ofis AI: `01_office_ai-1` … `01_office_ai-6`.
+ * E-ticaret: `02_ecommerce_ai-1` … `02_ecommerce_ai-6`.
+ * Sosyal medya: `03_social_media_ai-1` … `03_social_media_ai-6`.
+ * Chatbot: `04_chatbot_nocode-1` … `04_chatbot_nocode-6`.
+ * Prompt: `05_prompt_practice-1` … `05_prompt_practice-6`.
  */
 export const ACADEMY_MEDIA_SEALED_AUDIO: Readonly<Record<string, readonly string[]>> = {
-  "01_office_ai": ["01_office_ai-1", "01_office_ai-2"],
+  "01_office_ai": [
+    "01_office_ai-1",
+    "01_office_ai-2",
+    "01_office_ai-3",
+    "01_office_ai-4",
+    "01_office_ai-5",
+    "01_office_ai-6",
+  ],
+  "02_ecommerce_ai": [
+    "02_ecommerce_ai-1",
+    "02_ecommerce_ai-2",
+    "02_ecommerce_ai-3",
+    "02_ecommerce_ai-4",
+    "02_ecommerce_ai-5",
+    "02_ecommerce_ai-6",
+  ],
+  "03_social_media_ai": [
+    "03_social_media_ai-1",
+    "03_social_media_ai-2",
+    "03_social_media_ai-3",
+    "03_social_media_ai-4",
+    "03_social_media_ai-5",
+    "03_social_media_ai-6",
+  ],
+  "04_chatbot_nocode": [
+    "04_chatbot_nocode-1",
+    "04_chatbot_nocode-2",
+    "04_chatbot_nocode-3",
+    "04_chatbot_nocode-4",
+    "04_chatbot_nocode-5",
+    "04_chatbot_nocode-6",
+  ],
+  "05_prompt_practice": [
+    "05_prompt_practice-1",
+    "05_prompt_practice-2",
+    "05_prompt_practice-3",
+    "05_prompt_practice-4",
+    "05_prompt_practice-5",
+    "05_prompt_practice-6",
+  ],
 };
 
 /**
  * Bake kuyruğu — konuşma metni + cue hazır; vatandaş karaoke yok.
- * SUPER ADMIN kota kalkınca operatör `--key=` ile tek ders mühürler.
+ * WAV yokken `ACADEMY_MEDIA_SEALED_AUDIO` anahtarı basılmaz.
  */
-export const ACADEMY_MEDIA_PRODUCTION_QUEUE: Readonly<Record<string, readonly string[]>> = {
-  "01_office_ai": ["01_office_ai-3", "01_office_ai-4", "01_office_ai-5", "01_office_ai-6"],
-};
+export const ACADEMY_MEDIA_PRODUCTION_QUEUE: Readonly<Record<string, readonly string[]>> = {};
 
-/** Sesi olan SKU listesi — en az bir mühürlü ders. */
-export const ACADEMY_MEDIA_SEALED_SKU_SLUGS = ["01_office_ai"] as const satisfies readonly string[];
+/**
+ * Bake CLI allowlist (`--slug=`). Mühürlü WAV şartı değildir;
+ * kuyruktaki SKU da dry-run / seal kapısından geçer.
+ * Vatandaş karaoke yalnız `ACADEMY_MEDIA_SEALED_AUDIO` ders anahtarıyladır.
+ */
+export const ACADEMY_MEDIA_SEALED_SKU_SLUGS = [
+  "01_office_ai",
+  "02_ecommerce_ai",
+  "03_social_media_ai",
+  "04_chatbot_nocode",
+  "05_prompt_practice",
+] as const satisfies readonly string[];
 
 export type AcademyPilotSkuSlug = never;
 export type AcademyGrowthSkuSlug = (typeof ACADEMY_GROWTH_SKU_SLUGS)[number];
@@ -61,7 +111,7 @@ type _VitrineSubsetOfCanon = [ExtraOnVitrine] extends [never] ? true : ExtraOnVi
 const _vitrineSubsetOfCanon: _VitrineSubsetOfCanon = true;
 void _vitrineSubsetOfCanon;
 
-/** Amiral Ders (eski pilot) — ayrı SKU yok. Compact Katman 1 kursları 6 makale. */
+/** Amiral Ders (eski pilot) — ayrı SKU yok. Compact Katman 1 kursları 6 makale (üretim bandı 6–8). */
 export const ACADEMY_PILOT_SKU_LESSON_COUNT = 0 as const;
 
 export const ACADEMY_GROWTH_LESSON_COUNT = 6 as const;

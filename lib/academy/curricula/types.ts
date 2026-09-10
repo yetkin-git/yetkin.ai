@@ -1,8 +1,12 @@
 /** Tohum ders taslağı — mühür, şema ve pratik `curriculum.ts` içinde bağlanır. */
 
 import type { AcademyExamQuestion } from "@/lib/academy/types";
+import type {
+  AcademyOptionalLevelPackage,
+  AcademyTtsVoiceGender,
+} from "@/lib/academy/production-standard";
 
-export type DialogueSpeakerId = "egitmen" | "maya" | "koray" | "ece" | "can" | "gozde" | "tarik";
+export type DialogueSpeakerId = "egitmen" | "maya" | "koray" | "ece" | "can" | "gozde" | "aylin" | "tarik";
 
 /** Tek eğitmen — ekranda rol adı «Eğitmen»; cast isimleri vitrin biyografisinde kalır. */
 export const DIALOGUE_SPEAKER_DISPLAY = {
@@ -12,6 +16,7 @@ export const DIALOGUE_SPEAKER_DISPLAY = {
   ece: "Eğitmen",
   can: "Eğitmen",
   gozde: "Eğitmen",
+  aylin: "Eğitmen",
   tarik: "Eğitmen",
 } as const satisfies Record<DialogueSpeakerId, string>;
 
@@ -20,7 +25,13 @@ export function academyDialogueSpeakerDisplayName(speaker: DialogueSpeakerId): s
 }
 
 export function isAcademyInstructorSpeaker(speaker: DialogueSpeakerId): boolean {
-  return speaker === "egitmen" || speaker === "maya" || speaker === "ece" || speaker === "gozde";
+  return (
+    speaker === "egitmen" ||
+    speaker === "maya" ||
+    speaker === "ece" ||
+    speaker === "gozde" ||
+    speaker === "aylin"
+  );
 }
 
 export function academyDialogueSpeakerIdFromDisplayName(name: string): DialogueSpeakerId | null {
@@ -34,6 +45,7 @@ export function academyDialogueSpeakerIdFromDisplayName(name: string): DialogueS
     Ece: "ece",
     Can: "can",
     Gözde: "gozde",
+    Aylin: "aylin",
     Tarık: "tarik",
   };
   return legacy[trimmed] ?? null;
@@ -49,11 +61,18 @@ export type DialogueTurn = {
   };
 };
 
-/** Tek eğitmen — 4 perde. Eski warmup/development anahtarları derlemede eşlenir. */
+/**
+ * Tek eğitmen — 4 perde. PEDAGOJI.md §F doygunluk akışına eşlenir.
+ * Eski warmup/development anahtarları derlemede eşlenir.
+ */
 export type AcademyFourActInstructor = {
+  /** 1. Isınma / İş Problemi (~1.5 dk) */
   intro: readonly DialogueTurn[];
+  /** 2. Birinci Senaryo / Temel Yöntem (~3.5 dk) */
   problem: readonly DialogueTurn[];
+  /** 3. İkinci Senaryo / İstisna veya Kritik Durum (~3.5 dk) */
   application: readonly DialogueTurn[];
+  /** 4. Özet & Saha Görevi (~1.5 dk) */
   summary: readonly DialogueTurn[];
 };
 
@@ -367,7 +386,7 @@ function collapseFiveActToInstructor(
   };
 }
 
-/** PEDAGOJI.md — tek eğitmen, öğrenciye doğrudan hitap, 4 perde. Metin birebir; şablon eklenmez. */
+/** PEDAGOJI.md §F — tek eğitmen, öğrenciye doğrudan hitap, 4 adımlı doygunluk. Metin birebir; şablon eklenmez. */
 export function academyInstructorLessonDraft(spec: {
   key: string;
   order: number;
@@ -438,10 +457,13 @@ export function academyFiveActLessonDraft(spec: {
   };
 }
 
+export type AcademyVoiceGender = AcademyTtsVoiceGender;
+
 export interface VoiceConfig {
   voice: string;
   style: string;
-  gender: string;
+  /** Fırınlama sesi — konunun tonuna göre kadın veya erkek TTS. */
+  gender: AcademyVoiceGender;
 }
 
 export interface Section {
@@ -464,6 +486,8 @@ export interface CurriculumModule {
   methodology: string;
   estimatedTotalMinutes: number;
   voiceConfig: VoiceConfig;
+  /** Çok teknik konularda isteğe bağlı bağımsız paket; zorunlu basamak değildir. */
+  levelPackage?: AcademyOptionalLevelPackage;
   sections: Section[];
   examQuestions?: readonly AcademyExamQuestion[];
   videoUrl?: string;

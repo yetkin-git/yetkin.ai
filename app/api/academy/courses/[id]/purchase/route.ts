@@ -7,6 +7,9 @@ import { requireRailV1IdempotencyKey } from "@/lib/kernel/http/v1-runtime-shield
 import { hashIdempotencyPayload, settleHttpIdempotency } from "@/lib/kernel/http/idempotency";
 import { createPrismaHttpIdempotencyStore } from "@/lib/kernel/http/prisma-idempotency-store";
 import { logEvent } from "@/lib/kernel/observability/log";
+import { inngest, INNGEST_EVENTS } from "@/lib/kernel/jobs/inngest";
+import { canSendInngestEvents } from "@/lib/kernel/jobs/inngest-guard";
+import type { AcademyReceiptPayload } from "@/lib/kernel/notice/academy-receipt-mail";
 import { purchaseAcademyCourse } from "@/lib/academy/engine";
 import { purchaseCourseInputSchema } from "@/lib/academy/schemas";
 import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
@@ -18,6 +21,7 @@ import {
 import {
   checkoutBillingIssueMessage,
   isCheckoutBillingIssue,
+  type CheckoutBillingInfo,
 } from "@/lib/kernel/identity/billing-info";
 import { persistCheckoutBilling } from "@/lib/kernel/identity/billing-info-write";
 import { createPrismaBillingInfoStore } from "@/lib/kernel/identity/prisma-billing-info-store";
@@ -27,6 +31,68 @@ export const auth = "session" as const;
 /** Dron /api/v1 kimliği — nativeStore forbidden; IAP defense-in-depth. */
 export const ACADEMY_PURCHASE_DRON_FORBIDDEN =
   "Akademi satın alma native istemciden kapalıdır.";
+
+function billingReceiptName(billing: CheckoutBillingInfo): string {
+  return billing.invoiceType === "individual" ? billing.fullName : billing.companyTitle;
+}
+
+/**
+ * E5 makbuz kuyruğu — settlement sonrası, yanıt öncesi. Asla throw etmez:
+ * Inngest varsa event kuyruğa atılır (SMTP Inngest fonksiyonunda konuşur);
+ * Inngest yoksa (yalnız geliştirme; üretim readiness Inngest ister) doğrudan
+ * fail-safe gönderim denenir. applied=false replay ikinci makbuz doğurmaz.
+ */
+async function queueAcademyReceiptMail(payload: AcademyReceiptPayload): Promise<void> {
+  try {
+    if (canSendInngestEvents()) {
+      await inngest.send({
+        name: INNGEST_EVENTS.ACADEMY_RECEIPT_REQUESTED,
+        data: { ...payload },
+      });
+      logEvent({
+        level: "info",
+        event: "academy.receipt.queued",
+        requestId: payload.requestId,
+        userId: payload.userId,
+        amountMinor: payload.amountMinor,
+        applied: true,
+      });
+      return;
+    }
+    logEvent({
+      level: "info",
+      event: "academy.receipt.queue_skipped",
+      requestId: payload.requestId,
+      userId: payload.userId,
+      reason: "inngest_unconfigured",
+      applied: true,
+    });
+  } catch (error) {
+    logEvent({
+      level: "warn",
+      event: "academy.receipt.queue_failed",
+      requestId: payload.requestId,
+      userId: payload.userId,
+      errorName: error instanceof Error ? error.name : "unknown",
+      applied: true,
+    });
+  }
+  try {
+    const { deliverAcademyReceiptMail } = await import(
+      "@/lib/kernel/notice/academy-receipt-mail"
+    );
+    await deliverAcademyReceiptMail(payload);
+  } catch (error) {
+    logEvent({
+      level: "warn",
+      event: "academy.receipt.direct_failed",
+      requestId: payload.requestId,
+      userId: payload.userId,
+      errorName: error instanceof Error ? error.name : "unknown",
+      applied: true,
+    });
+  }
+}
 
 export async function POST(
   request: Request,
@@ -97,6 +163,19 @@ export async function POST(
           purpose: parsed.data.path ?? "training",
           consentVersion: parsed.data.consentVersion,
         });
+        if (result.applied) {
+          await queueAcademyReceiptMail({
+            purchaseId: result.purchase.id,
+            userId: user.id,
+            courseTitle: result.course.title,
+            courseSlug: result.course.slug,
+            amountMinor: result.purchase.amountMinor,
+            currencyCode: result.purchase.currencyCode,
+            settledAt: result.purchase.settledAt.toISOString(),
+            receiptName: billingReceiptName(parsed.data.billing),
+            requestId,
+          });
+        }
         return {
           status: 200,
           body: {

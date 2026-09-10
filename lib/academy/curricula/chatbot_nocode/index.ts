@@ -20,7 +20,7 @@ export const chatbotNocodeSections: Section[] = [
 export const chatbotNocodeMasteryModule: CurriculumModule = {
   moduleCode: "CURR-CHATBOT-NOCODE-104",
   title: "Müşteri Hizmetleri ve Satış İçin Kodsuz WhatsApp / Web Chatbot Kurulumu (Voiceflow & Botpress)",
-  instructor: "Gözde (Kıdemli Yapay Zekâ ve Otomasyon Eğitmeni)",
+  instructor: "Kaan (Kıdemli Otomasyon ve Chatbot Eğitmeni)",
   category: "KATMAN 1.4 — Dijital Asistanlık ve Müşteri İletişim Otomasyonu (Pazarın En Çok Talep Ettiği Gelir Kapısı)",
   targetAudience: [
     "Hiç kodlama bilmeyen KOBİ sahipleri",
@@ -32,9 +32,9 @@ export const chatbotNocodeMasteryModule: CurriculumModule = {
   methodology: "Canlı diyalog ve sen dili, adım adım görsel akış (Visual Flow) tasarımı, sıfır kodlama (No-code), doğrudan randevu, kurşun toplama (Lead Generation) ve satış kapatma odaklı uygulamalar",
   estimatedTotalMinutes: 53,
   voiceConfig: {
-    voice: "Callirrhoe",
-    style: "Canlı diyalog ve sen dili, adım adım görsel akış rehberliği",
-    gender: "female",
+    voice: "Puck",
+    style: "Teknik, net, otomasyon odaklı erkek sesi; adım adım görsel akış rehberliği",
+    gender: "male",
   },
   sections: chatbotNocodeSections,
 };

@@ -23,6 +23,7 @@ import {
   assertPaytrLiveUserIp,
   assertPaytrProductionSafety,
   PaytrProductionSafetyError,
+  resolvePaytrCheckoutUserIp,
   resolvePaytrMerchantAppOrigin,
 } from "@/lib/kernel/payments/paytr/checkout";
 import {
@@ -325,7 +326,21 @@ describe("PayTR canlı kalkan mührü", () => {
     expect(() => assertPaytrLiveUserIp("2001:db8::1", "shield")).toThrow(/ipv6/);
     vi.stubEnv("NEXT_PUBLIC_APP_URL", "http://localhost:3000");
     expect(() => resolvePaytrMerchantAppOrigin()).toThrow(/HTTPS/);
+    vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://yetkin.ai/");
+    expect(resolvePaytrMerchantAppOrigin()).toBe("https://yetkin.ai");
     vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://rail.example");
     expect(resolvePaytrMerchantAppOrigin()).toBe("https://rail.example");
+  });
+
+  it("canlı get-token user_ip XFF istemci IPv4; 127.0.0.1 basmaz", () => {
+    const dual = new Headers({ "x-forwarded-for": "85.105.141.10, 104.16.1.1" });
+    expect(
+      resolvePaytrCheckoutUserIp(dual, { PAYTR_SANDBOX: "0", TRUSTED_PROXY_HOPS: "1" }),
+    ).toBe("85.105.141.10");
+    expect(
+      resolvePaytrCheckoutUserIp(dual, { PAYTR_SANDBOX: "1", TRUSTED_PROXY_HOPS: "1" }),
+    ).toBe("104.16.1.1");
+    expect(resolvePaytrCheckoutUserIp(new Headers(), { PAYTR_SANDBOX: "0" })).toBe("unknown");
+    expect(resolvePaytrCheckoutUserIp(new Headers(), { PAYTR_SANDBOX: "1" })).toBe("127.0.0.1");
   });
 });

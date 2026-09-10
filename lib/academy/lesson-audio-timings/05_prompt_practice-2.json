@@ -1,0 +1,116 @@
+{
+  "lessonKey": "05_prompt_practice-2",
+  "pauseSec": 0.4,
+  "durationSec": 425.2,
+  "cacheV": 425200,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 37.12,
+      "text": "Tekrar merhaba. Ben Gözde. İlk bölümde beş taşı oturttuk. Rol. Görev. Bağlam. Kısıt. Çıktı. Bazen yetmez. Şirketin kendi rapor dili vardır. Müşteri mesajı kargo mu, kalite mi, iade mi diye ayrılmalıdır. Karmaşık kâr hesabında model acele eder. Toplama hatası seni rezil eder. Bugün iki usta tekniği cebine girer. Fyu şat örnekleme. Çeyn ov tot, yani adım adım düşün. Kahvenden bir yudum al. Derin bir nefes al. Çırağı usta yapıyoruz. Başlıyoruz."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 37.52,
+      "end": 68.08,
+      "text": "Kapılar aynı. Çetcipiti için çetcipiti nokta kom. Klod için klod nokta ey ay. Perpleksiti için perpleksiti nokta ey ay. Ücretsiz kotayla ilk örneği görmen yeter. Kapı kilitliyse bant durur. Bugün bir hesap. Yarın ölçek. Link ezberi yok. Kapı adı yeter. Sen yönetici kal. Model stajyer. Örnek verirsen kalıbı kopyalar. Adım istersen acele etmez."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 68.48,
+      "end": 98.6,
+      "text": "Şirket dili ezberletilmez. Gösterilir. Sıfır örnekte model genel kültürle tahmin eder. Tek örnekte yön bulur. Üç örnekte milimetrik kopyalar. Kelime uzunluğu. Noktalama. Ciddiyet. Yanıt şablonu. Yapay zekâ kalıp şampiyonudur. Sen üç tamamlanmış satır verirsen laf kalabalığı biter. Sıfır kod. Saniyeler. Şirketine özel sınıflandırma motoru."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 99,
+      "end": 131,
+      "text": "Soyut tanımları bir kenara bırakıyoruz; doğrudan gelen kutusundaki gerçek mesaja bakıyoruz. Ziro şat sıfır örnektir. Bu yorumun duygusunu analiz et dersin. Model karışık der. Basit işte yeter. Karmaşıkta format kaçırır. Van şat tek örnektir. Bak, böyle girdi, böyle çıktı. Fyu şat iki üç dört örnektir. Neden birkaç? Çünkü model taklit dünya şampiyonudur. Üç satır görünce şablonu kilitler."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 131.4,
+      "end": 181.28,
+      "text": "E-ticaret vakası. Vatsap mesajı yağıyor. Operasyona dağıtacaksın. İstem: sen sınıflandırma uzmanısın. Örnek bir. Ayakkabı kırk iki ne zaman stok. Kategori stok. Aciliyet düşük. Satış. Örnek iki. Sipariş gelmedi, kurye açmıyor. Kargo gecikmesi. Aciliyet yüksek. Lojistik. Örnek üç. Kutudan kırık vazo. Hasarlı iade. Kritik. Müşteri deneyimi. Şimdi yeni mesaj. Gömlek rengi fotoğraftan farklı. Değişim yapabilir miyim. Model laf etmez. Kategori değişim. Aciliyet orta. İade ekibi. Güç budur."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 181.68,
+      "end": 213.28,
+      "text": "İkinci sihir. Çeyn ov tot. Model insan gibi soluklanmaz. Cümlenin sonunu dizmeye hemen başlar. Ortada mantık kırılır. Google araştırmacıları kanıtladı. Cevabı vermeden önce adım adım düşün. Başarı ikiye katlanır. Neden? Model nihai sonuca atlamaz. Birinci adımı yazar. Okur. İkinciyi hesaplar. Üçüncüyü tartar. Kendine düşünce izi açar. İşte sıfır hata buradan gelir."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 213.68,
+      "end": 254.68,
+      "text": "Canlı hesap. Depoda yüz yirmi saat. Tanesi beş yüz. İlk hafta üçte biri yüzde kırk kâr. İkinci hafta kalanın yarısı yüzde yirmi. Kalan maliyetine. Doğrudan sorarsan model uydurur. Başına koy: sen mali müşavirsin. Sonuca atlama. Her basamağı göster. Model disiplinle yürür. Kırk saat yedi yüzden sekiz bin kâr. Kırk saat altı yüzden dört bin. Kırk saat sıfır. Toplam on iki bin. Adımlar hafızada kaldı. Sözleşme, maliyet, strateji. Her zaman adım adım gerekçelendir."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 255.08,
+      "end": 292.12,
+      "text": "Kritik durum burada başlar. Tek rol yetmez sandığın an. Büyük kararda tek ağız kör noktayı kaçırır. Finansçı maliyeti görür. Pazarlamacı büyümeyi. Operasyon lojistiği. Masanda kurul yoksa modele sanal panel kur. Üç uzman. CFO şüpheci. CMO hevesli. COO gerçekçi. Her biri sırayla eleştirsin. Birbirine cevap versin. Moderasyon sende kalsın. En sonda üç kritik risk. Bu, elli bin liralık danışmanlık netliği verir. Kör nokta masada görünür."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 292.52,
+      "end": 325.72,
+      "text": "Aynı kalkanı erişimde kuruyorsun. çetcipiti nokta kom örnekleme ve yazı. klod nokta ey ay uzun zincir ve dikkat. perpleksiti nokta ey ay kaynaklı doğrulama. Ücretli plan şart değil. Ücretsiz kotayla ilk Fyu şat'u görmen yeter. Kapı kilitliyse bant çalışmaz. Bugün bir hesap. Yarın ölçek. Panik yok. Kapıyı aç. İlk çıktıyı gör. Sonra panele geç. Link ezberi yok. Kapı adı yeter."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 326.12,
+      "end": 360.32,
+      "text": "Tuzaklar. Örneksiz karmaşık sınıflandırma. Format kaçar. Adım istemeden matematik. Acele hata. Paneli tek ağız sanmak. Çok ses laboratuvarıdır, dalkavuk değil. Kişisel veri yine maske. Gerçek müşteri adı açık modele yapışmaz. Onay sende kalır. Uydurma basamağı silersin. Şiir kalan hesap çöptür. Fyu şat kalıp. Çeyn ov tot iz. Panel kör nokta. Bu omurga cebine girer."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 360.72,
+      "end": 391.16,
+      "text": "Üç anahtarı cebine koy. Bir: Ziro şat tahmin. Van şat yön. Fyu şat kilit. İki: adım adım düşün. Acele hata kesilir. Üç: uzman paneli. Kör nokta masada. Kapı adları aynı. çetcipiti nokta kom. klod nokta ey ay. perpleksiti nokta ey ay. Yarın o kapılardan gireceksin. Örneksiz karmaşık işi artık gönderme. Adımsız hesabı artık sorma."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 391.56,
+      "end": 425.2,
+      "text": "Şimdi iki dakikalık kanıt. İşindeki gerçek bir hesabı modele ver. Başına adım adım düşün, her basamağı göster kuralını ekle. Son gelen üç müşteri mesajını iki örnekli Fyu şat kalıbıyla sınıflandır. Çeyn ov tot'un ilk denemede hatayı nasıl kestiğini kendi ekranında görmeden üçüncü bölüme geçme. Orada e-posta ve resmi yazışmayı diplomasiye çevireceğiz. Kahveni tazele. Bugün usta tekniğin ilk dilimini aldın. Yarın aynı stajyer masanda olacak. Başladık."
+    }
+  ]
+}

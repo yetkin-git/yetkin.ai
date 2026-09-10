@@ -37,8 +37,13 @@ describe("Antre hero Eğitimi Satın Al — PayTR iFrame", () => {
     expect(modal).toContain("presetIframeUrl");
     expect(modal).toContain("presetBilling");
     expect(modal).toContain("tokenPending");
-    expect(modal).toContain("data-paytr-iframe");
+    expect(modal).toContain("PaytrCheckoutIframe");
     expect(modal).toContain("data-paytr-iframe-only");
+    const iframe = readSrc("components/kernel/paytr-checkout-iframe.tsx");
+    expect(iframe).toContain("data-paytr-iframe");
+    expect(iframe).toContain("PAYTR_IFRAME_ALLOW");
+    expect(iframe).toContain("PAYTR_IFRAME_RESIZER_SRC");
+    expect(iframe).toContain("allow={PAYTR_IFRAME_ALLOW}");
     expect(modal).toContain("console.error");
     expect(modal).toContain("iframeFailTitle");
     expect(modal).not.toContain("CheckoutBillingFields");

@@ -41,12 +41,6 @@ import {
   RAIL_V1_IDEMPOTENCY_REQUIRED,
   RAIL_V1_LISTING_VISA_DENIED,
   RAIL_V1_PUBLISHED_FIELD_PATHS,
-  RAIL_V1_ACCEPT_FORBIDDEN,
-  RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE,
-  RAIL_V1_OWNER_BIDS_FORBIDDEN,
-  RAIL_V1_OWNER_BIDS_NOT_FOUND,
-  RAIL_V1_RELEASE_FORBIDDEN,
-  RAIL_V1_RELEASE_NOT_FUNDED,
   isRailV1HopForbiddenOnDron,
   railV1BidRequestSchema,
   railV1BidSchema,
@@ -186,7 +180,8 @@ describe("/api/v1 sözleşme mührü", () => {
       { jobs: [{ id: "fj_1" }] },
       200,
       REQUEST_ID,
-      v1Request("/api/v1/freelancer/jobs"),
+      // PayTR B2C: freelancer hop'u sicilde yok; şema uyuşmazlığı canlı hop'ta denenir.
+      v1Request("/api/v1/dashboard/wallet-strip"),
     );
     expect(stubJobs.status).toBe(500);
 
@@ -209,7 +204,18 @@ describe("/api/v1 sözleşme mührü", () => {
   });
 
   it("yayınlanmış data alanları sessizce düşmez; hop sicili ROUTE_AUTH_MAP ve handler ile örtüşür", () => {
-    expect(RAIL_V1_HOPS).toHaveLength(16);
+    // PayTR B2C (E1): 8 freelancer hop sicilden düştü; kalan 8 hop B2C vitrinidir.
+    expect(RAIL_V1_HOPS).toHaveLength(8);
+    expect(RAIL_V1_HOPS.map((hop) => hop.id)).toEqual([
+      "health",
+      "academy-certificate",
+      "academy-pulse",
+      "academy-purchase",
+      "auth-session",
+      "wallet-strip",
+      "career-pulse",
+      "career-visas",
+    ]);
     expect(RAIL_V1_PUBLISHED_FIELD_PATHS.length).toBeGreaterThan(40);
     expect(new Set(RAIL_V1_PUBLISHED_FIELD_PATHS).size).toBe(RAIL_V1_PUBLISHED_FIELD_PATHS.length);
 
@@ -379,12 +385,25 @@ describe("/api/v1 sözleşme mührü", () => {
     expect(failSchema.additionalProperties).toBe(false);
     expect(failSchema.required).toEqual([...RAIL_V1_ENVELOPE_KEYS]);
 
-    const bidOp = document.paths["/api/v1/freelancer/jobs/{id}/bids"]?.post as {
+    // PayTR B2C: freelancer path'leri OpenAPI'de yok, Marketplace tag'i yok.
+    expect(Object.keys(document.paths)).toHaveLength(8);
+    expect(
+      Object.keys(document.paths).filter(
+        (path) => path.includes("/freelancer/") || path.includes("/client/"),
+      ),
+    ).toEqual([]);
+    expect(document.paths["/api/v1/freelancer/jobs/{id}/bids"]).toBeUndefined();
+    expect(document.paths["/api/v1/freelancer/contracts"]).toBeUndefined();
+    expect(document.paths["/api/v1/client/jobs/{id}/bids"]).toBeUndefined();
+    expect(document.tags.map((tag) => tag.name)).toEqual(["Kernel", "Proof", "Payments"]);
+    expect(JSON.stringify(document.paths)).not.toContain("Marketplace");
+
+    const purchaseOp = document.paths["/api/v1/academy/courses/{id}/purchase"]?.post as {
       "x-rail-idempotency"?: boolean;
       "x-rail-cookie-auth"?: boolean;
     };
-    expect(bidOp["x-rail-idempotency"]).toBe(true);
-    expect(bidOp["x-rail-cookie-auth"]).toBe(false);
+    expect(purchaseOp["x-rail-idempotency"]).toBe(true);
+    expect(purchaseOp["x-rail-cookie-auth"]).toBe(false);
 
     const certOp = document.paths["/api/v1/academy/certificates/{hash}"]?.get as {
       security?: unknown[];
@@ -421,91 +440,24 @@ describe("/api/v1 sözleşme mührü", () => {
     expect(document.components.schemas).toHaveProperty("FreelancerContractView");
     expect(document.components.schemas).toHaveProperty("RailV1DeliveryMessage");
     expect(document.components.schemas).toHaveProperty("RailV1DeliveryRequest");
-    const contractsOp = document.paths["/api/v1/freelancer/contracts"]?.get as {
-      security?: unknown[];
-      "x-rail-idempotency"?: boolean;
-      "x-rail-cookie-auth"?: boolean;
-      description?: string;
-    };
-    expect(contractsOp.security).toEqual([{ [RAIL_V1_BEARER_SCHEME]: [] }]);
-    expect(contractsOp["x-rail-idempotency"]).toBe(false);
-    expect(contractsOp["x-rail-cookie-auth"]).toBe(false);
-    expect(contractsOp.description).toContain("deliveredAt");
-    const deliveryOp = document.paths["/api/v1/freelancer/contracts/{id}/messages"]?.post as {
-      security?: unknown[];
-      "x-rail-idempotency"?: boolean;
-      "x-rail-cookie-auth"?: boolean;
-      description?: string;
-      responses?: Record<string, unknown>;
-    };
-    expect(deliveryOp.security).toEqual([{ [RAIL_V1_BEARER_SCHEME]: [] }]);
-    expect(deliveryOp["x-rail-idempotency"]).toBe(true);
-    expect(deliveryOp["x-rail-cookie-auth"]).toBe(false);
-    expect(deliveryOp.description).toContain("kind=DELIVERY");
-    expect(deliveryOp.responses).toHaveProperty("403");
-    expect(deliveryOp.responses).toHaveProperty("409");
+    // DTO aynası kanonik handler + donuk Dron için durur; hop kaydı yoktur.
     expect(document.components.schemas).toHaveProperty("RailV1ReleaseData");
-    const releaseHop = RAIL_V1_HOPS.find((hop) => hop.id === "freelancer-release");
-    expect(releaseHop?.v1Auth).toBe("bearer");
-    expect(releaseHop?.cookieAuth).toBe(false);
-    expect(releaseHop?.idempotency).toBe(true);
-    expect(releaseHop?.errors).toContain(RAIL_V1_RELEASE_FORBIDDEN);
-    expect(releaseHop?.errors).toContain(RAIL_V1_RELEASE_NOT_FUNDED);
-    const releaseOp = document.paths["/api/v1/freelancer/contracts/{id}/release"]?.post as {
-      security?: unknown[];
-      "x-rail-idempotency"?: boolean;
-      "x-rail-cookie-auth"?: boolean;
-      description?: string;
-      responses?: Record<string, unknown>;
-    };
-    expect(releaseOp.security).toEqual([{ [RAIL_V1_BEARER_SCHEME]: [] }]);
-    expect(releaseOp["x-rail-idempotency"]).toBe(true);
-    expect(releaseOp["x-rail-cookie-auth"]).toBe(false);
-    expect(releaseOp.description).toContain("clientId");
-    expect(releaseOp.responses).toHaveProperty("403");
-    expect(releaseOp.responses).toHaveProperty("409");
     expect(document.components.schemas).toHaveProperty("RailV1AcceptData");
     expect(document.components.schemas).toHaveProperty("RailV1AcceptRequest");
-    const acceptHop = RAIL_V1_HOPS.find((hop) => hop.id === "freelancer-accept");
-    expect(acceptHop?.v1Auth).toBe("bearer");
-    expect(acceptHop?.cookieAuth).toBe(false);
-    expect(acceptHop?.idempotency).toBe(true);
-    expect(acceptHop?.errors).toContain(RAIL_V1_ACCEPT_FORBIDDEN);
-    expect(acceptHop?.errors).toContain(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE);
-    const acceptOp = document.paths["/api/v1/freelancer/jobs/{id}/accept"]?.post as {
-      security?: unknown[];
-      "x-rail-idempotency"?: boolean;
-      "x-rail-cookie-auth"?: boolean;
-      description?: string;
-      responses?: Record<string, unknown>;
-    };
-    expect(acceptOp.security).toEqual([{ [RAIL_V1_BEARER_SCHEME]: [] }]);
-    expect(acceptOp["x-rail-idempotency"]).toBe(true);
-    expect(acceptOp["x-rail-cookie-auth"]).toBe(false);
-    expect(acceptOp.description).toContain("DEBIT yazılmaz");
-    expect(acceptOp.responses).toHaveProperty("403");
-    expect(acceptOp.responses).toHaveProperty("503");
     expect(document.components.schemas).toHaveProperty("ClientJobBidsView");
     expect(document.components.schemas).toHaveProperty("ClientJobBidView");
-    const ownerHop = RAIL_V1_HOPS.find((hop) => hop.id === "client-job-bids");
-    expect(ownerHop?.v1Auth).toBe("bearer");
-    expect(ownerHop?.cookieAuth).toBe(false);
-    expect(ownerHop?.idempotency).toBe(false);
-    expect(ownerHop?.errors).toContain(RAIL_V1_OWNER_BIDS_FORBIDDEN);
-    expect(ownerHop?.errors).toContain(RAIL_V1_OWNER_BIDS_NOT_FOUND);
-    const ownerOp = document.paths["/api/v1/client/jobs/{id}/bids"]?.get as {
-      security?: unknown[];
-      "x-rail-idempotency"?: boolean;
-      "x-rail-cookie-auth"?: boolean;
-      description?: string;
-      responses?: Record<string, unknown>;
-    };
-    expect(ownerOp.security).toEqual([{ [RAIL_V1_BEARER_SCHEME]: [] }]);
-    expect(ownerOp["x-rail-idempotency"]).toBe(false);
-    expect(ownerOp["x-rail-cookie-auth"]).toBe(false);
-    expect(ownerOp.description).toContain("bidderId");
-    expect(ownerOp.responses).toHaveProperty("403");
-    expect(ownerOp.responses).toHaveProperty("404");
+    for (const hopId of [
+      "freelancer-jobs",
+      "client-job-bids",
+      "freelancer-bid",
+      "freelancer-accept",
+      "freelancer-contracts",
+      "freelancer-delivery",
+      "freelancer-release",
+      "freelancer-refund",
+    ]) {
+      expect(RAIL_V1_HOPS.some((hop) => hop.id === hopId), hopId).toBe(false);
+    }
   });
 
   it("yetkisiz çerez v1 session hop'una sızmaz; CORS kimlik bilgisi yansımaz", async () => {
@@ -645,12 +597,8 @@ describe("/api/v1 sözleşme mührü", () => {
     expect(stripHop!.dataSchema.safeParse(dropped.data).success).toBe(false);
     expect(() => parseRailV1HopOkBody(stripHop!, dropped)).toThrow();
 
-    const contractsHop = RAIL_V1_HOPS.find((hop) => hop.id === "freelancer-contracts");
-    expect(contractsHop).toBeTruthy();
-    expect(contractsHop?.v1Auth).toBe("bearer");
-    expect(contractsHop?.cookieAuth).toBe(false);
-    expect(contractsHop?.idempotency).toBe(false);
-    expect(contractsHop?.publishedDataPaths).toContain("contracts[].deliveredAt");
+    // PayTR B2C: freelancer-contracts hop'u sicilde yok; DTO kanonik handler'da durur.
+    expect(RAIL_V1_HOPS.some((hop) => hop.id === "freelancer-contracts")).toBe(false);
     const contractView = {
       id: "fc_lab_1",
       jobId: "fj_lab_1",
@@ -671,8 +619,7 @@ describe("/api/v1 sözleşme mührü", () => {
       updatedAt: "2026-08-18T00:00:00.000Z",
       deliveredAt: null,
     };
-    const contractsOk = buildV1OkBody({ contracts: [contractView] }, REQUEST_ID);
-    expect(parseRailV1HopOkBody(contractsHop!, contractsOk)).toEqual(contractsOk);
+    expect(railV1FreelancerContractViewSchema.parse(contractView)).toEqual(contractView);
     expect(
       railV1FreelancerContractViewSchema.safeParse({
         ...contractView,
@@ -687,24 +634,15 @@ describe("/api/v1 sözleşme mührü", () => {
       }).success,
     ).toBe(false);
 
-    const deliveryHop = RAIL_V1_HOPS.find((hop) => hop.id === "freelancer-delivery");
-    expect(deliveryHop).toBeTruthy();
-    expect(deliveryHop?.v1Auth).toBe("bearer");
-    expect(deliveryHop?.cookieAuth).toBe(false);
-    expect(deliveryHop?.idempotency).toBe(true);
-    expect(deliveryHop?.successStatus).toBe(201);
-    const deliveryOk = buildV1OkBody(
-      {
-        message: {
-          id: "fm_lab_1",
-          contractId: "fc_lab_1",
-          kind: "DELIVERY" as const,
-          createdAt: "2026-08-18T12:00:00.000Z",
-        },
-      },
-      REQUEST_ID,
-    );
-    expect(parseRailV1HopOkBody(deliveryHop!, deliveryOk)).toEqual(deliveryOk);
+    // PayTR B2C: freelancer-delivery hop'u sicilde yok; DTO kanonik handler'da durur.
+    expect(RAIL_V1_HOPS.some((hop) => hop.id === "freelancer-delivery")).toBe(false);
+    const deliveryMessage = {
+      id: "fm_lab_1",
+      contractId: "fc_lab_1",
+      kind: "DELIVERY" as const,
+      createdAt: "2026-08-18T12:00:00.000Z",
+    };
+    expect(railV1DeliveryMessageSchema.parse(deliveryMessage)).toEqual(deliveryMessage);
     expect(
       railV1DeliveryMessageSchema.safeParse({
         id: "fm_lab_1",
@@ -718,25 +656,19 @@ describe("/api/v1 sözleşme mührü", () => {
       false,
     );
 
-    const ownerHop = RAIL_V1_HOPS.find((hop) => hop.id === "client-job-bids");
-    expect(ownerHop).toBeTruthy();
-    expect(ownerHop?.v1Auth).toBe("bearer");
-    expect(ownerHop?.cookieAuth).toBe(false);
-    expect(ownerHop?.idempotency).toBe(false);
-    const ownerOk = buildV1OkBody(
-      {
-        bids: [
-          {
-            bidId: "fb_lab_1",
-            amountMinor: 10_000,
-            coverNote: "Teslim 5 gün.",
-            createdAt: "2026-08-18T00:00:00.000Z",
-          },
-        ],
-      },
-      REQUEST_ID,
-    );
-    expect(parseRailV1HopOkBody(ownerHop!, ownerOk)).toEqual(ownerOk);
+    // PayTR B2C: client-job-bids hop'u sicilde yok; DTO kanonik handler'da durur.
+    expect(RAIL_V1_HOPS.some((hop) => hop.id === "client-job-bids")).toBe(false);
+    const ownerBids = {
+      bids: [
+        {
+          bidId: "fb_lab_1",
+          amountMinor: 10_000,
+          coverNote: "Teslim 5 gün.",
+          createdAt: "2026-08-18T00:00:00.000Z",
+        },
+      ],
+    };
+    expect(railV1ClientJobBidsViewSchema.parse(ownerBids)).toEqual(ownerBids);
     expect(railV1ClientJobBidSchema.safeParse({
         bidId: "fb_lab_1",
         amountMinor: 10_000,
@@ -747,6 +679,7 @@ describe("/api/v1 sözleşme mührü", () => {
     ).toBe(false);
     const hopPaths: readonly string[] = RAIL_V1_HOPS.map((hop) => hop.v1PathTemplate);
     expect(hopPaths).not.toContain("/api/v1/freelancer/jobs/{id}");
+    expect(hopPaths.filter((path) => path.includes("/freelancer/") || path.includes("/client/"))).toEqual([]);
 
     const fail = buildV1FailBody(RAIL_VERSION_CLIENT_STALE, REQUEST_ID);
     expect(parseRailV1Envelope(fail)).toEqual(fail);

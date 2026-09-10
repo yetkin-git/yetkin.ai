@@ -9,6 +9,7 @@ import {
   requestHasPaytrOfficialNotificationIp,
   resolvePaytrWebhookIpAllowlist,
 } from "@/lib/kernel/payments/paytr/webhook";
+import { isPaytrPanelWebhookPath } from "@/lib/kernel/payments/paytr/callback-guard";
 import { paytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import { isPaytrProductionSafetyError } from "@/lib/kernel/payments/paytr/checkout";
 import { createPrismaClearingPorts, createPrismaPaymentOrderStore } from "@/lib/kernel/payments/prisma-order-store";
@@ -37,7 +38,7 @@ function paytrOk(requestId: string) {
   });
 }
 
-/** PayTR Destek host'undan URL testi / bozuk gövde — CREDIT yok, panel 400 görmesin. */
+/** PayTR Destek host'u veya panel alias test/ping — CREDIT yok, HTTP 400 yok. */
 function paytrOfficialIpAck(
   requestId: string,
   route: string,
@@ -53,6 +54,11 @@ function paytrOfficialIpAck(
     ...extra,
   });
   return paytrOk(requestId);
+}
+
+/** Panel canlı onay + resmi IP: eksik parametre / geçersiz hash 400 basmaz. */
+function shouldAckUnverifiedPaytrNotification(request: Request, route: string): boolean {
+  return requestHasPaytrOfficialNotificationIp(request) || isPaytrPanelWebhookPath(route);
 }
 
 function notificationRoute(request: Request): string {
@@ -109,7 +115,6 @@ export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
   const payload = await readPaytrWebhookPayload(request);
   const route = notificationRoute(request);
-  const fromOfficialPaytr = requestHasPaytrOfficialNotificationIp(request);
   const sourceIp = readPaytrWebhookRequestIp(request);
 
   if (isPaytrNotificationProbe(payload)) {
@@ -124,15 +129,26 @@ export async function POST(request: Request) {
   }
 
   const allowlist = resolvePaytrWebhookIpAllowlist();
+  const panelNotification = isPaytrPanelWebhookPath(route);
   if (!isPaytrWebhookRequestIpAllowed(request, allowlist)) {
-    logEvent({
-      level: "warn",
-      event: "paytr.webhook.rejected",
-      requestId,
-      reason: "ip_not_allowed",
-      route,
-    });
-    return paytrReject(requestId, "ip_not_allowed", 403);
+    if (panelNotification) {
+      logEvent({
+        level: "warn",
+        event: "paytr.webhook.ip_bypassed",
+        requestId,
+        reason: "ip_not_allowed",
+        route,
+      });
+    } else {
+      logEvent({
+        level: "warn",
+        event: "paytr.webhook.rejected",
+        requestId,
+        reason: "ip_not_allowed",
+        route,
+      });
+      return paytrReject(requestId, "ip_not_allowed", 403);
+    }
   }
 
   let verified: ReturnType<typeof paytrPaymentProvider.verifyWebhook>;
@@ -140,7 +156,7 @@ export async function POST(request: Request) {
     verified = paytrPaymentProvider.verifyWebhook(payload);
   } catch (error) {
     if (isPaytrProductionSafetyError(error)) {
-      if (fromOfficialPaytr) {
+      if (shouldAckUnverifiedPaytrNotification(request, route)) {
         return paytrOfficialIpAck(requestId, route, "production_safety", {
           errorName: error.name,
         });
@@ -162,7 +178,7 @@ export async function POST(request: Request) {
     if (verified.reason === "invalid_signature") {
       logPaytrWebhookHmacMismatch(payload, { requestId, route });
     }
-    if (fromOfficialPaytr) {
+    if (shouldAckUnverifiedPaytrNotification(request, route)) {
       return paytrOfficialIpAck(requestId, route, verified.reason, {
         errorName: verified.reason === "invalid_signature" ? "hmac_mismatch" : undefined,
         merchantOid: payload.merchantOid || undefined,

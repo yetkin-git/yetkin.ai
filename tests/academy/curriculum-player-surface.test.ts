@@ -52,7 +52,7 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(readSrc("app/api/academy/generateSpeech/route.ts")).toContain("410");
   });
 
-  it("28 mühürsüz ders article katmanıdır; 01_office_ai-1 ve 01_office_ai-2 karaoke bağlar", () => {
+  it("beş SKU × 6 ders karaoke katmanıdır; mühürsüz article kalmaz", () => {
     let karaokeCount = 0;
     let articleCount = 0;
     for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
@@ -62,12 +62,43 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
         const layer = academyCitizenPlayerLayer(slug, lesson.key);
         if (layer.kind === "article+karaoke") {
           karaokeCount += 1;
-          expect(["01_office_ai-1", "01_office_ai-2"]).toContain(lesson.key);
+          expect([
+            "01_office_ai-1",
+            "01_office_ai-2",
+            "01_office_ai-3",
+            "01_office_ai-4",
+            "01_office_ai-5",
+            "01_office_ai-6",
+            "02_ecommerce_ai-1",
+            "02_ecommerce_ai-2",
+            "02_ecommerce_ai-3",
+            "02_ecommerce_ai-4",
+            "02_ecommerce_ai-5",
+            "02_ecommerce_ai-6",
+            "03_social_media_ai-1",
+            "03_social_media_ai-2",
+            "03_social_media_ai-3",
+            "03_social_media_ai-4",
+            "03_social_media_ai-5",
+            "03_social_media_ai-6",
+            "04_chatbot_nocode-1",
+            "04_chatbot_nocode-2",
+            "04_chatbot_nocode-3",
+            "04_chatbot_nocode-4",
+            "04_chatbot_nocode-5",
+            "04_chatbot_nocode-6",
+            "05_prompt_practice-1",
+            "05_prompt_practice-2",
+            "05_prompt_practice-3",
+            "05_prompt_practice-4",
+            "05_prompt_practice-5",
+            "05_prompt_practice-6",
+          ]).toContain(lesson.key);
           expect(isAcademyLessonAudioSealed(slug, lesson.key)).toBe(true);
-          expect(layer.audioSrc).toContain(`/media/academy/audio/01_office_ai/${lesson.key}.wav`);
+          expect(layer.audioSrc).toContain(`/media/academy/audio/${slug}/${lesson.key}.wav`);
           expect(layer.cues.length).toBeGreaterThan(0);
           expect(layer.cues).toEqual(loadAcademyTeleprompterFlow(lesson.key));
-          expect(layer.durationSec).toBeGreaterThan(360);
+          expect(layer.durationSec).toBeGreaterThan(330);
         } else {
           articleCount += 1;
           expect(layer.kind).toBe("article");
@@ -75,9 +106,19 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
         }
       }
     }
-    expect(karaokeCount).toBe(2);
-    expect(articleCount).toBe(28);
-    expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-3").kind).toBe("article");
+    expect(karaokeCount).toBe(30);
+    expect(articleCount).toBe(0);
+    expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-6").kind).toBe("article+karaoke");
+    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-1").kind).toBe("article+karaoke");
+    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-2").kind).toBe("article+karaoke");
+    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-3").kind).toBe("article+karaoke");
+    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-4").kind).toBe("article+karaoke");
+    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-5").kind).toBe("article+karaoke");
+    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-6").kind).toBe("article+karaoke");
+    expect(academyCitizenPlayerLayer("03_social_media_ai", "03_social_media_ai-1").kind).toBe("article+karaoke");
+    expect(academyCitizenPlayerLayer("04_chatbot_nocode", "04_chatbot_nocode-1").kind).toBe("article+karaoke");
+    expect(academyCitizenPlayerLayer("05_prompt_practice", "05_prompt_practice-1").kind).toBe("article+karaoke");
+    expect(academyCitizenPlayerLayer("05_prompt_practice", "05_prompt_practice-6").kind).toBe("article+karaoke");
     expect(ACADEMY_PILOT_SKU_SLUG).toBeNull();
   });
 

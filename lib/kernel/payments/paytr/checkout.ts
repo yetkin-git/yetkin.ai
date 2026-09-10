@@ -11,8 +11,14 @@ import {
 } from "@/lib/kernel/payments/paytr/mock-checkout";
 import {
   classifyForwardedIp,
+  CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS,
+  listForwardedIps,
+  parseTrustedProxyHops,
+  resolveTrustedForwardedIp,
+  UNKNOWN_REQUEST_IP,
   isPrivateOrLoopbackIp,
 } from "@/lib/kernel/security/trusted-proxy";
+import { getPaytrIframeUrl } from "@/lib/kernel/payments/paytr/iframe-embed";
 
 export {
   buildPaytrMockCheckoutToken,
@@ -21,8 +27,15 @@ export {
   tryPaytrDevOnlyMockCheckout,
 } from "@/lib/kernel/payments/paytr/mock-checkout";
 
+export {
+  getPaytrIframeUrl,
+  PAYTR_IFRAME_BASE_URL,
+} from "@/lib/kernel/payments/paytr/iframe-embed";
+
+/** PayTR panel dönüşü — `https://yetkin.ai/cuzdan` (trailing slash yok). */
+const PAYTR_MERCHANT_WALLET_RETURN_PATH = "/cuzdan";
+
 export const PAYTR_GET_TOKEN_URL = "https://www.paytr.com/odeme/api/get-token";
-export const PAYTR_IFRAME_BASE_URL = "https://www.paytr.com/odeme/guvenli";
 /** Cüzdan yükleme tek çekim — vade farkı `total_amount` sapmasını kapatır. */
 export const PAYTR_IFRAME_NO_INSTALLMENT = "1" as const;
 export const PAYTR_IFRAME_MAX_INSTALLMENT = "0" as const;
@@ -199,12 +212,46 @@ export function assertPaytrLiveUserIp(userIp: string, context: string): void {
   if (process.env.NODE_ENV !== "production") {
     return;
   }
+  if (isPaytrSandboxEnabled()) {
+    return;
+  }
   const kind = classifyForwardedIp(userIp);
   if (kind !== "public_ipv4") {
     throw new Error(`[PAYTR] user_ip üretimde genel IPv4 olmalıdır (${kind}) — ${context}`);
   }
 }
 
+/**
+ * Canlı get-token `user_ip` — XFF zincirindeki istemci IPv4.
+ * Loopback / boş IP canlı iFrame'i gri bırakır. Sandbox 127.0.0.1 kabul eder.
+ */
+export function resolvePaytrCheckoutUserIp(
+  headers: Headers,
+  env: NodeJS.ProcessEnv = process.env,
+): string {
+  const live = !isPaytrSandboxEnabled(env);
+  const configuredHops = parseTrustedProxyHops(env);
+  const hops = live
+    ? Math.max(configuredHops, CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS)
+    : configuredHops;
+  const parts = listForwardedIps(headers);
+  if (hops > 0 && parts.length > 0) {
+    const start = Math.max(0, parts.length - hops);
+    for (let i = start; i < parts.length; i++) {
+      const ip = parts[i];
+      if (ip && classifyForwardedIp(ip) === "public_ipv4") {
+        return ip;
+      }
+    }
+  }
+  const trusted = resolveTrustedForwardedIp(headers, env);
+  if (!live && (trusted === UNKNOWN_REQUEST_IP || classifyForwardedIp(trusted) === "private")) {
+    return trusted === UNKNOWN_REQUEST_IP ? "127.0.0.1" : trusted;
+  }
+  return trusted;
+}
+
+/** Panel `https://yetkin.ai/` ile eşleşen köken — sondaki `/` yok. */
 export function resolvePaytrMerchantAppOrigin(): string {
   const raw = process.env.NEXT_PUBLIC_APP_URL?.trim() ?? "";
   if (process.env.NODE_ENV === "production") {
@@ -226,7 +273,24 @@ export function resolvePaytrMerchantAppOrigin(): string {
     }
     return `${parsed.protocol}//${parsed.host}`;
   }
-  return (raw || "http://localhost:3000").replace(/\/$/, "");
+  return (raw || "http://localhost:3000").replace(/\/+$/, "");
+}
+
+/** `https://yetkin.ai/cuzdan/` → `https://yetkin.ai/cuzdan` */
+export function normalizePaytrMerchantReturnUrl(url: string): string {
+  const trimmed = url.trim();
+  try {
+    const parsed = new URL(trimmed);
+    const path = parsed.pathname.replace(/\/+$/, "");
+    return `${parsed.protocol}//${parsed.host}${path}`;
+  } catch {
+    return trimmed.replace(/\/+$/, "");
+  }
+}
+
+export function buildPaytrMerchantBrowserReturnUrl(origin: string): string {
+  const base = origin.trim().replace(/\/+$/, "");
+  return normalizePaytrMerchantReturnUrl(`${base}${PAYTR_MERCHANT_WALLET_RETURN_PATH}`);
 }
 
 /**
@@ -280,7 +344,7 @@ export function paytrBasketMatchesPayment(
 }
 
 export function buildPaytrIframeUrl(token: string): string {
-  return `${PAYTR_IFRAME_BASE_URL}/${encodeURIComponent(token)}`;
+  return getPaytrIframeUrl(token);
 }
 
 /**
@@ -394,6 +458,9 @@ export async function requestPaytrCheckoutToken(
     };
   }
 
+  const merchantOkUrl = normalizePaytrMerchantReturnUrl(input.merchantOkUrl);
+  const merchantFailUrl = normalizePaytrMerchantReturnUrl(input.merchantFailUrl);
+
   const body = new URLSearchParams({
     merchant_id: credentials.merchantId,
     user_ip: input.userIp,
@@ -407,8 +474,8 @@ export async function requestPaytrCheckoutToken(
     no_installment: noInstallment,
     max_installment: maxInstallment,
     currency,
-    merchant_ok_url: input.merchantOkUrl,
-    merchant_fail_url: input.merchantFailUrl,
+    merchant_ok_url: merchantOkUrl,
+    merchant_fail_url: merchantFailUrl,
     user_name: userName,
     user_address: userAddress,
     user_phone: userPhone,

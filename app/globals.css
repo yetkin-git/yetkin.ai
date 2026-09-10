@@ -633,30 +633,55 @@ body {
   right: 0;
   bottom: 2.75rem;
   z-index: 4;
+  box-sizing: border-box;
   flex: none;
   height: auto;
   min-height: 0;
-  max-height: 38%;
-  pointer-events: none;
+  max-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-block: 0.7rem;
+  pointer-events: auto;
   background: linear-gradient(
     180deg,
     transparent,
     color-mix(in srgb, #070b14 78%, transparent) 36%,
     color-mix(in srgb, #070b14 94%, transparent) 100%
   );
-  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 100%);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 100%);
+  mask-image: none;
+  -webkit-mask-image: none;
 }
 
 .academy-player-karaoke .academy-teleprompter--overlay .academy-teleprompter-track {
-  padding: 2.25rem 1.5rem 0.75rem;
+  overflow: visible;
+  padding: 1.45rem 1.5rem;
 }
 
 .academy-player-karaoke .academy-teleprompter--overlay .academy-teleprompter-cue {
+  max-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-block: 0.22em;
   font-size: clamp(0.92rem, 1.55vw, 1.12rem);
-  line-height: 1.45;
+  line-height: 1.62;
   text-align: center;
   text-shadow: 0 1px 12px rgba(12, 10, 8, 0.45);
+}
+
+@media (max-width: 640px) {
+  .academy-player-karaoke .academy-teleprompter--overlay {
+    max-height: 100%;
+    padding-block: 0.8rem;
+  }
+
+  .academy-player-karaoke .academy-teleprompter--overlay .academy-teleprompter-track {
+    padding: 1.3rem 1.1rem;
+  }
+
+  .academy-player-karaoke .academy-teleprompter--overlay .academy-teleprompter-cue {
+    padding-block: 0.28em;
+    line-height: 1.58;
+  }
 }
 
 .academy-player-karaoke .academy-player-audio-bar {

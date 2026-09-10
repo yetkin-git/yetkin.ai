@@ -9,14 +9,20 @@ import { LinkButton } from "@/components/ui/link-button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
-import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import {
   ACADEMY_CERTIFICATES_SURFACE_PATH,
   CAREER_STAMP_SURFACE_PATH,
   PASSPORT_SURFACE_PATH,
 } from "@/lib/kernel/passport/types";
 
-export const metadata: Metadata = pageMetadata(PAGE_SEO.freelancer);
+// PayTR B2C (E7): 410 dönen odanın SEO girdisi yoktur (seo.ts içindeki
+// freelancer girdisi silindi). Kenar her koşulda 410 basar; bu meta yalnız
+// derleme bütünlüğü içindir ve indexlenmez.
+export const metadata: Metadata = {
+  title: "Freelancer",
+  description: "Bu oda üretimde kapalı. Çalışan ürün Akademi'dir.",
+  robots: { index: false, follow: false },
+};
 
 export default async function FreelancerPage() {
   await connection();

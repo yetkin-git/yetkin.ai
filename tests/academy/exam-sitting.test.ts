@@ -11,10 +11,14 @@ import {
 } from "@/lib/academy/exam-engine";
 import { completeAcademyCurriculum } from "@/lib/academy/curriculum-engine";
 import { academyCourseSeedBySlug } from "@/lib/academy/seed";
+import { ServiceUnavailableError } from "@/lib/kernel/http/errors";
 import {
   academyExamAnswersFromPublicQuestions,
+  ACADEMY_EXAM_SITTING_MAC_FALLBACK,
+  ACADEMY_EXAM_SITTING_SECRET_MISSING,
   openAcademyExamSitting,
   resetAcademyExamSittingConsumptionsForTests,
+  resolveAcademyExamSittingMacKey,
   sealAcademyExamSitting,
 } from "@/lib/academy/exam-sitting";
 import {
@@ -40,12 +44,63 @@ describe("sınav oturumu MAC ve iş kanıtı kapısı", () => {
     const src = readFileSync(join(process.cwd(), "lib/academy/exam-sitting.ts"), "utf8");
     expect(src).toContain("ACADEMY_EXAM_SITTING_SECRET");
     expect(src).toContain("yetkin-rail.academy.exam-sitting.mac.v1");
+    expect(src).toContain("yetkin-rail.academy.exam-sitting.mac.derive.v1");
+    expect(src).toContain("SUPABASE_JWT_SECRET");
     expect(src).toContain("Sınav oturumu henüz bağlanmadı.");
     expect(src).toContain("ServiceUnavailableError");
-    expect(src).toContain('process.env.VITEST !== "true"');
+    expect(src).toContain("resolveAcademyExamSittingMacKey");
     expect(src).toContain("academyExamSittingMayConsume");
     expect(src).toContain("serializeAcademyExamSittingItems");
     expect(src).not.toContain('createHmac("sha256", ACADEMY_EXAM_SITTING_VERSION)');
+  });
+
+  it("dedicated secret ≥16 kullanılır; kısa secret JWT derive fallback alır", () => {
+    expect(
+      resolveAcademyExamSittingMacKey({
+        NODE_ENV: "production",
+        ACADEMY_EXAM_SITTING_SECRET: "dedicated-secret-16",
+        SUPABASE_JWT_SECRET: "jwt-secret-at-least16",
+      }),
+    ).toBe("dedicated-secret-16");
+    const derived = resolveAcademyExamSittingMacKey({
+      NODE_ENV: "production",
+      ACADEMY_EXAM_SITTING_SECRET: "",
+      SUPABASE_JWT_SECRET: "jwt-secret-at-least16",
+    });
+    expect(derived).toHaveLength(64);
+    expect(derived).not.toBe("jwt-secret-at-least16");
+    expect(derived).not.toBe(ACADEMY_EXAM_SITTING_MAC_FALLBACK);
+  });
+
+  it("üretimde dedicated ve JWT yokken 503; lab / Vitest yedek basar", () => {
+    expect(() =>
+      resolveAcademyExamSittingMacKey({
+        NODE_ENV: "production",
+        ACADEMY_EXAM_SITTING_SECRET: "short",
+        SUPABASE_JWT_SECRET: "",
+      }),
+    ).toThrow(ServiceUnavailableError);
+    expect(() =>
+      resolveAcademyExamSittingMacKey({
+        NODE_ENV: "production",
+        ACADEMY_EXAM_SITTING_SECRET: "",
+        SUPABASE_JWT_SECRET: "",
+      }),
+    ).toThrow(ACADEMY_EXAM_SITTING_SECRET_MISSING);
+    expect(
+      resolveAcademyExamSittingMacKey({
+        NODE_ENV: "production",
+        VITEST: "true",
+        ACADEMY_EXAM_SITTING_SECRET: "",
+        SUPABASE_JWT_SECRET: "",
+      }),
+    ).toBe(ACADEMY_EXAM_SITTING_MAC_FALLBACK);
+    expect(
+      resolveAcademyExamSittingMacKey({
+        NODE_ENV: "development",
+        ACADEMY_EXAM_SITTING_SECRET: "",
+      }),
+    ).toBe(ACADEMY_EXAM_SITTING_MAC_FALLBACK);
   });
 
   it("jeton proofLessonKey taşır; sapmış MAC açılmaz", () => {

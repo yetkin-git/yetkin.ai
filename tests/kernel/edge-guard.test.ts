@@ -6,10 +6,12 @@ import {
   createEdgeNonce,
   decideEdgeAction,
   EDGE_CSP_PAYTR_FRAME_SRC,
+  EDGE_CSP_PAYTR_SCRIPT_SRC,
   EDGE_CSP_STYLE_SRC_ATTR_DIRECTIVE,
   EDGE_CSP_STYLE_SRC_DIRECTIVE,
   EDGE_CSP_SUPABASE_CONNECT_SRC,
   EDGE_HSTS_VALUE,
+  EDGE_PERMISSIONS_POLICY_VALUE,
   hasEdgeSessionHint,
   isProtectedCitizenPath,
   isProtectedKernelPath,
@@ -155,14 +157,17 @@ describe("kenar güvenlik başlıkları", () => {
     expect(csp).toContain(`'nonce-${nonce}'`);
     expect(csp).toContain(`frame-src ${EDGE_CSP_PAYTR_FRAME_SRC}`);
     expect(csp).toContain(`connect-src 'self' ${EDGE_CSP_SUPABASE_CONNECT_SRC}`);
+    expect(csp).toMatch(/script-src[^;]*https:\/\/www\.paytr\.com/);
+    expect(csp).toContain(EDGE_CSP_PAYTR_SCRIPT_SRC);
     expect(csp).not.toContain("unsafe-eval");
     expectClientStyleCsp(csp, nonce);
     expect(headers.get("X-Content-Type-Options")).toBe("nosniff");
     expect(headers.get("X-Frame-Options")).toBe("DENY");
     expect(headers.get("Referrer-Policy")).toBe("strict-origin-when-cross-origin");
-    expect(headers.get("Permissions-Policy")).toBe(
-      "camera=(), microphone=(), geolocation=(), payment=()",
-    );
+    expect(headers.get("Permissions-Policy")).toBe(EDGE_PERMISSIONS_POLICY_VALUE);
+    expect(EDGE_PERMISSIONS_POLICY_VALUE).toContain("payment=(self");
+    expect(EDGE_PERMISSIONS_POLICY_VALUE).toContain("https://www.paytr.com");
+    expect(EDGE_PERMISSIONS_POLICY_VALUE).not.toContain("payment=()");
     expect(headers.has("Strict-Transport-Security")).toBe(false);
   });
 

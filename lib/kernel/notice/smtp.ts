@@ -172,6 +172,9 @@ export async function sendNoticeSmtp(config: NoticeSmtpConfig, mail: NoticeSmtpM
   const host = config.host.trim();
   const from = quoteAddress(config.from.trim());
   const to = quoteAddress(mail.to.trim());
+  if (!host || !from) {
+    throw new Error("smtp_unconfigured");
+  }
   const implicitTls = config.port === 465;
   const socket = implicitTls ? await connectTls(host, config.port) : await connectPlain(host, config.port);
   let session = new SmtpSession(socket);

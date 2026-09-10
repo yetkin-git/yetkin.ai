@@ -6,7 +6,7 @@
 |------|--------|
 | Tarih | 17 Ağustos 2026 |
 | Statü | Vizyon ve Strateji Belgesi. Anayasa'nın ruhunu, iş modelini ve büyüme hedeflerini açıklar. |
-| Son Reform | **8 Eylül 2026 (Tedavi 01):** Motor 1 (Akademi) gün 0 kahramanı. Vitrin 5 compact SKU. Stüdyo sayıları vizyondan ayrıldı (`docs/OPS_STUDYO_SAYILARI.md`). Kural 2: **5 Garantili Kapı** (vize şartlı, 403) + **Standart Pazaryeri** (vizesiz OPEN). Motor 3 Split kapalı (503). Motor 2 Faz 2+. |
+| Son Reform | **9 Eylül 2026 (Faz 1 işletme resmi):** Faz 1 çalışan vitrin 3 oda (Panel + Akademi + Kariyer); 4. oda (Freelancer) kilitli motordur. Birincil kitle B2C Öğrenen / Kart Sahibi; işveren Faz 2 alıcısı. Motor 1 (Akademi) gün 0 kahramanı. Vitrin 5 compact SKU. Motor 3 Split kapalı (503) ve kamu 410. Motor 2 Faz 2+. |
 | Yer | `/.system_docs/MANIFESTO.md` |
 | Çelişki | Bir cümle Anayasa ile çatışırsa `.system_docs/ANAYASA.md` bağlayıcıdır. |
 
@@ -41,8 +41,10 @@ Biz sadece kurs veya ilan listesi sunmuyoruz; **üretimin ve bilginin doğrulana
 
 ## 1.3 Hedef Kitlemiz
 
-1. **Yetkinliğini Kanıtlamak İsteyen Uzmanlar:** Alaylı yazılımcılar, kariyer değiştirenler, uzaktan çalışan profesyoneller ve referansa ihtiyaç duyan yetenekler. Onlar için sertifika bir kağıt parçası değil, iş kapılarını açan doğrulanabilir bir pasaporttur.
-2. **Riski Sıfırlamak İsteyen İşverenler:** Kalitesiz teslimat riskini almak istemeyen, işi gerçekten ehline vermek ve emanet güvencesiyle çalışmak isteyen KOBİ'ler ve girişimler.
+**Faz 1 birincil kitle: B2C Öğrenen / Kart Sahibi.** Kartla dijital eğitim, sınav ve sertifika satın alan yetişkin. Nakit ve kamu vitrini bu kitleye aittir.
+
+1. **Yetkinliğini Kanıtlamak İsteyen Öğrenenler (Faz 1 birincil):** Alaylı yazılımcılar, kariyer değiştirenler, uzaktan çalışan profesyoneller ve referansa ihtiyaç duyan yetenekler. Onlar için sertifika bir kağıt parçası değil, iş kapılarını açan doğrulanabilir bir pasaporttur.
+2. **Riski Sıfırlamak İsteyen İşverenler (Faz 2 alıcısı):** Kalitesiz teslimat riskini almak istemeyen, işi gerçekten ehline vermek ve emanet güvencesiyle çalışmak isteyen KOBİ'ler ve girişimler. Havuz ve lisanslı Split olmadan bu kitleye satış veya nakit iddiası basılmaz.
 
 ## 1.4 Marka ve Tasarım Duruşu
 
@@ -55,16 +57,19 @@ Biz sadece kurs veya ilan listesi sunmuyoruz; **üretimin ve bilginin doğrulana
 
 ## Kural 1 — Odaklanılan 4 Ana Deneyim Alanı
 
+**Faz 1 çalışan vitrin 3 odadır (Panel, Akademi, Kariyer); 4. oda (Freelancer) kilitli motordur.** Dört oda omurga hedefidir; eşit canlılık iddiası yoktur. Gün 0 kahramanı Akademi’dir.
+
 Platform odağını dağıtmamak adına 4 ana fonksiyonel alanda derinleşir:
 * **Dashboard (`/dashboard`):** Kullanıcının durumunu ve sonraki aksiyonunu gösteren kumanda paneli.
 * **Akademi (`/academy`):** Gelir motoru olan, piyasa odaklı eğitimler ve mühürlü sertifika sınavları.
-* **Kariyer (`/career`):** Doğrulanmış yetkinlik vizeleri ve portfolyo vitrini.
-* **Freelancer (`/freelancer`):** Güvenli iş listeleri, teklif ve sözleşme süreçleri.
+* **Kariyer (`/career`):** Doğrulanmış yetkinlik vizeleri ve portfolyo vitrini. Nakit taşımaz.
+* **Freelancer (`/freelancer`):** Güvenli iş listeleri, teklif ve sözleşme süreçleri. **Faz 2.** Kamu 410; nakit yalnız lisanslı Split bağlıysa.
 
-*Ürün Gerçeği:* Bu dört odak projenin ana omurgasıdır. Faz 1’de **eşit olgunluk iddiası yoktur**: nakit ve kahraman Akademi’dedir. Kurumsal pilot, bildirim, yardım gibi meşru modüller "katı kural polisliği" ile engellenemez; monolit içinde temiz durur.
+*Ürün Gerçeği:* Bu dört odak projenin omurga hedefidir; eşit olgunluk iddiası yoktur. Faz 1’de nakit ve kahraman Akademi’dedir. Kurumsal pilot, bildirim, yardım gibi meşru modüller "katı kural polisliği" ile engellenemez; monolit içinde temiz durur.
 
 ## Kural 2 — Vize Kapısı ve Büyüme Dengesi (Kod ile Aynı)
 
+* **Zaman kipi:** Bu kural vizyon ve motor sicilidir; Faz 1’de **canlı kapı** diye okunmaz. `/freelancer` kamu 410’dur. Kapılar Split ve vitrin kilidi kalkınca uygulanır.
 * **Vizyonun özü:** Nitelikli ilana teklif, ilgili compact SKU belgesine (Kariyer vizesi) bağlıdır. Bu, alıcıyı kalitesiz teklif yağmurundan korur.
 * **Çift katman, tek gerçek** (`FREELANCER_GUARANTEED_NEED_IDS` + `FREELANCER_MARKETPLACE_NEED_IDS`):
   - **5 Garantili Kapı (Bölüm A, vize şartlı):** Ofis, e-ticaret, sosyal içerik, chatbot, prompt — her kapı yayın compact SKU’suna kilitlidir. Teklif **403** (`LISTING_ACCESS_VISA_DENIED` / kapsam dışı). Esnek rozet vaadi yoktur — kapı serttir.
@@ -76,8 +81,8 @@ Platform odağını dağıtmamak adına 4 ana fonksiyonel alanda derinleşir:
 
 * **Ödeme Kuruluşu Değiliz:** Platform lisanssız olarak üçüncü şahısların parasını kendi havuzunda tutamaz veya banka çekim rotası (`/api/wallet/withdraw`) sunamaz.
 * **Harcama ve Tahsilat:**
-  - Akademi tahsilatları doğrudan lisanslı ödeme kuruluşu (PayTR Sanal POS) üzerinden şirkete gelir olarak akar.
-  - Freelancer iş bedelleri lisanslı kuruluşun Pazaryeri Split altyapısında emanet statüsünde durur ve iş bitiminde doğrudan ustanın IBAN'ına aktarılır.
+  - Akademi tahsilatları doğrudan lisanslı ödeme kuruluşu (PayTR Sanal POS / Merchant) üzerinden şirkete gelir olarak akar. **Faz 1 tek kamu nakit kanalı budur.**
+  - Freelancer iş bedelleri (**Faz 2; lisanslı Split bağlıysa**) lisanslı kuruluşun Pazaryeri Split altyapısında emanet statüsünde durur ve iş bitiminde doğrudan ustanın IBAN'ına aktarılır.
 * **Geçiş dönemi:** Pazaryeri Split bağlı değilken kabul **503 fail-closed**’dır (Anayasa A2). Ana sayfa Motor 3’ü gün 0 nakit gibi satmaz. Harici fatura ürün içi yeşil boyanmaz (A5).
 
 ## Kural 4 — Dürüst Yüzey ve Yapıcı Kullanıcı Deneyimi
@@ -113,7 +118,7 @@ Satışları   Yetkinlik   İşlemleri
 
 ### Motor 3: Freelancer aracılık komisyonu (Faz 2 — Split sonrası)
 * **Model:** Güvenli teslimat üzerinden platform komisyonu.
-* **Bugün:** İlan ve teklif açık; emanet nakit akışı **Şimdilik Devre Dışı / Yakında**. `MARKETPLACE_SPLIT_LIVE = false`. Kabul 503.
+* **Bugün:** Kamu yüzeyi **410**. Motor ve şema durur; silinmez. `MARKETPLACE_SPLIT_LIVE = false`. Emanet nakit kabulü **503 fail-closed**. İlan/teklif vatandaşa açık değildir.
 
 ---
 
@@ -126,7 +131,7 @@ Satışları   Yetkinlik   İşlemleri
 
 2. **Faz 1: Gelir (şimdi):**
    - PayTR Merchant iFrame ile cüzdan yükleme + Akademi DEBIT.
-   - 5 compact SKU satışı. Freelancer nakit vaadi yok.
+   - 5 compact SKU satışı. Kamu vitrin 3 oda. Freelancer nakit vaadi yok; kamu 410.
 
 3. **Faz 2: Ölçek ve pazaryeri:**
    - PayTR Pazaryeri Split. `MARKETPLACE_SPLIT_LIVE` tek bayrak.

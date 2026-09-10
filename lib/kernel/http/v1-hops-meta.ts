@@ -2,6 +2,16 @@
  * Kenar + sözleşme hop kimliği — tek sicil.
  * Zod / OpenAPI / DTO bu dosyaya girmez. `v1-hop-gate` meta türetir;
  * `v1-contract` aynı meta üzerine Zod şeması bindirir.
+ *
+ * PayTR B2C (Eylül 2026): 8 freelancer hop sözleşmeden düşürüldü —
+ * freelancer-jobs, client-job-bids, freelancer-bid, freelancer-accept,
+ * freelancer-contracts, freelancer-delivery, freelancer-release,
+ * freelancer-refund. Kalan 8 hop: health, academy-*, auth-session,
+ * wallet-strip, career-*. Freelancer Zod DTO'ları + hata metinleri
+ * `v1-contract.ts` içinde durur (handler doğrulaması + Faz 2 geri dönüş).
+ * Kenar 410 (`isFrozenRoomApi`) hop sicilinden ÖNCE çalışır; kamu davranışı
+ * değişmez. Faz 2 (Split): hop'ları buraya + `RAIL_V1_HOP_CONTRACTS` içine
+ * geri yaz, `generate:openapi-v1` + `generate:v1-client` çalıştır.
  */
 
 export type RailV1HopMethod = "GET" | "POST";
@@ -58,62 +68,6 @@ export const RAIL_V1_HOPS_META = [
     id: "wallet-strip",
     method: "GET",
     v1PathTemplate: "/api/v1/dashboard/wallet-strip",
-    v1Auth: "bearer",
-    cookieAuth: false,
-  },
-  {
-    id: "freelancer-jobs",
-    method: "GET",
-    v1PathTemplate: "/api/v1/freelancer/jobs",
-    v1Auth: "bearer",
-    cookieAuth: false,
-  },
-  {
-    id: "client-job-bids",
-    method: "GET",
-    v1PathTemplate: "/api/v1/client/jobs/{id}/bids",
-    v1Auth: "bearer",
-    cookieAuth: false,
-  },
-  {
-    id: "freelancer-bid",
-    method: "POST",
-    v1PathTemplate: "/api/v1/freelancer/jobs/{id}/bids",
-    v1Auth: "bearer",
-    cookieAuth: false,
-  },
-  {
-    id: "freelancer-accept",
-    method: "POST",
-    v1PathTemplate: "/api/v1/freelancer/jobs/{id}/accept",
-    v1Auth: "bearer",
-    cookieAuth: false,
-  },
-  {
-    id: "freelancer-contracts",
-    method: "GET",
-    v1PathTemplate: "/api/v1/freelancer/contracts",
-    v1Auth: "bearer",
-    cookieAuth: false,
-  },
-  {
-    id: "freelancer-delivery",
-    method: "POST",
-    v1PathTemplate: "/api/v1/freelancer/contracts/{id}/messages",
-    v1Auth: "bearer",
-    cookieAuth: false,
-  },
-  {
-    id: "freelancer-release",
-    method: "POST",
-    v1PathTemplate: "/api/v1/freelancer/contracts/{id}/release",
-    v1Auth: "bearer",
-    cookieAuth: false,
-  },
-  {
-    id: "freelancer-refund",
-    method: "POST",
-    v1PathTemplate: "/api/v1/freelancer/contracts/{id}/refund",
     v1Auth: "bearer",
     cookieAuth: false,
   },

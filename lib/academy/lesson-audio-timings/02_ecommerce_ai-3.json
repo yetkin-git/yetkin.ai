@@ -1,0 +1,116 @@
+{
+  "lessonKey": "02_ecommerce_ai-3",
+  "pauseSec": 0.4,
+  "durationSec": 585.6,
+  "cacheV": 585600,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 41.76,
+      "text": "Tekrar merhaba. Ben Aylin. Kıdemli e-ticaret ve yapay zekâ eğitmeniyim ve bugün seninle kargon müşteriye ulaştıktan sonra başlayan asıl savaşı konuşacağız. Kahveni tazelediysen masaya otur. İkinci derste cebine koyduğumuz kural duruyor. Ürün açıklaması formalite değil, reklam bütçeni kurtaran kapanış tezgahtarıdır. Anahtar kelime kümesi, Ayda ve Pas ile müşteriyi sepete eklettin. Harika. Ama e-ticaretin çıplak gerçeği şudur. Sepete ekletmek hikâyenin ilk yarısıdır. Asıl kârlılık ve kalıcı itibar, kutu kapıya vardığında başlar."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 42.16,
+      "end": 80.36,
+      "text": "Gel, satıcının gizli kâbusunun röntgenini çekiyoruz. Uyanır uyanmaz satıcı panelini açıyorsun. Dünkü dokuz nokta sekizlik mağaza puanın dokuz nokta ikiye çakılmış. Yorumlar sekmesinde alev alev bir yıldız duruyor. Rezalet bir ürün. Çantama koydum, kapağı akıtmış, laptopum sırılsıklam oldu, sakın almayın. Ürünü biliyorsun. Çift contalı, fabrikasyon sızdırmaz. Müşteri contayı makinede yıkarken düşürmüş ya da gevşek kapatmış. Ama vitrinde rezalet ürün yazıyor. O sayfaya bakan sonraki beş yüz kişi ilk olarak bu öfkeyi görecek."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 80.76,
+      "end": 119.48,
+      "text": "Yetmiyor. Gün boyu iki cepheden daha darbe alıyorsun. Bir: kargo iadesi sermayeyi eritir. Git-gel çift kargo faturası senin hesabından kesilir. Kutusu yırtılan ürün sıfır satılamaz. Yüz lira kâr beklerken yüz elli lira zararla oturursun. İki: soru-cevap panelinde boğulursun. Günde otuz kişi aynı soruyu sorar. Bardaklığa sığar mı. Makinede yıkanır mı. Geç yanıt puan düşürür. Tek tek yazmak gününü yer. Bugün bu kâbusu kapatıyoruz. Kahvenden bir yudum al. Derin bir nefes al. İtibar kalkanını bugün kuruyoruz."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 119.88,
+      "end": 177.4,
+      "text": "Soyut tanımları bir kenara bırakıyoruz; doğrudan senin panelindeki yorum ve soru-cevap alanına bakıyoruz. Geleneksel satıcı bir yıldız görünce öfkelenir. Akıllı e-ticaretçi bilir. Müşteri yorumları dünyanın en değerli ve tamamen ücretsiz pazar araştırmasıdır. Büyük markalar odak grubuna milyon döker. Pazaryeri müşterisi ürünün zayıf karnını sana panelinde bedavaya söyler. Elli yorumun on beşinde kapağı akıttı ya da bardaklığa sığmadı deniyorsa ya tedarikçinin contasında seri hata vardır ya da açıklamanda kritik kullanım notu eksiktir. Tek tek okumak saat yer. Biz yapay zekâya yorumları dökeceğiz. On saniyede Sentıment Analisiz ile kronik yarayı teşhis edeceğiz. Şikayet ceza değildir. Ücretsiz danışmanlıktır. Kronik yara görünür olunca paketleme kartı ve vitrin notu iadeyi baştan keser."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 177.8,
+      "end": 255.24,
+      "text": "Şimdi hangi araç açıksa o kalsın. Çetcipiti, Klod, Cemini. Trend yol veya Hepsi burada satıcı panelindeki yapay zekâ asistanı da yeter. Ücretli eklenti yok. Web arayüzünden ücretsiz yaparsın. Termosun hakkında beş ham yorum duruyor. Bir: sıcak tutması güzel ama kapağı makineye attım, Led ekranı bozuldu. İki: mat siyah çok şık, çantada hiç akıtmadı. Üç: araba bardaklığıma tabanı geniş geldi, sığmadı iade ediyorum. Dört: evrak çantama çay döküldü rezalet. Beş: filtresi harika ama sert sıkınca contası kayıp damlatıyor. Modele kıdemli müşteri deneyimi ve veri analisti rolünü veriyorsun. Beş yorumu Sentıment Analisiz ile tarasın. Duygu dağılımı, kronik şikayet matrisi, iadeyi kesecek vitrin uyarısı istersin. Şimdi gönder tuşuna basıyorsun. Ekranda harita durur. Yüzde altmış negatif. Asıl yara conta kayması, Led'in makinede yıkanması, taban çapının yazılmaması. Kutuya elli kuruşluk conta kartı, kapağa elde durulayın etiketi, görsele yedi santim şema. Her ay binlerce liralık iade kesilir."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 255.64,
+      "end": 304.32,
+      "text": "Şimdi öfkeli yıldıza diplomatik kriz yanıtı yazdırıyorsun. Altın kuralı mühürle. O yanıtı şikayet edeni ikna etmek için yazmıyorsun. Yorumu okuyacak sonraki iki bin potansiyel müşteriye güven vermek ve platform nezdinde kurumsal kalmak için yazıyorsun. Modele marka itibarı ve kriz iletişimi direktörü rolünü veriyorsun. Evrak çantama çay döküldü rezalet yoruma empati, teknik açıklama, ücretsiz conta telafisi ve Satıcıya Soru Sor çağrısı istiyorsun. Telefon, Vatsap, e-posta, link yasak. Üç dört cümle. Şimdi gönder tuşuna basıyorsun. Gelen metin saygılı, sebepli, sahip çıkan. Yeni alıcı der ki bu satıcı ürününün arkasında. Bir yıldızlı felaket güven referansına döner."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 304.72,
+      "end": 363.48,
+      "text": "Soru-cevap paneline gelen müşteri cüzdanı elinde bekleyen sıcak alıcıdır. On beş dakikada net yanıt alamazsa rakibe kaçar. Üç tipik soruyu tek komutla veriyorsun. Araç bardaklığına sığar mı, tabanı kaç santim. Kapağı bulaşık makinesine atılır mı. Kaynar su koysak kapağı basınçtan sızdırır mı. Modele pazaryeri mağaza operasyon yöneticisi rolünü veriyorsun. Her soruya yirmi yirmi beş kelimelik kibar panel yanıtı. Sonra kapalı döngü. Bu sorular bir daha gelmesin diye ürün açıklamasına mini sıkça sorulanlar bloğu. Şimdi gönder tuşuna basıyorsun. Taban yedi santim, gövde makineye uygun kapak elde, vakum kaynarda sızdırmaz. Buna Klouzd lup diyoruz. Soruyu yanıtlayıp geçmedin. Listelemeyi besledin. Sonraki yüzlerce şüphe baştan biter. Panel yükün yüzde yetmiş düşer."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 363.88,
+      "end": 408.72,
+      "text": "Kritik durum burada başlar. Gelen yanıtı körü körüne yapıştırmazsın. Şiir kalan her satırı silersin. İlk kırmızı çizgi iletişim bilgisidir. Yorumda ya da soru panelinde telefon, Vatsap, e-posta, sosyal medya hesabı veya link asla yazılmaz. Algoritma milisaniyede yakalar. Mağazana ağır ceza kesilir. Hesap bir gecede kapanır. Yapay zekâ bazen yardımseverlikle numara uydurur, bize yazın der, özel hattı açar. O satırı silersin. İletişim daima Trend yol veya Hepsi burada mesajlaşma kanalından yürür. Satıcıya Soru Sor butonu yeter. Panel dışı görüşme hem kural ihlalidir hem de kanıtını kaybettirir."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 409.12,
+      "end": 450.44,
+      "text": "İkinci tuzak yorum rüşvetidir. Modele müşteriye beş yıldız verirse kupon vereceğimizi söyle demezsin. Beş yıldız karşılığı hediye, puan, kargo bedava vaadi tüketiciyi yanıltma sayılır. Listen askıya alınır. Üçüncü tuzak öfke yansıtmaktır. Kapağı kapatamamışsın bize çamur atma cümlesi intihardır. Potansiyel alıcı o kavgayı okur ve kaçar. Ne kadar haksız olursa olsun sert cevap yazdırmazsın. E-ticarette haklı olmak değil, kurumsal ve kârlı kalmak kazandırır. Baybaks da aynı refleks. Mağaza puanın düşünce reklamın pahalanır. Metni onaylayan son göz daima sensin."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 450.84,
+      "end": 499.76,
+      "text": "Aynı kalkanı müşteri verisinde de kuruyorsun. Gerçek sipariş numarası, telefon, adres ve fatura tutarını yapıştırmazsın. Müşteri A, sipariş bir, maskeli tutar yeter. Gelen blokta yüzde yüz sızdırmaz, asla bozulmaz gibi kesin vaat veya rakip marka adı varsa daha dürüst, daha net, kanıtlı olsun dersin. Yeniden yazsın. Led kapak su sıçramasına dayanıklıdır ama bulaşık makinesi yok. Conta yuvasına oturmazsa nadiren sızdırır. Bu cümle hem satışı korur hem iadeyi keser. Haksız yoruma da empati artı çözüm yeter; suçlama yok. Sen yönetici kal. Stajyer ayrıntıyı sever. Kritik durumda panik yok. Maskele, denetle, uygula."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 500.16,
+      "end": 543.2,
+      "text": "Üç anahtarı cebine koy. Bir: yorumlar şikayet değil, kargo kalkanı ve ürün geliştirme madenidir. Sentıment Analisiz ile kronik kusuru on saniyede bulup paketleme ve kullanım notunu düzeltirsen iade baştan kesilir. İki: kriz yanıtı şikayet edene değil, vitrindeki diğer bin alıcıya yazılır. Diplomatik cevap bir yıldızlı felaketi en güçlü güven göstergesine çevirir. Üç: soru-cevap trafiği Klouzd lup ile listelemeyi beslemelidir. Tekrarlayan soruyu açıklamaya gömersen panel ameleliği biter, kararsız müşteri satışa döner. Ücretsiz araç yeter. Çetcipiti veya Klod web arayüzü, ya da panel içi asistan."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 543.6,
+      "end": 585.6,
+      "text": "Şimdi iki dakikalık kanıt. Satıcı panelindeki son beş müşteri yorumunu kişisel verileri maskeleyerek duygu analizi istemine dök. Kronik şikayet matrisini çıkar. En öfkeli yoruma yazdırdığın diplomatik kriz yanıtını panelde yayınla. Tekrarlayan üç soruyu da kapalı döngü bloğuna çevirip açıklamaya ekle. Kendi yorumlarının kök neden analizini görmeden dördüncü bölüme geçme. Orada rakip ve fiyat, Baybaks savaşları konuşacak. Fiyat kırmadan altın tacı geri alacağız. Satıcı panelin açık kalsın. Kahveni tazele. Bugün itibar kalkanının dilimini geri aldın. Yarın aynı müdür mağazanda olacak. Başladık."
+    }
+  ]
+}

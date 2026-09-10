@@ -1,0 +1,116 @@
+{
+  "lessonKey": "04_chatbot_nocode-6",
+  "pauseSec": 0.4,
+  "durationSec": 429.76,
+  "cacheV": 429760,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 34.4,
+      "text": "Tekrar selam. Ben Kaan. Altıncı istasyon: bu hattı satmak. Tuval, belge, Vatsap, Meyk nokta kom cebinde. Sokakta on işletmeden dokuzu mesaja yetişemiyor. Kuaför fön çekerken telefon. Hekim ameliyatta kaçırıyor. Butik DM'e dört saat geç bakıyor. Çığlık aynı. Yardım edin. Bu çığlığı aylık nakit yapan mimar bugün konuşuyoruz. Tek seferlik on bin alıp kaçmak amatörlük. Biz kaçmıyoruz. Bakımla kalıyoruz. Kaçan gece randevusu senin teklifin olur."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 34.8,
+      "end": 68.8,
+      "text": "Erişim hâlâ aynı kapılar. voysflov nokta kom prototip. botpres nokta kom beyin. meyk nokta kom omurga. developers nokta feysbuk nokta kom hat. platform nokta open ey ay nokta kom anahtar. Kahvenden bir yudum al. Derin bir nefes al. Demo bot. Kurulum ücreti. Aylık bakım. Es el ey. İtiraz. Prompt paketi yarın. Başlıyoruz."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 69.2,
+      "end": 88.32,
+      "text": "Kapı kilitliyse satış durur. Canlı demo yoksa sözleşme yok. Bugün kendi NovaDent benzeri vitrini göster. Yarın fiyat konuş. Önce kanıt. Sonra teklif. Tablo satırı düşmeden fiyat yok. Ekran paylaşımı on beş dakika. Söz oradan çıkar."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 88.72,
+      "end": 125.44,
+      "text": "Soyut tanımları bir kenara bırakıyoruz; doğrudan Si ey as masasına bakıyoruz. Chatbot as a Service iki bacak. Kurulum: akış, taşınabilir belge biçimi (PDF), Gardreyls, Meyk nokta kom, Sheets. Piyasa on beş bin ile kırk beş bin. Yurt dışı bin üç bin dolar. Aylık bakım: fiyat güncelle, yeni hekim, şablon, log, Es el ey. Üç beş bin. Kaçan amatör üç ay sonra kırık bot bırakır. Sen kalırsın. Müşteri kalır. Nakit akar. Eğitim bir kurulumda çıkar."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 125.84,
+      "end": 177.28,
+      "text": "Es el ey yazılıdır. Yanıt süresi. Folbek insan. Aylık rapor. Değişiklik kotası. Gece nöbet botta. İnsan mesai. İtiraz: pahalı. Cevap: bir gece kayıp randevu eğitimi çıkarır. İtiraz: zaten Vatsap'ım var. Cevap: uygulama otomasyon değil, Cloud Uygulama Programlama Arayüzü (API) omurga. İtiraz: yapay zekâ saçmalar. Cevap: eşik, Gardreyls, el teslimi (handoff). Demo: gece mesajı, randevu, tablo satırı. Sözleşme o satırdan sonra. Söz ağızda değil, ekranda. İtirazı ezberle. Demo ile kes. Fiyat sonra gelsin."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 177.68,
+      "end": 217.8,
+      "text": "Soğuk ikna. Sıcak DM değil. İşletmeye yaz: gece kaç randevu kaçıyor. On beş dakikalık ekran paylaşımı. Voysflov vitrin. Botpres soru. Meyk nokta kom satır. Me ta Sendboks merhaba. Fiyat sonra. Paket üç. Start: web widget. Growth: Vatsap. Care: aylık bakım. Prompt paketi Katman 1 finali. Bugün bu modül kapanır. Yarın prompt disiplini. Sen mimarsın. Araç kiralama değil. Omurga satıyorsun."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 218.2,
+      "end": 251.96,
+      "text": "Fatura ve sınır. Kurulum bitmeden bakım başlama. Kapsam yaz. Kaç niyet. Kaç şablon. Kaç tablo. Ek niyet ek ücret. Open ey ay kotası müşteri kartı veya senin havuzun, sözleşmede. platform nokta open ey ay nokta kom faturası sürpriz olmasın. Me ta mesaj tarifesi müşteriye. Sen taşıyıcı değilsin. Sen mimarsın. Net yaz. Yazılmayan iş yoktur. Sürpriz fatura ilişkiyi bitirir. Kutu kutu yaz."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 252.36,
+      "end": 289.72,
+      "text": "Kritik durum burada başlar. Tek seferlik kurup kaybolma. Bot çürür. İtibar gider. İkinci tuzak: tıbbi veya hukuki vaat. Bot teşhis satmaz. Randevu satar. Üçüncü tuzak: müşteri anahtarını kendi Slack'ine yapıştırmak. Dördüncü tuzak: yeşil tik vaadi. Me ta onaylar, sen değil. Onay sende kalır. Demo maskeli. Canlı Kişisel Verilerin Korunması Kanunu (KVKK). Sözleşme imzasız bakım yok. Kapsam dışı iş ücretsiz değildir."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 290.12,
+      "end": 326.32,
+      "text": "Aynı kalkanı satışta kuruyorsun. Kapıları müşteriyle birlikte aç. voysflov nokta kom. botpres nokta kom. meyk nokta kom. developers nokta feysbuk nokta kom. platform nokta open ey ay nokta kom. Hesaplar müşterinin. Sen davetlisin. Ban olursa müşteri hesap. Sen mimarsın. Panik yok. Demo çalışsın. Tablo düşsün. Sonra fiyat. Kaçan gece randevusunu say. Teklif o sayıdan çıkar. Sayı yoksa fiyat spekülasyondur. Sayıyı müşteriyle birlikte say. Ekran açık kalsın."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 326.72,
+      "end": 359.12,
+      "text": "İtiraz paniğinde indirim yağdırma. Kapsamı küçült. Start paketi. Vatsap sonra. Bakım şart. Bakımsız bot satma. Sen kalkanı tutarsın. Stajyer her şeyi vaat eder. Sen yazarsın. Yazılmayan iş yoktur. Es el ey imzasız bakım yok. Demo bitmeden sözleşme yok. İndirim omurgayı ucuzlatmaz. Kapsamı küçültür. Vatsap'ı sonra ekle. Bakımı çıkarma."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 359.52,
+      "end": 398.56,
+      "text": "Üç anahtarı cebine koy. Bir: Si ey as. Kurulum artı aylık bakım. İki: demo kanıtı. Gece mesajı, randevu, tablo. Üç: Es el ey, kapsam, Gardreyls, el teslimi (handoff). Kapı adları aynı. voysflov nokta kom. botpres nokta kom. meyk nokta kom. developers nokta feysbuk nokta kom. platform nokta open ey ay nokta kom. Takvime bir demo düşmeden kendini mezun sayma. Prompt paketi kapıda. Katman 1 dördüncü kapısı kapanır. Omurga cebinde."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 398.96,
+      "end": 429.76,
+      "text": "Şimdi iki dakikalık kanıt. Kendi işin veya tanıdığın bir işletme. Üç niyet. Voysflov veya Botpres demo. Meyk nokta kom'da bir satır. Tek sayfalık teklif: kurulum, bakım, Es el ey. Takvime gerçek bir demo randevusu yaz. Takvime düşmeden kendini mezun sayma. Kahveni tazele. Bugün hattı satılabilir kıldın. Yarın prompt masasında görüşürüz. Başladık."
+    }
+  ]
+}

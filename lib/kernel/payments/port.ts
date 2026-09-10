@@ -7,8 +7,9 @@ import { paytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import type { PaymentProvider } from "@/lib/kernel/payments/provider";
 
 /**
- * Payments portu — omurga değil. Gün 0 somut adaptör PayTR; webhook yolu
- * satıcıya özel kalır. `unconfigured` liveness/readiness 503 sebebi değildir.
+ * Payments portu — omurga değil. Faz 1 kamu nakit kanalı PayTR Merchant'tır.
+ * Split portu sicilde durur; `MARKETPLACE_SPLIT_LIVE = false` iken nakit kabul etmez.
+ * `unconfigured` liveness/readiness 503 sebebi değildir.
  * Tahsilat uçları dürüst kapalıdır; sahte CREDIT yazılmaz.
  */
 export const PAYMENTS_UNCONFIGURED_ERROR = "Ödeme henüz bağlanmadı" as const;

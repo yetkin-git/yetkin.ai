@@ -1,0 +1,40 @@
+<!--
+  Stüdyo konuşma metni — 03_social_media_ai-5
+  Duvar saati: 600 sn (10 dk). Cue SSOT: lesson-cues/03_social_media_ai-5.json
+  Ses: Deniz / Zephyr. Kod çiti yok. SEN aksı.
+  Dört adım: Isınma 90s → Temel Yöntem 210s → İstisna 210s → Özet 90s.
+  TTS: 12 doğal nefes bloğu; parça arası 0.3–0.5 sn taze nefes. Tek parça devasa blok yok.
+  Karaoke: kısa cümle; her blok 3–4 satır (maks ~36 kelime / 220 karakter).
+-->
+
+<!-- cue:cue-01 start:0 end:90 section:Isınma & İş Problemi -->
+
+Tekrar selam. Ben Deniz. Beşinci istasyon, kurgu masası. Sosyal medyada en çok zaman burada yanar. Premiere açarsın. Nefes kesersin. Altyazıyı elle yazarsın. Stok ararsın. Otuz saniye için üç saat. Haftada bir video. CapCut masaüstü bu ameleliği dakikaya indirir. Altyazı çıkarır. Sessizliği budar. Ritme müzik keser. Kambur burada çıkar. Bant burada düzelir.
+
+Erişim köprüsü net. CapCut için capcut.com. Masaüstü Windows veya Mac indir. Telefon uygulaması yetmez. Fabrika masaüstünde durur. Runway için app.runwayml.com. Image to Video. Kling için klingai.com uluslararası kapı. Hesap aç. Ücretsiz kota ile ilk kliği gör. Kahvenden bir yudum al. Derin bir nefes al. İlk dinamik altyazılı videoyu bugün basıyoruz. Üç kapı. Üç hesap. Bugün yeter. Başlıyoruz.
+
+Reels ve TikTok videolarının yüzde yetmiş beşi sessiz izlenir. Metro, ofis, yatak. Altyazı yoksa yarım saniyede geçilir. Altyazı süs değil. Hayatta kalma kuralı. CapCut Auto Captions Türkçe dize. Active Word Highlight kelimeyi yakar. Sen amele değilsin. Sen kurgu müdürüsün. Ses kapalı olsa bile kelime durur. Parmak kaymaz.
+
+<!-- cue:cue-02 start:90 end:300 section:Temel Yöntem -->
+
+Soyut tanımları bir kenara bırakıyoruz; doğrudan senin zaman çizgine bakıyoruz. Script to Video. Üçüncü bölümdeki storyboard'u yapıştır. ElevenLabs WAV'ını yükle. Smart Match metindeki kelimeleri stok B-roll ile dizer. Müzikte Commercial filtresi. Telif kapanmaz. Bu yüzde yetmişi yirmi saniyede teslim eder. Beğenmediğin sahneyi Midjourney karesiyle değiştirirsin. İlk iskelet robot işidir. Son rötuş senindir.
+
+HeyGen yeşil ekranı zaman çizgisine at. Cutout, Chroma Key, yeşili tıkla. Alt kata stüdyo sahnesi. Text, Auto Captions, Turkish, Generate. Caption panelinde Word by Word veya Active Word Highlight. Font: Montserrat Black, Poppins Extra Bold. Ana metin beyaz. Vurgu fosforlu sarı. Siyah stroke. Emoji çerezi gözü tutar. Ses kapalı olsa bile kelime yanar. Tırnaklı font hayır. Kalın geometrik evet. Kontrast yoksa altyazı ölür.
+
+İki buçuk saniye kuralı. Konuşan kafa otuz saniye sıkar. B-roll girer. Ken Burns zoom. Picture in Picture. Müzik eksi on sekiz, eksi yirmi dört. Audio Ducking. Whoosh, pop, ding. Midjourney karesi hâlâ fotoğraftır. Runway veya Kling'e yükle. Slow cinematic push-in, gentle light movement. Dört beş saniyelik klip. B-roll senin olur. Stok bağımlılığı düşer. İlk projeyi Duplicate et. Sonraki dört videoyu on beş dakikada bitirirsin. Aşırı dans ettirme. Yavaş itme yeter.
+
+Export. Bin seksen kere bin dokuz yüz yirmi. Otuz veya altmış fps. H.264. Rec.709. Yüksek bitrate. Dört K seçme. Instagram ve TikTok 4K'yı ezer. En keskin dikey bin seksen. CapCut masaüstü. Runway app.runwayml.com. Kling klingai.com. Kapı net. Bant çalışır. Sen yönetici kal. Dışa aktar, telefonda izle, sonra takvime at.
+
+<!-- cue:cue-03 start:300 end:510 section:İstisna & Kritik Durum -->
+
+Kritik durum burada başlar. Telifsiz sandığın müziği Commercial filtresiz basma. Platform sesi kapatır, reklam hesabını riske atar. Altyazıdaki marka adını bir kez oku. CapCut bazen Türkçe özel adı bozar. Düzelt. Onay sende kalır. Stajyer üretir. Sen kalkanı tutarsın. Yanlış altyazı güvensizliktir. Bir geçiş yeter, hesabı yakma.
+
+İkinci tuzak 4K saplantısıdır. Dikey videoda bin seksen kazanır. Üçüncü tuzak Runway ve Kling'de rakip logo, ünlü yüz, izinsiz yüz. Image to Video kendi kareni hareketlendirir. Başkasının karesini değil. Prompt kısa. Yavaş itme. Işık kımıltısı. Aşırı dans ettirme. Tekinsiz olur. Sen yönetici kal. Kendi kare, kendi hareket. Taklit yok.
+
+Aynı kalkanı erişimde de kuruyorsun. capcut.com indirmezse tarayıcıyı değiştir, bölgeyi kontrol et. app.runwayml.com kredi bitince Kling kotasına geç. klingai.com açılmazsa bölge ayna kapısını dene. Telefon CapCut'ı yedek say. Fabrika masaüstünde. Kapı adı yeter. Bugün bir hesap. Yarın bant. Kritik durumda panik yok. Filtreyi aç, altyazıyı düzelt, dışa aktar. Masaüstü yoksa kurgu durur. Telefon yedek, ana hat değil.
+
+<!-- cue:cue-04 start:510 end:600 section:Özet & Saha Görevi -->
+
+Üç anahtarı cebine koy. Bir: kurgu ameleliği CapCut Auto Captions ve kelime vurgusuyla biter. İki: sessiz izleyici altyazısız ölür. Üç: Runway ve Kling durağan kareyi sinema klibe çevirir. Kapı net. capcut.com masaüstü. app.runwayml.com. klingai.com. Duplicate ile seri. Onay sende kalır. İlk video şablon. Sonraki dördü kopya. Bant böyle ölçeklenir.
+
+Şimdi iki dakikalık kanıt. CapCut masaüstünü aç. Dördüncü bölümdeki ses veya avatarı zaman çizgisine at. Auto Captions Türkçe. Active Word Highlight. Bin seksen kere bin dokuz yüz yirmi, otuz fps, H.264 dışa aktar. İlk dinamik altyazılı videonu kendi telefonunda izlemeden altıncı bölüme geçme. Orada takvimi ve ticari paketi kilitleyeceğiz. Dağıtım yüzde elli. Kahveni tazele. Bugün kurgu hattının dilimini geri aldın. Başladık.

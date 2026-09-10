@@ -1,0 +1,116 @@
+{
+  "lessonKey": "05_prompt_practice-1",
+  "pauseSec": 0.4,
+  "durationSec": 439.12,
+  "cacheV": 439120,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 31.04,
+      "text": "Merhaba. Ben Gözde. Kıdemli istem mimarisi eğitmeniyim. No-Code atölyesinde söz vermiştim. Prompt masasında görüşürüz. Sözümü tuttum. Sen de geldin. Burası Katman 1'in taçlandırma finali. Ofis, vitrin, sosyal ve chatbot aynı dilin üstünde durur. O dil istemdir. Kahvenden bir yudum al. Derin bir nefes al. Boş kutuya tek cümle atıp hayal kırıklığına uğrama sahnesini bugün kapatıyoruz. Başlıyoruz."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 31.44,
+      "end": 62.44,
+      "text": "Yüzde seksenin tuzağı aynı. Yapay zekâ kutusunu Google çubuğu sanmak. Google fihristtir. Az kelime, geniş link. Model fihrist değildir. Milyarlarca metinden örüntü kuran bilişsel bir asistandır. Ona sözleşme feshi yazarsan genel makale basar. Kimsin, ne istiyorsun, kimin tarafındasın, bilmez. Google bilgi arar. Model problem çözer. Anahtar kelime fırlatmayı bıraktığın gün masana gerçek bir çalışma arkadaşı oturur."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 62.84,
+      "end": 95.32,
+      "text": "Üç kapı. Çetcipiti için çetcipiti nokta kom. Ücretsiz hesap. nü çet. Beyaz kutu. Klod için klod nokta ey ay. Antrapik hesabı. nü çet. Perpleksiti için perpleksiti nokta ey ay. Arama değil, kaynaklı araştırma. Ücretli plan şart değil. Ücretsiz kotayla ilk istemi görmen yeter. Kapı kilitliyse bant durur. Bugün bir hesap aç. Yarın ölçek. Link ezberi yok. Kapı adı yeter."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 95.72,
+      "end": 131.96,
+      "text": "Soyut tanımları bir kenara bırakıyoruz; doğrudan senin boş kutundaki gerçek probleme bakıyoruz. Yazıyorsun: bana şirketim için pazarlama planı yaz. Model beş paragraf basar. Sosyal medyayı aktif kullanın. Hedef kitleyi tanıyın. Kaliteli içerik. Yüzün ekşir. Ben bunu zaten biliyorum. Sorun modelde değil. Sorun, o zekâya nasıl yaklaşacağını henüz bilmemende. Bugün beş yapı taşı cebine girer. Rol. Görev. Bağlam. Kısıtlar. Çıktı formatı."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 132.36,
+      "end": 176.2,
+      "text": "Rol şapkadır. Vergi uzmanı. Yatırımcı. Öğretmen. Metin yazarı. Görev eylem fiilidir. Özetle. Karşılaştır. Üç başlık üret. Bağlam arka plandır. Şirket ne iş yapar. Müşteri kim. Metin nerede durur. Kısıt kalkanıdır. Yüz elli kelime. Jargon yok. Bilmiyorsan uydurma. Çıktı teslim şeklidir. Madde. Tablo. E-posta taslağı. Beşi bir araya gelince model artık sokak broşürü yazmaz. Senin hayatına özel yazar."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 176.6,
+      "end": 225.16,
+      "text": "Canlı vaka. Kadıköy Moda'da butik kahve. Kötü istem: soğuk kahve menüm için tanıtım yaz. Model ferahlığın adresi basar. Eşsiz lezzet. Damak çatlatan. Klişe. Mükemmel istem beş taşlıdır. Sen üçüncü dalga metin yazarısın. Görev: üç soğuk kahve metni. Bağlam: Etiyopya çekirdek. On sekiz saat soğuk demleme. Yasemin notası. Loş çalışma mekânı. Kısıt: klişe yasak. Üç cümle. Bilmediğin malzeme ekleme. Çıktı: başlık, iki cümle, İnstegram eylem çağrısı. Fark uçurumdur."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 225.56,
+      "end": 263.08,
+      "text": "Aynı beş taşı üç kapıda da çalıştır. çetcipiti nokta kom günlük yazı ve taslak. klod nokta ey ay uzun metin ve dikkatli analiz. perpleksiti nokta ey ay kaynaklı araştırma. Kapı değişir. Taşlar değişmez. Rolü yaz. Görevi yaz. Bağlamı yaz. Kısıtı yaz. Formatı yaz. Gönder. On sekiz saniyede hamallık kalkar. Sen artık metin taşıyan değil; çerçeveyi kuran, sınırı çizen ve kararı veren kişisin. İlk sihir budur."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 263.48,
+      "end": 296.52,
+      "text": "Kritik durum burada başlar. Halüsinasyon. Model kötü niyetli değildir. En olası sonraki kelimeyi dizer. Bilmiyorum refleksi varsayılan açık değildir. Sen kitap varsayarsan o masal tamamlar. Ahmet Yılmaz'ın 2024 etik kitabı yoktur. Model üç başlıklı inceleme uydurur. Çünkü boşluğu doldurmak ister. Prompt süslü cümle sanatı değildir. Modele ray döşeme ve yoldan çıkmasını kesme sanatıdır. Kısıt kalkanı burada doğar."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 296.92,
+      "end": 328.52,
+      "text": "Aynı kalkanı erişimde kuruyorsun. Çetcipiti için çetcipiti nokta kom. Klod için klod nokta ey ay. Perpleksiti için perpleksiti nokta ey ay. Ücretli plan şart değil. Ücretsiz kotayla ilk beş taşlı istemi görmen yeter. Kapı kilitliyse bant çalışmaz. Bugün bir hesap. Yarın ölçek. Panik yok. Kapıyı aç. İlk çıktıyı gör. Sonra örneklemeye geç. Link ezberi yok. Kapı adı yeter. Deftere yaz. Yarın o kapılardan gireceksin."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 328.92,
+      "end": 362.24,
+      "text": "Kişisel veri kalkanı da burada. Gerçek isim, telefon, kimlik, IBAN açık modele yapışmaz. Maskele. Müşteri A. Tutar köşeli parantez. Testte sahte isim kullan. Uydurma cümleyi silersin. Şiir kalan her yanıt çöptür. Onay sende kalır. Stajyer üretir. Sen kalkanı tutarsın. Beş taş. Üç kapı. Maske. Bu omurga cebine girer. Halüsinasyon korkusu panik değildir. Raydır."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 362.64,
+      "end": 404.96,
+      "text": "Üç anahtarı cebine koy. Bir: Google fihristtir. Model asistan. Anahtar kelime fırlatma. İki: beş taş. Rol, görev, bağlam, kısıt, çıktı. Üç: üç kapı. çetcipiti nokta kom. klod nokta ey ay. perpleksiti nokta ey ay. Halüsinasyon uydurma değil, boşluk doldurmadır. Kısıt raydır. Maske kalkanıdır. Kapı adlarını deftere yaz. Yarın o kapılardan gireceksin. Beş taşsız istemi artık gönderme."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 405.36,
+      "end": 439.12,
+      "text": "Şimdi iki dakikalık kanıt. Bu hafta yazdığın tek cümlelik sıradan istemi al. Bana bir mail yaz yeter. Altına rol, görev, bağlam, kısıt ve çıktı satırlarını ekle. İki sonucu yan yana koy. Uçurumu kendi ekranında görmeden ikinci bölüme geçme. Orada Fyu şat ve Çeyn ov tot ile modeli sıfır hataya kilitleyeceğiz. Kahveni tazele. Bugün boş kutunun ilk dilimini geri aldın. Yarın aynı stajyer masanda olacak. Başladık."
+    }
+  ]
+}

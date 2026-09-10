@@ -1,0 +1,50 @@
+[
+  {
+    "id": "cue-01",
+    "start": 0,
+    "end": 90,
+    "text": "Tekrar selam. Ben Kaan.",
+    "section": "Isınma & İş Problemi",
+    "paragraphs": [
+      "Tekrar selam. Ben Kaan. Dördüncü istasyon: WhatsApp ve Meta. Türkiye'de vitrin webdir. Kasa WhatsApp'tır. Klinik, emlak, butik. Müşteri bakır, karar hattında verir. Danışmanın elinde tek telefon. Kırk sohbet. Şarj biter. Gece susar. Toplu mesaj ban yer. Bu ilkel hat bugün yıkılır. Cloud API omurga. Bot arkada. İnsan gerektiğinde. Para orada kapanır. Telefona hapsolmuş hat satış değil, krizdir.",
+      "Erişim net. developers.facebook.com. Meta for Developers. Business uygulaması. WhatsApp ürünü. Sandbox test numarası. Kendi cep. İlk merhaba. Kahvenden bir yudum al. Derin bir nefes al. Yeşil uygulama ile Cloud API'yi ayıracağız. Yirmi dört saat kuralı. Şablon. Spam kalkanı. ManyChat tünel ayrı. Botpress asistan ayrı. Başlıyoruz.",
+      "Kapı kilitliyse bant durur. İşletme yöneticisi yoksa bugün davet al. Ücretsiz Sandbox yeter. Canlı numara yarın. Yeşil tik yarın. Bugün test mesajı telefonuna düşsün. Sonra şablon taslağı. Evrak sonra. Önce kanıt. Telefona düşmeyen merhaba canlıya basılmaz."
+    ]
+  },
+  {
+    "id": "cue-02",
+    "start": 90,
+    "end": 300,
+    "text": "Soyut tanımları bir kenara bırakıyoruz; doğrudan hattaki yanılgıya bakıyoruz.",
+    "section": "Temel Yöntem",
+    "paragraphs": [
+      "Soyut tanımları bir kenara bırakıyoruz; doğrudan hattaki yanılgıya bakıyoruz. WhatsApp Business uygulaması otomasyon değildir. Telefon ölür, hat ölür. Ekip giremez. Botpress bağlanmaz. Yüz kişilik blast numara yer. Cloud API telefonsuz borudur. Meta sunucusunda yaşar. Arkasına Botpress, ManyChat veya Make.com takılır. ManyChat reklam tüneli. Botpress belge beyni ve kurumsal hat. Karıştırma. Reklam tüneli ayrı. Klinik asistanı ayrı. Yanlış kapı, yanlış ürün.",
+      "Beş adım. Bir: developers.facebook.com. Business Manager ile gir. İki: Create App, Business, WhatsApp. Üç: Sandbox. Test Number. Kendi cep alıcı. İlk mesaj. Dört: canlı numara. Üstünde kişisel WhatsApp olmasın. Sabit hat bulut santrale. Ses santrale. Mesaj bota. Beş: işletme doğrulama. Vergi levhası. İmza. Fatura. Unvan harf harf. Sonra yeşil rozet başvurusu. Click-to-WhatsApp reklam aynı numaraya akar. Bot karşılar. Reklam bütçesi boşa gitmez. Kişisel hat bu beş adıma giremez. Sil, taşı, bağla.",
+      "Yirmi dört saat kuralı. Müşteri yazdıysa serbest cevap. Pencere kapanınca şablon. Meta şablonu inceler. Onaysız çıkmaz. Üç örnek. Randevu hatırlatma. Operasyon bakımı. Sepet kurtarma. Değişkenler çift kıvrık. Pazarlama pahalı. Fayda ucuz. Hizmet kotası değişir. Canlı tarife Meta panelinden. Hız limiti. Kuyruk. İPTAL satırı. Spam işaretlenirse kalite düşer. Hat kısıtlanır. Bot talep edene yazar. Yağdırmaz. Saygı omurgadır.",
+      "OpenAI burada mesaj taşımaz. Meta taşır. Botpress veya Make.com beyni bağlar. platform.openai.com anahtarı Botpress LLM kutusunda kalır. Meta paneline yapıştırılmaz. Karıştırma. Üç kapı. developers.facebook.com. botpress.com kanal. make.com kuyruk. Sen yönetici kal. Anahtar sızmasın. Hat ban yemesin. Yanlış kutuya yapıştırılan anahtar hem ban hem fatura demektir. Kutuları ayır."
+    ]
+  },
+  {
+    "id": "cue-03",
+    "start": 300,
+    "end": 510,
+    "text": "Kritik durum burada başlar.",
+    "section": "İstisna & Kritik Durum",
+    "paragraphs": [
+      "Kritik durum burada başlar. Kişisel hatta bot bağlama. Ban riski. İkinci tuzak: canlı numarada eski WhatsApp bırakmak. Tahsis olmaz. Üçüncü tuzak: onaylı şablonsuz hatırlatma. Pencere kapalı, mesaj düşmez. Dördüncü tuzak: izinsiz pazarlama. Kalite kırmızı. Onay sende kalır. Sandbox yeşil olmadan canlı numara alma. Evrak uyuşmazsa doğrulama düşer. Acele yayın felakettir.",
+      "Aynı kalkanı erişimde kuruyorsun. developers.facebook.com. WhatsApp. Sandbox. business.facebook.com doğrulama. botpress.com kanal bağla. make.com kuyruk. platform.openai.com ayrı kutu. Panik yok. Test merhaba telefonuna düşsün. Şablon taslağını kâğıda yaz. Canlıya acele etme. Yeşil tik ego değil, güven rozeti. Evrak hazırsa bas. Değilse Sandbox'ta kal. Kapı adı yeter. Evrak harf harf uyuşmazsa doğrulama düşer. Unvanı kopyala, uydurma.",
+      "Spam kalkanı da saha. Toplu gece mesajı yok. Reklam şablonuna İPTAL. Şikayet gelirse dur. Kalite sarıysa hacmi kes. Bot randevu ve bilgi. Yağmur değil. Sen kalkanı tutarsın. Stajyer kampanya ister. Sen kuyruğu tutarsın. Kalite puanı yeşil kalsın. Kırmızı hat kilitlenir. Meta kırmızıya düşünce botun zekâsı yetmez. Hat ölür. Kuyruk ve İPTAL omurgadır."
+    ]
+  },
+  {
+    "id": "cue-04",
+    "start": 510,
+    "end": 600,
+    "text": "Üç anahtarı cebine koy.",
+    "section": "Özet & Saha Görevi",
+    "paragraphs": [
+      "Üç anahtarı cebine koy. Bir: yeşil uygulama otomasyon değil. Cloud API borudur. İki: developers.facebook.com, Sandbox, sonra doğrulama. Üç: yirmi dört saat, onaylı şablon, spam kalkanı. ManyChat tünel. Botpress asistan. Kapı adlarını deftere yaz. Test mesajı telefonuna düşmeden beşinci bölüme geçme. Orada Make.com fişi fırlatır. Takvim ve tablo orada uyanır.",
+      "Şimdi iki dakikalık kanıt. developers.facebook.com'da test uygulaması aç. WhatsApp ürününü aç. Sandbox'tan kendi cepine ilk merhaba gönder. Ardından tek randevu hatırlatma şablonu yaz. Test mesajı telefonuna düşmeden beşinci bölüme geçme. Kahveni tazele. Bugün hattın resmi kapısını açtın. Yarın fiş mutfağa gidecek. Başladık."
+    ]
+  }
+]

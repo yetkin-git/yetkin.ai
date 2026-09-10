@@ -1,0 +1,40 @@
+<!--
+  Stüdyo konuşma metni — 05_prompt_practice-4
+  Duvar saati: 600 sn (10 dk). Cue SSOT: lesson-cues/05_prompt_practice-4.json
+  Ses: Gözde / Callirrhoe. Kod çiti yok. SEN aksı.
+  Dört adım: Isınma 90s → Temel Yöntem 210s → İstisna 210s → Özet 90s.
+  TTS: 12 doğal nefes bloğu; parça arası 0.3–0.5 sn taze nefes. Tek parça devasa blok yok.
+  Karaoke: kısa cümle; her blok 3–4 satır (maks ~36 kelime / 220 karakter).
+-->
+
+<!-- cue:cue-01 start:0 end:90 section:Isınma & İş Problemi -->
+
+Tekrar merhaba. Ben Gözde. Bugüne kadar modele kelime yazdırdın. Mail. Özet. Taslak. Asıl güç başka yerde. Karmaşık sistemde örüntü yakalamak. Krizde kör noktayı aydınlatmak. Şirketin batmasıyla zirveye çıkması, kritik anda doğru soruyu sorup soramadığındadır. Tek başına işletme, serbest iş, departman başı. Çoğu zaman yalnızsın. Seni acımasızca eleştirecek kıdemli bir akıl hocası yok. Bugün yapay zekâyı masandaki en tarafsız strateji ortağı yapıyoruz. Kahvenden bir yudum al. Derin bir nefes al. Başlıyoruz.
+
+Kapılar aynı. ChatGPT için chatgpt.com. Claude için claude.ai. Perplexity için perplexity.ai. Ücretsiz kotayla ilk SWOT'u görmen yeter. Kapı kilitliyse bant durur. Bugün bir hesap. Yarın ölçek. Link ezberi yok. Kapı adı yeter. Sen yönetici kal. Model terazidir. Dalkavuk değildir.
+
+İçi boş SWOT hiçbir karara ışık tutmaz. Güçlü yönümüz kaliteli ürün. Zayıf yönümüz az bütçe. Bu cümle duvardır, pusula değil. Gerçek SWOT ham veriden çıkar. İki yüz şikayet. Üç rakip fiyatı. Sektör büyümesi. Dağınık not. Model tarar. Kronik problem zayıf yön olur. Rakibin sunmadığı talep fırsat olur. Tedarik aksaması tehdit olur. Kanıt yanına gelir. Soyut ifade yasak.
+
+<!-- cue:cue-02 start:90 end:300 section:Temel Yöntem -->
+
+Soyut tanımları bir kenara bırakıyoruz; doğrudan şikayet yığınındaki gerçek probleme bakıyoruz. Rol: Fortune beş yüz danışmanı. Görev: ham metinden derin SWOT. Yöntem bir. En az on kez tekrarlayan kronik problem zayıf yön. Yöntem iki. Rakiplerin sunmadığı, müşterinin ısrar ettiği eksik fırsat. Yöntem üç. Tedarik ve maliyet baskısı tehdit. Kural: her tespitin yanında somut kanıt. Çıktı: her çeyrekte üç madde. En sonda Pazartesi sabahı atılacak üç adım. Cerrah hassasiyeti. Neden kaçıyorlar. Nereye sızarsın. Görünür.
+
+İkinci teknik. Pre-Mortem. Ölüm öncesi inceleme. Her şeyin bugünkü gibi gideceğini varsaymak en büyük yanılgıdır. Pazar yüzde yirmi daralırsa. Ana tedarikçi iflas ederse. Kur bir gecede fırlarsa. Proje başlamadan hayal kurulur. Tarihlerden bir yıl sonrası. Bu iş battı. Bizi tam olarak ne batırdı. Aşırı iyimserlik yıkılır. Model acımasız kriz denetçisi olur. Beş ölümcül kör nokta. Her birinin karşısına bugünden tek cümlelik emniyet tedbiri.
+
+Vaka. Türkiye genelinde organik soğuk sıkım zeytinyağı e-ticaret lansmanı. On iki ay sonrası. Para bitti. Operasyon durdu. Lojistikte ne yanlış hesaplandı. Müşteri edinme maliyetinde hangi tuzak. Ambalaj ve şişelemede hangi hata. Model cam şişenin kargoda kırılma maliyetini hatırlatır. Yaz sıcağında asidite bozulmasını hatırlatır. Reklamın kâr marjını yutacağını hatırlatır. Sen sahaya çıkmadan zırh kuşanırsın. Girişimcinin hayatı bu promptta kurtulabilir.
+
+Üçüncü teknik. Critique and Refine. Şeytanın avukatı. Kendi metnine âşık olmak kolaydır. İnsan kendi hatasını göremez. Yatırımcı sunumunu yapıştır. Emir: sen en büyük rakibin acımasız genel müdürüsün. En zayıf, temelsiz, abartılı iddiayı yüzüme vur. Acıma. Nerede mantık hatası. Hangi rakam inandırıcı değil. Hangi varsayım havada. Sonra kurşun geçirmez üç düzeltme. Canın yanabilir. Masada duymak, gerçek yatırımcı karşısında ter dökmekten iyidir.
+
+<!-- cue:cue-03 start:300 end:510 section:İstisna & Kritik Durum -->
+
+Kritik durum burada başlar. Modeli egonu okşayan dalkavuk yapmak. Analitik prompt bunun tersidir. Tarafsız terazi. İkinci tuzak: soyut SWOT. Kanıtsız madde duvardır. Üçüncü tuzak: Pre-Mortem'i eğlence senaryosu sanmak. Çıkan ilk tedbiri takvime işlemezsen egzersiz çöptür. Dördüncü tuzak: ham müşteri listesini yapıştırmak. Maskele. Onay sende kalır. Uydurma kanıtı silersin. Şiir kalan strateji çöptür.
+
+Aynı kalkanı erişimde kuruyorsun. chatgpt.com SWOT ve panel. claude.ai uzun şikayet yığını. perplexity.ai pazar teyidi. Ücretli plan şart değil. Ücretsiz kotayla ilk Pre-Mortem'i görmen yeter. Kapı kilitliyse bant çalışmaz. Bugün bir hesap. Yarın ölçek. Panik yok. Kapıyı aç. İlk kör noktayı gör. Sonra takvime yaz. Link ezberi yok. Kapı adı yeter.
+
+Veri yine maske. Gerçek isim, ciro, sözleşme rakamı açık modele yapışmaz. Müşteri A. Bölge bir. Tutar köşeli parantez. Eleştiri acıtır. Acı, yarınki yatırımcıdan ucuzdur. Düzelt. Güçlendir. Pazara yenilmez çık. SWOT kanıt ister. Pre-Mortem tedbir ister. Critique düzeltme ister. Bu omurga cebine girer. Sen yönetici kal. Model terazi tutar.
+
+<!-- cue:cue-04 start:510 end:600 section:Özet & Saha Görevi -->
+
+Üç anahtarı cebine koy. Bir: SWOT ham veriden ve kanıttan çıkar. İki: Pre-Mortem. On iki ay sonrası battı. Beş kör nokta. Tek cümle tedbir. Üç: şeytanın avukatı. Acımasız eleştiri, sonra üç düzeltme. Kapı adları aynı. chatgpt.com. claude.ai. perplexity.ai. Yarın o kapılardan gireceksin. Kanıtsız maddeyi artık strateji sayma.
+
+Şimdi iki dakikalık kanıt. Üzerinde çalıştığın gerçek projeyi Pre-Mortem promptuna yapıştır. On iki ay sonrasına git. Bu iş battı. En olası beş ölümcül kör nokta. Her birine bugünden tek cümlelik emniyet tedbiri. Çıkan listedeki ilk tedbiri hemen takvimine işle. Kendi projeninde tek bir kör noktayı görmeden beşinci bölüme geçme. Orada kelimeden görsele geçeceğiz. Kahveni tazele. Bugün strateji ortağının ilk dilimini aldın. Yarın aynı stajyer masanda olacak. Başladık.

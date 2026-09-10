@@ -17,7 +17,10 @@ import {
 import {
   assertPaytrLiveUserIp,
   assertPaytrProductionSafety,
+  buildPaytrMerchantBrowserReturnUrl,
   isPaytrMockCheckoutAllowed,
+  isPaytrSandboxEnabled,
+  resolvePaytrCheckoutUserIp,
   resolvePaytrMerchantAppOrigin,
 } from "@/lib/kernel/payments/paytr/checkout";
 import { createPrismaPaymentOrderStore } from "@/lib/kernel/payments/prisma-order-store";
@@ -30,13 +33,11 @@ import {
   applyHttpRateLimit,
   HTTP_RATE_LIMITS,
   rateLimitedJsonResponse,
-  resolveRequestIp,
 } from "@/lib/kernel/security/http-rate-limit";
 import {
   CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS,
   classifyForwardedIp,
   parseTrustedProxyHops,
-  UNKNOWN_REQUEST_IP,
 } from "@/lib/kernel/security/trusted-proxy";
 import { z } from "zod";
 import {
@@ -149,14 +150,8 @@ export async function POST(request: Request) {
 
         const origin = resolvePaytrMerchantAppOrigin();
         const hops = parseTrustedProxyHops();
-        const resolvedIp = resolveRequestIp(request);
-        const ipKind = classifyForwardedIp(resolvedIp);
-        const userIp =
-          process.env.NODE_ENV === "production"
-            ? resolvedIp
-            : resolvedIp === UNKNOWN_REQUEST_IP
-              ? "127.0.0.1"
-              : resolvedIp;
+        const userIp = resolvePaytrCheckoutUserIp(request.headers);
+        const ipKind = classifyForwardedIp(userIp);
         logEvent({
           level:
             process.env.NODE_ENV === "production" && ipKind !== "public_ipv4" ? "warn" : "info",
@@ -164,7 +159,7 @@ export async function POST(request: Request) {
           requestId,
           userId: user.id,
           route: WALLET_TOP_UP_ROUTE,
-          reason: `hops=${hops} ipKind=${ipKind}`,
+          reason: `hops=${hops} ipKind=${ipKind} live=${!isPaytrSandboxEnabled()}`,
         });
         if (
           process.env.NODE_ENV === "production" &&
@@ -239,8 +234,8 @@ export async function POST(request: Request) {
             email: user.email,
             paymentAmountMinor: amountMinor,
             currencyCode: SETTLEMENT_CURRENCY,
-            merchantOkUrl: `${origin}/cuzdan`,
-            merchantFailUrl: `${origin}/cuzdan`,
+            merchantOkUrl: buildPaytrMerchantBrowserReturnUrl(origin),
+            merchantFailUrl: buildPaytrMerchantBrowserReturnUrl(origin),
             userBasket: [{ name: "Cuzdan yukleme", amountMinor, quantity: 1 }],
             userName: paytrUser.userName,
             userAddress: paytrUser.userAddress,

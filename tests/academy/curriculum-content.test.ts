@@ -12,6 +12,7 @@ import { ACADEMY_TERM } from "@/archived/lib/academy-studio/term-glossary";
 import {
   ACADEMY_INSTRUCTORS_BY_VOICE,
   ACADEMY_INSTRUCTOR_TTS_VOICES,
+  academyInstructorBySlug,
   ACADEMY_ANNOUNCER,
   ACADEMY_CAST_REGISTRY,
   ACADEMY_MODERATOR,
@@ -119,7 +120,7 @@ describe("03.20 insani diyalog ve terim parantezleri", () => {
 });
 
 describe("03.22 tek ses tek isim", () => {
-  it("altı TTS kodu yedi Türkçe isme mühürlüdür; ikinci isim yok", () => {
+  it("sekiz TTS kodu sekiz Türkçe isme mühürlüdür; ikinci isim yok", () => {
     expect(ACADEMY_INSTRUCTOR_TTS_VOICES).toEqual([
       "Zephyr",
       "Erinome",
@@ -128,6 +129,7 @@ describe("03.22 tek ses tek isim", () => {
       "Aoede",
       "Leda",
       "Callirrhoe",
+      "Kore",
     ]);
     expect(ACADEMY_TTS_VOICES).toEqual([
       "Zephyr",
@@ -137,6 +139,7 @@ describe("03.22 tek ses tek isim", () => {
       "Aoede",
       "Leda",
       "Callirrhoe",
+      "Kore",
       "Charon",
       "Enceladus",
       "Iapetus",
@@ -144,15 +147,16 @@ describe("03.22 tek ses tek isim", () => {
     ]);
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Zephyr.name).toBe("Deniz");
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Erinome.name).toBe("Maya");
-    expect(ACADEMY_INSTRUCTORS_BY_VOICE.Puck.name).toBe("Aras");
+    expect(ACADEMY_INSTRUCTORS_BY_VOICE.Puck.name).toBe("Kaan");
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Fenrir.name).toBe("Boran");
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Aoede.name).toBe("Selin");
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Leda.name).toBe("Ece");
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Callirrhoe.name).toBe("Gözde");
+    expect(ACADEMY_INSTRUCTORS_BY_VOICE.Kore.name).toBe("Aylin");
     const names = ACADEMY_INSTRUCTOR_TTS_VOICES.map(
       (voice) => ACADEMY_INSTRUCTORS_BY_VOICE[voice].name,
     );
-    expect(new Set(names).size).toBe(7);
+    expect(new Set(names).size).toBe(8);
     for (const voice of ACADEMY_INSTRUCTOR_TTS_VOICES) {
       expect(ACADEMY_INSTRUCTORS_BY_VOICE[voice].voice).toBe(voice);
     }
@@ -173,6 +177,16 @@ describe("03.22 tek ses tek isim", () => {
     expect(ACADEMY_DIGITAL_SKILLS_MODERATOR.name).toBe("Tarık");
     expect(ACADEMY_DIGITAL_SKILLS_MODERATOR.voice).toBe("Iapetus");
     expect(ACADEMY_DIGITAL_SKILLS_MODERATOR.speechRate).toBe(1);
+    expect(academyInstructorBySlug("02_ecommerce_ai").name).toBe("Aylin");
+    expect(academyInstructorBySlug("02_ecommerce_ai").voice).toBe("Kore");
+    expect(academyInstructorBySlug("01_office_ai").name).toBe("Gözde");
+    expect(academyInstructorBySlug("03_social_media_ai").name).toBe("Deniz");
+    expect(academyInstructorBySlug("03_social_media_ai").voice).toBe("Zephyr");
+    expect(academyInstructorBySlug("04_chatbot_nocode").name).toBe("Kaan");
+    expect(academyInstructorBySlug("04_chatbot_nocode").voice).toBe("Puck");
+    expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Aylin")?.speechRate).toBe(
+      0.93,
+    );
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Gözde")?.speechRate).toBe(
       0.93,
     );

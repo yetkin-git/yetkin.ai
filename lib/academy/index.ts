@@ -56,6 +56,18 @@ export {
   ACADEMY_COURSE_LEVELS,
   resolveAcademySeedMoney,
 } from "@/lib/academy/course-level";
+export {
+  ACADEMY_AI_COURSE_DURATION_MAX_MINUTES,
+  ACADEMY_AI_COURSE_DURATION_MIN_MINUTES,
+  ACADEMY_AI_LESSON_COUNT_MAX,
+  ACADEMY_AI_LESSON_COUNT_MIN,
+  ACADEMY_AI_LESSON_DURATION_MAX_MINUTES,
+  ACADEMY_AI_LESSON_DURATION_MIN_MINUTES,
+  ACADEMY_LESSON_SATURATION_BEATS,
+  ACADEMY_OPTIONAL_LEVEL_PACKAGES,
+  ACADEMY_SEALED_MEDIA_LAYERS,
+  ACADEMY_TTS_VOICE_GENDERS,
+} from "@/lib/academy/production-standard";
 export type {
   AcademyCertificateRecord,
   AcademyCourseRecord,
@@ -68,6 +80,7 @@ export type {
   CurriculumModule,
   Section,
   VoiceConfig,
+  AcademyVoiceGender,
 } from "@/lib/academy/curricula/types";
 export {
   ACADEMY_DEMO_AUDIO_PUBLIC_PATH,

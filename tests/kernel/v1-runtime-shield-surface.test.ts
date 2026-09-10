@@ -43,7 +43,7 @@ import { POST as postRelease } from "@/app/api/freelancer/contracts/[id]/release
 import { POST as postRefund } from "@/app/api/freelancer/contracts/[id]/refund/route";
 import { POST as postDelivery } from "@/app/api/freelancer/contracts/[id]/messages/route";
 import { GET as getSessionHop } from "@/app/api/(kernel)/auth/session/route";
-import { GET as getJobs } from "@/app/api/freelancer/jobs/route";
+import { GET as getAcademyPulse } from "@/app/api/academy/pulse/route";
 import { GET as getAcademyCertificate } from "@/app/api/academy/certificates/[hash]/route";
 import * as sessionApi from "@/lib/kernel/auth/session";
 import * as academyRuntime from "@/lib/academy/runtime";
@@ -174,14 +174,9 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
   it("RAIL_V1_HOPS yazma hop'ları handler'da kalkanı çağırır; GET anahtar dayatmaz", () => {
     expect(readSrc("lib/kernel/http/v1-runtime-shield.ts")).toContain("readIdempotencyKey");
     const writeHops = RAIL_V1_HOPS.filter((hop) => hop.idempotency);
-    expect(writeHops.map((hop) => hop.id)).toEqual([
-      "academy-purchase",
-      "freelancer-bid",
-      "freelancer-accept",
-      "freelancer-delivery",
-      "freelancer-release",
-      "freelancer-refund",
-    ]);
+    // PayTR B2C: sicilde tek yazma hop'u academy-purchase; freelancer
+    // yazma kalkanları kanonik handler'larda aynı katılıkla durur (aşağıda).
+    expect(writeHops.map((hop) => hop.id)).toEqual(["academy-purchase"]);
     for (const hop of RAIL_V1_HOPS) {
       if (hop.method === "GET") {
         expect(hop.idempotency, hop.id).toBe(false);
@@ -212,9 +207,9 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
   });
 
   it("UUID yok veya geçersizken kalkan 400 zarf basar; 2xx doğmaz", async () => {
-    const bidHop = RAIL_V1_HOPS.find((hop) => hop.id === "freelancer-bid");
-    expect(bidHop).toBeTruthy();
-    const missing = requireRailV1IdempotencyKey(hopRequest(bidHop!), REQUEST_ID);
+    const purchaseHop = RAIL_V1_HOPS.find((hop) => hop.id === "academy-purchase");
+    expect(purchaseHop).toBeTruthy();
+    const missing = requireRailV1IdempotencyKey(hopRequest(purchaseHop!), REQUEST_ID);
     expect(missing.ok).toBe(false);
     if (missing.ok) {
       throw new Error("kalkan UUID'siz geçti");
@@ -222,7 +217,7 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
     await expectV1Fail(missing.response, 400, RAIL_V1_IDEMPOTENCY_REQUIRED);
 
     const invalid = requireRailV1IdempotencyKey(
-      hopRequest(bidHop!, { headers: { [IDEMPOTENCY_KEY_HEADER]: "not-a-uuid" } }),
+      hopRequest(purchaseHop!, { headers: { [IDEMPOTENCY_KEY_HEADER]: "not-a-uuid" } }),
       REQUEST_ID,
     );
     expect(invalid.ok).toBe(false);
@@ -232,7 +227,7 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
     await expectV1Fail(invalid.response, 400, RAIL_V1_IDEMPOTENCY_UUID);
 
     const ok = requireRailV1IdempotencyKey(
-      hopRequest(bidHop!, {
+      hopRequest(purchaseHop!, {
         headers: { [IDEMPOTENCY_KEY_HEADER]: REQUEST_ID },
       }),
       REQUEST_ID,
@@ -245,21 +240,31 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
       id: TEST_USER,
       email: TEST_EMAIL,
     });
-    const writeHops = RAIL_V1_HOPS.filter(
-      (hop) => hop.idempotency && !isRailV1HopForbiddenOnDron(hop.id),
-    );
-    for (const hop of writeHops) {
-      const mapped = WRITE_HANDLERS[hop.id as keyof typeof WRITE_HANDLERS];
-      expect(mapped, hop.id).toBeTruthy();
-      const missing = await mapped.post(hopRequest(hop), {
+    // PayTR B2C: freelancer yazma hop'ları sicilde yok ama handler kalkanları
+    // kanonik yolda aynı katılıkla durur — v1 zarf URL'leriyle doğrudan denenir.
+    const V1_PROBE_URL: Record<string, string> = {
+      "freelancer-bid": `/api/v1/freelancer/jobs/${JOB_ID}/bids`,
+      "freelancer-accept": `/api/v1/freelancer/jobs/${JOB_ID}/accept`,
+      "freelancer-delivery": `/api/v1/freelancer/contracts/${CONTRACT_ID}/messages`,
+      "freelancer-release": `/api/v1/freelancer/contracts/${CONTRACT_ID}/release`,
+      "freelancer-refund": `/api/v1/freelancer/contracts/${CONTRACT_ID}/refund`,
+    };
+    const entries = Object.entries(WRITE_HANDLERS).filter(([id]) => id !== "academy-purchase");
+    expect(entries.map(([id]) => id)).toEqual(Object.keys(V1_PROBE_URL));
+    for (const [id, mapped] of entries) {
+      const probe = (headers?: HeadersInit) =>
+        new Request(new URL(V1_PROBE_URL[id]!, "http://localhost:3000"), {
+          method: "POST",
+          headers: v1Headers(headers),
+        });
+      const missing = await mapped.post(probe(), {
         params: Promise.resolve(mapped.params),
       });
       await expectV1Fail(missing, 400, RAIL_V1_IDEMPOTENCY_REQUIRED);
 
-      const invalid = await mapped.post(
-        hopRequest(hop, { headers: { [IDEMPOTENCY_KEY_HEADER]: "not-a-uuid" } }),
-        { params: Promise.resolve(mapped.params) },
-      );
+      const invalid = await mapped.post(probe({ [IDEMPOTENCY_KEY_HEADER]: "not-a-uuid" }), {
+        params: Promise.resolve(mapped.params),
+      });
       await expectV1Fail(invalid, 400, RAIL_V1_IDEMPOTENCY_UUID);
     }
   });
@@ -270,9 +275,9 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
     const session = await getSessionHop(hopRequest(sessionHop!));
     await expectV1Fail(session, 401, RAIL_V1_SESSION_REQUIRED);
 
-    const jobsHop = RAIL_V1_HOPS.find((hop) => hop.id === "freelancer-jobs");
-    const jobs = await getJobs(hopRequest(jobsHop!));
-    await expectV1Fail(jobs, 401, RAIL_V1_SESSION_REQUIRED);
+    const pulseHop = RAIL_V1_HOPS.find((hop) => hop.id === "academy-pulse");
+    const pulse = await getAcademyPulse(hopRequest(pulseHop!));
+    await expectV1Fail(pulse, 401, RAIL_V1_SESSION_REQUIRED);
 
     vi.spyOn(sessionApi, "requireSession").mockResolvedValue({
       id: TEST_USER,

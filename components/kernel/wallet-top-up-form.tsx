@@ -17,6 +17,8 @@ import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { WALLET_TOP_UP_MAX_MINOR, WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
 import { CheckoutConsentFields } from "@/components/legal/checkout-consent-fields";
+import { PaytrCheckoutIframe } from "@/components/kernel/paytr-checkout-iframe";
+import { readPaytrIframeSrcFromCheckout } from "@/lib/kernel/payments/paytr/iframe-embed";
 import { CheckoutBillingFields } from "@/components/legal/checkout-billing-fields";
 import { SecurePaymentMarks } from "@/components/legal/secure-payment-marks";
 import { useCheckoutBilling } from "@/components/legal/use-checkout-billing";
@@ -143,7 +145,7 @@ export function WalletTopUpForm({
         }),
       );
       const envelope = await readCitizenEnvelope(response);
-      const iframe = typeof envelope.body.iframeUrl === "string" ? envelope.body.iframeUrl : null;
+      const iframe = readPaytrIframeSrcFromCheckout(envelope.body);
       if (envelope.body.sandboxMode === true) {
         setSandboxLive(true);
       }
@@ -182,9 +184,9 @@ export function WalletTopUpForm({
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-3">
+    <div className="space-y-3">
       {!iframeUrl ? (
-        <>
+        <form onSubmit={onSubmit} className="space-y-3">
           <label className="block text-sm font-medium">
             {copy.amountLabel}
             <Input value={amountMajor} onChange={(event) => setAmountMajor(event.target.value)} required />
@@ -203,27 +205,27 @@ export function WalletTopUpForm({
             onDigitalChange={setDigitalAccepted}
             showWalletHint
           />
-        </>
-      ) : null}
-      <SecurePaymentMarks compact />
-      {sandboxLive ? (
-        <p className="text-xs text-[var(--amber)]">{CUZDAN_SEN.sandboxHint}</p>
-      ) : null}
-      {error ? (
-        <p aria-live="assertive" className="text-sm text-[var(--rose)]">
-          {error}
-        </p>
-      ) : null}
-      {!iframeUrl ? (
-        <Button type="submit" disabled={pending || !distanceAccepted || !digitalAccepted || !billing.hydrated}>
-          {pending ? copy.pending : copy.submit}
-        </Button>
+          <SecurePaymentMarks compact />
+          {sandboxLive ? (
+            <p className="text-xs text-[var(--amber)]">{CUZDAN_SEN.sandboxHint}</p>
+          ) : null}
+          {error ? (
+            <p aria-live="assertive" className="text-sm text-[var(--rose)]">
+              {error}
+            </p>
+          ) : null}
+          <Button type="submit" disabled={pending || !distanceAccepted || !digitalAccepted || !billing.hydrated}>
+            {pending ? copy.pending : copy.submit}
+          </Button>
+        </form>
       ) : (
-        <iframe
-          title={copy.iframeTitle}
-          src={iframeUrl}
-          className="mt-3 h-[min(24rem,55vh)] w-full rounded-md border border-[var(--border)]"
-        />
+        <>
+          <SecurePaymentMarks compact />
+          {sandboxLive ? (
+            <p className="text-xs text-[var(--amber)]">{CUZDAN_SEN.sandboxHint}</p>
+          ) : null}
+          <PaytrCheckoutIframe src={iframeUrl} title={copy.iframeTitle} />
+        </>
       )}
       {waitingClearing ? (
         <p aria-live="polite" className="text-xs text-slate-600">
@@ -235,6 +237,6 @@ export function WalletTopUpForm({
           {copy.timeout}
         </p>
       ) : null}
-    </form>
+    </div>
   );
 }

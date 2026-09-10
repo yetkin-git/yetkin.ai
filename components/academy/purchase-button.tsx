@@ -26,6 +26,7 @@ import { SecurePaymentMarks } from "@/components/legal/secure-payment-marks";
 import { useCheckoutBilling } from "@/components/legal/use-checkout-billing";
 import { LEGAL_CHECKOUT_CONSENT_COPY } from "@/lib/copy/legal-launch";
 import { CHECKOUT_LEGAL_CONSENT_VERSION } from "@/lib/kernel/legal/checkout-consent";
+import { readPaytrIframeSrcFromCheckout } from "@/lib/kernel/payments/paytr/iframe-embed";
 import type { CheckoutBillingInfo } from "@/lib/kernel/identity/billing-info";
 
 function revealCheckoutGap() {
@@ -192,7 +193,7 @@ export function PurchaseButton({
           }),
         );
         const envelope = await readCitizenEnvelope(response);
-        const iframe = typeof envelope.body.iframeUrl === "string" ? envelope.body.iframeUrl : null;
+        const iframe = readPaytrIframeSrcFromCheckout(envelope.body);
         if (envelope.ok && envelope.body.mockCheckout === true) {
           idempotency.rotate();
           reportPaytrIframeError(UX_SEN.topUp.mockNoCredit, envelope.body);

@@ -1,0 +1,116 @@
+{
+  "lessonKey": "01_office_ai-3",
+  "pauseSec": 0.4,
+  "durationSec": 453.92,
+  "cacheV": 453920,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 19.32,
+      "text": "Tekrar merhaba. Ben Gözde. Kahveni tazelediysen masaya otur. Üçüncü ders başladı. Formül ezberi dün masadan kalktı. Bugün o formülün beslendiği veri konuşacak. Dünyanın en kusursuz formülünü de yazsan, hücredeki veri çöpse sonuç da çöptür."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 19.72,
+      "end": 51.52,
+      "text": "Cebinde iki kural duruyor. Bir: niyeti Türkçe tarif et. Formülü stajyer yazsın. İki: altın güvenlik. Gerçek ad yok. Kimlik yok. Gizli ciro yok. Müşteri A. Bay X. Şube bir yeter. Kalkan duruyorsa ofisin gizli kabusuna giriyoruz. Çöp veri. Yapışık hücre. Karışık tarih. Çöp girerse çöp çıkar. Çöpü saniyede pırıl pırıl tabloya çevireceğiz."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 51.92,
+      "end": 87.76,
+      "text": "Muhasebe programından bin beş yüz satırlık liste düşer. Müşteri yazılımından da düşer. Web formundan da düşer. Dosyayı açarsın. İçinden off çekersin. Biri adını tamamen büyük yazar. Biri tamamen küçük. Biri harfleri karıştırır. Ad tek hücreye tıkışmış. Soyad da. Unvan da. Şehir de. Telefonların kiminde sıfır beş var. Kiminde artı doksan. Kiminde parantez ve tire. Tarihler yarısı nokta. Yarısı eğik çizgi. Biri metin kalmış. Excel tarih bile görmez."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 88.16,
+      "end": 125.6,
+      "text": "Eski usulde metni sütunlara dönüştür açardın. Boşluk seçsen iki isimli personelin soyadı kayardı. Virgül seçsen unvan şehre karışırdı. Hızlı doldurma ilk üç satırda çalışır. Dördüncüde saçma sapardı. Akşam yedi buçuk. Işıklar sönmüş. Sen Ef iki tuşuna basardın. Hücre hücre keserdin. Göz yanar. Bilek ağrır. Buna kibarca veri temizleme denir. Gerçeğinde veri ameleliği. Bugünden sonra o amelelik tarihe gömülür. Stajyer desenleri okur. Virgül unutulsa bile bağlamı kaçırmaz."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 126,
+      "end": 162.6,
+      "text": "Karşına bozuk veri geldiğinde iki yol var. Bir: küçük ve orta liste. Elli ile üç yüz satır arası. Kopyala. Yapıştır. Kuralları söyle. Temiz tablo gelsin. Excel'e geri koy. İki: binlerce satır. Bütün dosyayı yapıştırma. Üç bozuk örnek göster. Stajyerden Excel formülü iste. Ya da Power Query (Veri Dönüştürme ve Yükleme İşlemi) adımı iste. Formülü ana tabloya uygula. Hacme göre yol seç. Bugün ikisini de masada göreceğiz."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 163,
+      "end": 207.52,
+      "text": "Klavyeni çek. Hangi araç açıksa o kalsın. A sütununda yapışık personel satırları var. Doktor Ali Rıza. Başhekim. İzmir. E-posta köşeli parantezde. Ayşe Demir. İnsan kaynakları uzmanı. İstanbul. Mehmet Can Yılmaz. Operasyon. Ankara. Avukat Selin Kara. Hukuk. Bursa. Yönetici ayrı sütun istiyor. Hitap. Ad. Soyad. Pozisyon. Şehir. E-posta. Eski sende metni sütunlara bölme stresi. İki isimli satır soyadı kaydırır. Unvan isim hanesine kaçar."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 207.92,
+      "end": 259,
+      "text": "Şimdi modele dön. Kıdemli veri analisti rolünü ver. Tabloyu sütun sütun anlat. Hitap varsa ilk harfi büyük olsun. Ad başlık düzeninde. Soyad tamamı büyük. Şehir parantezsiz. E-posta küçük harf. Temiz blokta versin ki kopyalayasın. Gönder. Üç saniyede gelir. Ali Rıza iki isim olduğu için soyadı kaymaz. Doktor unvanı isme girmez. Kopyala. Yapıştır. Tersi de var. Ad ve soyad ayrı sütundaysa birleştir. Aralarına boşluk koy. Sütunu söyle. Ayırıcıyı söyle. Hedefi söyle. Stajyer formülü yazar. Ayrıştırırken de birleştirirken de sihir aynı. Neyin nerede durduğunu söyle. Ne istediğini net tarif et. Stajyer ayrıntıyı sever. Sen yönetici kal."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 259.4,
+      "end": 304.84,
+      "text": "İkinci dert: telefon ve tarih. Aynı sütunda sıfır beş var. Artı doksan da var. Parantez de. Tire de. Tarih eğik çizgi olabilir. Nokta olabilir. Ay adı olabilir. Hatta saat. Filtre çalışmaz. Mesaj sistemine yüklenmez. Modele kurumsal standart uzmanı rolünü ver. Telefonu artı doksan diye yazsın. Beşle başlasın. Gruplu yazsın. Tarihi gün ay yıl yapsın. Saat düşsün. Müşteri kodu. Standart telefon. Standart tarih. Üç sütun. Gönder. Parantez ve fazladan sıfır tek hamlede hizalanır. Eğik çizgi de nokta da aynı güne oturur."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 305.24,
+      "end": 343.36,
+      "text": "Üst lig: eline tablo bile gelmez. Sohbet notu. Çağrı merkezi cümlesi. Posta çorbası. Yazılımcı buna desen yakalama der. Sen kod yazmazsın. Stajyer mıknatıs gibi çeker. Kadıköy bayisinden Selin aradı. Fatura numarası iki bin yirmi dört serisi. İade on dört bin beş yüz. Çankaya'dan Ahmet iskonto istedi. Bornova deposundan Burak mükerrer tahsilat bildirdi. Yönetici diyor. Kimden ne fatura. Tutarı ne. Acil tablo. Eski usulde metni satır satır okurdun. Kopyalardın. Hücreye yapıştırırdın."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 343.76,
+      "end": 379.28,
+      "text": "Şimdi modele metin analisti rolünü veriyorsun. Şube, yetkili, fatura numarası. Tutar. Konu. Serbest metni ver. Gönder. On saniyede operasyon tablosu. Fatura cımbızlanır. Şube ayrılır. Tutar hizalanır. Ofis üç yüz altmış beş kullanıyorsan. Excel'de aynı deseni çekecek formülü de isteyebilirsin. Türkçe Excel'de de İngilizce adıyla durur. Stajyer yazar. Sen yönetici kal. Paragraf yığınından toplantı tablosu. İşte ofisteki gerçek güç budur."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 379.68,
+      "end": 415.24,
+      "text": "Kendi verini pırıl pırıl görmeden dördüncü bölüme geçme. Küçük olsun. Mükemmel olmasın. Bitmiş olsun. Üç kural cebine. Bir: çöp girerse çöp çıkar. Önce veriyi standartlaştır. Sonra formülü kur. İki: hacme göre yol seç. Birkaç yüz satırı doğrudan temizlet. On binlerce satırda üç örnek üzerinden formül iste. Üç: deseni örnekle göster. Girdim şöyle. İstediğim çıktı böyle. Bir örnek yeter. Stajyer şaşırmaz."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 415.64,
+      "end": 453.92,
+      "text": "Şimdi iki dakikalık kanıt. Masandan beş satır bozuk veri kopyala. İsmi karışık olanı seç. Telefonu ya da tarihi karışık olanı da seç. Ayrıştırma istemiyle temizlet. Sonra iki sütunu birleştir. Kanıtın cebinde olsun. Sonraki derste beyaz sayfa var. Word. Resmi dilekçe. Sözleşme özeti. İmleç yanıp söner. Sayın ilgili diye dakikalarca kilitlenirsin. Orada kurumsal dili saniyede konuşturacağız. Kahveni al. Masada kal. Çöp veri bitti. Standart kaldı. Yarın aynı stajyer yine masanda olacak."
+    }
+  ]
+}

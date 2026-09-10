@@ -37,7 +37,7 @@ export type AcademyDialogueTimeline = {
   spokenDuration: number;
 };
 
-const DIALOGUE_LINE = /^(Eğitmen|Koray|Maya|Can|Ece|Tarık|Gözde):\s+([\s\S]+)$/u;
+const DIALOGUE_LINE = /^(Eğitmen|Koray|Maya|Can|Ece|Tarık|Gözde|Aylin):\s+([\s\S]+)$/u;
 
 function isSpokenFiveAct(act: string | null): act is AcademyFiveAct {
   return act === "warmup" || act === "problem" || act === "development" || act === "conclusion";

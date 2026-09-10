@@ -1,0 +1,116 @@
+{
+  "lessonKey": "04_chatbot_nocode-2",
+  "pauseSec": 0.4,
+  "durationSec": 426.44,
+  "cacheV": 426440,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 29.04,
+      "text": "Tekrar selam. Ben Kaan. İkinci istasyon: Voysflov tuvali. Dün zihni değiştirdik. Bugün fareyi hareket ettiriyoruz. Kod yok. Lego kutuları var. Ok çekersin. Cümle yazarsın. Web sitesinin sağ altında asistan uyanır. Müşteri prototipi görmeden sözleşme imzalamaz. Tuval kilitliyse satış durur. Sen yorgunsun. Bant bekler. Prototip on beş dakikadır. Sözleşme ondan sonra gelir."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 29.44,
+      "end": 69.28,
+      "text": "Erişim net. Tarayıcıdan voysflov nokta kom. Ücretsiz hesap. New Assistant. Boş tuval. Sol çubukta Talk, Capture, Choice, Condition, Uygulama Programlama Arayüzü (API). Kartı bırak. Çizgi çek. Gözün korkmasın. Bu Figma değil, diyalog stüdyosu. Kahvenden bir yudum al. Derin bir nefes al. NovaDent karşılama botunu bugün çizeceğiz. Start'tan isme. İsimden vitrine. Vitrinden telefona. Test panelinde kendi adın. Başlıyoruz."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 69.68,
+      "end": 93.72,
+      "text": "Kapı kapanırsa bant durur. Hesap yoksa bugün bir tane aç. Ücretli plan şart değil. Ücretsiz kotayla ilk oku görmen yeter. Link ezberi yok. Kapı adı yeter. voysflov nokta kom. New Assistant. Run. Kendi adını yaz. Botun seni selamladığını gör. Sonra ölçekle. Publish sonra. Önce ok."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 94.12,
+      "end": 134.08,
+      "text": "Soyut tanımları bir kenara bırakıyoruz; doğrudan tuvaldeki üç taşa bakıyoruz. Intent niyettir. Randevu almak. Fiyat sormak. Acil ağrı. Utterance aynı niyetin farklı cümleleridir. Yarın sıra alabilir miyim. Diş hekimine görünmek istiyorum. Acil randevu. Beş cümle yeter. Model gerisini tanır. Entity cımbızdır. Tarih. Saat. Tedavi türü. İmplant. Zirkonyum. Beyazlatma. Voysflov hazır varlıkları bilir. Özel varlığı sen eklersin. Restoran garsonu da böyle not alır."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 134.48,
+      "end": 170.68,
+      "text": "Değişken botun cebidir. kullanici_adi. kullanici_telefon. secilen_tedavi. randevu_tarihi. İsim Capture ile kutuya girer. Sonra isimle konuşursun. Skor da kurulur. Çapraşıklık var mı. Tel tedavisi gördün mü. On puan. Şeffaf plak uygun. Condition yol ayırır. İmplant ise implant bloğu. Acil ağrı ise nöbetçi hat. Değilse menü. Telefon on hane değilse geri yolla. Sahte numara kliniğe düşmez. Format kalkanı burada başlar."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 171.08,
+      "end": 219.24,
+      "text": "Canlı akış altı adım. Start'tan Text: merhaba, adınız. Capture Entire User Response, kullanici_adi. Kerousel: üç hekim kartı, randevu butonu. Seçim Condition'a gider. Telefon Capture Phone Number. Kapanış: teşekkürler, numaranıza konum. Run ile test. Widget Settings: logo, turkuaz, karşılama balonu. Publish. Embed kodu üç satır. Vördpres veya Hipermetin İşaretleme Dili (HTML) body kapanışının üstüne yapıştır. Sayfa yenilenir. Sağ altta asistan parlar. Kod ezberi yok. Yapıştır, yenile."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 219.64,
+      "end": 254,
+      "text": "Open ey ay burada şart değil. Voysflov kendi En el yu'sunu kullanır. İleride Uygulama Programlama Arayüzü (API) kartına Open ey ay anahtarı takılır. platform nokta open ey ay nokta kom. Create key. Kutuya yapıştır. Bugün tuval yeter. Kapıyı karıştırma. Önce ok. Sonra beyin. Botpres yarın. Bugün Start, Capture, Kerousel, telefon kalkanı. Serbest tıbbi soru yarın belgeye gider. Kapı sırası bozulursa bant karışır. Tuvali bitirmeden belgeye atlama."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 254.4,
+      "end": 287.56,
+      "text": "Kritik durum burada başlar. Tuvale şiir yazıp yayınlama. Karşılama uzunsa kimse okumaz. İkinci tuzak: telefonu serbest metin almak. On hane kalkanı yoksa çöp düşer. Üçüncü tuzak: tıbbi cevap. Voysflov rayıdır. Serbest tıbbi soru yarın Botpres Nalıc Beyz'de. Dördüncü tuzak: gömme kodu başlığa yapıştırmak. Body kapanışının üstü. Onay sende kalır. Test etmeden Publish basma. Run yeşil değilse yayın yok."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 287.96,
+      "end": 321.16,
+      "text": "Embed kodunu slayta, Vatsap'a, GitHub'a basma. Proje kimliği sızmasın. Widget rengi marka. Balon spam olmasın. Her girişte fırlayan balon ziyaretçiyi küstürür. Bir kez. Net cümle. Randevu. Kişisel veriyi testte sahte tut. Gerçek hasta adı yok. Kişisel Verilerin Korunması Kanunu (KVKK) kalkanı. Sen yönetici kal. İlk oku gör. Sonra vitrin. Stajyer her alanı basar. Sen gerekeni basarsın."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 321.56,
+      "end": 355.6,
+      "text": "Aynı kalkanı erişimde kuruyorsun. voysflov nokta kom açılmazsa tarayıcıyı değiştir. Hesap doğrulamazsa iş e-postasını dene. Publish griyse Run'da akışı bitir. Embed görünmezse önbelleği kır. Kapı adı yeter. voysflov nokta kom. New Assistant. Run. Publish. Panik yok. Kapıyı aç. Kendi adınla konuşan botu gör. Üçüncü bölüm belge beynine geçer. Şeker hastasına implant gibi serbest soru orada."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 356,
+      "end": 397.72,
+      "text": "Üç anahtarı cebine koy. Bir: Intent niyet, Utterance cümle, Entity cımbız. İki: değişken cebi ve Condition yol ayırır. Üç: Start, Capture, Kerousel, telefon kalkanı, Publish, embed. Kapı voysflov nokta kom. New Assistant. Run. Kendi adınla konuşan bot görmeden üçüncü bölüme geçme. Orada Botpres belge okur. Vatsap yarın. Meyk nokta kom öbür gün. Omurga sırayla kurulur."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 398.12,
+      "end": 426.44,
+      "text": "Şimdi iki dakikalık kanıt. voysflov nokta kom'da hesap aç. Start'a tek karşılama yaz. Capture bağla. Yanıtı kullanici_adi'ye kaydet. Test panelinde kendi adını yaz. Botun seni isminle çağırdığını gör. İlk akış okunu çizip kendi adınla konuşan botu görmeden üçüncü bölüme geçme. Kahveni tazele. Bugün tuvalin ilk dilimini geri aldın. Yarın aynı ok masanda olacak. Başladık."
+    }
+  ]
+}

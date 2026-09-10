@@ -56,9 +56,9 @@ describe("Faz 1 kanonikleştirme yüzeyi", () => {
     expect(existsSync(join(ROOT, "app/api/v1"))).toBe(false);
   });
 
-  it("v1 hop sicili 16 kayıt ve kenar kapısı 1:1 kilitler", () => {
+  it("v1 hop sicili 8 kayıt ve kenar kapısı 1:1 kilitler (PayTR B2C)", () => {
     expect(RAIL_V1_HOPS.map((hop) => hop.id)).toEqual(RAIL_V1_HOP_GATES.map((hop) => hop.id));
-    expect(RAIL_V1_HOPS).toHaveLength(16);
+    expect(RAIL_V1_HOPS).toHaveLength(8);
     expect(RAIL_V1_HOPS.map((hop) => hop.id)).toEqual([
       "health",
       "academy-certificate",
@@ -66,19 +66,12 @@ describe("Faz 1 kanonikleştirme yüzeyi", () => {
       "academy-purchase",
       "auth-session",
       "wallet-strip",
-      "freelancer-jobs",
-      "client-job-bids",
-      "freelancer-bid",
-      "freelancer-accept",
-      "freelancer-contracts",
-      "freelancer-delivery",
-      "freelancer-release",
-      "freelancer-refund",
       "career-pulse",
       "career-visas",
     ]);
     expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(9);
-    expect(RAIL_V1_HOPS.some((hop) => hop.id === "freelancer-refund")).toBe(true);
+    // Donuk Dron istemci allowlist'i durur; server sicili freelancer basmaz.
+    expect(RAIL_V1_HOPS.some((hop) => hop.id === "freelancer-refund")).toBe(false);
     expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).not.toContain("refund");
     expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).not.toContain("/api/v1/academy");
     expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).not.toContain("/api/v1/career");
@@ -102,17 +95,17 @@ describe("Faz 1 kanonikleştirme yüzeyi", () => {
 
   it("v1 jsonOk hop şemasına uymayan gövdeyi 500 jenerik hataya çevirir", async () => {
     const guarded = guardRailV1OkData({
-      pathname: "/api/v1/freelancer/jobs",
+      pathname: "/api/v1/dashboard/wallet-strip",
       method: "GET",
       data: { jobs: [{ id: "fj_1" }] },
     });
-    expect(guarded).toEqual({ ok: false, hopId: "freelancer-jobs" });
+    expect(guarded).toEqual({ ok: false, hopId: "wallet-strip" });
 
     const response = jsonOk(
       { jobs: [{ id: "fj_1" }] },
       200,
       REQUEST_ID,
-      v1Request("/api/v1/freelancer/jobs"),
+      v1Request("/api/v1/dashboard/wallet-strip"),
     );
     expect(response.status).toBe(500);
     expect(parseRailV1Envelope(await response.json())).toMatchObject({

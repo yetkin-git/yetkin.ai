@@ -1,12 +1,32 @@
 /**
  * Stüdyo konuşma metni — compact makaleden ayrı seslendirme SSOT.
- * Teleprompter cue paragraflarını okur; bake aynı paragrafları taze nefesle sentezler.
+ * Ekran cue JSON (F2, F5, Alt+F11, +90, Office 365, Word, PowerPoint, Copilot, Gamma, Teams,
+ * SEO, Trendyol, Buybox, Amazon, Bundle, H1, Meta, ChatGPT, Sentiment Analysis, Closed-Loop,
+ * Midjourney, Flux, Runway, Kling, CapCut, ElevenLabs, HeyGen, DALL-E, Canva,
+ * TikTok, Instagram, Reels, CTR, Voiceflow, Botpress, OpenAI, Make.com,
+ * Webhook, Guardrails, Fallback, RAG, LLM, CaaS, SLA,
+ * chatgpt.com, claude.ai, perplexity.ai, Few-Shot, Chain-of-Thought, SWOT, Pre-Mortem, Vision);
+ * skip-preventer bağlaçlı akışa çevirir; TTS fonetik haritayı okur.
  */
 
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { cleanAcademySpokenTextForTts, collapseAcademyLessonProse } from "@/lib/academy/lesson-body";
 import { loadAcademyLessonCues } from "@/lib/academy/lesson-cues";
+import { applyAcademyCueDisplayPhonetics } from "@/lib/academy/spoken-scripts/phonetics";
+import { expandAcademyTtsSkipPreventer } from "@/lib/academy/spoken-scripts/skip-preventer";
+
+export {
+  applyAcademyCueDisplayPhonetics,
+  applyAcademySpokenPhoneticsToDisplay,
+} from "@/lib/academy/spoken-scripts/phonetics";
+export { expandAcademyTtsSkipPreventer } from "@/lib/academy/spoken-scripts/skip-preventer";
+
+function spokenParagraphFromDisplayOrScript(part: string): string {
+  return cleanAcademySpokenTextForTts(
+    collapseAcademyLessonProse(applyAcademyCueDisplayPhonetics(expandAcademyTtsSkipPreventer(part))),
+  );
+}
 
 export const ACADEMY_SPOKEN_SCRIPT_LESSON_KEYS = [
   "01_office_ai-1",
@@ -15,6 +35,30 @@ export const ACADEMY_SPOKEN_SCRIPT_LESSON_KEYS = [
   "01_office_ai-4",
   "01_office_ai-5",
   "01_office_ai-6",
+  "02_ecommerce_ai-1",
+  "02_ecommerce_ai-2",
+  "02_ecommerce_ai-3",
+  "02_ecommerce_ai-4",
+  "02_ecommerce_ai-5",
+  "02_ecommerce_ai-6",
+  "03_social_media_ai-1",
+  "03_social_media_ai-2",
+  "03_social_media_ai-3",
+  "03_social_media_ai-4",
+  "03_social_media_ai-5",
+  "03_social_media_ai-6",
+  "04_chatbot_nocode-1",
+  "04_chatbot_nocode-2",
+  "04_chatbot_nocode-3",
+  "04_chatbot_nocode-4",
+  "04_chatbot_nocode-5",
+  "04_chatbot_nocode-6",
+  "05_prompt_practice-1",
+  "05_prompt_practice-2",
+  "05_prompt_practice-3",
+  "05_prompt_practice-4",
+  "05_prompt_practice-5",
+  "05_prompt_practice-6",
 ] as const;
 
 export type AcademySpokenScriptLessonKey = (typeof ACADEMY_SPOKEN_SCRIPT_LESSON_KEYS)[number];
@@ -65,7 +109,15 @@ export function loadAcademySpokenScriptMarkdownParagraphs(
   }
   return stripSpokenScriptMarkupPreserveParagraphs(readFileSync(path, "utf8"))
     .split(/\n\n+/u)
-    .map((part) => cleanAcademySpokenTextForTts(collapseAcademyLessonProse(part)))
+    .map((part) => spokenParagraphFromDisplayOrScript(part))
+    .filter((part) => part.length > 0);
+}
+
+/** Cue paragrafları — ekran metni fonetik haritadan geçerek TTS ile hizalanır. */
+export function loadAcademyCueParagraphsAsSpoken(lessonKey: string): readonly string[] {
+  return loadAcademyLessonCues(lessonKey)
+    .flatMap((cue) => cue.paragraphs ?? [])
+    .map((part) => spokenParagraphFromDisplayOrScript(part))
     .filter((part) => part.length > 0);
 }
 
@@ -73,13 +125,11 @@ export function loadAcademySpokenScriptParagraphs(
   lessonKey: string,
   root = process.cwd(),
 ): readonly string[] {
-  const fromCues = loadAcademyLessonCues(lessonKey).flatMap((cue) => cue.paragraphs ?? []);
-  if (fromCues.length > 0) {
-    return fromCues
-      .map((part) => cleanAcademySpokenTextForTts(collapseAcademyLessonProse(part)))
-      .filter((part) => part.length > 0);
+  const fromMd = loadAcademySpokenScriptMarkdownParagraphs(lessonKey, root);
+  if (fromMd.length > 0) {
+    return fromMd;
   }
-  return [...loadAcademySpokenScriptMarkdownParagraphs(lessonKey, root)];
+  return loadAcademyCueParagraphsAsSpoken(lessonKey);
 }
 
 export function loadAcademySpokenScriptProse(

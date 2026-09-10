@@ -4,16 +4,15 @@ Yetkinliğini kanıtlayan yapay zekâ eğitimleri. Öğrendiğini mühürle. Mü
 
 Vatandaş ve dış dünya markası **yetkin.ai**. npm paketi `yetkin.ai`. Lab veritabanı (`yetkin_rail_lab`), Inngest app id (`yetkin-rail`) ve dizin yolu `apps/rail-is` operasyonel kimlik olarak durur.
 
-## Dört çalışan oda
+## Faz 1 kamu vitrini — 3 oda
 
 | Oda | Yol | Ne işe yarar |
 |-----|-----|----------------|
 | Panel | `/dashboard` | Kabuk, cüzdan şeridi, pasaport |
-| Akademi | `/academy` | Kurs, müfredat, sınav, SHA-256 belge |
-| Kariyer | `/career` | Akademi mühründen vize |
-| Freelancer | `/freelancer` | İlan, teklif, mesajlaşma; kabul/emanet henüz bağlı değil |
+| Akademi | `/academy` | Kurs, müfredat, sınav, SHA-256 belge — **Faz 1 nakit** |
+| Kariyer | `/career` | Akademi mühründen vize; nakit taşımaz |
 
-“Çalışan 4 oda” **nakit iddiası taşımaz.** Freelancer: ilan, teklif, mesajlaşma çalışır; lisanslı split henüz bağlı olmadığından iş kabulü/emanet (accept) **503 Service Unavailable** döner. Sahte bakiye veya sahte CREDIT yazılmaz (fail-closed).
+**Motor 4 / Kamu Vitrini 3 Oda.** Freelancer (`/freelancer`) sicilde durur, kamu **410 Gone**; nakit iddiası taşımaz. Lisanslı Split bağlı değilken accept **503**. Junior (`/junior`) 18 yaş altı / veli odasıdır, üretim kilitli **410**. Sahte bakiye veya sahte CREDIT yazılmaz (fail-closed). Faz 1 tek nakit kanalı **PayTR Merchant** (B2C eğitim satışı).
 
 Kimlik Supabase Auth, nakit tek `amountMinor` defteri, dış sözleşme `/api/v1`. Gövde **Modüler Monolit + API-First Dron Sözleşmesi**dir; Shared Kernel paketi veya mikroservis platformu değildir.
 

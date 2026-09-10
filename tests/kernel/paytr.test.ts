@@ -6,7 +6,11 @@ import {
   requestPaytrCheckoutToken,
   buildPaytrMockCheckoutToken,
   buildPaytrTokenHash,
+  buildPaytrIframeUrl,
+  buildPaytrMerchantBrowserReturnUrl,
   encodePaytrUserBasket,
+  getPaytrIframeUrl,
+  normalizePaytrMerchantReturnUrl,
   paytrRuntimeCreditsWallet,
   readPaytrRuntimeMode,
 } from "@/lib/kernel/payments/paytr/checkout";
@@ -324,6 +328,59 @@ describe("PayTR port", () => {
         testMode: "1",
       }),
     );
+    expect(posted.get("merchant_ok_url")).toBe("http://localhost/ok");
+    expect(posted.get("merchant_fail_url")).toBe("http://localhost/fail");
+    if (result.ok) {
+      expect(result.iframeUrl).toBe("https://www.paytr.com/odeme/guvenli/iframe-token");
+      expect(result.iframeUrl).toBe(getPaytrIframeUrl(result.token));
+    }
+  });
+
+  it("merchant dönüş URL trailing slash düşer; iFrame src encode etmez", async () => {
+    expect(normalizePaytrMerchantReturnUrl("https://yetkin.ai/cuzdan/")).toBe(
+      "https://yetkin.ai/cuzdan",
+    );
+    expect(buildPaytrMerchantBrowserReturnUrl("https://yetkin.ai/")).toBe(
+      "https://yetkin.ai/cuzdan",
+    );
+    expect(buildPaytrIframeUrl("tok+en=")).toBe("https://www.paytr.com/odeme/guvenli/tok+en=");
+    expect(buildPaytrIframeUrl("tok+en=")).not.toContain("%2B");
+
+    vi.stubEnv("PAYTR_MERCHANT_ID", "111111");
+    vi.stubEnv("PAYTR_MERCHANT_KEY", "key-secret");
+    vi.stubEnv("PAYTR_MERCHANT_SALT", "salt-secret");
+    vi.stubEnv("PAYTR_SANDBOX", "0");
+    const capture: { posted: URLSearchParams | null } = { posted: null };
+    const fetchImpl: typeof fetch = async (_url, init) => {
+      capture.posted = new URLSearchParams(String(init?.body ?? ""));
+      return new Response(JSON.stringify({ status: "success", token: "live-token" }), {
+        status: 200,
+      });
+    };
+    const result = await requestPaytrCheckoutToken(
+      {
+        merchantOid: "wallettopuplive1",
+        userIp: "85.105.141.10",
+        email: "e2e@example.com",
+        paymentAmountMinor: 1300,
+        merchantOkUrl: "https://yetkin.ai/cuzdan/",
+        merchantFailUrl: "https://yetkin.ai/cuzdan/",
+        userBasket: [{ name: "yukleme", amountMinor: 1300, quantity: 1 }],
+        userName: "Ayşe Kaya",
+        userAddress: "İnönü Mah. 157 Sk. No:3/C Akhisar",
+        userPhone: "05321234567",
+      },
+      fetchImpl,
+    );
+    expect(result.ok).toBe(true);
+    expect(capture.posted?.get("merchant_ok_url")).toBe("https://yetkin.ai/cuzdan");
+    expect(capture.posted?.get("merchant_fail_url")).toBe("https://yetkin.ai/cuzdan");
+    expect(capture.posted?.get("user_ip")).toBe("85.105.141.10");
+    expect(capture.posted?.get("test_mode")).toBe("0");
+    if (result.ok) {
+      expect(result.iframeUrl).toBe("https://www.paytr.com/odeme/guvenli/live-token");
+      expect(result.sandboxMode).toBe(false);
+    }
   });
 
   it("geçerli kimlik olsa bile sahte telefon ile get-token açılmaz", async () => {

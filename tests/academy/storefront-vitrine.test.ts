@@ -120,9 +120,34 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(aliasPage).toContain("isAcademyRetiredStorefrontSlug");
     expect(aliasPage).toContain('permanentRedirect("/academy")');
     expect(academyCourseHasSealedAudio("01_office_ai")).toBe(true);
-    expect(academyCourseHasSealedAudio("02_ecommerce_ai")).toBe(false);
-    expect(academyCourseHasSealedAudio("05_prompt_practice")).toBe(false);
+    expect(academyCourseHasSealedAudio("02_ecommerce_ai")).toBe(true);
+    expect(academyCourseHasSealedAudio("05_prompt_practice")).toBe(true);
     expect(ACADEMY_SEN.catalog.audioBadge).not.toContain("Seslendirmeli");
     expect(ACADEMY_RETIRED_STOREFRONT_SLUGS).toContain("siber-guvenlik");
+  });
+
+  it("vitrin dürüstlük kilidi: 01–02 ses+karaoke; 03–05 yazılı compact; 13 eğitim vaadi yok", () => {
+    expect(ACADEMY_SEN.catalog.heroAudioBadge).toBe(
+      "Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika",
+    );
+    expect(ACADEMY_SEN.catalog.heroArticleBadge).toBe(
+      "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+    );
+    expect(ACADEMY_SEN.catalog.description).toContain("Vitrin beş yayında eğitimdir");
+    expect(ACADEMY_SEN.catalog.description).not.toContain("13 eğitim");
+    expect(JSON.stringify(ACADEMY_SEN.catalog)).not.toContain("Sesli Akademi");
+    expect(ACADEMY_GROWTH_SKU_SLUGS).toHaveLength(5);
+    expect(ACADEMY_GROWTH_SKU_SLUGS).not.toContain("06_n8n_automation");
+    const purchase = readSrc("lib/academy/purchase-path.ts");
+    expect(purchase).toContain("Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika");
+    expect(purchase).toContain(
+      "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+    );
+    expect(ACADEMY_SEN.catalog.heroArticleBadge).not.toMatch(/Sesli Akademi/i);
+    expect(ACADEMY_SEN.catalog.heroAudioBadge).not.toMatch(/Sesli Akademi/i);
+    const seo = readSrc("lib/copy/seo.ts");
+    expect(seo).not.toContain("13 eğitim");
+    expect(readSrc("app/academy/page.tsx")).not.toContain("13 eğitim");
+    expect(readSrc("components/academy/course-list.tsx")).not.toContain("13 eğitim");
   });
 });

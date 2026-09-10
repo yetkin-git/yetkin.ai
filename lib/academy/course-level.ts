@@ -4,14 +4,15 @@
  *
  * Anayasal esneklik:
  * - Seviye etiketi serbest stringdir (Temel / Orta / İleri / Masterclass / Modül-N …).
- * - Her dikeyin zorunlu üç seviyesi yoktur.
+ * - Her dikeyin zorunlu üç seviyesi yoktur (Anayasa B4).
+ * - Çok teknik konularda müfredat isteğe bağlı Temel / Orta / İleri bağımsız satılabilir pakete ayrılabilir (PEDAGOJI.md §F.3).
  * - Fiyat seviye enum’una kilitli değildir; tutar serbest `amountMinor` (kuruş tamsayısı).
  * - Canlı tutar `PriceCatalogEntry` satırındandır; tohum tutarı yalnız ops soft default’tur.
  */
 
 import type { AcademyCourseTitleSlug } from "@/lib/academy/course-titles";
 
-/** Yaygın yol haritası etiketleri — anayasal zorunluluk veya kapalı enum değildir. */
+/** Yaygın yol haritası ve isteğe bağlı teknik paket etiketleri — anayasal zorunluluk veya kapalı enum değildir. */
 export const ACADEMY_COURSE_LEVELS = ["Temel", "Orta", "İleri"] as const;
 
 export type AcademyCommonLevelLabel = (typeof ACADEMY_COURSE_LEVELS)[number];

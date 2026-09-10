@@ -9,7 +9,7 @@ Bu belge iki katmandan oluşur:
 | Alan | Değer |
 |------|--------|
 | Tarih | 16 Ağustos 2026 |
-| Son Reform | **Eylül 2026 (Teknik Lider & Kurucu İrade Reformu):** Katı grep yasakları, kelime avı yapan test dogmaları ve aşırı kısıtlayıcı katman duvarları B Katmanı'na çekilerek esnetildi. Geliştirici ve AI ajanın hareket alanı açıldı; A Katmanı yalnızca temel yasal (S43), finansal (`amountMinor`), güvenlik (RLS/IDOR/Sır) ve kanıt (sunucu puanlı mühür) çizgilerine odaklandı. |
+| Son Reform | **Eylül 2026 (Teknik Lider & Kurucu İrade Reformu):** Katı grep yasakları, kelime avı yapan test dogmaları ve aşırı kısıtlayıcı katman duvarları B Katmanı'na çekilerek esnetildi. Geliştirici ve AI ajanın hareket alanı açıldı; A Katmanı yalnızca temel yasal (S43), finansal (`amountMinor`), güvenlik (RLS/IDOR/Sır) ve kanıt (sunucu puanlı mühür) çizgilerine odaklandı. **9 Eylül 2026 (Faz 1 işletme resmi):** B2 kamu vitrini 3 oda; A2 Freelancer tahsilatı zaman kipi Faz 2. A1–A5 gevşetilmedi. |
 | Kamu markası / domain | `yetkin.ai` |
 | Kalıcı belgeler | `/.system_docs` |
 | Ops | `.system_docs/OPS_RUNBOOK.md` |
@@ -34,7 +34,7 @@ Bu bölüm doğrudan yasal yaptırım, finansal kayıp ve kritik veri güvenliğ
 * **Lisanssız Para Tutma ve Çekim Yasağı:** yetkin.ai bir banka veya lisanslı ödeme kuruluşu değildir. Platform içinden harici banka hesaplarına doğrudan para transferi veya çekim rotası (`/api/wallet/withdraw`) açılamaz. GİB, e-arşiv ve banka çekim paneli kurgulanamaz.
 * **Tahsilat ve Hakediş Dağıtımı:**
   - Akademi eğitim ve sınav harçları lisanslı ödeme kuruluşu (PayTR Merchant Port) aracılığıyla tahsil edilir.
-  - Freelancer iş bedelleri lisanslı kuruluşun Pazaryeri Split altyapısında emanet ve bloke statüsünde tutulur; iş tesliminde ustanın net hakedişi doğrudan ödeme kuruluşu tarafından ustanın IBAN'ına aktarılır. Usta net hakedişi platform içi Rail cüzdanına CREDIT olarak yazılamaz.
+  - **Faz 2; lisanslı Split bağlıysa uygulanır:** Freelancer iş bedelleri lisanslı kuruluşun Pazaryeri Split altyapısında emanet ve bloke statüsünde tutulur; iş tesliminde ustanın net hakedişi doğrudan ödeme kuruluşu tarafından ustanın IBAN'ına aktarılır. Usta net hakedişi platform içi Rail cüzdanına CREDIT olarak yazılamaz.
 * **Dürüst Durum (Fail-Closed):** Ödeme sağlayıcısı veya split portu bağlı değilse sahte onay verilmez; sistem dürüstçe ilgili işlemin henüz bağlanmadığını (`not_configured` / 503) bildirir.
 
 ## A3. Güvenlik, Kimlik ve İzolasyon (RLS, IDOR, Sır Koruması)
@@ -69,7 +69,8 @@ Bu bölümdeki maddeler kırmızı çizgi değildir; operasyonel, mimari ve ür�
 
 ## B2. Odaklar ve Dinamik Modül Alanı
 
-* **Ana Odaklar:** Platformun çekirdek kullanıcı deneyimi `dashboard`, `academy`, `career` ve `freelancer` alanlarında yoğunlaşır. Çekirdek sığınaklar (`/profil`, `/cuzdan`, `/pasaport`, `/admin`) destekleyici alanlardır.
+* **Faz 1 kamu vitrini (işletme resmi):** Panel (`dashboard`) + Akademi (`academy`) + Kariyer (`career`). Freelancer motoru sicilde durur (`lib/freelancer`, Prisma şema, emanet kaydı); kamu yüzeyi **410 Gone** döner. 4. oda nakit iddiası taşımaz; PayTR incelemesinde vitrin değildir. Silinmez, açılmaz.
+* **Ana Odaklar (omurga hedefi):** Platformun çekirdek kullanıcı deneyimi `dashboard`, `academy`, `career` ve `freelancer` alanlarında yoğunlaşır. Çekirdek sığınaklar (`/profil`, `/cuzdan`, `/pasaport`, `/admin`) destekleyici alanlardır. Dört oda eşit canlılık iddiası değildir: Faz 1 çalışan vitrin 3 odadır; Freelancer kilitli motordur (Faz 2).
 * **Genişleme Alanı:** Bildirim sistemleri, yardım masası, analitik panelleri veya kurumsal pilot ekranları gibi meşru ürün ihtiyaçları "katı oda sınırı" dogmasına takılmaksızın monolit içerisinde temiz modüller olarak kurgulanabilir.
 * **Arşiv ve Müze:** Arşivlenmiş eski kodlar (`yetkin_muze/`, `archived/`) ana akışı kirletmediği sürece cezalandırıcı kurallarla değil, standart git ve paket disipliniyle yönetilir.
 
@@ -81,11 +82,11 @@ Bu bölümdeki maddeler kırmızı çizgi değildir; operasyonel, mimari ve ür�
 
 ## B4. Müfredat, Pedagoji ve Dinamik Fiyatlandırma
 
-* **Konunun Hakkı İlkesi:** Eğitim müfredatları konunun gereksinimine göre şekillenir. Sabit ders adedi, zorunlu 3 seviye basamağı veya katı format zorlaması yoktur; tekil Masterclass veya çok modüllü yapılar serbesttir.
+* **Konunun Hakkı İlkesi:** Compact yayın makalesi kelime tavanı veya sabit ders adediyle kesilmez. Mühürlü yapay zekâ eğitiminin üretim matematiği `PEDAGOJI.md` §F’dedir (45–90 dk, 6–8 ders, ders başı 7–12 dk, dört adımlı doygunluk). Zorunlu 3 seviye basamağı yoktur; çok teknik konularda Temel / Orta / İleri bağımsız paket olarak ayrılabilir.
 * **Piyasa Odaklı Fiyat:** Fiyatlar piyasa dinamiklerine göre Super Admin kataloğunda belirlenir. Kod içerisine maktu fiyat bantları gömülmez. Tohum tutarı soğuk vitrin / ops soft default’tur; canlı kilit `PriceCatalogEntry`’dir.
-* **Çoklu Modalite:** Eğitimler yalnızca sese bağımlı değildir. Canlı gün 0 oynatıcı **makale (compact markdown)** modundadır. Pedagoji B.4 süre/kelime bütçesi yalnız **ses mühürlü** dersler için TTS maliyet kalkanıdır; compact makale müfredatını boğmaz.
+* **Çoklu Modalite:** Mühürlü eğitimler tam metin, zaman senkronlu cue, görsel/şema ve sinematik medya ile fırınlanır; izlemede harici API yoktur. Canlı gün 0 oynatıcı mühürsüz derste **makale (compact markdown)** modundadır. Compact makale müfredatını süre bandı boğmaz.
 
 ## B5. Harici Entegrasyonlar ve Pilot İş Modelleri
 
-* **Pazaryeri Geçiş Dönemi:** Pazaryeri Split bağlı değilse platform üzerinden nakit kabul edilmez; işlem A2 fail-closed ile `not_configured` / 503 döner. Ticari teklifler, kurumsal pilotlar ve işbirlikleri haricen yönetilir: platform dışı sözleşme ve fatura ile yürütülür, deftere nakit yazılmaz, sahte "tamamen hazır" iddiası basılmaz.
+* **Pazaryeri Geçiş Dönemi:** Faz 1 kamu nakit kanalı PayTR Merchant (Akademi iFrame)’tır. Pazaryeri Split bağlı değilse freelancer nakit kabul edilmez; işlem A2 fail-closed ile `not_configured` / 503 döner. Split ayrı faz, ayrı sözleşmedir; Merchant onayı Split izni değildir. Ticari teklifler, kurumsal pilotlar ve işbirlikleri haricen yönetilir: platform dışı sözleşme ve fatura ile yürütülür, deftere nakit yazılmaz, sahte "tamamen hazır" iddiası basılmaz.
 * **Altyapı Servisleri:** Redis, Inngest, e-posta sağlayıcıları gibi üçüncü taraf servisler operasyonel ihtiyaçlara göre devreye alınır; konfigürasyon eksikliğinde sistem zarifçe (graceful degradation) çalışmasını sürdürür.

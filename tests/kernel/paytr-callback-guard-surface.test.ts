@@ -43,6 +43,8 @@ describe("PayTR canlı callback yüzeyi", () => {
     expect(route).toContain("export async function HEAD");
     expect(route).toContain("isPaytrNotificationProbe");
     expect(route).toContain("readPaytrWebhookPayload");
+    expect(route).toContain("isPaytrPanelWebhookPath");
+    expect(route).toContain("shouldAckUnverifiedPaytrNotification");
     expect(readSrc("lib/kernel/payments/paytr/checkout.ts")).toContain(
       `export const PAYTR_WEBHOOK_PATH = "${PAYTR_WEBHOOK_PATH}"`,
     );
@@ -54,8 +56,7 @@ describe("PayTR canlı callback yüzeyi", () => {
     expect(PAYTR_PANEL_WEBHOOK_PATH).toBe("/api/paytr/callback");
 
     const topUp = readSrc("app/api/(kernel)/wallet/top-up/route.ts");
-    expect(topUp).toContain("merchantOkUrl: `${origin}/cuzdan`");
-    expect(topUp).toContain("merchantFailUrl: `${origin}/cuzdan`");
+    expect(topUp).toContain("buildPaytrMerchantBrowserReturnUrl(origin)");
     expect(topUp).not.toContain("merchantOkUrl: `${origin}/api/payments/webhooks/paytr`");
     expect(topUp).not.toContain("merchantOkUrl: `${origin}/api/paytr/callback`");
   });

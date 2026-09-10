@@ -1,0 +1,116 @@
+{
+  "lessonKey": "05_prompt_practice-4",
+  "pauseSec": 0.4,
+  "durationSec": 435.8,
+  "cacheV": 435800,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 40.72,
+      "text": "Tekrar merhaba. Ben Gözde. Bugüne kadar modele kelime yazdırdın. Mail. Özet. Taslak. Asıl güç başka yerde. Karmaşık sistemde örüntü yakalamak. Krizde kör noktayı aydınlatmak. Şirketin batmasıyla zirveye çıkması, kritik anda doğru soruyu sorup soramadığındadır. Tek başına işletme, serbest iş, departman başı. Çoğu zaman yalnızsın. Seni acımasızca eleştirecek kıdemli bir akıl hocası yok. Bugün yapay zekâyı masandaki en tarafsız strateji ortağı yapıyoruz. Kahvenden bir yudum al. Derin bir nefes al. Başlıyoruz."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 41.12,
+      "end": 66.56,
+      "text": "Kapılar aynı. Çetcipiti için çetcipiti nokta kom. Klod için klod nokta ey ay. Perpleksiti için perpleksiti nokta ey ay. Ücretsiz kotayla ilk Svot'u görmen yeter. Kapı kilitliyse bant durur. Bugün bir hesap. Yarın ölçek. Link ezberi yok. Kapı adı yeter. Sen yönetici kal. Model terazidir. Dalkavuk değildir."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 66.96,
+      "end": 102.36,
+      "text": "İçi boş Svot hiçbir karara ışık tutmaz. Güçlü yönümüz kaliteli ürün. Zayıf yönümüz az bütçe. Bu cümle duvardır, pusula değil. Gerçek Svot ham veriden çıkar. İki yüz şikayet. Üç rakip fiyatı. Sektör büyümesi. Dağınık not. Model tarar. Kronik problem zayıf yön olur. Rakibin sunmadığı talep fırsat olur. Tedarik aksaması tehdit olur. Kanıt yanına gelir. Soyut ifade yasak."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 102.76,
+      "end": 148.4,
+      "text": "Soyut tanımları bir kenara bırakıyoruz; doğrudan şikayet yığınındaki gerçek probleme bakıyoruz. Rol: Fortune beş yüz danışmanı. Görev: ham metinden derin Svot. Yöntem bir. En az on kez tekrarlayan kronik problem zayıf yön. Yöntem iki. Rakiplerin sunmadığı, müşterinin ısrar ettiği eksik fırsat. Yöntem üç. Tedarik ve maliyet baskısı tehdit. Kural: her tespitin yanında somut kanıt. Çıktı: her çeyrekte üç madde. En sonda Pazartesi sabahı atılacak üç adım. Cerrah hassasiyeti. Neden kaçıyorlar. Nereye sızarsın. Görünür."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 148.8,
+      "end": 190.24,
+      "text": "İkinci teknik. Pri mortem. Ölüm öncesi inceleme. Her şeyin bugünkü gibi gideceğini varsaymak en büyük yanılgıdır. Pazar yüzde yirmi daralırsa. Ana tedarikçi iflas ederse. Kur bir gecede fırlarsa. Proje başlamadan hayal kurulur. Tarihlerden bir yıl sonrası. Bu iş battı. Bizi tam olarak ne batırdı. Aşırı iyimserlik yıkılır. Model acımasız kriz denetçisi olur. Beş ölümcül kör nokta. Her birinin karşısına bugünden tek cümlelik emniyet tedbiri."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 190.64,
+      "end": 225.44,
+      "text": "Vaka. Türkiye genelinde organik soğuk sıkım zeytinyağı e-ticaret lansmanı. On iki ay sonrası. Para bitti. Operasyon durdu. Lojistikte ne yanlış hesaplandı. Müşteri edinme maliyetinde hangi tuzak. Ambalaj ve şişelemede hangi hata. Model cam şişenin kargoda kırılma maliyetini hatırlatır. Yaz sıcağında asidite bozulmasını hatırlatır. Reklamın kâr marjını yutacağını hatırlatır. Sen sahaya çıkmadan zırh kuşanırsın. Girişimcinin hayatı bu promptta kurtulabilir."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 225.84,
+      "end": 261.6,
+      "text": "Üçüncü teknik. kritik and rıfayn. Şeytanın avukatı. Kendi metnine âşık olmak kolaydır. İnsan kendi hatasını göremez. Yatırımcı sunumunu yapıştır. Emir: sen en büyük rakibin acımasız genel müdürüsün. En zayıf, temelsiz, abartılı iddiayı yüzüme vur. Acıma. Nerede mantık hatası. Hangi rakam inandırıcı değil. Hangi varsayım havada. Sonra kurşun geçirmez üç düzeltme. Canın yanabilir. Masada duymak, gerçek yatırımcı karşısında ter dökmekten iyidir."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 262,
+      "end": 296.08,
+      "text": "Kritik durum burada başlar. Modeli egonu okşayan dalkavuk yapmak. Analitik prompt bunun tersidir. Tarafsız terazi. İkinci tuzak: soyut Svot. Kanıtsız madde duvardır. Üçüncü tuzak: Pri mortem'i eğlence senaryosu sanmak. Çıkan ilk tedbiri takvime işlemezsen egzersiz çöptür. Dördüncü tuzak: ham müşteri listesini yapıştırmak. Maskele. Onay sende kalır. Uydurma kanıtı silersin. Şiir kalan strateji çöptür."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 296.48,
+      "end": 330.24,
+      "text": "Aynı kalkanı erişimde kuruyorsun. çetcipiti nokta kom Svot ve panel. klod nokta ey ay uzun şikayet yığını. perpleksiti nokta ey ay pazar teyidi. Ücretli plan şart değil. Ücretsiz kotayla ilk Pri mortem'i görmen yeter. Kapı kilitliyse bant çalışmaz. Bugün bir hesap. Yarın ölçek. Panik yok. Kapıyı aç. İlk kör noktayı gör. Sonra takvime yaz. Link ezberi yok. Kapı adı yeter."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 330.64,
+      "end": 365,
+      "text": "Veri yine maske. Gerçek isim, ciro, sözleşme rakamı açık modele yapışmaz. Müşteri A. Bölge bir. Tutar köşeli parantez. Eleştiri acıtır. Acı, yarınki yatırımcıdan ucuzdur. Düzelt. Güçlendir. Pazara yenilmez çık. Svot kanıt ister. Pri mortem tedbir ister. Critique düzeltme ister. Bu omurga cebine girer. Sen yönetici kal. Model terazi tutar."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 365.4,
+      "end": 399.4,
+      "text": "Üç anahtarı cebine koy. Bir: Svot ham veriden ve kanıttan çıkar. İki: Pri mortem. On iki ay sonrası battı. Beş kör nokta. Tek cümle tedbir. Üç: şeytanın avukatı. Acımasız eleştiri, sonra üç düzeltme. Kapı adları aynı. çetcipiti nokta kom. klod nokta ey ay. perpleksiti nokta ey ay. Yarın o kapılardan gireceksin. Kanıtsız maddeyi artık strateji sayma."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 399.8,
+      "end": 435.8,
+      "text": "Şimdi iki dakikalık kanıt. Üzerinde çalıştığın gerçek projeyi Pri mortem promptuna yapıştır. On iki ay sonrasına git. Bu iş battı. En olası beş ölümcül kör nokta. Her birine bugünden tek cümlelik emniyet tedbiri. Çıkan listedeki ilk tedbiri hemen takvimine işle. Kendi projeninde tek bir kör noktayı görmeden beşinci bölüme geçme. Orada kelimeden görsele geçeceğiz. Kahveni tazele. Bugün strateji ortağının ilk dilimini aldın. Yarın aynı stajyer masanda olacak. Başladık."
+    }
+  ]
+}

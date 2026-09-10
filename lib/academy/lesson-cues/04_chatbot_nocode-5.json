@@ -1,0 +1,50 @@
+[
+  {
+    "id": "cue-01",
+    "start": 0,
+    "end": 90,
+    "text": "Tekrar selam. Ben Kaan.",
+    "section": "Isınma & İş Problemi",
+    "paragraphs": [
+      "Tekrar selam. Ben Kaan. Beşinci istasyon: kollar ve bacaklar. Bot konuşuyor. PDF okuyor. WhatsApp yanıtlıyor. Hasta Pazartesi on dört, Dr. Selin, implant der. Bot harika, alındı der. Bilgi botta kalırsa Pazartesi kriz. Danışman habersiz. Takvim dolu. Konuşan bot yarım çözümdür. Bugün fişi mutfağa fırlatıyoruz. Tablo. Takvim. CRM. İnsan devri. Omurga burada kapanır. Fiş düşmezse randevu yalandır. Mutfak uyanmalı.",
+      "Erişim net. make.com. Ücretsiz hesap. Create scenario. Custom Webhook. Adresi kopyala. Kahvenden bir yudum al. Derin bir nefes al. Fişi JSON diye düşünme. İsim, telefon, tedavi, tarih. Make.com daireleri bağlar. Sheets. Airtable. Takvim. Hata olursa insana. Başlıyoruz.",
+      "Kapı kilitliyse bant durur. Hesap yoksa bugün bir tane aç. Ücretsiz kota ilk satır için yeter. Google hesabı Sheets için. Botpress veya Voiceflow webhook kutusuna adresi yapıştır. Test. Kendi adın tabloda. Sonra ölçek. Satır yoksa yayın yok. Fiş düşmeden randevu vaadi yalandır."
+    ]
+  },
+  {
+    "id": "cue-02",
+    "start": 90,
+    "end": 300,
+    "text": "Soyut tanımları bir kenara bırakıyoruz; doğrudan fişe bakıyoruz.",
+    "section": "Temel Yöntem",
+    "paragraphs": [
+      "Soyut tanımları bir kenara bırakıyoruz; doğrudan fişe bakıyoruz. Webhook mutfak penceresidir. Garson sohbet etmez. Fiş yazar. Fırlatır. JSON sade listedir. isim, telefon, tedavi, tarih. Botpress veya Voiceflow API kartı bu adrese basar. Make.com yakalar. Sonraki daire Google Sheets, Add a row. Paralel: takvim olayı, SMS, CRM kartı. Asenkron: bot beklemez. Fiş gider. Mutfak pişirir. Cevap gerekirse ikinci webhook botuna döner. Pencere bu. Fiş bu.",
+      "Üç senaryo. Randevu: satır, takvim, danışman bildirimi. E-ticaret: sipariş numarası, Shopify veya Trendyol sorgu, kargo linki bota. Data Store: iki ay sonra merhaba, martta gelmiştiniz. Çift yönlü sorgu budur. Bot sorar. Make.com bakar. Cevap döner. Hata modülü: Sheets düşerse Slack veya mail. Bot yalan randevu basmaz. Fallback: sonra arayalım, numara al. Temizle: boşluk, sıfır, on hane. Çöp satır yok. Temizlik kalkanı. Üç senaryo da aynı fiş. Pencere değişmez. Mutfak değişir.",
+      "Human Handoff direksiyonu insana bırakır. Öfke. Yetkili isteği. Pazarlık. İki kez Fallback. Bot veda eder. Zeynep Hanım devraldı. Otomasyonu durdur. Panelde kırmızı etiket. Danışman yazar. Bitince botu nöbete al. Perfect otomasyon budur. Tam gaz. Gerektiğinde sus. OpenAI burada fiş taşımaz. platform.openai.com beyni Botpress'te. Make.com taşıyıcı. Meta hat. Üç katman. Karıştırma. Beyin, boru, mutfak.",
+      "Erişim köprüsü sırası. make.com senaryo. Webhook adresi. Botpress veya Voiceflow HTTP. Google Sheets bağla. Airtable aynı daire. Takvim Google Calendar. CRM: HubSpot veya Bitrix kutusu. Test: tarayıcıya adres, soru işareti isim eşittir sen. Run once. Satır düştü mü. Düşmediyse modül kırmızıdır. Log oku. Düzelt. Tekrar bas. Yeşil görünce kilitle. Adres sızmasın. Senaryoyu ON yapmadan canlı bot bağlama."
+    ]
+  },
+  {
+    "id": "cue-03",
+    "start": 300,
+    "end": 510,
+    "text": "Kritik durum burada başlar.",
+    "section": "İstisna & Kritik Durum",
+    "paragraphs": [
+      "Kritik durum burada başlar. Webhook adresini herkese atma. Gizli URL. Sızarsa sahte randevu yağar. İkinci tuzak: bot alındı demek, tabloya düşürmemek. Yalan. Üçüncü tuzak: hata modülü yok. Sheets kilitli, bot yine evet. Dördüncü tuzak: Handoff'suz inat. Müşteri çıldırır. Onay sende kalır. Testte kendi adın satırda yoksa yayın yok. Yalan randevu itibar yer.",
+      "Aynı kalkanı erişimde kuruyorsun. make.com. Custom Webhook. Google bağla. botpress.com HTTP. voiceflow.com API kartı. platform.openai.com ayrı. developers.facebook.com hat. Panik yok. Adresi kopyala. Test isteği. Satır. Sonra Handoff cümlesini yaz. yetkili, insan, şikayet. İki Fallback. Bot susar. Sen yönetici kal. Kapı adı yeter. Fiş düşsün. Senaryo OFF ise fiş karanlıkta kaybolur. ON yap, log oku.",
+      "KVKK yine. Tabloya gerçek hasta yığmadan politika yaz. Kim görür. Ne kadar saklanır. Silme hakkı. Test satırlarını ayır. Canlı sekmeyi kilitle. Webhook logunda telefon maskele. Sen kalkanı tutarsın. Stajyer her alanı basar. Sen gerekeni basarsın. Gereksiz alan KVKK sızıntısıdır. Tablo paylaşım linkini herkese açma. Danışman görür. Dünya görmez."
+    ]
+  },
+  {
+    "id": "cue-04",
+    "start": 510,
+    "end": 600,
+    "text": "Üç anahtarı cebine koy.",
+    "section": "Özet & Saha Görevi",
+    "paragraphs": [
+      "Üç anahtarı cebine koy. Bir: Webhook fiştir. JSON isim telefon tedavi tarih. İki: make.com daireleri tablo, takvim, CRM. Hata olursa yalan randevu yok. Üç: Human Handoff. Öfke, yetkili, iki Fallback, bot susar. Kapı make.com. Kendi adını tabloda görmeden altıncı bölüme geçme. Orada bu hattı satacağız. CaaS orada kapanır.",
+      "Şimdi iki dakikalık kanıt. make.com'da hesap aç. Custom Webhook koy. Adresi kopyala. Tarayıcıda adresi isim parametresiyle aç. Gelen veriyi Google Sheets'e yeni satır yaz. Kendi adını tabloda görmeden altıncı bölüme geçme. Kahveni tazele. Bugün bota kol taktın. Yarın bu kol fiyatlanır. Başladık."
+    ]
+  }
+]

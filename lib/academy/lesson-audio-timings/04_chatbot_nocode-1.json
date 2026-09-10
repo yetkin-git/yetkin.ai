@@ -1,0 +1,116 @@
+{
+  "lessonKey": "04_chatbot_nocode-1",
+  "pauseSec": 0.4,
+  "durationSec": 425.24,
+  "cacheV": 425240,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 29.24,
+      "text": "Selam. Ben Kaan. Kodsuz chatbot ve otomasyon hattını sahada kuruyorum. Bugün seninle gece üçte susmayan o hattı konuşacağız. Klinik kapalı. Emlakçı uyuyor. Butik DM'e bakamıyor. Müşteri yazıyor. Kimse yanıtlamıyor. Ertesi gün rakip kapatmış. Bu sahne ajansın da, polikliniğin de, emlakçının da aynı. Hat uyanık değil. Sen yorgunsun. Bekçi gibi nöbet tutuyorsun."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 29.64,
+      "end": 58.88,
+      "text": "Eski bot seni çileden çıkarır. Bir'e bas, ikiye bas, sizi anlayamadım. O menü robotu satış kapatmaz. İnsan temsilci de gece cevap vermez. Cuma gece on bir kırk beş. Diş kırık. Düğün yarın. Mesaj düşer. Sabah cevap gelir. Hasta gitmiştir. Otuz bin lira masada kalır. Sorun yazılım değil. Sorun, hattın amele gibi tek tek bakılması. Bant yoksa kaçış vardır."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 59.28,
+      "end": 89.56,
+      "text": "Bu derste o ameleliği bırakıyorsun. Kod yok. Menü robotu yok. Voysflov, Botpres, Meyk nokta kom ve Me ta Vatsap Business Uygulama Programlama Arayüzü (API) ile satış kapatan asistan kuracağız. Kahvenden bir yudum al. Derin bir nefes al. İlk şalteri bugün kaldırıyoruz. Sen genel müdürsün. Bot nöbet tutar. Kalite kontrol sende kalır. Sosyal medya tüneli tek yönlüydü. Bugün ucuna diyalog beyni takıyoruz. Başlıyoruz."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 89.96,
+      "end": 128.32,
+      "text": "Soyut tanımları bir kenara bırakıyoruz; doğrudan senin Vatsap'ındaki gerçek probleme bakıyoruz. Vaka NovaDent kliniği. Cuma gece. Zeynep yazıyor. Ön diş kırık. Zirkonyum hemen yapılır mı. Eski bot bir iki üç der. İnsan temsilci uyur. Bizim bot sıfır nokta dört saniyede girer. Geçmiş olsun. Aynı gün geçici kaplama. Yarın on otuz. Randevu ister misin. Hasta evet der. İsim alınır. Telefon alınır. Takvime düşer. Konum gider. Danışmana bildirim. Fark budur."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 128.72,
+      "end": 165.96,
+      "text": "Chatbot insanın yerine geçmez. İnsanı rutin süzgeçten kurtarır. Bot ilk filtreyi yapar. Güveni kurar. İsim ve telefonu toplar. Randevuyu altın tepside danışmana koyar. Amatör hata: botu ansiklopedi yapmak. İmplant fiyatı on beş bin, Sistem Kullanılabilirlik Ölçeği (SUS). Müşteri okur, gider. Bizde her mesaj eylemle biter. Fiyat aralığı. Neden net değil. Ücretsiz röntgen. Ne dersiniz. Top müşteride kalır. Buna satış kapatan diyalog denir. Ajans bunu binlerce dolara satar."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 166.36,
+      "end": 203.64,
+      "text": "İki kapı. Voysflov ve Botpres. Voysflov web vitrini ve görsel tuvaldir. Müşteriye on beş dakikada prototip göstermek için voysflov nokta kom. Ücretsiz hesap. New Assistant. Tuval açılır. Botpres Vatsap beyni ve belge okuma motorudur. botpres nokta kom. Studio. Nalıc Beyz. Hibrit: önce Voysflov ile sözleşme. Sonra Botpres ve Meyk nokta kom omurga. Kapı kilitliyse bant durur. Bugün bir hesap açman yeter. Link ezberi yok. Kapı adı yeter."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 204.04,
+      "end": 253.12,
+      "text": "Open ey ay Uygulama Programlama Arayüzü (API) ayrı kapıdır. platform nokta open ey ay nokta kom. Uygulama Programlama Arayüzü (API) keys. Create. Anahtarı kopyala. Botpres veya Meyk nokta kom kutusuna yapıştır. Model seç. Sıcaklığı düşük tut. Uydurma azalır. Anahtarı ekran görüntüsüne koyma. Git'e basma. Kişisel Verilerin Korunması Kanunu (KVKK) kalkanı burada başlar. Kişisel veri açık modele yapışmaz. Sen yönetici kal. Stajyer üretir. Sen kalkanı tutarsın. Kota bitince sessiz düşme. Folbek insana."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 253.52,
+      "end": 282.8,
+      "text": "Kritik durum burada başlar. Menü botunu akıllı sanma. Bir iki üç satış kapatmaz. İkinci tuzak: gece mesajını sabaha bırakmak. Hasta o gece rakibe gider. Üçüncü tuzak: fiyatı tek satır basıp susmak. Diyalog eylem ister. Dördüncü tuzak: tıbbi teşhis. Bot antibiyotik yazmaz. Randevu alır. İnsan hekim konuşur. Onay sende kalır. Uydurma cümleyi silersin. Şiir kalan her yanıt çöptür."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 283.2,
+      "end": 317.88,
+      "text": "Aynı kalkanı erişimde kuruyorsun. Voysflov için voysflov nokta kom. Botpres için botpres nokta kom. Meyk nokta kom için meyk nokta kom. Me ta için developers nokta feysbuk nokta kom, Vatsap ürünü. Open ey ay için platform nokta open ey ay nokta kom. Ücretli plan şart değil. Ücretsiz kotayla ilk akışı görmen yeter. Kapı kilitliyse bant çalışmaz. Bugün bir hesap. Yarın ölçek. Panik yok. Kapıyı aç. İlk çıktıyı gör. Sonra belge beynine geç."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 318.28,
+      "end": 352.44,
+      "text": "Kişisel veri kalkanı da burada. Gerçek hasta adı, tam telefon, röntgen, kimlik açık modele yapışmaz. Maskele. Testte sahte isim kullan. NovaDent örneği maskelidir. Kendi kliniğinde Kişisel Verilerin Korunması Kanunu (KVKK) onayı olmadan canlıya basma. Me ta panelinde işletme doğrulaması ayrı iş. Yeşil tik yarın. Bugün zihin değişir. Satış kapatan diyalog. İki kapı. Üç niyet. İki bilgi. Folbek insana. Bu omurga cebine girer."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 352.84,
+      "end": 393.04,
+      "text": "Üç anahtarı cebine koy. Bir: bot ansiklopedi değil, satış kapatan diyalogdur. Her mesaj eylemle biter. İki: Voysflov web tuvali. Botpres Vatsap ve belge beyni. Meyk nokta kom omurga. Open ey ay anahtarı platform nokta open ey ay nokta kom. Üç: üç niyet, iki bilgi, Folbek insana. Kapı adlarını deftere yaz. voysflov nokta kom. botpres nokta kom. meyk nokta kom. developers nokta feysbuk nokta kom. platform nokta open ey ay nokta kom. Yarın o kapılardan gireceksin."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 393.44,
+      "end": 425.24,
+      "text": "Şimdi iki dakikalık kanıt. Kendi işini veya tanıdığın bir işletmeyi seç. Üç niyeti yaz. Randevu. Fiyat. Acil. Hayati iki bilgi: isim ve telefon. Bot bilmezse devredeceği insanın adı. Bu üç satır masanda durmadan ikinci bölüme geçme. Orada voysflov nokta kom tuvalinde ilk oku çizeceğiz. Kahveni tazele. Bugün hattın ilk dilimini geri aldın. Yarın aynı bant masanda olacak. Başladık."
+    }
+  ]
+}

@@ -1,8 +1,9 @@
 #!/usr/bin/env tsx
 /**
- * Faz 3 — mühürlü şema fabrikası `archived/lib/academy-studio/sealed-diagrams.ts`.
- * Canlı betik bake yapmaz; `public/media/academy` statik kalır.
+ * Faz 3 medya fırını — Tur 3 cue slaytları `public/academy/cinema/{lessonKey}-cue-{N}.jpg`.
+ * İzlemede generate yok. Operatör bake.
  *
- *   npx tsx scripts/render-academy-lesson-media.ts
+ *   npm run render:academy-media
+ *   npx tsx scripts/render-academy-lesson-media.ts --key=05_prompt_practice-1
  */
-process.stdout.write("render-academy-lesson-media SKIP — sealed-diagrams arşivde.\n");
+import "./render-academy-cinema-cues.ts";

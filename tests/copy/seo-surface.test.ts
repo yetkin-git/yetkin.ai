@@ -61,17 +61,17 @@ describe("Aşama 1 SEO yüzeyi", () => {
     expect(layout).toContain("twitter");
   });
 
-  it("ana sayfa, kariyer ve freelancer özgün title/description taşır", () => {
+  it("ana sayfa ve kariyer özgün title/description taşır; 410 freelancer'ın SEO girdisi yoktur", () => {
     expect(PAGE_SEO.home.title).toBe(PUBLIC_SEN.home.title);
     expect(PAGE_SEO.career.title).not.toBe(PAGE_SEO.home.title);
-    expect(PAGE_SEO.freelancer.title).not.toBe(PAGE_SEO.home.title);
-    expect(PAGE_SEO.career.title).not.toBe(PAGE_SEO.freelancer.title);
     expect(PAGE_SEO.home.description).not.toBe(PAGE_SEO.career.description);
-    expect(PAGE_SEO.home.description).not.toBe(PAGE_SEO.freelancer.description);
-    expect(PAGE_SEO.career.description).not.toBe(PAGE_SEO.freelancer.description);
     expect(readSrc("app/(public)/page.tsx")).toContain("PAGE_SEO.home");
     expect(readSrc("app/career/page.tsx")).toContain("PAGE_SEO.career");
-    expect(readSrc("app/freelancer/page.tsx")).toContain("PAGE_SEO.freelancer");
+    // PayTR B2C (E7): 410 dönen odanın meta girdisi sahipsiz kalmaz.
+    expect("freelancer" in PAGE_SEO).toBe(false);
+    expect(readSrc("lib/copy/seo.ts")).not.toContain("freelancer:");
+    expect(readSrc("app/freelancer/page.tsx")).not.toContain("PAGE_SEO.freelancer");
+    expect(readSrc("app/freelancer/page.tsx")).toContain("index: false");
   });
 
   it("kamuya açık ana sayfalar Open Graph tr_TR ve Twitter Card giyer", () => {

@@ -125,6 +125,7 @@ test.describe("O8 akademi nakit & sınav yolculuğu", () => {
     const frame = page.locator("iframe[data-paytr-iframe]");
     await expect(frame).toBeVisible({ timeout: 15_000 });
     await expect(frame).toHaveAttribute("src", iframeUrl);
+    await expect(frame).toHaveAttribute("allow", /payment/);
     await expect(page).not.toHaveURL(/#satin-al/);
   });
 });

@@ -101,9 +101,10 @@ export function parsePaytrWebhookUrlEncoded(raw: string): PaytrWebhookPayload {
 }
 
 /**
- * PayTR Bildirim URL gövdesini okur.
+ * PayTR Bildirim URL gövdesini okur (`application/x-www-form-urlencoded`).
  * `request.formData()` urlencoded POST'ta Next/undici "Failed to parse body as FormData"
- * ile HTTP 400 basabilir; resmi Content-Type text + URLSearchParams ile okunur.
+ * ile HTTP 400 basabilir; resmi Content-Type `request.text()` + URLSearchParams ile okunur.
+ * Parse hatası boş yoklama payload'ı döner — handler HTTP 400 basmaz.
  */
 export async function readPaytrWebhookPayload(request: Request): Promise<PaytrWebhookPayload> {
   const contentType = (request.headers.get("content-type") ?? "").toLowerCase();
@@ -111,7 +112,14 @@ export async function readPaytrWebhookPayload(request: Request): Promise<PaytrWe
     if (contentType.includes("multipart/form-data")) {
       return parsePaytrWebhookForm(await request.formData());
     }
-    return parsePaytrWebhookUrlEncoded(await request.text());
+    if (contentType.includes("application/x-www-form-urlencoded") || contentType === "") {
+      return parsePaytrWebhookUrlEncoded(await request.text());
+    }
+    try {
+      return parsePaytrWebhookUrlEncoded(await request.text());
+    } catch {
+      return parsePaytrWebhookForm(await request.formData());
+    }
   } catch {
     return parsePaytrWebhookUrlEncoded("");
   }

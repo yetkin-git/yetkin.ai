@@ -1,0 +1,116 @@
+{
+  "lessonKey": "01_office_ai-4",
+  "pauseSec": 0.4,
+  "durationSec": 407.56,
+  "cacheV": 407560,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 21.56,
+      "text": "Tekrar merhaba. Ben Gözde. Kahveni tazelediysen masaya otur. Dördüncü ders başladı. Çöp veri dün masadan kalktı. Bugün o temiz verinin kurumsal dile dönüşmesi konuşacak. Dünyanın en kusursuz tablosuna da sahip olsan, doğru dille sunamazsan masanda rakam yığını kalır."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 21.96,
+      "end": 49.4,
+      "text": "Cebinde iki kural duruyor. Bir: niyeti Türkçe tarif et. Metni stajyer yazsın. İki: altın güvenlik. Gerçek unvan yok. Gerçek marka yok. Gizli sözleşme yok. Şirketimiz A. Hizmet Sağlayıcı B yeter. Kalkan duruyorsa ofisin ikinci kabusuna giriyoruz. Beyaz sayfa. Yanıp sönen imleç. Kelime seçme stresi. Bugün o kilidi saniyede açacağız."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 49.8,
+      "end": 85.24,
+      "text": "Yeni bir Vörd belgesi açarsın. Sayfa bembeyaz. Sol üstte imleç tık tık yanar. Yönetici der: altmış gündür ödemeyen müşteriye diplomatik ihtar. Ya da genel müdür için bir sayfalık bilgi notu. El klavyeye gider. Beyin kilitlenir. Cümleye nasıl başlarım. Sayın yetkili mi. İlgili makama mı. Altta rica mı. Arz mı. Sert yazarsan üç yıllık ilişki bozulur. Patron kızar. Yumuşak yazarsan para yine gelmez. Muhasebe seni suçlar."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 85.64,
+      "end": 121.8,
+      "text": "Üç paragraf için kırk beş dakika silersin. Arkadaşa okutursun. Fazla mı sert diye sorarsın. Madalyonun öteki yüzü daha ağır. Otuz sayfalık sözleşme düşer. Punto dokuz. Jargon uçuşur. Yönetici kapıdan uzanır: yarım saate üç maddelik risk özeti. Eski usulde saatlerce okur, sarı işaretler, not çıkarırsın. Bugünden sonra boş sayfada kilitlenmek de sözleşmede boğulmak da tarihe gömülür. Stajyer diplomasiyi bilir. Sen yönetici kal."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 122.2,
+      "end": 154.2,
+      "text": "Metni asla doldurucu gibi kullanmıyorsun. Onu kıdemli kurumsal iletişim danışmanı gibi konumlandır. Üç sütun. Bir: ton akordu. Aynı vakayı mülayim, dengeli kurumsal ya da hukuki ihtari frekansta iste. İki: cerrahi süzme. Otuz sayfadan üç maddelik yönetici özeti ve risk tablosu. Üç: şablon. Bilgi notu. Kriz duyurusu. Dilekçe iskeleti. Bugün üçünü de masada göreceğiz."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 154.6,
+      "end": 191,
+      "text": "Klavyeni çek. Hangi araç açıksa o kalsın. Üç yıllık müşteri. Yıllık iki milyon iş. Dört yüz elli bin liralık fatura. Altmış gün geçti. Muhasebe bekliyor. Genel müdür sabırsız. Eski sende iki uç. Ya parayı derhal ödeyin, avukata veriyoruz diye bağırırsın ve müşteriyi rakibe kaptırırsın. Ya kusura bakmayın yine rahatsız ediyoruz, durumumuz sıkışık diye ezilirsin ve itibar iner. İkisi de yanlıştır. Frekansı sen seçersin. Metni stajyer yazar."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 191.4,
+      "end": 224.04,
+      "text": "Şimdi modele dön. Kıdemli ticari ilişkiler direktörü rolünü ver. Üç taslak iste. Mülayim: ortaklığı koru, vade hatırlat. Dengeli: prosedür ve cuma tarihi net olsun. İhtari: son resmi uyarı, sevkiyat ve hukuk kapısı. Maskele. Stratejik Müşteri A yeter. Gönder. Üç saniyede gelir. Aynı vaka. Üç kademe. Kopyala. Hangisini göndereceğine sen karar ver. Stajyer yazar. Sen yönetici kal."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 224.44,
+      "end": 263,
+      "text": "İkinci dert: uzun sözleşme. Bulut hizmeti. Otuz sayfa. İçinde bildirimsiz kesinti. Erken fesih cezası. Veri sızıntısında sembolik tavan. Yönetici diyor: altmış saniyede anlayacağım üç madde ve bizi zora sokan riskler. Modele baş hukuk danışmanı rolünü ver. Üç maddelik özet. Madde numarası, hüküm, risk, karşı pozisyon. Sözleşmeyi maskeleyerek yapıştır. Gönder. Üç saatlik okuma bir sayfalık karar notuna iner."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 263.4,
+      "end": 305.72,
+      "text": "Üst lig: cuma kampanyasında site iki saat on beş dakika düşer. Sekiz yüz elli bin lira ciro riski. Yönetim kurulu toplanır. Senden bilgi notu ve müşteri özrü. Modele kriz yönetimi uzmanı rolünü ver. Durum. Etki. Önlem. Karar. Dışarıya şeffaf telafi cümlesi. Gönder. İçeride soğukkanlı profesyonel durursun. Dışarıda olgun marka. Arz ve rica kuralını da söyle. Asta yazıyorsan arz. Üst asta yazıyorsa rica. Eşit kurumda arz ve rica. Stajyer mevzuatı bilir. Sen imzayı taşı."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 306.12,
+      "end": 328.12,
+      "text": "Bilgi notu iskeleti ezberlenecek bir şablon değildir. Başlık, tarih, kime, kimden. Durum. Etki. Önlem. Karar. Stajyer doldurur. Sen gizlilik derecesini ve rakamı kontrol edersin. Göndermeden önce maskenin durduğunu bir kez daha bak."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 328.52,
+      "end": 363.96,
+      "text": "Kendi taslağın cebinde olmadan beşinci bölüme geçme. Küçük olsun. Mükemmel olmasın. Bitmiş olsun. Üç kural cebine. Bir: boş sayfada kelime arama. Rol ve ton ver. Sen editör ol. İki: uzun metinde üç madde artı risk tablosu. Ne oldu. Riski ne. Ne yapmalıyız. Yöneticiler sayfa okumaz. Bu üç soruyu ister. Üç: bilgi notunda durum, etki, aksiyon, karar. İskeleti stajyer doldurur. Sen rakamı ve maskeyi kontrol edersin."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 364.36,
+      "end": 407.56,
+      "text": "Şimdi iki dakikalık kanıt. Cevap bekleyen bir yazışma seç. Geciken ödeme yeter. Zor bir talep yeter. Üç ton istemiyle mülayim, dengeli ve ihtari taslağı ürettir. İşine yarayanı taslak klasörüne kaydet. Kendi dosyandan bir taslak elinde olmadan beşinci bölüme geçme. Sonraki derste beyaz slayt var. Yarına sunum olsun baskısı. İlk slayta ne yazacağım korkusu. Orada raporu sahneye çevireceğiz. Kahveni al. Masada kal. Beyaz sayfa bitti. Kurumsal dil kaldı. Yarın aynı stajyer yine masanda olacak."
+    }
+  ]
+}

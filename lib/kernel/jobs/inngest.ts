@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { REQUEST_ID_HEADER } from "@/lib/kernel/http/request-id";
+import type { CurrencyCode } from "@/lib/kernel/money/currency";
 import { Inngest } from "inngest";
 import {
   paytrClearingScanNoOpResult,
@@ -18,6 +19,7 @@ export const INNGEST_EVENTS = {
   ESCROW_TIMEOUT_REQUESTED: "escrow/timeout-requested",
   ESCROW_REFUNDED: "escrow/refunded",
   ESCROW_TTL_APPROACHING: "escrow/ttl-approaching",
+  ACADEMY_RECEIPT_REQUESTED: "academy/receipt-requested",
 } as const;
 
 export const paytrClearingScan = inngest.createFunction(
@@ -321,6 +323,54 @@ export const escrowTtlApproachingNotify = inngest.createFunction(
   },
 );
 
+/**
+ * Akademi satın alma makbuzu (TESPIT E5) — satın alma rotası kuyruğa atar,
+ * SMTP burada konuşur. Event payload'u kendi kendine yeterli: akademi store
+ * okunmaz (kernel↛dikey sınırı). purchaseId idempotency anahtarıdır.
+ * SMTP taşıma hatası throw eder → Inngest retry; geçersiz/eksik veri skipped.
+ */
+export const academyReceiptSend = inngest.createFunction(
+  {
+    id: "academy-receipt-send",
+    name: "Akademi makbuz gönderimi",
+    idempotency: "event.data.purchaseId",
+    triggers: [{ event: INNGEST_EVENTS.ACADEMY_RECEIPT_REQUESTED }],
+  },
+  async ({ event, step }) => {
+    return step.run("send-academy-receipt", async () => {
+      const { deliverAcademyReceiptMail } = await import(
+        "@/lib/kernel/notice/academy-receipt-mail"
+      );
+      const data = event.data as {
+        purchaseId?: unknown;
+        userId?: unknown;
+        courseTitle?: unknown;
+        courseSlug?: unknown;
+        amountMinor?: unknown;
+        currencyCode?: unknown;
+        settledAt?: unknown;
+        receiptName?: unknown;
+        requestId?: unknown;
+      };
+      const purchaseId = typeof data.purchaseId === "string" ? data.purchaseId : "";
+      const status = await deliverAcademyReceiptMail({
+        purchaseId,
+        userId: typeof data.userId === "string" ? data.userId : "",
+        courseTitle: typeof data.courseTitle === "string" ? data.courseTitle : "",
+        courseSlug: typeof data.courseSlug === "string" ? data.courseSlug : "",
+        amountMinor: typeof data.amountMinor === "number" ? data.amountMinor : NaN,
+        currencyCode: (
+          typeof data.currencyCode === "string" ? data.currencyCode : ""
+        ) as CurrencyCode,
+        settledAt: typeof data.settledAt === "string" ? data.settledAt : "",
+        receiptName: typeof data.receiptName === "string" ? data.receiptName : "",
+        requestId: typeof data.requestId === "string" ? data.requestId : event.id,
+      });
+      return { purchaseId, status };
+    });
+  },
+);
+
 export const kernelInngestFunctions = [
   paytrClearingScan,
   paytrClearingSingle,
@@ -329,6 +379,7 @@ export const kernelInngestFunctions = [
   escrowRefundedNotify,
   escrowTtlApproachingScan,
   escrowTtlApproachingNotify,
+  academyReceiptSend,
 ];
 
 export function inngestNotConfiguredResponse(requestId?: string) {

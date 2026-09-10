@@ -1,0 +1,116 @@
+{
+  "lessonKey": "01_office_ai-6",
+  "pauseSec": 0.4,
+  "durationSec": 341.572,
+  "cacheV": 341572,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 22.931,
+      "text": "Tekrar merhaba. Ben Gözde. Kahveni tazelediysen masaya otur; altıncı ders, büyük final. Beyaz slayt dün masadan kalktı. Bugün ofisin son kalesi konuşacak. Gelen kutu. Autluk. Mesaiyi bitirmeden insanı tüketen yer. Yüz kırk yedi okunmamış. Kırmızı ünlem. Öfkeli konu satırı."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 23.331,
+      "end": 46.462,
+      "text": "Cebinde iki kural duruyor. Bir: duyguya ham cevap yazma; stajyeri kalkan yap. İki: altın güvenlik. Gerçek ad yok. Telefon yok. İban yok. Müşteri A, Telefon X yeter. Kalkan duruyorsa sabah sekiz kırk beşe giriyoruz. İlk yudum kahve. Autluk. Omza kurşun. Bugün o felci üç protokolle keseceğiz."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 46.862,
+      "end": 79.793,
+      "text": "Konu satırı tamamen büyük harf. Acil. Sistem kesintisi. Geciken teslimat. Tazminat talebimiz. İçini açarsın. Dört paragraf öfke, hayal kırıklığı, tehdit. Genel müdür kopyada. Yetkili kimse yok mu, projemiz batıyor diye haykırır. Kalbin hızlanır. Ekranda donarsın. Haklısınız desen şirketi hukuken tazminata bağlarsın. Sert çıksan müşteriyi kaybedersin. Alttan alsan zayıf görünürsün. Bir meyl için kırk beş dakika kelime tartar, siler, baştan yazarsın."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 80.193,
+      "end": 116.084,
+      "text": "Üstüne on sayfalık zincir. Beş kişi. Dört gün. Teknik detay, revize, fiyat havada. Kimin neye onay verdiği, topun kimde olduğu kaybolur. Eski usulde yirmi dakika geri okur, yine çorba kalırsın. Daha mesainin ilk çeyrek saatinde omza kurşun biner. Bugünden sonra gelen kutuda donmak da tarihe gömülür. Üç protokol. Gürültü süzgeci. Diplomasi kalkanı. Aksiyon matrisi. Stajyer egosuzdur. Sonsuz soğukkanlılıkla çalışır. Sen yönetici kal."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 116.484,
+      "end": 142.135,
+      "text": "Özet çıkarmadan önce triyaj yap. Yüz kırk yedi meyl aynı ciddiyetle bakılmaz. Üç kova. Acil: bugün. Kriz. Onay bekleyen. Bu hafta: esnek yanıt. Bilgi amaçlı: bülten, kopya, sistem. Modele yönetici asistanı rolünü ver. Konu satırlarını yapıştır. Kovayı ve bir cümle gerekçe iste. İsimleri maskele. Gönder. Güne kırmızı kovadan başlarsın. Mavi kova kahve molasında iner."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 142.535,
+      "end": 183.266,
+      "text": "Klavyeni çek. On sayfalık zincir. Satış direktörü, müşteri temsilcisi, teknik lider, muhasebe. Canlıya geçiş aksamış. Günlük ceza tehdidi. Güvenlik duvarı portu. Ödenmemiş bakım faturası. Yönetici kapıdan uzanır: otuz saniyede son durum. Modele operasyon direktörü rolünü ver. Tam üç madde. Kriz nedir, problem nerede başladı. Taraflar ne istiyor, teknik ve finansal çatışma nerede. Darboğaz kime takıldı, kimden ne kararı bekleniyor. Zinciri maskeleyerek yapıştır. Gönder. On saniyede karar notu gelir."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 183.666,
+      "end": 195.317,
+      "text": "Öfke ve selam düşer. Karar kalır. Stajyer süzgeçtir. Sen yöneticiye üç cümle götürürsün. Zinciri baştan okumak artık senin işin değildir."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 195.717,
+      "end": 224.128,
+      "text": "Öfkeli müşteriye iki ölümcül yol var. Suç sizde, faturanızı ödemediniz. Yangındır. Ya da sistemimiz çöktü, her cezayı kabul. Hukuken tehlikelidir. Üçüncü yol: kıdemli kriz diplomatı. Empati var. İtiraf yok. Üç somut adım var. Bugün on yedi otuzda ortak test. Log kaydı. Doğrudan hat. Modele bu kuralları ver. Gönder. Öfkeyi emer. Topu fırlatmaz. İnisiyatifi alır."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 224.528,
+      "end": 249.099,
+      "text": "Toplantı bitince iş unutulmasın. Kim, ne, ne zaman. Modele proje yöneticisi rolünü ver. Aksiyon matrisi iste. Sorumlu. Görev. Teslim. Öncelik. Autluk görev satırları. Gönder. Tabloyu ilgili kişilere yapıştır. Kimse ben bunu bilmiyordum diyemez. Havada kalan hallederiz cümlesi tarihe gömülür. Teslim saati kalır."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 249.499,
+      "end": 264.99,
+      "text": "Yanıtı göndermeden önce üç süzgeç. Empati cümlesi var mı. Hukuki itiraf yok mu. Teslim saati net mi. Yoksa taslak klasörüne koy. Sabah soğukkanlı oku. Stajyer hız verir. Gönder tuşu sendedir."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 265.39,
+      "end": 301.201,
+      "text": "Sınava girmeden önce kendi gelen kutunu üç kovaya ayır. Küçük olsun. Mükemmel olmasın. Bitmiş olsun. Listedeki ilk acil meyline diplomatik yanıt istemini çalıştır. Taslağı Autluk klasörüne koy. Üç altın güvenlik cebine. Bir: kişisel veriyi maskele. Ad, telefon, kimlik, iban yok. İki: ticari sırrı açık sohbete dökme. Bilanço, ihale, patent ham gitmez. Üç: halüsinasyon süzgeci. Tarih, fatura, isim. Göndermeden otuz saniye insan gözü. Yapay zekâ taslak hazırlar. İmzayı sen taşırsın."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 301.601,
+      "end": 341.572,
+      "text": "Altı dersin özeti cebinde. Zaman hırsızı. Formül niyeti. Çöp veri. Kurumsal dil. Sahne iskeleti. Gelen kutu kalkanı. Sen artık rutin işe ömür harcayan eski ofis çalışanı değilsin. Stajyeri sağ kolun yapan, zamanını stratejiye ayıran yetkin bir profesyonelsin. Şimdi dok'taki yeşil kapı. Altı bölü altı bitti. Baraj yetmiş. Testi başlat. On soru. Otuz dakika. Yetmiş üstü Kariyer sayfana işlenir. Satın alma belge basmaz. Kahveni al. Masada kal. Ben Gözde. Stajyer masanda duruyor. İmza sende. Görüşmek üzere."
+    }
+  ]
+}

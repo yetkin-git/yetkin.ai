@@ -71,17 +71,24 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     const copy = SEN_VOICE.academy;
     const ledgerLeak = /SETTLED|amountMinor|CheckoutPriceLock|settlement|debit|escrow/i;
     expect(copy.catalog.description).toContain("Dersler ödeme sonrası açılır");
-    expect(copy.catalog.description).toContain("Prompt Box ve özet videonun altında");
+    expect(copy.catalog.description).toContain("Vitrin beş yayında eğitimdir");
+    expect(copy.catalog.description).not.toContain("13 eğitim");
     expect(copy.catalog.description).not.toMatch(ledgerLeak);
     expect(copy.catalog.cardCtaBuy).toBe("Satın Al");
     expect(copy.catalog.audioBadge).toBe("Sesli anlatım");
     expect(copy.catalog.audioBadgeHint).toBe(
-      "Mühürlü derslerde ses ve kayan metin; Prompt Box videonun altında",
+      "Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika",
     );
-    expect(copy.catalog.heroAudioBadge).toBe("Sesli anlatım — amiral hat");
-    expect(copy.catalog.articleBadge).toBe("Makale / Pratik");
-    expect(copy.catalog.articleBadgeHint).toContain("mühürlü ses bu SKU'da yok");
-    expect(copy.catalog.heroArticleBadge).toBe("Yazılı compact — makale ve pratik");
+    expect(copy.catalog.heroAudioBadge).toBe(
+      "Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika",
+    );
+    expect(copy.catalog.articleBadge).toBe("Yazılı compact");
+    expect(copy.catalog.articleBadgeHint).toBe(
+      "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+    );
+    expect(copy.catalog.heroArticleBadge).toBe(
+      "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+    );
     expect(copy.catalog.heroLevelIdentity("Temel", academyModuleCodeBySlug("01_office_ai"))).toBe(
       "Temel Seviye · OFF-101",
     );

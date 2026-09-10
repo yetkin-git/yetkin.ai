@@ -1,0 +1,116 @@
+{
+  "lessonKey": "04_chatbot_nocode-3",
+  "pauseSec": 0.4,
+  "durationSec": 439.8,
+  "cacheV": 439800,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 33.68,
+      "text": "Tekrar selam. Ben Kaan. Üçüncü istasyon: Botpres ve belge beyni. Voysflov ray çizdi. Hasta raydan çıkar. Yirmi yaş diş, yanağım şişti, antibiyotik alınır mı. SGK zirkonyumu karşılar mı. Emziren anneye anestezi. Turist İngilizce sorar. Her cümleyi kodlamak aylar sürer. Yine eksik kalır. Bu çileyi bugün kapatıyoruz. Bota soru ezberletmiyoruz. Ders kitabı okutuyoruz. Ray yetmez. Beyin gerekir. Belge sadık kalsın."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 34.08,
+      "end": 61.48,
+      "text": "Erişim net. botpres nokta kom. Studio hesabı. Yeni bot. Sol menüde Nalıc Beyz, kitap ikonu. Kahvenden bir yudum al. Derin bir nefes al. Bota ders kitabı okutacağız. taşınabilir belge biçimi (PDF). Web. SSS. Kod yok. Uydurma kalkanı var. Folbek insana. Eşik yüzde yetmiş. Başlıyoruz."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 61.88,
+      "end": 91.96,
+      "text": "Kapı kilitliyse bant durur. Hesap yoksa bugün bir tane aç. Ücretsiz kotayla tek sayfa SSS yeter. Open ey ay anahtarı da ayrı kapı. platform nokta open ey ay nokta kom. Uygulama Programlama Arayüzü (API) keys. Create. Botpres El el em kutusuna yapıştır. Sıcaklık düşük. Bugün belge. Yarın Vatsap. Meyk nokta kom öbür gün. Kapı sırası: belge, kalkan, hat. Tersine gitme."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 92.36,
+      "end": 133.88,
+      "text": "Soyut tanımları bir kenara bırakıyoruz; doğrudan Artırılmış Geri Çapraz Sorgulama (RAG) masasına bakıyoruz. Artırılmış Geri Çapraz Sorgulama (RAG) restoran gibidir. El el em şeftir. Güzel konuşur. Menüyü uydurabilir. Buna halüsinasyon denir. Retrieval kütüphanecidir. Belgeyi çeker. Şefe uzatır. Bu kağıda sadık kal. Botpres belgeyi parçalar. Sayıya çevirir. Eşik koyarsın. Yüzde yetmiş uyuşmazsa uydurma. Folbek. Bu kalkan hayatı kurtarır. Şef yaratıcıdır. Kütüphaneci titizdir. İkisi birlikte çalışır."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 134.28,
+      "end": 193.52,
+      "text": "Nalıc Beyz üç kapı. Documents: temiz metin taşınabilir belge biçimi (PDF), Vörd. Taranmış resim değil. Başlık hiyerarşisi. Web Crawler: site adresini yaz, gezsin. Text FAQ: soru cevap yapıştır. Test: zirkonyum ile lamine farkı. Bot sayfadan damıtır. İngilizce hotel package sorusu sağlık turizminden cevaplar. Tek satır kod yok. Tek taşınabilir belge biçimi (PDF). Çok dilli danışman. Sonra eylem: randevu ister misiniz. Beyin konuşur. Satış yine kapanır. Wikipedia maddesi değil. Belge konuşur. Sen kalkanı tutarsın. Uydurma cümle çöptür."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 193.92,
+      "end": 228,
+      "text": "Gardreyls emniyet kalkanıdır. Antibiyotik adı isteme. Bot ilaç yazmaz. Teşhis koymaz. Fiyatı kesin vaat etmez. Röntgen olmadan net rakam yok. Sistem prompt: sen klinik asistanısın. Teşhis yok. İlaç yok. Bilinmiyorsa Folbek. Öfkeli cümlede empati, numara al, insana devret. Endişede ağrısız yöntem, randevu. Eşik. Folbek. Duygu. Üç kalkan. Sen mimarsın. Model stajyer. Kontrol sende."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 228.4,
+      "end": 266.76,
+      "text": "Open ey ay kutusu Botpres'te El el em seçimidir. platform nokta open ey ay nokta kom'dan anahtar. Model: güncel küçük veya orta. Sıcaklık sıfır üç. Sistem talimatı kısa. Kendi belgene sadık kal. Bilmiyorsan uydurma. Anahtarı ekran görüntüsüne koyma. Git'e basma. Kota bitince sessiz düşme. Folbek insana. Sen yönetici kal. Anahtar sızarsa iptal et, yenisini bas. Belge yoksa şef menü uydurur. Önce taşınabilir belge biçimi (PDF). Sonra anahtar."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 267.16,
+      "end": 306.72,
+      "text": "Kritik durum burada başlar. Kirli taşınabilir belge biçimi (PDF) okutma. Taranmış resim, karmaşık tablo, silik fiyat. Bot uydurur. İkinci tuzak: eşiği sıfırlamak. Her soruya cevap. Teşhis sızar. Üçüncü tuzak: gerçek hasta dosyasını açık modele yüklemek. Kimlik, röntgen, telefon yok. Maskele. Dördüncü tuzak: Gardreyls olmadan canlı. İlaç cümlesi hukuktur. Onay sende kalır. Uç soruyu test et. Folbek düşmezse kalkan yok demektir. Yayın yok."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 307.12,
+      "end": 347.28,
+      "text": "Aynı kalkanı erişimde kuruyorsun. botpres nokta kom. Studio. Nalıc Beyz. Open ey ay için platform nokta open ey ay nokta kom. Anahtar kopyala, bir yere yapıştır, kapat. Meyk nokta kom henüz değil. Vatsap yarın. Bugün belge ve Folbek. Panik yok. Kapıyı aç. Metinde olan soruyu sor. Metinde olmayanı sor. Uydurmadan düştüğünü gör. Sonra ölçekle. Üç yeşil test olmadan canlı yok. Uydurma cümle bir gecede itibar yer. Kalkan yoksa yayın yok."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 347.68,
+      "end": 373.64,
+      "text": "Canlıya basmadan üç test. Bilinen soru: doğru sayfa, eylem çağrısı. Uç soru: Folbek, insan adı. Yasak soru: ilaç, teşhis, net fiyat. Bot reddeder, randevu önerir. Üçü yeşil değilse yayın yok. Sen kalkanı tutarsın. Stajyer üretir. Sen silersin. Hukuk ve itibar aynı masada."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 374.04,
+      "end": 413.4,
+      "text": "Üç anahtarı cebine koy. Bir: Artırılmış Geri Çapraz Sorgulama (RAG) belgeye sadık konuşur. Şef uydurmasın. İki: Nalıc Beyz taşınabilir belge biçimi (PDF), web, SSS. Eşik yüzde yetmiş. Üç: Gardreyls. Teşhis yok. İlaç yok. Folbek insana. Kapı botpres nokta kom ve platform nokta open ey ay nokta kom. Kendi belgenle konuşan botu görmeden dördüncü bölüme geçme. Orada Me ta Vatsap Cloud Uygulama Programlama Arayüzü (API). Ticaretin kalbi orada atar."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 413.8,
+      "end": 439.8,
+      "text": "Şimdi iki dakikalık kanıt. Botpres Studio'da boş proje. Nalıc Beyz'e kendi işinden tek sayfa hizmet veya SSS yapıştır. Önce belgede olan soru. Sonra belgede olmayan uç soru. Uydurmadan Folbek'e düştüğünü izle. Kendi belgenle konuşan botu görmeden dördüncü bölüme geçme. Kahveni tazele. Bugün beynin ilk dilimini geri aldın. Yarın hat resmi olacak. Başladık."
+    }
+  ]
+}

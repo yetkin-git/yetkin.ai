@@ -1,0 +1,116 @@
+{
+  "lessonKey": "03_social_media_ai-1",
+  "pauseSec": 0.4,
+  "durationSec": 451.292,
+  "cacheV": 451292,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 33.771,
+      "text": "Selam. Ben Deniz. Ajans masasında içerik fabrikası kuruyorum ve bugün seninle o sessiz paniği konuşacağız. Her sabah telefonu açıyorsun. İnstegram'a ne atacağım diyorsun. Tik tok'ta hangi ses tuttu diye bakıyorsun. Rils için kim çekim yapacak diye düşünüyorsun. Boş ekrana bakıp üç saat tasarlıyorsun. Beş saat sonra yirmi dört beğeni. Biri de zaten en yakın arkadaşından. Bu sahne ajansın da, butiğin de, emlakçının da aynı. Feed acımasız. Sen yorgunsun."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 34.171,
+      "end": 73.222,
+      "text": "Günün sonunda o bıkkınlık gelir. Saatlerimi verdim, neden kimse görmüyor. Bunu bir kez bile hissettiysen yalnız değilsin. Sorun yeteneğin değil. Sorun, senin bir fabrika gibi değil, bir ortaçağ zanaatkârı gibi tek tek elle üretim yapman. Pazartesi fikir. Salı çekim. Çarşamba kurgu. Perşembe kapak. Cuma tükenmişlik. Bu tempo sürdürülemez. Ajans da aynı tuzağa düşer. KOBİ de düşer. İnsan zihni her gün hem stratejist hem kameraman hem kurgucu olamaz. Bant yoksa tükeniş vardır."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 73.622,
+      "end": 98.193,
+      "text": "Bu derste o ameleliği bırakıyorsun. Kod yok. İlham perisi yok. Elindeki yapay zekâya markanın yedi gün yirmi dört saat çalışan içerik fabrikası gibi davranmayı öğreneceksin. Kahvenden bir yudum al. Derin bir nefes al. Fabrikanın ilk şalterini bugün kaldırıyoruz. Sen genel müdürsün. Robot kollar çalışır. Kalite kontrol sende kalır. Başlıyoruz."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 98.593,
+      "end": 134.244,
+      "text": "Soyut tanımları bir kenara bırakıyoruz; doğrudan senin feed'indeki gerçek probleme bakıyoruz. Ford arabayı ustanın ayağına götürmedi. Bant kurdu. Bugün içerik üreticilerinin yüzde doksanı hâlâ usta gibi çalışıyor. Biz bant kuruyoruz. Girdi istasyonu ham fikri alır. Metin istasyonu kancayı basar. Görsel istasyonu Midcörni ve Kanva ile kareyi basar. Ses istasyonu Ilevın Labs ve Heycen konuşturur. Kurgu istasyonu Kepkat ile dikey videoyu kilitler. Dağıtım istasyonu Metrikul kuyruğuna basar. Sen istasyonları denetlersin. Vida sıkmazsın."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 134.644,
+      "end": 175.975,
+      "text": "Tek girdi, otuz çıktı. Örnek vaka Lumina Glow yüz serumu olsun. Danışmanlık, gayrimenkul, yazılım ajansı. Mantık aynı. Geleneksel pazarlamacı şişeyi çeker, stokta yazar, biter. Biz beş sütun kuruyoruz. Acı noktası. Mit çürütme. Sosyal kanıt. Yaşam tarzı. Doğrudan satış. Her sütuna altı içerik. Toplam otuz gün. Çetcipiti veya Klod'a ham ürün notunu veriyorsun. Rolü kıdemli sosyal medya yönetmeni. Format beş sütun, her sütunda altı kanca. Şimdi gönder tuşuna basıyorsun. On beş saniyede takvim taslağı iner."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 176.375,
+      "end": 212.786,
+      "text": "Algoritma duygusal değildir. Matematik motorudur. Üç sayıya bakar. Bir: kanca oranı. İlk üç saniyede parmak durdu mu. Dikkat süresi sıfır nokta sekiz saniye. İki: ortalama izlenme. On beş saniyelik video sonuna kadar gittiyse keşfet açılır. Altmış saniye sıkıcıysa onuncu saniyede terk edilir. Üç: kaydetme ve paylaşma. Beğeni eskidi. Kaydet, gelecekte kullanırım demektir. Paylaş, yeni insan getirir. Fabrikan bu üç metrik için üretir. Şiir için değil. Beğeniye tapma. Kaydet ve paylaş için kurgula."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 213.186,
+      "end": 270.877,
+      "text": "Beş istasyon sırası cebine girer. Bölüm iki: Midcörni, Flaks ve Kanva görsel hattı. Erişim net. Midcörni'e midjourney.com'dan girersin, Diskord'a bağlanır veya web uygulamasını açarsın. Flaks için fal.ai kapısı yeter, Diskord şart değil. Kanva canva.com. Bölüm üç: kanca. Bölüm dört: Ilevın Labs elevenlabs.io, Heycen heygen.com. Bölüm beş: Kepkat capcut.com masaüstü, Ranvey app.runwayml.com, Kiling klingai.com. Bölüm altı: Metrikul metricool.com. Sen amele değilsin. Sen genel müdürsün. Kapı kilitliyse bant durur. Bugün bir hesap açman yeter."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 271.277,
+      "end": 301.288,
+      "text": "Kritik durum burada başlar. Gelen otuz fikri körü körüne takvime yapıştırmazsın. Rakip markanın tescilli adını, ünlü yüzü, tıbbi mucize vaadini modele yazmazsın. İnstegram ve Tik tok taklit içeriğe katıdır. Hesabın bir gecede uykuya alınır. Kendi ürününü, kendi sahneni, kendi kancanı tarif edersin. Onay sende kalır. Stajyer üretir. Sen kalkanı tutarsın. Şiir kalan her kancayı silersin. Gerçek acıya oturmayan cümle çöptür."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 301.688,
+      "end": 338.179,
+      "text": "İkinci tuzak ilham beklemektir. Fabrika beklemez. Her sabah ne paylaşacağım diye boş ekrana bakmazsın. Girdi bir kez girer. Bant çalışır. Üçüncü tuzak abartılı iddiadır. Yapay zekâ bazen yüzde yüz leke siler diye yazar. Reklam Kurulu ve platform cezası kapıda durur. Metni onaylayan son göz daima sensin. Müşteri verisini de yapıştırmazsın. Gerçek isim, telefon, DM ekran görüntüsü yok. Maskele, denetle, bas. Kişisel Verilerin Korunması Kanunu (KVKK) kalkanı burada başlar. Açık yapay zekâya kişisel veri yok."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 338.579,
+      "end": 378.07,
+      "text": "Aynı kalkanı erişim köprüsünde de kuruyorsun. Araçları ezberlemeni istemiyorum. Kapıyı biliyorsun yeter. Midcörni Diskord veya web. Flaks fal.ai. Ranvey app.runwayml.com. Kiling klingai.com. Kepkat capcut.com'dan masaüstü. Hesap yoksa bugün bir tane aç. Ücretli plan şart değil. Ücretsiz kotayla ilk kareyi görmen yeter. Fabrika kapısı kilitliyse bant çalışmaz. Sen yönetici kal. Stajyer ayrıntıyı sever. Kritik durumda panik yok. Kapıyı aç. İlk çıktıyı gör. Sonra ölçekle."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 378.47,
+      "end": 416.321,
+      "text": "Üç anahtarı cebine koy. Bir: yapay zekâ ilham perisi değil, senin markanın yedi gün yirmi dört saat çalışan içerik fabrikasıdır. Onu şiir için değil; kanca, görsel ve dikey video için çalıştırırsın. İki: tek girdiden otuz çıktı çıkar. Beş sütun. Her sütuna altı fikir. Üç: algoritma üç sayıya bakar. Kanca. İzlenme. Kaydet ve paylaş. Beğeniye tapma. Fabrikan bu üçlüyü doyursun. Kapı adlarını deftere yaz. Midcörni, Flaks, Ranvey, Kiling, Kepkat. Yarın o kapılardan gireceksin."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 416.721,
+      "end": 451.291,
+      "text": "Şimdi iki dakikalık kanıt. Kendi markandan tek bir ürün veya hizmet seç. Beş sütunu kâğıda yaz. Her sütunun altına bir fikir. Sonra aynı listeyi Çetcipiti veya Klod'a ver. Her sütunu altıya tamamlasın. Kendi otuz günlük takvim taslağını elinde görmeden ikinci bölüme geçme. Orada Midcörni ve Flaks ile stüdyo karesini basacağız. Kanva şablonu da orada kilitlenecek. Kahveni tazele. Bugün fabrikanın ilk dilimini geri aldın. Yarın aynı bant masanda olacak. Başladık."
+    }
+  ]
+}

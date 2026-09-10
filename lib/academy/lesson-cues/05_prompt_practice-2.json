@@ -1,0 +1,50 @@
+[
+  {
+    "id": "cue-01",
+    "start": 0,
+    "end": 90,
+    "text": "Tekrar merhaba. Ben Gözde.",
+    "section": "Isınma & İş Problemi",
+    "paragraphs": [
+      "Tekrar merhaba. Ben Gözde. İlk bölümde beş taşı oturttuk. Rol. Görev. Bağlam. Kısıt. Çıktı. Bazen yetmez. Şirketin kendi rapor dili vardır. Müşteri mesajı kargo mu, kalite mi, iade mi diye ayrılmalıdır. Karmaşık kâr hesabında model acele eder. Toplama hatası seni rezil eder. Bugün iki usta tekniği cebine girer. Few-Shot örnekleme. Chain-of-Thought, yani adım adım düşün. Kahvenden bir yudum al. Derin bir nefes al. Çırağı usta yapıyoruz. Başlıyoruz.",
+      "Kapılar aynı. ChatGPT için chatgpt.com. Claude için claude.ai. Perplexity için perplexity.ai. Ücretsiz kotayla ilk örneği görmen yeter. Kapı kilitliyse bant durur. Bugün bir hesap. Yarın ölçek. Link ezberi yok. Kapı adı yeter. Sen yönetici kal. Model stajyer. Örnek verirsen kalıbı kopyalar. Adım istersen acele etmez.",
+      "Şirket dili ezberletilmez. Gösterilir. Sıfır örnekte model genel kültürle tahmin eder. Tek örnekte yön bulur. Üç örnekte milimetrik kopyalar. Kelime uzunluğu. Noktalama. Ciddiyet. Yanıt şablonu. Yapay zekâ kalıp şampiyonudur. Sen üç tamamlanmış satır verirsen laf kalabalığı biter. Sıfır kod. Saniyeler. Şirketine özel sınıflandırma motoru."
+    ]
+  },
+  {
+    "id": "cue-02",
+    "start": 90,
+    "end": 300,
+    "text": "Soyut tanımları bir kenara bırakıyoruz; doğrudan gelen kutusundaki gerçek mesaja bakıyoruz.",
+    "section": "Temel Yöntem",
+    "paragraphs": [
+      "Soyut tanımları bir kenara bırakıyoruz; doğrudan gelen kutusundaki gerçek mesaja bakıyoruz. Zero-Shot sıfır örnektir. Bu yorumun duygusunu analiz et dersin. Model karışık der. Basit işte yeter. Karmaşıkta format kaçırır. One-Shot tek örnektir. Bak, böyle girdi, böyle çıktı. Few-Shot iki üç dört örnektir. Neden birkaç? Çünkü model taklit dünya şampiyonudur. Üç satır görünce şablonu kilitler.",
+      "E-ticaret vakası. WhatsApp mesajı yağıyor. Operasyona dağıtacaksın. İstem: sen sınıflandırma uzmanısın. Örnek bir. Ayakkabı kırk iki ne zaman stok. Kategori stok. Aciliyet düşük. Satış. Örnek iki. Sipariş gelmedi, kurye açmıyor. Kargo gecikmesi. Aciliyet yüksek. Lojistik. Örnek üç. Kutudan kırık vazo. Hasarlı iade. Kritik. Müşteri deneyimi. Şimdi yeni mesaj. Gömlek rengi fotoğraftan farklı. Değişim yapabilir miyim. Model laf etmez. Kategori değişim. Aciliyet orta. İade ekibi. Güç budur.",
+      "İkinci sihir. Chain-of-Thought. Model insan gibi soluklanmaz. Cümlenin sonunu dizmeye hemen başlar. Ortada mantık kırılır. Google araştırmacıları kanıtladı. Cevabı vermeden önce adım adım düşün. Başarı ikiye katlanır. Neden? Model nihai sonuca atlamaz. Birinci adımı yazar. Okur. İkinciyi hesaplar. Üçüncüyü tartar. Kendine düşünce izi açar. İşte sıfır hata buradan gelir.",
+      "Canlı hesap. Depoda yüz yirmi saat. Tanesi beş yüz. İlk hafta üçte biri yüzde kırk kâr. İkinci hafta kalanın yarısı yüzde yirmi. Kalan maliyetine. Doğrudan sorarsan model uydurur. Başına koy: sen mali müşavirsin. Sonuca atlama. Her basamağı göster. Model disiplinle yürür. Kırk saat yedi yüzden sekiz bin kâr. Kırk saat altı yüzden dört bin. Kırk saat sıfır. Toplam on iki bin. Adımlar hafızada kaldı. Sözleşme, maliyet, strateji. Her zaman adım adım gerekçelendir."
+    ]
+  },
+  {
+    "id": "cue-03",
+    "start": 300,
+    "end": 510,
+    "text": "Kritik durum burada başlar.",
+    "section": "İstisna & Kritik Durum",
+    "paragraphs": [
+      "Kritik durum burada başlar. Tek rol yetmez sandığın an. Büyük kararda tek ağız kör noktayı kaçırır. Finansçı maliyeti görür. Pazarlamacı büyümeyi. Operasyon lojistiği. Masanda kurul yoksa modele sanal panel kur. Üç uzman. CFO şüpheci. CMO hevesli. COO gerçekçi. Her biri sırayla eleştirsin. Birbirine cevap versin. Moderasyon sende kalsın. En sonda üç kritik risk. Bu, elli bin liralık danışmanlık netliği verir. Kör nokta masada görünür.",
+      "Aynı kalkanı erişimde kuruyorsun. chatgpt.com örnekleme ve yazı. claude.ai uzun zincir ve dikkat. perplexity.ai kaynaklı doğrulama. Ücretli plan şart değil. Ücretsiz kotayla ilk Few-Shot'u görmen yeter. Kapı kilitliyse bant çalışmaz. Bugün bir hesap. Yarın ölçek. Panik yok. Kapıyı aç. İlk çıktıyı gör. Sonra panele geç. Link ezberi yok. Kapı adı yeter.",
+      "Tuzaklar. Örneksiz karmaşık sınıflandırma. Format kaçar. Adım istemeden matematik. Acele hata. Paneli tek ağız sanmak. Çok ses laboratuvarıdır, dalkavuk değil. Kişisel veri yine maske. Gerçek müşteri adı açık modele yapışmaz. Onay sende kalır. Uydurma basamağı silersin. Şiir kalan hesap çöptür. Few-Shot kalıp. Chain-of-Thought iz. Panel kör nokta. Bu omurga cebine girer."
+    ]
+  },
+  {
+    "id": "cue-04",
+    "start": 510,
+    "end": 600,
+    "text": "Üç anahtarı cebine koy.",
+    "section": "Özet & Saha Görevi",
+    "paragraphs": [
+      "Üç anahtarı cebine koy. Bir: Zero-Shot tahmin. One-Shot yön. Few-Shot kilit. İki: adım adım düşün. Acele hata kesilir. Üç: uzman paneli. Kör nokta masada. Kapı adları aynı. chatgpt.com. claude.ai. perplexity.ai. Yarın o kapılardan gireceksin. Örneksiz karmaşık işi artık gönderme. Adımsız hesabı artık sorma.",
+      "Şimdi iki dakikalık kanıt. İşindeki gerçek bir hesabı modele ver. Başına adım adım düşün, her basamağı göster kuralını ekle. Son gelen üç müşteri mesajını iki örnekli Few-Shot kalıbıyla sınıflandır. Chain-of-Thought'un ilk denemede hatayı nasıl kestiğini kendi ekranında görmeden üçüncü bölüme geçme. Orada e-posta ve resmi yazışmayı diplomasiye çevireceğiz. Kahveni tazele. Bugün usta tekniğin ilk dilimini aldın. Yarın aynı stajyer masanda olacak. Başladık."
+    ]
+  }
+]

@@ -45,6 +45,9 @@ describe("cüzdan yükleme checkout fail-closed yüzeyi", () => {
     expect(route).toContain("wallet.top_up.pending");
     expect(route).toContain("paytr.user_ip.resolved");
     expect(route).toContain("ops.proxy.hops_edge_mismatch");
+    expect(route).toContain("resolvePaytrCheckoutUserIp");
+    expect(route).toContain("buildPaytrMerchantBrowserReturnUrl");
+    expect(route).not.toContain('"127.0.0.1"');
 
     const form = readSrc("components/kernel/wallet-top-up-form.tsx");
     expect(form).toContain("mockCheckout");

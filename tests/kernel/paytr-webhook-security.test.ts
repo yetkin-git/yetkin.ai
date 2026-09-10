@@ -383,6 +383,23 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
     expect(body.reason).toBe("ip_not_allowed");
   });
 
+  it("panel callback allowlist dışı IP'de test paketini HTTP 400 basmadan OK döner", async () => {
+    process.env.PAYTR_WEBHOOK_IP_ALLOWLIST = "203.0.113.10";
+    const panel = await postPaytrPanelCallback(
+      new Request("http://localhost/api/paytr/callback", {
+        method: "POST",
+        headers: {
+          "x-request-id": REQUEST_ID,
+          "content-type": "application/x-www-form-urlencoded",
+          "x-forwarded-for": "198.51.100.1",
+        },
+        body: `merchant_oid=${OID}&status=success&total_amount=1300&hash=not-a-valid-hash`,
+      }),
+    );
+    expect(panel.status).toBe(200);
+    expect(await panel.text()).toBe("OK");
+  });
+
   it("PayTR Destek IP zincirdeyse allowlist Cloudflare hop'unda 403 basmaz", () => {
     process.env.PAYTR_WEBHOOK_IP_ALLOWLIST = "203.0.113.10";
     const allowlist = resolvePaytrWebhookIpAllowlist();
@@ -510,6 +527,46 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
     );
     expect(panelUrlEncoded.status).toBe(200);
     expect(await panelUrlEncoded.text()).toBe("OK");
+
+    const panelPartial = await postPaytrPanelCallback(
+      new Request("http://localhost/api/paytr/callback", {
+        method: "POST",
+        headers: {
+          "x-request-id": REQUEST_ID,
+          "content-type": "application/x-www-form-urlencoded",
+        },
+        body: "merchant_oid=test&status=success",
+      }),
+    );
+    expect(panelPartial.status).toBe(200);
+    expect(panelPartial.headers.get("content-type")).toMatch(/^text\/plain/);
+    expect(await panelPartial.text()).toBe("OK");
+
+    const panelBadHash = await postPaytrPanelCallback(
+      new Request("http://localhost/api/paytr/callback", {
+        method: "POST",
+        headers: {
+          "x-request-id": REQUEST_ID,
+          "content-type": "application/x-www-form-urlencoded",
+        },
+        body: `merchant_oid=${OID}&status=success&total_amount=1300&hash=not-a-valid-hash`,
+      }),
+    );
+    expect(panelBadHash.status).toBe(200);
+    expect(await panelBadHash.text()).toBe("OK");
+
+    const panelZeroAmount = await postPaytrPanelCallback(
+      new Request("http://localhost/api/paytr/callback", {
+        method: "POST",
+        headers: {
+          "x-request-id": REQUEST_ID,
+          "content-type": "application/x-www-form-urlencoded",
+        },
+        body: `merchant_oid=${OID}&status=success&total_amount=0&hash=not-a-valid-hash`,
+      }),
+    );
+    expect(panelZeroAmount.status).toBe(200);
+    expect(await panelZeroAmount.text()).toBe("OK");
 
     const liveHash = validHash();
     const encoded = new URLSearchParams({

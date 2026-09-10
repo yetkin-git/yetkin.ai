@@ -64,7 +64,7 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     vi.unstubAllEnvs();
   });
 
-  it("RAIL_V1_HOP_GATES, RAIL_V1_HOPS ile 1:1 kilitlenir; 16 hop", () => {
+  it("RAIL_V1_HOP_GATES, RAIL_V1_HOPS ile 1:1 kilitlenir; 8 hop (PayTR B2C)", () => {
     const gateSrc = readFileSync(join(process.cwd(), "lib/kernel/http/v1-hop-gate.ts"), "utf8");
     const proxySrc = readFileSync(join(process.cwd(), "proxy.ts"), "utf8");
     expect(gateSrc).not.toContain("v1-contract");
@@ -73,8 +73,8 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     expect(gateSrc).not.toContain("v1PathTemplate: \"/api/v1/health\"");
     expect(proxySrc).toContain("decideRailV1HopGate");
     expect(proxySrc).toContain("hopGate.kind === \"fail\"");
-    expect(RAIL_V1_HOPS).toHaveLength(16);
-    expect(RAIL_V1_HOP_GATES).toHaveLength(16);
+    expect(RAIL_V1_HOPS).toHaveLength(8);
+    expect(RAIL_V1_HOP_GATES).toHaveLength(8);
     expect(
       RAIL_V1_HOP_GATES.map((hop) => ({
         id: hop.id,
@@ -91,27 +91,30 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     expect(RAIL_V1_HOP_NOT_FOUND).toBe(EDGE_API_NOT_FOUND_ERROR);
   });
 
-  it("sicil hop'ları method+path ile eşleşir; prefix jobs/{id} listesine düşmez", () => {
-    expect(findRailV1Hop("/api/v1/freelancer/jobs", "GET")?.id).toBe("freelancer-jobs");
-    expect(findRailV1Hop("/api/v1/freelancer/jobs/", "GET")?.id).toBe("freelancer-jobs");
+  it("sicil hop'ları method+path ile eşleşir; freelancer v1'de yayınlanmaz (PayTR B2C)", () => {
+    // Düşürülen 8 hop kapı seviyesinde yayınlanmaz; proxy yine de önce donmuş-oda 410 basar.
+    expect(findRailV1Hop("/api/v1/freelancer/jobs", "GET")).toBeNull();
+    expect(findRailV1Hop("/api/v1/freelancer/jobs/", "GET")).toBeNull();
     expect(findRailV1Hop(`/api/v1/freelancer/jobs/${JOB_ID}`, "GET")).toBeNull();
-    expect(findRailV1Hop(`/api/v1/freelancer/jobs/${JOB_ID}/bids`, "POST")?.id).toBe("freelancer-bid");
+    expect(findRailV1Hop(`/api/v1/freelancer/jobs/${JOB_ID}/bids`, "POST")).toBeNull();
     expect(findRailV1Hop(`/api/v1/freelancer/jobs/${JOB_ID}/bids`, "GET")).toBeNull();
-    expect(findRailV1Hop(`/api/v1/freelancer/jobs/${JOB_ID}/accept`, "POST")?.id).toBe(
-      "freelancer-accept",
-    );
-    expect(findRailV1Hop(`/api/v1/client/jobs/${JOB_ID}/bids`, "GET")?.id).toBe("client-job-bids");
+    expect(findRailV1Hop(`/api/v1/freelancer/jobs/${JOB_ID}/accept`, "POST")).toBeNull();
+    expect(findRailV1Hop(`/api/v1/client/jobs/${JOB_ID}/bids`, "GET")).toBeNull();
     expect(findRailV1Hop(`/api/v1/freelancer/contracts/${CONTRACT_ID}`, "GET")).toBeNull();
-    expect(findRailV1Hop(`/api/v1/freelancer/contracts/${CONTRACT_ID}/messages`, "POST")?.id).toBe(
-      "freelancer-delivery",
-    );
+    expect(findRailV1Hop(`/api/v1/freelancer/contracts/${CONTRACT_ID}/messages`, "POST")).toBeNull();
+    expect(
+      decideRailV1HopGate({ pathname: "/api/v1/freelancer/jobs", method: "GET" }),
+    ).toEqual({ kind: "fail", status: 404, error: RAIL_V1_HOP_NOT_FOUND });
     expect(findRailV1Hop(`/api/v1/academy/certificates/${CERT_HASH}`, "GET")?.id).toBe(
       "academy-certificate",
     );
     expect(findRailV1Hop("/api/v1/health", "POST")).toBeNull();
     expect(findRailV1Hop("/api/v1/wallet/top-up", "POST")).toBeNull();
     expect(findRailV1Hop(`/api/freelancer/jobs/${JOB_ID}`, "GET")).toBeNull();
-    expect(assertPublishedRailV1Hop("/api/v1/freelancer/jobs", "GET").id).toBe("freelancer-jobs");
+    expect(assertPublishedRailV1Hop("/api/v1/auth/session", "GET").id).toBe("auth-session");
+    expect(() => assertPublishedRailV1Hop("/api/v1/freelancer/jobs", "GET")).toThrow(
+      RAIL_V1_HOP_UNPUBLISHED,
+    );
     expect(() => assertPublishedRailV1Hop("/api/v1/wallet/top-up", "POST")).toThrow(
       RAIL_V1_HOP_UNPUBLISHED,
     );
@@ -212,7 +215,7 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     });
   });
 
-  it("16 kanonik hop Bearer ile rewrite kalır; Dron-forbidden 403; list GET jobs/{id} değildir", async () => {
+  it("8 kanonik hop Bearer ile rewrite kalır; Dron-forbidden 403; freelancer 410", async () => {
     const token = await signHs256();
     for (const hop of RAIL_V1_HOPS) {
       const paths = resolveRailV1HopPaths(hop);

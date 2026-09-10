@@ -20,19 +20,20 @@ export type AcademyCardOfferPath = {
 };
 
 /**
- * Her dikey eğitim kartında sunulan iki seçenek.
- * Aynı seviye fiyatı; ürün vaadi ayrılır.
+ * Vitrin dürüstlük kilidi — Aşama 1 vaadi.
+ * Mühürlü ses SKU'larında karaoke; diğer compact yazılıdır.
+ * Ses vaadi yalnız mühürlü SKU'dadır. Kanon 13 SKU vitrin vaadi değildir.
  */
 export const ACADEMY_TRAINING_OFFER_SUMMARY_SEALED =
-  "Sesli anlatım + kayan metin; Prompt Box sahnenin altında.";
+  "Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika";
 export const ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN =
-  "Yazılı compact dersler. Sertifika test barajından (70+) sonra basılır.";
+  "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika";
 
 export const ACADEMY_CARD_OFFER_PATHS: readonly AcademyCardOfferPath[] = [
   {
     path: "training",
     cta: "Eğitimi Satın Al & Öğren",
-    summary: ACADEMY_TRAINING_OFFER_SUMMARY_SEALED,
+    summary: ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
   },
   {
     path: "exam",

@@ -1,8 +1,15 @@
 /**
- * `/api/v1` sözleşme sicili — Diyar B (Rail İş) lab hop'ları.
+ * `/api/v1` sözleşme sicili — PayTR B2C vitrini (8 hop).
  * Anayasa: yayınlanmış alan sessizce düşmez. Bu dosyadaki DTO / OpenAPI
  * kısaltması major sürüm ister. Kernel dikey oda import etmez; alanlar
  * burada dondurulur.
+ *
+ * PayTR B2C (Eylül 2026, E1): 8 freelancer hop sicilden düşürüldü; Dron
+ * donukken (`publishFrozenUntilFaz1Close`) tüketici yoktur. Freelancer Zod
+ * DTO'ları + hata metinleri BİLİNÇLİ durur: kanonik `/api/freelancer/*`
+ * handler'ları + `lib/freelancer` motoru aynı şemalarla doğrular
+ * (`verify:atomic-seals` + IDOR paketi buna bağlıdır). OpenAPI `paths` 8 hop,
+ * `Marketplace` tag'i yok; `components.schemas` DTO aynası korunur.
  */
 
 import { z } from "zod";
@@ -205,7 +212,8 @@ export const railV1BidDataSchema = z.strictObject({
 });
 
 /**
- * GET /api/v1/client/jobs/{id}/bids — owner-only teklif listesi.
+ * Kanonik GET /api/client/jobs/{id}/bids — owner-only teklif listesi
+ * (PayTR B2C: v1 hop değil).
  * `bidderId` / `status` / `updatedAt` / `currencyCode` / `jobId` yok.
  * `bidId` accept gövdesi ile aynı addır; sessiz `id` map yok.
  */
@@ -246,7 +254,7 @@ export const railV1ContractSchema = z.strictObject({
 export type RailV1Contract = z.infer<typeof railV1ContractSchema>;
 
 /**
- * GET /api/v1/freelancer/contracts öğesi.
+ * Kanonik GET /api/freelancer/contracts öğesi (PayTR B2C: v1 hop değil).
  * `deliveredAt` mesaj tablosundan türetilir (kind=DELIVERY, max createdAt).
  * Yeni kolon yoktur. body / artifactUrl / reportJson yayınlanmaz.
  */
@@ -279,7 +287,8 @@ export const railV1ContractsDataSchema = z.strictObject({
 });
 
 /**
- * POST /api/v1/freelancer/contracts/{id}/messages — dar teslim.
+ * Kanonik POST /api/freelancer/contracts/{id}/messages — dar teslim
+ * (PayTR B2C: v1 hop değil).
  * Yalnız kind=DELIVERY. body/artifactUrl cevapta yoktur.
  */
 export const railV1DeliveryRequestSchema = z.strictObject({
@@ -644,243 +653,6 @@ const RAIL_V1_HOP_CONTRACTS = {
     dataSchema: railV1WalletStripDataSchema,
     errors: [...SESSION_ERRORS, "Veritabanı erişilemez."],
   },
-  "freelancer-jobs": {
-    canonicalPathTemplate: "/api/freelancer/jobs",
-    routeAuthPattern: "/api/freelancer/jobs",
-    routeAuth: "session",
-    idempotency: false,
-    minVersionHeaderRequired: true,
-    successStatus: 200,
-    dataKeys: ["jobs"],
-    publishedDataPaths: [
-      "jobs",
-      "jobs[].id",
-      "jobs[].clientId",
-      "jobs[].title",
-      "jobs[].brief",
-      "jobs[].budgetMinor",
-      "jobs[].currencyCode",
-      "jobs[].status",
-      "jobs[].createdAt",
-      "jobs[].updatedAt",
-    ],
-    dataSchema: railV1JobsDataSchema,
-    errors: SESSION_ERRORS,
-  },
-  "client-job-bids": {
-    canonicalPathTemplate: "/api/client/jobs/{id}/bids",
-    routeAuthPattern: "/api/client/jobs/[id]/bids",
-    routeAuth: "session",
-    idempotency: false,
-    minVersionHeaderRequired: true,
-    successStatus: 200,
-    dataKeys: ["bids"],
-    publishedDataPaths: [
-      "bids",
-      "bids[].bidId",
-      "bids[].amountMinor",
-      "bids[].coverNote",
-      "bids[].createdAt",
-    ],
-    dataSchema: railV1ClientJobBidsViewSchema,
-    exampleParams: { id: "fj_lab_1" },
-    errors: [...SESSION_ERRORS, RAIL_V1_OWNER_BIDS_FORBIDDEN, RAIL_V1_OWNER_BIDS_NOT_FOUND],
-  },
-  "freelancer-bid": {
-    canonicalPathTemplate: "/api/freelancer/jobs/{id}/bids",
-    routeAuthPattern: "/api/freelancer/jobs/[id]/bids",
-    routeAuth: "session",
-    idempotency: true,
-    minVersionHeaderRequired: true,
-    successStatus: 201,
-    dataKeys: ["bid"],
-    publishedDataPaths: [
-      "bid",
-      "bid.id",
-      "bid.jobId",
-      "bid.bidderId",
-      "bid.amountMinor",
-      "bid.currencyCode",
-      "bid.coverNote",
-      "bid.status",
-      "bid.createdAt",
-      "bid.updatedAt",
-    ],
-    dataSchema: railV1BidDataSchema,
-    requestSchema: railV1BidRequestSchema,
-    exampleParams: { id: "fj_lab_1" },
-    errors: [...WRITE_ERRORS, RAIL_V1_BID_FIELDS_INVALID, RAIL_V1_LISTING_VISA_DENIED],
-  },
-  "freelancer-accept": {
-    canonicalPathTemplate: "/api/freelancer/jobs/{id}/accept",
-    routeAuthPattern: "/api/freelancer/jobs/[id]/accept",
-    routeAuth: "session",
-    idempotency: true,
-    minVersionHeaderRequired: true,
-    successStatus: 200,
-    dataKeys: ["contract"],
-    publishedDataPaths: [
-      "contract",
-      "contract.id",
-      "contract.jobId",
-      "contract.bidId",
-      "contract.clientId",
-      "contract.freelancerId",
-      "contract.escrowHoldId",
-      "contract.status",
-      "contract.currencyCode",
-      "contract.grossMinor",
-      "contract.holdMinor",
-      "contract.netMinor",
-      "contract.holdBps",
-      "contract.fundedAt",
-      "contract.releasedAt",
-      "contract.refundedAt",
-      "contract.createdAt",
-      "contract.updatedAt",
-    ],
-    dataSchema: railV1AcceptDataSchema,
-    requestSchema: railV1AcceptRequestSchema,
-    exampleParams: { id: "fj_lab_1" },
-    errors: [
-      ...WRITE_ERRORS,
-      RAIL_V1_ACCEPT_FIELDS_INVALID,
-      RAIL_V1_ACCEPT_FORBIDDEN,
-      RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE,
-    ],
-  },
-  "freelancer-contracts": {
-    canonicalPathTemplate: "/api/freelancer/contracts",
-    routeAuthPattern: "/api/freelancer/contracts",
-    routeAuth: "session",
-    idempotency: false,
-    minVersionHeaderRequired: true,
-    successStatus: 200,
-    dataKeys: ["contracts"],
-    publishedDataPaths: [
-      "contracts",
-      "contracts[].id",
-      "contracts[].jobId",
-      "contracts[].bidId",
-      "contracts[].clientId",
-      "contracts[].freelancerId",
-      "contracts[].escrowHoldId",
-      "contracts[].status",
-      "contracts[].currencyCode",
-      "contracts[].grossMinor",
-      "contracts[].holdMinor",
-      "contracts[].netMinor",
-      "contracts[].holdBps",
-      "contracts[].fundedAt",
-      "contracts[].releasedAt",
-      "contracts[].refundedAt",
-      "contracts[].createdAt",
-      "contracts[].updatedAt",
-      "contracts[].deliveredAt",
-    ],
-    dataSchema: railV1ContractsDataSchema,
-    errors: SESSION_ERRORS,
-  },
-  "freelancer-delivery": {
-    canonicalPathTemplate: "/api/freelancer/contracts/{id}/messages",
-    routeAuthPattern: "/api/freelancer/contracts/[id]/messages",
-    routeAuth: "session",
-    idempotency: true,
-    minVersionHeaderRequired: true,
-    successStatus: 201,
-    dataKeys: ["message"],
-    publishedDataPaths: [
-      "message",
-      "message.id",
-      "message.contractId",
-      "message.kind",
-      "message.createdAt",
-    ],
-    dataSchema: railV1DeliveryDataSchema,
-    requestSchema: railV1DeliveryRequestSchema,
-    exampleParams: { id: "fc_lab_1" },
-    errors: [
-      ...WRITE_ERRORS,
-      RAIL_V1_DELIVERY_FIELDS_INVALID,
-      RAIL_V1_DELIVERY_FORBIDDEN,
-      RAIL_V1_DELIVERY_NOT_FUNDED,
-    ],
-  },
-  "freelancer-release": {
-    canonicalPathTemplate: "/api/freelancer/contracts/{id}/release",
-    routeAuthPattern: "/api/freelancer/contracts/[id]/release",
-    routeAuth: "session",
-    idempotency: true,
-    minVersionHeaderRequired: true,
-    successStatus: 200,
-    dataKeys: ["contract", "visaStamp"],
-    publishedDataPaths: [
-      "contract",
-      "contract.id",
-      "contract.jobId",
-      "contract.bidId",
-      "contract.clientId",
-      "contract.freelancerId",
-      "contract.escrowHoldId",
-      "contract.status",
-      "contract.currencyCode",
-      "contract.grossMinor",
-      "contract.holdMinor",
-      "contract.netMinor",
-      "contract.holdBps",
-      "contract.fundedAt",
-      "contract.releasedAt",
-      "contract.refundedAt",
-      "contract.createdAt",
-      "contract.updatedAt",
-      "visaStamp",
-      "visaStamp.id",
-      "visaStamp.userId",
-      "visaStamp.sourceKind",
-      "visaStamp.sourceId",
-      "visaStamp.visaKey",
-      "visaStamp.moduleId",
-      "visaStamp.title",
-      "visaStamp.certificateHash",
-      "visaStamp.issuedAt",
-      "visaStamp.createdAt",
-    ],
-    dataSchema: railV1ReleaseDataSchema,
-    exampleParams: { id: "fc_lab_1" },
-    errors: [...WRITE_ERRORS, RAIL_V1_RELEASE_FORBIDDEN, RAIL_V1_RELEASE_NOT_FUNDED],
-  },
-  "freelancer-refund": {
-    canonicalPathTemplate: "/api/freelancer/contracts/{id}/refund",
-    routeAuthPattern: "/api/freelancer/contracts/[id]/refund",
-    routeAuth: "session",
-    idempotency: true,
-    minVersionHeaderRequired: true,
-    successStatus: 200,
-    dataKeys: ["contract"],
-    publishedDataPaths: [
-      "contract",
-      "contract.id",
-      "contract.jobId",
-      "contract.bidId",
-      "contract.clientId",
-      "contract.freelancerId",
-      "contract.escrowHoldId",
-      "contract.status",
-      "contract.currencyCode",
-      "contract.grossMinor",
-      "contract.holdMinor",
-      "contract.netMinor",
-      "contract.holdBps",
-      "contract.fundedAt",
-      "contract.releasedAt",
-      "contract.refundedAt",
-      "contract.createdAt",
-      "contract.updatedAt",
-    ],
-    dataSchema: railV1RefundDataSchema,
-    exampleParams: { id: "fc_lab_1" },
-    errors: WRITE_ERRORS,
-  },
   "career-pulse": {
     canonicalPathTemplate: "/api/career/pulse",
     routeAuthPattern: "/api/career/pulse",
@@ -1022,9 +794,6 @@ function headerParameter(name: string, required: boolean, description: string, e
 }
 
 function hopTag(hop: RailV1Hop): string[] {
-  if (hop.id.startsWith("freelancer") || hop.id.startsWith("client")) {
-    return ["Marketplace"];
-  }
   if (hop.id.startsWith("academy") || hop.id.startsWith("career")) {
     return ["Proof"];
   }
@@ -1102,44 +871,6 @@ function hopResponses(hop: RailV1Hop): Record<string, unknown> {
     "401": { description: RAIL_V1_SESSION_REQUIRED, content: { "application/json": { schema: failRef } } },
     "426": { description: RAIL_VERSION_CLIENT_STALE, content: { "application/json": { schema: failRef } } },
   };
-  if (hop.id === "freelancer-bid") {
-    responses["403"] = {
-      description: RAIL_V1_LISTING_VISA_DENIED,
-      content: { "application/json": { schema: failRef } },
-    };
-  }
-  if (hop.id === "freelancer-delivery") {
-    responses["403"] = {
-      description: RAIL_V1_DELIVERY_FORBIDDEN,
-      content: { "application/json": { schema: failRef } },
-    };
-  }
-  if (hop.id === "freelancer-release") {
-    responses["403"] = {
-      description: RAIL_V1_RELEASE_FORBIDDEN,
-      content: { "application/json": { schema: failRef } },
-    };
-  }
-  if (hop.id === "freelancer-accept") {
-    responses["403"] = {
-      description: RAIL_V1_ACCEPT_FORBIDDEN,
-      content: { "application/json": { schema: failRef } },
-    };
-    responses["503"] = {
-      description: RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE,
-      content: { "application/json": { schema: failRef } },
-    };
-  }
-  if (hop.id === "client-job-bids") {
-    responses["403"] = {
-      description: RAIL_V1_OWNER_BIDS_FORBIDDEN,
-      content: { "application/json": { schema: failRef } },
-    };
-    responses["404"] = {
-      description: RAIL_V1_OWNER_BIDS_NOT_FOUND,
-      content: { "application/json": { schema: failRef } },
-    };
-  }
   if (hop.id === "academy-certificate") {
     responses["404"] = {
       description: RAIL_V1_ACADEMY_CERTIFICATE_MISSING,
@@ -1148,12 +879,7 @@ function hopResponses(hop: RailV1Hop): Record<string, unknown> {
   }
   if (hop.idempotency) {
     responses["409"] = {
-      description:
-        hop.id === "freelancer-release"
-          ? `${RAIL_V1_IDEMPOTENCY_BODY_CONFLICT} ${RAIL_V1_RELEASE_NOT_FUNDED}`
-          : hop.id === "freelancer-accept"
-            ? `${RAIL_V1_IDEMPOTENCY_BODY_CONFLICT} ${RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE}`
-            : RAIL_V1_IDEMPOTENCY_BODY_CONFLICT,
+      description: RAIL_V1_IDEMPOTENCY_BODY_CONFLICT,
       content: { "application/json": { schema: failRef } },
     };
   }
@@ -1177,17 +903,6 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
           ? `Idempotency-Key UUID zorunlu (${IDEMPOTENCY_KEY_HEADER}).`
           : "Idempotency-Key yok.",
         `Yayınlanmış data kökleri: ${hop.dataKeys.join(", ")}.`,
-        hop.id === "freelancer-contracts"
-          ? "FreelancerContractView: deliveredAt, kind=DELIVERY mesajının max(createdAt) değerinden türetilir; Prisma kolonu yoktur. Mesaj gövdesi / artifactUrl / reportJson sızmaz."
-          : hop.id === "freelancer-delivery"
-            ? "Dar teslim yazması. Yalnız kind=DELIVERY. Actor = freelancerId; status = FUNDED (emanet blokeli). İşveren/üçüncü şahıs 403. Cevap DTO: message.{id,contractId,kind,createdAt}. body / artifactUrl / userId sızmaz. deliveredAt Tezgâh GET'inden türetilir."
-            : hop.id === "freelancer-release"
-              ? "Hak ediş serbest bırakma. Actor = contract.clientId (işveren). Usta/üçüncü şahıs 403. Status FUNDED dışında 409; DELIVERY tanığı sunucu şartı değildir (FSM uydurması yok). Cevap RailV1Contract + visaStamp (deliveredAt yok). Alıcı istek gövdesinden okunmaz. Mükerrer UUID ikinci CREDIT yazmaz."
-              : hop.id === "freelancer-accept"
-                ? "İşveren teklif kabulü. Actor = job.clientId. Usta/üçüncü şahıs 403. Pazaryeri split portu yoksa 503; Rail cüzdanına DEBIT yazılmaz, ilan OPEN kalır, hold/sözleşme yazılmaz, 2xx yok. PSP bağlıysa kilit kaydı pspPaymentId taşır. Cevap tam RailV1Contract (clientId, freelancerId, escrowHoldId, holdBps, ISO tarihler). deliveredAt ve visaStamp yoktur. Tutar istek gövdesinden okunmaz. Mükerrer UUID ikinci hold yazmaz."
-                : hop.id === "client-job-bids"
-                  ? "Owner-only teklif okuma. Actor = job.clientId. Usta/üçüncü şahıs 403, data:null, bids basılmaz. İlan yok 404. Yalnız SUBMITTED; OPEN değilse bids boş dizi (ikinci bidId uydurulmaz). ClientJobBidsView: bidId, amountMinor, coverNote, createdAt. bidderId / status / updatedAt / currencyCode / jobId sızmaz. GET /freelancer/jobs/{id} bu hop değildir."
-                  : "",
       ]
         .filter(Boolean)
         .join(" "),
@@ -1219,7 +934,8 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
       title: RAIL_V1_CONTRACT_TITLE,
       version: RAIL_API_VERSION_LABEL,
       description: [
-        `${YETKIN_BRAND} Modüler Monolit + API-First Dron sözleşmesi — Proof / Marketplace / Payments.`,
+        `${YETKIN_BRAND} Modüler Monolit + API-First Dron sözleşmesi — Proof / Payments.`,
+        "Faz 1 kamu sözleşmesi B2C'dir; Marketplace tag'i ve freelancer path'leri yayınlanmaz (iç bounded-context adı durur).",
         "Kopya `app/api/v1` handler ağacı yoktur; kenar soyar.",
         "Zarf: { ok, error, requestId, apiVersion, data }.",
         "X-Rail-Min-Version API sözleşme sürümüdür; mağaza uygulama build'i değildir (X-Rail-App-Build ayrı, v1'de kapı değil).",
@@ -1232,8 +948,7 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
     tags: [
       { name: "Kernel", description: "Health ve oturum." },
       { name: "Proof", description: "Akademi pulse/satın alma, kariyer vizesi, kamu içerik özeti doğrulama." },
-      { name: "Marketplace", description: "Freelancer ilan / teklif / emanet. İç hakediş kilidi 403 olarak durur." },
-      { name: "Payments", description: "Cüzdan şeridi. PayTR top-up v1 hop değildir." },
+      { name: "Payments", description: "Cüzdan şeridi. Faz 1 tek nakit kanalı PayTR Merchant iFrame'dir (Amiral /api/wallet/top-up); Pazaryeri Split ve freelancer hop'ları yayınlanmaz." },
     ],
     paths,
     components: {
@@ -1246,6 +961,9 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
         },
       },
       schemas: {
+        // PayTR B2C: freelancer DTO aynası BİLİNÇLİ durur — kanonik handler
+        // doğrulaması + donuk Dron paketi (`apps/rail-is/src/contract/v1.ts`)
+        // aynı tipleri tüketir. Yayınlanan `paths` 8 hop'tur, tag yoktur.
         RailV1FailEnvelope: toOpenApiSchema(railV1FailEnvelopeSchema),
         RailV1OkEnvelope: toOpenApiSchema(railV1OkEnvelopeSchema),
         RailV1SessionUser: toOpenApiSchema(railV1SessionUserSchema),

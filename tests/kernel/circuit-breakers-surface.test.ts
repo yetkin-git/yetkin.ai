@@ -55,6 +55,8 @@ describe("üretim kilitleri ve donmuş oda yüzey mühürü", () => {
     expect(isFrozenShellPagePath("/academy")).toBe(false);
     expect(isFrozenShellPagePath("/freelancer")).toBe(true);
     expect(isFrozenShellPagePath("/freelancer/jobs/fj_1")).toBe(true);
+    expect(isFrozenShellPagePath("/junior")).toBe(true);
+    expect(isFrozenShellPagePath("/junior/ebeveyn")).toBe(true);
     expect([...FROZEN_SHELL_PAGE_ALIASES]).toEqual(["/yetkinx", "/corporate", "/market"]);
   });
 

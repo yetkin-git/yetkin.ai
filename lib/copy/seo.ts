@@ -46,16 +46,11 @@ export const PAGE_SEO = {
       "Akademi sınavından türeyen Doğrulanmış Rozetin. Pasaport Vize Damgası sicile işlenir; sahte rozet eklenmez. Uzmanlığını belgele.",
     path: "/career",
   },
-  freelancer: {
-    title: "Freelancer İlan Panosu",
-    description:
-      "Freelancer arka plan odasıdır. Tohum ilanlar platform örneğidir. İlan ve teklif modülü pasiftir; sahte kazanç yazılmaz.",
-    path: "/freelancer",
-  },
+  // PayTR B2C (E7): 410 dönen /freelancer odasının SEO girdisi yoktur.
   academy: {
     title: ACADEMY_SEN.catalog.title,
     description:
-      "Yapay zekâ destekli kurslar: dersi bitir, testi 70+ ile geç, sertifikan Kariyer sayfana işlensin. Akademi kataloğu canlı müfredat taşır.",
+      "Yapay zekâ destekli kurslar: dersi bitir, testi 70+ ile geç, sertifikan Kariyer sayfana işlensin. Akademi vitrini yalnız yayın müfredatını satar.",
     path: "/academy",
   },
   academyVerify: {

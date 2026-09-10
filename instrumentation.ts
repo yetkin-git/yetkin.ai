@@ -59,7 +59,8 @@ export async function register() {
     logEvent({
       level: "warn",
       event: "ops.exam_sitting.unconfigured",
-      reason: "ACADEMY_EXAM_SITTING_SECRET bos veya kisa; sinav 503, site ayakta",
+      reason:
+        "ACADEMY_EXAM_SITTING_SECRET bos veya kisa; JWT derive fallback (SUPABASE_JWT_SECRET>=16) sinavi ayakta tutar; ikisi de yoksa sinav 503, site ayakta",
       route: "/api/academy/courses/[id]/exam",
     });
   }

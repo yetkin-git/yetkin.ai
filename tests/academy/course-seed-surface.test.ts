@@ -89,7 +89,7 @@ describe("akademi kurs tohumu yüzeyi", () => {
     expect(page).not.toContain("hasUnlimitedAcademyAccess");
     expect(page).not.toContain("ACADEMY_SHOWCASE");
     expect(readSrc("lib/copy/sen-voice/academy.ts")).toContain(
-      "Eğitimler · Amiral hat seslidir · Prompt Box videonun altındadır · Test barajı 70+ · Sertifika Kariyer sayfasına işlenir",
+      "Eğitimler · Amiral hat sesli + karaoke · Diğerleri yazılı compact · Test barajı 70+ · Sertifika Kariyer sayfasına işlenir",
     );
     expect(readSrc("lib/copy/sen-voice/academy.ts")).not.toContain("₺690");
     expect(readSrc("lib/copy/sen-voice/academy.ts")).not.toContain("₺990");

@@ -10,6 +10,30 @@ import officeAiLesson3CuesJson from "./01_office_ai-3.json" with { type: "json" 
 import officeAiLesson4CuesJson from "./01_office_ai-4.json" with { type: "json" };
 import officeAiLesson5CuesJson from "./01_office_ai-5.json" with { type: "json" };
 import officeAiLesson6CuesJson from "./01_office_ai-6.json" with { type: "json" };
+import ecommerceAiLesson1CuesJson from "./02_ecommerce_ai-1.json" with { type: "json" };
+import ecommerceAiLesson2CuesJson from "./02_ecommerce_ai-2.json" with { type: "json" };
+import ecommerceAiLesson3CuesJson from "./02_ecommerce_ai-3.json" with { type: "json" };
+import ecommerceAiLesson4CuesJson from "./02_ecommerce_ai-4.json" with { type: "json" };
+import ecommerceAiLesson5CuesJson from "./02_ecommerce_ai-5.json" with { type: "json" };
+import ecommerceAiLesson6CuesJson from "./02_ecommerce_ai-6.json" with { type: "json" };
+import socialMediaAiLesson1CuesJson from "./03_social_media_ai-1.json" with { type: "json" };
+import socialMediaAiLesson2CuesJson from "./03_social_media_ai-2.json" with { type: "json" };
+import socialMediaAiLesson3CuesJson from "./03_social_media_ai-3.json" with { type: "json" };
+import socialMediaAiLesson4CuesJson from "./03_social_media_ai-4.json" with { type: "json" };
+import socialMediaAiLesson5CuesJson from "./03_social_media_ai-5.json" with { type: "json" };
+import socialMediaAiLesson6CuesJson from "./03_social_media_ai-6.json" with { type: "json" };
+import chatbotNocodeLesson1CuesJson from "./04_chatbot_nocode-1.json" with { type: "json" };
+import chatbotNocodeLesson2CuesJson from "./04_chatbot_nocode-2.json" with { type: "json" };
+import chatbotNocodeLesson3CuesJson from "./04_chatbot_nocode-3.json" with { type: "json" };
+import chatbotNocodeLesson4CuesJson from "./04_chatbot_nocode-4.json" with { type: "json" };
+import chatbotNocodeLesson5CuesJson from "./04_chatbot_nocode-5.json" with { type: "json" };
+import chatbotNocodeLesson6CuesJson from "./04_chatbot_nocode-6.json" with { type: "json" };
+import promptPracticeLesson1CuesJson from "./05_prompt_practice-1.json" with { type: "json" };
+import promptPracticeLesson2CuesJson from "./05_prompt_practice-2.json" with { type: "json" };
+import promptPracticeLesson3CuesJson from "./05_prompt_practice-3.json" with { type: "json" };
+import promptPracticeLesson4CuesJson from "./05_prompt_practice-4.json" with { type: "json" };
+import promptPracticeLesson5CuesJson from "./05_prompt_practice-5.json" with { type: "json" };
+import promptPracticeLesson6CuesJson from "./05_prompt_practice-6.json" with { type: "json" };
 import type { AcademyCinemaCaptionCue } from "@/lib/academy/lesson-cinema";
 import {
   applyAcademySealedAudioTimingsToCues,
@@ -19,7 +43,7 @@ import {
 export type AcademyLessonCue = AcademyCinemaCaptionCue & {
   id: string;
   section: string;
-  /** Tam eğitim metni — teleprompter ve TTS taze nefes paragrafları. */
+  /** Tam eğitim metni — teleprompter ekranı. TTS fonetiği spoken-scripts katmanındadır. */
   paragraphs?: readonly string[];
 };
 
@@ -73,13 +97,37 @@ const CUES_BY_LESSON_KEY: Readonly<Record<string, readonly AcademyLessonCue[]>> 
   "01_office_ai-4": parseAcademyLessonCues(officeAiLesson4CuesJson),
   "01_office_ai-5": parseAcademyLessonCues(officeAiLesson5CuesJson),
   "01_office_ai-6": parseAcademyLessonCues(officeAiLesson6CuesJson),
+  "02_ecommerce_ai-1": parseAcademyLessonCues(ecommerceAiLesson1CuesJson),
+  "02_ecommerce_ai-2": parseAcademyLessonCues(ecommerceAiLesson2CuesJson),
+  "02_ecommerce_ai-3": parseAcademyLessonCues(ecommerceAiLesson3CuesJson),
+  "02_ecommerce_ai-4": parseAcademyLessonCues(ecommerceAiLesson4CuesJson),
+  "02_ecommerce_ai-5": parseAcademyLessonCues(ecommerceAiLesson5CuesJson),
+  "02_ecommerce_ai-6": parseAcademyLessonCues(ecommerceAiLesson6CuesJson),
+  "03_social_media_ai-1": parseAcademyLessonCues(socialMediaAiLesson1CuesJson),
+  "03_social_media_ai-2": parseAcademyLessonCues(socialMediaAiLesson2CuesJson),
+  "03_social_media_ai-3": parseAcademyLessonCues(socialMediaAiLesson3CuesJson),
+  "03_social_media_ai-4": parseAcademyLessonCues(socialMediaAiLesson4CuesJson),
+  "03_social_media_ai-5": parseAcademyLessonCues(socialMediaAiLesson5CuesJson),
+  "03_social_media_ai-6": parseAcademyLessonCues(socialMediaAiLesson6CuesJson),
+  "04_chatbot_nocode-1": parseAcademyLessonCues(chatbotNocodeLesson1CuesJson),
+  "04_chatbot_nocode-2": parseAcademyLessonCues(chatbotNocodeLesson2CuesJson),
+  "04_chatbot_nocode-3": parseAcademyLessonCues(chatbotNocodeLesson3CuesJson),
+  "04_chatbot_nocode-4": parseAcademyLessonCues(chatbotNocodeLesson4CuesJson),
+  "04_chatbot_nocode-5": parseAcademyLessonCues(chatbotNocodeLesson5CuesJson),
+  "04_chatbot_nocode-6": parseAcademyLessonCues(chatbotNocodeLesson6CuesJson),
+  "05_prompt_practice-1": parseAcademyLessonCues(promptPracticeLesson1CuesJson),
+  "05_prompt_practice-2": parseAcademyLessonCues(promptPracticeLesson2CuesJson),
+  "05_prompt_practice-3": parseAcademyLessonCues(promptPracticeLesson3CuesJson),
+  "05_prompt_practice-4": parseAcademyLessonCues(promptPracticeLesson4CuesJson),
+  "05_prompt_practice-5": parseAcademyLessonCues(promptPracticeLesson5CuesJson),
+  "05_prompt_practice-6": parseAcademyLessonCues(promptPracticeLesson6CuesJson),
 };
 
 export function loadAcademyLessonCues(lessonKey: string): readonly AcademyLessonCue[] {
   return CUES_BY_LESSON_KEY[lessonKey.trim()] ?? [];
 }
 
-/** Cue paragrafları — bake turu; her tur 3–5 sn nefes dilimine bölünür. */
+/** Cue paragrafları — bake turu; her tur anlamlı paragraf bloğu (12–15 istek/ders). */
 export function academyLessonCueParagraphPlan(
   lessonKey: string,
 ): readonly { cueId: string; cueParagraphIndex: number; text: string }[] {

@@ -1,0 +1,116 @@
+{
+  "lessonKey": "04_chatbot_nocode-5",
+  "pauseSec": 0.4,
+  "durationSec": 477.56,
+  "cacheV": 477560,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 44.12,
+      "text": "Tekrar selam. Ben Kaan. Beşinci istasyon: kollar ve bacaklar. Bot konuşuyor. taşınabilir belge biçimi (PDF) okuyor. Vatsap yanıtlıyor. Hasta Pazartesi on dört, Dr. Selin, implant der. Bot harika, alındı der. Bilgi botta kalırsa Pazartesi kriz. Danışman habersiz. Takvim dolu. Konuşan bot yarım çözümdür. Bugün fişi mutfağa fırlatıyoruz. Tablo. Takvim. Si ar em. İnsan devri. Omurga burada kapanır. Fiş düşmezse randevu yalandır. Mutfak uyanmalı."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 44.52,
+      "end": 73.36,
+      "text": "Erişim net. meyk nokta kom. Ücretsiz hesap. Create scenario. Custom Vebhuk. Adresi kopyala. Kahvenden bir yudum al. Derin bir nefes al. Fişi Ceyson diye düşünme. İsim, telefon, tedavi, tarih. Meyk nokta kom daireleri bağlar. Sheets. Eyrteybl. Takvim. Hata olursa insana. Başlıyoruz."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 73.76,
+      "end": 97.48,
+      "text": "Kapı kilitliyse bant durur. Hesap yoksa bugün bir tane aç. Ücretsiz kota ilk satır için yeter. Google hesabı Sheets için. Botpres veya Voysflov webhook kutusuna adresi yapıştır. Test. Kendi adın tabloda. Sonra ölçek. Satır yoksa yayın yok. Fiş düşmeden randevu vaadi yalandır."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 97.88,
+      "end": 149.92,
+      "text": "Soyut tanımları bir kenara bırakıyoruz; doğrudan fişe bakıyoruz. Vebhuk mutfak penceresidir. Garson sohbet etmez. Fiş yazar. Fırlatır. Ceyson sade listedir. isim, telefon, tedavi, tarih. Botpres veya Voysflov Uygulama Programlama Arayüzü (API) kartı bu adrese basar. Meyk nokta kom yakalar. Sonraki daire Google Sheets, Add a row. Paralel: takvim olayı, SMS, Si ar em kartı. Asenkron: bot beklemez. Fiş gider. Mutfak pişirir. Cevap gerekirse ikinci webhook botuna döner. Pencere bu. Fiş bu."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 150.32,
+      "end": 213.92,
+      "text": "Üç senaryo. Randevu: satır, takvim, danışman bildirimi. E-ticaret: sipariş numarası, Şopifay veya Trend yol sorgu, kargo linki bota. Data Store: iki ay sonra merhaba, martta gelmiştiniz. Çift yönlü sorgu budur. Bot sorar. Meyk nokta kom bakar. Cevap döner. Hata modülü: Sheets düşerse Slack veya mail. Bot yalan randevu basmaz. Folbek: sonra arayalım, numara al. Temizle: boşluk, sıfır, on hane. Çöp satır yok. Temizlik kalkanı. Üç senaryo da aynı fiş. Pencere değişmez. Mutfak değişir."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 214.32,
+      "end": 255.08,
+      "text": "insana devir direksiyonu insana bırakır. Öfke. Yetkili isteği. Pazarlık. İki kez Folbek. Bot veda eder. Zeynep Hanım devraldı. Otomasyonu durdur. Panelde kırmızı etiket. Danışman yazar. Bitince botu nöbete al. Perfect otomasyon budur. Tam gaz. Gerektiğinde Sistem Kullanılabilirlik Ölçeği (SUS). Open ey ay burada fiş taşımaz. platform nokta open ey ay nokta kom beyni Botpres'te. Meyk nokta kom taşıyıcı. Me ta hat. Üç katman. Karıştırma. Beyin, boru, mutfak."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 255.48,
+      "end": 294.12,
+      "text": "Erişim köprüsü sırası. meyk nokta kom senaryo. Vebhuk adresi. Botpres veya Voysflov Hipermetin Aktarım Protokolü (HTTP). Google Sheets bağla. Eyrteybl aynı daire. Takvim Google Calendar. Si ar em: Hapsıpat veya Bitriks kutusu. Test: tarayıcıya adres, soru işareti isim eşittir sen. Run once. Satır düştü mü. Düşmediyse modül kırmızıdır. Log oku. Düzelt. Tekrar bas. Yeşil görünce kilitle. Adres sızmasın. Senaryoyu ON yapmadan canlı bot bağlama."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 294.52,
+      "end": 326.72,
+      "text": "Kritik durum burada başlar. Vebhuk adresini herkese atma. Gizli URL. Sızarsa sahte randevu yağar. İkinci tuzak: bot alındı demek, tabloya düşürmemek. Yalan. Üçüncü tuzak: hata modülü yok. Sheets kilitli, bot yine evet. Dördüncü tuzak: el teslimi (handoff)'suz inat. Müşteri çıldırır. Onay sende kalır. Testte kendi adın satırda yoksa yayın yok. Yalan randevu itibar yer."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 327.12,
+      "end": 376.88,
+      "text": "Aynı kalkanı erişimde kuruyorsun. meyk nokta kom. Custom Vebhuk. Google bağla. botpres nokta kom Hipermetin Aktarım Protokolü (HTTP). voysflov nokta kom Uygulama Programlama Arayüzü (API) kartı. platform nokta open ey ay nokta kom ayrı. developers nokta feysbuk nokta kom hat. Panik yok. Adresi kopyala. Test isteği. Satır. Sonra el teslimi (handoff) cümlesini yaz. yetkili, insan, şikayet. İki Folbek. Bot susar. Sen yönetici kal. Kapı adı yeter. Fiş düşsün. Senaryo OFF ise fiş karanlıkta kaybolur. ON yap, log oku."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 377.28,
+      "end": 414.52,
+      "text": "Kişisel Verilerin Korunması Kanunu (KVKK) yine. Tabloya gerçek hasta yığmadan politika yaz. Kim görür. Ne kadar saklanır. Silme hakkı. Test satırlarını ayır. Canlı sekmeyi kilitle. Vebhuk logunda telefon maskele. Sen kalkanı tutarsın. Stajyer her alanı basar. Sen gerekeni basarsın. Gereksiz alan Kişisel Verilerin Korunması Kanunu (KVKK) sızıntısıdır. Tablo paylaşım linkini herkese açma. Danışman görür. Dünya görmez."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 414.92,
+      "end": 450.36,
+      "text": "Üç anahtarı cebine koy. Bir: Vebhuk fiştir. Ceyson isim telefon tedavi tarih. İki: meyk nokta kom daireleri tablo, takvim, Si ar em. Hata olursa yalan randevu yok. Üç: insana devir. Öfke, yetkili, iki Folbek, bot susar. Kapı meyk nokta kom. Kendi adını tabloda görmeden altıncı bölüme geçme. Orada bu hattı satacağız. Si ey as orada kapanır."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 450.76,
+      "end": 477.56,
+      "text": "Şimdi iki dakikalık kanıt. meyk nokta kom'da hesap aç. Custom Vebhuk koy. Adresi kopyala. Tarayıcıda adresi isim parametresiyle aç. Gelen veriyi Google Sheets'e yeni satır yaz. Kendi adını tabloda görmeden altıncı bölüme geçme. Kahveni tazele. Bugün bota kol taktın. Yarın bu kol fiyatlanır. Başladık."
+    }
+  ]
+}

@@ -20,7 +20,7 @@ export const socialMediaAiSections: Section[] = [
 export const socialMediaAiMasteryModule: CurriculumModule = {
   moduleCode: "CURR-SOCIAL-MEDIA-AI-103",
   title: "Yapay Zekâ ile Sosyal Medya İçerik Üretimi ve Görsel/Video Fabrikası (Midjourney, Runway, Kling & CapCut)",
-  instructor: "Gözde (Kıdemli Yapay Zekâ ve Görsel Tasarım Eğitmeni)",
+  instructor: "Deniz (Kıdemli Sosyal Medya ve Görsel Fabrika Eğitmeni)",
   category: "KATMAN 1.3 — Sosyal Medya, Görsel ve Video Otomasyonu (Uçtan Uca Dijital İçerik Fabrikası)",
   targetAudience: [
     "İçerik üreticileri",
@@ -33,9 +33,9 @@ export const socialMediaAiMasteryModule: CurriculumModule = {
   methodology: "Canlı diyalog ve sen dili, adım adım iş akışı rehberliği, sıfır kodlama (No-code), Midjourney, Canva AI, ElevenLabs, HeyGen, Runway, Kling ve CapCut ile entegre endüstriyel üretim hattı",
   estimatedTotalMinutes: 51.5,
   voiceConfig: {
-    voice: "Callirrhoe",
-    style: "Canlı diyalog ve sen dili, adım adım iş akışı rehberliği",
-    gender: "female",
+    voice: "Zephyr",
+    style: "Genç, pratik, modern ajans ve sosyal medya dili",
+    gender: "male",
   },
   sections: socialMediaAiSections,
 };

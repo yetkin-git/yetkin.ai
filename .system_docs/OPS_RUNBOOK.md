@@ -2,7 +2,7 @@
 
 İnsan ops SSOT. Anayasa: `.system_docs/ANAYASA.md`. Ürün kodu bu dosyayı import etmez; ajan ve operatör buradan bağlar. Credential icat edilmez. Boş anahtar = dürüst kapalı yüzey.
 
-**Canlı reçete (B2 — Ana Odaklar):** Çalışan 4 oda (Akademi, Kariyer, Freelancer, Dashboard) + 4 sığınak (`/profil`, `/cuzdan`, `/pasaport`, `/admin`). “Çalışan 4 oda” **nakit iddiası taşımaz** — Freelancer: ilan/teklif/mesajlaşma çalışır; lisanslı split henüz bağlı değilse accept **503**. 410 envanteri `archived/` ve kenar 410’dadır; canlı `lib/` / `components/` tavanında donmuş oda yoktur. Vatandaş/Studio nesne deposu yoktur. Akademi mühürlü WAV **2**’dir (`01_office_ai-1`, `01_office_ai-2`); diğer dersler mühürsüzdür (`.system_docs/STORAGE_CONTRACT.md`). Hayalet altyapı adımları **ARŞİV / 410 (GEÇERSİZ)** bölümündedir — canlı bağlama değildir.
+**Canlı reçete (B2 — Ana Odaklar):** Motor 4 / Kamu Vitrini 3 Oda (Panel, Akademi, Kariyer) + 4 sığınak (`/profil`, `/cuzdan`, `/pasaport`, `/admin`). Freelancer motor sicilinde durur; kamu yüzeyi **410**; nakit iddiası taşımaz (Split bağlı değilken accept **503**). 410 envanteri `archived/` ve kenar 410’dadır (`/junior` üretim kilitli; `/freelancer` kamu kilitli). Canlı `lib/` / `components/` tavanında donmuş oda yoktur. Vatandaş/Studio nesne deposu yoktur. Akademi mühürlü WAV **30**’dur (`01_office_ai-1` … `-6`, `02_ecommerce_ai-1` … `-6`, `03_social_media_ai-1` … `-6`, `04_chatbot_nocode-1` … `-6`, `05_prompt_practice-1` … `-6`) (`.system_docs/STORAGE_CONTRACT.md`). Hayalet altyapı adımları **ARŞİV / 410 (GEÇERSİZ)** bölümündedir — canlı bağlama değildir.
 
 Müze dizini (`yetkin_muze/`) OPS yasağıdır (tarihsel etiket S9-B Anayasa maddesi değildir): `.env` kopyalanmaz; git, indeks, webpack ve import dışıdır. Kör kopya yasaktır. Kamu markası `yetkin.ai`. GİB, Turnstile, ads, OAuth şişmesi, `LOCAL_MOCK_AUTH`, `MAINTENANCE_MODE`, `SUPABASE_SERVICE_ROLE_KEY` Rail kodunda yoktur. Socket.IO ürün yüzeyi yoktur. Redis varsayılan yoktur; paylaşılan rate-limit/sayaç için §7 ve §16.
 
@@ -27,8 +27,9 @@ Müze dizini (`yetkin_muze/`) OPS yasağıdır (tarihsel etiket S9-B Anayasa mad
 | `PAYTR_WEBHOOK_IP_ALLOWLIST` | isteğe bağlı | Virgüllü PayTR Destek bildirim IP/CIDR’leri. Kod env doluyken `185.187.184.84`, `212.252.97.250`, `213.74.97.150` (+ `185.22.184.0/22`) birleştirir. Bu üç IP’den URL testi HMAC olmasa da düz metin HTTP 200 `OK` (CREDIT yok). Boş = yalnız HMAC. Cloudflare hop yüzünden boş liste 403 basmaz; CREDIT kapısı HMAC’dir. |
 | `TRUSTED_PROXY_HOPS` | PayTR user_ip | XFF sağdan. Kod boş varsayılanı 1. **Cloudflare → Vercel canlı = 2.** §4.3. |
 | `INNGEST_EVENT_KEY` / `INNGEST_SIGNING_KEY` | işler | Üretimde imza veya event anahtarı boşsa serve fail-closed. |
-| `NOTICE_SMTP_HOST` / `NOTICE_MAIL_FROM` | bildirim | Gün 0 dolu olmalı. Beş freelancer e-postası; Akademi satın alma makbuzu bu kanalda yoktur. İkisi boşsa dürüst atlanır; nakit durmaz. Production warn. Resend yok. |
+| `NOTICE_SMTP_HOST` / `NOTICE_MAIL_FROM` | bildirim | Gün 0 dolu olmalı. Freelancer beşlisi + Akademi satın alma makbuzu (`lib/kernel/notice/academy-receipt-mail.ts`). Canlı gönderim bu env çiftine bağlıdır; ikisi boşsa dürüst atlanır (`SMTP skipped`), nakit durmaz. Production warn. Resend yok. |
 | `NOTICE_SMTP_PORT` / `_USER` / `_PASS` | bildirim | Port boşsa 587 + STARTTLS; 465 örtük TLS. |
+| `ACADEMY_EXAM_SITTING_SECRET` | sınav MAC | Üretimde ≥16 karakter. Dedicated boşsa `SUPABASE_JWT_SECRET` ≥16 üzerinden domain-ayrılmış derive (sınav 503 değildir). Canlıda ikisi de yoksa sınav 503, site ayakta. Lab / Vitest: kod yedek. Dedicated secret yazılmalı. |
 | `GEMINI_API_KEY` / `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` | LLM | En az bir sağlayıcı. Ham SDK dikeyde yasak. |
 | `RAIL_DRON_ORIGINS` | dron CORS | Yalnız `/api/v1`. Virgüllü origin allowlist. **Üretim / Closed Testing / TestFlight: boş bırak** — CORS başlığı yok (saf native Bearer). Joker `*` yasak. İstemci: `.system_docs/DRON_CLIENT_SPEC.md`. Native env: `apps/rail-is/.env.example`. Kapalı test: §15. |
 | `E2E_BASE_URL` | Playwright | Doluysa mevcut sunucuya vurur (`next dev` ikinci kez açılmaz). Boşsa spec kendi `127.0.0.1:3000` sürecini yönetir. |
@@ -154,7 +155,7 @@ Prisma 7 adapter (`PrismaPg`) hazır ifadeleri adlandırmadan çalıştırır; `
 
 ## 3. Super Admin UUID
 
-1. `/register` ile ilk vatandaş hesabını aç. Form 18+ tiki basar; `age_confirmed_at` Auth metadata’sına yazılır. **Confirm email açık olmalı** (Dashboard → Authentication → Providers → Email). Kayıt oturum yazmaz; gelen kutudaki bağlantı `/auth/callback` üzerinden panele düşer. Dashboard’dan elle kullanıcı açarsan aynı alanı `raw_user_meta_data` içine yaz — yoksa `handle_new_user` fail-closed düşer. Auth doğrulama e-postası **Dashboard Auth SMTP**’dir; `NOTICE_SMTP_*` freelancer bildirimidir, kayıt onayını taşımaz.
+1. `/register` ile ilk vatandaş hesabını aç. Form 18+ tiki basar; `age_confirmed_at` Auth metadata’sına yazılır. **Confirm email açık olmalı** (Dashboard → Authentication → Providers → Email). Kayıt oturum yazmaz; gelen kutudaki bağlantı `/auth/callback` üzerinden panele düşer. Dashboard’dan elle kullanıcı açarsan aynı alanı `raw_user_meta_data` içine yaz — yoksa `handle_new_user` fail-closed düşer. Auth doğrulama e-postası **Dashboard Auth SMTP**’dir; `NOTICE_SMTP_*` ürün bildirimidir (freelancer beşlisi + Akademi makbuzu), kayıt onayını taşımaz.
 2. Supabase Dashboard → Authentication → Users → UUID kopyala.
 3. `.env.local` içine `SUPER_ADMIN_USER_ID=<uuid>` yaz. **Hazine sentinel’i yazma:** `00000000-0000-4000-8000-000000000001`.
 4. `npm run dev` yeniden. Boş env = kimse admin değildir (`isSuperAdminUser` UUID eşitliği).
@@ -164,7 +165,7 @@ Prisma 7 adapter (`PrismaPg`) hazır ifadeleri adlandırmadan çalıştırır; `
 
 ## 4. PayTR — iki port (Merchant ≠ Pazaryeri Split)
 
-PayTR tek düğme değildir. Anayasa S43 iki kapıyı ayırır. Birinin açılması diğerini yeşile boyamaz.
+PayTR tek düğme değildir. Anayasa S43 iki kapıyı ayırır. Birinin açılması diğerini yeşile boyamaz. **Faz 1 tek ve asıl kamu ödeme kanalı Merchant Port’tur.** Split bağlı değilken freelancer nakit kabulü 503; kamu yüzeyi 410.
 
 | Port | Vatandaş adı | Ne döner? | Kod | İdari kapı |
 |------|----------------|-----------|-----|------------|
@@ -311,7 +312,7 @@ LLM bütçe kalkanı ayrıdır (kullanıcı/günlük token); o da süreç/DB kar
 
 ## 8. Sağlık ve gözlem
 
-`GET /api/health` DB ping. Down veya `DATABASE_URL` yok = **503**. JSON `phase` **taşımaz**. Nakit ve kritik mutasyon `requestId` + yapılandırılmış log (`txn.notice.*`, `citizen.notice.*`). Vatandaş e-posta asgarisi beş olaydır (teklif geldi, kabul, teslim, emanet çözüldü, TTL yaklaşıyor). Resend yok; `NOTICE_SMTP_HOST` + `NOTICE_MAIL_FROM` boşsa SMTP atlanır.
+`GET /api/health` DB ping. Down veya `DATABASE_URL` yok = **503**. JSON `phase` **taşımaz**. Nakit ve kritik mutasyon `requestId` + yapılandırılmış log (`txn.notice.*`, `citizen.notice.*`). Vatandaş e-posta: freelancer beşlisi + Akademi satın alma makbuzu (`academy-receipt-mail.ts`). Resend yok; `NOTICE_SMTP_HOST` + `NOTICE_MAIL_FROM` boşsa SMTP atlanır.
 
 ---
 
@@ -340,13 +341,15 @@ Kritik yazmalar `Idempotency-Key` (UUID) ister: `POST /api/wallet/top-up`, akade
 
 ## 12. Odalar (dürüst vatandaş yolları)
 
-**Canlı mutlu yol:** `/academy` (`01_office_ai` amiral, 5 compact SKU), `/career`, `/freelancer`, `/dashboard` + sığınaklar `/profil`, `/cuzdan`, `/pasaport`, `/admin`. Kenar yazma kabukları oturum ister. S43 banka çekimi kapalıdır.
+**Canlı mutlu yol (kamu vitrin 3 oda):** `/academy` (`01_office_ai` amiral, 5 compact SKU), `/career`, `/dashboard` + sığınaklar `/profil`, `/cuzdan`, `/pasaport`, `/admin`. Kenar yazma kabukları oturum ister. S43 banka çekimi kapalıdır. Faz 1 tek nakit kanalı **PayTR Merchant** (B2C). Freelancer motoru durur, kamu yüzeyi 410 — PayTR B2C uyumu sebebiyle kilitlidir.
 
-**410 (donmuş — mutlu yol değildir):** `/studio`, `/yetkinilan` (ve diğer donmuş oda sayfa/API’leri) kenarda **HTTP 410** HTML/JSON döner. Operatör bunları “bağlandı / duman yeşili” saymaz. Envanter: `archived/` + `proxy` / `app/api/_gone`.
+**Motor sicili (kamu değil):** `VERTICAL_ROOMS` dört dikeydir. `/freelancer` ve freelancer API kenarda **HTTP 410**. Junior `/junior` üretim kilitli **410**. Silinmez.
+
+**410 (donmuş — mutlu yol değildir):** `/studio`, `/yetkinilan`, `/junior`, `/freelancer` (kamu kilidi) ve diğer donmuş oda sayfa/API’leri kenarda **HTTP 410** HTML/JSON döner. Operatör bunları “bağlandı / duman yeşili” saymaz. Envanter: `archived/` + `proxy` / `app/api/_gone`.
 
 T3 akademi nakit döngüsü (canlı Direct `:5432` + onaylı vatandaş): `npm run ops:t3-academy-loop`. Sahte bakiye ve mock checkout yok. PayTR sandbox get-token + HMAC webhook → `LedgerEntry` CREDIT / `CLEARED`, sonra `01_office_ai` kilit / satın alma / müfredat / sınav / `/academy/dogrula/[hash]`.
 
-T4 kazanç halkası (canlı Direct `:5432` + akademi vizesi olan satıcı + müşteri nakit): `npm run ops:t4-freelancer-loop`. Vizesiz teklif HTTP 403. OPEN ilan → katalog `escrow:hold` bps → `accept` — **PayTR Pazaryeri Split stub iken HTTP 503** (Merchant açık olsa bile). Split gelmeden “freelancer nakit halkası yeşil” denmez. Sahte bakiye ve ikinci bakiye kolonu yok.
+T4 kazanç halkası **lab** (canlı Direct `:5432` + akademi vizesi olan satıcı + müşteri nakit): `npm run ops:t4-freelancer-loop`. Kamu yüzeyi 410 olduğu için T4 vatandaş vitrini değildir. Vizesiz teklif HTTP 403. OPEN ilan → katalog `escrow:hold` bps → `accept` — **PayTR Pazaryeri Split stub iken HTTP 503** (Merchant açık olsa bile). Split gelmeden “freelancer nakit halkası yeşil” denmez. Sahte bakiye ve ikinci bakiye kolonu yok.
 
 ---
 
@@ -359,14 +362,31 @@ T4 kazanç halkası (canlı Direct `:5432` + akademi vizesi olan satıcı + mü�
 5. `npm run ops:migrate` — bucket SQL / Studio CORS **yok** (`STORAGE_CONTRACT.md`)
 6. `/register` → UUID → `SUPER_ADMIN_USER_ID` → süreç yeniden
 7. PayTR webhook + Inngest **çift** anahtar (`INNGEST_EVENT_KEY` + `INNGEST_SIGNING_KEY`) + Redirect URLs
-8. Bildirim SMTP (`NOTICE_SMTP_HOST` + `NOTICE_MAIL_FROM`) — **gün 0 operatör zorunluluğu.** Boşsa nakit durmaz (dürüst skip); müşteri mail almaz. Production boot `ops.smtp.honest_skip` **warn**. `ops:runtime-readiness` SMTP’yi süreç bloğu saymaz; Gün 0 uyarısı basar. Resend yok. Bugünkü SMTP kanalı freelancer beşlisidir; Akademi satın alma makbuzu ayrı iştir (Tedavi raporu).
-9. `npm run ops:runtime-readiness` (üretimde çıkış 0). `GET /api/health` 200 **ve** `checks.inngest = configured`. `/api/jobs/inngest` üretimde 503 değil.
+8. Bildirim SMTP (`NOTICE_SMTP_HOST` + `NOTICE_MAIL_FROM`) — **gün 0 operatör zorunluluğu.** Boşsa nakit durmaz (dürüst `SMTP skipped`); müşteri mail almaz. Akademi makbuz kuyruğu kodda vardır (`lib/kernel/notice/academy-receipt-mail.ts` + Inngest); canlı gönderim SMTP env’ine bağlıdır. Production boot `ops.smtp.honest_skip` **warn**. `ops:runtime-readiness` SMTP’yi süreç bloğu saymaz; Gün 0 uyarısı basar. Resend yok.
+9. `ACADEMY_EXAM_SITTING_SECRET` ≥16 — dedicated sınav MAC. Boşsa `SUPABASE_JWT_SECRET` derive fallback sınavı 503’e düşürmez; dedicated yine yazılmalı.
+10. `npm run ops:runtime-readiness` (üretimde çıkış 0). `GET /api/health` 200 **ve** `checks.inngest = configured`. `/api/jobs/inngest` üretimde 503 değil.
+
+---
+
+## 13.1 Faz 0: Akademi Canlı T3 Testi Prosedürü
+
+Reklam kampanyası ve “satışa açıldı” cümlesi bu prosedür yeşil olmadan basılmaz. Sahte bakiye, mock checkout ve mühürsüz TTS yok. Canlı izlemede TTS oluşturma yasaktır.
+
+Sıra kilitlidir:
+
+1. **PayTR canlı merchant.** Canlı merchant üçlüsünü (ID / KEY / SALT) `.env` / Vercel Production secret’ına yaz. `PAYTR_SANDBOX` ve `PAYTR_ALLOW_MOCK_CHECKOUT` üretimde boş. PayTR Mağaza Paneli Bildirim URL: `https://yetkin.ai/api/paytr/callback` (kanonik handler aynıdır; ikinci CREDIT ağızı değil — §4.2).
+2. **Küçük tutarlı gerçek kart ile cüzdan yükleme.** Onaylı vatandaş hesabıyla `/cuzdan` üzerinden ₺10–20 yükle. Tanık: `PaymentOrder=CLEARED` + ledger CREDIT. Panel URL testi CREDIT yazmaz.
+3. **`01_office_ai` satın alma.** Aynı hesapla amiral SKU’yu al. Tanık: `AcademyPurchase=SETTLED` + cüzdan DEBIT. SMTP boşsa makbuz `SMTP skipped` log’uyla atlanır; satın alma kesilmez.
+4. **Ders okuma mühürleri + sınav.** Altı compact dersin okuma mührünü tamamla. Sınava gir; baraj ≥70. Dedicated `ACADEMY_EXAM_SITTING_SECRET` ≥16 yazılmış olmalı (yoksa JWT derive fallback).
+5. **Sertifika doğrulama.** Basılan SHA-256 hash’ini `/academy/dogrula/[hash]` üzerinde **anonim sekmede** (oturum yok) doğrula. Tanık: `sealStatus=valid`.
+
+Bitti sayılması: 1–5 yeşil. 0.1–0.4 yeşil değilse site vitrin olarak kalır; performans reklamı açılmaz.
 
 ---
 
 ## 14. Canlıya çıkış mührü
 
-**Asil sicil (B2):** Çalışan 4 oda (Akademi, Kariyer, Freelancer, Dashboard) + 4 sığınak; 410 envanteri `archived/` + kenar 410. “Beş dikey oda”, Yetkinİlan/Studio/DevLabs canlı ürün cümlesi **yasaktır**. Kenar JWKS/CSP kodda mühürlüdür. Bu dosya insan ops SSOT’tur. D3 **üç halka** (öğrenme → kanıt → kazanç) kodda mühürlüdür ve fail-closed’dır; kazanç halkası split stub iken accept **503** kalır. Günlük mühür raporları `/docs` altındadır; yokluğu ops bağını kırmaz. `GET /api/health` JSON `phase` taşımaz; sahte `phase` yazılmaz.
+**Asil sicil (B2):** Motor 4 / Kamu Vitrini 3 Oda (Panel, Akademi, Kariyer) + 4 sığınak; 410 envanteri `archived/` + kenar 410 (`/freelancer` kamu kilitli, `/junior` üretim kilitli). “Beş dikey oda”, Yetkinİlan/Studio/DevLabs canlı ürün cümlesi **yasaktır**. Kenar JWKS/CSP kodda mühürlüdür. Bu dosya insan ops SSOT’tur. D3 **üç halka** (öğrenme → kanıt → kazanç) kodda mühürlüdür ve fail-closed’dır; kazanç halkası split stub iken accept **503** kalır ve kamu 410’dur. Günlük mühür raporları `/docs` altındadır; yokluğu ops bağını kırmaz. `GET /api/health` JSON `phase` taşımaz; sahte `phase` yazılmaz.
 
 Kurumsal altıncı vitrin diye açılmaz. On üçüncü oda yasaktır. S43 çekim kapalıdır. Üretimde `PAYTR_SANDBOX` / mock checkout / boş `INNGEST_SIGNING_KEY` / boş `INNGEST_EVENT_KEY` fail-closed.
 
@@ -451,11 +471,11 @@ Bu maddeler güvenlik kırmızı çizgisi değildir; altyapı / ürün tavanıd�
 
 ---
 
-## 17. V1 hop vs web-only yazma envanteri (Faz 2)
+## 17. V1 hop vs web-only yazma envanteri (Faz 1 B2C)
 
-SSOT hop listesi: `lib/kernel/http/v1-contract.ts` (`RAIL_V1_HOPS`, 16 kayıt). Amiral çerezle `/api/...`, Dron Bearer ile `/api/v1/...` aynı handler’ı konuşur. Aşağıdaki ayrım **bilinçlidir**.
+SSOT hop listesi: `lib/kernel/http/v1-contract.ts` (`RAIL_V1_HOPS`, **8 kayıt**). OpenAPI tag’leri Kernel / Proof / Payments; `Marketplace` tag’i ve freelancer path’leri **yayınlanmaz**. Amiral çerezle `/api/...`, Dron Bearer ile `/api/v1/...` aynı handler’ı konuşur. Aşağıdaki ayrım **bilinçlidir**.
 
-### 17.1 V1 hop sicilinde (Amiral + Dron protokolü)
+### 17.1 V1 hop sicilinde (Amiral + Dron protokolü — 8 hop)
 
 | Hop id | Method | Yazma? | Not |
 |--------|--------|--------|-----|
@@ -464,17 +484,11 @@ SSOT hop listesi: `lib/kernel/http/v1-contract.ts` (`RAIL_V1_HOPS`, 16 kayıt). 
 | academy-pulse | GET | hayır | Bearer |
 | **academy-purchase** | **POST** | **evet** | Idempotency. **Amiral + lab (kanonik `/api/...`).** Dron `/api/v1` kenarda **403** (`RAIL_V1_HOP_DRON_FORBIDDEN`); handler defense-in-depth aynı. `nativeStore: "forbidden"`, `RAIL_V1_DRON_FORBIDDEN_HOP_IDS`. Native IAP yasak. |
 | auth-session | GET | hayır | |
-| wallet-strip | GET | hayır | top-up hop değildir |
-| freelancer-jobs | GET | hayır | |
-| client-job-bids | GET | hayır | owner secrets |
-| **freelancer-bid** | **POST** | **evet** | Diyar B |
-| **freelancer-accept** | **POST** | **evet** | Diyar B; split yoksa 503 |
-| freelancer-contracts | GET | hayır | |
-| **freelancer-delivery** | **POST** | **evet** | messages |
-| **freelancer-release** | **POST** | **evet** | |
-| **freelancer-refund** | **POST** | **evet** | |
+| wallet-strip | GET | hayır | top-up hop değildir; Faz 1 nakit Amiral `/api/wallet/top-up` (PayTR Merchant) |
 | career-pulse | GET | hayır | |
 | career-visas | GET | hayır | |
+
+**Sözleşmeden düşürülen (Faz 2 sicil, kenar 410):** freelancer-jobs, client-job-bids, freelancer-bid, freelancer-accept, freelancer-contracts, freelancer-delivery, freelancer-release, freelancer-refund. Zod DTO aynası `components.schemas` içinde durur; path ve tag yoktur. Split yoksa accept yine 503’tür — kamu 410 bu kapıya inmez.
 
 ### 17.2 Bilinçli web-only (Diyar A / Amiral çerez — v1 hop değil)
 
@@ -500,12 +514,12 @@ Akademi pedagoji ve kanıt yazmaları native drona açılmaz (IAP / mühür iade
 | `/api/auth/password` / `logout` | POST | |
 | `/api/ai/chat` | POST | |
 | `/api/admin/*` | PATCH/POST | Super Admin |
-| `/api/freelancer/jobs` | POST | İlan oluşturma — lab hop’ta yok; PO onayı |
-| `/api/freelancer/squad` | POST | |
-| `/api/freelancer/**/dispute` | POST | |
+| `/api/freelancer/jobs` | POST | İlan oluşturma — lab hop’ta yok; PO onayı. Faz 1 kamu kenar **410**. |
+| `/api/freelancer/squad` | POST | Faz 1 kamu kenar **410**. |
+| `/api/freelancer/**/dispute` | POST | Faz 1 kamu kenar **410**. |
 | `/api/jobs/inngest` | — | Inngest serve |
 
-**Kabul cümlesi:** Dış sözleşme = 16 hop + bu web-only listesi; ikisi de bilinçli. Diyar A native mağaza submit yok.
+**Kabul cümlesi:** Dış sözleşme = **8 hop** + bu web-only listesi; ikisi de bilinçlidir. Freelancer hop’ları yayınlanmaz (kenar 410). Diyar A native mağaza submit yok.
 
 ---
 
@@ -519,6 +533,23 @@ Operatör:
 2. **Veri indirme:** ilgili `User`, fatura künyesi (`UserBillingInfo`), akademi kayıt ve pasaport damgalarının dışa aktarımı e-posta eki olarak teslim edilir. Sahte / uydurma paket basılmaz.
 3. **Hesap kapatma:** Auth kullanıcısı dondurulur veya silinir; profil ve fatura künyesi temizlenir. **Defter satırları (`LedgerEntry`) append-only’dir; nakit sicili silinmez.** Yasal saklama defteri durdurmaz.
 4. Süre: makul süre; hedef 30 gün. Otomasyon veya self-serve kapı **açılmaz** — ledger / 6502 sicili ile «hesabı sil» çatışır; vatandaşa bu sınır yasal metinde zaten e-posta kanalı olarak yazılıdır.
+
+---
+
+## 19. Akademi TTS fırınlama SOP
+
+Pedagoji §E.5 / §F üretim matematiğini tanımlar; bake sayıları kod SSOT’tadır. İnsan `--seal` olmadan harici TTS yok. İzlemede canlı TTS yoktur (`generateSpeech` / `listen` **410**).
+
+| Ölçüt | Değer | Kod |
+|-------|--------|-----|
+| Nefes bloğu | 12–15 doğal blok; ders başı istek **10–12** | `lib/academy/tts-breath-chunks.ts` |
+| RPM kalkanı | istekler arası **6500 ms** | `ACADEMY_TTS_RPM_GAP_MS` |
+| Skip preventer | kısa emir/teknik cümle bağlaçlı akışa çevrilir | `expandAcademyTtsSkipPreventer` (`lib/academy/spoken-scripts/skip-preventer.ts`) |
+| 3–5 sn mikro dilim | yasak | aynı breath-chunks SSOT |
+| Kapı | `--dry-run` keşif; `--seal` + `--confirm-gemini-spend` harici çağrı | `scripts/generate-academy-lesson-audio.ts` |
+| Yayın WAV | **18** mühürlü (01 + 02 + 03, her biri 6/6) | `.system_docs/STORAGE_CONTRACT.md` |
+
+Operatör: `npx tsx scripts/generate-academy-lesson-audio.ts --dry-run` önce. `--seal` insan onayından sonra. Vatandaş yüzeyine taslak WAV basılmaz.
 
 ---
 
@@ -548,4 +579,4 @@ Junior 410; production vekâlet / harç donuk (`assertJuniorProductionOpen` / `t
 
 ### A.4 Tarihsel mutlu yol (yasak cümle)
 
-Yanlış: vatandaş yolları `/yetkinilan`, `/studio` “omurga bağlandı”. Doğru: kenar **410** HTML/JSON. Yanlış: “beş dikey oda (Akademi, Freelancer, Yetkinİlan, Studio, DevLabs)”. Doğru: **çalışan 4 oda + 4 sığınak**; 410 envanteri `archived/` + kenar.
+Yanlış: vatandaş yolları `/yetkinilan`, `/studio` “omurga bağlandı”. Doğru: kenar **410** HTML/JSON. Yanlış: “beş dikey oda (Akademi, Freelancer, Yetkinİlan, Studio, DevLabs)”. Doğru: **Motor 4 / Kamu Vitrini 3 Oda (Panel, Akademi, Kariyer) + 4 sığınak**; 410 envanteri `archived/` + kenar.

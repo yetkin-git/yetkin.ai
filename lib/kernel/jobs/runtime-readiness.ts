@@ -25,7 +25,7 @@ export type RuntimeReadinessReport = {
   devlabsPepper: RuntimePresence;
   /** Kenar HS256 yedek. Boş = JWKS-only (anayasa-uyumlu). */
   jwtHs256Fallback: RuntimePresence;
-  /** Sınav oturumu MAC. Boş = akademi sınavı 503; health 503 değildir. */
+  /** Sınav oturumu MAC. Dedicated boş = JWT derive fallback; ikisi de yoksa sınav 503. Health 503 değildir. */
   examSitting: RuntimePresence;
   /** XFF sağdan hop. Cloudflare+Vercel canlı reçete 2; kod boş varsayılanı 1. */
   trustedProxyHops: number;
@@ -74,7 +74,12 @@ export function evaluateRuntimeReadiness(
   const liveDay0Warnings: string[] = [];
   if (production && smtp === "unconfigured") {
     liveDay0Warnings.push(
-      "NOTICE_SMTP_HOST + NOTICE_MAIL_FROM boş — gün 0 makbuz/bildirim yok; nakit durmaz.",
+      "NOTICE_SMTP_HOST + NOTICE_MAIL_FROM boş — gün 0 akademi makbuzu/bildirim yok; nakit durmaz (SMTP skipped).",
+    );
+  }
+  if (production && services.examSitting === "unconfigured") {
+    liveDay0Warnings.push(
+      "ACADEMY_EXAM_SITTING_SECRET boş veya <16 — JWT derive fallback sınavı ayakta tutar; dedicated secret yazılmalı. Health 503 değildir.",
     );
   }
   if (production && trustedProxyHops < CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS) {
@@ -112,8 +117,8 @@ export function formatRuntimeReadiness(report: RuntimeReadinessReport): string {
     `supabaseAuth=${report.supabaseAuth}`,
     `inngest=${report.inngest} serveFailClosed=${report.inngestServeFailClosed ? "evet" : "hayır"}`,
     `payments=${report.payments} (unconfigured ≠ süreç down; tahsilat kapalı)`,
-    `examSitting=${report.examSitting} (boşsa sınav 503; health 503 değildir)`,
-    `smtp=${report.smtp} (boşsa nakit durmaz; gün 0 makbuz yok; deliverCitizenNoticeMail → skipped)`,
+    `examSitting=${report.examSitting} (dedicated boşsa JWT derive fallback; ikisi de yoksa sınav 503; health 503 değildir)`,
+    `smtp=${report.smtp} (boşsa nakit durmaz; gün 0 akademi makbuzu SMTP skipped; deliverAcademyReceiptMail/deliverCitizenNoticeMail → skipped)`,
     `trustedProxyHops=${report.trustedProxyHops} (CF+Vercel canlı reçete=${CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS}; kod boş varsayılan=1)`,
     `devlabsPepper=${report.devlabsPepper} (donmuş oda; üretim bloğu değil; boşsa kod varsayılanı)`,
     `jwtHs256Fallback=${report.jwtHs256Fallback} (boşsa JWKS-only; HS256 düşer)`,

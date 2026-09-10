@@ -4,6 +4,7 @@ import {
   canonicalizeGeminiTtsLanguageCode,
   canonicalizeGeminiTtsVoiceName,
   GEMINI_TTS_PREBUILT_VOICES,
+  geminiTtsVoiceForGender,
   isGeminiTtsLanguageConfigError,
   isGeminiTtsPrebuiltVoice,
   isGeminiTtsTextAttemptError,
@@ -26,6 +27,8 @@ describe("Gemini TTS ses kanonu", () => {
     expect(canonicalizeGeminiTtsVoiceName("puck")).toBe("Puck");
     expect(canonicalizeGeminiTtsVoiceName("FENRIR")).toBe("Fenrir");
     expect(canonicalizeGeminiTtsVoiceName("aoede")).toBe("Aoede");
+    expect(geminiTtsVoiceForGender("female")).toBe("Callirrhoe");
+    expect(geminiTtsVoiceForGender("male")).toBe("Fenrir");
     expect(() => canonicalizeGeminiTtsVoiceName("Maya")).toThrow(VoiceBindingUnavailableError);
     expect(() => canonicalizeGeminiTtsVoiceName("")).toThrow(VOICE_BINDING_UNAVAILABLE);
   });

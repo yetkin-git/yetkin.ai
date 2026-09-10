@@ -384,52 +384,31 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
     });
     expect(pulseBody.data).not.toHaveProperty("jobs");
 
-    const jobWire = {
-      id: JOB_ID,
-      clientId: TEST_USER,
-      title: "Lab ilan",
-      brief: "Rail İş lab DTO kilidi.",
-      budgetMinor: 25_000,
+    // PayTR B2C: freelancer DTO'ları v1 zarfından düştü; akademi nabzı + kariyer vizesi kilitlidir.
+    const academyPulseWire = {
+      live: true,
+      purchasesCount: 1,
+      certificatesHeld: 1,
+      lastCertificateTitle: "Ofis Yapay Zekâ",
+      lastCourseSlug: "01_office_ai",
+      nextLessonKey: "01_office_ai-2",
       currencyCode: "TRY",
-      status: "OPEN",
-      createdAt: "2026-08-14T12:00:00.000Z",
-      updatedAt: "2026-08-14T12:00:00.000Z",
     };
-    const jobs = jsonOk(
-      { jobs: [jobWire] },
+    const academyPulse = jsonOk(
+      { pulse: academyPulseWire },
       200,
       REQUEST_ID,
-      v1Request("/api/v1/freelancer/jobs"),
+      v1Request("/api/v1/academy/pulse"),
     );
-    await expectV1Envelope(jobs, 200, { jobs: [jobWire] });
+    await expectV1Envelope(academyPulse, 200, { pulse: academyPulseWire });
 
-    const contractWire = {
-      id: CONTRACT_ID,
-      jobId: JOB_ID,
-      bidId: "fb_lab_1",
-      clientId: TEST_USER,
-      freelancerId: TEST_USER,
-      escrowHoldId: "eh_lab_1",
-      status: "FUNDED",
-      currencyCode: "TRY",
-      grossMinor: 25_000,
-      holdMinor: 2_500,
-      netMinor: 22_500,
-      holdBps: 1000,
-      fundedAt: "2026-08-14T12:00:00.000Z",
-      releasedAt: null,
-      refundedAt: null,
-      createdAt: "2026-08-14T12:00:00.000Z",
-      updatedAt: "2026-08-14T12:00:00.000Z",
-      deliveredAt: null,
-    };
-    const contracts = jsonOk(
-      { contracts: [contractWire] },
+    const careerVisas = jsonOk(
+      { stamps: [] },
       200,
       REQUEST_ID,
-      v1Request("/api/v1/freelancer/contracts"),
+      v1Request("/api/v1/career/visas"),
     );
-    await expectV1Envelope(contracts, 200, { contracts: [contractWire] });
+    await expectV1Envelope(careerVisas, 200, { stamps: [] });
 
     for (const hop of RAIL_IS_LAB_HOPS) {
       if (hop.v1 === "/api/v1/health") {
@@ -666,28 +645,26 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
     expect(foreign.headers.get("Access-Control-Allow-Origin")).toBeNull();
   });
 
-  it("Dron Gün 0 hop'ları v1 sicilinde durur; zarf anahtarları ve yetersiz bakiye metni kilitlidir", () => {
+  it("Dron Gün 0 istemci allowlist'i donuk durur; server sicili freelancer basmaz (PayTR B2C)", () => {
     expect([...DRON_ENVELOPE_KEYS]).toEqual([...RAIL_V1_ENVELOPE_KEYS]);
     expect(DRON_ACCEPT_INSUFFICIENT).toBe(RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE);
+    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(9);
     expect(assertPublishedRailV1Hop(RAIL_IS_DAY0_HOPS.session.path, "GET").id).toBe("auth-session");
-    expect(assertPublishedRailV1Hop(RAIL_IS_DAY0_HOPS.jobs.path, "GET").id).toBe("freelancer-jobs");
     expect(assertPublishedRailV1Hop(RAIL_IS_DAY0_HOPS.walletStrip.path, "GET").id).toBe(
       "wallet-strip",
     );
-    expect(assertPublishedRailV1Hop(RAIL_IS_DAY0_HOPS.contracts.path, "GET").id).toBe(
-      "freelancer-contracts",
-    );
-    expect(assertPublishedRailV1Hop(freelancerBidPath(JOB_ID), "POST").id).toBe("freelancer-bid");
-    expect(assertPublishedRailV1Hop(clientJobBidsPath(JOB_ID), "GET").id).toBe("client-job-bids");
-    expect(assertPublishedRailV1Hop(freelancerAcceptPath(JOB_ID), "POST").id).toBe(
-      "freelancer-accept",
-    );
-    expect(assertPublishedRailV1Hop(freelancerDeliveryPath(CONTRACT_ID), "POST").id).toBe(
-      "freelancer-delivery",
-    );
-    expect(assertPublishedRailV1Hop(freelancerReleasePath(CONTRACT_ID), "POST").id).toBe(
-      "freelancer-release",
-    );
+    // Düşürülen freelancer hop'ları kapıda yayınlanmaz; kenar yine de önce 410 basar.
+    for (const [path, method] of [
+      [RAIL_IS_DAY0_HOPS.jobs.path, "GET"],
+      [RAIL_IS_DAY0_HOPS.contracts.path, "GET"],
+      [freelancerBidPath(JOB_ID), "POST"],
+      [clientJobBidsPath(JOB_ID), "GET"],
+      [freelancerAcceptPath(JOB_ID), "POST"],
+      [freelancerDeliveryPath(CONTRACT_ID), "POST"],
+      [freelancerReleasePath(CONTRACT_ID), "POST"],
+    ] as const) {
+      expect(() => assertPublishedRailV1Hop(path, method), path).toThrow(/Yayınlanmamış v1 hop/);
+    }
     expect(() => assertPublishedRailV1Hop("/api/v1/wallet/top-up", "POST")).toThrow(
       /Yayınlanmamış v1 hop/,
     );

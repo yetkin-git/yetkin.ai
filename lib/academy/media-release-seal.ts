@@ -17,7 +17,12 @@ import {
   cleanAcademySpokenTextForTts,
   collapseAcademyLessonProse,
 } from "@/lib/academy/lesson-body";
-import { loadAcademySpokenScriptParagraphs, loadAcademySpokenScriptProse } from "@/lib/academy/spoken-scripts";
+import {
+  applyAcademyCueDisplayPhonetics,
+  expandAcademyTtsSkipPreventer,
+  loadAcademySpokenScriptParagraphs,
+  loadAcademySpokenScriptProse,
+} from "@/lib/academy/spoken-scripts";
 
 export const ACADEMY_MEDIA_RELEASE_BUCKET = "public" as const;
 export const ACADEMY_MEDIA_RELEASE_LANGUAGE = "tr-TR" as const;
@@ -80,7 +85,9 @@ export function collectAcademyLessonDialogueTurns(
 }
 
 export function spokenAcademyDialogueTurnText(text: string): string {
-  return cleanAcademySpokenTextForTts(collapseAcademyLessonProse(text));
+  return cleanAcademySpokenTextForTts(
+    collapseAcademyLessonProse(applyAcademyCueDisplayPhonetics(expandAcademyTtsSkipPreventer(text))),
+  );
 }
 
 export function academyMediaReleaseTurnsForLesson(

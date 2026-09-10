@@ -1,17 +1,31 @@
 #!/usr/bin/env tsx
 /**
  * Zero-Cost Streaming TTS bake — PEDAGOJI.md mediaReleaseSeal.
+ * Ses seçimi fırınlamada kadın veya erkek TTS (PEDAGOJI.md §F.3); slug mührü ezer.
  * Canlı izleme generateSpeech çağırmaz; bu operatör hattı WAV dondurur.
  *
- * Gemini TTS varsayılan KAPALI. API çağrısı yalnız --confirm-gemini-spend ile.
- * İstekler 3–5 sn noktalama dilimidir; 42 sn’lik dev blok YASAK.
+ * Gemini TTS varsayılan KAPALI. API çağrısı yalnız --seal ve --confirm-gemini-spend ile.
+ * Bake öncesi kapı: --dry-run taraması zorunlu; insan onayı olmadan harici çağrı yok.
+ * Skip-preventer: paragraf başı kısa emir ("F2'ye bas") bağlaçlı akışa çevrilir; cue terimleri korunur.
+ * İstekler 12–15 doğal nefes bloğu / ders başı 10–12 istek; 3–5 sn mikro dilim YASAK.
+ * Cümle geçişlerine `[pause]` enjekte edilir; eğitmenin tonlaması blok içinde canlı kalır.
  * Dilimler arasına 0.3–0.5 sn taze nefes sessizliği konur (dikiş/crossfade değil).
  * SOLA / tempoStretch / %93 hız bükme YASAK — Gemini ham temposu korunur.
- * İstekler arası 4000ms. --force mevcut WAV üzerine ana TTS modelini yeniden sentezler.
+ * İstekler arası 6500ms (RPM 10/dk kalkanı). --force mevcut WAV üzerine ana TTS modelini yeniden sentezler.
  *
  *   npm run generate:academy-audio -- --dry-run
  *   npm run generate:academy-audio -- --dry-run --slug=01_office_ai
- *   npm run generate:academy-audio -- --seal --confirm-gemini-spend --force --no-db --slug=01_office_ai --key=01_office_ai-3
+ *   npm run generate:academy-audio -- --dry-run --slug=02_ecommerce_ai --key=02_ecommerce_ai-1
+ *   npm run generate:academy-audio -- --dry-run --slug=02_ecommerce_ai --key=02_ecommerce_ai-2
+ *   npm run generate:academy-audio -- --dry-run --slug=02_ecommerce_ai --key=02_ecommerce_ai-3
+ *   npm run generate:academy-audio -- --dry-run --slug=02_ecommerce_ai --key=02_ecommerce_ai-4
+ *   npm run generate:academy-audio -- --dry-run --slug=02_ecommerce_ai --key=02_ecommerce_ai-5
+ *   npm run generate:academy-audio -- --dry-run --slug=02_ecommerce_ai --key=02_ecommerce_ai-6
+ *   npm run generate:academy-audio -- --seal --confirm-gemini-spend --force --no-db --slug=01_office_ai --key=01_office_ai-6
+ *   npm run generate:academy-audio -- --dry-run --slug=04_chatbot_nocode --key=04_chatbot_nocode-1
+ *   npm run generate:academy-audio -- --seal --confirm-gemini-spend --force --no-db --slug=04_chatbot_nocode --key=04_chatbot_nocode-1
+ *   npm run generate:academy-audio -- --dry-run --slug=05_prompt_practice --key=05_prompt_practice-1
+ *   npm run generate:academy-audio -- --seal --confirm-gemini-spend --force --no-db --slug=05_prompt_practice --key=05_prompt_practice-1
  *
  * WAV süresi değişince bake `lib/academy/lesson-audio-timings/{key}.json` yazar;
  * oynatıcı currentTime ile nefes dilimi saniyesini 1:1 kilitler. `ACADEMY_SEALED_AUDIO_DURATION_SEC`
@@ -60,18 +74,30 @@ import { canonicalizeGeminiTtsLanguageCode, canonicalizeGeminiTtsVoiceName } fro
 import { academyLessonCueParagraphPlan } from "@/lib/academy/lesson-cues";
 import type { AcademySealedAudioPiece, AcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import { normalizeRuntimeDatabaseUrl } from "@/lib/kernel/postgres-url";
-import { splitAcademyTtsBreathChunks } from "@/lib/academy/tts-breath-chunks";
 import {
+  ACADEMY_TTS_LESSON_BREATH_BLOCK_MAX,
+  ACADEMY_TTS_LESSON_REQUEST_MAX,
+  ACADEMY_TTS_LESSON_REQUEST_MIN,
+  ACADEMY_TTS_RPM_GAP_MS,
+  academyTtsLessonRequestBudget,
+  assertAcademyTtsLessonRequestBudget,
+  injectAcademyTtsBreathPauses,
+  splitAcademyTtsBreathChunks,
+} from "@/lib/academy/tts-breath-chunks";
+import {
+  expandAcademyTtsSkipPreventer,
+  loadAcademyCueParagraphsAsSpoken,
   loadAcademySpokenScriptMarkdownParagraphs,
-  loadAcademySpokenScriptParagraphs,
 } from "@/lib/academy/spoken-scripts";
 
 const SPEECH_TIMEOUT_MS = 180_000;
-/** İstekler arası zorunlu bekleme. */
-const TURN_PAUSE_MS = 4_000;
+/** İstekler arası zorunlu bekleme — dakikada en fazla ~9 istek (RPM 10 kalkanı). */
+const TURN_PAUSE_MS = ACADEMY_TTS_RPM_GAP_MS;
 const RATE_LIMIT_RETRY_MS = 20_000;
-const RATE_LIMIT_RETRY_CAP_MS = 120_000;
-const RATE_LIMIT_RETRY_MAX = 2;
+const RATE_LIMIT_RETRY_CAP_MS = 180_000;
+const RATE_LIMIT_RETRY_MAX = 8;
+/** `per_day` metni olsa bile kısa retryDelay RPM’dir; günlük kota değil. */
+const DAILY_QUOTA_RETRY_DELAY_MIN_SEC = 300;
 const NETWORK_RETRY_CAP = 4;
 
 const MIN_WAV_BYTES = 2_048;
@@ -165,11 +191,42 @@ function sanitizeGeminiApiKey(raw: string | undefined | null): string | null {
   return value.length > MIN_GEMINI_KEY_CHARS ? value : null;
 }
 
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error ?? "");
+}
+
+function parseRetryDelaySec(error: unknown): number | null {
+  const message = errorMessage(error);
+  const jsonDelay = message.match(/"retryDelay"\s*:\s*"(\d+)s"/u);
+  if (jsonDelay) {
+    const sec = Number(jsonDelay[1]);
+    return Number.isFinite(sec) && sec > 0 ? sec : null;
+  }
+  const prose = message.match(/Please retry in (\d+)h(\d+)m(\d+(?:\.\d+)?)s/i);
+  if (prose) {
+    const sec = Number(prose[1]) * 3600 + Number(prose[2]) * 60 + Number(prose[3]);
+    return Number.isFinite(sec) && sec > 0 ? sec : null;
+  }
+  const minutes = message.match(/Please retry in (\d+)m(\d+(?:\.\d+)?)s/i);
+  if (minutes) {
+    const sec = Number(minutes[1]) * 60 + Number(minutes[2]);
+    return Number.isFinite(sec) && sec > 0 ? sec : null;
+  }
+  const seconds = message.match(/Please retry in (\d+(?:\.\d+)?)s/i);
+  if (seconds) {
+    const sec = Number(seconds[1]);
+    return Number.isFinite(sec) && sec > 0 ? sec : null;
+  }
+  return null;
+}
+
 function isDailyModelQuotaError(error: unknown): boolean {
-  const message = error instanceof Error ? error.message : String(error ?? "");
-  return /generate_requests_per_model_per_day|requests_per_day|per_day.*quota|quota.*per_day/i.test(
-    message,
-  );
+  const message = errorMessage(error);
+  if (!/generate_requests_per_model_per_day|requests_per_day|per_day.*quota|quota.*per_day/i.test(message)) {
+    return false;
+  }
+  const delaySec = parseRetryDelaySec(error);
+  return delaySec != null && delaySec >= DAILY_QUOTA_RETRY_DELAY_MIN_SEC;
 }
 
 function isRateLimitError(error: unknown): boolean {
@@ -318,7 +375,7 @@ async function synthesizeChunk(input: {
       });
       return wav;
     } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
+      const message = errorMessage(error);
       if (isDailyModelQuotaError(error)) {
         throw error;
       }
@@ -327,9 +384,12 @@ async function synthesizeChunk(input: {
         if (rateLimitStreak > RATE_LIMIT_RETRY_MAX) {
           throw error;
         }
+        const retryDelaySec = parseRetryDelaySec(error);
         const waitMs = Math.min(
           RATE_LIMIT_RETRY_CAP_MS,
-          RATE_LIMIT_RETRY_MS * 2 ** Math.min(rateLimitStreak - 1, 3),
+          retryDelaySec != null
+            ? Math.max(1_000, Math.ceil(retryDelaySec * 1000) + 1_000)
+            : RATE_LIMIT_RETRY_MS * 2 ** Math.min(rateLimitStreak - 1, 3),
         );
         process.stdout.write(`  429; ${Math.round(waitMs / 1000)}s sonra aynı tur tekrar\n`);
         await sleep(waitMs);
@@ -378,6 +438,7 @@ async function synthesizeChunkFull(input: {
         `  dilim kısık (${actual.toFixed(1)}s < ${expected.toFixed(1)}s); ikiye bölündü\n`,
       );
       const left = await synthesizeChunkFull({ ...input, text: halves[0] });
+      await sleep(TURN_PAUSE_MS);
       const right = await synthesizeChunkFull({ ...input, text: halves[1] });
       return concatPcmWavBuffersSeamless([left, right]);
     }
@@ -408,7 +469,7 @@ async function synthesizeSeamlessScript(input: {
 }
 
 function assertSpokenScriptMatchesCues(lessonKey: string): void {
-  const fromCues = loadAcademySpokenScriptParagraphs(lessonKey);
+  const fromCues = loadAcademyCueParagraphsAsSpoken(lessonKey);
   const fromMd = loadAcademySpokenScriptMarkdownParagraphs(lessonKey);
   if (fromMd.length === 0) {
     return;
@@ -457,7 +518,7 @@ function collectBreathChunks(job: AcademyMediaReleaseJob): BreathBakeChunk[] {
       chunks.push({
         turnIndex,
         chunkIndex,
-        text: piecesInTurn[chunkIndex]!,
+        text: expandAcademyTtsSkipPreventer(piecesInTurn[chunkIndex]!),
         voiceName: turn.voice,
         cueId: planned.cueId,
         cueParagraphIndex: planned.cueParagraphIndex,
@@ -474,6 +535,10 @@ async function bakeLessonWav(
 ): Promise<{ wav: Buffer; pieces: AcademySealedAudioPiece[]; pauseSec: number }> {
   assertSpokenScriptMatchesCues(job.lessonKey);
   const breathChunks = collectBreathChunks(job);
+  assertAcademyTtsLessonRequestBudget(
+    breathChunks.length,
+    isAcademyLessonAudioSealed(job.courseSlug, job.lessonKey),
+  );
   const breathMs = Math.round(
     Math.min(500, Math.max(300, ACADEMY_TTS_PARAGRAPH_PAUSE_SEC * 1000)),
   );
@@ -491,7 +556,7 @@ async function bakeLessonWav(
     );
     const chunkWav = await synthesizeSeamlessScript({
       client,
-      text: chunk.text,
+      text: injectAcademyTtsBreathPauses(chunk.text),
       voiceName: chunk.voiceName,
       model,
     });
@@ -609,22 +674,28 @@ async function main(): Promise<void> {
     for (const job of jobs) {
       assertSpokenScriptMatchesCues(job.lessonKey);
       const breathChunks = collectBreathChunks(job);
-      const queued =
-        isAcademyLessonAudioInProduction(job.courseSlug, job.lessonKey) &&
-        !isAcademyLessonAudioSealed(job.courseSlug, job.lessonKey);
+      const sealed = isAcademyLessonAudioSealed(job.courseSlug, job.lessonKey);
+      assertAcademyTtsLessonRequestBudget(breathChunks.length, sealed);
+      const budget = academyTtsLessonRequestBudget(breathChunks.length);
+      const rpmGapSec = TURN_PAUSE_MS / 1000;
+      const minWallSec = breathChunks.length > 1 ? (breathChunks.length - 1) * rpmGapSec : 0;
+      const queued = isAcademyLessonAudioInProduction(job.courseSlug, job.lessonKey) && !sealed;
+      const band = budget.inTargetBand
+        ? `bant ${ACADEMY_TTS_LESSON_REQUEST_MIN}–${ACADEMY_TTS_LESSON_REQUEST_MAX}`
+        : `hedef ${ACADEMY_TTS_LESSON_REQUEST_MIN}–${ACADEMY_TTS_LESSON_REQUEST_MAX} tavan ${ACADEMY_TTS_LESSON_BREATH_BLOCK_MAX}`;
       process.stdout.write(
-        `  ${job.courseSlug}/${job.lessonKey}  ${job.turns.length} paragraf  ${breathChunks.length} nefes  ${job.turns[0]?.voice ?? "?"}  ${queued ? "KUYRUK" : "MÜHÜR"}  seal=${job.mediaReleaseSeal.slice(0, 12)}  → ${job.publicPath}\n`,
+        `  ${job.courseSlug}/${job.lessonKey}  ${job.turns.length} paragraf  ${breathChunks.length} istek (${band})  skip-preventer  RPM kalkanı=${rpmGapSec}s  min.ara=${minWallSec.toFixed(0)}s  ${job.turns[0]?.voice ?? "?"}  ${queued ? "KUYRUK" : "MÜHÜR"}  seal=${job.mediaReleaseSeal.slice(0, 12)}  → ${job.publicPath}\n`,
       );
     }
     const queueKeys = Object.values(ACADEMY_MEDIA_PRODUCTION_QUEUE).flat();
     process.stdout.write(
-      `Keşif bitti. Prodüksiyon kuyruğu (WAV yok, karaoke kapalı): ${queueKeys.join(", ")}\nCanlı bake (tek ders): --seal --confirm-gemini-spend --force --no-db --slug=01_office_ai --key=01_office_ai-3\n`,
+      `Bake öncesi kapı: --dry-run taraması tamam. Harici API yok. İnsan --seal ve --confirm-gemini-spend olmadan çağrı açılmaz.\nKeşif bitti. Prodüksiyon kuyruğu (WAV yok, karaoke kapalı): ${queueKeys.length > 0 ? queueKeys.join(", ") : "boş"}\n`,
     );
     return;
   }
   if (!args.seal || !args.confirmGeminiSpend) {
     process.stderr.write(
-      "academy-audio bake için --seal ve --confirm-gemini-spend gerekir (Pedagoji E.4).\n",
+      "academy-audio bake için --dry-run taraması, --seal ve --confirm-gemini-spend gerekir (Pedagoji E.4 / E.5).\n",
     );
     process.exit(1);
   }

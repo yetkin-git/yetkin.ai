@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { resolveAcademyCinemaSource } from "@/lib/academy/lesson-cinema";
 import {
   academyTeleprompterActiveLineIndex,
@@ -19,14 +19,33 @@ function LessonCinemaMediaCard({
   card,
   playing,
   motion,
+  fallbackSrc,
 }: {
   card: AcademyLessonVisualCard;
   playing: boolean;
   motion: ReturnType<typeof academyVisualStageMotion>;
+  fallbackSrc: string;
 }) {
   const cinema = card.kind === "veo" ? resolveAcademyCinemaSource(card.src) : null;
   const bakedFile = cinema?.kind === "html5" || cinema?.kind === "hls";
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [plateSrc, setPlateSrc] = useState(fallbackSrc);
+
+  useEffect(() => {
+    setPlateSrc(fallbackSrc);
+    const probe = new Image();
+    probe.onload = () => {
+      setPlateSrc(card.src);
+    };
+    probe.onerror = () => {
+      setPlateSrc(fallbackSrc);
+    };
+    probe.src = card.src;
+    return () => {
+      probe.onload = null;
+      probe.onerror = null;
+    };
+  }, [card.cueId, card.src, fallbackSrc]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -63,8 +82,11 @@ function LessonCinemaMediaCard({
         <img
           className="academy-player-eye-plate"
           data-motion={motion}
-          src={card.posterSrc}
+          src={plateSrc}
           alt=""
+          onError={() => {
+            setPlateSrc(fallbackSrc);
+          }}
         />
       )}
     </div>
@@ -82,7 +104,7 @@ export function LessonCinemaEyeLayer({
   currentTime: number;
   playing: boolean;
   activeCueId?: string;
-  /** false: yalnız poster + 8 sn kart; altyazıyı LessonTeleprompter overlay basar. */
+  /** false: yalnız poster + cue kartı; altyazıyı LessonTeleprompter overlay basar. */
   captions?: boolean;
 }) {
   const lines = useMemo(
@@ -129,7 +151,14 @@ export function LessonCinemaEyeLayer({
         alt=""
         data-academy-eye-backdrop=""
       />
-      {card ? <LessonCinemaMediaCard card={card} playing={playing} motion={motion} /> : null}
+      {card ? (
+        <LessonCinemaMediaCard
+          card={card}
+          playing={playing}
+          motion={motion}
+          fallbackSrc={stage.posterSrc}
+        />
+      ) : null}
       {captions ? (
         <div
           className="academy-player-teleprompter"

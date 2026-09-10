@@ -73,7 +73,14 @@ describe("01_office_ai-1 sinematik cue SSOT", () => {
         audioLeadInSec: 0,
       }),
     ).toBe("Soyut tanımları bir kenara bırakalım; doğrudan masadaki gerçek probleme bakalım.");
-    expect(ACADEMY_MEDIA_SEALED_AUDIO["01_office_ai"]).toEqual(["01_office_ai-1", "01_office_ai-2"]);
+    expect(ACADEMY_MEDIA_SEALED_AUDIO["01_office_ai"]).toEqual([
+      "01_office_ai-1",
+      "01_office_ai-2",
+      "01_office_ai-3",
+      "01_office_ai-4",
+      "01_office_ai-5",
+      "01_office_ai-6",
+    ]);
   });
 
   it("compact taslak şişmez; cue ayrı dosyadadır", () => {

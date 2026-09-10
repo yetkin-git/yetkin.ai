@@ -1,0 +1,116 @@
+{
+  "lessonKey": "02_ecommerce_ai-2",
+  "pauseSec": 0.4,
+  "durationSec": 621.36,
+  "cacheV": 621360,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 50.56,
+      "text": "Tekrar merhaba. Ben Aylin. Kıdemli e-ticaret ve yapay zekâ eğitmeniyim ve bugün seninle mağazanın satış kaderini belirleyen o eşiği konuşacağız. Kahveni tazelediysen masaya otur. İlk derste cebine koyduğumuz kural duruyor. Yapay zekâ şiir yazan stajyer değildir. Senin mağazanın yedi gün yirmi dört saat çalışan kıdemli operasyon ve satış müdürüdür. Toptancının Vatsap notunu Trend yol, Hepsi burada ve Ama zon standartlarında Es i o başlığına ve beş vitrin maddesine çevirdin. Bu adımla pazaryerindeki satıcıların yüzde yetmişini geride bıraktın. Ama şimdi dürüst olalım. Başlık ve vitrin maddeleri müşteriyi mağazanın kapısından içeri sokar. Cüzdanı açtıran ve satın al tuşuna bastıran asıl güç, içeride onu karşılayan ürün açıklamasıdır."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 50.96,
+      "end": 117,
+      "text": "Gel, e-ticaret satıcılarının her gün yaşadığı o büyük krizin röntgenini çekiyoruz. Trend yol veya İnstegram reklamına bütçe ayırıyorsun. Her tıklamada cebinden beş on lira çıkıyor. Müşteri başlığını ve görselini beğenip tıkladı. Bütçenden reklam parası düştü. Detay sayfana girdi. Fiyatı geçti. Aşağı kaydırıp ürün açıklaması alanına geldi. Peki karşısına ne çıkıyor? Çoğu satıcının iki tuzağı. Bir: baştan savma iki satır. Ürünümüz kaliteli malzemeden üretilmiştir, faturalı gönderilir, bizi tercih ettiğiniz için teşekkürler. İki: toptancıdan kopyalanmış gri metin yığını. İmla hatalarıyla dolu, mobilde okunması imkânsız teknik karmaşa. Müşterinin aklında onlarca soru var. Bu termos araç bardaklığına sığar mı? İçinde kahve koku yapar mı? Sıcaklığı doğru gösteriyor mu? Çantama sızdırır mı? Cevap bulamayınca güvensizlik gelir. Üç saniye içinde o acımasız geri tuşuna basar."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 117.4,
+      "end": 160.92,
+      "text": "İşte sessiz cinayet. Reklam bütçen çöpe gider. O tıklamaya ödediğin para buharlaşır. Hemen çıkma oranı fırlar. Gelen yüz kişiden seksen beşi sepete eklemeden kaçar. Algoritma giren müşteri hemen kaçıyor, demek ki kalitesiz der ve ürününü birinci sayfadan dördüncü sayfaya sürgün eder. Baybaks savaşında da aynı fatura kesilir. Tıklama var satış yoksa mağaza puanın ve reklamın pahalanır. Bu yüzden ürün açıklaması bürokratik bir formalite değildir. Senin mağazanın yedi gün yirmi dört saat çalışan kapanış tezgahtarıdır. Kahvenden bir yudum al. Derin bir nefes al. O tezgahtarı bugün kuruyoruz."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 161.32,
+      "end": 221.28,
+      "text": "Soyut tanımları bir kenara bırakıyoruz; doğrudan senin panelindeki açıklama alanına bakıyoruz. Sıradan satıcı yalnız teknik özellik anlatır. Usta e-ticaretçi fayda ve yaşam konforu satar. Özellik şudur: iç gövdesi paslanmaz çeliktir. Müşteri der ki bana ne. Fayda şudur: kahvende metal kokusu bırakmaz; sabah demlediğin filtre kahveyi akşamüstü bile ilk anki lezzetiyle yudumlarsın. Cüzdanı açtıran güç bu faydadır. İki kanıtlanmış satış şablonunu cebine koyuyorsun. Bir: Ayda. Dikkat çekersin. Akıllı teknolojiyle merak uyandırırsın. Konfor hissettirerek arzu yaratırsın. Sepete ekletirsin. İki: Pas. Can sıkıcı problemi söylersin. Stresi büyütürsün. Ürününü kesin çözüm olarak sunarsın. Google, Trend yol ve Ama zon artık tek kelime tarama. Anlamsal kelime gruplarını tarar. Bu yüzden önce küme, sonra hikâye."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 221.68,
+      "end": 298.76,
+      "text": "Şimdi hangi araç açıksa o kalsın. Çetcipiti, Klod, Cemini, Kopilot. Mantık hepsinde aynı. Beş yüz mililitre akıllı termosun duruyor. Modele kıdemli e-ticaret Es i o uzmanı rolünü veriyorsun. Trend yol ve Google indeksleme mantığını bildiğini söylüyorsun. Yüksek dönüşümlü dörtlü anahtar kelime kümesi istiyorsun. Bir: ana tohum terimler. Yüksek hacim. Üç öbek. İki: nitelik ve özellik terimleri. Uzun kuyruk. Üç teknik arama. Üç: kullanım senaryosu. Yaşam tarzı araması. Dört: sorun çözme terimleri. Şüphe gideren arama. Her küme için terimleri ve bir cümlelik yerleşim stratejisini listelesin. Şimdi gönder tuşuna basıyorsun. Ekranda harita durur. Tohumda akıllı çelik termos beş yüz mililitre, dijital göstergeli termos, çelik kahve termosu. Bunları ilk yüz kelimede ve He bir başlığında kullanırsın. Nitelikte led kapaklı, sızdırmaz vakumlu, süzgeçli çay termosu. Kullanımda araç bardaklık uyumlu, ofis kahve termosu, spor matarası. Sorunda koku yapmayan, akıtmayan çanta boy, sıcak tutan termos. Algoritmanın aradığı kelime ağını çıkardın."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 299.16,
+      "end": 349.48,
+      "text": "Şimdi bu kümeyi satış kopyasına döküyorsun. Modele kıdemli e-ticaret satış metin yazarı ve Es i o uzmanı rolünü veriyorsun. Pazaryeri paneline doğrudan yapıştırılacak tam boy açıklama istiyorsun. Kurallar net olsun. Bir: Pas açılışı. Ağız yanması ve sızdırma stresine değinip çözümü sunsun. İki: Ayda ve fayda hikâyesi. Özellik değil fayda. Günlük yaşam konforu. Üç: dörtlü ikna bloğu. Sıcaklık, yalıtım, sızdırmazlık, çelik sağlığı. Dört: teknik tablo ve kutu içeriği. Beş: iade önleyici not. Kapağın elde yıkanması. Altı: net Si ti a. Sepete ekle çağrısı. Yedi: mobilde taranması kolay, bol boşluklu vitrin. Şimdi gönder tuşuna basıyorsun. On beş saniyede hamallık kalkar."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 349.88,
+      "end": 404.68,
+      "text": "Ekranda beliren metni birlikte okuyorsun. İlk satırda müşteri acısını görür. Sabah acele yudumda dilin yanması. Birkaç saat sonra buz gibi kahve. Çantada akıtma korkusu. Sonra çözüm: akıllı göstergeli çelik termos. Tek dokunuşla ısı. Gün boyu tazelik. Dört fayda bloğunda konfor. Teknik tabloda hacim, materyal, yalıtım, pil, kutu içeriği. Kullanım notunda Led kapak elde yıkanır, gövde yıkanabilir. En sonda sepete ekle çağrısı. Anahtar kelimeler metne su gibi akar. Sen artık açıklama taşıyan değil; dönüşüm mimarisini yöneten, denetleyen ve kararı veren kişisin."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 405.08,
+      "end": 442.72,
+      "text": "Kritik durum burada başlar. Gelen açıklamayı körü körüne yapıştırmazsın. Şiir kalan her satırı silersin. He bir başlığı spam kelimeyle şişmesin. Me ta açıklamasına termos çelik termos en ucuz termos kaliteli termos diye kelime yığılmaz. Anahtar kelime doldurma tuzağıdır. Pazaryeri ve Google gelişmiş dil modelleriyle spamı anında yakalar. Mağazayı geri plana iter. Bunu gören müşteri de kaçar. Kural net. Anahtar kelimeler metnin dokusuna doğal dille yedirilir. Müşteri konfor hikâyesi okurken arama motoru aradığı kelimeyi zahmetsizce bulur."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 443.12,
+      "end": 491.4,
+      "text": "İkinci tuzak abartılı iddiadır. Yapay zekâ bazen hastalıkları yüzde yüz iyileştirir, yüzde yüz sızdırmaz, asla bozulmaz gibi yasal olmayan cümle türetir. Ticaret Bakanlığı ve platform cezası kapıda durur. Ürünün gerçeğinde olmayan vaadi yazdırmazsın. Aksi halde kargo iade faturası kârını sıfırlar. Üçüncü tuzak tescilli isimdir. Modele bunu Stanley gibi yaz demezsin. Açıklamada Nike geçir demezsin. Pazaryerleri marka ihlaline katıdır. Mağazan bir gecede askıya alınır. Baybaks da aynı refleks. Rakipten kopyalanmış süslü paragraf algoritmayı doyurmaz. Filtreye ve He bir'e oturmayan açıklama seni görünmez yapar. Metni onaylayan son göz daima sensin."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 491.8,
+      "end": 538.16,
+      "text": "Aynı kalkanı müşteri verisinde de kuruyorsun. Gerçek sipariş numarası, telefon, adres ve fatura tutarını yapıştırmazsın. Müşteri A, sipariş bir, maskeli tutar yeter. Gelen blokta yüzde yüz sızdırmaz gibi kesin vaat varsa daha dürüst, daha net, kanıtlı olsun dersin. Yeniden yazsın. Led kapak su sıçramasına dayanıklıdır ama bulaşık makinesi yok. Bu cümle hem satışı korur hem iadeyi keser. He bir başlığı doksan yüz karakter bandında kalsın. Me ta açıklaması tek cümlelik vaat artı bir tohum terim olsun. Spam yok. Sen yönetici kal. Stajyer ayrıntıyı sever. Kritik durumda panik yok. Maskele, denetle, uygula."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 538.56,
+      "end": 577.48,
+      "text": "Üç anahtarı cebine koy. Bir: ürün açıklaması formalite değil, senin reklam bütçeni kurtaran kapanış tezgahtarıdır. Sayfadan hemen çıkmayı önler. Harcaman ciroya döner. Organik sıralaman yükselir. İki: özellik değil fayda dili satar. Ayda ve Pas kalıplarıyla müşterinin acısını çözüp günlük yaşam konforunu anlattığında satın alma kararı kesinleşir. Üç: anahtar kelime kümeleme ile organik zirveye çıkılır. Kelimeleri spam yapmadan anlamsal bloklar halinde metne yaymak hem pazaryerinde hem Google'da kalıcı yer getirir."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 577.88,
+      "end": 621.36,
+      "text": "Şimdi iki dakikalık kanıt. Kendi mağazandan gerçek bir ürün seç. Önce dörtlü anahtar kelime kümesi istemini çalıştır. Ardından Ayda ve Pas şablonlu tam boy ürün açıklamasını yazdır. Çıkan metni pazaryeri panelindeki açıklama alanına yapıştır. He bir'i ve Me ta satırını da panele işle. Kendi ürününün dönüşüm odaklı açıklamasını görmeden üçüncü bölüme geçme. Orada müşteri yorumları ve soru-cevap paneli konuşacak. Bir yıldızlı öfkeyi avantaja, iadeyi teşhise çevireceğiz. Satıcı panelin açık kalsın. Kahveni tazele. Bugün vitrinin ikinci dilimini geri aldın. Yarın aynı müdür mağazanda olacak. Başladık."
+    }
+  ]
+}

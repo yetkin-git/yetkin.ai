@@ -1,0 +1,116 @@
+{
+  "lessonKey": "01_office_ai-5",
+  "pauseSec": 0.4,
+  "durationSec": 382.24,
+  "cacheV": 382240,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 21.32,
+      "text": "Tekrar merhaba. Ben Gözde. Kahveni tazelediysen masaya otur. Beşinci ders başladı. Beyaz sayfa dün masadan kalktı. Bugün o raporun sahneye çıkması konuşacak. Dünyanın en kusursuz raporunu da yazsan, karar verici on sayfa okumaz. Bilgiyi hap, vurucu ve görsel ister."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 21.72,
+      "end": 50.96,
+      "text": "Cebinde iki kural duruyor. Bir: niyeti Türkçe tarif et. Slayt iskeletini stajyer kursun. İki: altın güvenlik. Gerçek ciroyu açık sohbete ham dökme. Kampanya A, Şirketimiz B yeter. Kalkan duruyorsa ofisin üçüncü kabusuna giriyoruz. Yarına sunum olsun. Boş dikdörtgen. Başlık eklemek için tıklatın. Bugün o kilidi üç dakikada açacağız."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 51.36,
+      "end": 91.68,
+      "text": "Saat on altı otuz. Günün yorgunluğu omuzda. Yönetici masaya yaklaşır ya da Tims düşer. Rapor güzel. Yarın sabah dokuz buçukta genel müdür ve bölüm müdürleri var. Kimse satır satır okumaz. En fazla on slayt. Göz alıcı olsun. Masaüstünde yeni sunu açarsın. Beyaz dikdörtgen bakar. Üzerinde silik yazı: başlık eklemek için tıklatın. İlk slayta ne yazacağım. Logoyu nereye koyacağım. İkinci slaytın başlığı ne. Rengi mavi mi, lacivert mi. Ya çocukça görünürse. Ya genel müdür bu ne biçim sunum derse."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 92.08,
+      "end": 129.84,
+      "text": "Eski usulde raporu kopyalar, slayta yapıştırırsın. Punto küçülür. Metin çorbası olur. İnternette saatlerce ikon ararsın. Şekillerin hizasını gece yarısına kadar tutturmaya çalışırsın. Sabah uykusuz, özgüvensiz sahneye çıkarsın. Arkana dönüp cümleleri teker teker okursun. Buna sunum değil, slaytla işkence denir. Bugünden sonra boş slaytta kilitlenmek de paragraf yığmak da tarihe gömülür. Slayt kitap değildir. Fikir aktarma aracıdır. Stajyer iskeleti kurar. Sen sahnede dur."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 130.24,
+      "end": 165.56,
+      "text": "Rastgele bana sunum yap deme. Her slayta dört taş koy. Bir: aksiyon başlık. Satış rakamları yazma. İlk çeyrekte satış yüzde otuz dört büyüdü yaz. İki: en fazla üç madde. Kısa. Somut. Tek satır. Üç: görsel önerisi. Çubuk mu. Zaman çizgisi mi. Önce sonra diyagramı mı. Dört: konuşmacı notu. Ekranda yazmayan, senin ağzından dökülecek iki üç cümle. Ekran pano. Hikâye senin."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 165.96,
+      "end": 193.8,
+      "text": "Klavyeni çek. Dünkü kriz raporunu hatırla. Site iki saat on beş dakika düştü. Sekiz yüz elli bin lira risk. Beş slayt iste. Modele kıdemli sunum mimarı rolünü ver. Her slaytta dört taşı eksiksiz iste. Kaynağı maskeleyerek ver. Gönder. On saniyede akış gelir. Kapak. Kök neden. Ticari etki. Kalıcı yatırım. Karar talebi. Maddeler hap. Notlar diplomatik."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 194.2,
+      "end": 218.64,
+      "text": "Kopyala yapıştır ameleliği yok. Stajyerden sunumu Pauer Point'te kuracak makro kodunu iste. Alt Ef on bir. Modül ekle. Yapıştır. Ef beş. Beş slayt dikilir. Notlar yerine oturur. Tasarım sekmesinden kurumsal şablonu seç. Kopilot ya da Gama varsa belgeyi oraya da verebilirsin. Yol değişir. İskelet aynı kalır. Sen yönetici kal."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 219.04,
+      "end": 248.12,
+      "text": "Kod ezberleme. Dört adımı ezberle. Pauer Point açık. Alt Ef on bir. İnsört, Modül. Kodu yapıştır. Ef beş. Gözünü kırp. İskelet durur. Sonra estetik. Slayt teleprompter değildir. Ekrandaki her cümleyi okuma ihtiyacı duyuyorsan slayt hatalıdır. Anahtar kelime ve metrik parlasın. Hikâyeyi sesin anlatsın."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 248.52,
+      "end": 281.88,
+      "text": "Beyaz alan cesareti. Her köşeyi şekille doldurma. Göz dinlensin. Renk lunaparkı yok. Bir kurumsal renk. Bir nötr. Kritik rakam için bir vurgu. Lacivert, gri, mercan yeter. Konuşmacı notu gizli silahındır. Slaytta az yaz. Notta çok bil. Dinleyici slaytı değil, konuyu yönettiğini hisseder. Stajyer iskeleti kurar. Sahneyi sen taşırsın."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 282.28,
+      "end": 301.44,
+      "text": "Kopilot varsa belgeden sunu oluştur yeter. Gama varsa metni yapıştır, otuz saniyede kartlı akış iner. Araç değişir. Dört taş değişmez. Başlık, üç madde, görsel, not. Bunu unutursan slayt yine çorba olur."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 301.84,
+      "end": 342.24,
+      "text": "Kendi konunun slayt iskeletini görmeden altıncı bölüme geçme. Küçük olsun. Mükemmel olmasın. Bitmiş olsun. Üç kural cebine. Bir: raporu slayta kopyalama. Dört parçalı iskeleti kur. Başlık, üç madde, görsel, konuşmacı notu. İki: manuel yapıştırma bırak. Makroyu stajyer yazsın. Alt Ef on bir ile iskelet dikilsin. Üç: konuşmacı notunu gizli gücün yap. Ekrana bakıp kekeleme. Gözün dinleyicide kalsın."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 342.64,
+      "end": 382.24,
+      "text": "Şimdi iki dakikalık kanıt. Elindeki herhangi bir raporu ya da notu al. Beş slaytlık akış istemini çalıştır. Çıkan başlık, üç madde ve konuşmacı notunu incele. Vaktin varsa makro kodunu da ürettir. Tek slaytlık deneme yeter. Kendi konunun slayt iskeletini görmeden altıncı bölüme geçme. Sonraki derste gelen kutu var. Yüz kırk yedi okunmamış. Öfkeli müşteri. On sayfalık zincir. Orada triyaj, diplomasi ve aksiyon matrisini kuracağız. Kahveni al. Masada kal. Beyaz slayt bitti. Sahne kaldı. Yarın aynı stajyer yine masanda olacak."
+    }
+  ]
+}

@@ -36,7 +36,7 @@ import { FROZEN_DISK_ROOMS, VERTICAL_ROOMS as VERTICAL_ROOM_RECORDS } from "../l
 const ROOT = process.cwd();
 const FILE_RE = /\.(ts|tsx)$/;
 
-/** Çalışan 4 oda — rooms.ssot.ts SSOT (kopya dizi yok). Donmuş oda canlı lib/ tavanında yoktur. */
+/** Motor 4 oda — rooms.ssot.ts SSOT (kopya dizi yok). Kamu vitrin 3. Donmuş oda canlı lib/ tavanında yoktur. */
 const VERTICAL_ROOMS = VERTICAL_ROOM_RECORDS.map((room) => room.id);
 const LIVE_ROOMS = VERTICAL_ROOMS;
 
