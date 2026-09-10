@@ -5,20 +5,15 @@ import { ACADEMY_COURSE_SEEDS } from "@/lib/academy/seed";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import {
   ACADEMY_MEDIA_PUBLIC_ROOT,
-  ACADEMY_MICRO_VIDEO_DURATION_MAX_SEC,
-  ACADEMY_MICRO_VIDEO_DURATION_MIN_SEC,
   academyDiagramPublicPath,
   academyMicroVideoPublicSources,
   composeAcademyLessonBlocks,
-  isAcademyMicroVideoDurationSec,
 } from "@/lib/academy/lesson-media";
 import {
   ACADEMY_SEALED_DIAGRAM_KEYS,
-  academySealedDiagramByKey,
   renderSealedDiagramSvgByKey,
 } from "@/archived/lib/academy-studio/sealed-diagrams";
 import { ACADEMY_BAKED_MICRO_VIDEO_KEYS } from "@/lib/academy/baked-micro-videos";
-import { ACADEMY_LESSON_LISTEN_MAX_CHARS } from "@/archived/lib/academy-studio/lesson-listen";
 import { academyLessonHasPractice } from "@/lib/academy/lesson-body";
 import { LESSON_PRACTICE } from "@/lib/academy/lesson-practice";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";

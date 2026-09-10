@@ -18,7 +18,6 @@ import {
 } from "@/lib/academy/lesson-body";
 import { normalizeAcronyms } from "@/lib/academy/acronym-normalizer";
 import { LESSON_PRACTICE } from "@/lib/academy/lesson-practice";
-import { ACADEMY_LESSON_LISTEN_MAX_CHARS } from "@/archived/lib/academy-studio/lesson-listen";
 import {
   ACADEMY_LESSON_ACT_SPOKEN_BRIDGES,
   spokenAcademyLessonActBridge,
