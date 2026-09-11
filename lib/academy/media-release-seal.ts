@@ -1,6 +1,7 @@
 /**
  * Zero-Cost Streaming — DialogueTurn[] mühürlü ders sesi.
- * Canlı izlemede TTS yok; WAV `public/media/academy/audio` altına dondurulur.
+ * Canlı izlemede TTS yok; bake WAV `media-bake/academy/audio` altına dondurulur,
+ * yayın MP3 `public/media/academy/audio` altına yazılır.
  */
 
 import { createHash } from "node:crypto";
@@ -59,6 +60,22 @@ export function academyLessonAudioObjectPath(courseSlug: string, lessonKey: stri
 }
 
 export function academyLessonAudioDiskPath(
+  courseSlug: string,
+  lessonKey: string,
+  root = process.cwd(),
+): string {
+  return join(root, "media-bake", "academy", "audio", courseSlug.trim(), `${lessonKey.trim()}.wav`);
+}
+
+export function academyLessonAudioReleaseDiskPath(
+  courseSlug: string,
+  lessonKey: string,
+  root = process.cwd(),
+): string {
+  return join(root, "public", "media", "academy", "audio", courseSlug.trim(), `${lessonKey.trim()}.mp3`);
+}
+
+export function academyLessonAudioLegacyPublicWavPath(
   courseSlug: string,
   lessonKey: string,
   root = process.cwd(),

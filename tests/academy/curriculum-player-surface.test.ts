@@ -95,7 +95,7 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
             "05_prompt_practice-6",
           ]).toContain(lesson.key);
           expect(isAcademyLessonAudioSealed(slug, lesson.key)).toBe(true);
-          expect(layer.audioSrc).toContain(`/media/academy/audio/${slug}/${lesson.key}.wav`);
+          expect(layer.audioSrc).toContain(`/media/academy/audio/${slug}/${lesson.key}.mp3`);
           expect(layer.cues.length).toBeGreaterThan(0);
           expect(layer.cues).toEqual(loadAcademyTeleprompterFlow(lesson.key));
           expect(layer.durationSec).toBeGreaterThan(330);

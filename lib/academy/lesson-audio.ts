@@ -1,6 +1,7 @@
 /**
  * Ders ses medyası — Zero-Cost Streaming bağlayıcısı.
- * İzleme anında canlı TTS tetiklenmez; mühürlü WAV kamu yolundan okunur.
+ * İzleme anında canlı TTS tetiklenmez; mühürlü yayın MP3 kamu yolundan okunur.
+ * Bake WAV `media-bake/` altında kalır; Vercel paketine girmez.
  */
 
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
@@ -52,10 +53,23 @@ type AcademySealedLessonKey = keyof typeof ACADEMY_SEALED_AUDIO_DURATION_SEC;
  */
 export const ACADEMY_SEALED_AUDIO_CACHE_V: Partial<Record<AcademySealedLessonKey, number>> = {};
 
+/** Yayın uzantısı — bake WAV git/Vercel dışıdır. */
+export const ACADEMY_SEALED_AUDIO_EXTENSION = "mp3" as const;
+export const ACADEMY_SEALED_AUDIO_MIME = "audio/mpeg" as const;
+/** Vercel Pro statik yükleme tavanı 1 GB; mühürlü MP3 bu bütçenin altında kalır. */
+export const ACADEMY_SEALED_AUDIO_DEPLOY_MAX_BYTES = 400 * 1024 * 1024;
+
 export function academyLessonAudioPublicPath(courseSlug: string, lessonKey: string): string {
   const slug = courseSlug.trim();
   const key = lessonKey.trim();
-  return `${ACADEMY_MEDIA_PUBLIC_ROOT}/audio/${slug}/${key}.wav`;
+  return `${ACADEMY_MEDIA_PUBLIC_ROOT}/audio/${slug}/${key}.${ACADEMY_SEALED_AUDIO_EXTENSION}`;
+}
+
+export function isAcademyMpegAudioBuffer(bytes: Uint8Array): boolean {
+  if (bytes.length >= 3 && bytes[0] === 0x49 && bytes[1] === 0x44 && bytes[2] === 0x33) {
+    return true;
+  }
+  return bytes.length >= 2 && bytes[0] === 0xff && (bytes[1]! & 0xe0) === 0xe0;
 }
 
 export function academySealedAudioCacheVersion(lessonKey: string): number {

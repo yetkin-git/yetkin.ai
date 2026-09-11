@@ -10,7 +10,7 @@ describe("vatandaş oynatıcı katmanı — tek sözleşme", () => {
     if (layer.kind !== "article+karaoke") {
       return;
     }
-    expect(layer.audioSrc).toContain("02_ecommerce_ai-1.wav");
+    expect(layer.audioSrc).toContain("02_ecommerce_ai-1.mp3");
     expect(layer.cues[0]?.start).toBe(0);
     expect(layer.cues.at(-1)?.end).toBeGreaterThan(500);
     expect(layer.durationSec).toBeGreaterThanOrEqual(540);
@@ -22,7 +22,7 @@ describe("vatandaş oynatıcı katmanı — tek sözleşme", () => {
     if (layer.kind !== "article+karaoke") {
       return;
     }
-    expect(layer.audioSrc).toContain("02_ecommerce_ai-2.wav");
+    expect(layer.audioSrc).toContain("02_ecommerce_ai-2.mp3");
     expect(layer.cues[0]?.start).toBe(0);
     expect(layer.cues.at(-1)?.end).toBeGreaterThan(500);
     expect(layer.durationSec).toBeGreaterThanOrEqual(540);
@@ -34,7 +34,7 @@ describe("vatandaş oynatıcı katmanı — tek sözleşme", () => {
     if (layer.kind !== "article+karaoke") {
       return;
     }
-    expect(layer.audioSrc).toContain("02_ecommerce_ai-3.wav");
+    expect(layer.audioSrc).toContain("02_ecommerce_ai-3.mp3");
     expect(layer.cues[0]?.start).toBe(0);
     expect(layer.cues.at(-1)?.end).toBeGreaterThan(500);
     expect(layer.durationSec).toBeGreaterThanOrEqual(540);
@@ -46,7 +46,7 @@ describe("vatandaş oynatıcı katmanı — tek sözleşme", () => {
     if (layer.kind !== "article+karaoke") {
       return;
     }
-    expect(layer.audioSrc).toContain("02_ecommerce_ai-4.wav");
+    expect(layer.audioSrc).toContain("02_ecommerce_ai-4.mp3");
     expect(layer.cues[0]?.start).toBe(0);
     expect(layer.cues.at(-1)?.end).toBeGreaterThan(500);
     expect(layer.durationSec).toBeGreaterThanOrEqual(540);
@@ -58,7 +58,7 @@ describe("vatandaş oynatıcı katmanı — tek sözleşme", () => {
     if (layer.kind !== "article+karaoke") {
       return;
     }
-    expect(layer.audioSrc).toContain("02_ecommerce_ai-5.wav");
+    expect(layer.audioSrc).toContain("02_ecommerce_ai-5.mp3");
     expect(layer.cues[0]?.start).toBe(0);
     expect(layer.cues.at(-1)?.end).toBeGreaterThan(500);
     expect(layer.durationSec).toBeGreaterThanOrEqual(500);
@@ -70,7 +70,7 @@ describe("vatandaş oynatıcı katmanı — tek sözleşme", () => {
     if (layer.kind !== "article+karaoke") {
       return;
     }
-    expect(layer.audioSrc).toContain("02_ecommerce_ai-6.wav");
+    expect(layer.audioSrc).toContain("02_ecommerce_ai-6.mp3");
     expect(layer.cues[0]?.start).toBe(0);
     expect(layer.cues.at(-1)?.end).toBeGreaterThan(470);
     expect(layer.durationSec).toBeGreaterThanOrEqual(480);
@@ -82,7 +82,7 @@ describe("vatandaş oynatıcı katmanı — tek sözleşme", () => {
     if (layer.kind !== "article+karaoke") {
       return;
     }
-    expect(layer.audioSrc).toContain("03_social_media_ai-1.wav");
+    expect(layer.audioSrc).toContain("03_social_media_ai-1.mp3");
     expect(layer.cues[0]?.start).toBe(0);
     expect(layer.cues.at(-1)?.end).toBeGreaterThan(350);
     expect(layer.durationSec).toBeGreaterThanOrEqual(360);
@@ -94,7 +94,7 @@ describe("vatandaş oynatıcı katmanı — tek sözleşme", () => {
     if (layer.kind !== "article+karaoke") {
       return;
     }
-    expect(layer.audioSrc).toContain("01_office_ai-1.wav");
+    expect(layer.audioSrc).toContain("01_office_ai-1.mp3");
     expect(layer.cues[0]?.start).toBe(0);
     expect(layer.cues.at(-1)?.end).toBeGreaterThan(400);
     expect(layer.durationSec).toBeGreaterThanOrEqual(420);
@@ -106,7 +106,7 @@ describe("vatandaş oynatıcı katmanı — tek sözleşme", () => {
     if (layer.kind !== "article+karaoke") {
       return;
     }
-    expect(layer.audioSrc).toContain("01_office_ai-2.wav");
+    expect(layer.audioSrc).toContain("01_office_ai-2.mp3");
     expect(layer.cues[0]?.start).toBe(0);
     expect(layer.cues.at(-1)?.end).toBeGreaterThan(360);
     expect(layer.durationSec).toBeGreaterThanOrEqual(400);
@@ -118,7 +118,7 @@ describe("vatandaş oynatıcı katmanı — tek sözleşme", () => {
     if (layer.kind !== "article+karaoke") {
       return;
     }
-    expect(layer.audioSrc).toContain("01_office_ai-3.wav");
+    expect(layer.audioSrc).toContain("01_office_ai-3.mp3");
     expect(layer.cues[0]?.start).toBe(0);
     expect(layer.cues.at(-1)?.end).toBeGreaterThan(360);
     expect(layer.durationSec).toBeGreaterThanOrEqual(400);
@@ -130,7 +130,7 @@ describe("vatandaş oynatıcı katmanı — tek sözleşme", () => {
     if (layer.kind !== "article+karaoke") {
       return;
     }
-    expect(layer.audioSrc).toContain("01_office_ai-4.wav");
+    expect(layer.audioSrc).toContain("01_office_ai-4.mp3");
     expect(layer.cues[0]?.start).toBe(0);
     expect(layer.cues.at(-1)?.end).toBeGreaterThan(360);
     expect(layer.durationSec).toBeGreaterThanOrEqual(400);
@@ -142,7 +142,7 @@ describe("vatandaş oynatıcı katmanı — tek sözleşme", () => {
     if (layer.kind !== "article+karaoke") {
       return;
     }
-    expect(layer.audioSrc).toContain("01_office_ai-5.wav");
+    expect(layer.audioSrc).toContain("01_office_ai-5.mp3");
     expect(layer.cues[0]?.start).toBe(0);
     expect(layer.cues.at(-1)?.end).toBeGreaterThan(360);
     expect(layer.durationSec).toBeGreaterThanOrEqual(360);
@@ -154,7 +154,7 @@ describe("vatandaş oynatıcı katmanı — tek sözleşme", () => {
     if (layer.kind !== "article+karaoke") {
       return;
     }
-    expect(layer.audioSrc).toContain("01_office_ai-6.wav");
+    expect(layer.audioSrc).toContain("01_office_ai-6.mp3");
     expect(layer.cues[0]?.start).toBe(0);
     expect(layer.cues.at(-1)?.end).toBeGreaterThan(330);
     expect(layer.durationSec).toBeGreaterThanOrEqual(330);

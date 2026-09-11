@@ -32,7 +32,7 @@ describe("akademi diyalog zaman çizelgesi", () => {
   });
 
   it("ses yolu yardımcısı slug/ders anahtarını basar", () => {
-    const publicPath = `${ACADEMY_MEDIA_PUBLIC_ROOT}/audio/sample-course/sample-course-1.wav`;
+    const publicPath = `${ACADEMY_MEDIA_PUBLIC_ROOT}/audio/sample-course/sample-course-1.mp3`;
     expect(academyLessonAudioPublicPath("sample-course", "sample-course-1")).toBe(publicPath);
     // Mühürsüz sentetik anahtar → ?v= yok
     expect(academyLessonAudioPlaybackSrc("sample-course", "sample-course-1")).toBe(publicPath);

@@ -22,7 +22,7 @@ import {
   isAcademyLessonAudioInProduction,
   isAcademyLessonAudioSealed,
 } from "@/lib/academy/pilot-sku";
-import { academyLessonAudioDiskPath } from "@/lib/academy/media-release-seal";
+import { academyLessonAudioReleaseDiskPath } from "@/lib/academy/media-release-seal";
 import { collapseAcademyLessonProse } from "@/lib/academy/lesson-body";
 import {
   academySpokenScriptWordCount,
@@ -55,7 +55,7 @@ describe("02_ecommerce_ai-1 mühürlü ses", () => {
     const layer = academyCitizenPlayerLayer("02_ecommerce_ai", LESSON_KEY);
     expect(layer.kind).toBe("article+karaoke");
     if (layer.kind === "article+karaoke") {
-      expect(layer.audioSrc).toContain("/media/academy/audio/02_ecommerce_ai/02_ecommerce_ai-1.wav");
+      expect(layer.audioSrc).toContain("/media/academy/audio/02_ecommerce_ai/02_ecommerce_ai-1.mp3");
       expect(layer.durationSec).toBeGreaterThanOrEqual(540);
       expect(layer.cues).toEqual(loadAcademyTeleprompterFlow(LESSON_KEY));
     }
@@ -158,9 +158,9 @@ describe("02_ecommerce_ai-1 mühürlü ses", () => {
     expect(timings).not.toBeNull();
     expect(timings!.durationSec).toBeGreaterThan(540);
     expect(timings!.pieces.length).toBe(12);
-    const diskPath = academyLessonAudioDiskPath("02_ecommerce_ai", LESSON_KEY, ROOT);
+    const diskPath = academyLessonAudioReleaseDiskPath("02_ecommerce_ai", LESSON_KEY, ROOT);
     expect(existsSync(diskPath)).toBe(true);
-    expect(readFileSync(diskPath).subarray(0, 4).toString()).toBe("RIFF");
+    expect(readFileSync(diskPath).subarray(0, 3).toString()).toBe("ID3");
     const layer = academyCitizenPlayerLayer("02_ecommerce_ai", LESSON_KEY);
     expect(layer.kind).toBe("article+karaoke");
     if (layer.kind !== "article+karaoke") {

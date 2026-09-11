@@ -62,6 +62,10 @@ gitstatus.txt
 # Nested repo; `git add` ve ajan taraması dışındadır. Kod silinmez.
 yetkin_muze/
 
+# Akademi bake WAV — ~1.5 GB; Vercel Pro statik tavanı 1 GB. Yayın: public .../*.mp3
+/media-bake/
+public/media/academy/audio/**/*.wav
+
 # Native / Expo
 apps/*/.expo/
 apps/*/dist/

@@ -227,6 +227,6 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // /media/academy/audio WAV — kenar JWT/getUser Range isteğini kesmesin.
+  // /media/academy/audio yayın MP3 — kenar JWT/getUser Range isteğini kesmesin.
   matcher: ["/", "/((?!_next/static|_next/image|favicon.ico|media/).*)"],
 };

@@ -89,11 +89,13 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain(
       "Math.abs(audio.currentTime - clockRef.current.lastAudioTime) < 0.04",
     );
-    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain('type="audio/wav"');
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain('type="audio/mpeg"');
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("academyLessonAudioPlaybackSrc");
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("key={audioSrc}");
-    expect(readSrc("next.config.ts")).toContain("audio/wav");
+    expect(readSrc("next.config.ts")).toContain("audio/mpeg");
     expect(readSrc("next.config.ts")).toContain("/media/academy/audio/:path*");
+    expect(readSrc(".gitignore")).toContain("public/media/academy/audio/**/*.wav");
+    expect(readSrc(".vercelignore")).toContain("public/media/academy/audio/**/*.wav");
     expect(readSrc("proxy.ts")).toContain("favicon.ico|media/");
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("academyPlayerClockDurationSec");
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("data-academy-audio-preparing");

@@ -422,7 +422,7 @@ export function LessonMediaPlayer({
           sealIfEnded(cap, cap);
         }}
       >
-        <source src={audioSrc} type="audio/wav" />
+        <source src={audioSrc} type="audio/mpeg" />
       </audio>
       ) : null}
       <div className="academy-dialogue-controls academy-player-audio-controls" data-academy-dialogue-controls="">

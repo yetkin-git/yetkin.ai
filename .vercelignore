@@ -3,6 +3,8 @@
 .next
 node_modules
 yetkin_muze
+media-bake
+public/media/academy/audio/**/*.wav
 .tmp
 .cursor
 coverage

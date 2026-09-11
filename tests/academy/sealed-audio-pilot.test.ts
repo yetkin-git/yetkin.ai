@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { academyCinemaActiveCue } from "@/lib/academy/lesson-cinema";
 import {
@@ -8,9 +8,11 @@ import {
   loadAcademyLessonPlaybackCues,
 } from "@/lib/academy/lesson-cues";
 import {
+  ACADEMY_SEALED_AUDIO_DEPLOY_MAX_BYTES,
   ACADEMY_SEALED_AUDIO_DURATION_SEC,
   academyLessonAudioPublicPath,
   academySealedAudioDurationSec,
+  isAcademyMpegAudioBuffer,
 } from "@/lib/academy/lesson-audio";
 import {
   ACADEMY_DEMO_AUDIO_PUBLIC_PATH,
@@ -22,7 +24,7 @@ import {
   isAcademyCompactLessonKey,
   isAcademyLessonAudioSealed,
 } from "@/lib/academy/pilot-sku";
-import { academyLessonAudioDiskPath, academyMediaReleaseJobForLesson } from "@/lib/academy/media-release-seal";
+import { academyLessonAudioDiskPath, academyLessonAudioReleaseDiskPath, academyMediaReleaseJobForLesson } from "@/lib/academy/media-release-seal";
 import { CURRICULUM_DRAFTS_BY_SLUG } from "@/lib/academy/curricula";
 import {
   academySpokenScriptWordCount,
@@ -35,6 +37,23 @@ import { pcmWavDurationSec } from "@/lib/kernel/ai/pcm-wav";
 const ROOT = process.cwd();
 const LESSON_KEY = "01_office_ai-1";
 const COURSE_SLUG = "01_office_ai";
+
+function expectSealedReleaseMpeg(lessonKey: string, minSec: number, maxSec: number) {
+  const releasePath = academyLessonAudioReleaseDiskPath(COURSE_SLUG, lessonKey, ROOT);
+  expect(existsSync(releasePath)).toBe(true);
+  expect(isAcademyMpegAudioBuffer(readFileSync(releasePath))).toBe(true);
+  const timings = loadAcademySealedAudioTimings(lessonKey);
+  expect(timings).not.toBeNull();
+  expect(timings!.durationSec).toBeGreaterThan(minSec);
+  expect(timings!.durationSec).toBeLessThan(maxSec);
+  const bakeWav = academyLessonAudioDiskPath(COURSE_SLUG, lessonKey, ROOT);
+  const legacyWav = join(ROOT, "public", "media", "academy", "audio", COURSE_SLUG, `${lessonKey}.wav`);
+  const wavPath = existsSync(bakeWav) ? bakeWav : existsSync(legacyWav) ? legacyWav : null;
+  if (wavPath) {
+    expect(Math.abs(pcmWavDurationSec(readFileSync(wavPath)) - timings!.durationSec)).toBeLessThan(0.75);
+  }
+  return timings!;
+}
 
 describe("01_office_ai-1 mühürlü ses pilotu", () => {
   it("yalnız 1–6. bölüm Callirrhoe yuvasına mühürlenir; compact okuma durur", () => {
@@ -135,6 +154,20 @@ describe("01_office_ai-1 mühürlü ses pilotu", () => {
     expect(ACADEMY_SEALED_AUDIO_DURATION_SEC["05_prompt_practice-6"]).toBeGreaterThanOrEqual(360);
   });
 
+  it("yayın MP3 bütçesi Vercel 1 GB statik tavanının altındadır", () => {
+    let total = 0;
+    for (const [slug, keys] of Object.entries(ACADEMY_MEDIA_SEALED_AUDIO)) {
+      for (const key of keys) {
+        const path = academyLessonAudioReleaseDiskPath(slug, key, ROOT);
+        expect(existsSync(path), path).toBe(true);
+        expect(isAcademyMpegAudioBuffer(readFileSync(path))).toBe(true);
+        total += statSync(path).size;
+      }
+    }
+    expect(total).toBeGreaterThan(50 * 1024 * 1024);
+    expect(total).toBeLessThan(ACADEMY_SEALED_AUDIO_DEPLOY_MAX_BYTES);
+  });
+
   it("stüdyo konuşma metni 7–9 dk bandındadır ve bake turu Callirrhoe basar", () => {
     const prose = loadAcademySpokenScriptProse(LESSON_KEY);
     const words = academySpokenScriptWordCount(prose);
@@ -162,73 +195,73 @@ describe("01_office_ai-1 mühürlü ses pilotu", () => {
     );
     const timings = loadAcademySealedAudioTimings(LESSON_KEY);
     expect(timings).not.toBeNull();
-    expect(sealed).toBe(`/media/academy/audio/01_office_ai/01_office_ai-1.wav?v=${timings!.cacheV}`);
+    expect(sealed).toBe(`/media/academy/audio/01_office_ai/01_office_ai-1.mp3?v=${timings!.cacheV}`);
     expect(sealed).not.toContain("office-ai-podcast");
     const lesson2 = loadAcademySealedAudioTimings("01_office_ai-2");
     expect(lesson2).not.toBeNull();
     expect(
       resolveAcademyLessonPlayerAudioSrc(COURSE_SLUG, "01_office_ai-2", ACADEMY_DEMO_AUDIO_PUBLIC_PATH),
-    ).toBe(`/media/academy/audio/01_office_ai/01_office_ai-2.wav?v=${lesson2!.cacheV}`);
+    ).toBe(`/media/academy/audio/01_office_ai/01_office_ai-2.mp3?v=${lesson2!.cacheV}`);
     const lesson3 = loadAcademySealedAudioTimings("01_office_ai-3");
     expect(lesson3).not.toBeNull();
     expect(
       resolveAcademyLessonPlayerAudioSrc(COURSE_SLUG, "01_office_ai-3", ACADEMY_DEMO_AUDIO_PUBLIC_PATH),
-    ).toBe(`/media/academy/audio/01_office_ai/01_office_ai-3.wav?v=${lesson3!.cacheV}`);
+    ).toBe(`/media/academy/audio/01_office_ai/01_office_ai-3.mp3?v=${lesson3!.cacheV}`);
     const lesson4 = loadAcademySealedAudioTimings("01_office_ai-4");
     expect(lesson4).not.toBeNull();
     expect(
       resolveAcademyLessonPlayerAudioSrc(COURSE_SLUG, "01_office_ai-4", ACADEMY_DEMO_AUDIO_PUBLIC_PATH),
-    ).toBe(`/media/academy/audio/01_office_ai/01_office_ai-4.wav?v=${lesson4!.cacheV}`);
+    ).toBe(`/media/academy/audio/01_office_ai/01_office_ai-4.mp3?v=${lesson4!.cacheV}`);
     const lesson5 = loadAcademySealedAudioTimings("01_office_ai-5");
     expect(lesson5).not.toBeNull();
     expect(
       resolveAcademyLessonPlayerAudioSrc(COURSE_SLUG, "01_office_ai-5", ACADEMY_DEMO_AUDIO_PUBLIC_PATH),
-    ).toBe(`/media/academy/audio/01_office_ai/01_office_ai-5.wav?v=${lesson5!.cacheV}`);
+    ).toBe(`/media/academy/audio/01_office_ai/01_office_ai-5.mp3?v=${lesson5!.cacheV}`);
     const lesson6 = loadAcademySealedAudioTimings("01_office_ai-6");
     expect(lesson6).not.toBeNull();
     expect(
       resolveAcademyLessonPlayerAudioSrc(COURSE_SLUG, "01_office_ai-6", ACADEMY_DEMO_AUDIO_PUBLIC_PATH),
-    ).toBe(`/media/academy/audio/01_office_ai/01_office_ai-6.wav?v=${lesson6!.cacheV}`);
+    ).toBe(`/media/academy/audio/01_office_ai/01_office_ai-6.mp3?v=${lesson6!.cacheV}`);
     const ecommerce = loadAcademySealedAudioTimings("02_ecommerce_ai-1");
     expect(ecommerce).not.toBeNull();
     expect(
       resolveAcademyLessonPlayerAudioSrc("02_ecommerce_ai", "02_ecommerce_ai-1", undefined),
-    ).toBe(`/media/academy/audio/02_ecommerce_ai/02_ecommerce_ai-1.wav?v=${ecommerce!.cacheV}`);
+    ).toBe(`/media/academy/audio/02_ecommerce_ai/02_ecommerce_ai-1.mp3?v=${ecommerce!.cacheV}`);
     const ecommerceTwo = loadAcademySealedAudioTimings("02_ecommerce_ai-2");
     expect(ecommerceTwo).not.toBeNull();
     expect(
       resolveAcademyLessonPlayerAudioSrc("02_ecommerce_ai", "02_ecommerce_ai-2", undefined),
-    ).toBe(`/media/academy/audio/02_ecommerce_ai/02_ecommerce_ai-2.wav?v=${ecommerceTwo!.cacheV}`);
+    ).toBe(`/media/academy/audio/02_ecommerce_ai/02_ecommerce_ai-2.mp3?v=${ecommerceTwo!.cacheV}`);
     const ecommerceThree = loadAcademySealedAudioTimings("02_ecommerce_ai-3");
     expect(ecommerceThree).not.toBeNull();
     expect(
       resolveAcademyLessonPlayerAudioSrc("02_ecommerce_ai", "02_ecommerce_ai-3", undefined),
-    ).toBe(`/media/academy/audio/02_ecommerce_ai/02_ecommerce_ai-3.wav?v=${ecommerceThree!.cacheV}`);
+    ).toBe(`/media/academy/audio/02_ecommerce_ai/02_ecommerce_ai-3.mp3?v=${ecommerceThree!.cacheV}`);
     const ecommerceFour = loadAcademySealedAudioTimings("02_ecommerce_ai-4");
     expect(ecommerceFour).not.toBeNull();
     expect(
       resolveAcademyLessonPlayerAudioSrc("02_ecommerce_ai", "02_ecommerce_ai-4", undefined),
-    ).toBe(`/media/academy/audio/02_ecommerce_ai/02_ecommerce_ai-4.wav?v=${ecommerceFour!.cacheV}`);
+    ).toBe(`/media/academy/audio/02_ecommerce_ai/02_ecommerce_ai-4.mp3?v=${ecommerceFour!.cacheV}`);
     const ecommerceFive = loadAcademySealedAudioTimings("02_ecommerce_ai-5");
     expect(ecommerceFive).not.toBeNull();
     expect(
       resolveAcademyLessonPlayerAudioSrc("02_ecommerce_ai", "02_ecommerce_ai-5", undefined),
-    ).toBe(`/media/academy/audio/02_ecommerce_ai/02_ecommerce_ai-5.wav?v=${ecommerceFive!.cacheV}`);
+    ).toBe(`/media/academy/audio/02_ecommerce_ai/02_ecommerce_ai-5.mp3?v=${ecommerceFive!.cacheV}`);
     const ecommerceSix = loadAcademySealedAudioTimings("02_ecommerce_ai-6");
     expect(ecommerceSix).not.toBeNull();
     expect(
       resolveAcademyLessonPlayerAudioSrc("02_ecommerce_ai", "02_ecommerce_ai-6", undefined),
-    ).toBe(`/media/academy/audio/02_ecommerce_ai/02_ecommerce_ai-6.wav?v=${ecommerceSix!.cacheV}`);
+    ).toBe(`/media/academy/audio/02_ecommerce_ai/02_ecommerce_ai-6.mp3?v=${ecommerceSix!.cacheV}`);
     const social = loadAcademySealedAudioTimings("03_social_media_ai-1");
     expect(social).not.toBeNull();
     expect(
       resolveAcademyLessonPlayerAudioSrc("03_social_media_ai", "03_social_media_ai-1", undefined),
-    ).toBe(`/media/academy/audio/03_social_media_ai/03_social_media_ai-1.wav?v=${social!.cacheV}`);
+    ).toBe(`/media/academy/audio/03_social_media_ai/03_social_media_ai-1.mp3?v=${social!.cacheV}`);
     const chatbot = loadAcademySealedAudioTimings("04_chatbot_nocode-1");
     expect(chatbot).not.toBeNull();
     expect(
       resolveAcademyLessonPlayerAudioSrc("04_chatbot_nocode", "04_chatbot_nocode-1", undefined),
-    ).toBe(`/media/academy/audio/04_chatbot_nocode/04_chatbot_nocode-1.wav?v=${chatbot!.cacheV}`);
+    ).toBe(`/media/academy/audio/04_chatbot_nocode/04_chatbot_nocode-1.mp3?v=${chatbot!.cacheV}`);
 
     const player = readFileSync(join(ROOT, "components/academy/lesson-media-player.tsx"), "utf8");
     expect(player).toContain("academyLessonAudioPlaybackSrc");
@@ -288,19 +321,10 @@ describe("01_office_ai-1 mühürlü ses pilotu", () => {
     expect(listen).toContain("410");
   });
 
-  it("diskteki mühürlü WAV Callirrhoe kasetidir ve cue duvar saatine oturur", () => {
-    const diskPath = academyLessonAudioDiskPath(COURSE_SLUG, LESSON_KEY, ROOT);
-    expect(existsSync(diskPath)).toBe(true);
-    const wav = readFileSync(diskPath);
-    expect(wav.subarray(0, 4).toString()).toBe("RIFF");
-    const duration = pcmWavDurationSec(wav);
-    const timings = loadAcademySealedAudioTimings(LESSON_KEY);
-    expect(timings).not.toBeNull();
-    expect(duration).toBeGreaterThan(420);
-    expect(duration).toBeLessThan(900);
-    expect(Math.abs(duration - timings!.durationSec)).toBeLessThan(0.75);
-    expect(timings!.pieces.length).toBeGreaterThan(50);
-    expect(timings!.pauseSec).toBe(0.4);
+  it("diskteki mühürlü yayın MP3 Callirrhoe kasetidir ve cue duvar saatine oturur", () => {
+    const timings = expectSealedReleaseMpeg(LESSON_KEY, 420, 900);
+    expect(timings.pieces.length).toBeGreaterThan(50);
+    expect(timings.pauseSec).toBe(0.4);
     expect(timings!.pieces.every((piece) => piece.text.trim().length > 0)).toBe(true);
     for (let index = 1; index < timings!.pieces.length; index += 1) {
       const gap = timings!.pieces[index]!.start - timings!.pieces[index - 1]!.end;
@@ -369,19 +393,10 @@ describe("01_office_ai-2 mühürlü ses", () => {
     expect(at(spokenDuration)).toBe("cue-05");
   });
 
-  it("diskteki mühürlü WAV Callirrhoe kasetidir ve cue duvar saatine oturur", () => {
-    const diskPath = academyLessonAudioDiskPath(COURSE_SLUG, LESSON_TWO, ROOT);
-    expect(existsSync(diskPath)).toBe(true);
-    const wav = readFileSync(diskPath);
-    expect(wav.subarray(0, 4).toString()).toBe("RIFF");
-    const duration = pcmWavDurationSec(wav);
-    const timings = loadAcademySealedAudioTimings(LESSON_TWO);
-    expect(timings).not.toBeNull();
-    expect(duration).toBeGreaterThan(360);
-    expect(duration).toBeLessThan(900);
-    expect(Math.abs(duration - timings!.durationSec)).toBeLessThan(0.75);
-    expect(timings!.pieces.length).toBe(80);
-    expect(timings!.pauseSec).toBe(0.4);
+  it("diskteki mühürlü yayın MP3 Callirrhoe kasetidir ve cue duvar saatine oturur", () => {
+    const timings = expectSealedReleaseMpeg(LESSON_TWO, 360, 900);
+    expect(timings.pieces.length).toBe(80);
+    expect(timings.pauseSec).toBe(0.4);
     expect(timings!.pieces.every((piece) => piece.text.trim().length > 0)).toBe(true);
     for (let index = 1; index < timings!.pieces.length; index += 1) {
       const gap = timings!.pieces[index]!.start - timings!.pieces[index - 1]!.end;
@@ -450,19 +465,10 @@ describe("01_office_ai-3 mühürlü ses", () => {
     expect(at(spokenDuration)).toBe("cue-05");
   });
 
-  it("diskteki mühürlü WAV Callirrhoe kasetidir ve cue duvar saatine oturur", () => {
-    const diskPath = academyLessonAudioDiskPath(COURSE_SLUG, LESSON_THREE, ROOT);
-    expect(existsSync(diskPath)).toBe(true);
-    const wav = readFileSync(diskPath);
-    expect(wav.subarray(0, 4).toString()).toBe("RIFF");
-    const duration = pcmWavDurationSec(wav);
-    const timings = loadAcademySealedAudioTimings(LESSON_THREE);
-    expect(timings).not.toBeNull();
-    expect(duration).toBeGreaterThan(360);
-    expect(duration).toBeLessThan(900);
-    expect(Math.abs(duration - timings!.durationSec)).toBeLessThan(0.75);
-    expect(timings!.pieces.length).toBe(12);
-    expect(timings!.pauseSec).toBe(0.4);
+  it("diskteki mühürlü yayın MP3 Callirrhoe kasetidir ve cue duvar saatine oturur", () => {
+    const timings = expectSealedReleaseMpeg(LESSON_THREE, 360, 900);
+    expect(timings.pieces.length).toBe(12);
+    expect(timings.pauseSec).toBe(0.4);
     expect(timings!.pieces.every((piece) => piece.text.trim().length > 0)).toBe(true);
     for (let index = 1; index < timings!.pieces.length; index += 1) {
       const gap = timings!.pieces[index]!.start - timings!.pieces[index - 1]!.end;
@@ -536,19 +542,10 @@ describe("01_office_ai-4 mühürlü ses", () => {
     expect(at(spokenDuration)).toBe("cue-05");
   });
 
-  it("diskteki mühürlü WAV Callirrhoe kasetidir ve cue duvar saatine oturur", () => {
-    const diskPath = academyLessonAudioDiskPath(COURSE_SLUG, LESSON_FOUR, ROOT);
-    expect(existsSync(diskPath)).toBe(true);
-    const wav = readFileSync(diskPath);
-    expect(wav.subarray(0, 4).toString()).toBe("RIFF");
-    const duration = pcmWavDurationSec(wav);
-    const timings = loadAcademySealedAudioTimings(LESSON_FOUR);
-    expect(timings).not.toBeNull();
-    expect(duration).toBeGreaterThan(360);
-    expect(duration).toBeLessThan(900);
-    expect(Math.abs(duration - timings!.durationSec)).toBeLessThan(0.75);
-    expect(timings!.pieces.length).toBe(12);
-    expect(timings!.pauseSec).toBe(0.4);
+  it("diskteki mühürlü yayın MP3 Callirrhoe kasetidir ve cue duvar saatine oturur", () => {
+    const timings = expectSealedReleaseMpeg(LESSON_FOUR, 360, 900);
+    expect(timings.pieces.length).toBe(12);
+    expect(timings.pauseSec).toBe(0.4);
     expect(timings!.pieces.every((piece) => piece.text.trim().length > 0)).toBe(true);
     for (let index = 1; index < timings!.pieces.length; index += 1) {
       const gap = timings!.pieces[index]!.start - timings!.pieces[index - 1]!.end;
@@ -620,19 +617,10 @@ describe("01_office_ai-5 mühürlü ses", () => {
     expect(at(spokenDuration)).toBe("cue-05");
   });
 
-  it("diskteki mühürlü WAV Callirrhoe kasetidir ve cue duvar saatine oturur", () => {
-    const diskPath = academyLessonAudioDiskPath(COURSE_SLUG, LESSON_FIVE, ROOT);
-    expect(existsSync(diskPath)).toBe(true);
-    const wav = readFileSync(diskPath);
-    expect(wav.subarray(0, 4).toString()).toBe("RIFF");
-    const duration = pcmWavDurationSec(wav);
-    const timings = loadAcademySealedAudioTimings(LESSON_FIVE);
-    expect(timings).not.toBeNull();
-    expect(duration).toBeGreaterThan(360);
-    expect(duration).toBeLessThan(900);
-    expect(Math.abs(duration - timings!.durationSec)).toBeLessThan(0.75);
-    expect(timings!.pieces.length).toBe(12);
-    expect(timings!.pauseSec).toBe(0.4);
+  it("diskteki mühürlü yayın MP3 Callirrhoe kasetidir ve cue duvar saatine oturur", () => {
+    const timings = expectSealedReleaseMpeg(LESSON_FIVE, 360, 900);
+    expect(timings.pieces.length).toBe(12);
+    expect(timings.pauseSec).toBe(0.4);
     expect(timings!.pieces.every((piece) => piece.text.trim().length > 0)).toBe(true);
     for (let index = 1; index < timings!.pieces.length; index += 1) {
       const gap = timings!.pieces[index]!.start - timings!.pieces[index - 1]!.end;
@@ -710,20 +698,11 @@ describe("01_office_ai-6 mühürlü ses", () => {
     expect(at(spokenDuration)).toBe("cue-05");
   });
 
-  it("diskteki mühürlü WAV Callirrhoe kasetidir ve cue duvar saatine oturur", () => {
-    const diskPath = academyLessonAudioDiskPath(COURSE_SLUG, LESSON_SIX, ROOT);
-    expect(existsSync(diskPath)).toBe(true);
-    const wav = readFileSync(diskPath);
-    expect(wav.subarray(0, 4).toString()).toBe("RIFF");
-    const duration = pcmWavDurationSec(wav);
-    const timings = loadAcademySealedAudioTimings(LESSON_SIX);
-    expect(timings).not.toBeNull();
-    expect(duration).toBeGreaterThan(330);
-    expect(duration).toBeLessThan(900);
-    expect(Math.abs(duration - timings!.durationSec)).toBeLessThan(0.75);
-    expect(timings!.pieces.length).toBe(12);
-    expect(timings!.pauseSec).toBe(0.4);
-    expect(timings!.pieces.every((piece) => piece.text.trim().length > 0)).toBe(true);
+  it("diskteki mühürlü yayın MP3 Callirrhoe kasetidir ve cue duvar saatine oturur", () => {
+    const timings = expectSealedReleaseMpeg(LESSON_SIX, 330, 900);
+    expect(timings.pieces.length).toBe(12);
+    expect(timings.pauseSec).toBe(0.4);
+    expect(timings.pieces.every((piece) => piece.text.trim().length > 0)).toBe(true);
     for (let index = 1; index < timings!.pieces.length; index += 1) {
       const gap = timings!.pieces[index]!.start - timings!.pieces[index - 1]!.end;
       expect(gap).toBeCloseTo(timings!.pauseSec, 2);

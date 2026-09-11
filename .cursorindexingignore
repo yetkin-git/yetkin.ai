@@ -4,3 +4,4 @@ yetkin_muze/
 
 # Operatör scratch / probe kalıntısı indekslenmez.
 .tmp/
+media-bake/

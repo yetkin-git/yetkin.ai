@@ -53,6 +53,7 @@ import {
   ACADEMY_MEDIA_RELEASE_MAX_BYTES,
   ACADEMY_TTS_PARAGRAPH_PAUSE_SEC,
   academyLessonAudioDiskPath,
+  academyLessonAudioReleaseDiskPath,
   academyMediaReleaseJobForLesson,
   type AcademyMediaReleaseJob,
   type AcademySealedSkuSlug,
@@ -84,6 +85,7 @@ import {
   injectAcademyTtsBreathPauses,
   splitAcademyTtsBreathChunks,
 } from "@/lib/academy/tts-breath-chunks";
+import { transcodeAcademyWavToMp3 } from "./transcode-academy-lesson-audio";
 import {
   expandAcademyTtsSkipPreventer,
   loadAcademyCueParagraphsAsSpoken,
@@ -706,9 +708,14 @@ async function main(): Promise<void> {
   const client = createBakeClient(apiKey);
   for (const job of jobs) {
     const diskPath = academyLessonAudioDiskPath(job.courseSlug, job.lessonKey);
+    const mp3Path = academyLessonAudioReleaseDiskPath(job.courseSlug, job.lessonKey);
     if (existsSync(diskPath) && !forceBake) {
       const bytes = statSync(diskPath).size;
       process.stdout.write(`  atlandı (WAV var, ${bytes} bayt): ${diskPath}\n`);
+      if (!existsSync(mp3Path) || statSync(mp3Path).mtimeMs < statSync(diskPath).mtimeMs) {
+        transcodeAcademyWavToMp3(diskPath, mp3Path);
+        process.stdout.write(`  yayın MP3 yazıldı → ${mp3Path}\n`);
+      }
       continue;
     }
     let activeModel = model;
@@ -743,6 +750,8 @@ async function main(): Promise<void> {
     process.stdout.write(
       `  yazıldı ${pcmWavDurationSec(wav).toFixed(1)}s ${wav.byteLength} bayt → ${diskPath}\n`,
     );
+    transcodeAcademyWavToMp3(diskPath, mp3Path);
+    process.stdout.write(`  yayın MP3 yazıldı → ${mp3Path}\n`);
     const timingsPath = writeSealedAudioTimings({
       job: activeJob,
       wav,

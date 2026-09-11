@@ -86,6 +86,12 @@ const nextConfig: NextConfig = {
       // SUPER ADMIN: gerçekleşmiş satın alma yok; lisans bekletmesi yok. API 410.
       // Bu blok, genel `/academy/courses/:slug` alias'ından önce durur (tek hop).
       ...academyRetiredStorefrontRedirects(),
+      // Bake WAV kamu yolundan düştü; eski oynatıcı adresini yayın MP3'üne bağla.
+      {
+        source: "/media/academy/audio/:course/:file.wav",
+        destination: "/media/academy/audio/:course/:file.mp3",
+        statusCode: 301,
+      },
       // Akademi antre kanonik yolu `/academy/[slug]`. Compact SKU alias duplicate içerik üretir.
       {
         source: "/academy/courses/:slug",
@@ -122,7 +128,7 @@ const nextConfig: NextConfig = {
       {
         source: "/media/academy/audio/:path*",
         headers: [
-          { key: "Content-Type", value: "audio/wav" },
+          { key: "Content-Type", value: "audio/mpeg" },
           { key: "Accept-Ranges", value: "bytes" },
           { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
         ],

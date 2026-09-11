@@ -28,7 +28,7 @@ import {
 } from "@/lib/academy/tts-breath-chunks";
 import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
-import { academyLessonAudioDiskPath } from "@/lib/academy/media-release-seal";
+import { academyLessonAudioReleaseDiskPath } from "@/lib/academy/media-release-seal";
 import { isAcademyLessonAudioSealed } from "@/lib/academy/pilot-sku";
 
 const ROOT = process.cwd();
@@ -146,7 +146,7 @@ describe("04_chatbot_nocode spoken script ve cue", () => {
     if (layer.kind !== "article+karaoke") {
       return;
     }
-    expect(layer.audioSrc).toContain("/media/academy/audio/04_chatbot_nocode/04_chatbot_nocode-1.wav");
+    expect(layer.audioSrc).toContain("/media/academy/audio/04_chatbot_nocode/04_chatbot_nocode-1.mp3");
     expect(layer.durationSec).toBeGreaterThanOrEqual(360);
   });
 
@@ -156,15 +156,15 @@ describe("04_chatbot_nocode spoken script ve cue", () => {
     expect(timings).not.toBeNull();
     expect(timings!.pieces.length).toBe(12);
     expect(timings!.durationSec).toBeGreaterThanOrEqual(360);
-    const diskPath = academyLessonAudioDiskPath("04_chatbot_nocode", lessonKey, ROOT);
+    const diskPath = academyLessonAudioReleaseDiskPath("04_chatbot_nocode", lessonKey, ROOT);
     expect(existsSync(diskPath)).toBe(true);
-    expect(readFileSync(diskPath).subarray(0, 4).toString()).toBe("RIFF");
+    expect(readFileSync(diskPath).subarray(0, 3).toString()).toBe("ID3");
     const layer = academyCitizenPlayerLayer("04_chatbot_nocode", lessonKey);
     expect(layer.kind).toBe("article+karaoke");
     if (layer.kind !== "article+karaoke") {
       return;
     }
-    expect(layer.audioSrc).toContain(`/media/academy/audio/04_chatbot_nocode/${lessonKey}.wav`);
+    expect(layer.audioSrc).toContain(`/media/academy/audio/04_chatbot_nocode/${lessonKey}.mp3`);
     expect(layer.durationSec).toBe(Math.round(timings!.durationSec));
     expect(layer.cues.length).toBeGreaterThanOrEqual(timings!.pieces.length);
   });
