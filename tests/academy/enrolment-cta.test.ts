@@ -157,7 +157,7 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
     const loginHref = "/login?next=%2Facademy%2F05_prompt_practice%23satin-al";
     const hero = resolveAcademyAntreHeroCta({
       access: "unenrolled",
-      priceLabel: "₺490,00",
+      priceLabel: "₺1.290,00",
       purchasable: true,
       session: false,
       courseSlug: "05_prompt_practice",
@@ -165,8 +165,8 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
     });
     expect(hero.action).toBe("buy");
     expect(hero.primaryHref).toBe(loginHref);
-    expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺490"));
-    expect(hero.primaryLabel).toBe("Eğitimi Satın Al — ₺490");
+    expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺1.290"));
+    expect(hero.primaryLabel).toBe("Eğitimi Satın Al — ₺1.290");
     expect(academyCheckoutHref("05_prompt_practice")).toBe("/academy/05_prompt_practice#satin-al");
   });
 

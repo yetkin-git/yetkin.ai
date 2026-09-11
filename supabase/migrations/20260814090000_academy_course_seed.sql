@@ -85,7 +85,7 @@ VALUES
     'academy',
     'course:05_prompt_practice',
     'MINOR',
-    49000,
+    129000,
     'TRY',
     true,
     1,

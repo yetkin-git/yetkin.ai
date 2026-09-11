@@ -3,7 +3,7 @@
  * Seviye bandı uygulanmaz; SKU başına serbest analiz tutarıdır.
  * Canlı kilit ve vitrin `PriceCatalogEntry.amountMinor`. Bu harita tohum SQL / DB yokken soğuk vitrin.
  *
- * 13 kanon SKU fiyatı dondurulmuştur. Katman 1 ₺490–1.490, Katman 2 ₺2.900–7.500,
+ * 13 kanon SKU fiyatı dondurulmuştur. Katman 1 ₺890–1.290, Katman 2 ₺2.900–7.500,
  * Katman 3 PayTR cüzdan tavanına (₺20.000) sığan kurumsal bant.
  */
 
@@ -22,14 +22,14 @@ export const ACADEMY_CATALOG_PRICE_WINDOW = {
 
 /**
  * KDV dahil liste (kuruş). 13 kanon SKU.
- * Amiral: ₺890. E-ticaret: ₺990.
+ * Amiral: ₺890. E-ticaret: ₺990. Masterclass (04/05): ₺1.290.
  */
 export const ACADEMY_CATALOG_PRICE_MINOR = {
   "01_office_ai": 89_000,
   "02_ecommerce_ai": 99_000,
   "03_social_media_ai": 89_000,
   "04_chatbot_nocode": 129_000,
-  "05_prompt_practice": 49_000,
+  "05_prompt_practice": 129_000,
   "06_n8n_automation": 390_000,
   "07_langgraph_agents": 590_000,
   "08_production_rag": 690_000,
