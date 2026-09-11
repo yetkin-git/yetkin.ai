@@ -76,14 +76,29 @@ Mobil LCP adayı (`01_office_ai` 640w AVIF) 16,5 KB; 1280 AVIF 42,2 KB. Cloudfla
 
 ## Adım 2 — Production
 
-Kod kümesi `main`’e alındı. Canlı doğrulama bu tablodadır.
+Push `origin/main` `f96ca02..dc42e10`. Vercel Production `yetkin.ai` yeni `Link` başlığını basıyor.
 
 | Alan | Değer |
 |------|--------|
-| SHA | *(push sonrası doldurulur)* |
-| Vercel | *(GitHub `vercel[bot]` status)* |
-| `GET https://yetkin.ai/` `Link` | *(ölçülür)* |
-| `GET …/01_office_ai-1-eye-640w.avif` | *(CF-Cache-Status / Cache-Control / Content-Type)* |
+| SHA | `dc42e10` (`dc42e1062b83233e453e13a333b8918a96df7464`) |
+| Mesaj | `feat(perf): serve mobile AVIF srcset and stream home session off LCP` |
+| Push | `origin/main` `f96ca02..dc42e10` |
+| `GET https://yetkin.ai/` | **200**. `Link: </academy/cinema/01_office_ai-1-eye.avif>; rel=preload; as=image; type="image/avif"; imagesrcset="…640w…960w…1280w"; imagesizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw"` |
+| Eski canlı preload | `01_office_ai-1-eye.jpg` (bu SHA öncesi). Artık AVIF srcset. |
+
+### 2.1 Cloudflare / Vercel kenar cache (yeni AVIF URL)
+
+Hepsi `Content-Type: image/avif`, `Cache-Control: public, max-age=31536000, immutable`. İlk istek MISS; tekrar istek HIT.
+
+| Varlık | Bayt | 1. istek | 2./3. istek |
+|--------|------|----------|-------------|
+| `/academy/cinema/01_office_ai-1-eye-640w.avif` | 16 900 | `x-vercel-cache: MISS` `cf-cache-status: MISS` | `x-vercel-cache: HIT` `cf-cache-status: HIT` `Age: 30` |
+| `/academy/cinema/01_office_ai-1-eye-960w.avif` | 29 057 | `MISS` / `MISS` | `cf-cache-status: HIT` `Age: 29` |
+| `/academy/cinema/01_office_ai-1-eye.avif` | 43 205 | `MISS` / `MISS` | `cf-cache-status: HIT` `Age: 25` |
+
+Yeni `-640w` / `-960w` anahtarları immutable cache’i kırmaz; eski JPG preload URL’si artık `Link`’te yok.
+
+`gh` bu ortamda yok; Vercel panel URL’si okunmadı. Canlı başlık ve bayt sayıları yeter.
 
 ---
 
