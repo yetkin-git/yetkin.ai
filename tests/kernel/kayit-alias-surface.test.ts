@@ -50,7 +50,7 @@ describe("vatandaş /kayit alias yüzeyi", () => {
     expect(guard).toContain('"/profil"');
     expect(guard).toContain('"/pasaport"');
     expect(guard).toContain('"/admin"');
-    expect(guard).toContain("frame-src https://www.paytr.com https://*.paytr.com");
+    expect(guard).toContain("frame-src https://www.paytr.com https://*.paytr.com https://*.bkm.com.tr https:");
     expect(readSrc("app/layout.tsx")).toContain("connection()");
   });
 });

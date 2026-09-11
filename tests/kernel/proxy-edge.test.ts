@@ -55,7 +55,7 @@ function expectNonceCsp(response: { headers: Headers }) {
   const nonce = readCspNonce(csp);
   expect(nonce, csp).toBeTruthy();
   expect(csp).toContain(`'nonce-${nonce}'`);
-    expect(csp).toContain("frame-src https://www.paytr.com https://*.paytr.com");
+    expect(csp).toContain("frame-src https://www.paytr.com https://*.paytr.com https://*.bkm.com.tr https:");
     expect(csp).toContain("connect-src 'self' https://*.supabase.co wss://*.supabase.co");
     expect(csp).toContain("https://www.paytr.com");
     expect(csp).not.toContain("unsafe-eval");

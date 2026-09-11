@@ -45,12 +45,18 @@ export const PROTECTED_WRITE_PATHS = [
   "/freelancer/contracts",
 ] as const;
 
-export const EDGE_CSP_PAYTR_FRAME_SRC = "https://www.paytr.com https://*.paytr.com";
+/**
+ * PayTR iFrame + 3D Secure ACS.
+ * SMS sonrası iFrame src bankanın sanal POS kökenine (ör. sanalpos.kuveytturk.com.tr)
+ * döner; karttan karta host değişir. Tek tek banka listesi yerine `https:` şeması.
+ */
+export const EDGE_CSP_PAYTR_FRAME_SRC =
+  "https://www.paytr.com https://*.paytr.com https://*.bkm.com.tr https:";
 /** iframeResizer.min.js?v2 — CSP2 allowlist; CSP3 `strict-dynamic` child script. */
 export const EDGE_CSP_PAYTR_SCRIPT_SRC = "https://www.paytr.com";
 export const EDGE_CSP_SUPABASE_CONNECT_SRC = "https://*.supabase.co wss://*.supabase.co";
 export const EDGE_CSP_FRAME_SRC_DIRECTIVE =
-  "frame-src https://www.paytr.com https://*.paytr.com";
+  "frame-src https://www.paytr.com https://*.paytr.com https://*.bkm.com.tr https:";
 export const EDGE_CSP_CONNECT_SRC_DIRECTIVE =
   "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://www.paytr.com https://*.paytr.com";
 /** Ders WAV blob URL, aynı köken dinleme ve Supabase CDN. */

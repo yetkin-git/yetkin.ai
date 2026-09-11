@@ -84,8 +84,10 @@ describe("PayTR iFrame gömme", () => {
     expect(modal).not.toContain("<iframe");
     expect(headers).toContain("EDGE_PERMISSIONS_POLICY_VALUE");
     expect(EDGE_PERMISSIONS_POLICY_VALUE).not.toContain("payment=()");
-    expect(csp).toContain("frame-src https://www.paytr.com https://*.paytr.com");
+    expect(csp).toContain(
+      "frame-src https://www.paytr.com https://*.paytr.com https://*.bkm.com.tr https:",
+    );
     expect(csp).toContain("EDGE_CSP_PAYTR_SCRIPT_SRC");
-    expect(csp).toContain("https://www.paytr.com https://*.paytr.com");
+    expect(csp).toContain("https://www.paytr.com https://*.paytr.com https://*.bkm.com.tr https:");
   });
 });

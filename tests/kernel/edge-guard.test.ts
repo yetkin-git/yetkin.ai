@@ -156,6 +156,8 @@ describe("kenar güvenlik başlıkları", () => {
     expect(csp).toContain("media-src 'self' blob: https://*.supabase.co");
     expect(csp).toContain(`'nonce-${nonce}'`);
     expect(csp).toContain(`frame-src ${EDGE_CSP_PAYTR_FRAME_SRC}`);
+    expect(EDGE_CSP_PAYTR_FRAME_SRC).toContain("https://*.bkm.com.tr");
+    expect(EDGE_CSP_PAYTR_FRAME_SRC.split(/\s+/)).toContain("https:");
     expect(csp).toContain(`connect-src 'self' ${EDGE_CSP_SUPABASE_CONNECT_SRC}`);
     expect(csp).toMatch(/script-src[^;]*https:\/\/www\.paytr\.com/);
     expect(csp).toContain(EDGE_CSP_PAYTR_SCRIPT_SRC);
