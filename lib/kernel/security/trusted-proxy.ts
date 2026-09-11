@@ -20,7 +20,7 @@ const IPV6_PATTERN = /^[0-9a-fA-F:.]+$/;
 
 export type ForwardedIpKind = "unknown" | "private" | "ipv6" | "public_ipv4";
 
-export function parseTrustedProxyHops(env: NodeJS.ProcessEnv = process.env): number {
+export function parseTrustedProxyHops(env: Record<string, string | undefined> = process.env): number {
   const raw = env.TRUSTED_PROXY_HOPS?.trim() ?? "";
   if (!raw) {
     return DEFAULT_TRUSTED_PROXY_HOPS;

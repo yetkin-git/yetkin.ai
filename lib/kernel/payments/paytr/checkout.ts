@@ -227,7 +227,7 @@ export function assertPaytrLiveUserIp(userIp: string, context: string): void {
  */
 export function resolvePaytrCheckoutUserIp(
   headers: Headers,
-  env: NodeJS.ProcessEnv = process.env,
+  env: Record<string, string | undefined> = process.env,
 ): string {
   const live = !isPaytrSandboxEnabled(env);
   const configuredHops = parseTrustedProxyHops(env);
