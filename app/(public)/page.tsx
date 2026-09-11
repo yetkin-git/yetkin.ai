@@ -1,44 +1,41 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { preload } from "react-dom";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
 import { BrandIcon } from "@/components/ui/brand-icon";
-import { SecurePaymentMarks } from "@/components/legal/secure-payment-marks";
-import { getSession } from "@/lib/kernel/auth/session";
+import { CourseCoverImage } from "@/components/academy/course-cover-image";
+import { HomeAccountNav } from "@/components/public/home-account-nav";
 import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
-import { academyCourseCoverPath } from "@/lib/academy/course-cover";
+import {
+  ACADEMY_HOME_CINEMA_COVER_SIZES,
+  ACADEMY_HOME_LCP_COVER_AVIF,
+  ACADEMY_HOME_LCP_COVER_AVIF_SRCSET,
+  academyCourseCoverPath,
+} from "@/lib/academy/course-cover";
 import { academyCourseTitleBySlug } from "@/lib/academy/course-titles";
 import type { Route } from "next";
 
 export const metadata: Metadata = pageMetadata(PAGE_SEO.home);
 
-export default async function PublicHomePage() {
+export default function PublicHomePage() {
   const copy = SEN_VOICE.public.home;
-  const session = await getSession();
+  preload(ACADEMY_HOME_LCP_COVER_AVIF, {
+    as: "image",
+    type: "image/avif",
+    fetchPriority: "high",
+    imageSrcSet: ACADEMY_HOME_LCP_COVER_AVIF_SRCSET,
+    imageSizes: ACADEMY_HOME_CINEMA_COVER_SIZES,
+  });
   return (
     <main className="relative flex min-h-dvh flex-col overflow-x-hidden">
       <header className="relative flex shrink-0 items-center gap-2.5 px-6 pt-4">
         <BrandIcon className="h-8 w-8" />
         <p className="text-sm font-semibold tracking-tight text-[var(--foreground)]">{YETKIN_BRAND}</p>
-        <nav aria-label="Hesap" className="ml-auto flex flex-wrap items-center gap-2">
-          {session ? (
-            <LinkButton href="/dashboard" size="sm">
-              {copy.cockpitCta}
-            </LinkButton>
-          ) : (
-            <>
-              <LinkButton href="/login" variant="outline" size="sm">
-                {copy.loginCta}
-              </LinkButton>
-              <LinkButton href="/register" size="sm">
-                {copy.registerCta}
-              </LinkButton>
-            </>
-          )}
-        </nav>
+        <HomeAccountNav />
       </header>
       <div className="relative mx-auto flex min-h-0 w-full max-w-6xl flex-1 flex-col px-6 pb-12 pt-4">
         <div className="grid shrink-0 items-start gap-6 lg:grid-cols-2">
@@ -54,9 +51,6 @@ export default async function PublicHomePage() {
               <LinkButton href="/academy" size="lg">
                 {copy.academyCta}
               </LinkButton>
-            </div>
-            <div className="mt-5 max-w-full" data-home-payment-marks="">
-              <SecurePaymentMarks compact />
             </div>
           </div>
           <Card variant="ink" title={copy.trustTitle} eyebrow={copy.trustEyebrow} bodyClassName="text-white/70">
@@ -83,14 +77,12 @@ export default async function PublicHomePage() {
                   href={`/academy/${slug}` as Route}
                   className="group block overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--safir-soft)] focus-visible:ring-offset-2"
                 >
-                  <img
+                  <CourseCoverImage
                     src={academyCourseCoverPath(slug)}
                     alt={academyCourseTitleBySlug(slug) ?? slug}
-                    width={480}
-                    height={270}
-                    loading={index < 2 ? "eager" : "lazy"}
-                    decoding="async"
-                    fetchPriority={index === 0 ? "high" : "low"}
+                    eager={index === 0}
+                    highPriority={index === 0}
+                    sizes={ACADEMY_HOME_CINEMA_COVER_SIZES}
                     className="aspect-[16/9] h-auto w-full object-cover transition duration-200 group-hover:scale-[1.03]"
                   />
                 </Link>

@@ -18,17 +18,21 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
     expect(copy.loginCta).toBe("Giriş Yap");
     expect(copy.registerCta).toBe("Kayıt Ol");
     expect(copy.cockpitCta).toBe("Panele geç");
-    expect(page).toContain("getSession");
+    const nav = readSrc("components/public/home-account-nav.tsx");
+    expect(page).toContain("HomeAccountNav");
+    expect(page).not.toContain("getSession");
+    expect(nav).toContain("getSession");
+    expect(nav).toContain("Suspense");
     expect(page).toContain("copy.academyCta");
-    expect(page).toContain("copy.loginCta");
-    expect(page).toContain("copy.registerCta");
-    expect(page).toContain("copy.cockpitCta");
+    expect(nav).toContain("copy.loginCta");
+    expect(nav).toContain("copy.registerCta");
+    expect(nav).toContain("copy.cockpitCta");
     expect(page).toContain('href="/academy"');
-    expect(page).toContain('href="/login"');
-    expect(page).toContain('href="/register"');
-    expect(page).toContain('href="/dashboard"');
-    expect(page).toContain("session ?");
-    expect(page).toContain('aria-label="Hesap"');
+    expect(nav).toContain('href="/login"');
+    expect(nav).toContain('href="/register"');
+    expect(nav).toContain('href="/dashboard"');
+    expect(nav).toContain("session ?");
+    expect(nav).toContain('aria-label="Hesap"');
     expect(page).not.toContain("enterCta");
     expect(page).not.toContain("Anasayfaya gir");
     expect(page).not.toContain("Anasayfaya geç");
@@ -46,6 +50,7 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
 
   it("Beta rozeti ve viewport kilidi taşımaz; marka sol üstte, hesap sağ üstte", () => {
     const page = readSrc("app/(public)/page.tsx");
+    const nav = readSrc("components/public/home-account-nav.tsx");
     const copy = SEN_VOICE.public.home;
     const css = readSrc("app/globals.css");
     expect(copy).not.toHaveProperty("versionBadge");
@@ -61,7 +66,7 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
     expect(page).toContain("YETKIN_BRAND");
     expect(page).toContain("<header");
     expect(page).toContain("BrandIcon");
-    expect(page).toContain("ml-auto");
+    expect(nav).toContain("ml-auto");
     expect(page).not.toContain("pt-16");
     expect(page).not.toContain("pb-20");
     expect(page).not.toContain("gap-10");

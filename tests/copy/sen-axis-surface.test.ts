@@ -32,6 +32,7 @@ const SIZ_LEAKS = [
 
 const SEN_SURFACES = [
   "app/(public)/page.tsx",
+  "components/public/home-account-nav.tsx",
   "app/error.tsx",
   "app/not-found.tsx",
   "app/(kernel)/profil/page.tsx",
@@ -69,7 +70,8 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
   });
 
   it("kamu, profil ve kalan odalar siz kaçakları taşımaz; SEN_VOICE bağlar", () => {
-    expect(SEN_VOICE.public.home.description).toContain("kurslarını incele");
+    expect(SEN_VOICE.public.home.description).toContain("5 eğitim, 30 ders");
+    expect(SEN_VOICE.public.home.description).toContain("Dersleri bitir");
     expect(SEN_VOICE.public.home.description).toContain("PayTR iFrame");
     expect(SEN_VOICE.profil.description).toContain("Görünen adını");
     expect(ARENA_SEN.description).toContain("kazananı sen dağıt");

@@ -1,5 +1,7 @@
 import type { ComponentProps, ReactNode } from "react";
 import Link from "next/link";
+import { CourseCoverImage } from "@/components/academy/course-cover-image";
+import { ACADEMY_COURSE_COVER_SIZES } from "@/lib/academy/course-cover";
 import { Badge, type BadgeTone } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
@@ -35,6 +37,7 @@ export function ListingCard({
   hitAriaExtra,
   coverSrc,
   coverPriority = false,
+  coverSizes = ACADEMY_COURSE_COVER_SIZES,
   ctaSize = "sm",
   ctaVariant = "primary",
 }: {
@@ -73,8 +76,10 @@ export function ListingCard({
   hitAriaExtra?: string;
   /** Tur 3 kapak posteri — ızgara kartında üst plaka. */
   coverSrc?: string;
-  /** Amiral kart — LCP için eager. */
+  /** Amiral kart — LCP için eager + AVIF `fetchPriority="high"`. */
   coverPriority?: boolean;
+  /** Duyarlı `sizes` — varsayılan katalog 100vw / 50vw / 33vw. */
+  coverSizes?: string;
   ctaSize?: ButtonSize;
   ctaVariant?: ButtonVariant;
 }) {
@@ -224,19 +229,18 @@ export function ListingCard({
         isList ? "flex-col gap-3 sm:flex-row sm:items-center sm:gap-5" : "flex-col justify-between",
       )}
     >
-      {showCover ? (
+      {showCover && coverSrc ? (
         <div
           className="relative aspect-[16/9] w-full overflow-hidden rounded-t-[var(--radius-card)] bg-[var(--surface-muted)]"
           data-academy-catalog-cover=""
         >
-          <img
+          <CourseCoverImage
             src={coverSrc}
             alt=""
-            width={960}
-            height={540}
-            loading={coverPriority ? "eager" : "lazy"}
-            decoding="async"
-            fetchPriority={coverPriority ? "high" : "low"}
+            fill
+            eager={coverPriority}
+            highPriority={coverPriority}
+            sizes={coverSizes}
             className="h-full w-full object-cover transition duration-200 group-hover:scale-[1.03]"
           />
         </div>

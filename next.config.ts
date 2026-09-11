@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 import { academyRetiredStorefrontRedirects } from "./lib/academy/retired-storefront";
 import { EDGE_SECURITY_HEADER_ENTRIES } from "./lib/kernel/security/edge-security-headers";
 
+/** `ACADEMY_HOME_LCP_PRELOAD_LINK` ile kilitli — next.config `@/` import etmez. */
+const ACADEMY_HOME_LCP_PRELOAD_LINK =
+  '</academy/cinema/01_office_ai-1-eye.avif>; rel=preload; as=image; type="image/avif"; imagesrcset="/academy/cinema/01_office_ai-1-eye-640w.avif 640w, /academy/cinema/01_office_ai-1-eye-960w.avif 960w, /academy/cinema/01_office_ai-1-eye.avif 1280w"; imagesizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw"';
+
 /**
  * yetkin_muze müze klasörü build, webpack ve izleme kapsamı dışındadır (OPS; Anayasa maddesi değildir).
  * Git ve indeks: kök `.gitignore` + `.cursorindexingignore`.
@@ -39,6 +43,10 @@ const nextConfig: NextConfig = {
       "./generated/prisma/**",
       "./node_modules/@digabi/noto-sans/WOFF/NotoSans-Regular.woff",
     ],
+  },
+  images: {
+    formats: ["image/avif", "image/webp"],
+    qualities: [75],
   },
   serverExternalPackages: [
     "@prisma/client",
@@ -127,6 +135,16 @@ const nextConfig: NextConfig = {
       });
     }
     return [
+      {
+        source: "/",
+        headers: [
+          ...securityHeaders,
+          {
+            key: "Link",
+            value: ACADEMY_HOME_LCP_PRELOAD_LINK,
+          },
+        ],
+      },
       {
         source: "/audio/:path*",
         headers: [

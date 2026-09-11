@@ -9,7 +9,7 @@ import { academyInstructorBySlug } from "@/lib/academy/instructors";
 import { academyModuleCodeBySlug } from "@/lib/academy/catalog-filter";
 import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
 import { academyCatalogSummaryBySlug } from "@/lib/academy/catalog-summaries";
-import { academyCourseCoverPath } from "@/lib/academy/course-cover";
+import { ACADEMY_COURSE_COVER_SIZES, academyCourseCoverPath } from "@/lib/academy/course-cover";
 import type { AcademyCatalogLearnerStatus } from "@/lib/academy/catalog-learner";
 import type { AcademyCatalogViewMode } from "@/lib/academy/catalog-view-pref";
 import { resolveAcademyCatalogCardCta } from "@/lib/academy/storefront-cta";
@@ -139,6 +139,7 @@ export function CourseCard({
       ctaVariant={owned ? "success" : "primary"}
       coverSrc={academyCourseCoverPath(course.slug)}
       coverPriority={featured}
+      coverSizes={ACADEMY_COURSE_COVER_SIZES}
       footerBadge={learnerLabel ?? undefined}
       footerBadgeTone={learnerStatus === "completed" ? "emerald" : "safir"}
       extraBadge={chrome}
