@@ -149,7 +149,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         section: "Garsonu Göster",
         layout: "chat",
         headline: "Dağınık not → yönetici özeti",
-        subhead: "Rol, görev, format. Senin aklından geçeni bilemez.",
+        subhead: "Ama senin aklından geçeni bilemez.",
         bullets: [
           "Kıdemli yönetici asistanı rolü ver.",
           "En fazla üç maddelik özet + aksiyon tablosu iste.",
@@ -196,11 +196,11 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         section: "E-Posta & Üslup Dönüşümü",
         layout: "email",
         headline: "Stresi metinden ayır",
-        subhead: "Üç üslup iste. Kişisel veri yapıştırma. Onay sende.",
+        subhead: "Stajyer kursun. Onay sende kalır.",
         bullets: [
           "Yumuşak hatırlatma · resmi talep · son uyarı.",
           "Müşteri A, Firma 1, maskeli tutar yeter.",
-          "Konu satırını da iste. Göndermeden oku.",
+          "Stajyer kursun. Onay sende kalır. Göndermeden oku.",
         ],
         tools: ["Outlook", "ChatGPT", "Copilot"],
         chat: {

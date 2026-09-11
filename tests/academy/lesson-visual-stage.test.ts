@@ -13,6 +13,7 @@ import {
   ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS,
   academyCinemaCueSlidePublicPathFromSlide,
   listAcademyCinemaCueSlides,
+  loadAcademyCinemaCueSlides,
 } from "@/lib/academy/cinema-cue-catalog";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import {
@@ -231,7 +232,17 @@ describe("01_office_ai göz katmanı ve 2. bölüm cue taslağı", () => {
     expect(timed.some((line) => line.text.includes("Ayda kırk saat"))).toBe(true);
     expect(timed.some((line) => line.text.includes("AIDA kırk"))).toBe(false);
     expect(timed.some((line) => line.text.includes("Ama senin aklından geçeni bilemez"))).toBe(true);
+    expect(timed.some((line) => line.text.includes("aklından geçeni okuyamaz"))).toBe(false);
     expect(timed.some((line) => line.text.includes("aklindan geçeni okuyamaz"))).toBe(false);
+    expect(timed.some((line) => line.text.includes("Stajyer kursun"))).toBe(true);
+    expect(timed.some((line) => line.text.includes("Cümleyi stajyer"))).toBe(false);
+
+    const slides = loadAcademyCinemaCueSlides("01_office_ai-1");
+    expect(slides[0]?.bullets.some((bullet) => bullet.includes("Ayda kırk saat"))).toBe(true);
+    expect(slides[0]?.bullets.some((bullet) => bullet.includes("AIDA kırk"))).toBe(false);
+    expect(slides[1]?.subhead).toBe("Ama senin aklından geçeni bilemez.");
+    expect(slides[3]?.subhead).toBe("Stajyer kursun. Onay sende kalır.");
+    expect(slides[3]?.bullets.some((bullet) => bullet.startsWith("Stajyer kursun."))).toBe(true);
   });
 
   it("2. bölüm spoken script ve beş sahne cue taslağı 1. bölüm ritmini taşır", () => {

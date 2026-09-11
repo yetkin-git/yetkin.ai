@@ -43,7 +43,7 @@ Modele ham cümleyi ver. Bu mail çok sert. Muhasebeye gidecek. Net olsun ama ka
 
 Kişisel veriyi yapıştırma. Gerçek ad yok. Telefon yok. Kimlik yok. Kart yok. Müşteri A, Firma 1, toplam bütçe yeter. Şirket içi ciro hedefini ve hesap numarasını da maskele. Yapay zekâ mantığı anlamak için sır istemez.
 
-Altın kural burada kilitlenir. Üretken ol. Dikkatsiz olma. Stresi sen taşı. Cümleyi stajyer kursun. Onay sende kalır. Göndermeden oku. Tek kelime yanlışsa daha kısa, daha net, tehdit yok de. Yeniden yazsın. Konu satırını da iste. Fatura hatırlatması, tarih ve tutar maskeli. Aynı notu iç yazışmaya da çevir: ekibe sakin, yöneticiye kısa. E-posta kırk dakikanı yemesin. Üslup senin imzan olsun; ham öfke taslakta kalsın. Bu da bir saha refleksi: önce duyguyu ayır, sonra metni üret, sonra gönder.
+Altın kural burada kilitlenir. Üretken ol. Dikkatsiz olma. Stresi sen taşı. Stajyer kursun. Onay sende kalır. Göndermeden oku. Tek kelime yanlışsa daha kısa, daha net, tehdit yok de. Yeniden yazsın. Konu satırını da iste. Fatura hatırlatması, tarih ve tutar maskeli. Aynı notu iç yazışmaya da çevir: ekibe sakin, yöneticiye kısa. E-posta kırk dakikanı yemesin. Üslup senin imzan olsun; ham öfke taslakta kalsın. Bu da bir saha refleksi: önce duyguyu ayır, sonra metni üret, sonra gönder.
 
 <!-- cue:cue-05 start:375 end:450 section:Kapanış & Saha Görevi -->
 
