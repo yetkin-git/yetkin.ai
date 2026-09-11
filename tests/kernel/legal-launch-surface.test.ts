@@ -235,6 +235,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     for (const section of LEGAL_LAUNCH_SECTIONS) {
       const body = section.articles.flatMap((article) => article.paragraphs).join("\n");
       expect(body, section.slug).toContain(LEGAL_SUPPORT_EMAIL);
+      expect(body, section.slug).toContain(LEGAL_ENTITY.tradeName);
+      expect(body, section.slug).toContain(LEGAL_ENTITY.vkn);
       expect(body, section.slug).toContain(LEGAL_ENTITY.mersis);
       expect(body, section.slug).toContain(LEGAL_ENTITY.taxOffice);
       expect(body, section.slug).toContain(LEGAL_ENTITY.address);
@@ -257,27 +259,30 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(footer).toContain("bottom-0");
     expect(footer).not.toContain("opacity-55");
     expect(footer).toContain("link.label");
-    expect(footer).toContain("LEGAL_ENTITY.tradeName");
-    expect(footer).toContain("LEGAL_ENTITY.vkn");
-    expect(footer).toContain("LEGAL_ENTITY.mersis");
-    expect(footer).toContain("LEGAL_ENTITY.address");
-    expect(footer).toContain("SecurePaymentMarks");
-    expect(footer).toContain("data-legal-entity-colophon");
+    expect(footer).not.toContain("LEGAL_ENTITY.tradeName");
+    expect(footer).not.toContain("LEGAL_ENTITY.vkn");
+    expect(footer).not.toContain("LEGAL_ENTITY.mersis");
+    expect(footer).not.toContain("LEGAL_ENTITY.address");
+    expect(footer).not.toContain("SecurePaymentMarks");
+    expect(footer).not.toContain("data-legal-entity-colophon");
+    expect(footer).toContain("LEGAL_FOOTER_LINKS");
     expect(publicLayout).toContain("LegalSiteFooter");
-    expect(publicLayout).toContain("pb-36");
+    expect(publicLayout).toContain("pb-16");
+    expect(publicLayout).not.toContain("pb-36");
     expect(authLayout).not.toContain("LegalSiteFooter");
     expect(authLayout).not.toContain("pb-36");
     expect(shell).not.toContain("LegalSiteFooter");
     expect(shell).not.toContain("pb-36");
-    // PayTR inceleme yüzeyi: ürün vitrinleri satır içi künye şeridi taşır;
-    // fixed kamu tabanı AppShell sidebar'ı ile çakıştığı için şerit akış içidir.
+    // Ürün vitrinleri satır içi yasal nav şeridi taşır; şirket künyesi
+    // (unvan / VKN / MERSİS / adres) birincil footer görünümünde yoktur.
+    // Fixed kamu tabanı AppShell sidebar'ı ile çakıştığı için şerit akış içidir.
     const strip = readSrc("components/legal/legal-colophon-strip.tsx");
     expect(strip).toContain("LEGAL_FOOTER_LINKS");
-    expect(strip).toContain("LEGAL_ENTITY.tradeName");
-    expect(strip).toContain("LEGAL_ENTITY.vkn");
-    expect(strip).toContain("LEGAL_ENTITY.mersis");
-    expect(strip).toContain("LEGAL_ENTITY.address");
-    expect(strip).toContain("SecurePaymentMarks");
+    expect(strip).not.toContain("LEGAL_ENTITY.tradeName");
+    expect(strip).not.toContain("LEGAL_ENTITY.vkn");
+    expect(strip).not.toContain("LEGAL_ENTITY.mersis");
+    expect(strip).not.toContain("LEGAL_ENTITY.address");
+    expect(strip).not.toContain("SecurePaymentMarks");
     expect(strip).toContain("opacity-90");
     expect(strip).not.toContain("opacity-70");
     expect(strip).not.toContain("fixed inset-x-0");
@@ -328,6 +333,44 @@ describe("lansman hukuk yüzeyi (O13)", () => {
       "destek@yetkin.ai",
     ]);
     expect(LEGAL_SITE_PATHS).not.toContain("mailto:destek@yetkin.ai");
+  });
+
+  it("birincil kamu DOM şirket künyesi ve ödeme rozeti basmaz; JSON-LD ile /legal künyeyi taşır", () => {
+    const vitrineFiles = [
+      "components/legal/legal-site-footer.tsx",
+      "components/legal/legal-colophon-strip.tsx",
+      "app/(public)/layout.tsx",
+      "app/(public)/page.tsx",
+    ] as const;
+    const banned = [
+      "LEGAL_ENTITY.tradeName",
+      "LEGAL_ENTITY.vkn",
+      "LEGAL_ENTITY.mersis",
+      "LEGAL_ENTITY.address",
+      "LEGAL_ENTITY_COLOPHON",
+      "LEGAL_ENTITY_IDS",
+      "LEGAL_ENTITY_VKN",
+      "SecurePaymentMarks",
+      "data-legal-entity-colophon",
+      "data-home-payment-marks",
+      "data-ssl-mark",
+      "data-paytr-mark",
+      "Yapınet",
+      "9370683361",
+      "937068336100017",
+      "Akhisar/Manisa",
+    ] as const;
+    for (const file of vitrineFiles) {
+      const src = readSrc(file);
+      for (const needle of banned) {
+        expect(src, `${file} ← ${needle}`).not.toContain(needle);
+      }
+    }
+    expect(readSrc("lib/copy/json-ld.ts")).toContain("legalName: LEGAL_ENTITY.tradeName");
+    expect(readSrc("app/layout.tsx")).toContain("siteGraphJsonLd");
+    expect(readSrc("app/(public)/legal/page.tsx")).toContain("LegalEntityColophon");
+    expect(readSrc("app/(public)/legal/[slug]/page.tsx")).toContain("LegalEntityColophon");
+    expect(readSrc("app/(public)/legal/[slug]/page.tsx")).toContain("LegalHonestyCard");
   });
 
   it("eski yasal URL'ler next.config kalıcı 301 ile kanonik sluga döner", () => {
@@ -423,10 +466,11 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH).not.toContain("orijinal kredi");
   });
 
-  it("sözleşme metni PayTR yazmaz; kasa/footer logo ve SSL görseli istisnadır", () => {
+  it("sözleşme metni PayTR yazmaz; kasa logo ve SSL görseli istisnadır", () => {
     const marks = readSrc("lib/copy/payment-marks.ts");
     const badge = readSrc("components/legal/secure-payment-marks.tsx");
     const footer = readSrc("components/legal/legal-site-footer.tsx");
+    const home = readSrc("app/(public)/page.tsx");
     const copy = readSrc("lib/copy/legal-launch.ts");
     expect(copy).not.toMatch(/\bPayTR\b/);
     expect(marks).toContain("PAYTR_MARK_LABEL");
@@ -438,6 +482,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(badge).toContain("data-paytr-mark");
     expect(badge).toContain("data-ssl-mark");
     expect(badge).toContain("data-3d-secure-mark");
-    expect(footer).toContain("SecurePaymentMarks");
+    expect(footer).not.toContain("SecurePaymentMarks");
+    expect(home).not.toContain("SecurePaymentMarks");
+    expect(home).not.toContain("data-home-payment-marks");
   });
 });

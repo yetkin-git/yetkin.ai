@@ -1,19 +1,14 @@
 import Link from "next/link";
-import { SecurePaymentMarks } from "@/components/legal/secure-payment-marks";
 import {
-  LEGAL_ENTITY,
-  LEGAL_ENTITY_COLOPHON,
   LEGAL_FOOTER_LINKS,
   LEGAL_PAGE_TITLE,
-  LEGAL_SUPPORT_EMAIL,
-  LEGAL_SUPPORT_MAILTO,
 } from "@/lib/copy/legal-launch";
 
-/** Yalnızca kamu ön sayfalarında (/, /legal/*, /iletisim) yasal künye tabanda durur. */
+/** Kamu ön sayfalarında (/ , /legal/*, /iletisim) yalnızca yasal nav + destek e-postası. */
 export function LegalSiteFooter() {
   return (
     <footer className="pointer-events-none fixed inset-x-0 bottom-0 z-40 bg-gradient-to-t from-[var(--background)] from-25% to-transparent">
-      <div className="pointer-events-auto mx-auto flex max-w-6xl flex-col items-center gap-1.5 px-3 pb-[max(0.4rem,env(safe-area-inset-bottom))] pt-2">
+      <div className="pointer-events-auto mx-auto flex max-w-6xl flex-col items-center px-3 pb-[max(0.4rem,env(safe-area-inset-bottom))] pt-2">
         <nav
           aria-label={LEGAL_PAGE_TITLE}
           className="flex max-w-full items-center justify-center gap-x-0.5 overflow-x-auto sm:gap-x-1"
@@ -35,17 +30,6 @@ export function LegalSiteFooter() {
             );
           })}
         </nav>
-        <p
-          data-legal-entity-colophon=""
-          className="max-w-4xl text-center text-[10px] leading-snug text-[var(--muted)] opacity-90 sm:text-[11px]"
-        >
-          {LEGAL_ENTITY.tradeName} · VKN {LEGAL_ENTITY.vkn} · MERSİS {LEGAL_ENTITY.mersis} · {LEGAL_ENTITY.address} ·{" "}
-          <a href={LEGAL_SUPPORT_MAILTO} className="underline-offset-2 hover:underline">
-            {LEGAL_SUPPORT_EMAIL}
-          </a>
-        </p>
-        <span className="sr-only">{LEGAL_ENTITY_COLOPHON}</span>
-        <SecurePaymentMarks compact />
       </div>
     </footer>
   );

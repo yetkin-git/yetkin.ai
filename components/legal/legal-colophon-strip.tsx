@@ -1,19 +1,15 @@
 import Link from "next/link";
-import { SecurePaymentMarks } from "@/components/legal/secure-payment-marks";
 import {
-  LEGAL_ENTITY,
   LEGAL_FOOTER_LINKS,
   LEGAL_PAGE_TITLE,
-  LEGAL_SUPPORT_EMAIL,
-  LEGAL_SUPPORT_MAILTO,
 } from "@/lib/copy/legal-launch";
 
 /**
- * Ürün vitrini (Akademi / Kariyer / Freelancer) için satır içi yasal künye şeridi.
+ * Ürün vitrini (Akademi / Kariyer / Freelancer) için satır içi yasal nav şeridi.
  * Kamu ön sayfalarındaki `LegalSiteFooter` fixed tabanın aksine sayfa akışında
  * durur; AppShell masaüstü sidebar'ı ve mobil çekmece ile çakışmaz.
- * PayTR / 6502 inceleme uzmanı ürün sayfasındayken beş sözleşmeye ve künyeye
- * doğrudan ulaşır. Link ve künye SSOT'u `lib/copy/legal-launch.ts`'dir.
+ * Unvan / VKN / MERSİS / adres birincil görünümde yoktur; sözleşme katmanı
+ * `/legal/*` metinlerindedir. Link SSOT'u `lib/copy/legal-launch.ts`'dir.
  */
 export function LegalColophonStrip() {
   return (
@@ -42,16 +38,6 @@ export function LegalColophonStrip() {
           );
         })}
       </nav>
-      <p className="mt-2 text-center text-[10px] leading-snug text-[var(--muted)] opacity-90">
-        {LEGAL_ENTITY.tradeName} · VKN {LEGAL_ENTITY.vkn} · MERSİS {LEGAL_ENTITY.mersis} ·{" "}
-        {LEGAL_ENTITY.address} ·{" "}
-        <a href={LEGAL_SUPPORT_MAILTO} className="underline-offset-2 hover:underline">
-          {LEGAL_SUPPORT_EMAIL}
-        </a>
-      </p>
-      <div className="mt-3">
-        <SecurePaymentMarks compact />
-      </div>
     </footer>
   );
 }

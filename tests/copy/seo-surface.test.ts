@@ -16,6 +16,7 @@ import {
   courseJsonLd,
   jsonLdDocument,
   legalSectionBreadcrumbs,
+  organizationJsonLd,
   serializeJsonLd,
   siteGraphJsonLd,
 } from "@/lib/copy/json-ld";
@@ -204,6 +205,16 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
 });
 
 describe("Aşama 3 SEO — JSON-LD yapısal veri", () => {
+  it("Organization legalName sicil unvanını taşır; ana sayfa görünür DOM künye basmaz", () => {
+    expect(readSrc("lib/copy/json-ld.ts")).toContain("legalName: LEGAL_ENTITY.tradeName");
+    expect(organizationJsonLd().legalName).toBe(LEGAL_ENTITY.tradeName);
+    expect(readSrc("app/(public)/page.tsx")).not.toContain("Yapınet");
+    expect(readSrc("app/(public)/page.tsx")).not.toContain(LEGAL_ENTITY.vkn);
+    expect(readSrc("app/(public)/page.tsx")).not.toContain(LEGAL_ENTITY.mersis);
+    expect(readSrc("components/legal/legal-site-footer.tsx")).not.toContain("LEGAL_ENTITY");
+    expect(readSrc("components/legal/legal-colophon-strip.tsx")).not.toContain("LEGAL_ENTITY.");
+  });
+
   it("kök layout Organization ve WebSite grafiğini basar", () => {
     const layout = readSrc("app/layout.tsx");
     expect(layout).toContain("JsonLd");

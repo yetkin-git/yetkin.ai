@@ -4,7 +4,7 @@ import { LegalSiteFooter } from "@/components/legal/legal-site-footer";
 export default function PublicLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <div className="pb-36">{children}</div>
+      <div className="pb-16">{children}</div>
       <LegalSiteFooter />
     </>
   );
