@@ -131,8 +131,8 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         subhead: "Asıl iş duruyor; zaman hırsızları masayı yiyor.",
         bullets: [
           "Gelen kutusu şişmiş, tablo kaymış, toplantı notu dağınık, slayt boş.",
+          "Haftada on saat. Ayda kırk saat. Yılda neredeyse koca bir ay.",
           "Kod yok. Formül ezberi yok. Masadaki stajyere iş diliyle konuşacaksın.",
-          "Kahveni al. Bugün o iki saatin ilk dilimini geri alıyoruz.",
         ],
         tools: ["ChatGPT", "Copilot", "Excel", "Outlook"],
         stats: [
@@ -140,6 +140,8 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
           { label: "Dağınık tablo", value: "35 dk" },
           { label: "Toplantı özeti", value: "30 dk" },
           { label: "Sunum çilesi", value: "25 dk" },
+          { label: "Haftada", value: "10 saat" },
+          { label: "Ayda", value: "40 saat" },
         ],
       },
       {
@@ -147,7 +149,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         section: "Garsonu Göster",
         layout: "chat",
         headline: "Dağınık not → yönetici özeti",
-        subhead: "Rol, görev, format. Stajyer niyeti okuyamaz.",
+        subhead: "Rol, görev, format. Senin aklından geçeni bilemez.",
         bullets: [
           "Kıdemli yönetici asistanı rolü ver.",
           "En fazla üç maddelik özet + aksiyon tablosu iste.",

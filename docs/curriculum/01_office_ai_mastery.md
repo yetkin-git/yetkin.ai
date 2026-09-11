@@ -84,7 +84,7 @@ Yapay zekâyı, masanın hemen karşısında oturan **dünyanın en hevesli, en 
 Bu stajyerin özellikleri nelerdir?
 1. **Dünyadaki neredeyse tüm kütüphaneleri, formülleri ve kuralları ezbere bilir.**
 2. **Saniyede binlerce kelime yazabilir, asla yorulmaz, uykusu gelmez, acıkmaz.**
-3. **Fakat bir eksiği vardır:** Senin aklından geçeni okuyamaz!
+3. **Fakat bir eksiği vardır:** Senin aklından geçeni bilemez!
 
 Eğer sen o stajyere dönüp sadece *"Bana geçen haftaki işle ilgili bir rapor hazırla"* dersen; stajyer yüzüne boş boş bakar ya da gider genel geçer, hiçbir işe yaramayan 5 sayfalık anlamsız bir metin getirir.
 

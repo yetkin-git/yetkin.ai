@@ -228,6 +228,10 @@ describe("01_office_ai göz katmanı ve 2. bölüm cue taslağı", () => {
     expect(timed[0]?.start).toBe(0);
     expect(timed.at(-1)?.end).toBeGreaterThan(400);
     expect(timed.every((line, index) => index === 0 || line.start >= timed[index - 1]!.end)).toBe(true);
+    expect(timed.some((line) => line.text.includes("Ayda kırk saat"))).toBe(true);
+    expect(timed.some((line) => line.text.includes("AIDA kırk"))).toBe(false);
+    expect(timed.some((line) => line.text.includes("Ama senin aklından geçeni bilemez"))).toBe(true);
+    expect(timed.some((line) => line.text.includes("aklindan geçeni okuyamaz"))).toBe(false);
   });
 
   it("2. bölüm spoken script ve beş sahne cue taslağı 1. bölüm ritmini taşır", () => {

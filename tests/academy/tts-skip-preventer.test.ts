@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { applyAcademyCueDisplayPhonetics } from "@/lib/academy/spoken-scripts/phonetics";
+import {
+  applyAcademyCueDisplayPhonetics,
+  applyAcademySpokenPhoneticsToDisplay,
+} from "@/lib/academy/spoken-scripts/phonetics";
 import { expandAcademyTtsSkipPreventer } from "@/lib/academy/spoken-scripts/skip-preventer";
 
 describe("TTS model skip preventer", () => {
@@ -45,6 +48,15 @@ describe("TTS model skip preventer", () => {
     expect(applyAcademyCueDisplayPhonetics("ElevenLabs")).toBe("Ilevın Labs");
     expect(applyAcademyCueDisplayPhonetics("HeyGen")).toBe("Heycen");
     expect(applyAcademyCueDisplayPhonetics("Reels")).toBe("Rils");
+  });
+
+  it("Ayda takvim dilini AIDA'ya çevirmez; satış şablonunu çevirir", () => {
+    expect(applyAcademySpokenPhoneticsToDisplay("Haftada on saat. Ayda kırk saat.")).toBe(
+      "Haftada on saat. Ayda kırk saat.",
+    );
+    expect(applyAcademySpokenPhoneticsToDisplay("Ayda otuz dikey")).toBe("Ayda otuz dikey");
+    expect(applyAcademySpokenPhoneticsToDisplay("Ayda ve Pas")).toBe("AIDA ve PAS");
+    expect(applyAcademySpokenPhoneticsToDisplay("Bir: Ayda.")).toBe("Bir: AIDA.");
   });
 
   it("akış cümlesini ve selamlaşmayı dokunmadan bırakır", () => {

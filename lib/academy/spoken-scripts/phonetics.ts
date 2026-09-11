@@ -111,12 +111,31 @@ export function applyAcademyCueDisplayPhonetics(text: string): string {
   return out.replace(/(^|[.!?…]\s+)artı doksan/gu, (_full, prefix: string) => `${prefix}Artı doksan`);
 }
 
+/**
+ * "Ayda" hem AIDA okunuşu hem takvim dilidir.
+ * "Ayda kırk saat" / "Ayda otuz dikey" ay kullanımıdır; AIDA'ya çevrilmez.
+ */
+const AYDA_MONTH_DURATION_AFTER =
+  /^\s+(?:\d+|bir|iki|üç|dört|beş|altı|yedi|sekiz|dokuz|on|yirmi|otuz|kırk|elli|altmış|yetmiş|seksen|doksan|yüz|bin)\b/u;
+
+function replaceSpokenAydaWithDisplay(text: string): string {
+  return text.replace(/\bAyda\b/gu, (match, offset, full) => {
+    const rest = String(full).slice(Number(offset) + match.length);
+    if (AYDA_MONTH_DURATION_AFTER.test(rest)) {
+      return match;
+    }
+    return "AIDA";
+  });
+}
+
 /** TTS fonetiğini teleprompter/cue ekran terimine çevirir. */
 export function applyAcademySpokenPhoneticsToDisplay(text: string): string {
   let out = text;
   for (const row of ACADEMY_CUE_DISPLAY_PHONETICS) {
     if (row.display === "+90") {
       out = out.replaceAll("Artı doksan", row.display).replaceAll("artı doksan", row.display);
+    } else if (row.display === "AIDA") {
+      out = replaceSpokenAydaWithDisplay(out);
     } else {
       out = out.replaceAll(row.spoken, row.display);
     }
