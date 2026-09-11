@@ -8,6 +8,7 @@ import { useActionBridge } from "@/components/ui/action-bridge";
 import { CertificateSeal } from "@/components/academy/certificate-seal";
 import { AcademyProgressionBridge } from "@/components/academy/progression-bridge";
 import { InteractiveTask } from "@/components/academy/interactive-task";
+import { VisaWaxSeal } from "@/components/kernel/visa-wax-seal";
 import type { AcademyExamPublicQuestion } from "@/lib/academy/types";
 import type { AcademyProofSubmission } from "@/lib/academy/proof-of-work";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
@@ -64,6 +65,7 @@ export function ExamPanel({
     passed: boolean;
     score: number;
     certificateHash: string | null;
+    visaIssued: boolean;
   } | null>(null);
 
   useEffect(() => {
@@ -134,6 +136,7 @@ export function ExamPanel({
       passed?: boolean;
       score?: number;
       certificate?: { certificateHash?: string | null; serialKey?: string };
+      visaStamp?: { id?: string } | null;
     }>(await response.json());
     setPending(false);
     if (!parsed.ok || parsed.data.score == null || parsed.data.passed == null) {
@@ -142,7 +145,12 @@ export function ExamPanel({
     }
     const certificateHash =
       parsed.data.certificate?.certificateHash ?? parsed.data.certificate?.serialKey ?? null;
-    setResult({ passed: parsed.data.passed, score: parsed.data.score, certificateHash });
+    setResult({
+      passed: parsed.data.passed,
+      score: parsed.data.score,
+      certificateHash,
+      visaIssued: Boolean(parsed.data.visaStamp?.id),
+    });
     if (parsed.data.passed) {
       push({
         title: UX_SEN.bridge.examPassed.title,
@@ -169,6 +177,12 @@ export function ExamPanel({
         </p>
         <p className="font-serif text-2xl text-[var(--foreground)]">{copy.diplomaReveal}</p>
         <p className="text-sm text-[var(--emerald)]">{copy.passed(result.score)}</p>
+        {result.visaIssued ? (
+          <div className="flex items-center gap-3 rounded-2xl border border-[color-mix(in_srgb,var(--gold)_35%,var(--border))] bg-[color-mix(in_srgb,#fbf6eb_88%,white)] px-3 py-3">
+            <VisaWaxSeal sourceKind="ACADEMY_CERTIFICATE" size="sm" />
+            <p className="text-sm text-[var(--foreground)]">{ACADEMY_SEN.certificates.careerVisaLead}</p>
+          </div>
+        ) : null}
         <CertificateSeal
           variant="diploma"
           hash={result.certificateHash ?? ""}

@@ -77,6 +77,8 @@ describe("UI/UX sürtünme giderme yüzeyi", () => {
     expect(readSrc("components/academy/exam-panel.tsx")).toContain("UX_SEN.bridge.examPassed");
     expect(readSrc("components/academy/exam-panel.tsx")).toContain("UX_SEN.bridge.examHref");
     expect(readSrc("components/academy/exam-panel.tsx")).toContain("onAbandon");
+    expect(readSrc("components/academy/exam-panel.tsx")).toContain("visaStamp");
+    expect(readSrc("components/academy/exam-panel.tsx")).toContain("CertificateSeal");
     expect(readSrc("components/academy/exam-start-gate.tsx")).toContain("data-academy-exam-exit");
     expect(readSrc("app/freelancer/contracts/[id]/page.tsx")).toContain("DeliveryHeroCard");
     expect(readSrc("app/freelancer/contracts/[id]/page.tsx")).toContain("pickLatestDeliveryMessage");

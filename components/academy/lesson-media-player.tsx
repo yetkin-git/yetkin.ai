@@ -333,7 +333,7 @@ export function LessonMediaPlayer({
       <audio
         key={audioSrc}
         ref={audioRef}
-        preload="auto"
+        preload={playing ? "auto" : "metadata"}
         src={audioSrc}
         onTimeUpdate={() => {
           const audio = audioRef.current;

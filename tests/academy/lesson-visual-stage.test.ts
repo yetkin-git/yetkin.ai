@@ -30,6 +30,7 @@ import {
   academyVisualStageCinemaKind,
   academyVisualStageIsInWindow,
   academyVisualStageMotion,
+  academyVisualStageNextCard,
   hasAcademyLessonVisualStage,
   isAcademyVeoSceneDurationSec,
   loadAcademyLessonVisualStage,
@@ -120,6 +121,8 @@ describe("01_office_ai göz katmanı ve 2. bölüm cue taslağı", () => {
     expect(academyVisualStageActiveCard(stage!, 3)?.cueId).toBe("cue-01");
     expect(academyVisualStageActiveCard(stage!, 12)?.cueId).toBe("cue-01");
     expect(academyVisualStageActiveCard(stage!, cue2Start + 0.5)?.cueId).toBe("cue-02");
+    expect(academyVisualStageNextCard(stage!, 3)?.cueId).toBe("cue-02");
+    expect(academyVisualStageNextCard(stage!, cue2Start + 0.5)?.cueId).toBe(stage!.cards[2]?.cueId);
     expect(academyVisualStageMotion(stage!, 0, false)).toBe("idle");
     expect(academyVisualStageMotion(stage!, 3, true)).toBe("punch");
     expect(academyVisualStageMotion(stage!, 8, true)).toBe("hold");
@@ -150,6 +153,11 @@ describe("01_office_ai göz katmanı ve 2. bölüm cue taslağı", () => {
     expect(eye).toContain("LessonCinemaMediaCard");
     expect(eye).toContain("onError");
     expect(eye).toContain("fallbackSrc");
+    expect(eye).toContain("decoding=\"async\"");
+    expect(eye).toContain("data-academy-cinema-preload");
+    expect(eye).toContain("academyVisualStageNextCard");
+    expect(eye).not.toContain("new Image()");
+    expect(media).toContain('preload={playing ? "auto" : "metadata"}');
     expect(eye).toContain("loadAcademyTeleprompterFlow");
     expect(eye).not.toContain("LessonCinemaIntroScene");
     expect(eye).not.toContain("LessonCinemaExcelScene");

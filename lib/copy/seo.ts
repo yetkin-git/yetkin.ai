@@ -36,7 +36,7 @@ export const PAGE_SEO = {
   home: {
     title: PUBLIC_SEN.home.title,
     description:
-      "Yetkinliğini kanıtlayan yapay zekâ eğitimleri. Dersleri bitir, testi geç; belgen sunucuda mühürlenir. PayTR Merchant onayı sürecindedir; PayTR iFrame altyapısı hazırdır. Kart numarası platformda tutulmaz.",
+      "Yapay zekâ yetkinliğini kanıtla, kariyerini mühürle. 5 eğitim, 30 ders: bitir, testi geç; belgen sunucuda mühürlenir. PayTR iFrame + 3D Secure; kart numarası platformda tutulmaz.",
     path: "/",
     image: DEFAULT_OG_IMAGE,
   },
@@ -58,6 +58,7 @@ export const PAGE_SEO = {
     description:
       "Akademi sertifikasının SHA-256 sicil bütünlük kaydını doğrula. Oturum istenmez; vatandaş kimliği gösterilmez. Müfredat özeti sicile bağlıdır. Uydurma geçerli damga basılmaz.",
     path: "/academy/dogrula",
+    image: DEFAULT_OG_IMAGE,
   },
   contact: {
     title: "İletişim",

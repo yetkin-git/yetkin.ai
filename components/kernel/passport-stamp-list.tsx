@@ -2,8 +2,9 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { IconLock } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/link-button";
+import { CertificateShareActions } from "@/components/academy/certificate-share-actions";
 import { CopyVisaValue } from "@/components/kernel/copy-visa-value";
-import { VisaWaxSeal } from "@/components/kernel/visa-wax-seal";
+import { VisaPageFrame, VisaWaxSeal } from "@/components/kernel/visa-wax-seal";
 import {
   formatPassportIssuedAt,
   passportAcademyVerifyHref,
@@ -42,12 +43,12 @@ function StampArticle({ stamp }: { stamp: SealedPassportStamp }) {
   const door = slug ? passportGrowthDoorLabel(slug) : null;
 
   return (
-    <article className="rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-sm sm:p-5">
+    <VisaPageFrame className="p-4 sm:p-5">
       <div className="flex items-start gap-4">
-        <VisaWaxSeal sourceKind={stamp.sourceKind} size="sm" />
+        <VisaWaxSeal sourceKind={stamp.sourceKind} size="md" />
         <div className="min-w-0 flex-1">
           <p className="text-[11px] text-[var(--muted)]">{formatPassportIssuedAt(stamp.issuedAt)}</p>
-          <h3 className="mt-1 text-base font-semibold tracking-tight text-[var(--foreground)]">
+          <h3 className="mt-1 font-serif text-lg tracking-tight text-[var(--foreground)]">
             {stamp.title}
           </h3>
           <p className="text-[11px] text-[var(--muted)]">{passportModuleLabel(stamp.moduleId)}</p>
@@ -85,7 +86,12 @@ function StampArticle({ stamp }: { stamp: SealedPassportStamp }) {
           ) : null}
         </div>
       ) : null}
-    </article>
+      {academy && stamp.certificateHash && sealed ? (
+        <div className="mt-3">
+          <CertificateShareActions hash={stamp.certificateHash} courseTitle={stamp.title} />
+        </div>
+      ) : null}
+    </VisaPageFrame>
   );
 }
 
@@ -96,9 +102,9 @@ function GrowthSlotCard({ slot }: { slot: PassportGrowthSlot }) {
       <article
         data-passport-growth-slot={slot.slug}
         data-passport-growth-held={slot.held ? "true" : "false"}
-        className={`flex h-full flex-col rounded-[var(--radius-card)] border p-3 ${
+        className={`flex h-full flex-col rounded-[1.15rem] border p-3 ${
           slot.held
-            ? "border-[var(--border)] bg-[var(--surface)] shadow-sm"
+            ? "border-[color-mix(in_srgb,var(--gold)_42%,var(--safir))] bg-[color-mix(in_srgb,#fbf6eb_90%,white)] shadow-sm"
             : "border-dashed border-[var(--border)] bg-[var(--surface-muted)]"
         }`}
       >
@@ -107,7 +113,7 @@ function GrowthSlotCard({ slot }: { slot: PassportGrowthSlot }) {
             <VisaWaxSeal sourceKind="ACADEMY_CERTIFICATE" size="sm" />
           ) : (
             <span
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-dashed border-[var(--border)] text-[var(--muted)]"
+              className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-dashed border-[var(--border)] text-[var(--muted)]"
               aria-hidden
             >
               <IconLock className="h-4 w-4" />

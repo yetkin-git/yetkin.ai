@@ -3,6 +3,7 @@ import { LinkButton } from "@/components/ui/link-button";
 import { IconBadge } from "@/components/ui/icons";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { academyProofHashPreview, academyVerifyPath } from "@/lib/academy/lesson-note-paths";
+import { CertificateShareActions } from "@/components/academy/certificate-share-actions";
 import type { AcademyPathwayMasteryView } from "@/lib/academy/level-pathway";
 
 export function PathwayMasterySeal({
@@ -39,6 +40,7 @@ export function PathwayMasterySeal({
           {ACADEMY_SEN.certificates.verifyCta}
         </LinkButton>
       ) : null}
+      <CertificateShareActions hash={mastery.masteryHash} courseTitle={mastery.pathwayTitle} />
     </div>
   );
 }

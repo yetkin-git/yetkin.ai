@@ -126,10 +126,13 @@ describe("yetkin.ai marka / favicon yüzeyi", () => {
     expect(PUBLIC_SEN.home.trustTitle).toBe("Güven taahhüdü");
     expect(PUBLIC_SEN.home.trust.join("\n")).not.toMatch(/Türk Lirası|₺/);
     expect(PUBLIC_SEN.home.trust).toContain(
-      "PayTR Merchant onayı sürecindedir. PayTR iFrame altyapısı hazırdır; kart numarası platformda tutulmaz",
+      "PayTR iFrame + 3D Secure. Kart numarası platformda tutulmaz",
     );
     expect(PUBLIC_SEN.home.trust.join("\n")).not.toContain("güvenli ödeme altyapısı");
     expect(PUBLIC_SEN.home.trust.join("\n")).not.toContain("Ödeme henüz bağlanmadı / pasif");
     expect(readSrc("app/(public)/page.tsx")).toContain("copy.trust.map");
+    expect(readSrc("app/(public)/page.tsx")).toContain("SecurePaymentMarks");
+    expect(readSrc("app/(public)/page.tsx")).toContain("academyCourseCoverPath");
+    expect(PUBLIC_SEN.home.title).toBe("Yapay zekâ yetkinliğini kanıtla, kariyerini mühürle");
   });
 });

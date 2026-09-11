@@ -6,7 +6,7 @@ test.describe("Faz 1 kamu navigasyonu", () => {
   }) => {
     const home = await page.goto("/");
     expect(home?.status()).toBeLessThan(400);
-    await expect(page.getByRole("heading", { name: "Yetkinliğini kanıtlayan yapay zekâ eğitimleri" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Yapay zekâ yetkinliğini kanıtla, kariyerini mühürle" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Eğitimleri İncele" })).toHaveAttribute("href", "/academy");
     await expect(page.getByRole("link", { name: "Giriş Yap" })).toHaveAttribute("href", "/login");
     await expect(page.getByRole("link", { name: "Kayıt Ol" })).toHaveAttribute("href", "/register");
@@ -14,7 +14,7 @@ test.describe("Faz 1 kamu navigasyonu", () => {
     await expect(page.getByRole("link", { name: "Anasayfaya geç" })).toHaveCount(0);
     await expect(page.getByRole("link", { name: "Anasayfaya gir" })).toHaveCount(0);
     await expect(page.getByText("Bugün satılan ürün")).toBeVisible();
-    await expect(page.getByText("Öğren ve sınavı geç")).toBeVisible();
+    await expect(page.getByText("Öğren, sınavı geç, belgeni mühürle")).toBeVisible();
     await expect(page.getByText("Freelancer")).toHaveCount(0);
     await expect(page.getByText("İlan ver veya teklif et")).toHaveCount(0);
     await expect(page.getByText("Split pasifken")).toHaveCount(0);

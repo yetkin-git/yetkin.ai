@@ -98,6 +98,16 @@ const nextConfig: NextConfig = {
         destination: "/academy/:slug",
         statusCode: 301,
       },
+      {
+        source: "/verify",
+        destination: "/academy/dogrula",
+        statusCode: 301,
+      },
+      {
+        source: "/verify/:hash",
+        destination: "/academy/dogrula/:hash",
+        statusCode: 301,
+      },
     ];
   },
   async rewrites() {

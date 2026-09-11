@@ -1,9 +1,9 @@
 import type { Route } from "next";
 import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
+import { CertificateShareActions } from "@/components/academy/certificate-share-actions";
 import { CopyVisaValue } from "@/components/kernel/copy-visa-value";
-import { VisaWaxSeal } from "@/components/kernel/visa-wax-seal";
+import { VisaPageFrame, VisaWaxSeal } from "@/components/kernel/visa-wax-seal";
 import {
   careerStampContractHref,
   careerStampCourseHref,
@@ -28,11 +28,15 @@ function StampCard({
   const hasSeal = Boolean(verifyHref || contractHref);
 
   return (
-    <Card variant="default" title={stamp.title} bodyClassName="text-[var(--foreground)]" className="shadow-sm">
+    <VisaPageFrame>
       <div className="flex items-start gap-4">
-        <VisaWaxSeal sourceKind={stamp.sourceKind} />
+        <VisaWaxSeal sourceKind={stamp.sourceKind} size="lg" />
         <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--gold)]">
+            {CAREER_SEN.ledger.eyebrow}
+          </p>
+          <h3 className="mt-1 font-serif text-xl tracking-tight text-[var(--foreground)]">{stamp.title}</h3>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
             <Badge tone={academy ? "safir" : "emerald"}>{passportSourceLabel(stamp.sourceKind)}</Badge>
             {hasSeal ? <Badge tone="gold">{CAREER_SEN.sealed}</Badge> : null}
           </div>
@@ -47,7 +51,7 @@ function StampCard({
         </div>
       </div>
       {stamp.certificateHash ? (
-        <div className="mt-1">
+        <div className="mt-4">
           <CopyVisaValue value={stamp.certificateHash} label={CAREER_SEN.hashLabel} />
           <p className="mt-1 text-[11px] text-[var(--muted)]">{CAREER_SEN.hashNote}</p>
         </div>
@@ -71,7 +75,12 @@ function StampCard({
           ) : null}
         </div>
       ) : null}
-    </Card>
+      {academy && stamp.certificateHash && hasSeal ? (
+        <div className="mt-3">
+          <CertificateShareActions hash={stamp.certificateHash} courseTitle={stamp.title} />
+        </div>
+      ) : null}
+    </VisaPageFrame>
   );
 }
 

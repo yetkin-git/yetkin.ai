@@ -433,9 +433,11 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(marks).toContain('"PayTR"');
     expect(marks).toContain("/paytr-logo.svg");
     expect(marks).toContain("SSL / Güvenli Ödeme");
+    expect(marks).toContain("3D Secure");
     expect(badge).toContain("PAYTR_LOGO_SRC");
     expect(badge).toContain("data-paytr-mark");
     expect(badge).toContain("data-ssl-mark");
+    expect(badge).toContain("data-3d-secure-mark");
     expect(footer).toContain("SecurePaymentMarks");
   });
 });

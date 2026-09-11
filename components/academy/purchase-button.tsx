@@ -358,6 +358,8 @@ export function PurchaseButton({
         <Button
           key={offer.path}
           type="button"
+          size="lg"
+          className="w-full"
           variant={offer.path === "exam" ? "secondary" : "primary"}
           data-checkout-pay-cta=""
           onClick={() => {

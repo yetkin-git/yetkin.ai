@@ -77,8 +77,8 @@ export function CourseHeroActions({
       {primaryHref && primaryLabel ? (
         paytrCheckout && primaryAction === "buy" ? (
           <Button
-            size="sm"
-            className="tabular-nums"
+            size="lg"
+            className="min-w-[12rem] tabular-nums"
             data-academy-hero-cta={primaryAction}
             data-academy-hero-paytr=""
             data-academy-hero-price=""
@@ -91,8 +91,9 @@ export function CourseHeroActions({
         ) : (
           <LinkButton
             href={primaryHref as Route}
-            size="sm"
-            className="tabular-nums"
+            size="lg"
+            variant={primaryAction === "play" || primaryAction === "exam" ? "success" : "primary"}
+            className="min-w-[12rem] tabular-nums"
             data-academy-hero-cta={primaryAction}
             data-academy-hero-price={primaryAction === "buy" ? "" : undefined}
           >

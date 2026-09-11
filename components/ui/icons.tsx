@@ -269,6 +269,24 @@ export function IconCopy(props: IconProps) {
   );
 }
 
+export function IconLinkedIn(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <path d="M8 10v7M8 7.2v.1" />
+      <path d="M12 17v-4.2a2 2 0 0 1 4 0V17" />
+    </Svg>
+  );
+}
+
+export function IconX(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="m5 5 14 14M19 5 5 19" />
+    </Svg>
+  );
+}
+
 export function IconMenu(props: IconProps) {
   return (
     <Svg {...props}>

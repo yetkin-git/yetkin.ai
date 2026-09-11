@@ -10,9 +10,14 @@ import { ProofOfWorkCard } from "@/components/academy/proof-of-work-card";
 import { PathwayMasterySeal } from "@/components/academy/pathway-mastery-seal";
 import { CertificateSeal } from "@/components/academy/certificate-seal";
 import { CertificateVerifyNav } from "@/components/academy/certificate-verify-nav";
+import { CertificateShareActions } from "@/components/academy/certificate-share-actions";
 import { CertificateVerifyQr } from "@/components/academy/certificate-verify-qr";
+import { academyVerifyShareMetadata } from "@/lib/academy/certificate-share";
+import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { parseSha256Hex } from "@/lib/kernel/crypto/sha256";
-import { pageMetadata } from "@/lib/copy/seo";
+
+const VERIFY_META_DESCRIPTION =
+  "Akademi sertifikasının SHA-256 bütünlük kaydı. Oturum istenmez; vatandaş kimliği gösterilmez.";
 
 export async function generateMetadata({
   params,
@@ -20,13 +25,34 @@ export async function generateMetadata({
   params: Promise<{ hash: string }>;
 }): Promise<Metadata> {
   const { hash } = await params;
-  const preview = parseSha256Hex(hash)?.slice(0, 12);
-  const title = preview ? `Doğrula ${preview} · Akademi` : "Doğrula · Akademi";
-  return pageMetadata({
-    title,
-    description:
-      "Akademi sertifikasının SHA-256 bütünlük kaydı. Oturum istenmez; vatandaş kimliği gösterilmez.",
-    path: `/academy/dogrula/${hash}`,
+  const parsed = parseSha256Hex(hash);
+  const resolution = parsed ? await loadPublicAcademyVerifyByHash(parsed) : null;
+  if (resolution?.status === "found" && resolution.kind === "certificate") {
+    return academyVerifyShareMetadata({
+      hash,
+      title: `${resolution.view.courseTitle} · Sertifika doğrula`,
+      description: VERIFY_META_DESCRIPTION,
+    });
+  }
+  if (resolution?.status === "found" && resolution.kind === "proof") {
+    return academyVerifyShareMetadata({
+      hash,
+      title: `${resolution.view.courseTitle} · Uygulama kaydı`,
+      description: VERIFY_META_DESCRIPTION,
+    });
+  }
+  if (resolution?.status === "found" && resolution.kind === "pathway-mastery") {
+    return academyVerifyShareMetadata({
+      hash,
+      title: `${resolution.view.pathwayTitle} · ${ACADEMY_SEN.verify.masteryTitle}`,
+      description: VERIFY_META_DESCRIPTION,
+    });
+  }
+  const preview = parsed?.slice(0, 12);
+  return academyVerifyShareMetadata({
+    hash,
+    title: preview ? `Doğrula ${preview} · Akademi` : "Doğrula · Akademi",
+    description: VERIFY_META_DESCRIPTION,
   });
 }
 
@@ -232,6 +258,9 @@ export default async function AcademyCertificateVerifyPage({
               </LinkButton>
             </div>
           ) : null}
+          <div className="mt-4">
+            <CertificateShareActions hash={view.proofOfWorkHash} courseTitle={view.courseTitle} showLead />
+          </div>
         </Card>
       </RoomFrame>
     );

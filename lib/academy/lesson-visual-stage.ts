@@ -193,6 +193,26 @@ export function academyVisualStageActiveCard(
   return null;
 }
 
+/** Sıradaki cue slaytı — tarayıcı preload; aktif yoksa ilk kart. */
+export function academyVisualStageNextCard(
+  stage: Pick<AcademyLessonVisualStage, "cards">,
+  currentTime: number,
+): AcademyLessonVisualCard | null {
+  const cards = stage.cards;
+  if (cards.length === 0) {
+    return null;
+  }
+  const active = academyVisualStageActiveCard(stage, currentTime);
+  if (!active) {
+    return cards[0] ?? null;
+  }
+  const index = cards.findIndex((card) => card.cueId === active.cueId);
+  if (index < 0 || index + 1 >= cards.length) {
+    return null;
+  }
+  return cards[index + 1] ?? null;
+}
+
 export function academyVisualStageIsInWindow(
   stage: Pick<AcademyLessonVisualStage, "cards"> | AcademyVisualCardWindow,
   currentTime: number,

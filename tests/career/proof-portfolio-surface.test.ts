@@ -123,6 +123,9 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     expect(ledger).toContain("certificateHash");
     expect(ledger).toContain("openCourseCta");
     expect(ledger).toContain("openContractCta");
+    expect(ledger).toContain("VisaWaxSeal");
+    expect(ledger).toContain("VisaPageFrame");
+    expect(ledger).toContain("CertificateShareActions");
     expect(ledger).not.toContain("issueCareerVisaStamp");
     expect(SEN_VOICE.career.ledgerTitle).toBe("Pasaport Vize Damgası");
     expect(SEN_VOICE.career.proofsTitle).toBe("Pasaport Vize Damgası");

@@ -3,7 +3,8 @@ export const ACADEMY_SEN = {
     eyebrow: "Akademi",
     title: "Akademi",
     description:
-      "Eğitimi incele, dersleri tamamla, testi geç. Amiral kursta mühürlü dersler sesli anlatım + kayan metin (karaoke) taşır. Diğer dört eğitim yazılı compact ders + uygulamalı senaryodur. Vitrin beş yayında eğitimdir. Dersler ödeme sonrası açılır. Sertifika ve yetkinlik, test barajını (≥70) geçince Kariyer sayfana işlenir.",
+      "Eğitimi incele, dersleri tamamla, testi geç. Amiral kursta mühürlü dersler sesli anlatım + kayan metin (karaoke) taşır. Diğer dört eğitim yazılı compact ders + uygulamalı senaryodur. Vitrin beş yayında eğitimdir (30 ders). Dersler ödeme sonrası açılır. Sertifika ve yetkinlik, test barajını (≥70) geçince Kariyer sayfana işlenir.",
+    stats: "5 eğitim · 30 ders · mühürlü sertifika",
     certificatesCta: "Sertifikalar",
     verifyCta: "Doğrula",
     live: (count: number) => (count > 0 ? "Eğitimler — ders, test ve yetkinlik" : ""),
@@ -601,6 +602,14 @@ export const ACADEMY_SEN = {
     careerVisaCta: "Kariyer sayfasında gör",
     careerVisaLead:
       "Doğrulanmış Rozetin Pasaport Vize Damgası olarak sicile düşer; Kariyer Erişim Hakkını açar.",
+    shareLinkedIn: "LinkedIn'de Paylaş",
+    shareX: "X'te Paylaş",
+    shareCopy: "Doğrulama bağını kopyala",
+    shareCopied: "Bağ kopyalandı",
+    shareCopyFail: "Bağ kopyalanamadı",
+    shareLead: "Doğrulama bağını LinkedIn veya X'te paylaş. Vatandaş kimliği paylaşılmaz.",
+    shareText: "yetkin.ai Akademi — Doğrulanmış Rozet. Açık sicil kaydı:",
+    shareTextNamed: (title: string) => `${title} — yetkin.ai Akademi Doğrulanmış Rozet.`,
   },
   verify: {
     eyebrow: "Sertifika doğrula",

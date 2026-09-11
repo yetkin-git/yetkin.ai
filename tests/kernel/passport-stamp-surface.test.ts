@@ -145,6 +145,9 @@ describe("pasaport vize yüzeyi", () => {
     expect(page).not.toContain("<form");
     expect(combined).not.toMatch(/Vize ekle/);
     expect(combined).not.toMatch(/visa-form/i);
+    expect(list).toContain("VisaWaxSeal");
+    expect(list).toContain("VisaPageFrame");
+    expect(list).toContain("CertificateShareActions");
     expect(list).toContain("passportAcademyVerifyHref");
     expect(list).toContain("passportFreelancerContractHref");
     expect(list).toContain("openContractCta");

@@ -85,6 +85,7 @@ describe("akademi kamu sertifika doğrulama yüzeyi", () => {
     expect(list).toContain("CertificateVerifyQr");
     expect(seal).toContain("revoked = false");
     expect(seal).toContain("careerAllowed");
+    expect(seal).toContain("CertificateShareActions");
     expect(seal).toContain("ACADEMY_SEN.verify.revoked");
     expect(seal).toContain("ACADEMY_SEN.verify.privacyA4");
     expect(seal).not.toContain("ACADEMY_SEN.proof.anonymousHolder");

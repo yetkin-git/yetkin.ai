@@ -97,6 +97,8 @@ describe("Aşama 1 SEO yüzeyi", () => {
     expect(readSrc("app/opengraph-image.tsx")).toContain("ImageResponse");
     expect(readSrc("app/opengraph-image.tsx")).toContain("OG_IMAGE_SIZE");
     expect(readSrc("app/twitter-image.tsx")).toContain("./opengraph-image");
+    expect(existsSync(join(ROOT, "app/academy/dogrula/[hash]/opengraph-image.tsx"))).toBe(true);
+    expect(readSrc("app/academy/dogrula/[hash]/twitter-image.tsx")).toContain("./opengraph-image");
     for (const file of [
       "app/academy/layout.tsx",
       "app/(public)/iletisim/page.tsx",
@@ -147,14 +149,14 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(alias).toContain("permanentRedirect");
     expect(alias).not.toContain("AcademyCoursePage");
     expect(alias).not.toContain("baseGenerateMetadata");
+    expect(config).toContain('source: "/verify/:hash"');
+    expect(config).toContain('destination: "/academy/dogrula/:hash"');
   });
 
   it("yayınlanmış her vitrin SKU’sunun kapak posteri veya marka mührü durur", () => {
     for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
       const cover = academyCourseCoverPath(slug);
-      expect(cover === "/icon.svg" || /^\/media\/academy\/micro\/.+\.poster\.svg$/.test(cover), slug).toBe(
-        true,
-      );
+      expect(/^\/academy\/cinema\/.+-1-eye\.jpg$/.test(cover), slug).toBe(true);
       expect(existsSync(join(ROOT, "public", cover.slice(1))), cover).toBe(true);
     }
   });

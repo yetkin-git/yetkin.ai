@@ -9,6 +9,7 @@ import { academyInstructorBySlug } from "@/lib/academy/instructors";
 import { academyModuleCodeBySlug } from "@/lib/academy/catalog-filter";
 import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
 import { academyCatalogSummaryBySlug } from "@/lib/academy/catalog-summaries";
+import { academyCourseCoverPath } from "@/lib/academy/course-cover";
 import type { AcademyCatalogLearnerStatus } from "@/lib/academy/catalog-learner";
 import type { AcademyCatalogViewMode } from "@/lib/academy/catalog-view-pref";
 import { resolveAcademyCatalogCardCta } from "@/lib/academy/storefront-cta";
@@ -134,12 +135,15 @@ export function CourseCard({
       meta={ACADEMY_SEN.catalog.cardMeta(lessonCount, instructor.name)}
       href={storefront.href}
       cta={storefront.cta}
+      ctaSize="md"
+      ctaVariant={owned ? "success" : "primary"}
+      coverSrc={academyCourseCoverPath(course.slug)}
+      coverPriority={featured}
       footerBadge={learnerLabel ?? undefined}
       footerBadgeTone={learnerStatus === "completed" ? "emerald" : "safir"}
       extraBadge={chrome}
       hitAriaExtra={hasAudio ? ACADEMY_SEN.catalog.audioBadgeHint : ACADEMY_SEN.catalog.articleBadgeHint}
       className={cn(
-        "!p-4",
         featured &&
           "ring-1 ring-[color-mix(in_srgb,var(--safir)_42%,transparent)] bg-[color-mix(in_srgb,var(--safir-soft)_55%,var(--surface))]",
       )}

@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
+import { VisaWaxSeal } from "@/components/kernel/visa-wax-seal";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { WALLET_SURFACE_PATH } from "@/lib/kernel/identity/types";
 import {
@@ -46,32 +47,43 @@ export function IdentityMeritSummary({
           {merit.empty}
         </p>
       ) : (
-        <dl className="mb-4 grid gap-4 sm:grid-cols-3">
-          <div>
-            <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
-              {merit.countLabel}
-            </dt>
-            <dd className="mt-1 text-lg font-semibold tracking-tight">{stamps.length}</dd>
-          </div>
-          <div>
-            <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
-              {merit.latestLabel}
-            </dt>
-            <dd className="mt-1 text-sm font-medium">{latest?.title ?? PASSPORT_UNSET_LABEL}</dd>
-          </div>
-          <div>
-            <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
-              {merit.sourcesLabel}
-            </dt>
-            <dd className="mt-2 flex flex-wrap gap-2">
-              {sourceKinds.map((kind) => (
-                <Badge key={kind} tone={SOURCE_TONE[kind]}>
-                  {passportSourceLabel(kind)}
-                </Badge>
-              ))}
-            </dd>
-          </div>
-        </dl>
+        <>
+          <ul className="mb-4 flex flex-wrap gap-3">
+            {stamps.slice(0, 8).map((stamp) => (
+              <li key={stamp.id}>
+                <VisaWaxSeal sourceKind={stamp.sourceKind} size="sm" />
+              </li>
+            ))}
+          </ul>
+          <dl className="mb-4 grid gap-4 sm:grid-cols-3">
+            <div>
+              <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
+                {merit.countLabel}
+              </dt>
+              <dd className="mt-1 font-serif text-2xl font-semibold tracking-tight text-[var(--gold)]">
+                {stamps.length}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
+                {merit.latestLabel}
+              </dt>
+              <dd className="mt-1 text-sm font-medium">{latest?.title ?? PASSPORT_UNSET_LABEL}</dd>
+            </div>
+            <div>
+              <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
+                {merit.sourcesLabel}
+              </dt>
+              <dd className="mt-2 flex flex-wrap gap-2">
+                {sourceKinds.map((kind) => (
+                  <Badge key={kind} tone={SOURCE_TONE[kind]}>
+                    {passportSourceLabel(kind)}
+                  </Badge>
+                ))}
+              </dd>
+            </div>
+          </dl>
+        </>
       )}
       <div className="flex flex-wrap gap-2">
         {verifyHref ? (

@@ -20,20 +20,18 @@ export function CertificateList({
         const hash = certificate.certificateHash ?? certificate.serialKey;
         const revoked = Boolean(certificate.revokedAt);
         return (
-          <li key={certificate.id}>
-            <Card title={certificate.title} bodyClassName="text-[var(--foreground)]">
-              <CertificateSeal
-                variant="diploma"
-                hash={hash}
-                score={certificate.score}
-                issuedAt={certificate.issuedAt}
-                courseTitle={certificate.title}
-                holderName={holderName}
-                verifyHref={hash ? `/academy/dogrula/${hash}` : undefined}
-                revoked={revoked}
-              />
-              {hash && !revoked ? <CertificateVerifyQr hash={hash} /> : null}
-            </Card>
+          <li key={certificate.id} className="space-y-3">
+            <CertificateSeal
+              variant="diploma"
+              hash={hash}
+              score={certificate.score}
+              issuedAt={certificate.issuedAt}
+              courseTitle={certificate.title}
+              holderName={holderName}
+              verifyHref={hash ? `/academy/dogrula/${hash}` : undefined}
+              revoked={revoked}
+            />
+            {hash && !revoked ? <CertificateVerifyQr hash={hash} /> : null}
           </li>
         );
       })}

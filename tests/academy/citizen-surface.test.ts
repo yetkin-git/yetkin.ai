@@ -72,6 +72,7 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     const ledgerLeak = /SETTLED|amountMinor|CheckoutPriceLock|settlement|debit|escrow/i;
     expect(copy.catalog.description).toContain("Dersler ödeme sonrası açılır");
     expect(copy.catalog.description).toContain("Vitrin beş yayında eğitimdir");
+    expect(copy.catalog.stats).toBe("5 eğitim · 30 ders · mühürlü sertifika");
     expect(copy.catalog.description).not.toContain("13 eğitim");
     expect(copy.catalog.description).not.toMatch(ledgerLeak);
     expect(copy.catalog.cardCtaBuy).toBe("Satın Al");
@@ -144,6 +145,11 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(readSrc("components/academy/course-card.tsx")).toContain("academyModuleCodeBySlug");
     expect(readSrc("components/academy/course-card.tsx")).toContain("academyCatalogSummaryBySlug");
     expect(readSrc("components/academy/course-card.tsx")).toContain("academyCourseHasSealedAudio");
+    expect(readSrc("components/academy/course-card.tsx")).toContain("academyCourseCoverPath");
+    expect(readSrc("components/academy/course-card.tsx")).toContain("coverSrc");
+    expect(readSrc("components/academy/course-card.tsx")).toContain("ctaSize");
+    expect(readSrc("components/showcase/listing-card.tsx")).toContain("data-academy-catalog-cover");
+    expect(readSrc("components/showcase/listing-card.tsx")).toContain("data-academy-catalog-cta");
     expect(readSrc("components/academy/course-card.tsx")).toContain("data-academy-audio-badge");
     expect(readSrc("components/academy/course-card.tsx")).toContain("data-academy-article-badge");
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("academyModuleCodeBySlug");
@@ -162,6 +168,7 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(readSrc("components/academy/course-hero-actions.tsx")).toContain("data-academy-hero-article");
     expect(readSrc("components/academy/course-hero-actions.tsx")).toContain("data-academy-hero-paytr");
     expect(readSrc("components/academy/course-hero-actions.tsx")).toContain("buyPriced");
+    expect(readSrc("components/academy/course-hero-actions.tsx")).toContain('size="lg"');
     expect(readSrc("components/academy/course-hero-actions.tsx")).not.toMatch(/<p[\s\S]*data-academy-hero-price/);
     expect(readSrc("components/academy/course-card.tsx")).toContain("audioBadgeHint");
     expect(readSrc("components/academy/course-card.tsx")).not.toContain("hasAudio = true");

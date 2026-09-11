@@ -1,5 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/link-button";
+import { CertificateShareActions } from "@/components/academy/certificate-share-actions";
+import { VisaPageFrame, VisaWaxSeal } from "@/components/kernel/visa-wax-seal";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { UX_SEN } from "@/lib/copy/sen-voice/ux";
 import type { Route } from "next";
@@ -16,6 +18,7 @@ export function CertificateSeal({
   instructorName,
   variant = "ledger",
   revoked = false,
+  showShare = true,
 }: {
   hash: string;
   score?: number | null;
@@ -28,12 +31,14 @@ export function CertificateSeal({
   instructorName?: string;
   variant?: "ledger" | "diploma";
   revoked?: boolean;
+  showShare?: boolean;
 }) {
   const copy = ACADEMY_SEN.certificates;
   const diploma = variant === "diploma" || Boolean(courseTitle);
   const namedHolder = holderName?.trim() || null;
   const sealLabel = revoked ? ACADEMY_SEN.verify.revoked : copy.sealed;
   const careerAllowed = showCareerVisa && !revoked;
+  const shareAllowed = showShare && !revoked && Boolean(hash);
 
   if (!diploma) {
     return (
@@ -65,20 +70,22 @@ export function CertificateSeal({
             </LinkButton>
           ) : null}
         </div>
+        {shareAllowed ? <CertificateShareActions hash={hash} courseTitle={courseTitle} /> : null}
       </div>
     );
   }
 
   return (
-    <article className="relative overflow-hidden rounded-[1.75rem] border-2 border-[color-mix(in_srgb,var(--gold)_55%,var(--safir))] bg-[color-mix(in_srgb,#fbf6eb_88%,white)] px-6 py-8 shadow-[var(--shadow-lift)]">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-8 -top-8 h-36 w-36 rounded-full border-8 border-[color-mix(in_srgb,var(--gold)_35%,transparent)]"
-      />
-      <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--gold)]">
-        {ACADEMY_SEN.course.certificateEyebrow}
-      </p>
-      <h3 className="mt-2 font-serif text-2xl tracking-tight text-[var(--foreground)]">{sealLabel}</h3>
+    <VisaPageFrame className="px-6 py-8">
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0 flex-1">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--gold)]">
+            {ACADEMY_SEN.course.certificateEyebrow}
+          </p>
+          <h3 className="mt-2 font-serif text-2xl tracking-tight text-[var(--foreground)]">{sealLabel}</h3>
+        </div>
+        <VisaWaxSeal sourceKind="ACADEMY_CERTIFICATE" size="lg" />
+      </div>
       {courseTitle ? (
         <p className="mt-3 text-lg font-semibold text-[var(--foreground)]">{courseTitle}</p>
       ) : null}
@@ -141,6 +148,11 @@ export function CertificateSeal({
           </LinkButton>
         ) : null}
       </div>
-    </article>
+      {shareAllowed ? (
+        <div className="mt-3">
+          <CertificateShareActions hash={hash} courseTitle={courseTitle} showLead />
+        </div>
+      ) : null}
+    </VisaPageFrame>
   );
 }

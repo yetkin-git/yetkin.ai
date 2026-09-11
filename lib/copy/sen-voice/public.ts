@@ -4,9 +4,9 @@ import { YETKIN_BRAND } from "@/lib/copy/brand";
 export const PUBLIC_SEN = {
   home: {
     badge: YETKIN_BRAND,
-    title: "Yetkinliğini kanıtlayan yapay zekâ eğitimleri",
+    title: "Yapay zekâ yetkinliğini kanıtla, kariyerini mühürle",
     description:
-      "Ofis, e-ticaret, sosyal içerik, chatbot ve prompt kurslarını incele. Dersleri bitir, testi geç; belgen sunucuda mühürlenir. PayTR Merchant onayı sürecindedir; PayTR iFrame altyapısı hazırdır, kart numarası platformda tutulmaz.",
+      "Ofis, e-ticaret, sosyal içerik, chatbot ve prompt — 5 eğitim, 30 ders. Dersleri bitir, testi geç; belgen sunucuda mühürlenir. PayTR iFrame + 3D Secure; kart numarası platformda tutulmaz.",
     academyCta: "Eğitimleri İncele",
     loginCta: "Giriş Yap",
     registerCta: "Kayıt Ol",
@@ -15,14 +15,16 @@ export const PUBLIC_SEN = {
     trustTitle: "Güven taahhüdü",
     trust: [
       "Kimliğin güvenli oturumla korunur",
-      "PayTR Merchant onayı sürecindedir. PayTR iFrame altyapısı hazırdır; kart numarası platformda tutulmaz",
+      "PayTR iFrame + 3D Secure. Kart numarası platformda tutulmaz",
       "Sınav ve mühür sunucuda doğrulanır; ikna yerine kanıt",
     ],
+    cinemaKicker: "30 derslik sinema kataloğu",
+    cinemaHint: "Tur 3 sahneleri — her eğitim 6 mühürlü ders.",
     roomsKicker: "Bugün satılan ürün",
     hero: {
       kicker: "Akademi",
-      title: "Öğren ve sınavı geç",
-      body: "Amiral kursta mühürlü dersler sesli anlatımdır; Prompt Box videonun altındadır. Testi geçince belgen hazır.",
+      title: "Öğren, sınavı geç, belgeni mühürle",
+      body: "Amiral kursta mühürlü dersler sesli anlatımdır; Prompt Box videonun altındadır. Testi 70+ ile geçince belgen Kariyer sayfana işlenir.",
       href: "/academy",
     },
   },

@@ -11,6 +11,7 @@ import {
   academyVisualStageActiveCard,
   academyVisualStageCinemaKind,
   academyVisualStageMotion,
+  academyVisualStageNextCard,
   type AcademyLessonVisualCard,
   type AcademyLessonVisualStage,
 } from "@/lib/academy/lesson-visual-stage";
@@ -29,23 +30,11 @@ function LessonCinemaMediaCard({
   const cinema = card.kind === "veo" ? resolveAcademyCinemaSource(card.src) : null;
   const bakedFile = cinema?.kind === "html5" || cinema?.kind === "hls";
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [plateSrc, setPlateSrc] = useState(fallbackSrc);
+  const [plateSrc, setPlateSrc] = useState(card.src);
 
   useEffect(() => {
-    setPlateSrc(fallbackSrc);
-    const probe = new Image();
-    probe.onload = () => {
-      setPlateSrc(card.src);
-    };
-    probe.onerror = () => {
-      setPlateSrc(fallbackSrc);
-    };
-    probe.src = card.src;
-    return () => {
-      probe.onload = null;
-      probe.onerror = null;
-    };
-  }, [card.cueId, card.src, fallbackSrc]);
+    setPlateSrc(card.src);
+  }, [card.cueId, card.src]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -84,6 +73,10 @@ function LessonCinemaMediaCard({
           data-motion={motion}
           src={plateSrc}
           alt=""
+          width={1280}
+          height={720}
+          decoding="async"
+          fetchPriority="high"
           onError={() => {
             setPlateSrc(fallbackSrc);
           }}
@@ -112,11 +105,13 @@ export function LessonCinemaEyeLayer({
     [captions, stage.lessonKey],
   );
   const card = academyVisualStageActiveCard(stage, currentTime);
+  const nextCard = academyVisualStageNextCard(stage, currentTime);
   const motion = academyVisualStageMotion(stage, currentTime, playing);
   const kind = academyVisualStageCinemaKind(stage);
   const activeIndex = academyTeleprompterActiveLineIndex(lines, currentTime);
   const activeRef = useRef<HTMLParagraphElement | null>(null);
   const mediaActive = card != null;
+  const nextSrc = nextCard && nextCard.src !== card?.src ? nextCard.src : null;
 
   useEffect(() => {
     if (!captions) {
@@ -145,10 +140,27 @@ export function LessonCinemaEyeLayer({
       data-academy-eye-cue={activeCueId ?? card?.cueId}
       data-academy-media-live={mediaActive ? "true" : "false"}
     >
+      {nextSrc ? (
+        <img
+          src={nextSrc}
+          alt=""
+          aria-hidden
+          width={1}
+          height={1}
+          decoding="async"
+          fetchPriority="low"
+          data-academy-cinema-preload=""
+          className="pointer-events-none absolute h-0 w-0 overflow-hidden opacity-0"
+        />
+      ) : null}
       <img
         className="academy-player-eye-backdrop"
         src={stage.posterSrc}
         alt=""
+        width={1280}
+        height={720}
+        decoding="async"
+        fetchPriority="high"
         data-academy-eye-backdrop=""
       />
       {card ? (

@@ -110,6 +110,7 @@ export function CourseList({
             <h1 className="text-pretty text-xl font-semibold tracking-tight text-[var(--foreground)] sm:text-2xl">
               {title}
             </h1>
+            <p className="mt-1 text-sm font-medium text-[var(--safir-deep)]">{copy.stats}</p>
             <p className="mt-1 max-w-3xl text-sm leading-6 text-[var(--muted)]">{copy.description}</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">

@@ -90,6 +90,9 @@ describe("akademi mikro-video ve şema mimarisi", () => {
       "Math.abs(audio.currentTime - clockRef.current.lastAudioTime) < 0.04",
     );
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain('type="audio/mpeg"');
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain(
+      'preload={playing ? "auto" : "metadata"}',
+    );
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("academyLessonAudioPlaybackSrc");
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("key={audioSrc}");
     expect(readSrc("next.config.ts")).toContain("audio/mpeg");
