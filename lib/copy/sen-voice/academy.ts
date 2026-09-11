@@ -3,7 +3,7 @@ export const ACADEMY_SEN = {
     eyebrow: "Akademi",
     title: "Akademi",
     description:
-      "Eğitimi incele, dersleri tamamla, testi geç. Amiral kursta mühürlü dersler sesli anlatım + kayan metin (karaoke) taşır. Diğer dört eğitim yazılı compact ders + uygulamalı senaryodur. Vitrin beş yayında eğitimdir (30 ders). Dersler ödeme sonrası açılır. Sertifika ve yetkinlik, test barajını (≥70) geçince Kariyer sayfana işlenir.",
+      "Eğitimi incele, dersleri tamamla, testi geç. Tüm eğitimlerde dersler mühürlü sesli anlatım, senkronize kayan metin (karaoke) ve sinematik görsel sahne kartları taşır. Vitrin beş yayında eğitimdir (30 ders). Dersler ödeme sonrası açılır. Sertifika ve yetkinlik, test barajını (≥70) geçince Kariyer sayfana işlenir.",
     stats: "5 eğitim · 30 ders · mühürlü sertifika",
     certificatesCta: "Sertifikalar",
     verifyCta: "Doğrula",
