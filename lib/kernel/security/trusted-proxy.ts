@@ -102,7 +102,7 @@ export function listForwardedIps(headers: Headers): string[] {
  */
 export function resolveTrustedForwardedIp(
   headers: Headers,
-  env: NodeJS.ProcessEnv = process.env,
+  env: Record<string, string | undefined> = process.env,
 ): string {
   const hops = parseTrustedProxyHops(env);
   if (hops <= 0) {
