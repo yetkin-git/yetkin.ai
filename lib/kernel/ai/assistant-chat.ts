@@ -7,6 +7,7 @@ import { invokeLlm, type InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import type { LlmChatTurn } from "@/lib/kernel/ai/types";
 import { ASSISTANT_CHAT_PATH } from "@/lib/kernel/ai/assistant-chat-client";
+import { resolveAssistantLocalReply } from "@/lib/kernel/ai/assistant-facts";
 import {
   consumeHttpRateLimit,
   HTTP_RATE_LIMITS,
@@ -58,17 +59,20 @@ export type AssistantChatQuotaPort = {
   consume(userId: string): { allowed: boolean; remaining: number; limit: number };
 };
 
+export type AssistantChatSource = "llm" | "local-fact" | "fail-safe";
+
 export type AssistantChatOk = {
   ok: true;
   reply: string;
   remaining: number;
   limit: number;
+  source: AssistantChatSource;
 };
 
 export type AssistantChatFail = {
   ok: false;
   error: string;
-  status: 400 | 429 | 503;
+  status: 400 | 429;
   remaining: number;
   limit: number;
 };
@@ -161,6 +165,17 @@ export async function answerAssistantChat(
     };
   }
 
+  const localReply = resolveAssistantLocalReply(parsed.data.message);
+  if (localReply) {
+    return {
+      ok: true,
+      reply: localReply,
+      remaining: slot.remaining,
+      limit: slot.limit,
+      source: "local-fact",
+    };
+  }
+
   const invoke = deps.invoke ?? invokeLlm;
   const llm = await invoke(
     {
@@ -187,11 +202,11 @@ export async function answerAssistantChat(
 
   if (!llm?.text) {
     return {
-      ok: false,
-      error: ASSISTANT_SEN.unavailable,
-      status: 503,
+      ok: true,
+      reply: ASSISTANT_SEN.failSafe,
       remaining: slot.remaining,
       limit: slot.limit,
+      source: "fail-safe",
     };
   }
 
@@ -200,5 +215,6 @@ export async function answerAssistantChat(
     reply: scrubAssistantCitizenJargon(scrubAssistantProviderLeak(llm.text.trim())),
     remaining: slot.remaining,
     limit: slot.limit,
+    source: "llm",
   };
 }

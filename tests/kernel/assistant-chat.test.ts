@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
+import { LEGAL_SUPPORT_EMAIL } from "@/lib/copy/legal-launch";
 import { ASSISTANT_SEN } from "@/lib/copy/sen-voice/assistant";
 import {
   answerAssistantChat,
@@ -12,6 +13,10 @@ import {
   scrubAssistantProviderLeak,
   type AssistantChatQuotaPort,
 } from "@/lib/kernel/ai/assistant-chat";
+import {
+  matchAssistantLocalFact,
+  resolveAssistantLocalReply,
+} from "@/lib/kernel/ai/assistant-facts";
 import type { InvokeLlmInput, LlmGatewayResult } from "@/lib/kernel/ai/types";
 
 const ROOT = process.cwd();
@@ -49,22 +54,64 @@ describe("yetkin.ai asistan sohbet kotası", () => {
     const invoke = vi.fn(async (input: InvokeLlmInput) => {
       expect(input.role).toBe("LITE_STREAM");
       expect(input.system).toBe(ASSISTANT_SEN.system);
+      expect(input.system).toContain(LEGAL_SUPPORT_EMAIL);
       expect(input.system).not.toMatch(/gemini|google|openai|anthropic/i);
-      expect(input.user).toBe("Akademi belgesi nasıl alınır?");
-      return llmResult("Kursu bitir, sınavı geç, kariyer vizesi sicile basılır.");
+      expect(input.user).toBe("Freelancer ilanı nasıl açılır?");
+      return llmResult("İlanı aç, teklifleri incele; kariyer vizesi sicile basılmaz.");
     });
     const result = await answerAssistantChat(
-      { userId: "user-1", message: "Akademi belgesi nasıl alınır?" },
+      { userId: "user-1", message: "Freelancer ilanı nasıl açılır?" },
       { invoke, quota: memoryQuota() },
     );
     expect(result.ok).toBe(true);
     if (result.ok) {
+      expect(result.source).toBe("llm");
       expect(result.reply).toContain("uzmanlık seviyesi");
       expect(result.reply).not.toMatch(/vize|mühür|dikey kapsam/i);
       expect(result.remaining).toBe(4);
       expect(result.limit).toBe(5);
     }
     expect(invoke).toHaveBeenCalledOnce();
+  });
+
+  it("Selam. Mail adresiniz var mı? LLM'siz SSOT e-posta basar", async () => {
+    const invoke = vi.fn(async () => llmResult("kaçmamalı"));
+    const result = await answerAssistantChat(
+      { userId: "user-mail", message: "Selam. Mail adresiniz var mı?" },
+      { invoke, quota: memoryQuota() },
+    );
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.source).toBe("local-fact");
+      expect(result.reply).toBe(ASSISTANT_SEN.facts.contact);
+      expect(result.reply).toContain(LEGAL_SUPPORT_EMAIL);
+      expect(result.reply).toContain("/academy");
+      expect(result.reply).toContain("/career");
+    }
+    expect(invoke).not.toHaveBeenCalled();
+  });
+
+  it("Akademi ve Kariyer soruları gümrüğü beklemeden SSOT yönlendirir", async () => {
+    const invoke = vi.fn(async () => llmResult("kaçmamalı"));
+    const academy = await answerAssistantChat(
+      { userId: "user-rooms", message: "Akademi belgesi nasıl alınır?" },
+      { invoke, quota: memoryQuota() },
+    );
+    const career = await answerAssistantChat(
+      { userId: "user-rooms-2", message: "Kariyer planımı nasıl kurarım?" },
+      { invoke, quota: memoryQuota() },
+    );
+    expect(academy).toMatchObject({
+      ok: true,
+      source: "local-fact",
+      reply: ASSISTANT_SEN.facts.academy,
+    });
+    expect(career).toMatchObject({
+      ok: true,
+      source: "local-fact",
+      reply: ASSISTANT_SEN.facts.career,
+    });
+    expect(invoke).not.toHaveBeenCalled();
   });
 
   it("beşinci mesajdan sonra LLM çağırmaz ve limit uyarısı basar", async () => {
@@ -109,16 +156,34 @@ describe("yetkin.ai asistan sohbet kotası", () => {
     expect(invoke).toHaveBeenCalledOnce();
   });
 
-  it("gümrük null dönerse sahte cevap basmaz", async () => {
+  it("gümrük null dönerse sahte bilgi uydurmaz; destek e-postasına yönlendirir", async () => {
     const result = await answerAssistantChat(
-      { userId: "user-down", message: "Akademi nedir?" },
+      { userId: "user-down", message: "Freelancer emanet nedir?" },
       { invoke: async () => null, quota: memoryQuota() },
     );
     expect(result).toMatchObject({
-      ok: false,
-      status: 503,
-      error: ASSISTANT_SEN.unavailable,
+      ok: true,
+      source: "fail-safe",
+      reply: ASSISTANT_SEN.failSafe,
     });
+    if (result.ok) {
+      expect(result.reply).toContain(LEGAL_SUPPORT_EMAIL);
+      expect(result.reply).toContain("/academy");
+      expect(result.reply).toContain("/career");
+      expect(result.reply).not.toMatch(/emanet|escrow|bakiye kilit/i);
+    }
+  });
+
+  it("yerel fact eşlemesi iletişim / oda sorularını ayırır", () => {
+    expect(matchAssistantLocalFact("Selam. Mail adresiniz var mı?")).toBe("contact");
+    expect(matchAssistantLocalFact("e-posta adresiniz nedir")).toBe("contact");
+    expect(resolveAssistantLocalReply("İletişim için yazacak yer var mı?")).toBe(
+      ASSISTANT_SEN.facts.contact,
+    );
+    expect(matchAssistantLocalFact("Akademi nedir?")).toBe("academy");
+    expect(matchAssistantLocalFact("Doğrulanmış rozet nerede durur?")).toBe("career");
+    expect(matchAssistantLocalFact("Selam")).toBeNull();
+    expect(resolveAssistantLocalReply("Freelancer emanet nedir?")).toBeNull();
   });
 
   it("yanıttan sağlayıcı adını siler", () => {
@@ -148,17 +213,24 @@ describe("asistan yüzey mührü", () => {
     expect(ASSISTANT_SEN.welcome).toContain("Akademi veya Kariyer");
     expect(ASSISTANT_SEN.system).toContain("/academy");
     expect(ASSISTANT_SEN.system).toContain("/career");
+    expect(ASSISTANT_SEN.system).toContain("/iletisim");
+    expect(ASSISTANT_SEN.system).toContain(LEGAL_SUPPORT_EMAIL);
     expect(ASSISTANT_SEN.system).toContain("Sertifika");
     expect(ASSISTANT_SEN.system).toContain("Doğrulanmış Rozet");
     expect(ASSISTANT_SEN.system).toContain("Yetkinlik Belgesi");
     expect(ASSISTANT_SEN.system).toContain("Uzmanlık Seviyesi");
     expect(ASSISTANT_SEN.system).toContain("Erişim Hakkı");
     expect(ASSISTANT_SEN.system).toContain(ASSISTANT_SEN.templates.certificate);
+    expect(ASSISTANT_SEN.facts.contact).toContain(LEGAL_SUPPORT_EMAIL);
+    expect(ASSISTANT_SEN.failSafe).toContain(LEGAL_SUPPORT_EMAIL);
+    expect(ASSISTANT_SEN.unavailable).toBe(ASSISTANT_SEN.failSafe);
     const citizenFacing = [
       ASSISTANT_SEN.welcome,
       ASSISTANT_SEN.unavailable,
+      ASSISTANT_SEN.failSafe,
       ASSISTANT_SEN.placeholder,
       ...Object.values(ASSISTANT_SEN.templates),
+      ...Object.values(ASSISTANT_SEN.facts),
     ].join("\n");
     expect(citizenFacing).not.toMatch(/mühür|vize|dikey kapsam/i);
     const widget = readSrc("components/kernel/ai-chat-widget.tsx");
@@ -182,7 +254,10 @@ describe("asistan yüzey mührü", () => {
     expect(route).toContain("answerAssistantChat");
     expect(engine).toContain("LITE_STREAM");
     expect(engine).toContain("invokeLlm");
+    expect(engine).toContain("resolveAssistantLocalReply");
     expect(engine).toContain("scrubAssistantCitizenJargon");
+    expect(engine).toContain('"fail-safe"');
+    expect(engine).toContain('"local-fact"');
     expect(readSrc("components/shell/app-shell-switch.tsx")).toContain("AiChatWidget");
     expect(readSrc("components/shell/app-shell.tsx")).not.toContain("AiChatWidget");
     expect(readSrc("app/dashboard/page.tsx")).not.toContain("AiChatWidget");
@@ -191,6 +266,8 @@ describe("asistan yüzey mührü", () => {
     const gemini = readSrc("lib/kernel/ai/providers/gemini.ts");
     expect(gemini).toContain("process.env.GEMINI_API_KEY");
     expect(gemini).toContain("sanitizeGeminiApiKey");
-    expect(route).toContain('reason: result.status === 429 ? "quota" : "gateway"');
+    expect(route).toContain('reason: result.status === 429 ? "quota" : "invalid"');
+    expect(route).toContain("assistant.chat.fail_safe");
+    expect(route).toContain("result.source");
   });
 });

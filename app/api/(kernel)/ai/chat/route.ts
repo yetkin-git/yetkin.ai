@@ -42,19 +42,19 @@ export async function POST(request: Request) {
         userId: user.id,
         route: "/api/ai/chat",
         status: result.status,
-        reason: result.status === 429 ? "quota" : "gateway",
-        errorName: result.status === 503 ? "ServiceUnavailableError" : undefined,
+        reason: result.status === 429 ? "quota" : "invalid",
       });
       return jsonFail(result.error, result.status, requestId, request);
     }
 
     logEvent({
-      level: "info",
-      event: "assistant.chat.ok",
+      level: result.source === "fail-safe" ? "warn" : "info",
+      event: result.source === "fail-safe" ? "assistant.chat.fail_safe" : "assistant.chat.ok",
       requestId,
       userId: user.id,
       route: "/api/ai/chat",
       status: 200,
+      reason: result.source,
     });
     return jsonOk(
       { reply: result.reply, remaining: result.remaining, limit: result.limit },
