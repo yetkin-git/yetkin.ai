@@ -351,3 +351,15 @@ model PaidCommandReservation {
   @@index([userId, createdAt])
   @@map("paid_command_reservations")
 }
+
+/// B2C huni Adım 6 — `/vize/[id]` kart gösterimi (bot dahil). Kişisel veri yok.
+/// 1–5 adımlar iş tablolarından COUNT(DISTINCT user_id) okunur; FunnelEvent açılmaz.
+/// Satır = Europe/Istanbul gün × adım. Hit başına şişmez.
+model FunnelDailyCounter {
+  day   DateTime @db.Date
+  step  String
+  count Int      @default(0)
+
+  @@id([day, step])
+  @@map("funnel_daily_counters")
+}

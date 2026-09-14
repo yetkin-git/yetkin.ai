@@ -23,7 +23,10 @@ async function HomeAccountNavResolved() {
 function HomeAccountNavLinks({ session }: { session: boolean | null }) {
   const copy = SEN_VOICE.public.home;
   return (
-    <nav aria-label="Hesap" className="ml-auto flex flex-wrap items-center gap-2">
+    <nav
+      aria-label="Hesap"
+      className="ml-auto flex min-h-11 min-w-[12rem] flex-wrap items-center justify-end gap-2"
+    >
       {session ? (
         <LinkButton href="/dashboard" size="sm">
           {copy.cockpitCta}

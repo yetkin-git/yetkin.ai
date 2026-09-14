@@ -2,6 +2,7 @@ import { z } from "zod";
 
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+  LIVE_BROADCAST_SHUTDOWN: z.string().optional(),
   SITE_MAINTENANCE_FREEZE: z.string().optional(),
   SITE_MAINTENANCE_BYPASS_TOKEN: z.string().optional(),
   MAINTENANCE_BYPASS_SECRET: z.string().optional(),
@@ -45,6 +46,8 @@ const envSchema = z.object({
   NOTICE_MAIL_FROM: z.string().optional(),
   RAIL_DRON_ORIGINS: z.string().optional(),
   TRUSTED_PROXY_HOPS: z.string().optional(),
+  RATE_LIMIT_REDIS_REST_URL: z.string().optional(),
+  RATE_LIMIT_REDIS_REST_TOKEN: z.string().optional(),
   DASHBOARD_PULSE_ROOM_TIMEOUT_MS: z.string().optional(),
   DASHBOARD_PULSE_LOAD_BUDGET_MS: z.string().optional(),
   DASHBOARD_PULSE_ROOM_CONCURRENCY: z.string().optional(),

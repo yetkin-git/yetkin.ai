@@ -91,25 +91,133 @@ function bullets(items: readonly string[]): string {
   return `<ul class="bullets">${items.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>`;
 }
 
+function colLetter(index: number): string {
+  return String.fromCharCode(65 + index);
+}
+
+function isHighlightCell(cell: string | undefined, col: number, row: number): boolean {
+  if (!cell) {
+    return col === 0 && row === 1;
+  }
+  const match = /^([A-Z]+)(\d+)$/u.exec(cell.trim().toUpperCase());
+  if (!match) {
+    return col === 0 && row === 1;
+  }
+  const colIndex = match[1]!.charCodeAt(0) - 65;
+  const rowIndex = Number(match[2]);
+  return col === colIndex && row === rowIndex;
+}
+
 function mockExcel(slide: AcademyCinemaCueSlide): string {
   const table = slide.table;
   if (!table) {
     return "";
   }
-  const head = table.headers.map((cell) => `<th>${esc(cell)}</th>`).join("");
-  const body = table.rows
-    .map(
-      (row, rowIndex) =>
-        `<tr class="${rowIndex === table.rows.length - 1 ? "foot" : ""}">${row
-          .map((cell) => `<td>${esc(cell)}</td>`)
-          .join("")}</tr>`,
-    )
+  const colCount = Math.max(table.headers.length, ...table.rows.map((row) => row.length), 6);
+  const letters = Array.from({ length: colCount }, (_, index) => colLetter(index));
+  const highlight = slide.highlightCell ?? "A1";
+  const formula =
+    slide.formulaBar !== undefined
+      ? slide.formulaBar
+      : table.headers[0] ?? "";
+  const fileName = slide.fileName ?? "Kitap1.xlsx";
+  const sheetName = slide.sheetName ?? "Sayfa1";
+  const zoom = slide.zoomA1 === true;
+  const merged = slide.mergedTop === true;
+  const headerRow = merged ? 3 : 1;
+  const dataStart = merged ? 4 : 2;
+
+  const colHeads = letters
+    .map((letter) => `<th class="xl-col">${esc(letter)}</th>`)
     .join("");
-  return `<div class="app excel">
-    <div class="app-bar"><span class="dots"></span><b>Excel</b><span>Kitap1.xlsx</span></div>
-    <div class="formula">fx &nbsp; =ÇOKETOPLAŞ.ÇOKLU(...)</div>
-    <table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>
-    ${table.note ? `<p class="note">${esc(table.note)}</p>` : ""}
+
+  const mergedRow = merged
+    ? `<tr>
+        <th class="xl-row">1</th>
+        <td class="xl-merge${isHighlightCell(highlight, 0, 1) ? " xl-a1" : ""}" colspan="${colCount}">${esc(
+          formula || "Mart 2026 Tahsilat Dökümü",
+        )}</td>
+      </tr>
+      <tr>
+        <th class="xl-row">2</th>
+        ${letters.map(() => `<td class="xl-empty"></td>`).join("")}
+      </tr>`
+    : "";
+
+  const headerCells = table.headers
+    .concat(Array.from({ length: Math.max(0, colCount - table.headers.length) }, () => ""))
+    .slice(0, colCount)
+    .map((cell, col) => {
+      const a1 = !merged && isHighlightCell(highlight, col, 1);
+      return `<td class="xl-head${a1 ? " xl-a1" : ""}">${esc(cell)}</td>`;
+    })
+    .join("");
+
+  const headerLine = `<tr>
+      <th class="xl-row">${headerRow}</th>
+      ${headerCells}
+    </tr>`;
+
+  const body = table.rows
+    .map((row, rowIndex) => {
+      const excelRow = dataStart + rowIndex;
+      const isFoot = rowIndex === table.rows.length - 1 && /toplam/iu.test(row[0] ?? "");
+      const cells = Array.from({ length: colCount }, (_, col) => {
+        const value = row[col] ?? "";
+        const a1 = isHighlightCell(highlight, col, excelRow);
+        return `<td class="${isFoot ? "xl-foot" : ""}${a1 ? " xl-a1" : ""}">${esc(value)}</td>`;
+      }).join("");
+      return `<tr><th class="xl-row">${excelRow}</th>${cells}</tr>`;
+    })
+    .join("");
+
+  const fillerCount = Math.max(0, 12 - table.rows.length - (merged ? 3 : 1));
+  const filler = Array.from({ length: fillerCount }, (_, index) => {
+    const excelRow = dataStart + table.rows.length + index;
+    return `<tr><th class="xl-row">${excelRow}</th>${letters.map(() => `<td></td>`).join("")}</tr>`;
+  }).join("");
+
+  const copilot = slide.copilot
+    ? `<aside class="xl-copilot">
+        <header>AI masası</header>
+        <p class="xl-ai-brands">ChatGPT · Claude · Gemini · API</p>
+        <div class="xl-bubble user">${esc(slide.copilot.prompt)}</div>
+        <div class="xl-bubble bot">${slide.copilot.replyLines.map((line) => `<p>${esc(line)}</p>`).join("")}</div>
+      </aside>`
+    : "";
+
+  return `<div class="xl-desk${zoom ? " xl-zoom" : ""}">
+    <div class="xl-win">
+      <div class="xl-title"><i></i><b>Excel</b><span>${esc(fileName)}</span></div>
+      <div class="xl-ribbon">
+        <span class="on">Giriş</span><span>Ekle</span><span>Çiz</span><span>Sayfa Düzeni</span><span>Formüller</span><span>Veri</span><span>Gözden Geçir</span><span>Görünüm</span>
+      </div>
+      <div class="xl-fx">
+        <div class="xl-name">${esc(highlight)}</div>
+        <div class="xl-fx-label">fx</div>
+        <div class="xl-fx-value">${esc(formula)}</div>
+      </div>
+      <div class="xl-body">
+        <div class="xl-grid-wrap">
+          <table class="xl-grid">
+            <thead><tr><th class="xl-corner"></th>${colHeads}</tr></thead>
+            <tbody>
+              ${mergedRow}
+              ${headerLine}
+              ${body}
+              ${filler}
+            </tbody>
+          </table>
+        </div>
+        ${copilot}
+      </div>
+      <div class="xl-tabs">
+        <span class="on">${esc(sheetName)}</span>
+        <span>Sayfa2</span>
+        <i>+</i>
+        <em>Hazır</em>
+      </div>
+    </div>
   </div>`;
 }
 
@@ -295,7 +403,59 @@ function stageBody(slide: AcademyCinemaCueSlide): string {
   }
 }
 
+function renderExcelFullBleedHtml(slide: AcademyCinemaCueSlide): string {
+  return `<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<style>
+  html, body { margin: 0; padding: 0; width: 1920px; height: 1080px; overflow: hidden; background: #1b1b1b; }
+  body { font-family: "Segoe UI", "Noto Sans", sans-serif; }
+  .xl-desk { width: 1920px; height: 1080px; padding: 18px 22px 20px; box-sizing: border-box; background: #c8c8c8; }
+  .xl-desk.xl-zoom .xl-a1 { font-size: 28px; font-weight: 800; min-height: 64px; }
+  .xl-win { height: 100%; display: flex; flex-direction: column; background: #fff; border: 1px solid #8a8a8a; box-shadow: 0 18px 40px rgba(0,0,0,0.28); }
+  .xl-title { display: flex; align-items: center; gap: 10px; height: 36px; padding: 0 12px; background: #217346; color: #fff; font-size: 14px; font-weight: 600; }
+  .xl-title i { width: 14px; height: 14px; border-radius: 2px; background: #fff; display: inline-block; }
+  .xl-title span { opacity: 0.92; font-weight: 500; }
+  .xl-ribbon { display: flex; gap: 18px; height: 38px; align-items: center; padding: 0 16px; background: #f3f3f3; border-bottom: 1px solid #d0d0d0; font-size: 14px; color: #333; }
+  .xl-ribbon .on { color: #217346; font-weight: 700; border-bottom: 2px solid #217346; padding-bottom: 6px; }
+  .xl-fx { display: grid; grid-template-columns: 88px 36px 1fr; height: 32px; border-bottom: 1px solid #d0d0d0; font-size: 13px; }
+  .xl-name { display: flex; align-items: center; justify-content: center; font-weight: 700; background: #fff; border-right: 1px solid #d0d0d0; }
+  .xl-fx-label { display: flex; align-items: center; justify-content: center; font-style: italic; color: #666; border-right: 1px solid #d0d0d0; }
+  .xl-fx-value { display: flex; align-items: center; padding: 0 10px; }
+  .xl-body { flex: 1; display: grid; grid-template-columns: ${slide.copilot ? "1.7fr 0.55fr" : "1fr"}; min-height: 0; }
+  .xl-grid-wrap { overflow: hidden; background: #fff; }
+  .xl-grid { width: 100%; height: 100%; border-collapse: collapse; table-layout: fixed; font-size: 15px; }
+  .xl-grid th, .xl-grid td { border: 1px solid #d0d7de; padding: 6px 8px; height: 32px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .xl-corner { width: 42px; background: #f2f2f2; }
+  .xl-col { background: #f2f2f2; text-align: center; font-weight: 600; color: #444; }
+  .xl-row { width: 42px; background: #f2f2f2; text-align: center; font-weight: 600; color: #666; }
+  .xl-head { background: #eef6f1; font-weight: 700; }
+  .xl-empty { background: #fafafa; }
+  .xl-merge { background: #fff2cc; font-weight: 700; text-align: center; letter-spacing: 0.04em; }
+  .xl-foot { font-weight: 800; background: #e2efda; }
+  .xl-a1 { outline: 3px solid #217346; outline-offset: -3px; background: #e2efda !important; box-shadow: inset 0 0 0 1px #217346; }
+  .xl-copilot { border-left: 1px solid #d0d0d0; background: #f7faf8; padding: 14px 16px; font-size: 14px; }
+  .xl-copilot header { font-weight: 800; color: #217346; margin-bottom: 8px; letter-spacing: 0.08em; text-transform: uppercase; font-size: 12px; }
+  .xl-ai-brands { margin: 0 0 10px; font-size: 11px; font-weight: 700; color: #3d6b54; }
+  .xl-bubble { border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; line-height: 1.4; }
+  .xl-bubble.user { background: #deefe4; }
+  .xl-bubble.bot { background: #fff; border: 1px solid #d0d7de; }
+  .xl-bubble p { margin: 0 0 6px; }
+  .xl-tabs { height: 32px; display: flex; align-items: center; gap: 8px; padding: 0 12px; background: #f3f3f3; border-top: 1px solid #d0d0d0; font-size: 13px; }
+  .xl-tabs .on { background: #fff; border: 1px solid #d0d0d0; border-bottom: none; padding: 4px 12px; font-weight: 700; color: #217346; }
+  .xl-tabs i { font-style: normal; padding: 0 8px; color: #217346; font-weight: 700; }
+  .xl-tabs em { margin-left: auto; font-style: normal; color: #666; }
+</style>
+</head>
+<body>${mockExcel(slide)}</body>
+</html>`;
+}
+
 export function renderAcademyCinemaCueHtml(slide: AcademyCinemaCueSlide): string {
+  if (slide.layout === "excel") {
+    return renderExcelFullBleedHtml(slide);
+  }
   const theme = THEMES[slide.theme];
   const cueLabel = `CUE ${String(slide.cueIndex).padStart(2, "0")}`;
   return `<!doctype html>

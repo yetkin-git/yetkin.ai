@@ -17,8 +17,8 @@ import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 
 describe("akademi katalog fiyat haritası — KDV dahil, PayTR hizası", () => {
   it("aktif SKU tohum tutarı harita ile birebir; seviye bandı sıkıştırmaz", () => {
-    expect(ACADEMY_GROWTH_SKU_SLUGS).toHaveLength(5);
-    expect(ACADEMY_COURSE_SEEDS).toHaveLength(5);
+    expect(ACADEMY_GROWTH_SKU_SLUGS).toHaveLength(1);
+    expect(ACADEMY_COURSE_SEEDS).toHaveLength(1);
     for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
       expect(ACADEMY_CATALOG_PRICE_MINOR[slug as keyof typeof ACADEMY_CATALOG_PRICE_MINOR]).toBeGreaterThan(
         0,
@@ -79,7 +79,7 @@ describe("akademi katalog fiyat haritası — KDV dahil, PayTR hizası", () => {
   });
 
   it("canlı PriceCatalogEntry tutarı tohum haritası dışında overlay kabul eder", () => {
-    expect(publishedCoursesFromSeed().map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
+    expect(publishedCoursesFromSeed().map((row) => row.slug)).toEqual(["01_office_ai"]);
     const live = overlaySeedCatalogPrice({
       id: "ac_sample",
       slug: "sample-course",

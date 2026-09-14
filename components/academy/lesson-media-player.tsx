@@ -3,7 +3,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { IconPause, IconPlay, IconVolume, IconVolumeOff } from "@/components/ui/icons";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
-import { academyLessonAudioPlaybackSrc, academyPlayerClockDurationSec, academySealedAudioDurationSec, isAcademyLessonAudioSealed } from "@/lib/academy/lesson-audio";
+import {
+  academyLessonAudioPlaybackSrc,
+  academyLessonBedPlaybackSrc,
+  academyPlayerClockDurationSec,
+  academySealedAudioDurationSec,
+  isAcademyLessonAudioSealed,
+  isAcademyLessonBedSealed,
+} from "@/lib/academy/lesson-audio";
+import { academyBedDuckGain, academyBedOutroTailSec, ACADEMY_BED_OUTRO_HOLD_SEC } from "@/lib/academy/lesson-bed-duck";
+import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import { formatAcademyCinemaClock } from "@/lib/academy/lesson-cinema";
 import { shouldSealProgressAfterDialogueEnded } from "@/lib/academy/lesson-advance";
 
@@ -25,13 +34,24 @@ export function LessonMediaPlayer({
   const copy = ACADEMY_SEN.player;
   const listenCopy = ACADEMY_SEN.listen;
   const audioSealed = isAcademyLessonAudioSealed(courseSlug, lessonKey);
+  const bedSealed = isAcademyLessonBedSealed(courseSlug, lessonKey);
   const audioSrc = useMemo(
     () => (audioSealed ? academyLessonAudioPlaybackSrc(courseSlug, lessonKey) : undefined),
     [audioSealed, courseSlug, lessonKey],
   );
+  const bedSrc = useMemo(
+    () => (bedSealed ? academyLessonBedPlaybackSrc(courseSlug, lessonKey) : undefined),
+    [bedSealed, courseSlug, lessonKey],
+  );
+  const bedPieces = useMemo(
+    () => loadAcademySealedAudioTimings(lessonKey)?.pieces ?? [],
+    [lessonKey],
+  );
   const sealedDuration = academySealedAudioDurationSec(courseSlug, lessonKey);
-  const fallbackDuration = sealedDuration;
+  const outroTail = academyBedOutroTailSec(lessonKey);
+  const fallbackDuration = sealedDuration + outroTail;
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const bedRef = useRef<HTMLAudioElement | null>(null);
   const clockRef = useRef({
     playing: false,
     elapsed: 0,
@@ -63,8 +83,9 @@ export function LessonMediaPlayer({
         audioDuration,
         sealedDuration,
         spokenDuration: 0,
+        outroTailSec: outroTail,
       }),
-    [sealedDuration],
+    [outroTail, sealedDuration],
   );
 
   const commitDuration = useCallback(
@@ -119,7 +140,11 @@ export function LessonMediaPlayer({
     if (audio && audioSrc) {
       audio.load();
     }
-  }, [audioSrc, fallbackDuration, lessonKey]);
+    const bed = bedRef.current;
+    if (bed && bedSrc) {
+      bed.load();
+    }
+  }, [audioSrc, bedSrc, fallbackDuration, lessonKey]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -128,7 +153,35 @@ export function LessonMediaPlayer({
     }
     audio.volume = muted ? 0 : volume;
     audio.muted = muted || volume === 0;
-  }, [muted, volume]);
+    const bed = bedRef.current;
+    if (bed) {
+      const duck = academyBedDuckGain(clockRef.current.elapsed, bedPieces);
+      bed.volume = muted ? 0 : volume * duck;
+      bed.muted = muted || volume === 0;
+    }
+  }, [bedPieces, muted, volume]);
+
+  const applyBedDuck = useCallback(
+    (elapsedSec: number, shouldPlay: boolean) => {
+      const bed = bedRef.current;
+      if (!bed || !bedSrc) {
+        return;
+      }
+      const duck = academyBedDuckGain(elapsedSec, bedPieces);
+      bed.volume = muted ? 0 : volume * duck;
+      bed.muted = muted || volume === 0;
+      if (shouldPlay && !pauseLockRef.current) {
+        if (bed.paused) {
+          void bed.play().catch(() => undefined);
+        }
+        return;
+      }
+      if (!bed.paused) {
+        bed.pause();
+      }
+    },
+    [bedPieces, bedSrc, muted, volume],
+  );
 
   const sealIfEnded = useCallback((nextElapsed: number, cap: number) => {
     const clock = clockRef.current;
@@ -149,9 +202,10 @@ export function LessonMediaPlayer({
     setPlaying(false);
     setElapsed(cap);
     audioRef.current?.pause();
+    applyBedDuck(cap, false);
     onEndedRef.current?.();
     return true;
-  }, []);
+  }, [applyBedDuck]);
 
   const applyElapsed = useCallback(
     (next: number) => {
@@ -161,13 +215,15 @@ export function LessonMediaPlayer({
       clockRef.current.lastAudioTime = clamped;
       clockRef.current.stallMs = 0;
       setElapsed(clamped);
+      applyBedDuck(clamped, clockRef.current.playing && !pauseLockRef.current);
       const audio = audioRef.current;
       if (audioReady && audio) {
-        audio.currentTime = clamped;
+        const audioCap = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : clamped;
+        audio.currentTime = Math.min(clamped, audioCap);
       }
       sealIfEnded(clamped, cap);
     },
-    [audioReady, fallbackDuration, sealIfEnded],
+    [applyBedDuck, audioReady, fallbackDuration, sealIfEnded],
   );
 
   const applyPauseLock = useCallback(() => {
@@ -179,7 +235,8 @@ export function LessonMediaPlayer({
     }
     setPlaying(false);
     audioRef.current?.pause();
-  }, []);
+    applyBedDuck(clockRef.current.elapsed, false);
+  }, [applyBedDuck]);
 
   useEffect(() => {
     if (!playing || pauseLockRef.current) {
@@ -200,6 +257,20 @@ export function LessonMediaPlayer({
       const audio = audioRef.current;
       if (audioReady && audio && Number.isFinite(audio.currentTime)) {
         commitDuration(audio.duration);
+        const audioCap = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : cap;
+        const inOutro = cap > audioCap + 0.05 && (audio.ended || audio.currentTime + 0.08 >= audioCap);
+        if (inOutro) {
+          const next = Math.min(clock.elapsed + delta, cap);
+          clock.elapsed = next;
+          setElapsed((current) => (Math.abs(current - next) >= 0.05 ? next : current));
+          applyBedDuck(next, true);
+          if (sealIfEnded(next, cap)) {
+            rafRef.current = 0;
+            return;
+          }
+          rafRef.current = window.requestAnimationFrame(tick);
+          return;
+        }
         const reported = audio.currentTime;
         const stalled =
           !audio.paused &&
@@ -233,16 +304,18 @@ export function LessonMediaPlayer({
         clock.elapsed = next;
         setElapsed((current) => (Math.abs(current - next) >= 0.05 ? next : current));
       }
+      applyBedDuck(clock.elapsed, true);
       rafRef.current = window.requestAnimationFrame(tick);
     };
     clockRef.current.playing = true;
     clockRef.current.lastStamp = 0;
+    applyBedDuck(clockRef.current.elapsed, true);
     rafRef.current = window.requestAnimationFrame(tick);
     return () => {
       window.cancelAnimationFrame(rafRef.current);
       rafRef.current = 0;
     };
-  }, [audioReady, commitDuration, fallbackDuration, playing, sealIfEnded]);
+  }, [applyBedDuck, audioReady, commitDuration, fallbackDuration, playing, sealIfEnded]);
 
   const togglePlay = useCallback(() => {
     if (clockRef.current.playing || playing) {
@@ -261,12 +334,13 @@ export function LessonMediaPlayer({
     clockRef.current.lastStamp = 0;
     clockRef.current.stallMs = 0;
     setPlaying(true);
+    applyBedDuck(clockRef.current.elapsed, true);
     if (audioReady) {
       void audioRef.current?.play().catch(() => {
         setAudioReady(false);
       });
     }
-  }, [applyElapsed, applyPauseLock, audioReady, elapsed, fallbackDuration, playing]);
+  }, [applyBedDuck, applyElapsed, applyPauseLock, audioReady, elapsed, fallbackDuration, playing]);
 
   togglePlayRef.current = togglePlay;
 
@@ -313,6 +387,14 @@ export function LessonMediaPlayer({
   const progressPct = duration > 0 ? Math.min(100, Math.max(0, (elapsed / duration) * 100)) : 0;
   const preparing = audioSealed && !audioReady && !audioFailed;
   const audioFailedNotice = audioSealed && audioFailed ? listenCopy.failVoiceBinding : null;
+  const speechEndSec = bedPieces.at(-1)?.end ?? 0;
+  const intoOutro = elapsed - speechEndSec;
+  const bedOutro =
+    bedSrc && speechEndSec > 0 && elapsed >= speechEndSec && intoOutro < outroTail
+      ? intoOutro < ACADEMY_BED_OUTRO_HOLD_SEC
+        ? "peak"
+        : "fade"
+      : undefined;
 
   return (
     <section
@@ -321,6 +403,8 @@ export function LessonMediaPlayer({
       data-academy-audio-ready={audioReady ? "true" : "false"}
       data-academy-audio-preparing={preparing ? "true" : undefined}
       data-academy-clock="currentTime"
+      data-academy-bed={bedSrc ? "lyria" : undefined}
+      data-academy-bed-outro={bedOutro}
       aria-label={lessonTitle}
       aria-busy={preparing}
     >
@@ -345,6 +429,13 @@ export function LessonMediaPlayer({
             return;
           }
           const cap = resolved > 0 ? resolved : clockRef.current.duration;
+          const audioCap = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : cap;
+          if (cap > audioCap + 0.05 && audio.currentTime + 0.08 >= audioCap && clockRef.current.elapsed >= audioCap) {
+            applyBedDuck(clockRef.current.elapsed, clockRef.current.playing && !pauseLockRef.current);
+            setAudioReady(true);
+            setAudioFailed(false);
+            return;
+          }
           const frozen =
             clockRef.current.playing &&
             clockRef.current.elapsed > audio.currentTime + 0.08 &&
@@ -357,6 +448,7 @@ export function LessonMediaPlayer({
           clockRef.current.elapsed = audio.currentTime;
           clockRef.current.stallMs = 0;
           setElapsed(audio.currentTime);
+          applyBedDuck(audio.currentTime, clockRef.current.playing && !pauseLockRef.current);
           setAudioReady(true);
           setAudioFailed(false);
         }}
@@ -417,6 +509,12 @@ export function LessonMediaPlayer({
             setPlaying(true);
             return;
           }
+          const audioCap = audio && Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : reported;
+          if (cap > audioCap + 0.05 && reported >= Math.min(audioCap, cap) * 0.85) {
+            clockRef.current.elapsed = Math.max(clockRef.current.elapsed, Math.min(reported, audioCap));
+            applyBedDuck(clockRef.current.elapsed, true);
+            return;
+          }
           clockRef.current.elapsed = cap;
           setElapsed(cap);
           sealIfEnded(cap, cap);
@@ -424,6 +522,19 @@ export function LessonMediaPlayer({
       >
         <source src={audioSrc} type="audio/mpeg" />
       </audio>
+      ) : null}
+      {bedSrc ? (
+        <audio
+          key={bedSrc}
+          ref={bedRef}
+          preload="auto"
+          src={bedSrc}
+          loop
+          aria-hidden
+          data-academy-bed-audio="lyria"
+        >
+          <source src={bedSrc} type="audio/mpeg" />
+        </audio>
       ) : null}
       <div className="academy-dialogue-controls academy-player-audio-controls" data-academy-dialogue-controls="">
         <button

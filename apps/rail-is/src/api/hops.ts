@@ -1,40 +1,104 @@
 /**
- * Gün 0 + Tezgâh hop allowlist — sicilde yayınlanmış, dilimde tüketilen uçlar.
- * Unpublished rewrite sızıntısı (GET jobs/{id}, GET messages, top-up, refund) çağrılmaz.
- * POST …/messages yalnız kind=DELIVERY dar hop'udur; GET thread PII'si allowlist dışıdır.
- * POST …/release yalnız işveren hak edişidir; usta çağrısı sunucuda 403'tür.
- * GET …/client/jobs/{id}/bids yalnız ilan sahibidir; bidderId sızmaz.
- * POST …/accept yalnız işveren PSP hold'udur; usta çağrısı sunucuda 403'tür.
- * academy-purchase v1 sicilindedir ama bu listede YOKTUR (IAP / native mağaza yasağı).
+ * Dron hop allowlist — sunucu `@yetkin/kernel` `RAIL_V1_HOPS_META` ile hizalı.
+ * Yazma hop'ları (satın alma, kilit, müfredat, sınav, cüzdan yükleme, portföy, profil)
+ * Bearer + Idempotency-Key. Müfredat/sınav GET okuma hop'ları T3 halkası.
+ * Native IAP yoktur; cüzdan DEBIT ve PayTR top-up hop'u açıktır.
  */
 
+import {
+  RAIL_V1_HOPS_META,
+  isRailV1HopMetaDronForbidden,
+} from "@yetkin/kernel/http/v1-hops-meta";
+
+export const DRON_FAZ2_FROZEN =
+  "Faz 2 Tezgâh hop'u donduruldu. Dron Faz 1 kapanışına kadar donuk laboratuvardır.";
+
+/**
+ * Closed Testing T3-only yüzey.
+ * true: "Açık işler / İşlerim" sekmesi gizlenir; kilit kartı 410 basmaz;
+ * loadHome Tezgâh hop'una HTTP atmaz.
+ * Split + hop geri yazımından sonra false yapılır.
+ */
+export const DRON_TEZGAH_STORE_ISOLATED: boolean = true;
+
+/** Yayınlanmış B2C hop'ları — Dron'un çağırabileceği uçlar. */
 export const RAIL_IS_DAY0_HOPS = {
+  health: { method: "GET", path: "/api/v1/health" },
+  academyCertificate: {
+    method: "GET",
+    pathTemplate: "/api/v1/academy/certificates/{hash}",
+  },
+  academyPulse: { method: "GET", path: "/api/v1/academy/pulse" },
+  academyPurchase: {
+    method: "POST",
+    pathTemplate: "/api/v1/academy/courses/{id}/purchase",
+  },
+  academyLock: {
+    method: "POST",
+    pathTemplate: "/api/v1/academy/courses/{id}/lock",
+  },
+  academyCurriculum: {
+    method: "POST",
+    pathTemplate: "/api/v1/academy/courses/{id}/curriculum",
+  },
+  academyCurriculumRead: {
+    method: "GET",
+    pathTemplate: "/api/v1/academy/courses/{id}/curriculum",
+  },
+  academyExam: {
+    method: "POST",
+    pathTemplate: "/api/v1/academy/courses/{id}/exam",
+  },
+  academyExamRead: {
+    method: "GET",
+    pathTemplate: "/api/v1/academy/courses/{id}/exam",
+  },
   session: { method: "GET", path: "/api/v1/auth/session" },
+  walletStrip: { method: "GET", path: "/api/v1/dashboard/wallet-strip" },
+  walletTopUp: { method: "POST", path: "/api/v1/wallet/top-up" },
+  careerPulse: { method: "GET", path: "/api/v1/career/pulse" },
+  careerVisas: { method: "GET", path: "/api/v1/career/visas" },
+  careerPortfolio: { method: "POST", path: "/api/v1/career/portfolio" },
+  profilePatch: { method: "PATCH", path: "/api/v1/profile" },
+} as const;
+
+/**
+ * Faz 2 Tezgâh sicili — canlı allowlist değildir.
+ * Kenar 410 / unpublished hop; Dron istemci bu path'lere HTTP atmaz.
+ */
+export const RAIL_IS_FAZ2_FROZEN_HOPS = {
   jobs: { method: "GET", path: "/api/v1/freelancer/jobs" },
   bid: { method: "POST", pathTemplate: "/api/v1/freelancer/jobs/{id}/bids" },
   ownerBids: { method: "GET", pathTemplate: "/api/v1/client/jobs/{id}/bids" },
   accept: { method: "POST", pathTemplate: "/api/v1/freelancer/jobs/{id}/accept" },
-  walletStrip: { method: "GET", path: "/api/v1/dashboard/wallet-strip" },
   contracts: { method: "GET", path: "/api/v1/freelancer/contracts" },
-  delivery: { method: "POST", pathTemplate: "/api/v1/freelancer/contracts/{id}/messages" },
-  release: { method: "POST", pathTemplate: "/api/v1/freelancer/contracts/{id}/release" },
+  delivery: {
+    method: "POST",
+    pathTemplate: "/api/v1/freelancer/contracts/{id}/messages",
+  },
+  release: {
+    method: "POST",
+    pathTemplate: "/api/v1/freelancer/contracts/{id}/release",
+  },
 } as const;
 
-/** Tezgâh odak / ön plan anketi. 5 sn altı yasak varsayımı. */
+/** Tezgâh odak / ön plan anketi. Faz 2 lab; 5 sn altı yasak varsayımı. */
 export const RAIL_IS_BENCH_POLL_MS = 30_000;
 
-const DAY0_EXACT = new Set<string>([
-  RAIL_IS_DAY0_HOPS.session.path,
-  RAIL_IS_DAY0_HOPS.jobs.path,
-  RAIL_IS_DAY0_HOPS.walletStrip.path,
-  RAIL_IS_DAY0_HOPS.contracts.path,
-]);
+function compileRailV1PathTemplate(template: string): RegExp {
+  const source = template
+    .replace(/\{([A-Za-z0-9_]+)\}/g, "\u0000param\u0000")
+    .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+    .replace(/\u0000param\u0000/g, "[^/]+");
+  return new RegExp(`^${source}$`);
+}
 
-const BID_PATH_RE = /^\/api\/v1\/freelancer\/jobs\/[^/?#]+\/bids$/;
-const OWNER_BIDS_PATH_RE = /^\/api\/v1\/client\/jobs\/[^/?#]+\/bids$/;
-const ACCEPT_PATH_RE = /^\/api\/v1\/freelancer\/jobs\/[^/?#]+\/accept$/;
-const DELIVERY_PATH_RE = /^\/api\/v1\/freelancer\/contracts\/[^/?#]+\/messages$/;
-const RELEASE_PATH_RE = /^\/api\/v1\/freelancer\/contracts\/[^/?#]+\/release$/;
+const DAY0_MATCHERS = RAIL_V1_HOPS_META.filter((hop) => !isRailV1HopMetaDronForbidden(hop)).map(
+  (hop) => ({
+    method: hop.method,
+    re: compileRailV1PathTemplate(hop.v1PathTemplate),
+  }),
+);
 
 function normalizeMethod(method: string): string {
   return method.trim().toUpperCase();
@@ -48,6 +112,18 @@ function assertSafeId(value: string, label: string): string {
   return id;
 }
 
+export function academyCertificatePath(hash: string): string {
+  return `/api/v1/academy/certificates/${assertSafeId(hash, "Mühür")}`;
+}
+
+export function academyCourseWritePath(
+  courseId: string,
+  leaf: "purchase" | "lock" | "curriculum" | "exam",
+): string {
+  return `/api/v1/academy/courses/${assertSafeId(courseId, "Kurs")}/${leaf}`;
+}
+
+/** Faz 2 sicil path üreticisi — canlı allowlist'e girmez. */
 export function freelancerBidPath(jobId: string): string {
   return `/api/v1/freelancer/jobs/${assertSafeId(jobId, "İş")}/bids`;
 }
@@ -71,25 +147,7 @@ export function freelancerReleasePath(contractId: string): string {
 export function isRailIsDay0Path(path: string, method = "GET"): boolean {
   const pathname = path.split("?")[0] ?? path;
   const verb = normalizeMethod(method);
-  if (DAY0_EXACT.has(pathname)) {
-    return verb === "GET";
-  }
-  if (BID_PATH_RE.test(pathname)) {
-    return verb === "POST";
-  }
-  if (OWNER_BIDS_PATH_RE.test(pathname)) {
-    return verb === "GET";
-  }
-  if (ACCEPT_PATH_RE.test(pathname)) {
-    return verb === "POST";
-  }
-  if (DELIVERY_PATH_RE.test(pathname)) {
-    return verb === "POST";
-  }
-  if (RELEASE_PATH_RE.test(pathname)) {
-    return verb === "POST";
-  }
-  return false;
+  return DAY0_MATCHERS.some((row) => row.method === verb && row.re.test(pathname));
 }
 
 export function assertRailIsDay0Path(path: string, method = "GET"): string {

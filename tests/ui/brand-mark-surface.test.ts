@@ -131,8 +131,14 @@ describe("yetkin.ai marka / favicon yüzeyi", () => {
     expect(PUBLIC_SEN.home.trust.join("\n")).not.toContain("güvenli ödeme altyapısı");
     expect(PUBLIC_SEN.home.trust.join("\n")).not.toContain("Ödeme henüz bağlanmadı / pasif");
     expect(readSrc("app/(public)/page.tsx")).toContain("copy.trust.map");
-    expect(readSrc("app/(public)/page.tsx")).toContain("SecurePaymentMarks");
-    expect(readSrc("app/(public)/page.tsx")).toContain("academyCourseCoverPath");
+    expect(readSrc("app/(public)/page.tsx")).not.toContain("SecurePaymentMarks");
+    expect(readSrc("app/(public)/page.tsx")).not.toContain("data-home-payment-marks");
+    expect(readSrc("app/(public)/page.tsx")).not.toContain("ACADEMY_GROWTH_SKU_SLUGS");
+    expect(readSrc("app/(public)/page.tsx")).not.toContain("CourseCoverImage");
+    expect(readSrc("app/(public)/page.tsx")).not.toContain("academyCourseCoverPath");
+    expect(readSrc("app/(public)/page.tsx")).not.toContain("comingSoonBadge");
+    expect(readSrc("app/(public)/page.tsx")).toContain("data-academy-production-band");
+    expect(readSrc("app/(public)/page.tsx")).not.toContain("preload(");
     expect(PUBLIC_SEN.home.title).toBe("Yapay zekâ yetkinliğini kanıtla, kariyerini mühürle");
   });
 });

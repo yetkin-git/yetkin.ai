@@ -11,14 +11,33 @@ export type { LiveCareerBoard, LiveCareerStamp } from "@/lib/career/live";
 export {
   careerStampContractHref,
   careerStampCourseHref,
+  careerStampPublicHref,
   careerStampVerifyHref,
 } from "@/lib/career/stamp-surface";
+export {
+  PUBLIC_TALENT_ALIAS_PATH,
+  PUBLIC_TALENT_PATH,
+  parsePublicTalentId,
+  publicTalentAliasPath,
+  publicTalentAbsoluteUrl,
+  publicTalentPath,
+  toPublicTalentCard,
+} from "@/lib/career/public-talent";
+export type {
+  PublicTalentCard,
+  PublicTalentProof,
+  PublicTalentResolution,
+  PublicTalentSeal,
+} from "@/lib/career/public-talent";
+export { linkedInAddCertificationUrl, absoluteAppUrl } from "@/lib/career/badge-share";
 export {
   buildCareerVisaScopeBoard,
   listingVisaScopeSign,
 } from "@/lib/career/visa-scope-board";
 export type {
   ListingVisaScopeSignView,
+  VisaScopeBenefit,
+  VisaScopeBenefitId,
   VisaScopeCourse,
   VisaScopeDoor,
 } from "@/lib/career/visa-scope-board";

@@ -10,11 +10,24 @@ export async function register() {
   }
   const { preferIpv6ForDirectHost } = await import("@/lib/kernel/dns-ipv6-first");
   preferIpv6ForDirectHost();
+  const { ensurePrismaQueryEngine } = await import("@/lib/kernel/db");
+  void ensurePrismaQueryEngine();
   if (process.env.NODE_ENV !== "production") {
     return;
   }
   const { evaluateRuntimeReadiness } = await import("@/lib/kernel/jobs/runtime-readiness");
   const { logEvent } = await import("@/lib/kernel/observability/log");
+  const { isLiveBroadcastShutdownEnvActive } = await import(
+    "@/lib/kernel/http/live-broadcast-shutdown"
+  );
+  if (isLiveBroadcastShutdownEnvActive()) {
+    logEvent({
+      level: "warn",
+      event: "ops.live_broadcast.shutdown",
+      reason: "LIVE_BROADCAST_SHUTDOWN=true; urun 503; Inngest/PayTR fail-closed",
+      status: 503,
+    });
+  }
   const report = evaluateRuntimeReadiness(process.env);
   if (report.inngestServeFailClosed) {
     logEvent({

@@ -30,4 +30,11 @@ export const CUZDAN_SEN = {
   unboundBadge: "Liste henüz yüklenemedi — örnek düzen",
   unboundBody:
     "Veritabanı bağlanınca gerçek LedgerEntry satırları burada durur. Uydurma bakiye veya sahte hareket yok.",
+  kasaTitle: "Dron kasa",
+  kasaLead: "Kart PayTR iFrame içindedir. Bu sayfa çerez oturumu istemez; HMAC pasaportu yeter.",
+  kasaInvalid:
+    "Bu kasa bağlantısı geçersiz veya süresi doldu. Drona dönüp yeniden dene.",
+  kasaReturnOk:
+    "Kart sonucu Amiral'e iletildi. Drona dön; bakiye banka bildirimi (HMAC) sonrası görünür.",
+  kasaReturnFail: "Kart işlemi tamamlanmadı. Drona dönüp yeni niyet aç.",
 } as const;

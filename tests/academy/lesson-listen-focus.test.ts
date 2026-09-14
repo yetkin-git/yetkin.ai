@@ -89,7 +89,7 @@ describe("dersi dinle odak zaman çizelgesi", () => {
   });
 
   it("yayın tohumu compact müfredat taşır; örnek slug boştur", () => {
-    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
+    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai"]);
     expect(curriculumForCourseSlug("sample-course")).toEqual([]);
     const blocks = fixtureBlocks();
     const cues = academyLessonListenFocusCues(blocks);

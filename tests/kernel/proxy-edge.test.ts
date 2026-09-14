@@ -302,17 +302,17 @@ describe("proxy.ts kenar mühürleri", () => {
       data: null,
     });
 
-    const unpublished = await proxy(
+    const sessioned = await proxy(
       request("/api/v1/wallet/top-up", {
         method: "POST",
         headers: { "X-Rail-Min-Version": "1" },
       }),
     );
-    expect(unpublished.status).toBe(404);
-    expect(unpublished.headers.get("x-middleware-rewrite")).toBeNull();
-    expect(await unpublished.json()).toMatchObject({
+    expect(sessioned.status).toBe(401);
+    expect(sessioned.headers.get("x-middleware-rewrite")).toBeNull();
+    expect(await sessioned.json()).toMatchObject({
       ok: false,
-      error: "API yolu bulunamadı.",
+      error: "Oturum gerekli.",
       apiVersion: "1",
       data: null,
     });

@@ -30,6 +30,9 @@ describe("T3 akademi canlı nakit döngü yüzeyi", () => {
     expect(script).toContain("CareerVisaStamp");
     expect(script).toContain("CLEARED");
     expect(script).toContain("wallet-top-up");
+    expect(script).toContain("academy-purchase");
+    expect(script).toContain("PAYTR_SANDBOX");
+    expect(script).toContain("PAYTR_ALLOW_MOCK_CHECKOUT");
     expect(script).toContain("E2E_T3_EMAIL");
     expect(script).toContain("buildIdempotentMerchantOid");
     expect(script).toContain("PENDING sızıntısı");

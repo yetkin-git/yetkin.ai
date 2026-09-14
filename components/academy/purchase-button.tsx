@@ -26,6 +26,7 @@ import { SecurePaymentMarks } from "@/components/legal/secure-payment-marks";
 import { useCheckoutBilling } from "@/components/legal/use-checkout-billing";
 import { LEGAL_CHECKOUT_CONSENT_COPY } from "@/lib/copy/legal-launch";
 import { CHECKOUT_LEGAL_CONSENT_VERSION } from "@/lib/kernel/legal/checkout-consent";
+import { emitSemConversion } from "@/lib/kernel/sem/conversion";
 import { readPaytrIframeSrcFromCheckout } from "@/lib/kernel/payments/paytr/iframe-embed";
 import type { CheckoutBillingInfo } from "@/lib/kernel/identity/billing-info";
 
@@ -94,7 +95,7 @@ export function PurchaseButton({
       try {
         const lockResponse = await fetch(
           `/api/academy/courses/${courseId}/lock`,
-          withRailApiVersion({ method: "POST" }),
+          withRailApiVersion({ method: "POST", headers: { ...idempotency.headers() } }),
         );
         const lockEnvelope = await readCitizenEnvelope(lockResponse);
         const lock = lockEnvelope.body.lock;
@@ -141,6 +142,7 @@ export function PurchaseButton({
           }
           return;
         }
+        emitSemConversion("purchase", { courseId, path });
         push({
           title: UX_SEN.bridge.purchaseAcademy.title,
           body: UX_SEN.bridge.purchaseAcademy.body,

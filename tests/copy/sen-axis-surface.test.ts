@@ -70,14 +70,14 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
   });
 
   it("kamu, profil ve kalan odalar siz kaçakları taşımaz; SEN_VOICE bağlar", () => {
-    expect(SEN_VOICE.public.home.description).toContain("5 eğitim, 30 ders");
+    expect(SEN_VOICE.public.home.description).toContain("üretim bandındadır");
     expect(SEN_VOICE.public.home.description).toContain("Dersleri bitir");
     expect(SEN_VOICE.public.home.description).toContain("PayTR iFrame");
     expect(SEN_VOICE.profil.description).toContain("Görünen adını");
     expect(ARENA_SEN.description).toContain("kazananı sen dağıt");
     expect(KURUMSAL_SEN.description).toContain("Şirket profilini kur");
     expect(HIBE_SEN.openGuidesTitle).toBe("Açık rehberlerin");
-    expect(SEN_VOICE.career.title).toBe("Kariyer");
+    expect(SEN_VOICE.career.title).toBe("Kariyer vizesi");
 
     for (const file of SEN_SURFACES) {
       const source = readSrc(file);

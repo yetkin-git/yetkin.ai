@@ -216,6 +216,34 @@ async function readCashProof(
   }
 }
 
+async function readAcademyPurchaseDebit(
+  userId: string,
+  amountMinor: number,
+): Promise<number | null> {
+  const dbUrl = resolveMigratorConnectionUrl({
+    DIRECT_URL: process.env.DIRECT_URL,
+    DATABASE_URL: process.env.DATABASE_URL,
+  });
+  if (!dbUrl) {
+    fail("Defter okunamadı: DIRECT_URL / DATABASE_URL yok.");
+  }
+  const client = new Client({ connectionString: withPgLibpqSslCompat(dbUrl) });
+  await client.connect();
+  try {
+    const debit = await client.query<{ amount_minor: number }>(
+      `SELECT amount_minor FROM ledger_entries
+       WHERE user_id = $1 AND purpose = 'academy-purchase' AND direction = 'DEBIT'
+         AND amount_minor = $2
+       ORDER BY created_at DESC
+       LIMIT 1`,
+      [userId, amountMinor],
+    );
+    return debit.rows[0] ? Number(debit.rows[0].amount_minor) : null;
+  } finally {
+    await client.end();
+  }
+}
+
 async function main(): Promise<void> {
   if (process.env.PAYTR_ALLOW_MOCK_CHECKOUT?.trim().toLowerCase() === "true") {
     fail("PAYTR_ALLOW_MOCK_CHECKOUT açık — T3 mock checkout ile yeşil boyanmaz.");
@@ -375,6 +403,10 @@ async function main(): Promise<void> {
     | undefined;
   if (purchaseRow?.status !== "SETTLED" || purchaseRow.amountMinor !== catalogMinor) {
     fail(`Satın alma SETTLED/${catalogMinor} değil: ${JSON.stringify(purchaseRow)}`);
+  }
+  const debitMinor = await readAcademyPurchaseDebit(citizen.userId, catalogMinor);
+  if (debitMinor !== catalogMinor) {
+    fail(`Ledger DEBIT academy-purchase yok veya tutar ${debitMinor} ≠ ${catalogMinor}.`);
   }
   const firstApplied = purchase.body.applied === true;
   console.log(

@@ -35,7 +35,7 @@ export const UX_SEN = {
     examPassed: {
       title: "Yetkinlik kazandın",
       body: "Sertifikan ve yetkinliğin Kariyer sayfasına işlendi.",
-      cta: "Sertifikanı gör",
+      cta: "Kariyer sayfasında gör",
     },
     examHref: "/academy/certificates",
     examCareerHref: "/career",

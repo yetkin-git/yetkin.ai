@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { LinkButton } from "@/components/ui/link-button";
 import { LessonMediaPlayer } from "@/components/academy/lesson-media-player";
+import { LessonKaraokeStrip } from "@/components/academy/lesson-karaoke-strip";
 import { LessonStudyTabs } from "@/components/academy/lesson-study-tabs";
-import { LessonTeleprompter } from "@/components/academy/lesson-teleprompter";
 import { LessonCinemaEyeLayer } from "@/components/academy/lesson-visual-stage";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { normalizeAcronyms } from "@/lib/academy/acronym-normalizer";
@@ -20,6 +20,7 @@ import {
   nextAcademyPlayerLesson,
   prevAcademyPlayerLesson,
 } from "@/lib/academy/lesson-advance";
+import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
 import { parseRailClientJson } from "@/lib/ui/parse-rail-json";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 import {
@@ -56,6 +57,7 @@ export function CurriculumPlayer({
   workTasksComplete?: boolean;
 }) {
   const router = useRouter();
+  const idempotency = useIdempotencyKey();
   const copy = ACADEMY_SEN.player;
   const outline = ACADEMY_SEN.outline;
   const firstOpen = lessons.find((lesson) => lesson.open && !lesson.completed) ?? lessons[0];
@@ -111,7 +113,7 @@ export function CurriculumPlayer({
         `/api/academy/courses/${courseId}/curriculum`,
         withRailApiVersion({
           method: "POST",
-          headers: { "content-type": "application/json" },
+          headers: { "content-type": "application/json", ...idempotency.headers() },
           body: JSON.stringify({ lessonKey }),
         }),
       );
@@ -282,23 +284,27 @@ export function CurriculumPlayer({
 
             {karaoke ? (
               <section
-                className="academy-player-karaoke academy-player-widescreen academy-cinema-stage overflow-hidden rounded-2xl border border-slate-200 bg-slate-950"
+                className="academy-player-karaoke academy-cinema-stage overflow-hidden rounded-2xl border border-slate-200 bg-slate-950"
                 data-academy-karaoke="sealed"
                 data-academy-media="sealed-wav"
+                data-academy-canvas="full"
+                data-academy-directing="punchcard"
+                data-academy-player-stack="visual-karaoke-transport"
               >
-                {eyeStage ? (
-                  <LessonCinemaEyeLayer
-                    stage={eyeStage}
-                    currentTime={mediaElapsed}
-                    playing={mediaPlaying}
-                    captions={false}
-                  />
-                ) : null}
-                <LessonTeleprompter
+                <div className="academy-player-widescreen academy-player-karaoke-stage">
+                  {eyeStage ? (
+                    <LessonCinemaEyeLayer
+                      stage={eyeStage}
+                      currentTime={mediaElapsed}
+                      playing={mediaPlaying}
+                      captions={false}
+                    />
+                  ) : null}
+                </div>
+                <LessonKaraokeStrip
                   cues={karaoke.cues}
-                  elapsedSec={mediaElapsed}
+                  currentTime={mediaElapsed}
                   playing={mediaPlaying}
-                  overlay
                 />
                 <LessonMediaPlayer
                   key={active.key}

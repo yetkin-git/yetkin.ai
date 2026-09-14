@@ -142,12 +142,11 @@ describe("ADIM 16 — accept DEBIT projeksiyonu ve atomik mühür", () => {
   });
 
   it("PayTR B2C: freelancer-accept v1 sicilinde yok; DTO + hata metinleri kanonik handler'da durur", () => {
-    expect(RAIL_V1_HOPS).toHaveLength(8);
+    expect(RAIL_V1_HOPS).toHaveLength(16);
     expect(RAIL_V1_HOPS.some((item) => item.id === "freelancer-accept")).toBe(false);
     expect(RAIL_V1_HOPS.some((item) => item.id === "client-job-bids")).toBe(false);
-    // Donuk Dron istemci allowlist'i dokunulmaz; server sicili B2C vitrinidir.
-    expect(assertRailIsDay0Path("/api/v1/freelancer/jobs/fj_1/accept", "POST")).toBe(
-      "/api/v1/freelancer/jobs/fj_1/accept",
+    expect(() => assertRailIsDay0Path("/api/v1/freelancer/jobs/fj_1/accept", "POST")).toThrow(
+      /allowlist dışı/,
     );
     expect(RAIL_V1_ACCEPT_FORBIDDEN.length).toBeGreaterThan(0);
     expect(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE).toBe("Ödeme henüz bağlanmadı");

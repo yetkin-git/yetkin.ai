@@ -36,22 +36,31 @@ export const PAGE_SEO = {
   home: {
     title: PUBLIC_SEN.home.title,
     description:
-      "Yapay zekâ yetkinliğini kanıtla, kariyerini mühürle. 5 eğitim, 30 ders: bitir, testi geç; belgen sunucuda mühürlenir. PayTR iFrame + 3D Secure; kart numarası platformda tutulmaz.",
+      "Yapay zeka eğitimi ve online kurs vitrini yeni müfredat üretim bandındadır. Prompt eğitimi mühürlenince yayımlanır. Testi geç; yapay zeka sertifikan mühürlenir, kariyer vizesi Kariyer sayfana işlenir. PayTR iFrame + 3D Secure.",
     path: "/",
     image: DEFAULT_OG_IMAGE,
   },
   career: {
-    title: "Kariyer Erişim Hakkı ve uzmanlık belgesi",
+    title: "Kariyer vizesi ve uzmanlık belgesi",
     description:
-      "Akademi sınavından türeyen Doğrulanmış Rozetin. Pasaport Vize Damgası sicile işlenir; sahte rozet eklenmez. Uzmanlığını belgele.",
+      "Kariyer vizesi: Akademi sınavından türeyen yapay zeka sertifikası Pasaport Vize Damgasına dönüşür. Teklif Kapısı işveren ağına görünürlük, mühürlü özgeçmiş bağlantısı ve proje kanıtını açar. Sahte rozet eklenmez.",
     path: "/career",
+    image: DEFAULT_OG_IMAGE,
+  },
+  publicTalent: {
+    title: "Kariyer vizesi — liyakat mühürlü özgeçmiş kartı",
+    description:
+      "Kamuya açık kariyer vizesi kartı: mühürler, yapay zeka sertifikası doğrulama bağı ve proje kanıtı. Oturum istenmez; vatandaş kimliği gösterilmez.",
+    path: "/vize",
+    image: DEFAULT_OG_IMAGE,
   },
   // PayTR B2C (E7): 410 dönen /freelancer odasının SEO girdisi yoktur.
   academy: {
     title: ACADEMY_SEN.catalog.title,
     description:
-      "Yapay zekâ destekli kurslar: dersi bitir, testi 70+ ile geç, sertifikan Kariyer sayfana işlensin. Akademi vitrini yalnız yayın müfredatını satar.",
+      "Yapay zeka eğitimi ve online kurslar: amiral kurs yayındadır. Prompt eğitimi ve kardeş müfredat Çok Yakında / Hazırlanıyor rozetiyle durur. Dersi bitir, testi 70+ ile geç, yapay zeka sertifikan ve kariyer vizesi Kariyer sayfana işlensin. Akademi yalnız mühürlü müfredatı satar.",
     path: "/academy",
+    image: DEFAULT_OG_IMAGE,
   },
   academyVerify: {
     title: "Sertifika doğrula",
@@ -98,6 +107,28 @@ type PageSeoInput = {
 };
 
 export const PRODUCT_ROOM_PATHS = ["/academy", "/career"] as const;
+
+/** Sitemap statik kamu yolları — robots allow listesi ile aynı SSOT. */
+export const SITEMAP_STATIC_PATHS = [
+  "/",
+  ...PRODUCT_ROOM_PATHS,
+  PAGE_SEO.academyVerify.path,
+  PAGE_SEO.publicTalent.path,
+] as const;
+
+/** Oturum / sığınak / kilitli oda — sitemap’te yok; crawl edilmez. */
+export const ROBOTS_DISALLOW_PATHS = [
+  "/dashboard",
+  "/freelancer",
+  "/admin",
+  "/login",
+  "/register",
+  "/cuzdan",
+  "/kasa",
+  "/profil",
+  "/pasaport",
+  "/api/",
+] as const;
 
 export type SitemapChangeFrequency =
   | "always"

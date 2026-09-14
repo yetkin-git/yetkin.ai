@@ -10,10 +10,10 @@ export const ACADEMY_DEMO_VIDEO_PUBLIC_PATH = "/academy/demo/office-ai-intro.mp4
 export const ACADEMY_DEMO_AUDIO_PUBLIC_PATH = "/academy/demo/office-ai-podcast.wav" as const;
 
 /**
- * Demo podcast'in ait olduğu tek ders. Ofis AI kaydı başka SKU'ya enjekte edilmez;
- * sesi olmayan derste oynatıcı dürüst "kayıt henüz yerleştirilmedi" kartı basar.
+ * Eski demo podcast bağının SKU kilidi — taze ingest öncesi fallback yok.
+ * Sesi olmayan derste oynatıcı dürüst "kayıt henüz yerleştirilmedi" kartı basar.
  */
-export const ACADEMY_DEMO_AUDIO_COURSE_SLUG = "01_office_ai" as const;
+export const ACADEMY_DEMO_AUDIO_COURSE_SLUG = null;
 
 export type AcademyLessonVideoKind = "file" | "hls" | "embed" | "none";
 
@@ -23,21 +23,14 @@ export function trimAcademyMediaUrl(value: string | null | undefined): string | 
 }
 
 /**
- * Podcast çözümü — açık `audioUrl` önceliklidir. Demo WAV fallback'i yalnız
- * `01_office_ai` derslerine kilitlidir; diğer SKU'larda `undefined` döner ve
- * yanlış içerik (ofis podcast'i) sessizce çalınmaz.
+ * Podcast çözümü — yalnız açık `audioUrl`. Demo WAV fallback'i kapalıdır;
+ * sesi olmayan derste oynatıcı dürüst boş kart basar (A5).
  */
 export function resolveAcademyLessonAudioUrl(
   audioUrl?: string | null,
-  courseSlug?: string | null,
+  _courseSlug?: string | null,
 ): string | undefined {
-  const explicit = trimAcademyMediaUrl(audioUrl);
-  if (explicit) {
-    return explicit;
-  }
-  return courseSlug?.trim() === ACADEMY_DEMO_AUDIO_COURSE_SLUG
-    ? ACADEMY_DEMO_AUDIO_PUBLIC_PATH
-    : undefined;
+  return trimAcademyMediaUrl(audioUrl);
 }
 
 /**

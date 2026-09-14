@@ -29,6 +29,9 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
     expect(anayasa).toContain("Satın Alınamaz");
     expect(anayasa).toContain("Sahte Finansal Veri Yasaktır");
     expect(anayasa).toContain("/api/wallet/withdraw");
+    expect(anayasa).toContain("tek dokunulmaz katman");
+    expect(anayasa).toContain("yaşayan ilkeler");
+    expect(anayasa).not.toContain("## A8");
   });
 
   it("Manifesto Faz 1 birincil kitle B2C öğrenen / kart sahibidir; işveren Faz 2 alıcısıdır", () => {
@@ -37,6 +40,9 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
     expect(manifesto).toContain("Faz 2 alıcısı");
     expect(manifesto).toContain("Faz 1 çalışan vitrin 3 odadır");
     expect(manifesto).toContain("4. oda (Freelancer) kilitli motordur");
+    expect(manifesto).toContain("/vize");
+    expect(manifesto).toContain("donuk laboratuvar");
+    expect(manifesto).toContain("publishFrozenUntilFaz1Close");
     expect(manifesto).not.toMatch(/dört oda eşit omurga/i);
   });
 
@@ -46,20 +52,22 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
     expect(pedagoji).toContain("JUNIOR_PRODUCTION_LOCKED");
     expect(pedagoji).toContain("Temel Paketler");
     expect(pedagoji).toContain("18 yaş altı");
+    expect(pedagoji).toContain("Bütünleşik Medya ve Eğitim Rejisi Standartları");
   });
 
   it("Runbook Motor 4 / Kamu Vitrini 3 Oda der; Akademi makbuzu SMTP env'ine bağlıdır", () => {
     const runbook = readSystemDoc("OPS_RUNBOOK.md");
     expect(runbook).toContain("Motor 4 / Kamu Vitrini 3 Oda (Panel, Akademi, Kariyer)");
     expect(runbook).toContain("academy-receipt-mail.ts");
-    expect(runbook).toContain("Akademi mühürlü WAV **18**");
+    expect(runbook).toContain("Akademi mühürlü yayın **2**");
     expect(runbook).toContain("Faz 0: Akademi Canlı T3 Testi Prosedürü");
     expect(runbook).toContain("https://yetkin.ai/api/paytr/callback");
     expect(runbook).toContain("SMTP skipped");
     expect(runbook).not.toContain("Çalışan 4 oda");
     expect(runbook).not.toContain("Akademi satın alma makbuzu bu kanalda yoktur");
+    expect(runbook).not.toContain("Akademi mühürlü WAV **18**");
     expect(runbook).not.toContain("Akademi mühürlü WAV **2**");
-    expect(runbook).toContain("RAIL_V1_HOPS`, **8 kayıt**");
+    expect(runbook).toContain("RAIL_V1_HOPS`, **16 kayıt**");
   });
 
   it("kamu yüzeyi: freelancer ve junior 410; vitrin 3 oda; Split kapalı; Merchant asıl nakit portu", () => {
@@ -78,7 +86,7 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
 
   it("OpenAPI kamu sözleşmesinde Marketplace tag'i ve freelancer path yoktur", () => {
     const document = buildRailV1OpenApiDocument();
-    expect(RAIL_V1_HOPS).toHaveLength(8);
+    expect(RAIL_V1_HOPS).toHaveLength(16);
     expect(document.tags.map((tag) => tag.name)).toEqual(["Kernel", "Proof", "Payments"]);
     expect(document.tags.map((tag) => tag.name)).not.toContain("Marketplace");
     expect(document.info.description).toContain("Marketplace tag'i ve freelancer path'leri yayınlanmaz");

@@ -56,7 +56,11 @@ export const assistantChatRequestSchema = z.object({
 export type AssistantChatRequest = z.infer<typeof assistantChatRequestSchema>;
 
 export type AssistantChatQuotaPort = {
-  consume(userId: string): { allowed: boolean; remaining: number; limit: number };
+  consume(
+    userId: string,
+  ):
+    | { allowed: boolean; remaining: number; limit: number }
+    | Promise<{ allowed: boolean; remaining: number; limit: number }>;
 };
 
 export type AssistantChatSource = "llm" | "local-fact" | "fail-safe";
@@ -86,8 +90,8 @@ export type AnswerAssistantChatDeps = InvokeLlmDeps & {
 
 export function createHttpAssistantChatQuota(): AssistantChatQuotaPort {
   return {
-    consume(userId) {
-      const decision = consumeHttpRateLimit(userId, HTTP_RATE_LIMITS.aiChatUser);
+    async consume(userId) {
+      const decision = await consumeHttpRateLimit(userId, HTTP_RATE_LIMITS.aiChatUser);
       return {
         allowed: decision.allowed,
         remaining: decision.remaining,
@@ -154,7 +158,7 @@ export async function answerAssistantChat(
   }
 
   const quota = deps.quota ?? createHttpAssistantChatQuota();
-  const slot = quota.consume(input.userId);
+  const slot = await Promise.resolve(quota.consume(input.userId));
   if (!slot.allowed) {
     return {
       ok: false,

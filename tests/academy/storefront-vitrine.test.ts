@@ -6,10 +6,15 @@ import { ACADEMY_LEGACY_PURGE_CATALOG_UNITS } from "@/lib/academy/catalog-seed";
 import {
   ACADEMY_FLAGSHIP_SKU_SLUG,
   ACADEMY_GROWTH_SKU_SLUGS,
+  ACADEMY_PRODUCTION_LINE_SKU_SLUGS,
+  ACADEMY_VITRINE_SHELL_SKU_SLUGS,
   academyCourseHasSealedAudio,
   academyStorefrontStaticParams,
   isAcademyGrowthSkuSlug,
+  isAcademyProductionLineSkuSlug,
 } from "@/lib/academy/pilot-sku";
+import { academyCourseIsComingSoon } from "@/lib/academy/course-cover";
+import { academyVitrineShellCourses } from "@/lib/academy/published-catalog";
 import {
   ACADEMY_LEGACY_UNIT_SLUGS_FOR_TEST,
   ACADEMY_RETIRED_STOREFRONT_SLUGS,
@@ -25,15 +30,39 @@ function readSrc(relative: string): string {
 }
 
 describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
-  it("amiral SKU büyüme beşlisinin başıdır", () => {
+  it("amiral SKU mühürlü vitrin çekirdeğidir", () => {
     expect(ACADEMY_FLAGSHIP_SKU_SLUG).toBe("01_office_ai");
     expect(ACADEMY_GROWTH_SKU_SLUGS[0]).toBe(ACADEMY_FLAGSHIP_SKU_SLUG);
     expect(isAcademyGrowthSkuSlug("01_office_ai")).toBe(true);
+    expect(isAcademyGrowthSkuSlug("02_ecommerce_ai")).toBe(false);
     expect(isAcademyGrowthSkuSlug("python-temel")).toBe(false);
     expect(isAcademyGrowthSkuSlug("06_n8n_automation")).toBe(false);
     expect(isAcademyGrowthSkuSlug("siber-guvenlik")).toBe(false);
     expect(academyStorefrontStaticParams().map((row) => row.slug)).toEqual([
       ...ACADEMY_GROWTH_SKU_SLUGS,
+    ]);
+    expect([...ACADEMY_VITRINE_SHELL_SKU_SLUGS]).toEqual([
+      "01_office_ai",
+      "05_prompt_practice",
+      "04_chatbot_nocode",
+      "02_ecommerce_ai",
+      "03_social_media_ai",
+    ]);
+    expect([...ACADEMY_PRODUCTION_LINE_SKU_SLUGS]).toEqual([
+      "05_prompt_practice",
+      "04_chatbot_nocode",
+      "02_ecommerce_ai",
+      "03_social_media_ai",
+    ]);
+    expect(isAcademyProductionLineSkuSlug("05_prompt_practice")).toBe(true);
+    expect(isAcademyProductionLineSkuSlug("01_office_ai")).toBe(false);
+    expect(academyCourseIsComingSoon("01_office_ai")).toBe(false);
+    expect(academyCourseIsComingSoon("05_prompt_practice")).toBe(true);
+    expect(academyVitrineShellCourses().map((row) => row.slug)).toEqual([
+      ...ACADEMY_VITRINE_SHELL_SKU_SLUGS,
+    ]);
+    expect(academyVitrineShellCourses().filter((row) => row.purchasable).map((row) => row.slug)).toEqual([
+      "01_office_ai",
     ]);
   });
 
@@ -50,6 +79,7 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(list).not.toContain("overflow-y-auto");
     expect(list).not.toContain("groupAcademyCatalogBySeries");
     expect(list).not.toContain("seriesPath");
+    expect(list).toContain("filterAcademyVitrineCatalog");
     expect(list).toContain("orderAcademyCatalogByCurriculum");
     expect(list).toContain("ACADEMY_FLAGSHIP_SKU_SLUG");
     expect(list).toContain("md:col-span-2");
@@ -76,7 +106,7 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
   });
 
   it("SEN oynatıcı callout hayalet python-temel href taşımaz", () => {
-    expect(ACADEMY_SEN.player.codeCalloutHref).toBe("/academy/05_prompt_practice");
+    expect(ACADEMY_SEN.player.codeCalloutHref).toBe("/academy");
     expect(ACADEMY_SEN.player.codeCalloutModule).toBe("Pratik Prompt Mühendisliği");
     expect(ACADEMY_SEN.player.codeCalloutHref).not.toContain("python-temel");
     expect(JSON.stringify(ACADEMY_SEN)).not.toContain("/academy/python-temel");
@@ -89,6 +119,8 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(isAcademyRetiredStorefrontSlug("security-temel")).toBe(true);
     expect(isAcademyRetiredStorefrontSlug("excel-masterclass")).toBe(true);
     expect(isAcademyRetiredStorefrontSlug("06_n8n_automation")).toBe(true);
+    expect(isAcademyRetiredStorefrontSlug("02_ecommerce_ai")).toBe(true);
+    expect(isAcademyRetiredStorefrontSlug("05_prompt_practice")).toBe(true);
     expect(isAcademyRetiredStorefrontSlug("01_office_ai")).toBe(false);
     for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
       expect(isAcademyRetiredStorefrontSlug(slug), slug).toBe(false);
@@ -120,23 +152,31 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(aliasPage).toContain("isAcademyRetiredStorefrontSlug");
     expect(aliasPage).toContain('permanentRedirect("/academy")');
     expect(academyCourseHasSealedAudio("01_office_ai")).toBe(true);
-    expect(academyCourseHasSealedAudio("02_ecommerce_ai")).toBe(true);
-    expect(academyCourseHasSealedAudio("05_prompt_practice")).toBe(true);
+    expect(academyCourseHasSealedAudio("02_ecommerce_ai")).toBe(false);
+    expect(academyCourseHasSealedAudio("05_prompt_practice")).toBe(false);
     expect(ACADEMY_SEN.catalog.audioBadge).not.toContain("Seslendirmeli");
     expect(ACADEMY_RETIRED_STOREFRONT_SLUGS).toContain("siber-guvenlik");
   });
 
-  it("vitrin dürüstlük kilidi: 01–02 ses+karaoke; 03–05 yazılı compact; 13 eğitim vaadi yok", () => {
+  it("vitrin dürüstlük kilidi: beş SKU compact makale; video vaadi yok; 13 eğitim vaadi yok", () => {
     expect(ACADEMY_SEN.catalog.heroAudioBadge).toBe(
       "Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika",
     );
     expect(ACADEMY_SEN.catalog.heroArticleBadge).toBe(
       "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
     );
-    expect(ACADEMY_SEN.catalog.description).toContain("Vitrin beş yayında eğitimdir");
+    expect(ACADEMY_SEN.catalog.description).toContain("üretim bandındadır");
+    expect(ACADEMY_SEN.catalog.description).toContain("Çok Yakında / Hazırlanıyor");
     expect(ACADEMY_SEN.catalog.description).not.toContain("13 eğitim");
+    expect(ACADEMY_SEN.catalog.description).not.toMatch(/Video/i);
+    expect(ACADEMY_SEN.catalog.infoBand(1)).toContain("Test barajı 70+");
+    expect(ACADEMY_SEN.catalog.infoBand(1)).not.toContain("5 yayın");
+    expect(ACADEMY_SEN.catalog.infoBand(1)).not.toContain("karaoke");
     expect(JSON.stringify(ACADEMY_SEN.catalog)).not.toContain("Sesli Akademi");
-    expect(ACADEMY_GROWTH_SKU_SLUGS).toHaveLength(5);
+    expect(readSrc("lib/copy/sen-voice/public.ts")).not.toContain("sinema kataloğu");
+    expect(readSrc("lib/copy/sen-voice/public.ts")).not.toMatch(/Prompt Box videonun/i);
+    expect(ACADEMY_SEN.pilotPath.steps(70)[0]?.detail).not.toMatch(/Video/i);
+    expect(ACADEMY_GROWTH_SKU_SLUGS).toHaveLength(1);
     expect(ACADEMY_GROWTH_SKU_SLUGS).not.toContain("06_n8n_automation");
     const purchase = readSrc("lib/academy/purchase-path.ts");
     expect(purchase).toContain("Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika");

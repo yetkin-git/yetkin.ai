@@ -1,5 +1,9 @@
 import { requireSession, sessionUserNotInDatabaseMessage } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
+import { resolveRequestId } from "@/lib/kernel/http/request-id";
+import { requireRailV1IdempotencyKey } from "@/lib/kernel/http/v1-runtime-shield";
+import { hashIdempotencyPayload, settleHttpIdempotency } from "@/lib/kernel/http/idempotency";
+import { createPrismaHttpIdempotencyStore } from "@/lib/kernel/http/prisma-idempotency-store";
 import {
   completeAcademyLesson,
   loadAcademyCurriculumPlayer,
@@ -49,25 +53,6 @@ function publicPlayer(player: Awaited<ReturnType<typeof loadAcademyCurriculumPla
   };
 }
 
-async function loadPublicPlayerOrBusy(
-  ports: ReturnType<typeof createPrismaAcademyPorts>,
-  command: { courseId: string; userId: string; email?: string | null },
-  applied: boolean,
-) {
-  try {
-    const player = await loadAcademyCurriculumPlayer(ports, command);
-    return jsonOk({
-      applied,
-      player: publicPlayer(player),
-    });
-  } catch (error) {
-    if (isPrismaUnavailableError(error) || isPrismaClientError(error)) {
-      return jsonFail(DATABASE_BUSY_ERROR, 503);
-    }
-    throw error;
-  }
-}
-
 export async function GET(
   request: Request,
   context: { params: Promise<{ id: string }> },
@@ -108,9 +93,14 @@ export async function POST(
   request: Request,
   context: { params: Promise<{ id: string }> },
 ) {
+  const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
     const { id } = await context.params;
+    const idempotency = requireRailV1IdempotencyKey(request, requestId);
+    if (!idempotency.ok) {
+      return idempotency.response;
+    }
     const parsed = completeAcademyLessonInputSchema.safeParse(await request.json().catch(() => ({})));
     if (!parsed.success) {
       return jsonFail("Ders anahtarı veya iş kanıtı geçersiz.", 400);
@@ -128,28 +118,45 @@ export async function POST(
       userId: user.id,
       email: user.email,
     };
-    try {
-      const result = await completeAcademyLesson(ports, {
-        ...actor,
-        lessonKey: parsed.data.lessonKey,
-        proof: parsed.data.proof,
-      });
-      return jsonOk({
-        applied: result.applied,
-        player: publicPlayer(result.player),
-      });
-    } catch (error) {
-      if (isPrismaForeignKeyViolation(error)) {
-        return jsonFail(sessionUserNotInDatabaseMessage(), 401);
-      }
-      if (isPrismaUniqueViolation(error)) {
-        return loadPublicPlayerOrBusy(ports, actor, false);
-      }
-      if (isPrismaUnavailableError(error) || isPrismaClientError(error)) {
-        return jsonFail(DATABASE_BUSY_ERROR, 503);
-      }
-      throw error;
-    }
+    return settleHttpIdempotency(
+      {
+        store: createPrismaHttpIdempotencyStore(),
+        userId: user.id,
+        route: "/api/academy/courses/[id]/curriculum",
+        key: idempotency.key,
+        requestHash: hashIdempotencyPayload({
+          courseId: course.id,
+          lessonKey: parsed.data.lessonKey,
+        }),
+        requestId,
+        request,
+      },
+      async () => {
+        try {
+          const result = await completeAcademyLesson(ports, {
+            ...actor,
+            lessonKey: parsed.data.lessonKey,
+            proof: parsed.data.proof,
+          });
+          return {
+            status: 200,
+            body: {
+              applied: result.applied,
+              player: publicPlayer(result.player),
+            },
+          };
+        } catch (error) {
+          if (isPrismaUniqueViolation(error)) {
+            const player = await loadAcademyCurriculumPlayer(ports, actor);
+            return {
+              status: 200,
+              body: { applied: false, player: publicPlayer(player) },
+            };
+          }
+          throw error;
+        }
+      },
+    );
   } catch (error) {
     if (isPrismaForeignKeyViolation(error)) {
       return jsonFail(sessionUserNotInDatabaseMessage(), 401);

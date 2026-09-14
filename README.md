@@ -4,17 +4,18 @@ Yetkinliğini kanıtlayan yapay zekâ eğitimleri. Öğrendiğini mühürle. Mü
 
 Vatandaş ve dış dünya markası **yetkin.ai**. npm paketi `yetkin.ai`. Lab veritabanı (`yetkin_rail_lab`), Inngest app id (`yetkin-rail`) ve dizin yolu `apps/rail-is` operasyonel kimlik olarak durur.
 
-## Faz 1 kamu vitrini — 3 oda
+## Faz 1 kamu vitrini — 3 oda + kanıt URL’si
 
-| Oda | Yol | Ne işe yarar |
-|-----|-----|----------------|
+| Oda / yüzey | Yol | Ne işe yarar |
+|-------------|-----|----------------|
 | Panel | `/dashboard` | Kabuk, cüzdan şeridi, pasaport |
 | Akademi | `/academy` | Kurs, müfredat, sınav, SHA-256 belge — **Faz 1 nakit** |
 | Kariyer | `/career` | Akademi mühründen vize; nakit taşımaz |
+| Kamu kanıt (oda değil) | `/vize` | Oturumsuz mühür kartı; huninin çıkışı |
 
-**Motor 4 / Kamu Vitrini 3 Oda.** Freelancer (`/freelancer`) sicilde durur, kamu **410 Gone**; nakit iddiası taşımaz. Lisanslı Split bağlı değilken accept **503**. Junior (`/junior`) 18 yaş altı / veli odasıdır, üretim kilitli **410**. Sahte bakiye veya sahte CREDIT yazılmaz (fail-closed). Faz 1 tek nakit kanalı **PayTR Merchant** (B2C eğitim satışı).
+**Motor 4 / Kamu Vitrini 3 Oda.** `/vize` 5. oda değildir. Freelancer (`/freelancer`) sicilde durur, kamu **410 Gone**; nakit iddiası taşımaz. Lisanslı Split bağlı değilken accept **503**. Junior (`/junior`) 18 yaş altı / veli odasıdır, üretim kilitli **410**. Sahte bakiye veya sahte CREDIT yazılmaz (fail-closed). Faz 1 tek nakit kanalı **PayTR Merchant** (B2C eğitim satışı). Dron Faz 1’de donuk laboratuvardır. Saf sözleşmeler `@yetkin/kernel` paketindedir.
 
-Kimlik Supabase Auth, nakit tek `amountMinor` defteri, dış sözleşme `/api/v1`. Gövde **Modüler Monolit + API-First Dron Sözleşmesi**dir; Shared Kernel paketi veya mikroservis platformu değildir.
+Kimlik Supabase Auth, nakit tek `amountMinor` defteri, dış sözleşme `/api/v1`. Gövde **Modüler Monolit + API-First Dron Sözleşmesi**dir; saf kernel paketi Amiral ve Dron arasında paylaşılır, mikroservis platformu değildir.
 
 ## Bağlama
 

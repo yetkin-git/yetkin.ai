@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { FREELANCER_OPEN_TRIAL_NEED_ID, isOpenTrialNeed } from "@/lib/kernel/catalog-ids";
+import { FREELANCER_GUARANTEED_NEED_IDS, isOpenTrialNeed } from "@/lib/kernel/catalog-ids";
 import {
   FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY,
   YZ_LISTING_VISA_SUBJECT,
@@ -10,16 +10,17 @@ import {
 } from "@/lib/career/visa-scope-board";
 
 describe("vize-ilan kapsama tabelası", () => {
-  it("freelancer kapılarını listeler; boş damgada kapı kapalıdır", () => {
+  it("yalnız müfredat SKU kapılarını listeler; boş damgada kapı kapalıdır", () => {
     const doors = buildCareerVisaScopeBoard([]);
+    expect(doors.map((door) => door.pathwayId)).toEqual([...FREELANCER_GUARANTEED_NEED_IDS]);
     expect(doors.map((door) => door.pathwayId)).toContain(FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY);
-    expect(
-      doors.filter((door) => !isOpenTrialNeed(door.pathwayId)).every((door) => !door.open),
-    ).toBe(true);
-    expect(doors.find((door) => door.pathwayId === FREELANCER_OPEN_TRIAL_NEED_ID)?.open).toBe(true);
-    expect(
-      doors.filter((door) => !isOpenTrialNeed(door.pathwayId)).every((door) => door.courses.length > 0),
-    ).toBe(true);
+    expect(doors.every((door) => !door.open)).toBe(true);
+    expect(doors.every((door) => !isOpenTrialNeed(door.pathwayId))).toBe(true);
+    expect(doors.every((door) => door.courses.length > 0)).toBe(true);
+    expect(doors.every((door) => door.benefits.map((row) => row.id).join() === "employer-network,sealed-cv,project-proof")).toBe(
+      true,
+    );
+    expect(doors.every((door) => door.publicTalentHref === null)).toBe(true);
   });
 
   it("ilan tabelası kilitli dikeyin kurslarını gösterir", () => {

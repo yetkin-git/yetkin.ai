@@ -42,7 +42,7 @@ export type {
 
 /**
  * Compact makale müfredatı — `CurriculumModule.sections` → canlı taslak.
- * Diyalog / görsel yuva istemez.
+ * Diyalog / görsel yuva istemez. Taze ingest yokken dizi boştur.
  */
 export function compactDraftsFromModule(
   slug: string,

@@ -37,24 +37,22 @@ const MECHANICAL_LOCK =
   /kilitlemiştik|kilitliyoruz|kilitliyorum|kilitleyeceğiz|kilitleyince|kilitleniyor|kilitlenir|kilitlersin|kilitleme\b|kilitli paket|nasıl kilitleniyor/iu;
 
 describe("03.16 gerçek müfredat gövdesi — amiral compact", () => {
-  it("vitrin tohumu ingest edilmiş compact müfredat basar; master doc durur", () => {
-    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
-    expect(ACADEMY_CATALOG_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
-    expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
+  it("vitrin SKU durur; master doc taze ingest bekler", () => {
+    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai"]);
+    expect(ACADEMY_CATALOG_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai"]);
+    expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai"]);
     expect(Object.keys(ACADEMY_COURSE_TITLES)).toEqual([...ACADEMY_CANON_SKU_SLUGS]);
     expect(ACADEMY_PILOT_SKU_SLUG).toBeNull();
     expect(ACADEMY_PILOT_SKU_LESSON_COUNT).toBe(0);
     expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual([...ACADEMY_GROWTH_SKU_SLUGS]);
     const lessons = curriculumForCourseSlug("01_office_ai");
     expect(lessons).toHaveLength(6);
-    expect(lessons[0]?.key).toBe("01_office_ai-1");
-    expect(lessons[0]?.body.length).toBeGreaterThan(200);
-    expect(curriculumForCourseSlug("02_ecommerce_ai")).toHaveLength(6);
-    expect(curriculumForCourseSlug("03_social_media_ai")).toHaveLength(6);
-    expect(curriculumForCourseSlug("04_chatbot_nocode")).toHaveLength(6);
-    expect(curriculumForCourseSlug("05_prompt_practice")).toHaveLength(6);
+    expect(curriculumForCourseSlug("02_ecommerce_ai")).toHaveLength(0);
+    expect(curriculumForCourseSlug("03_social_media_ai")).toHaveLength(0);
+    expect(curriculumForCourseSlug("04_chatbot_nocode")).toHaveLength(0);
+    expect(curriculumForCourseSlug("05_prompt_practice")).toHaveLength(0);
     expect(curriculumForCourseSlug("sample-course")).toEqual([]);
-    expect(existsSync(MASTERY_DOC)).toBe(true);
+    expect(existsSync(MASTERY_DOC)).toBe(false);
   });
 
   it("tohum klasörü ve curriculum.ts mock başlık taşımaz", () => {
@@ -86,7 +84,7 @@ describe("03.16 gerçek müfredat gövdesi — amiral compact", () => {
 describe("03.19 seviye ve pedagoji", () => {
   it("seviye etiketi serbesttir; amiral tohum Temel taşır", () => {
     expect(ACADEMY_COURSE_LEVELS).toEqual(["Temel", "Orta", "İleri"]);
-    expect(ACADEMY_COURSE_SEEDS).toHaveLength(5);
+    expect(ACADEMY_COURSE_SEEDS).toHaveLength(1);
     expect(ACADEMY_COURSE_SEEDS[0]?.level).toBe("Temel");
     for (const row of ACADEMY_COURSE_SEEDS) {
       expect(isAcademyCourseLevel(row.level), row.slug).toBe(true);
@@ -269,11 +267,15 @@ describe("03.30 doğal dil temizliği", () => {
     }
   });
 
-  it("yayınlı compact müfredat gövdesi vardır; diyalog SKU yoktur", () => {
-    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
+  it("yayınlı compact müfredat gövdesi taze ingest bekler; diyalog SKU yoktur", () => {
+    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai"]);
     expect(curriculumForCourseSlug("01_office_ai")).toHaveLength(6);
     for (const row of ACADEMY_COURSE_SEEDS) {
-      expect(curriculumForCourseSlug(row.slug).length).toBeGreaterThan(0);
+      if (row.slug === "01_office_ai") {
+        expect(curriculumForCourseSlug(row.slug)).toHaveLength(6);
+        continue;
+      }
+      expect(curriculumForCourseSlug(row.slug)).toEqual([]);
     }
   });
 });

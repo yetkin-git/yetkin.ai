@@ -1,7 +1,7 @@
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import { orderAcademyCatalogByCurriculum } from "@/lib/academy/catalog-filter";
 import { ACADEMY_COURSE_TITLES, type AcademyCourseTitleSlug } from "@/lib/academy/course-titles";
-import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
+import { ACADEMY_GROWTH_SKU_SLUGS, ACADEMY_VITRINE_SHELL_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 import {
   ACADEMY_COURSE_LEVEL_BY_SLUG,
   resolveAcademySeedMoney,
@@ -18,7 +18,7 @@ import { ACADEMY_CATALOG_SUMMARIES } from "@/lib/academy/catalog-summaries";
 /**
  * Katalog kart tohumu — slug, başlık, özet, fiyat, sıra.
  * SQL: `supabase/migrations/20260814090000_academy_course_seed.sql`.
- * Kanon 13 SKU `SEED_META` içinde dondurulur; vitrin tohumu ingest edilmiş alt kümedir.
+ * Kanon 13 SKU `SEED_META` içinde dondurulur; vitrin tohumu mühürlü amiral SKU’dur.
  */
 export type AcademyCatalogExamMeta = {
   id: string;
@@ -159,7 +159,7 @@ const CATALOG_SORT_ORDER_BY_SLUG = Object.fromEntries(
   ).map((row, index) => [row.slug, index + 1]),
 ) as Record<AcademyCourseTitleSlug, number>;
 
-export const ACADEMY_CATALOG_SEEDS: readonly AcademyCatalogSeed[] = SLUG_ORDER.map((slug) => {
+function catalogSeedForSlug(slug: AcademyCourseTitleSlug): AcademyCatalogSeed {
   const meta = SEED_META[slug];
   const title = ACADEMY_COURSE_TITLES[slug];
   const trendScore = academyTrendScore(meta.globalRank, meta.localRank);
@@ -169,6 +169,7 @@ export const ACADEMY_CATALOG_SEEDS: readonly AcademyCatalogSeed[] = SLUG_ORDER.m
     minMinor: ACADEMY_CATALOG_PRICE_WINDOW.minMinor,
     maxMinor: ACADEMY_CATALOG_PRICE_WINDOW.maxMinor,
   });
+  const vitrineOrder = (ACADEMY_VITRINE_SHELL_SKU_SLUGS as readonly string[]).indexOf(slug);
   return {
     id: meta.id,
     slug,
@@ -183,14 +184,25 @@ export const ACADEMY_CATALOG_SEEDS: readonly AcademyCatalogSeed[] = SLUG_ORDER.m
     globalRank: meta.globalRank,
     localRank: meta.localRank,
     trendScore,
-    catalogSortOrder: CATALOG_SORT_ORDER_BY_SLUG[slug],
+    catalogSortOrder:
+      vitrineOrder >= 0 ? vitrineOrder + 1 : (CATALOG_SORT_ORDER_BY_SLUG[slug] ?? 99),
     exam: {
       id: meta.examId,
       title: `${title} müfredat sınavı`,
       passScore: ACADEMY_EXAM_PASS_SCORE,
     },
   };
-});
+}
+
+export const ACADEMY_CATALOG_SEEDS: readonly AcademyCatalogSeed[] = SLUG_ORDER.map(catalogSeedForSlug);
+
+/** Dürüst Yakında kabuğu — satın alınır tohum (`ACADEMY_CATALOG_SEEDS`) değildir. */
+export function academyVitrineDisplaySeed(slug: string): AcademyCatalogSeed | undefined {
+  if (!(slug in SEED_META)) {
+    return undefined;
+  }
+  return catalogSeedForSlug(slug as AcademyCourseTitleSlug);
+}
 
 export const ACADEMY_SEED_MODULE_KEY = ACADEMY_MODULE_KEY;
 

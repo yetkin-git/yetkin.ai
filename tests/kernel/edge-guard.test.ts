@@ -98,6 +98,9 @@ describe("korumalı yazma yolları", () => {
     expect(decideEdgeAction("/career", false).kind).toBe("auth-307");
     expect(decideEdgeAction("/academy/python-temel", false).kind).toBe("next");
     expect(decideEdgeAction("/academy/dogrula", false).kind).toBe("next");
+    expect(decideEdgeAction("/vize", false).kind).toBe("next");
+    expect(decideEdgeAction("/vize/stamp_1", false).kind).toBe("next");
+    expect(decideEdgeAction("/p/stamp_1", false).kind).toBe("next");
     expect(decideEdgeAction("/studio", false).kind).toBe("frozen-410");
   });
 });

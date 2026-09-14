@@ -39,7 +39,7 @@ const bodySchema = z.object({
 export async function POST(request: NextRequest) {
   const requestId = resolveRequestId(request);
   try {
-    const limited = applyHttpRateLimit(request, HTTP_RATE_LIMITS.authIp);
+    const limited = await applyHttpRateLimit(request, HTTP_RATE_LIMITS.authIp);
     if (!limited.allowed) {
       return rateLimitedJsonResponse(limited, request);
     }
@@ -128,6 +128,14 @@ export async function POST(request: NextRequest) {
       requestId,
       route: AUTH_REGISTER_API_PATH,
       reason: result.fallback ? "fallback" : "confirm",
+      status: 200,
+    });
+    logEvent({
+      level: "info",
+      event: "sem.conversion",
+      action: "register",
+      requestId,
+      route: AUTH_REGISTER_API_PATH,
       status: 200,
     });
 

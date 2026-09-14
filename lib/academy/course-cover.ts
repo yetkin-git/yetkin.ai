@@ -1,21 +1,26 @@
 /**
- * Kurs kapak görseli — Tur 3 sinema plakası (`{sku}-1-eye.webp` + `.avif`).
- * OG `og:image` ve sitemap `images` WebP yolunu basar.
- * Ders oynatıcı posteri JPG’de kalır; müfredat gövdesi / curriculum.ts bu dosyaya girmez.
+ * Kurs kapak görseli — yalnız taze ingest edilen 1. bölüm sinema plakası bağlanır.
+ * Diğer vitrin SKU’ları şeffaf «Yakında» şablonuna düşer; marka Y mührü kapak değildir.
  */
 
 import { academyMicroVideoPublicSources } from "@/lib/academy/lesson-media";
-import { isAcademyGrowthSkuSlug } from "@/lib/academy/pilot-sku";
+import {
+  ACADEMY_FLAGSHIP_SKU_SLUG,
+  isAcademyGrowthSkuSlug,
+  isAcademyProductionLineSkuSlug,
+} from "@/lib/academy/pilot-sku";
 
 /** Büyüme görsel sicilinde olmayan amiral SKU’ların 1. ders diyagramı. */
 const FIRST_LESSON_COVER_DIAGRAM: Readonly<Record<string, string>> = {};
 
-/** `03` kapağı e-ticaret eye kopyasıydı; yeni dosya adı immutable cache’i kırar. */
-const GROWTH_CINEMA_COVER_FILE: Readonly<Record<string, string>> = {
-  "03_social_media_ai": "03_social_media_ai-reels-1-eye.webp",
-};
+/** Taze ingest — `01_office_ai` 1. bölüm göz plakası. */
+const FLAGSHIP_CINEMA_COVER_STEM = "01_office_ai-1-eye" as const;
 
+/** Favicon / marka mührü — vitrin kartı kapağı değildir. */
 export const ACADEMY_BRAND_FALLBACK_COVER = "/icon.svg" as const;
+
+/** Amiral 1. bölüm — mühürlü süre 496 sn ≈ 8 dk. */
+export const ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN = 8 as const;
 
 /** Katalog kartı — mobil tam genişlik, tablet yarım, masaüstü üçte bir. */
 export const ACADEMY_COURSE_COVER_SIZES =
@@ -30,34 +35,49 @@ export const ACADEMY_COURSE_COVER_SRCSET_WIDTHS = [640, 960, 1280] as const;
 
 export type AcademyCourseCoverSrcSetWidth = (typeof ACADEMY_COURSE_COVER_SRCSET_WIDTHS)[number];
 
-/** Ana sayfa LCP — amiral AVIF; `<head>` preload + Cloudflare Early Hints / HTTP/2 Push. */
-export const ACADEMY_HOME_LCP_COVER_AVIF = "/academy/cinema/01_office_ai-1-eye.avif" as const;
+/** Amiral AVIF — kart `fetchPriority`; Early Hints preload basılmaz. */
+export const ACADEMY_HOME_LCP_COVER_AVIF = `/academy/cinema/${FLAGSHIP_CINEMA_COVER_STEM}.avif` as const;
 
 export const ACADEMY_HOME_LCP_COVER_AVIF_SRCSET =
-  "/academy/cinema/01_office_ai-1-eye-640w.avif 640w, /academy/cinema/01_office_ai-1-eye-960w.avif 960w, /academy/cinema/01_office_ai-1-eye.avif 1280w" as const;
+  `/academy/cinema/${FLAGSHIP_CINEMA_COVER_STEM}-640w.avif 640w, /academy/cinema/${FLAGSHIP_CINEMA_COVER_STEM}-960w.avif 960w, /academy/cinema/${FLAGSHIP_CINEMA_COVER_STEM}.avif 1280w` as const;
 
-export const ACADEMY_HOME_LCP_PRELOAD_LINK =
-  `</academy/cinema/01_office_ai-1-eye.avif>; rel=preload; as=image; type="image/avif"; imagesrcset="${ACADEMY_HOME_LCP_COVER_AVIF_SRCSET}"; imagesizes="${ACADEMY_HOME_CINEMA_COVER_SIZES}"` as const;
+export const ACADEMY_HOME_LCP_PRELOAD_LINK = "" as const;
+
+export const ACADEMY_CATALOG_LCP_PRELOAD_LINK = "" as const;
 
 export function academyCourseCoverDiagramKey(slug: string): string | null {
   return FIRST_LESSON_COVER_DIAGRAM[slug] ?? null;
 }
 
-/** Kamuya açık kapak yolu — vitrin SKU’su Tur 3 eye WebP; yoksa marka mührü. */
-export function academyCourseCoverPath(slug: string): string {
-  if (isAcademyGrowthSkuSlug(slug)) {
-    const file = GROWTH_CINEMA_COVER_FILE[slug] ?? `${slug}-1-eye.webp`;
-    return `/academy/cinema/${file}`;
+export function academyCourseHasCinemaCover(slug: string): boolean {
+  return slug === ACADEMY_FLAGSHIP_SKU_SLUG;
+}
+
+/** Vitrin SKU — taze ingest yok; şeffaf Yakında şablonu. */
+export function academyCourseIsComingSoon(slug: string): boolean {
+  return isAcademyProductionLineSkuSlug(slug) || (isAcademyGrowthSkuSlug(slug) && !academyCourseHasCinemaCover(slug));
+}
+
+/**
+ * Kamuya açık kapak yolu — yalnız amiral 1. bölüm WebP.
+ * Diğer SKU `null` döner; kart CSS Yakında plakası basar, OG varsayılan plakaya düşer.
+ */
+export function academyCourseCoverPath(slug: string): string | null {
+  if (academyCourseHasCinemaCover(slug)) {
+    return `/academy/cinema/${FLAGSHIP_CINEMA_COVER_STEM}.webp`;
   }
   const diagramKey = academyCourseCoverDiagramKey(slug);
   if (!diagramKey) {
-    return ACADEMY_BRAND_FALLBACK_COVER;
+    return null;
   }
   return academyMicroVideoPublicSources(diagramKey).poster;
 }
 
-export function academyCourseCoverAvifPath(slug: string): string {
+export function academyCourseCoverAvifPath(slug: string): string | null {
   const webp = academyCourseCoverPath(slug);
+  if (!webp) {
+    return null;
+  }
   return academyCourseCoverAvifFromPath(webp) ?? webp;
 }
 

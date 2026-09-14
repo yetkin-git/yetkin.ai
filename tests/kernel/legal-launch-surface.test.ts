@@ -305,8 +305,10 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(home).not.toContain("Yasal metinler");
     expect(robots).toContain("/legal");
     expect(robots).toContain("LEGAL_SITE_PATHS");
+    expect(robots).toContain("SITEMAP_STATIC_PATHS");
+    expect(robots).toContain("ROBOTS_DISALLOW_PATHS");
     expect(sitemap).toContain("LEGAL_SITE_PATHS");
-    expect(sitemap).toContain("PRODUCT_ROOM_PATHS");
+    expect(sitemap).toContain("SITEMAP_STATIC_PATHS");
     expect(readSrc("app/(public)/hakkimizda/page.tsx")).toContain("LEGAL_ABOUT_LEAD");
     expect(readSrc("app/(public)/hakkimizda/page.tsx")).toContain("LEGAL_ACTIVITY_SCOPE_BODY");
     expect(readSrc("app/(public)/hakkimizda/page.tsx")).toContain("LEGAL_ENTITY.tradeName");
@@ -410,6 +412,10 @@ describe("lansman hukuk yüzeyi (O13)", () => {
       expect(url.startsWith("/")).toBe(false);
     }
     expect(robots().sitemap).toBe("https://yetkin.ai/sitemap.xml");
+    expect(robots().rules).toMatchObject({
+      allow: expect.arrayContaining(["/academy", "/career", "/vize", "/legal"]),
+      disallow: expect.arrayContaining(["/dashboard", "/freelancer"]),
+    });
     vi.unstubAllEnvs();
   });
 

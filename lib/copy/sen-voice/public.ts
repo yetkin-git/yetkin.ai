@@ -6,7 +6,7 @@ export const PUBLIC_SEN = {
     badge: YETKIN_BRAND,
     title: "Yapay zekâ yetkinliğini kanıtla, kariyerini mühürle",
     description:
-      "Ofis, e-ticaret, sosyal içerik, chatbot ve prompt — 5 eğitim, 30 ders. Dersleri bitir, testi geç; belgen sunucuda mühürlenir. PayTR iFrame + 3D Secure; kart numarası platformda tutulmaz.",
+      "Yapay zeka eğitimi ve online kurs vitrini yeni müfredat üretim bandındadır. Taslak kartlar yayında değildir. Prompt eğitimi mühürlenince vitrine düşer. Dersleri bitir, testi geç; yapay zeka sertifikan sunucuda mühürlenir, kariyer vizesi Kariyer sayfana işlenir. PayTR iFrame + 3D Secure; kart numarası platformda tutulmaz.",
     academyCta: "Eğitimleri İncele",
     loginCta: "Giriş Yap",
     registerCta: "Kayıt Ol",
@@ -18,15 +18,17 @@ export const PUBLIC_SEN = {
       "PayTR iFrame + 3D Secure. Kart numarası platformda tutulmaz",
       "Sınav ve mühür sunucuda doğrulanır; ikna yerine kanıt",
     ],
-    cinemaKicker: "30 derslik sinema kataloğu",
-    cinemaHint: "Tur 3 sahneleri — her eğitim 6 mühürlü ders.",
+    cinemaKicker: "Yapay zeka eğitimi · online kurs",
+    cinemaHint:
+      "Yeni müfredat üretim bandında. Taslak katalog kartları yayında değildir. Prompt eğitimi mühürlenince vitrine düşer.",
     roomsKicker: "Bugün satılan ürün",
     hero: {
       kicker: "Akademi",
       title: "Öğren, sınavı geç, belgeni mühürle",
-      body: "Amiral kursta mühürlü dersler sesli anlatımdır; Prompt Box videonun altındadır. Testi 70+ ile geçince belgen Kariyer sayfana işlenir.",
+      body: "Yapay zeka eğitimi ve online kurs vitrini üretim bandındadır. Testi 70+ ile geçince yapay zeka sertifikan ve kariyer vizesi Kariyer sayfana işlenir.",
       href: "/academy",
     },
+    faqHeading: "Sık sorulanlar",
   },
   error: {
     eyebrow: YETKIN_BRAND,

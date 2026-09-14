@@ -21,9 +21,28 @@ export type RateLimitDecision = {
 };
 
 export interface RateLimitPort {
-  consume(identityKey: string, window: RateLimitWindow, now?: number): RateLimitDecision;
+  consume(
+    identityKey: string,
+    window: RateLimitWindow,
+    now?: number,
+  ): Promise<RateLimitDecision>;
   /** Test sızıntısını keser — üretim çağırmaz. */
   resetForTests(): void;
+}
+
+/** Paylaşılan depo yok/kırık — sahte yeşil yok; istek reddedilir. */
+export function createFailClosedRateLimitPort(): RateLimitPort {
+  return {
+    async consume(_identityKey, window) {
+      return {
+        allowed: false,
+        remaining: 0,
+        retryAfterSec: 60,
+        limit: window.limit,
+      };
+    },
+    resetForTests() {},
+  };
 }
 
 type Bucket = { count: number; resetAt: number };
@@ -60,7 +79,7 @@ export function createInMemoryRateLimitPort(
   }
 
   return {
-    consume(identityKey, window, now = Date.now()) {
+    async consume(identityKey, window, now = Date.now()) {
       if (buckets.size >= cap) {
         pruneExpired(now);
       }

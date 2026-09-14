@@ -72,4 +72,6 @@ apps/*/dist/
 apps/*/web-build/
 apps/*/expo-env.d.ts
 apps/*/.kotlin/
+apps/rail-is/android/
+apps/rail-is/ios/
 

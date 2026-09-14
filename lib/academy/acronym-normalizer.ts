@@ -211,7 +211,9 @@ export function normalizeAcronyms(text: string): string {
   );
   for (const [acronym, expansion] of entries) {
     const escaped = acronym.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const pattern = new RegExp(`(?<![.\\p{L}(])${escaped}(?!\\p{L}|\\s*\\()`, "giu");
+    /** Vatandaş L1: «özel API» uzun açılım okunmaz. */
+    const citizenLock = acronym === "API" ? "(?<!özel\\s+)" : "";
+    const pattern = new RegExp(`(?<![.\\p{L}(])${citizenLock}${escaped}(?!\\p{L}|\\s*\\()`, "giu");
     out = out.replace(pattern, expansion);
   }
   return out;

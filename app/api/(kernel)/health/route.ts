@@ -1,5 +1,14 @@
-import { getPrisma, refreshPrismaConnection } from "@/lib/kernel/db";
-import { probeReadiness, pingPrisma } from "@/lib/kernel/health/probe";
+import {
+  ensurePrismaQueryEngine,
+  getPrisma,
+  pingRuntimePool,
+  refreshPrismaConnection,
+} from "@/lib/kernel/db";
+import {
+  HEALTH_DB_PING_TIMEOUT_MS,
+  pingPrisma,
+  probeReadiness,
+} from "@/lib/kernel/health/probe";
 import { buildV1FailBody, buildV1OkBody } from "@/lib/kernel/http/api-v1";
 import { REQUEST_ID_HEADER, resolveRequestId } from "@/lib/kernel/http/request-id";
 import { v1EnvelopeHeaders } from "@/lib/kernel/http/unversioned-sunset";
@@ -15,9 +24,22 @@ export async function GET(request: Request) {
     env: process.env,
     pingDb: async () => {
       try {
+        await pingRuntimePool(HEALTH_DB_PING_TIMEOUT_MS);
+      } catch {
+        await refreshPrismaConnection();
+        await pingRuntimePool(HEALTH_DB_PING_TIMEOUT_MS);
+      }
+      if (!(await ensurePrismaQueryEngine())) {
+        throw new Error("prisma_engine_not_ready");
+      }
+      try {
         await pingPrisma(getPrisma());
       } catch {
         await refreshPrismaConnection();
+        await pingRuntimePool(HEALTH_DB_PING_TIMEOUT_MS);
+        if (!(await ensurePrismaQueryEngine())) {
+          throw new Error("prisma_engine_not_ready");
+        }
         await pingPrisma(getPrisma());
       }
     },

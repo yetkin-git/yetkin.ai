@@ -1,4 +1,4 @@
-import { FROZEN_DISK_ROOMS, VERTICAL_ROOMS, type VerticalRoomId } from "../rooms.ssot";
+import { DronBayrakları, DRON_KAYIT, FROZEN_DISK_ROOMS, VERTICAL_ROOMS, type VerticalRoomId } from "@/lib/dronlar/kayit";
 
 /**
  * Üretim kilitleri — yalnız gerçek yasal/güvenlik kapıları.
@@ -35,7 +35,7 @@ export const FREELANCER_LOCKED_API_PREFIXES = ["/api/freelancer", "/api/client/j
 function isPublicVitrineVerticalRoom(
   room: (typeof VERTICAL_ROOMS)[number],
 ): boolean {
-  return !(room.id === "freelancer" && FREELANCER_PUBLIC_SURFACE_LOCKED);
+  return !(room.id === "freelancer" && DronBayrakları.isKapali("freelancer"));
 }
 
 /** Kamu vitrin: Panel + Akademi + Kariyer. Freelancer kilitliyken nav'dan düşer. */
@@ -51,7 +51,7 @@ export const WORKING_PUBLIC_NAV_ROOM_IDS: readonly Exclude<VerticalRoomId, "dash
       room.id !== "dashboard" && isPublicVitrineVerticalRoom(room),
   ).map((room) => room.id);
 
-/** Diskte arşiv (`archived/`); HTTP 410 kenarda. Kernel SSOT rooms.ssot.ts. */
+/** Diskte arşiv (`archived/`); HTTP 410 kenarda. Kernel SSOT lib/dronlar/kayit.ts. */
 export const FROZEN_SHELL_ROOM_IDS = FROZEN_DISK_ROOMS;
 
 export type FrozenShellRoomId = (typeof FROZEN_SHELL_ROOM_IDS)[number];
@@ -103,7 +103,7 @@ export function isJuniorProductionFrozen(): boolean {
 }
 
 export function isFreelancerPublicSurfaceLocked(): boolean {
-  return FREELANCER_PUBLIC_SURFACE_LOCKED;
+  return DronBayrakları.isKapali("freelancer");
 }
 
 export function isFreelancerPublicPagePath(pathname: string): boolean {
@@ -125,7 +125,7 @@ export function isFrozenShellRoom(roomId: string): boolean {
 
 export function isFrozenShellPagePath(pathname: string): boolean {
   const path = normalizeCircuitPathname(pathname);
-  if (FREELANCER_PUBLIC_SURFACE_LOCKED && isFreelancerPublicPagePath(path)) {
+  if (isFreelancerPublicSurfaceLocked() && isFreelancerPublicPagePath(path)) {
     return true;
   }
   if (
@@ -135,12 +135,19 @@ export function isFrozenShellPagePath(pathname: string): boolean {
   ) {
     return true;
   }
-  return FROZEN_DISK_ROOM_CATALOG.some(
-    (room) =>
-      path === room.path ||
-      path.startsWith(`${room.path}/`) ||
-      path === room.diskPath ||
-      path.startsWith(`${room.diskPath}/`),
+  return (
+    FROZEN_DISK_ROOM_CATALOG.some(
+      (room) =>
+        path === room.path ||
+        path.startsWith(`${room.path}/`) ||
+        path === room.diskPath ||
+        path.startsWith(`${room.diskPath}/`),
+    ) ||
+    DRON_KAYIT.some(
+      (row) =>
+        DronBayrakları.isKapali(row.id) &&
+        (path === row.path || path.startsWith(`${row.path}/`)),
+    )
   );
 }
 

@@ -6,6 +6,7 @@ import {
   formatRuntimeReadiness,
   runtimeReadinessExitCode,
 } from "@/lib/kernel/jobs/runtime-readiness";
+import { LIVE_BROADCAST_SHUTDOWN } from "@/lib/kernel/http/live-broadcast-shutdown";
 import {
   extraProductionBlocks,
   formatFullRuntimeReadiness,
@@ -54,7 +55,7 @@ describe("üretim runtime readiness (Inngest / PayTR)", () => {
       NEXT_PUBLIC_SUPABASE_ANON_KEY: "anon",
     });
     expect(report.inngest).toBe("configured");
-    expect(report.inngestServeFailClosed).toBe(false);
+    expect(report.inngestServeFailClosed).toBe(LIVE_BROADCAST_SHUTDOWN);
     expect(report.productionBlocked).toBe(false);
     expect(runtimeReadinessExitCode(report)).toBe(0);
   });
@@ -128,6 +129,9 @@ describe("üretim runtime readiness (Inngest / PayTR)", () => {
     expect(report.productionBlocked).toBe(false);
     expect(report.liveDay0Warnings.some((row) => row.includes("NOTICE_SMTP"))).toBe(true);
     expect(report.liveDay0Warnings.some((row) => row.includes("TRUSTED_PROXY_HOPS"))).toBe(true);
+    expect(report.liveDay0Warnings.some((row) => row.includes("LIVE_BROADCAST_SHUTDOWN"))).toBe(
+      LIVE_BROADCAST_SHUTDOWN,
+    );
   });
 
   it("yüzey: ops betiği prebuild zincirinde üretim kapısıdır; sır basmaz", () => {

@@ -176,7 +176,7 @@ async function main(): Promise<void> {
     await evidence.end();
   }
 
-  console.log("ops:lab-postgres OK — boş şema + sekiz SQL mühür + Prisma zinciri (iptal dahil).");
+  console.log("ops:lab-postgres OK — boş şema + dokuz SQL mühür + Prisma zinciri (iptal dahil).");
 }
 
 void main().catch((error: unknown) => {

@@ -1,59 +1,88 @@
 [
   {
     "id": "cue-01",
-    "start": 0,
-    "end": 40,
-    "text": "Excel'de formül ezberleme baskısı bugünden itibaren masadan kalkıyor.",
-    "section": "Giriş & Köprü",
+    "start": 2,
+    "end": 45.12,
+    "text": "GİRİŞ KÖPRÜSÜ",
+    "section": "GİRİŞ KÖPRÜSÜ",
     "paragraphs": [
-      "Tekrar merhaba. Ben Gözde. Kahveni tazelediysen masaya otur; ikinci ders başladı. Excel'de formül ezberleme baskısı bugünden itibaren masadan kalkıyor. İlk derste o iki saatin ilk dilimini geri aldık.",
-      "Cebinde iki kural duruyor. Bir: yapay zekâ masandaki hevesli stajyerdir. Kütüphaneleri bilir; niyetini okuyamaz. Ona rolünü, verinin yapısını ve ne istediğini söylemeden mucize bekleme. İki: altın güvenlik. Gerçek ad yok. Kimlik yok. Gizli ciro yok. Müşteri A, Bay X, Şube 1 yeter. Mantık oturunca formülü kendi orijinal dosyana taşırsın. Stajyer örneği görsün; sırları sen sakla. Kalkan hazırsa ofisin korkulu rüyasına giriyoruz. Bugün parantez değil, niyet konuşacak."
+      "İlk dersimizde masandaki o karmaşık çalışma kitabını ele almış, temel bir veri temizleme refleksi kazanmıştın. Hatırlarsan, birleşmiş hücreleri tek tek çözüp veri türlerini tek tip hale getirerek işe başlamıştık. Her şeyin başı, sol üst köşedeki o kritik A1 hücresi ile başlayan düzenli bir başlık satırı kurmaktı. Eğer elinde düzensiz tablo varsa, yapay zekâ bile satırların nereye ait olduğunu tam olarak kavrayamaz. Şimdi o temel disiplini aldın, tablon tertemiz bir matris halinde önünde duruyor. Artık bu sağlam zemin üzerinde bir sonraki aşamaya, yani ham veriyi doğrudan konuşan bir yönetim raporuna dönüştürmeye tamamen hazırsın."
     ]
   },
   {
     "id": "cue-02",
-    "start": 40,
-    "end": 110,
-    "text": "Yöneticin İzmir şubesinin beş bin üzeri satışlarını istediği an kalbin hızlanır.",
-    "section": "Parantez Cehennemi",
+    "start": 45.52,
+    "end": 114.8,
+    "text": "HOŞ GELDİN",
+    "section": "HOŞ GELDİN",
     "paragraphs": [
-      "Yöneticin İzmir şubesinin beş bin üzeri satışlarını istediği an kalbin hızlanır. Ya da A sütunundaki müşteri kodunu öteki sayfadaki cari listeyle eşleştir dendiği an. El eşittire gider. Düşey ara yazarsın. Parantezi açarsın. Zihin karışır. Önce aranan değer miydi, tablo dizisi miydi? Noktalı virgül mü, iki nokta mı? Kaçıncı sütunu baştan sayıyordun? Sonuna sıfır mı yazıyorduk, yanlış mı? Enter. Ekranda değer hatası. Yok hatası. Başvuru hatası. Ad hatası.",
-      "O anda insan kendini suçlar. Ben Excel bilmiyorum der. Matematiğim yetmiyor der. Google açılır. Forum taranır. Videolar iki kat hızda ileri sarılır. Ofiste Excel'i iyi bilen arkadaşa mahcup gidilir. İki sütunu eşleştirmek öğleden sonrayı yer. Bazen yalnız bir koşullu toplam için koca bir saat gider. Şimdi müjde net. Bugünden sonra tek bir Excel formülü ezberlemek zorunda değilsin. Beş yüz fonksiyonun sözdizimini aklında tutacak kişi sen değilsin. Senin işin veri ameleliği değil. Niyeti Türkçe tarif etmek. Formülü yazmak ve hatayı onarmak stajyerin işi. Sen yönetici kal."
+      "Selamlar, ben Gözde. yetkin.ai akademisinin bu ikinci bölümünde seninle birlikte veri tablosunun içinden gerçek değeri çekip çıkaracağız. Geçen derste tabloları toparlayıp hizaladık; peki şimdi ne olacak? Masanın üstünde duran yüzlerce satırlık veri seti tek başına kimseye bir şey anlatmaz. Karar alıcıların senden beklediği şey satır satır döküm değil, ne yapılması gerektiğidir. İşte bugün, o karmaşık satırları saniyeler içinde doğrudan karar aldırıcı bir yönetim diline çevirmeyi öğreneceksin.",
+      "Gözünün önüne getir: Önünde kritik bir yönetim toplantısı var ve başlamasına sadece yirmi dakika kalmış. Yöneticin kapıdan başını uzatıp bu ayın performansını özetleyen net bir metin istiyor. Ekrandaki onlarca sütuna bakarken hissettiğin o soğuk ter damlasını çok iyi biliyorum. Sayfalar dolusu rakamı manuel olarak tek tek inceleyip anlamlı bir metin yazmak için zamanın yok. Panik yapmak yerine, arkana yaslanıp temiz tablonu doğru komutla birleştirerek bu krizi birkaç dakikada fırsata dönüştürebilirsin."
     ]
   },
   {
     "id": "cue-03",
-    "start": 110,
-    "end": 230,
-    "text": "Ne hesaplamak istediğini Türkçe söyle; formülü stajyer yazsın.",
-    "section": "Metinden Formüle",
+    "start": 115.2,
+    "end": 186.76,
+    "text": "UZUN RAPOR",
+    "section": "UZUN RAPOR",
     "paragraphs": [
-      "Ne hesaplamak istediğini Türkçe söyle; formülü stajyer yazsın. Çift yönlü köprü kuruyoruz. Bir: metinden formüle. İhtiyacı günlük dille tarif et; stajyer hücre adresleriyle çalışan formülü yazsın. İki: formülden metne. Eski dosyadaki yılan gibi formülü yapıştır; stajyer on yaşındaki birinin anlayacağı durulukta anlatsın.",
-      "Önce birinci sihir. Klavyeni çek. Hangi araç açıksa o kalsın. Mantık hepsinde aynı. Önünde beş sütunluk satış tablosu var. Sipariş numarası. Şube adı. Satış temsilcisi. Tutar. Tarih. Yönetici diyor: İzmir şubesinde beş bin liradan büyük satışların toplamını F iki hücresine yaz. Eski sende çoketopla stresi. Aralıkları ters yazarsan sonuç sıfır çıkar ya da sessizce yanlış toplanır.",
-      "Şimdi modele dön. Kıdemli veri analisti ve Excel uzmanı rolünü ver. Tabloyu sütun sütun anlat. İhtiyacı bir cümlede söyle. Kuralları da söyle. Türkçe Excel ve İngilizce Excel için ayrı ayrı iste. Mantığı iki cümlede anlatsın. Hangi aralık ne işe yarar, tek tek yazsın. Temiz blokta versin ki kopyalayasın. Gönder. Üç saniyede gelir. Toplanacak sütun tutardır. Birinci süzgeç şube İzmir. İkinci süzgeç tutar beş binden büyük. Kopyala. F ikiye yapıştır. Bir satırla kontrol et. İş bitti. Noktalı virgül nereye konur, büyüktür işareti tırnak içine mi alınır diye düşünme. Stajyer koyar. Sen yönetici kal. Formülü ezberleme. Sütunu, eşiği ve niyeti anlat. Anlatırken birim ve istisna da söyle. İade satırlarını düş. Şu şubeyi hariç tut. Stajyer ayrıntıyı sever."
+      "Geleneksel ofis alışkanlıklarında en büyük hata, tablodaki her veriyi eksiksiz kopyalayıp upuzun bir metne dönüştürmektir. Saatlerce uğraşıp hazırladığın o sayfalarca metin genellikle okunmaz, hatta yöneticinin masasında göz ucuyla bile taranmadan kenara itilir. Çünkü yoğun bir iş gününde kimsenin yüzlerce satırı okuyup içinden ana fikri ayıklamaya vakti yoktur. İş dünyasında sayfa sayısı değil, bilginin yoğunluğu ve netliği değer taşır. Bu yüzden uzun rapor hazırlamak artık bir başarı değil, ciddi bir zaman kaybıdır.",
+      "Düşünsene, ekranda kaydırdıkça bitmeyen bir ham veri tablosu duruyor. Hangi ürünün kâr getirdiğini, hangi bölgenin geride kaldığını görmek için satırları tek tek toplamak zorunda kalıyorsun. Geleneksel yöntemle bir rapor yazmaya kalktığında, her detayı anlatma telaşıyla konunun özünü tamamen kaybedersin. Yönetim masasında senden beklenen, tablonun fotoğrafı değil; o tablonun geleceğe dair ne fısıldadığıdır. Bizim amacımız, seni bu yorucu ve verimsiz rapor yazma döngüsünden sonsuza kadar tamamen kurtarmak."
     ]
   },
   {
     "id": "cue-04",
-    "start": 230,
-    "end": 340,
-    "text": "Kırmızı hücrede panik yok; hatayı stajyerine teşhis ettir.",
-    "section": "Hata Doktoru",
+    "start": 187.16,
+    "end": 252.88,
+    "text": "ÖZET İSTE",
+    "section": "ÖZET İSTE",
     "paragraphs": [
-      "Kırmızı hücrede panik yok; hatayı stajyerine teşhis ettir. Düşey ara yazdın. Fiyat listesi sayfasında üç sütun var: kod, ad, fiyat. Formül dördüncü sütunu istiyor. Hücre başvuru hatası verir. Sakın formülü baştan yazma. Modele hata doktoru rolünü ver. Kullandığın formülü yapıştır. Tabloyu anlat. Amacını söyle: A iki hücresindeki kodun fiyatını çekmek. Görev net olsun. Nedenini bir cümlede istesin. Düzeltilmiş hali kopyalanabilir gelsin.",
-      "Varsa daha modern ve hataya dayanıklı bir alternatif de iste. Çapraz ara sütun sırasına kilitlenmez; kod sütununu ve fiyat sütununu ayrı gösterir. Gelen teşhisi oku. Aralık üç sütun. Sen dördü istedin. Excel başvuru üretir. Düzelti üç. Yapıştır. Hücre susar. Dakikalarca ekranı kısmazsın. Nerede hata yaptığını nazikçe öğrenirsin.",
-      "Aynı köprü tersine de çalışır. Senden önce çalışan biri bir dosya bırakmış. Finansin yılan gibi uzayan formülü. İç içe eğerler. Durum tamamlandıysa ve tutar on bini geçiyorsa yüzde on beş. Tamamlandıysa ve on bin veya altındaysa yüzde sekiz. Değilse sıfır. Bakarken başın döner. Hücreyi değiştirirsem ne bozulur diye korkarsın. Kopyala. Modele de: bunu matematik bilmeyen birine anlatır gibi Türkçe çöz. Hangi kural hangi primi verir, adım adım yazsın. Kapalı kutu açılır. Kimsenin dosyası röntgen isteyince kilitli kalmaz. Sen artık formülü taşıyan değil; kuralı anlayan kişisin."
+      "Şimdi temizlenmiş tablomuzu yapay zekâya emanet etme vakti. Ancak burada alelade bir özetleme komutu vermek kesinlikle işe yaramaz. Yapay zekâdan doğrudan bir yönetici özeti talep edeceğiz ve sınırları çok net çizeceğiz. İstediğimiz şey sayfalarca gevezelik değil; tablonun can damarını ortaya koyan tam üç madde ve ardından gelen tek bir karar cümlesi olacak. Bu çerçeveyi net olarak verdiğinde, model gereksiz hiçbir detaya girmeden doğrudan sonuca odaklanacaktır.",
+      "Komutunu kurgularken modele rolünü baştan söylemelisin: Sen üst düzey bir strateji danışmanısın. Tablodaki rakamları analiz et; toplam hacmi, kritik kırılımları ve beklenmeyen dalgalanmaları belirle. Çıktıyı tam üç madde halinde yapılandır ve en alta bir karar cümlesi ekle. Bu yönlendirme sayesinde yapay zekâ, arka plandaki binlerce hücreyi tarayıp üst yönetim seviyesinde bir yönetici özeti formatına dökecek. Hazırladığımız bu komutla sistemin nasıl odaklandığını birazdan hep birlikte ekranda göreceğiz."
     ]
   },
   {
     "id": "cue-05",
-    "start": 340,
-    "end": 420,
-    "text": "Kendi hücrende çalışan formülü görmeden üçüncü bölüme geçme.",
-    "section": "Kapanış & Saha Görevi",
+    "start": 253.28,
+    "end": 323.88,
+    "text": "KARAR NOTU",
+    "section": "KARAR NOTU",
     "paragraphs": [
-      "Kendi hücrende çalışan formülü görmeden üçüncü bölüme geçme. Küçük olsun. Mükemmel olmasın. Bitmiş olsun. Üç kural cebine. Bir: formül ismini unut. Sütununu ve niyetini anlat. Excel'e değil, stajyerine konuş. İki: hata kodundan korkma. Değer hatası ya da yok hatası gördüğünde kendini suçlama. Teşhisi stajyerine bırak. Üç: Türkçe Excel noktalı virgül kullanır. İngilizce Excel virgül kullanır. Sürümü baştan söyle ki tek seferde doğru gelsin.",
-      "Şimdi iki dakikalık kanıt. Kendi dosyandan gerçek bir ihtiyaç seç. Bir şubenin belli tutar üstü satışlarını toplamak yeter. Metinden formüle yazdır. Kendi hücrene yapıştır. Çalıştığını kendi gözünle gör. Elinde kırık bir formül varsa hata doktoruna ver. Kanıtın cebinde olsun. Sonraki derste dağınık veri var. İsimler küçük büyük karışık. Ad soyad tek sütuna yapışmış. Telefonların kiminde sıfır beş, kiminde artı doksan. Tarihler yarısı nokta yarısı eğik çizgi. Eski usul iki saatini alırdı. Orada çöpü tek komutla standart tabloya çevireceğiz. Kahveni al. Masada kal. Formül ezberi bitti. Niyet kaldı. Yarın aynı stajyer yine masanda olacak."
+      "İşte büyü tam da burada başlıyor. Sol tarafta ÖNCE etiketli 10 sayfalık döküm dururken, sağ tarafta SONRA etiketli 3 maddelik yönetim özeti parlıyor. Yapay zekâ, ham satırları sadece özetlemekle kalmadı; doğrudan eyleme geçiren bir karar notu üretti. Bize sadece ne olduğunu değil, bundan sonra ne yapmamız gerektiğini de apaçık gösterdi. Sayfalarca tablonun içinde saatlerce kaybolmak yerine, iki saniyede şirketin rotasını çizen o can alıcı içgörüye ulaştık.",
+      "Üretilen bu karar notu, sıradan bir metinden çok farklıdır. İçinde bahaneler, gereksiz dolgu kelimeleri ya da kafa karıştıran yüzdeler yığını barındırmaz. Her bir cümle, doğrudan işin kârlılığına, operasyonel verimliliğine ve acil müdahale gerektiren darboğazlara işaret eder. Yöneticin bu notu okuduğunda ikinci bir soru sorma ihtiyacı bile hissetmez; çünkü ihtiyaç duyduğu stratejik cevabı ilk bakışta masasında bulmuştur. İşte profesyonel düzeyde yapay zekâ kullanmanın yarattığı asıl fark tam olarak budur."
+    ]
+  },
+  {
+    "id": "cue-06",
+    "start": 324.28,
+    "end": 393.2,
+    "text": "FARK ORTADA",
+    "section": "FARK ORTADA",
+    "paragraphs": [
+      "Ekrana lütfen çok dikkatli bak; aradaki bu muazzam kontrast her şeyi açıkça kanıtlıyor. Sol tarafta okuması saatler süren ve insanı zihnen tüketen 10 sayfa dolusu ham veri tablosu var. Sağ tarafta ise yapay zekânın çıkardığı, doğrudan hedefe vuran net 3 madde yer alıyor. Hangi tarafın bir yöneticiye gerçek zaman kazandıracağını ve toplantının kaderini değiştireceğini tahmin etmek hiç de zor değil. Bu iki ekran arasındaki fark, aslında eski çalışma tarzınla yeni üretkenliğin arasındaki farktır.",
+      "Eski yöntemde o 10 sayfa içindeki tek bir tutarsızlığı yakalamak için gözlerini yorar, kahve üstüne kahve içerdin. Şimdi ise sadece 3 madde okuyarak tablonun bütün röntgenini çekebiliyorsun. Zamanını verileri toparlamaya değil, o verilerin işaret ettiği stratejik kararları tartışmaya ayırıyorsun. Bu dönüşüm seni ofiste yalnızca hızlı çalışan biri yapmaz; aynı zamanda büyük resmi anında gören, stratejik düşünen vazgeçilmez bir ekip üyesine dönüştürür."
+    ]
+  },
+  {
+    "id": "cue-07",
+    "start": 393.6,
+    "end": 433.92,
+    "text": "CEBİNE KOY",
+    "section": "CEBİNE KOY",
+    "paragraphs": [
+      "Şimdi bu derste öğrendiğin yaklaşımı iş hayatında her gün kullanabileceğin üç somut adıma dökelim ve cebine koyalım. 1. İlk olarak tablodaki toplam hacmi ve genel satış ya da maliyet yönünü gösteren trend akışını modelden net bir şekilde iste. 2. İkinci adımda ortalamanın çok dışına çıkan anomali noktalarını ve operasyonel risk faktörlerini tespit etmesini sor. 3. Son adımda ise tüm bu bulguları üst yönetimin derhal uygulayabileceği somut bir eylem planına ve yönlendirici cümleye çevir. Bu üç adımlı reçeteyi her uyguladığında, en karmaşık tablolardan bile saniyeler içinde berrak bir yönetim özeti çıkarmayı başaracaksın."
+    ]
+  },
+  {
+    "id": "cue-08",
+    "start": 434.32,
+    "end": 500.12,
+    "text": "SIRA SENDE",
+    "section": "SIRA SENDE",
+    "paragraphs": [
+      "Artık teoriyi geride bıraktık ve sahneye sen çıkıyorsun. Kendi bilgisayarını aç, günlük işlerinde kullandığın gerçek bir çalışma tablosunu önüne al. İlk derste öğrendiğin gibi başlıklarını düzenleyip yapısını kontrol et. Ardından biraz önce çalıştığımız komut yapısını kullanarak kendi tablon için o üç maddelik yönetici özetini ve karar notunu üret. Çıkan sonucun ne kadar berrak olduğunu gördüğünde, eski rapor yazma yöntemlerine bir daha asla geri dönmek istemeyeceksin.",
+      "Harika bir iş çıkardın ve metin bazlı rapor otomasyonunun mantığını eksiksiz kavradın. Ancak yöneticiler bu özeti yalnızca okumak istemez; çoğunlukla bunu görsel bir sahnede görmek isterler. İşte tam burada devreye Sunum Fabrikası adını verdiğimiz bir sonraki aşama giriyor. 3. bölüm kapsamında, bugün ürettiğimiz bu metin özetini alıp doğrudan profesyonel bir slayt yapısına nasıl dönüştüreceğimizi adım adım keşfedeceğiz. Hazırlıklarını yap, bir sonraki derste metinden slayta uzanan o etkileyici görsel yolculuğa birlikte çıkıyoruz."
     ]
   }
 ]

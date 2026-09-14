@@ -1,4 +1,5 @@
 import { academyExamPoolForSlug } from "@/lib/academy/exam-pools";
+import { loadAcademyLessonExam } from "@/lib/academy/lesson-exams";
 import {
   ACADEMY_CATALOG_SEEDS,
   academyCatalogSeedMatch,
@@ -109,10 +110,11 @@ function workProofExamQuestions(slug: AcademyCourseTitleSlug): AcademyExamQuesti
 
 export function academyExamQuestionsForSlug(slug: AcademyCourseTitleSlug): AcademyExamQuestion[] {
   const proof = workProofExamQuestions(slug);
+  const lessonQuestions = [1, 2].flatMap((n) => loadAcademyLessonExam(`${slug}-${n}`)?.questions ?? []);
   const pool = academyExamPoolForSlug(slug);
-  const seen = new Set(proof.map((row) => row.id));
+  const seen = new Set([...proof, ...lessonQuestions].map((row) => row.id));
   const rest = pool.filter((row) => !seen.has(row.id));
-  return [...proof, ...rest].slice(0, 32);
+  return [...proof, ...lessonQuestions, ...rest].slice(0, 32);
 }
 
 function attachExamQuestions(row: AcademyCatalogSeed): AcademyCourseSeed {

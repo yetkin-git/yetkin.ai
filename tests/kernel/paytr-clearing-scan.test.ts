@@ -8,6 +8,7 @@ import {
   selectPaytrClearingCandidates,
   shouldNoOpPaytrClearingScan,
 } from "@/lib/kernel/jobs/paytr-clearing-scan";
+import { LIVE_BROADCAST_SHUTDOWN } from "@/lib/kernel/http/live-broadcast-shutdown";
 
 describe("PayTR valör tarama sınırları", () => {
   it("boş, null, yalnızca boşluk merchantOid için aday üretmez; dispatched 0", () => {
@@ -67,5 +68,13 @@ describe("PayTR valör tarama sınırları", () => {
         PAYTR_MERCHANT_SALT: "z",
       }),
     ).toBe(false);
+    expect(
+      shouldNoOpPaytrClearingScan({
+        NODE_ENV: "production",
+        PAYTR_MERCHANT_ID: "x",
+        PAYTR_MERCHANT_KEY: "y",
+        PAYTR_MERCHANT_SALT: "z",
+      }),
+    ).toBe(LIVE_BROADCAST_SHUTDOWN);
   });
 });

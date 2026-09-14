@@ -1,6 +1,6 @@
 /**
- * Dron v1 sözleşme — tipler OpenAPI'den üretilir (`src/generated/v1.ts`).
- * Parser'lar fail-closed runtime'dır; kernel import edilmez.
+ * Dron v1 sözleşme — tipler `@yetkin/kernel/generated/v1` üzerinden üretilir.
+ * Parser'lar fail-closed runtime'dır; Amiral `lib/kernel` import edilmez.
  * Kaynak: lib/kernel/http/openapi-v1.json + .system_docs/DRON_CLIENT_SPEC.md
  */
 
@@ -30,7 +30,7 @@ import {
   type RailV1VisaStamp,
   type RailV1WalletStrip,
   type RailV1WalletStripData,
-} from "../generated/v1";
+} from "@yetkin/kernel/generated/v1";
 
 export {
   RAIL_V1_API_VERSION,
@@ -60,8 +60,8 @@ export {
   type RailV1WalletStripData,
 };
 
-export type RailV1FreelancerContractView = import("../generated/v1").FreelancerContractView;
-export type RailV1ContractStatus = import("../generated/v1").FreelancerContractView["status"];
+export type RailV1FreelancerContractView = import("@yetkin/kernel/generated/v1").FreelancerContractView;
+export type RailV1ContractStatus = import("@yetkin/kernel/generated/v1").FreelancerContractView["status"];
 
 export const RAIL_MIN_VERSION_HEADER = "X-Rail-Min-Version";
 export const RAIL_REQUEST_ID_HEADER = "x-request-id";

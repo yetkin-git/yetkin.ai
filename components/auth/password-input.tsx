@@ -33,6 +33,7 @@ export function PasswordInput({
         className={cn(INPUT_SURFACE_CLASS, "pr-11", className)}
         {...props}
         type={revealed ? "text" : "password"}
+        suppressHydrationWarning={true}
       />
       <button
         type="button"
@@ -40,6 +41,7 @@ export function PasswordInput({
         aria-label={revealed ? "Şifreyi gizle" : "Şifreyi göster"}
         aria-pressed={revealed}
         className="absolute inset-y-0 right-0 flex w-11 items-center justify-center rounded-r-xl text-[var(--muted)] transition hover:text-[var(--foreground)]"
+        suppressHydrationWarning={true}
       >
         {revealed ? <IconEyeOff /> : <IconEye />}
       </button>

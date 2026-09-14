@@ -1,13 +1,13 @@
 #!/usr/bin/env tsx
 /**
- * Anayasa A8 import sınırları — statik (grep). ESLint no-restricted-imports ile aynı sözleşme.
- * Canlı Postgres yok.
+ * B1 import duvarı — statik (grep). Anayasa A Katmanı (A1–A5) değildir; prebuild dışı.
+ * ESLint no-restricted-imports ile aynı sözleşme. Canlı Postgres yok.
  *
  * 1. lib/kernel dikey oda import etmez.
  * 2. UI / sayfa Prisma ve server-only yazma motoru import etmez.
  * 3. Dikey odalar birbirinin engine/runtime/prisma-store dosyasını import etmez.
- * 4. VERTICAL_ROOMS tek SSOT (`lib/kernel/rooms.ssot.ts`); eslint ve modules ondan türer.
- *    Donmuş oda `lib/` altında yoktur; `archived/` + kenar 410. Yeni 5. çalışan oda sicile yazılmadan açılmaz.
+ * 4. VERTICAL_ROOMS tek SSOT (`lib/dronlar/kayit.ts`); eslint ve modules ondan türer.
+ *    Donmuş oda `lib/` altında yoktur; `archived/` + kenar 410. Yeni dron kayda yazılmadan açılmaz.
  * 5. `app/api/**` uygulama servisidir (sınav → vize): çalışan odaları birleştirebilir.
  *    Kaçış deliği değildir — müze, donmuş oda ve UI import'u yasaktır.
  * 6. Kariyer ve freelancer `lib/academy` import etmez; müfredat kimliği `lib/kernel/catalog-ids`.
@@ -31,12 +31,12 @@ import {
   sourceDerivesRoomsSsot,
   unexpectedLibTopDirs,
 } from "./room-ceiling-lib";
-import { FROZEN_DISK_ROOMS, VERTICAL_ROOMS as VERTICAL_ROOM_RECORDS } from "../lib/kernel/rooms.ssot";
+import { FROZEN_DISK_ROOMS, VERTICAL_ROOMS as VERTICAL_ROOM_RECORDS } from "../lib/dronlar/kayit";
 
 const ROOT = process.cwd();
 const FILE_RE = /\.(ts|tsx)$/;
 
-/** Motor 4 oda — rooms.ssot.ts SSOT (kopya dizi yok). Kamu vitrin 3. Donmuş oda canlı lib/ tavanında yoktur. */
+/** Motor 4 oda — lib/dronlar/kayit.ts SSOT (kopya dizi yok). Kamu vitrin 3. Donmuş oda canlı lib/ tavanında yoktur. */
 const VERTICAL_ROOMS = VERTICAL_ROOM_RECORDS.map((room) => room.id);
 const LIVE_ROOMS = VERTICAL_ROOMS;
 
@@ -292,7 +292,7 @@ for (const dir of SCAN_DIRS) {
             (selfRoom === "career" || selfRoom === "freelancer") &&
             targetRoom === "academy"
           ) {
-            add(file, spec, "a8.catalog");
+            add(file, spec, "catalog.ids");
           }
           const banned = selfRoom ? EARNINGS_WALL[selfRoom] : undefined;
           if (banned?.has(targetRoom)) {
@@ -348,7 +348,7 @@ if (!existsSync(eslintPath)) {
   const eslintSource = readFileSync(eslintPath, "utf8");
   for (const needle of [
     "no-restricted-imports",
-    "Anayasa A8",
+    "B1 import duvarı",
     "lib/kernel",
     "catalog-ids",
     "catalog-write",
@@ -415,20 +415,20 @@ for (const sqlFile of CATALOG_SQL) {
   if (!sourceDerivesRoomsSsot(modulesSource) || !modulesSource.includes("VERTICAL_ROOMS")) {
     violations.push({
       file: "lib/kernel/modules.ts",
-      spec: "VERTICAL_ROOMS rooms.ssot.ts SSOT'tan türetilmiyor",
+      spec: "VERTICAL_ROOMS lib/dronlar/kayit.ts SSOT'tan türetilmiyor",
       ruleId: "room.sicil",
     });
   }
 
   const eslintSourceForSicil = existsSync(eslintPath) ? readFileSync(eslintPath, "utf8") : "";
   if (
-    !eslintSourceForSicil.includes("rooms.ssot.ts") ||
+    !eslintSourceForSicil.includes("dronlar/kayit.ts") ||
     !eslintSourceForSicil.includes("parseSsotIds") ||
     !eslintSourceForSicil.includes("const VERTICAL_ROOMS")
   ) {
     violations.push({
       file: "eslint.config.mjs",
-      spec: "VERTICAL_ROOMS rooms.ssot.ts SSOT'tan türetilmiyor",
+      spec: "VERTICAL_ROOMS lib/dronlar/kayit.ts SSOT'tan türetilmiyor",
       ruleId: "room.sicil",
     });
   }

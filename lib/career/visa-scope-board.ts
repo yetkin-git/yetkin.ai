@@ -1,21 +1,30 @@
 import {
   academyCourseTitleBySlug,
-  isOpenTrialNeed,
+  FREELANCER_GUARANTEED_NEED_IDS,
   listingVisaLockTitle,
   type ListingVisaLockId,
 } from "@/lib/kernel/catalog-ids";
 import {
-  FREELANCER_LISTING_VISA_DOORS,
   listingVisaCourseSlugFromStamp,
   lockListingVisaPathway,
   qualifyingCourseSlugsForListingPathway,
   type ListingVisaSubject,
 } from "@/lib/career/listing-visa-scope";
+import { parsePublicTalentId, publicTalentPath } from "@/lib/career/public-talent";
 import type { CareerVisaStampRecord } from "@/lib/career/types";
 import { ACADEMY_STAMP_SURFACE_PATH } from "@/lib/kernel/passport/types";
 
 type VisaStampView = Pick<CareerVisaStampRecord, "sourceKind" | "title"> & {
+  id?: string;
   courseSlug?: string | null;
+};
+
+export type VisaScopeBenefitId = "employer-network" | "sealed-cv" | "project-proof";
+
+export type VisaScopeBenefit = {
+  id: VisaScopeBenefitId;
+  held: boolean;
+  href: string | null;
 };
 
 export type VisaScopeCourse = {
@@ -30,6 +39,8 @@ export type VisaScopeDoor = {
   pathwayTitle: string;
   courses: VisaScopeCourse[];
   open: boolean;
+  benefits: VisaScopeBenefit[];
+  publicTalentHref: string | null;
 };
 
 export type ListingVisaScopeSignView = {
@@ -61,22 +72,54 @@ function lockTitle(lockId: ListingVisaLockId): string {
   return listingVisaLockTitle(lockId) ?? lockId;
 }
 
+function stampPublicHref(stamp: VisaStampView): string | null {
+  const id = stamp.id ? parsePublicTalentId(stamp.id) : null;
+  return id ? publicTalentPath(id) : null;
+}
+
 /** Kariyer odası tabelası — freelancer teklif kapılarının dürüst haritası. */
 export function buildCareerVisaScopeBoard(
   stamps: readonly VisaStampView[],
+  portfolio: readonly { visaStampId: string }[] = [],
 ): VisaScopeDoor[] {
-  return FREELANCER_LISTING_VISA_DOORS.map((pathwayId) => {
+  const proofStampIds = new Set(portfolio.map((item) => item.visaStampId));
+  return FREELANCER_GUARANTEED_NEED_IDS.map((pathwayId) => {
     const courses = qualifyingCourseSlugsForListingPathway(pathwayId).map((slug) => ({
       slug,
       title: courseTitle(slug),
       href: courseHref(slug),
       held: stamps.some((stamp) => stampHoldsSlug(stamp, slug)),
     }));
+    const qualifyingStamps = stamps.filter((stamp) =>
+      courses.some((course) => course.held && stampHoldsSlug(stamp, course.slug)),
+    );
+    const publicTalentHref = qualifyingStamps.map(stampPublicHref).find((href) => href != null) ?? null;
+    const proofHeld = qualifyingStamps.some((stamp) => stamp.id != null && proofStampIds.has(stamp.id));
+    const open = courses.some((course) => course.held);
+    const benefits: VisaScopeBenefit[] = [
+      {
+        id: "employer-network",
+        held: open,
+        href: publicTalentHref,
+      },
+      {
+        id: "sealed-cv",
+        held: publicTalentHref != null,
+        href: publicTalentHref,
+      },
+      {
+        id: "project-proof",
+        held: proofHeld,
+        href: proofHeld ? publicTalentHref : null,
+      },
+    ];
     return {
       pathwayId,
       pathwayTitle: lockTitle(pathwayId),
       courses,
-      open: isOpenTrialNeed(pathwayId) || courses.some((course) => course.held),
+      open,
+      benefits,
+      publicTalentHref,
     };
   });
 }

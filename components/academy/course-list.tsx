@@ -12,12 +12,15 @@ import {
   type AcademyCatalogLearnerBoard,
 } from "@/lib/academy/catalog-learner";
 import { orderAcademyCatalogByCurriculum } from "@/lib/academy/catalog-filter";
-import { ACADEMY_FLAGSHIP_SKU_SLUG, filterAcademyPilotCatalog } from "@/lib/academy/pilot-sku";
+import {
+  ACADEMY_FLAGSHIP_SKU_SLUG,
+  filterAcademyVitrineCatalog,
+} from "@/lib/academy/pilot-sku";
 import { cn } from "@/components/ui/cn";
 
 export type AcademyCatalogShelf = "catalog" | "owned" | "favorites";
 
-/** Tek raf — beş compact SKU; amiral `md:col-span-2`. */
+/** Tek raf — PEDAGOJI §D 5'li Vitrin Karması; kardeşler dürüst Yakında kabuğu. */
 export const ACADEMY_CATALOG_GRID_CLASS = "grid gap-4 md:grid-cols-3";
 
 export function CourseList({
@@ -46,21 +49,27 @@ export function CourseList({
   footer?: ReactNode;
 }) {
   const copy = ACADEMY_SEN.catalog;
-  const visible = useMemo(() => filterAcademyPilotCatalog(courses), [courses]);
-  const ordered = useMemo(() => orderAcademyCatalogByCurriculum(visible), [visible]);
+  const visible = useMemo(
+    () => filterAcademyVitrineCatalog(orderAcademyCatalogByCurriculum(courses)),
+    [courses],
+  );
+  const ordered = visible;
   const ownedSet = useMemo(() => new Set(learnerBoard.ownedSlugs), [learnerBoard.ownedSlugs]);
 
   let body: ReactNode;
   if (courses.length === 0 || visible.length === 0) {
     body = (
-      <Card variant="default" className="border-dashed shadow-sm">
+      <Card variant="default" className="border-dashed shadow-sm" data-academy-production-band="">
         <p className="text-base font-semibold text-[var(--foreground)]">{copy.empty}</p>
         <p className="mt-2 text-sm text-[var(--muted)]">{copy.description}</p>
       </Card>
     );
   } else {
     body = (
-      <section data-academy-catalog-series-list="">
+      <section data-academy-catalog-series-list="" data-academy-vitrine-mix="">
+        <h2 className="mb-3 text-sm font-semibold tracking-tight text-[var(--foreground)]">
+          {copy.boardTitle}
+        </h2>
         <ul className={ACADEMY_CATALOG_GRID_CLASS}>
           {ordered.map((course) => {
             const owned = ownedSet.has(course.slug);
@@ -73,6 +82,7 @@ export function CourseList({
                 className={cn("h-full", featured && "md:col-span-2")}
                 data-academy-catalog-series={course.slug}
                 data-academy-flagship-card={featured ? "" : undefined}
+                data-academy-coming-soon-card={featured ? undefined : ""}
               >
                 <CourseCard
                   course={course}

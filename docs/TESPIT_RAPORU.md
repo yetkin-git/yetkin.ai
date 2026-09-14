@@ -1,306 +1,379 @@
-# TESPİT VE STRATEJİ ANALİZİ — yetkin.ai
+# TESPİT RAPORU — yetkin.ai: Canlı Sistem → Amiral Gemisi + Sürü Dron
 
 | Alan | Değer |
-|------|--------|
-| Tarih | 9 Eylül 2026 |
-| Hazırlayan | Cursor Ajanı (teknik ve mimari denetçi) |
-| Muhatap | SUPER ADMIN / Kurucu irade |
-| Kaynak belgeler | `.system_docs/ANAYASA.md`, `MANIFESTO.md`, `PEDAGOJI.md`, `OPS_RUNBOOK.md`, `README.md` |
-| Kod zemini | `app/` · `lib/` · `prisma/` · `proxy.ts` · `tests/` · `scripts/` (canlı yüzey; `archived/` ve `public/media/` tarama dışı) |
-| İlişkili sicil | `docs/Raporlar/TESPIT_RAPORU.md` (PayTR B2C operasyon taraması), `docs/Raporlar/TEDAVI_RAPORU.md` (uygulanan kilit), `docs/Raporlar/PAZAR_GERCEKLIGI_RAPORU.md` |
-| Üslup | Tarafsız. Yeşil boyama yok. Bu belge hukuki mütalaa değildir; 6493 için avukat/BDDK danışmanı şarttır. |
+|------|-------|
+| Tarih | 13 Eylül 2026 |
+| Hazırlayan | Senior Software Architect / Sistem Analisti ajanı |
+| Kapsam | Canlı `yetkin.ai` codebase'i (Next.js monolit + `apps/rail-is` dron) |
+| Hedef mimari | Amiral Gemisi + Sürü Dron (Shared Kernel / API-First Core) |
+| Kaynak doğrulama | `.system_docs/` (7 belge) + `app/`, `lib/`, `prisma/schema/`, `proxy.ts`, `instrumentation.ts`, `eslint.config.mjs`, `.env.example`, `apps/rail-is`, `tests/` (307 dosya) doğrudan okundu |
+
+> Yöntem notu: Bu rapor dosya taraması + kod okumasıyla üretildi. Varsayım cümlesi yok; her bulgunun arkasında dosya yolu var. Belge numaraları rapor içinde `[K1]`, `[A2]` gibi atıflarla izlenebilir.
 
 ---
 
-## ÖZET — 90 SANİYEDE HÜKÜM
+## 0. Yönetici Özeti (30 saniyelik okuma)
 
-**Dört sorunun tek cümlelik cevabı:**
-
-1. **6493:** Freelancer emaneti / hak ediş aktarımı lisanssız yapılırsa ödeme hizmeti ve (cüzdan üçüncü şahsa açıksa) elektronik para riski doğar. Bugünkü Akademi tahsilatı bu yasağa girmez: PayTR Merchant ile şirketin kendi dijital malını satıyorsunuz. Canlıya çıkış yolu Split değil, **doğrudan B2C tahsilattır.**
-2. **Modül kayması:** Freelancer’ı askıya alıp Akademi’ye yüklenmek **doğru** karardır. “Junior” kelimesi tuzaktır: koddaki Junior, 18 yaş altı / veli odasıdır ve kapalı kalmalıdır. Başlangıç seviyesi Akademi içi paket’tir.
-3. **Anayasa üçlüsü:** A Katmanı (S43, `amountMinor`, mühür) yeni gerçekle **çelişmez**; B Katmanı ve Manifesto hâlâ “dört oda eşit omurga” dili taşır. Esnetilecek yer burasıdır. A2’yi silmek intihardır.
-4. **Mimari:** Amiral (modüler monolit + shared kernel) hedefleri taşır. Sürü Dron kâğıt üzerindedir ve **şimdilik öyle kalmalıdır.** Kapasite sorunu mimaride değil, nakit halkası ve içerik hızındadır.
-
-**Tek operasyonel emir:** PayTR’yi B2C eğitim satıcısı olarak bağlayın. Freelancer’ı silmeyin, açmayın. Junior odasını açmayın. Anayasa’ya “Faz 1 işletme resmi” ekleyin; kırmızı çizgileri gevşetmeyin.
+1. **Canlı sistem nedir?** Disiplinli, fail-closed kültürlü, **pragmatik bir modüler monolit**. Tek Next.js deploy, tek Postgres, tek Prisma client. Finansal çekirdek (`amountMinor`, append-only defter, PayTR Merchant) sağlam. 53 API rotası, 8 hop'luk dar bir `/api/v1` dron sözleşmesi, donuk bir Expo dronu (`publishFrozenUntilFaz1Close: true`).
+2. **Monolit mi, ayrışık mı?** **%80 disiplinli monolit.** ESLint import duvarları (kernel ↛ dikey, dikey ↛ dikey engine, UI ↛ Prisma) gerçek ve çalışıyor. Ama Shared Kernel bir **npm paketi değil** — aynı repoda `lib/kernel/` klasörü. Sürü dronlar bugün bu çekirdeği `npm install` ile tüketemez; HTTP ile dar bir alt kümeyi tüketebilir.
+3. **Sürüye hazır mıyız?** **58/100.** Sözleşme altyapısı (Zod → OpenAPI → dron tipi codegen, zarf, idempotency, sürüm kapısı) hedef mimarinin en zor kısmını zaten çözmüş. Eksik: kernel paketleşmesi, v1'in yazma hop'larını kapsaması, oda kayıt mekanizması, paylaşılan rate-limit, Split.
+4. **En sert bulgu:** `.system_docs/DRON_CLIENT_SPEC.md` içindeki **"Shared Kernel paketi yoktur ve çıkarılmaz"** cümlesi ile bu projenin **"Shared Kernel / API-First" hedefi doğrudan çelişiyor.** Biri değişmek zorunda. Bu rapor paketin çıkarılmasını öneriyor (gerekçe §3–§4).
+5. **En acil tutarsızlık:** Mühürlü ders sayısı belgelerde çelişiyor — PEDAGOJI/README "30 mühürlü" derken STORAGE_CONTRACT/OPS_RUNBOOK "1 mühürlü (`01_office_ai-1`), 29 bake bekler" diyor. Tedavi fazından önce tek sayı ilan edilmeli.
 
 ---
 
-## 1. YASAL RİSK ANALİZİ — 6493 SAYILI KANUN
+## 1. MEVCUT DURUM ANALİZİ
 
-### 1.1 Kanun neyi yasaklıyor? (işletme dili)
-
-6493 sayılı Kanun, ödeme hizmeti sunmayı ve elektronik para ihraç etmeyi **lisansa** bağlar. Lisanssız platformun üç klasik düşüşü:
-
-| Düşüş | Ne yapınca oluşur | yetkin.ai’de karşılığı |
-|-------|-------------------|------------------------|
-| **Ödeme hizmeti aracılığı** | A kişisinden para alıp B kişisine aktarmak; “ben sadece emanet tutuyorum” demek muafiyet doğurmaz | Freelancer iş bedeli: işveren → platform → usta IBAN |
-| **Elektronik para** | Üçüncü kişilere karşı harcanabilir, iade edilebilir, transfer edilebilir bakiyeyi kendi defterinde tutmak | Cüzdan bakiyesinin usta ödemesinde kullanılması |
-| **Lisanssız çekim / havale** | Kullanıcıya “bakiyeni bankana çek” rotası açmak | `/api/wallet/withdraw` — Anayasa A2 yasaklar; kodda yok |
-
-Kanunun ruhu basittir: **üçüncü şahıslar arasında para taşıyorsanız ödeme kuruluşusunuz.** Eğitim satıyorsanız tüccarsınız. İkisini aynı kasada karıştırmak, PayTR’nin de BDDK’nın da dosyayı “pazaryeri” diye okumasına yeter.
-
-İç koddaki **S43** tam bu çizgidir: “ödeme kuruluşu değiliz; üçüncü kişi emaneti cüzdan DEBIT ile kilitlenemez.” Bu bir mühendislik kaprisi değil, yasağı kod diline çevirmektir.
-
-### 1.2 Üç model, üç hukuki kimlik
+### 1.1 Dizin yapısı (canlı iskelet)
 
 ```
-MODEL A — Doğrudan tahsilat (B2C Merchant)
-  Kart → lisanslı PSP (PayTR) → şirket merchant hesabı → kendi malınız (kurs)
-  Kimlik: Satıcı. 6493 lisansı gerekmez; lisans PayTR’dedir.
-
-MODEL B — Lisanslı pazaryeri split
-  İşveren kartı → PayTR Pazaryeri → bloke → teslimde usta IBAN + platform payı
-  Kimlik: Alt satıcı ağı. Para sizin kasada durmaz. PayTR lisanslı kuruluştur.
-  Şart: ayrı sözleşme, alt satıcı KYC, komisyon/stopaj muhasebesi.
-
-MODEL C — İç emanet / iç banka (YASAK)
-  İşveren → sizin Wallet/Ledger → siz usta IBAN’ına gönderirsiniz
-  Kimlik: Lisanssız ödeme kuruluşu. İdari para cezası + faaliyet durdurma riski.
+yetkin.ai/                          # Tek deploy: Next.js 16 App Router (Vercel)
+├── app/                            # Sayfalar + API (route group'lu)
+│   ├── api/
+│   │   ├── (kernel)/               # health, auth/*, wallet/top-up, admin/*, ai/chat, jobs/inngest, payments/webhooks/paytr, profile/*
+│   │   ├── academy/                # courses/* (purchase/lock/exam/curriculum/listen/pdf), pulse, certificates, reviews, discussion
+│   │   ├── career/                 # pulse, visas, portfolio
+│   │   ├── freelancer/             # jobs, bids, contracts, messages, release/refund/dispute, squad, direct-offers
+│   │   ├── dashboard/              # pulse, wallet-strip
+│   │   ├── client/jobs/[id]/bids   # işveren teklif listesi
+│   │   ├── paytr/callback          # PayTR panel alias (kanonik webhook ile aynı handler)
+│   │   └── _gone/[...path]         # donmuş oda 410 yakalayıcı
+│   ├── (public)/, (auth)/, (kernel)/, academy/, career/  # vitrin: Panel + Akademi + Kariyer + /vize kanıt URL'si
+├── components/                     # RSC/istemci UI (Prisma importu yasak — eslint duvarı)
+├── lib/
+│   ├── kernel/   (~250 dosya)      # auth, payments, ledger, escrow, pricing, ai-gateway, http, security, jobs, notice, health, compliance, passport
+│   ├── academy/  (engine, runtime, exam, curricula, tts, media-seal)
+│   ├── career/   (visa-scope, proofs, portfolio)
+│   ├── freelancer/ (motor, messages, contract-view, runtime)
+│   ├── dashboard/, copy/, ui/, showcase/
+├── prisma/schema/                  # base + kernel + academy + career + freelancer (dosya-bazlı dilim)
+├── proxy.ts                        # TEK edge girişi (Next 16; kök middleware.ts yok)
+├── instrumentation.ts              # boot: DNS, Prisma engine, prod readiness warn'ları
+├── supabase/migrations/            # RLS + handle_new_user + katalog tohumu
+├── apps/rail-is/                   # Expo native dron — DONUK LAB (mağaza yok)
+├── archived/                       # 8 donmuş oda (studio, devlabs, kurumsal, hibe, arena, pazaryeri, junior, social)
+├── yetkin_muze/                    # müze — build/index/import dışı
+├── tests/ (307 dosya) + scripts/   # vitest + verify:* + ops:* + generate:*
+└── .system_docs/ (7 belge)         # Anayasa, Manifesto, Pedagoji, Ops Runbook, Storage, Dron Spec, README
 ```
 
-**Bugünkü kod Model A’dadır.** Merchant port canlı yol; Split `MARKETPLACE_SPLIT_LIVE = false` ve `not_configured` / 503; cüzdan-fonlu emanet `EscrowWalletFundedHoldError` ile fail-closed. Model C teknik olarak doğamaz. Bu, 6493 açısından **doğru mimari tercihtir.**
+**Sayısal fotoğraf:**
 
-### 1.3 “Cüzdan” kelimesinin gizli riski
+| Gösterge | Değer | Kaynak |
+|----------|-------|--------|
+| API rotası (`route.ts`) | 53 | `app/api/**/route.ts` glob |
+| Yayınlanmış v1 hop | 8 (7 GET + 1 POST) | `lib/kernel/http/v1-contract.ts` + `v1-hops-meta.ts` |
+| Prisma dilimi | 5 dosya (kernel/academy/career/freelancer/base) | `prisma/schema/` |
+| Kernel dosyası | ~250 (`lib/kernel/**`) | glob |
+| Test dosyası | 307 | `tests/**/*.test.ts` glob |
+| Kamu vitrini | 3 oda (Panel, Akademi, Kariyer) + `/vize` kanıt URL'si | `circuit-breakers.ts` |
+| Kilitli yüzey | Freelancer (410) + 8 donmuş oda (410) | `circuit-breakers.ts`, `proxy.ts` |
+| Dron durumu | Donuk lab; mağaza/TestFlight yok | `apps/rail-is/package.json` → `publishFrozenUntilFaz1Close: true` |
 
-6493 ve ikincil mevzuatta elektronik para, “ihraççı dışında kişilerce ödeme aracı olarak kabul edilen elektronik olarak saklanan parasal değer”dir. Kapalı devre — bakiyenin **yalnız ihraççının kendi malına** harcanması — kural olarak elektronik para sayılmaz.
+### 1.2 Veritabanı şeması (tek Postgres, dosya-dilimli Prisma)
 
-Sizin cüzdanınız bugün bu tanıma uyar: dışarı transfer yok, kullanıcılar arası havale yok, harcama yalnız Akademi DEBIT + hazine CREDIT. Hukuken bu **mağaza kredisi / ön ödemeli bakiye**dir.
+**Çekirdek (`kernel.prisma`) — finansal SSOT:**
 
-Ama üç kayma bu kalkanı deler:
+| Model | Rol | Kilit tasarım kararı |
+|-------|-----|----------------------|
+| `User` | Kimlik aynası (Auth UUID, Prisma id üretmez) | Tüm dikeylerin FK hub'ı — aynı zamanda en büyük bağlılık noktası (§1.4) |
+| `Wallet` | Tek nakit SSOT (`userId+currencyCode` unique) | `amountMinor >= 0` CHECK; bakiye yalnız defter CTE'si ile değişir |
+| `LedgerEntry` | Append-only defter | `idempotency_key` unique; UPDATE/DELETE trigger-yasaklı; CASCADE yok |
+| `EscrowHold` | Emanet kilidi (bakiye DEĞİL) | `referenceKey` unique + `pspPaymentId`; `walletId` nullable (PSP hold cüzdana çivi çakmaz) |
+| `PaymentOrder` | PSP siparişi | `merchantOid` unique; 6502 kasa rızası satırda mühürlü (`consentVersion` + 2 tik) |
+| `PaymentAnomaly` | Mutabakat sapma kaydı | `user_id` yok (sipariş bulunamayabilir); CREDIT yazmaz |
+| `PriceCatalogEntry` + `DecisionLedger` | Dinamik fiyat SSOT + gerekçeli zam defteri | Kodda satış fiyatı sabiti yok; `updated_by` doluysa migrate ezmez |
+| `CheckoutPriceLock` | 15 dk kilit | Süresi bitmiş kilitle debit yok |
+| `AiTokenUsage` | LLM gümrük defteri | `costMinor` aynı nakit birim |
+| `HttpIdempotencyRecord` | Replay kalkanı | Unique `(user_id, route, key)` |
+| `PaidCommandReservation` | Ücretli dış yan etki rezervi | İkinci bakiye değil |
+| `FunnelDailyCounter` | Huni Adım 6 sayacı | Gün × adım satırı; hit başına şişmez |
 
-1. Cüzdandan freelancer iş bedeli ödemek (üçüncü kişi kabulü).
-2. Kullanıcıdan kullanıcıya bakiye göndermek.
-3. Kullanılmamış bakiyeyi “nakit çek” diye pazarlamak (iade operatör kararıdır; çekim ürünü değildir).
+**Dikey dilimler:**
 
-PayTR başvurusunda ve panel dilinde “cüzdan” yerine **ön ödemeli bakiye / ön ödeme** deyin. Kod adını değiştirmek şart değil; dilekçe ve inceleme metni şart.
+- **`academy.prisma`**: `AcademyCourse` (fiyat YOK — katalogda) → `AcademyPurchase` (yalnız `SETTLED`) → `AcademyExam` (1:1, `questionsJson` mühürlü havuz) → `AcademyExamSitting` (HMAC JTI, tek tüketim) → `AcademyExamAttempt` (yalnız `GRADED`, sunucu puan) → `AcademyCertificate` (`certificateHash` + `curriculumSeal`, satın alınamaz, baraj 70). `AcademyLessonCompletion` + `AcademyAudioCache` (locator, Base64 yok).
+- **`career.prisma`**: `CareerVisaStamp` (kaynak: akademi sertifikası VEYA freelancer RELEASE) → `CareerPortfolioItem` (vizesiz serbest içerik yok). Para yok — doğru.
+- **`freelancer.prisma`**: `FreelancerJob` (OPEN/AWARDED/CANCELLED, `visaPathwayId`) → `FreelancerBid` → `FreelancerContract` (`escrowHoldId` **string FK** — çekirdek freelancer'ı tanımaz, doğru yön) → `FreelancerDispute` (2 tur + AI bilirkişi) + `FreelancerContractMessage` (teslim/revizyon artifact; milestone tablosu yok) + `FreelancerSquad` (ikinci cüzdan yok, `shareBps`).
 
-### 1.4 PayTR canlıya alınırken yasal engel nasıl aşılır?
+**Şema hükmü:** Finansal modelleme olgun ve dürüst. `amountMinor` her yerde; çift bakiye yok; emanet bakiye değil referans; rıza satırda. Zayıf nokta: `User` modelindeki ~25 ters ilişki — her yeni dron dikeyi bu hub'a FK ekleyecek ve "çekirdek dikeyi tanımaz" ilkesi Prisma zorunluluğuyla her seferinde delinecek (çözüm §4, Adım 3).
 
-PayTR sizi iki üründen birine oturtur: **Merchant (üye işyeri)** veya **Pazaryeri Split**. Karışık hikâye, karışık ret demektir.
+### 1.3 Aktif PayTR entegrasyonu (uçtan uca akış)
 
-**Aşılacak engel kod değil, sınıflandırmadır.** İncelemeci siteye bakınca “üçüncü kişiye para dağıtan pazaryeri” görürse Merchant dosyası yürümez.
-
-Kod ve kamu yüzeyi bu sınıflandırmayı **şimdiden** destekliyor:
-
-- `/freelancer` ve freelancer API kenarda **410**.
-- Yasal gövde (`LEGAL_ACTIVITY_SCOPE_BODY`): dijital eğitim, sınav, sertifikasyon (B2C). Emanet / hakediş / usta IBAN yok.
-- Ana sayfa CTA Akademi. Sitemap’te freelancer yok.
-- Split bağlı değilken nakit kabulü 503.
-
-**Canlıya çıkış hukuki protokolü (sıra bozulmaz):**
-
-1. Başvuru kimliği: “Yapınet bünyesinde B2C dijital eğitim ve yetkinlik sınavı satışı.” NACE / sicil unvanı (gayrimenkul ve e-ticaret) ile faaliyet farkı `/hakkimizda`’da dürüstçe duruyor; uydurma unvan icat etmeyin.
-2. Ürün: PayTR **Merchant iFrame**. Tek çekim. Kart verisi sizin sunucuya gelmez.
-3. Bildirim URL kanonik: `https://yetkin.ai/api/paytr/callback` (iç handler aynı CREDIT kapısı).
-4. İnceleme süresince Freelancer kilidi, Junior kilidi, Dron mağaza yayını ve `MARKETPLACE_SPLIT_LIVE` kapalı kalsın.
-5. İlk tanık işlem: küçük tutarlı gerçek yükleme → `PaymentOrder=CLEARED` + `LedgerEntry CREDIT` → bir SKU satın alma. “Bağlı” varsayımıyla vitrin açmak, hem 6493 hem PayTR sözleşmesi açısından en pahalı hatadır.
-6. Split / alt satıcı başvurusu **ayrı faz, ayrı sözleşme.** Merchant onayı Split izni değildir.
-
-### 1.5 Doğrudan tahsilat mı, alternatif finansal model mi?
-
-**Gün 0 ve Faz 1: doğrudan tahsilat. Alternatif değil, asıl model.**
-
-| Model | Ne zaman | 6493 | Nakit hızı | Tavsiye |
-|-------|----------|------|------------|---------|
-| PayTR Merchant, kendi SKU | Şimdi | Düşük (satıcı) | Günler | **Uygulayın** |
-| Kapalı devre ön ödeme → kurs DEBIT | Şimdi | Düşük; dilekçede tanımla | Aynı halka | Koruyun; çekim açmayın |
-| Platform dışı fatura (kurumsal pilot) | Motor 2 | Yok (deftere nakit yazılmaz) | Yavaş | Manifesto ile uyumlu; yeşil boyamayın |
-| PayTR Pazaryeri Split | Faz 2, tekrarlayan Akademi geliri varken | PSP lisanslı | Aylar | Erteleyin |
-| Abonelik / üyelik (kendi içeriğe erişim) | İsteğe bağlı büyüme | Merchant ile aynı aile | Orta | Taksit yokken AOV için sonra |
-| İç emanet + IBAN havale | Asla | Yüksek | Sahte hız | A2 yasağı |
-
-**Hakediş aktarımını “şimdilik cüzdandan yaparız, sonra düzeltiriz” diye açmak, 6493’ü ihlal edip üzerine müşteri bakiyesi biriktirmektir.** Anayasa A2 ve escrow motoru bunu bilerek kapatmış. Geçici iç banka **yeniden büyütülmez** (Runbook §4 hattı).
-
-Avukatın teyit etmesi gereken üç nokta (bu raporun yerini tutmaz): 6502 cayma / anında ifa, kullanılmamış bakiye iadesinin operatör kararı oluşu, sicil unvanı–NACE–fiili faaliyet üçlüsü.
-
----
-
-## 2. MODÜL STRATEJİSİ — AKADEMİ, “JUNIOR”, FREELANCER
-
-### 2.1 Freelancer’ı askıya almak doğru mu?
-
-**Evet. Soğuk başlatma, lisans maliyeti ve kanıt zinciri aynı yöne işaret ediyor.**
-
-**a) İki taraflı pazar matematiği.** İşveren yoksa freelancer gelmez; freelancer yoksa işveren gelmez. Havuz sıfırken emanet, vize kapısı ve split onboarding’i ısıtmak 6–12 ay + pazarlama bütçesi ister. Akademi tek taraflıdır: içerik hazırsa kart çekilir. Nakit döngüsü günler içindedir.
-
-**b) 6493 maliyeti.** Motor 3 (pazaryeri komisyonu) yalnızca lisanslı Split ile yasal. O ürün Merchant’tan ayrı denetim, alt satıcı KYC ve muhasebe ister. Havuz yokken bu maliyeti ödemek, henüz var olmayan komisyon için lisans yükü taşımaktır.
-
-**c) Tezin sırası.** Manifesto cümlesi: “Öğrendiğini mühürle. Mührün kapıyı açsın.” Mühür (Akademi) yokken kapı (Freelancer vize) boştır. Önce mühür basan kullanıcı, sonra kapı. Tersine çevirmek, vizesiz ilan tahtası olur; o pazarda zaten ucuz rakipler var.
-
-**d) Kod zaten bu kararı vermiş.** `FREELANCER_PUBLIC_SURFACE_LOCKED = true`, `MARKETPLACE_SPLIT_LIVE = false`, Manifesto Motor 3 “Faz 2”. Karar koda karşı değil, kodun arkasından yürüyor. En ucuz stratejik hamle türü budur.
-
-**Silmeyin.** `lib/freelancer`, Prisma freelancer şeması, emanet kaydı ve lab testleri durmalıdır. Silmek Faz 2 geri dönüşünü yakar, IDOR/prebuild zincirini kırar. Askıya almak = kamu 410 + nakit 503. Doğru kalıp Junior üretim kilididir ve zaten uygulanmıştır.
-
-### 2.2 “Junior” kelimesini ayırın — aksi halde yanlış oda açarsınız
-
-Kodda **Junior**, 18 yaş altı / veli doğrulamalı çocuk odasıdır. `JUNIOR_PRODUCTION_LOCKED = true`, disk `archived/app/junior`, kenar 410. Veli onayı, çocuk KVKK’sı, reşit olmayan tahsilat ve EİDS-benzeri kilit ister. PayTR B2C + 18+ yasal gövde ile **çelişir.** Açmayın.
-
-Prompt’taki “Academy ve benzeri Junior” cümlesi büyük olasılıkla **başlangıç seviyesi eğitim** demektir. Bunun yeri ayrı oda değil, Pedagoji §F.3’tür: çok teknik konularda Temel / Orta / İleri **bağımsız satılabilir paket.** Vitrindeki Katman 1 zaten “Temel / kitlesel” katmanıdır (`01_office_ai` amiral).
-
-| Hedef | Doğru yer | Yanlış yer |
-|-------|-----------|------------|
-| Yeni başlayan yetişkine Ofis AI | Akademi `01_office_ai` + Temel paket | `/junior` odası |
-| 13 başlıklı yol haritası | Kanon sicil; vitrin 5 SKU | “13 eğitim satıyoruz” pazarlama yalanı |
-| 18 yaş altı MEB hattı | Kapalı; ayrı hukuk projesi | PayTR incelemesi sırasında vitrin |
-
-Büyüme döngüsü açısından doğru sıra:
+**Tek canlı kanal: PayTR Merchant iFrame (Akademi/üye işyeri). Pazaryeri Split = kasıtlı stub.**
 
 ```
-(1) Tek taraflı satış     Akademi B2C          nakit + e-posta listesi
-(2) Kanıt birikimi        Sınav + /dogrula     güven sermayesi
-(3) Kariyer vitrini       Pasaport / vize      işveren henüz yokken bile hikâye
-(4) İki taraflı pazar     Freelancer + Split   (1)+(2) tekrarlıyorsa
+[Vatandaş /cuzdan] ──POST /api/wallet/top-up──▶ [Amiral]
+   │  session + rate-limit + Idempotency-Key(UUID) + consent+billing(Zod)
+   │  persistCheckoutBilling → port configured? → settleHttpIdempotency
+   │  merchantOid = f(userId, idempotencyKey) [deterministik; Date.now yok]
+   │  PaymentOrder PENDING (+rızalar) → user_ip (TRUSTED_PROXY_HOPS=2) → beginCheckout
+   ▼
+[PayTR get-token] ──token+iframeUrl──▶ [Vatandaş iFrame'de öder]
+   │  (merchant_ok/fail_url = /cuzdan dönüşü; CREDIT YAZMAZ)
+   ▼
+[PayTR POST Bildirim URL] ──/api/paytr/callback = /api/payments/webhooks/paytr──▶ [Amiral]
+   │  auth="webhook": edge JWT/Origin/rate-limit atlar; HMAC handler'da
+   │  probe/resmi-IP → düz metin 200 "OK" (CREDIT YOK)
+   │  IP allowlist → HMAC (merchant_oid+salt+status+total, timing-safe)
+   │  success → settlePaytrWebhookSuccess:
+   │     PaymentOrder FOR UPDATE + LedgerEntry.idempotency_key wallet-top-up:{oid}
+   │     + CLEARED kısa-devre + total_amount==amountMinor eşleşmesi
+   ▼
+[LedgerEntry CREDIT + PaymentOrder CLEARED] ──▶ [Akademi DEBIT: POST .../purchase]
+   │  purchase: lock → price-lock → wallet DEBIT → AcademyPurchase SETTLED
+   │  → Inngest makbuz kuyruğu (SMTP yoksa honest-skip; satın alma kesilmez)
+ Inngest valör (30 dk) + emanet TTL (14 gün) + TTL uyarısı (48 saat kala)
 ```
 
-Kariyer odasını Freelancer ile birlikte kapatmayın. Kariyer, mühürden türetilen belge vitrinidir; nakit taşımaz, 6493’e girmez, “öğrendim” iddiasının kamu yüzüdür. Üç odalı vitrin (Panel / Akademi / Kariyer) bu yüzden doğrudur.
+**Doğrulanan güvenlik özellikleri** (`route.ts` + `webhook-settle.ts` + `checkout.ts` + runbook §4):
 
-### 2.3 Büyüme döngüsü hükmü
+- Üretimde `PAYTR_SANDBOX`/`PAYTR_ALLOW_MOCK_CHECKOUT` = throw (`paytr.production_safety`).
+- Mock checkout CREDIT yazmaz; PENDING aynı istekte FAILED kapanır (takılmaz PENDING yok).
+- Mükerrer bildirim → tek CREDIT (DB unique + `FOR UPDATE` + CLEARED kısa-devre).
+- Tutar uyuşmazlığı → `PaymentAnomaly` (sessiz kabullenme yok).
+- Clearing throw → Inngest defer; Inngest yoksa 500/503 (PayTR tekrarlar; sahte ACK yok).
+- `user_ip` loopback/RFC1918/IPv6 → fail-closed (PayTR IPv4 ister).
+- `LIVE_BROADCAST_SHUTDOWN` açıkken webhook 503 (CREDIT yok, retry).
 
-Klasik platform döngüsü (işveren ↔ yetenek) **Faz 2’dir.** Faz 1 döngüsü medya şirketinin döngüsüdür: içerik → trafik → satış → mezun → yorum → daha ucuz CAC. `docs/Raporlar/PAZAR_GERCEKLIGI_RAPORU.md` bunu sayısallaştırır: ₺490’lık SKU reklamla tek başına kârlı değildir; lokomotif `01_office_ai`, kapı `05_prompt_practice`, kâr sepet + ikinci satıştır.
+**Split tarafı:** `paymentsPort.split` stub → `not_configured` → freelancer `accept` **503**; kamu `/freelancer` + `/api/freelancer/*` + `/api/client/jobs/*` **410** (`FREELANCER_PUBLIC_SURFACE_LOCKED`). Merchant onayı Split izni değil — belgeler ve kod bu ayrımı tutarlı uyguluyor. Doğru, ama Faz 2'nin kritik yolu tamamen idari (Pazaryeri sözleşmesi + alt satıcı onboard) — teknik hazırlık bitmiş sayılır.
 
-Freelancer’ı şimdi açmak bu döngüyü bozar: dikkat dağılır, PayTR sınıflandırması kirlenir, sıfır havuzda “iş yok” boş durumu markayı yıpratır. Akademi’ye yüklenmek “vizyonu terk etmek” değil, vizyonun **beslenme sırasını** kabul etmektir.
+### 1.4 Core ↔ modül ayrışması: monolit mi?
 
----
+**Hüküm: Disiplinli modüler monolit. Mikro-servis değil; mikro-app altyapısı kısmen hazır.**
 
-## 3. REHBER DOKÜMANLAR — ÇELİŞKİ, ESNETME, BOĞULMAMA
+**Ayrışmanın GERÇEK olduğu kanıtlar:**
 
-İncelenen asıl rehberler `/docs` altında değil, **`/.system_docs`** altındadır. `/docs` günlük rapordur; derleme fixture değildir. Bu ayrım doğrudur ve korunmalıdır.
+| Duvar | Mekanizma | Dosya |
+|-------|-----------|-------|
+| Kernel ↛ dikey | ESLint `no-restricted-imports` (`@/lib/<oda>` yasak) | `eslint.config.mjs` |
+| Dikey ↛ dikey engine/runtime/prisma-store | ESLint oda başına kural | `eslint.config.mjs` |
+| freelancer ↛ career (EARNINGS_WALL) | ESLint | `eslint.config.mjs` |
+| career/freelancer ↛ academy | ESLint (kimlik `lib/kernel/catalog-ids` üzerinden) | `eslint.config.mjs` |
+| UI ↛ Prisma/server-only/engine | ESLint (`app/**` − `app/api/**`, `components/**`) | `eslint.config.mjs` |
+| Sözleşme tek elde | `v1-contract.ts` (Zod) → `generate:openapi-v1` → `generate:v1-client` (dron tipi) | `scripts/`, `package.json` |
+| Tek edge girişi | `proxy.ts`: 410 kilitleri → hop-gate → sürüm kapısı → Origin guard → rate-limit → auth kind → (v1 rewrite) | `proxy.ts` |
 
-### 3.1 Çelişki tablosu
+**Birleşik (monolit) kalanlar — dürüst liste:**
 
-| Belge | Ne diyor | Bugünkü gerçek | Hüküm |
-|-------|----------|----------------|--------|
-| **Anayasa A1–A5** | `amountMinor`, tek defter, S43, RLS/IDOR, sunucu mühür, dürüst yüzey | Kod uyguluyor | **Çelişki yok. Gevşetilmez.** |
-| **Anayasa A2 Freelancer cümlesi** | “İş bedelleri Split’te emanet; usta neti IBAN’a” | Split kapalı; kamu 410 | Hedef mimari doğru, **zaman kipi yanlış** — “Faz 2’de” denmeli |
-| **Anayasa B2** | Çekirdek UX: dashboard, academy, career, **freelancer** | Kamu vitrin 3 oda | **Sürtünme.** B Katmanı yaşayan not; Faz 1 vitrini yazılmalı |
-| **Manifesto 1.1 gün 0 cümlesi** | Nakit yalnız Akademi; freelancer dipnot | Doğru | Koru |
-| **Manifesto 1.3 hedef kitle** | Uzman + işveren eşit ağırlıkta | İşveren havuzu sıfır | Faz 1’de birincil kitle **öğrenen / kart sahibi**; işveren Faz 2 |
-| **Manifesto Kural 1** | 4 ana deneyim; “eşit olgunluk yok” notu var | Not var ama oda listesi hâlâ 4 | Küçük revizyon: “Faz 1 çalışan vitrin 3; 4. oda kilitli motor” |
-| **Manifesto Kural 2** | 5 garantili kapı + standart pazaryeri | Kapılar 410 arkasında | Vizyon olarak kalsın; “canlı kapı” diye okunmasın |
-| **Manifesto Motor 1–3** | Akademi gün 0, kurumsal Faz 2+, pazaryeri Split sonrası | Kod ile aynı | **Çelişki yok** |
-| **Pedagoji** | Aşama 1 makale; mühürlü sinema §F; 5 SKU vitrin | Amiral 6/6 ses; diğerleri makale | Yasal/stratejik çelişki **yok** |
-| **Pedagoji vs “Junior odağı”** | Junior kelimesi yok; Temel/Orta/İleri paket var | Junior oda ayrı ve kilitli | Pedagoji’ye bir cümle: “Junior oda ≠ başlangıç seviyesi” |
-| **OPS_RUNBOOK §1 / §12** | “Çalışan 4 oda”; Freelancer ilan çalışır; SMTP “Akademi makbuzu yok” | Kamu 410; makbuz kodu kuyruğa alındı (`academy-receipt-mail`) | **Ops sapması.** Runbook A katmanı değil ama ajanı yanıltır |
+1. **Tek deploy, tek süreç.** Web + API aynı Next.js instance. `lib/kernel/security/http-rate-limit.ts` in-memory `Map` — ikinci replica kotayı görmez (runbook §7 bunu açıkça yazıyor: "sessiz delik").
+2. **Kernel paket değil, klasör.** `lib/kernel/` ~250 dosya; dron `lib/kernel` import edemez ("HTTP istemcisi `apps/rail-is` içindedir; `lib/kernel` import etmez"). Paylaşılan tipler codegen ile kopyalanıyor (`apps/rail-is/src/contract/v1.ts`), versiyonlu paket ile değil.
+3. **Web API-First değil.** Amiral RSC'leri `lib/<modül>` fonksiyonlarını doğrudan çağırıyor (B1 bunu "pragmatik serbestlik" diye meşrulaştırıyor). Sonuç: 53 rota varken v1'de yalnız 8 hop. Sınav, müfredat tamamlama, kilit, dinle, portföy, cüzdan yükleme, profil, admin — hepsi web-only BFF. Yeni bir dron bu yetenekleri HTTP ile tüketemez.
+4. **Tek DB, User hub.** Tüm dikeyler `User`'a FK ile bağlı; RLS + IDOR testleri bu hub'ı koruyor ama yeni dikey = yeni FK = hub büyümesi.
+5. **Dron donuk.** `apps/rail-is`: 7 GET hop + purchase yasak + Faz 2 throw. Altyapı (Bearer-only, cookie-strip, 401 refresh-once, allowlist, parse-fail=protocol error) kaliteli ama tüketici yok.
 
-**Özet:** Kendi ipinizde boğulma riski A Katmanı’nda değil, **zaman kipinin karışmasında.** Hedef mimari (Split, vize kapısı, dört oda) ile işletme resmi (üç oda, Merchant, 5 SKU) aynı cümlede “şimdi” gibi durunca ajan ve insan tekrar freelancer yüzeyi açmaya meyleder.
-
-### 3.2 Ne revize edilmeli, ne edilmemeli?
-
-**Edilmeyecekler (kırmızı çizgi):**
-
-- A1 tamsayı para ve tek defter.
-- A2 lisanssız tutma / çekim yasağı ve cüzdan-fonlu emanet yasağı.
-- A3 RLS/IDOR/sır.
-- A4 satın alınamaz mühür.
-- A5 sahte bakiye yasağı.
-- Pedagoji’nin “izlemede canlı TTS yok / `--seal` olmadan bake yok” kalkanı.
-
-Bunları “strateji değişti” diye esnetmek, 6493 ve tüketici güvenini belge eliyle delmektir.
-
-**Edilecekler (Faz 1 işletme resmi — kısa, tarihli, B Katmanı / Manifesto):**
-
-1. **Anayasa B2’ye üç satır:** “Faz 1 kamu vitrini Panel + Akademi + Kariyer’dir. Freelancer motor sicilinde durur, kamu 410’dur. 4. oda nakit iddiası taşımaz.” A2 freelancer paragrafının başına “Faz 2; lisanslı Split bağlıysa” zaman kipi.
-2. **Manifesto 1.3:** Birincil kitle Faz 1’de B2C öğrenen. İşveren “Faz 2 alıcısı” diye etiketlensin; silinmesin.
-3. **Manifesto Kural 1:** Dört oda “omurga hedefi”; eşit canlılık iddiası yok cümlesi başa alınsın. Gün 0 kahramanı Akademi zaten yazıyor — bunu B2 ile çelişmeyecek şekilde kilitleyin.
-4. **Pedagoji A veya F.3:** “`/junior` odası çocuk/veli ürünüdür, üretim kilitlidir. Başlangıç seviyesi Akademi paketidir.” Tek paragraf yeter.
-5. **OPS_RUNBOOK:** “Çalışan 4 oda” cümlesini Tedavi sicilindeki gibi netleştirin (motor 4 / vitrin 3). SMTP satırını güncelleyin: Akademi makbuz kuyruğu kodda vardır; canlı gönderim SMTP env’ine bağlıdır. WAV sayısı (metinde hâlâ 2 görünen yerler) Storage Contract ile hizalansın.
-
-**Nasıl boğulmamalı:** Anayasa’yı her sprint’te yeniden yazmayın. A Katmanı yılda birkaç kez, yasa değişince dokunulur. B Katmanı ve Manifesto “işletme resmi” bölümü çeyreklik güncellenir. `/docs` raporları anayasa değildir; ajan `Tespit_Raporu.md` ile A2’yi ezemesin. Çelişkide Anayasa A bağlayıcı kalır — bu kural doğru, kalsın.
-
-Eylül 2026 reformu (grep polisliği, kelime avı testleri → B Katmanı) boğulmayı zaten büyük ölçüde çözmüş. Kalan ip, **Faz 2 cümlelerinin Faz 1 iş emri gibi okunmasıdır.**
+**Ayrışma skoru (bu bölümün özeti):** Kod disiplini 85/100, çalışma-zamanı ayrışması 35/100. Sürü mimarisi ikincisini ister — §3'te puanlanıyor.
 
 ---
 
-## 4. PLATFORM KURGUSU — AMİRAL GEMİSİ + SÜRÜ DRON
+## 2. KILAVUZ DOKÜMANLARIN SORGULANMASI
 
-### 4.1 Kurgu doğru mu?
+> Talimat gereği kutsal sayılmadı. Her belge önce hakkıyla övüldü, sonra sertçe eleştirildi. "Güncellenmeli" maddeleri Tedavi fazının girdi listesidir.
 
-**Hedef kurgu doğrudur. Uygulama Amiral’de gerçektir, sürüde değildir. Bu asimetri bugün avantajdır.**
+### 2.1 ANAYASA.md — hüküm: A Katmanı kalmalı, B Katmanı sürüye göre revize edilmeli
 
-| Katman | Tasarım vaadi | 9 Eylül 2026 gerçeği |
-|--------|----------------|----------------------|
-| **Shared Kernel** | Para, kimlik, defter, idempotency, RLS tek omurga | `lib/kernel/*` — proof / marketplace / payments bounded context. Dikeyler deftere yazmaz (`proofMustNotWriteLedger`). |
-| **Amiral** | Next.js App Router, RSC, oturum çerezi | Tek gövde. Akademi satış, sınav, mühür, cüzdan yükleme burada. |
-| **API-First dış sözleşme** | `/api/v1` zarf `{ ok, error, requestId, apiVersion, data }` | 8 hop (Tedavi E1 sonrası). Dron donuk. Sözleşme geleceğe çek basmıştı; küçültülmesi doğru. |
-| **Sürü Dron** | Native istemciler aynı kernel’i tüketir | `apps/rail-is`: `publishFrozenUntilFaz1Close`, mağaza yok, Amiral build dışlanmış. Sürü yok; tek dron bile uçmuyor. |
-| **Odalar** | Dikeyler aynı kimlik/defter | Motor 4 oda; kamu 3. Donmuş 8 oda 410 + `archived/`. |
+**Güçlü yanlar (korunacak):** A1 (`amountMinor`, tek defter, append-only), A2 (S43 fail-closed, çekim rotası yasağı), A3 (service_role sızdırmazlığı, RLS/IDOR, idempotency), A4 (sunucu puanlı mühür, baraj 70, açık doğrulama), A5 (dürüst yüzey, sahte bakiye yasağı). Bunlar gerçek kırmızı çizgi; teknik borç tartışmasına kurban edilmemeli.
 
-Bu, “Core + Micro-Apps” cümlesinin dürüst çevirisidir: **mikro-servis değil, mikro-yüzey.** Aynı defter, aynı kimlik, farklı kabuk. Aylık 1M istek altında monoliti bölmek mimari lüks olur; Anayasa B1 bu yüzden pragmatiktir.
+**Sert eleştiri — tek tek maddeler:**
 
-### 4.2 Mimari bu hedefleri taşır mı?
+| # | Madde | Sorun | Öneri |
+|---|-------|-------|-------|
+| B1-a | "Grep polisliğinin sonu" + "katmanlar serbestçe çağırabilir" | İyi niyetli ama **API-First hedefiyle çelişir**: RSC'nin `lib/`'i doğrudan çağırması serbest kalırsa v1 hop sicili hep eksik kalır (bugün 8/53). Serbestlik web içiyle sınırlanmalı; dronların tüketeceği yetenekler v1'e taşınmalı. | B1'e ekle: "Yeni yetenek önce v1 hop olarak açılır; RSC direct-call yalnız okuma/query katmanında serbesttir." |
+| B1-b | "Web RSC `load` serbestçe kullanır; `/api/v1` yalnız mobil/dron" | Bu cümle **iki başlı veri erişimini kalıcılaştırıyor** — sürüde her yeni istemci (web dron, mini-app) ya RSC'ye gömülür ya da v1'e alınmak için "ürün kararı" bekler. | "Web de yazma işlemlerinde v1 zarfını konuşur" hedefine çevir; RSC direct-call'ı kademeli daralt. |
+| B1-c | Import duvarı "B1 mühendisliği olarak durur" | Duvar `eslint.config.mjs` + `rooms.ssot.ts` + `verify-boundaries.ts` üçlüsüne gömülü ve **statik liste bazlı**. Yeni dron dikeyi = 3 dosyada el değişikliği + yeni kural. Sürüde dikey eklemek "anayasa değişikliği" ağırlığında olmamalı. | Duvarı liste-bazlıdan **kural-bazlıya** çevir: `lib/dronlar/<id>/` konvansiyonu + tek kayıt dosyası + scaffold. |
+| B2-a | "Faz 1 kamu vitrini 3 oda; Freelancer 410" | İş kararı olarak doğru (PayTR B2C), ama **mimari belgeye faz takvimi gömmek** belgeyi kronik eskitir. Faz bitince Anayasa değişiyor — Anayasa takvim değildir. | Faz durumunu `docs/` durum dosyasına taşı; Anayasa'da yalnız kilit mekanizması kalsın. |
+| B2-b | "Oda tavanı esnektir" vs `rooms.ssot.ts`: "5. oda ürün kararı olmadan eklenmez" | **Belge ile kod çelişiyor.** Anayasa esneklik vaat ederken kod + Manifesto + eslint yeni odayı yasaklıyor/yavaşlatıyor. Sürü = çok oda; bu çelişki çözülmeden sürü kurulamaz. | Tek cümlelik kayıt kuralı yaz (§4 Adım 2); hem belgeyi hem kodu ona hizala. |
+| B2-c | 4 sığınak listesi (`/profil`, `/cuzdan`, `/pasaport`, `/admin`) | Sürüde `/cuzdan` ve `/profil` her dronun ihtiyacı — "sığınak" (yan alan) statüsü anlamsızlaşır; bunlar **çekirdek yetenek** (identity, billing) olmalı. | Sığınak kavramını emekli et; identity/billing/passport'u kernel yetenekleri olarak yeniden adlandır. |
+| B4 | Pedagoji detayının Anayasa'da olması (karaoke, süre bandı, SKU sayısı) | **Katman ihlali.** Anayasa'nın B katmanı bile olsa; ders süresi anayasa maddesi olamaz. Değişiklik maliyeti yüksek, okunabilirlik düşük. | B4'ü tek cümleye indir ("müfredat standardı PEDAGOJI.md §F'dedir") ve detayı taşı. |
+| B5 | Split stub'ın "ayrı faz, ayrı sözleşme" diye süresiz park edilmesi | Doğru tespit, ama **çıkış kriteri yok**: hangi metrik/karar Split'i açar, kim imzalar, teknik todo ne? Park yeri sonsuz garaja dönüşür. | B5'e "Faz 2 açılış kriterleri" checklist'i ekle (sözleşme + onboard + hop geri-yazımı + kapalı test). |
 
-**Akademi B2C hedefini taşır.** Satın alma atomik settlement, PayTR HMAC + tutar eşleşmesi, sınav sunucu puanı, sertifika SHA-256, 6502 rıza mühürü — boru hattı SKU-bağımsız. 06–13 içerik bitince altyapı değişmez. Kapasite eşiği kod değil: PayTR bildirim URL, `TRUSTED_PROXY_HOPS`, SMTP, sınav secret, ilk gerçek CLEARED satırı.
+### 2.2 MANIFESTO.md — hüküm: vizyon belgesi operasyona sızmış; ikiye bölünmeli
 
-**Freelancer + Split hedefini “ileride” taşır.** Escrow motoru, split port stub, vize 403, sözleşme şeması duruyor. Taşıyamayacağı şey lisanssız nakit dağıtmaktır — ve taşımaması doğrudur.
+**Güçlü yanlar:** Tek cümlelik değer önerisi net ("kanıtlanmış yetkinlik"); 3 motorlu gelir haritası dürüst (Motor 1 gün 0, Motor 2/3 Faz 2+); "güven bağırmaz" tasarım duruşu tutarlı.
 
-**Sürü hedefini bugün taşımasına gerek yoktur.** v1 hop kapısı, 426 sürüm kilidi, IAP yasağı doğru mühendisliktir; sıfır kullanıcıya saat harcamayın.
+**Sert eleştiri:**
 
-### 4.3 Eksikler (mimari değil, işletme)
+| # | Madde | Sorun | Öneri |
+|---|-------|-------|-------|
+| M-1 | Bölüm 2–4'te hop sayıları, SKU slug'ları, env bayrakları (`MARKETPLACE_SPLIT_LIVE`), 403 kodları | **Vizyon belgesine operasyon gömülmüş.** Her deploy/ingest bu belgeyi eskitir; Nitekim STORAGE ile PEDAGOJI arasındaki "1 vs 30 mühürlü ders" çelişkisi bu sızıntının meyvesi. | Manifesto'dan tüm sayı/slug/bayrak/kod sil; "durum" `docs/DURUM.md` (tarihli, haftalık) dosyasına taşınsın. |
+| M-2 | Kural 2 (Vize Kapısı): 403 kodları, OPEN bayrağı, `FREELANCER_*_NEED_IDS` | Bu bir **teknik şartname**, manifesto değil. Ürün ekibi manifesto okuyup kod yazamaz; mühendis manifesto okuyup gereksinim çıkaramaz. | Kural 2'yi `docs/specs/freelancer-vize-kapisi.md`'ye taşı; Manifesto'da 3 cümlelik ilke kalsın. |
+| M-3 | "Dron Faz 1'de donuk laboratuvardır; Shared Kernel paket çıkarılmaz" | Vizyon belgesi **hedef mimariyi yasaklıyor.** Sürü dron hedefi varken "paket çıkarılmaz" cümlesi manifestoda duramaz — bu, tedavinin 1 numaralı gündem maddesi. | Cümleyi tersine çevir: "Faz 2'de kernel `@yetkin/kernel` paketi olarak çıkar; dronlar onu tüketir." |
+| M-4 | "Oda tavanı esnektir" + "13. oda dogmasına takılma" | Savunma dilinde yazılmış; kural koymak yerine eski kavgaları anlatıyor. Yeni CTO/ekip bu cümlelerden ne yapacağını çıkaramaz. | Somut kurala çevir: "Yeni oda/dron = kayıt + sözleşme + bayrak; yasak liste değil, checklist vardır." |
+| M-5 | Motor 2 (B2B) "Faz 2+" ama kurumsal oda 410 + `kurumsal` arşivde | Manifesto Motor 2'yi gelir haritasında tutarken kod odayı **arşive** kaldırmış. Ya arşiv kararı erken (kodu dondur, şemayı tut) ya manifesto iyimser. | Karar ver: B2B ilk müşteri profili belli değilse Motor 2'yi "keşif" statüsüne indir. |
+| M-6 | SEN aksı + Quiet Luxury'nin manifesto seviyesinde dogma riski | Dil/estetik tercihi vizyon belgesinde; `verify:sen-axis` nightly'de (doğru). Ama manifesto dili "benimsenir" (emir kipi) — B2B dronlarda (kurumsal müşteri) "sen" dili yanlış olabilir. | "Varsayılan B2C sesimiz SEN'dir; dron başına locale edilebilir" diye esnet. |
 
-1. **Nakit halkası henüz canlı tanıklı değil** (bu makineden Production secret okunmaz). Mimari hazır ≠ merchant yeşil.
-2. **Makbuz:** Kod kuyruğu var (`lib/kernel/notice/academy-receipt-mail.ts`); Runbook hâlâ “yok” diyor. Canlı SMTP bağlanmazsa B2C güveni ve chargeback dosyası boş kalır.
-3. **İsim borcu:** Rail / Diyar / Tezgâh iç dil; kamu `yetkin.ai`. Sözlük yazılmış (`docs/Raporlar/SOZLUK.md`) — ajanlar Anayasa’yı bu sözlükle okumalı.
-4. **V1’de marketplace context adı** bounded-context sicilinde durur; OpenAPI’den tag silindi. İç ad kalabilir, kamu sözleşmesi satmamalı (şu an satmıyor).
-5. **İçerik hızı** mimariyi geçer: 5 compact SKU’nun 4’ü makale; sinema yalnız amiral. Pazar bunu “eksik ürün” diye okuyabilir; Pedagoji dürüstçe Aşama 1 der. Vaat dilini Aşama 3’e çekmeyin.
+### 2.3 PEDAGOJI.md — hüküm: içerik standardı güçlü, belge şişkin ve yer yer çelişkili
 
-**Yanlış düzeltmeler:** mikro-servise bölünmek, Junior odasını açmak, dron mağazası, cüzdan-fonlu emanet “geçici”, Anayasa A2’yi “hız için” silmek.
+**Güçlü yanlar:** "Yayın = makale + mühürlü karaoke" net ürün tanımı; üretim sırası disiplini (metin → konuşma → ses → cue → görsel); sıfır re-bake SOP'u (skip preventer, RPM kalkanı, `--seal` kapısı) gerçek saha bilgeliği; "konunun hakkı" ilkesi ezberciliği kırıyor.
 
----
+**Sert eleştiri:**
 
-## 5. SEN OLSAYDIN NE YAPARDIN?
+| # | Madde | Sorun | Öneri |
+|---|-------|-------|-------|
+| P-1 | **"30 mühürlü ders" vs STORAGE "1 mühürlü ders" çelişkisi** | En kritik belge tutarsızlığı. Vitrin cümlesi ("5 SKU × 6 ders = 30 mühürlü") ile depo sözleşmesi ("1 mühürlü, 29 bake bekler") aynı anda doğru olamaz. Müşteri/denetçi hangisine inanacak? | 48 saat içinde tek sayı ilan et; SEM/Ads cümlelerini o sayıya kilitle; diğer belgeyi düzelt. |
+| P-2 | §E–§F'nin TTS SOP detayları (RPM gap 6500ms, 10–12 istek, fonetik örnekleri) | Bunlar **operatör el kitabı**, pedagoji değil. Pedagoji belgesi 160+ satır; yeni eğitmen/içerikçi aradığını bulamaz. | SOP detayını `docs/ops/akademi-bake-elkitabi.md`'ye taşı; PEDAGOJI'de ilke + bant tablosu kalsın. |
+| P-3 | §F "SUPER ADMIN kilit" (45–90 dk, 6–8 ders, 7–12 dk) | Üretim bandı "kilit" ilan edilmiş — ama B4 "sabit ders adedi yayın makalesini kesmez" diyor. **Aynı külliyat içinde kilit + kesmez yan yana.** Hangisi bağlayıcı? | Netleştir: bant = "mühürlü konuşma metni hedefi"; makale = "konunun hakkı". "Kilit" kelimesini "hedef bandı" yap. |
+| P-4 | "Kanon 13 başlık vs vitrin 5 SKU" + "06–13 taslak" | Kanon kavramı vitrin gerçeğiyle yarışıyor; dışarıya "13 kursluk platform" izlenimi sızarsa A5 (dürüst yüzey) ihlali olur. | Kanon listesini iç belgeye al; dışarıda yalnız ingest edilmiş SKU konuşulur kuralını yaz. |
+| P-5 | Junior odası tartışmasının pedagoji belgesinde olması | `/junior` 410 kararı yasal/ürün kararı; pedagoji belgesinde 1 paragraf hak etmiyor. Belge oda siyasetine bulaşmış. | Sil; tek cümle: "18 yaş altı ürün yoktur (bkz. ANAYASA B2 + circuit-breakers)." |
+| P-6 | "Video/WebM yoktur" (×5 tekrar) + "sinematik katman hedefi" | Aynı belgede hem "yoktur" hem "hedef" — okuyucu yol haritasını çıkaramaz. Katman 4 (video) hedef mi, terk mi? | Karar: video 12 ayda yoksa "terk edildi" de; varsa çeyrek hedefi yaz. İkircik SEM'i de mühendisliği de zehirler. |
 
-Tarafsız cevap: **aynı askıya alma kararını verirdim; sonra üç ay boyunca mimari değil satış inşa ederdim.**
+### 2.4 Yan belgeler (kısa hükümler)
 
-Gerekçe kısa: Havuz sıfırken pazaryeri bir fantezidir. 6493 o fantezinin faturalı halidir. Elinizdeki gerçek varlık mühürlü (ve mühürlenebilir) eğitim boru hattı ile Merchant tahsilatıdır. Vizyon cümlesi “mühür kapıyı açsın” ise önce mühür satılır. Kapıyı sonra kurarsınız; kapı çelik, menteşe lisanslı Split olur.
-
-Yapmayacaklarım:
-
-- Freelancer kodunu silmek veya “madem kapalı, motoru da sök” demek.
-- `/junior`’ı “gençlere eğitim” diye açmak.
-- Merchant onayı gelmeden Split konuşmak.
-- 13 SKU’yu vitrinde 13 diye satmak.
-- Yeni dron, yeni oda, yeni ödeme kuruluşu.
-- Anayasa A katmanını “esnetme” adı altında delmek.
-
-Yapacaklarım, sırayla:
-
-1. **T3’ü canlıda yeşile boyamak.** Küçük gerçek kart işlemi → CLEARED → bir kurs → sınav ≥70 → `/academy/dogrula`. Bu halka yoksa site vitrindir, dükkân değil.
-2. **SMTP + makbuzun gerçekten düşmesi.** Kod yetmez; `NOTICE_SMTP_HOST` / `NOTICE_MAIL_FROM` Production’da dolu olacak. İlk iade ve ilk PayTR chargeback’inde makbuz sizin tanığınızdır.
-3. **Tek lokomotif:** `01_office_ai`. Diğer 4 SKU vitrinde dursun ama pazarlama ve içerik saati amirale. ₺490’ı kapı, ₺890’ı kâr motoru saymak (`PAZAR_GERCEKLIGI`).
-4. **Anayasa/Manifesto’ya Faz 1 işletme resmi** (yukarıdaki 3.2 — yarım gün, hukuk değil mühendislik).
-5. **Vaat dilini törpülemek.** “₺15–40bin’e sat” satış sayfasına girerse 6502 ayıplı hizmet kapısı aralanır. Mühür ve sınav yeterince güçlü iddia.
-6. Split ve Freelancer kilidini **ancak** aylık tekrarlayan Akademi geliri ve avukatlı Pazaryeri dosyası varken konuşmak.
-
-Platform kurgusu bence **doğru kurgulanmış, erken şişirilmiş.** Amiral + kernel, bir eğitim dükkânı ve yarın bir yetenek ağı için yeterli. Sürü Dron ve Motor 3, sermaye ve lisans gelince takılacak motorlardır; bugün şasiye kaynaklanmamalıdır. Eksik olan mimari hayal değil: canlı nakit tanığı, bir SKU’nun sokakta anlatılabilir vaadi, ve belgelerin “şimdi / sonra” kipini ayırması.
+- **OPS_RUNBOOK.md**: En değerli belge (590 satır, gerçek saha reçetesi). Sorunu: **tek dosya**. Dron ekibi, akademi operatörü ve SRE aynı dosyayı okuyor. Tedavide 4 parçaya böl: `ops-db.md`, `ops-paytr.md`, `ops-inngest.md`, `ops-dron.md`. Ayrıca §15 (Closed Testing reçetesi) Faz 2'ye kadar ölü ağırlık — "uyku" başlığına al.
+- **STORAGE_CONTRACT.md**: Net ve dürüst. Sorunu: P-1 çelişkisinin bir tarafı. Ayrıca `lesson-audios` bucket'ının provision durumu belirsiz ("migrate kilit listesinde değildir; ayrı provision") — provision yapıldı mı, yapılmadı mı, tek satırda yazılmalı.
+- **DRON_CLIENT_SPEC.md**: Teknik olarak en olgun belge (Bearer-only, refresh-1-retry, 401/426 matrisi, allowlist). Sorunu: M-3'teki yasak cümlesi (§7: "Shared Kernel paketi yoktur ve çıkarılmaz") + "hop alt kümesi ürün kararıdır" ifadesi v1 genişlemesini **yasak gibi** okutuyor. Tedavide bu iki cümle hedef mimariye göre yeniden yazılmalı.
+- **README.md (sistem_docs)**: İyi kapak. Sorunu: kapak da operasyon taşıyor (oda sayıları, faz cümleleri) — kapak 20 satıra inmeli, gerisi link.
 
 ---
 
-## 6. BİR SONRAKİ ADIM — TAM OLARAK NE YAPILMALI
+## 3. SÜRÜ DRON MİMARİSİNE UYUM TESTİ
 
-Öncelik sırası. Paralel değil; 1 bitmeden 4’e geçilmez.
+### 3.1 Puan: **58/100** — "temel sağlam, kanatlar takılmamış"
 
-| Sıra | İş | Neden | Sahip |
-|------|-----|--------|--------|
-| **1** | PayTR Merchant canlı üçlü + Bildirim URL + `PAYTR_SANDBOX`/mock boş + `TRUSTED_PROXY_HOPS=2` | Sınıflandırma ve nakit. Kod hazır; operasyon açık. | SUPER ADMIN |
-| **2** | İnsan T3 turu (kayıt → ön ödeme → SKU → sınav → doğrula). `/freelancer` ve `/junior` 410 kalsın | “Bağlı” iddiasının tek kanıtı | SUPER ADMIN |
-| **3** | Production SMTP; makbuzun gerçekten gitmesi | B2C güven + chargeback | Ops |
-| **4** | Anayasa B2 + Manifesto 1.3/Kural 1 + Pedagoji Junior cümlesi + Runbook sapması | Ajan ve ekip Faz 2’yi gün 0 sanmasın | Belge (A katmanı dokunulmaz) |
-| **5** | `01_office_ai` pazarlama ve vaat disiplini; 06–13’e altyapı yok | Gelir Motor 1’in tek gerçek ürünü | Ürün / pedagoji |
-| **6** | Split / Freelancer açılışı | Bilinçli **sonra**. Ayrı karar kaydı. | Kurucu + avukat |
+| Boyut | Puan | Gerekçe (kanıt) |
+|-------|------|-----------------|
+| **Sözleşme-first altyapı** | 85/100 | Zod SSOT → OpenAPI + dron tipi codegen (`generate:openapi-v1`, `generate:v1-client`), `--check` ile CI kapısı, zarf guard'ları, `publishedDataPaths` (sessiz alan düşürme yasağı). Bu, sürünün en zor parçası ve **hazır**. |
+| **Kimlik (auth)** | 70/100 | Supabase JWT + edge JWKS/HS256 + `requireSession` handler doğrulaması + `auth-session` hop'u. Dron refresh akışı spec'li. Eksik: token yenileme dron SDK'sında değil (Supabase SDK'ya emanet), cihaz/oturum yönetimi yok, admin rolü tek UUID (rol matriksi yok). |
+| **Ödeme** | 55/100 | Merchant port olgun (idempotent, HMAC, anomaly, valör). Ama: **tek PSP, tek kanal** (cüzdan yükleme); Split stub; dron purchase yasak (IAP riski doğru yönetilmiş ama alternatifsiz); mikro-app başına fiyat/komisyon modeli yok (katalog var, dron kotası yok). |
+| **Veri paylaşımı** | 45/100 | v1 8 hop (7'si okuma). Yazmaların çoğu web-only BFF. Dron `purchase/exam/curriculum/portfolio/top-up` tüketemez. Paylaşım mekanizması HTTP+zarf (doğru) ama **kapsama %15** (8/53). |
+| **Kernel paketlenmesi** | 20/100 | `@yetkin/kernel` yok; codegen-kopya ile yetiniliyor. Sürümleme/changelog/bağımlılık yönetimi yok. Dron ile Amiral'in sözleşmesi "aynı commit"e göbekten bağlı — ayrı deploy yapılamaz. |
+| **Dikey açma maliyeti** | 35/100 | Yeni oda = `rooms.ssot` + eslint + `verify-boundaries` + circuit-breaker + route-auth-map + hop sicili + test el işçiliği. Scaffold yok, kayıt defteri yok, checklist yok. |
+| **Çalışma-zamanı ölçeği** | 40/100 | In-memory rate-limit (çok instance'a kapalı), Redis yok, Inngest/SMTP opsiyonel, tek süreç varsayımı. Sürü = çok instance; bu katman Faz 2'de zorunlu. |
 
-**Bu haftanın yapılmayacakları:** Junior vitrini, freelancer 410 kaldırma, Dron store, mikro-servis tartışması, yeni ödeme sağlayıcısı, kanon 13’ü vitrin yapmak.
+**Ağırlıklı toplam: 58/100.** (Sözleşme %20, auth %15, ödeme %20, veri %20, paket %15, dikey-maliyet %5, ölçek %5.)
+
+### 3.2 Amiral Gemisi'nin dronlara bugün sunabildikleri (hizmet haritası)
+
+| Yetenek | Mekanizma | Dron erişimi | Not |
+|---------|-----------|--------------|-----|
+| Oturum doğrulama | `GET /api/v1/auth/session` (Bearer) | ✅ açık | Refresh dron tarafında (Supabase SDK) |
+| Sağlık | `GET /api/v1/health` (public, başlıksız) | ✅ açık | DB/Auth/Inngest/PayTR sicili |
+| Cüzdan okuma | `GET /api/v1/dashboard/wallet-strip` | ✅ açık | `live:false` → "henüz yüklenemedi" (dürüst) |
+| Akademi nabız | `GET /api/v1/academy/pulse` | ✅ açık | Satın alma/sınav özeti |
+| Kariyer nabız + vizeler | `GET /api/v1/career/pulse`, `/visas` | ✅ açık | Vize kapısının okuma yüzü |
+| Mühür doğrulama | `GET /api/v1/academy/certificates/{hash}` (public) | ✅ açık | `userId` sızdırmaz; 400/404 ayrımı temiz |
+| Akademi satın alma | `POST .../purchase` | ❌ `dronForbidden` (403 + handler defense-in-depth) | IAP politikası doğru; ama dron kullanıcısı satın alamıyor — web köprüsü (`/cuzdan` Linking) tek yol |
+| Cüzdan yükleme | `POST /api/wallet/top-up` | ❌ hop değil (web-only) | Dron: sistem tarayıcısında `/cuzdan` açar; Bearer≠çerez (kullanıcı web'de tekrar giriş yapabilir) |
+| Sınav/müfredat/kilit/dinle | web-only BFF | ❌ | Diyar A kilitli; dron eğitim satamaz/bitiremez |
+| Freelancer (8 hop) | sicilden düşürüldü; kenar 410 | ❌ | Faz 2'de geri yazılacak; DTO'lar korunuyor (doğru) |
+| Sürüm zorunluluğu | `X-Rail-Min-Version` + 426 kilit ekranı | ✅ | Eski binary fail-closed; "sessiz uyumluluk" yok |
+| CORS | `RAIL_DRON_ORIGINS` (boş=saf native) | ✅ | Joker yasak, credentials yok — doğru |
+
+**Özet:** Amiral bugün dronlara **kimlik + okuma + kanıt** sunuyor; **para ve yazma** sunmuyor. Sürü dronlar (iş yapan mikro-app'ler) için bu yetmez — §4'teki 3 adım bu boşluğu kapatır.
+
+### 3.3 Kritik yol analizi (sürüye giden yolda ne tıkanır?)
+
+1. **Paket yok → ayrı deploy yok.** Dron ve Amiral aynı commit'in codegen çıktısını paylaşıyor. Amiral deploy'u dron sözleşmesini sessizce değiştirebilir (CI `--check` yakalar ama bu "birlikte deploy" zorunluluğu demek — sürünün antitezi).
+2. **Yazma hop'ları yok → dronlar vitrin.** Satın alma/sınav/teklif/kabul/teslim olmadan dron "okuyan vitrin"dir. İlk yazma hop'larının (purchase? bid?) IAP/Split kararlarıyla açılması şart.
+3. **Oda kaydı yok → her dron özel proje.** 9. dikeyin maliyeti 4. ile aynı (yüksek). Sürü ekonomisi için marjinal dikey maliyeti düşmeli.
 
 ---
 
-## 7. KARAR KAYDI (BU RAPORUN ÖNERDİĞİ)
+## 4. SEN OLSAYDIN NE YAPARDIN? (BEYİN FIRTINASI)
 
-1. **6493:** Doğrudan tahsilat (Merchant) ile gidin. İç emanet yasak. Split ayrı faz.
-2. **Freelancer:** Askıda tutun (kamu 410, nakit 503). Silmeyin.
-3. **Junior oda:** Kapalı. “Junior stratejisi” = Akademi Temel paketleri.
-4. **Akademi:** Faz 1 kahramanı. 5 SKU vitrin, amiral ağırlık.
-5. **Belgeler:** A Katmanı kilit. B Katmanı + Manifesto + Runbook’a Faz 1 zaman kipi.
-6. **Mimari:** Amiral + kernel yeterli. Sürü Dron donuk. Monolit bölünmez.
+### 4.1 Platform kurgusu doğru mu? — hüküm: teknik omurga doğru, iş kanadı tek motorlu
+
+**Doğru kararlar (alkış):**
+
+- **Finansal SSOT disiplini.** `amountMinor` + append-only + tek Wallet + rıza satırda. Çoğu startup'ın 3. yılında ağlayarak eklediği şey gün 0'da var.
+- **Fail-closed kültürü.** `not_configured`/503/410/426 matrisi tutarlı; sahte yeşil yok. Bu kültür sürüde 10 kat değerlenir (dronlar birbirine sahte başarı basamaz).
+- **Sözleşme-first tohum.** Zod → OpenAPI → dron tipi zinciri, bu ölçekte bir ekip için lüks değil vizyon. Sürünün temeli atılmış, farkında olmadan.
+- **Freelancer'ı 410 ile dondurup motoru silmemek.** Silmek kolaydı; sicili korumak pahalı ve doğruydu. Faz 2 maliyeti yarıya indi.
+- **Dron'u erken dondurmak.** 410/404 basan bir uygulamayı mağazaya sürmemek (Closed Testing'i ertelemek) olgun bir karar.
+
+**Hatalı / eksik tasarım kararları (acıtacak liste):**
+
+| # | Karar | Neden hatalı/eksik | Bedeli |
+|---|-------|-------------------|--------|
+| H-1 | "Shared Kernel paket çıkarılmaz" yasağı | Hedef mimariyle çelişiyor (§0 bulgu 4). Gerekçesi (muhtemelen "erken soyutlama yapma") Faz 1'de doğruydu; sürü hedefi ilan edilince **teknik borca** dönüştü. | Her dron codegen-kopya ile besleniyor; ayrı sürüm/deploy imkânsız. |
+| H-2 | RSC direct-call'ın "pragmatik serbestlik" diye meşrulaşması | Kısa vadede hızlı, uzun vadede API-First'in mezarı. 45 rota v1 dışında kaldı çünkü "gerekmedi". | Dron yetenek açlığı (§3.2 tablosu). |
+| H-3 | Oda kavramının sayfa-grubu + anayasa-maddesi olarak çifte kilitlenmesi | "Oda" hem URL prefix'i hem Anayasa B2 maddesi hem eslint listesi. Yeni iş fikri = anayasa müzakeresi. Mikro-app paradigması öldü doğmadan. | İnovasyon vergisi: her yeni dikeyde hukukî ağırlıkta süreç. |
+| H-4 | `User` hub'ına sınırsız FK | Prisma'nın dayattığı ters ilişkiler `User`'ı God Model'e çeviriyor. 5. dikeyde dosya okunamaz olacak. | Şema kırılganlığı; dikey silmek (arşiv) bile User'a dokunur. |
+| H-5 | Gelir tek motorlu (Akademi B2C) + B2B arşivde | Manifesto 3 motor anlatıyor; kod 1 motor çalıştırıyor. Motor 2'nin odası **arşivde** — dondurulmuş değil, taşınmış. | Strateji-kod makası; B2B kararı verilirse sıfırdan dönüş maliyeti. |
+| H-6 | Rate-limit'in sonsuz "tek süreç" varsayımı | Runbook dürüstçe yazmış ama yol haritasında Redis/instance planı yok. İlk trafik sıçramasında ya delik (çok instance) ya tavan (tek instance). | Ölçek riski; sürüde her dron ayrı trafik demek. |
+| H-7 | 307 test dosyasının bir kısmının donmuş odalara ait olması (`tests/studio/*`, `tests/arena/*`, `tests/pazaryeri/*`…) | Arşiv kodu test de taşıyor; `test` script'i exclude listesiyle ayakta. Suite'in neyi koruduğu bulanık. | CI güven erozyonu; "yeşil" ne demek, kimse tam bilmiyor. |
+
+### 4.2 Baş mimar olsaydım: ilk 3 adım
+
+**ADIM 1 — Kernel'i gerçek Shared Kernel yap (hafta 1–3): `@yetkin/kernel` paketi + sözleşme sürümleme**
+
+- `lib/kernel/{http,security/money,catalog-ids}` → npm workspace paketi `@yetkin/kernel` (pure: Prisma/Supabase bağımlılığı yok; Zod + tip + saf fonksiyon).
+- Kalan `lib/kernel` (Prisma store'lar, Supabase, Inngest) Amiral'de kalır (`@yetkin/amiral-kernel` veya `lib/`).
+- `apps/rail-is` codegen-kopya yerine paketi `npm install` eder; sözleşme sürümü `package.json`da kilitlenir (`^1.x`).
+- Sonuç: Amiral deploy'u dron sözleşmesini **sessizce kıramaz**; kırıcı değişiklik = major sürüm + 426 penceresi. "Paket çıkarılmaz" cümlesi tarihe karışır.
+- Kabul kriteri: dron `npm update @yetkin/kernel` ile sözleşme alır; codegen `src/contract/v1.ts` kopyası silinir; CI'da `verify:v1-contract-artifacts` paket sürümünü doğrular.
+
+**ADIM 2 — Dikey açma maliyetini 10× düşür (hafta 2–4): dron kayıt defteri + scaffold**
+
+- `rooms.ssot.ts` statik listesinden **kayıt defterine**: `lib/dronlar/kayit.ts` (id, path, header, hop listesi, bayrak, sahip ekip).
+- `npm run dron:new -- --id=<ad>` scaffold'u: `lib/<id>/` iskeleti + prisma dilim şablonu + 1 örnek hop (Zod+handler+test) + eslint'e otomatik düşen kural + dron ekran taslağı.
+- Circuit-breaker'lar sabit `true`'dan **bayrak okumaya** (env/DB): `DronBayrakları.isKapali(id)` — yeni dron "kapalı doğar, bayrakla açılır" (mevcut 410 kültürü korunur, mekanizma genelleşir).
+- `ROUTE_AUTH_MAP` ve hop sicili kayıttan **türetilir** (el yazımı harita tarihe karışır; `verify:api-auth` türetmeyi doğrular).
+- Kabul kriteri: stajyer mühendis 1 günde "hello-dron" açar; PR'da el yapımı eslint/rooms değişikliği yoktur.
+
+**ADIM 3 — Para ve yazmayı dronlara aç (hafta 3–6): ödeme/auth/veri servisleşmesi**
+
+- **Auth:** `auth-session`'a cihaz/oturum bilgisi ekle; dron SDK'sına (`@yetkin/dron-sdk`, Adım 1'in kardeşi) refresh+retry göm (her dron Supabase SDK cambazlığı yapmasın); admin tek-UUID'den rol matriksine (`super_admin`, `katalog_yoneticisi`, `destek_okuma`).
+- **Ödeme:** `paymentsPort`'u `PaymentProvider` arayüzünde tut, `MarketplaceSplitPort`'u gerçek implementasyona hazırla (Split sözleşmesi idari; kod arayüzü bugünden sabitlensin); dron-içi satın alma için **web-checkout köprüsünü protokole bağla** (derin link + dönüş senkronu; "tarayıcıda tekrar giriş" sürtünmesini magic-link/oturum-pasaport ile sıfırla); kataloga `dronKota` (dron başına fiyat/komisyon) alanı ekle.
+- **Veri:** v1'e ilk 5 yazma hop'unu taşı (önerilen sıra: `academy-purchase` [dron yasağı IAP kararıyla birlikte gözden geçir] → `academy-curriculum` [ders tamamla] → `career-portfolio` [portföy yaz] → `freelancer-bid` + `freelancer-accept` [Split ile]). Her hop: Zod → handler → dron SDK metodu → test.
+- **Ölçek:** rate-limit'e Redis portu aç (`rate-limit-port.ts` arayüzü zaten var — implementasyonu yaz); Inngest'i prod zorunluluğu yap (readiness çıkış 1 zaten var, disiplin uygula); SMTP'yi gün-0 Vanguard'a al.
+- Kabul kriteri: donuk dron çözülür (`publishFrozenUntilFaz1Close: false`), kapalı testte kayıt→yükleme→satın alma→sınav→vize halkası **dron içinden** (web köprüsü dahil) döner.
+
+**Bilinçli olarak YAPMAYACAĞIM şeyler:** mikro-servise bölünme (operasyonel lüks; monolit deploy + paket sözleşme yeterli), GraphQL geçişi (zarf+REST sürü için yeterli), User hub'ını dağıtık kimliğe çevirme (tek DB faz 3'e kadar taşır), video katmanını diriltme (P-6 kararı verilmeden tek satır yazmam).
 
 ---
 
-*Bu dosya `/docs/Tespit_Raporu.md` olarak kaydedildi. Çelişkide `.system_docs/ANAYASA.md` A Katmanı bağlayıcıdır. 6493 değerlendirmesi teknik-mimari risk taramasıdır; lisans ve sözleşme için bağımsız hukuk görüşü alın.*
+## 5. SONRAKİ AŞAMA ÖNERİSİ (Tedavi/Dönüşüm — CEO + Super Admin aksiyonları)
+
+### 5.1 Karar masası (CEO — 7 gün içinde, ertelemesiz)
+
+| # | Karar | Seçenekler | Önerim | Neden acil |
+|---|-------|-----------|--------|------------|
+| K-1 | "Paket çıkarılmaz" yasağı kalkıyor mu? | Kalkar / Kalır | **Kalkar.** M-3 cümlesi silinir, §4 Adım 1 onaylanır. | Kalmaya devam ederse bu raporun hedef mimarisi ölü doğar; sürü kurulamaz. |
+| K-2 | Mühürlü ders sayısı kaç? (P-1) | 1 / 30 / arası | **Gerçeği say, ilan et, SEM'i kilitle.** | Reklam + vitrin + denetçi aynı sayıyı görmeli; A5 ihlali riski. |
+| K-3 | Video katmanı (Katman 4) hedef mi, terk mi? (P-6) | Hedef (çeyrek ver) / Terk (yaz, kapat) | **12 ay yoksa terk yaz.** | İkircik mühendislik kapasitesini ve pazarlama dilini zehirliyor. |
+| K-4 | Motor 2 (B2B) keşif mi, arşiv mi? (M-5) | Keşif (müşteri profili + pilot) / Arşivde kalır (Manifesto'dan düşür) | **Keşfe al, 1 pilot müşteri bul.** | Tek motorlu gelir riski; akademi doygunluğunda ikinci bacak yok. |
+| K-5 | Split sözleşmesi açılıyor mu? | Aç (Pazaryeri başvurusu) / Kapat (freelancer 12 ay yok) | **Başvuruyu aç.** | Teknik hazır; idari sıra beklerse Faz 2 takvimi kayar. Dron yazma hop'ları buna bağlı. |
+| K-6 | Canlı yayın kilidi (`LIVE_BROADCAST_SHUTDOWN`) durumu? | Açık kalır / Kapatılır (sabit `false` + deploy) | **Runbook'a tarih yaz.** | Kodda üretim 503 kilidi var; "canlı" iddiasıyla çelişiyorsa netleştir. |
+
+### 5.2 Operasyon masası (Super Admin — 14 gün içinde)
+
+1. **Belge operasyonu:** Manifesto'dan operasyon sök (M-1, M-2); `docs/DURUM.md` (haftalık durum) aç; P-1/P-3/P-4 düzeltmelerini PEDAGOJI + STORAGE'a işle; DRON_CLIENT_SPEC §7 yasağını hedef cümleye çevir; OPS_RUNBOOK'u 4 parçaya böl (§2.4).
+2. **Ödeme operasyonu:** PayTR canlı üçlü + Bildirim URL + `TRUSTED_PROXY_HOPS=2` + Inngest çift anahtar + SMTP çifti + `ACADEMY_EXAM_SITTING_SECRET` — `ops:runtime-readiness` çıkış 0 + T3 halkası yeşil (runbook §13.1). Reklam bu yeşilden önce açılmaz.
+3. **Test hijyeni:** donmuş oda testlerini `tests/` kökünden `tests/donmus/` altına taşı; `test` script'indeki exclude listesini sadeleştir; CI'da "aktif suite" rozetini tanımla (H-7).
+4. **Bayrak disiplini:** `FREELANCER_PUBLIC_SURFACE_LOCKED`, `publishFrozenUntilFaz1Close`, `LIVE_BROADCAST_SHUTDOWN` üçlüsünün açılış kriterlerini tek `docs/acilis-kriterleri.md`'de topla (B5).
+
+### 5.3 Tedavi fazı takvimi (öneri)
+
+| Hafta | İş | Sahip | Çıktı |
+|-------|----|-------|-------|
+| 0 | K-1…K-6 kararları | CEO | İmzalı karar notu (`docs/kararlar/2026-09-tedavi-giris.md`) |
+| 1–3 | Adım 1: `@yetkin/kernel` + sözleşme sürümleme | Tech Lead | Paket + dron entegrasyonu + CI kapısı |
+| 2–4 | Adım 2: kayıt defteri + scaffold + bayraklar | Tech Lead | `dron:new` + ilk hello-dron |
+| 3–6 | Adım 3: auth/ödeme/veri + ilk 5 yazma hop | Ekip | Dron kapalı testi (T3 halkası dron içinden) |
+| 6 | Tedavi kapanış raporu | Mimari ajan | `docs/TEDAVI_RAPORU.md` + yeni uyum puanı (hedef ≥75) |
+
+### 5.4 Başarı ölçütü (Tedavi bitince bu raporla karşılaştır)
+
+- Uyum puanı 58 → **≥75** (kernel paketlenmesi + veri paylaşımı boyutları ≥70).
+- v1 hop sayısı 8 → **≥13** (5 yazma hop yayında).
+- Yeni dron açma maliyeti: 6 dosya el işçiliği → **1 komut + 1 PR**.
+- Belge çelişkisi: P-1/M-3/B2-b stillerinde **0 açık çelişki** (gece taraması `verify:belge-tutarlilik` ile).
+- Kapalı test: dron içinden kayıt→ödeme→sınav→vize halkası **yeşil**.
+
+---
+
+## Ek: Doğrulama izleri (denetçi için)
+
+- Dizin/API sayımı: `app/api/**/route.ts` (53), `lib/kernel/**/*.ts` (~250), `tests/**/*.test.ts` (307) glob sonuçları.
+- Finansal SSOT: `prisma/schema/kernel.prisma` (`Wallet`, `LedgerEntry`, `EscrowHold`, `PaymentOrder`, `PriceCatalog*`).
+- PayTR akışı: `app/api/(kernel)/wallet/top-up/route.ts`, `app/api/(kernel)/payments/webhooks/paytr/route.ts`, `lib/kernel/payments/paytr/*`, `lib/kernel/payments/port.ts`.
+- Satın alma: `app/api/academy/courses/[id]/purchase/route.ts` (dron-forbidden + idempotency + makbuz kuyruğu).
+- Edge: `proxy.ts` (410 → hop-gate → sürüm → origin → rate-limit → auth → rewrite), `lib/kernel/security/edge-api-auth.ts`, `lib/kernel/security/route-auth-map.ts` (53 girdi).
+- Sözleşme: `lib/kernel/http/v1-contract.ts` (1012 satır), `v1-hops-meta.ts` (8 hop), `lib/kernel/http/api-v1.ts`.
+- Dron: `apps/rail-is/package.json` (`publishFrozenUntilFaz1Close`), `apps/rail-is/src/api/{client,hops}.ts`.
+- Kilitler: `lib/kernel/compliance/circuit-breakers.ts`, `lib/kernel/rooms.ssot.ts`, `eslint.config.mjs` (6 duvar).
+- Sağlık/boot: `app/api/(kernel)/health/route.ts`, `instrumentation.ts`, `.env.example`.
+
+---
+
+*Rapor sonu. Sonraki adım: §5.1 kararlarının CEO onayı → Tedavi fazı (`TEDAVI_RAPORU.md`).*

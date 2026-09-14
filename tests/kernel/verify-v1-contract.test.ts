@@ -204,17 +204,24 @@ describe("/api/v1 sözleşme mührü", () => {
   });
 
   it("yayınlanmış data alanları sessizce düşmez; hop sicili ROUTE_AUTH_MAP ve handler ile örtüşür", () => {
-    // PayTR B2C (E1): 8 freelancer hop sicilden düştü; kalan 8 hop B2C vitrinidir.
-    expect(RAIL_V1_HOPS).toHaveLength(8);
+    expect(RAIL_V1_HOPS).toHaveLength(16);
     expect(RAIL_V1_HOPS.map((hop) => hop.id)).toEqual([
       "health",
       "academy-certificate",
       "academy-pulse",
       "academy-purchase",
+      "academy-lock",
+      "academy-curriculum",
+      "academy-curriculum-read",
+      "academy-exam",
+      "academy-exam-read",
       "auth-session",
       "wallet-strip",
+      "wallet-top-up",
       "career-pulse",
       "career-visas",
+      "career-portfolio",
+      "profile-patch",
     ]);
     expect(RAIL_V1_PUBLISHED_FIELD_PATHS.length).toBeGreaterThan(40);
     expect(new Set(RAIL_V1_PUBLISHED_FIELD_PATHS).size).toBe(RAIL_V1_PUBLISHED_FIELD_PATHS.length);
@@ -359,7 +366,9 @@ describe("/api/v1 sözleşme mührü", () => {
 
     expect(readSrc("lib/career/visa-gate.ts")).toContain(RAIL_V1_LISTING_VISA_DENIED);
     expect(LISTING_ACCESS_VISA_DENIED).toBe(RAIL_V1_LISTING_VISA_DENIED);
-    expect(readSrc("lib/kernel/http/idempotency-key.ts")).toContain(RAIL_V1_IDEMPOTENCY_REQUIRED);
+    expect(readSrc("packages/kernel/src/http/idempotency-key.ts")).toContain(
+      RAIL_V1_IDEMPOTENCY_REQUIRED,
+    );
     expect(readSrc("lib/freelancer/types.ts")).toContain('status: FreelancerJobStatus');
     expect(readSrc("lib/freelancer/types.ts")).toContain("OPEN");
     expect(readSrc("lib/kernel/auth/ids.ts")).toContain("id: string");
@@ -386,7 +395,7 @@ describe("/api/v1 sözleşme mührü", () => {
     expect(failSchema.required).toEqual([...RAIL_V1_ENVELOPE_KEYS]);
 
     // PayTR B2C: freelancer path'leri OpenAPI'de yok, Marketplace tag'i yok.
-    expect(Object.keys(document.paths)).toHaveLength(8);
+    expect(Object.keys(document.paths)).toHaveLength(14);
     expect(
       Object.keys(document.paths).filter(
         (path) => path.includes("/freelancer/") || path.includes("/client/"),

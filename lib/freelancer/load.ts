@@ -1,5 +1,6 @@
 import "server-only";
 
+import { FREELANCER_PUBLIC_SURFACE_LOCKED } from "@/lib/kernel/compliance/circuit-breakers";
 import { queryJobBoard, type FreelancerJobBoardView } from "@/lib/freelancer/job-board";
 import { createPrismaFreelancerPorts } from "@/lib/freelancer/runtime";
 import type {
@@ -13,6 +14,9 @@ import type {
 import type { EscrowHoldRecord } from "@/lib/kernel/escrow/types";
 
 export async function loadOpenJobs(): Promise<FreelancerJobRecord[] | null> {
+  if (FREELANCER_PUBLIC_SURFACE_LOCKED) {
+    return [];
+  }
   try {
     const ports = createPrismaFreelancerPorts();
     return await ports.freelancer.listOpenJobs();
@@ -24,6 +28,9 @@ export async function loadOpenJobs(): Promise<FreelancerJobRecord[] | null> {
 export async function loadDirectOffersForInvitee(
   userId: string,
 ): Promise<FreelancerJobRecord[] | null> {
+  if (FREELANCER_PUBLIC_SURFACE_LOCKED) {
+    return [];
+  }
   try {
     const ports = createPrismaFreelancerPorts();
     return await ports.freelancer.listDirectOffersForInvitee(userId);
@@ -36,6 +43,9 @@ export async function loadJobBoard(
   jobId: string,
   actorUserId: string | null,
 ): Promise<FreelancerJobBoardView | null> {
+  if (FREELANCER_PUBLIC_SURFACE_LOCKED) {
+    return null;
+  }
   try {
     const ports = createPrismaFreelancerPorts();
     return await queryJobBoard(ports.freelancer, jobId, actorUserId);
@@ -53,6 +63,9 @@ export async function loadContractBoard(contractId: string): Promise<{
   squad: FreelancerSquadRecord | null;
   squadMembers: FreelancerSquadMemberRecord[];
 } | null> {
+  if (FREELANCER_PUBLIC_SURFACE_LOCKED) {
+    return null;
+  }
   try {
     const ports = createPrismaFreelancerPorts();
     const contract = await ports.freelancer.getContract(contractId);

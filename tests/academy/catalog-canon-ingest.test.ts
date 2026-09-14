@@ -27,7 +27,7 @@ describe("13 kanon katalog ve 02_ecommerce_ai ingest", () => {
   it("kanon 13 SKU dondurulur; vitrin yalnız ingest edilmiş alt kümedir", () => {
     expect([...ACADEMY_CANON_SKU_SLUGS]).toHaveLength(13);
     expect(Object.keys(ACADEMY_COURSE_TITLES)).toEqual([...ACADEMY_CANON_SKU_SLUGS]);
-    expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
+    expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai"]);
     expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual([...ACADEMY_GROWTH_SKU_SLUGS]);
     expect(ACADEMY_CATALOG_SEEDS.map((row) => row.slug)).toEqual([...ACADEMY_GROWTH_SKU_SLUGS]);
     for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
@@ -75,23 +75,13 @@ describe("13 kanon katalog ve 02_ecommerce_ai ingest", () => {
     );
   });
 
-  it("02_ecommerce_ai compact müfredat 6 bölüm basar; mastery YAML frontmatter taşır", () => {
+  it("02_ecommerce_ai compact müfredat taze ingest bekler; mastery dosyası boştur", () => {
     const lessons = curriculumForCourseSlug("02_ecommerce_ai");
-    expect(lessons).toHaveLength(6);
-    expect(lessons[0]?.key).toBe("02_ecommerce_ai-1");
-    expect(lessons[0]?.body.length).toBeGreaterThan(200);
-    expect(lessons[5]?.key).toBe("02_ecommerce_ai-6");
-    expect(existsSync(MASTERY)).toBe(true);
-    const mastery = readFileSync(MASTERY, "utf8");
-    expect(mastery.startsWith("---")).toBe(true);
-    expect(mastery).toContain('slug: "02_ecommerce_ai"');
-    expect(mastery).toContain('moduleCode: "CURR-ECOMMERCE-AI-102"');
-    expect(mastery).toContain('format: "compact"');
-    expect(mastery).toContain("poolRef:");
-    expect(mastery).toContain("q_ec_");
+    expect(lessons).toHaveLength(0);
+    expect(existsSync(MASTERY)).toBe(false);
   });
 
-  it("Katman 1 (03–05) compact müfredat 6 bölüm ve 30 soruluk havuz taşır", () => {
+  it("Katman 1 (03–05) 30 soruluk havuz taşır; müfredat gövdesi taze ingest bekler", () => {
     const layer1 = [
       {
         slug: "03_social_media_ai",
@@ -128,16 +118,9 @@ describe("13 kanon katalog ve 02_ecommerce_ai ingest", () => {
       expect(academyExamPoolForSlug(row.slug), row.slug).toHaveLength(30);
       expect(academyExamPoolForSlug(row.moduleCode), row.moduleCode).toHaveLength(30);
       const lessons = curriculumForCourseSlug(row.slug);
-      expect(lessons, row.slug).toHaveLength(6);
-      expect(lessons[0]?.key).toBe(`${row.slug}-1`);
-      expect(lessons[0]?.body.length, row.slug).toBeGreaterThan(200);
+      expect(lessons, row.slug).toHaveLength(0);
       const masteryPath = join(ROOT, "docs", "curriculum", row.mastery);
-      expect(existsSync(masteryPath), row.mastery).toBe(true);
-      const mastery = readFileSync(masteryPath, "utf8");
-      expect(mastery.startsWith("---"), row.mastery).toBe(true);
-      expect(mastery).toContain(`slug: "${row.slug}"`);
-      expect(mastery).toContain(`moduleCode: "${row.moduleCode}"`);
-      expect(mastery).toContain('format: "compact"');
+      expect(existsSync(masteryPath), row.mastery).toBe(false);
     }
   });
 });

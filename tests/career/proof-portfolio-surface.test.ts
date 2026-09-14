@@ -6,9 +6,9 @@ import { ACADEMY_COURSE_TITLES, ACADEMY_CANON_SKU_SLUGS } from "@/lib/academy/co
 import {
   careerStampContractHref,
   careerStampCourseHref,
+  careerStampPublicHref,
 } from "@/lib/career/stamp-surface";
 import { buildCareerVisaScopeBoard } from "@/lib/career/visa-scope-board";
-import { FREELANCER_OPEN_TRIAL_NEED_ID, isOpenTrialNeed } from "@/lib/kernel/catalog-ids";
 import type { CareerVisaStampRecord } from "@/lib/career/types";
 
 const ROOT = process.cwd();
@@ -50,6 +50,9 @@ const DEAD_CAREER_TOOLS = [
 const LIVE_LEDGER = [
   "components/career/visa-ledger.tsx",
   "components/career/visa-scope-board.tsx",
+  "components/career/employer-gateway.tsx",
+  "components/career/seal-share-guides.tsx",
+  "components/career/public-talent-board.tsx",
 ];
 
 function stamp(
@@ -87,6 +90,9 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     const copy = readSrc("lib/copy/sen-voice/career.ts");
     expect(page).toContain("VisaLedger");
     expect(page).toContain("VisaScopeBoard");
+    expect(page).toContain("EmployerGateway");
+    expect(page).toContain("SealShareGuides");
+    expect(page).toContain("copy.publicTalentCta");
     expect(page).toContain("PASSPORT_SURFACE_PATH");
     expect(page).toContain('"/academy/certificates"');
     expect(page).toContain("FREELANCER_STAMP_SURFACE_PATH");
@@ -114,6 +120,11 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     expect(copy).toContain("Doğrulanmış Rozet");
     expect(copy).toContain("Pasaport Vize Damgası");
     expect(copy).toContain("Erişim Hakkı");
+    expect(copy).toContain("Doğrulanmış İşveren Ağına Görünürlük");
+    expect(copy).toContain("Liyakat Mühürlü Özgeçmiş Bağlantısı");
+    expect(copy).toContain("Proje Kanıt Dosyası");
+    expect(copy).toContain("CV'ne Mühür Ekle");
+    expect(copy).toContain("LinkedIn Yetkinlik Onayına Bağla");
     expect(copy).not.toContain('"Onaylı"');
     expect(copy).not.toContain("Vize-ilan tabelası");
     expect(copy).not.toContain("örnek düzen");
@@ -125,11 +136,13 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     expect(ledger).toContain("openContractCta");
     expect(ledger).toContain("VisaWaxSeal");
     expect(ledger).toContain("VisaPageFrame");
+    expect(ledger).toContain('id="career-visa"');
     expect(ledger).toContain("CertificateShareActions");
+    expect(ledger).toContain("careerStampPublicHref");
     expect(ledger).not.toContain("issueCareerVisaStamp");
     expect(SEN_VOICE.career.ledgerTitle).toBe("Pasaport Vize Damgası");
     expect(SEN_VOICE.career.proofsTitle).toBe("Pasaport Vize Damgası");
-    expect(SEN_VOICE.career.title).toBe("Kariyer");
+    expect(SEN_VOICE.career.title).toBe("Kariyer vizesi");
     expect(SEN_VOICE.career.verifyCta).toBe("Sertifikayı doğrula");
     expect(SEN_VOICE.career.sealed).toBe("Doğrulanmış Rozet");
     expect(SEN_VOICE.career.sealed).not.toBe("Onaylı");
@@ -138,6 +151,14 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     expect(SEN_VOICE.career.scope.title).toBe("Teklif Kapısı");
     expect(SEN_VOICE.career.scope.open).toBe("Erişim Hakkı açık");
     expect(SEN_VOICE.career.scope.closed).toBe("Erişim Hakkı kapalı");
+    expect(SEN_VOICE.career.scope.held).toBe("Sınav mühürlü");
+    expect(SEN_VOICE.career.scope.examGate).toBe("6 ders + baraj 70");
+    expect(copy).not.toContain("Belge yok");
+    expect(copy).not.toContain("Belgen var");
+    expect(copy).toContain("Sınav mühürlü");
+    expect(copy).toContain("6 ders + baraj 70");
+    expect(copy).toContain("6 dersi bitir");
+    expect(ledger).not.toContain('href="/freelancer"');
     for (const noise of MUSEUM_ROUTE_NOISE) {
       expect(page.toLowerCase()).not.toContain(noise);
       expect(ledger.toLowerCase()).not.toContain(noise);
@@ -163,6 +184,7 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     });
     expect(careerStampCourseHref(academyStamp)).toBe("/academy/sample-course");
     expect(careerStampContractHref(academyStamp)).toBeNull();
+    expect(careerStampPublicHref(academyStamp)).toBe("/vize/stamp_1");
 
     const releaseStamp = stamp({
       sourceKind: "FREELANCER_RELEASE",
@@ -175,21 +197,28 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
 
   it("ilan kapısı damgayı ihtiyaç yoluna bağlar; vize elle basılmaz", () => {
     const doors = buildCareerVisaScopeBoard([]);
-    expect(doors.length).toBeGreaterThan(0);
+    expect(doors.length).toBe(5);
     expect(
-      doors.filter((door) => !isOpenTrialNeed(door.pathwayId)).every((door) => door.open === false),
+      doors.every((door) => door.open === false),
     ).toBe(true);
-    expect(doors.find((door) => door.pathwayId === FREELANCER_OPEN_TRIAL_NEED_ID)?.open).toBe(true);
+    expect(doors.every((door) => door.courses.length === 1)).toBe(true);
 
-    const held = buildCareerVisaScopeBoard([
-      stamp({
-        sourceKind: "ACADEMY_CERTIFICATE",
-        title: ACADEMY_COURSE_TITLES["03_social_media_ai"],
-        courseSlug: "03_social_media_ai",
-      }),
-    ]);
+    const held = buildCareerVisaScopeBoard(
+      [
+        stamp({
+          sourceKind: "ACADEMY_CERTIFICATE",
+          title: ACADEMY_COURSE_TITLES["03_social_media_ai"],
+          courseSlug: "03_social_media_ai",
+        }),
+      ],
+      [{ visaStampId: "stamp_1" }],
+    );
     const uxDoor = held.find((door) => door.pathwayId === "logo-gorsel-sosyal-medya");
     expect(uxDoor?.open).toBe(true);
     expect(uxDoor?.courses.some((course) => course.slug === "03_social_media_ai" && course.held)).toBe(true);
+    expect(uxDoor?.publicTalentHref).toBe("/vize/stamp_1");
+    expect(uxDoor?.benefits.find((row) => row.id === "employer-network")?.held).toBe(true);
+    expect(uxDoor?.benefits.find((row) => row.id === "sealed-cv")?.href).toBe("/vize/stamp_1");
+    expect(uxDoor?.benefits.find((row) => row.id === "project-proof")?.held).toBe(true);
   });
 });

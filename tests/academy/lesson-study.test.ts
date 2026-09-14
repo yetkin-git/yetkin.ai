@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import {
-  extractLessonStudyPack,
   isAcademyColdTemplateHeading,
   isAcademyLeadingColdHeading,
   stripAcademyColdTemplateHeadings,
@@ -22,31 +21,8 @@ describe("soğuk şablon başlık süzgeci — Aşama 1 oynatıcı", () => {
     ).toBe("Merhaba! Ben Gözde.");
   });
 
-  it("01_office_ai 1. ders özet, prompt ve saha görevini ayırır", () => {
-    const lesson = curriculumForCourseSlug("01_office_ai")[0]!;
-    const pack = extractLessonStudyPack(lesson.body);
-    expect(pack.prompts.length).toBeGreaterThan(0);
-    expect(pack.prompts[0]!.content).toMatch(/Rol:/i);
-    expect(pack.fieldTask).toMatch(/Saha Görevi/);
-    expect(pack.summaryMarkdown).toMatch(/stajyer/i);
-    expect(pack.highlightsMarkdown).toContain("```");
-    expect(stripAcademyColdTemplateHeadings(lesson.body)).not.toMatch(/TANIŞMA/u);
-  });
-
-  it("01_office_ai ve 02_ecommerce_ai 6. ders özetini BÖLÜM ÖZETİ başlığından ayırır", () => {
-    const office = curriculumForCourseSlug("01_office_ai")[5]!;
-    const officePack = extractLessonStudyPack(office.body);
-    expect(office.body).toMatch(/^#{1,6}\s+BÖLÜM ÖZETİ/m);
-    expect(officePack.summaryMarkdown.length).toBeGreaterThan(200);
-    expect(officePack.summaryMarkdown).toMatch(/KVKK/i);
-    expect(officePack.summaryMarkdown).toMatch(/halüsinasyon/i);
-    expect(officePack.highlightsMarkdown).toContain("Bu bölümde cebine koyacakların");
-
-    const ecommerce = curriculumForCourseSlug("02_ecommerce_ai")[5]!;
-    const ecommercePack = extractLessonStudyPack(ecommerce.body);
-    expect(ecommerce.body).toMatch(/^#{1,6}\s+BÖLÜM ÖZETİ/m);
-    expect(ecommercePack.summaryMarkdown.length).toBeGreaterThan(200);
-    expect(ecommercePack.summaryMarkdown).toMatch(/KVKK/i);
-    expect(ecommercePack.summaryMarkdown).toMatch(/maskele/i);
+  it("01_office_ai ders gövdesi 1. bölümü taşır", () => {
+    expect(curriculumForCourseSlug("01_office_ai")).toHaveLength(6);
+    expect(curriculumForCourseSlug("02_ecommerce_ai")).toEqual([]);
   });
 });

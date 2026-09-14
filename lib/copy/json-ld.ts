@@ -55,6 +55,7 @@ export function organizationJsonLd(): JsonLdObject {
     legalName: LEGAL_ENTITY.tradeName,
     alternateName: LEGAL_ENTITY.brandName,
     url: CANONICAL_SITE_ORIGIN,
+    additionalType: "https://schema.org/EducationalOrganization",
     logo: {
       "@type": "ImageObject",
       url: canonicalUrl(ORGANIZATION_LOGO_PATH),
@@ -105,12 +106,51 @@ export function courseJsonLd(input: {
     image: canonicalUrl(input.imagePath),
     datePublished,
     inLanguage: "tr",
+    educationalCredentialAwarded: "Yapay zeka sertifikası",
+    hasCourseInstance: {
+      "@type": "CourseInstance",
+      courseMode: "Online",
+      inLanguage: "tr",
+    },
     provider: {
       "@type": "Organization",
       "@id": ORGANIZATION_ID,
       name: YETKIN_BRAND,
       url: CANONICAL_SITE_ORIGIN,
     },
+  };
+}
+
+export function faqPageJsonLd(faqs: readonly { question: string; answer: string }[]): JsonLdObject {
+  return {
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+}
+
+export function itemListJsonLd(input: {
+  name: string;
+  path: string;
+  items: readonly { name: string; path: string }[];
+}): JsonLdObject {
+  return {
+    "@type": "ItemList",
+    name: input.name,
+    url: canonicalUrl(input.path),
+    numberOfItems: input.items.length,
+    itemListElement: input.items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      url: canonicalUrl(item.path),
+    })),
   };
 }
 

@@ -1,5 +1,5 @@
 /**
- * Yayından kalkan Akademi URL'leri — vitrin 5 compact SKU; eski slug kataloga 301.
+ * Yayından kalkan Akademi URL'leri — vitrin mühürlü amiral SKU; eski slug kataloga 301.
  * Lisans / mühür satırı silinmez; yeni satış ve vitrin kapanır.
  *
  * next.config bu modülü import eder: sunucu-only / Prisma / `@/` yok.
@@ -7,14 +7,8 @@
 
 import { ACADEMY_CANON_SKU_SLUGS } from "../kernel/catalog-ids/course-slugs";
 
-/** Vitrin beşlisi — `ACADEMY_GROWTH_SKU_SLUGS` ile testte kilitlenir; next.config yaprak kalsın. */
-const ACADEMY_VITRINE_SLUGS = [
-  "01_office_ai",
-  "02_ecommerce_ai",
-  "03_social_media_ai",
-  "04_chatbot_nocode",
-  "05_prompt_practice",
-] as const;
+/** Canlı vitrin — `ACADEMY_GROWTH_SKU_SLUGS` ile testte kilitlenir; next.config yaprak kalsın. */
+const ACADEMY_VITRINE_SLUGS = ["01_office_ai"] as const;
 
 /** Katalog biriminden (`course:python-temel`) türetilen eski vitrin slug'ları. */
 const ACADEMY_LEGACY_UNIT_SLUGS = [

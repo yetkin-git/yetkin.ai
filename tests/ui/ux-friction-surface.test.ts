@@ -49,7 +49,8 @@ describe("UI/UX sürtünme giderme yüzeyi", () => {
   });
 
   it("SEN aksı siz kaçakları taşımaz; köprü metinleri sen dilindedir", () => {
-    expect(SEN_VOICE.ux.bridge.examPassed.cta).toBe("Sertifikanı gör");
+    expect(SEN_VOICE.ux.bridge.examPassed.cta).toBe("Kariyer sayfasında gör");
+    expect(SEN_VOICE.ux.bridge.examCareerHref).toBe("/career");
     expect(SEN_VOICE.ux.topUp.trigger).toBe("Eksik tutarı yükle");
     expect(SEN_VOICE.ux.topUp.iframeFailTitle).toBe("Ödeme ekranı açılamadı");
     expect(SEN_VOICE.ux.topUp.mockNoCredit).toContain("Yerel mock bakiyeye düşmez");
@@ -76,6 +77,9 @@ describe("UI/UX sürtünme giderme yüzeyi", () => {
   it("sınav geçişi belge ve kariyer köprüsünü ve teslim kahraman kartını bağlar", () => {
     expect(readSrc("components/academy/exam-panel.tsx")).toContain("UX_SEN.bridge.examPassed");
     expect(readSrc("components/academy/exam-panel.tsx")).toContain("UX_SEN.bridge.examHref");
+    expect(readSrc("components/academy/exam-panel.tsx")).toContain("UX_SEN.bridge.examCareerHref");
+    expect(readSrc("components/academy/exam-panel.tsx")).toContain("visaIssued");
+    expect(readSrc("components/academy/exam-panel.tsx")).toContain("UX_SEN.bridge.examCareerHref");
     expect(readSrc("components/academy/exam-panel.tsx")).toContain("onAbandon");
     expect(readSrc("components/academy/exam-panel.tsx")).toContain("visaStamp");
     expect(readSrc("components/academy/exam-panel.tsx")).toContain("CertificateSeal");

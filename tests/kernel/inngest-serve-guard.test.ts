@@ -10,6 +10,7 @@ import {
   resolveInngestServeMode,
   shouldFailClosedInngestServe,
 } from "@/lib/kernel/jobs/inngest-guard";
+import { LIVE_BROADCAST_SHUTDOWN } from "@/lib/kernel/http/live-broadcast-shutdown";
 import { inngestNotConfiguredResponse } from "@/lib/kernel/jobs/inngest";
 
 describe("Inngest imza fail-closed", () => {
@@ -45,7 +46,7 @@ describe("Inngest imza fail-closed", () => {
         INNGEST_SIGNING_KEY: "signkey-prod-test",
         INNGEST_EVENT_KEY: "eventkey-prod-test",
       }),
-    ).toBe(false);
+    ).toBe(LIVE_BROADCAST_SHUTDOWN);
     expect(
       shouldFailClosedInngestServe({ NODE_ENV: "development", INNGEST_SIGNING_KEY: "" }),
     ).toBe(false);
@@ -121,14 +122,24 @@ describe("Inngest imza fail-closed", () => {
         INNGEST_SIGNING_KEY: "signkey-prod-test",
         INNGEST_EVENT_KEY: "eventkey-prod-test",
       }),
-    ).toBe("cloud");
-    expect(
-      assertInngestCronServeReady({
-        NODE_ENV: "production",
-        INNGEST_SIGNING_KEY: "signkey-prod-test",
-        INNGEST_EVENT_KEY: "eventkey-prod-test",
-      }),
-    ).toBe("cloud");
+    ).toBe(LIVE_BROADCAST_SHUTDOWN ? "fail-closed" : "cloud");
+    if (LIVE_BROADCAST_SHUTDOWN) {
+      expect(() =>
+        assertInngestCronServeReady({
+          NODE_ENV: "production",
+          INNGEST_SIGNING_KEY: "signkey-prod-test",
+          INNGEST_EVENT_KEY: "eventkey-prod-test",
+        }),
+      ).toThrow(INNGEST_CRON_SERVE_NOT_READY);
+    } else {
+      expect(
+        assertInngestCronServeReady({
+          NODE_ENV: "production",
+          INNGEST_SIGNING_KEY: "signkey-prod-test",
+          INNGEST_EVENT_KEY: "eventkey-prod-test",
+        }),
+      ).toBe("cloud");
+    }
     expect(
       resolveInngestServeMode({
         NODE_ENV: "development",
@@ -163,6 +174,9 @@ describe("Inngest imza fail-closed", () => {
     expect(canSendInngestEvents({ INNGEST_EVENT_KEY: "" })).toBe(false);
     expect(canSendInngestEvents({ INNGEST_EVENT_KEY: "   " })).toBe(false);
     expect(canSendInngestEvents({ INNGEST_EVENT_KEY: "evt" })).toBe(true);
+    expect(
+      canSendInngestEvents({ NODE_ENV: "production", INNGEST_EVENT_KEY: "evt" }),
+    ).toBe(!LIVE_BROADCAST_SHUTDOWN);
     expect(INNGEST_EVENT_SEND_NOT_READY).toContain("INNGEST_EVENT_KEY");
   });
 });

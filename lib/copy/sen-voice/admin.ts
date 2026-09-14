@@ -10,6 +10,53 @@ export const ADMIN_SEN = {
   /** Katalog okunamadığında vatandaşa dürüst, gürültüsüz mesaj — geliştirici rozeti yok. */
   loadSoft:
     "Katalog şu an okunamadı. Bağlantı kurulunca PriceCatalogEntry satırları burada durur; uydurma fiyat basılmaz.",
+  funnel: {
+    eyebrow: "B2C kazanım hunisi",
+    title: "Kayıttan vize kartına",
+    intro:
+      "Sayılar Postgres iş tablolarından okunur. Bağış (sa_grant) ve freelancer damgası ticari hunide yoktur.",
+    loadSoft:
+      "Huni şu an okunamadı. Bağlantı kurulunca oranlar burada durur; uydurma yüzde basılmaz.",
+    rangeToday: "Bugün",
+    range7d: "7 gün",
+    range30d: "30 gün",
+    windowHint: "Europe/Istanbul takvim penceresi. Payda penceredeki tekil vatandaşdır.",
+    countLabel: "Sayı",
+    conversionLabel: "Önceki adıma oran",
+    dropOffLabel: "Düşüş",
+    unitUsers: "tekil kişi",
+    unitImpressions: "gösterim",
+    vizeHint:
+      "Kart gösterimi (tarayıcı + bot). Tekil işveren değildir; kişi dönüşümü diye okunmaz.",
+    conversionHint: "Önceki adımdaki tekil kişiye oran.",
+    impressionsHint: "Damga tekiline göre gösterim katı — kişi yüzdesi değildir.",
+    leakTitle: "Checkout kaçağı",
+    leakHint: "Bayat PENDING + FAILED / açılan emir.",
+    cashPaid: (amount: string) => `PAID nakit ${amount}`,
+    cashLeakNone: "Nakit kaçak yok",
+    medianTitle: "Medyan ilk valör",
+    medianHint: "Kayıt → ilk CLEARED, yalnız dönüşenler.",
+    within7d: (pct: string) => `7g içinde ${pct}`,
+    observationIncomplete: "Bu penceredeki kayıtların 30 günlük gözlemi henüz dolmadı.",
+    inFlightHint: "Uçuştaki PENDING kaçak sayılmaz.",
+    cohortEmpty: "Bu pencerede kohort kaydı yok.",
+    buckets: {
+      same_day: "Aynı gün",
+      d1_3: "1–3 gün",
+      d4_7: "4–7 gün",
+      d8_30: "8–30 gün",
+      after_30: "30 gün sonrası",
+      still_open: "Açık",
+    },
+    steps: {
+      register: { label: "Kayıt", hint: "users.created_at" },
+      wallet_cleared: { label: "Cüzdan CLEARED", hint: "PayTR valör" },
+      purchase_settled: { label: "Satın alma SETTLED", hint: "Ticari lisans" },
+      exam_pass: { label: "Sınav geçişi", hint: "≥70, bağış hariç" },
+      visa_stamp: { label: "Akademi damgası", hint: "ACADEMY_CERTIFICATE" },
+      vize_hit: { label: "/vize gösterimi", hint: "Kart hit, bot dahil" },
+    },
+  },
   stats: {
     catalogLabel: "Katalog",
     catalogHintLive: (seedCount: number) => `Ops tohumu ${seedCount} birim bekler`,

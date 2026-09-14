@@ -112,7 +112,7 @@ describe("ops migrate yüzeyi", () => {
     expect(readSrc("scripts/ops-migrate-lib.ts")).toContain("DIRECT_PORT_OPERATOR_PROTOCOL");
   });
 
-  it("kilitli sekiz SQL studio-assets taşımaz; seremoni mührü sahte phase yazmaz", () => {
+  it("kilitli SQL studio-assets taşımaz; seremoni mührü sahte phase yazmaz", () => {
     const opsLib = readSrc("scripts/ops-migrate-lib.ts");
     expect(opsLib).toContain("EXPECTED_SQL");
     expect(opsLib).not.toContain("studio-assets.sql");

@@ -14,7 +14,7 @@ import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { RLS_FORCE_TABLES } from "@/lib/kernel/security/rls-policy-registry";
 import { STUDIO_IMAGE_DATA_BASE64_MAX_CHARS } from "@/lib/kernel/storage/byte-ceilings";
 
-/** Akademi tohum kimlikleri lib/academy/catalog-seed.ts (13 kanon SKU; vitrin ingest: Katman 1 `01`–`05`). Eski ac_rail_temel yayını kapanır, lisans DROP yok. */
+/** Akademi tohum kimlikleri lib/academy/catalog-seed.ts (13 kanon SKU; vitrin mühürlü amiral `01_office_ai`). Eski ac_rail_temel yayını kapanır, lisans DROP yok. */
 export { ACADEMY_SEED_CATALOG_UNITS, ACADEMY_SEED_COURSE_IDS };
 
 export const EXPECTED_SQL = [
@@ -26,6 +26,7 @@ export const EXPECTED_SQL = [
   "20260814100000_handle_user_email_update.sql",
   "20260814110000_freelancer_job_seed.sql",
   "20260823220000_freelancer_job_visa_pathway.sql",
+  "20260912220000_academy_sterile_vitrine.sql",
 ] as const;
 
 export const FREELANCER_SEED_JOB_IDS = [
@@ -118,7 +119,7 @@ export const FROZEN_ROOM_TABLES = [
 ] as const;
 
 /**
- * Hosted / lab Prisma zinciri — disk klasör adları kilitli 32. Yeni klasör sessiz eklenmez.
+ * Hosted / lab Prisma zinciri — disk klasör adları kilitli 33. Yeni klasör sessiz eklenmez.
  * `ops:hosted-apply-preflight` ve `ops:migrate` aynı listeyi okur.
  */
 export const EXPECTED_PRISMA_MIGRATIONS = [
@@ -154,6 +155,7 @@ export const EXPECTED_PRISMA_MIGRATIONS = [
   "20260831140000_user_billing_info",
   "20260831190000_user_billing_phone",
   "20260905010000_checkout_consent_evidence",
+  "20260912010000_funnel_daily_counter",
 ] as const;
 
 export const LAB_RESTORE_DATABASE = "yetkin_rail_lab_restore";
@@ -1145,7 +1147,7 @@ function readMigrationSql(root: string, folder: string): string {
 }
 
 /**
- * Hosted apply öncesi disk mührü. Lab Auth stub basmaz; yalnız kilitli Prisma + sekiz SQL + tanım iğneleri.
+ * Hosted apply öncesi disk mührü. Lab Auth stub basmaz; yalnız kilitli Prisma + dokuz SQL + tanım iğneleri.
  */
 export function inspectHostedApplyDiskPlan(root: string): HostedApplyDiskPlan {
   const issues: string[] = [];
@@ -1173,7 +1175,7 @@ export function inspectHostedApplyDiskPlan(root: string): HostedApplyDiskPlan {
     }
   }
   if (sqlFiles.length !== EXPECTED_SQL.length) {
-    issues.push(`SQL sayısı kilitli sekiz değil (${sqlFiles.length}): ${sqlFiles.join(", ")}`);
+    issues.push(`SQL sayısı kilitli ${EXPECTED_SQL.length} değil (${sqlFiles.length}): ${sqlFiles.join(", ")}`);
   }
   for (let index = 0; index < EXPECTED_SQL.length; index += 1) {
     if (sqlFiles[index] !== EXPECTED_SQL[index]) {

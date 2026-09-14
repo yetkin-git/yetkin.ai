@@ -43,9 +43,43 @@ import {
 export type AcademyLessonCue = AcademyCinemaCaptionCue & {
   id: string;
   section: string;
-  /** Tam eğitim metni — teleprompter ekranı. TTS fonetiği spoken-scripts katmanındadır. */
+  /** Tam eğitim metni — bake/TTS. Vatandaş sahnesine basılmaz; sahnede yalnız punchcard `text` durur. */
   paragraphs?: readonly string[];
 };
+
+/** Vatandaş sahnesi — beat başına en fazla 3 kelimelik rozet. */
+export const ACADEMY_PUNCHCARD_MAX_WORDS = 3 as const;
+
+export function academyPunchcardLabel(text: string): string {
+  const words = text
+    .replace(/\s+/gu, " ")
+    .trim()
+    .split(" ")
+    .filter((part) => part.length > 0);
+  return words.slice(0, ACADEMY_PUNCHCARD_MAX_WORDS).join(" ");
+}
+
+export function academyActivePunchcard(
+  cues: readonly Pick<AcademyLessonCue, "id" | "text" | "start" | "end">[],
+  currentTime: number,
+): { cueId: string; label: string } | null {
+  const t = Number.isFinite(currentTime) ? currentTime : 0;
+  let lastHit: { cueId: string; label: string } | null = null;
+  for (const cue of cues) {
+    const label = academyPunchcardLabel(cue.text);
+    if (!label) {
+      continue;
+    }
+    const badge = { cueId: cue.id, label };
+    if (t >= cue.start && t < cue.end) {
+      return badge;
+    }
+    if (t >= cue.end) {
+      lastHit = badge;
+    }
+  }
+  return lastHit;
+}
 
 function parseAcademyLessonCues(raw: unknown): readonly AcademyLessonCue[] {
   if (!Array.isArray(raw)) {
@@ -127,7 +161,7 @@ export function loadAcademyLessonCues(lessonKey: string): readonly AcademyLesson
   return CUES_BY_LESSON_KEY[lessonKey.trim()] ?? [];
 }
 
-/** Cue paragrafları — bake turu; her tur anlamlı paragraf bloğu (12–15 istek/ders). */
+// Cue paragrafları — bake turu; her tur anlamlı paragraf bloğu (12-15 istek/ders).
 export function academyLessonCueParagraphPlan(
   lessonKey: string,
 ): readonly { cueId: string; cueParagraphIndex: number; text: string }[] {

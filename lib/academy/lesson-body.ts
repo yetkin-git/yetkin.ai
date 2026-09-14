@@ -677,6 +677,18 @@ export function expandAcademySpokenAbbreviations(text: string): string {
         "Özet Tablo (PivotTable)",
       )
       .replace(
+        /(?<![.(])\bpivot\s+tabloya\b/giu,
+        "özet tabloya",
+      )
+      .replace(
+        /(?<![.(])\bpivot\s+tablosuna\b/giu,
+        "özet tablosuna",
+      )
+      .replace(
+        /(?<![.(])\bpivot\s+tablo\b/giu,
+        "Özet Tablo (Pivot)",
+      )
+      .replace(
         /(?<![.(])\bPivot\b(?!\s*\()/giu,
         "Özet Tablo (Pivot)",
       )

@@ -110,7 +110,7 @@ describe("profil kimlik yüzeyi", () => {
     expect(write).toContain(".strict()");
     expect(route).toContain('export const auth = "session"');
     expect(route).toContain("export async function PATCH");
-    expect(route).toContain("getSession");
-    expect(route).toContain("runDisplayNamePatch");
+    expect(route).toContain("requireSession");
+    expect(route).toContain("patchDisplayName");
   });
 });

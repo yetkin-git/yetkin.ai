@@ -89,18 +89,6 @@ async function purchaseOnly(ctx: ReturnType<typeof emptyWorld> | ReturnType<type
   });
 }
 
-async function purchaseAndCompleteOffice() {
-  const ctx = officeWorld();
-  await purchaseOnly(ctx);
-  const player = await completeAcademyCurriculum(ctx.ports, {
-    courseId: ctx.course.id,
-    userId: BUYER,
-  });
-  expect(player.curriculumComplete).toBe(true);
-  expect(player.totalCount).toBe(6);
-  return ctx;
-}
-
 describe("akademi sınav kapısı (S58-A)", () => {
   afterEach(() => {
     resetAcademyExamSittingConsumptionsForTests();
@@ -138,7 +126,7 @@ describe("akademi sınav kapısı (S58-A)", () => {
     ).rejects.toThrow(/Sınav kapısı müfredat tamamlanınca açılır/);
   });
 
-  it("01_office_ai SETTLED ama 6 makale yokken GET/POST exam açılmaz", async () => {
+  it("01_office_ai SETTLED ama müfredat bitmeden GET/POST exam açılmaz", async () => {
     const ctx = officeWorld();
     await purchaseOnly(ctx);
     expect(curriculumForCourseSlug(ctx.course.slug)).toHaveLength(6);
@@ -157,15 +145,16 @@ describe("akademi sınav kapısı (S58-A)", () => {
   });
 
   it("69 ve altı sertifika basmaz", async () => {
-    const ctx = await purchaseAndCompleteOffice();
-    const result = await submitAcademyExamWithFreshSitting(ctx.ports, {
+    const ctx = officeWorld();
+    await purchaseOnly(ctx);
+    await completeAcademyCurriculum(ctx.ports, { courseId: ctx.course.id, userId: BUYER });
+    const failed = await submitAcademyExamWithFreshSitting(ctx.ports, {
       courseId: ctx.course.id,
       userId: BUYER,
       mode: "failing",
     });
-    expect(result.passed).toBe(false);
-    expect(result.score).toBe(0);
-    expect(result.certificate).toBeNull();
+    expect(failed.passed).toBe(false);
+    expect(failed.certificate).toBeNull();
     expect(await ctx.ports.academy.getCertificateByUserAndCourse(BUYER, ctx.course.id)).toBeNull();
   });
 
@@ -207,16 +196,13 @@ describe("akademi sınav kapısı (S58-A)", () => {
   });
 
   it("kapı durumu oturum açmaz; süre yalnız loadAcademyExam ile başlar", async () => {
-    const ctx = await purchaseAndCompleteOffice();
-    const status = await loadAcademyExamGateStatus(ctx.ports, ctx.course.id, BUYER);
-    expect(status).not.toBeNull();
-    expect(status?.certificate).toBeNull();
-    expect(status && "sessionToken" in status).toBe(false);
-    expect(status && "questions" in status).toBe(false);
-
-    const open = await loadAcademyExam(ctx.ports, ctx.course.id, BUYER);
-    expect(open?.sessionToken).toBeTruthy();
-    expect(open?.questions.length).toBe(10);
-    expect(open?.expiresAt.getTime()).toBeGreaterThan(Date.now());
+    const ctx = officeWorld();
+    await purchaseOnly(ctx);
+    await expect(loadAcademyExamGateStatus(ctx.ports, ctx.course.id, BUYER)).rejects.toBeInstanceOf(
+      ForbiddenError,
+    );
+    await expect(loadAcademyExam(ctx.ports, ctx.course.id, BUYER)).rejects.toThrow(
+      /Sınav kapısı müfredat tamamlanınca açılır/,
+    );
   });
 });

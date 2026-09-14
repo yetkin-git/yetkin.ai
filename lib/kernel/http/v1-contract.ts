@@ -1,15 +1,12 @@
 /**
- * `/api/v1` sözleşme sicili — PayTR B2C vitrini (8 hop).
+ * `/api/v1` sözleşme sicili — API-First dron sözleşmesi (16 hop).
  * Anayasa: yayınlanmış alan sessizce düşmez. Bu dosyadaki DTO / OpenAPI
  * kısaltması major sürüm ister. Kernel dikey oda import etmez; alanlar
  * burada dondurulur.
  *
- * PayTR B2C (Eylül 2026, E1): 8 freelancer hop sicilden düşürüldü; Dron
- * donukken (`publishFrozenUntilFaz1Close`) tüketici yoktur. Freelancer Zod
- * DTO'ları + hata metinleri BİLİNÇLİ durur: kanonik `/api/freelancer/*`
- * handler'ları + `lib/freelancer` motoru aynı şemalarla doğrular
- * (`verify:atomic-seals` + IDOR paketi buna bağlıdır). OpenAPI `paths` 8 hop,
- * `Marketplace` tag'i yok; `components.schemas` DTO aynası korunur.
+ * Tedavi + Faz 2 hazırlık (Eylül 2026): yazma hop'ları, cüzdan yükleme,
+ * müfredat/sınav GET okuma hop'ları yayınlanır. Freelancer Zod DTO'ları +
+ * hata metinleri BİLİNÇLİ durur. OpenAPI `Marketplace` tag'i yok.
  */
 
 import { z } from "zod";
@@ -29,6 +26,11 @@ import {
   FREELANCER_JOB_MAX_MINOR,
   FREELANCER_JOB_MIN_MINOR,
 } from "@/lib/kernel/pricing/freelancer-job-band";
+import { CHECKOUT_LEGAL_CONSENT_VERSION } from "@/lib/kernel/legal/checkout-consent";
+import {
+  WALLET_TOP_UP_MAX_MINOR,
+  WALLET_TOP_UP_MIN_MINOR,
+} from "@/lib/kernel/payments/wallet-top-up";
 import { PASSPORT_STAMP_SOURCE_KINDS } from "@/lib/kernel/passport/types";
 import { EDGE_API_SESSION_ERROR } from "@/lib/kernel/security/edge-api-auth";
 import {
@@ -99,6 +101,10 @@ export const RAIL_V1_ACADEMY_CERTIFICATE_INTEGRITY_KIND = "sha256-content-digest
 export const RAIL_V1_ACADEMY_CERTIFICATE_SEAL_VALID = "valid" as const;
 export const RAIL_V1_ACADEMY_CERTIFICATE_SEAL_REVOKED = "revoked" as const;
 export const RAIL_V1_ACADEMY_PURCHASE_BODY_INVALID = "Satın alma gövdesi geçersiz.";
+export const RAIL_V1_ACADEMY_CURRICULUM_BODY_INVALID = "Ders anahtarı veya iş kanıtı geçersiz.";
+export const RAIL_V1_ACADEMY_EXAM_BODY_INVALID = "Sınav cevapları geçersiz.";
+export const RAIL_V1_PROFILE_BODY_INVALID = "Görünen ad geçersiz.";
+export const RAIL_V1_WALLET_TOP_UP_BODY_INVALID = "Geçersiz yükleme tutarı.";
 
 export const RAIL_V1_JOB_STATUSES = ["OPEN", "AWARDED", "CANCELLED"] as const;
 export const RAIL_V1_BID_STATUSES = ["SUBMITTED", "ACCEPTED", "REJECTED"] as const;
@@ -172,6 +178,36 @@ export const railV1WalletStripSchema = z.strictObject({
 
 export const railV1WalletStripDataSchema = z.strictObject({
   strip: railV1WalletStripSchema,
+});
+
+export const railV1WalletTopUpBillingSchema = z.strictObject({
+  invoiceType: z.enum(["individual", "corporate"]),
+  fullName: z.string().optional(),
+  tckn: z.string().nullable().optional(),
+  companyTitle: z.string().optional(),
+  taxOffice: z.string().optional(),
+  vkn: z.string().optional(),
+  phone: z.string().optional(),
+  address: z.string().optional(),
+});
+
+export const railV1WalletTopUpRequestSchema = z.strictObject({
+  amountMinor: z.int().min(WALLET_TOP_UP_MIN_MINOR).max(WALLET_TOP_UP_MAX_MINOR),
+  distanceContractAccepted: z.literal(true),
+  digitalImmediatePerformanceAccepted: z.literal(true),
+  consentVersion: z.literal(CHECKOUT_LEGAL_CONSENT_VERSION),
+  billing: railV1WalletTopUpBillingSchema,
+});
+
+export const railV1WalletTopUpDataSchema = z.strictObject({
+  merchantOid: z.string().min(1),
+  token: z.string().min(1).nullable(),
+  iframeUrl: z.string().min(1).nullable(),
+  sandboxMode: z.boolean(),
+  alreadySettled: z.boolean(),
+  mockCheckout: z.boolean(),
+  status: z.enum(["PENDING", "PAID", "CLEARED", "FAILED"]).nullable(),
+  checkoutPassportUrl: z.string().min(1).nullable(),
 });
 
 export const railV1JobSchema = z.strictObject({
@@ -430,6 +466,159 @@ export const railV1CareerVisasDataSchema = z.strictObject({
   stamps: z.array(railV1VisaStampSchema),
 });
 
+export const railV1AcademyLockDataSchema = z.strictObject({
+  course: z.strictObject({
+    id: z.string().min(1),
+    slug: z.string().min(1),
+    title: z.string().min(1),
+  }),
+  lock: z.strictObject({
+    id: z.string().min(1),
+    amountMinor: railV1AmountMinorSchema,
+    currencyCode: railV1CurrencySchema,
+    expiresAt: railV1IsoDateTimeSchema,
+  }),
+});
+
+export const railV1AcademyCurriculumRequestSchema = z.strictObject({
+  lessonKey: z.string().trim().min(1).max(64),
+});
+
+export const railV1AcademyCurriculumPlayerSchema = z.strictObject({
+  courseId: z.string().min(1),
+  courseSlug: z.string().min(1),
+  courseTitle: z.string().min(1),
+  purchaseId: z.string().min(1),
+  completedCount: z.int().nonnegative(),
+  totalCount: z.int().nonnegative(),
+  curriculumComplete: z.boolean(),
+  workTasksComplete: z.boolean(),
+  curriculumProofHash: z.string().nullable(),
+  nextLessonKey: z.string().min(1).nullable(),
+  certificate: z
+    .strictObject({
+      id: z.string().min(1),
+      certificateHash: z.string().nullable(),
+      score: z.int().nullable(),
+    })
+    .nullable(),
+  lessons: z.array(
+    z.strictObject({
+      key: z.string().min(1),
+      order: z.int(),
+      title: z.string().min(1),
+      body: z.string(),
+      completed: z.boolean(),
+      open: z.boolean(),
+      completedAt: railV1IsoDateTimeSchema.nullable(),
+    }),
+  ),
+});
+
+export const railV1AcademyCurriculumDataSchema = z.strictObject({
+  applied: z.boolean(),
+  player: railV1AcademyCurriculumPlayerSchema,
+});
+
+export const railV1AcademyCurriculumReadDataSchema = z.strictObject({
+  player: railV1AcademyCurriculumPlayerSchema,
+});
+
+export const railV1AcademyExamRequestSchema = z.strictObject({
+  answers: z.array(
+    z.strictObject({
+      questionId: z.string().trim().min(1),
+      choiceIndex: z.int().min(0),
+    }),
+  ),
+  sessionToken: z.string().trim().min(1),
+  timedOut: z.boolean().optional(),
+});
+
+export const railV1AcademyExamDataSchema = z.strictObject({
+  passed: z.boolean(),
+  score: z.int().nonnegative(),
+  passScore: z.literal(RAIL_V1_ACADEMY_EXAM_PASS_SCORE),
+  attempt: z.strictObject({
+    id: z.string().min(1),
+    score: z.int().nonnegative(),
+    passed: z.boolean(),
+    submittedAt: railV1IsoDateTimeSchema,
+  }),
+  certificate: z
+    .strictObject({
+      id: z.string().min(1),
+      certificateHash: z.string().nullable(),
+      serialKey: z.string().min(1),
+      score: z.int().nullable(),
+    })
+    .nullable(),
+  visaStamp: z
+    .strictObject({
+      id: z.string().min(1),
+      title: z.string().min(1),
+      visaKey: z.string().min(1),
+    })
+    .nullable(),
+});
+
+export const railV1AcademyExamReadDataSchema = z.strictObject({
+  exam: z.strictObject({
+    id: z.string().min(1),
+    courseId: z.string().min(1),
+    title: z.string().min(1),
+    passScore: z.int().nonnegative(),
+  }),
+  questions: z.array(
+    z.strictObject({
+      id: z.string().min(1),
+      prompt: z.string().min(1),
+      choices: z.array(z.string().min(1)).min(2),
+    }),
+  ),
+  purchaseId: z.string().min(1),
+  certificate: z
+    .strictObject({
+      id: z.string().min(1),
+      certificateHash: z.string().nullable(),
+      serialKey: z.string().min(1),
+      score: z.int().nullable(),
+    })
+    .nullable(),
+  sessionToken: z.string().min(1),
+  expiresAt: railV1IsoDateTimeSchema,
+  durationMs: z.int().positive(),
+  drawCount: z.int().positive(),
+  proofLessonKey: z.string().min(1).nullable(),
+});
+
+export const railV1CareerPortfolioItemSchema = z.strictObject({
+  id: z.string().min(1),
+  visaStampId: z.string().min(1),
+  title: z.string().min(1),
+  createdAt: railV1IsoDateTimeSchema,
+});
+
+export const railV1CareerPortfolioDataSchema = z.strictObject({
+  applied: z.boolean(),
+  portfolio: z.array(railV1CareerPortfolioItemSchema),
+});
+
+export const railV1ProfilePatchRequestSchema = z.strictObject({
+  displayName: z.string(),
+});
+
+export const railV1ProfilePatchDataSchema = z.strictObject({
+  profile: z.strictObject({
+    userId: z.string().min(1),
+    email: z.email(),
+    displayName: z.string().nullable(),
+    locale: z.string().min(1),
+    timeZone: z.string().min(1),
+    createdAt: railV1IsoDateTimeSchema,
+  }),
+});
+
 export type RailV1RouteAuth = "public" | "session";
 
 export type RailV1Hop = {
@@ -629,6 +818,161 @@ const RAIL_V1_HOP_CONTRACTS = {
     exampleParams: { id: "course_lab_1" },
     errors: [...WRITE_ERRORS, RAIL_V1_ACADEMY_PURCHASE_BODY_INVALID],
   },
+  "academy-lock": {
+    canonicalPathTemplate: "/api/academy/courses/{id}/lock",
+    routeAuthPattern: "/api/academy/courses/[id]/lock",
+    routeAuth: "session",
+    idempotency: true,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["course", "lock"],
+    publishedDataPaths: [
+      "course",
+      "course.id",
+      "course.slug",
+      "course.title",
+      "lock",
+      "lock.id",
+      "lock.amountMinor",
+      "lock.currencyCode",
+      "lock.expiresAt",
+    ],
+    dataSchema: railV1AcademyLockDataSchema,
+    exampleParams: { id: "course_lab_1" },
+    errors: WRITE_ERRORS,
+  },
+  "academy-curriculum": {
+    canonicalPathTemplate: "/api/academy/courses/{id}/curriculum",
+    routeAuthPattern: "/api/academy/courses/[id]/curriculum",
+    routeAuth: "session",
+    idempotency: true,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["applied", "player"],
+    publishedDataPaths: [
+      "applied",
+      "player",
+      "player.courseId",
+      "player.courseSlug",
+      "player.courseTitle",
+      "player.purchaseId",
+      "player.completedCount",
+      "player.totalCount",
+      "player.curriculumComplete",
+      "player.workTasksComplete",
+      "player.curriculumProofHash",
+      "player.nextLessonKey",
+      "player.certificate",
+      "player.lessons",
+    ],
+    dataSchema: railV1AcademyCurriculumDataSchema,
+    requestSchema: railV1AcademyCurriculumRequestSchema,
+    exampleParams: { id: "course_lab_1" },
+    errors: [...WRITE_ERRORS, RAIL_V1_ACADEMY_CURRICULUM_BODY_INVALID],
+  },
+  "academy-curriculum-read": {
+    canonicalPathTemplate: "/api/academy/courses/{id}/curriculum",
+    routeAuthPattern: "/api/academy/courses/[id]/curriculum",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["player"],
+    publishedDataPaths: [
+      "player",
+      "player.courseId",
+      "player.courseSlug",
+      "player.courseTitle",
+      "player.purchaseId",
+      "player.completedCount",
+      "player.totalCount",
+      "player.curriculumComplete",
+      "player.workTasksComplete",
+      "player.curriculumProofHash",
+      "player.nextLessonKey",
+      "player.certificate",
+      "player.lessons",
+    ],
+    dataSchema: railV1AcademyCurriculumReadDataSchema,
+    exampleParams: { id: "course_lab_1" },
+    errors: SESSION_ERRORS,
+  },
+  "academy-exam": {
+    canonicalPathTemplate: "/api/academy/courses/{id}/exam",
+    routeAuthPattern: "/api/academy/courses/[id]/exam",
+    routeAuth: "session",
+    idempotency: true,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["passed", "score", "passScore", "attempt", "certificate", "visaStamp"],
+    publishedDataPaths: [
+      "passed",
+      "score",
+      "passScore",
+      "attempt",
+      "attempt.id",
+      "attempt.score",
+      "attempt.passed",
+      "attempt.submittedAt",
+      "certificate",
+      "certificate.id",
+      "certificate.certificateHash",
+      "certificate.serialKey",
+      "certificate.score",
+      "visaStamp",
+      "visaStamp.id",
+      "visaStamp.title",
+      "visaStamp.visaKey",
+    ],
+    dataSchema: railV1AcademyExamDataSchema,
+    requestSchema: railV1AcademyExamRequestSchema,
+    exampleParams: { id: "course_lab_1" },
+    errors: [...WRITE_ERRORS, RAIL_V1_ACADEMY_EXAM_BODY_INVALID],
+  },
+  "academy-exam-read": {
+    canonicalPathTemplate: "/api/academy/courses/{id}/exam",
+    routeAuthPattern: "/api/academy/courses/[id]/exam",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: [
+      "exam",
+      "questions",
+      "purchaseId",
+      "certificate",
+      "sessionToken",
+      "expiresAt",
+      "durationMs",
+      "drawCount",
+      "proofLessonKey",
+    ],
+    publishedDataPaths: [
+      "exam",
+      "exam.id",
+      "exam.courseId",
+      "exam.title",
+      "exam.passScore",
+      "questions",
+      "questions[].id",
+      "questions[].prompt",
+      "questions[].choices",
+      "purchaseId",
+      "certificate",
+      "certificate.id",
+      "certificate.certificateHash",
+      "certificate.serialKey",
+      "certificate.score",
+      "sessionToken",
+      "expiresAt",
+      "durationMs",
+      "drawCount",
+      "proofLessonKey",
+    ],
+    dataSchema: railV1AcademyExamReadDataSchema,
+    exampleParams: { id: "course_lab_1" },
+    errors: SESSION_ERRORS,
+  },
   "auth-session": {
     canonicalPathTemplate: "/api/auth/session",
     routeAuthPattern: "/api/auth/session",
@@ -652,6 +996,37 @@ const RAIL_V1_HOP_CONTRACTS = {
     publishedDataPaths: ["strip", "strip.live", "strip.amountMinor", "strip.currencyCode"],
     dataSchema: railV1WalletStripDataSchema,
     errors: [...SESSION_ERRORS, "Veritabanı erişilemez."],
+  },
+  "wallet-top-up": {
+    canonicalPathTemplate: "/api/wallet/top-up",
+    routeAuthPattern: "/api/wallet/top-up",
+    routeAuth: "session",
+    idempotency: true,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: [
+      "merchantOid",
+      "token",
+      "iframeUrl",
+      "sandboxMode",
+      "alreadySettled",
+      "mockCheckout",
+      "status",
+      "checkoutPassportUrl",
+    ],
+    publishedDataPaths: [
+      "merchantOid",
+      "token",
+      "iframeUrl",
+      "sandboxMode",
+      "alreadySettled",
+      "mockCheckout",
+      "status",
+      "checkoutPassportUrl",
+    ],
+    dataSchema: railV1WalletTopUpDataSchema,
+    requestSchema: railV1WalletTopUpRequestSchema,
+    errors: [...WRITE_ERRORS, RAIL_V1_WALLET_TOP_UP_BODY_INVALID],
   },
   "career-pulse": {
     canonicalPathTemplate: "/api/career/pulse",
@@ -694,6 +1069,46 @@ const RAIL_V1_HOP_CONTRACTS = {
     ],
     dataSchema: railV1CareerVisasDataSchema,
     errors: SESSION_ERRORS,
+  },
+  "career-portfolio": {
+    canonicalPathTemplate: "/api/career/portfolio",
+    routeAuthPattern: "/api/career/portfolio",
+    routeAuth: "session",
+    idempotency: true,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["applied", "portfolio"],
+    publishedDataPaths: [
+      "applied",
+      "portfolio",
+      "portfolio[].id",
+      "portfolio[].visaStampId",
+      "portfolio[].title",
+      "portfolio[].createdAt",
+    ],
+    dataSchema: railV1CareerPortfolioDataSchema,
+    errors: WRITE_ERRORS,
+  },
+  "profile-patch": {
+    canonicalPathTemplate: "/api/profile",
+    routeAuthPattern: "/api/profile",
+    routeAuth: "session",
+    idempotency: true,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["profile"],
+    publishedDataPaths: [
+      "profile",
+      "profile.userId",
+      "profile.email",
+      "profile.displayName",
+      "profile.locale",
+      "profile.timeZone",
+      "profile.createdAt",
+    ],
+    dataSchema: railV1ProfilePatchDataSchema,
+    requestSchema: railV1ProfilePatchRequestSchema,
+    errors: [...WRITE_ERRORS, RAIL_V1_PROFILE_BODY_INVALID],
   },
 } satisfies Record<RailV1HopId, RailV1HopContract>;
 
@@ -797,7 +1212,7 @@ function hopTag(hop: RailV1Hop): string[] {
   if (hop.id.startsWith("academy") || hop.id.startsWith("career")) {
     return ["Proof"];
   }
-  if (hop.id === "wallet-strip") {
+  if (hop.id === "wallet-strip" || hop.id === "wallet-top-up") {
     return ["Payments"];
   }
   return ["Kernel"];
@@ -948,7 +1363,7 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
     tags: [
       { name: "Kernel", description: "Health ve oturum." },
       { name: "Proof", description: "Akademi pulse/satın alma, kariyer vizesi, kamu içerik özeti doğrulama." },
-      { name: "Payments", description: "Cüzdan şeridi. Faz 1 tek nakit kanalı PayTR Merchant iFrame'dir (Amiral /api/wallet/top-up); Pazaryeri Split ve freelancer hop'ları yayınlanmaz." },
+      { name: "Payments", description: "Cüzdan şeridi ve POST /api/v1/wallet/top-up (PayTR Merchant iFrame + HMAC kasa pasaportu). Pazaryeri Split ve freelancer hop'ları yayınlanmaz." },
     ],
     paths,
     components: {
@@ -961,13 +1376,15 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
         },
       },
       schemas: {
-        // PayTR B2C: freelancer DTO aynası BİLİNÇLİ durur — kanonik handler
-        // doğrulaması + donuk Dron paketi (`apps/rail-is/src/contract/v1.ts`)
-        // aynı tipleri tüketir. Yayınlanan `paths` 8 hop'tur, tag yoktur.
+        // Freelancer DTO aynası BİLİNÇLİ durur. Yayınlanan hop 16, unique path 14; Marketplace tag yoktur.
         RailV1FailEnvelope: toOpenApiSchema(railV1FailEnvelopeSchema),
         RailV1OkEnvelope: toOpenApiSchema(railV1OkEnvelopeSchema),
         RailV1SessionUser: toOpenApiSchema(railV1SessionUserSchema),
         RailV1WalletStrip: toOpenApiSchema(railV1WalletStripSchema),
+        RailV1WalletTopUpRequest: toOpenApiSchema(railV1WalletTopUpRequestSchema),
+        RailV1WalletTopUpData: toOpenApiSchema(railV1WalletTopUpDataSchema),
+        RailV1AcademyCurriculumReadData: toOpenApiSchema(railV1AcademyCurriculumReadDataSchema),
+        RailV1AcademyExamReadData: toOpenApiSchema(railV1AcademyExamReadDataSchema),
         RailV1Job: toOpenApiSchema(railV1JobSchema),
         RailV1Bid: toOpenApiSchema(railV1BidSchema),
         RailV1BidRequest: toOpenApiSchema(railV1BidRequestSchema),
@@ -987,6 +1404,14 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
         RailV1AcademyPurchaseData: toOpenApiSchema(railV1AcademyPurchaseDataSchema),
         RailV1CareerPulse: toOpenApiSchema(railV1CareerPulseSchema),
         RailV1CareerVisasData: toOpenApiSchema(railV1CareerVisasDataSchema),
+        RailV1AcademyLockData: toOpenApiSchema(railV1AcademyLockDataSchema),
+        RailV1AcademyCurriculumRequest: toOpenApiSchema(railV1AcademyCurriculumRequestSchema),
+        RailV1AcademyCurriculumData: toOpenApiSchema(railV1AcademyCurriculumDataSchema),
+        RailV1AcademyExamRequest: toOpenApiSchema(railV1AcademyExamRequestSchema),
+        RailV1AcademyExamData: toOpenApiSchema(railV1AcademyExamDataSchema),
+        RailV1CareerPortfolioData: toOpenApiSchema(railV1CareerPortfolioDataSchema),
+        RailV1ProfilePatchRequest: toOpenApiSchema(railV1ProfilePatchRequestSchema),
+        RailV1ProfilePatchData: toOpenApiSchema(railV1ProfilePatchDataSchema),
         RailV1SessionData: toOpenApiSchema(railV1SessionDataSchema),
         RailV1WalletStripData: toOpenApiSchema(railV1WalletStripDataSchema),
         RailV1JobsData: toOpenApiSchema(railV1JobsDataSchema),

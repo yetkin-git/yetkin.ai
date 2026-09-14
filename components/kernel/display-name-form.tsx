@@ -5,12 +5,14 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
 import { DISPLAY_NAME_MAX_LENGTH, PROFILE_WRITE_PATH } from "@/lib/kernel/identity/types";
 import { parseRailClientJson } from "@/lib/ui/parse-rail-json";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
 export function DisplayNameForm({ initialDisplayName }: { initialDisplayName: string }) {
   const router = useRouter();
+  const idempotency = useIdempotencyKey();
   const [displayName, setDisplayName] = useState(initialDisplayName);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -23,7 +25,7 @@ export function DisplayNameForm({ initialDisplayName }: { initialDisplayName: st
       PROFILE_WRITE_PATH,
       withRailApiVersion({
         method: "PATCH",
-        headers: { "content-type": "application/json" },
+        headers: { "content-type": "application/json", ...idempotency.headers() },
         body: JSON.stringify({ displayName }),
       }),
     );

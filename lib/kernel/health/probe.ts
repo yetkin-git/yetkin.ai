@@ -11,7 +11,8 @@ export const HEALTH_SERVICE = "yetkin-rail" as const;
 export const HEALTH_PROBE = "readiness" as const;
 export const HEALTH_PROBE_LIVE = "liveness" as const;
 export const HEALTH_PROBE_READY = "readiness" as const;
-export const HEALTH_DB_PING_TIMEOUT_MS = 2_000;
+/** Uzun süreç havuz tabanı (25s) ile hizalı; 10s soğuk EU TLS'i down boyar. */
+export const HEALTH_DB_PING_TIMEOUT_MS = 25_000;
 export const HEALTH_DEPENDENCY_UNREADY_ERROR = "Omurga bağımlılıkları hazır değil.";
 export const ACADEMY_EXAM_SITTING_SECRET_MIN_LENGTH = 16 as const;
 

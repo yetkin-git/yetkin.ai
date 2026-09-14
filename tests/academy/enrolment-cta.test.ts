@@ -248,6 +248,16 @@ describe("vitrin kartı CTA", () => {
     expect(owned.priceLabel).toBe(ACADEMY_SEN.course.accessOpen);
     expect(owned.priceCaption).toBeNull();
     expect(owned.href).toBe("/academy/python-temel/oyna");
+    const comingSoon = resolveAcademyCatalogCardCta({
+      slug: "05_prompt_practice",
+      owned: false,
+      priceLabel: "₺1.290,00",
+    });
+    expect(comingSoon.cta).toBe(ACADEMY_SEN.catalog.cardCtaComingSoon);
+    expect(comingSoon.cta).not.toBe(ACADEMY_SEN.catalog.cardCtaBuy);
+    expect(comingSoon.href).toBe("");
+    expect(comingSoon.priceCaption).toBe(ACADEMY_SEN.catalog.comingSoonMeta);
+    expect(comingSoon.priceLabel).toBe("₺1.290");
     for (const slug of ["fullstack-temel", "ai-temel", "ux-temel"] as const) {
       const buy = resolveAcademyCatalogCardCta({
         slug,
@@ -320,8 +330,8 @@ describe("Super Admin lab oynatıcı — DURUM B, ticari enrolled değil", () =>
   });
 });
 
-describe("kasa eğitim özeti — Aşama 1 ses mührü", () => {
-  it("mühürlü ses SKU özeti basar; vitrin beş SKU karaoke taşır", () => {
+describe("kasa eğitim özeti — Aşama 1, amiral ses mührü", () => {
+  it("01_office_ai karaoke özeti basar; kardeş SKU yazılı compact kalır", () => {
     expect(ACADEMY_CARD_OFFER_PATHS.find((offer) => offer.path === "training")?.summary).toBe(
       ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
     );
@@ -337,16 +347,16 @@ describe("kasa eğitim özeti — Aşama 1 ses mührü", () => {
       ACADEMY_TRAINING_OFFER_SUMMARY_SEALED,
     );
     expect(academyCardOfferPaths("02_ecommerce_ai").find((offer) => offer.path === "training")?.summary).toBe(
-      ACADEMY_TRAINING_OFFER_SUMMARY_SEALED,
+      ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
     );
     expect(academyCardOfferPaths("03_social_media_ai").find((offer) => offer.path === "training")?.summary).toBe(
-      ACADEMY_TRAINING_OFFER_SUMMARY_SEALED,
+      ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
     );
     expect(academyCardOfferPaths("04_chatbot_nocode").find((offer) => offer.path === "training")?.summary).toBe(
-      ACADEMY_TRAINING_OFFER_SUMMARY_SEALED,
+      ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
     );
     expect(academyCardOfferPaths("05_prompt_practice").find((offer) => offer.path === "training")?.summary).toBe(
-      ACADEMY_TRAINING_OFFER_SUMMARY_SEALED,
+      ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
     );
   });
 });

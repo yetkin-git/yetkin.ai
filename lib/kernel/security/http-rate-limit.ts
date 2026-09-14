@@ -3,10 +3,10 @@ import { buildV1FailBody, canonicalApiPathname } from "@/lib/kernel/http/api-v1"
 import { v1EnvelopeHeaders } from "@/lib/kernel/http/unversioned-sunset";
 import { REQUEST_ID_HEADER, resolveRequestId } from "@/lib/kernel/http/request-id";
 import {
-  createInMemoryRateLimitPort,
   type RateLimitDecision,
   type RateLimitWindow,
 } from "@/lib/kernel/security/rate-limit-port";
+import { resolveRateLimitPort } from "@/lib/kernel/security/rate-limit-runtime";
 import { resolveTrustedForwardedIp } from "@/lib/kernel/security/trusted-proxy";
 
 export type HttpRateLimitConfig = RateLimitWindow;
@@ -18,7 +18,7 @@ export type HttpRateLimitResult = RateLimitDecision & {
 const TEN_MINUTES_MS = 10 * 60_000;
 const ONE_DAY_MS = 24 * 60 * 60_000;
 
-const httpRateLimitPort = createInMemoryRateLimitPort();
+let httpRateLimitPort = resolveRateLimitPort();
 
 export const HTTP_RATE_LIMITS = {
   walletTopUpIp: { keyPrefix: "wallet-top-up-ip", limit: 8, windowMs: TEN_MINUTES_MS },
@@ -28,6 +28,7 @@ export const HTTP_RATE_LIMITS = {
   llmUser: { keyPrefix: "llm-user", limit: 12, windowMs: TEN_MINUTES_MS },
   aiChatUser: { keyPrefix: "ai-chat-user", limit: 5, windowMs: ONE_DAY_MS },
   authIp: { keyPrefix: "auth-ip", limit: 40, windowMs: TEN_MINUTES_MS },
+  adminIp: { keyPrefix: "admin-ip", limit: 20, windowMs: TEN_MINUTES_MS },
 } as const;
 
 export const HTTP_RATE_LIMIT_ERROR = "Çok fazla istek. Biraz sonra yeniden dene.";
@@ -69,20 +70,20 @@ export function resolveRequestIp(
   return resolveTrustedForwardedIp(request.headers, env);
 }
 
-export function consumeHttpRateLimit(
+export async function consumeHttpRateLimit(
   identityKey: string,
   config: HttpRateLimitConfig,
   now: number = Date.now(),
-): HttpRateLimitResult {
-  return withRateLimitHeaders(httpRateLimitPort.consume(identityKey, config, now));
+): Promise<HttpRateLimitResult> {
+  return withRateLimitHeaders(await httpRateLimitPort.consume(identityKey, config, now));
 }
 
-export function applyHttpRateLimit(
+export async function applyHttpRateLimit(
   request: Request,
   config: HttpRateLimitConfig,
   extraIdentity?: string,
   env: NodeJS.ProcessEnv = process.env,
-): HttpRateLimitResult {
+): Promise<HttpRateLimitResult> {
   const ip = resolveRequestIp(request, env);
   const identity = extraIdentity?.trim() ? `${ip}:${extraIdentity.trim()}` : ip;
   return consumeHttpRateLimit(identity, config);
@@ -122,6 +123,9 @@ export function matchEdgeRateLimit(
   if (path === "/api/auth" || path.startsWith("/api/auth/")) {
     return HTTP_RATE_LIMITS.authIp;
   }
+  if (path === "/api/admin/funnel") {
+    return HTTP_RATE_LIMITS.adminIp;
+  }
   return null;
 }
 
@@ -140,7 +144,8 @@ export function rateLimitedJsonResponse(
   });
 }
 
-/** Test sızıntısını keser — üretim çağırmaz. */
+/** Test sızıntısını keser — üretim çağırmaz. Env stub sonrası portu yeniden bağlar. */
 export function resetHttpRateLimitBucketsForTests(): void {
   httpRateLimitPort.resetForTests();
+  httpRateLimitPort = resolveRateLimitPort();
 }

@@ -41,7 +41,9 @@ describe("cüzdan yükleme checkout fail-closed yüzeyi", () => {
     expect(mockBranch.slice(0, mockReturn)).toContain("wallet.top_up.mock_no_credit");
     expect(mockBranch.slice(0, mockReturn)).not.toContain("clearSuccessfulPaymentOrder");
     expect(mockBranch).toContain("mockCheckout: true");
-    expect(mockBranch.slice(mockReturn, mockReturn + 400)).not.toContain("iframeUrl");
+    const mockIframe = mockBranch.indexOf("const iframeUrl");
+    expect(mockIframe).toBeGreaterThan(mockReturn);
+    expect(mockBranch.slice(mockReturn, mockIframe)).not.toContain("iframeUrl");
     expect(route).toContain("wallet.top_up.pending");
     expect(route).toContain("paytr.user_ip.resolved");
     expect(route).toContain("ops.proxy.hops_edge_mismatch");

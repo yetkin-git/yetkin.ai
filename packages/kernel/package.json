@@ -1,0 +1,24 @@
+{
+  "name": "@yetkin/kernel",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "yetkin.ai Shared Kernel — Prisma/Supabase bağımsız para, katalog kimliği, v1 hop ve zarf sözleşmesi.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./money": "./src/money/index.ts",
+    "./money/*": "./src/money/*.ts",
+    "./catalog-ids": "./src/catalog-ids/index.ts",
+    "./catalog-ids/*": "./src/catalog-ids/*.ts",
+    "./http": "./src/http/index.ts",
+    "./http/*": "./src/http/*.ts",
+    "./crypto": "./src/crypto/sha256.ts",
+    "./generated/v1": "./src/generated/v1.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "peerDependencies": {
+    "zod": "^4.0.0"
+  }
+}

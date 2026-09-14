@@ -1,9 +1,11 @@
-import { existsSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
+  ACADEMY_BRAND_FALLBACK_COVER,
+  ACADEMY_CATALOG_LCP_PRELOAD_LINK,
   ACADEMY_COURSE_COVER_SIZES,
-  ACADEMY_COURSE_COVER_SRCSET_WIDTHS,
+  ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN,
   ACADEMY_HOME_CINEMA_COVER_SIZES,
   ACADEMY_HOME_LCP_COVER_AVIF,
   ACADEMY_HOME_LCP_COVER_AVIF_SRCSET,
@@ -11,82 +13,79 @@ import {
   academyCourseCoverAvifPath,
   academyCourseCoverPath,
   academyCourseCoverSrcSet,
-  academyCourseCoverWidthPath,
+  academyCourseHasCinemaCover,
+  academyCourseIsComingSoon,
+  isAcademyBrandFallbackCover,
   isAcademyCinemaCoverPath,
 } from "@/lib/academy/course-cover";
-import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
+import { ACADEMY_FLAGSHIP_SKU_SLUG, ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 
 const ROOT = process.cwd();
-const COVER_CEILING_BYTES = 50 * 1024;
 
 function readSrc(relative: string): string {
   return readFileSync(join(ROOT, relative), "utf8");
 }
 
-describe("akademi vitrin kapak WebP/AVIF yüzeyi", () => {
-  it("büyüme SKU kapakları WebP kanon + AVIF yedek taşır; 50 KB tavanını aşmaz", () => {
+describe("akademi vitrin kapak — amiral 1. bölüm + Yakında şablonu", () => {
+  it("amiral cinema 1-eye bağlar; kardeş SKU marka mührüne düşmez", () => {
+    const flagship = academyCourseCoverPath(ACADEMY_FLAGSHIP_SKU_SLUG);
+    expect(flagship).toBe("/academy/cinema/01_office_ai-1-eye.webp");
+    expect(isAcademyCinemaCoverPath(flagship!)).toBe(true);
+    expect(academyCourseHasCinemaCover(ACADEMY_FLAGSHIP_SKU_SLUG)).toBe(true);
+    expect(academyCourseIsComingSoon(ACADEMY_FLAGSHIP_SKU_SLUG)).toBe(false);
+    expect(academyCourseIsComingSoon("05_prompt_practice")).toBe(true);
+    expect(academyCourseCoverPath("05_prompt_practice")).toBeNull();
+    expect(academyCourseCoverAvifPath(ACADEMY_FLAGSHIP_SKU_SLUG)).toBe(
+      "/academy/cinema/01_office_ai-1-eye.avif",
+    );
+    expect(academyCourseCoverSrcSet(flagship!)).toContain("640w");
+    expect(existsSync(join(ROOT, "public", "academy", "cinema", "01_office_ai-1-eye.webp"))).toBe(
+      true,
+    );
+    expect(ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN).toBe(8);
+
     for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
-      const webp = academyCourseCoverPath(slug);
-      const avif = academyCourseCoverAvifPath(slug);
-      expect(isAcademyCinemaCoverPath(webp), slug).toBe(true);
-      expect(webp.endsWith(".webp"), slug).toBe(true);
-      expect(avif.endsWith(".avif"), slug).toBe(true);
-      const webpDisk = join(ROOT, "public", webp.slice(1));
-      const avifDisk = join(ROOT, "public", avif.slice(1));
-      expect(existsSync(webpDisk), webp).toBe(true);
-      expect(existsSync(avifDisk), avif).toBe(true);
-      expect(statSync(webpDisk).size, webp).toBeLessThanOrEqual(COVER_CEILING_BYTES);
-      expect(statSync(avifDisk).size, avif).toBeLessThanOrEqual(COVER_CEILING_BYTES);
-      for (const width of ACADEMY_COURSE_COVER_SRCSET_WIDTHS) {
-        const webpW = academyCourseCoverWidthPath(webp, width);
-        const avifW = academyCourseCoverWidthPath(avif, width);
-        expect(existsSync(join(ROOT, "public", webpW.slice(1))), webpW).toBe(true);
-        expect(existsSync(join(ROOT, "public", avifW.slice(1))), avifW).toBe(true);
-        expect(statSync(join(ROOT, "public", webpW.slice(1))).size, webpW).toBeLessThanOrEqual(
-          COVER_CEILING_BYTES,
-        );
-        expect(statSync(join(ROOT, "public", avifW.slice(1))).size, avifW).toBeLessThanOrEqual(
-          COVER_CEILING_BYTES,
-        );
+      if (slug === ACADEMY_FLAGSHIP_SKU_SLUG) {
+        continue;
       }
-      expect(academyCourseCoverSrcSet(webp)).toContain("640w");
-      expect(academyCourseCoverSrcSet(avif)).toContain("960w");
+      expect(academyCourseCoverPath(slug), slug).toBeNull();
+      expect(academyCourseIsComingSoon(slug), slug).toBe(true);
+      expect(academyCourseHasCinemaCover(slug), slug).toBe(false);
+      expect(academyCourseCoverAvifPath(slug), slug).toBeNull();
     }
-    expect(academyCourseCoverPath("03_social_media_ai")).toBe(
-      "/academy/cinema/03_social_media_ai-reels-1-eye.webp",
-    );
-    expect(academyCourseCoverAvifPath("01_office_ai")).toBe(ACADEMY_HOME_LCP_COVER_AVIF);
-    expect(academyCourseCoverSrcSet(ACADEMY_HOME_LCP_COVER_AVIF)).toBe(
-      ACADEMY_HOME_LCP_COVER_AVIF_SRCSET,
-    );
+    expect(isAcademyBrandFallbackCover(ACADEMY_BRAND_FALLBACK_COVER)).toBe(true);
+    expect(existsSync(join(ROOT, "public", "icon.svg"))).toBe(true);
+    const cinemaDir = join(ROOT, "public", "academy", "cinema");
+    const cinemaFiles = existsSync(cinemaDir) ? readdirSync(cinemaDir) : [];
+    expect(cinemaFiles.some((name) => name === "01_office_ai-1-eye.webp")).toBe(true);
+    expect(ACADEMY_HOME_LCP_COVER_AVIF).toBe("/academy/cinema/01_office_ai-1-eye.avif");
+    expect(ACADEMY_HOME_LCP_COVER_AVIF_SRCSET).toContain("01_office_ai-1-eye.avif");
+    expect(ACADEMY_HOME_LCP_PRELOAD_LINK).toBe("");
+    expect(ACADEMY_CATALOG_LCP_PRELOAD_LINK).toBe("");
   });
 
-  it("ana sayfa Next Image + AVIF preload basar; kenar Link Early Hints ile aynı AVIF’e kilitlidir", () => {
+  it("ana sayfa taslak SKU ızgarası basmaz; üretim bandı dürüst kart durur", () => {
     const home = readSrc("app/(public)/page.tsx");
     const config = readSrc("next.config.ts");
     const cover = readSrc("components/academy/course-cover-image.tsx");
     const listing = readSrc("components/showcase/listing-card.tsx");
     const card = readSrc("components/academy/course-card.tsx");
     expect(cover).toContain('from "next/image"');
-    expect(cover).toContain('type="image/avif"');
-    expect(cover).toContain("unoptimized");
-    expect(cover).toContain("academyCourseCoverSrcSet");
-    expect(cover).toContain('fetchPriority={highPriority ? "high" : "low"}');
-    expect(cover).toContain('loading={eager || highPriority ? "eager" : "lazy"}');
-    expect(home).toContain("CourseCoverImage");
-    expect(home).toContain("preload(");
-    expect(home).toContain("ACADEMY_HOME_LCP_COVER_AVIF");
-    expect(home).toContain("ACADEMY_HOME_LCP_COVER_AVIF_SRCSET");
-    expect(home).toContain("imageSrcSet");
-    expect(home).toContain("imageSizes");
-    expect(home).toContain("ACADEMY_HOME_CINEMA_COVER_SIZES");
-    expect(home).toContain("eager={index === 0}");
-    expect(home).toContain("highPriority={index === 0}");
-    expect(home).toContain('type: "image/avif"');
+    expect(home).not.toContain("CourseCoverImage");
+    expect(home).not.toContain("academyCourseCoverPath");
+    expect(home).not.toContain("comingSoonBadge");
+    expect(home).not.toContain("preload(");
+    expect(home).not.toContain("ACADEMY_GROWTH_SKU_SLUGS");
+    expect(home).toContain("data-academy-production-band");
+    expect(home).toContain("ACADEMY_SEN.catalog.empty");
     expect(listing).toContain("CourseCoverImage");
+    expect(listing).toContain("coverComingSoon");
     expect(listing).toContain("ACADEMY_COURSE_COVER_SIZES");
     expect(card).toContain("ACADEMY_COURSE_COVER_SIZES");
     expect(card).toContain("coverPriority={featured}");
+    expect(card).toContain("comingSoonBadge");
+    expect(card).toContain("cardMetaAudio");
+    expect(card).not.toContain("ACADEMY_BRAND_FALLBACK_COVER");
     expect(ACADEMY_COURSE_COVER_SIZES).toBe(
       "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
     );
@@ -94,12 +93,19 @@ describe("akademi vitrin kapak WebP/AVIF yüzeyi", () => {
       "(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw",
     );
     expect(config).toContain('formats: ["image/avif", "image/webp"]');
-    expect(config).toContain(ACADEMY_HOME_LCP_PRELOAD_LINK);
-    expect(config).toContain("imagesrcset=");
-    expect(config).toContain("imagesizes=");
-    expect(config).toContain('source: "/"');
-    expect(ACADEMY_HOME_LCP_PRELOAD_LINK).toContain(ACADEMY_HOME_LCP_COVER_AVIF);
-    expect(ACADEMY_HOME_LCP_PRELOAD_LINK).toContain(ACADEMY_HOME_LCP_COVER_AVIF_SRCSET);
+    expect(config).not.toContain("ACADEMY_HOME_LCP_PRELOAD_LINK");
     expect(ACADEMY_GROWTH_SKU_SLUGS[0]).toBe("01_office_ai");
+  });
+
+  it("akademi vitrin Early Hints preload basmaz", () => {
+    const academy = readSrc("app/academy/page.tsx");
+    const config = readSrc("next.config.ts");
+    const listing = readSrc("components/showcase/listing-card.tsx");
+    expect(academy).not.toContain("preload(");
+    expect(academy).not.toContain("ACADEMY_HOME_LCP_COVER_AVIF");
+    expect(listing).toContain("aspect-[16/9]");
+    expect(listing).toContain("data-academy-coming-soon-cover");
+    expect(config).toContain('source: "/academy"');
+    expect(config).not.toContain("ACADEMY_CATALOG_LCP_PRELOAD_LINK");
   });
 });

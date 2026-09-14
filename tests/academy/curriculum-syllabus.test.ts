@@ -41,28 +41,28 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
         courseSlug: "01_office_ai",
         body: "Eğitmen: Compact gövde ses mührü değildir.",
       }),
-    ).toBe("audio");
+    ).toBe("document");
     expect(
       academyLessonContentKind({
         key: "01_office_ai-4",
         courseSlug: "01_office_ai",
         body: "Eğitmen: Compact gövde ses mührü değildir.",
       }),
-    ).toBe("audio");
+    ).toBe("document");
     expect(
       academyLessonContentKind({
         key: "01_office_ai-5",
         courseSlug: "01_office_ai",
         body: "Eğitmen: Compact gövde ses mührü değildir.",
       }),
-    ).toBe("audio");
+    ).toBe("document");
     expect(
       academyLessonContentKind({
         key: "01_office_ai-6",
         courseSlug: "01_office_ai",
         body: "Eğitmen: Compact gövde ses mührü değildir.",
       }),
-    ).toBe("audio");
+    ).toBe("document");
   });
 
   it("konuşma süresinden dakikaya iner; 5 dk taban basmaz", () => {
@@ -88,29 +88,10 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
     expect(academyLessonKindLabel("document", ACADEMY_SEN.outline)).toBe("Yazılı Compact");
   });
 
-  it("amiral müfredatta 1–6. ders Ses", () => {
+  it("amiral müfredat 1. bölümü basar; özet 6 ders taşır", () => {
     const syllabus = curriculumSyllabusForCourseSlug("01_office_ai");
     expect(syllabus.lessonCount).toBe(6);
-    expect(syllabus.lessons.map((lesson) => lesson.key)).toEqual([
-      "01_office_ai-1",
-      "01_office_ai-2",
-      "01_office_ai-3",
-      "01_office_ai-4",
-      "01_office_ai-5",
-      "01_office_ai-6",
-    ]);
-    expect(syllabus.lessons[0]?.kind).toBe("audio");
-    expect(syllabus.lessons[1]?.kind).toBe("audio");
-    expect(syllabus.lessons[2]?.kind).toBe("audio");
-    expect(syllabus.lessons[3]?.kind).toBe("audio");
-    expect(syllabus.lessons[4]?.kind).toBe("audio");
-    expect(syllabus.lessons[5]?.kind).toBe("audio");
-    expect(academyLessonKindLabel(syllabus.lessons[0]!.kind, ACADEMY_SEN.outline)).toBe("Ses");
-    expect(academyLessonKindLabel(syllabus.lessons[1]!.kind, ACADEMY_SEN.outline)).toBe("Ses");
-    expect(academyLessonKindLabel(syllabus.lessons[2]!.kind, ACADEMY_SEN.outline)).toBe("Ses");
-    expect(academyLessonKindLabel(syllabus.lessons[3]!.kind, ACADEMY_SEN.outline)).toBe("Ses");
-    expect(academyLessonKindLabel(syllabus.lessons[4]!.kind, ACADEMY_SEN.outline)).toBe("Ses");
-    expect(academyLessonKindLabel(syllabus.lessons[5]!.kind, ACADEMY_SEN.outline)).toBe("Ses");
+    expect(syllabus.lessons[0]?.title).toContain("Düzensiz Excel");
   });
 
   it("amiral antre vize vaadi Ofis Otomasyonu kapısını SEN ile adlandırır", () => {
@@ -128,15 +109,14 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
 
   it("sınav kalkanı amiral ve kardeş SKU için ortak SEN basar", () => {
     expect(ACADEMY_SEN.outline.examShield).toBe(
-      "Sınav, 6 yazılı compact dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
+      "Sınav, 6 dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
     );
     expect(ACADEMY_SEN.course.purchaseBody).toContain(ACADEMY_SEN.outline.examShield);
   });
 
-  it("öğrenim çıktıları amiral SKU için somut beceri listesi basar", () => {
+  it("öğrenim çıktıları 1. bölüm A1 hücresi refleksini basar", () => {
     const items = academyLearningOutcomesForSlug("01_office_ai");
-    expect(items.length).toBe(6);
-    expect(items[0]).toContain("stajyer");
-    expect(items.join(" ")).toContain("KVKK");
+    expect(items.join(" ")).toContain("A1 hücresi");
+    expect(items.join(" ")).not.toContain("stajyer");
   });
 });

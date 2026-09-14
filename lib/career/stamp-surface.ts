@@ -1,4 +1,5 @@
 import { listingVisaCourseSlugFromStamp } from "@/lib/career/listing-visa-scope";
+import { parsePublicTalentId, publicTalentPath } from "@/lib/career/public-talent";
 import type { CareerVisaStampRecord } from "@/lib/career/types";
 import {
   passportAcademyVerifyHref,
@@ -36,4 +37,10 @@ export function careerStampVerifyHref(
   stamp: Pick<CareerVisaStampRecord, "sourceKind" | "certificateHash">,
 ): string | null {
   return passportAcademyVerifyHref(stamp);
+}
+
+/** Kamuya açık yetkinlik kartı — damga id'si çözülemezse null. */
+export function careerStampPublicHref(stamp: Pick<CareerVisaStampRecord, "id">): string | null {
+  const id = parsePublicTalentId(stamp.id);
+  return id ? publicTalentPath(id) : null;
 }

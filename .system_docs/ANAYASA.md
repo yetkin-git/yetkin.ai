@@ -3,16 +3,16 @@
 İnsan SSOT (Tek Gerçek Kaynak). Ürün kodu bu dosyayı doğrudan import etmez.
 
 Bu belge iki katmandan oluşur:
-- **A Katmanı (Sert Kırmızı Çizgiler):** Yasal, finansal ve temel güvenlik zorunluluklarıdır. Değişmez ve taviz verilemez.
-- **B Katmanı (Esnek Ops ve Mühendislik Notları):** Mimari, operasyonel ve ürün rehberliğidir. Geliştirme hızını kesmeyen, ekip ve AI ajanının hareket alanını genişleten, gerektiğinde güncellenebilen yaşayan ilkelerdir. Greple kural polisliği yapılmaz.
+- **A Katmanı (A1–A5) — tek dokunulmaz katman:** Yasal, finansal ve temel güvenlik zorunluluklarıdır. Değişmez ve taviz verilemez.
+- **B Katmanı (B1–B5) — yaşayan ilkeler:** Mimari ve ürün rehberliğidir. Ürünle birlikte güncellenir. Operasyonel sayılar, env bayrakları ve HTTP kod tabloları burada durmaz; `docs/DURUM.md` ve `.system_docs/ops/` altındadır.
 
 | Alan | Değer |
 |------|--------|
 | Tarih | 16 Ağustos 2026 |
-| Son Reform | **Eylül 2026 (Teknik Lider & Kurucu İrade Reformu):** Katı grep yasakları, kelime avı yapan test dogmaları ve aşırı kısıtlayıcı katman duvarları B Katmanı'na çekilerek esnetildi. Geliştirici ve AI ajanın hareket alanı açıldı; A Katmanı yalnızca temel yasal (S43), finansal (`amountMinor`), güvenlik (RLS/IDOR/Sır) ve kanıt (sunucu puanlı mühür) çizgilerine odaklandı. **9 Eylül 2026 (Faz 1 işletme resmi):** B2 kamu vitrini 3 oda; A2 Freelancer tahsilatı zaman kipi Faz 2. A1–A5 gevşetilmedi. |
+| Son Reform | **13 Eylül 2026 (Tedavi):** B Katmanı operasyonel yükten arındırıldı. Yeni yetenek önce v1 hop’tur. Oda kaydı `lib/dronlar/kayit.ts` ile açılır. Kimlik/fatura/pasaport çekirdek yetenektir. Müfredat detayı PEDAGOJI.md’dedir. Video katmanı terk edildi. Motor 2 keşif fazındadır. |
 | Kamu markası / domain | `yetkin.ai` |
 | Kalıcı belgeler | `/.system_docs` |
-| Ops | `.system_docs/OPS_RUNBOOK.md` |
+| Ops | `.system_docs/OPS_RUNBOOK.md` (db / paytr / inngest / dron) |
 | Vizyon | `.system_docs/MANIFESTO.md` |
 | Günlük rapor | `/docs` — build fixture değildir |
 
@@ -27,7 +27,7 @@ Bu bölüm doğrudan yasal yaptırım, finansal kayıp ve kritik veri güvenliğ
 * **Para Birimi Tamsayıdır:** Tüm şema ve tiplerde tutarlar **`amountMinor`** (kuruş cinsinden pozitif tamsayı) ve `currencyCode` olarak tutulur. Float (ondalıklı) para kullanımı kesinlikle yasaktır.
 * **Tek Finansal SSOT:** Sistemdeki tek bakiye kaynağı `Wallet` satırı ve append-only (yalnızca eklemeli) çalışan `LedgerEntry` defteridir. `User` modelinde bakiye kolonu bulunamaz. Çift bakiye, kontrolsüz holding havuzları ve defter dışı nakit yazıcılar yasaktır.
 * **Emanet İkinci Bakiye Değildir:** `EscrowHold` tablosu bağımsız bir sanal para havuzu değildir; lisanslı ödeme sağlayıcısı (PSP) nezdindeki işlem referansı (`referenceKey` / `pspPaymentId`) ile eşleşir. `Wallet`, platform içi merchant işlem bakiyesidir.
-* **Fiyat Dinamiktir:** Satış fiyatları kod içerisine gömülü sabitler olamaz; Super Admin yönetimindeki dinamik katalog fiyatı SSOT'tur.
+* **Fiyat Dinamiktir:** Satış fiyatları kod içerisine gömülü sabitler olamaz; Super Admin yönetimindeki dinamik katalog fiyatı SSOT’tur.
 
 ## A2. Ödeme Kuruluşu Değiliz (S43 ve 6493 Sayılı Kanun Uyumu)
 
@@ -57,36 +57,39 @@ Bu bölüm doğrudan yasal yaptırım, finansal kayıp ve kritik veri güvenliğ
 
 ---
 
-# BÖLÜM B — OPS, ÜRÜN VE MİMARİ NOTLARI (ESNEK KATMAN)
+# BÖLÜM B — OPS, ÜRÜN VE MİMARİ NOTLARI (YAŞAYAN İLKELER)
 
-Bu bölümdeki maddeler kırmızı çizgi değildir; operasyonel, mimari ve ürün geliştirme rehberliğidir. Ekibin ve AI ajanın geliştirme hızını kilitleyen, kelime avı yapan veya aşırı bürokratik katman kontrolleri bu katmanda esnetilmiştir.
+Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme rehberliğidir; ürün gerçeği değişince bu maddeler güncellenir. Import duvarı (kernel ↛ dikey) B1 mühendisliği olarak durur; Anayasa A8 diye bir madde yoktur.
 
-## B1. Pragmatik Modüler Monolit ve Mimari Serbestlik
+## B1. Pragmatik Modüler Monolit ve API-First Sözleşme
 
-* **Grep Polisliğinin Sonu:** Katman denetimleri regex/grep ile kelime veya ithalat avı yaparak geliştiriciyi kilitleyemez. Kodun modülerliği ESLint kuralları, TypeScript tip sistemi ve sağlıklı yazılım prensipleriyle korunur.
-* **Katmanlar Arası Sağlıklı İletişim:** Web sayfaları (Next.js React Server Components), servis katmanları (`lib/<modul>`) ve API rotaları pragmatik ihtiyaçlar doğrultusunda birbirini çağırabilir. Yapay dosya/klasör sınırları inovasyonun önüne geçemez.
-* **Dış Sözleşme Standartlığı:** Mobil istemciler ve harici dronlar için `/api/v1` rotaları standart JSON zarfı `{ ok, error, requestId, apiVersion, data }` ile konuşur. Web arayüzü (Amiral) ise Next.js'in modern RSC veri yükleme (`load`) kabiliyetlerini serbestçe kullanır.
+* **Katman disiplini:** Modülerlik ESLint kuralları, TypeScript ve sağlıklı yazılım prensipleriyle korunur. Regex/grep kelime avı Anayasa maddesi değildir.
+* **Yeni yetenek önce v1 hop’tur.** Dronların ve ikincil istemcilerin tüketeceği yazma/okuma yeteneği `RAIL_V1_HOPS_META` siciline yazılır; kanonik handler aynı omurgada durur. RSC’nin `lib/` üzerinden **okuma/query** yüklemesi serbesttir. Yazma işlemi sessizce yalnız web BFF’te bırakılmaz.
+* **Dış sözleşme:** Mobil istemciler ve harici dronlar `/api/v1` JSON zarfı `{ ok, error, requestId, apiVersion, data }` ile konuşur. Shared Kernel `@yetkin/kernel` paketidir; saf (Prisma/Supabase bağımsız) sözleşme buradan sürülür.
+* **Kayıt kuralı:** Yeni oda/dron = `lib/dronlar/kayit.ts` kaydı + sözleşme + `DronBayrakları.isKapali(id)` bayrağı. Yasak liste değil, checklist vardır.
 
 ## B2. Odaklar ve Dinamik Modül Alanı
 
-* **Faz 1 kamu vitrini (işletme resmi):** Panel (`dashboard`) + Akademi (`academy`) + Kariyer (`career`). Freelancer motoru sicilde durur (`lib/freelancer`, Prisma şema, emanet kaydı); kamu yüzeyi **410 Gone** döner. 4. oda nakit iddiası taşımaz; PayTR incelemesinde vitrin değildir. Silinmez, açılmaz.
-* **Ana Odaklar (omurga hedefi):** Platformun çekirdek kullanıcı deneyimi `dashboard`, `academy`, `career` ve `freelancer` alanlarında yoğunlaşır. Çekirdek sığınaklar (`/profil`, `/cuzdan`, `/pasaport`, `/admin`) destekleyici alanlardır. Dört oda eşit canlılık iddiası değildir: Faz 1 çalışan vitrin 3 odadır; Freelancer kilitli motordur (Faz 2).
-* **Genişleme Alanı:** Bildirim sistemleri, yardım masası, analitik panelleri veya kurumsal pilot ekranları gibi meşru ürün ihtiyaçları "katı oda sınırı" dogmasına takılmaksızın monolit içerisinde temiz modüller olarak kurgulanabilir.
-* **Arşiv ve Müze:** Arşivlenmiş eski kodlar (`yetkin_muze/`, `archived/`) ana akışı kirletmediği sürece cezalandırıcı kurallarla değil, standart git ve paket disipliniyle yönetilir.
+* **Faz 1 kamu vitrini kilidi:** Çalışan kamu yüzeyi Panel, Akademi ve Kariyer’dir. Freelancer motoru sicilde durur; kamu yüzeyi kilitliyken 410 döner. Kilit mekanizması `DronBayrakları`’dır — takvim Anayasa maddesi değildir.
+* **Kamu kanıt URL’si oda değildir:** `/vize` ve `/academy/dogrula` kanıt çıkışıdır; yeni oda açmaz.
+* **Çekirdek yetenekler (eski “sığınak” kavramı emeklidir):** Kimlik (`/profil`), fatura/cüzdan (`/cuzdan`), pasaport (`/pasaport`) ve idare (`/admin`) çekirdek yeteneklerdir; yan alan değildir.
+* **Genişleme:** Meşru ürün ihtiyaçları kayıt + bayrak + hop checklist’i ile monolit içinde açılır. Arşiv (`yetkin_muze/`, `archived/`) ana akışı kirletmez.
+* **18 yaş altı ürün yoktur.** Junior kamu yüzeyi kilitlidir (`circuit-breakers`).
 
 ## B3. Geliştirici Dostu Test ve CI Politikası
 
-* **Ön Derleme Kapısı (`verify:prebuild`):** Bu kapı yalnızca A Katmanı'ndaki hayati güvenlik ve finansal unsurları denetler (sır taraması, tamsayı para, RLS durumu, IDOR testleri ve temel API sözleşmesi).
-* **Esnek Grep ve Stil Taramaları:** Belirli Türkçe kelimeleri, metin kalıplarını veya stil tercihlerini denetleyen taramalar (`verify:atomic-seals`, `verify:sen-axis` vb.) derlemeyi kıran mutlak engeller değildir; isteğe bağlı kalite veya nightly raporlama araçlarıdır.
-* **Geliştirici ve AI Ajan Özgürlüğü:** Mühendisler ve otonom ajanlar iş mantığını kurarken yapay test kırılmalarından endişe etmeden, doğrudan katma değer üreten kod yazma esnekliğine sahiptir.
+* **Ön Derleme Kapısı (`verify:prebuild`):** Bu kapı yalnızca A Katmanı'ndaki hayati güvenlik ve finansal unsurları denetler (sır taraması, tamsayı para, RLS durumu, IDOR testleri ve temel API sözleşmesi). Paket sürümü (`@yetkin/kernel`) v1 sözleşme kapısının parçasıdır.
+* **Esnek Grep ve Stil Taramaları:** Belirli Türkçe kelimeleri veya stil tercihlerini denetleyen taramalar derlemeyi kıran mutlak engeller değildir; isteğe bağlı kalite veya nightly raporlama araçlarıdır.
 
-## B4. Müfredat, Pedagoji ve Dinamik Fiyatlandırma
+## B4. Müfredat
 
-* **Konunun Hakkı İlkesi:** Compact yayın makalesi kelime tavanı veya sabit ders adediyle kesilmez. Mühürlü yapay zekâ eğitiminin üretim matematiği `PEDAGOJI.md` §F’dedir (45–90 dk, 6–8 ders, ders başı 7–12 dk, dört adımlı doygunluk). Zorunlu 3 seviye basamağı yoktur; çok teknik konularda Temel / Orta / İleri bağımsız paket olarak ayrılabilir.
-* **Piyasa Odaklı Fiyat:** Fiyatlar piyasa dinamiklerine göre Super Admin kataloğunda belirlenir. Kod içerisine maktu fiyat bantları gömülmez. Tohum tutarı soğuk vitrin / ops soft default’tur; canlı kilit `PriceCatalogEntry`’dir.
-* **Çoklu Modalite:** Mühürlü eğitimler tam metin, zaman senkronlu cue, görsel/şema ve sinematik medya ile fırınlanır; izlemede harici API yoktur. Canlı gün 0 oynatıcı mühürsüz derste **makale (compact markdown)** modundadır. Compact makale müfredatını süre bandı boğmaz.
+* **Konunun Hakkı:** Compact yayın makalesi kelime tavanı veya sabit ders adediyle kesilmez.
+* **Müfredat standardı `PEDAGOJI.md` §F’dedir.** Anayasa süre bandı, SKU adedi veya karaoke dakikası taşımaz.
+* **Yayın = makale + mühürlü karaoke.** Mühürlü ders sayısı depo gerçeğidir: **2** (`01_office_ai-1`, `01_office_ai-2`). İzlemede `VIDEO_GEN` yok; `01_office_ai-1` Warm-up 8 sn mühürlü Veo 3.1 B-roll bake katmanıdır.
 
 ## B5. Harici Entegrasyonlar ve Pilot İş Modelleri
 
-* **Pazaryeri Geçiş Dönemi:** Faz 1 kamu nakit kanalı PayTR Merchant (Akademi iFrame)’tır. Pazaryeri Split bağlı değilse freelancer nakit kabul edilmez; işlem A2 fail-closed ile `not_configured` / 503 döner. Split ayrı faz, ayrı sözleşmedir; Merchant onayı Split izni değildir. Ticari teklifler, kurumsal pilotlar ve işbirlikleri haricen yönetilir: platform dışı sözleşme ve fatura ile yürütülür, deftere nakit yazılmaz, sahte "tamamen hazır" iddiası basılmaz.
-* **Altyapı Servisleri:** Redis, Inngest, e-posta sağlayıcıları gibi üçüncü taraf servisler operasyonel ihtiyaçlara göre devreye alınır; konfigürasyon eksikliğinde sistem zarifçe (graceful degradation) çalışmasını sürdürür.
+* **Nakit kanalı:** Kamu tahsilatı lisanslı Merchant portudur. Split bağlı değilse freelancer nakit kabul edilmez (A2 fail-closed). Merchant onayı Split izni değildir.
+* **Faz 2 açılış kriterleri (checklist):** (1) lisanslı Pazaryeri sözleşmesi, (2) alt satıcı onboard, (3) freelancer hop’larının v1 siciline geri yazımı, (4) kapalı test halkası yeşil, (5) `DronBayrakları.isKapali("freelancer") === false`. İmza Super Admin + CEO.
+* **Motor 2 (B2B):** Keşif fazındadır. Kurumsal oda arşivde kalır; ilk pilot müşteri profili olmadan kamu vitrini açılmaz.
+* **Altyapı:** Redis, Inngest, e-posta gibi üçüncü taraf servisler operasyonel ihtiyaçlara göre devreye alınır; eksiklikte sahte yeşil basılmaz.

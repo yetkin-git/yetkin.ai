@@ -64,8 +64,8 @@ function splitBy(text: string, pattern: RegExp): string[] {
     .filter((part) => part.length > 0);
 }
 
-/** Cümle: . ! ? …  — birim solda kalır. */
-const SENTENCE_BOUNDARY = /(?<=[.!?…])\s+/u;
+/** Cümle: . ! ? … — `1. A1` / `2. bölümde` gibi sıra no. kesilmez. */
+const SENTENCE_BOUNDARY = /(?<=(?<!\d)\.|[!?…])\s+/u;
 /** Uzun cümle: virgül, noktalı virgül, iki nokta, tire. */
 const CLAUSE_BOUNDARY = /(?<=[,;:—–])\s+/u;
 const PAUSE_TAG_RE = /\s*\[pause\]\s*/giu;

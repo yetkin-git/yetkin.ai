@@ -16,9 +16,9 @@ describe("Amiral Ders — compact ingest SKU", () => {
     expect(Object.keys(ACADEMY_COURSE_TITLES)).toEqual([...ACADEMY_CANON_SKU_SLUGS]);
     expect(ACADEMY_COURSE_TITLES["01_office_ai"]).toContain("Ofiste Yapay Zekâ");
     expect(ACADEMY_COURSE_TITLES["02_ecommerce_ai"]).toContain("E-Ticaret");
-    expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
-    expect(ACADEMY_CATALOG_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
-    expect(publishedCoursesFromSeed().map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
+    expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai"]);
+    expect(ACADEMY_CATALOG_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai"]);
+    expect(publishedCoursesFromSeed().map((row) => row.slug)).toEqual(["01_office_ai"]);
     expect(ACADEMY_PILOT_SKU_SLUG).toBeNull();
     expect(ACADEMY_PILOT_SKU_LESSON_COUNT).toBe(0);
     expect(ACADEMY_GROWTH_LESSON_COUNT).toBe(6);
@@ -30,9 +30,9 @@ describe("Amiral Ders — compact ingest SKU", () => {
     expect(academyExamPoolForSlug("04_chatbot_nocode").length).toBeGreaterThanOrEqual(30);
     expect(academyExamPoolForSlug("05_prompt_practice").length).toBeGreaterThanOrEqual(30);
     expect(curriculumForCourseSlug("01_office_ai")).toHaveLength(6);
-    expect(curriculumForCourseSlug("02_ecommerce_ai")).toHaveLength(6);
-    expect(curriculumForCourseSlug("03_social_media_ai")).toHaveLength(6);
-    expect(curriculumForCourseSlug("04_chatbot_nocode")).toHaveLength(6);
-    expect(curriculumForCourseSlug("05_prompt_practice")).toHaveLength(6);
+    expect(curriculumForCourseSlug("02_ecommerce_ai")).toHaveLength(0);
+    expect(curriculumForCourseSlug("03_social_media_ai")).toHaveLength(0);
+    expect(curriculumForCourseSlug("04_chatbot_nocode")).toHaveLength(0);
+    expect(curriculumForCourseSlug("05_prompt_practice")).toHaveLength(0);
   });
 });

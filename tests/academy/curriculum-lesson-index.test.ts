@@ -35,7 +35,7 @@ describe("müfredat ders indeksi (katalog grafı)", () => {
     expect(page).not.toContain("@/lib/academy/curricula\"");
     expect(page).not.toContain("CURRICULUM_DRAFTS_BY_SLUG");
     expect(page).toContain("@/lib/academy/load-catalog");
-    expect(page).toContain("@/lib/academy/curricula/lesson-index");
+    expect(page).not.toContain("@/lib/academy/curricula/lesson-index");
 
     expect(catalogLoad).not.toContain("@/lib/academy/curriculum");
     expect(catalogLoad).not.toContain("CURRICULUM_DRAFTS_BY_SLUG");

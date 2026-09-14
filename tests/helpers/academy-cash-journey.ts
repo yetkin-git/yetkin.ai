@@ -82,6 +82,18 @@ export async function runAcademyCashJourney(): Promise<AcademyCashJourneyResult>
   });
 
   const lessons = curriculumForCourseSlug(E2E_ACADEMY_SLUG);
+  if (lessons.length === 0) {
+    return {
+      ledger,
+      purchase: first.purchase,
+      firstApplied: first.applied,
+      replayApplied: replay.applied,
+      certificate: null,
+      buyerBalanceAfter: ledger.snapshot(E2E_ACADEMY_BUYER_ID).amountMinor,
+      platformBalanceAfter: ledger.snapshot(E2E_ACADEMY_PLATFORM_ID).amountMinor,
+      seedAmountMinor,
+    };
+  }
   if (lessons.length !== 6) {
     throw new Error(`01_office_ai müfredatı 6 ders ister, gelen ${lessons.length}.`);
   }

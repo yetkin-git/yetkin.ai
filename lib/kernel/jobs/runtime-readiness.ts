@@ -6,6 +6,7 @@
  */
 
 import { readServiceEnvChecks } from "@/lib/kernel/health/probe";
+import { isLiveBroadcastShutdownEnvActive } from "@/lib/kernel/http/live-broadcast-shutdown";
 import { resolveInngestServeMode } from "@/lib/kernel/jobs/inngest-guard";
 import {
   CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS,
@@ -72,6 +73,11 @@ export function evaluateRuntimeReadiness(
   }
 
   const liveDay0Warnings: string[] = [];
+  if (production && isLiveBroadcastShutdownEnvActive(env)) {
+    liveDay0Warnings.push(
+      "LIVE_BROADCAST_SHUTDOWN — ürün 503; Inngest serve/send ve PayTR bildirim fail-closed. Süreç bloğu değil (deploy açılır).",
+    );
+  }
   if (production && smtp === "unconfigured") {
     liveDay0Warnings.push(
       "NOTICE_SMTP_HOST + NOTICE_MAIL_FROM boş — gün 0 akademi makbuzu/bildirim yok; nakit durmaz (SMTP skipped).",

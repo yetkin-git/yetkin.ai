@@ -1,5 +1,5 @@
 import path from "node:path";
-import { FROZEN_DISK_ROOMS } from "./lib/kernel/rooms.ssot";
+import { FROZEN_DISK_ROOMS } from "./lib/dronlar/kayit";
 
 /** Donmuş 8 oda — Amiral derlemesi `archived/`; Vitest `@/lib/{oda}` takma adını oraya çevirir (canlı `lib/` tavanı yok). */
 export const FROZEN_VITEST_ROOMS = FROZEN_DISK_ROOMS;
@@ -16,6 +16,14 @@ export function railVitestAliases(rootDir: string) {
         replacement: path.join(rootDir, "archived", "components", id),
       },
     ]),
+    {
+      find: /^@yetkin\/kernel\/(.*)$/,
+      replacement: path.join(rootDir, "packages/kernel/src/$1"),
+    },
+    {
+      find: /^@yetkin\/kernel$/,
+      replacement: path.join(rootDir, "packages/kernel/src/index.ts"),
+    },
     { find: "@", replacement: rootDir },
     {
       find: "server-only",

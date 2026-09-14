@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { createV1HttpClient } from "../../apps/rail-is/src/api/client";
 import { RailV1HttpError, RailV1ProtocolError } from "../../apps/rail-is/src/api/errors";
+import { DRON_FAZ2_FROZEN, DRON_TEZGAH_STORE_ISOLATED } from "../../apps/rail-is/src/api/hops";
 import {
   RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE,
   RAIL_V1_CLIENT_STALE,
@@ -37,6 +38,7 @@ import { emptyReleaseForm, releaseIntentId } from "../../apps/rail-is/src/ui/pre
 import { acceptIntentId, emptyAcceptForm, presentAcceptError } from "../../apps/rail-is/src/ui/present-accept";
 import { presentOwnerBidsReady } from "../../apps/rail-is/src/ui/present-owner-bids";
 import { presentJobListError, presentJobListReady } from "../../apps/rail-is/src/ui/present-job-list";
+import { presentAcademyPlayer } from "../../apps/rail-is/src/ui/present-academy-player";
 import { presentWalletStrip, webWalletUrl } from "../../apps/rail-is/src/ui/present-wallet";
 
 const ROOT = process.cwd();
@@ -139,7 +141,11 @@ describe("UI tanığı — Native Dron mutlu yol zarf durumları", () => {
       "apps/rail-is/src/screens/OwnerBidsScreen.tsx",
       "apps/rail-is/src/screens/BenchScreen.tsx",
       "apps/rail-is/src/screens/WalletStripBanner.tsx",
+      "apps/rail-is/src/screens/AcademyPlayerScreen.tsx",
+      "apps/rail-is/src/screens/ExamScreen.tsx",
+      "apps/rail-is/src/screens/CertificateScreen.tsx",
       "apps/rail-is/src/screens/UpdateRequiredScreen.tsx",
+      "apps/rail-is/src/screens/Phase2LockScreen.tsx",
       "apps/rail-is/src/ui/dron-app-state.ts",
       "apps/rail-is/src/runtime/use-dron-app.ts",
     ];
@@ -189,16 +195,26 @@ describe("UI tanığı — Native Dron mutlu yol zarf durumları", () => {
     expect(hook).toContain("submitAccept");
     expect(hook).toContain("listOwnerJobBids");
     expect(hook).toContain("getWalletStrip");
+    expect(hook).toContain("getAcademyCurriculum");
+    expect(hook).toContain("submitAcademyExam");
     expect(hook).toContain("RAIL_IS_BENCH_POLL_MS");
     expect(hook).toContain("AppState");
     expect(readSrc("apps/rail-is/App.tsx")).toContain("RefreshControl");
     expect(readSrc("apps/rail-is/App.tsx")).toContain("BenchScreen");
+    expect(readSrc("apps/rail-is/App.tsx")).toContain("Phase2LockScreen");
+    expect(readSrc("apps/rail-is/App.tsx")).toContain("DRON_TEZGAH_STORE_ISOLATED");
+    expect(readSrc("apps/rail-is/App.tsx")).toContain("AcademyPlayerScreen");
+    expect(readSrc("apps/rail-is/App.tsx")).toContain("ExamScreen");
+    expect(readSrc("apps/rail-is/App.tsx")).toContain("CertificateScreen");
     const wallet = readSrc("apps/rail-is/src/ui/present-wallet.ts");
     expect(wallet).toContain("/cuzdan");
     expect(readSrc("apps/rail-is/src/ui/copy.ts")).toContain("Lütfen uygulamayı güncelleyiniz");
     expect(readSrc("apps/rail-is/src/ui/copy.ts")).toContain("Cüzdan henüz yüklenemedi");
     expect(readSrc("apps/rail-is/src/ui/copy.ts")).toContain("Liste henüz yüklenemedi.");
     expect(readSrc("apps/rail-is/src/ui/copy.ts")).toContain("Tezgâh henüz yüklenemedi.");
+    expect(readSrc("apps/rail-is/src/ui/copy.ts")).toContain("Yansıtma bekleniyor");
+    expect(DRON_TEZGAH_STORE_ISOLATED).toBe(true);
+    expect(RAIL_IS_COPY.phase2Lock.testID).toBe("dron-phase2-lock");
   });
 
   it("yükleniyor / başarı / dürüst boş / parse hata kartı ayrışır; hata jobs:[] değildir", () => {
@@ -322,7 +338,7 @@ describe("UI tanığı — Native Dron mutlu yol zarf durumları", () => {
       getAccessToken: () => "token",
       fetch: fetchImpl,
     });
-    await expect(client.listOpenJobs()).rejects.toBeInstanceOf(RailV1ProtocolError);
+    await expect(client.listOpenJobs()).rejects.toThrow(DRON_FAZ2_FROZEN);
   });
 
   it("amountMinor tam sayıdır; niyet UUID'si yeniden çizimde değişmez", async () => {
@@ -368,6 +384,7 @@ describe("UI tanığı — Native Dron mutlu yol zarf durumları", () => {
 
   it("detay listeden brief taşır; SELECT_JOB ayrı hop icat etmez", () => {
     let state = loggedIn();
+    state = dronAppReducer(state, { type: "HOME_TAB", tab: "jobs" });
     expect(visibleScreen(state)).toBe("jobs");
     state = dronAppReducer(state, { type: "SELECT_JOB", job: JOB });
     expect(visibleScreen(state)).toBe("job");
@@ -376,6 +393,69 @@ describe("UI tanığı — Native Dron mutlu yol zarf durumları", () => {
     expect(readSrc("apps/rail-is/src/screens/JobDetailScreen.tsx")).toContain("job.brief");
     expect(readSrc("apps/rail-is/src/screens/JobDetailScreen.tsx")).not.toContain("/api/v1/");
     expect(readSrc("apps/rail-is/src/screens/JobDetailScreen.tsx")).not.toContain("listOpenJobs");
+  });
+
+  it("Akademi oynatıcı ve sınav yüzeyleri hop DTO'sunu parse eder; sahte müfredat basılmaz", () => {
+    const ready = presentAcademyPlayer({
+      player: {
+        courseId: "c1",
+        courseSlug: "01_office_ai",
+        courseTitle: "Ofis",
+        purchaseId: "p1",
+        completedCount: 0,
+        totalCount: 1,
+        curriculumComplete: false,
+        workTasksComplete: false,
+        curriculumProofHash: null,
+        nextLessonKey: "l1",
+        certificate: null,
+        lessons: [
+          {
+            key: "l1",
+            order: 1,
+            title: "Ders 1",
+            body: "Metin",
+            completed: false,
+            open: true,
+            completedAt: null,
+          },
+        ],
+      },
+    });
+    expect(ready).toMatchObject({ kind: "ready", testID: "dron-academy-player-ready" });
+    if (ready.kind === "ready") {
+      expect(ready.lessons[0]?.body).toBe("Metin");
+    }
+    let academy = loggedIn();
+    expect(visibleScreen(academy)).toBe("academy");
+    academy = dronAppReducer(academy, { type: "ACADEMY_SELECT_COURSE", courseId: "01_office_ai" });
+    academy = dronAppReducer(academy, { type: "ACADEMY_CURRICULUM_OK", data: { player: {
+      courseId: "c1",
+      courseSlug: "01_office_ai",
+      courseTitle: "Ofis",
+      purchaseId: "p1",
+      completedCount: 0,
+      totalCount: 1,
+      curriculumComplete: false,
+      workTasksComplete: false,
+      curriculumProofHash: null,
+      nextLessonKey: "l1",
+      certificate: null,
+      lessons: [{ key: "l1", order: 1, title: "Ders 1", body: "Metin", completed: false, open: true, completedAt: null }],
+    } } });
+    expect(visibleScreen(academy)).toBe("player");
+    academy = dronAppReducer(academy, { type: "ACADEMY_EXAM_OK", courseId: "c1", data: {
+      exam: { id: "e1", courseId: "c1", title: "Sınav", passScore: 70 },
+      questions: [{ id: "q1", prompt: "Soru", choices: ["A", "B"] }],
+      purchaseId: "p1",
+      certificate: null,
+      sessionToken: "tok",
+      expiresAt: "2026-09-13T00:00:00.000Z",
+      durationMs: 60000,
+      drawCount: 1,
+      proofLessonKey: null,
+    } });
+    expect(visibleScreen(academy)).toBe("exam");
   });
 
   it("İşlerim şeritleri status+deliveredAt ile dürüst ayrılır; parse fail sahte liste basmaz", () => {

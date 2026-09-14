@@ -11,40 +11,12 @@ import { isAcademyLessonAudioSealed } from "@/lib/academy/pilot-sku";
 /**
  * Mühürlü WAV süreleri (saniye, yuvarlanmış).
  * Diskteki dosya ile `tests/academy/sealed-audio-pilot.test.ts` senkronlar.
- * Bake sonrası süre değişirse bu tabloyu güncelle.
+ * Bake sonrası süre değişirse bu tabloyu güncelle. Taze ingest bekler.
  */
-export const ACADEMY_SEALED_AUDIO_DURATION_SEC = {
-  "01_office_ai-1": 549,
-  "01_office_ai-2": 441,
-  "01_office_ai-3": 454,
-  "01_office_ai-4": 408,
-  "01_office_ai-5": 382,
-  "01_office_ai-6": 342,
-  "02_ecommerce_ai-1": 572,
-  "02_ecommerce_ai-2": 621,
-  "02_ecommerce_ai-3": 586,
-  "02_ecommerce_ai-4": 612,
-  "02_ecommerce_ai-5": 521,
-  "02_ecommerce_ai-6": 492,
-  "03_social_media_ai-1": 451,
-  "03_social_media_ai-2": 414,
-  "03_social_media_ai-3": 394,
-  "03_social_media_ai-4": 383,
-  "03_social_media_ai-5": 387,
-  "03_social_media_ai-6": 379,
-  "04_chatbot_nocode-1": 425,
-  "04_chatbot_nocode-2": 426,
-  "04_chatbot_nocode-3": 440,
-  "04_chatbot_nocode-4": 415,
-  "04_chatbot_nocode-5": 478,
-  "04_chatbot_nocode-6": 430,
-  "05_prompt_practice-1": 439,
-  "05_prompt_practice-2": 425,
-  "05_prompt_practice-3": 427,
-  "05_prompt_practice-4": 436,
-  "05_prompt_practice-5": 455,
-  "05_prompt_practice-6": 466,
-} as const;
+export const ACADEMY_SEALED_AUDIO_DURATION_SEC: Readonly<Record<string, number>> = {
+  "01_office_ai-1": 547,
+  "01_office_ai-2": 500,
+};
 
 type AcademySealedLessonKey = keyof typeof ACADEMY_SEALED_AUDIO_DURATION_SEC;
 
@@ -56,6 +28,14 @@ export const ACADEMY_SEALED_AUDIO_CACHE_V: Partial<Record<AcademySealedLessonKey
 /** Yayın uzantısı — bake WAV git/Vercel dışıdır. */
 export const ACADEMY_SEALED_AUDIO_EXTENSION = "mp3" as const;
 export const ACADEMY_SEALED_AUDIO_MIME = "audio/mpeg" as const;
+/** Lyria 3.5 dip müzik — mühürlü bed; izlemede canlı üretim yok. */
+export const ACADEMY_SEALED_BED_EXTENSION = "bed.mp3" as const;
+export const ACADEMY_SEALED_BED_LESSON_KEYS = ["01_office_ai-1", "01_office_ai-2"] as const;
+
+/** 01_office_ai-2 Lyria kaseti 1. ders bed’ini reuse eder — yeni Lyria çağrısı yok. */
+function academyLessonBedAssetKey(lessonKey: string): string {
+  return lessonKey.trim() === "01_office_ai-2" ? "01_office_ai-1" : lessonKey.trim();
+}
 /** Vercel Pro statik yükleme tavanı 1 GB; mühürlü MP3 bu bütçenin altında kalır. */
 export const ACADEMY_SEALED_AUDIO_DEPLOY_MAX_BYTES = 400 * 1024 * 1024;
 
@@ -63,6 +43,25 @@ export function academyLessonAudioPublicPath(courseSlug: string, lessonKey: stri
   const slug = courseSlug.trim();
   const key = lessonKey.trim();
   return `${ACADEMY_MEDIA_PUBLIC_ROOT}/audio/${slug}/${key}.${ACADEMY_SEALED_AUDIO_EXTENSION}`;
+}
+
+export function academyLessonBedPublicPath(courseSlug: string, lessonKey: string): string {
+  const slug = courseSlug.trim();
+  const key = academyLessonBedAssetKey(lessonKey);
+  return `${ACADEMY_MEDIA_PUBLIC_ROOT}/audio/${slug}/${key}.${ACADEMY_SEALED_BED_EXTENSION}`;
+}
+
+export function isAcademyLessonBedSealed(courseSlug: string, lessonKey: string): boolean {
+  return (
+    isAcademyLessonAudioSealed(courseSlug, lessonKey) &&
+    (ACADEMY_SEALED_BED_LESSON_KEYS as readonly string[]).includes(lessonKey.trim())
+  );
+}
+
+export function academyLessonBedPlaybackSrc(courseSlug: string, lessonKey: string): string {
+  const path = academyLessonBedPublicPath(courseSlug, lessonKey);
+  const version = academySealedAudioCacheVersion(lessonKey);
+  return version > 0 ? `${path}?v=${version}` : path;
 }
 
 export function isAcademyMpegAudioBuffer(bytes: Uint8Array): boolean {
@@ -117,15 +116,17 @@ export function academyPlayerClockDurationSec(input: {
   audioDuration: number;
   sealedDuration: number;
   spokenDuration: number;
+  outroTailSec?: number;
 }): number {
   const audio = finitePositiveSec(input.audioDuration);
   const sealed = finitePositiveSec(input.sealedDuration);
   const spoken = finitePositiveSec(input.spokenDuration);
   const trusted = sealed || spoken;
+  const tail = finitePositiveSec(input.outroTailSec ?? 0);
   if (audio > 0 && trusted > 0 && audio <= 120 && trusted > 150) {
-    return trusted;
+    return trusted + tail;
   }
-  return audio || trusted;
+  return (audio || trusted) + tail;
 }
 
 export { isAcademyLessonAudioSealed };

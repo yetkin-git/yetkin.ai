@@ -1,7 +1,7 @@
 import { isVitrineRoomFrozen } from "@/lib/kernel/compliance/circuit-breakers";
-import { VERTICAL_ROOMS } from "@/lib/kernel/rooms.ssot";
+import { VERTICAL_ROOMS } from "@/lib/dronlar/kayit";
 
-export { VERTICAL_ROOMS, type VerticalRoomId } from "@/lib/kernel/rooms.ssot";
+export { VERTICAL_ROOMS, type VerticalRoomId } from "@/lib/dronlar/kayit";
 
 export type RibbonRoomId = Exclude<(typeof VERTICAL_ROOMS)[number]["id"], "dashboard">;
 

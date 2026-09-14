@@ -25,18 +25,26 @@ describe("akademi devam paneli", () => {
     expect(parseAcademyContinueDismissed('["sample-course",""]')).toEqual(["sample-course"]);
   });
 
-  it("müfredat bitince antre ExamStartGate yutağına iner", () => {
+  it("müfredat doluyken devam kartı ilk derse iner", () => {
     const keys = curriculumLessonKeysForSlug("01_office_ai");
-    expect(keys).toHaveLength(6);
+    expect(keys).toEqual([
+      "01_office_ai-1",
+      "01_office_ai-2",
+      "01_office_ai-3",
+      "01_office_ai-4",
+      "01_office_ai-5",
+      "01_office_ai-6",
+    ]);
     const board = resolveAcademyContinueBoard({
       courseId: "ac_01_office_ai",
       courseSlug: "01_office_ai",
       courseTitle: "Ofiste Yapay Zekâ",
-      completedLessonKeys: keys,
+      completedLessonKeys: [],
       hasCertificate: false,
     });
-    expect(board?.phase).toBe("exam");
-    expect(board?.href).toBe(academyExamStartGateHref("01_office_ai"));
-    expect(board?.href).toContain("?gate=exam#academy-exam-gate");
+    expect(board?.phase).toBe("lesson");
+    expect(board?.nextLessonKey).toBe("01_office_ai-1");
+    expect(board?.href).toBe("/academy/01_office_ai/oyna");
+    expect(academyExamStartGateHref("01_office_ai")).toContain("?gate=exam#academy-exam-gate");
   });
 });

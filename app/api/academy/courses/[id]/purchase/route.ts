@@ -1,6 +1,4 @@
 import { requireSession } from "@/lib/kernel/auth/session";
-import { isV1CookieSessionBlocked } from "@/lib/kernel/http/api-v1";
-import { ForbiddenError } from "@/lib/kernel/http/errors";
 import { jsonFail, jsonFromUnknown } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { requireRailV1IdempotencyKey } from "@/lib/kernel/http/v1-runtime-shield";
@@ -28,9 +26,7 @@ import { createPrismaBillingInfoStore } from "@/lib/kernel/identity/prisma-billi
 
 export const auth = "session" as const;
 
-/** Dron /api/v1 kimliği — nativeStore forbidden; IAP defense-in-depth. */
-export const ACADEMY_PURCHASE_DRON_FORBIDDEN =
-  "Akademi satın alma native istemciden kapalıdır.";
+/** Native IAP yoktur; cüzdan DEBIT v1 hop'u Bearer ile açıktır. */
 
 function billingReceiptName(billing: CheckoutBillingInfo): string {
   return billing.invoiceType === "individual" ? billing.fullName : billing.companyTitle;
@@ -100,16 +96,6 @@ export async function POST(
 ) {
   const requestId = resolveRequestId(request);
   try {
-    // Dron v1 rewrite yolu (x-rail-pathname=/api/v1/...) — Amiral çerez/kanonik yol geçer.
-    if (isV1CookieSessionBlocked(request)) {
-      logEvent({
-        level: "warn",
-        event: "academy.purchase.dron_forbidden",
-        requestId,
-        route: "/api/academy/courses/[id]/purchase",
-      });
-      throw new ForbiddenError(ACADEMY_PURCHASE_DRON_FORBIDDEN);
-    }
     const user = await requireSession(request);
     const { id } = await context.params;
     const idempotency = requireRailV1IdempotencyKey(request, requestId);
@@ -164,6 +150,15 @@ export async function POST(
           consentVersion: parsed.data.consentVersion,
         });
         if (result.applied) {
+          logEvent({
+            level: "info",
+            event: "sem.conversion",
+            action: "purchase",
+            requestId,
+            userId: user.id,
+            route: "/api/academy/courses/[id]/purchase",
+            consentVersion: parsed.data.consentVersion,
+          });
           await queueAcademyReceiptMail({
             purchaseId: result.purchase.id,
             userId: user.id,

@@ -1,8 +1,10 @@
-# .system_docs — dokunulmaz sistem belgeleri
+# .system_docs — sistem belgeler
 
 yetkin.ai — mühürlü emek işletim sistemi.
 
 Bu klasör kalıcı anayasa ve sistem belgeleridir. Ürün kodu buradaki markdown’ı import etmez. Ajan, operatör ve prebuild yüzeyi burayı okur.
+
+**Dokunulmaz** yalnız Anayasa **A Katmanı (A1–A5)**tır. B Katmanı, Manifesto, Pedagoji ve Dron spec yaşayan belgelerdir.
 
 `/docs` günlük yap-boz ve raporlama alanıdır. `/docs` içindeki her dosya silinse bile `npm run build` ve testler yeşil kalmak zorundadır.
 
@@ -10,20 +12,18 @@ Bu klasör kalıcı anayasa ve sistem belgeleridir. Ürün kodu buradaki markdow
 
 | Dosya | Neden zorunlu |
 |-------|----------------|
-| `ANAYASA.md` | **A Katmanı** (A1–A5): `amountMinor`, tek defter, S43, RLS/IDOR, sunucu mühür, dürüst yüzey. **B Katmanı** (B1–B5): modüler monolit, odaklar, prebuild, müfredat, entegrasyon. Yoksa proje anayasasız derlenmiş sayılır. |
-| `MANIFESTO.md` | Anayasa’nın *neden* var olduğunu söyler; yerine geçmez. Vizyon sapması odak şişmesini doğurur. |
-| `OPS_RUNBOOK.md` | Operatör bağlama SSOT’u (env, Direct Port, Super Admin, PayTR, Inngest, Storage CORS). Credential icat edilmez. |
-| `STORAGE_CONTRACT.md` | Vatandaş/Studio nesne deposu yok (410). Akademi mühürlü WAV **18** (`01` + `02` + `03`, her biri 1–6). `lesson-audios` yayın vaadi değildir. Beşlinin beşincisi. |
-| `README.md` | Bu klasörün kendisini ve `/docs` ayrımını tarif eder. |
+| `ANAYASA.md` | **A Katmanı** (A1–A5) kırmızı çizgi. **B Katmanı** yaşayan mimari. |
+| `MANIFESTO.md` | Anayasa’nın *neden* var olduğunu söyler. |
+| `OPS_RUNBOOK.md` | Operatör bağlama indeksi; ayrıntı `ops/` altındadır. |
+| `STORAGE_CONTRACT.md` | Vatandaş/Studio nesne deposu yok. Akademi mühürlü yayın **2**. |
+| `README.md` | Bu klasörün kendisini tarif eder. |
 
-İstemci ops (derleme beşlisi değildir): `DRON_CLIENT_SPEC.md` — yetkin.ai İş / Diyar B native ve ikincil istemcinin Bearer, JWT yenileme, Idempotency-Key ve 401/426 kuralları. Yeni auth modeli açmaz. Gün 0 gövde: `apps/rail-is` (paket `yetkin.ai-is`; Amiral `app/` değildir; mutlu yol + İşlerim/Tezgâh ekranları `src/screens`).
+İstemci ops: `DRON_CLIENT_SPEC.md` — Bearer, JWT yenileme, Idempotency-Key, 401/426. Shared Kernel `@yetkin/kernel` paketidir.
 
-Eğitim anlatım ve pedagoji ilkeleri (derleme beşlisi değildir): `PEDAGOJI.md` — Gün 0 **Aşama 1 compact markdown**; mühürlü sinema **§F** (45–90 dk, 6–8 ders, 4 adımlı doygunluk, zengin medya, isteğe bağlı 3 seviye, fırınlama sesi). Compact makale gövdesi kelime tavanıyla kesilmez. Çelişkide `.system_docs/ANAYASA.md` bağlayıcıdır.
+Eğitim: `PEDAGOJI.md` — Yayın = Makale + Mühürlü Karaoke. Mühürlü ders **2**. Video katmanı terk edilmiştir.
 
-Kimlik **Supabase Auth** ile mühürlenir, veri **Prisma** üzerinden Postgres’e yazılır, gövde tek **Next.js** App Router uygulamasıdır (**B1: Pragmatik Modüler Monolit**). Dron ve harici tüketiciler **B1 dış sözleşmesi** ile `/api/v1` JSON zarfını konuşur; Amiral RSC yükler. Motor sicili dört odadır (`dashboard`, `academy`, `career`, `freelancer`); **Faz 1 kamu vitrini 3 oda** (Panel, Akademi, Kariyer). Freelancer kamu 410; nakit iddiası taşımaz. Lisanslı split henüz bağlı değilse accept **503** (A2). Junior üretim kilitli 410. Donmuş 8 oda 410 envanteridir. B2, bildirim/yardım/analitik gibi meşru genişlemeyi “13. oda” dogmasına takmadan izin verir.
+Kimlik **Supabase Auth**, veri **Prisma**, gövde **Next.js** App Router (**B1: Pragmatik Modüler Monolit + API-First**). Dronlar `@yetkin/kernel` ve `/api/v1` zarfını konuşur. Kamu vitrini Panel + Akademi + Kariyer + kanıt URL’si (`/vize`). Freelancer kilitli motordur. Motor 2 keşif fazındadır.
 
-PayTR omurga değil, **iki porttur:** Merchant (Akademi/üye işyeri — **Faz 1 tek kamu nakit kanalı**) ve Pazaryeri Split (Freelancer — Faz 2). Ayrıntı Anayasa **A2 (S43)** ve `OPS_RUNBOOK.md` §4.
+PayTR iki porttur: Merchant (kamu nakit) ve Pazaryeri Split (Faz 2). Ayrıntı `ops/ops-paytr.md`.
 
-KVKK m.11 (hesap silme / veri indirme) ürün içi self-serve değildir; Super Admin `destek@yetkin.ai` kuyruğundan manuel yürütür. Süreç notu: `OPS_RUNBOOK.md` §18.
-
-Omurgayı bağlamak: `.env.example` → `.env.local`, sonra `npm run ops:migrate`. Adımlar `.system_docs/OPS_RUNBOOK.md`. Çelişki hâlinde `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır; B Katmanı yaşayan ops/mühendislik notudur.
+Omurgayı bağlamak: `.env.example` → `.env.local`, sonra `npm run ops:migrate`. Çelişki hâlinde `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır.

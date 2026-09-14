@@ -4,7 +4,6 @@ import { describe, expect, it } from "vitest";
 import { ACADEMY_HAPPY_PATH } from "@/lib/academy";
 import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
-import { loadAcademyTeleprompterFlow } from "@/lib/academy/lesson-teleprompter-flow";
 import {
   ACADEMY_GROWTH_SKU_SLUGS,
   ACADEMY_PILOT_SKU_SLUG,
@@ -52,73 +51,31 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(readSrc("app/api/academy/generateSpeech/route.ts")).toContain("410");
   });
 
-  it("beş SKU × 6 ders karaoke katmanıdır; mühürsüz article kalmaz", () => {
+  it("mühür yokken karaoke katmanı basılmaz", () => {
     let karaokeCount = 0;
     let articleCount = 0;
     for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
       const lessons = curriculumForCourseSlug(slug);
-      expect(lessons).toHaveLength(6);
-      for (const lesson of lessons) {
-        const layer = academyCitizenPlayerLayer(slug, lesson.key);
-        if (layer.kind === "article+karaoke") {
-          karaokeCount += 1;
-          expect([
-            "01_office_ai-1",
-            "01_office_ai-2",
-            "01_office_ai-3",
-            "01_office_ai-4",
-            "01_office_ai-5",
-            "01_office_ai-6",
-            "02_ecommerce_ai-1",
-            "02_ecommerce_ai-2",
-            "02_ecommerce_ai-3",
-            "02_ecommerce_ai-4",
-            "02_ecommerce_ai-5",
-            "02_ecommerce_ai-6",
-            "03_social_media_ai-1",
-            "03_social_media_ai-2",
-            "03_social_media_ai-3",
-            "03_social_media_ai-4",
-            "03_social_media_ai-5",
-            "03_social_media_ai-6",
-            "04_chatbot_nocode-1",
-            "04_chatbot_nocode-2",
-            "04_chatbot_nocode-3",
-            "04_chatbot_nocode-4",
-            "04_chatbot_nocode-5",
-            "04_chatbot_nocode-6",
-            "05_prompt_practice-1",
-            "05_prompt_practice-2",
-            "05_prompt_practice-3",
-            "05_prompt_practice-4",
-            "05_prompt_practice-5",
-            "05_prompt_practice-6",
-          ]).toContain(lesson.key);
-          expect(isAcademyLessonAudioSealed(slug, lesson.key)).toBe(true);
-          expect(layer.audioSrc).toContain(`/media/academy/audio/${slug}/${lesson.key}.mp3`);
-          expect(layer.cues.length).toBeGreaterThan(0);
-          expect(layer.cues).toEqual(loadAcademyTeleprompterFlow(lesson.key));
-          expect(layer.durationSec).toBeGreaterThan(330);
-        } else {
-          articleCount += 1;
-          expect(layer.kind).toBe("article");
-          expect(isAcademyLessonAudioSealed(slug, lesson.key)).toBe(false);
-        }
+      if (slug === "01_office_ai") {
+        expect(lessons).toHaveLength(6);
+      } else {
+        expect(lessons).toEqual([]);
+      }
+      const layer = academyCitizenPlayerLayer(slug, `${slug}-1`);
+      if (layer.kind === "article+karaoke") {
+        karaokeCount += 1;
+        expect(slug).toBe("01_office_ai");
+      } else {
+        articleCount += 1;
+        expect(layer.kind).toBe("article");
+        expect(isAcademyLessonAudioSealed(slug, `${slug}-1`)).toBe(false);
       }
     }
-    expect(karaokeCount).toBe(30);
+    expect(karaokeCount).toBe(1);
     expect(articleCount).toBe(0);
-    expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-6").kind).toBe("article+karaoke");
-    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-1").kind).toBe("article+karaoke");
-    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-2").kind).toBe("article+karaoke");
-    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-3").kind).toBe("article+karaoke");
-    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-4").kind).toBe("article+karaoke");
-    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-5").kind).toBe("article+karaoke");
-    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-6").kind).toBe("article+karaoke");
-    expect(academyCitizenPlayerLayer("03_social_media_ai", "03_social_media_ai-1").kind).toBe("article+karaoke");
-    expect(academyCitizenPlayerLayer("04_chatbot_nocode", "04_chatbot_nocode-1").kind).toBe("article+karaoke");
-    expect(academyCitizenPlayerLayer("05_prompt_practice", "05_prompt_practice-1").kind).toBe("article+karaoke");
-    expect(academyCitizenPlayerLayer("05_prompt_practice", "05_prompt_practice-6").kind).toBe("article+karaoke");
+    expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-1").kind).toBe("article+karaoke");
+    expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-6").kind).toBe("article");
+    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-1").kind).toBe("article");
     expect(ACADEMY_PILOT_SKU_SLUG).toBeNull();
   });
 
@@ -135,13 +92,16 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(player).toContain("data-academy-hybrid=\"media-then-study\"");
     expect(player).toContain('kind === "article+karaoke"');
     expect(player).toContain("<LessonMediaPlayer");
-    expect(player).toContain("<LessonTeleprompter");
-    expect(player).toContain("overlay");
+    expect(player).not.toContain("<LessonTeleprompter");
+    expect(player).toContain("<LessonKaraokeStrip");
+    expect(player).toContain("karaoke.cues");
+    expect(player).toContain('data-academy-player-stack="visual-karaoke-transport"');
+    expect(player).toContain('data-academy-directing="punchcard"');
     expect(player).toContain("academy-player-widescreen");
     expect(player).toContain("LessonCinemaEyeLayer");
     expect(player).toContain("loadAcademyLessonVisualStage");
     expect(player).toContain("onSpokenElapsedChange={setMediaElapsed}");
-    expect(player).toContain("elapsedSec={mediaElapsed}");
+    expect(player).toContain("currentTime={mediaElapsed}");
     expect(player).toContain("completeLesson");
     expect(player).toContain("isAcademyPlayerExamReady");
     expect(player).toContain("academyExamStartGateHref");

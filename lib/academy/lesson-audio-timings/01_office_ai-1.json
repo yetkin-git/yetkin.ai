@@ -1,836 +1,143 @@
 {
   "lessonKey": "01_office_ai-1",
   "pauseSec": 0.4,
-  "durationSec": 549.32,
-  "cacheV": 549320,
+  "durationSec": 547.12,
+  "cacheV": 547120,
   "pieces": [
     {
       "index": 0,
       "cueId": "cue-01",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 0,
-      "end": 9.08,
-      "text": "Merhaba. Ben Gözde. Kıdemli dijital beceriler eğitmeniyim ve bugün seninle ofisteki o sessiz krizi konuşacağız."
+      "start": 2,
+      "end": 39.04,
+      "text": "Her gün masanın üstünde biriken dosyalar, e-postalarla gelen karmakarışık listeler ve saatlerce içinden çıkamadığın Excel sayfaları... Aslında yapay zekâ ile çalışırken en büyük süper gücün, ona neyi nasıl vereceğini bilmektir. Karmaşık bir veri yığını gördüğünde paniklemek yerine, zihninde anında doğru komut refleksini canlandırabilirsin. Küçük bir bakış açısı değişikliği, seni dakikalarca süren gereksiz el işçiliğinden kurtarır. Şimdi arkana yaslan, yapay zekâyı sadece soru sorulan bir kutu değil, senin dijital ofis asistanın olarak konumlandırmaya hazırlan."
     },
     {
       "index": 1,
-      "cueId": "cue-01",
+      "cueId": "cue-02",
       "cueParagraphIndex": 0,
-      "chunkIndex": 1,
-      "start": 9.48,
-      "end": 14.92,
-      "text": "Her gün mesai saatlerinin en az iki saatinin nereye gittiğini hiç düşündün mü?"
+      "chunkIndex": 0,
+      "start": 39.44,
+      "end": 74.36,
+      "text": "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ yolculuğunun ilk bölümüne çok hoş geldin! Bu seride seninle birlikte teorik ezberleri bir kenara bırakacak, ofiste her gün karşına çıkan gerçek problemleri yapay zekâ desteğiyle saniyeler içinde çözeceğiz. Bugün masandaki en büyük zaman tuzaklarından birini hedef alıyoruz: Açtığında gözünü korkutan, biçimleri birbirine girmiş o karmaşık tablolar. Hazırsan enerjini topla; çünkü bu dersin sonunda Excel ile arandaki ilişki tamamen değişecek ve kontrolü eline alacaksın."
     },
     {
       "index": 2,
-      "cueId": "cue-01",
-      "cueParagraphIndex": 0,
-      "chunkIndex": 2,
-      "start": 15.32,
-      "end": 23.16,
-      "text": "Saat altıyı vurduğunda ekranın başından kalkıp kendi kendine soruyorsun: bugün gerçekten ne ürettim?"
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 74.76,
+      "end": 118.24,
+      "text": "Ofiste saatlerini alan o rutin işleri düşün. Bir rapordan kopyalanıp sana iletilen bir liste gelir ve senden acil bir analiz istenir. Ancak sayfayı açtığında hiçbir şey yerli yerinde değildir; sayılar sola yaslanmış, tarihler birbirine karışmıştır. Bu tabloyu Çetcipiti'ye yapıştırır, Klod'a uzatır, Cemini'ye sorar ya da şirketinin özel API'sine verirsin. Çetcipiti hızlı taslak üretir, Klod uzun satırları dikkatle okur, Cemini adımları net sıralar, özel API ise evdeki kuralları unutmaz. Kod ezberlemen gerekmez; doğru adımları bilip sistemi akıllıca yönlendirmen yeter. Hadi gel, bu dönüşümü adım adım başlatalım."
     },
     {
       "index": 3,
-      "cueId": "cue-01",
-      "cueParagraphIndex": 1,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 23.56,
-      "end": 29.32,
-      "text": "Gelen kutusu şişmiş. Kaymış bir tablo açık. Toplantı notu dağınık."
+      "start": 118.64,
+      "end": 153.04,
+      "text": "Öncelikle karşılaştığımız sorunu netleştirelim. Çoğu zaman önümüze gelen dosya, üzerinde işlem yapmaya uygun olmayan bir ham veri yığınıdır. Birkaç satır boş bırakılmış, bazı başlıklar hücre birleştirme sevdası yüzünden kaymış ve metinler karmakarışık hale gelmiştir. Bu tür bir dağınık yapı gördüğünde genellikle tek tek hücreleri düzeltmeye çalışırsın, değil mi? Oysa bu yaklaşım sadece zaman kaybettirir. Yapay zekânın bu karmaşayı bir çırpıda anlaması için tablonun dilini birazcık sadeleştirmemiz yeterli olacak."
     },
     {
       "index": 4,
-      "cueId": "cue-01",
+      "cueId": "cue-03",
       "cueParagraphIndex": 1,
-      "chunkIndex": 1,
-      "start": 29.72,
-      "end": 36.16,
-      "text": "Boş slayt bekliyor. Asıl işin duruyor; günün büyük kısmı zaman hırsızlarına gidiyor."
+      "chunkIndex": 0,
+      "start": 153.44,
+      "end": 187.68,
+      "text": "Peki, yapay zekâ bu dağınık sayfaya baktığında aslında ne görür? Sen orada bir müşteri listesi veya bütçe özeti görürken, o sadece anlamsız boşluklar ve kopuk metinler algılar. Birbirine girmiş hücreler sistemin mantığını bozar, boş satırlar ise satırların devamlılığını keser. Bu yüzden düzensiz tabloyu yapay zekâya doğrudan aktarmadan önce, onun en temel kuralını hatırlamalıyız: Her verinin ait olduğu yer belli olmalı. Şimdi bu karmaşayı kökünden çözecek en kritik hamleye odaklanalım."
     },
     {
       "index": 5,
-      "cueId": "cue-01",
-      "cueParagraphIndex": 2,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 36.56,
-      "end": 43.04,
-      "text": "E-posta trafiği kırk dakika. Dağınık tablo otuz beş. Toplantı özeti otuz."
+      "start": 188.08,
+      "end": 225.28,
+      "text": "İşte sihirli başlangıç noktamız: A bir hücresi. Bir tablonun kalbi ve pusulası her zaman en sol üst köşedir. Eğer A bir hücresi boşsa ya da alakasız bir genel başlıkla birleştirilmişse, yapay zekâ tablonun nereden başladığını çözemez. Yapman gereken ilk şey, bu noktayı netleştirmektir. Sayfanın en tepesindeki birleştirilmiş başlıkları kaldırıp, A bir hücresine ilk gerçek sütun adını yazmalısın. Örneğin oraya 'Müşteri Adı' ya da 'Sipariş No' gibi net bir sütun başlığı yerleştirdiğinde, yapay zekâ tüm tabloyu doğru okumaya başlar."
     },
     {
       "index": 6,
-      "cueId": "cue-01",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 1,
-      "start": 43.44,
-      "end": 48.12,
-      "text": "Sunum çilesi yirmi beş. Alt alta koyunca yüz otuz dakika."
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 225.68,
+      "end": 261.56,
+      "text": "Unutma, A bir hücresi doğru kurgulanmamış bir yapıya ne kadar gelişmiş bir komut verirsen ver, alacağın sonuç eksik kalacaktır. Çünkü yapay zekâ veriyi satır ve sütun hiyerarşisiyle tartar. A bir hücresi doğru bir sütun adı taşıdığında, yanındaki diğer hücreler de otomatik olarak bir anlama kavuşur. 'Ürün', 'Tarih', 'Tutar' gibi başlıkların hepsi birinci satırda yan yana dizilmelidir. Bu küçük dokunuş, dakikalarca sürecek bir kafa karışıklığını daha baştan engeller ve veriyi komuta hazır hale getirir."
     },
     {
       "index": 7,
-      "cueId": "cue-01",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 2,
-      "start": 48.52,
-      "end": 54.32,
-      "text": "Haftada on saat. Ayda kırk saat. Yılda neredeyse koca bir ay."
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 261.96,
+      "end": 312.64,
+      "text": "Şimdi ikinci adıma geçiyoruz: Aynı temizleme talimatını hangi kapıya verirsen ver, önce A1 eşiğini kur. Çetcipiti taslağı çabuk gösterir, Klod uzun dökümü tartar, Cemini adımları sıraya dizer, özel API şirket formatını kilitler. Karmaşık teknik ifadelere hiç girmeden, günlük konuşma diliyle durumu anlatacağız. Modele şunu söyleyebilirsin: 'Sana sunduğum bu ham veri içinde yer alan birleştirilmiş hücreleri tek tek ayır, aralardaki gereksiz boş satırları sil ve sayıları standart sayı formatına getir.' Gördüğün gibi son derece doğal, net ve doğrudan. Veri bir kez temizlenir; sonra hangi araca gideceğine sen karar verirsin. Şüpheli hücreye gelip Ef iki'ye basarak kesme işaretini kontrol et ve her zaman orijinal dosyayı koruyup yan sekmede temiz kopyanı oluştur."
     },
     {
       "index": 8,
-      "cueId": "cue-01",
-      "cueParagraphIndex": 3,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 54.72,
-      "end": 58.84,
-      "text": "Bu derste o iki saati geri alıyoruz. Kod yok."
+      "start": 313.04,
+      "end": 330.88,
+      "text": "Peki bu veriyi yapay zekâya nasıl vereceksin? 3 kolay yolu var: 1) Tabloyu seçip kopyala-yapıştır yapabilirsin. 2) Dosyayı ataş simgesinden direkt yükleyebilirsin. 3) Kopilot kullanıyorsan zaten tek tıkla sayfayı okur."
     },
     {
       "index": 9,
-      "cueId": "cue-01",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 1,
-      "start": 59.24,
-      "end": 63.4,
-      "text": "Formül ezberi yok. Matematik dehası olmana gerek yok."
+      "cueId": "cue-05",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 331.28,
+      "end": 364.68,
+      "text": "Bu aşamada tür karmaşasını ortadan kaldırmak da hayati bir adımdır. Bazen aynı sütunun içinde hem '1.200 TL' yazar, hem sadece '1200', hem de metin şeklinde girilmiş 'bin iki yüz'. Yapay zekâya 'Tutar sütunundaki tüm değerleri yalnızca sayı olacak şekilde tek tip yap' dediğinde, tüm bu farklılıklar tek bir standarda oturur. Fazladan boşlukları temizler, tarihleri gün-ay-yıl düzenine sokar. Sen kahvenden bir yudum alırken, o karmaşık dağınık yapı pürüzsüz bir veri tabanına dönüşür."
     },
     {
       "index": 10,
-      "cueId": "cue-01",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 2,
-      "start": 63.8,
-      "end": 69.28,
-      "text": "Masandaki akıllı stajyere iş diliyle konuşmayı öğreneceksin. Kahveni al."
+      "cueId": "cue-06",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 365.08,
+      "end": 401.24,
+      "text": "Ekrandaki dikey bölünmüş görüntüye dikkatle bakmanı istiyorum. Sol tarafta düzenlemesiz ham veri duruyor: Birleştirilmiş başlıklar, arada sırıtan boş satırlar ve birbirini tutmayan yazı tipleri. Sağ tarafta ise yapay zekâ ile temizlenmiş düzenli tablo yer alıyor. Fark o kadar belirgin ki! Sol taraf karmaşa ve potansiyel hata kaynağıyken, sağ taraf hemen bir özet tabloya, bir yönetici özetine veya analize girmeye hazır. İşte doğru yönlendirilen yapay zekânın masandaki gücü tam olarak budur."
     },
     {
       "index": 11,
-      "cueId": "cue-01",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 3,
-      "start": 69.68,
-      "end": 72.92,
-      "text": "Derin bir nefes al. Başlıyoruz."
+      "cueId": "cue-06",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 401.64,
+      "end": 434.84,
+      "text": "Gördüğün gibi iki tablo arasındaki tek fark, araya doğru kurallarla yerleştirdiğimiz yapay zekâ filtresi. Sol taraftaki görüntü sana daha önce saatler kaybettirmiş olabilir; formüllerin hata vermesine, grafiklerin yanlış çıkmasına yol açmış olabilir. Sağdaki düzenli tablo ise şirketinde herkesin tek bakışta anlayabileceği, kurumsal ve kusursuz bir çalışma sunar. Artık karmaşık dosyalar geldiğinde endişelenmek yerine, bu dönüşümü başlatacak adımları tam olarak biliyorsun. O adımları hafızana kazımaya hazır mısın?"
     },
     {
       "index": 12,
-      "cueId": "cue-02",
+      "cueId": "cue-07",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 73.32,
-      "end": 78.6,
-      "text": "Soyut tanımları bir kenara bırakalım; doğrudan masadaki gerçek probleme bakalım."
+      "start": 435.24,
+      "end": 477.48,
+      "text": "Bugünkü bölümden cebine koyup hemen ofisinde uygulayacağın üç altın kuralımız var. 1. A bir hücresine sütun adı koy; sayfanın en üst sol köşesindeki birleşikleri çözerek ilk sütunun adını net biçimde buraya yaz. 2. Birleşikleri çöz, boş satırları sil; aradaki anlamsız boşlukları kaldırarak verinin akışını ve satır bütünlüğünü kesintisiz hale getir. 3. Yapay zekâya yalın dille türleri tek tip yap; komutunda günlük konuşma diliyle tarihleri, metinleri ve sayıları tek bir format standardına toplamasını iste. Bu üç adımı uyguladığında hiçbir veri gözünü korkutamaz."
     },
     {
       "index": 13,
-      "cueId": "cue-02",
+      "cueId": "cue-08",
       "cueParagraphIndex": 0,
-      "chunkIndex": 1,
-      "start": 79,
-      "end": 86.8,
-      "text": "Kullanıcıların en büyük çekincesi genelde şudur: ben teknoloji uzmanı değilim, bunu ofiste gerçekten kullanabilir miyim?"
+      "chunkIndex": 0,
+      "start": 477.88,
+      "end": 510.24,
+      "text": "Şimdi sıra sende! Hemen bugün bilgisayarını açtığında, masaüstünde duran ya da sana yakın zamanda gönderilmiş olan en düzensiz tablolardan birini seç. Birkaç satırı kopyala ve yapay zekâ aracına yapıştır. Az önce öğrendiğimiz üç aşamalı yöntemi kelimesi kelimesine dene. A bir hücresinden başlayarak başlıkları hizala, gereksiz boşlukları ayıklat ve formatları tek bir düzene oturt. Kendi gözlerinle dönüşümün hızını gördüğünde, bu yöntemin ne kadar vazgeçilmez bir alışkanlığa dönüştüğünü fark edeceksin."
     },
     {
       "index": 14,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 0,
-      "chunkIndex": 2,
-      "start": 87.2,
-      "end": 93.32,
-      "text": "Cevap net. Kesinlikle evet. Çünkü yapay zekâ bir programlama dili değildir."
-    },
-    {
-      "index": 15,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 0,
-      "chunkIndex": 3,
-      "start": 93.72,
-      "end": 96.64,
-      "text": "Seninle Türkçe konuşan bir sistemdir."
-    },
-    {
-      "index": 16,
-      "cueId": "cue-02",
+      "cueId": "cue-08",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 97.04,
-      "end": 103.6,
-      "text": "Onu bir mühendislik aracı gibi değil, masanın karşısına oturmuş hevesli bir stajyer gibi düşün."
-    },
-    {
-      "index": 17,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 1,
-      "start": 104,
-      "end": 111.16,
-      "text": "Kütüphaneleri bilir. Yorulmaz. Uykusu gelmez. Ama senin aklından geçeni bilemez."
-    },
-    {
-      "index": 18,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 2,
-      "start": 111.56,
-      "end": 116.16,
-      "text": "Ona geçen haftaki işle ilgili bir rapor hazırla dersen boş bakar"
-    },
-    {
-      "index": 19,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 3,
-      "start": 116.56,
-      "end": 119.92,
-      "text": "ya da işe yaramayan beş sayfa getirir."
-    },
-    {
-      "index": 20,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 4,
-      "start": 120.32,
-      "end": 125.8,
-      "text": "Ona rolünü, görevi ve formatı verirsen on beş saniyede teslim eder."
-    },
-    {
-      "index": 21,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 0,
-      "start": 126.2,
-      "end": 132.2,
-      "text": "Gel birlikte yapalım. Sabah operasyon toplantısı bitti. Defterinde dağınık cümleler var."
-    },
-    {
-      "index": 22,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 1,
-      "start": 132.6,
-      "end": 137.12,
-      "text": "İzmir sevkiyatı iki gün aksıyor, depodaki barkod yüzünden."
-    },
-    {
-      "index": 23,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 2,
-      "start": 137.52,
-      "end": 143,
-      "text": "Bütçe revizyonu cuma gününe kadar Mali İşler’e gitmezse yeni alımlar duracak."
-    },
-    {
-      "index": 24,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 3,
-      "start": 143.4,
-      "end": 148.8,
-      "text": "Çağrı merkezine kırk beş iade telefonu gelmiş. Salı tekrar toplanılacak."
-    },
-    {
-      "index": 25,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 4,
-      "start": 149.2,
-      "end": 154.68,
-      "text": "Eski usulde bu notu baştan okur, Word’ü açar, maddeleri tek tek yazardın."
-    },
-    {
-      "index": 26,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 5,
-      "start": 155.08,
-      "end": 157.2,
-      "text": "On beş dakikan giderdi."
-    },
-    {
-      "index": 27,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 0,
-      "start": 157.6,
-      "end": 165,
-      "text": "Şimdi hangi araç açıksa o kalsın. ChatGPT, Copilot, Claude, Gemini."
-    },
-    {
-      "index": 28,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 1,
-      "start": 165.4,
-      "end": 171.04,
-      "text": "Mantık hepsinde aynı. Modele kıdemli yönetici asistanı rolünü ver."
-    },
-    {
-      "index": 29,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 2,
-      "start": 171.44,
-      "end": 176.44,
-      "text": "Dağınık notu en fazla üç maddelik bir yönetici özetine çevirmesini iste."
-    },
-    {
-      "index": 30,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 3,
-      "start": 176.84,
-      "end": 184.24,
-      "text": "Sonra sorumlu kişi, yapılacak görev ve kritik tarih sütunlu bir aksiyon tablosu iste."
-    },
-    {
-      "index": 31,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 4,
-      "start": 184.64,
-      "end": 190.28,
-      "text": "Dil sakin, kurumsal ve çözüm odaklı olsun. Gönder tuşuna bas."
-    },
-    {
-      "index": 32,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 5,
-      "start": 190.68,
-      "end": 199.76,
-      "text": "On sekiz saniyede hamallık kalkar. Sen artık metin taşıyan değil; süreci yöneten, denetleyen ve kararı veren kişisin."
-    },
-    {
-      "index": 33,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 6,
-      "start": 200.16,
-      "end": 207.08,
-      "text": "İlk sihir budur: soyut tanım değil, masadaki not, net tarife, temiz çıktı."
-    },
-    {
-      "index": 34,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 0,
-      "chunkIndex": 0,
-      "start": 207.48,
-      "end": 213.4,
-      "text": "Formül ezberlemek yok. Yapay zekâya ne istediğini iş diliyle anlatmak var."
-    },
-    {
-      "index": 35,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 0,
-      "chunkIndex": 1,
-      "start": 213.8,
-      "end": 219.8,
-      "text": "Excel’de seni terleten şey parantez değil; ne istediğini net söylememektir."
-    },
-    {
-      "index": 36,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 0,
-      "chunkIndex": 2,
-      "start": 220.2,
-      "end": 229.56,
-      "text": "Düşey ara. Çoketopla. İndis kaçıncı. Yok hatası. Değer hatası. Hepsini unutabilirsin."
-    },
-    {
-      "index": 37,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 0,
-      "chunkIndex": 3,
-      "start": 229.96,
-      "end": 231.04,
-      "text": "Unut."
-    },
-    {
-      "index": 38,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 0,
-      "start": 231.44,
-      "end": 235.24,
-      "text": "Modele de ki: sen kıdemli bir veri analistisin."
-    },
-    {
-      "index": 39,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 1,
-      "start": 235.64,
-      "end": 240.36,
-      "text": "Elimde müşteri adı, sipariş tarihi ve tutar sütunları var."
-    },
-    {
-      "index": 40,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 2,
-      "start": 240.76,
-      "end": 246.84,
-      "text": "Bu ayki siparişleri müşteriye göre topla. Eksi bakiyeleri ayrı bir listeye al."
-    },
-    {
-      "index": 41,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 3,
-      "start": 247.24,
-      "end": 252.2,
-      "text": "Sonucu üç sütunluk temiz bir tablo olarak ver. Formülü sen yazma."
-    },
-    {
-      "index": 42,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 4,
-      "start": 252.6,
-      "end": 258.56,
-      "text": "İşi tarif et. Gelen formülü kopyala, yapıştır, bir satırla kontrol et."
-    },
-    {
-      "index": 43,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 0,
-      "start": 258.96,
-      "end": 264.24,
-      "text": "Yanlışsa düzeltmeyi de iş dilinde söyle. Tarih sütunu metin kalmış."
-    },
-    {
-      "index": 44,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 1,
-      "start": 264.64,
-      "end": 268.8,
-      "text": "Onu gerçek tarihe çevir. Sonra tekrar topla."
-    },
-    {
-      "index": 45,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 2,
-      "start": 269.2,
-      "end": 274.56,
-      "text": "Büyük tabloda aynı süzgeci elli kez tıklamak yerine bir cümleyle kurarsın."
-    },
-    {
-      "index": 46,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 3,
-      "start": 274.96,
-      "end": 280.64,
-      "text": "Şu üç kolonu tut. Boş satırları at. Yinelenen müşteriyi birleştir."
-    },
-    {
-      "index": 47,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 4,
-      "start": 281.04,
-      "end": 287.04,
-      "text": "Toplamı en alta yaz. Aynı işi muhasebeden gelen kaymış dışa aktarımda da yap."
-    },
-    {
-      "index": 48,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 5,
-      "start": 287.44,
-      "end": 293,
-      "text": "Sütun başlıkları kaymış olabilir. Modele önce başlıkları düzelt, sonra süz."
-    },
-    {
-      "index": 49,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 0,
-      "start": 293.4,
-      "end": 298.12,
-      "text": "Garsonu burada da gösteriyoruz. Soyut Excel öğren cümlesi yok."
-    },
-    {
-      "index": 50,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 1,
-      "start": 298.52,
-      "end": 303.68,
-      "text": "Masadaki kirli sayfa var. Net tarife var. Temiz çıktı var."
-    },
-    {
-      "index": 51,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 2,
-      "start": 304.08,
-      "end": 308.68,
-      "text": "Bir sonraki bölümde bunu ekranda satır satır kuracağız."
-    },
-    {
-      "index": 52,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 3,
-      "start": 309.08,
-      "end": 314.92,
-      "text": "Bugün cebine koyacağın kural şu: formülü ezberleme, işi anlat."
-    },
-    {
-      "index": 53,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 4,
-      "start": 315.32,
-      "end": 320.32,
-      "text": "Anlatırken birim, tarih aralığı ve istisna da söyle."
-    },
-    {
-      "index": 54,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 5,
-      "start": 320.72,
-      "end": 327,
-      "text": "Şu müşteriyi hariç tut. İade satırlarını düş. Kuruşları kuruş olarak bırak."
-    },
-    {
-      "index": 55,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 6,
-      "start": 327.4,
-      "end": 333.44,
-      "text": "Stajyer ayrıntıyı sever. Sen yönetici kal. Aynı mantık slaytta da çalışır."
-    },
-    {
-      "index": 56,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 7,
-      "start": 333.84,
-      "end": 337.88,
-      "text": "Boş beyaz sayfada imlecin yanıp sönmesini izleme."
-    },
-    {
-      "index": 57,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 8,
-      "start": 338.28,
-      "end": 346.96,
-      "text": "Modele de ki: bu üç maddeyi yönetici sunumuna çevir, her slaytta tek mesaj olsun, giriş, durum, karar."
-    },
-    {
-      "index": 58,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 9,
-      "start": 347.36,
-      "end": 354.64,
-      "text": "Sen başlığı onayla. O gövdeyi kursun. On dakika süren slayt arayışı iki dakikaya iner."
-    },
-    {
-      "index": 59,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 0,
-      "chunkIndex": 0,
-      "start": 355.04,
-      "end": 360.92,
-      "text": "Duyguyu ve stresi metinden ayırın; profesyonel çıktıyı yapay zekâya teslim edin."
-    },
-    {
-      "index": 60,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 0,
-      "chunkIndex": 1,
-      "start": 361.32,
-      "end": 367.92,
-      "text": "Geç ödenen fatura. Kızgın müşteri. İç yazışma. Parmakların öfkeyi yazmasın."
-    },
-    {
-      "index": 61,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 0,
-      "chunkIndex": 2,
-      "start": 368.32,
-      "end": 371.56,
-      "text": "Gece yarısı taslağı sabah gönderilmesin."
-    },
-    {
-      "index": 62,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 0,
-      "start": 371.96,
-      "end": 376.76,
-      "text": "Modele ham cümleyi ver. Bu mail çok sert. Muhasebeye gidecek."
-    },
-    {
-      "index": 63,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 1,
-      "start": 377.16,
-      "end": 383.76,
-      "text": "Net olsun ama kapıyı kapatmasın. Üç üslup iste. Birincisi yumuşak hatırlatma."
-    },
-    {
-      "index": 64,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 2,
-      "start": 384.16,
-      "end": 390.72,
-      "text": "İkincisi resmi ama soğukkanlı talep. Üçüncüsü son uyarı tonu."
-    },
-    {
-      "index": 65,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 3,
-      "start": 391.12,
-      "end": 394.36,
-      "text": "Sen hangisinin masana yakıştığına karar ver."
-    },
-    {
-      "index": 66,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 0,
-      "start": 394.76,
-      "end": 400.8,
-      "text": "Kişisel veriyi yapıştırma. Gerçek ad yok. Telefon yok. Kimlik yok."
-    },
-    {
-      "index": 67,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 1,
-      "start": 401.2,
-      "end": 406.44,
-      "text": "Kart yok. Müşteri A, Firma 1, toplam bütçe yeter."
-    },
-    {
-      "index": 68,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 2,
-      "start": 406.84,
-      "end": 410.76,
-      "text": "Şirket içi ciro hedefini ve hesap numarasını da maskele."
-    },
-    {
-      "index": 69,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 3,
-      "start": 411.16,
-      "end": 414.88,
-      "text": "Yapay zekâ mantığı anlamak için sır istemez."
-    },
-    {
-      "index": 70,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 0,
-      "start": 415.28,
-      "end": 421.88,
-      "text": "Altın kural burada kilitlenir. Üretken ol. Dikkatsiz olma. Stresi sen taşı."
-    },
-    {
-      "index": 71,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 1,
-      "start": 422.28,
-      "end": 426.48,
-      "text": "Stajyer kursun. Onay sende kalır. Göndermeden oku."
-    },
-    {
-      "index": 72,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 2,
-      "start": 426.88,
-      "end": 432.2,
-      "text": "Tek kelime yanlışsa daha kısa, daha net, tehdit yok de."
-    },
-    {
-      "index": 73,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 3,
-      "start": 432.6,
-      "end": 439.64,
-      "text": "Yeniden yazsın. Konu satırını da iste. Fatura hatırlatması, tarih ve tutar maskeli."
-    },
-    {
-      "index": 74,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 4,
-      "start": 440.04,
-      "end": 445.4,
-      "text": "Aynı notu iç yazışmaya da çevir: ekibe sakin, yöneticiye kısa."
-    },
-    {
-      "index": 75,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 5,
-      "start": 445.8,
-      "end": 452.32,
-      "text": "E-posta kırk dakikanı yemesin. Üslup senin imzan olsun; ham öfke taslakta kalsın."
-    },
-    {
-      "index": 76,
-      "cueId": "cue-04",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 6,
-      "start": 452.72,
-      "end": 459.32,
-      "text": "Bu da bir saha refleksi: önce duyguyu ayır, sonra metni üret, sonra gönder."
-    },
-    {
-      "index": 77,
-      "cueId": "cue-05",
-      "cueParagraphIndex": 0,
-      "chunkIndex": 0,
-      "start": 459.72,
-      "end": 466.08,
-      "text": "İlk saha görevin seni bekliyor: bugün masandaki bir angaryayı yapay zekâya devret."
-    },
-    {
-      "index": 78,
-      "cueId": "cue-05",
-      "cueParagraphIndex": 0,
-      "chunkIndex": 1,
-      "start": 466.48,
-      "end": 470.68,
-      "text": "Küçük olsun. Mükemmel olmasın. Bitmiş olsun."
-    },
-    {
-      "index": 79,
-      "cueId": "cue-05",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 0,
-      "start": 471.08,
-      "end": 478.6,
-      "text": "Üç anahtarı cebine koy. Bir: yapay zekâ rakibin değil, masandaki en hızlı stajyerindir."
-    },
-    {
-      "index": 80,
-      "cueId": "cue-05",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 1,
-      "start": 479,
-      "end": 484.96,
-      "text": "Ona doğru rolü ve net sınırı verdiğinde haftada en az on saat kazanırsın."
-    },
-    {
-      "index": 81,
-      "cueId": "cue-05",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 2,
-      "start": 485.36,
-      "end": 491.92,
-      "text": "İki: kötü komut vakit kaybettirir. Rol, görev ve format hayat kurtarır."
-    },
-    {
-      "index": 82,
-      "cueId": "cue-05",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 3,
-      "start": 492.32,
-      "end": 499.04,
-      "text": "Modele yalnız soru sorma. Kim olduğunu, ne yapacağını ve sonucu nasıl istediğini söyle."
-    },
-    {
-      "index": 83,
-      "cueId": "cue-05",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 4,
-      "start": 499.44,
-      "end": 504.72,
-      "text": "Üç: veri güvenliği birinci önceliktir. Maskele ve çalıştır."
-    },
-    {
-      "index": 84,
-      "cueId": "cue-05",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 5,
-      "start": 505.12,
-      "end": 509.68,
-      "text": "Kişisel veriyi ve şirket sırlarını şablona çevir."
-    },
-    {
-      "index": 85,
-      "cueId": "cue-05",
-      "cueParagraphIndex": 1,
-      "chunkIndex": 6,
-      "start": 510.08,
-      "end": 513.44,
-      "text": "Zekâyı anonim örnek üzerinden özgür bırak."
-    },
-    {
-      "index": 86,
-      "cueId": "cue-05",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 0,
-      "start": 513.84,
-      "end": 520.96,
-      "text": "Şimdi iki dakikalık kanıt. Son toplantının üç cümlelik dağınık notunu aynı şablona yapıştır."
-    },
-    {
-      "index": 87,
-      "cueId": "cue-05",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 1,
-      "start": 521.36,
-      "end": 527.36,
-      "text": "Çıkan aksiyon tablosunu kendine postala. Kanıtın cebinde olmadan ikinci bölüme geçme."
-    },
-    {
-      "index": 88,
-      "cueId": "cue-05",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 2,
-      "start": 527.76,
-      "end": 534.88,
-      "text": "Orada Excel’de tek formül ezberlemeden, Türkçe ne istediğini söyleyerek tabloyu konuşturacağız."
-    },
-    {
-      "index": 89,
-      "cueId": "cue-05",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 3,
-      "start": 535.28,
-      "end": 541.04,
-      "text": "O meşhur yok hatalarını unutmaya hazır ol. Kahveni tazele. Masada kal."
-    },
-    {
-      "index": 90,
-      "cueId": "cue-05",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 4,
-      "start": 541.44,
-      "end": 544.84,
-      "text": "Bugün iki saatinin ilk dilimini geri aldın."
-    },
-    {
-      "index": 91,
-      "cueId": "cue-05",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 5,
-      "start": 545.24,
-      "end": 549.32,
-      "text": "Yarın aynı stajyer masanda olacak. Başladık."
+      "start": 510.64,
+      "end": 547.12,
+      "text": "Unutma, yapay zekâ senin yerine düşünmez ama senin yönlendirmelerinle ofisteki en güvenilir yardımcın olur. Veriyi düzenlemeyi öğrendiğin an, analiz yapmaya, rapor hazırlamaya ve stratejik kararlar almaya çok daha fazla vaktin kalacak. Kendine güven, bu pratiği gün içinde mutlaka tekrar et ve tablonun konuşmasına izin ver. Harika bir iş çıkardın, tabloyu temizleme refleksi artık cebinde. Bir sonraki derste bu temiz veriyi alıp tek tıkla yönetim özetine ve grafik raporuna dönüştüreceğiz. Hazırsan 2. bölümde buluşalım."
     }
   ]
 }

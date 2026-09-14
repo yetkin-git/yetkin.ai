@@ -7,22 +7,26 @@ test.describe("O8 akademi nakit & sınav yolculuğu", () => {
   }) => {
     const response = await page.goto("/academy");
     expect(response?.status()).toBeLessThan(400);
-    await expect(page.getByRole("heading", { name: "Akademi" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Yapay zeka eğitimi ve online kurslar/ })).toBeVisible();
 
-    const live = page.getByText(/Eğitimi incele|Yayında eğitim yok|Liste henüz yüklenemedi/);
-    const empty = page.getByText("Yayında eğitim yok");
-    const unbound = page.getByText("Liste henüz yüklenemedi");
-    await expect(live.or(empty).or(unbound).first()).toBeVisible();
+    await expect(page.locator("[data-academy-vitrine-mix]")).toBeVisible();
+    await expect(page.locator("[data-academy-flagship-card]")).toBeVisible();
+    await expect(page.getByText("Yayında").first()).toBeVisible();
+    await expect(page.getByText("Çok Yakında / Hazırlanıyor").first()).toBeVisible();
+    await expect(page.getByText("Ofiste Yapay Zekâ").first()).toBeVisible();
+    await expect(page.getByText("Pratik Prompt Mühendisliği").first()).toBeVisible();
+    await expect(page.getByText("Kodsuz WhatsApp").first()).toBeVisible();
+    await expect(page.getByText("E-Ticaret ve Pazaryeri Yapay Zekâ").first()).toBeVisible();
+    await expect(page.getByText("Sosyal Medya İçerik Üretimi").first()).toBeVisible();
+    await expect(page.locator("[data-academy-production-band]")).toHaveCount(0);
+    await expect(page.locator("[data-academy-catalog-series='01_office_ai'] a")).toHaveAttribute(
+      "href",
+      "/academy/01_office_ai",
+    );
+    await expect(page.locator("[data-academy-coming-soon-card]")).toHaveCount(4);
 
-    await expect(page.getByText("Ofiste Yapay Zekâ")).toBeVisible();
-    await expect(page.getByText("E-Ticaret ve Pazaryeri Yapay Zekâ")).toBeVisible();
-    await expect(page.getByText("Sosyal Medya İçerik Üretimi")).toBeVisible();
-    await expect(page.getByText("Kodsuz WhatsApp")).toBeVisible();
-    await expect(page.getByText("Pratik Prompt Mühendisliği")).toBeVisible();
-    await expect(page.getByRole("link", { name: /Satın Al/ }).first()).toBeVisible();
-    await expect(page.getByRole("link", { name: /Satın Al —/ })).toHaveCount(0);
-    await expect(page.getByText(/KDV dahil/).first()).toBeVisible();
-    await expect(page.getByText("Erişim Açık")).toHaveCount(0);
+    await page.locator("[data-academy-catalog-series='01_office_ai'] a").click();
+    await expect(page).toHaveURL(/\/academy\/01_office_ai\/?$/);
 
     await page.goto("/academy/01_office_ai");
     await expect(page.getByRole("heading", { name: /Ofiste Yapay Zekâ/ })).toBeVisible();

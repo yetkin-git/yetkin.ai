@@ -1,11 +1,11 @@
 /**
  * Çalışan oda sicili yardımcıları.
- * Tek SSOT: lib/kernel/rooms.ssot.ts. eslint.config.mjs ve verify-boundaries onu okur, kopya dizi tutmaz.
+ * Tek SSOT: lib/dronlar/kayit.ts. eslint.config.mjs ve verify-boundaries onu okur, kopya dizi tutmaz.
  */
 
-export const LIB_SHARED_TOP_DIRS = ["copy", "kernel", "showcase", "ui"] as const;
+export const LIB_SHARED_TOP_DIRS = ["copy", "kernel", "showcase", "ui", "dronlar"] as const;
 
-export const ROOMS_SSOT_REL = "lib/kernel/rooms.ssot.ts";
+export const ROOMS_SSOT_REL = "lib/dronlar/kayit.ts";
 
 export function parseVerticalRoomIdsFromSsot(source: string): string[] | null {
   const match = source.match(/export const VERTICAL_ROOMS = \[([\s\S]*?)\] as const;/);
@@ -23,16 +23,16 @@ export function parseFrozenDiskRoomIdsFromSsot(source: string): string[] | null 
   return [...match[1].matchAll(/"([a-z0-9-]+)"/g)].map((row) => row[1]!);
 }
 
-/** @deprecated SSOT rooms.ssot.ts — modules.ts re-export eder. */
+/** @deprecated SSOT lib/dronlar/kayit.ts — modules.ts re-export eder. */
 export function parseVerticalRoomIdsFromModules(source: string): string[] | null {
-  if (source.includes("rooms.ssot")) {
+  if (source.includes("dronlar/kayit") || source.includes("rooms.ssot")) {
     return null;
   }
   return parseVerticalRoomIdsFromSsot(source);
 }
 
 export function parseVerticalRoomIdsFromEslint(source: string): string[] | null {
-  if (!source.includes("rooms.ssot.ts")) {
+  if (!source.includes("dronlar/kayit.ts") && !source.includes("rooms.ssot.ts")) {
     return null;
   }
   const match = source.match(/const VERTICAL_ROOMS = parseSsotIds\("VERTICAL_ROOMS"/);
@@ -43,7 +43,11 @@ export function parseVerticalRoomIdsFromEslint(source: string): string[] | null 
 }
 
 export function sourceDerivesRoomsSsot(source: string): boolean {
-  return source.includes("rooms.ssot.ts") || source.includes("rooms.ssot");
+  return (
+    source.includes("dronlar/kayit") ||
+    source.includes("rooms.ssot.ts") ||
+    source.includes("rooms.ssot")
+  );
 }
 
 export function parseVerticalRoomIdsFromBoundaries(source: string): string[] | null {

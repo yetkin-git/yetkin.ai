@@ -1,19 +1,21 @@
 export const ACADEMY_SEN = {
   catalog: {
     eyebrow: "Akademi",
-    title: "Akademi",
+    title: "Yapay zeka eğitimi ve online kurslar",
     description:
-      "Eğitimi incele, dersleri tamamla, testi geç. Tüm eğitimlerde dersler mühürlü sesli anlatım, senkronize kayan metin (karaoke) ve sinematik görsel sahne kartları taşır. Vitrin beş yayında eğitimdir (30 ders). Dersler ödeme sonrası açılır. Sertifika ve yetkinlik, test barajını (≥70) geçince Kariyer sayfana işlenir.",
-    stats: "5 eğitim · 30 ders · mühürlü sertifika",
+      "Yapay zeka eğitimi ve online kurs vitrini. Amiral eğitim yayındadır. Kardeş müfredat üretim bandındadır ve Çok Yakında / Hazırlanıyor rozetiyle durur; mühürsüz ders için hayali oynatıcı basılmaz. Eğitimi incele. Dersler ödeme sonrası açılır. Sertifika doğrulama ve mevcut lisanslar çalışır.",
+    stats: "1 eğitim yayında · 4 eğitim çok yakında",
     certificatesCta: "Sertifikalar",
     verifyCta: "Doğrula",
     live: (count: number) => (count > 0 ? "Eğitimler — ders, test ve yetkinlik" : ""),
     unbound: "Liste henüz yüklenemedi.",
-    empty: "Yayında eğitim yok.",
+    empty: "Yeni Müfredat Üretim Bandında",
     cardCtaInspect: "İncele",
     cardCtaOpen: "Eğitimi Gör",
     /** Vitrin kartı — satın alma yokken birincil eylem. Fiyat butonda yazılmaz. */
     cardCtaBuy: "Satın Al",
+    /** PEDAGOJI §D — kardeş kabuk; satın alma ve hayali oynatıcı yok. */
+    cardCtaComingSoon: "Çok Yakında",
     /** Vitrin kartı — DURUM A fiyatlı birincil eylem (antre; kartta kullanılmaz). */
     cardCtaBuyPriced: (priceLabel: string) => `Satın Al — ${priceLabel}`,
     /** Kart / antre tutarı — B2C liste KDV dahildir (antre tek satır). */
@@ -48,6 +50,14 @@ export const ACADEMY_SEN = {
     articleBadge: "Yazılı compact",
     articleBadgeHint: "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
     heroArticleBadge: "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+    /** Taze ingest bekleyen vitrin SKU — şeffaf kapak şablonu. */
+    comingSoonBadge: "Çok Yakında / Hazırlanıyor",
+    comingSoonHint: "Hazırlanıyor — compact müfredat ve sınav kapısı yakında.",
+    comingSoonMeta: "Hazırlanıyor",
+    /** Mühürlü amiral SKU — vitrin durum rozeti. */
+    liveBadge: "Yayında",
+    /** Amiral 1. bölüm — vitrin süre satırı. */
+    cardMetaAudio: (minutes: number) => `${minutes} dk · Sesli Anlatım`,
     /** Antre hero kimlik şeridi — Temel Seviye · OFF-101. */
     heroLevelIdentity: (level?: string | null, moduleCode?: string | null) => {
       const raw = level?.trim() ?? "";
@@ -75,10 +85,11 @@ export const ACADEMY_SEN = {
         .join(" · "),
     infoBand: (count: number) =>
       count > 0
-        ? "Eğitimler · Amiral hat sesli + karaoke · Diğerleri yazılı compact · Test barajı 70+ · Sertifika Kariyer sayfasına işlenir"
+        ? "Eğitimler · Test barajı 70+ · Sertifika Kariyer sayfasına işlenir"
         : "",
     seriesPath: "Seviye Yolu",
-    boardTitle: "Eğitim kataloğu",
+    boardTitle: "Online kurs kataloğu",
+    faqHeading: "Sık sorulanlar",
     tabCatalog: "Tüm Katalog",
     tabOwned: "Aldığım Eğitimler",
     tabFavorites: "Favorilerim",
@@ -129,11 +140,11 @@ export const ACADEMY_SEN = {
       "Satın aldığın eğitim kütüphanende 365 gün kalır. Sertifika yalnız testi 70+ ile geçince basılır.",
     purchaseEyebrow: "Eğitimi başlat",
     purchaseBody:
-      "Dersleri bitir, testi 70+ ile geç. Sertifika ve yetkinlik Kariyer sayfana işlenir. Satın alma tek başına sertifika basmaz. Gösterilen tutar KDV dahildir. Sınav, 6 yazılı compact dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
+      "Dersleri bitir, testi 70+ ile geç. Sertifika ve yetkinlik Kariyer sayfana işlenir. Satın alma tek başına sertifika basmaz. Gösterilen tutar KDV dahildir. Sınav, 6 dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
     pathTrainingCta: (priceLabel: string) => `Eğitimi Satın Al & Öğren (${priceLabel})`,
     pathTrainingCtaIdle: "Eğitimi Satın Al & Öğren",
     pathTrainingBody:
-      "Amiral: sesli anlatım + kayan metin (karaoke) + sınav + mühürlü sertifika. Diğer vitrin eğitimleri yazılı compact ders + uygulamalı senaryo taşır.",
+      "Amiral: mühürlü 1. bölüm sesli anlatım çekirdeği durur. Kardeş eğitimler üretim bandındadır. Sınav 6 ders bitmeden açılmaz; baraj 70.",
     pathExamCta: (priceLabel: string) => `Doğrudan teste gir ve yetkinlik kazan (${priceLabel})`,
     pathExamCtaIdle: "Doğrudan teste gir ve yetkinlik kazan",
     pathExamBody: "Dersleri atla; yalnız test. Belge 70+ puanla gelir.",
@@ -145,7 +156,7 @@ export const ACADEMY_SEN = {
       `Eğitim bitince test. Baraj ${passScore}. Geçince sertifika ve yetkinlik Kariyer sayfana işlenir.`,
     /** Amiral ve kardeş compact SKU — 6 ders bitmeden sınav kapısı kapalı. */
     examShield:
-      "Sınav, 6 yazılı compact dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
+      "Sınav, 6 dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
     visaPromise: (passScore: number, listingLabel: string, _listingId: string) =>
       `Sınavı ${passScore}+ puanla tamamladığında «${listingLabel}» sertifikan Pasaport siciline işlenir ve Kariyer sayfanda doğrulanır.`,
     lockedHint: "Ders gövdesi ödeme sonrası açılır.",
@@ -261,7 +272,7 @@ export const ACADEMY_SEN = {
       "Kod ezberlemeden günlük işini hızlandırmak istersen Akademi vitrinindeki ",
     codeCalloutModule: "Pratik Prompt Mühendisliği",
     codeCalloutInviteAfter: " eğitimine göz at.",
-    codeCalloutHref: "/academy/05_prompt_practice",
+    codeCalloutHref: "/academy",
     companionEyebrow: "Ders açıklaması",
     descriptionEyebrow: "Ders açıklaması",
     resourcesEyebrow: "Kaynaklar",
@@ -541,7 +552,7 @@ export const ACADEMY_SEN = {
         {
           key: "lesson",
           label: "Eğitimi Tamamla",
-          detail: "Video ve doküman derslerini sırayla bitir.",
+          detail: "Dersleri sırayla bitir.",
         },
         {
           key: "exam",
@@ -614,7 +625,7 @@ export const ACADEMY_SEN = {
   verify: {
     eyebrow: "Sertifika doğrula",
     title: "İçerik özeti / bütünlük kaydı",
-    valid: "Özet sicilde geçerli",
+    valid: "Mühür geçerli",
     mismatch: "Özet tutmuyor",
     incomplete: "Özet eksik",
     revoked: "İptal edildi",

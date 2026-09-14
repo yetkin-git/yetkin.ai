@@ -2,10 +2,6 @@ import type { NextConfig } from "next";
 import { academyRetiredStorefrontRedirects } from "./lib/academy/retired-storefront";
 import { EDGE_SECURITY_HEADER_ENTRIES } from "./lib/kernel/security/edge-security-headers";
 
-/** `ACADEMY_HOME_LCP_PRELOAD_LINK` ile kilitli — next.config `@/` import etmez. */
-const ACADEMY_HOME_LCP_PRELOAD_LINK =
-  '</academy/cinema/01_office_ai-1-eye.avif>; rel=preload; as=image; type="image/avif"; imagesrcset="/academy/cinema/01_office_ai-1-eye-640w.avif 640w, /academy/cinema/01_office_ai-1-eye-960w.avif 960w, /academy/cinema/01_office_ai-1-eye.avif 1280w"; imagesizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw"';
-
 /**
  * yetkin_muze müze klasörü build, webpack ve izleme kapsamı dışındadır (OPS; Anayasa maddesi değildir).
  * Git ve indeks: kök `.gitignore` + `.cursorindexingignore`.
@@ -17,6 +13,7 @@ const ACADEMY_HOME_LCP_PRELOAD_LINK =
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   typedRoutes: true,
+  transpilePackages: ["@yetkin/kernel"],
   // Sol ray altını kapatan N / Route / Turbopack geliştirici kutusu kapalıdır.
   devIndicators: false,
   // Dev sunucusu localhost iken 127.0.0.1 (Playwright, canlı tur) HMR/chunk CORS'unu kesmesin.
@@ -116,6 +113,16 @@ const nextConfig: NextConfig = {
         destination: "/academy/dogrula/:hash",
         statusCode: 301,
       },
+      {
+        source: "/p",
+        destination: "/vize",
+        statusCode: 301,
+      },
+      {
+        source: "/p/:id",
+        destination: "/vize/:id",
+        statusCode: 301,
+      },
     ];
   },
   async rewrites() {
@@ -137,21 +144,11 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/",
-        headers: [
-          ...securityHeaders,
-          {
-            key: "Link",
-            value: ACADEMY_HOME_LCP_PRELOAD_LINK,
-          },
-        ],
+        headers: securityHeaders,
       },
       {
-        source: "/audio/:path*",
-        headers: [
-          { key: "Content-Type", value: "audio/wav" },
-          { key: "Accept-Ranges", value: "bytes" },
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
-        ],
+        source: "/academy",
+        headers: securityHeaders,
       },
       {
         source: "/media/academy/audio/:path*",
@@ -164,22 +161,6 @@ const nextConfig: NextConfig = {
       {
         source: "/academy/cinema/:path*",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
-        ],
-      },
-      {
-        source: "/academy/demo/office-ai-intro.mp4",
-        headers: [
-          { key: "Content-Type", value: "video/mp4" },
-          { key: "Accept-Ranges", value: "bytes" },
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
-        ],
-      },
-      {
-        source: "/academy/demo/office-ai-podcast.wav",
-        headers: [
-          { key: "Content-Type", value: "audio/wav" },
-          { key: "Accept-Ranges", value: "bytes" },
           { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
         ],
       },

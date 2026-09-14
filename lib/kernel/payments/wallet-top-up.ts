@@ -51,3 +51,32 @@ export function shouldFailCloseWalletTopUpCheckout(checkoutOk: boolean): boolean
 export function shouldFailCloseMockTopUp(mockCheckout: boolean | undefined): boolean {
   return mockCheckout === true;
 }
+
+export const WALLET_TOP_UP_STATUSES = ["PENDING", "PAID", "CLEARED", "FAILED"] as const;
+export type WalletTopUpStatus = (typeof WALLET_TOP_UP_STATUSES)[number];
+
+export type WalletTopUpWire = {
+  merchantOid: string;
+  token: string | null;
+  iframeUrl: string | null;
+  sandboxMode: boolean;
+  alreadySettled: boolean;
+  mockCheckout: boolean;
+  status: WalletTopUpStatus | null;
+  checkoutPassportUrl: string | null;
+};
+
+export function toWalletTopUpWire(
+  partial: Partial<WalletTopUpWire> & { merchantOid: string },
+): WalletTopUpWire {
+  return {
+    merchantOid: partial.merchantOid,
+    token: partial.token ?? null,
+    iframeUrl: partial.iframeUrl ?? null,
+    sandboxMode: Boolean(partial.sandboxMode),
+    alreadySettled: Boolean(partial.alreadySettled),
+    mockCheckout: Boolean(partial.mockCheckout),
+    status: partial.status ?? null,
+    checkoutPassportUrl: partial.checkoutPassportUrl ?? null,
+  };
+}

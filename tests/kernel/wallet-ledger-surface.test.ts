@@ -71,6 +71,9 @@ describe("cüzdan defter yüzeyi", () => {
     expect(db).toContain("bindPrismaSingleton");
     expect(db).toContain("İstek/RSC sonunda $disconnect YASAK");
     expect(db).toContain("$queryRaw`SELECT 1`");
+    expect(db).toContain('pool.query("SELECT 1")');
+    expect(db).toContain("pingRuntimePool");
+    expect(db).toContain("family: 4");
     expect(db).toContain("connection_limit");
     expect(db).toContain("pool_timeout");
     expect(db).toContain("PRISMA_POOL_MAX_DEVELOPMENT");
@@ -116,6 +119,7 @@ describe("cüzdan defter yüzeyi", () => {
     expect(nextConfig).toContain("query_compiler_fast_bg.postgresql.wasm-base64.js");
     expect(nextConfig).toContain("./generated/prisma/**");
     expect(instrumentation).toContain("preferIpv6ForDirectHost");
+    expect(instrumentation).toContain("ensurePrismaQueryEngine");
     expect(instrumentation).toContain("NEXT_RUNTIME");
     expect(instrumentation).toContain("Müze instrumentation kopyası değildir");
     expect(instrumentation).toContain("ops.inngest.fail_closed");

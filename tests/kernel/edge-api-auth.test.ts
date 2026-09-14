@@ -235,7 +235,7 @@ describe("üretilen ROUTE_AUTH_MAP", () => {
     expect(ROUTE_AUTH_MAP["/api/_gone/[...path]"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/ai/chat"]).toBe("session");
     expect(Object.keys(ROUTE_AUTH_MAP).some((path) => path.includes("("))).toBe(false);
-    expect(Object.keys(ROUTE_AUTH_MAP)).toHaveLength(52);
+    expect(Object.keys(ROUTE_AUTH_MAP)).toHaveLength(53);
     expect(ROUTE_AUTH_MAP["/api/academy/courses/[id]/listen"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/academy/courses/[id]/pdf"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/academy/reviews"]).toBe("public");
@@ -256,6 +256,7 @@ describe("üretilen ROUTE_AUTH_MAP", () => {
     expect(ROUTE_AUTH_MAP["/api/auth/password"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/dashboard/pulse"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/admin/catalog"]).toBe("admin");
+    expect(ROUTE_AUTH_MAP["/api/admin/funnel"]).toBe("admin");
     expect(ROUTE_AUTH_MAP["/api/profile"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/profile/billing"]).toBe("session");
   });

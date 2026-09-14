@@ -8,11 +8,11 @@ import {
 } from "@/lib/kernel/db-errors";
 import { preferIpv6ForDirectHost } from "@/lib/kernel/dns-ipv6-first";
 import {
+  isRuntimePoolerUrl,
   isSupabaseDirectSessionUrl,
   normalizeRuntimeDatabaseUrl,
   parsePrismaEnginePoolParams,
   PRISMA_URL_CONNECTION_LIMIT,
-  PRISMA_URL_POOL_TIMEOUT_SECONDS,
   runtimeDatabaseHostKind,
 } from "@/lib/kernel/postgres-url";
 import { Pool } from "pg";
@@ -43,12 +43,13 @@ const g = globalThis as typeof globalThis & {
  * Prisma Dashboard `connection_limit=1` kopyası uzun süreçte yok sayılır.
  */
 export const PRISMA_POOL_MAX_DEVELOPMENT = PRISMA_URL_CONNECTION_LIMIT;
-export const PRISMA_POOL_TIMEOUT_MS_DEVELOPMENT = PRISMA_URL_POOL_TIMEOUT_SECONDS * 1_000;
-export const PRISMA_POOL_IDLE_MS_DEVELOPMENT = 10_000;
+/** URL `pool_timeout=10` kopyası TLS+WASM'i keser; uzun süreç tabanı 25s. */
+export const PRISMA_POOL_TIMEOUT_MS_DEVELOPMENT = 25_000;
+export const PRISMA_POOL_IDLE_MS_DEVELOPMENT = 30_000;
 
 /** Üretim (uzun süreç): aynı tavan; birkaç işçi × 20 Direct kotasını zorlar — serverless ayrı. */
 export const PRISMA_POOL_MAX_PRODUCTION = PRISMA_URL_CONNECTION_LIMIT;
-export const PRISMA_POOL_TIMEOUT_MS_PRODUCTION = PRISMA_URL_POOL_TIMEOUT_SECONDS * 1_000;
+export const PRISMA_POOL_TIMEOUT_MS_PRODUCTION = 25_000;
 export const PRISMA_POOL_IDLE_MS_PRODUCTION = 30_000;
 
 /**
@@ -68,10 +69,10 @@ export const PRISMA_POOL_MAX_USES_SERVERLESS = 500;
 export const PRISMA_WARMUP_TIMEOUT_MS = 1_500;
 
 /**
- * Uzun süreç ısınma. Havuz `pool_timeout` (10s) ile kilitlenmez.
- * TR→EU soğuk TLS 3s'yi aşınca false-circuit ve warmup_pending spam doğurur.
+ * Uzun süreç ısınma. Havuz bağlantı tavanından (25s) büyük tutulur.
+ * Next soğuk WASM + TR→EU TLS aynı SELECT 1'de yarışırsa 15s yetmez.
  */
-export const PRISMA_WARMUP_TIMEOUT_MS_LONG_RUNNING = 8_000;
+export const PRISMA_WARMUP_TIMEOUT_MS_LONG_RUNNING = 30_000;
 
 /**
  * Isınma kaçırınca yeni SELECT 1 açılmaz. In-flight bağlanırsa `engineOk` yeşile döner.
@@ -85,8 +86,8 @@ export const PRISMA_WARMUP_CIRCUIT_MS = 15_000;
 export const KERNEL_BACKGROUND_READ_TIMEOUT_MS_LONG_RUNNING = 8_000;
 
 /**
- * Isınma bütçesi `pool_timeout`'tan bağımsızdır.
- * 8s ısınma + 8s oda = 26s+ sayfa kilidi; kaçırınca 8s fail-fast + circuit.
+ * Isınma bütçesi URL `pool_timeout` kopyasından bağımsızdır.
+ * 30s ısınma: TCP SELECT 1 + WASM derleyicisi aynı uçuşta bitsin.
  */
 export function prismaWarmupBudgetMs(env: NodeJS.ProcessEnv = process.env): number {
   if (isServerlessRuntime(env)) {
@@ -187,8 +188,8 @@ function resolvePoolTimeoutMs(
   if (parsed.poolTimeoutSeconds == null) {
     return fallbackMs;
   }
-  const fromUrl = Math.min(Math.max(parsed.poolTimeoutSeconds, 1), 30) * 1_000;
-  // Dashboard `pool_timeout=5` TR→EU TLS'i ısınma bütçesinden önce keser; taban fallback.
+  const fromUrl = Math.min(Math.max(parsed.poolTimeoutSeconds, 1), 60) * 1_000;
+  // Dashboard `pool_timeout=10` TR→EU TLS + Next WASM'i keser; taban fallback.
   return Math.max(fromUrl, fallbackMs);
 }
 
@@ -405,6 +406,24 @@ export async function withFailEarlyDbRead<T>(
 }
 
 /**
+ * Adapter/WASM yok. Health ve ısınma önce TCP+TLS'i bu yoldan açar.
+ */
+export async function pingRuntimePool(
+  timeoutMs: number = PRISMA_POOL_TIMEOUT_MS_DEVELOPMENT,
+): Promise<void> {
+  try {
+    getPrisma();
+  } catch {
+    throw new Error("prisma_pool_unconfigured");
+  }
+  const pool = dbGlobal().pool;
+  if (!pool) {
+    throw new Error("prisma_pool_missing");
+  }
+  await withDbReadTimeout(pool.query("SELECT 1"), timeoutMs, "pool.ping");
+}
+
+/**
  * Bozuk havuz / soğuk WASM sonrası istemciyi düşürür. Sonraki getPrisma() taze Pool açar.
  * ENOENT (getaddrinfo veya derleyici dosya yolu) için warmup catch yolundan çağrılır.
  */
@@ -508,6 +527,8 @@ export function getPrisma(): PrismaClient {
       allowExitOnIdle: limits.allowExitOnIdle,
       keepAlive: true,
       keepAliveInitialDelayMillis: 10_000,
+      // Pooler AAAA tuzağı: DNS sırası yetmez, soket IPv4.
+      ...(isRuntimePoolerUrl(url) ? { family: 4 } : {}),
       ...(limits.maxUses !== undefined ? { maxUses: limits.maxUses } : {}),
       ...(limits.maxLifetimeSeconds !== undefined
         ? { maxLifetimeSeconds: limits.maxLifetimeSeconds }
@@ -555,6 +576,11 @@ export function getPrisma(): PrismaClient {
 
 function startPrismaEngineWarmup(client: PrismaClient): Promise<void> {
   return (async () => {
+    const pool = dbGlobal().pool;
+    // TCP+TLS Prisma WASM'den önce. Aksi halde Next soğuk derleyici TLS el sıkışmasını keser.
+    if (pool) {
+      await pool.query("SELECT 1");
+    }
     await client.$queryRaw`SELECT 1`;
     // Model derleyicisi ısınması yanıt yolunu kilitlemez.
     void client.wallet.findFirst({ select: { id: true } }).then(
@@ -592,10 +618,10 @@ function trackPrismaEngineWarmup(client: PrismaClient, slot: KernelDbGlobal): Pr
 /**
  * Query compiler WASM tek uçuşta ısınır. Route Handler'da ilk işlem soğuk
  * istemcide parametreli $queryRaw / model sorgusu olursa PrismaClientKnownRequestError
- * fırlatır (Pxxxx çoğu zaman yok). Health'in SELECT 1'i bu adımı açar; sonra findFirst.
+ * fırlatır (Pxxxx çoğu zaman yok). Health TCP ping'i WASM'den önce pool.query açar.
  * globalThis ile RSC/RH aynı istemciyi paylaşır.
  * `true` = motor hazır, odalar SELECT açabilir. `false` = fail-soft; çağıran boş dilim basar.
- * TIMEOUT → in-flight sürer (bağlanırsa yeşile döner); circuit 15s ikinci SELECT 1 yok.
+ * TIMEOUT (uzun süreç) → taze havuz, bir kez daha SELECT 1. Serverless circuit 15s.
  * warmup_failed (kopuk soket / havuz TIMEOUT) → bir kez taze havuz; ikinci SELECT 1.
  * ENOENT → havuz yenilenir; kurtarma kaçırırsa circuit.
  */
@@ -604,8 +630,19 @@ export async function ensurePrismaQueryEngine(recover = true): Promise<boolean> 
   if (slot.engineOk) {
     return true;
   }
+
+  const budgetMs = prismaWarmupBudgetMs();
   if (isPrismaWarmupCircuitOpen()) {
-    return false;
+    const pending = slot.engineReady;
+    if (!pending) {
+      return false;
+    }
+    try {
+      await withDbReadTimeout(pending, budgetMs, "prisma.warmup");
+      return dbGlobal().engineOk === true;
+    } catch {
+      return dbGlobal().engineOk === true;
+    }
   }
 
   let client: PrismaClient;
@@ -623,12 +660,9 @@ export async function ensurePrismaQueryEngine(recover = true): Promise<boolean> 
     return false;
   }
 
-  const budgetMs = prismaWarmupBudgetMs();
   try {
     await withDbReadTimeout(flight, budgetMs, "prisma.warmup");
-    // Uçuş çözüldüyse `trackPrismaEngineWarmup` then `engineOk=true` yazdı.
-    // TS, erken `if (slot.engineOk)` daraltmasını uçuş sonrasına taşımaz.
-    return true;
+    return dbGlobal().engineOk === true;
   } catch (error) {
     const label = prismaErrorLabel(error);
     const hostKind = runtimeHostKindForLog();
@@ -646,6 +680,19 @@ export async function ensurePrismaQueryEngine(recover = true): Promise<boolean> 
             }),
           );
         });
+      }
+      if (recover && !isServerlessRuntime()) {
+        queueMicrotask(() => {
+          console.warn(
+            JSON.stringify({
+              event: "prisma.engine.warmup_recover",
+              errorName: label,
+              hostKind,
+            }),
+          );
+        });
+        await refreshPrismaConnection().catch(() => undefined);
+        return ensurePrismaQueryEngine(false);
       }
       openPrismaWarmupCircuit(slot);
       return false;

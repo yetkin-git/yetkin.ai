@@ -108,20 +108,8 @@ export function AcademyRoomSkeleton({
           </div>
         </div>
         <ul className="grid gap-4 md:grid-cols-3" data-academy-skeleton-grid="">
-          <li className="md:col-span-2">
-            <Pulse className="h-48 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
-          </li>
-          <li>
-            <Pulse className="h-48 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
-          </li>
-          <li>
-            <Pulse className="h-40 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
-          </li>
-          <li>
-            <Pulse className="h-40 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
-          </li>
-          <li>
-            <Pulse className="h-40 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
+          <li className="md:col-span-3">
+            <Pulse className="h-40 rounded-[var(--radius-card)] border border-dashed border-[var(--border)] bg-[var(--surface)]" />
           </li>
         </ul>
       </div>

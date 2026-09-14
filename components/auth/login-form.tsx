@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -74,11 +74,15 @@ function resolveSignInMessage(message: string, copy: typeof AUTH_SEN.login): str
 }
 
 export function LoginForm({ nextPath }: { nextPath?: string }) {
-  const copy = AUTH_SEN.login;
+  const [copy, setCopy] = useState(AUTH_SEN.login);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+
+  useEffect(() => {
+    setCopy(AUTH_SEN.login);
+  }, []);
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -126,7 +130,11 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
 
   return (
     <form onSubmit={onSubmit} className="space-y-3">
-      <label className="block text-sm font-medium" htmlFor="login-email">
+      <label
+        className="block text-sm font-medium"
+        htmlFor="login-email"
+        suppressHydrationWarning={true}
+      >
         {copy.email}
         <Input
           id="login-email"
@@ -136,10 +144,15 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           required
+          suppressHydrationWarning={true}
         />
       </label>
       <div>
-        <label className="block text-sm font-medium" htmlFor="login-password">
+        <label
+          className="block text-sm font-medium"
+          htmlFor="login-password"
+          suppressHydrationWarning={true}
+        >
           {copy.password}
         </label>
         <PasswordInput
@@ -149,12 +162,14 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           required
+          suppressHydrationWarning={true}
         />
       </div>
       <div className="flex justify-end">
         <Link
           href={PASSWORD_RESET_PATH}
           className="text-sm font-medium text-[var(--muted)] underline-offset-2 hover:text-[var(--safir-deep)] hover:underline"
+          suppressHydrationWarning={true}
         >
           {copy.forgotCta}
         </Link>
@@ -168,7 +183,7 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
           {error}
         </div>
       ) : null}
-      <Button type="submit" disabled={pending}>
+      <Button type="submit" disabled={pending} suppressHydrationWarning={true}>
         {pending ? copy.pending : copy.submit}
       </Button>
     </form>

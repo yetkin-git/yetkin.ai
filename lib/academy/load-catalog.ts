@@ -12,6 +12,7 @@ import type { AcademyCourseRecord, AcademyCourseWithPrice } from "@/lib/academy/
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { ensurePrismaQueryEngine, withDbReadTimeout } from "@/lib/kernel/db";
 import {
+  academyVitrineShellCourses,
   mergePublishedAcademyCatalog,
   overlaySeedCatalogPrice,
   publishedCoursesFromSeed,
@@ -87,6 +88,14 @@ export const loadPublishedCourses = cache(async function loadPublishedCourses():
   } catch {
     return seeded;
   }
+});
+
+/** PEDAGOJI §D vitrin — amiral + dürüst Yakında kabukları. Müfredat gövdesi çekilmez. */
+export const loadAcademyVitrineCourses = cache(async function loadAcademyVitrineCourses(): Promise<
+  AcademyCourseWithPrice[]
+> {
+  const live = await loadPublishedCourses();
+  return academyVitrineShellCourses(live);
 });
 
 /** Katalog sekmeleri — aldıklarım / durum rozetleri (Devam Et · Tamamlandı). */

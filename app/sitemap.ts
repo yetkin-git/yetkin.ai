@@ -4,8 +4,7 @@ import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 import { LEGAL_SITE_PATHS } from "@/lib/copy/legal-launch";
 import {
   CANONICAL_SITE_ORIGIN,
-  PAGE_SEO,
-  PRODUCT_ROOM_PATHS,
+  SITEMAP_STATIC_PATHS,
   sitemapRoutePolicy,
 } from "@/lib/copy/seo";
 
@@ -58,7 +57,8 @@ function publishedAcademyCourseEntries(lastModified: Date): MetadataRoute.Sitema
     return ACADEMY_GROWTH_SKU_SLUGS.map((slug) => {
       let images: string[] | undefined;
       try {
-        images = [absoluteSiteUrl(academyCourseCoverPath(slug))];
+        const cover = academyCourseCoverPath(slug);
+        images = cover ? [absoluteSiteUrl(cover)] : undefined;
       } catch {
         images = undefined;
       }
@@ -70,13 +70,7 @@ function publishedAcademyCourseEntries(lastModified: Date): MetadataRoute.Sitema
 }
 
 function staticSitemapEntries(lastModified: Date): MetadataRoute.Sitemap {
-  const staticPaths = [
-    "/",
-    ...PRODUCT_ROOM_PATHS,
-    PAGE_SEO.academyVerify.path,
-    "/legal",
-    ...LEGAL_SITE_PATHS,
-  ];
+  const staticPaths = [...SITEMAP_STATIC_PATHS, "/legal", ...LEGAL_SITE_PATHS];
   const uniqueStatic = [...new Set(staticPaths)];
   return uniqueStatic.map((path) => sitemapEntry(path, lastModified));
 }

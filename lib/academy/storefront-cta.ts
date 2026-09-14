@@ -6,6 +6,7 @@
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import type { AcademyCatalogLearnerStatus } from "@/lib/academy/catalog-learner";
 import type { AcademyStorefrontAccess } from "@/lib/academy/enrolment";
+import { isAcademyProductionLineSkuSlug } from "@/lib/academy/pilot-sku";
 import { stripZeroKurusFromTryLabel } from "@/lib/kernel/money/format";
 
 export const ACADEMY_CHECKOUT_HASH = "satin-al";
@@ -134,6 +135,16 @@ export function resolveAcademyCatalogCardCta(input: {
       priceCaption: null,
       cta: started ? copy.catalog.statusContinue : copy.player.openCta,
       href: `/academy/${input.slug}/oyna`,
+    };
+  }
+  if (isAcademyProductionLineSkuSlug(input.slug)) {
+    const money = academyStorefrontMoneyLabel(input.priceLabel);
+    const display = money ? stripZeroKurusFromTryLabel(money) : null;
+    return {
+      priceLabel: display ?? copy.catalog.comingSoonMeta,
+      priceCaption: copy.catalog.comingSoonMeta,
+      cta: copy.catalog.cardCtaComingSoon,
+      href: "",
     };
   }
   const money = academyStorefrontMoneyLabel(input.priceLabel);

@@ -51,8 +51,8 @@ export const DASHBOARD_SEN = {
       cta: "Teklifleri gör",
     },
     careerVisa: {
-      body: "Doğrulanmış rozetin Kariyer vitrinde durur. Sıradaki adımı oradan seç.",
-      cta: "Vitrini aç",
+      body: "Doğrulanmış rozetin Kariyer sayfasında Pasaport Vize Damgası olarak durur.",
+      cta: "Kariyer sayfasında gör",
     },
     academyContinue: {
       body: "Satın aldığın eğitimde kaldığın dersten devam et. Öğren, sınav ol, sertifikanı al.",

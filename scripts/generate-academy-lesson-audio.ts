@@ -35,7 +35,7 @@
 import "./load-academy-bake-env";
 
 import { randomUUID } from "node:crypto";
-import { mkdirSync, writeFileSync, existsSync, statSync } from "node:fs";
+import { mkdirSync, writeFileSync, existsSync, statSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { GoogleGenAI } from "@google/genai";
 import { Client } from "pg";
@@ -73,6 +73,7 @@ import {
 } from "@/lib/kernel/ai/pcm-wav";
 import { canonicalizeGeminiTtsLanguageCode, canonicalizeGeminiTtsVoiceName } from "@/lib/kernel/ai/tts-voices";
 import { academyLessonCueParagraphPlan } from "@/lib/academy/lesson-cues";
+import { academyLessonIntroOffsetSec } from "@/lib/academy/lesson-intro";
 import type { AcademySealedAudioPiece, AcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import { normalizeRuntimeDatabaseUrl } from "@/lib/kernel/postgres-url";
 import {
@@ -547,7 +548,12 @@ async function bakeLessonWav(
   const pauseSec = breathMs / 1000;
   const parts: Buffer[] = [];
   const pieces: AcademySealedAudioPiece[] = [];
-  let cursorSec = 0;
+  const introSec = academyLessonIntroOffsetSec(job.lessonKey);
+  let cursorSec = introSec;
+  if (introSec > 0) {
+    parts.push(createSilentPcmWav(Math.round(introSec * 1000)));
+    process.stdout.write(`    giriş jeneriği ${introSec.toFixed(1)}s sessizlik (konuşma ${introSec.toFixed(1)}s'de)\n`);
+  }
   process.stdout.write(
     `    ${breathChunks.length} nefes dilimi +${PCM_WAV_GAIN_DB} dB / ${PCM_WAV_PLAYBACK_SAMPLE_RATE / 1000} kHz  pause=${Math.round(breathMs)}ms\n`,
   );
@@ -616,7 +622,63 @@ function writeSealedAudioTimings(input: {
   const diskPath = join(process.cwd(), relativePath);
   mkdirSync(dirname(diskPath), { recursive: true });
   writeFileSync(diskPath, `${JSON.stringify(timings, null, 2)}\n`);
+  overlaySealedCueTimes(input.job, timings);
   return relativePath;
+}
+
+/** docs/curriculum/01_office_ai_01_cue.json ve 01_office_ai_02_cue.json — ofis amiral cue paketi. */
+function academyDocsCurriculumCueFileName(lessonKey: string): string | null {
+  const match = /^01_office_ai-(\d+)$/u.exec(lessonKey.trim());
+  if (!match) {
+    return null;
+  }
+  return `01_office_ai_${match[1]!.padStart(2, "0")}_cue.json`;
+}
+
+/** Cue start/end bake parça saatine kilitlenir. 01_office_ai-1 docs/curriculum cue SSOT. */
+function overlaySealedCueTimes(job: AcademyMediaReleaseJob, timings: AcademySealedAudioTimings): void {
+  const cueRelative = join("lib", "academy", "lesson-cues", `${job.lessonKey}.json`);
+  const cuePath = join(process.cwd(), cueRelative);
+  if (!existsSync(cuePath)) {
+    return;
+  }
+  const parsed: unknown = JSON.parse(readFileSync(cuePath, "utf8"));
+  if (!Array.isArray(parsed)) {
+    return;
+  }
+  const cues = parsed as Array<Record<string, unknown>>;
+  for (const cue of cues) {
+    const group = timings.pieces.filter((piece) => piece.cueId === cue.id);
+    if (group.length === 0) {
+      continue;
+    }
+    cue.start = group[0]!.start;
+    cue.end = group[group.length - 1]!.end;
+  }
+  writeFileSync(cuePath, `${JSON.stringify(cues, null, 2)}\n`);
+  process.stdout.write(`  cue saatleri mühürlendi → ${cueRelative}\n`);
+  const docsCueName = academyDocsCurriculumCueFileName(job.lessonKey);
+  if (!docsCueName) {
+    return;
+  }
+  const docsRelative = join("docs", "curriculum", docsCueName);
+  writeFileSync(
+    join(process.cwd(), docsRelative),
+    `${JSON.stringify(
+      {
+        lessonKey: job.lessonKey,
+        model: "gemini-3.1-flash-tts-preview",
+        voice: "Callirrhoe",
+        durationSec: timings.durationSec,
+        seal: job.mediaReleaseSeal.slice(0, 12),
+        cues,
+        pieces: timings.pieces,
+      },
+      null,
+      2,
+    )}\n`,
+  );
+  process.stdout.write(`  curriculum cue mühürlendi → ${docsRelative}\n`);
 }
 
 async function stampMediaReleaseSeal(job: AcademyMediaReleaseJob, wav: Buffer, model: string): Promise<void> {

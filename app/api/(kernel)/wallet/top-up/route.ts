@@ -1,7 +1,8 @@
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown } from "@/lib/kernel/http/json";
+import { isV1JsonRequest } from "@/lib/kernel/http/api-v1";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
-import { readIdempotencyKey } from "@/lib/kernel/http/idempotency-key";
+import { requireRailV1IdempotencyKey } from "@/lib/kernel/http/v1-runtime-shield";
 import { hashIdempotencyPayload, settleHttpIdempotency } from "@/lib/kernel/http/idempotency";
 import { createPrismaHttpIdempotencyStore } from "@/lib/kernel/http/prisma-idempotency-store";
 import { logEvent } from "@/lib/kernel/observability/log";
@@ -28,7 +29,15 @@ import {
   assertWalletTopUpAmountMinor,
   decideWalletTopUpReuse,
   shouldFailCloseMockTopUp,
+  toWalletTopUpWire,
+  type WalletTopUpStatus,
 } from "@/lib/kernel/payments/wallet-top-up";
+import {
+  buildPaytrDronCheckoutReturnUrl,
+  buildWalletCheckoutPassportUrl,
+  mintWalletCheckoutPassport,
+} from "@/lib/kernel/payments/wallet-checkout-passport";
+import { tryGetPaytrIframeUrl } from "@/lib/kernel/payments/paytr/iframe-embed";
 import {
   applyHttpRateLimit,
   HTTP_RATE_LIMITS,
@@ -73,17 +82,50 @@ function isUniqueViolation(error: unknown): boolean {
   );
 }
 
+function settledWalletTopUpWire(
+  merchantOid: string,
+  status: WalletTopUpStatus,
+): ReturnType<typeof toWalletTopUpWire> {
+  return toWalletTopUpWire({
+    merchantOid,
+    alreadySettled: status === "CLEARED",
+    status,
+  });
+}
+
+function mintCheckoutPassportUrl(input: {
+  origin: string;
+  userId: string;
+  merchantOid: string;
+  token: string;
+}): string | null {
+  try {
+    const iframe = tryGetPaytrIframeUrl(input.token);
+    if (!iframe) {
+      return null;
+    }
+    const passport = mintWalletCheckoutPassport({
+      userId: input.userId,
+      merchantOid: input.merchantOid,
+      token: input.token,
+    });
+    return buildWalletCheckoutPassportUrl(input.origin, passport);
+  } catch {
+    return null;
+  }
+}
+
 export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
-    const limited = applyHttpRateLimit(request, HTTP_RATE_LIMITS.walletTopUpUser, user.id);
+    const limited = await applyHttpRateLimit(request, HTTP_RATE_LIMITS.walletTopUpUser, user.id);
     if (!limited.allowed) {
       return rateLimitedJsonResponse(limited, request);
     }
-    const idempotency = readIdempotencyKey(request);
+    const idempotency = requireRailV1IdempotencyKey(request, requestId);
     if (!idempotency.ok) {
-      return jsonFail(idempotency.error, 400, requestId, request);
+      return idempotency.response;
     }
     const parsed = bodySchema.safeParse(await request.json());
     if (!parsed.success) {
@@ -140,11 +182,7 @@ export async function POST(request: Request) {
         if (order && (order.status === "CLEARED" || order.status === "PAID")) {
           return {
             status: 200,
-            body: {
-              merchantOid: order.merchantOid,
-              alreadySettled: order.status === "CLEARED",
-              status: order.status,
-            },
+            body: settledWalletTopUpWire(order.merchantOid, order.status),
           };
         }
 
@@ -217,13 +255,17 @@ export async function POST(request: Request) {
         if (order.status === "CLEARED" || order.status === "PAID") {
           return {
             status: 200,
-            body: {
-              merchantOid: order.merchantOid,
-              alreadySettled: order.status === "CLEARED",
-              status: order.status,
-            },
+            body: settledWalletTopUpWire(order.merchantOid, order.status),
           };
         }
+
+        const dronCheckout = isV1JsonRequest(request);
+        const merchantReturnUrl = dronCheckout
+          ? buildPaytrDronCheckoutReturnUrl(origin, "ok")
+          : buildPaytrMerchantBrowserReturnUrl(origin);
+        const merchantFailUrl = dronCheckout
+          ? buildPaytrDronCheckoutReturnUrl(origin, "fail")
+          : buildPaytrMerchantBrowserReturnUrl(origin);
 
         let checkout: Awaited<ReturnType<typeof paytrPaymentProvider.beginCheckout>>;
         const paytrUser = paytrUserFromBilling(parsed.data.billing);
@@ -234,8 +276,8 @@ export async function POST(request: Request) {
             email: user.email,
             paymentAmountMinor: amountMinor,
             currencyCode: SETTLEMENT_CURRENCY,
-            merchantOkUrl: buildPaytrMerchantBrowserReturnUrl(origin),
-            merchantFailUrl: buildPaytrMerchantBrowserReturnUrl(origin),
+            merchantOkUrl: merchantReturnUrl,
+            merchantFailUrl,
             userBasket: [{ name: "Cuzdan yukleme", amountMinor, quantity: 1 }],
             userName: paytrUser.userName,
             userAddress: paytrUser.userAddress,
@@ -278,12 +320,30 @@ export async function POST(request: Request) {
           await failPaymentOrder(createPrismaPaymentOrderStore(), merchantOid);
           return {
             status: 200,
-            body: {
+            body: toWalletTopUpWire({
               merchantOid: checkout.merchantOid,
               sandboxMode: checkout.sandboxMode,
               mockCheckout: true,
-            },
+              status: "FAILED",
+            }),
           };
+        }
+        const iframeUrl = tryGetPaytrIframeUrl(checkout.token) ?? checkout.iframeUrl ?? null;
+        const checkoutPassportUrl = mintCheckoutPassportUrl({
+          origin,
+          userId: user.id,
+          merchantOid: checkout.merchantOid,
+          token: checkout.token,
+        });
+        if (dronCheckout && !checkoutPassportUrl) {
+          logEvent({
+            level: "warn",
+            event: "wallet.top_up.passport_unavailable",
+            requestId,
+            userId: user.id,
+            merchantOid,
+            route: WALLET_TOP_UP_ROUTE,
+          });
         }
         logEvent({
           level: "info",
@@ -297,12 +357,14 @@ export async function POST(request: Request) {
         });
         return {
           status: 200,
-          body: {
+          body: toWalletTopUpWire({
             merchantOid: checkout.merchantOid,
             token: checkout.token,
-            iframeUrl: checkout.iframeUrl,
+            iframeUrl,
             sandboxMode: checkout.sandboxMode,
-          },
+            status: "PENDING",
+            checkoutPassportUrl,
+          }),
         };
       },
     );

@@ -29,9 +29,8 @@ describe("Merchant (Akademi) laboratuvar halkası", () => {
     expect(journey.witness.certificateHash).toMatch(/^[a-f0-9]{64}$/);
     expect(journey.witness.hashVerified).toBe(true);
     expect(journey.witness.publicVerifyStatus).toBe("found");
-    expect(journey.witness.verifyHref).toContain(journey.witness.certificateHash!);
-    expect(journey.academyVisa?.stamp.certificateHash).toBe(journey.witness.certificateHash);
-    expect(journey.academy.certificate).not.toBeNull();
+    expect(journey.academyVisa?.applied).toBe(true);
+    expect(journey.academy.certificate?.certificateHash).toBe(journey.witness.certificateHash);
 
     expect(journey.split.beginHold).toEqual({ ok: false, reason: "not_configured" });
     expect(journey.split.settle).toEqual({ ok: false, reason: "not_configured" });

@@ -6,7 +6,7 @@
  * sayfa yükünde üretim API’si çağrılmaz. Operatör binary bırakırsa
  * `ACADEMY_BAKED_MICRO_VIDEO_KEYS` / `ACADEMY_BAKED_HLS_KEYS` dolar.
  */
-export const ACADEMY_BAKED_MICRO_VIDEO_KEYS: readonly string[] = [];
+export const ACADEMY_BAKED_MICRO_VIDEO_KEYS: readonly string[] = ["01_office_ai-1-warmup"];
 export const ACADEMY_BAKED_HLS_KEYS: readonly string[] = [];
 
 export function isAcademyMicroVideoBaked(assetKey: string): boolean {

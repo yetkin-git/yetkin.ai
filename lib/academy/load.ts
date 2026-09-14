@@ -61,6 +61,7 @@ import {
   ACADEMY_CATALOG_READ_TIMEOUT_MS,
   loadAcademyCatalogLearnerBoard,
   loadAcademyContinueBoard,
+  loadAcademyVitrineCourses,
   loadPublishedCourses,
   publishedLessonCount,
 } from "@/lib/academy/load-catalog";
@@ -71,6 +72,7 @@ export type { AcademyCatalogLearnerBoard };
 export {
   loadAcademyCatalogLearnerBoard,
   loadAcademyContinueBoard,
+  loadAcademyVitrineCourses,
   loadPublishedCourses,
   publishedLessonCount,
 };

@@ -36,6 +36,8 @@ export function ListingCard({
   summaryClamp = 2,
   hitAriaExtra,
   coverSrc,
+  coverComingSoon = false,
+  comingSoonLabel,
   coverPriority = false,
   coverSizes = ACADEMY_COURSE_COVER_SIZES,
   ctaSize = "sm",
@@ -75,7 +77,10 @@ export function ListingCard({
   /** Kart hit aria-label'ına eklenen dürüst sinyal (örn. seslendirme). */
   hitAriaExtra?: string;
   /** Tur 3 kapak posteri — ızgara kartında üst plaka. */
-  coverSrc?: string;
+  coverSrc?: string | null;
+  /** Taze ingest yok — şeffaf Yakında plakası; marka Y mührü basılmaz. */
+  coverComingSoon?: boolean;
+  comingSoonLabel?: string;
   /** Amiral kart — LCP için eager + AVIF `fetchPriority="high"`. */
   coverPriority?: boolean;
   /** Duyarlı `sizes` — varsayılan katalog 100vw / 50vw / 33vw. */
@@ -85,7 +90,8 @@ export function ListingCard({
 }) {
   const isList = layout === "list";
   const cardHit = Boolean(href) && hit === "card";
-  const showCover = Boolean(coverSrc) && !isList;
+  const cinemaCover = Boolean(coverSrc) && !coverComingSoon;
+  const showCover = !isList && (cinemaCover || coverComingSoon);
   const hasInlineKicker = Boolean(moduleCode || kicker);
   const hasTopChrome = Boolean(
     rank || icon || badge || lockLabel || extraBadge || showcase || hasInlineKicker,
@@ -229,20 +235,29 @@ export function ListingCard({
         isList ? "flex-col gap-3 sm:flex-row sm:items-center sm:gap-5" : "flex-col justify-between",
       )}
     >
-      {showCover && coverSrc ? (
+      {showCover ? (
         <div
-          className="relative aspect-[16/9] w-full overflow-hidden rounded-t-[var(--radius-card)] bg-[var(--surface-muted)]"
+          className="relative aspect-[16/9] w-full overflow-hidden rounded-t-[var(--radius-card)] bg-[color-mix(in_srgb,var(--surface-muted)_55%,transparent)]"
           data-academy-catalog-cover=""
+          data-academy-coming-soon-cover={coverComingSoon ? "" : undefined}
         >
-          <CourseCoverImage
-            src={coverSrc}
-            alt=""
-            fill
-            eager={coverPriority}
-            highPriority={coverPriority}
-            sizes={coverSizes}
-            className="h-full w-full object-cover transition duration-200 group-hover:scale-[1.03]"
-          />
+          {cinemaCover && coverSrc ? (
+            <CourseCoverImage
+              src={coverSrc}
+              alt=""
+              fill
+              eager={coverPriority}
+              highPriority={coverPriority}
+              sizes={coverSizes}
+              className="h-full w-full object-cover transition duration-200 group-hover:scale-[1.03]"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center">
+              <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[var(--muted)]">
+                {comingSoonLabel}
+              </span>
+            </div>
+          )}
         </div>
       ) : null}
       {showCover ? (

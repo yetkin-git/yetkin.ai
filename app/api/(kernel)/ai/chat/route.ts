@@ -18,7 +18,7 @@ export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
-    const burst = applyHttpRateLimit(request, HTTP_RATE_LIMITS.llmUser, user.id);
+    const burst = await applyHttpRateLimit(request, HTTP_RATE_LIMITS.llmUser, user.id);
     if (!burst.allowed) {
       return rateLimitedJsonResponse(burst, request);
     }

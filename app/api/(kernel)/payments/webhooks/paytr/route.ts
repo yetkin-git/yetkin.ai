@@ -20,7 +20,13 @@ import {
 } from "@/lib/kernel/payments/paytr/webhook-settle";
 import { inngest, INNGEST_EVENTS } from "@/lib/kernel/jobs/inngest";
 import { canSendInngestEvents } from "@/lib/kernel/jobs/inngest-guard";
+import { railEdgeFailResponse } from "@/lib/kernel/http/api-v1";
+import { isLiveBroadcastShutdownEnvActive } from "@/lib/kernel/http/live-broadcast-shutdown";
 import { REQUEST_ID_HEADER, resolveRequestId } from "@/lib/kernel/http/request-id";
+import {
+  SITE_MAINTENANCE_API_ERROR,
+  SITE_MAINTENANCE_RETRY_AFTER_SECONDS,
+} from "@/lib/kernel/http/site-maintenance";
 import { logEvent } from "@/lib/kernel/observability/log";
 
 export const auth = "webhook" as const;
@@ -69,7 +75,29 @@ function notificationRoute(request: Request): string {
   }
 }
 
+/** Canlı yayın kapatma: CREDIT yok, OK yok; PayTR yeniden dener. */
+function paytrLiveShutdownResponse(request: Request): NextResponse | null {
+  if (!isLiveBroadcastShutdownEnvActive()) {
+    return null;
+  }
+  const requestId = resolveRequestId(request);
+  logEvent({
+    level: "warn",
+    event: "paytr.webhook.live_broadcast_shutdown",
+    requestId,
+    route: notificationRoute(request),
+  });
+  const response = railEdgeFailResponse(request, SITE_MAINTENANCE_API_ERROR, 503);
+  response.headers.set("retry-after", String(SITE_MAINTENANCE_RETRY_AFTER_SECONDS));
+  response.headers.set("cache-control", "no-store");
+  return response;
+}
+
 async function paytrProbe(request: Request, action: "GET" | "HEAD") {
+  const shutdown = paytrLiveShutdownResponse(request);
+  if (shutdown) {
+    return shutdown;
+  }
   const requestId = resolveRequestId(request);
   logEvent({
     level: "info",
@@ -112,6 +140,10 @@ function webhookSettlePorts() {
 }
 
 export async function POST(request: Request) {
+  const shutdown = paytrLiveShutdownResponse(request);
+  if (shutdown) {
+    return shutdown;
+  }
   const requestId = resolveRequestId(request);
   const payload = await readPaytrWebhookPayload(request);
   const route = notificationRoute(request);

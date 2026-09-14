@@ -1,10 +1,13 @@
 /**
  * Üretimde boş INNGEST_SIGNING_KEY veya INNGEST_EVENT_KEY = serve() açılmaz (fail-closed).
+ * `LIVE_BROADCAST_SHUTDOWN` üretimde anahtar dolu olsa da serve/send 503.
  * `/api/jobs/inngest` GET/POST/PUT 503 döner; sahte event handler'a inmez.
  * INNGEST_DEV üretimde bypass etmez. Sahte/doğrulanmamış event kabul edilmez.
  * Geliştirmede Cloud yoksa INNGEST_DEV=1 olmadan serve() çağrılmaz (SDK 500 dumanı yok).
  * Cloud veya (üretim dışı) INNGEST_DEV açıkken cron 503'e düşmez.
  */
+
+import { isLiveBroadcastShutdownEnvActive } from "@/lib/kernel/http/live-broadcast-shutdown";
 
 /** Valör + emanet TTL taramaları — serve açıkken Inngest Cloud bu id'leri kaydeder. */
 export const INNGEST_KERNEL_CRON_FUNCTION_IDS = [
@@ -48,6 +51,9 @@ export function isInngestDevEnabled(
 export function shouldFailClosedInngestServe(
   env: Record<string, string | undefined> = process.env,
 ): boolean {
+  if (isLiveBroadcastShutdownEnvActive(env)) {
+    return true;
+  }
   if (env.NODE_ENV !== "production") {
     return false;
   }
@@ -83,7 +89,7 @@ export function resolveInngestServeMode(
 }
 
 export const INNGEST_CRON_SERVE_NOT_READY =
-  "Inngest serve fail-closed (503). Valör ve emanet TTL durur. INNGEST_EVENT_KEY + INNGEST_SIGNING_KEY veya (üretim dışı) INNGEST_DEV=1 gerekir.";
+  "Inngest serve fail-closed (503). Valör ve emanet TTL durur. Canlı yayın kapatma veya INNGEST_EVENT_KEY + INNGEST_SIGNING_KEY veya (üretim dışı) INNGEST_DEV=1 gerekir.";
 
 /** Cloud veya yerel duman hazırsa mod döner; 503 modunda throw. */
 export function assertInngestCronServeReady(
@@ -104,6 +110,9 @@ export function assertInngestCronServeReady(
 export function canSendInngestEvents(
   env: Record<string, string | undefined> = process.env,
 ): boolean {
+  if (isLiveBroadcastShutdownEnvActive(env)) {
+    return false;
+  }
   return isInngestEventKeyConfigured(env);
 }
 

@@ -349,8 +349,14 @@ export async function loadAcademyExam(
   const startedAt = now ?? new Date();
   const expiresAt = new Date(startedAt.getTime() + ACADEMY_EXAM_DURATION_MS);
   const proofLessonKey = academyExamGateProofLessonKey(course.slug);
-  const pinned = exam.questions.filter((question) => question.id.startsWith("q_pow_"));
-  const pinIds = pinned.length > 0 ? [shuffleCopy(pinned)[0]!.id] : [];
+  const pinnedPow = exam.questions.filter((question) => question.id.startsWith("q_pow_"));
+  const lessonPins = exam.questions
+    .filter((question) => question.id.startsWith("q_off_l1_"))
+    .map((question) => question.id);
+  const pinIds = [
+    ...(pinnedPow.length > 0 ? [shuffleCopy(pinnedPow)[0]!.id] : []),
+    ...lessonPins,
+  ];
   const drawn = drawAcademyExamQuestionsPinned(exam.questions, pinIds, ACADEMY_EXAM_DRAW_COUNT);
   const jti = randomUUID();
   const sessionToken = sealAcademyExamSitting({

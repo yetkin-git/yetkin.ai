@@ -322,7 +322,7 @@ export function splitAcademySpokenSentences(text: string): string[] {
     }
     // Normal metin ise cümle sınırlarından böl
     const subParts = line
-      .split(/(?<=[.!?…])\s+/u)
+      .split(/(?<=(?<!\d)\.|[!?…])\s+/u)
       .map((part) => part.trim())
       .filter((part) => part.length > 0);
     parts.push(...subParts);

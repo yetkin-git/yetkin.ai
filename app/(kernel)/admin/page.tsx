@@ -1,5 +1,6 @@
 import { AdminAuditChambers } from "@/components/kernel/admin-audit-chambers";
 import { AdminCatalogList } from "@/components/kernel/admin-catalog-list";
+import { AdminFunnelBoard } from "@/components/kernel/admin-funnel-board";
 import { AdminPriceDecisionLedger } from "@/components/kernel/admin-price-decision-ledger";
 import { AdminShelterActions } from "@/components/kernel/admin-shelter-actions";
 import { AuthNeeded } from "@/components/ui/auth-needed";
@@ -14,15 +15,29 @@ import {
   countCatalogModules,
 } from "@/lib/kernel/admin/display";
 import { loadAdminCatalogBoard } from "@/lib/kernel/admin/load";
+import { loadAdminFunnelBoard } from "@/lib/kernel/admin/funnel-load";
+import { coerceFunnelRange } from "@/lib/kernel/admin/funnel-window";
 import { resolveSuperAdminAccess } from "@/lib/kernel/auth/session";
 import { REQUIRED_CATALOG_DEFINITIONS } from "@/lib/kernel/pricing/catalog-definitions";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 
-export default async function AdminPage() {
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ range?: string }>;
+}) {
   const access = await resolveSuperAdminAccess();
   const signedIn = access.kind !== "unauthenticated";
   const isAdmin = access.kind === "ok";
-  const board = access.kind === "ok" ? await loadAdminCatalogBoard(access.user) : null;
+  const params = await searchParams;
+  const funnelRange = coerceFunnelRange(params.range);
+  const [board, funnel] =
+    access.kind === "ok"
+      ? await Promise.all([
+          loadAdminCatalogBoard(access.user),
+          loadAdminFunnelBoard(access.user, funnelRange),
+        ])
+      : [null, null];
   const entries = board?.access === "ok" ? board.entries : [];
   const decisions = board?.access === "ok" ? board.decisions : [];
   const live = board?.access === "ok";
@@ -83,11 +98,13 @@ export default async function AdminPage() {
         <div className="space-y-4">
           <p className="text-sm text-[var(--muted)]">{copy.loadSoft}</p>
           <AdminShelterActions soft />
+          <AdminFunnelBoard board={funnel} range={funnelRange} />
           <AdminAuditChambers />
           <AdminCatalogList entries={[]} showEmptyActions={false} />
         </div>
       ) : (
         <div className="space-y-4">
+          <AdminFunnelBoard board={funnel} range={funnelRange} />
           <AdminAuditChambers />
           <AdminPriceDecisionLedger decisions={decisions} />
           <AdminCatalogList entries={entries} />

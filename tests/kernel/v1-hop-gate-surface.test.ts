@@ -64,7 +64,7 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     vi.unstubAllEnvs();
   });
 
-  it("RAIL_V1_HOP_GATES, RAIL_V1_HOPS ile 1:1 kilitlenir; 8 hop (PayTR B2C)", () => {
+  it("RAIL_V1_HOP_GATES, RAIL_V1_HOPS ile 1:1 kilitlenir; 16 hop (API-First)", () => {
     const gateSrc = readFileSync(join(process.cwd(), "lib/kernel/http/v1-hop-gate.ts"), "utf8");
     const proxySrc = readFileSync(join(process.cwd(), "proxy.ts"), "utf8");
     expect(gateSrc).not.toContain("v1-contract");
@@ -73,8 +73,8 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     expect(gateSrc).not.toContain("v1PathTemplate: \"/api/v1/health\"");
     expect(proxySrc).toContain("decideRailV1HopGate");
     expect(proxySrc).toContain("hopGate.kind === \"fail\"");
-    expect(RAIL_V1_HOPS).toHaveLength(8);
-    expect(RAIL_V1_HOP_GATES).toHaveLength(8);
+    expect(RAIL_V1_HOPS).toHaveLength(16);
+    expect(RAIL_V1_HOP_GATES).toHaveLength(16);
     expect(
       RAIL_V1_HOP_GATES.map((hop) => ({
         id: hop.id,
@@ -109,13 +109,11 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
       "academy-certificate",
     );
     expect(findRailV1Hop("/api/v1/health", "POST")).toBeNull();
-    expect(findRailV1Hop("/api/v1/wallet/top-up", "POST")).toBeNull();
+    expect(findRailV1Hop("/api/v1/wallet/top-up", "POST")?.id).toBe("wallet-top-up");
     expect(findRailV1Hop(`/api/freelancer/jobs/${JOB_ID}`, "GET")).toBeNull();
     expect(assertPublishedRailV1Hop("/api/v1/auth/session", "GET").id).toBe("auth-session");
+    expect(assertPublishedRailV1Hop("/api/v1/wallet/top-up", "POST").id).toBe("wallet-top-up");
     expect(() => assertPublishedRailV1Hop("/api/v1/freelancer/jobs", "GET")).toThrow(
-      RAIL_V1_HOP_UNPUBLISHED,
-    );
-    expect(() => assertPublishedRailV1Hop("/api/v1/wallet/top-up", "POST")).toThrow(
       RAIL_V1_HOP_UNPUBLISHED,
     );
 
@@ -195,15 +193,17 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
       expect(response.headers.get("x-middleware-rewrite"), item.path).toBeNull();
     }
 
-    const walletUnpublished = await proxy(
+    const walletPublished = await proxy(
       edgeRequest("/api/v1/wallet/top-up", {
         method: "POST",
         authorization: `Bearer ${token}`,
         headers: { "X-Rail-Min-Version": "1" },
       }),
     );
-    expect(walletUnpublished.status).toBe(404);
-    expect(walletUnpublished.headers.get("x-middleware-rewrite")).toBeNull();
+    expect(walletPublished.status).toBe(200);
+    expect(walletPublished.headers.get("x-middleware-rewrite")).toBe(
+      "http://localhost:3000/api/wallet/top-up",
+    );
 
     const probe = await proxy(edgeRequest(`/api/v1/freelancer/jobs/${JOB_ID}`));
     expect(probe.status).toBe(410);

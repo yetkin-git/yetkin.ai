@@ -18,6 +18,8 @@
  *   6) 20260814090000_academy_course_seed.sql
  *   7) 20260814100000_handle_user_email_update.sql
  *   8) 20260814110000_freelancer_job_seed.sql
+ *   9) 20260823220000_freelancer_job_visa_pathway.sql
+ *  10) 20260912220000_academy_sterile_vitrine.sql
  */
 
 import { spawnSync } from "node:child_process";
@@ -164,7 +166,7 @@ function listSqlFiles(): string[] {
   }
   if (files.length !== EXPECTED_SQL.length) {
     fail(
-      `SQL sayısı kilitli sekiz değil (${files.length}). Ek dosya veya eksik: ${files.join(", ")}`,
+      `SQL sayısı kilitli ${EXPECTED_SQL.length} değil (${files.length}). Ek dosya veya eksik: ${files.join(", ")}`,
     );
   }
   for (let index = 0; index < EXPECTED_SQL.length; index += 1) {
@@ -305,7 +307,7 @@ async function main(): Promise<void> {
   }
 
   console.log(
-    "ops:migrate — Prisma şema (D2 halkası, defter immutability, sertifika iptal, P3 donmuş DROP), sonra sekiz SQL.",
+    "ops:migrate — Prisma şema (D2 halkası, defter immutability, sertifika iptal, P3 donmuş DROP), sonra dokuz SQL.",
   );
   console.log(`   Prisma halka: ${PRISMA_RING_MIGRATIONS.join(" → ")}`);
   console.log(`   Defter mührü: ${LEDGER_IMMUTABILITY_MIGRATION}`);

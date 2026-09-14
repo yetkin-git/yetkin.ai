@@ -50,8 +50,8 @@ describe("03.37 seviye yol haritası", () => {
   it("yayın pathway ve tohum listeleri boştur", () => {
     expect(ACADEMY_LEVEL_PATHWAYS).toEqual([]);
     expect([...academyPathwayCatalogSlugs()]).toEqual([]);
-    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
-    expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
+    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai"]);
+    expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai"]);
     expect(Object.keys(ACADEMY_COURSE_TITLES)).toEqual([...ACADEMY_CANON_SKU_SLUGS]);
     expect(ACADEMY_COURSE_TITLES["01_office_ai"]).toContain("Ofiste Yapay Zekâ");
     expect(academyPathwayBySlug("sample-course")).toBeNull();
@@ -62,7 +62,7 @@ describe("03.37 seviye yol haritası", () => {
 
   it("boş katalogda pathway duvarı basılmaz", () => {
     const courses = publishedCoursesFromSeed();
-    expect(courses.map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
+    expect(courses.map((row) => row.slug)).toEqual(["01_office_ai"]);
     const views = buildAcademyPathwayCatalog({
       courses,
       completedSlugs: new Set(["sample-course"]),

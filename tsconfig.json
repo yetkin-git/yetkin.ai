@@ -27,6 +27,12 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "@yetkin/kernel": [
+        "./packages/kernel/src/index.ts"
+      ],
+      "@yetkin/kernel/*": [
+        "./packages/kernel/src/*"
       ]
     }
   },
@@ -38,6 +44,7 @@
     "components/**/*.tsx",
     "lib/**/*.ts",
     "lib/**/*.tsx",
+    "packages/kernel/src/**/*.ts",
     "middleware/**/*.ts",
     "proxy.ts",
     "scripts/**/*.ts",

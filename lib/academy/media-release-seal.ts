@@ -75,6 +75,14 @@ export function academyLessonAudioReleaseDiskPath(
   return join(root, "public", "media", "academy", "audio", courseSlug.trim(), `${lessonKey.trim()}.mp3`);
 }
 
+export function academyLessonBedDiskPath(
+  courseSlug: string,
+  lessonKey: string,
+  root = process.cwd(),
+): string {
+  return join(root, "public", "media", "academy", "audio", courseSlug.trim(), `${lessonKey.trim()}.bed.mp3`);
+}
+
 export function academyLessonAudioLegacyPublicWavPath(
   courseSlug: string,
   lessonKey: string,

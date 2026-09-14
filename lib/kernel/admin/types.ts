@@ -45,6 +45,7 @@ export type CatalogModuleGroup = {
 
 export const ADMIN_SURFACE_PATH = "/admin" as const;
 export const CATALOG_WRITE_PATH = "/api/admin/catalog" as const;
+export const FUNNEL_READ_PATH = "/api/admin/funnel" as const;
 /** Admin sığınak yönlendirmeleri — canlı CTA hedefleri. */
 export const ADMIN_DASHBOARD_SHELTER_PATH = "/dashboard" as const;
 export const ADMIN_ACADEMY_SHELTER_PATH = "/academy" as const;

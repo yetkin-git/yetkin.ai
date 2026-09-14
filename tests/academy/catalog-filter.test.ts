@@ -23,20 +23,8 @@ describe("akademi katalog sıra yardımcısı", () => {
     const slugs = orderAcademyCatalogByCurriculum(
       ACADEMY_COURSE_SEEDS.map((row) => ({ slug: row.slug, level: row.level })),
     ).map((row) => row.slug);
-    expect(slugs).toEqual([
-      "01_office_ai",
-      "02_ecommerce_ai",
-      "03_social_media_ai",
-      "04_chatbot_nocode",
-      "05_prompt_practice",
-    ]);
-    expect(slugs.map((slug) => academyModuleCodeBySlug(slug))).toEqual([
-      "OFF-101",
-      "EC-102",
-      "SM-103",
-      "BOT-104",
-      "PR-105",
-    ]);
+    expect(slugs).toEqual(["01_office_ai"]);
+    expect(slugs.map((slug) => academyModuleCodeBySlug(slug))).toEqual(["OFF-101"]);
     expect(existsSync(join(process.cwd(), "components/academy/filter-bar.tsx"))).toBe(false);
   });
 

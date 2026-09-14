@@ -6,6 +6,7 @@
  * public / webhook imzasız geçer; webhook imzası handler'dadır.
  */
 
+import { DronBayrakları, DRON_KAYIT } from "@/lib/dronlar/kayit";
 import { isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
 import {
   FREELANCER_LOCKED_API_PREFIXES,
@@ -43,8 +44,17 @@ export function isFrozenRoomApi(pathname: string): boolean {
   ) {
     return true;
   }
-  return (FROZEN_SHELL_ROOM_IDS as readonly string[]).some(
-    (id) => path === `/api/${id}` || path.startsWith(`/api/${id}/`),
+  if (
+    (FROZEN_SHELL_ROOM_IDS as readonly string[]).some(
+      (id) => path === `/api/${id}` || path.startsWith(`/api/${id}/`),
+    )
+  ) {
+    return true;
+  }
+  return DRON_KAYIT.some(
+    (row) =>
+      DronBayrakları.isKapali(row.id) &&
+      (path === `/api/${row.id}` || path.startsWith(`/api/${row.id}/`)),
   );
 }
 

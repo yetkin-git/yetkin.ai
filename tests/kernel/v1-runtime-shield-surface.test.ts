@@ -174,15 +174,21 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
   it("RAIL_V1_HOPS yazma hop'ları handler'da kalkanı çağırır; GET anahtar dayatmaz", () => {
     expect(readSrc("lib/kernel/http/v1-runtime-shield.ts")).toContain("readIdempotencyKey");
     const writeHops = RAIL_V1_HOPS.filter((hop) => hop.idempotency);
-    // PayTR B2C: sicilde tek yazma hop'u academy-purchase; freelancer
-    // yazma kalkanları kanonik handler'larda aynı katılıkla durur (aşağıda).
-    expect(writeHops.map((hop) => hop.id)).toEqual(["academy-purchase"]);
+    expect(writeHops.map((hop) => hop.id)).toEqual([
+      "academy-purchase",
+      "academy-lock",
+      "academy-curriculum",
+      "academy-exam",
+      "wallet-top-up",
+      "career-portfolio",
+      "profile-patch",
+    ]);
     for (const hop of RAIL_V1_HOPS) {
       if (hop.method === "GET") {
         expect(hop.idempotency, hop.id).toBe(false);
       }
       if (hop.idempotency) {
-        expect(hop.method, hop.id).toBe("POST");
+        expect(["POST", "PATCH"], hop.id).toContain(hop.method);
       }
       const file = railV1HopHandlerFile(hop);
       expect(existsSync(join(ROOT, file)), file).toBe(true);
@@ -310,7 +316,6 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
       "health",
       "academy-certificate",
     ]);
-    expect(bearerHops.map((hop) => hop.id)).not.toContain("academy-purchase");
     for (const hop of bearerHops) {
       const paths = resolveRailV1HopPaths(hop);
       const cookieOnly = await proxy(

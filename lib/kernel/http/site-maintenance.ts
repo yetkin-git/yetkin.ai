@@ -3,18 +3,20 @@ import { NextResponse } from "next/server";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { LEGAL_ENTITY } from "@/lib/copy/legal-launch";
 import { canonicalApiPathname, railEdgeFailResponse } from "@/lib/kernel/http/api-v1";
+import { isLiveBroadcastShutdownEnvActive } from "@/lib/kernel/http/live-broadcast-shutdown";
 import { buildBrandMarkSvg } from "@/lib/ui/brand-mark-geometry";
 
 /**
- * Canlı yayın dondurma — Vercel / `.env` `SITE_MAINTENANCE_FREEZE=true|1`
- * iken kenar ürünü 503 basar. Health, `/legal`, `/iletisim`, robots ve sitemap geçer.
- * Bakım HTML'i donma sırasında bile yasal sözleşme linklerini, iletişim yolunu
- * ve şirket künyesini (VKN / MERSİS / adres) basar; PayTR ve yasal inceleme
- * uzmanı 503 ekranından muaf yüzeye tek tıkla iner.
- * Müze `MAINTENANCE_MODE` env yoktur. `NODE_ENV=development` ve localhost yok sayılır.
- * Canlı / PayTR: bayrak boş.
+ * Canlı yayın dondurma — env `LIVE_BROADCAST_SHUTDOWN=true|1` veya
+ * Vercel / `.env` `SITE_MAINTENANCE_FREEZE=true|1` iken kenar ürünü 503 basar.
+ * Health, `/legal`, `/iletisim`, `/hakkimizda`, robots ve sitemap geçer.
+ * Canlı yayın kapatma açıkken PayTR bildirim ağızları da 503'dür (CREDIT yok).
+ * Bakım HTML'i yasal sözleşme linklerini, iletişim yolunu ve şirket künyesini
+ * (VKN / MERSİS / adres) basar. Müze `MAINTENANCE_MODE` env yoktur.
+ * `NODE_ENV=development` ve localhost yok sayılır.
  */
 export type SiteMaintenanceEnv = {
+  LIVE_BROADCAST_SHUTDOWN?: string;
   SITE_MAINTENANCE_FREEZE?: string;
   SITE_MAINTENANCE_BYPASS_TOKEN?: string;
   MAINTENANCE_BYPASS_SECRET?: string;
@@ -26,17 +28,17 @@ export const MAINTENANCE_BYPASS_HEADER = "x-yetkin-maintenance-bypass";
 export const MAINTENANCE_BYPASS_COOKIE = "yetkin_maintenance_bypass";
 
 export const SITE_MAINTENANCE_API_ERROR =
-  "Sistem güncelleniyor. Bakım nedeniyle geçici olarak kapalıyız.";
+  "Sistem bakımdadır. Canlı yayın durduruldu.";
 
 export const SITE_MAINTENANCE_RETRY_AFTER_SECONDS = 3600;
 
-export const SITE_MAINTENANCE_TITLE = "Sistem Güncelleniyor";
-export const SITE_MAINTENANCE_SUBTITLE = "Bakım Modundayız";
-export const SITE_MAINTENANCE_ENGLISH = "Under Construction";
+export const SITE_MAINTENANCE_TITLE = "Sistem Bakımdadır";
+export const SITE_MAINTENANCE_SUBTITLE = "Canlı yayın durduruldu";
+export const SITE_MAINTENANCE_ENGLISH = "Service Unavailable";
 
 /** 503 ekranında inceleme uzmanına gösterilen muafiyet ibaresi. */
 export const SITE_MAINTENANCE_COMPLIANCE_NOTE =
-  "PayTR ve Yasal İncelemeler İçin Alt Servisler Aktiftir";
+  "Yasal sayfalar açıktır; ödeme ve arka plan işleri durdurulmuştur";
 
 /**
  * Bakım ekranında basılan yasal inceleme bağlantıları — `isPublicCompliancePath`
@@ -55,6 +57,7 @@ export const SITE_MAINTENANCE_LEGAL_LINKS = [
 /** Kenar demeti Next'in statik `process.env.*` okumasını ister. */
 export function readProcessSiteMaintenanceEnv(): SiteMaintenanceEnv {
   return {
+    LIVE_BROADCAST_SHUTDOWN: process.env.LIVE_BROADCAST_SHUTDOWN,
     SITE_MAINTENANCE_FREEZE: process.env.SITE_MAINTENANCE_FREEZE,
     SITE_MAINTENANCE_BYPASS_TOKEN: process.env.SITE_MAINTENANCE_BYPASS_TOKEN,
     MAINTENANCE_BYPASS_SECRET: process.env.MAINTENANCE_BYPASS_SECRET,
@@ -115,6 +118,9 @@ export function isSiteMaintenanceActive(
   if (hostname !== undefined && isLoopbackHostname(hostname)) {
     return false;
   }
+  if (isLiveBroadcastShutdownEnvActive(env)) {
+    return true;
+  }
   return isSiteMaintenanceFlagOn(env);
 }
 
@@ -153,13 +159,18 @@ export function hasSiteMaintenanceBypass(
   return headerVal === secret || cookieVal === secret;
 }
 
-/** PayTR / 6502 denetim yüzeyi — freeze açıkken bile 503 basılmaz. */
-export function isPublicCompliancePath(pathname: string): boolean {
+/** PayTR bildirim ağızları — canlı yayın kapatma açıkken 503; aksi halde kenar atlanır. */
+export function isPaytrNotificationCompliancePath(pathname: string): boolean {
   const canonical = canonicalApiPathname(pathname);
-  if (
+  return (
     canonical === "/api/payments/webhooks/paytr" ||
     canonical === "/api/paytr/callback"
-  ) {
+  );
+}
+
+/** 6502 / yasal inceleme yüzeyi — freeze açıkken 503 basılmaz (PayTR hariç kapatma). */
+export function isPublicCompliancePath(pathname: string): boolean {
+  if (isPaytrNotificationCompliancePath(pathname)) {
     return true;
   }
   const raw = pathname.trim();
@@ -190,7 +201,13 @@ export function shouldInterceptForSiteMaintenance(
   if (!active) {
     return false;
   }
-  if (isHealthProbePath(pathname) || isPublicCompliancePath(pathname)) {
+  if (isHealthProbePath(pathname)) {
+    return false;
+  }
+  if (isPaytrNotificationCompliancePath(pathname)) {
+    return isLiveBroadcastShutdownEnvActive(env ?? readProcessSiteMaintenanceEnv());
+  }
+  if (isPublicCompliancePath(pathname)) {
     return false;
   }
   if (request && hasSiteMaintenanceBypass(request, env)) {
@@ -349,8 +366,8 @@ export function renderSiteMaintenanceHtml(): string {
       <h1>${SITE_MAINTENANCE_TITLE}</h1>
       <p class="sub">${SITE_MAINTENANCE_SUBTITLE}</p>
       <p class="en">${SITE_MAINTENANCE_ENGLISH}</p>
-      <p class="copy">Sayfalar ve API geçici olarak kapalı. Kısa bir bakım çalışmasındayız; birazdan tekrar buradayız. Yasal sözleşmeler ve iletişim sayfalarımız bakım sırasında da açıktır.</p>
-      <p class="pill"><span class="dot" aria-hidden="true"></span>Canlı yayın duraklatıldı</p>
+      <p class="copy">Sayfalar, API ve ödeme bildirimleri kapalı. Canlı yayın Super Admin emriyle durduruldu. Yasal sözleşmeler ve iletişim sayfalarımız bakım sırasında da açıktır.</p>
+      <p class="pill"><span class="dot" aria-hidden="true"></span>Sistem bakımdadır</p>
       <div class="compliance">
         <p class="compliance-note">${SITE_MAINTENANCE_COMPLIANCE_NOTE}</p>
         <nav class="links" aria-label="Yasal sayfalar">

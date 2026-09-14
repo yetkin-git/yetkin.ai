@@ -1,161 +1,162 @@
-# PEDAGOJI.md — Eğitim ve anlatım ilkeleri
+# PEDAGOJI.md — Bütünleşik Medya ve Eğitim Rejisi Standartları
 
-Bu belge platformun **canlı** eğitim felsefesini, Aşama 1 (makale) yayın standardını ve Aşama 2–3 üretim disiplinini tanımlar.
+Bu belge platformun canlı eğitim felsefesini, Google AI Studio medya fabrikası rol dağılımını ve görsel-işitsel reji standartlarını tanımlar.
 
-- **Aşama 1 (B):** Yayın makalesi. Compact markdown + sekme + sunucu sınavı.
-- **Aşama 2–3 (E+F):** Sinematik katman — tam metin, zaman senkronlu kayan yazı, görsel/şema, sinematik medya. Üretim matematiği §F. İnsan `--seal` onayı olmadan harici TTS veya video bake yok.
-- **Stüdyo sayıları** (dilim, duraklama, model id, ses yuvası, sahne bütçesi): `docs/OPS_STUDYO_SAYILARI.md`. Bu dosyaya kopyalanmaz.
-
-Çelişkide `.system_docs/ANAYASA.md` bağlayıcıdır. Canlı model kimliği `lib/kernel/ai/model-roles.ts` SSOT’tur.
+Çelişkide `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır. Canlı model kimliği kod SSOT’tadır (`lib/kernel/ai/model-roles.ts`). Bake SOP, RPM ve CLI sayıları `docs/ops/akademi-bake-elkitabi.md` içindedir.
 
 ---
 
-# A. Eğitim felsefesi
+## A. TEMEL EĞİTİM FELSEFESİ
 
-## 1. Somut ve uygulamalı anlatım ("Garsonu göster")
+### 1. Somut ve Uygulamalı Anlatım ("Garsonu Göster")
 
-Soyut tanım yığılmaz. Bilginin masada nasıl çalıştığı gösterilir.
+Soyut tanımlar yığılmaz. Ekranda kulakta duyulan ne ise (örneğin A1 hücresi), göz ekranda **%80** oranında o somut uygulamayı ve ekran kaydını görür. Kalan **%20** sinematik arayüz, şema ve bağlam plakasıdır.
 
-* **Çalışan örnek:** «Ajan otonom bir döngüdür» demek yerine sipariş, araç, bellek ve teslim adımı yazılı durur.
-* **Konunun doğası:** Ofis/Excel, e-ticaret, sosyal içerik, chatbot ve prompt — her SKU kendi iş dilini kullanır. Tek şablon her alana zorla dayatılmaz.
-* **SEN dili:** Anlatıcı öğrenciye «sen» diye hitap eder. Dolgu («Şey…», «Eeee…») ve bürokratik dolambaç yok.
+* Anlatılan işlem ile görünen kare milisaniyesine kadar örtüşür; ses ile görsel ayrışmaz.
+* «Ajan otonom bir döngüdür» demek yerine sipariş, araç, bellek ve teslim adımı masada çalışır.
+* Her yayın SKU kendi iş dilini kullanır. Tek şablon her alana zorla dayatılmaz.
 
-## 2. Konunun hakkı
+### 2. Aptala Anlatır Gibi Netlik & SEN Dili
 
-Sabit ders adedi, maktu dakika veya kelime tavanı **yayın makalesini kesmez** (Anayasa B4). Compact gövde konunun hakkını taşır; ingest ve vitrin o gerçeği basar.
+Sıfır jargon, insani, sıcak, arkadaşça ve çözüme giden bir dil kullanılır.
 
-**Mühürlü yapay zekâ eğitimi** (Aşama 2–3 konuşma metni + bake) §F üretim ve doygunluk standardına kilitlenir: 45–90 dk kurs, 6–8 ders, ders başı 7–12 dk, dört adımlı ders içi akış. Bu bant makale satırını budamaz; fırınlanacak konuşma metnini ve sahne listesini bağlar.
+* Anlatıcı öğrenciye «sen» diye hitap eder.
+* Cümle TTS ritmine uyar: kısa, konuşulabilir, günlük.
+* Jargon kaçınılmazsa önce günlük karşılığı, sonra terim gelir.
 
-**Kanon vs yayın:** Kimlik sicili 13 odaklı eğitim başlığı tutar (`ACADEMY_COURSE_TITLES`). **Canlı vitrin** ingest edilmiş 5 compact SKU’dur: `01_office_ai`, `02_ecommerce_ai`, `03_social_media_ai`, `04_chatbot_nocode`, `05_prompt_practice`. 06–13 onaylı ingest bekleyen taslaktır; vitrin cümlesi 13 satmaz.
+### 3. Bilişsel Yük Yönetimi (Sıfır Paragraf)
 
-Eski silinmiş Python–AI Agent–Fullstack ve Excel/Canva/Ads masterclass müfredatı yaşatılmaz. Çok teknik konularda **isteğe bağlı** Temel / Orta / İleri bağımsız paket ayrımı §F.3’tedir; her SKU’ya zorunlu basamak değildir.
+Ekranda uzun metin blokları veya okuma paragrafı gösterilmesi **KESİNLİKLE YASAKTIR**. Ekranda sadece ilgili saniyede beliren en fazla **3 kelimelik** esnek **Punchcard Rozetleri** parlar.
 
-**Junior oda ≠ başlangıç seviyesi.** `/junior` odası 18 yaş altı / veli doğrulamalı çocuk ürünüdür. Üretim kilitlidir (`JUNIOR_PRODUCTION_LOCKED`); disk `archived/app/junior`, kenar **HTTP 410**. Veli onayı, çocuk KVKK’sı ve reşit olmayan tahsilat ister; PayTR B2C + 18+ yasal gövde ile çelişir — açılmaz. Başlangıç seviyesi eğitim ihtiyacı ayrı oda değil, Akademi içi **Temel Paketler** ile karşılanır (§F.3). Vitrindeki Katman 1 (`01_office_ai`) kitlesel temel hattır.
+* Rozet slogan niteliğindedir; görseli destekler, teleprompter olmaz.
+* Görsel odak 5–8 saniyede bir değişir (canlı uygulama, Veo B-roll, Nano Banana şeması).
+* Konuşma aralarında 3–5 saniyelik nefes payı bırakılır.
 
----
-
-# B. Canlı standart — Aşama 1 (Makale / Compact Markdown)
-
-**Yayın formatı budur.** Vatandaş için standart deneyim Aşama 1 makale okumasıdır. Karaoke/Teleprompter yalnız mühürlü derslerde cue + `currentTime` ile opsiyoneldir.
-
-1. Ders gövdesi `docs/curriculum/` altında `.md` yazılır; `scripts/ingest-course-sections.ts` `lib/academy/curricula/<klasör>/` üretir.
-2. Oynatıcı tek kabuk: `CurriculumPlayer` + `AcademyMarkdownRenderer` + `LessonStudyTabs`. Mühürlü derste aynı kabuğun alt katmanı göz + medya + cue overlay’dir.
-3. Soğuk şablon başlıkları (`TANIŞMA`, `GİRİŞ`, `BÖLÜM N`) ekranda kırpılır; asıl ders H2/H3 ve gövde ile başlar.
-4. Compact derste etkileşimli lab zorunlu değildir; okuma mührü yeter.
-5. **Ses vaadi mühürle dardır.** Vitrin 5 kurs satar. Vatandaş karaoke yalnız `ACADEMY_MEDIA_SEALED_AUDIO` sicilindeki derslerde açılır. Amiral SKU (`01_office_ai`) 6/6 mühürlüdür; WAV mühürlenmeden teleprompter basılmaz. `generateSpeech` / `listen` kapıları **410**. İzlemede canlı TTS yoktur. Kelime-saati yayın senkronu değildir.
-
-Amiral SKU (`01_office_ai`) Aşama 2–3’e çıkarılacak ilk üründür. Diğer compact kurslar Aşama 1’de kalabilir; geçiş zorunlu değildir.
+**Junior oda ≠ başlangıç seviyesi.** 18 yaş altı ürün yoktur (`JUNIOR_PRODUCTION_LOCKED`; Anayasa B2). Başlangıç seviyesi Akademi içi **Temel Paketler** ile karşılanır.
 
 ---
 
-# C. Kanıt zinciri
+## B. GOOGLE AI STUDIO FABRİKASI VE ROL DAĞILIMI
 
-Mühürlü derste kanıt zinciri §F.1 dört adımlı doygunluk akışıdır. Compact makalede aynı pedagoji sırası gövdede durur; süre bandı makaleyi kesmez.
+İçerik üretiminde kendi iç dil modelinin (Cursor) metin veya görsel uydurması tamamen yasaktır. Yapay zeka fırınlarının görev dağılımı şöyledir:
 
-1. Isınma / iş problemi.
-2. Birinci senaryo / temel yöntem.
-3. İkinci senaryo / istisna veya kritik durum.
-4. Özet ve saha görevi.
-5. Kurs sonu sınav: baraj **70**, **sunucu puan**. Sertifika satın alınmaz.
+| Rol | Fırın | Görev |
+|-----|-------|--------|
+| Metin & Senaryo | **Gemini 3.8 Flash** | 4-beat reji yapısına (Warm-up → Command → Comparison → Task) uygun ders senaryolarını hazırlar. |
+| Seslendirme | **Gemini 3.1 Flash TTS** | Metni Gözde (**Callirrhoe**) ses karakteriyle mühürler. |
+| Görsel & Video | **Nano Banana 2 / Veo 3.1 Lite** | %80 canlı uygulama / %20 sinematik. Varsayılan B-roll: **Veo 3.1 Lite** veya `/public/media/academy/micro/` yerel MP4 reuse. Pahalı Veo 3.1 API her ders fırınında **KESİNLİKLE YASAKTIR**. Yedek: Nano Banana 2 (Gemini 3.1 Flash Image) + CSS Ken Burns. |
+| Ducking Müzik | **Lyria 3.5** | Konuşmanın arkasına ritmik dip müziği basar. Eğitmen konuşurken müzik dipte kalır; konuşma aralarındaki 3–5 saniyelik nefes paylarında hafifçe yükselir. |
+| Montaj Operatörü | **Cursor** | API'lerden dönen metin, ses, cue zamanlaması, görsel ve müzik verilerini `docs/curriculum/` ve `public/media/` altına kaydeder; `citizen-player` bileşeninde senkronize eder. |
 
----
+**4-beat reji (Warm-up → Command → Comparison → Task)** tek eğitmen, SEN dili; **Pekiştirme ve Tekrar** iki durak ekler:
 
-# D. Aşama 2 ve Aşama 3 — geçiş disiplini
+| Sıra | Beat | Karşılık | İçerik |
+|------|------|----------|--------|
+| — | GİRİŞ KÖPRÜSÜ | Warm-up öncesi ~30 sn | Yapay zekâ ile çalışma refleksini hatırlatan ısınma |
+| 1 | Warm-up | Isınma / İş Problemi | Gerçek iş hayatı karşılığı |
+| 2 | Command | Birinci Senaryo / Temel Yöntem | İlk istem ve çözüm — ekranda çalışan işlem |
+| 3 | Comparison | İkinci Senaryo / İstisna | Edge-case, yanlış vs doğru, kritik durum |
+| — | CEBİNE KOY | Task öncesi ~45 sn | Üç somut adımı tane tane tekrarlayan kapanış özeti |
+| 4 | Task | Özet & Saha Görevi | Cebine koyacakların |
 
-Geçmiş felaket (UI + TTS + DOM’u aynı anda çözmek, hayalet `.chunks`) tekrarlanmaz. Üretim sırası **metin → konuşma metni → mühürlü ses → cue → görsel**’dir; tersine değil.
+Ducking: 0–2 sn giriş jeneriğinde Lyria 0.46 (konuşma yok); Gözde 2.0 saniyede başlayınca müzik tatlıca 0.12’ye iner. Nefes payı ile **CEBİNE KOY** pekiştirme durağında 0.46. Gelecek Ders Köprüsü’nün son 3 saniyesinde müzik yeniden 0.46’ya yükselir. Konuşma bittiği an Lyria **0.70** zirveye tırmanır; logo + 1-2-3 özet checklist üstünde 3 sn coşkulu jenerik, ardından 1.5 sn fade-out. Intro nefesi, outro crescendo ve dinamik görsel reji **§E Altın Şablon Standartları** anayasa maddesidir.
 
-* **Aşama 2 (taslak):** Yalnız yerel/mock ses ve taslak cue. Eski chunk fiziken silinir. Vatandaş yüzeyine taslak WAV basılmaz.
-* **Aşama 3 (mühür):** İnsan `--seal` / `--mode=production` onayı olmadan harici TTS veya video bake yok.
+**Altın Şablon görsel reji** (`01_office_ai-1` — gelecek müfredatın cue-görsel sözleşmesi):
 
-Süre/kelime bütçesi **ses mühürlü** derse aittir; compact makale gövdesini kesmez (Anayasa B4). Mühürlü üretim matematiği §F’dedir; stüdyo bake sayıları (dilim, RPM, sahne bütçesi) OPS defterindedir.
+| Beat | Ekran | Not |
+|------|-------|-----|
+| — Giriş jeneriği | 0–2 sn logo + `01_OFFICE_AI` | Yalnız Lyria 3.5 (0.46); konuşma yok |
+| — Bitiş jeneriği | Konuşma sonrası 3 sn logo + 1-2-3 özet, 1.5 sn fade-out | Lyria 0.70 zirve → fade-out |
+| 1 Warm-up | 8 sn Veo 3.1 Lite ofis/veri-akışı B-roll (yerel MP4 reuse veya Ken Burns), sonra canlı Excel | Statik plaka yok; pahalı Veo 3.1 API yok |
+| 2 Command | %80 tek ekran canlı uygulama | İlk istem ve çözüm; ChatGPT / Claude / Gemini / API masası; **Spoiler Yasağı** — temiz/nihai tablo yok |
+| 3 Comparison | Dikey split-screen | Sol: ÖNCE (DÜZENLEMESİZ) ham/düzensiz tablo, turuncu çerçeve. Sağ: SONRA (AI İLE) düzenli tablo, yeşil-mavi neon, A1 ışıldar. Temiz tablo **ilk kez** sağ panelde açılır |
+| 4 Task | Düzenli nihai tablo | Saha görevi; karşılaştırmadan yumuşak dönüş |
 
----
+Vatandaş etiketinde «Kirli» yok. Yerine «Düzensiz Tablo», «Ham Veri» veya «Dağınık Yapı». Görsel SSOT: `lib/academy/lesson-beat-visual.ts`.
 
-# E. Görsel, Ses ve Video Üretim SOP (Aşama 2 & 3)
+Üretim sırası **senaryo → mühürlü ses → cue → görsel/video → ducking müzik → montaj**’dır; tersine değil. Senaryo, cue ve visual zoom senkronu tam oturmadan `--seal` (ücretli TTS/Video) **KESİNLİKLE** çağrılmaz. Geliştirme ve deneme `--dry-run` ile yürür. Taslak ses vatandaş yüzeyine basılmaz. İnsan onayı olmadan harici TTS yok. Ayrıntı bake el kitabındadır (`skip preventer`, `--seal` kapısı, §E.4–E.5).
 
-Satın alınan Akademi ürününün *hedef* deneyimi: **tam metin + sesli anlatım + zaman senkronlu kayan yazı + görsel/şema + sinematik medya.** Gün 0 gerçeği Aşama 1 makaledir; sinema sonradan gelir. Mühürlü derste dört katman da fırınlanır (§F.2).
+**İzleme anında harici üretici API çağrılmaz.** Fırın bake’de çalışır; oynatıcı mühürlü medyayı senkronize eder. Cue orijinal terimi korur; ses fonetik okur. Placeholder test-pattern vatandaşa basılmaz.
 
-İzleme anında harici üretici API **çağrılmaz**. Bütün medya Aşama 3’te dondurulur; oynatıcı yalnız kamu dosyası ve cue listesini okur.
-
-## E.1 Seslendirme
-
-* **Model kimliği Pedagoji’de durmaz.** `VOICE_TTS` ve yedek `lib/kernel/ai/model-roles.ts` içindedir. Kadın/erkek yuva seçimi §F.3; slug ses mührü ezer.
-* **Anlatım dili:** SEN aksı. Doğal, akıcı. Dolgu ve harf harf heceleme yok. Nefes, dilimler arası duraklamadır; dolgu duraksaması değildir. Süre OPS’tedir.
-* **Konuşma metni ≠ makale gövdesi.** Kod çiti, tablo hamlığı ve soğuk şablon başlıkları seslendirilmez. Makale «Tam Ders Metni»nde kalır.
-* **Cue ≠ ses metni.** Altyazı/cue dosyasında orijinal terimler (`F2`, `+90`, `Alt+F11`) korunur. Ses metninde fonetik okunuş (`Ef iki`, `artı doksan`, `Alt Ef on bir`) yer alır.
-* **Model skip preventer:** Paragraf başındaki kısa emir/teknik cümle fırınlanmadan önce bağlaçlı akışa çevrilir. Örn. cue «F2'ye bas» kalır; ses «Şimdi F2 tuşuna basıyorsun» (fonetik: «Şimdi Ef iki tuşuna basıyorsun»).
-* **Nefes kuralı:** Metin tek blokta gönderilmez; 12–15 doğal nefes bloğuna paketlenir, ders başı istek **10–12** bandındadır. Cümle geçişine duraklama konur. Cue ve timings gerçek bake süresine kilitlenir. Kota, RPM ve kapı OPS’tedir (§19).
-* **Vatandaş kapısı:** `generateSpeech` / `listen` **410**. Bake yalnız onaylı operatör script’idir.
-
-## E.2 Ekranda Kayan Metin & Senkronizasyon
-
-* Oynatıcı **yalnız mühürlü derste** ses çalarken zaman damgalı kayan metin sunar. Mühürsüz derste teleprompter basılmaz.
-* Saat kaynağı HTMLMediaElement `currentTime`’dır — kelime-saati tahmini yayın senkronu değildir.
-* Taslak cue vatandaş yüzeyine girmez.
-* Compact `diagrams: []` / `microVideos: []` durur — Compact şema yuvası sinema sahnesi değildir.
-* Teleprompter tiyatrosu (çoklu anlatıcı, hayalet `.chunks`) geri gelmez. Tek eğitmen, tek iz.
-
-## E.3 Görsel ve video
-
-* Kısa sinematik sahne ve illüstrasyon bake’i operatör script’i + `--seal` ile yapılır; izleme üreticiyi vurmaz.
-* Canlı gateway’de `VIDEO_GEN` fail-closed durur (`generateVideo?: never`).
-* Placeholder test-pattern vatandaşa basılmaz.
-* Birim bütçe ve sahne listesi onaylı batch’tedir; bu belgeye fiyat gömülmez.
-
-## E.4 Bütçe & Maliyet Kalkanı
-
-* TTS ve video jenerasyonu **strictly `--seal`** ve onaylı batch script’leri üzerinden yürür.
-* İzlemede canlı/anlık API çağrısı **yoktur.** Kota, 429 ve gizli fatura vatandaş oturumuna sızmaz.
-* `--dry-run` varsayılan keşif yoludur. `--seal` / `--confirm-gemini-spend` / `--mode=production` insan onayından sonra harici çağrı açılır.
-* Compact makale kelime tavanı maliyet kalkanı değildir. Kalkan, mühürlenecek **konuşma metni + sahne listesi** üzerinedir.
-
-## E.5 TTS üretim SOP — sıfır re-bake (EC-102, SM-103…)
-
-Gelecek kurs fırınlaması bu üç kapıya kilitlenir. Sayılar ve CLI OPS §19’dadır; kod SSOT `lib/academy/tts-breath-chunks.ts` + `lib/academy/spoken-scripts/skip-preventer.ts`.
-
-1. **Model skip preventer (fonetik ve cue ayrımı).** Paragraf başı kısa emir/teknik cümle bağlaçlı akışa çevrilir. Cue orijinal terimi korur; ses fonetik okur. Re-bake sebebi olan sessiz atlama kapatılır.
-2. **Kota ve parçalama (request shaping).** Ders metni en fazla 12–15 doğal nefes bloğunda birleşir; ders başı istek **10–12** bandındadır. İstekler arası **6.5 saniye** RPM kalkanı zorunludur. 3–5 sn mikro dilim yasaktır.
-3. **Sıfır hata checklist (bake öncesi kapı).** Metin önce `--dry-run` ile taranır. İnsan `--seal` **ve** `--confirm-gemini-spend` onayı olmadan harici API çağrısı açılmaz.
+Kod SSOT: `lib/academy/production-standard.ts`. Görsel reji SSOT: `lib/academy/lesson-beat-visual.ts`.
 
 ---
 
-# F. Yapay zekâ eğitimi — üretim ve doygunluk standardı (SUPER ADMIN kilit)
+## C. SÜRE VE MODÜL MATEMATİĞİ
 
-Kod SSOT: `lib/academy/production-standard.ts`. Compact makale bu bantla kesilmez.
+- **Ders Başı Taban Süre:** En az 5 dakika. İdeal sindirme süresi: **5–9 dakika**.
+- **Kurs / SKU Başına Bölüm Sayısı:** En az 6 bölüm.
+- **Başarı ve Mühür Barajı:** Kurs sonu sınavından **70+** alma zorunluluğu vardır. Sertifika satın alınamaz, hak edilir. Puan **sunucu** tarafındadır (Anayasa A4).
 
-## F.1 Süre ve modül matematiği
+Compact makale gövdesi bu bantla kesilmez (Anayasa B4 — konunun hakkı). Çok teknik konularda müfredat **Temel / Orta / İleri** bağımsız paket olarak ayrılabilir; her SKU’ya zorunlu basamak değildir. Ses seçimi fırınlama aşamasında **kadın veya erkek** TTS yuvasıdır; ofis amiralinde Gözde (Callirrhoe) mühürdür. Model kimliği Pedagoji’de durmaz.
 
-| Ölçüt | Bant |
-|-------|------|
-| Toplam kurs süresi | **45–90 dakika** (yapay zekâ doygunluk süresi) |
-| Ders adedi | **6–8** modül / bölüm |
-| Ders başı süre | **7–12 dakika** |
+---
 
-## F.1.1 Ders içi doygunluk akışı (her mühürlü ders zorunlu)
+## D. VİTRİN KABUK KARMASI VE DÜRÜST YÜZEY (A5)
 
-Dört adım, tek eğitmen, SEN dili. Toplam hedef ~10 dk; 7–12 dk bandının içine oturur.
+Vitrin otoritesini ve güvenini korumak için platformda 5'li Vitrin Karması listelenir:
 
-| Sıra | Adım | Süre | İçerik |
-|------|------|------|--------|
-| 1 | Isınma / İş Problemi | ~1.5 dk | Gerçek iş hayatı karşılığı, risk ve problem |
-| 2 | Birinci Senaryo / Temel Yöntem | ~3.5 dk | İlk istem/kod ve çözüm |
-| 3 | İkinci Senaryo / İstisna veya Kritik Durum | ~3.5 dk | Veri bozukluğu, edge-case, kritik müdahale |
-| 4 | Özet & Saha Görevi | ~1.5 dk | Cebine koyacakların ve sınav öncesi mikro görev |
+1. `01_office_ai` (İş Hayatında ve Ofiste Yapay Zekâ) → **YAYINDA / AMİRAL LOKOMOTİF**
+2. `05_prompt_practice` (Pratik Prompt Mühendisliği) → **ÇOK YAKINDA / KAPI ÜRÜNÜ**
+3. `04_chatbot_nocode` (Kodsuz WhatsApp & Chatbot) → **ÇOK YAKINDA / PRESTİJ**
+4. `02_ecommerce_ai` (E-Ticaret ve Pazaryeri AI) → **ÇOK YAKINDA / SEPET DOLDURUCU**
+5. `03_social_media_ai` (Sosyal Medya Video Fabrikası) → **ÇOK YAKINDA / GÖRSEL MAGNET**
 
-Eski dört perde anahtarları (`intro` / `problem` / `application` / `summary`) bu dört adıma eşlenir. Soğuk şablon başlığı vatandaşa basılmaz.
+**Dürüst Yüzey (Anayasa A5):** `01_office_ai` dışındaki 4 ürünün üzerinde "Çok Yakında / Hazırlanıyor" rozeti durur. Tıklandığında ön sipariş/bilgilendirme gösterilir. Bağlı olmayan medya, eksik bake veya mühürsüz ders için hayali oynatıcı basılmaz; vatandaşa dürüstçe henüz hazır olmadığı söylenir.
 
-## F.2 Çoklu modalite — zengin içerik mimarisi
+---
 
-Tüm mühürlü eğitimler dört katmanı birlikte taşır:
+## E. ALTIN ŞABLON STANDARTLARI
 
-1. **Tam metin** — compact makale / Tam Ders Metni.
-2. **Zaman senkronlu kayan yazı (cue)** — bake timings + `currentTime`.
-3. **Görsel / şema** — `lesson-visual-stage` kartları; izlemede üretici yok.
-4. **Sinematik video / medya** — önceden fırınlanmış kamu dosyası.
+`01_office_ai-1` finalinde kesinleşen görsel, işitsel ve pedagojik reji **gelecek müfredatın anayasa maddesidir**. Cue-görsel sözleşmesi bu maddeden sapmaz. Kod SSOT: `lib/academy/lesson-beat-visual.ts`, `lib/academy/lesson-veo.ts`, `lib/academy/excel-workspace.ts`, `lib/academy/excel-focus-zoom.ts`, `lib/academy/excel-mouse-pointer.ts`, `lib/academy/lesson-intro.ts`, `lib/academy/lesson-bed-duck.ts`.
 
-İzleme anında harici API **yoktur.** Medya Aşama 3’te pre-bake edilir; oynatıcı statik path okur.
+### E.1 Görsel Reji ve İmleç Dinamiği (Dynamik Visuals)
 
-## F.3 Çoklu seviye ve cinsiyet bazlı ses
+* **Spoiler Yasağı:** Command beat boyunca temiz/nihai tablo veya sonuç **KESİNLİKLE** gösterilemez. Ekran dağınık/ham veride kalır. Temiz tablo ilk kez Beat 3 (Comparison) split-screen sağ panelinde açılır.
+* **Dinamik Zoom-In (%120 Scale):** Seste odaklanılan hücre/alan (örneğin «A1 hücresi») anlatılırken ekran %120 oranında (`transform: scale(1.2)`) yumuşakça yakınlaşır; genel analize geçilince %100 geniş açıya döner.
+* **Sanal Fare (Mouse Pointer) ve Hücre Gezintisi:** Seste anlatılan komut ve sütunlara göre sanal bir mouse imleci ekranda yumuşakça süzülür, hedef hücreye tıklar (click-ripple) ve aktif hücre odağını (activeCell A1 → B1 → C1) kaydırır.
+* **Gerçekçi Merged Hücre Çerçevesi:** Birleştirilmiş bir hücre (örneğin A1:F1) seçildiğinde yeşil hücre çerçevesi parçalanmaz; birleştirilmiş alanın **tamamını** bütünsel olarak sarar.
 
-* **3 seviye (isteğe bağlı):** Çok teknik konularda müfredat **Temel**, **Orta** ve **İleri** olmak üzere 3 bağımsız satılabilir pakete ayrılabilir. Her SKU’ya zorunlu basamak değildir (Anayasa B4). Bu paketler Akademi içidir; `/junior` odası değildir.
-* **Ses seçimi:** Eğitim konusunun tonu ve ruhuna göre fırınlama aşamasında **kadın veya erkek** TTS ses modeli seçilir (`VoiceConfig.gender` = `female` \| `male`). Model kimliği Pedagoji’de durmaz; varsayılan yuva `lib/kernel/ai/tts-voices.ts` içindedir. Slug ses mührü (`ACADEMY_INSTRUCTOR_VOICE_BY_SLUG`) seçimi ezer.
+### E.2 İçerik Netliği ve Pratik Aktarım
+
+* **3 Somut Veri Aktarım Yolu:** Yapay zekâya veri verme adımı seste ve ekrandaki AI Masasında 3 somut etiketle öğretilir: 1) Kopyala-Yapıştır, 2) Ataş İle Yükle, 3) Copilot İle Okut.
+* **Çoklu AI Ekosistemi:** Yalnız Copilot değil; ChatGPT, Claude, Gemini ve Özel API farkı sade bir dille işlenir. Jargon terimler («Uygulama Programlama Arayüzü») kısaltılarak netleştirilir.
+
+### E.3 İşitsel Reji ve Outro Crescendo
+
+* **Intro Nefesi:** 0–2.0 sn arası konuşma olmaz. Yalnızca Lyria müziği (0.46 gain) ve jenerik logosu gösterilir. Konuşma 2.0. sn’de başlar, müzik 0.12’ye iner.
+* **Outro Zirvesi (Crescendo):** Konuşma bittiği an Lyria müziği `0.70` peak seviyesine tırmanır. Logo ve 1-2-3 özet checklist ekranında 3 saniye coşkulu jenerik çalar, ardından 1.5 saniyelik fade-out ile kapanır.
+
+### E.4 Bütçe Korumalı B-roll Mimarisi (Veo Lite & Reuse)
+
+Google AI Studio bütçesi her ders fırınında korunur. Pahalı **Veo 3.1** API çağrısı (`veo-3.1-generate-preview`) **KESİNLİKLE YAPILMAZ**.
+
+| Kaynak | Maliyet | Ne zaman |
+|--------|---------|----------|
+| Yerel MP4 reuse | Sıfır | Kaset `/public/media/academy/micro/` altında duruyorsa varsayılan |
+| **Veo 3.1 Lite** | Düşük | Yeni kaset gerektiğinde; endpoint `veo-3.1-lite-generate-preview` |
+| Nano Banana 2 + CSS Ken Burns | Sıfır video API | Lite yoksa veya deneme: Gemini 3.1 Flash Image plakası üzerine Pan-Zoom |
+| Pahalı Veo 3.1 | **Yasak** | Her ders fırınında çağrı açılmaz |
+
+* Warm-up B-roll 8 sn kalır; punch sonrası canlı Excel’e kesilir (donmuş kare yok).
+* Oynatıcı izlemede VIDEO_GEN çağırmaz. Ken Burns CSS anahtarı: `academy-eye-kenburns` (`app/globals.css`); punch penceresinde Nano Banana 2 plakasına Pan-Zoom basar.
+* Kod SSOT: `lib/academy/lesson-veo.ts`, `lib/academy/baked-micro-videos.ts`, `scripts/generate-academy-lesson-veo.ts`.
+
+### E.5 Fırınlama (Bake) Disiplini
+
+Ücretli TTS ve video mühürü, reji oturmadan açılmaz.
+
+* Senaryo, cue ve visual zoom senkronizasyonu tam oturmadan `--seal` (ücretli TTS/Video) çağrısı **KESİNLİKLE YASAKTIR**.
+* Geliştirme ve deneme aşamasında tüm testler `--dry-run` bayrağı ile yürütülür; harici Google AI Studio çağrısı doğmaz.
+* `--seal` yalnız `--confirm-gemini-spend` ve insan onayı ile; vatandaş yüzeyine taslak WAV/MP4 basılmaz.
+* B-roll’da yerel kaset varsa API atlanır (reuse). Yeni kaset gerekirse yalnız Veo 3.1 Lite; pahalı Veo 3.1 yok.
+* Kod SSOT: `scripts/generate-academy-lesson-audio.ts`, `scripts/generate-academy-lesson-veo.ts`, `scripts/generate-academy-lesson-bed.ts`. Operatör SOP: `docs/ops/akademi-bake-elkitabi.md`.
+
+### E.6 Dinamik Vektörel Şema ve Mantık Katmanı (SVG / React Dynamic Logic)
+
+İlerleyen derslerde (Otomasyon, Mantıksal Karar Ağaçları, No-Code Chatbot vs.) kullanılacak vektörel çizimler ve mantık akışları için aşağıdaki kurallar bağlayıcıdır:
+
+* **İnteraktif SVG & React State Entegrasyonu:** Mantıksal karar ağaçları, lojik kapılar (AND/OR/NOT) veya süreç diyagramları statik resim olarak basılmaz. Doğrudan `components/academy/` altında interaktif React SVG bileşenleri olarak render edilir. Sesteki anlatıma senkronize biçimde çizgi renkleri (yeşil/kırmızı), veri akış noktaları ve ışıklar (active state) dinamik olarak parlar.
+* **Dinamik Sütun ve Metin Hizalama (No-Truncate & DOM Bounds):** Tablo ve çalışma alanlarındaki `activeCell` yeşil seçim kutusu kesinlikle `getBoundingClientRect` ile ilgili `th/td` elementine milimetrik kilitlenir; hiçbir sapmaya izin verilmez. Sıkışık/Split ekranlarda metinlerin üç noktaya (`...`) düşmesi engellenir; esnek font ölçekleme (`font-size: clamp(...)`) veya dinamik sütun genişliği (`min-width: content`) zorunludur.
+* **Sıfır Ekstra API Maliyeti:** Vektörel şemalar kod seviyesinde React/SVG bileşeni veya Lottie JSON olarak çizildiği için görseller için harici API üretimi yapılmaz, maliyet 0 TL olarak korunur.
+* Kod SSOT: `components/academy/` (interaktif SVG / React state), `components/academy/lesson-excel-workspace.tsx` (`getBoundingClientRect` kilit).

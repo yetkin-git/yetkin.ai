@@ -137,19 +137,22 @@ describe("Staging T4 saha runner + Closed Testing paket izolasyonu", () => {
     expect(readSrc("apps/rail-is/package.json")).not.toMatch(/iap|billing|play-billing/i);
   });
 
-  it("Dron allowlist 9 hop; server sicili 8 hop (PayTR B2C); ilan POST ve GET jobs/{id} yok", () => {
-    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(9);
-    expect(RAIL_V1_HOPS).toHaveLength(8);
+  it("Dron allowlist 16 B2C hop; server sicili 16 hop; freelancer Tezgâh donduruldu", () => {
+    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(16);
+    expect(RAIL_V1_HOPS).toHaveLength(16);
     expect(() => assertRailIsDay0Path("/api/v1/freelancer/jobs/fj_1", "GET")).toThrow(
       /allowlist dışı/,
     );
     expect(() => assertRailIsDay0Path("/api/v1/freelancer/jobs", "POST")).toThrow(/allowlist dışı/);
     expect(() => assertRailIsDay0Path("/api/wallet/top-up", "POST")).toThrow();
-    expect(assertRailIsDay0Path("/api/v1/client/jobs/fj_1/bids", "GET")).toBe(
-      "/api/v1/client/jobs/fj_1/bids",
+    expect(assertRailIsDay0Path("/api/v1/wallet/top-up", "POST")).toBe("/api/v1/wallet/top-up");
+    expect(() => assertRailIsDay0Path("/api/v1/client/jobs/fj_1/bids", "GET")).toThrow(
+      /allowlist dışı/,
     );
-    expect(assertRailIsDay0Path("/api/v1/freelancer/jobs/fj_1/accept", "POST")).toBe(
-      "/api/v1/freelancer/jobs/fj_1/accept",
+    expect(() => assertRailIsDay0Path("/api/v1/freelancer/jobs/fj_1/accept", "POST")).toThrow(
+      /allowlist dışı/,
     );
+    expect(assertRailIsDay0Path("/api/v1/auth/session", "GET")).toBe("/api/v1/auth/session");
+    expect(assertRailIsDay0Path("/api/v1/career/visas", "GET")).toBe("/api/v1/career/visas");
   });
 });

@@ -22,7 +22,7 @@ describe("ESLint boundary ve katalog mühür yüzeyi", () => {
   it("eslint.config.mjs kernel / UI / oda-oda no-restricted-imports taşır", () => {
     const eslint = readSrc("eslint.config.mjs");
     expect(eslint).toContain("no-restricted-imports");
-    expect(eslint).toContain("Anayasa A8");
+    expect(eslint).toContain("B1 import duvarı");
     expect(eslint).toContain("lib/kernel");
     expect(eslint).toContain("catalog-write");
     expect(eslint).toContain("display-name-write");
@@ -38,16 +38,18 @@ describe("ESLint boundary ve katalog mühür yüzeyi", () => {
     expect(eslint).toContain("room.wall");
   });
 
-  it("VERTICAL_ROOMS rooms.ssot SSOT'tur; lib/ yalnız 4 çalışan oda + paylaşılan katman", () => {
-    const ssot = readSrc("lib/kernel/rooms.ssot.ts");
+  it("VERTICAL_ROOMS kayit.ts SSOT'tur; lib/ yalnız 4 çalışan oda + paylaşılan katman", () => {
+    const ssot = readSrc("lib/dronlar/kayit.ts");
     const eslint = readSrc("eslint.config.mjs");
     const boundaries = readSrc("scripts/verify-boundaries.ts");
     const modules = readSrc("lib/kernel/modules.ts");
     expect(ssot).not.toMatch(/\bphase:\s*\d/);
     expect(VERTICAL_ROOMS.every((room) => !("phase" in room))).toBe(true);
-    expect(modules).toContain("rooms.ssot");
-    expect(eslint).toContain("rooms.ssot.ts");
-    expect(boundaries).toContain("rooms.ssot");
+    expect(modules).toContain("dronlar/kayit");
+    expect(eslint).toContain("dronlar/kayit.ts");
+    expect(boundaries).toContain("dronlar/kayit");
+    expect(readSrc("lib/kernel/rooms.ssot.ts")).toContain("@deprecated");
+    expect(readSrc("lib/kernel/rooms.ssot.ts")).toContain("dronlar/kayit");
     expect(parseVerticalRoomIdsFromEslint(eslint)).toEqual([]);
     expect(parseVerticalRoomIdsFromModules(modules)).toBeNull();
     expect(parseVerticalRoomIdsFromBoundaries(boundaries)).toBeNull();

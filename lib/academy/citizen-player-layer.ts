@@ -1,7 +1,9 @@
 /**
  * Vatandaş oynatıcı sözleşmesi — tek kabuk, iki katman.
  * Varsayılan: compact makale. Karaoke yalnız mühürlü WAV + cue JSON.
- * Kelime-saati (`buildAcademyDialogueTimeline`) bu katmana girmez.
+ * Sahne: tam boy canlı ekran + punchcard rozeti. Konuşma metni alt karaoke şeridinde
+ * currentTime ile akar; görsele paragraf binmez. Kelime-saati (`buildAcademyDialogueTimeline`)
+ * bu katmana girmez.
  */
 
 import {

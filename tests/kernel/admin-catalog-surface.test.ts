@@ -23,6 +23,7 @@ import {
   ADMIN_FREELANCER_SHELTER_PATH,
   ADMIN_SURFACE_PATH,
   CATALOG_WRITE_PATH,
+  FUNNEL_READ_PATH,
 } from "@/lib/kernel/admin/types";
 import { isSuperAdminUser } from "@/lib/kernel/auth/super-admin";
 import { HOLD_BPS_MAX, HOLD_BPS_MIN } from "@/lib/kernel/pricing/hold-bps";
@@ -80,6 +81,7 @@ describe("admin katalog yüzeyi", () => {
     expect(ADMIN_UNSET_LABEL).toBe("—");
     expect(ADMIN_SURFACE_PATH).toBe("/admin");
     expect(CATALOG_WRITE_PATH).toBe("/api/admin/catalog");
+    expect(FUNNEL_READ_PATH).toBe("/api/admin/funnel");
     expect(ADMIN_DASHBOARD_SHELTER_PATH).toBe("/dashboard");
     expect(ADMIN_ACADEMY_SHELTER_PATH).toBe("/academy");
     expect(ADMIN_FREELANCER_SHELTER_PATH).toBe("/freelancer");

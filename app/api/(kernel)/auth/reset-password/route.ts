@@ -27,7 +27,7 @@ const bodySchema = z.object({
 export async function POST(request: NextRequest) {
   const requestId = resolveRequestId(request);
   try {
-    const limited = applyHttpRateLimit(request, HTTP_RATE_LIMITS.authIp);
+    const limited = await applyHttpRateLimit(request, HTTP_RATE_LIMITS.authIp);
     if (!limited.allowed) {
       return rateLimitedJsonResponse(limited, request);
     }

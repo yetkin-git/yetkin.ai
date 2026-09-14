@@ -36,6 +36,7 @@ import {
   freelancerBidPath,
   freelancerDeliveryPath,
   freelancerReleasePath,
+  DRON_FAZ2_FROZEN,
   RAIL_IS_DAY0_HOPS,
 } from "../../apps/rail-is/src/api/hops";
 import {
@@ -289,7 +290,7 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
     expect(existsSync(join(ROOT, "apps/rail-is/package.json"))).toBe(true);
     expect(existsSync(join(ROOT, "apps/rail-is/src/api/client.ts"))).toBe(true);
     expect(existsSync(join(ROOT, "app/api/v1"))).toBe(false);
-    expect(existsSync(join(ROOT, "packages"))).toBe(false);
+    expect(existsSync(join(ROOT, "packages/kernel/package.json"))).toBe(true);
 
     const pkg = JSON.parse(readSrc("apps/rail-is/package.json")) as {
       dependencies?: Record<string, string>;
@@ -299,6 +300,7 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
     for (const name of FORBIDDEN_DRON_DEPS) {
       expect(deps[name], name).toBeUndefined();
     }
+    expect(deps["@yetkin/kernel"]).toBeTruthy();
     expect(deps["@supabase/supabase-js"]).toBeTruthy();
     expect(deps["expo-secure-store"]).toBeTruthy();
     expect(deps.expo).toBeTruthy();
@@ -463,10 +465,10 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
       fetch: fetchImpl,
       createIdempotencyKey: () => minted,
     });
-    const result = await client.submitBid(JOB_ID, { amountMinor: 9_000, coverNote: "teslim notu" });
-    expect(result.ok).toBe(true);
-    expect(result.data.bid.id).toBe("fb_lab_1");
-    expect(headerBag(calls[0]?.init).get(IDEMPOTENCY_KEY_HEADER)).toBe(minted);
+    await expect(
+      client.submitBid(JOB_ID, { amountMinor: 9_000, coverNote: "teslim notu" }),
+    ).rejects.toThrow(DRON_FAZ2_FROZEN);
+    expect(calls).toHaveLength(0);
 
     const rawMissing = await fetchImpl(`${BASE_URL}${freelancerBidPath(JOB_ID)}`, {
       method: "POST",
@@ -512,7 +514,7 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
       minVersion: 2,
       fetch: fetchImpl,
     });
-    await expect(staleClient.listOpenJobs()).rejects.toMatchObject({
+    await expect(staleClient.getWalletStrip()).rejects.toMatchObject({
       status: 426,
       envelope: { data: null, error: RAIL_V1_CLIENT_STALE },
     });
@@ -528,27 +530,40 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
     const unversionedFetch: typeof fetch = async () =>
       jsonResponse(200, { ok: true, jobs: [] });
     const unversionedClient = createDronClient(unversionedFetch);
-    await expect(unversionedClient.listOpenJobs()).rejects.toBeInstanceOf(RailV1ProtocolError);
+    await expect(unversionedClient.getWalletStrip()).rejects.toBeInstanceOf(RailV1ProtocolError);
   });
 
-  it("Gün 0 allowlist owner GET ve POST accept açar; GET jobs/{id} ve GET messages kapalı", () => {
-    expect(assertRailIsDay0Path(RAIL_IS_DAY0_HOPS.contracts.path)).toBe(
-      "/api/v1/freelancer/contracts",
+  it("Gün 0 allowlist 16 B2C hop; freelancer Tezgâh donduruldu", () => {
+    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(16);
+    expect(assertRailIsDay0Path(RAIL_IS_DAY0_HOPS.session.path)).toBe("/api/v1/auth/session");
+    expect(assertRailIsDay0Path(RAIL_IS_DAY0_HOPS.walletStrip.path)).toBe(
+      "/api/v1/dashboard/wallet-strip",
     );
-    expect(assertRailIsDay0Path("/api/v1/freelancer/contracts/fc_1/messages", "POST")).toBe(
-      "/api/v1/freelancer/contracts/fc_1/messages",
+    expect(assertRailIsDay0Path(RAIL_IS_DAY0_HOPS.academyPulse.path)).toBe("/api/v1/academy/pulse");
+    expect(assertRailIsDay0Path(RAIL_IS_DAY0_HOPS.careerVisas.path)).toBe("/api/v1/career/visas");
+    expect(assertRailIsDay0Path("/api/v1/wallet/top-up", "POST")).toBe("/api/v1/wallet/top-up");
+    expect(assertRailIsDay0Path("/api/v1/academy/courses/c1/curriculum", "GET")).toBe(
+      "/api/v1/academy/courses/c1/curriculum",
     );
+    expect(assertRailIsDay0Path("/api/v1/academy/courses/c1/exam", "GET")).toBe(
+      "/api/v1/academy/courses/c1/exam",
+    );
+    expect(assertRailIsDay0Path("/api/v1/academy/certificates/abc", "GET")).toBe(
+      "/api/v1/academy/certificates/abc",
+    );
+    expect(() => assertRailIsDay0Path("/api/v1/freelancer/contracts")).toThrow(/allowlist/);
+    expect(() =>
+      assertRailIsDay0Path("/api/v1/freelancer/contracts/fc_1/messages", "POST"),
+    ).toThrow(/allowlist/);
     expect(freelancerDeliveryPath("fc_1")).toBe("/api/v1/freelancer/contracts/fc_1/messages");
-    expect(assertRailIsDay0Path("/api/v1/freelancer/contracts/fc_1/release", "POST")).toBe(
-      "/api/v1/freelancer/contracts/fc_1/release",
-    );
+    expect(() =>
+      assertRailIsDay0Path("/api/v1/freelancer/contracts/fc_1/release", "POST"),
+    ).toThrow(/allowlist/);
     expect(freelancerReleasePath("fc_1")).toBe("/api/v1/freelancer/contracts/fc_1/release");
-    expect(assertRailIsDay0Path("/api/v1/client/jobs/fj_1/bids")).toBe(
-      "/api/v1/client/jobs/fj_1/bids",
-    );
+    expect(() => assertRailIsDay0Path("/api/v1/client/jobs/fj_1/bids")).toThrow(/allowlist/);
     expect(clientJobBidsPath(JOB_ID)).toBe(`/api/v1/client/jobs/${JOB_ID}/bids`);
-    expect(assertRailIsDay0Path("/api/v1/freelancer/jobs/fj_1/accept", "POST")).toBe(
-      "/api/v1/freelancer/jobs/fj_1/accept",
+    expect(() => assertRailIsDay0Path("/api/v1/freelancer/jobs/fj_1/accept", "POST")).toThrow(
+      /allowlist/,
     );
     expect(freelancerAcceptPath("fj_1")).toBe("/api/v1/freelancer/jobs/fj_1/accept");
     expect(() => assertRailIsDay0Path("/api/v1/freelancer/jobs/fj_1")).toThrow(/allowlist/);
@@ -565,6 +580,9 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
     );
     expect(() => assertRailIsDay0Path("/api/freelancer/jobs")).toThrow(/\/api\/v1/);
     expect(freelancerBidPath(JOB_ID)).toBe(`/api/v1/freelancer/jobs/${JOB_ID}/bids`);
+    expect(assertRailIsDay0Path("/api/v1/academy/courses/ac_1/purchase", "POST")).toBe(
+      "/api/v1/academy/courses/ac_1/purchase",
+    );
   });
 
   it("GET /api/v1/freelancer/contracts — Dron Bearer 200, çerez ve Idempotency-Key yok; DTO deliveredAt ister", async () => {
@@ -579,15 +597,8 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
     });
 
     const client = createDronClient(fetchImpl);
-    const result = await client.listContracts();
-    expect(result.data.contracts).toEqual([SAMPLE_CONTRACT]);
-    expect(result.data.contracts[0]?.deliveredAt).toBeNull();
-    expect(calls).toHaveLength(1);
-    const sent = headerBag(calls[0]?.init);
-    expect(sent.get("Authorization")).toBe(`Bearer ${ACCESS_TOKEN}`);
-    expect(sent.get("X-Rail-Min-Version")).toBe("1");
-    expect(calls[0]?.init.credentials).toBe("omit");
-    expect(sent.get("Idempotency-Key")).toBeNull();
+    await expect(client.listContracts()).rejects.toThrow(DRON_FAZ2_FROZEN);
+    expect(calls).toHaveLength(0);
 
     const missingDelivery = {
       id: SAMPLE_CONTRACT.id,
@@ -623,22 +634,11 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
       jsonResponse(200, okEnvelope({ notContracts: true })),
     );
     const client = createDronClient(fetchImpl);
-    await expect(client.listContracts()).rejects.toBeInstanceOf(RailV1ProtocolError);
-    await expect(client.listContracts()).rejects.toThrow(RAIL_V1_PARSE_FAIL);
+    await expect(client.listContracts()).rejects.toThrow(DRON_FAZ2_FROZEN);
 
     const unauth = createCapturingFetch(() => jsonResponse(401, failEnvelope(RAIL_V1_SESSION_REQUIRED)));
     const denied = createDronClient(unauth.fetchImpl);
-    await expect(denied.listContracts()).rejects.toBeInstanceOf(RailV1HttpError);
-    try {
-      await denied.listContracts();
-    } catch (error) {
-      expect(error).toBeInstanceOf(RailV1HttpError);
-      if (error instanceof RailV1HttpError) {
-        expect(error.status).toBe(401);
-        expect(error.envelope.data).toBeNull();
-        expect(error).not.toHaveProperty("contracts");
-      }
-    }
+    await expect(denied.listContracts()).rejects.toThrow(DRON_FAZ2_FROZEN);
   });
 
   it("SecureStore parçalama ve niyet UUID'si yeniden çizimde değişmez", async () => {
@@ -751,10 +751,10 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
       fetch: fetchImpl,
       createIdempotencyKey: () => minted,
     });
-    const result = await client.postDelivery("fc_lab_1", { kind: "DELIVERY", body: DELIVERY_NOTE });
-    expect(result.ok).toBe(true);
-    expect(result.data.message.kind).toBe("DELIVERY");
-    expect(headerBag(calls[0]?.init).get(IDEMPOTENCY_KEY_HEADER)).toBe(minted);
+    await expect(
+      client.postDelivery("fc_lab_1", { kind: "DELIVERY", body: DELIVERY_NOTE }),
+    ).rejects.toThrow(DRON_FAZ2_FROZEN);
+    expect(calls).toHaveLength(0);
 
     const rawMissing = await fetchImpl(`${BASE_URL}${freelancerDeliveryPath("fc_lab_1")}`, {
       method: "POST",
@@ -1138,9 +1138,8 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
       );
     });
     const client = createDronClient(fetchImpl);
-    const listed = await client.listOwnerJobBids(job.id);
-    expect(listed.data.bids[0]?.bidId).toBe(bid.id);
-    expect(headerBag(calls[0]?.init).get(IDEMPOTENCY_KEY_HEADER)).toBeNull();
+    await expect(client.listOwnerJobBids(job.id)).rejects.toThrow(DRON_FAZ2_FROZEN);
+    expect(calls).toHaveLength(0);
   });
 
   it("POST …/accept — Dron UUID ile DEBIT/blokaj üretir; Tezgâh FUNDED satırına düşer", async () => {
@@ -1246,9 +1245,8 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
       fetch: fetchImpl,
       createIdempotencyKey: () => minted,
     });
-    const posted = await client.postAccept(job.id, { bidId: bid.id });
-    expect(posted.data.contract.status).toBe("FUNDED");
-    expect(headerBag(calls[0]?.init).get(IDEMPOTENCY_KEY_HEADER)).toBe(minted);
+    await expect(client.postAccept(job.id, { bidId: bid.id })).rejects.toThrow(DRON_FAZ2_FROZEN);
+    expect(calls).toHaveLength(0);
 
     const ownerJob = {
       id: job.id,
@@ -1338,23 +1336,14 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
       jsonResponse(503, failEnvelope(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE)),
     );
     const client = createDronClient(fetchImpl);
-    await expect(client.postAccept(job.id, { bidId: bid.id })).rejects.toBeInstanceOf(RailV1HttpError);
-    try {
-      await client.postAccept(job.id, { bidId: bid.id });
-    } catch (error) {
-      expect(error).toBeInstanceOf(RailV1HttpError);
-      if (error instanceof RailV1HttpError) {
-        expect(error.status).toBe(503);
-        expect(error.envelope.error).toBe(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE);
-        expect(error.envelope.data).toBeNull();
-        const form = presentAcceptError(emptyAcceptForm(), error);
-        expect(form.fakeSuccess).toBe(false);
-        expect(form.paymentsUnconfigured).toBe(true);
-        expect(form.insufficientBalance).toBe(false);
-        expect(form.testID).toBe("dron-accept-payments-closed");
-        expect(form.error).toBe(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE);
-      }
-    }
+    await expect(client.postAccept(job.id, { bidId: bid.id })).rejects.toThrow(DRON_FAZ2_FROZEN);
+    const synthetic = new RailV1HttpError(503, failEnvelope(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE));
+    const form = presentAcceptError(emptyAcceptForm(), synthetic);
+    expect(form.fakeSuccess).toBe(false);
+    expect(form.paymentsUnconfigured).toBe(true);
+    expect(form.insufficientBalance).toBe(false);
+    expect(form.testID).toBe("dron-accept-payments-closed");
+    expect(form.error).toBe(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE);
 
     expect(webWalletUrl("http://192.168.1.5:3000/")).toBe("http://192.168.1.5:3000/cuzdan");
     const hook = readSrc("apps/rail-is/src/runtime/use-dron-app.ts");

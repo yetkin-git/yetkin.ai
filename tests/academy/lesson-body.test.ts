@@ -95,7 +95,7 @@ describe("uygulamalı ders gövdesi", () => {
     expect(expandAcademySpokenAbbreviations("VS Code ile ajan")).toContain("VS Code");
   });
 
-  it("yayındaki compact derste makale gövdesi durur; diyalog pratik mühürü yoktur", { timeout: 20_000 }, () => {
+  it("yayındaki compact müfredat 01_office_ai 6 makale taşır; diyalog pratik mühürü yoktur", { timeout: 20_000 }, () => {
     const keys = new Set<string>();
     for (const row of ACADEMY_COURSE_SEEDS) {
       for (const lesson of curriculumForCourseSlug(row.slug)) {
@@ -109,8 +109,15 @@ describe("uygulamalı ders gövdesi", () => {
         expect(spoken, lesson.key).not.toContain("```");
       }
     }
-    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
-    expect(keys.size).toBe(ACADEMY_COURSE_SEEDS.length * 6);
+    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai"]);
+    expect([...keys].sort()).toEqual([
+      "01_office_ai-1",
+      "01_office_ai-2",
+      "01_office_ai-3",
+      "01_office_ai-4",
+      "01_office_ai-5",
+      "01_office_ai-6",
+    ]);
     expect(curriculumForCourseSlug("sample-course")).toEqual([]);
   });
 
@@ -176,6 +183,12 @@ describe("TTS metin gümrüğü", () => {
     expect(cleanAcademySpokenTextForTts("PII sızmasın.")).toBe("Kişisel Gizli Veriler (PII) sızmasın.");
     expect(cleanAcademySpokenTextForTts("API kapısı.")).toBe(
       "Uygulama Programlama Arayüzü (API) kapısı.",
+    );
+    expect(cleanAcademySpokenTextForTts("özel API'sine verirsin, özel API ise kilitler.")).toBe(
+      "özel API'sine verirsin, özel API ise kilitler.",
+    );
+    expect(cleanAcademySpokenTextForTts("hemen bir pivot tabloya hazır.")).toBe(
+      "hemen bir özet tabloya hazır.",
     );
     expect(cleanAcademySpokenTextForTts("PDF oku.")).toBe(
       "taşınabilir belge biçimi (PDF) oku.",

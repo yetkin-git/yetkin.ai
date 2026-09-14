@@ -5,10 +5,10 @@ import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 
-/** Çalışan 4 oda — lib/kernel/rooms.ssot.ts SSOT. eslint kopya dizi tutmaz. */
+/** Çalışan 4 oda — lib/dronlar/kayit.ts SSOT. eslint kopya dizi tutmaz. */
 /** BOUNDED_CONTEXTS — Proof / Marketplace / Payments. Tablo sahipliği scripts/verify-boundaries.ts [context.prisma]. */
 const roomsSsotSource = readFileSync(
-  join(dirname(fileURLToPath(import.meta.url)), "lib/kernel/rooms.ssot.ts"),
+  join(dirname(fileURLToPath(import.meta.url)), "lib/dronlar/kayit.ts"),
   "utf8",
 );
 
@@ -17,7 +17,7 @@ function parseSsotIds(exportName, idPattern) {
     new RegExp(`export const ${exportName} = \\[([\\s\\S]*?)\\] as const;`),
   );
   if (!match?.[1]) {
-    throw new Error(`eslint.config.mjs: rooms.ssot.ts ${exportName} parse edilemedi`);
+    throw new Error(`eslint.config.mjs: lib/dronlar/kayit.ts ${exportName} parse edilemedi`);
   }
   return [...match[1].matchAll(idPattern)].map((row) => row[1]);
 }
@@ -30,11 +30,11 @@ const LIVE_ROOMS = VERTICAL_ROOMS;
 const MUSEUM_MSG =
   "OPS: yetkin_muze müze importu yasaktır. Rail build dışı. Anayasa maddesi değildir.";
 const KERNEL_MSG =
-  "Anayasa A8: lib/kernel dikey oda import etmez. Kontrat kernel’de kalır.";
+  "B1 import duvarı: lib/kernel dikey oda import etmez. Kontrat kernel’de kalır.";
 const MODULE_ENGINE_MSG =
-  "Anayasa A8: dikey oda başka odanın engine/runtime/prisma-store dosyasını import etmez. İletişim HTTP veya kernel kontratı.";
+  "B1 import duvarı: dikey oda başka odanın engine/runtime/prisma-store dosyasını import etmez. İletişim HTTP veya kernel kontratı.";
 const CATALOG_LEAK_MSG =
-  "Anayasa A8: kariyer/freelancer lib/academy import etmez. Kimlik lib/kernel/catalog-ids.";
+  "B1 import duvarı: kariyer/freelancer lib/academy import etmez. Kimlik lib/kernel/catalog-ids.";
 const EARNINGS_WALL_MSG =
   "D2.3 oda duvarı (room.wall / EARNINGS_WALL): freelancer ↛ kariyer. Teklif kapısı HTTP; emanet çekirdektedir.";
 const UI_SERVER_MSG =
@@ -237,6 +237,7 @@ const eslintConfig = defineConfig([
     "coverage/**",
     "apps/**",
     "archived/**",
+    "packages/kernel/src/generated/**",
   ]),
 ]);
 

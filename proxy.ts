@@ -51,10 +51,11 @@ import {
  * çerezli web yazmalarında Origin / Sec-Fetch-Site fail-closed,
  * `/api/v1` hop allowlist (`RAIL_V1_HOPS_META`) + sürüm kapısı + soyma rewrite
  * (kopya handler ağacı yok; sicil dışı v1 yol 404, kanonik handler'a düşmez).
- * `SITE_MAINTENANCE_FREEZE=true|1` iken ürün 503; health, `/legal`, `/iletisim`,
- * robots ve sitemap geçer. Canlı / PayTR: bayrak boş. `NODE_ENV=development` ve localhost yok sayılır.
- * PayTR Bildirim URL (`/api/paytr/callback`, `/api/payments/webhooks/paytr`) JWT / Origin /
- * rate-limit / bakım kenarını atlar; HMAC handler'dadır.
+ * `LIVE_BROADCAST_SHUTDOWN` veya `SITE_MAINTENANCE_FREEZE=true|1` iken ürün 503;
+ * health, `/legal`, `/iletisim`, robots ve sitemap geçer. `NODE_ENV=development`
+ * ve localhost yok sayılır. Canlı yayın kapatma açıkken PayTR Bildirim URL
+ * (`/api/paytr/callback`, `/api/payments/webhooks/paytr`) 503'dür. Kilit kapalıyken
+ * bu ağızlar JWT / Origin / rate-limit / bakım kenarını atlar; HMAC handler'dadır.
  */
 const PAYTR_NOTIFICATION_EDGE_PATHS = new Set([
   "/api/payments/webhooks/paytr",
@@ -70,6 +71,27 @@ export async function proxy(request: NextRequest) {
   const nonce = createEdgeNonce();
   const v1 = isApiV1Pathname(pathname);
 
+  const maintenanceEnv = readProcessSiteMaintenanceEnv();
+  const maintenanceActive = isSiteMaintenanceActive(
+    maintenanceEnv,
+    resolveRequestHostname(request),
+  );
+  if (
+    shouldInterceptForSiteMaintenance(
+      pathname,
+      maintenanceActive,
+      request,
+      maintenanceEnv,
+    )
+  ) {
+    const maintenance = siteMaintenanceNextResponse(request, pathname);
+    if (v1) {
+      applyRailV1Cors(maintenance, request);
+    }
+    applyEdgeSecurityHeaders(maintenance, { nonce });
+    return maintenance;
+  }
+
   if (isPaytrNotificationEdgePath(pathname)) {
     const requestHeaders = new Headers(request.headers);
     requestHeaders.delete(RAIL_PATHNAME_HEADER);
@@ -81,23 +103,6 @@ export async function proxy(request: NextRequest) {
     });
     applyEdgeSecurityHeaders(response, { nonce });
     return response;
-  }
-
-  const maintenanceEnv = readProcessSiteMaintenanceEnv();
-  if (
-    shouldInterceptForSiteMaintenance(
-      pathname,
-      isSiteMaintenanceActive(maintenanceEnv, resolveRequestHostname(request)),
-      request,
-      maintenanceEnv,
-    )
-  ) {
-    const maintenance = siteMaintenanceNextResponse(request, pathname);
-    if (v1) {
-      applyRailV1Cors(maintenance, request);
-    }
-    applyEdgeSecurityHeaders(maintenance, { nonce });
-    return maintenance;
   }
 
   const canonicalPath = canonicalApiPathname(pathname);
@@ -182,7 +187,7 @@ export async function proxy(request: NextRequest) {
 
   const rateLimitConfig = matchEdgeRateLimit(canonicalPath, request.method);
   if (rateLimitConfig) {
-    const limited = applyHttpRateLimit(request, rateLimitConfig);
+    const limited = await applyHttpRateLimit(request, rateLimitConfig);
     if (!limited.allowed) {
       const denied = rateLimitedJsonResponse(limited, request);
       return seal(denied);

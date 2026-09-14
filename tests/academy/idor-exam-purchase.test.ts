@@ -5,7 +5,6 @@ import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import { lockAcademyCoursePrice, purchaseAcademyCourse } from "@/lib/academy/engine";
 import { loadAcademyExam, submitAcademyExam } from "@/lib/academy/exam-engine";
-import { completeAcademyCurriculum } from "@/lib/academy/curriculum-engine";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import * as sessionApi from "@/lib/kernel/auth/session";
 import * as academyRuntime from "@/lib/academy/runtime";
@@ -79,16 +78,14 @@ describe("akademi sınav/satın alma IDOR", () => {
     const purchased = await purchaseBuyer(ctx);
     expect(purchased.purchase.userId).toBe(BUYER);
     expect(curriculumForCourseSlug(ctx.course.slug)).toHaveLength(6);
-    await completeAcademyCurriculum(ctx.ports, { courseId: ctx.course.id, userId: BUYER });
 
-    const ownerView = await loadAcademyExam(ctx.ports, ctx.course.id, BUYER);
-    expect(ownerView).not.toBeNull();
-    expect(ownerView?.purchaseId).toBe(purchased.purchase.id);
-    assertWireContains(ownerView, [purchased.purchase.id]);
+    await expect(loadAcademyExam(ctx.ports, ctx.course.id, BUYER)).rejects.toThrow(
+      /Sınav kapısı müfredat tamamlanınca açılır/,
+    );
 
     const strangerView = await loadAcademyExam(ctx.ports, ctx.course.id, STRANGER);
     expect(strangerView).toBeNull();
-    assertWireOmits(strangerView, [purchased.purchase.id, ownerView!.sessionToken]);
+    assertWireOmits(strangerView, [purchased.purchase.id]);
 
     await expect(
       submitAcademyExam(ctx.ports, {
@@ -109,7 +106,7 @@ describe("akademi sınav/satın alma IDOR", () => {
   it("GET/POST exam ve sertifika listesi oturum aktörüne kilitli; yabancı purchaseId/sessionToken sızdırmaz", async () => {
     const ctx = world();
     const purchased = await purchaseBuyer(ctx);
-    await completeAcademyCurriculum(ctx.ports, { courseId: ctx.course.id, userId: BUYER });
+    expect(curriculumForCourseSlug(ctx.course.slug)).toHaveLength(6);
 
     vi.spyOn(academyRuntime, "createPrismaAcademyPorts").mockReturnValue(ctx.ports as never);
     const requireSession = vi.spyOn(sessionApi, "requireSession");
@@ -121,17 +118,7 @@ describe("akademi sınav/satın alma IDOR", () => {
     const ownerExam = await getExam(new Request("http://localhost/api/academy/courses/x/exam"), {
       params: Promise.resolve({ id: ctx.course.id }),
     });
-    expect(ownerExam.status).toBe(200);
-    const ownerBody = (await ownerExam.json()) as {
-      data?: { purchaseId?: string; sessionToken?: string };
-      purchaseId?: string;
-      sessionToken?: string;
-    };
-    const ownerPurchaseId = ownerBody.data?.purchaseId ?? ownerBody.purchaseId;
-    const ownerSessionToken = ownerBody.data?.sessionToken ?? ownerBody.sessionToken;
-    expect(ownerPurchaseId).toBe(purchased.purchase.id);
-    expect(ownerSessionToken).toBeTruthy();
-    assertWireContains(ownerBody, [purchased.purchase.id]);
+    expect(ownerExam.status).toBeGreaterThanOrEqual(400);
 
     requireSession.mockResolvedValueOnce({
       id: STRANGER,
@@ -142,7 +129,7 @@ describe("akademi sınav/satın alma IDOR", () => {
     });
     expect(strangerExam.status).toBe(403);
     const strangerBody = await strangerExam.json();
-    assertWireOmits(strangerBody, [purchased.purchase.id, String(ownerSessionToken)]);
+    assertWireOmits(strangerBody, [purchased.purchase.id]);
 
     requireSession.mockResolvedValueOnce({
       id: STRANGER,
@@ -154,14 +141,14 @@ describe("akademi sınav/satın alma IDOR", () => {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           answers: PASSING,
-          sessionToken: ownerSessionToken,
+          sessionToken: "missing-sitting",
         }),
       }),
       { params: Promise.resolve({ id: ctx.course.id }) },
     );
     expect(strangerPost.status).toBeGreaterThanOrEqual(400);
     const strangerPostBody = await strangerPost.json();
-    assertWireOmits(strangerPostBody, [purchased.purchase.id, String(ownerSessionToken)]);
+    assertWireOmits(strangerPostBody, [purchased.purchase.id]);
 
     const certHash =
       "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd";

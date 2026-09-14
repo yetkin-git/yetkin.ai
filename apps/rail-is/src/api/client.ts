@@ -7,14 +7,7 @@ import {
   RAIL_V1_PARSE_FAIL,
   createRailV1Uuid,
   isRailV1Uuid,
-  parseRailV1BidData,
-  parseRailV1ClientJobBidsView,
-  parseRailV1ContractsData,
-  parseRailV1DeliveryData,
   parseRailV1Envelope,
-  parseRailV1JobsData,
-  parseRailV1AcceptData,
-  parseRailV1ReleaseData,
   parseRailV1SessionData,
   parseRailV1WalletStripData,
   type RailV1AcceptData,
@@ -34,12 +27,10 @@ import {
 } from "../contract/v1";
 import { RailV1HttpError, RailV1ProtocolError } from "./errors";
 import {
+  academyCertificatePath,
+  academyCourseWritePath,
   assertRailIsDay0Path,
-  clientJobBidsPath,
-  freelancerAcceptPath,
-  freelancerBidPath,
-  freelancerDeliveryPath,
-  freelancerReleasePath,
+  DRON_FAZ2_FROZEN,
 } from "./hops";
 
 const WRITE_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
@@ -73,7 +64,46 @@ export type V1HttpClient = {
     body: unknown,
     options?: { idempotencyKey?: string },
   ): Promise<RailV1OkBody<T>>;
+  patch<T extends Record<string, unknown>>(
+    path: string,
+    body: unknown,
+    options?: { idempotencyKey?: string },
+  ): Promise<RailV1OkBody<T>>;
   getSession(): Promise<RailV1OkBody<RailV1SessionData>>;
+  getHealth(): Promise<RailV1OkBody<Record<string, unknown>>>;
+  getAcademyPulse(): Promise<RailV1OkBody<Record<string, unknown>>>;
+  getCareerPulse(): Promise<RailV1OkBody<Record<string, unknown>>>;
+  getCareerVisas(): Promise<RailV1OkBody<Record<string, unknown>>>;
+  getCertificate(hash: string): Promise<RailV1OkBody<Record<string, unknown>>>;
+  getWalletStrip(): Promise<RailV1OkBody<RailV1WalletStripData>>;
+  beginWalletTopUp(
+    body: unknown,
+    options?: { idempotencyKey?: string },
+  ): Promise<RailV1OkBody<Record<string, unknown>>>;
+  getAcademyCurriculum(courseId: string): Promise<RailV1OkBody<Record<string, unknown>>>;
+  getAcademyExam(courseId: string): Promise<RailV1OkBody<Record<string, unknown>>>;
+  lockAcademyCourse(courseId: string, options?: { idempotencyKey?: string }): Promise<RailV1OkBody<Record<string, unknown>>>;
+  purchaseAcademyCourse(
+    courseId: string,
+    body: unknown,
+    options?: { idempotencyKey?: string },
+  ): Promise<RailV1OkBody<Record<string, unknown>>>;
+  completeAcademyLesson(
+    courseId: string,
+    body: unknown,
+    options?: { idempotencyKey?: string },
+  ): Promise<RailV1OkBody<Record<string, unknown>>>;
+  submitAcademyExam(
+    courseId: string,
+    body: unknown,
+    options?: { idempotencyKey?: string },
+  ): Promise<RailV1OkBody<Record<string, unknown>>>;
+  syncCareerPortfolio(options?: { idempotencyKey?: string }): Promise<RailV1OkBody<Record<string, unknown>>>;
+  patchProfile(
+    body: unknown,
+    options?: { idempotencyKey?: string },
+  ): Promise<RailV1OkBody<Record<string, unknown>>>;
+  /** Faz 2 — HTTP atmaz; `DRON_FAZ2_FROZEN`. */
   listOpenJobs(): Promise<RailV1OkBody<RailV1JobsData>>;
   listContracts(): Promise<RailV1OkBody<RailV1ContractsData>>;
   submitBid(
@@ -96,7 +126,6 @@ export type V1HttpClient = {
     contractId: string,
     options?: { idempotencyKey?: string },
   ): Promise<RailV1OkBody<RailV1ReleaseData>>;
-  getWalletStrip(): Promise<RailV1OkBody<RailV1WalletStripData>>;
 };
 
 function stripCookieHeaders(headers: Headers): void {
@@ -116,6 +145,10 @@ function normalizeBaseUrl(baseUrl: string): string {
 
 function isWriteMethod(method: string): boolean {
   return WRITE_METHODS.has(method);
+}
+
+function assertFaz2HopFrozen(): never {
+  throw new RailV1ProtocolError(DRON_FAZ2_FROZEN);
 }
 
 function withParsedData<T extends Record<string, unknown>>(
@@ -248,6 +281,14 @@ export function createV1HttpClient(options: V1HttpClientOptions): V1HttpClient {
         idempotencyKey: postOptions?.idempotencyKey,
       });
     },
+    patch(path, body, patchOptions) {
+      return request({
+        path,
+        method: "PATCH",
+        body,
+        idempotencyKey: patchOptions?.idempotencyKey,
+      });
+    },
     async getSession() {
       const envelope = await request<RailV1SessionData>({
         path: "/api/v1/auth/session",
@@ -255,62 +296,35 @@ export function createV1HttpClient(options: V1HttpClientOptions): V1HttpClient {
       });
       return withParsedData(envelope, parseRailV1SessionData);
     },
-    async listOpenJobs() {
-      const envelope = await request<RailV1JobsData>({
-        path: "/api/v1/freelancer/jobs",
+    async getHealth() {
+      return request<Record<string, unknown>>({
+        path: "/api/v1/health",
         method: "GET",
       });
-      return withParsedData(envelope, parseRailV1JobsData);
     },
-    async listContracts() {
-      const envelope = await request<RailV1ContractsData>({
-        path: "/api/v1/freelancer/contracts",
+    async getAcademyPulse() {
+      return request<Record<string, unknown>>({
+        path: "/api/v1/academy/pulse",
         method: "GET",
       });
-      return withParsedData(envelope, parseRailV1ContractsData);
     },
-    async submitBid(jobId, body, postOptions) {
-      const envelope = await request<RailV1BidData>({
-        path: freelancerBidPath(jobId),
-        method: "POST",
-        body,
-        idempotencyKey: postOptions?.idempotencyKey,
-      });
-      return withParsedData(envelope, parseRailV1BidData);
-    },
-    async listOwnerJobBids(jobId) {
-      const envelope = await request<ClientJobBidsView>({
-        path: clientJobBidsPath(jobId),
+    async getCareerPulse() {
+      return request<Record<string, unknown>>({
+        path: "/api/v1/career/pulse",
         method: "GET",
       });
-      return withParsedData(envelope, parseRailV1ClientJobBidsView);
     },
-    async postAccept(jobId, body, postOptions) {
-      const envelope = await request<RailV1AcceptData>({
-        path: freelancerAcceptPath(jobId),
-        method: "POST",
-        body,
-        idempotencyKey: postOptions?.idempotencyKey,
+    async getCareerVisas() {
+      return request<Record<string, unknown>>({
+        path: "/api/v1/career/visas",
+        method: "GET",
       });
-      return withParsedData(envelope, parseRailV1AcceptData);
     },
-    async postDelivery(contractId, body, postOptions) {
-      const envelope = await request<RailV1DeliveryData>({
-        path: freelancerDeliveryPath(contractId),
-        method: "POST",
-        body,
-        idempotencyKey: postOptions?.idempotencyKey,
+    async getCertificate(hash) {
+      return request<Record<string, unknown>>({
+        path: academyCertificatePath(hash),
+        method: "GET",
       });
-      return withParsedData(envelope, parseRailV1DeliveryData);
-    },
-    async postRelease(contractId, postOptions) {
-      const envelope = await request<RailV1ReleaseData>({
-        path: freelancerReleasePath(contractId),
-        method: "POST",
-        body: {},
-        idempotencyKey: postOptions?.idempotencyKey,
-      });
-      return withParsedData(envelope, parseRailV1ReleaseData);
     },
     async getWalletStrip() {
       const envelope = await request<RailV1WalletStripData>({
@@ -318,6 +332,94 @@ export function createV1HttpClient(options: V1HttpClientOptions): V1HttpClient {
         method: "GET",
       });
       return withParsedData(envelope, parseRailV1WalletStripData);
+    },
+    async beginWalletTopUp(body, options) {
+      return request<Record<string, unknown>>({
+        path: "/api/v1/wallet/top-up",
+        method: "POST",
+        body,
+        idempotencyKey: options?.idempotencyKey,
+      });
+    },
+    async getAcademyCurriculum(courseId) {
+      return request<Record<string, unknown>>({
+        path: academyCourseWritePath(courseId, "curriculum"),
+        method: "GET",
+      });
+    },
+    async getAcademyExam(courseId) {
+      return request<Record<string, unknown>>({
+        path: academyCourseWritePath(courseId, "exam"),
+        method: "GET",
+      });
+    },
+    async lockAcademyCourse(courseId, options) {
+      return request<Record<string, unknown>>({
+        path: academyCourseWritePath(courseId, "lock"),
+        method: "POST",
+        idempotencyKey: options?.idempotencyKey,
+      });
+    },
+    async purchaseAcademyCourse(courseId, body, options) {
+      return request<Record<string, unknown>>({
+        path: academyCourseWritePath(courseId, "purchase"),
+        method: "POST",
+        body,
+        idempotencyKey: options?.idempotencyKey,
+      });
+    },
+    async completeAcademyLesson(courseId, body, options) {
+      return request<Record<string, unknown>>({
+        path: academyCourseWritePath(courseId, "curriculum"),
+        method: "POST",
+        body,
+        idempotencyKey: options?.idempotencyKey,
+      });
+    },
+    async submitAcademyExam(courseId, body, options) {
+      return request<Record<string, unknown>>({
+        path: academyCourseWritePath(courseId, "exam"),
+        method: "POST",
+        body,
+        idempotencyKey: options?.idempotencyKey,
+      });
+    },
+    async syncCareerPortfolio(options) {
+      return request<Record<string, unknown>>({
+        path: "/api/v1/career/portfolio",
+        method: "POST",
+        body: {},
+        idempotencyKey: options?.idempotencyKey,
+      });
+    },
+    async patchProfile(body, options) {
+      return request<Record<string, unknown>>({
+        path: "/api/v1/profile",
+        method: "PATCH",
+        body,
+        idempotencyKey: options?.idempotencyKey,
+      });
+    },
+    async listOpenJobs() {
+      return assertFaz2HopFrozen();
+    },
+    async listContracts() {
+      return assertFaz2HopFrozen();
+    },
+    async submitBid() {
+      return assertFaz2HopFrozen();
+    },
+    async listOwnerJobBids() {
+      return assertFaz2HopFrozen();
+    },
+    async postAccept() {
+      return assertFaz2HopFrozen();
+    },
+    async postDelivery() {
+      return assertFaz2HopFrozen();
+    },
+    async postRelease() {
+      return assertFaz2HopFrozen();
     },
   };
 }

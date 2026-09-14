@@ -40,8 +40,8 @@ describe("akademi kurs tohumu yüzeyi", () => {
   });
 
   it("mühürlü aktif tohum ingest edilmiş kanon SKU taşır", () => {
-    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
-    expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
+    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai"]);
+    expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai"]);
     expect(ACADEMY_SEED_MODULE_KEY).toBe(ACADEMY_MODULE_KEY);
     expect(ACADEMY_SEED_CURRENCY).toBe("TRY");
     expect(ACADEMY_LEGACY_PURGE_COURSE_IDS).not.toContain("ac_01_office_ai");
@@ -73,24 +73,27 @@ describe("akademi kurs tohumu yüzeyi", () => {
     expect(sql).not.toMatch(/DELETE FROM public\.academy_courses/i);
   });
 
-  it("vitrin loadPublishedCourses ile DB kursunu basar; örnek kart yalnız boş listede kalır", () => {
+  it("vitrin A5 üretim bandıdır; katalog BFF müfredat gövdesi çekmez", () => {
     const page = readSrc("app/academy/page.tsx");
     const load = readSrc("lib/academy/load-catalog.ts");
     const list = readSrc("components/academy/course-list.tsx");
     const detail = readSrc("app/academy/[slug]/page.tsx");
 
-    expect(page).toContain("loadPublishedCourses");
+    expect(page).toContain("loadAcademyVitrineCourses");
+    expect(page).not.toContain("courses={[]}");
+    expect(page).toContain("loadAcademyContinueBoard");
     expect(page).toContain("load-catalog");
     expect(page).not.toContain("from \"@/lib/academy/curriculum\"");
     expect(page).not.toContain("curriculumForCourseSlug");
-    expect(page).toContain("curriculumLessonCountForSlug");
+    expect(page).not.toContain("curriculumLessonCountForSlug");
     expect(page).toContain("SEN_VOICE");
     expect(page).not.toContain("overlayStudioGrowthLearnerBoard");
     expect(page).not.toContain("hasUnlimitedAcademyAccess");
     expect(page).not.toContain("ACADEMY_SHOWCASE");
     expect(readSrc("lib/copy/sen-voice/academy.ts")).toContain(
-      "Eğitimler · Amiral hat sesli + karaoke · Diğerleri yazılı compact · Test barajı 70+ · Sertifika Kariyer sayfasına işlenir",
+      "Eğitimler · Test barajı 70+ · Sertifika Kariyer sayfasına işlenir",
     );
+    expect(readSrc("lib/copy/sen-voice/academy.ts")).toContain("Yeni Müfredat Üretim Bandında");
     expect(readSrc("lib/copy/sen-voice/academy.ts")).not.toContain("₺690");
     expect(readSrc("lib/copy/sen-voice/academy.ts")).not.toContain("₺990");
     expect(readSrc("lib/copy/sen-voice/academy.ts")).not.toContain("₺1.490");

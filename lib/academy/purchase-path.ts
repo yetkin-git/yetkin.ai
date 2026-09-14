@@ -20,9 +20,9 @@ export type AcademyCardOfferPath = {
 };
 
 /**
- * Vitrin dürüstlük kilidi — Aşama 1 vaadi.
- * Mühürlü ses SKU'larında karaoke; diğer compact yazılıdır.
- * Ses vaadi yalnız mühürlü SKU'dadır. Kanon 13 SKU vitrin vaadi değildir.
+ * Vitrin dürüstlük kilidi — Aşama 1 makale + mühürlü karaoke overlay.
+ * Mühürlü ses SKU'larında karaoke; mühürsüz compact yazılıdır.
+ * Ses vaadi yalnız mühürlü SKU'dadır. Video/WebM vaadi yoktur. Kanon 13 SKU vitrin vaadi değildir.
  */
 export const ACADEMY_TRAINING_OFFER_SUMMARY_SEALED =
   "Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika";

@@ -32,6 +32,7 @@ import { ROUTE_AUTH_MAP } from "@/lib/kernel/security/route-auth-map";
 import { createMemoryCareerStore } from "../helpers/memory-career";
 import {
   RAIL_IS_DAY0_HOPS,
+  RAIL_IS_FAZ2_FROZEN_HOPS,
   clientJobBidsPath,
   freelancerAcceptPath,
   freelancerBidPath,
@@ -54,7 +55,7 @@ const TEST_URL = "https://edge-test.supabase.co";
 
 type RailIsLabHop = {
   v1: string;
-  method: "GET" | "POST";
+  method: "GET" | "POST" | "PATCH";
   canonical: string;
   auth: "public" | "session";
   idempotency: boolean;
@@ -648,15 +649,21 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
   it("Dron Gün 0 istemci allowlist'i donuk durur; server sicili freelancer basmaz (PayTR B2C)", () => {
     expect([...DRON_ENVELOPE_KEYS]).toEqual([...RAIL_V1_ENVELOPE_KEYS]);
     expect(DRON_ACCEPT_INSUFFICIENT).toBe(RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE);
-    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(9);
+    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(16);
     expect(assertPublishedRailV1Hop(RAIL_IS_DAY0_HOPS.session.path, "GET").id).toBe("auth-session");
     expect(assertPublishedRailV1Hop(RAIL_IS_DAY0_HOPS.walletStrip.path, "GET").id).toBe(
       "wallet-strip",
     );
-    // Düşürülen freelancer hop'ları kapıda yayınlanmaz; kenar yine de önce 410 basar.
+    expect(assertPublishedRailV1Hop(RAIL_IS_DAY0_HOPS.academyPulse.path, "GET").id).toBe(
+      "academy-pulse",
+    );
+    expect(assertPublishedRailV1Hop(RAIL_IS_DAY0_HOPS.careerVisas.path, "GET").id).toBe(
+      "career-visas",
+    );
+    // Düşürülen freelancer hop'ları kapıda yayınlanmaz; istemci allowlist'te de yok.
     for (const [path, method] of [
-      [RAIL_IS_DAY0_HOPS.jobs.path, "GET"],
-      [RAIL_IS_DAY0_HOPS.contracts.path, "GET"],
+      [RAIL_IS_FAZ2_FROZEN_HOPS.jobs.path, "GET"],
+      [RAIL_IS_FAZ2_FROZEN_HOPS.contracts.path, "GET"],
       [freelancerBidPath(JOB_ID), "POST"],
       [clientJobBidsPath(JOB_ID), "GET"],
       [freelancerAcceptPath(JOB_ID), "POST"],
@@ -665,17 +672,28 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
     ] as const) {
       expect(() => assertPublishedRailV1Hop(path, method), path).toThrow(/Yayınlanmamış v1 hop/);
     }
-    expect(() => assertPublishedRailV1Hop("/api/v1/wallet/top-up", "POST")).toThrow(
-      /Yayınlanmamış v1 hop/,
-    );
+    expect(assertPublishedRailV1Hop("/api/v1/wallet/top-up", "POST").id).toBe("wallet-top-up");
     const hopsSrc = readSrc("apps/rail-is/src/api/hops.ts");
-    expect(hopsSrc).not.toContain("/api/wallet/top-up");
-    expect(hopsSrc).not.toContain("/api/v1/wallet/top-up");
+    expect(hopsSrc).toContain("/api/v1/wallet/top-up");
   });
 
-  it("Rail İş dronu Faz 1 kapanana kadar yayın hattından donuktur", () => {
+  it("Rail İş dronu EAS profili taşır; CI eas/eas-cli basmaz", () => {
     expect(existsSync(join(ROOT, "eas.json"))).toBe(false);
-    expect(existsSync(join(ROOT, "apps/rail-is/eas.json"))).toBe(false);
+    expect(existsSync(join(ROOT, "apps/rail-is/eas.json"))).toBe(true);
+
+    const eas = JSON.parse(readSrc("apps/rail-is/eas.json")) as {
+      cli?: { appVersionSource?: string };
+      build?: Record<string, unknown>;
+      submit?: { production?: { android?: { track?: string; releaseStatus?: string } } };
+    };
+    expect(eas.cli?.appVersionSource).toBe("local");
+    expect(eas.build).toMatchObject({
+      development: expect.any(Object),
+      preview: expect.any(Object),
+      production: expect.any(Object),
+    });
+    expect(eas.submit?.production?.android?.track).toBe("internal");
+    expect(eas.submit?.production?.android?.releaseStatus).toBe("draft");
 
     const ci = readSrc(".github/workflows/ci.yml");
     const ciRunSteps = [...ci.matchAll(/^\s+(?:-\s+)?run:\s*(.+)$/gm)].map(
@@ -692,17 +710,19 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
       workspaces?: unknown;
     };
     expect(JSON.stringify(rootPkg.scripts ?? {})).not.toMatch(/eas|expo publish/i);
-    expect(rootPkg.workspaces).toBeUndefined();
+    expect(rootPkg.workspaces).toEqual(["packages/*"]);
 
     const dronPkg = JSON.parse(readSrc("apps/rail-is/package.json")) as {
       scripts?: Record<string, string>;
-      yetkin?: { publishFrozenUntilFaz1Close?: boolean };
+      yetkin?: { publishFrozenUntilFaz1Close?: boolean; tezgahStoreIsolated?: boolean };
     };
-    expect(dronPkg.yetkin?.publishFrozenUntilFaz1Close).toBe(true);
+    expect(dronPkg.yetkin?.publishFrozenUntilFaz1Close).toBe(false);
+    expect(dronPkg.yetkin?.tezgahStoreIsolated).toBe(true);
     expect(JSON.stringify(dronPkg.scripts ?? {})).not.toMatch(/eas|expo publish|eas build/i);
 
     const appConfig = readSrc("apps/rail-is/app.config.ts");
-    expect(appConfig).toContain("publishFrozenUntilFaz1Close: true");
+    expect(appConfig).toContain("publishFrozenUntilFaz1Close: false");
+    expect(appConfig).toContain("tezgahStoreIsolated: true");
 
     const nextConfig = readSrc("next.config.ts");
     expect(nextConfig).toContain('"apps/**"');

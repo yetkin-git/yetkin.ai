@@ -21,7 +21,7 @@
     },
     {
       "name": "Payments",
-      "description": "Cüzdan şeridi. Faz 1 tek nakit kanalı PayTR Merchant iFrame'dir (Amiral /api/wallet/top-up); Pazaryeri Split ve freelancer hop'ları yayınlanmaz."
+      "description": "Cüzdan şeridi ve POST /api/v1/wallet/top-up (PayTR Merchant iFrame + HMAC kasa pasaportu). Pazaryeri Split ve freelancer hop'ları yayınlanmaz."
     }
   ],
   "paths": {
@@ -957,6 +957,1496 @@
         }
       }
     },
+    "/api/v1/academy/courses/{id}/lock": {
+      "post": {
+        "operationId": "academy-lock",
+        "tags": [
+          "Proof"
+        ],
+        "summary": "/api/v1/academy/courses/{id}/lock",
+        "description": "Kanonik yol: /api/academy/courses/{id}/lock. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key UUID zorunlu (Idempotency-Key). Yayınlanmış data kökleri: course, lock.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Kayıt kimliği (ilan veya sözleşme).",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "UUID. Aynı anahtar ikinci debit doğurmaz.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "course": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "slug": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "title": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "slug",
+                            "title"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "lock": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "amountMinor": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "currencyCode": {
+                              "type": "string",
+                              "enum": [
+                                "TRY",
+                                "USD",
+                                "EUR"
+                              ]
+                            },
+                            "expiresAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "amountMinor",
+                            "currencyCode",
+                            "expiresAt"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "course",
+                        "lock"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency-Key aynı anahtarla farklı gövde kullanılamaz.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": true,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "course",
+          "course.id",
+          "course.slug",
+          "course.title",
+          "lock",
+          "lock.id",
+          "lock.amountMinor",
+          "lock.currencyCode",
+          "lock.expiresAt"
+        ]
+      }
+    },
+    "/api/v1/academy/courses/{id}/curriculum": {
+      "post": {
+        "operationId": "academy-curriculum",
+        "tags": [
+          "Proof"
+        ],
+        "summary": "/api/v1/academy/courses/{id}/curriculum",
+        "description": "Kanonik yol: /api/academy/courses/{id}/curriculum. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key UUID zorunlu (Idempotency-Key). Yayınlanmış data kökleri: applied, player.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Kayıt kimliği (ilan veya sözleşme).",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "UUID. Aynı anahtar ikinci debit doğurmaz.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "applied": {
+                          "type": "boolean"
+                        },
+                        "player": {
+                          "type": "object",
+                          "properties": {
+                            "courseId": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "courseSlug": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "courseTitle": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "purchaseId": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "completedCount": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "totalCount": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "curriculumComplete": {
+                              "type": "boolean"
+                            },
+                            "workTasksComplete": {
+                              "type": "boolean"
+                            },
+                            "curriculumProofHash": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "nextLessonKey": {
+                              "nullable": true,
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "certificate": {
+                              "nullable": true,
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "certificateHash": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "score": {
+                                  "nullable": true,
+                                  "type": "integer",
+                                  "minimum": -9007199254740991,
+                                  "maximum": 9007199254740991
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "certificateHash",
+                                "score"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "lessons": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "key": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "order": {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  "title": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "body": {
+                                    "type": "string"
+                                  },
+                                  "completed": {
+                                    "type": "boolean"
+                                  },
+                                  "open": {
+                                    "type": "boolean"
+                                  },
+                                  "completedAt": {
+                                    "nullable": true,
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                                  }
+                                },
+                                "required": [
+                                  "key",
+                                  "order",
+                                  "title",
+                                  "body",
+                                  "completed",
+                                  "open",
+                                  "completedAt"
+                                ],
+                                "additionalProperties": false
+                              }
+                            }
+                          },
+                          "required": [
+                            "courseId",
+                            "courseSlug",
+                            "courseTitle",
+                            "purchaseId",
+                            "completedCount",
+                            "totalCount",
+                            "curriculumComplete",
+                            "workTasksComplete",
+                            "curriculumProofHash",
+                            "nextLessonKey",
+                            "certificate",
+                            "lessons"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "applied",
+                        "player"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency-Key aynı anahtarla farklı gövde kullanılamaz.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": true,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "applied",
+          "player",
+          "player.courseId",
+          "player.courseSlug",
+          "player.courseTitle",
+          "player.purchaseId",
+          "player.completedCount",
+          "player.totalCount",
+          "player.curriculumComplete",
+          "player.workTasksComplete",
+          "player.curriculumProofHash",
+          "player.nextLessonKey",
+          "player.certificate",
+          "player.lessons"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "lessonKey": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  }
+                },
+                "required": [
+                  "lessonKey"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "academy-curriculum-read",
+        "tags": [
+          "Proof"
+        ],
+        "summary": "/api/v1/academy/courses/{id}/curriculum",
+        "description": "Kanonik yol: /api/academy/courses/{id}/curriculum. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: player.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Kayıt kimliği (ilan veya sözleşme).",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "player": {
+                          "type": "object",
+                          "properties": {
+                            "courseId": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "courseSlug": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "courseTitle": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "purchaseId": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "completedCount": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "totalCount": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "curriculumComplete": {
+                              "type": "boolean"
+                            },
+                            "workTasksComplete": {
+                              "type": "boolean"
+                            },
+                            "curriculumProofHash": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "nextLessonKey": {
+                              "nullable": true,
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "certificate": {
+                              "nullable": true,
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "certificateHash": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "score": {
+                                  "nullable": true,
+                                  "type": "integer",
+                                  "minimum": -9007199254740991,
+                                  "maximum": 9007199254740991
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "certificateHash",
+                                "score"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "lessons": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "key": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "order": {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  "title": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "body": {
+                                    "type": "string"
+                                  },
+                                  "completed": {
+                                    "type": "boolean"
+                                  },
+                                  "open": {
+                                    "type": "boolean"
+                                  },
+                                  "completedAt": {
+                                    "nullable": true,
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                                  }
+                                },
+                                "required": [
+                                  "key",
+                                  "order",
+                                  "title",
+                                  "body",
+                                  "completed",
+                                  "open",
+                                  "completedAt"
+                                ],
+                                "additionalProperties": false
+                              }
+                            }
+                          },
+                          "required": [
+                            "courseId",
+                            "courseSlug",
+                            "courseTitle",
+                            "purchaseId",
+                            "completedCount",
+                            "totalCount",
+                            "curriculumComplete",
+                            "workTasksComplete",
+                            "curriculumProofHash",
+                            "nextLessonKey",
+                            "certificate",
+                            "lessons"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "player"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "player",
+          "player.courseId",
+          "player.courseSlug",
+          "player.courseTitle",
+          "player.purchaseId",
+          "player.completedCount",
+          "player.totalCount",
+          "player.curriculumComplete",
+          "player.workTasksComplete",
+          "player.curriculumProofHash",
+          "player.nextLessonKey",
+          "player.certificate",
+          "player.lessons"
+        ]
+      }
+    },
+    "/api/v1/academy/courses/{id}/exam": {
+      "post": {
+        "operationId": "academy-exam",
+        "tags": [
+          "Proof"
+        ],
+        "summary": "/api/v1/academy/courses/{id}/exam",
+        "description": "Kanonik yol: /api/academy/courses/{id}/exam. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key UUID zorunlu (Idempotency-Key). Yayınlanmış data kökleri: passed, score, passScore, attempt, certificate, visaStamp.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Kayıt kimliği (ilan veya sözleşme).",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "UUID. Aynı anahtar ikinci debit doğurmaz.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "passed": {
+                          "type": "boolean"
+                        },
+                        "score": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "passScore": {
+                          "type": "number",
+                          "enum": [
+                            70
+                          ]
+                        },
+                        "attempt": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "score": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "passed": {
+                              "type": "boolean"
+                            },
+                            "submittedAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "score",
+                            "passed",
+                            "submittedAt"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "certificate": {
+                          "nullable": true,
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "certificateHash": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "serialKey": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "score": {
+                              "nullable": true,
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "certificateHash",
+                            "serialKey",
+                            "score"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "visaStamp": {
+                          "nullable": true,
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "title": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "visaKey": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "title",
+                            "visaKey"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "passed",
+                        "score",
+                        "passScore",
+                        "attempt",
+                        "certificate",
+                        "visaStamp"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency-Key aynı anahtarla farklı gövde kullanılamaz.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": true,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "passed",
+          "score",
+          "passScore",
+          "attempt",
+          "attempt.id",
+          "attempt.score",
+          "attempt.passed",
+          "attempt.submittedAt",
+          "certificate",
+          "certificate.id",
+          "certificate.certificateHash",
+          "certificate.serialKey",
+          "certificate.score",
+          "visaStamp",
+          "visaStamp.id",
+          "visaStamp.title",
+          "visaStamp.visaKey"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "answers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "questionId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "choiceIndex": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        }
+                      },
+                      "required": [
+                        "questionId",
+                        "choiceIndex"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "sessionToken": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "timedOut": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "answers",
+                  "sessionToken"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "academy-exam-read",
+        "tags": [
+          "Proof"
+        ],
+        "summary": "/api/v1/academy/courses/{id}/exam",
+        "description": "Kanonik yol: /api/academy/courses/{id}/exam. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: exam, questions, purchaseId, certificate, sessionToken, expiresAt, durationMs, drawCount, proofLessonKey.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Kayıt kimliği (ilan veya sözleşme).",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "exam": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "courseId": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "title": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "passScore": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "courseId",
+                            "title",
+                            "passScore"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "questions": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "prompt": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "choices": {
+                                "minItems": 2,
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "prompt",
+                              "choices"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "purchaseId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "certificate": {
+                          "nullable": true,
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "certificateHash": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "serialKey": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "score": {
+                              "nullable": true,
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "certificateHash",
+                            "serialKey",
+                            "score"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "sessionToken": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "expiresAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                        },
+                        "durationMs": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "exclusiveMinimum": true,
+                          "maximum": 9007199254740991
+                        },
+                        "drawCount": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "exclusiveMinimum": true,
+                          "maximum": 9007199254740991
+                        },
+                        "proofLessonKey": {
+                          "nullable": true,
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "exam",
+                        "questions",
+                        "purchaseId",
+                        "certificate",
+                        "sessionToken",
+                        "expiresAt",
+                        "durationMs",
+                        "drawCount",
+                        "proofLessonKey"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "exam",
+          "exam.id",
+          "exam.courseId",
+          "exam.title",
+          "exam.passScore",
+          "questions",
+          "questions[].id",
+          "questions[].prompt",
+          "questions[].choices",
+          "purchaseId",
+          "certificate",
+          "certificate.id",
+          "certificate.certificateHash",
+          "certificate.serialKey",
+          "certificate.score",
+          "sessionToken",
+          "expiresAt",
+          "durationMs",
+          "drawCount",
+          "proofLessonKey"
+        ]
+      }
+    },
     "/api/v1/auth/session": {
       "get": {
         "operationId": "auth-session",
@@ -1283,6 +2773,297 @@
           "strip.amountMinor",
           "strip.currencyCode"
         ]
+      }
+    },
+    "/api/v1/wallet/top-up": {
+      "post": {
+        "operationId": "wallet-top-up",
+        "tags": [
+          "Payments"
+        ],
+        "summary": "/api/v1/wallet/top-up",
+        "description": "Kanonik yol: /api/wallet/top-up. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key UUID zorunlu (Idempotency-Key). Yayınlanmış data kökleri: merchantOid, token, iframeUrl, sandboxMode, alreadySettled, mockCheckout, status, checkoutPassportUrl.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "UUID. Aynı anahtar ikinci debit doğurmaz.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "merchantOid": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "token": {
+                          "nullable": true,
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "iframeUrl": {
+                          "nullable": true,
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "sandboxMode": {
+                          "type": "boolean"
+                        },
+                        "alreadySettled": {
+                          "type": "boolean"
+                        },
+                        "mockCheckout": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "nullable": true,
+                          "type": "string",
+                          "enum": [
+                            "PENDING",
+                            "PAID",
+                            "CLEARED",
+                            "FAILED"
+                          ]
+                        },
+                        "checkoutPassportUrl": {
+                          "nullable": true,
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "merchantOid",
+                        "token",
+                        "iframeUrl",
+                        "sandboxMode",
+                        "alreadySettled",
+                        "mockCheckout",
+                        "status",
+                        "checkoutPassportUrl"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency-Key aynı anahtarla farklı gövde kullanılamaz.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": true,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "merchantOid",
+          "token",
+          "iframeUrl",
+          "sandboxMode",
+          "alreadySettled",
+          "mockCheckout",
+          "status",
+          "checkoutPassportUrl"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "amountMinor": {
+                    "type": "integer",
+                    "minimum": 1000,
+                    "maximum": 2000000
+                  },
+                  "distanceContractAccepted": {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  },
+                  "digitalImmediatePerformanceAccepted": {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  },
+                  "consentVersion": {
+                    "type": "string",
+                    "enum": [
+                      "2026-09-05"
+                    ]
+                  },
+                  "billing": {
+                    "type": "object",
+                    "properties": {
+                      "invoiceType": {
+                        "type": "string",
+                        "enum": [
+                          "individual",
+                          "corporate"
+                        ]
+                      },
+                      "fullName": {
+                        "type": "string"
+                      },
+                      "tckn": {
+                        "nullable": true,
+                        "type": "string"
+                      },
+                      "companyTitle": {
+                        "type": "string"
+                      },
+                      "taxOffice": {
+                        "type": "string"
+                      },
+                      "vkn": {
+                        "type": "string"
+                      },
+                      "phone": {
+                        "type": "string"
+                      },
+                      "address": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "invoiceType"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "amountMinor",
+                  "distanceContractAccepted",
+                  "digitalImmediatePerformanceAccepted",
+                  "consentVersion",
+                  "billing"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/career/pulse": {
@@ -1670,6 +3451,428 @@
           "stamps[].createdAt"
         ]
       }
+    },
+    "/api/v1/career/portfolio": {
+      "post": {
+        "operationId": "career-portfolio",
+        "tags": [
+          "Proof"
+        ],
+        "summary": "/api/v1/career/portfolio",
+        "description": "Kanonik yol: /api/career/portfolio. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key UUID zorunlu (Idempotency-Key). Yayınlanmış data kökleri: applied, portfolio.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "UUID. Aynı anahtar ikinci debit doğurmaz.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "applied": {
+                          "type": "boolean"
+                        },
+                        "portfolio": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "visaStampId": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time",
+                                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "visaStampId",
+                              "title",
+                              "createdAt"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "applied",
+                        "portfolio"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency-Key aynı anahtarla farklı gövde kullanılamaz.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": true,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "applied",
+          "portfolio",
+          "portfolio[].id",
+          "portfolio[].visaStampId",
+          "portfolio[].title",
+          "portfolio[].createdAt"
+        ]
+      }
+    },
+    "/api/v1/profile": {
+      "patch": {
+        "operationId": "profile-patch",
+        "tags": [
+          "Kernel"
+        ],
+        "summary": "/api/v1/profile",
+        "description": "Kanonik yol: /api/profile. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key UUID zorunlu (Idempotency-Key). Yayınlanmış data kökleri: profile.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "UUID. Aynı anahtar ikinci debit doğurmaz.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "profile": {
+                          "type": "object",
+                          "properties": {
+                            "userId": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "email": {
+                              "type": "string",
+                              "format": "email",
+                              "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+                            },
+                            "displayName": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "locale": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "timeZone": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                            }
+                          },
+                          "required": [
+                            "userId",
+                            "email",
+                            "displayName",
+                            "locale",
+                            "timeZone",
+                            "createdAt"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "profile"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency-Key aynı anahtarla farklı gövde kullanılamaz.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": true,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "profile",
+          "profile.userId",
+          "profile.email",
+          "profile.displayName",
+          "profile.locale",
+          "profile.timeZone",
+          "profile.createdAt"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "displayName": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "displayName"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1808,6 +4011,413 @@
           "live",
           "amountMinor",
           "currencyCode"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1WalletTopUpRequest": {
+        "type": "object",
+        "properties": {
+          "amountMinor": {
+            "type": "integer",
+            "minimum": 1000,
+            "maximum": 2000000
+          },
+          "distanceContractAccepted": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "digitalImmediatePerformanceAccepted": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "consentVersion": {
+            "type": "string",
+            "enum": [
+              "2026-09-05"
+            ]
+          },
+          "billing": {
+            "type": "object",
+            "properties": {
+              "invoiceType": {
+                "type": "string",
+                "enum": [
+                  "individual",
+                  "corporate"
+                ]
+              },
+              "fullName": {
+                "type": "string"
+              },
+              "tckn": {
+                "nullable": true,
+                "type": "string"
+              },
+              "companyTitle": {
+                "type": "string"
+              },
+              "taxOffice": {
+                "type": "string"
+              },
+              "vkn": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "address": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "invoiceType"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "amountMinor",
+          "distanceContractAccepted",
+          "digitalImmediatePerformanceAccepted",
+          "consentVersion",
+          "billing"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1WalletTopUpData": {
+        "type": "object",
+        "properties": {
+          "merchantOid": {
+            "type": "string",
+            "minLength": 1
+          },
+          "token": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1
+          },
+          "iframeUrl": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1
+          },
+          "sandboxMode": {
+            "type": "boolean"
+          },
+          "alreadySettled": {
+            "type": "boolean"
+          },
+          "mockCheckout": {
+            "type": "boolean"
+          },
+          "status": {
+            "nullable": true,
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "PAID",
+              "CLEARED",
+              "FAILED"
+            ]
+          },
+          "checkoutPassportUrl": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "merchantOid",
+          "token",
+          "iframeUrl",
+          "sandboxMode",
+          "alreadySettled",
+          "mockCheckout",
+          "status",
+          "checkoutPassportUrl"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1AcademyCurriculumReadData": {
+        "type": "object",
+        "properties": {
+          "player": {
+            "type": "object",
+            "properties": {
+              "courseId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "courseSlug": {
+                "type": "string",
+                "minLength": 1
+              },
+              "courseTitle": {
+                "type": "string",
+                "minLength": 1
+              },
+              "purchaseId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completedCount": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "totalCount": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "curriculumComplete": {
+                "type": "boolean"
+              },
+              "workTasksComplete": {
+                "type": "boolean"
+              },
+              "curriculumProofHash": {
+                "nullable": true,
+                "type": "string"
+              },
+              "nextLessonKey": {
+                "nullable": true,
+                "type": "string",
+                "minLength": 1
+              },
+              "certificate": {
+                "nullable": true,
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "certificateHash": {
+                    "nullable": true,
+                    "type": "string"
+                  },
+                  "score": {
+                    "nullable": true,
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "id",
+                  "certificateHash",
+                  "score"
+                ],
+                "additionalProperties": false
+              },
+              "lessons": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "order": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "title": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "body": {
+                      "type": "string"
+                    },
+                    "completed": {
+                      "type": "boolean"
+                    },
+                    "open": {
+                      "type": "boolean"
+                    },
+                    "completedAt": {
+                      "nullable": true,
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                    }
+                  },
+                  "required": [
+                    "key",
+                    "order",
+                    "title",
+                    "body",
+                    "completed",
+                    "open",
+                    "completedAt"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "courseId",
+              "courseSlug",
+              "courseTitle",
+              "purchaseId",
+              "completedCount",
+              "totalCount",
+              "curriculumComplete",
+              "workTasksComplete",
+              "curriculumProofHash",
+              "nextLessonKey",
+              "certificate",
+              "lessons"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "player"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1AcademyExamReadData": {
+        "type": "object",
+        "properties": {
+          "exam": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "courseId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "passScore": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "id",
+              "courseId",
+              "title",
+              "passScore"
+            ],
+            "additionalProperties": false
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "prompt": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "choices": {
+                  "minItems": 2,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "prompt",
+                "choices"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "purchaseId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "certificate": {
+            "nullable": true,
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "certificateHash": {
+                "nullable": true,
+                "type": "string"
+              },
+              "serialKey": {
+                "type": "string",
+                "minLength": 1
+              },
+              "score": {
+                "nullable": true,
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "id",
+              "certificateHash",
+              "serialKey",
+              "score"
+            ],
+            "additionalProperties": false
+          },
+          "sessionToken": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "durationMs": {
+            "type": "integer",
+            "minimum": 0,
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991
+          },
+          "drawCount": {
+            "type": "integer",
+            "minimum": 0,
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991
+          },
+          "proofLessonKey": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "exam",
+          "questions",
+          "purchaseId",
+          "certificate",
+          "sessionToken",
+          "expiresAt",
+          "durationMs",
+          "drawCount",
+          "proofLessonKey"
         ],
         "additionalProperties": false
       },
@@ -3067,6 +5677,490 @@
         },
         "required": [
           "stamps"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1AcademyLockData": {
+        "type": "object",
+        "properties": {
+          "course": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "slug": {
+                "type": "string",
+                "minLength": 1
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "id",
+              "slug",
+              "title"
+            ],
+            "additionalProperties": false
+          },
+          "lock": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "amountMinor": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "currencyCode": {
+                "type": "string",
+                "enum": [
+                  "TRY",
+                  "USD",
+                  "EUR"
+                ]
+              },
+              "expiresAt": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+              }
+            },
+            "required": [
+              "id",
+              "amountMinor",
+              "currencyCode",
+              "expiresAt"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "course",
+          "lock"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1AcademyCurriculumRequest": {
+        "type": "object",
+        "properties": {
+          "lessonKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "lessonKey"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1AcademyCurriculumData": {
+        "type": "object",
+        "properties": {
+          "applied": {
+            "type": "boolean"
+          },
+          "player": {
+            "type": "object",
+            "properties": {
+              "courseId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "courseSlug": {
+                "type": "string",
+                "minLength": 1
+              },
+              "courseTitle": {
+                "type": "string",
+                "minLength": 1
+              },
+              "purchaseId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completedCount": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "totalCount": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "curriculumComplete": {
+                "type": "boolean"
+              },
+              "workTasksComplete": {
+                "type": "boolean"
+              },
+              "curriculumProofHash": {
+                "nullable": true,
+                "type": "string"
+              },
+              "nextLessonKey": {
+                "nullable": true,
+                "type": "string",
+                "minLength": 1
+              },
+              "certificate": {
+                "nullable": true,
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "certificateHash": {
+                    "nullable": true,
+                    "type": "string"
+                  },
+                  "score": {
+                    "nullable": true,
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "id",
+                  "certificateHash",
+                  "score"
+                ],
+                "additionalProperties": false
+              },
+              "lessons": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "order": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "title": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "body": {
+                      "type": "string"
+                    },
+                    "completed": {
+                      "type": "boolean"
+                    },
+                    "open": {
+                      "type": "boolean"
+                    },
+                    "completedAt": {
+                      "nullable": true,
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                    }
+                  },
+                  "required": [
+                    "key",
+                    "order",
+                    "title",
+                    "body",
+                    "completed",
+                    "open",
+                    "completedAt"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "courseId",
+              "courseSlug",
+              "courseTitle",
+              "purchaseId",
+              "completedCount",
+              "totalCount",
+              "curriculumComplete",
+              "workTasksComplete",
+              "curriculumProofHash",
+              "nextLessonKey",
+              "certificate",
+              "lessons"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "applied",
+          "player"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1AcademyExamRequest": {
+        "type": "object",
+        "properties": {
+          "answers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "questionId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "choiceIndex": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "questionId",
+                "choiceIndex"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "sessionToken": {
+            "type": "string",
+            "minLength": 1
+          },
+          "timedOut": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "answers",
+          "sessionToken"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1AcademyExamData": {
+        "type": "object",
+        "properties": {
+          "passed": {
+            "type": "boolean"
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "passScore": {
+            "type": "number",
+            "enum": [
+              70
+            ]
+          },
+          "attempt": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "score": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "passed": {
+                "type": "boolean"
+              },
+              "submittedAt": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+              }
+            },
+            "required": [
+              "id",
+              "score",
+              "passed",
+              "submittedAt"
+            ],
+            "additionalProperties": false
+          },
+          "certificate": {
+            "nullable": true,
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "certificateHash": {
+                "nullable": true,
+                "type": "string"
+              },
+              "serialKey": {
+                "type": "string",
+                "minLength": 1
+              },
+              "score": {
+                "nullable": true,
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "id",
+              "certificateHash",
+              "serialKey",
+              "score"
+            ],
+            "additionalProperties": false
+          },
+          "visaStamp": {
+            "nullable": true,
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "visaKey": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "visaKey"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "passed",
+          "score",
+          "passScore",
+          "attempt",
+          "certificate",
+          "visaStamp"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1CareerPortfolioData": {
+        "type": "object",
+        "properties": {
+          "applied": {
+            "type": "boolean"
+          },
+          "portfolio": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "visaStampId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                }
+              },
+              "required": [
+                "id",
+                "visaStampId",
+                "title",
+                "createdAt"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "applied",
+          "portfolio"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1ProfilePatchRequest": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "displayName"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1ProfilePatchData": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "type": "object",
+            "properties": {
+              "userId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+              },
+              "displayName": {
+                "nullable": true,
+                "type": "string"
+              },
+              "locale": {
+                "type": "string",
+                "minLength": 1
+              },
+              "timeZone": {
+                "type": "string",
+                "minLength": 1
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+              }
+            },
+            "required": [
+              "userId",
+              "email",
+              "displayName",
+              "locale",
+              "timeZone",
+              "createdAt"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "profile"
         ],
         "additionalProperties": false
       },

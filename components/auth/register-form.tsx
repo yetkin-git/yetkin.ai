@@ -21,6 +21,7 @@ import {
 } from "@/lib/kernel/auth/password";
 import { DISPLAY_NAME_MAX_LENGTH } from "@/lib/kernel/identity/types";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
+import { emitSemConversion } from "@/lib/kernel/sem/conversion";
 
 const REGISTER_DEBUG = "[rail-register]";
 
@@ -172,6 +173,7 @@ export function RegisterForm() {
       }
       const okState = readRegisterOkState(body);
       console.log(REGISTER_DEBUG, "register:ok → pending-verification");
+      emitSemConversion("register");
       setMessage(okState?.fallback ? copy.devFallback : copy.pendingVerification);
     } catch (caught) {
       console.error(REGISTER_DEBUG, "caught", caught);

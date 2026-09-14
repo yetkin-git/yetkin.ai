@@ -18,13 +18,24 @@ describe("HTTP Idempotency-Key yazma yüzeyi", () => {
     const release = readSrc("app/api/freelancer/contracts/[id]/release/route.ts");
     const refund = readSrc("app/api/freelancer/contracts/[id]/refund/route.ts");
     const delivery = readSrc("app/api/freelancer/contracts/[id]/messages/route.ts");
-    for (const source of [wallet, jobs]) {
+    for (const source of [jobs]) {
       expect(source).toContain("readIdempotencyKey");
       expect(source).toContain("settleHttpIdempotency");
       expect(source).toContain("hashIdempotencyPayload");
       expect(source).toContain("createPrismaHttpIdempotencyStore");
     }
-    for (const source of [purchase, accept, bids, release, refund, delivery]) {
+    for (const source of [wallet, purchase, accept, bids, release, refund, delivery]) {
+      expect(source).toContain("requireRailV1IdempotencyKey");
+      expect(source).toContain("settleHttpIdempotency");
+      expect(source).toContain("hashIdempotencyPayload");
+      expect(source).toContain("createPrismaHttpIdempotencyStore");
+    }
+    const lock = readSrc("app/api/academy/courses/[id]/lock/route.ts");
+    const curriculum = readSrc("app/api/academy/courses/[id]/curriculum/route.ts");
+    const examWrite = readSrc("app/api/academy/courses/[id]/exam/route.ts");
+    const portfolio = readSrc("app/api/career/portfolio/route.ts");
+    const profile = readSrc("app/api/(kernel)/profile/route.ts");
+    for (const source of [lock, curriculum, examWrite, portfolio, profile]) {
       expect(source).toContain("requireRailV1IdempotencyKey");
       expect(source).toContain("settleHttpIdempotency");
       expect(source).toContain("hashIdempotencyPayload");
@@ -53,6 +64,9 @@ describe("HTTP Idempotency-Key yazma yüzeyi", () => {
   it("istemci çift tıklamada aynı Idempotency-Key başlığını basar", () => {
     const walletForm = readSrc("components/kernel/wallet-top-up-form.tsx");
     const purchase = readSrc("components/academy/purchase-button.tsx");
+    const curriculum = readSrc("components/academy/curriculum-player.tsx");
+    const examPanel = readSrc("components/academy/exam-panel.tsx");
+    const profile = readSrc("components/kernel/display-name-form.tsx");
     const accept = readSrc("components/freelancer/accept-bid-button.tsx");
     const createJob = readSrc("components/freelancer/job-create-form.tsx");
     const bid = readSrc("components/freelancer/bid-form.tsx");
@@ -60,7 +74,17 @@ describe("HTTP Idempotency-Key yazma yüzeyi", () => {
     const hook = readSrc("components/kernel/use-idempotency-key.ts");
     expect(hook).toContain("IDEMPOTENCY_KEY_HEADER");
     expect(hook).toContain("createClientIdempotencyKey");
-    for (const source of [walletForm, purchase, accept, createJob, bid, actions]) {
+    for (const source of [
+      walletForm,
+      purchase,
+      curriculum,
+      examPanel,
+      profile,
+      accept,
+      createJob,
+      bid,
+      actions,
+    ]) {
       expect(source).toContain("useIdempotencyKey");
       expect(source).toContain("idempotency.headers()");
     }
@@ -74,7 +98,7 @@ describe("HTTP Idempotency-Key yazma yüzeyi", () => {
     expect(exam).toContain("consumeExamSitting");
     expect(exam).toContain("insertExamSitting");
     expect(examRoute).toContain("submitAcademyExam");
-    expect(examRoute).not.toContain("settleHttpIdempotency");
+    expect(examRoute).toContain("settleHttpIdempotency");
     expect(proxy).toContain("decideWebOriginGuard");
     expect(proxy).toContain('originDecision.kind === "deny"');
     expect(origin).toContain("WEB_ORIGIN_FORBIDDEN");

@@ -6,9 +6,10 @@
 |------|--------|
 | Tarih | 17 Ağustos 2026 |
 | Statü | Vizyon ve Strateji Belgesi. Anayasa'nın ruhunu, iş modelini ve büyüme hedeflerini açıklar. |
-| Son Reform | **9 Eylül 2026 (Faz 1 işletme resmi):** Faz 1 çalışan vitrin 3 oda (Panel + Akademi + Kariyer); 4. oda (Freelancer) kilitli motordur. Birincil kitle B2C Öğrenen / Kart Sahibi; işveren Faz 2 alıcısı. Motor 1 (Akademi) gün 0 kahramanı. Vitrin 5 compact SKU. Motor 3 Split kapalı (503) ve kamu 410. Motor 2 Faz 2+. |
+| Son Reform | **13 Eylül 2026 (Tedavi):** Operasyonel sayılar, env bayrakları ve HTTP kodları vizyon belgesinden çıkarıldı. Shared Kernel `@yetkin/kernel` olarak çıkar. Video katmanı terk edildi. Motor 2 keşif fazındadır. SEN aksı varsayılan B2C sesidir; dron başına locale edilebilir. |
 | Yer | `/.system_docs/MANIFESTO.md` |
 | Çelişki | Bir cümle Anayasa ile çatışırsa `.system_docs/ANAYASA.md` bağlayıcıdır. |
+| Durum | Haftalık gerçek `docs/DURUM.md` içindedir. |
 
 ---
 
@@ -22,79 +23,55 @@
 **Mühendise ve Yatırımcıya:**
 > yetkin.ai; öğrenme, doğrulanabilir yetkinlik (verifiable credentials) ve güvenli iş teslimini tek deftere bağlayan modern bir dijital yetenek ve iş platformudur.
 
-**Gün 0 vitrin cümlesi (Faz 1):**
-> Yetkinliğini kanıtlayan yapay zekâ eğitimleri. Kariyer belgesi ve freelancer emaneti dipnottur; nakit yalnız Akademi’dedir.
+**Gün 0 vitrin cümlesi:**
+> Yetkinliğini kanıtlayan yapay zekâ eğitimleri. Sınavı geç; mühür kamu vize kartında dursun. Kariyer belgesi dipnot değil kanıt URL’sidir. Freelancer emaneti ayrı fazdır; nakit Akademi’dedir.
 
-## 1.2 Pazar Fırsatı: Neden "Kanıt ve Güven" Satıyoruz?
+## 1.2 Pazar Fırsatı
 
-Yapay zeka araçlarının yaygınlaşmasıyla birlikte, **"ben bu işi biliyorum" demenin maliyeti sıfıra indi.**
+Yapay zeka araçlarının yaygınlaşmasıyla **"ben bu işi biliyorum" demenin maliyeti sıfıra indi.** Nitelikli uzman görünmez oldu; işveren güvenini kaybetti.
 
-Bugün herhangi biri birkaç prompt ile göz alıcı bir özgeçmiş, cilalı bir portfolyo veya kusursuz görünen bir kod parçası üretebilmektedir. Ancak bu durum iki büyük pazar tıkanıklığı yaratmıştır:
-
-1. **Nitelikli Uzman Görünmez Oldu:** Gerçekten emek veren, konuya hakim uzmanlar; yapay zeka çıktılarıyla şişirilmiş profillerin arasında kaybolmaktadır.
-2. **İşveren Güvenini Kaybetti:** Küçük işletmeler ve şirketler, ilan sitelerinden aldıkları vasıfsız veya yapay zeka kopyası teslimatlardan bıkmış durumdadır.
-
-yetkin.ai tam bu kırılma noktasında değer üretir:
+yetkin.ai bu kırılma noktasında değer üretir:
 > **İddianın bedava olduğu bir dünyada, kanıtlanmış yetkinlik en değerli varlıktır.**
 
-Biz sadece kurs veya ilan listesi sunmuyoruz; **üretimin ve bilginin doğrulanabilirliğini** satıyoruz. Platformdaki her sertifika, sunucu tarafında değerlendirilen ve SHA-256 ile kriptografik olarak mühürlenen bir iş kanıtıdır.
+Platformdaki her sertifika, sunucu tarafında değerlendirilen ve SHA-256 ile kriptografik olarak mühürlenen bir iş kanıtıdır.
 
 ## 1.3 Hedef Kitlemiz
 
-**Faz 1 birincil kitle: B2C Öğrenen / Kart Sahibi.** Kartla dijital eğitim, sınav ve sertifika satın alan yetişkin. Nakit ve kamu vitrini bu kitleye aittir.
+**Birincil kitle: B2C Öğrenen / Kart Sahibi.** Kartla dijital eğitim, sınav ve sertifika satın alan yetişkin.
 
-1. **Yetkinliğini Kanıtlamak İsteyen Öğrenenler (Faz 1 birincil):** Alaylı yazılımcılar, kariyer değiştirenler, uzaktan çalışan profesyoneller ve referansa ihtiyaç duyan yetenekler. Onlar için sertifika bir kağıt parçası değil, iş kapılarını açan doğrulanabilir bir pasaporttur.
-2. **Riski Sıfırlamak İsteyen İşverenler (Faz 2 alıcısı):** Kalitesiz teslimat riskini almak istemeyen, işi gerçekten ehline vermek ve emanet güvencesiyle çalışmak isteyen KOBİ'ler ve girişimler. Havuz ve lisanslı Split olmadan bu kitleye satış veya nakit iddiası basılmaz.
+1. **Yetkinliğini Kanıtlamak İsteyen Öğrenenler (birincil):** Alaylı yazılımcılar, kariyer değiştirenler, uzaktan çalışan profesyoneller.
+2. **Riski Sıfırlamak İsteyen İşverenler (Faz 2 alıcısı):** Kalitesiz teslimat riskini almak istemeyen KOBİ’ler. Havuz ve lisanslı Split olmadan bu kitleye satış veya nakit iddiası basılmaz.
 
 ## 1.4 Marka ve Tasarım Duruşu
 
-* **Yalın ve Sakin Arayüz (Quiet Luxury):** Güven bağırmaz. Gereksiz görsel karmaşadan uzak, sistem fontları ve temiz bileşenlerle hızlı yüklenen, kullanıcıyı yormayan sade bir deneyim sunuyoruz. Bu bir dogma değil, güven inşa eden bir ürün tercihidir.
-* **Doğrudan İletişim (SEN Aksı):** Platform kullanıcıyla açık, net ve doğrudan ("sen") konuşur. Bürokratik veya ağdalı bir dil yerine samimi, profesyonel bir rehberlik dili benimsenir.
+* **Yalın ve Sakin Arayüz (Quiet Luxury):** Güven bağırmaz. Bu bir dogma değil, güven inşa eden bir ürün tercihidir.
+* **Doğrudan İletişim (SEN Aksı):** Varsayılan B2C sesimiz SEN’dir. Dron başına locale edilebilir; B2B yüzeyinde resmî hitap seçilebilir.
 
 ---
 
-# BÖLÜM 2 — DEĞİŞMEZ TEMEL İLKELER VE ÜRÜN GERÇEKLERİ
+# BÖLÜM 2 — DEĞİŞMEZ TEMEL İLKELER
 
-## Kural 1 — Odaklanılan 4 Ana Deneyim Alanı
+## Kural 1 — Odaklanılan deneyim
 
-**Faz 1 çalışan vitrin 3 odadır (Panel, Akademi, Kariyer); 4. oda (Freelancer) kilitli motordur.** Dört oda omurga hedefidir; eşit canlılık iddiası yoktur. Gün 0 kahramanı Akademi’dir.
+**Faz 1 çalışan vitrin 3 odadır** (Panel, Akademi, Kariyer); **4. oda (Freelancer) kilitli motordur.** Omurga hedefinin parçasıdır, eşit canlılık iddiası yoktur. **Oda tavanı esnektir:** yeni oda/dron = kayıt + sözleşme + bayrak. Kamu kanıt URL’si (`/vize`) yeni oda açmaz.
 
-Platform odağını dağıtmamak adına 4 ana fonksiyonel alanda derinleşir:
-* **Dashboard (`/dashboard`):** Kullanıcının durumunu ve sonraki aksiyonunu gösteren kumanda paneli.
-* **Akademi (`/academy`):** Gelir motoru olan, piyasa odaklı eğitimler ve mühürlü sertifika sınavları.
-* **Kariyer (`/career`):** Doğrulanmış yetkinlik vizeleri ve portfolyo vitrini. Nakit taşımaz.
-* **Freelancer (`/freelancer`):** Güvenli iş listeleri, teklif ve sözleşme süreçleri. **Faz 2.** Kamu 410; nakit yalnız lisanslı Split bağlıysa.
+Dron native istemcidir. Faz 1 kapanana kadar **donuk laboratuvardır** (`publishFrozenUntilFaz1Close`). **Faz 2’de kernel `@yetkin/kernel` paketi olarak çıkar; dronlar onu tüketir.**
 
-*Ürün Gerçeği:* Bu dört odak projenin omurga hedefidir; eşit olgunluk iddiası yoktur. Faz 1’de nakit ve kahraman Akademi’dedir. Kurumsal pilot, bildirim, yardım gibi meşru modüller "katı kural polisliği" ile engellenemez; monolit içinde temiz durur.
+## Kural 2 — Vize Kapısı
 
-## Kural 2 — Vize Kapısı ve Büyüme Dengesi (Kod ile Aynı)
+Nitelikli ilana teklif, ilgili belgelenmiş yetkinliğe (Kariyer vizesi) bağlıdır. Bu, alıcıyı kalitesiz teklif yağmurundan korur. Kapı ayrıntısı ve teknik şartname `docs/specs/freelancer-vize-kapisi.md` içindedir. Bu kural vizyon sicilidir; kilitli yüzeyde canlı kapı diye okunmaz.
 
-* **Zaman kipi:** Bu kural vizyon ve motor sicilidir; Faz 1’de **canlı kapı** diye okunmaz. `/freelancer` kamu 410’dur. Kapılar Split ve vitrin kilidi kalkınca uygulanır.
-* **Vizyonun özü:** Nitelikli ilana teklif, ilgili compact SKU belgesine (Kariyer vizesi) bağlıdır. Bu, alıcıyı kalitesiz teklif yağmurundan korur.
-* **Çift katman, tek gerçek** (`FREELANCER_GUARANTEED_NEED_IDS` + `FREELANCER_MARKETPLACE_NEED_IDS`):
-  - **5 Garantili Kapı (Bölüm A, vize şartlı):** Ofis, e-ticaret, sosyal içerik, chatbot, prompt — her kapı yayın compact SKU’suna kilitlidir. Teklif **403** (`LISTING_ACCESS_VISA_DENIED` / kapsam dışı). Esnek rozet vaadi yoktur — kapı serttir.
-  - **Standart Pazaryeri (Bölüm B, vizesiz OPEN):** Yazılım/web, grafik, dijital pazarlama, çeviri, diğer — vize istenmez; arka plan Açık Deneme mantığıdır (`isOpenTrialNeed`). Büyüme ve vizesiz işveren denemesi bu katmandadır.
-  - **Açık Deneme (`acik-deneme`):** Aynı OPEN bayrağı; formda ayrı kapı olarak durur.
-* İhtiyaç başlıkları yayın 5 SKU ile dürüsttür. Full-stack / sızma testi / UI-UX meslek tabelası formda yoktur.
+## Kural 3 — Tek Defter ve S43
 
-## Kural 3 — Tek Defter ve S43 (Finansal ve Yasal Güvenlik)
+Platform lisanssız olarak üçüncü şahısların parasını kendi havuzunda tutamaz veya banka çekim rotası sunamaz. Akademi tahsilatı lisanslı üye işyeri kanalıdır. Freelancer bedelleri yalnız lisanslı Split bağlıysa emanette durur ve ustanın IBAN’ına kuruluş tarafından akar.
 
-* **Ödeme Kuruluşu Değiliz:** Platform lisanssız olarak üçüncü şahısların parasını kendi havuzunda tutamaz veya banka çekim rotası (`/api/wallet/withdraw`) sunamaz.
-* **Harcama ve Tahsilat:**
-  - Akademi tahsilatları doğrudan lisanslı ödeme kuruluşu (PayTR Sanal POS / Merchant) üzerinden şirkete gelir olarak akar. **Faz 1 tek kamu nakit kanalı budur.**
-  - Freelancer iş bedelleri (**Faz 2; lisanslı Split bağlıysa**) lisanslı kuruluşun Pazaryeri Split altyapısında emanet statüsünde durur ve iş bitiminde doğrudan ustanın IBAN'ına aktarılır.
-* **Geçiş dönemi:** Pazaryeri Split bağlı değilken kabul **503 fail-closed**’dır (Anayasa A2). Ana sayfa Motor 3’ü gün 0 nakit gibi satmaz. Harici fatura ürün içi yeşil boyanmaz (A5).
+## Kural 4 — Dürüst Yüzey
 
-## Kural 4 — Dürüst Yüzey ve Yapıcı Kullanıcı Deneyimi
-
-* **Gerçek Bilgi İlkesi:** Sahte bakiye, uydurma onay veya hayali veriler gösterilemez. Ekranda görünen her finansal hareket gerçek bir defter kaydıdır.
-* **Kullanıcı Dostu İletişim:** Bir entegrasyon henüz hazır olmadığında kullanıcıyı soğuk bir hata sayfası yerine; durumu dürüstçe açıklayan ve alternatif iletişim kanalları sunan yapıcı mesajlar karşılar.
+Sahte bakiye, uydurma onay veya hayali veri gösterilemez. Entegrasyon hazır değilse durum dürüstçe açıklanır.
 
 ---
 
-# BÖLÜM 3 — NASIL HIZLI GELİR ELDE EDECEĞİZ? (GELİR MOTORLARI)
-
-Bu belge yalnızca "neyi yapamayacağımızın" değil, **"şirketin nasıl hızla para kazanacağının"** yol haritasıdır.
+# BÖLÜM 3 — GELİR MOTORLARI
 
 ```
        [ GELİR MOTORLARI ]
@@ -104,47 +81,32 @@ Bu belge yalnızca "neyi yapamayacağımızın" değil, **"şirketin nasıl hız
 MOTOR 1     MOTOR 2     MOTOR 3
 Akademi     Kurumsal    Pazaryeri
 Satışları   Yetkinlik   İşlemleri
-(B2C)       (B2B)       (Komisyon)
+(B2C)       (B2B keşif) (Komisyon)
 ```
 
-### Motor 1: B2C Akademi Eğitim ve Sınav Satışları (Hemen / Gün 0)
-* **Model:** Piyasada yüksek talep gören yapay zeka, yazılım ve dijital beceri eğitimlerinin doğrudan satışı.
-* **Avantajı:** Yasal split veya karmaşık pazaryeri onaylarına ihtiyaç duymadan, standart PayTR Sanal POS ile ilk günden kredi kartıyla tahsilat yapılır.
-* **Fiyatlandırma:** Dinamik ve erişilebilir fiyatlarla doğrudan nakit akışı üretilir.
+### Motor 1: B2C Akademi (Gün 0 kahramanı)
+Piyasada talep gören yapay zeka ve dijital beceri eğitimlerinin doğrudan satışı. Lisanslı sanal POS ile tahsilat.
 
-### Motor 2: B2B Kurumsal Yetkinlik (Faz 2+)
-* **Model:** Şirketlerin adaylarını test etmesi için kurumsal sınav ve mühür paketleri.
-* **Gün 0:** Yok. Donmuş `kurumsal` odası 410. Akademi B2C oturmadan B2B odası açılmaz.
+### Motor 2: B2B Kurumsal Yetkinlik (keşif)
+Şirketlerin adaylarını test etmesi için kurumsal sınav ve mühür paketleri. **Keşif fazı:** müşteri profili ve bir pilot aranır. Arşivdeki kurumsal oda kamu vitrini değildir; manifesto bu motoru gelir haritasında keşif olarak tutar.
 
-### Motor 3: Freelancer aracılık komisyonu (Faz 2 — Split sonrası)
-* **Model:** Güvenli teslimat üzerinden platform komisyonu.
-* **Bugün:** Kamu yüzeyi **410**. Motor ve şema durur; silinmez. `MARKETPLACE_SPLIT_LIVE = false`. Emanet nakit kabulü **503 fail-closed**. İlan/teklif vatandaşa açık değildir.
+### Motor 3: Freelancer aracılık (Split sonrası)
+Güvenli teslimat üzerinden platform komisyonu. Kamu yüzeyi kilitliyken nakit vaadi basılmaz. Motor ve şema silinmez.
 
 ---
 
-# BÖLÜM 4 — MEVCUT DURUM VE FAZ GEÇİŞLERİ
+# BÖLÜM 4 — YOL HARİTASI İLKESİ
 
-1. **Mimari ve güvenlik (hazır):**
-   - Modüler monolit, `amountMinor`, RLS/IDOR, SHA-256 mühür.
-   - Canlı oynatıcı Aşama 1 compact makaledir. Yayın SKU: `01_office_ai` … `05_prompt_practice`.
-   - Ses mührü, bake ve model id **stüdyo defterindedir** (`docs/OPS_STUDYO_SAYILARI.md`). Vizyon belgesi her bake’te güncellenmez. İzlemede canlı TTS yoktur.
+1. **Mimari:** Modüler monolit + Shared Kernel paketi + API-First dron sözleşmesi. Canlı oynatıcı compact makaledir; mühürlü derste karaoke overlay açılır. Video katmanı terk edilmiştir. İzlemede canlı TTS yoktur.
+2. **Gelir şimdi:** Merchant iFrame ile cüzdan yükleme + Akademi DEBIT. Kanıt dışarı `/vize` ile çıkar.
+3. **Ölçek sonra:** Split sözleşmesi, freelancer hop geri yazımı, dron kapalı testi. Kurumsal B2B ancak keşif + pilot sonrası.
 
-2. **Faz 1: Gelir (şimdi):**
-   - PayTR Merchant iFrame ile cüzdan yükleme + Akademi DEBIT.
-   - 5 compact SKU satışı. Kamu vitrin 3 oda. Freelancer nakit vaadi yok; kamu 410.
-
-3. **Faz 2: Ölçek ve pazaryeri:**
-   - PayTR Pazaryeri Split. `MARKETPLACE_SPLIT_LIVE` tek bayrak.
-   - Kurumsal B2B ancak bundan sonra.
+Operasyonel hop sayısı, SKU listesi ve env bayrakları bu belgede durmaz; `docs/DURUM.md` haftalık gerçektir.
 
 ---
 
-# BÖLÜM 5 — İCRACI MİMAR VE TEKNİK LİDER KILAVUZU
+# BÖLÜM 5 — İCRACI KILAVUZ
 
-Bir geliştirme veya mimari karar alınırken sorulacak temel soru şudur:
 > **"Bu karar platformun güvenliğini korurken, kullanıcı kazanımını ve gelir üretimini hızlandırıyor mu?"**
 
-* Cevap evet ise: En yalın, test edilebilir ve güvenli şekilde hayata geçirilir.
-* Cevap gereksiz bürokrasi, kural polisliği veya aşırı mühendislik ise: Ayıklanır ve sadeleştirilir.
-
-Güvenlik, yasal uyum ve finansal doğruluk tavizsiz korunur; ancak büyümenin, kullanıcı deneyiminin ve yazılım geliştirme hızının önüne gereksiz dogmalar konulamaz.
+Cevap evet ise en yalın, test edilebilir ve güvenli şekilde hayata geçirilir. Cevap gereksiz bürokrasi ise ayıklanır. Güvenlik, yasal uyum ve finansal doğruluk tavizsiz korunur.

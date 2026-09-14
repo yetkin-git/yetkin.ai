@@ -5,8 +5,14 @@ import {
   ACADEMY_CATALOG_SEEDS,
   ACADEMY_SEED_CURRENCY,
   academyCatalogSeedMatch,
+  academyVitrineDisplaySeed,
   type AcademyCatalogSeed,
 } from "@/lib/academy/catalog-seed";
+import {
+  ACADEMY_VITRINE_SHELL_SKU_SLUGS,
+  isAcademyGrowthSkuSlug,
+  isAcademyProductionLineSkuSlug,
+} from "@/lib/academy/pilot-sku";
 import type { AcademyCourseRecord, AcademyCourseWithPrice } from "@/lib/academy/types";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 
@@ -33,7 +39,10 @@ export function academyCourseRecordFromSeed(row: AcademyCatalogSeed): AcademyCou
 }
 
 function withCardHonesty(course: AcademyCourseWithPrice): AcademyCourseWithPrice {
-  const seed = academyCatalogSeedMatch(course.slug) ?? academyCatalogSeedMatch(course.id);
+  const seed =
+    academyCatalogSeedMatch(course.slug) ??
+    academyCatalogSeedMatch(course.id) ??
+    academyVitrineDisplaySeed(course.slug);
   return {
     ...course,
     summary: seed?.summary ?? course.summary,
@@ -48,6 +57,16 @@ export function publishedAcademyCourseFromSeed(row: AcademyCatalogSeed): Academy
     priceMinor: toAmountMinor(row.seedAmountMinor),
     currencyCode: ACADEMY_SEED_CURRENCY,
     purchasable: true,
+  });
+}
+
+function comingSoonAcademyCourseFromSeed(row: AcademyCatalogSeed): AcademyCourseWithPrice {
+  return withCardHonesty({
+    ...academyCourseRecordFromSeed(row),
+    isPublished: false,
+    priceMinor: toAmountMinor(row.seedAmountMinor),
+    currencyCode: ACADEMY_SEED_CURRENCY,
+    purchasable: false,
   });
 }
 
@@ -71,7 +90,10 @@ export function overlaySeedCatalogPrice(course: AcademyCourseWithPrice): Academy
   if (course.priceMinor != null) {
     return withCardHonesty(course);
   }
-  const seed = academyCatalogSeedMatch(course.slug) ?? academyCatalogSeedMatch(course.id);
+  const seed =
+    academyCatalogSeedMatch(course.slug) ??
+    academyCatalogSeedMatch(course.id) ??
+    academyVitrineDisplaySeed(course.slug);
   if (!seed) {
     return withCardHonesty(course);
   }
@@ -79,7 +101,7 @@ export function overlaySeedCatalogPrice(course: AcademyCourseWithPrice): Academy
     ...course,
     priceMinor: toAmountMinor(seed.seedAmountMinor),
     currencyCode: ACADEMY_SEED_CURRENCY,
-    purchasable: course.isPublished,
+    purchasable: course.isPublished && isAcademyGrowthSkuSlug(course.slug),
   });
 }
 
@@ -93,6 +115,33 @@ export function mergePublishedAcademyCatalog(
 ): AcademyCourseWithPrice[] {
   const bySlug = new Map(live.map((row) => [row.slug, overlaySeedCatalogPrice(row)]));
   return orderAcademyShowcaseCatalog(seeded.map((seed) => bySlug.get(seed.slug) ?? seed));
+}
+
+/**
+ * PEDAGOJI §D 5'li Vitrin Karması — amiral satın alınır; kardeşler dürüst Yakında kabuğu.
+ * Hayali oynatıcı / antre SKU basılmaz.
+ */
+export function academyVitrineShellCourses(
+  live: readonly AcademyCourseWithPrice[] = publishedCoursesFromSeed(),
+): AcademyCourseWithPrice[] {
+  const published = mergePublishedAcademyCatalog(live);
+  const bySlug = new Map(published.map((row) => [row.slug, row]));
+  const next: AcademyCourseWithPrice[] = [];
+  for (const slug of ACADEMY_VITRINE_SHELL_SKU_SLUGS) {
+    const liveRow = bySlug.get(slug);
+    if (liveRow && isAcademyGrowthSkuSlug(slug)) {
+      next.push(liveRow);
+      continue;
+    }
+    if (!isAcademyProductionLineSkuSlug(slug)) {
+      continue;
+    }
+    const seed = academyVitrineDisplaySeed(slug);
+    if (seed) {
+      next.push(comingSoonAcademyCourseFromSeed(seed));
+    }
+  }
+  return next;
 }
 
 export function resolveAcademyCourseFromSeed(idOrSlug: string): AcademyCourseRecord | null {

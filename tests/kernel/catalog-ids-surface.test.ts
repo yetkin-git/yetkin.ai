@@ -64,9 +64,9 @@ describe("kernel catalog-ids — omurga kimliği", () => {
     expect(ACADEMY_SKU_SLUG_BY_CODE["PR-105"]).toBe("05_prompt_practice");
     expect(ACADEMY_ONBOARDING_COURSE_SLUG).toBeNull();
     expect([...ACADEMY_GROWTH_SKU_SLUGS].every((slug) => slug in ACADEMY_COURSE_TITLES)).toBe(true);
-    expect(ACADEMY_GROWTH_SKU_SLUGS).toHaveLength(5);
-    expect(Object.values(ACADEMY_SKU_SLUG_BY_CODE).every((slug) =>
-      (ACADEMY_GROWTH_SKU_SLUGS as readonly string[]).includes(slug),
+    expect(ACADEMY_GROWTH_SKU_SLUGS).toHaveLength(1);
+    expect([...ACADEMY_GROWTH_SKU_SLUGS].every((slug) =>
+      Object.values(ACADEMY_SKU_SLUG_BY_CODE).includes(slug),
     )).toBe(true);
     for (const needId of FREELANCER_NEED_IDS) {
       for (const code of FREELANCER_NEED_SKU_CODES[needId]) {

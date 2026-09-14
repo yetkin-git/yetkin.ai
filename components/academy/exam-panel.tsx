@@ -14,6 +14,7 @@ import type { AcademyProofSubmission } from "@/lib/academy/proof-of-work";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { UX_SEN } from "@/lib/copy/sen-voice/ux";
 import { formatAcademyExamRemaining } from "@/lib/academy/exam-duration";
+import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
 import { parseRailClientJson } from "@/lib/ui/parse-rail-json";
 import { withRailSession } from "@/lib/ui/rail-session-client-fetch";
 
@@ -53,6 +54,7 @@ export function ExamPanel({
 }) {
   const router = useRouter();
   const { push } = useActionBridge();
+  const idempotency = useIdempotencyKey();
   const copy = ACADEMY_SEN.exam;
   const [choices, setChoices] = useState<Record<string, number>>({});
   const [proof, setProof] = useState<AcademyProofSubmission | null>(null);
@@ -123,7 +125,7 @@ export function ExamPanel({
       `/api/academy/courses/${courseId}/exam`,
       await withRailSession({
         method: "POST",
-        headers: { "content-type": "application/json" },
+        headers: { "content-type": "application/json", ...idempotency.headers() },
         body: JSON.stringify({
           answers,
           sessionToken,
@@ -145,20 +147,23 @@ export function ExamPanel({
     }
     const certificateHash =
       parsed.data.certificate?.certificateHash ?? parsed.data.certificate?.serialKey ?? null;
+    const visaIssued = Boolean(parsed.data.visaStamp?.id);
     setResult({
       passed: parsed.data.passed,
       score: parsed.data.score,
       certificateHash,
-      visaIssued: Boolean(parsed.data.visaStamp?.id),
+      visaIssued,
     });
     if (parsed.data.passed) {
       push({
         title: UX_SEN.bridge.examPassed.title,
         body: UX_SEN.bridge.examPassed.body,
-        href: certificateHash
-          ? `/academy/dogrula/${certificateHash}`
-          : UX_SEN.bridge.examHref,
-        cta: UX_SEN.bridge.examPassed.cta,
+        href: visaIssued
+          ? UX_SEN.bridge.examCareerHref
+          : certificateHash
+            ? `/academy/dogrula/${certificateHash}`
+            : UX_SEN.bridge.examHref,
+        cta: visaIssued ? copy.careerVisa : UX_SEN.bridge.examPassed.cta,
         tone: "emerald",
         ttlMs: 14_000,
       });
@@ -190,11 +195,17 @@ export function ExamPanel({
           holderName={holderName}
           courseTitle={courseTitle}
           instructorName={instructorName}
+          showCareerVisa={false}
           verifyHref={
             result.certificateHash ? `/academy/dogrula/${result.certificateHash}` : UX_SEN.bridge.examHref
           }
         />
         <div className="flex flex-wrap gap-3">
+          {result.visaIssued ? (
+            <LinkButton href={UX_SEN.bridge.examCareerHref} size="sm">
+              {copy.careerVisa}
+            </LinkButton>
+          ) : null}
           <LinkButton
             href={
               result.certificateHash
@@ -202,12 +213,15 @@ export function ExamPanel({
                 : UX_SEN.bridge.examHref
             }
             size="sm"
+            variant={result.visaIssued ? "outline" : "primary"}
           >
             {copy.viewCertificate}
           </LinkButton>
-          <LinkButton href={UX_SEN.bridge.examCareerHref} size="sm" variant="outline">
-            {copy.careerVisa}
-          </LinkButton>
+          {result.visaIssued ? null : (
+            <LinkButton href={UX_SEN.bridge.examCareerHref} size="sm" variant="outline">
+              {copy.careerVisa}
+            </LinkButton>
+          )}
           {onAbandon ? (
             <Button type="button" variant="ghost" size="sm" onClick={onAbandon} className="min-h-11">
               {copy.exitCta}

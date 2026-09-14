@@ -56,34 +56,37 @@ describe("Faz 1 kanonikleştirme yüzeyi", () => {
     expect(existsSync(join(ROOT, "app/api/v1"))).toBe(false);
   });
 
-  it("v1 hop sicili 8 kayıt ve kenar kapısı 1:1 kilitler (PayTR B2C)", () => {
+  it("v1 hop sicili 16 kayıt ve kenar kapısı 1:1 kilitler (API-First yazmalar açık)", () => {
     expect(RAIL_V1_HOPS.map((hop) => hop.id)).toEqual(RAIL_V1_HOP_GATES.map((hop) => hop.id));
-    expect(RAIL_V1_HOPS).toHaveLength(8);
+    expect(RAIL_V1_HOPS).toHaveLength(16);
     expect(RAIL_V1_HOPS.map((hop) => hop.id)).toEqual([
       "health",
       "academy-certificate",
       "academy-pulse",
       "academy-purchase",
+      "academy-lock",
+      "academy-curriculum",
+      "academy-curriculum-read",
+      "academy-exam",
+      "academy-exam-read",
       "auth-session",
       "wallet-strip",
+      "wallet-top-up",
       "career-pulse",
       "career-visas",
+      "career-portfolio",
+      "profile-patch",
     ]);
-    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(9);
-    // Donuk Dron istemci allowlist'i durur; server sicili freelancer basmaz.
+    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(16);
     expect(RAIL_V1_HOPS.some((hop) => hop.id === "freelancer-refund")).toBe(false);
     expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).not.toContain("refund");
-    expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).not.toContain("/api/v1/academy");
-    expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).not.toContain("/api/v1/career");
-    expect(RAIL_V1_DRON_FORBIDDEN_HOP_IDS).toEqual(["academy-purchase"]);
-    expect(isRailV1HopForbiddenOnDron("academy-purchase")).toBe(true);
-    expect(RAIL_V1_HOPS.find((hop) => hop.id === "academy-purchase")?.nativeStore).toBe("forbidden");
-    expect(readSrc("app/api/academy/courses/[id]/purchase/route.ts")).toContain(
-      "isV1CookieSessionBlocked",
-    );
-    expect(readSrc("app/api/academy/courses/[id]/purchase/route.ts")).toContain(
-      "ACADEMY_PURCHASE_DRON_FORBIDDEN",
-    );
+    expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).toContain("/api/v1/academy");
+    expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).toContain("/api/v1/career");
+    expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).not.toContain("/api/v1/freelancer");
+    expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).toContain("/purchase");
+    expect(RAIL_V1_DRON_FORBIDDEN_HOP_IDS).toEqual([]);
+    expect(isRailV1HopForbiddenOnDron("academy-purchase")).toBe(false);
+    expect(RAIL_V1_HOPS.find((hop) => hop.id === "academy-purchase")?.nativeStore).not.toBe("forbidden");
     expect(readSrc("lib/kernel/http/v1-hop-gate.ts")).toContain("RAIL_V1_HOP_DRON_FORBIDDEN");
     expect(readSrc("lib/kernel/http/v1-hop-gate.ts")).toContain("v1-hops-meta");
     expect(readSrc("lib/kernel/http/v1-hop-gate.ts")).not.toContain("v1PathTemplate: \"/api/v1/health\"");
@@ -165,10 +168,12 @@ describe("Faz 1 kanonikleştirme yüzeyi", () => {
     expect(pkg.scripts["verify:prebuild"]).toContain("verify:v1-contract-artifacts");
 
     const contract = readSrc("apps/rail-is/src/contract/v1.ts");
-    expect(contract).toContain('from "../generated/v1"');
+    expect(contract).toContain('from "@yetkin/kernel/generated/v1"');
     expect(contract).not.toMatch(/export type RailV1Job = \{/);
+    expect(existsSync(join(ROOT, "packages/kernel/src/generated/v1.ts"))).toBe(true);
     expect(existsSync(join(ROOT, "apps/rail-is/src/generated/v1.ts"))).toBe(true);
     expect(existsSync(join(ROOT, "lib/kernel/http/openapi-v1.json"))).toBe(true);
+    expect(readSrc("packages/kernel/src/generated/v1.ts")).toContain("AUTO-GENERATED");
     expect(readSrc("apps/rail-is/src/generated/v1.ts")).toContain("AUTO-GENERATED");
     expect(readSrc("lib/kernel/http/openapi-v1.json")).toContain("sha256-content-digest");
   });

@@ -35,6 +35,7 @@ describe("TTS model skip preventer", () => {
     expect(applyAcademyCueDisplayPhonetics("Pre-Mortem")).toBe("Pri mortem");
     expect(applyAcademyCueDisplayPhonetics("SWOT")).toBe("Svot");
     expect(applyAcademyCueDisplayPhonetics("Amazon")).toBe("Ama zon");
+    expect(applyAcademyCueDisplayPhonetics("A1 hücresi")).toBe("A bir hücresi");
     expect(applyAcademyCueDisplayPhonetics("H1")).toBe("He bir");
     expect(applyAcademyCueDisplayPhonetics("Meta")).toBe("Me ta");
     expect(applyAcademyCueDisplayPhonetics("AIDA")).toBe("Ayda");

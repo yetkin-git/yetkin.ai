@@ -10,7 +10,11 @@
     "skipLibCheck": true,
     "noUncheckedIndexedAccess": true,
     "isolatedModules": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "paths": {
+      "@yetkin/kernel": ["../../packages/kernel/src/index.ts"],
+      "@yetkin/kernel/*": ["../../packages/kernel/src/*"]
+    }
   },
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["**/*.ts", "**/*.tsx", "../../packages/kernel/src/**/*.ts"]
 }

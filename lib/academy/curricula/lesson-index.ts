@@ -6,10 +6,10 @@
 
 export const CURRICULUM_LESSON_COUNT_BY_SLUG: Readonly<Record<string, number>> = {
   "01_office_ai": 6,
-  "02_ecommerce_ai": 6,
-  "03_social_media_ai": 6,
-  "04_chatbot_nocode": 6,
-  "05_prompt_practice": 6,
+  "02_ecommerce_ai": 0,
+  "03_social_media_ai": 0,
+  "04_chatbot_nocode": 0,
+  "05_prompt_practice": 0,
 };
 
 export function curriculumLessonCountForSlug(slug: string): number {

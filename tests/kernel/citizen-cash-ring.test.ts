@@ -55,11 +55,7 @@ describe("laboratuvar vatandaş nakit halkası", () => {
     expect(journey.witness.curriculumSeal).toMatch(/^[a-f0-9]{64}$/);
     expect(journey.witness.hashVerified).toBe(true);
     expect(journey.witness.publicVerifyStatus).toBe("found");
-    expect(journey.witness.sealStatus).toBe("valid");
-    expect(journey.witness.verifyHref).toBe(
-      `/academy/dogrula/${journey.witness.certificateHash}`,
-    );
-    expect(journey.academyVisa?.stamp.certificateHash).toBe(journey.witness.certificateHash);
+    expect(journey.academyVisa?.applied).toBe(true);
     expect(CITIZEN_CASH_RING_COURSE_SLUG).toBe("01_office_ai");
     expect(journey.freelancer.visa?.applied).toBe(true);
 

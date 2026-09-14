@@ -1,39 +1,27 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { preload } from "react-dom";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
 import { BrandIcon } from "@/components/ui/brand-icon";
-import { CourseCoverImage } from "@/components/academy/course-cover-image";
 import { HomeAccountNav } from "@/components/public/home-account-nav";
-import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
-import {
-  ACADEMY_HOME_CINEMA_COVER_SIZES,
-  ACADEMY_HOME_LCP_COVER_AVIF,
-  ACADEMY_HOME_LCP_COVER_AVIF_SRCSET,
-  academyCourseCoverPath,
-} from "@/lib/academy/course-cover";
-import { academyCourseTitleBySlug } from "@/lib/academy/course-titles";
-import type { Route } from "next";
+import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
+import { JsonLd } from "@/components/seo/json-ld";
+import { LandingFaq } from "@/components/seo/landing-faq";
+import { faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
+import { HOME_LANDING_FAQ } from "@/lib/copy/sem-keywords";
 
 export const metadata: Metadata = pageMetadata(PAGE_SEO.home);
 
 export default function PublicHomePage() {
   const copy = SEN_VOICE.public.home;
-  preload(ACADEMY_HOME_LCP_COVER_AVIF, {
-    as: "image",
-    type: "image/avif",
-    fetchPriority: "high",
-    imageSrcSet: ACADEMY_HOME_LCP_COVER_AVIF_SRCSET,
-    imageSizes: ACADEMY_HOME_CINEMA_COVER_SIZES,
-  });
   return (
     <main className="relative flex min-h-dvh flex-col overflow-x-hidden">
+      <JsonLd data={jsonLdDocument([faqPageJsonLd(HOME_LANDING_FAQ)])} />
       <header className="relative flex shrink-0 items-center gap-2.5 px-6 pt-4">
-        <BrandIcon className="h-8 w-8" />
+        <BrandIcon width={32} height={32} className="h-8 w-8" />
         <p className="text-sm font-semibold tracking-tight text-[var(--foreground)]">{YETKIN_BRAND}</p>
         <HomeAccountNav />
       </header>
@@ -61,36 +49,23 @@ export default function PublicHomePage() {
             </ul>
           </Card>
         </div>
-        <section className="relative mt-8 min-h-0" aria-labelledby="home-cinema-kicker">
-          <p
-            id="home-cinema-kicker"
+        <section className="relative mt-8 min-h-0" aria-labelledby="home-cinema-heading">
+          <h2
+            id="home-cinema-heading"
             className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]"
           >
             {copy.cinemaKicker}
-          </p>
+          </h2>
           <p className="mb-3 text-sm text-[var(--muted)]">{copy.cinemaHint}</p>
-          <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
-            {ACADEMY_GROWTH_SKU_SLUGS.map((slug, index) => (
-              <li key={slug}>
-                <Link
-                  aria-label={academyCourseTitleBySlug(slug) ?? slug}
-                  href={`/academy/${slug}` as Route}
-                  className="group block overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--safir-soft)] focus-visible:ring-offset-2"
-                >
-                  <CourseCoverImage
-                    src={academyCourseCoverPath(slug)}
-                    alt={academyCourseTitleBySlug(slug) ?? slug}
-                    eager={index === 0}
-                    highPriority={index === 0}
-                    sizes={ACADEMY_HOME_CINEMA_COVER_SIZES}
-                    className="aspect-[16/9] h-auto w-full object-cover transition duration-200 group-hover:scale-[1.03]"
-                  />
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <Card variant="default" className="border-dashed p-5" data-academy-production-band="">
+            <p className="text-base font-semibold text-[var(--foreground)]">{ACADEMY_SEN.catalog.empty}</p>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--muted)]">{copy.cinemaHint}</p>
+            <div className="mt-4">
+              <LinkButton href="/academy">{copy.academyCta}</LinkButton>
+            </div>
+          </Card>
         </section>
-        <section className="relative mt-6 min-h-0">
+        <section className="relative mt-6 min-h-0" aria-labelledby="home-rooms-heading">
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
             {copy.roomsKicker}
           </p>
@@ -99,11 +74,17 @@ export default function PublicHomePage() {
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">
                 {copy.hero.kicker}
               </p>
-              <p className="mt-1.5 text-lg font-semibold text-[var(--foreground)]">{copy.hero.title}</p>
+              <h2
+                id="home-rooms-heading"
+                className="mt-1.5 text-lg font-semibold text-[var(--foreground)]"
+              >
+                {copy.hero.title}
+              </h2>
               <p className="mt-1 text-sm leading-6">{copy.hero.body}</p>
             </Card>
           </Link>
         </section>
+        <LandingFaq heading={copy.faqHeading} items={HOME_LANDING_FAQ} />
       </div>
     </main>
   );

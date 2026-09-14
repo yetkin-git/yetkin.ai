@@ -619,75 +619,110 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0;
+  min-height: 0;
+  height: auto;
+  max-height: calc(100dvh - 8.5rem);
+  overflow: hidden;
+  padding-bottom: 0;
 }
 
-.academy-player-karaoke.academy-player-widescreen {
-  flex: 0 0 auto;
+.academy-player-karaoke.academy-cinema-stage {
+  aspect-ratio: auto;
+  height: auto;
+  max-height: calc(100dvh - 8.5rem);
+  overflow: hidden;
+}
+
+.academy-player-shell[data-academy-player-layout="document"] .academy-player-karaoke .academy-player-widescreen,
+.academy-player-karaoke .academy-player-widescreen,
+.academy-player-karaoke-stage {
+  position: relative;
+  flex: 0 1 auto;
   width: 100%;
-  max-height: none;
+  min-height: 0;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  max-height: 100%;
 }
 
 .academy-player-karaoke .academy-teleprompter--overlay {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 2.75rem;
-  z-index: 4;
-  box-sizing: border-box;
-  flex: none;
-  height: auto;
-  min-height: 0;
-  max-height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding-block: 0.7rem;
-  pointer-events: auto;
-  background: linear-gradient(
-    180deg,
-    transparent,
-    color-mix(in srgb, #070b14 78%, transparent) 36%,
-    color-mix(in srgb, #070b14 94%, transparent) 100%
-  );
-  mask-image: none;
-  -webkit-mask-image: none;
-}
-
-.academy-player-karaoke .academy-teleprompter--overlay .academy-teleprompter-track {
-  overflow: visible;
-  padding: 1.45rem 1.5rem;
-}
-
-.academy-player-karaoke .academy-teleprompter--overlay .academy-teleprompter-cue {
-  max-height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding-block: 0.22em;
-  font-size: clamp(0.92rem, 1.55vw, 1.12rem);
-  line-height: 1.62;
-  text-align: center;
-  text-shadow: 0 1px 12px rgba(12, 10, 8, 0.45);
-}
-
-@media (max-width: 640px) {
-  .academy-player-karaoke .academy-teleprompter--overlay {
-    max-height: 100%;
-    padding-block: 0.8rem;
-  }
-
-  .academy-player-karaoke .academy-teleprompter--overlay .academy-teleprompter-track {
-    padding: 1.3rem 1.1rem;
-  }
-
-  .academy-player-karaoke .academy-teleprompter--overlay .academy-teleprompter-cue {
-    padding-block: 0.28em;
-    line-height: 1.58;
-  }
+  display: none;
 }
 
 .academy-player-karaoke .academy-player-audio-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 8;
+  flex: 0 0 auto;
+  margin-top: 0;
+  padding-bottom: max(0.2rem, env(safe-area-inset-bottom, 0px));
+}
+
+.academy-player-karaoke-strip {
   position: relative;
-  z-index: 5;
-  margin-top: auto;
+  z-index: 6;
+  display: flex;
+  min-height: 3.45rem;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.18rem;
+  overflow: hidden;
+  padding: 0.48rem 0.95rem 0.38rem;
+  border-top: 1px solid rgba(247, 241, 227, 0.08);
+  background: linear-gradient(180deg, rgba(12, 16, 28, 0.55), #070b14 72%);
+}
+
+.academy-player-karaoke-line {
+  margin: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  text-align: center;
+  text-wrap: pretty;
+  font-size: clamp(0.92rem, 1.65vw, 1.12rem);
+  font-weight: 450;
+  letter-spacing: 0.01em;
+  line-height: 1.45;
+  white-space: nowrap;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+
+.academy-player-karaoke-line::-webkit-scrollbar {
+  display: none;
+}
+
+.academy-player-karaoke-word {
+  color: rgba(247, 241, 227, 0.38);
+  transition: color 0.14s ease, text-shadow 0.14s ease, opacity 0.14s ease;
+}
+
+.academy-player-karaoke-word[data-state="past"] {
+  color: rgba(247, 241, 227, 0.7);
+}
+
+.academy-player-karaoke-word[data-state="active"] {
+  color: #fff7e6;
+  font-weight: 650;
+  text-shadow:
+    0 0 22px rgba(212, 175, 122, 0.55),
+    0 1px 0 rgba(12, 10, 8, 0.35);
+}
+
+.academy-player-karaoke-word[data-state="future"] {
+  color: rgba(247, 241, 227, 0.42);
+}
+
+.academy-player-karaoke-preview {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  color: rgba(247, 241, 227, 0.34);
 }
 
 .academy-player-visual-stage {
@@ -719,15 +754,103 @@ body {
   background: #0c0a08;
 }
 
+.academy-player-intro {
+  position: absolute;
+  z-index: 6;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(48, 180, 255, 0.18), transparent 58%),
+    linear-gradient(180deg, rgba(8, 10, 16, 0.35), rgba(8, 10, 16, 0.72));
+  animation: academy-intro-bloom 1.8s ease-out both;
+}
+
+.academy-player-intro-logo {
+  width: 5.5rem;
+  height: 5.5rem;
+  filter: drop-shadow(0 12px 28px rgba(48, 180, 255, 0.35));
+}
+
+.academy-player-intro-kicker {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(226, 236, 248, 0.72);
+}
+
+.academy-player-intro-title {
+  margin: 0;
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #f4fbff;
+  text-shadow: 0 0 28px rgba(80, 200, 255, 0.45);
+}
+
+@keyframes academy-intro-bloom {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.academy-player-intro--outro {
+  animation:
+    academy-intro-bloom 0.9s ease-out both,
+    academy-outro-peak 3s ease-in-out 0s both;
+}
+
+@keyframes academy-outro-peak {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 18px rgba(80, 200, 255, 0.18));
+  }
+  45% {
+    filter: drop-shadow(0 0 34px rgba(124, 245, 200, 0.42));
+  }
+}
+
+.academy-player-outro-summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 0.15rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.academy-player-outro-summary li {
+  border-radius: 999px;
+  border: 1px solid rgba(124, 245, 200, 0.35);
+  background: rgba(8, 18, 24, 0.55);
+  padding: 0.28rem 0.7rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #e8fff6;
+}
+
 .academy-player-eye-backdrop {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.22;
-  filter: saturate(0.82) contrast(1.04) brightness(0.72);
-  transform: scale(1.04);
+  object-position: 42% 46%;
+  opacity: 0.28;
+  filter: saturate(0.9) contrast(1.04) brightness(0.78);
+  transform: scale(1.08);
 }
 
 .academy-player-eye-plate {
@@ -760,21 +883,729 @@ body {
 .academy-player-media-card {
   position: absolute;
   z-index: 2;
-  left: 50%;
-  top: 11%;
-  width: min(72%, 38rem);
-  aspect-ratio: 16 / 9;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
-  border-radius: 0.85rem;
-  transform: translateX(-50%);
-  box-shadow:
-    0 0 0 1px rgba(212, 175, 122, 0.28),
-    0 22px 48px rgba(12, 10, 8, 0.42);
+  border-radius: 0;
+  box-shadow: none;
   animation: academy-eye-scene-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .academy-player-media-card .academy-player-eye-plate {
   position: absolute;
+}
+
+.academy-player-waiter {
+  position: absolute;
+  z-index: 2;
+  inset: 3.15rem 0.7rem 3.55rem;
+  overflow: hidden;
+  border-radius: 0.55rem;
+  box-shadow: 0 18px 48px rgba(7, 11, 20, 0.42);
+  animation: academy-eye-scene-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.academy-player-compare {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.55rem;
+  padding: 0.12rem;
+  background: rgba(8, 10, 16, 0.42);
+  animation: academy-compare-in 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.academy-player-compare-pane {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 0.48rem;
+}
+
+.academy-player-compare-pane--before {
+  border: 1.5px solid rgba(232, 148, 72, 0.78);
+  background: rgba(72, 36, 8, 0.42);
+  box-shadow:
+    0 0 0 1px rgba(196, 110, 42, 0.28),
+    0 12px 28px rgba(72, 36, 8, 0.28);
+}
+
+.academy-player-compare-pane--after {
+  border: 1.5px solid rgba(72, 228, 196, 0.88);
+  background: rgba(8, 36, 42, 0.42);
+  box-shadow:
+    0 0 18px rgba(48, 180, 255, 0.38),
+    0 0 0 1px rgba(33, 115, 70, 0.42),
+    0 12px 28px rgba(8, 28, 36, 0.32);
+}
+
+.academy-player-compare-label {
+  position: relative;
+  z-index: 3;
+  top: auto;
+  left: auto;
+  align-self: flex-start;
+  margin: 0.28rem 0.38rem 0.22rem;
+  pointer-events: none;
+  border-radius: 999px;
+  padding: 0.18rem 0.55rem;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: #fffdf8;
+  backdrop-filter: blur(10px) saturate(1.08);
+}
+
+.academy-player-compare-pane .academy-excel-desk {
+  min-height: 0;
+  flex: 1 1 0;
+}
+
+.academy-player-compare-pane--before .academy-player-compare-label {
+  border: 1px solid rgba(232, 148, 72, 0.7);
+  background: rgba(92, 48, 12, 0.82);
+}
+
+.academy-player-compare-pane--after .academy-player-compare-label {
+  border: 1px solid rgba(72, 228, 196, 0.7);
+  background: rgba(8, 42, 48, 0.84);
+}
+
+.academy-player-punchcard-dock {
+  position: absolute;
+  z-index: 4;
+  top: 0.55rem;
+  right: 0.7rem;
+  left: auto;
+  max-width: min(48%, 16.5rem);
+  pointer-events: none;
+}
+
+.academy-player-punchcard-scrim {
+  display: none;
+}
+
+.academy-player-punchcard {
+  position: relative;
+  z-index: 4;
+  top: auto;
+  left: auto;
+  display: inline-block;
+  max-width: 100%;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--safir) 58%, transparent);
+  background: rgba(7, 11, 20, 0.82);
+  padding: 0.42rem 0.95rem;
+  font-size: clamp(0.72rem, 1.35vw, 0.92rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: #fffdf8;
+  backdrop-filter: blur(14px) saturate(1.08);
+  box-shadow: 0 10px 28px rgba(7, 11, 20, 0.32);
+}
+
+.academy-excel-desk {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background: #c8c8c8;
+  padding: 0.28rem 0.32rem 0.3rem;
+}
+
+.academy-excel-desk--live {
+  overflow: hidden;
+}
+
+.academy-excel-desk--live .academy-excel-win {
+  transform: scale(var(--academy-excel-focus-scale, 1));
+  transform-origin: var(--academy-excel-focus-origin, 12% 22%);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.academy-excel-desk--focus-zoom {
+  --academy-excel-focus-scale: 1.2;
+  --academy-excel-focus-origin: 12% 22%;
+}
+
+.academy-excel-desk--focus-zoom .academy-excel-win {
+  will-change: transform;
+}
+
+.academy-excel-desk--zoom .academy-excel-cell--a1 {
+  font-size: clamp(1.05rem, 2.1vw, 1.55rem);
+  font-weight: 800;
+  min-height: 2.4rem;
+}
+
+.academy-excel-win {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #8a8a8a;
+}
+
+.academy-excel-title {
+  display: flex;
+  height: 1.7rem;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0 0.6rem;
+  background: #217346;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.academy-excel-title i {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 2px;
+  background: #fff;
+}
+
+.academy-excel-title span {
+  font-weight: 500;
+  opacity: 0.92;
+}
+
+.academy-excel-ribbon {
+  display: flex;
+  height: 1.65rem;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.85rem;
+  overflow: hidden;
+  border-bottom: 1px solid #d0d0d0;
+  background: #f3f3f3;
+  padding: 0 0.7rem;
+  font-size: 0.68rem;
+  color: #333;
+}
+
+.academy-excel-ribbon .on {
+  border-bottom: 2px solid #217346;
+  padding-bottom: 0.2rem;
+  font-weight: 700;
+  color: #217346;
+}
+
+.academy-excel-fx {
+  display: grid;
+  height: 1.55rem;
+  flex-shrink: 0;
+  grid-template-columns: 4.4rem 1.7rem minmax(0, 1fr);
+  border-bottom: 1px solid #d0d0d0;
+  font-size: 0.68rem;
+}
+
+.academy-excel-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #d0d0d0;
+  background: #fff;
+  font-weight: 700;
+}
+
+.academy-excel-fx-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #d0d0d0;
+  font-style: italic;
+  color: #666;
+}
+
+.academy-excel-fx-value {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  overflow: hidden;
+  padding: 0 0.5rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.academy-excel-body {
+  display: grid;
+  min-height: 0;
+  flex: 1 1 0;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.academy-excel-body--copilot {
+  grid-template-columns: minmax(0, 1.7fr) minmax(10.5rem, 0.42fr);
+}
+
+.academy-excel-grid-wrap {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: #fff;
+}
+
+.academy-excel-grid-fit {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-origin: top left;
+}
+
+.academy-excel-mouse-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.academy-excel-mouse-select {
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px solid #217346;
+  background: rgba(33, 115, 70, 0.08);
+  box-shadow: 0 0 0 1px rgba(33, 115, 70, 0.35);
+  pointer-events: none;
+}
+
+.academy-excel-desk[data-academy-excel-selection="merge"] .academy-excel-mouse-select {
+  display: none;
+}
+
+.academy-excel-mouse {
+  position: absolute;
+  width: 1.75rem;
+  height: 1.75rem;
+  transform: translate(-12%, -10%);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+}
+
+.academy-excel-mouse-pointer {
+  display: block;
+  overflow: visible;
+}
+
+.academy-excel-mouse-ripple {
+  position: absolute;
+  left: 0.12rem;
+  top: 0.12rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  border: 2px solid rgba(33, 115, 70, 0.85);
+  opacity: 0;
+}
+
+.academy-excel-mouse--click .academy-excel-mouse-ripple {
+  animation: academy-excel-mouse-click 0.42s ease-out;
+}
+
+@keyframes academy-excel-mouse-click {
+  0% {
+    opacity: 0.95;
+    transform: scale(0.35);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+
+.academy-excel-col--active,
+.academy-excel-row--active {
+  background: #cfe6d7;
+  color: #1b5c38;
+  box-shadow: inset 0 -2px 0 #217346;
+}
+
+.academy-excel-row--active {
+  box-shadow: inset -2px 0 0 #217346;
+}
+
+.academy-excel-grid {
+  width: max-content;
+  min-width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+  font-size: clamp(0.62rem, 1.05vw, 0.82rem);
+}
+
+.academy-excel-grid th,
+.academy-excel-grid td {
+  box-sizing: border-box;
+  height: 1.55rem;
+  overflow: hidden;
+  border: 1px solid #d0d7de;
+  padding: 0.12rem 0.35rem;
+  text-align: left;
+  white-space: nowrap;
+  width: auto;
+  max-width: none;
+  text-overflow: clip;
+}
+
+.academy-excel-grid .academy-excel-col-gutter,
+.academy-excel-grid .academy-excel-corner,
+.academy-excel-grid .academy-excel-row {
+  width: 2.1rem;
+  min-width: 2.1rem;
+  max-width: 2.1rem;
+}
+
+.academy-excel-col-data {
+  width: auto;
+}
+
+.academy-excel-desk--before .academy-excel-grid,
+.academy-excel-desk--after .academy-excel-grid,
+.academy-player-compare-pane .academy-excel-grid {
+  font-size: clamp(0.42rem, 0.55vw + 0.22rem, 0.52rem);
+}
+
+.academy-excel-desk--before .academy-excel-grid th,
+.academy-excel-desk--before .academy-excel-grid td,
+.academy-excel-desk--after .academy-excel-grid th,
+.academy-excel-desk--after .academy-excel-grid td,
+.academy-player-compare-pane .academy-excel-grid th,
+.academy-player-compare-pane .academy-excel-grid td {
+  padding: 0.06rem 0.18rem;
+  height: 1.28rem;
+}
+
+.academy-excel-grid-fit > .academy-excel-active-cell-border {
+  position: absolute;
+  z-index: 3;
+  box-sizing: border-box;
+  pointer-events: none;
+  border: 2px solid #217346;
+  background: rgba(33, 115, 70, 0.07);
+  box-shadow: 0 0 0 1px rgba(33, 115, 70, 0.35);
+}
+
+.academy-excel-grid-wrap:has(.academy-excel-active-cell-border) .academy-excel-mouse-select {
+  display: none;
+}
+
+.academy-excel-grid-wrap:has(.academy-excel-active-cell-border) .academy-excel-cell--a1 {
+  outline: none;
+  box-shadow: none;
+}
+
+.academy-excel-grid-wrap:has(.academy-excel-active-cell-border) .academy-excel-cell--merge.academy-excel-cell--a1::after,
+.academy-excel-grid-wrap:has(.academy-excel-active-cell-border) .academy-excel-cell--merge.academy-excel-selection-box::after,
+.academy-excel-grid-wrap:has(.academy-excel-active-cell-border) .academy-excel-cell--merge.academy-excel-active-cell-border::after {
+  content: none;
+}
+
+.academy-excel-desk--after .academy-excel-grid-fit > .academy-excel-active-cell-border {
+  border-color: #3ee0c8;
+  box-shadow:
+    0 0 12px rgba(80, 255, 196, 0.55),
+    0 0 14px rgba(48, 180, 255, 0.55);
+  animation: academy-a1-glow 1.8s ease-in-out infinite alternate;
+}
+
+.academy-excel-corner {
+  background: #f2f2f2;
+}
+
+.academy-excel-col {
+  background: #f2f2f2;
+  text-align: center;
+  font-weight: 600;
+  color: #444;
+}
+
+.academy-excel-row {
+  width: 2.1rem;
+  background: #f2f2f2;
+  text-align: center;
+  font-weight: 600;
+  color: #666;
+}
+
+.academy-excel-cell--head {
+  background: #eef6f1;
+  font-weight: 700;
+}
+
+.academy-excel-cell--empty {
+  background: #fafafa;
+}
+
+.academy-excel-cell--merge {
+  background: #fff2cc;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.academy-excel-cell--foot {
+  background: #e2efda;
+  font-weight: 800;
+}
+
+.academy-excel-cell--a1 {
+  background: #e2efda !important;
+  box-shadow: inset 0 0 0 1px #217346;
+  outline: 2px solid #217346;
+  outline-offset: -2px;
+}
+
+.academy-excel-cell--merge.academy-excel-cell--a1,
+.academy-excel-cell--merge.academy-excel-selection-box,
+.academy-excel-cell--merge.academy-excel-active-cell-border {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  outline: none;
+  box-shadow: none;
+}
+
+.academy-excel-cell--merge.academy-excel-cell--a1::after,
+.academy-excel-cell--merge.academy-excel-selection-box::after,
+.academy-excel-cell--merge.academy-excel-active-cell-border::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid #217346;
+  box-shadow: inset 0 0 0 1px rgba(33, 115, 70, 0.35);
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.academy-excel-desk--before {
+  background: #c4b6a4;
+  filter: saturate(0.78) contrast(0.94) brightness(0.96);
+}
+
+.academy-excel-desk--before .academy-excel-win {
+  transform: rotate(-0.28deg);
+  transform-origin: 40% 30%;
+}
+
+.academy-excel-desk--after {
+  background: #b8c8c4;
+}
+
+.academy-excel-desk--after .academy-excel-cell--a1 {
+  background: #d4f7ea !important;
+  box-shadow:
+    inset 0 0 12px rgba(80, 255, 196, 0.55),
+    0 0 14px rgba(48, 180, 255, 0.55);
+  outline: 2px solid #3ee0c8;
+  animation: academy-a1-glow 1.8s ease-in-out infinite alternate;
+}
+
+.academy-excel-desk--after .academy-excel-grid-wrap:has(.academy-excel-active-cell-border) .academy-excel-cell--a1 {
+  outline: none;
+  box-shadow: none;
+  animation: none;
+}
+
+.academy-excel-copilot {
+  overflow: auto;
+  border-left: 1px solid #d0d0d0;
+  background: #f7faf8;
+  padding: 0.55rem 0.65rem;
+  font-size: 0.68rem;
+  line-height: 1.35;
+}
+
+.academy-excel-copilot header {
+  margin-bottom: 0.45rem;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #217346;
+}
+
+.academy-excel-ai-brands {
+  margin: -0.15rem 0 0.45rem;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #3d6b54;
+}
+
+.academy-excel-transfer-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.28rem;
+  margin: 0 0 0.45rem;
+  padding: 0;
+  list-style: none;
+}
+
+.academy-excel-transfer-tags li {
+  border-radius: 999px;
+  border: 1px solid #8fdfb8;
+  background: #e8f7ee;
+  padding: 0.12rem 0.42rem;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: #14532d;
+}
+
+.academy-excel-bubble {
+  margin-bottom: 0.4rem;
+  border-radius: 0.55rem;
+  padding: 0.4rem 0.5rem;
+}
+
+.academy-excel-bubble--user {
+  background: #deefe4;
+}
+
+.academy-excel-bubble--bot {
+  border: 1px solid #d0d7de;
+  background: #fff;
+}
+
+.academy-excel-bubble p {
+  margin: 0 0 0.28rem;
+}
+
+.academy-excel-tabs {
+  display: flex;
+  height: 1.45rem;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.4rem;
+  border-top: 1px solid #d0d0d0;
+  background: #f3f3f3;
+  padding: 0 0.55rem;
+  font-size: 0.65rem;
+}
+
+.academy-excel-tabs .on {
+  border: 1px solid #d0d0d0;
+  border-bottom: none;
+  background: #fff;
+  padding: 0.12rem 0.5rem;
+  font-weight: 700;
+  color: #217346;
+}
+
+.academy-excel-tabs i {
+  padding: 0 0.35rem;
+  font-style: normal;
+  font-weight: 700;
+  color: #217346;
+}
+
+.academy-excel-tabs em {
+  margin-left: auto;
+  font-style: normal;
+  color: #666;
+}
+
+.academy-excel-note {
+  flex-shrink: 0;
+  border-top: 1px dashed #d0d0d0;
+  background: #fbfaf6;
+  padding: 0.22rem 0.6rem;
+  font-size: 0.62rem;
+  line-height: 1.35;
+  color: #6b5d4d;
+}
+
+.academy-excel-checklist {
+  position: absolute;
+  z-index: 5;
+  right: 0.6rem;
+  bottom: 2.1rem;
+  width: min(15.5rem, 44%);
+  border-radius: 0.6rem;
+  border: 1px solid rgba(33, 115, 70, 0.45);
+  background: rgba(7, 20, 14, 0.88);
+  padding: 0.5rem 0.6rem 0.55rem;
+  box-shadow: 0 12px 28px rgba(7, 11, 20, 0.35);
+  backdrop-filter: blur(10px) saturate(1.1);
+  animation: academy-eye-scene-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.academy-excel-checklist-title {
+  margin: 0 0 0.35rem;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7cf5c8;
+}
+
+.academy-excel-checklist ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+.academy-excel-checklist li {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #f2fbf6;
+}
+
+.academy-excel-checklist li span {
+  display: inline-flex;
+  height: 1.15rem;
+  width: 1.15rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #217346;
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
+@media (max-width: 640px) {
+  .academy-excel-checklist {
+    right: 0.4rem;
+    bottom: 1.9rem;
+    width: min(12.5rem, 62%);
+    padding: 0.4rem 0.5rem 0.45rem;
+  }
+
+  .academy-excel-checklist li {
+    font-size: 0.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .academy-excel-checklist {
+    animation: none;
+  }
 }
 
 .academy-player-teleprompter {
@@ -940,20 +1771,87 @@ body {
 @keyframes academy-eye-scene-in {
   from {
     opacity: 0;
-    transform: translateX(-50%) scale(0.98) translate3d(0, 1.4%, 0);
+    transform: scale(1.03);
     filter: saturate(0.86) blur(8px);
   }
   to {
     opacity: 1;
-    transform: translateX(-50%) scale(1) translate3d(0, 0, 0);
+    transform: none;
     filter: none;
+  }
+}
+
+@keyframes academy-compare-in {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+    filter: saturate(0.88) blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes academy-a1-glow {
+  from {
+    box-shadow:
+      inset 0 0 8px rgba(80, 255, 196, 0.35),
+      0 0 8px rgba(48, 180, 255, 0.32);
+  }
+  to {
+    box-shadow:
+      inset 0 0 16px rgba(80, 255, 196, 0.7),
+      0 0 18px rgba(48, 180, 255, 0.7);
   }
 }
 
 @media (max-width: 640px) {
   .academy-player-media-card {
-    top: 9%;
-    width: min(88%, 22rem);
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .academy-player-waiter {
+    inset: 2.65rem 0.4rem 3.35rem;
+  }
+
+  .academy-player-compare {
+    gap: 0.32rem;
+  }
+
+  .academy-player-compare-label {
+    font-size: 0.5rem;
+    letter-spacing: 0.05em;
+    padding: 0.14rem 0.4rem;
+  }
+
+  .academy-player-punchcard-dock {
+    top: 0.4rem;
+    right: 0.4rem;
+    left: auto;
+    max-width: min(62%, 14rem);
+  }
+
+  .academy-player-punchcard {
+    top: auto;
+    left: auto;
+    right: auto;
+    max-width: 100%;
+    padding: 0.36rem 0.75rem;
+    font-size: clamp(0.66rem, 3.1vw, 0.82rem);
+    letter-spacing: 0.1em;
+  }
+
+  .academy-player-karaoke-strip {
+    min-height: 3.2rem;
+    padding: 0.4rem 0.7rem 0.32rem;
+  }
+
+  .academy-player-karaoke-line {
+    font-size: clamp(0.86rem, 3.6vw, 1.02rem);
   }
 
   .academy-player-teleprompter {
@@ -977,7 +1875,13 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .academy-player-eye-plate[data-motion="punch"],
-  .academy-player-media-card {
+  .academy-player-media-card,
+  .academy-player-waiter,
+  .academy-player-compare,
+  .academy-player-intro,
+  .academy-player-intro--outro,
+  .academy-excel-desk--after .academy-excel-cell--a1,
+  .academy-excel-mouse--click .academy-excel-mouse-ripple {
     animation: none;
   }
 
@@ -986,8 +1890,16 @@ body {
   }
 
   .academy-player-teleprompter,
-  .academy-player-teleprompter-line {
+  .academy-player-teleprompter-line,
+  .academy-player-karaoke-word,
+  .academy-excel-desk--live .academy-excel-win {
     transition: none;
+  }
+
+  .academy-excel-desk--live .academy-excel-win,
+  .academy-excel-desk--focus-zoom .academy-excel-win {
+    transform: none;
+    will-change: auto;
   }
 }
 

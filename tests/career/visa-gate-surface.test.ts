@@ -12,7 +12,7 @@ describe("kariyer vize kapısı — yüzey mühürü", () => {
   it("visa-gate listinge akademi damgası ister; onboarding slug null iken özel kapı yolu yok", () => {
     const gate = readSrc("lib/career/visa-gate.ts");
     const scope = readSrc("lib/career/listing-visa-scope.ts");
-    const titles = readSrc("lib/kernel/catalog-ids/course-slugs.ts");
+    const titles = readSrc("packages/kernel/src/catalog-ids/course-slugs.ts");
     expect(gate).toContain("LISTING_ACCESS_VISA_KIND");
     expect(gate).toContain("ACADEMY_CERTIFICATE");
     expect(gate).toContain("assertAcademyCareerVisaForListing");

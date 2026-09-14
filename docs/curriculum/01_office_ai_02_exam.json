@@ -1,0 +1,39 @@
+{
+  "lessonKey": "01_office_ai-2",
+  "passScore": 70,
+  "questions": [
+    {
+      "id": "q_off_l2_1",
+      "prompt": "Yönetim kurulu toplantısına beş dakika kala, on sayfalık operasyonel veri dökümünden yöneticilerin hızla karar almasını sağlayacak üç maddelik bir özet hazırlanması gerekmektedir. Bu metnin en yüksek etkiyi yaratabilmesi için izlenmesi gereken içerik kurgusu hangisidir?",
+      "choices": [
+        "Toplam hacim ve genel trend, göze çarpan kritik anomali veya risk unsuru, atılması gereken somut karar veya aksiyon adımı.",
+        "Veri tablosunun tüm satır başlıkları, kullanılan elektronik tablo formülleri, geçmiş beş yılın ortalama değerleri.",
+        "İlk üç departmanın harcama detayları, yazılım kaynaklı teknik gecikmeler, sonraki toplantının olası tarih önerisi.",
+        "En yüksek cirolu kalemin detay dökümü, dipnot açıklamaları, veri aktarımını gerçekleştiren ekibin çalışma listesi."
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q_off_l2_2",
+      "prompt": "Hazırlanan üç maddelik yönetim özetinin son satırında yer alacak 'karar notu' ile yalnızca durum tespiti yapan bir gözlem cümlesi arasındaki temel ayrım nedir?",
+      "choices": [
+        "Gözlemin yalnızca finansal verileri içermesi, karar notunun ise yalnızca insan kaynakları konularına odaklanması.",
+        "Gözlemin mevcut tablo verisini özetlemesine karşılık, karar notunun yönetimden açık bir onay, bütçe tahsisi veya yön tayini talep etmesi.",
+        "Gözlemin sayısal verileri tam aktarması, karar notunun ise sayısal ayrıntı barındırmadan genel temennilerden oluşması.",
+        "Karar notunun mutlaka teknik terimlerle yazılması, gözlem cümlesinin ise maddesiz düz metin olarak sunulması."
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "q_off_l2_3",
+      "prompt": "Özet ve karar notu üretilmeden önce, girdi verisinin format birlikteliği sağlanmış ve sütun standartları tamamlanmış bir yapıya kavuşturulması şarttır. Yapısal düzeni eksik bırakılmış bir tablonun doğrudan özetleme adımına taşınması durumunda karşılaşılabilecek en temel problem nedir?",
+      "choices": [
+        "Üretilen metnin dosya uzantısının metin işlemciler tarafından desteklenmemesi.",
+        "Özetleme yapacak dil modelinin sayı içeren hiçbir veri hücresini okuyamaması.",
+        "Uyumsuz birim ve hatalı gruplandırmalar sebebiyle yapay zekânın yanlış trend hesaplayarak yönetimi hatalı aksiyona yönlendirmesi.",
+        "Oluşturulacak üç maddelik özetin otomatik olarak e-posta sunucusunda spam klasörüne düşmesi."
+      ],
+      "correctIndex": 2
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import { VisaPageFrame, VisaWaxSeal } from "@/components/kernel/visa-wax-seal";
 import {
   careerStampContractHref,
   careerStampCourseHref,
+  careerStampPublicHref,
   careerStampVerifyHref,
 } from "@/lib/career/stamp-surface";
 import type { LiveCareerStamp } from "@/lib/career/live";
@@ -25,6 +26,7 @@ function StampCard({
   const verifyHref = careerStampVerifyHref(stamp);
   const courseHref = careerStampCourseHref(stamp);
   const contractHref = careerStampContractHref(stamp);
+  const publicHref = careerStampPublicHref(stamp);
   const hasSeal = Boolean(verifyHref || contractHref);
 
   return (
@@ -56,8 +58,13 @@ function StampCard({
           <p className="mt-1 text-[11px] text-[var(--muted)]">{CAREER_SEN.hashNote}</p>
         </div>
       ) : null}
-      {courseHref || contractHref || verifyHref ? (
+      {courseHref || contractHref || verifyHref || publicHref ? (
         <div className="mt-4 flex flex-wrap gap-2">
+          {publicHref ? (
+            <LinkButton href={publicHref as Route} variant="secondary" size="sm">
+              {CAREER_SEN.publicTalentCta}
+            </LinkButton>
+          ) : null}
           {courseHref ? (
             <LinkButton href={courseHref as Route} variant="primary" size="sm">
               {CAREER_SEN.openCourseCta}
@@ -92,9 +99,6 @@ function EmptyLedger() {
         <LinkButton href="/academy" variant="outline" size="sm">
           {CAREER_SEN.academyCta}
         </LinkButton>
-        <LinkButton href="/freelancer" variant="secondary" size="sm">
-          {CAREER_SEN.freelancerCta}
-        </LinkButton>
       </div>
     </div>
   );
@@ -111,7 +115,7 @@ export function VisaLedger({
   const titleByStampId = new Map((portfolio ?? []).map((item) => [item.visaStampId, item.title]));
 
   return (
-    <section className="space-y-4">
+    <section id="career-visa" className="scroll-mt-24 space-y-4">
       <div>
         <p className="text-[11px] font-medium uppercase tracking-wide text-[var(--muted)]">{copy.eyebrow}</p>
         <h2 className="mt-1 text-lg font-semibold tracking-tight text-[var(--foreground)]">{copy.title}</h2>

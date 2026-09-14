@@ -93,10 +93,10 @@ describe("akademi Super Admin erişimi ve katalog birleştirme", () => {
 
   it("mühürlü vitrin tohumu amiral SKU taşır; hayalet SKU girmez", () => {
     const seeded = publishedCoursesFromSeed();
-    expect(seeded.map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
+    expect(seeded.map((row) => row.slug)).toEqual(["01_office_ai"]);
     expect(seeded).toHaveLength(ACADEMY_GROWTH_SKU_SLUGS.length);
-    expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
-    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
+    expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai"]);
+    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai"]);
     const ghost = {
       id: "ac_rail_temel",
       slug: "rail-temel",
@@ -114,7 +114,7 @@ describe("akademi Super Admin erişimi ve katalog birleştirme", () => {
       purchasable: true,
     };
     const sealed = mergePublishedAcademyCatalog([ghost]);
-    expect(sealed).toHaveLength(5);
+    expect(sealed).toHaveLength(1);
     expect(sealed[0]?.slug).toBe("01_office_ai");
     expect(sealed.some((row) => row.slug === "rail-temel")).toBe(false);
     expect(sealed.some((row) => row.slug === "01_office_ai")).toBe(true);

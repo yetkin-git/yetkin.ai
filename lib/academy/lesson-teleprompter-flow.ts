@@ -93,8 +93,10 @@ export function splitAcademyKaraokeCaptionBlocks(text: string): string[] {
   return blocks;
 }
 
-function expandTeleprompterLineIntoCaptionBlocks(line: AcademyTeleprompterLine): AcademyTeleprompterLine[] {
-  const blocks = splitAcademyKaraokeCaptionBlocks(line.text);
+function shareTeleprompterLineByBlocks(
+  line: AcademyTeleprompterLine,
+  blocks: readonly string[],
+): AcademyTeleprompterLine[] {
   if (blocks.length <= 1) {
     return [line];
   }
@@ -117,6 +119,74 @@ function expandTeleprompterLineIntoCaptionBlocks(line: AcademyTeleprompterLine):
     cursor = end;
   }
   return next;
+}
+
+function expandTeleprompterLineIntoCaptionBlocks(line: AcademyTeleprompterLine): AcademyTeleprompterLine[] {
+  return shareTeleprompterLineByBlocks(line, splitAcademyKaraokeCaptionBlocks(line.text));
+}
+
+export type AcademyKaraokeWord = {
+  id: string;
+  text: string;
+  start: number;
+  end: number;
+};
+
+export type AcademyKaraokeWordState = AcademyTeleprompterLineState;
+
+/** Alt şerit — mühürlü parça saatini cümlelere böler; kelime-saati yayın saati değildir. */
+export function academyKaraokeStripLines(
+  lines: readonly AcademyTeleprompterLine[],
+): readonly AcademyTeleprompterLine[] {
+  return lines.flatMap((line) => {
+    const sentences = splitAcademySpokenSentences(line.text);
+    return sentences.length === 0 ? [line] : shareTeleprompterLineByBlocks(line, sentences);
+  });
+}
+
+export function loadAcademyKaraokeStrip(lessonKey: string): readonly AcademyTeleprompterLine[] {
+  return academyKaraokeStripLines(loadAcademyTeleprompterFlow(lessonKey));
+}
+
+export function academyKaraokeWords(
+  line: Pick<AcademyTeleprompterLine, "id" | "text" | "start" | "end">,
+): readonly AcademyKaraokeWord[] {
+  const tokens = line.text.replace(/\s+/gu, " ").trim().split(" ").filter((part) => part.length > 0);
+  if (tokens.length === 0) {
+    return [];
+  }
+  const weights = tokens.map((token) => Math.max(1, token.length));
+  const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+  const span = Math.max(0, line.end - line.start);
+  const words: AcademyKaraokeWord[] = [];
+  let cursor = line.start;
+  for (let index = 0; index < tokens.length; index += 1) {
+    const isLast = index === tokens.length - 1;
+    const share = totalWeight > 0 ? weights[index]! / totalWeight : 1 / tokens.length;
+    const end = isLast ? line.end : cursor + span * share;
+    words.push({
+      id: `${line.id}:w${index}`,
+      text: tokens[index]!,
+      start: cursor,
+      end,
+    });
+    cursor = end;
+  }
+  return words;
+}
+
+export function academyKaraokeWordState(
+  word: Pick<AcademyKaraokeWord, "start" | "end">,
+  currentTime: number,
+): AcademyKaraokeWordState {
+  const t = Number.isFinite(currentTime) ? currentTime : 0;
+  if (t < word.start) {
+    return "future";
+  }
+  if (t >= word.end) {
+    return "past";
+  }
+  return "active";
 }
 
 function compactAcademyTeleprompterCaptions(

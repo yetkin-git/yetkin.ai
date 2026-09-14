@@ -25,6 +25,7 @@ import {
   siteMaintenanceNextResponse,
 } from "@/lib/kernel/http/site-maintenance";
 import { LEGAL_ENTITY } from "@/lib/copy/legal-launch";
+import { LIVE_BROADCAST_SHUTDOWN } from "@/lib/kernel/http/live-broadcast-shutdown";
 
 const ROOT = process.cwd();
 
@@ -41,11 +42,14 @@ function request(path: string, origin = "http://localhost:3000", init?: { method
 const PRODUCTION_ORIGIN = "https://yetkin.ai";
 
 describe("canlı yayın bakım dondurması", () => {
-  it("boolean kilit yoktur; anahtar env SITE_MAINTENANCE_FREEZE'dir", () => {
+  it("boolean kilit SITE_MAINTENANCE_FREEZE değildir; LIVE_BROADCAST_SHUTDOWN ayrı kod kilididir", () => {
     const src = readSrc("lib/kernel/http/site-maintenance.ts");
     expect(src).not.toMatch(/export const SITE_MAINTENANCE_FREEZE\s*=/);
     expect(src).toContain("process.env.SITE_MAINTENANCE_FREEZE");
     expect(src).toContain("Müze `MAINTENANCE_MODE`");
+    expect(readSrc("lib/kernel/http/live-broadcast-shutdown.ts")).toContain(
+      "export const LIVE_BROADCAST_SHUTDOWN",
+    );
   });
 
   it("bayrak yalnız true/1 ile açılır", () => {
@@ -102,7 +106,7 @@ describe("canlı yayın bakım dondurması", () => {
         { SITE_MAINTENANCE_FREEZE: undefined, NODE_ENV: "production", VITEST: "false" },
         "yetkin.ai",
       ),
-    ).toBe(false);
+    ).toBe(LIVE_BROADCAST_SHUTDOWN);
   });
 
   it("yalnız health ve live probe geçer", () => {
@@ -139,14 +143,14 @@ describe("canlı yayın bakım dondurması", () => {
     expect(html).toContain(SITE_MAINTENANCE_ENGLISH);
     expect(html).toContain("yetkin.ai");
     expect(html).toContain('name="robots" content="noindex, nofollow"');
-    expect(html).toContain("Canlı yayın duraklatıldı");
+    expect(html).toContain("Sistem bakımdadır");
   });
 
   it("bakım HTML'i PayTR inceleme yüzeyini basar: yasal linkler + künye", () => {
     const html = renderSiteMaintenanceHtml();
     expect(html).toContain(SITE_MAINTENANCE_COMPLIANCE_NOTE);
     expect(SITE_MAINTENANCE_COMPLIANCE_NOTE).toBe(
-      "PayTR ve Yasal İncelemeler İçin Alt Servisler Aktiftir",
+      "Yasal sayfalar açıktır; ödeme ve arka plan işleri durdurulmuştur",
     );
     // İnceleme linkleri — isPublicCompliancePath muafiyeti ile hizalı; çerez dahil.
     expect(SITE_MAINTENANCE_LEGAL_LINKS.map((link) => link.href)).toEqual([
@@ -223,10 +227,18 @@ describe("proxy bakım 503 (donma env açık, üretim host)", () => {
     expect(live.status).toBe(200);
   });
 
-  it("yasal sayfalar, iletişim, robots ve sitemap freeze açıkken 503 almaz", async () => {
-    for (const path of ["/legal", "/legal/gizlilik", "/legal/iade", "/iletisim", "/robots.txt", "/sitemap.xml", "/api/payments/webhooks/paytr", "/api/paytr/callback"]) {
+  it("yasal sayfalar, iletişim, robots ve sitemap freeze açıkken 503 almaz; PayTR 503", async () => {
+    for (const path of ["/legal", "/legal/gizlilik", "/legal/iade", "/iletisim", "/robots.txt", "/sitemap.xml"]) {
       const response = await proxy(request(path, PRODUCTION_ORIGIN));
       expect(response.status, path).not.toBe(503);
+    }
+    for (const path of ["/api/payments/webhooks/paytr", "/api/paytr/callback"]) {
+      const response = await proxy(request(path, PRODUCTION_ORIGIN));
+      if (LIVE_BROADCAST_SHUTDOWN) {
+        expect(response.status, path).toBe(503);
+      } else {
+        expect(response.status, path).not.toBe(503);
+      }
     }
   });
 
@@ -282,6 +294,33 @@ describe("proxy bakım 503 (donma env açık, üretim host)", () => {
     expect(home.status).not.toBe(503);
     const career = await proxy(request("/career"));
     expect(career.status).not.toBe(503);
+  });
+});
+
+describe("proxy bakım 503 (donma env boş, canlı yayın kilidi, üretim host)", () => {
+  beforeEach(() => {
+    vi.stubEnv("VITEST", "false");
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("SITE_MAINTENANCE_FREEZE", "");
+    vi.stubEnv("SUPABASE_JWT_SECRET", "rail-edge-jwt-test-secret-32bytes-min");
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://edge-test.supabase.co");
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it("kamu vitrini /, /academy, /career, /vize HTML 503 basar", async () => {
+    if (!LIVE_BROADCAST_SHUTDOWN) {
+      return;
+    }
+    for (const path of ["/", "/academy", "/career", "/vize"]) {
+      const response = await proxy(request(path, PRODUCTION_ORIGIN));
+      expect(response.status, path).toBe(503);
+      expect(response.headers.get("content-type")).toContain("text/html");
+      const html = await response.text();
+      expect(html).toContain(SITE_MAINTENANCE_TITLE);
+    }
   });
 });
 

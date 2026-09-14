@@ -34,7 +34,9 @@ jobs:
         with:
           node-version: "20.19"
           cache: npm
-          cache-dependency-path: apps/rail-is/package-lock.json
+          cache-dependency-path: |
+            apps/rail-is/package-lock.json
+            package-lock.json
       - run: npm ci
         working-directory: apps/rail-is
       - run: npm run typecheck

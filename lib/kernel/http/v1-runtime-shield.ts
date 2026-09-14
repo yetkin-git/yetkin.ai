@@ -20,7 +20,7 @@ const HANDLER_COOKIE_BAN = [
 
 export type RailV1HopShieldView = {
   id: string;
-  method: "GET" | "POST";
+  method: "GET" | "POST" | "PATCH";
   routeAuthPattern: string;
   v1Auth: "none" | "bearer";
   idempotency: boolean;
@@ -32,7 +32,13 @@ export type RailV1IdempotencyGuard =
 
 export function railV1HopHandlerFile(hop: Pick<RailV1HopShieldView, "routeAuthPattern">): string {
   const pattern = hop.routeAuthPattern;
-  if (pattern === "/api/health" || pattern.startsWith("/api/auth/")) {
+  if (
+    pattern === "/api/health" ||
+    pattern.startsWith("/api/auth/") ||
+    pattern === "/api/profile" ||
+    pattern.startsWith("/api/profile/") ||
+    pattern.startsWith("/api/wallet/")
+  ) {
     return `app/api/(kernel)${pattern.slice("/api".length)}/route.ts`;
   }
   return `app${pattern}/route.ts`;
@@ -57,7 +63,7 @@ export function requireRailV1IdempotencyKey(
   return { ok: true, key: read.key };
 }
 
-export function extractRailRouteHandler(source: string, method: "GET" | "POST"): string {
+export function extractRailRouteHandler(source: string, method: "GET" | "POST" | "PATCH"): string {
   const needle = `export async function ${method}`;
   const start = source.indexOf(needle);
   if (start < 0) {
@@ -117,8 +123,8 @@ export function assertRailV1HopHandlerShield(hop: RailV1HopShieldView, source: s
     throw new Error(`${hop.id}: kamu hop oturum dayatır.`);
   }
   if (hop.idempotency) {
-    if (hop.method !== "POST") {
-      throw new Error(`${hop.id}: idempotency yalnız POST yazma hop'undadır.`);
+    if (hop.method !== "POST" && hop.method !== "PATCH") {
+      throw new Error(`${hop.id}: idempotency yalnız POST/PATCH yazma hop'undadır.`);
     }
     if (!handler.includes("requireRailV1IdempotencyKey")) {
       throw new Error(`${hop.id}: sicil idempotency:true ama handler kalkanı çağırmaz.`);

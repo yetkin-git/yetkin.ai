@@ -180,10 +180,6 @@ describe("kültürel analoji ve yerel benzetme doktrini", () => {
     expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual([...ACADEMY_GROWTH_SKU_SLUGS]);
     for (const row of ACADEMY_COURSE_SEEDS) {
       const lessons = curriculumForCourseSlug(row.slug);
-      const bodies = lessons.map((lesson) => lesson.body).join("\n");
-      if (row.slug === "01_office_ai" || row.slug === "02_ecommerce_ai") {
-        expect(bodies, row.slug).toContain("stajyer");
-      }
       for (const lesson of lessons) {
         const spoken = spokenAcademyLessonBody(lesson.body);
         expect(lesson.body, `${lesson.key}:visual`).not.toMatch(ARTIFICIAL_OPENING);

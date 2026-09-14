@@ -38,8 +38,7 @@ import { BreadcrumbPageLabel } from "@/components/shell/header-breadcrumb";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
 import { academyModuleCodeBySlug } from "@/lib/academy/catalog-filter";
-import { academyCourseCoverPath } from "@/lib/academy/course-cover";
-import { academyInstructorBySlug } from "@/lib/academy/instructors";
+import { academyCourseCoverPath, academyCourseHasCinemaCover, academyCourseIsComingSoon } from "@/lib/academy/course-cover";
 import { PRICE_LOCK_GRACE_MINUTES } from "@/lib/kernel/pricing/price-lock";
 import { isPaymentsPortConfigured } from "@/lib/kernel/payments/port";
 import { isPaytrMockCheckoutAllowed } from "@/lib/kernel/payments/paytr/checkout";
@@ -57,7 +56,7 @@ import {
   courseJsonLd,
   jsonLdDocument,
 } from "@/lib/copy/json-ld";
-import { pageMetadata } from "@/lib/copy/seo";
+import { DEFAULT_OG_IMAGE, pageMetadata } from "@/lib/copy/seo";
 import type { Route } from "next";
 
 export function generateStaticParams() {
@@ -84,7 +83,7 @@ export async function generateMetadata({
     title: `${course.title} · Akademi`,
     description: course.summary,
     path: `/academy/${course.slug}`,
-    image: academyCourseCoverPath(course.slug),
+    image: academyCourseCoverPath(course.slug) ?? DEFAULT_OG_IMAGE,
   });
 }
 
@@ -142,7 +141,6 @@ export default async function AcademyCoursePage({
   const paymentsReady = isPaymentsPortConfigured() || isPaytrMockCheckoutAllowed();
   const copy = SEN_VOICE.academy.course;
   const playerCopy = SEN_VOICE.academy.player;
-  const instructor = academyInstructorBySlug(board.course.slug);
   const certificateHash = examGate?.certificate
     ? (examGate.certificate.certificateHash ?? examGate.certificate.serialKey)
     : null;
@@ -193,7 +191,7 @@ export default async function AcademyCoursePage({
             slug: board.course.slug,
             title: board.course.title,
             description: board.course.summary,
-            imagePath: academyCourseCoverPath(board.course.slug),
+            imagePath: academyCourseCoverPath(board.course.slug) ?? DEFAULT_OG_IMAGE,
             datePublished: board.course.createdAt,
           }),
           breadcrumbListJsonLd(
@@ -215,6 +213,8 @@ export default async function AcademyCoursePage({
             level={level}
             moduleCode={academyModuleCodeBySlug(board.course.slug)}
             hasSealedAudio={academyCourseHasSealedAudio(board.course.slug)}
+            comingSoon={academyCourseIsComingSoon(board.course.slug)}
+            audioPreview={academyCourseHasCinemaCover(board.course.slug)}
             primaryHref={hero.primaryHref}
             primaryLabel={hero.primaryLabel}
             primaryAction={hero.action}
@@ -248,7 +248,6 @@ export default async function AcademyCoursePage({
                 issuedAt={examGate.certificate.issuedAt}
                 holderName={holderName}
                 courseTitle={board.course.title}
-                instructorName={instructor.name}
                 verifyHref={certificateHash ? `/academy/dogrula/${certificateHash}` : undefined}
               />
             </div>
@@ -261,12 +260,11 @@ export default async function AcademyCoursePage({
             passScore={examGate.passScore}
             durationMs={examGate.durationMs}
             holderName={holderName}
-            instructorName={instructor.name}
             nextCourseTitle={progression.bridge.nextTitle}
             nextCourseHref={progression.bridge.nextHref}
           />
         ) : (
-          <Card title={playerCopy.eyebrow(instructor.name)}>
+          <Card title={copy.eyebrow}>
             <p>{copy.ownedNoExam}</p>
             <div className="mt-4">
               <LinkButton href={`/academy/${board.course.slug}/oyna` as Route} size="sm">
@@ -276,7 +274,7 @@ export default async function AcademyCoursePage({
           </Card>
         )
       ) : access === "expired" ? (
-        <Card title={playerCopy.eyebrow(instructor.name)}>
+        <Card title={copy.eyebrow}>
           <p>{playerCopy.licenseEnded}</p>
         </Card>
       ) : board.course.purchasable ? (

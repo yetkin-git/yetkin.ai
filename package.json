@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "description": "yetkin.ai — güvenli kariyer ve iş platformu",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && npm run generate:v1-client && npm run verify:prebuild && next build",
@@ -14,6 +17,7 @@
     "seed": "tsx prisma/seed.ts",
     "render:academy-media": "tsx scripts/render-academy-cinema-cues.ts",
     "generate:academy-audio": "tsx scripts/generate-academy-lesson-audio.ts",
+    "generate:academy-veo": "tsx scripts/generate-academy-lesson-veo.ts",
     "transcode:academy-audio": "tsx scripts/transcode-academy-lesson-audio.ts",
     "typecheck": "prisma generate && tsc --noEmit -p tsconfig.json",
     "typecheck:rail-is": "npm --prefix apps/rail-is run typecheck",
@@ -29,6 +33,9 @@
     "ops:health-probe": "tsx scripts/ops-health-probe.ts",
     "ops:revoke-academy-certificate": "tsx scripts/ops-revoke-academy-certificate.ts",
     "ops:super-admin-academy-grant": "tsx scripts/ops-super-admin-academy-grant.ts",
+    "ops:purge-academy-media-cache": "tsx scripts/ops-purge-academy-media-cache.ts",
+    "ops:purge-academy-content": "tsx scripts/ops-purge-academy-content.ts",
+    "ops:reset-academy-ingest-skeleton": "tsx scripts/ops-reset-academy-ingest-skeleton.ts",
     "ops:set-auth-password": "tsx scripts/ops-set-auth-password.ts",
     "ops:list-payment-anomalies": "tsx scripts/ops-list-payment-anomalies.ts",
     "ops:lab-postgres": "tsx scripts/ops-lab-postgres.ts",
@@ -55,9 +62,10 @@
     "verify:junior-guardianship-seals": "tsx scripts/verify-junior-guardianship-seals.ts && vitest run --config vitest.frozen.config.ts tests/junior/guardianship.test.ts",
     "verify:academy-pedagogy-seals": "vitest run tests/academy/pedagogy-seals-retired.test.ts",
     "verify:boundaries": "tsx scripts/verify-boundaries.ts",
+    "dron:new": "tsx scripts/dron-new.ts",
     "generate:openapi-v1": "tsx scripts/generate-openapi-v1.ts",
     "generate:v1-client": "tsx scripts/generate-rail-v1-dron-types.ts",
-    "verify:v1-contract-artifacts": "tsx scripts/generate-openapi-v1.ts --check && tsx scripts/generate-rail-v1-dron-types.ts --check",
+    "verify:v1-contract-artifacts": "tsx scripts/generate-openapi-v1.ts --check && tsx scripts/generate-rail-v1-dron-types.ts --check && tsx scripts/verify-kernel-package.ts",
     "verify:sen-axis": "tsx scripts/verify-sen-axis.ts",
     "test:surface": "vitest run surface.test.ts constitution-surfaces.test.ts",
     "verify:grep-seals": "npm run verify:api-auth && npm run verify:boundaries && npm run verify:atomic-seals && npm run verify:sen-axis",
@@ -81,6 +89,7 @@
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "server-only": "^0.0.1",
+    "@yetkin/kernel": "*",
     "zod": "^4.4.3"
   },
   "devDependencies": {

@@ -1,10 +1,17 @@
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { AppState, Linking, type AppStateStatus } from "react-native";
-import { RAIL_IS_BENCH_POLL_MS } from "../api/hops";
+import { RailV1HttpError } from "../api/errors";
+import { DRON_TEZGAH_STORE_ISOLATED, RAIL_IS_BENCH_POLL_MS } from "../api/hops";
 import type { RailV1Job } from "../contract/v1";
 import { getOrCreateIntentIdempotencyKey, rotateIntentIdempotencyKey } from "../storage/idempotency";
 import { classifyV1Failure } from "../ui/classify";
 import { RAIL_IS_COPY } from "../ui/copy";
+import {
+  academyExamIntentId,
+  academyLockIntentId,
+  academyLessonIntentId,
+  academyPurchaseIntentId,
+} from "../ui/academy-catalog";
 import { dronAppReducer, initialDronAppState, isOwnerJob, visibleScreen } from "../ui/dron-app-state";
 import { assertBidAmountMinor, assertCoverNote, parseMajorToAmountMinor } from "../ui/money";
 import { acceptIntentId } from "../ui/present-accept";
@@ -12,6 +19,8 @@ import { bidIntentId } from "../ui/present-bid";
 import { assertDeliveryNote, deliveryIntentId } from "../ui/present-delivery";
 import { releaseIntentId } from "../ui/present-release";
 import { createDronRuntime, type DronRuntime } from "./create-dron-runtime";
+import type { DronWalletTopUpBody } from "../screens/WalletTopUpScreen";
+import type { DronAcademyPurchaseBody } from "../screens/AcademyPlayerScreen";
 
 function loginFailMessage(error: unknown): string {
   if (error && typeof error === "object" && "message" in error && typeof error.message === "string") {
@@ -23,6 +32,10 @@ function loginFailMessage(error: unknown): string {
   return RAIL_IS_COPY.login.fail;
 }
 
+function settleCall<T>(promise: Promise<T>): Promise<PromiseSettledResult<T>> {
+  return Promise.allSettled([promise]).then((rows) => rows[0]!);
+}
+
 export function useDronApp() {
   const runtimeRef = useRef<DronRuntime | null>(null);
   if (runtimeRef.current === null) {
@@ -31,6 +44,10 @@ export function useDronApp() {
   const runtime = runtimeRef.current;
   const [state, dispatch] = useReducer(dronAppReducer, initialDronAppState);
   const [refreshing, setRefreshing] = useState(false);
+  const [topUpPending, setTopUpPending] = useState(false);
+  const [topUpError, setTopUpError] = useState<string | null>(null);
+  const [purchasePending, setPurchasePending] = useState(false);
+  const [purchaseError, setPurchaseError] = useState<string | null>(null);
   const generation = useRef(0);
   const phaseRef = useRef(state.phase);
   phaseRef.current = state.phase;
@@ -41,32 +58,41 @@ export function useDronApp() {
       dispatch({ type: "CONFIG_LOGIN", message: RAIL_IS_COPY.login.apiMissing });
       return;
     }
+    const skipTezgah = DRON_TEZGAH_STORE_ISOLATED;
     const silent = Boolean(options?.silent);
     const token = generation.current;
     if (!silent) {
-      dispatch({ type: "JOBS_LOADING" });
+      if (!skipTezgah) {
+        dispatch({ type: "JOBS_LOADING" });
+        dispatch({ type: "CONTRACTS_LOADING" });
+      }
       dispatch({ type: "WALLET_LOADING" });
-      dispatch({ type: "CONTRACTS_LOADING" });
+      dispatch({ type: "ACADEMY_PULSE_LOADING" });
     }
-    const settled = await Promise.allSettled([
-      api.listOpenJobs(),
-      api.getWalletStrip(),
-      api.listContracts(),
+    const [walletOutcome, pulseOutcome, jobsOutcome, contractsOutcome] = await Promise.all([
+      settleCall(api.getWalletStrip()),
+      settleCall(api.getAcademyPulse()),
+      skipTezgah ? Promise.resolve(null) : settleCall(api.listOpenJobs()),
+      skipTezgah ? Promise.resolve(null) : settleCall(api.listContracts()),
     ]);
     if (token !== generation.current) {
       return;
     }
-    const jobsOutcome = settled[0];
-    const walletOutcome = settled[1];
-    const contractsOutcome = settled[2];
-    const jobsError = jobsOutcome.status === "rejected" ? jobsOutcome.reason : null;
+    const jobsError = jobsOutcome?.status === "rejected" ? jobsOutcome.reason : null;
     const walletError = walletOutcome.status === "rejected" ? walletOutcome.reason : null;
-    const contractsError = contractsOutcome.status === "rejected" ? contractsOutcome.reason : null;
-    if (jobsError || walletError || contractsError) {
+    const contractsError = contractsOutcome?.status === "rejected" ? contractsOutcome.reason : null;
+    const pulseError = pulseOutcome.status === "rejected" ? pulseOutcome.reason : null;
+    if (jobsError || walletError || contractsError || pulseError) {
       const jobsFail = jobsError ? classifyV1Failure(jobsError) : null;
       const walletFail = walletError ? classifyV1Failure(walletError) : null;
       const contractsFail = contractsError ? classifyV1Failure(contractsError) : null;
-      if (jobsFail?.kind === "stale" || walletFail?.kind === "stale" || contractsFail?.kind === "stale") {
+      const pulseFail = pulseError ? classifyV1Failure(pulseError) : null;
+      if (
+        jobsFail?.kind === "stale" ||
+        walletFail?.kind === "stale" ||
+        contractsFail?.kind === "stale" ||
+        pulseFail?.kind === "stale"
+      ) {
         dispatch({
           type: "JOBS_FAIL",
           error:
@@ -74,14 +100,27 @@ export function useDronApp() {
               ? jobsError
               : walletFail?.kind === "stale"
                 ? walletError
-                : contractsError,
+                : pulseFail?.kind === "stale"
+                  ? pulseError
+                  : contractsError,
         });
         return;
       }
-      if (jobsFail?.kind === "session" || walletFail?.kind === "session" || contractsFail?.kind === "session") {
+      if (
+        jobsFail?.kind === "session" ||
+        walletFail?.kind === "session" ||
+        contractsFail?.kind === "session" ||
+        pulseFail?.kind === "session"
+      ) {
         await runtime.auth?.auth.signOut();
         const sessionFail =
-          jobsFail?.kind === "session" ? jobsFail : walletFail?.kind === "session" ? walletFail : contractsFail;
+          jobsFail?.kind === "session"
+            ? jobsFail
+            : walletFail?.kind === "session"
+              ? walletFail
+              : pulseFail?.kind === "session"
+                ? pulseFail
+                : contractsFail;
         dispatch({
           type: "NEED_LOGIN",
           message: sessionFail?.message,
@@ -89,7 +128,7 @@ export function useDronApp() {
         return;
       }
     }
-    if (jobsOutcome.status === "fulfilled") {
+    if (jobsOutcome?.status === "fulfilled") {
       dispatch({ type: "JOBS_OK", jobs: jobsOutcome.value.data.jobs });
     } else if (jobsError) {
       dispatch({ type: "JOBS_FAIL", error: jobsError });
@@ -99,14 +138,22 @@ export function useDronApp() {
     } else if (walletError && classifyV1Failure(walletError).kind !== "session") {
       dispatch({ type: "WALLET_FAIL", error: walletError });
     }
-    if (contractsOutcome.status === "fulfilled") {
+    if (contractsOutcome?.status === "fulfilled") {
       dispatch({ type: "CONTRACTS_OK", contracts: contractsOutcome.value.data.contracts });
     } else if (contractsError && classifyV1Failure(contractsError).kind !== "session") {
       dispatch({ type: "CONTRACTS_FAIL", error: contractsError, keepSnapshot: silent });
     }
+    if (pulseOutcome.status === "fulfilled") {
+      dispatch({ type: "ACADEMY_PULSE_OK", data: pulseOutcome.value.data });
+    } else if (pulseError && classifyV1Failure(pulseError).kind !== "session") {
+      dispatch({ type: "ACADEMY_PULSE_FAIL", error: pulseError });
+    }
   }, [runtime]);
 
   const refreshBench = useCallback(async () => {
+    if (DRON_TEZGAH_STORE_ISOLATED) {
+      return;
+    }
     const api = runtime.api;
     if (!api || phaseRef.current !== "ready") {
       return;
@@ -260,27 +307,33 @@ export function useDronApp() {
     }
     const onActive = () => {
       if (AppState.currentState === "active") {
-        void refreshBench();
+        if (!DRON_TEZGAH_STORE_ISOLATED) {
+          void refreshBench();
+        }
         void refreshWallet();
         const job = selectedJobRef.current;
         const user = userRef.current;
-        if (job && user && isOwnerJob(job, user.id)) {
+        if (!DRON_TEZGAH_STORE_ISOLATED && job && user && isOwnerJob(job, user.id)) {
           void loadOwnerBids(job.id, { silent: true });
         }
       }
     };
-    const interval = setInterval(() => {
-      if (AppState.currentState === "active" && phaseRef.current === "ready") {
-        void refreshBench();
-      }
-    }, RAIL_IS_BENCH_POLL_MS);
+    const interval = DRON_TEZGAH_STORE_ISOLATED
+      ? null
+      : setInterval(() => {
+          if (AppState.currentState === "active" && phaseRef.current === "ready") {
+            void refreshBench();
+          }
+        }, RAIL_IS_BENCH_POLL_MS);
     const sub = AppState.addEventListener("change", (next: AppStateStatus) => {
       if (next === "active") {
         onActive();
       }
     });
     return () => {
-      clearInterval(interval);
+      if (interval) {
+        clearInterval(interval);
+      }
       sub.remove();
     };
   }, [loadOwnerBids, refreshBench, refreshWallet, state.phase, state.user]);
@@ -602,6 +655,241 @@ export function useDronApp() {
     await Linking.openURL(url);
   }, [runtime.webWalletUrl]);
 
+  const beginWalletTopUp = useCallback(
+    async (body: DronWalletTopUpBody) => {
+      const api = runtime.api;
+      if (!api) {
+        setTopUpError(RAIL_IS_COPY.login.apiMissing);
+        return;
+      }
+      setTopUpPending(true);
+      setTopUpError(null);
+      try {
+        const result = await api.beginWalletTopUp(body);
+        if (result.data.alreadySettled === true) {
+          dispatch({ type: "TOP_UP_CLOSE" });
+          await loadHome({ silent: true });
+          return;
+        }
+        if (result.data.mockCheckout === true) {
+          setTopUpError(RAIL_IS_COPY.wallet.topUpFail);
+          return;
+        }
+        const passport =
+          typeof result.data.checkoutPassportUrl === "string" ? result.data.checkoutPassportUrl : "";
+        const iframe = typeof result.data.iframeUrl === "string" ? result.data.iframeUrl : "";
+        const url = passport || iframe;
+        if (!url) {
+          setTopUpError(RAIL_IS_COPY.wallet.topUpFail);
+          return;
+        }
+        dispatch({ type: "TOP_UP_CLOSE" });
+        await Linking.openURL(url);
+      } catch (error) {
+        const failure = classifyV1Failure(error);
+        setTopUpError(failure.message || RAIL_IS_COPY.wallet.topUpFail);
+      } finally {
+        setTopUpPending(false);
+      }
+    },
+    [loadHome, runtime.api],
+  );
+
+  const handleAcademySession = useCallback(
+    async (error: unknown) => {
+      const failure = classifyV1Failure(error);
+      if (failure.kind === "session") {
+        await runtime.auth?.auth.signOut();
+        dispatch({ type: "NEED_LOGIN", message: failure.message });
+        return true;
+      }
+      return false;
+    },
+    [runtime.auth],
+  );
+
+  const openAcademyCourse = useCallback(
+    async (courseId: string) => {
+      const api = runtime.api;
+      if (!api) {
+        return;
+      }
+      dispatch({ type: "ACADEMY_SELECT_COURSE", courseId });
+      dispatch({ type: "ACADEMY_CURRICULUM_LOADING" });
+      try {
+        const result = await api.getAcademyCurriculum(courseId);
+        dispatch({ type: "ACADEMY_CURRICULUM_OK", data: result.data });
+      } catch (error) {
+        if (await handleAcademySession(error)) {
+          return;
+        }
+        if (error instanceof RailV1HttpError && error.status === 403) {
+          dispatch({
+            type: "ACADEMY_CURRICULUM_NEED_PURCHASE",
+            courseId,
+            message: error.citizenMessage,
+          });
+          return;
+        }
+        dispatch({ type: "ACADEMY_CURRICULUM_FAIL", error });
+      }
+    },
+    [handleAcademySession, runtime.api],
+  );
+
+  const completeAcademyLesson = useCallback(async () => {
+    const api = runtime.api;
+    const view = state.curriculumView;
+    const courseId = state.selectedCourseId;
+    if (!api || !courseId || view.kind !== "ready" || !view.selectedLessonKey) {
+      return;
+    }
+    const lesson = view.lessons.find((row) => row.key === view.selectedLessonKey);
+    if (!lesson?.open) {
+      dispatch({ type: "ACADEMY_LESSON_LOCAL_FAIL", message: RAIL_IS_COPY.academy.lessonClosed });
+      return;
+    }
+    dispatch({ type: "ACADEMY_LESSON_STARTED" });
+    const intent = academyLessonIntentId(courseId, lesson.key);
+    const idempotencyKey = await getOrCreateIntentIdempotencyKey(runtime.store, intent);
+    try {
+      const result = await api.completeAcademyLesson(courseId, { lessonKey: lesson.key }, { idempotencyKey });
+      await rotateIntentIdempotencyKey(runtime.store, intent);
+      dispatch({ type: "ACADEMY_CURRICULUM_OK", data: result.data });
+    } catch (error) {
+      if (await handleAcademySession(error)) {
+        return;
+      }
+      dispatch({ type: "ACADEMY_CURRICULUM_FAIL", error });
+    }
+  }, [handleAcademySession, runtime.api, runtime.store, state.curriculumView, state.selectedCourseId]);
+
+  const openAcademyExam = useCallback(async () => {
+    const api = runtime.api;
+    const courseId = state.selectedCourseId;
+    if (!api || !courseId) {
+      return;
+    }
+    dispatch({ type: "ACADEMY_EXAM_LOADING" });
+    try {
+      const result = await api.getAcademyExam(courseId);
+      dispatch({ type: "ACADEMY_EXAM_OK", data: result.data, courseId });
+    } catch (error) {
+      if (await handleAcademySession(error)) {
+        return;
+      }
+      dispatch({ type: "ACADEMY_EXAM_FAIL", error });
+    }
+  }, [handleAcademySession, runtime.api, state.selectedCourseId]);
+
+  const submitAcademyExam = useCallback(async () => {
+    const api = runtime.api;
+    const courseId = state.selectedCourseId;
+    const view = state.examView;
+    if (!api || !courseId || view.kind !== "ready") {
+      return;
+    }
+    const unanswered = view.questions.some((question) => view.answers[question.id] === undefined);
+    if (unanswered) {
+      dispatch({ type: "ACADEMY_EXAM_LOCAL_FAIL", message: RAIL_IS_COPY.exam.unanswered });
+      return;
+    }
+    dispatch({ type: "ACADEMY_EXAM_STARTED" });
+    const intent = academyExamIntentId(courseId);
+    const idempotencyKey = await getOrCreateIntentIdempotencyKey(runtime.store, intent);
+    try {
+      const result = await api.submitAcademyExam(
+        courseId,
+        {
+          answers: view.questions.map((question) => ({
+            questionId: question.id,
+            choiceIndex: view.answers[question.id] ?? 0,
+          })),
+          sessionToken: view.sessionToken,
+        },
+        { idempotencyKey },
+      );
+      await rotateIntentIdempotencyKey(runtime.store, intent);
+      dispatch({ type: "ACADEMY_EXAM_SUBMITTED", data: result.data });
+    } catch (error) {
+      if (await handleAcademySession(error)) {
+        return;
+      }
+      dispatch({ type: "ACADEMY_EXAM_FAIL", error });
+    }
+  }, [handleAcademySession, runtime.api, runtime.store, state.examView, state.selectedCourseId]);
+
+  const openAcademyCertificate = useCallback(
+    async (hash: string) => {
+      const api = runtime.api;
+      if (!api) {
+        return;
+      }
+      dispatch({ type: "ACADEMY_CERTIFICATE_OPEN", hash });
+      dispatch({ type: "ACADEMY_CERTIFICATE_LOADING" });
+      try {
+        const result = await api.getCertificate(hash);
+        dispatch({
+          type: "ACADEMY_CERTIFICATE_OK",
+          data: result.data,
+          apiBase: runtime.env.railApiBase,
+        });
+      } catch (error) {
+        if (await handleAcademySession(error)) {
+          return;
+        }
+        dispatch({ type: "ACADEMY_CERTIFICATE_FAIL", error });
+      }
+    },
+    [handleAcademySession, runtime.api, runtime.env.railApiBase],
+  );
+
+  const purchaseAcademyCourse = useCallback(
+    async (body: DronAcademyPurchaseBody) => {
+      const api = runtime.api;
+      const courseId = state.selectedCourseId;
+      if (!api || !courseId) {
+        setPurchaseError(RAIL_IS_COPY.login.apiMissing);
+        return;
+      }
+      setPurchasePending(true);
+      setPurchaseError(null);
+      const lockIntent = academyLockIntentId(courseId);
+      const purchaseIntent = academyPurchaseIntentId(courseId);
+      try {
+        const lockKey = await getOrCreateIntentIdempotencyKey(runtime.store, lockIntent);
+        const lockResult = await api.lockAcademyCourse(courseId, { idempotencyKey: lockKey });
+        await rotateIntentIdempotencyKey(runtime.store, lockIntent);
+        const lock = lockResult.data.lock;
+        const lockId =
+          lock && typeof lock === "object" && "id" in lock && typeof lock.id === "string" ? lock.id : undefined;
+        const purchaseKey = await getOrCreateIntentIdempotencyKey(runtime.store, purchaseIntent);
+        await api.purchaseAcademyCourse(
+          courseId,
+          { ...body, lockId },
+          { idempotencyKey: purchaseKey },
+        );
+        await rotateIntentIdempotencyKey(runtime.store, purchaseIntent);
+        const curriculum = await api.getAcademyCurriculum(courseId);
+        dispatch({ type: "ACADEMY_CURRICULUM_OK", data: curriculum.data });
+        void loadHome({ silent: true });
+      } catch (error) {
+        if (await handleAcademySession(error)) {
+          return;
+        }
+        const failure = classifyV1Failure(error);
+        setPurchaseError(failure.message || RAIL_IS_COPY.academy.purchaseFail);
+      } finally {
+        setPurchasePending(false);
+      }
+    },
+    [handleAcademySession, loadHome, runtime.api, runtime.store, state.selectedCourseId],
+  );
+
+  const openCertificateVerify = useCallback(async (url: string) => {
+    await Linking.openURL(url);
+  }, []);
+
   const refreshHome = useCallback(async () => {
     setRefreshing(true);
     try {
@@ -629,6 +917,18 @@ export function useDronApp() {
     loadOwnerBids,
     openNewBidIntent,
     openWebWallet,
+    beginWalletTopUp,
+    topUpPending,
+    topUpError,
+    purchasePending,
+    purchaseError,
+    openAcademyCourse,
+    completeAcademyLesson,
+    openAcademyExam,
+    submitAcademyExam,
+    openAcademyCertificate,
+    purchaseAcademyCourse,
+    openCertificateVerify,
     boot,
   };
 }

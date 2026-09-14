@@ -1,7 +1,6 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { ACADEMY_COURSE_TITLES } from "@/lib/kernel/catalog-ids";
 import {
@@ -185,8 +184,14 @@ describe("pasaport vize yüzeyi", () => {
     expect(growth).not.toContain("@/lib/academy");
     expect(growth).not.toContain("@/lib/career");
     const empty = buildPassportGrowthCard([]);
-    expect(empty).toHaveLength(ACADEMY_GROWTH_SKU_SLUGS.length);
-    expect(empty.map((slot) => slot.slug)).toEqual([...ACADEMY_GROWTH_SKU_SLUGS]);
+    expect(empty.map((slot) => slot.slug)).toEqual([
+      "01_office_ai",
+      "02_ecommerce_ai",
+      "03_social_media_ai",
+      "04_chatbot_nocode",
+      "05_prompt_practice",
+    ]);
+    expect(empty).toHaveLength(5);
     expect(empty.every((slot) => slot.held === false)).toBe(true);
     expect(empty.every((slot) => slot.stampId === null)).toBe(true);
     expect(PASSPORT_GROWTH_LOCKED_LABEL).toBe("Henüz damga yok / Kilitli");

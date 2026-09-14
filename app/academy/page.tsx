@@ -1,42 +1,47 @@
 import { CourseList } from "@/components/academy/course-list";
 import { AcademyContinuePanel } from "@/components/academy/continue-panel";
 import { LegalColophonStrip } from "@/components/legal/legal-colophon-strip";
+import { JsonLd } from "@/components/seo/json-ld";
+import { LandingFaq } from "@/components/seo/landing-faq";
 import {
   loadAcademyCatalogLearnerBoard,
   loadAcademyContinueBoard,
-  loadPublishedCourses,
+  loadAcademyVitrineCourses,
+  publishedLessonCount,
 } from "@/lib/academy/load-catalog";
 import { isAcademyContinueResumeStrip } from "@/lib/academy/continue-board";
 import { EMPTY_ACADEMY_CATALOG_LEARNER_BOARD } from "@/lib/academy/catalog-learner";
-import { curriculumLessonCountForSlug } from "@/lib/academy/curricula/lesson-index";
-import { filterAcademyPilotCatalog } from "@/lib/academy/pilot-sku";
+import { isAcademyGrowthSkuSlug } from "@/lib/academy/pilot-sku";
 import { RoomFrame } from "@/components/ui/page-header";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
+import { faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
+import { ACADEMY_LANDING_FAQ } from "@/lib/copy/sem-keywords";
 import { getSession } from "@/lib/kernel/auth/session";
 
 /**
- * Katalog vitrini — Katman 1 compact SKU (`01_office_ai` … `05_prompt_practice`).
- * Sıra `ACADEMY_GROWTH_SKU_SLUGS`; her kurs 6 makale.
+ * Akademi vitrini — PEDAGOJI §D 5'li Vitrin Karması + A5 dürüst yüzey.
+ * Mühürlü `01_office_ai-1` amiral kartı yayındadır. Kardeş SKU’lar Çok Yakında
+ * kabuğudur; hayali oynatıcı ve satın alınır antre basılmaz.
  */
 export default async function AcademyPage() {
   const copy = SEN_VOICE.academy.catalog;
-  const sessionPromise = getSession();
-  const publishedPromise = loadPublishedCourses();
-  const session = await sessionPromise;
-  const [published, continueBoard, learnerBoard] = await Promise.all([
-    publishedPromise,
+  const session = await getSession();
+  const [courses, continueBoard, learnerBoard] = await Promise.all([
+    loadAcademyVitrineCourses(),
     session ? loadAcademyContinueBoard(session.id) : Promise.resolve(null),
     session
       ? loadAcademyCatalogLearnerBoard(session.id)
       : Promise.resolve(EMPTY_ACADEMY_CATALOG_LEARNER_BOARD),
   ]);
-  const courses = filterAcademyPilotCatalog(published);
   const lessonCounts = Object.fromEntries(
-    courses.map((course) => [course.slug, curriculumLessonCountForSlug(course.slug)] as const),
+    courses
+      .filter((course) => isAcademyGrowthSkuSlug(course.slug))
+      .map((course) => [course.slug, publishedLessonCount(course.slug)] as const),
   );
 
   return (
     <RoomFrame className="space-y-3 pb-8">
+      <JsonLd data={jsonLdDocument([faqPageJsonLd(ACADEMY_LANDING_FAQ)])} />
       <CourseList
         courses={courses}
         learnerBoard={learnerBoard}
@@ -50,6 +55,7 @@ export default async function AcademyPage() {
         }
         footer={<LegalColophonStrip />}
       />
+      <LandingFaq heading={copy.faqHeading} items={ACADEMY_LANDING_FAQ} />
     </RoomFrame>
   );
 }

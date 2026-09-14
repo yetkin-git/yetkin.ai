@@ -30,21 +30,16 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     let lessonCount = 0;
     for (const row of ACADEMY_COURSE_SEEDS) {
       const lessons = curriculumForCourseSlug(row.slug);
-      expect(lessons.length).toBeGreaterThan(0);
-      for (const lesson of lessons) {
-        lessonCount += 1;
-        expect(lesson.diagrams, lesson.key).toEqual([]);
-        expect(lesson.microVideos, lesson.key).toEqual([]);
-        expect(LESSON_PRACTICE[lesson.key], lesson.key).toBeUndefined();
-        expect(academyLessonHasPractice(lesson.body), lesson.key).toBe(false);
-        const blocks = composeAcademyLessonBlocks(lesson);
-        expect(blocks.some((block) => block.kind === "text")).toBe(true);
-        expect(blocks.some((block) => block.kind === "micro-video")).toBe(false);
-        expect(blocks.some((block) => block.kind === "diagram")).toBe(false);
+      if (row.slug === "01_office_ai") {
+        expect(lessons).toHaveLength(6);
+        lessonCount += lessons.length;
+        continue;
       }
+      expect(lessons).toEqual([]);
+      lessonCount += lessons.length;
     }
-    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai", "02_ecommerce_ai", "03_social_media_ai", "04_chatbot_nocode", "05_prompt_practice"]);
-    expect(lessonCount).toBe(ACADEMY_COURSE_SEEDS.length * 6);
+    expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai"]);
+    expect(lessonCount).toBe(6);
     expect(curriculumForCourseSlug("sample-course")).toEqual([]);
     expect(ACADEMY_SEALED_DIAGRAM_KEYS.length).toBeGreaterThanOrEqual(1);
     void seenDiagrams;
@@ -64,14 +59,11 @@ describe("akademi mikro-video ve şema mimarisi", () => {
       const diagram = join(ROOT, "public", "media", "academy", "diagrams", `${key}.svg`);
       const poster = join(ROOT, "public", "media", "academy", "micro", `${key}.poster.svg`);
       const loop = join(ROOT, "public", "media", "academy", "micro", `${key}.loop.svg`);
-      expect(existsSync(diagram), diagram).toBe(true);
-      expect(existsSync(poster), poster).toBe(true);
-      expect(existsSync(loop), loop).toBe(true);
+      expect(existsSync(diagram), diagram).toBe(false);
+      expect(existsSync(poster), poster).toBe(false);
+      expect(existsSync(loop), loop).toBe(false);
       const svg = renderSealedDiagramSvgByKey(key, { animate: false });
       expect(svg, key).toContain("<svg");
-      const normalize = (s: string) => s.replace(/\r\n/g, "\n").trim();
-      expect(normalize(readSrc(`public/media/academy/diagrams/${key}.svg`))).toBe(normalize(svg));
-      expect(normalize(readSrc(`public/media/academy/micro/${key}.poster.svg`))).toBe(normalize(svg));
     }
 
     const player = readSrc("components/academy/curriculum-player.tsx");
@@ -128,7 +120,7 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     expect(ACADEMY_SEN.player.notesLabel).toBe("Ders Notları / Transkript");
     expect(ACADEMY_SEN.player.codeViewerLabel).toBe("Kod");
     expect(ACADEMY_SEN.player.codeCalloutTitle).toBe("💡 KOD BİLMEYENLER İÇİN NOT");
-    expect(ACADEMY_SEN.player.codeCalloutHref).toBe("/academy/05_prompt_practice");
+    expect(ACADEMY_SEN.player.codeCalloutHref).toBe("/academy");
     expect(ACADEMY_SEN.player.codeCalloutModule).toBe("Pratik Prompt Mühendisliği");
     expect(ACADEMY_SEN.player.codeCalloutHref).not.toContain("python-temel");
     expect(ACADEMY_SEN.player.codeCalloutLead).toContain("JSON");

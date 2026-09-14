@@ -8,6 +8,7 @@ import {
   type AcademyCourseLevel,
 } from "@/lib/academy/course-level";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
+import { ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN } from "@/lib/academy/course-cover";
 import { ACADEMY_HERO_PAYTR_EVENT, type AcademyAntreHeroAction } from "@/lib/academy/storefront-cta";
 import type { Route } from "next";
 
@@ -20,6 +21,8 @@ export function CourseHeroActions({
   level,
   moduleCode,
   hasSealedAudio = false,
+  comingSoon = false,
+  audioPreview = false,
   primaryHref,
   primaryLabel,
   primaryAction = "none",
@@ -31,6 +34,10 @@ export function CourseHeroActions({
   level: AcademyCourseLevel | null;
   moduleCode?: string | null;
   hasSealedAudio?: boolean;
+  /** Taze ingest yok — Yazılı compact vaadi basılmaz. */
+  comingSoon?: boolean;
+  /** Amiral 1. bölüm sesli; karaoke mührü yokken kısa rozet. */
+  audioPreview?: boolean;
   primaryHref?: string | null;
   primaryLabel?: string | null;
   primaryAction?: AcademyAntreHeroAction;
@@ -61,10 +68,22 @@ export function CourseHeroActions({
           </Badge>
         </span>
       ) : null}
-      {hasSealedAudio ? (
+      {comingSoon ? (
+        <span data-academy-hero-coming-soon="">
+          <Badge tone="neutral" className="normal-case tracking-normal">
+            {ACADEMY_SEN.catalog.comingSoonHint}
+          </Badge>
+        </span>
+      ) : hasSealedAudio ? (
         <span data-academy-hero-audio="">
           <Badge tone="safir" className="normal-case tracking-normal">
             {ACADEMY_SEN.catalog.heroAudioBadge}
+          </Badge>
+        </span>
+      ) : audioPreview ? (
+        <span data-academy-hero-audio="">
+          <Badge tone="safir" className="normal-case tracking-normal">
+            {ACADEMY_SEN.catalog.cardMetaAudio(ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN)}
           </Badge>
         </span>
       ) : (

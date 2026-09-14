@@ -108,7 +108,7 @@ describe("ihtiyaç odaklı eşleme (Need-Based Mapping)", () => {
     expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain('pathwayLabel: "Teklif Kapısı"');
     expect(readSrc("lib/copy/sen-voice/freelancer.ts")).not.toContain('pathwayLabel: "İhtiyaç"');
     for (const title of Object.values(FREELANCER_NEED_TITLES)) {
-      expect(readSrc("lib/kernel/catalog-ids/need-based-mapping.ts")).toContain(title);
+      expect(readSrc("packages/kernel/src/catalog-ids/need-based-mapping.ts")).toContain(title);
     }
   });
 

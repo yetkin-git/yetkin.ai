@@ -64,13 +64,14 @@ describe("resolveNextBestAction", () => {
     expect(action).toEqual({ kind: "career_visa", href: "/career", room: "career" });
   });
 
-  it("satın alınmış akademi yolunu vizeden önce devam eylemine bağlar", () => {
-    const action = resolveNextBestAction({
+  it("sınav sonrası damga varsa NBA Kariyer Vizesine iner; yarım ders vizeden önce kalır", () => {
+    const stamped = resolveNextBestAction({
       ...EMPTY_DASHBOARD_PULSE,
       academy: {
         ...EMPTY_DASHBOARD_PULSE.academy,
         live: true,
         purchasesCount: 1,
+        certificatesHeld: 1,
       },
       career: {
         ...EMPTY_DASHBOARD_PULSE.career,
@@ -78,8 +79,28 @@ describe("resolveNextBestAction", () => {
         visaCount: 1,
       },
     });
-    expect(action.kind).toBe("academy_continue");
-    expect(action.href).toBe("/academy");
+    expect(stamped).toEqual({ kind: "career_visa", href: "/career", room: "career" });
+
+    const incomplete = resolveNextBestAction({
+      ...EMPTY_DASHBOARD_PULSE,
+      academy: {
+        ...EMPTY_DASHBOARD_PULSE.academy,
+        live: true,
+        purchasesCount: 1,
+        lastCourseSlug: "01_office_ai",
+        nextLessonKey: "01_office_ai-3",
+      },
+      career: {
+        ...EMPTY_DASHBOARD_PULSE.career,
+        live: true,
+        visaCount: 1,
+      },
+    });
+    expect(incomplete).toEqual({
+      kind: "academy_continue",
+      href: "/academy/01_office_ai/oyna",
+      room: "academy",
+    });
   });
 
   it("yarım kalan kursu ders oynatıcısına derin bağlar; slug yoksa katalog kalır", () => {

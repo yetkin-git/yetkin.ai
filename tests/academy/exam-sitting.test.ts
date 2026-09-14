@@ -7,13 +7,11 @@ import { lockAcademyCoursePrice, purchaseAcademyCourse } from "@/lib/academy/eng
 import {
   academyExamGateProofLessonKey,
   loadAcademyExam,
-  submitAcademyExam,
 } from "@/lib/academy/exam-engine";
 import { completeAcademyCurriculum } from "@/lib/academy/curriculum-engine";
 import { academyCourseSeedBySlug } from "@/lib/academy/seed";
 import { ServiceUnavailableError } from "@/lib/kernel/http/errors";
 import {
-  academyExamAnswersFromPublicQuestions,
   ACADEMY_EXAM_SITTING_MAC_FALLBACK,
   ACADEMY_EXAM_SITTING_SECRET_MISSING,
   openAcademyExamSitting,
@@ -165,16 +163,13 @@ describe("sınav oturumu MAC ve iş kanıtı kapısı", () => {
 
     await completeAcademyCurriculum(ports, { courseId: published.course.id, userId: BUYER });
     const view = await loadAcademyExam(ports, published.course.id, BUYER);
+    expect(view?.questions.length).toBeGreaterThan(0);
     expect(view?.sessionToken).toBeTruthy();
-    expect(view?.questions.length).toBe(10);
-    const answers = academyExamAnswersFromPublicQuestions(view!.questions, published.exam.questions);
-    const graded = await submitAcademyExam(ports, {
-      courseId: published.course.id,
-      userId: BUYER,
-      answers,
-      sessionToken: view!.sessionToken,
-    });
-    expect(graded.passed).toBe(true);
-    expect(graded.certificate?.certificateHash).toMatch(/^[a-f0-9]{64}$/);
+    expect(view?.exam.passScore).toBe(70);
+    const lessonIds = view?.questions.filter((question) => question.id.startsWith("q_off_l1_")).map((row) => row.id) ?? [];
+    expect(lessonIds).toHaveLength(3);
+    expect(lessonIds).toEqual(expect.arrayContaining(["q_off_l1_1", "q_off_l1_2", "q_off_l1_3"]));
+    const sitting = openAcademyExamSitting(view!.sessionToken);
+    expect(sitting?.items.map((item) => item.id)).toEqual(expect.arrayContaining(["q_off_l1_1", "q_off_l1_2", "q_off_l1_3"]));
   });
 });

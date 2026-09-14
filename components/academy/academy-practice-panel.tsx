@@ -295,7 +295,7 @@ export function AcademyPracticePanel({
           </button>
         </div>
         <p className="text-[11px] leading-relaxed text-slate-400">
-          💡 Bu istemi kopyalayıp ChatGPT, Microsoft Copilot veya Claude penceresine yapıştırarak hemen çalıştırabilirsiniz.
+          💡 Bu istemi kopyalayıp ChatGPT, Claude, Gemini veya özel bir AI API penceresine yapıştırarak hemen çalıştırabilirsiniz.
         </p>
       </div>
 

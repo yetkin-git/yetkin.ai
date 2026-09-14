@@ -3,8 +3,11 @@ import type { ExpoConfig } from "expo/config";
 /**
  * Rail İş (Diyar B) — mutlu yol ekranları.
  * Expo Web ürün değildir. IAP / Push / ikinci bundle yoktur.
- * Cüzdan yükleme Amiral /cuzdan (sistem tarayıcısı).
- * Faz 1 kapanana kadar yayın hattı donuk: eas.json / EAS build / expo publish yok.
+ * Cüzdan yükleme: POST /api/v1/wallet/top-up + HMAC /kasa pasaportu. Native IAP yok.
+ * T3 Akademi oynatıcı / sınav / mühür Dron UI'dadır.
+ * Closed Testing: Tezgâh yüzeyi izole (`tezgahStoreIsolated`).
+ * EAS profilleri `apps/rail-is/eas.json`. CI eas/eas-cli koşmaz; binary operatör basar.
+ * extra.eas.projectId uydurulmaz — `eas init` bağlar.
  */
 const config: ExpoConfig = {
   name: "yetkin.ai",
@@ -25,7 +28,8 @@ const config: ExpoConfig = {
   extra: {
     diyar: "B",
     product: "rail-is",
-    publishFrozenUntilFaz1Close: true,
+    publishFrozenUntilFaz1Close: false,
+    tezgahStoreIsolated: true,
   },
 };
 

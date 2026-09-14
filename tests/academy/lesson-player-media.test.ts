@@ -16,41 +16,24 @@ import { ACADEMY_GEMINI_TTS_SLOT, requestAcademyGeminiTts } from "@/lib/academy/
 const ROOT = process.cwd();
 
 describe("akademi ders medya hizası — videoUrl / audioUrl", () => {
-  it("CurriculumModule placeholder video taşımaz; demo podcast durur", () => {
+  it("CurriculumModule placeholder video ve demo podcast taşımaz", () => {
     expect(officeAiMasteryModule.videoUrl).toBeUndefined();
-    expect(officeAiMasteryModule.audioUrl).toBe(ACADEMY_DEMO_AUDIO_PUBLIC_PATH);
+    expect(officeAiMasteryModule.audioUrl).toBeUndefined();
     expect(officeAiMasteryModule.sections).toHaveLength(6);
     for (const section of officeAiMasteryModule.sections) {
       expect(section.videoUrl, `section ${section.sectionNumber} videoUrl`).toBeUndefined();
-      expect(section.audioUrl, `section ${section.sectionNumber} audioUrl`).toBe(
-        ACADEMY_DEMO_AUDIO_PUBLIC_PATH,
-      );
+      expect(section.audioUrl, `section ${section.sectionNumber} audioUrl`).toBeUndefined();
     }
   });
 
-  it("01_office_ai tohum dersleri test videosu basmaz; podcast audioUrl durur", () => {
+  it("01_office_ai tohum dersleri test videosu ve podcast audioUrl basmaz", () => {
     const lessons = curriculumForCourseSlug("01_office_ai");
     expect(lessons).toHaveLength(6);
     for (const lesson of lessons) {
       expect(lesson.videoUrl).toBeUndefined();
-      expect(lesson.audioUrl).toBe(ACADEMY_DEMO_AUDIO_PUBLIC_PATH);
+      expect(lesson.audioUrl).toBeUndefined();
       expect(academyLessonVideoShouldRender(lesson.videoUrl)).toBe(false);
     }
-  });
-
-  it("ücretsiz mock ses dosyası public yolda durur", () => {
-    expect(existsSync(join(ROOT, "public/academy/demo/office-ai-podcast.wav"))).toBe(true);
-    expect(readFileSync(join(ROOT, "public/academy/demo/office-ai-podcast.wav")).subarray(0, 4).toString()).toBe(
-      "RIFF",
-    );
-  });
-
-  it("telifsiz demo MP4 public yolda durur", () => {
-    const path = join(ROOT, "public/academy/demo/office-ai-intro.mp4");
-    expect(existsSync(path)).toBe(true);
-    const buf = readFileSync(path);
-    expect(buf.byteLength).toBeGreaterThan(10_000);
-    expect(buf.subarray(4, 8).toString()).toBe("ftyp");
   });
 
   it("mühürlü medya oynatıcısı HTMLAudio currentTime saatidir; kelime tahmini ve demo video yok", () => {
@@ -59,38 +42,43 @@ describe("akademi ders medya hizası — videoUrl / audioUrl", () => {
     expect(src).toContain("audio.currentTime");
     expect(src).toContain('data-academy-clock="currentTime"');
     expect(src).toContain("academyLessonAudioPlaybackSrc");
+    expect(src).toContain("academyLessonBedPlaybackSrc");
+    expect(src).toContain("academyBedDuckGain");
     expect(src).toContain("academyPlayerClockDurationSec");
     expect(src).not.toContain("buildAcademyDialogueTimeline");
     expect(src).not.toContain("<video");
     expect(src).not.toContain("LessonCinemaEyeLayer");
     expect(player).toContain("academyCitizenPlayerLayer");
-    expect(player).toContain("<LessonTeleprompter");
+    expect(player).not.toContain("<LessonTeleprompter");
+    expect(player).toContain('data-academy-directing="punchcard"');
     expect(player).toContain("onSpokenElapsedChange={setMediaElapsed}");
-    expect(readFileSync(join(ROOT, "next.config.ts"), "utf8")).toContain("video/mp4");
-    expect(readFileSync(join(ROOT, "next.config.ts"), "utf8")).toContain("/academy/demo/office-ai-intro.mp4");
+    const nextConfig = readFileSync(join(ROOT, "next.config.ts"), "utf8");
+    expect(nextConfig).toContain("audio/mpeg");
+    expect(nextConfig).toContain("/media/academy/audio/:path*");
+    expect(nextConfig).not.toContain("/academy/demo/office-ai-intro.mp4");
+    expect(nextConfig).not.toContain("office-ai-podcast.wav");
+    expect(nextConfig).not.toContain('value: "audio/wav"');
+    expect(nextConfig).not.toContain('source: "/audio/:path*"');
   });
 
-  it("demo podcast fallback yalnız 01_office_ai'ye kilitlidir; başka SKU'da yanlış ses çalınmaz", () => {
-    expect(ACADEMY_DEMO_AUDIO_COURSE_SLUG).toBe("01_office_ai");
-    expect(resolveAcademyLessonAudioUrl(undefined, "01_office_ai")).toBe(
-      ACADEMY_DEMO_AUDIO_PUBLIC_PATH,
-    );
-    expect(resolveAcademyLessonAudioUrl(null, "01_office_ai")).toBe(ACADEMY_DEMO_AUDIO_PUBLIC_PATH);
-    expect(resolveAcademyLessonAudioUrl("   ", "01_office_ai")).toBe(ACADEMY_DEMO_AUDIO_PUBLIC_PATH);
+  it("demo podcast fallback kapalıdır; açık URL yoksa ses bağlanmaz", () => {
+    expect(ACADEMY_DEMO_AUDIO_COURSE_SLUG).toBeNull();
+    expect(resolveAcademyLessonAudioUrl(undefined, "01_office_ai")).toBeUndefined();
+    expect(resolveAcademyLessonAudioUrl(null, "01_office_ai")).toBeUndefined();
+    expect(resolveAcademyLessonAudioUrl("   ", "01_office_ai")).toBeUndefined();
     expect(resolveAcademyLessonAudioUrl(undefined, "02_ecommerce_ai")).toBeUndefined();
-    expect(resolveAcademyLessonAudioUrl(null, "02_ecommerce_ai")).toBeUndefined();
     expect(resolveAcademyLessonAudioUrl(undefined)).toBeUndefined();
     expect(resolveAcademyLessonAudioUrl("/academy/demo/ozel.wav", "02_ecommerce_ai")).toBe(
       "/academy/demo/ozel.wav",
     );
+    expect(existsSync(join(ROOT, "public/academy/demo/office-ai-podcast.wav"))).toBe(true);
+    expect(ACADEMY_DEMO_AUDIO_PUBLIC_PATH).toBe("/academy/demo/office-ai-podcast.wav");
   });
 
   it("Gemini 3.1 TTS yuvası kapalıdır ve çağrı basmaz", () => {
     expect(ACADEMY_GEMINI_TTS_SLOT.enabled).toBe(false);
     expect(ACADEMY_GEMINI_TTS_SLOT.model).toBe("gemini-3.1-tts");
-    expect(
-      requestAcademyGeminiTts({ text: "Merhaba", languageCode: "tr-TR" }),
-    ).toBeNull();
+    expect(requestAcademyGeminiTts({ text: "Merhaba", languageCode: "tr-TR" })).toBeNull();
     expect(classifyAcademyLessonVideoSrc(undefined).kind).toBe("none");
     expect(classifyAcademyLessonVideoSrc(ACADEMY_DEMO_VIDEO_PUBLIC_PATH).kind).toBe("file");
     expect(academyLessonVideoShouldRender(undefined)).toBe(false);

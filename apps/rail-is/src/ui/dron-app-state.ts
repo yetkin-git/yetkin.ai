@@ -57,6 +57,41 @@ import {
   type OwnerBidsView,
 } from "./present-owner-bids";
 import {
+  emptyAcademyCertificate,
+  presentAcademyCertificate,
+  presentAcademyCertificateError,
+  presentAcademyCertificateLoading,
+  type AcademyCertificateView,
+} from "./present-academy-certificate";
+import {
+  emptyAcademyExam,
+  presentAcademyExam,
+  presentAcademyExamAnswer,
+  presentAcademyExamError,
+  presentAcademyExamLoading,
+  presentAcademyExamLocalFail,
+  presentAcademyExamPending,
+  presentAcademyExamSubmitted,
+  type AcademyExamView,
+} from "./present-academy-exam";
+import {
+  emptyAcademyPlayer,
+  presentAcademyNeedPurchase,
+  presentAcademyPlayer,
+  presentAcademyPlayerError,
+  presentAcademyPlayerLoading,
+  presentAcademyPlayerLocalFail,
+  presentAcademyPlayerPending,
+  selectAcademyLesson,
+  type AcademyPlayerView,
+} from "./present-academy-player";
+import {
+  presentAcademyPulse,
+  presentAcademyPulseError,
+  presentAcademyPulseLoading,
+  type AcademyPulseView,
+} from "./present-academy-pulse";
+import {
   presentWalletError,
   presentWalletFromFailure,
   presentWalletLoading,
@@ -65,7 +100,8 @@ import {
 } from "./present-wallet";
 
 export type DronPhase = "boot" | "login" | "ready" | "stale";
-export type DronHomeTab = "jobs" | "bench";
+export type DronHomeTab = "academy" | "jobs" | "bench";
+export type DronAcademySurface = "catalog" | "player" | "exam" | "certificate";
 
 export type DronAppState = {
   phase: DronPhase;
@@ -76,8 +112,16 @@ export type DronAppState = {
   loginPending: boolean;
   loginError: string | null;
   homeTab: DronHomeTab;
+  academySurface: DronAcademySurface;
+  selectedCourseId: string | null;
+  selectedCertificateHash: string | null;
+  academyPulseView: AcademyPulseView;
+  curriculumView: AcademyPlayerView;
+  examView: AcademyExamView;
+  certificateView: AcademyCertificateView;
   jobsView: JobListView;
   walletView: WalletStripView;
+  topUpOpen: boolean;
   benchView: BenchView;
   selectedJob: RailV1Job | null;
   bidView: BidFormView;
@@ -100,12 +144,38 @@ export type DronAppEvent =
   | { type: "SESSION_OK"; user: RailV1SessionUser }
   | { type: "SESSION_FAIL"; error: unknown }
   | { type: "HOME_TAB"; tab: DronHomeTab }
+  | { type: "ACADEMY_PULSE_LOADING" }
+  | { type: "ACADEMY_PULSE_OK"; data: unknown }
+  | { type: "ACADEMY_PULSE_FAIL"; error: unknown }
+  | { type: "ACADEMY_SELECT_COURSE"; courseId: string }
+  | { type: "ACADEMY_CURRICULUM_LOADING" }
+  | { type: "ACADEMY_CURRICULUM_OK"; data: unknown }
+  | { type: "ACADEMY_CURRICULUM_NEED_PURCHASE"; courseId: string; message?: string }
+  | { type: "ACADEMY_CURRICULUM_FAIL"; error: unknown }
+  | { type: "ACADEMY_LESSON_SELECT"; lessonKey: string }
+  | { type: "ACADEMY_LESSON_STARTED" }
+  | { type: "ACADEMY_LESSON_LOCAL_FAIL"; message: string }
+  | { type: "ACADEMY_EXAM_OPEN" }
+  | { type: "ACADEMY_EXAM_LOADING" }
+  | { type: "ACADEMY_EXAM_OK"; data: unknown; courseId: string }
+  | { type: "ACADEMY_EXAM_FAIL"; error: unknown }
+  | { type: "ACADEMY_EXAM_ANSWER"; questionId: string; choiceIndex: number }
+  | { type: "ACADEMY_EXAM_STARTED" }
+  | { type: "ACADEMY_EXAM_SUBMITTED"; data: unknown }
+  | { type: "ACADEMY_EXAM_LOCAL_FAIL"; message: string }
+  | { type: "ACADEMY_CERTIFICATE_OPEN"; hash: string }
+  | { type: "ACADEMY_CERTIFICATE_LOADING" }
+  | { type: "ACADEMY_CERTIFICATE_OK"; data: unknown; apiBase: string }
+  | { type: "ACADEMY_CERTIFICATE_FAIL"; error: unknown }
+  | { type: "ACADEMY_BACK" }
   | { type: "JOBS_LOADING" }
   | { type: "JOBS_OK"; jobs: RailV1Job[] }
   | { type: "JOBS_FAIL"; error: unknown }
   | { type: "WALLET_LOADING" }
   | { type: "WALLET_OK"; strip: RailV1WalletStrip }
   | { type: "WALLET_FAIL"; error: unknown }
+  | { type: "TOP_UP_OPEN" }
+  | { type: "TOP_UP_CLOSE" }
   | { type: "CONTRACTS_LOADING" }
   | { type: "CONTRACTS_OK"; contracts: FreelancerContractView[] }
   | { type: "CONTRACTS_FAIL"; error: unknown; keepSnapshot?: boolean }
@@ -153,9 +223,17 @@ export const initialDronAppState: DronAppState = {
   loginPassword: "",
   loginPending: false,
   loginError: null,
-  homeTab: "jobs",
+  homeTab: "academy",
+  academySurface: "catalog",
+  selectedCourseId: null,
+  selectedCertificateHash: null,
+  academyPulseView: { kind: "idle", testID: "dron-academy-pulse-idle" },
+  curriculumView: emptyAcademyPlayer(),
+  examView: emptyAcademyExam(),
+  certificateView: emptyAcademyCertificate(),
   jobsView: { kind: "idle", testID: "dron-job-list-idle" },
   walletView: { kind: "idle", testID: "dron-wallet-idle" },
+  topUpOpen: false,
   benchView: IDLE_BENCH,
   selectedJob: null,
   bidView: emptyBidForm(),
@@ -176,9 +254,17 @@ function loginSurface(state: DronAppState, message: string | null): DronAppState
     loginError: message,
     loginPassword: "",
     selectedJob: null,
-    homeTab: "jobs",
+    homeTab: "academy",
+    academySurface: "catalog",
+    selectedCourseId: null,
+    selectedCertificateHash: null,
+    academyPulseView: { kind: "idle", testID: "dron-academy-pulse-idle" },
+    curriculumView: emptyAcademyPlayer(),
+    examView: emptyAcademyExam(),
+    certificateView: emptyAcademyCertificate(),
     jobsView: { kind: "idle", testID: "dron-job-list-idle" },
     walletView: { kind: "idle", testID: "dron-wallet-idle" },
+    topUpOpen: false,
     benchView: IDLE_BENCH,
     bidView: emptyBidForm(),
     ownerBidsView: IDLE_OWNER_BIDS,
@@ -290,6 +376,10 @@ export function dronAppReducer(state: DronAppState, event: DronAppEvent): DronAp
         ...state,
         homeTab: event.tab,
         selectedJob: null,
+        academySurface: event.tab === "academy" ? "catalog" : state.academySurface,
+        selectedCourseId: event.tab === "academy" ? null : state.selectedCourseId,
+        curriculumView: event.tab === "academy" ? emptyAcademyPlayer() : state.curriculumView,
+        examView: event.tab === "academy" ? emptyAcademyExam() : state.examView,
         ownerBidsView: IDLE_OWNER_BIDS,
         acceptView: emptyAcceptForm(),
       };
@@ -312,6 +402,10 @@ export function dronAppReducer(state: DronAppState, event: DronAppEvent): DronAp
         ...next,
         walletView: presentWalletFromFailure(classifyV1Failure(event.error)),
       }));
+    case "TOP_UP_OPEN":
+      return { ...state, topUpOpen: true };
+    case "TOP_UP_CLOSE":
+      return { ...state, topUpOpen: false };
     case "CONTRACTS_LOADING":
       return { ...state, benchView: presentBenchLoading() };
     case "CONTRACTS_OK": {
@@ -519,12 +613,138 @@ export function dronAppReducer(state: DronAppState, event: DronAppEvent): DronAp
     }
     case "SIGN_OUT":
       return loginSurface(initialDronAppState, null);
+    case "ACADEMY_PULSE_LOADING":
+      return { ...state, academyPulseView: presentAcademyPulseLoading() };
+    case "ACADEMY_PULSE_OK":
+      return { ...state, academyPulseView: presentAcademyPulse(event.data) };
+    case "ACADEMY_PULSE_FAIL":
+      return applyGlobalOr(state, event.error, (next) => ({
+        ...next,
+        academyPulseView: presentAcademyPulseError(event.error),
+      }));
+    case "ACADEMY_SELECT_COURSE":
+      return {
+        ...state,
+        homeTab: "academy",
+        academySurface: "player",
+        selectedCourseId: event.courseId,
+        selectedJob: null,
+        examView: emptyAcademyExam(),
+        certificateView: emptyAcademyCertificate(),
+      };
+    case "ACADEMY_CURRICULUM_LOADING":
+      return { ...state, academySurface: "player", curriculumView: presentAcademyPlayerLoading() };
+    case "ACADEMY_CURRICULUM_OK":
+      return {
+        ...state,
+        academySurface: "player",
+        curriculumView: presentAcademyPlayer(
+          event.data,
+          state.curriculumView.kind === "ready" ? state.curriculumView.selectedLessonKey : null,
+        ),
+      };
+    case "ACADEMY_CURRICULUM_NEED_PURCHASE":
+      return {
+        ...state,
+        academySurface: "player",
+        selectedCourseId: event.courseId,
+        curriculumView: presentAcademyNeedPurchase(event.courseId, event.message),
+      };
+    case "ACADEMY_CURRICULUM_FAIL":
+      return applyGlobalOr(state, event.error, (next) => ({
+        ...next,
+        academySurface: "player",
+        curriculumView: presentAcademyPlayerError(event.error),
+      }));
+    case "ACADEMY_LESSON_SELECT":
+      return { ...state, curriculumView: selectAcademyLesson(state.curriculumView, event.lessonKey) };
+    case "ACADEMY_LESSON_STARTED":
+      return { ...state, curriculumView: presentAcademyPlayerPending(state.curriculumView) };
+    case "ACADEMY_LESSON_LOCAL_FAIL":
+      return {
+        ...state,
+        curriculumView: presentAcademyPlayerLocalFail(state.curriculumView, event.message),
+      };
+    case "ACADEMY_EXAM_OPEN":
+      return { ...state, academySurface: "exam", examView: emptyAcademyExam() };
+    case "ACADEMY_EXAM_LOADING":
+      return { ...state, academySurface: "exam", examView: presentAcademyExamLoading() };
+    case "ACADEMY_EXAM_OK":
+      return {
+        ...state,
+        academySurface: "exam",
+        examView: presentAcademyExam(event.data, event.courseId),
+      };
+    case "ACADEMY_EXAM_FAIL":
+      return applyGlobalOr(state, event.error, (next) => ({
+        ...next,
+        academySurface: "exam",
+        examView: presentAcademyExamError(event.error),
+      }));
+    case "ACADEMY_EXAM_ANSWER":
+      return {
+        ...state,
+        examView: presentAcademyExamAnswer(state.examView, event.questionId, event.choiceIndex),
+      };
+    case "ACADEMY_EXAM_STARTED":
+      return { ...state, examView: presentAcademyExamPending(state.examView) };
+    case "ACADEMY_EXAM_SUBMITTED":
+      return { ...state, academySurface: "exam", examView: presentAcademyExamSubmitted(event.data) };
+    case "ACADEMY_EXAM_LOCAL_FAIL":
+      return {
+        ...state,
+        examView: presentAcademyExamLocalFail(state.examView, event.message),
+      };
+    case "ACADEMY_CERTIFICATE_OPEN":
+      return {
+        ...state,
+        academySurface: "certificate",
+        selectedCertificateHash: event.hash,
+        certificateView: emptyAcademyCertificate(),
+      };
+    case "ACADEMY_CERTIFICATE_LOADING":
+      return { ...state, academySurface: "certificate", certificateView: presentAcademyCertificateLoading() };
+    case "ACADEMY_CERTIFICATE_OK":
+      return {
+        ...state,
+        academySurface: "certificate",
+        certificateView: presentAcademyCertificate(event.data, event.apiBase),
+      };
+    case "ACADEMY_CERTIFICATE_FAIL":
+      return applyGlobalOr(state, event.error, (next) => ({
+        ...next,
+        academySurface: "certificate",
+        certificateView: presentAcademyCertificateError(event.error),
+      }));
+    case "ACADEMY_BACK":
+      if (state.academySurface === "certificate") {
+        return {
+          ...state,
+          academySurface: state.examView.kind === "submitted" || state.examView.kind === "ready" ? "exam" : "player",
+          selectedCertificateHash: null,
+          certificateView: emptyAcademyCertificate(),
+        };
+      }
+      if (state.academySurface === "exam") {
+        return {
+          ...state,
+          academySurface: "player",
+          examView: emptyAcademyExam(),
+        };
+      }
+      return {
+        ...state,
+        academySurface: "catalog",
+        selectedCourseId: null,
+        curriculumView: emptyAcademyPlayer(),
+        examView: emptyAcademyExam(),
+      };
   }
 }
 
 export function visibleScreen(
   state: DronAppState,
-): "boot" | "login" | "stale" | "jobs" | "job" | "bench" {
+): "boot" | "login" | "stale" | "academy" | "player" | "exam" | "certificate" | "jobs" | "job" | "bench" {
   if (state.phase === "boot") {
     return "boot";
   }
@@ -536,6 +756,18 @@ export function visibleScreen(
   }
   if (state.selectedJob) {
     return "job";
+  }
+  if (state.homeTab === "academy") {
+    if (state.academySurface === "certificate") {
+      return "certificate";
+    }
+    if (state.academySurface === "exam") {
+      return "exam";
+    }
+    if (state.academySurface === "player" && state.selectedCourseId) {
+      return "player";
+    }
+    return "academy";
   }
   if (state.homeTab === "bench") {
     return "bench";
