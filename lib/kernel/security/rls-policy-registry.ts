@@ -46,6 +46,7 @@ export const RLS_FORCE_TABLES = [
   "freelancer_jobs",
   "freelancer_squad_members",
   "freelancer_squads",
+  "funnel_daily_counters",
   "http_idempotency_records",
   "ledger_entries",
   "paid_command_reservations",

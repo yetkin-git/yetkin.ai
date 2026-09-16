@@ -11,7 +11,10 @@ import {
   listAcademyIssuedCertificateProofs,
 } from "@/lib/academy/issued-certificates";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
-import { railV1PublicAcademyCertificateDataSchema } from "@/lib/kernel/http/v1-contract";
+import {
+  RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE,
+  railV1PublicAcademyCertificateDataSchema,
+} from "@/lib/kernel/http/v1-contract";
 import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
 import { issueCareerVisaStamp } from "@/lib/career/engine";
 import { createPrismaCareerPorts } from "@/lib/career/runtime";
@@ -20,7 +23,6 @@ import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
 import {
   acceptFreelancerBid,
   createFreelancerJob,
-  releaseFreelancerContract,
   submitFreelancerBid,
 } from "@/lib/freelancer/engine";
 import { createPrismaFreelancerPorts } from "@/lib/freelancer/runtime";
@@ -38,7 +40,7 @@ const COURSE_ID = "ac_01_office_ai";
 const COURSE_PRICE = 89_000;
 
 describe("Kapalı pilot halkası — gerçek Postgres", () => {
-  it("Akademi → hash doğrulama → kariyer vizesi → ilan/teklif; release split; iptal kamu revoked basar", async () => {
+  it("Akademi → hash doğrulama → kariyer vizesi → ilan/teklif; kabul 503 (split bağlı değil); iptal kamu revoked basar", async () => {
     const learnerId = labUserId("learner");
     const clientId = labUserId("client");
     const workerId = labUserId("worker");
@@ -100,32 +102,16 @@ describe("Kapalı pilot halkası — gerçek Postgres", () => {
       amountMinor: FREELANCER_JOB_MIN_MINOR,
       coverNote: "Hazırım.",
     });
-    const accepted = await acceptFreelancerBid(freelancer, {
-      jobId: job.id,
-      bidId: bid.id,
-      actorUserId: clientId,
-      holdBps: HOLD_BPS_DEFAULT,
-    });
-    expect(accepted.applied).toBe(true);
-    expect(accepted.contract.status).toBe("FUNDED");
-    expect(await labWalletMinor(clientId)).toBe(100_000 - FREELANCER_JOB_MIN_MINOR);
+    await expect(
+      acceptFreelancerBid(freelancer, {
+        jobId: job.id,
+        bidId: bid.id,
+        actorUserId: clientId,
+        holdBps: HOLD_BPS_DEFAULT,
+      }),
+    ).rejects.toThrow(RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE);
+    expect(await labWalletMinor(clientId)).toBe(100_000);
     expect(await labWalletMinor(workerId)).toBe(0);
-
-    const released = await releaseFreelancerContract(freelancer, {
-      contractId: accepted.contract.id,
-      actorUserId: clientId,
-    });
-    expect(released.status).toBe("RELEASED");
-    expect(await labWalletMinor(workerId)).toBe(0);
-    const workerCredits = await labPrisma().ledgerEntry.findMany({
-      where: { userId: workerId, direction: "CREDIT" },
-    });
-    expect(workerCredits).toHaveLength(0);
-    const hold = await labPrisma().escrowHold.findUniqueOrThrow({
-      where: { id: accepted.contract.escrowHoldId },
-    });
-    expect(hold.status).toBe("RELEASED");
-    expect(hold.grossMinor).toBe(hold.holdMinor + hold.netMinor);
 
     const revokedAt = new Date("2026-08-20T01:00:00.000Z");
     const revoked = await revokeAcademyCertificate(academy.academy, {

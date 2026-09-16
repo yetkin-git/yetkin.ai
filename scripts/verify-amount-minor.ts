@@ -121,9 +121,20 @@ function assertPaytrBoundarySeal(): Violation[] {
     join(PROJECT_ROOT, "lib/kernel/money/amount-minor.ts"),
     "utf8",
   );
-  if (!amountSource.includes("export function toAmountMinor")) {
+  const kernelAmountSource = readFileSync(
+    join(PROJECT_ROOT, "packages/kernel/src/money/amount-minor.ts"),
+    "utf8",
+  );
+  if (!amountSource.includes('@yetkin/kernel/money/amount-minor')) {
     violations.push({
       file: "lib/kernel/money/amount-minor.ts",
+      ruleId: "minor.toAmountMinor-export",
+      excerpt: "toAmountMinor Amiral girişi @yetkin/kernel paketini re-export etmez",
+    });
+  }
+  if (!kernelAmountSource.includes("export function toAmountMinor")) {
+    violations.push({
+      file: "packages/kernel/src/money/amount-minor.ts",
       ruleId: "minor.toAmountMinor-export",
       excerpt: "toAmountMinor giriş kapısı kayboldu",
     });
