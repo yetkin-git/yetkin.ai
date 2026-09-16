@@ -197,7 +197,7 @@ export function LessonWordWorkspace({
                           className={`academy-outlook-row${isOrigin ? " on" : ""} unread`}
                           data-academy-word-origin={isOrigin ? "" : undefined}
                           data-academy-excel-active-cell={frag.cell}
-                          ref={isOrigin ? originRef : undefined}
+                          ref={isOrigin ? (el) => { originRef.current = el; } : undefined}
                         >
                           <b>{frag.page}</b>
                           <strong>{frag.text}</strong>
@@ -221,7 +221,7 @@ export function LessonWordWorkspace({
                           className={`academy-outlook-group academy-outlook-group--${card.tone}${isOrigin ? " on" : ""}`}
                           data-academy-word-origin={isOrigin ? "" : undefined}
                           data-academy-excel-active-cell={card.cell}
-                          ref={isOrigin ? originRef : undefined}
+                          ref={isOrigin ? (el) => { originRef.current = el; } : undefined}
                         >
                           <span className="academy-outlook-group-mark" aria-hidden>
                             {card.mark}

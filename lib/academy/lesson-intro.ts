@@ -42,6 +42,11 @@ export const ACADEMY_OFFICE_AI_G1_OUTRO_SUMMARY_LABELS = [
   "Kutuyu tara",
   "Taşıma suyu bırak",
 ] as const;
+export const ACADEMY_OFFICE_AI_W1_OUTRO_SUMMARY_LABELS = [
+  "Dosyayı ataşla",
+  "Üç işi ayrı iste",
+  "İmzayı kendin at",
+] as const;
 export const ACADEMY_OFFICE_AI_K1_OUTRO_SUMMARY_LABELS = [
   "Ham veri yükleme",
   "Maskeleyip sor",

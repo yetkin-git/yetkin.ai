@@ -10,6 +10,17 @@ import {
 
 const WORD_DUMP_CHROME = "Mart_2026_tahsilat_notlari.docx";
 
+function bindHtmlRef(ref: Ref<HTMLElement | null>, el: HTMLElement | null): void {
+  if (ref == null) {
+    return;
+  }
+  if (typeof ref === "function") {
+    ref(el);
+    return;
+  }
+  ref.current = el;
+}
+
 export function LessonSlideWorkspace({
   dumpMode,
   dumpLines,
@@ -24,7 +35,7 @@ export function LessonSlideWorkspace({
   if (dumpMode) {
     return (
       <div
-        ref={originRef}
+        ref={(el) => bindHtmlRef(originRef, el)}
         className="academy-pptx-dump academy-pptx-dump--word"
         data-academy-pptx-element="dump"
         data-academy-pptx-origin=""
@@ -54,7 +65,7 @@ export function LessonSlideWorkspace({
           return (
             <article
               key={card.id}
-              ref={isOrigin ? originRef : undefined}
+              ref={isOrigin ? (el) => bindHtmlRef(originRef, el) : undefined}
               className={`academy-pptx-kpi academy-pptx-kpi--${card.tone} items-center justify-center text-center`}
               data-academy-pptx-element={card.id}
               data-academy-pptx-kpi={card.id.replace("kpi-", "")}

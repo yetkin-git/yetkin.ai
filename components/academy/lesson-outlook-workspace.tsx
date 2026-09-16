@@ -242,7 +242,7 @@ export function LessonOutlookWorkspace({
                           data-academy-outlook-element={mail.id}
                           data-academy-outlook-origin={isOrigin ? "" : undefined}
                           data-academy-excel-active-cell={mail.cell}
-                          ref={isOrigin ? originRef : undefined}
+                          ref={isOrigin ? (el) => { originRef.current = el; } : undefined}
                         >
                           <b>{mail.from}</b>
                           <strong>{mail.subject}</strong>

@@ -86,10 +86,10 @@ export function academyPunchcardVisualEnd(
  * Nefes boşluğunda (cue.end … next.start) son başlayan cue tutulur; unmount/Adım 1 takılması olmaz.
  * Intro (ilk start’tan önce) ve outro (son end’den sonra) null döner.
  */
-export function academyPlaybackCueAtTime(
-  cues: readonly Pick<AcademyLessonCue, "id" | "start" | "end">[],
+export function academyPlaybackCueAtTime<T extends Pick<AcademyLessonCue, "id" | "start" | "end">>(
+  cues: readonly T[],
   currentTime: number,
-): (typeof cues)[number] | null {
+): T | null {
   if (cues.length === 0) {
     return null;
   }

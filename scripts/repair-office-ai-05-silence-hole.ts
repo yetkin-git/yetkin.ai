@@ -10,7 +10,7 @@ import { dirname, join } from "node:path";
 import { extractPcmFromWav, pcmWavDurationSec, wrapPcmAsWav } from "@/lib/kernel/ai/pcm-wav";
 import type { AcademySealedAudioPiece, AcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import { academyLessonAudioDiskPath, academyLessonAudioReleaseDiskPath } from "@/lib/academy/media-release-seal";
-import { transcodeAcademyWavToMp3 } from "./transcode-academy-lesson-audio.ts";
+import { transcodeAcademyWavToMp3 } from "./transcode-academy-lesson-audio";
 import timingsJson from "../lib/academy/lesson-audio-timings/01_office_ai-5.json" with { type: "json" };
 
 const COURSE_SLUG = "01_office_ai";

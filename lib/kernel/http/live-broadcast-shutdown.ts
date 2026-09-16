@@ -18,7 +18,9 @@ export type LiveBroadcastShutdownEnv = {
 };
 
 export function isLiveBroadcastShutdownFlagOn(
-  env: Pick<LiveBroadcastShutdownEnv, "LIVE_BROADCAST_SHUTDOWN"> = process.env,
+  env: Pick<LiveBroadcastShutdownEnv, "LIVE_BROADCAST_SHUTDOWN"> = {
+    LIVE_BROADCAST_SHUTDOWN: process.env.LIVE_BROADCAST_SHUTDOWN,
+  },
 ): boolean {
   const value = env.LIVE_BROADCAST_SHUTDOWN?.trim().toLowerCase() ?? "";
   return value === "1" || value === "true";
@@ -28,7 +30,11 @@ export function isLiveBroadcastShutdownFlagOn(
 export const LIVE_BROADCAST_SHUTDOWN = isLiveBroadcastShutdownFlagOn();
 
 export function isLiveBroadcastShutdownEnvActive(
-  env: LiveBroadcastShutdownEnv = process.env,
+  env: LiveBroadcastShutdownEnv = {
+    NODE_ENV: process.env.NODE_ENV,
+    VITEST: process.env.VITEST,
+    LIVE_BROADCAST_SHUTDOWN: process.env.LIVE_BROADCAST_SHUTDOWN,
+  },
 ): boolean {
   if (!isLiveBroadcastShutdownFlagOn(env)) {
     return false;

@@ -104,7 +104,8 @@ function fitExcelGridFont(wrap: HTMLElement, compact: boolean): void {
     const visualH = fit.getBoundingClientRect().height;
     if (visualH > availH + 0.5) {
       const match = /scale\(([^)]+)\)/u.exec(fit.style.transform);
-      const current = match ? Number.parseFloat(match[1]) : 1;
+      const rawScale = match?.[1];
+      const current = rawScale != null ? Number.parseFloat(rawScale) : 1;
       const next = current * (availH / visualH);
       fit.style.transformOrigin = "top left";
       fit.style.transform = `scale(${next})`;

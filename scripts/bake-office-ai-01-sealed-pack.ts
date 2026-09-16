@@ -174,9 +174,10 @@ function collectInlineImage(response: GeminiResponse): { mimeType: string; data:
     if (!data) {
       continue;
     }
+    const inlineMime = inline as { mimeType?: string | null; mime_type?: string | null } | undefined;
     const mime =
-      (typeof inline?.mimeType === "string" && inline.mimeType) ||
-      (typeof inline?.mime_type === "string" && inline.mime_type) ||
+      (typeof inlineMime?.mimeType === "string" && inlineMime.mimeType) ||
+      (typeof inlineMime?.mime_type === "string" && inlineMime.mime_type) ||
       "image/png";
     if (mime.startsWith("image/")) {
       return { mimeType: mime, data };

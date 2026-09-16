@@ -309,7 +309,7 @@ export function academyHowtoActiveIndexAtTime(
   cues: readonly Pick<AcademyLessonCue, "id" | "start" | "end" | "section">[],
 ): number {
   const cue = academyPlaybackCueAtTime(cues, currentTime);
-  return academyHowtoActiveIndex(lessonKey, cue && "section" in cue ? cue.section : undefined);
+  return academyHowtoActiveIndex(lessonKey, cue?.section);
 }
 
 export function academyPocketChecklistSteps(
