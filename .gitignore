@@ -52,6 +52,8 @@ playwright-report/
 
 # Saha probe / operatör kalıntısı — kökte durmaz (01 tespit hijyeni).
 .tmp/
+.tmp-*.txt
+tmp-*.txt
 temp/
 tmp/
 .cache/
