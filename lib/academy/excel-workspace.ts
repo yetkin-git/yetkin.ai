@@ -13,14 +13,14 @@ import type { AcademyGoldenBeatId } from "@/lib/academy/lesson-beat-visual";
 /** Nano Banana mühürlü Excel çalışma alanı — cinematic %20 plaka. */
 export const ACADEMY_OFFICE_AI_01_FRAME_PUBLIC_PATH = "/media/01_office_ai_01_frame_01.png" as const;
 
-/** cue-05 AI Masası — Excel’den yapay zekâya 3 aktarım yolu (en fazla 3 kelime). */
+/** cue-05 Copilot paneli — Excel’de öğretilen kapı (en fazla 3 kelime). Gmail eklentisi tablo analizi değildir. */
 export const ACADEMY_OFFICE_AI_1_TRANSFER_LABELS = [
-  "Kopyala-yapıştır",
+  "Copilot şerit",
   "Ataş yükle",
-  "Copilot okur",
+  "Maskeli kısa",
 ] as const;
 
-export type AcademyVisualWaiterKind = "excel" | "cinema";
+export type AcademyVisualWaiterKind = "excel" | "pptx" | "outlook" | "gmail" | "word" | "cinema";
 export type AcademyVisualExcelPane = "live" | "before" | "after";
 
 export type AcademyVisualCompareStage = {
@@ -87,6 +87,17 @@ export function academyExcelIsHighlightCell(
 ): boolean {
   const address = academyExcelParseCell(cell);
   return col === address.col && row === address.row;
+}
+
+export function academyExcelIsErrorCell(
+  errorCells: readonly string[] | undefined,
+  col: number,
+  row: number,
+): boolean {
+  if (!errorCells || errorCells.length === 0) {
+    return false;
+  }
+  return errorCells.some((cell) => academyExcelIsHighlightCell(cell, col, row));
 }
 
 /** `mergedTop` afişi — satır 1, A sütunundan son sütuna (varsayılan A1:F1). */
@@ -215,13 +226,41 @@ export function academyExcelSnapBoxToColumns(
   };
 }
 
+function academyVisualHasWaiterSurface(slide: AcademyCinemaCueSlide): boolean {
+  if (slide.layout === "excel") {
+    return Boolean(slide.table);
+  }
+  if (slide.layout === "pptx" || slide.layout === "outlook" || slide.layout === "gmail" || slide.layout === "word") {
+    return Boolean(slide.table) || (slide.nodes?.length ?? 0) > 0 || (slide.bullets?.length ?? 0) > 0;
+  }
+  return false;
+}
+
+export function academyVisualWaiterStageFromLayout(
+  layout: string | undefined,
+): Exclude<AcademyVisualWaiterKind, "cinema"> {
+  if (layout === "pptx") {
+    return "pptx";
+  }
+  if (layout === "outlook") {
+    return "outlook";
+  }
+  if (layout === "gmail") {
+    return "gmail";
+  }
+  if (layout === "word") {
+    return "word";
+  }
+  return "excel";
+}
+
 export function academyVisualWaiterSlide(
   lessonKey: string,
   cueId: string,
   options?: { includeVeoTable?: boolean },
 ): AcademyCinemaCueSlide | null {
   const slide = academyCinemaSlideForCue(lessonKey, cueId);
-  if (!slide || slide.layout !== "excel" || !slide.table) {
+  if (!slide || !academyVisualHasWaiterSurface(slide)) {
     return null;
   }
   if (slide.visualMode === "veo" && options?.includeVeoTable !== true) {
@@ -234,7 +273,11 @@ export function academyVisualWaiterKind(
   lessonKey: string,
   cueId: string,
 ): AcademyVisualWaiterKind {
-  return academyVisualWaiterSlide(lessonKey, cueId) ? "excel" : "cinema";
+  const slide = academyVisualWaiterSlide(lessonKey, cueId);
+  if (!slide) {
+    return "cinema";
+  }
+  return academyVisualWaiterStageFromLayout(slide.layout);
 }
 
 /** Beat 3 Altın Şablon — FARK ORTADA cue'unda (01_office_ai-1: cue-06) Önce/Sonra split-screen. */
@@ -243,12 +286,12 @@ export function academyVisualCompareStage(
   cueId: string,
 ): AcademyVisualCompareStage | null {
   const after = academyCinemaSlideForCue(lessonKey, cueId);
-  if (!after || after.visualMode !== "split" || !after.compare || !after.table) {
+  if (!after || after.visualMode !== "split" || !after.compare) {
     return null;
   }
   const before =
     loadAcademyCinemaCueSlides(lessonKey).find((slide) => slide.cueIndex === after.compare!.beforeCueIndex) ?? null;
-  if (!before?.table) {
+  if (!before || !academyVisualHasWaiterSurface(before) || !academyVisualHasWaiterSurface(after)) {
     return null;
   }
   return {
@@ -260,7 +303,38 @@ export function academyVisualCompareStage(
   };
 }
 
+/** Beat 3 Prompt Terminali — after.copilot yoksa komut vuruşunun kilitli istemine düşer. */
+export function academyCompareDockPrompt(
+  compare: AcademyVisualCompareStage | null,
+): { prompt: string; cueIndex: number } | null {
+  if (!compare) {
+    return null;
+  }
+  const afterPrompt = compare.after.copilot?.prompt?.trim();
+  if (afterPrompt) {
+    return { prompt: afterPrompt, cueIndex: compare.after.cueIndex };
+  }
+  const command = loadAcademyCinemaCueSlides(compare.after.lessonKey)
+    .filter((slide) => slide.beat === "command" && Boolean(slide.copilot?.prompt?.trim()))
+    .at(-1);
+  const prompt = command?.copilot?.prompt?.trim();
+  if (!command || !prompt) {
+    return null;
+  }
+  return { prompt, cueIndex: command.cueIndex };
+}
+
 export function academyVisualCinematicFrameSrc(lessonKey: string): string | null {
   const key = lessonKey.trim();
-  return key === "01_office_ai-1" || key === "01_office_ai-2" ? ACADEMY_OFFICE_AI_01_FRAME_PUBLIC_PATH : null;
+  return key === "01_office_ai-1" ||
+    key === "01_office_ai-2" ||
+    key === "01_office_ai-3" ||
+    key === "01_office_ai-4" ||
+    key === "01_office_ai-5" ||
+    key === "01_office_ai-6" ||
+    key === "01_office_ai-g1" ||
+    key === "01_office_ai-w1" ||
+    key === "01_office_ai-k1"
+    ? ACADEMY_OFFICE_AI_01_FRAME_PUBLIC_PATH
+    : null;
 }

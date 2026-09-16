@@ -9,6 +9,9 @@ import officeAiLesson3TimingsJson from "./01_office_ai-3.json" with { type: "jso
 import officeAiLesson4TimingsJson from "./01_office_ai-4.json" with { type: "json" };
 import officeAiLesson5TimingsJson from "./01_office_ai-5.json" with { type: "json" };
 import officeAiLesson6TimingsJson from "./01_office_ai-6.json" with { type: "json" };
+import officeAiLessonG1TimingsJson from "./01_office_ai-g1.json" with { type: "json" };
+import officeAiLessonW1TimingsJson from "./01_office_ai-w1.json" with { type: "json" };
+import officeAiLessonK1TimingsJson from "./01_office_ai-k1.json" with { type: "json" };
 import ecommerceAiLesson1TimingsJson from "./02_ecommerce_ai-1.json" with { type: "json" };
 import ecommerceAiLesson2TimingsJson from "./02_ecommerce_ai-2.json" with { type: "json" };
 import ecommerceAiLesson3TimingsJson from "./02_ecommerce_ai-3.json" with { type: "json" };
@@ -146,6 +149,27 @@ const TIMINGS_BY_LESSON_KEY: Readonly<Record<string, AcademySealedAudioTimings>>
   },
   "01_office_ai-6": parseAcademySealedAudioTimings(officeAiLesson6TimingsJson) ?? {
     lessonKey: "01_office_ai-6",
+    pauseSec: 0.4,
+    durationSec: 0,
+    cacheV: 0,
+    pieces: [],
+  },
+  "01_office_ai-g1": parseAcademySealedAudioTimings(officeAiLessonG1TimingsJson) ?? {
+    lessonKey: "01_office_ai-g1",
+    pauseSec: 0.4,
+    durationSec: 0,
+    cacheV: 0,
+    pieces: [],
+  },
+  "01_office_ai-w1": parseAcademySealedAudioTimings(officeAiLessonW1TimingsJson) ?? {
+    lessonKey: "01_office_ai-w1",
+    pauseSec: 0.4,
+    durationSec: 0,
+    cacheV: 0,
+    pieces: [],
+  },
+  "01_office_ai-k1": parseAcademySealedAudioTimings(officeAiLessonK1TimingsJson) ?? {
+    lessonKey: "01_office_ai-k1",
     pauseSec: 0.4,
     durationSec: 0,
     cacheV: 0,

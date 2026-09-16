@@ -1,0 +1,39 @@
+{
+  "lessonKey": "01_office_ai-6",
+  "passScore": 70,
+  "questions": [
+    {
+      "id": "q_off_l6_1",
+      "prompt": "Cuma 30 dakikalık ofis rutininin Excel ayağında doğru aktarım hangisidir?",
+      "choices": [
+        "Tabloyu kopyalayıp harici sohbete yapıştırmak",
+        "Ekran görüntüsü zinciri basmak",
+        "Dosyayı ataş ile yüklemek veya Copilot varsa şeritten okutmak",
+        "İlk üç satırı PDF’e basıp tahmin ettirmek"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "q_off_l6_2",
+      "prompt": "Cuma 30 dakikalık ofis rutini nasıl bölünür?",
+      "choices": [
+        "Yalnız e-posta, üç kez",
+        "Bütün haftayı tek oturumda bitirmek",
+        "10 dakika Excel + 10 dakika slayt + 10 dakika kutu",
+        "Kaseti iki kez dinlemek"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "q_off_l6_3",
+      "prompt": "Haftalık rutinde 3. Kapı (son çare) hangisidir?",
+      "choices": [
+        "Gmail içinde Gemini paneli",
+        "Word veya Excel dosyasını ataş ile yükleme",
+        "İsim ve IBAN maskelenmiş kısa özet yapıştırmak",
+        "Copilot lisansı varsa şeritten okutma"
+      ],
+      "correctIndex": 2
+    }
+  ]
+}

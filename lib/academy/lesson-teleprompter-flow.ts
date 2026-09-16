@@ -49,7 +49,7 @@ export function academyLessonSequenceNumber(lessonKey: string): number | null {
   return Number.isInteger(value) && value > 0 ? value : null;
 }
 
-/** Sosyal medya, kodsuz chatbot ve prompt kursunun tamamı ve 4. bölüm sonrası: kısa karaoke bloğu. */
+/** Sosyal medya, kodsuz chatbot ve prompt kursunun tamamı ve 5. bölüm sonrası: kısa karaoke bloğu. */
 export function academyKaraokeCaptionsCompact(lessonKey: string): boolean {
   const key = lessonKey.trim();
   if (
@@ -60,7 +60,7 @@ export function academyKaraokeCaptionsCompact(lessonKey: string): boolean {
     return true;
   }
   const sequence = academyLessonSequenceNumber(key);
-  return sequence != null && sequence >= 4;
+  return sequence != null && sequence >= 5;
 }
 
 export function splitAcademyKaraokeCaptionBlocks(text: string): string[] {
@@ -130,9 +130,52 @@ export type AcademyKaraokeWord = {
   text: string;
   start: number;
   end: number;
+  /** Kapanış noktalaması önceki kelimeye yapışır; flex `column-gap` iptal edilir. */
+  glue: boolean;
 };
 
 export type AcademyKaraokeWordState = AcademyTeleprompterLineState;
+
+/** Boşluksuz kapanış: `kelime.` / `»` / `)` — Türkçe noktalama önceki tokene yapışır. */
+const KARAOKE_CLOSING_PUNCT_ONLY = /^[\p{Pe}\p{Pf}.,;:!?…]+$/u;
+
+export function academyKaraokeShouldGlueToPrevious(token: string): boolean {
+  return KARAOKE_CLOSING_PUNCT_ONLY.test(token);
+}
+
+export function academyKaraokeNormalizeLine(text: string): string {
+  return text.replace(/\s+/gu, " ").trim();
+}
+
+/** Ekran metnini kelime + kapanış noktalamasına böler; boşluklar token değildir. */
+export function academyKaraokeTokenize(text: string): readonly { text: string; glue: boolean }[] {
+  const normalized = academyKaraokeNormalizeLine(text);
+  if (!normalized) {
+    return [];
+  }
+  return normalized
+    .split(" ")
+    .filter((part) => part.length > 0)
+    .map((part, index) => ({
+      text: part,
+      glue: index > 0 && academyKaraokeShouldGlueToPrevious(part),
+    }));
+}
+
+/** Token dizisini boşluk kuralıyla geri birleştir — `join("")` yasaktır. */
+export function academyKaraokeReconstructLine(
+  words: readonly Pick<AcademyKaraokeWord, "text" | "glue">[],
+): string {
+  if (words.length === 0) {
+    return "";
+  }
+  let out = words[0]!.text;
+  for (let index = 1; index < words.length; index += 1) {
+    const word = words[index]!;
+    out += word.glue ? word.text : ` ${word.text}`;
+  }
+  return out;
+}
 
 /** Alt şerit — mühürlü parça saatini cümlelere böler; kelime-saati yayın saati değildir. */
 export function academyKaraokeStripLines(
@@ -151,11 +194,11 @@ export function loadAcademyKaraokeStrip(lessonKey: string): readonly AcademyTele
 export function academyKaraokeWords(
   line: Pick<AcademyTeleprompterLine, "id" | "text" | "start" | "end">,
 ): readonly AcademyKaraokeWord[] {
-  const tokens = line.text.replace(/\s+/gu, " ").trim().split(" ").filter((part) => part.length > 0);
+  const tokens = academyKaraokeTokenize(line.text);
   if (tokens.length === 0) {
     return [];
   }
-  const weights = tokens.map((token) => Math.max(1, token.length));
+  const weights = tokens.map((token) => Math.max(1, token.text.length));
   const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
   const span = Math.max(0, line.end - line.start);
   const words: AcademyKaraokeWord[] = [];
@@ -164,9 +207,11 @@ export function academyKaraokeWords(
     const isLast = index === tokens.length - 1;
     const share = totalWeight > 0 ? weights[index]! / totalWeight : 1 / tokens.length;
     const end = isLast ? line.end : cursor + span * share;
+    const token = tokens[index]!;
     words.push({
       id: `${line.id}:w${index}`,
-      text: tokens[index]!,
+      text: token.text,
+      glue: token.glue,
       start: cursor,
       end,
     });

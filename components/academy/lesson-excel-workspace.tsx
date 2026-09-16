@@ -17,6 +17,7 @@ import {
   academyExcelColLetter,
   academyExcelColumnMinCh,
   academyExcelIsActiveColumn,
+  academyExcelIsErrorCell,
   academyExcelIsSelectionOrigin,
   academyExcelSelection,
   academyExcelSnapBoxToColumns,
@@ -24,6 +25,8 @@ import {
   type AcademyVisualExcelPane,
 } from "@/lib/academy/excel-workspace";
 import { academyPocketChecklistSteps } from "@/lib/academy/lesson-beat-visual";
+import { academyOfficeChromeFromFileName } from "@/lib/academy/prompt-console";
+import { LessonAiDesk, LessonOfficeCopilotRibbon, useAcademyAiDeskTab } from "@/components/academy/lesson-ai-desk";
 
 function cellClass(options: {
   head?: boolean;
@@ -31,6 +34,7 @@ function cellClass(options: {
   merge?: boolean;
   foot?: boolean;
   a1?: boolean;
+  error?: boolean;
 }): string {
   const parts = ["academy-excel-cell"];
   if (options.head) {
@@ -44,6 +48,9 @@ function cellClass(options: {
   }
   if (options.foot) {
     parts.push("academy-excel-cell--foot");
+  }
+  if (options.error) {
+    parts.push("academy-excel-cell--error");
   }
   if (options.a1) {
     parts.push("academy-excel-cell--a1");
@@ -92,6 +99,17 @@ function fitExcelGridFont(wrap: HTMLElement, compact: boolean): void {
     fit.style.transform = `scale(${scale})`;
     fit.style.width = `${100 / scale}%`;
   }
+  const availH = wrap.clientHeight;
+  if (fit && availH > 0) {
+    const visualH = fit.getBoundingClientRect().height;
+    if (visualH > availH + 0.5) {
+      const match = /scale\(([^)]+)\)/u.exec(fit.style.transform);
+      const current = match ? Number.parseFloat(match[1]) : 1;
+      const next = current * (availH / visualH);
+      fit.style.transformOrigin = "top left";
+      fit.style.transform = `scale(${next})`;
+    }
+  }
 }
 
 export function LessonExcelWorkspace({
@@ -112,6 +130,7 @@ export function LessonExcelWorkspace({
   const originRef = useRef<HTMLTableCellElement | null>(null);
   const [alignBox, setAlignBox] = useState<AcademyExcelAlignBox | null>(null);
   const compact = pane === "before" || pane === "after";
+  const showAiDesk = Boolean(slide.copilot) && pane !== "before";
   const colCount = table
     ? Math.max(table.headers.length, ...table.rows.map((row) => row.length), compact ? 1 : 6)
     : compact
@@ -143,6 +162,13 @@ export function LessonExcelWorkspace({
   const isTransferDesk =
     slide.lessonKey === "01_office_ai-1" && slide.section === "TEMİZLE ŞİMDİ" && pane === "live";
   const liveFocusZoom = pane === "live" && focusZoom;
+  const officeChrome = academyOfficeChromeFromFileName(slide.fileName);
+  const isWord = officeChrome === "word";
+  const aiDesk = useAcademyAiDeskTab({
+    lessonKey: slide.lessonKey,
+    cueIndex: slide.cueIndex,
+    currentTime,
+  });
   const startCol = mergeSelected && selection.merge ? selection.merge.startCol : selection.address.col;
   const endCol = mergeSelected && selection.merge ? selection.merge.endCol : selection.address.col;
   const deskClass = [
@@ -152,6 +178,7 @@ export function LessonExcelWorkspace({
     liveFocusZoom ? "academy-excel-desk--focus-zoom" : "",
     pane === "before" ? "academy-excel-desk--before" : "",
     pane === "after" ? "academy-excel-desk--after" : "",
+    isWord ? "academy-excel-desk--word" : "",
   ]
     .filter((part) => part.length > 0)
     .join(" ");
@@ -230,6 +257,9 @@ export function LessonExcelWorkspace({
       data-academy-excel-selection={mergeSelected ? "merge" : "cell"}
       data-academy-excel-focus-zoom={pane === "live" ? (liveFocusZoom ? "in" : "out") : undefined}
       data-academy-excel-mouse={mouse ? mouse.cell : undefined}
+      data-academy-office-app={officeChrome}
+      data-academy-ai-desk-tab={showAiDesk ? aiDesk.tab : undefined}
+      data-academy-ai-desk-phase={showAiDesk ? aiDesk.phase : undefined}
       style={
         pane === "live"
           ? {
@@ -244,27 +274,48 @@ export function LessonExcelWorkspace({
       <div className="academy-excel-win">
         <div className="academy-excel-title">
           <i aria-hidden />
-          <b>Excel</b>
-          <span>{slide.fileName ?? "Kitap1.xlsx"}</span>
+          <b>{isWord ? "Word" : "Excel"}</b>
+          <span>{slide.fileName ?? (isWord ? "Belge1.docx" : "Kitap1.xlsx")}</span>
         </div>
         {compact ? null : (
           <div className="academy-excel-ribbon" aria-hidden>
             <span className="on">Giriş</span>
             <span>Ekle</span>
-            <span>Çiz</span>
-            <span>Sayfa Düzeni</span>
-            <span>Formüller</span>
-            <span>Veri</span>
-            <span>Gözden Geçir</span>
-            <span>Görünüm</span>
+            {isWord ? (
+              <>
+                <span>Çizim</span>
+                <span>Tasarım</span>
+                <span>Yerleşim</span>
+                <span>Başvurular</span>
+                <span>Gözden Geçir</span>
+                <span>Görünüm</span>
+              </>
+            ) : (
+              <>
+                <span>Çiz</span>
+                <span>Sayfa Düzeni</span>
+                <span>Formüller</span>
+                <span>Veri</span>
+                <span>Gözden Geçir</span>
+                <span>Görünüm</span>
+              </>
+            )}
+            {slide.copilot ? (
+              <LessonOfficeCopilotRibbon
+                active={aiDesk.tab === "copilot"}
+                host={isWord ? "word" : "excel"}
+              />
+            ) : null}
           </div>
         )}
+        {isWord ? null : (
         <div className="academy-excel-fx">
           <div className="academy-excel-name">{nameBox}</div>
           <div className="academy-excel-fx-label">fx</div>
           <div className="academy-excel-fx-value">{formula}</div>
         </div>
-        <div className={`academy-excel-body${slide.copilot && !compact ? " academy-excel-body--copilot" : ""}`}>
+        )}
+        <div className={`academy-excel-body${showAiDesk ? " academy-excel-body--copilot" : ""}`}>
           <div className="academy-excel-grid-wrap" ref={wrapRef}>
             <div className="academy-excel-grid-fit">
             <table className="academy-excel-grid">
@@ -359,6 +410,7 @@ export function LessonExcelWorkspace({
                       <th className="academy-excel-row">{excelRow}</th>
                       {letters.map((letter, col) => {
                         const isOrigin = academyExcelIsSelectionOrigin(selection, col, excelRow);
+                        const isError = academyExcelIsErrorCell(slide.errorCells, col, excelRow);
                         return (
                           <td
                             key={letter}
@@ -366,9 +418,11 @@ export function LessonExcelWorkspace({
                             className={cellClass({
                               foot: isFoot,
                               a1: isOrigin,
+                              error: isError,
                             })}
                             data-academy-excel-col={letter}
                             data-academy-excel-origin={isOrigin ? "" : undefined}
+                            data-academy-excel-error={isError ? letter + excelRow : undefined}
                           >
                             {row[col] ?? ""}
                           </td>
@@ -431,26 +485,20 @@ export function LessonExcelWorkspace({
               </div>
             ) : null}
           </div>
-          {slide.copilot && !compact ? (
-            <aside className="academy-excel-copilot" data-academy-ai-desk="">
-              <header>AI masası</header>
-              <p className="academy-excel-ai-brands">ChatGPT · Claude · Gemini · API</p>
-              {isTransferDesk ? (
-                <ul className="academy-excel-transfer-tags" data-academy-transfer-tags="">
-                  {ACADEMY_OFFICE_AI_1_TRANSFER_LABELS.map((label) => (
-                    <li key={label}>{label}</li>
-                  ))}
-                </ul>
-              ) : null}
-              <div className="academy-excel-bubble academy-excel-bubble--user">{slide.copilot.prompt}</div>
-              {slide.copilot.hideReply === true ? null : (
-                <div className="academy-excel-bubble academy-excel-bubble--bot">
-                  {slide.copilot.replyLines.map((line, index) => (
-                    <p key={`${index}:${line}`}>{line}</p>
-                  ))}
-                </div>
-              )}
-            </aside>
+          {showAiDesk && slide.copilot ? (
+            <LessonAiDesk
+              prompt={slide.copilot.prompt}
+              currentTime={currentTime}
+              lessonKey={slide.lessonKey}
+              cueIndex={slide.cueIndex}
+              host={isWord ? "word" : "excel"}
+              hideReply={slide.copilot.hideReply}
+              replyLines={slide.copilot.replyLines}
+              transferLabels={isTransferDesk ? ACADEMY_OFFICE_AI_1_TRANSFER_LABELS : undefined}
+              tab={aiDesk.tab}
+              onTabChange={aiDesk.setTab}
+              phase={aiDesk.phase}
+            />
           ) : null}
         </div>
         {table.note && !compact ? (

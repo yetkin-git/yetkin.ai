@@ -19,8 +19,8 @@ const FLAGSHIP_CINEMA_COVER_STEM = "01_office_ai-1-eye" as const;
 /** Favicon / marka mührü — vitrin kartı kapağı değildir. */
 export const ACADEMY_BRAND_FALLBACK_COVER = "/icon.svg" as const;
 
-/** Amiral 1. bölüm — mühürlü süre 496 sn ≈ 8 dk. */
-export const ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN = 8 as const;
+/** Amiral 1. bölüm — mühürlü süre 572 sn ≈ 10 dk. */
+export const ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN = 10 as const;
 
 /** Katalog kartı — mobil tam genişlik, tablet yarım, masaüstü üçte bir. */
 export const ACADEMY_COURSE_COVER_SIZES =

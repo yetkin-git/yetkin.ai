@@ -3,6 +3,8 @@
  */
 
 import type { AcademyCinemaCueSlide, AcademyCinemaThemeId } from "@/lib/academy/cinema-cue-catalog";
+import { academyGmailStageKind } from "@/lib/academy/gmail-workspace";
+import { academyWordStageKind } from "@/lib/academy/word-workspace";
 
 const THEMES: Record<
   AcademyCinemaThemeId,
@@ -178,9 +180,9 @@ function mockExcel(slide: AcademyCinemaCueSlide): string {
   }).join("");
 
   const copilot = slide.copilot
-    ? `<aside class="xl-copilot">
-        <header>AI masası</header>
-        <p class="xl-ai-brands">ChatGPT · Claude · Gemini · API</p>
+    ? `<aside class="xl-copilot" data-academy-ai-desk>
+        <nav class="xl-ai-tabs"><button class="on">Copilot (Dahili)</button><button>ChatGPT / Claude</button></nav>
+        <p class="xl-paste-guide">Nereye Yapıştıracaksın?</p>
         <div class="xl-bubble user">${esc(slide.copilot.prompt)}</div>
         <div class="xl-bubble bot">${slide.copilot.replyLines.map((line) => `<p>${esc(line)}</p>`).join("")}</div>
       </aside>`
@@ -190,7 +192,7 @@ function mockExcel(slide: AcademyCinemaCueSlide): string {
     <div class="xl-win">
       <div class="xl-title"><i></i><b>Excel</b><span>${esc(fileName)}</span></div>
       <div class="xl-ribbon">
-        <span class="on">Giriş</span><span>Ekle</span><span>Çiz</span><span>Sayfa Düzeni</span><span>Formüller</span><span>Veri</span><span>Gözden Geçir</span><span>Görünüm</span>
+        <span class="on">Giriş</span><span>Ekle</span><span>Çiz</span><span>Sayfa Düzeni</span><span>Formüller</span><span>Veri</span><span>Gözden Geçir</span><span>Görünüm</span><span class="xl-copilot-btn">Copilot</span>
       </div>
       <div class="xl-fx">
         <div class="xl-name">${esc(highlight)}</div>
@@ -249,12 +251,71 @@ function mockEmail(slide: AcademyCinemaCueSlide): string {
   </div>`;
 }
 
+function mockGmail(slide: AcademyCinemaCueSlide): string {
+  const stage = academyGmailStageKind({
+    section: slide.section,
+    hideReply: slide.copilot?.hideReply,
+  });
+  const rows = slide.table?.rows ?? [];
+  const native = stage === "native";
+  const disconnected = stage === "disconnected";
+  const title = disconnected ? "ChatGPT" : "Gmail";
+  const sub = disconnected ? "Taşıma su" : (slide.fileName ?? "Gelen_Kutusu.gmail");
+  const badge = native
+    ? "GELEN KUTUSU İÇİ / YERLEŞİK GEMİNİ ENTEGRASYONU"
+    : disconnected
+      ? "GELEN KUTUSUNDAN KOPUK / TAŞIMA SU YÖNTEMİ"
+      : "Gmail · Gemini paneli · özet kapalı";
+  const list =
+    rows.length > 0
+      ? rows
+          .map(
+            (row) =>
+              `<button type="button" class="gmail-row"><b>${esc(row[0] ?? "")}</b><strong>${esc(row[1] ?? "")}</strong><em>${esc(row[2] ?? row[1] ?? "")}</em></button>`,
+          )
+          .join("")
+      : bullets(slide.bullets);
+  return `<div class="app mail gmail${native ? " gmail-native" : disconnected ? " gmail-carry" : " gmail-inbox"}">
+    <div class="app-bar"><span class="dots"></span><b>${esc(title)}</b><span>${esc(sub)}</span></div>
+    <p class="gmail-badge">${esc(badge)}</p>
+    <div class="gmail-list">${list}</div>
+  </div>`;
+}
+
 function mockWord(slide: AcademyCinemaCueSlide): string {
   const chat = slide.chat;
-  return `<div class="app word">
-    <div class="app-bar"><span class="dots"></span><b>Word</b><span>Yönetici raporu.docx</span></div>
+  const stage = academyWordStageKind({
+    section: slide.section,
+    hideReply: slide.copilot?.hideReply,
+  });
+  const fileName = slide.fileName ?? "Yönetici raporu.docx";
+  const copy = stage === "copy";
+  const analysis = stage === "analysis";
+  const title = copy ? "ChatGPT" : "Word";
+  const sub = copy ? "Parça parça yapıştırma" : fileName;
+  const badge = analysis
+    ? "DOĞRUDAN DOSYA YÜKLEME / YERİNDE DOKÜMAN ANALİZİ"
+    : copy
+      ? "ZAHMETLİ YOL / PARÇA PARÇA METİN KOPYALAMA"
+      : "Ataş · madde listesi kapalı";
+  const rows = slide.table?.rows ?? [];
+  const body =
+    rows.length > 0
+      ? `<div class="word-list">${rows
+          .map(
+            (row) =>
+              `<article class="word-card"><b>${esc(row[0] ?? "")}</b><strong>${esc(row[1] ?? "")}</strong><em>${esc(row[2] ?? "")}</em></article>`,
+          )
+          .join("")}</div>`
+      : chat
+        ? chat.replyLines.map((line, i) => `<p><b>${i + 1}.</b> ${esc(line)}</p>`).join("")
+        : bullets(slide.bullets);
+  return `<div class="app word${analysis ? " word-upload" : copy ? " word-copy" : " word-attach"}">
+    <div class="app-bar"><span class="dots"></span><b>${esc(title)}</b><span>${esc(sub)}</span></div>
+    ${badge ? `<p class="gmail-badge">${esc(badge)}</p>` : ""}
+    ${copy ? "" : `<p class="word-attach">Ataş · ${esc(fileName)}</p>`}
     <h3>${esc(slide.headline)}</h3>
-    ${chat ? chat.replyLines.map((line, i) => `<p><b>${i + 1}.</b> ${esc(line)}</p>`).join("") : bullets(slide.bullets)}
+    ${body}
   </div>`;
 }
 
@@ -380,6 +441,8 @@ function stageBody(slide: AcademyCinemaCueSlide): string {
       return mockChat(slide);
     case "email":
       return mockEmail(slide);
+    case "gmail":
+      return mockGmail(slide);
     case "word":
       return mockWord(slide);
     case "pptx":
@@ -518,9 +581,18 @@ export function renderAcademyCinemaCueHtml(slide: AcademyCinemaCueSlide): string
   .bubble p { margin: 6px 0 0; font-size: 16px; line-height: 1.4; }
   .mail-meta { display: grid; grid-template-columns: 70px 1fr; gap: 8px; padding: 8px 14px; border-bottom: 1px solid ${theme.line}; font-size: 15px; }
   .mail-body { padding: 16px; font-size: 18px; line-height: 1.45; }
+  .gmail-badge { margin: 12px 14px 8px; padding: 6px 12px; width: fit-content; border-radius: 999px; font-size: 13px; font-weight: 800; letter-spacing: 0.04em; }
+  .gmail-carry .gmail-badge, .word-copy .gmail-badge { background: #fb923c22; color: #c2410c; }
+  .gmail-native .gmail-badge, .word-upload .gmail-badge { background: #34d39922; color: #047857; }
+  .gmail-list, .word-list { display: flex; flex-direction: column; gap: 8px; padding: 8px 14px 16px; }
+  .gmail-row, .word-card { display: grid; gap: 2px; text-align: left; border: 1px solid ${theme.line}; border-radius: 12px; padding: 10px 12px; background: ${theme.card}; font: inherit; color: inherit; }
+  .gmail-row b, .word-card b { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: ${theme.accent}; }
+  .gmail-row strong, .word-card strong { font-size: 18px; }
+  .gmail-row em, .word-card em { font-size: 14px; color: ${theme.muted}; font-style: normal; }
   .word { padding-bottom: 12px; }
   .word h3 { margin: 16px 16px 8px; font-size: 26px; }
   .word p { margin: 8px 16px; font-size: 18px; }
+  .word-attach { margin: 8px 14px; font-weight: 800; color: ${theme.accent2}; }
   .deck, .keys, .reels { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
   .stones { display: flex; flex-wrap: wrap; gap: 14px; }
   .stones article { flex: 1 1 30%; min-width: 200px; }

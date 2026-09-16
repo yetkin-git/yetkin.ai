@@ -17,7 +17,7 @@ import type { MemoryLedgerStore } from "./memory-money";
 export const E2E_ACADEMY_BUYER_ID = "e2e-academy-buyer";
 export const E2E_ACADEMY_PLATFORM_ID = PLATFORM_TREASURY_USER_ID;
 export const E2E_ACADEMY_START_MINOR = 200_000;
-/** Yayın amiral SKU — 6 compact makale + ofis sınav havuzu. */
+/** Yayın amiral SKU — 9 mühürlü kaset + ofis sınav havuzu. */
 export const E2E_ACADEMY_SLUG = "01_office_ai";
 export const E2E_ACADEMY_SEED_AMOUNT_MINOR = 89_000;
 
@@ -33,7 +33,7 @@ export type AcademyCashJourneyResult = {
 };
 
 /**
- * Akademi mutlu yol (bellek): 01_office_ai → kilit → settlement → 6 makale → sınav → SHA-256.
+ * Akademi mutlu yol (bellek): 01_office_ai → kilit → settlement → 9 ders → sınav → SHA-256.
  * Emanet yoktur. Canlı Postgres/Auth istemez.
  */
 export async function runAcademyCashJourney(): Promise<AcademyCashJourneyResult> {
@@ -94,8 +94,8 @@ export async function runAcademyCashJourney(): Promise<AcademyCashJourneyResult>
       seedAmountMinor,
     };
   }
-  if (lessons.length !== 6) {
-    throw new Error(`01_office_ai müfredatı 6 ders ister, gelen ${lessons.length}.`);
+  if (lessons.length !== 9) {
+    throw new Error(`01_office_ai müfredatı 9 ders ister, gelen ${lessons.length}.`);
   }
 
   const curriculum = await completeAcademyCurriculum(ports, {

@@ -42,7 +42,7 @@ describe("akademi vitrin kapak — amiral 1. bölüm + Yakında şablonu", () =>
     expect(existsSync(join(ROOT, "public", "academy", "cinema", "01_office_ai-1-eye.webp"))).toBe(
       true,
     );
-    expect(ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN).toBe(8);
+    expect(ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN).toBe(10);
 
     for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
       if (slug === ACADEMY_FLAGSHIP_SKU_SLUG) {

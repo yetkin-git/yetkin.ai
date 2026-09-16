@@ -78,10 +78,10 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(copy.catalog.cardCtaBuy).toBe("Satın Al");
     expect(copy.catalog.audioBadge).toBe("Sesli anlatım");
     expect(copy.catalog.audioBadgeHint).toBe(
-      "Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika",
+      "Sesli Anlatım + Karaoke + Sınav + Mühürlü Sertifika",
     );
     expect(copy.catalog.heroAudioBadge).toBe(
-      "Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika",
+      "Sesli Anlatım + Karaoke + Sınav + Mühürlü Sertifika",
     );
     expect(copy.catalog.comingSoonBadge).toBe("Çok Yakında / Hazırlanıyor");
     expect(copy.catalog.comingSoonMeta).toBe("Hazırlanıyor");
@@ -89,16 +89,16 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(copy.catalog.cardCtaComingSoon).toBe("Çok Yakında");
     expect(copy.catalog.cardMetaAudio(9)).toBe("9 dk · Sesli Anlatım");
     expect(copy.catalog.articleBadgeHint).toBe(
-      "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+      "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
     );
     expect(copy.catalog.heroArticleBadge).toBe(
-      "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+      "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
     );
     expect(copy.catalog.heroLevelIdentity("Temel", academyModuleCodeBySlug("01_office_ai"))).toBe(
       "Temel Seviye · OFF-101",
     );
     expect(copy.outline.kindAudio).toBe("Ses");
-    expect(copy.outline.kindDocument).toBe("Yazılı Compact");
+    expect(copy.outline.kindDocument).toBe("Makale / Okuma Metni");
     expect(copy.catalog.vatInclusiveHint).toBe("KDV dahil");
     expect(copy.catalog.priceVatInclusive("₺890,00")).toBe("₺890,00 · KDV dahil");
     expect(copy.course.heroBuyCta("₺890,00")).toBe("Eğitimi Satın Al — ₺890,00");
@@ -163,7 +163,7 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("CurriculumOutcomes");
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("academyAntreVisaPromise");
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("data-academy-checkout-cta");
-    expect(copy.outline.examShield).toContain("6 dersin tamamı bitirilmeden");
+    expect(copy.outline.examShield).toContain("9 dersin tamamı bitirilmeden");
     expect(copy.outline.visaPromise(70, "Ofis Otomasyonu", "excel-veri-otomasyon")).toContain(
       "Pasaport siciline",
     );

@@ -62,8 +62,11 @@ describe("13 kanon katalog ve 02_ecommerce_ai ingest", () => {
       expect(question.correctIndex).toBeGreaterThanOrEqual(0);
       expect(question.correctIndex).toBeLessThan(4);
     }
-    expect(academyExamPoolForSlug("01_office_ai")).toHaveLength(30);
-    expect(academyExamPoolForSlug("CURR-OFFICE-AI-101")).toHaveLength(30);
+    expect(academyExamPoolForSlug("01_office_ai")).toHaveLength(42);
+    expect(academyExamPoolForSlug("CURR-OFFICE-AI-101")).toHaveLength(42);
+    expect(academyExamPoolForSlug("01_office_ai").map((row) => row.id)).toEqual(
+      expect.arrayContaining(["q_off_31", "q_off_32", "q_off_33", "q_off_34", "q_off_35", "q_off_36", "q_off_42"]),
+    );
     expect(readFileSync(join(ROOT, "lib/academy/exam-pools.ts"), "utf8")).not.toContain(
       "AI_TEMEL_QUESTIONS",
     );

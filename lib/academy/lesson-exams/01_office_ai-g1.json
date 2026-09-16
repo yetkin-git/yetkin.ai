@@ -1,0 +1,39 @@
+{
+  "lessonKey": "01_office_ai-g1",
+  "passScore": 70,
+  "questions": [
+    {
+      "id": "q_off_lg1_1",
+      "prompt": "Sabah gelen kutusunda ödeme, onay ve bülten aynı yığında durur. Kutuyu Gmail dışına kopyalamadan süzmenin doğru yolu hangisidir?",
+      "choices": [
+        "Maili seçip ChatGPT penceresine yapıştırmak",
+        "Ekran görüntüsü alıp harici sohbete yüklemek",
+        "Gmail yan panelindeki Gemini’ye istemi yazıp kutuyu yerinde taramak",
+        "Mailleri PDF’e basıp modele vermek"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "q_off_lg1_2",
+      "prompt": "Gemini paneline yazılan komut ödeme ve acil aksiyonu tablo yapar, dekont ve bülteni arşivlik listeler. Bu komutu nasıl basarsın?",
+      "choices": [
+        "Ctrl+C ile mail gövdesini dış sohbete taşıyarak",
+        "İstemi Gmail’in yanındaki Gemini paneline yazarak; kutuyu yerinde tarayarak",
+        "Ekran görüntüsü yükleyerek",
+        "Outlook masaüstünde kopyala-yapıştır yaparak"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "q_off_lg1_3",
+      "prompt": "Üç kapı hiyerarşisinde öğretilen varsayılan yol hangisi değildir?",
+      "choices": [
+        "Gmail içinde Gemini paneli",
+        "Word dosyasını ataş ile yükleme",
+        "Maili kopyalayıp ekran görüntüsüyle dış sohbete taşıma",
+        "Excel’i doğrudan dosya olarak yükleme"
+      ],
+      "correctIndex": 2
+    }
+  ]
+}

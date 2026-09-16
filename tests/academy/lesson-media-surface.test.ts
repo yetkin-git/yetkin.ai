@@ -31,7 +31,7 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     for (const row of ACADEMY_COURSE_SEEDS) {
       const lessons = curriculumForCourseSlug(row.slug);
       if (row.slug === "01_office_ai") {
-        expect(lessons).toHaveLength(6);
+        expect(lessons).toHaveLength(9);
         lessonCount += lessons.length;
         continue;
       }
@@ -39,7 +39,7 @@ describe("akademi mikro-video ve şema mimarisi", () => {
       lessonCount += lessons.length;
     }
     expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai"]);
-    expect(lessonCount).toBe(6);
+    expect(lessonCount).toBe(9);
     expect(curriculumForCourseSlug("sample-course")).toEqual([]);
     expect(ACADEMY_SEALED_DIAGRAM_KEYS.length).toBeGreaterThanOrEqual(1);
     void seenDiagrams;
@@ -83,8 +83,11 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     );
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain('type="audio/mpeg"');
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain(
-      'preload={playing ? "auto" : "metadata"}',
+      'preload="auto"',
     );
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("playSealedAudio");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("unlockFromGesture");
+    expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("onCanPlay");
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("academyLessonAudioPlaybackSrc");
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("key={audioSrc}");
     expect(readSrc("next.config.ts")).toContain("audio/mpeg");

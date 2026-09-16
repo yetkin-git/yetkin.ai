@@ -8,6 +8,7 @@ const ACADEMY_CUE_DISPLAY_PHONETICS: readonly { display: string; spoken: string 
   { display: "business.facebook.com", spoken: "biznis nokta feysbuk nokta kom" },
   { display: "platform.openai.com", spoken: "platform nokta open ey ay nokta kom" },
   { display: "perplexity.ai", spoken: "perpleksiti nokta ey ay" },
+  { display: "gemini.google.com", spoken: "cemini nokta gugıl nokta kom" },
   { display: "chatgpt.com", spoken: "çetcipiti nokta kom" },
   { display: "claude.ai", spoken: "klod nokta ey ay" },
   { display: "voiceflow.com", spoken: "voysflov nokta kom" },
@@ -40,6 +41,7 @@ const ACADEMY_CUE_DISPLAY_PHONETICS: readonly { display: string; spoken: string 
   { display: "Bitrix", spoken: "Bitriks" },
   { display: "Office 365", spoken: "Ofis üç yüz altmış beş" },
   { display: "PowerPoint", spoken: "Pauer Point" },
+  { display: "Ctrl+C", spoken: "Kontrol C" },
   { display: "Alt+F11", spoken: "Alt Ef on bir" },
   { display: "Sentiment Analysis", spoken: "Sentıment Analisiz" },
   { display: "Closed-Loop", spoken: "Klouzd lup" },
@@ -79,6 +81,8 @@ const ACADEMY_CUE_DISPLAY_PHONETICS: readonly { display: string; spoken: string 
   { display: "Claude", spoken: "Klod" },
   { display: "Insert", spoken: "İnsört" },
   { display: "Gamma", spoken: "Gama" },
+  { display: "Marp", spoken: "Marp" },
+  { display: "VBA", spoken: "Ve be a" },
   { display: "Teams", spoken: "Tims" },
   { display: "WordPress", spoken: "Vördpres" },
   { display: "Word", spoken: "Vörd" },
@@ -107,9 +111,29 @@ const ACADEMY_CUE_DISPLAY_PHONETICS: readonly { display: string; spoken: string 
   { display: "+90", spoken: "artı doksan" },
 ];
 
+/**
+ * Ekranda `.docx` / `Ctrl+C` kalabilir; seste nokta okunmaz, kısayol Türkçe okunur.
+ * Tabloya konmaz: `docx` ↔ `.docx` ters map `.docx` içinde `..docx` üretir.
+ */
+export function applyAcademyOfficeFileExtPhonetics(text: string): string {
+  return text
+    .replace(/\bCtrl\s*\+\s*C\b/giu, "Kontrol C")
+    .replace(/\.docx\b/giu, " docx")
+    .replace(/\.xlsx\b/giu, " xlsx")
+    .replace(/\.pptx\b/giu, " pptx");
+}
+
+export function applyAcademyOfficeFileExtPhoneticsToDisplay(text: string): string {
+  return text
+    .replace(/\bKontrol C\b/gu, "Ctrl+C")
+    .replace(/(?<!\.)\bdocx\b/gu, ".docx")
+    .replace(/(?<!\.)\bxlsx\b/gu, ".xlsx")
+    .replace(/(?<!\.)\bpptx\b/gu, ".pptx");
+}
+
 /** Ekran terimini TTS'in şaşırmayacağı fonetiğe çevirir. */
 export function applyAcademyCueDisplayPhonetics(text: string): string {
-  let out = text;
+  let out = applyAcademyOfficeFileExtPhonetics(text);
   for (const row of ACADEMY_CUE_DISPLAY_PHONETICS) {
     out = out.replaceAll(row.display, row.spoken);
   }
@@ -145,5 +169,5 @@ export function applyAcademySpokenPhoneticsToDisplay(text: string): string {
       out = out.replaceAll(row.spoken, row.display);
     }
   }
-  return out;
+  return applyAcademyOfficeFileExtPhoneticsToDisplay(out);
 }

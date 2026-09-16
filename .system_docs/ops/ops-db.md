@@ -96,7 +96,7 @@ Kritik yazmalar `Idempotency-Key` (UUID) ister. Tablo `http_idempotency_records`
 
 ## 12. Odalar
 
-**Canlı mutlu yol:** `/academy`, `/career`, `/dashboard`, `/vize` + çekirdek yetenekler. Freelancer kamu 410. Junior 410. Dron donuk laboratuvardır.
+**Canlı mutlu yol:** `/academy`, `/career`, `/dashboard`, `/vize` + çekirdek yetenekler. Freelancer kamu 410. Junior 410. Dron T3 Akademi halkası bağlıdır; Tezgâh izole durur.
 
 T3 akademi nakit döngüsü: `npm run ops:t3-academy-loop`. T4 kazanç halkası lab’dır; Split stub iken accept 503.
 
@@ -137,7 +137,7 @@ Motor 4 / Kamu Vitrini 3 Oda. S43 çekim kapalıdır. Üretimde sandbox / boş I
 
 ## 19. Akademi TTS bağları
 
-Pedagoji ilkedir. Bake SOP: `docs/ops/akademi-bake-elkitabi.md`. Yayın WAV/MP3: **2** mühür (`01_office_ai-1`, `01_office_ai-2`); kalan 28 bake kuyruğunda.
+Pedagoji ilkedir. Bake SOP: `docs/ops/akademi-bake-elkitabi.md`. Yayın WAV/MP3: **9** mühür (`01_office_ai-1`…`-6`, `01_office_ai-g1`, `01_office_ai-w1`, `01_office_ai-k1`); kardeş SKU bake kuyruğunda.
 
 ## ARŞİV / 410 (GEÇERSİZ)
 

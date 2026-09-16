@@ -172,7 +172,7 @@ export async function runCitizenCashRingJourney(): Promise<CitizenCashRingJourne
   const career = createMemoryCareerStore();
   const proofs = createMemoryCareerProofStore([]);
 
-  if (curriculumForCourseSlug(CITIZEN_CASH_RING_COURSE_SLUG).length === 6) {
+  if (curriculumForCourseSlug(CITIZEN_CASH_RING_COURSE_SLUG).length >= 6) {
     const curriculumSeal = academyCurriculumSealForSlug(CITIZEN_CASH_RING_COURSE_SLUG);
     if (!curriculumSeal) {
       throw new Error("Müfredat mührü yok.");

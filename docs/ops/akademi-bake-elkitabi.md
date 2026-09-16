@@ -12,7 +12,7 @@ Pedagoji ilkeleri `.system_docs/PEDAGOJI.md` içindedir. Bu dosya operatör SOP�
 | 3–5 sn mikro dilim | yasak | breath-chunks SSOT |
 | Kapı | `--dry-run` keşif; `--seal` + `--confirm-gemini-spend` | `scripts/generate-academy-lesson-audio.ts` |
 | B-roll | Veo 3.1 Lite veya yerel MP4 reuse; pahalı Veo 3.1 yasak | `lib/academy/lesson-veo.ts` |
-| Yayın | **2** mühür: `01_office_ai-1`, `01_office_ai-2`. Kalan 28 bake kuyruğunda | `STORAGE_CONTRACT.md` |
+| Yayın | Mühür listesi kod + `docs/DURUM.md`. Amiral: **9/9** mühürlü kaset; bake kuyruğu boş | `lib/academy/pilot-sku.ts` |
 
 ```
 npx tsx scripts/generate-academy-lesson-audio.ts --dry-run --slug=01_office_ai --key=01_office_ai-1
@@ -23,14 +23,80 @@ npx tsx scripts/generate-academy-lesson-audio.ts --dry-run --slug=01_office_ai -
 ## Zaman SSOT boru hattı (Muse Spark P0-2 mührü)
 
 Zaman damgaları **el yazılmaz**. Tek kaynak `docs/curriculum/01_office_ai_01_cue.json` +
-`lib/academy/lesson-audio-timings/01_office_ai-1.json` ikilisidir. Test beklentisi, dron
-punchcard dizisi ve süre tablosu bu kasetten kopyalanır.
+`lib/academy/lesson-audio-timings/01_office_ai-1.json` ikilisidir. Dron punchcard saatleri
+bu timings JSON’dan türetilir (`lib/academy/punchcard-from-sealed-json.ts`); elle kopya SSOT değildir.
 
-- `01_office_ai-1` mühürlü süre: **557.2 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 557`,
-  `cacheV: 557200`). Konuşma sonrası Lyria outro kuyruğu **+2.5 sn** (oynatıcı saati; WAV’a sessizlik basılmaz).
-- `cue-06 FARK ORTADA`: **376.28–446.6** (eski hatalı damga `319.92` / `346.36` / `358.92` kullanılmaz).
-- `cue-07 CEBİNE KOY`: **447–486.2** (eski hatalı damga `393.32` / `417.20` / `430.12` kullanılmaz).
+- `01_office_ai-1` mühürlü süre: **571.84 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 572`,
+  `cacheV: 571840`). Konuşma sonrası Lyria outro kuyruğu **+2.5 sn** (oynatıcı saati; WAV’a sessizlik basılmaz).
+- `cue-06 FARK ORTADA`: **387.92–458.68** (eski hatalı damga `319.92` / `346.36` / `358.92` / `378.96` kullanılmaz).
+- `cue-07 CEBİNE KOY`: **459.08–498.80** (eski hatalı damga `393.32` / `417.20` / `430.12` / `449.64` kullanılmaz).
 - Veo punch: **2–10 sn** (`ACADEMY_VEO_SCENE_DURATION_SEC = 8`, intro `0–2 sn` sonrası);
   `0–8 sn` yazımı yasaktır.
-- Dron `DRON_OFFICE_AI_1_PUNCHCARDS` sonu `557.2` ile bitmelidir; web timings ile
-  birebir aynı 8 aralık taşınır.
+- Dron punchcard sonu timings `durationSec` ile biter; web timings ile aynı 8 aralık türetilir.
+- `01_office_ai-3` mühürlü süre: **533.76 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 534`,
+  `cacheV: 533760`). Intro 2.0 sn; Gelecek Ders Köprüsü sonrası Lyria 0.70 zirve,
+  3 sn jenerik + 1.5 sn fade-out. B-roll `01_office_ai-1-warmup` reuse; pahalı Veo 3.1 yok.
+- Dron 3. ders punchcard sonu `533.76`; timings JSON’dan türetilir.
+- `01_office_ai-4` mühürlü süre: **544.52 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 545`,
+  `cacheV: 544520`). Intro 2.0 sn; Gelecek Ders Köprüsü sonrası Lyria 0.70 zirve,
+  3 sn jenerik + 1.5 sn fade-out. B-roll `01_office_ai-1-warmup` reuse; pahalı Veo 3.1 yok.
+- Dron 4. ders punchcard sonu `544.52`; timings JSON’dan türetilir.
+- `01_office_ai-5` mühürlü süre: **481.96 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 482`,
+  `cacheV: 481960`). Intro 2.0 sn. Sıfır kurulum: tam TTS yeniden fırın (`gemini-3.1-flash-tts-preview`);
+  14 nefes dilimi timings SSOT. Sol dip toplam **59.450** (ekran + karaoke + TTS). B-roll `01_office_ai-1-warmup` reuse; pahalı Veo 3.1 yok.
+- Dron 5. ders punchcard sonu `481.96`; timings JSON’dan türetilir.
+- `01_office_ai-6` mühürlü süre: **412.04 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 412`,
+  `cacheV: 412040`). Intro 2.0 sn; 10+10+10 Cuma rutini; kapanış dersi; sınav kapısı bu dersten sonra açılır.
+  B-roll `01_office_ai-1-warmup` reuse; pahalı Veo 3.1 yok.
+- Dron 6. ders punchcard sonu `412.04`; timings JSON’dan türetilir.
+- `01_office_ai-g1` mühürlü süre: **523.6 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 524`,
+  `cacheV: 523600`). Intro 2.0 sn. Çift hat: Gmail Gemini + Outlook Copilot; aksiyon listesi.
+- Dron G1 punchcard sonu `523.6`; timings JSON’dan türetilir.
+- `01_office_ai-w1` mühürlü süre: **521.44 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 521`,
+  `cacheV: 521440`). Intro 2.0 sn. Sözleşme, dilekçe, rapor; ataş asıl kapı. Sınav 9. ders bitince açılır.
+- `01_office_ai-k1` mühürlü süre: **309.713 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 310`,
+  `cacheV: 309713`). Intro 2.0 sn. 2. ders; yükleme alışkanlığından önce. Yedek TTS `gemini-2.5-flash-preview-tts`.
+  B-roll `01_office_ai-1-warmup` reuse; pahalı Veo 3.1 yok.
+
+## Stüdyo reji (Pedagoji’den aktarılan yaşayan SOP)
+
+Bu sayılar Anayasa/Pedagoji dogması değildir. Kod SSOT: `lib/academy/lesson-bed-duck.ts`,
+`lib/academy/lesson-intro.ts`, `lib/academy/lesson-veo.ts`, `lib/kernel/ai/model-roles.ts`.
+
+### Ducking gain ve jenerik
+
+| Pencere | Gain / süre |
+|---------|-------------|
+| 0–2.0 sn giriş jeneriği | Lyria **0.46**; konuşma yok |
+| Konuşma (Gözde 2.0 sn’de başlar) | Müzik **0.12** |
+| Nefes payı ve CEBİNE KOY | **0.46** |
+| Konuşma bittiği an outro zirve | Lyria **0.70** |
+| Logo + 1-2-3 özet | **3 sn** coşkulu jenerik |
+| Fade-out | **1.5 sn** |
+
+### B-roll ve model kimliği (kod SSOT’a bak)
+
+| Kaynak | Ne zaman |
+|--------|----------|
+| Yerel MP4 reuse | `/public/media/academy/micro/` altında kaset varsa varsayılan |
+| Veo 3.1 Lite | `veo-3.1-lite-generate-preview` — yeni kaset gerektiğinde |
+| Imagen + CSS Ken Burns | Lite yoksa; anahtar `academy-eye-kenburns` |
+| Pahalı Veo 3.1 | `veo-3.1-generate-preview` — **yasak** (PEDAGOJI §E.4) |
+
+Warm-up B-roll **8 sn** (`ACADEMY_VEO_SCENE_DURATION_SEC`); punch **2–10 sn** (intro 0–2 sn sonrası). `0–8 sn` yazımı yasaktır.
+
+Senaryo varsayılanı kodda `FAST_STREAM` (`gemini-3.6-flash`). TTS `VOICE_TTS` (`gemini-3.1-flash-tts-preview`). Görsel `IMAGE_GEN` (`imagen-4.0-generate-001`). Dip müzik bake script’i Lyria 3.5 kimliğini taşır. Pedagoji bu sürüm adlarını dondurmaz.
+
+### Altın Şablon görsel tablo (`01_office_ai-1`)
+
+| Beat | Ekran |
+|------|-------|
+| Giriş jeneriği | 0–2 sn logo + `01_OFFICE_AI`; yalnız Lyria 0.46 |
+| Warm-up | 8 sn Veo Lite / yerel MP4 / Ken Burns, sonra canlı Excel |
+| Command | %80 tek ekran canlı uygulama; spoiler yok; dinamik zoom `transform: scale(1.2)`; sanal fare click-ripple; `activeCell A1 → B1 → C1` |
+| Comparison | Dikey split: sol ÖNCE (DÜZENLEMESİZ), sağ SONRA (AI İLE) |
+| Task | Düzenli nihai tablo |
+| Bitiş jeneriği | 3 sn logo + özet, 1.5 sn fade-out; Lyria 0.70 |
+
+`--seal` kapısı, skip preventer ve RPM (6500 ms) bu el kitabının üst tablosundadır.
+

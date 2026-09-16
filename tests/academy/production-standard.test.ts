@@ -46,7 +46,7 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(ACADEMY_AI_COURSE_DURATION_MIN_MINUTES).toBe(45);
     expect(ACADEMY_AI_COURSE_DURATION_MAX_MINUTES).toBe(90);
     expect(ACADEMY_AI_LESSON_COUNT_MIN).toBe(6);
-    expect(ACADEMY_AI_LESSON_COUNT_MAX).toBe(8);
+    expect(ACADEMY_AI_LESSON_COUNT_MAX).toBe(12);
     expect(ACADEMY_AI_LESSON_DURATION_MIN_MINUTES).toBe(7);
     expect(ACADEMY_AI_LESSON_DURATION_MAX_MINUTES).toBe(12);
     expect(LIMITS.minMinutes).toBe(ACADEMY_AI_LESSON_DURATION_MIN_MINUTES);
@@ -61,8 +61,10 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(isAcademyAiCourseDurationMinutes(91)).toBe(false);
     expect(isAcademyAiLessonCount(6)).toBe(true);
     expect(isAcademyAiLessonCount(8)).toBe(true);
+    expect(isAcademyAiLessonCount(10)).toBe(true);
+    expect(isAcademyAiLessonCount(12)).toBe(true);
     expect(isAcademyAiLessonCount(5)).toBe(false);
-    expect(isAcademyAiLessonCount(9)).toBe(false);
+    expect(isAcademyAiLessonCount(13)).toBe(false);
     expect(isAcademyAiLessonDurationMinutes(7)).toBe(true);
     expect(isAcademyAiLessonDurationMinutes(12)).toBe(true);
     expect(isAcademyAiLessonDurationMinutes(6.9)).toBe(false);
@@ -109,33 +111,29 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(academyBakeVoiceForGenderLabel("male")).toBe("Fenrir");
   });
 
-  it("PEDAGOJI.md bütünleşik medya reji kilitlerini ve Anayasa B4 bağını taşır", () => {
+  it("PEDAGOJI.md felsefeyi kilitler; stüdyo milisaniyesi bake el kitabındadır; Anayasa B4 sayı taşımaz", () => {
     const pedagogyPath = join(ROOT, ".system_docs", "PEDAGOJI.md");
     expect(existsSync(pedagogyPath)).toBe(true);
     const pedagogy = readFileSync(pedagogyPath, "utf8");
-    expect(pedagogy).toContain("Bütünleşik Medya ve Eğitim Rejisi Standartları");
+    expect(pedagogy).toContain("Eğitim felsefesi");
     expect(pedagogy).toContain("Garsonu Göster");
     expect(pedagogy).toContain("Punchcard Rozetleri");
-    expect(pedagogy).toContain("Gemini 3.8 Flash");
-    expect(pedagogy).toContain("Gemini 3.1 Flash TTS");
     expect(pedagogy).toContain("Callirrhoe");
-    expect(pedagogy).toContain("Nano Banana");
-    expect(pedagogy).toContain("Veo 3.1");
-    expect(pedagogy).toContain("Veo 3.1 Lite");
-    expect(pedagogy).toContain("Nano Banana 2");
     expect(pedagogy).toContain("Ken Burns");
-    expect(pedagogy).toContain("public/media/academy/micro");
     expect(pedagogy).toContain("### E.4 Bütçe Korumalı B-roll Mimarisi");
     expect(pedagogy).toContain("### E.5 Fırınlama (Bake) Disiplini");
     expect(pedagogy).toContain("### E.6 Dinamik Vektörel Şema ve Mantık Katmanı");
+    expect(pedagogy).toContain("### E.7 Nasıl Yapılır?");
+    expect(pedagogy).toContain("### E.8 Nereye Yazılacak");
+    expect(pedagogy).toContain("### E.9 Altyapı Şeffaflığı");
+    expect(pedagogy).toContain("### E.10 Üç Kapı Hiyerarşisi");
+    expect(pedagogy).toContain("## F. DOYGUNLUK AKIŞI");
+    expect(pedagogy).toContain("Prompt Terminali");
+    expect(pedagogy).toContain("Adım 1: E-Postaları Seç");
     expect(pedagogy).toContain("getBoundingClientRect");
     expect(pedagogy).toContain("font-size: clamp(...)");
     expect(pedagogy).toContain("min-width: content");
     expect(pedagogy).toContain("Sıfır Ekstra API Maliyeti");
-    expect(pedagogy).toContain("veo-3.1-lite-generate-preview");
-    expect(pedagogy).toContain("veo-3.1-generate-preview");
-    expect(pedagogy).toContain("--dry-run");
-    expect(pedagogy).toContain("Lyria 3.5");
     expect(pedagogy).toContain("Warm-up");
     expect(pedagogy).toContain("Command");
     expect(pedagogy).toContain("Comparison");
@@ -144,8 +142,6 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).toContain("Birinci Senaryo / Temel Yöntem");
     expect(pedagogy).toContain("İkinci Senaryo / İstisna");
     expect(pedagogy).toContain("Özet & Saha Görevi");
-    expect(pedagogy).toContain("5–9 dakika");
-    expect(pedagogy).toContain("En az 6 bölüm");
     expect(pedagogy).toContain("İzleme anında harici üretici API çağrılmaz.");
     expect(pedagogy).toContain("Temel");
     expect(pedagogy).toContain("Orta");
@@ -153,41 +149,65 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).toContain("kadın veya erkek");
     expect(pedagogy).toContain("lib/academy/production-standard.ts");
     expect(pedagogy).toContain("lib/academy/lesson-beat-visual.ts");
-    expect(pedagogy).toContain("Altın Şablon görsel reji");
-    expect(pedagogy).toContain("## E. ALTIN ŞABLON STANDARTLARI");
+    expect(pedagogy).toContain("lib/kernel/ai/model-roles.ts");
     expect(pedagogy).toContain("Spoiler Yasağı");
-    expect(pedagogy).toContain("transform: scale(1.2)");
-    expect(pedagogy).toContain("click-ripple");
-    expect(pedagogy).toContain("activeCell A1 → B1 → C1");
-    expect(pedagogy).toContain("Kopyala-Yapıştır");
-    expect(pedagogy).toContain("Ataş İle Yükle");
-    expect(pedagogy).toContain("Copilot İle Okut");
+    expect(pedagogy).toMatch(/kopyala-yapıştır/iu);
+    expect(pedagogy).toContain("Ataş / dosya yükleme");
+    expect(pedagogy).toContain("Yerleşik araçlar");
+    expect(pedagogy).toContain("Nereye Yükleyeceksin?");
+    expect(pedagogy).toContain("taşıma su");
+    expect(pedagogy).toContain("01_office_ai-w1");
+    expect(pedagogy).toContain("01_office_ai-g1");
+    expect(pedagogy).toContain("Gmail + Gemini");
+    expect(pedagogy).toContain("doc-upload-gemini");
+    expect(pedagogy).toContain("Yerleşik araç eşleşmesi");
+    expect(pedagogy).toContain("Outlook → Copilot");
+    expect(pedagogy).toContain("Gmail → Gemini");
+    expect(pedagogy).toContain("Word/Excel → Doğrudan Dosya Yükleme");
+    expect(pedagogy).toContain("Üç Kapı");
+    expect(pedagogy).toContain("Son çare");
+    expect(pedagogy).toContain("Harf harf yazma dayatması yoktur");
+    expect(pedagogy).toContain("Ders adedi Pedagoji kotası değildir");
+    expect(pedagogy).not.toContain("TAŞIMA SU YASAĞI");
+    expect(pedagogy).toContain("MASAÜSTÜ DÜRÜSTLÜĞÜ");
+    expect(pedagogy).not.toContain("Sıfır Kopyala-Yapıştır");
+    expect(pedagogy).toContain("Copilot (1. Kapı)");
+    expect(pedagogy).toContain("ChatGPT / Claude");
+    expect(pedagogy).toContain("Soyut «AI Masası» paneli **KESİNLİKLE YASAKTIR**");
     expect(pedagogy).toContain("ChatGPT, Claude, Gemini");
-    expect(pedagogy).toContain("0.70");
     expect(pedagogy).toContain("ÖNCE (DÜZENLEMESİZ)");
     expect(pedagogy).toContain("SONRA (AI İLE)");
     expect(pedagogy).toContain("Düzensiz Tablo");
-    expect(pedagogy).toContain("skip preventer");
-    expect(pedagogy).toContain("--seal");
     expect(pedagogy).toContain("docs/ops/akademi-bake-elkitabi.md");
     expect(pedagogy).toContain("01_office_ai");
     expect(pedagogy).toContain("Çok Yakında / Hazırlanıyor");
     expect(pedagogy).not.toContain("Video katmanı terk edilmiştir");
     expect(pedagogy).not.toContain("Vitrin cümlesi video vaadi taşımaz.");
+    expect(pedagogy).not.toContain("gelecek müfredatın anayasa maddesidir");
     expect(readFileSync(join(ROOT, ".system_docs", "README.md"), "utf8")).toContain(
-      "Akademi mühürlü yayın **2**",
+      "Akademi mühürlü yayın **9**",
     );
     expect(readFileSync(join(ROOT, ".system_docs", "README.md"), "utf8")).not.toContain(
       "Akademi mühürlü WAV **18**",
     );
 
     const constitution = readFileSync(join(ROOT, ".system_docs", "ANAYASA.md"), "utf8");
-    expect(constitution).toContain("PEDAGOJI.md` §F");
     expect(constitution).toContain("Yayın = makale + mühürlü karaoke");
-    expect(constitution).toContain("01_office_ai-1");
+    expect(constitution).toContain("sayılar ve müfredat koddadır");
+    expect(constitution).not.toContain("Mühürlü ders sayısı depo gerçeğidir: **5**");
+    expect(constitution).not.toContain("PEDAGOJI.md` §F");
+
+    const durum = readFileSync(join(ROOT, "docs", "DURUM.md"), "utf8");
+    expect(durum).toContain("Sınav yolu");
+    expect(durum).toContain("Mühürlü kaset");
+    expect(durum).toContain("9/9");
+    expect(durum).not.toContain("Makale / Okuma Metni");
+    expect(durum).toContain("PayTR canlı tanık");
+    expect(durum).toContain("MARKETPLACE_SPLIT_LIVE = false");
+    expect(durum).toContain("publishFrozenUntilFaz1Close: false");
 
     const runbook = readFileSync(join(ROOT, ".system_docs", "OPS_RUNBOOK.md"), "utf8");
-    expect(runbook).toContain("Akademi mühürlü yayın **2**");
+    expect(runbook).toContain("Akademi mühürlü yayın **9**");
     expect(runbook).toContain("01_office_ai-1");
     expect(runbook).toContain("ops/ops-db.md");
     const opsDb = readFileSync(join(ROOT, ".system_docs", "ops", "ops-db.md"), "utf8");
@@ -209,5 +229,12 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     const bakeElkitabi = readFileSync(join(ROOT, "docs", "ops", "akademi-bake-elkitabi.md"), "utf8");
     expect(bakeElkitabi).toContain("Veo 3.1 Lite");
     expect(bakeElkitabi).toContain("--dry-run");
+    expect(bakeElkitabi).toContain("0.70");
+    expect(bakeElkitabi).toContain("skip preventer");
+    expect(bakeElkitabi).toContain("veo-3.1-lite-generate-preview");
+    expect(bakeElkitabi).toContain("veo-3.1-generate-preview");
+    expect(bakeElkitabi).toContain("transform: scale(1.2)");
+    expect(bakeElkitabi).toContain("punchcard-from-sealed-json");
+    expect(bakeElkitabi).toContain("public/media/academy/micro");
   });
 });

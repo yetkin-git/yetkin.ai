@@ -27,6 +27,8 @@ describe("TTS model skip preventer", () => {
     expect(applyAcademyCueDisplayPhonetics("Buybox")).toBe("Baybaks");
     expect(applyAcademyCueDisplayPhonetics("Bundle")).toBe("Bantıl");
     expect(applyAcademyCueDisplayPhonetics("ChatGPT")).toBe("Çetcipiti");
+    expect(applyAcademyCueDisplayPhonetics("gemini.google.com")).toBe("cemini nokta gugıl nokta kom");
+    expect(applyAcademySpokenPhoneticsToDisplay("cemini nokta gugıl nokta kom")).toBe("gemini.google.com");
     expect(applyAcademyCueDisplayPhonetics("chatgpt.com")).toBe("çetcipiti nokta kom");
     expect(applyAcademyCueDisplayPhonetics("claude.ai")).toBe("klod nokta ey ay");
     expect(applyAcademyCueDisplayPhonetics("perplexity.ai")).toBe("perpleksiti nokta ey ay");
@@ -49,6 +51,14 @@ describe("TTS model skip preventer", () => {
     expect(applyAcademyCueDisplayPhonetics("ElevenLabs")).toBe("Ilevın Labs");
     expect(applyAcademyCueDisplayPhonetics("HeyGen")).toBe("Heycen");
     expect(applyAcademyCueDisplayPhonetics("Reels")).toBe("Rils");
+    expect(applyAcademyCueDisplayPhonetics("Ctrl+C")).toBe("Kontrol C");
+    expect(applyAcademyCueDisplayPhonetics("Word veya Gemini sohbetine .docx yüklersin")).toContain("docx");
+    expect(applyAcademyCueDisplayPhonetics("Word veya Gemini sohbetine .docx yüklersin")).not.toMatch(/\.docx/u);
+    expect(applyAcademyCueDisplayPhonetics("Sozlesme_Kaya_Gida.docx")).toMatch(/Sozlesme_Kaya_Gida\s+docx/u);
+    expect(applyAcademyCueDisplayPhonetics(".xlsx ve .pptx")).toMatch(/xlsx/u);
+    expect(applyAcademyCueDisplayPhonetics(".xlsx ve .pptx")).toMatch(/pptx/u);
+    expect(applyAcademySpokenPhoneticsToDisplay("Kontrol C")).toBe("Ctrl+C");
+    expect(applyAcademySpokenPhoneticsToDisplay("sohbetine docx yüklersin")).toBe("sohbetine .docx yüklersin");
   });
 
   it("Ayda takvim dilini AIDA'ya çevirmez; satış şablonunu çevirir", () => {

@@ -4,7 +4,8 @@
  * vitrini mühürlü amiral SKU’dur. Kardeş Katman 1 taslakları üretim
  * bandındadır; Prisma hayalet SKU ve hayali oynatıcı girmez.
  *
- * `01_office_ai` çekirdek kaydı durur; 1. ve 2. ders (`01_office_ai-1`, `01_office_ai-2`) mühürlü sestir.
+ * `01_office_ai` çekirdek kaydı durur; 9 ders mühürlü ses (`1`…`6`, `g1`, `w1`, `k1`).
+ * Sınav yolu `lesson-index.ts` SSOT’udur.
  * PEDAGOJI §D 5'li Vitrin Karması kardeşleri dürüst «Çok Yakında» kabuğu olarak basar.
  */
 
@@ -51,7 +52,17 @@ export const ACADEMY_DIALOGUE_SKU_SLUGS = [] as const satisfies readonly Academy
  * Diskteki ses mührü — kurs slug → mühürlü ders anahtarları.
  */
 export const ACADEMY_MEDIA_SEALED_AUDIO: Readonly<Record<string, readonly string[]>> = {
-  "01_office_ai": ["01_office_ai-1", "01_office_ai-2"],
+  "01_office_ai": [
+    "01_office_ai-1",
+    "01_office_ai-2",
+    "01_office_ai-3",
+    "01_office_ai-4",
+    "01_office_ai-5",
+    "01_office_ai-6",
+    "01_office_ai-g1",
+    "01_office_ai-w1",
+    "01_office_ai-k1",
+  ],
 };
 
 /**
@@ -91,10 +102,8 @@ type _GrowthSubsetOfVitrine = [ExtraOnGrowth] extends [never] ? true : ExtraOnGr
 const _growthSubsetOfVitrine: _GrowthSubsetOfVitrine = true;
 void _growthSubsetOfVitrine;
 
-/** Amiral Ders (eski pilot) — ayrı SKU yok. Compact Katman 1 kursları 6 makale (üretim bandı 6–8). */
+/** Compact makale SKU — diyalog tiyatrosu yoktur. Ses mührü üstüne biner. Ders sayısı `curriculumLessonCountForSlug`. */
 export const ACADEMY_PILOT_SKU_LESSON_COUNT = 0 as const;
-
-export const ACADEMY_GROWTH_LESSON_COUNT = 6 as const;
 
 export function isAcademyPilotSkuSlug(_slug: string): _slug is AcademyPilotSkuSlug {
   return false;
@@ -125,14 +134,14 @@ export function isAcademyCompactArticleSku(slug: string): boolean {
   return isAcademyGrowthSkuSlug(slug) && !isAcademyDialogueSkuSlug(slug);
 }
 
-/** `01_office_ai-1` → `01_office_ai`. Compact müfredat anahtarı `${slug}-${n}`. */
+/** `01_office_ai-1` → `01_office_ai`. Ofis Gmail/Word anahtarı `g1` / `w1`. */
 export function academyCourseSlugFromLessonKey(lessonKey: string): string | null {
   const lastDash = lessonKey.lastIndexOf("-");
   if (lastDash <= 0) {
     return null;
   }
   const suffix = lessonKey.slice(lastDash + 1);
-  if (!/^\d+$/u.test(suffix)) {
+  if (!/^(?:\d+|[gwk]\d+)$/u.test(suffix)) {
     return null;
   }
   return lessonKey.slice(0, lastDash);

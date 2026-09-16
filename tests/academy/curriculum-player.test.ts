@@ -102,12 +102,12 @@ describe("akademi müfredat oynatıcısı", () => {
       platformUserId: PLATFORM,
     });
     const lessons = curriculumForCourseSlug("01_office_ai");
-    expect(lessons).toHaveLength(6);
+    expect(lessons).toHaveLength(9);
     const player = await loadAcademyCurriculumPlayer(ports, {
       courseId: course.id,
       userId: BUYER_OFFICE,
     });
-    expect(player.lessons).toHaveLength(6);
+    expect(player.lessons).toHaveLength(9);
     expect(player.lessons[0]?.key).toBe("01_office_ai-1");
   });
 });

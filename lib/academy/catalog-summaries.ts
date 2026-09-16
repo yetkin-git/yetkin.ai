@@ -10,7 +10,7 @@ export const ACADEMY_COMING_SOON_SUMMARY =
 
 export const ACADEMY_CATALOG_SUMMARIES: Record<AcademyCourseTitleSlug, string> = {
   "01_office_ai":
-    "Ofiste yapay zekâ devrimi: Excel formül sihirbazlığı, profesyonel Word raporlama, PowerPoint sunum hazırlama, Outlook e-posta otomasyonu ve kurumsal KVKK etiği.",
+    "A1’den temiz Excel, KVKK maskeleme, üç maddelik yönetim özeti, slayt, hata avı, e-posta ritüeli, Gmail/Outlook aksiyon listesi, Word’de dilekçe ve rapor, Cuma 30 kapanış rutini.",
   "02_ecommerce_ai": ACADEMY_COMING_SOON_SUMMARY,
   "03_social_media_ai": ACADEMY_COMING_SOON_SUMMARY,
   "04_chatbot_nocode": ACADEMY_COMING_SOON_SUMMARY,

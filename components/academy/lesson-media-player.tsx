@@ -14,12 +14,13 @@ import {
 import { academyBedDuckGain, academyBedOutroTailSec, ACADEMY_BED_OUTRO_HOLD_SEC } from "@/lib/academy/lesson-bed-duck";
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import { formatAcademyCinemaClock } from "@/lib/academy/lesson-cinema";
-import { shouldSealProgressAfterDialogueEnded } from "@/lib/academy/lesson-advance";
+import { shouldSealProgressAfterDialogueEnded, hasAcademyLessonPlaybackReachedEnd } from "@/lib/academy/lesson-advance";
 
 export function LessonMediaPlayer({
   courseSlug,
   lessonKey,
   lessonTitle,
+  autoStart = false,
   onSpokenElapsedChange,
   onPlayingChange,
   onEnded,
@@ -27,9 +28,10 @@ export function LessonMediaPlayer({
   courseSlug: string;
   lessonKey: string;
   lessonTitle: string;
+  autoStart?: boolean;
   onSpokenElapsedChange?: (elapsedSec: number) => void;
   onPlayingChange?: (playing: boolean) => void;
-  onEnded?: () => void;
+  onEnded?: (endedLessonKey: string) => void;
 }) {
   const copy = ACADEMY_SEN.player;
   const listenCopy = ACADEMY_SEN.listen;
@@ -66,7 +68,11 @@ export function LessonMediaPlayer({
   const falseEndRetryRef = useRef(false);
   const rafRef = useRef(0);
   const togglePlayRef = useRef<() => void>(() => undefined);
+  const autoStartTriedRef = useRef(false);
+  const audioGestureUnlockedRef = useRef(false);
+  const outroEndTimerRef = useRef(0);
   const onEndedRef = useRef(onEnded);
+  const lessonKeyRef = useRef(lessonKey);
   const onSpokenElapsedChangeRef = useRef(onSpokenElapsedChange);
   const onPlayingChangeRef = useRef(onPlayingChange);
   const [playing, setPlaying] = useState(false);
@@ -103,8 +109,20 @@ export function LessonMediaPlayer({
     [resolveClockDuration],
   );
   onEndedRef.current = onEnded;
+  lessonKeyRef.current = lessonKey;
   onSpokenElapsedChangeRef.current = onSpokenElapsedChange;
   onPlayingChangeRef.current = onPlayingChange;
+
+  const notifyEnded = useCallback(() => {
+    onEndedRef.current?.(lessonKeyRef.current);
+  }, []);
+
+  const pushSpokenClock = useCallback((time: number) => {
+    if (!Number.isFinite(time) || time < 0) {
+      return;
+    }
+    onSpokenElapsedChangeRef.current?.(time);
+  }, []);
 
   useEffect(() => {
     onSpokenElapsedChangeRef.current?.(elapsed);
@@ -117,6 +135,8 @@ export function LessonMediaPlayer({
   useEffect(() => {
     pauseLockRef.current = true;
     falseEndRetryRef.current = false;
+    autoStartTriedRef.current = false;
+    audioGestureUnlockedRef.current = false;
     clockRef.current = {
       playing: false,
       elapsed: 0,
@@ -130,6 +150,10 @@ export function LessonMediaPlayer({
     if (rafRef.current) {
       window.cancelAnimationFrame(rafRef.current);
       rafRef.current = 0;
+    }
+    if (outroEndTimerRef.current) {
+      window.clearTimeout(outroEndTimerRef.current);
+      outroEndTimerRef.current = 0;
     }
     setPlaying(false);
     setElapsed(0);
@@ -145,6 +169,41 @@ export function LessonMediaPlayer({
       bed.load();
     }
   }, [audioSrc, bedSrc, fallbackDuration, lessonKey]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) {
+      return;
+    }
+    const onClock = () => {
+      if (pauseLockRef.current) {
+        return;
+      }
+      if (!(Number.isFinite(audio.currentTime) && audio.currentTime >= 0)) {
+        return;
+      }
+      const cap = clockRef.current.duration > 0 ? clockRef.current.duration : fallbackDuration;
+      const audioCap = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : cap;
+      const inOutro = cap > audioCap + 0.05 && (audio.ended || audio.currentTime + 0.08 >= audioCap);
+      if (inOutro) {
+        pushSpokenClock(clockRef.current.elapsed);
+        return;
+      }
+      clockRef.current.lastAudioTime = audio.currentTime;
+      clockRef.current.elapsed = audio.currentTime;
+      clockRef.current.stallMs = 0;
+      pushSpokenClock(audio.currentTime);
+      setElapsed((current) => (Math.abs(current - audio.currentTime) >= 0.05 ? audio.currentTime : current));
+    };
+    audio.addEventListener("timeupdate", onClock);
+    audio.addEventListener("seeked", onClock);
+    audio.addEventListener("playing", onClock);
+    return () => {
+      audio.removeEventListener("timeupdate", onClock);
+      audio.removeEventListener("seeked", onClock);
+      audio.removeEventListener("playing", onClock);
+    };
+  }, [audioSrc, fallbackDuration, pushSpokenClock]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -188,7 +247,10 @@ export function LessonMediaPlayer({
     if (
       !shouldSealProgressAfterDialogueEnded({
         playbackStarted: clock.playbackStarted,
-        reachedEnd: cap > 0 && nextElapsed >= cap,
+        reachedEnd: hasAcademyLessonPlaybackReachedEnd({
+          currentTime: nextElapsed,
+          durationSec: cap,
+        }),
       })
     ) {
       return false;
@@ -199,13 +261,17 @@ export function LessonMediaPlayer({
     clock.sealed = true;
     clock.playing = false;
     pauseLockRef.current = true;
+    if (outroEndTimerRef.current) {
+      window.clearTimeout(outroEndTimerRef.current);
+      outroEndTimerRef.current = 0;
+    }
     setPlaying(false);
     setElapsed(cap);
     audioRef.current?.pause();
     applyBedDuck(cap, false);
-    onEndedRef.current?.();
+    notifyEnded();
     return true;
-  }, [applyBedDuck]);
+  }, [applyBedDuck, notifyEnded]);
 
   const applyElapsed = useCallback(
     (next: number) => {
@@ -215,6 +281,7 @@ export function LessonMediaPlayer({
       clockRef.current.lastAudioTime = clamped;
       clockRef.current.stallMs = 0;
       setElapsed(clamped);
+      pushSpokenClock(clamped);
       applyBedDuck(clamped, clockRef.current.playing && !pauseLockRef.current);
       const audio = audioRef.current;
       if (audioReady && audio) {
@@ -223,7 +290,25 @@ export function LessonMediaPlayer({
       }
       sealIfEnded(clamped, cap);
     },
-    [applyBedDuck, audioReady, fallbackDuration, sealIfEnded],
+    [applyBedDuck, audioReady, fallbackDuration, pushSpokenClock, sealIfEnded],
+  );
+
+  const armOutroEndTimeout = useCallback(
+    (fromElapsed: number, cap: number) => {
+      if (outroEndTimerRef.current) {
+        window.clearTimeout(outroEndTimerRef.current);
+      }
+      const remainMs = Math.max(0, (cap - fromElapsed) * 1000);
+      outroEndTimerRef.current = window.setTimeout(() => {
+        outroEndTimerRef.current = 0;
+        const nextCap = clockRef.current.duration > 0 ? clockRef.current.duration : cap;
+        clockRef.current.elapsed = nextCap;
+        setElapsed(nextCap);
+        pushSpokenClock(nextCap);
+        sealIfEnded(nextCap, nextCap);
+      }, remainMs + 80);
+    },
+    [pushSpokenClock, sealIfEnded],
   );
 
   const applyPauseLock = useCallback(() => {
@@ -263,6 +348,7 @@ export function LessonMediaPlayer({
           const next = Math.min(clock.elapsed + delta, cap);
           clock.elapsed = next;
           setElapsed((current) => (Math.abs(current - next) >= 0.05 ? next : current));
+          pushSpokenClock(next);
           applyBedDuck(next, true);
           if (sealIfEnded(next, cap)) {
             rafRef.current = 0;
@@ -304,6 +390,7 @@ export function LessonMediaPlayer({
         clock.elapsed = next;
         setElapsed((current) => (Math.abs(current - next) >= 0.05 ? next : current));
       }
+      pushSpokenClock(clock.elapsed);
       applyBedDuck(clock.elapsed, true);
       rafRef.current = window.requestAnimationFrame(tick);
     };
@@ -315,7 +402,40 @@ export function LessonMediaPlayer({
       window.cancelAnimationFrame(rafRef.current);
       rafRef.current = 0;
     };
-  }, [applyBedDuck, audioReady, commitDuration, fallbackDuration, playing, sealIfEnded]);
+  }, [applyBedDuck, audioReady, commitDuration, fallbackDuration, playing, pushSpokenClock, sealIfEnded]);
+
+  useEffect(() => {
+    const cap = clockRef.current.duration > 0 ? clockRef.current.duration : fallbackDuration;
+    if (
+      !hasAcademyLessonPlaybackReachedEnd({
+        currentTime: elapsed,
+        durationSec: cap,
+      })
+    ) {
+      return;
+    }
+    sealIfEnded(Math.max(elapsed, cap), cap);
+  }, [elapsed, fallbackDuration, sealIfEnded]);
+
+  useEffect(() => {
+    return () => {
+      if (outroEndTimerRef.current) {
+        window.clearTimeout(outroEndTimerRef.current);
+        outroEndTimerRef.current = 0;
+      }
+    };
+  }, [lessonKey]);
+
+  const playSealedAudio = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio || !audioSrc) {
+      return;
+    }
+    void audio.play().then(() => {
+      setAudioReady(true);
+      setAudioFailed(false);
+    }).catch(() => undefined);
+  }, [audioSrc]);
 
   const togglePlay = useCallback(() => {
     if (clockRef.current.playing || playing) {
@@ -324,6 +444,7 @@ export function LessonMediaPlayer({
     }
     const cap = clockRef.current.duration > 0 ? clockRef.current.duration : fallbackDuration;
     pauseLockRef.current = false;
+    audioGestureUnlockedRef.current = true;
     if (elapsed >= cap && cap > 0) {
       clockRef.current.sealed = false;
       falseEndRetryRef.current = false;
@@ -335,14 +456,63 @@ export function LessonMediaPlayer({
     clockRef.current.stallMs = 0;
     setPlaying(true);
     applyBedDuck(clockRef.current.elapsed, true);
-    if (audioReady) {
-      void audioRef.current?.play().catch(() => {
-        setAudioReady(false);
-      });
-    }
-  }, [applyBedDuck, applyElapsed, applyPauseLock, audioReady, elapsed, fallbackDuration, playing]);
+    playSealedAudio();
+  }, [applyBedDuck, applyElapsed, applyPauseLock, elapsed, fallbackDuration, playSealedAudio, playing]);
 
   togglePlayRef.current = togglePlay;
+
+  useEffect(() => {
+    function unlockFromGesture() {
+      if (audioGestureUnlockedRef.current) {
+        return;
+      }
+      const audio = audioRef.current;
+      if (!audio || !audioSrc) {
+        return;
+      }
+      audioGestureUnlockedRef.current = true;
+      if (clockRef.current.playing && !pauseLockRef.current) {
+        playSealedAudio();
+        return;
+      }
+      const stamp = Number.isFinite(audio.currentTime) ? audio.currentTime : 0;
+      const wasMuted = audio.muted;
+      audio.muted = true;
+      void audio.play().then(() => {
+        if (clockRef.current.playing && !pauseLockRef.current) {
+          audio.muted = wasMuted;
+          return;
+        }
+        audio.pause();
+        audio.muted = wasMuted;
+        if (Number.isFinite(stamp)) {
+          audio.currentTime = stamp;
+        }
+      }).catch(() => {
+        audio.muted = wasMuted;
+      });
+    }
+    window.addEventListener("pointerdown", unlockFromGesture);
+    window.addEventListener("keydown", unlockFromGesture);
+    return () => {
+      window.removeEventListener("pointerdown", unlockFromGesture);
+      window.removeEventListener("keydown", unlockFromGesture);
+    };
+  }, [audioSrc, playSealedAudio]);
+
+  useEffect(() => {
+    if (!autoStart || autoStartTriedRef.current) {
+      return;
+    }
+    if (!audioReady && !audioFailed) {
+      return;
+    }
+    autoStartTriedRef.current = true;
+    if (audioFailed || clockRef.current.playing) {
+      return;
+    }
+    togglePlayRef.current();
+  }, [audioFailed, audioReady, autoStart, lessonKey]);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -378,9 +548,7 @@ export function LessonMediaPlayer({
       clockRef.current.playbackStarted = true;
       clockRef.current.lastStamp = 0;
       setPlaying(true);
-      if (audioReady) {
-        void audioRef.current?.play().catch(() => undefined);
-      }
+      playSealedAudio();
     }
   }
 
@@ -417,8 +585,9 @@ export function LessonMediaPlayer({
       <audio
         key={audioSrc}
         ref={audioRef}
-        preload={playing ? "auto" : "metadata"}
+        preload="auto"
         src={audioSrc}
+        data-academy-audio-src={audioSrc}
         onTimeUpdate={() => {
           const audio = audioRef.current;
           if (!audio || pauseLockRef.current) {
@@ -448,6 +617,7 @@ export function LessonMediaPlayer({
           clockRef.current.elapsed = audio.currentTime;
           clockRef.current.stallMs = 0;
           setElapsed(audio.currentTime);
+          pushSpokenClock(audio.currentTime);
           applyBedDuck(audio.currentTime, clockRef.current.playing && !pauseLockRef.current);
           setAudioReady(true);
           setAudioFailed(false);
@@ -471,6 +641,9 @@ export function LessonMediaPlayer({
           commitDuration(audio.duration);
           setAudioReady(true);
           setAudioFailed(false);
+          if (clockRef.current.playing && !pauseLockRef.current && audio.paused) {
+            playSealedAudio();
+          }
         }}
         onLoadedMetadata={() => {
           const audio = audioRef.current;
@@ -480,6 +653,9 @@ export function LessonMediaPlayer({
           commitDuration(audio.duration);
           setAudioReady(true);
           setAudioFailed(false);
+          if (clockRef.current.playing && !pauseLockRef.current && audio.paused) {
+            playSealedAudio();
+          }
         }}
         onError={() => {
           setAudioReady(false);
@@ -513,6 +689,7 @@ export function LessonMediaPlayer({
           if (cap > audioCap + 0.05 && reported >= Math.min(audioCap, cap) * 0.85) {
             clockRef.current.elapsed = Math.max(clockRef.current.elapsed, Math.min(reported, audioCap));
             applyBedDuck(clockRef.current.elapsed, true);
+            armOutroEndTimeout(clockRef.current.elapsed, cap);
             return;
           }
           clockRef.current.elapsed = cap;

@@ -1,6 +1,13 @@
 import type { AcademyExamQuestion } from "@/lib/academy/types";
 import officeAiLesson1ExamJson from "./01_office_ai-1.json" with { type: "json" };
 import officeAiLesson2ExamJson from "./01_office_ai-2.json" with { type: "json" };
+import officeAiLesson3ExamJson from "./01_office_ai-3.json" with { type: "json" };
+import officeAiLesson4ExamJson from "./01_office_ai-4.json" with { type: "json" };
+import officeAiLesson5ExamJson from "./01_office_ai-5.json" with { type: "json" };
+import officeAiLesson6ExamJson from "./01_office_ai-6.json" with { type: "json" };
+import officeAiLessonG1ExamJson from "./01_office_ai-g1.json" with { type: "json" };
+import officeAiLessonW1ExamJson from "./01_office_ai-w1.json" with { type: "json" };
+import officeAiLessonK1ExamJson from "./01_office_ai-k1.json" with { type: "json" };
 
 export const ACADEMY_LESSON_EXAM_PASS_SCORE = 70 as const;
 
@@ -58,6 +65,41 @@ const LESSON_EXAMS: Readonly<Record<string, AcademyLessonExam>> = {
     passScore: ACADEMY_LESSON_EXAM_PASS_SCORE,
     questions: [],
   },
+  "01_office_ai-3": parseLessonExam(officeAiLesson3ExamJson) ?? {
+    lessonKey: "01_office_ai-3",
+    passScore: ACADEMY_LESSON_EXAM_PASS_SCORE,
+    questions: [],
+  },
+  "01_office_ai-4": parseLessonExam(officeAiLesson4ExamJson) ?? {
+    lessonKey: "01_office_ai-4",
+    passScore: ACADEMY_LESSON_EXAM_PASS_SCORE,
+    questions: [],
+  },
+  "01_office_ai-5": parseLessonExam(officeAiLesson5ExamJson) ?? {
+    lessonKey: "01_office_ai-5",
+    passScore: ACADEMY_LESSON_EXAM_PASS_SCORE,
+    questions: [],
+  },
+  "01_office_ai-6": parseLessonExam(officeAiLesson6ExamJson) ?? {
+    lessonKey: "01_office_ai-6",
+    passScore: ACADEMY_LESSON_EXAM_PASS_SCORE,
+    questions: [],
+  },
+  "01_office_ai-g1": parseLessonExam(officeAiLessonG1ExamJson) ?? {
+    lessonKey: "01_office_ai-g1",
+    passScore: ACADEMY_LESSON_EXAM_PASS_SCORE,
+    questions: [],
+  },
+  "01_office_ai-w1": parseLessonExam(officeAiLessonW1ExamJson) ?? {
+    lessonKey: "01_office_ai-w1",
+    passScore: ACADEMY_LESSON_EXAM_PASS_SCORE,
+    questions: [],
+  },
+  "01_office_ai-k1": parseLessonExam(officeAiLessonK1ExamJson) ?? {
+    lessonKey: "01_office_ai-k1",
+    passScore: ACADEMY_LESSON_EXAM_PASS_SCORE,
+    questions: [],
+  },
 };
 
 export function loadAcademyLessonExam(lessonKey: string): AcademyLessonExam | null {
@@ -70,4 +112,25 @@ export function loadAcademyLessonExam(lessonKey: string): AcademyLessonExam | nu
 
 export function hasAcademyLessonExam(lessonKey: string): boolean {
   return loadAcademyLessonExam(lessonKey) != null;
+}
+
+/** `q_off_l1_`, `q_off_lg1_` gibi ders mini sınav öneki. */
+export function academyLessonExamGroupPrefix(questionId: string): string | null {
+  const match = /^(q_off_l(?:g1|w1|k1|\d+)_)/u.exec(questionId.trim());
+  return match?.[1] ?? null;
+}
+
+/** Her dersten bir soru — kurs sonu çekimde adil pin. */
+export function pinAcademyLessonExamQuestionIds(
+  questions: readonly AcademyExamQuestion[],
+): string[] {
+  const groups = new Map<string, string>();
+  for (const question of questions) {
+    const prefix = academyLessonExamGroupPrefix(question.id);
+    if (!prefix || groups.has(prefix)) {
+      continue;
+    }
+    groups.set(prefix, question.id);
+  }
+  return [...groups.values()];
 }

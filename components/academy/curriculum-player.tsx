@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Route } from "next";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -15,10 +15,21 @@ import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
 import { academyExamStartGateHref } from "@/lib/academy/continue-board";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import {
+  academyPlayerClockDurationSec,
+  academySealedAudioDurationSec,
+} from "@/lib/academy/lesson-audio";
+import { academyBedOutroTailSec } from "@/lib/academy/lesson-bed-duck";
+import {
+  ACADEMY_LESSON_AUTO_ADVANCE_DEFAULT,
   canAdvanceAcademyPlayerLesson,
+  hasAcademyLessonPlaybackReachedEnd,
   isAcademyPlayerExamReady,
+  academyPlayerAutoAdvanceTargetKey,
   nextAcademyPlayerLesson,
   prevAcademyPlayerLesson,
+  readAcademyLessonAutoAdvanceFromStorage,
+  shouldAutoAdvanceAfterListenEnded,
+  writeAcademyLessonAutoAdvanceToStorage,
 } from "@/lib/academy/lesson-advance";
 import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
 import { parseRailClientJson } from "@/lib/ui/parse-rail-json";
@@ -69,6 +80,19 @@ export function CurriculumPlayer({
   const [completedKeys, setCompletedKeys] = useState(
     () => new Set(lessons.filter((lesson) => lesson.completed).map((lesson) => lesson.key)),
   );
+  const [autoAdvanceEnabled, setAutoAdvanceEnabled] = useState(ACADEMY_LESSON_AUTO_ADVANCE_DEFAULT);
+  const [autoStartPlayback, setAutoStartPlayback] = useState(false);
+  const autoAdvanceEnabledRef = useRef(autoAdvanceEnabled);
+  const endedLessonKeyRef = useRef<string | null>(null);
+  const playbackStartedKeyRef = useRef<string | null>(null);
+  const lessonsRef = useRef(lessons);
+
+  useEffect(() => {
+    setAutoAdvanceEnabled(readAcademyLessonAutoAdvanceFromStorage());
+  }, []);
+
+  autoAdvanceEnabledRef.current = autoAdvanceEnabled;
+  lessonsRef.current = lessons;
 
   useEffect(() => {
     setCompletedKeys(new Set(lessons.filter((lesson) => lesson.completed).map((lesson) => lesson.key)));
@@ -83,10 +107,19 @@ export function CurriculumPlayer({
   });
   const nextLesson = active ? nextAcademyPlayerLesson(lessons, active.key) : null;
   const prevLesson = active ? prevAcademyPlayerLesson(lessons, active.key) : null;
-  const canAdvance = canAdvanceAcademyPlayerLesson(active ?? null, nextLesson);
+  const activeCompleted = active ? completedKeys.has(active.key) || active.completed : false;
+  const activeForAdvance = active ? { ...active, completed: activeCompleted } : null;
+  const canAdvance = canAdvanceAcademyPlayerLesson(activeForAdvance, nextLesson);
   const canGoPrev = Boolean(prevLesson?.open);
   const canGoNext = Boolean(nextLesson && (nextLesson.open || canAdvance));
-  const activeCompleted = active ? completedKeys.has(active.key) || active.completed : false;
+  const activeClockDurationSec = active
+    ? academyPlayerClockDurationSec({
+        audioDuration: 0,
+        sealedDuration: academySealedAudioDurationSec(courseSlug, active.key),
+        spokenDuration: 0,
+        outroTailSec: academyBedOutroTailSec(active.key),
+      })
+    : 0;
   const activeTitle = active ? normalizeAcronyms(active.title) : "";
   const playerLayer = useMemo(
     () => (active ? academyCitizenPlayerLayer(courseSlug, active.key) : { kind: "article" as const }),
@@ -96,16 +129,55 @@ export function CurriculumPlayer({
   const eyeStage = karaoke ? loadAcademyLessonVisualStage(karaoke.lessonKey) : null;
 
   useEffect(() => {
+    endedLessonKeyRef.current = null;
+    playbackStartedKeyRef.current = null;
     setMediaElapsed(0);
     setMediaPlaying(false);
   }, [activeKey]);
 
-  function goToNextLesson(lessonKey: string) {
+  function selectLesson(lessonKey: string, options?: { autoStart?: boolean }) {
+    if (!lessonKey || lessonKey === activeKey) {
+      return;
+    }
     setError(null);
+    setMediaElapsed(0);
+    setMediaPlaying(false);
+    if (options?.autoStart) {
+      setAutoStartPlayback(true);
+    } else {
+      setAutoStartPlayback(false);
+    }
     setActiveKey(lessonKey);
   }
 
-  async function completeLesson(lessonKey: string): Promise<{ ok: boolean; nextLessonKey: string | null }> {
+  function goToNextLesson(lessonKey: string) {
+    selectLesson(lessonKey, { autoStart: true });
+  }
+
+  function autoAdvanceNextLesson(endedLessonKey: string) {
+    const sequential = academyPlayerAutoAdvanceTargetKey({
+      autoAdvanceEnabled: autoAdvanceEnabledRef.current,
+      lessons: lessonsRef.current,
+      endedLessonKey,
+    });
+    if (!sequential) {
+      return;
+    }
+    goToNextLesson(sequential);
+  }
+
+  function onToggleAutoAdvance() {
+    setAutoAdvanceEnabled((current) => {
+      const next = !current;
+      writeAcademyLessonAutoAdvanceToStorage(next);
+      return next;
+    });
+  }
+
+  async function completeLesson(
+    lessonKey: string,
+    options?: { advance?: boolean },
+  ): Promise<{ ok: boolean; nextLessonKey: string | null }> {
     setPending(true);
     setError(null);
     try {
@@ -129,39 +201,86 @@ export function CurriculumPlayer({
         next.add(lessonKey);
         return next;
       });
-      const nextKey = parsed.data.player?.nextLessonKey ?? null;
-      if (nextKey) {
-        goToNextLesson(nextKey);
+      // API `player.nextLessonKey` ilk tamamlanmamış derstir (devam paneli).
+      // Oynatıcı geçişi müfredat sırasındaki +1 adımdır; tamamlanmış ders atlanmaz.
+      const sequentialKey = nextAcademyPlayerLesson(lessonsRef.current, lessonKey)?.key ?? null;
+      if ((options?.advance ?? true) && sequentialKey) {
+        if (autoAdvanceEnabledRef.current) {
+          autoAdvanceNextLesson(lessonKey);
+        } else {
+          selectLesson(sequentialKey, { autoStart: false });
+        }
       }
       router.refresh();
-      return { ok: true, nextLessonKey: nextKey };
+      return { ok: true, nextLessonKey: sequentialKey };
     } catch {
       setError(copy.completeFail);
       return { ok: false, nextLessonKey: null };
     } finally {
       setPending(false);
+      idempotency.rotate();
     }
   }
 
-  function onMediaEnded() {
-    if (!active || pending) {
+  function onMediaEnded(endedLessonKey?: string) {
+    if (!active) {
       return;
     }
+    const key = endedLessonKey ?? active.key;
+    if (key !== active.key) {
+      return;
+    }
+    if (endedLessonKeyRef.current === key) {
+      return;
+    }
+    if (playbackStartedKeyRef.current !== key) {
+      return;
+    }
+    if (pending && active.open && !activeCompleted) {
+      return;
+    }
+    const shouldAdvance = shouldAutoAdvanceAfterListenEnded({
+      autoAdvanceEnabled: autoAdvanceEnabledRef.current,
+      fallback: false,
+    });
+    endedLessonKeyRef.current = key;
     if (active.open && !activeCompleted) {
-      void completeLesson(active.key);
+      void completeLesson(key, { advance: shouldAdvance }).then((result) => {
+        if (result.ok) {
+          return;
+        }
+        endedLessonKeyRef.current = null;
+        if (shouldAdvance) {
+          autoAdvanceNextLesson(key);
+        }
+      });
       return;
     }
-    if (nextLesson && canGoNext) {
-      goToNextLesson(nextLesson.key);
+    if (shouldAdvance) {
+      autoAdvanceNextLesson(key);
     }
   }
+
+  useEffect(() => {
+    if (!active || mediaElapsed < 1) {
+      return;
+    }
+    if (
+      !hasAcademyLessonPlaybackReachedEnd({
+        currentTime: mediaElapsed,
+        durationSec: activeClockDurationSec,
+      })
+    ) {
+      return;
+    }
+    onMediaEnded(active.key);
+  }, [active, activeClockDurationSec, mediaElapsed, pending]);
 
   function onPrevLesson() {
     if (!prevLesson?.open) {
       return;
     }
-    setError(null);
-    setActiveKey(prevLesson.key);
+    selectLesson(prevLesson.key, { autoStart: false });
   }
 
   function onNextOrComplete() {
@@ -173,7 +292,7 @@ export function CurriculumPlayer({
       return;
     }
     if (nextLesson && canGoNext) {
-      goToNextLesson(nextLesson.key);
+      selectLesson(nextLesson.key, { autoStart: false });
     }
   }
 
@@ -195,10 +314,31 @@ export function CurriculumPlayer({
     <aside
       className="academy-player-rail flex min-h-0 flex-col overflow-hidden max-lg:max-h-28 lg:sticky lg:top-3 lg:max-h-[calc(100dvh-5.5rem)] lg:self-start"
       data-academy-player-playlist=""
+      data-academy-autoplay={autoAdvanceEnabled ? "on" : "off"}
     >
-      <p className="shrink-0 px-1 pb-2 text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--muted)]">
-        {copy.playlistLabel}
-      </p>
+      <div className="academy-player-playlist-head shrink-0 flex items-center justify-between gap-2 px-1 pb-2">
+        <p className="min-w-0 truncate text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--muted)]">
+          {copy.playlistLabel}
+        </p>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={autoAdvanceEnabled}
+          aria-label={copy.autoAdvance}
+          data-academy-autoplay-toggle=""
+          className="academy-player-autoplay"
+          onClick={onToggleAutoAdvance}
+        >
+          <span className="academy-player-autoplay-label">{copy.autoAdvance}</span>
+          <span
+            className="academy-player-autoplay-track"
+            data-on={autoAdvanceEnabled ? "true" : "false"}
+            aria-hidden
+          >
+            <span className="academy-player-autoplay-thumb" />
+          </span>
+        </button>
+      </div>
       <ol
         className="flex min-h-0 gap-2 overflow-x-auto overscroll-contain pr-1 lg:flex-1 lg:flex-col lg:space-y-2 lg:gap-0 lg:overflow-y-auto"
         aria-label={copy.playlistLabel}
@@ -218,12 +358,12 @@ export function CurriculumPlayer({
                   if (lesson.key === active?.key) {
                     return;
                   }
-                  setError(null);
-                  setActiveKey(lesson.key);
+                  selectLesson(lesson.key, { autoStart: true });
                 }}
                 className={`academy-player-rail-item flex w-full items-center gap-2.5 rounded-[0.9rem] px-3.5 py-2.5 text-left text-[13px] leading-snug tracking-[-0.014em] ${
                   selected ? "academy-player-rail-item--active" : "text-[var(--muted)]"
                 } disabled:cursor-not-allowed disabled:opacity-45`}
+                data-academy-lesson-delivery={media.kind === "audio" ? "karaoke" : "article"}
               >
                 <span
                   aria-hidden
@@ -271,6 +411,7 @@ export function CurriculumPlayer({
               <span
                 data-academy-mode-badge=""
                 data-academy-mode={karaoke ? "karaoke" : "article"}
+                data-academy-lesson-delivery={karaoke ? "karaoke" : "article"}
                 className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${
                   karaoke
                     ? "bg-[var(--safir-soft)] text-[var(--safir-deep)]"
@@ -278,7 +419,7 @@ export function CurriculumPlayer({
                 }`}
               >
                 <span className={`h-1.5 w-1.5 rounded-full ${karaoke ? "bg-[var(--safir)]" : "bg-slate-400"}`} />
-                {karaoke ? "Sesli anlatım" : "Makale"}
+                {karaoke ? copy.modeKaraoke : copy.modeArticle}
               </span>
             </header>
 
@@ -291,16 +432,14 @@ export function CurriculumPlayer({
                 data-academy-directing="punchcard"
                 data-academy-player-stack="visual-karaoke-transport"
               >
-                <div className="academy-player-widescreen academy-player-karaoke-stage">
-                  {eyeStage ? (
-                    <LessonCinemaEyeLayer
-                      stage={eyeStage}
-                      currentTime={mediaElapsed}
-                      playing={mediaPlaying}
-                      captions={false}
-                    />
-                  ) : null}
-                </div>
+                {eyeStage ? (
+                  <LessonCinemaEyeLayer
+                    stage={eyeStage}
+                    currentTime={mediaElapsed}
+                    playing={mediaPlaying}
+                    captions={false}
+                  />
+                ) : null}
                 <LessonKaraokeStrip
                   cues={karaoke.cues}
                   currentTime={mediaElapsed}
@@ -311,8 +450,15 @@ export function CurriculumPlayer({
                   courseSlug={courseSlug}
                   lessonKey={active.key}
                   lessonTitle={activeTitle}
+                  autoStart={autoStartPlayback}
                   onSpokenElapsedChange={setMediaElapsed}
-                  onPlayingChange={setMediaPlaying}
+                  onPlayingChange={(playing) => {
+                    setMediaPlaying(playing);
+                    if (playing) {
+                      playbackStartedKeyRef.current = active.key;
+                      setAutoStartPlayback(false);
+                    }
+                  }}
                   onEnded={onMediaEnded}
                 />
               </section>

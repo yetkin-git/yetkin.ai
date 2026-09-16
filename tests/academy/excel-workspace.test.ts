@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { loadAcademyCinemaCueSlides } from "@/lib/academy/cinema-cue-catalog";
 import {
+  academyCompareDockPrompt,
   academyExcelAlignBox,
   academyExcelColumnMinCh,
   academyExcelIsActiveColumn,
@@ -12,7 +13,9 @@ import {
   academyExcelParseCell,
   academyExcelSelection,
   academyExcelSnapBoxToColumns,
+  academyVisualCompareStage,
 } from "@/lib/academy/excel-workspace";
+import { ACADEMY_GMAIL_GEMINI_PROMPT } from "@/lib/academy/gmail-workspace";
 
 const ROOT = process.cwd();
 const KEY = "01_office_ai-1";
@@ -112,6 +115,7 @@ describe("Excel birleşik hücre seçimi — A1:F1", () => {
     expect(css).toMatch(/font-size:\s*clamp\(0\.42rem/u);
     expect(excel).toContain("academy-excel-grid-fit");
     expect(excel).toContain("fitExcelGridFont");
+    expect(excel).toContain("const availH = wrap.clientHeight");
     expect(excel).toContain("compact ? 1 : 6");
     expect(excel).toContain("academyExcelAlignBox");
     expect(excel).toContain("getBoundingClientRect");
@@ -155,5 +159,29 @@ describe("Excel birleşik hücre seçimi — A1:F1", () => {
     const snapped = academyExcelSnapBoxToColumns(box, box, colB);
     expect(snapped.left).toBeCloseTo(33.6, 5);
     expect(snapped.width).toBeCloseTo(160, 5);
+  });
+});
+
+describe("Beat 3 Prompt Terminali dock", () => {
+  it("9 dersin FARK ORTADA sahnesinde kilitli istemi taşır; Gmail split doğrudan after.copilot basar", () => {
+    const keys = [
+      "01_office_ai-1",
+      "01_office_ai-2",
+      "01_office_ai-3",
+      "01_office_ai-4",
+      "01_office_ai-5",
+      "01_office_ai-6",
+      "01_office_ai-g1",
+      "01_office_ai-w1",
+      "01_office_ai-k1",
+    ] as const;
+    for (const lessonKey of keys) {
+      const compare = academyVisualCompareStage(lessonKey, "cue-06");
+      const dock = academyCompareDockPrompt(compare);
+      expect(dock?.prompt.length).toBeGreaterThan(24);
+    }
+    const gmail = academyVisualCompareStage("01_office_ai-g1", "cue-05");
+    expect(academyCompareDockPrompt(gmail)?.prompt).toBe(ACADEMY_GMAIL_GEMINI_PROMPT);
+    expect(loadAcademyCinemaCueSlides("01_office_ai-g1")[4]?.copilot?.prompt).toBe(ACADEMY_GMAIL_GEMINI_PROMPT);
   });
 });

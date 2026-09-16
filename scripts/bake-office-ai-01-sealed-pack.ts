@@ -404,7 +404,7 @@ function renderCuesJson(paragraphs: readonly ScriptParagraph[]): unknown {
   return cues;
 }
 
-function renderSectionMarkdown(script: ScriptPayload, exam: ExamPayload): string {
+function renderSectionMarkdown(script: ScriptPayload, _exam: ExamPayload): string {
   const lines: string[] = [""];
   let lastHeading = "";
   for (const beat of script.beats) {
@@ -420,19 +420,6 @@ function renderSectionMarkdown(script: ScriptPayload, exam: ExamPayload): string
       lines.push(paragraph.text);
       lines.push("");
     }
-  }
-  lines.push("## Mini sınav");
-  lines.push("");
-  lines.push(`Baraj ${exam.passScore}. Ezber yok; A1 hücresi refleksini dene.`);
-  lines.push("");
-  for (const [index, question] of exam.questions.entries()) {
-    lines.push(`${index + 1}. ${question.prompt}`);
-    lines.push("");
-    for (const [choiceIndex, choice] of question.choices.entries()) {
-      const mark = choiceIndex === question.correctIndex ? "**" : "";
-      lines.push(`- ${mark}${choice}${mark}`);
-    }
-    lines.push("");
   }
   return `${lines.join("\n").trimEnd()}\n`;
 }
@@ -534,7 +521,8 @@ KURALLAR:
   * CEBİNE KOY (Task öncesi, ~45 sn, 80–130 kelime, hedef 100): Derste öğrenilen 3 somut adımı tane tane tekrarla. Adımları «1.» «2.» «3.» diye say. 1) A1 hücresine sütun adı koy. 2) Birleşikleri çöz, boş satırları sil. 3) Yapay zekâya yalın dille türleri tek tip yap. Bu paragraf «Cebine koy» özetidir; her adımı bir cümleyle açıkla.
 - Diğer paragraflar 48–100 Türkçe kelime. Üretmeden önce her paragrafı kelime kelime say. Toplam ~900–1150 kelime.
 - SEN dili. Anlatıcı Gözde. İkinci paragraf (ilk HOŞ GELDİN) TAM OLARAK "Selamlar, ben Gözde" ile başlar.
-- Mutlaka "A1 hücresi" geçer. Son paragraf "görüşmek üzere" demez; 2. derse (Rapor Otomasyonu) bağlayan Gelecek Ders Köprüsü taşır: tabloyu temizleme refleksi, yönetim özeti, grafik raporu, "Hazırsan 2. bölümde buluşalım."
+- Mutlaka "A1 hücresi" geçer. Son paragraf "görüşmek üzere" demez; 2. derse (Rapor Otomasyonu) bağlayan Gelecek Ders Köprüsü taşır: tabloyu temizleme refleksi, üç maddelik yönetim özeti, "Hazırsan 2. bölümde buluşalım." Grafik raporu vaadi yok.
+- Üç Kapı sırası: 1) Copilot şerit 2) ataş / web sohbet 3) maskeli kısa özet. gemini.google.com birinci kapı değildir.
 - Konu: düzensiz Excel / ham veri (birleşik hücre, boş satır, tür karmaşası) → A1 hücresini düzelt → düzenli tablo. Kod yok. Jargon yok. Vatandaşa «Kirli» deme; «Düzensiz Tablo», «Ham Veri» veya «Dağınık Yapı» kullan. «kirli» kelimesi hiç geçmesin.
 - Senaryoyu Copilot ile sınırlama. Excel verisini işlemede ChatGPT (hızlı taslak), Claude (uzun tabloyu dikkatle okur), Gemini (adımları net sıralar) ve özel AI API (şirket kuralını kilitler) farkını ve entegrasyon mantığını (veri bir kez temizlenir, sonra kapı seçilir) insani dille HOŞ GELDİN ikinci paragraf ile TEMİZLE ŞİMDİ ilk paragrafına işle. Bu dört isim geçsin.
 - Beat 3 (Comparison) görseli: dikey split-screen — sol ÖNCE (DÜZENLEMESİZ) ham veri, sağ SONRA (AI İLE) düzenli tablo.

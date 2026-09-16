@@ -8,11 +8,14 @@ import { loadAcademyKaraokeStrip } from "@/lib/academy/lesson-teleprompter-flow"
 
 export const ACADEMY_EXCEL_MOUSE_LESSON_KEY = "01_office_ai-1" as const;
 export const ACADEMY_EXCEL_MOUSE_CUE_ID = "cue-04" as const;
-export const ACADEMY_EXCEL_MOUSE_LESSON_KEYS = ["01_office_ai-1", "01_office_ai-2"] as const;
+export const ACADEMY_EXCEL_MOUSE_LESSON_KEYS = ["01_office_ai-1", "01_office_ai-2", "01_office_ai-3", "01_office_ai-4", "01_office_ai-5", "01_office_ai-6"] as const;
 
 export const ACADEMY_EXCEL_MOUSE_CELLS = ["A1", "B1", "C1"] as const;
 export const ACADEMY_OFFICE_AI_2_MOUSE_CELLS = ["A1", "B1", "D1"] as const;
-export type AcademyExcelMouseCell = "A1" | "B1" | "C1" | "D1";
+export const ACADEMY_OFFICE_AI_3_MOUSE_CELLS = ["A1", "B1", "C1"] as const;
+export const ACADEMY_OFFICE_AI_5_MOUSE_CELLS = ["A1", "D4", "D5"] as const;
+export const ACADEMY_OFFICE_AI_6_MOUSE_CELLS = ["A1", "B1", "C1"] as const;
+export type AcademyExcelMouseCell = "A1" | "B1" | "C1" | "D1" | "D4" | "D5";
 
 /** Izgara yüzdesi — A1 sol üst, sonra B1 / C1 / D1. */
 export const ACADEMY_EXCEL_MOUSE_CELL_POS: Record<AcademyExcelMouseCell, { x: number; y: number }> = {
@@ -20,7 +23,51 @@ export const ACADEMY_EXCEL_MOUSE_CELL_POS: Record<AcademyExcelMouseCell, { x: nu
   B1: { x: 30.5, y: 11 },
   C1: { x: 44.5, y: 11 },
   D1: { x: 58.5, y: 11 },
+  D4: { x: 78, y: 58 },
+  D5: { x: 78, y: 72 },
 };
+
+/** 01_office_ai-3 Command dump — dağınık Word yığını. */
+export const ACADEMY_OFFICE_AI_3_MOUSE_CELL_POS: Record<
+  Extract<AcademyExcelMouseCell, "A1" | "B1" | "C1">,
+  { x: number; y: number }
+> = {
+  A1: { x: 38, y: 30 },
+  B1: { x: 36, y: 52 },
+  C1: { x: 70, y: 58 },
+};
+
+/** 01_office_ai-3 Beat 3 — üç KPI kartı ızgarası. */
+export const ACADEMY_OFFICE_AI_3_KPI_MOUSE_CELL_POS: Record<
+  Extract<AcademyExcelMouseCell, "A1" | "B1" | "C1">,
+  { x: number; y: number }
+> = {
+  A1: { x: 22, y: 50 },
+  B1: { x: 50, y: 50 },
+  C1: { x: 78, y: 50 },
+};
+
+/** 01_office_ai-4 Command — dağınık gelen kutusu satırları. */
+export const ACADEMY_OFFICE_AI_4_MOUSE_CELL_POS: Record<
+  Extract<AcademyExcelMouseCell, "A1" | "B1" | "C1">,
+  { x: number; y: number }
+> = {
+  A1: { x: 34, y: 28 },
+  B1: { x: 34, y: 44 },
+  C1: { x: 34, y: 60 },
+};
+
+/** 01_office_ai-4 Beat 3 — etiketli sıfır kutu. */
+export const ACADEMY_OFFICE_AI_4_ZERO_MOUSE_CELL_POS: Record<
+  Extract<AcademyExcelMouseCell, "A1" | "B1" | "C1">,
+  { x: number; y: number }
+> = {
+  A1: { x: 34, y: 28 },
+  B1: { x: 34, y: 44 },
+  C1: { x: 34, y: 60 },
+};
+
+export const ACADEMY_OFFICE_AI_3_MOUSE_EXTRA_CUE_IDS = ["cue-05", "cue-06"] as const;
 
 const OFFSCREEN = { x: 74, y: 5 } as const;
 
@@ -42,11 +89,57 @@ const L2_WALK_CELL_PATTERNS: readonly { cell: AcademyExcelMouseCell; pattern: Re
   { cell: "B1", pattern: /cari/giu },
   { cell: "D1", pattern: /tutar|toplam/giu },
 ];
+const L3_WALK_CELL_PATTERNS: readonly { cell: AcademyExcelMouseCell; pattern: RegExp }[] = [
+  { cell: "A1", pattern: /tek fikir|başlık/giu },
+  { cell: "B1", pattern: /madde|fikir/giu },
+  { cell: "C1", pattern: /görsel yönlendir/giu },
+];
+const L3_KPI_WALK_CELL_PATTERNS: readonly { cell: AcademyExcelMouseCell; pattern: RegExp }[] = [
+  { cell: "A1", pattern: /kritik sayı|üç net odak|güçlü başlık/giu },
+  { cell: "B1", pattern: /anahtar metin|odak noktası/giu },
+  { cell: "C1", pattern: /ikincil|hiyerarşi/giu },
+];
+const L4_WALK_CELL_PATTERNS: readonly { cell: AcademyExcelMouseCell; pattern: RegExp }[] = [
+  { cell: "A1", pattern: /etiketle|önem sırası/giu },
+  { cell: "B1", pattern: /taslak yanıt/giu },
+  { cell: "C1", pattern: /arşiv/giu },
+];
+const L4_ZERO_WALK_CELL_PATTERNS: readonly { cell: AcademyExcelMouseCell; pattern: RegExp }[] = [
+  { cell: "A1", pattern: /142|okunmamış/giu },
+  { cell: "B1", pattern: /sıfır|etiket/giu },
+  { cell: "C1", pattern: /arşiv|taslak/giu },
+];
+const L5_WALK_CELL_PATTERNS: readonly { cell: AcademyExcelMouseCell; pattern: RegExp }[] = [
+  { cell: "A1", pattern: /veri|yükle|tablo/giu },
+  { cell: "D4", pattern: /kırmızı|21\.500|halüsinasyon/giu },
+  { cell: "D5", pattern: /genel toplam|54\.650|sapma/giu },
+];
+const L5_VERIFIED_WALK_CELL_PATTERNS: readonly { cell: AcademyExcelMouseCell; pattern: RegExp }[] = [
+  { cell: "D4", pattern: /21\.500|12\.500|yıldız/giu },
+  { cell: "D5", pattern: /54\.650|50\.450|formül/giu },
+  { cell: "A1", pattern: /doğrulan|dedektif/giu },
+];
+const L6_WALK_CELL_PATTERNS: readonly { cell: AcademyExcelMouseCell; pattern: RegExp }[] = [
+  { cell: "A1", pattern: /takvim|cuma|otuz/giu },
+  { cell: "B1", pattern: /ataş|excel|yükle/giu },
+  { cell: "C1", pattern: /e-posta|slayt|gelen kutu/giu },
+];
+const L6_SYSTEM_WALK_CELL_PATTERNS: readonly { cell: AcademyExcelMouseCell; pattern: RegExp }[] = [
+  { cell: "A1", pattern: /0–10|excel ataş|üç blok/giu },
+  { cell: "B1", pattern: /üç madde|10–20|slayt/giu },
+  { cell: "C1", pattern: /e-posta|20–30|gelen kutu/giu },
+];
+
+type AcademyExcelMouseCellPos = Partial<Record<AcademyExcelMouseCell, { x: number; y: number }>>;
 
 type AcademyExcelMouseSpec = {
   cueId: string;
+  extraCueIds?: readonly string[];
   cells: readonly AcademyExcelMouseCell[];
   walk: readonly { cell: AcademyExcelMouseCell; pattern: RegExp }[];
+  extraWalk?: readonly { cell: AcademyExcelMouseCell; pattern: RegExp }[];
+  pos?: AcademyExcelMouseCellPos;
+  extraPos?: AcademyExcelMouseCellPos;
 };
 
 const MOUSE_BY_LESSON: Record<string, AcademyExcelMouseSpec> = {
@@ -59,6 +152,38 @@ const MOUSE_BY_LESSON: Record<string, AcademyExcelMouseSpec> = {
     cueId: ACADEMY_EXCEL_MOUSE_CUE_ID,
     cells: ACADEMY_OFFICE_AI_2_MOUSE_CELLS,
     walk: L2_WALK_CELL_PATTERNS,
+  },
+  "01_office_ai-3": {
+    cueId: ACADEMY_EXCEL_MOUSE_CUE_ID,
+    extraCueIds: ACADEMY_OFFICE_AI_3_MOUSE_EXTRA_CUE_IDS,
+    cells: ACADEMY_OFFICE_AI_3_MOUSE_CELLS,
+    walk: L3_WALK_CELL_PATTERNS,
+    extraWalk: L3_KPI_WALK_CELL_PATTERNS,
+    pos: ACADEMY_OFFICE_AI_3_MOUSE_CELL_POS,
+    extraPos: ACADEMY_OFFICE_AI_3_KPI_MOUSE_CELL_POS,
+  },
+  "01_office_ai-4": {
+    cueId: ACADEMY_EXCEL_MOUSE_CUE_ID,
+    extraCueIds: ACADEMY_OFFICE_AI_3_MOUSE_EXTRA_CUE_IDS,
+    cells: ACADEMY_OFFICE_AI_3_MOUSE_CELLS,
+    walk: L4_WALK_CELL_PATTERNS,
+    extraWalk: L4_ZERO_WALK_CELL_PATTERNS,
+    pos: ACADEMY_OFFICE_AI_4_MOUSE_CELL_POS,
+    extraPos: ACADEMY_OFFICE_AI_4_ZERO_MOUSE_CELL_POS,
+  },
+  "01_office_ai-5": {
+    cueId: ACADEMY_EXCEL_MOUSE_CUE_ID,
+    extraCueIds: ACADEMY_OFFICE_AI_3_MOUSE_EXTRA_CUE_IDS,
+    cells: ACADEMY_OFFICE_AI_5_MOUSE_CELLS,
+    walk: L5_WALK_CELL_PATTERNS,
+    extraWalk: L5_VERIFIED_WALK_CELL_PATTERNS,
+  },
+  "01_office_ai-6": {
+    cueId: ACADEMY_EXCEL_MOUSE_CUE_ID,
+    extraCueIds: ACADEMY_OFFICE_AI_3_MOUSE_EXTRA_CUE_IDS,
+    cells: ACADEMY_OFFICE_AI_6_MOUSE_CELLS,
+    walk: L6_WALK_CELL_PATTERNS,
+    extraWalk: L6_SYSTEM_WALK_CELL_PATTERNS,
   },
 };
 
@@ -126,8 +251,19 @@ function phraseHitTime(text: string, start: number, end: number, pattern: RegExp
   return start + (span * (match.index ?? 0)) / len;
 }
 
-function posFor(cell: AcademyExcelMouseCell): { x: number; y: number } {
-  return ACADEMY_EXCEL_MOUSE_CELL_POS[cell];
+function specCueIds(spec: AcademyExcelMouseSpec): readonly string[] {
+  return spec.extraCueIds ? [spec.cueId, ...spec.extraCueIds] : [spec.cueId];
+}
+
+function posFor(
+  cell: AcademyExcelMouseCell,
+  spec?: AcademyExcelMouseSpec | null,
+  extra = false,
+): { x: number; y: number } {
+  if (extra && spec?.extraPos?.[cell]) {
+    return spec.extraPos[cell]!;
+  }
+  return spec?.pos?.[cell] ?? ACADEMY_EXCEL_MOUSE_CELL_POS[cell];
 }
 
 function pushKeyframe(
@@ -146,44 +282,37 @@ function pushKeyframe(
   frames.push(next);
 }
 
-export function buildAcademyExcelMouseTrack(options: {
-  lessonKey: string;
-  cues: readonly { id: string; start: number; end: number }[];
-  lines: readonly AcademyExcelMouseLine[];
-}): readonly AcademyExcelMouseKeyframe[] {
-  const spec = mouseSpecFor(options.lessonKey);
-  if (!spec) {
-    return [];
-  }
-  const cue = options.cues.find((row) => row.id === spec.cueId);
-  if (!cue) {
-    return [];
-  }
+function appendCueMouseTrack(
+  frames: AcademyExcelMouseKeyframe[],
+  cue: { id: string; start: number; end: number },
+  spec: AcademyExcelMouseSpec,
+  lines: readonly AcademyExcelMouseLine[],
+  extra: boolean,
+): void {
+  const walk = extra ? (spec.extraWalk ?? spec.walk) : spec.walk;
   const arrive = Math.min(cue.start + ACADEMY_EXCEL_MOUSE_GLIDE_SEC, cue.end);
-  const frames: AcademyExcelMouseKeyframe[] = [
-    {
-      t: cue.start,
-      cell: "A1",
-      x: OFFSCREEN.x,
-      y: OFFSCREEN.y,
-    },
-    {
-      t: arrive,
-      cell: "A1",
-      x: posFor("A1").x,
-      y: posFor("A1").y,
-      click: true,
-    },
-  ];
-  const cueLines = options.lines.filter((line) => line.cueId === spec.cueId);
-  const namedHits = spec.walk.flatMap((row) => {
+  pushKeyframe(frames, {
+    t: cue.start,
+    cell: "A1",
+    x: OFFSCREEN.x,
+    y: OFFSCREEN.y,
+  });
+  pushKeyframe(frames, {
+    t: arrive,
+    cell: "A1",
+    x: posFor("A1", spec, extra).x,
+    y: posFor("A1", spec, extra).y,
+    click: true,
+  });
+  const cueLines = lines.filter((line) => line.cueId === cue.id);
+  const namedHits = walk.flatMap((row) => {
     const hits: AcademyExcelMouseKeyframe[] = [];
     for (const line of cueLines) {
       const hit = phraseHitTime(line.text, line.start, line.end, row.pattern);
       if (hit == null || hit < arrive) {
         continue;
       }
-      const pos = posFor(row.cell);
+      const pos = posFor(row.cell, spec, extra);
       hits.push({ t: hit, cell: row.cell, x: pos.x, y: pos.y });
       break;
     }
@@ -193,7 +322,7 @@ export function buildAcademyExcelMouseTrack(options: {
     for (const hit of namedHits) {
       pushKeyframe(frames, hit);
     }
-    return frames;
+    return;
   }
   let walkStart: number | null = null;
   for (const line of cueLines) {
@@ -207,12 +336,30 @@ export function buildAcademyExcelMouseTrack(options: {
     const second = cueLines[1];
     walkStart = second ? Math.max(arrive + 0.4, second.start + 1.2) : arrive + 2.4;
   }
-  const cells = spec.cells;
-  for (let index = 0; index < cells.length; index += 1) {
-    const cell = cells[index]!;
+  for (let index = 0; index < spec.cells.length; index += 1) {
+    const cell = spec.cells[index]!;
     const t = Math.min(walkStart + index * ACADEMY_EXCEL_MOUSE_STEP_SEC, cue.end - 0.05);
-    const pos = posFor(cell);
+    const pos = posFor(cell, spec, extra);
     pushKeyframe(frames, { t, cell, x: pos.x, y: pos.y });
+  }
+}
+
+export function buildAcademyExcelMouseTrack(options: {
+  lessonKey: string;
+  cues: readonly { id: string; start: number; end: number }[];
+  lines: readonly AcademyExcelMouseLine[];
+}): readonly AcademyExcelMouseKeyframe[] {
+  const spec = mouseSpecFor(options.lessonKey);
+  if (!spec) {
+    return [];
+  }
+  const frames: AcademyExcelMouseKeyframe[] = [];
+  for (const cueId of specCueIds(spec)) {
+    const cue = options.cues.find((row) => row.id === cueId);
+    if (!cue) {
+      continue;
+    }
+    appendCueMouseTrack(frames, cue, spec, options.lines, cueId !== spec.cueId);
   }
   return frames;
 }
@@ -249,13 +396,17 @@ export function academyExcelMouseState(
     return null;
   }
   const spec = mouseSpecFor(lessonKey)!;
-  const cue = loadAcademyLessonPlaybackCues(lessonKey).find((row) => row.id === spec.cueId);
+  const cues = loadAcademyLessonPlaybackCues(lessonKey);
   const track = loadAcademyExcelMouseTrack(lessonKey);
-  if (!cue || track.length === 0) {
+  if (track.length === 0) {
     return null;
   }
   const t = Number.isFinite(currentTime) ? currentTime : 0;
-  if (t < cue.start || t >= cue.end) {
+  const inWindow = specCueIds(spec).some((cueId) => {
+    const cue = cues.find((row) => row.id === cueId);
+    return Boolean(cue && t >= cue.start && t < cue.end);
+  });
+  if (!inWindow) {
     return null;
   }
   let index = 0;

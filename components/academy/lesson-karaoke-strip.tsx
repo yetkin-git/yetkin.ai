@@ -34,7 +34,7 @@ export function LessonKaraokeStrip({
     const reduce =
       typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     node.scrollIntoView({
-      inline: "center",
+      inline: "nearest",
       block: "nearest",
       behavior: reduce ? "auto" : "smooth",
     });
@@ -46,7 +46,7 @@ export function LessonKaraokeStrip({
 
   return (
     <div
-      className="academy-player-karaoke-strip"
+      className="academy-player-karaoke-strip flex flex-col items-center justify-center text-center"
       data-academy-karaoke-strip=""
       data-academy-karaoke-band="cue"
       data-academy-karaoke-playing={playing ? "true" : undefined}
@@ -55,7 +55,10 @@ export function LessonKaraokeStrip({
       aria-label="Kayan konuşma metni"
       aria-live="polite"
     >
-      <p className="academy-player-karaoke-line" data-academy-karaoke-line={activeLine?.id}>
+      <p
+        className="academy-player-karaoke-line flex w-full flex-wrap items-baseline justify-center gap-x-[0.32em] gap-y-[0.14em] text-center"
+        data-academy-karaoke-line={activeLine?.id}
+      >
         {activeLine
           ? words.map((word) => {
               const state = academyKaraokeWordState(word, currentTime);
@@ -68,15 +71,20 @@ export function LessonKaraokeStrip({
                   data-academy-karaoke-word={word.id}
                   data-state={state}
                   data-active={active ? "true" : undefined}
+                  data-glue={word.glue ? "true" : undefined}
                 >
-                  {word.text}{" "}
+                  {word.text}
                 </span>
               );
             })
           : null}
       </p>
       {preview ? (
-        <p className="academy-player-karaoke-preview" data-academy-karaoke-preview={preview.id} aria-hidden>
+        <p
+          className="academy-player-karaoke-preview w-full text-center"
+          data-academy-karaoke-preview={preview.id}
+          aria-hidden
+        >
           {preview.text}
         </p>
       ) : null}

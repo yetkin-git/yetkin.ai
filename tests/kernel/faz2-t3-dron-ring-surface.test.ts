@@ -95,11 +95,12 @@ describe("Faz 2 tamamlama — T3 yeşil halka yüzeyi", () => {
     expect(ci).not.toMatch(/eas-cli/);
     expect(ci).not.toMatch(/expo\s+publish/i);
 
-    expect(existsSync(join(ROOT, "docs/MAGAZA_YAYIN_RAPORU.md"))).toBe(true);
-    expect(existsSync(join(ROOT, "docs/MAĞAZA_INCELEME_NOTU.md"))).toBe(true);
-    expect(readSrc("docs/MAĞAZA_INCELEME_NOTU.md")).toContain("Native IAP");
-    expect(readSrc("docs/MAĞAZA_INCELEME_NOTU.md")).toContain("/kasa");
-    expect(readSrc("docs/MAĞAZA_INCELEME_NOTU.md")).toContain("E2E_T3_EMAIL");
+    expect(existsSync(join(ROOT, "docs/DURUM.md"))).toBe(true);
+    expect(readSrc("docs/DURUM.md")).toContain("T3 Akademi halkası");
+    expect(readSrc(".system_docs/DRON_CLIENT_SPEC.md")).toContain("Native IAP");
+    expect(readSrc(".system_docs/DRON_CLIENT_SPEC.md")).toContain("/kasa");
+    expect(readSrc(".system_docs/ops/ops-dron.md")).toContain("native IAP yoktur");
+    expect(readSrc(".system_docs/ops/ops-dron.md")).toContain("/kasa");
   });
 
   it("Redis hız tavanı portu fail-closed bağlanır; ioredis http-rate-limit'e girmez", () => {

@@ -7,7 +7,11 @@ import {
   loadAcademyLessonCues,
 } from "@/lib/academy/lesson-cues";
 import {
+  academyKaraokeNormalizeLine,
+  academyKaraokeReconstructLine,
+  academyKaraokeShouldGlueToPrevious,
   academyKaraokeStripLines,
+  academyKaraokeTokenize,
   academyKaraokeWords,
   academyKaraokeWordState,
   academyTeleprompterActiveLineIndex,
@@ -55,19 +59,20 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     expect(strip.some((line) => line.cueId === "cue-08" && /tabloyu temizleme refleksi artık cebinde/u.test(line.text))).toBe(
       true,
     );
-    expect(strip.some((line) => line.cueId === "cue-08" && /yönetim özetine ve grafik raporuna/u.test(line.text))).toBe(
+    expect(strip.some((line) => line.cueId === "cue-08" && /üç maddelik yönetim özetine/u.test(line.text))).toBe(
       true,
     );
+    expect(strip.every((line) => !/grafik raporuna/u.test(line.text))).toBe(true);
     expect(strip.every((line) => !/görüşmek üzere/iu.test(line.text))).toBe(true);
     const bridgeLines = strip.filter((line) =>
-      /tabloyu temizleme refleksi|yönetim özetine ve grafik raporuna|Hazırsan 2\. bölümde buluşalım/u.test(
+      /tabloyu temizleme refleksi|üç maddelik yönetim özetine|Hazırsan 2\. bölümde buluşalım/u.test(
         line.text,
       ),
     );
     expect(bridgeLines).toHaveLength(3);
     expect(bridgeLines.every((line) => line.cueId === "cue-08")).toBe(true);
     expect(bridgeLines[0]?.start).toBeGreaterThan(500);
-    expect(bridgeLines.at(-1)?.end).toBe(547.12);
+    expect(bridgeLines.at(-1)?.end).toBe(571.84);
     for (const line of bridgeLines) {
       const words = academyKaraokeWords(line);
       expect(academyKaraokeWordState(words[0]!, line.start)).toBe("active");
@@ -89,6 +94,8 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     expect(strip).toContain("data-academy-karaoke-word");
     expect(strip).not.toContain("loadAcademyTeleprompterFlow");
     expect(strip).toContain("academyKaraokeStripLines");
+    expect(strip).toContain("text-center");
+    expect(strip).toContain("justify-center");
     expect(css).toContain("academy-player-karaoke-strip");
     expect(css).toMatch(/\.academy-player-karaoke-word\[data-state="active"\]/s);
     expect(player).toContain('data-academy-player-stack="visual-karaoke-transport"');
@@ -104,5 +111,66 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     expect(css).toMatch(
       /\.academy-player-karaoke-strip\s*\{[^}]*flex-shrink:\s*0/s,
     );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-strip\s*\{[^}]*justify-content:\s*center/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-strip\s*\{[^}]*text-align:\s*center/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-line\s*\{[^}]*justify-content:\s*center/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-line\s*\{[^}]*text-align:\s*center/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-line\s*\{[^}]*white-space:\s*normal/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-line\s*\{[^}]*column-gap:\s*var\(--academy-karaoke-word-gap\)/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-word\s*\{[^}]*white-space:\s*nowrap/s,
+    );
+    expect(css).toContain('[data-glue="true"]');
+    expect(strip).toContain("gap-x-[0.32em]");
+    expect(strip).toContain("data-glue={word.glue");
+    expect(strip).not.toMatch(/\{word\.text\}\s*\{\s*" "\s*\}/u);
+  });
+});
+
+describe("karaoke kelime boşluğu ve noktalama yapışması", () => {
+  it("join('') üretmez; Geçtiğimiz derste kurduğumuz boşluklarını korur", () => {
+    const text =
+      "Geçtiğimiz derste kurduğumuz Sunum Fabrikası ile slayt hazırlama alışkanlıklarını baştan aşağı değiştirdik.";
+    const words = academyKaraokeWords({ id: "cue-01:0", text, start: 0, end: 8 });
+    expect(words.slice(0, 3).map((word) => word.text)).toEqual(["Geçtiğimiz", "derste", "kurduğumuz"]);
+    expect(words.map((word) => word.text).join("")).toBe(
+      "GeçtiğimizderstekurduğumuzSunumFabrikasıileslaythazırlamaalışkanlıklarınıbaştanaşağıdeğiştirdik.",
+    );
+    expect(academyKaraokeReconstructLine(words)).toBe(text);
+    expect(words.some((word) => word.glue)).toBe(false);
+    expect(words.at(-1)?.text).toBe("değiştirdik.");
+
+    const opening = loadAcademyKaraokeStrip("01_office_ai-4").find((line) =>
+      /Geçtiğimiz derste kurduğumuz/u.test(line.text),
+    );
+    expect(opening).toBeTruthy();
+    for (const key of ["01_office_ai-3", "01_office_ai-4"] as const) {
+      for (const line of loadAcademyKaraokeStrip(key)) {
+        expect(academyKaraokeReconstructLine(academyKaraokeWords(line))).toBe(academyKaraokeNormalizeLine(line.text));
+      }
+    }
+  });
+
+  it("kapanış noktalaması önceki kelimeye yapışır; açılış tırnak boşluklu kalır", () => {
+    expect(academyKaraokeShouldGlueToPrevious(".")).toBe(true);
+    expect(academyKaraokeShouldGlueToPrevious("»")).toBe(true);
+    expect(academyKaraokeShouldGlueToPrevious("Gözde")).toBe(false);
+    const words = academyKaraokeTokenize("Hazırsan 2. bölümde buluşalım .");
+    expect(academyKaraokeReconstructLine(words)).toBe("Hazırsan 2. bölümde buluşalım.");
+    expect(words.at(-1)).toEqual({ text: ".", glue: true });
+    const quoted = academyKaraokeTokenize("«sıfır kodlama» ilkesi");
+    expect(academyKaraokeReconstructLine(quoted)).toBe("«sıfır kodlama» ilkesi");
   });
 });

@@ -129,7 +129,7 @@ describe("akademi sınav kapısı (S58-A)", () => {
   it("01_office_ai SETTLED ama müfredat bitmeden GET/POST exam açılmaz", async () => {
     const ctx = officeWorld();
     await purchaseOnly(ctx);
-    expect(curriculumForCourseSlug(ctx.course.slug)).toHaveLength(6);
+    expect(curriculumForCourseSlug(ctx.course.slug)).toHaveLength(9);
 
     await expect(loadAcademyExam(ctx.ports, ctx.course.id, BUYER)).rejects.toThrow(
       /Sınav kapısı müfredat tamamlanınca açılır/,

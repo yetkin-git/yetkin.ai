@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { AcademyCinemaCueSlide } from "@/lib/academy/cinema-cue-catalog";
 import { resolveAcademyCinemaSource } from "@/lib/academy/lesson-cinema";
 import {
   academyActivePunchcard,
+  academyPlaybackCueAtTime,
   loadAcademyLessonPlaybackCues,
 } from "@/lib/academy/lesson-cues";
 import {
@@ -12,14 +14,32 @@ import {
   loadAcademyTeleprompterFlow,
 } from "@/lib/academy/lesson-teleprompter-flow";
 import { LessonExcelWorkspace } from "@/components/academy/lesson-excel-workspace";
+import { LessonGmailWorkspace } from "@/components/academy/lesson-gmail-workspace";
+import { LessonHowtoSteps } from "@/components/academy/lesson-howto-steps";
+import { LessonOutlookWorkspace } from "@/components/academy/lesson-outlook-workspace";
+import { LessonPptxWorkspace } from "@/components/academy/lesson-pptx-workspace";
+import { LessonPromptConsole } from "@/components/academy/lesson-prompt-console";
+import { LessonWordWorkspace } from "@/components/academy/lesson-word-workspace";
 import {
+  academyCompareDockPrompt,
   academyVisualCinematicFrameSrc,
   academyVisualCompareStage,
   academyVisualWaiterSlide,
+  academyVisualWaiterStageFromLayout,
+  type AcademyVisualExcelPane,
 } from "@/lib/academy/excel-workspace";
 import { academyExcelFocusZoomActive } from "@/lib/academy/excel-focus-zoom";
-import { ACADEMY_GOLDEN_WAITER_RATIO } from "@/lib/academy/lesson-beat-visual";
+import { ACADEMY_GOLDEN_WAITER_RATIO, academyHowtoActiveIndexAtTime, academyHowtoSteps } from "@/lib/academy/lesson-beat-visual";
 import { academyLessonIntroIsActive, academyLessonOutroIsActive, ACADEMY_INTRO_GENERIC_TITLE, academyOutroSummaryLabels } from "@/lib/academy/lesson-intro";
+import {
+  academyAiDeskActiveTab,
+  academyAiDeskCueStart,
+  academyAiDeskGuideHint,
+  academyAiDeskGuideTitle,
+  academyAiDeskGuideVisible,
+  academyAiDeskHostFromLayout,
+  academyAiDeskPinnedForLesson,
+} from "@/lib/academy/ai-desk";
 import {
   ACADEMY_VEO_SCENE_DURATION_SEC,
   academyVisualStageActiveCard,
@@ -30,6 +50,42 @@ import {
   type AcademyLessonVisualCard,
   type AcademyLessonVisualStage,
 } from "@/lib/academy/lesson-visual-stage";
+
+function LessonWaiterWorkspace({
+  slide,
+  pane,
+  focusZoom,
+  currentTime,
+}: {
+  slide: AcademyCinemaCueSlide;
+  pane: AcademyVisualExcelPane;
+  focusZoom?: boolean;
+  currentTime?: number;
+}) {
+  if (slide.layout === "pptx") {
+    return (
+      <LessonPptxWorkspace slide={slide} pane={pane} focusZoom={focusZoom} currentTime={currentTime} />
+    );
+  }
+  if (slide.layout === "outlook") {
+    return (
+      <LessonOutlookWorkspace slide={slide} pane={pane} focusZoom={focusZoom} currentTime={currentTime} />
+    );
+  }
+  if (slide.layout === "gmail") {
+    return (
+      <LessonGmailWorkspace slide={slide} pane={pane} focusZoom={focusZoom} currentTime={currentTime} />
+    );
+  }
+  if (slide.layout === "word") {
+    return (
+      <LessonWordWorkspace slide={slide} pane={pane} focusZoom={focusZoom} currentTime={currentTime} />
+    );
+  }
+  return (
+    <LessonExcelWorkspace slide={slide} pane={pane} focusZoom={focusZoom} currentTime={currentTime} />
+  );
+}
 
 function LessonCinemaMediaCard({
   card,
@@ -138,13 +194,15 @@ export function LessonCinemaEyeLayer({
   const motion = academyVisualStageMotion(stage, currentTime, playing);
   const kind = academyVisualStageCinemaKind(stage);
   const punchcard = academyActivePunchcard(punchcards, currentTime);
-  const waiterSlide = card
-    ? academyVisualWaiterSlide(stage.lessonKey, card.cueId, {
-        includeVeoTable: academyVisualVeoPunchHasEnded(card, currentTime),
+  const clockCue = academyPlaybackCueAtTime(punchcards, currentTime);
+  const clockCueId = clockCue?.id ?? card?.cueId;
+  const waiterSlide = clockCueId
+    ? academyVisualWaiterSlide(stage.lessonKey, clockCueId, {
+        includeVeoTable: card ? academyVisualVeoPunchHasEnded(card, currentTime) : true,
       })
     : null;
   const excelFocusZoom = academyExcelFocusZoomActive(stage.lessonKey, currentTime);
-  const compare = card ? academyVisualCompareStage(stage.lessonKey, card.cueId) : null;
+  const compare = clockCueId ? academyVisualCompareStage(stage.lessonKey, clockCueId) : null;
   const beat = compare?.beat ?? waiterSlide?.beat;
   const veoPunchLive = Boolean(card && academyVisualVeoPunchHasEnded(card, currentTime));
   const visualMode = compare ? "split" : waiterSlide ? "live" : card?.kind === "veo" ? "veo" : "cinema";
@@ -156,6 +214,28 @@ export function LessonCinemaEyeLayer({
   const introActive = academyLessonIntroIsActive(stage.lessonKey, currentTime);
   const speechEndSec = punchcards.at(-1)?.end ?? 0;
   const outroActive = academyLessonOutroIsActive(stage.lessonKey, currentTime, speechEndSec);
+  const howtoSteps = academyHowtoSteps(stage.lessonKey);
+  const howtoActiveIndex = academyHowtoActiveIndexAtTime(stage.lessonKey, currentTime, punchcards);
+  const dockPrompt = academyCompareDockPrompt(compare);
+  const showHowto =
+    howtoSteps != null &&
+    howtoActiveIndex >= 0 &&
+    !introActive &&
+    !outroActive &&
+    (waiterSlide != null || compare != null);
+  const pasteHost = academyAiDeskHostFromLayout(waiterSlide?.layout);
+  const showPasteGuide =
+    Boolean(waiterSlide?.copilot) &&
+    !introActive &&
+    !outroActive &&
+    compare == null &&
+    academyAiDeskGuideVisible(pasteHost);
+  const pasteTab = academyAiDeskActiveTab({
+    currentTime,
+    cueStart: waiterSlide ? academyAiDeskCueStart(stage.lessonKey, waiterSlide.cueIndex) : undefined,
+    pinned: academyAiDeskPinnedForLesson(stage.lessonKey),
+  });
+  const pasteGuideTitle = academyAiDeskGuideTitle(pasteHost);
   const nextSrc = nextCard && nextCard.src !== card?.src ? nextCard.src : null;
 
   useEffect(() => {
@@ -177,14 +257,18 @@ export function LessonCinemaEyeLayer({
 
   return (
     <div
-      className="academy-player-eye-layer"
+      className="academy-player-eye-stack"
       data-academy-eye-layer=""
       data-academy-teleprompter-stage=""
       data-academy-eye-motion={motion}
       data-academy-eye-kind={kind === "html5" || kind === "hls" ? kind : "still"}
-      data-academy-eye-cue={activeCueId ?? card?.cueId}
+      data-academy-eye-cue={activeCueId ?? clockCueId ?? card?.cueId}
+      data-academy-clock-cue={clockCueId}
+      data-academy-howto-index={howtoActiveIndex >= 0 ? String(howtoActiveIndex) : undefined}
       data-academy-media-live={mediaActive ? "true" : "false"}
-      data-academy-waiter={waiterSlide ? "excel" : "cinema"}
+      data-academy-waiter={
+        waiterSlide ? academyVisualWaiterStageFromLayout(waiterSlide.layout) : "cinema"
+      }
       data-academy-waiter-ratio={String(ACADEMY_GOLDEN_WAITER_RATIO)}
       data-academy-visual-mode={visualMode}
       data-academy-beat={beat}
@@ -192,6 +276,7 @@ export function LessonCinemaEyeLayer({
       data-academy-intro={introActive ? "generic" : undefined}
       data-academy-outro={outroActive ? "generic" : undefined}
       data-academy-veo={card?.kind === "veo" && !veoPunchLive ? "warmup" : undefined}
+      data-academy-prompt-dock={dockPrompt ? "true" : undefined}
     >
       {nextSrc ? (
         <img
@@ -206,6 +291,9 @@ export function LessonCinemaEyeLayer({
           className="pointer-events-none absolute h-0 w-0 overflow-hidden opacity-0"
         />
       ) : null}
+      <div className="academy-player-widescreen-frame">
+        <div className="academy-player-widescreen academy-player-karaoke-stage">
+          <div className="academy-player-eye-canvas" data-academy-eye-canvas="">
       <img
         className="academy-player-eye-backdrop"
         src={cinematicFrameSrc}
@@ -239,27 +327,33 @@ export function LessonCinemaEyeLayer({
       {compare ? (
         <div
           className="academy-player-waiter academy-player-compare"
-          data-academy-waiter-stage="excel"
+          data-academy-waiter-stage={academyVisualWaiterStageFromLayout(compare.after.layout)}
           data-academy-compare="split"
+          data-academy-compare-prompt={dockPrompt ? "dock" : undefined}
+          data-academy-clock-cue={clockCueId}
         >
           <div
             className="academy-player-compare-pane academy-player-compare-pane--before"
             data-academy-compare-pane="before"
           >
             <p className="academy-player-compare-label">{compare.beforeLabel}</p>
-            <LessonExcelWorkspace slide={compare.before} pane="before" />
+            <LessonWaiterWorkspace slide={compare.before} pane="before" />
           </div>
           <div
             className="academy-player-compare-pane academy-player-compare-pane--after"
             data-academy-compare-pane="after"
           >
             <p className="academy-player-compare-label">{compare.afterLabel}</p>
-            <LessonExcelWorkspace slide={compare.after} pane="after" />
+            <LessonWaiterWorkspace slide={compare.after} pane="after" currentTime={currentTime} />
           </div>
         </div>
       ) : waiterSlide ? (
-        <div className="academy-player-waiter" data-academy-waiter-stage="excel">
-          <LessonExcelWorkspace
+        <div
+          className="academy-player-waiter"
+          data-academy-waiter-stage={academyVisualWaiterStageFromLayout(waiterSlide.layout)}
+          data-academy-clock-cue={clockCueId}
+        >
+          <LessonWaiterWorkspace
             slide={waiterSlide}
             pane="live"
             focusZoom={excelFocusZoom}
@@ -273,6 +367,21 @@ export function LessonCinemaEyeLayer({
           motion={motion}
           fallbackSrc={cinematicFrameSrc}
         />
+      ) : null}
+      {showPasteGuide ? (
+        <div
+          className="academy-paste-guide"
+          data-academy-paste-guide=""
+          data-academy-paste-tab={pasteTab}
+          aria-label={pasteGuideTitle}
+        >
+          <strong>{pasteGuideTitle}</strong>
+          <span>{academyAiDeskGuideHint(pasteTab, pasteHost)}</span>
+          <i aria-hidden />
+        </div>
+      ) : null}
+      {showHowto && howtoSteps ? (
+        <LessonHowtoSteps steps={howtoSteps} activeIndex={howtoActiveIndex} />
       ) : null}
       {punchcard ? (
         <div className="academy-player-punchcard-dock" data-academy-punchcard-dock="">
@@ -317,6 +426,19 @@ export function LessonCinemaEyeLayer({
               );
             })}
           </div>
+        </div>
+      ) : null}
+          </div>
+        </div>
+      </div>
+      {dockPrompt ? (
+        <div className="academy-player-compare-prompt" data-academy-compare-prompt-dock="">
+          <LessonPromptConsole
+            prompt={dockPrompt.prompt}
+            currentTime={currentTime}
+            lessonKey={stage.lessonKey}
+            cueIndex={dockPrompt.cueIndex}
+          />
         </div>
       ) : null}
     </div>

@@ -25,9 +25,9 @@ export type AcademyCardOfferPath = {
  * Ses vaadi yalnız mühürlü SKU'dadır. Video/WebM vaadi yoktur. Kanon 13 SKU vitrin vaadi değildir.
  */
 export const ACADEMY_TRAINING_OFFER_SUMMARY_SEALED =
-  "Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika";
+  "Sesli Anlatım + Karaoke + Sınav + Mühürlü Sertifika";
 export const ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN =
-  "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika";
+  "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika";
 
 export const ACADEMY_CARD_OFFER_PATHS: readonly AcademyCardOfferPath[] = [
   {

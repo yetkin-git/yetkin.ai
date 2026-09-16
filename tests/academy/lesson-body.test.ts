@@ -93,9 +93,12 @@ describe("uygulamalı ders gövdesi", () => {
     expect(expandAcademySpokenAbbreviations("LLM vs. Otonom Ajan")).toContain("veya");
     expect(expandAcademySpokenAbbreviations("LLM vs. Otonom Ajan")).not.toMatch(/\bvs\./iu);
     expect(expandAcademySpokenAbbreviations("VS Code ile ajan")).toContain("VS Code");
+    expect(expandAcademySpokenAbbreviations("Ctrl+C ile kopyala")).toContain("Kontrol C");
+    expect(expandAcademySpokenAbbreviations("dosya .docx ataşla")).toMatch(/\bdocx\b/u);
+    expect(expandAcademySpokenAbbreviations("dosya .docx ataşla")).not.toMatch(/\.docx/u);
   });
 
-  it("yayındaki compact müfredat 01_office_ai 6 makale taşır; diyalog pratik mühürü yoktur", { timeout: 20_000 }, () => {
+  it("yayındaki compact müfredat 01_office_ai 9 ders taşır; diyalog pratik mühürü yoktur", { timeout: 20_000 }, () => {
     const keys = new Set<string>();
     for (const row of ACADEMY_COURSE_SEEDS) {
       for (const lesson of curriculumForCourseSlug(row.slug)) {
@@ -104,6 +107,12 @@ describe("uygulamalı ders gövdesi", () => {
         expect(academyLessonHasPractice(lesson.body), lesson.key).toBe(false);
         expect(academyLessonHasPedagogy(lesson.body), lesson.key).toBe(false);
         expect(lesson.body.length, lesson.key).toBeGreaterThan(200);
+        if (lesson.key === "01_office_ai-6") {
+          expect(lesson.body).toMatch(/30 dakika/iu);
+          expect(lesson.body).toMatch(/KVKK dersi/iu);
+          expect(lesson.body).not.toMatch(/taze ingest/iu);
+          expect(lesson.body).toMatch(/kopyala-yapıştır/iu);
+        }
         const spoken = spokenAcademyLessonBody(lesson.body);
         expect(spoken.length, lesson.key).toBeGreaterThan(40);
         expect(spoken, lesson.key).not.toContain("```");
@@ -117,6 +126,9 @@ describe("uygulamalı ders gövdesi", () => {
       "01_office_ai-4",
       "01_office_ai-5",
       "01_office_ai-6",
+      "01_office_ai-g1",
+      "01_office_ai-k1",
+      "01_office_ai-w1",
     ]);
     expect(curriculumForCourseSlug("sample-course")).toEqual([]);
   });

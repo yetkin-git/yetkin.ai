@@ -163,13 +163,13 @@ describe("sınav oturumu MAC ve iş kanıtı kapısı", () => {
 
     await completeAcademyCurriculum(ports, { courseId: published.course.id, userId: BUYER });
     const view = await loadAcademyExam(ports, published.course.id, BUYER);
-    expect(view?.questions.length).toBeGreaterThan(0);
+    expect(view?.questions.length).toBe(10);
     expect(view?.sessionToken).toBeTruthy();
     expect(view?.exam.passScore).toBe(70);
-    const lessonIds = view?.questions.filter((question) => question.id.startsWith("q_off_l1_")).map((row) => row.id) ?? [];
-    expect(lessonIds).toHaveLength(3);
-    expect(lessonIds).toEqual(expect.arrayContaining(["q_off_l1_1", "q_off_l1_2", "q_off_l1_3"]));
+    const lessonIds = view?.questions.filter((question) => question.id.startsWith("q_off_l")).map((row) => row.id) ?? [];
+    expect(lessonIds).toEqual([]);
     const sitting = openAcademyExamSitting(view!.sessionToken);
-    expect(sitting?.items.map((item) => item.id)).toEqual(expect.arrayContaining(["q_off_l1_1", "q_off_l1_2", "q_off_l1_3"]));
+    expect(sitting?.items.every((item) => !item.id.startsWith("q_off_l"))).toBe(true);
+    expect(sitting?.items).toHaveLength(10);
   });
 });

@@ -6,7 +6,7 @@
 |------|--------|
 | Tarih | 17 Ağustos 2026 |
 | Statü | Vizyon ve Strateji Belgesi. Anayasa'nın ruhunu, iş modelini ve büyüme hedeflerini açıklar. |
-| Son Reform | **13 Eylül 2026 (Tedavi):** Operasyonel sayılar, env bayrakları ve HTTP kodları vizyon belgesinden çıkarıldı. Shared Kernel `@yetkin/kernel` olarak çıkar. Video katmanı terk edildi. Motor 2 keşif fazındadır. SEN aksı varsayılan B2C sesidir; dron başına locale edilebilir. |
+| Son Reform | **15 Eylül 2026 (Tedavi):** Dron T3 Akademi halkası bağlıdır; Tezgâh izole durur. `@yetkin/kernel` ince sözleşme paketi olarak mevcuttur — «Faz 2’de çıkacak» cümlesi kalkmıştır. Sayılar `docs/DURUM.md` ve koddadır. |
 | Yer | `/.system_docs/MANIFESTO.md` |
 | Çelişki | Bir cümle Anayasa ile çatışırsa `.system_docs/ANAYASA.md` bağlayıcıdır. |
 | Durum | Haftalık gerçek `docs/DURUM.md` içindedir. |
@@ -55,7 +55,7 @@ Platformdaki her sertifika, sunucu tarafında değerlendirilen ve SHA-256 ile kr
 
 **Faz 1 çalışan vitrin 3 odadır** (Panel, Akademi, Kariyer); **4. oda (Freelancer) kilitli motordur.** Omurga hedefinin parçasıdır, eşit canlılık iddiası yoktur. **Oda tavanı esnektir:** yeni oda/dron = kayıt + sözleşme + bayrak. Kamu kanıt URL’si (`/vize`) yeni oda açmaz.
 
-Dron native istemcidir. Faz 1 kapanana kadar **donuk laboratuvardır** (`publishFrozenUntilFaz1Close`). **Faz 2’de kernel `@yetkin/kernel` paketi olarak çıkar; dronlar onu tüketir.**
+Dron native istemcidir. T3 Akademi halkası (oynatıcı, sınav, mühür, kasa) bağlıdır; Tezgâh / Freelancer yüzeyi izole durur (`publishFrozenUntilFaz1Close: false`, `tezgahStoreIsolated: true`). Shared Kernel `@yetkin/kernel` **mevcut ince sözleşmedir** (para, katalog kimliği, v1 hop, JSON zarf); Prisma/Supabase taşımaz. Dronlar bu paketi ve `/api/v1` hop’unu tüketir. Haftalık kesit `docs/DURUM.md` içindedir.
 
 ## Kural 2 — Vize Kapısı
 
@@ -97,7 +97,7 @@ Güvenli teslimat üzerinden platform komisyonu. Kamu yüzeyi kilitliyken nakit 
 
 # BÖLÜM 4 — YOL HARİTASI İLKESİ
 
-1. **Mimari:** Modüler monolit + Shared Kernel paketi + API-First dron sözleşmesi. Canlı oynatıcı compact makaledir; mühürlü derste karaoke overlay açılır. Video katmanı terk edilmiştir. İzlemede canlı TTS yoktur.
+1. **Mimari:** Modüler monolit + mevcut `@yetkin/kernel` ince paketi + API-First dron sözleşmesi. Canlı oynatıcı compact makaledir; mühürlü derste karaoke overlay açılır. İzlemede canlı TTS yoktur.
 2. **Gelir şimdi:** Merchant iFrame ile cüzdan yükleme + Akademi DEBIT. Kanıt dışarı `/vize` ile çıkar.
 3. **Ölçek sonra:** Split sözleşmesi, freelancer hop geri yazımı, dron kapalı testi. Kurumsal B2B ancak keşif + pilot sonrası.
 

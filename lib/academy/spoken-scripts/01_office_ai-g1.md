@@ -1,0 +1,35 @@
+<!--
+  01_office_ai-g1 — konuşma metni
+  Ses: Gözde / Callirrhoe. Kod çiti yok. SEN aksı.
+  Punchcard: GİRİŞ KÖPRÜSÜ · HOŞ GELDİN · TAŞIMA SU · GEMİNİ AÇ · YERLEŞİK YOL · FARK ORTADA · CEBİNE KOY · SIRA SENDE
+  Prompt Terminali SSOT: lib/academy/gmail-workspace.ts
+  Kaynak: docs/curriculum/01_office_ai_g1_doygun_iskelet.md
+-->
+
+Gelen kutusunu dışarı taşımak eskiden tek yol gibi dururdu. Maili kopyalar, ekran görüntüsü alır, başka bir sohbete yapıştırırdın. O yol kutuyu senden koparır. Etiket orada oluşmaz, arşiv orada oluşmaz, taslak da kutunun içinde kalmaz. Dördüncü derste Outlook masasında etiket, taslak, insan onayı ve arşivi gördün. Bugün aynı rutini iki yerleşik kapıdan yan yana basıyoruz: Gmail’de Gemini, Outlook’ta Copilot. Çıktın bir aksiyon listesidir. Kim gönderdi, iş nedir, son tarih ne zaman. Mail gövdesini hamal gibi dışarı taşımak varsayılan yol değildir. Bu ders o hamallığı bırakıp kutuyu yerinde konuşturur. Aynı iş, iki kapı, tek tablo.
+
+Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin e-posta dersinin doygun ayağına hoş geldin. Bugün sabah gelen kutunu Gmail’in içinden Gemini ile, Outlook’ta da Copilot ile aynı rutinle yöneteceksin. Kopyala-yapıştır varsayılan yol değildir. Ekran görüntüsü zinciri varsayılan yol değildir. Gelen kutusu yerinde kalır. İnsan onayından önce hiçbir taslak gitmez. Bu dersin vaadi nettir: aynı iş, iki kapı, tek aksiyon tablosu. Lisansın yoksa yalan söylemeyiz. Kapı değişir, rutin değişmez. Dün Outlook’ta etiket öğrendin. Bugün aynı etiketi Gmail’de de basıyoruz.
+
+Sabah kutun şişer. Yüz kırk iki okunmamış satır aynı yığında durur. Kaya Gıda tahsilat ister, yönetim imza ister, banka dekont basar, bülten gürültü yapar. Hangisinin bugün cevap istediğini tek tek açarak aramak zamanını yer. Tek tek açmak kahramanlıktır. Tablo istemek yöneticiliktir. Asıl kapı Gmail’in yanındaki Gemini paneli ve Outlook’taki Copilot şerididir. Çıktı üç sütunlu bir aksiyon tablosudur: kim gönderdi, iş nedir, son tarih ne zaman. Taslak yanıt notu dördüncü sütundur. Gönder tuşu hâlâ sendedir. Model sıralar. Sen kilitlersin.
+
+Taşıma su şudur: birinci ve ikinci kapı dururken maili seçer, kopyalar, dış sohbete yapıştırırsın. Gelen kutusu o anda kopuk kalır. Etiket Gmail’de oluşmaz. Arşiv Gmail’de oluşmaz. Outlook’ta da oluşmaz. Bütün kutuyu ekran görüntüsü zinciriyle taşımak da aynı kopuk yoldur. Üçüncü kapı son çaredir: maskeli, dört-altı satırlık kısa bir özet. İsim, hesap, vergi numarası yok. Bütün gelen kutusu üçüncü kapı değildir. Bu yolu varsayılan satmıyoruz. Önce paneli dene.
+
+Şimdi ekranı ikiye böl. Bu dersin asıl resmi çift hattır. Solda Gmail. Sağdaki Gemini panelini açarsın. İstemi oraya yazarsın. Sağda Outlook durur. Copilot lisansın varsa şeritten okutursun. Yoksa sağda dürüst bir uyarı yanar: Copilot yoksa canlı kutu oradan okunmaz. Gmail’e geçersin ya da üçüncü kapıya inersin. Maskeli kısa özet, bütün kutuyu değil. Lisans yalanı yok. Araç yoksa durmazsın; kapı değişir. Aynı aksiyon tablosunu istersin. Kim, ne, ne zaman.
+
+Şimdi Gmail’i aç. Sağdaki Gemini eklentisini yakala. İstemi oraya yazıyoruz. Prompt terminalinde duran komut tam olarak bu:
+
+@Gmail Gelen kutumdaki son 24 saat içinde gelen e-postaları tara. Ödeme, onay veya acil aksiyon bekleyenleri tablo yap: Gönderen | İş | Son tarih | Taslak yanıt notu. Rutin dekont ve bültenleri Arşivlik yaz. Hiçbir taslağı gönderme.
+
+Komutu Gemini paneline yazarsın veya ekrandaki istemi aynı panele taşırsın. Maili dış sohbete kopyalamazsın. Model kutunun içinde tarar. Sen hamal değilsin. Aynı cümleyi Outlook Copilot’a da verebilirsin. Kutu değişir, rutin değişmez. Tablo sütunları aynı kalır: gönderen, iş, son tarih, taslak notu. Gönder tuşuna model basmaz. Sen basarsın. İnsan gözü kilitler. Taslak notu ‘onayla ve gönder’ demek değildir. Taslak notu ‘şu cümleyi kontrol et’ demektir.
+
+Outlook tarafında Copilot varsa şerit zaten masadadır. Lisans yoksa paneli zorlamazsın. Gmail Gemini’ye geçersin. Hâlâ yerleşik kapı yoksa üçüncü kapıya inersin: dört-altı satır, isimler maskeli, hesap numarası yok. Otuz maili parça parça taşımak üçüncü kapı değildir. Kontrol C ile bütün gövdeyi dış sohbete dökmek de değildir. Kapı sırası kilitlidir: önce yerleşik panel, sonra ataş, sonra maskeli kısa özet. Bu sıra senin Cuma otuz dakikanın e-posta bloğudur. On dakika, kutu yerinde, aksiyon listesi elde.
+
+Şimdi ekranı ikiye bölelim. Sol tarafta gelen kutusundan kopuk taşıma su yöntemi var: kopyalanmış mailler, Kontrol C, dış sohbet. Etiket orada doğmaz. Taslak orada kalmaz. Arşiv başka bir dünyada kalır. Sağ tarafta gelen kutusu içi durur. Yerleşik Gemini entegrasyonu tarar. Ödeme ayrı, onay ayrı, arşivlik ayrı. Aksiyon listesi sütun sütun durur. Kutu yerinde. Copilot varsa aynı listenin Outlook hali sağ şeritte belirir. Lisans yoksa sağ rozet dürüstçe söyler: canlı kutu okunmaz. Yalan yok. Kapı değişir.
+
+Sol ekran seni yorar. Sağ ekran Gmail’de kalır. Fark yerleşik araçtır. Outlook’ta Copilot, Gmail’de Gemini, Word ve Excel’de doğrudan dosya yükleme. Eşleşme kilitlidir. Sol tarafta hamalsın. Sağ tarafta yönetmensin. Aynı yüz kırk iki satır, iki ayrı kader. Biri gece mesaisi doğurur. Diğeri üç sütunluk bir aksiyon tablosu bırakır. Hiçbir taslak, sen onaylamadan gitmez. Kaya Gıda’nın tahsilatı kırmızı durur. Yönetimin imzası sarı durur. Bülten yeşil arşivlikte durur. Sen sırayı görürsün.
+
+Gördüğün gibi doğru kurgulanmış bir yerleşik panel kutuyu senden koparmaz. Sol tarafta kopyalanmış gövde, kopuk bağlam, kaybolan etiket vardır. Sağ tarafta ödeme kırmızı, onay sarı, arşivlik yeşil durur. Fark süre değil, kapıdır. Gemini Gmail’de, Copilot Outlook’ta, ataş Word ve Excel’de. Bu üç kapıyı ezberle. Aynı yüz kırk iki satır iki kader üretir: biri gece mesaisi, diğeri üç sütunluk aksiyon tablosu. Sonra cebine üç adım koyacağız. Word dersinde sözleşmeyi, dilekçeyi ve raporu ataşla göreceğiz. Sınav Köprüsü henüz kapalı durur. Sekiz ders bitmeden sınava girilmez. Baraj yetmiştir. Satın alma belge basmaz.
+
+Bu dersten cebine üç adım koy. Bir: yerleşik paneli aç. Gmail’de Gemini, Outlook’ta Copilot. İki: aksiyon tablosu iste. Kim, ne, ne zaman. Üç: insan onayından önce gönderme. Taslak notu taslaktır. Copilot yoksa Gmail’e geç. Son çare maskeli kısa yapıştırma. Taşıma suyu bırak; kopyala-yapıştır ve ekran görüntüsü varsayılan yol değildir. Bu üç adım Cuma e-posta bloğunu on dakikada kapatır. Kutuyu dışarı taşımak bu rutinde yer bulamaz. Panel açık, kutu yerinde, gönder tuşu sende.
+
+Sıra sende. Kendi Gmail’ini aç. Son yirmi dört saati Gemini ile süz. Ödeme, onay ve acil aksiyonu tabloya çek. Dekont ve bülteni arşivlik yaz. Üç satırlık aksiyon listesi çıkar: gönderen, iş, son tarih. Outlook’un varsa aynı komutu Copilot’a ver. Lisans yoksa Gmail’de kal. Hiçbir taslağı gönderme. Bu egzersiz Cuma e-posta bloğunu alışkanlığa çevirir. Sonra Word tarafında uzun dokümanı ataş ile yüklemeyi göreceğiz. Sözleşme, dilekçe, rapor. Aynı disiplin, başka kapı. Kendi kutunu süz. Aksiyon listesi cebinde kalsın. Yarın sabah aynı paneli tekrar aç. Kim, ne, ne zaman. Gönder tuşu sende kalsın.

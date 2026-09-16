@@ -9,7 +9,7 @@ Bu belge iki katmandan oluşur:
 | Alan | Değer |
 |------|--------|
 | Tarih | 16 Ağustos 2026 |
-| Son Reform | **13 Eylül 2026 (Tedavi):** B Katmanı operasyonel yükten arındırıldı. Yeni yetenek önce v1 hop’tur. Oda kaydı `lib/dronlar/kayit.ts` ile açılır. Kimlik/fatura/pasaport çekirdek yetenektir. Müfredat detayı PEDAGOJI.md’dedir. Video katmanı terk edildi. Motor 2 keşif fazındadır. |
+| Son Reform | **15 Eylül 2026 (Tedavi):** B4’ten sabit ders/kaset sayıları çıkarıldı. Yayın ilkesi durur; sayılar kod + `docs/DURUM.md` içindedir. A Katmanı (A1–A5) değişmez. |
 | Kamu markası / domain | `yetkin.ai` |
 | Kalıcı belgeler | `/.system_docs` |
 | Ops | `.system_docs/OPS_RUNBOOK.md` (db / paytr / inngest / dron) |
@@ -84,8 +84,8 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 ## B4. Müfredat
 
 * **Konunun Hakkı:** Compact yayın makalesi kelime tavanı veya sabit ders adediyle kesilmez.
-* **Müfredat standardı `PEDAGOJI.md` §F’dedir.** Anayasa süre bandı, SKU adedi veya karaoke dakikası taşımaz.
-* **Yayın = makale + mühürlü karaoke.** Mühürlü ders sayısı depo gerçeğidir: **2** (`01_office_ai-1`, `01_office_ai-2`). İzlemede `VIDEO_GEN` yok; `01_office_ai-1` Warm-up 8 sn mühürlü Veo 3.1 B-roll bake katmanıdır.
+* **Müfredat standardı `PEDAGOJI.md` içindedir.** Anayasa süre bandı, SKU adedi, kaset listesi veya karaoke dakikası taşımaz.
+* **Yayın = makale + mühürlü karaoke; sayılar ve müfredat koddadır.** Canlı kaset/sınav yolu `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` SSOT’udur; haftalık kesit `docs/DURUM.md` içindedir. İzlemede canlı üretici API (`VIDEO_GEN` / TTS) yoktur. Bake ayrıntısı `docs/ops/akademi-bake-elkitabi.md` içindedir.
 
 ## B5. Harici Entegrasyonlar ve Pilot İş Modelleri
 

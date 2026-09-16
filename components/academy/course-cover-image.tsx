@@ -52,7 +52,7 @@ export function CourseCoverImage({
     return image;
   }
   return (
-    <picture className="contents">
+    <picture className={fill ? "relative block h-full w-full" : "contents"}>
       {avifSrcSet ? <source srcSet={avifSrcSet} sizes={sizes} type="image/avif" /> : null}
       {webpSrcSet ? <source srcSet={webpSrcSet} sizes={sizes} type="image/webp" /> : null}
       {image}

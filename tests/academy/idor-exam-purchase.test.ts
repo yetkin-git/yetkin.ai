@@ -77,7 +77,7 @@ describe("akademi sınav/satın alma IDOR", () => {
     const ctx = world();
     const purchased = await purchaseBuyer(ctx);
     expect(purchased.purchase.userId).toBe(BUYER);
-    expect(curriculumForCourseSlug(ctx.course.slug)).toHaveLength(6);
+    expect(curriculumForCourseSlug(ctx.course.slug)).toHaveLength(9);
 
     await expect(loadAcademyExam(ctx.ports, ctx.course.id, BUYER)).rejects.toThrow(
       /Sınav kapısı müfredat tamamlanınca açılır/,
@@ -106,7 +106,7 @@ describe("akademi sınav/satın alma IDOR", () => {
   it("GET/POST exam ve sertifika listesi oturum aktörüne kilitli; yabancı purchaseId/sessionToken sızdırmaz", async () => {
     const ctx = world();
     const purchased = await purchaseBuyer(ctx);
-    expect(curriculumForCourseSlug(ctx.course.slug)).toHaveLength(6);
+    expect(curriculumForCourseSlug(ctx.course.slug)).toHaveLength(9);
 
     vi.spyOn(academyRuntime, "createPrismaAcademyPorts").mockReturnValue(ctx.ports as never);
     const requireSession = vi.spyOn(sessionApi, "requireSession");

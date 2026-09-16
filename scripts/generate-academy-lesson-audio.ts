@@ -21,6 +21,7 @@
  *   npm run generate:academy-audio -- --dry-run --slug=02_ecommerce_ai --key=02_ecommerce_ai-4
  *   npm run generate:academy-audio -- --dry-run --slug=02_ecommerce_ai --key=02_ecommerce_ai-5
  *   npm run generate:academy-audio -- --dry-run --slug=02_ecommerce_ai --key=02_ecommerce_ai-6
+ *   npm run generate:academy-audio -- --seal --confirm-gemini-spend --force --no-db --no-fallback --slug=01_office_ai --key=01_office_ai-1
  *   npm run generate:academy-audio -- --seal --confirm-gemini-spend --force --no-db --slug=01_office_ai --key=01_office_ai-6
  *   npm run generate:academy-audio -- --dry-run --slug=04_chatbot_nocode --key=04_chatbot_nocode-1
  *   npm run generate:academy-audio -- --seal --confirm-gemini-spend --force --no-db --slug=04_chatbot_nocode --key=04_chatbot_nocode-1
@@ -132,6 +133,7 @@ function parseArgs(argv: readonly string[]): {
   seal: boolean;
   confirmGeminiSpend: boolean;
   noDb: boolean;
+  noFallback: boolean;
   slug: AcademySealedSkuSlug | null;
   key: string | null;
   model: string | null;
@@ -166,6 +168,7 @@ function parseArgs(argv: readonly string[]): {
     seal,
     confirmGeminiSpend,
     noDb: argv.includes("--no-db"),
+    noFallback: argv.includes("--no-fallback"),
     slug,
     key,
     model: rawModel,
@@ -626,13 +629,17 @@ function writeSealedAudioTimings(input: {
   return relativePath;
 }
 
-/** docs/curriculum/01_office_ai_01_cue.json ve 01_office_ai_02_cue.json — ofis amiral cue paketi. */
+/** docs/curriculum/01_office_ai_01_cue.json … 01_office_ai_g1_cue.json — ofis amiral cue paketi. */
 function academyDocsCurriculumCueFileName(lessonKey: string): string | null {
-  const match = /^01_office_ai-(\d+)$/u.exec(lessonKey.trim());
-  if (!match) {
-    return null;
+  const numeric = /^01_office_ai-(\d+)$/u.exec(lessonKey.trim());
+  if (numeric) {
+    return `01_office_ai_${numeric[1]!.padStart(2, "0")}_cue.json`;
   }
-  return `01_office_ai_${match[1]!.padStart(2, "0")}_cue.json`;
+  const letter = /^01_office_ai-([gwk]\d+)$/u.exec(lessonKey.trim());
+  if (letter) {
+    return `01_office_ai_${letter[1]}_cue.json`;
+  }
+  return null;
 }
 
 /** Cue start/end bake parça saatine kilitlenir. 01_office_ai-1 docs/curriculum cue SSOT. */
@@ -786,7 +793,11 @@ async function main(): Promise<void> {
     try {
       baked = await bakeLessonWav(client, activeJob, activeModel);
     } catch (error) {
-      if (!isDailyModelQuotaError(error) || activeModel === VOICE_TTS_FALLBACK_MODEL_ID) {
+      if (
+        args.noFallback ||
+        !isDailyModelQuotaError(error) ||
+        activeModel === VOICE_TTS_FALLBACK_MODEL_ID
+      ) {
         throw error;
       }
       const lesson = CURRICULUM_DRAFTS_BY_SLUG[activeJob.courseSlug]?.find(

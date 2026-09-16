@@ -6,21 +6,38 @@ import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { CURRICULUM_DRAFTS_BY_SLUG } from "@/lib/academy/curricula";
 
-const counts = Object.fromEntries(
-  Object.entries(CURRICULUM_DRAFTS_BY_SLUG).map(([slug, lessons]) => [slug, lessons.length]),
+const keysBySlug = Object.fromEntries(
+  Object.entries(CURRICULUM_DRAFTS_BY_SLUG).map(([slug, lessons]) => [
+    slug,
+    lessons.map((lesson) => lesson.key),
+  ]),
 );
-const lines = Object.entries(counts)
-  .map(([slug, n]) => `  ${JSON.stringify(slug)}: ${n},`)
+const keyLines = Object.entries(keysBySlug)
+  .map(([slug, keys]) => {
+    if (keys.length === 0) {
+      return `  ${JSON.stringify(slug)}: [],`;
+    }
+    const inner = keys.map((key) => `    ${JSON.stringify(key)},`).join("\n");
+    return `  ${JSON.stringify(slug)}: [\n${inner}\n  ],`;
+  })
+  .join("\n");
+const countLines = Object.entries(keysBySlug)
+  .map(([slug, keys]) => `  ${JSON.stringify(slug)}: ${keys.length},`)
   .join("\n");
 
 const body = `/**
  * Katalog / devam paneli — gövdesiz müfredat indeksi.
  * Taslak gövdeleri ve curriculum.ts bu dosyayı import etmez; bu dosya onları import etmez.
- * Anahtar kuralı: \${slug}-\${1..n}. Sapma testte kırılır.
+ * Anahtarlar taslak key dizisidir; ofis amiral 9 ders. Faz 1 kilit sıra
+ * Excel → KVKK → rapor → slayt → hata avı → e-posta ritüeli → Gmail → Word → Cuma 30.
  */
 
+export const CURRICULUM_LESSON_KEYS_BY_SLUG: Readonly<Record<string, readonly string[]>> = {
+${keyLines}
+};
+
 export const CURRICULUM_LESSON_COUNT_BY_SLUG: Readonly<Record<string, number>> = {
-${lines}
+${countLines}
 };
 
 export function curriculumLessonCountForSlug(slug: string): number {
@@ -28,11 +45,7 @@ export function curriculumLessonCountForSlug(slug: string): number {
 }
 
 export function curriculumLessonKeysForSlug(slug: string): readonly string[] {
-  const count = curriculumLessonCountForSlug(slug);
-  if (count === 0) {
-    return [];
-  }
-  return Array.from({ length: count }, (_, i) => \`\${slug}-\${i + 1}\`);
+  return CURRICULUM_LESSON_KEYS_BY_SLUG[slug] ?? [];
 }
 
 export function isAcademyCurriculumCompleteFromIndex(
@@ -57,4 +70,4 @@ export function nextAcademyLessonKeyFromIndex(
 `;
 
 writeFileSync(join(process.cwd(), "lib/academy/curricula/lesson-index.ts"), body, "utf8");
-console.log(`wrote ${Object.keys(counts).length} slugs`);
+console.log(`wrote ${Object.keys(keysBySlug).length} slugs`);

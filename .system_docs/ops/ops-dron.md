@@ -2,7 +2,7 @@
 
 İndeks: `.system_docs/OPS_RUNBOOK.md`. Sözleşme: `.system_docs/DRON_CLIENT_SPEC.md`. Shared Kernel: `@yetkin/kernel`.
 
-Paket `yetkin.publishFrozenUntilFaz1Close: false`. T3 Akademi yüzeyi (müfredat / sınav / mühür) Dron UI'dadır. Play Closed Testing ve Apple TestFlight **protokol olarak açık**. Mağaza binary hattı `apps/rail-is/eas.json` (development / preview / production). **CI `eas` / `eas-cli` / `expo publish` koşmaz** — binary operatör basar. Kapalı teste 410/404 Tezgâh hop'u sürmek yapılmaz. `DRON_TEZGAH_STORE_ISOLATED: true` — "Açık işler / İşlerim" sekmesi gizlidir; kaçak yüzey `Phase2LockScreen` (Faz 2 — Yansıtma bekleniyor). İnceleme notu: `docs/MAĞAZA_INCELEME_NOTU.md`.
+Paket `yetkin.publishFrozenUntilFaz1Close: false`. T3 Akademi yüzeyi (müfredat / sınav / mühür) Dron UI'dadır. Play Closed Testing ve Apple TestFlight **protokol olarak açık**. Mağaza binary hattı `apps/rail-is/eas.json` (development / preview / production). **CI `eas` / `eas-cli` / `expo publish` koşmaz** — binary operatör basar. Kapalı teste 410/404 Tezgâh hop'u sürmek yapılmaz. `DRON_TEZGAH_STORE_ISOLATED: true` — "Açık işler / İşlerim" sekmesi gizlidir; kaçak yüzey `Phase2LockScreen` (Faz 2 — Yansıtma bekleniyor). İnceleme: `.system_docs/DRON_CLIENT_SPEC.md` + `docs/DURUM.md`.
 
 Native env yalnız `EXPO_PUBLIC_RAIL_API_BASE` + `EXPO_PUBLIC_SUPABASE_URL` + `EXPO_PUBLIC_SUPABASE_ANON_KEY`. `service_role` yoktur. Dron `@yetkin/kernel` paketini tüketir; hop meta codegen-kopya değildir.
 
@@ -28,6 +28,6 @@ Amiral çerezle `/api/...`, Dron Bearer ile `/api/v1/...` aynı handler'ı konu�
 
 1. Amiral: `LIVE_BROADCAST_SHUTDOWN` boş (varsayılan kapalı); `RAIL_DRON_ORIGINS` boş; sandbox yok; Inngest çift anahtar.
 2. Dron env (EAS Secrets, git'e yazılmaz): `EXPO_PUBLIC_RAIL_API_BASE` + `EXPO_PUBLIC_SUPABASE_URL` + `EXPO_PUBLIC_SUPABASE_ANON_KEY`.
-3. İnceleme notu: `docs/MAĞAZA_INCELEME_NOTU.md`. IAP yoktur; yükleme v1 hop + HMAC `/kasa`. Akademi oynatıcı / sınav / mühür Dron UI'dadır. Tezgâh sekmesi yoktur.
+3. İnceleme: `.system_docs/DRON_CLIENT_SPEC.md` + `docs/DURUM.md`. IAP yoktur; yükleme v1 hop + HMAC `/kasa`. Akademi oynatıcı / sınav / mühür Dron UI'dadır. Tezgâh sekmesi yoktur.
 4. Binary: `cd apps/rail-is` sonra `eas init` (bir kez; `extra.eas.projectId` uydurulmaz) → `eas build --profile preview` (internal APK) veya `--profile production --platform android` (AAB) / `--platform ios` (IPA). Kök `eas.json` yoktur. `npx eas-cli` yeter; repo `eas-cli` bağımlılığı ve CI adımı **yoktur**.
 5. Hâlâ kapalı: freelancer GET/POST (istemci HTTP atmaz), refund, dispute, native IAP, S43 çekim, Split.

@@ -1,3 +1,4 @@
+import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
 import { academyExamPoolForSlug } from "@/lib/academy/exam-pools";
 import { loadAcademyLessonExam } from "@/lib/academy/lesson-exams";
 import {
@@ -108,13 +109,17 @@ function workProofExamQuestions(slug: AcademyCourseTitleSlug): AcademyExamQuesti
   return questions;
 }
 
+/** Ders sonu mini sınavları — kurs mühür havuzuna gömülmez; sızıntı yok. */
+export function academyLessonExamQuestionsForSlug(slug: string): AcademyExamQuestion[] {
+  return curriculumLessonKeysForSlug(slug).flatMap((key) => loadAcademyLessonExam(key)?.questions ?? []);
+}
+
 export function academyExamQuestionsForSlug(slug: AcademyCourseTitleSlug): AcademyExamQuestion[] {
   const proof = workProofExamQuestions(slug);
-  const lessonQuestions = [1, 2].flatMap((n) => loadAcademyLessonExam(`${slug}-${n}`)?.questions ?? []);
   const pool = academyExamPoolForSlug(slug);
-  const seen = new Set([...proof, ...lessonQuestions].map((row) => row.id));
+  const seen = new Set(proof.map((row) => row.id));
   const rest = pool.filter((row) => !seen.has(row.id));
-  return [...proof, ...lessonQuestions, ...rest].slice(0, 32);
+  return [...proof, ...rest];
 }
 
 function attachExamQuestions(row: AcademyCatalogSeed): AcademyCourseSeed {

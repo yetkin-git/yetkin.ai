@@ -12,9 +12,14 @@ const AWAITING_INGEST_OUTCOMES = [
 export const ACADEMY_LEARNING_OUTCOMES: Record<AcademyCourseTitleSlug, readonly string[]> = {
   "01_office_ai": [
     "Düzensiz Excel tablosunu A1 hücresinden başlayarak düzenli tabloya çevirirsin.",
-    "ChatGPT, Claude, Gemini ve özel AI API kapılarının Excel verisinde farkını ayırt eder, aynı temiz komutu tümüne uygularsın.",
-    "Birleşik hücre, boş satır ve tarih/tutar tür karmaşasını ayıklarsın.",
-    "Temiz eşikte yapay zekâya formül sordurmadan önce A1 hücresini doğrularsın.",
+    "Kişisel veri ve şirket sırrını maskeler; ham listeyi sohbete yüklemezsin.",
+    "Temiz tablodan üç maddelik yönetim özeti ve eylem cümlesi çıkarırsın.",
+    "Düz metni slayt başına tek fikir ve görsel hiyerarşiyle aktarırsın.",
+    "Yapay zekâ yanılınca TOPLA ve kaynak evrakla sayıyı kilitlersin.",
+    "Gelen kutuyu etiket → taslak → insan onayı → arşiv ritüeliyle sıfırlarsın.",
+    "Gmail Gemini veya Outlook Copilot ile yerinde aksiyon listesi çıkarırsın.",
+    "Word dosyasını ataşla yükleyip sözleşme, dilekçe ve rapor işini ayrı istemle çözersin.",
+    "Cuma 30 dakikayı 10 Excel + 10 slayt + 10 kutu olarak takvime bağlarsın.",
   ],
   "02_ecommerce_ai": AWAITING_INGEST_OUTCOMES,
   "03_social_media_ai": AWAITING_INGEST_OUTCOMES,

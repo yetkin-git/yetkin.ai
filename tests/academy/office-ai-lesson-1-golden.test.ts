@@ -62,9 +62,14 @@ describe("01_office_ai-1 altın model — giriş nefesi ve Veo Warm-up", () => {
     expect(spoken).toMatch(/Claude/u);
     expect(spoken).toMatch(/Gemini/u);
     expect(spoken).toMatch(/API/u);
-    expect(spoken).toMatch(/kopyala-yapıştır/u);
+    expect(spoken).not.toMatch(/kopyala-yapıştır/u);
+    expect(spoken).not.toMatch(/taşıma su/iu);
     expect(spoken).toMatch(/ataş simgesinden/u);
-    expect(spoken).toMatch(/Copilot kullanıyorsan/u);
+    expect(spoken).not.toMatch(/gemini\.google\.com/u);
+    expect(spoken).not.toMatch(/Favoriler veya Uygulamalar/u);
+    expect(spoken).not.toMatch(/Gmail'de Gemini yerleşik eklentisini/u);
+    expect(spoken).toMatch(/Üç Kapı/u);
+    expect(spoken).toMatch(/Copilot lisansın varsa/u);
     const veo = stage?.cards[0];
     expect(veo).toBeTruthy();
     expect(academyVisualVeoPunchHasEnded(veo!, veo!.startSec + 7.99)).toBe(false);

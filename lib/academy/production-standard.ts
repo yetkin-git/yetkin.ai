@@ -5,8 +5,9 @@
 
 export const ACADEMY_AI_COURSE_DURATION_MIN_MINUTES = 45;
 export const ACADEMY_AI_COURSE_DURATION_MAX_MINUTES = 90;
+/** Alt sınır doygun ders içindir (spot kaset kurs sayılmaz). Üst sınır B4’e göre esner (9–10 veya 101/102). */
 export const ACADEMY_AI_LESSON_COUNT_MIN = 6;
-export const ACADEMY_AI_LESSON_COUNT_MAX = 8;
+export const ACADEMY_AI_LESSON_COUNT_MAX = 12;
 export const ACADEMY_AI_LESSON_DURATION_MIN_MINUTES = 7;
 export const ACADEMY_AI_LESSON_DURATION_MAX_MINUTES = 12;
 

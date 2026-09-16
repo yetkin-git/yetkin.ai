@@ -98,7 +98,7 @@ Health (`GET /api/v1/health`) kamu ve başlıksız geçebilir. Kamu mühür otur
 
 Paket yayın kilidi T3 Akademi halkası (oynatıcı / sınav / mühür) Dron UI'ya bağlandığında açılır (`publishFrozenUntilFaz1Close: false`). Parse fail boş home değildir. Cüzdan yükleme native IAP değildir; `POST /api/v1/wallet/top-up` HMAC `/kasa` pasaportunu sistem tarayıcısında açar. Akademi hop'ları: müfredat GET/POST, sınav GET/POST, kamu sertifika.
 
-EAS profilleri `apps/rail-is/eas.json` içindedir — kök `eas.json` yoktur; CI `eas` / `expo publish` yasaktır. `extra.eas.projectId` uydurulmaz. Tezgâh hop'ları donuk; Closed Testing T3 B2C halkasıdır (`DRON_TEZGAH_STORE_ISOLATED`). 410 Tezgâh sürmez. İnceleme notu: `docs/MAĞAZA_INCELEME_NOTU.md`.
+EAS profilleri `apps/rail-is/eas.json` içindedir — kök `eas.json` yoktur; CI `eas` / `expo publish` yasaktır. `extra.eas.projectId` uydurulmaz. Tezgâh hop'ları donuk; Closed Testing T3 B2C halkasıdır (`DRON_TEZGAH_STORE_ISOLATED`). 410 Tezgâh sürmez. İnceleme notu: `.system_docs/DRON_CLIENT_SPEC.md` + `docs/DURUM.md`.
 
 HTTP 426 kilit cümlesi: `"Lütfen uygulamayı güncelleyiniz"`.
 

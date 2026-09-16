@@ -37,14 +37,24 @@ describe("TTS nefes dilimleyici", () => {
     expect(officeOne).toHaveLength(15);
     const officeTwo = loadAcademySpokenScriptParagraphs("01_office_ai-2");
     expect(officeTwo).toHaveLength(14);
+    const officeThree = loadAcademySpokenScriptParagraphs("01_office_ai-3");
+    expect(officeThree).toHaveLength(14);
+    const officeFour = loadAcademySpokenScriptParagraphs("01_office_ai-4");
+    expect(officeFour).toHaveLength(14);
+    const officeFive = loadAcademySpokenScriptParagraphs("01_office_ai-5");
+    expect(officeFive).toHaveLength(14);
+    const officeSix = loadAcademySpokenScriptParagraphs("01_office_ai-6");
+    expect(officeSix).toHaveLength(14);
+    const officeG1 = loadAcademySpokenScriptParagraphs("01_office_ai-g1");
+    expect(officeG1).toHaveLength(14);
+    const officeW1 = loadAcademySpokenScriptParagraphs("01_office_ai-w1");
+    expect(officeW1).toHaveLength(14);
+    const officeK1 = loadAcademySpokenScriptParagraphs("01_office_ai-k1");
+    expect(officeK1).toHaveLength(14);
     const officeChunks = officeOne.flatMap((paragraph) => splitAcademyTtsBreathChunks(paragraph));
     expect(officeChunks.length).toBeGreaterThanOrEqual(ACADEMY_TTS_LESSON_REQUEST_MIN);
     expect(officeChunks.length).toBeLessThanOrEqual(ACADEMY_TTS_LESSON_BREATH_BLOCK_MAX);
     const leftoverKeys = [
-      "01_office_ai-3",
-      "01_office_ai-4",
-      "01_office_ai-5",
-      "01_office_ai-6",
       "02_ecommerce_ai-1",
       "02_ecommerce_ai-2",
       "02_ecommerce_ai-3",

@@ -15,12 +15,12 @@ Bu klasör kalıcı anayasa ve sistem belgeleridir. Ürün kodu buradaki markdow
 | `ANAYASA.md` | **A Katmanı** (A1–A5) kırmızı çizgi. **B Katmanı** yaşayan mimari. |
 | `MANIFESTO.md` | Anayasa’nın *neden* var olduğunu söyler. |
 | `OPS_RUNBOOK.md` | Operatör bağlama indeksi; ayrıntı `ops/` altındadır. |
-| `STORAGE_CONTRACT.md` | Vatandaş/Studio nesne deposu yok. Akademi mühürlü yayın **2**. |
+| `STORAGE_CONTRACT.md` | Vatandaş/Studio nesne deposu yok. Akademi mühürlü yayın **9**. |
 | `README.md` | Bu klasörün kendisini tarif eder. |
 
 İstemci ops: `DRON_CLIENT_SPEC.md` — Bearer, JWT yenileme, Idempotency-Key, 401/426. Shared Kernel `@yetkin/kernel` paketidir.
 
-Eğitim: `PEDAGOJI.md` — Yayın = Makale + Mühürlü Karaoke. Mühürlü ders **2**. Video katmanı terk edilmiştir.
+Eğitim: `PEDAGOJI.md` — Yayın = Makale + Mühürlü Karaoke. Sayılar `docs/DURUM.md` ve koddadır. Bake SOP `docs/ops/akademi-bake-elkitabi.md` içindedir.
 
 Kimlik **Supabase Auth**, veri **Prisma**, gövde **Next.js** App Router (**B1: Pragmatik Modüler Monolit + API-First**). Dronlar `@yetkin/kernel` ve `/api/v1` zarfını konuşur. Kamu vitrini Panel + Akademi + Kariyer + kanıt URL’si (`/vize`). Freelancer kilitli motordur. Motor 2 keşif fazındadır.
 

@@ -4,7 +4,7 @@ import type { DronAcademyCatalogItem } from "../ui/academy-catalog";
 import { RAIL_IS_COPY } from "../ui/copy";
 import type { AcademyPlayerView } from "../ui/present-academy-player";
 import type { AcademyPulseView } from "../ui/present-academy-pulse";
-import { dronAcademyPunchcardsForLesson, dronActivePunchcard } from "../ui/academy-punchcards";
+import { dronAcademyPunchcardsForLesson, dronActivePunchcard, dronLessonDeliveryLabel } from "../ui/academy-punchcards";
 import { colors } from "../ui/theme";
 import { DRON_CHECKOUT_CONSENT_VERSION } from "./WalletTopUpScreen";
 import { HonestErrorCard, UiButton } from "./ui-primitives";
@@ -135,6 +135,8 @@ export function AcademyPlayerScreen({
         >
           <Text style={styles.rowTitle}>{lesson.title}</Text>
           <Text style={styles.muted}>
+            {dronLessonDeliveryLabel(lesson.key)}
+            {" · "}
             {lesson.completed ? "Tamamlandı" : lesson.open ? "Açık" : "Kilitli"}
           </Text>
         </Pressable>
@@ -142,6 +144,9 @@ export function AcademyPlayerScreen({
       {selected ? (
         <View testID="dron-academy-lesson-body" style={styles.article}>
           <Text style={styles.rowTitle}>{selected.title}</Text>
+          <Text testID="dron-academy-lesson-delivery" style={styles.muted}>
+            {dronLessonDeliveryLabel(selected.key)}
+          </Text>
           {punchcards.length > 0 ? (
             <View testID="dron-academy-punchcards" style={styles.punchcards}>
               {punchcards.map((card) => {

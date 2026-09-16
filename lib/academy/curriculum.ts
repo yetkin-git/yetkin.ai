@@ -196,6 +196,7 @@ export function isAcademyCurriculumComplete(
   return lessons.every((lesson) => done.has(lesson.key));
 }
 
+/** Devam paneli: ilk tamamlanmamış ders. Oynatıcı otomatik geçişi bunu kullanmaz. */
 export function nextAcademyLessonKey(
   slug: string,
   completedKeys: readonly string[],

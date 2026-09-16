@@ -11,10 +11,18 @@
     "noUncheckedIndexedAccess": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
+    "resolveJsonModule": true,
     "paths": {
       "@yetkin/kernel": ["../../packages/kernel/src/index.ts"],
       "@yetkin/kernel/*": ["../../packages/kernel/src/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "../../packages/kernel/src/**/*.ts"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "../../packages/kernel/src/**/*.ts",
+    "../../lib/academy/punchcard-from-sealed-json.ts",
+    "../../lib/academy/lesson-audio-timings/**/*.json",
+    "../../lib/academy/lesson-cues/**/*.json"
+  ]
 }

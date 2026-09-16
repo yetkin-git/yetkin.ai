@@ -43,13 +43,13 @@ export const ACADEMY_SEN = {
     badgeClosed: "Kayıt kapalı",
     /** WAV mührü olan SKU — katalog kartı sağ üst; mühürsüz ders karaoke basmaz. */
     audioBadge: "Sesli anlatım",
-    audioBadgeHint: "Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika",
+    audioBadgeHint: "Sesli Anlatım + Karaoke + Sınav + Mühürlü Sertifika",
     /** Antre hero — mühürlü ses vaadi; karttaki kısa rozet değil. */
-    heroAudioBadge: "Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika",
+    heroAudioBadge: "Sesli Anlatım + Karaoke + Sınav + Mühürlü Sertifika",
     /** WAV mührü olmayan compact SKU — makale / pratik, ses vaadi yok. */
-    articleBadge: "Yazılı compact",
-    articleBadgeHint: "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
-    heroArticleBadge: "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+    articleBadge: "Makale / Okuma Metni",
+    articleBadgeHint: "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+    heroArticleBadge: "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
     /** Taze ingest bekleyen vitrin SKU — şeffaf kapak şablonu. */
     comingSoonBadge: "Çok Yakında / Hazırlanıyor",
     comingSoonHint: "Hazırlanıyor — compact müfredat ve sınav kapısı yakında.",
@@ -140,11 +140,11 @@ export const ACADEMY_SEN = {
       "Satın aldığın eğitim kütüphanende 365 gün kalır. Sertifika yalnız testi 70+ ile geçince basılır.",
     purchaseEyebrow: "Eğitimi başlat",
     purchaseBody:
-      "Dersleri bitir, testi 70+ ile geç. Sertifika ve yetkinlik Kariyer sayfana işlenir. Satın alma tek başına sertifika basmaz. Gösterilen tutar KDV dahildir. Sınav, 6 dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
+      "Dersleri bitir, testi 70+ ile geç. Sertifika ve yetkinlik Kariyer sayfana işlenir. Satın alma tek başına sertifika basmaz. Gösterilen tutar KDV dahildir. Sınav, 9 dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
     pathTrainingCta: (priceLabel: string) => `Eğitimi Satın Al & Öğren (${priceLabel})`,
     pathTrainingCtaIdle: "Eğitimi Satın Al & Öğren",
     pathTrainingBody:
-      "Amiral: mühürlü 1. bölüm sesli anlatım çekirdeği durur. Kardeş eğitimler üretim bandındadır. Sınav 6 ders bitmeden açılmaz; baraj 70.",
+      "Amiral: 9 mühürlü sesli kaset, 9 karaoke akışı. Sınav tüm dersler bitmeden açılmaz; baraj 70.",
     pathExamCta: (priceLabel: string) => `Doğrudan teste gir ve yetkinlik kazan (${priceLabel})`,
     pathExamCtaIdle: "Doğrudan teste gir ve yetkinlik kazan",
     pathExamBody: "Dersleri atla; yalnız test. Belge 70+ puanla gelir.",
@@ -154,16 +154,16 @@ export const ACADEMY_SEN = {
     title: "Ders listesi",
     exam: (passScore: number) =>
       `Eğitim bitince test. Baraj ${passScore}. Geçince sertifika ve yetkinlik Kariyer sayfana işlenir.`,
-    /** Amiral ve kardeş compact SKU — 6 ders bitmeden sınav kapısı kapalı. */
+    /** Amiral compact SKU — 9 ders bitmeden sınav kapısı kapalı. */
     examShield:
-      "Sınav, 6 dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
+      "Sınav, 9 dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
     visaPromise: (passScore: number, listingLabel: string, _listingId: string) =>
       `Sınavı ${passScore}+ puanla tamamladığında «${listingLabel}» sertifikan Pasaport siciline işlenir ve Kariyer sayfanda doğrulanır.`,
     lockedHint: "Ders gövdesi ödeme sonrası açılır.",
     empty: "Bu eğitimin ders listesi henüz yok.",
     kindAudio: "Ses",
     kindVideo: "Video",
-    kindDocument: "Yazılı Compact",
+    kindDocument: "Makale / Okuma Metni",
     durationMin: (minutes: number) => `${minutes} dk`,
     moduleMeta: (lessons: number, minutes: number) => `${lessons} ders · ${minutes} dk`,
     totalMeta: (lessons: number, minutes: number) => `${lessons} ders · ${minutes} dk`,
@@ -263,6 +263,8 @@ export const ACADEMY_SEN = {
     prevLessonCta: "Önceki Ders",
     nextOrCompleteCta: "Dersi Tamamladım",
     playlistLabel: "Oynatma listesi",
+    modeKaraoke: "Sesli anlatım",
+    modeArticle: "Makale / Okuma Metni",
     notesLabel: "Ders Notları / Transkript",
     codeViewerLabel: "Kod",
     codeCalloutTitle: "💡 KOD BİLMEYENLER İÇİN NOT",
@@ -294,7 +296,7 @@ export const ACADEMY_SEN = {
     cinemaPreparing: "Yayın hazırlanıyor…",
     dialogueEyebrow: "Ders anlatımı",
     audioPreparing: "Ders Ses Medyası Hazırlanıyor",
-    audioPreparingLead: "Ses dosyası henüz bağlanmadı. Ders metnini okuyarak takip edebilirsin.",
+    audioPreparingLead: "Ses kaseti mühürlenince karaoke akışı açılır.",
     audioTimeline: "Ses zaman çizelgesi",
     labEyebrow: "Kod laboratuvarı",
     labRun: "Çalıştır",

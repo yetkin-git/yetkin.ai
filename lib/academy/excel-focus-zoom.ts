@@ -9,7 +9,7 @@ import { loadAcademyKaraokeStrip } from "@/lib/academy/lesson-teleprompter-flow"
 
 export const ACADEMY_EXCEL_FOCUS_ZOOM_LESSON_KEY = "01_office_ai-1" as const;
 export const ACADEMY_EXCEL_FOCUS_ZOOM_CUE_ID = "cue-04" as const;
-export const ACADEMY_EXCEL_FOCUS_ZOOM_LESSON_KEYS = ["01_office_ai-1", "01_office_ai-2"] as const;
+export const ACADEMY_EXCEL_FOCUS_ZOOM_LESSON_KEYS = ["01_office_ai-1", "01_office_ai-2", "01_office_ai-3", "01_office_ai-4", "01_office_ai-5", "01_office_ai-6"] as const;
 
 /** A1 hücresine doğru yakınlaşma — %120 (CSS `scale(1.2)`). */
 export const ACADEMY_EXCEL_FOCUS_ZOOM_SCALE = 1.2 as const;
@@ -39,6 +39,30 @@ export const ACADEMY_OFFICE_AI_2_FOCUS_ZOOM_PHRASES = [
   "karar cümlesi",
 ] as const;
 
+export const ACADEMY_OFFICE_AI_3_FOCUS_ZOOM_PHRASES = [
+  "tek fikir",
+  "görsel yönlendirme",
+  "slayt taslağı",
+] as const;
+
+export const ACADEMY_OFFICE_AI_4_FOCUS_ZOOM_PHRASES = [
+  "etiketle",
+  "taslak yanıt",
+  "kategorize",
+] as const;
+
+export const ACADEMY_OFFICE_AI_5_FOCUS_ZOOM_PHRASES = [
+  "kırmızı",
+  "halüsinasyon",
+  "satır toplam",
+] as const;
+
+export const ACADEMY_OFFICE_AI_6_FOCUS_ZOOM_PHRASES = [
+  "otuz dakika",
+  "ataş",
+  "üç blok",
+] as const;
+
 type AcademyExcelFocusZoomSpec = {
   cueId: string;
   origin: string;
@@ -58,6 +82,30 @@ const ZOOM_BY_LESSON: Record<string, AcademyExcelFocusZoomSpec> = {
     origin: ACADEMY_EXCEL_FOCUS_ZOOM_ORIGIN,
     phrases: ACADEMY_OFFICE_AI_2_FOCUS_ZOOM_PHRASES,
     pattern: /üç madde|yönetici özeti|karar cümlesi/giu,
+  },
+  "01_office_ai-3": {
+    cueId: ACADEMY_EXCEL_FOCUS_ZOOM_CUE_ID,
+    origin: "38% 32%",
+    phrases: ACADEMY_OFFICE_AI_3_FOCUS_ZOOM_PHRASES,
+    pattern: /tek fikir|görsel yönlendir\p{L}*|slayt tasla/giu,
+  },
+  "01_office_ai-4": {
+    cueId: ACADEMY_EXCEL_FOCUS_ZOOM_CUE_ID,
+    origin: "32% 38%",
+    phrases: ACADEMY_OFFICE_AI_4_FOCUS_ZOOM_PHRASES,
+    pattern: /etiketle|taslak yanıt|kategorize/giu,
+  },
+  "01_office_ai-5": {
+    cueId: ACADEMY_EXCEL_FOCUS_ZOOM_CUE_ID,
+    origin: "78% 58%",
+    phrases: ACADEMY_OFFICE_AI_5_FOCUS_ZOOM_PHRASES,
+    pattern: /kırmızı|halüsinasyon|satır toplam/giu,
+  },
+  "01_office_ai-6": {
+    cueId: ACADEMY_EXCEL_FOCUS_ZOOM_CUE_ID,
+    origin: "18% 22%",
+    phrases: ACADEMY_OFFICE_AI_6_FOCUS_ZOOM_PHRASES,
+    pattern: /otuz dakika|ataş|üç blok/giu,
   },
 };
 

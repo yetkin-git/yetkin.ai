@@ -57,16 +57,17 @@ const PUNCHCARDS = [
 describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
   it("makale Gözde girişi, yönetim özeti ve L3 köprüsü taşır", () => {
     const lessons = curriculumForCourseSlug(SLUG);
-    expect(lessons).toHaveLength(6);
+    expect(lessons).toHaveLength(9);
     expect(officeAiMasteryModule.voiceConfig.voice).toBe("Callirrhoe");
-    const lesson = lessons[1]!;
+    const lesson = lessons.find((row) => row.key === KEY)!;
     expect(lesson.key).toBe(KEY);
+    expect(lesson.order).toBe(3);
     expect(lesson.title).toMatch(/Rapor Otomasyonu/u);
     expect(lesson.body).toMatch(/Selamlar, ben Gözde/u);
     expect(lesson.body).toMatch(/A1 hücresi/u);
     expect(lesson.body).toMatch(/yönetici özeti|yönetim özeti/u);
     expect(lesson.body).toMatch(/Sunum Fabrikası/u);
-    expect(lesson.body).toMatch(/3\. bölüm|üçüncü bölüm/iu);
+    expect(lesson.body).toMatch(/4\. bölüm|dördüncü bölüm|Sunum Fabrikası/iu);
     expect(lesson.body).not.toMatch(/kirli/iu);
   });
 

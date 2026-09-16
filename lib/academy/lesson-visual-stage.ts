@@ -176,13 +176,25 @@ export function academyVisualStageActiveCard(
   stage: Pick<AcademyLessonVisualStage, "cards">,
   currentTime: number,
 ): AcademyLessonVisualCard | null {
-  const t = Number.isFinite(currentTime) ? currentTime : 0;
-  for (const card of stage.cards) {
-    if (t >= card.startSec && t < academyVisualCardWindowEnd(card)) {
-      return card;
-    }
+  const cards = stage.cards;
+  if (cards.length === 0) {
+    return null;
   }
-  return null;
+  const t = Number.isFinite(currentTime) ? currentTime : 0;
+  const first = cards[0]!;
+  const lastEnd = academyVisualCardWindowEnd(cards[cards.length - 1]!);
+  if (t < first.startSec || t >= lastEnd) {
+    return null;
+  }
+  let held = first;
+  for (const card of cards) {
+    if (t >= card.startSec) {
+      held = card;
+      continue;
+    }
+    break;
+  }
+  return held;
 }
 
 /** Sıradaki cue slaytı — tarayıcı preload; aktif yoksa ilk kart. */

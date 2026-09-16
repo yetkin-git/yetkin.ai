@@ -473,6 +473,8 @@ export interface Section {
   estimatedWordCount: number;
   pedagogicalObjective: string;
   contentMarkdown: string;
+  /** Taslak anahtarı; yoksa `${slug}-${sectionNumber}`. Ofis Gmail/Word: g1 / w1. */
+  lessonKey?: string;
   videoUrl?: string;
   audioUrl?: string;
 }

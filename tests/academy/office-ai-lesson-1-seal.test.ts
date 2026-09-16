@@ -16,6 +16,10 @@ import { isAcademyLessonBedSealed } from "@/lib/academy/lesson-audio";
 import { loadAcademyLessonExam } from "@/lib/academy/lesson-exams";
 import { academyExamQuestionsForSlug } from "@/lib/academy/seed";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
+import {
+  DRON_PUNCHCARD_MAX_WORDS,
+  dronAcademyPunchcardsForLesson,
+} from "../../apps/rail-is/src/ui/academy-punchcards";
 
 const ROOT = process.cwd();
 const PIECES = [
@@ -69,11 +73,12 @@ describe("01_office_ai-1 mühür bağları — punchcard, Lyria ducking, sınav 
     expect(exam?.passScore).toBe(ACADEMY_EXAM_PASS_SCORE);
     expect(exam?.questions.map((row) => row.id)).toEqual(["q_off_l1_1", "q_off_l1_2", "q_off_l1_3"]);
     const seeded = academyExamQuestionsForSlug("01_office_ai");
+    expect(seeded.every((row) => !row.id.startsWith("q_off_l"))).toBe(true);
     expect(seeded.map((row) => row.id)).toEqual(
-      expect.arrayContaining(["q_off_l1_1", "q_off_l1_2", "q_off_l1_3"]),
+      expect.arrayContaining(["q_off_1", "q_off_4", "q_off_6", "q_off_36"]),
     );
     const engine = readFileSync(join(ROOT, "lib/academy/exam-engine.ts"), "utf8");
-    expect(engine).toContain("q_off_l1_");
+    expect(engine).not.toContain("pinAcademyLessonExamQuestionIds");
     expect(engine).toContain("drawAcademyExamQuestionsPinned");
     expect(engine).toContain("computeAcademyCertificateHash");
     const examPanel = readFileSync(join(ROOT, "components/academy/exam-panel.tsx"), "utf8");
@@ -81,11 +86,9 @@ describe("01_office_ai-1 mühür bağları — punchcard, Lyria ducking, sınav 
     expect(readFileSync(join(ROOT, "apps/rail-is/src/screens/AcademyPlayerScreen.tsx"), "utf8")).toContain(
       "dron-academy-punchcards",
     );
-    expect(readFileSync(join(ROOT, "apps/rail-is/src/ui/academy-punchcards.ts"), "utf8")).toContain(
-      "DRON_PUNCHCARD_MAX_WORDS = 3",
-    );
-    expect(readFileSync(join(ROOT, "apps/rail-is/src/ui/academy-punchcards.ts"), "utf8")).toContain(
-      'label: "DÜZENSİZ TABLO"',
+    expect(DRON_PUNCHCARD_MAX_WORDS).toBe(3);
+    expect(dronAcademyPunchcardsForLesson("01_office_ai-1").map((card) => card.label)).toContain(
+      "DÜZENSİZ TABLO",
     );
   });
 });

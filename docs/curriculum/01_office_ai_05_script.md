@@ -1,0 +1,39 @@
+# İstisnalar & Hata Avı: AI Yanılınca
+
+Eğitmen: Gözde (Callirrhoe). 4-beat reji + pekiştirme durakları (GİRİŞ KÖPRÜSÜ, CEBİNE KOY). SEN dili. Punchcard rozetleri paragraf sonunda.
+
+## Warm-up
+
+Dördüncü dersimizde gelen kutusu krizini çözmüş ve biriken yüzlerce karmaşık iletiyi dakikalar içinde düzene sokmuştuk. Yapay zekâ destekli sınıflandırma sayesinde acil işleri öne çekip otomatik taslak yanıtlar kurgulayarak gelen kutusu yükünü tamamen sıfırla aşamasına ulaştırmayı başardın. Her bir e-posta için doğru etiket atamak ve hızlı şablonlarla süreci yönetmek sana her gün en az bir saatlik odaklanmış çalışma süresi kazandırdı. Rutin yazışmaları otomatik sisteme teslim ettiğinde hissettiğin o büyük hafifliği çok iyi hatırlıyorum. Ancak iş süreçlerimizde hızlanırken arkamıza yaslanıp her çıktıyı kusursuz sanmak bazen bizi yanıltıcı tuzaklara çekebilir. [ROZET: GİRİŞ KÖPRÜSÜ]
+
+Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin beşinci dersine hoş geldin. Bugün hız sınırını aşarken en sık rastlanan gizli tehlikeleri, beklenmedik istisnalar zincirini ve güvenli kontrol sistemlerini tüm detaylarıyla ele alacağız. Sistemler kusursuz görünse bile her raporda bizi bekleyen küçük sürprizler her zaman mevcuttur. Birlikte yapacağımız sistematik hata avı yaklaşımıyla en sinsi veri açıklarını saniyeler içinde tespit etmeyi öğreneceksin. [ROZET: HOŞ GELDİN]
+
+Bugün seninle yapay zekânın çok kendinden emin konuştuğu anlarda arkasındaki boşlukları nasıl yakalayacağını keşfedeceğiz. Çoğu çalışan üretilen metin akıcı veya tablo düzenli göründüğünde her sayının doğru olduğunu varsayar. Oysa profesyonel iş dünyasında tek bir hatalı satır bile yönetime sunulan tüm projenin güvenilirliğini sıfırlayabilir. Bu bölümde yapay zekâyı kendi ürettiği veriyi acımasızca denetleyen titiz bir kontrol uzmanına dönüştürmeyi öğreneceksin. [ROZET: HOŞ GELDİN]
+
+Yapay zekâ araçlarına duyulan kontrolsüz güven çoğu zaman en deneyimli profesyonellerin bile başına beklenmedik işler açabilir. Model karmaşık bir veri setini özetlerken veya hesaplama yaparken bazen tamamen hayali sonuçlar üretebilir. İşte bu duruma teknik dünyada halüsinasyon diyoruz ve model bunu öyle profesyonel bir üslupla sunar ki şüphelenmek aklına bile gelmez. Toplantı odasında genel müdüre sunum yaparken uydurulmuş bir rakamla yüzleşmek istemiyorsan denetim mekanizmalarını asla elden bırakmamalısın. [ROZET: AŞIRI GÜVEN]
+
+## Command
+
+Bir finans raporunu veya aylık satış çizelgesini yapay zekâya emanet ettiğinde arka planda formüllerin her zaman doğru çalıştığını varsaymak büyük bir yanılgıdır. Dil modelleri matematiksel bir işlemci gibi değil kelime olasılıklarını tahmin eden bir mantıkla çalışır. Bu sebeple karmaşık toplamlarda ya da istisnai satırlarda hiç var olmayan sayıları sanki orijinal belgede varmış gibi yerleştirebilir. İşte bu kör güven zincirini kırmak için çapraz sorgulama tekniklerini refleks haline getirmemiz gerekiyor. [ROZET: AŞIRI GÜVEN]
+
+Sistemi kendi hatasını bulmaya zorlamak için ona açık bir denetim komutu vermelisin. Yapay zekâya tablodaki satır toplamları ile genel toplam arasında çelişki olup olmadığını incelemesini ve uyumsuz her satırı kırmızı renkle işaretlemesini söyleyeceğiz. Bu net direktif modelin düz metin üretmek yerine bir denetçi gibi her hücreyi tekrar hesaplamasını sağlar. Olası bir halüsinasyon durumunda sistem uydurduğu sayıyı kendi kurallarına göre hemen yakalayacaktır. [ROZET: HATA AVI]
+
+Yazacağın komutun çekirdeğinde satır bazlı tutarlılık analizi bulunmalı. Eğer satırların toplamı genel toplam hücresini vermiyorsa aradaki farkı açıkça belirtmesini ve riskli bölgeleri kırmızı uyarı etiketiyle göstermesini isteyeceksin. Böylece gözden kaçabilecek en ufak bir halüsinasyon bile tablonun üzerinde parlayan bir fenere dönüşür. Bu yöntemle karmaşık yüzlerce satırı tek tek toplamak yerine olası riskleri doğrudan ekranda görmüş olacaksın. [ROZET: HATA AVI]
+
+## Comparison
+
+Şimdi ekranımızdaki dikey bölünmüş karşılaştırma ekranına odaklanalım. Sol tarafta kontrolsüz üretilen ilk tabloyu görüyorsun ve Yıldız Tekstil satırında tamamen kaynaksız biçimde uydurulmuş 21.500 liralık bir meblağ bulunuyor. Bu gizli hata yüzünden tablonun altındaki genel toplam 59.450 olarak hesaplanmış gibi duruyor ama gerçek verilerle hiçbir bağı yok. Yapay zekâ burada tipik bir halüsinasyon örneği sergileyerek olmayan bir faturayı gerçek gibi listeye eklemiş. [ROZET: AI DEDEKTİF]
+
+Sağ taraftaki panelde ise dedektif komutuyla yeniden taranmış doğrulanmış tablo yer alıyor. Sistem sol taraftaki uydurma 21.500 değerini ve buna bağlı olarak şişen 59.450 genel toplamını hemen tespit etti. Aradaki mantık uyuşmazlığını kırmızı renkle vurgulayarak orijinal kaynakta böyle bir sipariş bulunmadığını açıkça raporladı. Böylece asılsız bir verinin bütçe planlarına sızmasını engelleyen şeffaf bir doğrulama kalkanı kurmuş olduk. [ROZET: AI DEDEKTİF]
+
+İki panel arasındaki bu çarpıcı fark yapay zekânın neden mutlak bir otorite değil güçlü bir asistan olarak görülmesi gerektiğini kanıtlıyor. Sol taraftaki raporda gözden kaçan 59.450 toplamı şirketi yanlış bütçe ayırmaya veya hatalı tedarik kararları almaya sürükleyebilirdi. Sağ tarafta ise akıllı filtreleme sayesinde üretilen halüsinasyon saniyeler içinde etkisiz hale getirildi. Artık elinde sadece düzenli değil aynı zamanda matematiği sonuna kadar teyit edilmiş güvenli bir veri seti var. [ROZET: FARK ORTADA]
+
+## Task
+
+Gördüğün gibi doğru kurgulanmış bir denetim sistemi hataları birer krize dönüşmeden önce yakalar. Yapay zekânın bazen gerçek dışı sayılar türetebileceğini bilmek seni zayıflatmaz aksine çok daha donanımlı bir profesyonel yapar. Kontrolsüz bırakılan bir rapordaki 59.450 gibi yanıltıcı toplamlar yerine her adımını gerekçelendiren denetimli tablolarla ilerlemek yönetim katında sana sarsılmaz bir saygınlık kazandırır. Şimdi öğrendiğimiz bu yöntemi kalıcı bir alışkanlığa çevirelim. [ROZET: FARK ORTADA]
+
+Bu derste öğrendiğimiz hata yakalama stratejisini iş hayatında her zaman şu üç temel adımla cebine koy. 1. Tablolardaki tüm toplamları doğrudan modele bırakmak yerine her zaman bir formül aracılığıyla ikinci kez doğrulat. 2. Üretim tamamlandığında yapay zekâya bu tabloda mantık hatası var mı sorusunu açıkça sorarak çapraz kontrol yaptır. 3. Finansal veya operasyonel açıdan en kritik veriyi her zaman son bir insan gözü denetimiyle kilitlesin. Bu üç aşamalı filtre sayesinde projelerinde sıfır hata standardını yakalayacaksın. Böylece uydurma verilerin iş akışını bozmasını tamamen engellemiş olursun. [ROZET: CEBİNE KOY]
+
+Bugünkü saha görevinde senden son bir ayda hazırladığın veya üzerinde çalıştığın gerçek bir veri tablosunu masaya yatırmanı istiyorum. Yapay zekâya tablodaki satırları ve genel toplamları çapraz kontrol ettirip gizli bir uyumsuzluk aramasını emret. Sistemden hatalı veya şüpheli gördüğü her satırı kırmızı ile işaretlemesini ve gerekçesini yazmasını talep et. Bu egzersiz sayesinde kendi operasyonel dosyalarındaki potansiyel istisnaları anında yakalayacaksın. [ROZET: SIRA SENDE]
+
+Kendi veri setindeki hataları ayıklamayı bitirdiğinde bu refleks artık günlük çalışma tarzının ayrılmaz bir parçası haline gelecek. Önümüzdeki 6. bölüm içinde tüm bu pratikleri birleştirerek iş temposunu kökten değiştirecek sürdürülebilir bir Haftalık Sistem inşa edeceğiz. Her cuma ayıracağın planlı bir 30 Dakika ile tüm veri akışını ve raporlarını otomatik denetimden geçireceksin. Hazırlıklarını eksiksiz yap çünkü yakında seni bekleyen büyük Sınav Köprüsü için bu disiplin en güçlü anahtarın olacak. [ROZET: SIRA SENDE]

@@ -9,6 +9,7 @@ import {
   ACADEMY_PILOT_SKU_SLUG,
   isAcademyLessonAudioSealed,
 } from "@/lib/academy/pilot-sku";
+import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 
 const ROOT = process.cwd();
 
@@ -57,7 +58,7 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
       const lessons = curriculumForCourseSlug(slug);
       if (slug === "01_office_ai") {
-        expect(lessons).toHaveLength(6);
+        expect(lessons).toHaveLength(9);
       } else {
         expect(lessons).toEqual([]);
       }
@@ -74,7 +75,7 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(karaokeCount).toBe(1);
     expect(articleCount).toBe(0);
     expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-1").kind).toBe("article+karaoke");
-    expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-6").kind).toBe("article");
+    expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-6").kind).toBe("article+karaoke");
     expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-1").kind).toBe("article");
     expect(ACADEMY_PILOT_SKU_SLUG).toBeNull();
   });
@@ -89,6 +90,12 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(player).toContain("lg:self-start");
     expect(player).toContain("line-clamp-2");
     expect(player).toContain("academyCitizenPlayerLayer");
+    expect(player).toContain("copy.modeArticle");
+    expect(player).not.toContain("data-academy-article-notice");
+    expect(player).not.toContain("copy.articleNotice");
+    expect(player).not.toContain("Bu ders okuma metnidir");
+    expect(player).not.toContain("Ses kaseti yoktur");
+    expect(player).toContain("data-academy-lesson-delivery");
     expect(player).toContain("data-academy-hybrid=\"media-then-study\"");
     expect(player).toContain('kind === "article+karaoke"');
     expect(player).toContain("<LessonMediaPlayer");
@@ -103,6 +110,29 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(player).toContain("onSpokenElapsedChange={setMediaElapsed}");
     expect(player).toContain("currentTime={mediaElapsed}");
     expect(player).toContain("completeLesson");
+    expect(player).toContain("autoAdvanceNextLesson");
+    expect(player).toContain("academyPlayerAutoAdvanceTargetKey");
+    expect(player).toContain("playbackStartedKeyRef");
+    expect(player).not.toContain("autoAdvanceNextLesson(nextKey)");
+    expect(player).toContain("nextAcademyPlayerLesson(lessonsRef.current, lessonKey)");
+    expect(player).toContain("{ advance: shouldAdvance }");
+    expect(player).toContain("hasAcademyLessonPlaybackReachedEnd");
+    expect(player).toContain("endedLessonKeyRef");
+    expect(player).toContain("selectLesson");
+    expect(player).toContain("idempotency.rotate");
+    expect(player).toContain("activeClockDurationSec");
+    expect(player).toContain("data-academy-autoplay-toggle");
+    expect(player).toContain("readAcademyLessonAutoAdvanceFromStorage");
+    expect(player).toContain("writeAcademyLessonAutoAdvanceToStorage");
+    expect(player).toContain("shouldAutoAdvanceAfterListenEnded");
+    expect(player).toContain("copy.autoAdvance");
+    expect(player).toContain("autoStart={autoStartPlayback}");
+    expect(player).not.toContain("autoPlay");
+    expect(player).toContain("role=\"switch\"");
+    expect(player).toContain("academy-player-autoplay");
+    expect(readSrc("app/globals.css")).toContain("academy-player-autoplay-track");
+    expect(readSrc("lib/academy/lesson-advance.ts")).toContain("academy_autoplay_enabled");
+    expect(ACADEMY_SEN.player.autoAdvance).toBe("Otomatik Geçiş");
     expect(player).toContain("isAcademyPlayerExamReady");
     expect(player).toContain("academyExamStartGateHref");
     expect(player).toContain("examLaunchCta");
@@ -121,6 +151,17 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(media).toContain('data-academy-clock="currentTime"');
     expect(media).toContain("audio.currentTime");
     expect(media).toContain("onSpokenElapsedChangeRef.current?.(elapsed)");
+    expect(media).toContain('addEventListener("timeupdate"');
+    expect(media).toContain("pushSpokenClock");
+    expect(media).toContain("autoStart");
+    expect(media).toContain("autoStartTriedRef");
+    expect(media).toContain("playSealedAudio");
+    expect(media).toContain("onCanPlay");
+    expect(media).toContain("hasAcademyLessonPlaybackReachedEnd");
+    expect(media).toContain("armOutroEndTimeout");
+    expect(media).toContain("notifyEnded");
+    expect(media).toContain("onEndedRef.current?.(lessonKeyRef.current)");
+    expect(media).not.toContain("autoPlay");
 
     const tabs = readSrc("components/academy/lesson-study-tabs.tsx");
     expect(tabs).toContain("export function LessonStudyTabs");

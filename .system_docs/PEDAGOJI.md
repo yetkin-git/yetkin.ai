@@ -1,8 +1,8 @@
-# PEDAGOJI.md — Bütünleşik Medya ve Eğitim Rejisi Standartları
+# PEDAGOJI.md — Eğitim felsefesi
 
-Bu belge platformun canlı eğitim felsefesini, Google AI Studio medya fabrikası rol dağılımını ve görsel-işitsel reji standartlarını tanımlar.
+Bu belge platformun **kalıcı eğitim felsefesini** tanımlar. Stüdyo milisaniyesi, gain, Veo süresi ve canlı model kimliği burada dogma değildir.
 
-Çelişkide `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır. Canlı model kimliği kod SSOT’tadır (`lib/kernel/ai/model-roles.ts`). Bake SOP, RPM ve CLI sayıları `docs/ops/akademi-bake-elkitabi.md` içindedir.
+Çelişkide `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır. Canlı model kimliği kod SSOT’tadır (`lib/kernel/ai/model-roles.ts`). Bake SOP, gain, saniye ve CLI `docs/ops/akademi-bake-elkitabi.md` içindedir. Canlı kaset / sınav sayıları `docs/DURUM.md` ve kod içindedir.
 
 ---
 
@@ -10,9 +10,9 @@ Bu belge platformun canlı eğitim felsefesini, Google AI Studio medya fabrikas�
 
 ### 1. Somut ve Uygulamalı Anlatım ("Garsonu Göster")
 
-Soyut tanımlar yığılmaz. Ekranda kulakta duyulan ne ise (örneğin A1 hücresi), göz ekranda **%80** oranında o somut uygulamayı ve ekran kaydını görür. Kalan **%20** sinematik arayüz, şema ve bağlam plakasıdır.
+Soyut tanımlar yığılmaz. Kulakta duyulan işlem, gözde o somut uygulamadır. Ekranın ağırlığı canlı iştir; kalanı bağlam plakasıdır.
 
-* Anlatılan işlem ile görünen kare milisaniyesine kadar örtüşür; ses ile görsel ayrışmaz.
+* Anlatılan işlem ile görünen kare örtüşür; ses ile görsel ayrışmaz.
 * «Ajan otonom bir döngüdür» demek yerine sipariş, araç, bellek ve teslim adımı masada çalışır.
 * Her yayın SKU kendi iş dilini kullanır. Tek şablon her alana zorla dayatılmaz.
 
@@ -26,55 +26,43 @@ Sıfır jargon, insani, sıcak, arkadaşça ve çözüme giden bir dil kullanıl
 
 ### 3. Bilişsel Yük Yönetimi (Sıfır Paragraf)
 
-Ekranda uzun metin blokları veya okuma paragrafı gösterilmesi **KESİNLİKLE YASAKTIR**. Ekranda sadece ilgili saniyede beliren en fazla **3 kelimelik** esnek **Punchcard Rozetleri** parlar.
+**Karaoke overlay / oynatıcı sahnesinde** uzun metin blokları veya okuma paragrafı gösterilmesi **KESİNLİKLE YASAKTIR.** Sahnede yalnız o saniyeye ait kısa **Punchcard Rozetleri** parlar (en fazla üç kelime).
 
 * Rozet slogan niteliğindedir; görseli destekler, teleprompter olmaz.
-* Görsel odak 5–8 saniyede bir değişir (canlı uygulama, Veo B-roll, Nano Banana şeması).
-* Konuşma aralarında 3–5 saniyelik nefes payı bırakılır.
+* Görsel odak sık değişir; konuşma aralarında nefes payı bırakılır. Saniye ve gain bake el kitabındadır.
+
+**Kapsam:** Bu yasak karaoke overlay ve punchcard sahnesinedir. Çalışma sekmesindeki **Compact Makale** (Tam Ders Metni) paragraf taşır; Anayasa B4 (konunun hakkı) bunu ister. Compact makale A.3 ihlali değildir. Nasıl-yapılır adım bandı (§E.7) da A.3’ün dışında durur: bant «Adım 1 / Adım 2 / Adım 3» taşır, overlay paragrafı değildir.
 
 **Junior oda ≠ başlangıç seviyesi.** 18 yaş altı ürün yoktur (`JUNIOR_PRODUCTION_LOCKED`; Anayasa B2). Başlangıç seviyesi Akademi içi **Temel Paketler** ile karşılanır.
 
 ---
 
-## B. GOOGLE AI STUDIO FABRİKASI VE ROL DAĞILIMI
+## B. FIRIN ROLLERİ VE 4-BEAT REJİ
 
-İçerik üretiminde kendi iç dil modelinin (Cursor) metin veya görsel uydurması tamamen yasaktır. Yapay zeka fırınlarının görev dağılımı şöyledir:
+İçerik üretiminde vatandaş yüzeyine Cursor uydurması basılmaz. Senaryo, ses, görsel ve dip müzik bake fırınlarından gelir. Cursor **montaj operatörüdür**: dönen parçaları `docs/curriculum/` ve `public/media/` altına kaydeder; oynatıcı senkronunu bağlar.
 
-| Rol | Fırın | Görev |
-|-----|-------|--------|
-| Metin & Senaryo | **Gemini 3.8 Flash** | 4-beat reji yapısına (Warm-up → Command → Comparison → Task) uygun ders senaryolarını hazırlar. |
-| Seslendirme | **Gemini 3.1 Flash TTS** | Metni Gözde (**Callirrhoe**) ses karakteriyle mühürler. |
-| Görsel & Video | **Nano Banana 2 / Veo 3.1 Lite** | %80 canlı uygulama / %20 sinematik. Varsayılan B-roll: **Veo 3.1 Lite** veya `/public/media/academy/micro/` yerel MP4 reuse. Pahalı Veo 3.1 API her ders fırınında **KESİNLİKLE YASAKTIR**. Yedek: Nano Banana 2 (Gemini 3.1 Flash Image) + CSS Ken Burns. |
-| Ducking Müzik | **Lyria 3.5** | Konuşmanın arkasına ritmik dip müziği basar. Eğitmen konuşurken müzik dipte kalır; konuşma aralarındaki 3–5 saniyelik nefes paylarında hafifçe yükselir. |
-| Montaj Operatörü | **Cursor** | API'lerden dönen metin, ses, cue zamanlaması, görsel ve müzik verilerini `docs/curriculum/` ve `public/media/` altına kaydeder; `citizen-player` bileşeninde senkronize eder. |
+Rol dağılımı yetenek sınıfıdır; ürün sürüm adı Pedagoji’de donmaz. Canlı kimlik `lib/kernel/ai/model-roles.ts` içindedir.
+
+| Rol | Yetenek sınıfı | Görev |
+|-----|----------------|-------|
+| Metin & Senaryo | Hızlı metin modeli (`FAST_STREAM`) | 4-beat rejiye uygun ders senaryosu |
+| Seslendirme | TTS (`VOICE_TTS`) | Metni Gözde (**Callirrhoe**) ses karakteriyle mühürler |
+| Görsel & Video | Görsel üretim + bütçe korumalı B-roll | %80 canlı uygulama / %20 sinematik. Pahalı video API her ders fırınında yasaktır (§E.4) |
+| Ducking Müzik | Dip müzik fırını | Konuşurken dipte; nefes ve outro bake el kitabındaki eğriye uyar |
+| Montaj Operatörü | Cursor | Cue, timings, görsel ve müzik montajı |
 
 **4-beat reji (Warm-up → Command → Comparison → Task)** tek eğitmen, SEN dili; **Pekiştirme ve Tekrar** iki durak ekler:
 
 | Sıra | Beat | Karşılık | İçerik |
 |------|------|----------|--------|
-| — | GİRİŞ KÖPRÜSÜ | Warm-up öncesi ~30 sn | Yapay zekâ ile çalışma refleksini hatırlatan ısınma |
+| — | GİRİŞ KÖPRÜSÜ | Warm-up öncesi ısınma | Yapay zekâ ile çalışma refleksini hatırlatan köprü |
 | 1 | Warm-up | Isınma / İş Problemi | Gerçek iş hayatı karşılığı |
 | 2 | Command | Birinci Senaryo / Temel Yöntem | İlk istem ve çözüm — ekranda çalışan işlem |
 | 3 | Comparison | İkinci Senaryo / İstisna | Edge-case, yanlış vs doğru, kritik durum |
-| — | CEBİNE KOY | Task öncesi ~45 sn | Üç somut adımı tane tane tekrarlayan kapanış özeti |
+| — | CEBİNE KOY | Task öncesi kapanış özeti | Üç somut adımı tane tane tekrarlar |
 | 4 | Task | Özet & Saha Görevi | Cebine koyacakların |
 
-Ducking: 0–2 sn giriş jeneriğinde Lyria 0.46 (konuşma yok); Gözde 2.0 saniyede başlayınca müzik tatlıca 0.12’ye iner. Nefes payı ile **CEBİNE KOY** pekiştirme durağında 0.46. Gelecek Ders Köprüsü’nün son 3 saniyesinde müzik yeniden 0.46’ya yükselir. Konuşma bittiği an Lyria **0.70** zirveye tırmanır; logo + 1-2-3 özet checklist üstünde 3 sn coşkulu jenerik, ardından 1.5 sn fade-out. Intro nefesi, outro crescendo ve dinamik görsel reji **§E Altın Şablon Standartları** anayasa maddesidir.
-
-**Altın Şablon görsel reji** (`01_office_ai-1` — gelecek müfredatın cue-görsel sözleşmesi):
-
-| Beat | Ekran | Not |
-|------|-------|-----|
-| — Giriş jeneriği | 0–2 sn logo + `01_OFFICE_AI` | Yalnız Lyria 3.5 (0.46); konuşma yok |
-| — Bitiş jeneriği | Konuşma sonrası 3 sn logo + 1-2-3 özet, 1.5 sn fade-out | Lyria 0.70 zirve → fade-out |
-| 1 Warm-up | 8 sn Veo 3.1 Lite ofis/veri-akışı B-roll (yerel MP4 reuse veya Ken Burns), sonra canlı Excel | Statik plaka yok; pahalı Veo 3.1 API yok |
-| 2 Command | %80 tek ekran canlı uygulama | İlk istem ve çözüm; ChatGPT / Claude / Gemini / API masası; **Spoiler Yasağı** — temiz/nihai tablo yok |
-| 3 Comparison | Dikey split-screen | Sol: ÖNCE (DÜZENLEMESİZ) ham/düzensiz tablo, turuncu çerçeve. Sağ: SONRA (AI İLE) düzenli tablo, yeşil-mavi neon, A1 ışıldar. Temiz tablo **ilk kez** sağ panelde açılır |
-| 4 Task | Düzenli nihai tablo | Saha görevi; karşılaştırmadan yumuşak dönüş |
-
-Vatandaş etiketinde «Kirli» yok. Yerine «Düzensiz Tablo», «Ham Veri» veya «Dağınık Yapı». Görsel SSOT: `lib/academy/lesson-beat-visual.ts`.
-
-Üretim sırası **senaryo → mühürlü ses → cue → görsel/video → ducking müzik → montaj**’dır; tersine değil. Senaryo, cue ve visual zoom senkronu tam oturmadan `--seal` (ücretli TTS/Video) **KESİNLİKLE** çağrılmaz. Geliştirme ve deneme `--dry-run` ile yürür. Taslak ses vatandaş yüzeyine basılmaz. İnsan onayı olmadan harici TTS yok. Ayrıntı bake el kitabındadır (`skip preventer`, `--seal` kapısı, §E.4–E.5).
+Üretim sırası **senaryo → mühürlü ses → cue → görsel/video → ducking müzik → montaj**’dır; tersine değil. Senaryo, cue ve visual zoom senkronu tam oturmadan ücretli TTS/Video çağrılmaz. Geliştirme `--dry-run` ile yürür. Taslak ses vatandaş yüzeyine basılmaz. İnsan onayı olmadan harici TTS yok. Ayrıntı bake el kitabındadır.
 
 **İzleme anında harici üretici API çağrılmaz.** Fırın bake’de çalışır; oynatıcı mühürlü medyayı senkronize eder. Cue orijinal terimi korur; ses fonetik okur. Placeholder test-pattern vatandaşa basılmaz.
 
@@ -82,13 +70,13 @@ Kod SSOT: `lib/academy/production-standard.ts`. Görsel reji SSOT: `lib/academy/
 
 ---
 
-## C. SÜRE VE MODÜL MATEMATİĞİ
+## C. SÜRE, SEVİYE VE MÜHÜR BARAJI
 
-- **Ders Başı Taban Süre:** En az 5 dakika. İdeal sindirme süresi: **5–9 dakika**.
-- **Kurs / SKU Başına Bölüm Sayısı:** En az 6 bölüm.
-- **Başarı ve Mühür Barajı:** Kurs sonu sınavından **70+** alma zorunluluğu vardır. Sertifika satın alınamaz, hak edilir. Puan **sunucu** tarafındadır (Anayasa A4).
+Karaoke ders / kurs süre bantları ve bölüm sayısı **kod SSOT’tadır** (`lib/academy/production-standard.ts`). Pedagoji sabit dakika veya «en az N bölüm» anayasası taşımaz. Ders sindirilebilir kısa tutulur; compact makale gövdesi bu bantla kesilmez (Anayasa B4 — konunun hakkı).
 
-Compact makale gövdesi bu bantla kesilmez (Anayasa B4 — konunun hakkı). Çok teknik konularda müfredat **Temel / Orta / İleri** bağımsız paket olarak ayrılabilir; her SKU’ya zorunlu basamak değildir. Ses seçimi fırınlama aşamasında **kadın veya erkek** TTS yuvasıdır; ofis amiralinde Gözde (Callirrhoe) mühürdür. Model kimliği Pedagoji’de durmaz.
+* **Başarı ve Mühür Barajı:** Kurs sonu sınavından **70+** alma zorunluluğu vardır. Sertifika satın alınamaz, hak edilir. Puan **sunucu** tarafındadır (Anayasa A4).
+
+Çok teknik konularda müfredat **Temel / Orta / İleri** bağımsız paket olarak ayrılabilir; her SKU’ya zorunlu basamak değildir. Ses seçimi fırınlama aşamasında **kadın veya erkek** TTS yuvasıdır; ofis amiralinde Gözde (Callirrhoe) mühürdür. Model kimliği Pedagoji’de durmaz.
 
 ---
 
@@ -104,59 +92,92 @@ Vitrin otoritesini ve güvenini korumak için platformda 5'li Vitrin Karması li
 
 **Dürüst Yüzey (Anayasa A5):** `01_office_ai` dışındaki 4 ürünün üzerinde "Çok Yakında / Hazırlanıyor" rozeti durur. Tıklandığında ön sipariş/bilgilendirme gösterilir. Bağlı olmayan medya, eksik bake veya mühürsüz ders için hayali oynatıcı basılmaz; vatandaşa dürüstçe henüz hazır olmadığı söylenir.
 
+Amiral SKU `01_office_ai` yayın makalesi + mühürlü karaoke taşır. **Ders adedi Pedagoji kotası değildir.** Anayasa B4 (konunun hakkı) ne gerektiriyorsa o kadar doygun ders basılır: tek pakette 9–10 ders veya 101/102 ayrımı serbesttir. Canlı kaset / sınav sayıları `docs/DURUM.md` ve koddadır. Sessiz okuma metni yoktur.
+
 ---
 
-## E. ALTIN ŞABLON STANDARTLARI
+## E. ÖĞRETİM TERCİHLERİ (ALTIN ŞABLON FELSEFESİ)
 
-`01_office_ai-1` finalinde kesinleşen görsel, işitsel ve pedagojik reji **gelecek müfredatın anayasa maddesidir**. Cue-görsel sözleşmesi bu maddeden sapmaz. Kod SSOT: `lib/academy/lesson-beat-visual.ts`, `lib/academy/lesson-veo.ts`, `lib/academy/excel-workspace.ts`, `lib/academy/excel-focus-zoom.ts`, `lib/academy/excel-mouse-pointer.ts`, `lib/academy/lesson-intro.ts`, `lib/academy/lesson-bed-duck.ts`.
+`01_office_ai-1` Excel sineması gelecek müfredatın **görsel sözleşmesidir**, Anayasa A maddesi değildir. Cue-görsel kod SSOT: `lib/academy/lesson-beat-visual.ts`, `lib/academy/lesson-veo.ts`, `lib/academy/excel-workspace.ts`. PowerPoint, Gmail, Word aynı Excel imlecine sığmak zorunda değildir; her masa kendi layout’unu taşır. Milisaniye, zoom yüzdesi ve gain bake el kitabındadır.
 
-### E.1 Görsel Reji ve İmleç Dinamiği (Dynamik Visuals)
+### E.1 Görsel dürüstlük
 
-* **Spoiler Yasağı:** Command beat boyunca temiz/nihai tablo veya sonuç **KESİNLİKLE** gösterilemez. Ekran dağınık/ham veride kalır. Temiz tablo ilk kez Beat 3 (Comparison) split-screen sağ panelinde açılır.
-* **Dinamik Zoom-In (%120 Scale):** Seste odaklanılan hücre/alan (örneğin «A1 hücresi») anlatılırken ekran %120 oranında (`transform: scale(1.2)`) yumuşakça yakınlaşır; genel analize geçilince %100 geniş açıya döner.
-* **Sanal Fare (Mouse Pointer) ve Hücre Gezintisi:** Seste anlatılan komut ve sütunlara göre sanal bir mouse imleci ekranda yumuşakça süzülür, hedef hücreye tıklar (click-ripple) ve aktif hücre odağını (activeCell A1 → B1 → C1) kaydırır.
-* **Gerçekçi Merged Hücre Çerçevesi:** Birleştirilmiş bir hücre (örneğin A1:F1) seçildiğinde yeşil hücre çerçevesi parçalanmaz; birleştirilmiş alanın **tamamını** bütünsel olarak sarar.
+* **Spoiler Yasağı:** Command beat boyunca temiz/nihai sonuç gösterilmez. Temiz tablo ilk kez Comparison split-screen sağ panelinde açılır.
+* Vatandaş etiketinde «Kirli» yok. Yerine «Düzensiz Tablo», «Ham Veri» veya «Dağınık Yapı». Split: **ÖNCE (DÜZENLEMESİZ)** / **SONRA (AI İLE)**.
 
-### E.2 İçerik Netliği ve Pratik Aktarım
+### E.2 Üç Kapı Hiyerarşisi (aktarım)
 
-* **3 Somut Veri Aktarım Yolu:** Yapay zekâya veri verme adımı seste ve ekrandaki AI Masasında 3 somut etiketle öğretilir: 1) Kopyala-Yapıştır, 2) Ataş İle Yükle, 3) Copilot İle Okut.
-* **Çoklu AI Ekosistemi:** Yalnız Copilot değil; ChatGPT, Claude, Gemini ve Özel API farkı sade bir dille işlenir. Jargon terimler («Uygulama Programlama Arayüzü») kısaltılarak netleştirilir.
+Yapay zekâya veri verme adımı seste ve ekranda **Üç Kapı** ile öğretilir (§E.10). Sıra sabittir; öğrenci önce 1. kapıyı dener.
 
-### E.3 İşitsel Reji ve Outro Crescendo
+1. **Yerleşik araçlar** — Gmail Gemini, Excel / Word / Outlook Copilot (lisans varsa).
+2. **Ataş / dosya yükleme** — `docx`, `xlsx`, `pptx` (seste noktasız; ekranda uzantı görülebilir).
+3. **Son çare:** KVKK’ya uygun, maskelenmiş kısa kopyala-yapıştır. Bütün gelen kutusunu veya ham tabloyu ekran görüntüsüyle dış sohbete taşımak öğretilen varsayılan yol değildir.
 
-* **Intro Nefesi:** 0–2.0 sn arası konuşma olmaz. Yalnızca Lyria müziği (0.46 gain) ve jenerik logosu gösterilir. Konuşma 2.0. sn’de başlar, müzik 0.12’ye iner.
-* **Outro Zirvesi (Crescendo):** Konuşma bittiği an Lyria müziği `0.70` peak seviyesine tırmanır. Logo ve 1-2-3 özet checklist ekranında 3 saniye coşkulu jenerik çalar, ardından 1.5 saniyelik fade-out ile kapanır.
+* **Yerleşik araç eşleşmesi (SSOT):** Outlook → Copilot, Gmail → Gemini, Word/Excel → Doğrudan Dosya Yükleme, PowerPoint → Copilot. Kilit: `lib/academy/ai-desk.ts` → `ACADEMY_INFRA_TOOL_MATCH`.
+* **Araç dayatması yok.** Pedagoji VBA, Gamma veya Marp zorunlu kılmaz. Fırın script’indeki checkbox doktrin değildir. 1. Kapı yerleşik Copilot; yoksa ataş.
+* **Nereye Yazılacak:** Soyut «AI Masası» paneli **KESİNLİKLE YASAKTIR**. Öğrenci gerçek kapıyı görür: Gmail Gemini paneli, Copilot şeridi veya ataş. Rehber ok: «Nereye Yükleyeceksin?» / «Gemini veya ataş». Masaüstü Outlook’ta Copilot yoksa 2. veya 3. kapı dürüstçe gösterilir; «senin aracın yasak» denmez.
+* **Çoklu AI ekosistemi:** Yalnız Copilot değil; ChatGPT, Claude, Gemini ve özel API farkı sade dille işlenir.
 
-### E.4 Bütçe Korumalı B-roll Mimarisi (Veo Lite & Reuse)
+### E.3 İşitsel reji (ilke)
 
-Google AI Studio bütçesi her ders fırınında korunur. Pahalı **Veo 3.1** API çağrısı (`veo-3.1-generate-preview`) **KESİNLİKLE YAPILMAZ**.
+Konuşma jenerikten sonra başlar; outro’da müzik yükselir. Saniye ve gain **bake el kitabındadır** — Pedagoji anayasası değildir.
 
-| Kaynak | Maliyet | Ne zaman |
-|--------|---------|----------|
-| Yerel MP4 reuse | Sıfır | Kaset `/public/media/academy/micro/` altında duruyorsa varsayılan |
-| **Veo 3.1 Lite** | Düşük | Yeni kaset gerektiğinde; endpoint `veo-3.1-lite-generate-preview` |
-| Nano Banana 2 + CSS Ken Burns | Sıfır video API | Lite yoksa veya deneme: Gemini 3.1 Flash Image plakası üzerine Pan-Zoom |
-| Pahalı Veo 3.1 | **Yasak** | Her ders fırınında çağrı açılmaz |
+### E.4 Bütçe Korumalı B-roll Mimarisi
 
-* Warm-up B-roll 8 sn kalır; punch sonrası canlı Excel’e kesilir (donmuş kare yok).
-* Oynatıcı izlemede VIDEO_GEN çağırmaz. Ken Burns CSS anahtarı: `academy-eye-kenburns` (`app/globals.css`); punch penceresinde Nano Banana 2 plakasına Pan-Zoom basar.
-* Kod SSOT: `lib/academy/lesson-veo.ts`, `lib/academy/baked-micro-videos.ts`, `scripts/generate-academy-lesson-veo.ts`.
+Google AI Studio bütçesi her ders fırınında korunur. Pahalı video API her ders fırınında **KESİNLİKLE YAPILMAZ.** Varsayılan: yerel MP4 reuse veya bütçe korumalı Lite B-roll; yedek durağan plaka + CSS Ken Burns. Oynatıcı izlemede VIDEO_GEN çağırmaz. Endpoint kimliği ve süre bake el kitabı + `lib/academy/lesson-veo.ts` içindedir.
 
 ### E.5 Fırınlama (Bake) Disiplini
 
-Ücretli TTS ve video mühürü, reji oturmadan açılmaz.
+Ücretli TTS ve video mühürü, reji oturmadan açılmaz. `--seal` insan onayı ister; deneme `--dry-run`. Operatör SOP: `docs/ops/akademi-bake-elkitabi.md`.
 
-* Senaryo, cue ve visual zoom senkronizasyonu tam oturmadan `--seal` (ücretli TTS/Video) çağrısı **KESİNLİKLE YASAKTIR**.
-* Geliştirme ve deneme aşamasında tüm testler `--dry-run` bayrağı ile yürütülür; harici Google AI Studio çağrısı doğmaz.
-* `--seal` yalnız `--confirm-gemini-spend` ve insan onayı ile; vatandaş yüzeyine taslak WAV/MP4 basılmaz.
-* B-roll’da yerel kaset varsa API atlanır (reuse). Yeni kaset gerekirse yalnız Veo 3.1 Lite; pahalı Veo 3.1 yok.
-* Kod SSOT: `scripts/generate-academy-lesson-audio.ts`, `scripts/generate-academy-lesson-veo.ts`, `scripts/generate-academy-lesson-bed.ts`. Operatör SOP: `docs/ops/akademi-bake-elkitabi.md`.
+### E.6 Dinamik Vektörel Şema ve Mantık Katmanı
 
-### E.6 Dinamik Vektörel Şema ve Mantık Katmanı (SVG / React Dynamic Logic)
+Mantık ağaçları ve süreç diyagramları statik afiş olarak basılmaz; `components/academy/` altında senkron React/SVG durur. **Sıfır Ekstra API Maliyeti.** Hücre çerçevesi DOM’a kilitlenir (`getBoundingClientRect`); sıkışık ekranda metin üç noktaya düşmez (`font-size: clamp(...)`, `min-width: content`).
 
-İlerleyen derslerde (Otomasyon, Mantıksal Karar Ağaçları, No-Code Chatbot vs.) kullanılacak vektörel çizimler ve mantık akışları için aşağıdaki kurallar bağlayıcıdır:
+### E.7 Nasıl Yapılır? — Prompt Terminali ve Adım Bantı
 
-* **İnteraktif SVG & React State Entegrasyonu:** Mantıksal karar ağaçları, lojik kapılar (AND/OR/NOT) veya süreç diyagramları statik resim olarak basılmaz. Doğrudan `components/academy/` altında interaktif React SVG bileşenleri olarak render edilir. Sesteki anlatıma senkronize biçimde çizgi renkleri (yeşil/kırmızı), veri akış noktaları ve ışıklar (active state) dinamik olarak parlar.
-* **Dinamik Sütun ve Metin Hizalama (No-Truncate & DOM Bounds):** Tablo ve çalışma alanlarındaki `activeCell` yeşil seçim kutusu kesinlikle `getBoundingClientRect` ile ilgili `th/td` elementine milimetrik kilitlenir; hiçbir sapmaya izin verilmez. Sıkışık/Split ekranlarda metinlerin üç noktaya (`...`) düşmesi engellenir; esnek font ölçekleme (`font-size: clamp(...)`) veya dinamik sütun genişliği (`min-width: content`) zorunludur.
-* **Sıfır Ekstra API Maliyeti:** Vektörel şemalar kod seviyesinde React/SVG bileşeni veya Lottie JSON olarak çizildiği için görseller için harici API üretimi yapılmaz, maliyet 0 TL olarak korunur.
-* Kod SSOT: `components/academy/` (interaktif SVG / React state), `components/academy/lesson-excel-workspace.tsx` (`getBoundingClientRect` kilit).
+Öğrenci ekranda **nasıl yapılacağını** görür; kulağında duyduğu komut kopyalanabilir gerçek istem olarak yazılır. Punchcard yalnız durum rozetidir; canlı bant «Adım 1: E-Postaları Seç», «Adım 2: Copilot Paneli», «Adım 3: Taslak Yanıt Üret» taşır.
+
+* **İstem paneli:** Yerleşik panele (Gmail Gemini, Copilot) istem yazılır. Öğrenci istemi ekrandan alıp aynı panele yapıştırabilir. Bu, taşıma su değildir. Taşıma su, **kutuyu / dosyayı** dış sohbete taşımaktır.
+* **Harf harf yazma dayatması yoktur.** Daktilo animasyonu «garsonu göster» içindir; vatandaşa pratik yol öğretilir.
+* Ana akış e-posta adımları `01_office_ai-g1` (Gmail + Outlook çift hat) haritasındadır.
+
+### E.8 Nereye Yazılacak — Gmail + Gemini, Copilot ve Ataş
+
+Soyut «AI Masası» paneli **KESİNLİKLE YASAKTIR**.
+
+* **Sekme 1 — Gmail + Gemini (1. Kapı):** Gmail yan panelindeki Gemini eklentisi işaretlenir. İstem oraya yazılır veya panodan *istem* yapıştırılır; mail gövdesi dış sohbete taşınmaz.
+* **Sekme 2 — Copilot (1. Kapı):** Lisans varsa şerit menüsündeki Copilot işaretlenir.
+* **ChatGPT / Claude:** 1. ve 2. kapı yoksa 3. kapıdır. Kısa, maskelenmiş yapıştırma öğretilir; ham kutu / ham sözleşme taşıması öğretilmez (§E.10).
+
+### E.9 Altyapı Şeffaflığı & Dosya Yükleme Gerçekliği
+
+Üç kapı (§E.2 / §E.10) her uygulamada aynı sırayla durur; ekran ve ses aracın gerçek kapısını gösterir.
+
+* Word ve Excel: `docx` / `xlsx` sohbete ataş ile yüklenir (2. Kapı). Parça parça sayfa kopyası tercih edilen yol değildir.
+* Outlook: Copilot lisansı varsa 1. Kapı. Lisans yoksa gelen kutusunun tamamını harici sohbete taşımak öğretilen varsayılan değildir; Gmail Gemini (1. Kapı) veya maskeli kısa 3. Kapı dürüstçe gösterilir.
+* Ana akış e-posta dersi: `01_office_ai-g1` — Gmail + Outlook çift hat. Yöntem `gmail-gemini` (Outlook ayağı Copilot / 3. Kapı).
+* Ana akış Word dersi: `01_office_ai-w1`. Yöntem `doc-upload-gemini` (sözleşme + dilekçe + rapor).
+* Sınav köprüsü ve kaset sayıları koddadır; Pedagoji «N ders» yazmaz.
+
+### E.10 Üç Kapı Hiyerarşisi (eski «taşıma su yasağı» yerine)
+
+**MASAÜSTÜ DÜRÜSTLÜĞÜ:** Masaüstü Outlook, Copilot lisansı olmadan gelen kutusunun canlı akışını harici araçlara okutamaz. Bu kısıt öğrenciye dürüstçe anlatılır; «senin aracın yasak» denmez. Ana odak hâlâ modern yerleşik panel ve ataştır; yoksa 3. kapı açılır.
+
+**ÜÇ KAPI HİYERARŞİSİ** — kopyala-yapıştır mutlak yasak değildir. Sıra öğretilir:
+
+1. **1. Kapı — Yerleşik araçlar.** Gmail Gemini, Office Copilot. İstem panele yazılır; kutu yerinde kalır.
+2. **2. Kapı — Ataş / dosya yükleme.** Sözleşme, tablo, slayt `docx` / `xlsx` / `pptx` olarak yüklenir. Sayfa sayfa kopya zahmetli yoldur.
+3. **3. Kapı — Son çare.** Maskelenmiş, KVKK’ya uygun kısa kopyala-yapıştır (isim, TC, IBAN, ticari sır takma değer). Bütün gelen kutusu, ham bilanço veya ekran görüntüsü zinciri 3. kapı değildir.
+
+**Taşıma su** artık yasak listesi değil, **atlanmış kapı**dır: 1. ve 2. kapı dururken kutuyu dış sohbete hamal gibi taşımaktır. Öğrenciye önce yerleşik, yoksa ataş, son çare maskeli kısa yapıştırma öğretilir.
+
+* Kod SSOT: `lib/academy/ai-desk.ts`, `lib/academy/curricula/office_ai/planned.ts`.
+
+---
+
+## F. DOYGUNLUK AKIŞI (KOD BAĞI)
+
+4-beat reji ve tek eğitmen hitabı §B’dedir. Ders/kurs süre bantları, bölüm sayısı ve TTS cinsiyeti `lib/academy/production-standard.ts` içindedir. İsteğe bağlı Temel / Orta / İleri paket ayrımı §C’dedir.
+
+Bu madde ölü referans değildir. Kod yorumlarındaki «PEDAGOJI.md §F» buraya ve §B/§C’ye bağlanır. Bake milisaniyesi burada durmaz.

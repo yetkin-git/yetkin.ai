@@ -30,7 +30,7 @@ describe("akademi fail-closed iş kanıtı — compact yayın", () => {
         expect(academyInteractiveTaskByKey(lesson.key)).toBeNull();
       }
     }
-    expect(curriculumKeys.size).toBe(6);
+    expect(curriculumKeys.size).toBe(9);
     expect(listAcademyInteractiveTaskKeys().length).toBe(Object.keys(LESSON_PRACTICE).length);
     expect(ACADEMY_PROOF_OF_WORK_VERSION).toBe("yetkin-rail.academy.proof-of-work.v1");
     expect(academyInteractiveTaskByKey("sample-course-1")).toBeNull();

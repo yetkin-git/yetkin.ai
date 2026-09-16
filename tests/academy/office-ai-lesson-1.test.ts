@@ -50,11 +50,12 @@ const PUNCHCARDS = [
 describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
   it("makale Gözde girişi, A1 hücresi ve insani veda taşır", () => {
     const lessons = curriculumForCourseSlug(SLUG);
-    expect(lessons).toHaveLength(6);
-    expect(officeAiMasteryModule.sections).toHaveLength(6);
+    expect(lessons).toHaveLength(9);
+    expect(officeAiMasteryModule.sections).toHaveLength(9);
     expect(officeAiMasteryModule.voiceConfig.voice).toBe("Callirrhoe");
-    const lesson = lessons[0]!;
+    const lesson = lessons.find((row) => row.key === KEY)!;
     expect(lesson.key).toBe(KEY);
+    expect(lesson.order).toBe(1);
     expect(lesson.title).toContain("Düzensiz Excel");
     expect(lesson.body).toMatch(/Selamlar, ben Gözde/u);
     expect(lesson.body).toMatch(/A1 hücresi/u);
@@ -75,13 +76,21 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).toMatch(/ChatGPT/u);
     expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).toMatch(/Claude/u);
     expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).toMatch(/Gemini/u);
-    expect(prose).toMatch(/kopyala-yapıştır/u);
+    expect(prose).not.toMatch(/kopyala-yapıştır/u);
+    expect(prose).not.toMatch(/taşıma su/iu);
     expect(prose).toMatch(/ataş simgesinden/u);
-    expect(prose).toMatch(/Kopilot kullanıyorsan/u);
-    expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).toMatch(/Copilot kullanıyorsan/u);
+    expect(prose).toMatch(/Üç Kapı/u);
+    expect(prose).toMatch(/birinci kapı/u);
+    expect(prose).not.toMatch(/gemini\.google\.com/u);
+    expect(prose).not.toMatch(/Favoriler veya Uygulamalar/u);
+    expect(prose).not.toMatch(/Gmail'de Cemini yerleşik eklentisini/u);
+    expect(prose).toMatch(/Kopilot lisansın varsa/u);
+    expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).toMatch(/Copilot lisansın varsa/u);
+    expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).toMatch(/ataş simgesinden/u);
     expect(prose).toMatch(/Hazırsan 2\. bölümde buluşalım/u);
     expect(prose).toMatch(/tabloyu temizleme refleksi artık cebinde/u);
-    expect(prose).toMatch(/yönetim özetine ve grafik raporuna/u);
+    expect(prose).toMatch(/üç maddelik yönetim özetine/u);
+    expect(prose).not.toMatch(/grafik raporuna/u);
     expect(prose).not.toMatch(/görüşmek üzere/u);
     expect(prose).not.toMatch(/kirli/iu);
     expect(prose).not.toMatch(/Uygulama Programlama Arayüzü/u);
@@ -134,9 +143,9 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(slides[4]?.section).toBe("TEMİZLE ŞİMDİ");
     expect(slides[4]?.bullets).toEqual([...ACADEMY_OFFICE_AI_1_TRANSFER_LABELS]);
     expect(slides[4]?.copilot?.replyLines.slice(0, 3)).toEqual([
-      "1. Kopyala-yapıştır.",
+      "1. Copilot şeridi.",
       "2. Ataş yükle.",
-      "3. Copilot okur.",
+      "3. Maskeli kısa özet.",
     ]);
     expect(slides[5]?.visualMode).toBe("split");
     expect(slides[5]?.compare?.beforeCueIndex).toBe(3);
@@ -180,9 +189,12 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     const css = readFileSync(join(ROOT, "app/globals.css"), "utf8");
     expect(eye).toContain("LessonExcelWorkspace");
     expect(eye).toContain("academyVisualCompareStage");
+    expect(eye).toContain("academyCompareDockPrompt");
+    expect(eye).toContain("data-academy-eye-canvas");
     expect(eye).toContain('data-academy-compare="split"');
     expect(eye).toContain(`data-academy-waiter-ratio={String(ACADEMY_GOLDEN_WAITER_RATIO)}`);
     expect(eye).toContain("data-academy-punchcard-dock");
+    expect(eye).toContain("LessonHowtoSteps");
     expect(eye).not.toContain("academy-player-punchcard-scrim");
     expect(eye).toContain("data-academy-intro");
     expect(eye).toContain("data-academy-outro");
@@ -190,8 +202,10 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(eye).toContain("academy-player-intro");
     expect(excel).toContain('data-academy-excel-live=""');
     expect(excel).toContain("data-academy-ai-desk");
-    expect(excel).toContain("data-academy-transfer-tags");
-    expect(excel).toContain("ChatGPT · Claude · Gemini · API");
+    expect(excel).toContain("LessonAiDesk");
+    expect(excel).toContain("LessonOfficeCopilotRibbon");
+    expect(excel).toContain("data-academy-office-app");
+    expect(excel).toContain("ACADEMY_OFFICE_AI_1_TRANSFER_LABELS");
     expect(excel).toContain("data-academy-highlight-cell");
     expect(excel).toContain("data-academy-excel-pane");
     expect(excel).toContain("academy-excel-desk--focus-zoom");

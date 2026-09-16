@@ -396,7 +396,7 @@ function renderCuesJson(paragraphs: readonly ScriptParagraph[]): unknown {
   return cues;
 }
 
-function renderSectionMarkdown(script: ScriptPayload, exam: ExamPayload): string {
+function renderSectionMarkdown(script: ScriptPayload, _exam: ExamPayload): string {
   const lines: string[] = [""];
   let lastHeading = "";
   for (const beat of script.beats) {
@@ -412,19 +412,6 @@ function renderSectionMarkdown(script: ScriptPayload, exam: ExamPayload): string
       lines.push(paragraph.text);
       lines.push("");
     }
-  }
-  lines.push("## Mini sınav");
-  lines.push("");
-  lines.push(`Baraj ${exam.passScore}. Ezber yok; tablodan yönetim özeti ve karar notu refleksini dene.`);
-  lines.push("");
-  for (const [index, question] of exam.questions.entries()) {
-    lines.push(`${index + 1}. ${question.prompt}`);
-    lines.push("");
-    for (const [choiceIndex, choice] of question.choices.entries()) {
-      const mark = choiceIndex === question.correctIndex ? "**" : "";
-      lines.push(`- ${mark}${choice}${mark}`);
-    }
-    lines.push("");
   }
   return `${lines.join("\n").trimEnd()}\n`;
 }

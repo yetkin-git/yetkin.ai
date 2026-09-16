@@ -160,10 +160,10 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
 
   it("vitrin dürüstlük kilidi: beş SKU compact makale; video vaadi yok; 13 eğitim vaadi yok", () => {
     expect(ACADEMY_SEN.catalog.heroAudioBadge).toBe(
-      "Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika",
+      "Sesli Anlatım + Karaoke + Sınav + Mühürlü Sertifika",
     );
     expect(ACADEMY_SEN.catalog.heroArticleBadge).toBe(
-      "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+      "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
     );
     expect(ACADEMY_SEN.catalog.description).toContain("üretim bandındadır");
     expect(ACADEMY_SEN.catalog.description).toContain("Çok Yakında / Hazırlanıyor");
@@ -179,9 +179,9 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(ACADEMY_GROWTH_SKU_SLUGS).toHaveLength(1);
     expect(ACADEMY_GROWTH_SKU_SLUGS).not.toContain("06_n8n_automation");
     const purchase = readSrc("lib/academy/purchase-path.ts");
-    expect(purchase).toContain("Sesli Anlatım + Kayan Metin (Karaoke) + Sınav + Mühürlü Sertifika");
+    expect(purchase).toContain("Sesli Anlatım + Karaoke + Sınav + Mühürlü Sertifika");
     expect(purchase).toContain(
-      "Yazılı Compact Dersler + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+      "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
     );
     expect(ACADEMY_SEN.catalog.heroArticleBadge).not.toMatch(/Sesli Akademi/i);
     expect(ACADEMY_SEN.catalog.heroAudioBadge).not.toMatch(/Sesli Akademi/i);

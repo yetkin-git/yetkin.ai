@@ -8,14 +8,13 @@
  * mühürlenir (kanıt varsa) ve sıradaki Canlı Sahne + TTS hemen başlar.
  */
 
-export const ACADEMY_LESSON_AUTO_ADVANCE_STORAGE_KEY =
-  "yetkin-rail.academy.lesson-auto-advance" as const;
+export const ACADEMY_LESSON_AUTO_ADVANCE_STORAGE_KEY = "academy_autoplay_enabled" as const;
 
 /** Geri sayım duvar saati — setTimeout kayması yok. */
 export const ACADEMY_LESSON_AUTO_ADVANCE_MS = 5_000;
 
-/** İlk ziyarette manuel kart; tercih localStorage'da saklanır. */
-export const ACADEMY_LESSON_AUTO_ADVANCE_DEFAULT = false;
+/** İlk ziyarette otomatik geçiş açık; tercih localStorage'da saklanır. */
+export const ACADEMY_LESSON_AUTO_ADVANCE_DEFAULT = true;
 
 /**
  * Ödev atlandığında dinleme başlatılsın mı?
@@ -43,6 +42,36 @@ export function shouldSealProgressAfterDialogueEnded(input: {
   reachedEnd: boolean;
 }): boolean {
   return input.playbackStarted && input.reachedEnd;
+}
+
+/**
+ * Oynatıcı saati son karede mi?
+ * Ekran `mm:ss` floor saniye kullanır; 08:05 / 08:05, kaset 485,06 / 485,50 olsa da bitti sayılır.
+ * Native `ended` kaçarsa `currentTime >= durationSec` yedeği aynı kapıdan geçer.
+ */
+export function hasAcademyLessonPlaybackReachedEnd(input: {
+  currentTime: number;
+  durationSec: number;
+}): boolean {
+  const currentTime = input.currentTime;
+  const durationSec = input.durationSec;
+  if (
+    !Number.isFinite(currentTime) ||
+    !Number.isFinite(durationSec) ||
+    durationSec <= 0 ||
+    currentTime < 0
+  ) {
+    return false;
+  }
+  if (currentTime >= durationSec) {
+    return true;
+  }
+  const shownNow = Math.floor(currentTime);
+  const shownEnd = Math.floor(durationSec);
+  if (shownEnd <= 0) {
+    return false;
+  }
+  return shownNow >= shownEnd;
 }
 
 export type AcademyPlayerAdvanceLesson = {
@@ -96,6 +125,57 @@ export function writeAcademyLessonAutoAdvanceToStorage(enabled: boolean): void {
   }
 }
 
+/**
+ * Ses/video bittiğinde sıradaki ders. Tercih kapalıysa veya kilit varsa null —
+ * oynatıcı son karede kalır.
+ */
+export function resolveAcademyAutoAdvanceNextLesson<T extends AcademyPlayerAdvanceLesson>(input: {
+  autoAdvanceEnabled: boolean;
+  fallback?: boolean;
+  current: T | null;
+  next: T | null;
+}): T | null {
+  if (
+    !shouldAutoAdvanceAfterListenEnded({
+      autoAdvanceEnabled: input.autoAdvanceEnabled,
+      fallback: input.fallback ?? false,
+    })
+  ) {
+    return null;
+  }
+  if (!canAdvanceAcademyPlayerLesson(input.current, input.next)) {
+    return null;
+  }
+  return input.next;
+}
+
+/**
+ * Oynatıcı otomatik geçiş hedefi — her zaman müfredat sırasındaki bir sonraki ders.
+ *
+ * Sunucu `player.nextLessonKey` ve devam paneli **ilk tamamlanmamış** derse
+ * işaret eder (resume). Oynatıcı bunu kullanırsa 1. ders bitince tamamlanmış
+ * 2. ders atlanır (1 → 3). Ara ders tamamlanmış olsa da sıra korunur.
+ */
+export function academyPlayerAutoAdvanceTargetKey(input: {
+  autoAdvanceEnabled: boolean;
+  fallback?: boolean;
+  lessons: readonly { key: string }[];
+  endedLessonKey: string;
+  /** Devam paneli / API resume işaretçisi — oynatıcı geçişinde yok sayılır. */
+  resumeLessonKey?: string | null;
+}): string | null {
+  if (
+    !shouldAutoAdvanceAfterListenEnded({
+      autoAdvanceEnabled: input.autoAdvanceEnabled,
+      fallback: input.fallback ?? false,
+    })
+  ) {
+    return null;
+  }
+  void input.resumeLessonKey;
+  return nextAcademyPlayerLesson(input.lessons, input.endedLessonKey)?.key ?? null;
+}
+
 /** Müfredat sırasındaki bir sonraki ders; atlama yok. */
 export function nextAcademyPlayerLesson<T extends { key: string }>(
   lessons: readonly T[],
@@ -136,6 +216,9 @@ export function canAdvanceAcademyPlayerLesson(
     return false;
   }
   if (next.open) {
+    return true;
+  }
+  if (current?.completed) {
     return true;
   }
   return Boolean(current?.open && !current.completed);

@@ -29,10 +29,13 @@ describe("akademi devam paneli", () => {
     const keys = curriculumLessonKeysForSlug("01_office_ai");
     expect(keys).toEqual([
       "01_office_ai-1",
+      "01_office_ai-k1",
       "01_office_ai-2",
       "01_office_ai-3",
-      "01_office_ai-4",
       "01_office_ai-5",
+      "01_office_ai-4",
+      "01_office_ai-g1",
+      "01_office_ai-w1",
       "01_office_ai-6",
     ]);
     const board = resolveAcademyContinueBoard({

@@ -1,1 +1,88 @@
-[]
+[
+  {
+    "id": "cue-01",
+    "start": 2,
+    "end": 47.44,
+    "text": "GİRİŞ KÖPRÜSÜ",
+    "section": "GİRİŞ KÖPRÜSÜ",
+    "paragraphs": [
+      "Geçtiğimiz derste kurduğumuz Sunum Fabrikası ile slayt hazırlama alışkanlıklarını baştan aşağı değiştirdik. Karmaşık veri yığınlarını tek bir ana fikre indirgemeyi ve görsel yönlendirme tekniklerini adım adım uyguladık. Tasarımlarında kurduğun net hiyerarşi sayesinde izleyicinin odağını doğrudan yönetmeyi başardın. Her slaytta tek mesaj ilkesi, dağınık fikirleri güçlü bir anlatıya dönüştürdü. Artık bir sunum hazırlarken sayfalar dolusu metne boğulmak yerine mesajını görsel ritimle parlatıyorsun. Bu odaklanma refleksi, çalışma masandaki diğer tüm dağınıklıkları çözmek için de en büyük yardımcın olacak. Zihnindeki bu yalın bakış açısını şimdi iletişim kanallarına taşımaya hazırsın."
+    ]
+  },
+  {
+    "id": "cue-02",
+    "start": 47.84,
+    "end": 120.76,
+    "text": "HOŞ GELDİN",
+    "section": "HOŞ GELDİN",
+    "paragraphs": [
+      "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin dördüncü dersine hoş geldin. Bugün profesyonel hayatın en büyük zaman tuzaklarından birini yerle bir etmek için buradayız. E-Posta Akışı yönetimini baştan tanımlayacak ve gün boyu peşini bırakmayan o dijital yorgunluğu yapay zekâ desteğiyle kökünden çözeceğiz. Sabah mesaiye başladığında yüzünü asan, akşam bilgisayarı kapatırken aklını kurcalayan tüm o birikmiş işleri sistematik bir yaklaşımla ele alacağız. Hazırsan arkana yaslan, çünkü bugünden sonra e-postalarınla kurduğun ilişki tamamen değişecek.",
+      "Modern ofis çalışanının en büyük kabusu nedir diye sorsam, hiç şüphesiz aynı cevabı verirsin. Bitmek bilmeyen bildirim sesleri, arka arkaya düşen toplantı özetleri ve sürekli büyüyen devasa bir liste. Çoğu zaman önemli bir projeye odaklanmak istersin fakat ardı arkası kesilmeyen iletiler yüzünden dikkatin paramparça olur. Aslında sorun iletilerin çokluğu değil, onları yönetecek akıllı bir filtrenin henüz sistemine entegre edilmemiş olmasıdır. Bugün bu kurguyu kurarak kontrolü tamamen eline almanı sağlayacağız."
+    ]
+  },
+  {
+    "id": "cue-03",
+    "start": 121.16,
+    "end": 194.12,
+    "text": "INBOX KAOSU",
+    "section": "INBOX KAOSU",
+    "paragraphs": [
+      "Sabah bilgisayarını açtığında ekranında yüzlerce okunmamış bildirim görmek üzerindeki baskıyı katbekat artırır. Hangi mesajın acil olduğunu, hangisinin yalnızca bilgilendirme içerdiğini ayırt edememek enerjini daha günün ilk saatlerinde tüketir. Sürekli şişen gelen kutu içinde kaybolurken, gerçekten yanıt bekleyen kritik müşteriler veya yöneticiler gözden kaçabilir. Her yeni bildirimle birlikte omuzlarındaki yükün arttığını hissedersin. Bu kaosun içinde kaybolmak yerine, gelen her iletiyi anında analiz edip seni yönlendirecek akıllı bir asistan hayal et.",
+      "Gelen iletileri tek tek açıp dakikalarca okumak, ardından ne yanıt vereceğini düşünmek tam bir zaman kaybıdır. Bu kısır döngüyü kırmak için yapay zekâyı gelen kutunun giriş kapısına bir güvenlik ve yönlendirme görevlisi gibi yerleştiriyoruz. Önümüze yığılan iletileri tek bir komutla taratarak içeriklerine, aciliyetlerine ve bizden beklenen eylemlere göre sınıflara ayıracağız. Böylece vaktini gereksiz bültenleri okumakla harcamak yerine doğrudan değer üreten ana işlerine ayırabileceksin. Şimdi bu stratejik hamlenin ilk komutunu birlikte yazmaya başlayalım."
+    ]
+  },
+  {
+    "id": "cue-04",
+    "start": 194.52,
+    "end": 279.16,
+    "text": "TASLAK YAZ",
+    "section": "TASLAK YAZ",
+    "paragraphs": [
+      "Microsoft Copilot lisansın varsa sağ üstteki Copilot butonuna tıkla; istem doğrudan yerleşik panele yazılır. Gmail kullanıyorsan sağdaki Gemini eklentisini aç; model kutuyu yerinde okur. İlk olarak yapay zekâya gelen e-postanın tonunu ve ana talebini hızlıca çözümletiyoruz. Sisteme verdiğimiz komutla iletileri acil, aksiyon gerektiren veya sadece bilgi amaçlı şeklinde etiketle diyoruz. İkinci adımda ise yapay zekâdan bu analize uygun profesyonel bir taslak yanıt üretmesini istiyoruz. Sen daha klavyeye dokunmadan, iletideki detayları ve kurumsal nezaketi gözeten eksiksiz bir metin karşına geliyor. Sana düşen tek şey, oluşturulan bu metni hızlıca gözden geçirip kendi üslubunla doğrulamak oluyor.",
+      "Gelen karmaşık bir iş teklifini veya revize talebini yapay zekâya aktardığında süreç saniyeler içinde tamamlanır. Modelden gelen mesajı içeriğindeki kritik tarihlere göre etiketle talimatıyla işaretlemesini ve hemen ardından gönderilmeye hazır bir taslak yanıt sunmasını talep edersin. Bu yöntem sayesinde boş ekrana bakıp cümle kurma stresinden tamamen kurtulursun. Hazırlanan metin talebi net şekilde yanıtlar, ek soruları iletir ve görüşmeyi bir sonraki aşamaya taşır. İletişim hızın katlanırken zihinsel yorgunluğun da hızla hafiflemeye başlar."
+    ]
+  },
+  {
+    "id": "cue-05",
+    "start": 279.56,
+    "end": 353.24,
+    "text": "SIFIR KUTU",
+    "section": "SIFIR KUTU",
+    "paragraphs": [
+      "Şimdi ekranı tam ortadan ikiye bölelim ve aradaki devasa uçuruma birlikte bakalım. Sol tarafta günlerdir seni strese sokan ÖNCE tablosu var; tam 142 okunmamış mail üst üste yığılmış duruyor. Hangi işin acil olduğu belirsiz, kayıp projeler ve geciken yanıtlar havada uçuşuyor. Sağ tarafta ise yapay zekâ ile dönüştürdüğümüz SONRA ekranını görüyorsun; gelen kutusu sıfır seviyesine ulaşmış durumda. Artık okunmamış tek bir satır dahi kalmadı çünkü her bir ileti doğru kutucuğa aktarıldı.",
+      "Bu iki ekran arasındaki fark aslında senin çalışma konforunun ve zihinsel ferahlığının bir göstergesidir. Sol taraftaki 142 okunmamış bildirim sürekli arkandan koşan bir iş yükü oluştururken, sağ tarafta sıfır hedefine ulaşmanın hafifliği hissediliyor. Yapay zekâ saniyeler içinde iletileri süzdü, yanıt taslaklarını hazırladı ve seni o bunaltıcı karmaşadan kurtardı. Eski çalışma şeklinde saatlerini harcayacağın bu temizliği birkaç pratik komutla başardın. Masanın başından kalktığında artık aklında yarım kalan hiçbir iş kalmayacak."
+    ]
+  },
+  {
+    "id": "cue-06",
+    "start": 353.64,
+    "end": 422.68,
+    "text": "FARK ORTADA",
+    "section": "FARK ORTADA",
+    "paragraphs": [
+      "Sol tarafta duran 142 okunmamış ileti sadece zamanını değil, odaklanma gücünü de tüketiyordu. Sağ taraftaki sıfır seviyesine ulaşmış yapı ise sana gün içinde en az bir buçuk saatlik net odaklanma alanı kazandırdı. Eskiden saatlerce yanıt metni düşünürken, şimdi yapay zekânın sunduğu önerileri saniyeler içinde onaylayıp geçiyorsun. Okunmamış mesaj kalmadığı için hiçbir fırsatı kaçırma korkusu yaşamıyorsun. İşini şansa bırakmak yerine akıllı bir akış kurduğunda profesyonel hayatın nasıl hızlandığını görüyorsun.",
+      "Gördüğün gibi 142 okunmamış posta dağınıklığı, yapay zekâ yardımıyla dakikalar içinde sıfır bildirim seviyesine inebiliyor. Aradaki fark tamamen senin benimsediğin çalışma metodolojisiyle ilgilidir. İletişimi manuel yürütmek yerine algoritmaların hızından yararlandığında gelen kutundaki kontrol hissi tavan yapar. Okunmamış iletiler seni yönetmez, tam aksine sen gelen akışı yönlendirirsin. Şimdi gördüğün bu muazzam dönüşümü sadece ekranda izlemekle kalmayıp kendi iş hayatına doğrudan aktarmanın zamanı geldi."
+    ]
+  },
+  {
+    "id": "cue-07",
+    "start": 423.08,
+    "end": 477.44,
+    "text": "CEBİNE KOY",
+    "section": "CEBİNE KOY",
+    "paragraphs": [
+      "Bu dersten ayrılırken günlük rutinine hemen dahil etmeni istediğim üç altın kuralı adım adım özetliyorum. 1. Gelen her yeni iletiyi önem sırasına, aciliyetine ve konusuna göre yapay zekâ yardımıyla hemen etiketle. Mesajı analiz ettirerek acil, aksiyon veya yalnızca bilgilendirme kategorilerinden birine yerleştirmesini sağla. 2. Aksiyon gereken kritik iletiler için yapay zekâya saniyeler içinde güçlü bir taslak yanıt üretmesini söyle. Çıkarılan bu taslağı kendi kurumsal üslubunla gözden geçirip gerekli eklemeleri yaptıktan sonra güvenle gönder. 3. Yanıtladığın veya işlemi tamamlanan tüm iletileri vakit kaybetmeden doğrudan arşiv klasörüne aktar. Böylece gelen kutun gün boyu tertemiz kalsın ve aradığın eski yazışmalara dilediğin an kolayca ulaş."
+    ]
+  },
+  {
+    "id": "cue-08",
+    "start": 477.84,
+    "end": 544.52,
+    "text": "SIRA SENDE",
+    "section": "SIRA SENDE",
+    "paragraphs": [
+      "Şimdi sıra sende, hemen kendi e-posta kutunu aç ve bu yöntemi sahada bizzat test et. Birikmiş en az beş iletiyi seçerek yapay zekâya ver ve onları önceliklerine göre gruplandırmasını iste. Ardından yanıt bekleyen iki önemli mesaj için hızlıca yanıt önerileri oluşturup bunları düzenleyerek gönderimini yap. Son olarak işlem yaptığın bu iletileri arşive kaldırarak ferahlığı hisset. Bu pratiği sadece on dakika uyguladığında bile gelen kutundaki hafiflemenin iş tempona nasıl enerji kattığını göreceksin.",
+      "Tabii ki her sistem her zaman kusursuz işlemez ve İstisnalar her an karşına çıkabilir. Bazen yapay zekâ bağlamı kaçırabilir, işte tam bu yüzden AI Yanılınca nasıl bir kontrol mekanizması kuracağını iyi bilmelisin. Bir sonraki içeriğimiz olan 5. bölüm kapsamında tam bir Hata Avı başlatacağız ve modelin yanlış yönlendirmelerini nasıl tespit edeceğini öğreneceğiz. O zamana kadar gelen kutundaki kontrolü elinde tutmaya devam et, bir sonraki derste görüşmek dileğiyle."
+    ]
+  }
+]

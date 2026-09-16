@@ -50,7 +50,7 @@ export function compactDraftsFromModule(
 ): readonly AcademyLessonDraft[] {
   return module.sections.map((section) =>
     academyCompactLessonDraft(
-      `${slug}-${section.sectionNumber}`,
+      section.lessonKey ?? `${slug}-${section.sectionNumber}`,
       section.sectionNumber,
       section.title,
       section.contentMarkdown.trim(),

@@ -29,7 +29,7 @@ describe("akademi nabzı kaldığın ders", () => {
       }),
     ).toEqual({
       lastCourseSlug: "01_office_ai",
-      nextLessonKey: "01_office_ai-3",
+      nextLessonKey: "01_office_ai-k1",
     });
     expect(
       academyPulseContinueFields({
@@ -41,6 +41,43 @@ describe("akademi nabzı kaldığın ders", () => {
           "01_office_ai-4",
           "01_office_ai-5",
           "01_office_ai-6",
+        ],
+      }),
+    ).toEqual({
+      lastCourseSlug: "01_office_ai",
+      nextLessonKey: "01_office_ai-k1",
+    });
+    expect(
+      academyPulseContinueFields({
+        courseSlug: "01_office_ai",
+        completedLessonKeys: [
+          "01_office_ai-1",
+          "01_office_ai-2",
+          "01_office_ai-3",
+          "01_office_ai-4",
+          "01_office_ai-5",
+          "01_office_ai-6",
+          "01_office_ai-g1",
+          "01_office_ai-w1",
+        ],
+      }),
+    ).toEqual({
+      lastCourseSlug: "01_office_ai",
+      nextLessonKey: "01_office_ai-k1",
+    });
+    expect(
+      academyPulseContinueFields({
+        courseSlug: "01_office_ai",
+        completedLessonKeys: [
+          "01_office_ai-1",
+          "01_office_ai-2",
+          "01_office_ai-3",
+          "01_office_ai-4",
+          "01_office_ai-5",
+          "01_office_ai-6",
+          "01_office_ai-g1",
+          "01_office_ai-w1",
+          "01_office_ai-k1",
         ],
       }),
     ).toEqual({
@@ -88,6 +125,6 @@ describe("akademi nabzı kaldığın ders", () => {
     expect(pulse.purchasesCount).toBe(1);
     expect(pulse.certificatesHeld).toBe(0);
     expect(pulse.lastCourseSlug).toBe("01_office_ai");
-    expect(pulse.nextLessonKey).toBe("01_office_ai-2");
+    expect(pulse.nextLessonKey).toBe("01_office_ai-k1");
   });
 });

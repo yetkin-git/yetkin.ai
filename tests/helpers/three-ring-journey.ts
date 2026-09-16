@@ -167,7 +167,7 @@ export async function runThreeRingJourney(): Promise<ThreeRingJourneyResult> {
   const visalessResponse = jsonFromUnknown(visalessError);
   const visalessBody = (await visalessResponse.json()) as { error?: string };
 
-  if (curriculumForCourseSlug(D3_ACADEMY_SLUG).length === 6) {
+  if (curriculumForCourseSlug(D3_ACADEMY_SLUG).length >= 6) {
     curriculumSeal = academyCurriculumSealForSlug(D3_ACADEMY_SLUG);
     if (!curriculumSeal) {
       throw new Error("Müfredat mührü yok.");

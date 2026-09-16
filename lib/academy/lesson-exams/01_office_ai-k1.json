@@ -1,0 +1,39 @@
+{
+  "lessonKey": "01_office_ai-k1",
+  "passScore": 70,
+  "questions": [
+    {
+      "id": "q_off_lk1_1",
+      "prompt": "Müşteri adı, telefon ve IBAN aynı Excel’de durur. Yapay zekâya vermeden önce doğru refleks hangisidir?",
+      "choices": [
+        "Ham tabloyu olduğu gibi sohbete yapıştırmak",
+        "CRM ekran görüntüsü zinciri basmak",
+        "Adı, telefonu ve IBAN’ı maskeleyip kısa soru bırakmak",
+        "Dosyayı silip modeli tahmin ettirmek"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "q_off_lk1_2",
+      "prompt": "Üç Kapı’da 3. Kapı (son çare) hangisidir?",
+      "choices": [
+        "Ham müşteri kutusunu dış sohbete taşımak",
+        "Tüm CRM’i ekran görüntüsüyle yüklemek",
+        "İsim, telefon, IBAN ve ticari sır maskelenmiş kısa özet",
+        "Copilot dururken şeridi atlayıp hamal taşımak"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "q_off_lk1_3",
+      "prompt": "Kamu ürün kataloğu ile kişiye bağlı müşteri satırı aynı kapıdan mı gider?",
+      "choices": [
+        "Evet; ikisi de ataşla yüklenir",
+        "Hayır; kamu katalog cümlesi gidebilir, kişiye bağlı satır ham haliyle gitmez",
+        "KVKK yalnızca e-postayı kapsar",
+        "Model silerse yüklemek serbesttir"
+      ],
+      "correctIndex": 1
+    }
+  ]
+}

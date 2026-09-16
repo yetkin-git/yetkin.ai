@@ -29,7 +29,7 @@ function spokenParagraphFromDisplayOrScript(part: string): string {
 }
 
 /** Taze ingest — stüdyo konuşma metni ders anahtarıyla basılır. Gövde yokken boş. */
-export const ACADEMY_SPOKEN_SCRIPT_LESSON_KEYS = ["01_office_ai-1", "01_office_ai-2"] as const;
+export const ACADEMY_SPOKEN_SCRIPT_LESSON_KEYS = ["01_office_ai-1", "01_office_ai-2", "01_office_ai-3", "01_office_ai-4", "01_office_ai-5", "01_office_ai-6", "01_office_ai-g1", "01_office_ai-w1", "01_office_ai-k1"] as const;
 
 export type AcademySpokenScriptLessonKey = (typeof ACADEMY_SPOKEN_SCRIPT_LESSON_KEYS)[number];
 

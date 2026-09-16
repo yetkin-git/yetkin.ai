@@ -22,15 +22,37 @@ describe("akademi cue SSOT — 01_office_ai-1 punchcard", () => {
       "CEBİNE KOY",
       "SIRA SENDE",
     ]);
-    expect(hasAcademyLessonCues("01_office_ai-6")).toBe(false);
+    expect(hasAcademyLessonCues("01_office_ai-6")).toBe(true);
+    expect(loadAcademyLessonCues("01_office_ai-6")).toHaveLength(8);
     expect(hasAcademyLessonCues("01_office_ai-2")).toBe(true);
     expect(loadAcademyLessonCues("01_office_ai-2")).toHaveLength(8);
+    expect(hasAcademyLessonCues("01_office_ai-3")).toBe(true);
+    expect(loadAcademyLessonCues("01_office_ai-3")).toHaveLength(8);
+    expect(hasAcademyLessonCues("01_office_ai-4")).toBe(true);
+    expect(loadAcademyLessonCues("01_office_ai-4")).toHaveLength(8);
+    expect(hasAcademyLessonCues("01_office_ai-5")).toBe(true);
+    expect(loadAcademyLessonCues("01_office_ai-5")).toHaveLength(8);
+    expect(hasAcademyLessonCues("01_office_ai-g1")).toBe(true);
+    expect(loadAcademyLessonCues("01_office_ai-g1")).toHaveLength(8);
+    expect(hasAcademyLessonCues("01_office_ai-w1")).toBe(true);
+    expect(loadAcademyLessonCues("01_office_ai-w1")).toHaveLength(8);
+    expect(hasAcademyLessonCues("01_office_ai-k1")).toBe(true);
+    expect(loadAcademyLessonCues("01_office_ai-k1")).toHaveLength(8);
     expect(academyLessonCueSpokenDuration(cues)).toBeGreaterThan(0);
   });
 
   it("compact taslak cue şişirmez; vatandaş sahnesi punchcard sözleşmesi durur", () => {
     expect(ACADEMY_MEDIA_SEALED_AUDIO).toEqual({
-      "01_office_ai": ["01_office_ai-1", "01_office_ai-2"],
+      "01_office_ai": [
+        "01_office_ai-1",
+        "01_office_ai-2",
+        "01_office_ai-3",
+        "01_office_ai-4",
+        "01_office_ai-5",
+        "01_office_ai-6",
+        "01_office_ai-g1",
+        "01_office_ai-w1",
+      ],
     });
     expect(existsSync(join(ROOT, "lib/academy/curricula/office_ai/section_1.ts"))).toBe(true);
     expect(academyPunchcardLabel("DÜZENSİZ TABLO ŞİMDİ HEMEN")).toBe("DÜZENSİZ TABLO ŞİMDİ");

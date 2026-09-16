@@ -10,8 +10,8 @@ import {
   academyMediaReleaseCacheKey,
 } from "@/lib/academy/media-release-seal";
 
-describe("akademi medya mühür sicili — 01_office_ai-1 ve 01_office_ai-2 mühürlü", () => {
-  it("ses mührü 1. ve 2. dersi taşır; bake allowlist 5 vitrin SKU durur", () => {
+describe("akademi medya mühür sicili — 01_office_ai 9 kaset mühürlü", () => {
+  it("ses mührü 9 dersi taşır; bake allowlist 5 vitrin SKU durur", () => {
     expect(ACADEMY_MEDIA_SEALED_SKU_SLUGS).toEqual([
       "01_office_ai",
       "02_ecommerce_ai",
@@ -20,7 +20,17 @@ describe("akademi medya mühür sicili — 01_office_ai-1 ve 01_office_ai-2 müh
       "05_prompt_practice",
     ]);
     expect(ACADEMY_MEDIA_SEALED_AUDIO).toEqual({
-      "01_office_ai": ["01_office_ai-1", "01_office_ai-2"],
+      "01_office_ai": [
+        "01_office_ai-1",
+        "01_office_ai-2",
+        "01_office_ai-3",
+        "01_office_ai-4",
+        "01_office_ai-5",
+        "01_office_ai-6",
+        "01_office_ai-g1",
+        "01_office_ai-w1",
+        "01_office_ai-k1",
+      ],
     });
     expect(ACADEMY_MEDIA_PRODUCTION_QUEUE).toEqual({});
     expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai"]);

@@ -152,12 +152,12 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     expect(SEN_VOICE.career.scope.open).toBe("Erişim Hakkı açık");
     expect(SEN_VOICE.career.scope.closed).toBe("Erişim Hakkı kapalı");
     expect(SEN_VOICE.career.scope.held).toBe("Sınav mühürlü");
-    expect(SEN_VOICE.career.scope.examGate).toBe("6 ders + baraj 70");
+    expect(SEN_VOICE.career.scope.examGate).toBe("9 ders + baraj 70");
     expect(copy).not.toContain("Belge yok");
     expect(copy).not.toContain("Belgen var");
     expect(copy).toContain("Sınav mühürlü");
-    expect(copy).toContain("6 ders + baraj 70");
-    expect(copy).toContain("6 dersi bitir");
+    expect(copy).toContain("9 ders + baraj 70");
+    expect(copy).toContain("9 dersi bitir");
     expect(ledger).not.toContain('href="/freelancer"');
     for (const noise of MUSEUM_ROUTE_NOISE) {
       expect(page.toLowerCase()).not.toContain(noise);

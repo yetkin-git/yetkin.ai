@@ -139,7 +139,7 @@ export async function runMerchantAcademyLabJourney(): Promise<MerchantAcademyLab
     verifyHref: null,
   };
 
-  if (curriculumForCourseSlug(MERCHANT_LAB_COURSE_SLUG).length === 6) {
+  if (curriculumForCourseSlug(MERCHANT_LAB_COURSE_SLUG).length >= 6) {
     const curriculumSeal = academyCurriculumSealForSlug(MERCHANT_LAB_COURSE_SLUG);
     if (!curriculumSeal) {
       throw new Error("Müfredat mührü yok.");

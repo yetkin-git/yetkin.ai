@@ -3,9 +3,10 @@ const path = require("path");
 
 const projectRoot = __dirname;
 const kernelRoot = path.resolve(projectRoot, "../../packages/kernel");
+const academyLibRoot = path.resolve(projectRoot, "../../lib/academy");
 const config = getDefaultConfig(projectRoot);
 
-config.watchFolders = [...(config.watchFolders ?? []), kernelRoot];
+config.watchFolders = [...(config.watchFolders ?? []), kernelRoot, academyLibRoot];
 config.resolver.extraNodeModules = {
   ...(config.resolver.extraNodeModules ?? {}),
   "@yetkin/kernel": kernelRoot,

@@ -41,8 +41,10 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
     expect(manifesto).toContain("Faz 1 çalışan vitrin 3 odadır");
     expect(manifesto).toContain("4. oda (Freelancer) kilitli motordur");
     expect(manifesto).toContain("/vize");
-    expect(manifesto).toContain("donuk laboratuvar");
+    expect(manifesto).not.toContain("donuk laboratuvar");
     expect(manifesto).toContain("publishFrozenUntilFaz1Close");
+    expect(manifesto).toContain("@yetkin/kernel");
+    expect(manifesto).toContain("mevcut ince sözleşme");
     expect(manifesto).not.toMatch(/dört oda eşit omurga/i);
   });
 
@@ -52,14 +54,14 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
     expect(pedagoji).toContain("JUNIOR_PRODUCTION_LOCKED");
     expect(pedagoji).toContain("Temel Paketler");
     expect(pedagoji).toContain("18 yaş altı");
-    expect(pedagoji).toContain("Bütünleşik Medya ve Eğitim Rejisi Standartları");
+    expect(pedagoji).toContain("Eğitim felsefesi");
   });
 
   it("Runbook Motor 4 / Kamu Vitrini 3 Oda der; Akademi makbuzu SMTP env'ine bağlıdır", () => {
     const runbook = readSystemDoc("OPS_RUNBOOK.md");
     expect(runbook).toContain("Motor 4 / Kamu Vitrini 3 Oda (Panel, Akademi, Kariyer)");
     expect(runbook).toContain("academy-receipt-mail.ts");
-    expect(runbook).toContain("Akademi mühürlü yayın **2**");
+    expect(runbook).toContain("Akademi mühürlü yayın **9**");
     expect(runbook).toContain("Faz 0: Akademi Canlı T3 Testi Prosedürü");
     expect(runbook).toContain("https://yetkin.ai/api/paytr/callback");
     expect(runbook).toContain("SMTP skipped");

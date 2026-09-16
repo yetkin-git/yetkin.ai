@@ -413,6 +413,31 @@ body {
   height: 0;
 }
 
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(52, 211, 153, 0.7) rgba(8, 18, 32, 0.55);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 0.45rem;
+  height: 0.45rem;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  margin: 0.2rem 0;
+  border-radius: 999px;
+  background: rgba(8, 18, 32, 0.55);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: linear-gradient(180deg, #34d399 0%, #22d3ee 100%);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #6ee7b7 0%, #67e8f9 100%);
+}
+
 [data-room="dashboard"] .room-atmosphere-wash,
 [data-room="kernel"] .room-atmosphere-wash {
   background: var(--background);
@@ -633,16 +658,44 @@ body {
   overflow: hidden;
 }
 
+.academy-player-karaoke .academy-player-widescreen-frame {
+  flex: 0 1 auto;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 0;
+}
+
+.academy-player-eye-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  min-height: 0;
+}
+
+.academy-player-eye-stack .academy-player-widescreen-frame {
+  width: 100%;
+}
+
 .academy-player-shell[data-academy-player-layout="document"] .academy-player-karaoke .academy-player-widescreen,
 .academy-player-karaoke .academy-player-widescreen,
 .academy-player-karaoke-stage {
+  --academy-stage-max-h: calc(100dvh - 17.25rem);
   position: relative;
-  flex: 0 1 auto;
-  width: 100%;
+  width: min(100%, calc(var(--academy-stage-max-h) * 16 / 9));
+  max-width: 100%;
+  height: auto;
+  max-height: var(--academy-stage-max-h);
   min-height: 0;
   overflow: hidden;
   aspect-ratio: 16 / 9;
-  max-height: 100%;
+  margin-inline: auto;
+}
+
+.academy-player-eye-stack[data-academy-prompt-dock="true"] .academy-player-karaoke-stage,
+.academy-player-eye-stack[data-academy-prompt-dock="true"] .academy-player-widescreen {
+  --academy-stage-max-h: calc(100dvh - 25rem);
 }
 
 .academy-player-karaoke .academy-teleprompter--overlay {
@@ -662,30 +715,38 @@ body {
   position: relative;
   z-index: 6;
   display: flex;
-  min-height: 3.45rem;
+  min-height: 4.2rem;
   flex-shrink: 0;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 0.18rem;
+  gap: 0.22rem;
   overflow: hidden;
-  padding: 0.48rem 0.95rem 0.38rem;
-  border-top: 1px solid rgba(247, 241, 227, 0.08);
-  background: linear-gradient(180deg, rgba(12, 16, 28, 0.55), #070b14 72%);
+  padding: 0.58rem 1.15rem 0.5rem;
+  border-top: 1px solid rgba(247, 241, 227, 0.1);
+  background: linear-gradient(180deg, rgba(12, 16, 28, 0.72), #070b14 78%);
+  text-align: center;
 }
 
 .academy-player-karaoke-line {
-  margin: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
+  --academy-karaoke-word-gap: 0.32em;
+  display: flex;
+  width: 100%;
+  max-width: 46rem;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  column-gap: var(--academy-karaoke-word-gap);
+  row-gap: 0.14em;
+  overflow: hidden;
   text-align: center;
   text-wrap: pretty;
-  font-size: clamp(0.92rem, 1.65vw, 1.12rem);
+  font-size: clamp(0.94rem, 1.7vw, 1.16rem);
   font-weight: 450;
-  letter-spacing: 0.01em;
-  line-height: 1.45;
-  white-space: nowrap;
-  mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  letter-spacing: 0.012em;
+  line-height: 1.5;
+  white-space: normal;
 }
 
 .academy-player-karaoke-line::-webkit-scrollbar {
@@ -694,7 +755,12 @@ body {
 
 .academy-player-karaoke-word {
   color: rgba(247, 241, 227, 0.38);
+  white-space: nowrap;
   transition: color 0.14s ease, text-shadow 0.14s ease, opacity 0.14s ease;
+}
+
+.academy-player-karaoke-word[data-glue="true"] {
+  margin-inline-start: calc(-1 * var(--academy-karaoke-word-gap));
 }
 
 .academy-player-karaoke-word[data-state="past"] {
@@ -714,7 +780,9 @@ body {
 }
 
 .academy-player-karaoke-preview {
-  margin: 0;
+  width: 100%;
+  max-width: 46rem;
+  margin: 0 auto;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -722,7 +790,7 @@ body {
   font-size: 0.72rem;
   letter-spacing: 0.01em;
   line-height: 1.35;
-  color: rgba(247, 241, 227, 0.34);
+  color: rgba(247, 241, 227, 0.38);
 }
 
 .academy-player-visual-stage {
@@ -747,11 +815,18 @@ body {
   filter: saturate(1.04) contrast(1.04);
 }
 
-.academy-player-eye-layer {
+.academy-player-eye-layer,
+.academy-player-eye-canvas {
   position: absolute;
   inset: 0;
+  min-height: 0;
   overflow: hidden;
   background: #0c0a08;
+}
+
+.academy-player-eye-canvas {
+  container-type: size;
+  container-name: academy-eye;
 }
 
 .academy-player-intro {
@@ -900,19 +975,44 @@ body {
   position: absolute;
   z-index: 2;
   inset: 3.15rem 0.7rem 3.55rem;
+  display: flex;
+  height: auto;
+  max-height: none;
+  min-height: 0;
+  flex-direction: column;
   overflow: hidden;
   border-radius: 0.55rem;
   box-shadow: 0 18px 48px rgba(7, 11, 20, 0.42);
   animation: academy-eye-scene-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.academy-player-waiter > .academy-excel-desk,
+.academy-player-waiter > .academy-outlook-desk,
+.academy-player-waiter > .academy-pptx-desk,
+.academy-player-waiter > .academy-word-desk {
+  flex: 1 1 0;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
 .academy-player-compare {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 0.55rem;
+  grid-template-rows: minmax(0, 1fr);
+  gap: 0.45rem;
+  width: 100%;
+  height: auto;
+  min-height: 0;
   padding: 0.12rem;
   background: rgba(8, 10, 16, 0.42);
   animation: academy-compare-in 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.academy-player-waiter.academy-player-compare {
+  height: auto;
+  max-height: none;
 }
 
 .academy-player-compare-pane {
@@ -923,6 +1023,8 @@ body {
   flex-direction: column;
   overflow: hidden;
   border-radius: 0.48rem;
+  container-type: size;
+  container-name: academy-pane;
 }
 
 .academy-player-compare-pane--before {
@@ -943,16 +1045,16 @@ body {
 }
 
 .academy-player-compare-label {
-  position: relative;
-  z-index: 3;
-  top: auto;
-  left: auto;
-  align-self: flex-start;
-  margin: 0.28rem 0.38rem 0.22rem;
+  position: absolute;
+  z-index: 5;
+  top: 0.18rem;
+  left: 0.18rem;
+  align-self: auto;
+  margin: 0;
   pointer-events: none;
   border-radius: 999px;
-  padding: 0.18rem 0.55rem;
-  font-size: 0.58rem;
+  padding: 0.12rem 0.45rem;
+  font-size: 0.52rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   line-height: 1.2;
@@ -964,6 +1066,7 @@ body {
 .academy-player-compare-pane .academy-excel-desk {
   min-height: 0;
   flex: 1 1 0;
+  height: auto;
 }
 
 .academy-player-compare-pane--before .academy-player-compare-label {
@@ -974,6 +1077,36 @@ body {
 .academy-player-compare-pane--after .academy-player-compare-label {
   border: 1px solid rgba(72, 228, 196, 0.7);
   background: rgba(8, 42, 48, 0.84);
+}
+
+.academy-player-compare-prompt {
+  z-index: 8;
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 5.5rem;
+  max-height: 7.8rem;
+  margin: 0.35rem 0 0.2rem;
+  overflow: hidden;
+  border-radius: 0.48rem;
+  border: 1px solid rgba(52, 211, 153, 0.28);
+  background: rgba(8, 14, 24, 0.92);
+  transition: max-height 0.22s ease;
+}
+
+.academy-player-compare-prompt:has([data-expanded="true"]),
+.academy-player-compare-prompt:has([data-overflow="true"]:hover),
+.academy-player-compare-prompt:has([data-overflow="true"]:focus-within) {
+  max-height: min(46vh, 18.5rem);
+}
+
+.academy-player-compare[data-academy-compare-prompt="dock"] .academy-player-compare-pane--after .academy-ai-desk {
+  display: none;
+}
+
+.academy-player-compare[data-academy-compare-prompt="dock"] .academy-player-compare-pane--after .academy-excel-body--copilot {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .academy-player-punchcard-dock {
@@ -1050,6 +1183,1178 @@ body {
   min-height: 2.4rem;
 }
 
+.academy-pptx-desk {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: #c8c8c8;
+  padding: 0.28rem 0.32rem 0.3rem;
+}
+
+.academy-pptx-desk--live {
+  overflow: hidden;
+}
+
+.academy-pptx-desk--live .academy-pptx-win {
+  transform: scale(var(--academy-pptx-focus-scale, 1));
+  transform-origin: var(--academy-pptx-focus-origin, 38% 32%);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.academy-pptx-desk--focus-zoom {
+  --academy-pptx-focus-scale: 1.2;
+  --academy-pptx-focus-origin: 38% 32%;
+}
+
+.academy-pptx-win {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #8a8a8a;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
+.academy-pptx-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  height: 1.7rem;
+  padding: 0 0.7rem;
+  background: #c43e1c;
+  color: #fff;
+  font-size: clamp(0.62rem, 1.1vw, 0.82rem);
+  font-weight: 600;
+}
+
+.academy-pptx-titlebar i {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 0.12rem;
+  background: #fff;
+}
+
+.academy-pptx-titlebar span {
+  opacity: 0.92;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.academy-pptx-ribbon {
+  display: flex;
+  gap: 0.9rem;
+  height: 1.7rem;
+  align-items: center;
+  padding: 0 0.8rem;
+  background: #f3f3f3;
+  border-bottom: 1px solid #d0d0d0;
+  font-size: clamp(0.58rem, 1vw, 0.75rem);
+  color: #333;
+}
+
+.academy-pptx-ribbon .on {
+  color: #c43e1c;
+  font-weight: 700;
+  border-bottom: 2px solid #c43e1c;
+  padding-bottom: 0.28rem;
+}
+
+.academy-pptx-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 0;
+  min-width: 0;
+}
+
+.academy-pptx-body--copilot {
+  grid-template-columns: 5.6rem 1.7fr 0.62fr;
+}
+
+.academy-pptx-desk--live .academy-pptx-body:not(.academy-pptx-body--copilot) {
+  grid-template-columns: 5.6rem 1fr;
+}
+
+.academy-pptx-thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.4rem 0.35rem;
+  overflow: auto;
+  background: #ececec;
+  border-right: 1px solid #d0d0d0;
+}
+
+.academy-pptx-thumb {
+  display: flex;
+  gap: 0.28rem;
+  align-items: flex-start;
+  width: 100%;
+  min-width: 0;
+  padding: 0.28rem;
+  border: 1px solid transparent;
+  background: #fff;
+  text-align: left;
+  cursor: default;
+}
+
+.academy-pptx-thumb.on {
+  border-color: #c43e1c;
+  box-shadow: inset 0 0 0 1px #c43e1c;
+}
+
+.academy-pptx-thumb span {
+  font-size: 0.58rem;
+  font-weight: 800;
+  color: #c43e1c;
+}
+
+.academy-pptx-thumb em {
+  font-style: normal;
+  font-size: clamp(0.48rem, 0.9vw, 0.62rem);
+  font-weight: 600;
+  line-height: 1.25;
+  color: #222;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.academy-pptx-canvas-wrap {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background: #d9d9d9;
+}
+
+.academy-pptx-canvas {
+  position: relative;
+  height: 100%;
+  margin: 0.55rem;
+  padding: 0.85rem 1rem;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.16);
+}
+
+.academy-pptx-canvas:has(.academy-pptx-slide-stage) {
+  padding: 0.42rem;
+  background: #0b1220;
+}
+
+.academy-pptx-slide-title,
+.academy-pptx-kpi-value,
+.academy-pptx-kpi-label,
+.academy-pptx-action-band,
+.academy-pptx-dump p,
+.academy-pptx-bubble {
+  overflow: visible;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-overflow: clip;
+}
+
+.academy-pptx-slide-stage {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.7rem 0.75rem 0.65rem;
+  border-radius: 0.28rem;
+  background:
+    radial-gradient(120% 80% at 12% 0%, rgba(56, 189, 248, 0.18), transparent 46%),
+    linear-gradient(165deg, #102033 0%, #0b1220 52%, #152a44 100%);
+  box-shadow: inset 0 0 0 1px rgba(148, 197, 255, 0.16);
+}
+
+.academy-pptx-slide-title {
+  margin: 0;
+  font-weight: 800;
+  font-size: clamp(0.78rem, 2.05vw, 1.35rem);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: #f8fbff;
+  min-width: min-content;
+  text-align: center;
+}
+
+.academy-pptx-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+  flex: 1 1 0;
+  min-height: 0;
+  align-content: stretch;
+}
+
+.academy-pptx-kpi {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.22rem;
+  padding: 0.55rem 0.5rem 0.5rem;
+  border-radius: 0.55rem;
+  background: rgba(8, 16, 32, 0.55);
+  text-align: center;
+  transform: scale(1);
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.academy-pptx-kpi--green {
+  border: 1px solid rgba(52, 211, 153, 0.55);
+  box-shadow: 0 0 18px rgba(16, 185, 129, 0.18);
+}
+
+.academy-pptx-kpi--blue {
+  border: 1px solid rgba(56, 189, 248, 0.55);
+  box-shadow: 0 0 18px rgba(14, 165, 233, 0.2);
+}
+
+.academy-pptx-kpi--warn {
+  border: 1px solid rgba(251, 146, 60, 0.7);
+  box-shadow: 0 0 18px rgba(239, 68, 68, 0.22);
+}
+
+.academy-pptx-kpi[data-academy-pptx-on="true"] {
+  transform: scale(1.05);
+  z-index: 2;
+}
+
+.academy-pptx-kpi--green[data-academy-pptx-on="true"] {
+  box-shadow:
+    0 0 28px rgba(52, 211, 153, 0.88),
+    0 0 0 2px #34d399;
+}
+
+.academy-pptx-kpi--blue[data-academy-pptx-on="true"] {
+  box-shadow:
+    0 0 28px rgba(56, 189, 248, 0.9),
+    0 0 0 2px #38bdf8;
+}
+
+.academy-pptx-kpi--warn[data-academy-pptx-on="true"] {
+  box-shadow:
+    0 0 28px rgba(251, 113, 133, 0.82),
+    0 0 0 2px #fb7185;
+}
+
+.academy-pptx-kpi-label {
+  font-size: clamp(0.48rem, 0.95vw, 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgba(226, 232, 240, 0.72);
+}
+
+.academy-pptx-kpi-value {
+  font-size: clamp(0.72rem, 1.7vw, 1.18rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  text-align: center;
+  color: #fff;
+}
+
+.academy-pptx-kpi--green .academy-pptx-kpi-value {
+  color: #6ee7b7;
+}
+
+.academy-pptx-kpi--blue .academy-pptx-kpi-value {
+  color: #7dd3fc;
+}
+
+.academy-pptx-kpi--warn .academy-pptx-kpi-value {
+  color: #fdba74;
+}
+
+.academy-pptx-kpi-badge {
+  position: absolute;
+  top: 0.38rem;
+  right: 0.38rem;
+  border-radius: 999px;
+  padding: 0.08rem 0.38rem;
+  background: #ea580c;
+  color: #fff7ed;
+  font-size: 0.48rem;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.academy-pptx-action-band {
+  margin: 0;
+  border-radius: 0.42rem;
+  padding: 0.42rem 0.55rem;
+  background: linear-gradient(90deg, #020617 0%, #111827 55%, #1f2937 100%);
+  color: #f8fafc;
+  font-size: clamp(0.58rem, 1.15vw, 0.82rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+  text-align: center;
+  box-shadow: inset 0 0 0 1px rgba(248, 250, 252, 0.08);
+}
+
+.academy-pptx-dump {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+  height: 100%;
+  overflow: hidden;
+  padding: 0.15rem 0.1rem;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      #fbf7ee 0 1.35rem,
+      #f4ead6 1.35rem 1.37rem
+    );
+}
+
+.academy-pptx-dump--word {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.academy-pptx-dump-chrome {
+  margin: 0 0 0.2rem;
+  padding: 0.12rem 0.28rem;
+  background: #2b579a;
+  color: #fff;
+  font-family: Segoe UI, sans-serif;
+  font-size: clamp(0.48rem, 0.9vw, 0.62rem);
+  font-weight: 700;
+}
+
+.academy-pptx-dump p.academy-pptx-dump-chrome {
+  background: #2b579a;
+  border-left: 0;
+  color: #fff;
+  font-family: Segoe UI, sans-serif;
+  font-weight: 700;
+}
+
+.academy-pptx-dump p {
+  margin: 0;
+  padding: 0.18rem 0.32rem;
+  background: rgba(255, 247, 232, 0.86);
+  border-left: 3px solid #d97706;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #3b2a12;
+  font-size: clamp(0.58rem, 1.15vw, 0.92rem);
+}
+
+.academy-pptx-dump-line--0 {
+  transform: rotate(-0.6deg);
+  margin-left: 0.15rem;
+}
+
+.academy-pptx-dump-line--1 {
+  transform: rotate(0.8deg);
+  margin-right: 0.35rem;
+  background: #fff1c2;
+}
+
+.academy-pptx-dump-line--2 {
+  transform: rotate(-1.1deg);
+  font-size: clamp(0.7rem, 1.4vw, 1.05rem);
+}
+
+.academy-pptx-dump-line--3 {
+  transform: rotate(0.4deg);
+  opacity: 0.88;
+}
+
+.academy-pptx-dump-line--4 {
+  transform: rotate(-0.3deg);
+  letter-spacing: 0.01em;
+}
+
+.academy-pptx-desk--before .academy-pptx-canvas {
+  outline: 2px solid #d97706;
+  background: #f4ead6;
+}
+
+.academy-pptx-desk--after .academy-pptx-canvas {
+  outline: 2px solid #38bdf8;
+  box-shadow:
+    0 0 28px rgba(56, 189, 248, 0.42),
+    0 10px 28px rgba(15, 23, 42, 0.28);
+}
+
+.academy-pptx-desk--after .academy-pptx-slide-stage {
+  box-shadow:
+    inset 0 0 0 1px rgba(125, 211, 252, 0.35),
+    0 0 36px rgba(56, 189, 248, 0.55);
+}
+
+.academy-pptx-active-border {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  border: 2px solid rgba(56, 189, 248, 0.35);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.28);
+}
+
+.academy-pptx-copilot {
+  border-left: 1px solid #d0d0d0;
+  background: #faf7f5;
+  padding: 0.7rem 0.8rem;
+  font-size: clamp(0.62rem, 1.05vw, 0.78rem);
+  min-width: 0;
+}
+
+.academy-pptx-copilot header {
+  font-weight: 800;
+  color: #c43e1c;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.62rem;
+}
+
+.academy-pptx-ai-brands {
+  margin: 0 0 0.5rem;
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: #8a3b24;
+}
+
+.academy-pptx-bubble {
+  border-radius: 0.55rem;
+  padding: 0.5rem 0.55rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.academy-pptx-bubble--user {
+  background: #f8e4dc;
+}
+
+.academy-pptx-bubble--bot {
+  background: #fff;
+  border: 1px solid #d0d7de;
+}
+
+.academy-pptx-bubble p {
+  margin: 0 0 0.3rem;
+}
+
+.academy-player-compare-pane .academy-pptx-desk {
+  height: 100%;
+}
+
+.academy-player-compare-pane .academy-pptx-slide-stage {
+  gap: 0.32rem;
+  padding: 0.42rem 0.45rem 0.38rem;
+}
+
+.academy-player-compare-pane .academy-pptx-kpi-grid {
+  gap: 0.28rem;
+}
+
+.academy-player-compare-pane .academy-pptx-kpi {
+  padding: 0.38rem 0.32rem 0.32rem;
+}
+
+.academy-player-compare-pane--after .academy-pptx-desk {
+  filter: drop-shadow(0 0 18px rgba(56, 189, 248, 0.42));
+}
+
+.academy-outlook-desk {
+  position: relative;
+  display: flex;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+  --academy-outlook-focus-scale: 1;
+  --academy-outlook-focus-origin: 32% 38%;
+}
+
+.academy-outlook-desk--live {
+  min-height: 100%;
+}
+
+.academy-outlook-desk--live .academy-outlook-win {
+  transform: scale(var(--academy-outlook-focus-scale, 1));
+  transform-origin: var(--academy-outlook-focus-origin, 32% 38%);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.academy-outlook-desk--focus-zoom {
+  --academy-outlook-focus-scale: 1.2;
+  --academy-outlook-focus-origin: 32% 38%;
+}
+
+.academy-office-win-fit {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  height: max-content;
+  min-height: 100%;
+  max-height: none;
+  flex: 1 1 auto;
+  flex-direction: column;
+  transform-origin: top left;
+}
+
+.academy-player-waiter .academy-office-win-fit {
+  height: max-content;
+  min-height: 100%;
+}
+
+.academy-player-waiter .academy-outlook-win,
+.academy-player-waiter .academy-pptx-win {
+  height: auto;
+  min-height: 100%;
+  max-height: none;
+}
+
+.academy-outlook-win {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+  background: #101820;
+  border: 1px solid rgba(148, 197, 255, 0.22);
+  border-radius: 0.35rem;
+}
+
+.academy-outlook-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 1.65rem;
+  padding: 0 0.55rem;
+  background: #1b2838;
+  color: #e8f1ff;
+  font-size: 0.72rem;
+}
+
+.academy-outlook-titlebar i {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: #3b82f6;
+}
+
+.academy-outlook-titlebar span {
+  margin-left: auto;
+  opacity: 0.72;
+  min-width: min-content;
+}
+
+.academy-outlook-ribbon {
+  display: flex;
+  gap: 0.55rem;
+  padding: 0.22rem 0.55rem;
+  background: #152233;
+  color: #9fb4cc;
+  font-size: 0.68rem;
+}
+
+.academy-outlook-ribbon .on {
+  color: #f8fbff;
+  font-weight: 700;
+}
+
+.academy-outlook-body {
+  display: grid;
+  grid-template-columns: minmax(7.2rem, 8.2rem) minmax(16rem, 1fr);
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 0;
+}
+
+.academy-outlook-body--copilot {
+  grid-template-columns: minmax(6.8rem, 7.8rem) minmax(16rem, 1fr) minmax(15rem, 20rem);
+}
+
+.academy-outlook-desk--live .academy-outlook-body:not(.academy-outlook-body--copilot) {
+  grid-template-columns: minmax(7.2rem, 8.2rem) minmax(16rem, 1fr);
+}
+
+.academy-outlook-desk--before .academy-outlook-body,
+.academy-outlook-desk--after .academy-outlook-body {
+  grid-template-columns: minmax(16rem, 1fr);
+}
+
+.academy-outlook-folders {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.22rem;
+  padding: 0.4rem 0.32rem;
+  background: #0d1622;
+}
+
+.academy-outlook-folder {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.28rem;
+  min-width: min-content;
+  padding: 0.28rem 0.32rem;
+  border: 0;
+  border-radius: 0.28rem;
+  background: transparent;
+  color: #c5d6ea;
+  text-align: left;
+}
+
+.academy-outlook-folder.on {
+  background: rgba(56, 189, 248, 0.16);
+  color: #f8fbff;
+}
+
+.academy-outlook-folder em {
+  font-style: normal;
+  font-size: clamp(0.62rem, 1.3vw, 0.78rem);
+  white-space: nowrap;
+}
+
+.academy-outlook-folder span {
+  min-width: 1.4rem;
+  border-radius: 999px;
+  background: #fb7185;
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.academy-outlook-desk--after .academy-outlook-folder span,
+.academy-outlook-desk:not(.academy-outlook-desk--dump) .academy-outlook-folder span {
+  background: #34d399;
+}
+
+.academy-outlook-canvas-wrap {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.academy-outlook-canvas {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(14rem, 1fr) minmax(14rem, 1.1fr);
+  height: 100%;
+  min-width: 16rem;
+  min-height: 0;
+  background: #0b1220;
+}
+
+.academy-outlook-canvas--compact {
+  display: flex;
+  min-width: 16rem;
+  flex-direction: column;
+  grid-template-columns: minmax(16rem, 1fr);
+}
+
+.academy-outlook-canvas--reset {
+  display: flex;
+  min-width: 16rem;
+  flex-direction: column;
+  grid-template-columns: minmax(16rem, 1fr);
+}
+
+.academy-outlook-list,
+.academy-outlook-read,
+.academy-outlook-row b,
+.academy-outlook-row strong,
+.academy-outlook-row em,
+.academy-outlook-read-from,
+.academy-outlook-read-subject,
+.academy-outlook-read-body,
+.academy-outlook-draft p,
+.academy-outlook-bubble,
+.academy-outlook-group-label,
+.academy-outlook-group-title,
+.academy-outlook-group-detail {
+  overflow: visible;
+  min-width: min-content;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+  text-overflow: clip;
+}
+
+.academy-outlook-list {
+  display: flex;
+  min-width: 14rem;
+  flex: 1 1 12rem;
+  flex-direction: column;
+  gap: 0.18rem;
+  padding: 0.35rem;
+}
+
+.academy-outlook-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.08rem;
+  min-width: 0;
+  padding: 0.38rem 0.42rem;
+  border: 1px solid transparent;
+  border-radius: 0.32rem;
+  background: rgba(15, 28, 46, 0.88);
+  color: #d7e6f7;
+  text-align: left;
+}
+
+.academy-outlook-row.unread {
+  box-shadow: inset 3px 0 0 #38bdf8;
+  font-weight: 700;
+}
+
+.academy-outlook-row.on {
+  border-color: rgba(52, 211, 153, 0.7);
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.22);
+}
+
+.academy-outlook-row b,
+.academy-outlook-row strong,
+.academy-outlook-row em {
+  min-width: min-content;
+  font-size: clamp(0.58rem, 1.35vw, 0.82rem);
+  line-height: 1.25;
+}
+
+.academy-outlook-row em {
+  font-style: normal;
+  opacity: 0.78;
+  font-weight: 500;
+}
+
+.academy-outlook-tag {
+  justify-self: start;
+  margin-top: 0.12rem;
+  padding: 0.08rem 0.35rem;
+  border-radius: 999px;
+  font-size: clamp(0.52rem, 1.1vw, 0.68rem);
+  font-weight: 700;
+}
+
+.academy-outlook-tag--acil {
+  background: rgba(248, 113, 113, 0.22);
+  color: #fecaca;
+}
+
+.academy-outlook-tag--bekle {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fde68a;
+}
+
+.academy-outlook-tag--arşiv,
+.academy-outlook-tag--arsiv {
+  background: rgba(56, 189, 248, 0.18);
+  color: #bae6fd;
+}
+
+.academy-outlook-read {
+  display: flex;
+  min-width: 14rem;
+  flex: 1 1 12rem;
+  flex-direction: column;
+  gap: 0.28rem;
+  padding: 0.5rem 0.55rem;
+  border-left: 1px solid rgba(148, 197, 255, 0.14);
+}
+
+.academy-outlook-canvas--compact .academy-outlook-read {
+  min-width: 16rem;
+  border-left: 0;
+  border-top: 1px solid rgba(148, 197, 255, 0.14);
+}
+
+.academy-outlook-read-from,
+.academy-outlook-read-subject,
+.academy-outlook-read-body {
+  margin: 0;
+  min-width: min-content;
+}
+
+.academy-outlook-read-from {
+  font-size: clamp(0.62rem, 1.3vw, 0.82rem);
+  color: #7dd3fc;
+}
+
+.academy-outlook-read-subject {
+  font-size: clamp(0.78rem, 1.9vw, 1.12rem);
+  line-height: 1.2;
+  color: #f8fbff;
+}
+
+.academy-outlook-read-body {
+  font-size: clamp(0.64rem, 1.4vw, 0.88rem);
+  line-height: 1.35;
+  color: #d7e6f7;
+}
+
+.academy-outlook-draft {
+  margin-top: auto;
+  padding: 0.4rem 0.45rem;
+  border-radius: 0.32rem;
+  background: rgba(16, 185, 129, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(52, 211, 153, 0.35);
+}
+
+.academy-outlook-draft span {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #6ee7b7;
+}
+
+.academy-outlook-draft p {
+  margin: 0.18rem 0 0;
+  font-size: clamp(0.62rem, 1.35vw, 0.86rem);
+  line-height: 1.35;
+  color: #ecfdf5;
+}
+
+.academy-outlook-desk--before .academy-outlook-canvas {
+  filter: saturate(0.72);
+}
+
+.academy-outlook-desk--after .academy-outlook-canvas {
+  box-shadow: inset 0 0 0 1px rgba(52, 211, 153, 0.35);
+}
+
+.academy-outlook-desk--dump .academy-outlook-list {
+  gap: 0.05rem;
+  padding: 0.22rem;
+}
+
+.academy-outlook-desk--dump .academy-outlook-row {
+  padding: 0.14rem 0.28rem;
+}
+
+.academy-outlook-desk--dump .academy-outlook-row b,
+.academy-outlook-desk--dump .academy-outlook-row strong,
+.academy-outlook-desk--dump .academy-outlook-row em {
+  min-width: 0;
+  font-size: clamp(0.52rem, 1.05vw, 0.72rem);
+}
+
+.academy-outlook-desk--dump .academy-outlook-row em {
+  display: none;
+}
+
+.academy-outlook-reset {
+  display: flex;
+  min-width: 16rem;
+  min-height: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.42rem;
+  padding: 0.45rem;
+}
+
+.academy-outlook-group {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 0;
+  padding: 0.55rem 0.62rem;
+  border-radius: 0.42rem;
+  background: rgba(8, 16, 32, 0.72);
+}
+
+.academy-outlook-group-mark {
+  font-size: clamp(1.05rem, 2.2vw, 1.45rem);
+  line-height: 1;
+}
+
+.academy-outlook-group-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+}
+
+.academy-outlook-group-label {
+  margin: 0;
+  font-size: clamp(0.58rem, 1.2vw, 0.74rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.academy-outlook-group-title {
+  font-size: clamp(0.72rem, 1.7vw, 1.02rem);
+  line-height: 1.2;
+  color: #f8fbff;
+}
+
+.academy-outlook-group-detail {
+  font-style: normal;
+  font-size: clamp(0.58rem, 1.2vw, 0.78rem);
+  line-height: 1.3;
+  opacity: 0.82;
+}
+
+.academy-outlook-group--acil {
+  border: 1px solid rgba(248, 113, 113, 0.62);
+  box-shadow: 0 0 18px rgba(239, 68, 68, 0.2);
+}
+
+.academy-outlook-group--acil .academy-outlook-group-label {
+  color: #fecaca;
+}
+
+.academy-outlook-group--bekle {
+  border: 1px solid rgba(251, 191, 36, 0.62);
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.2);
+}
+
+.academy-outlook-group--bekle .academy-outlook-group-label {
+  color: #fde68a;
+}
+
+.academy-outlook-group--arsiv {
+  border: 1px solid rgba(52, 211, 153, 0.62);
+  box-shadow: 0 0 18px rgba(16, 185, 129, 0.2);
+}
+
+.academy-outlook-group--arsiv .academy-outlook-group-label {
+  color: #a7f3d0;
+}
+
+.academy-outlook-group.on {
+  transform: scale(1.02);
+  z-index: 2;
+}
+
+.academy-player-compare-pane .academy-outlook-group.on {
+  transform: none;
+}
+
+.academy-outlook-group--acil.on {
+  box-shadow:
+    0 0 26px rgba(248, 113, 113, 0.55),
+    0 0 0 2px #f87171;
+}
+
+.academy-outlook-group--bekle.on {
+  box-shadow:
+    0 0 26px rgba(251, 191, 36, 0.5),
+    0 0 0 2px #fbbf24;
+}
+
+.academy-outlook-group--arsiv.on {
+  box-shadow:
+    0 0 26px rgba(52, 211, 153, 0.55),
+    0 0 0 2px #34d399;
+}
+
+.academy-player-compare-pane .academy-outlook-group-label,
+.academy-player-compare-pane .academy-outlook-group-title,
+.academy-player-compare-pane .academy-outlook-group-detail {
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.academy-player-compare-pane .academy-outlook-group-label {
+  font-size: clamp(0.48rem, 2.4cqh, 0.7rem);
+}
+
+.academy-player-compare-pane .academy-outlook-group-title {
+  font-size: clamp(0.58rem, 3.2cqh, 0.92rem);
+}
+
+.academy-player-compare-pane .academy-gmail-carry ul,
+.academy-player-compare-pane .academy-word-copy ul {
+  flex: 0 0 auto;
+  max-height: none;
+  overflow: visible;
+  margin-bottom: 0.1rem;
+  font-size: clamp(0.48rem, 2.2cqh, 0.66rem);
+}
+
+.academy-player-compare-pane .academy-gmail-carry-badge {
+  flex: 0 0 auto;
+  margin-bottom: 0.16rem;
+}
+
+.academy-outlook-active-border {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  border: 2px solid #34d399;
+  border-radius: 0.28rem;
+  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.35);
+}
+
+.academy-outlook-copilot {
+  display: flex;
+  min-width: 14rem;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.45rem;
+  background: #101a28;
+  border-left: 1px solid rgba(148, 197, 255, 0.14);
+}
+
+.academy-outlook-copilot header {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #7dd3fc;
+}
+
+.academy-outlook-ai-brands {
+  margin: 0;
+  font-size: 0.62rem;
+  color: #9fb4cc;
+}
+
+.academy-outlook-bubble {
+  padding: 0.38rem 0.42rem;
+  border-radius: 0.32rem;
+  font-size: clamp(0.58rem, 1.25vw, 0.78rem);
+  line-height: 1.35;
+}
+
+.academy-outlook-bubble--user {
+  background: rgba(56, 189, 248, 0.16);
+  color: #e0f2fe;
+}
+
+.academy-outlook-bubble--bot {
+  background: rgba(16, 185, 129, 0.14);
+  color: #d1fae5;
+}
+
+.academy-outlook-bubble p {
+  margin: 0 0 0.3rem;
+}
+
+.academy-player-compare[data-academy-waiter-stage="outlook"],
+.academy-player-compare[data-academy-waiter-stage="gmail"],
+.academy-player-compare[data-academy-waiter-stage="word"] {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.5rem;
+  overflow: hidden;
+}
+
+.academy-player-compare-pane .academy-outlook-desk,
+.academy-player-compare-pane .academy-pptx-desk,
+.academy-player-compare-pane .academy-word-desk {
+  flex: 1 1 0;
+  height: 100%;
+  max-height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.academy-player-compare-pane .academy-office-win-fit {
+  height: max-content;
+  min-height: 100%;
+  max-height: none;
+}
+
+.academy-player-compare-pane .academy-outlook-win,
+.academy-player-compare-pane .academy-pptx-win {
+  height: auto;
+  min-height: 100%;
+  max-height: none;
+  overflow: visible;
+}
+
+.academy-player-compare-pane .academy-outlook-titlebar,
+.academy-player-compare-pane .academy-pptx-titlebar {
+  height: 1.15rem;
+  padding: 0 0.38rem;
+  font-size: 0.6rem;
+  flex-shrink: 0;
+}
+
+.academy-player-compare-pane .academy-outlook-body,
+.academy-player-compare-pane .academy-outlook-canvas-wrap,
+.academy-player-compare-pane .academy-outlook-canvas,
+.academy-player-compare-pane .academy-outlook-canvas--compact,
+.academy-player-compare-pane .academy-outlook-canvas--reset,
+.academy-player-compare-pane .academy-pptx-body,
+.academy-player-compare-pane .academy-pptx-canvas-wrap,
+.academy-player-compare-pane .academy-pptx-canvas {
+  min-width: 0;
+  min-height: min-content;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+}
+
+.academy-player-compare-pane .academy-gmail-carry,
+.academy-player-compare-pane .academy-outlook-list,
+.academy-player-compare-pane .academy-outlook-reset,
+.academy-player-compare-pane .academy-word-copy,
+.academy-player-compare-pane .academy-word-clause-stack {
+  display: flex;
+  flex: 0 0 auto;
+  min-width: 0;
+  min-height: min-content;
+  height: auto;
+  max-height: none;
+  flex-direction: column;
+  overflow: visible;
+  padding: clamp(0.1rem, 1.6cqh, 0.28rem) clamp(0.14rem, 1.4cqw, 0.32rem);
+  gap: clamp(0.06rem, 1.1cqh, 0.16rem);
+}
+
+.academy-player-compare-pane .academy-outlook-row,
+.academy-player-compare-pane .academy-outlook-group {
+  flex: 0 0 auto;
+  min-height: min-content;
+  padding: clamp(0.1rem, 1.6cqh, 0.28rem) clamp(0.14rem, 1.6cqw, 0.36rem);
+  gap: clamp(0.04rem, 0.7cqh, 0.1rem);
+}
+
+.academy-player-compare-pane .academy-outlook-row b,
+.academy-player-compare-pane .academy-outlook-row strong,
+.academy-player-compare-pane .academy-outlook-row em,
+.academy-player-compare-pane .academy-outlook-read-from,
+.academy-player-compare-pane .academy-outlook-read-subject,
+.academy-player-compare-pane .academy-outlook-read-body,
+.academy-player-compare-pane .academy-outlook-draft p {
+  min-width: 0;
+  font-size: clamp(0.52rem, 3.1cqh, 0.82rem);
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.academy-player-compare-pane--after .academy-outlook-desk {
+  filter: drop-shadow(0 0 18px rgba(56, 189, 248, 0.42));
+}
+
 .academy-excel-win {
   display: flex;
   height: 100%;
@@ -1073,6 +2378,14 @@ body {
   font-weight: 600;
 }
 
+.academy-excel-desk--word .academy-excel-title {
+  background: #185abd;
+}
+
+.academy-excel-desk--word .academy-excel-title i {
+  background: #9dc3e6;
+}
+
 .academy-excel-title i {
   display: inline-block;
   width: 0.7rem;
@@ -1092,7 +2405,7 @@ body {
   flex-shrink: 0;
   align-items: center;
   gap: 0.85rem;
-  overflow: hidden;
+  overflow: visible;
   border-bottom: 1px solid #d0d0d0;
   background: #f3f3f3;
   padding: 0 0.7rem;
@@ -1154,6 +2467,14 @@ body {
 
 .academy-excel-body--copilot {
   grid-template-columns: minmax(0, 1.7fr) minmax(10.5rem, 0.42fr);
+}
+
+.academy-player-compare-pane--after .academy-excel-body--copilot {
+  grid-template-columns: minmax(0, 1.1fr) minmax(8.25rem, 0.72fr);
+}
+
+.academy-player-compare-pane--after .academy-prompt-console {
+  min-width: 8rem;
 }
 
 .academy-excel-grid-wrap {
@@ -1365,6 +2686,13 @@ body {
   font-weight: 800;
 }
 
+.academy-excel-cell--error {
+  background: #fce4ec !important;
+  color: #9b1c1c;
+  font-weight: 800;
+  box-shadow: inset 0 0 0 2px #d32f2f;
+}
+
 .academy-excel-cell--a1 {
   background: #e2efda !important;
   box-shadow: inset 0 0 0 1px #217346;
@@ -1486,6 +2814,792 @@ body {
 
 .academy-excel-bubble p {
   margin: 0 0 0.28rem;
+}
+
+.academy-prompt-console {
+  position: relative;
+  display: flex;
+  min-width: 12rem;
+  min-height: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  margin-bottom: 0.4rem;
+  overflow: hidden;
+  border: 1px solid rgba(52, 211, 153, 0.42);
+  border-radius: 0.48rem;
+  background:
+    linear-gradient(180deg, rgba(16, 185, 129, 0.06) 0%, transparent 2.2rem),
+    repeating-linear-gradient(
+      180deg,
+      rgba(52, 211, 153, 0.035) 0 1px,
+      transparent 1px 3px
+    ),
+    #071018;
+  box-shadow:
+    inset 0 0 0 1px rgba(16, 185, 129, 0.12),
+    0 10px 24px rgba(4, 12, 18, 0.28);
+}
+
+.academy-player-compare-prompt .academy-prompt-console {
+  height: 100%;
+  max-height: none;
+  min-height: 5.5rem;
+  margin-bottom: 0;
+  transition: max-height 0.22s ease;
+}
+
+.academy-player-compare-prompt .academy-prompt-console[data-overflow="true"]:hover,
+.academy-player-compare-prompt .academy-prompt-console[data-overflow="true"]:focus-within,
+.academy-player-compare-prompt .academy-prompt-console[data-expanded="true"] {
+  max-height: min(46vh, 18.5rem);
+}
+
+.academy-ai-desk .academy-prompt-console,
+.academy-chatgpt-window .academy-prompt-console {
+  max-height: 11.5rem;
+  transition: max-height 0.22s ease;
+}
+
+.academy-ai-desk .academy-prompt-console[data-overflow="true"]:hover,
+.academy-ai-desk .academy-prompt-console[data-overflow="true"]:focus-within,
+.academy-ai-desk .academy-prompt-console[data-expanded="true"],
+.academy-chatgpt-window .academy-prompt-console[data-overflow="true"]:hover,
+.academy-chatgpt-window .academy-prompt-console[data-overflow="true"]:focus-within,
+.academy-chatgpt-window .academy-prompt-console[data-expanded="true"] {
+  max-height: min(42vh, 16.5rem);
+}
+
+.academy-prompt-console::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  right: 0.55rem;
+  bottom: 0;
+  left: 0;
+  height: 1.7rem;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(to top, #071018 8%, transparent);
+  transition: opacity 0.16s ease;
+}
+
+.academy-prompt-console[data-overflow="true"]:not([data-expanded="true"])::after {
+  opacity: 1;
+}
+
+.academy-prompt-console-bar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  padding: 0.32rem 0.42rem;
+  background: linear-gradient(180deg, #14304c 0%, #10233a 100%);
+  color: #7dd3fc;
+  box-shadow: 0 1px 0 rgba(52, 211, 153, 0.18);
+}
+
+.academy-prompt-console-identity {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 0.38rem;
+}
+
+.academy-prompt-console-lights {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 0.18rem;
+}
+
+.academy-prompt-console-lights i {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 999px;
+  background: #f87171;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+.academy-prompt-console-lights i:nth-child(2) {
+  background: #fbbf24;
+}
+
+.academy-prompt-console-lights i:nth-child(3) {
+  background: #34d399;
+}
+
+.academy-prompt-console-title {
+  flex: 0 0 auto;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.academy-prompt-console-hint {
+  overflow: hidden;
+  color: #86efac;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.82;
+}
+
+.academy-prompt-console-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.28rem;
+}
+
+.academy-prompt-console-expand,
+.academy-prompt-console-copy {
+  border: 1px solid rgba(125, 211, 252, 0.35);
+  border-radius: 999px;
+  background: rgba(14, 116, 144, 0.28);
+  padding: 0.14rem 0.52rem;
+  color: #e0f2fe;
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.academy-prompt-console-copy {
+  border-color: rgba(52, 211, 153, 0.55);
+  background: rgba(6, 78, 59, 0.72);
+  color: #ecfdf5;
+}
+
+.academy-prompt-console-expand:hover,
+.academy-prompt-console-expand:focus-visible,
+.academy-prompt-console-copy:hover,
+.academy-prompt-console-copy:focus-visible {
+  border-color: rgba(167, 243, 208, 0.9);
+  background: rgba(4, 120, 87, 0.92);
+  color: #fff;
+  outline: none;
+}
+
+.academy-prompt-console-viewport {
+  position: relative;
+  z-index: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.academy-prompt-console-body {
+  margin: 0;
+  min-width: 0;
+  padding: 0.48rem 0.7rem 0.7rem 0.62rem;
+  color: #bbf7d0;
+  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", monospace;
+  font-size: clamp(0.72rem, 1.35vw, 0.86rem);
+  font-weight: 500;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.academy-prompt-console-caret {
+  display: inline-block;
+  width: 0.42ch;
+  height: 1em;
+  margin-left: 0.08em;
+  background: #34d399;
+  vertical-align: -0.12em;
+  animation: academy-prompt-caret 0.9s steps(1) infinite;
+}
+
+@keyframes academy-prompt-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.academy-howto-band {
+  position: absolute;
+  z-index: 6;
+  right: 0.7rem;
+  bottom: 0.28rem;
+  left: 0.7rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem;
+  pointer-events: none;
+}
+
+.academy-howto-step {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.08rem;
+  border: 1px solid rgba(148, 197, 255, 0.22);
+  border-radius: 0.48rem;
+  background: rgba(8, 14, 24, 0.82);
+  padding: 0.22rem 0.4rem 0.26rem;
+  color: #d7e6f7;
+  backdrop-filter: blur(10px) saturate(1.08);
+}
+
+.academy-howto-step span {
+  font-size: clamp(0.62rem, 1.35vw, 0.82rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.25;
+  overflow-wrap: break-word;
+  color: #e0f2fe;
+}
+
+.academy-howto-step[data-state="active"] {
+  border-color: rgba(52, 211, 153, 0.7);
+  background: rgba(6, 48, 36, 0.88);
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.28);
+}
+
+.academy-howto-step[data-state="active"] span {
+  color: #ecfdf5;
+}
+
+.academy-howto-step[data-state="done"] {
+  border-color: rgba(52, 211, 153, 0.35);
+  opacity: 0.82;
+}
+
+.academy-howto-step[data-state="next"] {
+  opacity: 0.62;
+}
+
+.academy-paste-guide {
+  position: absolute;
+  z-index: 7;
+  top: 0.5rem;
+  left: 0.7rem;
+  display: flex;
+  max-width: min(46%, 19rem);
+  align-items: center;
+  gap: 0.38rem;
+  pointer-events: none;
+  border: 1px solid rgba(125, 211, 252, 0.45);
+  border-radius: 999px;
+  background: rgba(8, 18, 32, 0.9);
+  padding: 0.28rem 0.55rem 0.28rem 0.7rem;
+  color: #e0f2fe;
+  box-shadow: 0 8px 22px rgba(8, 18, 32, 0.35);
+}
+
+.academy-paste-guide strong {
+  font-size: clamp(0.62rem, 1.3vw, 0.78rem);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.academy-paste-guide span {
+  border-left: 1px solid rgba(125, 211, 252, 0.28);
+  padding-left: 0.38rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #7dd3fc;
+  white-space: nowrap;
+}
+
+.academy-paste-guide i {
+  width: 1.7rem;
+  height: 0.7rem;
+  flex-shrink: 0;
+  background:
+    linear-gradient(90deg, #38bdf8 0%, #38bdf8 72%, transparent 72%),
+    linear-gradient(45deg, transparent 0 42%, #38bdf8 42% 58%, transparent 58%) right / 0.55rem 0.55rem no-repeat;
+}
+
+.academy-paste-guide[data-academy-paste-tab="chatgpt"] span {
+  color: #86efac;
+}
+
+.academy-outlook-ribbon,
+.academy-excel-ribbon,
+.academy-pptx-ribbon {
+  position: relative;
+}
+
+.academy-office-copilot-ribbon {
+  position: relative;
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+  gap: 0.28rem;
+}
+
+.academy-office-copilot-btn {
+  border: 1px solid rgba(139, 92, 246, 0.65);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%);
+  padding: 0.08rem 0.55rem;
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.academy-office-copilot-btn[data-academy-ribbon-gemini] {
+  border-color: rgba(66, 133, 244, 0.7);
+  background: linear-gradient(180deg, #4285f4 0%, #1a73e8 100%);
+}
+
+.academy-gmail-carry-badge,
+.academy-word-attach-chip {
+  margin: 0 0 0.45rem;
+  border-radius: 999px;
+  padding: 0.16rem 0.55rem;
+  width: fit-content;
+  font-size: clamp(0.62rem, 1.1vw, 0.78rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.academy-gmail-carry-badge {
+  background: rgba(251, 146, 60, 0.18);
+  color: #fb923c;
+  box-shadow: 0 0 0 1px rgba(251, 146, 60, 0.45);
+}
+
+.academy-word-attach-chip {
+  background: rgba(52, 211, 153, 0.16);
+  color: #34d399;
+  box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.45);
+}
+
+.academy-gmail-desk--carry .academy-outlook-win,
+.academy-word-desk--copy .academy-outlook-win {
+  box-shadow: 0 0 0 2px rgba(251, 146, 60, 0.55);
+}
+
+.academy-gmail-carry,
+.academy-word-copy {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.academy-gmail-carry ul,
+.academy-word-copy ul {
+  margin: 0 0 0.5rem;
+  padding-left: 1.1rem;
+  font-size: clamp(0.66rem, 1.15vw, 0.84rem);
+}
+
+.academy-word-spoiler {
+  margin: 0.35rem 0 0;
+  color: #9fb4cc;
+  font-size: clamp(0.66rem, 1.15vw, 0.84rem);
+}
+
+/* Word sinema: klasör sütunu yok. Kartlar çerçeve içinde, px-4/px-6 iç boşlukla durur. */
+.academy-word-desk.academy-excel-desk {
+  padding: 0.5rem 1rem 0.6rem;
+}
+
+.academy-word-desk .academy-outlook-body,
+.academy-word-desk.academy-outlook-desk--live .academy-outlook-body:not(.academy-outlook-body--copilot),
+.academy-word-desk.academy-outlook-desk--before .academy-outlook-body,
+.academy-word-desk.academy-outlook-desk--after .academy-outlook-body {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.academy-word-desk .academy-outlook-body--copilot,
+.academy-word-desk.academy-outlook-desk--live .academy-outlook-body--copilot {
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 20rem);
+}
+
+.academy-word-desk .academy-outlook-canvas-wrap {
+  min-width: 0;
+  width: 100%;
+}
+
+.academy-word-desk .academy-outlook-canvas,
+.academy-word-desk .academy-outlook-canvas--compact {
+  display: flex;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  flex-direction: column;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.academy-word-desk .academy-outlook-reset,
+.academy-word-desk .academy-word-clause-stack,
+.academy-word-desk .academy-word-copy {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  padding: 0.75rem 1.5rem;
+}
+
+.academy-word-desk .academy-outlook-list {
+  min-width: 0;
+  width: 100%;
+  padding: 0.35rem 0;
+}
+
+.academy-word-desk .academy-outlook-group {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0.7rem 1.25rem;
+}
+
+.academy-word-desk .academy-outlook-group.on {
+  transform-origin: center center;
+}
+
+.academy-word-desk .academy-outlook-group-label,
+.academy-word-desk .academy-outlook-group-title,
+.academy-word-desk .academy-outlook-group-detail {
+  min-width: 0;
+}
+
+.academy-player-compare-pane .academy-word-desk .academy-outlook-reset,
+.academy-player-compare-pane .academy-word-desk .academy-word-clause-stack,
+.academy-player-compare-pane .academy-word-desk .academy-word-copy {
+  padding: 0.28rem 0.5rem;
+}
+
+.academy-office-copilot-arrow {
+  position: absolute;
+  z-index: 8;
+  top: 1.35rem;
+  right: 0.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.08rem;
+  pointer-events: none;
+}
+
+.academy-office-copilot-arrow i {
+  position: relative;
+  width: 0.12rem;
+  height: 1.35rem;
+  background: #fde68a;
+  box-shadow: 0 0 10px rgba(253, 230, 138, 0.8);
+}
+
+.academy-office-copilot-arrow i::after {
+  content: "";
+  position: absolute;
+  top: 1.18rem;
+  right: -0.28rem;
+  border: 0.28rem solid transparent;
+  border-top-color: #fde68a;
+}
+
+.academy-office-copilot-arrow em {
+  margin-top: 0.15rem;
+  border-radius: 999px;
+  background: #fde68a;
+  padding: 0.06rem 0.38rem;
+  color: #1f2937;
+  font-size: 0.52rem;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.academy-ai-desk {
+  display: flex;
+  min-width: 14rem;
+  flex-direction: column;
+  gap: 0.35rem;
+  overflow: auto;
+}
+
+.academy-ai-desk-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.22rem;
+}
+
+.academy-ai-desk-tab {
+  border: 1px solid rgba(148, 197, 255, 0.22);
+  border-radius: 0.42rem;
+  background: rgba(8, 18, 32, 0.35);
+  padding: 0.28rem 0.32rem;
+  color: #9fb4cc;
+  font-size: clamp(0.52rem, 1.05vw, 0.68rem);
+  font-weight: 800;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.academy-ai-desk-tab[data-on="true"] {
+  border-color: rgba(52, 211, 153, 0.7);
+  background: rgba(6, 48, 36, 0.88);
+  color: #ecfdf5;
+}
+
+.academy-excel-copilot .academy-ai-desk-tab,
+.academy-pptx-copilot .academy-ai-desk-tab {
+  background: #eef2f0;
+  color: #334155;
+}
+
+.academy-excel-copilot .academy-ai-desk-tab[data-on="true"],
+.academy-pptx-copilot .academy-ai-desk-tab[data-on="true"] {
+  background: #d1fae5;
+  color: #064e3b;
+}
+
+.academy-ai-desk-copilot-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem;
+  margin-bottom: 0.2rem;
+}
+
+.academy-ai-desk-copilot-head b {
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.academy-ai-desk-copilot-head span {
+  font-size: 0.52rem;
+  font-weight: 700;
+  opacity: 0.72;
+}
+
+.academy-outlook-copilot .academy-ai-desk-copilot-head b {
+  color: #c4b5fd;
+}
+
+.academy-excel-copilot .academy-ai-desk-copilot-head b,
+.academy-pptx-copilot .academy-ai-desk-copilot-head b {
+  color: #6d28d9;
+}
+
+.academy-ai-desk-bubble {
+  border-radius: 0.42rem;
+  padding: 0.38rem 0.42rem;
+  font-size: clamp(0.58rem, 1.25vw, 0.78rem);
+  line-height: 1.35;
+}
+
+.academy-outlook-copilot .academy-ai-desk-bubble {
+  background: rgba(16, 185, 129, 0.14);
+  color: #d1fae5;
+}
+
+.academy-excel-copilot .academy-ai-desk-bubble,
+.academy-pptx-copilot .academy-ai-desk-bubble {
+  background: #fff;
+  border: 1px solid #d0d7de;
+}
+
+.academy-ai-desk-bubble p {
+  margin: 0 0 0.3rem;
+}
+
+.academy-ai-desk-chat {
+  display: grid;
+  gap: 0.32rem;
+}
+
+.academy-ai-desk-clip {
+  position: relative;
+  border: 1px dashed rgba(125, 211, 252, 0.45);
+  border-radius: 0.42rem;
+  padding: 0.32rem 0.38rem 0.4rem;
+}
+
+.academy-ai-desk-clip p {
+  margin: 0 0 0.22rem;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #7dd3fc;
+}
+
+.academy-excel-copilot .academy-ai-desk-clip p,
+.academy-pptx-copilot .academy-ai-desk-clip p {
+  color: #0369a1;
+}
+
+.academy-ai-desk-clip ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.academy-ai-desk-clip li {
+  margin-bottom: 0.18rem;
+  font-size: clamp(0.52rem, 1.05vw, 0.68rem);
+  line-height: 1.3;
+  overflow-wrap: break-word;
+}
+
+.academy-ai-desk[data-academy-ai-desk-phase="select"] .academy-ai-desk-clip,
+.academy-outlook-desk[data-academy-ai-desk-tab="chatgpt"][data-academy-ai-desk-phase="select"] .academy-outlook-row,
+.academy-outlook-desk[data-academy-ai-desk-tab="chatgpt"][data-academy-ai-desk-phase="copy"] .academy-outlook-row {
+  box-shadow: 0 0 0 2px #38bdf8;
+  background: rgba(14, 165, 233, 0.12);
+}
+
+.academy-ai-desk-clip kbd {
+  display: inline-block;
+  margin-top: 0.22rem;
+  border: 1px solid rgba(253, 230, 138, 0.7);
+  border-radius: 0.28rem;
+  background: #422006;
+  padding: 0.08rem 0.32rem;
+  color: #fde68a;
+  font-family: ui-monospace, "Cascadia Mono", monospace;
+  font-size: 0.58rem;
+  font-weight: 800;
+  opacity: 0.45;
+}
+
+.academy-ai-desk-clip kbd[data-on="true"] {
+  opacity: 1;
+  animation: academy-ctrl-c-pulse 0.7s ease-in-out infinite alternate;
+}
+
+.academy-ai-desk-clip kbd[data-academy-attach] {
+  border-color: rgba(125, 211, 252, 0.55);
+  color: #e0f2fe;
+}
+
+.academy-ai-desk-honesty {
+  margin: 0.15rem 0 0;
+  border-left: 2px solid rgba(251, 146, 60, 0.85);
+  padding-left: 0.45rem;
+  font-size: clamp(0.58rem, 1.2vw, 0.7rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #fdba74;
+}
+
+.academy-ai-desk-flight {
+  height: 0.7rem;
+  background:
+    linear-gradient(90deg, #38bdf8 0%, #4ade80 100%);
+  clip-path: polygon(0 40%, 86% 40%, 86% 0, 100% 50%, 86% 100%, 86% 60%, 0 60%);
+  opacity: 0;
+}
+
+.academy-ai-desk[data-academy-ai-desk-phase="copy"] .academy-ai-desk-flight,
+.academy-ai-desk[data-academy-ai-desk-phase="paste"] .academy-ai-desk-flight {
+  opacity: 1;
+  animation: academy-copy-flight 0.9s ease-in-out infinite;
+}
+
+.academy-chatgpt-window {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: 0.55rem;
+  background: #0b1220;
+  padding: 0.32rem;
+  box-shadow: 0 10px 24px rgba(8, 18, 32, 0.28);
+}
+
+.academy-excel-copilot .academy-chatgpt-window,
+.academy-pptx-copilot .academy-chatgpt-window {
+  background: #fff;
+  border-color: #d1d5db;
+}
+
+.academy-chatgpt-window header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.3rem;
+}
+
+.academy-chatgpt-window header b {
+  color: #86efac;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.academy-excel-copilot .academy-chatgpt-window header b,
+.academy-pptx-copilot .academy-chatgpt-window header b {
+  color: #047857;
+}
+
+.academy-chatgpt-window header em {
+  font-size: 0.52rem;
+  font-style: normal;
+  font-weight: 700;
+  opacity: 0.7;
+}
+
+.academy-chatgpt-paste {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  border-radius: 0.32rem;
+  background: rgba(15, 23, 42, 0.45);
+  padding: 0 0.32rem;
+  font-size: clamp(0.5rem, 1vw, 0.64rem);
+  line-height: 1.3;
+}
+
+.academy-chatgpt-paste[data-on="true"] {
+  max-height: 5.5rem;
+  margin-bottom: 0.15rem;
+  padding: 0.28rem 0.32rem;
+  opacity: 1;
+}
+
+.academy-chatgpt-paste p {
+  margin: 0 0 0.16rem;
+}
+
+@keyframes academy-ctrl-c-pulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes academy-copy-flight {
+  0% {
+    transform: translateX(-18%);
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateX(12%);
+    opacity: 1;
+  }
 }
 
 .academy-excel-tabs {
@@ -1815,7 +3929,7 @@ body {
   }
 
   .academy-player-waiter {
-    inset: 2.65rem 0.4rem 3.35rem;
+    inset: 2.45rem 0.4rem 2.85rem;
   }
 
   .academy-player-compare {
@@ -1826,6 +3940,34 @@ body {
     font-size: 0.5rem;
     letter-spacing: 0.05em;
     padding: 0.14rem 0.4rem;
+  }
+
+  .academy-prompt-console-hint {
+    display: none;
+  }
+
+  .academy-player-compare-prompt {
+    min-height: 5.2rem;
+    max-height: 8.2rem;
+    margin: 0 0.32rem 0.22rem;
+  }
+
+  .academy-player-compare-prompt:has([data-expanded="true"]),
+  .academy-player-compare-prompt:has([data-overflow="true"]:hover),
+  .academy-player-compare-prompt:has([data-overflow="true"]:focus-within) {
+    max-height: min(52vh, 20rem);
+  }
+
+  .academy-player-compare-prompt .academy-prompt-console {
+    min-height: 5.2rem;
+    max-height: none;
+  }
+
+  .academy-howto-band {
+    right: 0.4rem;
+    bottom: 0.18rem;
+    left: 0.4rem;
+    gap: 0.22rem;
   }
 
   .academy-player-punchcard-dock {
@@ -1845,13 +3987,37 @@ body {
     letter-spacing: 0.1em;
   }
 
+  .academy-howto-band {
+    right: 0.4rem;
+    bottom: 3.35rem;
+    left: 0.4rem;
+    gap: 0.22rem;
+    grid-template-columns: repeat(3, minmax(6.5rem, 1fr));
+  }
+
+  .academy-paste-guide {
+    top: 0.4rem;
+    left: 0.4rem;
+    max-width: min(58%, 16rem);
+    padding: 0.22rem 0.42rem 0.22rem 0.5rem;
+  }
+
+  .academy-howto-step {
+    min-width: 6.5rem;
+    padding: 0.24rem 0.32rem 0.28rem;
+  }
+
+  .academy-howto-step span {
+    font-size: clamp(0.52rem, 2.6vw, 0.68rem);
+  }
+
   .academy-player-karaoke-strip {
-    min-height: 3.2rem;
-    padding: 0.4rem 0.7rem 0.32rem;
+    min-height: 4rem;
+    padding: 0.48rem 0.85rem 0.42rem;
   }
 
   .academy-player-karaoke-line {
-    font-size: clamp(0.86rem, 3.6vw, 1.02rem);
+    font-size: clamp(0.88rem, 3.6vw, 1.04rem);
   }
 
   .academy-player-teleprompter {
@@ -1882,6 +4048,23 @@ body {
   .academy-player-intro--outro,
   .academy-excel-desk--after .academy-excel-cell--a1,
   .academy-excel-mouse--click .academy-excel-mouse-ripple {
+    animation: none;
+  }
+
+  .academy-prompt-console-caret {
+    animation: none;
+    opacity: 1;
+  }
+
+  .academy-player-compare-prompt .academy-prompt-console,
+  .academy-ai-desk .academy-prompt-console,
+  .academy-chatgpt-window .academy-prompt-console {
+    transition: none;
+  }
+
+  .academy-ai-desk-clip kbd[data-on="true"],
+  .academy-ai-desk-flight,
+  .academy-office-copilot-arrow i {
     animation: none;
   }
 
@@ -2649,6 +4832,71 @@ main:has([data-academy-catalog-colophon]) > [data-legal-colophon-strip] {
   box-shadow:
     0 0 0 1px color-mix(in srgb, var(--safir) 32%, transparent),
     0 14px 32px color-mix(in srgb, var(--safir) 20%, transparent);
+}
+
+.academy-player-playlist-head {
+  min-width: 0;
+}
+
+.academy-player-autoplay {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.4rem;
+  border: 0;
+  background: transparent;
+  padding: 0.1rem 0;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.academy-player-autoplay-label {
+  max-width: 6.75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.academy-player-autoplay-track {
+  position: relative;
+  display: inline-flex;
+  width: 1.7rem;
+  height: 0.95rem;
+  flex-shrink: 0;
+  align-items: center;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--foreground) 18%, transparent);
+  transition: background 160ms ease;
+}
+
+.academy-player-autoplay-track[data-on="true"] {
+  background: var(--safir);
+}
+
+.academy-player-autoplay-thumb {
+  position: absolute;
+  top: 0.12rem;
+  left: 0.12rem;
+  width: 0.71rem;
+  height: 0.71rem;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--foreground) 22%, transparent);
+  transition: transform 160ms ease;
+}
+
+.academy-player-autoplay-track[data-on="true"] .academy-player-autoplay-thumb {
+  transform: translateX(0.74rem);
+}
+
+.academy-player-autoplay:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--safir) 70%, transparent);
+  outline-offset: 3px;
+  border-radius: 0.5rem;
 }
 
 .academy-stage-prose p {

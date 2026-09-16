@@ -1,0 +1,39 @@
+{
+  "lessonKey": "01_office_ai-4",
+  "passScore": 70,
+  "questions": [
+    {
+      "id": "q_off_l4_1",
+      "prompt": "Gelen kutusunda birikmiş 142 okunmamış e-posta ile karşılaşan bir operasyon yöneticisi, AI destekli bir iş akışıyla süreci yönetmek ve gelen kutusunu sıfırlamak istemektedir. Kritik taleplerin gözden kaçmasını önlemek adına atılması gereken en uygun ilk adım hangisidir?",
+      "choices": [
+        "Tüm iletilerin AI tarafından önem derecesine (Acil/Aksiyon, Bilgi, Düşük Öncelik) göre sınıflandırılıp etiketlenmesini sağlayarak filtrelenmiş bir görünüm oluşturmak",
+        "AI modeline tüm gelen iletilere otomatik standart bir teyit yanıtı göndermesi ve ardından hepsini arşive taşıması için tam yetki vermek",
+        "İş yükünü hafifletmek amacıyla son üç gün öncesine ait tüm okunmamış e-postaları doğrudan çöp kutusuna taşımak",
+        "Öncelikle yalnızca bülten ve sistem bildirimlerini tek tek manuel okuyup ardından kalan iletileri AI özetine bırakmak"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q_off_l4_2",
+      "prompt": "Kritik bir tedarikçiden gelen teslimat gecikmesi ve yeni takvim önerisi içeren bir e-posta için AI ile taslak yanıt üretilecektir. Kurumsal süreçlerin aksamaması ve doğru iletişimin kurulması adına hangi yöntem tercih edilmelidir?",
+      "choices": [
+        "AI tarafından üretilen taslağın içeriği incelenmeden doğrudan karşı tarafa iletilmesi ve yanıt süresinin kısaltılması",
+        "Gerekli teslimat parametreleri, kurumun kabul edebileceği esneklik sınırları ve istenen ton belirtilerek AI'a taslak hazırlatılması, ardından insanın kontrol edip onaylaması",
+        "E-postanın yanıtlanması yerine AI tarafından özet çıkartılıp iletinin aksiyon alınmaksızın arşive kaldırılması",
+        "AI'a karşı tarafın sorumluluğu tamamen üstlendiğini belirten sert bir üslup seçtirilerek hukuki onaysız gönderim yapılması"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "q_off_l4_3",
+      "prompt": "E-posta akış yönetiminde taslak yanıtı onaylanan ve işlemi tamamlanan iletilerin 'arşive kaldırılması' adımının temel işlevi aşağıdakilerden hangisidir?",
+      "choices": [
+        "Gelen iletilerin depolama kotasını doldurmaması için sistemden kalıcı olarak silinmesini sağlamak",
+        "Gelen kutusundaki e-posta trafiğini azaltmak amacıyla göndericileri otomatik olarak engellenenler listesine eklemek",
+        "Aksiyonu tamamlanan veya salt bilgilendirme niteliğindeki iletileri arama ve erişim güvencesini koruyarak ana ekrandan uzaklaştırmak ve odak kaybını önlemek",
+        "Yalnızca belirli anahtar kelimeleri içeren iletileri şifreli klasörlere taşıyarak AI erişimine tamamen kapatmak"
+      ],
+      "correctIndex": 2
+    }
+  ]
+}

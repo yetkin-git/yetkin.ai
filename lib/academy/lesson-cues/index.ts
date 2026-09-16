@@ -10,6 +10,9 @@ import officeAiLesson3CuesJson from "./01_office_ai-3.json" with { type: "json" 
 import officeAiLesson4CuesJson from "./01_office_ai-4.json" with { type: "json" };
 import officeAiLesson5CuesJson from "./01_office_ai-5.json" with { type: "json" };
 import officeAiLesson6CuesJson from "./01_office_ai-6.json" with { type: "json" };
+import officeAiLessonG1CuesJson from "./01_office_ai-g1.json" with { type: "json" };
+import officeAiLessonW1CuesJson from "./01_office_ai-w1.json" with { type: "json" };
+import officeAiLessonK1CuesJson from "./01_office_ai-k1.json" with { type: "json" };
 import ecommerceAiLesson1CuesJson from "./02_ecommerce_ai-1.json" with { type: "json" };
 import ecommerceAiLesson2CuesJson from "./02_ecommerce_ai-2.json" with { type: "json" };
 import ecommerceAiLesson3CuesJson from "./02_ecommerce_ai-3.json" with { type: "json" };
@@ -39,6 +42,21 @@ import {
   applyAcademySealedAudioTimingsToCues,
   loadAcademySealedAudioTimings,
 } from "@/lib/academy/lesson-audio-timings";
+import {
+  ACADEMY_PUNCHCARD_MAX_WORDS,
+  ACADEMY_WELCOME_PUNCHCARD_CEILING_SEC,
+  ACADEMY_WELCOME_PUNCHCARD_MAX_SEC,
+  ACADEMY_WELCOME_PUNCHCARD_MIN_SEC,
+  punchcardLabelFromText,
+  punchcardVisualEnd,
+} from "@/lib/academy/punchcard-from-sealed-json";
+
+export {
+  ACADEMY_PUNCHCARD_MAX_WORDS,
+  ACADEMY_WELCOME_PUNCHCARD_CEILING_SEC,
+  ACADEMY_WELCOME_PUNCHCARD_MAX_SEC,
+  ACADEMY_WELCOME_PUNCHCARD_MIN_SEC,
+};
 
 export type AcademyLessonCue = AcademyCinemaCaptionCue & {
   id: string;
@@ -47,16 +65,49 @@ export type AcademyLessonCue = AcademyCinemaCaptionCue & {
   paragraphs?: readonly string[];
 };
 
-/** Vatandaş sahnesi — beat başına en fazla 3 kelimelik rozet. */
-export const ACADEMY_PUNCHCARD_MAX_WORDS = 3 as const;
-
 export function academyPunchcardLabel(text: string): string {
-  const words = text
-    .replace(/\s+/gu, " ")
-    .trim()
-    .split(" ")
-    .filter((part) => part.length > 0);
-  return words.slice(0, ACADEMY_PUNCHCARD_MAX_WORDS).join(" ");
+  return punchcardLabelFromText(text, ACADEMY_PUNCHCARD_MAX_WORDS);
+}
+
+/** Şişkin HOŞ GELDİN penceresini 18 sn auto-hide’a indirir; diğer rozetler cue `end` kullanır. */
+export function academyPunchcardVisualEnd(
+  cue: Pick<AcademyLessonCue, "id" | "text" | "start" | "end">,
+): number {
+  return punchcardVisualEnd({
+    id: cue.id,
+    label: academyPunchcardLabel(cue.text),
+    start: cue.start,
+    end: cue.end,
+  });
+}
+
+/**
+ * HTMLAudio.currentTime → aktif playback cue.
+ * Nefes boşluğunda (cue.end … next.start) son başlayan cue tutulur; unmount/Adım 1 takılması olmaz.
+ * Intro (ilk start’tan önce) ve outro (son end’den sonra) null döner.
+ */
+export function academyPlaybackCueAtTime(
+  cues: readonly Pick<AcademyLessonCue, "id" | "start" | "end">[],
+  currentTime: number,
+): (typeof cues)[number] | null {
+  if (cues.length === 0) {
+    return null;
+  }
+  const t = Number.isFinite(currentTime) ? currentTime : 0;
+  const first = cues[0]!;
+  const last = cues[cues.length - 1]!;
+  if (t < first.start || t >= last.end) {
+    return null;
+  }
+  let held = first;
+  for (const cue of cues) {
+    if (t >= cue.start) {
+      held = cue;
+      continue;
+    }
+    break;
+  }
+  return held;
 }
 
 export function academyActivePunchcard(
@@ -64,21 +115,17 @@ export function academyActivePunchcard(
   currentTime: number,
 ): { cueId: string; label: string } | null {
   const t = Number.isFinite(currentTime) ? currentTime : 0;
-  let lastHit: { cueId: string; label: string } | null = null;
   for (const cue of cues) {
     const label = academyPunchcardLabel(cue.text);
     if (!label) {
       continue;
     }
-    const badge = { cueId: cue.id, label };
-    if (t >= cue.start && t < cue.end) {
-      return badge;
-    }
-    if (t >= cue.end) {
-      lastHit = badge;
+    const visualEnd = academyPunchcardVisualEnd(cue);
+    if (t >= cue.start && t < visualEnd) {
+      return { cueId: cue.id, label };
     }
   }
-  return lastHit;
+  return null;
 }
 
 function parseAcademyLessonCues(raw: unknown): readonly AcademyLessonCue[] {
@@ -131,6 +178,9 @@ const CUES_BY_LESSON_KEY: Readonly<Record<string, readonly AcademyLessonCue[]>> 
   "01_office_ai-4": parseAcademyLessonCues(officeAiLesson4CuesJson),
   "01_office_ai-5": parseAcademyLessonCues(officeAiLesson5CuesJson),
   "01_office_ai-6": parseAcademyLessonCues(officeAiLesson6CuesJson),
+  "01_office_ai-g1": parseAcademyLessonCues(officeAiLessonG1CuesJson),
+  "01_office_ai-w1": parseAcademyLessonCues(officeAiLessonW1CuesJson),
+  "01_office_ai-k1": parseAcademyLessonCues(officeAiLessonK1CuesJson),
   "02_ecommerce_ai-1": parseAcademyLessonCues(ecommerceAiLesson1CuesJson),
   "02_ecommerce_ai-2": parseAcademyLessonCues(ecommerceAiLesson2CuesJson),
   "02_ecommerce_ai-3": parseAcademyLessonCues(ecommerceAiLesson3CuesJson),

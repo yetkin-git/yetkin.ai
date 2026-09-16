@@ -72,21 +72,40 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
       "/media/01_office_ai_01_frame_01.png",
     );
 
-    expect(curriculumForCourseSlug("01_office_ai")).toHaveLength(6);
+    expect(curriculumForCourseSlug("01_office_ai")).toHaveLength(9);
     expect(ACADEMY_BAKED_MICRO_VIDEO_KEYS).toContain("01_office_ai-1-warmup");
     expect(ACADEMY_BAKED_MICRO_VIDEO_KEYS).not.toContain("office-ai-time-thieves");
   });
 
-  it("30 ders anahtarı durur; Excel slayt 1. ve 2. derste açılır", () => {
-    expect(ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS).toHaveLength(30);
-    expect(listAcademyCinemaCueSlides()).toHaveLength(16);
+  it("33 ders anahtarı durur; Excel slayt 1. 2. 5. 6. ve k1, pptx slayt 3., outlook slayt 4., gmail g1, word w1 açılır", () => {
+    expect(ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS).toHaveLength(33);
+    expect(listAcademyCinemaCueSlides()).toHaveLength(72);
     expect(
       listAcademyCinemaCueSlides().every(
-        (slide) => slide.lessonKey === "01_office_ai-1" || slide.lessonKey === "01_office_ai-2",
+        (slide) =>
+          slide.lessonKey === "01_office_ai-1" ||
+          slide.lessonKey === "01_office_ai-2" ||
+          slide.lessonKey === "01_office_ai-3" ||
+          slide.lessonKey === "01_office_ai-4" ||
+          slide.lessonKey === "01_office_ai-5" ||
+          slide.lessonKey === "01_office_ai-6" ||
+          slide.lessonKey === "01_office_ai-g1" ||
+          slide.lessonKey === "01_office_ai-w1" ||
+          slide.lessonKey === "01_office_ai-k1",
       ),
     ).toBe(true);
     for (const lessonKey of ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS) {
-      if (lessonKey === "01_office_ai-1" || lessonKey === "01_office_ai-2") {
+      if (
+        lessonKey === "01_office_ai-1" ||
+        lessonKey === "01_office_ai-2" ||
+        lessonKey === "01_office_ai-3" ||
+        lessonKey === "01_office_ai-4" ||
+        lessonKey === "01_office_ai-5" ||
+        lessonKey === "01_office_ai-6" ||
+        lessonKey === "01_office_ai-g1" ||
+        lessonKey === "01_office_ai-w1" ||
+        lessonKey === "01_office_ai-k1"
+      ) {
         expect(hasAcademyLessonVisualStage(lessonKey)).toBe(true);
       } else {
         expect(hasAcademyLessonVisualStage(lessonKey)).toBe(false);
@@ -115,9 +134,10 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
     expect(academyVisualStageMotion(stage, 8, false)).toBe("rest");
   });
 
-  it("4. bölüm ve sonrası karaoke altyazısını 3–4 satırlık bloğa sıkıştırır", () => {
+  it("5. bölüm ve sonrası karaoke altyazısını 3–4 satırlık bloğa sıkıştırır", () => {
     expect(academyKaraokeCaptionsCompact("01_office_ai-3")).toBe(false);
-    expect(academyKaraokeCaptionsCompact("01_office_ai-4")).toBe(true);
+    expect(academyKaraokeCaptionsCompact("01_office_ai-4")).toBe(false);
+    expect(academyKaraokeCaptionsCompact("01_office_ai-5")).toBe(true);
     expect(academyKaraokeCaptionsCompact("03_social_media_ai-1")).toBe(true);
     expect(academyKaraokeCaptionsCompact("04_chatbot_nocode-1")).toBe(true);
     expect(academyKaraokeCaptionsCompact("05_prompt_practice-1")).toBe(true);
@@ -152,15 +172,32 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
     expect(eye).toContain('data-academy-canvas="full"');
     expect(eye).toContain('data-academy-waiter-ratio={String(ACADEMY_GOLDEN_WAITER_RATIO)}');
     expect(eye).toContain('data-academy-compare="split"');
+    expect(eye).toContain("academyCompareDockPrompt");
+    expect(eye).toContain("data-academy-eye-canvas");
+    expect(eye).toContain("academy-player-widescreen-frame");
+    expect(eye).toContain("academy-player-eye-stack");
+    expect(eye).toContain("data-academy-prompt-dock");
+    expect(eye).toContain("LessonPromptConsole");
+    expect(eye).toContain("data-academy-clock-cue");
     expect(css).toContain("academy-player-compare");
+    expect(css).toContain("academy-player-compare-prompt");
     expect(eye).toContain("LessonExcelWorkspace");
+    expect(eye).toContain("LessonPptxWorkspace");
+    expect(eye).toContain("LessonOutlookWorkspace");
+    expect(eye).toContain("LessonGmailWorkspace");
+    expect(eye).toContain("LessonWordWorkspace");
     expect(eye).toContain("academyExcelFocusZoomActive");
     expect(eye).toContain("currentTime={currentTime}");
+    expect(eye).toContain("pane=\"after\" currentTime={currentTime}");
     expect(eye).toContain("LessonCinemaMediaCard");
     expect(eye).toContain("data-academy-intro");
     expect(eye).toContain("data-academy-outro");
     expect(eye).toContain('data-academy-veo={card?.kind === "veo" && !veoPunchLive ? "warmup" : undefined}');
     expect(css).toContain("academy-player-eye-layer");
+    expect(css).toContain("academy-player-eye-stack");
+    expect(css).toContain("academy-player-eye-canvas");
+    expect(css).toContain("academy-player-widescreen-frame");
+    expect(css).toContain("container-name: academy-eye");
     expect(css).toContain("academy-player-intro--outro");
     expect(css).toContain("academy-player-outro-summary");
     expect(css).toContain("academy-excel-mouse-layer");
@@ -175,6 +212,9 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
     expect(css).toMatch(/\.academy-player-media-card\s*\{[^}]*inset:\s*0/s);
     expect(css).toMatch(/\.academy-player-punchcard-dock\s*\{[^}]*right:\s*0\.7rem/s);
     expect(css).toMatch(/\.academy-player-waiter\s*\{[^}]*inset:\s*3\.15rem 0\.7rem 3\.55rem/s);
+    expect(css).toContain("academy-office-win-fit");
+    expect(css).toContain("height: max-content");
+    expect(css).toContain(".academy-player-waiter.academy-player-compare");
     expect(player).not.toContain("generateVideo");
     expect(readSrc("lib/kernel/ai/types.ts")).toContain("generateVideo?: never");
   });
