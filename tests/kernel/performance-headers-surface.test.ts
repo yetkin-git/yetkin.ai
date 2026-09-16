@@ -12,8 +12,8 @@ describe("amiral performans mühürleri — Gzip / cache / istek", () => {
   it("next.config Gzip ve immutable Cache-Control basar", () => {
     const config = readSrc("next.config.ts");
     expect(config).toContain("compress: true");
-    expect(config).toContain('source: "/_next/static/:path*"');
-    expect(config).toContain('source: "/_next/image/:path*"');
+    expect(config).not.toContain('source: "/_next/static/:path*"');
+    expect(config).not.toContain('source: "/_next/image/:path*"');
     expect(config).toContain('source: "/icon.svg"');
     expect(config).toContain('source: "/apple-icon.png"');
     expect(config).toContain('source: "/favicon.ico"');

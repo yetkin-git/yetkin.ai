@@ -10,7 +10,9 @@ import { EDGE_SECURITY_HEADER_ENTRIES } from "./lib/kernel/security/edge-securit
  * canlı yola rewrite edilmez; kenar 410. KAPAT oda yönlendirmesi yazılmaz.
  * §2.5 `/kayit` CEO tedavi kilidi ile ince alias'tır (`/giris` çifti).
  */
-/** Hash’li statik gövde — Pingdom Expires / Cache-Control. HTML’e basılmaz. */
+/** Kamu statik gövde (medya, ikon, cinema) — Pingdom Expires / Cache-Control.
+ * HTML’e basılmaz. `/_next/static` ve `/_next/image` Next/Vercel immutable
+ * varsayılanına bırakılır; manuel Cache-Control dev uyarısı üretir. */
 const IMMUTABLE_STATIC_CACHE = {
   key: "Cache-Control",
   value: "public, max-age=31536000, immutable",
@@ -158,14 +160,6 @@ const nextConfig: NextConfig = {
       {
         source: "/academy",
         headers: securityHeaders,
-      },
-      {
-        source: "/_next/static/:path*",
-        headers: [IMMUTABLE_STATIC_CACHE],
-      },
-      {
-        source: "/_next/image/:path*",
-        headers: [IMMUTABLE_STATIC_CACHE],
       },
       {
         source: "/media/academy/audio/:path*",
