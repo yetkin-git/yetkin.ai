@@ -7,15 +7,12 @@ import {
   ACADEMY_MEDIA_PUBLIC_ROOT,
   academyDiagramPublicPath,
   academyMicroVideoPublicSources,
-  composeAcademyLessonBlocks,
 } from "@/lib/academy/lesson-media";
 import {
   ACADEMY_SEALED_DIAGRAM_KEYS,
   renderSealedDiagramSvgByKey,
 } from "@/archived/lib/academy-studio/sealed-diagrams";
 import { ACADEMY_BAKED_MICRO_VIDEO_KEYS } from "@/lib/academy/baked-micro-videos";
-import { academyLessonHasPractice } from "@/lib/academy/lesson-body";
-import { LESSON_PRACTICE } from "@/lib/academy/lesson-practice";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 
 const ROOT = process.cwd();
@@ -137,7 +134,7 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     expect(readSrc("app/globals.css")).toContain("academy-dialogue-player");
     expect(readSrc("app/globals.css")).toContain("academy-player-widescreen");
     expect(readSrc("app/globals.css")).toContain("aspect-ratio: 16 / 9");
-    expect(player).toContain("academy-player-widescreen");
+    expect(player).toContain("academy-player-shell");
     expect(player).toContain("academy-cinema-stage");
     expect(player).not.toContain("max-height: 14rem");
   }, 20_000);

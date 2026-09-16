@@ -52,6 +52,7 @@ describe("akademi cue SSOT — 01_office_ai-1 punchcard", () => {
         "01_office_ai-6",
         "01_office_ai-g1",
         "01_office_ai-w1",
+        "01_office_ai-k1",
       ],
     });
     expect(existsSync(join(ROOT, "lib/academy/curricula/office_ai/section_1.ts"))).toBe(true);

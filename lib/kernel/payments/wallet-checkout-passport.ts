@@ -6,7 +6,6 @@
 
 import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
 import { ServiceUnavailableError } from "@/lib/kernel/http/errors";
-import { resolveAcademyExamSittingMacKey } from "@/lib/academy/exam-sitting";
 
 export const WALLET_CHECKOUT_PASSPORT_PATH = "/kasa" as const;
 export const WALLET_CHECKOUT_PASSPORT_RETURN_PATH = "/kasa/donus" as const;
@@ -14,6 +13,9 @@ export const WALLET_CHECKOUT_PASSPORT_TTL_MS = 15 * 60_000;
 export const WALLET_CHECKOUT_PASSPORT_VERSION = "yetkin-rail.wallet.checkout-passport.v1" as const;
 const WALLET_CHECKOUT_PASSPORT_DERIVE_INFO =
   "yetkin-rail.wallet.checkout-passport.mac.derive.v1" as const;
+const PASSPORT_SEED_MIN_LENGTH = 16 as const;
+const PASSPORT_SEED_FALLBACK = "yetkin-rail.academy.exam-sitting.mac.v1" as const;
+const PASSPORT_SEED_JWT_DERIVE_INFO = "yetkin-rail.academy.exam-sitting.mac.derive.v1" as const;
 export const WALLET_CHECKOUT_PASSPORT_QUERY = "p" as const;
 export const WALLET_CHECKOUT_PASSPORT_INVALID =
   "Bu kasa bağlantısı geçersiz veya süresi doldu. Drona dönüp yeniden dene." as const;
@@ -31,10 +33,25 @@ function derivePassportMacKey(seed: string): string {
   return createHmac("sha256", seed).update(WALLET_CHECKOUT_PASSPORT_DERIVE_INFO).digest("hex");
 }
 
+function resolvePassportSeed(env: Record<string, string | undefined>): string {
+  const dedicated = env.ACADEMY_EXAM_SITTING_SECRET?.trim() ?? "";
+  if (dedicated.length >= PASSPORT_SEED_MIN_LENGTH) {
+    return dedicated;
+  }
+  const jwt = env.SUPABASE_JWT_SECRET?.trim() ?? "";
+  if (jwt.length >= PASSPORT_SEED_MIN_LENGTH) {
+    return createHmac("sha256", jwt).update(PASSPORT_SEED_JWT_DERIVE_INFO).digest("hex");
+  }
+  if (env.NODE_ENV !== "production" || env.VITEST === "true") {
+    return PASSPORT_SEED_FALLBACK;
+  }
+  throw new ServiceUnavailableError("Sınav oturumu henüz bağlanmadı.");
+}
+
 export function resolveWalletCheckoutPassportMacKey(
   env: Record<string, string | undefined> = process.env,
 ): string {
-  return derivePassportMacKey(resolveAcademyExamSittingMacKey(env));
+  return derivePassportMacKey(resolvePassportSeed(env));
 }
 
 function macKey(): string {

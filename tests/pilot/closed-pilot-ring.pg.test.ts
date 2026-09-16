@@ -34,8 +34,8 @@ import {
   labWalletMinor,
 } from "../helpers/pg-lab";
 
-const COURSE_ID = "ac_rail_temel";
-const COURSE_PRICE = 25_000;
+const COURSE_ID = "ac_01_office_ai";
+const COURSE_PRICE = 89_000;
 
 describe("Kapalı pilot halkası — gerçek Postgres", () => {
   it("Akademi → hash doğrulama → kariyer vizesi → ilan/teklif; release split; iptal kamu revoked basar", async () => {

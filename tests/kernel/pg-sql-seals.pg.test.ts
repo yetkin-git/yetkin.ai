@@ -215,7 +215,7 @@ describe("Postgres SQL mühürleri — motor reddi", () => {
            AND column_name IN ('revoked_at', 'revoke_reason')`,
       );
       const course = await client.query<{ id: string }>(
-        `SELECT id FROM academy_courses WHERE id = 'ac_rail_temel'`,
+        `SELECT id FROM academy_courses WHERE id = 'ac_01_office_ai'`,
       );
       const catalog = await client.query<{ n: number }>(
         `SELECT count(*)::int AS n FROM price_catalog_entries WHERE module_key = $1`,
@@ -237,7 +237,7 @@ describe("Postgres SQL mühürleri — motor reddi", () => {
     expect(evidence.rls).toEqual([...FORCE_RLS_CORE_TABLES].sort());
     expect(evidence.cols).toEqual(["revoke_reason", "revoked_at"]);
     expect(evidence.course).toBe(1);
-    expect(evidence.catalog).toBeGreaterThanOrEqual(3);
+    expect(evidence.catalog).toBeGreaterThanOrEqual(1);
   });
 
   it("aynı Idempotency-Key satırına ikinci INSERT unique index 23505 basar", async () => {

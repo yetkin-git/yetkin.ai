@@ -16,11 +16,11 @@ describe("operatör iptal betiği — Postgres, HTTP yok", () => {
     const attemptId = randomUUID();
     const purchaseId = randomUUID();
     const certId = randomUUID();
-    const curriculumSeal = academyCurriculumSealForSlug("python-temel");
+    const curriculumSeal = academyCurriculumSealForSlug("01_office_ai");
     expect(curriculumSeal).toMatch(/^[a-f0-9]{64}$/);
     const hash = computeAcademyCertificateHash({
       userId,
-      courseId: "ac_rail_temel",
+      courseId: "ac_01_office_ai",
       attemptId,
       score: 100,
       issuedAt,
@@ -30,13 +30,13 @@ describe("operatör iptal betiği — Postgres, HTTP yok", () => {
 
     await withLabPg(async (client) => {
       const exam = await client.query<{ id: string }>(
-        `SELECT id FROM academy_exams WHERE course_id = 'ac_rail_temel' LIMIT 1`,
+        `SELECT id FROM academy_exams WHERE course_id = 'ac_01_office_ai' LIMIT 1`,
       );
       expect(exam.rows[0]?.id).toBeTruthy();
       await client.query(
         `INSERT INTO academy_purchases
            (id, user_id, course_id, price_lock_id, amount_minor, currency_code, status, settled_at, created_at, updated_at)
-         VALUES ($1, $2, 'ac_rail_temel', $3, 25000, 'TRY', 'SETTLED', $4, $4, $4)`,
+         VALUES ($1, $2, 'ac_01_office_ai', $3, 89000, 'TRY', 'SETTLED', $4, $4, $4)`,
         [purchaseId, userId, randomUUID(), issuedAt],
       );
       await client.query(
@@ -48,7 +48,7 @@ describe("operatör iptal betiği — Postgres, HTTP yok", () => {
       await client.query(
         `INSERT INTO academy_certificates
            (id, user_id, course_id, purchase_id, attempt_id, title, serial_key, certificate_hash, curriculum_seal, score, issued_at, created_at)
-         VALUES ($1, $2, 'ac_rail_temel', $3, $4, 'Rail Temel', $5, $5, $6, 100, $7, $7)`,
+         VALUES ($1, $2, 'ac_01_office_ai', $3, $4, 'Ofiste Yapay Zekâ', $5, $5, $6, 100, $7, $7)`,
         [certId, userId, purchaseId, attemptId, hash, curriculumSeal, issuedAt],
       );
 

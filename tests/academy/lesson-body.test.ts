@@ -109,7 +109,7 @@ describe("uygulamalı ders gövdesi", () => {
         expect(lesson.body.length, lesson.key).toBeGreaterThan(200);
         if (lesson.key === "01_office_ai-6") {
           expect(lesson.body).toMatch(/30 dakika/iu);
-          expect(lesson.body).toMatch(/KVKK dersi/iu);
+          expect(lesson.body).toMatch(/KVKK başta maskeyi öğretti/iu);
           expect(lesson.body).not.toMatch(/taze ingest/iu);
           expect(lesson.body).toMatch(/kopyala-yapıştır/iu);
         }
