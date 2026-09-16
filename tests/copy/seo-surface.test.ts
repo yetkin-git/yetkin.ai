@@ -368,6 +368,9 @@ describe("Aşama 3 SEO — JSON-LD yapısal veri", () => {
     expect(serializeJsonLd({ name: "</script><p>x" })).toBe(
       '{"name":"\\u003c/script>\\u003cp>x"}',
     );
+    expect(serializeJsonLd({ email: "destek@yetkin.ai" })).toBe(
+      '{"email":"destek\\u0040yetkin.ai"}',
+    );
     const document = jsonLdDocument([breadcrumbListJsonLd(crumbs)]);
     expect(document["@graph"][0]?.["@type"]).toBe("BreadcrumbList");
   });

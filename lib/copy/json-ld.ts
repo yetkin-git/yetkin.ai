@@ -44,7 +44,14 @@ export function jsonLdDocument(nodes: readonly JsonLdObject[]): JsonLdDocument {
 
 /** `</script>` kırılmasını önler — Next.js JSON-LD tarifi. */
 export function serializeJsonLd(data: unknown): string {
-  return JSON.stringify(data).replace(/</g, "\\u003c");
+  return JSON.stringify(data)
+    .replace(/</g, "\\u003c")
+    // Cloudflare Email Obfuscation `user@host` tarar, `/cdn-cgi/email-decode` basar.
+    // JSON `\u0040` geçerlidir; tarayıcı/Google `@` okur, kenar script eklemez.
+    .replace(
+      /([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g,
+      (_, user: string, domain: string) => `${user}\\u0040${domain}`,
+    );
 }
 
 export function organizationJsonLd(): JsonLdObject {

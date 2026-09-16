@@ -233,5 +233,9 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   // /media/academy/audio yayın MP3 — kenar JWT/getUser Range isteğini kesmesin.
-  matcher: ["/", "/((?!_next/static|_next/image|favicon.ico|media/).*)"],
+  // Hash’li ikon, cinema kapak ve font/MP3 kenar worker’a düşmesin (CDN Gzip + immutable cache).
+  matcher: [
+    "/",
+    "/((?!_next/static|_next/image|favicon.ico|media/|icon.svg|apple-icon.png|.*\\.(?:ico|png|jpg|jpeg|gif|webp|avif|svg|woff|woff2|ttf|otf|mp3|mp4)$).*)",
+  ],
 };

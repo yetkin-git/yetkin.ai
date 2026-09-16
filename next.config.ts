@@ -10,10 +10,18 @@ import { EDGE_SECURITY_HEADER_ENTRIES } from "./lib/kernel/security/edge-securit
  * canlı yola rewrite edilmez; kenar 410. KAPAT oda yönlendirmesi yazılmaz.
  * §2.5 `/kayit` CEO tedavi kilidi ile ince alias'tır (`/giris` çifti).
  */
+/** Hash’li statik gövde — Pingdom Expires / Cache-Control. HTML’e basılmaz. */
+const IMMUTABLE_STATIC_CACHE = {
+  key: "Cache-Control",
+  value: "public, max-age=31536000, immutable",
+} as const;
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   typedRoutes: true,
   transpilePackages: ["@yetkin/kernel"],
+  // Vercel kenarı Gzip+Brotli müzakere eder; `next start` ve öz-barındırma için açık mühür.
+  compress: true,
   // Sol ray altını kapatan N / Route / Turbopack geliştirici kutusu kapalıdır.
   devIndicators: false,
   // Dev sunucusu localhost iken 127.0.0.1 (Playwright, canlı tur) HMR/chunk CORS'unu kesmesin.
@@ -44,6 +52,7 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     qualities: [75],
+    minimumCacheTTL: 31536000,
   },
   serverExternalPackages: [
     "@prisma/client",
@@ -151,18 +160,44 @@ const nextConfig: NextConfig = {
         headers: securityHeaders,
       },
       {
+        source: "/_next/static/:path*",
+        headers: [IMMUTABLE_STATIC_CACHE],
+      },
+      {
+        source: "/_next/image/:path*",
+        headers: [IMMUTABLE_STATIC_CACHE],
+      },
+      {
         source: "/media/academy/audio/:path*",
         headers: [
           { key: "Content-Type", value: "audio/mpeg" },
           { key: "Accept-Ranges", value: "bytes" },
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+          IMMUTABLE_STATIC_CACHE,
         ],
       },
       {
         source: "/academy/cinema/:path*",
-        headers: [
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
-        ],
+        headers: [IMMUTABLE_STATIC_CACHE],
+      },
+      {
+        source: "/media/:path*",
+        headers: [IMMUTABLE_STATIC_CACHE],
+      },
+      {
+        source: "/icon.svg",
+        headers: [IMMUTABLE_STATIC_CACHE],
+      },
+      {
+        source: "/apple-icon.png",
+        headers: [IMMUTABLE_STATIC_CACHE],
+      },
+      {
+        source: "/favicon.ico",
+        headers: [IMMUTABLE_STATIC_CACHE],
+      },
+      {
+        source: "/:all*(ico|png|jpg|jpeg|gif|webp|avif|svg|woff|woff2|ttf|otf|mp3|mp4)",
+        headers: [IMMUTABLE_STATIC_CACHE],
       },
       { source: "/:path*", headers: securityHeaders },
     ];

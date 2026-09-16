@@ -26,13 +26,24 @@ export function LegalColophonStrip() {
             "whitespace-nowrap rounded-md px-2 py-1 text-[11px] font-medium tracking-wide text-[var(--muted)] opacity-90 transition-opacity hover:opacity-100 hover:underline";
           if (link.href.startsWith("mailto:")) {
             return (
-              <a key={link.href} href={link.href} title={link.title} className={className}>
+              <a
+                key={link.href}
+                href={link.href.replace("@", "%40")}
+                title={link.label}
+                className={className}
+              >
                 {link.label}
               </a>
             );
           }
           return (
-            <Link key={link.href} href={link.href} title={link.title} className={className}>
+            <Link
+              key={link.href}
+              href={link.href}
+              title={link.title}
+              prefetch={false}
+              className={className}
+            >
               {link.label}
             </Link>
           );
