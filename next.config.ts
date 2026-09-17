@@ -19,34 +19,11 @@ const IMMUTABLE_STATIC_CACHE = {
 } as const;
 
 /**
- * Prisma WASM + pg + Noto, `includes["*"]` yüzünden her Node function izine girer.
- * Kamu HTML (WPT `/`) bunları import etmez; soğuk TTFB wait'i şişer.
- * API / akademi / kokpit includes'ta kalır — motor ısınması kaçmaz.
+ * Prisma WASM + pg, `includes["*"]` ile Node function izinde kalır.
+ * Kamu HTML (`/`, `/login`, `/legal`, …) `db` import etmez; kod yolu TTFB kazancıdır.
+ * Per-route `outputFileTracingExcludes` 5e4d6e4 fra1 yayınında motoru akademi ve
+ * `/api/health` lambdasından sildi (boş 500). Exclude yazılmaz; include durur.
  */
-const PRISMA_FONT_TRACE_GLOBS = [
-  "./node_modules/@prisma/client/runtime/**",
-  "./node_modules/@prisma/adapter-pg/**",
-  "./generated/prisma/**",
-  "./node_modules/pg/**",
-  "./node_modules/@digabi/noto-sans/**",
-] as const;
-
-const PUBLIC_HTML_WITHOUT_PRISMA = [
-  "/",
-  "/hakkimizda",
-  "/iletisim",
-  "/legal",
-  "/legal/:path*",
-  "/login",
-  "/register",
-  "/sifremi-unuttum",
-  "/sifre-yenile",
-] as const;
-
-const publicHtmlPrismaTraceExcludes: Record<string, string[]> = Object.fromEntries(
-  PUBLIC_HTML_WITHOUT_PRISMA.map((route) => [route, [...PRISMA_FONT_TRACE_GLOBS]]),
-);
-
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   typedRoutes: true,
@@ -77,7 +54,6 @@ const nextConfig: NextConfig = {
       "lib/junior/**",
       "lib/social/**",
     ],
-    ...publicHtmlPrismaTraceExcludes,
   },
   outputFileTracingIncludes: {
     "*": [

@@ -46,11 +46,9 @@ describe("amiral performans mühürleri — Gzip / cache / istek", () => {
       "v1 || !hasSupabaseAuthCookieHint(request.cookies.getAll())",
     );
     const config = readSrc("next.config.ts");
-    expect(config).toContain("PUBLIC_HTML_WITHOUT_PRISMA");
-    expect(config).toContain("publicHtmlPrismaTraceExcludes");
-    expect(config).toContain('"/",');
-    expect(config).toContain('"/login"');
-    expect(config).toContain("./node_modules/pg/**");
+    expect(config).toContain("./generated/prisma/**");
+    expect(config).not.toContain("publicHtmlPrismaTraceExcludes");
+    expect(config).toContain("./node_modules/@prisma/adapter-pg/**");
   });
 
   it("kamu yasal nav prefetch basmaz; mailto Cloudflare decode tetiklemez", () => {

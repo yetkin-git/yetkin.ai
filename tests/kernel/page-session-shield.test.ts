@@ -35,7 +35,7 @@ describe("sığınak sayfa oturum kalkanı", () => {
     expect(readSrc("lib/kernel/auth/require-session.ts")).toContain(
       "hasSupabaseAuthCookieHint(incoming.list)",
     );
-    expect(readSrc("next.config.ts")).toContain("PUBLIC_HTML_WITHOUT_PRISMA");
-    expect(readSrc("next.config.ts")).toContain("publicHtmlPrismaTraceExcludes");
+    expect(readSrc("next.config.ts")).toContain("./generated/prisma/**");
+    expect(readSrc("next.config.ts")).not.toContain("publicHtmlPrismaTraceExcludes");
   });
 });
