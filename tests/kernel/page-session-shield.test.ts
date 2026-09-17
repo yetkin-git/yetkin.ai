@@ -26,4 +26,16 @@ describe("sığınak sayfa oturum kalkanı", () => {
       expect(source, file).not.toContain("AuthNeeded");
     }
   });
+
+  it("kamu TTFB: fra1 köken, nonce connection, Prisma HTML soğuk yolunda yok", () => {
+    expect(readSrc("vercel.json")).toContain('"fra1"');
+    expect(readSrc("app/layout.tsx")).toContain("connection()");
+    expect(readSrc("app/layout.tsx")).not.toMatch(/export const preferredRegion/);
+    expect(readSrc("instrumentation.ts")).not.toContain("@/lib/kernel/db");
+    expect(readSrc("lib/kernel/auth/require-session.ts")).toContain(
+      "hasSupabaseAuthCookieHint(incoming.list)",
+    );
+    expect(readSrc("next.config.ts")).toContain("PUBLIC_HTML_WITHOUT_PRISMA");
+    expect(readSrc("next.config.ts")).toContain("publicHtmlPrismaTraceExcludes");
+  });
 });

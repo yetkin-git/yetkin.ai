@@ -119,7 +119,8 @@ describe("cüzdan defter yüzeyi", () => {
     expect(nextConfig).toContain("query_compiler_fast_bg.postgresql.wasm-base64.js");
     expect(nextConfig).toContain("./generated/prisma/**");
     expect(instrumentation).toContain("preferIpv6ForDirectHost");
-    expect(instrumentation).toContain("ensurePrismaQueryEngine");
+    expect(instrumentation).not.toContain('await import("@/lib/kernel/db")');
+    expect(instrumentation).not.toContain("void ensurePrismaQueryEngine");
     expect(instrumentation).toContain("NEXT_RUNTIME");
     expect(instrumentation).toContain("Müze instrumentation kopyası değildir");
     expect(instrumentation).toContain("ops.inngest.fail_closed");

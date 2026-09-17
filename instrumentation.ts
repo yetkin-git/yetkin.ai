@@ -3,6 +3,8 @@
  * Node sürecinde Direct host AAAA sırası; pooler DATABASE_URL ipv4first. Edge bu dosyayı yüklemez.
  * Müze instrumentation kopyası değildir.
  * Üretimde boş Inngest/PayTR sır basmadan fail-closed uyarısı yazar.
+ * Prisma ısınması burada yoktur — `await import(db)` kamu HTML TTFB'sini soğuk başlangıçta
+ * şişirir. Motor health / API / oda yükleyicilerinde `ensurePrismaQueryEngine` ile ısınır.
  */
 export async function register() {
   if (process.env.NEXT_RUNTIME !== "nodejs") {
@@ -10,8 +12,6 @@ export async function register() {
   }
   const { preferIpv6ForDirectHost } = await import("@/lib/kernel/dns-ipv6-first");
   preferIpv6ForDirectHost();
-  const { ensurePrismaQueryEngine } = await import("@/lib/kernel/db");
-  void ensurePrismaQueryEngine();
   if (process.env.NODE_ENV !== "production") {
     return;
   }

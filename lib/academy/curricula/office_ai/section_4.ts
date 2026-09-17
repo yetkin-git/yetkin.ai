@@ -46,7 +46,7 @@ Sıra sende. Kendi kutundan en az beş ileti seç. Önce etiket iste, sonra iki 
 ## El kitabı (kasetin sığdırmadığı)
 
 ### Lisans yoksa ne yapılır?
-Outlook Copilot yoksa ritüeli Gmail Gemini’ye taşı. Gemini eklentisi de yoksa maili dış sohbete taşıma; G1 dersinde taşıma suyun neden kapalı kapı olduğunu göreceksin. Son çare 3. Kapı: isim ve hesap maskeli, üç satırlık özet.
+Outlook Copilot yoksa ritüeli Gmail Gemini’ye taşı. Gemini eklentisi de yoksa maili dış sohbete taşıma; G1 dersinde bunun neden atlanmış kapı olduğunu göreceksin. Son çare 3. Kapı: isim ve hesap maskeli, üç satırlık özet.
 
 ### Kenar durum / dikkat edilecek hata
 Otomatik gönderim. Taslak «gönder» değildir. İkinci kenar: bülteni acil etiketlemek. Model her ödeme kelimesini kırmızıya boyar; sen tarih ve tutarı kilitle.

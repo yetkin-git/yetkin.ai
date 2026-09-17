@@ -101,7 +101,7 @@ describe("01_office_ai bölüm 3 — Sunum Fabrikası Altın Şablon", () => {
     expect(pieces[0]?.start).toBe(2);
     expect(academyBedDuckGain(0.5, pieces)).toBe(ACADEMY_BED_BREATH_GAIN);
     const lastEnd = pieces.at(-1)?.end ?? 0;
-    expect(lastEnd).toBe(533.76);
+    expect(lastEnd).toBe(527);
     expect(academyBedDuckGain(lastEnd, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 1.5, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 4.5, pieces)).toBe(0);
@@ -131,13 +131,13 @@ describe("01_office_ai bölüm 3 — senaryo ve mühür kapısı", () => {
     expect(compare?.afterLabel).toBe("SONRA (GÖRSEL HİYERARŞİLİ SLAYT - AI)");
     const cue04 = cues.find((cue) => cue.id === "cue-04");
     expect(cue04).toBeTruthy();
-    expect(cue04!.start).toBe(198.36);
+    expect(cue04!.start).toBe(197.12);
     expect(academyExcelFocusZoomActive(KEY, cue04!.start)).toBe(true);
     expect(academyExcelMouseState(KEY, cue04!.start + 0.05)?.visible).toBe(true);
     expect(academyExcelMouseState(KEY, 330)?.visible).toBe(true);
     expect(academyExcelMouseState(KEY, 330)?.cell).toBeTruthy();
     expect(cues[0]!.start).toBe(ACADEMY_INTRO_GENERIC_SEC);
-    expect(cues.at(-1)?.end).toBe(533.76);
+    expect(cues.at(-1)?.end).toBe(527);
   });
 
   it("ses mührü karaoke katmanını açar; mini sınav baraj 70 durur", () => {
@@ -148,6 +148,6 @@ describe("01_office_ai bölüm 3 — senaryo ve mühür kapısı", () => {
     expect(exam?.questions.map((row) => row.id)).toEqual(["q_off_l3_1", "q_off_l3_2", "q_off_l3_3"]);
     const punchcards = dronAcademyPunchcardsForLesson(KEY);
     expect(punchcards.map((card) => card.label)).toContain("ŞABLON KAOSU");
-    expect(punchcards.at(-1)?.end).toBe(533.76);
+    expect(punchcards.at(-1)?.end).toBe(527);
   });
 });

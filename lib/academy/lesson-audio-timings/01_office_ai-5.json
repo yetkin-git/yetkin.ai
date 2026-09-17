@@ -1,8 +1,8 @@
 {
   "lessonKey": "01_office_ai-5",
   "pauseSec": 0.4,
-  "durationSec": 481.96,
-  "cacheV": 481960,
+  "durationSec": 420.713,
+  "cacheV": 420713,
   "pieces": [
     {
       "index": 0,
@@ -10,16 +10,16 @@
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
       "start": 2,
-      "end": 44.6,
-      "text": "Dördüncü dersimizde gelen kutusu krizini çözmüş ve biriken yüzlerce karmaşık iletiyi dakikalar içinde düzene sokmuştuk. Yapay zekâ destekli sınıflandırma sayesinde acil işleri öne çekip otomatik taslak yanıtlar kurgulayarak gelen kutusu yükünü tamamen sıfırla aşamasına ulaştırmayı başardın. Her bir e-posta için doğru etiket atamak ve hızlı şablonlarla süreci yönetmek sana her gün en az bir saatlik odaklanmış çalışma süresi kazandırdı. Rutin yazışmaları otomatik sisteme teslim ettiğinde hissettiğin o büyük hafifliği çok iyi hatırlıyorum. Ancak iş süreçlerimizde hızlanırken arkamıza yaslanıp her çıktıyı kusursuz sanmak bazen bizi yanıltıcı tuzaklara çekebilir."
+      "end": 23.291,
+      "text": "Dördüncü dersimizde Sunum Fabrikası ile slayt başına tek fikir kuralını oturtmuştuk. Akıcı slayt, doğru sayı demek değildir. Ancak iş süreçlerimizde hızlanırken arkamıza yaslanıp her çıktıyı kusursuz sanmak bazen bizi yanıltıcı tuzaklara çekebilir. Rutin yazışmaları henüz açmadık; önce rapordaki uydurma rakamı yakalayacağız."
     },
     {
       "index": 1,
       "cueId": "cue-02",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 45,
-      "end": 77.8,
+      "start": 23.691,
+      "end": 54.502,
       "text": "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin beşinci dersine hoş geldin. Bugün hız sınırını aşarken en sık rastlanan gizli tehlikeleri, beklenmedik istisnalar zincirini ve güvenli kontrol sistemlerini tüm detaylarıyla ele alacağız. Sistemler kusursuz görünse bile her raporda bizi bekleyen küçük sürprizler her zaman mevcuttur. Birlikte yapacağımız sistematik hata avı yaklaşımıyla en sinsi veri açıklarını saniyeler içinde tespit etmeyi öğreneceksin."
     },
     {
@@ -27,8 +27,8 @@
       "cueId": "cue-02",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 78.2,
-      "end": 111,
+      "start": 54.902,
+      "end": 83.953,
       "text": "Bugün seninle yapay zekânın çok kendinden emin konuştuğu anlarda arkasındaki boşlukları nasıl yakalayacağını keşfedeceğiz. Çoğu çalışan üretilen metin akıcı veya tablo düzenli göründüğünde her sayının doğru olduğunu varsayar. Oysa profesyonel iş dünyasında tek bir hatalı satır bile yönetime sunulan tüm projenin güvenilirliğini sıfırlayabilir. Bu bölümde yapay zekâyı kendi ürettiği veriyi acımasızca denetleyen titiz bir kontrol uzmanına dönüştürmeyi öğreneceksin."
     },
     {
@@ -36,8 +36,8 @@
       "cueId": "cue-03",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 111.4,
-      "end": 147.16,
+      "start": 84.353,
+      "end": 115.764,
       "text": "Yapay zekâ araçlarına duyulan kontrolsüz güven çoğu zaman en deneyimli profesyonellerin bile başına beklenmedik işler açabilir. Model karmaşık bir veri setini özetlerken veya hesaplama yaparken bazen tamamen hayali sonuçlar üretebilir. İşte bu duruma teknik dünyada halüsinasyon diyoruz ve model bunu öyle profesyonel bir üslupla sunar ki şüphelenmek aklına bile gelmez. Toplantı odasında genel müdüre sunum yaparken uydurulmuş bir rakamla yüzleşmek istemiyorsan denetim mekanizmalarını asla elden bırakmamalısın."
     },
     {
@@ -45,8 +45,8 @@
       "cueId": "cue-03",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 147.56,
-      "end": 182.64,
+      "start": 116.164,
+      "end": 146.975,
       "text": "Bir finans raporunu veya aylık satış çizelgesini yapay zekâya emanet ettiğinde arka planda formüllerin her zaman doğru çalıştığını varsaymak büyük bir yanılgıdır. Dil modelleri matematiksel bir işlemci gibi değil kelime olasılıklarını tahmin eden bir mantıkla çalışır. Bu sebeple karmaşık toplamlarda ya da istisnai satırlarda hiç var olmayan sayıları sanki orijinal belgede varmış gibi yerleştirebilir. İşte bu kör güven zincirini kırmak için çapraz sorgulama tekniklerini refleks haline getirmemiz gerekiyor."
     },
     {
@@ -54,8 +54,8 @@
       "cueId": "cue-04",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 183.04,
-      "end": 216.2,
+      "start": 147.375,
+      "end": 176.146,
       "text": "Sistemi kendi hatasını bulmaya zorlamak için ona açık bir denetim komutu vermelisin. Yapay zekâya tablodaki satır toplamları ile genel toplam arasında çelişki olup olmadığını incelemesini ve uyumsuz her satırı kırmızı renkle işaretlemesini söyleyeceğiz. Bu net direktif modelin düz metin üretmek yerine bir denetçi gibi her hücreyi tekrar hesaplamasını sağlar. Olası bir halüsinasyon durumunda sistem uydurduğu sayıyı kendi kurallarına göre hemen yakalayacaktır."
     },
     {
@@ -63,8 +63,8 @@
       "cueId": "cue-04",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 216.6,
-      "end": 246.36,
+      "start": 176.546,
+      "end": 203.677,
       "text": "Yazacağın komutun çekirdeğinde satır bazlı tutarlılık analizi bulunmalı. Eğer satırların toplamı genel toplam hücresini vermiyorsa aradaki farkı açıkça belirtmesini ve riskli bölgeleri kırmızı uyarı etiketiyle göstermesini isteyeceksin. Böylece gözden kaçabilecek en ufak bir halüsinasyon bile tablonun üzerinde parlayan bir fenere dönüşür. Bu yöntemle karmaşık yüzlerce satırı tek tek toplamak yerine olası riskleri doğrudan ekranda görmüş olacaksın."
     },
     {
@@ -72,8 +72,8 @@
       "cueId": "cue-05",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 246.76,
-      "end": 278.76,
+      "start": 204.077,
+      "end": 234.568,
       "text": "Şimdi ekranımızdaki dikey bölünmüş karşılaştırma ekranına odaklanalım. Sol tarafta kontrolsüz üretilen ilk tabloyu görüyorsun ve Yıldız Tekstil satırında tamamen kaynaksız biçimde uydurulmuş 21.500 liralık bir meblağ bulunuyor. Bu gizli hata yüzünden tablonun altındaki genel toplam 59.450 olarak hesaplanmış gibi duruyor ama gerçek verilerle hiçbir bağı yok. Yapay zekâ burada tipik bir halüsinasyon örneği sergileyerek olmayan bir faturayı gerçek gibi listeye eklemiş."
     },
     {
@@ -81,8 +81,8 @@
       "cueId": "cue-05",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 279.16,
-      "end": 309.4,
+      "start": 234.968,
+      "end": 263.219,
       "text": "Sağ taraftaki panelde ise dedektif komutuyla yeniden taranmış doğrulanmış tablo yer alıyor. Sistem sol taraftaki uydurma 21.500 değerini ve buna bağlı olarak şişen 59.450 genel toplamını hemen tespit etti. Aradaki mantık uyuşmazlığını kırmızı renkle vurgulayarak orijinal kaynakta böyle bir sipariş bulunmadığını açıkça raporladı. Böylece asılsız bir verinin bütçe planlarına sızmasını engelleyen şeffaf bir doğrulama kalkanı kurmuş olduk."
     },
     {
@@ -90,8 +90,8 @@
       "cueId": "cue-06",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 309.8,
-      "end": 343.16,
+      "start": 263.619,
+      "end": 295.67,
       "text": "İki panel arasındaki bu çarpıcı fark yapay zekânın neden mutlak bir otorite değil güçlü bir asistan olarak görülmesi gerektiğini kanıtlıyor. Sol taraftaki raporda gözden kaçan 59.450 toplamı şirketi yanlış bütçe ayırmaya veya hatalı tedarik kararları almaya sürükleyebilirdi. Sağ tarafta ise akıllı filtreleme sayesinde üretilen halüsinasyon saniyeler içinde etkisiz hale getirildi. Artık elinde sadece düzenli değil aynı zamanda matematiği sonuna kadar teyit edilmiş güvenli bir veri seti var."
     },
     {
@@ -99,8 +99,8 @@
       "cueId": "cue-06",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 343.56,
-      "end": 375.8,
+      "start": 296.07,
+      "end": 326.841,
       "text": "Gördüğün gibi doğru kurgulanmış bir denetim sistemi hataları birer krize dönüşmeden önce yakalar. Yapay zekânın bazen gerçek dışı sayılar türetebileceğini bilmek seni zayıflatmaz aksine çok daha donanımlı bir profesyonel yapar. Kontrolsüz bırakılan bir rapordaki 59.450 gibi yanıltıcı toplamlar yerine her adımını gerekçelendiren denetimli tablolarla ilerlemek yönetim katında sana sarsılmaz bir saygınlık kazandırır. Şimdi öğrendiğimiz bu yöntemi kalıcı bir alışkanlığa çevirelim."
     },
     {
@@ -108,8 +108,8 @@
       "cueId": "cue-07",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 376.2,
-      "end": 416.72,
+      "start": 327.241,
+      "end": 366.251,
       "text": "Bu derste öğrendiğimiz hata yakalama stratejisini iş hayatında her zaman şu üç temel adımla cebine koy. 1. Tablolardaki tüm toplamları doğrudan modele bırakmak yerine her zaman bir formül aracılığıyla ikinci kez doğrulat. 2. Üretim tamamlandığında yapay zekâya bu tabloda mantık hatası var mı sorusunu açıkça sorarak çapraz kontrol yaptır. 3. Finansal veya operasyonel açıdan en kritik veriyi her zaman son bir insan gözü denetimiyle kilitlesin. Bu üç aşamalı filtre sayesinde projelerinde sıfır hata standardını yakalayacaksın. Böylece uydurma verilerin iş akışını bozmasını tamamen engellemiş olursun."
     },
     {
@@ -117,8 +117,8 @@
       "cueId": "cue-08",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 417.12,
-      "end": 447.72,
+      "start": 366.651,
+      "end": 394.062,
       "text": "Bugünkü saha görevinde senden son bir ayda hazırladığın veya üzerinde çalıştığın gerçek bir veri tablosunu masaya yatırmanı istiyorum. Yapay zekâya tablodaki satırları ve genel toplamları çapraz kontrol ettirip gizli bir uyumsuzluk aramasını emret. Sistemden hatalı veya şüpheli gördüğü her satırı kırmızı ile işaretlemesini ve gerekçesini yazmasını talep et. Bu egzersiz sayesinde kendi operasyonel dosyalarındaki potansiyel istisnaları anında yakalayacaksın."
     },
     {
@@ -126,9 +126,9 @@
       "cueId": "cue-08",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 448.12,
-      "end": 481.96,
-      "text": "Kendi veri setindeki hataları ayıklamayı bitirdiğinde bu refleks artık günlük çalışma tarzının ayrılmaz bir parçası haline gelecek. Önümüzdeki 6. bölüm içinde tüm bu pratikleri birleştirerek iş temposunu kökten değiştirecek sürdürülebilir bir Haftalık Sistem inşa edeceğiz. Her cuma ayıracağın planlı bir 30 Dakika ile tüm veri akışını ve raporlarını otomatik denetimden geçireceksin. Hazırlıklarını eksiksiz yap çünkü yakında seni bekleyen büyük Sınav Köprüsü için bu disiplin en güçlü anahtarın olacak."
+      "start": 394.462,
+      "end": 420.713,
+      "text": "Kendi veri setindeki hataları ayıklamayı bitirdiğinde bu refleks artık günlük çalışma tarzının ayrılmaz bir parçası haline gelecek. Sıradaki ders e-posta ritüelidir: etiket, taslak, insan onayı, arşiv. Gelen kutusunu sıfırlama alışkanlığını orada kuracağız. Gmail kapısı ve Vörd ataşı ondan sonra gelir. Haftalık Sistem kapanış dersidir; 30 Dakika Cuma rutini ve sınav köprüsü en sonda açılır."
     }
   ]
 }

@@ -83,10 +83,15 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
     ]);
   });
 
-  it("konuşma metni SEN dili, taşıma su yasağı ve prompt terminalini taşır", () => {
+  it("konuşma metni SEN dili, atlanmış kapı ve prompt terminalini taşır", () => {
     const spoken = readFileSync(join(ROOT, "lib/academy/spoken-scripts/01_office_ai-g1.md"), "utf8");
     expect(spoken).toContain("Selamlar, ben Gözde");
     expect(spoken).toContain("taşıma su");
+    expect(spoken).toContain("atlanmış kapı");
+    expect(spoken).not.toMatch(/taşıma su yasak/iu);
+    expect(spoken).not.toMatch(/Dördüncü derste Outlook/u);
+    expect(spoken).not.toMatch(/Sekiz ders bitmeden/u);
+    expect(spoken).toMatch(/6\. derste Outlook/u);
     expect(spoken).toContain(ACADEMY_GMAIL_GEMINI_PROMPT);
     expect(spoken).toMatch(/kopyala-yapıştır/iu);
     expect(spoken).not.toMatch(/AI masası/u);

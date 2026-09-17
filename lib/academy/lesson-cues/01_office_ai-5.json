@@ -2,17 +2,17 @@
   {
     "id": "cue-01",
     "start": 2,
-    "end": 44.6,
+    "end": 23.291,
     "text": "GİRİŞ KÖPRÜSÜ",
     "section": "GİRİŞ KÖPRÜSÜ",
     "paragraphs": [
-      "Dördüncü dersimizde gelen kutusu krizini çözmüş ve biriken yüzlerce karmaşık iletiyi dakikalar içinde düzene sokmuştuk. Yapay zekâ destekli sınıflandırma sayesinde acil işleri öne çekip otomatik taslak yanıtlar kurgulayarak gelen kutusu yükünü tamamen sıfırla aşamasına ulaştırmayı başardın. Her bir e-posta için doğru etiket atamak ve hızlı şablonlarla süreci yönetmek sana her gün en az bir saatlik odaklanmış çalışma süresi kazandırdı. Rutin yazışmaları otomatik sisteme teslim ettiğinde hissettiğin o büyük hafifliği çok iyi hatırlıyorum. Ancak iş süreçlerimizde hızlanırken arkamıza yaslanıp her çıktıyı kusursuz sanmak bazen bizi yanıltıcı tuzaklara çekebilir."
+      "Dördüncü dersimizde Sunum Fabrikası ile slayt başına tek fikir kuralını oturtmuştuk. Akıcı slayt, doğru sayı demek değildir. Ancak iş süreçlerimizde hızlanırken arkamıza yaslanıp her çıktıyı kusursuz sanmak bazen bizi yanıltıcı tuzaklara çekebilir. Rutin yazışmaları henüz açmadık; önce rapordaki uydurma rakamı yakalayacağız."
     ]
   },
   {
     "id": "cue-02",
-    "start": 45,
-    "end": 111,
+    "start": 23.691,
+    "end": 83.953,
     "text": "HOŞ GELDİN",
     "section": "HOŞ GELDİN",
     "paragraphs": [
@@ -22,8 +22,8 @@
   },
   {
     "id": "cue-03",
-    "start": 111.4,
-    "end": 182.64,
+    "start": 84.353,
+    "end": 146.975,
     "text": "AŞIRI GÜVEN",
     "section": "AŞIRI GÜVEN",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 183.04,
-    "end": 246.36,
+    "start": 147.375,
+    "end": 203.677,
     "text": "HATA AVI",
     "section": "HATA AVI",
     "paragraphs": [
@@ -44,8 +44,8 @@
   },
   {
     "id": "cue-05",
-    "start": 246.76,
-    "end": 309.4,
+    "start": 204.077,
+    "end": 263.219,
     "text": "AI DEDEKTİF",
     "section": "AI DEDEKTİF",
     "paragraphs": [
@@ -55,8 +55,8 @@
   },
   {
     "id": "cue-06",
-    "start": 309.8,
-    "end": 375.8,
+    "start": 263.619,
+    "end": 326.841,
     "text": "FARK ORTADA",
     "section": "FARK ORTADA",
     "paragraphs": [
@@ -66,8 +66,8 @@
   },
   {
     "id": "cue-07",
-    "start": 376.2,
-    "end": 416.72,
+    "start": 327.241,
+    "end": 366.251,
     "text": "CEBİNE KOY",
     "section": "CEBİNE KOY",
     "paragraphs": [
@@ -76,13 +76,13 @@
   },
   {
     "id": "cue-08",
-    "start": 417.12,
-    "end": 481.96,
+    "start": 366.651,
+    "end": 420.713,
     "text": "SIRA SENDE",
     "section": "SIRA SENDE",
     "paragraphs": [
       "Bugünkü saha görevinde senden son bir ayda hazırladığın veya üzerinde çalıştığın gerçek bir veri tablosunu masaya yatırmanı istiyorum. Yapay zekâya tablodaki satırları ve genel toplamları çapraz kontrol ettirip gizli bir uyumsuzluk aramasını emret. Sistemden hatalı veya şüpheli gördüğü her satırı kırmızı ile işaretlemesini ve gerekçesini yazmasını talep et. Bu egzersiz sayesinde kendi operasyonel dosyalarındaki potansiyel istisnaları anında yakalayacaksın.",
-      "Kendi veri setindeki hataları ayıklamayı bitirdiğinde bu refleks artık günlük çalışma tarzının ayrılmaz bir parçası haline gelecek. Önümüzdeki 6. bölüm içinde tüm bu pratikleri birleştirerek iş temposunu kökten değiştirecek sürdürülebilir bir Haftalık Sistem inşa edeceğiz. Her cuma ayıracağın planlı bir 30 Dakika ile tüm veri akışını ve raporlarını otomatik denetimden geçireceksin. Hazırlıklarını eksiksiz yap çünkü yakında seni bekleyen büyük Sınav Köprüsü için bu disiplin en güçlü anahtarın olacak."
+      "Kendi veri setindeki hataları ayıklamayı bitirdiğinde bu refleks artık günlük çalışma tarzının ayrılmaz bir parçası haline gelecek. Sıradaki ders e-posta ritüelidir: etiket, taslak, insan onayı, arşiv. Gelen kutusunu sıfırlama alışkanlığını orada kuracağız. Gmail kapısı ve Word ataşı ondan sonra gelir. Haftalık Sistem kapanış dersidir; 30 Dakika Cuma rutini ve sınav köprüsü en sonda açılır."
     ]
   }
 ]

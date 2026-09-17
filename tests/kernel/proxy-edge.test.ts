@@ -252,6 +252,15 @@ describe("proxy.ts kenar mühürleri", () => {
     expectV1Fail(await citizen.json(), "Bu sığınak Super Admin kilidine bağlıdır.");
   });
 
+  it("oturumsuz kamu vitrin GET nonce CSP basar", async () => {
+    const home = await proxy(request("/"));
+    expect(home.status).toBe(200);
+    expectNonceCsp(home);
+    const legal = await proxy(request("/hakkimizda"));
+    expect(legal.status).toBe(200);
+    expectNonceCsp(legal);
+  });
+
   it("her istekte ayrı nonce basar", async () => {
     const first = await proxy(request("/academy"));
     const second = await proxy(request("/academy"));

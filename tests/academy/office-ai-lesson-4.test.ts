@@ -100,7 +100,7 @@ describe("01_office_ai bölüm 4 — E-Posta Akışı Altın Şablon", () => {
   it("05:30 anında sağ panel 3 grup kartı basar; 142 mail listesi yok", () => {
     const cues = loadAcademyLessonCues(KEY);
     const atFiveThirty = cues.find((cue) => cue.start <= 330 && cue.end > 330);
-    expect(atFiveThirty?.id).toBe("cue-05");
+    expect(atFiveThirty?.id).toBe("cue-06");
     const compare = academyVisualCompareStage(KEY, atFiveThirty!.id);
     expect(compare?.beforeLabel).toBe(ACADEMY_OFFICE_AI_4_COMPARE_BEFORE_LABEL);
     expect(compare?.afterLabel).toBe(ACADEMY_OFFICE_AI_4_COMPARE_AFTER_LABEL);
@@ -129,7 +129,7 @@ describe("01_office_ai bölüm 4 — E-Posta Akışı Altın Şablon", () => {
     expect(pieces[0]?.start).toBe(2);
     expect(academyBedDuckGain(0.5, pieces)).toBe(ACADEMY_BED_BREATH_GAIN);
     const lastEnd = pieces.at(-1)?.end ?? 0;
-    expect(lastEnd).toBe(544.52);
+    expect(lastEnd).toBe(496.12);
     expect(academyBedDuckGain(lastEnd, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 1.5, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 4.5, pieces)).toBe(0);
@@ -147,7 +147,7 @@ describe("01_office_ai bölüm 4 — senaryo ve mühür kapısı", () => {
     expect(spoken).toHaveLength(14);
     const prose = loadAcademySpokenScriptProse(KEY);
     expect(prose).toMatch(/Selamlar, ben Gözde/u);
-    expect(prose).toMatch(/Sunum Fabrikası/u);
+    expect(prose).toMatch(/Hata Avı/u);
     expect(prose).toMatch(/okunmamış/iu);
     expect(prose).toMatch(/taslak yanıt/iu);
     expect(prose).toMatch(/Microsoft Kopilot lisansın varsa/u);
@@ -155,7 +155,7 @@ describe("01_office_ai bölüm 4 — senaryo ve mühür kapısı", () => {
     expect(prose).toMatch(/yerleşik panele/u);
     expect(prose).not.toMatch(/ücretsiz Çetcipiti/u);
     expect(prose).not.toMatch(/ekranına yapıştır/u);
-    expect(prose).toMatch(/İstisnalar/u);
+    expect(prose).toMatch(/Gmail/u);
     expect(prose).not.toMatch(/kirli/iu);
     const cues = loadAcademyLessonCues(KEY);
     expect(cues.map((cue) => academyPunchcardLabel(cue.text))).toEqual([...PUNCHCARDS]);
@@ -170,11 +170,11 @@ describe("01_office_ai bölüm 4 — senaryo ve mühür kapısı", () => {
     expect(JSON.stringify(compare?.after.table)).not.toMatch(/Haftalık Bülten/u);
     const cue04 = cues.find((cue) => cue.id === "cue-04");
     expect(cue04).toBeTruthy();
-    expect(cue04!.start).toBe(194.52);
+    expect(cue04!.start).toBe(170.84);
     expect(academyExcelFocusZoomActive(KEY, cue04!.start)).toBe(true);
     expect(academyExcelMouseState(KEY, cue04!.start + 0.05)?.visible).toBe(true);
     expect(cues[0]!.start).toBe(ACADEMY_INTRO_GENERIC_SEC);
-    expect(cues.at(-1)?.end).toBe(544.52);
+    expect(cues.at(-1)?.end).toBe(496.12);
   });
 
   it("ses mührü karaoke katmanını açar; mini sınav baraj 70 durur", () => {
@@ -183,7 +183,7 @@ describe("01_office_ai bölüm 4 — senaryo ve mühür kapısı", () => {
     expect(exam?.questions.map((row) => row.id)).toEqual(["q_off_l4_1", "q_off_l4_2", "q_off_l4_3"]);
     const punchcards = dronAcademyPunchcardsForLesson(KEY);
     expect(punchcards.map((card) => card.label)).toContain("INBOX KAOSU");
-    expect(punchcards.at(-1)?.end).toBe(544.52);
+    expect(punchcards.at(-1)?.end).toBe(496.12);
     expect(isAcademyLessonAudioSealed(SLUG, KEY)).toBe(true);
     expect(academyCitizenPlayerLayer(SLUG, KEY).kind).toBe("article+karaoke");
   });

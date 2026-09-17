@@ -18,12 +18,47 @@ const IMMUTABLE_STATIC_CACHE = {
   value: "public, max-age=31536000, immutable",
 } as const;
 
+/**
+ * Prisma WASM + pg + Noto, `includes["*"]` yüzünden her Node function izine girer.
+ * Kamu HTML (WPT `/`) bunları import etmez; soğuk TTFB wait'i şişer.
+ * API / akademi / kokpit includes'ta kalır — motor ısınması kaçmaz.
+ */
+const PRISMA_FONT_TRACE_GLOBS = [
+  "./node_modules/@prisma/client/runtime/**",
+  "./node_modules/@prisma/adapter-pg/**",
+  "./generated/prisma/**",
+  "./node_modules/pg/**",
+  "./node_modules/@digabi/noto-sans/**",
+] as const;
+
+const PUBLIC_HTML_WITHOUT_PRISMA = [
+  "/",
+  "/hakkimizda",
+  "/iletisim",
+  "/legal",
+  "/legal/:path*",
+  "/login",
+  "/register",
+  "/sifremi-unuttum",
+  "/sifre-yenile",
+] as const;
+
+const publicHtmlPrismaTraceExcludes: Record<string, string[]> = Object.fromEntries(
+  PUBLIC_HTML_WITHOUT_PRISMA.map((route) => [route, [...PRISMA_FONT_TRACE_GLOBS]]),
+);
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   typedRoutes: true,
   transpilePackages: ["@yetkin/kernel"],
-  // Vercel kenarı Gzip+Brotli müzakere eder; `next start` ve öz-barındırma için açık mühür.
+  // Vercel kenarı Accept-Encoding ile Brotli (br) sonra Gzip müzakere eder.
+  // `compress: true` `next start` / öz-barındırma gzip mühürüdür; kapatılmaz.
+  // Content-Encoding elle basılmaz — çift sıkıştırma bozar; Pingdom yalnız gzip
+  // arar, br yanıtını F (0) yazar (yanlış negatif).
+  // TTFB kökeni `vercel.json` `regions: ["fra1"]` (Node). Next 16.3 `preferredRegion`
+  // Edge'e bağlıdır ve yok sayılır; kök layout'a yazılmaz.
   compress: true,
+  poweredByHeader: false,
   // Sol ray altını kapatan N / Route / Turbopack geliştirici kutusu kapalıdır.
   devIndicators: false,
   // Dev sunucusu localhost iken 127.0.0.1 (Playwright, canlı tur) HMR/chunk CORS'unu kesmesin.
@@ -42,6 +77,7 @@ const nextConfig: NextConfig = {
       "lib/junior/**",
       "lib/social/**",
     ],
+    ...publicHtmlPrismaTraceExcludes,
   },
   outputFileTracingIncludes: {
     "*": [

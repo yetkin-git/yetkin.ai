@@ -174,14 +174,8 @@ export function academyLessonByKey(
   lessonKey: string,
 ): AcademyLessonSeed | null {
   const lessons = curriculumForCourseSlug(slug);
-  return (
-    lessons.find((lesson) => lesson.key === lessonKey) ??
-    lessons.find((lesson) => {
-      const match = lessonKey.match(/\d+/);
-      return match ? lesson.order === parseInt(match[0], 10) : false;
-    }) ??
-    null
-  );
+  const key = lessonKey.trim();
+  return lessons.find((lesson) => lesson.key === key) ?? null;
 }
 
 export function isAcademyCurriculumComplete(

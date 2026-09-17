@@ -1,6 +1,6 @@
 # Tablonu Konuştur: Düzensiz Excel → Düzenli Tablo
 
-Eğitmen: Gözde (Callirrhoe). 4-beat reji + pekiştirme durakları (GİRİŞ KÖPRÜSÜ, CEBİNE KOY). Kapanış: Gelecek Ders Köprüsü (2. bölüm / Rapor Otomasyonu). SEN dili. Punchcard rozetleri paragraf sonunda.
+Eğitmen: Gözde (Callirrhoe). 4-beat reji + pekiştirme durakları (GİRİŞ KÖPRÜSÜ, CEBİNE KOY). Kapanış: Gelecek Ders Köprüsü (2. ders / KVKK ve maskeleme). SEN dili. Punchcard rozetleri paragraf sonunda.
 
 ## Warm-up
 
@@ -38,4 +38,4 @@ Bugünkü bölümden cebine koyup hemen ofisinde uygulayacağın üç altın kur
 
 Şimdi sıra sende! Hemen bugün bilgisayarını açtığında, masaüstünde duran ya da sana yakın zamanda gönderilmiş olan en düzensiz tablolardan birini seç. Copilot varsa şeritten doğrudan okut; yoksa dosyayı ataş ile yükle. Az önce öğrendiğimiz üç aşamalı yöntemi kelimesi kelimesine dene. A1 hücresinden başlayarak başlıkları hizala, gereksiz boşlukları ayıklat ve formatları tek bir düzene oturt. Kendi gözlerinle dönüşümün hızını gördüğünde, bu yöntemin ne kadar vazgeçilmez bir alışkanlığa dönüştüğünü fark edeceksin. [ROZET: SIRA SENDE]
 
-Unutma, yapay zekâ senin yerine düşünmez ama senin yönlendirmelerinle ofisteki en güvenilir yardımcın olur. Veriyi düzenlemeyi öğrendiğin an, analiz yapmaya, rapor hazırlamaya ve stratejik kararlar almaya çok daha fazla vaktin kalacak. Kendine güven, bu pratiği gün içinde mutlaka tekrar et ve tablonun konuşmasına izin ver. Harika bir iş çıkardın, tabloyu temizleme refleksi artık cebinde. Bir sonraki derste bu temiz veriyi alıp tek tıkla üç maddelik yönetim özetine dönüştüreceğiz. Hazırsan 2. bölümde buluşalım. [ROZET: SIRA SENDE]
+Unutma, yapay zekâ senin yerine düşünmez ama senin yönlendirmelerinle ofisteki en güvenilir yardımcın olur. Veriyi düzenlemeyi öğrendiğin an, analiz yapmaya, rapor hazırlamaya ve stratejik kararlar almaya çok daha fazla vaktin kalacak. Kendine güven, bu pratiği gün içinde mutlaka tekrar et ve tablonun konuşmasına izin ver. Harika bir iş çıkardın, tabloyu temizleme refleksi artık cebinde. Bir sonraki derste bu tabloyu yüklemeden önce neyin sohbete gitmeyeceğini kilitleyeceğiz: KVKK ve maskeleme. Hazırsan 2. derste buluşalım. [ROZET: SIRA SENDE]

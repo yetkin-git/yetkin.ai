@@ -78,9 +78,9 @@ export const ACADEMY_SEN = {
     marketDemandScoreTitle: "Piyasa Talep Skoru",
     marketDemandScore: (score: number) => `✦ ${score.toFixed(1)}`,
     marketRank: (rank: number) => `Piyasa Sırası: #${rank}`,
-    /** Kart meta — eğitmen + bölüm; tekrar eden lab süsü yok. Baraj kurs/sınav sayfasında. */
+    /** Kart meta — eğitmen + ders sayısı; teknik anahtar vatandaşa basılmaz. */
     cardMeta: (lessons: number, instructorName?: string) =>
-      [instructorName ? `Eğitmen: ${instructorName}` : null, `${lessons} Bölüm`]
+      [instructorName ? `Eğitmen: ${instructorName}` : null, `${lessons} Ders`]
         .filter((part) => Boolean(part && part.length > 0))
         .join(" · "),
     infoBand: (count: number) =>
@@ -257,7 +257,7 @@ export const ACADEMY_SEN = {
     locked: "Ödeme alınmadan ders içeriği açılmaz.",
     lockedBody: "Dersler ödeme sonrası açılır. Eğitimi kurs sayfasından başlat.",
     progress: (done: number, total: number) => `${done} / ${total} ders tamam`,
-    cardProgress: (current: number, total: number) => `${current} / ${total} Bölüm`,
+    cardProgress: (current: number, total: number) => `${current} / ${total} Ders`,
     nextCardCta: "Sonraki",
     completeCta: "Dersi Tamamladım",
     prevLessonCta: "Önceki Ders",

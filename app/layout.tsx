@@ -32,7 +32,12 @@ export const metadata: Metadata = {
   twitter: homeSeo.twitter,
 };
 
-/** Nonce CSP istek anında basılır; statik kabuk nonce taşıyamaz. */
+/**
+ * Nonce CSP istek anında basılır; statik kabuk nonce taşıyamaz.
+ * `connection()` HTML'i `no-store` / dinamik tutar — kenar cache yok (TTFB bedeli).
+ * A katmanı `script-src` nonce + `strict-dynamic` durur; hash-CSP'ye sessizce dönülmez.
+ * Köken bölgesi `vercel.json` `fra1` (Node); `preferredRegion` Next 16.3'te Edge'e bağlı ve yok sayılır.
+ */
 async function RequestBoundCsp() {
   await connection();
   return null;

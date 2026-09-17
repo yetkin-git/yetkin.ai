@@ -59,7 +59,8 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(lesson.title).toContain("Düzensiz Excel");
     expect(lesson.body).toMatch(/Selamlar, ben Gözde/u);
     expect(lesson.body).toMatch(/A1 hücresi/u);
-    expect(lesson.body).toMatch(/Hazırsan 2\. bölümde buluşalım/u);
+    expect(lesson.body).toMatch(/Hazırsan 2\. derste buluşalım/u);
+    expect(lesson.body).toMatch(/KVKK ve maskeleme/u);
     expect(lesson.body).toMatch(/tabloyu temizleme refleksi artık cebinde/u);
     expect(lesson.body).not.toMatch(/görüşmek üzere/u);
     expect(academyLearningOutcomesForSlug(SLUG).join(" ")).toMatch(/A1 hücresi/u);
@@ -87,9 +88,10 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(prose).toMatch(/Kopilot lisansın varsa/u);
     expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).toMatch(/Copilot lisansın varsa/u);
     expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).toMatch(/ataş simgesinden/u);
-    expect(prose).toMatch(/Hazırsan 2\. bölümde buluşalım/u);
+    expect(prose).toMatch(/Hazırsan 2\. derste buluşalım/u);
     expect(prose).toMatch(/tabloyu temizleme refleksi artık cebinde/u);
-    expect(prose).toMatch(/üç maddelik yönetim özetine/u);
+    expect(prose).toMatch(/KVKK/u);
+    expect(prose).toMatch(/maskeleme/u);
     expect(prose).not.toMatch(/grafik raporuna/u);
     expect(prose).not.toMatch(/görüşmek üzere/u);
     expect(prose).not.toMatch(/kirli/iu);

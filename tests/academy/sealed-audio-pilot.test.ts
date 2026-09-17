@@ -36,23 +36,23 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
     });
     expect(academyMediaSealedWavCount()).toBe(9);
     expect(ACADEMY_SEALED_AUDIO_DURATION_SEC).toEqual({
-      "01_office_ai-1": 572,
-      "01_office_ai-2": 500,
-      "01_office_ai-3": 534,
-      "01_office_ai-4": 545,
-      "01_office_ai-5": 482,
+      "01_office_ai-1": 529,
+      "01_office_ai-2": 512,
+      "01_office_ai-3": 527,
+      "01_office_ai-4": 496,
+      "01_office_ai-5": 421,
       "01_office_ai-6": 412,
-      "01_office_ai-g1": 524,
+      "01_office_ai-g1": 529,
       "01_office_ai-w1": 521,
       "01_office_ai-k1": 310,
     });
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, LESSON_KEY)).toBe(true);
     expect(isAcademyCompactLessonKey(LESSON_KEY)).toBe(true);
     const timings = loadAcademySealedAudioTimings(LESSON_KEY);
-    expect(timings?.durationSec).toBe(571.84);
-    expect(timings?.cacheV).toBe(571840);
+    expect(timings?.durationSec).toBe(529.404);
+    expect(timings?.cacheV).toBe(529404);
     expect(timings?.pieces).toHaveLength(15);
-    expect(timings?.pieces.at(-1)?.text).toMatch(/Hazırsan 2\. bölümde buluşalım/u);
+    expect(timings?.pieces.at(-1)?.text).toMatch(/Hazırsan 2\. derste buluşalım/u);
     expect(timings?.pieces.at(-1)?.text).not.toMatch(/görüşmek üzere/u);
     expect(hasAcademyLessonCues(LESSON_KEY)).toBe(true);
     expect(loadAcademyLessonCues(LESSON_KEY)).toHaveLength(8);
@@ -71,18 +71,18 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
     expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-5.mp3"))).toBe(true);
     const lessonTwo = "01_office_ai-2";
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, lessonTwo)).toBe(true);
-    expect(loadAcademySealedAudioTimings(lessonTwo)?.durationSec).toBe(500.12);
+    expect(loadAcademySealedAudioTimings(lessonTwo)?.durationSec).toBe(512.4);
     expect(loadAcademySealedAudioTimings(lessonTwo)?.pieces).toHaveLength(14);
     expect(loadAcademyLessonCues(lessonTwo)).toHaveLength(8);
     expect(loadAcademySpokenScriptProse(lessonTwo)).toMatch(/Selamlar, ben Gözde/u);
     expect(academyCitizenPlayerLayer(COURSE_SLUG, lessonTwo).kind).toBe("article+karaoke");
     const lessonThree = "01_office_ai-3";
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, lessonThree)).toBe(true);
-    expect(loadAcademySealedAudioTimings(lessonThree)?.durationSec).toBe(533.76);
-    expect(loadAcademySealedAudioTimings(lessonThree)?.cacheV).toBe(533760);
+    expect(loadAcademySealedAudioTimings(lessonThree)?.durationSec).toBe(527);
+    expect(loadAcademySealedAudioTimings(lessonThree)?.cacheV).toBe(527000);
     expect(loadAcademySealedAudioTimings(lessonThree)?.pieces).toHaveLength(14);
     expect(loadAcademySealedAudioTimings(lessonThree)?.pieces[0]?.start).toBe(2);
-    expect(loadAcademySealedAudioTimings(lessonThree)?.pieces.at(-1)?.end).toBe(533.76);
+    expect(loadAcademySealedAudioTimings(lessonThree)?.pieces.at(-1)?.end).toBe(527);
     expect(loadAcademySealedAudioTimings(lessonThree)?.pieces.at(-1)?.text).toMatch(/E-Posta Akışı/u);
     expect(loadAcademySealedAudioTimings(lessonThree)?.pieces.at(-1)?.text).toMatch(/Gelen Kutusu Sıfırlama/u);
     expect(loadAcademyLessonCues(lessonThree)).toHaveLength(8);
@@ -90,11 +90,11 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
     expect(academyCitizenPlayerLayer(COURSE_SLUG, lessonThree).kind).toBe("article+karaoke");
     const lessonFour = "01_office_ai-4";
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, lessonFour)).toBe(true);
-    expect(loadAcademySealedAudioTimings(lessonFour)?.durationSec).toBe(544.52);
-    expect(loadAcademySealedAudioTimings(lessonFour)?.cacheV).toBe(544520);
+    expect(loadAcademySealedAudioTimings(lessonFour)?.durationSec).toBe(496.12);
+    expect(loadAcademySealedAudioTimings(lessonFour)?.cacheV).toBe(496120);
     expect(loadAcademySealedAudioTimings(lessonFour)?.pieces).toHaveLength(14);
     expect(loadAcademySealedAudioTimings(lessonFour)?.pieces[0]?.start).toBe(2);
-    expect(loadAcademySealedAudioTimings(lessonFour)?.pieces.at(-1)?.end).toBe(544.52);
+    expect(loadAcademySealedAudioTimings(lessonFour)?.pieces.at(-1)?.end).toBe(496.12);
     expect(loadAcademySealedAudioTimings(lessonFour)?.pieces.at(-1)?.text).toMatch(/İstisnalar/u);
     expect(loadAcademySealedAudioTimings(lessonFour)?.pieces.at(-1)?.text).toMatch(/Hata Avı/u);
     expect(loadAcademyLessonCues(lessonFour)).toHaveLength(8);
@@ -102,12 +102,12 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
     expect(academyCitizenPlayerLayer(COURSE_SLUG, lessonFour).kind).toBe("article+karaoke");
     const lessonFive = "01_office_ai-5";
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, lessonFive)).toBe(true);
-    expect(loadAcademySealedAudioTimings(lessonFive)?.durationSec).toBe(481.96);
-    expect(loadAcademySealedAudioTimings(lessonFive)?.cacheV).toBe(481960);
+    expect(loadAcademySealedAudioTimings(lessonFive)?.durationSec).toBe(420.713);
+    expect(loadAcademySealedAudioTimings(lessonFive)?.cacheV).toBe(420713);
     expect(loadAcademySealedAudioTimings(lessonFive)?.pieces).toHaveLength(14);
     expect(loadAcademySealedAudioTimings(lessonFive)?.pieces[0]?.start).toBe(2);
-    expect(loadAcademySealedAudioTimings(lessonFive)?.pieces[1]?.end).toBe(77.8);
-    expect(loadAcademySealedAudioTimings(lessonFive)?.pieces.at(-1)?.end).toBe(481.96);
+    expect(loadAcademySealedAudioTimings(lessonFive)?.pieces[1]?.end).toBe(54.502);
+    expect(loadAcademySealedAudioTimings(lessonFive)?.pieces.at(-1)?.end).toBe(420.713);
     expect(loadAcademySealedAudioTimings(lessonFive)?.pieces.at(-1)?.text).toMatch(/Haftalık Sistem/u);
     expect(loadAcademySealedAudioTimings(lessonFive)?.pieces.at(-1)?.text).toMatch(/30 Dakika/u);
     expect(loadAcademyLessonCues(lessonFive)).toHaveLength(8);
@@ -130,11 +130,11 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
     expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-6.mp3"))).toBe(true);
     const lessonG1 = "01_office_ai-g1";
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, lessonG1)).toBe(true);
-    expect(loadAcademySealedAudioTimings(lessonG1)?.durationSec).toBe(523.6);
-    expect(loadAcademySealedAudioTimings(lessonG1)?.cacheV).toBe(523600);
+    expect(loadAcademySealedAudioTimings(lessonG1)?.durationSec).toBe(529.04);
+    expect(loadAcademySealedAudioTimings(lessonG1)?.cacheV).toBe(529040);
     expect(loadAcademySealedAudioTimings(lessonG1)?.pieces).toHaveLength(14);
     expect(loadAcademySealedAudioTimings(lessonG1)?.pieces[0]?.start).toBe(2);
-    expect(loadAcademySealedAudioTimings(lessonG1)?.pieces.at(-1)?.end).toBe(523.6);
+    expect(loadAcademySealedAudioTimings(lessonG1)?.pieces.at(-1)?.end).toBe(529.04);
     expect(loadAcademySealedAudioTimings(lessonG1)?.pieces.at(-1)?.text).toMatch(/ataş ile yüklemeyi/u);
     expect(loadAcademyLessonCues(lessonG1)).toHaveLength(8);
     expect(loadAcademySpokenScriptProse(lessonG1)).toMatch(/Selamlar, ben Gözde/u);

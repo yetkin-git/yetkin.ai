@@ -126,7 +126,7 @@ export function LessonStudyTabs({
           data-academy-study-panel="exam"
         >
           <p className="text-[13px] font-medium text-slate-600">
-            Bölüm {lessonOrder} / {lessonTotal}
+            Ders {lessonOrder} / {lessonTotal}
             {nextLessonTitle ? ` · Sıradaki: ${nextLessonTitle}` : ""}
           </p>
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">

@@ -461,6 +461,9 @@ async function synthesizeSeamlessScript(input: {
   try {
     return await synthesizeChunkFull(input);
   } catch (error) {
+    if (isDailyModelQuotaError(error) || isRateLimitError(error)) {
+      throw error;
+    }
     const halves = splitSpeechChunkInHalf(input.text);
     if (!halves) {
       throw error;

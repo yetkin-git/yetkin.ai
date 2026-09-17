@@ -17,8 +17,8 @@ describe("Dron punchcard — web timings JSON türevi", () => {
     const dron = dronAcademyPunchcardsForLesson("01_office_ai-1");
     expect(dron).toEqual(derived);
     expect(dron).toHaveLength(8);
-    expect(dron[0]).toMatchObject({ id: "cue-01", label: "GİRİŞ KÖPRÜSÜ", start: 2, end: 40.64 });
-    expect(dron.at(-1)?.end).toBe(571.84);
+    expect(dron[0]).toMatchObject({ id: "cue-01", label: "GİRİŞ KÖPRÜSÜ", start: 2, end: 37.571 });
+    expect(dron.at(-1)?.end).toBe(529.404);
     expect(dronLessonDeliveryLabel("01_office_ai-1")).toBe("Sesli anlatım");
   });
 
@@ -26,8 +26,8 @@ describe("Dron punchcard — web timings JSON türevi", () => {
     const derived = punchcardsFromSealedJson(officeAi5Timings, officeAi5Cues);
     const dron = dronAcademyPunchcardsForLesson("01_office_ai-5");
     expect(dron).toEqual(derived);
-    expect(dron.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(63);
-    expect(dron.at(-1)?.end).toBe(481.96);
+    expect(dron.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(41.691);
+    expect(dron.at(-1)?.end).toBe(420.713);
   });
 
   it("6. ders timings’den türetilir; sesli anlatım", () => {

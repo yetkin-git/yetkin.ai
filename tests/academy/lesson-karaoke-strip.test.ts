@@ -54,25 +54,24 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     const midCue3 = later!.start + 0.2;
     expect(academyActivePunchcard(punchcards, midCue3)?.label).toBe("DÜZENSİZ TABLO");
     expect(strip[academyTeleprompterActiveLineIndex(strip, midCue3)!]?.cueId).toBe("cue-03");
-    const closing = strip.find((line) => /Hazırsan 2\. bölümde buluşalım/u.test(line.text));
+    const closing = strip.find((line) => /Hazırsan 2\. derste buluşalım/u.test(line.text));
     expect(closing?.cueId).toBe("cue-08");
     expect(strip.some((line) => line.cueId === "cue-08" && /tabloyu temizleme refleksi artık cebinde/u.test(line.text))).toBe(
       true,
     );
-    expect(strip.some((line) => line.cueId === "cue-08" && /üç maddelik yönetim özetine/u.test(line.text))).toBe(
+    expect(strip.some((line) => line.cueId === "cue-08" && /KVKK/u.test(line.text) && /maskeleme/u.test(line.text))).toBe(
       true,
     );
+    expect(strip.every((line) => !/üç maddelik yönetim özetine/u.test(line.text))).toBe(true);
     expect(strip.every((line) => !/grafik raporuna/u.test(line.text))).toBe(true);
     expect(strip.every((line) => !/görüşmek üzere/iu.test(line.text))).toBe(true);
     const bridgeLines = strip.filter((line) =>
-      /tabloyu temizleme refleksi|üç maddelik yönetim özetine|Hazırsan 2\. bölümde buluşalım/u.test(
-        line.text,
-      ),
+      /tabloyu temizleme refleksi|KVKK|Hazırsan 2\. derste buluşalım/u.test(line.text),
     );
     expect(bridgeLines).toHaveLength(3);
     expect(bridgeLines.every((line) => line.cueId === "cue-08")).toBe(true);
-    expect(bridgeLines[0]?.start).toBeGreaterThan(500);
-    expect(bridgeLines.at(-1)?.end).toBe(571.84);
+    expect(bridgeLines[0]?.start).toBeGreaterThan(450);
+    expect(bridgeLines.at(-1)?.end).toBe(529.404);
     for (const line of bridgeLines) {
       const words = academyKaraokeWords(line);
       expect(academyKaraokeWordState(words[0]!, line.start)).toBe("active");
@@ -152,8 +151,8 @@ describe("karaoke kelime boşluğu ve noktalama yapışması", () => {
     expect(words.some((word) => word.glue)).toBe(false);
     expect(words.at(-1)?.text).toBe("değiştirdik.");
 
-    const opening = loadAcademyKaraokeStrip("01_office_ai-4").find((line) =>
-      /Geçtiğimiz derste kurduğumuz/u.test(line.text),
+    const opening = loadAcademyKaraokeStrip("01_office_ai-3").find((line) =>
+      /Geçtiğimiz derste/u.test(line.text),
     );
     expect(opening).toBeTruthy();
     for (const key of ["01_office_ai-3", "01_office_ai-4"] as const) {

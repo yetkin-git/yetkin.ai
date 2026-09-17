@@ -2,28 +2,28 @@
   {
     "id": "cue-01",
     "start": 2,
-    "end": 45.12,
+    "end": 51.76,
     "text": "GİRİŞ KÖPRÜSÜ",
     "section": "GİRİŞ KÖPRÜSÜ",
     "paragraphs": [
-      "İlk dersimizde masandaki o karmaşık çalışma kitabını ele almış, temel bir veri temizleme refleksi kazanmıştın. Hatırlarsan, birleşmiş hücreleri tek tek çözüp veri türlerini tek tip hale getirerek işe başlamıştık. Her şeyin başı, sol üst köşedeki o kritik A1 hücresi ile başlayan düzenli bir başlık satırı kurmaktı. Eğer elinde düzensiz tablo varsa, yapay zekâ bile satırların nereye ait olduğunu tam olarak kavrayamaz. Şimdi o temel disiplini aldın, tablon tertemiz bir matris halinde önünde duruyor. Artık bu sağlam zemin üzerinde bir sonraki aşamaya, yani ham veriyi doğrudan konuşan bir yönetim raporuna dönüştürmeye tamamen hazırsın."
+      "İlk dersimizde masandaki o karmaşık çalışma kitabını ele almış, düzensiz tabloyu A1 eşiğinden temizleme refleksi kazanmıştın. Hatırlarsan, birleşmiş hücreleri tek tek çözüp veri türlerini tek tip hale getirerek işe başlamıştık. Her şeyin başı, sol üst köşedeki o kritik A1 hücresi ile başlayan düzenli bir başlık satırı kurmaktı. İkinci derste ise o temiz tabloyu yüklemeden önce KVKK bekçisini oturttuk: ham isim, telefon ve IBAN sohbete gitmez. Şimdi o temel disiplini aldın, tablon tertemiz ve maskeli bir matris halinde önünde duruyor. Artık bu sağlam zemin üzerinde bir sonraki aşamaya, yani ham veriyi doğrudan konuşan bir yönetim raporuna dönüştürmeye tamamen hazırsın."
     ]
   },
   {
     "id": "cue-02",
-    "start": 45.52,
-    "end": 114.8,
+    "start": 52.16,
+    "end": 123.72,
     "text": "HOŞ GELDİN",
     "section": "HOŞ GELDİN",
     "paragraphs": [
-      "Selamlar, ben Gözde. yetkin.ai akademisinin bu ikinci bölümünde seninle birlikte veri tablosunun içinden gerçek değeri çekip çıkaracağız. Geçen derste tabloları toparlayıp hizaladık; peki şimdi ne olacak? Masanın üstünde duran yüzlerce satırlık veri seti tek başına kimseye bir şey anlatmaz. Karar alıcıların senden beklediği şey satır satır döküm değil, ne yapılması gerektiğidir. İşte bugün, o karmaşık satırları saniyeler içinde doğrudan karar aldırıcı bir yönetim diline çevirmeyi öğreneceksin.",
+      "Selamlar, ben Gözde. yetkin.ai akademisinin bu üçüncü dersinde seninle birlikte veri tablosunun içinden gerçek değeri çekip çıkaracağız. Geçen derste maske refleksini kilitleyip tabloları toparladık; peki şimdi ne olacak? Masanın üstünde duran yüzlerce satırlık veri seti tek başına kimseye bir şey anlatmaz. Karar alıcıların senden beklediği şey satır satır döküm değil, ne yapılması gerektiğidir. İşte bugün, o karmaşık satırları saniyeler içinde doğrudan karar aldırıcı bir yönetim diline çevirmeyi öğreneceksin.",
       "Gözünün önüne getir: Önünde kritik bir yönetim toplantısı var ve başlamasına sadece yirmi dakika kalmış. Yöneticin kapıdan başını uzatıp bu ayın performansını özetleyen net bir metin istiyor. Ekrandaki onlarca sütuna bakarken hissettiğin o soğuk ter damlasını çok iyi biliyorum. Sayfalar dolusu rakamı manuel olarak tek tek inceleyip anlamlı bir metin yazmak için zamanın yok. Panik yapmak yerine, arkana yaslanıp temiz tablonu doğru komutla birleştirerek bu krizi birkaç dakikada fırsata dönüştürebilirsin."
     ]
   },
   {
     "id": "cue-03",
-    "start": 115.2,
-    "end": 186.76,
+    "start": 124.12,
+    "end": 195.28,
     "text": "UZUN RAPOR",
     "section": "UZUN RAPOR",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 187.16,
-    "end": 252.88,
+    "start": 195.68,
+    "end": 261.04,
     "text": "ÖZET İSTE",
     "section": "ÖZET İSTE",
     "paragraphs": [
@@ -44,8 +44,8 @@
   },
   {
     "id": "cue-05",
-    "start": 253.28,
-    "end": 323.88,
+    "start": 261.44,
+    "end": 330.68,
     "text": "KARAR NOTU",
     "section": "KARAR NOTU",
     "paragraphs": [
@@ -55,8 +55,8 @@
   },
   {
     "id": "cue-06",
-    "start": 324.28,
-    "end": 393.2,
+    "start": 331.08,
+    "end": 399.56,
     "text": "FARK ORTADA",
     "section": "FARK ORTADA",
     "paragraphs": [
@@ -66,8 +66,8 @@
   },
   {
     "id": "cue-07",
-    "start": 393.6,
-    "end": 433.92,
+    "start": 399.96,
+    "end": 443.52,
     "text": "CEBİNE KOY",
     "section": "CEBİNE KOY",
     "paragraphs": [
@@ -76,13 +76,13 @@
   },
   {
     "id": "cue-08",
-    "start": 434.32,
-    "end": 500.12,
+    "start": 443.92,
+    "end": 512.4,
     "text": "SIRA SENDE",
     "section": "SIRA SENDE",
     "paragraphs": [
       "Artık teoriyi geride bıraktık ve sahneye sen çıkıyorsun. Kendi bilgisayarını aç, günlük işlerinde kullandığın gerçek bir çalışma tablosunu önüne al. İlk derste öğrendiğin gibi başlıklarını düzenleyip yapısını kontrol et. Ardından biraz önce çalıştığımız komut yapısını kullanarak kendi tablon için o üç maddelik yönetici özetini ve karar notunu üret. Çıkan sonucun ne kadar berrak olduğunu gördüğünde, eski rapor yazma yöntemlerine bir daha asla geri dönmek istemeyeceksin.",
-      "Harika bir iş çıkardın ve metin bazlı rapor otomasyonunun mantığını eksiksiz kavradın. Ancak yöneticiler bu özeti yalnızca okumak istemez; çoğunlukla bunu görsel bir sahnede görmek isterler. İşte tam burada devreye Sunum Fabrikası adını verdiğimiz bir sonraki aşama giriyor. 3. bölüm kapsamında, bugün ürettiğimiz bu metin özetini alıp doğrudan profesyonel bir slayt yapısına nasıl dönüştüreceğimizi adım adım keşfedeceğiz. Hazırlıklarını yap, bir sonraki derste metinden slayta uzanan o etkileyici görsel yolculuğa birlikte çıkıyoruz."
+      "Harika bir iş çıkardın ve metin bazlı rapor otomasyonunun mantığını eksiksiz kavradın. Ancak yöneticiler bu özeti yalnızca okumak istemez; çoğunlukla bunu görsel bir sahnede görmek isterler. İşte tam burada devreye Sunum Fabrikası adını verdiğimiz bir sonraki aşama giriyor. 4. ders kapsamında, bugün ürettiğimiz bu metin özetini alıp doğrudan profesyonel bir slayt yapısına nasıl dönüştüreceğimizi adım adım keşfedeceğiz. Hazırlıklarını yap, bir sonraki derste metinden slayta uzanan o etkileyici görsel yolculuğa birlikte çıkıyoruz."
     ]
   }
 ]

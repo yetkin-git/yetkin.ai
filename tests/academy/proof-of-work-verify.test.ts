@@ -28,17 +28,19 @@ describe("akademi fail-closed iş kanıtı — compact yayın", () => {
     );
   });
 
-  it("amiral compact müfredatta etkileşimli görev kümesi boştur", () => {
+  it("amiral compact müfredatta etkileşimli hop boştur; LESSON_PRACTICE gövde tohumudur", () => {
     expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai"]);
     const curriculumKeys = new Set<string>();
     for (const row of ACADEMY_COURSE_SEEDS) {
       for (const lesson of curriculumForCourseSlug(row.slug)) {
         curriculumKeys.add(lesson.key);
+        expect(LESSON_PRACTICE[lesson.key], lesson.key).toBeDefined();
         expect(academyInteractiveTaskByKey(lesson.key)).toBeNull();
       }
     }
     expect(curriculumKeys.size).toBe(9);
-    expect(listAcademyInteractiveTaskKeys().length).toBe(Object.keys(LESSON_PRACTICE).length);
+    expect(Object.keys(LESSON_PRACTICE)).toHaveLength(9);
+    expect(listAcademyInteractiveTaskKeys()).toEqual([]);
     expect(ACADEMY_PROOF_OF_WORK_VERSION).toBe("yetkin-rail.academy.proof-of-work.v1");
     expect(academyInteractiveTaskByKey("sample-course-1")).toBeNull();
     expect(academyCanonicalProofSubmission("sample-course-1")).toBeNull();

@@ -1,6 +1,6 @@
 /**
  * 01_office_ai-g1 Gmail + Gemini — canlı gelen kutusu SSOT.
- * Taşıma su (kopyala-yapıştır / ekran görüntüsü) öğretilmez. PEDAGOJI.md §E.8–E.10.
+ * Taşıma su (kopyala-yapıştır / ekran görüntüsü) 1. ve 2. kapı dururken atlanmış kapıdır. PEDAGOJI.md §E.8–E.10.
  */
 
 export const ACADEMY_GMAIL_WINDOW_TITLE = "Gmail" as const;

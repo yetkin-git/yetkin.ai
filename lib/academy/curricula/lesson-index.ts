@@ -1,7 +1,7 @@
 /**
  * Katalog / devam paneli — gövdesiz müfredat indeksi.
- * Taslak gövdeleri ve curriculum.ts bu dosyayı import etmez; bu dosya onları import etmez.
- * Anahtarlar taslak key dizisidir; ofis amiral 9 ders.
+ * Taslak gövdeleri ve curriculum.ts bu dosyayı import eder (sıra SSOT); bu dosya onları import etmez.
+ * Vatandaş ders numarası bu dizinin 1 tabanlı indeksidir. Teknik anahtar (`k1`, `5`) basılmaz.
  * Faz 1 kilit sıra: Excel → KVKK → rapor → slayt → hata avı → e-posta ritüeli
  * → Gmail kapısı → Word → Cuma 30 capstone. Sınav yalnız son dersten sonra.
  */
@@ -38,6 +38,39 @@ export function curriculumLessonCountForSlug(slug: string): number {
 
 export function curriculumLessonKeysForSlug(slug: string): readonly string[] {
   return CURRICULUM_LESSON_KEYS_BY_SLUG[slug] ?? [];
+}
+
+/**
+ * Vatandaş sıra numarası — `lesson-index` sırası, 1 tabanlı.
+ * Teknik anahtar (`k1`, `5`, `g1`) ders numarası değildir.
+ */
+export function academyCitizenLessonOrdinal(slug: string, lessonKey: string): number | null {
+  const keys = curriculumLessonKeysForSlug(slug);
+  const index = keys.indexOf(lessonKey.trim());
+  return index >= 0 ? index + 1 : null;
+}
+
+function academyCourseSlugPrefixFromLessonKey(lessonKey: string): string | null {
+  const trimmed = lessonKey.trim();
+  const lastDash = trimmed.lastIndexOf("-");
+  if (lastDash <= 0) {
+    return null;
+  }
+  return trimmed.slice(0, lastDash);
+}
+
+/** `01_office_ai-5` → 5 (hata avı); `01_office_ai-6` → 9 (Cuma). Anahtar soneki okunmaz. */
+export function academyCitizenLessonOrdinalFromKey(lessonKey: string): number | null {
+  const slug = academyCourseSlugPrefixFromLessonKey(lessonKey);
+  if (!slug) {
+    return null;
+  }
+  return academyCitizenLessonOrdinal(slug, lessonKey);
+}
+
+export function academyCitizenLessonLabel(slug: string, lessonKey: string): string | null {
+  const ordinal = academyCitizenLessonOrdinal(slug, lessonKey);
+  return ordinal == null ? null : `Ders ${ordinal}`;
 }
 
 export function isAcademyCurriculumCompleteFromIndex(

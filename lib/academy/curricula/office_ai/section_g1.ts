@@ -17,7 +17,7 @@ Sabah kutun şişer. Ödeme, onay, acil aksiyon, banka dekontu ve bülten aynı 
 
 ## TAŞIMA SU
 
-Taşıma su, birinci ve ikinci kapı dururken maili seçip dış sohbete yapıştırmaktır. Gelen kutusu kopuk kalır. Etiket oluşmaz. Bütün kutuyu ekran görüntüsüyle taşımak üçüncü kapı değildir. Üçüncü kapı maskeli, kısa özetdir.
+Taşıma su, birinci ve ikinci kapı dururken maili seçip dış sohbete yapıştırmaktır. Bu yasak listesi değil, atlanmış kapıdır. Gelen kutusu kopuk kalır. Etiket oluşmaz. Bütün kutuyu ekran görüntüsüyle taşımak üçüncü kapı değildir. Üçüncü kapı maskeli, kısa özetdir.
 
 ## GEMİNİ AÇ
 
@@ -46,7 +46,7 @@ Sıra sende. Kendi Gmail’ini aç. Son 24 saati Gemini ile süz. Üç satırlı
 ## El kitabı (kasetin sığdırmadığı)
 
 ### Lisans yoksa ne yapılır?
-Outlook Copilot yoksa Gmail Gemini’ye geç. Gemini eklentisi de yoksa taşıma suya düşme. 3. Kapı: gönderen adı maskeli, konu + tek cümle talep, IBAN yok. Canlı kutu okunmuyorsa rozet yalan söylemez.
+Outlook Copilot yoksa Gmail Gemini’ye geç. Gemini eklentisi de yoksa 1. ve 2. kapı dururken dış sohbete düşme. 3. Kapı: gönderen adı maskeli, konu + tek cümle talep, IBAN yok. Canlı kutu okunmuyorsa rozet yalan söylemez.
 
 ### Kenar durum / dikkat edilecek hata
 Son 24 saat filtresi toplantı davetini «acil ödeme» sanabilir. Taslak yanıt notu, gönder tuşu değildir. İkinci kenar: kişisel veri içeren mail gövdesini panele olduğu gibi bırakmak. KVKK kuralı kutuda da durur.

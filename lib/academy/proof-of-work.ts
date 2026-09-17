@@ -188,7 +188,11 @@ function buildTask(lessonKey: string): AcademyInteractiveTask {
   return buildParamLock(lessonKey);
 }
 
+/** Compact makale: LESSON_PRACTICE Tam Ders Metni’nedir; hop compact-read kalır. */
 export function academyInteractiveTaskByKey(lessonKey: string): AcademyInteractiveTask | null {
+  if (isAcademyCompactLessonKey(lessonKey)) {
+    return null;
+  }
   if (!LESSON_PRACTICE[lessonKey]) {
     return null;
   }
@@ -202,7 +206,9 @@ export function academyInteractiveTaskByKey(lessonKey: string): AcademyInteracti
 }
 
 export function listAcademyInteractiveTaskKeys(): readonly string[] {
-  return Object.keys(LESSON_PRACTICE).sort((left, right) => left.localeCompare(right));
+  return Object.keys(LESSON_PRACTICE)
+    .filter((key) => !isAcademyCompactLessonKey(key))
+    .sort((left, right) => left.localeCompare(right));
 }
 
 export function slotsMatch(task: AcademyPromptPackTask | AcademyParamLockTask, slots: Record<string, string>): boolean {

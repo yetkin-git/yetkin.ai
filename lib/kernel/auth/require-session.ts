@@ -2,6 +2,7 @@ import { isSupabaseUserId, type CitizenAuth, type SessionUser } from "@/lib/kern
 import type { AuthCookieWriteOptions } from "@/lib/kernel/auth/cookie-options";
 import { createSupabaseCookieClient } from "@/lib/kernel/auth/supabase-server";
 import { isV1CookieSessionBlocked } from "@/lib/kernel/http/api-v1";
+import { hasSupabaseAuthCookieHint } from "@/lib/kernel/security/edge-guard";
 
 export class AuthRequiredError extends Error {
   readonly status = 401 as const;
@@ -147,6 +148,9 @@ async function userFromCookies(
   request?: Request,
 ): Promise<SessionUser | null> {
   const incoming = await readIncomingCookies(request);
+  if (!hasSupabaseAuthCookieHint(incoming.list)) {
+    return null;
+  }
   const supabase = createSupabaseCookieClient({
     url,
     anon,
@@ -172,6 +176,9 @@ async function citizenFromCookies(
   request?: Request,
 ): Promise<CitizenAuth | null> {
   const incoming = await readIncomingCookies(request);
+  if (!hasSupabaseAuthCookieHint(incoming.list)) {
+    return null;
+  }
   const supabase = createSupabaseCookieClient({
     url,
     anon,

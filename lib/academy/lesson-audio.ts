@@ -14,13 +14,13 @@ import { isAcademyLessonAudioSealed } from "@/lib/academy/pilot-sku";
  * Bake sonrası süre değişirse bu tabloyu güncelle. Taze ingest bekler.
  */
 export const ACADEMY_SEALED_AUDIO_DURATION_SEC: Readonly<Record<string, number>> = {
-  "01_office_ai-1": 572,
-  "01_office_ai-2": 500,
-  "01_office_ai-3": 534,
-  "01_office_ai-4": 545,
-  "01_office_ai-5": 482,
+  "01_office_ai-1": 529,
+  "01_office_ai-2": 512,
+  "01_office_ai-3": 527,
+  "01_office_ai-4": 496,
+  "01_office_ai-5": 421,
   "01_office_ai-6": 412,
-  "01_office_ai-g1": 524,
+  "01_office_ai-g1": 529,
   "01_office_ai-w1": 521,
   "01_office_ai-k1": 310,
 };

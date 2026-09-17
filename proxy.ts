@@ -23,6 +23,7 @@ import {
   applyEdgeSecurityHeaders,
   attachEdgeNonceRequestHeaders,
   createEdgeNonce,
+  hasSupabaseAuthCookieHint,
   decideEdgeAction,
   RAIL_PATHNAME_HEADER,
   RAIL_REQUEST_METHOD_HEADER,
@@ -47,7 +48,7 @@ import {
  * Tek edge girişi (Next 16 `proxy.ts`). Kök `middleware.ts` yoktur.
  * İnce mühür: müze 404, `/kayit` 308, oturumsuz çekirdek → `/giris`,
  * K6 `export const auth` kind, JWKS/HS256 JWT fail-closed, nonce CSP,
- * auth çerez yenileme (0.12 getAll/setAll + Cache-Control),
+ * auth çerez yenileme (0.12 getAll/setAll + Cache-Control; çerezsiz kamu GET atlanır),
  * çerezli web yazmalarında Origin / Sec-Fetch-Site fail-closed,
  * `/api/v1` hop allowlist (`RAIL_V1_HOPS_META`) + sürüm kapısı + soyma rewrite
  * (kopya handler ağacı yok; sicil dışı v1 yol 404, kanonik handler'a düşmez).
@@ -106,9 +107,10 @@ export async function proxy(request: NextRequest) {
   }
 
   const canonicalPath = canonicalApiPathname(pathname);
-  const refreshed = v1
-    ? { applyTo(_response: NextResponse) {} }
-    : await collectSupabaseAuthCookieRefresh(request);
+  const refreshed =
+    v1 || !hasSupabaseAuthCookieHint(request.cookies.getAll())
+      ? { applyTo(_response: NextResponse) {} }
+      : await collectSupabaseAuthCookieRefresh(request);
   const seal = (response: NextResponse) => {
     if (v1) {
       applyRailV1Cors(response, request);

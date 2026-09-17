@@ -3,6 +3,7 @@
  */
 
 import type { AcademyCinemaCueSlide, AcademyCinemaThemeId } from "@/lib/academy/cinema-cue-catalog";
+import { academyCitizenLessonOrdinalFromKey } from "@/lib/academy/curricula/lesson-index";
 import { academyGmailStageKind } from "@/lib/academy/gmail-workspace";
 import { academyWordStageKind } from "@/lib/academy/word-workspace";
 
@@ -83,6 +84,12 @@ function esc(value: string): string {
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
+}
+
+/** Vatandaş altlığı — teknik anahtar (`01_office_ai-5`) ders numarası olarak basılmaz. */
+function cinemaCitizenLessonFooter(slide: Pick<AcademyCinemaCueSlide, "lessonKey">): string {
+  const ordinal = academyCitizenLessonOrdinalFromKey(slide.lessonKey);
+  return ordinal != null ? `Ders ${ordinal}` : "Ders";
 }
 
 function chips(items: readonly string[], className: string): string {
@@ -651,7 +658,7 @@ export function renderAcademyCinemaCueHtml(slide: AcademyCinemaCueSlide): string
     </main>
     <footer>
       <span>yetkin.ai akademi · görsel sahne</span>
-      <span>${esc(slide.lessonKey)} · cue-${slide.cueIndex}</span>
+      <span>${esc(cinemaCitizenLessonFooter(slide))} · cue-${slide.cueIndex}</span>
     </footer>
   </div>
 </body>

@@ -200,7 +200,7 @@ export const OFFICE_AI_EXAM_QUESTIONS: AcademyExamQuestion[] = [
     "q_off_17",
     "Cuma 30 dakikalık ofis rutininin amacı nedir?",
     [
-      "Sınavı 6. derste açmak",
+      "Sınavı Cuma 30 kapanış dersinden önce açmak",
       "Excel, slayt ve e-postayı takvimde duran kısa bir bloğa bağlamak",
       "Bütün haftayı tek oturumda bitirmek",
       "Kaseti iki kez dinlemek",
@@ -396,10 +396,10 @@ export const OFFICE_AI_EXAM_QUESTIONS: AcademyExamQuestion[] = [
   ),
   mcq(
     "q_off_35",
-    "Yapay zekâ dilekçe veya sözleşme taslağı yazdı. Hangisi insanda kalır?",
+    "Word’de sözleşme, dilekçe ve rapor aynı ataş kapısından gider. Doğru istem disiplini hangisidir?",
     [
-      "Hitap satırını modele bırakmak",
-      "Tarih, sayı, unvan ve imza; uydurma kanun maddesini silmek",
+      "Üç işi tek istemde karıştırmak",
+      "Her işi ayrı istemle sormak; imza ve tarihi insanda bırakmak",
       "Kanun maddesini modelden olduğu gibi basmak",
       "Dosyayı ataşlamadan sayfa sayfa kopyalamak",
     ],
@@ -440,12 +440,12 @@ export const OFFICE_AI_EXAM_QUESTIONS: AcademyExamQuestion[] = [
   ),
   mcq(
     "q_off_39",
-    "3. Kapı (son çare) hangisidir?",
+    "Copilot veya Gemini lisansı, ham müşteri listesini sohbete yüklemeyi yasal kılar mı?",
     [
-      "Ham müşteri kutusunu dış sohbete taşımak",
-      "Tüm CRM’i ekran görüntüsüyle yüklemek",
-      "İsim, telefon, IBAN ve ticari sır maskelenmiş kısa özet",
-      "Copilot dururken şeridi atlayıp hamal taşımak",
+      "Evet; kiracı lisansı ruhsattır",
+      "KVKK yalnızca e-postayı kapsar",
+      "Hayır; lisans, kişisel veri ve şirket sırrı kuralını değiştirmez",
+      "Model sildiği için yüklemek serbesttir",
     ],
     2,
   ),

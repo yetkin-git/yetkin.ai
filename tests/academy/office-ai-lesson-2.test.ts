@@ -67,7 +67,7 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     expect(lesson.body).toMatch(/A1 hücresi/u);
     expect(lesson.body).toMatch(/yönetici özeti|yönetim özeti/u);
     expect(lesson.body).toMatch(/Sunum Fabrikası/u);
-    expect(lesson.body).toMatch(/4\. bölüm|dördüncü bölüm|Sunum Fabrikası/iu);
+    expect(lesson.body).toMatch(/4\. ders|dördüncü ders|Sunum Fabrikası/iu);
     expect(lesson.body).not.toMatch(/kirli/iu);
   });
 
@@ -147,7 +147,7 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     expect(pieces[0]?.start).toBe(2);
     expect(academyBedDuckGain(0.5, pieces)).toBe(ACADEMY_BED_BREATH_GAIN);
     const lastEnd = pieces.at(-1)?.end ?? 0;
-    expect(lastEnd).toBe(500.12);
+    expect(lastEnd).toBe(512.4);
     expect(academyBedDuckGain(lastEnd, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
   });
 

@@ -98,14 +98,17 @@ describe("uygulamalı ders gövdesi", () => {
     expect(expandAcademySpokenAbbreviations("dosya .docx ataşla")).not.toMatch(/\.docx/u);
   });
 
-  it("yayındaki compact müfredat 01_office_ai 9 ders taşır; diyalog pratik mühürü yoktur", { timeout: 20_000 }, () => {
+  it("yayındaki compact müfredat 01_office_ai 9 ders taşır; Tam Ders Metni pratik çitini basar, diyalog mühürü yoktur", { timeout: 20_000 }, () => {
     const keys = new Set<string>();
     for (const row of ACADEMY_COURSE_SEEDS) {
       for (const lesson of curriculumForCourseSlug(row.slug)) {
         keys.add(lesson.key);
-        expect(LESSON_PRACTICE[lesson.key], lesson.key).toBeUndefined();
-        expect(academyLessonHasPractice(lesson.body), lesson.key).toBe(false);
+        expect(LESSON_PRACTICE[lesson.key], lesson.key).toBeDefined();
+        expect(LESSON_PRACTICE[lesson.key]?.steps).toHaveLength(3);
+        expect(academyLessonHasPractice(lesson.body), lesson.key).toBe(true);
         expect(academyLessonHasPedagogy(lesson.body), lesson.key).toBe(false);
+        expect(lesson.body).toContain("```params");
+        expect(lesson.body).toContain("```adim");
         expect(lesson.body.length, lesson.key).toBeGreaterThan(200);
         if (lesson.key === "01_office_ai-6") {
           expect(lesson.body).toMatch(/30 dakika/iu);

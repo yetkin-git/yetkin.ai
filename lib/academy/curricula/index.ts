@@ -3,6 +3,7 @@ import {
   type AcademyLessonDraft,
   type CurriculumModule,
 } from "@/lib/academy/curricula/types";
+import { academyCitizenLessonOrdinal } from "@/lib/academy/curricula/lesson-index";
 import { officeAiMasteryModule } from "@/lib/academy/curricula/office_ai";
 import { ecommerceAiMasteryModule } from "@/lib/academy/curricula/ecommerce_ai";
 import { socialMediaAiMasteryModule } from "@/lib/academy/curricula/social_media_ai";
@@ -48,18 +49,20 @@ export function compactDraftsFromModule(
   slug: string,
   module: CurriculumModule,
 ): readonly AcademyLessonDraft[] {
-  return module.sections.map((section) =>
-    academyCompactLessonDraft(
-      section.lessonKey ?? `${slug}-${section.sectionNumber}`,
-      section.sectionNumber,
+  return module.sections.map((section) => {
+    const key = section.lessonKey ?? `${slug}-${section.sectionNumber}`;
+    const order = academyCitizenLessonOrdinal(slug, key) ?? section.sectionNumber;
+    return academyCompactLessonDraft(
+      key,
+      order,
       section.title,
       section.contentMarkdown.trim(),
       {
         videoUrl: section.videoUrl ?? module.videoUrl,
         audioUrl: section.audioUrl ?? module.audioUrl,
       },
-    ),
-  );
+    );
+  });
 }
 
 /**

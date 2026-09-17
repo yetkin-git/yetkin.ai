@@ -2,7 +2,7 @@
   {
     "id": "cue-01",
     "start": 2,
-    "end": 43.28,
+    "end": 45,
     "text": "GİRİŞ KÖPRÜSÜ",
     "section": "GİRİŞ KÖPRÜSÜ",
     "paragraphs": [
@@ -11,19 +11,19 @@
   },
   {
     "id": "cue-02",
-    "start": 43.68,
-    "end": 128.2,
+    "start": 45.4,
+    "end": 127.32,
     "text": "HOŞ GELDİN",
     "section": "HOŞ GELDİN",
     "paragraphs": [
-      "Selamlar, ben Gözde. yetkin.ai akademisinin yazar fırınına ve İş Hayatında Yapay Zekâ serüvenimizin üçüncü dersine çok hoş geldin. Bugün ofis hayatının belki de en çok zaman yutan, enerjimizi en çok tüketen canavarlarından birini evcilleştireceğiz: Sunum hazırlama süreci. Hepimiz o toplantı öncesi saatlerce bilgisayar karşısında çaresizce oturduk. Elinde harika fikirler, eksiksiz veriler var ama onları beyaz bir çalışma sayfasına dökmek her zaman korkutucu gelir. İşte bu derste, zihnindeki fikirleri ve elindeki yazılı dokümanları saniyeler içinde etkileyici bir görsel anlatıya dönüştürmeyi öğreneceksin.",
+      "Selamlar, ben Gözde. yetkin.ai akademisinin yazar fırınına ve İş Hayatında Yapay Zekâ serüvenimizin dördüncü dersine çok hoş geldin. Bugün ofis hayatının belki de en çok zaman yutan, enerjimizi en çok tüketen canavarlarından birini evcilleştireceğiz: Sunum hazırlama süreci. Hepimiz o toplantı öncesi saatlerce bilgisayar karşısında çaresizce oturduk. Elinde harika fikirler, eksiksiz veriler var ama onları beyaz bir çalışma sayfasına dökmek her zaman korkutucu gelir. İşte bu derste, zihnindeki fikirleri ve elindeki yazılı dokümanları saniyeler içinde etkileyici bir görsel anlatıya dönüştürmeyi öğreneceksin.",
       "Geleneksel yöntemlerle sunum hazırlarken vaktimizin neredeyse yüzde seksenini tasarım detaylarına kurban ediyoruz. Hangi renk paleti uyar, simgeler nereye yerleşir, metin kutuları nasıl hizalanır derken asıl aktarmak istediğimiz mesajın gücü arka planda kaybolup gidiyor. Sunum Fabrikası adını verdiğimiz bu yaklaşımda ise roller değişiyor. Sen bir grafiker ya da dizgi uzmanı değilsin; sen fikirlerin mimarısın ve stratejistsin. Yapay zekâyı yanına aldığında, tasarım yükünü tamamen algoritmalara devredip sadece hikâyenin akışına, vurucu mesajlara ve sunumunun yaratacağı iş etkisine odaklanabileceksin."
     ]
   },
   {
     "id": "cue-03",
-    "start": 128.6,
-    "end": 197.96,
+    "start": 127.72,
+    "end": 196.72,
     "text": "ŞABLON KAOSU",
     "section": "ŞABLON KAOSU",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 198.36,
-    "end": 277.24,
+    "start": 197.12,
+    "end": 274.48,
     "text": "SLAYT İSTE",
     "section": "SLAYT İSTE",
     "paragraphs": [
@@ -44,8 +44,8 @@
   },
   {
     "id": "cue-05",
-    "start": 277.64,
-    "end": 349.72,
+    "start": 274.88,
+    "end": 349.08,
     "text": "HİYERARŞİ",
     "section": "HİYERARŞİ",
     "paragraphs": [
@@ -55,8 +55,8 @@
   },
   {
     "id": "cue-06",
-    "start": 350.12,
-    "end": 415.48,
+    "start": 349.48,
+    "end": 414.32,
     "text": "FARK ORTADA",
     "section": "FARK ORTADA",
     "paragraphs": [
@@ -66,8 +66,8 @@
   },
   {
     "id": "cue-07",
-    "start": 415.88,
-    "end": 465.6,
+    "start": 414.72,
+    "end": 464.64,
     "text": "CEBİNE KOY",
     "section": "CEBİNE KOY",
     "paragraphs": [
@@ -76,13 +76,13 @@
   },
   {
     "id": "cue-08",
-    "start": 466,
-    "end": 533.76,
+    "start": 465.04,
+    "end": 527,
     "text": "SIRA SENDE",
     "section": "SIRA SENDE",
     "paragraphs": [
       "Şimdi bu bilgileri sahada bizzat test etme sırası sende. Senden istediğim görev çok basit ama etkisi büyük: Geçen derste hazırladığın o yönetici özetini veya iş yerinde üzerinde çalıştığın herhangi bir ham metni al. Yapay zekâya sunum tasarımcısı rolünü ver ve metnini beş slaytlık profesyonel bir sunum akışına dönüştürmesini iste. Her slaytta tek bir mesaj olmasına ve görsel önerilerinin mutlaka belirtilmesine dikkat et. Aradaki hız farkını ve içeriğin nasıl berraklaştığını kendi gözlerinle deneyimle.",
-      "Sunum taslağını hazırladıktan sonra hiç durmadan bir sonraki adıma geçeceğiz. 4. bölüm içinde ofis hayatımızın bir diğer devasa zaman hırsızını masaya yatırıyoruz: E-Posta Akışı. Her sabah açtığında seni boğan o yüzlerce okunmamış postayı hızla sınıflandırmayı, akıllı filtreler kurmayı ve Gelen Kutusu Sıfırlama tekniğiyle gelen kutunu dakikalar içinde tamamen sıfırlamayı öğreneceksin. Mesajların arasında kaybolmaya son verip iletişimi otomatikleştireceğimiz yeni derste seni heyecanla bekliyorum."
+      "Sunum taslağını hazırladıktan sonra hiç durmadan bir sonraki adıma geçeceğiz. 5. derste akıcı slaytın arkasındaki uydurma sayıyı yakalayacağız: İstisnalar ve Hata Avı. E-Posta Akışı ve Gelen Kutusu Sıfırlama ritüeli ondan sonra gelir; yerleşik Gmail kapısı ayrı derstedir. Mesajların arasında kaybolmaya son vermeden önce, rapordaki sayıyı kilitlemeyi öğrenmen gerekir."
     ]
   }
 ]

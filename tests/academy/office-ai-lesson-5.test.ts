@@ -154,12 +154,12 @@ describe("01_office_ai bölüm 5 — İstisnalar & Hata Avı Altın Şablon", ()
       return;
     }
     expect(pieces[0]?.start).toBe(2);
-    expect(pieces[1]?.end).toBe(77.8);
+    expect(pieces[1]?.end).toBe(54.502);
     expect((pieces[1]?.end ?? 0) - (pieces[1]?.start ?? 0)).toBeGreaterThan(20);
     expect((pieces[1]?.end ?? 0) - (pieces[1]?.start ?? 0)).toBeLessThan(50);
     expect(academyBedDuckGain(0.5, pieces)).toBe(ACADEMY_BED_BREATH_GAIN);
     const lastEnd = pieces.at(-1)?.end ?? 0;
-    expect(lastEnd).toBe(481.96);
+    expect(lastEnd).toBe(420.713);
     expect(academyBedDuckGain(lastEnd, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 1.5, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 4.5, pieces)).toBe(0);
@@ -203,17 +203,17 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(academyExcelFocusZoomActive(KEY, cue04!.start)).toBe(true);
     expect(academyExcelMouseState(KEY, cue04!.start + 0.05)?.visible).toBe(true);
     expect(cues[0]!.start).toBe(ACADEMY_INTRO_GENERIC_SEC);
-    expect(cues.at(-1)?.end).toBe(481.96);
+    expect(cues.at(-1)?.end).toBe(420.713);
     const layer = academyCitizenPlayerLayer(SLUG, KEY);
     expect(layer.kind).toBe("article+karaoke");
     const strip = loadAcademyKaraokeStrip(KEY);
     expect(strip[0]?.start).toBe(2);
     expect(strip.find((line) => line.cueId === "cue-02")?.text).toMatch(/^Selamlar, ben Gözde/u);
-    expect(strip.find((line) => line.cueId === "cue-02")?.start).toBe(45);
-    expect(strip.find((line) => line.cueId === "cue-04")?.start).toBe(183.04);
+    expect(strip.find((line) => line.cueId === "cue-02")?.start).toBe(23.691);
+    expect(strip.find((line) => line.cueId === "cue-04")?.start).toBe(147.375);
     expect(strip.some((line) => line.text.includes("59.450"))).toBe(true);
     expect(strip.some((line) => line.text.includes("54.650"))).toBe(false);
-    expect(strip.at(-1)?.end).toBe(481.96);
+    expect(strip.at(-1)?.end).toBe(420.713);
   });
 
   it("HOŞ GELDİN rozeti 18 sn auto-hide; adım bantları ve Beat 3 split saatle yürür", () => {
@@ -268,7 +268,7 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(media).toContain("pushSpokenClock");
     const punchcards = dronAcademyPunchcardsForLesson(KEY);
     expect(DRON_WELCOME_PUNCHCARD_MAX_SEC).toBe(18);
-    expect(punchcards.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(63);
+    expect(punchcards.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(41.691);
   });
 
   it("mini sınav baraj 70 durur; Dron punchcard Hata Avı taşır", () => {
@@ -283,7 +283,7 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(punchcards.map((card) => card.label)).toEqual(
       expect.arrayContaining(["HATA AVI", "AI DEDEKTİF"]),
     );
-    expect(punchcards.at(-1)?.end).toBe(481.96);
+    expect(punchcards.at(-1)?.end).toBe(420.713);
     expect(isAcademyLessonAudioSealed(SLUG, KEY)).toBe(true);
     expect(academyCitizenPlayerLayer(SLUG, KEY).kind).toBe("article+karaoke");
   });
