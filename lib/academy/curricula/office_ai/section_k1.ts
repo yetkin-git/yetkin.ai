@@ -5,7 +5,7 @@ export const sectionK1: Section = {
   lessonKey: "01_office_ai-k1",
   title: "KVKK, Şirket Sırları ve Maskeleme: Ne Yüklenmez?",
   targetDurationMinutes: 11.3,
-  estimatedWordCount: 1257,
+  estimatedWordCount: 1260,
   pedagogicalObjective:
     "Müşteri listesi, IBAN, T.C. Kimlik No, maaş ve şirket sırrını açık yapay zekâ ekranına yüklememeyi göstermek. Neden üç sahte satırın yettiğini anlat; yüklemeden önce maskele; 3. Kapı yalnız maskeli kısa özettir.",
   contentMarkdown: `
@@ -31,7 +31,7 @@ F2 ile kestiğin kesme işareti veri hijyenidir: hücredeki gizli karakteri gör
 
 ## ÜÇÜNCÜ KAPI
 
-Üç Kapı kuralını şimdi doğru yere koyalım. Bu kural aktarım yöntemidir, güvenlik sınıfı değildir. 1. Kapı yerleşik panel: Copilot veya Gemini şeridi. 2. Kapı ataş: \`.xlsx\`, \`.docx\`, \`.pptx\`. 3. Kapı sohbet ve tüketici modelinde maskeli kısa özet. Ham kutu yapıştırmak 3. Kapı değildir. Ekran görüntüsü zinciri 3. Kapı değildir. Bunlar atlanmış kapıdır: birinci ve ikinci kapıyı denemeden, maske de koymadan ham kimliği dışarı taşımaktır.
+Üç Kapı kuralını şimdi doğru yere koyalım. Bu kural aktarım yöntemidir, güvenlik sınıfı değildir. 1. Kapı yerleşik panel: Copilot veya Gemini şeridi. 2. Kapı ataş: Excel tablosu, Word belgesi, PowerPoint sunusu. 3. Kapı sohbet ve tüketici modelinde maskeli kısa özet. Ham kutu yapıştırmak 3. Kapı değildir. Ekran görüntüsü zinciri 3. Kapı değildir. Bunlar atlanmış kapıdır: birinci ve ikinci kapıyı denemeden, maske de koymadan ham kimliği dışarı taşımaktır.
 
 Kişisel veri, şirket sırrı ve kamu cümlesi ayrı bir sınıflamadır. Hangi kapıyı seçersen seç, ham kimlik ve sır gitmez. Peki birinci ve ikinci kapı duruyorsa neden üçüncü kapıyı açmayalım? Çünkü şirketinin kendi şeridi veya ataş yolu varken, ham listeyi dış sohbete taşımana gerek yoktur. Durmuyorsa, yani lisans yoksa ve ataş da uygun değilse, o zaman üçüncü kapıyı açarsın; ama yine bütün listeyi değil. Yapay zekâya tablonun mantığını kavratmak için üç satır yeter: sütun başlıkları ve üç örnek, sahte satır. Otuz satırlık müşteri dökümü yetmez, çünkü model fazladan gerçek isimle daha iyi özet yazmaz; sen ise daha fazla insanı riske atmış olursun.
 

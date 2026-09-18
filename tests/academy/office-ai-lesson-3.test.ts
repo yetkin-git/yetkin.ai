@@ -97,6 +97,7 @@ describe("01_office_ai bölüm 3 — Sunum Fabrikası Altın Şablon", () => {
     expect(lesson.body).toMatch(/Peki neden slayta düz metin yığını doldurulmaz/u);
     expect(lesson.body).toMatch(/Peki tek fikir kuralı nedir/u);
     expect(lesson.body).toMatch(/Peki yapay zekâdan slayt taslağı nasıl alınır/u);
+    expect(lesson.body).toMatch(/dosyayı PowerPoint sunusu olarak ataşla/u);
     expect(lesson.body).toMatch(/İstisnalar ve Hata Avı/u);
     expect(lesson.body).toMatch(/E-Posta Akışı/u);
     expect(lesson.body).not.toMatch(/kirli/iu);
@@ -227,6 +228,8 @@ describe("01_office_ai bölüm 3 — Sunum Fabrikası Altın Şablon", () => {
     expect(prose).toMatch(/Peki yapay zekâdan slayt taslağı nasıl alınır\?/u);
     expect(prose).toMatch(/görsel yönlendirme/iu);
     expect(prose).toMatch(/parantez içinde tarif/u);
+    expect(prose).toMatch(/dosyayı Pauer Point sunusu olarak ataşla/u);
+    expect(prose).not.toMatch(/\bpptx\b/u);
     expect(prose).not.toMatch(/Bu örnek ezber slogan değil/u);
     expect(prose).not.toMatch(/saniyeler içinde etkileyici/u);
   });

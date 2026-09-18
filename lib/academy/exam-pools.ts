@@ -58,7 +58,7 @@ export const OFFICE_AI_EXAM_QUESTIONS: AcademyExamQuestion[] = [
     "Excel tablosunu yapay zekâya verirken Üç Kapı sırası hangisidir?",
     [
       "Önce gemini.google.com, sonra ataş, en son Copilot şeridi",
-      "1. Kapı yerleşik panel (Copilot / Gemini şeridi), 2. Kapı ataş (xlsx, docx, pptx), 3. Kapı maskeli kısa özet",
+      "1. Kapı yerleşik panel (Copilot / Gemini şeridi), 2. Kapı ataş (Excel tablosu, Word belgesi, PowerPoint sunusu), 3. Kapı maskeli kısa özet",
       "Önce VBA, sonra ekran görüntüsü zinciri",
       "Ham tabloyu her zaman dış sohbete yapıştırmak",
     ],
@@ -80,7 +80,7 @@ export const OFFICE_AI_EXAM_QUESTIONS: AcademyExamQuestion[] = [
     "PowerPoint taslağı çıkarırken öğretilen doğru kapı hangisidir?",
     [
       "VBA makrosu yazdırıp tek tıkla slayt basmak",
-      "Copilot varsa şeride yazmak; yoksa .pptx dosyasını ataşlamak",
+      "Copilot varsa şeride yazmak; yoksa PowerPoint sunusunu ataşlamak",
       "Gamma veya Marp olmadan slayt yapılamaz demek",
       "Tüm paragrafları tek slayta yapıştırıp puntoyu küçültmek",
     ],
@@ -377,7 +377,7 @@ export const OFFICE_AI_EXAM_QUESTIONS: AcademyExamQuestion[] = [
     "30 sayfalık sözleşmede cezai şart ve fesih farklı sayfalardadır. En güvenilir analiz hangisidir?",
     [
       "Sayfaları ayrı ayrı kopyalayıp sohbete yapıştırmak",
-      "Sözleşmeyi docx olarak ataşlayıp dosyanın bütününü inceletmek",
+      "Sözleşmeyi Word belgesi olarak ataşlayıp dosyanın bütününü inceletmek",
       "Yalnız ilk sayfayı yüklemek",
       "Ekran görüntüsü zinciri basmak",
     ],

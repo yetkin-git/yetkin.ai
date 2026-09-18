@@ -98,7 +98,7 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
     const spoken = readFileSync(join(ROOT, "lib/academy/spoken-scripts/01_office_ai-w1.md"), "utf8");
     expect(spoken).toContain("Selamlar, ben Gözde");
     expect(spoken).toContain("ataş");
-    expect(spoken).toMatch(/Yüklediğim sözleşme dosyasını \(docx\)/u);
+    expect(spoken).toMatch(/Yüklediğim sözleşme dosyasını \(Word belgesi\)/u);
     expect(spoken).toMatch(/parça parça/iu);
     expect(spoken).toContain("dosyayı ataşla yüklersin");
     expect(spoken).toContain("spesifik bir paragraf");

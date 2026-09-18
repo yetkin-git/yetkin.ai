@@ -66,7 +66,7 @@ export const OFFICE_AI_PLANNED_LESSONS = [
     lane: "main",
     method: "copilot-live",
     pedagogicalObjective:
-      "Slayt başına tek fikir. 1. Kapı PowerPoint Copilot, 2. Kapı .pptx ataş. VBA / Gamma / Marp zorunlu değildir.",
+      "Slayt başına tek fikir. 1. Kapı PowerPoint Copilot, 2. Kapı PowerPoint sunusu ataş. VBA / Gamma / Marp zorunlu değildir.",
   },
   {
     key: "01_office_ai-5",

@@ -32,7 +32,7 @@ export const ACADEMY_OFFICE_AI_3_COMPARE_AFTER_LABEL = "SONRA (GÖRSEL HİYERAR�
 
 /** Öğrencinin Prompt Terminaline yazacağı gerçek istem — reji notu yok. PEDAGOJI §E.7. */
 export const ACADEMY_OFFICE_AI_3_COPILOT_PROMPT =
-  "Bu düz metni slayt başına tek fikir ve görsel yönlendirme ile taslağa çevir. Copilot varsa şeride yaz; yoksa pptx ataşla." as const;
+  "Bu düz metni slayt başına tek fikir ve görsel yönlendirme ile taslağa çevir. Copilot varsa şeride yaz; yoksa PowerPoint sunusu olarak ataşla." as const;
 
 /** 01_office_ai-4 Beat 3 — 142 okunmamış mail vs sıfırlanmış kutu. */
 export const ACADEMY_OFFICE_AI_4_COMPARE_BEFORE_LABEL = "ÖNCE (142 OKUNMAMIŞ MAİL)" as const;

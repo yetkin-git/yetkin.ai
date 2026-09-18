@@ -5,7 +5,7 @@ export const section3: Section = {
   lessonKey: "01_office_ai-3",
   title: "Sunum Fabrikası: Metinden Slayta",
   targetDurationMinutes: 9.6,
-  estimatedWordCount: 1242,
+  estimatedWordCount: 1244,
   pedagogicalObjective:
     "Metinden slayt başına tek fikir, görsel yönlendirme ve taslak aktarma akışını göstermek. Neden düz metin yığını doldurulmaz? Çünkü dinleyici okur, seni dinlemez. Tek fikir kuralı: her slayt bir vurucu mesaj taşır. AI yönlendirmesi: rol ver, taslak iste, görseli parantezde tarif et.",
   contentMarkdown: `
@@ -23,9 +23,9 @@ Birçok profesyonelin yaptığı en büyük hata, sayfaları süslemenin sunumu 
 
 ## SLAYT İSTE
 
-Şimdi mantığı oturtalım. Peki yapay zekâdan slayt taslağı nasıl alınır? İşe, elimizdeki ham metni modele verip net bir rol biçerek başlıyoruz. Yapay zekâya kıdemli bir sunum tasarımcısı olduğunu söylemeli ve her sayfada tek fikir barındıran bir slayt taslağı oluşturmasını talep etmeliyiz. Peki tek fikir kuralı nedir? Her slayt yalnızca bir vurucu mesaj taşır; on madde taşımaz. PowerPoint Copilot lisansın varsa bu birinci kapıdır: istemi şeritteki panele yazarsın. Yoksa ikinci kapı \`.pptx\` dosyasını sohbete ataşlamaktır. Gamma veya Marp istersen kullanabilirsin; ana yol değildir. Kod yazdırmazsın. Komutunda başlıkları, vurucu anahtar mesajı ve ekranda yer alacak maddeleri kesin sınırlarla ayırmasını belirtmelisin.
+Şimdi mantığı oturtalım. Peki yapay zekâdan slayt taslağı nasıl alınır? İşe, elimizdeki ham metni modele verip net bir rol biçerek başlıyoruz. Yapay zekâya kıdemli bir sunum tasarımcısı olduğunu söylemeli ve her sayfada tek fikir barındıran bir slayt taslağı oluşturmasını talep etmeliyiz. Peki tek fikir kuralı nedir? Her slayt yalnızca bir vurucu mesaj taşır; on madde taşımaz. PowerPoint Copilot lisansın varsa bu birinci kapıdır: istemi şeritteki panele yazarsın. Yoksa ikinci kapı PowerPoint sunusunu sohbete ataşlamaktır. Gamma veya Marp istersen kullanabilirsin; ana yol değildir. Kod yazdırmazsın. Komutunda başlıkları, vurucu anahtar mesajı ve ekranda yer alacak maddeleri kesin sınırlarla ayırmasını belirtmelisin.
 
-Komutuna mutlaka görsel yönlendirme eklemesini de şart koşmalısın. Neden? Çünkü yapay zekâ yalnız metin yazarsa taslak yine duvar olur. Yani model yalnızca cümle basmamalı; her bir sayfanın sağ köşesinde nasıl bir infografik veya görsel bulunması gerektiğini parantez içinde tarif etmelidir. Eğer PowerPoint Copilot yoksa dosyayı \`.pptx\` olarak ataşla; model slayt başlıklarını ve konuşmacı notlarını dosyanın üstünden çıkarır. VBA makrosu bu derste yoktur. Bu aşamada girdiğin komut ne kadar yapılandırılmış olursa, elde edeceğin içerik mimarisi de o kadar net olur.
+Komutuna mutlaka görsel yönlendirme eklemesini de şart koşmalısın. Neden? Çünkü yapay zekâ yalnız metin yazarsa taslak yine duvar olur. Yani model yalnızca cümle basmamalı; her bir sayfanın sağ köşesinde nasıl bir infografik veya görsel bulunması gerektiğini parantez içinde tarif etmelidir. Eğer PowerPoint Copilot yoksa dosyayı PowerPoint sunusu olarak ataşla; model slayt başlıklarını ve konuşmacı notlarını dosyanın üstünden çıkarır. VBA makrosu bu derste yoktur. Bu aşamada girdiğin komut ne kadar yapılandırılmış olursa, elde edeceğin içerik mimarisi de o kadar net olur.
 
 ## HİYERARŞİ
 
@@ -41,7 +41,7 @@ Bu yaklaşımı bir kez içselleştirdiğinde, sunum hazırlamak artık iş gün
 
 ## CEBİNE KOY
 
-Şimdi bu derste öğrendiğin yaklaşımı iş hayatında her gün kullanabileceğin üç somut adıma dökelim ve cebine koyalım. 1. Slayt başına tek fikir ver; sayfayı karmaşık bilgiyle boğmak yerine her slaytın yalnızca tek bir vurucu mesaja odaklanmasını sağla. Çünkü dinleyici on madde okursa seni dinlemez. 2. Görsel yönlendirmeyi yaz; yapay zekâya sadece sunum metinlerini değil, ekranda hangi veri grafiklerinin veya simgelerin yer alacağını parantez içinde tarif ettir. Çünkü yön yoksa taslak yine metin duvarı basar. 3. Taslağı aktar; Copilot şeridinden veya \`.pptx\` ataşından gelen düzenli çıktıyı slayt başına tek fikir kalarak PowerPoint’e taşı. Çünkü aktarırken madde şişerse hiyerarşi bozulur. Bu üç adımı her projede uyguladığında sunum hazırlamak zahmetli bir iş olmaktan çıkar.
+Şimdi bu derste öğrendiğin yaklaşımı iş hayatında her gün kullanabileceğin üç somut adıma dökelim ve cebine koyalım. 1. Slayt başına tek fikir ver; sayfayı karmaşık bilgiyle boğmak yerine her slaytın yalnızca tek bir vurucu mesaja odaklanmasını sağla. Çünkü dinleyici on madde okursa seni dinlemez. 2. Görsel yönlendirmeyi yaz; yapay zekâya sadece sunum metinlerini değil, ekranda hangi veri grafiklerinin veya simgelerin yer alacağını parantez içinde tarif ettir. Çünkü yön yoksa taslak yine metin duvarı basar. 3. Taslağı aktar; Copilot şeridinden veya PowerPoint sunusu ataşından gelen düzenli çıktıyı slayt başına tek fikir kalarak PowerPoint’e taşı. Çünkü aktarırken madde şişerse hiyerarşi bozulur. Bu üç adımı her projede uyguladığında sunum hazırlamak zahmetli bir iş olmaktan çıkar.
 
 ## SIRA SENDE
 
@@ -52,7 +52,7 @@ Sunum taslağını hazırladıktan sonra hiç durmadan bir sonraki adıma geçec
 ## El kitabı (kasetin sığdırmadığı)
 
 ### Lisans yoksa ne yapılır?
-PowerPoint Copilot yoksa pptx dosyasını sohbete ataşla; model başlık ve konuşmacı notunu dosyanın üstünden çıkarır. Gamma veya Marp istersen kullanabilirsin; ana yol değildir. VBA bu derste yoktur. Tek fikir kuralı araç değişince bozulmaz: slayt başına bir mesaj, görsel yön parantezde.
+PowerPoint Copilot yoksa PowerPoint sunusunu sohbete ataşla; model başlık ve konuşmacı notunu dosyanın üstünden çıkarır. Gamma veya Marp istersen kullanabilirsin; ana yol değildir. VBA bu derste yoktur. Tek fikir kuralı araç değişince bozulmaz: slayt başına bir mesaj, görsel yön parantezde.
 
 ### Kenar durum / dikkat edilecek hata
 Şirket şablonu (renk, logo, dipnot) modelde yoktur. Taslağı aktarırken slayt başına tek fikir kalsın; kurumsal temayı sen kilitle. Konuşmacı notunu slayt gövdesine yapıştırma. Neden? Çünkü gövdeye yapıştırılan not, düz metin yığınını geri getirir.

@@ -22,7 +22,7 @@ function officePractice(
 export const LESSON_PRACTICE: Record<string, AcademyLessonPractice> = {
   "01_office_ai-1": officePractice(
     [
-      { label: "Senin dosyan", value: "masandaki gerçek xlsx adı (örnek: Satis_Eylul.xlsx)" },
+      { label: "Senin dosyan", value: "masandaki gerçek Excel tablosu adı (örnek: Satis_Eylul.xlsx)" },
       { label: "A1 sütun adı", value: "ilk gerçek sütun (örnek: Sipariş No)" },
     ],
     [
@@ -52,7 +52,7 @@ Kısıt: Kişi adı, açık IBAN, maaş veya T.C. Kimlik No üretme. Silmek yük
   ),
   "01_office_ai-2": officePractice(
     [
-      { label: "Senin tablon", value: "maskeli gerçek xlsx adı (örnek: Bolge_Satis.xlsx)" },
+      { label: "Senin tablon", value: "maskeli gerçek Excel tablosu adı (örnek: Bolge_Satis.xlsx)" },
       { label: "Alıcı rolü", value: "üst yönetici / karar notu isteyen kişi" },
     ],
     [
@@ -68,12 +68,12 @@ Kısıt: Uydurma yüzde yok. On sayfalık döküm yok. Grafik vaadi yok.`,
   "01_office_ai-3": officePractice(
     [
       { label: "Kaynak metin", value: "3. dersteki üç madde + eylem cümlesi (kendi özetin)" },
-      { label: "Hedef slayt", value: "kendi pptx adın (örnek: Yonetim_Ozeti.pptx)" },
+      { label: "Hedef slayt", value: "kendi PowerPoint sunusu adın (örnek: Yonetim_Ozeti.pptx)" },
     ],
     [
       "Slayt başına tek fikir yaz; başlık iddia olsun, dolgu olmasın.",
       "Hiyerarşiyi kilitle: başlık, bir görsel yön, konuşmacı notu.",
-      "Taslağı Copilot veya pptx ataşla aktar; şirket temasını sen kilitle.",
+      "Taslağı Copilot veya PowerPoint sunusu olarak ataşla aktar; şirket temasını sen kilitle.",
     ],
     `Rol: Sunum mimarı.
 Görev: Bu üç maddeyi slayt iskeletine çevir.
@@ -124,7 +124,7 @@ Kısıt: Taslağı onaylamadan iletme. Yerleşik paneli bu derste ezberleme.`,
   ),
   "01_office_ai-w1": officePractice(
     [
-      { label: "Senin dosyan", value: "kendi docx adın (sözleşme, dilekçe veya rapor)" },
+      { label: "Senin dosyan", value: "kendi Word belgesi adın (sözleşme, dilekçe veya rapor)" },
       { label: "İş türü", value: "üç işten biri: sözleşme / dilekçe / rapor — ayrı istem" },
     ],
     [
@@ -133,14 +133,14 @@ Kısıt: Taslağı onaylamadan iletme. Yerleşik paneli bu derste ezberleme.`,
       "Unvan, tarih, sayı ve imza sende kalır. Kanun maddesi uydurulursa sil.",
     ],
     `Rol: Uzun doküman okuyucusu.
-Görev: Yüklediğim .docx dosyasını baştan sona incele.
+Görev: Yüklediğim Word belgesini baştan sona incele.
 Format: Sözleşmede cezai şart, fesih, gizlilik — sayfa numarası yaz. Dilekçede hitap, gerekçe, talep. Raporda başlık, üç madde, sonraki adım.
 Kısıt: Uydurma madde ekleme. İmza, unvan ve tarih insanda. Üç iş, üç ayrı istem.`,
   ),
   "01_office_ai-6": officePractice(
     [
       { label: "Takvim bloğu", value: "bu Cuma 30 dakika (10 Excel + 10 slayt + 10 kutu)" },
-      { label: "Haftalık dosyalar", value: "bir gerçek xlsx + bir pptx veya özet + kutu" },
+      { label: "Haftalık dosyalar", value: "bir gerçek Excel tablosu + bir PowerPoint sunusu veya özet + kutu" },
     ],
     [
       "Cuma 30’u takvime yaz: 10 Excel, 10 slayt, 10 kutu.",

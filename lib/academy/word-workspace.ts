@@ -8,9 +8,9 @@ export const ACADEMY_WORD_WINDOW_TITLE = "Word" as const;
 export const ACADEMY_WORD_FILE_NAME = "Sozlesme_Kaya_Gida.docx" as const;
 export const ACADEMY_WORD_NATIVE_TOOL = "Doğrudan Dosya Yükleme" as const;
 
-/** Öğrencinin ataşladığı .docx için gerçek istem — Prompt Terminali SSOT. */
+/** Öğrencinin ataşladığı Word belgesi için gerçek istem — Prompt Terminali SSOT. */
 export const ACADEMY_WORD_UPLOAD_PROMPT =
-  "Yüklediğim sözleşme dosyasını (.docx) baştan sona incele. Şirketimiz aleyhine olabilecek cezai şart maddelerini, fesih koşullarını ve gizlilik yükümlülüklerini liste halinde özetle. Sayfa numarası yaz. Uydurma madde ekleme." as const;
+  "Yüklediğim sözleşme dosyasını (Word belgesi) baştan sona incele. Şirketimiz aleyhine olabilecek cezai şart maddelerini, fesih koşullarını ve gizlilik yükümlülüklerini liste halinde özetle. Sayfa numarası yaz. Uydurma madde ekleme." as const;
 
 export const ACADEMY_WORD_COPY_FRAGMENTS = [
   {

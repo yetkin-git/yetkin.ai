@@ -326,7 +326,7 @@ const OFFICE_AI_W1_UPLOAD_TABLE = {
     ["DİLEKÇE HİTAP", "Kaymakamlık süre uzatımı", "Tarih / unvan / imza"],
     ["RAPOR MADDESİ", "Başlık + üç madde + sonraki adım", "Gözlem ≠ karar"],
   ],
-  note: "Sözleşme, dilekçe ve rapor ayrı istemle; .docx ataş. İmza insanda.",
+  note: "Sözleşme, dilekçe ve rapor ayrı istemle; Word belgesi olarak ataş. İmza insanda.",
 } as const;
 
 const OFFICE_AI_W1_UPLOAD_NODES = [
@@ -1628,7 +1628,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         fileName: "Sozlesme_Kaya_Gida.docx",
         sheetName: "Sözleşme",
         nodes: [
-          { title: "Sözleşme", sub: ".docx kapalı" },
+          { title: "Sözleşme", sub: "Word belgesi kapalı" },
           { title: "Ataş", sub: "Bekler" },
           { title: "Maddeler", sub: "Spoiler yok" },
         ],
@@ -1648,7 +1648,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         fileName: "Sozlesme_Kaya_Gida.docx",
         sheetName: "Sözleşme",
         nodes: [
-          { title: "Sözleşme", sub: ".docx bekler" },
+          { title: "Sözleşme", sub: "Word belgesi bekler" },
           { title: "Ataş", sub: "Kapalı" },
           { title: "Maddeler", sub: "Spoiler yok" },
         ],
@@ -1679,7 +1679,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         visualMode: "live",
         section: "ATAŞ YÜKLE",
         headline: "ATAŞ YÜKLE",
-        subhead: "Sözleşmeyi .docx olarak ataşla. İstem yazılır. Madde listesi henüz yok.",
+        subhead: "Sözleşmeyi Word belgesi olarak ataşla. İstem yazılır. Madde listesi henüz yok.",
         bullets: ["Dosyayı ataşla", "İstemi yaz", "Liste kapalı"],
         tools: ["Word", "Gemini"],
         layout: "word",

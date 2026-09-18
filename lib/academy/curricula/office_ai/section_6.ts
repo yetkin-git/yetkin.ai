@@ -6,7 +6,7 @@ export const section6: Section = {
   lessonKey: "01_office_ai-6",
   title: "Haftalık Sistem: 30 Dakikalık Rutin",
   targetDurationMinutes: 9.0,
-  estimatedWordCount: 610,
+  estimatedWordCount: 615,
   pedagogicalObjective:
     "Haftalık 30 dakikalık rutini 10 Excel temizlik + 10 slayt özet + 10 e-posta sıfırlama olarak takvime bağlamak. Neden 10+10+10? Çünkü üç kapı yığılırsa tablo yarım, slayt uydurma, kutu geceye sarkar. Neden bu kapanış dersi bitince sınav kapısı açılır? Çünkü mühürlü vize kartı dokuz alışkanlığın hepsini ister; satın alma basmaz. Baraj 70.",
   contentMarkdown: `
@@ -20,15 +20,15 @@ Sistem yoksa her kriz yeniden icat edilir. Pazartesi tabloyu kopyalarsın, Salı
 
 ## OTUZ DAKİKA
 
-Otuz dakikayı üçe böl ve her bloğu doyur. Peki neden on dakika Excel, on dakika slayt, on dakika e-posta ayrı durur? Çünkü temizlik bitmeden özet uydurur; özet bitmeden kutu sıfırlanmaz. İlk on dakika Excel: Copilot varsa şeritten okut; yoksa \`.xlsx\` dosyasını ataşla. A1 eşiğini kontrol et, birleşikleri çöz, F2 ile kesme işaretine bak. Temiz kopyayı yeni sayfada al; orijinali silme. Kişisel veri varsa önce maskele.
+Otuz dakikayı üçe böl ve her bloğu doyur. Peki neden on dakika Excel, on dakika slayt, on dakika e-posta ayrı durur? Çünkü temizlik bitmeden özet uydurur; özet bitmeden kutu sıfırlanmaz. İlk on dakika Excel: Copilot varsa şeritten okut; yoksa Excel tablosunu ataşla. A1 eşiğini kontrol et, birleşikleri çöz, F2 ile kesme işaretine bak. Temiz kopyayı yeni sayfada al; orijinali silme. Kişisel veri varsa önce maskele.
 
 Bu otuz dakikayı her Cuma aynı saatte yinelenen bir takvim bloğu olarak yaz. Outlook veya Google Takvim fark etmez; başlık Cuma 30, süre otuz dakika, tekrar her hafta. Kriz gelince o blok silinmez.
 
-İkinci on dakika slayt. Temiz tablodan üç madde ve bir eylem cümlesi iste. PowerPoint Copilot varsa şeride yaz; yoksa \`.pptx\` ataşla. Slayt başına tek fikir, görsel yönlendirme, konuşmacı notu. Üçüncü on dakika kutu: Outlook Copilot veya Gmail Gemini ile etiket, taslak, insan onayı, arşiv. Üçü aynı Cuma penceresinde yürür.
+İkinci on dakika slayt. Temiz tablodan üç madde ve bir eylem cümlesi iste. PowerPoint Copilot varsa şeride yaz; yoksa PowerPoint sunusu olarak ataşla. Slayt başına tek fikir, görsel yönlendirme, konuşmacı notu. Üçüncü on dakika kutu: Outlook Copilot veya Gmail Gemini ile etiket, taslak, insan onayı, arşiv. Üçü aynı Cuma penceresinde yürür.
 
 ## ÜÇ BLOK
 
-Üç Kapı bu rutinde de sırasını korur. 1. Kapı yerleşik panel: Excel/PowerPoint/Outlook Copilot, Gmail Gemini. 2. Kapı ataş: \`.xlsx\`, \`.pptx\`, \`.docx\`. 3. Kapı son çaredir: isim, IBAN, ticari sır maskelenmiş kısa özet. Bütün kutuyu veya ham tabloyu ekran görüntüsüyle taşımak 3. kapı değildir; atlanmış kapıdır.
+Üç Kapı bu rutinde de sırasını korur. 1. Kapı yerleşik panel: Excel/PowerPoint/Outlook Copilot, Gmail Gemini. 2. Kapı ataş: Excel tablosu, PowerPoint sunusu, Word belgesi. 3. Kapı son çaredir: isim, IBAN, ticari sır maskelenmiş kısa özet. Bütün kutuyu veya ham tabloyu ekran görüntüsüyle taşımak 3. kapı değildir; atlanmış kapıdır.
 
 ## CEBİNE KOY
 

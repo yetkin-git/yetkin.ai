@@ -52,7 +52,7 @@ Harika bir iş çıkardın ve metin bazlı rapor otomasyonunun mantığını kav
 ## El kitabı (kasetin sığdırmadığı)
 
 ### Lisans yoksa ne yapılır?
-Copilot yoksa temiz xlsx dosyasını Gemini veya ChatGPT sohbetine ataşla. Google Sheets bu derste kapsam dışıdır; tabloyu Excel veya CSV olarak indirip aynı istemi oraya yaz. Üç madde + karar notu kuralı araç değişince bozulmaz. Sayı kilidi de bozulmaz: hücreden al, uydurma yüzde ekleme.
+Copilot yoksa temiz Excel tablosunu Gemini veya ChatGPT sohbetine ataşla. Google Sheets bu derste kapsam dışıdır; tabloyu Excel veya CSV olarak indirip aynı istemi oraya yaz. Üç madde + karar notu kuralı araç değişince bozulmaz. Sayı kilidi de bozulmaz: hücreden al, uydurma yüzde ekleme.
 
 ### Kenar durum / dikkat edilecek hata
 Özet akıcı diye doğru değildir. Model yüzdeyi satırdan değil, tahminden üretebilir. Karar notunu kaynak hücreyle karşılaştır. Grafik vaadi bu derste yoktur; slayt sonraki derstedir.

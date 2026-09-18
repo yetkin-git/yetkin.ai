@@ -7,7 +7,7 @@
       "prompt": "30 sayfalık tedarik sözleşmesinde cezai şart sayfa 4’te, fesih sayfa 11’de gizlidir. En güvenilir analiz yolu hangisidir?",
       "choices": [
         "Sayfa 4 ve 11’i ayrı ayrı kopyalayıp sohbete yapıştırmak",
-        "Sözleşmeyi .docx olarak ataşlayıp dosyanın bütününü inceletmek",
+        "Sözleşmeyi Word belgesi olarak ataşlayıp dosyanın bütününü inceletmek",
         "Yalnız ilk sayfayı yüklemek",
         "Ekran görüntüsü zinciri basmak"
       ],
