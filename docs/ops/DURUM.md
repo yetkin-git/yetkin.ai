@@ -6,7 +6,7 @@ Bu dosya yaşayan kesittir. `docs/DURUM.md` test uyumluluk aynasıdır.
 |------|--------|
 | Tarih | 18 Eylül 2026 |
 | Rol | Haftalık gerçek. Anayasa B ve Manifesto sayıları buraya ve koda bırakır. Build fixture değildir. |
-| Kaynak | Çalıştırılabilir kod SSOT. Üretim veritabanına bu kesitte bağlanılmadı. |
+| Kaynak | Çalıştırılabilir kod SSOT. Canlı nakit: Super Admin operatör teyidi (18 Eylül 2026). |
 
 Çelişkide `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır. Sayılar Anayasa maddesi değildir.
 
@@ -14,24 +14,29 @@ Bu dosya yaşayan kesittir. `docs/DURUM.md` test uyumluluk aynasıdır.
 
 ## Amiral SKU `01_office_ai`
 
+**Tam mühürlü.** Vatandaş sırası (`lib/academy/curricula/lesson-index.ts`): `1 → k1 → 2 → 3 → 5 → 4 → g1 → w1 → 6`. Teknik sonek ders numarası değildir. Süre SSOT: `lib/academy/lesson-audio-timings/*.json` `durationSec`. P0 / P1 / P2 kapalı.
+
 | Ölçüt | Kod gerçeği |
 |-------|-------------|
-| Sınav yolu | **9 ders** — `1`…`6`, `g1`, `w1`, `k1` (`lib/academy/curricula/lesson-index.ts`) |
-| Mühürlü kaset | **9/9** — `1`…`6`, `g1`, `w1`, `k1` (`ACADEMY_MEDIA_SEALED_AUDIO`). 420–720 sn bandı dolu; bake kuyruğu boş. |
+| Sistem mührü | **Tam mühürlü** — 9/9 kaset + 9/9 karaoke + 9 derslik sınav yolu + P0/P1/P2 kapalı (18 Eylül 2026). |
+| Sınav yolu | **9 ders** — vatandaş 1…9 (`lib/academy/curricula/lesson-index.ts`) |
+| Mühürlü kaset | **9/9** — `1`, `k1`, `2`, `3`, `5`, `4`, `g1`, `w1`, `6` (`ACADEMY_MEDIA_SEALED_AUDIO`). 420–720 sn bandı dolu; bake kuyruğu boş. |
 | Karaoke | **9/9** mühürlü ders `article+karaoke`. «Ses kaseti yoktur» bandı yok. |
 | Üç Kapı SSOT | Aktarım: 1. yerleşik panel (Copilot / Gemini şeridi) → 2. ataş (xlsx/docx/pptx) → 3. maskeli kısa özet. Güvenlik sınıfı ayrı: kişisel veri / şirket sırrı / kamu cümlesi. |
-| 1. ders | Üç Kapı + A1 hijyeni (`01_office_ai-1`, **571.72 sn**). Karaoke «grafik raporu» vaadi yok. |
-| 2. ders | KVKK / maskeleme (`01_office_ai-k1`, **677.56 sn**). Vatandaş dili re-bake. Yükleme alışkanlığından önce. Bant içi mühürlü kaset. |
-| 3. ders | PowerPoint Copilot + `.pptx` ataş, sıfır kodlama (`01_office_ai-3`, **527 sn**). |
-| 4. ders | E-posta ritüeli (`01_office_ai-4`, **496.12 sn**). |
-| 5. ders | Hata avı; sol dip toplam **59.450** ekran + karaoke + TTS (`01_office_ai-5`, **420.713 sn**). |
-| 9. ders | **Haftalık Sistem** capstone 10+10+10 (`01_office_ai-6`, **440.393 sn**). Bant içi mühürlü kaset. Sınav kapısı bu dersten sonra açılır. |
-| G1 / W1 | Doygun mühürlü kasetler (**529.04 sn** / **521.44 sn**). |
-| Kurs süresi SSOT | `academyCourseSealedDurationSec("01_office_ai")` — timings toplamı; `estimatedTotalMinutes` buradan türetilir. |
+| 1. ders | Üç Kapı + A1 hijyeni (`01_office_ai-1`, **607.28 sn**). Karaoke «grafik raporu» vaadi yok. |
+| 2. ders | KVKK / maskeleme (`01_office_ai-k1`, **677.56 sn**). Vatandaş dili. Yükleme alışkanlığından önce. Bant içi mühürlü kaset. |
+| 3. ders | Rapor: tablodan yönetim özeti (`01_office_ai-2`, **553.84 sn**). |
+| 4. ders | PowerPoint Copilot + `.pptx` ataş, sıfır kodlama (`01_office_ai-3`, **575.6 sn**). |
+| 5. ders | Hata avı; sol dip toplam **59.450** ekran + karaoke + TTS (`01_office_ai-5`, **517.56 sn**). |
+| 6. ders | E-posta ritüeli (`01_office_ai-4`, **443.56 sn**). |
+| 7. ders | Gmail + Gemini kapısı (`01_office_ai-g1`, **567.2 sn**). |
+| 8. ders | Word ataş / uzun doküman (`01_office_ai-w1`, **567 sn**). |
+| 9. ders | **Haftalık Sistem** capstone 10+10+10 (`01_office_ai-6`, **540.2 sn**). Bant içi mühürlü kaset. Sınav kapısı bu dersten sonra açılır. |
+| Kurs süresi SSOT | `academyCourseSealedDurationSec("01_office_ai")` — timings toplamı **5049.8 sn ≈ 84.16 dk**; `estimatedTotalMinutes` buradan türetilir. |
 | Köprüler | Çekirdek 9 kilitli. İleriki fırın: takvim/toplantı, Excel formül/grafik, PDF (`planned.ts` uydu, `lane: satellite`). |
 | Kardeş SKU `02`–`05` | Vitrinde **Çok Yakında / Hazırlanıyor.** Satın alma ve hayali oynatıcı yok. |
 
-Yayın ilkesi: makale + mühürlü karaoke. Amiral 9 kaset sesli; sınav 9 ders bitince açılır. Compact makale ve mühür havuzu Üç Kapı kilidine çekildi. k1 mühürlü MP3 vatandaş dilinde 420–720 bandında yeniden fırınlandı (677.56 sn).
+Yayın ilkesi: makale + mühürlü karaoke. Amiral 9 kaset sesli; sınav 9 ders bitince açılır. Compact makale ve mühür havuzu Üç Kapı kilidine çekildi.
 
 ---
 
@@ -40,10 +45,29 @@ Yayın ilkesi: makale + mühürlü karaoke. Amiral 9 kaset sesli; sınav 9 ders 
 | Ölçüt | Durum |
 |-------|--------|
 | PayTR Merchant | Kod üretim kalkanlıdır (HMAC, tutar eşleşmesi, sandbox/mock üretimde yasak). |
-| PayTR canlı tanık | **Bu kesitte yok.** En az bir `PaymentOrder.status = CLEARED` + eşleşen `LedgerEntry` CREDIT + cüzdan `amount_minor` operatör teyidi bekler. Yokken «para akıyor» denmez (A5). |
+| PayTR canlı tanık | **P0-1 Canlı Nakit Tanığı Başarıyla Alındı — PayTR CLEARED Teyit Edildi (18 Eylül 2026).** Super Admin, canlı PayTR iframe + 3D Secure. Bakiye ₺10,00 → ₺25,00 (`amount_minor` 1000 → 2500). CLEARED tutar **₺15,00** (`amount_minor = 1500`). Defter 3 → 4 satır; CREDIT kaydı düştü. Tam `merchant_oid` bu kesite basılmaz. Prosedür: `docs/CANLI_TEST_PROSEDURU.md`. |
 | PayTR Split | **Kilitli.** `MARKETPLACE_SPLIT_LIVE = false`. `beginHold` / `settle` → `not_configured`. Merchant onayı Split izni değildir. |
 | Freelancer kamu | **410.** Motor sicilde durur. |
 | `LIVE_BROADCAST_SHUTDOWN` | **Kapalı** (varsayılan `false`). |
+
+---
+
+## P0 / P1 / P2 kapanış (18 Eylül 2026)
+
+Amiral tespit (`docs/TESPIT_RAPORU_OFFICE_AI.md`) ve tedavi (`docs/TEDAVI_RAPORU_OFFICE_AI.md`) maddeleri kapandı. Açık P-maddesi yoktur.
+
+| ID | Konu | Durum |
+|----|------|--------|
+| P0-1 | Canlı nakit tanığı (`CLEARED` + CREDIT + cüzdan artışı) | **Kapandı** — Super Admin teyidi, 18 Eylül 2026 |
+| P0-2 | `docs/ops/DURUM.md` silinmesi | **Kapandı** |
+| P1 U2 | Ders numarası / eksik satır | **Kapandı** |
+| P1 U3 | Süre tablosu sapması + ders-5 518 | **Kapandı** |
+| P1 U4 | `targetDurationMinutes` | **Kapandı** |
+| P1 Y2 | k1 hukuk cümlesi | **Kapandı** |
+| P2 Y1 / Y4 | Model dili + slogan | **Kapandı** |
+| P2 Y3 | Başlık «Otomasyonu» → «Verimliliği» | **Kapandı** |
+
+Sonraki iş P-maddesi değildir: hedefli re-bake (kaset kulağı makaleyi yakalar), amiral SETTLED satın alma + anonim `/dogrula`, reklam kopyası (CEO). Split ve Freelancer açılmaz.
 
 ---
 
@@ -68,4 +92,4 @@ v1 hop sicili: `RAIL_V1_HOPS` — **16 kayıt.**
 
 ## Bu hafta dürüst cümle
 
-Motor (cüzdan, sınav, mühür, hop) ayaktadır. Amiral ürün vatandaşa **9 mühürlü kaset + 9 karaoke akışı + 9 derslik sınav yolu** olarak anlatılır. Üç Kapı tek haritadır (aktarım); güvenlik sınıfı ayrıdır. Canlı nakit tanığı alınmadan gelir iddiası durur. Split ve Freelancer açılmaz.
+Motor (cüzdan, sınav, mühür, hop) ayaktadır. Amiral gemisi `01_office_ai` **tam mühürlüdür:** 9 mühürlü kaset + 9 karaoke akışı + 9 derslik sınav yolu + P0/P1/P2 kapalı. Canlı nakit hattında PayTR `CLEARED` tanığı vardır (₺15,00; 18 Eylül 2026). Split ve Freelancer açılmaz. Reklam ve ikinci SKU fırını ayrı CEO kararıdır.

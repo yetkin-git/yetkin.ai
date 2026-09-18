@@ -41,6 +41,10 @@ import {
   geminiTtsVoiceForGender,
   isGeminiTtsPrebuiltVoice,
 } from "@/lib/kernel/ai/tts-voices";
+import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
+import { ACADEMY_SEALED_AUDIO_DURATION_SEC } from "@/lib/academy/lesson-audio";
+import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
+import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
 
 const ROOT = process.cwd();
 
@@ -52,8 +56,8 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(ACADEMY_AI_LESSON_COUNT_MAX).toBe(12);
     expect(ACADEMY_AI_LESSON_DURATION_MIN_MINUTES).toBe(7);
     expect(ACADEMY_AI_LESSON_DURATION_MAX_MINUTES).toBe(12);
-    expect(ACADEMY_AI_LESSON_DURATION_MIN_SEC).toBe(420);
-    expect(ACADEMY_AI_LESSON_DURATION_MAX_SEC).toBe(720);
+    expect(ACADEMY_AI_LESSON_DURATION_MIN_SEC).toBe(ACADEMY_AI_LESSON_DURATION_MIN_MINUTES * 60);
+    expect(ACADEMY_AI_LESSON_DURATION_MAX_SEC).toBe(ACADEMY_AI_LESSON_DURATION_MAX_MINUTES * 60);
     expect(LIMITS).toBe(SEALED_AUDIO_LIMITS);
     expect(LIMITS.minMinutes).toBe(ACADEMY_AI_LESSON_DURATION_MIN_MINUTES);
     expect(LIMITS.maxMinutes).toBe(ACADEMY_AI_LESSON_DURATION_MAX_MINUTES);
@@ -63,24 +67,24 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(LIMITS.maxWords).toBe(1800);
     expect(COMPACT_ARTICLE_GUIDE.minWords).toBe(1050);
     expect(COMPACT_ARTICLE_GUIDE.maxWords).toBe(1800);
-    expect(isAcademyAiLessonDurationSec(420)).toBe(true);
-    expect(isAcademyAiLessonDurationSec(719)).toBe(true);
-    expect(isAcademyAiLessonDurationSec(419)).toBe(false);
-    expect(isAcademyAiLessonDurationSec(721)).toBe(false);
-    expect(isAcademyAiCourseDurationMinutes(45)).toBe(true);
-    expect(isAcademyAiCourseDurationMinutes(90)).toBe(true);
-    expect(isAcademyAiCourseDurationMinutes(44)).toBe(false);
-    expect(isAcademyAiCourseDurationMinutes(91)).toBe(false);
-    expect(isAcademyAiLessonCount(6)).toBe(true);
+    expect(isAcademyAiLessonDurationSec(ACADEMY_AI_LESSON_DURATION_MIN_SEC)).toBe(true);
+    expect(isAcademyAiLessonDurationSec(ACADEMY_AI_LESSON_DURATION_MAX_SEC - 1)).toBe(true);
+    expect(isAcademyAiLessonDurationSec(ACADEMY_AI_LESSON_DURATION_MIN_SEC - 1)).toBe(false);
+    expect(isAcademyAiLessonDurationSec(ACADEMY_AI_LESSON_DURATION_MAX_SEC + 1)).toBe(false);
+    expect(isAcademyAiCourseDurationMinutes(ACADEMY_AI_COURSE_DURATION_MIN_MINUTES)).toBe(true);
+    expect(isAcademyAiCourseDurationMinutes(ACADEMY_AI_COURSE_DURATION_MAX_MINUTES)).toBe(true);
+    expect(isAcademyAiCourseDurationMinutes(ACADEMY_AI_COURSE_DURATION_MIN_MINUTES - 1)).toBe(false);
+    expect(isAcademyAiCourseDurationMinutes(ACADEMY_AI_COURSE_DURATION_MAX_MINUTES + 1)).toBe(false);
+    expect(isAcademyAiLessonCount(ACADEMY_AI_LESSON_COUNT_MIN)).toBe(true);
     expect(isAcademyAiLessonCount(8)).toBe(true);
     expect(isAcademyAiLessonCount(10)).toBe(true);
-    expect(isAcademyAiLessonCount(12)).toBe(true);
-    expect(isAcademyAiLessonCount(5)).toBe(false);
-    expect(isAcademyAiLessonCount(13)).toBe(false);
-    expect(isAcademyAiLessonDurationMinutes(7)).toBe(true);
-    expect(isAcademyAiLessonDurationMinutes(12)).toBe(true);
-    expect(isAcademyAiLessonDurationMinutes(6.9)).toBe(false);
-    expect(isAcademyAiLessonDurationMinutes(12.1)).toBe(false);
+    expect(isAcademyAiLessonCount(ACADEMY_AI_LESSON_COUNT_MAX)).toBe(true);
+    expect(isAcademyAiLessonCount(ACADEMY_AI_LESSON_COUNT_MIN - 1)).toBe(false);
+    expect(isAcademyAiLessonCount(ACADEMY_AI_LESSON_COUNT_MAX + 1)).toBe(false);
+    expect(isAcademyAiLessonDurationMinutes(ACADEMY_AI_LESSON_DURATION_MIN_MINUTES)).toBe(true);
+    expect(isAcademyAiLessonDurationMinutes(ACADEMY_AI_LESSON_DURATION_MAX_MINUTES)).toBe(true);
+    expect(isAcademyAiLessonDurationMinutes(ACADEMY_AI_LESSON_DURATION_MIN_MINUTES - 0.1)).toBe(false);
+    expect(isAcademyAiLessonDurationMinutes(ACADEMY_AI_LESSON_DURATION_MAX_MINUTES + 0.1)).toBe(false);
 
     expect(ACADEMY_LESSON_SATURATION_BEATS).toHaveLength(4);
     expect(ACADEMY_LESSON_SATURATION_BEATS.map((beat) => beat.label)).toEqual([
@@ -93,10 +97,10 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(academyLessonSaturationTotalMinutes()).toBe(10);
     expect(isAcademyAiLessonDurationMinutes(academyLessonSaturationTotalMinutes())).toBe(true);
 
-    expect(ACADEMY_FIVE_ACT_HEADINGS.warmup).toBe("Isınma / İş Problemi");
-    expect(ACADEMY_FIVE_ACT_HEADINGS.problem).toBe("Birinci Senaryo / Temel Yöntem");
-    expect(ACADEMY_FIVE_ACT_HEADINGS.development).toBe("İkinci Senaryo / İstisna veya Kritik Durum");
-    expect(ACADEMY_FIVE_ACT_HEADINGS.conclusion).toBe("Özet & Saha Görevi");
+    expect(ACADEMY_FIVE_ACT_HEADINGS.warmup).toBe(ACADEMY_LESSON_SATURATION_BEATS[0]!.label);
+    expect(ACADEMY_FIVE_ACT_HEADINGS.problem).toBe(ACADEMY_LESSON_SATURATION_BEATS[1]!.label);
+    expect(ACADEMY_FIVE_ACT_HEADINGS.development).toBe(ACADEMY_LESSON_SATURATION_BEATS[2]!.label);
+    expect(ACADEMY_FIVE_ACT_HEADINGS.conclusion).toBe(ACADEMY_LESSON_SATURATION_BEATS[3]!.label);
 
     expect([...ACADEMY_SEALED_MEDIA_LAYERS]).toEqual([
       "full_text",
@@ -121,14 +125,34 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(ACADEMY_DEFAULT_INSTRUCTOR_VOICE_BY_GENDER.erkek).toBe(GEMINI_TTS_DEFAULT_VOICE_BY_GENDER.male);
     expect(academyBakeVoiceForGenderLabel("female")).toBe("Callirrhoe");
     expect(academyBakeVoiceForGenderLabel("male")).toBe("Fenrir");
+    expect(ACADEMY_EXAM_PASS_SCORE).toBe(70);
   });
 
-  it("PEDAGOJI.md felsefeyi kilitler; stüdyo milisaniyesi bake el kitabındadır; Anayasa B4 sayı taşımaz", () => {
+  it("PEDAGOJI.md ilkeleri kilitler; CSS/piksel ve süre sayısı kod SSOT'tadır", () => {
     const pedagogyPath = join(ROOT, ".system_docs", "PEDAGOJI.md");
     expect(existsSync(pedagogyPath)).toBe(true);
     const pedagogy = readFileSync(pedagogyPath, "utf8");
     expect(pedagogy).toContain("Eğitim felsefesi");
     expect(pedagogy).toContain("Garsonu Göster");
+    expect(pedagogy).toContain("Nedensellik Reformu");
+    expect(pedagogy).toContain("Sebep → Eylem → Sonuç");
+    expect(pedagogy).toContain("saniyeler içinde etkileyici");
+    expect(pedagogy).toContain("Öğretmen SEN, Belge SIZ");
+    expect(pedagogy).toContain("Quiet Luxury");
+    expect(pedagogy).toContain("Altyazı Titreme Yasağı");
+    expect(pedagogy).toContain("Descender Harf Koruması");
+    expect(pedagogy).toContain("16:9 Tuval ve Contain Sözleşmesi");
+    expect(pedagogy).toContain("lib/academy/production-standard.ts");
+    expect(pedagogy).toContain("ACADEMY_EXAM_PASS_SCORE");
+    expect(pedagogy).not.toMatch(/font-weight:\s*inherit/u);
+    expect(pedagogy).not.toMatch(/padding-block:/u);
+    expect(pedagogy).not.toMatch(/calc\(100dvh/u);
+    expect(pedagogy).not.toContain("getBoundingClientRect");
+    expect(pedagogy).not.toContain("font-size: clamp");
+    expect(pedagogy).not.toContain("min-width: content");
+    expect(pedagogy).not.toContain("420 – 720 saniye");
+    expect(pedagogy).not.toContain("Baraj 70");
+    expect(pedagogy).toContain("EĞİTİM YAPISI VE KAPILAR");
     expect(pedagogy).toContain("Punchcard Rozetleri");
     expect(pedagogy).toContain("Callirrhoe");
     expect(pedagogy).toContain("Ken Burns");
@@ -142,9 +166,6 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).toContain("## F. DOYGUNLUK AKIŞI");
     expect(pedagogy).toContain("Prompt Terminali");
     expect(pedagogy).toContain("Adım 1: E-Postaları Seç");
-    expect(pedagogy).toContain("getBoundingClientRect");
-    expect(pedagogy).toContain("font-size: clamp(...)");
-    expect(pedagogy).toContain("min-width: content");
     expect(pedagogy).toContain("Sıfır Ekstra API Maliyeti");
     expect(pedagogy).toContain("Warm-up");
     expect(pedagogy).toContain("Command");
@@ -159,7 +180,6 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).toContain("Orta");
     expect(pedagogy).toContain("İleri");
     expect(pedagogy).toContain("kadın veya erkek");
-    expect(pedagogy).toContain("lib/academy/production-standard.ts");
     expect(pedagogy).toContain("lib/academy/lesson-beat-visual.ts");
     expect(pedagogy).toContain("lib/kernel/ai/model-roles.ts");
     expect(pedagogy).toContain("Spoiler Yasağı");
@@ -210,12 +230,19 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(constitution).not.toContain("Mühürlü ders sayısı depo gerçeğidir: **5**");
     expect(constitution).not.toContain("PEDAGOJI.md` §F");
 
+    const durumPath = join(ROOT, "docs", "ops", "DURUM.md");
+    expect(existsSync(durumPath)).toBe(true);
     const durum = readFileSync(join(ROOT, "docs", "DURUM.md"), "utf8");
     expect(durum).toContain("Sınav yolu");
     expect(durum).toContain("Mühürlü kaset");
     expect(durum).toContain("9/9");
     expect(durum).not.toContain("Makale / Okuma Metni");
     expect(durum).toContain("PayTR canlı tanık");
+    expect(durum).toContain("P0-1 Canlı Nakit Tanığı Başarıyla Alındı — PayTR CLEARED Teyit Edildi (18 Eylül 2026)");
+    expect(durum).not.toContain("Bu kesitte yok");
+    const opsDurumSeal = readFileSync(durumPath, "utf8");
+    expect(opsDurumSeal).toContain("P0-1 Canlı Nakit Tanığı Başarıyla Alındı — PayTR CLEARED Teyit Edildi (18 Eylül 2026)");
+    expect(opsDurumSeal).toContain("Tam mühürlü");
     expect(durum).toContain("MARKETPLACE_SPLIT_LIVE = false");
     expect(durum).toContain("publishFrozenUntilFaz1Close: false");
 
@@ -249,5 +276,26 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(bakeElkitabi).toContain("transform: scale(1.2)");
     expect(bakeElkitabi).toContain("punchcard-from-sealed-json");
     expect(bakeElkitabi).toContain("public/media/academy/micro");
+  });
+
+  it("yaşayan kesit süreleri timings SSOT ile birebir eşleşir", () => {
+    const opsDurum = readFileSync(join(ROOT, "docs", "ops", "DURUM.md"), "utf8");
+    const durum = readFileSync(join(ROOT, "docs", "DURUM.md"), "utf8");
+    const keys = curriculumLessonKeysForSlug("01_office_ai");
+    expect(keys).toHaveLength(9);
+    for (const lessonKey of keys) {
+      const timings = loadAcademySealedAudioTimings(lessonKey);
+      expect(timings?.durationSec, lessonKey).toBeGreaterThan(0);
+      const needle = `**${timings!.durationSec} sn**`;
+      expect(opsDurum, lessonKey).toContain(needle);
+      expect(durum, lessonKey).toContain(needle);
+      const rounded = Math.round(timings!.durationSec);
+      expect(ACADEMY_SEALED_AUDIO_DURATION_SEC[lessonKey]).toBe(rounded);
+      expect(isAcademyAiLessonDurationSec(timings!.durationSec)).toBe(true);
+    }
+    expect(opsDurum).toContain("01_office_ai-2");
+    expect(durum).toContain("01_office_ai-2");
+    expect(opsDurum).toContain("1 → k1 → 2 → 3 → 5 → 4 → g1 → w1 → 6");
+    expect(durum).toContain("1 → k1 → 2 → 3 → 5 → 4 → g1 → w1 → 6");
   });
 });
