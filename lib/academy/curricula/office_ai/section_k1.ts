@@ -5,7 +5,7 @@ export const sectionK1: Section = {
   lessonKey: "01_office_ai-k1",
   title: "KVKK, Şirket Sırları ve Maskeleme: Ne Yüklenmez?",
   targetDurationMinutes: 11.3,
-  estimatedWordCount: 1248,
+  estimatedWordCount: 1257,
   pedagogicalObjective:
     "Müşteri listesi, IBAN, T.C. Kimlik No, maaş ve şirket sırrını açık yapay zekâ ekranına yüklememeyi göstermek. Neden üç sahte satırın yettiğini anlat; yüklemeden önce maskele; 3. Kapı yalnız maskeli kısa özettir.",
   contentMarkdown: `

@@ -5,7 +5,7 @@ export const section1: Section = {
   lessonKey: "01_office_ai-1",
   title: "Tablonu Konuştur: Düzensiz Excel → Düzenli Tablo",
   targetDurationMinutes: 10.1,
-  estimatedWordCount: 1344,
+  estimatedWordCount: 1377,
   pedagogicalObjective:
     "Düzensiz Excel tablosunu A1 hücresinden başlayarak düzenli tabloya çevirmeyi göstermek. Neden A1? Çünkü model tablonun nereden başladığını oradan okur. ChatGPT, Claude, Gemini ve özel API (şirketinin kurumsal yapay zekâ modeli) farkını eğilim diliyle oturtmak.",
   contentMarkdown: `
