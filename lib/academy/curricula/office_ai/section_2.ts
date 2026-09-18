@@ -4,7 +4,7 @@ export const section2: Section = {
   sectionNumber: 3,
   lessonKey: "01_office_ai-2",
   title: "Rapor Otomasyonu: Tablodan Yönetim Özetine",
-  targetDurationMinutes: 9.3,
+  targetDurationMinutes: 9.2,
   estimatedWordCount: 1208,
   pedagogicalObjective:
     "Temiz tablodan üç maddelik yönetim özeti ve eylem cümlesi çıkarma akışını göstermek. Neden üç madde? Çünkü yönetici on sayfayı okumaz. Sayıları hücreden kilitle; uydurma yüzde yasaktır.",

@@ -5,7 +5,7 @@ export const section4: Section = {
   sectionNumber: 6,
   lessonKey: "01_office_ai-4",
   title: "E-Posta Akışı: Gelen Kutusu Sıfırlama",
-  targetDurationMinutes: 9.6,
+  targetDurationMinutes: 7.4,
   estimatedWordCount: 683,
   pedagogicalObjective:
     "Gelen kutusunu önem sırası, taslak yanıt, insan onayı ve arşiv ritüeliyle sıfırlamayı göstermek. Gelen kutu neden şişer? Her satır aynı yığında durur. Mail triyajı nedir? Açmadan önce acil, aksiyon veya arşivlik diye ayırmaktır. Yapay zekâya neden taslak yazdırılır ve insan onayı olmadan gönderilmez? Model nezaket üretir, taahhüt üretemez. Yerleşik panel (Gmail Gemini / Outlook Copilot) sonraki G1 dersindedir.",

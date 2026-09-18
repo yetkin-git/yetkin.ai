@@ -24,7 +24,7 @@ export const ACADEMY_CANON_SKU_SLUGS = [
 
 export const ACADEMY_COURSE_TITLES = {
   "01_office_ai":
-    "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Otomasyonu)",
+    "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Verimliliği)",
   "02_ecommerce_ai":
     "E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı (Trendyol, Hepsiburada, Amazon & Shopify)",
   "03_social_media_ai":

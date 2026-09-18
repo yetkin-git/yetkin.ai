@@ -4,7 +4,7 @@ export const sectionK1: Section = {
   sectionNumber: 2,
   lessonKey: "01_office_ai-k1",
   title: "KVKK, Şirket Sırları ve Maskeleme: Ne Yüklenmez?",
-  targetDurationMinutes: 9,
+  targetDurationMinutes: 11.3,
   estimatedWordCount: 1248,
   pedagogicalObjective:
     "Müşteri listesi, IBAN, T.C. Kimlik No, maaş ve şirket sırrını açık yapay zekâ ekranına yüklememeyi göstermek. Neden üç sahte satırın yettiğini anlat; yüklemeden önce maskele; 3. Kapı yalnız maskeli kısa özettir.",
@@ -52,7 +52,7 @@ Sıra sende. Masandaki bir gerçek listeyi aç. Ad, telefon, IBAN, T.C. Kimlik N
 ## El kitabı (kasetin sığdırmadığı)
 
 ### Lisans yoksa ne yapılır?
-Copilot kiracısı veya şirket DPA’sı kişisel veriyi yasal kılmaz. Neden? Çünkü lisans, sohbet kutusuna giren satırın sınıfını değiştirmez. Lisans yoksa da, varsa da kural aynıdır: ad + telefon + IBAN ham haliyle gitmez. Yapay zekâya tablonun mantığını kavratmak için maskeli üç satır yeter; bin kişilik gerçek liste gerekmez. Yurt dışı model, sohbeti senin çöp kutusundan silmez; silmek, yüklemiş olmanı geri almaz.
+Lisans ve DPA tek başına yeterli değildir; aydınlatma/açık rıza/VERBIS zeminini kurmadan ham kimlik hiçbir panele girmez. Neden? Çünkü lisans, sohbet kutusuna giren satırın sınıfını tek başına değiştirmez. Lisans yoksa da, varsa da kural aynıdır: ad + telefon + IBAN ham haliyle gitmez. Yapay zekâya tablonun mantığını kavratmak için maskeli üç satır yeter; bin kişilik gerçek liste gerekmez. Yurt dışı model, sohbeti senin çöp kutusundan silmez; silmek, yüklemiş olmanı geri almaz.
 
 ### Kenar durum / dikkat edilecek hata
 Kamu kataloğu (ürün adı, genel stok cümlesi) gidebilir; aynı satırda kişi adı belirdiği anda dur. Hasta veya öğrenci kaydı, maaş cetveli, açık T.C. Kimlik No — bunlar «iç kullanım» diye sohbete girmez. İç kullanım, kişisel veriyi kamuya açmaz.

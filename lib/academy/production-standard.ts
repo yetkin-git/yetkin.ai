@@ -25,28 +25,28 @@ export const ACADEMY_LESSON_SATURATION_BEATS = [
     order: 1,
     label: "Isınma / İş Problemi",
     targetMinutes: 1.5,
-    purpose: "Gerçek iş hayatı karşılığı, risk ve problem",
+    purpose: "Gerçek iş hayatı karşılığı ve problemin nedeni",
   },
   {
     id: "scenario_core",
     order: 2,
     label: "Birinci Senaryo / Temel Yöntem",
     targetMinutes: 3.5,
-    purpose: "İlk istem/kod ve çözüm",
+    purpose: "İlk istem ve çözüm — ekranda çalışan işlem",
   },
   {
     id: "scenario_edge",
     order: 3,
     label: "İkinci Senaryo / İstisna veya Kritik Durum",
     targetMinutes: 3.5,
-    purpose: "Veri bozukluğu, edge-case, kritik müdahale",
+    purpose: "Edge-case, yanlış vs doğru, kritik durum (ÖNCE / SONRA split)",
   },
   {
     id: "summary_field",
     order: 4,
     label: "Özet & Saha Görevi",
     targetMinutes: 1.5,
-    purpose: "Cebine koyacakların ve sınav öncesi mikro görev",
+    purpose: "Cebine koyacakların ve aksiyon görevi",
   },
 ] as const;
 

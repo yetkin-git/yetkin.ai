@@ -74,6 +74,8 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
     expect(lesson.body).not.toMatch(/ahlaki omurga|Cuma paniği|bekçi olursun|Kanıt iddiadan/u);
     expect(lesson.body).not.toMatch(/## Mini sınav/u);
     expect(lesson.body).not.toMatch(/^- \*\*.+\*\*$/mu);
+    expect(lesson.body).toMatch(/Lisans ve DPA tek başına yeterli değildir/u);
+    expect(lesson.body).not.toMatch(/kişisel veriyi yasal kılmaz/u);
   });
 
   it("konuşma metni 14 paragraf, punchcardlar sırayla parlar", () => {

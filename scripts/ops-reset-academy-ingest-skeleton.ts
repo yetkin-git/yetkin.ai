@@ -67,7 +67,7 @@ const COURSES: readonly SkeletonCourse[] = [
     slug: "01_office_ai",
     masteryFile: "01_office_ai_mastery.md",
     moduleCode: "CURR-OFFICE-AI-101",
-    title: "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Otomasyonu)",
+    title: "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Verimliliği)",
     instructor: "Eğitmen",
     category: "KATMAN 1.1 — Ekmek Teknesi / Kitlesel Eğitim Serisi (Pazarın %80'i / Temel & Başlangıç Seviyesi)",
     audience: [

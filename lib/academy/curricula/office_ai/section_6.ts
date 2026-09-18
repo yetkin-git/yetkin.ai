@@ -5,7 +5,7 @@ export const section6: Section = {
   sectionNumber: 9,
   lessonKey: "01_office_ai-6",
   title: "Haftalık Sistem: 30 Dakikalık Rutin",
-  targetDurationMinutes: 8.0,
+  targetDurationMinutes: 9.0,
   estimatedWordCount: 610,
   pedagogicalObjective:
     "Haftalık 30 dakikalık rutini 10 Excel temizlik + 10 slayt özet + 10 e-posta sıfırlama olarak takvime bağlamak. Neden 10+10+10? Çünkü üç kapı yığılırsa tablo yarım, slayt uydurma, kutu geceye sarkar. Neden bu kapanış dersi bitince sınav kapısı açılır? Çünkü mühürlü vize kartı dokuz alışkanlığın hepsini ister; satın alma basmaz. Baraj 70.",

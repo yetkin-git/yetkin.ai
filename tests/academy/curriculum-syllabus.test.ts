@@ -178,10 +178,10 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
     expect(curriculumSyllabusForCourseSlug("01_office_ai").lessonCount).toBe(9);
   });
 
-  it("amiral antre vize vaadi Ofis Otomasyonu kapısını SEN ile adlandırır", () => {
+  it("amiral antre vize vaadi Ofis Verimliliği kapısını SEN ile adlandırır", () => {
     const visa = academyAntreVisaPromise("01_office_ai", 70);
     expect(visa).toBe(
-      "Sınavı 70+ puanla tamamladığında «Ofis Otomasyonu» sertifikan Pasaport siciline işlenir ve Kariyer sayfanda doğrulanır.",
+      "Sınavı 70+ puanla tamamladığında «Ofis Verimliliği» sertifikan Pasaport siciline işlenir ve Kariyer sayfanda doğrulanır.",
     );
     expect(visa).not.toMatch(/mühür/i);
     expect(visa).not.toContain("CareerVisaStamp");

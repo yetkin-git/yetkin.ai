@@ -4,7 +4,7 @@ export const sectionG1: Section = {
   sectionNumber: 7,
   lessonKey: "01_office_ai-g1",
   title: "Gmail + Gemini ile Gelen Kutusu ve Aksiyon Listesi",
-  targetDurationMinutes: 8.7,
+  targetDurationMinutes: 9.5,
   estimatedWordCount: 587,
   pedagogicalObjective:
     "Gelen kutusunu Gmail Gemini (1. Kapı) ve Outlook Copilot ile aynı rutinle yönetmeyi göstermek. Neden ChatGPT’ye kopyalamak yerine yerleşik panel? Çünkü kopyalanan gövde kutudan kopar; etiket, arşiv ve taslak orada oluşmaz. Aksiyon listesinde kim, ne, ne zaman neden kilitlenir? Gönderen, iş ve son tarih yoksa tahsilat bültenin altında kaybolur. Mail gövdesini dış sohbete taşımak varsayılan yol değildir.",

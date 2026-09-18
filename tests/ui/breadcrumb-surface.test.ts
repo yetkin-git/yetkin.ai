@@ -39,7 +39,7 @@ describe("dinamik ekmek kırıntısı", () => {
 
   it("akademi kurs slug'ını tohum başlığına çözer; müfredat dördüncü kırıntıdır", () => {
     expect(ACADEMY_COURSE_TITLES["01_office_ai"]).toBe(
-      "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Otomasyonu)",
+      "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Verimliliği)",
     );
     for (const seed of ACADEMY_COURSE_SEEDS) {
       expect(academyCourseTitleBySlug(seed.slug)).toBe(seed.title);
@@ -53,7 +53,7 @@ describe("dinamik ekmek kırıntısı", () => {
     expect(labels("/academy/01_office_ai/oyna")).toEqual([
       "Panel",
       "Akademi",
-      "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Otomasyonu)",
+      "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Verimliliği)",
       "Müfredat",
     ]);
     expect(labels("/academy/certificates")).toEqual(["Panel", "Akademi", "Sertifikalar"]);

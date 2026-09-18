@@ -403,7 +403,7 @@ export type AcademyCourseOpen = {
 export const ACADEMY_COURSE_OPEN: Record<AcademyCourseTitleSlug, AcademyCourseOpen> = {
   "01_office_ai": {
     field: "Ofis üretkenliği",
-    topic: "Excel, Word, PowerPoint ve e-posta otomasyonu",
+    topic: "Excel, Word, PowerPoint ve e-posta verimliliği",
   },
   "02_ecommerce_ai": {
     field: "E-ticaret operasyonu",

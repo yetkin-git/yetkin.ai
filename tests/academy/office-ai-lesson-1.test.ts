@@ -62,6 +62,9 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(lesson.body).toMatch(/Hazırsan 2\. derste buluşalım/u);
     expect(lesson.body).toMatch(/KVKK ve maskeleme/u);
     expect(lesson.body).toMatch(/tabloyu temizleme refleksi artık cebinde/u);
+    expect(lesson.body).toMatch(/şirketinin kurumsal yapay zekâ modeli/u);
+    expect(lesson.body).not.toMatch(/saniyeler içinde çözeceğiz/u);
+    expect(lesson.body).not.toMatch(/ChatGPT hızlı taslak üretir, Claude uzun satırları dikkatle okur/u);
     expect(lesson.body).not.toMatch(/görüşmek üzere/u);
     expect(academyLearningOutcomesForSlug(SLUG).join(" ")).toMatch(/A1 hücresi/u);
   });

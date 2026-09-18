@@ -14,7 +14,7 @@ import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 
 /** Amiral antre — kullanıcıya okunan kapı adı (katalog unvanından kısa). */
 const ANTRE_LISTING_LABEL: Partial<Record<FreelancerNeedId, string>> = {
-  "excel-veri-otomasyon": "Ofis Otomasyonu",
+  "excel-veri-otomasyon": "Ofis Verimliliği",
 };
 
 export function academyFreelancerNeedForCourseSlug(slug: string): {

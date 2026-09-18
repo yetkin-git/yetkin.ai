@@ -164,7 +164,7 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("academyAntreVisaPromise");
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("data-academy-checkout-cta");
     expect(copy.outline.examShield).toContain("9 dersin tamamı bitirilmeden");
-    expect(copy.outline.visaPromise(70, "Ofis Otomasyonu", "excel-veri-otomasyon")).toContain(
+    expect(copy.outline.visaPromise(70, "Ofis Verimliliği", "excel-veri-otomasyon")).toContain(
       "Pasaport siciline",
     );
     expect(copy.course.purchaseBody).toContain(copy.outline.examShield);

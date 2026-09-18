@@ -4,7 +4,7 @@ export const sectionW1: Section = {
   sectionNumber: 8,
   lessonKey: "01_office_ai-w1",
   title: "Word ve Uzun Doküman Analizi: Sözleşme, Dilekçe, Rapor",
-  targetDurationMinutes: 8.8,
+  targetDurationMinutes: 9.5,
   estimatedWordCount: 623,
   pedagogicalObjective:
     "Sözleşme, dilekçe ve raporu ataş ile yüklemeyi göstermek. Neden uzun dokümanı satır satır okutmak yerine riskli maddeleri aratırız? Çünkü satır satır yığın çıkar; ceza, fesih ve gizlilik ayrı sayfalarda kalır. Resmî belgede neden öğretmen SEN, belge SIZ? Çünkü kulağa SEN gider, kâğıda SIZ yazılır. Unvan, tarih, sayı, hitap insandadır. Sınav bu derste açılmaz.",
