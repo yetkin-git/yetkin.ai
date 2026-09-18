@@ -1,11 +1,17 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { academyAiDeskPinnedForLesson } from "@/lib/academy/ai-desk";
 import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
 import { loadAcademyCinemaCueSlides } from "@/lib/academy/cinema-cue-catalog";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import { officeAiMasteryModule } from "@/lib/academy/curricula/office_ai";
-import { academyExcelFocusZoomActive } from "@/lib/academy/excel-focus-zoom";
+import {
+  ACADEMY_OFFICE_AI_3_FOCUS_ZOOM_MAX_WINDOWS,
+  academyExcelFocusZoomActive,
+  academyExcelFocusZoomTarget,
+  loadAcademyExcelFocusZoomWindows,
+} from "@/lib/academy/excel-focus-zoom";
 import { academyExcelMouseState } from "@/lib/academy/excel-mouse-pointer";
 import { academyVisualCompareStage } from "@/lib/academy/excel-workspace";
 import {
@@ -34,9 +40,19 @@ import {
   loadAcademyLessonCues,
   loadAcademyLessonPlaybackCues,
 } from "@/lib/academy/lesson-cues";
-import { hasAcademyLessonVisualStage, loadAcademyLessonVisualStage } from "@/lib/academy/lesson-visual-stage";
+import {
+  academyCinemaCueSlidePublicPath,
+  hasAcademyLessonVisualStage,
+  loadAcademyLessonVisualStage,
+} from "@/lib/academy/lesson-visual-stage";
 import { loadAcademyLessonExam } from "@/lib/academy/lesson-exams";
-import { ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY } from "@/lib/academy/lesson-veo";
+import { academyLessonWarmupVeoAssetKey } from "@/lib/academy/lesson-veo";
+import {
+  academyOfficeAabbInsidePane,
+  academyOfficeContainCamera,
+  academyOfficeIsWidescreenRatio,
+  academyOfficeWinFitScale,
+} from "@/lib/academy/office-win-fit";
 import { isAcademyLessonAudioSealed } from "@/lib/academy/pilot-sku";
 import {
   academyKaraokeNormalizeLine,
@@ -128,13 +144,14 @@ describe("01_office_ai bölüm 3 — Sunum Fabrikası Altın Şablon", () => {
   it("Beat 3 split-screen sol düz metin yığını, sağ görsel hiyerarşili slayt; spoiler kapalı", () => {
     expect(hasAcademyLessonVisualStage(KEY)).toBe(true);
     expect(loadAcademyLessonVisualStage(KEY)?.cards).toHaveLength(8);
-    expect(loadAcademyLessonVisualStage(KEY)?.cards[0]?.kind).toBe("veo");
-    expect(loadAcademyLessonVisualStage(KEY)?.cards[0]?.src).toBe(ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY);
+    expect(loadAcademyLessonVisualStage(KEY)?.cards[0]?.kind).toBe("nano");
+    expect(loadAcademyLessonVisualStage(KEY)?.cards[0]?.src).toBe(academyCinemaCueSlidePublicPath(KEY, "cue-01"));
+    expect(academyLessonWarmupVeoAssetKey(KEY)).toBeNull();
     const slides = loadAcademyCinemaCueSlides(KEY);
     expect(slides).toHaveLength(8);
     expect(slides.every((slide) => slide.layout === "pptx")).toBe(true);
     expect(slides.map((slide) => slide.section)).toEqual([...PUNCHCARDS]);
-    expect(slides[0]?.visualMode).toBe("veo");
+    expect(slides[0]?.visualMode).toBe("live");
     expect(slides[3]?.copilot?.hideReply).toBe(true);
     expect(slides[3]?.copilot?.prompt).toBe(ACADEMY_OFFICE_AI_3_COPILOT_PROMPT);
     expect(slides[3]?.copilot?.prompt).toMatch(/tek fikir/u);
@@ -160,18 +177,24 @@ describe("01_office_ai bölüm 3 — Sunum Fabrikası Altın Şablon", () => {
     ]);
   });
 
-  it("giriş nefesi 2.0 sn, outro 0.70 zirve, zoom ve sanal fare cue-04’te açılır", () => {
+  it("giriş nefesi 2.0 sn, outro 0.70 zirve, zoom nabzı ≤ 2, kör açılış yok", () => {
     expect(ACADEMY_INTRO_GENERIC_SEC).toBe(2);
     expect(academyLessonIntroIsActive(KEY, 0)).toBe(true);
     expect(academyLessonIntroIsActive(KEY, 1.9)).toBe(true);
     expect(academyLessonSpeechHasStarted(KEY, 2)).toBe(true);
     expect(academyBedOutroTailSec(KEY)).toBeGreaterThan(0);
     expect(academyOutroSummaryLabels(KEY)).toEqual(["Tek fikir / slayt", "Görsel yönlendir", "Taslağı aktar"]);
-    expect(loadAcademyCinemaCueSlides(KEY)[0]?.visualMode).toBe("veo");
+    expect(loadAcademyCinemaCueSlides(KEY)[0]?.visualMode).toBe("live");
     const cues = loadAcademyLessonPlaybackCues(KEY);
     const cue04 = cues.find((cue) => cue.id === "cue-04");
     expect(cue04).toBeTruthy();
-    expect(academyExcelFocusZoomActive(KEY, cue04!.start)).toBe(true);
+    const zoomWindows = loadAcademyExcelFocusZoomWindows(KEY);
+    expect(zoomWindows.length).toBeGreaterThan(0);
+    expect(zoomWindows.length).toBeLessThanOrEqual(ACADEMY_OFFICE_AI_3_FOCUS_ZOOM_MAX_WINDOWS);
+    expect(zoomWindows[0]?.start).toBeGreaterThan(cue04!.start);
+    expect(academyExcelFocusZoomActive(KEY, cue04!.start)).toBe(false);
+    expect(academyExcelFocusZoomActive(KEY, zoomWindows[0]!.start + 0.05)).toBe(true);
+    expect(new Set(zoomWindows.map((window) => window.target)).size).toBe(zoomWindows.length);
     expect(academyExcelMouseState(KEY, cue04!.start + 0.05)?.visible).toBe(true);
     expect(academyExcelMouseState(KEY, cue04!.start + 0.05)?.cell).toBeTruthy();
     const pieces = loadAcademySealedAudioTimings(KEY)?.pieces ?? [];
@@ -213,15 +236,69 @@ describe("01_office_ai bölüm 3 — Sunum Fabrikası Altın Şablon", () => {
     expect(css).toMatch(/\.academy-pptx-canvas\s*\{[^}]*aspect-ratio:\s*16 \/ 9/s);
     expect(css).toMatch(/\.academy-pptx-canvas\s*\{[^}]*object-fit:\s*contain/s);
     expect(css).toMatch(/\.academy-pptx-canvas\s*\{[^}]*height:\s*auto/s);
+    expect(css).toMatch(/\.academy-pptx-canvas\s*\{[^}]*max-height:\s*100%/s);
+    expect(css).toMatch(/\.academy-pptx-canvas-wrap\s*\{[^}]*overflow:\s*hidden/s);
+    expect(css).toContain("[data-fit=\"contain\"]");
     expect(css).toMatch(
       /\.academy-player-compare-pane \.academy-pptx-kpi\s*\{[^}]*min-height:\s*3\.7rem/s,
     );
     expect(css).toMatch(/\.academy-pptx-kpi\s*\{[^}]*min-height:\s*4\.35rem/s);
+    expect(css).toContain(".academy-paste-guide[data-academy-paste-anchor=\"copilot\"]");
+    expect(css).not.toContain("--academy-pptx-focus-origin: 38% 32%");
     const player = readFileSync(join(ROOT, "components/academy/curriculum-player.tsx"), "utf8");
     const eye = readFileSync(join(ROOT, "components/academy/lesson-visual-stage.tsx"), "utf8");
+    const pptx = readFileSync(join(ROOT, "components/academy/lesson-pptx-workspace.tsx"), "utf8");
     expect(player).toContain('data-academy-prompt-host="below-transport"');
     expect(eye).not.toContain("LessonPromptConsole");
     expect(eye).toContain("data-academy-prompt-dock");
+    expect(eye).toContain('fit={stageTheme === "pptx" ? "contain" : "cover"}');
+    expect(pptx).not.toContain("50% 48%");
+    expect(academyAiDeskPinnedForLesson(KEY)).toBe("copilot");
+  });
+
+  it("jsdom/kamera kilidi: zoom açıkken pencere waiter dışına taşmaz, oran 1.77, nabız ≤ 2", () => {
+    const zoomWindows = loadAcademyExcelFocusZoomWindows(KEY);
+    expect(zoomWindows.length).toBeLessThanOrEqual(2);
+    expect(zoomWindows.length).toBeGreaterThan(0);
+    const waiter = { width: 1280, height: 720 };
+    const content = { width: 1600, height: 1100 };
+    const rest = academyOfficeWinFitScale({
+      paneWidth: waiter.width,
+      paneHeight: waiter.height,
+      contentWidth: content.width,
+      contentHeight: content.height,
+    });
+    for (const window of zoomWindows) {
+      const originX = window.target === "copilot" ? content.width * 0.84 : content.width * 0.42;
+      const originY = window.target === "copilot" ? content.height * 0.48 : content.height * 0.52;
+      const camera = academyOfficeContainCamera({
+        paneWidth: waiter.width,
+        paneHeight: waiter.height,
+        contentWidth: content.width,
+        contentHeight: content.height,
+        originX,
+        originY,
+        zoom: 1.2,
+      });
+      expect(academyOfficeAabbInsidePane(camera.aabb, waiter), window.target).toBe(true);
+      expect(camera.scale).toBeLessThanOrEqual(rest + 1e-9);
+      const canvasW = Math.min(camera.aabb.width * 0.58, camera.aabb.height * (16 / 9));
+      const canvasH = canvasW * (9 / 16);
+      expect(academyOfficeIsWidescreenRatio(canvasW, canvasH)).toBe(true);
+      expect(canvasW).toBeLessThanOrEqual(waiter.width);
+      expect(canvasH).toBeLessThanOrEqual(waiter.height);
+      expect(academyExcelFocusZoomTarget(KEY, window.start + 0.1)).toBe(window.target ?? null);
+    }
+    const splitPane = { width: 620, height: 700 };
+    const splitCanvasW = Math.min(splitPane.width, splitPane.height * (16 / 9));
+    const splitCanvasH = splitCanvasW * (9 / 16);
+    expect(academyOfficeIsWidescreenRatio(splitCanvasW, splitCanvasH)).toBe(true);
+    expect(
+      academyOfficeAabbInsidePane(
+        { left: 0, top: 28, width: splitCanvasW, height: splitCanvasH },
+        splitPane,
+      ),
+    ).toBe(true);
   });
 
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {

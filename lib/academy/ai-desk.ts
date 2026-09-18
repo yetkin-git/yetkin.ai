@@ -166,7 +166,7 @@ export function academyAiDeskTabsForHost(
 /** Ana akış dersleri yerleşik yola kilitlenir; taşıma su sekmesi otomatik açılmaz. */
 export function academyAiDeskPinnedForLesson(lessonKey: string): AcademyAiDeskTab | null {
   const key = lessonKey.trim();
-  if (key === "01_office_ai-g1" || key === "01_office_ai-4") {
+  if (key === "01_office_ai-g1" || key === "01_office_ai-4" || key === "01_office_ai-3") {
     return "copilot";
   }
   if (key === "01_office_ai-w1") {

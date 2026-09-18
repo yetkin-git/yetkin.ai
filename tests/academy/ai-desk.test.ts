@@ -67,6 +67,7 @@ describe("Nereye yazılacak — Copilot vs ChatGPT masası", () => {
     expect(academyAiDeskPinnedForLesson("01_office_ai-g1")).toBe("copilot");
     expect(academyAiDeskPinnedForLesson("01_office_ai-w1")).toBe("chatgpt");
     expect(academyAiDeskPinnedForLesson("01_office_ai-4")).toBe("copilot");
+    expect(academyAiDeskPinnedForLesson("01_office_ai-3")).toBe("copilot");
     expect(academyInfraAllowsDirectUpload("excel")).toBe(true);
     expect(academyInfraAllowsDirectUpload("word")).toBe(true);
     expect(academyInfraAllowsDirectUpload("pptx")).toBe(true);
@@ -158,6 +159,8 @@ describe("Nereye yazılacak — Copilot vs ChatGPT masası", () => {
     expect(ssot).toContain("ChatGPT / Claude");
     expect(eye).toContain("academyAiDeskGuideTitle");
     expect(eye).toContain("data-academy-paste-guide");
+    expect(eye).toContain('data-academy-paste-anchor={pasteHost === "pptx" ? "copilot" : undefined}');
+    expect(desk).toContain("data-academy-copilot-dock");
     expect(spoken).toMatch(/Microsoft Copilot lisansın varsa/u);
     expect(spoken).toMatch(/Gemini eklentisini aç/u);
     expect(spoken).toMatch(/yerleşik panele yazılır/u);

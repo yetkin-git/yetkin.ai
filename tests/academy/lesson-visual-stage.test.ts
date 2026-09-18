@@ -66,6 +66,10 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
     expect(hasAcademyLessonVisualStage("01_office_ai-1")).toBe(true);
     expect(loadAcademyLessonVisualStage("01_office_ai-1")?.cards).toHaveLength(8);
     expect(loadAcademyLessonVisualStage("01_office_ai-1")?.cards[0]?.kind).toBe("veo");
+    expect(loadAcademyLessonVisualStage("01_office_ai-3")?.cards[0]?.kind).toBe("nano");
+    expect(loadAcademyLessonVisualStage("01_office_ai-3")?.cards[0]?.src).toBe(
+      "/academy/cinema/01_office_ai-3-cue-1.jpg",
+    );
     expect(isAcademySpokenScriptLessonKey("01_office_ai-1")).toBe(true);
     expect(existsSync(POSTER)).toBe(true);
     expect(academyCinemaEyeFallbackPublicPath("01_office_ai-1")).toBe(
@@ -193,6 +197,8 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
     expect(eye).toContain("currentTime={currentTime}");
     expect(eye).toContain("pane=\"after\" currentTime={currentTime}");
     expect(eye).toContain("LessonCinemaMediaCard");
+    expect(eye).toContain('fit={stageTheme === "pptx" ? "contain" : "cover"}');
+    expect(eye).toContain('data-academy-paste-anchor={pasteHost === "pptx" ? "copilot" : undefined}');
     expect(eye).toContain("data-academy-intro");
     expect(eye).toContain("data-academy-outro");
     expect(eye).toContain('data-academy-veo={card?.kind === "veo" && !veoPunchLive ? "warmup" : undefined}');
@@ -217,6 +223,9 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
     expect(css).toContain("academy-player-karaoke-strip");
     expect(css).toContain("academy-player-karaoke-word");
     expect(css).toContain("academy-eye-kenburns");
+    expect(css).toContain('[data-fit="contain"]');
+    expect(css).toContain(".academy-paste-guide[data-academy-paste-anchor=\"copilot\"]");
+    expect(css).toContain("anchor-name: --academy-copilot-dock");
     expect(css).toMatch(/\.academy-player-media-card\s*\{[^}]*inset:\s*0/s);
     expect(css).toMatch(/\.academy-player-punchcard-dock\s*\{[^}]*right:\s*0\.7rem/s);
     expect(css).toMatch(/\.academy-player-waiter\s*\{[^}]*inset:\s*3\.15rem 0\.7rem 3\.55rem/s);

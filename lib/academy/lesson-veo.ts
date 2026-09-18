@@ -21,7 +21,8 @@ export function assertAcademyVeoBudgetBakeModel(model: string): void {
   }
 }
 
-const WARMUP_VEO_LESSON_KEYS = ["01_office_ai-1", "01_office_ai-2", "01_office_ai-3", "01_office_ai-4", "01_office_ai-5", "01_office_ai-6", "01_office_ai-g1", "01_office_ai-w1", "01_office_ai-k1"] as const;
+/** Excel B-roll yalnız Excel masalı derslerde. Ders 4 (`01_office_ai-3`) PowerPoint plakası taşır. */
+const WARMUP_VEO_LESSON_KEYS = ["01_office_ai-1", "01_office_ai-2", "01_office_ai-4", "01_office_ai-5", "01_office_ai-6", "01_office_ai-g1", "01_office_ai-w1", "01_office_ai-k1"] as const;
 
 export function academyLessonWarmupVeoAssetKey(lessonKey: string): string | null {
   return (WARMUP_VEO_LESSON_KEYS as readonly string[]).includes(lessonKey.trim())

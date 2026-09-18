@@ -35,6 +35,11 @@ describe("Sunum Fabrikası slayt seçim kutusu — getBoundingClientRect", () =>
     const ssot = readFileSync(join(ROOT, "lib/academy/pptx-workspace.ts"), "utf8");
     const css = readFileSync(join(ROOT, "app/globals.css"), "utf8");
     expect(pptx).toContain("applyAcademyOfficeWinFit");
+    expect(pptx).toContain("academyExcelFocusZoomTarget");
+    expect(pptx).toContain("academyOfficeFocusOriginCss");
+    expect(pptx).not.toContain("50% 48%");
+    expect(pptx).not.toContain("38% 32%");
+    expect(pptx).toContain('data-academy-pptx-chrome={compact ? "bare" : "full"}');
     expect(pptx).toContain("data-academy-office-win-fit");
     expect(pptx).toContain("data-academy-pptx-origin");
     expect(pptx).toContain("data-academy-checklist-overlay");
@@ -55,7 +60,10 @@ describe("Sunum Fabrikası slayt seçim kutusu — getBoundingClientRect", () =>
     expect(css).toMatch(/\.academy-pptx-canvas\s*\{[^}]*aspect-ratio:\s*16 \/ 9/s);
     expect(css).toMatch(/\.academy-pptx-canvas\s*\{[^}]*object-fit:\s*contain/s);
     expect(css).toMatch(/\.academy-pptx-canvas\s*\{[^}]*height:\s*auto/s);
-    expect(css).toMatch(/\.academy-pptx-canvas-wrap\s*\{[^}]*align-items:\s*center/s);
+    expect(css).toMatch(/\.academy-pptx-canvas-wrap\s*\{[^}]*overflow:\s*hidden/s);
+    expect(css).toMatch(/\.academy-pptx-canvas\s*\{[^}]*max-height:\s*100%/s);
+    expect(css).not.toContain("--academy-pptx-focus-origin: 38% 32%");
+    expect(css).not.toContain("transform-origin: var(--academy-pptx-focus-origin, 38% 32%)");
     expect(css).toMatch(/\.academy-pptx-kpi\s*\{[^}]*text-align:\s*center/s);
     expect(css).toMatch(/\.academy-pptx-kpi\s*\{[^}]*flex-direction:\s*column/s);
     expect(css).toMatch(/\.academy-pptx-kpi\s*\{[^}]*align-items:\s*center/s);

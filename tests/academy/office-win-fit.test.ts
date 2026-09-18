@@ -1,7 +1,13 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { academyOfficeWinFitScale } from "@/lib/academy/office-win-fit";
+import {
+  academyOfficeAabbInsidePane,
+  academyOfficeContainCamera,
+  academyOfficeFocusOriginCss,
+  academyOfficeIsWidescreenRatio,
+  academyOfficeWinFitScale,
+} from "@/lib/academy/office-win-fit";
 import { ACADEMY_GMAIL_CARRY_WATER_CLIP, ACADEMY_GMAIL_MAILS } from "@/lib/academy/gmail-workspace";
 
 const ROOT = process.cwd();
@@ -44,6 +50,41 @@ describe("Sinema masası office-win-fit — 16:9 contain / scale-down", () => {
         contentHeight: 400,
       }),
     ).toBe(1);
+  });
+
+  it("focus-zoom AABB waiter dışına taşmaz; 16:9 tuval oranı 1.77 kalır", () => {
+    const waiter = { width: 1280, height: 720 };
+    const content = { width: 1560, height: 1080 };
+    const rest = academyOfficeWinFitScale({
+      paneWidth: waiter.width,
+      paneHeight: waiter.height,
+      contentWidth: content.width,
+      contentHeight: content.height,
+    });
+    const camera = academyOfficeContainCamera({
+      paneWidth: waiter.width,
+      paneHeight: waiter.height,
+      contentWidth: content.width,
+      contentHeight: content.height,
+      originX: content.width * 0.82,
+      originY: content.height * 0.44,
+      zoom: 1.2,
+    });
+    expect(camera.scale).toBeLessThanOrEqual(rest + 1e-9);
+    expect(academyOfficeAabbInsidePane(camera.aabb, waiter)).toBe(true);
+    const canvas = {
+      width: camera.aabb.width * 0.62,
+      height: (camera.aabb.width * 0.62) * (9 / 16),
+    };
+    expect(academyOfficeIsWidescreenRatio(canvas.width, canvas.height)).toBe(true);
+    expect(canvas.width).toBeLessThanOrEqual(camera.aabb.width + 0.01);
+    expect(canvas.height).toBeLessThanOrEqual(camera.aabb.height + 0.01);
+    expect(
+      academyOfficeFocusOriginCss(
+        { left: 820, top: 310, width: 240, height: 180 },
+        { left: 0, top: 0, width: 1280, height: 720 },
+      ),
+    ).toBe("73.44% 55.56%");
   });
 
   it("Gmail taşıma-su paneli Banka Dekontu satırını düşürmez; 4 kart + 3 clip durur", () => {

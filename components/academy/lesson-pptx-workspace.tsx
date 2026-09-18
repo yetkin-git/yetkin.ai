@@ -6,15 +6,14 @@ import { LessonSlideWorkspace } from "@/components/academy/lesson-slide-workspac
 import {
   ACADEMY_EXCEL_FOCUS_ZOOM_SCALE,
   academyExcelFocusZoomActive,
+  academyExcelFocusZoomTarget,
 } from "@/lib/academy/excel-focus-zoom";
 import { academyExcelMouseState } from "@/lib/academy/excel-mouse-pointer";
 import type { AcademyVisualExcelPane } from "@/lib/academy/excel-workspace";
 import { academyPocketChecklistSteps } from "@/lib/academy/lesson-beat-visual";
 import { academyPptxAlignBox, academyPptxElementForCell } from "@/lib/academy/pptx-workspace";
-import { applyAcademyOfficeWinFit } from "@/lib/academy/office-win-fit";
+import { academyOfficeFocusOriginCss, applyAcademyOfficeWinFit } from "@/lib/academy/office-win-fit";
 import { LessonAiDesk, LessonOfficeCopilotRibbon, useAcademyAiDeskTab } from "@/components/academy/lesson-ai-desk";
-
-const ACADEMY_PPTX_FOCUS_ORIGIN = "50% 48%";
 
 function boxStyle(box: { left: number; top: number; width: number; height: number }) {
   return {
@@ -46,6 +45,7 @@ export function LessonPptxWorkspace({
     width: number;
     height: number;
   } | null>(null);
+  const [focusOrigin, setFocusOrigin] = useState("0% 0%");
 
   const mouse =
     (pane === "live" || pane === "after") && typeof currentTime === "number"
@@ -84,7 +84,10 @@ export function LessonPptxWorkspace({
     .filter(Boolean)
     .join(" ");
 
-  const originKey = `${activeElement}:${highlight}:${slide.section}:${pane}`;
+  const zoomTarget =
+    pane === "live" ? academyExcelFocusZoomTarget(slide.lessonKey, currentTime ?? 0) : null;
+  const cameraTarget = zoomTarget ?? (liveFocusZoom && dumpMode ? "copilot" : liveFocusZoom ? "canvas" : null);
+  const originKey = `${activeElement}:${highlight}:${slide.section}:${pane}:${cameraTarget ?? "none"}`;
 
   useLayoutEffect(() => {
     const wrap = wrapRef.current;
@@ -94,10 +97,21 @@ export function LessonPptxWorkspace({
       return;
     }
     const measure = () => {
-      applyAcademyOfficeWinFit(desk, fit);
+      const copilot = desk.querySelector<HTMLElement>("[data-academy-ai-desk]");
       const origin =
-        originRef.current ?? wrap.querySelector<HTMLElement>("[data-academy-pptx-origin]");
-      if (!origin) {
+        cameraTarget === "copilot"
+          ? copilot
+          : originRef.current ?? wrap.querySelector<HTMLElement>("[data-academy-pptx-origin]");
+      applyAcademyOfficeWinFit(desk, fit, {
+        zoom: liveFocusZoom ? ACADEMY_EXCEL_FOCUS_ZOOM_SCALE : 1,
+        origin: liveFocusZoom ? origin : null,
+      });
+      if (origin && fit) {
+        setFocusOrigin(academyOfficeFocusOriginCss(origin.getBoundingClientRect(), fit.getBoundingClientRect()));
+      } else {
+        setFocusOrigin("0% 0%");
+      }
+      if (!origin || cameraTarget === "copilot") {
         setAlignBox(null);
         return;
       }
@@ -114,7 +128,7 @@ export function LessonPptxWorkspace({
     const observer = new ResizeObserver(measure);
     observer.observe(desk);
     observer.observe(wrap);
-    const origin = originRef.current;
+    const origin = originRef.current ?? desk.querySelector<HTMLElement>("[data-academy-ai-desk]");
     if (origin) {
       observer.observe(origin);
     }
@@ -125,7 +139,7 @@ export function LessonPptxWorkspace({
       wrap.removeEventListener("scroll", measure);
       window.removeEventListener("resize", measure);
     };
-  }, [originKey, liveFocusZoom, compact, dumpMode]);
+  }, [originKey, liveFocusZoom, compact, dumpMode, cameraTarget]);
 
   return (
     <div
@@ -140,24 +154,25 @@ export function LessonPptxWorkspace({
       data-academy-excel-mouse={mouse ? mouse.cell : undefined}
       data-academy-ai-desk-tab={slide.copilot && !compact ? aiDesk.tab : undefined}
       data-academy-ai-desk-phase={slide.copilot && !compact ? aiDesk.phase : undefined}
+      data-academy-pptx-chrome={compact ? "bare" : "full"}
+      data-academy-pptx-camera={cameraTarget ?? undefined}
       style={
         pane === "live"
           ? {
-              ["--academy-pptx-focus-scale" as string]: liveFocusZoom
-                ? String(ACADEMY_EXCEL_FOCUS_ZOOM_SCALE)
-                : 1,
-              ["--academy-pptx-focus-origin" as string]: ACADEMY_PPTX_FOCUS_ORIGIN,
+              ["--academy-pptx-focus-origin" as string]: focusOrigin,
             }
           : undefined
       }
     >
       <div className="academy-office-win-fit" ref={fitRef} data-academy-office-win-fit="">
       <div className="academy-pptx-win">
-        <div className="academy-pptx-titlebar">
-          <i aria-hidden />
-          <b>PowerPoint</b>
-          <span>{slide.fileName ?? "Yonetim_Sunumu.pptx"}</span>
-        </div>
+        {compact ? null : (
+          <div className="academy-pptx-titlebar">
+            <i aria-hidden />
+            <b>PowerPoint</b>
+            <span>{slide.fileName ?? "Yonetim_Sunumu.pptx"}</span>
+          </div>
+        )}
         {compact ? null : (
           <div className="academy-pptx-ribbon" aria-hidden>
             <span className="on">Giriş</span>

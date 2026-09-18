@@ -122,6 +122,7 @@ export function LessonAiDesk({
     <aside
       className={`academy-ai-desk academy-${host === "word" ? "excel" : host}-copilot`}
       data-academy-ai-desk=""
+      data-academy-copilot-dock=""
       data-academy-ai-desk-host={host}
       data-academy-ai-desk-tab={tab}
       data-academy-ai-desk-phase={phase}

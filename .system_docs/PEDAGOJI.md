@@ -31,7 +31,7 @@ Sıfır jargon, insani, sıcak, arkadaşça, yapmacıksız ve çözüme giden bi
 
 * **Altyazı Titreme Yasağı (0 Layout Shift):** Karaoke altyazısında aktif kelime kalınlaşırken cümle sağa sola titremez. Koyuluk hissi yerleşimi itmeyen bir vurgu ile sağlanır; piksel ve CSS SOP bake el kitabı / oynatıcı kodundadır.
 * **Descender Harf Koruması:** `g, y, ş, p` gibi alt uzantılı harfler altyazı şeridinde kesilmez.
-* **16:9 Tuval ve Contain Sözleşmesi:** Slayt tuvalleri ve uygulama pencereleri (`PowerPoint`, `Outlook`, `Excel`, `Word`, `Gmail`) dikeyde basılamaz/ezilemez; tuval oranı korunur.
+* **16:9 Tuval ve Contain Sözleşmesi:** Slayt tuvalleri ve uygulama pencereleri (`PowerPoint`, `Outlook`, `Excel`, `Word`, `Gmail`) dikeyde basılamaz/ezilemez; tuval oranı korunur. **18 Eylül 2026 — Ders 4 (Sunum Fabrikası) 16:9 contain kamera, Copilot dock çapa ve zoom clamp düzeltmesi kilitlendi.**
 * **Dikey Nefes ve Kabuk Dengesi:** Oynatıcı sahnesi tavan çizgisine yapışmaz. Sağ oynatma listesi çekirdek derslerin tamamını kaydırma çubuğu olmadan tek bakışta sığdıracak esnekliktedir.
 
 **Kapsam:** Paragraf yasağı overlay ve punchcard sahnesinedir. Çalışma sekmesindeki **Compact Makale** (Tam Ders Metni) paragraf taşır; Anayasa B4 (konunun hakkı) bunu ister. Compact makale A.3 ihlali değildir. Nasıl-yapılır adım bandı (§E.7) da A.3’ün dışında durur: bant «Adım 1 / Adım 2 / Adım 3» taşır, overlay paragrafı değildir.

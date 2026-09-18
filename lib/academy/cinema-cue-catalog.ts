@@ -784,7 +784,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
       {
         cueIndex: 1,
         beat: "warmup",
-        visualMode: "veo",
+        visualMode: "live",
         section: "GİRİŞ KÖPRÜSÜ",
         headline: "GİRİŞ KÖPRÜSÜ",
         subhead: "Yönetici özeti cebinde. Şimdi o metni slayta çevirme stresi başlıyor.",

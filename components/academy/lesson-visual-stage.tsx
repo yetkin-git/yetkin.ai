@@ -98,11 +98,13 @@ function LessonCinemaMediaCard({
   playing,
   motion,
   fallbackSrc,
+  fit,
 }: {
   card: AcademyLessonVisualCard;
   playing: boolean;
   motion: ReturnType<typeof academyVisualStageMotion>;
   fallbackSrc: string;
+  fit?: "contain" | "cover";
 }) {
   const cinema = card.kind === "veo" ? resolveAcademyCinemaSource(card.src) : null;
   const bakedFile = cinema?.kind === "html5" || cinema?.kind === "hls";
@@ -148,6 +150,7 @@ function LessonCinemaMediaCard({
           ref={videoRef}
           className="academy-player-eye-plate"
           data-motion={motion}
+          data-fit={fit ?? "cover"}
           muted
           playsInline
           preload="metadata"
@@ -158,6 +161,7 @@ function LessonCinemaMediaCard({
         <img
           className="academy-player-eye-plate"
           data-motion={motion}
+          data-fit={fit ?? "cover"}
           src={plateSrc}
           alt=""
           width={1280}
@@ -395,6 +399,7 @@ export function LessonCinemaEyeLayer({
           playing={playing}
           motion={motion}
           fallbackSrc={cinematicFrameSrc}
+          fit={stageTheme === "pptx" ? "contain" : "cover"}
         />
       ) : null}
       {showPasteGuide ? (
@@ -402,6 +407,8 @@ export function LessonCinemaEyeLayer({
           className="academy-paste-guide"
           data-academy-paste-guide=""
           data-academy-paste-tab={pasteTab}
+          data-academy-paste-host={pasteHost}
+          data-academy-paste-anchor={pasteHost === "pptx" ? "copilot" : undefined}
           aria-label={pasteGuideTitle}
         >
           <strong>{pasteGuideTitle}</strong>

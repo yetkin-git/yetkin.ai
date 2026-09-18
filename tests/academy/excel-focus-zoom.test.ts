@@ -77,6 +77,13 @@ describe("Excel A1 odak zoom — cue-04 ses pencereleri", () => {
     const lessonTwoCue04 = lessonTwoCues.find((cue) => cue.id === "cue-04");
     expect(lessonTwoCue04).toBeTruthy();
     expect(academyExcelFocusZoomActive("01_office_ai-2", lessonTwoCue04!.start)).toBe(true);
+    const lessonThreeWindows = loadAcademyExcelFocusZoomWindows("01_office_ai-3");
+    const lessonThreeCue04 = loadAcademyLessonPlaybackCues("01_office_ai-3").find((cue) => cue.id === "cue-04");
+    expect(lessonThreeCue04).toBeTruthy();
+    expect(lessonThreeWindows.length).toBeGreaterThan(0);
+    expect(lessonThreeWindows.length).toBeLessThanOrEqual(2);
+    expect(academyExcelFocusZoomActive("01_office_ai-3", lessonThreeCue04!.start)).toBe(false);
+    expect(lessonThreeWindows[0]!.start).toBeGreaterThan(lessonThreeCue04!.start);
   });
 
   it("sentetik satırda formül çubuğu ifadesi A1’e zoom penceresi basar; örtüşen pencereler birleşir", () => {

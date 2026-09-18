@@ -39,11 +39,12 @@ export const ACADEMY_OFFICE_AI_2_FOCUS_ZOOM_PHRASES = [
   "karar cümlesi",
 ] as const;
 
+/** Cue-04 pedagojik vuruşlar — kör açılış zoom’u yok; en fazla 2 pencere. */
 export const ACADEMY_OFFICE_AI_3_FOCUS_ZOOM_PHRASES = [
-  "tek fikir",
-  "görsel yönlendirme",
   "slayt taslağı",
+  "görsel yönlendirme",
 ] as const;
+export const ACADEMY_OFFICE_AI_3_FOCUS_ZOOM_MAX_WINDOWS = 2 as const;
 
 export const ACADEMY_OFFICE_AI_4_FOCUS_ZOOM_PHRASES = [
   "etiketle",
@@ -63,11 +64,17 @@ export const ACADEMY_OFFICE_AI_6_FOCUS_ZOOM_PHRASES = [
   "üç blok",
 ] as const;
 
+export type AcademyExcelFocusZoomTarget = "copilot" | "canvas";
+
 type AcademyExcelFocusZoomSpec = {
   cueId: string;
   origin: string;
   phrases: readonly string[];
   pattern: RegExp;
+  skipCueStart?: boolean;
+  maxWindows?: number;
+  uniqueTargets?: boolean;
+  targetForMatch?: (match: string) => AcademyExcelFocusZoomTarget;
 };
 
 const ZOOM_BY_LESSON: Record<string, AcademyExcelFocusZoomSpec> = {
@@ -85,9 +92,13 @@ const ZOOM_BY_LESSON: Record<string, AcademyExcelFocusZoomSpec> = {
   },
   "01_office_ai-3": {
     cueId: ACADEMY_EXCEL_FOCUS_ZOOM_CUE_ID,
-    origin: "38% 32%",
+    origin: "origin-ref",
     phrases: ACADEMY_OFFICE_AI_3_FOCUS_ZOOM_PHRASES,
-    pattern: /tek fikir|görsel yönlendir\p{L}*|slayt tasla/giu,
+    pattern: /görsel yönlendir\p{L}*|slayt tasla/giu,
+    skipCueStart: true,
+    maxWindows: ACADEMY_OFFICE_AI_3_FOCUS_ZOOM_MAX_WINDOWS,
+    uniqueTargets: true,
+    targetForMatch: (match) => (/görsel yönlendir/iu.test(match) ? "canvas" : "copilot"),
   },
   "01_office_ai-4": {
     cueId: ACADEMY_EXCEL_FOCUS_ZOOM_CUE_ID,
@@ -116,6 +127,7 @@ function zoomSpecFor(lessonKey: string): AcademyExcelFocusZoomSpec | null {
 export type AcademyExcelFocusZoomWindow = {
   start: number;
   end: number;
+  target?: AcademyExcelFocusZoomTarget;
 };
 
 export type AcademyExcelFocusZoomLine = {
@@ -129,15 +141,20 @@ function foldTr(text: string): string {
   return text.toLocaleLowerCase("tr-TR").replace(/\s+/gu, " ");
 }
 
-function phraseHitTimes(text: string, start: number, end: number, pattern: RegExp): number[] {
+function phraseHitTimes(
+  text: string,
+  start: number,
+  end: number,
+  pattern: RegExp,
+): { time: number; match: string }[] {
   const folded = foldTr(text);
   const span = Math.max(0, end - start);
   const len = Math.max(1, folded.length);
-  const hits: number[] = [];
+  const hits: { time: number; match: string }[] = [];
   const matcher = new RegExp(pattern.source, pattern.flags);
   for (const match of folded.matchAll(matcher)) {
     const index = match.index ?? 0;
-    hits.push(start + (span * index) / len);
+    hits.push({ time: start + (span * index) / len, match: match[0] ?? "" });
   }
   return hits;
 }
@@ -152,20 +169,57 @@ function mergeWindows(
   for (const window of sorted) {
     const last = merged.at(-1);
     if (last && window.start <= last.end + ACADEMY_EXCEL_FOCUS_ZOOM_TRANSITION_SEC) {
+      if (window.target != null && last.target != null && window.target !== last.target) {
+        merged.push({ start: window.start, end: window.end, target: window.target });
+        continue;
+      }
       last.end = Math.max(last.end, window.end);
+      last.target = last.target ?? window.target;
       continue;
     }
-    merged.push({ start: window.start, end: window.end });
+    merged.push({ start: window.start, end: window.end, target: window.target });
   }
   return merged;
 }
 
-function clampFocusWindow(start: number, cueEnd: number): AcademyExcelFocusZoomWindow | null {
+function clampFocusWindow(
+  start: number,
+  cueEnd: number,
+  target?: AcademyExcelFocusZoomTarget,
+): AcademyExcelFocusZoomWindow | null {
   const end = Math.min(start + ACADEMY_EXCEL_FOCUS_ZOOM_DURATION_SEC, cueEnd);
   if (end <= start) {
     return null;
   }
-  return { start, end };
+  return { start, end, target };
+}
+
+function capFocusWindows(
+  windows: readonly AcademyExcelFocusZoomWindow[],
+  spec: AcademyExcelFocusZoomSpec,
+): readonly AcademyExcelFocusZoomWindow[] {
+  const merged = mergeWindows(windows);
+  const max = spec.maxWindows;
+  if (max == null || max <= 0) {
+    return merged;
+  }
+  if (spec.uniqueTargets === true) {
+    const seen = new Set<string>();
+    const unique: AcademyExcelFocusZoomWindow[] = [];
+    for (const window of merged) {
+      const key = window.target ?? `i:${unique.length}`;
+      if (seen.has(key)) {
+        continue;
+      }
+      seen.add(key);
+      unique.push(window);
+      if (unique.length >= max) {
+        break;
+      }
+    }
+    return unique;
+  }
+  return merged.slice(0, max);
 }
 
 export function buildAcademyExcelFocusZoomWindows(options: {
@@ -182,22 +236,33 @@ export function buildAcademyExcelFocusZoomWindows(options: {
     return [];
   }
   const windows: AcademyExcelFocusZoomWindow[] = [];
-  const cueStartWindow = clampFocusWindow(cue.start, cue.end);
-  if (cueStartWindow) {
-    windows.push(cueStartWindow);
+  if (spec.skipCueStart !== true) {
+    const cueStartWindow = clampFocusWindow(cue.start, cue.end);
+    if (cueStartWindow) {
+      windows.push(cueStartWindow);
+    }
   }
   for (const line of options.lines) {
     if (line.cueId !== spec.cueId) {
       continue;
     }
     for (const hit of phraseHitTimes(line.text, line.start, line.end, spec.pattern)) {
-      const window = clampFocusWindow(hit, cue.end);
+      const target = spec.targetForMatch?.(hit.match);
+      const window = clampFocusWindow(hit.time, cue.end, target);
       if (window) {
         windows.push(window);
       }
     }
   }
-  return mergeWindows(windows);
+  return capFocusWindows(windows, spec);
+}
+
+export function academyExcelFocusZoomTarget(
+  lessonKey: string,
+  currentTime: number,
+): AcademyExcelFocusZoomTarget | null {
+  const t = Number.isFinite(currentTime) ? currentTime : 0;
+  return loadAcademyExcelFocusZoomWindows(lessonKey).find((window) => t >= window.start && t < window.end)?.target ?? null;
 }
 
 const WINDOW_CACHE = new Map<string, readonly AcademyExcelFocusZoomWindow[]>();

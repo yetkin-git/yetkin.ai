@@ -26,7 +26,7 @@ Bu dosya yaşayan kesittir. `docs/DURUM.md` test uyumluluk aynasıdır.
 | 1. ders | Üç Kapı + A1 hijyeni (`01_office_ai-1`, **607.28 sn**). Karaoke «grafik raporu» vaadi yok. |
 | 2. ders | KVKK / maskeleme (`01_office_ai-k1`, **677.56 sn**). Vatandaş dili. Yükleme alışkanlığından önce. Bant içi mühürlü kaset. |
 | 3. ders | Rapor: tablodan yönetim özeti (`01_office_ai-2`, **553.84 sn**). |
-| 4. ders | PowerPoint Copilot + `.pptx` ataş, sıfır kodlama (`01_office_ai-3`, **575.6 sn**). |
+| 4. ders | PowerPoint Copilot + `.pptx` ataş, sıfır kodlama (`01_office_ai-3`, **575.6 sn**). **18 Eylül 2026 — 16:9 contain kamera, Copilot dock çapa ve zoom clamp kilitlendi.** |
 | 5. ders | Hata avı; sol dip toplam **59.450** ekran + karaoke + TTS (`01_office_ai-5`, **517.56 sn**). |
 | 6. ders | E-posta ritüeli (`01_office_ai-4`, **443.56 sn**). |
 | 7. ders | Gmail + Gemini kapısı (`01_office_ai-g1`, **567.2 sn**). |

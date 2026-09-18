@@ -1110,8 +1110,31 @@ body {
   transform-origin: 46% 42%;
 }
 
+.academy-player-eye-plate[data-fit="contain"] {
+  object-fit: contain;
+  object-position: center;
+  transform: none;
+}
+
+.academy-player-eye-stack[data-academy-stage-theme="pptx"] .academy-player-eye-plate,
+.academy-player-eye-canvas[data-academy-stage-theme="pptx"] .academy-player-eye-plate {
+  object-fit: contain;
+  object-position: center;
+  transform: none;
+}
+
 .academy-player-eye-plate[data-motion="punch"] {
   animation: academy-eye-kenburns 8s ease-out forwards;
+}
+
+.academy-player-eye-plate[data-fit="contain"][data-motion="punch"],
+.academy-player-eye-plate[data-fit="contain"][data-motion="hold"],
+.academy-player-eye-plate[data-fit="contain"][data-motion="rest"],
+.academy-player-eye-stack[data-academy-stage-theme="pptx"] .academy-player-eye-plate[data-motion="punch"],
+.academy-player-eye-stack[data-academy-stage-theme="pptx"] .academy-player-eye-plate[data-motion="hold"],
+.academy-player-eye-stack[data-academy-stage-theme="pptx"] .academy-player-eye-plate[data-motion="rest"] {
+  animation: none;
+  transform: none;
 }
 
 .academy-player-eye-plate[data-motion="hold"] {
@@ -1381,17 +1404,6 @@ body {
   overflow: hidden;
 }
 
-.academy-pptx-desk--live .academy-pptx-win {
-  transform: scale(var(--academy-pptx-focus-scale, 1));
-  transform-origin: var(--academy-pptx-focus-origin, 38% 32%);
-  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.academy-pptx-desk--focus-zoom {
-  --academy-pptx-focus-scale: 1.2;
-  --academy-pptx-focus-origin: 38% 32%;
-}
-
 .academy-pptx-win {
   display: flex;
   width: 100%;
@@ -1511,14 +1523,18 @@ body {
   white-space: normal;
 }
 
+.academy-pptx-desk--focus-zoom .academy-office-win-fit {
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .academy-pptx-canvas-wrap {
   position: relative;
   display: flex;
   min-width: 0;
-  min-height: min-content;
+  min-height: 0;
   align-items: center;
   justify-content: center;
-  overflow: visible;
+  overflow: hidden;
   padding: 0.45rem;
   background: #d9d9d9;
 }
@@ -1532,6 +1548,7 @@ body {
   width: 100%;
   height: auto;
   max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
   margin: 0;
   padding: 0.85rem 1rem;
@@ -2610,7 +2627,8 @@ body {
 
 .academy-player-compare[data-academy-waiter-stage="outlook"],
 .academy-player-compare[data-academy-waiter-stage="gmail"],
-.academy-player-compare[data-academy-waiter-stage="word"] {
+.academy-player-compare[data-academy-waiter-stage="word"],
+.academy-player-compare[data-academy-waiter-stage="pptx"] {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 0.5rem;
   overflow: hidden;
@@ -2637,8 +2655,16 @@ body {
 .academy-player-compare-pane .academy-pptx-win {
   height: auto;
   min-height: 0;
-  max-height: none;
-  overflow: visible;
+  max-height: 100%;
+  overflow: hidden;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.academy-player-compare-pane .academy-pptx-titlebar,
+.academy-pptx-desk[data-academy-pptx-chrome="bare"] .academy-pptx-titlebar {
+  display: none;
 }
 
 .academy-player-compare-pane .academy-outlook-win {
@@ -2660,15 +2686,38 @@ body {
 .academy-player-compare-pane .academy-outlook-canvas-wrap,
 .academy-player-compare-pane .academy-outlook-canvas,
 .academy-player-compare-pane .academy-outlook-canvas--compact,
-.academy-player-compare-pane .academy-outlook-canvas--reset,
-.academy-player-compare-pane .academy-pptx-body,
-.academy-player-compare-pane .academy-pptx-canvas-wrap,
-.academy-player-compare-pane .academy-pptx-canvas {
+.academy-player-compare-pane .academy-outlook-canvas--reset {
   min-width: 0;
   min-height: min-content;
   height: auto;
   max-height: none;
   overflow: visible;
+}
+
+.academy-player-compare-pane .academy-pptx-body,
+.academy-player-compare-pane .academy-pptx-canvas-wrap,
+.academy-player-compare-pane .academy-pptx-canvas {
+  min-width: 0;
+  min-height: 0;
+  height: auto;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.academy-player-compare-pane .academy-pptx-canvas-wrap {
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem;
+}
+
+.academy-player-compare-pane .academy-pptx-canvas {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
 }
 
 .academy-player-compare-pane .academy-gmail-carry,
@@ -3497,6 +3546,25 @@ body {
   box-shadow: 0 8px 22px rgba(8, 18, 32, 0.35);
 }
 
+.academy-paste-guide[data-academy-paste-anchor="copilot"] {
+  top: 2.35rem;
+  left: auto;
+  right: 0.7rem;
+  max-width: min(42%, 18rem);
+}
+
+@supports (anchor-name: --academy-copilot-dock) {
+  .academy-paste-guide[data-academy-paste-anchor="copilot"] {
+    position-anchor: --academy-copilot-dock;
+    top: unset;
+    right: unset;
+    left: anchor(left);
+    width: anchor-size(width);
+    bottom: anchor(top);
+    transform: translateY(calc(-100% - 0.35rem));
+  }
+}
+
 .academy-paste-guide strong {
   font-size: clamp(0.62rem, 1.3vw, 0.78rem);
   font-weight: 800;
@@ -3520,6 +3588,14 @@ body {
   background:
     linear-gradient(90deg, #38bdf8 0%, #38bdf8 72%, transparent 72%),
     linear-gradient(45deg, transparent 0 42%, #38bdf8 42% 58%, transparent 58%) right / 0.55rem 0.55rem no-repeat;
+}
+
+.academy-paste-guide[data-academy-paste-anchor="copilot"] i {
+  width: 0.7rem;
+  height: 1.15rem;
+  background:
+    linear-gradient(180deg, #38bdf8 0%, #38bdf8 62%, transparent 62%),
+    linear-gradient(45deg, transparent 0 42%, #38bdf8 42% 58%, transparent 58%) bottom / 0.5rem 0.5rem no-repeat;
 }
 
 .academy-paste-guide[data-academy-paste-tab="chatgpt"] span {
@@ -3834,6 +3910,7 @@ body {
   flex-direction: column;
   gap: 0.35rem;
   overflow: auto;
+  anchor-name: --academy-copilot-dock;
 }
 
 .academy-ai-desk-tabs {
@@ -4606,6 +4683,12 @@ body {
     left: 0.4rem;
     max-width: min(58%, 16rem);
     padding: 0.22rem 0.42rem 0.22rem 0.5rem;
+  }
+
+  .academy-paste-guide[data-academy-paste-anchor="copilot"] {
+    top: 2.1rem;
+    left: auto;
+    right: 0.4rem;
   }
 
   .academy-howto-step {
