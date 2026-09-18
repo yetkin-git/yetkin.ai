@@ -18,6 +18,7 @@ import {
   academyExcelColumnMinCh,
   academyExcelIsActiveColumn,
   academyExcelIsErrorCell,
+  academyExcelIsMaskToken,
   academyExcelIsSelectionOrigin,
   academyExcelSelection,
   academyExcelSnapBoxToColumns,
@@ -26,6 +27,11 @@ import {
 } from "@/lib/academy/excel-workspace";
 import { academyPocketChecklistSteps } from "@/lib/academy/lesson-beat-visual";
 import { academyOfficeChromeFromFileName } from "@/lib/academy/prompt-console";
+import {
+  ACADEMY_WEEKLY_ROUTINE_EXAM_GATE_SEAL,
+  ACADEMY_WEEKLY_ROUTINE_EXAM_GATE_SEAL_SUB,
+  academyWeeklyRoutineExamGateSealVisible,
+} from "@/lib/academy/weekly-routine-workspace";
 import { LessonAiDesk, LessonOfficeCopilotRibbon, useAcademyAiDeskTab } from "@/components/academy/lesson-ai-desk";
 
 function cellClass(options: {
@@ -35,6 +41,7 @@ function cellClass(options: {
   foot?: boolean;
   a1?: boolean;
   error?: boolean;
+  mask?: boolean;
 }): string {
   const parts = ["academy-excel-cell"];
   if (options.head) {
@@ -51,6 +58,9 @@ function cellClass(options: {
   }
   if (options.error) {
     parts.push("academy-excel-cell--error");
+  }
+  if (options.mask) {
+    parts.push("academy-excel-cell--mask");
   }
   if (options.a1) {
     parts.push("academy-excel-cell--a1");
@@ -160,6 +170,12 @@ export function LessonExcelWorkspace({
   const fillerCount = Math.max(0, (compact ? 8 : 12) - (table?.rows.length ?? 0) - (merged ? 3 : 1));
   const isPocketChecklist = academyPocketChecklistSteps(slide.lessonKey, slide.section) != null;
   const pocketSteps = academyPocketChecklistSteps(slide.lessonKey, slide.section);
+  const isWeeklyRoutine = slide.lessonKey === "01_office_ai-6";
+  const showExamGateSeal = academyWeeklyRoutineExamGateSealVisible(
+    slide.lessonKey,
+    slide.section,
+    pane,
+  );
   const isTransferDesk =
     slide.lessonKey === "01_office_ai-1" && slide.section === "TEMİZLE ŞİMDİ" && pane === "live";
   const liveFocusZoom = pane === "live" && focusZoom;
@@ -180,6 +196,7 @@ export function LessonExcelWorkspace({
     pane === "before" ? "academy-excel-desk--before" : "",
     pane === "after" ? "academy-excel-desk--after" : "",
     isWord ? "academy-excel-desk--word" : "",
+    isWeeklyRoutine ? "academy-excel-desk--weekly" : "",
   ]
     .filter((part) => part.length > 0)
     .join(" ");
@@ -251,6 +268,7 @@ export function LessonExcelWorkspace({
       className={deskClass}
       data-academy-excel-live=""
       data-academy-excel-pane={pane}
+      data-academy-weekly-routine={isWeeklyRoutine ? "" : undefined}
       data-academy-excel-file={slide.fileName ?? "Kitap1.xlsx"}
       data-academy-highlight-cell={nameBox}
       data-academy-excel-active-cell={nameBox}
@@ -412,6 +430,8 @@ export function LessonExcelWorkspace({
                       {letters.map((letter, col) => {
                         const isOrigin = academyExcelIsSelectionOrigin(selection, col, excelRow);
                         const isError = academyExcelIsErrorCell(slide.errorCells, col, excelRow);
+                        const cellValue = row[col] ?? "";
+                        const isMask = !isError && academyExcelIsMaskToken(cellValue);
                         return (
                           <td
                             key={letter}
@@ -420,12 +440,14 @@ export function LessonExcelWorkspace({
                               foot: isFoot,
                               a1: isOrigin,
                               error: isError,
+                              mask: isMask,
                             })}
                             data-academy-excel-col={letter}
                             data-academy-excel-origin={isOrigin ? "" : undefined}
                             data-academy-excel-error={isError ? letter + excelRow : undefined}
+                            data-academy-excel-mask={isMask ? letter + excelRow : undefined}
                           >
-                            {row[col] ?? ""}
+                            {cellValue}
                           </td>
                         );
                       })}
@@ -525,6 +547,17 @@ export function LessonExcelWorkspace({
               </li>
             ))}
           </ol>
+        </div>
+      ) : null}
+      {showExamGateSeal ? (
+        <div
+          className="academy-exam-gate-seal"
+          data-academy-exam-gate-seal="opened"
+          aria-label={ACADEMY_WEEKLY_ROUTINE_EXAM_GATE_SEAL}
+        >
+          <span className="academy-exam-gate-seal-kicker">Kapanış</span>
+          <p className="academy-exam-gate-seal-title">{ACADEMY_WEEKLY_ROUTINE_EXAM_GATE_SEAL}</p>
+          <p className="academy-exam-gate-seal-sub">{ACADEMY_WEEKLY_ROUTINE_EXAM_GATE_SEAL_SUB}</p>
         </div>
       ) : null}
     </div>

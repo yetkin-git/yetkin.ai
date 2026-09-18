@@ -6,10 +6,10 @@
 |------|--------|
 | Tarih | 17 Ağustos 2026 |
 | Statü | Vizyon ve Strateji Belgesi. Anayasa'nın ruhunu, iş modelini ve büyüme hedeflerini açıklar. |
-| Son Reform | **15 Eylül 2026 (Tedavi):** Dron T3 Akademi halkası bağlıdır; Tezgâh izole durur. `@yetkin/kernel` ince sözleşme paketi olarak mevcuttur — «Faz 2’de çıkacak» cümlesi kalkmıştır. Sayılar `docs/DURUM.md` ve koddadır. |
+| Son Reform | **17 Eylül 2026 (Tespit-Tedavi):** Faz 1’de yeni oda CEO + Super Admin çift imza olmadan açılmaz. Dron T3 bağlıdır ama web-parite değildir (sınav+mühür+kasa tam, simülasyon web’de). Vize spec `docs/specs/freelancer-vize-kapisi.md` geri yüklendi. Yaşayan kesit `docs/ops/DURUM.md`. |
 | Yer | `/.system_docs/MANIFESTO.md` |
 | Çelişki | Bir cümle Anayasa ile çatışırsa `.system_docs/ANAYASA.md` bağlayıcıdır. |
-| Durum | Haftalık gerçek `docs/DURUM.md` içindedir. |
+| Durum | Yaşayan kesit `docs/ops/DURUM.md` içindedir; `docs/DURUM.md` uyumluluk aynasıdır. |
 
 ---
 
@@ -53,9 +53,9 @@ Platformdaki her sertifika, sunucu tarafında değerlendirilen ve SHA-256 ile kr
 
 ## Kural 1 — Odaklanılan deneyim
 
-**Faz 1 çalışan vitrin 3 odadır** (Panel, Akademi, Kariyer); **4. oda (Freelancer) kilitli motordur.** Omurga hedefinin parçasıdır, eşit canlılık iddiası yoktur. **Oda tavanı esnektir:** yeni oda/dron = kayıt + sözleşme + bayrak. Kamu kanıt URL’si (`/vize`) yeni oda açmaz.
+**Faz 1 çalışan vitrin 3 odadır** (Panel, Akademi, Kariyer); **4. oda (Freelancer) kilitli motordur.** Omurga hedefinin parçasıdır, eşit canlılık iddiası yoktur. **Faz 1’de yeni oda açılmaz** (CEO + Super Admin çift imza olmadan). **Oda tavanı esnektir** cümlesi Faz 2 checklist’idir, Faz 1 kilidini gevşetmez: yeni oda/dron = kayıt + sözleşme + bayrak. Kamu kanıt URL’si (`/vize`) yeni oda açmaz.
 
-Dron native istemcidir. T3 Akademi halkası (oynatıcı, sınav, mühür, kasa) bağlıdır; Tezgâh / Freelancer yüzeyi izole durur (`publishFrozenUntilFaz1Close: false`, `tezgahStoreIsolated: true`). Shared Kernel `@yetkin/kernel` **mevcut ince sözleşmedir** (para, katalog kimliği, v1 hop, JSON zarf); Prisma/Supabase taşımaz. Dronlar bu paketi ve `/api/v1` hop’unu tüketir. Haftalık kesit `docs/DURUM.md` içindedir.
+Dron native istemcidir. T3 Akademi halkası (oynatıcı, sınav, mühür, kasa) bağlıdır; Tezgâh / Freelancer yüzeyi izole durur (`publishFrozenUntilFaz1Close: false`, `tezgahStoreIsolated: true`). Bağlıdır ama web-parite değildir: sınav, mühür ve kasa tamdır, Excel/Gmail simülasyonu web’dedir. Shared Kernel `@yetkin/kernel` **mevcut ince sözleşmedir** (para, katalog kimliği, v1 hop, JSON zarf); Prisma/Supabase taşımaz. Dronlar bu paketi ve `/api/v1` hop’unu tüketir. Haftalık kesit `docs/ops/DURUM.md` içindedir.
 
 ## Kural 2 — Vize Kapısı
 
@@ -101,7 +101,7 @@ Güvenli teslimat üzerinden platform komisyonu. Kamu yüzeyi kilitliyken nakit 
 2. **Gelir şimdi:** Merchant iFrame ile cüzdan yükleme + Akademi DEBIT. Kanıt dışarı `/vize` ile çıkar.
 3. **Ölçek sonra:** Split sözleşmesi, freelancer hop geri yazımı, dron kapalı testi. Kurumsal B2B ancak keşif + pilot sonrası.
 
-Operasyonel hop sayısı, SKU listesi ve env bayrakları bu belgede durmaz; `docs/DURUM.md` haftalık gerçektir.
+Operasyonel hop sayısı, SKU listesi ve env bayrakları bu belgede durmaz; `docs/ops/DURUM.md` haftalık gerçektir.
 
 ---
 

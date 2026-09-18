@@ -1,8 +1,8 @@
 {
   "lessonKey": "01_office_ai-4",
   "pauseSec": 0.4,
-  "durationSec": 496.12,
-  "cacheV": 496120,
+  "durationSec": 443.56,
+  "cacheV": 443560,
   "pieces": [
     {
       "index": 0,
@@ -10,125 +10,125 @@
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
       "start": 2,
-      "end": 30.8,
-      "text": "Hata avı dersinde rapordaki uydurma sayıyı yakaladın. Satır toplamına baktın, genel toplama baktın, kırmızı işareti gördün. O refleks duruyor. Şimdi aynı disiplini gelen kutuya taşıyoruz: etiket, taslak, insan onayı, arşiv. Bu ders ritüeldir. Yerleşik paneli nasıl açacağını bir sonraki derste, Gmail ve Cemini kapısında göreceksin. Zihnindeki bu süzgeç bakışını şimdi iletişim kanallarına taşımaya hazırsın."
+      "end": 37.36,
+      "text": "Hata avı dersinde rapordaki uydurma sayıyı yakaladın. Satır toplamına baktın, genel toplama baktın, kırmızı işareti gördün. O refleks duruyor. Peki neden hâlâ Gmail kapısına geçmiyoruz? Çünkü gelen kutu sıfırlanmadan yerleşik paneli ezberlemek, aynı yığını daha hızlı açmak demektir. Şimdi aynı disiplini gelen kutuya taşıyoruz: etiket, taslak, insan onayı, arşiv. Bu ders ritüeldir. Yerleşik paneli nasıl açacağını bir sonraki derste, Gmail ve Cemini kapısında göreceksin."
     },
     {
       "index": 1,
       "cueId": "cue-02",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 31.2,
-      "end": 60.32,
-      "text": "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin altıncı dersine hoş geldin. Bugün Gelen Kutusu Sıfırlama ritüelini kuracağız. Amaç panel ezberi değil: her yeni iletiyi önem sırasına göre ayırmak, yanıt taslağını insana bırakmak, işi biten iletiyi arşive almak. Sabah yüzünü asan yığın, akşam seni takip etmesin. Hazırsan arkana yaslan, çünkü bugünden sonra e-postalarınla kurduğun ilişki tamamen değişecek."
+      "start": 37.76,
+      "end": 70.6,
+      "text": "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin altıncı dersine hoş geldin. Bugün Gelen Kutusu Sıfırlama ritüelini kuracağız. Amaç panel ezberi değil: her yeni iletiyi önem sırasına göre ayırmak, yanıt taslağını insana bırakmak, işi biten iletiyi arşive almak. Peki neden gelen kutu şişer? Çünkü her yeni satır aynı yığında durur; ödeme, bülten ve davet birbirine girer. Sabah yüzünü asan yığın, akşam seni takip etmesin."
     },
     {
       "index": 2,
       "cueId": "cue-02",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 60.72,
-      "end": 97.04,
-      "text": "Modern ofis çalışanının en büyük kabusu nedir diye sorsam, hiç şüphesiz aynı cevabı verirsin. Bitmek bilmeyen bildirim sesleri, arka arkaya düşen toplantı özetleri ve sürekli büyüyen devasa bir liste. Çoğu zaman önemli bir projeye odaklanmak istersin fakat ardı arkası kesilmeyen iletiler yüzünden dikkatin paramparça olur. Aslında sorun iletilerin çokluğu değil, onları yönetecek akıllı bir filtrenin henüz sistemine entegre edilmemiş olmasıdır. Bugün bu kurguyu kurarak kontrolü tamamen eline almanı sağlayacağız."
+      "start": 71,
+      "end": 102.8,
+      "text": "Çoğu kişi sorunu bildirim sesi sanır. Asıl sorun, hangi iletinin bugün eylem istediğini ayırt edememektir. Yüzlerce okunmamış satır aynı listede durunca Kaya Gıda tahsilatı Haftalık Bülten'in altında kaybolur. Peki neden bu yığın odak yer? Çünkü etiket yoksa her satır acil gibi durur; acil gibi duran her satır da aslında hiçbirini acil bırakmaz. Bugün o süzgeci kuruyoruz: önce önem sırası, sonra taslak, sonra insan onayı."
     },
     {
       "index": 3,
       "cueId": "cue-03",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 97.44,
-      "end": 134.88,
-      "text": "Sabah bilgisayarını açtığında ekranında yüzlerce okunmamış bildirim görmek üzerindeki baskıyı katbekat artırır. Hangi mesajın acil olduğunu, hangisinin yalnızca bilgilendirme içerdiğini ayırt edememek enerjini daha günün ilk saatlerinde tüketir. Sürekli şişen gelen kutu içinde kaybolurken, gerçekten yanıt bekleyen kritik müşteriler veya yöneticiler gözden kaçabilir. Her yeni bildirimle birlikte omuzlarındaki yükün arttığını hissedersin. Bu kaosun içinde kaybolmak yerine, gelen her iletiyi anında analiz edip seni yönlendirecek akıllı bir asistan hayal et."
+      "start": 103.2,
+      "end": 135.16,
+      "text": "Sabah bilgisayarını açtığında yüzlerce okunmamış satır omuzdaki baskıyı artırır. Hangisi ödeme, hangisi bülten, hangisi sadece bilgi? Tek tek açmak günü yer. Peki mail triyajı nedir? Gelen her iletiyi açmadan önce acil, aksiyon veya arşivlik diye ayırmaktır. Etiket yoksa taslak yalandır. Taslak insan onayı olmadan gitmez. Ritüel şudur: önce etiket, sonra taslak, sonra insan, en son arşiv."
     },
     {
       "index": 4,
       "cueId": "cue-03",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 135.28,
-      "end": 170.44,
-      "text": "Gelen iletileri tek tek açıp dakikalarca okumak, ardından ne yanıt vereceğini düşünmek tam bir zaman kaybıdır. Bu kısır döngüyü kırmak için yapay zekâyı gelen kutunun giriş kapısına bir güvenlik ve yönlendirme görevlisi gibi yerleştiriyoruz. Önümüze yığılan iletileri tek bir komutla taratarak içeriklerine, aciliyetlerine ve bizden beklenen eylemlere göre sınıflara ayıracağız. Böylece vaktini gereksiz bültenleri okumakla ğer üreten ana işlerine ayırabileceksin. Şimdi bu stratejik hamlenin ilk komutunu birlikte yazmaya başlayalım."
+      "start": 135.56,
+      "end": 167.96,
+      "text": "Gelen iletileri tek tek açıp dakikalarca okumak, ardından cümle kurmak zaman kaybıdır. Yapay zekâ süzgeçtir, gönderen değil. Önümüze yığılan iletileri tek bir komutla taratırız: içerik, aciliyet, bizden beklenen eylem. Neden? Çünkü model sınıflandırır; sen karar verirsin. Bülteni acil boyamak da, ödemeyi arşive atmak da senin kilitindir. Bu derste komutun ne istediğini ezberliyoruz: acil, aksiyon, arşivlik."
     },
     {
       "index": 5,
       "cueId": "cue-04",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 170.84,
-      "end": 209.6,
-      "text": "Ritüelin ikinci adımı taslaktır. Modele tonu ve talebi çözdür. Çıktı gönderilmeye hazır metin değildir; senin üslubunla doğrulanacak taslaktır. Tarih, vaat, fiyat insanındadır. Model nezaket üretir, taahhüt üretemez. Microsoft Kopilot lisansın varsa veya Gmail'de Cemini eklentisini açacaksan, istem yerleşik panele yazılır; o kapıyı bir sonraki derste basacağız. Bu derste komutun ne istediğini ezberliyoruz: acil, aksiyon, arşivlik. Sana düşen tek şey, oluşturulan taslağı hızlıca gözden geçirip kendi üslubunla doğrulamak oluyor."
+      "start": 168.36,
+      "end": 204.68,
+      "text": "Ritüelin ikinci adımı taslaktır. Peki yapay zekâya neden taslak yanıt yazdırılır? Çünkü boş ekrana bakıp cümle kurmak dakikaları yer; model tonu ve talebi çözer, sen tarihi ve vaadi kilitlersin. Çıktı gönderilmeye hazır metin değildir; senin üslubunla doğrulanacak taslaktır. Tarih, vaat, fiyat insanındadır. Model nezaket üretir, taahhüt üretemez. Microsoft Kopilot lisansın varsa veya Gmail'de Cemini eklentisini açacaksan, istem yerleşik panele yazılır; o kapıyı bir sonraki derste basacağız."
     },
     {
       "index": 6,
       "cueId": "cue-04",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 210,
-      "end": 245.24,
-      "text": "Gelen karmaşık bir iş teklifini veya revize talebini yapay zekâya aktardığında süreç saniyeler içinde tamamlanır. Modelden gelen mesajı içeriğindeki kritik tarihlere göre etiketle talimatıyla işaretlemesini ve hemen ardından gönderilmeye hazır bir taslak yanıt sunmasını talep edersin. Bu yöntem sayesinde boş ekrana bakıp cümle kurma stresinden tamamen kurtulursun. Hazırlanan metin talebi net şekilde yanıtlar, ek soruları iletir ve görüşmeyi bir sonraki aşamaya taşır. İletişim hızın katlanırken zihinsel yorgunluğun da hızla hafiflemeye başlar."
+      "start": 205.08,
+      "end": 238.56,
+      "text": "Peki taslak insan onayı verilmeden neden gönderilmez? Çünkü model nezaket üretir, taahhüt üretemez; yanlış tarih, yanlış fiyat veya yanlış vaat şirketi bağlar. Gelen karmaşık bir iş teklifinde önce etiket iste: ödeme, onay, bilgi. Sonra taslak iste. Taslağı göndermeden oku. Yanlış tarih varsa sil. Bu adım Gmail veya Outlook fark etmez; ritüel aynıdır. Panel ayrı derstedir. Sana düşen, oluşturulan taslağı kendi üslubunla doğrulamaktır."
     },
     {
       "index": 7,
       "cueId": "cue-05",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 245.64,
-      "end": 278.92,
-      "text": "Şimdi ekranı tam ortadan ikiye bölelim ve aradaki devasa uçuruma birlikte bakalım. Sol tarafta günlerdir seni strese sokan ÖNCE tablosu var; tam 142 okunmamış mail üst üste yığılmış duruyor. Hangi işin acil olduğu belirsiz, kayıp projeler ve geciken yanıtlar havada uçuşuyor. Sağ tarafta ise yapay zekâ ile dönüştürdüğümüz SONRA ekranını görüyorsun; gelen kutusu sıfır seviyesine ulaşmış durumda. Artık okunmamış tek bir satır dahi kalmadı çünkü her bir ileti doğru kutucuğa aktarıldı."
+      "start": 238.96,
+      "end": 271.68,
+      "text": "Şimdi ekranı ikiye bölelim. Sol tarafta ÖNCE tablosu durur; tam 142 okunmamış mail üst üste yığılmış. Hangisi acil belirsiz; Kaya Gıda tahsilatı bültenin altında kaybolabilir. Sağ tarafta SONRA ekranı durur; gelen kutusu sıfırdır. Okunmamış tek satır kalmadı çünkü her ileti bir etikete ve bir karara bağlandı. Sıfır kutu sihir değildir. Arşiv, silmek değildir. İş biten satır görünmez olur; aradığın eski yazışma durur."
     },
     {
       "index": 8,
       "cueId": "cue-05",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 279.32,
-      "end": 317.48,
-      "text": "Bu iki ekran arasındaki fark aslında senin çalışma konforunun ve zihinsel ferahlığının bir göstergesidir. Sol taraftaki 142 okunmamış bildirim sürekli arkandan koşan bir iş yükü oluştururken, sağ tarafta sıfır hedefine ulaşmanın hafifliği hissediliyor. Yapay zekâ saniyeler içinde iletileri süzdü, yanıt taslaklarını hazırladı ve seni o bunaltıcı karmaşadan kurtardı. Eski çalışma şeklinde saatlerini harcayacağın bu temizliği birkaç pratik komutla başardın. Masanın başından kalktığında artık aklında yarım kalan hiçbir iş kalmayacak."
+      "start": 272.08,
+      "end": 300.52,
+      "text": "Peki neden sol taraf yorar da sağ taraf ferahlar? Çünkü 142 okunmamış satır her bakışta yeniden triyaj ister; sıfır kutu ise kararı bitirmiştir. Sol taraftaki yığın arkandan koşar. Sağ tarafta her ileti doğru kutuya aktarıldı: acil aksiyon, takipte bekleyen, otomatik arşiv. Yapay zekâ süzdü; sen onayladın. Taslak gittiği için değil, ritüel bittiği için kutu sıfırdır."
     },
     {
       "index": 9,
       "cueId": "cue-06",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 317.88,
-      "end": 352.12,
-      "text": "Sol tarafta duran 142 okunmamış ileti sadece zamanını değil, odaklanma gücünü de tüketiyordu. Sağ taraftaki sıfır seviyesine ulaşmış yapı ise sana gün içinde en az bir buçuk saatlik net odaklanma alanı kazandırdı. Eskiden saatlerce yanıt metni düşünürken, şimdi yapay zekânın sunduğu taslakları saniyeler içinde okuyup kilitleyorsun. Okunmamış mesaj kalmadığı için yığın seni yönetmez. İşini şansa bırakmak yerine ritüel kurduğunda profesyonel hayatın nasıl hızlandığını görüyorsun."
+      "start": 300.92,
+      "end": 331.84,
+      "text": "Sol tarafta duran 142 okunmamış ileti yalnız zamanını değil, odaklanma gücünü de yer. Sağ taraftaki sıfır yapı gün içinde en az bir buçuk saatlik net alan bırakır. Eskiden saatlerce yanıt metni düşünürdün; şimdi taslağı okuyup kilitliyorsun. Peki neden fark bu kadar belirgin? Çünkü etiket yoksa taslak kördür. İnsan onayı yoksa taslak şirketi bağlar. Okunmamış mesaj kalmadığı için yığın seni yönetmez."
     },
     {
       "index": 10,
       "cueId": "cue-06",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 352.52,
-      "end": 386.16,
-      "text": "Gördüğün gibi 142 okunmamış posta dağınıklığı, yapay zekâ yardımıyla dakikalar içinde sıfır bildirim seviyesine inebiliyor. Aradaki fark tamamen senin benimsediğin çalışma metodolojisiyle ilgilidir. İletişimi manuel yürütmek yerine algoritmaların hızından yararlandığında gelen kutundaki kontrol hissi tavan yapar. Okunmamış iletiler seni yönetmez, tam aksine sen gelen akışı yönlendirirsin. Şimdi gördüğün bu muazzam dönüşümü sadece ekranda izlemekle kalmayıp kendi iş hayatına doğrudan aktarmanın zamanı geldi."
+      "start": 332.24,
+      "end": 357.52,
+      "text": "Gördüğün gibi 142 okunmamış posta, ritüelle sıfır bildirim seviyesine iner. Fark panel markası değil, çalışma yöntemidir. İletişimi tek tek açmak yerine önce sınıflandır, sonra taslak iste, sonra insan kilidi koy. Okunmamış iletiler seni yönetmez; sen gelen akışı yönlendirirsin. Şimdi bu yöntemi ekranda izlemekle kalmayıp kendi kutuna taşımanın zamanı geldi."
     },
     {
       "index": 11,
       "cueId": "cue-07",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 386.56,
-      "end": 439.76,
-      "text": "Bu dersten ayrılırken günlük rutinine hemen dahil etmeni istediğim üç altın kuralı adım adım özetliyorum. 1. Gelen her yeni iletiyi önem sırasına, aciliyetine ve konusuna göre yapay zekâ yardımıyla hemen etiketle. Mesajı analiz ettirerek acil, aksiyon veya yalnızca bilgilendirme kategorilerinden birine yerleştirmesini sağla. 2. Aksiyon gereken kritik iletiler için yapay zekâya saniyeler içinde güçlü bir taslak yanıt üretmesini söyle. Çıkarılan bu taslağı kendi kurumsal üslubunla gözden geçirip gerekli eklemeleri yaptıktan sonra göndermeden oku. 3. Yanıtladığın veya işlemi tamamlanan tüm iletileri vakit kaybetmeden doğrudan arşiv klasörüne aktar. Böylece gelen kutun gün boyu tertemiz kalsın ve aradığın eski yazışmalara dilediğin an kolayca ulaş."
+      "start": 357.92,
+      "end": 391.6,
+      "text": "Bu dersten üç adım çıkar. 1. Gelen her yeni iletiyi acil, aksiyon veya bilgi diye etiketle. Çünkü etiket yoksa her satır acil gibi durur ve gerçek ödeme kaybolur. 2. Aksiyon gereken ileti için taslak yanıt iste; göndermeden oku. Çünkü model nezaket üretir, taahhüt üretemez. 3. İş biten iletiyi arşive al. Çünkü arşiv silmek değildir; işi biten satır ana ekrandan iner, eski yazışma durur. Gelen kutu gün boyu temiz kalsın."
     },
     {
       "index": 12,
       "cueId": "cue-08",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 440.16,
-      "end": 470.64,
-      "text": "Şimdi sıra sende, hemen kendi e-posta kutunu aç ve bu yöntemi sahada bizzat test et. Birikmiş en az beş iletiyi seçerek yapay zekâya ver ve onları önceliklerine göre gruplandırmasını iste. Ardından yanıt bekleyen iki önemli mesaj için hızlıca yanıt önerileri oluşturup bunları düzenle; gönderme. Son olarak işlem yaptığın bu iletileri arşive kaldırarak ferahlığı hisset. Bu pratiği sadece on dakika uyguladığında bile gelen kutundaki hafiflemenin iş tempona nasıl enerji kattığını göreceksin."
+      "start": 392,
+      "end": 416.12,
+      "text": "Şimdi sıra sende. Kendi e-posta kutunu aç. Birikmiş en az beş iletiyi seç; yapay zekâya önceliklerine göre gruplandırmasını iste. Yanıt bekleyen iki mesaj için taslak oluştur, düzenle; gönderme. İşlem yaptığın iletileri arşive al. Taslağı göndermeden oku. On dakikalık pratikte yığın incelir; kutu seni yönetmez."
     },
     {
       "index": 13,
       "cueId": "cue-08",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 471.04,
-      "end": 496.12,
-      "text": "Tabii ki her sistem her zaman kusursuz işlemez; dünkü İstisnalar ve Hata Avı refleksi burada da durur. Bir sonraki ders Gmail ve Cemini kapısıdır. Aynı ritüeli yerleşik panelde basacağız. Çıktı aksiyon listesidir: kim, ne, ne zaman. O zamana kadar gelen kutundaki kontrolü elinde tutmaya devam et, taslağı göndermeden oku."
+      "start": 416.52,
+      "end": 443.56,
+      "text": "Tabii ki her sistem her zaman kusursuz işlemez; dünkü İstisnalar ve Hata Avı refleksi burada da durur. Bir sonraki ders Gmail ve Cemini kapısıdır. Aynı ritüeli yerleşik panelde basacağız. Çıktı aksiyon listesidir: kim, ne, ne zaman. O zamana kadar gelen kutundaki kontrolü elinde tut, taslağı göndermeden oku. İnsan onayı olmadan kutu sıfırlanmaz."
     }
   ]
 }

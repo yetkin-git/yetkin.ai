@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
 import { loadAcademyCinemaCueSlides } from "@/lib/academy/cinema-cue-catalog";
@@ -17,6 +19,7 @@ import { academyVisualCompareStage } from "@/lib/academy/excel-workspace";
 import {
   ACADEMY_OFFICE_AI_2_COMPARE_AFTER_LABEL,
   ACADEMY_OFFICE_AI_2_COMPARE_BEFORE_LABEL,
+  ACADEMY_OFFICE_AI_2_COPILOT_PROMPT,
   ACADEMY_OFFICE_AI_2_POCKET_STEPS,
 } from "@/lib/academy/lesson-beat-visual";
 import {
@@ -36,11 +39,18 @@ import { ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY } from "@/lib/academy/lesson-veo";
 import { loadAcademyLessonExam } from "@/lib/academy/lesson-exams";
 import { isAcademyLessonAudioSealed } from "@/lib/academy/pilot-sku";
 import {
+  academyKaraokeNormalizeLine,
+  academyKaraokeReconstructLine,
+  academyKaraokeWords,
+  loadAcademyKaraokeStrip,
+} from "@/lib/academy/lesson-teleprompter-flow";
+import {
   isAcademySpokenScriptLessonKey,
   loadAcademySpokenScriptMarkdownParagraphs,
   loadAcademySpokenScriptProse,
 } from "@/lib/academy/spoken-scripts";
 
+const ROOT = process.cwd();
 const SLUG = "01_office_ai";
 const KEY = "01_office_ai-2";
 const PUNCHCARDS = [
@@ -68,7 +78,13 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     expect(lesson.body).toMatch(/yönetici özeti|yönetim özeti/u);
     expect(lesson.body).toMatch(/Sunum Fabrikası/u);
     expect(lesson.body).toMatch(/4\. ders|dördüncü ders|Sunum Fabrikası/iu);
+    expect(lesson.body).toMatch(/Peki neden üç maddelik yönetim özeti/u);
+    expect(lesson.body).toMatch(/uydurma yüzde/iu);
+    expect(lesson.body).toMatch(/kaynak hücre/iu);
     expect(lesson.body).not.toMatch(/kirli/iu);
+    expect(lesson.body).not.toMatch(/İşte büyü/u);
+    expect(lesson.body).not.toMatch(/sonsuz/iu);
+    expect(lesson.body).not.toMatch(/vazgeçilmez bir ekip/iu);
   });
 
   it("konuşma metni 14 paragraf, punchcardlar ve pekiştirme durakları sırayla parlar", () => {
@@ -83,7 +99,14 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     expect(prose).toMatch(/toplantı/iu);
     expect(prose).toMatch(/üç madde/iu);
     expect(prose).toMatch(/Sunum Fabrikası/u);
+    expect(prose).toMatch(/Peki neden üç maddelik yönetim özeti isteriz/u);
+    expect(prose).toMatch(/Peki yapay zekâ uydurmasın diye sayıları nasıl kilitleriz/u);
+    expect(prose).toMatch(/Şimdi mantığı oturtalım/u);
+    expect(prose).toMatch(/Neden\?/u);
     expect(prose).not.toMatch(/kirli/iu);
+    expect(prose).not.toMatch(/İşte büyü/u);
+    expect(prose).not.toMatch(/sonsuz/iu);
+    expect(prose).not.toMatch(/vazgeçilmez bir ekip/iu);
     const cues = loadAcademyLessonCues(KEY);
     expect(cues.map((cue) => academyPunchcardLabel(cue.text))).toEqual([...PUNCHCARDS]);
     expect(cues.map((cue) => cue.paragraphs?.length ?? 0)).toEqual([1, 2, 2, 2, 2, 2, 1, 2]);
@@ -109,6 +132,9 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     expect(slides).toHaveLength(8);
     expect(slides.map((slide) => slide.section)).toEqual([...PUNCHCARDS]);
     expect(slides[3]?.copilot?.hideReply).toBe(true);
+    expect(slides[3]?.copilot?.prompt).toBe(ACADEMY_OFFICE_AI_2_COPILOT_PROMPT);
+    expect(slides[3]?.copilot?.prompt).toMatch(/Uydurma yüzde ekleme/u);
+    expect(slides[3]?.copilot?.prompt).not.toMatch(/henüz açma|Beat 3|spoiler/iu);
     expect(slides[3]?.visualMode).toBe("live");
     expect(slides[4]?.visualMode).toBe("split");
     expect(slides[5]?.visualMode).toBe("split");
@@ -147,7 +173,7 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     expect(pieces[0]?.start).toBe(2);
     expect(academyBedDuckGain(0.5, pieces)).toBe(ACADEMY_BED_BREATH_GAIN);
     const lastEnd = pieces.at(-1)?.end ?? 0;
-    expect(lastEnd).toBe(512.4);
+    expect(lastEnd).toBe(553.84);
     expect(academyBedDuckGain(lastEnd, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
   });
 
@@ -157,5 +183,92 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     const exam = loadAcademyLessonExam(KEY);
     expect(exam?.passScore).toBe(70);
     expect(exam?.questions.map((row) => row.id)).toEqual(["q_off_l2_1", "q_off_l2_2", "q_off_l2_3"]);
+  });
+
+  it("Sebep → Eylem → Sonuç ve sayı kilidi durur", () => {
+    const prose = loadAcademySpokenScriptProse(KEY);
+    expect(prose).toMatch(/Peki neden üç maddelik yönetim özeti isteriz de on sayfalık dökümü yazdırmayız\?/u);
+    expect(prose).toMatch(/yöneticinin yirmi dakikası vardır/u);
+    expect(prose).toMatch(/Peki yapay zekâ uydurmasın diye sayıları nasıl kilitleriz\?/u);
+    expect(prose).toMatch(/Sayıyı tahmin ettirmezsin; hücreden aldırırsın/u);
+    expect(prose).toMatch(/Uydurma yüzde ekleme/u);
+    expect(prose).toMatch(/her sayı kaynak hücreyle kilitlenmiştir/u);
+    expect(prose).not.toMatch(/Bu örnek ezber slogan değil/u);
+    expect(prose).not.toMatch(/fırsata dönüştürebilirsin/u);
+  });
+
+  it("özet rapor paneli KPI sayılarını tahsilat ızgarasından kilitler; 16:9 ezilmez", () => {
+    const slides = loadAcademyCinemaCueSlides(KEY);
+    const source = slides[0]?.table;
+    expect(source?.headers).toEqual(["Tarih", "Cari", "Fatura", "Tutar", "Durum"]);
+    const tutarSum = (source?.rows ?? []).reduce((sum, row) => {
+      const raw = (row[3] ?? "").replace(/\./g, "").replace(/,00$/u, "");
+      return sum + Number(raw);
+    }, 0);
+    expect(tutarSum).toBe(54650);
+    const after = slides[4]?.table;
+    expect(after?.headers).toEqual(["Madde", "Kaynak sayı", "Not"]);
+    expect(after?.rows[0]).toEqual(["Toplam", "54.650", "Mart tahsilat; trend Kaya önde"]);
+    expect(after?.rows[1]?.[1]).toBe("8.200");
+    expect(after?.rows[2]?.[1]).toBe("9.100");
+    expect(after?.rows[3]?.[2]).toMatch(/Demir/u);
+    expect(slides[5]?.table?.headers).toEqual(["Madde", "Kaynak sayı", "Not"]);
+    const css = readFileSync(join(ROOT, "app/globals.css"), "utf8");
+    expect(css).toMatch(
+      /\.academy-player-karaoke \.academy-player-widescreen[\s\S]*?aspect-ratio:\s*16\s*\/\s*9/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-compare-pane \.academy-excel-desk\s*\{[^}]*height:\s*100%/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-compare-pane \.academy-excel-win\s*\{[^}]*height:\s*100%/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-compare-pane \.academy-pptx-kpi\s*\{[^}]*min-height:\s*3\.7rem/s,
+    );
+    const player = readFileSync(join(ROOT, "components/academy/curriculum-player.tsx"), "utf8");
+    const eye = readFileSync(join(ROOT, "components/academy/lesson-visual-stage.tsx"), "utf8");
+    expect(player).toContain('data-academy-prompt-host="below-transport"');
+    expect(eye).not.toContain("LessonPromptConsole");
+    expect(eye).toContain("data-academy-prompt-dock");
+  });
+
+  it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
+    const timings = loadAcademySealedAudioTimings(KEY);
+    expect(timings?.durationSec).toBe(553.84);
+    expect(timings?.cacheV).toBe(553840);
+    const cues = loadAcademyLessonCues(KEY);
+    expect(cues.at(-1)?.end).toBe(553.84);
+    for (const cue of cues) {
+      const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
+      expect(pieces[0]?.start, cue.id).toBe(cue.start);
+      expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
+    }
+    const strip = loadAcademyKaraokeStrip(KEY);
+    expect(strip.at(-1)?.end).toBe(553.84);
+    expect(strip.some((line) => /üç maddelik yönetim özeti/u.test(line.text))).toBe(true);
+    expect(strip.some((line) => /uydurma yüzde/iu.test(line.text))).toBe(true);
+    expect(strip.some((line) => /hücreden aldırırsın/u.test(line.text))).toBe(true);
+    for (const line of strip) {
+      const words = academyKaraokeWords(line);
+      expect(academyKaraokeReconstructLine(words)).toBe(academyKaraokeNormalizeLine(line.text));
+      expect(words.every((word) => word.text.length > 0)).toBe(true);
+    }
+    const css = readFileSync(join(ROOT, "app/globals.css"), "utf8");
+    expect(css).toMatch(
+      /\.academy-player-karaoke-word\s*\{[^}]*overflow:\s*visible/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-word\s*\{[^}]*padding-block:\s*0\.08em 0\.22em/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-word\s*\{[^}]*font-weight:\s*inherit/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-word\[data-state="active"\]\s*\{[^}]*font-weight:\s*inherit/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-line\s*\{[^}]*line-height:\s*1\.5/s,
+    );
   });
 });

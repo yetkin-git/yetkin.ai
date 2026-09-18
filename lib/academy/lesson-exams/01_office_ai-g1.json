@@ -15,7 +15,7 @@
     },
     {
       "id": "q_off_lg1_2",
-      "prompt": "Gemini paneline yazılan komut ödeme ve acil aksiyonu tablo yapar, dekont ve bülteni arşivlik listeler. Bu komutu nasıl basarsın?",
+      "prompt": "Aksiyon listesinde kim gönderdi, iş nedir, son tarih ne zaman kilitlenir. Gemini paneline yazılan komutu nasıl basarsın?",
       "choices": [
         "Ctrl+C ile mail gövdesini dış sohbete taşıyarak",
         "İstemi Gmail’in yanındaki Gemini paneline yazarak; kutuyu yerinde tarayarak",

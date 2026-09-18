@@ -147,8 +147,11 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
   });
 
   it("Gmail ve Word ana akış dersleri 01_office_ai-g1 ve 01_office_ai-w1 canlı yolda 7. ve 8. derstir", () => {
-    expect(OFFICE_AI_PLANNED_LESSONS).toHaveLength(9);
-    expect(OFFICE_AI_PLANNED_LESSONS.map((lesson) => lesson.key)).toEqual([
+    expect(OFFICE_AI_PLANNED_LESSONS.filter((lesson) => lesson.lane === "main")).toHaveLength(9);
+    expect(OFFICE_AI_PLANNED_LESSONS.filter((lesson) => lesson.lane === "satellite")).toHaveLength(3);
+    expect(
+      OFFICE_AI_PLANNED_LESSONS.filter((lesson) => lesson.lane === "main").map((lesson) => lesson.key),
+    ).toEqual([
       "01_office_ai-1",
       "01_office_ai-k1",
       "01_office_ai-2",
@@ -168,6 +171,10 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
     expect(officeAiPlannedLessonByKey("01_office_ai-w1")?.status).toBe("sealed");
     expect(officeAiPlannedLessonByKey("01_office_ai-w1")?.title).toMatch(/Dilekçe/u);
     expect(officeAiPlannedLessonByKey("01_office_ai-g1")?.pedagogicalObjective).toMatch(/1\. Kapı/u);
+    expect(officeAiPlannedLessonByKey("01_office_ai-10")?.lane).toBe("satellite");
+    expect(officeAiPlannedLessonByKey("01_office_ai-10")?.status).toBe("planned");
+    expect(officeAiPlannedLessonByKey("01_office_ai-11")?.status).toBe("planned");
+    expect(officeAiPlannedLessonByKey("01_office_ai-12")?.status).toBe("planned");
     expect(curriculumSyllabusForCourseSlug("01_office_ai").lessonCount).toBe(9);
   });
 

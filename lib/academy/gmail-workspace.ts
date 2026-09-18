@@ -6,6 +6,8 @@
 export const ACADEMY_GMAIL_WINDOW_TITLE = "Gmail" as const;
 export const ACADEMY_GMAIL_FILE_NAME = "Gelen_Kutusu.gmail" as const;
 export const ACADEMY_GMAIL_NATIVE_TOOL = "Gemini" as const;
+export const ACADEMY_GMAIL_INBOX_HEAD = "Gelen Kutusu · son 24 saat" as const;
+export const ACADEMY_GMAIL_ACTION_HEAD = "Aksiyon listesi · kutu yerinde" as const;
 
 /** Öğrencinin Gmail Gemini paneline yazacağı gerçek istem — Prompt Terminali SSOT. */
 export const ACADEMY_GMAIL_GEMINI_PROMPT =

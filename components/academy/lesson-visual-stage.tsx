@@ -11,19 +11,25 @@ import {
 import {
   academyTeleprompterActiveLineIndex,
   academyTeleprompterLineState,
+  ACADEMY_KARAOKE_CAPTIONS_DEFAULT,
   loadAcademyTeleprompterFlow,
+  readAcademyKaraokeCaptionsFromStorage,
+  writeAcademyKaraokeCaptionsToStorage,
+  type AcademyTeleprompterLine,
 } from "@/lib/academy/lesson-teleprompter-flow";
+import { LessonKaraokeStrip } from "@/components/academy/lesson-karaoke-strip";
 import { LessonExcelWorkspace } from "@/components/academy/lesson-excel-workspace";
 import { LessonGmailWorkspace } from "@/components/academy/lesson-gmail-workspace";
 import { LessonHowtoSteps } from "@/components/academy/lesson-howto-steps";
 import { LessonOutlookWorkspace } from "@/components/academy/lesson-outlook-workspace";
 import { LessonPptxWorkspace } from "@/components/academy/lesson-pptx-workspace";
-import { LessonPromptConsole } from "@/components/academy/lesson-prompt-console";
 import { LessonWordWorkspace } from "@/components/academy/lesson-word-workspace";
+import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import {
   academyCompareDockPrompt,
   academyVisualCinematicFrameSrc,
   academyVisualCompareStage,
+  academyVisualStageBackdropTheme,
   academyVisualWaiterSlide,
   academyVisualWaiterStageFromLayout,
   type AcademyVisualExcelPane,
@@ -173,14 +179,18 @@ export function LessonCinemaEyeLayer({
   playing,
   activeCueId,
   captions = false,
+  karaokeCues,
 }: {
   stage: AcademyLessonVisualStage;
   currentTime: number;
   playing: boolean;
   activeCueId?: string;
-  /** Vatandaş sahnesinde kapalı: paragraf altyazı yok, yalnız tam-boy plaka + punchcard. */
+  /** Vatandaş sahnesinde kapalı: paragraf teleprompter yok; kelime şeridi 16:9 sahnede overlay akar. */
   captions?: boolean;
+  karaokeCues?: readonly AcademyTeleprompterLine[];
 }) {
+  const copy = ACADEMY_SEN.player;
+  const [captionsVisible, setCaptionsVisible] = useState(ACADEMY_KARAOKE_CAPTIONS_DEFAULT);
   const lines = useMemo(
     () => (captions ? loadAcademyTeleprompterFlow(stage.lessonKey) : []),
     [captions, stage.lessonKey],
@@ -206,8 +216,10 @@ export function LessonCinemaEyeLayer({
   const beat = compare?.beat ?? waiterSlide?.beat;
   const veoPunchLive = Boolean(card && academyVisualVeoPunchHasEnded(card, currentTime));
   const visualMode = compare ? "split" : waiterSlide ? "live" : card?.kind === "veo" ? "veo" : "cinema";
+  const stageTheme = academyVisualStageBackdropTheme(stage.lessonKey);
   const sealedFrameSrc = academyVisualCinematicFrameSrc(stage.lessonKey);
   const cinematicFrameSrc = sealedFrameSrc ?? stage.posterSrc;
+  const excelBackdrop = stageTheme === "excel" && Boolean(sealedFrameSrc);
   const activeIndex = academyTeleprompterActiveLineIndex(lines, currentTime);
   const activeRef = useRef<HTMLParagraphElement | null>(null);
   const mediaActive = card != null;
@@ -237,6 +249,10 @@ export function LessonCinemaEyeLayer({
   });
   const pasteGuideTitle = academyAiDeskGuideTitle(pasteHost);
   const nextSrc = nextCard && nextCard.src !== card?.src ? nextCard.src : null;
+
+  useEffect(() => {
+    setCaptionsVisible(readAcademyKaraokeCaptionsFromStorage());
+  }, [stage.lessonKey]);
 
   useEffect(() => {
     if (!captions) {
@@ -269,6 +285,7 @@ export function LessonCinemaEyeLayer({
       data-academy-waiter={
         waiterSlide ? academyVisualWaiterStageFromLayout(waiterSlide.layout) : "cinema"
       }
+      data-academy-stage-theme={stageTheme}
       data-academy-waiter-ratio={String(ACADEMY_GOLDEN_WAITER_RATIO)}
       data-academy-visual-mode={visualMode}
       data-academy-beat={beat}
@@ -277,6 +294,8 @@ export function LessonCinemaEyeLayer({
       data-academy-outro={outroActive ? "generic" : undefined}
       data-academy-veo={card?.kind === "veo" && !veoPunchLive ? "warmup" : undefined}
       data-academy-prompt-dock={dockPrompt ? "true" : undefined}
+      data-academy-captions={karaokeCues ? (captionsVisible ? "on" : "off") : undefined}
+      data-academy-clean-stage={karaokeCues && !captionsVisible ? "true" : undefined}
     >
       {nextSrc ? (
         <img
@@ -292,19 +311,29 @@ export function LessonCinemaEyeLayer({
         />
       ) : null}
       <div className="academy-player-widescreen-frame">
-        <div className="academy-player-widescreen academy-player-karaoke-stage">
-          <div className="academy-player-eye-canvas" data-academy-eye-canvas="">
-      <img
-        className="academy-player-eye-backdrop"
-        src={cinematicFrameSrc}
-        alt=""
-        width={1280}
-        height={720}
-        decoding="async"
-        fetchPriority="high"
-        data-academy-eye-backdrop=""
-        data-academy-office-frame={sealedFrameSrc ? "" : undefined}
-      />
+        <div className="academy-player-stage-column">
+        <div className="academy-player-widescreen academy-player-karaoke-stage aspect-video">
+          <div className="academy-player-eye-canvas" data-academy-eye-canvas="" data-academy-stage-theme={stageTheme}>
+      {excelBackdrop ? (
+        <img
+          className="academy-player-eye-backdrop"
+          src={sealedFrameSrc ?? cinematicFrameSrc}
+          alt=""
+          width={1280}
+          height={720}
+          decoding="async"
+          fetchPriority="high"
+          data-academy-eye-backdrop=""
+          data-academy-office-frame=""
+        />
+      ) : (
+        <div
+          className="academy-player-eye-backdrop academy-player-eye-backdrop--desk"
+          data-academy-eye-backdrop=""
+          data-academy-stage-theme={stageTheme}
+          aria-hidden
+        />
+      )}
       {introActive ? (
         <div className="academy-player-intro" data-academy-intro-generic="">
           <img className="academy-player-intro-logo" src="/icon.svg" alt="" width={96} height={96} />
@@ -428,19 +457,36 @@ export function LessonCinemaEyeLayer({
           </div>
         </div>
       ) : null}
-          </div>
-        </div>
-      </div>
-      {dockPrompt ? (
-        <div className="academy-player-compare-prompt" data-academy-compare-prompt-dock="">
-          <LessonPromptConsole
-            prompt={dockPrompt.prompt}
+      {karaokeCues && captionsVisible ? (
+        <div className="academy-player-karaoke-overlay" data-academy-karaoke-overlay="">
+          <LessonKaraokeStrip
+            cues={karaokeCues}
             currentTime={currentTime}
-            lessonKey={stage.lessonKey}
-            cueIndex={dockPrompt.cueIndex}
+            playing={playing}
           />
         </div>
       ) : null}
+      {karaokeCues ? (
+        <button
+          type="button"
+          className="academy-player-captions-toggle"
+          data-academy-captions-toggle=""
+          data-on={captionsVisible ? "true" : "false"}
+          aria-pressed={captionsVisible}
+          aria-label={captionsVisible ? copy.cinemaCaptionsOn : copy.cinemaCaptionsOff}
+          onClick={() => {
+            const next = !captionsVisible;
+            setCaptionsVisible(next);
+            writeAcademyKaraokeCaptionsToStorage(next);
+          }}
+        >
+          {copy.cinemaCaptions}
+        </button>
+      ) : null}
+          </div>
+        </div>
+        </div>
+      </div>
     </div>
   );
 }

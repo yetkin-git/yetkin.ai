@@ -17,6 +17,8 @@ import {
   academyTeleprompterActiveLineIndex,
   loadAcademyKaraokeStrip,
   loadAcademyTeleprompterFlow,
+  parseStoredAcademyKaraokeCaptions,
+  serializeAcademyKaraokeCaptions,
 } from "@/lib/academy/lesson-teleprompter-flow";
 
 const ROOT = process.cwd();
@@ -71,7 +73,7 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     expect(bridgeLines).toHaveLength(3);
     expect(bridgeLines.every((line) => line.cueId === "cue-08")).toBe(true);
     expect(bridgeLines[0]?.start).toBeGreaterThan(450);
-    expect(bridgeLines.at(-1)?.end).toBe(529.404);
+    expect(bridgeLines.at(-1)?.end).toBe(607.28);
     for (const line of bridgeLines) {
       const words = academyKaraokeWords(line);
       expect(academyKaraokeWordState(words[0]!, line.start)).toBe("active");
@@ -81,21 +83,44 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     expect(lastWords[0]?.text).toMatch(/^Hazırsan/u);
   });
 
-  it("oynatıcı görselin altına cue şeridini basar; LessonTeleprompter kullanılmaz", () => {
+  it("oynatıcı cue şeridini 16:9 sahne overlayine basar; teleprompter kapalı, altyazı gizlenebilir", () => {
     const player = readFileSync(join(ROOT, "components/academy/curriculum-player.tsx"), "utf8");
+    const eye = readFileSync(join(ROOT, "components/academy/lesson-visual-stage.tsx"), "utf8");
     const strip = readFileSync(join(ROOT, "components/academy/lesson-karaoke-strip.tsx"), "utf8");
     const css = readFileSync(join(ROOT, "app/globals.css"), "utf8");
-    expect(player).toContain("<LessonKaraokeStrip");
-    expect(player).toContain("karaoke.cues");
+    expect(player).not.toContain("<LessonKaraokeStrip");
+    expect(player).toContain("karaokeCues={karaoke.cues}");
     expect(player).not.toContain("<LessonTeleprompter");
     expect(player).toContain("captions={false}");
+    expect(eye).toContain("<LessonKaraokeStrip");
+    expect(eye).toContain("academy-player-stage-column");
+    expect(eye).toContain("data-academy-eye-canvas");
+    expect(eye).toContain("data-academy-karaoke-overlay");
+    expect(eye).toContain("data-academy-captions-toggle");
+    expect(eye).toContain("data-academy-clean-stage");
+    expect(eye.indexOf("data-academy-eye-canvas")).toBeLessThan(eye.indexOf("<LessonKaraokeStrip"));
     expect(strip).toContain("data-academy-karaoke-strip");
+    expect(strip).toContain('data-academy-karaoke-band="overlay"');
+    expect(strip).not.toContain("data-academy-karaoke-overlay");
+    expect(strip).toContain("overflow-visible");
+    expect(strip).not.toContain("overflow-hidden");
+    expect(strip).not.toContain("h-[72px]");
+    expect(strip).not.toContain("min-h-[72px]");
+    expect(strip).not.toContain("max-h-[72px]");
+    expect(strip).toContain("items-center");
+    expect(strip).toContain("justify-center");
+    expect(strip).not.toContain("justify-start");
+    expect(strip).not.toContain("pt-3");
+    expect(strip).not.toContain("academy-player-karaoke-preview");
+    expect(strip).not.toContain("data-academy-karaoke-preview");
     expect(strip).toContain("data-academy-karaoke-word");
     expect(strip).not.toContain("loadAcademyTeleprompterFlow");
     expect(strip).toContain("academyKaraokeStripLines");
     expect(strip).toContain("text-center");
-    expect(strip).toContain("justify-center");
     expect(css).toContain("academy-player-karaoke-strip");
+    expect(css).toContain("academy-player-karaoke-overlay");
+    expect(css).toContain("academy-player-captions-toggle");
+    expect(css).toContain("academy-player-stage-column");
     expect(css).toMatch(/\.academy-player-karaoke-word\[data-state="active"\]/s);
     expect(player).toContain('data-academy-player-stack="visual-karaoke-transport"');
     expect(css).toMatch(
@@ -107,6 +132,51 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     expect(css).toMatch(
       /\.academy-player-karaoke \.academy-player-audio-bar\s*\{[^}]*bottom:\s*0/s,
     );
+    expect(css).not.toMatch(
+      /\.academy-player-karaoke-strip\s*\{[^}]*position:\s*absolute/s,
+    );
+    expect(css).not.toMatch(
+      /\.academy-player-karaoke-strip\s*\{[^}]*z-index:\s*8/s,
+    );
+    expect(css).not.toMatch(
+      /\.academy-player-karaoke-strip\s*\{[^}]*backdrop-filter:\s*blur\(14px\)/s,
+    );
+    expect(css).not.toMatch(
+      /\.academy-player-karaoke-strip\s*\{[^}]*backdrop-filter/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-overlay\s*\{[^}]*position:\s*absolute/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-overlay\s*\{[^}]*linear-gradient/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-stage\s*\{[^}]*aspect-ratio:\s*16 \/ 9/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-stage\s*\{[^}]*min-height:\s*min\(12\.5rem/s,
+    );
+    expect(player).toContain("overflow-visible");
+    expect(player).not.toContain("bg-slate-950");
+    expect(player).toContain("lg:top-0");
+    expect(css).toMatch(
+      /\.academy-player-karaoke-overlay\s*\{[^}]*min-height:\s*var\(--academy-karaoke-band-h/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-overlay\s*\{[^}]*overflow:\s*visible/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-overlay\s*\{[^}]*padding:\s*0\.9rem 0\.85rem 0\.7rem/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-strip\s*\{[^}]*min-height:\s*var\(--academy-karaoke-band-h/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-strip\s*\{[^}]*max-height:\s*none/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-strip\s*\{[^}]*overflow:\s*visible/s,
+    );
     expect(css).toMatch(
       /\.academy-player-karaoke-strip\s*\{[^}]*flex-shrink:\s*0/s,
     );
@@ -117,7 +187,13 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
       /\.academy-player-karaoke-strip\s*\{[^}]*text-align:\s*center/s,
     );
     expect(css).toMatch(
+      /\.academy-player-karaoke-strip\s*\{[^}]*background:\s*rgba\(15, 23, 42, 0\.42\)/s,
+    );
+    expect(css).toMatch(
       /\.academy-player-karaoke-line\s*\{[^}]*justify-content:\s*center/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-line\s*\{[^}]*align-items:\s*center/s,
     );
     expect(css).toMatch(
       /\.academy-player-karaoke-line\s*\{[^}]*text-align:\s*center/s,
@@ -126,15 +202,58 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
       /\.academy-player-karaoke-line\s*\{[^}]*white-space:\s*normal/s,
     );
     expect(css).toMatch(
+      /\.academy-player-karaoke-line\s*\{[^}]*max-height:\s*none/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-line\s*\{[^}]*overflow:\s*visible/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-line\s*\{[^}]*line-height:\s*1\.5/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-line\s*\{[^}]*font-size:\s*1rem/s,
+    );
+    expect(css).toMatch(
       /\.academy-player-karaoke-line\s*\{[^}]*column-gap:\s*var\(--academy-karaoke-word-gap\)/s,
     );
     expect(css).toMatch(
       /\.academy-player-karaoke-word\s*\{[^}]*white-space:\s*nowrap/s,
     );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-word\s*\{[^}]*font-weight:\s*inherit/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-word\[data-state="active"\]\s*\{[^}]*font-weight:\s*inherit/s,
+    );
+    expect(css).not.toMatch(
+      /\.academy-player-karaoke-word\[data-state="active"\]\s*\{[^}]*font-weight:\s*(?:650|700|bold)/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-word\[data-state="active"\]\s*\{[^}]*0 0 0\.6px currentColor/s,
+    );
     expect(css).toContain('[data-glue="true"]');
     expect(strip).toContain("gap-x-[0.32em]");
+    expect(strip).toContain("gap-y-[0.2em]");
     expect(strip).toContain("data-glue={word.glue");
     expect(strip).not.toMatch(/\{word\.text\}\s*\{\s*" "\s*\}/u);
+  });
+});
+
+describe("karaoke aktif kelime layout shift kilidi", () => {
+  it("aktif kelime font-weight değiştirmez; faux-bold text-shadow ile vurgulanır", () => {
+    const css = readFileSync(join(ROOT, "app/globals.css"), "utf8");
+    const strip = readFileSync(join(ROOT, "components/academy/lesson-karaoke-strip.tsx"), "utf8");
+    expect(strip).not.toMatch(/font-bold|font-semibold|font-\[650\]|font-\[700\]/);
+    expect(css).toMatch(/\.academy-player-karaoke-line\s*\{[^}]*font-weight:\s*450/s);
+    expect(css).toMatch(
+      /\.academy-player-karaoke-word\[data-state="active"\]\s*\{[^}]*color:\s*#fff7e6/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-word\[data-state="active"\]\s*\{[^}]*text-shadow:[\s\S]*?0 0 0\.6px currentColor,[\s\S]*?0 0 0\.6px currentColor/s,
+    );
+    expect(css).not.toMatch(
+      /\.academy-player-karaoke-word\[data-state="(?:active|past|future)"\]\s*\{[^}]*font-weight:\s*(?:[5-9]\d{2}|bold)/s,
+    );
   });
 });
 
@@ -171,5 +290,16 @@ describe("karaoke kelime boşluğu ve noktalama yapışması", () => {
     expect(words.at(-1)).toEqual({ text: ".", glue: true });
     const quoted = academyKaraokeTokenize("«sıfır kodlama» ilkesi");
     expect(academyKaraokeReconstructLine(quoted)).toBe("«sıfır kodlama» ilkesi");
+  });
+});
+
+describe("karaoke altyazı görünürlük tercihi", () => {
+  it("Temiz Sahne tercihi localStorage anahtarını 1/0 olarak yazar", () => {
+    expect(parseStoredAcademyKaraokeCaptions(null)).toBe(true);
+    expect(parseStoredAcademyKaraokeCaptions("0")).toBe(false);
+    expect(parseStoredAcademyKaraokeCaptions("off")).toBe(false);
+    expect(parseStoredAcademyKaraokeCaptions("1")).toBe(true);
+    expect(serializeAcademyKaraokeCaptions(false)).toBe("0");
+    expect(serializeAcademyKaraokeCaptions(true)).toBe("1");
   });
 });

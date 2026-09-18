@@ -4,12 +4,12 @@
 
 Bu belge iki katmandan oluşur:
 - **A Katmanı (A1–A5) — tek dokunulmaz katman:** Yasal, finansal ve temel güvenlik zorunluluklarıdır. Değişmez ve taviz verilemez.
-- **B Katmanı (B1–B5) — yaşayan ilkeler:** Mimari ve ürün rehberliğidir. Ürünle birlikte güncellenir. Operasyonel sayılar, env bayrakları ve HTTP kod tabloları burada durmaz; `docs/DURUM.md` ve `.system_docs/ops/` altındadır.
+- **B Katmanı (B1–B5) — yaşayan ilkeler:** Mimari ve ürün rehberliğidir. Ürünle birlikte güncellenir. Operasyonel sayılar, env bayrakları ve HTTP kod tabloları burada durmaz; yaşayan kesit `docs/ops/DURUM.md`, uyumluluk aynası `docs/DURUM.md` ve `.system_docs/ops/` altındadır.
 
 | Alan | Değer |
 |------|--------|
 | Tarih | 16 Ağustos 2026 |
-| Son Reform | **15 Eylül 2026 (Tedavi):** B4’ten sabit ders/kaset sayıları çıkarıldı. Yayın ilkesi durur; sayılar kod + `docs/DURUM.md` içindedir. A Katmanı (A1–A5) değişmez. |
+| Son Reform | **17 Eylül 2026 (Tespit-Tedavi):** Yaşayan kesit `docs/ops/DURUM.md`; `docs/DURUM.md` test uyumluluk aynasıdır. B4: mühürlü ses bütçesi `SEALED_AUDIO_LIMITS`, compact makale `COMPACT_ARTICLE_GUIDE` (tavan değil). A Katmanı (A1–A5) değişmez. |
 | Kamu markası / domain | `yetkin.ai` |
 | Kalıcı belgeler | `/.system_docs` |
 | Ops | `.system_docs/OPS_RUNBOOK.md` (db / paytr / inngest / dron) |
@@ -84,8 +84,9 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 ## B4. Müfredat
 
 * **Konunun Hakkı:** Compact yayın makalesi kelime tavanı veya sabit ders adediyle kesilmez.
+* **Kelime bütçesi adı:** Mühürlü ses bütçesi kodda `SEALED_AUDIO_LIMITS` adını taşır. Compact için `COMPACT_ARTICLE_GUIDE` aralık önerisidir, tavan değildir.
 * **Müfredat standardı `PEDAGOJI.md` içindedir.** Anayasa süre bandı, SKU adedi, kaset listesi veya karaoke dakikası taşımaz.
-* **Yayın = makale + mühürlü karaoke; sayılar ve müfredat koddadır.** Canlı kaset/sınav yolu `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` SSOT’udur; haftalık kesit `docs/DURUM.md` içindedir. İzlemede canlı üretici API (`VIDEO_GEN` / TTS) yoktur. Bake ayrıntısı `docs/ops/akademi-bake-elkitabi.md` içindedir.
+* **Yayın = makale + mühürlü karaoke; sayılar ve müfredat koddadır.** Canlı kaset/sınav yolu `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` SSOT’udur; yaşayan haftalık kesit `docs/ops/DURUM.md` içindedir (`docs/DURUM.md` uyumluluk aynasıdır). İzlemede canlı üretici API (`VIDEO_GEN` / TTS) yoktur. Bake ayrıntısı `docs/ops/akademi-bake-elkitabi.md` içindedir.
 
 ## B5. Harici Entegrasyonlar ve Pilot İş Modelleri
 

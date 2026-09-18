@@ -22,7 +22,6 @@ export function LessonKaraokeStrip({
   const activeIndex = academyTeleprompterActiveLineIndex(lines, currentTime);
   const activeLine = activeIndex == null ? null : lines[activeIndex] ?? null;
   const words = useMemo(() => (activeLine ? academyKaraokeWords(activeLine) : []), [activeLine]);
-  const preview = activeIndex == null ? lines[0] : lines[activeIndex + 1];
   const activeWordRef = useRef<HTMLSpanElement | null>(null);
   const activeWord = words.find((word) => academyKaraokeWordState(word, currentTime) === "active") ?? words[0] ?? null;
 
@@ -33,6 +32,14 @@ export function LessonKaraokeStrip({
     }
     const reduce =
       typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const line = node.closest("[data-academy-karaoke-line]");
+    if (
+      line instanceof HTMLElement &&
+      line.scrollHeight <= line.clientHeight + 1 &&
+      line.scrollWidth <= line.clientWidth + 1
+    ) {
+      return;
+    }
     node.scrollIntoView({
       inline: "nearest",
       block: "nearest",
@@ -40,15 +47,11 @@ export function LessonKaraokeStrip({
     });
   }, [activeWord?.id, playing]);
 
-  if (lines.length === 0) {
-    return null;
-  }
-
   return (
     <div
-      className="academy-player-karaoke-strip flex flex-col items-center justify-center text-center"
+      className="academy-player-karaoke-strip flex flex-col items-center justify-center overflow-visible text-center"
       data-academy-karaoke-strip=""
-      data-academy-karaoke-band="cue"
+      data-academy-karaoke-band="overlay"
       data-academy-karaoke-playing={playing ? "true" : undefined}
       data-academy-karaoke-cue={activeLine?.cueId}
       role="region"
@@ -56,7 +59,7 @@ export function LessonKaraokeStrip({
       aria-live="polite"
     >
       <p
-        className="academy-player-karaoke-line flex w-full flex-wrap items-baseline justify-center gap-x-[0.32em] gap-y-[0.14em] text-center"
+        className="academy-player-karaoke-line flex w-full flex-wrap items-center justify-center gap-x-[0.32em] gap-y-[0.2em] text-center"
         data-academy-karaoke-line={activeLine?.id}
       >
         {activeLine
@@ -79,15 +82,6 @@ export function LessonKaraokeStrip({
             })
           : null}
       </p>
-      {preview ? (
-        <p
-          className="academy-player-karaoke-preview w-full text-center"
-          data-academy-karaoke-preview={preview.id}
-          aria-hidden
-        >
-          {preview.text}
-        </p>
-      ) : null}
     </div>
   );
 }

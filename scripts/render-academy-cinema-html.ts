@@ -5,6 +5,11 @@
 import type { AcademyCinemaCueSlide, AcademyCinemaThemeId } from "@/lib/academy/cinema-cue-catalog";
 import { academyCitizenLessonOrdinalFromKey } from "@/lib/academy/curricula/lesson-index";
 import { academyGmailStageKind } from "@/lib/academy/gmail-workspace";
+import {
+  ACADEMY_PPTX_ACTION_BAND,
+  ACADEMY_PPTX_KPI_CARDS,
+  ACADEMY_PPTX_SLIDE_TITLE,
+} from "@/lib/academy/pptx-workspace";
 import { academyWordStageKind } from "@/lib/academy/word-workspace";
 
 const THEMES: Record<
@@ -326,7 +331,29 @@ function mockWord(slide: AcademyCinemaCueSlide): string {
   </div>`;
 }
 
+function isPptxHierarchySlide(slide: AcademyCinemaCueSlide): boolean {
+  return slide.visualMode === "split" || slide.table?.headers[0] === "KPI";
+}
+
 function mockPptx(slide: AcademyCinemaCueSlide): string {
+  if (isPptxHierarchySlide(slide)) {
+    const kicker = slide.compare?.afterLabel ?? "İyi slayt örneği";
+    const cards = ACADEMY_PPTX_KPI_CARDS.map(
+      (card) => `<article class="pptx-kpi pptx-kpi--${esc(card.tone)}">
+        <small>${esc(card.label)}</small>
+        <b>${esc(card.value)}</b>
+        ${card.id === "kpi-risk" ? `<em>Uyarı</em>` : ""}
+      </article>`,
+    ).join("");
+    return `<div class="pptx-good">
+      <div class="pptx-good-head">
+        <p class="pptx-good-kicker">${esc(kicker)}</p>
+        <h3>${esc(ACADEMY_PPTX_SLIDE_TITLE)}</h3>
+      </div>
+      <div class="pptx-kpi-row">${cards}</div>
+      <p class="pptx-action">${esc(slide.table?.note ?? ACADEMY_PPTX_ACTION_BAND)}</p>
+    </div>`;
+  }
   const nodes = slide.nodes ?? [];
   return `<div class="deck">
     ${nodes
@@ -600,14 +627,51 @@ export function renderAcademyCinemaCueHtml(slide: AcademyCinemaCueSlide): string
   .word h3 { margin: 16px 16px 8px; font-size: 26px; }
   .word p { margin: 8px 16px; font-size: 18px; }
   .word-attach { margin: 8px 14px; font-weight: 800; color: ${theme.accent2}; }
-  .deck, .keys, .reels { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .deck, .keys, .reels { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; align-content: start; }
   .stones { display: flex; flex-wrap: wrap; gap: 14px; }
   .stones article { flex: 1 1 30%; min-width: 200px; }
   .slide-mini, .keys article, .stones article, .reels .reel {
-    border: 1px solid ${theme.line}; border-radius: 18px; padding: 16px; background: ${theme.chip}; min-height: 140px;
+    display: flex; flex-direction: column; gap: 8px; min-width: 0; min-height: 0;
+    border: 1px solid ${theme.line}; border-radius: 18px; padding: 16px; background: ${theme.chip};
   }
   .slide-mini span, .keys i, .stones i, .reels small { color: ${theme.accent}; font-weight: 800; letter-spacing: 0.08em; }
-  .slide-mini h4, .keys h4, .stones h4 { margin: 8px 0 6px; font-size: 22px; }
+  .slide-mini h4, .keys h4, .stones h4 { margin: 0; font-size: 22px; overflow-wrap: anywhere; }
+  .slide-mini p { margin: 0; overflow-wrap: anywhere; }
+  .pptx-good {
+    display: flex; flex-direction: column; gap: 20px; aspect-ratio: 16 / 9; width: 100%; height: auto; max-height: 100%; object-fit: contain; min-height: 0; box-sizing: border-box;
+    padding: 20px 22px 18px; border-radius: 20px; color: #f8fbff;
+    background: radial-gradient(120% 80% at 12% 0%, rgba(56, 189, 248, 0.18), transparent 46%),
+      linear-gradient(165deg, #102033 0%, #0b1220 52%, #152a44 100%);
+  }
+  .pptx-good-head { display: flex; flex-direction: column; gap: 12px; flex: 0 0 auto; min-width: 0; }
+  .pptx-good-kicker {
+    margin: 0; align-self: flex-start; max-width: 100%; padding: 6px 12px; border-radius: 999px;
+    background: rgba(8, 42, 48, 0.84); border: 1px solid rgba(72, 228, 196, 0.7);
+    font-size: 11px; font-weight: 800; letter-spacing: 0.06em; line-height: 1.25; text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+  .pptx-good h3 { margin: 0; width: 100%; text-align: center; font-size: 28px; letter-spacing: -0.03em; line-height: 1.2; }
+  .pptx-kpi-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; flex: 1 1 auto; align-items: center; align-content: center; min-height: 180px; }
+  .pptx-kpi {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+    min-width: 0; min-height: 160px; padding: 18px 14px; border-radius: 16px; text-align: center; background: rgba(8, 16, 32, 0.55);
+  }
+  .pptx-kpi--green { border: 1px solid rgba(52, 211, 153, 0.55); }
+  .pptx-kpi--blue { border: 1px solid rgba(56, 189, 248, 0.55); }
+  .pptx-kpi--warn { border: 1px solid rgba(251, 146, 60, 0.7); }
+  .pptx-kpi small { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(226, 232, 240, 0.72); }
+  .pptx-kpi b { font-size: 22px; line-height: 1.2; overflow-wrap: anywhere; }
+  .pptx-kpi--green b { color: #6ee7b7; }
+  .pptx-kpi--blue b { color: #7dd3fc; }
+  .pptx-kpi--warn b { color: #fdba74; }
+  .pptx-kpi em {
+    display: inline-flex; margin: 0; padding: 4px 10px; border-radius: 999px; background: #ea580c;
+    color: #fff7ed; font-size: 11px; font-style: normal; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .pptx-action {
+    margin: auto 0 0; padding: 12px 14px; border-radius: 12px; text-align: center; font-size: 16px; font-weight: 700;
+    background: linear-gradient(90deg, #020617 0%, #111827 55%, #1f2937 100%);
+  }
   .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .node { flex: 1; min-width: 160px; background: ${theme.chip}; border: 1px solid ${theme.line}; border-radius: 16px; padding: 16px; }
   .node b { display: block; font-size: 20px; margin-bottom: 6px; }

@@ -361,7 +361,6 @@ function renderSpokenScriptMarkdown(paragraphs: readonly ScriptParagraph[]): str
   ${LESSON_KEY} — konuşma metni
   Ses: Gözde / Callirrhoe. Kod çiti yok. SEN aksı.
   Punchcard: ${PUNCHCARDS.join(" · ")}
-  Kaynak: Gemini 3.8 Flash mühür paketi. Metin uydurulmadı.
 -->
 
 ${body}

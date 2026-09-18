@@ -101,16 +101,18 @@ describe("akademi ders geçiş mimarisi", () => {
     ).toBeNull();
   });
 
-  it("ekran saati 07:05/07:05 iken kaset milisaniyesi tam cap olmasa da bitti sayılır", () => {
+  it("ekran saati 08:42/08:42 iken kaset milisaniyesi tam cap olmasa da bitti sayılır", () => {
     const durationSec = academyPlayerClockDurationSec({
       audioDuration: 0,
       sealedDuration: academySealedAudioDurationSec("01_office_ai", "01_office_ai-5"),
       spokenDuration: 0,
       outroTailSec: academyBedOutroTailSec("01_office_ai-5"),
     });
-    expect(formatAcademyCinemaClock(durationSec)).toBe("07:05");
+    expect(formatAcademyCinemaClock(durationSec)).toBe("08:42");
     expect(formatAcademyCinemaClock(485)).toBe("08:05");
-    expect(hasAcademyLessonPlaybackReachedEnd({ currentTime: 486, durationSec })).toBe(true);
+    expect(
+      hasAcademyLessonPlaybackReachedEnd({ currentTime: Math.floor(durationSec), durationSec }),
+    ).toBe(true);
     expect(
       hasAcademyLessonPlaybackReachedEnd({ currentTime: 485, durationSec: 485.5 }),
     ).toBe(true);

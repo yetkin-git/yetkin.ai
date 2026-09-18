@@ -2,7 +2,7 @@
 
 Bu belge platformun **kalıcı eğitim felsefesini** tanımlar. Stüdyo milisaniyesi, gain, Veo süresi ve canlı model kimliği burada dogma değildir.
 
-Çelişkide `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır. Canlı model kimliği kod SSOT’tadır (`lib/kernel/ai/model-roles.ts`). Bake SOP, gain, saniye ve CLI `docs/ops/akademi-bake-elkitabi.md` içindedir. Canlı kaset / sınav sayıları `docs/DURUM.md` ve kod içindedir.
+Çelişkide `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır. Canlı model kimliği kod SSOT’tadır (`lib/kernel/ai/model-roles.ts`). Bake SOP, gain, saniye ve CLI `docs/ops/akademi-bake-elkitabi.md` içindedir. Canlı kaset / sınav sayıları `docs/ops/DURUM.md` (uyumluluk aynası `docs/DURUM.md`) ve kod içindedir.
 
 ---
 
@@ -39,7 +39,7 @@ Sıfır jargon, insani, sıcak, arkadaşça ve çözüme giden bir dil kullanıl
 
 ## B. FIRIN ROLLERİ VE 4-BEAT REJİ
 
-İçerik üretiminde vatandaş yüzeyine Cursor uydurması basılmaz. Senaryo, ses, görsel ve dip müzik bake fırınlarından gelir. Cursor **montaj operatörüdür**: dönen parçaları `docs/curriculum/` ve `public/media/` altına kaydeder; oynatıcı senkronunu bağlar.
+İçerik üretiminde vatandaş yüzeyine Cursor uydurması basılmaz. Senaryo, ses, görsel ve dip müzik bake fırınlarından gelir. Cursor **montaj operatörüdür**: dönen parçaları `lib/academy/` (cue, timings, spoken-scripts, lesson-exams) ve `public/media/` altına kaydeder; oynatıcı senkronunu bağlar. `docs/curriculum/` bake kopyasıdır, izleme okumaz, git’e girmez.
 
 Rol dağılımı yetenek sınıfıdır; ürün sürüm adı Pedagoji’de donmaz. Canlı kimlik `lib/kernel/ai/model-roles.ts` içindedir.
 
@@ -62,6 +62,8 @@ Rol dağılımı yetenek sınıfıdır; ürün sürüm adı Pedagoji’de donmaz
 | — | CEBİNE KOY | Task öncesi kapanış özeti | Üç somut adımı tane tane tekrarlar |
 | 4 | Task | Özet & Saha Görevi | Cebine koyacakların |
 
+**Cue bandı:** 8 cue zorunluluk değil tavandır. Kısa ders 6, capstone 9 cue taşıyabilir. Tempo cue başına **45–75 saniye**dir; k1 ile 1. ders aynı cue sayısına sıkıştırılmaz.
+
 Üretim sırası **senaryo → mühürlü ses → cue → görsel/video → ducking müzik → montaj**’dır; tersine değil. Senaryo, cue ve visual zoom senkronu tam oturmadan ücretli TTS/Video çağrılmaz. Geliştirme `--dry-run` ile yürür. Taslak ses vatandaş yüzeyine basılmaz. İnsan onayı olmadan harici TTS yok. Ayrıntı bake el kitabındadır.
 
 **İzleme anında harici üretici API çağrılmaz.** Fırın bake’de çalışır; oynatıcı mühürlü medyayı senkronize eder. Cue orijinal terimi korur; ses fonetik okur. Placeholder test-pattern vatandaşa basılmaz.
@@ -76,7 +78,7 @@ Karaoke ders / kurs süre bantları ve bölüm sayısı **kod SSOT’tadır** (`
 
 * **Başarı ve Mühür Barajı:** Kurs sonu sınavından **70+** alma zorunluluğu vardır. Sertifika satın alınamaz, hak edilir. Puan **sunucu** tarafındadır (Anayasa A4).
 
-Çok teknik konularda müfredat **Temel / Orta / İleri** bağımsız paket olarak ayrılabilir; her SKU’ya zorunlu basamak değildir. Ses seçimi fırınlama aşamasında **kadın veya erkek** TTS yuvasıdır; ofis amiralinde Gözde (Callirrhoe) mühürdür. Model kimliği Pedagoji’de durmaz.
+Çok teknik konularda müfredat **Temel / Orta / İleri** bağımsız paket olarak ayrılabilir; her SKU’ya zorunlu basamak değildir. Ses seçimi fırınlama aşamasında **kadın veya erkek** TTS yuvasıdır; ofis amiralinde Gözde (Callirrhoe) mühürdür. Öğretmen hitabı SEN kalır. Dilekçe ve sözleşme gibi resmî belgede üretilen örnek SIZ’dır (öğretmen SEN, belge SIZ). Erkek TTS yuvası (Fenrir) köprü dersinde pilotlanabilir. Model kimliği Pedagoji’de durmaz.
 
 ---
 
@@ -92,13 +94,13 @@ Vitrin otoritesini ve güvenini korumak için platformda 5'li Vitrin Karması li
 
 **Dürüst Yüzey (Anayasa A5):** `01_office_ai` dışındaki 4 ürünün üzerinde "Çok Yakında / Hazırlanıyor" rozeti durur. Tıklandığında ön sipariş/bilgilendirme gösterilir. Bağlı olmayan medya, eksik bake veya mühürsüz ders için hayali oynatıcı basılmaz; vatandaşa dürüstçe henüz hazır olmadığı söylenir.
 
-Amiral SKU `01_office_ai` yayın makalesi + mühürlü karaoke taşır. **Ders adedi Pedagoji kotası değildir.** Anayasa B4 (konunun hakkı) ne gerektiriyorsa o kadar doygun ders basılır: tek pakette 9–10 ders veya 101/102 ayrımı serbesttir. Canlı kaset / sınav sayıları `docs/DURUM.md` ve koddadır. Sessiz okuma metni yoktur.
+Amiral SKU `01_office_ai` yayın makalesi + mühürlü karaoke taşır. **Ders adedi Pedagoji kotası değildir.** Anayasa B4 (konunun hakkı) ne gerektiriyorsa o kadar doygun ders basılır: tek pakette 9–10 ders veya 101/102 ayrımı serbesttir. **Çekirdek 9 ders kilitlidir**; ileriki fırında 3 köprü dersi (takvim/toplantı, Excel formül/grafik, PDF) ayrı uydu şeridinde eklenir, çekirdek sınav yolu şişmez. Canlı kaset / sınav sayıları `docs/ops/DURUM.md` (ayna `docs/DURUM.md`) ve koddadır. Sessiz okuma metni yoktur.
 
 ---
 
 ## E. ÖĞRETİM TERCİHLERİ (ALTIN ŞABLON FELSEFESİ)
 
-`01_office_ai-1` Excel sineması gelecek müfredatın **görsel sözleşmesidir**, Anayasa A maddesi değildir. Cue-görsel kod SSOT: `lib/academy/lesson-beat-visual.ts`, `lib/academy/lesson-veo.ts`, `lib/academy/excel-workspace.ts`. PowerPoint, Gmail, Word aynı Excel imlecine sığmak zorunda değildir; her masa kendi layout’unu taşır. Milisaniye, zoom yüzdesi ve gain bake el kitabındadır.
+`01_office_ai-1` Excel sineması yalnız Excel derslerinin **görsel sözleşmesidir**, Anayasa A maddesi değildir. Her ders kendi masasında durur: KVKK belge/maske masası, g1 çift-hat posta masası, w1 Word masası. Cue-görsel kod SSOT: `lib/academy/lesson-beat-visual.ts`, `lib/academy/lesson-veo.ts`, `lib/academy/excel-workspace.ts`. PowerPoint, Gmail, Word aynı Excel imlecine sığmak zorunda değildir; her masa kendi layout’unu taşır. Milisaniye, zoom yüzdesi ve gain bake el kitabındadır.
 
 ### E.1 Görsel dürüstlük
 
@@ -107,14 +109,14 @@ Amiral SKU `01_office_ai` yayın makalesi + mühürlü karaoke taşır. **Ders a
 
 ### E.2 Üç Kapı Hiyerarşisi (aktarım)
 
-Yapay zekâya veri verme adımı seste ve ekranda **Üç Kapı** ile öğretilir (§E.10). Sıra sabittir; öğrenci önce 1. kapıyı dener.
+Yapay zekâya veri verme adımı seste ve ekranda **Üç Kapı** ile öğretilir (§E.10). Sıra sabittir; öğrenci önce 1. kapıyı dener. **Üç Kapı yalnız aktarım yöntemidir.** Kişisel veri / şirket sırrı / kamu cümlesi güvenlik sınıfıdır; kapı adı değildir.
 
-1. **Yerleşik araçlar** — Gmail Gemini, Excel / Word / Outlook Copilot (lisans varsa).
-2. **Ataş / dosya yükleme** — `docx`, `xlsx`, `pptx` (seste noktasız; ekranda uzantı görülebilir).
-3. **Son çare:** KVKK’ya uygun, maskelenmiş kısa kopyala-yapıştır. Bütün gelen kutusunu veya ham tabloyu ekran görüntüsüyle dış sohbete taşımak öğretilen varsayılan yol değildir.
+1. **Yerleşik araçlar** — 1. Kapı: Yerleşik Panel (Copilot / Gemini Şeridi). Gmail Gemini, Excel / Word / Outlook Copilot (lisans varsa).
+2. **Ataş / dosya yükleme** — 2. Kapı: `docx`, `xlsx`, `pptx` (seste noktasız; ekranda uzantı görülebilir).
+3. **Son çare:** 3. Kapı: Maskeli Kısa Özet (Sohbet / Tüketici Modeli). KVKK’ya uygun, maskelenmiş kısa kopyala-yapıştır. Bütün gelen kutusunu veya ham tabloyu ekran görüntüsüyle dış sohbete taşımak öğretilen varsayılan yol değildir.
 
 * **Yerleşik araç eşleşmesi (SSOT):** Outlook → Copilot, Gmail → Gemini, Word/Excel → Doğrudan Dosya Yükleme, PowerPoint → Copilot. Kilit: `lib/academy/ai-desk.ts` → `ACADEMY_INFRA_TOOL_MATCH`.
-* **Araç dayatması yok.** Pedagoji VBA, Gamma veya Marp zorunlu kılmaz. Fırın script’indeki checkbox doktrin değildir. 1. Kapı yerleşik Copilot; yoksa ataş.
+* **Araç dayatması yok.** Pedagoji VBA, Gamma veya Marp zorunlu kılmaz. Sheets/Docs yasak değil, bu SKU’da yol Excel/Word’dür; Sheets köprüsü ayrı derste. Fırın script’indeki checkbox doktrin değildir. 1. Kapı yerleşik Copilot; yoksa ataş.
 * **Nereye Yazılacak:** Soyut «AI Masası» paneli **KESİNLİKLE YASAKTIR**. Öğrenci gerçek kapıyı görür: Gmail Gemini paneli, Copilot şeridi veya ataş. Rehber ok: «Nereye Yükleyeceksin?» / «Gemini veya ataş». Masaüstü Outlook’ta Copilot yoksa 2. veya 3. kapı dürüstçe gösterilir; «senin aracın yasak» denmez.
 * **Çoklu AI ekosistemi:** Yalnız Copilot değil; ChatGPT, Claude, Gemini ve özel API farkı sade dille işlenir.
 
@@ -148,7 +150,7 @@ Soyut «AI Masası» paneli **KESİNLİKLE YASAKTIR**.
 
 * **Sekme 1 — Gmail + Gemini (1. Kapı):** Gmail yan panelindeki Gemini eklentisi işaretlenir. İstem oraya yazılır veya panodan *istem* yapıştırılır; mail gövdesi dış sohbete taşınmaz.
 * **Sekme 2 — Copilot (1. Kapı):** Lisans varsa şerit menüsündeki Copilot işaretlenir.
-* **ChatGPT / Claude:** 1. ve 2. kapı yoksa 3. kapıdır. Kısa, maskelenmiş yapıştırma öğretilir; ham kutu / ham sözleşme taşıması öğretilmez (§E.10).
+* **ChatGPT / Claude:** Yerleşik panel yoksa 2. Kapı ataştır (`xlsx` / `docx` / `pptx`). 1. ve 2. kapı yoksa 3. Kapı maskeli kısa özettir. Ham kutu / ham sözleşme taşıması öğretilmez (§E.10). Sohbet ekranı tek başına kapı adı değildir.
 
 ### E.9 Altyapı Şeffaflığı & Dosya Yükleme Gerçekliği
 
@@ -164,11 +166,13 @@ Soyut «AI Masası» paneli **KESİNLİKLE YASAKTIR**.
 
 **MASAÜSTÜ DÜRÜSTLÜĞÜ:** Masaüstü Outlook, Copilot lisansı olmadan gelen kutusunun canlı akışını harici araçlara okutamaz. Bu kısıt öğrenciye dürüstçe anlatılır; «senin aracın yasak» denmez. Ana odak hâlâ modern yerleşik panel ve ataştır; yoksa 3. kapı açılır.
 
-**ÜÇ KAPI HİYERARŞİSİ** — kopyala-yapıştır mutlak yasak değildir. Sıra öğretilir:
+**ÜÇ KAPI HİYERARŞİSİ** — kopyala-yapıştır mutlak yasak değildir. Sıra öğretilir. Bu hiyerarşi **yalnız aktarımdır**; güvenlik sınıfı kapı numarası almaz.
 
-1. **1. Kapı — Yerleşik araçlar.** Gmail Gemini, Office Copilot. İstem panele yazılır; kutu yerinde kalır.
+1. **1. Kapı — Yerleşik araçlar.** Yerleşik Panel (Copilot / Gemini Şeridi). Gmail Gemini, Office Copilot. İstem panele yazılır; kutu yerinde kalır.
 2. **2. Kapı — Ataş / dosya yükleme.** Sözleşme, tablo, slayt `docx` / `xlsx` / `pptx` olarak yüklenir. Sayfa sayfa kopya zahmetli yoldur.
-3. **3. Kapı — Son çare.** Maskelenmiş, KVKK’ya uygun kısa kopyala-yapıştır (isim, TC, IBAN, ticari sır takma değer). Bütün gelen kutusu, ham bilanço veya ekran görüntüsü zinciri 3. kapı değildir.
+3. **3. Kapı — Son çare.** Maskeli Kısa Özet (Sohbet / Tüketici Modeli). Maskelenmiş, KVKK’ya uygun kısa kopyala-yapıştır (isim, TC, IBAN, ticari sır takma değer). Bütün gelen kutusu, ham bilanço veya ekran görüntüsü zinciri 3. kapı değildir.
+
+**Güvenlik sınıfı ayrı eksendir:** kişisel veri / şirket sırrı / kamu cümlesi. Hangi kapı seçilirse seçilsin ham kimlik ve sır gitmez. Kiracı Copilot, şirket paneli veya tüketici modeli kapı adı değildir.
 
 **Taşıma su** artık yasak listesi değil, **atlanmış kapı**dır: 1. ve 2. kapı dururken kutuyu dış sohbete hamal gibi taşımaktır. Öğrenciye önce yerleşik, yoksa ataş, son çare maskeli kısa yapıştırma öğretilir.
 

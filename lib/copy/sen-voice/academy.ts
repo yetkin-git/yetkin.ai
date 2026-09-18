@@ -354,6 +354,16 @@ export const ACADEMY_SEN = {
     toolsMenuHint: "Ders notu ve uygulama görevi",
     toolsClose: "Kapat",
     toolsTask: "Uygulama görevi",
+    selfCheckTab: "Kendini Dene",
+    selfCheckTitle: "Ders Sonu Kendini Dene (Notsuz, 3 Soru)",
+    selfCheckLead:
+      "Bu üç soru notsuz öz-değerlendirmedir. Puan sunucuya gitmez, mühür basmaz, kurs sonu sınavına karışmaz.",
+    selfCheckSubmit: "Cevapları kontrol et",
+    selfCheckRetry: "Yeniden dene",
+    selfCheckScore: (correct: number, total: number) => `${correct} / ${total} doğru. Not yazılmaz.`,
+    selfCheckMissing: "Bu derste öz-değerlendirme henüz yok.",
+    selfCheckCorrect: "Doğru",
+    selfCheckWrong: "Tekrar bak",
   },
   task: {
     eyebrow: "Uygulama",

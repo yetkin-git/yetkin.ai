@@ -4,16 +4,18 @@ import { useEffect, useMemo, useState } from "react";
 import type { Route } from "next";
 import { LinkButton } from "@/components/ui/link-button";
 import { AcademyMarkdownRenderer } from "@/components/academy/academy-markdown-renderer";
+import { LessonSelfCheck } from "@/components/academy/lesson-self-check";
 import { extractLessonStudyPack } from "@/lib/academy/lesson-study";
 import { academyExamStartGateHref } from "@/lib/academy/continue-board";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 
-type StudyTabId = "summary" | "transcript" | "exam";
+type StudyTabId = "summary" | "transcript" | "self-check" | "exam";
 
 const TABS: { id: StudyTabId; label: string }[] = [
   { id: "summary", label: "Özet ve Promptlar" },
   { id: "transcript", label: "Tam Ders Metni" },
+  { id: "self-check", label: "Kendini Dene" },
   { id: "exam", label: "Sınav ve Sertifika" },
 ];
 
@@ -39,6 +41,13 @@ export function LessonStudyTabs({
   const course = ACADEMY_SEN.course;
   const [tab, setTab] = useState<StudyTabId>("summary");
   const pack = useMemo(() => extractLessonStudyPack(articleBody), [articleBody]);
+  const tabs = useMemo(
+    () =>
+      TABS.map((item) =>
+        item.id === "self-check" ? { ...item, label: copy.selfCheckTab } : item,
+      ),
+    [copy.selfCheckTab],
+  );
 
   useEffect(() => {
     setTab("summary");
@@ -54,7 +63,7 @@ export function LessonStudyTabs({
         role="tablist"
         aria-label="Ders çalışma sekmeleri"
       >
-        {TABS.map((item) => {
+        {tabs.map((item) => {
           const selected = tab === item.id;
           return (
             <button
@@ -114,6 +123,18 @@ export function LessonStudyTabs({
               className="select-text"
             />
           </article>
+        </div>
+      ) : null}
+
+      {tab === "self-check" ? (
+        <div
+          role="tabpanel"
+          id="academy-study-panel-self-check"
+          aria-labelledby="academy-study-tab-self-check"
+          className="px-5 py-6 sm:px-8 sm:py-8"
+          data-academy-study-panel="self-check"
+        >
+          <LessonSelfCheck lessonKey={lessonKey} />
         </div>
       ) : null}
 

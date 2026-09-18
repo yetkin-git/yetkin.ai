@@ -3,7 +3,10 @@
  * Faz 1 kilit omurga (anahtarlar değişmez; sıra pedagojikdir):
  * 1 Excel → 2 KVKK → 3 Rapor → 4 Slayt → 5 Hata avı → 6 E-posta ritüeli
  * → 7 Gmail/Outlook kapısı → 8 Word → 9 Cuma 30 capstone. Sınav yalnız 9. dersten sonra.
- * Üç Kapı Hiyerarşisi PEDAGOJI.md §E.10.
+ * Uydu (ileriki fırın, sınav yoluna girmez): 10 takvim/toplantı, 11 Excel formül/grafik, 12 PDF.
+ * Üç Kapı Hiyerarşisi PEDAGOJI.md §E.10 — yalnız aktarım:
+ * 1. Kapı yerleşik panel (Copilot / Gemini şeridi) → 2. Kapı ataş (xlsx/docx/pptx) → 3. Kapı maskeli kısa özet.
+ * Güvenlik sınıfı ayrı eksendir: kişisel veri / şirket sırrı / kamu cümlesi. Kapı adı değildir.
  * Yerleşik araç SSOT: Outlook→Copilot, Gmail→Gemini, Word/Excel→Doğrudan Dosya Yükleme, PowerPoint→Copilot.
  */
 
@@ -45,7 +48,7 @@ export const OFFICE_AI_PLANNED_LESSONS = [
     lane: "main",
     method: "direct-file-upload",
     pedagogicalObjective:
-      "Kişisel veri ve şirket sırrını ham haliyle yüklememek. Yükleme alışkanlığından önce 3. Kapı yalnız maskeli kısa özettir.",
+      "Müşteri listesi, IBAN, T.C. Kimlik No, maaş ve şirket sırrını açık yapay zekâ ekranına yüklememek. Maske: Müşteri A / MASKELİ_IBAN. 3. Kapı yalnız maskeli kısa özettir.",
   },
   {
     key: "01_office_ai-2",
@@ -54,7 +57,7 @@ export const OFFICE_AI_PLANNED_LESSONS = [
     lane: "main",
     method: "direct-file-upload",
     pedagogicalObjective:
-      "Temiz tablodan üç maddelik yönetim özeti ve karar notu çıkarmak. Grafik vaadi bu derste yoktur.",
+      "Temiz tablodan üç maddelik yönetim özeti ve karar notu çıkarmak. Neden üç madde: yönetici on sayfayı okumaz. Sayıları hücreden kilitle. Grafik vaadi bu derste yoktur.",
   },
   {
     key: "01_office_ai-3",
@@ -72,7 +75,7 @@ export const OFFICE_AI_PLANNED_LESSONS = [
     lane: "main",
     method: "direct-file-upload",
     pedagogicalObjective:
-      "Çapraz kontrol, TOPLA kilidi, insan gözü. Akıcı özete güvenilmez.",
+      "Çapraz kontrol, TOPLA kilidi, insan gözü. Yapay zekâ neden uydurur? Dil modeli işlemci değildir. Akıcı özete güvenilmez.",
   },
   {
     key: "01_office_ai-4",
@@ -90,7 +93,7 @@ export const OFFICE_AI_PLANNED_LESSONS = [
     lane: "main",
     method: "gmail-gemini",
     pedagogicalObjective:
-      "Gelen kutusunu Gmail Gemini (1. Kapı) ve Outlook Copilot ile aynı rutinle yönetmeyi göstermek. Mail gövdesini dış sohbete taşımak varsayılan yol değildir.",
+      "Gelen kutusunu Gmail Gemini (1. Kapı) ve Outlook Copilot ile aynı rutinle yönetmeyi göstermek. Neden ChatGPT’ye kopyalamak yerine yerleşik panel? Çünkü kopyalanan gövde kutudan kopar. Aksiyon listesinde kim, ne, ne zaman kilitlenir. Mail gövdesini dış sohbete taşımak varsayılan yol değildir.",
   },
   {
     key: "01_office_ai-w1",
@@ -109,6 +112,33 @@ export const OFFICE_AI_PLANNED_LESSONS = [
     method: "copilot-live",
     pedagogicalObjective:
       "Cuma 30 = 10 Excel + 10 slayt + 10 kutu. Kapanış dersi; sınav kapısı yalnız bu ders bittikten sonra açılır.",
+  },
+  {
+    key: "01_office_ai-10",
+    title: "Takvim ve Toplantı AI: Outlook, Teams, Meet",
+    status: "planned",
+    lane: "satellite",
+    method: "copilot-live",
+    pedagogicalObjective:
+      "Davet triyajı ve transkriptten aksiyon listesi. 1. Kapı Teams Copilot / Meet Gemini, 2. Kapı transkript ataş, 3. Kapı maskeli kısa özet. Çekirdek 9’a girmez; ileriki fırın.",
+  },
+  {
+    key: "01_office_ai-11",
+    title: "Excel Formül ve Grafik AI: XLOOKUP, Özet Tablo, Grafik",
+    status: "planned",
+    lane: "satellite",
+    method: "direct-file-upload",
+    pedagogicalObjective:
+      "Formül yazdırma, TOPLA kilidi, grafik seçimi. Hata avı ile üret → kilitle → görselleştir. Çekirdek 9’a girmez; ileriki fırın.",
+  },
+  {
+    key: "01_office_ai-12",
+    title: "PDF ve Uzun Belge AI: OCR, Birleştirme, Karşılaştırma",
+    status: "planned",
+    lane: "satellite",
+    method: "doc-upload-gemini",
+    pedagogicalObjective:
+      "Taranmış PDF’yi ataşla; sayfa numarası iste; uydurma maddeyi sil. KVKK maskesi PDF’te durur. Çekirdek 9’a girmez; ileriki fırın.",
   },
 ] as const satisfies readonly OfficeAiPlannedLesson[];
 

@@ -125,9 +125,9 @@ const L6_WALK_CELL_PATTERNS: readonly { cell: AcademyExcelMouseCell; pattern: Re
   { cell: "C1", pattern: /e-posta|slayt|gelen kutu/giu },
 ];
 const L6_SYSTEM_WALK_CELL_PATTERNS: readonly { cell: AcademyExcelMouseCell; pattern: RegExp }[] = [
-  { cell: "A1", pattern: /0–10|excel ataş|üç blok/giu },
-  { cell: "B1", pattern: /üç madde|10–20|slayt/giu },
-  { cell: "C1", pattern: /e-posta|20–30|gelen kutu/giu },
+  { cell: "A1", pattern: /0–10|excel temizlik|excel ataş|üç blok/giu },
+  { cell: "B1", pattern: /üç madde|10–20|slayt özet|slayt/giu },
+  { cell: "C1", pattern: /e-posta sıfırlama|e-posta|20–30|gelen kutu/giu },
 ];
 
 type AcademyExcelMouseCellPos = Partial<Record<AcademyExcelMouseCell, { x: number; y: number }>>;

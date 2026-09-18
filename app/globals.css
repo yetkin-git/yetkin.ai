@@ -610,31 +610,62 @@ body {
 }
 
 .academy-player-shell {
+  --academy-stage-max-h: min(68vh, calc(100dvh - 11.5rem));
+  --academy-player-rail-w: 360px;
+  --academy-playlist-max-h: calc(100dvh - 5.5rem);
+  --academy-playlist-item-pad-y: clamp(0.4rem, 1vh, 0.75rem);
+  --academy-playlist-item-gap: clamp(0.4rem, 1vh, 0.75rem);
   height: 100%;
   min-height: 0;
   overflow: hidden;
 }
 
 .academy-player-shell[data-academy-player-layout="document"] {
+  --academy-player-ceiling-breath: 1.5rem;
+  --academy-player-study-gap: 0.5rem;
   height: auto;
   overflow: visible;
+  padding-top: var(--academy-player-ceiling-breath);
+  padding-bottom: 1rem;
 }
 
 .academy-player-shell[data-academy-player-layout="document"] .academy-player-main {
   overflow: visible;
+  gap: var(--academy-player-study-gap);
 }
 
-.academy-player-shell[data-academy-player-layout="document"] .academy-player-rail {
+.academy-player-shell[data-academy-player-layout="document"] .academy-player-rail,
+.academy-player-shell[data-academy-player-layout="document"] .academy-playlist {
   align-self: start;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+@media (min-width: 1024px) {
+  .academy-player-shell[data-academy-player-layout="document"] .academy-player-rail,
+  .academy-player-shell[data-academy-player-layout="document"] .academy-playlist {
+    width: var(--academy-player-rail-w);
+    max-width: var(--academy-player-rail-w);
+    min-height: var(--academy-stage-max-h);
+    max-height: var(--academy-playlist-max-h);
+    /* Paket 8.1: sol tavan nefesi 1.5rem; 9 ders listesi Paket 8 hizasında kalır. */
+    margin-top: calc(1rem - var(--academy-player-ceiling-breath));
+  }
+}
+
+[data-academy-play-chrome="true"] {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .academy-player-shell[data-academy-player-layout="document"] .academy-player-study {
   min-height: 18rem;
+  margin-top: 0;
 }
 
 .academy-player-shell[data-academy-player-layout="document"] .academy-player-widescreen {
   flex: 0 0 auto;
-  max-height: none;
+  max-height: var(--academy-stage-max-h);
   aspect-ratio: 16 / 9;
   background: #070b14;
 }
@@ -646,30 +677,36 @@ body {
   gap: 0;
   min-height: 0;
   height: auto;
-  max-height: calc(100dvh - 8.5rem);
-  overflow: hidden;
+  max-height: none;
+  overflow: visible;
+  padding-top: 0;
+  margin-top: 0;
   padding-bottom: 0;
 }
 
 .academy-player-karaoke.academy-cinema-stage {
   aspect-ratio: auto;
   height: auto;
-  max-height: calc(100dvh - 8.5rem);
-  overflow: hidden;
+  max-height: none;
+  overflow: visible;
 }
 
 .academy-player-karaoke .academy-player-widescreen-frame {
   flex: 0 1 auto;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   width: 100%;
   min-height: 0;
 }
 
 .academy-player-eye-stack {
+  --academy-karaoke-band-h: 6rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   min-width: 0;
   min-height: 0;
 }
@@ -678,24 +715,31 @@ body {
   width: 100%;
 }
 
-.academy-player-shell[data-academy-player-layout="document"] .academy-player-karaoke .academy-player-widescreen,
-.academy-player-karaoke .academy-player-widescreen,
-.academy-player-karaoke-stage {
-  --academy-stage-max-h: calc(100dvh - 17.25rem);
-  position: relative;
+.academy-player-stage-column {
+  display: flex;
+  flex-direction: column;
   width: min(100%, calc(var(--academy-stage-max-h) * 16 / 9));
   max-width: 100%;
-  height: auto;
-  max-height: var(--academy-stage-max-h);
+  min-width: 0;
   min-height: 0;
-  overflow: hidden;
-  aspect-ratio: 16 / 9;
   margin-inline: auto;
 }
 
-.academy-player-eye-stack[data-academy-prompt-dock="true"] .academy-player-karaoke-stage,
-.academy-player-eye-stack[data-academy-prompt-dock="true"] .academy-player-widescreen {
-  --academy-stage-max-h: calc(100dvh - 25rem);
+.academy-player-shell[data-academy-player-layout="document"] .academy-player-karaoke .academy-player-widescreen,
+.academy-player-karaoke .academy-player-widescreen,
+.academy-player-karaoke-stage {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: var(--academy-stage-max-h);
+  min-height: min(12.5rem, var(--academy-stage-max-h));
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  margin-inline: auto;
+  border-radius: 1rem;
+  border: 1px solid rgb(226 232 240);
+  background: #070b14;
 }
 
 .academy-player-karaoke .academy-teleprompter--overlay {
@@ -707,42 +751,132 @@ body {
   bottom: 0;
   z-index: 8;
   flex: 0 0 auto;
-  margin-top: 0;
+  margin-top: 0.35rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
   padding-bottom: max(0.2rem, env(safe-area-inset-bottom, 0px));
 }
 
-.academy-player-karaoke-strip {
-  position: relative;
-  z-index: 6;
+.academy-player-karaoke-overlay {
+  --academy-karaoke-band-h: 6rem;
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 8;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: flex;
-  min-height: 4.2rem;
-  flex-shrink: 0;
-  flex-direction: column;
+  min-height: var(--academy-karaoke-band-h);
+  max-height: 7.5rem;
   align-items: center;
   justify-content: center;
-  gap: 0.22rem;
-  overflow: hidden;
-  padding: 0.58rem 1.15rem 0.5rem;
-  border-top: 1px solid rgba(247, 241, 227, 0.1);
-  background: linear-gradient(180deg, rgba(12, 16, 28, 0.72), #070b14 78%);
+  padding: 0.9rem 0.85rem 0.7rem;
+  overflow: visible;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(7, 11, 20, 0.92) 0%,
+    rgba(7, 11, 20, 0.58) 46%,
+    rgba(7, 11, 20, 0) 100%
+  );
+}
+
+.academy-player-karaoke-overlay .academy-player-karaoke-strip {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  margin-top: 0;
+  padding: 0.22rem 0.4rem 0.32rem;
+  overflow: visible;
+  background: transparent;
+  border-radius: 0;
+}
+
+.academy-player-captions-toggle {
+  position: absolute;
+  z-index: 10;
+  top: 0.5rem;
+  right: 0.7rem;
+  min-height: 1.7rem;
+  padding: 0.22rem 0.62rem;
+  border: 1px solid rgba(247, 241, 227, 0.28);
+  border-radius: 999px;
+  background: rgba(7, 11, 20, 0.72);
+  color: #fff7e6;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.academy-player-captions-toggle[data-on="false"] {
+  opacity: 0.78;
+  border-color: rgba(247, 241, 227, 0.18);
+}
+
+.academy-player-captions-toggle:hover,
+.academy-player-captions-toggle:focus-visible {
+  opacity: 1;
+  border-color: rgba(212, 175, 122, 0.72);
+  outline: none;
+}
+
+.academy-player-eye-canvas:has(.academy-player-captions-toggle) .academy-player-punchcard-dock {
+  top: 2.65rem;
+}
+
+.academy-player-eye-stack[data-academy-captions="on"] .academy-howto-band {
+  bottom: calc(var(--academy-karaoke-band-h, 6rem) + 0.35rem);
+}
+
+.academy-player-eye-stack[data-academy-captions="on"] .academy-player-waiter {
+  inset: 3.15rem 0.7rem calc(var(--academy-karaoke-band-h, 6rem) + 2.35rem);
+}
+
+.academy-player-karaoke-strip {
+  --academy-karaoke-band-h: 6rem;
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  width: 100%;
+  height: auto;
+  min-height: var(--academy-karaoke-band-h);
+  max-height: none;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  margin-top: 0.35rem;
+  padding: 0.4rem 1.15rem 0.5rem;
+  border: none;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.42);
   text-align: center;
+  pointer-events: none;
 }
 
 .academy-player-karaoke-line {
   --academy-karaoke-word-gap: 0.32em;
+  box-sizing: border-box;
   display: flex;
   width: 100%;
   max-width: 46rem;
   margin: 0 auto;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
   column-gap: var(--academy-karaoke-word-gap);
-  row-gap: 0.14em;
-  overflow: hidden;
+  row-gap: 0.2em;
+  overflow: visible;
+  max-height: none;
+  padding-block: 0.18em 0.32em;
   text-align: center;
   text-wrap: pretty;
-  font-size: clamp(0.94rem, 1.7vw, 1.16rem);
+  font-size: 1rem;
   font-weight: 450;
   letter-spacing: 0.012em;
   line-height: 1.5;
@@ -754,7 +888,12 @@ body {
 }
 
 .academy-player-karaoke-word {
-  color: rgba(247, 241, 227, 0.38);
+  display: inline-block;
+  overflow: visible;
+  padding-block: 0.08em 0.22em;
+  color: rgba(247, 241, 227, 0.72);
+  font-weight: inherit;
+  line-height: inherit;
   white-space: nowrap;
   transition: color 0.14s ease, text-shadow 0.14s ease, opacity 0.14s ease;
 }
@@ -764,33 +903,21 @@ body {
 }
 
 .academy-player-karaoke-word[data-state="past"] {
-  color: rgba(247, 241, 227, 0.7);
+  color: rgba(247, 241, 227, 0.88);
 }
 
 .academy-player-karaoke-word[data-state="active"] {
   color: #fff7e6;
-  font-weight: 650;
+  font-weight: inherit;
   text-shadow:
+    0 0 0.6px currentColor,
+    0 0 0.6px currentColor,
     0 0 22px rgba(212, 175, 122, 0.55),
     0 1px 0 rgba(12, 10, 8, 0.35);
 }
 
 .academy-player-karaoke-word[data-state="future"] {
-  color: rgba(247, 241, 227, 0.42);
-}
-
-.academy-player-karaoke-preview {
-  width: 100%;
-  max-width: 46rem;
-  margin: 0 auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-align: center;
-  font-size: 0.72rem;
-  letter-spacing: 0.01em;
-  line-height: 1.35;
-  color: rgba(247, 241, 227, 0.38);
+  color: rgba(247, 241, 227, 0.7);
 }
 
 .academy-player-visual-stage {
@@ -822,6 +949,25 @@ body {
   min-height: 0;
   overflow: hidden;
   background: #0c0a08;
+}
+
+.academy-player-eye-stack[data-academy-stage-theme="pptx"] .academy-player-eye-canvas {
+  background:
+    radial-gradient(120% 80% at 18% 0%, rgba(196, 62, 28, 0.32), transparent 48%),
+    linear-gradient(165deg, #4a322c 0%, #2b2422 52%, #1a1614 100%);
+}
+
+.academy-player-eye-stack[data-academy-stage-theme="outlook"] .academy-player-eye-canvas,
+.academy-player-eye-stack[data-academy-stage-theme="gmail"] .academy-player-eye-canvas {
+  background:
+    radial-gradient(120% 80% at 12% 0%, rgba(14, 165, 233, 0.24), transparent 48%),
+    linear-gradient(165deg, #102033 0%, #0b1220 52%, #152a44 100%);
+}
+
+.academy-player-eye-stack[data-academy-stage-theme="word"] .academy-player-eye-canvas {
+  background:
+    radial-gradient(120% 80% at 12% 0%, rgba(43, 87, 154, 0.26), transparent 48%),
+    linear-gradient(165deg, #1b2838 0%, #102033 52%, #0b1220 100%);
 }
 
 .academy-player-eye-canvas {
@@ -928,6 +1074,30 @@ body {
   transform: scale(1.08);
 }
 
+.academy-player-eye-backdrop--desk {
+  opacity: 1;
+  filter: none;
+  transform: none;
+  background: inherit;
+}
+
+.academy-player-eye-stack:not([data-academy-stage-theme="excel"]) .academy-player-eye-backdrop:not(.academy-player-eye-backdrop--desk) {
+  display: none;
+}
+
+.academy-player-waiter[data-academy-waiter-stage="pptx"] {
+  background: #c8c8c8;
+}
+
+.academy-player-waiter[data-academy-waiter-stage="outlook"],
+.academy-player-waiter[data-academy-waiter-stage="gmail"] {
+  background: #0b1220;
+}
+
+.academy-player-waiter[data-academy-waiter-stage="word"] {
+  background: #1b2838;
+}
+
 .academy-player-eye-plate {
   position: absolute;
   inset: 0;
@@ -988,6 +1158,7 @@ body {
 
 .academy-player-waiter > .academy-excel-desk,
 .academy-player-waiter > .academy-outlook-desk,
+.academy-player-waiter > .academy-gmail-desk,
 .academy-player-waiter > .academy-pptx-desk,
 .academy-player-waiter > .academy-word-desk {
   flex: 1 1 0;
@@ -1045,20 +1216,22 @@ body {
 }
 
 .academy-player-compare-label {
-  position: absolute;
+  position: static;
   z-index: 5;
-  top: 0.18rem;
-  left: 0.18rem;
-  align-self: auto;
-  margin: 0;
+  flex: 0 0 auto;
+  align-self: flex-start;
+  max-width: calc(100% - 0.36rem);
+  margin: 0.22rem 0.22rem 0.1rem;
   pointer-events: none;
   border-radius: 999px;
-  padding: 0.12rem 0.45rem;
+  padding: 0.14rem 0.5rem;
   font-size: 0.52rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
-  line-height: 1.2;
+  letter-spacing: 0.06em;
+  line-height: 1.25;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
+  white-space: normal;
   color: #fffdf8;
   backdrop-filter: blur(10px) saturate(1.08);
 }
@@ -1066,7 +1239,12 @@ body {
 .academy-player-compare-pane .academy-excel-desk {
   min-height: 0;
   flex: 1 1 0;
-  height: auto;
+  height: 100%;
+}
+
+.academy-player-compare-pane .academy-excel-win {
+  height: 100%;
+  min-height: 0;
 }
 
 .academy-player-compare-pane--before .academy-player-compare-label {
@@ -1185,10 +1363,14 @@ body {
 
 .academy-pptx-desk {
   position: relative;
+  display: flex;
   width: 100%;
   height: 100%;
   max-height: 100%;
   min-height: 0;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
   overflow: hidden;
   box-sizing: border-box;
   background: #c8c8c8;
@@ -1212,8 +1394,11 @@ body {
 
 .academy-pptx-win {
   display: flex;
-  height: 100%;
+  width: 100%;
+  height: auto;
   min-height: 0;
+  max-height: none;
+  flex: 0 0 auto;
   flex-direction: column;
   overflow: hidden;
   background: #fff;
@@ -1267,7 +1452,7 @@ body {
 }
 
 .academy-pptx-body {
-  flex: 1;
+  flex: 0 0 auto;
   display: grid;
   grid-template-columns: 1fr;
   min-height: 0;
@@ -1328,15 +1513,27 @@ body {
 
 .academy-pptx-canvas-wrap {
   position: relative;
+  display: flex;
   min-width: 0;
-  overflow: hidden;
+  min-height: min-content;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  padding: 0.45rem;
   background: #d9d9d9;
 }
 
 .academy-pptx-canvas {
   position: relative;
-  height: 100%;
-  margin: 0.55rem;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  align-self: center;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  margin: 0;
   padding: 0.85rem 1rem;
   overflow: hidden;
   background: #fff;
@@ -1349,8 +1546,6 @@ body {
 }
 
 .academy-pptx-slide-title,
-.academy-pptx-kpi-value,
-.academy-pptx-kpi-label,
 .academy-pptx-action-band,
 .academy-pptx-dump p,
 .academy-pptx-bubble {
@@ -1360,8 +1555,21 @@ body {
   text-overflow: clip;
 }
 
+.academy-pptx-kpi-value,
+.academy-pptx-kpi-label {
+  box-sizing: border-box;
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-overflow: clip;
+}
+
 .academy-pptx-slide-stage {
   display: flex;
+  width: 100%;
   height: 100%;
   min-height: 0;
   flex-direction: column;
@@ -1376,12 +1584,12 @@ body {
 
 .academy-pptx-slide-title {
   margin: 0;
+  min-width: 0;
   font-weight: 800;
   font-size: clamp(0.78rem, 2.05vw, 1.35rem);
   letter-spacing: -0.03em;
   line-height: 1.15;
   color: #f8fbff;
-  min-width: min-content;
   text-align: center;
 }
 
@@ -1389,24 +1597,28 @@ body {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.45rem;
-  flex: 1 1 0;
-  min-height: 0;
-  align-content: stretch;
+  flex: 1 1 auto;
+  min-height: 4.75rem;
+  align-items: stretch;
+  align-content: center;
 }
 
 .academy-pptx-kpi {
   position: relative;
+  box-sizing: border-box;
   display: flex;
   min-width: 0;
-  min-height: 0;
+  min-height: 4.35rem;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0.22rem;
-  padding: 0.55rem 0.5rem 0.5rem;
+  padding: clamp(0.42rem, 2.4cqh, 0.62rem) clamp(0.32rem, 1.8cqw, 0.55rem);
+  overflow: hidden;
   border-radius: 0.55rem;
   background: rgba(8, 16, 32, 0.55);
   text-align: center;
+  word-break: break-word;
   transform: scale(1);
   transition:
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
@@ -1483,9 +1695,11 @@ body {
 }
 
 .academy-pptx-kpi-badge {
-  position: absolute;
-  top: 0.38rem;
-  right: 0.38rem;
+  position: static;
+  display: inline-flex;
+  align-self: center;
+  flex: 0 0 auto;
+  margin: 0.04rem 0 0;
   border-radius: 999px;
   padding: 0.08rem 0.38rem;
   background: #ea580c;
@@ -1494,6 +1708,7 @@ body {
   font-style: normal;
   font-weight: 800;
   letter-spacing: 0.08em;
+  line-height: 1.2;
   text-transform: uppercase;
 }
 
@@ -1657,19 +1872,56 @@ body {
 
 .academy-player-compare-pane .academy-pptx-desk {
   height: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .academy-player-compare-pane .academy-pptx-slide-stage {
-  gap: 0.32rem;
-  padding: 0.42rem 0.45rem 0.38rem;
+  gap: clamp(0.32rem, 2.4cqh, 0.55rem);
+  padding: clamp(0.42rem, 2.8cqh, 0.62rem) clamp(0.38rem, 2.2cqw, 0.58rem);
+  min-height: 0;
+}
+
+.academy-player-compare-pane .academy-pptx-slide-title {
+  min-width: 0;
+  font-size: clamp(0.58rem, 4.4cqw, 0.92rem);
 }
 
 .academy-player-compare-pane .academy-pptx-kpi-grid {
-  gap: 0.28rem;
+  gap: clamp(0.28rem, 2cqw, 0.48rem);
+  min-height: 3.9rem;
+  align-items: center;
+  align-content: center;
 }
 
 .academy-player-compare-pane .academy-pptx-kpi {
-  padding: 0.38rem 0.32rem 0.32rem;
+  gap: 0.18rem;
+  min-height: 3.7rem;
+  padding: clamp(0.36rem, 2.2cqh, 0.52rem) clamp(0.24rem, 1.6cqw, 0.42rem);
+  overflow: hidden;
+  word-break: break-word;
+  transform: none;
+}
+
+.academy-player-compare-pane .academy-pptx-kpi[data-academy-pptx-on="true"] {
+  transform: none;
+}
+
+.academy-player-compare-pane .academy-pptx-kpi-label {
+  font-size: clamp(0.4rem, 2.4cqw, 0.56rem);
+}
+
+.academy-player-compare-pane .academy-pptx-kpi-value {
+  font-size: clamp(0.56rem, 3.6cqw, 0.88rem);
+}
+
+.academy-player-compare-pane .academy-pptx-kpi-badge {
+  position: static;
+  font-size: clamp(0.38rem, 2.1cqw, 0.48rem);
+}
+
+.academy-player-compare-pane .academy-pptx-action-band {
+  font-size: clamp(0.46rem, 2.8cqw, 0.68rem);
 }
 
 .academy-player-compare-pane--after .academy-pptx-desk {
@@ -1684,6 +1936,9 @@ body {
   min-height: 0;
   flex-direction: column;
   overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 12% 0%, rgba(14, 165, 233, 0.16), transparent 48%),
+    linear-gradient(180deg, #0e1a28 0%, #0b1220 100%);
   --academy-outlook-focus-scale: 1;
   --academy-outlook-focus-origin: 32% 38%;
 }
@@ -1721,11 +1976,30 @@ body {
   min-height: 100%;
 }
 
-.academy-player-waiter .academy-outlook-win,
+.academy-outlook-desk > .academy-office-win-fit,
+.academy-player-waiter .academy-outlook-desk > .academy-office-win-fit,
+.academy-player-compare-pane .academy-outlook-desk > .academy-office-win-fit {
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.academy-pptx-desk > .academy-office-win-fit {
+  align-items: center;
+  justify-content: center;
+}
+
 .academy-player-waiter .academy-pptx-win {
   height: auto;
-  min-height: 100%;
+  min-height: 0;
   max-height: none;
+}
+
+.academy-player-waiter .academy-outlook-win {
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
 }
 
 .academy-outlook-win {
@@ -1735,6 +2009,7 @@ body {
   flex-direction: column;
   overflow: hidden;
   background: #101820;
+  color: #e8f2ff;
   border: 1px solid rgba(148, 197, 255, 0.22);
   border-radius: 0.35rem;
 }
@@ -1780,6 +2055,7 @@ body {
 .academy-outlook-body {
   display: grid;
   grid-template-columns: minmax(7.2rem, 8.2rem) minmax(16rem, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   min-width: 0;
   min-height: 0;
   flex: 1 1 0;
@@ -1851,6 +2127,7 @@ body {
   position: relative;
   min-width: 0;
   min-height: 0;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -1861,6 +2138,7 @@ body {
   height: 100%;
   min-width: 16rem;
   min-height: 0;
+  overflow: hidden;
   background: #0b1220;
 }
 
@@ -1887,10 +2165,7 @@ body {
 .academy-outlook-read-subject,
 .academy-outlook-read-body,
 .academy-outlook-draft p,
-.academy-outlook-bubble,
-.academy-outlook-group-label,
-.academy-outlook-group-title,
-.academy-outlook-group-detail {
+.academy-outlook-bubble {
   overflow: visible;
   min-width: min-content;
   white-space: normal;
@@ -1902,10 +2177,26 @@ body {
 .academy-outlook-list {
   display: flex;
   min-width: 14rem;
+  min-height: 0;
   flex: 1 1 12rem;
   flex-direction: column;
   gap: 0.18rem;
   padding: 0.35rem;
+  overflow: hidden;
+}
+
+.academy-outlook-list-head {
+  margin: 0 0 0.1rem;
+  flex: 0 0 auto;
+  padding: 0.16rem 0.28rem;
+  color: #7dd3fc;
+  font-size: clamp(0.58rem, 1.2vw, 0.74rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: normal;
+  overflow-wrap: break-word;
+  text-overflow: clip;
 }
 
 .academy-outlook-row {
@@ -1915,21 +2206,23 @@ body {
   gap: 0.08rem;
   min-width: 0;
   padding: 0.38rem 0.42rem;
-  border: 1px solid transparent;
+  border: 1px solid rgba(125, 211, 252, 0.18);
   border-radius: 0.32rem;
-  background: rgba(15, 28, 46, 0.88);
-  color: #d7e6f7;
+  background: #163250;
+  color: #e8f2ff;
   text-align: left;
 }
 
 .academy-outlook-row.unread {
+  background: #1b3d63;
   box-shadow: inset 3px 0 0 #38bdf8;
   font-weight: 700;
 }
 
 .academy-outlook-row.on {
-  border-color: rgba(52, 211, 153, 0.7);
-  box-shadow: 0 0 14px rgba(16, 185, 129, 0.22);
+  border-color: rgba(52, 211, 153, 0.85);
+  background: #1f4d4a;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.28);
 }
 
 .academy-outlook-row b,
@@ -1974,11 +2267,14 @@ body {
 .academy-outlook-read {
   display: flex;
   min-width: 14rem;
+  min-height: 0;
   flex: 1 1 12rem;
   flex-direction: column;
   gap: 0.28rem;
   padding: 0.5rem 0.55rem;
-  border-left: 1px solid rgba(148, 197, 255, 0.14);
+  overflow: hidden;
+  border-left: 1px solid rgba(148, 197, 255, 0.22);
+  background: #122033;
 }
 
 .academy-outlook-canvas--compact .academy-outlook-read {
@@ -2045,6 +2341,7 @@ body {
 .academy-outlook-desk--dump .academy-outlook-list {
   gap: 0.05rem;
   padding: 0.22rem;
+  overflow: hidden;
 }
 
 .academy-outlook-desk--dump .academy-outlook-row {
@@ -2062,28 +2359,38 @@ body {
   display: none;
 }
 
+.academy-outlook-desk--dump .academy-outlook-row.on em {
+  display: block;
+}
+
 .academy-outlook-reset {
   display: flex;
   min-width: 16rem;
   min-height: 0;
+  height: 100%;
   flex: 1 1 auto;
   flex-direction: column;
   gap: 0.42rem;
   padding: 0.45rem;
+  overflow: hidden;
 }
 
 .academy-outlook-group {
   position: relative;
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: 0.55rem;
   min-width: 0;
-  min-height: 0;
+  min-height: 3.6rem;
   flex: 1 1 0;
-  padding: 0.55rem 0.62rem;
+  padding: clamp(0.42rem, 2.2cqh, 0.62rem) clamp(0.48rem, 1.8cqw, 0.72rem);
+  overflow: hidden;
   border-radius: 0.42rem;
-  background: rgba(8, 16, 32, 0.72);
+  background: #14263f;
+  color: #e8f2ff;
+  word-break: break-word;
 }
 
 .academy-outlook-group-mark {
@@ -2093,35 +2400,59 @@ body {
 
 .academy-outlook-group-copy {
   min-width: 0;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.12rem;
+  overflow: hidden;
 }
 
 .academy-outlook-group-label {
   margin: 0;
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
   font-size: clamp(0.58rem, 1.2vw, 0.74rem);
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  text-overflow: clip;
 }
 
 .academy-outlook-group-title {
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
   font-size: clamp(0.72rem, 1.7vw, 1.02rem);
   line-height: 1.2;
   color: #f8fbff;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  text-overflow: clip;
 }
 
 .academy-outlook-group-detail {
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
   font-style: normal;
   font-size: clamp(0.58rem, 1.2vw, 0.78rem);
   line-height: 1.3;
   opacity: 0.82;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  text-overflow: clip;
 }
 
 .academy-outlook-group--acil {
-  border: 1px solid rgba(248, 113, 113, 0.62);
-  box-shadow: 0 0 18px rgba(239, 68, 68, 0.2);
+  background: #3f1a22;
+  border: 1px solid rgba(248, 113, 113, 0.78);
+  box-shadow: 0 0 18px rgba(239, 68, 68, 0.28);
 }
 
 .academy-outlook-group--acil .academy-outlook-group-label {
@@ -2129,8 +2460,9 @@ body {
 }
 
 .academy-outlook-group--bekle {
-  border: 1px solid rgba(251, 191, 36, 0.62);
-  box-shadow: 0 0 18px rgba(245, 158, 11, 0.2);
+  background: #3d3010;
+  border: 1px solid rgba(251, 191, 36, 0.78);
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.28);
 }
 
 .academy-outlook-group--bekle .academy-outlook-group-label {
@@ -2138,8 +2470,9 @@ body {
 }
 
 .academy-outlook-group--arsiv {
-  border: 1px solid rgba(52, 211, 153, 0.62);
-  box-shadow: 0 0 18px rgba(16, 185, 129, 0.2);
+  background: #12382f;
+  border: 1px solid rgba(52, 211, 153, 0.78);
+  box-shadow: 0 0 18px rgba(16, 185, 129, 0.28);
 }
 
 .academy-outlook-group--arsiv .academy-outlook-group-label {
@@ -2177,8 +2510,10 @@ body {
 .academy-player-compare-pane .academy-outlook-group-title,
 .academy-player-compare-pane .academy-outlook-group-detail {
   min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
   overflow-wrap: break-word;
-  word-break: normal;
+  word-break: break-word;
 }
 
 .academy-player-compare-pane .academy-outlook-group-label {
@@ -2215,11 +2550,27 @@ body {
 .academy-outlook-copilot {
   display: flex;
   min-width: 14rem;
+  min-height: 0;
+  height: 100%;
   flex-direction: column;
   gap: 0.35rem;
   padding: 0.45rem;
-  background: #101a28;
-  border-left: 1px solid rgba(148, 197, 255, 0.14);
+  overflow: auto;
+  background: #152536;
+  border-left: 1px solid rgba(148, 197, 255, 0.22);
+}
+
+.academy-gmail-copilot {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.45rem;
+  overflow: auto;
+  background: #152536;
+  border-left: 1px solid rgba(66, 133, 244, 0.55);
 }
 
 .academy-outlook-copilot header {
@@ -2266,6 +2617,7 @@ body {
 }
 
 .academy-player-compare-pane .academy-outlook-desk,
+.academy-player-compare-pane .academy-gmail-desk,
 .academy-player-compare-pane .academy-pptx-desk,
 .academy-player-compare-pane .academy-word-desk {
   flex: 1 1 0;
@@ -2282,12 +2634,18 @@ body {
   max-height: none;
 }
 
-.academy-player-compare-pane .academy-outlook-win,
 .academy-player-compare-pane .academy-pptx-win {
   height: auto;
-  min-height: 100%;
+  min-height: 0;
   max-height: none;
   overflow: visible;
+}
+
+.academy-player-compare-pane .academy-outlook-win {
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
 }
 
 .academy-player-compare-pane .academy-outlook-titlebar,
@@ -2333,9 +2691,36 @@ body {
 .academy-player-compare-pane .academy-outlook-row,
 .academy-player-compare-pane .academy-outlook-group {
   flex: 0 0 auto;
-  min-height: min-content;
+  min-height: 3.2rem;
   padding: clamp(0.1rem, 1.6cqh, 0.28rem) clamp(0.14rem, 1.6cqw, 0.36rem);
   gap: clamp(0.04rem, 0.7cqh, 0.1rem);
+  overflow: hidden;
+}
+
+.academy-player-compare-pane .academy-outlook-desk--dump .academy-outlook-body,
+.academy-player-compare-pane .academy-outlook-desk--dump .academy-outlook-canvas-wrap,
+.academy-player-compare-pane .academy-outlook-desk--dump .academy-outlook-canvas,
+.academy-player-compare-pane .academy-outlook-desk--dump .academy-outlook-list {
+  flex: 1 1 0;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.academy-player-compare-pane .academy-outlook-desk:not(.academy-outlook-desk--dump) .academy-outlook-body,
+.academy-player-compare-pane .academy-outlook-desk:not(.academy-outlook-desk--dump) .academy-outlook-canvas-wrap,
+.academy-player-compare-pane .academy-outlook-desk:not(.academy-outlook-desk--dump) .academy-outlook-canvas,
+.academy-player-compare-pane .academy-outlook-desk:not(.academy-outlook-desk--dump) .academy-outlook-reset {
+  flex: 1 1 0;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.academy-player-compare-pane .academy-outlook-desk:not(.academy-outlook-desk--dump) .academy-outlook-group {
+  flex: 1 1 0;
 }
 
 .academy-player-compare-pane .academy-outlook-row b,
@@ -2402,10 +2787,14 @@ body {
 .academy-excel-ribbon {
   display: flex;
   height: 1.65rem;
+  min-height: 1.65rem;
   flex-shrink: 0;
   align-items: center;
   gap: 0.85rem;
-  overflow: visible;
+  overflow-x: auto;
+  overflow-y: visible;
+  flex-wrap: nowrap;
+  white-space: nowrap;
   border-bottom: 1px solid #d0d0d0;
   background: #f3f3f3;
   padding: 0 0.7rem;
@@ -2691,6 +3080,13 @@ body {
   color: #9b1c1c;
   font-weight: 800;
   box-shadow: inset 0 0 0 2px #d32f2f;
+}
+
+.academy-excel-cell--mask {
+  background: #d4f7ea !important;
+  color: #0b4f3a;
+  font-weight: 800;
+  box-shadow: inset 0 0 0 2px #0f766e;
 }
 
 .academy-excel-cell--a1 {
@@ -3034,7 +3430,7 @@ body {
   position: absolute;
   z-index: 6;
   right: 0.7rem;
-  bottom: 0.28rem;
+  bottom: 0.7rem;
   left: 0.7rem;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -3191,6 +3587,50 @@ body {
   box-shadow: 0 0 0 2px rgba(251, 146, 60, 0.55);
 }
 
+.academy-gmail-desk .academy-outlook-titlebar i {
+  background: #ea4335;
+}
+
+.academy-gmail-desk .academy-outlook-body,
+.academy-gmail-desk .academy-outlook-body--gmail,
+.academy-gmail-desk.academy-outlook-desk--live .academy-outlook-body--carry,
+.academy-gmail-desk.academy-outlook-desk--before .academy-outlook-body,
+.academy-gmail-desk.academy-outlook-desk--after .academy-outlook-body:not(.academy-outlook-body--copilot) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.academy-gmail-desk.academy-outlook-desk--live .academy-outlook-body:not(.academy-outlook-body--copilot):not(.academy-outlook-body--carry) {
+  grid-template-columns: minmax(6.4rem, 7.4rem) minmax(0, 1fr);
+}
+
+.academy-gmail-desk .academy-outlook-body--copilot,
+.academy-gmail-desk.academy-outlook-desk--live .academy-outlook-body--copilot {
+  grid-template-columns: minmax(6.4rem, 7.4rem) minmax(0, 1fr) minmax(13rem, 18rem);
+}
+
+.academy-gmail-desk.academy-outlook-desk--after .academy-outlook-body--copilot {
+  grid-template-columns: minmax(0, 1fr) minmax(9.5rem, 13rem);
+}
+
+.academy-gmail-desk .academy-outlook-canvas-wrap {
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.academy-gmail-desk .academy-outlook-canvas,
+.academy-gmail-desk .academy-outlook-canvas--compact,
+.academy-gmail-desk .academy-outlook-canvas--reset {
+  display: flex;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  flex-direction: column;
+  grid-template-columns: minmax(0, 1fr);
+  background: #122033;
+}
+
 .academy-gmail-carry,
 .academy-word-copy {
   display: flex;
@@ -3199,6 +3639,52 @@ body {
   height: 100%;
   flex-direction: column;
   overflow: hidden;
+}
+
+.academy-gmail-desk .academy-outlook-canvas > .academy-gmail-carry,
+.academy-gmail-desk .academy-outlook-canvas > .academy-outlook-list,
+.academy-gmail-desk .academy-outlook-canvas > .academy-outlook-reset {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0.42rem 0.5rem;
+  background: #122033;
+}
+
+.academy-gmail-desk .academy-gmail-carry .academy-outlook-list {
+  min-width: 0;
+  width: 100%;
+  height: auto;
+  flex: 1 1 auto;
+  padding: 0;
+}
+
+.academy-player-waiter:not(.academy-player-compare) .academy-gmail-desk .academy-outlook-row {
+  flex: 1 1 0;
+  min-height: 3.1rem;
+}
+
+.academy-gmail-desk .academy-gmail-carry-badge,
+.academy-gmail-desk .academy-gmail-carry ul,
+.academy-gmail-desk .academy-outlook-list-head {
+  flex: 0 0 auto;
+}
+
+.academy-player-compare-pane .academy-gmail-desk .academy-gmail-carry,
+.academy-player-compare-pane .academy-gmail-desk .academy-outlook-list,
+.academy-player-compare-pane .academy-gmail-desk .academy-outlook-reset {
+  flex: 0 0 auto;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+}
+
+.academy-player-compare-pane .academy-gmail-copilot {
+  min-width: 0;
+  min-height: min-content;
+  height: auto;
+  max-height: 100%;
 }
 
 .academy-gmail-carry ul,
@@ -3234,6 +3720,7 @@ body {
 .academy-word-desk .academy-outlook-canvas-wrap {
   min-width: 0;
   width: 100%;
+  height: 100%;
 }
 
 .academy-word-desk .academy-outlook-canvas,
@@ -3242,8 +3729,10 @@ body {
   min-width: 0;
   width: 100%;
   max-width: 100%;
+  height: 100%;
   flex-direction: column;
   grid-template-columns: minmax(0, 1fr);
+  background: #122033;
 }
 
 .academy-word-desk .academy-outlook-reset,
@@ -3253,7 +3742,9 @@ body {
   min-width: 0;
   width: 100%;
   max-width: 100%;
+  height: 100%;
   padding: 0.75rem 1.5rem;
+  background: #122033;
 }
 
 .academy-word-desk .academy-outlook-list {
@@ -3283,7 +3774,16 @@ body {
 .academy-player-compare-pane .academy-word-desk .academy-outlook-reset,
 .academy-player-compare-pane .academy-word-desk .academy-word-clause-stack,
 .academy-player-compare-pane .academy-word-desk .academy-word-copy {
+  height: auto;
+  max-height: none;
+  overflow: visible;
   padding: 0.28rem 0.5rem;
+}
+
+.academy-player-waiter:not(.academy-player-compare) .academy-word-desk .academy-outlook-row,
+.academy-player-waiter:not(.academy-player-compare) .academy-word-desk .academy-outlook-group {
+  flex: 1 1 0;
+  min-height: 3.1rem;
 }
 
 .academy-office-copilot-arrow {
@@ -3396,6 +3896,10 @@ body {
   color: #c4b5fd;
 }
 
+.academy-gmail-copilot .academy-ai-desk-copilot-head b {
+  color: #8ab4f8;
+}
+
 .academy-excel-copilot .academy-ai-desk-copilot-head b,
 .academy-pptx-copilot .academy-ai-desk-copilot-head b {
   color: #6d28d9;
@@ -3411,6 +3915,17 @@ body {
 .academy-outlook-copilot .academy-ai-desk-bubble {
   background: rgba(16, 185, 129, 0.14);
   color: #d1fae5;
+}
+
+.academy-gmail-copilot .academy-ai-desk-bubble {
+  background: rgba(66, 133, 244, 0.18);
+  color: #d2e3fc;
+}
+
+.academy-gmail-copilot .academy-ai-desk-tab[data-on="true"] {
+  border-color: rgba(66, 133, 244, 0.85);
+  background: rgba(26, 51, 98, 0.92);
+  color: #e8f0fe;
 }
 
 .academy-excel-copilot .academy-ai-desk-bubble,
@@ -3649,13 +4164,16 @@ body {
 .academy-excel-checklist {
   position: absolute;
   z-index: 5;
+  box-sizing: border-box;
   right: 0.6rem;
   bottom: 2.1rem;
   width: min(15.5rem, 44%);
+  min-height: 0;
+  overflow: hidden;
   border-radius: 0.6rem;
   border: 1px solid rgba(33, 115, 70, 0.45);
   background: rgba(7, 20, 14, 0.88);
-  padding: 0.5rem 0.6rem 0.55rem;
+  padding: clamp(0.42rem, 1.6vw, 0.62rem) clamp(0.48rem, 1.8vw, 0.72rem) clamp(0.45rem, 1.6vw, 0.62rem);
   box-shadow: 0 12px 28px rgba(7, 11, 20, 0.35);
   backdrop-filter: blur(10px) saturate(1.1);
   animation: academy-eye-scene-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -3663,11 +4181,15 @@ body {
 
 .academy-excel-checklist-title {
   margin: 0 0 0.35rem;
-  font-size: 0.6rem;
+  overflow: hidden;
+  min-width: 0;
+  font-size: clamp(0.52rem, 1.05vw, 0.6rem);
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #7cf5c8;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .academy-excel-checklist ol {
@@ -3681,12 +4203,16 @@ body {
 
 .academy-excel-checklist li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.45rem;
-  font-size: 0.68rem;
+  min-width: 0;
+  overflow: hidden;
+  font-size: clamp(0.58rem, 1.15vw, 0.68rem);
   font-weight: 600;
   line-height: 1.3;
   color: #f2fbf6;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .academy-excel-checklist li span {
@@ -3718,6 +4244,93 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .academy-excel-checklist {
+    animation: none;
+  }
+}
+
+.academy-excel-desk--weekly .academy-excel-win {
+  height: 100%;
+  min-height: 0;
+}
+
+.academy-excel-desk--weekly .academy-excel-grid td {
+  min-height: 2.35rem;
+  padding-block: 0.38rem 0.48rem;
+  overflow: visible;
+}
+
+.academy-exam-gate-seal {
+  position: absolute;
+  z-index: 6;
+  box-sizing: border-box;
+  top: 1.65rem;
+  right: 0.72rem;
+  display: flex;
+  width: min(11.8rem, 36%);
+  aspect-ratio: 1 / 1;
+  max-height: 42%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  border-radius: 999px;
+  border: 0.18rem solid rgba(251, 191, 36, 0.88);
+  background:
+    radial-gradient(circle at 50% 38%, rgba(253, 230, 138, 0.22), transparent 58%),
+    rgba(18, 32, 51, 0.92);
+  padding: 0.85rem 0.7rem 0.95rem;
+  color: #fef3c7;
+  text-align: center;
+  box-shadow: 0 14px 32px rgba(7, 11, 20, 0.42);
+  animation: academy-eye-scene-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.academy-exam-gate-seal-kicker {
+  margin: 0 0 0.22rem;
+  overflow: visible;
+  font-size: clamp(0.48rem, 1vw, 0.58rem);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #fcd34d;
+}
+
+.academy-exam-gate-seal-title {
+  margin: 0;
+  overflow: visible;
+  padding-block: 0.08em 0.22em;
+  font-size: clamp(0.72rem, 1.55vw, 0.92rem);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  color: #fff7e6;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.academy-exam-gate-seal-sub {
+  margin: 0.28rem 0 0;
+  overflow: visible;
+  padding-block: 0.04em 0.18em;
+  font-size: clamp(0.52rem, 1.05vw, 0.64rem);
+  font-weight: 600;
+  line-height: 1.35;
+  color: #fde68a;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .academy-exam-gate-seal {
+    top: 1.35rem;
+    right: 0.4rem;
+    width: min(9.6rem, 44%);
+    padding: 0.62rem 0.48rem 0.72rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .academy-exam-gate-seal {
     animation: none;
   }
 }
@@ -3929,7 +4542,7 @@ body {
   }
 
   .academy-player-waiter {
-    inset: 2.45rem 0.4rem 2.85rem;
+    inset: 2.45rem 0.4rem 2.8rem;
   }
 
   .academy-player-compare {
@@ -3965,9 +4578,10 @@ body {
 
   .academy-howto-band {
     right: 0.4rem;
-    bottom: 0.18rem;
+    bottom: 0.4rem;
     left: 0.4rem;
     gap: 0.22rem;
+    grid-template-columns: repeat(3, minmax(6.5rem, 1fr));
   }
 
   .academy-player-punchcard-dock {
@@ -3987,14 +4601,6 @@ body {
     letter-spacing: 0.1em;
   }
 
-  .academy-howto-band {
-    right: 0.4rem;
-    bottom: 3.35rem;
-    left: 0.4rem;
-    gap: 0.22rem;
-    grid-template-columns: repeat(3, minmax(6.5rem, 1fr));
-  }
-
   .academy-paste-guide {
     top: 0.4rem;
     left: 0.4rem;
@@ -4012,12 +4618,42 @@ body {
   }
 
   .academy-player-karaoke-strip {
-    min-height: 4rem;
-    padding: 0.48rem 0.85rem 0.42rem;
+    padding: 0.28rem 0.6rem 0.38rem;
+  }
+
+  .academy-player-eye-stack {
+    --academy-karaoke-band-h: 4.75rem;
+  }
+
+  .academy-player-karaoke-overlay {
+    --academy-karaoke-band-h: 4.75rem;
+    max-height: 5.6rem;
+    padding: 0.55rem 0.55rem 0.45rem;
+  }
+
+  .academy-player-captions-toggle {
+    top: 0.4rem;
+    right: 0.4rem;
+    min-height: 1.55rem;
+    padding: 0.18rem 0.5rem;
+    font-size: 0.58rem;
+  }
+
+  .academy-player-eye-canvas:has(.academy-player-captions-toggle) .academy-player-punchcard-dock {
+    top: 2.35rem;
+  }
+
+  .academy-player-eye-stack[data-academy-captions="on"] .academy-howto-band {
+    bottom: calc(var(--academy-karaoke-band-h, 4.75rem) + 0.18rem);
+  }
+
+  .academy-player-eye-stack[data-academy-captions="on"] .academy-player-waiter {
+    inset: 2.45rem 0.4rem calc(var(--academy-karaoke-band-h, 4.75rem) + 0.85rem);
   }
 
   .academy-player-karaoke-line {
-    font-size: clamp(0.88rem, 3.6vw, 1.04rem);
+    font-size: 0.95rem;
+    line-height: 1.5;
   }
 
   .academy-player-teleprompter {
@@ -4806,9 +5442,21 @@ main:has([data-academy-catalog-colophon]) > [data-legal-colophon-strip] {
   background: transparent;
 }
 
+.academy-player-playlist-list {
+  gap: var(--academy-playlist-item-gap, 0.5rem);
+}
+
+@media (min-width: 1024px) {
+  .academy-player-playlist-list {
+    gap: var(--academy-playlist-item-gap);
+  }
+}
+
 .academy-player-rail-item {
   border: 1px solid color-mix(in srgb, var(--foreground) 9%, transparent);
   background: color-mix(in srgb, var(--surface) 70%, transparent);
+  padding-block: var(--academy-playlist-item-pad-y, 0.625rem);
+  padding-inline: 0.875rem;
   transition:
     border-color 180ms ease,
     background 180ms ease,

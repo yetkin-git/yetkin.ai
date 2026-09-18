@@ -68,6 +68,9 @@ yetkin_muze/
 /media-bake/
 public/media/academy/audio/**/*.wav
 
+# Akademi bake kopyası — izleme okumaz; canlı SSOT lib/academy/
+docs/curriculum/
+
 # Native / Expo
 apps/*/.expo/
 apps/*/dist/

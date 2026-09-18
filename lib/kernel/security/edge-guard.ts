@@ -135,16 +135,19 @@ export function hasBearerSessionHint(authorizationHeader: string | null | undefi
 }
 
 export function hasSupabaseAuthCookieHint(
-  cookies: ReadonlyArray<{ name: string; value: string }>,
+  cookies: ReadonlyArray<{ name: string; value?: string | null }>,
 ): boolean {
   return cookies.some(
-    (cookie) => SUPABASE_AUTH_COOKIE_NAME.test(cookie.name) && cookie.value.trim().length > 0,
+    (cookie) =>
+      SUPABASE_AUTH_COOKIE_NAME.test(cookie.name) &&
+      typeof cookie?.value === "string" &&
+      cookie.value.trim().length > 0,
   );
 }
 
 export function hasEdgeSessionHint(input: {
   authorizationHeader?: string | null;
-  cookies?: ReadonlyArray<{ name: string; value: string }>;
+  cookies?: ReadonlyArray<{ name: string; value?: string | null }>;
 }): boolean {
   if (hasBearerSessionHint(input.authorizationHeader)) {
     return true;

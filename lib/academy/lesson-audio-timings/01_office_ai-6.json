@@ -1,8 +1,8 @@
 {
   "lessonKey": "01_office_ai-6",
   "pauseSec": 0.4,
-  "durationSec": 412.04,
-  "cacheV": 412040,
+  "durationSec": 540.2,
+  "cacheV": 540200,
   "pieces": [
     {
       "index": 0,
@@ -10,61 +10,61 @@
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
       "start": 2,
-      "end": 39.64,
-      "text": "Vörd dersinde dosyayı ataşla yükledin. İmza insanda kaldı. Hata avında rapordaki uydurma sayıyı yakaladın. Satır toplamına baktın, genel toplama baktın, kırmızı işareti gördün ve kendi gözünle onayladın. O alışkanlık artık senin ve toplantıda uydurma bir rakamla yüzleşmeni engeller. Ama her kriz geldiğinde aynı işi baştan kurarsan Cuma akşamı yine yetiştirmeye çalışırsın. Haftalık Sistem bu alışkanlığı takvimine bağlar. Tek seferlik kahramanlık değil. Her Cuma aynı saatte masaya oturursun ve haftanın işini o pencerede kapatırsın."
+      "end": 42.04,
+      "text": "Vörd dersinde dosyayı ataşla yükledin. İmza insanda kaldı. Hata avında rapordaki uydurma sayıyı yakaladın. Satır toplamına baktın, genel toplama baktın, kırmızı işareti gördün ve kendi gözünle onayladın. O alışkanlık artık senin ve toplantıda uydurma bir rakamla yüzleşmeni engeller. Peki neden her kriz geldiğinde aynı işi baştan kurarsan Cuma akşamı yine yetiştirmeye çalışırsın? Çünkü alışkanlık takvime bağlı değilse kriz her seferinde masayı sıfırlar. Haftalık Sistem bu alışkanlığı takvimine bağlar. Her Cuma aynı saatte masaya oturursun ve haftanın işini o pencerede kapatırsın."
     },
     {
       "index": 1,
       "cueId": "cue-02",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 40.04,
-      "end": 64.28,
-      "text": "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin kapanış dersine hoş geldin. Bugün önceki derslerin alışkanlığını tek bir Cuma rutinine bağlayacağız ve dağınık haftayı bırakacağız. Amacın net: her Cuma otuz dakikada haftalık işleri yapay zekâyla kapatmak. Bu kapanış dersidir. Bu dersi bitirince sınav kapısı açılır. Geçme notu yetmiştir."
+      "start": 42.44,
+      "end": 81.92,
+      "text": "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin kapanış dersine hoş geldin. Bugün önceki derslerin alışkanlığını tek bir Cuma rutinine bağlayacağız ve dağınık haftayı bırakacağız. Amacın net: her Cuma otuz dakikada haftalık işleri yapay zekâyla kapatmak. Bu kapanış dersidir. Peki neden bu ders bitince sınav kapısı açılır? Çünkü mühürlü vize kartı dokuz alışkanlığın hepsini ister; sekiz ders yetmez. Baraj 70 durur. Satın alma o kartı basmaz. Kart, bu Cuma penceresi kilitlenince ve sınavda yetmişi geçince mühürlenir."
     },
     {
       "index": 2,
       "cueId": "cue-02",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 64.68,
-      "end": 95.36,
-      "text": "Bugün seninle dağınık haftayı bırakıp Cuma otuz dakikayı takvime yazmayı öğreneceğiz. On dakika Excel, on dakika slayt, on dakika kutu. Üçü aynı pencerede yürür; üçü ayrı günlere yayılmaz. Outlook'ta Kopilot, Gmail'de Cemini, Vörd ve Excel'de dosyayı doğrudan yükle. Birinci ve ikinci kapı durmuyorsa üçüncü kapı maskeli kısa özettir. Ham tabloyu ekran görüntüsüyle taşımak bu rutinin varsayılanı değildir."
+      "start": 82.32,
+      "end": 124.72,
+      "text": "Bugün seninle dağınık haftayı bırakıp Cuma otuz dakikayı takvime yazmayı öğreneceğiz. Peki neden Cuma otuzu on artı on artı on olarak bölünür? Çünkü Excel, slayt ve e-posta üç ayrı kapıdır. Aynı otuz dakikada üçü birden yığılırsa tablo yarım kalır, slayt uydurma madde üretir, kutu geceye sarkar. Üçü aynı pencerede yürür; üçü ayrı günlere yayılmaz. Outlook'ta Kopilot, Gmail'de Cemini, Vörd ve Excel'de dosyayı doğrudan yükle. Birinci ve ikinci kapı durmuyorsa üçüncü kapı maskeli kısa özettir. Ham tabloyu ekran görüntüsüyle taşımak bu rutinin varsayılanı değildir."
     },
     {
       "index": 3,
       "cueId": "cue-03",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 95.76,
-      "end": 130.56,
-      "text": "Sistem yoksa her kriz yeniden icat edilir ve sen her seferinde kahraman rolüne düşersin. Pazartesi tabloyu kopyalarsın. Salı ekran görüntüsü basarsın. Çarşamba gece mesaisi başlar. Perşembe uydurma rapor masaya gelir. Cuma yetiştirmeye çalışırsın. Bu dağınık hafta seni kahraman gibi hissettirir ama Cuma akşamı yine boş ellerle kalırsın. Krizi bekleyen ofis, Cuma gecesini kaybeder. Üç kapı dağınık haftada sırasını kaybeder: yerleşik panel atlanır, ataş unutulur, kutu dışarı taşınır."
+      "start": 125.12,
+      "end": 159.72,
+      "text": "Sistem yoksa her kriz yeniden icat edilir. Pazartesi tabloyu kopyalarsın. Salı ekran görüntüsü basarsın. Çarşamba gece mesaisi başlar. Perşembe uydurma rapor masaya gelir. Cuma yetiştirmeye çalışırsın. Peki neden bu dağınık hafta Cuma akşamı yine boş el bırakır? Çünkü iş üç güne yayılınca aynı tabloyu üç kez taşırsın ve aynı hatayı üç kez kaçırırsın. Üç kapı dağınık haftada sırasını kaybeder: yerleşik panel atlanır, ataş unutulur, kutu dışarı taşınır."
     },
     {
       "index": 4,
       "cueId": "cue-03",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 130.96,
-      "end": 156,
-      "text": "Dağınık haftanın faturası açıktır ve bu fatura her Cuma şişer. Aynı tabloyu üç kez taşırsın. Aynı hatayı üç kez kaçırırsın. Otuz dakikalık rutin bu faturayı keser. Cuma sabahı takvimde kilitli bir blok görürsün. Krizi beklemeyiz. Haftanın dosyası o pencerede temizlenir. Şimdi bu bloğu üç parçaya ayıran komutu yazacağız."
+      "start": 160.12,
+      "end": 210.04,
+      "text": "Dağınık haftanın faturası açıktır ve bu fatura her Cuma şişer. Otuz dakikalık rutin bu faturayı keser. Cuma sabahı takvimde kilitli bir blok görürsün. Bu otuz dakikayı her Cuma aynı saatte yinelenen bir takvim bloğu olarak yaz. Outlook veya Google Takvim fark etmez. Başlık Cuma 30, süre otuz dakika, tekrar her hafta. Kriz gelince o blok silinmez. Bu bloğu bir kez yazıp unutmak yetmez. Her Cuma aynı saatte açılır. Toplantı çakışırsa otuz dakikayı kaydırmazsın; toplantıyı kaydırırsın. Takvim rengi ayrı olsun. Bildirim beş dakika önce gelsin. Böylece kriz kapıya dayandığında sen zaten masada olursun. Haftanın dosyası o pencerede temizlenir. Şimdi bu bloğu üç parçaya ayıran komutu yazacağız."
     },
     {
       "index": 5,
       "cueId": "cue-04",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 156.4,
-      "end": 189.12,
-      "text": "Şimdi komutu açık yaz. Cuma otuz dakikalık ofis rutinini üç bloğa böl. İlk on dakika Excel: Kopilot varsa şeritten okut, yoksa tabloyu dosya olarak ataşla. A1 eşiğini kontrol et. İkinci on dakika slayt: temiz tablodan üç madde ve bir eylem cümlesi iste; Kopilot veya pptx ataş. Üçüncü on dakika kutu: gelen işleri aynı pencerede kapat. Bu cümleyi ekrandaki kutuya yazarsın. Sonuç henüz sağ panelde görünmez."
+      "start": 210.44,
+      "end": 257,
+      "text": "Şimdi komutu açık yaz. Cuma otuz dakikalık ofis rutinini üç bloğa böl. İlk on dakika Excel: Kopilot varsa şeritten okut, yoksa tabloyu dosya olarak ataşla. A1 eşiğini kontrol et. İkinci on dakika slayt: temiz tablodan üç madde ve bir eylem cümlesi iste; Kopilot veya pptx ataş. Üçüncü on dakika kutu: gelen işleri aynı pencerede kapat. Peki neden on dakika Excel, on dakika slayt, on dakika e-posta ayrı durur? Çünkü temizlik bitmeden özet uydurur; özet bitmeden kutu sıfırlanmaz. Bu cümleyi ekrandaki kutuya yazarsın. Sonuç henüz sağ panelde görünmez."
     },
     {
       "index": 6,
       "cueId": "cue-04",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 189.52,
-      "end": 221,
+      "start": 257.4,
+      "end": 288.04,
       "text": "Şimdi dosyayı ataşla veya Kopilot varsa şeritten okut. Birinci kapı yerleşik panel, ikinci kapı ataştır. Birinci ve ikinci kapı durmuyorsa üçüncü kapı açılır: isim, IBAN, ticari sır maskelenmiş kısa özet. Ham tabloyu kopyalayıp dış sohbete yapıştırmak atlanmış kapıdır. Ekran görüntüsü zinciri de aynı atlamadır. Komut yazılır, temiz Cuma tablosu henüz açılmaz. Önce dağınık haftanın faturasını masada bırakırız."
     },
     {
@@ -72,63 +72,63 @@
       "cueId": "cue-05",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 221.4,
-      "end": 252.28,
-      "text": "Şimdi ekrandaki yan yana karşılaştırmaya bak ve iki haftanın farkını oku. Sol tarafta dağınık haftayı görüyorsun. Pazartesi kopyala, Salı ekran, Çarşamba gece mesaisi, Perşembe kör rapor, Cuma yetiştirme. Sağ tarafta Cuma otuz dakikalık sistemli rutin durur. İlk on Excel, ikinci on slayt, üçüncü on e-posta. Sol kriz tekrarıdır. Sağ takvime bağlı disiplindir."
+      "start": 288.44,
+      "end": 320.08,
+      "text": "Şimdi ekrandaki yan yana karşılaştırmaya bak ve iki haftanın farkını oku. Sol tarafta dağınık haftayı görüyorsun. Pazartesi kopyala, Salı ekran, Çarşamba gece mesaisi, Perşembe kör rapor, Cuma yetiştirme. Sağ tarafta Cuma otuz dakikalık sistemli rutin durur. İlk on Excel temizlik, ikinci on slayt özet, üçüncü on e-posta sıfırlama. Sol kriz tekrarıdır. Sağ takvime bağlı penceredir."
     },
     {
       "index": 8,
       "cueId": "cue-05",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 252.68,
-      "end": 284.84,
-      "text": "Sağ panelde üç kapı sırayla kilitlenir ve hiçbiri Cuma gecesine sarkmaz. Excel yerinde kalır. Slayt üç maddeye iner. E-posta gelen kutusunda kapanır. Sol panelde aynı iş üç gün yayılır ve Cuma gecesi yine yetişmez. Fark süre değil, sıradır. Otuz dakika üç blok olunca haftanın dosyası Cuma öğleden önce kapanır. Dağınık hafta ise aynı dosyayı Pazartesi'den Cuma'ya sürükler."
+      "start": 320.48,
+      "end": 353.88,
+      "text": "Sağ panelde üç kapı sırayla kilitlenir ve hiçbiri Cuma gecesine sarkmaz. Excel yerinde kalır. Slayt üç maddeye iner. E-posta gelen kutusunda kapanır. Sol panelde aynı iş üç gün yayılır ve Cuma gecesi yine yetişmez. Peki neden fark süre değil de sıra gibi durur? Çünkü otuz dakika üç blok olunca haftanın dosyası Cuma öğleden önce kapanır. Dağınık hafta ise aynı dosyayı Pazartesi'den Cuma'ya sürükler ve doksan dakikalık yetiştirmeye döner."
     },
     {
       "index": 9,
       "cueId": "cue-06",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 285.24,
-      "end": 310.24,
-      "text": "İki panel arasındaki fark neden her krizi yeniden icat etmemen gerektiğini kanıtlıyor. Solda doksan dakikalık Cuma yetiştirmesi var. Sağda on artı on artı on dakikalık kilitli blok var. Aynı Excel, aynı slayt, aynı e-posta. Biri gece mesaisi doğurur. Diğeri takvime yazılı rutinle biter. Haftalık Sistem kahramanlık değil, takvimdir."
+      "start": 354.28,
+      "end": 387.28,
+      "text": "İki panel arasındaki fark neden her krizi yeniden icat etmemen gerektiğini gösterir. Solda doksan dakikalık Cuma yetiştirmesi var. Sağda on artı on artı on dakikalık kilitli blok var. Aynı Excel, aynı slayt, aynı e-posta. Biri gece mesaisi doğurur. Diğeri takvime yazılı rutinle biter. Peki neden fark bu kadar belirgin? Çünkü dağınık hafta her günü yeniden icat eder; Cuma otuzu aynı saati üç kez üst üste korur."
     },
     {
       "index": 10,
       "cueId": "cue-06",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 310.64,
-      "end": 329.08,
-      "text": "Gördüğün gibi doğru kurgulanmış bir Cuma penceresi krizi gelmeden kapatır ve seni gece mesaisinden çeker. Dağınık haftayı bırakmak seni yavaşlatmaz, seni yönetim katında güvenilir yapar. Şimdi bu üç bloğu cebine koyacağız. Bu kapanış dersini bitirince sınav kapısı açılır."
+      "start": 387.68,
+      "end": 415,
+      "text": "Gördüğün gibi doğru kurgulanmış bir Cuma penceresi krizi gelmeden kapatır ve seni gece mesaisinden çeker. Dağınık haftayı bırakmak seni yavaşlatmaz; yönetim katında aynı saatte iş teslim etmeni sağlar. Şimdi bu üç bloğu cebine koyacağız. Bu kapanış dersini bitirince sınav kapısı açılır. Çünkü dokuzuncu alışkanlık takvime inmeden mühürlü vize kartı basılmaz."
     },
     {
       "index": 11,
       "cueId": "cue-07",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 329.48,
-      "end": 358.84,
-      "text": "Bu derste öğrendiğimiz Haftalık Sistemi iş hayatında şu üç adımla cebine koy. 1. Her Cuma 30 Dakika bloğunu takvime yaz; on Excel, on slayt, on kutu. 2. Excel ve Vörd dosyasını ataş ile yükle veya Kopilot varsa şeritten okut. 3. Birinci ve ikinci kapı durmuyorsa maskeli kısa özet; ham kopyala-yapıştır varsayılan yol değildir. Bu üç kural Cuma gecesini kurtarır."
+      "start": 415.4,
+      "end": 470.52,
+      "text": "Bu derste öğrendiğimiz Haftalık Sistemi iş hayatında şu üç adımla cebine koy. 1. Her Cuma 30 Dakika bloğunu takvime yaz; on Excel, on slayt, on kutu. Çünkü blok takvimde yoksa kriz yine Cuma gecesine kayar. 2. Excel ve Vörd dosyasını ataş ile yükle veya Kopilot varsa şeritten okut. Çünkü ekran görüntüsü tabloyu senden koparır. 3. Birinci ve ikinci kapı durmuyorsa maskeli kısa özet; ham kopyala-yapıştır varsayılan yol değildir. Çünkü ham yapıştırma maskeyi deler. Bu üç adımı bir kez denemek yetmez. Aynı saati üç Cuma üst üste koru. İlk Cuma kurulumdur. İkinci Cuma refleks olur. Üçüncü Cuma artık kriz gelmeden kapanır. Takvimden o bloğu silmek, bu dersi unutmaktır."
     },
     {
       "index": 12,
       "cueId": "cue-08",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 359.24,
-      "end": 394.88,
-      "text": "Bugünkü saha görevinde senden bu Cuma 30 Dakika bloğunu takvimine koymanı istiyorum. Bir gerçek tabloyu ataşla. On dakika Excel, on dakika slayt, on dakika kutu iste. Kendi dosyanda dağınık haftayı Cuma penceresine indir. Bu egzersiz Haftalık Sistemi alışkanlığa çevirir ve bir sonraki Cuma aynı krizi yeniden icat etmezsin. E-posta bloğunda Gmail Cemini veya Outlook Kopilot kullan. Vörd bloğunda dosyayı ataşla. Ham kutuyu dışarı taşıma; yoksa maskeli kısa özet yeter."
+      "start": 470.92,
+      "end": 516.24,
+      "text": "Bugünkü saha görevinde senden bu Cuma 30 Dakika bloğunu takvimine koymanı istiyorum. Bir gerçek tabloyu ataşla. On dakika Excel, on dakika slayt, on dakika kutu iste. Kendi dosyanda dağınık haftayı Cuma penceresine indir. Takvime yazarken başlığı Cuma 30 koy. Süreyi otuz dakika kilitle. Tekrarı her hafta yap. Bu Cuma başla, gelecek Cuma'yı boş bırakma. Bu egzersiz Haftalık Sistemi alışkanlığa çevirir ve bir sonraki Cuma aynı krizi yeniden icat etmezsin. E-posta bloğunda Gmail Cemini veya Outlook Kopilot kullan. Vörd bloğunda dosyayı ataşla. Ham kutuyu dışarı taşıma; yoksa maskeli kısa özet yeter."
     },
     {
       "index": 13,
       "cueId": "cue-08",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 395.28,
-      "end": 412.04,
-      "text": "Kendi Cuma bloğunu kilitlediğinde müfredat kapanır. Sınav kapısı bu dersten sonra açılır. Baraj yetmiştir. Satın alma belge basmaz. Tebrikler. Haftalık rutini oturttun. Hazırsan sınavda görüşmek üzere!"
+      "start": 516.64,
+      "end": 540.2,
+      "text": "Kendi Cuma bloğunu kilitlediğinde müfredat kapanır. Peki neden sınav kapısı yalnız bu dersten sonra açılır? Çünkü mühürlü vize kartı dokuz dersin hepsini ister; satın alma o kartı basmaz. Baraj 70 durur. Yetmişin altında kart mühürlenmez. Bu kapanış dersidir. Haftalık rutini oturttun. Hazırsan sınavda görüşmek üzere!"
     }
   ]
 }

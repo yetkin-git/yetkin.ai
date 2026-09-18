@@ -23,15 +23,28 @@ export const PAUSES = {
 
 /**
  * Bölüm başına hedef süre ve kelime bütçesi — yalnız ses mühürlü (WAV) dersler.
- * Compact makale müfredatı (Anayasa B4) bu bütçeye bağlı değildir.
+ * Compact makale müfredatı (Anayasa B4) bu bütçeye bağlı değildir; rehber
+ * `COMPACT_ARTICLE_GUIDE` içindedir (tavan değil, aralık önerisi).
  * Dakika: §F 7–12 (ders), 45–90 (kurs). Kelime: ~150 wpm × ders bandı.
  * Yayın 30 kaset E.5 sıfır re-bake ile bu banda çekilmez; yeni bake bu LIMITS’i okur.
  */
-export const LIMITS = {
+export const SEALED_AUDIO_LIMITS = {
   minMinutes: ACADEMY_AI_LESSON_DURATION_MIN_MINUTES,
   maxMinutes: ACADEMY_AI_LESSON_DURATION_MAX_MINUTES,
   courseMinMinutes: ACADEMY_AI_COURSE_DURATION_MIN_MINUTES,
   courseMaxMinutes: ACADEMY_AI_COURSE_DURATION_MAX_MINUTES,
+  minWords: 1050,
+  maxWords: 1800,
+} as const;
+
+/** Geriye dönük ad — mühürlü ses bütçesi. Compact makale bu nesneye bağlı değildir. */
+export const LIMITS = SEALED_AUDIO_LIMITS;
+
+/**
+ * Compact yayın makalesi kelime aralığı — Anayasa B4 tavanı değildir.
+ * `estimatedWordCount` compact gövdenin canlı sayımıdır; gövde kesilmez.
+ */
+export const COMPACT_ARTICLE_GUIDE = {
   minWords: 1050,
   maxWords: 1800,
 } as const;

@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { loadAcademyCinemaCueSlides } from "@/lib/academy/cinema-cue-catalog";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import { officeAiMasteryModule } from "@/lib/academy/curricula/office_ai";
@@ -10,6 +12,7 @@ import {
   ACADEMY_OFFICE_AI_4_COMPARE_BEFORE_LABEL,
   ACADEMY_OFFICE_AI_4_POCKET_STEPS,
 } from "@/lib/academy/lesson-beat-visual";
+import { ACADEMY_OUTLOOK_COPILOT_PROMPT } from "@/lib/academy/outlook-workspace";
 import {
   ACADEMY_BED_BREATH_GAIN,
   ACADEMY_BED_OUTRO_PEAK_GAIN,
@@ -35,11 +38,18 @@ import { ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY } from "@/lib/academy/lesson-veo";
 import { isAcademyLessonAudioSealed } from "@/lib/academy/pilot-sku";
 import { dronAcademyPunchcardsForLesson } from "../../apps/rail-is/src/ui/academy-punchcards";
 import {
+  academyKaraokeNormalizeLine,
+  academyKaraokeReconstructLine,
+  academyKaraokeWords,
+  loadAcademyKaraokeStrip,
+} from "@/lib/academy/lesson-teleprompter-flow";
+import {
   isAcademySpokenScriptLessonKey,
   loadAcademySpokenScriptMarkdownParagraphs,
   loadAcademySpokenScriptProse,
 } from "@/lib/academy/spoken-scripts";
 
+const ROOT = process.cwd();
 const SLUG = "01_office_ai";
 const KEY = "01_office_ai-4";
 const PUNCHCARDS = [
@@ -62,6 +72,16 @@ describe("01_office_ai bölüm 4 — E-Posta Akışı Altın Şablon", () => {
     expect(lesson.key).toBe(KEY);
     expect(lesson.order).toBe(6);
     expect(lesson.title).toMatch(/E-Posta Akışı|Gelen Kutusu/u);
+    expect(lesson.body).toMatch(/Peki neden gelen kutu şişer/u);
+    expect(lesson.body).toMatch(/Peki mail triyajı nedir/u);
+    expect(lesson.body).toMatch(/Peki yapay zekâya neden taslak yanıt yazdırılır/u);
+    expect(lesson.body).toMatch(/Peki taslak insan onayı verilmeden neden gönderilmez/u);
+    expect(lesson.body).not.toMatch(/üç altın kural/u);
+    expect(lesson.body).not.toMatch(/arkana yaslan/u);
+    expect(lesson.body).not.toMatch(/akıllı bir asistan hayal/u);
+    expect(officeAiMasteryModule.sections.find((section) => section.lessonKey === KEY)?.pedagogicalObjective).toMatch(
+      /triyaj/u,
+    );
   });
 
   it("Beat 3 split-screen sol 142 okunmamış, sağ sıfırlanmış kutu; spoiler kapalı", () => {
@@ -129,7 +149,7 @@ describe("01_office_ai bölüm 4 — E-Posta Akışı Altın Şablon", () => {
     expect(pieces[0]?.start).toBe(2);
     expect(academyBedDuckGain(0.5, pieces)).toBe(ACADEMY_BED_BREATH_GAIN);
     const lastEnd = pieces.at(-1)?.end ?? 0;
-    expect(lastEnd).toBe(496.12);
+    expect(lastEnd).toBe(443.56);
     expect(academyBedDuckGain(lastEnd, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 1.5, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 4.5, pieces)).toBe(0);
@@ -170,11 +190,11 @@ describe("01_office_ai bölüm 4 — senaryo ve mühür kapısı", () => {
     expect(JSON.stringify(compare?.after.table)).not.toMatch(/Haftalık Bülten/u);
     const cue04 = cues.find((cue) => cue.id === "cue-04");
     expect(cue04).toBeTruthy();
-    expect(cue04!.start).toBe(170.84);
+    expect(cue04!.start).toBe(168.36);
     expect(academyExcelFocusZoomActive(KEY, cue04!.start)).toBe(true);
     expect(academyExcelMouseState(KEY, cue04!.start + 0.05)?.visible).toBe(true);
     expect(cues[0]!.start).toBe(ACADEMY_INTRO_GENERIC_SEC);
-    expect(cues.at(-1)?.end).toBe(496.12);
+    expect(cues.at(-1)?.end).toBe(443.56);
   });
 
   it("ses mührü karaoke katmanını açar; mini sınav baraj 70 durur", () => {
@@ -183,8 +203,99 @@ describe("01_office_ai bölüm 4 — senaryo ve mühür kapısı", () => {
     expect(exam?.questions.map((row) => row.id)).toEqual(["q_off_l4_1", "q_off_l4_2", "q_off_l4_3"]);
     const punchcards = dronAcademyPunchcardsForLesson(KEY);
     expect(punchcards.map((card) => card.label)).toContain("INBOX KAOSU");
-    expect(punchcards.at(-1)?.end).toBe(496.12);
+    expect(punchcards.at(-1)?.end).toBe(443.56);
     expect(isAcademyLessonAudioSealed(SLUG, KEY)).toBe(true);
     expect(academyCitizenPlayerLayer(SLUG, KEY).kind).toBe("article+karaoke");
+  });
+
+  it("Sebep → Eylem → Sonuç ve gelen kutu kilidi durur", () => {
+    const prose = loadAcademySpokenScriptProse(KEY);
+    expect(prose).toMatch(/Peki neden gelen kutu şişer\?/u);
+    expect(prose).toMatch(/her yeni satır aynı yığında durur/u);
+    expect(prose).toMatch(/Peki mail triyajı nedir\?/u);
+    expect(prose).toMatch(/açmadan önce acil, aksiyon veya arşivlik/u);
+    expect(prose).toMatch(/Peki yapay zekâya neden taslak yanıt yazdırılır\?/u);
+    expect(prose).toMatch(/Peki taslak insan onayı verilmeden neden gönderilmez\?/u);
+    expect(prose).toMatch(/Model nezaket üretir, taahhüt üretemez/u);
+    expect(prose).not.toMatch(/üç altın kural/u);
+    expect(prose).not.toMatch(/arkana yaslan/u);
+    expect(prose).not.toMatch(/akıllı bir asistan hayal/u);
+    expect(prose).not.toMatch(/güvenlik ve yönlendirme görevlisi/u);
+    expect(prose).not.toMatch(/kontrol hissi tavan yapar/u);
+    expect(prose).not.toMatch(/muazzam dönüşüm/u);
+  });
+
+  it("16:9 Outlook tuvali ezilmez; gelen kutu, Copilot şeridi ve sıfır kutu kartları dolgundur", () => {
+    const slides = loadAcademyCinemaCueSlides(KEY);
+    expect(slides[3]?.copilot?.prompt).toBe(ACADEMY_OUTLOOK_COPILOT_PROMPT);
+    expect(slides[3]?.copilot?.hideReply).toBe(true);
+    expect(slides[4]?.visualMode).toBe("split");
+    expect(slides[5]?.compare?.beforeLabel).toBe(ACADEMY_OFFICE_AI_4_COMPARE_BEFORE_LABEL);
+    expect(slides[5]?.compare?.afterLabel).toBe(ACADEMY_OFFICE_AI_4_COMPARE_AFTER_LABEL);
+    const css = readFileSync(join(ROOT, "app/globals.css"), "utf8");
+    expect(css).toMatch(
+      /\.academy-player-karaoke \.academy-player-widescreen[\s\S]*?aspect-ratio:\s*16\s*\/\s*9/s,
+    );
+    expect(css).toMatch(/\.academy-player-waiter \.academy-outlook-win\s*\{[^}]*height:\s*100%/s);
+    expect(css).toMatch(
+      /\.academy-outlook-desk > \.academy-office-win-fit[\s\S]*?height:\s*100%/s,
+    );
+    expect(css).toMatch(/\.academy-outlook-row\s*\{[^}]*background:\s*#163250/s);
+    expect(css).toMatch(/\.academy-outlook-list-head\s*\{[^}]*color:\s*#7dd3fc/s);
+    expect(css).toMatch(/\.academy-outlook-group--acil\s*\{[^}]*#3f1a22/s);
+    expect(css).toMatch(/\.academy-outlook-group--bekle\s*\{[^}]*#3d3010/s);
+    expect(css).toMatch(/\.academy-outlook-group--arsiv\s*\{[^}]*#12382f/s);
+    expect(css).not.toMatch(/\.academy-outlook-canvas\s*\{[^}]*background:\s*#000(?:000)?/s);
+    const outlook = readFileSync(join(ROOT, "components/academy/lesson-outlook-workspace.tsx"), "utf8");
+    expect(outlook).toContain("LessonAiDesk");
+    expect(outlook).toContain("LessonOfficeCopilotRibbon");
+    expect(outlook).toContain("ACADEMY_OUTLOOK_RESET_GROUPS");
+    expect(outlook).toContain("Gelen Kutusu · {unread} okunmamış");
+    const player = readFileSync(join(ROOT, "components/academy/curriculum-player.tsx"), "utf8");
+    const eye = readFileSync(join(ROOT, "components/academy/lesson-visual-stage.tsx"), "utf8");
+    expect(player).toContain('data-academy-prompt-host="below-transport"');
+    expect(eye).not.toContain("LessonPromptConsole");
+    expect(eye).toContain("data-academy-prompt-dock");
+  });
+
+  it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
+    const timings = loadAcademySealedAudioTimings(KEY);
+    expect(timings?.durationSec).toBe(443.56);
+    expect(timings?.cacheV).toBe(443560);
+    const cues = loadAcademyLessonCues(KEY);
+    expect(cues.at(-1)?.end).toBe(443.56);
+    for (const cue of cues) {
+      const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
+      expect(pieces[0]?.start, cue.id).toBe(cue.start);
+      expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
+    }
+    const strip = loadAcademyKaraokeStrip(KEY);
+    expect(strip.at(-1)?.end).toBe(443.56);
+    const stripText = strip.map((line) => line.text).join(" ");
+    expect(stripText).toMatch(/Peki neden gelen kutu şişer/u);
+    expect(stripText).toMatch(/Peki mail triyajı nedir/u);
+    expect(stripText).toMatch(/taslak yanıt yazdırılır/u);
+    expect(stripText).toMatch(/insan onayı verilmeden neden gönderilmez/u);
+    for (const line of strip) {
+      const words = academyKaraokeWords(line);
+      expect(academyKaraokeReconstructLine(words)).toBe(academyKaraokeNormalizeLine(line.text));
+      expect(words.every((word) => word.text.length > 0)).toBe(true);
+    }
+    const css = readFileSync(join(ROOT, "app/globals.css"), "utf8");
+    expect(css).toMatch(
+      /\.academy-player-karaoke-word\s*\{[^}]*overflow:\s*visible/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-word\s*\{[^}]*padding-block:\s*0\.08em 0\.22em/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-word\s*\{[^}]*font-weight:\s*inherit/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-word\[data-state="active"\]\s*\{[^}]*font-weight:\s*inherit/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-line\s*\{[^}]*line-height:\s*1\.5/s,
+    );
   });
 });

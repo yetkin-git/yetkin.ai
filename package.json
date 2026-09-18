@@ -45,6 +45,7 @@
     "ops:ghost-wallet-holds": "tsx scripts/ops-ghost-wallet-holds.ts",
     "ops:t3-academy-loop": "tsx scripts/ops-t3-academy-loop.ts",
     "ops:t4-freelancer-loop": "tsx scripts/ops-t4-freelancer-loop.ts",
+    "ops:sync-wordcount": "tsx scripts/ops-sync-wordcount.ts",
     "ops:market-pricing-catalog-sync": "tsx scripts/ops-market-pricing-catalog-sync.ts",
     "verify:staging-t4-loop": "tsx scripts/verify-staging-t4-loop.ts",
     "verify:citizen-cash-ring": "tsx scripts/verify-citizen-cash-ring.ts",

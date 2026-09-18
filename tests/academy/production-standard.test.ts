@@ -8,6 +8,8 @@ import {
   ACADEMY_AI_LESSON_COUNT_MIN,
   ACADEMY_AI_LESSON_DURATION_MAX_MINUTES,
   ACADEMY_AI_LESSON_DURATION_MIN_MINUTES,
+  ACADEMY_AI_LESSON_DURATION_MAX_SEC,
+  ACADEMY_AI_LESSON_DURATION_MIN_SEC,
   ACADEMY_LESSON_SATURATION_BEATS,
   ACADEMY_OPTIONAL_LEVEL_PACKAGES,
   ACADEMY_SEALED_MEDIA_LAYERS,
@@ -17,11 +19,12 @@ import {
   isAcademyAiCourseDurationMinutes,
   isAcademyAiLessonCount,
   isAcademyAiLessonDurationMinutes,
+  isAcademyAiLessonDurationSec,
   isAcademyTtsVoiceGender,
 } from "@/lib/academy/production-standard";
 import { ACADEMY_FIVE_ACT_HEADINGS } from "@/lib/academy/lesson-body";
 import { ACADEMY_COURSE_LEVELS } from "@/lib/academy/course-level";
-import { LIMITS } from "@/lib/academy/config";
+import { LIMITS, SEALED_AUDIO_LIMITS, COMPACT_ARTICLE_GUIDE } from "@/lib/academy/config";
 import {
   ACADEMY_VEO_BAKE_MODEL,
   ACADEMY_VEO_PREMIUM_MODEL,
@@ -49,12 +52,21 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(ACADEMY_AI_LESSON_COUNT_MAX).toBe(12);
     expect(ACADEMY_AI_LESSON_DURATION_MIN_MINUTES).toBe(7);
     expect(ACADEMY_AI_LESSON_DURATION_MAX_MINUTES).toBe(12);
+    expect(ACADEMY_AI_LESSON_DURATION_MIN_SEC).toBe(420);
+    expect(ACADEMY_AI_LESSON_DURATION_MAX_SEC).toBe(720);
+    expect(LIMITS).toBe(SEALED_AUDIO_LIMITS);
     expect(LIMITS.minMinutes).toBe(ACADEMY_AI_LESSON_DURATION_MIN_MINUTES);
     expect(LIMITS.maxMinutes).toBe(ACADEMY_AI_LESSON_DURATION_MAX_MINUTES);
     expect(LIMITS.courseMinMinutes).toBe(ACADEMY_AI_COURSE_DURATION_MIN_MINUTES);
     expect(LIMITS.courseMaxMinutes).toBe(ACADEMY_AI_COURSE_DURATION_MAX_MINUTES);
     expect(LIMITS.minWords).toBe(1050);
     expect(LIMITS.maxWords).toBe(1800);
+    expect(COMPACT_ARTICLE_GUIDE.minWords).toBe(1050);
+    expect(COMPACT_ARTICLE_GUIDE.maxWords).toBe(1800);
+    expect(isAcademyAiLessonDurationSec(420)).toBe(true);
+    expect(isAcademyAiLessonDurationSec(719)).toBe(true);
+    expect(isAcademyAiLessonDurationSec(419)).toBe(false);
+    expect(isAcademyAiLessonDurationSec(721)).toBe(false);
     expect(isAcademyAiCourseDurationMinutes(45)).toBe(true);
     expect(isAcademyAiCourseDurationMinutes(90)).toBe(true);
     expect(isAcademyAiCourseDurationMinutes(44)).toBe(false);
@@ -164,7 +176,8 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).toContain("Outlook → Copilot");
     expect(pedagogy).toContain("Gmail → Gemini");
     expect(pedagogy).toContain("Word/Excel → Doğrudan Dosya Yükleme");
-    expect(pedagogy).toContain("Üç Kapı");
+    expect(pedagogy).toContain("Üç Kapı yalnız aktarım yöntemidir");
+    expect(pedagogy).toContain("Güvenlik sınıfı ayrı eksendir");
     expect(pedagogy).toContain("Son çare");
     expect(pedagogy).toContain("Harf harf yazma dayatması yoktur");
     expect(pedagogy).toContain("Ders adedi Pedagoji kotası değildir");

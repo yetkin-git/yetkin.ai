@@ -159,8 +159,7 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
     expect(player).not.toContain("<LessonTeleprompter");
     expect(player).toContain('data-academy-directing="punchcard"');
     expect(player).toContain("LessonCinemaEyeLayer");
-    expect(player).toContain("LessonKaraokeStrip");
-    expect(player).toContain("karaoke.cues");
+    expect(player).toContain("karaokeCues={karaoke.cues}");
     expect(player).toContain("loadAcademyLessonVisualStage");
     expect(player).not.toContain("buildAcademyDialogueTimeline");
     expect(media).not.toContain("LessonCinemaEyeLayer");
@@ -174,10 +173,14 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
     expect(eye).toContain('data-academy-compare="split"');
     expect(eye).toContain("academyCompareDockPrompt");
     expect(eye).toContain("data-academy-eye-canvas");
+    expect(eye).toContain("<LessonKaraokeStrip");
+    expect(eye).toContain("karaokeCues");
     expect(eye).toContain("academy-player-widescreen-frame");
     expect(eye).toContain("academy-player-eye-stack");
     expect(eye).toContain("data-academy-prompt-dock");
-    expect(eye).toContain("LessonPromptConsole");
+    expect(eye).not.toContain("LessonPromptConsole");
+    expect(player).toContain("LessonPromptConsole");
+    expect(player).toContain('data-academy-prompt-host="below-transport"');
     expect(eye).toContain("data-academy-clock-cue");
     expect(css).toContain("academy-player-compare");
     expect(css).toContain("academy-player-compare-prompt");
@@ -205,6 +208,11 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
     expect(css).toContain("academy-player-punchcard-dock");
     expect(css).toContain("academy-player-waiter");
     expect(css).toContain("academy-excel-cell--a1");
+    expect(css).toMatch(/\.academy-excel-ribbon\s*\{[^}]*min-height:\s*1\.65rem/s);
+    expect(css).toMatch(/\.academy-excel-ribbon\s*\{[^}]*flex-wrap:\s*nowrap/s);
+    expect(css).toMatch(
+      /\.academy-player-compare-pane \.academy-excel-desk\s*\{[^}]*height:\s*100%/s,
+    );
     expect(css).toContain("academy-player-teleprompter");
     expect(css).toContain("academy-player-karaoke-strip");
     expect(css).toContain("academy-player-karaoke-word");
@@ -212,6 +220,9 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
     expect(css).toMatch(/\.academy-player-media-card\s*\{[^}]*inset:\s*0/s);
     expect(css).toMatch(/\.academy-player-punchcard-dock\s*\{[^}]*right:\s*0\.7rem/s);
     expect(css).toMatch(/\.academy-player-waiter\s*\{[^}]*inset:\s*3\.15rem 0\.7rem 3\.55rem/s);
+    expect(css).toContain("academy-player-stage-column");
+    expect(css).toContain("academy-player-karaoke-overlay");
+    expect(css).toContain("academy-player-captions-toggle");
     expect(css).toContain("academy-office-win-fit");
     expect(css).toContain("height: max-content");
     expect(css).toContain(".academy-player-waiter.academy-player-compare");

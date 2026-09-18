@@ -53,7 +53,7 @@ export default async function AcademyCurriculumPlayerPage({
   }
 
   return (
-    <RoomFrame cinema className="flex flex-col gap-0 space-y-0 px-1 pt-1 pb-8 sm:px-2">
+    <RoomFrame cinema className="flex flex-col gap-0 space-y-0 px-4 py-0 sm:px-6">
       <div className="flex min-h-0 flex-1 flex-col">
         {grantStudio ? (
           <p className="sr-only">Super Admin laboratuvar erişimi</p>

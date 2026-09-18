@@ -11,9 +11,19 @@ import {
   ACADEMY_OFFICE_AI_W1_POCKET_STEPS,
 } from "@/lib/academy/lesson-beat-visual";
 import { ACADEMY_WORD_UPLOAD_PROMPT, academyWordStageKind } from "@/lib/academy/word-workspace";
-import { hasAcademyLessonCues } from "@/lib/academy/lesson-cues";
+import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
+import { hasAcademyLessonCues, loadAcademyLessonCues } from "@/lib/academy/lesson-cues";
 import { hasAcademyLessonVisualStage } from "@/lib/academy/lesson-visual-stage";
-import { isAcademySpokenScriptLessonKey } from "@/lib/academy/spoken-scripts";
+import {
+  academyKaraokeNormalizeLine,
+  academyKaraokeReconstructLine,
+  academyKaraokeWords,
+  loadAcademyKaraokeStrip,
+} from "@/lib/academy/lesson-teleprompter-flow";
+import {
+  isAcademySpokenScriptLessonKey,
+  loadAcademySpokenScriptProse,
+} from "@/lib/academy/spoken-scripts";
 
 const ROOT = process.cwd();
 const KEY = "01_office_ai-w1";
@@ -101,6 +111,91 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
     expect(cinemaHtml).toContain('case "word"');
     expect(cinemaHtml).toContain("ZAHMETLİ YOL / PARÇA PARÇA METİN KOPYALAMA");
     expect(cinemaHtml).toContain("DOĞRUDAN DOSYA YÜKLEME / YERİNDE DOKÜMAN ANALİZİ");
+  });
+
+  it("Sebep → Eylem → Sonuç: riskli madde ve öğretmen sen, belge siz kilitlenir", () => {
+    const prose = loadAcademySpokenScriptProse(KEY);
+    const body = curriculumForCourseSlug("01_office_ai").find((row) => row.key === KEY)?.body ?? "";
+    expect(prose).toMatch(/Peki neden uzun sözleşmeyi yapay zekâya satır satır okutmak yerine riskli maddeleri aratırız\?/u);
+    expect(prose).toMatch(/satır satır okutunca yığın çıkar/u);
+    expect(prose).toMatch(/Peki neden tüm dokümanı kopyalamak varsayılan yol değildir\?/u);
+    expect(prose).toMatch(/Peki neden otuz sayfayı satır satır okutmak yerine bu üç maddeyi aratırız\?/u);
+    expect(prose).toMatch(/Peki neden bu atlanmış kapıdır/u);
+    expect(prose).toMatch(/öğretmen sen, belge siz çift sicili/u);
+    expect(prose).toMatch(/kulağına sen derim/u);
+    expect(prose).toMatch(/Peki neden fark bu kadar belirgin\?/u);
+    expect(prose).not.toMatch(/vaadi üç iştir/u);
+    expect(prose).not.toMatch(/kahraman gibi/u);
+    expect(prose).not.toMatch(/kahramanlığı bitirir/u);
+    expect(prose).not.toMatch(/hamal gibi/u);
+    expect(prose).not.toMatch(/Fark sihir değil/u);
+    expect(prose).not.toMatch(/iki kader üretir/u);
+    expect(prose).not.toMatch(/Baraj yetmiştir/u);
+    expect(body).toMatch(/Peki neden uzun sözleşmeyi yapay zekâya satır satır okutmak yerine riskli maddeleri aratırız/u);
+    expect(body).toMatch(/Öğretmen SEN, belge SIZ/u);
+    expect(body).toMatch(/Peki resmî belge yazılırken neden öğretmen SEN, belge SIZ/u);
+    expect(body).not.toMatch(/vaadi üç iştir/u);
+    expect(body).not.toMatch(/kahraman/u);
+  });
+
+  it("16:9 Word tuvali ezilmez; ataş penceresi ve riskli madde kartları dolgundur", () => {
+    const css = readFileSync(join(ROOT, "app/globals.css"), "utf8");
+    expect(css).toMatch(
+      /\.academy-player-karaoke \.academy-player-widescreen[\s\S]*?aspect-ratio:\s*16\s*\/\s*9/s,
+    );
+    expect(css).toMatch(/\.academy-player-waiter \.academy-outlook-win\s*\{[^}]*height:\s*100%/s);
+    expect(css).toMatch(
+      /\.academy-word-desk \.academy-outlook-canvas--compact[\s\S]*?background:\s*#122033/s,
+    );
+    expect(css).not.toMatch(
+      /\.academy-word-desk \.academy-outlook-canvas[\s\S]{0,220}background:\s*#000(?:000)?/s,
+    );
+    expect(css).toMatch(/\.academy-outlook-group--acil\s*\{[^}]*#3f1a22/s);
+    expect(css).toMatch(/\.academy-outlook-group--bekle\s*\{[^}]*#3d3010/s);
+    expect(css).toMatch(/\.academy-outlook-group--arsiv\s*\{[^}]*#12382f/s);
+    const word = readFileSync(join(ROOT, "components/academy/lesson-word-workspace.tsx"), "utf8");
+    expect(word).toContain("LessonAiDesk");
+    expect(word).toContain("LessonOfficeCopilotRibbon");
+    expect(word).toContain('host="word"');
+    expect(word).toContain("ACADEMY_WORD_COPY_FRAGMENTS.map");
+    expect(word).toContain("ACADEMY_WORD_CLAUSE_CARDS.map");
+    const player = readFileSync(join(ROOT, "components/academy/curriculum-player.tsx"), "utf8");
+    expect(player).toContain('data-academy-prompt-host="below-transport"');
+  });
+
+  it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
+    const timings = loadAcademySealedAudioTimings(KEY);
+    expect(timings).not.toBeNull();
+    expect(timings!.durationSec).toBe(567);
+    expect(timings!.cacheV).toBe(567000);
+    const cues = loadAcademyLessonCues(KEY);
+    expect(cues.at(-1)?.end).toBe(timings!.durationSec);
+    for (const cue of cues) {
+      const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
+      expect(pieces[0]?.start, cue.id).toBe(cue.start);
+      expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
+    }
+    const strip = loadAcademyKaraokeStrip(KEY);
+    expect(strip.at(-1)?.end).toBe(timings!.durationSec);
+    const stripText = strip.map((line) => line.text).join(" ");
+    expect(stripText).toMatch(/Peki neden uzun sözleşmeyi yapay zekâya satır satır okutmak yerine riskli maddeleri aratırız/u);
+    expect(stripText).toMatch(/öğretmen sen, belge siz çift sicili/u);
+    expect(stripText).toMatch(/satır satır okutunca yığın çıkar/u);
+    expect(stripText).not.toMatch(/kahraman gibi/u);
+    expect(stripText).not.toMatch(/Baraj yetmiştir/u);
+    for (const line of strip) {
+      const words = academyKaraokeWords(line);
+      expect(academyKaraokeReconstructLine(words)).toBe(academyKaraokeNormalizeLine(line.text));
+      expect(words.every((word) => word.text.length > 0)).toBe(true);
+    }
+    const css = readFileSync(join(ROOT, "app/globals.css"), "utf8");
+    expect(css).toMatch(/\.academy-player-karaoke-word\s*\{[^}]*overflow:\s*visible/s);
+    expect(css).toMatch(/\.academy-player-karaoke-word\s*\{[^}]*padding-block:\s*0\.08em 0\.22em/s);
+    expect(css).toMatch(/\.academy-player-karaoke-word\s*\{[^}]*font-weight:\s*inherit/s);
+    expect(css).toMatch(
+      /\.academy-player-karaoke-word\[data-state="active"\]\s*\{[^}]*font-weight:\s*inherit/s,
+    );
+    expect(css).toMatch(/\.academy-player-karaoke-line\s*\{[^}]*line-height:\s*1\.5/s);
   });
 
   it("Word sinema kartları çerçeve içinde padding ile durur; sol kenar taşmaz", () => {

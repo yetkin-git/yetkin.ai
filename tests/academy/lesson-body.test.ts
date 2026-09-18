@@ -202,6 +202,9 @@ describe("TTS metin gümrüğü", () => {
     expect(cleanAcademySpokenTextForTts("özel API'sine verirsin, özel API ise kilitler.")).toBe(
       "özel API'sine verirsin, özel API ise kilitler.",
     );
+    expect(cleanAcademySpokenTextForTts("ö zel API'sine verirsin, ö zel API ise kilitler.")).toBe(
+      "ö zel API'sine verirsin, ö zel API ise kilitler.",
+    );
     expect(cleanAcademySpokenTextForTts("hemen bir pivot tabloya hazır.")).toBe(
       "hemen bir özet tabloya hazır.",
     );

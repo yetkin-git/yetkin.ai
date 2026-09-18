@@ -13,6 +13,7 @@ import {
   EDGE_HSTS_VALUE,
   EDGE_PERMISSIONS_POLICY_VALUE,
   hasEdgeSessionHint,
+  hasSupabaseAuthCookieHint,
   isProtectedCitizenPath,
   isProtectedKernelPath,
   isProtectedWritePath,
@@ -50,6 +51,22 @@ describe("kenar oturum ipucu", () => {
       }),
     ).toBe(true);
     expect(hasEdgeSessionHint({ authorizationHeader: "Bearer eyJhbGciOi" })).toBe(true);
+  });
+
+  it("undefined veya null cookie.value ile TypeError atmaz", () => {
+    expect(
+      hasSupabaseAuthCookieHint([
+        { name: "sb-abcdef-auth-token" },
+        { name: "sb-abcdef-auth-token.0", value: undefined },
+        { name: "sb-abcdef-auth-token.1", value: null },
+      ]),
+    ).toBe(false);
+    expect(
+      hasSupabaseAuthCookieHint([
+        { name: "sb-abcdef-auth-token", value: undefined },
+        { name: "sb-abcdef-auth-token.0", value: "chunk" },
+      ]),
+    ).toBe(true);
   });
 });
 

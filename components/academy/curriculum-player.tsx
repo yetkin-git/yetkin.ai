@@ -6,18 +6,23 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { LinkButton } from "@/components/ui/link-button";
 import { LessonMediaPlayer } from "@/components/academy/lesson-media-player";
-import { LessonKaraokeStrip } from "@/components/academy/lesson-karaoke-strip";
+import { LessonPromptConsole } from "@/components/academy/lesson-prompt-console";
 import { LessonStudyTabs } from "@/components/academy/lesson-study-tabs";
 import { LessonCinemaEyeLayer } from "@/components/academy/lesson-visual-stage";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { normalizeAcronyms } from "@/lib/academy/acronym-normalizer";
 import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
 import { academyExamStartGateHref } from "@/lib/academy/continue-board";
+import { academyCompareDockPrompt, academyVisualCompareStage } from "@/lib/academy/excel-workspace";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import {
   academyPlayerClockDurationSec,
   academySealedAudioDurationSec,
 } from "@/lib/academy/lesson-audio";
+import {
+  academyPlaybackCueAtTime,
+  loadAcademyLessonPlaybackCues,
+} from "@/lib/academy/lesson-cues";
 import { academyBedOutroTailSec } from "@/lib/academy/lesson-bed-duck";
 import {
   ACADEMY_LESSON_AUTO_ADVANCE_DEFAULT,
@@ -127,6 +132,19 @@ export function CurriculumPlayer({
   );
   const karaoke = playerLayer.kind === "article+karaoke" ? playerLayer : null;
   const eyeStage = karaoke ? loadAcademyLessonVisualStage(karaoke.lessonKey) : null;
+  const dockPrompt = useMemo(() => {
+    if (!karaoke) {
+      return null;
+    }
+    const clockCue = academyPlaybackCueAtTime(
+      loadAcademyLessonPlaybackCues(karaoke.lessonKey),
+      mediaElapsed,
+    );
+    if (!clockCue) {
+      return null;
+    }
+    return academyCompareDockPrompt(academyVisualCompareStage(karaoke.lessonKey, clockCue.id));
+  }, [karaoke, mediaElapsed]);
 
   useEffect(() => {
     endedLessonKeyRef.current = null;
@@ -312,11 +330,11 @@ export function CurriculumPlayer({
 
   const playlist = (
     <aside
-      className="academy-player-rail flex min-h-0 flex-col overflow-hidden max-lg:max-h-28 lg:sticky lg:top-3 lg:max-h-[calc(100dvh-5.5rem)] lg:self-start"
+      className="academy-player-rail academy-playlist flex min-h-0 w-full flex-col overflow-hidden max-lg:max-h-28 lg:sticky lg:top-0 lg:w-[360px] lg:min-h-[var(--academy-stage-max-h)] lg:max-h-[var(--academy-playlist-max-h)] lg:self-start"
       data-academy-player-playlist=""
       data-academy-autoplay={autoAdvanceEnabled ? "on" : "off"}
     >
-      <div className="academy-player-playlist-head shrink-0 flex items-center justify-between gap-2 px-1 pb-2">
+      <div className="academy-player-playlist-head mt-0 shrink-0 flex items-center justify-between gap-2 px-1 pb-2 pt-0">
         <p className="min-w-0 truncate text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--muted)]">
           {copy.playlistLabel}
         </p>
@@ -340,7 +358,7 @@ export function CurriculumPlayer({
         </button>
       </div>
       <ol
-        className="flex min-h-0 gap-2 overflow-x-auto overscroll-contain pr-1 lg:flex-1 lg:flex-col lg:space-y-2 lg:gap-0 lg:overflow-y-auto"
+        className="academy-player-playlist-list flex min-h-0 gap-2 overflow-x-auto overscroll-contain pr-1 lg:flex-1 lg:flex-col lg:gap-[var(--academy-playlist-item-gap)] lg:overflow-y-auto"
         aria-label={copy.playlistLabel}
       >
         {lessons.map((lesson) => {
@@ -360,7 +378,7 @@ export function CurriculumPlayer({
                   }
                   selectLesson(lesson.key, { autoStart: true });
                 }}
-                className={`academy-player-rail-item flex w-full items-center gap-2.5 rounded-[0.9rem] px-3.5 py-2.5 text-left text-[13px] leading-snug tracking-[-0.014em] ${
+                className={`academy-player-rail-item flex w-full items-center gap-2.5 rounded-[0.9rem] text-left text-[13px] leading-snug tracking-[-0.014em] ${
                   selected ? "academy-player-rail-item--active" : "text-[var(--muted)]"
                 } disabled:cursor-not-allowed disabled:opacity-45`}
                 data-academy-lesson-delivery={media.kind === "audio" ? "karaoke" : "article"}
@@ -394,38 +412,29 @@ export function CurriculumPlayer({
 
   return (
     <div
-      className="academy-player-shell grid min-h-0 flex-1 grid-cols-1 grid-rows-[auto_auto] gap-5 overflow-visible lg:grid-cols-[minmax(0,1fr)_19rem] lg:grid-rows-[auto] lg:items-start lg:gap-6"
+      className="academy-player-shell mx-auto grid min-h-0 w-full max-w-[1580px] flex-1 grid-cols-1 grid-rows-[auto_auto] gap-3 overflow-visible lg:grid-cols-[minmax(0,1fr)_360px] lg:grid-rows-[auto] lg:items-start lg:gap-4"
       data-academy-player="article"
       data-academy-player-layout="document"
     >
       {active ? (
         <>
           <div
-            className="academy-player-main relative flex min-h-0 min-w-0 flex-col gap-5 lg:col-start-1"
+            className="academy-player-main relative mt-0 flex min-h-0 min-w-0 flex-col gap-[var(--academy-player-study-gap,0.5rem)] pt-0 lg:col-start-1"
             data-academy-hybrid="media-then-study"
           >
-            <header className="shrink-0 px-1 sm:px-0 flex flex-wrap items-center justify-between gap-2">
-              <h2 className="truncate text-[1.125rem] font-semibold tracking-[-0.032em] text-slate-900 sm:text-[1.375rem] sm:leading-[1.2]">
-                {activeTitle}
-              </h2>
-              <span
-                data-academy-mode-badge=""
-                data-academy-mode={karaoke ? "karaoke" : "article"}
-                data-academy-lesson-delivery={karaoke ? "karaoke" : "article"}
-                className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                  karaoke
-                    ? "bg-[var(--safir-soft)] text-[var(--safir-deep)]"
-                    : "border border-slate-200 bg-white text-slate-600"
-                }`}
-              >
-                <span className={`h-1.5 w-1.5 rounded-full ${karaoke ? "bg-[var(--safir)]" : "bg-slate-400"}`} />
-                {karaoke ? copy.modeKaraoke : copy.modeArticle}
-              </span>
-            </header>
+            <h2 className="sr-only">{activeTitle}</h2>
+            <span
+              data-academy-mode-badge=""
+              data-academy-mode={karaoke ? "karaoke" : "article"}
+              data-academy-lesson-delivery={karaoke ? "karaoke" : "article"}
+              className="sr-only"
+            >
+              {karaoke ? copy.modeKaraoke : copy.modeArticle}
+            </span>
 
             {karaoke ? (
               <section
-                className="academy-player-karaoke academy-cinema-stage overflow-hidden rounded-2xl border border-slate-200 bg-slate-950"
+                className="academy-player-karaoke academy-cinema-stage mt-0 overflow-visible bg-transparent pt-0"
                 data-academy-karaoke="sealed"
                 data-academy-media="sealed-wav"
                 data-academy-canvas="full"
@@ -438,13 +447,9 @@ export function CurriculumPlayer({
                     currentTime={mediaElapsed}
                     playing={mediaPlaying}
                     captions={false}
+                    karaokeCues={karaoke.cues}
                   />
                 ) : null}
-                <LessonKaraokeStrip
-                  cues={karaoke.cues}
-                  currentTime={mediaElapsed}
-                  playing={mediaPlaying}
-                />
                 <LessonMediaPlayer
                   key={active.key}
                   courseSlug={courseSlug}
@@ -461,6 +466,20 @@ export function CurriculumPlayer({
                   }}
                   onEnded={onMediaEnded}
                 />
+                {karaoke && dockPrompt ? (
+                  <div
+                    className="academy-player-compare-prompt"
+                    data-academy-compare-prompt-dock=""
+                    data-academy-prompt-host="below-transport"
+                  >
+                    <LessonPromptConsole
+                      prompt={dockPrompt.prompt}
+                      currentTime={mediaElapsed}
+                      lessonKey={karaoke.lessonKey}
+                      cueIndex={dockPrompt.cueIndex}
+                    />
+                  </div>
+                ) : null}
               </section>
             ) : null}
 

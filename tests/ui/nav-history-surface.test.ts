@@ -80,12 +80,18 @@ describe("üst şerit geçmiş okları", () => {
     expect(NAV_HISTORY_STORAGE_KEY).toBe("yetkin-rail.shell.nav-history");
   });
 
-  it("üst şeritte breadcrumb soluna yuvarlak geri/ileri bağlar; router.back/forward kullanır", () => {
+  it("üst şeritte geri/ileri oklarını profil kümesinin soluna bağlar; router.back/forward kullanır", () => {
     const header = readSrc("components/shell/header-bar.tsx");
     const controls = readSrc("components/shell/nav-history-controls.tsx");
     const icons = readSrc("components/ui/icons.tsx");
     expect(header.indexOf("<NavHistoryControls")).toBeGreaterThan(-1);
-    expect(header.indexOf("<NavHistoryControls")).toBeLessThan(header.indexOf("<HeaderBreadcrumb"));
+    expect(header.indexOf("<HeaderBreadcrumb")).toBeGreaterThan(-1);
+    expect(header.indexOf("<NavHistoryControls")).toBeGreaterThan(header.indexOf("<HeaderBreadcrumb"));
+    expect(header.indexOf("<NavHistoryControls")).toBeLessThan(header.indexOf("{userCluster}"));
+    expect(header).toContain("data-shell-header-actions");
+    expect(header).toContain("isAcademyPlayPath");
+    expect(header).toContain('data-academy-play-chrome={playPath ? "true" : undefined}');
+    expect(header).toContain("h-12");
     expect(controls).toContain('"use client"');
     expect(controls).toContain("useRouter");
     expect(controls).toContain("usePathname");

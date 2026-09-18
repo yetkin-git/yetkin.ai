@@ -13,7 +13,10 @@ import {
   academyExcelParseCell,
   academyExcelSelection,
   academyExcelSnapBoxToColumns,
+  academyVisualCinematicFrameSrc,
   academyVisualCompareStage,
+  academyVisualStageBackdropTheme,
+  ACADEMY_OFFICE_AI_01_FRAME_PUBLIC_PATH,
 } from "@/lib/academy/excel-workspace";
 import { ACADEMY_GMAIL_GEMINI_PROMPT } from "@/lib/academy/gmail-workspace";
 
@@ -183,5 +186,14 @@ describe("Beat 3 Prompt Terminali dock", () => {
     const gmail = academyVisualCompareStage("01_office_ai-g1", "cue-05");
     expect(academyCompareDockPrompt(gmail)?.prompt).toBe(ACADEMY_GMAIL_GEMINI_PROMPT);
     expect(loadAcademyCinemaCueSlides("01_office_ai-g1")[4]?.copilot?.prompt).toBe(ACADEMY_GMAIL_GEMINI_PROMPT);
+  });
+
+  it("Excel cinematic kare yalnız Excel derslerinde; sunum ve e-posta kendi temasını taşır", () => {
+    expect(academyVisualStageBackdropTheme("01_office_ai-1")).toBe("excel");
+    expect(academyVisualStageBackdropTheme("01_office_ai-3")).toBe("pptx");
+    expect(academyVisualStageBackdropTheme("01_office_ai-4")).toBe("outlook");
+    expect(academyVisualCinematicFrameSrc("01_office_ai-1")).toBe(ACADEMY_OFFICE_AI_01_FRAME_PUBLIC_PATH);
+    expect(academyVisualCinematicFrameSrc("01_office_ai-3")).toBeNull();
+    expect(academyVisualCinematicFrameSrc("01_office_ai-4")).toBeNull();
   });
 });

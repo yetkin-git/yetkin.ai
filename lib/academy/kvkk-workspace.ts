@@ -11,9 +11,10 @@ export const ACADEMY_KVKK_SHEET_NAME = "Maske" as const;
 export const ACADEMY_KVKK_COPILOT_PROMPT =
   "Bu üç satır maskelidir. Ad yok, telefon yok. Sütun adları Ürün, Adet, Bölge. Bölge bazında üç maddelik özet iste. Kişisel veri ekleme." as const;
 
-export const ACADEMY_KVKK_FLAG_CELLS = ["B2", "C2", "D3"] as const;
+/** Ham ızgarada Ad, Telefon, IBAN — ürün hücresi bayrak almaz. */
+export const ACADEMY_KVKK_FLAG_CELLS = ["A2", "B2", "C2"] as const;
 
-/** Ham yapıştırma — kişi adı ve IBAN açık. Maskeli tablo Beat 3’e kadar kapalı. */
+/** Ham yapıştırma — kişi adı, telefon ve IBAN açık. Maskeli tablo Beat 3’e kadar kapalı. */
 export const ACADEMY_KVKK_RAW_TABLE = {
   headers: ["Ad", "Telefon", "IBAN", "Ürün"],
   rows: [
@@ -26,14 +27,14 @@ export const ACADEMY_KVKK_RAW_TABLE = {
   note: "Spoiler yasağı: maskeli kısa özet Beat 3’e kadar kapalı. Ekranda tam IBAN yok.",
 } as const;
 
+/** 3. Kapı: üç sahte satır + takma değer. Sütunlar istemle aynı: Ürün, Adet, Bölge. */
 export const ACADEMY_KVKK_MASKED_TABLE = {
   headers: ["Kod", "Bölge", "Ürün", "Adet"],
   rows: [
-    ["A.K.", "Marmara", "Un 25kg", "40"],
-    ["M.D.", "Ege", "Yağ 18L", "12"],
-    ["E.Y.", "İç Anadolu", "Şeker", "8"],
-    ["Toplam", "—", "—", "60"],
-    ["Not", "IBAN yok", "Telefon yok", "3 madde"],
+    ["Müşteri A", "Marmara", "Un 25kg", "40"],
+    ["Müşteri B", "Ege", "Yağ 18L", "12"],
+    ["Müşteri C", "İç Anadolu", "Şeker", "8"],
+    ["Not", "MASKELİ_IBAN", "MASKELİ_TELEFON", "3 satır"],
   ],
-  note: "3. Kapı: maskeli kısa özet. Ham kutu ve ekran görüntüsü zinciri yok.",
+  note: "3. Kapı: maskeli kısa özet. Ham kutu ve ekran görüntüsü zinciri yok. Üç satır yeter.",
 } as const;

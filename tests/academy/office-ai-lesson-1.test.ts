@@ -90,14 +90,23 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).toMatch(/ataş simgesinden/u);
     expect(prose).toMatch(/Hazırsan 2\. derste buluşalım/u);
     expect(prose).toMatch(/tabloyu temizleme refleksi artık cebinde/u);
-    expect(prose).toMatch(/KVKK/u);
+    expect(prose).toMatch(/Kavekaka/u);
     expect(prose).toMatch(/maskeleme/u);
     expect(prose).not.toMatch(/grafik raporuna/u);
     expect(prose).not.toMatch(/görüşmek üzere/u);
     expect(prose).not.toMatch(/kirli/iu);
     expect(prose).not.toMatch(/Uygulama Programlama Arayüzü/u);
     expect(prose).not.toMatch(/Özet Tablo \(Pivot\) tablo/u);
-    expect(prose).toMatch(/özel API/u);
+    expect(prose).not.toMatch(/süper gücün/u);
+    expect(prose).not.toMatch(/sihirli başlangıç/u);
+    expect(prose).not.toMatch(/Kör bir fizik yasası/u);
+    expect(prose).not.toMatch(/enerjini topla/u);
+    expect(prose).not.toMatch(/hafızana kazı/u);
+    expect(prose).toMatch(/Şimdi mantığı oturtalım/u);
+    expect(prose).toMatch(/Peki neden/u);
+    expect(prose).toMatch(/Neden\?/u);
+    expect(prose).toMatch(/ö zel API/u);
+    expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).toMatch(/özel API/u);
     expect(prose).toMatch(/özet tabloya/u);
     expect(cues.map((cue) => academyPunchcardLabel(cue.text))).toEqual([...PUNCHCARDS]);
     expect(cues.map((cue) => cue.paragraphs?.length ?? 0)).toEqual([1, 2, 2, 2, 3, 2, 1, 2]);
@@ -180,9 +189,10 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     const layer = academyCitizenPlayerLayer(SLUG, KEY);
     expect(layer.kind).toBe("article+karaoke");
     const player = readFileSync(join(ROOT, "components/academy/curriculum-player.tsx"), "utf8");
-    expect(player).toContain("<LessonKaraokeStrip");
-    expect(player).toContain("karaoke.cues");
+    const eye = readFileSync(join(ROOT, "components/academy/lesson-visual-stage.tsx"), "utf8");
+    expect(player).toContain("karaokeCues={karaoke.cues}");
     expect(player).toContain("captions={false}");
+    expect(eye).toContain("<LessonKaraokeStrip");
   });
 
   it("vatandaş sahnesi canlı A1 tablosunu basar; rozet sağ üstte metne binmez", () => {
@@ -286,7 +296,7 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     const spoken = loadAcademySealedAudioTimings(KEY)?.pieces.map((piece) => piece.text).join(" ") ?? "";
     expect(spoken).not.toMatch(/Uygulama Programlama Arayüzü/u);
     expect(spoken).not.toMatch(/Özet Tablo \(Pivot\) tablo/u);
-    expect(spoken).toMatch(/özel API/u);
+    expect(spoken).toMatch(/ö zel API/u);
     expect(spoken).toMatch(/özet tabloya/u);
   });
 });

@@ -58,7 +58,7 @@ export const OFFICE_AI_EXAM_QUESTIONS: AcademyExamQuestion[] = [
     "Excel tablosunu yapay zekâya verirken Üç Kapı sırası hangisidir?",
     [
       "Önce gemini.google.com, sonra ataş, en son Copilot şeridi",
-      "1. Kapı Copilot şeridi, 2. Kapı ataş, 3. Kapı maskeli kısa özet",
+      "1. Kapı yerleşik panel (Copilot / Gemini şeridi), 2. Kapı ataş (xlsx, docx, pptx), 3. Kapı maskeli kısa özet",
       "Önce VBA, sonra ekran görüntüsü zinciri",
       "Ham tabloyu her zaman dış sohbete yapıştırmak",
     ],
@@ -275,12 +275,12 @@ export const OFFICE_AI_EXAM_QUESTIONS: AcademyExamQuestion[] = [
   ),
   mcq(
     "q_off_24",
-    "Cuma rutininin üç bloğu nasıl bölünür?",
+    "CRM ekran görüntüsünü sohbet kutusuna yapıştırmak neden üçüncü kapı değildir?",
     [
-      "Yalnız e-posta, üç kez",
-      "Excel (ataş veya Copilot), slayt (üç madde + eylem), e-posta (aynı pencerede kapat)",
-      "PDF bas, tahmin ettir, sil",
-      "Kaseti başa sar",
+      "Ekran görüntüsü her zaman maskelidir",
+      "Ham kimlik ve sır görüntüde durur; üçüncü kapı yalnız maskeli kısa özettir",
+      "PDF yapmak üçüncü kapıdır",
+      "Copilot şeridi ekran görüntüsü ister",
     ],
     1,
   ),
@@ -429,7 +429,7 @@ export const OFFICE_AI_EXAM_QUESTIONS: AcademyExamQuestion[] = [
   ),
   mcq(
     "q_off_38",
-    "Kamu ürün kataloğu ile kişiye bağlı müşteri satırı aynı kapıdan mı gider?",
+    "Kamu ürün kataloğu ile kişiye bağlı müşteri satırı aynı güvenlik sınıfında mıdır?",
     [
       "Evet; ikisi de ataşla yüklenir",
       "Hayır; kamu katalog cümlesi gidebilir, kişiye bağlı satır ham haliyle gitmez",
@@ -476,9 +476,9 @@ export const OFFICE_AI_EXAM_QUESTIONS: AcademyExamQuestion[] = [
     "Maskelemek ne demektir?",
     [
       "Dosyayı silmek",
+      "Ayşe Kaya yerine Müşteri A, IBAN yerine MASKELİ_IBAN yazıp soruyu bırakmak",
       "Adı baş harfe, IBAN’ı son dört haneye indirip soruyu bırakmak",
       "Tüm satırları PDF yapmak",
-      "Copilot şeridini kapatmak",
     ],
     1,
   ),

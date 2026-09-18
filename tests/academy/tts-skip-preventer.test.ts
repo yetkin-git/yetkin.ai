@@ -19,6 +19,12 @@ describe("TTS model skip preventer", () => {
     const spoken = applyAcademyCueDisplayPhonetics(expandAcademyTtsSkipPreventer("F2'ye bas"));
     expect(spoken).toBe("Şimdi Ef iki tuşuna basıyorsun.");
     expect(spoken).not.toMatch(/\bF2\b/u);
+    expect(applyAcademyCueDisplayPhonetics("KVKK")).toBe("Kavekaka");
+    expect(applyAcademyCueDisplayPhonetics("T.C. Kimlik No")).toBe("TC kimlik numarası");
+    expect(applyAcademyCueDisplayPhonetics("MASKELİ_IBAN")).toBe("MASKELİ IBAN");
+    expect(applyAcademyCueDisplayPhonetics("MASKELİ_TELEFON")).toBe("MASKELİ TELEFON");
+    expect(applyAcademyCueDisplayPhonetics("MASKELİ_MAAŞ")).toBe("MASKELİ MAAŞ");
+    expect(applyAcademySpokenPhoneticsToDisplay("Kavekaka kuralını")).toBe("KVKK kuralını");
     expect(applyAcademyCueDisplayPhonetics("F2 tuşuna basardın")).toContain("Ef iki");
     expect(applyAcademyCueDisplayPhonetics("+90")).toMatch(/artı doksan/iu);
     expect(applyAcademyCueDisplayPhonetics("Alt+F11")).toBe("Alt Ef on bir");
@@ -27,6 +33,13 @@ describe("TTS model skip preventer", () => {
     expect(applyAcademyCueDisplayPhonetics("Buybox")).toBe("Baybaks");
     expect(applyAcademyCueDisplayPhonetics("Bundle")).toBe("Bantıl");
     expect(applyAcademyCueDisplayPhonetics("ChatGPT")).toBe("Çetcipiti");
+    expect(applyAcademyCueDisplayPhonetics("özel API")).toBe("ö zel API");
+    expect(applyAcademyCueDisplayPhonetics("şirketinin özel API'sine")).toBe(
+      "şirketinin ö zel API'sine",
+    );
+    expect(applyAcademySpokenPhoneticsToDisplay("ö zel API ise evdeki kuralları unutmaz")).toBe(
+      "özel API ise evdeki kuralları unutmaz",
+    );
     expect(applyAcademyCueDisplayPhonetics("gemini.google.com")).toBe("cemini nokta gugıl nokta kom");
     expect(applyAcademySpokenPhoneticsToDisplay("cemini nokta gugıl nokta kom")).toBe("gemini.google.com");
     expect(applyAcademyCueDisplayPhonetics("chatgpt.com")).toBe("çetcipiti nokta kom");

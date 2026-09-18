@@ -42,7 +42,7 @@ describe("Nasıl Yapılır? — Prompt Terminali ve adım bandı", () => {
   it("seste komut verilirken istem harf harf açılır; reduced-motion tam metni basar", () => {
     const prompt = ACADEMY_OUTLOOK_COPILOT_PROMPT;
     expect(academyCinemaCueId(4)).toBe("cue-04");
-    expect(academyPromptCueStart("01_office_ai-4", 4)).toBe(170.84);
+    expect(academyPromptCueStart("01_office_ai-4", 4)).toBe(168.36);
     expect(ACADEMY_PROMPT_CHARS_PER_SEC).toBe(22);
     expect(loadAcademyCinemaCueSlides("01_office_ai-4")[3]?.copilot?.prompt).toBe(prompt);
     const waiting = academyPromptTypedText({ prompt, currentTime: 200, cueStart: 201.2 });
@@ -101,8 +101,13 @@ describe("Nasıl Yapılır? — Prompt Terminali ve adım bandı", () => {
     expect(academyHowtoActiveIndex("01_office_ai-5", "HATA AVI")).toBe(1);
     expect(academyHowtoActiveIndex("01_office_ai-5", "FARK ORTADA")).toBe(2);
     expect(academyHowtoActiveIndex("01_office_ai-5", "CEBİNE KOY")).toBe(-1);
-    expect(academyHowtoActiveIndexAtTime("01_office_ai-5", 183.04, loadAcademyLessonPlaybackCues("01_office_ai-5"))).toBe(1);
-    expect(academyHowtoActiveIndexAtTime("01_office_ai-5", 246.76, loadAcademyLessonPlaybackCues("01_office_ai-5"))).toBe(2);
+    const huntCues = loadAcademyLessonPlaybackCues("01_office_ai-5");
+    const huntCue = huntCues.find((cue) => cue.id === "cue-04");
+    const detectiveCue = huntCues.find((cue) => cue.id === "cue-05");
+    expect(huntCue).toBeTruthy();
+    expect(detectiveCue).toBeTruthy();
+    expect(academyHowtoActiveIndexAtTime("01_office_ai-5", huntCue!.start + 0.2, huntCues)).toBe(1);
+    expect(academyHowtoActiveIndexAtTime("01_office_ai-5", detectiveCue!.start + 0.2, huntCues)).toBe(2);
   });
 
   it("Haftalık Sistem 1-2-3 bandı takvime yaz → üç bloğu kur → e-postayı kapat", () => {
@@ -173,13 +178,16 @@ describe("Nasıl Yapılır? — Prompt Terminali ve adım bandı", () => {
     expect(eye).toContain("LessonHowtoSteps");
     expect(eye).toContain("academyHowtoActiveIndex");
     expect(eye).toContain("academyPlaybackCueAtTime");
-    expect(eye).toContain("LessonPromptConsole");
+    expect(eye).not.toContain("LessonPromptConsole");
     expect(eye).toContain("data-academy-compare-prompt");
     expect(eye).toContain("data-academy-eye-canvas");
     expect(eye).toContain("data-academy-prompt-dock");
     expect(eye).toContain("data-academy-paste-guide");
     expect(eye).toContain("LessonGmailWorkspace");
     expect(eye).toContain("LessonWordWorkspace");
+    const player = readSrc("components/academy/curriculum-player.tsx");
+    expect(player).toContain("LessonPromptConsole");
+    expect(player).toContain('data-academy-prompt-host="below-transport"');
     expect(css).toContain(".academy-prompt-console");
     expect(css).toContain(".custom-scrollbar");
     expect(css).toContain("overflow-y: auto");

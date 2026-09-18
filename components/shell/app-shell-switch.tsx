@@ -34,7 +34,7 @@ export function AppShellSwitch({
         <main
           className={
             academyPlayer
-              ? "relative px-3 py-3 sm:px-4 lg:px-5"
+              ? "relative mt-0 px-3 pt-0 pb-3 sm:px-4 lg:px-5"
               : "relative px-4 py-8 sm:px-6 lg:px-8"
           }
         >

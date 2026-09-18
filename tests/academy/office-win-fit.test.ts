@@ -83,7 +83,10 @@ describe("Sinema masası office-win-fit — 16:9 contain / scale-down", () => {
       /\.academy-player-waiter\.academy-player-compare\s*\{[^}]*height:\s*auto/u,
     );
     expect(css).toMatch(
-      /\.academy-player-compare-label\s*\{[^}]*position:\s*absolute/u,
+      /\.academy-player-compare-label\s*\{[^}]*position:\s*static/u,
+    );
+    expect(css).toMatch(
+      /\.academy-player-compare-label\s*\{[^}]*flex:\s*0 0 auto/u,
     );
     expect(css).not.toMatch(
       /\.academy-player-compare-pane \.academy-gmail-carry[\s\S]{0,400}max-height:\s*28%/u,

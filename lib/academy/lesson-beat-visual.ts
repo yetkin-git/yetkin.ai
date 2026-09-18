@@ -22,9 +22,17 @@ export const ACADEMY_GOLDEN_COMPARE_AFTER_LABEL = "SONRA (AI İLE)" as const;
 export const ACADEMY_OFFICE_AI_2_COMPARE_BEFORE_LABEL = "ÖNCE (10 SAYFALIK DÖKÜM)" as const;
 export const ACADEMY_OFFICE_AI_2_COMPARE_AFTER_LABEL = "SONRA (3 MADDELİK YÖNETİM ÖZETİ - AI)" as const;
 
+/** Öğrencinin Prompt Terminaline yazacağı gerçek istem — reji notu yok. PEDAGOJI §E.7. */
+export const ACADEMY_OFFICE_AI_2_COPILOT_PROMPT =
+  "Bu temiz tablodan toplamı ve trendi söyle. Tam üç maddelik yönetici özeti ve tek karar cümlesi yaz. Sayıları tablodaki hücrelerden al. Uydurma yüzde ekleme." as const;
+
 /** 01_office_ai-3 Beat 3 — düz metin yığını vs görsel hiyerarşili slayt. */
 export const ACADEMY_OFFICE_AI_3_COMPARE_BEFORE_LABEL = "ÖNCE (DÜZ METİN YIĞINI)" as const;
 export const ACADEMY_OFFICE_AI_3_COMPARE_AFTER_LABEL = "SONRA (GÖRSEL HİYERARŞİLİ SLAYT - AI)" as const;
+
+/** Öğrencinin Prompt Terminaline yazacağı gerçek istem — reji notu yok. PEDAGOJI §E.7. */
+export const ACADEMY_OFFICE_AI_3_COPILOT_PROMPT =
+  "Bu düz metni slayt başına tek fikir ve görsel yönlendirme ile taslağa çevir. Copilot varsa şeride yaz; yoksa pptx ataşla." as const;
 
 /** 01_office_ai-4 Beat 3 — 142 okunmamış mail vs sıfırlanmış kutu. */
 export const ACADEMY_OFFICE_AI_4_COMPARE_BEFORE_LABEL = "ÖNCE (142 OKUNMAMIŞ MAİL)" as const;

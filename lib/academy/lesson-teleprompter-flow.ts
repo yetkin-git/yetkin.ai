@@ -436,3 +436,52 @@ export function academyTeleprompterLineState(
   }
   return lineIndex < activeIndex ? "past" : "future";
 }
+
+/** Karaoke altyazı tercihi — Temiz Sahne Modu localStorage. */
+export const ACADEMY_KARAOKE_CAPTIONS_STORAGE_KEY = "academy_karaoke_captions" as const;
+export const ACADEMY_KARAOKE_CAPTIONS_DEFAULT = true;
+
+export function parseStoredAcademyKaraokeCaptions(raw: string | null): boolean {
+  if (raw == null) {
+    return ACADEMY_KARAOKE_CAPTIONS_DEFAULT;
+  }
+  const value = raw.trim().toLowerCase();
+  if (value === "1" || value === "true" || value === "on") {
+    return true;
+  }
+  if (value === "0" || value === "false" || value === "off") {
+    return false;
+  }
+  return ACADEMY_KARAOKE_CAPTIONS_DEFAULT;
+}
+
+export function serializeAcademyKaraokeCaptions(enabled: boolean): "1" | "0" {
+  return enabled ? "1" : "0";
+}
+
+export function readAcademyKaraokeCaptionsFromStorage(): boolean {
+  if (typeof window === "undefined") {
+    return ACADEMY_KARAOKE_CAPTIONS_DEFAULT;
+  }
+  try {
+    return parseStoredAcademyKaraokeCaptions(
+      window.localStorage.getItem(ACADEMY_KARAOKE_CAPTIONS_STORAGE_KEY),
+    );
+  } catch {
+    return ACADEMY_KARAOKE_CAPTIONS_DEFAULT;
+  }
+}
+
+export function writeAcademyKaraokeCaptionsToStorage(enabled: boolean): void {
+  if (typeof window === "undefined") {
+    return;
+  }
+  try {
+    window.localStorage.setItem(
+      ACADEMY_KARAOKE_CAPTIONS_STORAGE_KEY,
+      serializeAcademyKaraokeCaptions(enabled),
+    );
+  } catch {
+    /* kota / gizli tarama — tercih oturumda kalır */
+  }
+}

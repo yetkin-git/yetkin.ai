@@ -1,6 +1,8 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { loadAcademyCinemaCueSlides } from "@/lib/academy/cinema-cue-catalog";
+import { ACADEMY_OFFICE_AI_3_COPILOT_PROMPT } from "@/lib/academy/lesson-beat-visual";
 import {
   ACADEMY_PPTX_ACTION_BAND,
   ACADEMY_PPTX_KPI_CARDS,
@@ -9,6 +11,7 @@ import {
   academyPptxElementForCell,
   academyPptxHasDeck,
 } from "@/lib/academy/pptx-workspace";
+import { renderAcademyCinemaCueHtml } from "../../scripts/render-academy-cinema-html";
 
 const ROOT = process.cwd();
 
@@ -35,6 +38,9 @@ describe("Sunum Fabrikası slayt seçim kutusu — getBoundingClientRect", () =>
     expect(pptx).toContain("data-academy-office-win-fit");
     expect(pptx).toContain("data-academy-pptx-origin");
     expect(pptx).toContain("data-academy-checklist-overlay");
+    expect(pptx).toContain("academy-pptx-canvas aspect-video");
+    expect(slide).toContain("min-h-[4.35rem]");
+    expect(slide).toContain("items-center");
     expect(slide).toContain("ACADEMY_PPTX_SLIDE_TITLE");
     expect(slide).toContain("ACADEMY_PPTX_KPI_CARDS");
     expect(slide).toContain("ACADEMY_PPTX_ACTION_BAND");
@@ -46,11 +52,39 @@ describe("Sunum Fabrikası slayt seçim kutusu — getBoundingClientRect", () =>
     expect(css).toContain("text-overflow: clip");
     expect(css).toContain(".academy-pptx-slide-title");
     expect(css).toMatch(/\.academy-pptx-slide-title\s*\{[^}]*text-align:\s*center/s);
+    expect(css).toMatch(/\.academy-pptx-canvas\s*\{[^}]*aspect-ratio:\s*16 \/ 9/s);
+    expect(css).toMatch(/\.academy-pptx-canvas\s*\{[^}]*object-fit:\s*contain/s);
+    expect(css).toMatch(/\.academy-pptx-canvas\s*\{[^}]*height:\s*auto/s);
+    expect(css).toMatch(/\.academy-pptx-canvas-wrap\s*\{[^}]*align-items:\s*center/s);
     expect(css).toMatch(/\.academy-pptx-kpi\s*\{[^}]*text-align:\s*center/s);
+    expect(css).toMatch(/\.academy-pptx-kpi\s*\{[^}]*flex-direction:\s*column/s);
+    expect(css).toMatch(/\.academy-pptx-kpi\s*\{[^}]*align-items:\s*center/s);
+    expect(css).toMatch(/\.academy-pptx-kpi\s*\{[^}]*min-height:\s*4\.35rem/s);
+    expect(css).toMatch(/\.academy-pptx-kpi\s*\{[^}]*overflow:\s*hidden/s);
+    expect(css).toMatch(/\.academy-pptx-kpi\s*\{[^}]*padding:\s*clamp\(/s);
+    expect(css).toMatch(/\.academy-pptx-kpi-grid\s*\{[^}]*gap:/s);
+    expect(css).toMatch(
+      /\.academy-player-compare-pane \.academy-pptx-kpi-grid\s*\{[^}]*align-items:\s*center/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-compare-pane \.academy-pptx-kpi\s*\{[^}]*min-height:\s*3\.7rem/s,
+    );
+    expect(css).toMatch(/\.academy-pptx-kpi-badge\s*\{[^}]*position:\s*static/s);
+    expect(css).not.toMatch(/\.academy-pptx-kpi-badge\s*\{[^}]*position:\s*absolute/s);
+    expect(css).toMatch(
+      /\.academy-player-compare-pane \.academy-pptx-kpi\[data-academy-pptx-on="true"\]\s*\{[^}]*transform:\s*none/s,
+    );
     expect(css).toMatch(/\.academy-pptx-action-band\s*\{[^}]*text-align:\s*center/s);
     expect(slide).toContain("text-center");
+    expect(slide).toContain("data-academy-pptx-kpi-badge");
     expect(css).toContain("scale(1.05)");
     expect(css).not.toMatch(/\.academy-pptx-[^{]*\{[^}]*text-overflow:\s*ellipsis/u);
+  });
+
+  it("öğrenci istemi reji notu taşımaz", () => {
+    const slide = loadAcademyCinemaCueSlides("01_office_ai-3").find((row) => row.cueIndex === 4);
+    expect(slide?.copilot?.prompt).toBe(ACADEMY_OFFICE_AI_3_COPILOT_PROMPT);
+    expect(slide?.copilot?.prompt).not.toMatch(/henüz açma|Beat 3|spoiler/iu);
   });
 
   it("pptx yüzeyinde tablo, düğüm veya madde varken deck açılır", () => {
@@ -66,5 +100,24 @@ describe("Sunum Fabrikası slayt seçim kutusu — getBoundingClientRect", () =>
       "Kaya Gıda A.Ş.",
       "%15 Riskli Vade",
     ]);
+  });
+
+  it("Ders 4 SONRA sinema kartı hiyerarşili slaytı bindirmeden basar", () => {
+    const slide = loadAcademyCinemaCueSlides("01_office_ai-3").find((row) => row.cueIndex === 6);
+    expect(slide).toBeTruthy();
+    const html = renderAcademyCinemaCueHtml(slide!);
+    expect(html).toContain('class="pptx-good"');
+    expect(html).toContain("pptx-good-head");
+    expect(html).toContain(ACADEMY_PPTX_SLIDE_TITLE);
+    expect(html).toContain("Kaya Gıda A.Ş.");
+    expect(html).toContain("%15 Riskli Vade");
+    expect(html).toContain("pptx-kpi-row");
+    expect(html).toMatch(/\.pptx-good\s*\{[^}]*aspect-ratio:\s*16 \/ 9/s);
+    expect(html).toMatch(/\.pptx-kpi-row\s*\{[^}]*grid-template-columns:\s*repeat\(3/s);
+    expect(html).toMatch(/\.pptx-kpi-row\s*\{[^}]*align-items:\s*center/s);
+    expect(html).toMatch(/\.pptx-kpi\s*\{[^}]*min-height:\s*160px/s);
+    expect(html).toMatch(/\.pptx-kpi em\s*\{[^}]*display:\s*inline-flex/s);
+    expect(html).not.toMatch(/\.pptx-kpi em\s*\{[^}]*position:\s*absolute/s);
+    expect(html).toContain(ACADEMY_PPTX_ACTION_BAND);
   });
 });

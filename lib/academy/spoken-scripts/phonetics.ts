@@ -76,6 +76,8 @@ const ACADEMY_CUE_DISPLAY_PHONETICS: readonly { display: string; spoken: string 
   { display: "Amazon", spoken: "Ama zon" },
   { display: "Buybox", spoken: "Baybaks" },
   { display: "Bundle", spoken: "Bantıl" },
+  /** Gemini 3.1 «özel»yi soyad Özal sanır; «ö zel» ikinci heceyi /e/ kilitler. */
+  { display: "özel API", spoken: "ö zel API" },
   { display: "Copilot", spoken: "Kopilot" },
   { display: "Gemini", spoken: "Cemini" },
   { display: "Claude", spoken: "Klod" },
@@ -90,6 +92,12 @@ const ACADEMY_CUE_DISPLAY_PHONETICS: readonly { display: string; spoken: string 
   { display: "AIDA", spoken: "Ayda" },
   { display: "CaaS", spoken: "Si ey as" },
   { display: "CTA", spoken: "Si ti a" },
+  { display: "T.C. Kimlik No", spoken: "TC kimlik numarası" },
+  { display: "MASKELİ_TELEFON", spoken: "MASKELİ TELEFON" },
+  { display: "MASKELİ_MAAŞ", spoken: "MASKELİ MAAŞ" },
+  { display: "MASKELİ_IBAN", spoken: "MASKELİ IBAN" },
+  /** Gemini «KVKK»yi tek hece okur; «Kavekaka» Ka-Ve-Ka-Ka kilididir. Cue ekranda KVKK kalır. */
+  { display: "KVKK", spoken: "Kavekaka" },
   { display: "CRM", spoken: "Si ar em" },
   { display: "JSON", spoken: "Ceyson" },
   { display: "LLM", spoken: "El el em" },

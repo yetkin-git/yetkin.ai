@@ -6,7 +6,10 @@
 
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import { ACADEMY_MEDIA_PUBLIC_ROOT } from "@/lib/academy/lesson-media";
-import { isAcademyLessonAudioSealed } from "@/lib/academy/pilot-sku";
+import {
+  academyMediaSealedLessonKeys,
+  isAcademyLessonAudioSealed,
+} from "@/lib/academy/pilot-sku";
 
 /**
  * Mühürlü WAV süreleri (saniye, yuvarlanmış).
@@ -14,15 +17,15 @@ import { isAcademyLessonAudioSealed } from "@/lib/academy/pilot-sku";
  * Bake sonrası süre değişirse bu tabloyu güncelle. Taze ingest bekler.
  */
 export const ACADEMY_SEALED_AUDIO_DURATION_SEC: Readonly<Record<string, number>> = {
-  "01_office_ai-1": 529,
-  "01_office_ai-2": 512,
-  "01_office_ai-3": 527,
-  "01_office_ai-4": 496,
-  "01_office_ai-5": 421,
-  "01_office_ai-6": 412,
-  "01_office_ai-g1": 529,
-  "01_office_ai-w1": 521,
-  "01_office_ai-k1": 310,
+  "01_office_ai-1": 607,
+  "01_office_ai-2": 554,
+  "01_office_ai-3": 576,
+  "01_office_ai-4": 444,
+  "01_office_ai-5": 516,
+  "01_office_ai-6": 540,
+  "01_office_ai-g1": 567,
+  "01_office_ai-w1": 567,
+  "01_office_ai-k1": 678,
 };
 
 type AcademySealedLessonKey = keyof typeof ACADEMY_SEALED_AUDIO_DURATION_SEC;
@@ -119,6 +122,31 @@ export function academySealedAudioDurationSec(courseSlug: string, lessonKey: str
   }
   const sec = ACADEMY_SEALED_AUDIO_DURATION_SEC[lessonKey as keyof typeof ACADEMY_SEALED_AUDIO_DURATION_SEC];
   return typeof sec === "number" && sec > 0 ? sec : 0;
+}
+
+/**
+ * Mühürlü kaset kesin timings toplamı (saniye). Yuvarlak `ACADEMY_SEALED_AUDIO_DURATION_SEC` değil.
+ * Vitrin / `estimatedTotalMinutes` bu fonksiyonu okur.
+ */
+export function academyCourseSealedDurationSec(courseSlug: string): number {
+  let total = 0;
+  for (const lessonKey of academyMediaSealedLessonKeys(courseSlug)) {
+    const timings = loadAcademySealedAudioTimings(lessonKey);
+    if (timings && timings.durationSec > 0) {
+      total += timings.durationSec;
+      continue;
+    }
+    const fallback = ACADEMY_SEALED_AUDIO_DURATION_SEC[lessonKey as AcademySealedLessonKey];
+    if (typeof fallback === "number" && fallback > 0) {
+      total += fallback;
+    }
+  }
+  return total;
+}
+
+/** Kurs süresi dakika — timings toplamı, iki ondalık. */
+export function academyCourseSealedDurationMinutes(courseSlug: string): number {
+  return Math.round((academyCourseSealedDurationSec(courseSlug) / 60) * 100) / 100;
 }
 
 function finitePositiveSec(value: number): number {

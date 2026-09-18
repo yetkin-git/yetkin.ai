@@ -29,11 +29,25 @@ export const ACADEMY_WEEKLY_ROUTINE_CHAOS_TABLE = {
 export const ACADEMY_WEEKLY_ROUTINE_SYSTEM_TABLE = {
   headers: ["Blok", "İş", "Süre", "Kapı"],
   rows: [
-    ["0–10", "Excel ataş", "10 dk", "Tablo yerinde"],
-    ["10–20", "Üç madde + slayt", "10 dk", "Tek fikir"],
-    ["20–30", "E-posta", "10 dk", "Gelen kutusu"],
-    ["Sonra", "Gmail paneli", "g1", "Gemini"],
-    ["Sonra", "Word ataş", "w1", "Sözleşme"],
+    ["0–10", "Excel temizlik", "10 dk", "Tablo yerinde"],
+    ["10–20", "Slayt özet", "10 dk", "Üç madde"],
+    ["20–30", "E-posta sıfırlama", "10 dk", "Gelen kutusu"],
   ],
-  note: "Cuma 30 Dakika üç blok. 3. Kapı maskeli kısa özet. Sınav tüm dersler bitince.",
+  note: "Cuma 30 Dakika üç blok: Excel temizlik, slayt özet, e-posta sıfırlama. 3. Kapı maskeli kısa özet.",
 } as const;
+
+/** Cue-08 canlı sahne — 16:9 tuvalde dikey ezilmeden oturan kapanış mührü. */
+export const ACADEMY_WEEKLY_ROUTINE_EXAM_GATE_SEAL = "Sınav Kapısı Açıldı" as const;
+export const ACADEMY_WEEKLY_ROUTINE_EXAM_GATE_SEAL_SUB = "Baraj 70 · mühürlü vize kartı" as const;
+
+export function academyWeeklyRoutineExamGateSealVisible(
+  lessonKey: string,
+  section: string,
+  pane?: string,
+): boolean {
+  return (
+    lessonKey.trim() === "01_office_ai-6" &&
+    section.trim() === "SIRA SENDE" &&
+    pane !== "before"
+  );
+}

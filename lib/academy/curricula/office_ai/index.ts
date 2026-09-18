@@ -1,4 +1,5 @@
 import type { CurriculumModule, Section } from "../types";
+import { academyCourseSealedDurationMinutes } from "@/lib/academy/lesson-audio";
 import { section1 } from "./section_1";
 import { section2 } from "./section_2";
 import { section3 } from "./section_3";
@@ -47,7 +48,7 @@ export const officeAiMasteryModule: CurriculumModule = {
     "İş hayatına hazırlanan üniversite öğrencileri",
   ],
   methodology: "Canlı diyalog ve sen dili, sakin ve adım adım ekran rehberliği, sıfır kodlama, yüksek verim odaklı pratik ofis çözümleri.",
-  estimatedTotalMinutes: 73.32,
+  estimatedTotalMinutes: academyCourseSealedDurationMinutes("01_office_ai"),
   voiceConfig: {
     voice: "Callirrhoe",
     style: "Canlı diyalog ve sen dili, sakin ve adım adım ekran rehberliği",

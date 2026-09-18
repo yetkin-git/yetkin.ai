@@ -17,11 +17,10 @@ export function AcademyRoomSkeleton({
 }) {
   if (variant === "play") {
     return (
-      <RoomFrame cinema className="flex flex-col px-1 pt-1 pb-8 sm:px-2" aria-hidden>
-        <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-start lg:gap-6">
-          <div className="flex min-h-0 flex-col gap-3 lg:col-start-1">
-            <Pulse className="h-7 w-56 rounded-lg" />
-            <Pulse className="aspect-video w-full rounded-[1.15rem]" />
+      <RoomFrame cinema className="flex flex-col px-4 py-4 sm:px-6" aria-hidden>
+        <div className="mx-auto grid min-h-0 w-full max-w-[1580px] flex-1 grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start lg:gap-6">
+          <div className="mt-0 flex min-h-0 flex-col gap-3 pt-0 lg:col-start-1">
+            <Pulse className="aspect-video w-full max-h-[min(600px,calc(100vh-220px))] rounded-[1.15rem]" />
             <Pulse className="h-64 w-full rounded-2xl" />
             <Pulse className="h-11 w-full rounded-[0.9rem]" />
           </div>

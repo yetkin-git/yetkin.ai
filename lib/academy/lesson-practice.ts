@@ -38,17 +38,17 @@ Kısıt: Uydurma sütun ekleme. Orijinal sayfayı silme; temiz kopyayı yan sayf
   "01_office_ai-k1": officePractice(
     [
       { label: "Senin listen", value: "masandaki gerçek müşteri veya maaş dosyası adı" },
-      { label: "Maske haritası", value: "ad → baş harf; telefon → kırp; IBAN → son dört" },
+      { label: "Maske haritası", value: "Ayşe Kaya → Müşteri A; IBAN → MASKELİ_IBAN" },
     ],
     [
-      "Ham dosyayı sohbete yükleme. Ad, telefon, IBAN varsa dur.",
-      "Maske haritasını uygula: baş harf, kırpılmış telefon, son dört hane.",
+      "Ham dosyayı ChatGPT veya Gemini ekranına yükleme. Ad, telefon, IBAN, T.C. Kimlik No varsa dur.",
+      "Maske haritasını uygula: Ayşe Kaya yerine Müşteri A, IBAN yerine MASKELİ_IBAN.",
       "3. Kapıya yalnız maskeli üç satırlık soru yaz; ham kopyala-yapıştır atlanmış kapıdır.",
     ],
-    `Rol: KVKK bekçisi.
+    `Rol: KVKK uyum asistanı.
 Görev: Bu üç satır maskelidir. Ad yok, telefon yok, IBAN yok.
 Format: Sütun adları Ürün, Adet, Bölge. Bölge bazında üç maddelik özet iste.
-Kısıt: Kişi adı, açık IBAN, maaş veya T.C. kimlik üretme. Silmek yüklemeyi geri almaz.`,
+Kısıt: Kişi adı, açık IBAN, maaş veya T.C. Kimlik No üretme. Silmek yüklemeyi geri almaz.`,
   ),
   "01_office_ai-2": officePractice(
     [

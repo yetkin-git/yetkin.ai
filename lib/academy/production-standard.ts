@@ -10,6 +10,10 @@ export const ACADEMY_AI_LESSON_COUNT_MIN = 6;
 export const ACADEMY_AI_LESSON_COUNT_MAX = 12;
 export const ACADEMY_AI_LESSON_DURATION_MIN_MINUTES = 7;
 export const ACADEMY_AI_LESSON_DURATION_MAX_MINUTES = 12;
+/** 7 dk × 60 — mühürlü kaset alt bandı (saniye). */
+export const ACADEMY_AI_LESSON_DURATION_MIN_SEC = ACADEMY_AI_LESSON_DURATION_MIN_MINUTES * 60;
+/** 12 dk × 60 — mühürlü kaset üst bandı (saniye). */
+export const ACADEMY_AI_LESSON_DURATION_MAX_SEC = ACADEMY_AI_LESSON_DURATION_MAX_MINUTES * 60;
 
 export const ACADEMY_TTS_VOICE_GENDERS = ["female", "male"] as const;
 
@@ -86,6 +90,14 @@ export function isAcademyAiLessonCount(count: number): boolean {
 
 export function isAcademyAiLessonDurationMinutes(minutes: number): boolean {
   return Number.isFinite(minutes) && minutes >= ACADEMY_AI_LESSON_DURATION_MIN_MINUTES && minutes <= ACADEMY_AI_LESSON_DURATION_MAX_MINUTES;
+}
+
+export function isAcademyAiLessonDurationSec(seconds: number): boolean {
+  return (
+    Number.isFinite(seconds) &&
+    seconds >= ACADEMY_AI_LESSON_DURATION_MIN_SEC &&
+    seconds <= ACADEMY_AI_LESSON_DURATION_MAX_SEC
+  );
 }
 
 export function academyLessonSaturationTotalMinutes(): number {

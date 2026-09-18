@@ -34,6 +34,16 @@ function boxStyle(box: { left: number; top: number; width: number; height: numbe
   };
 }
 
+function outlookTagClass(tag: "Acil" | "Bekle" | "Arşiv") {
+  if (tag === "Acil") {
+    return "academy-outlook-tag academy-outlook-tag--acil";
+  }
+  if (tag === "Bekle") {
+    return "academy-outlook-tag academy-outlook-tag--bekle";
+  }
+  return "academy-outlook-tag academy-outlook-tag--arsiv";
+}
+
 export function LessonOutlookWorkspace({
   slide,
   pane,
@@ -210,7 +220,7 @@ export function LessonOutlookWorkspace({
                     return (
                       <article
                         key={group.id}
-                        className={`academy-outlook-group academy-outlook-group--${group.tone}${isOrigin ? " on" : ""}`}
+                        className={`academy-outlook-group academy-outlook-group--${group.tone}${isOrigin ? " on" : ""} overflow-hidden`}
                         data-academy-outlook-element={group.id}
                         data-academy-outlook-group={group.tone}
                         data-academy-outlook-origin={isOrigin ? "" : undefined}
@@ -232,8 +242,12 @@ export function LessonOutlookWorkspace({
               ) : (
                 <>
                   <div className="academy-outlook-list" data-academy-outlook-list="">
+                    <p className="academy-outlook-list-head">
+                      Gelen Kutusu · {unread} okunmamış
+                    </p>
                     {ACADEMY_OUTLOOK_DUMP_MAILS.map((mail) => {
                       const isOrigin = mail.id === activeElement;
+                      const showTag = mail.id.startsWith("mail-");
                       return (
                         <button
                           key={mail.id}
@@ -247,6 +261,7 @@ export function LessonOutlookWorkspace({
                           <b>{mail.from}</b>
                           <strong>{mail.subject}</strong>
                           <em>{mail.preview}</em>
+                          {showTag ? <span className={outlookTagClass(mail.tag)}>{mail.tag}</span> : null}
                         </button>
                       );
                     })}
@@ -255,6 +270,7 @@ export function LessonOutlookWorkspace({
                     <aside className="academy-outlook-read" data-academy-outlook-read="">
                       <p className="academy-outlook-read-from">{activeMail.from}</p>
                       <h3 className="academy-outlook-read-subject">{activeMail.subject}</h3>
+                      <span className={outlookTagClass(activeMail.tag)}>{activeMail.tag}</span>
                       <p className="academy-outlook-read-body">
                         Yüzlerce okunmamış satır üst üste biner. Etiket yok, taslak yok, arşiv kapalı.
                       </p>

@@ -1,6 +1,7 @@
 /**
  * 01_office_ai-w1 Word doküman analizi — doğrudan dosya yükleme SSOT.
- * Doğrudan dosya yükleme. Tüm dokümanı kopyalamak zahmetli yoldur; spesifik bir paragraf istemine eklenebilir. PEDAGOJI.md §E.9–E.10.
+ * Neden satır satır okutmak yerine riskli madde aratılır? Yığın çıkar; ceza, fesih, gizlilik kopar.
+ * Resmî belgede öğretmen SEN, belge SIZ. PEDAGOJI.md §C / §E.9–E.10.
  */
 
 export const ACADEMY_WORD_WINDOW_TITLE = "Word" as const;

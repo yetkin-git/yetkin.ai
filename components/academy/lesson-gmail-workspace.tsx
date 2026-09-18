@@ -11,8 +11,10 @@ import type { AcademyVisualExcelPane } from "@/lib/academy/excel-workspace";
 import { academyPocketChecklistSteps } from "@/lib/academy/lesson-beat-visual";
 import {
   ACADEMY_GMAIL_ACTION_GROUPS,
+  ACADEMY_GMAIL_ACTION_HEAD,
   ACADEMY_GMAIL_CARRY_WATER_CLIP,
   ACADEMY_GMAIL_FILE_NAME,
+  ACADEMY_GMAIL_INBOX_HEAD,
   ACADEMY_GMAIL_MAILS,
   ACADEMY_GMAIL_WINDOW_TITLE,
   academyGmailStageKind,
@@ -30,6 +32,16 @@ function boxStyle(box: { left: number; top: number; width: number; height: numbe
     width: `${box.width}px`,
     height: `${box.height}px`,
   };
+}
+
+function gmailTagClass(tag: string) {
+  if (tag === "Ödeme") {
+    return "academy-outlook-tag academy-outlook-tag--acil";
+  }
+  if (tag === "Onay") {
+    return "academy-outlook-tag academy-outlook-tag--bekle";
+  }
+  return "academy-outlook-tag academy-outlook-tag--arsiv";
 }
 
 export function LessonGmailWorkspace({
@@ -77,6 +89,7 @@ export function LessonGmailWorkspace({
   });
   const carryWater = stage === "disconnected";
   const nativeInbox = stage === "native";
+  const showGemini = Boolean(slide.copilot) && !carryWater && (pane === "live" || pane === "after");
   const originKey = `${highlight}:${slide.section}:${pane}`;
 
   useLayoutEffect(() => {
@@ -138,11 +151,12 @@ export function LessonGmailWorkspace({
       className={deskClass}
       data-academy-gmail-live=""
       data-academy-gmail-pane={pane}
+      data-academy-gmail-stage={stage}
       data-academy-gmail-file={slide.fileName ?? ACADEMY_GMAIL_FILE_NAME}
       data-academy-gmail-carry={carryWater ? "true" : undefined}
       data-academy-excel-active-cell={highlight}
       data-academy-excel-focus-zoom={pane === "live" ? (liveFocusZoom ? "in" : "out") : undefined}
-      data-academy-ai-desk-tab={slide.copilot && !compact ? aiDesk.tab : undefined}
+      data-academy-ai-desk-tab={showGemini ? aiDesk.tab : undefined}
       style={
         pane === "live"
           ? {
@@ -172,13 +186,20 @@ export function LessonGmailWorkspace({
                 <span>Arşiv</span>
               </>
             )}
-            {slide.copilot && !carryWater ? (
+            {showGemini && pane === "live" ? (
               <LessonOfficeCopilotRibbon active={aiDesk.tab === "copilot"} host="gmail" />
             ) : null}
           </div>
         )}
         <div
-          className={`academy-outlook-body${slide.copilot && !compact && !carryWater ? " academy-outlook-body--copilot" : ""}`}
+          className={[
+            "academy-outlook-body",
+            "academy-outlook-body--gmail",
+            carryWater ? "academy-outlook-body--carry" : "",
+            showGemini ? "academy-outlook-body--copilot" : "",
+          ]
+            .filter(Boolean)
+            .join(" ")}
         >
           {compact || carryWater ? null : (
             <nav className="academy-outlook-folders" aria-label="Klasörler">
@@ -193,7 +214,7 @@ export function LessonGmailWorkspace({
           )}
           <div className="academy-outlook-canvas-wrap" ref={wrapRef}>
             <article
-              className={`academy-outlook-canvas${compact ? " academy-outlook-canvas--compact" : ""}${nativeInbox ? " academy-outlook-canvas--reset" : ""}`}
+              className={`academy-outlook-canvas academy-outlook-canvas--compact${nativeInbox ? " academy-outlook-canvas--reset" : ""}`}
               data-academy-gmail-canvas=""
               data-academy-fix={compact ? "162719" : undefined}
             >
@@ -220,6 +241,7 @@ export function LessonGmailWorkspace({
                           <b>{mail.from}</b>
                           <strong>{mail.subject}</strong>
                           <em>Kutudan kopuk yapıştırma</em>
+                          <span className={gmailTagClass(mail.tag)}>{mail.tag}</span>
                         </button>
                       );
                     })}
@@ -227,12 +249,13 @@ export function LessonGmailWorkspace({
                 </div>
               ) : nativeInbox ? (
                 <div className="academy-outlook-reset" data-academy-gmail-native="">
+                  <p className="academy-outlook-list-head">{ACADEMY_GMAIL_ACTION_HEAD}</p>
                   {ACADEMY_GMAIL_ACTION_GROUPS.map((group) => {
                     const isOrigin = group.cell === highlight;
                     return (
                       <article
                         key={group.id}
-                        className={`academy-outlook-group academy-outlook-group--${group.tone}${isOrigin ? " on" : ""}`}
+                        className={`academy-outlook-group academy-outlook-group--${group.tone}${isOrigin ? " on" : ""} overflow-hidden`}
                         data-academy-gmail-origin={isOrigin ? "" : undefined}
                         data-academy-excel-active-cell={group.cell}
                         ref={isOrigin ? originRef : undefined}
@@ -251,6 +274,7 @@ export function LessonGmailWorkspace({
                 </div>
               ) : (
                 <div className="academy-outlook-list" data-academy-gmail-inbox="">
+                  <p className="academy-outlook-list-head">{ACADEMY_GMAIL_INBOX_HEAD}</p>
                   {ACADEMY_GMAIL_MAILS.map((mail) => {
                     const isOrigin = mail.cell === highlight;
                     return (
@@ -264,7 +288,8 @@ export function LessonGmailWorkspace({
                       >
                         <b>{mail.from}</b>
                         <strong>{mail.subject}</strong>
-                        <em>{mail.tag} · özet kapalı</em>
+                        <em>{mail.preview} · özet kapalı</em>
+                        <span className={gmailTagClass(mail.tag)}>{mail.tag}</span>
                       </button>
                     );
                   })}
@@ -280,7 +305,7 @@ export function LessonGmailWorkspace({
               ) : null}
             </article>
           </div>
-          {slide.copilot && !compact && !carryWater ? (
+          {showGemini && slide.copilot ? (
             <LessonAiDesk
               prompt={slide.copilot.prompt}
               currentTime={currentTime}

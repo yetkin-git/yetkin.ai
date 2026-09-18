@@ -1,8 +1,8 @@
 {
   "lessonKey": "01_office_ai-g1",
   "pauseSec": 0.4,
-  "durationSec": 529.04,
-  "cacheV": 529040,
+  "durationSec": 567.2,
+  "cacheV": 567200,
   "pieces": [
     {
       "index": 0,
@@ -10,52 +10,52 @@
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
       "start": 2,
-      "end": 48.32,
-      "text": "Gelen kutusunu dışarı taşımak eskiden tek yol gibi dururdu. Maili kopyalar, ekran görüntüsü alır, başka bir sohbete yapıştırırdın. O yol kutuyu senden koparır. Etiket orada oluşmaz, arşiv orada oluşmaz, taslak da kutunun içinde kalmaz. 6. derste Outlook masasında etiket, taslak, insan onayı ve arşivi gördün. Bugün aynı rutini iki yerleşik kapıdan yan yana basıyoruz: Gmail’de Cemini, Outlook’ta Kopilot. Çıktın bir aksiyon listesidir. Kim gönderdi, iş nedir, son tarih ne zaman. Mail gövdesini hamal gibi dışarı taşımak varsayılan yol değildir. Bu ders o hamallığı bırakıp kutuyu yerinde konuşturur. Aynı iş, iki kapı, tek tablo."
+      "end": 49.64,
+      "text": "6. derste Outlook masasında etiket, taslak, insan onayı ve arşivi gördün. Peki neden hâlâ maili Çetcipiti’ye kopyalıyoruz? Çünkü kopyalanan gövde kutudan kopar. Etiket orada oluşmaz, arşiv orada oluşmaz, taslak da kutunun içinde kalmaz. Gelen kutusunu dışarı taşımak eskiden tek yol gibi dururdu. Mail gövdesini hamal gibi dışarı taşımak varsayılan yol değildir. Bugün aynı ritüeli iki yerleşik kapıdan basıyoruz: Gmail’de Cemini, Outlook’ta Kopilot. Çıktın bir aksiyon listesidir. Kim gönderdi, iş nedir, son tarih ne zaman. Bu ders o hamallığı bırakıp kutuyu yerinde konuşturur. Aynı iş, iki kapı, tek tablo."
     },
     {
       "index": 1,
       "cueId": "cue-02",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 48.72,
-      "end": 92.12,
-      "text": "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin e-posta dersinin doygun ayağına hoş geldin. Bugün sabah gelen kutunu Gmail’in içinden Cemini ile, Outlook’ta da Kopilot ile aynı rutinle yöneteceksin. Kopyala-yapıştır varsayılan yol değildir. Ekran görüntüsü zinciri varsayılan yol değildir. Gelen kutusu yerinde kalır. İnsan onayından önce hiçbir taslak gitmez. Bu dersin vaadi nettir: aynı iş, iki kapı, tek aksiyon tablosu. Lisansın yoksa yalan söylemeyiz. Kapı değişir, rutin değişmez. Dün Outlook’ta etiket öğrendin. Bugün aynı etiketi Gmail’de de basıyoruz."
+      "start": 50.04,
+      "end": 92.48,
+      "text": "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin e-posta kapısı dersine hoş geldin. Bugün sabah gelen kutunu Gmail’in içinden Cemini ile, Outlook’ta da Kopilot ile aynı rutinle yöneteceksin. Peki neden kopyala-yapıştır varsayılan yol değildir? Çünkü mail gövdesi dış sohbete gidince kutu senden kopar; etiket Gmail’de basılmaz. Ekran görüntüsü zinciri de aynı kopuk yoldur. Gelen kutusu yerinde kalır. İnsan onayından önce hiçbir taslak gitmez. Lisansın yoksa yalan söylemeyiz. Kapı değişir, rutin değişmez. Dün Outlook’ta etiket öğrendin. Bugün aynı etiketi Gmail’de de basıyoruz."
     },
     {
       "index": 2,
       "cueId": "cue-02",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 92.52,
-      "end": 134.32,
-      "text": "Sabah kutun şişer. Yüz kırk iki okunmamış satır aynı yığında durur. Kaya Gıda tahsilat ister, yönetim imza ister, banka dekont basar, bülten gürültü yapar. Hangisinin bugün cevap istediğini tek tek açarak aramak zamanını yer. Tek tek açmak kahramanlıktır. Tablo istemek yöneticiliktir. Asıl kapı Gmail’in yanındaki Cemini paneli ve Outlook’taki Kopilot şerididir. Çıktı üç sütunlu bir aksiyon tablosudur: kim gönderdi, iş nedir, son tarih ne zaman. Taslak yanıt notu dördüncü sütundur. Gönder tuşu hâlâ sendedir. Model sıralar. Sen kilitlersin."
+      "start": 92.88,
+      "end": 146.64,
+      "text": "Sabah kutun şişer. Yüz kırk iki okunmamış satır aynı yığında durur. Kaya Gıda tahsilat ister, yönetim imza ister, banka dekont basar, bülten gürültü yapar. Hangisinin bugün cevap istediğini tek tek açarak aramak zamanını yer. Peki aksiyon listesinde kim, ne, ne zaman neden kilitlenir? Çünkü gönderen yoksa tahsilat kime bağlanır. İş yoksa bülten ödeme gibi durur. Son tarih yoksa Kaya Gıda’nın bugünü kaybolur. Asıl kapı Gmail’in yanındaki Cemini paneli ve Outlook’taki Kopilot şerididir. Çıktı üç sütunlu bir aksiyon tablosudur: kim gönderdi, iş nedir, son tarih ne zaman. Taslak yanıt notu dördüncü sütundur. Gönder tuşu hâlâ sendedir. Model sıralar. Sen kilitlersin."
     },
     {
       "index": 3,
       "cueId": "cue-03",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 134.72,
-      "end": 171.72,
-      "text": "Taşıma su şudur: birinci ve ikinci kapı dururken maili seçer, kopyalar, dış sohbete yapıştırırsın. Bu yasak listesi değil, atlanmış kapıdır. Gelen kutusu o anda kopuk kalır. Etiket Gmail’de oluşmaz. Arşiv Gmail’de oluşmaz. Outlook’ta da oluşmaz. Bütün kutuyu ekran görüntüsü zinciriyle taşımak da aynı atlanmış yoldur. Üçüncü kapı son çaredir: maskeli, dört-altı satırlık kısa bir özet. İsim, hesap, vergi numarası yok. Bütün gelen kutusu üçüncü kapı değildir. Bu yolu varsayılan satmıyoruz. Önce paneli dene."
+      "start": 147.04,
+      "end": 181.68,
+      "text": "Taşıma su şudur: birinci ve ikinci kapı dururken maili seçer, kopyalar, dış sohbete yapıştırırsın. Peki neden bu atlanmış kapıdır, yasak listesi değil? Çünkü gelen kutusu o anda kopuk kalır. Etiket Gmail’de oluşmaz. Arşiv Gmail’de oluşmaz. Outlook’ta da oluşmaz. Bütün kutuyu ekran görüntüsü zinciriyle taşımak da aynı atlanmış yoldur. Üçüncü kapı son çaredir: maskeli, dört-altı satırlık kısa bir özet. İsim, hesap, vergi numarası yok. Bütün gelen kutusu üçüncü kapı değildir. Önce paneli dene."
     },
     {
       "index": 4,
       "cueId": "cue-03",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 172.12,
-      "end": 207.76,
-      "text": "Şimdi ekranı ikiye böl. Bu dersin asıl resmi çift hattır. Solda Gmail. Sağdaki Cemini panelini açarsın. İstemi oraya yazarsın. Sağda Outlook durur. Kopilot lisansın varsa şeritten okutursun. Yoksa sağda dürüst bir uyarı yanar: Kopilot yoksa canlı kutu oradan okunmaz. Gmail’e geçersin ya da üçüncü kapıya inersin. Maskeli kısa özet, bütün kutuyu değil. Lisans yalanı yok. Araç yoksa durmazsın; kapı değişir. Aynı aksiyon tablosunu istersin. Kim, ne, ne zaman."
+      "start": 182.08,
+      "end": 229.56,
+      "text": "Şimdi ekranı ikiye böl. Bu dersin asıl resmi çift hattır. Solda Gmail. Sağdaki Cemini panelini açarsın. İstemi oraya yazarsın. Peki neden Çetcipiti penceresi değil de bu yerleşik panel? Çünkü paneli açık tutunca kutu yerinde kalır; Çetcipiti’ye yapıştırınca etiket, arşiv ve taslak dışarıda kalır. Sağda Outlook durur. Kopilot lisansın varsa şeritten okutursun. Yoksa sağda dürüst bir uyarı yanar: Kopilot yoksa canlı kutu oradan okunmaz. Gmail’e geçersin ya da üçüncü kapıya inersin. Maskeli kısa özet, bütün kutuyu değil. Lisans yalanı yok. Araç yoksa durmazsın; kapı değişir. Aynı aksiyon tablosunu istersin. Kim, ne, ne zaman."
     },
     {
       "index": 5,
       "cueId": "cue-04",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 208.16,
-      "end": 217.96,
+      "start": 229.96,
+      "end": 240.96,
       "text": "Şimdi Gmail’i aç. Sağdaki Cemini eklentisini yakala. İstemi oraya yazıyoruz. Prompt terminalinde duran komut tam olarak bu:"
     },
     {
@@ -63,8 +63,8 @@
       "cueId": "cue-04",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 218.36,
-      "end": 237.96,
+      "start": 241.36,
+      "end": 260.76,
       "text": "@Gmail Gelen kutumdaki son 24 saat içinde gelen e-postaları tara. Ödeme, onay veya acil aksiyon bekleyenleri tablo yap: Gönderen | İş | Son tarih | Taslak yanıt notu. Rutin dekont ve bültenleri Arşivlik yaz. Hiçbir taslağı gönderme."
     },
     {
@@ -72,17 +72,17 @@
       "cueId": "cue-04",
       "cueParagraphIndex": 2,
       "chunkIndex": 0,
-      "start": 238.36,
-      "end": 273.44,
-      "text": "Komutu Cemini paneline yazarsın veya ekrandaki istemi aynı panele taşırsın. Maili dış sohbete kopyalamazsın. Model kutunun içinde tarar. Sen hamal değilsin. Aynı cümleyi Outlook Kopilot’a da verebilirsin. Kutu değişir, rutin değişmez. Tablo sütunları aynı kalır: gönderen, iş, son tarih, taslak notu. Gönder tuşuna model basmaz. Sen basarsın. İnsan gözü kilitler. Taslak notu ‘onayla ve gönder’ demek değildir. Taslak notu ‘şu cümleyi kontrol et’ demektir."
+      "start": 261.16,
+      "end": 300.72,
+      "text": "Komutu Cemini paneline yazarsın veya ekrandaki istemi aynı panele taşırsın. Maili dış sohbete kopyalamazsın. Peki neden kopyalamazsın? Çünkü model kutunun içinde tararsa etiket orada basılır; kopyalarsan kutu yerinde kalmaz. Aynı cümleyi Outlook Kopilot’a da verebilirsin. Kutu değişir, rutin değişmez. Tablo sütunları aynı kalır: gönderen, iş, son tarih, taslak notu. Gönder tuşuna model basmaz. Sen basarsın. İnsan gözü kilitler. Taslak notu ‘onayla ve gönder’ demek değildir. Taslak notu ‘şu cümleyi kontrol et’ demektir."
     },
     {
       "index": 8,
       "cueId": "cue-05",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 273.84,
-      "end": 310.52,
+      "start": 301.12,
+      "end": 337.6,
       "text": "Outlook tarafında Kopilot varsa şerit zaten masadadır. Lisans yoksa paneli zorlamazsın. Gmail Cemini’ye geçersin. Hâlâ yerleşik kapı yoksa üçüncü kapıya inersin: dört-altı satır, isimler maskeli, hesap numarası yok. Otuz maili parça parça taşımak üçüncü kapı değildir. Kontrol C ile bütün gövdeyi dış sohbete dökmek de değildir. Kapı sırası kilitlidir: önce yerleşik panel, sonra ataş, sonra maskeli kısa özet. Bu sıra senin Cuma otuz dakikanın e-posta bloğudur. On dakika, kutu yerinde, aksiyon listesi elde."
     },
     {
@@ -90,8 +90,8 @@
       "cueId": "cue-05",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 310.92,
-      "end": 351.2,
+      "start": 338,
+      "end": 375.2,
       "text": "Şimdi ekranı ikiye bölelim. Sol tarafta gelen kutusundan kopuk taşıma su yöntemi var: kopyalanmış mailler, Kontrol C, dış sohbet. Etiket orada doğmaz. Taslak orada kalmaz. Arşiv başka bir dünyada kalır. Sağ tarafta gelen kutusu içi durur. Yerleşik Cemini entegrasyonu tarar. Ödeme ayrı, onay ayrı, arşivlik ayrı. Aksiyon listesi sütun sütun durur. Kutu yerinde. Kopilot varsa aynı listenin Outlook hali sağ şeritte belirir. Lisans yoksa sağ rozet dürüstçe söyler: canlı kutu okunmaz. Yalan yok. Kapı değişir."
     },
     {
@@ -99,35 +99,35 @@
       "cueId": "cue-06",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 351.6,
-      "end": 388.52,
-      "text": "Sol ekran seni yorar. Sağ ekran Gmail’de kalır. Fark yerleşik araçtır. Outlook’ta Kopilot, Gmail’de Cemini, Vörd ve Excel’de doğrudan dosya yükleme. Eşleşme kilitlidir. Sol tarafta hamalsın. Sağ tarafta yönetmensin. Aynı yüz kırk iki satır, iki ayrı kader. Biri gece mesaisi doğurur. Diğeri üç sütunluk bir aksiyon tablosu bırakır. Hiçbir taslak, sen onaylamadan gitmez. Kaya Gıda’nın tahsilatı kırmızı durur. Yönetimin imzası sarı durur. Bülten yeşil arşivlikte durur. Sen sırayı görürsün."
+      "start": 375.6,
+      "end": 417.4,
+      "text": "Sol ekran seni yorar. Sağ ekran Gmail’de kalır. Peki neden fark bu kadar belirgin? Çünkü yerleşik panel kutuyu senden koparmaz; kopyala-yapıştır koparır. Outlook’ta Kopilot, Gmail’de Cemini, Vörd ve Excel’de doğrudan dosya yükleme. Eşleşme kilitlidir. Aynı yüz kırk iki satır, iki ayrı sonuç üretir. Biri kutudan kopuk gövde bırakır. Diğeri üç sütunluk bir aksiyon tablosu bırakır. Hiçbir taslak, sen onaylamadan gitmez. Kaya Gıda’nın tahsilatı kırmızı durur. Yönetimin imzası sarı durur. Bülten yeşil arşivlikte durur. Sen sırayı görürsün."
     },
     {
       "index": 11,
       "cueId": "cue-06",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 388.92,
-      "end": 437.4,
-      "text": "Gördüğün gibi doğru kurgulanmış bir yerleşik panel kutuyu senden koparmaz. Sol tarafta kopyalanmış gövde, kopuk bağlam, kaybolan etiket vardır. Sağ tarafta ödeme kırmızı, onay sarı, arşivlik yeşil durur. Fark süre değil, kapıdır. Cemini Gmail’de, Kopilot Outlook’ta, ataş Vörd ve Excel’de. Bu üç kapıyı ezberle. Aynı yüz kırk iki satır iki kader üretir: biri gece mesaisi, diğeri üç sütunluk aksiyon tablosu. Sonra cebine üç adım koyacağız. Vörd dersinde sözleşmeyi, dilekçeyi ve raporu ataşla göreceğiz. Sınav Köprüsü henüz kapalı durur. Dokuz ders bitmeden sınava girilmez. Baraj yetmiştir. Satın alma belge basmaz."
+      "start": 417.8,
+      "end": 470.88,
+      "text": "Gördüğün gibi doğru kurgulanmış bir yerleşik panel kutuyu senden koparmaz. Sol tarafta kopyalanmış gövde, kopuk bağlam, kaybolan etiket vardır. Sağ tarafta ödeme kırmızı, onay sarı, arşivlik yeşil durur. Fark süre değil, kapıdır: Cemini Gmail’de, Kopilot Outlook’ta, ataş Vörd ve Excel’de. Peki neden bu üç eşleşme durur? Çünkü yanlış kapı kutuyu, dosyayı veya maddeyi senden koparır. Aynı yüz kırk iki satır iki sonuç üretir: biri kopuk yapıştırma, diğeri üç sütunluk aksiyon tablosu. Sonra cebine üç adım koyacağız. Vörd dersinde sözleşmeyi, dilekçeyi ve raporu ataşla göreceğiz. Sınav Köprüsü henüz kapalı durur. Dokuz ders bitmeden sınava girilmez."
     },
     {
       "index": 12,
       "cueId": "cue-07",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 437.8,
-      "end": 478.6,
-      "text": "Bu dersten cebine üç adım koy. Bir: yerleşik paneli aç. Gmail’de Cemini, Outlook’ta Kopilot. İki: aksiyon tablosu iste. Kim, ne, ne zaman. Üç: insan onayından önce gönderme. Taslak notu taslaktır. Kopilot yoksa Gmail’e geç. Son çare maskeli kısa yapıştırma. Taşıma suyu bırak; kopyala-yapıştır ve ekran görüntüsü 1. ve 2. kapı dururken atlanmış kapıdır. Bu üç adım Cuma e-posta bloğunu on dakikada kapatır. Kutuyu dışarı taşımak bu rutinde yer bulamaz. Panel açık, kutu yerinde, gönder tuşu sende."
+      "start": 471.28,
+      "end": 517.76,
+      "text": "Bu dersten cebine üç adım koy. Bir: yerleşik paneli aç. Gmail’de Cemini, Outlook’ta Kopilot. Çünkü birinci ve ikinci kapı dururken kopyala-yapıştır atlanmış kapıdır. İki: aksiyon tablosu iste. Kim, ne, ne zaman. Çünkü gönderen, iş ve son tarih kilitlenmezse tahsilat bültenin altında kaybolur. Üç: insan onayından önce gönderme. Taslak notu taslaktır. Çünkü model nezaket üretir, taahhüt üretemez. Kopilot yoksa Gmail’e geç. Son çare maskeli kısa yapıştırma. Taşıma suyu bırak. Bu üç adım Cuma e-posta bloğunu on dakikada kapatır. Panel açık, kutu yerinde, gönder tuşu sende."
     },
     {
       "index": 13,
       "cueId": "cue-08",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 479,
-      "end": 529.04,
+      "start": 518.16,
+      "end": 567.2,
       "text": "Sıra sende. Kendi Gmail’ini aç. Son yirmi dört saati Cemini ile süz. Ödeme, onay ve acil aksiyonu tabloya çek. Dekont ve bülteni arşivlik yaz. Üç satırlık aksiyon listesi çıkar: gönderen, iş, son tarih. Outlook’un varsa aynı komutu Kopilot’a ver. Lisans yoksa Gmail’de kal. Hiçbir taslağı gönderme. Bu egzersiz Cuma e-posta bloğunu alışkanlığa çevirir. Sonra Vörd tarafında uzun dokümanı ataş ile yüklemeyi göreceğiz. Sözleşme, dilekçe, rapor. Aynı disiplin, başka kapı. Kendi kutunu süz. Aksiyon listesi cebinde kalsın. Yarın sabah aynı paneli tekrar aç. Kim, ne, ne zaman. Gönder tuşu sende kalsın."
     }
   ]

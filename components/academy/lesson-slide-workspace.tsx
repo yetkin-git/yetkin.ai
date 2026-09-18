@@ -66,7 +66,7 @@ export function LessonSlideWorkspace({
             <article
               key={card.id}
               ref={isOrigin ? (el) => bindHtmlRef(originRef, el) : undefined}
-              className={`academy-pptx-kpi academy-pptx-kpi--${card.tone} items-center justify-center text-center`}
+              className={`academy-pptx-kpi academy-pptx-kpi--${card.tone} min-h-[4.35rem] min-w-0 overflow-hidden items-center justify-center text-center`}
               data-academy-pptx-element={card.id}
               data-academy-pptx-kpi={card.id.replace("kpi-", "")}
               data-academy-pptx-origin={isOrigin ? "" : undefined}
@@ -74,7 +74,11 @@ export function LessonSlideWorkspace({
             >
               <span className="academy-pptx-kpi-label">{card.label}</span>
               <strong className="academy-pptx-kpi-value">{card.value}</strong>
-              {index === 2 ? <em className="academy-pptx-kpi-badge">Uyarı</em> : null}
+              {index === 2 ? (
+                <em className="academy-pptx-kpi-badge" data-academy-pptx-kpi-badge="">
+                  Uyarı
+                </em>
+              ) : null}
             </article>
           );
         })}

@@ -54,6 +54,8 @@ describe("E-Posta Akışı gelen kutusu seçim kutusu — getBoundingClientRect"
     expect(css).toContain(".academy-outlook-row");
     expect(css).toContain(".academy-outlook-reset");
     expect(css).toContain(".academy-outlook-group--acil");
+    expect(css).toMatch(/\.academy-outlook-group\s*\{[^}]*overflow:\s*hidden/s);
+    expect(css).toMatch(/\.academy-outlook-group\s*\{[^}]*padding:\s*clamp\(/s);
     expect(css).toContain("--academy-outlook-focus-scale: 1.2");
     expect(css).toContain("overflow-wrap: break-word");
     expect(css).toContain(".academy-outlook-canvas--compact");
@@ -63,6 +65,18 @@ describe("E-Posta Akışı gelen kutusu seçim kutusu — getBoundingClientRect"
     expect(outlook).toContain('data-academy-fix={compact ? "162719" : undefined}');
     expect(outlook).toContain("applyAcademyOfficeWinFit");
     expect(outlook).toContain("data-academy-office-win-fit");
+    expect(outlook).toContain("academy-outlook-list-head");
+    expect(outlook).toContain("academy-outlook-tag");
+    expect(outlook).toContain("Gelen Kutusu · {unread} okunmamış");
+    expect(css).toContain(".academy-outlook-list-head");
+    expect(css).toMatch(/\.academy-player-waiter \.academy-outlook-win\s*\{[^}]*height:\s*100%/s);
+    expect(css).toMatch(
+      /\.academy-outlook-desk > \.academy-office-win-fit[\s\S]*?height:\s*100%/s,
+    );
+    expect(css).toMatch(/\.academy-outlook-desk--dump \.academy-outlook-list\s*\{[^}]*overflow:\s*hidden/s);
+    expect(css).not.toMatch(
+      /\.academy-player-waiter \.academy-outlook-win,\s*\.academy-player-waiter \.academy-pptx-win\s*\{[^}]*height:\s*auto/s,
+    );
     expect(ACADEMY_OUTLOOK_MAILS.every((mail) => !mail.subject.includes("...") && !mail.preview.includes("..."))).toBe(
       true,
     );

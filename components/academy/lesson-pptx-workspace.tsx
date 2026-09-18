@@ -186,7 +186,7 @@ export function LessonPptxWorkspace({
             </nav>
           )}
           <div className="academy-pptx-canvas-wrap" ref={wrapRef}>
-            <article className="academy-pptx-canvas" data-academy-pptx-canvas="">
+            <article className="academy-pptx-canvas aspect-video" data-academy-pptx-canvas="">
               <LessonSlideWorkspace
                 dumpMode={dumpMode && pane !== "after"}
                 dumpLines={dumpLines}

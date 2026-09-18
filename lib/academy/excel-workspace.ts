@@ -100,6 +100,12 @@ export function academyExcelIsErrorCell(
   return errorCells.some((cell) => academyExcelIsHighlightCell(cell, col, row));
 }
 
+/** Takma değer hücresi — MASKELİ_* ve Müşteri A/B/C yeşil mühür. */
+export function academyExcelIsMaskToken(value: string | undefined): boolean {
+  const text = (value ?? "").trim();
+  return text.startsWith("MASKELİ_") || /^Müşteri [A-C]$/u.test(text);
+}
+
 /** `mergedTop` afişi — satır 1, A sütunundan son sütuna (varsayılan A1:F1). */
 export function academyExcelMergedTopRange(colCount: number): AcademyExcelMergeRange {
   const endCol = Math.max(0, Math.floor(colCount) - 1);
@@ -324,17 +330,19 @@ export function academyCompareDockPrompt(
   return { prompt, cueIndex: command.cueIndex };
 }
 
+export type AcademyVisualStageBackdropTheme = AcademyVisualWaiterKind | "brand";
+
+/** Sahne letterbox teması — ilk slayt layout’u. Excel karesi yalnız Excel derslerinde. */
+export function academyVisualStageBackdropTheme(lessonKey: string): AcademyVisualStageBackdropTheme {
+  const layout = loadAcademyCinemaCueSlides(lessonKey.trim())[0]?.layout;
+  if (!layout) {
+    return "brand";
+  }
+  return academyVisualWaiterStageFromLayout(layout);
+}
+
 export function academyVisualCinematicFrameSrc(lessonKey: string): string | null {
-  const key = lessonKey.trim();
-  return key === "01_office_ai-1" ||
-    key === "01_office_ai-2" ||
-    key === "01_office_ai-3" ||
-    key === "01_office_ai-4" ||
-    key === "01_office_ai-5" ||
-    key === "01_office_ai-6" ||
-    key === "01_office_ai-g1" ||
-    key === "01_office_ai-w1" ||
-    key === "01_office_ai-k1"
+  return academyVisualStageBackdropTheme(lessonKey) === "excel"
     ? ACADEMY_OFFICE_AI_01_FRAME_PUBLIC_PATH
     : null;
 }

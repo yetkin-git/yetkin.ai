@@ -672,8 +672,10 @@ function overlaySealedCueTimes(job: AcademyMediaReleaseJob, timings: AcademySeal
     return;
   }
   const docsRelative = join("docs", "curriculum", docsCueName);
+  const docsPath = join(process.cwd(), docsRelative);
+  mkdirSync(dirname(docsPath), { recursive: true });
   writeFileSync(
-    join(process.cwd(), docsRelative),
+    docsPath,
     `${JSON.stringify(
       {
         lessonKey: job.lessonKey,

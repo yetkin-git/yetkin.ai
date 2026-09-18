@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import { OFFICE_AI_EXAM_QUESTIONS, academyExamPoolForSlug } from "@/lib/academy/exam-pools";
@@ -37,14 +39,38 @@ describe("01_office_ai ölçme sızıntısı — compact makale ve mühür havuz
     expect(blob).not.toMatch(/sınav köprüsü ne zaman açılır/iu);
     expect(blob).not.toMatch(/sertifika ne zaman hak edilir/iu);
     expect(OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_4")?.prompt).toMatch(/Üç Kapı/u);
+    expect(OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_4")?.choices[1]).toMatch(
+      /yerleşik panel/iu,
+    );
+    expect(OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_4")?.choices[1]).toMatch(/ataş/iu);
+    const q42 = OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_42");
+    expect(q42?.correctIndex).toBe(1);
+    expect(q42?.choices[1]).toMatch(/Müşteri A/u);
+    expect(q42?.choices[1]).toMatch(/MASKELİ_IBAN/u);
+    expect(q42?.choices.join(" ")).toMatch(/son dört/iu);
     expect(OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_6")?.choices[0]).toMatch(/VBA/u);
     expect(OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_6")?.correctIndex).toBe(1);
+    const q12 = OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_12");
+    const q24 = OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_24");
+    expect(q12?.prompt).toMatch(/Cuma 30 dakikalık rutin nasıl bölünür/u);
+    expect(q24?.prompt).toMatch(/ekran görüntüsü/u);
+    expect(q24?.prompt).not.toMatch(/Cuma rutininin üç bloğu/u);
+    expect(q24?.choices[1]).toMatch(/maskeli kısa özet/iu);
   });
 
   it("konuşma metni transkriptinde Mini sınav yoktur", () => {
     for (const key of LESSON_KEYS) {
       const prose = loadAcademySpokenScriptProse(key);
       expect(prose, key).not.toMatch(/## Mini sınav/u);
+    }
+  });
+
+  it("konuşma metni üretim notu taşımaz", () => {
+    const root = process.cwd();
+    for (const key of LESSON_KEYS) {
+      const raw = readFileSync(join(root, "lib/academy/spoken-scripts", `${key}.md`), "utf8");
+      expect(raw, key).not.toMatch(/mühür paketi/iu);
+      expect(raw, key).not.toMatch(/Metin uydurulmadı/u);
     }
   });
 });

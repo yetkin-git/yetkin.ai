@@ -8,7 +8,7 @@ import type {
 
 export type DialogueSpeakerId = "egitmen" | "maya" | "koray" | "ece" | "can" | "gozde" | "aylin" | "tarik";
 
-/** Tek eğitmen — ekranda rol adı «Eğitmen»; cast isimleri vitrin biyografisinde kalır. */
+/** Ses Gözde (Callirrhoe); vitrin/rozet adı «Eğitmen». Cast isimleri vitrin biyografisinde kalır. */
 export const DIALOGUE_SPEAKER_DISPLAY = {
   egitmen: "Eğitmen",
   maya: "Eğitmen",
