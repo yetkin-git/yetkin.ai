@@ -11,7 +11,7 @@
 | Parça | Dosya | İçerik |
 |-------|--------|--------|
 | Veritabanı ve bağlama | [`ops/ops-db.md`](ops/ops-db.md) | Env, Direct Port, Super Admin, migrate, katalog, RLS, sağlık, T3, KVKK, TTS bağları |
-| PayTR | [`ops/ops-paytr.md`](ops/ops-paytr.md) | Merchant ≠ Split, Bildirim URL, HMAC, `TRUSTED_PROXY_HOPS` |
+| PayTR | [`ops/ops-paytr.md`](ops/ops-paytr.md) | Merchant ≠ Split, Bildirim URL, HMAC, `TRUSTED_PROXY_HOPS`. Canlı tanık: 18 Eylül 2026, ₺15,00 CLEARED |
 | Inngest | [`ops/ops-inngest.md`](ops/ops-inngest.md) | Çift anahtar, valör, emanet TTL, 503 çıkış |
 | Dron | [`ops/ops-dron.md`](ops/ops-dron.md) | CORS, hop sicili, Closed Testing (T3), 426 |
 

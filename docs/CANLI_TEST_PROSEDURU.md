@@ -171,6 +171,6 @@ Super Admin canlı ortamda (PayTR iframe + 3D Secure) gerçek kart çekimini tam
 | CLEARED tutar | **₺15,00** (`amount_minor = 1500`) — ₺10 tabanının üstünde, geçerlidir |
 | Defter | 3 → 4 satır; CREDIT kaydı düştü |
 | `merchant_oid` | Tam OID bu belgeye basılmaz (A5 / KVKK) |
-| Hüküm | **P0-1 nakit tanığı kapandı.** `docs/ops/DURUM.md` satırı operatör teyidine çevrildi. |
+| Hüküm | **P0-1 nakit tanığı kapandı.** Kalıcı sicil: `.system_docs/ops/ops-paytr.md`. Yaşayan kesit: `docs/ops/DURUM.md`. |
 
 Lisans tanığı (`academy_purchases` SETTLED) ve anonim `/dogrula` bu kaydın dışındadır; P0-1 kapanışı için zorunlu değildir.

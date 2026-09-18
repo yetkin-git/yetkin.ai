@@ -45,7 +45,7 @@ Yayın ilkesi: makale + mühürlü karaoke. Amiral 9 kaset sesli; sınav 9 ders 
 | Ölçüt | Durum |
 |-------|--------|
 | PayTR Merchant | Kod üretim kalkanlıdır (HMAC, tutar eşleşmesi, sandbox/mock üretimde yasak). |
-| PayTR canlı tanık | **P0-1 Canlı Nakit Tanığı Başarıyla Alındı — PayTR CLEARED Teyit Edildi (18 Eylül 2026).** Super Admin, canlı PayTR iframe + 3D Secure. Bakiye ₺10,00 → ₺25,00 (`amount_minor` 1000 → 2500). CLEARED tutar **₺15,00** (`amount_minor = 1500`). Defter 3 → 4 satır; CREDIT kaydı düştü. Tam `merchant_oid` bu kesite basılmaz. Prosedür: `docs/CANLI_TEST_PROSEDURU.md`. |
+| PayTR canlı tanık | **P0-1 Canlı Nakit Tanığı Başarıyla Alındı — PayTR CLEARED Teyit Edildi (18 Eylül 2026).** **18 Eylül 2026 — ₺15,00 PayTR CLEARED canlı kart tanığı alındı (Bakiye ₺10,00 -> ₺25,00, CREDIT defter kaydı oluşturuldu).** Super Admin, canlı PayTR iframe + 3D Secure. `amount_minor` 1000 → 2500; CLEARED 1500. Tam `merchant_oid` bu kesite basılmaz. Kalıcı sicil: `.system_docs/ops/ops-paytr.md`. Prosedür: `docs/CANLI_TEST_PROSEDURU.md`. |
 | PayTR Split | **Kilitli.** `MARKETPLACE_SPLIT_LIVE = false`. `beginHold` / `settle` → `not_configured`. Merchant onayı Split izni değildir. |
 | Freelancer kamu | **410.** Motor sicilde durur. |
 | `LIVE_BROADCAST_SHUTDOWN` | **Kapalı** (varsayılan `false`). |
@@ -54,7 +54,7 @@ Yayın ilkesi: makale + mühürlü karaoke. Amiral 9 kaset sesli; sınav 9 ders 
 
 ## P0 / P1 / P2 kapanış (18 Eylül 2026)
 
-Amiral tespit (`docs/TESPIT_RAPORU_OFFICE_AI.md`) ve tedavi (`docs/TEDAVI_RAPORU_OFFICE_AI.md`) maddeleri kapandı. Açık P-maddesi yoktur.
+Amiral tespit ve tedavi maddeleri kapandı; geçici raporlar `/docs` masasından boşaltıldı. Açık P-maddesi yoktur.
 
 | ID | Konu | Durum |
 |----|------|--------|

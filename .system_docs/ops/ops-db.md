@@ -119,6 +119,7 @@ Reklam bu prosedür yeşil olmadan basılmaz.
 
 1. PayTR canlı merchant üçlüsü. Bildirim URL: `https://yetkin.ai/api/paytr/callback`.
 2. Küçük tutarlı gerçek kart ile cüzdan yükleme. Tanık: `PaymentOrder=CLEARED` + ledger CREDIT.
+   **18 Eylül 2026 — ₺15,00 PayTR CLEARED canlı kart tanığı alındı (Bakiye ₺10,00 -> ₺25,00, CREDIT defter kaydı oluşturuldu).** Sicil: `ops-paytr.md`.
 3. `01_office_ai` satın alma. Tanık: `AcademyPurchase=SETTLED`. SMTP boşsa makbuz `SMTP skipped`.
 4. Ders okuma mühürleri + sınav. Baraj ≥70.
 5. Sertifika doğrulama: `/academy/dogrula/[hash]` anonim sekmede. `sealStatus=valid`.
