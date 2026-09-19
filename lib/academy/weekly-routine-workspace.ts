@@ -5,6 +5,7 @@
 
 export const ACADEMY_WEEKLY_ROUTINE_WINDOW_TITLE = "Excel" as const;
 export const ACADEMY_WEEKLY_ROUTINE_FILE_NAME = "Cuma_30_Dakika.xlsx" as const;
+export const ACADEMY_WEEKLY_ROUTINE_FILE_LABEL = "Cuma 30 Dakika (Excel)" as const;
 export const ACADEMY_WEEKLY_ROUTINE_SHEET_NAME = "CumaRutin" as const;
 
 /** Öğrencinin Prompt Terminaline yazacağı gerçek istem — harf harf. PEDAGOJI §E.7. */

@@ -128,7 +128,23 @@ export const ROBOTS_DISALLOW_PATHS = [
   "/profil",
   "/pasaport",
   "/api/",
+  // SEO Tedavi (P1) — satın alma duvarı arkası oynatıcı; auth duvarı + sayfa noindex ile üç katmanlı kilit.
+  "/academy/*/oyna",
 ] as const;
+
+/**
+ * SEO Tedavi (P0) — 01_office_ai amiral meta override.
+ * `course.title` SSOT'u (sicil/sertifika başlığı) değişmez; yalnız SEO dalı bu metinleri basar.
+ * Title 52 kr + `TITLE_TEMPLATE` (12 kr) = 64 kr final; SERP kesintisiz.
+ */
+export const OFFICE_AI_SEO = {
+  slug: "01_office_ai",
+  title: "Excel Yapay Zekâ Eğitimi: Ofiste ChatGPT + Sertifika",
+  description:
+    "9 derste Excel, Word, PowerPoint ve Gmail'de yapay zekâ: KVKK-safe tablo, yönetim özeti, slayt ve Cuma 30 rutini. Sesli anlatım + 70+ barajlı sınavla sertifikanı mühürle.",
+  /** Gövde H1 — kullanıcı dili; title (arama dili) ile ayrışır. */
+  h1: "Ofiste Yapay Zekâ: Excel'den E-Postaya 9 Derste Verimlilik",
+} as const;
 
 export type SitemapChangeFrequency =
   | "always"

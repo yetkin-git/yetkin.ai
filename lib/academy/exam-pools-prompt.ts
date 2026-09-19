@@ -275,7 +275,7 @@ export const PROMPT_PRACTICE_EXAM_QUESTIONS: AcademyExamQuestion[] = [
     "Yapay zekânın ürettiği resmi metinde son sorumluluk kimdedir?",
     [
       "Tamamen model şirketinde",
-      "Tarih, rakam ve iddiayı insan denetler; imza insandadır",
+      "Tarih, rakam ve iddiayı sen denetlersin; imzayı sen atarsın",
       "Metin kısaysa denetim gerekmez",
       "Sınavı geçen herkes sorumluluktan muaftır",
     ],

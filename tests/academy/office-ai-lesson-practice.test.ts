@@ -29,6 +29,9 @@ describe("01_office_ai — LESSON_PRACTICE iş tohumları (Faz T3)", () => {
       expect(practice!.steps, key).toHaveLength(3);
       expect(practice!.code.language, key).toBe("text");
       expect(practice!.code.source.trim().length, key).toBeGreaterThan(40);
+      expect(`${practice!.params.map((row) => row.value).join(" ")}`, key).not.toMatch(
+        /\b(?:xlsx|docx|pptx)\b/iu,
+      );
       expect(academyInteractiveTaskByKey(key), key).toBeNull();
     }
   });

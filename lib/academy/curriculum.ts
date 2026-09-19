@@ -5,7 +5,10 @@
  */
 
 import { CURRICULUM_DRAFTS_BY_SLUG, type AcademyLessonDraft } from "@/lib/academy/curricula";
-import { curriculumLessonCountForSlug } from "@/lib/academy/curricula/lesson-index";
+import {
+  curriculumLessonCountForSlug,
+  curriculumLessonKeysForSlug,
+} from "@/lib/academy/curricula/lesson-index";
 import { computeAcademyCurriculumSeal } from "@/lib/academy/exam";
 import {
   composeCompactLessonBody,
@@ -143,10 +146,14 @@ export function curriculumForCourseSlug(slug: string): readonly AcademyLessonSee
   if (fromDrafts && fromDrafts.length > 0) {
     return fromDrafts;
   }
-  const count = curriculumLessonCountForSlug(slug);
-  if (count > 0) {
-    return Array.from({ length: count }, (_, i) => ({
-      key: `${slug}-${i + 1}`,
+  // TEDAVI P0 (B2): numerik `${slug}-${i+1}` fallback'i 01_office_ai için
+  // 01_office_ai-7/8/9 gibi var olmayan hayalet anahtarlar üretirdi.
+  // Gerçek anahtarlar lesson-index SSOT'undadır (k1/g1/w1 içerir).
+  // Fallback yalnız indeks anahtarlarından türer; indeks boşsa [] döner.
+  const indexedKeys = curriculumLessonKeysForSlug(slug);
+  if (indexedKeys.length > 0) {
+    return indexedKeys.map((key, i) => ({
+      key,
       order: i + 1,
       title: `${slug} Ders ${i + 1}`,
       body: `Eğitmen: ${slug} ders ${i + 1} anlatımı burada başlar.\n\nEğitmen: Konunun detaylarını adım adım işliyoruz.`,
@@ -156,6 +163,12 @@ export function curriculumForCourseSlug(slug: string): readonly AcademyLessonSee
       audioUrl: undefined,
       durationSec: 300,
     }));
+  }
+  const count = curriculumLessonCountForSlug(slug);
+  if (count > 0) {
+    // İndeks anahtarı yok ama sayaç >0 ise (eski SKU): sayaç kadar
+    // yine indeks dışı hayalet üretme — boş dön, sessiz hayalet yasak.
+    return [];
   }
   return [];
 }

@@ -15,6 +15,18 @@ export {
   OFFICE_AI_PLANNED_LESSONS,
   officeAiPlannedLessonByKey,
 } from "./planned";
+export {
+  OFF_102_EXAM_PASS_SCORE,
+  OFF_102_MODULE_CODE_ALTERNATIVE,
+  OFF_102_MODULE_CODE_DRAFT,
+  OFF_102_PREREQUISITE_LESSON_COUNT,
+  OFF_102_PREREQUISITE_SKU_SLUG,
+  OFF_102_SKU_SLUG_DRAFT,
+  OFF_102_TITLE_DRAFT,
+  assertOff102DraftIntegrity,
+  off102DraftLessonsFromSatellites,
+} from "./off-102";
+export type { Off102DraftLesson } from "./off-102";
 export type {
   OfficeAiPlannedLesson,
   OfficeAiPlannedLessonLane,

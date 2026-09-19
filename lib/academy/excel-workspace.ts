@@ -20,6 +20,18 @@ export const ACADEMY_OFFICE_AI_1_TRANSFER_LABELS = [
   "Maskeli kısa",
 ] as const;
 
+/** 01_office_ai-2 dense dump / KPI SSOT — yaprak `office-ai-2-workspace`; burada yeniden dışa aktarılır. */
+export {
+  ACADEMY_EXCEL_DENSE_DUMP_MIN_COLS,
+  ACADEMY_EXCEL_DENSE_DUMP_MIN_ROWS,
+  ACADEMY_OFFICE_AI_2_CLEAN_TABLE,
+  ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE,
+  ACADEMY_OFFICE_AI_2_SEED_ROWS,
+  academyExcelIsDenseDumpTable,
+  academyExcelOfficeAi2SeedTutarSum,
+  type AcademyExcelTableShape,
+} from "@/lib/academy/office-ai-2-workspace";
+
 export type AcademyVisualWaiterKind = "excel" | "pptx" | "outlook" | "gmail" | "word" | "cinema";
 export type AcademyVisualExcelPane = "live" | "before" | "after";
 

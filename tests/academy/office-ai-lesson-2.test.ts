@@ -15,7 +15,15 @@ import {
   loadAcademyLessonPlaybackCues,
 } from "@/lib/academy/lesson-cues";
 import { hasAcademyLessonVisualStage, loadAcademyLessonVisualStage } from "@/lib/academy/lesson-visual-stage";
-import { academyVisualCompareStage } from "@/lib/academy/excel-workspace";
+import {
+  ACADEMY_EXCEL_DENSE_DUMP_MIN_COLS,
+  ACADEMY_EXCEL_DENSE_DUMP_MIN_ROWS,
+  ACADEMY_OFFICE_AI_2_CLEAN_TABLE,
+  ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE,
+  academyExcelIsDenseDumpTable,
+  academyExcelOfficeAi2SeedTutarSum,
+  academyVisualCompareStage,
+} from "@/lib/academy/excel-workspace";
 import {
   ACADEMY_OFFICE_AI_2_COMPARE_AFTER_LABEL,
   ACADEMY_OFFICE_AI_2_COMPARE_BEFORE_LABEL,
@@ -76,8 +84,9 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     expect(lesson.body).toMatch(/Selamlar, ben Gözde/u);
     expect(lesson.body).toMatch(/A1 hücresi/u);
     expect(lesson.body).toMatch(/yönetici özeti|yönetim özeti/u);
-    expect(lesson.body).toMatch(/Sunum Fabrikası/u);
-    expect(lesson.body).toMatch(/4\. ders|dördüncü ders|Sunum Fabrikası/iu);
+    expect(lesson.body).toMatch(/metinden slayta/iu);
+    expect(lesson.body).toMatch(/Kişi adı, IBAN veya müşteri sırrı varsa önce maskele/u);
+    expect(lesson.body).toMatch(/4\. ders|dördüncü ders|metinden slayta/iu);
     expect(lesson.body).toMatch(/Peki neden üç maddelik yönetim özeti/u);
     expect(lesson.body).toMatch(/uydurma yüzde/iu);
     expect(lesson.body).toMatch(/kaynak hücre/iu);
@@ -98,7 +107,7 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     expect(prose).toMatch(/A bir hücresi/u);
     expect(prose).toMatch(/toplantı/iu);
     expect(prose).toMatch(/üç madde/iu);
-    expect(prose).toMatch(/Sunum Fabrikası/u);
+    expect(prose).toMatch(/metinden slayta/iu);
     expect(prose).toMatch(/Peki neden üç maddelik yönetim özeti isteriz/u);
     expect(prose).toMatch(/Peki yapay zekâ uydurmasın diye sayıları nasıl kilitleriz/u);
     expect(prose).toMatch(/Şimdi mantığı oturtalım/u);
@@ -195,17 +204,25 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     expect(prose).toMatch(/her sayı kaynak hücreyle kilitlenmiştir/u);
     expect(prose).not.toMatch(/Bu örnek ezber slogan değil/u);
     expect(prose).not.toMatch(/fırsata dönüştürebilirsin/u);
+    expect(prose).not.toMatch(/Sunum Fabrikası/u);
+    expect(prose).not.toMatch(/Fark sihir değil/u);
   });
 
   it("özet rapor paneli KPI sayılarını tahsilat ızgarasından kilitler; 16:9 ezilmez", () => {
     const slides = loadAcademyCinemaCueSlides(KEY);
     const source = slides[0]?.table;
-    expect(source?.headers).toEqual(["Tarih", "Cari", "Fatura", "Tutar", "Durum"]);
-    const tutarSum = (source?.rows ?? []).reduce((sum, row) => {
-      const raw = (row[3] ?? "").replace(/\./g, "").replace(/,00$/u, "");
-      return sum + Number(raw);
-    }, 0);
-    expect(tutarSum).toBe(54650);
+    expect(source?.headers.slice(0, 5)).toEqual(["Tarih", "Cari", "Fatura", "Tutar", "Durum"]);
+    expect(source?.headers.length).toBeGreaterThanOrEqual(ACADEMY_EXCEL_DENSE_DUMP_MIN_COLS);
+    expect(source?.rows.length).toBeGreaterThanOrEqual(ACADEMY_EXCEL_DENSE_DUMP_MIN_ROWS);
+    expect(academyExcelIsDenseDumpTable(source)).toBe(true);
+    expect(source).toEqual(ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE);
+    expect(slides[1]?.table).toEqual(ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE);
+    expect(slides[2]?.table).toEqual(ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE);
+    expect(slides[3]?.table).toEqual(ACADEMY_OFFICE_AI_2_CLEAN_TABLE);
+    expect(academyExcelOfficeAi2SeedTutarSum()).toBe(54650);
+    expect(ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE.headers).toContain("Bölge");
+    expect(ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE.headers).toContain("Risk");
+    expect(ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE.headers.length).toBeGreaterThanOrEqual(12);
     const after = slides[4]?.table;
     expect(after?.headers).toEqual(["Madde", "Kaynak sayı", "Not"]);
     expect(after?.rows[0]).toEqual(["Toplam", "54.650", "Mart tahsilat; trend Kaya önde"]);
@@ -226,6 +243,13 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     expect(css).toMatch(
       /\.academy-player-compare-pane \.academy-pptx-kpi\s*\{[^}]*min-height:\s*3\.7rem/s,
     );
+    expect(css).toMatch(
+      /\.academy-excel-desk--dense \.academy-excel-grid-wrap\s*\{[^}]*overflow:\s*auto/s,
+    );
+    const excel = readFileSync(join(ROOT, "components/academy/lesson-excel-workspace.tsx"), "utf8");
+    expect(excel).toContain("academy-excel-desk--dense");
+    expect(excel).toContain("academyExcelIsDenseDumpTable");
+    expect(excel).toContain("denseDump");
     const player = readFileSync(join(ROOT, "components/academy/curriculum-player.tsx"), "utf8");
     const eye = readFileSync(join(ROOT, "components/academy/lesson-visual-stage.tsx"), "utf8");
     expect(player).toContain('data-academy-prompt-host="below-transport"');

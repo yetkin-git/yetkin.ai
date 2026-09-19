@@ -254,10 +254,10 @@ function parseScriptPayload(raw: unknown): ScriptPayload {
   if (!/şablon/iu.test(warmup) || !/slayt/iu.test(warmup)) {
     throw new Error("Warm-up boş slayt / şablon arama stresini taşımalı.");
   }
-  if (!/slayt tasla/iu.test(command) || !/(?:Copilot|pptx|ataş)/iu.test(command)) {
-    throw new Error("Command beat slayt taslağı ve PowerPoint Copilot / pptx ataş yöntemini istemeli.");
+  if (!/slayt tasla/iu.test(command) || !/(?:Copilot|PowerPoint|ataş)/iu.test(command)) {
+    throw new Error("Command beat slayt taslağı ve PowerPoint Copilot / PowerPoint sunusu ataş yöntemini istemeli.");
   }
-  if (!/Sunum Fabrikası|slayt/iu.test(prose)) {
+  if (!/metinden slayta|slayt/iu.test(prose)) {
     throw new Error("Senaryo sunum / slayt taşımalı.");
   }
   if (!/E-Posta Akışı/u.test(last) || !/Gelen Kutusu Sıfırlama/u.test(last) || !/4\. bölüm|dördüncü bölüm/iu.test(last)) {
@@ -457,11 +457,11 @@ async function generateJson(client: GoogleGenAI, prompt: string): Promise<unknow
   return extractJsonObject(text);
 }
 
-const SCRIPT_PROMPT = `Sen yetkin.ai akademisinin yazar fırınısın (Gemini 3.8 Flash). İş Hayatında ve Ofiste Yapay Zekâ dersinin 3. bölümü (Sunum Fabrikası) için konuşma senaryosu yaz.
+const SCRIPT_PROMPT = `Sen yetkin.ai akademisinin yazar fırınısın (Gemini 3.8 Flash). İş Hayatında ve Ofiste Yapay Zekâ dersinin 3. bölümü (Metinden Slayta) için konuşma senaryosu yaz.
 
 ZORUNLU JSON ŞEMASI:
 {
-  "title": "Sunum Fabrikası: Metinden Slayta",
+  "title": "Metinden Slayta: Sunum Hazırlama",
   "beats": [
     {
       "id": "warmup",
@@ -512,13 +512,13 @@ KURALLAR:
   * CEBİNE KOY (Task öncesi, ~45 sn, 80–130 kelime, hedef 105): Derste öğrenilen 3 somut adımı tane tane tekrarla. Adımları «1.» «2.» «3.» diye say. 1) Slayt başına tek fikir ver. 2) Görsel yönlendirmeyi yaz. 3) Taslağı aktar. Her adımı bir cümleyle açıkla. Bu üç ifadeyi kelime olarak kullan: «tek fikir», «görsel yönlendirme», «taslak».
 - 4-beat reji:
   * Warm-up: Sıfırdan slayt hazırlama stresi ve şablon arama karmaşası. Mutlaka «şablon» ve «slayt» geçsin.
-  * Command: Metin tabanlı içerikten yapay zekâ ile slayt taslağı iste. SLAYT İSTE paragraflarında mutlaka «slayt taslağı» ve 1. Kapı PowerPoint Copilot veya 2. Kapı pptx ataş geçsin. VBA, Gamma, Marp zorunlu değildir; ana yol değillerse tek cümle yeter. Spoiler yasağı: biten sunumun ekranda açık olduğunu söyleme; sonucu Beat 3’e kadar açıklama. «tek fikir» ifadesi Command’da da geçebilir.
+  * Command: Metin tabanlı içerikten yapay zekâ ile slayt taslağı iste. SLAYT İSTE paragraflarında mutlaka «slayt taslağı» ve 1. Kapı PowerPoint Copilot veya 2. Kapı PowerPoint sunusu ataş geçsin. VBA, Gamma, Marp zorunlu değildir; ana yol değillerse tek cümle yeter. Spoiler yasağı: biten sunumun ekranda açık olduğunu söyleme; sonucu Beat 3’e kadar açıklama. «tek fikir» ifadesi Command’da da geçebilir.
   * Comparison: Dikey split-screen. Sol «ÖNCE (DÜZ METİN YIĞINI)», sağ «SONRA (GÖRSEL HİYERARŞİLİ SLAYT - AI)». FARK ORTADA ve HİYERARŞİ paragraflarında «düz metin» ve «hiyerarşi» geçsin.
   * Task: Kendi metnini tek tıkla slayt yapısına dönüştürme saha görevi.
 - Gelecek Ders Köprüsü: Son SIRA SENDE paragrafı L4’e tatlı geçiş yapsın. Mutlaka «E-Posta Akışı», «Gelen Kutusu Sıfırlama» ve «4. bölüm» geçsin. Gelen kutusunu sıfırlayacağını söyle. «Üçüncü adımı tamamladın, görüşmek üzere» YAZMA.
 - Diğer paragraflar 48–100 Türkçe kelime. Üretmeden önce her paragrafı kelime kelime say. Toplam ~900–1150 kelime.
 - SEN dili. Anlatıcı Gözde. İkinci paragraf (ilk HOŞ GELDİN) TAM OLARAK "Selamlar, ben Gözde" ile başlar.
-- Kod yok. VBA/Gamma/Marp zorunlu değildir; 1. Kapı PowerPoint Copilot, 2. Kapı pptx ataş. Vatandaşa «Kirli» deme; «Düzensiz Tablo», «Ham Veri» veya «Dağınık Yapı» kullan. «kirli» kelimesi hiç geçmesin.
+- Kod yok. VBA/Gamma/Marp zorunlu değildir; 1. Kapı PowerPoint Copilot, 2. Kapı PowerPoint sunusu ataş. Vatandaşa «Kirli» deme; «Düzensiz Tablo», «Ham Veri» veya «Dağınık Yapı» kullan. «kirli» kelimesi hiç geçmesin.
 - badge alanı en fazla 3 kelime, yukarıdaki büyük harfli etiketler. Başka rozet yok.
 - Yalnız JSON döndür.`;
 

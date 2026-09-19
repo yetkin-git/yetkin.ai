@@ -45,4 +45,4 @@ Preview’a canlı üçlü yazılmaz.
 
 ## Canlı nakit tanığı (kalıcı sicil)
 
-**18 Eylül 2026 — ₺15,00 PayTR CLEARED canlı kart tanığı alındı (Bakiye ₺10,00 -> ₺25,00, CREDIT defter kaydı oluşturuldu).** Super Admin, canlı iframe + 3D Secure. `amount_minor` 1000 → 2500; CLEARED 1500. Tam `merchant_oid` bu belgeye basılmaz. Operatör prosedürü: `docs/CANLI_TEST_PROSEDURU.md`.
+**18 Eylül 2026 — ₺15,00 PayTR CLEARED canlı kart tanığı alındı (Bakiye ₺10,00 -> ₺25,00, CREDIT defter kaydı oluşturuldu).** Super Admin, canlı iframe + 3D Secure. `amount_minor` 1000 → 2500; CLEARED 1500. Tam `merchant_oid` bu belgeye basılmaz. Operatör prosedürü bu sicildeki «Canlı nakit tanığı» bölümüdür (ayrı prosedür dosyası yoktur).

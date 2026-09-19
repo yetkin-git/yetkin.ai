@@ -123,6 +123,8 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
     expect(spoken).not.toMatch(/AI masası/u);
     expect(spoken).not.toMatch(/Sekiz ders bitti/u);
     expect(spoken).toMatch(/9\. ders bitince sınav kapısı açılır/u);
+    expect(spoken).toMatch(/Kişi adı, IBAN veya ticari sır varsa önce maskele/u);
+    expect(spoken).not.toMatch(/\b(?:xlsx|docx|pptx)\b/iu);
     const cinemaHtml = readFileSync(join(ROOT, "scripts/render-academy-cinema-html.ts"), "utf8");
     expect(cinemaHtml).toContain('case "word"');
     expect(cinemaHtml).toContain("ACADEMY_OFFICE_AI_W1_COMPARE_BEFORE_LABEL");
@@ -183,7 +185,7 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
     expect(word).toContain("ACADEMY_WORD_FILE_LABEL");
     expect(word).toContain("Tek Tek Kopyalama");
     expect(word).not.toContain("ZAHMETLİ YOL");
-    expect(word).toContain("academyCitizenDocxLabel");
+    expect(word).toContain("academyCitizenOfficeFileLabel");
     expect(word).toContain("Ataş · {fileLabel}");
     expect(word).not.toMatch(/Ataş · \{slide\.fileName/u);
     const player = readFileSync(join(ROOT, "components/academy/curriculum-player.tsx"), "utf8");
@@ -193,8 +195,8 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
     expect(timings).not.toBeNull();
-    expect(timings!.durationSec).toBe(567);
-    expect(timings!.cacheV).toBe(567000);
+    expect(timings!.durationSec).toBe(593.64);
+    expect(timings!.cacheV).toBe(593640);
     const cues = loadAcademyLessonCues(KEY);
     expect(cues.at(-1)?.end).toBe(timings!.durationSec);
     for (const cue of cues) {

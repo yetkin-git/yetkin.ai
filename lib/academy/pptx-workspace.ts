@@ -1,5 +1,5 @@
 /**
- * 01_office_ai-3 Sunum Fabrikası — canlı slayt tuvali SSOT.
+ * 01_office_ai-3 Metinden Slayta — canlı slayt tuvali SSOT.
  * Yeşil kutu `getBoundingClientRect` ile KPI kartına kilitlenir.
  * Metin üç noktaya düşmez; font clamp + içerik genişliği.
  */
@@ -8,6 +8,10 @@ import { academyExcelAlignBox, type AcademyExcelAlignBox } from "@/lib/academy/e
 import type { AcademyExcelMouseCell } from "@/lib/academy/excel-mouse-pointer";
 
 export const ACADEMY_PPTX_SLIDE_TITLE = "Mart 2026 Yönetim Özeti" as const;
+/** Teknik sonek — chrome / data-attr; vatandaş yüzüne basılmaz (PEDAGOJI §E.2). */
+export const ACADEMY_PPTX_FILE_NAME = "Yonetim_Sunumu.pptx" as const;
+/** Vatandaş Lisanı etiket — titlebar. */
+export const ACADEMY_PPTX_FILE_LABEL = "Yönetim Sunumu (PowerPoint)" as const;
 
 export const ACADEMY_PPTX_ACTION_BAND =
   "Stratejik Eylem: Yıldız Tekstil takibi başlatılsın" as const;

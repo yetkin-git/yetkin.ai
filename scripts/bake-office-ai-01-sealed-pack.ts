@@ -522,7 +522,7 @@ KURALLAR:
 - Diğer paragraflar 48–100 Türkçe kelime. Üretmeden önce her paragrafı kelime kelime say. Toplam ~900–1150 kelime.
 - SEN dili. Anlatıcı Gözde. İkinci paragraf (ilk HOŞ GELDİN) TAM OLARAK "Selamlar, ben Gözde" ile başlar.
 - Mutlaka "A1 hücresi" geçer. Son paragraf "görüşmek üzere" demez; 2. derse (Rapor Otomasyonu) bağlayan Gelecek Ders Köprüsü taşır: tabloyu temizleme refleksi, üç maddelik yönetim özeti, "Hazırsan 2. bölümde buluşalım." Grafik raporu vaadi yok.
-- Üç Kapı sırası: 1) yerleşik panel (Copilot / Gemini şeridi) 2) ataş (xlsx, docx, pptx) 3) maskeli kısa özet. gemini.google.com birinci kapı değildir. Web sohbeti kapı adı değildir.
+- Üç Kapı sırası: 1) yerleşik panel (Copilot / Gemini şeridi) 2) ataş (Excel tablosu, Word belgesi, PowerPoint sunusu) 3) maskeli kısa özet. gemini.google.com birinci kapı değildir. Web sohbeti kapı adı değildir.
 - Konu: düzensiz Excel / ham veri (birleşik hücre, boş satır, tür karmaşası) → A1 hücresini düzelt → düzenli tablo. Kod yok. Jargon yok. Vatandaşa «Kirli» deme; «Düzensiz Tablo», «Ham Veri» veya «Dağınık Yapı» kullan. «kirli» kelimesi hiç geçmesin.
 - Senaryoyu Copilot ile sınırlama. Excel verisini işlemede ChatGPT (hızlı taslak), Claude (uzun tabloyu dikkatle okur), Gemini (adımları net sıralar) ve özel AI API (şirket kuralını kilitler) farkını ve entegrasyon mantığını (veri bir kez temizlenir, sonra kapı seçilir) insani dille HOŞ GELDİN ikinci paragraf ile TEMİZLE ŞİMDİ ilk paragrafına işle. Bu dört isim geçsin.
 - Beat 3 (Comparison) görseli: dikey split-screen — sol ÖNCE (DÜZENLEMESİZ) ham veri, sağ SONRA (AI İLE) düzenli tablo.

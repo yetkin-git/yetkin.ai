@@ -14,7 +14,7 @@ import {
   ACADEMY_OFFICE_AI_W1_COMPARE_AFTER_LABEL,
   ACADEMY_OFFICE_AI_W1_COMPARE_BEFORE_LABEL,
 } from "@/lib/academy/lesson-beat-visual";
-import { academyCitizenDocxLabel } from "@/lib/academy/prompt-console";
+import { academyCitizenOfficeFileLabel } from "@/lib/academy/prompt-console";
 import { ACADEMY_WORD_FILE_LABEL, academyWordStageKind } from "@/lib/academy/word-workspace";
 
 const THEMES: Record<
@@ -139,7 +139,7 @@ function mockExcel(slide: AcademyCinemaCueSlide): string {
     slide.formulaBar !== undefined
       ? slide.formulaBar
       : table.headers[0] ?? "";
-  const fileName = slide.fileName ?? "Kitap1.xlsx";
+  const fileName = academyCitizenOfficeFileLabel(slide.fileName) ?? "Kitap1 (Excel)";
   const sheetName = slide.sheetName ?? "Sayfa1";
   const zoom = slide.zoomA1 === true;
   const merged = slide.mergedTop === true;
@@ -306,7 +306,7 @@ function mockWord(slide: AcademyCinemaCueSlide): string {
     hideReply: slide.copilot?.hideReply,
   });
   const fileLabel =
-    academyCitizenDocxLabel(slide.fileName) ?? slide.fileName ?? ACADEMY_WORD_FILE_LABEL;
+    academyCitizenOfficeFileLabel(slide.fileName) ?? slide.fileName ?? ACADEMY_WORD_FILE_LABEL;
   const copy = stage === "copy";
   const analysis = stage === "analysis";
   const title = copy ? "ChatGPT" : "Word";

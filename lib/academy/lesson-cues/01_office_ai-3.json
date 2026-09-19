@@ -2,7 +2,7 @@
   {
     "id": "cue-01",
     "start": 2,
-    "end": 49.24,
+    "end": 41.411,
     "text": "GİRİŞ KÖPRÜSÜ",
     "section": "GİRİŞ KÖPRÜSÜ",
     "paragraphs": [
@@ -11,19 +11,19 @@
   },
   {
     "id": "cue-02",
-    "start": 49.64,
-    "end": 133,
+    "start": 41.811,
+    "end": 113.833,
     "text": "HOŞ GELDİN",
     "section": "HOŞ GELDİN",
     "paragraphs": [
       "Selamlar, ben Gözde. yetkin.ai akademisinin bu dördüncü dersinde seninle birlikte metni slayta çevirmenin yolunu kuracağız. Geçen derste üç maddelik yönetici özetini kilitledik; peki şimdi ne olacak? Özet cebinde durur ama toplantı slayt ister. Hepimiz o toplantı öncesi saatlerce boş sayfaya bakıp durduk. Elinde harika fikirler, eksiksiz veriler var ama onları beyaz bir çalışma sayfasına dökmek korkutucu gelir. Peki neden sunum hazırlamak bu kadar zaman yer? Çünkü çoğu kişi önce şablonu süsler; mesajı sona bırakır. Bugün o sırayı çevireceğiz: önce tek fikir, sonra slayt taslağı.",
-      "Geleneksel yöntemlerle sunum hazırlarken vaktimizin neredeyse yüzde seksenini tasarım detaylarına kurban ediyoruz. Hangi renk paleti uyar, simgeler nereye yerleşir, metin kutuları nasıl hizalanır derken asıl aktarmak istediğimiz mesajın gücü arka planda kaybolup gidiyor. Peki neden tasarımı önce bitirmeye çalışmayız? Çünkü sen grafiker değilsin; sen fikrin sahibisin. Sunum Fabrikası adını verdiğimiz bu yaklaşımda roller değişiyor. Yapay zekâyı yanına aldığında tasarım yükünü algoritmaya verirsin. Böylece hikâyenin akışına, vurucu mesaja ve sunumunun yaratacağı iş etkisine odaklanırsın."
+      "Geleneksel yöntemlerle sunum hazırlarken vaktimizin neredeyse yüzde seksenini tasarım detaylarına kurban ediyoruz. Hangi renk paleti uyar, simgeler nereye yerleşir, metin kutuları nasıl hizalanır derken asıl aktarmak istediğimiz mesajın gücü arka planda kaybolup gidiyor. Peki neden tasarımı önce bitirmeye çalışmayız? Çünkü sen grafiker değilsin; sen fikrin sahibisin. Metni slayta çevirirken roller değişiyor. Yapay zekâyı yanına aldığında tasarım yükünü algoritmaya verirsin. Böylece hikâyenin akışına, vurucu mesaja ve sunumunun yaratacağı iş etkisine odaklanırsın."
     ]
   },
   {
     "id": "cue-03",
-    "start": 133.4,
-    "end": 208.08,
+    "start": 114.233,
+    "end": 185.455,
     "text": "ŞABLON KAOSU",
     "section": "ŞABLON KAOSU",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 208.48,
-    "end": 301,
+    "start": 185.855,
+    "end": 274.717,
     "text": "SLAYT İSTE",
     "section": "SLAYT İSTE",
     "paragraphs": [
@@ -44,8 +44,8 @@
   },
   {
     "id": "cue-05",
-    "start": 301.4,
-    "end": 384.52,
+    "start": 275.117,
+    "end": 352.179,
     "text": "HİYERARŞİ",
     "section": "HİYERARŞİ",
     "paragraphs": [
@@ -55,8 +55,8 @@
   },
   {
     "id": "cue-06",
-    "start": 384.92,
-    "end": 459.8,
+    "start": 352.579,
+    "end": 425.441,
     "text": "FARK ORTADA",
     "section": "FARK ORTADA",
     "paragraphs": [
@@ -66,8 +66,8 @@
   },
   {
     "id": "cue-07",
-    "start": 460.2,
-    "end": 512.56,
+    "start": 425.841,
+    "end": 477.131,
     "text": "CEBİNE KOY",
     "section": "CEBİNE KOY",
     "paragraphs": [
@@ -76,8 +76,8 @@
   },
   {
     "id": "cue-08",
-    "start": 512.96,
-    "end": 575.6,
+    "start": 477.531,
+    "end": 531.913,
     "text": "SIRA SENDE",
     "section": "SIRA SENDE",
     "paragraphs": [

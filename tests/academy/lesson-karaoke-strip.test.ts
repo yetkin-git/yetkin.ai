@@ -88,7 +88,7 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     expect(bridgeLines).toHaveLength(3);
     expect(bridgeLines.every((line) => line.cueId === "cue-08")).toBe(true);
     expect(bridgeLines[0]?.start).toBeGreaterThan(450);
-    expect(bridgeLines.at(-1)?.end).toBe(607.28);
+    expect(bridgeLines.at(-1)?.end).toBe(649.36);
     for (const line of bridgeLines) {
       const words = academyKaraokeWords(line);
       expect(academyKaraokeWordState(words[0]!, line.start)).toBe("active");
@@ -275,11 +275,11 @@ describe("karaoke aktif kelime layout shift kilidi", () => {
 describe("karaoke kelime boşluğu ve noktalama yapışması", () => {
   it("join('') üretmez; Geçtiğimiz derste kurduğumuz boşluklarını korur", () => {
     const text =
-      "Geçtiğimiz derste kurduğumuz Sunum Fabrikası ile slayt hazırlama alışkanlıklarını baştan aşağı değiştirdik.";
+      "Geçtiğimiz derste kurduğumuz üç maddelik özet ile slayt hazırlama alışkanlıklarını baştan aşağı değiştirdik.";
     const words = academyKaraokeWords({ id: "cue-01:0", text, start: 0, end: 8 });
     expect(words.slice(0, 3).map((word) => word.text)).toEqual(["Geçtiğimiz", "derste", "kurduğumuz"]);
     expect(words.map((word) => word.text).join("")).toBe(
-      "GeçtiğimizderstekurduğumuzSunumFabrikasıileslaythazırlamaalışkanlıklarınıbaştanaşağıdeğiştirdik.",
+      "Geçtiğimizderstekurduğumuzüçmaddeliközetileslaythazırlamaalışkanlıklarınıbaştanaşağıdeğiştirdik.",
     );
     expect(academyKaraokeReconstructLine(words)).toBe(text);
     expect(words.some((word) => word.glue)).toBe(false);

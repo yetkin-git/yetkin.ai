@@ -4,8 +4,9 @@
  * 1 Excel → 2 KVKK → 3 Rapor → 4 Slayt → 5 Hata avı → 6 E-posta ritüeli
  * → 7 Gmail/Outlook kapısı → 8 Word → 9 Cuma 30 capstone. Sınav yalnız 9. dersten sonra.
  * Uydu (ileriki fırın, sınav yoluna girmez): 10 takvim/toplantı, 11 Excel formül/grafik, 12 PDF.
+ * OFF-102 taslağı `off-102.ts` içindedir (salt okunur projeksiyon; bu dosya değişmez).
  * Üç Kapı Hiyerarşisi PEDAGOJI.md §E.10 — yalnız aktarım:
- * 1. Kapı yerleşik panel (Copilot / Gemini şeridi) → 2. Kapı ataş (xlsx/docx/pptx) → 3. Kapı maskeli kısa özet.
+ * 1. Kapı yerleşik panel (Copilot / Gemini şeridi) → 2. Kapı ataş (Excel tablosu / Word belgesi / PowerPoint sunusu) → 3. Kapı maskeli kısa özet.
  * Güvenlik sınıfı ayrı eksendir: kişisel veri / şirket sırrı / kamu cümlesi. Kapı adı değildir.
  * Yerleşik araç SSOT: Outlook→Copilot, Gmail→Gemini, Word/Excel→Doğrudan Dosya Yükleme, PowerPoint→Copilot.
  */
@@ -61,7 +62,7 @@ export const OFFICE_AI_PLANNED_LESSONS = [
   },
   {
     key: "01_office_ai-3",
-    title: "Sunum Fabrikası: Metinden Slayta",
+    title: "Metinden Slayta: Sunum Hazırlama",
     status: "sealed",
     lane: "main",
     method: "copilot-live",
@@ -102,7 +103,7 @@ export const OFFICE_AI_PLANNED_LESSONS = [
     lane: "main",
     method: "doc-upload-gemini",
     pedagogicalObjective:
-      "Sözleşme, dilekçe ve raporu ataş ile yüklemeyi göstermek. Tüm dosyayı sayfa sayfa kopyalamak zahmetli yoldur. Spesifik bir paragrafı soracaksan onu istemine eklersin.",
+      "Sözleşme, dilekçe ve raporu ataş ile yüklemeyi göstermek. Tüm dosyayı sayfa sayfa kopyalamak tek tek kopyalamadır. Spesifik bir paragrafı soracaksan onu istemine eklersin.",
   },
   {
     key: "01_office_ai-6",

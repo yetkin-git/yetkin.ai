@@ -107,7 +107,7 @@ const COURSES: readonly SkeletonCourse[] = [
         objective: "Temiz tablodan yönetici özeti ve grafik üretip Word'e aktarma akışını göstermek.",
       },
       {
-        title: "Sunum Fabrikası: Metinden Slayta",
+        title: "Metinden Slayta: Sunum Hazırlama",
         minutesLow: 8,
         minutesHigh: 10,
         screen: "Uzun rapordan 8 slaytlık taslak; tasarım tutarlılığı + konuşmacı notları.",

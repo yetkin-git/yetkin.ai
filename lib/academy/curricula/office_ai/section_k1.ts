@@ -4,8 +4,8 @@ export const sectionK1: Section = {
   sectionNumber: 2,
   lessonKey: "01_office_ai-k1",
   title: "KVKK, Şirket Sırları ve Maskeleme: Ne Yüklenmez?",
-  targetDurationMinutes: 11.3,
-  estimatedWordCount: 1260,
+  targetDurationMinutes: 10.3,
+  estimatedWordCount: 1268,
   pedagogicalObjective:
     "Müşteri listesi, IBAN, T.C. Kimlik No, maaş ve şirket sırrını açık yapay zekâ ekranına yüklememeyi göstermek. Neden üç sahte satırın yettiğini anlat; yüklemeden önce maskele; 3. Kapı yalnız maskeli kısa özettir.",
   contentMarkdown: `
@@ -47,7 +47,7 @@ Cebine üç kural koy. 1. Müşteri listesi, IBAN, T.C. Kimlik No, maaş tablosu
 
 ## SIRA SENDE
 
-Sıra sende. Masandaki bir gerçek listeyi aç. Ad, telefon, IBAN, T.C. Kimlik No varsa maskele. Üç satırlık soru yaz. Ham dosyayı ChatGPT veya Gemini sohbetine bırakma. Üç sahte satırın, bin gerçek satır kadar iş gördüğünü masada fark edeceksin. Bu 2. derstir. Sınav henüz kapalıdır. Sıradaki kapı rapordur: temiz ve maskeli tablodan üç maddelik yönetim özeti.
+Sıra sende. Masandaki bir gerçek listeyi aç. Ad, telefon, IBAN, T.C. Kimlik No varsa maskele. Üç satırlık soru yaz. Ham dosyayı ChatGPT veya Gemini sohbetine bırakma. Üç sahte satırın, bin gerçek satır kadar iş gördüğünü masada fark edeceksin. Bu 2. derstir. Sınav henüz kapalıdır. Sıradaki kapı rapordur: temiz ve maskeli tablodan üç maddelik yönetim özeti. Sınav, 9. ders bitince açılır. Baraj score %70'tir.
 
 ## El kitabı (kasetin sığdırmadığı)
 

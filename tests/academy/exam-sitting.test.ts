@@ -14,11 +14,14 @@ import { ServiceUnavailableError } from "@/lib/kernel/http/errors";
 import {
   ACADEMY_EXAM_SITTING_MAC_FALLBACK,
   ACADEMY_EXAM_SITTING_SECRET_MISSING,
+  drawAcademyExamQuestions,
   openAcademyExamSitting,
   resetAcademyExamSittingConsumptionsForTests,
   resolveAcademyExamSittingMacKey,
   sealAcademyExamSitting,
+  shuffleAcademyExamChoices,
 } from "@/lib/academy/exam-sitting";
+import { OFFICE_AI_EXAM_QUESTIONS } from "@/lib/academy/exam-pools";
 import {
   academyCanonicalProofSubmission,
   evaluateAcademyProofSubmission,
@@ -171,5 +174,22 @@ describe("sınav oturumu MAC ve iş kanıtı kapısı", () => {
     const sitting = openAcademyExamSitting(view!.sessionToken);
     expect(sitting?.items.every((item) => !item.id.startsWith("q_off_l"))).toBe(true);
     expect(sitting?.items).toHaveLength(10);
+  });
+
+  it("şıklar oturumda karışır; havuzdaki B-ağırlığı vitrine taşınmaz (D1)", () => {
+    const bHeavy = OFFICE_AI_EXAM_QUESTIONS.find((question) => question.correctIndex === 1);
+    expect(bHeavy).toBeDefined();
+    const shuffled = shuffleAcademyExamChoices(bHeavy!, () => 0);
+    expect([...shuffled.permutation].sort((a, b) => a - b)).toEqual([0, 1, 2, 3]);
+    expect(shuffled.permutation).not.toEqual([0, 1, 2, 3]);
+    expect(shuffled.question.choices[shuffled.question.correctIndex]).toBe(
+      bHeavy!.choices[bHeavy!.correctIndex],
+    );
+    const drawn = drawAcademyExamQuestions(OFFICE_AI_EXAM_QUESTIONS, 10, () => 0);
+    expect(drawn.questions).toHaveLength(10);
+    expect(drawn.items).toHaveLength(10);
+    for (const item of drawn.items) {
+      expect([...item.permutation].sort((a, b) => a - b)).toEqual([0, 1, 2, 3]);
+    }
   });
 });

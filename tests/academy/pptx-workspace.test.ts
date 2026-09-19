@@ -15,7 +15,7 @@ import { renderAcademyCinemaCueHtml } from "../../scripts/render-academy-cinema-
 
 const ROOT = process.cwd();
 
-describe("Sunum Fabrikası slayt seçim kutusu — getBoundingClientRect", () => {
+describe("Metinden Slayta slayt seçim kutusu — getBoundingClientRect", () => {
   it("A1 toplam, B1 lider, C1 risk kartına çözülür", () => {
     expect(academyPptxElementForCell("A1")).toBe("kpi-total");
     expect(academyPptxElementForCell("B1")).toBe("kpi-leader");
@@ -43,7 +43,8 @@ describe("Sunum Fabrikası slayt seçim kutusu — getBoundingClientRect", () =>
     expect(pptx).toContain("data-academy-office-win-fit");
     expect(pptx).toContain("data-academy-pptx-origin");
     expect(pptx).toContain("data-academy-checklist-overlay");
-    expect(pptx).toContain("academy-pptx-canvas aspect-video");
+    expect(pptx).toContain("academyCitizenOfficeFileLabel");
+    expect(pptx).toContain("ACADEMY_PPTX_FILE_LABEL");
     expect(slide).toContain("min-h-[4.35rem]");
     expect(slide).toContain("items-center");
     expect(slide).toContain("ACADEMY_PPTX_SLIDE_TITLE");

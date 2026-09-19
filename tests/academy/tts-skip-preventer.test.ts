@@ -65,13 +65,15 @@ describe("TTS model skip preventer", () => {
     expect(applyAcademyCueDisplayPhonetics("HeyGen")).toBe("Heycen");
     expect(applyAcademyCueDisplayPhonetics("Reels")).toBe("Rils");
     expect(applyAcademyCueDisplayPhonetics("Ctrl+C")).toBe("Kontrol C");
-    expect(applyAcademyCueDisplayPhonetics("Word veya Gemini sohbetine .docx yüklersin")).toContain("docx");
-    expect(applyAcademyCueDisplayPhonetics("Word veya Gemini sohbetine .docx yüklersin")).not.toMatch(/\.docx/u);
-    expect(applyAcademyCueDisplayPhonetics("Sozlesme_Kaya_Gida.docx")).toMatch(/Sozlesme_Kaya_Gida\s+docx/u);
-    expect(applyAcademyCueDisplayPhonetics(".xlsx ve .pptx")).toMatch(/xlsx/u);
-    expect(applyAcademyCueDisplayPhonetics(".xlsx ve .pptx")).toMatch(/pptx/u);
+    expect(applyAcademyCueDisplayPhonetics("Word veya Gemini sohbetine .docx yüklersin")).toContain("Vörd belgesi");
+    expect(applyAcademyCueDisplayPhonetics("Word veya Gemini sohbetine .docx yüklersin")).not.toMatch(/\.docx|\bdocx\b/u);
+    expect(applyAcademyCueDisplayPhonetics("Sozlesme_Kaya_Gida.docx")).toMatch(/Sozlesme_Kaya_Gida\s+Vörd belgesi/u);
+    expect(applyAcademyCueDisplayPhonetics(".xlsx ve .pptx")).toMatch(/Excel tablosu/u);
+    expect(applyAcademyCueDisplayPhonetics(".xlsx ve .pptx")).toMatch(/Pauer Point sunusu/u);
+    expect(applyAcademyCueDisplayPhonetics(".xlsx ve .pptx")).not.toMatch(/\bxlsx\b|\bpptx\b/u);
     expect(applyAcademySpokenPhoneticsToDisplay("Kontrol C")).toBe("Ctrl+C");
-    expect(applyAcademySpokenPhoneticsToDisplay("sohbetine docx yüklersin")).toBe("sohbetine .docx yüklersin");
+    expect(applyAcademySpokenPhoneticsToDisplay("sohbetine docx yüklersin")).toBe("sohbetine Word belgesi yüklersin");
+    expect(applyAcademySpokenPhoneticsToDisplay("sohbetine Vörd belgesi yüklersin")).toBe("sohbetine Word belgesi yüklersin");
   });
 
   it("Ayda takvim dilini AIDA'ya çevirmez; satış şablonunu çevirir", () => {

@@ -82,6 +82,8 @@ describe("sertifika sosyal paylaşım yüzeyi", () => {
       images: [academyCertificateOgImagePath(HASH)],
     });
     expect(meta.alternates).toMatchObject({ canonical: `/academy/dogrula/${HASH}` });
+    // SEO Tedavi (P1) — sicil thin-content indeksi üretmez; paylaşım bağı takip edilir.
+    expect(meta.robots).toEqual({ index: false, follow: true });
   });
 
   it("/verify alias 301 ile kanonik dogrula adresine iner", () => {

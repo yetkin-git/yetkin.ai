@@ -94,8 +94,10 @@ describe("uygulamalı ders gövdesi", () => {
     expect(expandAcademySpokenAbbreviations("LLM vs. Otonom Ajan")).not.toMatch(/\bvs\./iu);
     expect(expandAcademySpokenAbbreviations("VS Code ile ajan")).toContain("VS Code");
     expect(expandAcademySpokenAbbreviations("Ctrl+C ile kopyala")).toContain("Kontrol C");
-    expect(expandAcademySpokenAbbreviations("dosya .docx ataşla")).toMatch(/\bdocx\b/u);
-    expect(expandAcademySpokenAbbreviations("dosya .docx ataşla")).not.toMatch(/\.docx/u);
+    expect(expandAcademySpokenAbbreviations("dosya .docx ataşla")).toMatch(/Word belgesi/u);
+    expect(expandAcademySpokenAbbreviations("dosya .docx ataşla")).not.toMatch(/\.docx|\bdocx\b/u);
+    expect(expandAcademySpokenAbbreviations("tablo .xlsx ataşla")).toMatch(/Excel tablosu/u);
+    expect(expandAcademySpokenAbbreviations("sunu .pptx ataşla")).toMatch(/PowerPoint sunusu/u);
   });
 
   it("yayındaki compact müfredat 01_office_ai 9 ders taşır; Tam Ders Metni pratik çitini basar, diyalog mühürü yoktur", { timeout: 20_000 }, () => {

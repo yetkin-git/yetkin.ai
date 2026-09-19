@@ -8,7 +8,7 @@ import {
   type AcademyPptxElementId,
 } from "@/lib/academy/pptx-workspace";
 
-const WORD_DUMP_CHROME = "Mart_2026_tahsilat_notlari.docx";
+const WORD_DUMP_CHROME = "Tahsilat Notları (Word)";
 
 function bindHtmlRef(ref: Ref<HTMLElement | null>, el: HTMLElement | null): void {
   if (ref == null) {

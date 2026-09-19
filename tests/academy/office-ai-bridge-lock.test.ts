@@ -29,6 +29,24 @@ const CLOSING_BRIDGE: Record<string, (ctx: BridgeCtx) => RegExp> = {
   "01_office_ai-6": () => /sınav kapısı yalnız bu kapanış dersinden sonra açılır/iu,
 };
 
+/** Makale SIRA SENDE ↔ timings outro — aynı hedef (T3/T4/T6 çapraz kilit). */
+const OUTRO_DESTINATION: Record<string, RegExp> = {
+  "01_office_ai-1": /2\. derste buluşalım/u,
+  "01_office_ai-k1": /Sıradaki kapı rapor/u,
+  "01_office_ai-2": /4\. ders kapsamında/u,
+  "01_office_ai-3": /Hata Avı/u,
+  "01_office_ai-5": /e-posta ritüeli/iu,
+  "01_office_ai-4": /Gmail/iu,
+  "01_office_ai-g1": /ataş ile yüklemeyi/u,
+  "01_office_ai-w1": /9\. ders/u,
+  "01_office_ai-6": /sınav kapısı yalnız bu dersten sonra açılır/iu,
+};
+
+function articleSiraSende(markdown: string): string {
+  const match = markdown.match(/## SIRA SENDE\s+([\s\S]*?)(?=\n## |\s*$)/u);
+  return (match?.[1] ?? markdown).trim();
+}
+
 function sealedMinutes(durationSec: number): number {
   return Math.round(durationSec / 6) / 10;
 }
@@ -78,9 +96,39 @@ describe("01_office_ai giriş/kapanış köprü kilidi", () => {
     expect(lessonOne.contentMarkdown).not.toMatch(/masaüstünde duran ya da sana yakın zamanda gönderilmiş/u);
   });
 
+  it("gerçek dosya isteyen SIRA SENDE KVKK / maske uyarısı taşır", () => {
+    const taskKeys = ["01_office_ai-2", "01_office_ai-5", "01_office_ai-w1", "01_office_ai-6"] as const;
+    for (const lessonKey of taskKeys) {
+      const section = officeAiSections.find((row) => row.lessonKey === lessonKey);
+      expect(section, lessonKey).toBeTruthy();
+      const task = articleSiraSende(section!.contentMarkdown);
+      expect(task, lessonKey).toMatch(/maskele/iu);
+      expect(task, lessonKey).toMatch(/IBAN/u);
+    }
+  });
+
+  it("makale SIRA SENDE ile timings outro aynı kapanış hedefini gösterir", () => {
+    const keys = curriculumLessonKeysForSlug(SLUG);
+    for (const lessonKey of keys) {
+      const section = officeAiSections.find((row) => row.lessonKey === lessonKey);
+      const dest = OUTRO_DESTINATION[lessonKey];
+      expect(section, lessonKey).toBeTruthy();
+      expect(dest, lessonKey).toBeInstanceOf(RegExp);
+      const timings = loadAcademySealedAudioTimings(lessonKey);
+      const lastCueId = timings?.pieces.at(-1)?.cueId;
+      const outro = (timings?.pieces ?? [])
+        .filter((piece) => piece.cueId === lastCueId)
+        .map((piece) => piece.text)
+        .join(" ");
+      expect(articleSiraSende(section!.contentMarkdown), lessonKey).toMatch(dest!);
+      expect(outro, lessonKey).toMatch(dest!);
+    }
+  });
+
   it("targetDurationMinutes mühürlü timings saniyesine yuvarlanır", () => {
     for (const section of officeAiSections) {
-      const timings = loadAcademySealedAudioTimings(section.lessonKey);
+      expect(section.lessonKey).toBeTypeOf("string");
+      const timings = loadAcademySealedAudioTimings(section.lessonKey!);
       expect(timings?.durationSec, section.lessonKey).toBeGreaterThan(0);
       expect(section.targetDurationMinutes, section.lessonKey).toBe(sealedMinutes(timings!.durationSec));
       expect(isAcademyAiLessonDurationMinutes(section.targetDurationMinutes)).toBe(true);

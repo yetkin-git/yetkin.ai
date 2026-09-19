@@ -90,6 +90,7 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
     expect(prose).toMatch(/Müşteri A/u);
     expect(prose).toMatch(/MASKELİ IBAN/u);
     expect(prose).not.toMatch(/ahlaki omurga|Cuma paniği|bekçi olursun|Kanıt iddiadan/u);
+    expect(prose).not.toMatch(/\b(?:xlsx|docx|pptx)\b/iu);
     expect(prose).toMatch(/maskeli/iu);
     expect(prose).toMatch(/yerleşik paneldir/u);
     expect(prose).not.toMatch(/kapalı sistemidir/u);
@@ -138,13 +139,25 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
     expect(ACADEMY_KVKK_FLAG_CELLS).toEqual(["A2", "B2", "C2"]);
     expect(ACADEMY_KVKK_RAW_TABLE.headers).toEqual(["Ad", "Telefon", "IBAN", "Ürün"]);
     expect(ACADEMY_KVKK_RAW_TABLE.rows[0]).toEqual(["Ayşe Kaya", "0532…", "TR12…7890", "Un 25kg"]);
-    expect(ACADEMY_KVKK_MASKED_TABLE.rows).toHaveLength(4);
-    expect(ACADEMY_KVKK_MASKED_TABLE.rows[0]?.[0]).toBe("Müşteri A");
-    expect(ACADEMY_KVKK_MASKED_TABLE.rows.at(-1)).toEqual([
-      "Not",
-      "MASKELİ_IBAN",
+    expect(ACADEMY_KVKK_MASKED_TABLE.headers).toEqual(["Kod", "Telefon", "IBAN", "Ürün"]);
+    expect(ACADEMY_KVKK_MASKED_TABLE.rows).toHaveLength(3);
+    expect(ACADEMY_KVKK_MASKED_TABLE.rows[0]).toEqual([
+      "Müşteri A",
       "MASKELİ_TELEFON",
-      "3 satır",
+      "MASKELİ_IBAN",
+      "Un 25kg",
+    ]);
+    expect(ACADEMY_KVKK_MASKED_TABLE.rows[1]).toEqual([
+      "Müşteri B",
+      "MASKELİ_TELEFON",
+      "MASKELİ_IBAN",
+      "Yağ 18L",
+    ]);
+    expect(ACADEMY_KVKK_MASKED_TABLE.rows[2]).toEqual([
+      "Müşteri C",
+      "MASKELİ_TELEFON",
+      "MASKELİ_IBAN",
+      "Şeker",
     ]);
     expect(academyExcelIsMaskToken("Müşteri A")).toBe(true);
     expect(academyExcelIsMaskToken("MASKELİ_IBAN")).toBe(true);
@@ -162,19 +175,19 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
     expect(slides[5]?.subhead).toMatch(/MASKELİ_IBAN/u);
   });
 
-  it("677.56 sn kaset ile karaoke cue saatleri birebir; harf düşmez", () => {
+  it("619.484 sn kaset ile karaoke cue saatleri birebir; harf düşmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
-    expect(timings?.durationSec).toBe(677.56);
-    expect(timings?.pieces.at(-1)?.end).toBe(677.56);
+    expect(timings?.durationSec).toBe(619.484);
+    expect(timings?.pieces.at(-1)?.end).toBe(619.484);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.at(-1)?.end).toBe(677.56);
+    expect(cues.at(-1)?.end).toBe(619.484);
     for (const cue of cues) {
       const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
       expect(pieces[0]?.start, cue.id).toBe(cue.start);
       expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
     }
     const strip = loadAcademyKaraokeStrip(KEY);
-    expect(strip.at(-1)?.end).toBe(677.56);
+    expect(strip.at(-1)?.end).toBe(619.484);
     expect(strip.some((line) => line.cueId === "cue-04" && /üç satır yeter/u.test(line.text))).toBe(
       true,
     );

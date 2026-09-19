@@ -17,6 +17,7 @@ import {
   academyExcelColLetter,
   academyExcelColumnMinCh,
   academyExcelIsActiveColumn,
+  academyExcelIsDenseDumpTable,
   academyExcelIsErrorCell,
   academyExcelIsMaskToken,
   academyExcelIsSelectionOrigin,
@@ -26,7 +27,7 @@ import {
   type AcademyVisualExcelPane,
 } from "@/lib/academy/excel-workspace";
 import { academyPocketChecklistSteps } from "@/lib/academy/lesson-beat-visual";
-import { academyOfficeChromeFromFileName } from "@/lib/academy/prompt-console";
+import { academyCitizenOfficeFileLabel, academyOfficeChromeFromFileName } from "@/lib/academy/prompt-console";
 import {
   ACADEMY_WEEKLY_ROUTINE_EXAM_GATE_SEAL,
   ACADEMY_WEEKLY_ROUTINE_EXAM_GATE_SEAL_SUB,
@@ -79,7 +80,7 @@ function boxStyle(box: AcademyExcelAlignBox): CSSProperties {
   };
 }
 
-function fitExcelGridFont(wrap: HTMLElement, compact: boolean): void {
+function fitExcelGridFont(wrap: HTMLElement, compact: boolean, denseDump: boolean): void {
   const fit = wrap.querySelector<HTMLElement>(".academy-excel-grid-fit");
   const grid = wrap.querySelector<HTMLElement>("table.academy-excel-grid");
   if (!grid) {
@@ -90,6 +91,10 @@ function fitExcelGridFont(wrap: HTMLElement, compact: boolean): void {
     fit.style.width = "";
   }
   grid.style.fontSize = "";
+  if (denseDump) {
+    /* Kalabalık döküm: sığdırma yok — yatay/dikey kaydırma pedagojik sinyaldir. */
+    return;
+  }
   const available = wrap.clientWidth;
   if (available <= 0) {
     return;
@@ -141,14 +146,15 @@ export function LessonExcelWorkspace({
   const originRef = useRef<HTMLTableCellElement | null>(null);
   const [alignBox, setAlignBox] = useState<AcademyExcelAlignBox | null>(null);
   const compact = pane === "before" || pane === "after";
+  const denseDump = academyExcelIsDenseDumpTable(table);
   const showAiDesk = Boolean(slide.copilot) && pane !== "before";
   const colCount = table
-    ? Math.max(table.headers.length, ...table.rows.map((row) => row.length), compact ? 1 : 6)
+    ? Math.max(table.headers.length, ...table.rows.map((row) => row.length), compact ? 1 : denseDump ? 1 : 6)
     : compact
       ? 1
       : 6;
   const colMinCh = table ? academyExcelColumnMinCh(table, colCount) : [];
-  const colPad = compact ? "0.32rem" : "0.64rem";
+  const colPad = compact ? "0.32rem" : denseDump ? "0.42rem" : "0.64rem";
   const letters = Array.from({ length: colCount }, (_, index) => academyExcelColLetter(index));
   const mouse =
     pane === "live" && Number.isFinite(currentTime)
@@ -167,7 +173,9 @@ export function LessonExcelWorkspace({
   const mergeSelected = selection.coversMerge;
   const headerRow = merged ? 3 : 1;
   const dataStart = merged ? 4 : 2;
-  const fillerCount = Math.max(0, (compact ? 8 : 12) - (table?.rows.length ?? 0) - (merged ? 3 : 1));
+  const fillerCount = denseDump
+    ? 0
+    : Math.max(0, (compact ? 8 : 12) - (table?.rows.length ?? 0) - (merged ? 3 : 1));
   const isPocketChecklist = academyPocketChecklistSteps(slide.lessonKey, slide.section) != null;
   const pocketSteps = academyPocketChecklistSteps(slide.lessonKey, slide.section);
   const isWeeklyRoutine = slide.lessonKey === "01_office_ai-6";
@@ -181,6 +189,8 @@ export function LessonExcelWorkspace({
   const liveFocusZoom = pane === "live" && focusZoom;
   const officeChrome = academyOfficeChromeFromFileName(slide.fileName);
   const isWord = officeChrome === "word";
+  const titleFileLabel =
+    academyCitizenOfficeFileLabel(slide.fileName) ?? (isWord ? "Word Dosyası" : "Kitap1 (Excel)");
   const aiDesk = useAcademyAiDeskTab({
     lessonKey: slide.lessonKey,
     cueIndex: slide.cueIndex,
@@ -191,6 +201,7 @@ export function LessonExcelWorkspace({
   const deskClass = [
     "academy-excel-desk",
     pane === "live" ? "academy-excel-desk--live" : "",
+    denseDump ? "academy-excel-desk--dense" : "",
     slide.zoomA1 === true || pane === "after" ? "academy-excel-desk--zoom" : "",
     liveFocusZoom ? "academy-excel-desk--focus-zoom" : "",
     pane === "before" ? "academy-excel-desk--before" : "",
@@ -208,7 +219,7 @@ export function LessonExcelWorkspace({
     }
 
     const measure = () => {
-      fitExcelGridFont(wrap, compact);
+      fitExcelGridFont(wrap, compact, denseDump);
       const origin =
         originRef.current ?? wrap.querySelector<HTMLElement>("[data-academy-excel-origin]");
       if (!origin) {
@@ -257,7 +268,7 @@ export function LessonExcelWorkspace({
       wrap.removeEventListener("scroll", measure);
       window.removeEventListener("resize", measure);
     };
-  }, [nameBox, mergeSelected, startCol, endCol, colCount, compact, liveFocusZoom, highlight, formula]);
+  }, [nameBox, mergeSelected, startCol, endCol, colCount, compact, denseDump, liveFocusZoom, highlight, formula]);
 
   if (!table) {
     return null;
@@ -294,7 +305,7 @@ export function LessonExcelWorkspace({
         <div className="academy-excel-title">
           <i aria-hidden />
           <b>{isWord ? "Word" : "Excel"}</b>
-          <span>{slide.fileName ?? (isWord ? "Belge1.docx" : "Kitap1.xlsx")}</span>
+          <span>{titleFileLabel}</span>
         </div>
         {compact ? null : (
           <div className="academy-excel-ribbon" aria-hidden>

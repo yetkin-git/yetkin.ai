@@ -1,11 +1,12 @@
 import type { Section } from "../types";
+import { renderAcademyModelTendencyCardMarkdown } from "@/lib/academy/model-tendency-card";
 
 export const section1: Section = {
   sectionNumber: 1,
   lessonKey: "01_office_ai-1",
   title: "Tablonu Konuştur: Düzensiz Excel → Düzenli Tablo",
-  targetDurationMinutes: 10.1,
-  estimatedWordCount: 1447,
+  targetDurationMinutes: 10.8,
+  estimatedWordCount: 1555,
   pedagogicalObjective:
     "Düzensiz Excel tablosunu A1 hücresinden başlayarak düzenli tabloya çevirmeyi göstermek. Neden A1? Çünkü model tablonun nereden başladığını oradan okur. Yükleme anonimize edilmiş / temiz örnek dosya üzerinden yapılır; maskeleme kuralı 2. derste kilitlenir. ChatGPT, Claude, Gemini ve özel API (şirketinin kurumsal yapay zekâ modeli) farkını eğilim diliyle oturtmak.",
   contentMarkdown: `
@@ -13,13 +14,13 @@ Her gün masanın üstünde biriken dosyalar, e-postalarla gelen karmakarışık
 
 Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ yolculuğunun ilk dersine hoş geldin! Bu seride seninle birlikte teorik ezberleri bir kenara bırakacak, ofiste her gün karşına çıkan gerçek problemleri yapay zekâ desteğiyle adım adım çözeceğiz. Bugün masandaki en büyük zaman tuzaklarından birini hedef alıyoruz: Açtığında gözünü korkutan, biçimleri birbirine girmiş o karmaşık tablolar. Hazırsan masaya oturalım; çünkü bu dersin sonunda o tabloyu A1 hücresinden başlayarak konuşturmayı öğreneceksin ve kontrol sende kalacak.
 
-Ofiste saatlerini alan o rutin işleri düşün. Bir rapordan kopyalanıp sana iletilen bir liste gelir ve senden acil bir analiz istenir. Ancak sayfayı açtığında hiçbir şey yerli yerinde değildir; sayılar sola yaslanmış, tarihler birbirine karışmıştır. Bu dersteki yükleme, kişi adı ve IBAN taşımayan anonimize edilmiş / temiz örnek tablo üzerinden yapılır. Bu örnek tabloyu ChatGPT, Claude veya Gemini sohbetine ataş ile yüklersin; Copilot lisansın varsa şeritten doğrudan okutursun ya da şirketinin özel API'sine verirsin. Özel API, şirketinin kurumsal yapay zekâ modelidir: evdeki format ve gizlilik kuralı o kiracıya yazılır. Bu araçların eğilimleri sürümden sürüme değişir; 2026 itibarıyla ChatGPT çoğu zaman hızlı taslak üretmeye, Claude uzun satırları dikkatle okumaya, Gemini adımları net sıralamaya yatkındır. Hiçbiri sabit karakter değildir. Kod ezberlemen gerekmez. Neden? Çünkü bu işi çözen şey program yazmak değil; tabloyu doğru kapıdan, doğru sırayla vermektir. Hadi gel, bu dönüşümü adım adım başlatalım.
+Ofiste saatlerini alan o rutin işleri düşün. Bir rapordan kopyalanıp sana iletilen bir liste gelir ve senden acil bir analiz istenir. Ancak sayfayı açtığında hiçbir şey yerli yerinde değildir; sayılar sola yaslanmış, tarihler birbirine karışmıştır. Bu dersteki yükleme, kişi adı ve IBAN taşımayan anonimize edilmiş / temiz örnek tablo üzerinden yapılır. Bu örnek tabloyu ChatGPT, Claude veya Gemini sohbetine ataş ile yüklersin; Copilot lisansın varsa şeritten doğrudan okutursun ya da şirketinin özel API'sine verirsin. Özel API, şirketinin kurumsal yapay zekâ modelidir: evdeki format ve gizlilik kuralı o kiracıya yazılır. Bu araçların eğilimleri sürümden sürüme değişir; 2026 itibarıyla ChatGPT çoğu zaman hızlı taslak üretmeye, Claude uzun satırları dikkatle okumaya, Gemini adımları net sıralamaya yatkındır. Hiçbiri sabit karakter değildir. Bu eğilim kartı Eylül 2026 tarihlidir; 6 ayda bir gözden geçirilir. Kod ezberlemen gerekmez. Neden? Çünkü bu işi çözen şey program yazmak değil; tabloyu doğru kapıdan, doğru sırayla vermektir. Hadi gel, bu dönüşümü adım adım başlatalım.
 
 ## DÜZENSİZ TABLO
 
 Öncelikle karşılaştığımız sorunu netleştirelim. Çoğu zaman önümüze gelen dosya, üzerinde işlem yapmaya uygun olmayan bir ham veri yığınıdır. Birkaç satır boş bırakılmış, bazı başlıklar hücre birleştirme sevdası yüzünden kaymış ve metinler karmakarışık hale gelmiştir. Bu tür bir dağınık yapı gördüğünde genellikle tek tek hücreleri düzeltmeye çalışırsın, değil mi? Oysa bu yaklaşım saatleri yer. Peki neden tek tek hücre düzeltmek yetmez? Çünkü yapay zekâ hücre hücre değil, başlık ve sütun düzenini arar. Tablonun dilini biraz sadeleştirirsen, o karmaşayı bir çırpıda okur.
 
-Peki, yapay zekâ bu dağınık sayfaya baktığında aslında ne görür? Sen orada bir müşteri listesi veya bütçe özeti görürken, o önce başlık ve sütun düzenini arar. 2026 modelleri dağınık ızgarayı da okuyabilir; A1 hijyeni işi hızlandırır, hata riskini düşürür. Bu bir sihir değil. Birbirine girmiş hücreler sistemin mantığını bozar, boş satırlar ise satırların devamlılığını keser. Bu yüzden düzensiz tabloyu yapay zekâya doğrudan aktarmadan önce her verinin ait olduğu yer belli olmalı. Şimdi bu karmaşayı kökünden çözecek hamleye, A1 hücresine, odaklanalım.
+Peki, yapay zekâ bu dağınık sayfaya baktığında aslında ne görür? Sen orada bir müşteri listesi veya bütçe özeti görürken, o önce başlık ve sütun düzenini arar. 2026 modelleri dağınık ızgarayı da okuyabilir; A1 hijyeni işi hızlandırır, hata riskini düşürür. Birbirine girmiş hücreler sistemin mantığını bozar, boş satırlar ise satırların devamlılığını keser. Bu yüzden düzensiz tabloyu yapay zekâya doğrudan aktarmadan önce her verinin ait olduğu yer belli olmalı. Şimdi bu karmaşayı kökünden çözecek hamleye, A1 hücresine, odaklanalım.
 
 ## A1 HÜCRESİ
 
@@ -49,7 +50,7 @@ Bugünkü bölümden cebine koyup hemen ofisinde uygulayacağın üç altın kur
 
 Şimdi sıra sende! Hemen bugün bu dersteki anonimize edilmiş, temiz örnek tablolardan birini seç. Gerçek müşteri adı veya IBAN taşıyan dosyayı henüz yükleme. Copilot varsa şeritten doğrudan okut; yoksa dosyayı ataş ile yükle. (Kişisel verileri maskeleme kuralını 2. derste kilitleyeceğiz.) Az önce öğrendiğimiz üç aşamalı yöntemi kelimesi kelimesine dene. A1 hücresinden başlayarak başlıkları hizala, gereksiz boşlukları ayıklat ve formatları tek bir düzene oturt. Kendi gözlerinle dönüşümün hızını gördüğünde, bu yöntemin ne kadar kalıcı bir alışkanlığa dönüştüğünü fark edeceksin.
 
-Unutma, yapay zekâ senin yerine düşünmez ama senin yönlendirmelerinle ofisteki en güvenilir yardımcın olur. Veriyi düzenlemeyi öğrendiğin an, analiz yapmaya, rapor hazırlamaya ve stratejik kararlar almaya çok daha fazla vaktin kalacak. Bu pratiği gün içinde tekrarla; tablonun konuşmasına izin ver. Harika bir iş çıkardın, tabloyu temizleme refleksi artık cebinde. Bir sonraki derste bu tabloyu yüklemeden önce neyin sohbete gitmeyeceğini kilitleyeceğiz: KVKK ve maskeleme. Hazırsan 2. derste buluşalım.
+Unutma, yapay zekâ senin yerine düşünmez ama senin yönlendirmelerinle ofisteki en güvenilir yardımcın olur. Veriyi düzenlemeyi öğrendiğin an, analiz yapmaya, rapor hazırlamaya ve stratejik kararlar almaya çok daha fazla vaktin kalacak. Bu pratiği gün içinde tekrarla; tablonun konuşmasına izin ver. Harika bir iş çıkardın, tabloyu temizleme refleksi artık cebinde. Bir sonraki derste bu tabloyu yüklemeden önce neyin sohbete gitmeyeceğini kilitleyeceğiz: KVKK ve maskeleme. Hazırsan 2. derste buluşalım. Sınav, 9. ders bitince açılır. Baraj score %70'tir.
 
 ## El kitabı (kasetin sığdırmadığı)
 
@@ -61,5 +62,10 @@ A1’de logo, genel başlık veya birleşik hücre varsa model tabloyu başlıks
 
 ### Yapılmaması gereken tuzak
 Tüm sayfanın ekran görüntüsünü sohbete yapıştırmak 3. Kapı değildir; çünkü ekran görüntüsü hücreleri bozar ve ham müşteri adı ile telefonu aynı karede götürür. 3. Kapı yalnız maskeli kısa özettir. Bir sonraki derste bu sınırı kilitleyeceğiz.
+
+### Model eğilim kartı (canlı kutu)
+Kasetteki eğilim cümleleri Eylül 2026 anlık görüntüsüdür; yaşayan kaynak aşağıdaki kutudur. Kutu makalede güncellenir, kaset re-bake istemez.
+
+${renderAcademyModelTendencyCardMarkdown()}
 `,
 };

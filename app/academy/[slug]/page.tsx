@@ -50,13 +50,18 @@ import {
   isAcademyGrowthSkuSlug,
 } from "@/lib/academy/pilot-sku";
 import { JsonLd } from "@/components/seo/json-ld";
+import { LandingFaq } from "@/components/seo/landing-faq";
+import { OfficeAiGuidePreview } from "@/components/academy/office-ai-guide-preview";
 import {
   academyCourseBreadcrumbs,
   breadcrumbListJsonLd,
   courseJsonLd,
+  faqPageJsonLd,
   jsonLdDocument,
+  OFFICE_AI_COURSE_TEACHES,
 } from "@/lib/copy/json-ld";
-import { DEFAULT_OG_IMAGE, pageMetadata } from "@/lib/copy/seo";
+import { DEFAULT_OG_IMAGE, OFFICE_AI_SEO, pageMetadata } from "@/lib/copy/seo";
+import { OFFICE_AI_COURSE_FAQ, OFFICE_AI_FAQ_HEADING } from "@/lib/copy/sem-keywords";
 import type { Route } from "next";
 
 export function generateStaticParams() {
@@ -79,9 +84,12 @@ export async function generateMetadata({
   if (!course) {
     notFound();
   }
+  // SEO Tedavi (P0) — amiral SKU arama niyeti diline çevrilir (64 kr final title).
+  // Sicil/sertifika başlığı (`course.title` SSOT) değişmez; yalnız meta dalı override edilir.
+  const isOfficeAiSeo = course.slug === OFFICE_AI_SEO.slug;
   return pageMetadata({
-    title: `${course.title} · Akademi`,
-    description: course.summary,
+    title: isOfficeAiSeo ? OFFICE_AI_SEO.title : `${course.title} · Akademi`,
+    description: isOfficeAiSeo ? OFFICE_AI_SEO.description : course.summary,
     path: `/academy/${course.slug}`,
     image: academyCourseCoverPath(course.slug) ?? DEFAULT_OG_IMAGE,
   });
@@ -193,7 +201,19 @@ export default async function AcademyCoursePage({
             description: board.course.summary,
             imagePath: academyCourseCoverPath(board.course.slug) ?? DEFAULT_OG_IMAGE,
             datePublished: board.course.createdAt,
+            priceMinor: board.course.priceMinor,
+            priceCurrency: board.course.currencyCode,
+            teaches:
+              board.course.slug === OFFICE_AI_SEO.slug ? [...OFFICE_AI_COURSE_TEACHES] : undefined,
+            lessons: syllabus.lessons.map((lesson) => ({
+              name: lesson.title,
+              durationMin: lesson.durationMin,
+            })),
           }),
+          // SEO Tedavi (P0) — görünür SSS ile AYNI sabit; JSON-LD/HTML %100 eşleşir.
+          ...(board.course.slug === OFFICE_AI_SEO.slug
+            ? [faqPageJsonLd(OFFICE_AI_COURSE_FAQ)]
+            : []),
           breadcrumbListJsonLd(
             academyCourseBreadcrumbs({
               slug: board.course.slug,
@@ -205,7 +225,7 @@ export default async function AcademyCoursePage({
       <BreadcrumbPageLabel href={`/academy/${board.course.slug}`} label={board.course.title} />
       <PageHeader
         eyebrow={copy.eyebrow}
-        title={board.course.title}
+        title={board.course.slug === OFFICE_AI_SEO.slug ? OFFICE_AI_SEO.h1 : board.course.title}
         description={board.course.summary}
         actions={
           <CourseHeroActions
@@ -334,6 +354,10 @@ export default async function AcademyCoursePage({
         showProgress={hasAccess}
         visaPromise={visaPromise}
       />
+      {board.course.slug === OFFICE_AI_SEO.slug ? <OfficeAiGuidePreview /> : null}
+      {board.course.slug === OFFICE_AI_SEO.slug ? (
+        <LandingFaq heading={OFFICE_AI_FAQ_HEADING} items={OFFICE_AI_COURSE_FAQ} />
+      ) : null}
       {!hasAccess && board.course.purchasable ? (
         <p className="text-xs leading-relaxed text-[var(--muted)]">{copy.libraryGuarantee}</p>
       ) : null}

@@ -251,8 +251,8 @@ function parseScriptPayload(raw: unknown): ScriptPayload {
   if (!/^Selamlar, ben Gözde/u.test(welcome)) {
     throw new Error("Warm-up ilk HOŞ GELDİN paragrafı 'Selamlar, ben Gözde' ile başlamalı.");
   }
-  if (!/Sunum Fabrikası/u.test(bridge) || !/hiyerarşi/iu.test(bridge)) {
-    throw new Error("GİRİŞ KÖPRÜSÜ 3. ders Sunum Fabrikası / görsel hiyerarşi kazanımını pekiştirmeli.");
+  if (!/slayt başına tek fikir|metinden slayta/iu.test(bridge) || !/hiyerarşi/iu.test(bridge)) {
+    throw new Error("GİRİŞ KÖPRÜSÜ 3. ders Metinden Slayta / görsel hiyerarşi kazanımını pekiştirmeli.");
   }
   if (!/okunmamış/iu.test(warmup) || !/gelen kutu/iu.test(warmup)) {
     throw new Error("Warm-up okunmamış e-posta / gelen kutusu kaosunu taşımalı.");
@@ -520,7 +520,7 @@ KURALLAR:
 - Tam 14 paragraf. Rozet sırası birebir: GİRİŞ KÖPRÜSÜ, HOŞ GELDİN, HOŞ GELDİN, INBOX KAOSU, INBOX KAOSU, TASLAK YAZ, TASLAK YAZ, SIFIR KUTU, SIFIR KUTU, FARK ORTADA, FARK ORTADA, CEBİNE KOY, SIRA SENDE, SIRA SENDE.
 - title alanı birebir: "E-Posta Akışı: Gelen Kutusu Sıfırlama". Metinde en az bir kez tam olarak «E-Posta Akışı» geçsin.
 - Pekiştirme durakları:
-  * GİRİŞ KÖPRÜSÜ (Warm-up öncesi, ~40 sn, 80–100 kelime, asla 70’in altında): 3. dersteki Sunum Fabrikası ve görsel hiyerarşi refleksini hatırlat/bağla. Slayt başına tek fikir ve görsel yönlendirme. Henüz «Selamlar» deme. Mutlaka «Sunum Fabrikası» ve «hiyerarşi» geçsin. En az beş tam cümle yaz.
+  * GİRİŞ KÖPRÜSÜ (Warm-up öncesi, ~40 sn, 80–100 kelime, asla 70’in altında): 3. dersteki metinden slayta ve görsel hiyerarşi refleksini hatırlat/bağla. Slayt başına tek fikir ve görsel yönlendirme. Henüz «Selamlar» deme. Mutlaka «slayt başına tek fikir» veya «metinden slayta» ve «hiyerarşi» geçsin. «Sunum Fabrikası» YAZMA. En az beş tam cümle yaz.
   * CEBİNE KOY (Task öncesi, ~45 sn, 90–120 kelime, hedef 105, asla 80’in altında): Derste öğrenilen 3 somut adımı tane tane tekrarla. Adımları «1.» «2.» «3.» diye say. 1) Önem sırasına göre etiketle. 2) Taslak yanıtı yazdır. 3) Arşive kaldır. Her adımı iki cümleyle açıkla. Bu üç ifadeyi kelime olarak kullan: «etiketle», «taslak yanıt», «arşiv». En az altı tam cümle yaz.
 - 4-beat reji:
   * Warm-up: Yüzlerce okunmamış e-posta stresi ve gelen kutusu (Inbox) kaosu. Mutlaka «okunmamış» ve «gelen kutu» geçsin.

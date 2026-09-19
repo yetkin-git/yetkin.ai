@@ -19,7 +19,7 @@ import {
   ACADEMY_WORD_WINDOW_TITLE,
   academyWordStageKind,
 } from "@/lib/academy/word-workspace";
-import { academyCitizenDocxLabel } from "@/lib/academy/prompt-console";
+import { academyCitizenOfficeFileLabel } from "@/lib/academy/prompt-console";
 import { LessonAiDesk, LessonOfficeCopilotRibbon, useAcademyAiDeskTab } from "@/components/academy/lesson-ai-desk";
 
 /** Kart yığını sahnenin ortasında kalsın; sağa kayan origin sol kenarı keser. */
@@ -81,7 +81,7 @@ export function LessonWordWorkspace({
   const uploadMode = stage === "attach" || stage === "analysis";
   const analysisMode = stage === "analysis";
   const fileLabel =
-    academyCitizenDocxLabel(slide.fileName) ?? ACADEMY_WORD_FILE_LABEL;
+    academyCitizenOfficeFileLabel(slide.fileName) ?? ACADEMY_WORD_FILE_LABEL;
   const originKey = `${highlight}:${slide.section}:${pane}`;
 
   useLayoutEffect(() => {

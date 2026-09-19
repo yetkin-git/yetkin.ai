@@ -5,6 +5,7 @@
 
 export const ACADEMY_KVKK_WINDOW_TITLE = "Excel" as const;
 export const ACADEMY_KVKK_FILE_NAME = "Musteri_Liste_Maske.xlsx" as const;
+export const ACADEMY_KVKK_FILE_LABEL = "Müşteri Liste Maske (Excel)" as const;
 export const ACADEMY_KVKK_SHEET_NAME = "Maske" as const;
 
 /** Öğrencinin Prompt Terminaline yazacağı gerçek istem — harf harf. PEDAGOJI §E.7. */
@@ -27,14 +28,17 @@ export const ACADEMY_KVKK_RAW_TABLE = {
   note: "Spoiler yasağı: maskeli kısa özet Beat 3’e kadar kapalı. Ekranda tam IBAN yok.",
 } as const;
 
-/** 3. Kapı: üç sahte satır + takma değer. Sütunlar istemle aynı: Ürün, Adet, Bölge. */
+/**
+ * 3. Kapı: üç sahte satır + takma değer.
+ * Split sağ panel ham tabloyla satır hiyerarşisi paylaşır (PEDAGOJI E.1):
+ * Kod | Telefon | IBAN | Ürün — her müşteri kendi MASKELİ_* değerleriyle aynı satırda.
+ */
 export const ACADEMY_KVKK_MASKED_TABLE = {
-  headers: ["Kod", "Bölge", "Ürün", "Adet"],
+  headers: ["Kod", "Telefon", "IBAN", "Ürün"],
   rows: [
-    ["Müşteri A", "Marmara", "Un 25kg", "40"],
-    ["Müşteri B", "Ege", "Yağ 18L", "12"],
-    ["Müşteri C", "İç Anadolu", "Şeker", "8"],
-    ["Not", "MASKELİ_IBAN", "MASKELİ_TELEFON", "3 satır"],
+    ["Müşteri A", "MASKELİ_TELEFON", "MASKELİ_IBAN", "Un 25kg"],
+    ["Müşteri B", "MASKELİ_TELEFON", "MASKELİ_IBAN", "Yağ 18L"],
+    ["Müşteri C", "MASKELİ_TELEFON", "MASKELİ_IBAN", "Şeker"],
   ],
   note: "3. Kapı: maskeli kısa özet. Ham kutu ve ekran görüntüsü zinciri yok. Üç satır yeter.",
 } as const;

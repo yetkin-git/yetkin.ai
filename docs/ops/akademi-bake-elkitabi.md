@@ -26,37 +26,45 @@ Zaman damgaları **el yazılmaz**. Canlı SSOT `lib/academy/lesson-cues/` +
 `lib/academy/lesson-audio-timings/` ikilisidir. Bake script’i `docs/curriculum/` altına kopya basabilir (git dışı bake kopyası); izleme o kopyayı okumaz. Dron punchcard saatleri
 timings JSON’dan türetilir (`lib/academy/punchcard-from-sealed-json.ts`); elle kopya SSOT değildir.
 
-- `01_office_ai-1` mühürlü süre: **571.72 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 572`,
-  `cacheV: 571720`). Konuşma sonrası Lyria outro kuyruğu **+2.5 sn** (oynatıcı saati; WAV’a sessizlik basılmaz).
-- `cue-06 FARK ORTADA`: **386.04–457.04** (eski hatalı damga `319.92` / `346.36` / `358.92` / `378.96` / `387.92–458.68` kullanılmaz).
-- `cue-07 CEBİNE KOY`: **457.44–497.08** (eski hatalı damga `393.32` / `417.20` / `430.12` / `449.64` / `459.08–498.80` kullanılmaz).
+Bu tablo timings `durationSec` ile birebir durur. Re-bake sonrası sayıyı buraya ve `ACADEMY_SEALED_AUDIO_DURATION_SEC` yedek tablosuna birlikte çek. Her re-bake sonrası `isAcademyAiLessonDurationSec` yeşil bant kontrolü (420–720 sn) otomatik koşar.
+
+| Ders anahtarı | timings `durationSec` | `ACADEMY_SEALED_AUDIO_DURATION_SEC` | `cacheV` |
+|---------------|----------------------|-------------------------------------|----------|
+| `01_office_ai-1` | **649.36 sn** | 649 | 649360 |
+| `01_office_ai-k1` | **619.484 sn** | 619 | 619484 |
+| `01_office_ai-2` | **553.84 sn** | 554 | 553840 |
+| `01_office_ai-3` | **531.913 sn** | 532 | 531913 |
+| `01_office_ai-5` | **522.52 sn** | 523 | 522520 |
+| `01_office_ai-4` | **443.56 sn** | 444 | 443560 |
+| `01_office_ai-g1` | **567.2 sn** | 567 | 567200 |
+| `01_office_ai-w1` | **593.64 sn** | 594 | 593640 |
+| `01_office_ai-6` | **541.36 sn** | 541 | 541360 |
+
+- `01_office_ai-1` konuşma sonrası Lyria outro kuyruğu **+2.5 sn** (oynatıcı saati; WAV’a sessizlik basılmaz).
+- `cue-06 FARK ORTADA`: **457.12–529** (eski hatalı damga `386.04–457.04` / `319.92` / `346.36` / `358.92` / `378.96` / `387.92–458.68` kullanılmaz).
+- `cue-07 CEBİNE KOY`: **529.4–575.16** (eski hatalı damga `457.44–497.08` / `393.32` / `417.20` / `430.12` / `449.64` / `459.08–498.80` kullanılmaz).
 - Veo punch: **2–10 sn** (`ACADEMY_VEO_SCENE_DURATION_SEC = 8`, intro `0–2 sn` sonrası);
   `0–8 sn` yazımı yasaktır.
 - Dron punchcard sonu timings `durationSec` ile biter; web timings ile aynı 8 aralık türetilir.
-- `01_office_ai-3` mühürlü süre: **527 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 527`,
-  `cacheV: 527000`). Intro 2.0 sn; Gelecek Ders Köprüsü sonrası Lyria 0.70 zirve,
-  3 sn jenerik + 1.5 sn fade-out. B-roll `01_office_ai-1-warmup` reuse; pahalı Veo 3.1 yok.
-- Dron 3. ders punchcard sonu `527`; timings JSON’dan türetilir.
-- `01_office_ai-4` mühürlü süre: **496.12 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 496`,
-  `cacheV: 496120`). Intro 2.0 sn; Gelecek Ders Köprüsü sonrası Lyria 0.70 zirve,
-  3 sn jenerik + 1.5 sn fade-out. B-roll `01_office_ai-1-warmup` reuse; pahalı Veo 3.1 yok.
-- Dron 4. ders punchcard sonu `496.12`; timings JSON’dan türetilir.
-- `01_office_ai-5` mühürlü süre: **420.713 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 421`,
-  `cacheV: 420713`). Intro 2.0 sn. Sıfır kurulum: tam TTS yeniden fırın (`gemini-3.1-flash-tts-preview`);
-  14 nefes dilimi timings SSOT. Sol dip toplam **59.450** (ekran + karaoke + TTS). B-roll `01_office_ai-1-warmup` reuse; pahalı Veo 3.1 yok.
-- Dron 5. ders punchcard sonu `420.713`; timings JSON’dan türetilir.
-- `01_office_ai-6` mühürlü süre: **440.393 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 440`,
-  `cacheV: 440393`). Intro 2.0 sn; 10+10+10 Cuma rutini; kapanış dersi; sınav kapısı bu dersten sonra açılır.
-  B-roll `01_office_ai-1-warmup` reuse; pahalı Veo 3.1 yok. Ana TTS günlük kotada yedek `gemini-2.5-flash-preview-tts`.
-- Dron 6. ders punchcard sonu `440.393`; timings JSON’dan türetilir.
-- `01_office_ai-g1` mühürlü süre: **529.04 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 529`,
-  `cacheV: 529040`). Intro 2.0 sn. Çift hat: Gmail Gemini + Outlook Copilot; aksiyon listesi.
-- Dron G1 punchcard sonu `529.04`; timings JSON’dan türetilir.
-- `01_office_ai-w1` mühürlü süre: **521.44 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 521`,
-  `cacheV: 521440`). Intro 2.0 sn. Sözleşme, dilekçe, rapor; ataş asıl kapı. Sınav 9. ders bitince açılır.
-- `01_office_ai-k1` mühürlü süre: **677.56 sn** (`ACADEMY_SEALED_AUDIO_DURATION_SEC = 678`,
-  `cacheV: 677560`). Intro 2.0 sn. 2. ders; vatandaş dili (sebep → eylem → sonuç). Yükleme alışkanlığından önce. Üç Kapı yalnız aktarımdır (yerleşik panel → ataş → maskeli kısa). Güvenlik sınıfı ayrıdır.
-  B-roll `01_office_ai-1-warmup` reuse; pahalı Veo 3.1 yok.
+- Intro 2.0 sn; Gelecek Ders Köprüsü sonrası Lyria 0.70 zirve, 3 sn jenerik + 1.5 sn fade-out. B-roll `01_office_ai-1-warmup` reuse; pahalı Veo 3.1 yok.
+- `01_office_ai-5` sol dip toplam **59.450** (ekran + karaoke + TTS).
+- `01_office_ai-6` 10+10+10 Cuma rutini; kapanış dersi; sınav kapısı bu dersten sonra açılır.
+- `01_office_ai-w1` sözleşme, dilekçe, rapor; ataş asıl kapı. Sınav 9. ders bitince açılır.
+- `01_office_ai-k1` 2. ders; Üç Kapı yalnız aktarımdır (yerleşik panel → ataş → maskeli kısa). Güvenlik sınıfı ayrıdır.
+- Eğilim kartı tazeliği: tarih damgalı model-eğilim cümleleri (Ders 1 makalesi) **6 ayda bir gözden geçirilir**; değişen eğilim makaleye işlenir, mühürlü kaset yalnız gerekirse hedefli re-bake görür.
+
+## Timings → Dron punchcard sürüm sözleşmesi
+
+Timings JSON değişince (re-bake / `--seal`) Dron punchcard saatleri aynı kaynaktan türetilir:
+`lib/academy/punchcard-from-sealed-json.ts` → `apps/rail-is/src/ui/academy-punchcards.ts`. Elle kopya SSOT değildir.
+
+Kural: timings `durationSec` / `cacheV` değişince üçü birlikte yükselir.
+
+1. `tests/academy/dron-punchcards-from-timings.test.ts` kilitleri yeni `durationSec` değerine çekilir.
+2. Dron istemcisi yeniden derlenir ve yayınlanır; eski native bundle eski punchcard saatini taşır.
+3. Web `cacheV` tarayıcı immutable cache’ini kırar; Dron’da karşılığı yeni native sürümüdür.
+
+Timings değişip Dron sürümü yerinde kalırsa punchcard saati web kasetiyle ayrışır. Hedefli re-bake (Ders 5 / 8 / 9) bu sözleşmenin ilk gerçek sınavıdır.
 
 ## Stüdyo reji (Pedagoji’den aktarılan yaşayan SOP)
 

@@ -76,7 +76,10 @@ function staticSitemapEntries(lastModified: Date): MetadataRoute.Sitemap {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date("2026-09-05");
+  // SEO Tedavi (P1) — sabit mühür yerine dinamik üretim anı.
+  // Sitemap isteğe bağlı üretildiği için bu değer her derlemede/isteğe güncellenir;
+  // kurs girdileri tohum SSOT'undan (`ACADEMY_GROWTH_SKU_SLUGS`) beslenmeye devam eder.
+  const lastModified = new Date();
   try {
     const staticEntries = staticSitemapEntries(lastModified);
     const courseEntries = publishedAcademyCourseEntries(lastModified);

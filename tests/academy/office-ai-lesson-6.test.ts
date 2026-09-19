@@ -148,6 +148,12 @@ describe("01_office_ai bölüm 6 — senaryo ve mühür kapısı", () => {
     expect(prose).toMatch(/kapanış dersi/u);
     expect(prose).toMatch(/sınav kapısı/iu);
     expect(prose).not.toMatch(/Sınav Köprüsü/u);
+    expect(prose).not.toMatch(/sınav köprüsü/iu);
+    expect(prose).not.toMatch(/Word bloğunda/u);
+    expect(prose).not.toMatch(/Excel ve Word dosyasını/u);
+    expect(prose).toMatch(/Excel tablosunu ve (?:PowerPoint|Pauer Point) sunusunu ataş/u);
+    expect(prose).toMatch(/Slayt bloğunda (?:PowerPoint|Pauer Point) sunusunu ataşla/u);
+    expect(prose).toMatch(/Kişi adı, IBAN veya şirket sırrı varsa önce maskele/u);
     expect(prose).toMatch(/kopyala-yapıştır/iu);
     expect(prose).toMatch(/görüşmek üzere/u);
     expect(prose).not.toMatch(/kirli/iu);

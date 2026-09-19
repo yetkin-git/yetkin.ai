@@ -2,7 +2,7 @@
   {
     "id": "cue-01",
     "start": 2,
-    "end": 43.32,
+    "end": 39.731,
     "text": "GİRİŞ KÖPRÜSÜ",
     "section": "GİRİŞ KÖPRÜSÜ",
     "paragraphs": [
@@ -11,8 +11,8 @@
   },
   {
     "id": "cue-02",
-    "start": 43.72,
-    "end": 122.64,
+    "start": 40.131,
+    "end": 113.393,
     "text": "HOŞ GELDİN",
     "section": "HOŞ GELDİN",
     "paragraphs": [
@@ -22,8 +22,8 @@
   },
   {
     "id": "cue-03",
-    "start": 123.04,
-    "end": 207.48,
+    "start": 113.793,
+    "end": 189.415,
     "text": "YASAK LİSTE",
     "section": "YASAK LİSTE",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 207.88,
-    "end": 391.84,
+    "start": 189.815,
+    "end": 352.288,
     "text": "MASKELE",
     "section": "MASKELE",
     "paragraphs": [
@@ -44,8 +44,8 @@
   },
   {
     "id": "cue-05",
-    "start": 392.24,
-    "end": 487.76,
+    "start": 352.688,
+    "end": 441.91,
     "text": "ÜÇÜNCÜ KAPI",
     "section": "ÜÇÜNCÜ KAPI",
     "paragraphs": [
@@ -55,8 +55,8 @@
   },
   {
     "id": "cue-06",
-    "start": 488.16,
-    "end": 560.56,
+    "start": 442.31,
+    "end": 506.691,
     "text": "FARK ORTADA",
     "section": "FARK ORTADA",
     "paragraphs": [
@@ -66,8 +66,8 @@
   },
   {
     "id": "cue-07",
-    "start": 560.96,
-    "end": 605.48,
+    "start": 507.091,
+    "end": 549.182,
     "text": "CEBİNE KOY",
     "section": "CEBİNE KOY",
     "paragraphs": [
@@ -76,8 +76,8 @@
   },
   {
     "id": "cue-08",
-    "start": 605.88,
-    "end": 677.56,
+    "start": 549.582,
+    "end": 619.484,
     "text": "SIRA SENDE",
     "section": "SIRA SENDE",
     "paragraphs": [

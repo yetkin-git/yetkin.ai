@@ -1,8 +1,8 @@
 {
   "lessonKey": "01_office_ai-w1",
   "pauseSec": 0.4,
-  "durationSec": 567,
-  "cacheV": 567000,
+  "durationSec": 593.64,
+  "cacheV": 593640,
   "pieces": [
     {
       "index": 0,
@@ -10,34 +10,34 @@
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
       "start": 2,
-      "end": 44.68,
-      "text": "Peki neden uzun sözleşmeyi yapay zekâya satır satır okutmak yerine riskli maddeleri aratırız? Çünkü satır satır okutunca yığın çıkar. Ceza oranı sayfa dörtte kalır. Fesih süresi sayfa on birde kaybolur. Gizlilik başka yerde durur. Bugün dosyayı olduğu gibi yüklüyorsun. Vörd Kopilot varsa şeritten okutursun. Yoksa Vörd belgesini doğrudan Cemini sohbetine yüklersin. Yapay zekâ imzalamaz. Unvan, tarih, sayı ve hitabı sen yazarsın. Üç iş aynı kapıdan geçer: sözleşme, dilekçe, rapor. Kapı ataştır. Dosya bütün gider. Sen imzayı kilitlersin."
+      "end": 52.72,
+      "text": "Peki neden uzun sözleşmeyi yapay zekâya satır satır okutmak yerine riskli maddeleri aratırız? Çünkü satır satır okutunca yığın çıkar. Ceza oranı sayfa dörtte kalır. Fesih süresi sayfa on birde kaybolur. Gizlilik başka bir sayfada durur. Bugün dosyayı olduğu gibi yüklüyorsun. Vörd Kopilot varsa şeritten okutursun. Yoksa Vörd belgesini doğrudan Cemini sohbetine yüklersin. Yapay zekâ senin yerine imza atmaz. Unvanı, tarihi, sayıyı ve hitabı sen yazarsın. Bu derste üç iş aynı yöntemle yapılır: sözleşme, dilekçe ve rapor. Yöntem, sohbet kutusundaki ataş simgesidir. Dosya bütün hâliyle modele gider. Son kontrolü ve imzayı yine sen yaparsın."
     },
     {
       "index": 1,
       "cueId": "cue-02",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 45.08,
-      "end": 98.2,
-      "text": "Selamlar, ben Gözde. Vörd ve uzun doküman analizi dersine hoş geldin. Peki neden tüm dokümanı kopyalamak varsayılan yol değildir? Çünkü kopyalanan sayfa dosyadan kopar; ceza maddesi bir yerde, fesih başka yerde kalır. Yöntem doğrudan dosya yüklemedir. Tüm dokümanı kopyalamakla uğraşmazsın; dosyayı doğrudan yüklersin. İncelemek istediğin spesifik bir paragraf varsa, onu istemine ekleyip doğrudan o bölümü sorabilirsin. Bugün masada üç dosya durur. Bir: Kaya Gıda tedarik sözleşmesi. İki: kaymakamlığa süre uzatım dilekçesi. Üç: dağınık saha notundan bir sayfalık durum raporu. Üçü de aynı refleksle açılır. Kapı değişmez. İstem değişir. Dün e-postada aksiyon listesi aldın. Bugün Vörd’de üç işi dosya yükleyerek çözersin."
+      "start": 53.12,
+      "end": 107.52,
+      "text": "Selamlar, ben Gözde. Vörd ve uzun doküman analizi dersine hoş geldin. Peki neden tüm dokümanı kopyalamak varsayılan yol değildir? Çünkü kopyalanan sayfa dosyadan kopar; ceza maddesi bir yerde, fesih başka yerde kalır. Yöntem doğrudan dosya yüklemedir. Tüm dokümanı kopyalamakla uğraşmazsın; dosyayı doğrudan yüklersin. İncelemek istediğin spesifik bir paragraf varsa, onu istemine ekleyip doğrudan o bölümü sorabilirsin. Bugün masada üç dosya durur. Birincisi Kaya Gıda tedarik sözleşmesi. İkincisi kaymakamlığa süre uzatım dilekçesi. Üçüncüsü dağınık saha notundan bir sayfalık durum raporu. Üçü de aynı yöntemle açılır. Yöntem değişmez; yalnızca istem değişir. Dün e-postada aksiyon listesi aldın. Bugün Vörd’de üç işi dosya yükleyerek çözersin."
     },
     {
       "index": 2,
       "cueId": "cue-02",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 98.6,
-      "end": 150.4,
-      "text": "Önünde bir tedarik sözleşmesi durur. Cezai şart, fesih ve gizlilik üç ayrı yerde gizlenir. Peki neden otuz sayfayı satır satır okutmak yerine bu üç maddeyi aratırız? Çünkü şirket aleyhine olan yer orasıdır; geri kalan yığın imza riskini göstermez. Asıl kapı ataştır. Vörd Kopilot lisansın varsa şeritten okutursun. Yoksa Cemini sohbetine docx yüklersin. İkinci iş resmî dilekçedir: hitap, konu, talep, ek. Model taslak yazar. Tarih, sayı, unvan, imza senin. Üçüncü iş rapordur. 3. dersteki yönetici özeti burada Vörd’e iner. Başlık, üç madde, bir sonraki adım. Gözlem ile karar notunu karıştırma. Üç iş, üç istem, tek dosya kapısı."
+      "start": 107.92,
+      "end": 163.64,
+      "text": "Önünde bir tedarik sözleşmesi durur. Cezai şart, fesih ve gizlilik üç ayrı yerde gizlenir. Peki neden otuz sayfayı satır satır okutmak yerine bu üç maddeyi aratırız? Çünkü şirket aleyhine olan yer orasıdır; geri kalan yığın imza riskini göstermez. Asıl yöntem ataş ile yüklemektir. Vörd Kopilot lisansın varsa şeritten okutursun. Yoksa Cemini sohbetine Vörd belgesi yüklersin. İkinci iş resmî dilekçedir: hitap, konu, talep ve ek. Model taslak yazar. Tarih, sayı, unvan ve imza senindir. Üçüncü iş rapordur. Üçüncü dersteki yönetici özeti burada Vörd’e iner. Başlık, üç madde ve bir sonraki adım. Gözlem ile karar notunu karıştırma. Üç iş, üç istem, tek dosya yükleme yöntemi."
     },
     {
       "index": 3,
       "cueId": "cue-03",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 150.8,
-      "end": 191.6,
+      "start": 164.04,
+      "end": 204.76,
       "text": "Tek tek kopyalama şudur: sayfa dördü kopyala, yapıştır, sayfa on biri kopyala, yine yapıştır. Peki neden bu atlanmış kapıdır, yasak listesi değil? Çünkü model yarım cümle görür. Ceza oranını kaçırır. Dilekçede hitap kopar, talep yarım kalır. Raporda gözlem ile karar notu aynı yığına düşer. Otuz sayfayı parça parça taşımak üçüncü kapı değildir. Üçüncü kapı son çaredir: tek paragraf, maskeli kısa yapıştırma. İsim yok, hesap yok, unvan yok. Bu yolu satmıyoruz. Dosya yerinde kalır. Dosyayı ataş ile yüklersin. İmzayı sen atarsın."
     },
     {
@@ -45,17 +45,17 @@
       "cueId": "cue-03",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 192,
-      "end": 213.6,
-      "text": "Peki neden sayfa dördü alıp sayfa on biri unutmak işi bitirmez? Çünkü model yarım görür. Dilekçede hitabı kopyaladın, ek listesini bırakmışsın. Raporda üç madde istedin, gözlem ile karar notu aynı cümlede karıştı. Ataş bu kopukluğu kapatır. Dosya bütün gider. Sen imza ve tarihi kilitlersin."
+      "start": 205.16,
+      "end": 226.4,
+      "text": "Peki neden sayfa dördü alıp sayfa on biri unutmak işi bitirmez? Çünkü model yarım görür. Dilekçede hitabı kopyaladın, ek listesini bırakmışsın. Raporda üç madde istedin, gözlem ile karar notu aynı cümlede karıştı. Ataş bu kopukluğu kapatır. Dosya bütün hâliyle modele gider. İmza ve tarihi sen yazarsın."
     },
     {
       "index": 5,
       "cueId": "cue-04",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 214,
-      "end": 224.6,
+      "start": 226.8,
+      "end": 238.04,
       "text": "Şimdi sözleşmeyi yükle. Dosya adı pratikte yanar. Sozlesme Kaya Gida dosyası masada durur. İstemi prompt terminaline yazıyoruz:"
     },
     {
@@ -63,72 +63,72 @@
       "cueId": "cue-04",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 225,
-      "end": 242.52,
-      "text": "Yüklediğim sözleşme dosyasını (docx) baştan sona incele. Şirketimiz aleyhine olabilecek cezai şart maddelerini, fesih koşullarını ve gizlilik yükümlülüklerini liste halinde özetle. Sayfa numarası yaz. Uydurma madde ekleme."
+      "start": 238.44,
+      "end": 256.24,
+      "text": "Yüklediğim sözleşme dosyasını (Vörd belgesi) baştan sona incele. Şirketimiz aleyhine olabilecek cezai şart maddelerini, fesih koşullarını ve gizlilik yükümlülüklerini liste halinde özetle. Sayfa numarası yaz. Uydurma madde ekleme."
     },
     {
       "index": 7,
       "cueId": "cue-04",
       "cueParagraphIndex": 2,
       "chunkIndex": 0,
-      "start": 242.92,
-      "end": 276.96,
-      "text": "Komut dosyanın bütününe gider. Peki neden tüm metni taşımazsın? Çünkü komut ataşa gider; satır satır kopya dosyayı senden koparır. Kopilot varsa aynı cümleyi şeritten okutursun. Yoksa Cemini sohbetine docx yüklersin. Spesifik bir paragrafı mercek altına almak istersen, onu da istemine eklersin. Model sayfa numarasıyla cevap vermezse tekrar sorarsın. Uydurma madde görürsen silersin. Sözleşme kartları henüz sağ panelde açılmaz. Önce dosya yerinde durur. Madde listesi karşılaştırmada gelir."
+      "start": 256.64,
+      "end": 292.2,
+      "text": "Komut dosyanın bütününe gider. Peki neden tüm metni taşımazsın? Çünkü komut ataşa gider; satır satır kopya dosyayı senden koparır. Kopilot varsa aynı cümleyi şeritten okutursun. Yoksa Cemini sohbetine Vörd belgesi yüklersin. Spesifik bir paragrafı mercek altına almak istersen, onu da istemine eklersin. Model sayfa numarasıyla cevap vermezse tekrar sorarsın. Uydurma madde görürsen silersin. Sözleşme kartları henüz sağ panelde açılmaz. Önce dosya yerinde durur. Madde listesi karşılaştırmada gelir."
     },
     {
       "index": 8,
       "cueId": "cue-05",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 277.36,
-      "end": 334.56,
-      "text": "İkinci iş dilekçedir. Kaymakamlığa süre uzatım dilekçesi. Boş şablonunu veya kendi taslağını yükle. İstem şudur: hitap satırını yaz, konu satırını yaz, üç cümlelik gerekçe kur, açık talep belirt, ek listesini dök. Yapay zekâ taslak yazar. Tarih, sayı, unvan, imza senin. Peki resmî belge yazılırken neden öğretmen sen, belge siz çift sicili durur? Çünkü kulağına sen derim; kâğıda siz yazılır. Öğretmen sıcak konuşur. Belge resmî durur. Hitap örneği şudur: Sayın Yetkili, 12 Mart 2026 tarihli başvurumuzun sonucunun yazılı olarak tarafımıza iletilmesini arz ederiz. Unvan, tarih, sayı ve imza boş kalır. Model sen diye dilekçe yazarsa o taslağı resmî siz’e çevirirsin. Kanun maddesi uydurursa silersin. İmza satırını boş bırak, kalemi sen tut."
+      "start": 292.6,
+      "end": 346.2,
+      "text": "İkinci iş dilekçedir. Kaymakamlığa süre uzatım dilekçesi. Boş şablonunu veya kendi taslağını yükle. İstem şudur: hitap satırını yaz, konu satırını yaz, üç cümlelik gerekçe kur, açık talep belirt, ek listesini dök. Yapay zekâ taslak yazar. Tarih, sayı, unvan ve imza senindir. Peki resmî belge yazılırken neden öğretmen sen, belge siz çift sicili durur? Çünkü kulağına sen derim; kâğıda siz yazılır. Öğretmen sıcak konuşur. Belge resmî durur. Hitap örneği şudur: Sayın Yetkili, 12 Mart 2026 tarihli başvurumuzun sonucunun yazılı olarak tarafımıza iletilmesini arz ederiz. Unvan, tarih, sayı ve imza boş kalır. Model sen diye dilekçe yazarsa o taslağı resmî siz’e çevirirsin. Kanun maddesi uydurursa silersin. İmza satırını boş bırak; kalemi sen tut."
     },
     {
       "index": 9,
       "cueId": "cue-05",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 334.96,
-      "end": 384.56,
-      "text": "Üçüncü iş rapordur. Dağınık saha notundan bir sayfalık durum raporu iste. Başlık, üç madde, bir sonraki adım. 3. dersteki yönetici özeti burada Vörd sayfasına iner. Peki neden gözlem ile karar notunu aynı cümlede karıştırmazsın? Çünkü gözlem cümlesi tabloyu özetler; karar notu onay, bütçe veya yön ister. Karıştırırsan imza riski kaybolur. Not dosyanı yükle. İstemi ayrı yaz. Sözleşme istemini dilekçeye yapıştırma. Dilekçe istemini rapora yapıştırma. Üç iş, üç istem, tek kapı: ataş. Çıkarılan özeti raporunda kullanabilirsin, ancak son kontrolü ve kararı her zaman sen vermelisin. Gözlem ‘satır toplamı düştü’ der. Karar notu ‘onay veya bütçe ister’ der."
+      "start": 346.6,
+      "end": 395.76,
+      "text": "Üçüncü iş rapordur. Dağınık saha notundan bir sayfalık durum raporu iste. Başlık, üç madde, bir sonraki adım. Üçüncü dersteki yönetici özeti burada Vörd sayfasına iner. Peki neden gözlem ile karar notunu aynı cümlede karıştırmazsın? Çünkü gözlem cümlesi tabloyu özetler; karar notu onay, bütçe veya yön ister. Karıştırırsan imza riski kaybolur. Not dosyanı yükle. İstemi ayrı yaz. Sözleşme istemini dilekçeye yapıştırma. Dilekçe istemini rapora yapıştırma. Üç iş, üç istem, tek yöntem: ataş. Çıkarılan özeti raporunda kullanabilirsin, ancak son kontrolü ve kararı her zaman sen vermelisin. Gözlem «satır toplamı düştü» der. Karar notu «onay veya bütçe ister» der."
     },
     {
       "index": 10,
       "cueId": "cue-06",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 384.96,
-      "end": 425.16,
-      "text": "Şimdi ekranı ikiye bölelim. Sol tarafta tek tek kopyalama, parça parça metin kopyalama. Sayfa dört, sayfa on bir, kopuk cümle. Sağ tarafta doğrudan dosya yükleme, tek dosyayla analiz. Üç kart durur. Bir: cezai şart. İki: dilekçe hitabı. Üç: rapor maddesi. Paragraf yığını yok. Sol ekran kopuk parçadır. Sağ ekran tam dosyadır. Outlook Kopilot ister, Gmail Cemini ister, Vörd ve Excel ataş ister. Eşleşme kilitlidir. Aynı disiplin, üç iş, tek ataş kapısı."
+      "start": 396.16,
+      "end": 436.76,
+      "text": "Şimdi ekranı ikiye bölelim. Sol tarafta tek tek kopyalama, yani parça parça metin kopyalama var. Sayfa dört, sayfa on bir, kopuk cümle. Sağ tarafta doğrudan dosya yükleme, yani tek dosyayla analiz var. Üç kart durur. Birincisi cezai şart. İkincisi dilekçe hitabı. Üçüncüsü rapor maddesi. Paragraf yığını yoktur. Sol ekran kopuk parçadır. Sağ ekran tam dosyadır. Outlook Kopilot ister, Gmail Cemini ister, Vörd ve Excel ataş ister. Bu eşleşme sabittir. Aynı disiplin, üç iş, tek ataş yöntemi."
     },
     {
       "index": 11,
       "cueId": "cue-06",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 425.56,
-      "end": 475.76,
-      "text": "Gördüğün gibi doğru kurgulanmış bir ataş, otuz sayfayı parça parça taşımadan konuşturur. Peki neden fark bu kadar belirgin? Çünkü ataş dosyayı senden koparmaz; satır satır kopya koparır. Sol tarafta ceza oranı kaçar, hitap kopar, karar notu gözleme karışır. Sağ tarafta sözleşme maddesi sayfa numarasıyla durur, dilekçe taslağı hitabı bekler, rapor üç maddeye iner. Yapay zekâ imzalamaz. Unvan, tarih, sayı ve hitabı sen yazarsın. Aynı dosya iki sonuç üretir: biri kopuk parça, diğeri tek dosyayla analiz. Şimdi bu üç işi cebine koyacağız. Sınav bu derste açılmaz. Kapanış dersi olan Haftalık Sistem, 9. ders, bitince sınav kapısı açılır."
+      "start": 437.16,
+      "end": 486.56,
+      "text": "Gördüğün gibi doğru kurgulanmış bir ataş, otuz sayfayı parça parça taşımadan konuşturur. Peki neden fark bu kadar belirgin? Çünkü ataş dosyayı senden koparmaz; satır satır kopya koparır. Sol tarafta ceza oranı kaçar, hitap kopar, karar notu gözleme karışır. Sağ tarafta sözleşme maddesi sayfa numarasıyla durur, dilekçe taslağı hitabı bekler, rapor üç maddeye iner. Yapay zekâ imzalamaz. Unvanı, tarihi, sayıyı ve hitabı sen yazarsın. Aynı dosya iki sonuç üretir: biri kopuk parça, diğeri tek dosyayla analiz. Şimdi bu üç işi cebine koyacağız. Sınav bu derste açılmaz. Kapanış dersi olan Haftalık Sistem, 9. ders, bitince sınav kapısı açılır."
     },
     {
       "index": 12,
       "cueId": "cue-07",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 476.16,
-      "end": 523.96,
-      "text": "Cebine üç adım koy. Bir: dosyayı yükle. Sözleşme, dilekçe veya rapor, fark etmez; kapı ataştır. Çünkü satır satır okutmak riskli maddeyi kaçırır. İki: üç işi ayrı istemle sor. Sözleşme maddesi, dilekçe taslağı, rapor düzeni birbirine karışmaz. Çünkü tek istem üç işi yığar. Üç: tarih, sayı ve imzayı sen yazarsın. Çünkü model taslak yazar, mühür basmaz. Spesifik bir paragrafı mercek altına almak istersen, onu da istemine ekle. Liste halinde al. Uydurma kanun maddesini sil. İmzayı kendin at. Bu üç adım Vörd tarafını Cuma penceresine bağlar. Dosya yerinde, istem ayrı, mühür sende."
+      "start": 486.96,
+      "end": 539.2,
+      "text": "Cebine üç adım koy. Birincisi: dosyayı yükle. Sözleşme, dilekçe veya rapor fark etmez; yöntem ataştır. Çünkü satır satır okutmak riskli maddeyi kaçırır. İkincisi: üç işi ayrı istemle sor. Sözleşme maddesi, dilekçe taslağı ve rapor düzeni birbirine karışmaz. Çünkü tek istem üç işi yığar. Üçüncüsü: tarih, sayı ve imzayı sen yazarsın. Çünkü model taslak yazar, mühür basmaz. Spesifik bir paragrafı mercek altına almak istersen, onu da istemine ekle. Liste halinde al. Uydurma kanun maddesini sil. İmzayı kendin at. Bu üç adım Vörd tarafını Cuma penceresine bağlar. Dosya yerinde kalır, istem ayrı yazılır, son onay sendedir."
     },
     {
       "index": 13,
       "cueId": "cue-08",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 524.36,
-      "end": 567,
-      "text": "Sıra sende. Kendi docx sözleşmeni veya dilekçe taslağını yükle. Üç maddeyi çıkar. Tüm dosyayı sayfa sayfa kopyalama. Sözleşmede cezai şart, fesih, gizlilik. Dilekçede hitap, konu, talep. Raporda başlık, üç madde, sonraki adım. Öğretmen sen konuşur; belge siz durur. Bu egzersiz Vörd ataşını alışkanlığa çevirir. Bu 8. derstir. Sınav henüz kapalıdır. Kapanış dersi Haftalık Sistem’dir; o 9. ders bitince sınav kapısı açılır. Baraj 70. Kendi dosyanı yükle. İmzayı sen at. Vörd ataşı cebinde. Unvan, tarih, sayı sende kalsın."
+      "start": 539.6,
+      "end": 593.64,
+      "text": "Sıra sende. Kendi Vörd sözleşmeni veya dilekçe taslağını yükle. Kişi adı, IBAN veya ticari sır varsa önce maskele; ham Vörd belgesini sohbete yükleme. Üç maddeyi çıkar. Tüm dosyayı sayfa sayfa kopyalama. Sözleşmede cezai şart, fesih ve gizlilik. Dilekçede hitap, konu ve talep. Raporda başlık, üç madde ve sonraki adım. Öğretmen sen konuşur; belge siz durur. Bu egzersiz Vörd ataşını alışkanlığa çevirir. Bu 8. derstir. Sınav henüz kapalıdır. Kapanış dersi Haftalık Sistem’dir; o 9. ders bitince sınav kapısı açılır. Baraj 70. Kendi dosyanı yükle. İmzayı sen at. Vörd ataşı cebinde kalsın. Unvan, tarih ve sayı sende kalsın."
     }
   ]
 }

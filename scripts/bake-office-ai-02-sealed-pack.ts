@@ -260,8 +260,8 @@ function parseScriptPayload(raw: unknown): ScriptPayload {
   if (!/yönetici özeti|yönetim özeti/iu.test(prose)) {
     throw new Error("Senaryo yönetici özeti taşımalı.");
   }
-  if (!/Sunum Fabrikası/u.test(last) || !/3\. bölüm|üçüncü bölüm/iu.test(last)) {
-    throw new Error("Gelecek Ders Köprüsü L3 Sunum Fabrikası / 3. bölüm taşımalı.");
+  if (!/metinden slayta/iu.test(last) || !/3\. bölüm|üçüncü bölüm|4\. ders/iu.test(last)) {
+    throw new Error("Gelecek Ders Köprüsü L3 Metinden Slayta / 3. bölüm taşımalı.");
   }
   if (/kirli/iu.test(prose)) {
     throw new Error("Vatandaş metninde «kirli» yok; Düzensiz Tablo veya Ham Veri kullan.");
@@ -515,7 +515,7 @@ KURALLAR:
   * Command: Temiz tablodan ilk yönetim özetini iste. ÖZET İSTE paragraflarında mutlaka «üç madde», «yönetici özeti» ve «karar cümlesi» geçsin. Spoiler yasağı: temiz özet panelinin ekranda açık olduğunu söyleme; sonucu Beat 3’e kadar açıklama.
   * Comparison: Dikey split-screen. Sol «ÖNCE (10 SAYFALIK DÖKÜM)», sağ «SONRA (3 MADDELİK YÖNETİM ÖZETİ - AI)». FARK ORTADA paragraflarında «10 sayfa» ve «3 madde» geçsin.
   * Task: Kendi tablondan yönetim özeti ve karar notu çıkarma görevi.
-- Gelecek Ders Köprüsü: Son SIRA SENDE paragrafı L3’e tatlı geçiş yapsın. Mutlaka «Sunum Fabrikası» ve «3. bölüm» geçsin. Metinden slayta gideceğini söyle. «İkinci adımı tamamladın, görüşmek üzere» YAZMA.
+- Gelecek Ders Köprüsü: Son SIRA SENDE paragrafı L3’e tatlı geçiş yapsın. Mutlaka «metinden slayta» ve «3. bölüm» veya «4. ders» geçsin. Metinden slayta gideceğini söyle. «Sunum Fabrikası» YAZMA. «İkinci adımı tamamladın, görüşmek üzere» YAZMA.
 - Diğer paragraflar 48–100 Türkçe kelime. Üretmeden önce her paragrafı kelime kelime say. Toplam ~900–1150 kelime.
 - SEN dili. Anlatıcı Gözde. İkinci paragraf (ilk HOŞ GELDİN) TAM OLARAK "Selamlar, ben Gözde" ile başlar.
 - Bu bölüm grafik/slayt fabrikası değildir; slayt L3’tedir. Kod yok. Jargon yok. Vatandaşa «Kirli» deme; «Düzensiz Tablo», «Ham Veri» veya «Dağınık Yapı» kullan. «kirli» kelimesi hiç geçmesin.

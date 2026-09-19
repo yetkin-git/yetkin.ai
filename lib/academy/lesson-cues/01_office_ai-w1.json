@@ -2,7 +2,7 @@
   {
     "id": "cue-01",
     "start": 2,
-    "end": 44.68,
+    "end": 52.72,
     "text": "GİRİŞ KÖPRÜSÜ",
     "section": "GİRİŞ KÖPRÜSÜ",
     "paragraphs": [
@@ -11,8 +11,8 @@
   },
   {
     "id": "cue-02",
-    "start": 45.08,
-    "end": 150.4,
+    "start": 53.12,
+    "end": 163.64,
     "text": "HOŞ GELDİN",
     "section": "HOŞ GELDİN",
     "paragraphs": [
@@ -22,8 +22,8 @@
   },
   {
     "id": "cue-03",
-    "start": 150.8,
-    "end": 213.6,
+    "start": 164.04,
+    "end": 226.4,
     "text": "PARÇA PARÇA",
     "section": "PARÇA PARÇA",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 214,
-    "end": 276.96,
+    "start": 226.8,
+    "end": 292.2,
     "text": "ATAŞ YÜKLE",
     "section": "ATAŞ YÜKLE",
     "paragraphs": [
@@ -45,8 +45,8 @@
   },
   {
     "id": "cue-05",
-    "start": 277.36,
-    "end": 384.56,
+    "start": 292.6,
+    "end": 395.76,
     "text": "TEK DOSYAYLA ANALİZ",
     "section": "TEK DOSYAYLA ANALİZ",
     "paragraphs": [
@@ -56,8 +56,8 @@
   },
   {
     "id": "cue-06",
-    "start": 384.96,
-    "end": 475.76,
+    "start": 396.16,
+    "end": 486.56,
     "text": "FARK ORTADA",
     "section": "FARK ORTADA",
     "paragraphs": [
@@ -67,8 +67,8 @@
   },
   {
     "id": "cue-07",
-    "start": 476.16,
-    "end": 523.96,
+    "start": 486.96,
+    "end": 539.2,
     "text": "CEBİNE KOY",
     "section": "CEBİNE KOY",
     "paragraphs": [
@@ -77,12 +77,12 @@
   },
   {
     "id": "cue-08",
-    "start": 524.36,
-    "end": 567,
+    "start": 539.6,
+    "end": 593.64,
     "text": "SIRA SENDE",
     "section": "SIRA SENDE",
     "paragraphs": [
-      "Sıra sende. Kendi Word sözleşmeni veya dilekçe taslağını yükle. Üç maddeyi çıkar. Tüm dosyayı sayfa sayfa kopyalama. Sözleşmede cezai şart, fesih ve gizlilik. Dilekçede hitap, konu ve talep. Raporda başlık, üç madde ve sonraki adım. Öğretmen sen konuşur; belge siz durur. Bu egzersiz Word ataşını alışkanlığa çevirir. Bu 8. derstir. Sınav henüz kapalıdır. Kapanış dersi Haftalık Sistem’dir; o 9. ders bitince sınav kapısı açılır. Baraj 70. Kendi dosyanı yükle. İmzayı sen at. Word ataşı cebinde kalsın. Unvan, tarih ve sayı sende kalsın."
+      "Sıra sende. Kendi Word sözleşmeni veya dilekçe taslağını yükle. Kişi adı, IBAN veya ticari sır varsa önce maskele; ham Word belgesini sohbete yükleme. Üç maddeyi çıkar. Tüm dosyayı sayfa sayfa kopyalama. Sözleşmede cezai şart, fesih ve gizlilik. Dilekçede hitap, konu ve talep. Raporda başlık, üç madde ve sonraki adım. Öğretmen sen konuşur; belge siz durur. Bu egzersiz Word ataşını alışkanlığa çevirir. Bu 8. derstir. Sınav henüz kapalıdır. Kapanış dersi Haftalık Sistem’dir; o 9. ders bitince sınav kapısı açılır. Baraj 70. Kendi dosyanı yükle. İmzayı sen at. Word ataşı cebinde kalsın. Unvan, tarih ve sayı sende kalsın."
     ]
   }
 ]

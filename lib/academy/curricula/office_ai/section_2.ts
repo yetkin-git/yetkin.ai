@@ -5,7 +5,7 @@ export const section2: Section = {
   lessonKey: "01_office_ai-2",
   title: "Rapor Otomasyonu: Tablodan Yönetim Özetine",
   targetDurationMinutes: 9.2,
-  estimatedWordCount: 1208,
+  estimatedWordCount: 1226,
   pedagogicalObjective:
     "Temiz tablodan üç maddelik yönetim özeti ve eylem cümlesi çıkarma akışını göstermek. Neden üç madde? Çünkü yönetici on sayfayı okumaz. Sayıları hücreden kilitle; uydurma yüzde yasaktır.",
   contentMarkdown: `
@@ -31,7 +31,7 @@ Komutunu kurgularken modele rolünü baştan söylemelisin. Peki yapay zekâ uyd
 
 Sol tarafta ÖNCE etiketli 10 sayfalık döküm dururken, sağ tarafta SONRA etiketli 3 maddelik yönetim özeti parlıyor. Yapay zekâ, ham satırları sadece özetlemekle kalmadı; doğrudan eyleme geçiren bir karar notu üretti. Bize sadece ne olduğunu değil, bundan sonra ne yapmamız gerektiğini de gösterdi. Peki neden karar notu gözlem cümlesinden ayrı durur? Çünkü gözlem tabloyu anlatır; karar notu onay, arama veya yön ister. Sayfalarca tablonun içinde kaybolmak yerine, üç maddeyle rotayı görürsün.
 
-Üretilen bu karar notu, sıradan bir metinden farklıdır. İçinde bahaneler, gereksiz dolgu kelimeleri ya da kafa karıştıran yüzdeler yığını barındırmaz. Neden? Çünkü her sayı kaynak hücreyle kilitlenmiştir; model akıcı diye yüzde uyduramaz. Her bir cümle işin kârlılığına, operasyonel verimliliğine ve acil müdahale gerektiren darboğazlara işaret eder. Yöneticin bu notu okuduğunda ikinci bir soru sormaz; çünkü ihtiyaç duyduğu cevabı ilk bakışta masasında bulur. Fark sihir değildir: biçim üç madde, sayı hücreden, eylem tek cümledir.
+Üretilen bu karar notu, sıradan bir metinden farklıdır. İçinde bahaneler, gereksiz dolgu kelimeleri ya da kafa karıştıran yüzdeler yığını barındırmaz. Neden? Çünkü her sayı kaynak hücreyle kilitlenmiştir; model akıcı diye yüzde uyduramaz. Her bir cümle işin kârlılığına, operasyonel verimliliğine ve acil müdahale gerektiren darboğazlara işaret eder. Yöneticin bu notu okuduğunda ikinci bir soru sormaz; çünkü ihtiyaç duyduğu cevabı ilk bakışta masasında bulur. Fark şudur: biçim üç madde, sayı hücreden, eylem tek cümledir.
 
 ## FARK ORTADA
 
@@ -45,9 +45,9 @@ Eski yöntemde o 10 sayfa içindeki tek bir tutarsızlığı yakalamak için gö
 
 ## SIRA SENDE
 
-Artık teoriyi geride bıraktık ve sahneye sen çıkıyorsun. Kendi bilgisayarını aç, günlük işlerinde kullandığın gerçek bir çalışma tablosunu önüne al. İlk derste öğrendiğin gibi başlıklarını düzenleyip yapısını kontrol et. Ardından biraz önce çalıştığımız komut yapısını kullanarak kendi tablon için o üç maddelik yönetici özetini ve karar notunu üret. Çıkan her sayıyı kaynak hücreyle karşılaştır. Uydurma yüzde görürsen metni masaya koyma.
+Artık teoriyi geride bıraktık ve sahneye sen çıkıyorsun. Kendi bilgisayarını aç, günlük işlerinde kullandığın gerçek bir çalışma tablosunu önüne al. Kişi adı, IBAN veya müşteri sırrı varsa önce maskele; ham tabloyu sohbete yükleme. İlk derste öğrendiğin gibi başlıklarını düzenleyip yapısını kontrol et. Ardından biraz önce çalıştığımız komut yapısını kullanarak kendi tablon için o üç maddelik yönetici özetini ve karar notunu üret. Çıkan her sayıyı kaynak hücreyle karşılaştır. Uydurma yüzde görürsen metni masaya koyma.
 
-Harika bir iş çıkardın ve metin bazlı rapor otomasyonunun mantığını kavradın. Ancak yöneticiler bu özeti yalnızca okumak istemez; çoğunlukla bunu görsel bir sahnede görmek isterler. Grafik vaadi bu derste yoktur. İşte tam burada devreye Sunum Fabrikası adını verdiğimiz bir sonraki aşama giriyor. 4. ders kapsamında, bugün ürettiğimiz bu metin özetini alıp doğrudan profesyonel bir slayt yapısına nasıl dönüştüreceğimizi adım adım keşfedeceğiz. Hazırlıklarını yap, bir sonraki derste metinden slayta uzanan görsel yolculuğa birlikte çıkıyoruz.
+Harika bir iş çıkardın ve metin bazlı rapor otomasyonunun mantığını kavradın. Ancak yöneticiler bu özeti yalnızca okumak istemez; çoğunlukla bunu görsel bir sahnede görmek isterler. Grafik vaadi bu derste yoktur. İşte tam burada bir sonraki aşama giriyor: metni slayta çevirmek. 4. ders kapsamında, bugün ürettiğimiz bu metin özetini alıp doğrudan profesyonel bir slayt yapısına nasıl dönüştüreceğimizi adım adım keşfedeceğiz. Hazırlıklarını yap, bir sonraki derste metinden slayta uzanan görsel yolculuğa birlikte çıkıyoruz. Sınav, 9. ders bitince açılır. Baraj score %70'tir.
 
 ## El kitabı (kasetin sığdırmadığı)
 

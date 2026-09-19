@@ -2,7 +2,7 @@
   {
     "id": "cue-01",
     "start": 2,
-    "end": 39.44,
+    "end": 40.76,
     "text": "GİRİŞ KÖPRÜSÜ",
     "section": "GİRİŞ KÖPRÜSÜ",
     "paragraphs": [
@@ -11,30 +11,30 @@
   },
   {
     "id": "cue-02",
-    "start": 39.84,
-    "end": 128.84,
+    "start": 41.16,
+    "end": 147.36,
     "text": "HOŞ GELDİN",
     "section": "HOŞ GELDİN",
     "paragraphs": [
-      "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ yolculuğunun ilk dersine hoş geldin! Bu seride seninle birlikte teorik ezberleri bir kenara bırakacak, ofiste her gün karşına çıkan gerçek problemleri yapay zekâ desteğiyle saniyeler içinde çözeceğiz. Bugün masandaki en büyük zaman tuzaklarından birini hedef alıyoruz: Açtığında gözünü korkutan, biçimleri birbirine girmiş o karmaşık tablolar. Hazırsan masaya oturalım; çünkü bu dersin sonunda o tabloyu A1 hücresinden başlayarak konuşturmayı öğreneceksin ve kontrol sende kalacak.",
-      "Ofiste saatlerini alan o rutin işleri düşün. Bir rapordan kopyalanıp sana iletilen bir liste gelir ve senden acil bir analiz istenir. Ancak sayfayı açtığında hiçbir şey yerli yerinde değildir; sayılar sola yaslanmış, tarihler birbirine karışmıştır. Bu dersteki yükleme, kişi adı ve IBAN taşımayan anonimize edilmiş / temiz örnek tablo üzerinden yapılır. Bu örnek tabloyu ChatGPT, Claude veya Gemini sohbetine ataş ile yüklersin; Copilot lisansın varsa şeritten doğrudan okutursun ya da şirketinin özel API'sine verirsin. ChatGPT hızlı taslak üretir, Claude uzun satırları dikkatle okur, Gemini adımları net sıralar, özel API ise evdeki kuralları unutmaz. Kod ezberlemen gerekmez. Neden? Çünkü bu işi çözen şey program yazmak değil; tabloyu doğru kapıdan, doğru sırayla vermektir. Hadi gel, bu dönüşümü adım adım başlatalım."
+      "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ yolculuğunun ilk dersine hoş geldin! Bu seride seninle birlikte teorik ezberleri bir kenara bırakacak, ofiste her gün karşına çıkan gerçek problemleri yapay zekâ desteğiyle adım adım çözeceğiz. Bugün masandaki en büyük zaman tuzaklarından birini hedef alıyoruz: Açtığında gözünü korkutan, biçimleri birbirine girmiş o karmaşık tablolar. Hazırsan masaya oturalım; çünkü bu dersin sonunda o tabloyu A1 hücresinden başlayarak konuşturmayı öğreneceksin ve kontrol sende kalacak.",
+      "Ofiste saatlerini alan o rutin işleri düşün. Bir rapordan kopyalanıp sana iletilen bir liste gelir ve senden acil bir analiz istenir. Ancak sayfayı açtığında hiçbir şey yerli yerinde değildir; sayılar sola yaslanmış, tarihler birbirine karışmıştır. Bu dersteki yükleme, kişi adı ve IBAN taşımayan anonimize edilmiş / temiz örnek tablo üzerinden yapılır. Bu örnek tabloyu ChatGPT, Claude veya Gemini sohbetine ataş ile yüklersin; Copilot lisansın varsa şeritten doğrudan okutursun ya da şirketinin özel API'sine verirsin. Özel API, şirketinin kurumsal yapay zekâ modelidir: evdeki format ve gizlilik kuralı o kiracıya yazılır. Bu araçların eğilimleri sürümden sürüme değişir; 2026 itibarıyla ChatGPT çoğu zaman hızlı taslak üretmeye, Claude uzun satırları dikkatle okumaya, Gemini adımları net sıralamaya yatkındır. Hiçbiri sabit karakter değildir. Kod ezberlemen gerekmez. Neden? Çünkü bu işi çözen şey program yazmak değil; tabloyu doğru kapıdan, doğru sırayla vermektir. Hadi gel, bu dönüşümü adım adım başlatalım."
     ]
   },
   {
     "id": "cue-03",
-    "start": 129.24,
-    "end": 207.2,
+    "start": 147.76,
+    "end": 227.52,
     "text": "DÜZENSİZ TABLO",
     "section": "DÜZENSİZ TABLO",
     "paragraphs": [
       "Öncelikle karşılaştığımız sorunu netleştirelim. Çoğu zaman önümüze gelen dosya, üzerinde işlem yapmaya uygun olmayan bir ham veri yığınıdır. Birkaç satır boş bırakılmış, bazı başlıklar hücre birleştirme sevdası yüzünden kaymış ve metinler karmakarışık hale gelmiştir. Bu tür bir dağınık yapı gördüğünde genellikle tek tek hücreleri düzeltmeye çalışırsın, değil mi? Oysa bu yaklaşım saatleri yer. Peki neden tek tek hücre düzeltmek yetmez? Çünkü yapay zekâ hücre hücre değil, başlık ve sütun düzenini arar. Tablonun dilini biraz sadeleştirirsen, o karmaşayı bir çırpıda okur.",
-      "Peki, yapay zekâ bu dağınık sayfaya baktığında aslında ne görür? Sen orada bir müşteri listesi veya bütçe özeti görürken, o önce başlık ve sütun düzenini arar. 2026 modelleri dağınık ızgarayı da okuyabilir; A1 hijyeni işi hızlandırır, hata riskini düşürür. Bu bir sihir değil. Birbirine girmiş hücreler işi yavaşlatır, boş satırlar satır bütünlüğünü keser. Bu yüzden düzensiz tabloyu vermeden önce her verinin ait olduğu yer belli olmalı. Şimdi bu karmaşayı kökünden çözecek hamleye, A1 hücresine, odaklanalım."
+      "Peki, yapay zekâ bu dağınık sayfaya baktığında aslında ne görür? Sen orada bir müşteri listesi veya bütçe özeti görürken, o önce başlık ve sütun düzenini arar. 2026 modelleri dağınık ızgarayı da okuyabilir; A1 hijyeni işi hızlandırır, hata riskini düşürür. Birbirine girmiş hücreler işi yavaşlatır, boş satırlar satır bütünlüğünü keser. Bu yüzden düzensiz tabloyu vermeden önce her verinin ait olduğu yer belli olmalı. Şimdi bu karmaşayı kökünden çözecek hamleye, A1 hücresine, odaklanalım."
     ]
   },
   {
     "id": "cue-04",
-    "start": 207.6,
-    "end": 281.32,
+    "start": 227.92,
+    "end": 300.08,
     "text": "A1 HÜCRESİ",
     "section": "A1 HÜCRESİ",
     "paragraphs": [
@@ -44,20 +44,20 @@
   },
   {
     "id": "cue-05",
-    "start": 281.72,
-    "end": 418.6,
+    "start": 300.48,
+    "end": 456.72,
     "text": "TEMİZLE ŞİMDİ",
     "section": "TEMİZLE ŞİMDİ",
     "paragraphs": [
-      "Şimdi ikinci adıma geçiyoruz. Peki neden A1 eşiğini kurmadan temizleme komutu vermiyoruz? Çünkü hangi kapıya gidersen git, model önce tablonun nereden başladığını arar. ChatGPT taslağı çabuk gösterir, Claude uzun dökümü tartar, Gemini adımları sıraya dizer, özel API şirket formatını kilitler. Karmaşık teknik ifadelere hiç girmeden, günlük konuşma diliyle durumu anlatacağız. Modele şunu söyleyebilirsin: 'Sana sunduğum bu ham veri içinde yer alan birleştirilmiş hücreleri tek tek ayır, aralardaki gereksiz boş satırları sil ve sayıları standart sayı formatına getir.' Gördüğün gibi komut günlük dille yazılıyor; model neyi ayıracağını, neyi sileceğini ve sayıyı nasıl standartlaştıracağını net duyuyor. Veri bir kez temizlenir; sonra hangi araca gideceğine sen karar verirsin. Şüpheli hücreye gelip F2'ye basarak kesme işaretini kontrol et ve her zaman orijinal dosyayı koruyup yan sekmede temiz kopyanı oluştur.",
+      "Şimdi ikinci adıma geçiyoruz. Peki neden A1 eşiğini kurmadan temizleme komutu vermiyoruz? Çünkü hangi kapıya gidersen git, model önce tablonun nereden başladığını arar. ChatGPT taslağı çabuk gösterme eğilimindedir, Claude uzun dökümü tartmaya yatkındır, Gemini adımları sıraya dizme eğilimindedir; özel API — şirketinin kurumsal modeli — evdeki formatı kilitlemeye yatkındır. Karmaşık teknik ifadelere hiç girmeden, günlük konuşma diliyle durumu anlatacağız. Modele şunu söyleyebilirsin: 'Sana sunduğum bu ham veri içinde yer alan birleştirilmiş hücreleri tek tek ayır, aralardaki gereksiz boş satırları sil ve sayıları standart sayı formatına getir.' Gördüğün gibi komut günlük dille yazılıyor; model neyi ayıracağını, neyi sileceğini ve sayıyı nasıl standartlaştıracağını net duyuyor. Veri bir kez temizlenir; sonra hangi araca gideceğine sen karar verirsin. Şüpheli hücreye gelip F2'ye basarak kesme işaretini kontrol et ve her zaman orijinal dosyayı koruyup yan sekmede temiz kopyanı oluştur.",
       "Peki bu veriyi yapay zekâya nasıl vereceksin? Üç Kapı sırası sabittir, çünkü önce en yerinde yolu denersin. 1) Copilot lisansın varsa şeritten doğrudan okutursun — bu birinci kapıdır. 2) Yoksa dosyayı ataş simgesinden Gemini, ChatGPT veya Claude sohbetine yüklersin — ataş ikinci kapıdır. Bu dersteki örnek kişi adı taşımayan temiz bir tahsilat tablosudur. Copilot varsa şeritten doğrudan okut; yoksa dosyayı ataş ile yükle. (Kişisel verileri maskeleme kuralını 2. derste kilitleyeceğiz.) 3) Son çare: isim ve telefonu maskeleyip kısa bir özeti yapıştırırsın. Ham tabloyu ekran görüntüsüyle taşımak öğretilen yol değildir; çünkü ekran görüntüsü hücreleri bozar ve A1 eşiğini kaybettirir.",
       "Bu aşamada tür karmaşasını ortadan kaldırmak da hayati bir adımdır. Neden? Çünkü aynı sütunun içinde hem '1.200 TL' yazar, hem sadece '1200', hem de metin şeklinde girilmiş 'bin iki yüz' durursa model hangisinin tutar olduğunu karıştırır. Yapay zekâya 'Tutar sütunundaki tüm değerleri yalnızca sayı olacak şekilde tek tip yap' dediğinde, tüm bu farklılıklar tek bir standarda oturur. Fazladan boşlukları temizler, tarihleri gün-ay-yıl düzenine sokar. Sen kahvenden bir yudum alırken, o karmaşık dağınık yapı pürüzsüz bir veri tabanına dönüşür."
     ]
   },
   {
     "id": "cue-06",
-    "start": 419,
-    "end": 488.76,
+    "start": 457.12,
+    "end": 529,
     "text": "FARK ORTADA",
     "section": "FARK ORTADA",
     "paragraphs": [
@@ -67,8 +67,8 @@
   },
   {
     "id": "cue-07",
-    "start": 489.16,
-    "end": 538.12,
+    "start": 529.4,
+    "end": 575.16,
     "text": "CEBİNE KOY",
     "section": "CEBİNE KOY",
     "paragraphs": [
@@ -77,8 +77,8 @@
   },
   {
     "id": "cue-08",
-    "start": 538.52,
-    "end": 607.28,
+    "start": 575.56,
+    "end": 649.36,
     "text": "SIRA SENDE",
     "section": "SIRA SENDE",
     "paragraphs": [

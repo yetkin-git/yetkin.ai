@@ -3,17 +3,17 @@ import type { Section } from "../types";
 export const section3: Section = {
   sectionNumber: 4,
   lessonKey: "01_office_ai-3",
-  title: "Sunum Fabrikası: Metinden Slayta",
-  targetDurationMinutes: 9.6,
-  estimatedWordCount: 1244,
+  title: "Metinden Slayta: Sunum Hazırlama",
+  targetDurationMinutes: 8.9,
+  estimatedWordCount: 1248,
   pedagogicalObjective:
     "Metinden slayt başına tek fikir, görsel yönlendirme ve taslak aktarma akışını göstermek. Neden düz metin yığını doldurulmaz? Çünkü dinleyici okur, seni dinlemez. Tek fikir kuralı: her slayt bir vurucu mesaj taşır. AI yönlendirmesi: rol ver, taslak iste, görseli parantezde tarif et.",
   contentMarkdown: `
 Geçtiğimiz derste devasa tabloları ve dağınık ham verileri dakikalar içinde derleyip toparlamıştık. Sayfalarca süren karmaşık bir veri yığınından net bir rapor otomasyonu üretmeyi ve üst yönetimin doğrudan aksiyon almasını sağlayan o kritik yönetici özeti refleksini kazandın. Üç maddelik temel çıkarım ve net bir karar notu ile iş dünyasında belirsizliği nasıl hızla ortadan kaldırabileceğimizi gördük. Peki neden hâlâ slayta geçmiyoruz? Çünkü yönetici özeti masada kalsa bile toplantı slaytsız yürümez; o üç madde, doğru bir görsel dille aktarılmadıkça hak ettiği etkiyi yaratamaz. Şimdi elimizdeki o güçlü analizi ekibe ve yöneticilere sunma aşamasına geçiyoruz.
 
-Selamlar, ben Gözde. yetkin.ai akademisinin sunum fabrikası dersinde seninle birlikte metni slayta çevirmenin yolunu kuracağız. Geçen derste üç maddelik yönetici özetini kilitledik; peki şimdi ne olacak? Özet cebinde durur ama toplantı slayt ister. Hepimiz o toplantı öncesi saatlerce boş sayfaya bakıp durduk. Elinde harika fikirler, eksiksiz veriler var ama onları beyaz bir çalışma sayfasına dökmek korkutucu gelir. Peki neden sunum hazırlamak bu kadar zaman yer? Çünkü çoğu kişi önce şablonu süsler; mesajı sona bırakır. Bugün o sırayı çevireceğiz: önce tek fikir, sonra slayt taslağı.
+Selamlar, ben Gözde. yetkin.ai akademisinin metinden slayta dersinde seninle birlikte sunum hazırlamanın yolunu kuracağız. Geçen derste üç maddelik yönetici özetini kilitledik; peki şimdi ne olacak? Özet cebinde durur ama toplantı slayt ister. Hepimiz o toplantı öncesi saatlerce boş sayfaya bakıp durduk. Elinde harika fikirler, eksiksiz veriler var ama onları beyaz bir çalışma sayfasına dökmek korkutucu gelir. Peki neden sunum hazırlamak bu kadar zaman yer? Çünkü çoğu kişi önce şablonu süsler; mesajı sona bırakır. Bugün o sırayı çevireceğiz: önce tek fikir, sonra slayt taslağı.
 
-Geleneksel yöntemlerle sunum hazırlarken vaktimizin neredeyse yüzde seksenini tasarım detaylarına kurban ediyoruz. Hangi renk paleti uyar, simgeler nereye yerleşir, metin kutuları nasıl hizalanır derken asıl aktarmak istediğimiz mesajın gücü arka planda kaybolup gidiyor. Peki neden tasarımı önce bitirmeye çalışmayız? Çünkü sen grafiker değilsin; sen fikrin sahibisin. Sunum Fabrikası adını verdiğimiz bu yaklaşımda roller değişiyor. Yapay zekâyı yanına aldığında tasarım yükünü algoritmaya verirsin. Böylece hikâyenin akışına, vurucu mesaja ve sunumunun yaratacağı iş etkisine odaklanırsın.
+Geleneksel yöntemlerle sunum hazırlarken vaktimizin neredeyse yüzde seksenini tasarım detaylarına kurban ediyoruz. Hangi renk paleti uyar, simgeler nereye yerleşir, metin kutuları nasıl hizalanır derken asıl aktarmak istediğimiz mesajın gücü arka planda kaybolup gidiyor. Peki neden tasarımı önce bitirmeye çalışmayız? Çünkü sen grafiker değilsin; sen fikrin sahibisin. Metni slayta çevirirken roller değişiyor. Yapay zekâyı yanına aldığında tasarım yükünü algoritmaya verirsin. Böylece hikâyenin akışına, vurucu mesaja ve sunumunun yaratacağı iş etkisine odaklanırsın.
 
 ## ŞABLON KAOSU
 
@@ -47,7 +47,7 @@ Bu yaklaşımı bir kez içselleştirdiğinde, sunum hazırlamak artık iş gün
 
 Şimdi bu bilgileri sahada bizzat test etme sırası sende. Senden istediğim görev net: Geçen derste hazırladığın o yönetici özetini veya iş yerinde üzerinde çalıştığın herhangi bir ham metni al. Yapay zekâya sunum tasarımcısı rolünü ver ve metnini beş slaytlık profesyonel bir sunum akışına dönüştürmesini iste. Her slaytta tek bir mesaj olmasına ve görsel önerilerinin mutlaka belirtilmesine dikkat et. Çıkan slaytta on madde görürsen metni masaya koyma; tek fikre indir.
 
-Sunum taslağını hazırladıktan sonra hiç durmadan bir sonraki adıma geçeceğiz. 5. derste akıcı slaytın arkasındaki uydurma sayıyı yakalayacağız: İstisnalar ve Hata Avı. E-Posta Akışı ve Gelen Kutusu Sıfırlama ritüeli ondan sonra gelir; yerleşik Gmail kapısı ayrı derstedir. Mesajların arasında kaybolmaya son vermeden önce, rapordaki sayıyı kilitlemeyi öğrenmen gerekir. Slaytı o sayı kilitlenmeden yayınlama.
+Sunum taslağını hazırladıktan sonra hiç durmadan bir sonraki adıma geçeceğiz. 5. derste akıcı slaytın arkasındaki uydurma sayıyı yakalayacağız: İstisnalar ve Hata Avı. E-Posta Akışı ve Gelen Kutusu Sıfırlama ritüeli ondan sonra gelir; yerleşik Gmail kapısı ayrı derstedir. Mesajların arasında kaybolmaya son vermeden önce, rapordaki sayıyı kilitlemeyi öğrenmen gerekir. Slaytı o sayı kilitlenmeden yayınlama. Sınav, 9. ders bitince açılır. Baraj score %70'tir.
 
 ## El kitabı (kasetin sığdırmadığı)
 

@@ -11,7 +11,7 @@ import {
   ACADEMY_WORD_WINDOW_TITLE,
   academyWordStageKind,
 } from "@/lib/academy/word-workspace";
-import { academyCitizenDocxLabel } from "@/lib/academy/prompt-console";
+import { academyCitizenDocxLabel, academyCitizenOfficeFileLabel } from "@/lib/academy/prompt-console";
 
 const ROOT = process.cwd();
 
@@ -26,6 +26,7 @@ describe("Word doğrudan dosya yükleme tuvali", () => {
     expect(academyCitizenDocxLabel("Yonetici_Ozeti.docx")).toBe("Yönetici Özeti (Word)");
     expect(academyCitizenDocxLabel("Mart_2026_tahsilat_notlari.docx")).toBe("Tahsilat Notları (Word)");
     expect(academyCitizenDocxLabel("Tahsilat_Mart_2026.xlsx")).toBeNull();
+    expect(academyCitizenOfficeFileLabel("Tahsilat_Mart_2026.xlsx")).toBe("Tahsilat Mart 2026 (Excel)");
     expect(ACADEMY_WORD_COPY_FRAGMENTS.map((frag) => frag.page)).toEqual(["syf 4", "syf 11", "syf 18"]);
     expect(ACADEMY_WORD_CLAUSE_CARDS.map((card) => card.label)).toEqual([
       "CEZAİ ŞART",

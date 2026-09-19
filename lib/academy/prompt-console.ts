@@ -66,9 +66,40 @@ const ACADEMY_CITIZEN_DOCX_LABELS: Readonly<Record<string, string>> = {
   "Yönetici raporu.docx": "Yönetici Raporu (Word)",
 };
 
+const ACADEMY_CITIZEN_XLSX_LABELS: Readonly<Record<string, string>> = {
+  "Kitap1.xlsx": "Kitap1 (Excel)",
+  "Tahsilat_Mart_2026.xlsx": "Tahsilat Mart 2026 (Excel)",
+  "Tahsilat_Hata_Avi.xlsx": "Tahsilat Hata Avı (Excel)",
+  "Musteri_Liste_Maske.xlsx": "Müşteri Liste Maske (Excel)",
+  "Cuma_30_Dakika.xlsx": "Cuma 30 Dakika (Excel)",
+};
+
+const ACADEMY_CITIZEN_PPTX_LABELS: Readonly<Record<string, string>> = {
+  "Yonetim_Sunumu.pptx": "Yönetim Sunumu (PowerPoint)",
+  "Yonetim_Ozeti.pptx": "Yönetim Özeti (PowerPoint)",
+};
+
 export function academyCitizenDocxLabel(fileName: string | undefined): string | null {
   if (!fileName || !/\.docx?\b/iu.test(fileName)) {
     return null;
   }
   return ACADEMY_CITIZEN_DOCX_LABELS[fileName] ?? "Word Dosyası";
+}
+
+/** Titlebar / ataş / punchcard — ham `xlsx` / `docx` / `pptx` vatandaş yüzüne basılmaz. */
+export function academyCitizenOfficeFileLabel(fileName: string | undefined): string | null {
+  if (!fileName) {
+    return null;
+  }
+  const docx = academyCitizenDocxLabel(fileName);
+  if (docx) {
+    return docx;
+  }
+  if (/\.xlsx\b/iu.test(fileName)) {
+    return ACADEMY_CITIZEN_XLSX_LABELS[fileName] ?? "Excel tablosu";
+  }
+  if (/\.pptx\b/iu.test(fileName)) {
+    return ACADEMY_CITIZEN_PPTX_LABELS[fileName] ?? "PowerPoint sunusu";
+  }
+  return null;
 }

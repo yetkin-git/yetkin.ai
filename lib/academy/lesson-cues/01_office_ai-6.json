@@ -2,7 +2,7 @@
   {
     "id": "cue-01",
     "start": 2,
-    "end": 42.04,
+    "end": 42.96,
     "text": "GİRİŞ KÖPRÜSÜ",
     "section": "GİRİŞ KÖPRÜSÜ",
     "paragraphs": [
@@ -11,8 +11,8 @@
   },
   {
     "id": "cue-02",
-    "start": 42.44,
-    "end": 124.72,
+    "start": 43.36,
+    "end": 119.84,
     "text": "HOŞ GELDİN",
     "section": "HOŞ GELDİN",
     "paragraphs": [
@@ -22,8 +22,8 @@
   },
   {
     "id": "cue-03",
-    "start": 125.12,
-    "end": 210.04,
+    "start": 120.24,
+    "end": 210.76,
     "text": "DAĞINIK HAFTA",
     "section": "DAĞINIK HAFTA",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 210.44,
-    "end": 288.04,
+    "start": 211.16,
+    "end": 285.12,
     "text": "OTUZ DAKİKA",
     "section": "OTUZ DAKİKA",
     "paragraphs": [
@@ -44,8 +44,8 @@
   },
   {
     "id": "cue-05",
-    "start": 288.44,
-    "end": 353.88,
+    "start": 285.52,
+    "end": 349.28,
     "text": "ÜÇ BLOK",
     "section": "ÜÇ BLOK",
     "paragraphs": [
@@ -55,8 +55,8 @@
   },
   {
     "id": "cue-06",
-    "start": 354.28,
-    "end": 415,
+    "start": 349.68,
+    "end": 408.6,
     "text": "FARK ORTADA",
     "section": "FARK ORTADA",
     "paragraphs": [
@@ -66,22 +66,22 @@
   },
   {
     "id": "cue-07",
-    "start": 415.4,
-    "end": 470.52,
+    "start": 409,
+    "end": 463.68,
     "text": "CEBİNE KOY",
     "section": "CEBİNE KOY",
     "paragraphs": [
-      "Bu derste öğrendiğimiz Haftalık Sistemi iş hayatında şu üç adımla cebine koy. 1. Her Cuma 30 Dakika bloğunu takvime yaz; on Excel, on slayt, on kutu. Çünkü blok takvimde yoksa kriz yine Cuma gecesine kayar. 2. Excel ve Word dosyasını ataş ile yükle veya Copilot varsa şeritten okut. Çünkü ekran görüntüsü tabloyu senden koparır. 3. Birinci ve ikinci kapı durmuyorsa maskeli kısa özet; ham kopyala-yapıştır varsayılan yol değildir. Çünkü ham yapıştırma maskeyi deler. Bu üç adımı bir kez denemek yetmez. Aynı saati üç Cuma üst üste koru. İlk Cuma kurulumdur. İkinci Cuma refleks olur. Üçüncü Cuma artık kriz gelmeden kapanır. Takvimden o bloğu silmek, bu dersi unutmaktır."
+      "Bu derste öğrendiğimiz Haftalık Sistemi iş hayatında şu üç adımla cebine koy. 1. Her Cuma 30 Dakika bloğunu takvime yaz; on Excel, on slayt, on kutu. Çünkü blok takvimde yoksa kriz yine Cuma gecesine kayar. 2. Excel tablosunu ve PowerPoint sunusunu ataş ile yükle veya Copilot varsa şeritten okut. Çünkü ekran görüntüsü tabloyu senden koparır. 3. Birinci ve ikinci kapı durmuyorsa maskeli kısa özet; ham kopyala-yapıştır varsayılan yol değildir. Çünkü ham yapıştırma maskeyi deler. Bu üç adımı bir kez denemek yetmez. Aynı saati üç Cuma üst üste koru. İlk Cuma kurulumdur. İkinci Cuma refleks olur. Üçüncü Cuma artık kriz gelmeden kapanır. Takvimden o bloğu silmek, bu dersi unutmaktır."
     ]
   },
   {
     "id": "cue-08",
-    "start": 470.92,
-    "end": 540.2,
+    "start": 464.08,
+    "end": 541.36,
     "text": "SIRA SENDE",
     "section": "SIRA SENDE",
     "paragraphs": [
-      "Bugünkü saha görevinde senden bu Cuma 30 Dakika bloğunu takvimine koymanı istiyorum. Bir gerçek tabloyu ataşla. On dakika Excel, on dakika slayt, on dakika kutu iste. Kendi dosyanda dağınık haftayı Cuma penceresine indir. Takvime yazarken başlığı Cuma 30 koy. Süreyi otuz dakika kilitle. Tekrarı her hafta yap. Bu Cuma başla, gelecek Cuma'yı boş bırakma. Bu egzersiz Haftalık Sistemi alışkanlığa çevirir ve bir sonraki Cuma aynı krizi yeniden icat etmezsin. E-posta bloğunda Gmail Gemini veya Outlook Copilot kullan. Word bloğunda dosyayı ataşla. Ham kutuyu dışarı taşıma; yoksa maskeli kısa özet yeter.",
+      "Bugünkü saha görevinde senden bu Cuma 30 Dakika bloğunu takvimine koymanı istiyorum. Bir gerçek tabloyu ataşla. Kişi adı, IBAN veya şirket sırrı varsa önce maskele; ham tabloyu sohbete bırakma. On dakika Excel, on dakika slayt, on dakika kutu iste. Kendi dosyanda dağınık haftayı Cuma penceresine indir. Takvime yazarken başlığı Cuma 30 koy. Süreyi otuz dakika kilitle. Tekrarı her hafta yap. Bu Cuma başla, gelecek Cuma'yı boş bırakma. Bu egzersiz Haftalık Sistemi alışkanlığa çevirir ve bir sonraki Cuma aynı krizi yeniden icat etmezsin. E-posta bloğunda Gmail Gemini veya Outlook Copilot kullan. Slayt bloğunda PowerPoint sunusunu ataşla. Ham kutuyu dışarı taşıma; yoksa maskeli kısa özet yeter.",
       "Kendi Cuma bloğunu kilitlediğinde müfredat kapanır. Peki neden sınav kapısı yalnız bu dersten sonra açılır? Çünkü mühürlü vize kartı dokuz dersin hepsini ister; satın alma o kartı basmaz. Baraj 70 durur. Yetmişin altında kart mühürlenmez. Bu kapanış dersidir. Haftalık rutini oturttun. Hazırsan sınavda görüşmek üzere!"
     ]
   }

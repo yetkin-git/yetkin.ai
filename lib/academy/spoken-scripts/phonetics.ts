@@ -120,23 +120,32 @@ const ACADEMY_CUE_DISPLAY_PHONETICS: readonly { display: string; spoken: string 
 ];
 
 /**
- * Ekranda `.docx` / `Ctrl+C` kalabilir; seste nokta okunmaz, kısayol Türkçe okunur.
- * Tabloya konmaz: `docx` ↔ `.docx` ters map `.docx` içinde `..docx` üretir.
+ * Ham uzantı vatandaş kulağına ve karaoke/makale yüzeyine basılmaz (PEDAGOJI §E.2).
+ * `.docx` → Word belgesi, `.xlsx` → Excel tablosu, `.pptx` → PowerPoint sunusu.
+ * Word / PowerPoint satırları ardından Vörd / Pauer Point fonetiğine iner.
  */
 export function applyAcademyOfficeFileExtPhonetics(text: string): string {
   return text
     .replace(/\bCtrl\s*\+\s*C\b/giu, "Kontrol C")
-    .replace(/\.docx\b/giu, " docx")
-    .replace(/\.xlsx\b/giu, " xlsx")
-    .replace(/\.pptx\b/giu, " pptx");
+    .replace(/\s*\.docx\b/giu, " Word belgesi")
+    .replace(/\s*\.xlsx\b/giu, " Excel tablosu")
+    .replace(/\s*\.pptx\b/giu, " PowerPoint sunusu")
+    .replace(/\s*\.pdf\b/giu, " belge")
+    .replace(/\bdocx\b/giu, "Word belgesi")
+    .replace(/\bxlsx\b/giu, "Excel tablosu")
+    .replace(/\bpptx\b/giu, "PowerPoint sunusu");
 }
 
 export function applyAcademyOfficeFileExtPhoneticsToDisplay(text: string): string {
   return text
     .replace(/\bKontrol C\b/gu, "Ctrl+C")
-    .replace(/(?<!\.)\bdocx\b/gu, ".docx")
-    .replace(/(?<!\.)\bxlsx\b/gu, ".xlsx")
-    .replace(/(?<!\.)\bpptx\b/gu, ".pptx");
+    .replace(/\s*\.docx\b/giu, " Word belgesi")
+    .replace(/\s*\.xlsx\b/giu, " Excel tablosu")
+    .replace(/\s*\.pptx\b/giu, " PowerPoint sunusu")
+    .replace(/\s*\.pdf\b/giu, " belge")
+    .replace(/\bdocx\b/giu, "Word belgesi")
+    .replace(/\bxlsx\b/giu, "Excel tablosu")
+    .replace(/\bpptx\b/giu, "PowerPoint sunusu");
 }
 
 /** Ekran terimini TTS'in şaşırmayacağı fonetiğe çevirir. */

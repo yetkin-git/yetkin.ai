@@ -446,9 +446,13 @@ export function expandAcademySpokenAbbreviations(text: string): string {
   return normalizeAcronyms(
     text
       .replace(/\bCtrl\s*\+\s*C\b/giu, "Kontrol C")
-      .replace(/\.docx\b/giu, " docx")
-      .replace(/\.xlsx\b/giu, " xlsx")
-      .replace(/\.pptx\b/giu, " pptx")
+      .replace(/\s*\.docx\b/giu, " Word belgesi")
+      .replace(/\s*\.xlsx\b/giu, " Excel tablosu")
+      .replace(/\s*\.pptx\b/giu, " PowerPoint sunusu")
+      .replace(/\s*\.pdf\b/giu, " belge")
+      .replace(/\bdocx\b/giu, "Word belgesi")
+      .replace(/\bxlsx\b/giu, "Excel tablosu")
+      .replace(/\bpptx\b/giu, "PowerPoint sunusu")
       .replace(/\bvs\./giu, "veya")
       .replace(/\bY\s*\.\s*Z\s*\.?/giu, "Yapay Zekâ")
       .replace(/\bYZ\b/giu, "Yapay Zekâ")

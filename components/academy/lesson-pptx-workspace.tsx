@@ -11,7 +11,13 @@ import {
 import { academyExcelMouseState } from "@/lib/academy/excel-mouse-pointer";
 import type { AcademyVisualExcelPane } from "@/lib/academy/excel-workspace";
 import { academyPocketChecklistSteps } from "@/lib/academy/lesson-beat-visual";
-import { academyPptxAlignBox, academyPptxElementForCell } from "@/lib/academy/pptx-workspace";
+import {
+  ACADEMY_PPTX_FILE_LABEL,
+  ACADEMY_PPTX_FILE_NAME,
+  academyPptxAlignBox,
+  academyPptxElementForCell,
+} from "@/lib/academy/pptx-workspace";
+import { academyCitizenOfficeFileLabel } from "@/lib/academy/prompt-console";
 import { academyOfficeFocusOriginCss, applyAcademyOfficeWinFit } from "@/lib/academy/office-win-fit";
 import { LessonAiDesk, LessonOfficeCopilotRibbon, useAcademyAiDeskTab } from "@/components/academy/lesson-ai-desk";
 
@@ -147,7 +153,7 @@ export function LessonPptxWorkspace({
       className={deskClass}
       data-academy-pptx-live=""
       data-academy-pptx-pane={pane}
-      data-academy-pptx-file={slide.fileName ?? "Yonetim_Sunumu.pptx"}
+      data-academy-pptx-file={slide.fileName ?? ACADEMY_PPTX_FILE_NAME}
       data-academy-pptx-active={activeElement}
       data-academy-excel-active-cell={highlight}
       data-academy-excel-focus-zoom={pane === "live" ? (liveFocusZoom ? "in" : "out") : undefined}
@@ -170,7 +176,7 @@ export function LessonPptxWorkspace({
           <div className="academy-pptx-titlebar">
             <i aria-hidden />
             <b>PowerPoint</b>
-            <span>{slide.fileName ?? "Yonetim_Sunumu.pptx"}</span>
+            <span>{academyCitizenOfficeFileLabel(slide.fileName) ?? ACADEMY_PPTX_FILE_LABEL}</span>
           </div>
         )}
         {compact ? null : (

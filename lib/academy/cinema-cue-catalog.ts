@@ -1906,13 +1906,13 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
   "02_ecommerce_ai-3": { ...COMMERCE, title: "Yorum & Soru Madeni: İade Düşürme", cues: EMPTY_CUES },
   "02_ecommerce_ai-4": { ...COMMERCE, title: "Rakip & Fiyat Radarı: Kör Uçma", cues: EMPTY_CUES },
   "02_ecommerce_ai-5": { ...COMMERCE, title: "Kampanya & Reklam Metni: Tıklatan Dil", cues: EMPTY_CUES },
-  "02_ecommerce_ai-6": { ...COMMERCE, title: "Haftalık Operasyon Rutini + Sınav Köprüsü", cues: EMPTY_CUES },
+  "02_ecommerce_ai-6": { ...COMMERCE, title: "Haftalık Operasyon Rutini + Sınav Kapısı", cues: EMPTY_CUES },
   "03_social_media_ai-1": { ...SOCIAL, title: "İçerik Stoku: 1 Fikirden 10 Parça", cues: EMPTY_CUES },
   "03_social_media_ai-2": { ...SOCIAL, title: "Görsel Hattı: Ürün Çekimi + Afiş", cues: EMPTY_CUES },
   "03_social_media_ai-3": { ...SOCIAL, title: "Video Hattı: Reels Kurgu Sistemi", cues: EMPTY_CUES },
   "03_social_media_ai-4": { ...SOCIAL, title: "Metin Hattı: Açıklama + Hashtag + CTA", cues: EMPTY_CUES },
   "03_social_media_ai-5": { ...SOCIAL, title: "Kalite Kapısı: AI Kokusu Temizliği", cues: EMPTY_CUES },
-  "03_social_media_ai-6": { ...SOCIAL, title: "Yayın Rutini: Haftada 3 + Sınav Köprüsü", cues: EMPTY_CUES },
+  "03_social_media_ai-6": { ...SOCIAL, title: "Yayın Rutini: Haftada 3 + Sınav Kapısı", cues: EMPTY_CUES },
   "04_chatbot_nocode-1": { ...BOT, title: "KOBİ Acısı: Kaçan Mesaj, Kaçan Randevu", cues: EMPTY_CUES },
   "04_chatbot_nocode-2": { ...BOT, title: "İlk Bot: Karşılama + SSS + Randevu", cues: EMPTY_CUES },
   "04_chatbot_nocode-3": { ...BOT, title: "WhatsApp Bağlantısı: Canlıya Alma", cues: EMPTY_CUES },
@@ -1924,7 +1924,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
   },
   "04_chatbot_nocode-6": {
     ...BOT,
-    title: "İlk Müşteri Oyunu: Pilot Kapatma + Sınav Köprüsü",
+    title: "İlk Müşteri Oyunu: Pilot Kapatma + Sınav Kapısı",
     cues: EMPTY_CUES,
   },
   "05_prompt_practice-1": { ...PROMPT, title: "Neden Saçmalıyor: 5 Kötü İstem", cues: EMPTY_CUES },
@@ -1932,7 +1932,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
   "05_prompt_practice-3": { ...PROMPT, title: "Araştırma & Özet: Kaynakla Çalış", cues: EMPTY_CUES },
   "05_prompt_practice-4": { ...PROMPT, title: "Yazı & Çeviri: Ton Ayarı", cues: EMPTY_CUES },
   "05_prompt_practice-5": { ...PROMPT, title: "Tablo & Plan: Günlük Hayat Kısayolları", cues: EMPTY_CUES },
-  "05_prompt_practice-6": { ...PROMPT, title: "10 Promptluk Cep Seti + Sınav Köprüsü", cues: EMPTY_CUES },
+  "05_prompt_practice-6": { ...PROMPT, title: "10 Promptluk Cep Seti + Sınav Kapısı", cues: EMPTY_CUES },
 };
 
 function asSlide(

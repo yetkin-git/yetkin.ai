@@ -64,6 +64,9 @@ export function academyVerifyShareMetadata({
     title,
     description,
     path: `/academy/dogrula/${hash}`,
+    // SEO Tedavi (P1) — binlerce SHA sicil URL'i thin-content indeksi üretmesin.
+    // Paylaşım linkleri takip edilir (follow) ama indekslenmez (noindex).
+    robots: { index: false, follow: true },
     image: parsed ? academyCertificateOgImagePath(parsed) : undefined,
   });
 }

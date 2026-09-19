@@ -108,6 +108,10 @@ describe("01_office_ai bölüm 5 — İstisnalar & Hata Avı Altın Şablon", ()
     expect(lesson.body).toMatch(/özete gözü kapalı/u);
     expect(lesson.body).toMatch(/Peki yapay zekâ neden uydurur/u);
     expect(lesson.body).toMatch(/Peki tablodaki mantık hatasını veya yanlış toplamı gözünle nasıl avlarsın/u);
+    expect(lesson.body).toMatch(/Üçüncü satır Demir Lojistik 17\.300/u);
+    expect(lesson.body).toMatch(/sınav kapısı en sonda açılır/u);
+    expect(lesson.body).not.toMatch(/sınav köprüsü/iu);
+    expect(lesson.body).toMatch(/Kişi adı, IBAN veya şirket sırrı varsa önce maskele/u);
     expect(lesson.body).toMatch(/Peki yapay zekâ çıktısı kontrol edilmeden masaya neden koyulmaz/u);
     expect(lesson.body).not.toMatch(/tüm detaylarıyla/u);
     expect(lesson.body).not.toMatch(/parlayan bir fener/u);
@@ -168,12 +172,12 @@ describe("01_office_ai bölüm 5 — İstisnalar & Hata Avı Altın Şablon", ()
       return;
     }
     expect(pieces[0]?.start).toBe(2);
-    expect(pieces[1]?.end).toBe(73.24);
+    expect(pieces[1]?.end).toBe(68.32);
     expect((pieces[1]?.end ?? 0) - (pieces[1]?.start ?? 0)).toBeGreaterThan(20);
     expect((pieces[1]?.end ?? 0) - (pieces[1]?.start ?? 0)).toBeLessThan(50);
     expect(academyBedDuckGain(0.5, pieces)).toBe(ACADEMY_BED_BREATH_GAIN);
     const lastEnd = pieces.at(-1)?.end ?? 0;
-    expect(lastEnd).toBe(517.56);
+    expect(lastEnd).toBe(522.52);
     expect(academyBedDuckGain(lastEnd, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 1.5, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 4.5, pieces)).toBe(0);
@@ -198,6 +202,10 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(prose).toMatch(/Haftalık Sistem/u);
     expect(prose).toMatch(/30 Dakika/u);
     expect(prose).toMatch(/59\.450/u);
+    expect(prose).toMatch(/Üçüncü satır Demir Lojistik 17\.300/u);
+    expect(prose).toMatch(/sınav kapısı en sonda açılır/u);
+    expect(prose).not.toMatch(/sınav köprüsü/iu);
+    expect(prose).toMatch(/Kişi adı, IBAN veya şirket sırrı varsa önce maskele/u);
     expect(prose).toMatch(/Peki yapay zekâ neden uydurur\?/u);
     expect(prose).toMatch(/dil modeli matematiksel bir işlemci değildir/u);
     expect(prose).toMatch(/Peki tablodaki mantık hatasını veya yanlış toplamı gözünle nasıl avlarsın\?/u);
@@ -229,17 +237,17 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(academyExcelFocusZoomActive(KEY, cue04!.start)).toBe(true);
     expect(academyExcelMouseState(KEY, cue04!.start + 0.05)?.visible).toBe(true);
     expect(cues[0]!.start).toBe(ACADEMY_INTRO_GENERIC_SEC);
-    expect(cues.at(-1)?.end).toBe(517.56);
+    expect(cues.at(-1)?.end).toBe(522.52);
     const layer = academyCitizenPlayerLayer(SLUG, KEY);
     expect(layer.kind).toBe("article+karaoke");
     const strip = loadAcademyKaraokeStrip(KEY);
     expect(strip[0]?.start).toBe(2);
     expect(strip.find((line) => line.cueId === "cue-02")?.text).toMatch(/^Selamlar, ben Gözde/u);
-    expect(strip.find((line) => line.cueId === "cue-02")?.start).toBe(35.96);
-    expect(strip.find((line) => line.cueId === "cue-04")?.start).toBe(182.36);
+    expect(strip.find((line) => line.cueId === "cue-02")?.start).toBe(33.16);
+    expect(strip.find((line) => line.cueId === "cue-04")?.start).toBe(174.72);
     expect(strip.some((line) => line.text.includes("59.450"))).toBe(true);
     expect(strip.some((line) => line.text.includes("54.650"))).toBe(false);
-    expect(strip.at(-1)?.end).toBe(517.56);
+    expect(strip.at(-1)?.end).toBe(522.52);
   });
 
   it("HOŞ GELDİN rozeti 18 sn auto-hide; adım bantları ve Beat 3 split saatle yürür", () => {
@@ -297,7 +305,7 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(media).toContain("pushSpokenClock");
     const punchcards = dronAcademyPunchcardsForLesson(KEY);
     expect(DRON_WELCOME_PUNCHCARD_MAX_SEC).toBe(18);
-    expect(punchcards.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(53.96);
+    expect(punchcards.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(51.16);
   });
 
   it("mini sınav baraj 70 durur; Dron punchcard Hata Avı taşır", () => {
@@ -312,7 +320,7 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(punchcards.map((card) => card.label)).toEqual(
       expect.arrayContaining(["HATA AVI", "AI DEDEKTİF"]),
     );
-    expect(punchcards.at(-1)?.end).toBe(517.56);
+    expect(punchcards.at(-1)?.end).toBe(522.52);
     expect(isAcademyLessonAudioSealed(SLUG, KEY)).toBe(true);
     expect(academyCitizenPlayerLayer(SLUG, KEY).kind).toBe("article+karaoke");
   });
@@ -361,19 +369,21 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
 
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
-    expect(timings?.durationSec).toBe(517.56);
-    expect(timings?.cacheV).toBe(517560);
+    expect(timings?.durationSec).toBe(522.52);
+    expect(timings?.cacheV).toBe(522520);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.at(-1)?.end).toBe(517.56);
+    expect(cues.at(-1)?.end).toBe(522.52);
     for (const cue of cues) {
       const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
       expect(pieces[0]?.start, cue.id).toBe(cue.start);
       expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
     }
     const strip = loadAcademyKaraokeStrip(KEY);
-    expect(strip.at(-1)?.end).toBe(517.56);
+    expect(strip.at(-1)?.end).toBe(522.52);
     const stripText = strip.map((line) => line.text).join(" ");
     expect(stripText).toMatch(/Peki yapay zekâ neden uydurur/u);
+    expect(stripText).toMatch(/Üçüncü satır Demir Lojistik 17\.300/u);
+    expect(stripText).toMatch(/sınav kapısı en sonda açılır/u);
     expect(stripText).toMatch(/mantık hatasını veya yanlış toplamı gözünle nasıl avlarsın/u);
     expect(stripText).toMatch(/kontrol edilmeden masaya neden koyulmaz/u);
     expect(strip.some((line) => line.text.includes("59.450"))).toBe(true);

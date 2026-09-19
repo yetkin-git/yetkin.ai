@@ -7,16 +7,22 @@ import {
   academyExcelAlignBox,
   academyExcelColumnMinCh,
   academyExcelIsActiveColumn,
+  academyExcelIsDenseDumpTable,
   academyExcelIsHighlightCell,
   academyExcelIsSelectionOrigin,
   academyExcelMergedTopRange,
+  academyExcelOfficeAi2SeedTutarSum,
   academyExcelParseCell,
   academyExcelSelection,
   academyExcelSnapBoxToColumns,
   academyVisualCinematicFrameSrc,
   academyVisualCompareStage,
   academyVisualStageBackdropTheme,
+  ACADEMY_EXCEL_DENSE_DUMP_MIN_COLS,
+  ACADEMY_EXCEL_DENSE_DUMP_MIN_ROWS,
   ACADEMY_OFFICE_AI_01_FRAME_PUBLIC_PATH,
+  ACADEMY_OFFICE_AI_2_CLEAN_TABLE,
+  ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE,
 } from "@/lib/academy/excel-workspace";
 import { ACADEMY_GMAIL_GEMINI_PROMPT } from "@/lib/academy/gmail-workspace";
 
@@ -119,8 +125,12 @@ describe("Excel birleşik hücre seçimi — A1:F1", () => {
     expect(excel).toContain("academy-excel-grid-fit");
     expect(excel).toContain("fitExcelGridFont");
     expect(excel).toContain("const availH = wrap.clientHeight");
-    expect(excel).toContain("compact ? 1 : 6");
+    expect(excel).toContain("compact ? 1 : denseDump ? 1 : 6");
+    expect(excel).toContain("academyExcelIsDenseDumpTable");
+    expect(excel).toContain("academy-excel-desk--dense");
     expect(excel).toContain("academyExcelAlignBox");
+    expect(css).toContain(".academy-excel-desk--dense .academy-excel-grid-wrap");
+    expect(css).toMatch(/\.academy-excel-desk--dense \.academy-excel-grid-wrap\s*\{[^}]*overflow:\s*auto/s);
     expect(excel).toContain("getBoundingClientRect");
     expect(excel).toContain("data-academy-excel-col");
     expect(excel).toContain("left:");
@@ -143,6 +153,27 @@ describe("Excel birleşik hücre seçimi — A1:F1", () => {
     expect(mins[0]).toBeGreaterThanOrEqual(5);
     expect(mins[1]).toBeGreaterThan(40);
     expect(mins[5]).toBe(3);
+  });
+
+  it("01_office_ai-2 dense dump onlarca sütun/satır taşır; KPI çekirdek toplamı 54.650", () => {
+    expect(ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE.headers[0]).toBe("Tarih");
+    expect(ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE.headers.length).toBeGreaterThanOrEqual(
+      ACADEMY_EXCEL_DENSE_DUMP_MIN_COLS,
+    );
+    expect(ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE.rows.length).toBeGreaterThanOrEqual(
+      ACADEMY_EXCEL_DENSE_DUMP_MIN_ROWS,
+    );
+    expect(academyExcelIsDenseDumpTable(ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE)).toBe(true);
+    expect(academyExcelIsDenseDumpTable(ACADEMY_OFFICE_AI_2_CLEAN_TABLE)).toBe(false);
+    expect(academyExcelOfficeAi2SeedTutarSum()).toBe(54650);
+    expect(ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE.headers.slice(5, 11)).toEqual([
+      "Bölge",
+      "Ürün",
+      "Adet",
+      "Vade",
+      "Plasiyer",
+      "Kanal",
+    ]);
   });
 
   it("seçim kutusu wrap ölçeğini ayırır; A1 sola kilitlenir, sağa kaymaz", () => {

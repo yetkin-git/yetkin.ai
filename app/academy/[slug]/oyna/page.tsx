@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { RoomFrame } from "@/components/ui/page-header";
 import { CurriculumPlayer } from "@/components/academy/curriculum-player";
@@ -21,6 +22,12 @@ export function generateStaticParams() {
 
 /** Vitrinde olmayan slug yumuşak 200 değil, HTTP 404. */
 export const dynamicParams = false;
+
+// SEO Tedavi (P1) — duvar arkası oynatıcı indekslenmez.
+// `robots.ts` disallow (`/academy/*/oyna`) + oturum duvarı ile üç katmanlı kilit.
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 export default async function AcademyCurriculumPlayerPage({
   params,

@@ -5,6 +5,7 @@
 
 export const ACADEMY_ERROR_HUNT_WINDOW_TITLE = "Excel" as const;
 export const ACADEMY_ERROR_HUNT_FILE_NAME = "Tahsilat_Hata_Avi.xlsx" as const;
+export const ACADEMY_ERROR_HUNT_FILE_LABEL = "Tahsilat Hata Avı (Excel)" as const;
 export const ACADEMY_ERROR_HUNT_SHEET_NAME = "MartNisan" as const;
 
 /** Öğrencinin Prompt Terminaline yazacağı gerçek istem — harf harf. PEDAGOJI §E.7. */

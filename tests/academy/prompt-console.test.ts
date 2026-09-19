@@ -19,6 +19,7 @@ import {
   ACADEMY_PROMPT_CHARS_PER_SEC,
   academyCinemaCueId,
   academyCitizenDocxLabel,
+  academyCitizenOfficeFileLabel,
   academyOfficeChromeFromFileName,
   academyPromptCueStart,
   academyPromptTypedText,
@@ -66,6 +67,12 @@ describe("Nasıl Yapılır? — Prompt Terminali ve adım bandı", () => {
     expect(academyCitizenDocxLabel("Sozlesme_Kaya_Gida.docx")).toBe("Sözleşme Belgesi (Word)");
     expect(academyCitizenDocxLabel("Sozlesme_Kaya_Gida.docx")).not.toMatch(/\.docx/iu);
     expect(academyCitizenDocxLabel("Tahsilat_Mart_2026.xlsx")).toBeNull();
+    expect(academyCitizenOfficeFileLabel("Tahsilat_Mart_2026.xlsx")).toBe("Tahsilat Mart 2026 (Excel)");
+    expect(academyCitizenOfficeFileLabel("Kitap1.xlsx")).toBe("Kitap1 (Excel)");
+    expect(academyCitizenOfficeFileLabel("Yonetim_Sunumu.pptx")).toBe("Yönetim Sunumu (PowerPoint)");
+    expect(academyCitizenOfficeFileLabel("Sozlesme_Kaya_Gida.docx")).toBe("Sözleşme Belgesi (Word)");
+    expect(academyCitizenOfficeFileLabel("Tahsilat_Mart_2026.xlsx")).not.toMatch(/\.xlsx/iu);
+    expect(academyCitizenOfficeFileLabel("Yonetim_Sunumu.pptx")).not.toMatch(/\.pptx/iu);
   });
 
   it("Outlook 1-2-3 bandı seç → önceliklendir → taslak yanıt üretir", () => {
