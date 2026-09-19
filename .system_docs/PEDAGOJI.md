@@ -23,7 +23,8 @@ Sıfır jargon, insani, sıcak, arkadaşça, yapmacıksız ve çözüme giden bi
 
 * **Öğretmen SEN, Belge SIZ:** Eğitmen anlatırken öğrenciye doğrudan ve sıcak bir dille «sen» diye hitap eder. Ancak dilekçe, resmi yazı veya sözleşme çıktısı üretilirken belgenin kendi dili «siz» ve resmi formatta kalır.
 * Cümle TTS ritmine uyar: kısa, konuşulabilir, günlük.
-* Jargon kaçınılmazsa önce günlük vatandaş karşılığı, sonra terim gelir. **18 Eylül 2026 — Ders 4 ve genel müfredattaki ham dosya uzantıları (pptx, docx, xlsx) Vatandaş Lisanı ilkelerine uygun olarak Türkçe açıklamalara dönüştürüldü.** **19 Eylül 2026 — Ders 8 (01_office_ai-w1) açılış köprüsü 'Word belgesini doğrudan Gemini sohbetine yüklersin' şeklinde jilet gibi Vatandaş Lisanı ile kilitlendi.**
+* Jargon kaçınılmazsa önce günlük vatandaş karşılığı, sonra terim gelir. **18 Eylül 2026 — Ders 4 ve genel müfredattaki ham dosya uzantıları (pptx, docx, xlsx) Vatandaş Lisanı ilkelerine uygun olarak Türkçe açıklamalara dönüştürüldü.** **19 Eylül 2026 — Ders 8 (01_office_ai-w1) açılış köprüsü 'Word belgesini doğrudan Gemini sohbetine yüklersin' şeklinde jilet gibi Vatandaş Lisanı ile kilitlendi.** **19 Eylül 2026 — Ders 8 ve tüm görsel stage yüzeylerinde ham `.docx` uzantısı kaldırıldı; ataş / titlebar / punchcard etiketi `Sözleşme Belgesi (Word)` olarak kilitlendi.**
+* **Aforizma / Ajans Sloganı Yasağı:** Eğitim dili aforizma, ajans sloganı veya tekerleme olamaz. «Karar notu insanındır», «Sunum fabrikası» gibi edebi laflar yasaktır. Dil; bir öğretmenin öğrencisine doğrudan, sade ve eylem odaklı anlattığı duru Türkçe olmak zorundadır. **19 Eylül 2026 — Ders 8 ve tüm müfredatta aforizma, ajans sloganı ve tekerleme dili söküldü; punchcard / rozet işin net tanımına çevrildi.** **19 Eylül 2026 — Ders 8 (01_office_ai-w1) senaryosu tekerleme ve slogan jargonundan tamamen arındırılarak duru insan dili ve öğretmen anlatımı ile %100 baştan yazılıp kilitlendi.**
 
 ### 3. Bilişsel Yük Yönetimi & "Quiet Luxury" UX Standartları
 
@@ -31,7 +32,7 @@ Sıfır jargon, insani, sıcak, arkadaşça, yapmacıksız ve çözüme giden bi
 
 * **Altyazı Titreme Yasağı (0 Layout Shift):** Karaoke altyazısında aktif kelime kalınlaşırken cümle sağa sola titremez. Koyuluk hissi yerleşimi itmeyen bir vurgu ile sağlanır; piksel ve CSS SOP bake el kitabı / oynatıcı kodundadır.
 * **Descender Harf Koruması:** `g, y, ş, p` gibi alt uzantılı harfler altyazı şeridinde kesilmez.
-* **16:9 Tuval ve Contain Sözleşmesi:** Slayt tuvalleri ve uygulama pencereleri (`PowerPoint`, `Outlook`, `Excel`, `Word`, `Gmail`) dikeyde basılamaz/ezilemez; tuval oranı korunur. **18 Eylül 2026 — Ders 4 (Sunum Fabrikası) 16:9 contain kamera, Copilot dock çapa ve zoom clamp düzeltmesi kilitlendi.**
+* **16:9 Tuval ve Contain Sözleşmesi:** Slayt tuvalleri ve uygulama pencereleri (`PowerPoint`, `Outlook`, `Excel`, `Word`, `Gmail`) dikeyde basılamaz/ezilemez; tuval oranı korunur. **18 Eylül 2026 — Ders 3 (Metinden Slayta) 16:9 contain kamera, Copilot dock çapa ve zoom clamp düzeltmesi kilitlendi.**
 * **Dikey Nefes ve Kabuk Dengesi:** Oynatıcı sahnesi tavan çizgisine yapışmaz. Sağ oynatma listesi çekirdek derslerin tamamını kaydırma çubuğu olmadan tek bakışta sığdıracak esnekliktedir.
 
 **Kapsam:** Paragraf yasağı overlay ve punchcard sahnesinedir. Çalışma sekmesindeki **Compact Makale** (Tam Ders Metni) paragraf taşır; Anayasa B4 (konunun hakkı) bunu ister. Compact makale A.3 ihlali değildir. Nasıl-yapılır adım bandı (§E.7) da A.3’ün dışında durur: bant «Adım 1 / Adım 2 / Adım 3» taşır, overlay paragrafı değildir.
@@ -101,13 +102,13 @@ Yapay zekâya veri verme adımı seste ve ekranda **Üç Kapı Hiyerarşisi** il
 
 Vitrin otoritesini ve güvenini korumak için platformda 5'li Vitrin Karması listelenir:
 
-1. `01_office_ai` (İş Hayatında ve Ofiste Yapay Zekâ) → **YAYINDA / AMİRAL LOKOMOTİF**
-2. `05_prompt_practice` (Pratik Prompt Mühendisliği) → **ÇOK YAKINDA / KAPI ÜRÜNÜ**
-3. `04_chatbot_nocode` (Kodsuz WhatsApp & Chatbot) → **ÇOK YAKINDA / PRESTİJ**
-4. `02_ecommerce_ai` (E-Ticaret ve Pazaryeri AI) → **ÇOK YAKINDA / SEPET DOLDURUCU**
-5. `03_social_media_ai` (Sosyal Medya Video Fabrikası) → **ÇOK YAKINDA / GÖRSEL MAGNET**
+1. `01_office_ai` / OFF-101 (İş Hayatında ve Ofiste Yapay Zekâ) → **YAYINDA / AMİRAL LOKOMOTİF**
+2. `02_ecommerce_ai` / EC-102 (E-Ticaret Yapay Zekâ Asistanlığı) → **ÇOK YAKINDA**
+3. `03_social_media_ai` / SM-103 (Yapay Zekâ ile Sosyal Medya İçerik Üretimi) → **ÇOK YAKINDA**
+4. `04_chatbot_nocode` / BOT-104 (Müşteri Hizmetleri ve Satış İçin Kodsuz Chatbot) → **ÇOK YAKINDA**
+5. `05_prompt_practice` / PR-105 (Pratik Prompt Mühendisliği ve Günlük Üretkenlik Rehberi) → **ÇOK YAKINDA**
 
-**19 Eylül 2026 — Vitrin karması sıralaması ile ürün SKU kodları (OFF-101, PR-102, BOT-103, EC-104, SM-105) tam mantıksal uyumla kilitlendi.**
+**19 Eylül 2026 — Vitrin karması, teknik slug ve ürün SKU kodları birebir sayısal sıraya kilitlendi (OFF-101, EC-102, SM-103, BOT-104, PR-105).**
 
 **Dürüst Yüzey (Anayasa A5):** `01_office_ai` dışındaki 4 ürünün üzerinde "Çok Yakında / Hazırlanıyor" rozeti durur. Tıklandığında ön sipariş/bilgilendirme gösterilir. Bağlı olmayan medya, eksik bake veya mühürsüz ders için hayali oynatıcı basılmaz; vatandaşa dürüstçe henüz hazır olmadığı söylenir.
 
@@ -129,13 +130,14 @@ Amiral SKU `01_office_ai` yayın makalesi + mühürlü karaoke taşır. **Ders a
 Vatandaş özeti §D’dedir. Yapay zekâya veri verme adımı seste ve ekranda **Üç Kapı** ile öğretilir (§E.10). Sıra sabittir; öğrenci önce 1. kapıyı dener. **Üç Kapı yalnız aktarım yöntemidir.** Kişisel veri / şirket sırrı / kamu cümlesi güvenlik sınıfıdır; kapı adı değildir.
 
 1. **Yerleşik araçlar** — 1. Kapı: Yerleşik Panel (Copilot / Gemini Şeridi). Gmail Gemini, Excel / Word / Outlook Copilot (lisans varsa).
-2. **Ataş / dosya yükleme** — 2. Kapı: `docx`, `xlsx`, `pptx` (seste noktasız; ekranda uzantı görülebilir).
+2. **Ataş / dosya yükleme** — 2. Kapı: `docx`, `xlsx`, `pptx` (seste noktasız; **görsel stage / punchcard / rozet yüzeyinde ham uzantı basılmaz** — Vatandaş Lisanı: «Word belgesi», «Excel tablosu», «PowerPoint sunusu»).
 3. **Son çare:** 3. Kapı: Maskeli Kısa Özet (Sohbet / Tüketici Modeli). KVKK’ya uygun, maskelenmiş kısa kopyala-yapıştır. Bütün gelen kutusunu veya ham tabloyu ekran görüntüsüyle dış sohbete taşımak öğretilen varsayılan yol değildir.
 
 * **Yerleşik araç eşleşmesi (SSOT):** Outlook → Copilot, Gmail → Gemini, Word/Excel → Doğrudan Dosya Yükleme, PowerPoint → Copilot. Kilit: `lib/academy/ai-desk.ts` → `ACADEMY_INFRA_TOOL_MATCH`.
 * **Araç dayatması yok.** Pedagoji VBA, Gamma veya Marp zorunlu kılmaz. Sheets/Docs yasak değil, bu SKU’da yol Excel/Word’dür; Sheets köprüsü ayrı derste. Fırın script’indeki checkbox doktrin değildir. 1. Kapı yerleşik Copilot; yoksa ataş.
 * **Nereye Yazılacak:** Soyut «AI Masası» paneli **KESİNLİKLE YASAKTIR**. Öğrenci gerçek kapıyı görür: Gmail Gemini paneli, Copilot şeridi veya ataş. Rehber ok: «Nereye Yükleyeceksin?» / «Gemini veya ataş». Masaüstü Outlook’ta Copilot yoksa 2. veya 3. kapı dürüstçe gösterilir; «senin aracın yasak» denmez.
 * **Çoklu AI ekosistemi:** Yalnız Copilot değil; ChatGPT, Claude, Gemini ve özel API farkı sade dille işlenir.
+* **Aforizma / Ajans Sloganı Yasağı:** Eğitim dili aforizma, ajans sloganı veya tekerleme olamaz. «Karar notu insanındır», «Sunum fabrikası» gibi edebi laflar yasaktır. Dil; bir öğretmenin öğrencisine doğrudan, sade ve eylem odaklı anlattığı duru Türkçe olmak zorundadır. Görsel stage rozeti işin net tanımını taşır («Tek Tek Kopyalama», «Tek Dosyayla Analiz»); «ZAHMETLİ YOL», «YERİNDE ANALİZ» gibi jenerik laflar basılmaz. **19 Eylül 2026 — Ders 8 (01_office_ai-w1) senaryosu tekerleme ve slogan jargonundan tamamen arındırılarak duru insan dili ve öğretmen anlatımı ile %100 baştan yazılıp kilitlendi.**
 
 ### E.3 İşitsel reji (ilke)
 

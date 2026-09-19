@@ -56,3 +56,19 @@ export function academyPromptTypedText(input: {
 export function academyOfficeChromeFromFileName(fileName: string | undefined): "excel" | "word" {
   return /\.docx?$/iu.test(fileName ?? "") ? "word" : "excel";
 }
+
+/** Vatandaş Lisanı — ham `.docx` uzantısı görsel stage’e basılmaz (PEDAGOJI §E.2). */
+const ACADEMY_CITIZEN_DOCX_LABELS: Readonly<Record<string, string>> = {
+  "Sozlesme_Kaya_Gida.docx": "Sözleşme Belgesi (Word)",
+  "Yonetici_Ozeti.docx": "Yönetici Özeti (Word)",
+  "Belge1.docx": "Word Dosyası",
+  "Mart_2026_tahsilat_notlari.docx": "Tahsilat Notları (Word)",
+  "Yönetici raporu.docx": "Yönetici Raporu (Word)",
+};
+
+export function academyCitizenDocxLabel(fileName: string | undefined): string | null {
+  if (!fileName || !/\.docx?\b/iu.test(fileName)) {
+    return null;
+  }
+  return ACADEMY_CITIZEN_DOCX_LABELS[fileName] ?? "Word Dosyası";
+}

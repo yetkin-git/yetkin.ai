@@ -52,11 +52,9 @@ export const ACADEMY_OFFICE_AI_G1_COMPARE_BEFORE_LABEL =
 export const ACADEMY_OFFICE_AI_G1_COMPARE_AFTER_LABEL =
   "GELEN KUTUSU İÇİ / YERLEŞİK GEMİNİ ENTEGRASYONU" as const;
 
-/** 01_office_ai-w1 Beat 3 — parça parça kopyalama vs doğrudan dosya yükleme. */
-export const ACADEMY_OFFICE_AI_W1_COMPARE_BEFORE_LABEL =
-  "ZAHMETLİ YOL / PARÇA PARÇA METİN KOPYALAMA" as const;
-export const ACADEMY_OFFICE_AI_W1_COMPARE_AFTER_LABEL =
-  "DOĞRUDAN DOSYA YÜKLEME / YERİNDE DOKÜMAN ANALİZİ" as const;
+/** 01_office_ai-w1 Beat 3 — tek tek kopyalama vs tek dosyayla analiz. */
+export const ACADEMY_OFFICE_AI_W1_COMPARE_BEFORE_LABEL = "TEK TEK KOPYALAMA" as const;
+export const ACADEMY_OFFICE_AI_W1_COMPARE_AFTER_LABEL = "TEK DOSYAYLA ANALİZ" as const;
 
 /** 01_office_ai-k1 Beat 3 — ham yapıştırma vs maskeli kısa özet. */
 export const ACADEMY_OFFICE_AI_K1_COMPARE_BEFORE_LABEL = "HAM YAPIŞTIRMA (AÇIK KİMLİK)" as const;
@@ -248,7 +246,7 @@ const HOWTO_ACTIVE_BY_LESSON: Readonly<Record<string, Readonly<Record<string, 0 
     "HOŞ GELDİN": 0,
     "PARÇA PARÇA": 0,
     "ATAŞ YÜKLE": 1,
-    "YERİNDE ANALİZ": 2,
+    "TEK DOSYAYLA ANALİZ": 2,
     "FARK ORTADA": 2,
     "SIRA SENDE": 2,
   },

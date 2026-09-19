@@ -18,6 +18,7 @@ import {
 import {
   ACADEMY_PROMPT_CHARS_PER_SEC,
   academyCinemaCueId,
+  academyCitizenDocxLabel,
   academyOfficeChromeFromFileName,
   academyPromptCueStart,
   academyPromptTypedText,
@@ -61,6 +62,10 @@ describe("Nasıl Yapılır? — Prompt Terminali ve adım bandı", () => {
     expect(full.done).toBe(true);
     expect(academyOfficeChromeFromFileName("Yonetici_Ozeti.docx")).toBe("word");
     expect(academyOfficeChromeFromFileName("Tahsilat_Mart_2026.xlsx")).toBe("excel");
+    expect(academyCitizenDocxLabel("Yonetici_Ozeti.docx")).toBe("Yönetici Özeti (Word)");
+    expect(academyCitizenDocxLabel("Sozlesme_Kaya_Gida.docx")).toBe("Sözleşme Belgesi (Word)");
+    expect(academyCitizenDocxLabel("Sozlesme_Kaya_Gida.docx")).not.toMatch(/\.docx/iu);
+    expect(academyCitizenDocxLabel("Tahsilat_Mart_2026.xlsx")).toBeNull();
   });
 
   it("Outlook 1-2-3 bandı seç → önceliklendir → taslak yanıt üretir", () => {
@@ -152,7 +157,7 @@ describe("Nasıl Yapılır? — Prompt Terminali ve adım bandı", () => {
     expect(academyHowtoSteps("01_office_ai-w1")).toEqual([...ACADEMY_OFFICE_AI_W1_HOWTO_STEPS]);
     expect(academyHowtoActiveIndex("01_office_ai-w1", "PARÇA PARÇA")).toBe(0);
     expect(academyHowtoActiveIndex("01_office_ai-w1", "ATAŞ YÜKLE")).toBe(1);
-    expect(academyHowtoActiveIndex("01_office_ai-w1", "YERİNDE ANALİZ")).toBe(2);
+    expect(academyHowtoActiveIndex("01_office_ai-w1", "TEK DOSYAYLA ANALİZ")).toBe(2);
   });
 
   it("Excel Word PowerPoint Outlook yüzeyleri Prompt Terminali ve adım bandını taşır", () => {

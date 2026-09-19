@@ -10,7 +10,12 @@ import {
   ACADEMY_PPTX_KPI_CARDS,
   ACADEMY_PPTX_SLIDE_TITLE,
 } from "@/lib/academy/pptx-workspace";
-import { academyWordStageKind } from "@/lib/academy/word-workspace";
+import {
+  ACADEMY_OFFICE_AI_W1_COMPARE_AFTER_LABEL,
+  ACADEMY_OFFICE_AI_W1_COMPARE_BEFORE_LABEL,
+} from "@/lib/academy/lesson-beat-visual";
+import { academyCitizenDocxLabel } from "@/lib/academy/prompt-console";
+import { ACADEMY_WORD_FILE_LABEL, academyWordStageKind } from "@/lib/academy/word-workspace";
 
 const THEMES: Record<
   AcademyCinemaThemeId,
@@ -300,15 +305,16 @@ function mockWord(slide: AcademyCinemaCueSlide): string {
     section: slide.section,
     hideReply: slide.copilot?.hideReply,
   });
-  const fileName = slide.fileName ?? "Yönetici raporu.docx";
+  const fileLabel =
+    academyCitizenDocxLabel(slide.fileName) ?? slide.fileName ?? ACADEMY_WORD_FILE_LABEL;
   const copy = stage === "copy";
   const analysis = stage === "analysis";
   const title = copy ? "ChatGPT" : "Word";
-  const sub = copy ? "Parça parça yapıştırma" : fileName;
+  const sub = copy ? "Parça parça yapıştırma" : fileLabel;
   const badge = analysis
-    ? "DOĞRUDAN DOSYA YÜKLEME / YERİNDE DOKÜMAN ANALİZİ"
+    ? ACADEMY_OFFICE_AI_W1_COMPARE_AFTER_LABEL
     : copy
-      ? "ZAHMETLİ YOL / PARÇA PARÇA METİN KOPYALAMA"
+      ? ACADEMY_OFFICE_AI_W1_COMPARE_BEFORE_LABEL
       : "Ataş · madde listesi kapalı";
   const rows = slide.table?.rows ?? [];
   const body =
@@ -325,7 +331,7 @@ function mockWord(slide: AcademyCinemaCueSlide): string {
   return `<div class="app word${analysis ? " word-upload" : copy ? " word-copy" : " word-attach"}">
     <div class="app-bar"><span class="dots"></span><b>${esc(title)}</b><span>${esc(sub)}</span></div>
     ${badge ? `<p class="gmail-badge">${esc(badge)}</p>` : ""}
-    ${copy ? "" : `<p class="word-attach">Ataş · ${esc(fileName)}</p>`}
+    ${copy ? "" : `<p class="word-attach">Ataş · ${esc(fileLabel)}</p>`}
     <h3>${esc(slide.headline)}</h3>
     ${body}
   </div>`;

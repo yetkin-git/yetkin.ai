@@ -5,7 +5,10 @@
  */
 
 export const ACADEMY_WORD_WINDOW_TITLE = "Word" as const;
+/** Teknik sonek — chrome / data-attr; vatandaş yüzüne basılmaz (PEDAGOJI §E.2). */
 export const ACADEMY_WORD_FILE_NAME = "Sozlesme_Kaya_Gida.docx" as const;
+/** Vatandaş Lisanı etiket — titlebar, ataş rozeti, punchcard. */
+export const ACADEMY_WORD_FILE_LABEL = "Sözleşme Belgesi (Word)" as const;
 export const ACADEMY_WORD_NATIVE_TOOL = "Doğrudan Dosya Yükleme" as const;
 
 /** Öğrencinin ataşladığı Word belgesi için gerçek istem — Prompt Terminali SSOT. */
@@ -71,7 +74,7 @@ export const ACADEMY_WORD_CLAUSE_CARDS = [
     mark: "🟡",
     label: "DİLEKÇE HİTAP",
     title: "Kaymakamlık süre uzatımı",
-    detail: "Tarih, sayı, unvan, imza insanda",
+    detail: "Tarih, sayı, unvan ve imzayı sen yazarsın",
   },
   {
     id: "frag-gizlilik",

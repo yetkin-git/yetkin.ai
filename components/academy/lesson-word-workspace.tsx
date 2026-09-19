@@ -14,10 +14,12 @@ import { applyAcademyOfficeWinFit } from "@/lib/academy/office-win-fit";
 import {
   ACADEMY_WORD_CLAUSE_CARDS,
   ACADEMY_WORD_COPY_FRAGMENTS,
+  ACADEMY_WORD_FILE_LABEL,
   ACADEMY_WORD_FILE_NAME,
   ACADEMY_WORD_WINDOW_TITLE,
   academyWordStageKind,
 } from "@/lib/academy/word-workspace";
+import { academyCitizenDocxLabel } from "@/lib/academy/prompt-console";
 import { LessonAiDesk, LessonOfficeCopilotRibbon, useAcademyAiDeskTab } from "@/components/academy/lesson-ai-desk";
 
 /** Kart yığını sahnenin ortasında kalsın; sağa kayan origin sol kenarı keser. */
@@ -78,6 +80,8 @@ export function LessonWordWorkspace({
   const copyMode = stage === "copy";
   const uploadMode = stage === "attach" || stage === "analysis";
   const analysisMode = stage === "analysis";
+  const fileLabel =
+    academyCitizenDocxLabel(slide.fileName) ?? ACADEMY_WORD_FILE_LABEL;
   const originKey = `${highlight}:${slide.section}:${pane}`;
 
   useLayoutEffect(() => {
@@ -163,7 +167,7 @@ export function LessonWordWorkspace({
           <i aria-hidden />
           <b>{copyMode ? "ChatGPT" : ACADEMY_WORD_WINDOW_TITLE}</b>
           <span>
-            {copyMode ? "Parça parça yapıştırma" : (slide.fileName ?? ACADEMY_WORD_FILE_NAME)}
+            {copyMode ? "Parça parça yapıştırma" : fileLabel}
           </span>
         </div>
         {compact ? null : (
@@ -186,7 +190,7 @@ export function LessonWordWorkspace({
             >
               {copyMode ? (
                 <div className="academy-word-copy" data-academy-word-copy-panel="">
-                  <p className="academy-gmail-carry-badge">ZAHMETLİ YOL</p>
+                  <p className="academy-gmail-carry-badge">Tek Tek Kopyalama</p>
                   <div className="academy-outlook-list">
                     {ACADEMY_WORD_COPY_FRAGMENTS.map((frag) => {
                       const isOrigin = frag.cell === highlight;
@@ -209,8 +213,13 @@ export function LessonWordWorkspace({
                 </div>
               ) : (
                 <div className="academy-outlook-reset academy-word-clause-stack" data-academy-word-upload="">
-                  <p className="academy-word-attach-chip" data-academy-attach="" data-academy-word-origin="">
-                    Ataş · {slide.fileName ?? ACADEMY_WORD_FILE_NAME}
+                  <p
+                    className="academy-word-attach-chip"
+                    data-academy-attach=""
+                    data-academy-word-origin=""
+                    data-academy-word-file={slide.fileName ?? ACADEMY_WORD_FILE_NAME}
+                  >
+                    Ataş · {fileLabel}
                   </p>
                   {analysisMode ? (
                     ACADEMY_WORD_CLAUSE_CARDS.map((card) => {

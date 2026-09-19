@@ -12,8 +12,8 @@
  * sağ CUMA OTUZ (SİSTEMLİ RUTİN). Sistemli Cuma tablosu Beat 3’e kadar kapalı.
  * 01_office_ai-g1: %80 canlı Gmail. Beat 3 sol GELEN KUTUSUNDAN KOPUK / TAŞIMA SU,
  * sağ GELEN KUTUSU İÇİ / YERLEŞİK GEMİNİ. Command boyunca yerleşik özet kapalı (Spoiler Yasağı).
- * 01_office_ai-w1: %80 canlı Word. Beat 3 sol ZAHMETLİ YOL / PARÇA PARÇA METİN KOPYALAMA,
- * sağ DOĞRUDAN DOSYA YÜKLEME / YERİNDE DOKÜMAN ANALİZİ. Tam madde listesi Beat 3’e kadar kapalı.
+ * 01_office_ai-w1: %80 canlı Word. Beat 3 sol TEK TEK KOPYALAMA,
+ * sağ TEK DOSYAYLA ANALİZ. Tam madde listesi Beat 3’e kadar kapalı.
  * Command boyunca biten sunum / sıfır kutu / doğrulanmış tablo kapalı (Spoiler Yasağı).
  * Pekiştirme: cue-01 GİRİŞ KÖPRÜSÜ, cue-07 CEBİNE KOY.
  */
@@ -60,6 +60,10 @@ import {
   ACADEMY_WEEKLY_ROUTINE_SYSTEM_TABLE,
 } from "@/lib/academy/weekly-routine-workspace";
 import {
+  ACADEMY_OFFICE_AI_2_CLEAN_TABLE,
+  ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE,
+} from "@/lib/academy/office-ai-2-workspace";
+import {
   ACADEMY_KVKK_COPILOT_PROMPT,
   ACADEMY_KVKK_FILE_NAME,
   ACADEMY_KVKK_FLAG_CELLS,
@@ -68,7 +72,7 @@ import {
   ACADEMY_KVKK_SHEET_NAME,
 } from "@/lib/academy/kvkk-workspace";
 import { ACADEMY_OUTLOOK_COPILOT_PROMPT } from "@/lib/academy/outlook-workspace";
-import { ACADEMY_WORD_UPLOAD_PROMPT } from "@/lib/academy/word-workspace";
+import { ACADEMY_WORD_FILE_LABEL, ACADEMY_WORD_FILE_NAME, ACADEMY_WORD_UPLOAD_PROMPT } from "@/lib/academy/word-workspace";
 
 export const ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS = [
   "01_office_ai-1",
@@ -565,23 +569,14 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         section: "GİRİŞ KÖPRÜSÜ",
         headline: "GİRİŞ KÖPRÜSÜ",
         subhead: "A1 ve temiz tablo refleksi cebinde. Toplantı öncesi özet stresi başlıyor.",
-        bullets: ["A1 sütun adı", "Temiz tablo", "Toplantı stresi"],
+        bullets: ["A1 sütun adı", "Kalabalık döküm", "Toplantı stresi"],
         tools: ["Excel", "A1"],
         layout: "excel",
         highlightCell: "A1",
         fileName: "Tahsilat_Mart_2026.xlsx",
-        sheetName: "Temiz",
+        sheetName: "Döküm",
         formulaBar: "Tarih",
-        table: {
-          headers: ["Tarih", "Cari", "Fatura", "Tutar", "Durum"],
-          rows: [
-            ["12.03.2026", "Kaya Gıda A.Ş.", "FT-1042", "12.450,00", "Ödendi"],
-            ["13.03.2026", "Demir Lojistik", "FT-1043", "8.200,00", "Bekler"],
-            ["13.03.2026", "Pınar Market", "FT-1044", "3.400,00", "Ödendi"],
-            ["14.03.2026", "Yıldız Tekstil", "FT-1045", "9.100,00", "Açık"],
-            ["14.03.2026", "Kaya Gıda A.Ş.", "FT-1047", "21.500,00", "Ödendi"],
-          ],
-        },
+        table: ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE,
       },
       {
         cueIndex: 2,
@@ -589,24 +584,15 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         visualMode: "live",
         section: "HOŞ GELDİN",
         headline: "HOŞ GELDİN",
-        subhead: "Gözde masada. Temiz tablo açık; bugün yönetim özeti ve karar notu.",
-        bullets: ["Selamlar, ben Gözde", "Tablo hazır", "Rapor otomasyonu"],
+        subhead: "Gözde masada. Onlarca sütun/satır açık; bugün yönetim özeti ve karar notu.",
+        bullets: ["Selamlar, ben Gözde", "Kalabalık ızgara", "Rapor otomasyonu"],
         tools: ["Excel", "Word"],
         layout: "excel",
         highlightCell: "A1",
         fileName: "Tahsilat_Mart_2026.xlsx",
-        sheetName: "Temiz",
+        sheetName: "Döküm",
         formulaBar: "Tarih",
-        table: {
-          headers: ["Tarih", "Cari", "Fatura", "Tutar", "Durum"],
-          rows: [
-            ["12.03.2026", "Kaya Gıda A.Ş.", "FT-1042", "12.450,00", "Ödendi"],
-            ["13.03.2026", "Demir Lojistik", "FT-1043", "8.200,00", "Bekler"],
-            ["13.03.2026", "Pınar Market", "FT-1044", "3.400,00", "Ödendi"],
-            ["14.03.2026", "Yıldız Tekstil", "FT-1045", "9.100,00", "Açık"],
-            ["14.03.2026", "Kaya Gıda A.Ş.", "FT-1047", "21.500,00", "Ödendi"],
-          ],
-        },
+        table: ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE,
       },
       {
         cueIndex: 3,
@@ -614,25 +600,15 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         visualMode: "live",
         section: "UZUN RAPOR",
         headline: "UZUN RAPOR",
-        subhead: "Yönetim toplantısı beş dakika sonra. On sayfalık döküm kimseyi ikna etmez.",
-        bullets: ["On sayfa döküm", "Karar yok", "Toplantı stresi"],
-        tools: ["Word", "Excel"],
+        subhead: "Yönetim toplantısı beş dakika sonra. Kaydırdıkça bitmeyen döküm kimseyi ikna etmez.",
+        bullets: ["Onlarca sütun", "Kaydırılan satır", "Toplantı stresi"],
+        tools: ["Excel", "Word"],
         layout: "excel",
         highlightCell: "A1",
-        fileName: "Haftalik_Durum_Raporu.docx",
+        fileName: "Tahsilat_Mart_2026.xlsx",
         sheetName: "Döküm",
-        formulaBar: "Sayfa",
-        table: {
-          headers: ["Sayfa", "Döküm"],
-          rows: [
-            ["1", "Giriş ve yöntem notları uzar, karar cümlesi yoktur..."],
-            ["2", "Kaya Gıda faturalarının tek tek anlatısı sürer..."],
-            ["3", "Demir Lojistik bekleyen bakiye dipnotlarla şişer..."],
-            ["4–7", "Pınar, Yıldız ve yan cariler paragraf paragraf..."],
-            ["8–10", "Sonuç yok; yönetici on sayfada kaybolur."],
-          ],
-          note: "On sayfalık döküm. Karar cümlesi yok.",
-        },
+        formulaBar: "Tarih",
+        table: ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE,
       },
       {
         cueIndex: 4,
@@ -653,17 +629,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
           prompt: ACADEMY_OFFICE_AI_2_COPILOT_PROMPT,
           replyLines: [],
         },
-        table: {
-          headers: ["Tarih", "Cari", "Fatura", "Tutar", "Durum"],
-          rows: [
-            ["12.03.2026", "Kaya Gıda A.Ş.", "FT-1042", "12.450,00", "Ödendi"],
-            ["13.03.2026", "Demir Lojistik", "FT-1043", "8.200,00", "Bekler"],
-            ["13.03.2026", "Pınar Market", "FT-1044", "3.400,00", "Ödendi"],
-            ["14.03.2026", "Yıldız Tekstil", "FT-1045", "9.100,00", "Açık"],
-            ["14.03.2026", "Kaya Gıda A.Ş.", "FT-1047", "21.500,00", "Ödendi"],
-          ],
-          note: "Üç madde iste. Sayıları hücreden al. Uydurma yüzde yok.",
-        },
+        table: ACADEMY_OFFICE_AI_2_CLEAN_TABLE,
       },
       {
         cueIndex: 5,
@@ -772,14 +738,14 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
             ["Açık", "9.100", "Yıldız Tekstil vade"],
             ["Karar", "—", "Bugün Demir'i ara"],
           ],
-          note: "Saha görevi: kendi tablon, kendi özetin. Sonraki ders: Sunum Fabrikası.",
+          note: "Saha görevi: kendi tablon, kendi özetin. Sonraki ders: Metinden Slayta.",
         },
       },
     ],
   },
   "01_office_ai-3": {
     ...OFFICE,
-    title: "Sunum Fabrikası: Metinden Slayta",
+    title: "Metinden Slayta: Sunum Hazırlama",
     cues: [
       {
         cueIndex: 1,
@@ -1125,7 +1091,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         visualMode: "veo",
         section: "GİRİŞ KÖPRÜSÜ",
         headline: "GİRİŞ KÖPRÜSÜ",
-        subhead: "Sunum Fabrikası cebinde. Şimdi rapordaki halüsinasyon stresi başlıyor.",
+        subhead: "Slayt başına tek fikir cebinde. Şimdi rapordaki uydurma rakamı yakalayacağız.",
         bullets: ["Slayt hiyerarşisi", "Aşırı güven", "Hata gömülü"],
         tools: ["Excel", "Copilot"],
         layout: "excel",
@@ -1620,12 +1586,12 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         visualMode: "veo",
         section: "GİRİŞ KÖPRÜSÜ",
         headline: "GİRİŞ KÖPRÜSÜ",
-        subhead: "Sözleşmeyi parça parça kopyalamak zahmetli yoldur. Asıl kapı ataş.",
-        bullets: ["Ataş kapısı", "Spesifik paragraf", "Yerinde analiz"],
+        subhead: "Sözleşmeyi parça parça kopyalamak tek tek kopyalamadır. Asıl kapı ataş.",
+        bullets: ["Ataş kapısı", "Spesifik paragraf", "Tek dosyayla analiz"],
         tools: ["Word", "Gemini"],
         layout: "word",
         highlightCell: "A1",
-        fileName: "Sozlesme_Kaya_Gida.docx",
+        fileName: ACADEMY_WORD_FILE_NAME,
         sheetName: "Sözleşme",
         nodes: [
           { title: "Sözleşme", sub: "Word belgesi kapalı" },
@@ -1645,7 +1611,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         tools: ["Word", "Gemini"],
         layout: "word",
         highlightCell: "A1",
-        fileName: "Sozlesme_Kaya_Gida.docx",
+        fileName: ACADEMY_WORD_FILE_NAME,
         sheetName: "Sözleşme",
         nodes: [
           { title: "Sözleşme", sub: "Word belgesi bekler" },
@@ -1661,14 +1627,14 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         section: "PARÇA PARÇA",
         headline: "PARÇA PARÇA",
         subhead: "Sayfa 4, 11, 18’den kopuk cümleler. Bağlam kaybolur. Tüm dosyayı böyle taşıma.",
-        bullets: ["Sayfa kopuk", "Kopuk bağlam", "Zahmetli yol"],
+        bullets: ["Sayfa kopuk", "Kopuk bağlam", "Tek tek kopyalama"],
         tools: ["Word", "Gemini"],
         layout: "word",
         highlightCell: "A1",
-        fileName: "Sozlesme_Kaya_Gida.docx",
+        fileName: ACADEMY_WORD_FILE_NAME,
         sheetName: "Sözleşme",
         nodes: [
-          { title: "Zahmetli yol", sub: "Parça parça" },
+          { title: "Tek tek kopyalama", sub: "Parça parça" },
           { title: "Sözleşme", sub: "Kopuk" },
         ],
         table: OFFICE_AI_W1_COPY_TABLE,
@@ -1684,7 +1650,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         tools: ["Word", "Gemini"],
         layout: "word",
         highlightCell: "A1",
-        fileName: "Sozlesme_Kaya_Gida.docx",
+        fileName: ACADEMY_WORD_FILE_NAME,
         sheetName: "Sözleşme",
         copilot: {
           hideReply: true,
@@ -1692,7 +1658,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
           replyLines: [],
         },
         nodes: [
-          { title: "Ataş", sub: "Sozlesme_Kaya_Gida.docx" },
+          { title: "Ataş", sub: ACADEMY_WORD_FILE_LABEL },
           { title: "Maddeler", sub: "Spoiler yok" },
         ],
         table: OFFICE_AI_W1_COPY_TABLE,
@@ -1706,14 +1672,14 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
           beforeLabel: ACADEMY_OFFICE_AI_W1_COMPARE_BEFORE_LABEL,
           afterLabel: ACADEMY_OFFICE_AI_W1_COMPARE_AFTER_LABEL,
         },
-        section: "YERİNDE ANALİZ",
-        headline: "YERİNDE ANALİZ",
+        section: "TEK DOSYAYLA ANALİZ",
+        headline: "TEK DOSYAYLA ANALİZ",
         subhead: "Beat 3 açılır: sol parça parça kopya, sağ doğrudan dosya yükleme.",
         bullets: ["Cezai şart", "Fesih koşulu", "Gizlilik"],
         tools: ["Word", "Gemini"],
         layout: "word",
         highlightCell: "A1",
-        fileName: "Sozlesme_Kaya_Gida.docx",
+        fileName: ACADEMY_WORD_FILE_NAME,
         sheetName: "Sözleşme",
         copilot: {
           hideReply: true,
@@ -1734,12 +1700,12 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         },
         section: "FARK ORTADA",
         headline: "FARK ORTADA",
-        subhead: "Sol zahmetli yol. Sağ yerinde doküman analizi — tam dosya.",
+        subhead: "Sol tek tek kopyalama. Sağ tek dosyayla analiz — tam dosya.",
         bullets: ["Cezai şart", "Fesih koşulu", "Gizlilik"],
         tools: ["Word", "Gemini"],
         layout: "word",
         highlightCell: "B1",
-        fileName: "Sozlesme_Kaya_Gida.docx",
+        fileName: ACADEMY_WORD_FILE_NAME,
         sheetName: "Sözleşme",
         copilot: {
           hideReply: true,
@@ -1760,7 +1726,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         tools: ["Word", "Gemini"],
         layout: "word",
         highlightCell: "C1",
-        fileName: "Sozlesme_Kaya_Gida.docx",
+        fileName: ACADEMY_WORD_FILE_NAME,
         sheetName: "Sözleşme",
         nodes: OFFICE_AI_W1_UPLOAD_NODES,
         table: OFFICE_AI_W1_UPLOAD_TABLE,
@@ -1776,7 +1742,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         tools: ["Word", "Gemini"],
         layout: "word",
         highlightCell: "A1",
-        fileName: "Sozlesme_Kaya_Gida.docx",
+        fileName: ACADEMY_WORD_FILE_NAME,
         sheetName: "Sözleşme",
         nodes: OFFICE_AI_W1_UPLOAD_NODES,
         table: OFFICE_AI_W1_UPLOAD_TABLE,

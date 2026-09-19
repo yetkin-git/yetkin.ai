@@ -4,12 +4,14 @@ import { describe, expect, it } from "vitest";
 import {
   ACADEMY_WORD_CLAUSE_CARDS,
   ACADEMY_WORD_COPY_FRAGMENTS,
+  ACADEMY_WORD_FILE_LABEL,
   ACADEMY_WORD_FILE_NAME,
   ACADEMY_WORD_NATIVE_TOOL,
   ACADEMY_WORD_UPLOAD_PROMPT,
   ACADEMY_WORD_WINDOW_TITLE,
   academyWordStageKind,
 } from "@/lib/academy/word-workspace";
+import { academyCitizenDocxLabel } from "@/lib/academy/prompt-console";
 
 const ROOT = process.cwd();
 
@@ -18,6 +20,12 @@ describe("Word doğrudan dosya yükleme tuvali", () => {
     expect(ACADEMY_WORD_WINDOW_TITLE).toBe("Word");
     expect(ACADEMY_WORD_NATIVE_TOOL).toBe("Doğrudan Dosya Yükleme");
     expect(ACADEMY_WORD_FILE_NAME).toBe("Sozlesme_Kaya_Gida.docx");
+    expect(ACADEMY_WORD_FILE_LABEL).toBe("Sözleşme Belgesi (Word)");
+    expect(ACADEMY_WORD_FILE_LABEL).not.toMatch(/\.docx/iu);
+    expect(academyCitizenDocxLabel(ACADEMY_WORD_FILE_NAME)).toBe(ACADEMY_WORD_FILE_LABEL);
+    expect(academyCitizenDocxLabel("Yonetici_Ozeti.docx")).toBe("Yönetici Özeti (Word)");
+    expect(academyCitizenDocxLabel("Mart_2026_tahsilat_notlari.docx")).toBe("Tahsilat Notları (Word)");
+    expect(academyCitizenDocxLabel("Tahsilat_Mart_2026.xlsx")).toBeNull();
     expect(ACADEMY_WORD_COPY_FRAGMENTS.map((frag) => frag.page)).toEqual(["syf 4", "syf 11", "syf 18"]);
     expect(ACADEMY_WORD_CLAUSE_CARDS.map((card) => card.label)).toEqual([
       "CEZAİ ŞART",
@@ -34,7 +42,7 @@ describe("Word doğrudan dosya yükleme tuvali", () => {
     expect(academyWordStageKind({ section: "PARÇA PARÇA" })).toBe("copy");
     expect(academyWordStageKind({ section: "HOŞ GELDİN" })).toBe("attach");
     expect(academyWordStageKind({ section: "ATAŞ YÜKLE", hideReply: true })).toBe("attach");
-    expect(academyWordStageKind({ section: "YERİNDE ANALİZ" })).toBe("analysis");
+    expect(academyWordStageKind({ section: "TEK DOSYAYLA ANALİZ" })).toBe("analysis");
     expect(academyWordStageKind({ pane: "before", section: "FARK ORTADA" })).toBe("copy");
     expect(academyWordStageKind({ pane: "after", section: "FARK ORTADA" })).toBe("analysis");
   });
@@ -52,6 +60,9 @@ describe("Word doğrudan dosya yükleme tuvali", () => {
     expect(word).toContain('host="word"');
     expect(word).toContain("ACADEMY_WORD_COPY_FRAGMENTS.map");
     expect(word).toContain("ACADEMY_WORD_CLAUSE_CARDS.map");
+    expect(word).toContain("ACADEMY_WORD_FILE_LABEL");
+    expect(word).toContain("Ataş · {fileLabel}");
+    expect(word).not.toMatch(/Ataş · \{slide\.fileName/u);
     expect(css).toMatch(
       /\.academy-player-karaoke \.academy-player-widescreen[\s\S]*?aspect-ratio:\s*16\s*\/\s*9/s,
     );

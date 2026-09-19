@@ -10,7 +10,12 @@ import {
   ACADEMY_OFFICE_AI_W1_COMPARE_BEFORE_LABEL,
   ACADEMY_OFFICE_AI_W1_POCKET_STEPS,
 } from "@/lib/academy/lesson-beat-visual";
-import { ACADEMY_WORD_UPLOAD_PROMPT, academyWordStageKind } from "@/lib/academy/word-workspace";
+import {
+  ACADEMY_WORD_UPLOAD_PROMPT,
+  ACADEMY_WORD_FILE_LABEL,
+  ACADEMY_WORD_FILE_NAME,
+  academyWordStageKind,
+} from "@/lib/academy/word-workspace";
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import { hasAcademyLessonCues, loadAcademyLessonCues } from "@/lib/academy/lesson-cues";
 import { hasAcademyLessonVisualStage } from "@/lib/academy/lesson-visual-stage";
@@ -32,7 +37,7 @@ const PUNCHCARDS = [
   "HOŞ GELDİN",
   "PARÇA PARÇA",
   "ATAŞ YÜKLE",
-  "YERİNDE ANALİZ",
+  "TEK DOSYAYLA ANALİZ",
   "FARK ORTADA",
   "CEBİNE KOY",
   "SIRA SENDE",
@@ -63,18 +68,25 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
     expect(slides[0]?.visualMode).toBe("veo");
     expect(slides[3]?.copilot?.hideReply).toBe(true);
     expect(slides[3]?.copilot?.prompt).toBe(ACADEMY_WORD_UPLOAD_PROMPT);
-    expect(slides[3]?.fileName).toBe("Sozlesme_Kaya_Gida.docx");
+    expect(slides[3]?.fileName).toBe(ACADEMY_WORD_FILE_NAME);
+    expect(slides[3]?.nodes?.[0]).toEqual({ title: "Ataş", sub: ACADEMY_WORD_FILE_LABEL });
+    expect(JSON.stringify(slides.map((slide) => slide.nodes))).not.toMatch(/\.docx/iu);
+    expect(ACADEMY_WORD_FILE_LABEL).toBe("Sözleşme Belgesi (Word)");
+    expect(ACADEMY_WORD_FILE_LABEL).not.toMatch(/\.docx/iu);
     expect(slides[4]?.visualMode).toBe("split");
     expect(slides[5]?.visualMode).toBe("split");
     expect(slides[5]?.compare?.beforeCueIndex).toBe(3);
     expect(slides[5]?.compare?.beforeLabel).toBe(ACADEMY_OFFICE_AI_W1_COMPARE_BEFORE_LABEL);
     expect(slides[5]?.compare?.afterLabel).toBe(ACADEMY_OFFICE_AI_W1_COMPARE_AFTER_LABEL);
+    expect(ACADEMY_OFFICE_AI_W1_COMPARE_BEFORE_LABEL).toBe("TEK TEK KOPYALAMA");
+    expect(ACADEMY_OFFICE_AI_W1_COMPARE_AFTER_LABEL).toBe("TEK DOSYAYLA ANALİZ");
     expect(JSON.stringify(slides[5]?.table)).toContain("CEZAİ ŞART");
     expect(JSON.stringify(slides[5]?.table)).toContain("DİLEKÇE HİTAP");
     expect(JSON.stringify(slides[5]?.table)).toContain("RAPOR MADDESİ");
     expect(slides[3]?.table?.note).toMatch(/Spoiler/u);
     expect(academyWordStageKind({ section: "PARÇA PARÇA" })).toBe("copy");
     expect(academyWordStageKind({ section: "ATAŞ YÜKLE", hideReply: true })).toBe("attach");
+    expect(academyWordStageKind({ section: "TEK DOSYAYLA ANALİZ" })).toBe("analysis");
     expect(academyWordStageKind({ pane: "before", section: "FARK ORTADA" })).toBe("copy");
     expect(academyWordStageKind({ pane: "after", section: "FARK ORTADA" })).toBe("analysis");
     expect(academyWordStageKind({ section: "FARK ORTADA" })).toBe("analysis");
@@ -113,8 +125,8 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
     expect(spoken).toMatch(/9\. ders bitince sınav kapısı açılır/u);
     const cinemaHtml = readFileSync(join(ROOT, "scripts/render-academy-cinema-html.ts"), "utf8");
     expect(cinemaHtml).toContain('case "word"');
-    expect(cinemaHtml).toContain("ZAHMETLİ YOL / PARÇA PARÇA METİN KOPYALAMA");
-    expect(cinemaHtml).toContain("DOĞRUDAN DOSYA YÜKLEME / YERİNDE DOKÜMAN ANALİZİ");
+    expect(cinemaHtml).toContain("ACADEMY_OFFICE_AI_W1_COMPARE_BEFORE_LABEL");
+    expect(cinemaHtml).toContain("ACADEMY_OFFICE_AI_W1_COMPARE_AFTER_LABEL");
   });
 
   it("Sebep → Eylem → Sonuç: riskli madde ve öğretmen sen, belge siz kilitlenir", () => {
@@ -128,6 +140,11 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
     expect(prose).toMatch(/öğretmen sen, belge siz çift sicili/u);
     expect(prose).toMatch(/kulağına sen derim/u);
     expect(prose).toMatch(/Peki neden fark bu kadar belirgin\?/u);
+    expect(prose).toContain(
+      "Çıkarılan özeti raporunda kullanabilirsin, ancak son kontrolü ve kararı her zaman sen vermelisin.",
+    );
+    expect(prose).not.toMatch(/Karar notu insanındır/u);
+    expect(prose).not.toMatch(/Rapor da imza istemez/u);
     expect(prose).not.toMatch(/vaadi üç iştir/u);
     expect(prose).not.toMatch(/kahraman gibi/u);
     expect(prose).not.toMatch(/kahramanlığı bitirir/u);
@@ -163,6 +180,12 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
     expect(word).toContain('host="word"');
     expect(word).toContain("ACADEMY_WORD_COPY_FRAGMENTS.map");
     expect(word).toContain("ACADEMY_WORD_CLAUSE_CARDS.map");
+    expect(word).toContain("ACADEMY_WORD_FILE_LABEL");
+    expect(word).toContain("Tek Tek Kopyalama");
+    expect(word).not.toContain("ZAHMETLİ YOL");
+    expect(word).toContain("academyCitizenDocxLabel");
+    expect(word).toContain("Ataş · {fileLabel}");
+    expect(word).not.toMatch(/Ataş · \{slide\.fileName/u);
     const player = readFileSync(join(ROOT, "components/academy/curriculum-player.tsx"), "utf8");
     expect(player).toContain('data-academy-prompt-host="below-transport"');
   });
