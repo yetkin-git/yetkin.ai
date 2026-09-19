@@ -113,7 +113,7 @@ export const ACADEMY_OFFICE_AI_G1_POCKET_STEPS = [
 
 /** CEBİNE KOY overlay — 01_office_ai-w1. */
 export const ACADEMY_OFFICE_AI_W1_POCKET_STEPS = [
-  "Dosyayı ataşla",
+  "Dosyayı yükle",
   "Üç işi ayrı iste",
   "İmzayı kendin at",
 ] as const;

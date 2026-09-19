@@ -79,7 +79,7 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
     expect(academyWordStageKind({ pane: "after", section: "FARK ORTADA" })).toBe("analysis");
     expect(academyWordStageKind({ section: "FARK ORTADA" })).toBe("analysis");
     expect(ACADEMY_OFFICE_AI_W1_POCKET_STEPS).toEqual([
-      "Dosyayı ataşla",
+      "Dosyayı yükle",
       "Üç işi ayrı iste",
       "İmzayı kendin at",
     ]);
@@ -100,7 +100,11 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
     expect(spoken).toContain("ataş");
     expect(spoken).toMatch(/Yüklediğim sözleşme dosyasını \(Word belgesi\)/u);
     expect(spoken).toMatch(/parça parça/iu);
-    expect(spoken).toContain("dosyayı ataşla yüklersin");
+    expect(spoken).toContain("dosyayı doğrudan yüklersin");
+    expect(spoken).toContain(
+      "Word Copilot varsa şeritten okutursun. Yoksa Word belgesini doğrudan Gemini sohbetine yüklersin.",
+    );
+    expect(spoken).not.toMatch(/ataşla(?:rsın)?/iu);
     expect(spoken).toContain("spesifik bir paragraf");
     expect(spoken).not.toMatch(/taşıma sudur/iu);
     expect(spoken).not.toMatch(/öğretilmez/u);

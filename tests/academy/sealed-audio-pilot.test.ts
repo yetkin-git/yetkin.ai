@@ -147,8 +147,13 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
     expect(loadAcademySealedAudioTimings(lessonW1)?.pieces).toHaveLength(14);
     expect(loadAcademySealedAudioTimings(lessonW1)?.pieces[0]?.start).toBe(2);
     expect(loadAcademySealedAudioTimings(lessonW1)?.pieces.at(-1)?.end).toBe(567);
-    expect(loadAcademySealedAudioTimings(lessonW1)?.pieces[1]?.text).toMatch(/ataşla yüklersin/u);
+    expect(loadAcademySealedAudioTimings(lessonW1)?.pieces[0]?.text).toMatch(
+      /Vörd belgesini doğrudan Cemini sohbetine yüklersin/u,
+    );
+    expect(loadAcademySealedAudioTimings(lessonW1)?.pieces[0]?.text).not.toMatch(/ataşla(?:rsın)?/iu);
+    expect(loadAcademySealedAudioTimings(lessonW1)?.pieces[1]?.text).toMatch(/dosyayı doğrudan yüklersin/u);
     expect(loadAcademySealedAudioTimings(lessonW1)?.pieces[1]?.text).toMatch(/spesifik bir paragraf/u);
+    expect(loadAcademySealedAudioTimings(lessonW1)?.pieces[1]?.text).not.toMatch(/ataşla(?:rsın)?/iu);
     expect(loadAcademySealedAudioTimings(lessonW1)?.pieces[1]?.text).not.toMatch(/öğretilmez/u);
     expect(loadAcademySealedAudioTimings(lessonW1)?.pieces.at(-1)?.text).toMatch(/9\. ders bitince sınav kapısı açılır/u);
     expect(loadAcademySealedAudioTimings(lessonW1)?.pieces.at(-1)?.text).not.toMatch(/Sekiz ders bitti/u);

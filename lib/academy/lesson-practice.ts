@@ -128,7 +128,7 @@ Kısıt: Taslağı onaylamadan iletme. Yerleşik paneli bu derste ezberleme.`,
       { label: "İş türü", value: "üç işten biri: sözleşme / dilekçe / rapor — ayrı istem" },
     ],
     [
-      "Dosyayı ataşla yükle. Sayfa sayfa kopyalama zahmetli yoldur.",
+      "Dosyayı doğrudan yükle. Sayfa sayfa kopyalama zahmetli yoldur.",
       "Üç işi ayrı istemle sor: sözleşme, dilekçe, rapor. Tek istemde karıştırma.",
       "Unvan, tarih, sayı ve imza sende kalır. Kanun maddesi uydurulursa sil.",
     ],

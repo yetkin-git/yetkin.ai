@@ -23,7 +23,7 @@ Sıfır jargon, insani, sıcak, arkadaşça, yapmacıksız ve çözüme giden bi
 
 * **Öğretmen SEN, Belge SIZ:** Eğitmen anlatırken öğrenciye doğrudan ve sıcak bir dille «sen» diye hitap eder. Ancak dilekçe, resmi yazı veya sözleşme çıktısı üretilirken belgenin kendi dili «siz» ve resmi formatta kalır.
 * Cümle TTS ritmine uyar: kısa, konuşulabilir, günlük.
-* Jargon kaçınılmazsa önce günlük vatandaş karşılığı, sonra terim gelir. **18 Eylül 2026 — Ders 4 ve genel müfredattaki ham dosya uzantıları (pptx, docx, xlsx) Vatandaş Lisanı ilkelerine uygun olarak Türkçe açıklamalara dönüştürüldü.**
+* Jargon kaçınılmazsa önce günlük vatandaş karşılığı, sonra terim gelir. **18 Eylül 2026 — Ders 4 ve genel müfredattaki ham dosya uzantıları (pptx, docx, xlsx) Vatandaş Lisanı ilkelerine uygun olarak Türkçe açıklamalara dönüştürüldü.** **19 Eylül 2026 — Ders 8 (01_office_ai-w1) açılış köprüsü 'Word belgesini doğrudan Gemini sohbetine yüklersin' şeklinde jilet gibi Vatandaş Lisanı ile kilitlendi.**
 
 ### 3. Bilişsel Yük Yönetimi & "Quiet Luxury" UX Standartları
 
