@@ -11,7 +11,7 @@ import { FREELANCER_JOB_LISTING_EXTRAS } from "@/lib/freelancer/job-listing-extr
 
 /**
  * Ops freelancer vitrin tohum sicili (ADIM 11).
- * Resmî yetkin.ai Örnek Görevleri: Büyüme Beşlisi 5 kapı (OFF-101, PR-102, BOT-103, EC-104, SM-105) + Açık Deneme.
+ * Resmî yetkin.ai Örnek Görevleri: Büyüme Beşlisi 5 kapı (OFF-101, EC-102, SM-103, BOT-104, PR-105) + Açık Deneme.
  * Vitrin başlığı «Örnek Görev» der; kartta OPEN «Açık» basılmaz (piyasa yanılsaması yok).
  * İlan tutarı `freelancer_jobs.budget_minor` satırındadır; katalog taban/hold
  * bandı Admin sicilidir (S11-A). Motor bütçe bandını hâlâ kod sabitinden keser.

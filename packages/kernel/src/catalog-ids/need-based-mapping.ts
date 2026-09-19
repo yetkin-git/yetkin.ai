@@ -63,20 +63,20 @@ export const FREELANCER_DEFAULT_NEED_ID = "logo-gorsel-sosyal-medya" satisfies F
 
 export const ACADEMY_NEED_SKU_CODES = [
   "OFF-101",
-  "PR-102",
-  "BOT-103",
-  "EC-104",
-  "SM-105",
+  "EC-102",
+  "SM-103",
+  "BOT-104",
+  "PR-105",
 ] as const;
 
 export type AcademyNeedSkuCode = (typeof ACADEMY_NEED_SKU_CODES)[number];
 
 export const FREELANCER_NEED_SKU_CODES = {
   "excel-veri-otomasyon": ["OFF-101"],
-  "eticaret-pazaryeri": ["EC-104"],
-  "logo-gorsel-sosyal-medya": ["SM-105"],
-  "chatbot-musteri-hizmetleri": ["BOT-103"],
-  "prompt-uretkenlik": ["PR-102"],
+  "eticaret-pazaryeri": ["EC-102"],
+  "logo-gorsel-sosyal-medya": ["SM-103"],
+  "chatbot-musteri-hizmetleri": ["BOT-104"],
+  "prompt-uretkenlik": ["PR-105"],
   "yazilim-web-mobil": [],
   "grafik-tasarim-kimlik": [],
   "dijital-pazarlama-seo": [],
@@ -87,10 +87,10 @@ export const FREELANCER_NEED_SKU_CODES = {
 
 export const ACADEMY_SKU_SLUG_BY_CODE: Record<AcademyNeedSkuCode, AcademyCourseTitleSlug> = {
   "OFF-101": "01_office_ai",
-  "PR-102": "05_prompt_practice",
-  "BOT-103": "04_chatbot_nocode",
-  "EC-104": "02_ecommerce_ai",
-  "SM-105": "03_social_media_ai",
+  "EC-102": "02_ecommerce_ai",
+  "SM-103": "03_social_media_ai",
+  "BOT-104": "04_chatbot_nocode",
+  "PR-105": "05_prompt_practice",
 };
 
 export const FREELANCER_LEGACY_NEED_ALIASES = {

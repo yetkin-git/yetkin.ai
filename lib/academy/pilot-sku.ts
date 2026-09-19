@@ -25,14 +25,14 @@ export const ACADEMY_GROWTH_SKU_SLUGS = [
  * Satın alma / antre / oynatıcı yok; katalog kartı «Çok Yakında / Hazırlanıyor».
  */
 export const ACADEMY_PRODUCTION_LINE_SKU_SLUGS = [
-  "05_prompt_practice",
-  "04_chatbot_nocode",
   "02_ecommerce_ai",
   "03_social_media_ai",
+  "04_chatbot_nocode",
+  "05_prompt_practice",
 ] as const satisfies readonly AcademyCourseTitleSlug[];
 
 /**
- * 5'li Vitrin Karması sırası — amiral yayında, ardından kapı / prestij / sepet / magnet.
+ * 5'li Vitrin Karması sırası — sayısal slug kilidi: 01 → 02 → 03 → 04 → 05.
  * `ACADEMY_GROWTH_SKU_SLUGS` satın alınır alt kümedir; kabuk listesi onu aşar.
  */
 export const ACADEMY_VITRINE_SHELL_SKU_SLUGS = [

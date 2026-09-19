@@ -28,10 +28,10 @@ describe("akademi katalog sıra yardımcısı", () => {
     expect(slugs.map((slug) => academyModuleCodeBySlug(slug))).toEqual(["OFF-101"]);
     expect(ACADEMY_VITRINE_SHELL_SKU_SLUGS.map((slug) => academyModuleCodeBySlug(slug))).toEqual([
       "OFF-101",
-      "PR-102",
-      "BOT-103",
-      "EC-104",
-      "SM-105",
+      "EC-102",
+      "SM-103",
+      "BOT-104",
+      "PR-105",
     ]);
     expect(existsSync(join(process.cwd(), "components/academy/filter-bar.tsx"))).toBe(false);
   });

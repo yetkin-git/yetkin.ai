@@ -74,7 +74,7 @@ type AcademyCatalogOrderable = { slug: string; level?: string | null };
 
 /**
  * Vitrin sırası: sabit kulvar önceliği → seviye yedek kodu → slug.
- * Kart SKU (OFF-101…SM-105) PEDAGOJI §D.1 karmasına kilitlidir; created_at / puan okunmaz.
+ * Kart SKU (OFF-101…PR-105) PEDAGOJI §D.1 karmasına kilitlidir; created_at / puan okunmaz.
  */
 export function orderAcademyShowcaseCatalog<T extends AcademyCatalogOrderable>(
   courses: readonly T[],

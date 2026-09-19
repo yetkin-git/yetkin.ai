@@ -44,16 +44,16 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     ]);
     expect([...ACADEMY_VITRINE_SHELL_SKU_SLUGS]).toEqual([
       "01_office_ai",
-      "05_prompt_practice",
-      "04_chatbot_nocode",
       "02_ecommerce_ai",
       "03_social_media_ai",
+      "04_chatbot_nocode",
+      "05_prompt_practice",
     ]);
     expect([...ACADEMY_PRODUCTION_LINE_SKU_SLUGS]).toEqual([
-      "05_prompt_practice",
-      "04_chatbot_nocode",
       "02_ecommerce_ai",
       "03_social_media_ai",
+      "04_chatbot_nocode",
+      "05_prompt_practice",
     ]);
     expect(isAcademyProductionLineSkuSlug("05_prompt_practice")).toBe(true);
     expect(isAcademyProductionLineSkuSlug("01_office_ai")).toBe(false);
@@ -64,10 +64,10 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     ]);
     expect(academyVitrineShellCourses().map((row) => academyModuleCodeBySlug(row.slug))).toEqual([
       "OFF-101",
-      "PR-102",
-      "BOT-103",
-      "EC-104",
-      "SM-105",
+      "EC-102",
+      "SM-103",
+      "BOT-104",
+      "PR-105",
     ]);
     expect(academyVitrineShellCourses().filter((row) => row.purchasable).map((row) => row.slug)).toEqual([
       "01_office_ai",
