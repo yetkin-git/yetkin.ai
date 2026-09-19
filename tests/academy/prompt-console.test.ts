@@ -77,6 +77,11 @@ describe("Nasıl Yapılır? — Prompt Terminali ve adım bandı", () => {
     expect(academyHowtoActiveIndex("01_office_ai-4", "FARK ORTADA")).toBe(2);
     expect(academyHowtoActiveIndex("01_office_ai-4", "CEBİNE KOY")).toBe(-1);
     expect(academyHowtoSteps("01_office_ai-1")).toEqual([...ACADEMY_OFFICE_AI_1_HOWTO_STEPS]);
+    expect(ACADEMY_OFFICE_AI_1_HOWTO_STEPS.map((step) => `Adım ${step.n}: ${step.label}`)).toEqual([
+      "Adım 1: Copilot Şeridi",
+      "Adım 2: Ataş — Maske 2. Ders",
+      "Adım 3: A1'e Sütun Adı Koy",
+    ]);
     expect(academyHowtoSteps("01_office_ai-2")).toEqual([...ACADEMY_OFFICE_AI_2_HOWTO_STEPS]);
     expect(academyHowtoSteps("01_office_ai-3")).toEqual([...ACADEMY_OFFICE_AI_3_HOWTO_STEPS]);
   });

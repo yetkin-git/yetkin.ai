@@ -39,7 +39,7 @@ export const OFFICE_AI_PLANNED_LESSONS = [
     lane: "main",
     method: "copilot-live",
     pedagogicalObjective:
-      "A1 eşiği, birleşik hücre ve tür birliği. 1. Kapı Excel Copilot, 2. Kapı ataş, 3. Kapı maskeli kısa özet.",
+      "A1 eşiği, birleşik hücre ve tür birliği. Yükleme anonimize edilmiş / temiz örnek tablo üzerinden. 1. Kapı Excel Copilot, 2. Kapı ataş; maske kuralı 2. derste.",
   },
   {
     key: "01_office_ai-k1",

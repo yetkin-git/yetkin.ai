@@ -133,7 +133,7 @@ export type AcademyHowtoStep = {
 
 export const ACADEMY_OFFICE_AI_1_HOWTO_STEPS = [
   { n: 1, label: "Copilot Şeridi" },
-  { n: 2, label: "Ataş Yükle" },
+  { n: 2, label: "Ataş — Maske 2. Ders" },
   { n: 3, label: "A1'e Sütun Adı Koy" },
 ] as const satisfies readonly AcademyHowtoStep[];
 

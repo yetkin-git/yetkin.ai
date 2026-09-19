@@ -441,7 +441,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         visualMode: "live",
         section: "TEMİZLE ŞİMDİ",
         headline: "TEMİZLE ŞİMDİ",
-        subhead: "Dağınık ızgara + Copilot şerit veya ataş. Temiz tablo henüz yok.",
+        subhead: "Dağınık ızgara + Copilot şerit veya temiz örnek ataş. Maske 2. derste.",
         bullets: ["Copilot şerit", "Ataş yükle", "Maskeli kısa"],
         tools: ["Excel", "Copilot"],
         layout: "excel",
@@ -452,7 +452,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         formulaBar: "Mart 2026 Tahsilat Dökümü",
         copilot: {
           prompt:
-            "Bu düzensiz ızgarayı düzenle. A1 hücresine sütun adı koy. Birleşikleri çöz. Boş satırları sil. Copilot varsa şeritten oku; yoksa dosyayı ataş ile yükle. Ham tabloyu yapıştırma.",
+            "Bu düzensiz ızgarayı düzenle. A1 hücresine sütun adı koy. Birleşikleri çöz. Boş satırları sil. Copilot varsa şeritten doğrudan okut; yoksa dosyayı ataş ile yükle. (Kişisel verileri maskeleme kuralını 2. derste kilitleyeceğiz.) Ham tabloyu yapıştırma. Bu dersteki örnek kişi adı taşımayan temiz tahsilat tablosudur.",
           replyLines: [
             "1. Copilot şeridi.",
             "2. Ataş yükle.",

@@ -64,6 +64,21 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     expect(strip.some((line) => line.cueId === "cue-08" && /KVKK/u.test(line.text) && /maskeleme/u.test(line.text))).toBe(
       true,
     );
+    expect(
+      strip.some(
+        (line) =>
+          line.cueId === "cue-08" &&
+          /Copilot varsa şeritten doğrudan okut; yoksa dosyayı ataş ile yükle/u.test(line.text),
+      ),
+    ).toBe(true);
+    expect(
+      strip.some(
+        (line) =>
+          (line.cueId === "cue-05" || line.cueId === "cue-08") &&
+          /Kişisel verileri maskeleme kuralını 2\. derste kilitleyeceğiz/u.test(line.text),
+      ),
+    ).toBe(true);
+    expect(strip.some((line) => /anonimize edilmiş|temiz örnek/u.test(line.text))).toBe(true);
     expect(strip.every((line) => !/üç maddelik yönetim özetine/u.test(line.text))).toBe(true);
     expect(strip.every((line) => !/grafik raporuna/u.test(line.text))).toBe(true);
     expect(strip.every((line) => !/görüşmek üzere/iu.test(line.text))).toBe(true);

@@ -22,13 +22,13 @@ function officePractice(
 export const LESSON_PRACTICE: Record<string, AcademyLessonPractice> = {
   "01_office_ai-1": officePractice(
     [
-      { label: "Senin dosyan", value: "masandaki gerçek Excel tablosu adı (örnek: Satis_Eylul.xlsx)" },
+      { label: "Senin dosyan", value: "bu dersteki temiz örnek Excel (örnek: Tahsilat_Mart_2026.xlsx)" },
       { label: "A1 sütun adı", value: "ilk gerçek sütun (örnek: Sipariş No)" },
     ],
     [
       "A1 hücresine ilk sütun adını yaz; birleşik başlığı çöz.",
       "Boş satırları sil; tutar ve tarihi tek tipe çek.",
-      "Copilot varsa şeritten okut; yoksa dosyayı ataşla. Orijinali silme.",
+      "Copilot varsa şeritten doğrudan okut; yoksa temiz örneği ataş ile yükle. Kişisel verileri maskeleme kuralı 2. derste. Orijinali silme.",
     ],
     `Rol: Ofis asistanı.
 Görev: Yüklediğim Excel tablosunu A1 eşiğinden düzenli tabloya çevir.

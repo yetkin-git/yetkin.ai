@@ -95,6 +95,8 @@ Yapay zekâya veri verme adımı seste ve ekranda **Üç Kapı Hiyerarşisi** il
 * **Taşıma su** yasak listesi değil, **atlanmış kapı**dır: 1. ve 2. kapı dururken kutuyu / dosyayı dış sohbete hamal gibi taşımaktır.
 * **Soyut AI Masası Yasağı:** Soyut "AI Masası" gösterilemez. Öğrenci ekranda gerçek kapıyı görür: Gmail Gemini paneli, Copilot şeridi veya ataş.
 
+**19 Eylül 2026 — Ders 1 ile Ders 2 arasındaki pedagojik akış hizalandı; Ders 1 ataş adımlarına erken KVKK/maskeleme uyarısı ve temiz örnek dosya vurgusu eklendi.**
+
 ### D.1 Vitrin Kabuk Karması ve Dürüst Yüzey (A5)
 
 Vitrin otoritesini ve güvenini korumak için platformda 5'li Vitrin Karması listelenir:

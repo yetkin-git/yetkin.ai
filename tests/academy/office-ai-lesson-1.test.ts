@@ -62,6 +62,10 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(lesson.body).toMatch(/Hazırsan 2\. derste buluşalım/u);
     expect(lesson.body).toMatch(/KVKK ve maskeleme/u);
     expect(lesson.body).toMatch(/tabloyu temizleme refleksi artık cebinde/u);
+    expect(lesson.body).toMatch(/anonimize edilmiş/u);
+    expect(lesson.body).toMatch(/temiz örnek/u);
+    expect(lesson.body).toMatch(/Copilot varsa şeritten doğrudan okut; yoksa dosyayı ataş ile yükle\. \(Kişisel verileri maskeleme kuralını 2\. derste kilitleyeceğiz\.\)/u);
+    expect(lesson.body).not.toMatch(/masaüstünde duran ya da sana yakın zamanda gönderilmiş/u);
     expect(lesson.body).toMatch(/şirketinin kurumsal yapay zekâ modeli/u);
     expect(lesson.body).not.toMatch(/saniyeler içinde çözeceğiz/u);
     expect(lesson.body).not.toMatch(/ChatGPT hızlı taslak üretir, Claude uzun satırları dikkatle okur/u);
@@ -95,6 +99,9 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(prose).toMatch(/tabloyu temizleme refleksi artık cebinde/u);
     expect(prose).toMatch(/Kavekaka/u);
     expect(prose).toMatch(/maskeleme/u);
+    expect(prose).toMatch(/anonimize edilmiş/u);
+    expect(prose).toMatch(/Kişisel verileri maskeleme kuralını 2\. derste kilitleyeceğiz/u);
+    expect(prose).not.toMatch(/masaüstünde duran ya da sana yakın zamanda gönderilmiş/u);
     expect(prose).not.toMatch(/grafik raporuna/u);
     expect(prose).not.toMatch(/görüşmek üzere/u);
     expect(prose).not.toMatch(/kirli/iu);
