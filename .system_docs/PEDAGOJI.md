@@ -105,6 +105,8 @@ Vitrin otoritesini ve güvenini korumak için platformda 5'li Vitrin Karması li
 4. `02_ecommerce_ai` (E-Ticaret ve Pazaryeri AI) → **ÇOK YAKINDA / SEPET DOLDURUCU**
 5. `03_social_media_ai` (Sosyal Medya Video Fabrikası) → **ÇOK YAKINDA / GÖRSEL MAGNET**
 
+**19 Eylül 2026 — Vitrin karması sıralaması ile ürün SKU kodları (OFF-101, PR-102, BOT-103, EC-104, SM-105) tam mantıksal uyumla kilitlendi.**
+
 **Dürüst Yüzey (Anayasa A5):** `01_office_ai` dışındaki 4 ürünün üzerinde "Çok Yakında / Hazırlanıyor" rozeti durur. Tıklandığında ön sipariş/bilgilendirme gösterilir. Bağlı olmayan medya, eksik bake veya mühürsüz ders için hayali oynatıcı basılmaz; vatandaşa dürüstçe henüz hazır olmadığı söylenir.
 
 Amiral SKU `01_office_ai` yayın makalesi + mühürlü karaoke taşır. **Ders adedi Pedagoji kotası değildir.** Anayasa B4 (konunun hakkı) ne gerektiriyorsa o kadar doygun ders basılır: tek pakette 9–10 ders veya 101/102 ayrımı serbesttir. **Çekirdek 9 ders kilitlidir**; ileriki fırında 3 köprü dersi (takvim/toplantı, Excel formül/grafik, PDF) ayrı uydu şeridinde eklenir, çekirdek sınav yolu şişmez. Canlı kaset / sınav sayıları `docs/ops/DURUM.md` (ayna `docs/DURUM.md`) ve koddadır. Sessiz okuma metni yoktur.

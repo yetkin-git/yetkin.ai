@@ -56,12 +56,13 @@ describe("kernel catalog-ids — omurga kimliği", () => {
     expect(isAcademyPathwayId(FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY)).toBe(false);
     expect(parseAcademyPathwayId("yok")).toBeNull();
     expect(ACADEMY_NEED_SKU_CODES).toHaveLength(5);
+    expect(ACADEMY_NEED_SKU_CODES).toEqual(["OFF-101", "PR-102", "BOT-103", "EC-104", "SM-105"]);
     expect(new Set(Object.values(ACADEMY_SKU_SLUG_BY_CODE)).size).toBe(5);
     expect(ACADEMY_SKU_SLUG_BY_CODE["OFF-101"]).toBe("01_office_ai");
-    expect(ACADEMY_SKU_SLUG_BY_CODE["EC-102"]).toBe("02_ecommerce_ai");
-    expect(ACADEMY_SKU_SLUG_BY_CODE["SM-103"]).toBe("03_social_media_ai");
-    expect(ACADEMY_SKU_SLUG_BY_CODE["BOT-104"]).toBe("04_chatbot_nocode");
-    expect(ACADEMY_SKU_SLUG_BY_CODE["PR-105"]).toBe("05_prompt_practice");
+    expect(ACADEMY_SKU_SLUG_BY_CODE["PR-102"]).toBe("05_prompt_practice");
+    expect(ACADEMY_SKU_SLUG_BY_CODE["BOT-103"]).toBe("04_chatbot_nocode");
+    expect(ACADEMY_SKU_SLUG_BY_CODE["EC-104"]).toBe("02_ecommerce_ai");
+    expect(ACADEMY_SKU_SLUG_BY_CODE["SM-105"]).toBe("03_social_media_ai");
     expect(ACADEMY_ONBOARDING_COURSE_SLUG).toBeNull();
     expect([...ACADEMY_GROWTH_SKU_SLUGS].every((slug) => slug in ACADEMY_COURSE_TITLES)).toBe(true);
     expect(ACADEMY_GROWTH_SKU_SLUGS).toHaveLength(1);

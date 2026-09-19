@@ -23,13 +23,13 @@ describe("freelancer ilan statü yüzü ve örnek görev sicili", () => {
       (row) => !isOpenTrialNeed(row.visaPathwayId),
     );
     expect(growth).toHaveLength(5);
-    expect(growth.map((row) => {
+    expect(new Set(growth.map((row) => {
       if (!isFreelancerNeedId(row.visaPathwayId)) {
         throw new Error(`tohum kapısı ihtiyaç id değil: ${row.visaPathwayId}`);
       }
       return FREELANCER_NEED_SKU_CODES[row.visaPathwayId][0];
-    })).toEqual([...ACADEMY_NEED_SKU_CODES]);
-    expect(ACADEMY_NEED_SKU_CODES).toEqual(["OFF-101", "EC-102", "SM-103", "BOT-104", "PR-105"]);
+    }))).toEqual(new Set(ACADEMY_NEED_SKU_CODES));
+    expect(ACADEMY_NEED_SKU_CODES).toEqual(["OFF-101", "PR-102", "BOT-103", "EC-104", "SM-105"]);
     for (const row of FREELANCER_JOB_SEEDS) {
       expect(row.title.startsWith(`${FREELANCER_EXAMPLE_JOB_TITLE_PREFIX} — `)).toBe(true);
       expect(isFreelancerSystemListing(row.id)).toBe(true);

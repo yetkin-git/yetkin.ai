@@ -1,5 +1,6 @@
 /**
- * Akademi vitrin sırası — sabit kulvar önceliği → seviye kodu (101→102→103) → slug.
+ * Akademi vitrin sırası — sabit kulvar önceliği → seviye yedek kodu → slug.
+ * Kart SKU PEDAGOJI §D.1 karmasına kilitlidir (OFF-101…SM-105).
  * created_at / girdi sırası / puan kolonu okunmaz. Client-safe: curriculum / node:crypto çekilmez.
  */
 
@@ -41,10 +42,10 @@ const TEKIL_BECERI_PREFIXES: readonly string[] = [];
 const MODULE_CODE_BY_SLUG: Record<string, string> = {
   "01_office_ai": "OFF-101",
   "office-ai": "OFF-101",
-  "02_ecommerce_ai": "EC-102",
-  "03_social_media_ai": "SM-103",
-  "04_chatbot_nocode": "BOT-104",
-  "05_prompt_practice": "PR-105",
+  "05_prompt_practice": "PR-102",
+  "04_chatbot_nocode": "BOT-103",
+  "02_ecommerce_ai": "EC-104",
+  "03_social_media_ai": "SM-105",
   "06_n8n_automation": "N8N-201",
   "07_langgraph_agents": "LG-202",
   "08_production_rag": "RAG-203",
@@ -66,7 +67,7 @@ const LEVEL_CODE: Record<string, string> = {
   Masterclass: "MC",
 };
 
-/** Kart SKU — OFF-101 / EC-102 / N8N-201. Sıra yardımcısı ve vitrin kartı paylaşır. */
+/** Kart SKU — PEDAGOJI §D.1 vitrin sırası OFF-101 / PR-102 / BOT-103 / EC-104 / SM-105; katman 2 N8N-201. */
 export function academyModuleCodeBySlug(slug: string): string | null {
   const explicit = MODULE_CODE_BY_SLUG[slug];
   if (explicit) {
@@ -104,6 +105,8 @@ const MODULE_LEVEL_SPOKEN: Record<string, string> = {
   "101": "yüz bir",
   "102": "yüz iki",
   "103": "yüz üç",
+  "104": "yüz dört",
+  "105": "yüz beş",
   MC: "usta sınıfı",
   "100": "yüz",
 };

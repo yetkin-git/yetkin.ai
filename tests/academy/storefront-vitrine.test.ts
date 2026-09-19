@@ -14,6 +14,7 @@ import {
   isAcademyProductionLineSkuSlug,
 } from "@/lib/academy/pilot-sku";
 import { academyCourseIsComingSoon } from "@/lib/academy/course-cover";
+import { academyModuleCodeBySlug } from "@/lib/academy/catalog-filter";
 import { academyVitrineShellCourses } from "@/lib/academy/published-catalog";
 import {
   ACADEMY_LEGACY_UNIT_SLUGS_FOR_TEST,
@@ -60,6 +61,13 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(academyCourseIsComingSoon("05_prompt_practice")).toBe(true);
     expect(academyVitrineShellCourses().map((row) => row.slug)).toEqual([
       ...ACADEMY_VITRINE_SHELL_SKU_SLUGS,
+    ]);
+    expect(academyVitrineShellCourses().map((row) => academyModuleCodeBySlug(row.slug))).toEqual([
+      "OFF-101",
+      "PR-102",
+      "BOT-103",
+      "EC-104",
+      "SM-105",
     ]);
     expect(academyVitrineShellCourses().filter((row) => row.purchasable).map((row) => row.slug)).toEqual([
       "01_office_ai",

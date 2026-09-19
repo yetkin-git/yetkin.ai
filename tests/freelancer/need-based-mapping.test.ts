@@ -57,11 +57,11 @@ describe("ihtiyaç odaklı eşleme (Need-Based Mapping)", () => {
     expect(FREELANCER_NEED_TITLES["logo-gorsel-sosyal-medya"]).toBe(
       "Sosyal Medya İçerik ve Görsel Üretimi",
     );
-    expect(FREELANCER_NEED_SKU_CODES["logo-gorsel-sosyal-medya"]).toEqual(["SM-103"]);
-    expect(FREELANCER_NEED_SKU_CODES["eticaret-pazaryeri"]).toEqual(["EC-102"]);
+    expect(FREELANCER_NEED_SKU_CODES["logo-gorsel-sosyal-medya"]).toEqual(["SM-105"]);
+    expect(FREELANCER_NEED_SKU_CODES["eticaret-pazaryeri"]).toEqual(["EC-104"]);
     expect(FREELANCER_NEED_SKU_CODES["excel-veri-otomasyon"]).toEqual(["OFF-101"]);
-    expect(FREELANCER_NEED_SKU_CODES["chatbot-musteri-hizmetleri"]).toEqual(["BOT-104"]);
-    expect(FREELANCER_NEED_SKU_CODES["prompt-uretkenlik"]).toEqual(["PR-105"]);
+    expect(FREELANCER_NEED_SKU_CODES["chatbot-musteri-hizmetleri"]).toEqual(["BOT-103"]);
+    expect(FREELANCER_NEED_SKU_CODES["prompt-uretkenlik"]).toEqual(["PR-102"]);
     expect(FREELANCER_NEED_SKU_CODES["acik-deneme"]).toEqual([]);
     expect(FREELANCER_NEED_SKU_CODES["yazilim-web-mobil"]).toEqual([]);
     expect(FREELANCER_NEED_SKU_CODES["grafik-tasarim-kimlik"]).toEqual([]);
@@ -70,10 +70,10 @@ describe("ihtiyaç odaklı eşleme (Need-Based Mapping)", () => {
     expect(FREELANCER_NEED_SKU_CODES["diger-genel-isler"]).toEqual([]);
     expect(academySlugForNeedSku("YOK-00")).toBeNull();
     expect(academySlugForNeedSku("OFF-101")).toBe("01_office_ai");
-    expect(academySlugForNeedSku("EC-102")).toBe("02_ecommerce_ai");
-    expect(academySlugForNeedSku("SM-103")).toBe("03_social_media_ai");
-    expect(academySlugForNeedSku("BOT-104")).toBe("04_chatbot_nocode");
-    expect(academySlugForNeedSku("PR-105")).toBe("05_prompt_practice");
+    expect(academySlugForNeedSku("PR-102")).toBe("05_prompt_practice");
+    expect(academySlugForNeedSku("BOT-103")).toBe("04_chatbot_nocode");
+    expect(academySlugForNeedSku("EC-104")).toBe("02_ecommerce_ai");
+    expect(academySlugForNeedSku("SM-105")).toBe("03_social_media_ai");
     const publishedByNeed: Record<string, readonly string[]> = {
       "logo-gorsel-sosyal-medya": ["03_social_media_ai"],
       "eticaret-pazaryeri": ["02_ecommerce_ai"],
