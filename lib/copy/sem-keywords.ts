@@ -15,6 +15,11 @@ export const SEM_LANDING_KEYWORDS = [
   "ofiste chatgpt",
   "word yapay zeka",
   "yapay zeka sertifikasi",
+  // PAKET-19 — vatandaş lisanı kuyruk (antre meta / H1 / ders teaser / rehber).
+  "iş hayatında yapay zekâ",
+  "excel gemini kullanımı",
+  "word ataş ile belge analizi",
+  "cuma 30 rutini",
 ] as const;
 
 export type SemLandingKeyword = (typeof SEM_LANDING_KEYWORDS)[number];
@@ -86,12 +91,12 @@ export const OFFICE_AI_COURSE_FAQ: readonly LandingFaqItem[] = [
   {
     question: "Excel yapay zeka eğitimi sertifika veriyor mu?",
     answer:
-      "Evet. Bu excel yapay zeka eğitimi, 9 dersi bitirip testi 70+ ile geçtiğinde mühürlü yapay zeka sertifikası basar; satın alma tek başına belge üretmez. Sertifikan Kariyer sayfana işlenir ve /academy/dogrula sicilinden herkese açık doğrulanır. Arama dilindeki karşılığıyla: yapay zeka sertifikasi bu sınav barajından sonra mühürlenir.",
+      "Evet. Bu excel yapay zeka eğitimi, 9 dersi bitirip testi 70+ ile geçtiğinde mühürlü yapay zeka sertifikası basar; satın alma tek başına belge üretmez. Office AI eğitimi sertifikanı Kariyer sayfana işler ve /academy/dogrula sicilinden herkese açık doğrulanır. Arama dilindeki karşılığıyla: yapay zeka sertifikasi bu sınav barajından sonra mühürlenir.",
   },
   {
     question: "ChatGPT ofis kullanımı için ön koşul var mı?",
     answer:
-      "Hayır, ön koşul yok. Temel Excel ve e-posta kullanımı yeter; kodlama gerekmez. Ofiste chatgpt kullanımı, Word yapay zeka, Gmail aksiyon listesi ve slayt hazırlama sıfırdan adım adım anlatılır. Copilot lisansın yoksa dosya ataş yöntemiyle aynı sonuca ulaşırsın; lisans zorunlu değildir.",
+      "Hayır, ön koşul yok. Temel Excel ve e-posta kullanımı yeter; kodlama gerekmez. Ofiste chatgpt kullanımı, Excel Gemini kullanımı, Word yapay zeka, Word ataş ile belge analizi, Gmail aksiyon listesi ve slayt hazırlama sıfırdan adım adım anlatılır. Copilot lisansın yoksa dosya ataş yöntemiyle aynı sonuca ulaşırsın; lisans zorunlu değildir.",
   },
   {
     question: "KVKK'ya uygun mu? Verilerim güvende mi?",
@@ -101,7 +106,7 @@ export const OFFICE_AI_COURSE_FAQ: readonly LandingFaqItem[] = [
   {
     question: "Sınav barajı ve süresi nedir?",
     answer:
-      "Baraj 70 puandır; 9 dersin tamamı bitmeden sınav açılmaz. Sınav 30 dakika ve 10 sorudur; süre dolduğunda son gönderim alınır. Satın alma tek başına belge basmaz; 70+ altı sonuçta sertifika mühürlenmez, yeniden deneyebilirsin.",
+      "Baraj 70 puandır; 9 dersin tamamı bitmeden sınav açılmaz. Sınav 30 dakika ve 10 sorudur; süre dolduğunda son gönderim alınır. Satın alma tek başına belge basmaz; 70+ altı sonuçta sertifika mühürlenmez, yeniden deneyebilirsin. Kapanış dersi Cuma 30 rutini ile haftalık sistemi takvime bağlar.",
   },
 ] as const;
 

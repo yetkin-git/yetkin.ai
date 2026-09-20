@@ -48,11 +48,12 @@ describe("01_office_ai ölçme sızıntısı — compact makale ve mühür havuz
     expect(q42?.choices[1]).toMatch(/Müşteri A/u);
     expect(q42?.choices[1]).toMatch(/MASKELİ_IBAN/u);
     expect(q42?.choices.join(" ")).toMatch(/son dört/iu);
-    expect(OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_6")?.choices[0]).toMatch(/VBA/u);
+    expect(OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_6")?.choices[0]).toMatch(/puntoyu küçültmek/u);
+    expect(OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_6")?.choices.join(" ")).not.toMatch(/VBA|Gamma|Marp/u);
     expect(OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_6")?.correctIndex).toBe(1);
     const q12 = OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_12");
     const q24 = OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_24");
-    expect(q12?.prompt).toMatch(/Cuma 30 dakikalık rutin nasıl bölünür/u);
+    expect(q12?.prompt).toMatch(/Cuma 30 dakikalık rutini nasıl bölersin/u);
     expect(q24?.prompt).toMatch(/ekran görüntüsü/u);
     expect(q24?.prompt).not.toMatch(/Cuma rutininin üç bloğu/u);
     expect(q24?.choices[1]).toMatch(/maskeli kısa özet/iu);

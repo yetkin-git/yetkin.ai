@@ -4,34 +4,34 @@
   "questions": [
     {
       "id": "q_off_l1_1",
-      "prompt": "Cuma günü mesai bitimine dakikalar kala iletilen bir Excel dosyasında ilk 3 satırda şirket logosu, rapor tarihi ve birleştirilmiş boş hücreler yer almaktadır. Asıl veri başlıkları ise A4:F4 aralığındadır. Bu tablonun yapay zeka araçları veya veri modelleri tarafından hatasız işlenebilmesi için 'A1 eşiği' kuralı doğrultusunda yapılması gereken ilk işlem nedir?",
+      "prompt": "Cuma günü mesai bitimine dakikalar kala sana bir Excel dosyası gelir. İlk 3 satırda şirket logosu, rapor tarihi ve birleştirilmiş boş hücreler durur. Asıl veri başlıkları A4:F4 aralığındadır. Yapay zekânın tabloyu doğru okuması için A1 kuralına göre ilk işin nedir?",
       "choices": [
-        "Üst kısımdaki dekoratif ve boş satırları temizleyerek ilk sütun başlığının doğrudan A1 hücresine yerleşmesini sağlamak",
-        "A1 hücresini boş bırakıp yapay zekaya verinin dördüncü satırdan başladığını prompt içinde uzunca tarif etmek",
-        "İlk üç satırı silmek yerine yalnızca 'Gizle' (Hide) seçeneğiyle ekrandan kaldırmak",
-        "Tabloyu doğrudan PDF formatına dönüştürüp yapay zekanın tablo başlangıcını görsel olarak tahmin etmesini beklemek"
+        "Üstteki dekoratif ve boş satırları temizle; ilk sütun başlığını doğrudan A1 hücresine yerleştir",
+        "A1 hücresini boş bırakıp yapay zekâya verinin dördüncü satırdan başladığını istem içinde uzunca anlat",
+        "İlk üç satırı silmek yerine yalnızca Gizle ile ekrandan kaldır",
+        "Tabloyu doğrudan belgeye dönüştürüp yapay zekânın tablo başlangıcını görsel olarak tahmin etmesini bekle"
       ],
       "correctIndex": 0
     },
     {
       "id": "q_off_l1_2",
-      "prompt": "Sistemden dışa aktarılan bir müşteri ekstresinde bazı tutar hücrelerinin 'Genel' veya 'Sayı' biçiminde görünmesine karşın TOPLA formülüne dahil edilmediği gözlenmiştir. Hücredeki gizli metin biçimlendirmesini veya görünmeyen kesme işaretini (apostrof) anında açığa çıkarıp hücre içeriğini doğrulamak için hangi yöntem uygulanmalıdır?",
+      "prompt": "Sistemden dışa aktardığın bir müşteri ekstresinde bazı tutar hücreleri Genel veya Sayı biçiminde görünür ama TOPLA formülüne girmez. Gizli kesme işaretini hemen görmek için ne yaparsın?",
       "choices": [
-        "Hücrelerin arka plan rengini sarıya boyayarak biçim kuralını yenilemek",
-        "Şüpheli hücreye tıklayıp F2 tuşuna basarak düzenleme modunda değerin başında metin ayracı olup olmadığını incelemek",
-        "Tüm sütunu seçip yazı tipini değiştirmek ve sağa yaslama butonuna tıklamak",
-        "Hücreleri tek tek kopyalayıp Not Defteri üzerinden tekrar yapıştırmadan formülü çalıştırmak"
+        "Hücrelerin arka planını sarıya boyayarak biçim kuralını yenile",
+        "Şüpheli hücreye tıkla, klavyenin üstündeki F2 tuşuna bas (Mac'te Fn+F2) — hücre düzenleme açılır; kesme işaretini kontrol et",
+        "Tüm sütunu seçip yazı tipini değiştir ve sağa yasla",
+        "Hücreleri tek tek kopyalayıp Not Defteri üzerinden tekrar yapıştırmadan formülü çalıştır"
       ],
       "correctIndex": 1
     },
     {
       "id": "q_off_l1_3",
-      "prompt": "İç içe birleştirilmiş hücreler, aralara serpiştirilmiş ara toplamlar ve düzensiz boşluklar içeren ham veri / dağınık yapı bir bütçe dosyasını düzenli ve analize hazır bir formata dönüştürürken denetim ve teyit güvenliğini en üst düzeyde tutan profesyonel yaklaşım hangisidir?",
+      "prompt": "İç içe birleştirilmiş hücreler, aralara serpiştirilmiş ara toplamlar ve düzensiz boşluklar içeren dağınık tablo bir bütçe dosyasını düzenli hale getirirken asıl dosyayı bozmadan güvenle ilerleten yol hangisidir?",
       "choices": [
-        "Tüm birleştirilmiş hücreleri tek hamlede çözüp aradaki boşluklara manuel olarak sıfır yazmak",
-        "Hatalı olduğunu düşünülen satırları orijinal çalışma sayfasından anında silerek çalışmayı tamamlamak",
-        "Orijinal düzensiz sayfayı referans olarak koruyup yeni bir çalışma sayfasında A1'den başlayan düzenli tabloyu kurarak iki veriyi yan yana doğrulamak",
-        "Verileri doğrudan e-posta gövdesine tablo olarak yapıştırıp sayıları oradan kontrol etmek"
+        "Tüm birleştirilmiş hücreleri tek hamlede çözüp aradaki boşluklara elle sıfır yaz",
+        "Hatalı olduğunu düşündüğün satırları orijinal sayfadan anında silerek işi bitir",
+        "Orijinal düzensiz sayfayı koru; yeni bir sayfada A1'den başlayan düzenli tabloyu kur ve iki veriyi yan yana doğrula",
+        "Verileri doğrudan e-posta gövdesine tablo olarak yapıştırıp sayıları oradan kontrol et"
       ],
       "correctIndex": 2
     }

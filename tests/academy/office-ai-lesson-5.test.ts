@@ -7,6 +7,7 @@ import { officeAiMasteryModule } from "@/lib/academy/curricula/office_ai";
 import {
   ACADEMY_ERROR_HUNT_COPILOT_PROMPT,
   ACADEMY_ERROR_HUNT_HALLUCINATED_TABLE,
+  ACADEMY_ERROR_HUNT_SAMPLE_LOCK,
   ACADEMY_ERROR_HUNT_VERIFIED_TABLE,
 } from "@/lib/academy/error-hunt-workspace";
 import { academyExcelFocusZoomActive } from "@/lib/academy/excel-focus-zoom";
@@ -15,6 +16,7 @@ import { academyVisualCompareStage } from "@/lib/academy/excel-workspace";
 import {
   ACADEMY_OFFICE_AI_5_COMPARE_AFTER_LABEL,
   ACADEMY_OFFICE_AI_5_COMPARE_BEFORE_LABEL,
+  ACADEMY_OFFICE_AI_5_COPILOT_PROMPT,
   ACADEMY_OFFICE_AI_5_HOWTO_STEPS,
   ACADEMY_OFFICE_AI_5_POCKET_STEPS,
   academyHowtoActiveIndex,
@@ -108,7 +110,13 @@ describe("01_office_ai bölüm 5 — İstisnalar & Hata Avı Altın Şablon", ()
     expect(lesson.body).toMatch(/özete gözü kapalı/u);
     expect(lesson.body).toMatch(/Peki yapay zekâ neden uydurur/u);
     expect(lesson.body).toMatch(/Peki tablodaki mantık hatasını veya yanlış toplamı gözünle nasıl avlarsın/u);
-    expect(lesson.body).toMatch(/Üçüncü satır Demir Lojistik 17\.300/u);
+    expect(lesson.body).toMatch(/İkinci satır Demir Lojistik 17\.300/u);
+    expect(lesson.body).not.toMatch(/Üçüncü satır Demir Lojistik/u);
+    expect(lesson.body).not.toMatch(/\bkomut/iu);
+    expect(lesson.body).not.toMatch(/direktif/iu);
+    expect(lesson.body).not.toMatch(/söyleyeceğiz/u);
+    expect(lesson.body).toMatch(/yakalayacaksın/u);
+    expect(lesson.body).toMatch(/dedektife çevirirsin/u);
     expect(lesson.body).toMatch(/sınav kapısı en sonda açılır/u);
     expect(lesson.body).not.toMatch(/sınav köprüsü/iu);
     expect(lesson.body).toMatch(/Kişi adı, IBAN veya şirket sırrı varsa önce maskele/u);
@@ -131,7 +139,10 @@ describe("01_office_ai bölüm 5 — İstisnalar & Hata Avı Altın Şablon", ()
     expect(slides[0]?.visualMode).toBe("veo");
     expect(loadAcademyLessonVisualStage(KEY)?.cards[0]?.src).toBe(ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY);
     expect(slides[3]?.copilot?.hideReply).toBe(true);
+    expect(slides[3]?.copilot?.prompt).toBe(ACADEMY_OFFICE_AI_5_COPILOT_PROMPT);
     expect(slides[3]?.copilot?.prompt).toBe(ACADEMY_ERROR_HUNT_COPILOT_PROMPT);
+    expect(ACADEMY_ERROR_HUNT_COPILOT_PROMPT).toBe(ACADEMY_OFFICE_AI_5_COPILOT_PROMPT);
+    expect(slides[3]?.copilot?.prompt).toMatch(/Toplamı TOPLA formülüyle doğrula/u);
     expect(slides[3]?.visualMode).toBe("live");
     expect(slides[3]?.errorCells).toEqual(["D4", "D5"]);
     expect(JSON.stringify(slides[3]?.table)).toContain("21.500");
@@ -146,7 +157,9 @@ describe("01_office_ai bölüm 5 — İstisnalar & Hata Avı Altın Şablon", ()
     expect(slides[5]?.compare?.afterLabel).toBe(ACADEMY_OFFICE_AI_5_COMPARE_AFTER_LABEL);
     expect(JSON.stringify(slides[5]?.table)).toContain("12.500");
     expect(JSON.stringify(slides[5]?.table)).toContain("50.450");
-    expect(slides[3]?.table?.note).toMatch(/Spoiler/u);
+    expect(slides[3]?.table?.note).toMatch(/Örnek sayılar; kendi tablondaki sayıyı koy/u);
+    expect(slides[3]?.table?.note).not.toMatch(/Spoiler/u);
+    expect(ACADEMY_ERROR_HUNT_SAMPLE_LOCK).toBe("Örnek sayılar; kendi tablondaki sayıyı koy.");
     expect(ACADEMY_OFFICE_AI_5_POCKET_STEPS).toEqual([
       "Toplamı formülle doğrula",
       "Mantık hatası sor",
@@ -161,7 +174,7 @@ describe("01_office_ai bölüm 5 — İstisnalar & Hata Avı Altın Şablon", ()
     expect(academyLessonSpeechHasStarted(KEY, 2)).toBe(true);
     expect(academyBedOutroTailSec(KEY)).toBeGreaterThan(0);
     expect(academyOutroSummaryLabels(KEY)).toEqual([
-      "Formülle doğrula",
+      "Toplamı formülle doğrula",
       "Mantık hatası sor",
       "İnsan gözü kilitle",
     ]);
@@ -172,12 +185,12 @@ describe("01_office_ai bölüm 5 — İstisnalar & Hata Avı Altın Şablon", ()
       return;
     }
     expect(pieces[0]?.start).toBe(2);
-    expect(pieces[1]?.end).toBe(68.32);
+    expect(pieces[1]?.end).toBe(74.44);
     expect((pieces[1]?.end ?? 0) - (pieces[1]?.start ?? 0)).toBeGreaterThan(20);
     expect((pieces[1]?.end ?? 0) - (pieces[1]?.start ?? 0)).toBeLessThan(50);
     expect(academyBedDuckGain(0.5, pieces)).toBe(ACADEMY_BED_BREATH_GAIN);
     const lastEnd = pieces.at(-1)?.end ?? 0;
-    expect(lastEnd).toBe(522.52);
+    expect(lastEnd).toBe(564.08);
     expect(academyBedDuckGain(lastEnd, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 1.5, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 4.5, pieces)).toBe(0);
@@ -202,7 +215,12 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(prose).toMatch(/Haftalık Sistem/u);
     expect(prose).toMatch(/30 Dakika/u);
     expect(prose).toMatch(/59\.450/u);
-    expect(prose).toMatch(/Üçüncü satır Demir Lojistik 17\.300/u);
+    expect(prose).toMatch(/İkinci satır Demir Lojistik 17\.300/u);
+    expect(prose).not.toMatch(/Üçüncü satır Demir Lojistik/u);
+    expect(prose).not.toMatch(/\bkomut/iu);
+    expect(prose).not.toMatch(/direktif/iu);
+    expect(prose).toMatch(/açık istem/u);
+    expect(prose).toMatch(/Hata dedektifi|dedektife çevirirsin/u);
     expect(prose).toMatch(/sınav kapısı en sonda açılır/u);
     expect(prose).not.toMatch(/sınav köprüsü/iu);
     expect(prose).toMatch(/Kişi adı, IBAN veya şirket sırrı varsa önce maskele/u);
@@ -222,8 +240,12 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     const cues = loadAcademyLessonCues(KEY);
     expect(cues.map((cue) => academyPunchcardLabel(cue.text))).toEqual([...PUNCHCARDS]);
     expect(cues.map((cue) => cue.paragraphs?.length ?? 0)).toEqual([1, 2, 2, 2, 2, 2, 1, 2]);
+    expect(cues[0]!.paragraphs?.join(" ")).toMatch(/Hâlâ e-postaya geçmiyoruz/u);
+    expect(cues[0]!.paragraphs?.join(" ")).toMatch(/Bu dersin sonunda uydurma sayıyı kaynak hücreyle kilitlemeyi/u);
+    expect(cues.map((cue) => cue.paragraphs?.join(" ") ?? "").join(" ")).toMatch(/İşte buna uydurma \(teknik adıyla halüsinasyon\) diyoruz/u);
+    expect(cues.at(-1)?.paragraphs?.join(" ")).toMatch(/Baraj 70/u);
     const compare = academyVisualCompareStage(KEY, "cue-06");
-    expect(compare?.beforeLabel).toBe("KÖR SÜREÇ (HALÜSİNASYONLU VERİ)");
+    expect(compare?.beforeLabel).toBe("KÖR SÜREÇ (UYDURMA VERİ)");
     expect(compare?.afterLabel).toBe("DEDEKTİF SÜREÇ (KONTROLLÜ VERİ)");
     expect(JSON.stringify(compare?.before.table)).toContain("21.500");
     expect(JSON.stringify(compare?.before.table)).toContain("59.450");
@@ -237,17 +259,17 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(academyExcelFocusZoomActive(KEY, cue04!.start)).toBe(true);
     expect(academyExcelMouseState(KEY, cue04!.start + 0.05)?.visible).toBe(true);
     expect(cues[0]!.start).toBe(ACADEMY_INTRO_GENERIC_SEC);
-    expect(cues.at(-1)?.end).toBe(522.52);
+    expect(cues.at(-1)?.end).toBe(564.08);
     const layer = academyCitizenPlayerLayer(SLUG, KEY);
     expect(layer.kind).toBe("article+karaoke");
     const strip = loadAcademyKaraokeStrip(KEY);
     expect(strip[0]?.start).toBe(2);
     expect(strip.find((line) => line.cueId === "cue-02")?.text).toMatch(/^Selamlar, ben Gözde/u);
-    expect(strip.find((line) => line.cueId === "cue-02")?.start).toBe(33.16);
-    expect(strip.find((line) => line.cueId === "cue-04")?.start).toBe(174.72);
+    expect(strip.find((line) => line.cueId === "cue-02")?.start).toBe(39.2);
+    expect(strip.find((line) => line.cueId === "cue-04")?.start).toBe(183.32);
     expect(strip.some((line) => line.text.includes("59.450"))).toBe(true);
     expect(strip.some((line) => line.text.includes("54.650"))).toBe(false);
-    expect(strip.at(-1)?.end).toBe(522.52);
+    expect(strip.at(-1)?.end).toBe(564.08);
   });
 
   it("HOŞ GELDİN rozeti 18 sn auto-hide; adım bantları ve Beat 3 split saatle yürür", () => {
@@ -282,8 +304,8 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(academyVisualStageActiveCard(stage!, detective!.start + 0.2)?.cueId).toBe("cue-05");
     expect(ACADEMY_OFFICE_AI_5_HOWTO_STEPS.map((step) => `Adım ${step.n}: ${step.label}`)).toEqual([
       "Adım 1: Veriyi Yükle",
-      "Adım 2: Çapraz Sorgu İstemini Yaz",
-      "Adım 3: Sapan Hücreyi Onayla",
+      "Adım 2: Çapraz Kontrol İstemini Yaz",
+      "Adım 3: Sapan Hücreyi Kilitle",
     ]);
     const beat3 = academyVisualCompareStage(KEY, academyPlaybackCueAtTime(cues, detective!.start + 0.2)?.id ?? "");
     expect(beat3?.beforeLabel).toBe(ACADEMY_OFFICE_AI_5_COMPARE_BEFORE_LABEL);
@@ -305,7 +327,7 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(media).toContain("pushSpokenClock");
     const punchcards = dronAcademyPunchcardsForLesson(KEY);
     expect(DRON_WELCOME_PUNCHCARD_MAX_SEC).toBe(18);
-    expect(punchcards.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(51.16);
+    expect(punchcards.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(57.2);
   });
 
   it("mini sınav baraj 70 durur; Dron punchcard Hata Avı taşır", () => {
@@ -314,13 +336,18 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(exam?.questions.map((row) => row.id)).toEqual(["q_off_l5_1", "q_off_l5_2", "q_off_l5_3"]);
     expect(exam?.questions[0]?.prompt).toContain("50.450");
     expect(exam?.questions[0]?.prompt).toContain("59.450");
+    expect(exam?.questions[0]?.prompt).toMatch(/kilitlersin/u);
+    expect(exam?.questions[0]?.prompt).not.toMatch(/bölge satır/iu);
+    expect(exam?.questions.map((row) => `${row.prompt} ${row.choices.join(" ")}`).join("\n")).not.toMatch(
+      /e-tablo|rastgelelik|mutabakat|yapay zeka\b/u,
+    );
     expect(exam?.questions[0]?.prompt).not.toContain("54.650");
     expect(exam?.questions[0]?.prompt).not.toContain("48.200");
     const punchcards = dronAcademyPunchcardsForLesson(KEY);
     expect(punchcards.map((card) => card.label)).toEqual(
       expect.arrayContaining(["HATA AVI", "AI DEDEKTİF"]),
     );
-    expect(punchcards.at(-1)?.end).toBe(522.52);
+    expect(punchcards.at(-1)?.end).toBe(564.08);
     expect(isAcademyLessonAudioSealed(SLUG, KEY)).toBe(true);
     expect(academyCitizenPlayerLayer(SLUG, KEY).kind).toBe("article+karaoke");
   });
@@ -369,20 +396,21 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
 
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
-    expect(timings?.durationSec).toBe(522.52);
-    expect(timings?.cacheV).toBe(522520);
+    expect(timings?.durationSec).toBe(564.08);
+    expect(timings?.cacheV).toBe(564080);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.at(-1)?.end).toBe(522.52);
+    expect(cues.at(-1)?.end).toBe(564.08);
     for (const cue of cues) {
       const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
       expect(pieces[0]?.start, cue.id).toBe(cue.start);
       expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
     }
     const strip = loadAcademyKaraokeStrip(KEY);
-    expect(strip.at(-1)?.end).toBe(522.52);
+    expect(strip.at(-1)?.end).toBe(564.08);
     const stripText = strip.map((line) => line.text).join(" ");
     expect(stripText).toMatch(/Peki yapay zekâ neden uydurur/u);
-    expect(stripText).toMatch(/Üçüncü satır Demir Lojistik 17\.300/u);
+    expect(stripText).toMatch(/İkinci satır Demir Lojistik 17\.300/u);
+    expect(stripText).toMatch(/İşte buna uydurma \(teknik adıyla halüsinasyon\) diyoruz/u);
     expect(stripText).toMatch(/sınav kapısı en sonda açılır/u);
     expect(stripText).toMatch(/mantık hatasını veya yanlış toplamı gözünle nasıl avlarsın/u);
     expect(stripText).toMatch(/kontrol edilmeden masaya neden koyulmaz/u);

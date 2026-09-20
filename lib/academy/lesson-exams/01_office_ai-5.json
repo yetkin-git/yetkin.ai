@@ -4,34 +4,34 @@
   "questions": [
     {
       "id": "q_off_l5_1",
-      "prompt": "Yapay zekaya analiz ettirilen bir satış tablosunda bölge satırları tek tek toplandığında 50.450 TL sonucuna ulaşılmasına karşın, modelin hazırladığı özet tablonun genel toplam satırında 59.450 TL yazmaktadır. Bu satır-genel toplam çelişkisini ve olası halüsinasyonu önlemek için en güvenilir yöntem hangisidir?",
+      "prompt": "Yıldız satırını topladın: 12.500. Modelin genel toplamı 59.450. Kendi topladığın 50.450. Hangisine güvenirsin, nasıl kilitlersin?",
       "choices": [
-        "Genel toplamı yapay zekanın hesaplamasına bırakmak yerine, ilgili hücreye e-tablo toplama formülü (SUM/TOPLA) yazdırarak nihai aritmetiği e-tablo motoruna hesaplatmak",
-        "Modele metin tabanlı yeni bir prompt verip genel toplamı üç kez daha teyit etmesini isteyerek metin çıktısına güvenmek",
-        "Tablodaki satır bazlı verileri silip yapay zekanın ürettiği genel toplamı tek gerçek kabul etmek",
-        "Yapay zekanın yanıt verme sıcaklığını (temperature) artırarak farklı toplam alternatifleri türetmesini sağlamak"
+        "Genel toplamı Excel TOPLA formülüyle yeniden hesaplatırsın; 50.450'yi kaynak hücreden kilitlersin.",
+        "Modelin 59.450'sini aynen kabul edersin.",
+        "Satırları silip model toplamını tek gerçek sayarsın.",
+        "Kişi adı geçen ham tabloyu aynen sohbete yapıştırırsın."
       ],
       "correctIndex": 0
     },
     {
       "id": "q_off_l5_2",
-      "prompt": "Müşteri mutabakat listesinde Yıldız Tekstil carisinde 21.500 TL açık bakiye farkı yer almasına rağmen, yapay zeka özetinde 'Tüm cari hesaplar dengelenmiştir, bakiye farkı bulunmamaktadır' ifadesi yer almaktadır. Bu mantık hatası karşısında izlenmesi gereken doğru denetim adımı hangisidir?",
+      "prompt": "Yıldız satırında 21.500 görüyorsun ama 9.100 artı 3.400, 12.500 veriyor. Model de 'fark yok' diyor. Ne yaparsın?",
       "choices": [
-        "Yapay zekanın genel değerlendirmesini esas alıp finans birimine mutabakatın tamamlandığını bildirmek",
-        "Modele '21.500 TL fark içeren Yıldız Tekstil kaydının mutabakat sonucunu nasıl etkilediğini' sorgulatıp gerekçelendirmesini istemek ve nihai onay öncesi tutarı kaynak evraktan insan kontrolüyle teyit etmek",
-        "Yıldız Tekstil satırını listeden çıkartıp yapay zekaya tabloyu yeniden analiz ettirerek hatasız rapor almak",
-        "Yapay zekadan mutabakat farkını kapatacak şekilde hayali bir dengeleme fişi üretmesini talep etmek"
+        "Modelin genel değerlendirmesini esas alıp fark yok dersin.",
+        "Modele 21.500'ün kaynağını sorarsın; tutarı kaynak evraktan insan gözüyle denetlersin.",
+        "Yıldız satırını listeden çıkarıp modele tabloyu yeniden analiz ettirirsin.",
+        "Yapay zekâdan farkı kapatacak uydurma bir satır yazmasını istersin."
       ],
       "correctIndex": 1
     },
     {
       "id": "q_off_l5_3",
-      "prompt": "Finansal ve operasyonel tablolarda yapay zekadan yararlanırken 'kritik veriyi insan gözüyle kilitleme' ilkesi hangi iş sürecini ifade eder?",
+      "prompt": "Vergi matrahı veya net ciro gibi kritik sayıyı neden insan gözüyle kilitlersin?",
       "choices": [
-        "Yapay zekanın oluşturduğu tablolardaki yalnızca başlık formatlarını kontrol edip sayısal değerleri doğrudan onaylamayı",
-        "Veri girişini tamamen yapay zekaya devredip ay sonunda yalnızca rastgele tek bir hücreyi örneklem olarak seçmeyi",
-        "Vergi matrahı, net ciro veya yasal bildirim gibi yüksek riskli temel parametreleri yapay zekanın serbest üretimine bırakmayıp, kaynak belgeden uzman kontrolüyle doğrulanmış sabit değer olarak sabitlemeyi",
-        "Yapay zekanın ürettiği tüm formülleri silerek sadece metin olarak dışa aktarmayı"
+        "Yalnız başlık formatına bakıp sayıyı doğrudan onaylarsın.",
+        "Veri girişini modele bırakıp ay sonunda rastgele bir hücreyi seçersin.",
+        "Modelin uydurmasına bırakmazsın; kaynak evraktaki sayıyı kilitlersin.",
+        "Tüm formülleri silip yalnız metin olarak dışa aktarırsın."
       ],
       "correctIndex": 2
     }

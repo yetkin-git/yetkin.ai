@@ -4,18 +4,18 @@
   "questions": [
     {
       "id": "q_off_l6_1",
-      "prompt": "Cuma 30 dakikalık ofis rutininin Excel ayağında doğru aktarım hangisidir?",
+      "prompt": "Cuma 30'un Excel bloğunda tabloyu nasıl verirsin?",
       "choices": [
-        "Tabloyu kopyalayıp harici sohbete yapıştırmak",
+        "Tabloyu kopyalayıp dış sohbete yapıştırmak",
         "Ekran görüntüsü zinciri basmak",
-        "Dosyayı ataş ile yüklemek veya Copilot varsa şeritten okutmak",
+        "Tabloyu ataş ile yüklemek veya Copilot varsa şeritten okutmak",
         "İlk üç satırı PDF’e basıp tahmin ettirmek"
       ],
       "correctIndex": 2
     },
     {
       "id": "q_off_l6_2",
-      "prompt": "Cuma 30 dakikalık ofis rutini nasıl bölünür?",
+      "prompt": "Cuma 30 dakikalık ofis rutinini nasıl bölersin?",
       "choices": [
         "Yalnız e-posta, üç kez",
         "Bütün haftayı tek oturumda bitirmek",
@@ -26,11 +26,11 @@
     },
     {
       "id": "q_off_l6_3",
-      "prompt": "Haftalık rutinde 3. Kapı (son çare) hangisidir?",
+      "prompt": "3. Kapı açılırsa ne yaparsın?",
       "choices": [
         "Gmail içinde Gemini paneli",
         "Word veya Excel dosyasını ataş ile yükleme",
-        "İsim ve IBAN maskelenmiş kısa özet yapıştırmak",
+        "Ad ve IBAN maskelenmiş kısa özet yazmak",
         "Copilot lisansı varsa şeritten okutma"
       ],
       "correctIndex": 2

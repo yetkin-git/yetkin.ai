@@ -4,6 +4,7 @@
  * Kod SSOT; izlemede harici API yok. PEDAGOJI.md §E.7.
  */
 
+import { ACADEMY_OFFICE_AI_3_COPILOT_HINT } from "@/lib/academy/lesson-beat-visual";
 import { loadAcademyLessonPlaybackCues } from "@/lib/academy/lesson-cues";
 
 export const ACADEMY_PROMPT_CHARS_PER_SEC = 22 as const;
@@ -69,6 +70,7 @@ const ACADEMY_CITIZEN_DOCX_LABELS: Readonly<Record<string, string>> = {
 const ACADEMY_CITIZEN_XLSX_LABELS: Readonly<Record<string, string>> = {
   "Kitap1.xlsx": "Kitap1 (Excel)",
   "Tahsilat_Mart_2026.xlsx": "Tahsilat Mart 2026 (Excel)",
+  "Yonetim_Ozeti.xlsx": "Yönetim Özeti (Excel)",
   "Tahsilat_Hata_Avi.xlsx": "Tahsilat Hata Avı (Excel)",
   "Musteri_Liste_Maske.xlsx": "Müşteri Liste Maske (Excel)",
   "Cuma_30_Dakika.xlsx": "Cuma 30 Dakika (Excel)",
@@ -77,6 +79,10 @@ const ACADEMY_CITIZEN_XLSX_LABELS: Readonly<Record<string, string>> = {
 const ACADEMY_CITIZEN_PPTX_LABELS: Readonly<Record<string, string>> = {
   "Yonetim_Sunumu.pptx": "Yönetim Sunumu (PowerPoint)",
   "Yonetim_Ozeti.pptx": "Yönetim Özeti (PowerPoint)",
+};
+
+const ACADEMY_CITIZEN_OST_LABELS: Readonly<Record<string, string>> = {
+  "Gelen_Kutusu.ost": "Gelen Kutusu (Outlook)",
 };
 
 export function academyCitizenDocxLabel(fileName: string | undefined): string | null {
@@ -100,6 +106,17 @@ export function academyCitizenOfficeFileLabel(fileName: string | undefined): str
   }
   if (/\.pptx\b/iu.test(fileName)) {
     return ACADEMY_CITIZEN_PPTX_LABELS[fileName] ?? "PowerPoint sunusu";
+  }
+  if (/\.ost\b/iu.test(fileName)) {
+    return ACADEMY_CITIZEN_OST_LABELS[fileName] ?? "Gelen Kutusu (Outlook)";
+  }
+  return null;
+}
+
+/** Model istemine karışmayan kullanıcı yönü — konsol alt-notu. */
+export function academyPromptConsoleFootnote(lessonKey: string): string | null {
+  if (lessonKey.trim() === "01_office_ai-3") {
+    return ACADEMY_OFFICE_AI_3_COPILOT_HINT;
   }
   return null;
 }

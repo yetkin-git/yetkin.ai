@@ -266,8 +266,8 @@ function parseScriptPayload(raw: unknown): ScriptPayload {
   if (/kirli/iu.test(prose)) {
     throw new Error("Vatandaş metninde «kirli» yok; Düzensiz Tablo veya Ham Veri kullan.");
   }
-  if (!/düz metin/iu.test(comparison) || !/hiyerarşi/iu.test(comparison)) {
-    throw new Error("Beat 3 split-screen sol düz metin yığını, sağ görsel hiyerarşili slayt anlatmalı.");
+  if (!/düz metin/iu.test(comparison) || !/hiyerarşi|bakma sırası/iu.test(comparison)) {
+    throw new Error("Beat 3 split-screen sol düz metin yığını, sağ sıralı slayt anlatmalı.");
   }
   if (!/tek fikir/iu.test(pocket)) {
     throw new Error("CEBİNE KOY 1. adım slayt başına tek fikir vermeli.");
@@ -508,12 +508,12 @@ KURALLAR:
 - Tam 4 beat, sıra: warmup → command → comparison → task.
 - Tam 14 paragraf. Rozet sırası birebir: GİRİŞ KÖPRÜSÜ, HOŞ GELDİN, HOŞ GELDİN, ŞABLON KAOSU, ŞABLON KAOSU, SLAYT İSTE, SLAYT İSTE, HİYERARŞİ, HİYERARŞİ, FARK ORTADA, FARK ORTADA, CEBİNE KOY, SIRA SENDE, SIRA SENDE.
 - Pekiştirme durakları:
-  * GİRİŞ KÖPRÜSÜ (Warm-up öncesi, ~40 sn, 70–105 kelime): 2. dersteki rapor otomasyonu ve yönetici özeti refleksini hatırlat/bağla. Üç madde ve karar notu. Henüz «Selamlar» deme. Mutlaka «yönetici özeti» veya «yönetim özeti» ve «rapor» geçsin.
+  * GİRİŞ KÖPRÜSÜ (Warm-up öncesi, ~40 sn, 70–105 kelime): 2. dersteki rapor çıkarma işi ve yönetim özeti refleksini hatırlat/bağla. Üç madde ve karar cümlesi. Henüz «Selamlar» deme. Mutlaka «yönetim özeti» ve «rapor» geçsin.
   * CEBİNE KOY (Task öncesi, ~45 sn, 80–130 kelime, hedef 105): Derste öğrenilen 3 somut adımı tane tane tekrarla. Adımları «1.» «2.» «3.» diye say. 1) Slayt başına tek fikir ver. 2) Görsel yönlendirmeyi yaz. 3) Taslağı aktar. Her adımı bir cümleyle açıkla. Bu üç ifadeyi kelime olarak kullan: «tek fikir», «görsel yönlendirme», «taslak».
 - 4-beat reji:
   * Warm-up: Sıfırdan slayt hazırlama stresi ve şablon arama karmaşası. Mutlaka «şablon» ve «slayt» geçsin.
   * Command: Metin tabanlı içerikten yapay zekâ ile slayt taslağı iste. SLAYT İSTE paragraflarında mutlaka «slayt taslağı» ve 1. Kapı PowerPoint Copilot veya 2. Kapı PowerPoint sunusu ataş geçsin. VBA, Gamma, Marp zorunlu değildir; ana yol değillerse tek cümle yeter. Spoiler yasağı: biten sunumun ekranda açık olduğunu söyleme; sonucu Beat 3’e kadar açıklama. «tek fikir» ifadesi Command’da da geçebilir.
-  * Comparison: Dikey split-screen. Sol «ÖNCE (DÜZ METİN YIĞINI)», sağ «SONRA (GÖRSEL HİYERARŞİLİ SLAYT - AI)». FARK ORTADA ve HİYERARŞİ paragraflarında «düz metin» ve «hiyerarşi» geçsin.
+  * Comparison: Dikey split-screen. Sol «ÖNCE (DÜZ METİN YIĞINI)», sağ «SONRA (SIRALI SLAYT - AI)». FARK ORTADA ve HİYERARŞİ paragraflarında «düz metin» ve «hiyerarşi» veya «bakma sırası» geçsin.
   * Task: Kendi metnini tek tıkla slayt yapısına dönüştürme saha görevi.
 - Gelecek Ders Köprüsü: Son SIRA SENDE paragrafı L4’e tatlı geçiş yapsın. Mutlaka «E-Posta Akışı», «Gelen Kutusu Sıfırlama» ve «4. bölüm» geçsin. Gelen kutusunu sıfırlayacağını söyle. «Üçüncü adımı tamamladın, görüşmek üzere» YAZMA.
 - Diğer paragraflar 48–100 Türkçe kelime. Üretmeden önce her paragrafı kelime kelime say. Toplam ~900–1150 kelime.

@@ -17,8 +17,8 @@ describe("Dron punchcard — web timings JSON türevi", () => {
     const dron = dronAcademyPunchcardsForLesson("01_office_ai-1");
     expect(dron).toEqual(derived);
     expect(dron).toHaveLength(8);
-    expect(dron[0]).toMatchObject({ id: "cue-01", label: "GİRİŞ KÖPRÜSÜ", start: 2, end: 40.76 });
-    expect(dron.at(-1)?.end).toBe(649.36);
+    expect(dron[0]).toMatchObject({ id: "cue-01", label: "GİRİŞ KÖPRÜSÜ", start: 2, end: 40.88 });
+    expect(dron.at(-1)?.end).toBe(662.56);
     expect(dronLessonDeliveryLabel("01_office_ai-1")).toBe("Sesli anlatım");
   });
 
@@ -26,8 +26,8 @@ describe("Dron punchcard — web timings JSON türevi", () => {
     const derived = punchcardsFromSealedJson(officeAi5Timings, officeAi5Cues);
     const dron = dronAcademyPunchcardsForLesson("01_office_ai-5");
     expect(dron).toEqual(derived);
-    expect(dron.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(51.16);
-    expect(dron.at(-1)?.end).toBe(522.52);
+    expect(dron.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(57.2);
+    expect(dron.at(-1)?.end).toBe(564.08);
   });
 
   it("6. ders timings’den türetilir; sesli anlatım", () => {
@@ -35,15 +35,15 @@ describe("Dron punchcard — web timings JSON türevi", () => {
     const dron = dronAcademyPunchcardsForLesson("01_office_ai-6");
     expect(dron).toEqual(derived);
     expect(dron).toHaveLength(8);
-    expect(dron.at(-1)?.end).toBe(541.36);
-    expect(dron.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(61.36);
+    expect(dron.at(-1)?.end).toBe(444.437);
+    expect(dron.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(51.211);
     expect(dronLessonDeliveryLabel("01_office_ai-6")).toBe("Sesli anlatım");
   });
 
   it("KVKK kaseti mühürlü; Dron sesli anlatım taşır", () => {
     const dron = dronAcademyPunchcardsForLesson("01_office_ai-k1");
     expect(dron).toHaveLength(8);
-    expect(dron.at(-1)?.end).toBe(619.484);
+    expect(dron.at(-1)?.end).toBe(668.88);
     expect(dronLessonDeliveryLabel("01_office_ai-k1")).toBe("Sesli anlatım");
   });
 

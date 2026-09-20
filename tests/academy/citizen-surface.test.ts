@@ -31,6 +31,7 @@ const SEN_SURFACES = [
   "app/academy/page.tsx",
   "app/academy/[slug]/page.tsx",
   "app/academy/[slug]/oyna/page.tsx",
+  "app/academy/[slug]/cikis-paketi/page.tsx",
   "app/(kernel)/cuzdan/page.tsx",
   "components/academy/curriculum-player.tsx",
   "components/academy/purchase-button.tsx",
@@ -58,10 +59,12 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("PurchaseButton");
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("SettlementSteps");
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("hasAcademyPlayerAccess");
+    expect(readSrc("app/academy/[slug]/page.tsx")).toContain("PrepStripTeaser");
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("/oyna");
     expect(readSrc("app/academy/[slug]/oyna/page.tsx")).toContain("requirePageSession");
     expect(readSrc("app/academy/[slug]/oyna/page.tsx")).toContain("hasPurchased");
     expect(readSrc("app/academy/[slug]/oyna/page.tsx")).toContain("CurriculumPlayer");
+    expect(readSrc("app/academy/[slug]/cikis-paketi/page.tsx")).toContain("OfficeAiExitKit");
     expect(readSrc("components/academy/purchase-button.tsx")).toContain("QuickTopUpModal");
     expect(readSrc("components/academy/curriculum-player.tsx")).toContain("completeLesson");
     expect(readSrc("components/academy/curriculum-player.tsx")).not.toContain("LessonListenButton");

@@ -55,6 +55,17 @@ const KEY = "01_office_ai-4";
 const PUNCHCARDS = [
   "GİRİŞ KÖPRÜSÜ",
   "HOŞ GELDİN",
+  "KUTU KAOSU",
+  "TASLAK YAZ",
+  "SIFIR KUTU",
+  "FARK ORTADA",
+  "CEBİNE KOY",
+  "SIRA SENDE",
+] as const;
+/** fırın öncesi — mühürlü cue JSON hâlâ INBOX KAOSU okur. */
+const SEALED_PUNCHCARDS = [
+  "GİRİŞ KÖPRÜSÜ",
+  "HOŞ GELDİN",
   "INBOX KAOSU",
   "TASLAK YAZ",
   "SIFIR KUTU",
@@ -72,8 +83,8 @@ describe("01_office_ai bölüm 4 — E-Posta Akışı Altın Şablon", () => {
     expect(lesson.key).toBe(KEY);
     expect(lesson.order).toBe(6);
     expect(lesson.title).toMatch(/E-Posta Akışı|Gelen Kutusu/u);
-    expect(lesson.body).toMatch(/Peki neden gelen kutu şişer/u);
-    expect(lesson.body).toMatch(/Peki mail triyajı nedir/u);
+    expect(lesson.body).toMatch(/Peki neden gelen kutusu şişer/u);
+    expect(lesson.body).toMatch(/Peki e-posta triyajı nedir/u);
     expect(lesson.body).toMatch(/Peki yapay zekâya neden taslak yanıt yazdırılır/u);
     expect(lesson.body).toMatch(/Peki taslak insan onayı verilmeden neden gönderilmez/u);
     expect(lesson.body).not.toMatch(/üç altın kural/u);
@@ -82,6 +93,11 @@ describe("01_office_ai bölüm 4 — E-Posta Akışı Altın Şablon", () => {
     expect(officeAiMasteryModule.sections.find((section) => section.lessonKey === KEY)?.pedagogicalObjective).toMatch(
       /triyaj/u,
     );
+    expect(lesson.body).not.toMatch(/\bkomut/u);
+    expect(lesson.body).not.toMatch(/G1 dersinde/u);
+    expect(lesson.body).not.toMatch(/INBOX KAOSU/u);
+    expect(lesson.body).toMatch(/KUTU KAOSU/u);
+    expect(lesson.body).not.toMatch(/sıfır yapı|sıfır bildirim/u);
   });
 
   it("Beat 3 split-screen sol 142 okunmamış, sağ sıfırlanmış kutu; spoiler kapalı", () => {
@@ -93,7 +109,7 @@ describe("01_office_ai bölüm 4 — E-Posta Akışı Altın Şablon", () => {
     expect(loadAcademyLessonVisualStage(KEY)?.cards[0]?.src).toBe(ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY);
     expect(slides[3]?.copilot?.hideReply).toBe(true);
     expect(slides[3]?.copilot?.prompt).toBe(
-      "Gelen kutumdaki okunmamış mailleri tara. Sadece bugün ödeme/onay bekleyenleri ACIL etiketiyle bana getir, bültenleri arşive kaldır.",
+      "Gelen kutumdaki okunmamış iletileri tara. Bugün ödeme veya imza bekleyenleri Acil, bu hafta cevap bekleyenleri Aksiyon, dekont ve bültenleri Arşivlik diye etiketle. Aksiyon için taslak yanıt notu yaz. Hiçbir iletiyi gönderme, hiçbirini silme.",
     );
     expect(slides[3]?.visualMode).toBe("live");
     expect(slides[4]?.visualMode).toBe("split");
@@ -103,33 +119,33 @@ describe("01_office_ai bölüm 4 — E-Posta Akışı Altın Şablon", () => {
     expect(slides[5]?.compare?.afterLabel).toBe(ACADEMY_OFFICE_AI_4_COMPARE_AFTER_LABEL);
     expect(JSON.stringify(slides[5]?.table)).toContain("Acil");
     expect(JSON.stringify(slides[5]?.table)).toContain("Kaya Gıda");
-    expect(JSON.stringify(slides[5]?.table)).toContain("Arşiv");
+    expect(JSON.stringify(slides[5]?.table)).toContain("Arşivlik");
     expect(slides[5]?.nodes?.map((node) => node.title)).toEqual([
       "ACİL AKSİYON",
-      "TAKİPTE / BEKLEYEN",
-      "OTOMATİK ARŞİVLENDİ",
+      "AKSİYON / BEKLEYEN",
+      "ARŞİVLİK",
     ]);
-    expect(slides[3]?.table?.note).toMatch(/Spoiler/u);
+    expect(slides[3]?.table?.note).toMatch(/Örnek iletiler/u);
     expect(ACADEMY_OFFICE_AI_4_POCKET_STEPS).toEqual([
       "Önem sırası etiketle",
-      "Taslak yanıtı yazdır",
-      "Arşive kaldır",
+      "Taslak yanıt iste",
+      "Arşive al",
     ]);
   });
 
-  it("05:30 anında sağ panel 3 grup kartı basar; 142 mail listesi yok", () => {
+  it("05:55 anında sağ panel 3 grup kartı basar; 142 mail listesi yok", () => {
     const cues = loadAcademyLessonCues(KEY);
-    const atFiveThirty = cues.find((cue) => cue.start <= 330 && cue.end > 330);
-    expect(atFiveThirty?.id).toBe("cue-06");
-    const compare = academyVisualCompareStage(KEY, atFiveThirty!.id);
+    const atFiveFiftyFive = cues.find((cue) => cue.start <= 355 && cue.end > 355);
+    expect(atFiveFiftyFive?.id).toBe("cue-06");
+    const compare = academyVisualCompareStage(KEY, atFiveFiftyFive!.id);
     expect(compare?.beforeLabel).toBe(ACADEMY_OFFICE_AI_4_COMPARE_BEFORE_LABEL);
     expect(compare?.afterLabel).toBe(ACADEMY_OFFICE_AI_4_COMPARE_AFTER_LABEL);
     expect(compare?.after.nodes?.map((node) => node.title)).toEqual([
       "ACİL AKSİYON",
-      "TAKİPTE / BEKLEYEN",
-      "OTOMATİK ARŞİVLENDİ",
+      "AKSİYON / BEKLEYEN",
+      "ARŞİVLİK",
     ]);
-    expect(JSON.stringify(compare?.after.table)).toContain("140 Okunmamış Bülten");
+    expect(JSON.stringify(compare?.after.table)).toContain("140 bülten ve davet");
     expect(JSON.stringify(compare?.after.table)).not.toContain("Üç toplantı daveti");
   });
 
@@ -139,7 +155,7 @@ describe("01_office_ai bölüm 4 — E-Posta Akışı Altın Şablon", () => {
     expect(academyLessonIntroIsActive(KEY, 1.9)).toBe(true);
     expect(academyLessonSpeechHasStarted(KEY, 2)).toBe(true);
     expect(academyBedOutroTailSec(KEY)).toBeGreaterThan(0);
-    expect(academyOutroSummaryLabels(KEY)).toEqual(["Önemle etiketle", "Taslak yazdır", "Arşive kaldır"]);
+    expect(academyOutroSummaryLabels(KEY)).toEqual(["Önem sırası etiketle", "Taslak yanıt iste", "Arşive al"]);
     expect(loadAcademyCinemaCueSlides(KEY)[0]?.visualMode).toBe("veo");
     const pieces = loadAcademySealedAudioTimings(KEY)?.pieces ?? [];
     if (pieces.length === 0) {
@@ -149,7 +165,7 @@ describe("01_office_ai bölüm 4 — E-Posta Akışı Altın Şablon", () => {
     expect(pieces[0]?.start).toBe(2);
     expect(academyBedDuckGain(0.5, pieces)).toBe(ACADEMY_BED_BREATH_GAIN);
     const lastEnd = pieces.at(-1)?.end ?? 0;
-    expect(lastEnd).toBe(443.56);
+    expect(lastEnd).toBe(493.8);
     expect(academyBedDuckGain(lastEnd, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 1.5, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 4.5, pieces)).toBe(0);
@@ -170,31 +186,30 @@ describe("01_office_ai bölüm 4 — senaryo ve mühür kapısı", () => {
     expect(prose).toMatch(/Hata Avı/u);
     expect(prose).toMatch(/okunmamış/iu);
     expect(prose).toMatch(/taslak yanıt/iu);
-    expect(prose).toMatch(/Microsoft Kopilot lisansın varsa/u);
-    expect(prose).toMatch(/Cemini eklentisini aç/u);
-    expect(prose).toMatch(/yerleşik panele/u);
+    expect(prose).toMatch(/Panel ayrı derstedir/u);
+    expect(prose).toMatch(/bir sonraki derste/u);
     expect(prose).not.toMatch(/ücretsiz Çetcipiti/u);
     expect(prose).not.toMatch(/ekranına yapıştır/u);
     expect(prose).toMatch(/Gmail/u);
     expect(prose).not.toMatch(/kirli/iu);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.map((cue) => academyPunchcardLabel(cue.text))).toEqual([...PUNCHCARDS]);
+    expect(cues.map((cue) => academyPunchcardLabel(cue.text))).toEqual([...SEALED_PUNCHCARDS]);
     const compare = academyVisualCompareStage(KEY, "cue-06");
-    expect(compare?.beforeLabel).toBe("ÖNCE (142 OKUNMAMIŞ MAİL)");
-    expect(compare?.afterLabel).toBe("SONRA (SIFIRLANMIŞ KUTU - AI)");
+    expect(compare?.beforeLabel).toBe("ÖNCE (142 OKUNMAMIŞ İLETİ)");
+    expect(compare?.afterLabel).toBe("SONRA (SIFIR KUTU - AI)");
     expect(compare?.after.nodes?.map((node) => node.title)).toEqual([
       "ACİL AKSİYON",
-      "TAKİPTE / BEKLEYEN",
-      "OTOMATİK ARŞİVLENDİ",
+      "AKSİYON / BEKLEYEN",
+      "ARŞİVLİK",
     ]);
     expect(JSON.stringify(compare?.after.table)).not.toMatch(/Haftalık Bülten/u);
     const cue04 = cues.find((cue) => cue.id === "cue-04");
     expect(cue04).toBeTruthy();
-    expect(cue04!.start).toBe(168.36);
+    expect(cue04!.start).toBe(208.64);
     expect(academyExcelFocusZoomActive(KEY, cue04!.start)).toBe(true);
     expect(academyExcelMouseState(KEY, cue04!.start + 0.05)?.visible).toBe(true);
     expect(cues[0]!.start).toBe(ACADEMY_INTRO_GENERIC_SEC);
-    expect(cues.at(-1)?.end).toBe(443.56);
+    expect(cues.at(-1)?.end).toBe(493.8);
   });
 
   it("ses mührü karaoke katmanını açar; mini sınav baraj 70 durur", () => {
@@ -202,17 +217,17 @@ describe("01_office_ai bölüm 4 — senaryo ve mühür kapısı", () => {
     expect(exam?.passScore).toBe(70);
     expect(exam?.questions.map((row) => row.id)).toEqual(["q_off_l4_1", "q_off_l4_2", "q_off_l4_3"]);
     const punchcards = dronAcademyPunchcardsForLesson(KEY);
-    expect(punchcards.map((card) => card.label)).toContain("INBOX KAOSU");
-    expect(punchcards.at(-1)?.end).toBe(443.56);
+    expect(punchcards.map((card) => card.label)).toContain("INBOX KAOSU"); // fırın öncesi
+    expect(punchcards.at(-1)?.end).toBe(493.8);
     expect(isAcademyLessonAudioSealed(SLUG, KEY)).toBe(true);
     expect(academyCitizenPlayerLayer(SLUG, KEY).kind).toBe("article+karaoke");
   });
 
   it("Sebep → Eylem → Sonuç ve gelen kutu kilidi durur", () => {
     const prose = loadAcademySpokenScriptProse(KEY);
-    expect(prose).toMatch(/Peki neden gelen kutu şişer\?/u);
+    expect(prose).toMatch(/Peki neden gelen kutusu şişer\?/u);
     expect(prose).toMatch(/her yeni satır aynı yığında durur/u);
-    expect(prose).toMatch(/Peki mail triyajı nedir\?/u);
+    expect(prose).toMatch(/Peki e-posta triyajı nedir\?/u);
     expect(prose).toMatch(/açmadan önce acil, aksiyon veya arşivlik/u);
     expect(prose).toMatch(/Peki yapay zekâya neden taslak yanıt yazdırılır\?/u);
     expect(prose).toMatch(/Peki taslak insan onayı verilmeden neden gönderilmez\?/u);
@@ -260,20 +275,20 @@ describe("01_office_ai bölüm 4 — senaryo ve mühür kapısı", () => {
 
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
-    expect(timings?.durationSec).toBe(443.56);
-    expect(timings?.cacheV).toBe(443560);
+    expect(timings?.durationSec).toBe(493.8);
+    expect(timings?.cacheV).toBe(493800);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.at(-1)?.end).toBe(443.56);
+    expect(cues.at(-1)?.end).toBe(493.8);
     for (const cue of cues) {
       const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
       expect(pieces[0]?.start, cue.id).toBe(cue.start);
       expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
     }
     const strip = loadAcademyKaraokeStrip(KEY);
-    expect(strip.at(-1)?.end).toBe(443.56);
+    expect(strip.at(-1)?.end).toBe(493.8);
     const stripText = strip.map((line) => line.text).join(" ");
-    expect(stripText).toMatch(/Peki neden gelen kutu şişer/u);
-    expect(stripText).toMatch(/Peki mail triyajı nedir/u);
+    expect(stripText).toMatch(/Peki neden gelen kutusu şişer/u);
+    expect(stripText).toMatch(/Peki e-posta triyajı nedir/u);
     expect(stripText).toMatch(/taslak yanıt yazdırılır/u);
     expect(stripText).toMatch(/insan onayı verilmeden neden gönderilmez/u);
     for (const line of strip) {

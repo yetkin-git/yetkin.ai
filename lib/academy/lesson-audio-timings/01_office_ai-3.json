@@ -1,8 +1,8 @@
 {
   "lessonKey": "01_office_ai-3",
   "pauseSec": 0.4,
-  "durationSec": 531.913,
-  "cacheV": 531913,
+  "durationSec": 575.6,
+  "cacheV": 575600,
   "pieces": [
     {
       "index": 0,
@@ -10,125 +10,125 @@
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
       "start": 2,
-      "end": 41.411,
-      "text": "Geçtiğimiz derste devasa tabloları ve dağınık ham verileri dakikalar içinde derleyip toparlamıştık. Sayfalarca süren karmaşık bir veri yığınından net bir rapor otomasyonu üretmeyi ve üst yönetimin doğrudan aksiyon almasını sağlayan o kritik yönetici özeti refleksini kazandın. Üç maddelik temel çıkarım ve net bir karar notu ile iş dünyasında belirsizliği nasıl hızla ortadan kaldırabileceğimizi gördük. Peki neden hâlâ slayta geçmiyoruz? Çünkü yönetici özeti masada kalsa bile toplantı slaytsız yürümez; o üç madde, doğru bir görsel dille aktarılmadıkça hak ettiği etkiyi yaratamaz. Şimdi elimizdeki o güçlü analizi ekibe ve yöneticilere sunma aşamasına geçiyoruz."
+      "end": 50.96,
+      "text": "Geçtiğimiz derste devasa tabloları ve dağınık ham verileri dakikalar içinde derleyip toparlamıştık. Sayfalarca süren karmaşık bir veri yığınından net bir rapor çıkarma işini ve üst yönetimin doğrudan karar almasını sağlayan o kritik yönetim özeti refleksini kazandın. Üç madde ve net bir karar cümlesi ile toplantıda kararsızlığı nasıl hızla ortadan kaldırabileceğimizi gördük. Bu dersin sonunda slayt başına tek fikir kuralını tek başına yapacaksın. Hâlâ slayta geçmiyoruz: yönetim özeti masada kalsa bile toplantı slaytsız yürümez; o üç madde, doğru bir görsel yönlendirmeyle aktarılmadıkça hak ettiği etkiyi yaratamaz. Şimdi elimizdeki o güçlü analizi ekibe ve yöneticilere sunma aşamasına geçiyoruz."
     },
     {
       "index": 1,
       "cueId": "cue-02",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 41.811,
-      "end": 77.822,
-      "text": "Selamlar, ben Gözde. yetkin.ai akademisinin bu dördüncü dersinde seninle birlikte metni slayta çevirmenin yolunu kuracağız. Geçen derste üç maddelik yönetici özetini kilitledik; peki şimdi ne olacak? Özet cebinde durur ama toplantı slayt ister. Hepimiz o toplantı öncesi saatlerce boş sayfaya bakıp durduk. Elinde harika fikirler, eksiksiz veriler var ama onları beyaz bir çalışma sayfasına dökmek korkutucu gelir. Peki neden sunum hazırlamak bu kadar zaman yer? Çünkü çoğu kişi önce şablonu süsler; mesajı sona bırakır. Bugün o sırayı çevireceğiz: önce tek fikir, sonra slayt taslağı."
+      "start": 51.36,
+      "end": 93.84,
+      "text": "Selamlar, ben Gözde. yetkin.ai akademisinin bu dördüncü dersinde seninle birlikte metni slayta çevirmenin yolunu kuracağız. Geçen derste üç maddelik yönetim özetini kilitledik; peki şimdi ne olacak? Özet cebinde durur ama toplantı slayt ister. Hepimiz o toplantı öncesi saatlerce boş sayfaya bakıp durduk. Elinde harika fikirler, eksiksiz veriler var ama onları boş bir slayta dökmek korkutucu gelir. Peki neden sunum hazırlamak bu kadar zaman yer? Çünkü çoğu kişi önce şablonu süsler; mesajı sona bırakır. Bugün o sırayı çevireceğiz: önce tek fikir, sonra slayt taslağı."
     },
     {
       "index": 2,
       "cueId": "cue-02",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 78.222,
-      "end": 113.833,
-      "text": "Geleneksel yöntemlerle sunum hazırlarken vaktimizin neredeyse yüzde seksenini tasarım detaylarına kurban ediyoruz. Hangi renk paleti uyar, simgeler nereye yerleşir, metin kutuları nasıl hizalanır derken asıl aktarmak istediğimiz mesajın gücü arka planda kaybolup gidiyor. Peki neden tasarımı önce bitirmeye çalışmayız? Çünkü sen grafiker değilsin; sen fikrin sahibisin. Metni slayta çevirirken roller değişiyor. Yapay zekâyı yanına aldığında tasarım yükünü algoritmaya verirsin. Böylece hikâyenin akışına, vurucu mesaja ve sunumunun yaratacağı iş etkisine odaklanırsın."
+      "start": 94.24,
+      "end": 132.08,
+      "text": "Geleneksel yöntemlerle sunum hazırlarken vaktimizin neredeyse yüzde seksenini tasarım detaylarına kurban ediyoruz. Hangi renk paleti uyar, simgeler nereye yerleşir, metin kutuları nasıl hizalanır derken asıl aktarmak istediğimiz mesajın gücü arka planda kaybolup gidiyor. Tasarımı önce bitirmeyiz. Sen grafiker değilsin; sen fikrin sahibisin. Metni slayta çevirirken roller değişiyor. Yapay zekâyı yanına aldığında tasarım yükünü algoritmaya verirsin. Böylece hikâyenin akışına, vurucu mesaja ve sunumunun yaratacağı iş etkisine odaklanırsın."
     },
     {
       "index": 3,
       "cueId": "cue-03",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 114.233,
-      "end": 150.244,
-      "text": "Düşünsene, yarın sabah erken saatte yönetim kuruluna sunumun var. Şirket arşivinde onlarca eski sunumu açıp uygun bir slayt düzeni arıyorsun. İnternetten indirdiğin havalı bir şablon ise elindeki içeriğe hiç uymuyor; metinler kutulardan taşıyor, grafikler karmakarışık görünüyor. İşte biz buna ofiste şablon kaosu diyoruz. Peki neden şablon avı saatleri yer? Çünkü biçim içeriğin önüne geçer; anlatının özü dağılır. Saatlerce font seçmekle ya da şekilleri milimetrik hizalamakla uğraşmak yerine, sistemli bir içerik kurgusu oluşturmaya odaklanmalıyız."
+      "start": 132.48,
+      "end": 170.8,
+      "text": "Düşünsene, yarın sabah erken saatte yönetim kuruluna sunumun var. Şirket arşivinde onlarca eski sunumu açıp uygun bir slayt düzeni arıyorsun. İnternetten indirdiğin havalı bir şablon ise elindeki içeriğe hiç uymuyor; metinler kutulardan taşıyor, grafikler karmakarışık görünüyor. İşte biz buna ofiste şablon kaosu diyoruz. Şablon avı saatleri yer: süs içeriğin önüne geçer; anlatmak istediğin dağılır. Saatlerce font seçmekle ya da şekilleri milimetrik hizalamakla uğraşmak yerine, sistemli bir içerik kurgusu oluşturmaya odaklanırsın."
     },
     {
       "index": 4,
       "cueId": "cue-03",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 150.644,
-      "end": 185.455,
-      "text": "Birçok profesyonelin yaptığı en büyük hata, sayfaları süslemenin sunumu kaliteli kılacağını düşünmektir. Oysa kalabalık şekiller, ilgisiz ikonlar ve göz yoran renkler dinleyicinin dikkatini dağıtmaktan başka bir işe yaramaz. Peki neden slayta düz metin yığını doldurulmaz? Çünkü insan zihni karmaşadan hızla uzaklaşır; dinleyici okumaya başlar, seni dinlemeyi bırakır. Eğer bir slayt ilk üç saniyede ne anlatmak istediğini hissettiremiyorsa, o sunum amacına ulaşamamış demektir. Bu yüzden önceliğimiz süsleme değil, mesajın omurgası olmalıdır."
+      "start": 171.2,
+      "end": 207.68,
+      "text": "Hepimizin yaptığı en büyük hata, sayfaları süslemenin sunumu kaliteli kılacağını düşünmektir. Oysa kalabalık şekiller, ilgisiz ikonlar ve göz yoran renkler dinleyicinin dikkatini dağıtmaktan başka bir işe yaramaz. Peki neden slayta düz metin yığını doldurulmaz? Çünkü insan zihni karmaşadan hızla uzaklaşır; dinleyici okumaya başlar, seni dinlemeyi bırakır. Eğer bir slayt ilk üç saniyede ne anlatmak istediğini hissettiremiyorsa, o sunum amacına ulaşamamış demektir. Bu yüzden önceliğimiz süsleme değil, ana mesaj olur."
     },
     {
       "index": 5,
       "cueId": "cue-04",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 185.855,
-      "end": 234.946,
-      "text": "Şimdi mantığı oturtalım. Peki yapay zekâdan slayt taslağı nasıl alınır? İşe, elimizdeki ham metni modele verip net bir rol biçerek başlıyoruz. Yapay zekâya kıdemli bir sunum tasarımcısı olduğunu söylemeli ve her sayfada tek fikir barındıran bir slayt taslağı oluşturmasını talep etmeliyiz. Peki tek fikir kuralı nedir? Her slayt yalnızca bir vurucu mesaj taşır; on madde taşımaz. Pauer Point Kopilot lisansın varsa bu birinci kapıdır: istemi şeritteki panele yazarsın. Yoksa ikinci kapı Pauer Point sunusunu sohbete ataşlamaktır. Gama veya Marp istersen kullanabilirsin; ana yol değildir. Kod yok. Komutunda başlıkları, vurucu anahtar mesajı ve ekranda yer alacak maddeleri kesin sınırlarla ayırmasını belirtmelisin."
+      "start": 208.08,
+      "end": 258.12,
+      "text": "Şimdi mantığı oturtalım. Peki yapay zekâdan slayt taslağı nasıl alınır? İşe, elimizdeki ham metni modele verip net bir rol biçerek başlıyoruz. Yapay zekâya bir sunum tasarımcısı olduğunu yazmalı ve her sayfada tek fikir barındıran bir slayt taslağı oluşturmasını iste. Peki tek fikir kuralı nedir? Her slayt yalnızca bir vurucu mesaj taşır; on madde taşımaz. Pauer Point Kopilot lisansın varsa bu birinci kapıdır: istemi şeritteki panele yazarsın. Yoksa ikinci kapı Pauer Point sunusunu sohbete ataşlamaktır. Gama veya Marp istersen kullanabilirsin; ana yol değildir. Kod yazdırmazsın. İsteminde başlıkları, vurucu mesajı ve ekranda yer alacak maddeleri net kısıtlarla ayırmasını belirtmelisin."
     },
     {
       "index": 6,
       "cueId": "cue-04",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 235.346,
-      "end": 274.717,
-      "text": "Komutuna mutlaka görsel yönlendirme eklemesini de şart koşmalısın. Neden? Çünkü yapay zekâ yalnız metin yazarsa taslak yine duvar olur. Yani model yalnızca cümle basmamalı; her bir sayfanın sağ köşesinde nasıl bir infografik veya görsel bulunması gerektiğini parantez içinde tarif etmelidir. Eğer Pauer Point Kopilot yoksa dosyayı Pauer Point sunusu olarak ataşla; model slayt başlıklarını ve konuşmacı notlarını dosyanın üstünden çıkarır. Ve be a makrosu bu derste yoktur. Bu aşamada girdiğin komut ne kadar yapılandırılmış olursa, elde edeceğin içerik mimarisi de o kadar net olur."
+      "start": 258.52,
+      "end": 297.16,
+      "text": "İstemine mutlaka görsel yönlendirme eklemesini de şart koşmalısın. Neden? Çünkü yapay zekâ yalnız metin yazarsa taslak yine duvar olur. Yani model yalnızca cümle basmamalı; her bir sayfanın sağ köşesinde nasıl bir grafik veya resim bulunması gerektiğini parantez içinde tarif eder. Eğer Pauer Point Kopilot yoksa dosyayı Pauer Point sunusu olarak ataşla; model slayt başlıklarını ve konuşmacı notlarını dosyanın üstünden çıkarır. Ve be a makrosu bu derste yoktur. Bu aşamada yazdığın istem ne kadar net yazılmış olursa, elde edeceğin slayt taslağı da o kadar net olur."
     },
     {
       "index": 7,
       "cueId": "cue-05",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 275.117,
-      "end": 315.568,
-      "text": "Şimdi ekrana gelen karşılaştırmaya dikkatle bakmanı istiyorum. Sol tarafta ofislerde sıkça gördüğümüz o klasik durum var: Önce, yani düz metin yığını. Paragraflar kopyalanıp doğrudan sayfaya yapıştırılmış, hiçbir vurgu yok ve okumak bile insanı yoruyor. Sağ tarafta ise yapay zekânın ürettiği sonuç duruyor: Sonra, yani görsel hiyerarşili slayt. Yapay zekâ sayfayı tek bir güçlü başlık, üç net odak noktası ve dinleyicinin gözünü yormayan mantıksal bir sıralamayla kurmuş. Peki neden sol taraf yorar da sağ taraf tutar? Çünkü tek fikir slaytta yerini gösterir; yığın ise her şeyi aynı anda bağırır."
+      "start": 297.56,
+      "end": 342.04,
+      "text": "Şimdi ekrana gelen karşılaştırmaya dikkatle bakmanı istiyorum. Sol tarafta ofislerde sıkça gördüğümüz o klasik durum var: Önce, yani düz metin yığını. Paragraflar kopyalanıp doğrudan sayfaya yapıştırılmış, hiçbir vurgu yok ve okumak bile insanı yoruyor. Sağ tarafta ise yapay zekânın ürettiği sonuç duruyor: Sonra, yani görsel hiyerarşi (gözün bakma sırası) ile kurulu slayt. Yapay zekâ sayfayı tek bir güçlü başlık, üç net odak ve dinleyicinin gözünü yormayan mantıklı bir sırayla kurmuş. Peki neden sol taraf yorar da sağ taraf tutar? Çünkü tek fikir slaytta yerini gösterir; yığın ise her şeyi aynı anda bağırır."
     },
     {
       "index": 8,
       "cueId": "cue-05",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 315.968,
-      "end": 352.179,
-      "text": "Sağ taraftaki yapıda kurulan görsel hiyerarşi, yöneticinin veya müşterinin nereye bakması gerektiğini saniyesinde fısıldıyor. En kritik sayı ve anahtar metin hemen göze çarpıyor, destekleyici ayrıntılar ise daha ikincil bir boyutta kalıyor. Soldaki düz metin kalabalığında dinleyici slaytı okumaya çalışırken konuşmacıyı dinlemeyi tamamen bırakır. Sağdaki kurguda ise slayt senin sözlerini gölgelemez; aksine söylediklerini destekleyen güçlü bir sahne arkası panosuna dönüşür. Böylece hem mesaj üç saniyede iner hem de sen konuşmayı bırakmazsın."
+      "start": 342.44,
+      "end": 377.04,
+      "text": "Sağ taraftaki yapıda kurulan bakma sırası, yöneticinin veya müşterinin nereye bakması gerektiğini saniyesinde fısıldıyor. En kritik sayı ve anahtar metin hemen göze çarpıyor, destek cümleleri daha küçük durur. Soldaki düz metin kalabalığında dinleyici slaytı okumaya çalışırken konuşmacıyı dinlemeyi tamamen bırakır. Sağdaki kurguda ise slayt senin sözlerini gölgelemez; aksine söylediklerini destekleyen güçlü bir arkadaki destek panosuna dönüşür. Böylece hem mesaj üç saniyede iner hem de sen konuşmayı bırakmazsın."
     },
     {
       "index": 9,
       "cueId": "cue-06",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 352.579,
-      "end": 397.91,
-      "text": "Ekrana dikkatli bak. Peki neden fark bu kadar belirgin? Çünkü soldaki düz metin yaklaşımında saatlerce çalışıp yorulsan bile ortaya çıkan sonuç dağınık hissettirir. Sağdaki yapay zekâ modelinde ise doğru bir hiyerarşi oluşturulduğu için mesaj doğrudan hedefine ulaşır. Sol taraf her cümleyi taşır, bakış noktası yoktur. Sağ taraf tek başlık ve üç odak taşır, toplantı yürür. Yapay zekâ sana yalnızca bir süs sunmuyor; metnini damıtıyor, önceliklendiriyor ve karar vericinin zihnine en hızlı şekilde akmasını sağlıyor. Üstelik bu dönüşümü dakikalarca uğraşarak değil, doğru yönlendirilmiş tek bir akılcı komutla elde ediyorsun."
+      "start": 377.44,
+      "end": 421.64,
+      "text": "Ekrana dikkatli bak. Peki neden fark bu kadar belirgin? Çünkü soldaki düz metin yaklaşımında saatlerce çalışıp yorulsan bile ortaya çıkan sonuç dağınık hissettirir. Sağdaki yapay zekâ modelinde ise doğru bir bakma sırası oluşturulduğu için mesaj doğrudan hedefine ulaşır. Sol taraf her cümleyi taşır, bakış noktası yoktur. Sağ taraf tek başlık ve üç odak taşır, toplantı yürür. Yapay zekâ sana yalnızca bir süs sunmuyor; metnini sadeleştiriyor, sıraya koyuyor ve yöneticinin aklına en hızlı şekilde akmasını sağlıyor. Üstelik bu dönüşümü dakikalarca uğraşarak değil, doğru yönlendirilmiş tek bir istemle elde ediyorsun."
     },
     {
       "index": 10,
       "cueId": "cue-06",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 398.31,
-      "end": 425.441,
-      "text": "Bu yaklaşımı bir kez içselleştirdiğinde, sunum hazırlamak artık iş gününü bölen kâbus gibi bir görev olmaktan çıkar. Metnini ekrana koyduğunda yapay zekâ sana hazır bir iskelet sunduğu için, sen enerjini tamamen sunumun provasına ve anlatım tonuna saklayabilirsin. Hangi veriyi vurgulayacağını, nerede duraklayacağını ve dinleyiciden ne talep edeceğini düşünmek için bolca vaktin kalır. Çünkü slayt senin yerini almaz; senin sözünü taşır."
+      "start": 422.04,
+      "end": 451.8,
+      "text": "Bu yaklaşımı bir kez kaptığında, sunum hazırlamak artık iş gününü bölen kâbus gibi bir görev olmaktan çıkar. Metnini ekrana koyduğunda yapay zekâ sana hazır bir taslak sunduğu için, sen enerjini tamamen sunumun provasına ve anlatım tonuna saklayabilirsin. Hangi veriyi vurgulayacağını, nerede duraklayacağını ve dinleyiciden ne talep edeceğini düşünmek için bolca vaktin kalır. Çünkü slayt senin yerini almaz; senin sözünü taşır."
     },
     {
       "index": 11,
       "cueId": "cue-07",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 425.841,
-      "end": 477.131,
-      "text": "Şimdi bu derste öğrendiğin yaklaşımı iş hayatında her gün kullanabileceğin üç somut adıma dökelim ve cebine koyalım. 1. Slayt başına tek fikir ver; sayfayı karmaşık bilgiyle boğmak yerine her slaytın yalnızca tek bir vurucu mesaja odaklanmasını sağla. Çünkü dinleyici on madde okursa seni dinlemez. 2. Görsel yönlendirmeyi yaz; yapay zekâya sadece sunum metinlerini değil, ekranda hangi veri grafiklerinin veya simgelerin yer alacağını parantez içinde tarif ettir. Çünkü yön yoksa taslak yine metin duvarı basar. 3. Taslağı aktar; Kopilot şeridinden veya Pauer Point sunusu ataşından gelen düzenli çıktıyı slayt başına tek fikir kalarak Pauer Point’e taşı. Çünkü aktarırken madde şişerse hiyerarşi bozulur. Bu üç adımı her projede uyguladığında sunum hazırlamak zahmetli bir iş olmaktan çıkar."
+      "start": 452.2,
+      "end": 504.48,
+      "text": "Şimdi bu derste öğrendiğin yaklaşımı iş hayatında her gün kullanabileceğin üç somut adıma dökelim ve cebine koyalım. 1. Slayt başına tek fikir ver; sayfayı karmaşık bilgiyle boğmak yerine her slaytı yalnızca tek bir vurucu mesaja odakla. Çünkü dinleyici on madde okursa seni dinlemez. 2. Görsel yönlendirmeyi yaz; yapay zekâya sadece sunum metinlerini değil, ekranda hangi veri grafiklerinin veya simgelerin yer alacağını parantez içinde tarif ettir. Çünkü yön yoksa taslak yine metin duvarı basar. 3. Taslağı aktar; Kopilot şeridinden veya Pauer Point sunusu ataşından gelen düzenli çıktıyı slayt başına tek fikir kalarak Pauer Point’e taşı. Çünkü aktarırken madde şişerse sıra bozulur. Bu üç adımı her projede uyguladığında sunum hazırlamak zahmetli bir iş olmaktan çıkar."
     },
     {
       "index": 12,
       "cueId": "cue-08",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 477.531,
-      "end": 506.902,
-      "text": "Şimdi bu bilgileri sahada bizzat test etme sırası sende. Senden istediğim görev net: Geçen derste hazırladığın o yönetici özetini veya iş yerinde üzerinde çalıştığın herhangi bir ham metni al. Yapay zekâya sunum tasarımcısı rolünü ver ve metnini beş slaytlık profesyonel bir sunum akışına dönüştürmesini iste. Her slaytta tek bir mesaj olmasına ve görsel önerilerinin mutlaka belirtilmesine dikkat et. Çıkan slaytta on madde görürsen metni masaya koyma; tek fikre indir."
+      "start": 504.88,
+      "end": 541.72,
+      "text": "Şimdi bu bilgileri sahada bizzat test etme sırası sende. Senden istediğim görev net: Geçen derste hazırladığın o yönetim özetini veya iş yerinde üzerinde çalıştığın herhangi bir ham metni al. Kişi adı, IBAN veya şirket sırrı varsa önce maskele; ham metni sohbete yükleme. Yapay zekâya sunum tasarımcısı rolünü ver ve metnini beş slaytlık düzenli bir sunum taslağına dönüştürmesini iste. Her slaytta tek bir mesaj olmasına dikkat et ve görsel önerilerini mutlaka yaz. Çıkan slaytta on madde görürsen metni masaya koyma; tek fikre indir."
     },
     {
       "index": 13,
       "cueId": "cue-08",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 507.302,
-      "end": 531.913,
-      "text": "Sunum taslağını hazırladıktan sonra hiç durmadan bir sonraki adıma geçeceğiz. 5. derste akıcı slaytın arkasındaki uydurma sayıyı yakalayacağız: İstisnalar ve Hata Avı. E-Posta Akışı ve Gelen Kutusu Sıfırlama ritüeli ondan sonra gelir; yerleşik Gmail kapısı ayrı derstedir. Mesajların arasında kaybolmaya son vermeden önce, rapordaki sayıyı kilitlemeyi öğrenmen gerekir. Slaytı o sayı kilitlenmeden yayınlama."
+      "start": 542.12,
+      "end": 575.6,
+      "text": "Sunum taslağını hazırladıktan sonra hiç durmadan bir sonraki adıma geçeceğiz. 5. derste akıcı slaytın arkasındaki uydurma sayıyı yakalayacağız: İstisnalar ve Hata Avı. E-Posta Akışı ve Gelen Kutusu Sıfırlama ritüeli ondan sonra gelir; yerleşik Gmail kapısı ayrı derstedir. Mesajların arasında kaybolmaya son vermeden önce, rapordaki sayıyı kilitlemeyi öğrenmen gerekir. Slaytı o sayı kilitlenmeden yayınlama. Sınav, 9. ders bitince açılır. Baraj 70 puandır."
     }
   ]
 }

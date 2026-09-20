@@ -20,6 +20,7 @@ import {
   ACADEMY_EXCEL_DENSE_DUMP_MIN_ROWS,
   ACADEMY_OFFICE_AI_2_CLEAN_TABLE,
   ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE,
+  ACADEMY_OFFICE_AI_2_SUMMARY_TABLE,
   academyExcelIsDenseDumpTable,
   academyExcelOfficeAi2SeedTutarSum,
   academyVisualCompareStage,
@@ -82,8 +83,14 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     expect(lesson.order).toBe(3);
     expect(lesson.title).toMatch(/Rapor Otomasyonu/u);
     expect(lesson.body).toMatch(/Selamlar, ben Gözde/u);
+    expect(lesson.body).toMatch(/A1 kuralıyla/u);
     expect(lesson.body).toMatch(/A1 hücresi/u);
-    expect(lesson.body).toMatch(/yönetici özeti|yönetim özeti/u);
+    expect(lesson.body).toMatch(/yönetim özeti/u);
+    expect(lesson.body).not.toMatch(/yönetici özeti/u);
+    expect(lesson.body).not.toMatch(/A1 eşiği/u);
+    expect(lesson.body).not.toMatch(/KVKK bekçisi/u);
+    expect(lesson.body).not.toMatch(/Grafik vaadi/u);
+    expect(lesson.body).toMatch(/Grafik bu derste yok; grafikleri Excel Formül dersinde/u);
     expect(lesson.body).toMatch(/metinden slayta/iu);
     expect(lesson.body).toMatch(/Kişi adı, IBAN veya müşteri sırrı varsa önce maskele/u);
     expect(lesson.body).toMatch(/4\. ders|dördüncü ders|metinden slayta/iu);
@@ -104,11 +111,12 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     const prose = loadAcademySpokenScriptProse(KEY);
     expect(prose).toMatch(/Selamlar, ben Gözde/u);
     expect(prose).toMatch(/düzensiz tablo/iu);
-    expect(prose).toMatch(/A bir hücresi/u);
-    expect(prose).toMatch(/toplantı/iu);
-    expect(prose).toMatch(/üç madde/iu);
-    expect(prose).toMatch(/metinden slayta/iu);
-    expect(prose).toMatch(/Peki neden üç maddelik yönetim özeti isteriz/u);
+    expect(prose).toMatch(/A1 kuralıyla/u);
+    expect(prose).not.toMatch(/A1 eşiği/u);
+    expect(prose).not.toMatch(/KVKK bekçisi/u);
+    expect(prose).not.toMatch(/\bkomut/u);
+    expect(prose).toMatch(/doğru istemle/u);
+    expect(prose).toMatch(/Peki neden üç maddelik yönetim özeti isteriz de on sayfalık dökümü istemeyiz/u);
     expect(prose).toMatch(/Peki yapay zekâ uydurmasın diye sayıları nasıl kilitleriz/u);
     expect(prose).toMatch(/Şimdi mantığı oturtalım/u);
     expect(prose).toMatch(/Neden\?/u);
@@ -126,9 +134,9 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     const pocket = cues.find((cue) => academyPunchcardLabel(cue.text) === "CEBİNE KOY");
     expect(pocket?.paragraphs?.join(" ")).toMatch(/1\./u);
     expect(pocket?.paragraphs?.join(" ")).toMatch(/toplam/iu);
-    expect(pocket?.paragraphs?.join(" ")).toMatch(/trend/iu);
-    expect(pocket?.paragraphs?.join(" ")).toMatch(/anomali|risk/iu);
-    expect(pocket?.paragraphs?.join(" ")).toMatch(/eylem/iu);
+    expect(pocket?.paragraphs?.join(" ")).toMatch(/yön/iu);
+    expect(pocket?.paragraphs?.join(" ")).toMatch(/sapan nokta/iu);
+    expect(pocket?.paragraphs?.join(" ")).toMatch(/karar cümlesi/iu);
     expect(pocket?.end).toBeGreaterThan(pocket!.start + 35);
   });
 
@@ -142,6 +150,9 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     expect(slides.map((slide) => slide.section)).toEqual([...PUNCHCARDS]);
     expect(slides[3]?.copilot?.hideReply).toBe(true);
     expect(slides[3]?.copilot?.prompt).toBe(ACADEMY_OFFICE_AI_2_COPILOT_PROMPT);
+    expect(slides[3]?.copilot?.prompt).toMatch(/yönetim özetini/u);
+    expect(slides[3]?.copilot?.prompt).toMatch(/karar cümlesini yaz/u);
+    expect(slides[3]?.copilot?.prompt).not.toMatch(/söyle|yönetici özeti|trend/u);
     expect(slides[3]?.copilot?.prompt).toMatch(/Uydurma yüzde ekleme/u);
     expect(slides[3]?.copilot?.prompt).not.toMatch(/henüz açma|Beat 3|spoiler/iu);
     expect(slides[3]?.visualMode).toBe("live");
@@ -160,9 +171,9 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     expect(academyVisualCompareStage(KEY, "cue-04")).toBeNull();
     expect(academyVisualCompareStage(KEY, "cue-08")).toBeNull();
     expect(ACADEMY_OFFICE_AI_2_POCKET_STEPS).toEqual([
-      "Toplam ve trendi iste",
-      "Anomali ve riskleri sor",
-      "Eylem cümlesine çevir",
+      "Toplamı ve yönü iste",
+      "Sapan nokta ve riskleri sor",
+      "Karar cümlesine çevir",
     ]);
   });
 
@@ -172,7 +183,7 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     expect(academyLessonIntroIsActive(KEY, 1.9)).toBe(true);
     expect(academyLessonSpeechHasStarted(KEY, 2)).toBe(true);
     expect(academyBedOutroTailSec(KEY)).toBeGreaterThan(0);
-    expect(academyOutroSummaryLabels(KEY)).toEqual(["Toplam ve trend", "Anomali ve risk", "Eylem cümlesi"]);
+    expect(academyOutroSummaryLabels(KEY)).toEqual(["Toplam ve yön", "Sapan nokta ve risk", "Karar cümlesi"]);
     const cues = loadAcademyLessonPlaybackCues(KEY);
     const cue04 = cues.find((cue) => cue.id === "cue-04");
     expect(cue04).toBeTruthy();
@@ -182,7 +193,7 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     expect(pieces[0]?.start).toBe(2);
     expect(academyBedDuckGain(0.5, pieces)).toBe(ACADEMY_BED_BREATH_GAIN);
     const lastEnd = pieces.at(-1)?.end ?? 0;
-    expect(lastEnd).toBe(553.84);
+    expect(lastEnd).toBe(552.68);
     expect(academyBedDuckGain(lastEnd, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
   });
 
@@ -196,7 +207,7 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
 
   it("Sebep → Eylem → Sonuç ve sayı kilidi durur", () => {
     const prose = loadAcademySpokenScriptProse(KEY);
-    expect(prose).toMatch(/Peki neden üç maddelik yönetim özeti isteriz de on sayfalık dökümü yazdırmayız\?/u);
+    expect(prose).toMatch(/Peki neden üç maddelik yönetim özeti isteriz de on sayfalık dökümü istemeyiz\?/u);
     expect(prose).toMatch(/yöneticinin yirmi dakikası vardır/u);
     expect(prose).toMatch(/Peki yapay zekâ uydurmasın diye sayıları nasıl kilitleriz\?/u);
     expect(prose).toMatch(/Sayıyı tahmin ettirmezsin; hücreden aldırırsın/u);
@@ -224,11 +235,13 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
     expect(ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE.headers).toContain("Risk");
     expect(ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE.headers.length).toBeGreaterThanOrEqual(12);
     const after = slides[4]?.table;
+    expect(after).toEqual(ACADEMY_OFFICE_AI_2_SUMMARY_TABLE);
     expect(after?.headers).toEqual(["Madde", "Kaynak sayı", "Not"]);
-    expect(after?.rows[0]).toEqual(["Toplam", "54.650", "Mart tahsilat; trend Kaya önde"]);
-    expect(after?.rows[1]?.[1]).toBe("8.200");
+    expect(after?.rows[0]).toEqual(["Toplam", "54.650", "Mart tahsilat; yön Kaya önde"]);
+    expect(after?.rows[1]).toEqual(["Bekler", "8.200", "Demir Lojistik bekler"]);
     expect(after?.rows[2]?.[1]).toBe("9.100");
-    expect(after?.rows[3]?.[2]).toMatch(/Demir/u);
+    expect(after?.rows[3]?.[2]).toMatch(/Vade için bugün ara/u);
+    expect(slides[4]?.fileName).toBe("Yonetim_Ozeti.xlsx");
     expect(slides[5]?.table?.headers).toEqual(["Madde", "Kaynak sayı", "Not"]);
     const css = readFileSync(join(ROOT, "app/globals.css"), "utf8");
     expect(css).toMatch(
@@ -259,20 +272,21 @@ describe("01_office_ai bölüm 2 — rapor otomasyonu Altın Şablon", () => {
 
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
-    expect(timings?.durationSec).toBe(553.84);
-    expect(timings?.cacheV).toBe(553840);
+    expect(timings?.durationSec).toBe(552.68);
+    expect(timings?.cacheV).toBe(552680);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.at(-1)?.end).toBe(553.84);
+    expect(cues.at(-1)?.end).toBe(552.68);
     for (const cue of cues) {
       const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
       expect(pieces[0]?.start, cue.id).toBe(cue.start);
       expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
     }
     const strip = loadAcademyKaraokeStrip(KEY);
-    expect(strip.at(-1)?.end).toBe(553.84);
+    expect(strip.at(-1)?.end).toBe(552.68);
     expect(strip.some((line) => /üç maddelik yönetim özeti/u.test(line.text))).toBe(true);
     expect(strip.some((line) => /uydurma yüzde/iu.test(line.text))).toBe(true);
     expect(strip.some((line) => /hücreden aldırırsın/u.test(line.text))).toBe(true);
+    expect(strip.some((line) => /karar cümlesi/u.test(line.text))).toBe(true);
     for (const line of strip) {
       const words = academyKaraokeWords(line);
       expect(academyKaraokeReconstructLine(words)).toBe(academyKaraokeNormalizeLine(line.text));

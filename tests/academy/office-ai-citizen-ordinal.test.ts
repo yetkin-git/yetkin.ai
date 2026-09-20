@@ -39,6 +39,7 @@ describe("01_office_ai vatandaş sıra numarası — lesson-index SSOT", () => {
     expect(academyCitizenLessonOrdinalFromKey("01_office_ai-4")).toBe(6);
     expect(academyCitizenLessonOrdinalFromKey("01_office_ai-6")).toBe(9);
     expect(academyCitizenLessonOrdinalFromKey("01_office_ai-k1")).toBe(2);
+    expect(academyCitizenLessonOrdinal(SLUG, "01_office_ai-0")).toBeNull();
     expect(academyLessonByKey(SLUG, "4")).toBeNull();
     expect(academyLessonByKey(SLUG, "01_office_ai-4")?.order).toBe(6);
     expect(academyLessonByKey(SLUG, "01_office_ai-4")?.title).toMatch(/E-Posta/u);
@@ -78,7 +79,8 @@ describe("01_office_ai vatandaş sıra numarası — lesson-index SSOT", () => {
     const q28 = OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_28");
     const q34 = OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_34");
     expect(q17?.choices[0]).not.toMatch(/Sınavı 6\. derste açmak/u);
-    expect(q17?.choices[0]).toMatch(/Cuma 30 kapanış/u);
+    expect(q17?.choices[0]).not.toMatch(/Sınavı Cuma 30 kapanış dersinden önce açmak/u);
+    expect(q17?.choices[0]).toMatch(/Excel'i Pazartesi/u);
     expect(q35?.prompt).toMatch(/sözleşme, dilekçe ve rapor/iu);
     expect(q35?.choices[1]).toMatch(/ayrı istem/iu);
     expect(q35?.prompt).not.toBe(q28?.prompt);

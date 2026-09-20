@@ -165,7 +165,7 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).toContain("### E.10 Üç Kapı Hiyerarşisi");
     expect(pedagogy).toContain("## F. DOYGUNLUK AKIŞI");
     expect(pedagogy).toContain("Prompt Terminali");
-    expect(pedagogy).toContain("Adım 1: E-Postaları Seç");
+    expect(pedagogy).toContain("Adım 1: İletileri Seç");
     expect(pedagogy).toContain("Sıfır Ekstra API Maliyeti");
     expect(pedagogy).toContain("Warm-up");
     expect(pedagogy).toContain("Command");

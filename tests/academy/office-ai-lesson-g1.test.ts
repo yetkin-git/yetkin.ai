@@ -8,6 +8,7 @@ import { academyVisualCompareStage } from "@/lib/academy/excel-workspace";
 import {
   ACADEMY_OFFICE_AI_G1_COMPARE_AFTER_LABEL,
   ACADEMY_OFFICE_AI_G1_COMPARE_BEFORE_LABEL,
+  ACADEMY_OFFICE_AI_G1_COPILOT_PROMPT,
   ACADEMY_OFFICE_AI_G1_POCKET_STEPS,
 } from "@/lib/academy/lesson-beat-visual";
 import { ACADEMY_GMAIL_GEMINI_PROMPT, academyGmailStageKind } from "@/lib/academy/gmail-workspace";
@@ -62,7 +63,9 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
     expect(slides.map((slide) => slide.section)).toEqual([...PUNCHCARDS]);
     expect(slides[0]?.visualMode).toBe("veo");
     expect(slides[3]?.copilot?.hideReply).toBe(true);
-    expect(slides[3]?.copilot?.prompt).toBe(ACADEMY_GMAIL_GEMINI_PROMPT);
+    expect(slides[3]?.copilot?.prompt).toBe(ACADEMY_OFFICE_AI_G1_COPILOT_PROMPT);
+    expect(ACADEMY_GMAIL_GEMINI_PROMPT).toBe(ACADEMY_OFFICE_AI_G1_COPILOT_PROMPT);
+    expect(ACADEMY_OFFICE_AI_G1_COPILOT_PROMPT).not.toMatch(/@Gmail/u);
     expect(slides[3]?.visualMode).toBe("live");
     expect(slides[4]?.visualMode).toBe("split");
     expect(slides[5]?.visualMode).toBe("split");
@@ -71,7 +74,11 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
     expect(slides[5]?.compare?.afterLabel).toBe(ACADEMY_OFFICE_AI_G1_COMPARE_AFTER_LABEL);
     expect(JSON.stringify(slides[5]?.table)).toContain("Gönderen");
     expect(JSON.stringify(slides[5]?.table)).toContain("Arşivlik");
-    expect(slides[3]?.table?.note).toMatch(/Spoiler/u);
+    expect(slides[3]?.table?.note).toMatch(/Örnek iletiler/u);
+    expect(slides[4]?.table?.note).toMatch(/Örnek iletiler/u);
+    expect(slides[4]?.bullets?.join(" ")).toMatch(/Ödeme satırı/u);
+    expect(slides[4]?.subhead).toMatch(/Soldan sağa/u);
+    expect(slides[3]?.nodes?.some((node) => node.sub === "Henüz kapalı")).toBe(true);
     expect(academyGmailStageKind({ section: "TAŞIMA SU" })).toBe("disconnected");
     expect(academyGmailStageKind({ section: "GEMİNİ AÇ", hideReply: true })).toBe("inbox");
     expect(academyGmailStageKind({ pane: "before", section: "FARK ORTADA" })).toBe("disconnected");
@@ -85,7 +92,7 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
     const compare = academyVisualCompareStage(KEY, "cue-06");
     expect(compare?.beforeLabel).toBe(ACADEMY_OFFICE_AI_G1_COMPARE_BEFORE_LABEL);
     expect(compare?.afterLabel).toBe(ACADEMY_OFFICE_AI_G1_COMPARE_AFTER_LABEL);
-    expect(compare?.after.copilot?.prompt).toBe(ACADEMY_GMAIL_GEMINI_PROMPT);
+    expect(compare?.after.copilot?.prompt).toBe(ACADEMY_OFFICE_AI_G1_COPILOT_PROMPT);
     expect(compare?.after.nodes?.map((node) => node.title)).toEqual([
       "ÖDEME / ONAY",
       "ACİL AKSİYON",
@@ -102,13 +109,18 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
     expect(spoken).not.toMatch(/Dördüncü derste Outlook/u);
     expect(spoken).not.toMatch(/Sekiz ders bitmeden/u);
     expect(spoken).toMatch(/6\. derste Outlook/u);
-    expect(spoken).toContain(ACADEMY_GMAIL_GEMINI_PROMPT);
+    expect(spoken).toContain(ACADEMY_OFFICE_AI_G1_COPILOT_PROMPT);
+    expect(spoken).not.toMatch(/@Gmail/u);
+    expect(spoken).not.toMatch(/\bkomut/u);
+    expect(spoken).not.toMatch(/\bmail/iu);
+    expect(spoken).not.toMatch(/kopyalıyoruz|yazıyoruz|bölelim|göreceğiz/u);
+    expect(spoken).not.toMatch(/eklentisini yakala|özetdir|entegrasyonu/u);
     expect(spoken).toMatch(/kopyala-yapıştır/iu);
     expect(spoken).not.toMatch(/AI masası/u);
     const cinemaHtml = readFileSync(join(ROOT, "scripts/render-academy-cinema-html.ts"), "utf8");
     expect(cinemaHtml).toContain('case "gmail"');
     expect(cinemaHtml).toContain("GELEN KUTUSUNDAN KOPUK / TAŞIMA SU YÖNTEMİ");
-    expect(cinemaHtml).toContain("GELEN KUTUSU İÇİ / YERLEŞİK GEMİNİ ENTEGRASYONU");
+    expect(cinemaHtml).toContain("GELEN KUTUSU İÇİ / YERLEŞİK GEMİNİ PANELİ");
     const gmailWs = readFileSync(join(ROOT, "components/academy/lesson-gmail-workspace.tsx"), "utf8");
     expect(gmailWs).toContain("applyAcademyOfficeWinFit");
     expect(gmailWs).toContain("data-academy-office-win-fit");
@@ -119,7 +131,7 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
   it("Sebep → Eylem → Sonuç: yerleşik panel ve kim-ne-ne zaman kilitlenir", () => {
     const prose = loadAcademySpokenScriptProse(KEY);
     const body = curriculumForCourseSlug("01_office_ai").find((row) => row.key === KEY)?.body ?? "";
-    expect(prose).toMatch(/Peki neden hâlâ maili Çetcipiti’ye kopyalıyoruz\?/u);
+    expect(prose).toMatch(/Peki neden hâlâ iletiyi Çetcipiti’ye kopyalıyorsun\?/u);
     expect(prose).toMatch(/kopyalanan gövde kutudan kopar/u);
     expect(prose).toMatch(/Peki neden kopyala-yapıştır varsayılan yol değildir\?/u);
     expect(prose).toMatch(/Peki aksiyon listesinde kim, ne, ne zaman neden kilitlenir\?/u);
@@ -130,13 +142,18 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
     expect(prose).not.toMatch(/kahramanlıktır/u);
     expect(prose).not.toMatch(/Tablo istemek yöneticiliktir/u);
     expect(prose).not.toMatch(/vaadi nettir/u);
-    expect(prose).not.toMatch(/hamal değilsin/u);
+    expect(prose).not.toMatch(/hamal/u);
     expect(prose).not.toMatch(/iki ayrı kader/u);
     expect(prose).not.toMatch(/üç eşleşmeyi ezberle/u);
     expect(prose).not.toMatch(/Baraj yetmiştir/u);
     expect(prose).not.toMatch(/doygun ayağı/u);
-    expect(body).toMatch(/Peki neden hâlâ maili ChatGPT/u);
+    expect(body).toMatch(/Peki neden hâlâ iletiyi ChatGPT/u);
     expect(body).toMatch(/Peki aksiyon listesinde kim, ne, ne zaman neden kilitlenir/u);
+    expect(body).toMatch(/6\. derste Outlook/u);
+    expect(body).not.toMatch(/\bkomut/u);
+    expect(body).not.toMatch(/\bmail/iu);
+    expect(body).not.toMatch(/kopyalıyoruz|yazıyoruz|bölelim|göreceğiz/u);
+    expect(body).not.toMatch(/eklentisini yakala|özetdir|entegrasyonu/u);
     expect(body).not.toMatch(/kahramanlıktır/u);
     expect(body).not.toMatch(/vaadi nettir/u);
   });
@@ -172,8 +189,8 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
     expect(timings).not.toBeNull();
-    expect(timings!.durationSec).toBe(567.2);
-    expect(timings!.cacheV).toBe(567200);
+    expect(timings!.durationSec).toBe(449.586);
+    expect(timings!.cacheV).toBe(449586);
     const cues = loadAcademyLessonCues(KEY);
     expect(cues.at(-1)?.end).toBe(timings!.durationSec);
     for (const cue of cues) {
@@ -184,7 +201,7 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
     const strip = loadAcademyKaraokeStrip(KEY);
     expect(strip.at(-1)?.end).toBe(timings!.durationSec);
     const stripText = strip.map((line) => line.text).join(" ");
-    expect(stripText).toMatch(/Peki neden hâlâ maili ChatGPT/u);
+    expect(stripText).toMatch(/Peki neden hâlâ iletiyi/u);
     expect(stripText).toMatch(/kim, ne, ne zaman neden kilitlenir/u);
     expect(stripText).toMatch(/yerleşik panel/u);
     expect(stripText).not.toMatch(/kahramanlıktır/u);

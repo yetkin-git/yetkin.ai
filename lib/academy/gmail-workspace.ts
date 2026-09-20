@@ -3,15 +3,19 @@
  * Taşıma su (kopyala-yapıştır / ekran görüntüsü) 1. ve 2. kapı dururken atlanmış kapıdır. PEDAGOJI.md §E.8–E.10.
  */
 
+import { ACADEMY_OFFICE_AI_G1_COPILOT_PROMPT } from "@/lib/academy/lesson-beat-visual";
+
 export const ACADEMY_GMAIL_WINDOW_TITLE = "Gmail" as const;
 export const ACADEMY_GMAIL_FILE_NAME = "Gelen_Kutusu.gmail" as const;
 export const ACADEMY_GMAIL_NATIVE_TOOL = "Gemini" as const;
 export const ACADEMY_GMAIL_INBOX_HEAD = "Gelen Kutusu · son 24 saat" as const;
 export const ACADEMY_GMAIL_ACTION_HEAD = "Aksiyon listesi · kutu yerinde" as const;
 
-/** Öğrencinin Gmail Gemini paneline yazacağı gerçek istem — Prompt Terminali SSOT. */
-export const ACADEMY_GMAIL_GEMINI_PROMPT =
-  "@Gmail Gelen kutumdaki son 24 saat içinde gelen e-postaları tara. Ödeme, onay veya acil aksiyon bekleyenleri tablo yap: Gönderen | İş | Son tarih | Taslak yanıt notu. Rutin dekont ve bültenleri Arşivlik yaz. Hiçbir taslağı gönderme." as const;
+export const ACADEMY_GMAIL_SAMPLE_LOCK =
+  "Örnek iletiler; kendi kutundaki işi koy." as const;
+
+/** Tek istem SSOT — `ACADEMY_OFFICE_AI_G1_COPILOT_PROMPT` alias. */
+export const ACADEMY_GMAIL_GEMINI_PROMPT = ACADEMY_OFFICE_AI_G1_COPILOT_PROMPT;
 
 export const ACADEMY_GMAIL_MAILS = [
   {
@@ -79,7 +83,7 @@ export const ACADEMY_GMAIL_ACTION_GROUPS = [
 ] as const;
 
 export const ACADEMY_GMAIL_CARRY_WATER_CLIP = [
-  "Ctrl+C ile mail kopyala",
+  "Ctrl+C ile ileti kopyala",
   "Ekran görüntüsü al",
   "ChatGPT’ye yapıştır — kutu kopuk",
 ] as const;

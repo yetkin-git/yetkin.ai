@@ -9,8 +9,10 @@ import {
 import { academyExcelMouseState } from "@/lib/academy/excel-mouse-pointer";
 import type { AcademyVisualExcelPane } from "@/lib/academy/excel-workspace";
 import { academyPocketChecklistSteps } from "@/lib/academy/lesson-beat-visual";
+import { academyCitizenOfficeFileLabel } from "@/lib/academy/prompt-console";
 import {
   ACADEMY_OUTLOOK_DUMP_MAILS,
+  ACADEMY_OUTLOOK_FILE_LABEL,
   ACADEMY_OUTLOOK_FILE_NAME,
   ACADEMY_OUTLOOK_RESET_GROUPS,
   ACADEMY_OUTLOOK_UNREAD_AFTER,
@@ -34,11 +36,11 @@ function boxStyle(box: { left: number; top: number; width: number; height: numbe
   };
 }
 
-function outlookTagClass(tag: "Acil" | "Bekle" | "Arşiv") {
+function outlookTagClass(tag: "Acil" | "Aksiyon" | "Arşivlik") {
   if (tag === "Acil") {
     return "academy-outlook-tag academy-outlook-tag--acil";
   }
-  if (tag === "Bekle") {
+  if (tag === "Aksiyon") {
     return "academy-outlook-tag academy-outlook-tag--bekle";
   }
   return "academy-outlook-tag academy-outlook-tag--arsiv";
@@ -178,7 +180,10 @@ export function LessonOutlookWorkspace({
         <div className="academy-outlook-titlebar">
           <i aria-hidden />
           <b>{ACADEMY_OUTLOOK_WINDOW_TITLE}</b>
-          <span>{slide.fileName ?? ACADEMY_OUTLOOK_FILE_NAME}</span>
+          <span>
+            {academyCitizenOfficeFileLabel(slide.fileName ?? ACADEMY_OUTLOOK_FILE_NAME) ??
+              ACADEMY_OUTLOOK_FILE_LABEL}
+          </span>
         </div>
         {compact ? null : (
           <div className="academy-outlook-ribbon" aria-hidden>

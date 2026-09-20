@@ -5,6 +5,7 @@ import { loadAcademyCinemaCueSlides } from "@/lib/academy/cinema-cue-catalog";
 import { ACADEMY_OFFICE_AI_3_COPILOT_PROMPT } from "@/lib/academy/lesson-beat-visual";
 import {
   ACADEMY_PPTX_ACTION_BAND,
+  ACADEMY_PPTX_EXAMPLE_NOTE,
   ACADEMY_PPTX_KPI_CARDS,
   ACADEMY_PPTX_SLIDE_TITLE,
   academyPptxAlignBox,
@@ -55,6 +56,10 @@ describe("Metinden Slayta slayt seçim kutusu — getBoundingClientRect", () => 
     expect(ssot).toContain("Kaya Gıda A.Ş.");
     expect(ssot).toContain("%15 Riskli Vade");
     expect(ssot).toContain(ACADEMY_PPTX_ACTION_BAND);
+    expect(ssot).toContain(ACADEMY_PPTX_EXAMPLE_NOTE);
+    expect(ACADEMY_PPTX_ACTION_BAND).toMatch(/Karar: Yıldız Tekstil'i bugün ara/u);
+    expect(ACADEMY_PPTX_ACTION_BAND).not.toMatch(/Stratejik Eylem|KPI/u);
+    expect(slide).toContain("ACADEMY_PPTX_EXAMPLE_NOTE");
     expect(css).toContain("text-overflow: clip");
     expect(css).toContain(".academy-pptx-slide-title");
     expect(css).toMatch(/\.academy-pptx-slide-title\s*\{[^}]*text-align:\s*center/s);
@@ -93,7 +98,7 @@ describe("Metinden Slayta slayt seçim kutusu — getBoundingClientRect", () => 
   it("öğrenci istemi reji notu taşımaz", () => {
     const slide = loadAcademyCinemaCueSlides("01_office_ai-3").find((row) => row.cueIndex === 4);
     expect(slide?.copilot?.prompt).toBe(ACADEMY_OFFICE_AI_3_COPILOT_PROMPT);
-    expect(slide?.copilot?.prompt).not.toMatch(/henüz açma|Beat 3|spoiler/iu);
+    expect(slide?.copilot?.prompt).not.toMatch(/henüz açma|Beat 3|spoiler|Copilot varsa şeride yaz/iu);
   });
 
   it("pptx yüzeyinde tablo, düğüm veya madde varken deck açılır", () => {
@@ -128,5 +133,8 @@ describe("Metinden Slayta slayt seçim kutusu — getBoundingClientRect", () => 
     expect(html).toMatch(/\.pptx-kpi em\s*\{[^}]*display:\s*inline-flex/s);
     expect(html).not.toMatch(/\.pptx-kpi em\s*\{[^}]*position:\s*absolute/s);
     expect(html).toContain(ACADEMY_PPTX_ACTION_BAND);
+    expect(html).toContain(ACADEMY_PPTX_EXAMPLE_NOTE);
+    expect(html).not.toMatch(/>KPI</u);
+    expect(html).not.toMatch(/Stratejik Eylem/u);
   });
 });

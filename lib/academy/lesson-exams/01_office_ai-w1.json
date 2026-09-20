@@ -4,34 +4,34 @@
   "questions": [
     {
       "id": "q_off_lw1_1",
-      "prompt": "30 sayfalık tedarik sözleşmesinde cezai şart sayfa 4’te, fesih sayfa 11’de gizlidir. En güvenilir analiz yolu hangisidir?",
+      "prompt": "Sözleşmede cezai şart 4. sayfada, fesih 11. sayfada. Sayfaları tek tek mi kopyalarsın, dosyayı bütün mü yüklersin?",
       "choices": [
-        "Sayfa 4 ve 11’i ayrı ayrı kopyalayıp sohbete yapıştırmak",
-        "Sözleşmeyi Word belgesi olarak yükleyip dosyanın bütününü inceletmek",
-        "Yalnız ilk sayfayı yüklemek",
-        "Ekran görüntüsü zinciri basmak"
+        "Sayfa 4 ve 11'i ayrı ayrı kopyalayıp yapıştırırsın",
+        "Sözleşmeyi Word belgesi olarak yüklersin; cezai şart, fesih ve gizliliği sayfa numarasıyla istersin.",
+        "Yalnız ilk sayfayı yüklersin",
+        "Ekran görüntüsü alıp dış sohbete taşırsın"
       ],
       "correctIndex": 1
     },
     {
       "id": "q_off_lw1_2",
-      "prompt": "Yapay zekâ kaymakamlığa süre uzatım dilekçesi taslağı yazdı. Hangisi insanda kalır?",
+      "prompt": "Dilekçe taslağı geldi: hitap tamam, tarih ve imza boş, bir de kanun maddesi uydurulmuş. Ne yaparsın?",
       "choices": [
-        "Hitap satırını modele bırakmak",
-        "Tarih, sayı, unvan ve imza; uydurma kanun maddesini silmek",
-        "Kanun maddesini modelden olduğu gibi basmak",
-        "Dilekçeyi yüklemeden sayfa sayfa kopyalamak"
+        "Hitap satırını modele bırakırsın",
+        "Tarih, sayı, unvan ve imzayı sen yazarsın; uydurma kanun maddesini silersin.",
+        "Kanun maddesini kontrol etmeden kabul edersin",
+        "Dilekçeyi yüklemeden sayfa sayfa kopyalarsın"
       ],
       "correctIndex": 1
     },
     {
       "id": "q_off_lw1_3",
-      "prompt": "Word’de yapay zekâ rapor taslağı yazdı. Gözlem ile karar notunu karıştırmamak için ne yaparsın?",
+      "prompt": "Word'de yapay zekâ rapor taslağı yazdı. Gözlem ile karar notunu karıştırmamak için ne yaparsın?",
       "choices": [
-        "Gözlemi ve kararı aynı cümlede birleştirmek",
-        "Karar notunu modele imzalatmak",
-        "Gözlem tabloyu özetler; karar notu onay veya yön ister — imzayı sen atarsın",
-        "Raporu sayfa sayfa kopyalayıp sohbete yapıştırmak"
+        "Gözlemi ve kararı aynı cümlede birleştirirsin",
+        "Modelin kararını okumadan onaylarsın",
+        "Gözlem tabloyu özetler, karar notu onay ister; imzayı sen atarsın",
+        "Raporu sayfa sayfa kopyalayıp sohbete yapıştırırsın"
       ],
       "correctIndex": 2
     }

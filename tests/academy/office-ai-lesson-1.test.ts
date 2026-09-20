@@ -24,6 +24,7 @@ import {
   ACADEMY_GOLDEN_COMPARE_AFTER_LABEL,
   ACADEMY_GOLDEN_COMPARE_BEFORE_LABEL,
   ACADEMY_GOLDEN_WAITER_RATIO,
+  ACADEMY_OFFICE_AI_1_COPILOT_PROMPT,
 } from "@/lib/academy/lesson-beat-visual";
 import { academyLearningOutcomesForSlug } from "@/lib/academy/learning-outcomes";
 import { isAcademyLessonAudioSealed } from "@/lib/academy/pilot-sku";
@@ -57,14 +58,19 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(lesson.key).toBe(KEY);
     expect(lesson.order).toBe(1);
     expect(lesson.title).toContain("Düzensiz Excel");
-    expect(lesson.body).toMatch(/Selamlar, ben Gözde/u);
+    expect(lesson.body).toMatch(/Bu dersin sonunda düzensiz Excel'i düzenli tabloya çevirmeyi tek başına yapacaksın\. Sebebi şu:/u);
+    expect(lesson.body).toMatch(/Birbirine girmiş hücreler işi yavaşlatır, boş satırlar satır bütünlüğünü keser/u);
+    expect(lesson.body).not.toMatch(/sistemin mantığını bozar/u);
     expect(lesson.body).toMatch(/A1 hücresi/u);
     expect(lesson.body).toMatch(/Hazırsan 2\. derste buluşalım/u);
     expect(lesson.body).toMatch(/KVKK ve maskeleme/u);
     expect(lesson.body).toMatch(/tabloyu temizleme refleksi artık cebinde/u);
-    expect(lesson.body).toMatch(/anonimize edilmiş/u);
-    expect(lesson.body).toMatch(/temiz örnek/u);
-    expect(lesson.body).toMatch(/Copilot varsa şeritten doğrudan okut; yoksa dosyayı ataş ile yükle\. \(Kişisel verileri maskeleme kuralını 2\. derste kilitleyeceğiz\.\)/u);
+    expect(lesson.body).toMatch(/kimliği gizlenmiş örnek tablo/u);
+    expect(lesson.body).not.toMatch(/anonimize/u);
+    expect(lesson.body).toMatch(/Copilot varsa Copilot düğmesinden doğrudan okut; yoksa dosyayı ataş ile yükle\. \(Kişisel verileri maskeleme kuralını 2\. derste kilitleyeceğiz\.\)/u);
+    expect(lesson.body).not.toMatch(/A1 eşiği/u);
+    expect(lesson.body).not.toMatch(/A1 hijyen/u);
+    expect(lesson.body).not.toMatch(/kiracı/u);
     expect(lesson.body).not.toMatch(/masaüstünde duran ya da sana yakın zamanda gönderilmiş/u);
     expect(lesson.body).toMatch(/şirketinin kurumsal yapay zekâ modeli/u);
     expect(lesson.body).not.toMatch(/saniyeler içinde çözeceğiz/u);
@@ -99,7 +105,8 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(prose).toMatch(/tabloyu temizleme refleksi artık cebinde/u);
     expect(prose).toMatch(/Kavekaka/u);
     expect(prose).toMatch(/maskeleme/u);
-    expect(prose).toMatch(/anonimize edilmiş/u);
+    expect(prose).toMatch(/kimliği gizlenmiş örnek tablo/u);
+    expect(prose).not.toMatch(/anonimize/u);
     expect(prose).toMatch(/Kişisel verileri maskeleme kuralını 2\. derste kilitleyeceğiz/u);
     expect(prose).not.toMatch(/masaüstünde duran ya da sana yakın zamanda gönderilmiş/u);
     expect(prose).not.toMatch(/grafik raporuna/u);
@@ -112,12 +119,19 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(prose).not.toMatch(/Kör bir fizik yasası/u);
     expect(prose).not.toMatch(/enerjini topla/u);
     expect(prose).not.toMatch(/hafızana kazı/u);
-    expect(prose).toMatch(/Şimdi mantığı oturtalım/u);
+    expect(prose).toMatch(/üç adımımız var/u);
+    expect(prose).not.toMatch(/üç altın kural/u);
+    expect(prose).toMatch(/A1 kuralını kurmadan/u);
+    expect(prose).toMatch(/A1 düzeni/u);
+    expect(prose).toMatch(/yanlışa açıktır/u);
+    expect(prose).not.toMatch(/\bkomut/iu);
     expect(prose).toMatch(/Peki neden/u);
     expect(prose).toMatch(/Neden\?/u);
-    expect(prose).toMatch(/ö zel API/u);
-    expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).toMatch(/özel API/u);
-    expect(prose).toMatch(/özet tabloya/u);
+    expect(prose).toMatch(/şirket paneli/u);
+    expect(prose).not.toMatch(/ö zel API/u);
+    expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).not.toMatch(/özel API/u);
+    expect(prose).toMatch(/özet çıkarmaya/u);
+    expect(prose).not.toMatch(/özet tabloya/u);
     expect(cues.map((cue) => academyPunchcardLabel(cue.text))).toEqual([...PUNCHCARDS]);
     expect(cues.map((cue) => cue.paragraphs?.length ?? 0)).toEqual([1, 2, 2, 2, 3, 2, 1, 2]);
     expect(academyActivePunchcard(cues, 0)).toBeNull();
@@ -162,9 +176,12 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(JSON.stringify(slides[3]?.table)).not.toContain("12.450,00");
     expect(JSON.stringify(slides[4]?.table)).not.toContain("12.450,00");
     expect(slides[4]?.section).toBe("TEMİZLE ŞİMDİ");
+    expect(slides[4]?.copilot?.prompt).toBe(ACADEMY_OFFICE_AI_1_COPILOT_PROMPT);
+    expect(slides[4]?.copilot?.prompt).not.toMatch(/Kişisel verileri maskeleme/u);
+    expect(slides[1]?.copilot?.prompt).toMatch(/A1 kuralını kur/u);
     expect(slides[4]?.bullets).toEqual([...ACADEMY_OFFICE_AI_1_TRANSFER_LABELS]);
     expect(slides[4]?.copilot?.replyLines.slice(0, 3)).toEqual([
-      "1. Copilot şeridi.",
+      "1. Copilot düğmesi.",
       "2. Ataş yükle.",
       "3. Maskeli kısa özet.",
     ]);
@@ -306,7 +323,7 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     const spoken = loadAcademySealedAudioTimings(KEY)?.pieces.map((piece) => piece.text).join(" ") ?? "";
     expect(spoken).not.toMatch(/Uygulama Programlama Arayüzü/u);
     expect(spoken).not.toMatch(/Özet Tablo \(Pivot\) tablo/u);
-    expect(spoken).toMatch(/ö zel API/u);
-    expect(spoken).toMatch(/özet tabloya/u);
+    expect(spoken).not.toMatch(/ö zel API/u);
+    expect(spoken).toMatch(/A bir hücresi/u);
   });
 });

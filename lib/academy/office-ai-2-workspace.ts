@@ -20,7 +20,7 @@ export const ACADEMY_OFFICE_AI_2_SEED_ROWS = [
 export const ACADEMY_OFFICE_AI_2_CLEAN_TABLE = {
   headers: ["Tarih", "Cari", "Fatura", "Tutar", "Durum"],
   rows: ACADEMY_OFFICE_AI_2_SEED_ROWS,
-  note: "Üç madde iste. Sayıları hücreden al. Uydurma yüzde yok.",
+  note: "Özet beş sütundan çıkar. Üç madde iste. Sayıları hücreden al. Uydurma yüzde yok.",
 } as const;
 
 /** Dense dump eşikleri — viewport’ta son sütun/satır hemen bitmez; kaydırma gerekir. */
@@ -97,7 +97,7 @@ export const ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE = {
     ...OFFICE_AI_2_DENSE_EXTRA_HEADERS,
   ],
   rows: buildOfficeAi2DenseDumpRows(),
-  note: "Kalabalık döküm. Son sütun/satır viewport’ta bitmez; kaydırma gerekir.",
+  note: "Kalabalık döküm örnektir; kilitli toplam çekirdek 5 satırdan (54.650) gelir. Kendi tablonda toplamı TOPLA ile kilitle. Son sütun/satır viewport’ta bitmez; kaydırma gerekir.",
 } as const;
 
 export type AcademyExcelTableShape = {
@@ -126,3 +126,15 @@ export function academyExcelOfficeAi2SeedTutarSum(): number {
     return sum + Number(raw);
   }, 0);
 }
+
+/** After paneli — üç madde + karar cümlesi; sayılar çekirdek 5 satırdan kilitli. */
+export const ACADEMY_OFFICE_AI_2_SUMMARY_TABLE = {
+  headers: ["Madde", "Kaynak sayı", "Not"],
+  rows: [
+    ["Toplam", "54.650", "Mart tahsilat; yön Kaya önde"],
+    ["Bekler", "8.200", "Demir Lojistik bekler"],
+    ["Açık", "9.100", "Yıldız Tekstil vade"],
+    ["Karar", "—", "Vade için bugün ara (örnek eylem)"],
+  ],
+  note: "Üç madde + karar cümlesi. Sayılar tahsilat ızgarasından kilitli. Özet beş sütundan çıkar.",
+} as const;

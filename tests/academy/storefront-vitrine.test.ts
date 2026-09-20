@@ -101,6 +101,7 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
   it("antre ve oynatıcı vitrin dışı slug için dynamicParams = false ve notFound basar", () => {
     const antre = readSrc("app/academy/[slug]/page.tsx");
     const oyna = readSrc("app/academy/[slug]/oyna/page.tsx");
+    const exitKit = readSrc("app/academy/[slug]/cikis-paketi/page.tsx");
     expect(antre).toContain("dynamicParams = false");
     expect(antre).toContain("generateStaticParams");
     expect(antre).toContain("academyStorefrontStaticParams");
@@ -111,6 +112,9 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(oyna).toContain("academyStorefrontStaticParams");
     expect(oyna).toContain("isAcademyGrowthSkuSlug");
     expect(oyna).toContain("notFound()");
+    expect(exitKit).toContain("dynamicParams = false");
+    expect(exitKit).toContain("OFFICE_AI_EXIT_KIT_SLUG");
+    expect(exitKit).toContain("notFound()");
   });
 
   it("SEN oynatıcı callout hayalet python-temel href taşımaz", () => {

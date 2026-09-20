@@ -28,7 +28,7 @@ describe("model eğilim kartı — canlı kutu (Tespit H1 tedavisi)", () => {
       "ChatGPT",
       "Claude",
       "Gemini",
-      "Özel API (şirketinin kurumsal modeli)",
+      "Şirket paneli (kurumsal model)",
     ]);
     for (const row of ACADEMY_MODEL_TENDENCIES) {
       expect(row.tendency).toMatch(/yatkındır/u);

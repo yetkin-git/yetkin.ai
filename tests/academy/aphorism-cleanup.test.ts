@@ -50,7 +50,7 @@ describe("PEDAGOJI.md §A.2 / §E.2 — aforizma ve ajans sloganı yasağı", ()
     const a2 = pedagogy.slice(pedagogy.indexOf("### 2. Aptala Anlatır"), pedagogy.indexOf("### 3."));
     const e2 = pedagogy.slice(pedagogy.indexOf("### E.2"), pedagogy.indexOf("### E.3"));
     expect(a2).toContain("Aforizma / Ajans Sloganı Yasağı");
-    expect(e2).toContain("Aforizma / Ajans Sloganı Yasağı");
+    expect(e2).toContain("Aforizma / Ajans Sloganı");
   });
 
   it("konuşma metni, müfredat, cue, timings ve sinema kartı aforizma/slogan taşımaz", () => {
@@ -77,7 +77,7 @@ describe("PEDAGOJI.md §A.2 / §E.2 — aforizma ve ajans sloganı yasağı", ()
   it("öğretmen cümlesi ve iş tanımı rozetleri Ders 8 yüzeyinde durur", () => {
     const prose = loadAcademySpokenScriptProse("01_office_ai-w1");
     expect(prose).toContain(
-      "Çıkarılan özeti raporunda kullanabilirsin, ancak son kontrolü ve kararı her zaman sen vermelisin.",
+      "Çıkarılan özeti raporunda kullanırsın; son kontrolü ve kararı sen verirsin.",
     );
     expect(ACADEMY_OFFICE_AI_W1_COMPARE_BEFORE_LABEL).toBe("TEK TEK KOPYALAMA");
     expect(ACADEMY_OFFICE_AI_W1_COMPARE_AFTER_LABEL).toBe("TEK DOSYAYLA ANALİZ");

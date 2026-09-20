@@ -6,7 +6,7 @@
 import { academyCatalogPriceMinorForSlug } from "@/lib/academy/catalog-pricing";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { LEGAL_ENTITY, LEGAL_PAGE_TITLE, LEGAL_WHATSAPP_HREF } from "@/lib/copy/legal-launch";
-import { CANONICAL_SITE_ORIGIN, PAGE_SEO, canonicalUrl } from "@/lib/copy/seo";
+import { CANONICAL_SITE_ORIGIN, OFFICE_AI_SEO, PAGE_SEO, canonicalUrl } from "@/lib/copy/seo";
 
 export const ORGANIZATION_ID = `${CANONICAL_SITE_ORIGIN}/#organization` as const;
 export const WEBSITE_ID = `${CANONICAL_SITE_ORIGIN}/#website` as const;
@@ -124,10 +124,10 @@ export const OFFICE_AI_SYLLABUS_LESSONS: readonly CourseSyllabusLessonInput[] = 
   { name: "KVKK, Şirket Sırları ve Maskeleme: Ne Yüklenmez?" },
   { name: "Rapor Otomasyonu: Tablodan Yönetim Özetine" },
   { name: "Metinden Slayta: Sunum Hazırlama" },
-  { name: "İstisnalar & Hata Avı: AI Yanılınca" },
+  { name: "İstisnalar ve Hata Avı: Yapay Zekâ Yanılınca" },
   { name: "E-Posta Akışı: Gelen Kutusu Sıfırlama" },
   { name: "Gmail + Gemini ile Gelen Kutusu ve Aksiyon Listesi" },
-  { name: "Word ve Uzun Doküman Analizi: Sözleşme, Dilekçe, Rapor" },
+  { name: "Word ve Uzun Belge İncelemesi: Sözleşme, Dilekçe, Rapor" },
   { name: "Haftalık Sistem: 30 Dakikalık Rutin" },
 ] as const;
 
@@ -245,6 +245,7 @@ export function courseJsonLd(input: {
         }
       : {}),
     ...(syllabusSections ? { syllabusSections } : {}),
+    ...(input.slug === OFFICE_AI_SEO.slug ? { keywords: [...OFFICE_AI_SEO.keywords] } : {}),
     educationalCredentialAwarded: {
       "@type": "EducationalOccupationalCredential",
       name:
@@ -276,6 +277,70 @@ export function courseJsonLd(input: {
       name: YETKIN_BRAND,
       url: CANONICAL_SITE_ORIGIN,
     },
+  };
+}
+
+/**
+ * PAKET-19 — Google EducationalOccupationalProgram.
+ * Course düğümüne ek program düğümü; `hasCourse` Course `@id`'sine bağlanır.
+ * Satın alma duvarı arkası ders gövdesi basılmaz.
+ */
+export function educationalOccupationalProgramJsonLd(input: {
+  slug: string;
+  name: string;
+  description: string;
+  imagePath: string;
+  durationMin?: number | null;
+  priceMinor?: number | null;
+  priceCurrency?: string | null;
+}): JsonLdObject {
+  const url = canonicalUrl(`/academy/${input.slug}`);
+  const timeToComplete =
+    typeof input.durationMin === "number" && input.durationMin > 0
+      ? minutesToIso8601Duration(input.durationMin)
+      : null;
+  const priceMinor = input.priceMinor ?? academyCatalogPriceMinorForSlug(input.slug);
+  const price = priceMinor == null ? null : minorToOfferPrice(priceMinor);
+  const priceCurrency = input.priceCurrency?.trim() || "TRY";
+  return {
+    "@type": "EducationalOccupationalProgram",
+    "@id": `${url}#program`,
+    name: input.name,
+    description: input.description,
+    url,
+    image: canonicalUrl(input.imagePath),
+    inLanguage: "tr",
+    educationalProgramMode: "online",
+    occupationalCategory: "Ofis çalışanı",
+    ...(timeToComplete ? { timeToComplete } : {}),
+    hasCourse: { "@id": `${url}#course` },
+    educationalCredentialAwarded: {
+      "@type": "EducationalOccupationalCredential",
+      name:
+        input.slug === OFFICE_AI_SEO.slug
+          ? "yetkin.ai Ofis Yapay Zekâ Sertifikası"
+          : `${YETKIN_BRAND} ${input.name} Sertifikası`,
+      credentialCategory: "certificate",
+      recognizedBy: { "@id": ORGANIZATION_ID },
+    },
+    provider: {
+      "@type": "Organization",
+      "@id": ORGANIZATION_ID,
+      name: YETKIN_BRAND,
+      url: CANONICAL_SITE_ORIGIN,
+    },
+    ...(price
+      ? {
+          offers: {
+            "@type": "Offer",
+            category: "Paid",
+            price,
+            priceCurrency,
+            availability: "https://schema.org/InStock",
+            url,
+          },
+        }
+      : {}),
   };
 }
 

@@ -1,8 +1,10 @@
 /**
- * 01_office_ai-w1 Word doküman analizi — doğrudan dosya yükleme SSOT.
+ * 01_office_ai-w1 Word belge incelemesi — doğrudan dosya yükleme SSOT.
  * Neden satır satır okutmak yerine riskli madde aratılır? Yığın çıkar; ceza, fesih, gizlilik kopar.
  * Resmî belgede öğretmen SEN, belge SIZ. PEDAGOJI.md §C / §E.9–E.10.
  */
+
+import { ACADEMY_OFFICE_AI_W1_COPILOT_PROMPT } from "@/lib/academy/lesson-beat-visual";
 
 export const ACADEMY_WORD_WINDOW_TITLE = "Word" as const;
 /** Teknik sonek — chrome / data-attr; vatandaş yüzüne basılmaz (PEDAGOJI §E.2). */
@@ -11,9 +13,11 @@ export const ACADEMY_WORD_FILE_NAME = "Sozlesme_Kaya_Gida.docx" as const;
 export const ACADEMY_WORD_FILE_LABEL = "Sözleşme Belgesi (Word)" as const;
 export const ACADEMY_WORD_NATIVE_TOOL = "Doğrudan Dosya Yükleme" as const;
 
-/** Öğrencinin ataşladığı Word belgesi için gerçek istem — Prompt Terminali SSOT. */
-export const ACADEMY_WORD_UPLOAD_PROMPT =
-  "Yüklediğim sözleşme dosyasını (Word belgesi) baştan sona incele. Şirketimiz aleyhine olabilecek cezai şart maddelerini, fesih koşullarını ve gizlilik yükümlülüklerini liste halinde özetle. Sayfa numarası yaz. Uydurma madde ekleme." as const;
+export const ACADEMY_WORD_SAMPLE_LOCK =
+  "Örnek oran ve sayfalar; kendi dosyandaki sayıyı koy." as const;
+
+/** Tek istem SSOT — `ACADEMY_OFFICE_AI_W1_COPILOT_PROMPT` alias. */
+export const ACADEMY_WORD_UPLOAD_PROMPT = ACADEMY_OFFICE_AI_W1_COPILOT_PROMPT;
 
 export const ACADEMY_WORD_COPY_FRAGMENTS = [
   {

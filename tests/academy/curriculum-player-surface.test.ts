@@ -92,6 +92,10 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(player).toMatch(/from\s+"@\/components\/academy\/lesson-study-tabs"/);
     expect(player).toMatch(/from\s+"@\/lib\/academy\/citizen-player-layer"/);
     expect(player).toContain("<LessonStudyTabs");
+    expect(player).toContain("PrepStripPanel");
+    expect(player).toContain("writeAcademyPrepStripDone");
+    expect(player).toContain("data-academy-prep-strip");
+    expect(player).toContain("data-academy-exit-kit-cta");
     expect(player).toContain("lg:items-start");
     expect(player).toContain("lg:self-start");
     expect(player).toContain("line-clamp-2");
@@ -219,6 +223,7 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(tabs).toContain("LessonSelfCheck");
     expect(tabs).toContain('"self-check"');
     expect(tabs).toContain("data-academy-study-panel=\"self-check\"");
+    expect(tabs).toContain("OfficeAiExitKit");
 
     expect(existsSync(join(ROOT, "components/academy/course-audio-preview.tsx"))).toBe(false);
   });

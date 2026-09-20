@@ -56,6 +56,7 @@ import {
   academyLessonAudioDiskPath,
   academyLessonAudioReleaseDiskPath,
   academyMediaReleaseJobForLesson,
+  academyMediaReleaseJobForPrepStrip,
   type AcademyMediaReleaseJob,
   type AcademySealedSkuSlug,
 } from "@/lib/academy/media-release-seal";
@@ -88,6 +89,7 @@ import {
   splitAcademyTtsBreathChunks,
 } from "@/lib/academy/tts-breath-chunks";
 import { transcodeAcademyWavToMp3 } from "./transcode-academy-lesson-audio";
+import { academyPrepStripForSlug, isAcademyPrepStripKey } from "@/lib/academy/prep-strip";
 import {
   expandAcademyTtsSkipPreventer,
   loadAcademyCueParagraphsAsSpoken,
@@ -311,6 +313,24 @@ function collectJobs(
   keyFilter: string | null,
   includeProductionQueue: boolean,
 ): AcademyMediaReleaseJob[] {
+  // Ders 0 hazırlık şeridi — müfredat taslağı yoktur; turlar stüdyo konuşma metninden gelir.
+  if (keyFilter && isAcademyPrepStripKey(keyFilter)) {
+    const slug = slugFilter ?? "01_office_ai";
+    const strip = academyPrepStripForSlug(slug);
+    if (!strip || strip.key !== keyFilter.trim()) {
+      throw new Error(`Hazırlık şeridi yok: ${slug}/${keyFilter}`);
+    }
+    const job = academyMediaReleaseJobForPrepStrip(
+      slug as AcademySealedSkuSlug,
+      strip.key,
+      strip.title,
+      model,
+    );
+    if (job.turns.length === 0) {
+      throw new Error(`DialogueTurn[] boş: ${slug}/${strip.key}`);
+    }
+    return [job];
+  }
   const slugs = slugFilter ? [slugFilter] : [...ACADEMY_MEDIA_SEALED_SKU_SLUGS];
   const jobs: AcademyMediaReleaseJob[] = [];
   for (const slug of slugs) {
@@ -805,16 +825,28 @@ async function main(): Promise<void> {
       ) {
         throw error;
       }
-      const lesson = CURRICULUM_DRAFTS_BY_SLUG[activeJob.courseSlug]?.find(
-        (row) => row.key === activeJob.lessonKey,
-      );
-      if (!lesson) {
-        throw error;
+      if (isAcademyPrepStripKey(activeJob.lessonKey)) {
+        activeModel = VOICE_TTS_FALLBACK_MODEL_ID;
+        process.stdout.write(`  günlük kota; yedek TTS: ${activeModel}\n`);
+        activeJob = academyMediaReleaseJobForPrepStrip(
+          activeJob.courseSlug,
+          activeJob.lessonKey,
+          activeJob.title,
+          activeModel,
+        );
+        baked = await bakeLessonWav(client, activeJob, activeModel);
+      } else {
+        const lesson = CURRICULUM_DRAFTS_BY_SLUG[activeJob.courseSlug]?.find(
+          (row) => row.key === activeJob.lessonKey,
+        );
+        if (!lesson) {
+          throw error;
+        }
+        activeModel = VOICE_TTS_FALLBACK_MODEL_ID;
+        process.stdout.write(`  günlük kota; yedek TTS: ${activeModel}\n`);
+        activeJob = academyMediaReleaseJobForLesson(activeJob.courseSlug, lesson, activeModel);
+        baked = await bakeLessonWav(client, activeJob, activeModel);
       }
-      activeModel = VOICE_TTS_FALLBACK_MODEL_ID;
-      process.stdout.write(`  günlük kota; yedek TTS: ${activeModel}\n`);
-      activeJob = academyMediaReleaseJobForLesson(activeJob.courseSlug, lesson, activeModel);
-      baked = await bakeLessonWav(client, activeJob, activeModel);
     }
     const wav = baked.wav;
     if (wav.byteLength < MIN_WAV_BYTES) {

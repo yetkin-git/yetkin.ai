@@ -1,8 +1,8 @@
 {
   "lessonKey": "01_office_ai-2",
   "pauseSec": 0.4,
-  "durationSec": 553.84,
-  "cacheV": 553840,
+  "durationSec": 552.68,
+  "cacheV": 552680,
   "pieces": [
     {
       "index": 0,
@@ -10,43 +10,43 @@
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
       "start": 2,
-      "end": 51.6,
-      "text": "İlk dersimizde masandaki o karmaşık çalışma kitabını ele almış, düzensiz tabloyu A1 eşiğinden temizleme refleksi kazanmıştın. Hatırlarsan, birleşmiş hücreleri tek tek çözüp veri türlerini tek tip hale getirerek işe başlamıştık. Her şeyin başı, sol üst köşedeki o kritik A bir hücresi ile başlayan düzenli bir başlık satırı kurmaktı. İkinci derste ise o temiz tabloyu yüklemeden önce Kavekaka bekçisini oturttuk: ham isim, telefon ve IBAN sohbete gitmez. Şimdi o temel disiplini aldın, tablon tertemiz ve maskeli bir matris halinde önünde duruyor. Peki neden hâlâ rapora geçmiyoruz? Çünkü temiz ve maskeli tablo, tek başına yöneticinin sorusunu cevaplamaz. Şimdi bu zeminin üstünde ham satırları konuşan bir yönetim özetine çevireceğiz."
+      "end": 57.24,
+      "text": "İlk dersimizde masandaki o karmaşık Excel tablonu ele almış, düzensiz tabloyu A1 kuralıyla temizleme refleksi kazanmıştın. Hatırlarsan, birleşmiş hücreleri tek tek çözüp veri türlerini tek tip hale getirerek işe başlamıştık. Her şeyin başı, sol üst köşedeki o kritik A bir hücresi ile başlayan düzenli bir başlık satırı kurmaktı. İkinci derste ise o temiz tabloyu yüklemeden önce Kavekaka kuralını kilitledik: ham isim, telefon ve IBAN sohbete gitmez. Şimdi o temel kuralı kaptın, tablon tertemiz ve maskeli temiz tablo olarak önünde duruyor. Bu dersin sonunda üç maddelik yönetim özetini tek başına yapacaksın. Hâlâ rapora geçmiyoruz: temiz ve maskeli tablo, tek başına yöneticinin sorusunu cevaplamaz. Şimdi bu zeminin üstünde ham satırları konuşan bir yönetim özetine çevireceğiz."
     },
     {
       "index": 1,
       "cueId": "cue-02",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 52,
-      "end": 98.64,
-      "text": "Selamlar, ben Gözde. yetkin.ai akademisinin bu üçüncü dersinde seninle birlikte veri tablosunun içinden gerçek değeri çekip çıkaracağız. Geçen derste maske refleksini kilitleyip tabloları toparladık; peki şimdi ne olacak? Masanın üstünde duran yüzlerce satırlık veri seti tek başına kimseye bir şey anlatmaz. Karar alıcıların senden beklediği şey satır satır döküm değil, ne yapılması gerektiğidir. Peki neden üç maddelik yönetim özeti isteriz de on sayfalık dökümü yazdırmayız? Çünkü yöneticinin yirmi dakikası vardır; yüzlerce satırı okuyup ana fikri ayıklamaya vakti yoktur. Bugün o satırları üç maddeye ve bir karar cümlesine indirmeyi öğreneceksin."
+      "start": 57.64,
+      "end": 99.8,
+      "text": "Selamlar, ben Gözde. yetkin.ai akademisinin bu üçüncü dersinde seninle birlikte tablonun içinden ne yapılacağını çıkaracağız. Geçen derste maske refleksini kilitleyip tabloları toparladık; peki şimdi ne olacak? Masanın üstünde duran yüzlerce satırlık veri tablosu tek başına kimseye bir şey anlatmaz. Yöneticinin senden beklediği şey satır satır döküm değil, ne yapılması gerektiğidir. Peki neden üç maddelik yönetim özeti isteriz de on sayfalık dökümü istemeyiz? Çünkü yöneticinin yirmi dakikası vardır; yüzlerce satırı okuyup ana fikri ayıklamaya vakti yoktur. Bugün o satırları üç maddeye ve bir karar cümlesine indirmeyi öğreneceksin."
     },
     {
       "index": 2,
       "cueId": "cue-02",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 99.04,
-      "end": 132.6,
-      "text": "Gözünün önüne getir: Önünde kritik bir yönetim toplantısı var ve başlamasına sadece yirmi dakika kalmış. Yöneticin kapıdan başını uzatıp bu ayın performansını özetleyen net bir metin istiyor. Ekrandaki onlarca sütuna bakarken hissettiğin o soğuk ter damlasını çok iyi biliyorum. Sayfalar dolusu rakamı manuel olarak tek tek inceleyip anlamlı bir metin yazmak için zamanın yok. Paniklemek yerine temiz tablonu doğru komutla vereceksin. Böylece hem yirmi dakikaya sığarsın hem de yöneticin satır avına düşmez."
+      "start": 100.2,
+      "end": 137.32,
+      "text": "Gözünün önüne getir: Önünde kritik bir yönetim toplantısı var ve başlamasına sadece yirmi dakika kalmış. Yöneticin kapıdan başını uzatıp bu ayın performansını özetleyen net bir metin istiyor. Ekrandaki onlarca sütuna bakarken hissettiğin o soğuk ter damlasını çok iyi biliyorum. Sayfalar dolusu rakamı elle tek tek inceleyip anlamlı bir metin yazmak için zamanın yok. Paniklemek yerine temiz tablonu doğru istemle vereceksin. Böylece hem yirmi dakikaya sığarsın hem de yöneticin satır avına düşmez (yüzlerce satırda tek tek arama yapmaz)."
     },
     {
       "index": 3,
       "cueId": "cue-03",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 133,
-      "end": 171.48,
-      "text": "Geleneksel ofis alışkanlıklarında en büyük hata, tablodaki her veriyi eksiksiz kopyalayıp upuzun bir metne dönüştürmektir. Saatlerce uğraşıp hazırladığın o sayfalarca metin genellikle okunmaz, hatta yöneticinin masasında göz ucuyla bile taranmadan kenara itilir. Peki neden uzun rapor bir başarı sayılmaz? Çünkü yoğun bir iş gününde kimsenin yüzlerce satırı okuyup içinden ana fikri ayıklamaya vakti yoktur. Sayfa sayısı bilgi taşımaz; üç net madde taşır. Bu yüzden on sayfalık dökümü yazdırmak, toplantıyı kazandırmaz; kaybettirir."
+      "start": 137.72,
+      "end": 175.36,
+      "text": "Geleneksel ofis alışkanlıklarında en büyük hata, tablodaki her veriyi eksiksiz kopyalayıp upuzun bir metne dönüştürmektir. Saatlerce uğraşıp hazırladığın o sayfalarca metin genellikle okunmaz, hatta yöneticinin masasında göz ucuyla bile taranmadan kenara itilir. Uzun rapor bir başarı sayılmaz. Yoğun bir iş gününde kimsenin yüzlerce satırı okuyup içinden ana fikri ayıklamaya vakti yoktur. Sayfa sayısı bilgi taşımaz; üç net madde taşır. Bu yüzden on sayfalık dökümü istemek, toplantıyı kazandırmaz; kaybettirir."
     },
     {
       "index": 4,
       "cueId": "cue-03",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 171.88,
-      "end": 208.88,
+      "start": 175.76,
+      "end": 211.24,
       "text": "Düşünsene, ekranda kaydırdıkça bitmeyen bir ham veri tablosu duruyor. Hangi ürünün kâr getirdiğini, hangi bölgenin geride kaldığını görmek için satırları tek tek toplamak zorunda kalıyorsun. Geleneksel yöntemle bir rapor yazmaya kalktığında, her detayı anlatma telaşıyla konunun özünü tamamen kaybedersin. Yönetim masasında senden beklenen, tablonun fotoğrafı değil; o tablonun ne yapılması gerektiğini söylemesidir. Amacımız seni bu yorucu döngüden çıkarmak: satır satır anlatmak yerine, üç maddeyle karar aldırmak."
     },
     {
@@ -54,72 +54,72 @@
       "cueId": "cue-04",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 209.28,
-      "end": 241.6,
-      "text": "Şimdi mantığı oturtalım. Temizlenmiş tablomuzu yapay zekâya emanet etme vakti. Ancak burada alelade bir özetleme komutu vermek işe yaramaz. Neden? Çünkü her şeyi özetle dersen model dolgu üretir; üç madde yerine gevezelik basar. Yapay zekâdan doğrudan bir yönetici özeti talep edeceğiz ve sınırları çok net çizeceğiz: tam üç madde ve ardından gelen tek bir karar cümlesi. Bu çerçeveyi net verdiğinde model gereksiz detaya girmeden sonuca odaklanır."
+      "start": 211.64,
+      "end": 256,
+      "text": "Şimdi mantığı oturtalım. Temizlenmiş tablomuzu yapay zekâya emanet etme vakti. Ancak burada alelade bir özetleme istemi vermek işe yaramaz. Neden? Çünkü her şeyi özetle dersen model dolgu üretir; üç madde yerine boş laf yazar. Yapay zekâdan doğrudan bir yönetim özeti talep edeceğiz ve kısıtı çok net koyacağız: tam üç madde ve ardından gelen tek bir karar cümlesi. Kopilot varsa düğmeden okut; yoksa Excel tablosunu ataşla yükle. Kişisel veri varsa önce maskele. Kalabalık sütunları geride bırak; özet için beş sütun yeter. Bu çerçeveyi net verdiğinde model gereksiz detaya girmeden sonuca odaklanır."
     },
     {
       "index": 6,
       "cueId": "cue-04",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 242,
-      "end": 287.6,
-      "text": "Komutunu kurgularken modele rolünü baştan söylemelisin. Peki yapay zekâ uydurmasın diye sayıları nasıl kilitleriz? Sayıyı tahmin ettirmezsin; hücreden aldırırsın. Modele şunu söyleyebilirsin: Sen üst düzey bir strateji danışmanısın. Tablodaki rakamları analiz et; toplam hacmi, kritik kırılımları ve beklenmeyen dalgalanmaları belirle. Çıktıyı tam üç madde halinde yapılandır ve en alta bir karar cümlesi ekle. Sayıları tablodaki hücrelerden al. Uydurma yüzde ekleme. Gördüğün gibi komut günlük dille yazılıyor; model hem biçimi hem sayı kilidini net duyuyor. Hazırladığımız bu komutla sistemin nasıl odaklandığını birazdan ekranda göreceğiz."
+      "start": 256.4,
+      "end": 291.76,
+      "text": "İstemini kurarken modele rolünü baştan yazmalısın. Peki yapay zekâ uydurmasın diye sayıları nasıl kilitleriz? Sayıyı tahmin ettirmezsin; hücreden aldırırsın. Modele şunu yazabilirsin: Bu temiz tablodan toplamı ve yönü çıkar. Tam üç maddelik yönetim özetini ve tek karar cümlesini yaz. Sayıları tablodaki hücrelerden al. Uydurma yüzde ekleme. Gördüğün gibi istem günlük dille yazılıyor; model hem Formatı hem sayı kilidini net duyuyor. Hazırladığımız bu istemle sistemin nasıl odaklandığını birazdan ekranda göreceğiz."
     },
     {
       "index": 7,
       "cueId": "cue-05",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 288,
-      "end": 325.84,
-      "text": "Sol tarafta ÖNCE etiketli 10 sayfalık döküm dururken, sağ tarafta SONRA etiketli 3 maddelik yönetim özeti parlıyor. Yapay zekâ, ham satırları sadece özetlemekle kalmadı; doğrudan eyleme geçiren bir karar notu üretti. Bize sadece ne olduğunu değil, bundan sonra ne yapmamız gerektiğini de gösterdi. Peki neden karar notu gözlem cümlesinden ayrı durur? Çünkü gözlem tabloyu anlatır; karar notu onay, arama veya yön ister. Sayfalarca tablonun içinde kaybolmak yerine, üç maddeyle rotayı görürsün."
+      "start": 292.16,
+      "end": 329.52,
+      "text": "Sol tarafta ÖNCE etiketli 10 sayfalık döküm dururken, sağ tarafta SONRA etiketli 3 maddelik yönetim özeti parlıyor. Yapay zekâ, ham satırları sadece özetlemekle kalmadı; doğrudan ne yapılacağını söyleyen bir karar cümlesi üretti. Bize sadece ne olduğunu değil, bundan sonra ne yapmamız gerektiğini de gösterdi. Peki neden karar cümlesi gözlem cümlesinden ayrı durur? Çünkü gözlem tabloyu anlatır; karar cümlesi onay, arama veya yön ister. Sayfalarca tablonun içinde kaybolmak yerine, üç maddeyle rotayı görürsün."
     },
     {
       "index": 8,
       "cueId": "cue-05",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 326.24,
-      "end": 365.8,
-      "text": "Üretilen bu karar notu, sıradan bir metinden farklıdır. İçinde bahaneler, gereksiz dolgu kelimeleri ya da kafa karıştıran yüzdeler yığını barındırmaz. Neden? Çünkü her sayı kaynak hücreyle kilitlenmiştir; model akıcı diye yüzde uyduramaz. Her bir cümle işin kârlılığına, operasyonel verimliliğine ve acil müdahale gerektiren darboğazlara işaret eder. Yöneticin bu notu okuduğunda ikinci bir soru sormaz; çünkü ihtiyaç duyduğu cevabı ilk bakışta masasında bulur. Fark şudur: biçim üç madde, sayı hücreden, eylem tek cümledir."
+      "start": 329.92,
+      "end": 369.28,
+      "text": "Üretilen bu karar cümlesi, sıradan bir metinden farklıdır. İçinde bahaneler, gereksiz dolgu kelimeleri ya da kafa karıştıran yüzdeler yığını barındırmaz. Neden? Çünkü her sayı kaynak hücreyle kilitlenmiştir; model akıcı diye yüzde uyduramaz. Her cümle paraya, aksayan işe ve hemen aranacak kişiye işaret eder. Yöneticin bu notu okuduğunda ikinci bir soru sormaz; çünkü ihtiyaç duyduğu cevabı ilk bakışta masasında bulur. Fark şudur: Format üç madde, sayı hücreden, karar tek cümledir."
     },
     {
       "index": 9,
       "cueId": "cue-06",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 366.2,
-      "end": 403.12,
-      "text": "Ekrana dikkatli bak. Peki neden fark bu kadar belirgin? Çünkü sol tarafta okuması saatler süren 10 sayfa dolusu ham veri tablosu var; sağ tarafta ise yapay zekânın çıkardığı, hedefe vuran net 3 madde yer alıyor. Sol taraf her satırı taşır, karar yoktur. Sağ taraf üç madde ve bir eylem cümlesi taşır, toplantı yürür. Hangi tarafın yöneticiye zaman kazandıracağını tahmin etmek zor değil. Bu iki ekran arasındaki fark, eski çalışma tarzınla yeni üretkenliğin arasındaki farktır."
+      "start": 369.68,
+      "end": 404.44,
+      "text": "Ekrana dikkatli bak. Peki neden fark bu kadar belirgin? Çünkü sol tarafta okuması saatler süren 10 sayfa dolusu ham veri tablosu var; sağ tarafta ise yapay zekânın çıkardığı, işe yarayan net 3 madde yer alıyor. Sol taraf her satırı taşır, karar yoktur. Sağ taraf üç madde ve bir karar cümlesi taşır, toplantı yürür. Hangi tarafın yöneticiye zaman kazandıracağını tahmin etmek zor değil. Bu iki ekran arasındaki fark, eski çalışma tarzınla yeni üretkenliğin arasındaki farktır."
     },
     {
       "index": 10,
       "cueId": "cue-06",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 403.52,
-      "end": 432.96,
-      "text": "Eski yöntemde o 10 sayfa içindeki tek bir tutarsızlığı yakalamak için gözlerini yorar, kahve üstüne kahve içerdin. Şimdi ise sadece 3 madde okuyarak tablonun bütününü görüyorsun. Zamanını verileri toparlamaya değil, o verilerin işaret ettiği stratejik kararları tartışmaya ayırıyorsun. Bu dönüşüm seni yalnızca hızlı çalışan biri yapmaz. Çünkü büyük resmi üç maddede görürsün; toplantıda satır avına düşmezsin."
+      "start": 404.84,
+      "end": 433.92,
+      "text": "Eski yöntemde o 10 sayfa içindeki tek bir tutarsızlığı yakalamak için gözlerini yorar, kahve üstüne kahve içerdin. Şimdi ise sadece 3 madde okuyarak tablonun bütününü görüyorsun. Zamanını verileri toparlamaya değil, o verilerin işaret ettiği ne yapılacağını tartışmaya ayırıyorsun. Bu dönüşüm seni yalnızca hızlı çalışan biri yapmaz. Çünkü tablonun bütününü üç maddede görürsün; toplantıda satır avına düşmezsin."
     },
     {
       "index": 11,
       "cueId": "cue-07",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 433.36,
-      "end": 484.48,
-      "text": "Şimdi bu derste öğrendiğin yaklaşımı iş hayatında her gün kullanabileceğin üç somut adıma dökelim ve cebine koyalım. 1. İlk olarak tablodaki toplam hacmi ve genel satış ya da maliyet yönünü gösteren trend akışını modelden net bir şekilde iste. Çünkü yönetici önce büyüklüğü ve yönü duymak ister. 2. İkinci adımda ortalamanın çok dışına çıkan anomali noktalarını ve operasyonel risk faktörlerini tespit etmesini sor. Sayıları hücreden aldır; uydurma yüzde yasaktır. 3. Son adımda ise tüm bu bulguları üst yönetimin derhal uygulayabileceği somut bir eylem planına ve yönlendirici cümleye çevir. Çünkü gözlem yetmez; karar notu olmadan toplantı yürümez. Bu üç adımlı reçeteyi her uyguladığında, en karmaşık tablolardan bile berrak bir yönetim özeti çıkarırsın."
+      "start": 434.32,
+      "end": 478.96,
+      "text": "Şimdi bu derste öğrendiğin yaklaşımı iş hayatında her gün kullanabileceğin üç somut adıma dökelim ve cebine koyalım. 1. İlk olarak tablodaki toplam hacmi ve yönü modelden net bir şekilde iste. Çünkü yönetici önce büyüklüğü ve yönü duymak ister. 2. İkinci adımda ortalamadan çok sapan noktaları ve işi aksatacak riskleri tespit etmesini sor. Sayıları hücreden aldır; uydurma yüzde yasaktır. 3. Son adımda ise tüm bu bulguları tek karar cümlesine çevir: ne yapılacağını yaz. Çünkü gözlem yetmez; karar cümlesi olmadan toplantı yürümez. Bu üç adımlı reçeteyi her uyguladığında, en karmaşık tablolardan bile berrak bir yönetim özeti çıkarırsın."
     },
     {
       "index": 12,
       "cueId": "cue-08",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 484.88,
+      "start": 479.36,
       "end": 514.84,
-      "text": "Artık teoriyi geride bıraktık ve sahneye sen çıkıyorsun. Kendi bilgisayarını aç, günlük işlerinde kullandığın gerçek bir çalışma tablosunu önüne al. İlk derste öğrendiğin gibi başlıklarını düzenleyip yapısını kontrol et. Ardından biraz önce çalıştığımız komut yapısını kullanarak kendi tablon için o üç maddelik yönetici özetini ve karar notunu üret. Çıkan her sayıyı kaynak hücreyle karşılaştır. Uydurma yüzde görürsen metni masaya koyma."
+      "text": "Artık teoriyi geride bıraktık ve sahneye sen çıkıyorsun. Kendi bilgisayarını aç, günlük işlerinde kullandığın gerçek bir Excel tablosunu önüne al. Kişi adı, IBAN veya müşteri sırrı varsa önce maskele; ham tabloyu sohbete yükleme. İlk derste öğrendiğin gibi başlıklarını düzenleyip yapısını kontrol et. Ardından biraz önce çalıştığımız istem yapısını kullanarak kendi tablon için o üç maddelik yönetim özetini ve karar cümlesini üret. Çıkan her sayıyı kaynak hücreyle karşılaştır. Uydurma yüzde görürsen metni masaya koyma."
     },
     {
       "index": 13,
@@ -127,8 +127,8 @@
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
       "start": 515.24,
-      "end": 553.84,
-      "text": "Harika bir iş çıkardın ve metin bazlı rapor otomasyonunun mantığını kavradın. Ancak yöneticiler bu özeti yalnızca okumak istemez; çoğunlukla bunu görsel bir sahnede görmek isterler. Grafik vaadi bu derste yoktur. İşte tam burada bir sonraki aşama giriyor: metni slayta çevirmek. 4. ders kapsamında, bugün ürettiğimiz bu metin özetini alıp doğrudan profesyonel bir slayt yapısına nasıl dönüştüreceğimizi adım adım keşfedeceğiz. Hazırlıklarını yap, bir sonraki derste metinden slayta uzanan görsel yolculuğa birlikte çıkıyoruz."
+      "end": 552.68,
+      "text": "Harika bir iş çıkardın ve tablodan özet çıkarma işini kaptın. Ancak yöneticiler bu özeti yalnızca okumak istemez; çoğunlukla bunu slaytta görmek isterler. Grafik bu derste yok; grafikleri Excel Formül dersinde (uydu 11, yakında) kuracağız. Şimdi metni slayta çeviriyoruz. 4. ders kapsamında, bugün ürettiğimiz bu metin özetini alıp doğrudan düzenli bir slayt taslağına nasıl dönüştüreceğimizi adım adım keşfedeceğiz. Hazırlıklarını yap, bir sonraki derste metinden slayta uzanan slayt işine birlikte çıkıyoruz. Sınav, 9. ders bitince açılır. Baraj 70 puandır."
     }
   ]
 }

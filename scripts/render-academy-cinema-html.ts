@@ -279,7 +279,7 @@ function mockGmail(slide: AcademyCinemaCueSlide): string {
   const title = disconnected ? "ChatGPT" : "Gmail";
   const sub = disconnected ? "Taşıma su" : (slide.fileName ?? "Gelen_Kutusu.gmail");
   const badge = native
-    ? "GELEN KUTUSU İÇİ / YERLEŞİK GEMİNİ ENTEGRASYONU"
+    ? "GELEN KUTUSU İÇİ / YERLEŞİK GEMİNİ PANELİ"
     : disconnected
       ? "GELEN KUTUSUNDAN KOPUK / TAŞIMA SU YÖNTEMİ"
       : "Gmail · Gemini paneli · özet kapalı";
@@ -338,7 +338,7 @@ function mockWord(slide: AcademyCinemaCueSlide): string {
 }
 
 function isPptxHierarchySlide(slide: AcademyCinemaCueSlide): boolean {
-  return slide.visualMode === "split" || slide.table?.headers[0] === "KPI";
+  return slide.visualMode === "split" || slide.table?.headers[0] === "Gösterge";
 }
 
 function mockPptx(slide: AcademyCinemaCueSlide): string {

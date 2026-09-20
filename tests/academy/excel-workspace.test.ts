@@ -166,6 +166,8 @@ describe("Excel birleşik hücre seçimi — A1:F1", () => {
     expect(academyExcelIsDenseDumpTable(ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE)).toBe(true);
     expect(academyExcelIsDenseDumpTable(ACADEMY_OFFICE_AI_2_CLEAN_TABLE)).toBe(false);
     expect(academyExcelOfficeAi2SeedTutarSum()).toBe(54650);
+    expect(ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE.note).toMatch(/kilitli toplam çekirdek 5 satırdan/u);
+    expect(ACADEMY_OFFICE_AI_2_CLEAN_TABLE.note).toMatch(/Özet beş sütundan çıkar/u);
     expect(ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE.headers.slice(5, 11)).toEqual([
       "Bölge",
       "Ürün",

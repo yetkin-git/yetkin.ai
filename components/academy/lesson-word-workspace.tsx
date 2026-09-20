@@ -16,6 +16,7 @@ import {
   ACADEMY_WORD_COPY_FRAGMENTS,
   ACADEMY_WORD_FILE_LABEL,
   ACADEMY_WORD_FILE_NAME,
+  ACADEMY_WORD_SAMPLE_LOCK,
   ACADEMY_WORD_WINDOW_TITLE,
   academyWordStageKind,
 } from "@/lib/academy/word-workspace";
@@ -191,6 +192,11 @@ export function LessonWordWorkspace({
               {copyMode ? (
                 <div className="academy-word-copy" data-academy-word-copy-panel="">
                   <p className="academy-gmail-carry-badge">Tek Tek Kopyalama</p>
+                  {compact ? null : (
+                    <p className="academy-word-sample-lock" data-academy-word-sample-lock="">
+                      {ACADEMY_WORD_SAMPLE_LOCK}
+                    </p>
+                  )}
                   <div className="academy-outlook-list">
                     {ACADEMY_WORD_COPY_FRAGMENTS.map((frag) => {
                       const isOrigin = frag.cell === highlight;
@@ -221,6 +227,11 @@ export function LessonWordWorkspace({
                   >
                     Ataş · {fileLabel}
                   </p>
+                  {compact ? null : (
+                    <p className="academy-word-sample-lock" data-academy-word-sample-lock="">
+                      {ACADEMY_WORD_SAMPLE_LOCK}
+                    </p>
+                  )}
                   {analysisMode ? (
                     ACADEMY_WORD_CLAUSE_CARDS.map((card) => {
                       const isOrigin = card.cell === highlight;
@@ -245,7 +256,7 @@ export function LessonWordWorkspace({
                     })
                   ) : (
                     <p className="academy-word-spoiler" data-academy-word-spoiler="">
-                      Maddeler · Spoiler yok
+                      Maddeler · Liste kapalı
                     </p>
                   )}
                 </div>

@@ -7,10 +7,12 @@ import {
   ACADEMY_WORD_FILE_LABEL,
   ACADEMY_WORD_FILE_NAME,
   ACADEMY_WORD_NATIVE_TOOL,
+  ACADEMY_WORD_SAMPLE_LOCK,
   ACADEMY_WORD_UPLOAD_PROMPT,
   ACADEMY_WORD_WINDOW_TITLE,
   academyWordStageKind,
 } from "@/lib/academy/word-workspace";
+import { ACADEMY_OFFICE_AI_W1_COPILOT_PROMPT } from "@/lib/academy/lesson-beat-visual";
 import { academyCitizenDocxLabel, academyCitizenOfficeFileLabel } from "@/lib/academy/prompt-console";
 
 const ROOT = process.cwd();
@@ -36,6 +38,8 @@ describe("Word doğrudan dosya yükleme tuvali", () => {
     expect(ACADEMY_WORD_CLAUSE_CARDS.map((card) => card.tone)).toEqual(["acil", "bekle", "arsiv"]);
     expect(ACADEMY_WORD_UPLOAD_PROMPT).toMatch(/cezai şart maddelerini/u);
     expect(ACADEMY_WORD_UPLOAD_PROMPT).toMatch(/Uydurma madde ekleme/u);
+    expect(ACADEMY_WORD_SAMPLE_LOCK).toBe("Örnek oran ve sayfalar; kendi dosyandaki sayıyı koy.");
+    expect(ACADEMY_WORD_UPLOAD_PROMPT).toBe(ACADEMY_OFFICE_AI_W1_COPILOT_PROMPT);
   });
 
   it("sahne türü: parça parça copy, ataş attach, yerinde analysis", () => {
@@ -62,6 +66,7 @@ describe("Word doğrudan dosya yükleme tuvali", () => {
     expect(word).toContain("ACADEMY_WORD_COPY_FRAGMENTS.map");
     expect(word).toContain("ACADEMY_WORD_CLAUSE_CARDS.map");
     expect(word).toContain("ACADEMY_WORD_FILE_LABEL");
+    expect(word).toContain("ACADEMY_WORD_SAMPLE_LOCK");
     expect(word).toContain("Ataş · {fileLabel}");
     expect(word).not.toMatch(/Ataş · \{slide\.fileName/u);
     expect(css).toMatch(

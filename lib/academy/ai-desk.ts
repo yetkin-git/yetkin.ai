@@ -22,13 +22,13 @@ export const ACADEMY_INFRA_EXCEL_WORD_LINE =
 
 /** Outlook: Copilot lisansı olmadan canlı kutu okunmaz. 3. kapı maskeli kısa yapıştırmadır. */
 export const ACADEMY_INFRA_OUTLOOK_LINE =
-  "Copilot lisansın yoksa Outlook canlı kutusunu harici araçlara okutamazsın. Önce Gmail Gemini veya ataş; son çare maskeli kısa yapıştırma." as const;
+  "Copilot lisansın yoksa Outlook canlı kutusunu dış araçlara okutamazsın. Önce Gmail Gemini veya ataş; son çare maskeli kısa yapıştırma." as const;
 
 export const ACADEMY_INFRA_OUTLOOK_HONESTY_BADGE = "Copilot yoksa canlı kutu okunmaz" as const;
 
-/** Gmail + Gemini: yerleşik eklenti. PEDAGOJI §E.10 — 1. Kapı. */
+/** Gmail + Gemini: yerleşik panel. PEDAGOJI §E.10 — birinci kapı. */
 export const ACADEMY_INFRA_GMAIL_LINE =
-  "Gmail’de Gemini yerleşik eklentiyi aç. Bu 1. kapıdır. Maili dış sohbete taşımak varsayılan yol değildir." as const;
+  "Gmail’de Gemini yerleşik panelini aç. Bu birinci kapıdır. İletiyi dış sohbete taşımak varsayılan yol değildir." as const;
 
 /** Yerleşik araç eşleşmesi — ana yöntem SSOT. 3. kapı son çaredir. */
 export const ACADEMY_INFRA_TOOL_MATCH = {
@@ -52,14 +52,15 @@ export type AcademyAiDeskPastePhase = "idle" | "select" | "copy" | "paste" | "ty
 
 export const ACADEMY_AI_DESK_MAIL_CLIP = [
   "Kaya Gıda A.Ş. — Vade bugün — 54.650 TL tahsilat onayı",
-  "Yıldız Tekstil — Açık vade ve risk notu 14 gündür bekliyor",
-  "Haftalık Bülten — Üç toplantı daveti ve iki fatura aynı yığında",
+  "Yönetim — imza onayı, bugün 17:00",
+  "Banka dekontu — rutin, aksiyon yok",
 ] as const;
 
 export const ACADEMY_AI_DESK_TABLE_CLIP = [
   "Cari | Mart | Nisan | Satır Toplam",
   "Kaya Gıda A.Ş. | 12.450 | 8.200 | 20.650",
-  "Yıldız Tekstil | 9.100 | 3.400 | 21.500",
+  "Yıldız Tekstil | 9.100 | 3.400 | 12.500",
+  "Genel Toplam | 29.750 | 20.700 | 50.450",
 ] as const;
 
 export const ACADEMY_AI_DESK_SLIDE_CLIP = [
@@ -80,10 +81,10 @@ export function academyAiDeskClipForHost(host: AcademyAiDeskHost): readonly stri
 
 export function academyAiDeskClipVerb(host: AcademyAiDeskHost): string {
   if (host === "gmail") {
-    return "Gelen kutusu Gemini’ye açıldı";
+    return "Gelen kutusunu Gemini ile açtın";
   }
   if (host === "outlook") {
-    return "Mailler seçildi";
+    return "İletileri seçtin";
   }
   if (host === "pptx") {
     return "Slayt dosyası yüklendi";
@@ -166,10 +167,10 @@ export function academyAiDeskTabsForHost(
 /** Ana akış dersleri yerleşik yola kilitlenir; taşıma su sekmesi otomatik açılmaz. */
 export function academyAiDeskPinnedForLesson(lessonKey: string): AcademyAiDeskTab | null {
   const key = lessonKey.trim();
-  if (key === "01_office_ai-g1" || key === "01_office_ai-4" || key === "01_office_ai-3") {
+  if (key === "01_office_ai-g1" || key === "01_office_ai-4") {
     return "copilot";
   }
-  if (key === "01_office_ai-w1") {
+  if (key === "01_office_ai-0") {
     return "chatgpt";
   }
   return null;

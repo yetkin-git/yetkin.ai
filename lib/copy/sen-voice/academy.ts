@@ -169,6 +169,8 @@ export const ACADEMY_SEN = {
     totalMeta: (lessons: number, minutes: number) => `${lessons} ders · ${minutes} dk`,
     completed: "Tamamlandı",
     locked: "Kilitli",
+    prepBadge: "Başlamadan Önce",
+    prepKind: "Hazırlık",
   },
   outcomes: {
     eyebrow: "Öğrenim çıktıları",
@@ -319,6 +321,9 @@ export const ACADEMY_SEN = {
     alreadyDone: "Ders tamam",
     nextHint: "Sıradaki ders açık. Atlanan ders tamamlanmaz.",
     openCta: "Derse başla",
+    prepCompleteCta: "Hazırım, 1. derse geç",
+    exitKitCta: "Çıkış paketi",
+    exitKitLead: "Cuma 30 kontrol listesi, 9 istem kartı ve KVKK maske şablonu.",
     /** Antre — yarım kalan müfredat. */
     resumeCta: "Kaldığın Yerden Devam Et",
     lessonCount: (count: number) => `${count} ders`,

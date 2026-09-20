@@ -3,6 +3,7 @@ import { AcademyProgressBar } from "@/components/academy/progress-bar";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import type { AcademySyllabus } from "@/lib/academy/curriculum-syllabus";
 import { academyLessonKindLabel, academyProgressPercent } from "@/lib/academy/lesson-meta";
+import { OFFICE_AI_LESSON_TEASERS, OFFICE_AI_SEO } from "@/lib/copy/seo";
 
 export function CurriculumOutline({
   syllabus,
@@ -56,6 +57,12 @@ export function CurriculumOutline({
                       </span>
                       <span className="min-w-0 flex-1 leading-6">
                         <span className="block font-medium">{lesson.title}</span>
+                        {syllabus.slug === OFFICE_AI_SEO.slug &&
+                        OFFICE_AI_LESSON_TEASERS[lesson.key] ? (
+                          <span className="mt-0.5 block text-xs leading-5 text-[var(--muted)]">
+                            {OFFICE_AI_LESSON_TEASERS[lesson.key]}
+                          </span>
+                        ) : null}
                         <span className="mt-0.5 block text-xs text-[var(--muted)]">
                           {kindLabel} · {copy.durationMin(lesson.durationMin)}
                           {completed ? ` · ${copy.completed}` : null}

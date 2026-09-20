@@ -6,6 +6,7 @@ import {
   ACADEMY_AI_DESK_CTRL_C,
   ACADEMY_AI_DESK_INSTRUCTOR_LINE,
   ACADEMY_AI_DESK_MAIL_CLIP,
+  ACADEMY_AI_DESK_TABLE_CLIP,
   ACADEMY_AI_DESK_PASTE_GUIDE,
   ACADEMY_AI_DESK_TAB_HALF_SEC,
   ACADEMY_AI_DESK_TABS,
@@ -50,8 +51,11 @@ describe("Nereye yazılacak — Copilot vs ChatGPT masası", () => {
     expect(ACADEMY_INFRA_EXCEL_WORD_LINE).toMatch(/ataş ile yükleyebilirsin/u);
     expect(ACADEMY_INFRA_OUTLOOK_LINE).toMatch(/son çare/u);
     expect(ACADEMY_INFRA_OUTLOOK_HONESTY_BADGE).toMatch(/canlı kutu okunmaz/u);
-    expect(ACADEMY_INFRA_GMAIL_LINE).toMatch(/Gemini yerleşik/u);
-    expect(ACADEMY_INFRA_GMAIL_LINE).toMatch(/1\. kapı/u);
+    expect(ACADEMY_INFRA_GMAIL_LINE).toMatch(/Gemini yerleşik panelini aç/u);
+    expect(ACADEMY_INFRA_GMAIL_LINE).toMatch(/birinci kapı/u);
+    expect(ACADEMY_INFRA_GMAIL_LINE).toMatch(/İletiyi dış sohbete/u);
+    expect(ACADEMY_INFRA_OUTLOOK_LINE).toMatch(/dış araçlara/u);
+    expect(ACADEMY_INFRA_OUTLOOK_LINE).not.toMatch(/harici/u);
     expect(ACADEMY_INFRA_TOOL_MATCH).toEqual({
       outlook: "Copilot",
       gmail: "Gemini",
@@ -65,9 +69,9 @@ describe("Nereye yazılacak — Copilot vs ChatGPT masası", () => {
     expect(academyAiDeskNativeTool("excel")).toBe("Doğrudan Dosya Yükleme");
     expect(academyAiDeskTabsForHost("gmail").map((tab) => tab.label)).toEqual(["Gemini (Yerleşik)"]);
     expect(academyAiDeskPinnedForLesson("01_office_ai-g1")).toBe("copilot");
-    expect(academyAiDeskPinnedForLesson("01_office_ai-w1")).toBe("chatgpt");
+    expect(academyAiDeskPinnedForLesson("01_office_ai-w1")).toBeNull();
     expect(academyAiDeskPinnedForLesson("01_office_ai-4")).toBe("copilot");
-    expect(academyAiDeskPinnedForLesson("01_office_ai-3")).toBe("copilot");
+    expect(academyAiDeskPinnedForLesson("01_office_ai-3")).toBeNull();
     expect(academyInfraAllowsDirectUpload("excel")).toBe(true);
     expect(academyInfraAllowsDirectUpload("word")).toBe(true);
     expect(academyInfraAllowsDirectUpload("pptx")).toBe(true);
@@ -87,10 +91,17 @@ describe("Nereye yazılacak — Copilot vs ChatGPT masası", () => {
     expect(academyAiDeskGuideHint("chatgpt")).toBe("ChatGPT yapıştır");
     expect(academyAiDeskGuideHint("chatgpt", "excel")).toBe("Ataş ile yükle");
     expect(academyAiDeskGuideHint("copilot", "gmail")).toBe("Gmail Gemini");
-    expect(academyAiDeskClipVerb("outlook")).toBe("Mailler seçildi");
-    expect(academyAiDeskClipVerb("gmail")).toBe("Gelen kutusu Gemini’ye açıldı");
+    expect(academyAiDeskClipVerb("outlook")).toBe("İletileri seçtin");
+    expect(academyAiDeskClipVerb("gmail")).toBe("Gelen kutusunu Gemini ile açtın");
     expect(academyAiDeskClipVerb("excel")).toBe("Excel dosyası yüklendi");
     expect(academyAiDeskClipForHost("outlook")).toEqual([...ACADEMY_AI_DESK_MAIL_CLIP]);
+    expect(academyAiDeskClipForHost("excel")).toEqual([...ACADEMY_AI_DESK_TABLE_CLIP]);
+    expect(ACADEMY_AI_DESK_TABLE_CLIP.join(" ")).toMatch(/12\.500/u);
+    expect(ACADEMY_AI_DESK_TABLE_CLIP.join(" ")).toMatch(/50\.450/u);
+    expect(ACADEMY_AI_DESK_TABLE_CLIP.join(" ")).not.toMatch(/21\.500/u);
+    expect(ACADEMY_AI_DESK_MAIL_CLIP.join(" ")).toMatch(/Yönetim — imza onayı, bugün 17:00/u);
+    expect(ACADEMY_AI_DESK_MAIL_CLIP.join(" ")).toMatch(/Banka dekontu — rutin, aksiyon yok/u);
+    expect(ACADEMY_AI_DESK_MAIL_CLIP.join(" ")).not.toMatch(/Yıldız Tekstil/u);
     expect(academyAiDeskActiveTab({ currentTime: 201.2, cueStart: 201.2 })).toBe("copilot");
     expect(
       academyAiDeskActiveTab({
@@ -161,9 +172,11 @@ describe("Nereye yazılacak — Copilot vs ChatGPT masası", () => {
     expect(eye).toContain("data-academy-paste-guide");
     expect(eye).toContain('data-academy-paste-anchor={pasteHost === "pptx" ? "copilot" : undefined}');
     expect(desk).toContain("data-academy-copilot-dock");
-    expect(spoken).toMatch(/Microsoft Copilot lisansın varsa/u);
-    expect(spoken).toMatch(/Gemini eklentisini aç/u);
-    expect(spoken).toMatch(/yerleşik panele yazılır/u);
+    expect(spoken).toMatch(/Panel ayrı derstedir/u);
+    expect(spoken).toMatch(/Outlook Copilot/u);
+    expect(spoken).not.toMatch(/Microsoft Copilot lisansın varsa/u);
+    expect(spoken).not.toMatch(/Gemini eklentisini aç/u);
+    expect(spoken).not.toMatch(/yerleşik panele yazılır/u);
     expect(spoken).not.toMatch(/ücretsiz ChatGPT ekranına yapıştır/u);
     expect(spoken).not.toContain(ACADEMY_AI_DESK_INSTRUCTOR_LINE);
     expect(eye).toContain("academyAiDeskPinnedForLesson");

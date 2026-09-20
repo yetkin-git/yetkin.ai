@@ -52,10 +52,13 @@ import {
 import { JsonLd } from "@/components/seo/json-ld";
 import { LandingFaq } from "@/components/seo/landing-faq";
 import { OfficeAiGuidePreview } from "@/components/academy/office-ai-guide-preview";
+import { PrepStripTeaser } from "@/components/academy/prep-strip-teaser";
+import { academyPrepStripForSlug } from "@/lib/academy/prep-strip";
 import {
   academyCourseBreadcrumbs,
   breadcrumbListJsonLd,
   courseJsonLd,
+  educationalOccupationalProgramJsonLd,
   faqPageJsonLd,
   jsonLdDocument,
   OFFICE_AI_COURSE_TEACHES,
@@ -92,6 +95,7 @@ export async function generateMetadata({
     description: isOfficeAiSeo ? OFFICE_AI_SEO.description : course.summary,
     path: `/academy/${course.slug}`,
     image: academyCourseCoverPath(course.slug) ?? DEFAULT_OG_IMAGE,
+    keywords: isOfficeAiSeo ? OFFICE_AI_SEO.keywords : undefined,
   });
 }
 
@@ -153,6 +157,7 @@ export default async function AcademyCoursePage({
     ? (examGate.certificate.certificateHash ?? examGate.certificate.serialKey)
     : null;
   const syllabus = curriculumSyllabusForCourseSlug(board.course.slug);
+  const prepStrip = academyPrepStripForSlug(board.course.slug);
   const visaPromise = academyAntreVisaPromise(board.course.slug, ACADEMY_EXAM_PASS_SCORE);
   const priceLabel = board.course.priceMinor
     ? formatMinor(board.course.priceMinor, board.course.currencyCode)
@@ -198,7 +203,10 @@ export default async function AcademyCoursePage({
           courseJsonLd({
             slug: board.course.slug,
             title: board.course.title,
-            description: board.course.summary,
+            description:
+              board.course.slug === OFFICE_AI_SEO.slug
+                ? OFFICE_AI_SEO.description
+                : board.course.summary,
             imagePath: academyCourseCoverPath(board.course.slug) ?? DEFAULT_OG_IMAGE,
             datePublished: board.course.createdAt,
             priceMinor: board.course.priceMinor,
@@ -212,7 +220,18 @@ export default async function AcademyCoursePage({
           }),
           // SEO Tedavi (P0) — görünür SSS ile AYNI sabit; JSON-LD/HTML %100 eşleşir.
           ...(board.course.slug === OFFICE_AI_SEO.slug
-            ? [faqPageJsonLd(OFFICE_AI_COURSE_FAQ)]
+            ? [
+                faqPageJsonLd(OFFICE_AI_COURSE_FAQ),
+                educationalOccupationalProgramJsonLd({
+                  slug: board.course.slug,
+                  name: board.course.title,
+                  description: OFFICE_AI_SEO.description,
+                  imagePath: academyCourseCoverPath(board.course.slug) ?? DEFAULT_OG_IMAGE,
+                  durationMin: syllabus.durationMin,
+                  priceMinor: board.course.priceMinor,
+                  priceCurrency: board.course.currencyCode,
+                }),
+              ]
             : []),
           breadcrumbListJsonLd(
             academyCourseBreadcrumbs({
@@ -354,6 +373,7 @@ export default async function AcademyCoursePage({
         showProgress={hasAccess}
         visaPromise={visaPromise}
       />
+      {prepStrip ? <PrepStripTeaser strip={prepStrip} /> : null}
       {board.course.slug === OFFICE_AI_SEO.slug ? <OfficeAiGuidePreview /> : null}
       {board.course.slug === OFFICE_AI_SEO.slug ? (
         <LandingFaq heading={OFFICE_AI_FAQ_HEADING} items={OFFICE_AI_COURSE_FAQ} />

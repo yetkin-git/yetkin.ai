@@ -3,6 +3,7 @@
  * Oynatıcı currentTime bu saniyelerle 1:1; kelime-oranlı duvar saati değildir.
  */
 
+import officeAiPrepTimingsJson from "./01_office_ai-0.json" with { type: "json" };
 import officeAiLesson1TimingsJson from "./01_office_ai-1.json" with { type: "json" };
 import officeAiLesson2TimingsJson from "./01_office_ai-2.json" with { type: "json" };
 import officeAiLesson3TimingsJson from "./01_office_ai-3.json" with { type: "json" };
@@ -112,6 +113,14 @@ export function parseAcademySealedAudioTimings(raw: unknown): AcademySealedAudio
 }
 
 const TIMINGS_BY_LESSON_KEY: Readonly<Record<string, AcademySealedAudioTimings>> = {
+  /** Ders 0 hazırlık şeridi — TAHMİNİ plan (cacheV 1 = mühürsüz). Fırın (--seal) ezer. */
+  "01_office_ai-0": parseAcademySealedAudioTimings(officeAiPrepTimingsJson) ?? {
+    lessonKey: "01_office_ai-0",
+    pauseSec: 0.4,
+    durationSec: 0,
+    cacheV: 0,
+    pieces: [],
+  },
   "01_office_ai-1": parseAcademySealedAudioTimings(officeAiLesson1TimingsJson) ?? {
     lessonKey: "01_office_ai-1",
     pauseSec: 0.4,

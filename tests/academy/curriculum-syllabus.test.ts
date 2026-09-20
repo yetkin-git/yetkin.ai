@@ -138,7 +138,7 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
     expect(syllabus.lessons[1]?.key).toBe("01_office_ai-k1");
     expect(syllabus.lessons[1]?.kind).toBe("audio");
     expect(syllabus.lessons[6]?.title).toMatch(/Gmail \+ Gemini/u);
-    expect(syllabus.lessons[7]?.title).toMatch(/Word ve Uzun Doküman Analizi/u);
+    expect(syllabus.lessons[7]?.title).toMatch(/Word ve Uzun Belge İncelemesi/u);
     expect(syllabus.lessons[8]?.key).toBe("01_office_ai-6");
     expect(syllabus.lessons[8]?.kind).toBe("audio");
     expect(syllabus.lessons[8]?.title).toBe("Haftalık Sistem: 30 Dakikalık Rutin");
@@ -166,7 +166,7 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
     expect(officeAiPlannedLessonByKey("01_office_ai-g1")?.method).toBe("gmail-gemini");
     expect(officeAiPlannedLessonByKey("01_office_ai-g1")?.title).toMatch(/Gmail \+ Gemini/u);
     expect(officeAiPlannedLessonByKey("01_office_ai-g1")?.title).toMatch(/Aksiyon Listesi/u);
-    expect(officeAiPlannedLessonByKey("01_office_ai-w1")?.title).toMatch(/Word ve Uzun Doküman Analizi/u);
+    expect(officeAiPlannedLessonByKey("01_office_ai-w1")?.title).toMatch(/Word ve Uzun Belge İncelemesi/u);
     expect(officeAiPlannedLessonByKey("01_office_ai-w1")?.method).toBe("doc-upload-gemini");
     expect(officeAiPlannedLessonByKey("01_office_ai-w1")?.status).toBe("sealed");
     expect(officeAiPlannedLessonByKey("01_office_ai-w1")?.title).toMatch(/Dilekçe/u);

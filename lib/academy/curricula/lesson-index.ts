@@ -2,6 +2,7 @@
  * Katalog / devam paneli — gövdesiz müfredat indeksi.
  * Taslak gövdeleri ve curriculum.ts bu dosyayı import eder (sıra SSOT); bu dosya onları import etmez.
  * Vatandaş ders numarası bu dizinin 1 tabanlı indeksidir. Teknik anahtar (`k1`, `5`) basılmaz.
+ * Ders 0 (Başlamadan Önce) bu dizide yoktur; `lib/academy/prep-strip.ts`.
  * Faz 1 kilit sıra: Excel → KVKK → rapor → slayt → hata avı → e-posta ritüeli
  * → Gmail kapısı → Word → Cuma 30 capstone. Sınav yalnız son dersten sonra.
  */

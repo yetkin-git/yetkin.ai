@@ -30,19 +30,19 @@ Bu tablo timings `durationSec` ile birebir durur. Re-bake sonrası sayıyı bura
 
 | Ders anahtarı | timings `durationSec` | `ACADEMY_SEALED_AUDIO_DURATION_SEC` | `cacheV` |
 |---------------|----------------------|-------------------------------------|----------|
-| `01_office_ai-1` | **649.36 sn** | 649 | 649360 |
-| `01_office_ai-k1` | **619.484 sn** | 619 | 619484 |
-| `01_office_ai-2` | **553.84 sn** | 554 | 553840 |
-| `01_office_ai-3` | **531.913 sn** | 532 | 531913 |
-| `01_office_ai-5` | **522.52 sn** | 523 | 522520 |
-| `01_office_ai-4` | **443.56 sn** | 444 | 443560 |
-| `01_office_ai-g1` | **567.2 sn** | 567 | 567200 |
-| `01_office_ai-w1` | **593.64 sn** | 594 | 593640 |
-| `01_office_ai-6` | **541.36 sn** | 541 | 541360 |
+| `01_office_ai-1` | **662.56 sn** | 663 | 662560 |
+| `01_office_ai-k1` | **668.88 sn** | 669 | 668880 |
+| `01_office_ai-2` | **552.68 sn** | 553 | 552680 |
+| `01_office_ai-3` | **575.6 sn** | 576 | 575600 |
+| `01_office_ai-5` | **564.08 sn** | 564 | 564080 |
+| `01_office_ai-4` | **493.8 sn** | 494 | 493800 |
+| `01_office_ai-g1` | **449.586 sn** | 450 | 449586 |
+| `01_office_ai-w1` | **607.688 sn** | 608 | 607688 |
+| `01_office_ai-6` | **444.437 sn** | 444 | 444437 |
 
 - `01_office_ai-1` konuşma sonrası Lyria outro kuyruğu **+2.5 sn** (oynatıcı saati; WAV’a sessizlik basılmaz).
-- `cue-06 FARK ORTADA`: **457.12–529** (eski hatalı damga `386.04–457.04` / `319.92` / `346.36` / `358.92` / `378.96` / `387.92–458.68` kullanılmaz).
-- `cue-07 CEBİNE KOY`: **529.4–575.16** (eski hatalı damga `457.44–497.08` / `393.32` / `417.20` / `430.12` / `449.64` / `459.08–498.80` kullanılmaz).
+- `cue-06 FARK ORTADA`: **467.48–535.4** (eski hatalı damga `457.12–529` / `386.04–457.04` / `319.92` / `346.36` / `358.92` / `378.96` / `387.92–458.68` kullanılmaz).
+- `cue-07 CEBİNE KOY`: **535.8–584.08** (eski hatalı damga `529.4–575.16` / `457.44–497.08` / `393.32` / `417.20` / `430.12` / `449.64` / `459.08–498.80` kullanılmaz).
 - Veo punch: **2–10 sn** (`ACADEMY_VEO_SCENE_DURATION_SEC = 8`, intro `0–2 sn` sonrası);
   `0–8 sn` yazımı yasaktır.
 - Dron punchcard sonu timings `durationSec` ile biter; web timings ile aynı 8 aralık türetilir.
@@ -52,6 +52,17 @@ Bu tablo timings `durationSec` ile birebir durur. Re-bake sonrası sayıyı bura
 - `01_office_ai-w1` sözleşme, dilekçe, rapor; ataş asıl kapı. Sınav 9. ders bitince açılır.
 - `01_office_ai-k1` 2. ders; Üç Kapı yalnız aktarımdır (yerleşik panel → ataş → maskeli kısa). Güvenlik sınıfı ayrıdır.
 - Eğilim kartı tazeliği: tarih damgalı model-eğilim cümleleri (Ders 1 makalesi) **6 ayda bir gözden geçirilir**; değişen eğilim makaleye işlenir, mühürlü kaset yalnız gerekirse hedefli re-bake görür.
+
+## Vatandaş yüzeyini tarayan testler (Pedagoji §E.2)
+
+Yasak yüzeyleri (ses fonetiği, cue, konuşma metni, makale, görsel stage) şu testler tarar. Pedagoji dosya yolu listesi taşımaz; yaşayan liste buradadır.
+
+| Yüzey | Test |
+|-------|------|
+| Ses fonetiği + cue + konuşma metni + makale | `tests/academy/sealed-audio-pilot.test.ts` |
+| Ders konuşma metinleri | `tests/academy/office-ai-lesson-k1.test.ts`, `tests/academy/office-ai-lesson-w1.test.ts` |
+| Görsel stage düğümleri + dosya etiketi (titlebar / punchcard) | `tests/academy/office-ai-lesson-w1.test.ts`, `tests/academy/word-workspace.test.ts`, `tests/academy/prompt-console.test.ts` |
+| Ders gövdesi yasaklı jargon (`score`, `prompt terminali`, `özel API`) + baraj sabiti | `tests/academy/exam-sentence-standard.test.ts` |
 
 ## Timings → Dron punchcard sürüm sözleşmesi
 

@@ -4,7 +4,7 @@
  * Metin üç noktaya düşmez; font clamp + içerik genişliği.
  */
 
-import { academyExcelAlignBox, type AcademyExcelAlignBox } from "@/lib/academy/excel-workspace";
+import { academyExcelAlignBox, type AcademyExcelAlignBox } from "@/lib/academy/excel-align";
 import type { AcademyExcelMouseCell } from "@/lib/academy/excel-mouse-pointer";
 
 export const ACADEMY_PPTX_SLIDE_TITLE = "Mart 2026 Yönetim Özeti" as const;
@@ -14,7 +14,11 @@ export const ACADEMY_PPTX_FILE_NAME = "Yonetim_Sunumu.pptx" as const;
 export const ACADEMY_PPTX_FILE_LABEL = "Yönetim Sunumu (PowerPoint)" as const;
 
 export const ACADEMY_PPTX_ACTION_BAND =
-  "Stratejik Eylem: Yıldız Tekstil takibi başlatılsın" as const;
+  "Karar: Yıldız Tekstil'i bugün ara" as const;
+
+/** After paneli kilit notu — gözdeki örnek, kulaktaki kuralın cümlesidir. */
+export const ACADEMY_PPTX_EXAMPLE_NOTE =
+  "Örnek sayılar; kendi tablondaki sayıyı koy." as const;
 
 export const ACADEMY_PPTX_KPI_CARDS = [
   {

@@ -45,6 +45,18 @@ export function academySpokenScriptDiskPath(lessonKey: string, root = process.cw
   return join(root, academySpokenScriptRelativePath(lessonKey));
 }
 
+/** Stüdyo ham metni — fonetik/skip-preventer yok. Kaset diff bu kaynağı okur. */
+export function loadAcademySpokenScriptRawMarkdown(
+  lessonKey: string,
+  root = process.cwd(),
+): string {
+  const path = academySpokenScriptDiskPath(lessonKey, root);
+  if (!existsSync(path)) {
+    return "";
+  }
+  return readFileSync(path, "utf8");
+}
+
 function stripSpokenScriptMarkup(raw: string): string {
   return raw
     .replace(/<!--[\s\S]*?-->/gu, " ")

@@ -1,0 +1,80 @@
+{
+  "lessonKey": "01_office_ai-0",
+  "pauseSec": 0.4,
+  "durationSec": 205.317,
+  "cacheV": 1,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 2,
+      "end": 25.935,
+      "text": "Selamlar, ben Gözde. Bu şerit bir sınav dersi değildir. Dokuz mühürlü dersin önünde durur; barajı, mührü ve vize kartını etkilemez. Bu şeridin sonunda bir yapay zekâ hesabı açmayı, ücretsiz ile ücretli farkını görmeyi, sohbet ekranını tanımayı, ilk istemi yazmayı ve Türkçe mi İngilizce mi yazacağına karar vermeyi tek başına yapacaksın. Hazırsan masaya oturalım."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 26.335,
+      "end": 54.787,
+      "text": "Çetcipiti, Cemini veya Klod — hangisi masanda duruyorsa onu aç. Üçü de ücretsiz hesapla bu kursun işini görür. Şirket paneli — kurumsal model — varsa onu kullan; evdeki gizlilik kuralı oraya yazılır. Hesap açmak beş dakikadır: e-posta, onay, sohbet kutusu. Telefon numarası isteyen ekranda durabilirsin; zorunlu adım bu şeridin işi değildir. Kopilot lisansın yoksa üzülme. Dokuz dersin her biri 'lisans yoksa' yolunu yazar."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 55.187,
+      "end": 83.639,
+      "text": "Ücretsiz model yavaşlar, kuyrukta bekletir, uzun dosyada nefesini keser. Ücretli model daha hızlı döner, daha uzun metni taşır. Sihirli değildir. Bu kursta öğrettiğimiz şey kapı sırasıdır: yerleşik panel, ataş, maskeli kısa özet. O sıra ücretsiz hesapta da durur. İlk hafta ücretli plana geçmek zorunda değilsin. Kota dolduysa yeni sohbet aç; işi böl. 'Daha zeki model' satın almak, A bir hücresini boş bırakmanın yerine geçmez."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 84.039,
+      "end": 109.329,
+      "text": "Ekranın ortası konuşma alanıdır. Altta bir kutu durur: burası istem kutusudur. Ataş simgesi dosya yükler. Yeni sohbet, yeni iş demektir; eski işi karıştırmaz. Modelin cevabı akıcı durabilir; akıcı olmak doğru olmak değildir. Gönder tuşu sendedir. Bu şeritte henüz müşteri listesi yükleme. Ham Excel tablosu, ham sözleşme, açık IBAN bu kutuya girmez. O kural 2. derste kilitlenir."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 109.729,
+      "end": 139.084,
+      "text": "İstem, modele verdiğin iş emridir. Sihirli cümle yoktur. Dört parça yeter: rol, görev, Format, kısıt. Örnek: 'Rol: ofis asistanı. Görev: bu üç satırlık tabloyu sütun adına göre özetle. Format: üç madde. Kısıt: uydurma sayı ekleme.' Görüyorsun: günlük dil. Kod yok. İngilizce jargon yok. İlk denemende kutu boş dönerse cümleyi uzatma; görevi küçült. Bir iş, bir istem. Üç işi tek kutuya yığmak, üç cevabı birbirine bulaştırır."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-06",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 139.484,
+      "end": 164.323,
+      "text": "Belgen Türkçeyse istemi Türkçe yaz. Belgen İngilizceyse istemi İngilizce yaz. Model her iki dili de okur; karışık dil, karışık cevap doğurur. Teknik bir terimi belgede nasıl duruyorsa öyle bırak: IBAN, Kavekaka, Excel. Cümlenin omurgası senin dilindir. 'İngilizce yazarsam daha zeki olur' bir efsanedir. Net görev, net kısıt, doğru dil. Bu üçü ücretsiz modelde de yeter."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-07",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 164.723,
+      "end": 182.336,
+      "text": "Üç kural. 1. Hesabı aç, kutuyu tanı, ataşı gör; lisans yoksa durma. 2. İstemi dört parçayla yaz: rol, görev, Format, kısıt. 3. Belgenin dilinde yaz; ham kişisel veriyi bu kutuya koyma. Bu üçü oturunca 1. dersin A bir hücresi korkutmaz."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-08",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 182.736,
+      "end": 205.317,
+      "text": "Şimdi kendi hesabını aç. Yeni bir sohbet başlat. İstem kutusuna şunu yaz: 'Bana üç maddelik bir ofis sabah rutini öner. Kişisel veri isteme.' Cevabı oku. Beğenmediysen kısıtı ekle: 'On dakikayı geçmesin.' Bu alıştırmanın notu yok, barajı yok. Yalnızca kutunun cevap verdiğini kendi gözünle gör. Hazırsan 1. derse geç: Tablonu Konuştur."
+    }
+  ]
+}

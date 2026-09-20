@@ -8,14 +8,17 @@ import {
   loadAcademyCinemaCueSlides,
   type AcademyCinemaCueSlide,
 } from "@/lib/academy/cinema-cue-catalog";
+import type { AcademyExcelAlignBox } from "@/lib/academy/excel-align";
 import type { AcademyGoldenBeatId } from "@/lib/academy/lesson-beat-visual";
+
+export { academyExcelAlignBox, type AcademyExcelAlignBox } from "@/lib/academy/excel-align";
 
 /** Nano Banana mühürlü Excel çalışma alanı — cinematic %20 plaka. */
 export const ACADEMY_OFFICE_AI_01_FRAME_PUBLIC_PATH = "/media/01_office_ai_01_frame_01.png" as const;
 
 /** cue-05 Copilot paneli — Excel’de öğretilen kapı (en fazla 3 kelime). Gmail eklentisi tablo analizi değildir. */
 export const ACADEMY_OFFICE_AI_1_TRANSFER_LABELS = [
-  "Copilot şerit",
+  "Copilot düğmesi",
   "Ataş yükle",
   "Maskeli kısa",
 ] as const;
@@ -27,6 +30,7 @@ export {
   ACADEMY_OFFICE_AI_2_CLEAN_TABLE,
   ACADEMY_OFFICE_AI_2_DENSE_DUMP_TABLE,
   ACADEMY_OFFICE_AI_2_SEED_ROWS,
+  ACADEMY_OFFICE_AI_2_SUMMARY_TABLE,
   academyExcelIsDenseDumpTable,
   academyExcelOfficeAi2SeedTutarSum,
   type AcademyExcelTableShape,
@@ -196,34 +200,6 @@ export function academyExcelColumnMinCh(
     }
     return max === 0 ? 3 : max + 1;
   });
-}
-
-export type AcademyExcelAlignBox = {
-  left: number;
-  top: number;
-  width: number;
-  height: number;
-};
-
-/**
- * Seçim kutusunu wrap yerel pikseline çevirir — CSS scale zoom’u ayırır.
- * Overlay `academy-excel-grid-wrap` içinde `left` / `width` olarak basılır.
- */
-export function academyExcelAlignBox(
-  cell: Pick<DOMRect, "left" | "top" | "width" | "height">,
-  wrap: Pick<DOMRect, "left" | "top" | "width" | "height">,
-  layout: { offsetWidth: number; offsetHeight: number; scrollLeft: number; scrollTop: number },
-): AcademyExcelAlignBox {
-  const scaleX = layout.offsetWidth > 0 ? wrap.width / layout.offsetWidth : 1;
-  const scaleY = layout.offsetHeight > 0 ? wrap.height / layout.offsetHeight : 1;
-  const sx = Number.isFinite(scaleX) && scaleX !== 0 ? scaleX : 1;
-  const sy = Number.isFinite(scaleY) && scaleY !== 0 ? scaleY : 1;
-  return {
-    left: (cell.left - wrap.left) / sx + layout.scrollLeft,
-    top: (cell.top - wrap.top) / sy + layout.scrollTop,
-    width: cell.width / sx,
-    height: cell.height / sy,
-  };
 }
 
 /** Yatay kenarı sütun `th` kutusuna kilitler; satır yüksekliği hücreden gelir. */

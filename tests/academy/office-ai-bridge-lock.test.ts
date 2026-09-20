@@ -89,10 +89,10 @@ describe("01_office_ai giriş/kapanış köprü kilidi", () => {
     const lessonOne = officeAiSections[0]!;
     expect(lessonOne.lessonKey).toBe("01_office_ai-1");
     expect(lessonOne.contentMarkdown).toMatch(
-      /Copilot varsa şeritten doğrudan okut; yoksa dosyayı ataş ile yükle\. \(Kişisel verileri maskeleme kuralını 2\. derste kilitleyeceğiz\.\)/u,
+      /Copilot varsa Copilot düğmesinden doğrudan okut; yoksa dosyayı ataş ile yükle\. \(Kişisel verileri maskeleme kuralını 2\. derste kilitleyeceğiz\.\)/u,
     );
-    expect(lessonOne.contentMarkdown).toMatch(/anonimize edilmiş/u);
-    expect(lessonOne.contentMarkdown).toMatch(/temiz örnek/u);
+    expect(lessonOne.contentMarkdown).toMatch(/kimliği gizlenmiş örnek tablo/u);
+    expect(lessonOne.contentMarkdown).not.toMatch(/anonimize/u);
     expect(lessonOne.contentMarkdown).not.toMatch(/masaüstünde duran ya da sana yakın zamanda gönderilmiş/u);
   });
 

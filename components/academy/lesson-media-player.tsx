@@ -24,6 +24,9 @@ export function LessonMediaPlayer({
   onSpokenElapsedChange,
   onPlayingChange,
   onEnded,
+  audioSrcOverride,
+  bedSrcOverride,
+  sealedDurationSecOverride,
 }: {
   courseSlug: string;
   lessonKey: string;
@@ -32,24 +35,38 @@ export function LessonMediaPlayer({
   onSpokenElapsedChange?: (elapsedSec: number) => void;
   onPlayingChange?: (playing: boolean) => void;
   onEnded?: (endedLessonKey: string) => void;
+  /**
+   * Hazırlık şeridi (Ders 0) geçidi — mühür listesine girmeden açık ses adresi.
+   * Mühürlü derslerde tanımsız bırakılır; davranış değişmez.
+   */
+  audioSrcOverride?: string | null;
+  bedSrcOverride?: string | null;
+  sealedDurationSecOverride?: number | null;
 }) {
   const copy = ACADEMY_SEN.player;
   const listenCopy = ACADEMY_SEN.listen;
   const audioSealed = isAcademyLessonAudioSealed(courseSlug, lessonKey);
   const bedSealed = isAcademyLessonBedSealed(courseSlug, lessonKey);
   const audioSrc = useMemo(
-    () => (audioSealed ? academyLessonAudioPlaybackSrc(courseSlug, lessonKey) : undefined),
-    [audioSealed, courseSlug, lessonKey],
+    () =>
+      audioSrcOverride?.trim() ||
+      (audioSealed ? academyLessonAudioPlaybackSrc(courseSlug, lessonKey) : undefined),
+    [audioSealed, audioSrcOverride, courseSlug, lessonKey],
   );
   const bedSrc = useMemo(
-    () => (bedSealed ? academyLessonBedPlaybackSrc(courseSlug, lessonKey) : undefined),
-    [bedSealed, courseSlug, lessonKey],
+    () =>
+      bedSrcOverride?.trim() ||
+      (bedSealed ? academyLessonBedPlaybackSrc(courseSlug, lessonKey) : undefined),
+    [bedSealed, bedSrcOverride, courseSlug, lessonKey],
   );
   const bedPieces = useMemo(
     () => loadAcademySealedAudioTimings(lessonKey)?.pieces ?? [],
     [lessonKey],
   );
-  const sealedDuration = academySealedAudioDurationSec(courseSlug, lessonKey);
+  const sealedDuration =
+    sealedDurationSecOverride != null && sealedDurationSecOverride > 0
+      ? sealedDurationSecOverride
+      : academySealedAudioDurationSec(courseSlug, lessonKey);
   const outroTail = academyBedOutroTailSec(lessonKey);
   const fallbackDuration = sealedDuration + outroTail;
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -553,8 +570,9 @@ export function LessonMediaPlayer({
   }
 
   const progressPct = duration > 0 ? Math.min(100, Math.max(0, (elapsed / duration) * 100)) : 0;
-  const preparing = audioSealed && !audioReady && !audioFailed;
-  const audioFailedNotice = audioSealed && audioFailed ? listenCopy.failVoiceBinding : null;
+  const hasAudioSrc = audioSrc != null && audioSrc.length > 0;
+  const preparing = hasAudioSrc && !audioReady && !audioFailed;
+  const audioFailedNotice = hasAudioSrc && audioFailed ? listenCopy.failVoiceBinding : null;
   const speechEndSec = bedPieces.at(-1)?.end ?? 0;
   const intoOutro = elapsed - speechEndSec;
   const bedOutro =

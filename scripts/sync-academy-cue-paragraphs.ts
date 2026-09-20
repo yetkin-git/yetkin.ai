@@ -7,7 +7,10 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { loadAcademyLessonCues } from "@/lib/academy/lesson-cues";
-import { academySpokenScriptDiskPath } from "@/lib/academy/spoken-scripts";
+import {
+  ACADEMY_SPOKEN_SCRIPT_LESSON_KEYS,
+  academySpokenScriptDiskPath,
+} from "@/lib/academy/spoken-scripts";
 
 function parseKeyFlag(argv: readonly string[]): string | null {
   for (const arg of argv) {
@@ -56,17 +59,8 @@ function syncLesson(lessonKey: string): void {
   process.stdout.write(`synced ${lessonKey} counts=${counts.join(",")}\n`);
 }
 
-const DEFAULT_KEYS = [
-  "01_office_ai-1",
-  "01_office_ai-2",
-  "01_office_ai-3",
-  "01_office_ai-4",
-  "01_office_ai-5",
-  "01_office_ai-g1",
-] as const;
-
 const onlyKey = parseKeyFlag(process.argv.slice(2));
-const keys = onlyKey ? [onlyKey] : [...DEFAULT_KEYS];
+const keys = onlyKey ? [onlyKey] : [...ACADEMY_SPOKEN_SCRIPT_LESSON_KEYS];
 for (const key of keys) {
   syncLesson(key);
 }

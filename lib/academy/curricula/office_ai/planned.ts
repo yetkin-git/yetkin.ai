@@ -1,5 +1,6 @@
 /**
  * 01_office_ai müfredat haritası — canlı sınav yolu `lesson-index.ts` SSOT’tur.
+ * Ders 0 hazırlık şeridi `prep.ts` içindedir; bu diziye ve lesson-index’e girmez.
  * Faz 1 kilit omurga (anahtarlar değişmez; sıra pedagojikdir):
  * 1 Excel → 2 KVKK → 3 Rapor → 4 Slayt → 5 Hata avı → 6 E-posta ritüeli
  * → 7 Gmail/Outlook kapısı → 8 Word → 9 Cuma 30 capstone. Sınav yalnız 9. dersten sonra.
@@ -7,7 +8,7 @@
  * OFF-102 taslağı `off-102.ts` içindedir (salt okunur projeksiyon; bu dosya değişmez).
  * Üç Kapı Hiyerarşisi PEDAGOJI.md §E.10 — yalnız aktarım:
  * 1. Kapı yerleşik panel (Copilot / Gemini şeridi) → 2. Kapı ataş (Excel tablosu / Word belgesi / PowerPoint sunusu) → 3. Kapı maskeli kısa özet.
- * Güvenlik sınıfı ayrı eksendir: kişisel veri / şirket sırrı / kamu cümlesi. Kapı adı değildir.
+ * Güvenlik sınıfı ayrı eksendir: kişisel veri / şirket sırrı / açık katalog bilgisi. Kapı adı değildir.
  * Yerleşik araç SSOT: Outlook→Copilot, Gmail→Gemini, Word/Excel→Doğrudan Dosya Yükleme, PowerPoint→Copilot.
  */
 
@@ -40,16 +41,16 @@ export const OFFICE_AI_PLANNED_LESSONS = [
     lane: "main",
     method: "copilot-live",
     pedagogicalObjective:
-      "A1 eşiği, birleşik hücre ve tür birliği. Yükleme anonimize edilmiş / temiz örnek tablo üzerinden. 1. Kapı Excel Copilot, 2. Kapı ataş; maske kuralı 2. derste.",
+      "A1 kuralı, birleşik hücre ve tür birliği. Yükleme kimliği gizlenmiş örnek tablo üzerinden. 1. Kapı Excel Copilot, 2. Kapı ataş; maske kuralı 2. derste.",
   },
   {
     key: "01_office_ai-k1",
     title: "KVKK, Şirket Sırları ve Maskeleme: Ne Yüklenmez?",
     status: "sealed",
     lane: "main",
-    method: "direct-file-upload",
+    method: "copy-workaround",
     pedagogicalObjective:
-      "Müşteri listesi, IBAN, T.C. Kimlik No, maaş ve şirket sırrını açık yapay zekâ ekranına yüklememek. Maske: Müşteri A / MASKELİ_IBAN. 3. Kapı yalnız maskeli kısa özettir.",
+      "Müşteri listesini, IBAN, T.C. Kimlik No, maaş ve şirket sırrını açık yapay zekâ ekranına yüklememek. Maske: Müşteri A, MASKELİ_IBAN. 3. Kapı yalnız maskeli kısa özettir.",
   },
   {
     key: "01_office_ai-2",
@@ -58,7 +59,7 @@ export const OFFICE_AI_PLANNED_LESSONS = [
     lane: "main",
     method: "direct-file-upload",
     pedagogicalObjective:
-      "Temiz tablodan üç maddelik yönetim özeti ve karar notu çıkarmak. Neden üç madde: yönetici on sayfayı okumaz. Sayıları hücreden kilitle. Grafik vaadi bu derste yoktur.",
+      "Temiz tablodan üç maddelik yönetim özeti ve karar cümlesi çıkarmak. Neden üç madde: yönetici on sayfayı okumaz. Sayıları hücreden kilitle. Grafik bu derste yok; grafikleri Excel Formül dersinde (uydu 11, yakında) kuracağız.",
   },
   {
     key: "01_office_ai-3",
@@ -71,12 +72,12 @@ export const OFFICE_AI_PLANNED_LESSONS = [
   },
   {
     key: "01_office_ai-5",
-    title: "İstisnalar & Hata Avı: AI Yanılınca",
+    title: "İstisnalar ve Hata Avı: Yapay Zekâ Yanılınca",
     status: "sealed",
     lane: "main",
     method: "direct-file-upload",
     pedagogicalObjective:
-      "Çapraz kontrol, TOPLA kilidi, insan gözü. Yapay zekâ neden uydurur? Dil modeli işlemci değildir. Akıcı özete güvenilmez.",
+      "Çapraz kontrol, TOPLA formülü, insan gözü. Yapay zekâ neden uydurur? Dil modeli işlemci değildir. Akıcı özete güvenilmez.",
   },
   {
     key: "01_office_ai-4",
@@ -85,7 +86,7 @@ export const OFFICE_AI_PLANNED_LESSONS = [
     lane: "main",
     method: "copilot-live",
     pedagogicalObjective:
-      "Etiket → taslak → insan onayı → arşiv ritüeli. Yerleşik panel ve aksiyon tablosu G1 dersindedir.",
+      "Etiket → taslak → insan onayı → arşiv ritüeli. Yerleşik panel ve aksiyon tablosu bir sonraki derstedir.",
   },
   {
     key: "01_office_ai-g1",
@@ -94,16 +95,16 @@ export const OFFICE_AI_PLANNED_LESSONS = [
     lane: "main",
     method: "gmail-gemini",
     pedagogicalObjective:
-      "Gelen kutusunu Gmail Gemini (1. Kapı) ve Outlook Copilot ile aynı rutinle yönetmeyi göstermek. Neden ChatGPT’ye kopyalamak yerine yerleşik panel? Çünkü kopyalanan gövde kutudan kopar. Aksiyon listesinde kim, ne, ne zaman kilitlenir. Mail gövdesini dış sohbete taşımak varsayılan yol değildir.",
+      "Gelen kutusunu Gmail Gemini (1. Kapı) ve Outlook Copilot ile aynı rutinle yönetmeyi göstermek. Neden ChatGPT’ye kopyalamak yerine yerleşik panel? Çünkü kopyalanan gövde kutudan kopar. Aksiyon listesinde kim, ne, ne zaman kilitlenir. İleti gövdesini dış sohbete taşımak varsayılan yol değildir.",
   },
   {
     key: "01_office_ai-w1",
-    title: "Word ve Uzun Doküman Analizi: Sözleşme, Dilekçe, Rapor",
+    title: "Word ve Uzun Belge İncelemesi: Sözleşme, Dilekçe, Rapor",
     status: "sealed",
     lane: "main",
     method: "doc-upload-gemini",
     pedagogicalObjective:
-      "Sözleşme, dilekçe ve raporu ataş ile yüklemeyi göstermek. Tüm dosyayı sayfa sayfa kopyalamak tek tek kopyalamadır. Spesifik bir paragrafı soracaksan onu istemine eklersin.",
+      "Sözleşme, dilekçe ve raporu ataş ile yüklemeyi göstermek. Tüm dosyayı sayfa sayfa kopyalamak tek tek kopyalamadır. Belirli bir paragrafı soracaksan onu istemine eklersin.",
   },
   {
     key: "01_office_ai-6",

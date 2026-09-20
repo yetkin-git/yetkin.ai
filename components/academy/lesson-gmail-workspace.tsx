@@ -16,6 +16,7 @@ import {
   ACADEMY_GMAIL_FILE_NAME,
   ACADEMY_GMAIL_INBOX_HEAD,
   ACADEMY_GMAIL_MAILS,
+  ACADEMY_GMAIL_SAMPLE_LOCK,
   ACADEMY_GMAIL_WINDOW_TITLE,
   academyGmailStageKind,
 } from "@/lib/academy/gmail-workspace";
@@ -221,6 +222,11 @@ export function LessonGmailWorkspace({
               {carryWater ? (
                 <div className="academy-gmail-carry" data-academy-gmail-carry-panel="">
                   <p className="academy-gmail-carry-badge">TAŞIMA SU</p>
+                  {compact ? null : (
+                    <p className="academy-gmail-sample-lock" data-academy-gmail-sample-lock="">
+                      {ACADEMY_GMAIL_SAMPLE_LOCK}
+                    </p>
+                  )}
                   <ul>
                     {ACADEMY_GMAIL_CARRY_WATER_CLIP.map((line) => (
                       <li key={line}>{line}</li>
@@ -250,6 +256,11 @@ export function LessonGmailWorkspace({
               ) : nativeInbox ? (
                 <div className="academy-outlook-reset" data-academy-gmail-native="">
                   <p className="academy-outlook-list-head">{ACADEMY_GMAIL_ACTION_HEAD}</p>
+                  {compact ? null : (
+                    <p className="academy-gmail-sample-lock" data-academy-gmail-sample-lock="">
+                      {ACADEMY_GMAIL_SAMPLE_LOCK}
+                    </p>
+                  )}
                   {ACADEMY_GMAIL_ACTION_GROUPS.map((group) => {
                     const isOrigin = group.cell === highlight;
                     return (
@@ -275,6 +286,11 @@ export function LessonGmailWorkspace({
               ) : (
                 <div className="academy-outlook-list" data-academy-gmail-inbox="">
                   <p className="academy-outlook-list-head">{ACADEMY_GMAIL_INBOX_HEAD}</p>
+                  {compact ? null : (
+                    <p className="academy-gmail-sample-lock" data-academy-gmail-sample-lock="">
+                      {ACADEMY_GMAIL_SAMPLE_LOCK}
+                    </p>
+                  )}
                   {ACADEMY_GMAIL_MAILS.map((mail) => {
                     const isOrigin = mail.cell === highlight;
                     return (

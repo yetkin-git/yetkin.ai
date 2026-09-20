@@ -9,6 +9,13 @@ import { LessonMediaPlayer } from "@/components/academy/lesson-media-player";
 import { LessonPromptConsole } from "@/components/academy/lesson-prompt-console";
 import { LessonStudyTabs } from "@/components/academy/lesson-study-tabs";
 import { LessonCinemaEyeLayer } from "@/components/academy/lesson-visual-stage";
+import { PrepStripPanel } from "@/components/academy/prep-strip-panel";
+import { OFFICE_AI_EXIT_KIT_SLUG } from "@/lib/academy/exit-kit";
+import {
+  academyPrepStripForSlug,
+  readAcademyPrepStripDone,
+  writeAcademyPrepStripDone,
+} from "@/lib/academy/prep-strip";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { normalizeAcronyms } from "@/lib/academy/acronym-normalizer";
 import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
@@ -77,7 +84,10 @@ export function CurriculumPlayer({
   const copy = ACADEMY_SEN.player;
   const outline = ACADEMY_SEN.outline;
   const firstOpen = lessons.find((lesson) => lesson.open && !lesson.completed) ?? lessons[0];
+  const prepStrip = useMemo(() => academyPrepStripForSlug(courseSlug), [courseSlug]);
   const [activeKey, setActiveKey] = useState(firstOpen?.key ?? lessons[0]?.key ?? "");
+  const [prepDone, setPrepDone] = useState(false);
+  const didInitPrepRef = useRef(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [mediaElapsed, setMediaElapsed] = useState(0);
@@ -103,7 +113,22 @@ export function CurriculumPlayer({
     setCompletedKeys(new Set(lessons.filter((lesson) => lesson.completed).map((lesson) => lesson.key)));
   }, [lessons]);
 
-  const active = lessons.find((lesson) => lesson.key === activeKey) ?? firstOpen;
+  useEffect(() => {
+    if (!prepStrip || didInitPrepRef.current) {
+      return;
+    }
+    didInitPrepRef.current = true;
+    const done = readAcademyPrepStripDone(courseSlug);
+    setPrepDone(done);
+    if (!done && !lessons.some((row) => row.completed) && !curriculumComplete) {
+      setActiveKey(prepStrip.key);
+    }
+  }, [courseSlug, prepStrip, lessons, curriculumComplete]);
+
+  const prepActive = Boolean(prepStrip && activeKey === prepStrip.key);
+  const active = prepActive
+    ? null
+    : (lessons.find((lesson) => lesson.key === activeKey) ?? firstOpen ?? null);
   const examOpen = isAcademyPlayerExamReady({
     curriculumComplete,
     workTasksComplete,
@@ -115,7 +140,6 @@ export function CurriculumPlayer({
   const activeCompleted = active ? completedKeys.has(active.key) || active.completed : false;
   const activeForAdvance = active ? { ...active, completed: activeCompleted } : null;
   const canAdvance = canAdvanceAcademyPlayerLesson(activeForAdvance, nextLesson);
-  const canGoPrev = Boolean(prevLesson?.open);
   const canGoNext = Boolean(nextLesson && (nextLesson.open || canAdvance));
   const activeClockDurationSec = active
     ? academyPlayerClockDurationSec({
@@ -125,7 +149,12 @@ export function CurriculumPlayer({
         outroTailSec: academyBedOutroTailSec(active.key),
       })
     : 0;
-  const activeTitle = active ? normalizeAcronyms(active.title) : "";
+  const activeTitle =
+    prepActive && prepStrip
+      ? prepStrip.title
+      : active
+        ? normalizeAcronyms(active.title)
+        : "";
   const playerLayer = useMemo(
     () => (active ? academyCitizenPlayerLayer(courseSlug, active.key) : { kind: "article" as const }),
     [active, courseSlug],
@@ -190,6 +219,29 @@ export function CurriculumPlayer({
       writeAcademyLessonAutoAdvanceToStorage(next);
       return next;
     });
+  }
+
+  function completePrep() {
+    if (!prepStrip) {
+      return;
+    }
+    writeAcademyPrepStripDone(courseSlug, true);
+    setPrepDone(true);
+    const first = lessons[0];
+    if (first) {
+      selectLesson(first.key, { autoStart: false });
+    }
+  }
+
+  function selectPrep() {
+    if (!prepStrip || prepActive) {
+      return;
+    }
+    setError(null);
+    setMediaElapsed(0);
+    setMediaPlaying(false);
+    setAutoStartPlayback(false);
+    setActiveKey(prepStrip.key);
   }
 
   async function completeLesson(
@@ -295,6 +347,13 @@ export function CurriculumPlayer({
   }, [active, activeClockDurationSec, mediaElapsed, pending]);
 
   function onPrevLesson() {
+    if (prepActive) {
+      return;
+    }
+    if (prepStrip && active?.key === lessons[0]?.key) {
+      selectPrep();
+      return;
+    }
     if (!prevLesson?.open) {
       return;
     }
@@ -302,6 +361,10 @@ export function CurriculumPlayer({
   }
 
   function onNextOrComplete() {
+    if (prepActive) {
+      completePrep();
+      return;
+    }
     if (!active) {
       return;
     }
@@ -321,12 +384,23 @@ export function CurriculumPlayer({
   );
   const primaryLabel = pending
     ? copy.completing
-    : examOpen
-      ? examLaunchLabel
-      : active && active.open && !activeCompleted
-        ? copy.completeCta
-        : copy.nextLessonCta;
-  const primaryDisabled = pending || (!examOpen && !(active?.open && !activeCompleted) && !canGoNext);
+    : prepActive
+      ? copy.prepCompleteCta
+      : examOpen
+        ? examLaunchLabel
+        : active && active.open && !activeCompleted
+          ? copy.completeCta
+          : copy.nextLessonCta;
+  const primaryDisabled =
+    pending ||
+    (!prepActive && !examOpen && !(active?.open && !activeCompleted) && !canGoNext);
+  const canGoPrev =
+    !prepActive &&
+    (Boolean(prevLesson?.open) || Boolean(prepStrip && active?.key === lessons[0]?.key));
+  const exitKitHref =
+    courseSlug === OFFICE_AI_EXIT_KIT_SLUG
+      ? (`/academy/${courseSlug}/cikis-paketi` as Route)
+      : null;
 
   const playlist = (
     <aside
@@ -361,6 +435,44 @@ export function CurriculumPlayer({
         className="academy-player-playlist-list flex min-h-0 gap-2 overflow-x-auto overscroll-contain pr-1 lg:flex-1 lg:flex-col lg:gap-[var(--academy-playlist-item-gap)] lg:overflow-y-auto"
         aria-label={copy.playlistLabel}
       >
+        {prepStrip ? (
+          <li className="max-lg:min-w-[16rem] max-lg:shrink-0">
+            <button
+              type="button"
+              aria-current={prepActive ? "true" : undefined}
+              data-academy-prep-strip=""
+              onClick={() => {
+                if (!prepActive) {
+                  selectPrep();
+                }
+              }}
+              className={`academy-player-rail-item flex w-full items-center gap-2.5 rounded-[0.9rem] text-left text-[13px] leading-snug tracking-[-0.014em] ${
+                prepActive ? "academy-player-rail-item--active" : "text-[var(--muted)]"
+              }`}
+              data-academy-lesson-delivery="article"
+            >
+              <span
+                aria-hidden
+                className={`h-1.5 w-1.5 shrink-0 rounded-full ${
+                  prepActive
+                    ? "bg-[var(--safir)] shadow-[0_0_10px_var(--safir)]"
+                    : prepDone
+                      ? "bg-[var(--muted)]"
+                      : "bg-transparent"
+                }`}
+              />
+              <span className="min-w-0 flex-1">
+                <span className={`block line-clamp-2 font-medium ${prepActive ? "text-white" : "text-[var(--foreground)]"}`}>
+                  {prepStrip.badge} · {prepStrip.title}
+                </span>
+                <span className={`block text-[11px] ${prepActive ? "text-white/70" : "text-[var(--muted)]"}`}>
+                  {outline.prepKind} · {outline.durationMin(prepStrip.estimatedMinutes)}
+                  {prepDone ? ` · ${copy.alreadyDone}` : ""}
+                </span>
+              </span>
+            </button>
+          </li>
+        ) : null}
         {lessons.map((lesson) => {
           const selected = lesson.key === active?.key;
           const completed = completedKeys.has(lesson.key) || lesson.completed;
@@ -416,7 +528,7 @@ export function CurriculumPlayer({
       data-academy-player="article"
       data-academy-player-layout="document"
     >
-      {active ? (
+      {active || prepActive ? (
         <>
           <div
             className="academy-player-main relative mt-0 flex min-h-0 min-w-0 flex-col gap-[var(--academy-player-study-gap,0.5rem)] pt-0 lg:col-start-1"
@@ -432,7 +544,11 @@ export function CurriculumPlayer({
               {karaoke ? copy.modeKaraoke : copy.modeArticle}
             </span>
 
-            {karaoke ? (
+            {prepActive && prepStrip ? (
+              <PrepStripPanel strip={prepStrip} done={prepDone} courseSlug={courseSlug} />
+            ) : null}
+
+            {karaoke && active ? (
               <section
                 className="academy-player-karaoke academy-cinema-stage mt-0 overflow-visible bg-transparent pt-0"
                 data-academy-karaoke="sealed"
@@ -483,15 +599,17 @@ export function CurriculumPlayer({
               </section>
             ) : null}
 
-            <LessonStudyTabs
-              lessonKey={active.key}
-              articleBody={active.body}
-              courseSlug={courseSlug}
-              examOpen={examOpen}
-              lessonOrder={active.order}
-              lessonTotal={lessons.length}
-              nextLessonTitle={nextLesson ? normalizeAcronyms(nextLesson.title) : undefined}
-            />
+            {active ? (
+              <LessonStudyTabs
+                lessonKey={active.key}
+                articleBody={active.body}
+                courseSlug={courseSlug}
+                examOpen={examOpen}
+                lessonOrder={active.order}
+                lessonTotal={lessons.length}
+                nextLessonTitle={nextLesson ? normalizeAcronyms(nextLesson.title) : undefined}
+              />
+            ) : null}
 
             <div
               className="academy-player-dock academy-player-action-bar relative z-10 shrink-0 px-1 py-2 sm:px-0"
@@ -509,29 +627,42 @@ export function CurriculumPlayer({
                 >
                   {copy.prevLessonCta}
                 </Button>
-                {examOpen ? (
-                  <LinkButton
-                    href={academyExamStartGateHref(courseSlug) as Route}
-                    size="sm"
-                    variant="success"
-                    className="min-h-10 rounded-full px-5 text-[13px]"
-                    data-academy-next-lesson-cta=""
-                    data-academy-exam-launch=""
-                  >
-                    {examLaunchLabel}
-                  </LinkButton>
-                ) : (
-                  <Button
-                    type="button"
-                    size="sm"
-                    className="min-h-10 rounded-full px-5 text-[13px]"
-                    data-academy-next-lesson-cta=""
-                    onClick={onNextOrComplete}
-                    disabled={primaryDisabled}
-                  >
-                    {primaryLabel}
-                  </Button>
-                )}
+                <div className="flex flex-wrap items-center gap-2">
+                  {exitKitHref ? (
+                    <LinkButton
+                      href={exitKitHref}
+                      size="sm"
+                      variant="ghost"
+                      className="min-h-10 rounded-full px-4 text-[13px] font-medium"
+                      data-academy-exit-kit-cta=""
+                    >
+                      {copy.exitKitCta}
+                    </LinkButton>
+                  ) : null}
+                  {examOpen && !prepActive ? (
+                    <LinkButton
+                      href={academyExamStartGateHref(courseSlug) as Route}
+                      size="sm"
+                      variant="success"
+                      className="min-h-10 rounded-full px-5 text-[13px]"
+                      data-academy-next-lesson-cta=""
+                      data-academy-exam-launch=""
+                    >
+                      {examLaunchLabel}
+                    </LinkButton>
+                  ) : (
+                    <Button
+                      type="button"
+                      size="sm"
+                      className="min-h-10 rounded-full px-5 text-[13px]"
+                      data-academy-next-lesson-cta=""
+                      onClick={onNextOrComplete}
+                      disabled={primaryDisabled}
+                    >
+                      {primaryLabel}
+                    </Button>
+                  )}
+                </div>
               </div>
               {error ? (
                 <p aria-live="assertive" className="mt-2 text-xs text-[var(--rose)]">

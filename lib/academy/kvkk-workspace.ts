@@ -9,8 +9,7 @@ export const ACADEMY_KVKK_FILE_LABEL = "Müşteri Liste Maske (Excel)" as const;
 export const ACADEMY_KVKK_SHEET_NAME = "Maske" as const;
 
 /** Öğrencinin Prompt Terminaline yazacağı gerçek istem — harf harf. PEDAGOJI §E.7. */
-export const ACADEMY_KVKK_COPILOT_PROMPT =
-  "Bu üç satır maskelidir. Ad yok, telefon yok. Sütun adları Ürün, Adet, Bölge. Bölge bazında üç maddelik özet iste. Kişisel veri ekleme." as const;
+export { ACADEMY_OFFICE_AI_K1_COPILOT_PROMPT as ACADEMY_KVKK_COPILOT_PROMPT } from "@/lib/academy/lesson-beat-visual";
 
 /** Ham ızgarada Ad, Telefon, IBAN — ürün hücresi bayrak almaz. */
 export const ACADEMY_KVKK_FLAG_CELLS = ["A2", "B2", "C2"] as const;

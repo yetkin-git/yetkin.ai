@@ -3,6 +3,7 @@
 import type { Ref } from "react";
 import {
   ACADEMY_PPTX_ACTION_BAND,
+  ACADEMY_PPTX_EXAMPLE_NOTE,
   ACADEMY_PPTX_KPI_CARDS,
   ACADEMY_PPTX_SLIDE_TITLE,
   type AcademyPptxElementId,
@@ -86,6 +87,9 @@ export function LessonSlideWorkspace({
       <footer className="academy-pptx-action-band text-center" data-academy-pptx-action-band="">
         {ACADEMY_PPTX_ACTION_BAND}
       </footer>
+      <p className="academy-pptx-example-note text-center" data-academy-pptx-example-note="">
+        {ACADEMY_PPTX_EXAMPLE_NOTE}
+      </p>
     </div>
   );
 }

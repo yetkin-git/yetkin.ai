@@ -127,18 +127,14 @@ Amiral SKU `01_office_ai` yayın makalesi + mühürlü karaoke taşır. **Ders a
 
 ### E.2 Üç Kapı Hiyerarşisi (aktarım)
 
-Vatandaş özeti §D’dedir. Yapay zekâya veri verme adımı seste ve ekranda **Üç Kapı** ile öğretilir (§E.10). Sıra sabittir; öğrenci önce 1. kapıyı dener. **Üç Kapı yalnız aktarım yöntemidir.** Kişisel veri / şirket sırrı / kamu cümlesi güvenlik sınıfıdır; kapı adı değildir.
-
-1. **Yerleşik araçlar** — 1. Kapı: Yerleşik Panel (Copilot / Gemini Şeridi). Gmail Gemini, Excel / Word / Outlook Copilot (lisans varsa).
-2. **Ataş / dosya yükleme** — 2. Kapı: Excel tablosu, Word belgesi, PowerPoint sunusu (seste, altyazıda, makalede ve görsel stage / punchcard / rozet yüzeyinde ham `xlsx` / `docx` / `pptx` basılmaz — Vatandaş Lisanı).
-3. **Son çare:** 3. Kapı: Maskeli Kısa Özet (Sohbet / Tüketici Modeli). KVKK’ya uygun, maskelenmiş kısa kopyala-yapıştır. Bütün gelen kutusunu veya ham tabloyu ekran görüntüsüyle dış sohbete taşımak öğretilen varsayılan yol değildir.
+Üç Kapı tanımı, sıra ve vatandaş özeti **§D** üzerindedir. Bu madde yalnız araç eşleşmesini ve masaüstü gerçeğini taşır.
 
 * **Yerleşik araç eşleşmesi (SSOT):** Outlook → Copilot, Gmail → Gemini, Word/Excel → Doğrudan Dosya Yükleme, PowerPoint → Copilot. Kilit: `lib/academy/ai-desk.ts` → `ACADEMY_INFRA_TOOL_MATCH`.
 * **Araç dayatması yok.** Pedagoji VBA, Gamma veya Marp zorunlu kılmaz. Sheets/Docs yasak değil, bu SKU’da yol Excel/Word’dür; Sheets köprüsü ayrı derste. Fırın script’indeki checkbox doktrin değildir. 1. Kapı yerleşik Copilot; yoksa ataş.
 * **Nereye Yazılacak:** Soyut «AI Masası» paneli **KESİNLİKLE YASAKTIR**. Öğrenci gerçek kapıyı görür: Gmail Gemini paneli, Copilot şeridi veya ataş. Rehber ok: «Nereye Yükleyeceksin?» / «Gemini veya ataş». Masaüstü Outlook’ta Copilot yoksa 2. veya 3. kapı dürüstçe gösterilir; «senin aracın yasak» denmez.
-* **Çoklu AI ekosistemi:** Yalnız Copilot değil; ChatGPT, Claude, Gemini ve özel API farkı sade dille işlenir.
-* **Yasak yüzeyleri ve tarayan testler:** ses fonetiği + cue + konuşma metni + makale → `tests/academy/sealed-audio-pilot.test.ts`; ders konuşma metinleri → `tests/academy/office-ai-lesson-k1.test.ts`, `office-ai-lesson-w1.test.ts`; görsel stage düğümleri + dosya etiketi (titlebar/punchcard) → `tests/academy/office-ai-lesson-w1.test.ts`, `word-workspace.test.ts`, `prompt-console.test.ts`.
-* **Aforizma / Ajans Sloganı Yasağı:** Eğitim dili aforizma, ajans sloganı veya tekerleme olamaz. «Karar notu insanındır», «Sunum fabrikası» gibi edebi laflar yasaktır. Dil; bir öğretmenin öğrencisine doğrudan, sade ve eylem odaklı anlattığı duru Türkçe olmak zorundadır. Görsel stage rozeti işin net tanımını taşır («Tek Tek Kopyalama», «Tek Dosyayla Analiz»); «ZAHMETLİ YOL», «YERİNDE ANALİZ» gibi jenerik laflar basılmaz.
+* **Çoklu AI ekosistemi:** Yalnız Copilot değil; ChatGPT, Claude, Gemini ve şirket paneli / kurumsal model farkı sade dille işlenir.
+* **Yasak yüzeyleri:** ses fonetiği, cue, konuşma metni, makale ve görsel stage düğümlerini tarayan testler bake el kitabındadır (`docs/ops/akademi-bake-elkitabi.md`).
+* **Aforizma / Ajans Sloganı:** İlke §A.2’dedir. Görsel stage rozeti işin net tanımını taşır («Tek Tek Kopyalama», «Tek Dosyayla Analiz»); «ZAHMETLİ YOL», «YERİNDE ANALİZ» gibi jenerik laflar basılmaz.
 
 ### E.3 İşitsel reji (ilke)
 
@@ -158,7 +154,7 @@ Mantık ağaçları ve süreç diyagramları statik afiş olarak basılmaz; `com
 
 ### E.7 Nasıl Yapılır? — Prompt Terminali ve Adım Bantı
 
-Öğrenci ekranda **nasıl yapılacağını** görür; kulağında duyduğu komut kopyalanabilir gerçek istem olarak yazılır. Punchcard yalnız durum rozetidir; canlı bant «Adım 1: E-Postaları Seç», «Adım 2: Copilot Paneli», «Adım 3: Taslak Yanıt Üret» taşır.
+Öğrenci ekranda **nasıl yapılacağını** görür; kulağında duyduğu komut kopyalanabilir gerçek istem olarak yazılır. Punchcard yalnız durum rozetidir; canlı bant «Adım 1: İletileri Seç», «Adım 2: Etiketle», «Adım 3: Taslak İste» taşır.
 
 * **İstem paneli:** Yerleşik panele (Gmail Gemini, Copilot) istem yazılır. Öğrenci istemi ekrandan alıp aynı panele yapıştırabilir. Bu, taşıma su değildir. Taşıma su, **kutuyu / dosyayı** dış sohbete taşımaktır.
 * **Harf harf yazma dayatması yoktur.** Daktilo animasyonu «garsonu göster» içindir; vatandaşa pratik yol öğretilir.
@@ -186,15 +182,11 @@ Soyut «AI Masası» paneli **KESİNLİKLE YASAKTIR**.
 
 **MASAÜSTÜ DÜRÜSTLÜĞÜ:** Masaüstü Outlook, Copilot lisansı olmadan gelen kutusunun canlı akışını harici araçlara okutamaz. Bu kısıt öğrenciye dürüstçe anlatılır; «senin aracın yasak» denmez. Ana odak hâlâ modern yerleşik panel ve ataştır; yoksa 3. kapı açılır.
 
-**ÜÇ KAPI HİYERARŞİSİ** — kopyala-yapıştır mutlak yasak değildir. Sıra öğretilir. Bu hiyerarşi **yalnız aktarımdır**; güvenlik sınıfı kapı numarası almaz. Vatandaş özeti §D’dedir.
-
-1. **1. Kapı — Yerleşik araçlar.** Yerleşik Panel (Copilot / Gemini Şeridi). Gmail Gemini, Office Copilot. İstem panele yazılır; kutu yerinde kalır.
-2. **2. Kapı — Ataş / dosya yükleme.** Sözleşme, tablo, slayt Word belgesi / Excel tablosu / PowerPoint sunusu olarak yüklenir. Sayfa sayfa kopya zahmetli yoldur.
-3. **3. Kapı — Son çare.** Maskeli Kısa Özet (Sohbet / Tüketici Modeli). Maskelenmiş, KVKK’ya uygun kısa kopyala-yapıştır (isim, TC, IBAN, ticari sır takma değer). Bütün gelen kutusu, ham bilanço veya ekran görüntüsü zinciri 3. kapı değildir.
+Üç kapı sırası ve vatandaş tanımı **§D** üzerindedir. Bu madde masaüstü kısıtını ve güvenlik sınıfını taşır.
 
 **Güvenlik sınıfı ayrı eksendir:** kişisel veri / şirket sırrı / kamu cümlesi. Hangi kapı seçilirse seçilsin ham kimlik ve sır gitmez. Kiracı Copilot, şirket paneli veya tüketici modeli kapı adı değildir.
 
-**Taşıma su** artık yasak listesi değil, **atlanmış kapı**dır: 1. ve 2. kapı dururken kutuyu dış sohbete hamal gibi taşımaktır. Öğrenciye önce yerleşik, yoksa ataş, son çare maskeli kısa yapıştırma öğretilir.
+**Taşıma su** (§D): 1. ve 2. kapı dururken kutuyu dış sohbete hamal gibi taşımaktır. Öğrenciye önce yerleşik, yoksa ataş, son çare maskeli kısa yapıştırma öğretilir.
 
 * Kod SSOT: `lib/academy/ai-desk.ts`, `lib/academy/curricula/office_ai/planned.ts`.
 

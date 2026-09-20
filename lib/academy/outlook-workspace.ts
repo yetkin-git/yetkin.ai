@@ -4,20 +4,24 @@
  * Metin üç noktaya düşmez; font clamp + içerik genişliği.
  */
 
-import { academyExcelAlignBox, type AcademyExcelAlignBox } from "@/lib/academy/excel-workspace";
+import { academyExcelAlignBox, type AcademyExcelAlignBox } from "@/lib/academy/excel-align";
 import type { AcademyExcelMouseCell } from "@/lib/academy/excel-mouse-pointer";
+import { ACADEMY_OFFICE_AI_4_COPILOT_PROMPT } from "@/lib/academy/lesson-beat-visual";
 
 export const ACADEMY_OUTLOOK_WINDOW_TITLE = "Outlook" as const;
 export const ACADEMY_OUTLOOK_FILE_NAME = "Gelen_Kutusu.ost" as const;
+export const ACADEMY_OUTLOOK_FILE_LABEL = "Gelen Kutusu (Outlook)" as const;
 export const ACADEMY_OUTLOOK_UNREAD_BEFORE = 142 as const;
 export const ACADEMY_OUTLOOK_UNREAD_AFTER = 0 as const;
 
-export const ACADEMY_OUTLOOK_DRAFT_REPLY =
-  "Kaya Gıda tahsilatı bugün teyit edilir; Yıldız Tekstil takibi yarın sabah başlar." as const;
+export const ACADEMY_OUTLOOK_SAMPLE_LOCK =
+  "Örnek iletiler; kendi kutundaki işi koy." as const;
 
-/** Öğrencinin kendi Outlook / Copilot kutusuna yazacağı gerçek istem — Prompt Terminali SSOT. */
-export const ACADEMY_OUTLOOK_COPILOT_PROMPT =
-  "Gelen kutumdaki okunmamış mailleri tara. Sadece bugün ödeme/onay bekleyenleri ACIL etiketiyle bana getir, bültenleri arşive kaldır." as const;
+export const ACADEMY_OUTLOOK_DRAFT_REPLY =
+  "Kaya Gıda tahsilatı için bugün teyit taslağı; Yıldız Tekstil takibi için yarın sabah takip notu." as const;
+
+/** Tek istem SSOT — `ACADEMY_OFFICE_AI_4_COPILOT_PROMPT` alias. */
+export const ACADEMY_OUTLOOK_COPILOT_PROMPT = ACADEMY_OFFICE_AI_4_COPILOT_PROMPT;
 
 export const ACADEMY_OUTLOOK_MAILS = [
   {
@@ -34,7 +38,7 @@ export const ACADEMY_OUTLOOK_MAILS = [
     from: "Yıldız Tekstil",
     subject: "Açık vade ve risk notu 14 gündür bekliyor",
     preview: "Takip cümlesi hâlâ taslak değil",
-    tag: "Bekle",
+    tag: "Aksiyon",
   },
   {
     id: "mail-bulletin",
@@ -42,7 +46,7 @@ export const ACADEMY_OUTLOOK_MAILS = [
     from: "Haftalık Bülten",
     subject: "Üç toplantı daveti ve iki fatura aynı yığında",
     preview: "Okunmamışlar birbirine giriyor",
-    tag: "Arşiv",
+    tag: "Arşivlik",
   },
 ] as const;
 
@@ -62,7 +66,7 @@ export const ACADEMY_OUTLOOK_RESET_GROUPS = [
     cell: "B1",
     tone: "bekle",
     mark: "🟡",
-    label: "TAKİPTE / BEKLEYEN",
+    label: "AKSİYON / BEKLEYEN",
     title: "Yıldız Tekstil — Vade Takibi",
     detail: "Açık vade 14 gündür bekliyor",
   },
@@ -71,9 +75,9 @@ export const ACADEMY_OUTLOOK_RESET_GROUPS = [
     cell: "C1",
     tone: "arsiv",
     mark: "🟢",
-    label: "OTOMATİK ARŞİVLENDİ",
-    title: "140 Okunmamış Bülten & Davet",
-    detail: "Arşive kaldırıldı",
+    label: "ARŞİVLİK",
+    title: "140 bülten ve davet",
+    detail: "Arşivlik",
   },
 ] as const;
 
@@ -111,7 +115,7 @@ export type AcademyOutlookListMail = {
   from: string;
   subject: string;
   preview: string;
-  tag: "Acil" | "Bekle" | "Arşiv";
+  tag: "Acil" | "Aksiyon" | "Arşivlik";
 };
 
 function buildOutlookDumpMails(): AcademyOutlookListMail[] {
@@ -127,7 +131,7 @@ function buildOutlookDumpMails(): AcademyOutlookListMail[] {
       from: seed.from,
       subject: `${seed.subject} ${index + 1}`,
       preview: seed.preview,
-      tag: "Arşiv",
+      tag: "Arşivlik",
     });
   }
   return [...action, ...noise];

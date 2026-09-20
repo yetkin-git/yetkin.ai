@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 /**
  * SEO Tedavi (P1) — 01_office_ai kamuya açık "Eğitim Rehberi ve Önizleme" bloğu.
  * SSR Server Component: satın alma duvarını ihlal etmez.
@@ -23,13 +25,17 @@ export function OfficeAiGuidePreview() {
           Excel yapay zeka eğitimi: A1&apos;den temiz tabloya (Ders 1 önizleme)
         </h2>
         <p className="text-sm leading-7 text-[var(--muted)]">
-          Bu rehber, amiral kursumuzun kamuya açık özetidir. Ofiste her gün karşına çıkan dağınık
-          Excel tabloları, bitmeyen e-postalar, slayt yetiştirme telaşı ve Word belgeleri için
-          yapay zekâyı nasıl asistan gibi kullanacağını, dokuz derste ve sesli anlatımla öğrenirsin.
-          Aşağıdaki önizleme, birinci dersin giriş bölümünün kısa bir özetidir; tam ders metinleri,
-          ses kasetleri, karaoke akışı ve sınav soruları satın alma sonrasında açılır. Rehberi
-          okuduktan sonra müfredatın sana uygun olduğuna karar verirsen sayfadaki satın alma
-          alanından eğitimi başlatabilirsin.
+          Bu rehber, Office AI eğitiminin kamuya açık özetidir. İş hayatında yapay zekâ, ofiste her
+          gün karşına çıkan dağınık Excel tabloları, bitmeyen e-postalar, slayt yetiştirme telaşı ve
+          Word belgeleri için asistan gibi kullanılır. Excel Gemini kullanımı, Word ataş ile belge
+          analizi ve Cuma 30 rutini dokuz derste, sesli anlatımla kilitlenir. Aşağıdaki önizleme,
+          birinci dersin giriş bölümünün kısa bir özetidir; tam ders metinleri, ses kasetleri,
+          karaoke akışı ve sınav soruları satın alma sonrasında açılır. Rehberi okuduktan sonra
+          müfredatın sana uygun olduğuna karar verirsen sayfadaki satın alma alanından eğitimi
+          başlatabilirsin. Satın alma sonrası oynatma listesinin tepesinde «Başlamadan Önce»
+          rozetli bir hazırlık şeridi durur: hesap açma, ücretsiz ile ücretli farkı, sohbet ekranı,
+          ilk istem ve Türkçe mi İngilizce mi yazılacağı. Bu şerit dokuz mühürlü dersin ve sınav
+          yolunun dışındadır.
         </p>
       </div>
 
@@ -165,7 +171,7 @@ export function OfficeAiGuidePreview() {
           çözersin; tek dev komut yerine her belge türüne kendi sorusunu sorarsın. Temiz ve maskeli
           tablodan üç maddelik yönetim özeti çıkarma dersi, sayfalarca dökümü yöneticinin tek
           bakışta okuyacağı eylem cümlesine indirmeyi öğretir. Metinden slayta dersinde düz metni
-          slayt başına tek fikir ve görsel hiyerarşi kuralıyla aktarırsın; kalabalık paragraflar
+          slayt başına tek fikir ve görsel yönlendirme kuralıyla aktarırsın; kalabalık paragraflar
           yerine konuşan başlıklar kurarsın. E-posta tarafında önce gelen kutusu sıfırlama ritüeli
           gelir: etiketle, taslağı hazırla, insan onayı al, arşivle. Sonra Gmail ve Gemini ile yerinde
           aksiyon listesi çıkarma ve Outlook tarafında aynı disiplini kurma adımları izler. Yapay
@@ -201,9 +207,9 @@ export function OfficeAiGuidePreview() {
           </a>{" "}
           <span className="text-[var(--muted)]">
             veya{" "}
-            <a href="/academy/dogrula" className="text-[var(--safir)] hover:underline">
+            <Link href="/academy/dogrula" className="text-[var(--safir)] hover:underline">
               sertifika doğrulama sicilini incele
-            </a>
+            </Link>
             .
           </span>
         </p>

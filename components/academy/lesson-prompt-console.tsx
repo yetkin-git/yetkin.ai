@@ -2,7 +2,7 @@
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { copyTextToClipboard } from "@/components/auth/copy-text";
-import { academyPromptCueStart, academyPromptTypedText } from "@/lib/academy/prompt-console";
+import { academyPromptCueStart, academyPromptConsoleFootnote, academyPromptTypedText } from "@/lib/academy/prompt-console";
 
 export function LessonPromptConsole({
   prompt,
@@ -21,6 +21,7 @@ export function LessonPromptConsole({
   const [reducedMotion, setReducedMotion] = useState(false);
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const cueStart = useMemo(() => academyPromptCueStart(lessonKey, cueIndex), [lessonKey, cueIndex]);
+  const footnote = useMemo(() => academyPromptConsoleFootnote(lessonKey), [lessonKey]);
   const typed = academyPromptTypedText({
     prompt,
     currentTime,
@@ -144,6 +145,11 @@ export function LessonPromptConsole({
           </code>
         </pre>
       </div>
+      {footnote ? (
+        <p className="academy-prompt-console-footnote" data-academy-prompt-footnote="">
+          {footnote}
+        </p>
+      ) : null}
     </section>
   );
 }

@@ -35,7 +35,7 @@ export const ACADEMY_EXCEL_FOCUS_ZOOM_PHRASES = [
 
 export const ACADEMY_OFFICE_AI_2_FOCUS_ZOOM_PHRASES = [
   "üç madde",
-  "yönetici özeti",
+  "yönetim özeti",
   "karar cümlesi",
 ] as const;
 
@@ -88,7 +88,7 @@ const ZOOM_BY_LESSON: Record<string, AcademyExcelFocusZoomSpec> = {
     cueId: ACADEMY_EXCEL_FOCUS_ZOOM_CUE_ID,
     origin: ACADEMY_EXCEL_FOCUS_ZOOM_ORIGIN,
     phrases: ACADEMY_OFFICE_AI_2_FOCUS_ZOOM_PHRASES,
-    pattern: /üç madde|yönetici özeti|karar cümlesi/giu,
+    pattern: /üç madde|yönetim özeti|karar cümlesi/giu,
   },
   "01_office_ai-3": {
     cueId: ACADEMY_EXCEL_FOCUS_ZOOM_CUE_ID,

@@ -104,6 +104,8 @@ type PageSeoInput = {
   robots?: Metadata["robots"];
   /** Bağıl kamu yolu — `metadataBase` ile mutlak `og:image` olur. */
   image?: string;
+  /** Virgülle birleşen `<meta name="keywords">` — yalnız amiral antrede dolar. */
+  keywords?: readonly string[];
 };
 
 export const PRODUCT_ROOM_PATHS = ["/academy", "/career"] as const;
@@ -130,21 +132,61 @@ export const ROBOTS_DISALLOW_PATHS = [
   "/api/",
   // SEO Tedavi (P1) — satın alma duvarı arkası oynatıcı; auth duvarı + sayfa noindex ile üç katmanlı kilit.
   "/academy/*/oyna",
+  "/academy/*/cikis-paketi",
 ] as const;
 
 /**
  * SEO Tedavi (P0) — 01_office_ai amiral meta override.
  * `course.title` SSOT'u (sicil/sertifika başlığı) değişmez; yalnız SEO dalı bu metinleri basar.
  * Title 52 kr + `TITLE_TEMPLATE` (12 kr) = 64 kr final; SERP kesintisiz.
+ *
+ * PAKET-19 — vatandaş lisanı anahtar kümesi meta description / keywords / H1'e işlenir.
+ * Compact makale gövdesi duvar arkasındadır; antre özeti + ders teaser'ı indekslenir.
  */
 export const OFFICE_AI_SEO = {
   slug: "01_office_ai",
+  path: "/academy/01_office_ai",
   title: "Excel Yapay Zekâ Eğitimi: Ofiste ChatGPT + Sertifika",
   description:
-    "9 derste Excel, Word, PowerPoint ve Gmail'de yapay zekâ: KVKK-safe tablo, yönetim özeti, slayt ve Cuma 30 rutini. Sesli anlatım + 70+ barajlı sınavla sertifikanı mühürle.",
+    "Office AI eğitimi: iş hayatında yapay zekâ. Excel Gemini kullanımı, Word ataş ile belge analizi ve Cuma 30 rutini. 9 ders, 70+ baraj, mühürlü sertifika.",
   /** Gövde H1 — kullanıcı dili; title (arama dili) ile ayrışır. */
-  h1: "Ofiste Yapay Zekâ: Excel'den E-Postaya 9 Derste Verimlilik",
+  h1: "İş Hayatında Yapay Zekâ: Excel'den E-Postaya 9 Ders",
+  keywords: [
+    "İş Hayatında Yapay Zekâ",
+    "Excel Gemini Kullanımı",
+    "Word Ataş İle Belge Analizi",
+    "Cuma 30 Rutini",
+    "Office AI Eğitimi",
+    "Excel yapay zeka eğitimi",
+    "ofiste ChatGPT",
+    "Word yapay zeka",
+  ],
 } as const;
+
+/** Kamuya açık antre ders özetleri — tam compact makale duvar arkasındadır. */
+export const OFFICE_AI_LESSON_TEASERS: Readonly<Record<string, string>> = {
+  "01_office_ai-1":
+    "Excel Gemini kullanımı: A1 hijyeniyle dağınık tabloyu düzenli tabloya çevirirsin.",
+  "01_office_ai-k1":
+    "KVKK: ham müşteri listesi yüklenmez; maske refleksini kilitlersin.",
+  "01_office_ai-2":
+    "Temiz tablodan üç maddelik yönetim özeti ve karar cümlesi çıkarırsın.",
+  "01_office_ai-3":
+    "Metinden slayta: Copilot veya PowerPoint sunusu ataş ile sunum hazırlarsın.",
+  "01_office_ai-5":
+    "Yapay zekâ yanılınca TOPLA ve kaynak evrakla sayıyı kilitlersin.",
+  "01_office_ai-4":
+    "Gelen kutuyu etiket–taslak–onay–arşiv ritüeliyle sıfırlarsın.",
+  "01_office_ai-g1":
+    "Gmail + Gemini ile yerinde aksiyon listesi çıkarırsın.",
+  "01_office_ai-w1":
+    "Word ataş ile belge analizi: sözleşme, dilekçe ve raporu ayrı istemle çözersin.",
+  "01_office_ai-6":
+    "Cuma 30 rutini: 10 Excel + 10 slayt + 10 kutu, takvimde durur.",
+};
+
+/** robots.txt Allow — yayın amiral antresi (prefix `/academy` yedeğine ek kesin yol). */
+export const ROBOTS_ALLOW_COURSE_PATHS = [OFFICE_AI_SEO.path] as const;
 
 export type SitemapChangeFrequency =
   | "always"
@@ -179,11 +221,19 @@ export function sitemapRoutePolicy(path: string): {
 }
 
 /** Kamuya açık sayfa metadata'sı: canonical + Open Graph (tr_TR) + Twitter Card. */
-export function pageMetadata({ title, description, path, robots, image }: PageSeoInput): Metadata {
+export function pageMetadata({
+  title,
+  description,
+  path,
+  robots,
+  image,
+  keywords,
+}: PageSeoInput): Metadata {
   const images = image ? [{ url: image, alt: title }] : undefined;
   return {
     title,
     description,
+    ...(keywords && keywords.length > 0 ? { keywords: [...keywords] } : {}),
     alternates: { canonical: path },
     openGraph: {
       type: "website",

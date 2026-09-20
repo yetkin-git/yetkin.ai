@@ -43,6 +43,7 @@ import {
 import {
   ACADEMY_WEEKLY_ROUTINE_COPILOT_PROMPT,
   ACADEMY_WEEKLY_ROUTINE_EXAM_GATE_SEAL,
+  ACADEMY_WEEKLY_ROUTINE_SAMPLE_LOCK,
   academyWeeklyRoutineExamGateSealVisible,
 } from "@/lib/academy/weekly-routine-workspace";
 import {
@@ -97,7 +98,19 @@ describe("01_office_ai bölüm 6 — Haftalık Sistem Altın Şablon", () => {
     expect(slides[3]?.visualMode).toBe("live");
     expect(JSON.stringify(slides[3]?.table)).toContain("Yapıştırma");
     expect(JSON.stringify(slides[3]?.table)).not.toContain("Tablo yerinde");
+    expect(slides[3]?.table?.note).toBe(ACADEMY_WEEKLY_ROUTINE_SAMPLE_LOCK);
+    expect(slides[3]?.table?.note).toMatch(/Süreler örnektir; kendi haftanı koy/u);
+    expect(slides[3]?.table?.note).not.toMatch(/Spoiler/u);
+    expect(slides[2]?.bullets).toContain("Kriz tekrarı");
+    expect(slides[2]?.bullets).not.toContain("Spoiler yok");
+    expect(slides[3]?.subhead).toMatch(/Üç blok istemi yazılır/u);
+    expect(slides[3]?.subhead).not.toMatch(/komutu/u);
     expect(slides[4]?.visualMode).toBe("split");
+    expect(slides[4]?.subhead).toMatch(/^Soldan sağa:/u);
+    expect(slides[4]?.subhead).not.toMatch(/Beat 3/u);
+    expect(slides[5]?.subhead).toMatch(/Kriz — takvim/u);
+    expect(slides[5]?.subhead).not.toMatch(/\bvs\b/u);
+    expect(slides[5]?.table?.note).toBe(ACADEMY_WEEKLY_ROUTINE_SAMPLE_LOCK);
     expect(slides[5]?.compare?.beforeCueIndex).toBe(3);
     expect(slides[5]?.compare?.beforeLabel).toBe(ACADEMY_OFFICE_AI_6_COMPARE_BEFORE_LABEL);
     expect(slides[5]?.compare?.afterLabel).toBe(ACADEMY_OFFICE_AI_6_COMPARE_AFTER_LABEL);
@@ -140,11 +153,19 @@ describe("01_office_ai bölüm 6 — senaryo ve mühür kapısı", () => {
     expect(hasAcademyLessonCues(KEY)).toBe(true);
     expect(hasAcademyLessonVisualStage(KEY)).toBe(true);
     const spoken = loadAcademySpokenScriptMarkdownParagraphs(KEY);
-    expect(spoken).toHaveLength(14);
+    expect(spoken).toHaveLength(18);
     const prose = loadAcademySpokenScriptProse(KEY);
     expect(prose).toMatch(/Selamlar, ben Gözde/u);
     expect(prose).toMatch(/Haftalık Sistem/u);
-    expect(prose).toMatch(/30 Dakika/u);
+    expect(prose).toMatch(/Cuma 30/u);
+    expect(prose).toMatch(/bağlayacaksın/u);
+    expect(prose).not.toMatch(/bağlayacağız/u);
+    expect(prose).toMatch(/yan sayfada/u);
+    expect(prose).toMatch(/yan sayfaya/u);
+    expect(prose).not.toMatch(/yeni sayfa/u);
+    expect(prose).toMatch(/Toplantıyı kaydır; bloğu kaydırma/u);
+    expect(prose).toMatch(/e-posta \(kutu\)/u);
+    expect(prose).toMatch(/tek karar cümlesi ne söyler/u);
     expect(prose).toMatch(/kapanış dersi/u);
     expect(prose).toMatch(/sınav kapısı/iu);
     expect(prose).not.toMatch(/Sınav Köprüsü/u);
@@ -152,10 +173,11 @@ describe("01_office_ai bölüm 6 — senaryo ve mühür kapısı", () => {
     expect(prose).not.toMatch(/Word bloğunda/u);
     expect(prose).not.toMatch(/Excel ve Word dosyasını/u);
     expect(prose).toMatch(/Excel tablosunu ve (?:PowerPoint|Pauer Point) sunusunu ataş/u);
-    expect(prose).toMatch(/Slayt bloğunda (?:PowerPoint|Pauer Point) sunusunu ataşla/u);
+    expect(prose).toMatch(/Slayt bloğunda (?:PowerPoint|Pauer Point) sunusunu ataş ile yükle/u);
     expect(prose).toMatch(/Kişi adı, IBAN veya şirket sırrı varsa önce maskele/u);
     expect(prose).toMatch(/kopyala-yapıştır/iu);
-    expect(prose).toMatch(/görüşmek üzere/u);
+    expect(prose).toMatch(/Sınav şimdi açıldı/u);
+    expect(prose).not.toMatch(/görüşmek üzere/u);
     expect(prose).not.toMatch(/kirli/iu);
     expect(prose).not.toMatch(/sapan hücre/iu);
     expect(prose).not.toMatch(/çapraz sorgu/iu);
@@ -163,6 +185,16 @@ describe("01_office_ai bölüm 6 — senaryo ve mühür kapısı", () => {
     expect(prose).not.toMatch(/taşıma su/iu);
     const cues = loadAcademyLessonCues(KEY);
     expect(cues.map((cue) => academyPunchcardLabel(cue.text))).toEqual([...PUNCHCARDS]);
+    expect(cues.map((cue) => cue.paragraphs?.length ?? 0)).toEqual([1, 2, 2, 4, 2, 4, 1, 2]);
+    // fırın öncesi — mühürlü kaset hâlâ eylem cümlesi / komut / ataşla / kazancımsız cue-01 / görüşmek üzere okur.
+    const cueBlob = cues.map((cue) => cue.paragraphs?.join(" ") ?? "").join(" ");
+    expect(cues[0]!.paragraphs?.join(" ")).toMatch(/Bu dersin sonunda Cuma 30/u);
+    expect(cueBlob).not.toMatch(/eylem cümlesi/u);
+    expect(cueBlob).not.toMatch(/komutu açık yaz/u);
+    expect(cueBlob).not.toMatch(/Komut yazılır/u);
+    expect(cueBlob).not.toMatch(/\bataşla\b/u);
+    expect(cues.at(-1)?.paragraphs?.join(" ")).not.toMatch(/görüşmek üzere/u);
+    expect(cues.at(-1)?.paragraphs?.join(" ")).toMatch(/Sınav şimdi açıldı/u);
     const compare = academyVisualCompareStage(KEY, "cue-06");
     expect(compare?.beforeLabel).toBe(ACADEMY_OFFICE_AI_6_COMPARE_BEFORE_LABEL);
     expect(compare?.afterLabel).toBe(ACADEMY_OFFICE_AI_6_COMPARE_AFTER_LABEL);
@@ -196,6 +228,13 @@ describe("01_office_ai bölüm 6 — senaryo ve mühür kapısı", () => {
     expect(body).not.toMatch(/kahraman/u);
     expect(body).not.toMatch(/Geçme notu yetmiştir/u);
     expect(body).not.toMatch(/Baraj yetmiştir/u);
+    expect(body).toMatch(/karar cümlesi/u);
+    expect(body).toMatch(/## FARK ORTADA/u);
+    expect(body).not.toMatch(/eylem cümlesi/u);
+    expect(body).toMatch(/bağlayacaksın/u);
+    expect(body).not.toMatch(/bağlayacağız/u);
+    expect(body).toMatch(/yan sayfada/u);
+    expect(body).not.toMatch(/yeni sayfa/u);
   });
 
   it("HOŞ GELDİN rozeti 18 sn auto-hide; mini sınav ve Dron punchcard durur", () => {
@@ -264,8 +303,15 @@ describe("01_office_ai bölüm 6 — senaryo ve mühür kapısı", () => {
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
     expect(timings).not.toBeNull();
-    expect(timings!.durationSec).toBeGreaterThanOrEqual(420);
-    expect(timings!.durationSec).toBeLessThanOrEqual(720);
+    expect(timings!.durationSec).toBe(444.437);
+    expect(timings!.cacheV).toBe(444437);
+    expect(timings!.pauseSec).toBe(0.4);
+    expect(timings!.pieces).toHaveLength(18);
+    const breathGaps = timings!.pieces.slice(1).map((piece, index) =>
+      Number((piece.start - timings!.pieces[index]!.end).toFixed(3)),
+    );
+    expect(breathGaps.every((gap) => gap === 0.4)).toBe(true);
+    expect(breathGaps).toHaveLength(17);
     const cues = loadAcademyLessonCues(KEY);
     expect(cues.at(-1)?.end).toBe(timings!.durationSec);
     for (const cue of cues) {
@@ -281,6 +327,9 @@ describe("01_office_ai bölüm 6 — senaryo ve mühür kapısı", () => {
     expect(stripText).toMatch(/Baraj 70 durur/u);
     expect(stripText).not.toMatch(/kahraman/u);
     expect(stripText).not.toMatch(/Baraj yetmiştir/u);
+    expect(stripText).not.toMatch(/eylem cümlesi/u);
+    expect(stripText).not.toMatch(/görüşmek üzere/u);
+    expect(stripText).not.toMatch(/\bataşla\b/u);
     for (const line of strip) {
       const words = academyKaraokeWords(line);
       expect(academyKaraokeReconstructLine(words)).toBe(academyKaraokeNormalizeLine(line.text));

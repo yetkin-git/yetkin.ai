@@ -91,7 +91,14 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(lesson.order).toBe(4);
     expect(lesson.title).toMatch(/Metinden Slayta/u);
     expect(lesson.body).toMatch(/Selamlar, ben Gözde/u);
-    expect(lesson.body).toMatch(/yönetici özeti|yönetim özeti/iu);
+    expect(lesson.body).toMatch(/yönetim özeti/u);
+    expect(lesson.body).not.toMatch(/yönetici özeti/u);
+    expect(lesson.body).not.toMatch(/\bkomut/iu);
+    expect(lesson.body).toMatch(/İsteminde başlıkları/u);
+    expect(lesson.body).toMatch(/Kişi adı, IBAN veya şirket sırrı varsa önce maskele/u);
+    expect(lesson.body).toMatch(/karar cümlesi/u);
+    expect(lesson.body).toMatch(/boş bir slayta/u);
+    expect(lesson.body).toMatch(/görsel yönlendirmeyle/u);
     expect(lesson.body).toMatch(/şablon/iu);
     expect(lesson.body).toMatch(/slayt tasla/iu);
     expect(lesson.body).toMatch(/Peki neden slayta düz metin yığını doldurulmaz/u);
@@ -115,7 +122,11 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(spoken).toHaveLength(14);
     const prose = loadAcademySpokenScriptProse(KEY);
     expect(prose).toMatch(/Selamlar, ben Gözde/u);
-    expect(prose).toMatch(/yönetici özeti|yönetim özeti/iu);
+    expect(prose).toMatch(/yönetim özeti/u);
+    expect(prose).not.toMatch(/yönetici özeti/u);
+    expect(prose).not.toMatch(/\bkomut/iu);
+    expect(prose).toMatch(/İsteminde başlıkları/u);
+    expect(prose).toMatch(/Kişi adı, IBAN veya şirket sırrı varsa önce maskele/u);
     expect(prose).toMatch(/şablon/iu);
     expect(prose).toMatch(/slayt tasla/iu);
     expect(prose).toMatch(/E-Posta Akışı/u);
@@ -141,10 +152,17 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(pocket?.paragraphs?.join(" ")).toMatch(/tek fikir/iu);
     expect(pocket?.paragraphs?.join(" ")).toMatch(/görsel yönlendir/iu);
     expect(pocket?.paragraphs?.join(" ")).toMatch(/Taslağı aktar/u);
+    expect(cues[0]!.paragraphs?.join(" ")).toMatch(/yönetim özeti/u);
+    expect(cues[0]!.paragraphs?.join(" ")).toMatch(/Bu dersin sonunda slayt başına tek fikir/u);
+    const slideIste = cues.find((cue) => academyPunchcardLabel(cue.text) === "SLAYT İSTE");
+    expect(slideIste?.paragraphs?.join(" ")).toMatch(/tek fikir/iu);
+    expect(slideIste?.paragraphs?.join(" ")).toMatch(/görsel yönlendir/iu);
+    expect(cues.at(-1)?.paragraphs?.at(-1)).toMatch(/yayınlama\./u);
+    expect(cues.at(-1)?.paragraphs?.join(" ")).toMatch(/Baraj 70/u);
     expect(pocket?.end).toBeGreaterThan(pocket!.start + 35);
   });
 
-  it("Beat 3 split-screen sol düz metin yığını, sağ görsel hiyerarşili slayt; spoiler kapalı", () => {
+  it("Beat 3 split-screen sol düz metin yığını, sağ sıralı slayt; spoiler kapalı", () => {
     expect(hasAcademyLessonVisualStage(KEY)).toBe(true);
     expect(loadAcademyLessonVisualStage(KEY)?.cards).toHaveLength(8);
     expect(loadAcademyLessonVisualStage(KEY)?.cards[0]?.kind).toBe("nano");
@@ -159,6 +177,8 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(slides[3]?.copilot?.prompt).toBe(ACADEMY_OFFICE_AI_3_COPILOT_PROMPT);
     expect(slides[3]?.copilot?.prompt).toMatch(/tek fikir/u);
     expect(slides[3]?.copilot?.prompt).toMatch(/görsel yönlendirme/u);
+    expect(slides[3]?.copilot?.prompt).toMatch(/Konuşmacı notunu slayt gövdesinden ayrı tut/u);
+    expect(slides[3]?.copilot?.prompt).not.toMatch(/Copilot varsa şeride yaz/u);
     expect(slides[3]?.copilot?.prompt).not.toMatch(/henüz açma|Beat 3|spoiler/iu);
     expect(slides[3]?.visualMode).toBe("live");
     expect(slides[4]?.visualMode).toBe("split");
@@ -169,10 +189,13 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(JSON.stringify(slides[5]?.table)).toContain("54.650 TL");
     expect(JSON.stringify(slides[5]?.table)).toContain("Kaya Gıda A.Ş.");
     expect(JSON.stringify(slides[5]?.table)).toContain("%15");
+    expect(slides[5]?.table?.headers?.[0]).toBe("Gösterge");
     expect(slides[5]?.table?.note).toMatch(/Yıldız Tekstil/u);
+    expect(slides[5]?.table?.note).toMatch(/Karar: Yıldız Tekstil'i bugün ara/u);
+    expect(slides[5]?.table?.note).toMatch(/Örnek sayılar; kendi tablondaki sayıyı koy/u);
     const compare = academyVisualCompareStage(KEY, "cue-06");
     expect(compare?.beforeLabel).toBe("ÖNCE (DÜZ METİN YIĞINI)");
-    expect(compare?.afterLabel).toBe("SONRA (GÖRSEL HİYERARŞİLİ SLAYT - AI)");
+    expect(compare?.afterLabel).toBe("SONRA (SIRALI SLAYT - AI)");
     expect(ACADEMY_OFFICE_AI_3_POCKET_STEPS).toEqual([
       "Slayt başına tek fikir",
       "Görsel yönlendirmeyi yaz",
@@ -186,7 +209,7 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(academyLessonIntroIsActive(KEY, 1.9)).toBe(true);
     expect(academyLessonSpeechHasStarted(KEY, 2)).toBe(true);
     expect(academyBedOutroTailSec(KEY)).toBeGreaterThan(0);
-    expect(academyOutroSummaryLabels(KEY)).toEqual(["Tek fikir / slayt", "Görsel yönlendir", "Taslağı aktar"]);
+    expect(academyOutroSummaryLabels(KEY)).toEqual(["Tek fikir / slayt", "Görsel yön", "Taslağı aktar"]);
     expect(loadAcademyCinemaCueSlides(KEY)[0]?.visualMode).toBe("live");
     const cues = loadAcademyLessonPlaybackCues(KEY);
     const cue04 = cues.find((cue) => cue.id === "cue-04");
@@ -204,7 +227,7 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(pieces[0]?.start).toBe(2);
     expect(academyBedDuckGain(0.5, pieces)).toBe(ACADEMY_BED_BREATH_GAIN);
     const lastEnd = pieces.at(-1)?.end ?? 0;
-    expect(lastEnd).toBe(531.913);
+    expect(lastEnd).toBe(575.6);
     expect(academyBedDuckGain(lastEnd, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 1.5, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 4.5, pieces)).toBe(0);
@@ -218,7 +241,7 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(exam?.questions.map((row) => row.id)).toEqual(["q_off_l3_1", "q_off_l3_2", "q_off_l3_3"]);
     const punchcards = dronAcademyPunchcardsForLesson(KEY);
     expect(punchcards.map((card) => card.label)).toContain("ŞABLON KAOSU");
-    expect(punchcards.at(-1)?.end).toBe(531.913);
+    expect(punchcards.at(-1)?.end).toBe(575.6);
   });
 
   it("Sebep → Eylem → Sonuç ve tek fikir kilidi durur", () => {
@@ -258,7 +281,7 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(eye).toContain("data-academy-prompt-dock");
     expect(eye).toContain('fit={stageTheme === "pptx" ? "contain" : "cover"}');
     expect(pptx).not.toContain("50% 48%");
-    expect(academyAiDeskPinnedForLesson(KEY)).toBe("copilot");
+    expect(academyAiDeskPinnedForLesson(KEY)).toBeNull();
   });
 
   it("jsdom/kamera kilidi: zoom açıkken pencere waiter dışına taşmaz, oran 1.77, nabız ≤ 2", () => {
@@ -308,18 +331,19 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
 
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
-    expect(timings?.durationSec).toBe(531.913);
-    expect(timings?.cacheV).toBe(531913);
+    expect(timings?.durationSec).toBe(575.6);
+    expect(timings?.cacheV).toBe(575600);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.at(-1)?.end).toBe(531.913);
+    expect(cues.at(-1)?.end).toBe(575.6);
     for (const cue of cues) {
       const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
       expect(pieces[0]?.start, cue.id).toBe(cue.start);
       expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
     }
     const strip = loadAcademyKaraokeStrip(KEY);
-    expect(strip.at(-1)?.end).toBe(531.913);
+    expect(strip.at(-1)?.end).toBe(575.6);
     const stripText = strip.map((line) => line.text).join(" ");
+    expect(stripText).toMatch(/yönetim özeti/u);
     expect(stripText).toMatch(/Peki neden slayta düz metin yığını doldurulmaz/u);
     expect(stripText).toMatch(/tek fikir kuralı nedir/u);
     expect(stripText).toMatch(/slayt taslağı nasıl alınır/u);

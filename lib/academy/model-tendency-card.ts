@@ -35,7 +35,7 @@ export type AcademyModelTendency = {
 
 /**
  * Yaşayan eğilim satırları — kasetteki Eylül 2026 anlık görüntüsünün güncel karşılığı.
- * Satır ekleme/çıkarma serbesttir (yeşil kilit); sıra: ChatGPT → Claude → Gemini → özel API.
+ * Satır ekleme/çıkarma serbesttir (yeşil kilit); sıra: ChatGPT → Claude → Gemini → şirket paneli.
  */
 export const ACADEMY_MODEL_TENDENCIES: readonly AcademyModelTendency[] = [
   {
@@ -51,7 +51,7 @@ export const ACADEMY_MODEL_TENDENCIES: readonly AcademyModelTendency[] = [
     tendency: "adımları net sıralamaya yatkındır",
   },
   {
-    model: "Özel API (şirketinin kurumsal modeli)",
+    model: "Şirket paneli (kurumsal model)",
     tendency: "evdeki format ve gizlilik kuralını kilitlemeye yatkındır",
   },
 ] as const;

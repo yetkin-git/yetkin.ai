@@ -9,6 +9,7 @@ import {
   ACADEMY_GMAIL_INBOX_HEAD,
   ACADEMY_GMAIL_MAILS,
   ACADEMY_GMAIL_NATIVE_TOOL,
+  ACADEMY_GMAIL_SAMPLE_LOCK,
   ACADEMY_GMAIL_WINDOW_TITLE,
   academyGmailStageKind,
 } from "@/lib/academy/gmail-workspace";
@@ -21,6 +22,7 @@ describe("Gmail + Gemini gelen kutusu tuvali", () => {
     expect(ACADEMY_GMAIL_NATIVE_TOOL).toBe("Gemini");
     expect(ACADEMY_GMAIL_INBOX_HEAD).toBe("Gelen Kutusu · son 24 saat");
     expect(ACADEMY_GMAIL_ACTION_HEAD).toBe("Aksiyon listesi · kutu yerinde");
+    expect(ACADEMY_GMAIL_SAMPLE_LOCK).toBe("Örnek iletiler; kendi kutundaki işi koy.");
     expect(ACADEMY_GMAIL_MAILS.map((mail) => mail.from)).toEqual([
       "Kaya Gıda A.Ş.",
       "Yönetim Kurulu",
@@ -35,12 +37,16 @@ describe("Gmail + Gemini gelen kutusu tuvali", () => {
     ]);
     expect(ACADEMY_GMAIL_ACTION_GROUPS.map((group) => group.tone)).toEqual(["acil", "bekle", "arsiv"]);
     expect(ACADEMY_GMAIL_CARRY_WATER_CLIP).toEqual([
-      "Ctrl+C ile mail kopyala",
+      "Ctrl+C ile ileti kopyala",
       "Ekran görüntüsü al",
       "ChatGPT’ye yapıştır — kutu kopuk",
     ]);
     expect(ACADEMY_GMAIL_GEMINI_PROMPT).toMatch(/Gönderen \| İş \| Son tarih \| Taslak yanıt notu/u);
     expect(ACADEMY_GMAIL_GEMINI_PROMPT).toMatch(/Hiçbir taslağı gönderme/u);
+    expect(ACADEMY_GMAIL_GEMINI_PROMPT).not.toMatch(/@Gmail/u);
+    expect(ACADEMY_GMAIL_GEMINI_PROMPT).toBe(
+      "Gelen kutumdaki son 24 saat içinde gelen e-postaları tara. Ödeme, onay veya acil aksiyon bekleyenleri tablo yap: Gönderen | İş | Son tarih | Taslak yanıt notu. Rutin dekont ve bültenleri Arşivlik yaz. Hiçbir taslağı gönderme.",
+    );
   });
 
   it("sahne türü: taşıma su kopuk, Gemini aç inbox, yerleşik native", () => {
@@ -68,6 +74,8 @@ describe("Gmail + Gemini gelen kutusu tuvali", () => {
     expect(gmail).toContain("ACADEMY_GMAIL_MAILS.map");
     expect(gmail).toContain("ACADEMY_GMAIL_ACTION_GROUPS.map");
     expect(gmail).toContain("ACADEMY_GMAIL_CARRY_WATER_CLIP.map");
+    expect(gmail).toContain("ACADEMY_GMAIL_SAMPLE_LOCK");
+    expect(gmail).toContain("data-academy-gmail-sample-lock");
     expect(css).toMatch(
       /\.academy-player-karaoke \.academy-player-widescreen[\s\S]*?aspect-ratio:\s*16\s*\/\s*9/s,
     );

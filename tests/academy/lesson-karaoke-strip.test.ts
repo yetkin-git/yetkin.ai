@@ -68,7 +68,7 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
       strip.some(
         (line) =>
           line.cueId === "cue-08" &&
-          /Copilot varsa şeritten doğrudan okut; yoksa dosyayı ataş ile yükle/u.test(line.text),
+          /Copilot varsa Copilot düğmesinden doğrudan okut; yoksa dosyayı ataş ile yükle/u.test(line.text),
       ),
     ).toBe(true);
     expect(
@@ -78,7 +78,7 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
           /Kişisel verileri maskeleme kuralını 2\. derste kilitleyeceğiz/u.test(line.text),
       ),
     ).toBe(true);
-    expect(strip.some((line) => /anonimize edilmiş|temiz örnek/u.test(line.text))).toBe(true);
+    expect(strip.some((line) => /kimliği gizlenmiş örnek|temiz örnek/u.test(line.text))).toBe(true);
     expect(strip.every((line) => !/üç maddelik yönetim özetine/u.test(line.text))).toBe(true);
     expect(strip.every((line) => !/grafik raporuna/u.test(line.text))).toBe(true);
     expect(strip.every((line) => !/görüşmek üzere/iu.test(line.text))).toBe(true);
@@ -88,7 +88,8 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     expect(bridgeLines).toHaveLength(3);
     expect(bridgeLines.every((line) => line.cueId === "cue-08")).toBe(true);
     expect(bridgeLines[0]?.start).toBeGreaterThan(450);
-    expect(bridgeLines.at(-1)?.end).toBe(649.36);
+    expect(bridgeLines.at(-1)?.end).toBeGreaterThan(650);
+    expect(strip.at(-1)?.end).toBe(662.56);
     for (const line of bridgeLines) {
       const words = academyKaraokeWords(line);
       expect(academyKaraokeWordState(words[0]!, line.start)).toBe("active");

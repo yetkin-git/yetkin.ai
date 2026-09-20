@@ -4,34 +4,34 @@
   "questions": [
     {
       "id": "q_off_l4_1",
-      "prompt": "Gelen kutusunda birikmiş 142 okunmamış e-posta ile karşılaşan bir operasyon yöneticisi, AI destekli bir iş akışıyla süreci yönetmek ve gelen kutusunu sıfırlamak istemektedir. Kritik taleplerin gözden kaçmasını önlemek adına atılması gereken en uygun ilk adım hangisidir?",
+      "prompt": "Kutunda 142 okunmamış ileti birikti. Acil, Aksiyon ve Arşivlik etiketleri durur. Kaya Gıda ödemesi bültenin altında kaybolmasın. İlk ne yaparsın?",
       "choices": [
-        "Tüm iletilerin AI tarafından önem derecesine (Acil/Aksiyon, Bilgi, Düşük Öncelik) göre sınıflandırılıp etiketlenmesini sağlayarak filtrelenmiş bir görünüm oluşturmak",
-        "AI modeline tüm gelen iletilere otomatik standart bir teyit yanıtı göndermesi ve ardından hepsini arşive taşıması için tam yetki vermek",
-        "İş yükünü hafifletmek amacıyla son üç gün öncesine ait tüm okunmamış e-postaları doğrudan çöp kutusuna taşımak",
-        "Öncelikle yalnızca bülten ve sistem bildirimlerini tek tek manuel okuyup ardından kalan iletileri AI özetine bırakmak"
+        "İletileri Acil, Aksiyon ve Arşivlik diye etiketlersin; ödemeyi başa alırsın.",
+        "Yapay zekâya bütün kutuya otomatik yanıt verdirip hepsini arşivletirsin.",
+        "Son üç günü okumadan silersin.",
+        "Kişi adı geçen ham kutuyu aynen sohbete yapıştırırsın."
       ],
       "correctIndex": 0
     },
     {
       "id": "q_off_l4_2",
-      "prompt": "Kritik bir tedarikçiden gelen teslimat gecikmesi ve yeni takvim önerisi içeren bir e-posta için AI ile taslak yanıt üretilecektir. Kurumsal süreçlerin aksamaması ve doğru iletişimin kurulması adına hangi yöntem tercih edilmelidir?",
+      "prompt": "Tedarikçi 'geciktik' yazdı, yeni tarih önerdi. Taslağı nasıl istersin, göndermeden ne yaparsın?",
       "choices": [
-        "AI tarafından üretilen taslağın içeriği incelenmeden doğrudan karşı tarafa iletilmesi ve yanıt süresinin kısaltılması",
-        "Gerekli teslimat parametreleri, kurumun kabul edebileceği esneklik sınırları ve istenen ton belirtilerek AI'a taslak hazırlatılması, ardından insanın kontrol edip onaylaması",
-        "E-postanın yanıtlanması yerine AI tarafından özet çıkartılıp iletinin aksiyon alınmaksızın arşive kaldırılması",
-        "AI'a karşı tarafın sorumluluğu tamamen üstlendiğini belirten sert bir üslup seçtirilerek hukuki onaysız gönderim yapılması"
+        "Taslağı okumadan gönderirsin.",
+        "Tarih ve tutarı verip taslak istersin; göndermeden tarihi kilitlersin.",
+        "Yanıtlamadan arşive atarsın.",
+        "Modele sert dil yazdırıp okumadan basarsın."
       ],
       "correctIndex": 1
     },
     {
       "id": "q_off_l4_3",
-      "prompt": "E-posta akış yönetiminde taslak yanıtı onaylanan ve işlemi tamamlanan iletilerin 'arşive kaldırılması' adımının temel işlevi aşağıdakilerden hangisidir?",
+      "prompt": "İşi biten Arşivlik iletiyi neden arşive alırsın, silmezsin?",
       "choices": [
-        "Gelen iletilerin depolama kotasını doldurmaması için sistemden kalıcı olarak silinmesini sağlamak",
-        "Gelen kutusundaki e-posta trafiğini azaltmak amacıyla göndericileri otomatik olarak engellenenler listesine eklemek",
-        "Aksiyonu tamamlanan veya salt bilgilendirme niteliğindeki iletileri arama ve erişim güvencesini koruyarak ana ekrandan uzaklaştırmak ve odak kaybını önlemek",
-        "Yalnızca belirli anahtar kelimeleri içeren iletileri şifreli klasörlere taşıyarak AI erişimine tamamen kapatmak"
+        "Kutuyu boşaltmak için iletiyi kalıcı silersin.",
+        "Göndereni engellenenler listesine eklersin.",
+        "Ana ekran boşalır; eski yazışma aramada durur.",
+        "İletiyi şifreli klasöre taşıyıp yapay zekâdan tamamen kapatırsın."
       ],
       "correctIndex": 2
     }

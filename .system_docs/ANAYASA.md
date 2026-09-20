@@ -9,7 +9,7 @@ Bu belge iki katmandan oluşur:
 | Alan | Değer |
 |------|--------|
 | Tarih | 16 Ağustos 2026 |
-| Son Reform | **17 Eylül 2026 (Tespit-Tedavi):** Yaşayan kesit `docs/ops/DURUM.md`; `docs/DURUM.md` test uyumluluk aynasıdır. B4: mühürlü ses bütçesi `SEALED_AUDIO_LIMITS`, compact makale `COMPACT_ARTICLE_GUIDE` (tavan değil). A Katmanı (A1–A5) değişmez. |
+| Son Reform | **20 Eylül 2026 (TEDAVİ-01):** B1 tarihsel Regex/grep ve ölü A8 dipnotu kaldırıldı. B4 karar tablosu eklendi. A Katmanı (A1–A5) değişmez. |
 | Kamu markası / domain | `yetkin.ai` |
 | Kalıcı belgeler | `/.system_docs` |
 | Ops | `.system_docs/OPS_RUNBOOK.md` (db / paytr / inngest / dron) |
@@ -59,11 +59,11 @@ Bu bölüm doğrudan yasal yaptırım, finansal kayıp ve kritik veri güvenliğ
 
 # BÖLÜM B — OPS, ÜRÜN VE MİMARİ NOTLARI (YAŞAYAN İLKELER)
 
-Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme rehberliğidir; ürün gerçeği değişince bu maddeler güncellenir. Import duvarı (kernel ↛ dikey) B1 mühendisliği olarak durur; Anayasa A8 diye bir madde yoktur.
+Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme rehberliğidir; ürün gerçeği değişince bu maddeler güncellenir. Import duvarı (kernel ↛ dikey) B1 mühendisliği olarak durur.
 
 ## B1. Pragmatik Modüler Monolit ve API-First Sözleşme
 
-* **Katman disiplini:** Modülerlik ESLint kuralları, TypeScript ve sağlıklı yazılım prensipleriyle korunur. Regex/grep kelime avı Anayasa maddesi değildir.
+* **Katman disiplini:** Modülerlik ESLint kuralları, TypeScript ve sağlıklı yazılım prensipleriyle korunur.
 * **Yeni yetenek önce v1 hop’tur.** Dronların ve ikincil istemcilerin tüketeceği yazma/okuma yeteneği `RAIL_V1_HOPS_META` siciline yazılır; kanonik handler aynı omurgada durur. RSC’nin `lib/` üzerinden **okuma/query** yüklemesi serbesttir. Yazma işlemi sessizce yalnız web BFF’te bırakılmaz.
 * **Dış sözleşme:** Mobil istemciler ve harici dronlar `/api/v1` JSON zarfı `{ ok, error, requestId, apiVersion, data }` ile konuşur. Shared Kernel `@yetkin/kernel` paketidir; saf (Prisma/Supabase bağımsız) sözleşme buradan sürülür.
 * **Kayıt kuralı:** Yeni oda/dron = `lib/dronlar/kayit.ts` kaydı + sözleşme + `DronBayrakları.isKapali(id)` bayrağı. Yasak liste değil, checklist vardır.
@@ -85,8 +85,20 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 
 * **Konunun Hakkı:** Compact yayın makalesi kelime tavanı veya sabit ders adediyle kesilmez.
 * **Kelime bütçesi adı:** Mühürlü ses bütçesi kodda `SEALED_AUDIO_LIMITS` adını taşır. Compact için `COMPACT_ARTICLE_GUIDE` aralık önerisidir, tavan değildir.
-* **Müfredat standardı `PEDAGOJI.md` içindedir.** Anayasa süre bandı, SKU adedi, kaset listesi veya karaoke dakikası taşımaz.
+* **Müfredat ilkesi `.system_docs/PEDAGOJI.md` içindedir.** Anayasa süre bandı, SKU adedi, kaset listesi veya karaoke dakikası taşımaz.
 * **Yayın = makale + mühürlü karaoke; sayılar ve müfredat koddadır.** Canlı kaset/sınav yolu `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` SSOT’udur; yaşayan haftalık kesit `docs/ops/DURUM.md` içindedir (`docs/DURUM.md` uyumluluk aynasıdır). İzlemede canlı üretici API (`VIDEO_GEN` / TTS) yoktur. Bake ayrıntısı `docs/ops/akademi-bake-elkitabi.md` içindedir.
+* **Karar tablosu (tek bakış, sıfır atlama):**
+
+| Soru | SSOT |
+|------|------|
+| Ders / kurs süre bandı | `lib/academy/production-standard.ts` |
+| Sınav barajı | `lib/academy/exam.ts` (`ACADEMY_EXAM_PASS_SCORE`) |
+| Compact makale kelime rehberi | `COMPACT_ARTICLE_GUIDE` |
+| Mühürlü ses bütçesi | `SEALED_AUDIO_LIMITS` |
+| Canlı kaset / sınav yolu | `lib/academy/pilot-sku.ts`, `lib/academy/curricula/lesson-index.ts` |
+| Haftalık kesit | `docs/ops/DURUM.md` (`docs/DURUM.md` uyumluluk aynası) |
+| Bake SOP | `docs/ops/akademi-bake-elkitabi.md` |
+| Müfredat ilkesi | `.system_docs/PEDAGOJI.md` |
 
 ## B5. Harici Entegrasyonlar ve Pilot İş Modelleri
 

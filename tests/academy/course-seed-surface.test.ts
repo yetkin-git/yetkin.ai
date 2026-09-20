@@ -10,6 +10,7 @@ import {
 } from "@/lib/academy/seed";
 import { resolveAcademySeedMoney, isAcademyCourseLevel } from "@/lib/academy/course-level";
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
+import { ACADEMY_EXAM_PASS_SCORE, serializeAcademyExamQuestions } from "@/lib/academy/exam";
 import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 
 const ROOT = process.cwd();
@@ -68,6 +69,25 @@ describe("akademi kurs tohumu yüzeyi", () => {
     expect(sql).not.toMatch(/DELETE FROM public\.academy_purchases/i);
     expect(sql).not.toMatch(/DELETE FROM public\.academy_certificates/i);
     expect(sql).not.toMatch(/DELETE FROM public\.academy_courses/i);
+  });
+
+  it("SQL tohumu TypeScript sınav havuzu, 70 baraj ve Verimliliği başlığı ile kilitlidir", () => {
+    const sql = academySeedSql();
+    const office = ACADEMY_COURSE_SEEDS[0];
+    expect(office).toBeDefined();
+    expect(office?.slug).toBe("01_office_ai");
+    expect(office?.exam.passScore).toBe(ACADEMY_EXAM_PASS_SCORE);
+    expect(office?.exam.passScore).toBe(70);
+    expect(office?.title).toContain("E-Posta Verimliliği");
+    expect(office?.title).not.toContain("Otomasyonu");
+    expect(sql).toContain(office!.title);
+    expect(sql).toContain(office!.summary);
+    expect(sql).toMatch(/pass_score,\s*$/m);
+    expect(sql).toContain(`    ${office!.exam.passScore},`);
+    expect(sql).not.toContain("Otomasyonu");
+    const blob = serializeAcademyExamQuestions(office!.exam.questions);
+    expect(sql).toContain(blob.slice(0, 120));
+    expect(sql).toContain('"q_off_42"');
   });
 
   it("vitrin A5 üretim bandıdır; katalog BFF müfredat gövdesi çekmez", () => {

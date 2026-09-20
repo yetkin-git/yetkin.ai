@@ -18,6 +18,7 @@ import {
   academyCourseBreadcrumbs,
   breadcrumbListJsonLd,
   courseJsonLd,
+  educationalOccupationalProgramJsonLd,
   faqPageJsonLd,
   itemListJsonLd,
   jsonLdDocument,
@@ -33,9 +34,11 @@ import {
   DEFAULT_OG_IMAGE_ALT,
   OG_IMAGE_SIZE,
   OG_LOCALE,
+  OFFICE_AI_LESSON_TEASERS,
   OFFICE_AI_SEO,
   PAGE_SEO,
   PRODUCT_ROOM_PATHS,
+  ROBOTS_ALLOW_COURSE_PATHS,
   ROBOTS_DISALLOW_PATHS,
   SITEMAP_STATIC_PATHS,
   TITLE_TEMPLATE,
@@ -256,7 +259,11 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     );
     // SEO Tedavi (P1) — duvar arkası oynatıcı crawl edilmez.
     expect(ROBOTS_DISALLOW_PATHS).toContain("/academy/*/oyna");
+    expect(ROBOTS_DISALLOW_PATHS).toContain("/academy/*/cikis-paketi");
     expect(rule?.disallow).toEqual(expect.arrayContaining(["/academy/*/oyna"]));
+    expect(rule?.disallow).toEqual(expect.arrayContaining(["/academy/*/cikis-paketi"]));
+    expect(ROBOTS_ALLOW_COURSE_PATHS).toEqual(["/academy/01_office_ai"]);
+    expect(rule?.allow).toEqual(expect.arrayContaining(["/academy/01_office_ai"]));
   });
 });
 
@@ -425,6 +432,7 @@ describe("Aşama 3 SEO — JSON-LD yapısal veri", () => {
         "Sunum hazırlama",
       ]),
     );
+    expect(course.keywords).toEqual([...OFFICE_AI_SEO.keywords]);
     const parts = course.hasPart as Array<{ name: string }>;
     expect(parts).toHaveLength(9);
     expect(parts.map((part) => part.name)).toEqual(
@@ -560,6 +568,10 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
       "ofiste chatgpt",
       "word yapay zeka",
       "yapay zeka sertifikasi",
+      "iş hayatında yapay zekâ",
+      "excel gemini kullanımı",
+      "word ataş ile belge analizi",
+      "cuma 30 rutini",
     ]);
     for (const keyword of GLOBAL_SEM_KEYWORDS) {
       expect(homeText, `home ← ${keyword}`).toContain(keyword);
@@ -571,8 +583,11 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
       OFFICE_AI_SEO.title,
       OFFICE_AI_SEO.description,
       OFFICE_AI_SEO.h1,
+      ...OFFICE_AI_SEO.keywords,
       OFFICE_AI_FAQ_HEADING,
       ...OFFICE_AI_COURSE_FAQ.flatMap((row) => [row.question, row.answer]),
+      ...Object.values(OFFICE_AI_LESSON_TEASERS),
+      readSrc("lib/academy/catalog-summaries.ts"),
       readSrc("components/academy/office-ai-guide-preview.tsx"),
       readSrc("app/academy/[slug]/page.tsx"),
     ]);
@@ -602,11 +617,22 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
 describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
   it("amiral title/description/H1 niyet dilindedir; final title 65 karakteri aşmaz", () => {
     expect(OFFICE_AI_SEO.slug).toBe("01_office_ai");
+    expect(OFFICE_AI_SEO.path).toBe("/academy/01_office_ai");
     expect(OFFICE_AI_SEO.title).toBe("Excel Yapay Zekâ Eğitimi: Ofiste ChatGPT + Sertifika");
     expect(OFFICE_AI_SEO.description).toBe(
-      "9 derste Excel, Word, PowerPoint ve Gmail'de yapay zekâ: KVKK-safe tablo, yönetim özeti, slayt ve Cuma 30 rutini. Sesli anlatım + 70+ barajlı sınavla sertifikanı mühürle.",
+      "Office AI eğitimi: iş hayatında yapay zekâ. Excel Gemini kullanımı, Word ataş ile belge analizi ve Cuma 30 rutini. 9 ders, 70+ baraj, mühürlü sertifika.",
     );
-    expect(OFFICE_AI_SEO.h1).toBe("Ofiste Yapay Zekâ: Excel'den E-Postaya 9 Derste Verimlilik");
+    expect(OFFICE_AI_SEO.h1).toBe("İş Hayatında Yapay Zekâ: Excel'den E-Postaya 9 Ders");
+    expect(OFFICE_AI_SEO.keywords).toEqual(
+      expect.arrayContaining([
+        "İş Hayatında Yapay Zekâ",
+        "Excel Gemini Kullanımı",
+        "Word Ataş İle Belge Analizi",
+        "Cuma 30 Rutini",
+        "Office AI Eğitimi",
+      ]),
+    );
+    expect(OFFICE_AI_SEO.description).toMatch(/Office AI eğitimi/u);
     const finalTitle = TITLE_TEMPLATE.replace("%s", OFFICE_AI_SEO.title);
     expect(finalTitle).toBe(`${OFFICE_AI_SEO.title} · ${YETKIN_BRAND}`);
     expect(OFFICE_AI_SEO.title.length).toBeLessThanOrEqual(55);
@@ -619,6 +645,8 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
     expect(page).toContain("OFFICE_AI_SEO.title");
     expect(page).toContain("OFFICE_AI_SEO.description");
     expect(page).toContain("OFFICE_AI_SEO.h1");
+    expect(page).toContain("OFFICE_AI_SEO.keywords");
+    expect(page).toContain("educationalOccupationalProgramJsonLd");
     // Sicil başlığı korunur: breadcrumb + JSON-LD `name` hâlâ course.title.
     expect(page).toContain("label={board.course.title}");
     expect(page).toContain("title: board.course.title");
@@ -687,6 +715,53 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
       OFFICE_AI_SYLLABUS_LESSONS.map((lesson) => lesson.name),
     );
     expect(OFFICE_AI_COURSE_TEACHES).toHaveLength(9);
+    expect(Object.keys(OFFICE_AI_LESSON_TEASERS)).toEqual(
+      syllabus.lessons.map((lesson) => lesson.key),
+    );
+    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-1"]).toMatch(/Excel Gemini kullanımı/u);
+    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-w1"]).toMatch(/Word ataş ile belge analizi/u);
+    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-6"]).toMatch(/Cuma 30 rutini/u);
+    expect(readSrc("components/academy/curriculum-outline.tsx")).toContain(
+      "OFFICE_AI_LESSON_TEASERS",
+    );
+  });
+
+  it("EducationalOccupationalProgram JSON-LD Course düğümüne bağlanır", () => {
+    const program = educationalOccupationalProgramJsonLd({
+      slug: "01_office_ai",
+      name: "İş Hayatında ve Ofiste Yapay Zekâ",
+      description: OFFICE_AI_SEO.description,
+      imagePath: academyCourseCoverPath("01_office_ai") ?? DEFAULT_OG_IMAGE,
+      durationMin: 84,
+      priceMinor: 89_000,
+      priceCurrency: "TRY",
+    });
+    expect(program).toMatchObject({
+      "@type": "EducationalOccupationalProgram",
+      "@id": "https://yetkin.ai/academy/01_office_ai#program",
+      url: "https://yetkin.ai/academy/01_office_ai",
+      educationalProgramMode: "online",
+      occupationalCategory: "Ofis çalışanı",
+      timeToComplete: "PT1H24M",
+      hasCourse: { "@id": "https://yetkin.ai/academy/01_office_ai#course" },
+      offers: {
+        "@type": "Offer",
+        category: "Paid",
+        price: "890",
+        priceCurrency: "TRY",
+      },
+    });
+    expect(program.educationalCredentialAwarded).toMatchObject({
+      "@type": "EducationalOccupationalCredential",
+      name: "yetkin.ai Ofis Yapay Zekâ Sertifikası",
+    });
+    const officeMeta = pageMetadata({
+      title: OFFICE_AI_SEO.title,
+      description: OFFICE_AI_SEO.description,
+      path: OFFICE_AI_SEO.path,
+      keywords: OFFICE_AI_SEO.keywords,
+    });
+    expect(officeMeta.keywords).toEqual([...OFFICE_AI_SEO.keywords]);
   });
 
   it("sertifika sicil sayfası noindex+follow; oynatıcı noindex giyer", () => {
@@ -699,5 +774,9 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
     const player = readSrc("app/academy/[slug]/oyna/page.tsx");
     expect(player).toContain("index: false");
     expect(player).toContain("export const metadata");
+    const exitKit = readSrc("app/academy/[slug]/cikis-paketi/page.tsx");
+    expect(exitKit).toContain("index: false");
+    expect(exitKit).toContain("OfficeAiExitKit");
+    expect(exitKit).toContain("requirePageSession");
   });
 });

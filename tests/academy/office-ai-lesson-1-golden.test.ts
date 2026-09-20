@@ -61,7 +61,8 @@ describe("01_office_ai-1 altın model — giriş nefesi ve Veo Warm-up", () => {
     expect(spoken).toMatch(/ChatGPT/u);
     expect(spoken).toMatch(/Claude/u);
     expect(spoken).toMatch(/Gemini/u);
-    expect(spoken).toMatch(/API/u);
+    expect(spoken).toMatch(/şirket paneli/u);
+    expect(spoken).not.toMatch(/\bAPI\b/u);
     expect(spoken).not.toMatch(/kopyala-yapıştır/u);
     expect(spoken).not.toMatch(/taşıma su/iu);
     expect(spoken).toMatch(/ataş simgesinden/u);

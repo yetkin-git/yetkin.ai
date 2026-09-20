@@ -212,6 +212,47 @@ export function academyMediaReleaseJobForLesson(
   };
 }
 
+/**
+ * Hazırlık şeridi fırın işi — müfredat taslağı (CURRICULUM_DRAFTS) istemez.
+ * Turlar stüdyo konuşma metninden (disk) okunur; cue paragraf planıyla birebir
+ * eşleşmelidir (`assertSpokenScriptMatchesCues` bake kapısında doğrular).
+ * 101 kanonuna girmez; `--key=01_office_ai-0` ile fırınlanır.
+ */
+export function academyMediaReleaseJobForPrepStrip(
+  courseSlug: AcademySealedSkuSlug,
+  lessonKey: string,
+  title: string,
+  model: string,
+): AcademyMediaReleaseJob {
+  const key = lessonKey.trim();
+  const paragraphs = loadAcademySpokenScriptParagraphs(key);
+  const cast = academyInstructorTtsCast(courseSlug);
+  const turns = paragraphs.map((spokenText) => ({
+    speaker: "egitmen" as const,
+    text: spokenText,
+    spokenText,
+    voice: cast.voice,
+    speechRate: cast.speechRate,
+    canonicalCharacterName: cast.canonicalCharacterName,
+  }));
+  const mediaReleaseSeal = computeAcademyMediaReleaseSeal({
+    courseSlug,
+    lessonKey: key,
+    model,
+    turns,
+  });
+  return {
+    courseSlug,
+    lessonKey: key,
+    title,
+    turns,
+    publicPath: academyLessonAudioPublicPath(courseSlug, key),
+    objectPath: academyLessonAudioObjectPath(courseSlug, key),
+    cacheKey: academyMediaReleaseCacheKey(courseSlug, key),
+    mediaReleaseSeal,
+  };
+}
+
 export function splitAcademySpeechChunks(
   text: string,
   maxChars = ACADEMY_MEDIA_RELEASE_SPEECH_CHUNK_CHARS,

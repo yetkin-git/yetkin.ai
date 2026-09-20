@@ -21,7 +21,7 @@ export const ACADEMY_BED_OUTRO_FADE_SEC = 1.5;
 /** Konuşma bittikten sonra logo + özet üstünde hold + fade-out. */
 export const ACADEMY_BED_OUTRO_TAIL_SEC = ACADEMY_BED_OUTRO_HOLD_SEC + ACADEMY_BED_OUTRO_FADE_SEC;
 
-const BED_OUTRO_LESSON_KEYS = ["01_office_ai-1", "01_office_ai-2", "01_office_ai-3", "01_office_ai-4", "01_office_ai-5", "01_office_ai-g1", "01_office_ai-w1"] as const;
+const BED_OUTRO_LESSON_KEYS = ["01_office_ai-0", "01_office_ai-1", "01_office_ai-2", "01_office_ai-3", "01_office_ai-4", "01_office_ai-5", "01_office_ai-g1", "01_office_ai-w1"] as const;
 
 export function academyBedOutroTailSec(lessonKey: string): number {
   return (BED_OUTRO_LESSON_KEYS as readonly string[]).includes(lessonKey.trim())

@@ -9,26 +9,32 @@ import { ACADEMY_BED_OUTRO_TAIL_SEC } from "@/lib/academy/lesson-bed-duck";
 export const ACADEMY_INTRO_GENERIC_SEC = 2 as const;
 export const ACADEMY_INTRO_GENERIC_MIN_SEC = 1.5 as const;
 export const ACADEMY_INTRO_GENERIC_LESSON_KEY = "01_office_ai-1" as const;
-export const ACADEMY_INTRO_GENERIC_LESSON_KEYS = ["01_office_ai-1", "01_office_ai-2", "01_office_ai-3", "01_office_ai-4", "01_office_ai-5", "01_office_ai-6", "01_office_ai-g1", "01_office_ai-w1", "01_office_ai-k1"] as const;
+export const ACADEMY_INTRO_GENERIC_LESSON_KEYS = ["01_office_ai-0", "01_office_ai-1", "01_office_ai-2", "01_office_ai-3", "01_office_ai-4", "01_office_ai-5", "01_office_ai-6", "01_office_ai-g1", "01_office_ai-w1", "01_office_ai-k1"] as const;
 export const ACADEMY_INTRO_GENERIC_TITLE = "01_OFFICE_AI" as const;
+/** Ders 0 hazırlık şeridi — 101 kanonuna girmez; jenerik + outro altyapısı mühürlü dersle aynıdır. */
+export const ACADEMY_OFFICE_AI_0_OUTRO_SUMMARY_LABELS = [
+  "Hesabı aç",
+  "Dört parçayla yaz",
+  "Belgenin dilinde",
+] as const;
 export const ACADEMY_OUTRO_SUMMARY_LABELS = ["A1 sütun adı", "Birleşikleri çöz", "Yalın dille söyle"] as const;
 export const ACADEMY_OFFICE_AI_2_OUTRO_SUMMARY_LABELS = [
-  "Toplam ve trend",
-  "Anomali ve risk",
-  "Eylem cümlesi",
+  "Toplam ve yön",
+  "Sapan nokta ve risk",
+  "Karar cümlesi",
 ] as const;
 export const ACADEMY_OFFICE_AI_3_OUTRO_SUMMARY_LABELS = [
   "Tek fikir / slayt",
-  "Görsel yönlendir",
+  "Görsel yön",
   "Taslağı aktar",
 ] as const;
 export const ACADEMY_OFFICE_AI_4_OUTRO_SUMMARY_LABELS = [
-  "Önemle etiketle",
-  "Taslak yazdır",
-  "Arşive kaldır",
+  "Önem sırası etiketle",
+  "Taslak yanıt iste",
+  "Arşive al",
 ] as const;
 export const ACADEMY_OFFICE_AI_5_OUTRO_SUMMARY_LABELS = [
-  "Formülle doğrula",
+  "Toplamı formülle doğrula",
   "Mantık hatası sor",
   "İnsan gözü kilitle",
 ] as const;
@@ -38,9 +44,9 @@ export const ACADEMY_OFFICE_AI_6_OUTRO_SUMMARY_LABELS = [
   "Maskeli kısa özet",
 ] as const;
 export const ACADEMY_OFFICE_AI_G1_OUTRO_SUMMARY_LABELS = [
-  "Gemini’yi aç",
-  "Kutuyu tara",
-  "Taşıma suyu bırak",
+  "Yerleşik paneli aç",
+  "Aksiyon tablosu iste",
+  "Onaylamadan gönderme",
 ] as const;
 export const ACADEMY_OFFICE_AI_W1_OUTRO_SUMMARY_LABELS = [
   "Dosyayı yükle",
@@ -63,6 +69,9 @@ export function academyLessonIntroOffsetSec(lessonKey: string): number {
 
 export function academyOutroSummaryLabels(lessonKey: string): readonly string[] {
   const key = lessonKey.trim();
+  if (key === "01_office_ai-0") {
+    return ACADEMY_OFFICE_AI_0_OUTRO_SUMMARY_LABELS;
+  }
   if (key === "01_office_ai-2") {
     return ACADEMY_OFFICE_AI_2_OUTRO_SUMMARY_LABELS;
   }

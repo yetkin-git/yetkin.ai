@@ -11,6 +11,7 @@ import { sectionW1 } from "./section_w1";
 import { sectionK1 } from "./section_k1";
 
 export { section1, section2, section3, section4, section5, section6, sectionG1, sectionW1, sectionK1 };
+export { OFFICE_AI_PREP_STRIP, OFFICE_AI_PREP_STRIP_KEY } from "./prep";
 export {
   OFFICE_AI_PLANNED_LESSONS,
   officeAiPlannedLessonByKey,
@@ -33,6 +34,7 @@ export type {
   OfficeAiPlannedLessonStatus,
 } from "./planned";
 
+/** 101 kanonu — 9 mühürlü ders. Ders 0 (`prep.ts`) bu diziye girmez. */
 export const officeAiSections: Section[] = [
   section1,
   sectionK1,

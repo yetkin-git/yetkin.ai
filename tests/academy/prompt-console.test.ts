@@ -5,7 +5,10 @@ import {
   ACADEMY_OFFICE_AI_1_HOWTO_STEPS,
   ACADEMY_OFFICE_AI_2_HOWTO_STEPS,
   ACADEMY_OFFICE_AI_3_HOWTO_STEPS,
+  ACADEMY_OFFICE_AI_3_COPILOT_HINT,
+  ACADEMY_OFFICE_AI_3_COPILOT_PROMPT,
   ACADEMY_OFFICE_AI_4_HOWTO_STEPS,
+  ACADEMY_OFFICE_AI_5_COPILOT_PROMPT,
   ACADEMY_OFFICE_AI_5_HOWTO_STEPS,
   ACADEMY_OFFICE_AI_6_HOWTO_STEPS,
   ACADEMY_OFFICE_AI_G1_HOWTO_STEPS,
@@ -21,6 +24,7 @@ import {
   academyCitizenDocxLabel,
   academyCitizenOfficeFileLabel,
   academyOfficeChromeFromFileName,
+  academyPromptConsoleFootnote,
   academyPromptCueStart,
   academyPromptTypedText,
 } from "@/lib/academy/prompt-console";
@@ -44,7 +48,7 @@ describe("Nasıl Yapılır? — Prompt Terminali ve adım bandı", () => {
   it("seste komut verilirken istem harf harf açılır; reduced-motion tam metni basar", () => {
     const prompt = ACADEMY_OUTLOOK_COPILOT_PROMPT;
     expect(academyCinemaCueId(4)).toBe("cue-04");
-    expect(academyPromptCueStart("01_office_ai-4", 4)).toBe(168.36);
+    expect(academyPromptCueStart("01_office_ai-4", 4)).toBe(208.64);
     expect(ACADEMY_PROMPT_CHARS_PER_SEC).toBe(22);
     expect(loadAcademyCinemaCueSlides("01_office_ai-4")[3]?.copilot?.prompt).toBe(prompt);
     const waiting = academyPromptTypedText({ prompt, currentTime: 200, cueStart: 201.2 });
@@ -62,6 +66,7 @@ describe("Nasıl Yapılır? — Prompt Terminali ve adım bandı", () => {
     expect(full.visible).toBe(prompt);
     expect(full.done).toBe(true);
     expect(academyOfficeChromeFromFileName("Yonetici_Ozeti.docx")).toBe("word");
+    expect(academyOfficeChromeFromFileName("Yonetim_Ozeti.xlsx")).toBe("excel");
     expect(academyOfficeChromeFromFileName("Tahsilat_Mart_2026.xlsx")).toBe("excel");
     expect(academyCitizenDocxLabel("Yonetici_Ozeti.docx")).toBe("Yönetici Özeti (Word)");
     expect(academyCitizenDocxLabel("Sozlesme_Kaya_Gida.docx")).toBe("Sözleşme Belgesi (Word)");
@@ -73,35 +78,50 @@ describe("Nasıl Yapılır? — Prompt Terminali ve adım bandı", () => {
     expect(academyCitizenOfficeFileLabel("Sozlesme_Kaya_Gida.docx")).toBe("Sözleşme Belgesi (Word)");
     expect(academyCitizenOfficeFileLabel("Tahsilat_Mart_2026.xlsx")).not.toMatch(/\.xlsx/iu);
     expect(academyCitizenOfficeFileLabel("Yonetim_Sunumu.pptx")).not.toMatch(/\.pptx/iu);
+    expect(academyCitizenOfficeFileLabel("Gelen_Kutusu.ost")).toBe("Gelen Kutusu (Outlook)");
+    expect(academyCitizenOfficeFileLabel("Gelen_Kutusu.ost")).not.toMatch(/\.ost/iu);
   });
 
   it("Outlook 1-2-3 bandı seç → önceliklendir → taslak yanıt üretir", () => {
     expect(academyHowtoSteps("01_office_ai-4")).toEqual([...ACADEMY_OFFICE_AI_4_HOWTO_STEPS]);
     expect(ACADEMY_OFFICE_AI_4_HOWTO_STEPS.map((step) => `Adım ${step.n}: ${step.label}`)).toEqual([
-      "Adım 1: E-Postaları Seç",
-      "Adım 2: Copilot Paneli",
-      "Adım 3: Taslak Yanıt Üret",
+      "Adım 1: İletileri Seç",
+      "Adım 2: Etiketle",
+      "Adım 3: Taslak İste",
     ]);
     expect(academyHowtoBandVisible("GİRİŞ KÖPRÜSÜ")).toBe(false);
     expect(academyHowtoBandVisible("CEBİNE KOY")).toBe(false);
     expect(academyHowtoActiveIndex("01_office_ai-4", "INBOX KAOSU")).toBe(0);
+    expect(academyHowtoActiveIndex("01_office_ai-4", "KUTU KAOSU")).toBe(0);
     expect(academyHowtoActiveIndex("01_office_ai-4", "TASLAK YAZ")).toBe(1);
     expect(academyHowtoActiveIndex("01_office_ai-4", "FARK ORTADA")).toBe(2);
     expect(academyHowtoActiveIndex("01_office_ai-4", "CEBİNE KOY")).toBe(-1);
     expect(academyHowtoSteps("01_office_ai-1")).toEqual([...ACADEMY_OFFICE_AI_1_HOWTO_STEPS]);
     expect(ACADEMY_OFFICE_AI_1_HOWTO_STEPS.map((step) => `Adım ${step.n}: ${step.label}`)).toEqual([
-      "Adım 1: Copilot Şeridi",
+      "Adım 1: Copilot Düğmesi",
       "Adım 2: Ataş — Maske 2. Ders",
       "Adım 3: A1'e Sütun Adı Koy",
     ]);
     expect(academyHowtoSteps("01_office_ai-2")).toEqual([...ACADEMY_OFFICE_AI_2_HOWTO_STEPS]);
     expect(academyHowtoSteps("01_office_ai-3")).toEqual([...ACADEMY_OFFICE_AI_3_HOWTO_STEPS]);
+    expect(ACADEMY_OFFICE_AI_3_HOWTO_STEPS.map((step) => `Adım ${step.n}: ${step.label}`)).toEqual([
+      "Adım 1: Metni Al",
+      "Adım 2: Tek Fikir Yaz",
+      "Adım 3: Taslağı Aktar",
+    ]);
+    expect(loadAcademyCinemaCueSlides("01_office_ai-3")[3]?.copilot?.prompt).toBe(
+      ACADEMY_OFFICE_AI_3_COPILOT_PROMPT,
+    );
+    expect(ACADEMY_OFFICE_AI_3_COPILOT_PROMPT).not.toMatch(/Copilot varsa şeride yaz/u);
+    expect(academyPromptConsoleFootnote("01_office_ai-3")).toBe(ACADEMY_OFFICE_AI_3_COPILOT_HINT);
+    expect(academyPromptConsoleFootnote("01_office_ai-2")).toBeNull();
   });
 
-  it("Excel hata avı 1-2-3 bandı yükle → çapraz sorgu → sapan hücreyi onaylar", () => {
+  it("Excel hata avı 1-2-3 bandı yükle → çapraz kontrol → sapan hücreyi kilitler", () => {
     const prompt = ACADEMY_ERROR_HUNT_COPILOT_PROMPT;
+    expect(prompt).toBe(ACADEMY_OFFICE_AI_5_COPILOT_PROMPT);
     expect(prompt).toBe(
-      "Tablodaki satır toplamları ile genel toplam arasında çelişki olup olmadığını incele. Uyumsuz her satırı kırmızı ile işaretle ve nedenini yaz.",
+      "Tablodaki satır toplamları ile genel toplam arasında çelişki olup olmadığını incele. Uyumsuz her satırı kırmızı ile işaretle ve nedenini yaz. Toplamı TOPLA formülüyle doğrula.",
     );
     expect(loadAcademyCinemaCueSlides("01_office_ai-5")[3]?.copilot?.prompt).toBe(prompt);
     expect(loadAcademyCinemaCueSlides("01_office_ai-5")[3]?.copilot?.hideReply).toBe(true);
@@ -111,8 +131,8 @@ describe("Nasıl Yapılır? — Prompt Terminali ve adım bandı", () => {
     expect(academyHowtoSteps("01_office_ai-5")).toEqual([...ACADEMY_OFFICE_AI_5_HOWTO_STEPS]);
     expect(ACADEMY_OFFICE_AI_5_HOWTO_STEPS.map((step) => `Adım ${step.n}: ${step.label}`)).toEqual([
       "Adım 1: Veriyi Yükle",
-      "Adım 2: Çapraz Sorgu İstemini Yaz",
-      "Adım 3: Sapan Hücreyi Onayla",
+      "Adım 2: Çapraz Kontrol İstemini Yaz",
+      "Adım 3: Sapan Hücreyi Kilitle",
     ]);
     expect(academyHowtoActiveIndex("01_office_ai-5", "AŞIRI GÜVEN")).toBe(0);
     expect(academyHowtoActiveIndex("01_office_ai-5", "HATA AVI")).toBe(1);
@@ -151,9 +171,9 @@ describe("Nasıl Yapılır? — Prompt Terminali ve adım bandı", () => {
     expect(loadAcademyCinemaCueSlides("01_office_ai-g1")[3]?.copilot?.hideReply).toBe(true);
     expect(academyHowtoSteps("01_office_ai-g1")).toEqual([...ACADEMY_OFFICE_AI_G1_HOWTO_STEPS]);
     expect(ACADEMY_OFFICE_AI_G1_HOWTO_STEPS.map((step) => `Adım ${step.n}: ${step.label}`)).toEqual([
-      "Adım 1: Paneli Aç",
+      "Adım 1: Yerleşik Paneli Aç",
       "Adım 2: Aksiyon İste",
-      "Adım 3: Onayla, Gönderme",
+      "Adım 3: Onaylamadan Gönderme",
     ]);
     expect(academyHowtoActiveIndex("01_office_ai-g1", "TAŞIMA SU")).toBe(0);
     expect(academyHowtoActiveIndex("01_office_ai-g1", "GEMİNİ AÇ")).toBe(1);
@@ -162,6 +182,11 @@ describe("Nasıl Yapılır? — Prompt Terminali ve adım bandı", () => {
     expect(loadAcademyCinemaCueSlides("01_office_ai-w1")[4]?.copilot?.prompt).toBe(ACADEMY_WORD_UPLOAD_PROMPT);
     expect(loadAcademyCinemaCueSlides("01_office_ai-w1")[5]?.copilot?.prompt).toBe(ACADEMY_WORD_UPLOAD_PROMPT);
     expect(academyHowtoSteps("01_office_ai-w1")).toEqual([...ACADEMY_OFFICE_AI_W1_HOWTO_STEPS]);
+    expect(ACADEMY_OFFICE_AI_W1_HOWTO_STEPS.map((step) => step.label)).toEqual([
+      "Dosyayı Yükle",
+      "Üç İşi Ayrı İste",
+      "İmzayı Kendin At",
+    ]);
     expect(academyHowtoActiveIndex("01_office_ai-w1", "PARÇA PARÇA")).toBe(0);
     expect(academyHowtoActiveIndex("01_office_ai-w1", "ATAŞ YÜKLE")).toBe(1);
     expect(academyHowtoActiveIndex("01_office_ai-w1", "TEK DOSYAYLA ANALİZ")).toBe(2);
@@ -248,9 +273,15 @@ describe("Nasıl Yapılır? — Prompt Terminali ve adım bandı", () => {
       ACADEMY_WEEKLY_ROUTINE_COPILOT_PROMPT,
     );
     expect(ACADEMY_WEEKLY_ROUTINE_COPILOT_PROMPT).toContain("Cuma otuz dakikalık ofis rutinini üç bloğa böl");
+    expect(ACADEMY_WEEKLY_ROUTINE_COPILOT_PROMPT).toMatch(/şeritten okut/u);
+    expect(ACADEMY_WEEKLY_ROUTINE_COPILOT_PROMPT).toMatch(/Üçüncü on dakika kutu/u);
+    expect(ACADEMY_WEEKLY_ROUTINE_COPILOT_PROMPT).not.toMatch(/düğmeden/u);
     expect(prompts.find((row) => row.key === "01_office_ai-g1")?.prompt).toBe(ACADEMY_GMAIL_GEMINI_PROMPT);
     expect(prompts.find((row) => row.key === "01_office_ai-w1")?.prompt).toBe(ACADEMY_WORD_UPLOAD_PROMPT);
     expect(prompts.find((row) => row.key === "01_office_ai-k1")?.prompt).toBe(ACADEMY_KVKK_COPILOT_PROMPT);
+    expect(ACADEMY_KVKK_COPILOT_PROMPT).toBe(
+      "Bu üç satır maskelidir. Ad yok, telefon yok. Sütun adları Ürün, Adet, Bölge. Bölge bazında üç maddelik özet iste.",
+    );
     expect(prompts.find((row) => row.key === "01_office_ai-5")?.prompt).toBe(ACADEMY_ERROR_HUNT_COPILOT_PROMPT);
     expect(Math.max(...prompts.map((row) => row.prompt.length))).toBeGreaterThan(240);
     expect(ACADEMY_WEEKLY_ROUTINE_COPILOT_PROMPT.length).toBeGreaterThan(240);

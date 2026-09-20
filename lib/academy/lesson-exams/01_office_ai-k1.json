@@ -7,8 +7,8 @@
       "prompt": "Müşteri adı, telefon ve IBAN aynı Excel’de durur. Yapay zekâya vermeden önce doğru refleks hangisidir?",
       "choices": [
         "Ham tabloyu olduğu gibi sohbete yapıştırmak",
-        "CRM ekran görüntüsü zinciri basmak",
-        "Adı, telefonu ve IBAN’ı maskeleyip kısa soru bırakmak",
+        "Müşteri programı (CRM) ekran görüntüsü zinciri basmak",
+        "Adı, telefonu ve IBAN’ı maskeleyip kısa sorunu yazmak",
         "Dosyayı silip modeli tahmin ettirmek"
       ],
       "correctIndex": 2
@@ -18,18 +18,18 @@
       "prompt": "Üç Kapı’da 3. Kapı (son çare) hangisidir?",
       "choices": [
         "Ham müşteri kutusunu dış sohbete taşımak",
-        "Tüm CRM’i ekran görüntüsüyle yüklemek",
+        "Tüm müşteri programını ekran görüntüsüyle yüklemek",
         "İsim, telefon, IBAN ve ticari sır maskelenmiş kısa özet",
-        "Copilot dururken şeridi atlayıp hamal taşımak"
+        "Copilot dururken paneli atlayıp ham listeyi taşımak"
       ],
       "correctIndex": 2
     },
     {
       "id": "q_off_lk1_3",
-      "prompt": "Kamu ürün kataloğu ile kişiye bağlı müşteri satırı aynı güvenlik sınıfında mıdır?",
+      "prompt": "Açık katalog bilgisi ile kişiye bağlı müşteri satırı aynı türden midir?",
       "choices": [
-        "Evet; ikisi de ataşla yüklenir",
-        "Hayır; kamu katalog cümlesi gidebilir, kişiye bağlı satır ham haliyle gitmez",
+        "Evet; ikisini de ataşla yüklersin",
+        "Hayır; açık katalog bilgisi gidebilir, kişiye bağlı satır ham haliyle gitmez",
         "KVKK yalnızca e-postayı kapsar",
         "Model silerse yüklemek serbesttir"
       ],

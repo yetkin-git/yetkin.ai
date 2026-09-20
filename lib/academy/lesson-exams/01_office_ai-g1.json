@@ -4,34 +4,34 @@
   "questions": [
     {
       "id": "q_off_lg1_1",
-      "prompt": "Sabah gelen kutusunda ödeme, onay ve bülten aynı yığında durur. Kutuyu Gmail dışına kopyalamadan süzmenin doğru yolu hangisidir?",
+      "prompt": "Sabah kutunda ödeme, onay ve bülten aynı yığında. Kutuyu Gmail dışına kopyalamadan nasıl süzersin?",
       "choices": [
-        "Maili seçip ChatGPT penceresine yapıştırmak",
-        "Ekran görüntüsü alıp harici sohbete yüklemek",
-        "Gmail yan panelindeki Gemini’ye istemi yazıp kutuyu yerinde taramak",
-        "Mailleri PDF’e basıp modele vermek"
+        "İletiyi seçip dış sohbete yapıştırırsın",
+        "Ekran görüntüsü alıp dış sohbete yüklersin",
+        "Gmail’in yanındaki Gemini paneline istemi yazarsın; kutuyu yerinde tararsın.",
+        "Otuz iletiyi parça parça taşıyıp üçüncü kapı sanırsın"
       ],
       "correctIndex": 2
     },
     {
       "id": "q_off_lg1_2",
-      "prompt": "Aksiyon listesinde kim gönderdi, iş nedir, son tarih ne zaman kilitlenir. Gemini paneline yazılan komutu nasıl basarsın?",
+      "prompt": "Kim gönderdi, iş nedir, son tarih ne zaman — bu üçünü nasıl kilitlersin? Gemini paneline istemi nasıl yazarsın?",
       "choices": [
-        "Ctrl+C ile mail gövdesini dış sohbete taşıyarak",
-        "İstemi Gmail’in yanındaki Gemini paneline yazarak; kutuyu yerinde tarayarak",
-        "Ekran görüntüsü yükleyerek",
-        "Outlook masaüstünde kopyala-yapıştır yaparak"
+        "Ctrl+C ile ileti gövdesini dış sohbete taşırsın",
+        "İstemi Gmail’in yanındaki Gemini paneline yazarsın; kutuyu yerinde tararsın.",
+        "Ekran görüntüsü yükleyerek tararsın",
+        "Outlook şeridini atlayıp kopyala-yapıştır yaparsın"
       ],
       "correctIndex": 1
     },
     {
       "id": "q_off_lg1_3",
-      "prompt": "Üç kapı hiyerarşisinde öğretilen varsayılan yol hangisi değildir?",
+      "prompt": "Birinci ve ikinci kapı dururken hangi yolu seçmezsin?",
       "choices": [
-        "Gmail içinde Gemini paneli",
-        "Word dosyasını ataş ile yükleme",
-        "Maili kopyalayıp ekran görüntüsüyle dış sohbete taşıma",
-        "Excel’i doğrudan dosya olarak yükleme"
+        "Gmail içinde Gemini panelini açarsın",
+        "Word belgesini ataş ile yüklersin",
+        "İletiyi kopyalayıp ekran görüntüsüyle dış sohbete taşırsın",
+        "Excel’i doğrudan dosya olarak yüklersin"
       ],
       "correctIndex": 2
     }

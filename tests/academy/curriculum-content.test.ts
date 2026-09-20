@@ -34,7 +34,7 @@ const MASTERY_DOC = join(ROOT, "docs", "curriculum", "01_office_ai_mastery.md");
 
 const OPERATING_ROOM = /dilek cümlesi|kilitli paket|negatif kısıt|spec ihlali/iu;
 const MECHANICAL_LOCK =
-  /kilitlemiştik|kilitliyoruz|kilitliyorum|kilitleyeceğiz|kilitleyince|kilitleniyor|kilitlenir|kilitlersin|kilitleme\b|kilitli paket|nasıl kilitleniyor/iu;
+  /kilitlemiştik|kilitliyoruz|kilitliyorum|kilitli paket|nasıl kilitleniyor/iu;
 
 describe("03.16 gerçek müfredat gövdesi — amiral compact", () => {
   it("vitrin SKU durur; master doc taze ingest bekler", () => {

@@ -4,6 +4,7 @@
  * Mühürlü WAV’da playback cue saniyeleri bake parça saatidir.
  */
 
+import officeAiPrepCuesJson from "./01_office_ai-0.json" with { type: "json" };
 import officeAiLesson1CuesJson from "./01_office_ai-1.json" with { type: "json" };
 import officeAiLesson2CuesJson from "./01_office_ai-2.json" with { type: "json" };
 import officeAiLesson3CuesJson from "./01_office_ai-3.json" with { type: "json" };
@@ -172,6 +173,8 @@ function parseAcademyLessonCues(raw: unknown): readonly AcademyLessonCue[] {
 }
 
 const CUES_BY_LESSON_KEY: Readonly<Record<string, readonly AcademyLessonCue[]>> = {
+  /** Ders 0 hazırlık şeridi — lesson-index ve 101 kanonuna girmez; fırın öncesi duvar saati TAHMİNİdir. */
+  "01_office_ai-0": parseAcademyLessonCues(officeAiPrepCuesJson),
   "01_office_ai-1": parseAcademyLessonCues(officeAiLesson1CuesJson),
   "01_office_ai-2": parseAcademyLessonCues(officeAiLesson2CuesJson),
   "01_office_ai-3": parseAcademyLessonCues(officeAiLesson3CuesJson),

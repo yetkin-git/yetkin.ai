@@ -125,7 +125,7 @@ const COURSES: readonly SkeletonCourse[] = [
         objective: "Gelen kutusunu tasnif, taslak ve takip şablonlarıyla sıfırlama rutinini göstermek.",
       },
       {
-        title: "İstisnalar & Hata Avı: AI Yanılınca",
+        title: "İstisnalar ve Hata Avı: Yapay Zekâ Yanılınca",
         minutesLow: 9,
         minutesHigh: 11,
         screen: "Halüsinasyon gören formül, yanlış tarih, uydurma toplama: 3 gerçek hata + yakalama checklist'i.",

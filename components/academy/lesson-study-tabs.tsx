@@ -5,7 +5,9 @@ import type { Route } from "next";
 import { LinkButton } from "@/components/ui/link-button";
 import { AcademyMarkdownRenderer } from "@/components/academy/academy-markdown-renderer";
 import { LessonSelfCheck } from "@/components/academy/lesson-self-check";
+import { OfficeAiExitKit } from "@/components/academy/office-ai-exit-kit";
 import { extractLessonStudyPack } from "@/lib/academy/lesson-study";
+import { OFFICE_AI_EXIT_KIT_SLUG } from "@/lib/academy/exit-kit";
 import { academyExamStartGateHref } from "@/lib/academy/continue-board";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
@@ -176,6 +178,22 @@ export function LessonStudyTabs({
               <p className="mt-4 text-[13px] text-slate-600">{copy.nextHint}</p>
             )}
           </div>
+          {courseSlug === OFFICE_AI_EXIT_KIT_SLUG && examOpen ? (
+            <OfficeAiExitKit compact />
+          ) : courseSlug === OFFICE_AI_EXIT_KIT_SLUG ? (
+            <p className="text-[13px] text-slate-600">
+              {copy.exitKitLead}{" "}
+              <LinkButton
+                href={`/academy/${courseSlug}/cikis-paketi` as Route}
+                size="sm"
+                variant="ghost"
+                className="mt-2"
+                data-academy-study-exit-kit=""
+              >
+                {copy.exitKitCta}
+              </LinkButton>
+            </p>
+          ) : null}
           <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-900">
               {cert.eyebrow}

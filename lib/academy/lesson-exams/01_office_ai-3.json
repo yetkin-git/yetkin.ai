@@ -4,34 +4,34 @@
   "questions": [
     {
       "id": "q_off_l3_1",
-      "prompt": "Yönetim kuruluna yarım saat sonra sunulmak üzere hazırlanan 5 sayfalık yoğun bir pazar analizi metninden yapay zeka ile slayt taslağı çıkarılırken, izleyicinin bilişsel yükünü azaltmak ve etkiyi artırmak için modele hangi yapısal talimat verilmelidir?",
+      "prompt": "Yarın yönetim kuruluna sunumun var. Beş sayfalık metni slayt taslağına çevireceksin. İsteme ne yazarsın?",
       "choices": [
-        "Her slayt için tek bir odak fikir belirlenmeli, başlık bu fikri aktaran net bir sonuç cümlesi olmalı ve en fazla 3 destekleyici veri noktası içermelidir.",
-        "Raporun tüm paragrafları eksiksiz aktarılmalı, metin kaybı olmaması için her sayfa tek bir slayta bölünmeden madde işaretleriyle doldurulmalıdır.",
-        "Zaman kısıtı nedeniyle tüm metin tek bir slayta sığdırılmalı ve sunum boyunca izleyicinin tek ekrana odaklanması sağlanmalıdır.",
-        "Slayt sayısını azaltmak amacıyla her slayta en az üç farklı departmanın hedefi ve detaylı açıklamaları eşit ağırlıkla yerleştirilmelidir."
+        "Slayt başına tek fikir; başlık vurucu mesaj, en fazla üç destek sayısı.",
+        "Tüm metni tek slayta yığmak.",
+        "Önce tema süsleyip mesajı sona bırakmak.",
+        "Kişi adı geçen ham metni aynen sohbete yapıştırmak."
       ],
       "correctIndex": 0
     },
     {
       "id": "q_off_l3_2",
-      "prompt": "Yapay zekadan metinden sunum taslağı oluşturması istendiğinde, çıktı şablonuna eklenen 'Görsel Yönlendirme' (Visual Direction) kutucuğunun temel amacı nedir?",
+      "prompt": "Görsel yönlendirmeyi neden yazarsın?",
       "choices": [
-        "Sunum aracının otomatik olarak internetten telifli hazır görsel satın almasını sağlamak.",
-        "Slayttaki mesajı en iyi destekleyecek grafik türü, hiyerarşik yerleşim veya şematik kurgu için hazırlayana somut tasarım önerisi sunmak.",
-        "Sunum esnasında konuşmacının ekrandan okuyacağı kelimesi kelimesine hazırlanan anlatım metnini saklamak.",
-        "Slaytın arka plan renk kodlarını ve yazı tipi boyutlarını kilitli bir şablonda sabitlemek."
+        "Telifli hazır görsel satın almasını istersin.",
+        "Hangi grafiği koyacağını ve başlık-madde sırasını parantezde tarif edersin.",
+        "Konuşmacının kelimesi kelimesine metnini slayta yazarsın.",
+        "Yazı tipi boyutunu kilitli şablonda sabitlersin."
       ],
       "correctIndex": 1
     },
     {
       "id": "q_off_l3_3",
-      "prompt": "Yapay zekanın oluşturduğu slayt taslağını PowerPoint ortamına aktarırken slaytların 'metin yığını' haline gelmesini önlemek için izlenmesi gereken en doğru yöntem hangisidir?",
+      "prompt": "Slayt metin yığını olmasın diye detayı nereye koyarsın?",
       "choices": [
-        "Yapay zekanın ürettiği tüm açıklama metinlerini doğrudan slayt yüzeyine yapıştırıp metin boyutunu küçülterek yer kazanmak.",
-        "Görsel yönlendirme kutusunda önerilen şemaları iptal edip tüm bilgiyi yalnızca uzun madde işaretleriyle aktarmak.",
-        "Slayt yüzeyini yalnızca vurucu ana mesaj ve temel veriyle sınırlandırıp detaylı bağlam ve açıklamaları konuşmacı notları (speaker notes) bölümüne aktarmak.",
-        "Sunum tasarımını hızlandırmak için slayt başına düşen cümle sayısını dikkate almadan metni slaytlara rastgele dağıtmak."
+        "Tüm açıklamayı slayta yapıştırıp puntoyu küçültmek.",
+        "Görsel yönlendirmeyi iptal edip uzun madde yazmak.",
+        "Ana mesajı slaytta tutarsın; detayı konuşmacı notuna yazarsın.",
+        "Metni slaytlara rastgele dağıtmak."
       ],
       "correctIndex": 2
     }

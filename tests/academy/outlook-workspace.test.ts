@@ -46,10 +46,13 @@ describe("E-Posta Akışı gelen kutusu seçim kutusu — getBoundingClientRect"
     expect(ssot).toContain(String(ACADEMY_OUTLOOK_UNREAD_AFTER));
     expect(ssot).toContain("Kaya Gıda A.Ş.");
     expect(ssot).toContain(ACADEMY_OUTLOOK_DRAFT_REPLY);
-    expect(ssot).toContain(ACADEMY_OUTLOOK_COPILOT_PROMPT);
+    expect(ssot).toContain("ACADEMY_OFFICE_AI_4_COPILOT_PROMPT");
+    expect(ACADEMY_OUTLOOK_COPILOT_PROMPT).toBe(
+      "Gelen kutumdaki okunmamış iletileri tara. Bugün ödeme veya imza bekleyenleri Acil, bu hafta cevap bekleyenleri Aksiyon, dekont ve bültenleri Arşivlik diye etiketle. Aksiyon için taslak yanıt notu yaz. Hiçbir iletiyi gönderme, hiçbirini silme.",
+    );
     expect(ssot).toContain("ACİL AKSİYON");
-    expect(ssot).toContain("TAKİPTE / BEKLEYEN");
-    expect(ssot).toContain("OTOMATİK ARŞİVLENDİ");
+    expect(ssot).toContain("AKSİYON / BEKLEYEN");
+    expect(ssot).toContain("ARŞİVLİK");
     expect(css).toContain("text-overflow: clip");
     expect(css).toContain(".academy-outlook-row");
     expect(css).toContain(".academy-outlook-reset");
@@ -84,8 +87,8 @@ describe("E-Posta Akışı gelen kutusu seçim kutusu — getBoundingClientRect"
     expect(ACADEMY_OUTLOOK_RESET_GROUPS).toHaveLength(3);
     expect(ACADEMY_OUTLOOK_RESET_GROUPS.map((group) => group.label)).toEqual([
       "ACİL AKSİYON",
-      "TAKİPTE / BEKLEYEN",
-      "OTOMATİK ARŞİVLENDİ",
+      "AKSİYON / BEKLEYEN",
+      "ARŞİVLİK",
     ]);
   });
 
