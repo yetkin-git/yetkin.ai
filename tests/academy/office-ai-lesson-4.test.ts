@@ -3,7 +3,6 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { loadAcademyCinemaCueSlides } from "@/lib/academy/cinema-cue-catalog";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
-import { officeAiMasteryModule } from "@/lib/academy/curricula/office_ai";
 import { academyExcelFocusZoomActive } from "@/lib/academy/excel-focus-zoom";
 import { academyExcelMouseState } from "@/lib/academy/excel-mouse-pointer";
 import { academyVisualCompareStage } from "@/lib/academy/excel-workspace";

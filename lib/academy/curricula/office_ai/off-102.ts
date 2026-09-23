@@ -123,10 +123,11 @@ export const off102DraftLessonsFromSatellites = off201DraftLessonsFromSatellites
 
 /** Taslak bütünlük bekçisi — karar öncesi her adımda çağrılır. */
 export function assertOff201DraftIntegrity(): void {
-  if (OFF_201_MODULE_CODE === OFF_201_ECOMMERCE_COLLISION_CODE) {
+  const publishedCode: string = OFF_201_MODULE_CODE;
+  if (publishedCode === OFF_201_ECOMMERCE_COLLISION_CODE) {
     throw new Error("OFF-201 kart kodu EC-102 ile çakışamaz.");
   }
-  if (OFF_201_MODULE_CODE === OFF_102_MODULE_CODE_RETIRED) {
+  if (publishedCode === OFF_102_MODULE_CODE_RETIRED) {
     throw new Error("Yayın kart kodu tarihî OFF-102 olamaz; EC-102 sayısal çakışması.");
   }
   if (!OFF_201_MODULE_CODE.endsWith("-201")) {
