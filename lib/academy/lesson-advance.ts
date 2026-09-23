@@ -6,7 +6,13 @@
  *
  * İsteğe bağlı mikro-ödev «Ödevi Geç» akışı ses bitimini beklemez: ders
  * mühürlenir (kanıt varsa) ve sıradaki Canlı Sahne + TTS hemen başlar.
+ *
+ * Kaset bitince 2.5 sn outro nefes payı dolmadan otomatik geçiş yok.
  */
+
+import { ACADEMY_OUTRO_BREATH_MS } from "@/lib/academy/lesson-bed-duck";
+
+export { ACADEMY_OUTRO_BREATH_MS, ACADEMY_OUTRO_BREATH_SEC } from "@/lib/academy/lesson-bed-duck";
 
 export const ACADEMY_LESSON_AUTO_ADVANCE_STORAGE_KEY = "academy_autoplay_enabled" as const;
 
@@ -31,6 +37,55 @@ export function shouldAutoAdvanceAfterListenEnded(input: {
   fallback: boolean;
 }): boolean {
   return input.autoAdvanceEnabled && !input.fallback;
+}
+
+/** Ses kasedi bitti / son saniye: nefes payı dolmadan ders bitmez. */
+export function hasAcademyOutroBreathElapsed(
+  intoBreathMs: number,
+  breathMs = ACADEMY_OUTRO_BREATH_MS,
+): boolean {
+  if (!Number.isFinite(intoBreathMs) || intoBreathMs < 0) {
+    return false;
+  }
+  return intoBreathMs >= breathMs;
+}
+
+/**
+ * `ended` / son saniye — saat kuyruğu varsa o kadar, yoksa en az 2.5 sn.
+ * Nefes zaten işliyorsa kalan süre kısalır; kuyruk 80 ms kalsa bile 2.5 sn’ye şişmez.
+ */
+export function academyOutroBreathRemainMs(input: {
+  elapsedSec: number;
+  durationSec: number;
+  intoBreathMs?: number;
+  breathMs?: number;
+}): number {
+  const elapsed = Number.isFinite(input.elapsedSec) ? input.elapsedSec : 0;
+  const duration = Number.isFinite(input.durationSec) && input.durationSec > 0 ? input.durationSec : 0;
+  const remainClockMs = Math.max(0, (duration - elapsed) * 1000);
+  const breathMs = input.breathMs ?? ACADEMY_OUTRO_BREATH_MS;
+  const intoBreathMs = Number.isFinite(input.intoBreathMs) ? Math.max(0, input.intoBreathMs!) : 0;
+  const remainBreathMs = Math.max(0, breathMs - intoBreathMs);
+  return Math.max(remainBreathMs, remainClockMs);
+}
+
+/** Otomatik geçiş — kaset bitti + nefes payı doldu. */
+export function shouldAutoAdvanceAfterOutroBreath(input: {
+  autoAdvanceEnabled: boolean;
+  fallback: boolean;
+  intoBreathMs: number;
+  tailMs?: number;
+}): boolean {
+  if (
+    !shouldAutoAdvanceAfterListenEnded({
+      autoAdvanceEnabled: input.autoAdvanceEnabled,
+      fallback: input.fallback,
+    })
+  ) {
+    return false;
+  }
+  const waitMs = Math.max(ACADEMY_OUTRO_BREATH_MS, input.tailMs ?? ACADEMY_OUTRO_BREATH_MS);
+  return hasAcademyOutroBreathElapsed(input.intoBreathMs, waitMs);
 }
 
 /**

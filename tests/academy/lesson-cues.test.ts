@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { academyLessonCueSpokenDuration, academyPunchcardLabel, hasAcademyLessonCues, loadAcademyLessonCues } from "@/lib/academy/lesson-cues";
+import { academyLessonCueSpokenDuration, academyCitizenPunchcardLabel, academyPunchcardLabel, hasAcademyLessonCues, loadAcademyLessonCues } from "@/lib/academy/lesson-cues";
 import { ACADEMY_MEDIA_SEALED_AUDIO } from "@/lib/academy/pilot-sku";
 
 const ROOT = process.cwd();
@@ -47,7 +47,6 @@ describe("akademi cue SSOT — 01_office_ai-1 punchcard", () => {
         "01_office_ai-1",
         "01_office_ai-2",
         "01_office_ai-3",
-        "01_office_ai-4",
         "01_office_ai-5",
         "01_office_ai-6",
         "01_office_ai-g1",
@@ -57,6 +56,8 @@ describe("akademi cue SSOT — 01_office_ai-1 punchcard", () => {
     });
     expect(existsSync(join(ROOT, "lib/academy/curricula/office_ai/section_1.ts"))).toBe(true);
     expect(academyPunchcardLabel("DÜZENSİZ TABLO ŞİMDİ HEMEN")).toBe("DÜZENSİZ TABLO ŞİMDİ");
+    expect(academyCitizenPunchcardLabel("GİRİŞ KÖPRÜSÜ")).toBe("HATIRLATMA");
+    expect(academyCitizenPunchcardLabel("CEBİNE KOY")).toBe("CEBİNE KOY");
     const curriculum = readFileSync(join(ROOT, "lib/academy/curriculum.ts"), "utf8");
     expect(curriculum).not.toContain("lesson-cues");
     expect(readFileSync(join(ROOT, "lib/academy/citizen-player-layer.ts"), "utf8")).toContain(

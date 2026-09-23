@@ -1,5 +1,5 @@
 /**
- * 01_office_ai çıkış paketi — Cuma 30 tek sayfa, 9 istem kartı, KVKK maske şablonu.
+ * 01_office_ai çıkış paketi — Cuma 30 tek sayfa, 8 istem kartı, KVKK maske şablonu.
  * Sınav yoluna girmez. Yazdır / kopyala / indir; PDF fırını değildir.
  */
 
@@ -9,13 +9,13 @@ import {
   ACADEMY_OFFICE_AI_1_COPILOT_PROMPT,
   ACADEMY_OFFICE_AI_2_COPILOT_PROMPT,
   ACADEMY_OFFICE_AI_3_COPILOT_PROMPT,
-  ACADEMY_OFFICE_AI_4_COPILOT_PROMPT,
   ACADEMY_OFFICE_AI_5_COPILOT_PROMPT,
   ACADEMY_OFFICE_AI_6_COPILOT_PROMPT,
   ACADEMY_OFFICE_AI_G1_COPILOT_PROMPT,
   ACADEMY_OFFICE_AI_K1_COPILOT_PROMPT,
   ACADEMY_OFFICE_AI_W1_COPILOT_PROMPT,
 } from "@/lib/academy/lesson-beat-visual";
+import { ACADEMY_KVKK_DELETE_BUTTON_SUMMARY } from "@/lib/academy/kvkk-workspace";
 import { LESSON_PRACTICE } from "@/lib/academy/lesson-practice";
 
 export const OFFICE_AI_EXIT_KIT_SLUG = "01_office_ai" as const;
@@ -41,7 +41,6 @@ const SCREEN_PROMPT_BY_KEY: Readonly<Record<string, string>> = {
   "01_office_ai-2": ACADEMY_OFFICE_AI_2_COPILOT_PROMPT,
   "01_office_ai-3": ACADEMY_OFFICE_AI_3_COPILOT_PROMPT,
   "01_office_ai-5": ACADEMY_OFFICE_AI_5_COPILOT_PROMPT,
-  "01_office_ai-4": ACADEMY_OFFICE_AI_4_COPILOT_PROMPT,
   "01_office_ai-g1": ACADEMY_OFFICE_AI_G1_COPILOT_PROMPT,
   "01_office_ai-w1": ACADEMY_OFFICE_AI_W1_COPILOT_PROMPT,
   "01_office_ai-6": ACADEMY_OFFICE_AI_6_COPILOT_PROMPT,
@@ -77,6 +76,13 @@ export const OFFICE_AI_FRIDAY_30_ITEMS: readonly OfficeAiFriday30Item[] = [
     hint: "Gmail Gemini veya Outlook Copilot. Etiket → taslak → insan onayı → arşiv. Gönder tuşu sende.",
   },
   {
+    id: "word-check",
+    block: "Kontrol",
+    minutes: 0,
+    label: "Kısa Word ve hata kontrolü",
+    hint: "Üç blok bitince: Word belgesindeki sayı slayttaki sayıyla aynı mı, imza sende mi. Dördüncü on dakika değildir.",
+  },
+  {
     id: "mask",
     block: "Maske",
     minutes: 0,
@@ -105,7 +111,7 @@ Kimlik: yok
 Soru: Bu üç satır maskelidir. Ad yok, telefon yok. Sütun adları Ürün, Adet, Bölge. Bölge bazında üç maddelik özet iste.
 
 Üç sahte satır yeter. Otuz satırlık müşteri dökümü gerekmez.
-3. Kapı yalnız maskeli kısa özettir. Silmek yüklemeyi geri almaz.
+3. Kapı yalnız maskeli kısa özettir. ${ACADEMY_KVKK_DELETE_BUTTON_SUMMARY}
 ` as const;
 
 function practicePromptFor(lessonKey: string): string {
@@ -131,7 +137,7 @@ export function renderOfficeAiFriday30Markdown(): string {
   const lines = [
     "# Cuma 30 rutini — tek sayfa",
     "",
-    "Her Cuma aynı saat. 10 Excel + 10 slayt + 10 kutu. Kriz gelince blok silinmez.",
+    "Her Cuma aynı saat. 10 Excel + 10 slayt + 10 kutu. Üç blok bitince kısa Word ve hata kontrolü. Kriz gelince blok silinmez.",
     "",
   ];
   for (const item of OFFICE_AI_FRIDAY_30_ITEMS) {
@@ -147,7 +153,7 @@ export function renderOfficeAiFriday30Markdown(): string {
 
 export function renderOfficeAiPromptCardsMarkdown(): string {
   const cards = officeAiExitPromptCards();
-  const lines = ["# 9 ders — kopyalanabilir istem kartları", ""];
+  const lines = [`# ${cards.length} ders — kopyalanabilir istem kartları`, ""];
   for (const card of cards) {
     lines.push(`## Ders ${card.ordinal}. ${card.title}`);
     lines.push("");
@@ -167,7 +173,7 @@ export function renderOfficeAiExitKitMarkdown(): string {
   return [
     "# Ofiste Yapay Zekâ — çıkış paketi",
     "",
-    "Bu dosya 9 mühürlü dersin cebine koyduğu üç somut çıktıdır: Cuma 30 kontrol listesi, istem kartları, KVKK maske şablonu.",
+    "Bu dosya 8 mühürlü dersin cebine koyduğu üç somut çıktıdır: Cuma 30 kontrol listesi, istem kartları, KVKK maske şablonu.",
     "",
     renderOfficeAiFriday30Markdown(),
     renderOfficeAiPromptCardsMarkdown(),

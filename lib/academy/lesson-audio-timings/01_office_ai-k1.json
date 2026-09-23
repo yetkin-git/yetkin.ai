@@ -1,8 +1,8 @@
 {
   "lessonKey": "01_office_ai-k1",
   "pauseSec": 0.4,
-  "durationSec": 668.88,
-  "cacheV": 668880,
+  "durationSec": 642.16,
+  "cacheV": 642160,
   "pieces": [
     {
       "index": 0,
@@ -10,43 +10,43 @@
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
       "start": 2,
-      "end": 51.36,
-      "text": "İlk derste tabloyu A1 kuralıyla konuşturdun. Bu dersin sonunda hangi satırın sohbete gitmeyeceğini tek başına ayıracaksın. Şimdi mantığı oturtalım. O tabloyu temizlemiş olman, onu yapay zekâya yükleyebileceğin anlamına gelmez. Neden? Çünkü hücreler düzgün dizilmiş olsa bile satırların içinde hâlâ gerçek insanların adı, telefonu, IBAN'ı ve maaşı duruyor olabilir. Çetcipiti, Cemini ve benzeri açık, ücretsiz yapay zekâ ekranlarına müşteri listesi, IBAN, TC kimlik numarası, maaş tablosu ve şirket içi ticari sır bu yüzden doğrudan yüklenmez. Bu ders, rapor ve ataş derslerinden önce neyin yüklenmeyeceğini ve neden yüklenmeyeceğini adım adım öğretir."
+      "end": 45.12,
+      "text": "İlk derste tabloyu A1 kuralıyla düzenledin. Bu dersin sonunda hangi satırın sohbete gitmeyeceğini tek başına ayıracaksın. Şimdi mantığı oturtalım. O tabloyu düzenlemiş olman, onu yapay zekâya yükleyebileceğin anlamına gelmez. Neden? Çünkü hücreler düzgün dizilmiş olsa bile satırların içinde hâlâ gerçek insanların adı, telefonu, İban’ı ve maaşı duruyor olabilir. Çetcipiti, Cemini, Grok ve benzeri ister ücretsiz ister ücretli tüm açık sohbet ekranlarına müşteri listesi, İban, T.C. kimlik numarası gibi ham verileri yükleyemezsin. Bu ders, rapor ve ataş derslerinden önce neyin yüklenmeyeceğini ve neden yüklenmeyeceğini adım adım öğretir."
     },
     {
       "index": 1,
       "cueId": "cue-02",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 51.76,
-      "end": 89.48,
-      "text": "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin Kavekaka, şirket sırları ve maskeleme dersine hoş geldin. Bugün birlikte şu soruyu çözeceğiz: yapay zekâya her dosya neden gitmez? Çünkü sohbet kutusuna yazdığın metin, o ekranı kapatınca yok olmaz. Kişisel veri, şirket sırrı ve ham kimlik bu yüzden sohbetin işi değildir. Yapay zekâya veri vermeden önce ham verideki kişisel bilgileri maskelemelisin; böylece hem işini yaptırırsın hem de insanı açıkta bırakmazsın. Sınav bu derste açılmaz; önce bu alışkanlığı oturtacağız."
+      "start": 45.52,
+      "end": 81.8,
+      "text": "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin Kavekaka, şirket sırları ve maskeleme dersine hoş geldin. Bugün birlikte şu soruyu çözeceğiz: yapay zekâya her dosya neden gitmez? Çünkü sohbet kutusuna yazdığın metin, o ekranı kapatınca yok olmaz. Kişisel veri, şirket sırrı ve ham kimlik bu yüzden sohbetin işi değildir. Yapay zekâya veri vermeden önce ham verideki kişisel bilgileri maskelemelisin; böylece hem işini yaptırırsın hem de insanı açıkta bırakmazsın. Önce bu alışkanlığı oturtacağız."
     },
     {
       "index": 2,
       "cueId": "cue-02",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 89.88,
-      "end": 125.64,
-      "text": "Masada müşteri Excel'i açık durur. Ad, telefon, TC kimlik numarası, IBAN ve maaş aynı tablodadır. Saha tuzağı şudur: model hızlı cevap versin diye ham tabloyu Çetcipiti veya Cemini ekranına atarsın. Sebebi şu: sohbet kutusu senin arşivin değildir. Sil düğmesine basmak, o satırları bir kez yüklemiş olmanı geri almaz; model o kimlikleri görmüştür. Bu yüzden önce yasak listeyi masada net yazacağız: hangi satırların hiç gitmeyeceğini, hangilerinin maskelenerek gidebileceğini."
+      "start": 82.2,
+      "end": 126.84,
+      "text": "Masada müşteri Excel’i açık durur. Ad, telefon, TC kimlik numarası, İban ve maaş aynı tablodadır. Saha tuzağı şudur: model hızlı cevap versin diye ham tabloyu sohbet yapay zekâsının ekranına atarsın. Sebebi şu: sohbet kutusu senin arşivin değildir. Sohbet ekranında Sil düğmesine basmak, o veriyi yapay zekânın aklından silmez; sadece sizin ekranınızdan kaldırır. Model o adresi, İban’ı bir kez gördüyse sunucusuna kaydetmiştir. Bu yüzden 'silmesi kolay' deyip gerçek veriyi sohbete asla atmıyoruz, önce maskeliyoruz. Bu yüzden önce yasak listeyi masada net yazacağız: hangi satırların hiç gitmeyeceğini, hangilerinin maskelenerek gidebileceğini."
     },
     {
       "index": 3,
       "cueId": "cue-03",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 126.04,
-      "end": 171.52,
-      "text": "Şimdi yasak listeyi tane tane yazalım. Neden bir liste tutuyoruz? Çünkü ofiste her dosya aynı sınıfta değildir; bazı satırlar bir insanın kimliğini tek bakışta ele verir. Yüklenmez olanlar şunlardır. Müşteri adı ve telefonu birlikte. Açık IBAN. Maaş tablosu ve prim. TC kimlik numarası. Hasta veya öğrenci kaydı. Sözleşmedeki ceza maddesiyle birlikte kişi adı. Müşteri programı (Si ar em) ekran görüntüsü. Müşteri ve tutar cümlesi. Bu dosyalar yerleşik panelde de, ataşla da, dış sohbette de aynı kuralı taşır. Kapı yalnız verme yoludur; içeri giren ham satır hâlâ ham satırdır. Bu yüzden ham hali gitmez."
+      "start": 127.24,
+      "end": 173.36,
+      "text": "Şimdi yasak listeyi tane tane yazalım. Neden bir liste tutuyoruz? Çünkü ofiste her dosya aynı sınıfta değildir; bazı satırlar bir insanın kimliğini tek bakışta ele verir. Yüklenmez olanlar şunlardır. Müşteri adı ve telefonu birlikte. Açık İban. Maaş tablosu ve prim. TC kimlik numarası. Hasta veya öğrenci kaydı. Sözleşmedeki ceza maddesiyle birlikte kişi adı. Müşteri programı (Si ar em) ekran görüntüsü. Müşteri ve tutar cümlesi. Bu dosyalar yerleşik panelde de, ataşla da, dış sohbette de aynı kuralı taşır. Kapı yalnız verme yoludur; içeri giren ham satır hâlâ ham satırdır. Bu yüzden ham hali gitmez."
     },
     {
       "index": 4,
       "cueId": "cue-03",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 171.92,
-      "end": 217.84,
+      "start": 173.76,
+      "end": 221.4,
       "text": "Şirket sırrını da aynı masaya koyalım. Fiyat listesi, maliyet, henüz açıklanmamış kampanya, rakip notu kişisel veri değildir; ama rakipten ve piyasadan sakladığın bilgidir. Bu yüzden farklı sınıftır ama aynı sertlikle korunur: ham haliyle dış sohbete gitmez. Peki ne gidebilir? Açık katalog bilgisi gidebilir: ürün adı, genel stok cümlesi — kişiye bağlı değil. Kaya Gıda ürün adı (tutarsız, kişisiz) açık katalog örneğidir; müşteri ve tutarlı satır sırdır. Senin gerçek listen varsa kişiye bağlı satır gitmez. Önce maskele. Böylece hem açık kataloğu kullanırsın hem de gerçek insanı sohbetin dışına alırsın."
     },
     {
@@ -54,90 +54,90 @@
       "cueId": "cue-04",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 218.24,
-      "end": 297.72,
-      "text": "Şimdi maskelemenin ne olduğunu netleştirelim. Maskelemek silmek değildir. Peki neden silmek yetmez? Çünkü satırı tamamen silersen yapay zekâ tablonun mantığını da kaybeder; sütunların ne işe yaradığını göremez. Yapay zekâya veri vermeden önce ham verideki kişisel bilgileri takma değerle değiştirirsin. Ayşe Kaya yerine Müşteri A yaz. IBAN yerine MASKELİ IBAN yaz. Telefonu kaldır, MASKELİ TELEFON yaz. Sorunu yaz. Modele şunu yazabilirsin: 'Bu üç satır maskelidir. Ad yok, telefon yok. Sütun adları Ürün, Adet, Bölge. Bölge bazında üç maddelik özet iste.' Gördüğün gibi istem günlük dille yazılıyor; kısıt da istemin içinde duruyor: ad yok, telefon yok. Şimdi masada duran somut bir satırı birlikte maskeleyelim. Ham satır şöyle durur: Ayşe Kaya, telefon, IBAN açık, maaş 42.000, TC kimlik numarası görünür. Bu satır sohbet kutusuna yapıştırılmaz. Maskeli karşılığı şudur: Müşteri A, MASKELİ TELEFON, MASKELİ IBAN, MASKELİ MAAŞ, kimlik yok. Üç maddelik özeti istersin: aynı istemi kutuya yazarsın. Peki neden üç satır yeter de otuz satırlık müşteri dökümü yetmez?"
+      "start": 221.8,
+      "end": 274.64,
+      "text": "Şimdi maskelemenin ne olduğunu netleştirelim. Maskelemek silmek değildir. Peki neden satırı tamamen silmiyoruz? Çünkü satırı tamamen silersen yapay zekâ tablonun mantığını da kaybeder; sütunların ne işe yaradığını göremez. Yapay zekâya veri vermeden önce ham verideki kişisel bilgileri takma değerle değiştirirsin. Ayşe Kaya yerine Müşteri A yaz. İban yerine MASKELİ İban yaz. Telefonu kaldır, MASKELİ TELEFON yaz. Sorunu yaz. Alt çizgili büyük harfle MASKELİ İban yaz (boşluk değil). Modele şunu yazabilirsin: ‘Bu üç satır maskelidir. Ad yok, telefon yok. Sütun adları Ürün, Adet, Bölge. Bölge bazında üç maddelik özet iste.’ Gördüğün gibi istem günlük dille yazılıyor; kısıt da istemin içinde duruyor: ad yok, telefon yok."
     },
     {
       "index": 6,
       "cueId": "cue-04",
-      "cueParagraphIndex": 0,
-      "chunkIndex": 1,
-      "start": 298.12,
-      "end": 354.84,
-      "text": "Yapay zekâya tablonun mantığını kavratmak için bin kişilik müşteri listesinin tamamını yüklemene gerek yok. Sadece sütun başlıklarını ve mantığı gösterecek üç tane örnek, sahte satır yüklersen, yapay zekâ mantığı anlar. Böylece hem bin kişinin gerçek ad, soyad ve IBAN verisini riske atmamış olursun, hem de aynı özeti alırsın. Otuz satırlık müşteri dökümü üçüncü kapı değildir; çünkü fazla gerçek satır modeli daha zeki yapmaz, yalnızca daha fazla insanı açıkta bırakır. Görüldüğü gibi model hâlâ işini yapar. Sen ise insanı ve şirketi açıkta bırakmazsın. Aynı kural Kopilot şeridinde de, Cemini ataşında da durur. Kapı değişir; ham kimlik gitmez. Yarın gerçek listen açıldığında aynı takma değerleri yazarsın. Silmek yetmez, çünkü silinen satır mantığı da götürür. Değiştirmelisin, çünkü takma değer hem korur hem öğretir."
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 275.04,
+      "end": 349.44,
+      "text": "Şimdi masada duran somut bir satırı birlikte maskeleyelim. Ham satır şöyle durur: Ayşe Kaya, telefon, İban açık, maaş 42.000, TC kimlik numarası görünür. Bu satır sohbet kutusuna yapıştırılmaz. Maskeli karşılığı şudur: Müşteri A, MASKELİ TELEFON, MASKELİ İban, MASKELİ MAAŞ, kimlik yok. Üç maddelik özeti istersin: aynı istemi kutuya yazarsın. Peki neden üç satır yeter de otuz satırlık müşteri dökümü yetmez? Yapay zekâya tablonun mantığını kavratmak için bin kişilik müşteri listesinin tamamını yüklemene gerek yok. Sadece sütun başlıklarını ve mantığı gösterecek üç tane örnek, sahte satır yüklersen, yapay zekâ mantığı anlar. Böylece hem bin kişinin gerçek ad, soyad ve İban verisini riske atmamış olursun, hem de aynı özeti alırsın. Otuz satırlık müşteri dökümü üçüncü kapı değildir; çünkü fazla gerçek satır modeli daha zeki yapmaz, yalnızca daha fazla insanı açıkta bırakır. Görüldüğü gibi model hâlâ işini yapar. Sen ise insanı ve şirketi açıkta bırakmazsın. Aynı kural Kopilot şeridinde de, Cemini ataşında da durur."
     },
     {
       "index": 7,
       "cueId": "cue-04",
       "cueParagraphIndex": 1,
-      "chunkIndex": 0,
-      "start": 355.24,
-      "end": 388.44,
-      "text": "Ef iki ile gördüğün kesme işareti veri düzenidir: hücredeki gizli karakteri görürsün, modelin şaşırmamasını sağlarsın. Maske ise yükleme öncesi atlayamayacağın adımdır: kimliği takma değerle değiştirirsin. Peki neden ikisini karıştırmayalım? Çünkü biri tablonun okunmasını düzeltir, diğeri insanın sohbete girmesini engeller. İkisi ayrı reflekstir. A1 kuralı düzgün olsa bile açık isim sohbete girmez. Düzen, yükleme izni değildir. Şimdi Üç Kapı kuralını doğru yere koyalım."
+      "chunkIndex": 1,
+      "start": 349.84,
+      "end": 366.76,
+      "text": "Kapı değişir; ham kimlik gitmez. Yarın gerçek listen açıldığında aynı takma değerleri yazarsın. Silmek yetmez, çünkü silinen satır mantığı da götürür. Değiştirmelisin, çünkü takma değer hem korur hem öğretir."
     },
     {
       "index": 8,
       "cueId": "cue-05",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 388.84,
-      "end": 436.4,
-      "text": "Üç Kapı kuralını şimdi doğru yere koyalım. Bu kural güvenlik sınıfı değildir; veriyi yapay zekâya nasıl vereceğini sıralar. Birinci kapı yerleşik paneldir: Kopilot veya Cemini şeridi. İkinci kapı ataştır: Excel tablosu, Vörd belgesi, Pauer Point sunusu. Üçüncü kapı dış sohbette maskeli kısa özet yazma disiplinidir. Kişisel veri ve şirket sırrı hangi kapıdan geçerse geçsin ham haliyle gitmez. Neden? Çünkü kapı yalnızca yoldur; içeri giren satır hâlâ aynı satırdır. Ham metni kutuya yapıştırmak üçüncü kapı değildir. Ekran görüntüsü zinciri üçüncü kapı değildir. Bunlar atlanmış kapıdır: birinci ve ikinci kapıyı denemeden, maske de koymadan ham kimliği dışarı taşımaktır."
+      "start": 367.16,
+      "end": 401.6,
+      "text": "Ef iki ile gördüğün kesme işareti veri düzenidir: hücredeki gizli karakteri görürsün, modelin şaşırmamasını sağlarsın. Maske ise yükleme öncesi atlayamayacağın adımdır: kimliği takma değerle değiştirirsin. Peki neden ikisini karıştırmayalım? Çünkü biri tablonun okunmasını düzeltir, diğeri insanın sohbete girmesini engeller. İkisi ayrı reflekstir. A1 kuralı düzgün olsa bile açık isim sohbete girmez. Düzen, yükleme izni değildir. Şimdi Üç Kapı kuralını doğru yere koyalım."
     },
     {
       "index": 9,
       "cueId": "cue-05",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 436.8,
-      "end": 482.84,
-      "text": "Peki birinci ve ikinci kapı duruyorsa neden üçüncü kapıyı açmayalım? Çünkü şirketinin kendi şeridi veya ataş yolu varken, ham listeyi dış sohbete taşımana gerek yoktur. Durmuyorsa, yani lisans yoksa ve ataş da uygun değilse, o zaman üçüncü kapıyı açarsın; ama yine bütün listeyi değil. Yapay zekâya tablonun mantığını kavratmak için üç satır yeter: sütun başlıkları ve üç örnek, sahte satır. Otuz satırlık müşteri dökümü yetmez, çünkü model fazladan yirmi yedi gerçek isimle daha iyi özet yazmaz; sen ise yirmi yedi kişiyi daha riske atmış olursun. İstemi istem kutusuna yazarsın. Ham liste henüz sağ panelde görünmez. Şimdi ekrandaki yan yana karşılaştırmaya bakacağız."
+      "start": 402,
+      "end": 449.8,
+      "text": "Üç Kapı kuralını şimdi doğru yere koyalım. Bu kural güvenlik sınıfı değildir; veriyi yapay zekâya nasıl vereceğini sıralar. Birinci kapı yerleşik paneldir: Kopilot veya Cemini şeridi. İkinci kapı ataştır: Excel tablosu, Vörd belgesi, Pauer Point sunusu. Üçüncü kapı dış sohbette maskeli kısa özet yazma disiplinidir. Kişisel veri ve şirket sırrı hangi kapıdan geçerse geçsin ham haliyle gitmez. Neden? Çünkü kapı yalnızca yoldur; içeri giren satır hâlâ aynı satırdır. Ham metni kutuya yapıştırmak üçüncü kapı değildir. Ekran görüntüsü zinciri üçüncü kapı değildir. Bunlar atlanmış kapıdır: birinci ve ikinci kapıyı denemeden, maske de koymadan ham kimliği dışarı taşımaktır."
     },
     {
       "index": 10,
       "cueId": "cue-06",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 483.24,
-      "end": 517.36,
-      "text": "Şimdi ekrandaki yan yana karşılaştırmaya bak. Sol tarafta ham yapıştırma durur: Ayşe Kaya, telefon, IBAN açık. Sağ tarafta maskeli kısa özet durur: Müşteri A, MASKELİ IBAN, üç satır soru. Sol taraf hızlı görünür; çünkü kopyala-yapıştır bir saniye sürer. Ama şirketi ve insanı açıkta bırakır. Sağ taraf yavaş görünür; çünkü önce takma değer yazarsın. Sağ tarafı seçiyoruz, çünkü kapıyı doğru kullanırsın ve aynı özeti, kimliği ifşa etmeden alırsın."
+      "start": 450.2,
+      "end": 487.84,
+      "text": "Peki birinci ve ikinci kapı duruyorsa neden üçüncü kapıyı açmayalım? Çünkü şirketinin kendi şeridi veya ataş yolu varken, ham listeyi dış sohbete taşımana gerek yoktur. Durmuyorsa, yani lisans yoksa ve ataş da uygun değilse, o zaman üçüncü kapıyı açarsın; ama yine bütün listeyi değil. Yapay zekâya tablonun mantığını kavratmak için üç satır yeter: sütun başlıkları ve üç örnek, sahte satır. Otuz satırlık müşteri dökümü gerekmez, çünkü model fazladan yirmi yedi gerçek isimle daha iyi özet yazmaz; sen ise yirmi yedi kişiyi daha riske atmış olursun."
     },
     {
       "index": 11,
       "cueId": "cue-06",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 517.76,
-      "end": 556.48,
-      "text": "Peki iki taraf arasındaki fark nerede durur? Fark, hangi aracı açtığında değil, o araca neyin girdiğindedir. Kopilot, Cemini, Çetcipiti aynı kuralı taşır. Hangi sohbeti kullanırsan kullan, içeri giren ham ad hâlâ ham addır. Listen değişir; modelin adı değişmez. Gördüğün gibi doğru maske, raporu yavaşlatmaz. Yanlış yapıştırma şudur: sohbet kutusunu kendi arşivin sanırsın. Sil düğmesi, yüklemiş olmanı geri almaz. Bu yüzden doğru adım, içeri giren satırı maskelemektir."
+      "start": 488.24,
+      "end": 520.96,
+      "text": "Şimdi ekrandaki yan yana karşılaştırmaya bak. Sol tarafta ham yapıştırma durur: Ayşe Kaya, telefon, İban açık. Sağ tarafta maskeli kısa özet durur: Müşteri A, MASKELİ İban, üç satır soru. Sol taraf hızlı görünür; çünkü kopyala-yapıştır bir saniye sürer. Ama şirketi ve insanı açıkta bırakır. Sağ taraf yavaş görünür; çünkü önce takma değer yazarsın. Sağ tarafı seçiyoruz, çünkü kapıyı doğru kullanırsın ve aynı özeti, kimliği ifşa etmeden alırsın."
     },
     {
       "index": 12,
       "cueId": "cue-07",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 556.88,
-      "end": 600.16,
-      "text": "Bu derste öğrendiğimiz Kavekaka kuralını iş hayatında şu üç adımla cebine koy. 1. Müşteri listesi, IBAN, TC kimlik numarası, maaş tablosu ve şirket sırrı ham haliyle açık yapay zekâ ekranına yüklenmez; çünkü bir kez giren satır silmekle geri gelmez. 2. Veri vermeden önce maskele: Ayşe Kaya yerine Müşteri A, IBAN yerine MASKELİ IBAN. Böylece model sütun mantığını görür, ham kimliği görmez. 3. Üçüncü Kapı kuralı: yalnız maskeli kısa özet; dış sohbette ekran görüntüsü zinciri yoktur. Çünkü ekran görüntüsü, maske koymadan ham tabloyu dışarı taşır."
+      "start": 521.36,
+      "end": 557.28,
+      "text": "Peki iki taraf arasındaki fark nerede durur? Fark, hangi aracı açtığında değil, o araca neyin girdiğindedir. Kopilot ve büyük dil modelleri (sohbet yapay zekâları) aynı kuralı taşır. Hangi sohbeti kullanırsan kullan, içeri giren ham ad hâlâ ham addır. Modelin adı değişir, kural değişmez. Gördüğün gibi doğru maske, raporu yavaşlatmaz. Yanlış yapıştırma şudur: sohbet kutusunu kendi bilgisayarın sanırsın. Sil düğmesi, yüklemiş olmanı geri almaz. Bu yüzden doğru adım, içeri giren satırı maskelemektir."
     },
     {
       "index": 13,
       "cueId": "cue-08",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 600.56,
-      "end": 623.32,
-      "text": "Şimdi sıra sende. Masandaki bir gerçek listeyi aç. Ad, telefon, IBAN, TC kimlik numarası varsa maskele. Üç satırlık soru yaz. Ham dosyayı Çetcipiti veya Cemini sohbetine bırakma. Kendi gözünle maskenin hızını gör: üç sahte satırın, bin gerçek satır kadar iş gördüğünü masada fark edeceksin."
+      "start": 557.68,
+      "end": 612.36,
+      "text": "Cebine üç kural koy. 1. Müşteri listesi, İban, TC kimlik numarası, maaş tablosu ve şirket sırrı ham haliyle açık yapay zekâ ekranına yüklenmez; çünkü bir kez giren satır silmekle geri gelmez. 2. Veri vermeden önce maskele: Ayşe Kaya yerine Müşteri A, İban yerine MASKELİ İban. Böylece model sütun mantığını görür, ham kimliği görmez. 3. Üçüncü Kapı kuralı: yalnız maskeli kısa özet; dış sohbette ekran görüntüsü zinciri yoktur. Çünkü ekran görüntüsü, maske koymadan ham tabloyu dışarı taşır. Sohbet ekranında Sil düğmesine basmak, o veriyi yapay zekânın aklından silmez; sadece sizin ekranınızdan kaldırır. Model o adresi, İban’ı bir kez gördüyse sunucusuna kaydetmiştir. Bu yüzden 'silmesi kolay' deyip gerçek veriyi sohbete asla atmıyoruz, önce maskeliyoruz."
     },
     {
       "index": 14,
       "cueId": "cue-08",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 623.72,
-      "end": 668.88,
-      "text": "Unutma, yapay zekâ senin yerini tutmaz; sen yönlendirirsin, o hesaplar. Ham veriyi sohbete bırakmak öğretilen yol değildir; çünkü öğrettiğimiz yol önce maske, sonra sorudur. Bu 2. dersin alışkanlığı artık cebinde. Yarın gerçek müşteri listesini açtığında aynı takma değerleri yaz: Müşteri A, MASKELİ TELEFON, MASKELİ MAAŞ. Bu el bir kez oturursa rapor dersine temiz gidilir: yarınki raporda gerçek isim aramazsın, özeti istersin. Sınav henüz kapalıdır; bu derste alışkanlığı oturtman yeterli. Sıradaki kapı rapordur: temiz ve maskeli tablodan üç maddelik yönetim özeti. Sınav, 9. ders bitince açılır. Baraj 70 puandır."
+      "start": 612.76,
+      "end": 642.16,
+      "text": "Sıra sende. Masandaki bir gerçek listeyi aç. Ad, telefon, İban, TC kimlik numarası varsa maskele. Üç satırlık soru yaz. Ham dosyayı sohbet yapay zekâsına bırakma. Üç sahte satırın, bin gerçek satır kadar iş gördüğünü masada fark edeceksin. Sıradaki kapı rapordur: temiz ve maskeli tablodan üç maddelik yönetim özeti. Sınav, 8. ders bitince açılır. Baraj 70 puandır."
     }
   ]
 }

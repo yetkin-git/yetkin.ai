@@ -3,6 +3,7 @@ import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import { curriculumSyllabusForCourseSlug } from "@/lib/academy/curriculum-syllabus";
 import {
   OFFICE_AI_PLANNED_LESSONS,
+  officeAiMasteryModule,
   officeAiPlannedLessonByKey,
 } from "@/lib/academy/curricula/office_ai";
 import {
@@ -60,7 +61,7 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
         courseSlug: "01_office_ai",
         body: "Eğitmen: Compact gövde ses mührü değildir.",
       }),
-    ).toBe("audio");
+    ).toBe("document");
     expect(
       academyLessonContentKind({
         key: "01_office_ai-5",
@@ -123,31 +124,39 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
 
   it("amiral müfredat 1. bölümü basar; özet 9 ders taşır", () => {
     const syllabus = curriculumSyllabusForCourseSlug("01_office_ai");
-    expect(syllabus.lessonCount).toBe(9);
+    expect(syllabus.lessonCount).toBe(8);
     expect(syllabus.lessons.map((row) => row.key)).toEqual([
       "01_office_ai-1",
       "01_office_ai-k1",
       "01_office_ai-2",
       "01_office_ai-3",
       "01_office_ai-5",
-      "01_office_ai-4",
       "01_office_ai-g1",
       "01_office_ai-w1",
       "01_office_ai-6",
     ]);
     expect(syllabus.lessons[1]?.key).toBe("01_office_ai-k1");
     expect(syllabus.lessons[1]?.kind).toBe("audio");
-    expect(syllabus.lessons[6]?.title).toMatch(/Gmail \+ Gemini/u);
-    expect(syllabus.lessons[7]?.title).toMatch(/Word ve Uzun Belge İncelemesi/u);
-    expect(syllabus.lessons[8]?.key).toBe("01_office_ai-6");
-    expect(syllabus.lessons[8]?.kind).toBe("audio");
-    expect(syllabus.lessons[8]?.title).toBe("Haftalık Sistem: 30 Dakikalık Rutin");
-    expect(syllabus.lessons[8]?.title).not.toMatch(/Sınav Köprüsü/u);
-    expect(academyLessonKindLabel(syllabus.lessons[8]!.kind, ACADEMY_SEN.outline)).toBe("Ses");
+    expect(syllabus.lessons[5]?.title).toMatch(/E-Posta Akışı/u);
+    expect(syllabus.lessons[6]?.title).toMatch(/Word ve Uzun Belge İncelemesi/u);
+    expect(syllabus.lessons[7]?.key).toBe("01_office_ai-6");
+    expect(syllabus.lessons[7]?.kind).toBe("audio");
+    expect(syllabus.lessons[7]?.title).toBe("Haftalık Sistem: 30 Dakikalık Rutin");
+    expect(syllabus.lessons[7]?.title).not.toMatch(/Sınav Köprüsü/u);
+    expect(academyLessonKindLabel(syllabus.lessons[7]!.kind, ACADEMY_SEN.outline)).toBe("Ses");
+    expect(syllabus.modules.map((module) => module.title)).toEqual([
+      "Tablo ve güvenlik",
+      "Karar ve slayt",
+      "Kutu ve belge",
+      "Haftalık sistem",
+    ]);
+    expect(syllabus.modules.map((module) => module.lessons.length)).toEqual([2, 3, 2, 1]);
+    expect(officeAiMasteryModule.category).toBe("Ofis ve verimlilik");
+    expect(officeAiMasteryModule.category).not.toMatch(/KATMAN|Ekmek Teknesi/u);
   });
 
   it("Gmail ve Word ana akış dersleri 01_office_ai-g1 ve 01_office_ai-w1 canlı yolda 7. ve 8. derstir", () => {
-    expect(OFFICE_AI_PLANNED_LESSONS.filter((lesson) => lesson.lane === "main")).toHaveLength(9);
+    expect(OFFICE_AI_PLANNED_LESSONS.filter((lesson) => lesson.lane === "main")).toHaveLength(8);
     expect(OFFICE_AI_PLANNED_LESSONS.filter((lesson) => lesson.lane === "satellite")).toHaveLength(3);
     expect(
       OFFICE_AI_PLANNED_LESSONS.filter((lesson) => lesson.lane === "main").map((lesson) => lesson.key),
@@ -157,14 +166,13 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
       "01_office_ai-2",
       "01_office_ai-3",
       "01_office_ai-5",
-      "01_office_ai-4",
       "01_office_ai-g1",
       "01_office_ai-w1",
       "01_office_ai-6",
     ]);
     expect(officeAiPlannedLessonByKey("01_office_ai-g1")?.lane).toBe("main");
     expect(officeAiPlannedLessonByKey("01_office_ai-g1")?.method).toBe("gmail-gemini");
-    expect(officeAiPlannedLessonByKey("01_office_ai-g1")?.title).toMatch(/Gmail \+ Gemini/u);
+    expect(officeAiPlannedLessonByKey("01_office_ai-g1")?.title).toMatch(/E-Posta Akışı/u);
     expect(officeAiPlannedLessonByKey("01_office_ai-g1")?.title).toMatch(/Aksiyon Listesi/u);
     expect(officeAiPlannedLessonByKey("01_office_ai-w1")?.title).toMatch(/Word ve Uzun Belge İncelemesi/u);
     expect(officeAiPlannedLessonByKey("01_office_ai-w1")?.method).toBe("doc-upload-gemini");
@@ -173,9 +181,13 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
     expect(officeAiPlannedLessonByKey("01_office_ai-g1")?.pedagogicalObjective).toMatch(/1\. Kapı/u);
     expect(officeAiPlannedLessonByKey("01_office_ai-10")?.lane).toBe("satellite");
     expect(officeAiPlannedLessonByKey("01_office_ai-10")?.status).toBe("planned");
+    expect(officeAiPlannedLessonByKey("01_office_ai-10")?.targetModuleCode).toBe("OFF-201");
     expect(officeAiPlannedLessonByKey("01_office_ai-11")?.status).toBe("planned");
+    expect(officeAiPlannedLessonByKey("01_office_ai-11")?.targetModuleCode).toBe("OFF-201");
     expect(officeAiPlannedLessonByKey("01_office_ai-12")?.status).toBe("planned");
-    expect(curriculumSyllabusForCourseSlug("01_office_ai").lessonCount).toBe(9);
+    expect(officeAiPlannedLessonByKey("01_office_ai-12")?.targetModuleCode).toBe("OFF-201");
+    expect(officeAiPlannedLessonByKey("01_office_ai-6")?.targetModuleCode).toBe("OFF-101");
+    expect(curriculumSyllabusForCourseSlug("01_office_ai").lessonCount).toBe(8);
   });
 
   it("amiral antre vize vaadi Ofis Verimliliği kapısını SEN ile adlandırır", () => {
@@ -193,7 +205,7 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
 
   it("sınav kalkanı amiral ve kardeş SKU için ortak SEN basar", () => {
     expect(ACADEMY_SEN.outline.examShield).toBe(
-      "Sınav, 9 dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
+      "Sınav, 8 dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
     );
     expect(ACADEMY_SEN.course.purchaseBody).toContain(ACADEMY_SEN.outline.examShield);
   });
@@ -203,18 +215,18 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
     expect(items.join(" ")).toContain("A1 hücresi");
     expect(items.join(" ")).toMatch(/hata avı|TOPLA/iu);
     expect(items.join(" ")).toMatch(/Cuma 30/u);
-    expect(items).toHaveLength(9);
+    expect(items).toHaveLength(8);
     expect(items.join(" ")).toMatch(/KVKK|maskele/iu);
     expect(items[1]).toMatch(/maskele/iu);
-    expect(items[8]).toMatch(/Cuma 30/u);
+    expect(items[7]).toMatch(/Cuma 30/u);
     expect(items.join(" ")).not.toContain("stajyer");
   });
 
   it("amiral compact makale her derste el kitabı üçlüsü taşır", () => {
     const lessons = curriculumForCourseSlug("01_office_ai");
-    expect(lessons).toHaveLength(9);
+    expect(lessons).toHaveLength(8);
     for (const lesson of lessons) {
-      expect(lesson.body, lesson.key).toMatch(/El kitabı \(kasetin sığdırmadığı\)/u);
+      expect(lesson.body, lesson.key).toMatch(/El kitabı \(sesin sığdırmadığı\)/u);
       expect(lesson.body, lesson.key).toMatch(/Lisans yoksa ne yapılır/u);
       expect(lesson.body, lesson.key).toMatch(/Kenar durum/u);
       expect(lesson.body, lesson.key).toMatch(/Yapılmaması gereken tuzak/u);

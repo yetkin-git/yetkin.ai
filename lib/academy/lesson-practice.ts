@@ -5,7 +5,6 @@
  */
 
 import {
-  ACADEMY_OFFICE_AI_4_COPILOT_PROMPT,
   ACADEMY_OFFICE_AI_5_COPILOT_PROMPT,
   ACADEMY_OFFICE_AI_6_COPILOT_PROMPT,
   ACADEMY_OFFICE_AI_G1_COPILOT_PROMPT,
@@ -13,6 +12,7 @@ import {
   ACADEMY_OFFICE_AI_W1_DILEKCE_PROMPT,
   ACADEMY_OFFICE_AI_W1_RAPOR_PROMPT,
 } from "@/lib/academy/lesson-beat-visual";
+import { ACADEMY_KVKK_DELETE_BUTTON_SUMMARY } from "@/lib/academy/kvkk-workspace";
 import type { AcademyLessonPractice } from "@/lib/academy/lesson-body";
 
 function officePractice(
@@ -36,7 +36,7 @@ export const LESSON_PRACTICE: Record<string, AcademyLessonPractice> = {
     [
       "A1 hücresine ilk sütun adını yaz; birleşik başlığı çöz.",
       "Boş satırları sil; tutar ve tarihi tek tipe çek.",
-      "Copilot varsa Copilot düğmesinden doğrudan okut; yoksa temiz örneği ataş ile yükle. Kişisel verileri maskeleme kuralı 2. derste. Orijinal durur.",
+      "Copilot düğmesi varsa hücreleri doğrudan düzenler. Yoksa dosyayı ataşla yükle; yapay zekâ orijinali değiştirmez, temiz tabloyu kopyalayıp Excel'ine yapıştırırsın. Kişisel verileri maskeleme kuralı 2. derste.",
     ],
     `Rol: Ofis asistanı.
 Görev: Yüklediğim Excel tablosunu A1 kuralıyla düzenli tabloya çevir.
@@ -49,7 +49,7 @@ Kısıt: Uydurma sütun ekleme. Orijinal sayfayı koru; temiz kopyayı yan sayfa
       { label: "Maske haritası", value: "Ayşe Kaya → Müşteri A; telefon → MASKELİ_TELEFON; IBAN → MASKELİ_IBAN" },
     ],
     [
-      "Ham dosyayı ChatGPT veya Gemini ekranına yükleme. Ad, telefon, IBAN, T.C. Kimlik No varsa dur.",
+      `Ham dosyayı sohbet yapay zekâsının ekranına yükleme. ${ACADEMY_KVKK_DELETE_BUTTON_SUMMARY} Ad, telefon, IBAN, T.C. Kimlik No varsa dur.`,
       "Maske haritasını uygula: Ayşe Kaya yerine Müşteri A, telefon yerine MASKELİ_TELEFON, IBAN yerine MASKELİ_IBAN.",
       "3. Kapıya yalnız maskeli üç satırlık sorunu yaz; ham kopyala-yapıştır atlanmış kapıdır.",
     ],
@@ -98,25 +98,10 @@ Kısıt: Taslağı aktar, temayı sen kilitle. Uydurma sayı ve dolgu madde yok.
       "Aynı toplamı Excel TOPLA veya tablo motoruyla çapraz sor.",
       "Sapma varsa hücreyi kırmızıyla işaretle, sonra kilitle; modele ‘kendini denetle’ yetmez.",
     ],
-    `Rol: Hata dedektifi.
+    `Rol: Sayı kontrolü.
 Görev: ${ACADEMY_OFFICE_AI_5_COPILOT_PROMPT}
 Format: Hücre | formül veya değer | Excel TOPLA sonucu | sapma var/yok.
 Kısıt: Modele hesaplattırma. Dil modeli matematiksel işlemci değildir.`,
-  ),
-  "01_office_ai-4": officePractice(
-    [
-      { label: "Kutu kaynağı", value: "kendi gelen kutun (Outlook veya Gmail; en az beş gerçek ileti)" },
-      { label: "Seçilen ileti", value: "beş gerçek ileti; konu satırlarını ve gönderen adını yaz" },
-    ],
-    [
-      "Saha sırası: beş iletiyi etiketle: acil (bugün para/imza), aksiyon (bu hafta cevap), arşivlik (dekont/bülten).",
-      "İki taslak yanıt yaz; gönderme. Hitap, talep, tarih ve kapanışı işaretle. İnsan onayı sende.",
-      "İşi biteni arşive al; silme. Çıktı aksiyon listesidir: kim, ne, ne zaman.",
-    ],
-    `Rol: Gelen kutusu kâtibi.
-Görev: ${ACADEMY_OFFICE_AI_4_COPILOT_PROMPT.replace(/\s*Hiçbir iletiyi gönderme, hiçbirini silme\.$/u, "")}
-Format: Gönderen | İş | Son tarih | Taslak yanıt notu. Gönderme.
-Kısıt: Taslağı onaylamadan iletme. Tarih ve tutarı kilitle. Yerleşik paneli bu derste ezberleme.`,
   ),
   "01_office_ai-g1": officePractice(
     [
@@ -124,7 +109,7 @@ Kısıt: Taslağı onaylamadan iletme. Tarih ve tutarı kilitle. Yerleşik panel
       { label: "Yerleşik araç", value: "Gemini paneli (1. Kapı); Outlook varsa Copilot şeridi" },
     ],
     [
-      "Saha sırası: Gmail’de Gemini panelini aç. Taşıma su (Ctrl+C / ekran görüntüsü) atlanmış kapıdır; kutu yerinde kalır.",
+      "Saha sırası: önce etiket (acil, aksiyon, arşivlik), taslak ve insan onayı; arşiv silmek değildir. Sonra Gemini paneli Gmail’in içindedir; iletiyi dışarı taşıma.",
       "Son 24 saati tablo iste: Gönderen | İş | Son tarih | Taslak yanıt notu. Ödeme, onay ve acil aksiyonu ayrı satıra al.",
       "Hiçbir taslağı gönderme. Rutin dekont ve bülteni Arşivlik yaz; taslak notunda tarihi kilitle.",
     ],

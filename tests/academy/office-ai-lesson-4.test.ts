@@ -75,29 +75,19 @@ const SEALED_PUNCHCARDS = [
 ] as const;
 
 describe("01_office_ai bölüm 4 — E-Posta Akışı Altın Şablon", () => {
-  it("makale Gözde girişi, gelen kutusu ve L5 köprüsü taşır", () => {
+  it("ritüel kaseti sınav yolunda yoktur; aynı iş 6. dersin ilk iki dakikasındadır", () => {
     const lessons = curriculumForCourseSlug(SLUG);
-    expect(lessons).toHaveLength(9);
-    expect(officeAiMasteryModule.voiceConfig.voice).toBe("Callirrhoe");
-    const lesson = lessons.find((row) => row.key === KEY)!;
-    expect(lesson.key).toBe(KEY);
+    expect(lessons).toHaveLength(8);
+    expect(lessons.some((row) => row.key === KEY)).toBe(false);
+    const lesson = lessons.find((row) => row.key === "01_office_ai-g1")!;
     expect(lesson.order).toBe(6);
-    expect(lesson.title).toMatch(/E-Posta Akışı|Gelen Kutusu/u);
+    expect(lesson.title).toMatch(/E-Posta Akışı/u);
     expect(lesson.body).toMatch(/Peki neden gelen kutusu şişer/u);
     expect(lesson.body).toMatch(/Peki e-posta triyajı nedir/u);
+    expect(lesson.body).toMatch(/ilk iki dakika/u);
     expect(lesson.body).toMatch(/Peki yapay zekâya neden taslak yanıt yazdırılır/u);
     expect(lesson.body).toMatch(/Peki taslak insan onayı verilmeden neden gönderilmez/u);
-    expect(lesson.body).not.toMatch(/üç altın kural/u);
-    expect(lesson.body).not.toMatch(/arkana yaslan/u);
-    expect(lesson.body).not.toMatch(/akıllı bir asistan hayal/u);
-    expect(officeAiMasteryModule.sections.find((section) => section.lessonKey === KEY)?.pedagogicalObjective).toMatch(
-      /triyaj/u,
-    );
-    expect(lesson.body).not.toMatch(/\bkomut/u);
-    expect(lesson.body).not.toMatch(/G1 dersinde/u);
-    expect(lesson.body).not.toMatch(/INBOX KAOSU/u);
-    expect(lesson.body).toMatch(/KUTU KAOSU/u);
-    expect(lesson.body).not.toMatch(/sıfır yapı|sıfır bildirim/u);
+    expect(lesson.body).not.toMatch(/KUTU KAOSU/u);
   });
 
   it("Beat 3 split-screen sol 142 okunmamış, sağ sıfırlanmış kutu; spoiler kapalı", () => {
@@ -174,10 +164,8 @@ describe("01_office_ai bölüm 4 — E-Posta Akışı Altın Şablon", () => {
 
 describe("01_office_ai bölüm 4 — senaryo ve mühür kapısı", () => {
   it("konuşma metni oturunca punchcardlar ve L5 köprüsü sırayla parlar", () => {
-    if (!isAcademySpokenScriptLessonKey(KEY) || !hasAcademyLessonCues(KEY)) {
-      expect(hasAcademyLessonVisualStage(KEY)).toBe(false);
-      return;
-    }
+    expect(isAcademySpokenScriptLessonKey(KEY)).toBe(false);
+    expect(hasAcademyLessonCues(KEY)).toBe(true);
     expect(hasAcademyLessonVisualStage(KEY)).toBe(true);
     const spoken = loadAcademySpokenScriptMarkdownParagraphs(KEY);
     expect(spoken).toHaveLength(14);
@@ -219,8 +207,8 @@ describe("01_office_ai bölüm 4 — senaryo ve mühür kapısı", () => {
     const punchcards = dronAcademyPunchcardsForLesson(KEY);
     expect(punchcards.map((card) => card.label)).toContain("INBOX KAOSU"); // fırın öncesi
     expect(punchcards.at(-1)?.end).toBe(493.8);
-    expect(isAcademyLessonAudioSealed(SLUG, KEY)).toBe(true);
-    expect(academyCitizenPlayerLayer(SLUG, KEY).kind).toBe("article+karaoke");
+    expect(isAcademyLessonAudioSealed(SLUG, KEY)).toBe(false);
+    expect(academyCitizenPlayerLayer(SLUG, KEY).kind).toBe("article");
   });
 
   it("Sebep → Eylem → Sonuç ve gelen kutu kilidi durur", () => {
@@ -229,6 +217,9 @@ describe("01_office_ai bölüm 4 — senaryo ve mühür kapısı", () => {
     expect(prose).toMatch(/her yeni satır aynı yığında durur/u);
     expect(prose).toMatch(/Peki e-posta triyajı nedir\?/u);
     expect(prose).toMatch(/açmadan önce acil, aksiyon veya arşivlik/u);
+    expect(prose).toMatch(/Önce e-posta etiketlenir, sonra yanıt taslağı hazırlanır/u);
+    expect(prose).toMatch(/Taslak mesaj onaylanmadan gönderilmez/u);
+    expect(prose).not.toMatch(/taslak yalandır/u);
     expect(prose).toMatch(/Peki yapay zekâya neden taslak yanıt yazdırılır\?/u);
     expect(prose).toMatch(/Peki taslak insan onayı verilmeden neden gönderilmez\?/u);
     expect(prose).toMatch(/Model nezaket üretir, taahhüt üretemez/u);
@@ -289,6 +280,8 @@ describe("01_office_ai bölüm 4 — senaryo ve mühür kapısı", () => {
     const stripText = strip.map((line) => line.text).join(" ");
     expect(stripText).toMatch(/Peki neden gelen kutusu şişer/u);
     expect(stripText).toMatch(/Peki e-posta triyajı nedir/u);
+    expect(stripText).toMatch(/Önce e-posta etiketlenir/u);
+    expect(stripText).not.toMatch(/taslak yalandır/u);
     expect(stripText).toMatch(/taslak yanıt yazdırılır/u);
     expect(stripText).toMatch(/insan onayı verilmeden neden gönderilmez/u);
     for (const line of strip) {

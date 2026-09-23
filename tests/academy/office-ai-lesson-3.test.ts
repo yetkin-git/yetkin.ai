@@ -35,6 +35,7 @@ import {
 } from "@/lib/academy/lesson-intro";
 import {
   academyActivePunchcard,
+  academyCitizenPunchcardLabel,
   academyPunchcardLabel,
   hasAcademyLessonCues,
   loadAcademyLessonCues,
@@ -84,7 +85,7 @@ const PUNCHCARDS = [
 describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
   it("makale Gözde girişi, slayt hazırlama ve L5 köprüsü taşır", () => {
     const lessons = curriculumForCourseSlug(SLUG);
-    expect(lessons).toHaveLength(9);
+    expect(lessons).toHaveLength(8);
     expect(officeAiMasteryModule.voiceConfig.voice).toBe("Callirrhoe");
     const lesson = lessons.find((row) => row.key === KEY)!;
     expect(lesson.key).toBe(KEY);
@@ -104,7 +105,7 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(lesson.body).toMatch(/Peki neden slayta düz metin yığını doldurulmaz/u);
     expect(lesson.body).toMatch(/Peki tek fikir kuralı nedir/u);
     expect(lesson.body).toMatch(/Peki yapay zekâdan slayt taslağı nasıl alınır/u);
-    expect(lesson.body).toMatch(/dosyayı PowerPoint sunusu olarak ataşla/u);
+    expect(lesson.body).toMatch(/metin dosyasını ataşla yükle/u);
     expect(lesson.body).toMatch(/İstisnalar ve Hata Avı/u);
     expect(lesson.body).toMatch(/E-Posta Akışı/u);
     expect(lesson.body).not.toMatch(/kirli/iu);
@@ -126,7 +127,7 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(prose).not.toMatch(/yönetici özeti/u);
     expect(prose).not.toMatch(/\bkomut/iu);
     expect(prose).toMatch(/İsteminde başlıkları/u);
-    expect(prose).toMatch(/Kişi adı, IBAN veya şirket sırrı varsa önce maskele/u);
+    expect(prose).toMatch(/Kişi adı, İban veya şirket sırrı varsa önce maskele/u);
     expect(prose).toMatch(/şablon/iu);
     expect(prose).toMatch(/slayt tasla/iu);
     expect(prose).toMatch(/E-Posta Akışı/u);
@@ -147,6 +148,8 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(academyActivePunchcard(cues, 0)).toBeNull();
     expect(cues[0]!.start).toBe(ACADEMY_INTRO_GENERIC_SEC);
     expect(academyActivePunchcard(cues, 2)?.label).toBe("GİRİŞ KÖPRÜSÜ");
+    expect(academyCitizenPunchcardLabel("GİRİŞ KÖPRÜSÜ")).toBe("HATIRLATMA");
+    expect(academyCitizenPunchcardLabel("HOŞ GELDİN")).toBe("HOŞ GELDİN");
     const pocket = cues.find((cue) => academyPunchcardLabel(cue.text) === "CEBİNE KOY");
     expect(pocket?.paragraphs?.join(" ")).toMatch(/1\./u);
     expect(pocket?.paragraphs?.join(" ")).toMatch(/tek fikir/iu);
@@ -227,7 +230,7 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(pieces[0]?.start).toBe(2);
     expect(academyBedDuckGain(0.5, pieces)).toBe(ACADEMY_BED_BREATH_GAIN);
     const lastEnd = pieces.at(-1)?.end ?? 0;
-    expect(lastEnd).toBe(575.6);
+    expect(lastEnd).toBe(541.92);
     expect(academyBedDuckGain(lastEnd, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 1.5, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 4.5, pieces)).toBe(0);
@@ -241,7 +244,7 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(exam?.questions.map((row) => row.id)).toEqual(["q_off_l3_1", "q_off_l3_2", "q_off_l3_3"]);
     const punchcards = dronAcademyPunchcardsForLesson(KEY);
     expect(punchcards.map((card) => card.label)).toContain("ŞABLON KAOSU");
-    expect(punchcards.at(-1)?.end).toBe(575.6);
+    expect(punchcards.at(-1)?.end).toBe(541.92);
   });
 
   it("Sebep → Eylem → Sonuç ve tek fikir kilidi durur", () => {
@@ -253,7 +256,7 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(prose).toMatch(/Peki yapay zekâdan slayt taslağı nasıl alınır\?/u);
     expect(prose).toMatch(/görsel yönlendirme/iu);
     expect(prose).toMatch(/parantez içinde tarif/u);
-    expect(prose).toMatch(/dosyayı Pauer Point sunusu olarak ataşla/u);
+    expect(prose).toMatch(/metin dosyasını ataşla yükle/u);
     expect(prose).not.toMatch(/\b(?:xlsx|docx|pptx)\b/u);
     expect(prose).not.toMatch(/Bu örnek ezber slogan değil/u);
     expect(prose).not.toMatch(/saniyeler içinde etkileyici/u);
@@ -266,6 +269,30 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(css).toMatch(/\.academy-pptx-canvas\s*\{[^}]*height:\s*auto/s);
     expect(css).toMatch(/\.academy-pptx-canvas\s*\{[^}]*max-height:\s*100%/s);
     expect(css).toMatch(/\.academy-pptx-canvas-wrap\s*\{[^}]*overflow:\s*hidden/s);
+    expect(css).toMatch(
+      /\.academy-pptx-body--copilot\s*\{[^}]*grid-template-columns:\s*minmax\(6\.8rem,\s*7\.4rem\)\s*minmax\(0,\s*1fr\)\s*minmax\(0,\s*0\.62fr\)/s,
+    );
+    expect(css).toMatch(
+      /\.academy-pptx-desk--dump \.academy-pptx-body--copilot\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1\.55fr\)\s*minmax\(0,\s*0\.72fr\)/s,
+    );
+    expect(css).toMatch(/\.academy-pptx-desk--dump \.academy-pptx-thumbs\s*\{[^}]*display:\s*none/s);
+    expect(css).toMatch(
+      /\.academy-pptx-desk--dump\.academy-pptx-desk--live \.academy-pptx-body:not\(\.academy-pptx-body--copilot\)\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/s,
+    );
+    expect(css).toMatch(
+      /\.academy-pptx-desk--dump\.academy-pptx-desk--live \.academy-pptx-body:not\(\.academy-pptx-body--copilot\)[\s\S]*?\.academy-pptx-canvas-wrap\s*\{[^}]*grid-column:\s*1 \/ -1/s,
+    );
+    expect(css).toMatch(
+      /\.academy-pptx-desk--dump \.academy-pptx-canvas[\s\S]*?margin:\s*auto/s,
+    );
+    expect(css).toMatch(/\.academy-pptx-body\s*\{[^}]*overflow:\s*hidden/s);
+    expect(css).toMatch(/\.academy-pptx-body\s*\{[^}]*max-width:\s*100%/s);
+    expect(css).toMatch(/\.academy-pptx-body \.academy-ai-desk\s*\{[^}]*min-width:\s*0/s);
+    expect(css).toMatch(/\.academy-pptx-body \.academy-ai-desk\s*\{[^}]*max-width:\s*100%/s);
+    expect(css).toMatch(/\.academy-pptx-body \.academy-ai-desk\s*\{[^}]*overflow:\s*hidden/s);
+    expect(css).toMatch(/\.academy-pptx-body \.academy-ai-desk\s*\{[^}]*flex-shrink:\s*1/s);
+    expect(css).toMatch(/\.academy-pptx-dump\s*\{[^}]*max-width:\s*100%/s);
+    expect(css).toMatch(/\.academy-pptx-dump\s*\{[^}]*overflow:\s*hidden/s);
     expect(css).toContain("[data-fit=\"contain\"]");
     expect(css).toMatch(
       /\.academy-player-compare-pane \.academy-pptx-kpi\s*\{[^}]*min-height:\s*3\.7rem/s,
@@ -280,6 +307,11 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(eye).not.toContain("LessonPromptConsole");
     expect(eye).toContain("data-academy-prompt-dock");
     expect(eye).toContain('fit={stageTheme === "pptx" ? "contain" : "cover"}');
+    expect(eye).toContain("academyCitizenPunchcardLabel");
+    expect(eye).toContain("nextSrc && !waiterSlide && !compare");
+    expect(pptx).toContain("academyPptxDumpMode");
+    expect(pptx).toContain("academyPptxFullBleedCanvas");
+    expect(pptx).toContain("showThumbs");
     expect(pptx).not.toContain("50% 48%");
     expect(academyAiDeskPinnedForLesson(KEY)).toBeNull();
   });
@@ -331,17 +363,17 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
 
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
-    expect(timings?.durationSec).toBe(575.6);
-    expect(timings?.cacheV).toBe(575600);
+    expect(timings?.durationSec).toBe(541.92);
+    expect(timings?.cacheV).toBe(541920);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.at(-1)?.end).toBe(575.6);
+    expect(cues.at(-1)?.end).toBe(541.92);
     for (const cue of cues) {
       const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
       expect(pieces[0]?.start, cue.id).toBe(cue.start);
       expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
     }
     const strip = loadAcademyKaraokeStrip(KEY);
-    expect(strip.at(-1)?.end).toBe(575.6);
+    expect(strip.at(-1)?.end).toBe(541.92);
     const stripText = strip.map((line) => line.text).join(" ");
     expect(stripText).toMatch(/yönetim özeti/u);
     expect(stripText).toMatch(/Peki neden slayta düz metin yığını doldurulmaz/u);

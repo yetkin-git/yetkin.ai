@@ -76,7 +76,7 @@ describe("Ders 0 fırın hazırlığı — konuşma metni + cue + timings", () =
     expect(raw.length).toBeGreaterThan(200);
     expect(raw).toMatch(/Selamlar, ben Gözde/u);
     expect(raw).toMatch(/Bu şeridin sonunda .+ tek başına yapacaksın/u);
-    expect(raw).toMatch(/Hazırsan 1\. derse geç: Tablonu Konuştur/u);
+    expect(raw).toMatch(/Hazırsan 1\. derse geç: A1 Düzeni ve Temiz Veri/u);
     expect(raw).not.toMatch(/Sınav, 9\. ders bitince açılır/u);
     expect(raw).not.toMatch(/Sınav şimdi açıldı/u);
     expect(raw).not.toMatch(/Baraj 70 puandır/u);
@@ -107,19 +107,23 @@ describe("Ders 0 fırın hazırlığı — konuşma metni + cue + timings", () =
     expect(blob).toMatch(/ChatGPT/u);
     expect(blob).toMatch(/KVKK/u);
     expect(blob).toMatch(/A1 hücresi/u);
+    expect(blob).toMatch(/şirketinin paralı lisansı yoksa takılma, ücretsiz panelle devam et/u);
+    expect(blob).toMatch(/Zekâ modelde değil, temiz veridedir/u);
+    expect(blob).not.toMatch(/lisans yoksa durma/u);
+    expect(blob).not.toMatch(/«Daha zeki model» satın almak/u);
     expect(loadAcademyLessonPlaybackCues(KEY)).toHaveLength(8);
   });
 
-  it("timings TAHMİNİ plandır: 8 parça, fonetikli TTS metni, mühürsüz cacheV", () => {
+  it("timings fırın saatidir: 8 parça, fonetikli TTS metni, cacheV süre damgası", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
     expect(timings).not.toBeNull();
     expect(timings?.lessonKey).toBe(KEY);
     expect(timings?.pauseSec).toBe(0.4);
-    expect(timings?.durationSec).toBe(205.317);
-    expect(timings?.cacheV).toBe(1);
+    expect(timings?.durationSec).toBe(255.8);
+    expect(timings?.cacheV).toBe(255800);
     expect(timings?.pieces).toHaveLength(8);
     expect(timings?.pieces[0]?.start).toBe(2);
-    expect(timings?.pieces.at(-1)?.end).toBe(205.317);
+    expect(timings?.pieces.at(-1)?.end).toBe(255.8);
     expect(timings?.pieces.map((piece) => piece.cueId)).toEqual([
       "cue-01",
       "cue-02",
@@ -148,15 +152,22 @@ describe("Ders 0 fırın hazırlığı — konuşma metni + cue + timings", () =
   });
 });
 
-describe("Ders 0 oynatıcı altyapısı — ses kapalı, sahne hazır", () => {
-  it("ses mührü kapalıdır; katman makale, adres ve süre planlıdır", () => {
-    expect(ACADEMY_PREP_STRIP_AUDIO_SEALED["01_office_ai"]).toBe(false);
-    expect(isAcademyPrepStripAudioSealed(SLUG)).toBe(false);
-    expect(academyPrepStripPlayerLayer(SLUG)).toEqual({ kind: "article" });
+describe("Ders 0 oynatıcı altyapısı — ses mühürlü, sinema katmanı", () => {
+  it("ses mührü açıktır; katman karaoke, adres ve süre kilitlidir", () => {
+    expect(ACADEMY_PREP_STRIP_AUDIO_SEALED["01_office_ai"]).toBe(true);
+    expect(isAcademyPrepStripAudioSealed(SLUG)).toBe(true);
+    const layer = academyPrepStripPlayerLayer(SLUG);
+    expect(layer.kind).toBe("article+karaoke");
+    if (layer.kind === "article+karaoke") {
+      expect(layer.lessonKey).toBe(KEY);
+      expect(layer.audioSrc).toBe("/media/academy/audio/01_office_ai/01_office_ai-0.mp3?v=255800");
+      expect(layer.durationSec).toBe(256);
+      expect(layer.cues).toHaveLength(8);
+    }
     expect(academyPrepStripAudioPlaybackSrc(SLUG)).toBe(
-      "/media/academy/audio/01_office_ai/01_office_ai-0.mp3?v=1",
+      "/media/academy/audio/01_office_ai/01_office_ai-0.mp3?v=255800",
     );
-    expect(academyPrepStripAudioDurationSec(SLUG)).toBe(205);
+    expect(academyPrepStripAudioDurationSec(SLUG)).toBe(256);
     expect(academyPrepStripPlayerLayer("02_ecommerce_ai")).toEqual({ kind: "article" });
   });
 
@@ -215,13 +226,13 @@ describe("Ders 0 fırın işi + 101 dokunulmazlığı", () => {
   });
 
   it("101 mührü değişmez: 9 ders, 9 kaset, 9 konuşma metni, 33 sinema anahtarı", () => {
-    expect(Object.values(ACADEMY_MEDIA_SEALED_AUDIO).flat()).toHaveLength(9);
-    expect(academyMediaSealedWavCount()).toBe(9);
-    expect(ACADEMY_SPOKEN_SCRIPT_LESSON_KEYS).toHaveLength(9);
+    expect(Object.values(ACADEMY_MEDIA_SEALED_AUDIO).flat()).toHaveLength(8);
+    expect(academyMediaSealedWavCount()).toBe(8);
+    expect(ACADEMY_SPOKEN_SCRIPT_LESSON_KEYS).toHaveLength(8);
     expect(isAcademySpokenScriptLessonKey(KEY)).toBe(false);
-    expect(curriculumForCourseSlug(SLUG)).toHaveLength(9);
+    expect(curriculumForCourseSlug(SLUG)).toHaveLength(8);
     expect(ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS).toHaveLength(33);
     const total = academyCourseSealedDurationSec(SLUG);
-    expect(Math.abs(total - 5019.311)).toBeLessThanOrEqual(0.01);
+    expect(Math.abs(total - 4580.12)).toBeLessThanOrEqual(0.01);
   });
 });

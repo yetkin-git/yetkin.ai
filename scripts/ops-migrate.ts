@@ -10,7 +10,7 @@
  * Sıra (kilitli):
  *   1) prisma migrate deploy (D2.1 academy_lesson_completions, D2.2 curriculum_seal,
  *      D2.3 corporate_job_offers (tarihsel), defter immutability + paid_command_reservations,
- *      P3 drop_frozen_room_tables — Direct :5432)
+ *      P3 drop_frozen_room_tables — Direct :5432; Windows IPv6/P1001 ise pooler session)
  *   2) 20260814010000_handle_new_user_auth_sync.sql
  *   3) 20260814020000_enforce_rls_all_tables.sql
  *   4) 20260814030000_rls_user_scoped_policies.sql
@@ -29,6 +29,7 @@ import net from "node:net";
 import { resolve } from "node:path";
 import dotenv from "dotenv";
 import { Client } from "pg";
+import { normalizeRuntimeDatabaseUrl } from "@/lib/kernel/postgres-url";
 import {
   ACADEMY_SEED_COURSE_IDS,
   DIRECT_PORT_OPERATOR_PROTOCOL,
@@ -49,17 +50,17 @@ import {
   assertPrismaRingMigrationsPresent,
   applyAcademyCatalogPriceMap,
   assertSqlSealPlanComplete,
+  fallbackPoolerApplyTarget,
   inspectLedgerMigrationSql,
   inspectEscrowHoldMigrationSql,
   inspectCertificateRevocationSql,
   inspectFrozenRoomDropSql,
   inspectSqlSealPlan,
-  isForbiddenPoolerUrl,
+  isIpv6OrDnsUnreachable,
   listPrismaMigrationFolders as listDiskPrismaMigrationFolders,
-  parseDirectConnectionUrl,
-  resolveMigratorConnectionUrl,
+  resolveMigrateApplyTarget,
   runPostApplySeals,
-  withPgLibpqSslCompat,
+  type MigrateApplyTarget,
 } from "./ops-migrate-lib";
 
 const ROOT = process.cwd();
@@ -67,44 +68,16 @@ const ROOT = process.cwd();
 dotenv.config({ path: resolve(ROOT, ".env.local") });
 dotenv.config({ path: resolve(ROOT, ".env") });
 
-dns.setDefaultResultOrder("ipv6first");
+dns.setDefaultResultOrder("ipv4first");
 
 function fail(message: string): never {
   console.error(`ops:migrate BAŞARISIZ: ${message}`);
   process.exit(1);
 }
 
-function connectionUrl(): string {
-  const url = resolveMigratorConnectionUrl({
-    DIRECT_URL: process.env.DIRECT_URL,
-    DATABASE_URL: process.env.DATABASE_URL,
-  });
-  if (!url) {
-    fail("DIRECT_URL veya DATABASE_URL tanımlı değil. .system_docs/OPS_RUNBOOK.md");
-  }
-  return url;
-}
-
-function assertDirectConnection(url: string): void {
-  if (isForbiddenPoolerUrl(url)) {
-    fail(
-      `Migrasyon işlem havuzu üzerinden çalışmaz. ${DIRECT_PORT_OPERATOR_PROTOCOL}`,
-    );
-  }
-  const shape = parseDirectConnectionUrl(url);
-  if (!shape) {
-    fail(`DIRECT_URL çözülemedi. ${DIRECT_PORT_OPERATOR_PROTOCOL}`);
-  }
-  if (!shape.ok) {
-    fail(
-      `Direct host/port mühürü kırıldı (host=${shape.hostname} port=${shape.port}). ${DIRECT_PORT_OPERATOR_PROTOCOL}`,
-    );
-  }
-}
-
-function probeDirectTcp(hostname: string, port: number, timeoutMs = 8000): Promise<void> {
+function probeTcp(hostname: string, port: number, timeoutMs = 8000): Promise<void> {
   return new Promise((resolveProbe, rejectProbe) => {
-    const socket = net.connect({ host: hostname, port });
+    const socket = net.connect({ host: hostname, port, family: 4 });
     const timer = setTimeout(() => {
       socket.destroy();
       rejectProbe(new Error("timeout"));
@@ -122,22 +95,88 @@ function probeDirectTcp(hostname: string, port: number, timeoutMs = 8000): Promi
   });
 }
 
-async function assertDirectPortReachable(url: string): Promise<void> {
-  const shape = parseDirectConnectionUrl(url);
+function applyHostPort(url: string): { hostname: string; port: number } | null {
+  try {
+    const parsed = new URL(url.trim());
+    const hostname = parsed.hostname.trim();
+    if (!hostname) {
+      return null;
+    }
+    const port = parsed.port ? Number(parsed.port) : DIRECT_POSTGRES_PORT;
+    if (!Number.isInteger(port) || port <= 0) {
+      return null;
+    }
+    return { hostname, port };
+  } catch {
+    return null;
+  }
+}
+
+async function assertApplyPortReachable(target: MigrateApplyTarget): Promise<void> {
+  const shape = applyHostPort(target.url);
   if (!shape) {
     fail(`DIRECT_URL çözülemedi. ${DIRECT_PORT_OPERATOR_PROTOCOL}`);
   }
-  console.log(
-    `→ Direct Port ön kontrol: ${shape.hostname}:${shape.port} (beklenen ${DIRECT_POSTGRES_PORT})`,
-  );
+  const label = target.via === "pooler" ? "Pooler" : "Direct";
+  console.log(`→ ${label} Port ön kontrol: ${shape.hostname}:${shape.port}`);
   try {
-    await probeDirectTcp(shape.hostname, shape.port);
-    console.log("   TCP :5432 açık.");
+    await probeTcp(shape.hostname, shape.port);
+    console.log(`   TCP :${shape.port} açık (${target.via}).`);
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error);
-    fail(
-      `Direct :5432 erişilemedi (${shape.hostname}:${shape.port} — ${detail}). ${DIRECT_PORT_OPERATOR_PROTOCOL}`,
+    const unreachable = new Error(
+      `${label} :${shape.port} erişilemedi (${shape.hostname}:${shape.port} — ${detail})`,
     );
+    (unreachable as { code?: string }).code =
+      error && typeof error === "object" && "code" in error
+        ? String((error as { code?: unknown }).code)
+        : "";
+    throw unreachable;
+  }
+}
+
+async function resolveApplyConnection(): Promise<MigrateApplyTarget> {
+  const env = {
+    DIRECT_URL: process.env.DIRECT_URL,
+    DATABASE_URL: process.env.DATABASE_URL,
+  };
+  let target = resolveMigrateApplyTarget(env);
+  if (!target) {
+    fail("DIRECT_URL veya DATABASE_URL tanımlı değil. .system_docs/OPS_RUNBOOK.md");
+  }
+
+  if (target.via === "pooler") {
+    try {
+      await assertApplyPortReachable(target);
+      return target;
+    } catch (error) {
+      fail(
+        `${error instanceof Error ? error.message : String(error)}. Windows IPv4 pooler :5432/:6543.`,
+      );
+    }
+  }
+
+  try {
+    await assertApplyPortReachable(target);
+    return target;
+  } catch (error) {
+    const fallback = fallbackPoolerApplyTarget(env);
+    if (!fallback || !isIpv6OrDnsUnreachable(error)) {
+      fail(
+        `${error instanceof Error ? error.message : String(error)}. ${DIRECT_PORT_OPERATOR_PROTOCOL}`,
+      );
+    }
+    console.warn(
+      "   Direct :5432 IPv6/DNS (ENOTFOUND/P1001) — DATABASE_URL pooler session kullanılacak.",
+    );
+    try {
+      await assertApplyPortReachable(fallback);
+      return fallback;
+    } catch (fallbackError) {
+      fail(
+        `${fallbackError instanceof Error ? fallbackError.message : String(fallbackError)}. ${DIRECT_PORT_OPERATOR_PROTOCOL}`,
+      );
+    }
   }
 }
 
@@ -177,13 +216,16 @@ function listSqlFiles(): string[] {
   return [...EXPECTED_SQL];
 }
 
-function runPrismaDeploy(): void {
+function runPrismaDeploy(url: string): void {
   console.log("→ prisma migrate deploy");
   const result = spawnSync("npx", ["prisma", "migrate", "deploy"], {
     cwd: ROOT,
     stdio: "inherit",
     shell: true,
-    env: process.env,
+    env: {
+      ...process.env,
+      DIRECT_URL: url,
+    },
   });
   if (result.status !== 0) {
     fail(`prisma migrate deploy çıktı kodu ${result.status ?? "null"}`);
@@ -213,9 +255,12 @@ async function applySql(client: Client, files: string[]): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  const url = connectionUrl();
-  assertDirectConnection(url);
-  await assertDirectPortReachable(url);
+  const target = await resolveApplyConnection();
+  process.env.DIRECT_URL = target.url;
+  const url = target.url;
+  if (target.via === "pooler") {
+    console.log("   apply via=pooler (Windows Direct IPv6/DNS atlandı).");
+  }
   const files = listSqlFiles();
   const prismaFolders = listPrismaMigrationFolders();
   const prismaRingIssues = assertPrismaRingMigrationsPresent(prismaFolders);
@@ -313,9 +358,9 @@ async function main(): Promise<void> {
   console.log(`   Defter mührü: ${LEDGER_IMMUTABILITY_MIGRATION}`);
   console.log(`   İptal mührü: ${CERTIFICATE_REVOCATION_MIGRATION}`);
   console.log(`   Donmuş DROP: ${FROZEN_ROOM_DROP_MIGRATION}`);
-  runPrismaDeploy();
+  runPrismaDeploy(url);
 
-  const client = new Client({ connectionString: withPgLibpqSslCompat(url) });
+  const client = new Client({ connectionString: normalizeRuntimeDatabaseUrl(url) });
   await client.connect();
   try {
     const query = async (text: string, params?: unknown[]) => {

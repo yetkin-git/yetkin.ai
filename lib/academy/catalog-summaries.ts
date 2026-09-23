@@ -1,16 +1,18 @@
 /**
  * Vitrin kart özeti — client-safe SSOT.
  * Amiral 1. bölüm taze ingest; kardeş SKU şeffaf Yakında şablonuna düşer.
+ * T-02 — amiral özeti mührü 8 ders + 10 soru / 70 olarak tanımlar; sunucu dosya kontrolü yoktur.
  */
 
 import type { AcademyCourseTitleSlug } from "@/lib/academy/course-titles";
+import { OFFICE_AI_SEAL_PROOF_SHORT } from "@/lib/copy/sem-keywords";
 
 export const ACADEMY_COMING_SOON_SUMMARY =
   "Hazırlanıyor. Compact müfredat, kapak ve sınav kapısı yakında basılır; satın alma tek başına belge üretmez.";
 
 export const ACADEMY_CATALOG_SUMMARIES: Record<AcademyCourseTitleSlug, string> = {
   "01_office_ai":
-    "Office AI eğitimi — iş hayatında yapay zekâ: Excel Gemini kullanımı, Word ataş ile belge analizi, KVKK maskeleme, slayt, Gmail ve Cuma 30 rutini.",
+    `İş hayatında yapay zekâ: Excel Copilot ve Ataş Yöntemi, A1 Düzeni ve Temiz Veri, yönetim özetine dönüştürme, Gmail'de yerleşik Gemini, Word belgesi inceleme, KVKK maskeleme ve haftalık Cuma rutini. ${OFFICE_AI_SEAL_PROOF_SHORT}`,
   "02_ecommerce_ai": ACADEMY_COMING_SOON_SUMMARY,
   "03_social_media_ai": ACADEMY_COMING_SOON_SUMMARY,
   "04_chatbot_nocode": ACADEMY_COMING_SOON_SUMMARY,

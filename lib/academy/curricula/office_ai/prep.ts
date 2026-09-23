@@ -14,15 +14,15 @@ export const OFFICE_AI_PREP_STRIP = {
   badge: "Başlamadan Önce",
   estimatedMinutes: 8,
   contentMarkdown: `
-Selamlar, ben Gözde. Bu şerit bir sınav dersi değildir. Dokuz mühürlü dersin önünde durur; barajı, mührü ve vize kartını etkilemez. Bu şeridin sonunda bir yapay zekâ hesabı açmayı, ücretsiz ile ücretli farkını görmeyi, sohbet ekranını tanımayı, ilk istemi yazmayı ve Türkçe mi İngilizce mi yazacağına karar vermeyi tek başına yapacaksın. Hazırsan masaya oturalım.
+Selamlar, ben Gözde. Bu şerit bir sınav dersi değildir. Sekiz mühürlü dersin önünde durur; barajı, mührü ve vize kartını etkilemez. Bu şeridin sonunda bir yapay zekâ hesabı açmayı, ücretsiz ile ücretli farkını görmeyi, sohbet ekranını tanımayı, ilk istemi yazmayı ve Türkçe mi İngilizce mi yazacağına karar vermeyi tek başına yapacaksın. Hazırsan masaya oturalım.
 
 ## HESAP
 
-ChatGPT, Gemini veya Claude — hangisi masanda duruyorsa onu aç. Üçü de ücretsiz hesapla bu kursun işini görür. Şirket paneli (kurumsal model) varsa onu kullan; evdeki gizlilik kuralı oraya yazılır. Hesap açmak beş dakikadır: e-posta, onay, sohbet kutusu. Telefon numarası isteyen ekranda durabilirsin; zorunlu adım bu şeridin işi değildir. Copilot lisansın yoksa üzülme. Dokuz dersin her biri «lisans yoksa» yolunu yazar.
+ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb. — hangisi masanda duruyorsa onu aç. Bunlar büyük dil modelleridir (sohbet yapay zekâları); ücretsiz hesapla bu kursun işini görürler. Şirket paneli (kurumsal model) varsa onu kullan; evdeki gizlilik kuralı oraya yazılır. Hesap açmak beş dakikadır: e-posta, onay, sohbet kutusu. Telefon numarası isteyen ekrana gelirsen numaranı girmek zorunda değilsin, o adımı atlayabilirsin; bu şerit için zorunlu bir adım değildir. Copilot lisansın yoksa üzülme. Sekiz dersin her biri «lisans yoksa» yolunu yazar.
 
 ## ÜCRETSİZ VE ÜCRETLİ
 
-Ücretsiz model yavaşlar, kuyrukta bekletir, uzun dosyada nefesini keser. Ücretli model daha hızlı döner, daha uzun metni taşır. Sihirli değildir. Bu kursta öğrettiğimiz şey kapı sırasıdır: yerleşik panel, ataş, maskeli kısa özet. O sıra ücretsiz hesapta da durur. İlk hafta ücretli plana geçmek zorunda değilsin. Kota dolduysa yeni sohbet aç; işi böl. «Daha zeki model» satın almak, A1 hücresini boş bırakmanın yerine geçmez.
+Ücretsiz model yavaşlar, kuyrukta bekletir, uzun dosyada nefesini keser. Ücretli model daha hızlı döner, daha uzun metni taşır. Sihirli değildir. Bu kursta öğrettiğimiz şey kapı sırasıdır: yerleşik panel, ataş, maskeli kısa özet. O sıra ücretsiz hesapta da durur. İlk hafta ücretli plana geçmek zorunda değilsin. Kota dolduysa yeni sohbet aç; işi böl. En pahalı yapay zekâyı da satın alsan, başlığı olmayan bozuk tabloyu düzeltemez. Zekâ modelde değil, temiz veridedir.
 
 ## SOHBET EKRANI
 
@@ -30,7 +30,7 @@ Ekranın ortası konuşma alanıdır. Altta bir kutu durur: burası istem kutusu
 
 ## İLK İSTEM
 
-İstem, modele verdiğin iş emridir. Sihirli cümle yoktur. Dört parça yeter: rol, görev, Format, kısıt. Örnek: «Rol: ofis asistanı. Görev: bu üç satırlık tabloyu sütun adına göre özetle. Format: üç madde. Kısıt: uydurma sayı ekleme.» Görüyorsun: günlük dil. Kod yok. İngilizce jargon yok. İlk denemende kutu boş dönerse cümleyi uzatma; görevi küçült. Bir iş, bir istem. Üç işi tek kutuya yığmak, üç cevabı birbirine bulaştırır.
+İstem, modele verdiğin iş emridir. Sihirli cümle yoktur. Dört parça yeter: rol, görev, biçim, kısıt. Örnek: «Rol: ofis asistanı. Görev: bu üç satırlık tabloyu sütun adına göre özetle. Biçim: üç madde. Kısıt: uydurma sayı ekleme.» Görüyorsun: günlük dil. Kod yok. İngilizce jargon yok. İlk denemende kutu boş dönerse cümleyi uzatma; görevi küçült. Bir iş, bir istem. Üç işi tek kutuya yığmak, üç cevabı birbirine bulaştırır.
 
 ## TÜRKÇE Mİ İNGİLİZCE Mİ
 
@@ -38,10 +38,10 @@ Belgen Türkçeyse istemi Türkçe yaz. Belgen İngilizceyse istemi İngilizce y
 
 ## CEBİNE KOY
 
-Üç kural. 1. Hesabı aç, kutuyu tanı, ataşı gör; lisans yoksa durma. 2. İstemi dört parçayla yaz: rol, görev, Format, kısıt. 3. Belgenin dilinde yaz; ham kişisel veriyi bu kutuya koyma. Bu üçü oturunca 1. dersin A1 hücresi korkutmaz.
+Üç kural. Hesabı aç, kutuyu tanı, ataşı gör; şirketinin paralı lisansı yoksa takılma, ücretsiz panelle devam et. 2. İstemi dört parçayla yaz: rol, görev, biçim, kısıt. 3. Belgenin dilinde yaz; ham kişisel veriyi bu kutuya koyma. Bu üçü oturunca 1. dersin A1 hücresi korkutmaz.
 
 ## SIRA SENDE
 
-Şimdi kendi hesabını aç. Yeni bir sohbet başlat. İstem kutusuna şunu yaz: «Bana üç maddelik bir ofis sabah rutini öner. Kişisel veri isteme.» Cevabı oku. Beğenmediysen kısıtı ekle: «On dakikayı geçmesin.» Bu alıştırmanın notu yok, barajı yok. Yalnızca kutunun cevap verdiğini kendi gözünle gör. Hazırsan 1. derse geç: Tablonu Konuştur.
+Şimdi kendi hesabını aç. Yeni bir sohbet başlat. İstem kutusuna şunu yaz: «Bana üç maddelik bir ofis sabah rutini öner. Kişisel veri isteme.» Cevabı oku. Beğenmediysen kısıtı ekle: «On dakikayı geçmesin.» Bu alıştırmanın notu yok, barajı yok. Yalnızca kutunun cevap verdiğini kendi gözünle gör. Hazırsan 1. derse geç: A1 Düzeni ve Temiz Veri.
 `,
 } as const satisfies AcademyPrepStrip;

@@ -37,7 +37,7 @@ describe("mühürlü süre bandı ve kurs SSOT", () => {
 
   it("9 kaset timings okunur; underBand boş, tüm dersler 420–720 yeşilindedir", () => {
     const keys = curriculumLessonKeysForSlug(SLUG);
-    expect(keys).toHaveLength(9);
+    expect(keys).toHaveLength(8);
     const underBand: string[] = [];
     const overBand: string[] = [];
     for (const key of keys) {

@@ -1,13 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
-import { academyBedOutroTailSec } from "@/lib/academy/lesson-bed-duck";
+import { academyBedOutroTailSec, academyPlayerOutroTailSec, ACADEMY_OUTRO_BREATH_MS, ACADEMY_OUTRO_BREATH_SEC } from "@/lib/academy/lesson-bed-duck";
 import { academyPlayerClockDurationSec, academySealedAudioDurationSec } from "@/lib/academy/lesson-audio";
 import { formatAcademyCinemaClock } from "@/lib/academy/lesson-cinema";
 import {
   ACADEMY_LESSON_AUTO_ADVANCE_DEFAULT,
   ACADEMY_LESSON_AUTO_ADVANCE_STORAGE_KEY,
+  academyOutroBreathRemainMs,
   canAdvanceAcademyPlayerLesson,
   hasAcademyLessonPlaybackReachedEnd,
+  hasAcademyOutroBreathElapsed,
   isAcademyPlayerExamReady,
   academyPlayerAutoAdvanceTargetKey,
   nextAcademyPlayerLesson,
@@ -17,6 +19,7 @@ import {
   resolveAcademyAutoAdvanceNextLesson,
   serializeAcademyLessonAutoAdvance,
   shouldAutoAdvanceAfterListenEnded,
+  shouldAutoAdvanceAfterOutroBreath,
   shouldSealProgressAfterDialogueEnded,
   shouldStartListenAfterChallengeSkip,
 } from "@/lib/academy/lesson-advance";
@@ -53,6 +56,48 @@ describe("akademi ders geçiş mimarisi", () => {
     expect(
       shouldAutoAdvanceAfterListenEnded({ autoAdvanceEnabled: true, fallback: false }),
     ).toBe(true);
+  });
+
+  it("ses bitince 2.5 sn outro nefes payı dolmadan otomatik geçiş yok; dip fade bu sürede sıfırlanır", () => {
+    expect(ACADEMY_OUTRO_BREATH_MS).toBe(2_500);
+    expect(ACADEMY_OUTRO_BREATH_SEC).toBe(2.5);
+    expect(hasAcademyOutroBreathElapsed(0)).toBe(false);
+    expect(hasAcademyOutroBreathElapsed(2_499)).toBe(false);
+    expect(hasAcademyOutroBreathElapsed(2_500)).toBe(true);
+    expect(
+      shouldAutoAdvanceAfterOutroBreath({
+        autoAdvanceEnabled: true,
+        fallback: false,
+        intoBreathMs: 0,
+      }),
+    ).toBe(false);
+    expect(
+      shouldAutoAdvanceAfterOutroBreath({
+        autoAdvanceEnabled: true,
+        fallback: false,
+        intoBreathMs: 2_500,
+      }),
+    ).toBe(true);
+    expect(
+      shouldAutoAdvanceAfterOutroBreath({
+        autoAdvanceEnabled: false,
+        fallback: false,
+        intoBreathMs: 2_500,
+      }),
+    ).toBe(false);
+    expect(academyOutroBreathRemainMs({ elapsedSec: 100, durationSec: 100 })).toBe(2_500);
+    expect(academyOutroBreathRemainMs({ elapsedSec: 100, durationSec: 102.5 })).toBe(2_500);
+    expect(
+      academyOutroBreathRemainMs({
+        elapsedSec: 104,
+        durationSec: 104.5,
+        intoBreathMs: 4_000,
+        breathMs: 4_500,
+      }),
+    ).toBe(500);
+    expect(academyPlayerOutroTailSec("unknown-lesson")).toBe(ACADEMY_OUTRO_BREATH_SEC);
+    expect(academyPlayerOutroTailSec("01_office_ai-5")).toBe(academyBedOutroTailSec("01_office_ai-5"));
+    expect(academyPlayerOutroTailSec("01_office_ai-5")).toBeGreaterThanOrEqual(ACADEMY_OUTRO_BREATH_SEC);
   });
 
   it("Otomatik Geçiş tercihi academy_autoplay_enabled üzerinde varsayılan açık saklanır", () => {
@@ -101,14 +146,14 @@ describe("akademi ders geçiş mimarisi", () => {
     ).toBeNull();
   });
 
-  it("ekran saati 09:28/09:28 iken kaset milisaniyesi tam cap olmasa da bitti sayılır", () => {
+  it("ekran saati 09:16/09:16 iken kaset milisaniyesi tam cap olmasa da bitti sayılır", () => {
     const durationSec = academyPlayerClockDurationSec({
       audioDuration: 0,
       sealedDuration: academySealedAudioDurationSec("01_office_ai", "01_office_ai-5"),
       spokenDuration: 0,
       outroTailSec: academyBedOutroTailSec("01_office_ai-5"),
     });
-    expect(formatAcademyCinemaClock(durationSec)).toBe("09:28");
+    expect(formatAcademyCinemaClock(durationSec)).toBe("09:16");
     expect(formatAcademyCinemaClock(485)).toBe("08:05");
     expect(
       hasAcademyLessonPlaybackReachedEnd({ currentTime: Math.floor(durationSec), durationSec }),
@@ -145,7 +190,7 @@ describe("akademi ders geçiş mimarisi", () => {
       open: true,
       completed: false,
     }));
-    expect(nextAcademyPlayerLesson(office, "01_office_ai-5")?.key).toBe("01_office_ai-4");
+    expect(nextAcademyPlayerLesson(office, "01_office_ai-5")?.key).toBe("01_office_ai-g1");
   });
 
   it("otomatik geçiş tamamlanmış 2. dersi atlamaz; sunucu resume 3 olsa da 1 → 2 gider", () => {

@@ -461,7 +461,7 @@ const SCRIPT_PROMPT = `Sen yetkin.ai akademisinin yazar fırınısın (Gemini 3.
 
 ZORUNLU JSON ŞEMASI:
 {
-  "title": "Rapor Otomasyonu: Tablodan Yönetim Özetine",
+  "title": "Yönetim Özetine Dönüştürme",
   "beats": [
     {
       "id": "warmup",

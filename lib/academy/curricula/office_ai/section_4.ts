@@ -1,4 +1,4 @@
-/** Vatandaş Ders 6/9 — dosya adı teknik sonektir (`section_4` / `01_office_ai-4`); sıra `lib/academy/curricula/lesson-index.ts` içindedir. */
+/** ARŞİV — sınav yolunda yok. Ritüel `01_office_ai-g1` ilk iki dakikasına alındı. Dosya adı teknik sonektir. */
 import type { Section } from "../types";
 
 export const section4: Section = {
@@ -6,7 +6,7 @@ export const section4: Section = {
   lessonKey: "01_office_ai-4",
   title: "E-Posta Akışı: Gelen Kutusu Sıfırlama",
   targetDurationMinutes: 8.2,
-  estimatedWordCount: 1046,
+  estimatedWordCount: 1040,
   pedagogicalObjective:
     "Gelen kutusunu önem sırası, taslak yanıt, insan onayı ve arşiv ritüeliyle sıfırlamayı göstermek. Gelen kutusu neden şişer? Her satır aynı yığında durur. E-posta triyajı nedir? İletiyi açmadan önce acil, aksiyon veya arşivlik diye ayırmaktır. Yapay zekâya neden taslak yazdırılır ve insan onayı olmadan gönderilmez? Model nezaket üretir, taahhüt üretemez. Yerleşik panel (Gmail Gemini / Outlook Copilot) bir sonraki derstedir.",
   contentMarkdown: `
@@ -18,7 +18,7 @@ Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin altın
 
 ## KUTU KAOSU
 
-Sabah bilgisayarını açtığında yüzlerce okunmamış satır omuzdaki baskıyı artırır. Hangisi ödeme, hangisi bülten, hangisi sadece bilgi? Tek tek açmak günü yer. Peki e-posta triyajı nedir? Gelen her iletiyi açmadan önce acil, aksiyon veya arşivlik diye ayırmaktır. Etiket yoksa taslak yalandır. Taslak insan onayı olmadan gitmez. Ritüel şudur: önce etiket, sonra taslak, sonra insan, en son arşiv. Üç etiketin tanımını net tut. Acil, bugün para veya imza isteyen satırdır. Aksiyon, bu hafta cevap bekleyen satırdır. Arşivlik, okuyup kapatacağın satırdır: dekont, bülten, bilgi. Bu üçlü yeter. Dördüncü etiket karar yorar; üç etiket günü kapatır.
+Sabah bilgisayarını açtığında yüzlerce okunmamış satır omuzdaki baskıyı artırır. Hangisi ödeme, hangisi bülten, hangisi sadece bilgi? Tek tek açmak günü yer. Peki e-posta triyajı nedir? Gelen her iletiyi açmadan önce acil, aksiyon veya arşivlik diye ayırmaktır. Önce e-posta etiketlenir, sonra yanıt taslağı hazırlanır. Taslak mesaj onaylanmadan gönderilmez. Ritüel şudur: önce etiket, sonra taslak, sonra insan, en son arşiv. Üç etiketin tanımını net tut. Acil, bugün para veya imza isteyen satırdır. Aksiyon, bu hafta cevap bekleyen satırdır. Arşivlik, okuyup kapatacağın satırdır: dekont, bülten, bilgi. Bu üçlü yeter. Dördüncü etiket karar yorar; üç etiket günü kapatır.
 
 Gelen iletileri tek tek okuyup cümle kurmak zaman kaybıdır. Yapay zekâ süzgeçtir, gönderen değil. Bu derste istemi panele nasıl yazacağını ezberlemiyorsun. İstemin ne istediğini ezberliyorsun: acil, aksiyon, arşivlik. Neden? Çünkü model sınıflandırır; sen karar verirsin. İstem şunu ister: içerik nedir, aciliyet nedir, bizden beklenen eylem nedir. Üç soru, üç etiket. Cevap tabloya iner: gönderen, iş, son tarih. Gönder tuşu yoktur; taslak notu vardır. Bülteni acil boyamak da, ödemeyi arşive atmak da senin kilitindir.
 
@@ -48,9 +48,9 @@ Bu dersten üç adım çıkar. 1. Gelen her yeni iletiyi acil, aksiyon veya arş
 
 Şimdi sıra sende. Kendi kutundan en az beş ileti seç. Önce etiket iste, sonra iki taslak doğrula, işi biteni arşive al. Taslağı göndermeden oku. Yerleşik paneli henüz ezberleme. On dakikalık pratikte yığın incelir; kutu seni yönetmez.
 
-Tabii ki her sistem her zaman kusursuz işlemez; dünkü İstisnalar ve Hata Avı refleksi burada da durur. Bir sonraki derste Gmail Gemini ve Outlook Copilot ile aynı ritüeli yerinde basacağız. Çıktı aksiyon listesidir: kim, ne, ne zaman. İnsan onayı olmadan kutu sıfırlanmaz. Sınav, 9. ders bitince açılır. Baraj 70 puandır.
+Tabii ki her sistem her zaman kusursuz işlemez; dünkü İstisnalar ve Hata Avı refleksi burada da durur. Bir sonraki derste Gmail Gemini ve Outlook Copilot ile aynı ritüeli yerinde basacağız. Çıktı aksiyon listesidir: kim, ne, ne zaman. İnsan onayı olmadan kutu sıfırlanmaz.
 
-## El kitabı (kasetin sığdırmadığı)
+## El kitabı (sesin sığdırmadığı)
 
 ### Lisans yoksa ne yapılır?
 Outlook Copilot yoksa ritüeli Gmail Gemini’ye taşı. Gemini eklentisi de yoksa iletiyi dış sohbete taşıma; bir sonraki derste bunun neden atlanmış kapı olduğunu göreceksin. Son çare 3. Kapı: isim ve hesap maskeli, üç satırlık özet. Konu satırı ve tek cümle talep yeter.

@@ -17,15 +17,15 @@ import {
  * Bake sonrası süre değişirse bu tabloyu güncelle. Taze ingest bekler.
  */
 export const ACADEMY_SEALED_AUDIO_DURATION_SEC: Readonly<Record<string, number>> = {
-  "01_office_ai-1": 663,
-  "01_office_ai-2": 553,
-  "01_office_ai-3": 576,
+  "01_office_ai-1": 689,
+  "01_office_ai-2": 517,
+  "01_office_ai-3": 542,
   "01_office_ai-4": 494,
-  "01_office_ai-5": 564,
-  "01_office_ai-6": 444,
-  "01_office_ai-g1": 450,
-  "01_office_ai-w1": 608,
-  "01_office_ai-k1": 669,
+  "01_office_ai-5": 553,
+  "01_office_ai-6": 506,
+  "01_office_ai-g1": 568,
+  "01_office_ai-w1": 563,
+  "01_office_ai-k1": 642,
 };
 
 type AcademySealedLessonKey = keyof typeof ACADEMY_SEALED_AUDIO_DURATION_SEC;
@@ -40,7 +40,7 @@ export const ACADEMY_SEALED_AUDIO_EXTENSION = "mp3" as const;
 export const ACADEMY_SEALED_AUDIO_MIME = "audio/mpeg" as const;
 /** Lyria 3.5 dip müzik — mühürlü bed; izlemede canlı üretim yok. */
 export const ACADEMY_SEALED_BED_EXTENSION = "bed.mp3" as const;
-export const ACADEMY_SEALED_BED_LESSON_KEYS = ["01_office_ai-1", "01_office_ai-2", "01_office_ai-3", "01_office_ai-4", "01_office_ai-5", "01_office_ai-6", "01_office_ai-g1", "01_office_ai-w1", "01_office_ai-k1"] as const;
+export const ACADEMY_SEALED_BED_LESSON_KEYS = ["01_office_ai-1", "01_office_ai-2", "01_office_ai-3", "01_office_ai-5", "01_office_ai-6", "01_office_ai-g1", "01_office_ai-w1", "01_office_ai-k1"] as const;
 
 /** 01_office_ai-2/3/4/5/6/g1/w1/k1 Lyria kaseti 1. ders bed’ini reuse eder — yeni Lyria çağrısı yok. */
 function academyLessonBedAssetKey(lessonKey: string): string {

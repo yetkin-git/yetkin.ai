@@ -9,12 +9,12 @@ import {
 } from "@/lib/academy/lesson-exams";
 
 /**
- * TEDAVİ-01 — vatandaş kapanış cümlesi + baraj sabiti + yasaklı jargon.
+ * TEDAVİ-01 — kapanış cümlesi yalnız 9. derste; 1–8 ürün uyarısı taşımaz.
  * Mühürlü kaset (TTS) değişmez; yalnız compact makale ve ölçme metni kilitlenir.
  */
 const LAST_LESSON_KEY = "01_office_ai-6";
 const PENDING_EXAM_SENTENCE =
-  `Sınav, 9. ders bitince açılır. Baraj ${ACADEMY_EXAM_PASS_SCORE} puandır.`;
+  `Sınav, 8. ders bitince açılır. Baraj ${ACADEMY_EXAM_PASS_SCORE} puandır.`;
 const OPENED_EXAM_SENTENCE =
   `Sınav şimdi açıldı. Baraj ${ACADEMY_EXAM_PASS_SCORE} puandır.`;
 
@@ -38,10 +38,10 @@ function officeAiLessonKey(section: { lessonKey?: string }): string {
 }
 
 describe("sınav cümle standardı — 9 ders kapanışı", () => {
-  it("ders 1–8 bekleyen kapıyı, kapanış dersi açık kapıyı basar", () => {
-    expect(officeAiSections).toHaveLength(9);
+  it("ders 1–8 ürün uyarısını taşımaz; kapanış dersi açık kapıyı basar", () => {
+    expect(officeAiSections).toHaveLength(8);
     const lessons = curriculumForCourseSlug("01_office_ai");
-    expect(lessons).toHaveLength(9);
+    expect(lessons).toHaveLength(8);
 
     for (const section of officeAiSections) {
       const lesson = lessons.find((row) => row.key === section.lessonKey);
@@ -54,27 +54,32 @@ describe("sınav cümle standardı — 9 ders kapanışı", () => {
         if (section.lessonKey === LAST_LESSON_KEY) {
           expect(text, `${section.lessonKey}:${label}`).toContain(OPENED_EXAM_SENTENCE);
           expect(text, `${section.lessonKey}:${label}`).not.toContain(
-            "Sınav, 9. ders bitince açılır.",
+            "Sınav, 8. ders bitince açılır.",
           );
         } else {
-          expect(text, `${section.lessonKey}:${label}`).toContain(PENDING_EXAM_SENTENCE);
+          expect(text, `${section.lessonKey}:${label}`).not.toContain(PENDING_EXAM_SENTENCE);
           expect(text, `${section.lessonKey}:${label}`).not.toContain("Sınav şimdi açıldı.");
+          expect(text, `${section.lessonKey}:${label}`).not.toMatch(/Sınav henüz kapalıdır/u);
         }
       }
     }
   });
 
-  it("ders gövdesindeki baraj puanı ACADEMY_EXAM_PASS_SCORE ile örtüşür", () => {
+  it("baraj puanı yalnız kapanış dersinin gövdesinde durur ve ACADEMY_EXAM_PASS_SCORE ile örtüşür", () => {
     expect(ACADEMY_LESSON_EXAM_PASS_SCORE).toBe(ACADEMY_EXAM_PASS_SCORE);
     const barajNumber = new RegExp(String.raw`Baraj\s+(\d+)`, "gu");
     for (const section of officeAiSections) {
       const blob = `${section.contentMarkdown}\n${section.pedagogicalObjective}`;
       const hits = [...blob.matchAll(barajNumber)];
-      expect(hits.length, section.lessonKey).toBeGreaterThan(0);
-      for (const hit of hits) {
-        expect(Number(hit[1]), `${section.lessonKey}:${hit[0]}`).toBe(
-          ACADEMY_EXAM_PASS_SCORE,
-        );
+      if (section.lessonKey === LAST_LESSON_KEY) {
+        expect(hits.length, section.lessonKey).toBeGreaterThan(0);
+        for (const hit of hits) {
+          expect(Number(hit[1]), `${section.lessonKey}:${hit[0]}`).toBe(
+            ACADEMY_EXAM_PASS_SCORE,
+          );
+        }
+      } else {
+        expect(hits, section.lessonKey).toEqual([]);
       }
       const exam = loadAcademyLessonExam(officeAiLessonKey(section));
       expect(exam?.passScore, section.lessonKey).toBe(ACADEMY_EXAM_PASS_SCORE);
@@ -204,7 +209,7 @@ describe("Office AI vatandaş lisanı — yasaklı jargon kilidi", () => {
     expect(citizenExamSurface(pool.q_off_10!)).toMatch(/kaynak hücreden/u);
     expect(citizenExamSurface(pool.q_off_10!)).not.toMatch(/evrattan|evraktan/u);
     expect(citizenExamSurface(pool.q_off_11!)).toMatch(/kaynak hücreden veya TOPLA/u);
-    expect(citizenExamSurface(pool.q_off_13!)).toMatch(/Format ve kısıt/u);
+    expect(citizenExamSurface(pool.q_off_13!)).toMatch(/Biçim ve kısıt/u);
     expect(citizenExamSurface(pool.q_off_18!)).toMatch(/yönetim özeti/u);
     expect(citizenExamSurface(pool.q_off_18!)).toMatch(/yazarsın/u);
     expect(citizenExamSurface(pool.q_off_18!)).toMatch(/finans müdürü/u);
@@ -370,7 +375,7 @@ describe("Office AI vatandaş lisanı — yasaklı jargon kilidi", () => {
     expect(blob).toMatch(/açık istem/u);
     expect(blob).toMatch(/denetim istemi/u);
     expect(blob).toMatch(/İsteminde bu farkı/u);
-    expect(blob).toMatch(/dedektife çevirirsin/u);
+    expect(blob).toMatch(/kontrole çevirirsin/u);
     expect(blob).toMatch(/İkinci satır Demir Lojistik 17\.300/u);
     expect(blob).toMatch(/uydurma \(teknik adıyla halüsinasyon\)/u);
     expect(blob).toMatch(/yapay zekâ çıktısına/iu);
@@ -428,14 +433,12 @@ describe("Office AI vatandaş lisanı — yasaklı jargon kilidi", () => {
 
   it("Ders 6 compact makale vatandaş lisanı taşır (istem / gelen kutusu / KUTU KAOSU)", () => {
     const sixth = officeAiSections[5];
-    expect(sixth?.lessonKey).toBe("01_office_ai-4");
+    expect(sixth?.lessonKey).toBe("01_office_ai-g1");
     const blob = `${sixth!.contentMarkdown}\n${sixth!.pedagogicalObjective}`;
-    expect(blob).toMatch(/istemi panele nasıl yazacağını/u);
     expect(blob).toMatch(/e-posta triyajı/u);
-    expect(blob).toMatch(/gelen kutusu/u);
-    expect(blob).toMatch(/KUTU KAOSU/u);
-    expect(blob).toMatch(/bir sonraki derste/u);
-    expect(blob).toMatch(/sıfır kutu/u);
+    expect(blob).toMatch(/gelen kutu/u);
+    expect(blob).toMatch(/ilk iki dakika/u);
+    expect(blob).toMatch(/etiket, taslak, insan onayı ve arşiv/u);
     expect(blob).not.toMatch(/\bkomut/u);
     expect(blob).not.toMatch(/yapıştıracağını/u);
     expect(blob).not.toMatch(/G1 dersinde/u);
@@ -446,7 +449,7 @@ describe("Office AI vatandaş lisanı — yasaklı jargon kilidi", () => {
   });
 
   it("Teknik Ders 6 compact makale karar cümlesi ve FARK başlığı taşır", () => {
-    const friday = officeAiSections[8];
+    const friday = officeAiSections[7];
     expect(friday?.lessonKey).toBe("01_office_ai-6");
     const blob = `${friday!.contentMarkdown}\n${friday!.pedagogicalObjective}`;
     expect(blob).toMatch(/karar cümlesi/u);
@@ -458,6 +461,8 @@ describe("Office AI vatandaş lisanı — yasaklı jargon kilidi", () => {
     expect(blob).not.toMatch(/yeni sayfa/u);
     expect(blob).toMatch(/Üç Kapı yığılırsa/u);
     expect(blob).toMatch(/satın alma kartı basmaz/u);
+    expect(blob).not.toMatch(/A1 eşiği/u);
+    expect(blob).toMatch(/A1 kuralını kontrol et/u);
   });
 
   it("Ders 9 mini sınav SEN dili, Tabloyu ve dış sohbet taşır", () => {
@@ -520,12 +525,13 @@ describe("Office AI vatandaş lisanı — yasaklı jargon kilidi", () => {
   });
 
   it("Ders 7 compact makale vatandaş lisanı taşır (istem / ileti / panel)", () => {
-    const seventh = officeAiSections[6];
+    const seventh = officeAiSections[5];
     expect(seventh?.lessonKey).toBe("01_office_ai-g1");
     const blob = `${seventh!.contentMarkdown}\n${seventh!.pedagogicalObjective}`;
     expect(blob).toMatch(/İstem kutusunda duran istem/u);
     expect(blob).toMatch(/iletiyi ChatGPT/u);
-    expect(blob).toMatch(/Gemini panelini aç/u);
+    expect(blob).toMatch(/birinci kapıdır/u);
+    expect(blob).toMatch(/yerleşik yapay zekâ/u);
     expect(blob).toMatch(/kopyalıyorsun/u);
     expect(blob).toMatch(/yazıyorsun/u);
     expect(blob).toMatch(/göreceksin/u);
@@ -579,7 +585,7 @@ describe("Office AI vatandaş lisanı — yasaklı jargon kilidi", () => {
   });
 
   it("Ders 8 compact makale vatandaş lisanı taşır (istem / belge / yazıyorsun)", () => {
-    const eighth = officeAiSections[7];
+    const eighth = officeAiSections[6];
     expect(eighth?.lessonKey).toBe("01_office_ai-w1");
     const blob = `${eighth!.contentMarkdown}\n${eighth!.pedagogicalObjective}`;
     expect(blob).toMatch(/Word ve uzun belge incelemesi/u);
@@ -587,7 +593,9 @@ describe("Office AI vatandaş lisanı — yasaklı jargon kilidi", () => {
     expect(blob).toMatch(/yazıyorsun/u);
     expect(blob).toMatch(/Dosya adını pratikte kendi dosyanla değiştir/u);
     expect(blob).toMatch(/İstem dosyanın bütününe gider/u);
-    expect(blob).toMatch(/Gemini yoksa aynı dosyayı ChatGPT veya Claude'a yüklersin/u);
+    expect(blob).toMatch(
+      /Gemini yoksa aynı dosyayı sohbet yapay zekâsına \(ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb\.\) yüklersin/u,
+    );
     expect(blob).toMatch(/Örnek oran|kendi oranını dosyandan oku|Gizlilik sayfa on sekizdedir/u);
     expect(blob).not.toMatch(/\bkomut/u);
     expect(blob).not.toMatch(/doküman/iu);

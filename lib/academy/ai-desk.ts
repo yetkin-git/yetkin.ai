@@ -16,9 +16,13 @@ export const ACADEMY_AI_DESK_ATTACH = "Ataş" as const;
 export const ACADEMY_AI_DESK_INSTRUCTOR_LINE =
   "Gmail’de sağdaki Gemini panelini aç. Word veya Excel dosyasını sohbete ataş ile yükle. Masaüstü Outlook’ta lisansın yoksa 1. kapı kapanır; 2. kapı ataş, 3. kapı maskeli kısa yapıştırmadır." as const;
 
-/** Word / Excel: dosya Gemini veya ChatGPT sohbetine doğrudan yüklenir. PEDAGOJI §E.9. */
+/** Excel 1. Kapı SSOT — lisans varsa şerit, yoksa ataş; ikisi de geçerli yol. PEDAGOJI §E.2. */
+export const ACADEMY_INFRA_EXCEL_DOOR_LINE =
+  "Lisans varsa Copilot şeridi, yoksa ataş yöntemi kullanılır; her ikisi de geçerli yoldur." as const;
+
+/** Word ataş + Excel çift yol. PEDAGOJI §E.9. */
 export const ACADEMY_INFRA_EXCEL_WORD_LINE =
-  "Word ve Excel dosyasını Gemini veya ChatGPT sohbetine doğrudan ataş ile yükleyebilirsin." as const;
+  "Excel’de lisans varsa Copilot şeridinden okutursun; yoksa Word veya Excel dosyasını sohbet yapay zekâsına (ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb.) doğrudan ataş ile yükleyebilirsin. Her iki yol da geçerlidir." as const;
 
 /** Outlook: Copilot lisansı olmadan canlı kutu okunmaz. 3. kapı maskeli kısa yapıştırmadır. */
 export const ACADEMY_INFRA_OUTLOOK_LINE =
@@ -35,7 +39,7 @@ export const ACADEMY_INFRA_TOOL_MATCH = {
   outlook: "Copilot",
   gmail: "Gemini",
   word: "Doğrudan Dosya Yükleme",
-  excel: "Doğrudan Dosya Yükleme",
+  excel: ACADEMY_INFRA_EXCEL_DOOR_LINE,
   pptx: "Copilot",
 } as const;
 

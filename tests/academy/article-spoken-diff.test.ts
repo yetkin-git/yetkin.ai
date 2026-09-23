@@ -12,7 +12,7 @@ import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import { loadAcademySpokenScriptRawMarkdown } from "@/lib/academy/spoken-scripts";
 
 const LAST_LESSON_KEY = "01_office_ai-6";
-const PENDING_EXAM_SENTENCE = `Sınav, 9. ders bitince açılır. Baraj ${ACADEMY_EXAM_PASS_SCORE} puandır.`;
+const PENDING_EXAM_SENTENCE = `Sınav, 8. ders bitince açılır. Baraj ${ACADEMY_EXAM_PASS_SCORE} puandır.`;
 const OPENED_EXAM_SENTENCE = `Sınav şimdi açıldı. Baraj ${ACADEMY_EXAM_PASS_SCORE} puandır.`;
 
 function officeAiLessonKey(section: { lessonKey?: string }): string {
@@ -25,7 +25,7 @@ function officeAiLessonKey(section: { lessonKey?: string }): string {
 
 describe("01_office_ai kaset hizası — compact makale ↔ konuşma metni", () => {
   it("dokuz mühürlü dersin kaset şeridi konuşma metniyle Jaccard tabanını geçer", () => {
-    expect(officeAiSections).toHaveLength(9);
+    expect(officeAiSections).toHaveLength(8);
     for (const section of officeAiSections) {
       const lessonKey = officeAiLessonKey(section);
       const spoken = loadAcademySpokenScriptRawMarkdown(lessonKey);
@@ -71,7 +71,7 @@ describe("01_office_ai kaset hizası — compact makale ↔ konuşma metni", () 
       expect(spokenProse, lessonKey).toMatch(ACADEMY_CASSETTE_GAIN_SENTENCE);
       if (lessonKey === LAST_LESSON_KEY) {
         expect(spokenProse).toContain(OPENED_EXAM_SENTENCE);
-        expect(spokenProse).not.toContain("Sınav, 9. ders bitince açılır.");
+        expect(spokenProse).not.toContain("Sınav, 8. ders bitince açılır.");
       } else {
         expect(spokenProse).toContain(PENDING_EXAM_SENTENCE);
         expect(spokenProse).not.toContain("Sınav şimdi açıldı.");

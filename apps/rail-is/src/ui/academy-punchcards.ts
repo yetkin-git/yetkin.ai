@@ -24,6 +24,7 @@ import officeAiK1Timings from "../../../../lib/academy/lesson-audio-timings/01_o
 import {
   ACADEMY_PUNCHCARD_MAX_WORDS,
   ACADEMY_WELCOME_PUNCHCARD_MAX_SEC,
+  academyCitizenPunchcardLabel,
   punchcardLabelFromText,
   punchcardsFromSealedJson,
   type SealedPunchcard,
@@ -84,7 +85,7 @@ const PUNCHCARDS_BY_LESSON: Readonly<Record<string, readonly DronAcademyPunchcar
 };
 
 export function dronPunchcardLabel(text: string): string {
-  return punchcardLabelFromText(text, DRON_PUNCHCARD_MAX_WORDS);
+  return academyCitizenPunchcardLabel(punchcardLabelFromText(text, DRON_PUNCHCARD_MAX_WORDS));
 }
 
 export function dronAcademyPunchcardsForLesson(lessonKey: string): readonly DronAcademyPunchcard[] {

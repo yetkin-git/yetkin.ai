@@ -163,6 +163,7 @@ export const ACADEMY_SPEECH_ACRONYM_EXPANSIONS = {
   DWH: "Veri Ambarı (DWH)",
   dbt: "Veri Dönüştürme Aracı (dbt)",
   DAG: "Yönlü Devirsel Olmayan Graf (DAG)",
+  /** Apache Spark. «Muse Spark» / «Myuz Spark» marka adıdır; aşağıdaki kilit açmaz. */
   Spark: "Kıvılcım Veri İşleme Motoru (Spark)",
   Airflow: "Hava Akışı Orkestratörü (Airflow)",
   Databricks: "Veri Tuğlaları Platformu (Databricks)",
@@ -211,8 +212,16 @@ export function normalizeAcronyms(text: string): string {
   );
   for (const [acronym, expansion] of entries) {
     const escaped = acronym.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    /** Vatandaş L1: «özel API» / TTS fonetiği «ö zel API» uzun açılım okunmaz. */
-    const citizenLock = acronym === "API" ? "(?<!(?:özel|zel)\\s+)" : "";
+    /**
+     * «özel API» / «ö zel API» uzun açılım okunmaz.
+     * «Muse Spark» ve fonetik «Myuz Spark» Apache Spark değildir; kıvılcım açılımı yutulmaz.
+     */
+    const citizenLock =
+      acronym === "API"
+        ? "(?<!(?:özel|zel)\\s+)"
+        : acronym === "Spark"
+          ? "(?<!(?:Muse|Myuz|Muz)\\s+)"
+          : "";
     const pattern = new RegExp(`(?<![.\\p{L}(])${citizenLock}${escaped}(?!\\p{L}|\\s*\\()`, "giu");
     out = out.replace(pattern, expansion);
   }

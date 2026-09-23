@@ -42,6 +42,7 @@ const TEKIL_BECERI_PREFIXES: readonly string[] = [];
 const MODULE_CODE_BY_SLUG: Record<string, string> = {
   "01_office_ai": "OFF-101",
   "office-ai": "OFF-101",
+  "01_office_ai_ileri": "OFF-201",
   "02_ecommerce_ai": "EC-102",
   "03_social_media_ai": "SM-103",
   "04_chatbot_nocode": "BOT-104",
@@ -67,7 +68,7 @@ const LEVEL_CODE: Record<string, string> = {
   Masterclass: "MC",
 };
 
-/** Kart SKU — PEDAGOJI §D.1 vitrin sırası OFF-101 / EC-102 / SM-103 / BOT-104 / PR-105; katman 2 N8N-201. */
+/** Kart SKU — PEDAGOJI §D.1 vitrin sırası OFF-101 / EC-102 / SM-103 / BOT-104 / PR-105; katman 2 N8N-201. İleri ofis taslağı OFF-201 (İleri seviye yedek kodu 103 değildir; Büyüme Beşlisi’ne girmez). */
 export function academyModuleCodeBySlug(slug: string): string | null {
   const explicit = MODULE_CODE_BY_SLUG[slug];
   if (explicit) {
@@ -101,15 +102,18 @@ const MODULE_PREFIX_SPOKEN: Record<string, string> = {
   GV: "Yönetişim",
 };
 
-const MODULE_LEVEL_SPOKEN: Record<string, string> = {
+export const ACADEMY_MODULE_LEVEL_SPOKEN = {
   "101": "yüz bir",
   "102": "yüz iki",
   "103": "yüz üç",
   "104": "yüz dört",
   "105": "yüz beş",
+  "201": "iki yüz bir",
   MC: "usta sınıfı",
   "100": "yüz",
-};
+} as const;
+
+export type AcademyModuleLevelSpokenKey = keyof typeof ACADEMY_MODULE_LEVEL_SPOKEN;
 
 export function academySpokenModuleCode(slug: string): string | null {
   const code = academyModuleCodeBySlug(slug);
@@ -120,7 +124,9 @@ export function academySpokenModuleCode(slug: string): string | null {
   const prefix = dash === -1 ? code : code.slice(0, dash);
   const rest = dash === -1 ? "" : code.slice(dash + 1);
   const spokenPrefix = MODULE_PREFIX_SPOKEN[prefix] ?? prefix;
-  const spokenRest = rest ? (MODULE_LEVEL_SPOKEN[rest] ?? rest) : "";
+  const spokenRest = rest
+    ? (ACADEMY_MODULE_LEVEL_SPOKEN[rest as AcademyModuleLevelSpokenKey] ?? rest)
+    : "";
   return spokenRest ? `${spokenPrefix} ${spokenRest}` : spokenPrefix;
 }
 

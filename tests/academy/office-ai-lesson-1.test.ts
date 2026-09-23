@@ -51,8 +51,8 @@ const PUNCHCARDS = [
 describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
   it("makale Gözde girişi, A1 hücresi ve insani veda taşır", () => {
     const lessons = curriculumForCourseSlug(SLUG);
-    expect(lessons).toHaveLength(9);
-    expect(officeAiMasteryModule.sections).toHaveLength(9);
+    expect(lessons).toHaveLength(8);
+    expect(officeAiMasteryModule.sections).toHaveLength(8);
     expect(officeAiMasteryModule.voiceConfig.voice).toBe("Callirrhoe");
     const lesson = lessons.find((row) => row.key === KEY)!;
     expect(lesson.key).toBe(KEY);
@@ -68,6 +68,9 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(lesson.body).toMatch(/kimliği gizlenmiş örnek tablo/u);
     expect(lesson.body).not.toMatch(/anonimize/u);
     expect(lesson.body).toMatch(/Copilot varsa Copilot düğmesinden doğrudan okut; yoksa dosyayı ataş ile yükle\. \(Kişisel verileri maskeleme kuralını 2\. derste kilitleyeceğiz\.\)/u);
+    expect(lesson.body).toMatch(
+      /Copilot düğmesi varsa Excel dosyanın içindeki hücreleri doğrudan düzenler\. Copilot'ın yoksa dosyayı ataşla sohbete yüklersin; yapay zekâ orijinal dosyanı değiştiremez, ancak sana verileri temizlenmiş yepyeni bir tablo verir\. Sen de o tabloyu kopyalar, Excel'ine yapıştırırsın\./u,
+    );
     expect(lesson.body).not.toMatch(/A1 eşiği/u);
     expect(lesson.body).not.toMatch(/A1 hijyen/u);
     expect(lesson.body).not.toMatch(/kiracı/u);
@@ -108,6 +111,8 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(prose).toMatch(/kimliği gizlenmiş örnek tablo/u);
     expect(prose).not.toMatch(/anonimize/u);
     expect(prose).toMatch(/Kişisel verileri maskeleme kuralını 2\. derste kilitleyeceğiz/u);
+    expect(prose).toMatch(/orijinal dosyanı değiştiremez/u);
+    expect(prose).toMatch(/yepyeni bir tablo/u);
     expect(prose).not.toMatch(/masaüstünde duran ya da sana yakın zamanda gönderilmiş/u);
     expect(prose).not.toMatch(/grafik raporuna/u);
     expect(prose).not.toMatch(/görüşmek üzere/u);

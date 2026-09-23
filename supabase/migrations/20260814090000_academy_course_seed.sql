@@ -75,7 +75,7 @@ VALUES
     'ac_01_office_ai',
     '01_office_ai',
     'İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Verimliliği)',
-    'Office AI eğitimi — iş hayatında yapay zekâ: Excel Gemini kullanımı, Word ataş ile belge analizi, KVKK maskeleme, slayt, Gmail ve Cuma 30 rutini.',
+    'İş hayatında yapay zekâ: Excel Copilot ve Ataş Yöntemi, A1 Düzeni ve Temiz Veri, yönetim özetine dönüştürme, Gmail''de yerleşik Gemini, Word belgesi inceleme, KVKK maskeleme ve haftalık Cuma rutini. Mühür: 8 ders + 10 soru / 70. Sunucuda dosya kontrolü yok.',
     'course:01_office_ai',
     1,
     1,

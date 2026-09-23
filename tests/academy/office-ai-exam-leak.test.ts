@@ -11,7 +11,6 @@ const LESSON_KEYS = [
   "01_office_ai-1",
   "01_office_ai-2",
   "01_office_ai-3",
-  "01_office_ai-4",
   "01_office_ai-5",
   "01_office_ai-6",
   "01_office_ai-g1",
@@ -22,7 +21,7 @@ const LESSON_KEYS = [
 describe("01_office_ai ölçme sızıntısı — compact makale ve mühür havuzu", () => {
   it("Tam Ders Metni Mini sınav ve kalın doğru şık basmaz", () => {
     const lessons = curriculumForCourseSlug(SLUG);
-    expect(lessons).toHaveLength(9);
+    expect(lessons).toHaveLength(8);
     for (const lesson of lessons) {
       expect(lesson.body, lesson.key).not.toMatch(/## Mini sınav/u);
       expect(lesson.body, lesson.key).not.toMatch(/^- \*\*.+\*\*$/mu);

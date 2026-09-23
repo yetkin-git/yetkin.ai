@@ -195,17 +195,22 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).toContain("Yerleşik araç eşleşmesi");
     expect(pedagogy).toContain("Outlook → Copilot");
     expect(pedagogy).toContain("Gmail → Gemini");
-    expect(pedagogy).toContain("Word/Excel → Doğrudan Dosya Yükleme");
+    expect(pedagogy).toContain("Excel → Lisans varsa Copilot şeridi, yoksa ataş (her ikisi de geçerli yol)");
+    expect(pedagogy).toContain("Word → Doğrudan Dosya Yükleme");
     expect(pedagogy).toContain("Üç Kapı yalnız aktarım yöntemidir");
     expect(pedagogy).toContain("Güvenlik sınıfı ayrı eksendir");
     expect(pedagogy).toContain("Son çare");
     expect(pedagogy).toContain("Harf harf yazma dayatması yoktur");
     expect(pedagogy).toContain("Ders adedi Pedagoji kotası değildir");
+    expect(pedagogy).toContain("Ders adedi ve süre tavanı bir kota değildir");
+    expect(pedagogy).toContain("Çekirdek müfredat konunun hakkını bitirene kadar uzar");
+    expect(pedagogy).not.toContain("Çekirdek 9 ders kilitlidir");
+    expect(pedagogy).not.toContain("Aptala Anlatır");
     expect(pedagogy).not.toContain("TAŞIMA SU YASAĞI");
     expect(pedagogy).toContain("MASAÜSTÜ DÜRÜSTLÜĞÜ");
     expect(pedagogy).not.toContain("Sıfır Kopyala-Yapıştır");
     expect(pedagogy).toContain("Copilot (1. Kapı)");
-    expect(pedagogy).toContain("ChatGPT / Claude");
+    expect(pedagogy).toContain("Sohbet yapay zekâları (ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb.)");
     expect(pedagogy).toContain("Soyut «AI Masası» paneli **KESİNLİKLE YASAKTIR**");
     expect(pedagogy).toContain("ChatGPT, Claude, Gemini");
     expect(pedagogy).toContain("ÖNCE (DÜZENLEMESİZ)");
@@ -218,7 +223,7 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).not.toContain("Vitrin cümlesi video vaadi taşımaz.");
     expect(pedagogy).not.toContain("gelecek müfredatın anayasa maddesidir");
     expect(readFileSync(join(ROOT, ".system_docs", "README.md"), "utf8")).toContain(
-      "Akademi mühürlü yayın **9**",
+      "Akademi mühürlü yayın **8**",
     );
     expect(readFileSync(join(ROOT, ".system_docs", "README.md"), "utf8")).not.toContain(
       "Akademi mühürlü WAV **18**",
@@ -227,6 +232,9 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     const constitution = readFileSync(join(ROOT, ".system_docs", "ANAYASA.md"), "utf8");
     expect(constitution).toContain("Yayın = makale + mühürlü karaoke");
     expect(constitution).toContain("sayılar ve müfredat koddadır");
+    expect(constitution).toContain(
+      "Süre bantları üretim standardıdır; müfredatın hakkını kesmek için gerekçe gösterilemez.",
+    );
     expect(constitution).not.toContain("Mühürlü ders sayısı depo gerçeğidir: **5**");
     expect(constitution).not.toContain("PEDAGOJI.md` §F");
 
@@ -235,7 +243,7 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     const durum = readFileSync(join(ROOT, "docs", "DURUM.md"), "utf8");
     expect(durum).toContain("Sınav yolu");
     expect(durum).toContain("Mühürlü kaset");
-    expect(durum).toContain("9/9");
+    expect(durum).toContain("8/8");
     expect(durum).not.toContain("Makale / Okuma Metni");
     expect(durum).toContain("PayTR canlı tanık");
     expect(durum).toContain("P0-1 Canlı Nakit Tanığı Başarıyla Alındı — PayTR CLEARED Teyit Edildi (18 Eylül 2026)");
@@ -247,7 +255,7 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(durum).toContain("publishFrozenUntilFaz1Close: false");
 
     const runbook = readFileSync(join(ROOT, ".system_docs", "OPS_RUNBOOK.md"), "utf8");
-    expect(runbook).toContain("Akademi mühürlü yayın **9**");
+    expect(runbook).toContain("Akademi mühürlü yayın **8**");
     expect(runbook).toContain("01_office_ai-1");
     expect(runbook).toContain("ops/ops-db.md");
     const opsDb = readFileSync(join(ROOT, ".system_docs", "ops", "ops-db.md"), "utf8");
@@ -282,7 +290,7 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     const opsDurum = readFileSync(join(ROOT, "docs", "ops", "DURUM.md"), "utf8");
     const durum = readFileSync(join(ROOT, "docs", "DURUM.md"), "utf8");
     const keys = curriculumLessonKeysForSlug("01_office_ai");
-    expect(keys).toHaveLength(9);
+    expect(keys).toHaveLength(8);
     for (const lessonKey of keys) {
       const timings = loadAcademySealedAudioTimings(lessonKey);
       expect(timings?.durationSec, lessonKey).toBeGreaterThan(0);
@@ -295,7 +303,7 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     }
     expect(opsDurum).toContain("01_office_ai-2");
     expect(durum).toContain("01_office_ai-2");
-    expect(opsDurum).toContain("1 → k1 → 2 → 3 → 5 → 4 → g1 → w1 → 6");
-    expect(durum).toContain("1 → k1 → 2 → 3 → 5 → 4 → g1 → w1 → 6");
+    expect(opsDurum).toContain("1 → k1 → 2 → 3 → 5 → g1 → w1 → 6");
+    expect(durum).toContain("1 → k1 → 2 → 3 → 5 → g1 → w1 → 6");
   });
 });

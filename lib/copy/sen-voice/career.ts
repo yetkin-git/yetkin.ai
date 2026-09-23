@@ -12,7 +12,7 @@ export const CAREER_SEN = {
   proofsTitle: "Pasaport Vize Damgası",
   visasTitle: "Pasaport Vize Damgaları",
   proofEmpty:
-    "Henüz bir Pasaport Vize Damgan yok. Akademi'de 9 dersi bitir, testi 70+ ile geç; mühürlü sertifikan burada görünür. Satın alma tek başına damga basmaz.",
+    "Henüz bir Pasaport Vize Damgan yok. Akademi'de 8 dersi bitir, testi 70+ ile geç; mühürlü sertifikan burada görünür. Satın alma tek başına damga basmaz.",
   academyCta: "Akademiye git",
   freelancerCta: "Freelancer'a git",
   passportCta: "Pasaport",
@@ -32,7 +32,7 @@ export const CAREER_SEN = {
   copied: "Kopyalandı",
   copyFail: "Kopyalanamadı",
   footnote:
-    "Pasaport Vize Damgası yalnız Akademi müfredat sınavından türer: 9 ders tamam + baraj 70. Elle basılmaz. Pasaport listeler; damgayı Kariyer basar. İptal edilmiş Akademi belgesi burada görünmez. Hedef rol, yetenek haritası veya mülakat oyunu yok.",
+    "Pasaport Vize Damgası yalnız Akademi müfredat sınavından türer: 8 ders tamam + baraj 70. Elle basılmaz. Pasaport listeler; damgayı Kariyer basar. İptal edilmiş Akademi belgesi burada görünmez. Hedef rol, yetenek haritası veya mülakat oyunu yok.",
   footnotePassportCta: "Pasaportu aç",
   footnoteVerifyCta: "Sertifika doğrula",
   footnoteAcademyCta: "Akademiye git",
@@ -44,12 +44,12 @@ export const CAREER_SEN = {
   scope: {
     eyebrow: "Teklif Kapısı",
     title: "Teklif Kapısı",
-    lead: "Kapı, ilgili Akademi SKU’sunun 9 dersi bitirilip sınav 70+ geçilince açılır. Satın alma belge basmaz. Açık kapıda üç hak doğar: doğrulanmış işveren ağına görünürlük, liyakat mühürlü özgeçmiş bağlantısı ve proje kanıt dosyası.",
+    lead: "Kapı, ilgili Akademi SKU’sunun 8 dersi bitirilip sınav 70+ geçilince açılır. Satın alma belge basmaz. Açık kapıda üç hak doğar: doğrulanmış işveren ağına görünürlük, liyakat mühürlü özgeçmiş bağlantısı ve proje kanıt dosyası.",
     open: "Erişim Hakkı açık",
     closed: "Erişim Hakkı kapalı",
     held: "Sınav mühürlü",
     missing: "Sınav bekleniyor",
-    examGate: "9 ders + baraj 70",
+    examGate: "8 ders + baraj 70",
     benefitEmployer: "Doğrulanmış İşveren Ağına Görünürlük",
     benefitEmployerBody:
       "Açık kapı, bu SKU’nun müfredat sınavını (≥70) geçince o uzmanlık ilanında teklif hakkını taşır. İşveren senin mühür kartını oturumsuz görür.",

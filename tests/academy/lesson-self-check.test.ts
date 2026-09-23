@@ -12,7 +12,7 @@ const ROOT = process.cwd();
 describe("ders sonu kendini dene — notsuz 3 soru", () => {
   it("9 ders mini sınavı oynatıcıya bağlıdır; mühür havuzuna karışmaz", () => {
     const keys = curriculumLessonKeysForSlug(SLUG);
-    expect(keys).toHaveLength(9);
+    expect(keys).toHaveLength(8);
     for (const key of keys) {
       const exam = loadAcademyLessonExam(key);
       expect(exam, key).not.toBeNull();

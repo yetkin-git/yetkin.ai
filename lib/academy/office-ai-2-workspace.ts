@@ -1,5 +1,5 @@
 /**
- * 01_office_ai-2 (vatandaş 3. ders) — Rapor Otomasyonu Excel ızgara SSOT.
+ * 01_office_ai-2 (vatandaş 3. ders) — Tablodan yönetim özetine Excel ızgara SSOT.
  * Yaprak modül: cinema-cue-catalog buradan okur; excel-workspace yeniden dışa aktarır.
  * PEDAGOJI: ses «onlarca sütun / kaydırdıkça bitmeyen tablo» derken ekran küçük 5×6 göstermez.
  */

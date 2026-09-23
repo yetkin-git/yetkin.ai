@@ -157,7 +157,7 @@ export const OFFICE_AI_EXAM_QUESTIONS: AcademyExamQuestion[] = [
     "Yapay zekâya 'bana bir rapor yaz' demek neden zayıf bir istemdir?",
     [
       "Çünkü yapay zekâ Türkçe anlamaz",
-      "Çünkü alıcı, amaç, Format ve kısıt yoksa masadaki asistan genel geçer metin üretir",
+      "Çünkü alıcı, amaç, Biçim ve kısıt yoksa masadaki asistan genel geçer metin üretir",
       "Çünkü rapor ancak Excel'de yazılır",
       "Çünkü istem her zaman en az 2000 kelime olmalıdır",
     ],

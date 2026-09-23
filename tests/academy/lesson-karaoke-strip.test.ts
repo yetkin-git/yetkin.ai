@@ -32,7 +32,7 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
       return;
     }
     const flow = loadAcademyTeleprompterFlow(KEY);
-    expect(flow.length).toBe(15);
+    expect(flow.length).toBe(16);
     const strip = loadAcademyKaraokeStrip(KEY);
     expect(strip.length).toBeGreaterThan(flow.length);
     expect(strip[0]?.text).toMatch(/masanın üstünde|yapay zekâ|dosyalar/iu);
@@ -89,7 +89,7 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     expect(bridgeLines.every((line) => line.cueId === "cue-08")).toBe(true);
     expect(bridgeLines[0]?.start).toBeGreaterThan(450);
     expect(bridgeLines.at(-1)?.end).toBeGreaterThan(650);
-    expect(strip.at(-1)?.end).toBe(662.56);
+    expect(strip.at(-1)?.end).toBe(688.68);
     for (const line of bridgeLines) {
       const words = academyKaraokeWords(line);
       expect(academyKaraokeWordState(words[0]!, line.start)).toBe("active");

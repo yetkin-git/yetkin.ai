@@ -269,7 +269,7 @@ export function buildAcademyTeleprompterFlow(
         id: `${cue.id}:${index}`,
         cueId: cue.id,
         section: cue.section,
-        text: paragraphs[index]!,
+        text: applyAcademySpokenPhoneticsToDisplay(paragraphs[index]!),
         start: cursor,
         end,
       });
@@ -305,10 +305,11 @@ function overlayCueDisplayText(
   const siblingCount = pieces.filter(
     (row) => row.cueId === piece.cueId && row.cueParagraphIndex === piece.cueParagraphIndex,
   ).length;
-  if (displayChunks.length === siblingCount) {
-    return displayChunks[piece.chunkIndex] ?? fallback;
-  }
-  return fallback;
+  const overlay =
+    displayChunks.length === siblingCount
+      ? (displayChunks[piece.chunkIndex] ?? fallback)
+      : fallback;
+  return applyAcademySpokenPhoneticsToDisplay(overlay);
 }
 
 export function buildAcademyTeleprompterFlowFromTimings(
@@ -346,7 +347,7 @@ export function buildAcademyTeleprompterFlowFromTimings(
         id: pieceLineId(piece),
         cueId: row.cueId,
         section: row.section,
-        text: row.text,
+        text: applyAcademySpokenPhoneticsToDisplay(row.text),
         start: piece.start,
         end: piece.end,
       });
@@ -375,7 +376,7 @@ export function buildAcademyTeleprompterFlowFromTimings(
       id: pieceLineId(piece),
       cueId: row.cueId,
       section: row.section,
-      text: row.text,
+      text: applyAcademySpokenPhoneticsToDisplay(row.text),
       start: piece.start,
       end: piece.end,
     });

@@ -24,6 +24,7 @@ import {
   loadAcademyKaraokeStrip,
 } from "@/lib/academy/lesson-teleprompter-flow";
 import {
+  ACADEMY_KVKK_DELETE_BUTTON_SUMMARY,
   ACADEMY_KVKK_FLAG_CELLS,
   ACADEMY_KVKK_MASKED_TABLE,
   ACADEMY_KVKK_RAW_TABLE,
@@ -51,7 +52,7 @@ const PUNCHCARDS = [
 describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
   it("2. ders sınav yolunda durur; kaset mühürlüdür", () => {
     const lessons = curriculumForCourseSlug(SLUG);
-    expect(lessons).toHaveLength(9);
+    expect(lessons).toHaveLength(8);
     expect(lessons[1]?.key).toBe(KEY);
     expect(lessons[1]?.order).toBe(2);
     expect(officeAiMasteryModule.sections[1]?.lessonKey).toBe(KEY);
@@ -74,11 +75,20 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
     expect(lesson.body).not.toMatch(/ahlaki omurga|Cuma paniği|bekçi olursun|Kanıt iddiadan/u);
     expect(lesson.body).not.toMatch(/## Mini sınav/u);
     expect(lesson.body).not.toMatch(/^- \*\*.+\*\*$/mu);
-    expect(lesson.body).toMatch(/Lisans ve veri işleme sözleşmesi \(DPA\) tek başına yetmez/u);
-    expect(lesson.body).toMatch(/bilgilendirme ve izin \(aydınlatma \+ açık rıza\)/u);
-    expect(lesson.body).toMatch(/devletin veri sicili \(VERBİS\)/u);
+    expect(lesson.body).toMatch(/Ham ad, telefon, IBAN, kimlik, maaş sohbete yüklenmez/u);
+    expect(lesson.body).toMatch(/Ayrıntı şirketinin kuralıdır/u);
+    expect(lesson.body).toMatch(/Bu ders hukuki danışmanlık değildir/u);
+    expect(lesson.body).not.toMatch(/VERBİS/u);
     expect(lesson.body).toMatch(/Aynı kural Copilot şeridinde de, Gemini ataşında da durur/u);
     expect(lesson.body).toMatch(/hangi satırın sohbete gitmeyeceğini tek başına ayıracaksın/u);
+    expect(lesson.body).toContain(ACADEMY_KVKK_DELETE_BUTTON_SUMMARY);
+    expect(lesson.body).toMatch(
+      /ChatGPT, Gemini, Grok ve benzeri ister ücretsiz ister ücretli tüm açık sohbet ekranlarına müşteri listesi, IBAN, T\.C\. kimlik numarası gibi ham verileri yükleyemezsin/u,
+    );
+    expect(lesson.body).toMatch(
+      /Aboneliğin ücretli \(Plus\/Pro\/Team\) olsa bile açık sohbete ham kişisel veri ve şirket sırrı atılamaz/u,
+    );
+    expect(lesson.body).not.toMatch(/açık, ücretsiz yapay zekâ ekran/u);
     expect(lesson.body).toMatch(/A1 kuralıyla/u);
     expect(lesson.body).toMatch(/müşteri programı \(CRM\)/iu);
     expect(lesson.body).toMatch(/açık katalog bilgisi/iu);
@@ -103,12 +113,16 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
     expect(prose).toMatch(/Selamlar, ben Gözde/u);
     expect(prose).toMatch(/Kavekaka/u);
     expect(prose).toMatch(/Müşteri A/u);
-    expect(prose).toMatch(/MASKELİ IBAN/u);
+    expect(prose).toMatch(/MASKELİ İban/u);
+    expect(prose).not.toMatch(/IBAN/u);
     expect(prose).not.toMatch(/ahlaki omurga|Cuma paniği|bekçi olursun|Kanıt iddiadan/u);
     expect(prose).not.toMatch(/\b(?:xlsx|docx|pptx)\b/iu);
     expect(prose).toMatch(/maskeli/iu);
     expect(prose).toMatch(/yerleşik paneldir/u);
     expect(prose).toMatch(/hangi satırın sohbete gitmeyeceğini tek başına ayıracaksın/u);
+    expect(prose).toMatch(/ister ücretsiz ister ücretli tüm açık sohbet ekranlarına/u);
+    expect(prose).toMatch(/T\.C\. kimlik numarası gibi ham verileri yükleyemezsin/u);
+    expect(prose).not.toMatch(/açık, ücretsiz yapay zekâ ekran/u);
     expect(prose).toMatch(/A1 kuralıyla/u);
     expect(prose).toMatch(/Telefonu kaldır/u);
     expect(prose).not.toMatch(/kapalı sistemidir/u);
@@ -120,10 +134,14 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
     expect(prose).not.toMatch(/tüketici modeli/u);
     expect(prose).not.toMatch(/## Mini sınav/u);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).toMatch(/KVKK|Kavekaka/u);
-    expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).toMatch(/Müşteri A/u);
-    expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).toMatch(/MASKELİ_IBAN/u);
-    expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).not.toMatch(/0555 111 22 33/u);
+    const cueBlob = cues.flatMap((cue) => cue.paragraphs ?? []).join(" ");
+    expect(cueBlob).toMatch(/KVKK/u);
+    expect(cueBlob).toMatch(/ister ücretsiz ister ücretli tüm açık sohbet ekranlarına/u);
+    expect(cueBlob).not.toMatch(/açık, ücretsiz yapay zekâ ekran/u);
+    expect(cueBlob).not.toMatch(/Kavekaka/u);
+    expect(cueBlob).toMatch(/Müşteri A/u);
+    expect(cueBlob).toMatch(/MASKELİ_IBAN/u);
+    expect(cueBlob).not.toMatch(/0555 111 22 33/u);
     expect(cues.map((cue) => academyPunchcardLabel(cue.text))).toEqual([...PUNCHCARDS]);
     const compare = academyVisualCompareStage(KEY, "cue-06");
     expect(compare?.beforeLabel).toBe(ACADEMY_OFFICE_AI_K1_COMPARE_BEFORE_LABEL);
@@ -133,6 +151,8 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
   it("sinema 8 slayt, mini sınav 70, istem kilitli", () => {
     const slides = loadAcademyCinemaCueSlides(KEY);
     expect(slides).toHaveLength(8);
+    expect(slides[0]?.subhead).toMatch(/ister ücretsiz ister ücretli/u);
+    expect(slides[0]?.subhead).not.toMatch(/açık, ücretsiz/u);
     expect(slides.every((slide) => slide.layout === "excel")).toBe(true);
     expect(slides[3]?.copilot?.prompt).toBe(ACADEMY_OFFICE_AI_K1_COPILOT_PROMPT);
     expect(slides[3]?.copilot?.hideReply).toBe(true);
@@ -168,23 +188,25 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
     expect(ACADEMY_KVKK_MASKED_TABLE.rows).toHaveLength(3);
     expect(ACADEMY_KVKK_MASKED_TABLE.rows[0]).toEqual([
       "Müşteri A",
-      "MASKELİ_TELEFON",
-      "MASKELİ_IBAN",
+      "Tel1",
+      "IBAN1",
       "Un 25kg",
     ]);
     expect(ACADEMY_KVKK_MASKED_TABLE.rows[1]).toEqual([
       "Müşteri B",
-      "MASKELİ_TELEFON",
-      "MASKELİ_IBAN",
+      "Tel2",
+      "IBAN2",
       "Yağ 18L",
     ]);
     expect(ACADEMY_KVKK_MASKED_TABLE.rows[2]).toEqual([
       "Müşteri C",
-      "MASKELİ_TELEFON",
-      "MASKELİ_IBAN",
+      "Tel3",
+      "IBAN3",
       "Şeker",
     ]);
     expect(academyExcelIsMaskToken("Müşteri A")).toBe(true);
+    expect(academyExcelIsMaskToken("Tel1")).toBe(true);
+    expect(academyExcelIsMaskToken("IBAN2")).toBe(true);
     expect(academyExcelIsMaskToken("MASKELİ_IBAN")).toBe(true);
     expect(academyExcelIsMaskToken("MASKELİ_TELEFON")).toBe(true);
     expect(academyExcelIsMaskToken("Ayşe Kaya")).toBe(false);
@@ -200,19 +222,23 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
     expect(slides[5]?.subhead).toMatch(/MASKELİ_IBAN/u);
   });
 
-  it("668.88 sn kaset ile karaoke cue saatleri birebir; harf düşmez", () => {
+  it("642.16 sn kaset ile karaoke cue saatleri birebir; harf düşmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
-    expect(timings?.durationSec).toBe(668.88);
-    expect(timings?.pieces.at(-1)?.end).toBe(668.88);
+    expect(timings?.durationSec).toBe(642.16);
+    expect(timings?.pieces.at(-1)?.end).toBe(642.16);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.at(-1)?.end).toBe(668.88);
+    expect(cues.at(-1)?.end).toBe(642.16);
     for (const cue of cues) {
       const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
       expect(pieces[0]?.start, cue.id).toBe(cue.start);
       expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
     }
     const strip = loadAcademyKaraokeStrip(KEY);
-    expect(strip.at(-1)?.end).toBe(668.88);
+    expect(strip.at(-1)?.end).toBe(642.16);
+    const stripBlob = strip.map((line) => line.text).join(" ");
+    expect(stripBlob).toMatch(/KVKK/u);
+    expect(stripBlob).not.toMatch(/Kavekaka/u);
+    expect(timings!.pieces.map((piece) => piece.text).join(" ")).toMatch(/Kavekaka/u);
     expect(strip.some((line) => line.cueId === "cue-04" && /üç satır yeter/u.test(line.text))).toBe(
       true,
     );

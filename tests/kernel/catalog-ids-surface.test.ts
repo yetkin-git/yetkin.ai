@@ -57,6 +57,8 @@ describe("kernel catalog-ids — omurga kimliği", () => {
     expect(parseAcademyPathwayId("yok")).toBeNull();
     expect(ACADEMY_NEED_SKU_CODES).toHaveLength(5);
     expect(ACADEMY_NEED_SKU_CODES).toEqual(["OFF-101", "EC-102", "SM-103", "BOT-104", "PR-105"]);
+    expect((ACADEMY_NEED_SKU_CODES as readonly string[]).includes("OFF-201")).toBe(false);
+    expect((ACADEMY_NEED_SKU_CODES as readonly string[]).includes("OFF-102")).toBe(false);
     expect(new Set(Object.values(ACADEMY_SKU_SLUG_BY_CODE)).size).toBe(5);
     expect(ACADEMY_SKU_SLUG_BY_CODE["OFF-101"]).toBe("01_office_ai");
     expect(ACADEMY_SKU_SLUG_BY_CODE["EC-102"]).toBe("02_ecommerce_ai");

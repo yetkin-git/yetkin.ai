@@ -110,6 +110,34 @@ export function isRuntimePoolerUrl(url: string): boolean {
   return isSupabasePoolerHostname(shape.hostname) || shape.port === TRANSACTION_POOLER_PORT;
 }
 
+/**
+ * Transaction pooler :6543 → session pooler :5432 (aynı host, IPv4 A).
+ * Prisma migrate advisory lock transaction-mode'da durur; session-mode geçer.
+ * Direct host icat edilmez — pooler değilse null.
+ */
+export function toSupabaseSessionPoolerUrl(url: string): string | null {
+  const trimmed = url.trim();
+  if (!trimmed) {
+    return null;
+  }
+  try {
+    const parsed = new URL(trimmed);
+    if (!isSupabasePoolerHostname(parsed.hostname)) {
+      return null;
+    }
+    parsed.port = String(DIRECT_POSTGRES_PORT);
+    for (const key of PRISMA_ENGINE_QUERY_PARAMS) {
+      parsed.searchParams.delete(key);
+    }
+    if (!parsed.searchParams.has("sslmode")) {
+      parsed.searchParams.set("sslmode", "require");
+    }
+    return parsed.toString();
+  } catch {
+    return null;
+  }
+}
+
 export function isSupabaseDirectSessionUrl(url: string): boolean {
   const shape = parsePostgresUrl(url);
   if (!shape) {

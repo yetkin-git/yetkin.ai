@@ -13,6 +13,7 @@ import {
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { RLS_FORCE_TABLES } from "@/lib/kernel/security/rls-policy-registry";
 import { STUDIO_IMAGE_DATA_BASE64_MAX_CHARS } from "@/lib/kernel/storage/byte-ceilings";
+import { toSupabaseSessionPoolerUrl } from "@/lib/kernel/postgres-url";
 
 /** Akademi tohum kimlikleri lib/academy/catalog-seed.ts (13 kanon SKU; vitrin mühürlü amiral `01_office_ai`). Eski ac_rail_temel yayını kapanır, lisans DROP yok. */
 export { ACADEMY_SEED_CATALOG_UNITS, ACADEMY_SEED_COURSE_IDS };
@@ -236,7 +237,7 @@ function isLoopbackHostname(hostname: string): boolean {
  * kullanır; Prisma CLI (libpq) `require` = şifrele, CA doğrulama. Bu parametre
  * Node `pg` istemcisini aynı libpq semantiğine çeker. Host/port/şifre değişmez.
  */
-export { withPgLibpqSslCompat } from "@/lib/kernel/postgres-url";
+export { toSupabaseSessionPoolerUrl, withPgLibpqSslCompat } from "@/lib/kernel/postgres-url";
 
 export function parseDirectConnectionUrl(url: string): DirectConnectionShape | null {
   try {
@@ -299,6 +300,57 @@ export function resolveMigratorConnectionUrl(env: {
   const database = env.DATABASE_URL?.trim();
   const url = direct || database;
   return url && url.length > 0 ? url : null;
+}
+
+export type MigrateApplyVia = "direct" | "pooler";
+
+export type MigrateApplyTarget = {
+  url: string;
+  via: MigrateApplyVia;
+};
+
+export function isIpv6OrDnsUnreachable(error: unknown): boolean {
+  const code =
+    error && typeof error === "object" && "code" in error
+      ? String((error as { code?: unknown }).code)
+      : "";
+  const message = error instanceof Error ? error.message : String(error ?? "");
+  return (
+    code === "ENOTFOUND" ||
+    code === "ENOENT" ||
+    code === "ENETUNREACH" ||
+    code === "EHOSTUNREACH" ||
+    code === "EAI_AGAIN" ||
+    /ENOTFOUND|ENOENT|ENETUNREACH|P1001|getaddrinfo/i.test(message)
+  );
+}
+
+/**
+ * Windows Direct AAAA / P1001: pooler IPv4. Transaction :6543 session :5432'ye çekilir
+ * (Prisma advisory lock). Direct host icat edilmez.
+ */
+export function resolveMigrateApplyTarget(env: {
+  DIRECT_URL?: string;
+  DATABASE_URL?: string;
+}): MigrateApplyTarget | null {
+  const preferred = resolveMigratorConnectionUrl(env);
+  if (!preferred) {
+    return null;
+  }
+  if (isForbiddenPoolerUrl(preferred)) {
+    return { url: toSupabaseSessionPoolerUrl(preferred) ?? preferred, via: "pooler" };
+  }
+  return { url: preferred, via: "direct" };
+}
+
+export function fallbackPoolerApplyTarget(env: {
+  DATABASE_URL?: string;
+}): MigrateApplyTarget | null {
+  const runtime = env.DATABASE_URL?.trim() ?? "";
+  if (!runtime || !isForbiddenPoolerUrl(runtime)) {
+    return null;
+  }
+  return { url: toSupabaseSessionPoolerUrl(runtime) ?? runtime, via: "pooler" };
 }
 
 /** Disk: D2.1 / D2.2 / D2.3 Prisma klasörleri zaman damgası sırasıyla durur. */

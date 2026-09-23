@@ -2,7 +2,7 @@
 
 İnsan ops SSOT indeksi. Anayasa: `.system_docs/ANAYASA.md`. Ürün kodu bu dosyayı import etmez. Credential icat edilmez.
 
-**Canlı reçete:** Motor 4 / Kamu Vitrini 3 Oda (Panel, Akademi, Kariyer) + çekirdek yetenekler (`/profil`, `/cuzdan`, `/pasaport`, `/admin`). Freelancer motor sicilinde durur; kamu yüzeyi **410**. Akademi mühürlü yayın **9**’dur (`01_office_ai-1`…`-6`, `01_office_ai-g1`, `01_office_ai-w1`, `01_office_ai-k1`). Dron T3 Akademi yüzeyi bağlıdır; Tezgâh donuk. Video katmanı terk edilmiştir. Motor 2 keşif fazındadır.
+**Canlı reçete:** Motor 4 / Kamu Vitrini 3 Oda (Panel, Akademi, Kariyer) + çekirdek yetenekler (`/profil`, `/cuzdan`, `/pasaport`, `/admin`). Freelancer motor sicilinde durur; kamu yüzeyi **410**. Akademi mühürlü yayın **8**’dir (`01_office_ai-1`, `01_office_ai-k1`, `01_office_ai-2`, `01_office_ai-3`, `01_office_ai-5`, `01_office_ai-g1`, `01_office_ai-w1`, `01_office_ai-6`). Dron T3 Akademi yüzeyi bağlıdır; Tezgâh donuk. Video katmanı terk edilmiştir. Motor 2 keşif fazındadır.
 
 `LIVE_BROADCAST_SHUTDOWN` üretim kilidi 13 Eylül 2026 itibarıyla **kapalı** (varsayılan `false`; acil kapatma env `true|1`). `SITE_MAINTENANCE_FREEZE` ayrı bakım bayrağıdır.
 

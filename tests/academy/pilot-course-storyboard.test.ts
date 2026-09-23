@@ -21,7 +21,7 @@ describe("Amiral Ders — compact ingest SKU", () => {
     expect(publishedCoursesFromSeed().map((row) => row.slug)).toEqual(["01_office_ai"]);
     expect(ACADEMY_PILOT_SKU_SLUG).toBeNull();
     expect(ACADEMY_PILOT_SKU_LESSON_COUNT).toBe(0);
-    expect(curriculumLessonCountForSlug("01_office_ai")).toBe(9);
+    expect(curriculumLessonCountForSlug("01_office_ai")).toBe(8);
     expect(curriculumForCourseSlug("sample-course")).toEqual([]);
     expect(academyExamPoolForSlug("sample-course")).toEqual([]);
     expect(academyExamPoolForSlug("01_office_ai").length).toBeGreaterThanOrEqual(30);
@@ -29,7 +29,7 @@ describe("Amiral Ders — compact ingest SKU", () => {
     expect(academyExamPoolForSlug("03_social_media_ai").length).toBeGreaterThanOrEqual(30);
     expect(academyExamPoolForSlug("04_chatbot_nocode").length).toBeGreaterThanOrEqual(30);
     expect(academyExamPoolForSlug("05_prompt_practice").length).toBeGreaterThanOrEqual(30);
-    expect(curriculumForCourseSlug("01_office_ai")).toHaveLength(9);
+    expect(curriculumForCourseSlug("01_office_ai")).toHaveLength(8);
     expect(curriculumForCourseSlug("02_ecommerce_ai")).toHaveLength(0);
     expect(curriculumForCourseSlug("03_social_media_ai")).toHaveLength(0);
     expect(curriculumForCourseSlug("04_chatbot_nocode")).toHaveLength(0);

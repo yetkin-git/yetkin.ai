@@ -14,7 +14,7 @@ describe("compact makale kelime senkronu", () => {
   });
 
   it("9 compact bölüm estimatedWordCount alanı gövde sayımıdır", () => {
-    expect(officeAiSections).toHaveLength(9);
+    expect(officeAiSections).toHaveLength(8);
     for (const section of officeAiSections) {
       expect(section.estimatedWordCount, section.lessonKey).toBe(
         countAcademyMarkdownWords(section.contentMarkdown),

@@ -15,6 +15,8 @@ import {
   academyStorefrontStaticParams,
   isAcademyGrowthSkuSlug,
 } from "@/lib/academy/pilot-sku";
+import { academyCourseOffersFreePreview } from "@/lib/academy/purchase-path";
+import { academyPaywallLockedLessonShells } from "@/lib/academy/preview-lock";
 
 export function generateStaticParams() {
   return academyStorefrontStaticParams();
@@ -51,7 +53,23 @@ export default async function AcademyCurriculumPlayerPage({
   const grantStudio = isSuperAdminActor({ id: session.id, email: userEmail });
 
   if (!hasPurchased) {
-    redirect(`/academy/${board.course.slug}`);
+    if (!academyCourseOffersFreePreview(board.course.slug)) {
+      redirect(`/academy/${board.course.slug}`);
+    }
+    return (
+      <RoomFrame cinema className="flex flex-col gap-0 space-y-0 px-4 py-0 sm:px-6">
+        <div className="flex min-h-0 flex-1 flex-col">
+          <CurriculumPlayer
+            courseId={board.course.id}
+            courseSlug={board.course.slug}
+            lessons={academyPaywallLockedLessonShells(board.course.slug)}
+            curriculumComplete={false}
+            workTasksComplete={false}
+            paywallLocked
+          />
+        </div>
+      </RoomFrame>
+    );
   }
 
   const player = await loadAcademyCurriculum(session.id, board.course.id, userEmail);

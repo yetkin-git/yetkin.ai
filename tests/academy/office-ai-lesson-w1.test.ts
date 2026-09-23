@@ -53,9 +53,9 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
     expect(officeAiPlannedLessonByKey(KEY)?.key).toBe(KEY);
     expect(OFFICE_AI_PLANNED_LESSONS.some((lesson) => lesson.key === KEY)).toBe(true);
     const live = curriculumForCourseSlug("01_office_ai");
-    expect(live).toHaveLength(9);
-    expect(live[7]?.key).toBe(KEY);
-    expect(live[7]?.order).toBe(8);
+    expect(live).toHaveLength(8);
+    expect(live[6]?.key).toBe(KEY);
+    expect(live[6]?.order).toBe(7);
     expect(hasAcademyLessonCues(KEY)).toBe(true);
     expect(hasAcademyLessonVisualStage(KEY)).toBe(true);
     expect(isAcademySpokenScriptLessonKey(KEY)).toBe(true);
@@ -126,13 +126,15 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
     expect(spoken).toContain("Dosya adını pratikte kendi dosyanla değiştir.");
     expect(spoken).not.toMatch(/Dosya adı pratikte yanar/u);
     expect(spoken).not.toMatch(/\bkomut/u);
-    expect(spoken).toContain("Gemini yoksa aynı dosyayı ChatGPT veya Claude'a yüklersin; yöntem değişmez.");
+    expect(spoken).toContain(
+      "Gemini yoksa aynı dosyayı sohbet yapay zekâsına (ChatGPT, Claude, Gemini, Grok, Kimi, Myuz Spark vb.) yüklersin; yöntem değişmez.",
+    );
     expect(spoken).not.toMatch(/taşıma sudur/iu);
     expect(spoken).not.toMatch(/öğretilmez/u);
     expect(spoken).not.toMatch(/AI masası/u);
     expect(spoken).not.toMatch(/Sekiz ders bitti/u);
-    expect(spoken).toMatch(/9\. ders bitince sınav kapısı açılır/u);
-    expect(spoken).toMatch(/Kişi adı, IBAN veya ticari sır varsa önce maskele/u);
+    expect(spoken).toMatch(/Sınav, 8\. ders bitince açılır/u);
+    expect(spoken).toMatch(/Kişi adı, İban veya ticari sır varsa önce maskele/u);
     expect(spoken).not.toMatch(/\b(?:xlsx|docx|pptx)\b/iu);
     const cinemaHtml = readFileSync(join(ROOT, "scripts/render-academy-cinema-html.ts"), "utf8");
     expect(cinemaHtml).toContain('case "word"');
@@ -145,11 +147,15 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
     const body = curriculumForCourseSlug("01_office_ai").find((row) => row.key === KEY)?.body ?? "";
     expect(prose).toMatch(/Peki neden uzun sözleşmeyi yapay zekâya satır satır okutmak yerine riskli maddeleri aratırız\?/u);
     expect(prose).toMatch(/satır satır okutunca yığın çıkar/u);
-    expect(prose).toMatch(/Peki neden tüm belgeyi kopyalamak varsayılan yol değildir\?/u);
+    expect(prose).toMatch(/Peki Vörd dosyasını parça parça kopyalamak neden doğru bir yöntem değildir\?/u);
+    expect(prose).toMatch(/belgenin bütünlüğü bozulur/u);
+    expect(prose).not.toMatch(/Üç kaybı ayrı ayrı gör/u);
+    expect(prose).not.toMatch(/imza riski kaybolur/u);
+    expect(prose).not.toMatch(/ceza oranı kaçar/u);
     expect(prose).toMatch(/Peki neden otuz sayfayı satır satır okutmak yerine bu üç maddeyi aratırız\?/u);
     expect(prose).toMatch(/Peki neden bu atlanmış kapıdır/u);
-    expect(prose).toMatch(/öğretmen sen, belge siz çift sicili/u);
-    expect(prose).toMatch(/kulağına sen derim/u);
+    expect(prose).toMatch(/öğretmen SEN, belge SIZ çift sicili/u);
+    expect(prose).toMatch(/kulağına SEN derim/u);
     expect(prose).toMatch(/Peki neden fark bu kadar belirgin\?/u);
     expect(prose).toContain(
       "Çıkarılan özeti raporunda kullanırsın; son kontrolü ve kararı sen verirsin.",
@@ -212,8 +218,8 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
     expect(timings).not.toBeNull();
-    expect(timings!.durationSec).toBe(607.688);
-    expect(timings!.cacheV).toBe(607688);
+    expect(timings!.durationSec).toBe(563.36);
+    expect(timings!.cacheV).toBe(563360);
     const cues = loadAcademyLessonCues(KEY);
     expect(cues.at(-1)?.end).toBe(timings!.durationSec);
     for (const cue of cues) {
@@ -225,7 +231,7 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
     expect(strip.at(-1)?.end).toBe(timings!.durationSec);
     const stripText = strip.map((line) => line.text).join(" ");
     expect(stripText).toMatch(/Peki neden uzun sözleşmeyi yapay zekâya satır satır okutmak yerine riskli maddeleri aratırız/u);
-    expect(stripText).toMatch(/öğretmen sen, belge siz çift sicili/u);
+    expect(stripText).toMatch(/öğretmen SEN, belge SIZ çift sicili/u);
     expect(stripText).toMatch(/satır satır okutunca yığın çıkar/u);
     expect(stripText).not.toMatch(/kahraman gibi/u);
     expect(stripText).not.toMatch(/Baraj yetmiştir/u);

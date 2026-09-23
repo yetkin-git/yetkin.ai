@@ -1,3 +1,6 @@
+import { ACADEMY_KVKK_DELETE_BUTTON_SUMMARY } from "@/lib/academy/kvkk-workspace";
+import { ACADEMY_CHAT_MODEL_LIST } from "@/lib/academy/model-tendency-card";
+
 /**
  * SEM / Google Ads Kalite Puanı — hedef anahtar kelime SSOT.
  * Görünür H1–H3, meta/OG ve FAQ bu listedeki tam dizgileri taşır.
@@ -15,12 +18,25 @@ export const SEM_LANDING_KEYWORDS = [
   "ofiste chatgpt",
   "word yapay zeka",
   "yapay zeka sertifikasi",
-  // PAKET-19 — vatandaş lisanı kuyruk (antre meta / H1 / ders teaser / rehber).
+  // T-01 — vatandaş lisanı kuyruk; Gemini yalnız Gmail yerleşik paneli olarak durur.
   "iş hayatında yapay zekâ",
-  "excel gemini kullanımı",
+  "excel'de temiz veri",
+  "gmail'de yerleşik gemini",
   "word ataş ile belge analizi",
-  "cuma 30 rutini",
+  "kvkk maskeleme",
+  "haftalık cuma rutini",
 ] as const;
+
+/**
+ * T-02 — 01_office_ai mührünün kamuya açık tanımı (Vatandaş Lisanı).
+ * Kanıt: 8 ders izleme + 10 soruluk baraj (≥70). Compact SKU sunucuda Excel/Word doğrulamaz.
+ */
+export const OFFICE_AI_SEAL_PROOF =
+  "Bu eğitimdeki sertifika mührü; 8 dersin eksiksiz izlenmesi ve kurs sonu baraj sınavında %70 başarı sağlanması ile verilir. Saha uygulamaları kullanıcı ortamında gerçekleşir, sunucuda dosya kontrolü yapılmaz." as const;
+
+/** SERP ve katalog kartı tavanı — aynı iddia, kısa. */
+export const OFFICE_AI_SEAL_PROOF_SHORT =
+  "Mühür: 8 ders + 10 soru / 70. Sunucuda dosya kontrolü yok." as const;
 
 export type SemLandingKeyword = (typeof SEM_LANDING_KEYWORDS)[number];
 
@@ -85,28 +101,37 @@ export const VIZE_LANDING_FAQ: readonly LandingFaqItem[] = [FAQ.visa, FAQ.certif
  * Antrede görünür `<LandingFaq>` ile `FAQPage` JSON-LD AYNI sabitten beslenir;
  * metinler %100 birebir eşleşir (gizli markup cezası yenmez).
  * 4 amiral niyet dizgisini (excel yapay zeka eğitimi / ofiste chatgpt /
- * word yapay zeka / yapay zeka sertifikasi) soru+yanıtta taşır.
+ * word yapay zeka / yapay zeka sertifikasi) soru+yanıtta taşır; 5. madde
+ * kurumsal BT / harici eklenti (Add-in) dürüstlük notudur.
+ *
+ * T-02 — birinci madde mührün neyi kanıtladığını (izleme + baraj; sunucu dosya yok)
+ * vatandaş lisanıyla yazar. Manifesto «iş kanıtı» cümlesi bu SSS'ye girmez.
  */
 export const OFFICE_AI_COURSE_FAQ: readonly LandingFaqItem[] = [
   {
     question: "Excel yapay zeka eğitimi sertifika veriyor mu?",
     answer:
-      "Evet. Bu excel yapay zeka eğitimi, 9 dersi bitirip testi 70+ ile geçtiğinde mühürlü yapay zeka sertifikası basar; satın alma tek başına belge üretmez. Office AI eğitimi sertifikanı Kariyer sayfana işler ve /academy/dogrula sicilinden herkese açık doğrulanır. Arama dilindeki karşılığıyla: yapay zeka sertifikasi bu sınav barajından sonra mühürlenir.",
+      `Evet. Bu excel yapay zeka eğitimi mühürlü yapay zeka sertifikası basar; satın alma tek başına belge üretmez. ${OFFICE_AI_SEAL_PROOF} Sertifikan Kariyer sayfana işlenir ve /academy/dogrula sicilinden herkese açık doğrulanır. Arama dilindeki karşılığıyla: yapay zeka sertifikasi bu sınav barajından sonra mühürlenir.`,
   },
   {
     question: "ChatGPT ofis kullanımı için ön koşul var mı?",
     answer:
-      "Hayır, ön koşul yok. Temel Excel ve e-posta kullanımı yeter; kodlama gerekmez. Ofiste chatgpt kullanımı, Excel Gemini kullanımı, Word yapay zeka, Word ataş ile belge analizi, Gmail aksiyon listesi ve slayt hazırlama sıfırdan adım adım anlatılır. Copilot lisansın yoksa dosya ataş yöntemiyle aynı sonuca ulaşırsın; lisans zorunlu değildir.",
+      `Hayır, ön koşul yok. Temel Excel ve e-posta kullanımı yeter; kodlama gerekmez. Ofiste chatgpt kullanımı tek bir markaya kilitli değildir: ${ACADEMY_CHAT_MODEL_LIST} büyük dil modelleridir (sohbet yapay zekâları). Excel Copilot ve Ataş Yöntemi, A1 Düzeni ve Temiz Veri, Word yapay zeka, Word ataş ile belge analizi, Gmail'de yerleşik Gemini, KVKK maskeleme ve slayt hazırlama sıfırdan adım adım anlatılır. Copilot lisansın yoksa dosya ataş yöntemiyle aynı sonuca ulaşırsın; lisans zorunlu değildir.`,
   },
   {
     question: "KVKK'ya uygun mu? Verilerim güvende mi?",
     answer:
-      "Evet, KVKK-safe kurguludur. Müşteri listesi, IBAN, T.C. Kimlik No, maaş tablosu ve şirket sırrı ham haliyle açık yapay zekâ ekranına yüklenmez; 2. derste maskeleme kilitlenir (Müşteri A, MASKELİ_IBAN). Modele tablonun mantığını öğretmek için üç maskeli örnek satır yeter; bin gerçek satır gerekmez. Ödeme PayTR iFrame + 3D Secure ile yürür; kart numarası platformda tutulmaz.",
+      `Eğitimde anlatılan KVKK kuralları, veri yüklerken uyulan adımlardır; hukuki danışmanlık yerine geçmez. Müşteri listesi, IBAN, T.C. Kimlik No, maaş tablosu ve şirket sırrı ham haliyle açık yapay zekâ ekranına yüklenmez; 2. derste maskeleme kilitlenir (Müşteri A, MASKELİ_IBAN). Aboneliğin ücretli (Plus/Pro/Team) olsa bile açık sohbete ham kişisel veri ve şirket sırrı atılamaz. Ücretli üyelik modeli eğitmese de veri sunucuya gider. Yüklemeden önce her zaman maskeliyoruz. ${ACADEMY_KVKK_DELETE_BUTTON_SUMMARY} Modele tablonun mantığını öğretmek için üç maskeli örnek satır yeter; bin gerçek satır gerekmez. Ödeme PayTR iFrame + 3D Secure ile yürür; kart numarası platformda tutulmaz.`,
   },
   {
     question: "Sınav barajı ve süresi nedir?",
     answer:
-      "Baraj 70 puandır; 9 dersin tamamı bitmeden sınav açılmaz. Sınav 30 dakika ve 10 sorudur; süre dolduğunda son gönderim alınır. Satın alma tek başına belge basmaz; 70+ altı sonuçta sertifika mühürlenmez, yeniden deneyebilirsin. Kapanış dersi Cuma 30 rutini ile haftalık sistemi takvime bağlar.",
+      "Baraj 70 puandır; 8 dersin tamamı bitmeden sınav açılmaz. Sınav 30 dakika ve 10 sorudur; süre dolduğunda son gönderim alınır. Satın alma tek başına belge basmaz; 70+ altı sonuçta sertifika mühürlenmez, yeniden deneyebilirsin. Bu baraj, yüklediğin Excel veya Word dosyasını sunucuda kontrol etmez; saha uygulaması senin ortamında kalır. Kapanış dersi haftalık Cuma rutini ile otuz dakikayı takvime bağlar.",
+  },
+  {
+    question: "Excel veya Word'e harici yapay zekâ eklentisi (Add-in) kurmayı öğretiyor musunuz?",
+    answer:
+      "Harici eklentiler şirket güvenlik (BT) duvarına takılır ve lisans ister. Bu eğitim Excel veya Word'e eklenti kurmayı öğretmez. Copilot lisansın varsa Excel şeridinden okutmayı, yoksa dosyayı ataş ile yüklemeyi; Gmail'de yerleşik Gemini panelini; ikisi de durmuyorsa maskeli kısa özeti öğretir.",
   },
 ] as const;
 

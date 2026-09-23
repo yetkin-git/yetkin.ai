@@ -4,16 +4,16 @@ export const section3: Section = {
   sectionNumber: 4,
   lessonKey: "01_office_ai-3",
   title: "Metinden Slayta: Sunum Hazırlama",
-  targetDurationMinutes: 9.6,
-  estimatedWordCount: 1256,
+  targetDurationMinutes: 9,
+  estimatedWordCount: 1204,
   pedagogicalObjective:
-    "Metinden slayt başına tek fikir, görsel yönlendirme ve taslak aktarma akışını göstermek. Neden düz metin yığını doldurulmaz? Çünkü dinleyici okur, seni dinlemez. Tek fikir kuralı: her slayt bir vurucu mesaj taşır. Yapay zekâ yönlendirmesi: rol ver, taslak iste, görseli parantezde tarif et.",
+      "Metinden slayt başına tek fikir, görsel yönlendirme ve taslak aktarma akışını göstermek. Slayttaki genel toplam veya karar sayısı kaynak Excel hücresiyle aynı değilse slayt yayınlanmaz. Yapay zekâ yönlendirmesi: rol ver, taslak iste, görseli parantezde tarif et. Neden düz metin yığını doldurulmaz? Çünkü dinleyici okur, seni dinlemez.",
   contentMarkdown: `
 Geçtiğimiz derste devasa tabloları ve dağınık ham verileri dakikalar içinde derleyip toparlamıştık. Sayfalarca süren karmaşık bir veri yığınından net bir rapor çıkarma işini ve üst yönetimin doğrudan karar almasını sağlayan o kritik yönetim özeti refleksini kazandın. Üç madde ve net bir karar cümlesi ile toplantıda kararsızlığı nasıl hızla ortadan kaldırabileceğimizi gördük. Bu dersin sonunda slayt başına tek fikir kuralını tek başına yapacaksın. Hâlâ slayta geçmiyoruz: yönetim özeti masada kalsa bile toplantı slaytsız yürümez; o üç madde, doğru bir görsel yönlendirmeyle aktarılmadıkça hak ettiği etkiyi yaratamaz. Şimdi elimizdeki o güçlü analizi ekibe ve yöneticilere sunma aşamasına geçiyoruz.
 
 Selamlar, ben Gözde. yetkin.ai akademisinin bu dördüncü dersinde seninle birlikte metni slayta çevirmenin yolunu kuracağız. Geçen derste üç maddelik yönetim özetini kilitledik; peki şimdi ne olacak? Özet cebinde durur ama toplantı slayt ister. Hepimiz o toplantı öncesi saatlerce boş sayfaya bakıp durduk. Elinde harika fikirler, eksiksiz veriler var ama onları boş bir slayta dökmek korkutucu gelir. Peki neden sunum hazırlamak bu kadar zaman yer? Çünkü çoğu kişi önce şablonu süsler; mesajı sona bırakır. Bugün o sırayı çevireceğiz: önce tek fikir, sonra slayt taslağı.
 
-Geleneksel yöntemlerle sunum hazırlarken vaktimizin neredeyse yüzde seksenini tasarım detaylarına kurban ediyoruz. Hangi renk paleti uyar, simgeler nereye yerleşir, metin kutuları nasıl hizalanır derken asıl aktarmak istediğimiz mesajın gücü arka planda kaybolup gidiyor. Tasarımı önce bitirmeyiz. Sen grafiker değilsin; sen fikrin sahibisin. Metni slayta çevirirken roller değişiyor. Yapay zekâyı yanına aldığında tasarım yükünü algoritmaya verirsin. Böylece hikâyenin akışına, vurucu mesaja ve sunumunun yaratacağı iş etkisine odaklanırsın.
+Tasarımı önce bitirmeyiz. Sen grafiker değilsin; sen fikrin sahibisin. Metni slayta çevirirken roller değişiyor. Yapay zekâyı yanına aldığında hikâyenin akışına, vurucu mesaja ve sunumunun yaratacağı iş etkisine odaklanırsın.
 
 ## ŞABLON KAOSU
 
@@ -25,7 +25,7 @@ Hepimizin yaptığı en büyük hata, sayfaları süslemenin sunumu kaliteli kı
 
 Şimdi mantığı oturtalım. Peki yapay zekâdan slayt taslağı nasıl alınır? İşe, elimizdeki ham metni modele verip net bir rol biçerek başlıyoruz. Yapay zekâya bir sunum tasarımcısı olduğunu yazmalı ve her sayfada tek fikir barındıran bir slayt taslağı oluşturmasını iste. Peki tek fikir kuralı nedir? Her slayt yalnızca bir vurucu mesaj taşır; on madde taşımaz. PowerPoint Copilot lisansın varsa bu birinci kapıdır: istemi şeritteki panele yazarsın. Yoksa ikinci kapı PowerPoint sunusunu sohbete ataşlamaktır. Gamma veya Marp istersen kullanabilirsin; ana yol değildir. Kod yazdırmazsın. İsteminde başlıkları, vurucu mesajı ve ekranda yer alacak maddeleri net kısıtlarla ayırmasını belirtmelisin.
 
-İstemine mutlaka görsel yönlendirme eklemesini de şart koşmalısın. Neden? Çünkü yapay zekâ yalnız metin yazarsa taslak yine duvar olur. Yani model yalnızca cümle basmamalı; her bir sayfanın sağ köşesinde nasıl bir grafik veya resim bulunması gerektiğini parantez içinde tarif eder. Eğer PowerPoint Copilot yoksa dosyayı PowerPoint sunusu olarak ataşla; model slayt başlıklarını ve konuşmacı notlarını dosyanın üstünden çıkarır. VBA makrosu bu derste yoktur. Bu aşamada yazdığın istem ne kadar net yazılmış olursa, elde edeceğin slayt taslağı da o kadar net olur.
+İstemine mutlaka görsel yönlendirme eklemesini de şart koşmalısın. Neden? Çünkü yapay zekâ yalnız metin yazarsa taslak yine duvar olur. Yani model yalnızca cümle basmamalı; her bir sayfanın sağ köşesinde nasıl bir grafik veya resim bulunması gerektiğini parantez içinde tarif eder. Eğer PowerPoint Copilot yoksa metin dosyasını ataşla yükle; model sana slayt başlıklarını ve konuşmacı notlarını hazırlar. VBA makrosu bu derste yoktur. Bu aşamada yazdığın istem ne kadar net yazılmış olursa, elde edeceğin slayt taslağı da o kadar net olur.
 
 ## HİYERARŞİ
 
@@ -37,7 +37,7 @@ Sağ taraftaki yapıda kurulan bakma sırası, yöneticinin veya müşterinin ne
 
 Ekrana dikkatli bak. Peki neden fark bu kadar belirgin? Çünkü soldaki düz metin yaklaşımında saatlerce çalışıp yorulsan bile ortaya çıkan sonuç dağınık hissettirir. Sağdaki yapay zekâ modelinde ise doğru bir bakma sırası oluşturulduğu için mesaj doğrudan hedefine ulaşır. Sol taraf her cümleyi taşır, bakış noktası yoktur. Sağ taraf tek başlık ve üç odak taşır, toplantı yürür. Yapay zekâ sana yalnızca bir süs sunmuyor; metnini sadeleştiriyor, sıraya koyuyor ve yöneticinin aklına en hızlı şekilde akmasını sağlıyor. Üstelik bu dönüşümü dakikalarca uğraşarak değil, doğru yönlendirilmiş tek bir istemle elde ediyorsun.
 
-Bu yaklaşımı bir kez kaptığında, sunum hazırlamak artık iş gününü bölen kâbus gibi bir görev olmaktan çıkar. Metnini ekrana koyduğunda yapay zekâ sana hazır bir taslak sunduğu için, sen enerjini tamamen sunumun provasına ve anlatım tonuna saklayabilirsin. Hangi veriyi vurgulayacağını, nerede duraklayacağını ve dinleyiciden ne talep edeceğini düşünmek için bolca vaktin kalır. Çünkü slayt senin yerini almaz; senin sözünü taşır.
+Bu yaklaşımı bir kez kaptığında, sunum hazırlamak artık iş gününü bölen uzun bir iş olmaktan çıkar. Metnini ekrana koyduğunda yapay zekâ sana hazır bir taslak sunduğu için, sen enerjini tamamen sunumun provasına ve anlatım tonuna saklayabilirsin. Hangi veriyi vurgulayacağını, nerede duraklayacağını ve dinleyiciden ne talep edeceğini düşünmek için bolca vaktin kalır. Çünkü slayt senin yerini almaz; senin sözünü taşır.
 
 ## CEBİNE KOY
 
@@ -47,9 +47,9 @@ Bu yaklaşımı bir kez kaptığında, sunum hazırlamak artık iş gününü b�
 
 Şimdi bu bilgileri sahada bizzat test etme sırası sende. Senden istediğim görev net: Geçen derste hazırladığın o yönetim özetini veya iş yerinde üzerinde çalıştığın herhangi bir ham metni al. Kişi adı, IBAN veya şirket sırrı varsa önce maskele; ham metni sohbete yükleme. Yapay zekâya sunum tasarımcısı rolünü ver ve metnini beş slaytlık düzenli bir sunum taslağına dönüştürmesini iste. Her slaytta tek bir mesaj olmasına dikkat et ve görsel önerilerini mutlaka yaz. Çıkan slaytta on madde görürsen metni masaya koyma; tek fikre indir.
 
-Sunum taslağını hazırladıktan sonra hiç durmadan bir sonraki adıma geçeceğiz. 5. derste akıcı slaytın arkasındaki uydurma sayıyı yakalayacağız: İstisnalar ve Hata Avı. E-Posta Akışı ve Gelen Kutusu Sıfırlama ritüeli ondan sonra gelir; yerleşik Gmail kapısı ayrı derstedir. Mesajların arasında kaybolmaya son vermeden önce, rapordaki sayıyı kilitlemeyi öğrenmen gerekir. Slaytı o sayı kilitlenmeden yayınlama. Sınav, 9. ders bitince açılır. Baraj 70 puandır.
+Sunum taslağını hazırladıktan sonra hiç durmadan bir sonraki adıma geçeceğiz. 5. derste akıcı slaytın arkasındaki uydurma sayıyı yakalayacağız: İstisnalar ve Hata Avı. E-Posta Akışı ondan sonra tek derste gelir: Gmail, Outlook ve aksiyon listesi. Slayta yazdığın genel toplam veya karar sayısı, kaynak Excel hücresiyle %100 aynı değilse o slaytı yayınlama.
 
-## El kitabı (kasetin sığdırmadığı)
+## El kitabı (sesin sığdırmadığı)
 
 ### Lisans yoksa ne yapılır?
 PowerPoint Copilot yoksa PowerPoint sunusunu sohbete ataşla; model başlık ve konuşmacı notunu dosyanın üstünden çıkarır. Gamma veya Marp istersen kullanabilirsin; ana yol değildir. VBA bu derste yoktur. Tek fikir kuralı araç değişince bozulmaz: slayt başına bir mesaj, görsel yönlendirme parantezde.

@@ -12,6 +12,7 @@ import {
   ACADEMY_AI_DESK_TABS,
   ACADEMY_AI_DESK_UPLOAD_GUIDE,
   ACADEMY_AI_DESK_WRITE_GUIDE,
+  ACADEMY_INFRA_EXCEL_DOOR_LINE,
   ACADEMY_INFRA_EXCEL_WORD_LINE,
   ACADEMY_INFRA_GMAIL_LINE,
   ACADEMY_INFRA_OUTLOOK_HONESTY_BADGE,
@@ -48,6 +49,8 @@ describe("Nereye yazılacak — Copilot vs ChatGPT masası", () => {
     expect(ACADEMY_AI_DESK_ATTACH).toBe("Ataş");
     expect(ACADEMY_AI_DESK_INSTRUCTOR_LINE).toMatch(/Gemini panelini aç/u);
     expect(ACADEMY_AI_DESK_INSTRUCTOR_LINE).toMatch(/3\. kapı/u);
+    expect(ACADEMY_INFRA_EXCEL_DOOR_LINE).toMatch(/Lisans varsa Copilot şeridi/u);
+    expect(ACADEMY_INFRA_EXCEL_DOOR_LINE).toMatch(/her ikisi de geçerli yol/u);
     expect(ACADEMY_INFRA_EXCEL_WORD_LINE).toMatch(/ataş ile yükleyebilirsin/u);
     expect(ACADEMY_INFRA_OUTLOOK_LINE).toMatch(/son çare/u);
     expect(ACADEMY_INFRA_OUTLOOK_HONESTY_BADGE).toMatch(/canlı kutu okunmaz/u);
@@ -60,13 +63,13 @@ describe("Nereye yazılacak — Copilot vs ChatGPT masası", () => {
       outlook: "Copilot",
       gmail: "Gemini",
       word: "Doğrudan Dosya Yükleme",
-      excel: "Doğrudan Dosya Yükleme",
+      excel: ACADEMY_INFRA_EXCEL_DOOR_LINE,
       pptx: "Copilot",
     });
     expect(academyAiDeskNativeTool("outlook")).toBe("Copilot");
     expect(academyAiDeskNativeTool("gmail")).toBe("Gemini");
     expect(academyAiDeskNativeTool("word")).toBe("Doğrudan Dosya Yükleme");
-    expect(academyAiDeskNativeTool("excel")).toBe("Doğrudan Dosya Yükleme");
+    expect(academyAiDeskNativeTool("excel")).toBe(ACADEMY_INFRA_EXCEL_DOOR_LINE);
     expect(academyAiDeskTabsForHost("gmail").map((tab) => tab.label)).toEqual(["Gemini (Yerleşik)"]);
     expect(academyAiDeskPinnedForLesson("01_office_ai-g1")).toBe("copilot");
     expect(academyAiDeskPinnedForLesson("01_office_ai-w1")).toBeNull();

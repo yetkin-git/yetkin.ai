@@ -81,7 +81,7 @@ describe("akademi kurs tohumu yüzeyi", () => {
     expect(office?.title).toContain("E-Posta Verimliliği");
     expect(office?.title).not.toContain("Otomasyonu");
     expect(sql).toContain(office!.title);
-    expect(sql).toContain(office!.summary);
+    expect(sql).toContain(office!.summary.replaceAll("'", "''"));
     expect(sql).toMatch(/pass_score,\s*$/m);
     expect(sql).toContain(`    ${office!.exam.passScore},`);
     expect(sql).not.toContain("Otomasyonu");

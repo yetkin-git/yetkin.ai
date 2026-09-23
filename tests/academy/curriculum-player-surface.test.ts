@@ -63,7 +63,7 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
       const lessons = curriculumForCourseSlug(slug);
       if (slug === "01_office_ai") {
-        expect(lessons).toHaveLength(9);
+        expect(lessons).toHaveLength(8);
       } else {
         expect(lessons).toEqual([]);
       }
@@ -160,6 +160,7 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(player).not.toContain("autoAdvanceNextLesson(nextKey)");
     expect(player).toContain("nextAcademyPlayerLesson(lessonsRef.current, lessonKey)");
     expect(player).toContain("{ advance: shouldAdvance }");
+    expect(player).toContain("academyPlayerOutroTailSec");
     expect(player).toContain("hasAcademyLessonPlaybackReachedEnd");
     expect(player).toContain("endedLessonKeyRef");
     expect(player).toContain("selectLesson");
@@ -203,6 +204,8 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(media).toContain("onCanPlay");
     expect(media).toContain("hasAcademyLessonPlaybackReachedEnd");
     expect(media).toContain("armOutroEndTimeout");
+    expect(media).toContain("academyOutroBreathRemainMs");
+    expect(media).toContain("ACADEMY_OUTRO_BREATH_MS");
     expect(media).toContain("notifyEnded");
     expect(media).toContain("onEndedRef.current?.(lessonKeyRef.current)");
     expect(media).not.toContain("autoPlay");
@@ -239,6 +242,17 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(css).toMatch(/\.academy-pptx-canvas\s*\{[^}]*height:\s*auto/s);
     expect(css).toMatch(/(?:^|\n)\.academy-pptx-win\s*\{[^}]*height:\s*auto/s);
     expect(css).toMatch(/\.academy-pptx-canvas-wrap\s*\{[^}]*align-items:\s*center/s);
+    expect(css).toMatch(
+      /\.academy-pptx-desk--dump \.academy-pptx-body--copilot\s*\{[^}]*minmax\(0,\s*1\.55fr\)/s,
+    );
+    expect(css).toMatch(
+      /\.academy-pptx-desk--dump\.academy-pptx-desk--live \.academy-pptx-body:not\(\.academy-pptx-body--copilot\)\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/s,
+    );
+    expect(css).toMatch(
+      /\.academy-pptx-desk--dump\.academy-pptx-desk--live \.academy-pptx-body:not\(\.academy-pptx-body--copilot\)[\s\S]*?\.academy-pptx-canvas-wrap\s*\{[^}]*grid-column:\s*1 \/ -1/s,
+    );
+    expect(pptx).toContain("academy-pptx-desk--full");
+    expect(css).toMatch(/\.academy-pptx-body \.academy-ai-desk\s*\{[^}]*min-width:\s*0/s);
     expect(css).toMatch(/\.academy-pptx-kpi\s*\{[^}]*min-height:\s*4\.35rem/s);
     expect(css).toMatch(
       /\.academy-player-compare-pane \.academy-pptx-kpi-grid\s*\{[^}]*align-items:\s*center/s,

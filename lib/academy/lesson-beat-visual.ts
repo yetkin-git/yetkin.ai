@@ -52,7 +52,7 @@ export const ACADEMY_OFFICE_AI_4_COPILOT_PROMPT =
 
 /** 01_office_ai-5 Beat 3 — kör süreç vs dedektif süreç. */
 export const ACADEMY_OFFICE_AI_5_COMPARE_BEFORE_LABEL = "KÖR SÜREÇ (UYDURMA VERİ)" as const;
-export const ACADEMY_OFFICE_AI_5_COMPARE_AFTER_LABEL = "DEDEKTİF SÜREÇ (KONTROLLÜ VERİ)" as const;
+export const ACADEMY_OFFICE_AI_5_COMPARE_AFTER_LABEL = "ÇAPRAZ KONTROL (KİLİTLİ SAYI)" as const;
 
 /** Öğrencinin Prompt Terminaline yazacağı gerçek istem — reji notu yok. PEDAGOJI §E.7. */
 export const ACADEMY_OFFICE_AI_5_COPILOT_PROMPT =
@@ -286,6 +286,7 @@ const HOWTO_ACTIVE_BY_LESSON: Readonly<Record<string, Readonly<Record<string, 0 
     "AŞIRI GÜVEN": 0,
     "HATA AVI": 1,
     "AI DEDEKTİF": 2,
+    "ÇAPRAZ KONTROL": 2,
     "FARK ORTADA": 2,
     "SIRA SENDE": 2,
   },

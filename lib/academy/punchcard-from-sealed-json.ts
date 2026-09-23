@@ -39,6 +39,19 @@ export function punchcardLabelFromText(
   return words.slice(0, maxWords).join(" ");
 }
 
+/**
+ * İç reji kod adı → vatandaş rozeti (PEDAGOJI §A.2 / §E.2).
+ * Cue `section` / bake rozeti durur; sahnede işin durumu parlar.
+ */
+export const ACADEMY_PUNCHCARD_CITIZEN_LABELS: Readonly<Record<string, string>> = {
+  "GİRİŞ KÖPRÜSÜ": "HATIRLATMA",
+};
+
+export function academyCitizenPunchcardLabel(label: string): string {
+  const key = label.replace(/\s+/gu, " ").trim();
+  return ACADEMY_PUNCHCARD_CITIZEN_LABELS[key] ?? key;
+}
+
 export function punchcardVisualEnd(card: Pick<SealedPunchcard, "id" | "label" | "start" | "end">): number {
   const span = card.end - card.start;
   if (

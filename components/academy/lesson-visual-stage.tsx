@@ -5,6 +5,7 @@ import type { AcademyCinemaCueSlide } from "@/lib/academy/cinema-cue-catalog";
 import { resolveAcademyCinemaSource } from "@/lib/academy/lesson-cinema";
 import {
   academyActivePunchcard,
+  academyCitizenPunchcardLabel,
   academyPlaybackCueAtTime,
   loadAcademyLessonPlaybackCues,
 } from "@/lib/academy/lesson-cues";
@@ -301,7 +302,7 @@ export function LessonCinemaEyeLayer({
       data-academy-captions={karaokeCues ? (captionsVisible ? "on" : "off") : undefined}
       data-academy-clean-stage={karaokeCues && !captionsVisible ? "true" : undefined}
     >
-      {nextSrc ? (
+      {nextSrc && !waiterSlide && !compare ? (
         <img
           src={nextSrc}
           alt=""
@@ -428,7 +429,7 @@ export function LessonCinemaEyeLayer({
             lang="tr"
             aria-live="polite"
           >
-            {punchcard.label}
+            {academyCitizenPunchcardLabel(punchcard.label)}
           </p>
         </div>
       ) : null}

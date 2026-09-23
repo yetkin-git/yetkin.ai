@@ -204,7 +204,6 @@ describe("Beat 3 Prompt Terminali dock", () => {
       "01_office_ai-1",
       "01_office_ai-2",
       "01_office_ai-3",
-      "01_office_ai-4",
       "01_office_ai-5",
       "01_office_ai-6",
       "01_office_ai-g1",

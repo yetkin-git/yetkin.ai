@@ -38,6 +38,10 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
     const manifesto = readSystemDoc("MANIFESTO.md");
     expect(manifesto).toContain("B2C Öğrenen / Kart Sahibi");
     expect(manifesto).toContain("Faz 2 alıcısı");
+    expect(manifesto).toContain("Beyaz yaka ofis çalışanı");
+    expect(manifesto).toContain("ikincil katman");
+    expect(manifesto).toContain("sunucu üzerinde canlı dosya doğrulaması kapsamaz");
+    expect(manifesto).not.toMatch(/kriptografik olarak mühürlenen bir iş kanıtıdır/u);
     expect(manifesto).toContain("Faz 1 çalışan vitrin 3 odadır");
     expect(manifesto).toContain("4. oda (Freelancer) kilitli motordur");
     expect(manifesto).toContain("/vize");

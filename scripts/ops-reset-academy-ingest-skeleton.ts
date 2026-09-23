@@ -69,7 +69,7 @@ const COURSES: readonly SkeletonCourse[] = [
     moduleCode: "CURR-OFFICE-AI-101",
     title: "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Verimliliği)",
     instructor: "Eğitmen",
-    category: "KATMAN 1.1 — Ekmek Teknesi / Kitlesel Eğitim Serisi (Pazarın %80'i / Temel & Başlangıç Seviyesi)",
+    category: "Ofis ve verimlilik",
     audience: [
       "Beyaz yakalı ofis çalışanları",
       "Muhasebe ve finans uzmanları",
@@ -88,7 +88,7 @@ const COURSES: readonly SkeletonCourse[] = [
     poolRef: "lib/academy/exam-pools.ts#OFFICE_AI_EXAM_QUESTIONS",
     sections: [
       {
-        title: "Tablonu Konuştur: Düzensiz Excel → Düzenli Tablo",
+        title: "A1 Düzeni ve Temiz Veri: Düzensiz Excel → Düzenli Tablo",
         minutesLow: 9,
         minutesHigh: 10,
         screen: "Gerçek muhasebe dökümü: birleştirilmiş hücre, boş satır, tarih karmaşası; AI ile formül yazdırma (F2, Alt+F11).",
@@ -98,7 +98,7 @@ const COURSES: readonly SkeletonCourse[] = [
           "Düzensiz Excel tablosunu düzenleyip AI ile formül yazdırmayı göstermek; F2 ve Alt+F11 cue kilidini canlı ekranda oturtmak.",
       },
       {
-        title: "Rapor Otomasyonu: Tablodan Yönetim Özetine",
+        title: "Yönetim Özetine Dönüştürme",
         minutesLow: 10,
         minutesHigh: 11,
         screen: "Aynı tablodan özet tablo + grafik + 5 maddelik yönetici özeti; Word'e tek tık aktarım.",

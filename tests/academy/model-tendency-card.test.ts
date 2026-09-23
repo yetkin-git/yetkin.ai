@@ -23,11 +23,12 @@ describe("model eğilim kartı — canlı kutu (Tespit H1 tedavisi)", () => {
     expect(ACADEMY_MODEL_TENDENCY_FRESHNESS_SEAL).toMatch(/^Tazelik Garantisi: .+ 2026$/u);
   });
 
-  it("dört eğilim satırı eğilim dilinde durur; sabit karakter iddiası yok", () => {
+  it("eğilim satırları eğilim dilinde durur; sabit karakter iddiası yok", () => {
     expect(ACADEMY_MODEL_TENDENCIES.map((row) => row.model)).toEqual([
       "ChatGPT",
       "Claude",
       "Gemini",
+      "Grok, Kimi, Muse Spark vb.",
       "Şirket paneli (kurumsal model)",
     ]);
     for (const row of ACADEMY_MODEL_TENDENCIES) {

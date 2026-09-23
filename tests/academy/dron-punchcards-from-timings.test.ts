@@ -17,8 +17,8 @@ describe("Dron punchcard — web timings JSON türevi", () => {
     const dron = dronAcademyPunchcardsForLesson("01_office_ai-1");
     expect(dron).toEqual(derived);
     expect(dron).toHaveLength(8);
-    expect(dron[0]).toMatchObject({ id: "cue-01", label: "GİRİŞ KÖPRÜSÜ", start: 2, end: 40.88 });
-    expect(dron.at(-1)?.end).toBe(662.56);
+    expect(dron[0]).toMatchObject({ id: "cue-01", label: "GİRİŞ KÖPRÜSÜ", start: 2, end: 41.56 });
+    expect(dron.at(-1)?.end).toBe(688.68);
     expect(dronLessonDeliveryLabel("01_office_ai-1")).toBe("Sesli anlatım");
   });
 
@@ -26,8 +26,8 @@ describe("Dron punchcard — web timings JSON türevi", () => {
     const derived = punchcardsFromSealedJson(officeAi5Timings, officeAi5Cues);
     const dron = dronAcademyPunchcardsForLesson("01_office_ai-5");
     expect(dron).toEqual(derived);
-    expect(dron.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(57.2);
-    expect(dron.at(-1)?.end).toBe(564.08);
+    expect(dron.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(55.8);
+    expect(dron.at(-1)?.end).toBe(553);
   });
 
   it("6. ders timings’den türetilir; sesli anlatım", () => {
@@ -35,15 +35,15 @@ describe("Dron punchcard — web timings JSON türevi", () => {
     const dron = dronAcademyPunchcardsForLesson("01_office_ai-6");
     expect(dron).toEqual(derived);
     expect(dron).toHaveLength(8);
-    expect(dron.at(-1)?.end).toBe(444.437);
-    expect(dron.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(51.211);
+    expect(dron.at(-1)?.end).toBe(505.6);
+    expect(dron.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(57.4);
     expect(dronLessonDeliveryLabel("01_office_ai-6")).toBe("Sesli anlatım");
   });
 
   it("KVKK kaseti mühürlü; Dron sesli anlatım taşır", () => {
     const dron = dronAcademyPunchcardsForLesson("01_office_ai-k1");
     expect(dron).toHaveLength(8);
-    expect(dron.at(-1)?.end).toBe(668.88);
+    expect(dron.at(-1)?.end).toBe(642.16);
     expect(dronLessonDeliveryLabel("01_office_ai-k1")).toBe("Sesli anlatım");
   });
 
@@ -52,7 +52,6 @@ describe("Dron punchcard — web timings JSON türevi", () => {
       "01_office_ai-1",
       "01_office_ai-2",
       "01_office_ai-3",
-      "01_office_ai-4",
       "01_office_ai-5",
       "01_office_ai-6",
       "01_office_ai-g1",

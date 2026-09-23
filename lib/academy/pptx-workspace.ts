@@ -101,3 +101,47 @@ export function academyPptxHasDeck(
   }
   return (slide.bullets?.length ?? 0) > 0;
 }
+
+/** Warm-up dump — şablon kaosu / metin yığını. Thumbs gizlenir; tuval tek sütun dolar. */
+export const ACADEMY_PPTX_DUMP_SECTIONS = ["GİRİŞ KÖPRÜSÜ", "HOŞ GELDİN", "ŞABLON KAOSU"] as const;
+
+export function academyPptxDumpMode(input: {
+  pane?: string;
+  section?: string;
+  hideReply?: boolean;
+}): boolean {
+  if (input.pane === "before") {
+    return true;
+  }
+  if (input.hideReply === true) {
+    return true;
+  }
+  const section = (input.section ?? "").trim();
+  return (ACADEMY_PPTX_DUMP_SECTIONS as readonly string[]).includes(section);
+}
+
+/**
+ * Dump / Hatırlatma / slayt istemi olmayan tekli gösterim.
+ * Copilot sütunu yoksa ızgara kapanır; tuval 16:9 sahneyi kaplar.
+ */
+export function academyPptxFullBleedCanvas(input: {
+  pane?: string;
+  dumpMode: boolean;
+  hasCopilot: boolean;
+}): boolean {
+  if (input.pane !== "live") {
+    return false;
+  }
+  if (input.hasCopilot) {
+    return false;
+  }
+  return input.dumpMode;
+}
+
+export function academyPptxDumpLines(
+  table: { rows: readonly (readonly string[])[] } | null | undefined,
+): readonly string[] {
+  const rows = table?.rows ?? [];
+  const lines = rows.map((row) => row.filter(Boolean).join(" — ")).filter((line) => line.length > 0);
+  return lines.length > 0 ? lines : ["Mart tahsilat notları dağınık durur..."];
+}

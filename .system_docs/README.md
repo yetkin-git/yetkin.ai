@@ -15,7 +15,7 @@ Bu klasör kalıcı anayasa ve sistem belgeleridir. Ürün kodu buradaki markdow
 | `ANAYASA.md` | **A Katmanı** (A1–A5) kırmızı çizgi. **B Katmanı** yaşayan mimari. |
 | `MANIFESTO.md` | Anayasa’nın *neden* var olduğunu söyler. |
 | `OPS_RUNBOOK.md` | Operatör bağlama indeksi; ayrıntı `ops/` altındadır. |
-| `STORAGE_CONTRACT.md` | Vatandaş/Studio nesne deposu yok. Akademi mühürlü yayın **9**. |
+| `STORAGE_CONTRACT.md` | Vatandaş/Studio nesne deposu yok. Akademi mühürlü yayın **8**. |
 | `README.md` | Bu klasörün kendisini tarif eder. |
 
 İstemci ops: `DRON_CLIENT_SPEC.md` — Bearer, JWT yenileme, Idempotency-Key, 401/426. Shared Kernel `@yetkin/kernel` paketidir.

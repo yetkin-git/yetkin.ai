@@ -16,7 +16,6 @@ describe("vatandaş oynatıcı katmanı — 01_office_ai 9 karaoke, kardeşler m
       "01_office_ai-2",
       "01_office_ai-3",
       "01_office_ai-5",
-      "01_office_ai-4",
       "01_office_ai-g1",
       "01_office_ai-w1",
       "01_office_ai-6",
@@ -24,7 +23,7 @@ describe("vatandaş oynatıcı katmanı — 01_office_ai 9 karaoke, kardeşler m
     expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-1").kind).toBe("article+karaoke");
     expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-2").kind).toBe("article+karaoke");
     expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-3").kind).toBe("article+karaoke");
-    expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-4").kind).toBe("article+karaoke");
+    expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-4").kind).toBe("article");
     expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-5").kind).toBe("article+karaoke");
     expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-6").kind).toBe("article+karaoke");
     expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-g1").kind).toBe("article+karaoke");

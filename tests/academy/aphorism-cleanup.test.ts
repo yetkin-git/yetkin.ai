@@ -24,6 +24,8 @@ const BANNED = [
   /Fark sihir değil/u,
   /iki kader/u,
   /Ataş konuşur/u,
+  /Etiket yoksa taslak yalandır/u,
+  /Taslak insan onayı olmadan gitmez/u,
 ] as const;
 
 function read(relative: string): string {
@@ -47,9 +49,10 @@ describe("PEDAGOJI.md §A.2 / §E.2 — aforizma ve ajans sloganı yasağı", ()
     );
     expect(pedagogy).toContain("Tek Tek Kopyalama");
     expect(pedagogy).toContain("Tek Dosyayla Analiz");
-    const a2 = pedagogy.slice(pedagogy.indexOf("### 2. Aptala Anlatır"), pedagogy.indexOf("### 3."));
+    const a2 = pedagogy.slice(pedagogy.indexOf("### 2. Günlük Dil"), pedagogy.indexOf("### 3."));
     const e2 = pedagogy.slice(pedagogy.indexOf("### E.2"), pedagogy.indexOf("### E.3"));
     expect(a2).toContain("Aforizma / Ajans Sloganı Yasağı");
+    expect(a2).toContain("Stüdyo dili öğrenci yüzeyine girmez");
     expect(e2).toContain("Aforizma / Ajans Sloganı");
   });
 

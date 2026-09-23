@@ -13,6 +13,7 @@ import {
   parsePrismaEnginePoolParams,
   runtimeDatabaseHostKind,
   supabasePoolerUsernameOk,
+  toSupabaseSessionPoolerUrl,
   withPgLibpqSslCompat,
 } from "@/lib/kernel/postgres-url";
 
@@ -61,6 +62,17 @@ describe("runtime Postgres URI", () => {
       "loopback",
     );
     expect(runtimeDatabaseHostKind("")).toBe("other");
+  });
+
+  it("transaction pooler'ı session :5432'ye çeker; Direct host icat etmez", () => {
+    const session = toSupabaseSessionPoolerUrl(`${POOLER_TX}?pgbouncer=true&connection_limit=10`);
+    expect(session).toContain(":5432");
+    expect(session).toContain("pooler.supabase.com");
+    expect(session).not.toMatch(/pgbouncer=/i);
+    expect(session).not.toMatch(/connection_limit=/i);
+    expect(session).toContain("sslmode=require");
+    expect(toSupabaseSessionPoolerUrl(POOLER_SESSION)).toContain(":5432");
+    expect(toSupabaseSessionPoolerUrl(DIRECT)).toBeNull();
   });
 
   it("connection_limit ve pool_timeout'u URL'den okur; soyma öncesi", () => {

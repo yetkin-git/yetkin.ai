@@ -4,6 +4,8 @@ import { describe, expect, it } from "vitest";
 import { ACADEMY_COURSE_SEEDS } from "@/lib/academy/seed";
 import {
   academyModuleCodeBySlug,
+  academySpokenModuleCode,
+  ACADEMY_MODULE_LEVEL_SPOKEN,
   groupAcademyCatalogBySeries,
   orderAcademyCatalogByCurriculum,
 } from "@/lib/academy/catalog-filter";
@@ -33,6 +35,10 @@ describe("akademi katalog sıra yardımcısı", () => {
       "BOT-104",
       "PR-105",
     ]);
+    expect(academyModuleCodeBySlug("01_office_ai_ileri")).toBe("OFF-201");
+    expect(academyModuleCodeBySlug("01_office_ai_ileri")).not.toBe("EC-102");
+    expect(ACADEMY_MODULE_LEVEL_SPOKEN["201"]).toBe("iki yüz bir");
+    expect(academySpokenModuleCode("01_office_ai_ileri")).toBe("Ofis iki yüz bir");
     expect(existsSync(join(process.cwd(), "components/academy/filter-bar.tsx"))).toBe(false);
   });
 

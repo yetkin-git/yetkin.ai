@@ -4,6 +4,7 @@
  */
 
 import { academyCatalogPriceMinorForSlug } from "@/lib/academy/catalog-pricing";
+import { academySyllabusModulePlansFor } from "@/lib/academy/syllabus-groups";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { LEGAL_ENTITY, LEGAL_PAGE_TITLE, LEGAL_WHATSAPP_HREF } from "@/lib/copy/legal-launch";
 import { CANONICAL_SITE_ORIGIN, OFFICE_AI_SEO, PAGE_SEO, canonicalUrl } from "@/lib/copy/seo";
@@ -120,13 +121,12 @@ export type CourseSyllabusLessonInput = {
  * Sıra/başlık kayması `tests/copy/seo-surface.test.ts` ile kilitlidir.
  */
 export const OFFICE_AI_SYLLABUS_LESSONS: readonly CourseSyllabusLessonInput[] = [
-  { name: "Tablonu Konuştur: Düzensiz Excel → Düzenli Tablo" },
+  { name: "A1 Düzeni ve Temiz Veri: Düzensiz Excel → Düzenli Tablo" },
   { name: "KVKK, Şirket Sırları ve Maskeleme: Ne Yüklenmez?" },
-  { name: "Rapor Otomasyonu: Tablodan Yönetim Özetine" },
+  { name: "Yönetim Özetine Dönüştürme" },
   { name: "Metinden Slayta: Sunum Hazırlama" },
   { name: "İstisnalar ve Hata Avı: Yapay Zekâ Yanılınca" },
-  { name: "E-Posta Akışı: Gelen Kutusu Sıfırlama" },
-  { name: "Gmail + Gemini ile Gelen Kutusu ve Aksiyon Listesi" },
+  { name: "E-Posta Akışı: Gmail / Outlook ve Aksiyon Listesi" },
   { name: "Word ve Uzun Belge İncelemesi: Sözleşme, Dilekçe, Rapor" },
   { name: "Haftalık Sistem: 30 Dakikalık Rutin" },
 ] as const;
@@ -157,8 +157,6 @@ function minutesToIso8601Duration(totalMin: number): string | null {
   }
   return `PT${minutes}M`;
 }
-
-const SYLLABUS_MODULE_SIZE = 4;
 
 export function courseJsonLd(input: {
   slug: string;
@@ -197,18 +195,18 @@ export function courseJsonLd(input: {
   const timeRequired = totalMin > 0 ? minutesToIso8601Duration(totalMin) : null;
   const syllabusSections =
     lessons && lessons.length > 0
-      ? Array.from(
-          { length: Math.ceil(lessons.length / SYLLABUS_MODULE_SIZE) },
-          (_, moduleIndex) => {
-            const group = lessons.slice(
-              moduleIndex * SYLLABUS_MODULE_SIZE,
-              moduleIndex * SYLLABUS_MODULE_SIZE + SYLLABUS_MODULE_SIZE,
-            );
+      ? (() => {
+          const plans = academySyllabusModulePlansFor(input.slug, lessons.length);
+          let cursor = 0;
+          return plans.map((plan) => {
+            const group = lessons.slice(cursor, cursor + plan.size);
+            const start = cursor;
+            cursor += plan.size;
             return {
               "@type": "Syllabus",
-              name: `Modül ${moduleIndex + 1}`,
+              name: plan.title,
               hasPart: group.map((lesson, groupIndex) => {
-                const position = moduleIndex * SYLLABUS_MODULE_SIZE + groupIndex + 1;
+                const position = start + groupIndex + 1;
                 const lessonDuration =
                   typeof lesson.durationMin === "number" && lesson.durationMin > 0
                     ? minutesToIso8601Duration(lesson.durationMin)
@@ -221,8 +219,8 @@ export function courseJsonLd(input: {
                 };
               }),
             };
-          },
-        )
+          });
+        })()
       : undefined;
   return {
     "@type": "Course",

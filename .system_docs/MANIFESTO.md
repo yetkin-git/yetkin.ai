@@ -6,7 +6,7 @@
 |------|--------|
 | Tarih | 17 Ağustos 2026 |
 | Statü | Vizyon ve Strateji Belgesi. Anayasa'nın ruhunu, iş modelini ve büyüme hedeflerini açıklar. |
-| Son Reform | **20 Eylül 2026 (TEDAVİ-01):** Kural 1 dört alt maddeye bölündü. Faz 1 kilidi Anayasa B2’ye bağlandı (DRY). |
+| Son Reform | **21 Eylül 2026 (TEDAVİ-OFFICE-AI-01):** 1.3 birincil kitle ofis işçisine çekildi. Compact mühür tanımı izleme + test olarak dürüstleşti. |
 | Yer | `/.system_docs/MANIFESTO.md` |
 | Çelişki | Bir cümle Anayasa ile çatışırsa `.system_docs/ANAYASA.md` bağlayıcıdır. |
 | Durum | Yaşayan kesit `docs/ops/DURUM.md` içindedir; `docs/DURUM.md` uyumluluk aynasıdır. |
@@ -33,14 +33,16 @@ Yapay zeka araçlarının yaygınlaşmasıyla **"ben bu işi biliyorum" demenin 
 yetkin.ai bu kırılma noktasında değer üretir:
 > **İddianın bedava olduğu bir dünyada, kanıtlanmış yetkinlik en değerli varlıktır.**
 
-Platformdaki her sertifika, sunucu tarafında değerlendirilen ve SHA-256 ile kriptografik olarak mühürlenen bir iş kanıtıdır.
+Platformdaki her sertifika, sunucu tarafında SHA-256 içerik özetiyle sicile bağlanan bir belgedir. Mühür, kursun izlendiğini ve teori-senaryo testinin geçildiğini kanıtlar; sunucu üzerinde canlı dosya doğrulaması kapsamaz.
 
 ## 1.3 Hedef Kitlemiz
 
-**Birincil kitle: B2C Öğrenen / Kart Sahibi.** Kartla dijital eğitim, sınav ve sertifika satın alan yetişkin.
+**Birincil kitle: B2C Öğrenen / Kart Sahibi.** Kartla dijital eğitim, sınav ve sertifika satın alan yetişkin. Amiral SKU’da bu kitle önce ofiste çalışanıdır.
 
-1. **Yetkinliğini Kanıtlamak İsteyen Öğrenenler (birincil):** Alaylı yazılımcılar, kariyer değiştirenler, uzaktan çalışan profesyoneller.
-2. **Riski Sıfırlamak İsteyen İşverenler (Faz 2 alıcısı):** Kalitesiz teslimat riskini almak istemeyen KOBİ’ler. Havuz ve lisanslı Split olmadan bu kitleye satış veya nakit iddiası basılmaz.
+1. **Ofis işçisi (birincil):** Beyaz yaka ofis çalışanı, muhasebe ve finans, KOBİ ve kamu personeli. Kod yazmaz; Excel, e-posta, Word ve slaytla işini yetiştirir.
+2. **Yetkinliğini kanıtlamak isteyen öğrenenler (birincil halka, ofis dışı):** Kariyer değiştirenler, uzaktan çalışan profesyoneller.
+3. **Yazılımcı / geliştirici (ikincil katman):** Alaylı yazılımcılar ve teknik üreticiler; amiral ofis SKU’sunun ilk alıcısı değildir. Prompt ve ajan müfredatı bu kitleye ayrı pakette gider.
+4. **Riski sıfırlamak isteyen işverenler (Faz 2 alıcısı):** Kalitesiz teslimat riskini almak istemeyen KOBİ’ler. Havuz ve lisanslı Split olmadan bu kitleye satış veya nakit iddiası basılmaz.
 
 ## 1.4 Marka ve Tasarım Duruşu
 

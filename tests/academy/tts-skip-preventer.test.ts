@@ -21,7 +21,13 @@ describe("TTS model skip preventer", () => {
     expect(spoken).not.toMatch(/\bF2\b/u);
     expect(applyAcademyCueDisplayPhonetics("KVKK")).toBe("Kavekaka");
     expect(applyAcademyCueDisplayPhonetics("T.C. Kimlik No")).toBe("TC kimlik numarası");
-    expect(applyAcademyCueDisplayPhonetics("MASKELİ_IBAN")).toBe("MASKELİ IBAN");
+    expect(applyAcademyCueDisplayPhonetics("MASKELİ_IBAN")).toBe("MASKELİ İban");
+    expect(applyAcademyCueDisplayPhonetics("açık IBAN")).toBe("açık İban");
+    expect(applyAcademyCueDisplayPhonetics("IBAN'ı")).toBe("İban'ı");
+    expect(applyAcademyCueDisplayPhonetics("IBAN, KVKK")).toBe("İban, Kavekaka");
+    expect(applyAcademySpokenPhoneticsToDisplay("açık İban")).toBe("açık IBAN");
+    expect(applyAcademySpokenPhoneticsToDisplay("MASKELİ İban")).toBe("MASKELİ_IBAN");
+    expect(applyAcademySpokenPhoneticsToDisplay("İban'ı")).toBe("IBAN'ı");
     expect(applyAcademyCueDisplayPhonetics("MASKELİ_TELEFON")).toBe("MASKELİ TELEFON");
     expect(applyAcademyCueDisplayPhonetics("MASKELİ_MAAŞ")).toBe("MASKELİ MAAŞ");
     expect(applyAcademySpokenPhoneticsToDisplay("Kavekaka kuralını")).toBe("KVKK kuralını");
@@ -33,6 +39,12 @@ describe("TTS model skip preventer", () => {
     expect(applyAcademyCueDisplayPhonetics("Buybox")).toBe("Baybaks");
     expect(applyAcademyCueDisplayPhonetics("Bundle")).toBe("Bantıl");
     expect(applyAcademyCueDisplayPhonetics("ChatGPT")).toBe("Çetcipiti");
+    expect(applyAcademyCueDisplayPhonetics("Muse Spark")).toBe("Myuz Spark");
+    expect(applyAcademyCueDisplayPhonetics("Grok, Kimi, Muse Spark vb.")).toContain("Myuz Spark");
+    expect(applyAcademySpokenPhoneticsToDisplay("Myuz Spark")).toBe("Muse Spark");
+    expect(applyAcademySpokenPhoneticsToDisplay("Grok, Kimi, Myuz Spark vb.")).toBe(
+      "Grok, Kimi, Muse Spark vb.",
+    );
     expect(applyAcademyCueDisplayPhonetics("özel API")).toBe("ö zel API");
     expect(applyAcademyCueDisplayPhonetics("şirketinin özel API'sine")).toBe(
       "şirketinin ö zel API'sine",

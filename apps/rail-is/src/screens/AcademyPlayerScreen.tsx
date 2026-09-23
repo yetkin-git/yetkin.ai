@@ -4,7 +4,7 @@ import type { DronAcademyCatalogItem } from "../ui/academy-catalog";
 import { RAIL_IS_COPY } from "../ui/copy";
 import type { AcademyPlayerView } from "../ui/present-academy-player";
 import type { AcademyPulseView } from "../ui/present-academy-pulse";
-import { dronAcademyPunchcardsForLesson, dronActivePunchcard, dronLessonDeliveryLabel } from "../ui/academy-punchcards";
+import { dronAcademyPunchcardsForLesson, dronActivePunchcard, dronLessonDeliveryLabel, dronPunchcardLabel } from "../ui/academy-punchcards";
 import { colors } from "../ui/theme";
 import { DRON_CHECKOUT_CONSENT_VERSION } from "./WalletTopUpScreen";
 import { HonestErrorCard, UiButton } from "./ui-primitives";
@@ -157,7 +157,7 @@ export function AcademyPlayerScreen({
                     testID={`dron-academy-punchcard-${card.id}`}
                     style={[styles.punchcard, active ? styles.punchcardActive : null]}
                   >
-                    {card.label}
+                    {dronPunchcardLabel(card.label)}
                   </Text>
                 );
               })}

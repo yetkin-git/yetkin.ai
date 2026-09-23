@@ -48,9 +48,9 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
     expect(officeAiPlannedLessonByKey(KEY)?.key).toBe(KEY);
     expect(OFFICE_AI_PLANNED_LESSONS.some((lesson) => lesson.key === KEY)).toBe(true);
     const live = curriculumForCourseSlug("01_office_ai");
-    expect(live).toHaveLength(9);
-    expect(live[6]?.key).toBe(KEY);
-    expect(live[6]?.order).toBe(7);
+    expect(live).toHaveLength(8);
+    expect(live[5]?.key).toBe(KEY);
+    expect(live[5]?.order).toBe(6);
     expect(hasAcademyLessonCues(KEY)).toBe(true);
     expect(hasAcademyLessonVisualStage(KEY)).toBe(true);
     expect(isAcademySpokenScriptLessonKey(KEY)).toBe(true);
@@ -108,7 +108,8 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
     expect(spoken).not.toMatch(/taşıma su yasak/iu);
     expect(spoken).not.toMatch(/Dördüncü derste Outlook/u);
     expect(spoken).not.toMatch(/Sekiz ders bitmeden/u);
-    expect(spoken).toMatch(/6\. derste Outlook/u);
+    expect(spoken).toMatch(/altıncı dersine/u);
+    expect(spoken).toMatch(/ilk iki dakika/u);
     expect(spoken).toContain(ACADEMY_OFFICE_AI_G1_COPILOT_PROMPT);
     expect(spoken).not.toMatch(/@Gmail/u);
     expect(spoken).not.toMatch(/\bkomut/u);
@@ -131,12 +132,14 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
   it("Sebep → Eylem → Sonuç: yerleşik panel ve kim-ne-ne zaman kilitlenir", () => {
     const prose = loadAcademySpokenScriptProse(KEY);
     const body = curriculumForCourseSlug("01_office_ai").find((row) => row.key === KEY)?.body ?? "";
-    expect(prose).toMatch(/Peki neden hâlâ iletiyi Çetcipiti’ye kopyalıyorsun\?/u);
-    expect(prose).toMatch(/kopyalanan gövde kutudan kopar/u);
+    expect(prose).toMatch(/Peki e-postayı kopyalayıp harici sohbet ekranına yapıştırmak neden yanlıştır\?/u);
+    expect(prose).toMatch(/metni kopyaladığında e-postanın tarihi, göndereni ve bağlamı kopar/u);
+    expect(prose).toMatch(/Tarihi, teslimat sözünü ve fiyatı sen belirlersin/u);
+    expect(prose).toMatch(/Kaya Gıda 54\.650 TL ödeme onayı istiyor/u);
     expect(prose).toMatch(/Peki neden kopyala-yapıştır varsayılan yol değildir\?/u);
     expect(prose).toMatch(/Peki aksiyon listesinde kim, ne, ne zaman neden kilitlenir\?/u);
     expect(prose).toMatch(/gönderen yoksa tahsilat kime bağlanır/u);
-    expect(prose).toMatch(/Peki neden Çetcipiti penceresi değil de bu yerleşik panel\?/u);
+    expect(prose).toMatch(/Peki Cemini yan paneli neden bir tıklama adımı değil de birinci kapıdır\?/u);
     expect(prose).toMatch(/Peki neden bu atlanmış kapıdır/u);
     expect(prose).toMatch(/Peki neden fark bu kadar belirgin\?/u);
     expect(prose).not.toMatch(/kahramanlıktır/u);
@@ -147,9 +150,9 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
     expect(prose).not.toMatch(/üç eşleşmeyi ezberle/u);
     expect(prose).not.toMatch(/Baraj yetmiştir/u);
     expect(prose).not.toMatch(/doygun ayağı/u);
-    expect(body).toMatch(/Peki neden hâlâ iletiyi ChatGPT/u);
+    expect(body).toMatch(/Peki e-postayı kopyalayıp harici sohbet ekranına yapıştırmak neden yanlıştır/u);
     expect(body).toMatch(/Peki aksiyon listesinde kim, ne, ne zaman neden kilitlenir/u);
-    expect(body).toMatch(/6\. derste Outlook/u);
+    expect(body).toMatch(/altıncı dersine/u);
     expect(body).not.toMatch(/\bkomut/u);
     expect(body).not.toMatch(/\bmail/iu);
     expect(body).not.toMatch(/kopyalıyoruz|yazıyoruz|bölelim|göreceğiz/u);
@@ -189,8 +192,8 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
     expect(timings).not.toBeNull();
-    expect(timings!.durationSec).toBe(449.586);
-    expect(timings!.cacheV).toBe(449586);
+    expect(timings!.durationSec).toBe(568.16);
+    expect(timings!.cacheV).toBe(568160);
     const cues = loadAcademyLessonCues(KEY);
     expect(cues.at(-1)?.end).toBe(timings!.durationSec);
     for (const cue of cues) {
@@ -201,7 +204,7 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
     const strip = loadAcademyKaraokeStrip(KEY);
     expect(strip.at(-1)?.end).toBe(timings!.durationSec);
     const stripText = strip.map((line) => line.text).join(" ");
-    expect(stripText).toMatch(/Peki neden hâlâ iletiyi/u);
+    expect(stripText).toMatch(/harici sohbet ekranına yapıştırmak neden yanlıştır/u);
     expect(stripText).toMatch(/kim, ne, ne zaman neden kilitlenir/u);
     expect(stripText).toMatch(/yerleşik panel/u);
     expect(stripText).not.toMatch(/kahramanlıktır/u);

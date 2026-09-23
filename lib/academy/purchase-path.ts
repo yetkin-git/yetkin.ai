@@ -25,7 +25,7 @@ export type AcademyCardOfferPath = {
  * Ses vaadi yalnız mühürlü SKU'dadır. Video/WebM vaadi yoktur. Kanon 13 SKU vitrin vaadi değildir.
  */
 export const ACADEMY_TRAINING_OFFER_SUMMARY_SEALED =
-  "Sesli Anlatım + Karaoke + Sınav + Mühürlü Sertifika";
+  "Sesli Anlatım + Sınav + Mühürlü Sertifika";
 export const ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN =
   "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika";
 
@@ -68,4 +68,34 @@ export function academyPurchaseSuccessHref(
     return `/academy/${courseSlug}?gate=exam`;
   }
   return `/academy/${courseSlug}/oyna`;
+}
+
+/**
+ * Ücretsiz önizleme — yalnız hazırlık şeridi.
+ * `01_office_ai-1` … `01_office_ai-6` (k1, g1, w1 dahil) satın alma olmadan kilitlidir.
+ */
+export const ACADEMY_FREE_PREVIEW_LESSON_KEY = "01_office_ai-0" as const;
+
+export function isAcademyFreePreviewLessonKey(lessonKey: string): boolean {
+  return lessonKey.trim() === ACADEMY_FREE_PREVIEW_LESSON_KEY;
+}
+
+/** Hazırlık şeridi olan kurs. Diğer SKU'larda oynatıcı hâlâ satın alma ister. */
+export function academyCourseOffersFreePreview(courseSlug: string): boolean {
+  return courseSlug.trim() === "01_office_ai";
+}
+
+/** Satın alma yokken ana ders ödeme duvarındadır. Hazırlık şeridi açık kalır. */
+export function isAcademyLessonPaywalled(
+  courseSlug: string,
+  lessonKey: string,
+  purchased: boolean,
+): boolean {
+  if (purchased) {
+    return false;
+  }
+  if (!academyCourseOffersFreePreview(courseSlug)) {
+    return true;
+  }
+  return !isAcademyFreePreviewLessonKey(lessonKey);
 }

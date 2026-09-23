@@ -7,7 +7,7 @@
  * 01_office_ai-3: %80 canlı slayt editörü. Beat 3 sol ÖNCE (DÜZ METİN YIĞINI), sağ SONRA (SIRALI SLAYT - AI).
  * 01_office_ai-4: %80 canlı Outlook. Beat 3 sol ÖNCE (142 OKUNMAMIŞ İLETİ), sağ SONRA (SIFIR KUTU - AI).
  * 01_office_ai-5: %80 canlı Excel / Copilot paneli. Beat 3 sol KÖR SÜREÇ (UYDURMA VERİ),
- * sağ DEDEKTİF SÜREÇ (KONTROLLÜ VERİ). Düzeltilmiş dedektif tablosu Beat 3’e kadar kapalı.
+ * sağ ÇAPRAZ KONTROL (KİLİTLİ SAYI). Düzeltilmiş tablo Beat 3’e kadar kapalı.
  * 01_office_ai-6: %80 canlı Excel / Cuma 30. Beat 3 sol DAĞINIK HAFTA (KRİZ TEKRARI),
  * sağ CUMA OTUZ (SİSTEMLİ RUTİN). Sistemli Cuma tablosu Beat 3’e kadar kapalı.
  * 01_office_ai-g1: %80 canlı Gmail. Beat 3 sol GELEN KUTUSUNDAN KOPUK / TAŞIMA SU,
@@ -69,6 +69,7 @@ import {
   ACADEMY_OFFICE_AI_2_SUMMARY_TABLE,
 } from "@/lib/academy/office-ai-2-workspace";
 import {
+  ACADEMY_KVKK_DELETE_BUTTON_SUMMARY,
   ACADEMY_KVKK_FILE_NAME,
   ACADEMY_KVKK_FLAG_CELLS,
   ACADEMY_KVKK_MASKED_TABLE,
@@ -346,7 +347,7 @@ const OFFICE_AI_W1_UPLOAD_NODES = [
 const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
   "01_office_ai-1": {
     ...OFFICE,
-    title: "Tablonu Konuştur: Düzensiz Excel → Düzenli Tablo",
+    title: "A1 Düzeni ve Temiz Veri: Düzensiz Excel → Düzenli Tablo",
     cues: [
       {
         cueIndex: 1,
@@ -449,7 +450,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         visualMode: "live",
         section: "TEMİZLE ŞİMDİ",
         headline: "TEMİZLE ŞİMDİ",
-        subhead: "Dağınık ızgara + Copilot düğmesi veya temiz örnek ataş. Maske 2. derste.",
+        subhead: "Copilot hücreyi düzenler. Ataş orijinali değiştirmez; temiz tabloyu yapıştır.",
         bullets: ["Copilot düğmesi", "Ataş yükle", "Maskeli kısa"],
         tools: ["Excel", "Copilot"],
         layout: "excel",
@@ -467,6 +468,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
             "4. A1 hücresine Tarih yaz.",
             "5. Birleşik A1:F1 çöz, boş satırı sil.",
             "6. Orijinali koru, Temiz kopyada çalış.",
+            "7. Ataş yeni tablo verir; kopyala, Excel'e yapıştır.",
           ],
         },
         table: OFFICE_AI_1_MESSY_TABLE,
@@ -563,7 +565,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
   },
   "01_office_ai-2": {
     ...OFFICE,
-    title: "Rapor Otomasyonu: Tablodan Yönetim Özetine",
+    title: "Yönetim Özetine Dönüştürme",
     cues: [
       {
         cueIndex: 1,
@@ -588,7 +590,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         section: "HOŞ GELDİN",
         headline: "HOŞ GELDİN",
         subhead: "Gözde masada. Onlarca sütun/satır açık; bugün yönetim özeti ve karar notu.",
-        bullets: ["Selamlar, ben Gözde", "Kalabalık ızgara", "Rapor otomasyonu"],
+        bullets: ["Selamlar, ben Gözde", "Kalabalık ızgara", "Üç maddelik özet"],
         tools: ["Excel", "Word"],
         layout: "excel",
         highlightCell: "A1",
@@ -1090,7 +1092,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         visualMode: "live",
         section: "AŞIRI GÜVEN",
         headline: "AŞIRI GÜVEN",
-        subhead: "Özete gözü kapalı güvenme. 21.500 ve 59.450 gömülü durur. Dedektif veri kapalı.",
+        subhead: "Özete gözü kapalı güvenme. 21.500 ve 59.450 gömülü durur. Kontrollü sayı kapalı.",
         bullets: ["Uydurma özet", "Şişmiş toplam", "Sapmayı bul"],
         tools: ["Excel", "Copilot"],
         layout: "excel",
@@ -1132,9 +1134,9 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
           beforeLabel: ACADEMY_OFFICE_AI_5_COMPARE_BEFORE_LABEL,
           afterLabel: ACADEMY_OFFICE_AI_5_COMPARE_AFTER_LABEL,
         },
-        section: "AI DEDEKTİF",
-        headline: "AI DEDEKTİF",
-        subhead: "Soldan sağa: sol kör süreç (uydurma veri), sağ kontrollü dedektif veri.",
+        section: "ÇAPRAZ KONTROL",
+        headline: "ÇAPRAZ KONTROL",
+        subhead: "Soldan sağa: sol kör süreç (uydurma veri), sağ kontrollü sayı.",
         bullets: ["21.500 düzeltildi", "59.450 düştü", "Formülle kilit"],
         tools: ["Excel", "Copilot"],
         layout: "excel",
@@ -1160,8 +1162,8 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         },
         section: "FARK ORTADA",
         headline: "FARK ORTADA",
-        subhead: "Sol 59.450 uydurma veri. Sağ 50.450 kontrollü veri. Kör süreç karşı dedektif süreç.",
-        bullets: ["Sol kör süreç", "Sağ dedektif", "İnsan gözü"],
+        subhead: "Sol 59.450 uydurma veri. Sağ 50.450 kilitli sayı. Kör süreç karşı kontrol süreci.",
+        bullets: ["Sol kör süreç", "Sağ kontrol", "İnsan gözü"],
         tools: ["Excel", "Copilot"],
         layout: "excel",
         highlightCell: "D5",
@@ -1372,7 +1374,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
   },
   "01_office_ai-g1": {
     ...OFFICE,
-    title: "Gmail + Gemini ile Gelen Kutusu ve Aksiyon Listesi",
+    title: "E-Posta Akışı: Gmail / Outlook ve Aksiyon Listesi",
     cues: [
       {
         cueIndex: 1,
@@ -1531,7 +1533,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         visualMode: "live",
         section: "SIRA SENDE",
         headline: "SIRA SENDE",
-        subhead: "Kendi Gmail’inde Gemini panelini aç. Son 24 saati yerinde tara.",
+        subhead: "Sabah kutunu yerinde oku. Acil olanla rutini ayır.",
         bullets: ["Kendi Gmail’in", "Üç kural", "Word ataş köprüsü"],
         tools: ["Gmail", "Gemini"],
         layout: "gmail",
@@ -1726,7 +1728,8 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         visualMode: "veo",
         section: "GİRİŞ KÖPRÜSÜ",
         headline: "GİRİŞ KÖPRÜSÜ",
-        subhead: "Müşteri listesi, IBAN ve maaş açık yapay zekâ ekranına yüklenmez.",
+        subhead:
+          "ChatGPT, Gemini, Grok ve benzeri ister ücretsiz ister ücretli tüm açık sohbet ekranlarına müşteri listesi, IBAN, T.C. kimlik numarası gibi ham verileri yükleyemezsin.",
         bullets: ["Ham liste yasak", "Maske zorunlu", "3. Kapı kısa"],
         tools: ["Excel", "Copilot"],
         layout: "excel",
@@ -1840,7 +1843,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         visualMode: "live",
         section: "CEBİNE KOY",
         headline: "CEBİNE KOY",
-        subhead: "Üç adım: ham veri yükleme, maskeleyip sor, 3. Kapı kısa özet.",
+        subhead: ACADEMY_KVKK_DELETE_BUTTON_SUMMARY,
         bullets: ["Ham veri yükleme", "Maskeleyip sor", "3. Kapı kısa özet"],
         tools: ["Excel", "Copilot"],
         layout: "excel",

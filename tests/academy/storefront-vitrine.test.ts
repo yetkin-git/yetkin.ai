@@ -69,6 +69,12 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
       "BOT-104",
       "PR-105",
     ]);
+    expect(academyModuleCodeBySlug("01_office_ai_ileri")).toBe("OFF-201");
+    expect(
+      academyVitrineShellCourses()
+        .map((row) => academyModuleCodeBySlug(row.slug))
+        .includes("OFF-201"),
+    ).toBe(false);
     expect(academyVitrineShellCourses().filter((row) => row.purchasable).map((row) => row.slug)).toEqual([
       "01_office_ai",
     ]);
@@ -172,7 +178,7 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
 
   it("vitrin dürüstlük kilidi: beş SKU compact makale; video vaadi yok; 13 eğitim vaadi yok", () => {
     expect(ACADEMY_SEN.catalog.heroAudioBadge).toBe(
-      "Sesli Anlatım + Karaoke + Sınav + Mühürlü Sertifika",
+      "Sesli Anlatım + Sınav + Mühürlü Sertifika",
     );
     expect(ACADEMY_SEN.catalog.heroArticleBadge).toBe(
       "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
@@ -191,7 +197,7 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(ACADEMY_GROWTH_SKU_SLUGS).toHaveLength(1);
     expect(ACADEMY_GROWTH_SKU_SLUGS).not.toContain("06_n8n_automation");
     const purchase = readSrc("lib/academy/purchase-path.ts");
-    expect(purchase).toContain("Sesli Anlatım + Karaoke + Sınav + Mühürlü Sertifika");
+    expect(purchase).toContain("Sesli Anlatım + Sınav + Mühürlü Sertifika");
     expect(purchase).toContain(
       "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
     );

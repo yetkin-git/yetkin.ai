@@ -18,30 +18,44 @@ export {
 } from "./planned";
 export {
   OFF_102_EXAM_PASS_SCORE,
+  OFF_102_EXAM_POOL_MAX,
+  OFF_102_EXAM_POOL_MIN,
   OFF_102_MODULE_CODE_ALTERNATIVE,
   OFF_102_MODULE_CODE_DRAFT,
+  OFF_102_MODULE_CODE_RETIRED,
   OFF_102_PREREQUISITE_LESSON_COUNT,
   OFF_102_PREREQUISITE_SKU_SLUG,
   OFF_102_SKU_SLUG_DRAFT,
   OFF_102_TITLE_DRAFT,
+  OFF_201_ECOMMERCE_COLLISION_CODE,
+  OFF_201_EXAM_PASS_SCORE,
+  OFF_201_EXAM_POOL_MAX,
+  OFF_201_EXAM_POOL_MIN,
+  OFF_201_MODULE_CODE,
+  OFF_201_PREREQUISITE_LESSON_COUNT,
+  OFF_201_PREREQUISITE_SKU_SLUG,
+  OFF_201_SATELLITE_KEYS,
+  OFF_201_SKU_SLUG_DRAFT,
+  OFF_201_TITLE_DRAFT,
   assertOff102DraftIntegrity,
+  assertOff201DraftIntegrity,
   off102DraftLessonsFromSatellites,
+  off201DraftLessonsFromSatellites,
 } from "./off-102";
-export type { Off102DraftLesson } from "./off-102";
+export type { Off102DraftLesson, Off201DraftLesson } from "./off-102";
 export type {
   OfficeAiPlannedLesson,
   OfficeAiPlannedLessonLane,
   OfficeAiPlannedLessonStatus,
 } from "./planned";
 
-/** 101 kanonu — 9 mühürlü ders. Ders 0 (`prep.ts`) bu diziye girmez. */
+/** 101 kanonu — 8 ana ders. Ders 0 (`prep.ts`) bu diziye girmez. `section4` arşivdir; sınav yoluna girmez. */
 export const officeAiSections: Section[] = [
   section1,
   sectionK1,
   section2,
   section3,
   section5,
-  section4,
   sectionG1,
   sectionW1,
   section6,
@@ -51,7 +65,7 @@ export const officeAiMasteryModule: CurriculumModule = {
   moduleCode: "CURR-OFFICE-AI-101",
   title: "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Verimliliği)",
   instructor: "Eğitmen",
-  category: "KATMAN 1.1 — Ekmek Teknesi / Kitlesel Eğitim Serisi (Pazarın %80'i / Temel & Başlangıç Seviyesi)",
+  category: "Ofis ve verimlilik",
   targetAudience: [
     "Beyaz yakalı ofis çalışanları",
     "Muhasebe ve finans uzmanları",

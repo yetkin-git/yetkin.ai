@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { LEGAL_PAGE_TITLE } from "@/lib/copy/legal-launch";
+import { OFFICE_AI_SEAL_PROOF_SHORT } from "@/lib/copy/sem-keywords";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
 import { PUBLIC_SEN } from "@/lib/copy/sen-voice/public";
@@ -140,23 +141,32 @@ export const ROBOTS_DISALLOW_PATHS = [
  * `course.title` SSOT'u (sicil/sertifika başlığı) değişmez; yalnız SEO dalı bu metinleri basar.
  * Title 52 kr + `TITLE_TEMPLATE` (12 kr) = 64 kr final; SERP kesintisiz.
  *
- * PAKET-19 — vatandaş lisanı anahtar kümesi meta description / keywords / H1'e işlenir.
+ * T-01 (21 Eylül 2026) — kamu vaadi mühürlü müfredat kapılarıyla aynıdır:
+ * Excel'de Copilot/ataş, Gmail'de yerleşik Gemini, Word belgesi inceleme,
+ * KVKK maskeleme, haftalık Cuma rutini. Yanlış yerleşik kapı adı ve İngilizce ürün kodu yok.
+ * T-02 (21 Eylül 2026) — mühür izleme + 10 soruluk barajdır; sunucu dosya kontrolü yoktur.
+ * Description 180 kr tavanı için Cuma «haftalık» sıfatı meta dışında (katalog/SSS/teaser) durur.
  * Compact makale gövdesi duvar arkasındadır; antre özeti + ders teaser'ı indekslenir.
  */
 export const OFFICE_AI_SEO = {
   slug: "01_office_ai",
   path: "/academy/01_office_ai",
   title: "Excel Yapay Zekâ Eğitimi: Ofiste ChatGPT + Sertifika",
-  description:
-    "Office AI eğitimi: iş hayatında yapay zekâ. Excel Gemini kullanımı, Word ataş ile belge analizi ve Cuma 30 rutini. 9 ders, 70+ baraj, mühürlü sertifika.",
+  description: `Excel Copilot ve Ataş Yöntemi, A1 Düzeni ve Temiz Veri ve yönetim özetine dönüştürme. Gmail'de yerleşik Gemini. ${OFFICE_AI_SEAL_PROOF_SHORT}`,
   /** Gövde H1 — kullanıcı dili; title (arama dili) ile ayrışır. */
   h1: "İş Hayatında Yapay Zekâ: Excel'den E-Postaya 9 Ders",
   keywords: [
     "İş Hayatında Yapay Zekâ",
-    "Excel Gemini Kullanımı",
+    "Excel Copilot ve Ataş Yöntemi",
+    "A1 Düzeni ve Temiz Veri",
+    "Yönetim Özetine Dönüştürme",
+    "Excel'de Temiz Veri",
+    "Excel Copilot ve Ataş",
+    "Gmail'de Yerleşik Gemini",
+    "Word Belgesi İnceleme",
     "Word Ataş İle Belge Analizi",
-    "Cuma 30 Rutini",
-    "Office AI Eğitimi",
+    "KVKK Maskeleme",
+    "Haftalık Cuma Rutini",
     "Excel yapay zeka eğitimi",
     "ofiste ChatGPT",
     "Word yapay zeka",
@@ -166,23 +176,21 @@ export const OFFICE_AI_SEO = {
 /** Kamuya açık antre ders özetleri — tam compact makale duvar arkasındadır. */
 export const OFFICE_AI_LESSON_TEASERS: Readonly<Record<string, string>> = {
   "01_office_ai-1":
-    "Excel Gemini kullanımı: A1 hijyeniyle dağınık tabloyu düzenli tabloya çevirirsin.",
+    "Excel Copilot ve Ataş Yöntemi: A1 Düzeni ve Temiz Veri ile dağınık tabloyu düzenli tabloya çevirirsin.",
   "01_office_ai-k1":
-    "KVKK: ham müşteri listesi yüklenmez; maske refleksini kilitlersin.",
+    "KVKK maskeleme: ham müşteri listesi yüklenmez; maske refleksini kilitlersin.",
   "01_office_ai-2":
-    "Temiz tablodan üç maddelik yönetim özeti ve karar cümlesi çıkarırsın.",
+    "Yönetim özetine dönüştürme: temiz tablodan üç madde ve bir karar cümlesi çıkarırsın.",
   "01_office_ai-3":
     "Metinden slayta: Copilot veya PowerPoint sunusu ataş ile sunum hazırlarsın.",
   "01_office_ai-5":
     "Yapay zekâ yanılınca TOPLA ve kaynak evrakla sayıyı kilitlersin.",
-  "01_office_ai-4":
-    "Gelen kutuyu etiket–taslak–onay–arşiv ritüeliyle sıfırlarsın.",
   "01_office_ai-g1":
-    "Gmail + Gemini ile yerinde aksiyon listesi çıkarırsın.",
+    "Gmail'de yerleşik Gemini ve Outlook: etiket, taslak, onay, arşiv, sonra yerinde aksiyon listesi.",
   "01_office_ai-w1":
-    "Word ataş ile belge analizi: sözleşme, dilekçe ve raporu ayrı istemle çözersin.",
+    "Word belgesi inceleme: Word ataş ile belge analizi; sözleşme, dilekçe ve raporu ayrı istemle çözersin.",
   "01_office_ai-6":
-    "Cuma 30 rutini: 10 Excel + 10 slayt + 10 kutu, takvimde durur.",
+    "Haftalık Cuma rutini: on dakika Excel, on dakika slayt, on dakika kutu; takvime yazılır.",
 };
 
 /** robots.txt Allow — yayın amiral antresi (prefix `/academy` yedeğine ek kesin yol). */

@@ -35,8 +35,13 @@ export type AcademyModelTendency = {
 
 /**
  * Yaşayan eğilim satırları — kasetteki Eylül 2026 anlık görüntüsünün güncel karşılığı.
- * Satır ekleme/çıkarma serbesttir (yeşil kilit); sıra: ChatGPT → Claude → Gemini → şirket paneli.
+ * Satır ekleme/çıkarma serbesttir (yeşil kilit); sıra: ChatGPT → Claude → Gemini →
+ * Grok, Kimi, Muse Spark vb. → şirket paneli.
+ * Sohbet kapısı bu listedeki modellere ortaktır.
  */
+export const ACADEMY_CHAT_MODEL_LIST =
+  "ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb." as const;
+
 export const ACADEMY_MODEL_TENDENCIES: readonly AcademyModelTendency[] = [
   {
     model: "ChatGPT",
@@ -49,6 +54,10 @@ export const ACADEMY_MODEL_TENDENCIES: readonly AcademyModelTendency[] = [
   {
     model: "Gemini",
     tendency: "adımları net sıralamaya yatkındır",
+  },
+  {
+    model: "Grok, Kimi, Muse Spark vb.",
+    tendency: "aynı sohbet kapısından geçmeye yatkındır",
   },
   {
     model: "Şirket paneli (kurumsal model)",

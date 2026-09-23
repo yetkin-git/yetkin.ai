@@ -78,6 +78,12 @@ const ACADEMY_CUE_DISPLAY_PHONETICS: readonly { display: string; spoken: string 
   { display: "Bundle", spoken: "Bantıl" },
   /** Gemini 3.1 «özel»yi soyad Özal sanır; «ö zel» ikinci heceyi /e/ kilitler. */
   { display: "özel API", spoken: "ö zel API" },
+  /**
+   * Marka adı. «Muz» muz diye okunur; «Myuz» /mjuːz/ kilididir.
+   * «Spark» tek başına Apache açılımına gider; «Myuz Spark» o gümrükte durur.
+   * Cue ekranda Muse Spark kalır.
+   */
+  { display: "Muse Spark", spoken: "Myuz Spark" },
   { display: "Copilot", spoken: "Kopilot" },
   { display: "Gemini", spoken: "Cemini" },
   { display: "Claude", spoken: "Klod" },
@@ -95,7 +101,10 @@ const ACADEMY_CUE_DISPLAY_PHONETICS: readonly { display: string; spoken: string 
   { display: "T.C. Kimlik No", spoken: "TC kimlik numarası" },
   { display: "MASKELİ_TELEFON", spoken: "MASKELİ TELEFON" },
   { display: "MASKELİ_MAAŞ", spoken: "MASKELİ MAAŞ" },
-  { display: "MASKELİ_IBAN", spoken: "MASKELİ IBAN" },
+  /** Alt çizgi kalkar; «IBAN» parçası vatandaş okunuşu «İban» olur. Cue ekranda MASKELİ_IBAN kalır. */
+  { display: "MASKELİ_IBAN", spoken: "MASKELİ İban" },
+  /** Gemini «IBAN»ı İngilizce «ay-ben» okur; «İban» vatandaş okunuşudur. Cue ekranda IBAN kalır. */
+  { display: "IBAN", spoken: "İban" },
   /** Gemini «KVKK»yi tek hece okur; «Kavekaka» Ka-Ve-Ka-Ka kilididir. Cue ekranda KVKK kalır. */
   { display: "KVKK", spoken: "Kavekaka" },
   { display: "CRM", spoken: "Si ar em" },

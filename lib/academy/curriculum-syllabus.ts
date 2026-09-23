@@ -8,6 +8,13 @@ import {
   academyLessonMediaMeta,
   type AcademyLessonContentKind,
 } from "@/lib/academy/lesson-meta";
+import {
+  academySyllabusModulePlansFor,
+  type AcademySyllabusModulePlan,
+} from "@/lib/academy/syllabus-groups";
+
+export type { AcademySyllabusModulePlan };
+export { academySyllabusModulePlansFor };
 
 export type AcademySyllabusLesson = {
   key: string;
@@ -32,18 +39,6 @@ export type AcademySyllabus = {
   lessonCount: number;
 };
 
-const LESSONS_PER_MODULE = 4;
-
-const MODULE_TITLES: Record<string, readonly string[]> = {};
-
-function moduleTitleFor(slug: string, moduleIndex: number): string {
-  const named = MODULE_TITLES[slug]?.[moduleIndex];
-  if (named) {
-    return named;
-  }
-  return `Modül ${moduleIndex + 1}`;
-}
-
 export function curriculumSyllabusForCourseSlug(slug: string): AcademySyllabus {
   const seeds = curriculumForCourseSlug(slug);
   const lessons: AcademySyllabusLesson[] = seeds.map((lesson) => {
@@ -56,16 +51,18 @@ export function curriculumSyllabusForCourseSlug(slug: string): AcademySyllabus {
       durationMin: media.durationMin,
     };
   });
+  const plans = academySyllabusModulePlansFor(slug, lessons.length);
   const modules: AcademySyllabusModule[] = [];
-  for (let offset = 0; offset < lessons.length; offset += LESSONS_PER_MODULE) {
-    const group = lessons.slice(offset, offset + LESSONS_PER_MODULE);
-    const moduleIndex = modules.length;
+  let offset = 0;
+  for (const plan of plans) {
+    const group = lessons.slice(offset, offset + plan.size);
     modules.push({
-      id: `${slug}-mod-${moduleIndex + 1}`,
-      title: moduleTitleFor(slug, moduleIndex),
+      id: `${slug}-mod-${modules.length + 1}`,
+      title: plan.title,
       lessons: group,
       durationMin: group.reduce((sum, lesson) => sum + lesson.durationMin, 0),
     });
+    offset += plan.size;
   }
   return {
     slug,

@@ -9,8 +9,10 @@ import {
   ACADEMY_BED_OUTRO_HOLD_SEC,
   ACADEMY_BED_OUTRO_PEAK_GAIN,
   ACADEMY_BED_SPEECH_GAIN,
+  ACADEMY_OUTRO_BREATH_SEC,
   academyBedDuckGain,
   academyBedIsSpeech,
+  academyOutroBreathFadeGain,
 } from "@/lib/academy/lesson-bed-duck";
 import { isAcademyLessonBedSealed } from "@/lib/academy/lesson-audio";
 import { loadAcademyLessonExam } from "@/lib/academy/lesson-exams";
@@ -55,11 +57,18 @@ describe("01_office_ai-1 mühür bağları — punchcard, Lyria ducking, sınav 
     expect(academyBedDuckGain(103.75, close)).toBeGreaterThan(0);
     expect(academyBedDuckGain(103.75, close)).toBeLessThan(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(104.5, close)).toBe(0);
+    expect(academyOutroBreathFadeGain(0, ACADEMY_BED_OUTRO_PEAK_GAIN)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
+    expect(academyOutroBreathFadeGain(1.25, ACADEMY_BED_OUTRO_PEAK_GAIN)).toBeGreaterThan(0);
+    expect(academyOutroBreathFadeGain(1.25, ACADEMY_BED_OUTRO_PEAK_GAIN)).toBeLessThan(ACADEMY_BED_OUTRO_PEAK_GAIN);
+    expect(academyOutroBreathFadeGain(ACADEMY_OUTRO_BREATH_SEC, ACADEMY_BED_OUTRO_PEAK_GAIN)).toBe(0);
     expect(isAcademyLessonBedSealed("01_office_ai", "01_office_ai-1")).toBe(true);
     const player = readFileSync(join(ROOT, "components/academy/lesson-media-player.tsx"), "utf8");
     expect(player).toContain('data-academy-bed={bedSrc ? "lyria" : undefined}');
     expect(player).toContain("data-academy-bed-outro");
     expect(player).toContain("academyBedDuckGain");
+    expect(player).toContain("academyOutroBreathFadeGain");
+    expect(player).toContain("academyPlayerOutroTailSec");
+    expect(player).toContain("ACADEMY_OUTRO_BREATH_MS");
     expect(player).toContain("academyBedOutroTailSec");
     expect(player).toContain("academyLessonBedPlaybackSrc");
     const bake = readFileSync(join(ROOT, "scripts/generate-academy-lesson-bed.ts"), "utf8");

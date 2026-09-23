@@ -17,14 +17,15 @@ Soyut tanımlar, brifing tebliğleri ve altı boş sloganlar ("saniyeler içinde
 * «Ajan otonom bir döngüdür» demek yerine sipariş, araç, bellek ve teslim adımı masada çalışır.
 * Her yayın SKU kendi iş dilini kullanır. Tek şablon her alana zorla dayatılmaz.
 
-### 2. Aptala Anlatır Gibi Netlik & SEN Dili (Vatandaş Dili)
+### 2. Günlük Dil, Tek İş, Tek Cümle & SEN Dili (Vatandaş Dili)
 
 Sıfır jargon, insani, sıcak, arkadaşça, yapmacıksız ve çözüme giden bir dil kullanılır.
 
 * **Öğretmen SEN, Belge SIZ:** Eğitmen anlatırken öğrenciye doğrudan ve sıcak bir dille «sen» diye hitap eder. Ancak dilekçe, resmi yazı veya sözleşme çıktısı üretilirken belgenin kendi dili «siz» ve resmi formatta kalır.
-* Cümle TTS ritmine uyar: kısa, konuşulabilir, günlük.
+* Cümle TTS ritmine uyar: kısa, konuşulabilir, günlük. Bir cümlede tek iş durur.
 * Jargon kaçınılmazsa önce günlük vatandaş karşılığı, sonra terim gelir. Ham dosya uzantıları (`xlsx`, `docx`, `pptx`) Vatandaş Lisanı ile Türkçe karşılığına çevrilir: Excel tablosu / Word belgesi / PowerPoint sunusu (yüzey listesi §E.2).
 * **Aforizma / Ajans Sloganı Yasağı:** Eğitim dili aforizma, ajans sloganı veya tekerleme olamaz. «Karar notu insanındır», «Sunum fabrikası» gibi edebi laflar yasaktır. Dil; bir öğretmenin öğrencisine doğrudan, sade ve eylem odaklı anlattığı duru Türkçe olmak zorundadır.
+* **Stüdyo dili öğrenci yüzeyine girmez:** bake, kaset, compact, punchcard yalnız üretim kılavuzu ve fırın SOP’undadır. Vatandaş ve öğrenci metninde günlük karşılık kullanılır: sesli ders, tam ders metni, sahnedeki kısa rozet.
 
 ### 3. Bilişsel Yük Yönetimi & "Quiet Luxury" UX Standartları
 
@@ -112,7 +113,7 @@ Vitrin otoritesini ve güvenini korumak için platformda 5'li Vitrin Karması li
 
 **Dürüst Yüzey (Anayasa A5):** `01_office_ai` dışındaki 4 ürünün üzerinde "Çok Yakında / Hazırlanıyor" rozeti durur. Tıklandığında ön sipariş/bilgilendirme gösterilir. Bağlı olmayan medya, eksik bake veya mühürsüz ders için hayali oynatıcı basılmaz; vatandaşa dürüstçe henüz hazır olmadığı söylenir.
 
-Amiral SKU `01_office_ai` yayın makalesi + mühürlü karaoke taşır. **Ders adedi Pedagoji kotası değildir.** Anayasa B4 (konunun hakkı) ne gerektiriyorsa o kadar doygun ders basılır: tek pakette 9–10 ders veya 101/102 ayrımı serbesttir. **Ayrım tetik koşulu:** çekirdek toplam 90 dk tavanını aşarsa veya çekirdek ders adedi 11’e ulaşırsa SKU `OFF-101` / `OFF-102` diye ikiye ayrılır (bant SSOT `lib/academy/production-standard.ts`). **Çekirdek 9 ders kilitlidir**; ileriki fırında 3 köprü dersi (takvim/toplantı, Excel formül/grafik, PDF) ayrı uydu şeridinde eklenir, çekirdek sınav yolu şişmez. Canlı kaset / sınav sayıları `docs/ops/DURUM.md` (ayna `docs/DURUM.md`) ve koddadır. Sessiz okuma metni yoktur.
+Kart örneği: SKU `OFF-101` / `OFF-201`. Amiral SKU `01_office_ai` yayın makalesi + mühürlü karaoke taşır. **Ders adedi Pedagoji kotası değildir.** Ders adedi ve süre tavanı bir kota değildir. Çekirdek müfredat konunun hakkını bitirene kadar uzar; konu kesilemez. 101/201 ayrımı konunun hakkı isterse yapılır; 9 ders veya 90 dakika gerekçe gösterilerek müfredat budanmaz. Bant sayıları kod SSOT’tadır (`lib/academy/production-standard.ts`); kart kodu `OFF-102` EC-102 ile çakışır, kullanılmaz. Formül/grafik, takvim/toplantı ve PDF gibi ileri ofis konuları `OFF-201` taslak şeridinde durabilir; çekirdek sınav yolu ürün kararıyla büyür. Canlı kaset / sınav sayıları `docs/ops/DURUM.md` (ayna `docs/DURUM.md`) ve koddadır. Sessiz okuma metni yoktur.
 
 ---
 
@@ -129,10 +130,10 @@ Amiral SKU `01_office_ai` yayın makalesi + mühürlü karaoke taşır. **Ders a
 
 Üç Kapı tanımı, sıra ve vatandaş özeti **§D** üzerindedir. Bu madde yalnız araç eşleşmesini ve masaüstü gerçeğini taşır.
 
-* **Yerleşik araç eşleşmesi (SSOT):** Outlook → Copilot, Gmail → Gemini, Word/Excel → Doğrudan Dosya Yükleme, PowerPoint → Copilot. Kilit: `lib/academy/ai-desk.ts` → `ACADEMY_INFRA_TOOL_MATCH`.
-* **Araç dayatması yok.** Pedagoji VBA, Gamma veya Marp zorunlu kılmaz. Sheets/Docs yasak değil, bu SKU’da yol Excel/Word’dür; Sheets köprüsü ayrı derste. Fırın script’indeki checkbox doktrin değildir. 1. Kapı yerleşik Copilot; yoksa ataş.
+* **Yerleşik araç eşleşmesi (SSOT):** Outlook → Copilot, Gmail → Gemini, Excel → Lisans varsa Copilot şeridi, yoksa ataş (her ikisi de geçerli yol), Word → Doğrudan Dosya Yükleme, PowerPoint → Copilot. Kilit: `lib/academy/ai-desk.ts` → `ACADEMY_INFRA_TOOL_MATCH`.
+* **Araç dayatması yok.** Pedagoji VBA, Gamma veya Marp zorunlu kılmaz. Sheets/Docs yasak değil, bu SKU’da yol Excel/Word’dür; Sheets köprüsü ayrı derste. Fırın script’indeki checkbox doktrin değildir. Excel’de 1. Kapı lisans varsa Copilot şeridi, yoksa ataş; her ikisi de geçerli yoldur.
 * **Nereye Yazılacak:** Soyut «AI Masası» paneli **KESİNLİKLE YASAKTIR**. Öğrenci gerçek kapıyı görür: Gmail Gemini paneli, Copilot şeridi veya ataş. Rehber ok: «Nereye Yükleyeceksin?» / «Gemini veya ataş». Masaüstü Outlook’ta Copilot yoksa 2. veya 3. kapı dürüstçe gösterilir; «senin aracın yasak» denmez.
-* **Çoklu AI ekosistemi:** Yalnız Copilot değil; ChatGPT, Claude, Gemini ve şirket paneli / kurumsal model farkı sade dille işlenir.
+* **Çoklu AI ekosistemi:** Yalnız Copilot değil; ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb. büyük dil modelleri (sohbet yapay zekâları) ve şirket paneli / kurumsal model farkı sade dille işlenir.
 * **Yasak yüzeyleri:** ses fonetiği, cue, konuşma metni, makale ve görsel stage düğümlerini tarayan testler bake el kitabındadır (`docs/ops/akademi-bake-elkitabi.md`).
 * **Aforizma / Ajans Sloganı:** İlke §A.2’dedir. Görsel stage rozeti işin net tanımını taşır («Tek Tek Kopyalama», «Tek Dosyayla Analiz»); «ZAHMETLİ YOL», «YERİNDE ANALİZ» gibi jenerik laflar basılmaz.
 
@@ -158,7 +159,7 @@ Mantık ağaçları ve süreç diyagramları statik afiş olarak basılmaz; `com
 
 * **İstem paneli:** Yerleşik panele (Gmail Gemini, Copilot) istem yazılır. Öğrenci istemi ekrandan alıp aynı panele yapıştırabilir. Bu, taşıma su değildir. Taşıma su, **kutuyu / dosyayı** dış sohbete taşımaktır.
 * **Harf harf yazma dayatması yoktur.** Daktilo animasyonu «garsonu göster» içindir; vatandaşa pratik yol öğretilir.
-* Ana akış e-posta adımları `01_office_ai-g1` (Gmail + Outlook çift hat) haritasındadır.
+* Ana akış e-posta adımları `01_office_ai-g1` (Gmail + Outlook çift hat) haritasındadır. Etiket, taslak, insan onayı ve arşiv bu dersin ilk iki dakikasıdır. Ayrı ritüel kaseti sınav yolunda yoktur.
 
 ### E.8 Nereye Yazılacak — Gmail + Gemini, Copilot ve Ataş
 
@@ -166,15 +167,16 @@ Soyut «AI Masası» paneli **KESİNLİKLE YASAKTIR**.
 
 * **Sekme 1 — Gmail + Gemini (1. Kapı):** Gmail yan panelindeki Gemini eklentisi işaretlenir. İstem oraya yazılır veya panodan *istem* yapıştırılır; mail gövdesi dış sohbete taşınmaz.
 * **Sekme 2 — Copilot (1. Kapı):** Lisans varsa şerit menüsündeki Copilot işaretlenir.
-* **ChatGPT / Claude:** Yerleşik panel yoksa 2. Kapı ataştır (Excel tablosu / Word belgesi / PowerPoint sunusu). 1. ve 2. kapı yoksa 3. Kapı maskeli kısa özettir. Ham kutu / ham sözleşme taşıması öğretilmez (§E.10). Sohbet ekranı tek başına kapı adı değildir.
+* **Sohbet yapay zekâları (ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb.):** Yerleşik panel yoksa 2. Kapı ataştır (Excel tablosu / Word belgesi / PowerPoint sunusu). 1. ve 2. kapı yoksa 3. Kapı maskeli kısa özettir. Ham kutu / ham sözleşme taşıması öğretilmez (§E.10). Sohbet ekranı tek başına kapı adı değildir.
 
 ### E.9 Altyapı Şeffaflığı & Dosya Yükleme Gerçekliği
 
 Üç kapı (§D / §E.2 / §E.10) her uygulamada aynı sırayla durur; ekran ve ses aracın gerçek kapısını gösterir.
 
-* Word ve Excel: Word belgesi / Excel tablosu sohbete ataş ile yüklenir (2. Kapı). Parça parça sayfa kopyası tercih edilen yol değildir.
+* Excel: lisans varsa Copilot şeridi (1. Kapı), yoksa ataş (2. Kapı); her ikisi de geçerli yoldur.
+* Word: Word belgesi sohbete ataş ile yüklenir (2. Kapı). Parça parça sayfa kopyası tercih edilen yol değildir.
 * Outlook: Copilot lisansı varsa 1. Kapı. Lisans yoksa gelen kutusunun tamamını harici sohbete taşımak öğretilen varsayılan değildir; Gmail Gemini (1. Kapı) veya maskeli kısa 3. Kapı dürüstçe gösterilir.
-* Ana akış e-posta dersi: `01_office_ai-g1` — Gmail + Outlook çift hat. Yöntem `gmail-gemini` (Outlook ayağı Copilot / 3. Kapı).
+* Ana akış e-posta dersi: `01_office_ai-g1` — Gmail + Outlook çift hat. Ritüel ilk iki dakika, ardından yerleşik panel. Yöntem `gmail-gemini` (Outlook ayağı Copilot / 3. Kapı).
 * Ana akış Word dersi: `01_office_ai-w1`. Yöntem `doc-upload-gemini` (sözleşme + dilekçe + rapor).
 * Sınav kapısı ve kaset sayıları koddadır; Pedagoji «N ders» yazmaz.
 

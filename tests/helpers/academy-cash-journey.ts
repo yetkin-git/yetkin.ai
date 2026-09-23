@@ -33,7 +33,7 @@ export type AcademyCashJourneyResult = {
 };
 
 /**
- * Akademi mutlu yol (bellek): 01_office_ai → kilit → settlement → 9 ders → sınav → SHA-256.
+ * Akademi mutlu yol (bellek): 01_office_ai → kilit → settlement → 8 ders → sınav → SHA-256.
  * Emanet yoktur. Canlı Postgres/Auth istemez.
  */
 export async function runAcademyCashJourney(): Promise<AcademyCashJourneyResult> {
@@ -94,8 +94,8 @@ export async function runAcademyCashJourney(): Promise<AcademyCashJourneyResult>
       seedAmountMinor,
     };
   }
-  if (lessons.length !== 9) {
-    throw new Error(`01_office_ai müfredatı 9 ders ister, gelen ${lessons.length}.`);
+  if (lessons.length !== 8) {
+    throw new Error(`01_office_ai müfredatı 8 ders ister, gelen ${lessons.length}.`);
   }
 
   const curriculum = await completeAcademyCurriculum(ports, {

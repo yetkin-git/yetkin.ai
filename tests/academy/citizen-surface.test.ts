@@ -81,10 +81,10 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(copy.catalog.cardCtaBuy).toBe("Satın Al");
     expect(copy.catalog.audioBadge).toBe("Sesli anlatım");
     expect(copy.catalog.audioBadgeHint).toBe(
-      "Sesli Anlatım + Karaoke + Sınav + Mühürlü Sertifika",
+      "Sesli Anlatım + Sınav + Mühürlü Sertifika",
     );
     expect(copy.catalog.heroAudioBadge).toBe(
-      "Sesli Anlatım + Karaoke + Sınav + Mühürlü Sertifika",
+      "Sesli Anlatım + Sınav + Mühürlü Sertifika",
     );
     expect(copy.catalog.comingSoonBadge).toBe("Çok Yakında / Hazırlanıyor");
     expect(copy.catalog.comingSoonMeta).toBe("Hazırlanıyor");
@@ -166,7 +166,7 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("CurriculumOutcomes");
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("academyAntreVisaPromise");
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("data-academy-checkout-cta");
-    expect(copy.outline.examShield).toContain("9 dersin tamamı bitirilmeden");
+    expect(copy.outline.examShield).toContain("8 dersin tamamı bitirilmeden");
     expect(copy.outline.visaPromise(70, "Ofis Verimliliği", "excel-veri-otomasyon")).toContain(
       "Pasaport siciline",
     );

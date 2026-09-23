@@ -15,7 +15,10 @@ import {
   ACADEMY_PPTX_FILE_LABEL,
   ACADEMY_PPTX_FILE_NAME,
   academyPptxAlignBox,
+  academyPptxDumpLines,
+  academyPptxDumpMode,
   academyPptxElementForCell,
+  academyPptxFullBleedCanvas,
 } from "@/lib/academy/pptx-workspace";
 import { academyCitizenOfficeFileLabel } from "@/lib/academy/prompt-console";
 import { academyOfficeFocusOriginCss, applyAcademyOfficeWinFit } from "@/lib/academy/office-win-fit";
@@ -70,14 +73,20 @@ export function LessonPptxWorkspace({
     cueIndex: slide.cueIndex,
     currentTime,
   });
-  const dumpMode =
-    pane === "before" ||
-    slide.copilot?.hideReply === true ||
-    slide.section === "ŞABLON KAOSU" ||
-    slide.section === "HOŞ GELDİN" ||
-    slide.section === "GİRİŞ KÖPRÜSÜ";
+  const dumpMode = academyPptxDumpMode({
+    pane,
+    section: slide.section,
+    hideReply: slide.copilot?.hideReply,
+  });
   const nodes = slide.nodes ?? [];
-  const dumpLines = slide.table?.rows.map((row) => row.filter(Boolean).join(" — ")) ?? [];
+  const dumpLines = academyPptxDumpLines(slide.table);
+  const showThumbs = !compact && !dumpMode;
+  const hasCopilotPane = Boolean(slide.copilot && !compact);
+  const fullBleed = academyPptxFullBleedCanvas({
+    pane,
+    dumpMode,
+    hasCopilot: hasCopilotPane,
+  });
 
   const deskClass = [
     "academy-pptx-desk",
@@ -86,6 +95,7 @@ export function LessonPptxWorkspace({
     pane === "after" ? "academy-pptx-desk--after" : "",
     liveFocusZoom ? "academy-pptx-desk--focus-zoom" : "",
     dumpMode && pane !== "after" ? "academy-pptx-desk--dump" : "",
+    fullBleed ? "academy-pptx-desk--full" : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -161,6 +171,7 @@ export function LessonPptxWorkspace({
       data-academy-ai-desk-tab={slide.copilot && !compact ? aiDesk.tab : undefined}
       data-academy-ai-desk-phase={slide.copilot && !compact ? aiDesk.phase : undefined}
       data-academy-pptx-chrome={compact ? "bare" : "full"}
+      data-academy-pptx-bleed={fullBleed ? "full" : undefined}
       data-academy-pptx-camera={cameraTarget ?? undefined}
       style={
         pane === "live"
@@ -190,8 +201,8 @@ export function LessonPptxWorkspace({
             {slide.copilot ? <LessonOfficeCopilotRibbon active={aiDesk.tab === "copilot"} host="pptx" /> : null}
           </div>
         )}
-        <div className={`academy-pptx-body${slide.copilot && !compact ? " academy-pptx-body--copilot" : ""}`}>
-          {compact ? null : (
+        <div className={`academy-pptx-body${hasCopilotPane ? " academy-pptx-body--copilot" : ""}`}>
+          {showThumbs ? (
             <nav className="academy-pptx-thumbs" aria-label="Slayt gezgini">
               {(nodes.length > 0 ? nodes : [{ title: "Yönetim özeti", sub: slide.subhead }]).map((node, index) => (
                 <button
@@ -200,12 +211,13 @@ export function LessonPptxWorkspace({
                   className={`academy-pptx-thumb${index === 0 ? " on" : ""}`}
                   data-academy-pptx-thumb={index + 1}
                 >
+                  <i className="academy-pptx-thumb-preview" aria-hidden />
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   <em>{node.title}</em>
                 </button>
               ))}
             </nav>
-          )}
+          ) : null}
           <div className="academy-pptx-canvas-wrap" ref={wrapRef}>
             <article className="academy-pptx-canvas aspect-video" data-academy-pptx-canvas="">
               <LessonSlideWorkspace
@@ -214,15 +226,16 @@ export function LessonPptxWorkspace({
                 activeElement={activeElement}
                 originRef={originRef}
               />
-              {alignBox ? (
-                <div
-                  className="academy-pptx-active-border"
-                  data-academy-excel-active-cell-border=""
-                  style={boxStyle(alignBox)}
-                  aria-hidden
-                />
-              ) : null}
             </article>
+            {alignBox ? (
+              <div
+                className="academy-pptx-active-border"
+                data-academy-excel-active-cell-border=""
+                data-academy-pptx-card-arrow=""
+                style={boxStyle(alignBox)}
+                aria-hidden
+              />
+            ) : null}
             {mouse ? (
               <div
                 className="academy-excel-mouse-layer"

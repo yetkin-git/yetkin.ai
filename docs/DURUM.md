@@ -14,29 +14,28 @@ Bu dosya yaşayan kesittir. `docs/DURUM.md` test uyumluluk aynasıdır.
 
 ## Amiral SKU `01_office_ai`
 
-**Tam mühürlü.** Vatandaş sırası (`lib/academy/curricula/lesson-index.ts`): `1 → k1 → 2 → 3 → 5 → 4 → g1 → w1 → 6`. Teknik sonek ders numarası değildir. Süre SSOT: `lib/academy/lesson-audio-timings/*.json` `durationSec`. P0 / P1 / P2 kapalı.
+**Sınav yolu 8 ders.** Vatandaş sırası (`lib/academy/curricula/lesson-index.ts`): `1 → k1 → 2 → 3 → 5 → g1 → w1 → 6`. `01_office_ai-4` sınav yolunda yoktur. Teknik sonek ders numarası değildir. Süre SSOT: mühürlü kasetlerin `durationSec` toplamı. Konuşma metni ve MP3 21 Eylül 2026 fırınında kilitlendi.
 
 | Ölçüt | Kod gerçeği |
 |-------|-------------|
-| Sistem mührü | **Tam mühürlü** — 9/9 kaset + 9/9 karaoke + 9 derslik sınav yolu + P0/P1/P2 kapalı (18 Eylül 2026). |
-| Sınav yolu | **9 ders** — vatandaş 1…9 (`lib/academy/curricula/lesson-index.ts`) |
-| Mühürlü kaset | **9/9** — `1`, `k1`, `2`, `3`, `5`, `4`, `g1`, `w1`, `6` (`ACADEMY_MEDIA_SEALED_AUDIO`). 420–720 sn bandı dolu; bake kuyruğu boş. |
-| Karaoke | **9/9** mühürlü ders `article+karaoke`. «Ses kaseti yoktur» bandı yok. |
+| Sistem mührü | **8/8.** Eski ritüel kaseti yoldan çıktı. Tam mühürlü senaryo sesi 21 Eylül 2026 fırınıdır. `01_office_ai-4` yeniden kaydedilmedi. |
+| Sınav yolu | **8 ders** + hazırlık şeridi (şerit sayıya girmez) — vatandaş 1…8 (`lib/academy/curricula/lesson-index.ts`) |
+| Mühürlü kaset | **8/8** — `1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6` (`ACADEMY_MEDIA_SEALED_AUDIO`). `01_office_ai-4` arşiv dosyasıdır, toplama girmez. |
+| Karaoke | **8/8** yol dersi `article+karaoke`. Cue ve zaman JSON’u bu fırının MP3 sürelerine kilitli. |
 | Üç Kapı SSOT | Aktarım: 1. yerleşik panel (Copilot / Gemini şeridi) → 2. ataş (Excel tablosu / Word belgesi / PowerPoint sunusu) → 3. maskeli kısa özet. Güvenlik sınıfı ayrı: kişisel veri / şirket sırrı / kamu cümlesi. |
-| 1. ders | Üç Kapı + A1 hijyeni (`01_office_ai-1`, **662.56 sn**). Karaoke «grafik raporu» vaadi yok. |
-| 2. ders | KVKK / maskeleme (`01_office_ai-k1`, **668.88 sn**). Vatandaş dili. Yükleme alışkanlığından önce. Bant içi mühürlü kaset. |
-| 3. ders | Rapor: tablodan yönetim özeti (`01_office_ai-2`, **552.68 sn**). |
-| 4. ders | PowerPoint Copilot + PowerPoint sunusu ataş, sıfır kodlama (`01_office_ai-3`, **575.6 sn**). **18 Eylül 2026 — 16:9 contain kamera, Copilot dock çapa ve zoom clamp kilitlendi.** |
-| 5. ders | Hata avı; sol dip toplam **59.450** ekran + karaoke + TTS (`01_office_ai-5`, **564.08 sn**). |
-| 6. ders | E-posta ritüeli (`01_office_ai-4`, **493.8 sn**). |
-| 7. ders | Gmail + Gemini kapısı (`01_office_ai-g1`, **449.586 sn**). |
-| 8. ders | Word ataş / uzun doküman (`01_office_ai-w1`, **607.688 sn**). |
-| 9. ders | **Haftalık Sistem** capstone 10+10+10 (`01_office_ai-6`, **444.437 sn**). Bant içi mühürlü kaset. Sınav kapısı bu dersten sonra açılır. |
-| Kurs süresi SSOT | `academyCourseSealedDurationSec("01_office_ai")` — timings toplamı **5019.311 sn ≈ 83.66 dk**; `estimatedTotalMinutes` buradan türetilir. |
-| Köprüler | Çekirdek 9 kilitli. İleriki fırın: takvim/toplantı, Excel formül/grafik, PDF (`planned.ts` uydu, `lane: satellite`). |
+| 1. ders | Üç Kapı + A1 hijyeni (`01_office_ai-1`, **688.68 sn**). Karaoke «grafik raporu» vaadi yok. |
+| 2. ders | KVKK / maskeleme (`01_office_ai-k1`, **642.16 sn**). Vatandaş dili. Yükleme alışkanlığından önce. Bant içi mühürlü kaset. |
+| 3. ders | Rapor: tablodan yönetim özeti (`01_office_ai-2`, **517.24 sn**). |
+| 4. ders | PowerPoint Copilot + PowerPoint sunusu ataş, sıfır kodlama (`01_office_ai-3`, **541.92 sn**). **18 Eylül 2026 — 16:9 contain kamera, Copilot dock çapa ve zoom clamp kilitlendi.** |
+| 5. ders | Hata avı; sol dip toplam **59.450** ekran + karaoke + TTS (`01_office_ai-5`, **553 sn**). |
+| 6. ders | E-Posta Akışı: Gmail / Outlook ve aksiyon listesi (`01_office_ai-g1`, **568.16 sn**). Ritüel bu dersin ilk iki dakikasıdır; ses bu metindir. |
+| 7. ders | Word ataş / uzun doküman (`01_office_ai-w1`, **563.36 sn**). Birincil model 23 Eylül 2026. |
+| 8. ders | **Haftalık Sistem** capstone 10+10+10 ve kısa Word/hata kontrolü (`01_office_ai-6`, **505.6 sn**). Sınav kapısı bu dersten sonra açılır. Birincil model 23 Eylül 2026. |
+| Kurs süresi SSOT | `academyCourseSealedDurationSec("01_office_ai")` — timings toplamı **4580.12 sn ≈ 76.34 dk**; `estimatedTotalMinutes` buradan türetilir. Eski ritüel kaseti (493.8 sn) toplama girmez. |
+| Köprüler | Çekirdek 8 kilitli. İleriki fırın: takvim/toplantı, Excel formül/grafik, PDF (`planned.ts` uydu, `lane: satellite`). |
 | Kardeş SKU `02`–`05` | Vitrinde **Çok Yakında / Hazırlanıyor.** Satın alma ve hayali oynatıcı yok. |
 
-Yayın ilkesi: makale + mühürlü karaoke. Amiral 9 kaset sesli; sınav 9 ders bitince açılır. Compact makale ve mühür havuzu Üç Kapı kilidine çekildi.
+Yayın ilkesi: makale + mühürlü karaoke. Amiral 8 kaset sesli; sınav 8 ders bitince açılır. Compact makale ve mühür havuzu Üç Kapı kilidine çekildi.
 
 ---
 
@@ -92,7 +91,7 @@ Amiral antre indekslenir; oynatıcı ve çıkış paketi noindex + robots disall
 |-------|--------|
 | T3 Akademi halkası | **Bağlı.** `publishFrozenUntilFaz1Close: false`. Oynatıcı, sınav, mühür, kasa hop’ları durur. |
 | Tezgâh | İzole (`tezgahStoreIsolated: true`). Faz 2 yansıtma. |
-| Punchcard saatleri | Web timings JSON’undan türetilir. Elle kopya SSOT değildir. 9 mühürlü kaset türetilir. |
+| Punchcard saatleri | Web timings JSON’undan türetilir. Elle kopya SSOT değildir. Yol 8 kaset; arşiv `01_office_ai-4` dosyası durur. |
 | Sinema masası | Web’dedir. Native «garsonu göster» Excel/Gmail klonu taşımaz; nakit + metin + rozet + sınav taşır. |
 
 ---
@@ -123,4 +122,4 @@ v1 hop sicili: `RAIL_V1_HOPS` — **16 kayıt.**
 
 ## Bu hafta dürüst cümle
 
-Motor (cüzdan, sınav, mühür, hop) ayaktadır. Amiral gemisi `01_office_ai` **tam mühürlüdür:** 9 mühürlü kaset + 9 karaoke akışı + 9 derslik sınav yolu + P0/P1/P2 kapalı. Canlı nakit hattında PayTR `CLEARED` tanığı vardır (₺15,00; 18 Eylül 2026). Split ve Freelancer açılmaz. Reklam ve ikinci SKU fırını ayrı CEO kararıdır.
+Motor (cüzdan, sınav, mühür, hop) ayaktadır. Amiral gemisi `01_office_ai` sınav yolu **8 derstir.** Eski ritüel kaseti yoldan çıktı. Kalan 8 kasetin sesi 21 Eylül 2026 fırınıdır. Canlı nakit hattında PayTR `CLEARED` tanığı vardır (₺15,00; 18 Eylül 2026). Split ve Freelancer açılmaz. Reklam ve ikinci SKU fırını ayrı CEO kararıdır.

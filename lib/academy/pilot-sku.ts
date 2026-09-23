@@ -4,7 +4,8 @@
  * vitrini mühürlü amiral SKU’dur. Kardeş Katman 1 taslakları üretim
  * bandındadır; Prisma hayalet SKU ve hayali oynatıcı girmez.
  *
- * `01_office_ai` çekirdek kaydı durur; 9 ders mühürlü ses (`1`…`6`, `g1`, `w1`, `k1`).
+ * `01_office_ai` çekirdek kaydı durur; 8 ders mühürlü ses (`1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`).
+ * Eski ritüel kaseti `01_office_ai-4` sınav yolunda ve ses mühründe yoktur; dosya arşivde kalır.
  * Sınav yolu `lesson-index.ts` SSOT’udur.
  * PEDAGOJI §D 5'li Vitrin Karması kardeşleri dürüst «Çok Yakında» kabuğu olarak basar.
  */
@@ -56,7 +57,6 @@ export const ACADEMY_MEDIA_SEALED_AUDIO: Readonly<Record<string, readonly string
     "01_office_ai-1",
     "01_office_ai-2",
     "01_office_ai-3",
-    "01_office_ai-4",
     "01_office_ai-5",
     "01_office_ai-6",
     "01_office_ai-g1",

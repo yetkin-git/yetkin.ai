@@ -9,7 +9,7 @@ Bu belge iki katmandan oluşur:
 | Alan | Değer |
 |------|--------|
 | Tarih | 16 Ağustos 2026 |
-| Son Reform | **20 Eylül 2026 (TEDAVİ-01):** B1 tarihsel Regex/grep ve ölü A8 dipnotu kaldırıldı. B4 karar tablosu eklendi. A Katmanı (A1–A5) değişmez. |
+| Son Reform | **21 Eylül 2026 (TEDAVİ-OFFICE-AI-01):** B4’e süre bandının müfredatı budayamayacağı cümlesi eklendi. A Katmanı (A1–A5) değişmez. |
 | Kamu markası / domain | `yetkin.ai` |
 | Kalıcı belgeler | `/.system_docs` |
 | Ops | `.system_docs/OPS_RUNBOOK.md` (db / paytr / inngest / dron) |
@@ -83,7 +83,7 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 
 ## B4. Müfredat
 
-* **Konunun Hakkı:** Compact yayın makalesi kelime tavanı veya sabit ders adediyle kesilmez.
+* **Konunun Hakkı:** Compact yayın makalesi kelime tavanı veya sabit ders adediyle kesilmez. Süre bantları üretim standardıdır; müfredatın hakkını kesmek için gerekçe gösterilemez.
 * **Kelime bütçesi adı:** Mühürlü ses bütçesi kodda `SEALED_AUDIO_LIMITS` adını taşır. Compact için `COMPACT_ARTICLE_GUIDE` aralık önerisidir, tavan değildir.
 * **Müfredat ilkesi `.system_docs/PEDAGOJI.md` içindedir.** Anayasa süre bandı, SKU adedi, kaset listesi veya karaoke dakikası taşımaz.
 * **Yayın = makale + mühürlü karaoke; sayılar ve müfredat koddadır.** Canlı kaset/sınav yolu `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` SSOT’udur; yaşayan haftalık kesit `docs/ops/DURUM.md` içindedir (`docs/DURUM.md` uyumluluk aynasıdır). İzlemede canlı üretici API (`VIDEO_GEN` / TTS) yoktur. Bake ayrıntısı `docs/ops/akademi-bake-elkitabi.md` içindedir.

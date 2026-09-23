@@ -48,6 +48,7 @@ import {
   ACADEMY_WELCOME_PUNCHCARD_CEILING_SEC,
   ACADEMY_WELCOME_PUNCHCARD_MAX_SEC,
   ACADEMY_WELCOME_PUNCHCARD_MIN_SEC,
+  academyCitizenPunchcardLabel,
   punchcardLabelFromText,
   punchcardVisualEnd,
 } from "@/lib/academy/punchcard-from-sealed-json";
@@ -57,6 +58,7 @@ export {
   ACADEMY_WELCOME_PUNCHCARD_CEILING_SEC,
   ACADEMY_WELCOME_PUNCHCARD_MAX_SEC,
   ACADEMY_WELCOME_PUNCHCARD_MIN_SEC,
+  academyCitizenPunchcardLabel,
 };
 
 export type AcademyLessonCue = AcademyCinemaCaptionCue & {

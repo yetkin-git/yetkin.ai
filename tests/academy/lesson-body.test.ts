@@ -128,7 +128,6 @@ describe("uygulamalı ders gövdesi", () => {
       "01_office_ai-1",
       "01_office_ai-2",
       "01_office_ai-3",
-      "01_office_ai-4",
       "01_office_ai-5",
       "01_office_ai-6",
       "01_office_ai-g1",
@@ -207,6 +206,10 @@ describe("TTS metin gümrüğü", () => {
     expect(cleanAcademySpokenTextForTts("ö zel API'sine verirsin, ö zel API ise kilitler.")).toBe(
       "ö zel API'sine verirsin, ö zel API ise kilitler.",
     );
+    expect(normalizeAcronyms("Spark kümesi")).toBe("Kıvılcım Veri İşleme Motoru (Spark) kümesi");
+    expect(normalizeAcronyms("Muse Spark")).toBe("Muse Spark");
+    expect(normalizeAcronyms("Myuz Spark")).toBe("Myuz Spark");
+    expect(cleanAcademySpokenTextForTts("Grok, Kimi, Myuz Spark vb.")).toBe("Grok, Kimi, Myuz Spark vb.");
     expect(cleanAcademySpokenTextForTts("hemen bir pivot tabloya hazır.")).toBe(
       "hemen bir özet tabloya hazır.",
     );

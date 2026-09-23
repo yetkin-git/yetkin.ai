@@ -12,7 +12,11 @@ import { LessonCinemaEyeLayer } from "@/components/academy/lesson-visual-stage";
 import { PrepStripPanel } from "@/components/academy/prep-strip-panel";
 import { OFFICE_AI_EXIT_KIT_SLUG } from "@/lib/academy/exit-kit";
 import {
+  academyPrepStripAudioDurationSec,
   academyPrepStripForSlug,
+  academyPrepStripPlayerLayer,
+  isAcademyPrepStripAudioSealed,
+  isAcademyPrepStripKaraokeLayer,
   readAcademyPrepStripDone,
   writeAcademyPrepStripDone,
 } from "@/lib/academy/prep-strip";
@@ -20,6 +24,8 @@ import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { normalizeAcronyms } from "@/lib/academy/acronym-normalizer";
 import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
 import { academyExamStartGateHref } from "@/lib/academy/continue-board";
+import { ACADEMY_CARD_OFFER_PATHS } from "@/lib/academy/purchase-path";
+import { academyCheckoutHref } from "@/lib/academy/storefront-cta";
 import { academyCompareDockPrompt, academyVisualCompareStage } from "@/lib/academy/excel-workspace";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import {
@@ -30,7 +36,7 @@ import {
   academyPlaybackCueAtTime,
   loadAcademyLessonPlaybackCues,
 } from "@/lib/academy/lesson-cues";
-import { academyBedOutroTailSec } from "@/lib/academy/lesson-bed-duck";
+import { academyPlayerOutroTailSec } from "@/lib/academy/lesson-bed-duck";
 import {
   ACADEMY_LESSON_AUTO_ADVANCE_DEFAULT,
   canAdvanceAcademyPlayerLesson,
@@ -72,12 +78,15 @@ export function CurriculumPlayer({
   lessons,
   curriculumComplete,
   workTasksComplete,
+  paywallLocked = false,
 }: {
   courseId: string;
   courseSlug: string;
   lessons: CurriculumPlayerLesson[];
   curriculumComplete: boolean;
   workTasksComplete?: boolean;
+  /** Satın alma yok — hazırlık şeridi açık, ana dersler ödeme duvarında. */
+  paywallLocked?: boolean;
 }) {
   const router = useRouter();
   const idempotency = useIdempotencyKey();
@@ -85,7 +94,12 @@ export function CurriculumPlayer({
   const outline = ACADEMY_SEN.outline;
   const firstOpen = lessons.find((lesson) => lesson.open && !lesson.completed) ?? lessons[0];
   const prepStrip = useMemo(() => academyPrepStripForSlug(courseSlug), [courseSlug]);
-  const [activeKey, setActiveKey] = useState(firstOpen?.key ?? lessons[0]?.key ?? "");
+  const [activeKey, setActiveKey] = useState(() => {
+    if (paywallLocked && prepStrip) {
+      return prepStrip.key;
+    }
+    return firstOpen?.key ?? lessons[0]?.key ?? "";
+  });
   const [prepDone, setPrepDone] = useState(false);
   const didInitPrepRef = useRef(false);
   const [error, setError] = useState<string | null>(null);
@@ -120,10 +134,14 @@ export function CurriculumPlayer({
     didInitPrepRef.current = true;
     const done = readAcademyPrepStripDone(courseSlug);
     setPrepDone(done);
+    if (paywallLocked) {
+      setActiveKey(prepStrip.key);
+      return;
+    }
     if (!done && !lessons.some((row) => row.completed) && !curriculumComplete) {
       setActiveKey(prepStrip.key);
     }
-  }, [courseSlug, prepStrip, lessons, curriculumComplete]);
+  }, [courseSlug, prepStrip, lessons, curriculumComplete, paywallLocked]);
 
   const prepActive = Boolean(prepStrip && activeKey === prepStrip.key);
   const active = prepActive
@@ -146,7 +164,7 @@ export function CurriculumPlayer({
         audioDuration: 0,
         sealedDuration: academySealedAudioDurationSec(courseSlug, active.key),
         spokenDuration: 0,
-        outroTailSec: academyBedOutroTailSec(active.key),
+        outroTailSec: academyPlayerOutroTailSec(active.key),
       })
     : 0;
   const activeTitle =
@@ -155,11 +173,22 @@ export function CurriculumPlayer({
       : active
         ? normalizeAcronyms(active.title)
         : "";
+  const lessonPaywalled = Boolean(paywallLocked && active && !active.open);
   const playerLayer = useMemo(
-    () => (active ? academyCitizenPlayerLayer(courseSlug, active.key) : { kind: "article" as const }),
-    [active, courseSlug],
+    () =>
+      active && !lessonPaywalled
+        ? academyCitizenPlayerLayer(courseSlug, active.key)
+        : { kind: "article" as const },
+    [active, courseSlug, lessonPaywalled],
   );
   const karaoke = playerLayer.kind === "article+karaoke" ? playerLayer : null;
+  const prepKaraoke = useMemo(() => {
+    if (!prepActive) {
+      return null;
+    }
+    const layer = academyPrepStripPlayerLayer(courseSlug);
+    return isAcademyPrepStripKaraokeLayer(layer) ? layer : null;
+  }, [prepActive, courseSlug]);
   const eyeStage = karaoke ? loadAcademyLessonVisualStage(karaoke.lessonKey) : null;
   const dockPrompt = useMemo(() => {
     if (!karaoke) {
@@ -335,6 +364,9 @@ export function CurriculumPlayer({
     if (!active || mediaElapsed < 1) {
       return;
     }
+    if (mediaElapsed + 0.02 < activeClockDurationSec) {
+      return;
+    }
     if (
       !hasAcademyLessonPlaybackReachedEnd({
         currentTime: mediaElapsed,
@@ -398,9 +430,14 @@ export function CurriculumPlayer({
     !prepActive &&
     (Boolean(prevLesson?.open) || Boolean(prepStrip && active?.key === lessons[0]?.key));
   const exitKitHref =
-    courseSlug === OFFICE_AI_EXIT_KIT_SLUG
+    !paywallLocked && courseSlug === OFFICE_AI_EXIT_KIT_SLUG
       ? (`/academy/${courseSlug}/cikis-paketi` as Route)
       : null;
+  const prepAudioSealed = isAcademyPrepStripAudioSealed(courseSlug);
+  const prepDurationMin = prepAudioSealed
+    ? Math.max(1, Math.round(academyPrepStripAudioDurationSec(courseSlug) / 60))
+    : (prepStrip?.estimatedMinutes ?? 0);
+  const trainingCta = ACADEMY_CARD_OFFER_PATHS[0]?.cta ?? "Eğitimi Satın Al & Öğren";
 
   const playlist = (
     <aside
@@ -449,7 +486,8 @@ export function CurriculumPlayer({
               className={`academy-player-rail-item flex w-full items-center gap-2.5 rounded-[0.9rem] text-left text-[13px] leading-snug tracking-[-0.014em] ${
                 prepActive ? "academy-player-rail-item--active" : "text-[var(--muted)]"
               }`}
-              data-academy-lesson-delivery="article"
+              data-academy-lesson-delivery={prepAudioSealed ? "karaoke" : "article"}
+              data-academy-free-preview=""
             >
               <span
                 aria-hidden
@@ -466,7 +504,7 @@ export function CurriculumPlayer({
                   {prepStrip.badge} · {prepStrip.title}
                 </span>
                 <span className={`block text-[11px] ${prepActive ? "text-white/70" : "text-[var(--muted)]"}`}>
-                  {outline.prepKind} · {outline.durationMin(prepStrip.estimatedMinutes)}
+                  {outline.prepKind} · {outline.durationMin(prepDurationMin)}
                   {prepDone ? ` · ${copy.alreadyDone}` : ""}
                 </span>
               </span>
@@ -476,16 +514,22 @@ export function CurriculumPlayer({
         {lessons.map((lesson) => {
           const selected = lesson.key === active?.key;
           const completed = completedKeys.has(lesson.key) || lesson.completed;
+          const rowLocked = Boolean(paywallLocked && !lesson.open);
           const media = academyLessonMediaMeta({ ...lesson, courseSlug });
           const kindLabel = academyLessonKindLabel(media.kind, outline);
           return (
             <li key={lesson.key} className="max-lg:min-w-[16rem] max-lg:shrink-0">
               <button
                 type="button"
-                disabled={!lesson.open}
+                disabled={!lesson.open && !rowLocked}
                 aria-current={selected ? "true" : undefined}
+                data-academy-paywall={rowLocked ? "locked" : undefined}
                 onClick={() => {
                   if (lesson.key === active?.key) {
+                    return;
+                  }
+                  if (rowLocked) {
+                    selectLesson(lesson.key, { autoStart: false });
                     return;
                   }
                   selectLesson(lesson.key, { autoStart: true });
@@ -511,6 +555,7 @@ export function CurriculumPlayer({
                   </span>
                   <span className={`block text-[11px] ${selected ? "text-white/70" : "text-[var(--muted)]"}`}>
                     {kindLabel} · {outline.durationMin(media.durationMin)}
+                    {rowLocked ? ` · ${outline.locked}` : ""}
                     {completed ? ` · ${copy.alreadyDone}` : ""}
                   </span>
                 </span>
@@ -537,18 +582,44 @@ export function CurriculumPlayer({
             <h2 className="sr-only">{activeTitle}</h2>
             <span
               data-academy-mode-badge=""
-              data-academy-mode={karaoke ? "karaoke" : "article"}
-              data-academy-lesson-delivery={karaoke ? "karaoke" : "article"}
+              data-academy-mode={karaoke || prepKaraoke ? "karaoke" : "article"}
+              data-academy-lesson-delivery={karaoke || prepKaraoke ? "karaoke" : "article"}
               className="sr-only"
             >
-              {karaoke ? copy.modeKaraoke : copy.modeArticle}
+              {karaoke || prepKaraoke ? copy.modeKaraoke : copy.modeArticle}
             </span>
 
             {prepActive && prepStrip ? (
               <PrepStripPanel strip={prepStrip} done={prepDone} courseSlug={courseSlug} />
             ) : null}
 
-            {karaoke && active ? (
+            {lessonPaywalled && active ? (
+              <section
+                className="academy-player-study min-h-[18rem] rounded-2xl border border-[var(--border)] bg-white px-5 py-8 shadow-[var(--shadow-card)] sm:px-8"
+                data-academy-paywall="locked"
+                data-academy-paywall-lesson={active.key}
+              >
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--safir-deep)]">
+                  {outline.locked}
+                </p>
+                <h3 className="mt-2 text-xl font-semibold tracking-tight text-slate-900">
+                  {normalizeAcronyms(active.title)}
+                </h3>
+                <p className="mt-3 text-[15px] leading-7 text-slate-700">{copy.locked}</p>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{copy.lockedBody}</p>
+                <div className="mt-5">
+                  <LinkButton
+                    href={academyCheckoutHref(courseSlug) as Route}
+                    size="sm"
+                    data-academy-paywall-cta=""
+                  >
+                    {trainingCta}
+                  </LinkButton>
+                </div>
+              </section>
+            ) : null}
+
+            {karaoke && active && !lessonPaywalled ? (
               <section
                 className="academy-player-karaoke academy-cinema-stage mt-0 overflow-visible bg-transparent pt-0"
                 data-academy-karaoke="sealed"
@@ -599,7 +670,7 @@ export function CurriculumPlayer({
               </section>
             ) : null}
 
-            {active ? (
+            {active && !lessonPaywalled ? (
               <LessonStudyTabs
                 lessonKey={active.key}
                 articleBody={active.body}
@@ -639,7 +710,16 @@ export function CurriculumPlayer({
                       {copy.exitKitCta}
                     </LinkButton>
                   ) : null}
-                  {examOpen && !prepActive ? (
+                  {lessonPaywalled ? (
+                    <LinkButton
+                      href={academyCheckoutHref(courseSlug) as Route}
+                      size="sm"
+                      className="min-h-10 rounded-full px-5 text-[13px]"
+                      data-academy-paywall-cta=""
+                    >
+                      {trainingCta}
+                    </LinkButton>
+                  ) : examOpen && !prepActive ? (
                     <LinkButton
                       href={academyExamStartGateHref(courseSlug) as Route}
                       size="sm"

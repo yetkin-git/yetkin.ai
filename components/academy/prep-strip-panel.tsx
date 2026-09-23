@@ -78,6 +78,7 @@ export function PrepStripPanel({
           />
         </section>
       ) : null}
+      {karaoke ? null : (
       <section
         className="academy-player-study min-h-[18rem] overflow-y-auto rounded-2xl border border-[var(--border)] bg-white shadow-[var(--shadow-card)]"
         data-academy-prep-article=""
@@ -96,6 +97,7 @@ export function PrepStripPanel({
           <AcademyMarkdownRenderer content={strip.contentMarkdown} tone="document" className="select-text" />
         </article>
       </section>
+      )}
     </>
   );
 }

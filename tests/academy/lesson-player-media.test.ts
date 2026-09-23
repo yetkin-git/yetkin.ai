@@ -19,7 +19,7 @@ describe("akademi ders medya hizası — videoUrl / audioUrl", () => {
   it("CurriculumModule placeholder video ve demo podcast taşımaz", () => {
     expect(officeAiMasteryModule.videoUrl).toBeUndefined();
     expect(officeAiMasteryModule.audioUrl).toBeUndefined();
-    expect(officeAiMasteryModule.sections).toHaveLength(9);
+    expect(officeAiMasteryModule.sections).toHaveLength(8);
     for (const section of officeAiMasteryModule.sections) {
       expect(section.videoUrl, `section ${section.sectionNumber} videoUrl`).toBeUndefined();
       expect(section.audioUrl, `section ${section.sectionNumber} audioUrl`).toBeUndefined();
@@ -28,7 +28,7 @@ describe("akademi ders medya hizası — videoUrl / audioUrl", () => {
 
   it("01_office_ai tohum dersleri test videosu ve podcast audioUrl basmaz", () => {
     const lessons = curriculumForCourseSlug("01_office_ai");
-    expect(lessons).toHaveLength(9);
+    expect(lessons).toHaveLength(8);
     for (const lesson of lessons) {
       expect(lesson.videoUrl).toBeUndefined();
       expect(lesson.audioUrl).toBeUndefined();
@@ -46,6 +46,11 @@ describe("akademi ders medya hizası — videoUrl / audioUrl", () => {
     expect(src).toContain("academyLessonAudioPlaybackSrc");
     expect(src).toContain("academyLessonBedPlaybackSrc");
     expect(src).toContain("academyBedDuckGain");
+    expect(src).toContain("academyOutroBreathFadeGain");
+    expect(src).toContain("academyPlayerOutroTailSec");
+    expect(src).toContain("academyOutroBreathRemainMs");
+    expect(src).toContain("ACADEMY_OUTRO_BREATH_MS");
+    expect(src).toContain("hasAcademyOutroBreathElapsed");
     expect(src).toContain("academyPlayerClockDurationSec");
     expect(src).toContain("autoStart");
     expect(src).toContain("hasAcademyLessonPlaybackReachedEnd");

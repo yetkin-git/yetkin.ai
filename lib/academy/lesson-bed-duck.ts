@@ -20,13 +20,21 @@ export const ACADEMY_BED_OUTRO_HOLD_SEC = 3;
 export const ACADEMY_BED_OUTRO_FADE_SEC = 1.5;
 /** Konuşma bittikten sonra logo + özet üstünde hold + fade-out. */
 export const ACADEMY_BED_OUTRO_TAIL_SEC = ACADEMY_BED_OUTRO_HOLD_SEC + ACADEMY_BED_OUTRO_FADE_SEC;
+/** Ses kasedi bittikten sonra dip müzik fade-out + otomatik geçiş öncesi nefes payı. */
+export const ACADEMY_OUTRO_BREATH_MS = 2_500;
+export const ACADEMY_OUTRO_BREATH_SEC = ACADEMY_OUTRO_BREATH_MS / 1000;
 
-const BED_OUTRO_LESSON_KEYS = ["01_office_ai-0", "01_office_ai-1", "01_office_ai-2", "01_office_ai-3", "01_office_ai-4", "01_office_ai-5", "01_office_ai-g1", "01_office_ai-w1"] as const;
+const BED_OUTRO_LESSON_KEYS = ["01_office_ai-0", "01_office_ai-1", "01_office_ai-2", "01_office_ai-3", "01_office_ai-4", "01_office_ai-5", "01_office_ai-6", "01_office_ai-g1", "01_office_ai-w1", "01_office_ai-k1"] as const;
 
 export function academyBedOutroTailSec(lessonKey: string): number {
   return (BED_OUTRO_LESSON_KEYS as readonly string[]).includes(lessonKey.trim())
     ? ACADEMY_BED_OUTRO_TAIL_SEC
     : 0;
+}
+
+/** Oynatıcı kuyruğu — markalı outro veya en az 2.5 sn nefes payı. */
+export function academyPlayerOutroTailSec(lessonKey: string): number {
+  return Math.max(academyBedOutroTailSec(lessonKey), ACADEMY_OUTRO_BREATH_SEC);
 }
 
 export function academyBedSpeechEndSec(pieces: readonly AcademyBedSpeechWindow[]): number {
@@ -75,6 +83,18 @@ function smoothstep(edge0: number, edge1: number, x: number): number {
   }
   const t = clamp01((x - edge0) / (edge1 - edge0));
   return t * t * (3 - 2 * t);
+}
+
+/** Nefes payı boyunca dip kazancı: mevcut → 0 (2.5 sn). */
+export function academyOutroBreathFadeGain(intoBreathSec: number, fromGain: number): number {
+  const from = Number.isFinite(fromGain) && fromGain > 0 ? fromGain : 0;
+  if (!Number.isFinite(intoBreathSec) || intoBreathSec <= 0) {
+    return from;
+  }
+  if (intoBreathSec >= ACADEMY_OUTRO_BREATH_SEC) {
+    return 0;
+  }
+  return from * (1 - smoothstep(0, ACADEMY_OUTRO_BREATH_SEC, intoBreathSec));
 }
 
 export function academyBedIsSpeech(

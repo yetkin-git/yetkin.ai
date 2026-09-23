@@ -33,7 +33,6 @@ describe("akademi devam paneli", () => {
       "01_office_ai-2",
       "01_office_ai-3",
       "01_office_ai-5",
-      "01_office_ai-4",
       "01_office_ai-g1",
       "01_office_ai-w1",
       "01_office_ai-6",

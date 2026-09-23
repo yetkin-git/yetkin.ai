@@ -40,7 +40,7 @@ export function isAcademyPrepStripKey(lessonKey: string): boolean {
  * Bayrak `true` olmadan oynatıcı ses aramaz (dürüst yüzey: 404 sessizliği yok).
  */
 export const ACADEMY_PREP_STRIP_AUDIO_SEALED: Readonly<Record<string, boolean>> = {
-  "01_office_ai": false,
+  "01_office_ai": true,
 };
 
 export function isAcademyPrepStripAudioSealed(slug: string): boolean {

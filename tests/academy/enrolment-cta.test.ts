@@ -336,7 +336,7 @@ describe("kasa eğitim özeti — Aşama 1, amiral ses mührü", () => {
       ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
     );
     expect(ACADEMY_TRAINING_OFFER_SUMMARY_SEALED).toBe(
-      "Sesli Anlatım + Karaoke + Sınav + Mühürlü Sertifika",
+      "Sesli Anlatım + Sınav + Mühürlü Sertifika",
     );
     expect(ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN).toBe(
       "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",

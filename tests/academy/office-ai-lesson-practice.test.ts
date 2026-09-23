@@ -23,7 +23,7 @@ const OFFICE_KEYS = curriculumLessonKeysForSlug("01_office_ai");
 
 describe("01_office_ai — LESSON_PRACTICE iş tohumları (Faz T3)", () => {
   it("dokuz anahtarın tamamı 3 adımlı pratik taşır; hop compact-read kalır", () => {
-    expect(OFFICE_KEYS).toHaveLength(9);
+    expect(OFFICE_KEYS).toHaveLength(8);
     expect(Object.keys(LESSON_PRACTICE).sort()).toEqual([...OFFICE_KEYS].sort());
     for (const key of OFFICE_KEYS) {
       const practice = LESSON_PRACTICE[key];
@@ -44,7 +44,7 @@ describe("01_office_ai — LESSON_PRACTICE iş tohumları (Faz T3)", () => {
 
   it("composePracticalLessonBody parametre, adım ve istem çitini Tam Ders Metni’ne basar", () => {
     const lessons = curriculumForCourseSlug("01_office_ai");
-    expect(lessons).toHaveLength(9);
+    expect(lessons).toHaveLength(8);
     for (const lesson of lessons) {
       const practice = LESSON_PRACTICE[lesson.key]!;
       const composed = composePracticalLessonBody("Vatandaş kendi dosyasıyla iş çıkarır. İkinci cümle durur.", practice);
@@ -78,6 +78,8 @@ describe("01_office_ai — LESSON_PRACTICE iş tohumları (Faz T3)", () => {
     expect(LESSON_PRACTICE["01_office_ai-g1"]!.code.source).not.toMatch(/@Gmail/u);
     expect(LESSON_PRACTICE["01_office_ai-g1"]!.steps[0]).toMatch(/Saha sırası/u);
     expect(LESSON_PRACTICE["01_office_ai-1"]!.steps[0]).toMatch(/A1/u);
+    expect(LESSON_PRACTICE["01_office_ai-1"]!.steps[2]).toMatch(/orijinali değiştirmez/u);
+    expect(LESSON_PRACTICE["01_office_ai-1"]!.steps[2]).toMatch(/Excel'ine yapıştırırsın/u);
     expect(LESSON_PRACTICE["01_office_ai-1"]!.code.source).toMatch(/A1 kuralıyla/u);
     expect(LESSON_PRACTICE["01_office_ai-1"]!.code.source).not.toMatch(/A1 eşiği/u);
     expect(LESSON_PRACTICE["01_office_ai-1"]!.code.source).toMatch(/Orijinal sayfayı koru/u);
@@ -102,7 +104,7 @@ describe("01_office_ai — LESSON_PRACTICE iş tohumları (Faz T3)", () => {
     expect(LESSON_PRACTICE["01_office_ai-3"]!.code.source).not.toMatch(/iskelet|Sunum mimarı|Hiyerarşi/u);
     expect(LESSON_PRACTICE["01_office_ai-3"]!.steps[0]).toMatch(/Saha sırası/u);
     expect(LESSON_PRACTICE["01_office_ai-3"]!.steps[1]).toMatch(/Sırayı kilitle: başlık, görsel yön, konuşmacı notu/u);
-    expect(LESSON_PRACTICE["01_office_ai-5"]!.code.source).toMatch(/^Rol: Hata dedektifi\./mu);
+    expect(LESSON_PRACTICE["01_office_ai-5"]!.code.source).toMatch(/^Rol: Sayı kontrolü\./mu);
     expect(LESSON_PRACTICE["01_office_ai-5"]!.code.source).toContain(
       "Tablodaki satır toplamları ile genel toplam arasında çelişki olup olmadığını incele. Uyumsuz her satırı kırmızı ile işaretle ve nedenini yaz. Toplamı TOPLA formülüyle doğrula.",
     );
@@ -110,12 +112,8 @@ describe("01_office_ai — LESSON_PRACTICE iş tohumları (Faz T3)", () => {
     expect(LESSON_PRACTICE["01_office_ai-5"]!.params[1]!.label).toBe("Kaynak hücre");
     expect(LESSON_PRACTICE["01_office_ai-5"]!.steps[0]).toMatch(/Saha sırası/u);
     expect(LESSON_PRACTICE["01_office_ai-5"]!.steps[2]).toMatch(/kırmızıyla işaretle, sonra kilitle/u);
-    expect(LESSON_PRACTICE["01_office_ai-4"]!.code.source).toMatch(/^Rol: Gelen kutusu kâtibi\./mu);
-    expect(LESSON_PRACTICE["01_office_ai-4"]!.code.source).toContain(
-      "Gelen kutumdaki okunmamış iletileri tara. Bugün ödeme veya imza bekleyenleri Acil, bu hafta cevap bekleyenleri Aksiyon, dekont ve bültenleri Arşivlik diye etiketle. Aksiyon için taslak yanıt notu yaz.",
-    );
-    expect(LESSON_PRACTICE["01_office_ai-4"]!.code.source).toMatch(/Arşivlik/u);
-    expect(LESSON_PRACTICE["01_office_ai-4"]!.steps[0]).toMatch(/Saha sırası/u);
+    expect(LESSON_PRACTICE["01_office_ai-4"]).toBeUndefined();
+    expect(LESSON_PRACTICE["01_office_ai-g1"]!.steps[0]).toMatch(/önce etiket/u);
     expect(LESSON_PRACTICE["01_office_ai-6"]!.params[0]!.value).toMatch(/Cuma/u);
     expect(LESSON_PRACTICE["01_office_ai-6"]!.code.source).toContain(ACADEMY_OFFICE_AI_6_COPILOT_PROMPT);
     expect(LESSON_PRACTICE["01_office_ai-6"]!.code.source).toMatch(/^Görev: /mu);

@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { academyCourseCoverPath } from "@/lib/academy/course-cover";
+import { ACADEMY_CATALOG_SUMMARIES } from "@/lib/academy/catalog-summaries";
 import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 import { publishedCoursesFromSeed } from "@/lib/academy/published-catalog";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
@@ -55,6 +56,8 @@ import {
   HOME_LANDING_FAQ,
   OFFICE_AI_COURSE_FAQ,
   OFFICE_AI_FAQ_HEADING,
+  OFFICE_AI_SEAL_PROOF,
+  OFFICE_AI_SEAL_PROOF_SHORT,
   SEM_LANDING_KEYWORDS,
   VIZE_LANDING_FAQ,
 } from "@/lib/copy/sem-keywords";
@@ -434,7 +437,7 @@ describe("Aşama 3 SEO — JSON-LD yapısal veri", () => {
     );
     expect(course.keywords).toEqual([...OFFICE_AI_SEO.keywords]);
     const parts = course.hasPart as Array<{ name: string }>;
-    expect(parts).toHaveLength(9);
+    expect(parts).toHaveLength(8);
     expect(parts.map((part) => part.name)).toEqual(
       OFFICE_AI_SYLLABUS_LESSONS.map((lesson) => lesson.name),
     );
@@ -442,7 +445,12 @@ describe("Aşama 3 SEO — JSON-LD yapısal veri", () => {
       name: string;
       hasPart: Array<{ name: string }>;
     }>;
-    expect(sections.map((section) => section.name)).toEqual(["Modül 1", "Modül 2", "Modül 3"]);
+    expect(sections.map((section) => section.name)).toEqual([
+      "Tablo ve güvenlik",
+      "Karar ve slayt",
+      "Kutu ve belge",
+      "Haftalık sistem",
+    ]);
     expect(sections.flatMap((section) => section.hasPart.map((part) => part.name))).toEqual(
       parts.map((part) => part.name),
     );
@@ -569,9 +577,11 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
       "word yapay zeka",
       "yapay zeka sertifikasi",
       "iş hayatında yapay zekâ",
-      "excel gemini kullanımı",
+      "excel'de temiz veri",
+      "gmail'de yerleşik gemini",
       "word ataş ile belge analizi",
-      "cuma 30 rutini",
+      "kvkk maskeleme",
+      "haftalık cuma rutini",
     ]);
     for (const keyword of GLOBAL_SEM_KEYWORDS) {
       expect(homeText, `home ← ${keyword}`).toContain(keyword);
@@ -594,6 +604,8 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
     for (const keyword of OFFICE_AI_SEM_KEYWORDS) {
       expect(officeAiText, `office_ai antre ← ${keyword}`).toContain(keyword);
     }
+    expect(officeAiText).not.toContain("excel gemini");
+    expect(officeAiText).not.toContain("office ai eğitimi");
   });
 
   it("Purchase/Register dönüşüm kancası birinci taraftır; gtag yüklenmez", () => {
@@ -620,19 +632,25 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
     expect(OFFICE_AI_SEO.path).toBe("/academy/01_office_ai");
     expect(OFFICE_AI_SEO.title).toBe("Excel Yapay Zekâ Eğitimi: Ofiste ChatGPT + Sertifika");
     expect(OFFICE_AI_SEO.description).toBe(
-      "Office AI eğitimi: iş hayatında yapay zekâ. Excel Gemini kullanımı, Word ataş ile belge analizi ve Cuma 30 rutini. 9 ders, 70+ baraj, mühürlü sertifika.",
+      `Excel Copilot ve Ataş Yöntemi, A1 Düzeni ve Temiz Veri ve yönetim özetine dönüştürme. Gmail'de yerleşik Gemini. ${OFFICE_AI_SEAL_PROOF_SHORT}`,
     );
     expect(OFFICE_AI_SEO.h1).toBe("İş Hayatında Yapay Zekâ: Excel'den E-Postaya 9 Ders");
     expect(OFFICE_AI_SEO.keywords).toEqual(
       expect.arrayContaining([
         "İş Hayatında Yapay Zekâ",
-        "Excel Gemini Kullanımı",
-        "Word Ataş İle Belge Analizi",
-        "Cuma 30 Rutini",
-        "Office AI Eğitimi",
+        "Excel'de Temiz Veri",
+        "Gmail'de Yerleşik Gemini",
+        "Word Belgesi İnceleme",
+        "KVKK Maskeleme",
+        "Haftalık Cuma Rutini",
       ]),
     );
-    expect(OFFICE_AI_SEO.description).toMatch(/Office AI eğitimi/u);
+    expect(OFFICE_AI_SEO.description).toMatch(/Excel Copilot ve Ataş Yöntemi/u);
+    expect(OFFICE_AI_SEO.description).toMatch(/A1 Düzeni ve Temiz Veri/u);
+    expect(OFFICE_AI_SEO.description).toMatch(/yönetim özetine dönüştürme/u);
+    expect(OFFICE_AI_SEO.description).toMatch(/Gmail'de yerleşik Gemini/u);
+    expect(OFFICE_AI_SEO.description).not.toMatch(/Excel Gemini/u);
+    expect(OFFICE_AI_SEO.description).not.toMatch(/Office AI/u);
     const finalTitle = TITLE_TEMPLATE.replace("%s", OFFICE_AI_SEO.title);
     expect(finalTitle).toBe(`${OFFICE_AI_SEO.title} · ${YETKIN_BRAND}`);
     expect(OFFICE_AI_SEO.title.length).toBeLessThanOrEqual(55);
@@ -653,12 +671,13 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
   });
 
   it("kursa özel SSS görünür HTML ile FAQPage JSON-LD'de birebir aynı metni taşır", () => {
-    expect(OFFICE_AI_COURSE_FAQ).toHaveLength(4);
+    expect(OFFICE_AI_COURSE_FAQ).toHaveLength(5);
     expect(OFFICE_AI_COURSE_FAQ.map((row) => row.question)).toEqual([
       "Excel yapay zeka eğitimi sertifika veriyor mu?",
       "ChatGPT ofis kullanımı için ön koşul var mı?",
       "KVKK'ya uygun mu? Verilerim güvende mi?",
       "Sınav barajı ve süresi nedir?",
+      "Excel veya Word'e harici yapay zekâ eklentisi (Add-in) kurmayı öğretiyor musunuz?",
     ]);
     const page = readSrc("app/academy/[slug]/page.tsx");
     expect(page).toContain("OFFICE_AI_COURSE_FAQ");
@@ -673,7 +692,7 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
       name: string;
       acceptedAnswer: { text: string };
     }>;
-    expect(entities).toHaveLength(4);
+    expect(entities).toHaveLength(5);
     entities.forEach((entity, index) => {
       expect(entity["@type"]).toBe("Question");
       expect(entity.name).toBe(OFFICE_AI_COURSE_FAQ[index]?.question);
@@ -697,20 +716,29 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
     ]) {
       expect(guide, h2).toContain(h2);
     }
-    const text = guide
-      .replace(/\/\*\*[\s\S]*?\*\//, "")
-      .replace(/\{" "\}/g, " ")
-      .replace(/<[^>]*>/g, " ")
-      .replace(/&[a-z]+;/g, " ");
+    const text = [
+      guide
+        .replace(/\/\*\*[\s\S]*?\*\//, "")
+        .replace(/\{" "\}/g, " ")
+        .replace(/<[^>]*>/g, " ")
+        .replace(/&[a-z]+;/g, " "),
+      OFFICE_AI_SEAL_PROOF,
+    ].join(" ");
     const words = text.split(/\s+/u).filter(Boolean);
     expect(words.length).toBeGreaterThanOrEqual(1000);
+    expect(guide).toContain("OFFICE_AI_SEAL_PROOF");
+    expect(guide).not.toMatch(/A1 eşiği/u);
+    expect(guide).toMatch(/A1 kuralı/u);
+    expect(guide).not.toMatch(/KVKK-safe/u);
+    expect(OFFICE_AI_COURSE_FAQ[2]?.answer).toMatch(/hukuki danışmanlık yerine geçmez/u);
+    expect(OFFICE_AI_COURSE_FAQ[2]?.answer).not.toMatch(/KVKK-safe/u);
     // Duvar beyanı: tam gövde/ses/sınav kapalı kalır.
     expect(guide).toContain("satın alma sonrasında açılır");
   });
 
   it("şema müfredat yedeği lesson-index SSOT'u ile birebir örtüşür", () => {
     const syllabus = curriculumSyllabusForCourseSlug("01_office_ai");
-    expect(syllabus.lessonCount).toBe(9);
+    expect(syllabus.lessonCount).toBe(8);
     expect(syllabus.lessons.map((lesson) => lesson.title)).toEqual(
       OFFICE_AI_SYLLABUS_LESSONS.map((lesson) => lesson.name),
     );
@@ -718,12 +746,75 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
     expect(Object.keys(OFFICE_AI_LESSON_TEASERS)).toEqual(
       syllabus.lessons.map((lesson) => lesson.key),
     );
-    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-1"]).toMatch(/Excel Gemini kullanımı/u);
+    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-1"]).toMatch(/Excel Copilot ve Ataş Yöntemi/u);
+    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-1"]).toMatch(/A1 Düzeni ve Temiz Veri/u);
+    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-2"]).toMatch(/Yönetim özetine dönüştürme/u);
+    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-1"]).toMatch(/Copilot/u);
+    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-k1"]).toMatch(/KVKK maskeleme/u);
+    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-g1"]).toMatch(/Gmail'de yerleşik Gemini/u);
+    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-w1"]).toMatch(/Word belgesi inceleme/u);
     expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-w1"]).toMatch(/Word ataş ile belge analizi/u);
-    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-6"]).toMatch(/Cuma 30 rutini/u);
+    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-6"]).toMatch(/Haftalık Cuma rutini/u);
     expect(readSrc("components/academy/curriculum-outline.tsx")).toContain(
       "OFFICE_AI_LESSON_TEASERS",
     );
+  });
+
+  it("T-01 kamu kopyası Excel Gemini / Office AI taşımaz; mühürlü kapıları taşır", () => {
+    const publicCopy = [
+      OFFICE_AI_SEO.title,
+      OFFICE_AI_SEO.description,
+      OFFICE_AI_SEO.h1,
+      ...OFFICE_AI_SEO.keywords,
+      OFFICE_AI_FAQ_HEADING,
+      ...OFFICE_AI_COURSE_FAQ.flatMap((row) => [row.question, row.answer]),
+      ...Object.values(OFFICE_AI_LESSON_TEASERS),
+      ACADEMY_CATALOG_SUMMARIES["01_office_ai"],
+    ].join("\n");
+    expect(publicCopy).not.toMatch(/Excel Gemini/iu);
+    expect(publicCopy).not.toMatch(/Office AI/iu);
+    expect(publicCopy).toMatch(/Excel Copilot ve Ataş Yöntemi/u);
+    expect(publicCopy).toMatch(/A1 Düzeni ve Temiz Veri/u);
+    expect(publicCopy).toMatch(/yönetim özetine dönüştürme/u);
+    expect(publicCopy).toMatch(/Copilot/u);
+    expect(publicCopy).toMatch(/Gmail'de yerleşik Gemini/u);
+    expect(publicCopy).toMatch(/Word belgesi inceleme/u);
+    expect(publicCopy).toMatch(/KVKK maskeleme/u);
+    expect(publicCopy).toMatch(/haftalık Cuma rutini/iu);
+  });
+
+  it("T-02 kamu kopyası mührü izleme + baraj olarak tanımlar; sunucu dosya kontrolü vaat etmez", () => {
+    expect(OFFICE_AI_SEAL_PROOF).toMatch(/8 dersin eksiksiz izlenmesi/u);
+    expect(OFFICE_AI_SEAL_PROOF).toMatch(/baraj sınavında %70/u);
+    expect(OFFICE_AI_SEAL_PROOF).toMatch(/sunucuda dosya kontrolü yapılmaz/u);
+    expect(OFFICE_AI_SEAL_PROOF_SHORT).toBe(
+      "Mühür: 8 ders + 10 soru / 70. Sunucuda dosya kontrolü yok.",
+    );
+    expect(OFFICE_AI_SEO.description).toContain(OFFICE_AI_SEAL_PROOF_SHORT);
+    expect(OFFICE_AI_SEO.description.length).toBeLessThanOrEqual(180);
+    expect(ACADEMY_CATALOG_SUMMARIES["01_office_ai"]).toContain(OFFICE_AI_SEAL_PROOF_SHORT);
+    expect(OFFICE_AI_COURSE_FAQ[0]?.answer).toContain(OFFICE_AI_SEAL_PROOF);
+    expect(OFFICE_AI_COURSE_FAQ[3]?.answer).toMatch(/sunucuda kontrol etmez/u);
+    expect(readSrc("components/academy/office-ai-guide-preview.tsx")).toContain(
+      "OFFICE_AI_SEAL_PROOF",
+    );
+
+    const publicCopy = [
+      OFFICE_AI_SEO.title,
+      OFFICE_AI_SEO.description,
+      OFFICE_AI_SEO.h1,
+      ...OFFICE_AI_SEO.keywords,
+      OFFICE_AI_FAQ_HEADING,
+      ...OFFICE_AI_COURSE_FAQ.flatMap((row) => [row.question, row.answer]),
+      ...Object.values(OFFICE_AI_LESSON_TEASERS),
+      ACADEMY_CATALOG_SUMMARIES["01_office_ai"],
+      OFFICE_AI_SEAL_PROOF,
+    ].join("\n");
+    expect(publicCopy).not.toMatch(/iş kanıtı/iu);
+    expect(publicCopy).not.toMatch(/sunucuda dosya kontrolü yapılır/iu);
+    expect(publicCopy).not.toMatch(/dosya(?:sı|sını)? sunucuda (?:doğrulanır|kontrol edilir)/iu);
+    expect(publicCopy).toMatch(/sunucuda dosya kontrolü yapılmaz/u);
+    expect(publicCopy).toMatch(/Sunucuda dosya kontrolü yok/u);
   });
 
   it("EducationalOccupationalProgram JSON-LD Course düğümüne bağlanır", () => {

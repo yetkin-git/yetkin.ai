@@ -22,7 +22,7 @@ const PUNCHCARDS = [
   "HOŞ GELDİN",
   "AŞIRI GÜVEN",
   "HATA AVI",
-  "AI DEDEKTİF",
+  "ÇAPRAZ KONTROL",
   "FARK ORTADA",
   "CEBİNE KOY",
   "SIRA SENDE",
@@ -32,7 +32,7 @@ const CUE_GROUPS: readonly { badge: (typeof PUNCHCARDS)[number]; count: number }
   { badge: "HOŞ GELDİN", count: 2 },
   { badge: "AŞIRI GÜVEN", count: 2 },
   { badge: "HATA AVI", count: 2 },
-  { badge: "AI DEDEKTİF", count: 2 },
+  { badge: "ÇAPRAZ KONTROL", count: 2 },
   { badge: "FARK ORTADA", count: 2 },
   { badge: "CEBİNE KOY", count: 1 },
   { badge: "SIRA SENDE", count: 2 },
@@ -502,8 +502,8 @@ ZORUNLU JSON ŞEMASI:
       "id": "comparison",
       "label": "Comparison",
       "paragraphs": [
-        { "badge": "AI DEDEKTİF", "text": "..." },
-        { "badge": "AI DEDEKTİF", "text": "..." },
+        { "badge": "ÇAPRAZ KONTROL", "text": "..." },
+        { "badge": "ÇAPRAZ KONTROL", "text": "..." },
         { "badge": "FARK ORTADA", "text": "..." }
       ]
     },
@@ -522,7 +522,7 @@ ZORUNLU JSON ŞEMASI:
 
 KURALLAR:
 - Tam 4 beat, sıra: warmup → command → comparison → task.
-- Tam 14 paragraf. Rozet sırası birebir: GİRİŞ KÖPRÜSÜ, HOŞ GELDİN, HOŞ GELDİN, AŞIRI GÜVEN, AŞIRI GÜVEN, HATA AVI, HATA AVI, AI DEDEKTİF, AI DEDEKTİF, FARK ORTADA, FARK ORTADA, CEBİNE KOY, SIRA SENDE, SIRA SENDE.
+- Tam 14 paragraf. Rozet sırası birebir: GİRİŞ KÖPRÜSÜ, HOŞ GELDİN, HOŞ GELDİN, AŞIRI GÜVEN, AŞIRI GÜVEN, HATA AVI, HATA AVI, ÇAPRAZ KONTROL, ÇAPRAZ KONTROL, FARK ORTADA, FARK ORTADA, CEBİNE KOY, SIRA SENDE, SIRA SENDE.
 - title alanı birebir: "İstisnalar & Hata Avı: AI Yanılınca". Metinde en az bir kez tam olarak «Hata Avı» ve «İstisnalar» geçsin.
 - Pekiştirme durakları:
   * GİRİŞ KÖPRÜSÜ (Warm-up öncesi, ~40 sn, 80–100 kelime, asla 70’in altında): 4. dersteki e-posta sıfırlama ve otomasyon refleksini hatırlat/bağla. Gelen kutusu sıfırlama, etiket ve taslak yanıt. Henüz «Selamlar» deme. Mutlaka «e-posta» ve «sıfırla» geçsin. En az beş tam cümle yaz.
@@ -530,7 +530,7 @@ KURALLAR:
 - 4-beat reji:
   * Warm-up: Yapay zekânın sunduğu özete gözü kapalı güvenme riski (halüsinasyon tespiti). Mutlaka «halüsinasyon», «özet» ve «güven» geçsin.
   * Command: Dedektif çapraz kontrol istemi. HATA AVI paragraflarında mutlaka «kırmızı» ve «halüsinasyon» geçsin. Öğrencinin yazacağı istem harf harf: «Bu tablo ve metindeki sapmaları çapraz kontrol et; çelişen sayıları ve uydurma özet cümlelerini kırmızı ile işaretle ve nedenini yaz.» Spoiler yasağı: düzeltilmiş / doğrulanmış dedektif tablosunu Beat 3’e kadar gösterme; «50.450», «doğrulanmış tablo», «düzeltilmiş dedektif» YAZMA.
-  * Comparison: Dikey split-screen. Sol «KÖR SÜREÇ (HALÜSİNASYONLU VERİ)», sağ «DEDEKTİF SÜREÇ (KONTROLLÜ VERİ)». AI DEDEKTİF ve FARK ORTADA paragraflarında «59.450» ve «halüsinasyon» geçsin. Yıldız Tekstil satırındaki uydurma 21.500 ile genel toplam 59.450 sapmasını Beat 3’te açıkla.
+  * Comparison: Dikey split-screen. Sol «KÖR SÜREÇ (HALÜSİNASYONLU VERİ)», sağ «DEDEKTİF SÜREÇ (KONTROLLÜ VERİ)». ÇAPRAZ KONTROL ve FARK ORTADA paragraflarında «59.450» ve «halüsinasyon» geçsin. Yıldız Tekstil satırındaki uydurma 21.500 ile genel toplam 59.450 sapmasını Beat 3’te açıkla.
   * Task: Kendi verinde yapay zekânın uydurduğu rakamı yakalama saha görevi.
 - Gelecek Ders Köprüsü: Son SIRA SENDE paragrafı L6’ya tatlı geçiş yapsın. Mutlaka «Haftalık Sistem», «30 Dakika», «Sınav Köprüsü» ve «6. bölüm» geçsin. Haftalık 30 dakikalık rutini söyle. «Beşinci adımı tamamladın, görüşmek üzere» YAZMA.
 - Diğer paragraflar 48–100 Türkçe kelime. Üretmeden önce her paragrafı kelime kelime say. Toplam ~900–1150 kelime.

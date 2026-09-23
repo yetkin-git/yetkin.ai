@@ -21,14 +21,13 @@ const CITIZEN_SPINE = [
   ["01_office_ai-2", 3, "Rapor"],
   ["01_office_ai-3", 4, "Sunum"],
   ["01_office_ai-5", 5, "Hata avı"],
-  ["01_office_ai-4", 6, "E-posta"],
-  ["01_office_ai-g1", 7, "Gmail"],
-  ["01_office_ai-w1", 8, "Word"],
-  ["01_office_ai-6", 9, "Cuma"],
+  ["01_office_ai-g1", 6, "E-posta"],
+  ["01_office_ai-w1", 7, "Word"],
+  ["01_office_ai-6", 8, "Cuma"],
 ] as const;
 
 describe("01_office_ai vatandaş sıra numarası — lesson-index SSOT", () => {
-  it("Ders 1–9 lesson-index sırasına kilitlenir; k1/5/6 anahtarı vatandaş numarası değildir", () => {
+  it("Ders 1–8 lesson-index sırasına kilitlenir; k1/5/6 anahtarı vatandaş numarası değildir", () => {
     expect(curriculumLessonKeysForSlug(SLUG)).toEqual(CITIZEN_SPINE.map(([key]) => key));
     for (const [key, ordinal] of CITIZEN_SPINE) {
       expect(academyCitizenLessonOrdinal(SLUG, key), key).toBe(ordinal);
@@ -36,22 +35,24 @@ describe("01_office_ai vatandaş sıra numarası — lesson-index SSOT", () => {
       expect(academyCitizenLessonLabel(SLUG, key), key).toBe(`Ders ${ordinal}`);
     }
     expect(academyCitizenLessonOrdinalFromKey("01_office_ai-5")).toBe(5);
-    expect(academyCitizenLessonOrdinalFromKey("01_office_ai-4")).toBe(6);
-    expect(academyCitizenLessonOrdinalFromKey("01_office_ai-6")).toBe(9);
+    expect(academyCitizenLessonOrdinalFromKey("01_office_ai-4")).toBeNull();
+    expect(academyCitizenLessonOrdinalFromKey("01_office_ai-g1")).toBe(6);
+    expect(academyCitizenLessonOrdinalFromKey("01_office_ai-6")).toBe(8);
     expect(academyCitizenLessonOrdinalFromKey("01_office_ai-k1")).toBe(2);
     expect(academyCitizenLessonOrdinal(SLUG, "01_office_ai-0")).toBeNull();
     expect(academyLessonByKey(SLUG, "4")).toBeNull();
-    expect(academyLessonByKey(SLUG, "01_office_ai-4")?.order).toBe(6);
-    expect(academyLessonByKey(SLUG, "01_office_ai-4")?.title).toMatch(/E-Posta/u);
+    expect(academyLessonByKey(SLUG, "01_office_ai-4")).toBeNull();
+    expect(academyLessonByKey(SLUG, "01_office_ai-g1")?.order).toBe(6);
+    expect(academyLessonByKey(SLUG, "01_office_ai-g1")?.title).toMatch(/E-Posta/u);
     expect(academyLessonByKey(SLUG, "01_office_ai-5")?.order).toBe(5);
-    expect(academyLessonByKey(SLUG, "01_office_ai-6")?.order).toBe(9);
+    expect(academyLessonByKey(SLUG, "01_office_ai-6")?.order).toBe(8);
   });
 
   it("compact taslak order alanı lesson-index ile birebir", () => {
     const drafts = compactDraftsFromModule(SLUG, officeAiMasteryModule);
     const live = curriculumForCourseSlug(SLUG);
-    expect(drafts.map((row) => row.order)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-    expect(live.map((row) => row.order)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    expect(drafts.map((row) => row.order)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(live.map((row) => row.order)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
     expect(live.map((row) => row.key)).toEqual(CITIZEN_SPINE.map(([key]) => key));
     expect(ACADEMY_SEN.catalog.cardMeta(9)).toBe("9 Ders");
     expect(ACADEMY_SEN.player.cardProgress(5, 9)).toBe("5 / 9 Ders");

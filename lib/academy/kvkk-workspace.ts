@@ -3,6 +3,13 @@
  * Ham liste Beat 2’de durur; maskeli kısa özet yalnız Beat 3 sağ panelde.
  */
 
+/**
+ * 2. ders kritik özeti — Sil düğmesi ekrandan kaldırır, modelin gördüğünü geri almaz.
+ * Kart, el kitabı, SSS ve çıkış şablonu bu cümleyi birebir taşır.
+ */
+export const ACADEMY_KVKK_DELETE_BUTTON_SUMMARY =
+  "Sohbet ekranında Sil düğmesine basmak, o veriyi yapay zekânın aklından silmez; sadece sizin ekranınızdan kaldırır. Model o adresi, IBAN'ı bir kez gördüyse sunucusuna kaydetmiştir. Bu yüzden 'silmesi kolay' deyip gerçek veriyi sohbete asla atmıyoruz, önce maskeliyoruz." as const;
+
 export const ACADEMY_KVKK_WINDOW_TITLE = "Excel" as const;
 export const ACADEMY_KVKK_FILE_NAME = "Musteri_Liste_Maske.xlsx" as const;
 export const ACADEMY_KVKK_FILE_LABEL = "Müşteri Liste Maske (Excel)" as const;
@@ -28,16 +35,17 @@ export const ACADEMY_KVKK_RAW_TABLE = {
 } as const;
 
 /**
- * 3. Kapı: üç sahte satır + takma değer.
+ * 3. Kapı: üç sahte satır + takma değer (Garsonu Göster).
  * Split sağ panel ham tabloyla satır hiyerarşisi paylaşır (PEDAGOJI E.1):
- * Kod | Telefon | IBAN | Ürün — her müşteri kendi MASKELİ_* değerleriyle aynı satırda.
+ * Kod | Telefon | IBAN | Ürün — her müşteri kendi Tel / IBAN takmasıyla aynı satırda.
+ * MASKELİ_* tekrarı vatandaşa basılmaz; Tel1 / IBAN1 gibi doğal takma değer durur.
  */
 export const ACADEMY_KVKK_MASKED_TABLE = {
   headers: ["Kod", "Telefon", "IBAN", "Ürün"],
   rows: [
-    ["Müşteri A", "MASKELİ_TELEFON", "MASKELİ_IBAN", "Un 25kg"],
-    ["Müşteri B", "MASKELİ_TELEFON", "MASKELİ_IBAN", "Yağ 18L"],
-    ["Müşteri C", "MASKELİ_TELEFON", "MASKELİ_IBAN", "Şeker"],
+    ["Müşteri A", "Tel1", "IBAN1", "Un 25kg"],
+    ["Müşteri B", "Tel2", "IBAN2", "Yağ 18L"],
+    ["Müşteri C", "Tel3", "IBAN3", "Şeker"],
   ],
   note: "3. Kapı: maskeli kısa özet. Ham kutu ve ekran görüntüsü zinciri yok. Üç satır yeter.",
 } as const;

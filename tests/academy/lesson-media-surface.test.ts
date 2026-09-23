@@ -28,7 +28,7 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     for (const row of ACADEMY_COURSE_SEEDS) {
       const lessons = curriculumForCourseSlug(row.slug);
       if (row.slug === "01_office_ai") {
-        expect(lessons).toHaveLength(9);
+        expect(lessons).toHaveLength(8);
         lessonCount += lessons.length;
         continue;
       }
@@ -36,7 +36,7 @@ describe("akademi mikro-video ve şema mimarisi", () => {
       lessonCount += lessons.length;
     }
     expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai"]);
-    expect(lessonCount).toBe(9);
+    expect(lessonCount).toBe(8);
     expect(curriculumForCourseSlug("sample-course")).toEqual([]);
     expect(ACADEMY_SEALED_DIAGRAM_KEYS.length).toBeGreaterThanOrEqual(1);
     void seenDiagrams;

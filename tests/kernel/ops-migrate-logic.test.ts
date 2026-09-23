@@ -20,6 +20,9 @@ import {
   DIRECT_PORT_OPERATOR_PROTOCOL,
   isForbiddenPoolerUrl,
   resolveMigratorConnectionUrl,
+  resolveMigrateApplyTarget,
+  fallbackPoolerApplyTarget,
+  isIpv6OrDnsUnreachable,
   runPostApplySeals,
   withPgLibpqSslCompat,
   assertStudioDataBase64Check,
@@ -107,6 +110,34 @@ describe("ops:migrate havuz yasağı", () => {
     );
     expect(resolveMigratorConnectionUrl({})).toBeNull();
     expect(resolveMigratorConnectionUrl({ DIRECT_URL: "  ", DATABASE_URL: "" })).toBeNull();
+  });
+
+  it("pooler DIRECT_URL session :5432 apply hedefine çekilir; Direct via=direct kalır", () => {
+    const pooler = resolveMigrateApplyTarget({
+      DIRECT_URL:
+        "postgresql://postgres.abcdefgh:x@aws-0-eu-central-1.pooler.supabase.com:6543/postgres?pgbouncer=true",
+    });
+    expect(pooler?.via).toBe("pooler");
+    expect(pooler?.url).toContain(":5432");
+    expect(pooler?.url).not.toMatch(/pgbouncer=/i);
+    expect(
+      resolveMigrateApplyTarget({
+        DIRECT_URL: "postgresql://postgres:x@db.abcdefgh.supabase.co:5432/postgres",
+      })?.via,
+    ).toBe("direct");
+    const fallback = fallbackPoolerApplyTarget({
+      DATABASE_URL:
+        "postgresql://postgres.abcdefgh:x@aws-0-eu-central-1.pooler.supabase.com:6543/postgres",
+    });
+    expect(fallback?.via).toBe("pooler");
+    expect(fallback?.url).toContain("pooler.supabase.com");
+    expect(fallback?.url).toContain(":5432");
+    expect(isIpv6OrDnsUnreachable(Object.assign(new Error("getaddrinfo ENOTFOUND"), { code: "ENOTFOUND" }))).toBe(
+      true,
+    );
+    expect(isIpv6OrDnsUnreachable(Object.assign(new Error("timeout"), { code: "ETIMEDOUT" }))).toBe(
+      false,
+    );
   });
 });
 

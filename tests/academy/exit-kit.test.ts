@@ -11,9 +11,9 @@ import {
 describe("01_office_ai çıkış paketi", () => {
   it("9 ders kartı, Cuma 30 listesi ve KVKK şablonu basar", () => {
     const keys = curriculumLessonKeysForSlug(OFFICE_AI_EXIT_KIT_SLUG);
-    expect(keys).toHaveLength(9);
+    expect(keys).toHaveLength(8);
     const cards = officeAiExitPromptCards();
-    expect(cards).toHaveLength(9);
+    expect(cards).toHaveLength(8);
     expect(cards.map((card) => card.lessonKey)).toEqual([...keys]);
     expect(cards.every((card) => card.prompt.trim().length > 20)).toBe(true);
     const lessonThree = cards.find((card) => card.lessonKey === "01_office_ai-2");
@@ -31,11 +31,6 @@ describe("01_office_ai çıkış paketi", () => {
       "Tablodaki satır toplamları ile genel toplam arasında çelişki olup olmadığını incele. Uyumsuz her satırı kırmızı ile işaretle ve nedenini yaz. Toplamı TOPLA formülüyle doğrula.",
     );
     expect(lessonFive?.prompt).not.toMatch(/Rol:|Hata avcısı|Hata dedektifi/u);
-    const lessonEmail = cards.find((card) => card.lessonKey === "01_office_ai-4");
-    expect(lessonEmail?.prompt).toBe(
-      "Gelen kutumdaki okunmamış iletileri tara. Bugün ödeme veya imza bekleyenleri Acil, bu hafta cevap bekleyenleri Aksiyon, dekont ve bültenleri Arşivlik diye etiketle. Aksiyon için taslak yanıt notu yaz. Hiçbir iletiyi gönderme, hiçbirini silme.",
-    );
-    expect(lessonEmail?.prompt).not.toMatch(/Rol:|Gelen kutusu kâtibi/u);
     const lessonGmail = cards.find((card) => card.lessonKey === "01_office_ai-g1");
     expect(lessonGmail?.prompt).toBe(
       "Gelen kutumdaki son 24 saat içinde gelen e-postaları tara. Ödeme, onay veya acil aksiyon bekleyenleri tablo yap: Gönderen | İş | Son tarih | Taslak yanıt notu. Rutin dekont ve bültenleri Arşivlik yaz. Hiçbir taslağı gönderme.",
@@ -63,6 +58,7 @@ describe("01_office_ai çıkış paketi", () => {
       "excel",
       "slides",
       "inbox",
+      "word-check",
       "mask",
     ]);
     expect(OFFICE_AI_KVKK_MASK_TEMPLATE).toMatch(/MASKELİ_IBAN/u);

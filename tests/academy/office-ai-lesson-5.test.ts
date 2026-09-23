@@ -75,7 +75,7 @@ const PUNCHCARDS = [
   "HOŞ GELDİN",
   "AŞIRI GÜVEN",
   "HATA AVI",
-  "AI DEDEKTİF",
+  "ÇAPRAZ KONTROL",
   "FARK ORTADA",
   "CEBİNE KOY",
   "SIRA SENDE",
@@ -101,7 +101,7 @@ describe("01_office_ai bölüm 5 — İstisnalar & Hata Avı Altın Şablon", ()
 
   it("makale Gözde girişi, halüsinasyon avı ve L6 köprüsü taşır", () => {
     const lessons = curriculumForCourseSlug(SLUG);
-    expect(lessons).toHaveLength(9);
+    expect(lessons).toHaveLength(8);
     expect(officeAiMasteryModule.voiceConfig.voice).toBe("Callirrhoe");
     const lesson = lessons.find((row) => row.key === KEY)!;
     expect(lesson.key).toBe(KEY);
@@ -116,8 +116,9 @@ describe("01_office_ai bölüm 5 — İstisnalar & Hata Avı Altın Şablon", ()
     expect(lesson.body).not.toMatch(/direktif/iu);
     expect(lesson.body).not.toMatch(/söyleyeceğiz/u);
     expect(lesson.body).toMatch(/yakalayacaksın/u);
-    expect(lesson.body).toMatch(/dedektife çevirirsin/u);
-    expect(lesson.body).toMatch(/sınav kapısı en sonda açılır/u);
+    expect(lesson.body).toMatch(/kontrole çevirirsin/u);
+    expect(lesson.body).toMatch(/Sıradaki ders e-posta akışıdır/u);
+    expect(lesson.body).not.toMatch(/sınav kapısı en sonda açılır/u);
     expect(lesson.body).not.toMatch(/sınav köprüsü/iu);
     expect(lesson.body).toMatch(/Kişi adı, IBAN veya şirket sırrı varsa önce maskele/u);
     expect(lesson.body).toMatch(/Peki yapay zekâ çıktısı kontrol edilmeden masaya neden koyulmaz/u);
@@ -185,12 +186,12 @@ describe("01_office_ai bölüm 5 — İstisnalar & Hata Avı Altın Şablon", ()
       return;
     }
     expect(pieces[0]?.start).toBe(2);
-    expect(pieces[1]?.end).toBe(74.44);
+    expect(pieces[1]?.end).toBe(75.24);
     expect((pieces[1]?.end ?? 0) - (pieces[1]?.start ?? 0)).toBeGreaterThan(20);
     expect((pieces[1]?.end ?? 0) - (pieces[1]?.start ?? 0)).toBeLessThan(50);
     expect(academyBedDuckGain(0.5, pieces)).toBe(ACADEMY_BED_BREATH_GAIN);
     const lastEnd = pieces.at(-1)?.end ?? 0;
-    expect(lastEnd).toBe(564.08);
+    expect(lastEnd).toBe(553);
     expect(academyBedDuckGain(lastEnd, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 1.5, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 4.5, pieces)).toBe(0);
@@ -212,18 +213,20 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(prose).toMatch(/halüsinasyon/iu);
     expect(prose).toMatch(/kırmızı/iu);
     expect(prose).toMatch(/satır toplamları ile genel toplam/u);
-    expect(prose).toMatch(/Haftalık Sistem/u);
-    expect(prose).toMatch(/30 Dakika/u);
+    expect(prose).toMatch(/Sayı kilitlenmeden Cuma penceresini açma/u);
+    expect(prose).toMatch(/Sınav, 8\. ders bitince açılır/u);
     expect(prose).toMatch(/59\.450/u);
     expect(prose).toMatch(/İkinci satır Demir Lojistik 17\.300/u);
     expect(prose).not.toMatch(/Üçüncü satır Demir Lojistik/u);
     expect(prose).not.toMatch(/\bkomut/iu);
     expect(prose).not.toMatch(/direktif/iu);
     expect(prose).toMatch(/açık istem/u);
-    expect(prose).toMatch(/Hata dedektifi|dedektife çevirirsin/u);
-    expect(prose).toMatch(/sınav kapısı en sonda açılır/u);
+    expect(prose).toMatch(/kontrole çevirirsin/u);
+    expect(prose).not.toMatch(/sınav kapısı en sonda açılır/u);
+    expect(prose).not.toMatch(/AI DEDEKTİF/u);
+    expect(prose).toMatch(/çapraz kontrol/iu);
     expect(prose).not.toMatch(/sınav köprüsü/iu);
-    expect(prose).toMatch(/Kişi adı, IBAN veya şirket sırrı varsa önce maskele/u);
+    expect(prose).toMatch(/Kişi adı, İban veya şirket sırrı varsa önce maskele/u);
     expect(prose).toMatch(/Peki yapay zekâ neden uydurur\?/u);
     expect(prose).toMatch(/dil modeli matematiksel bir işlemci değildir/u);
     expect(prose).toMatch(/Peki tablodaki mantık hatasını veya yanlış toplamı gözünle nasıl avlarsın\?/u);
@@ -246,7 +249,7 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(cues.at(-1)?.paragraphs?.join(" ")).toMatch(/Baraj 70/u);
     const compare = academyVisualCompareStage(KEY, "cue-06");
     expect(compare?.beforeLabel).toBe("KÖR SÜREÇ (UYDURMA VERİ)");
-    expect(compare?.afterLabel).toBe("DEDEKTİF SÜREÇ (KONTROLLÜ VERİ)");
+    expect(compare?.afterLabel).toBe("ÇAPRAZ KONTROL (KİLİTLİ SAYI)");
     expect(JSON.stringify(compare?.before.table)).toContain("21.500");
     expect(JSON.stringify(compare?.before.table)).toContain("59.450");
     expect(JSON.stringify(compare?.before.table)).not.toContain("50.450");
@@ -259,17 +262,17 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(academyExcelFocusZoomActive(KEY, cue04!.start)).toBe(true);
     expect(academyExcelMouseState(KEY, cue04!.start + 0.05)?.visible).toBe(true);
     expect(cues[0]!.start).toBe(ACADEMY_INTRO_GENERIC_SEC);
-    expect(cues.at(-1)?.end).toBe(564.08);
+    expect(cues.at(-1)?.end).toBe(553);
     const layer = academyCitizenPlayerLayer(SLUG, KEY);
     expect(layer.kind).toBe("article+karaoke");
     const strip = loadAcademyKaraokeStrip(KEY);
     expect(strip[0]?.start).toBe(2);
     expect(strip.find((line) => line.cueId === "cue-02")?.text).toMatch(/^Selamlar, ben Gözde/u);
-    expect(strip.find((line) => line.cueId === "cue-02")?.start).toBe(39.2);
-    expect(strip.find((line) => line.cueId === "cue-04")?.start).toBe(183.32);
+    expect(strip.find((line) => line.cueId === "cue-02")?.start).toBe(37.8);
+    expect(strip.find((line) => line.cueId === "cue-04")?.start).toBe(183.48);
     expect(strip.some((line) => line.text.includes("59.450"))).toBe(true);
     expect(strip.some((line) => line.text.includes("54.650"))).toBe(false);
-    expect(strip.at(-1)?.end).toBe(564.08);
+    expect(strip.at(-1)?.end).toBe(553);
   });
 
   it("HOŞ GELDİN rozeti 18 sn auto-hide; adım bantları ve Beat 3 split saatle yürür", () => {
@@ -327,7 +330,7 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(media).toContain("pushSpokenClock");
     const punchcards = dronAcademyPunchcardsForLesson(KEY);
     expect(DRON_WELCOME_PUNCHCARD_MAX_SEC).toBe(18);
-    expect(punchcards.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(57.2);
+    expect(punchcards.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(55.8);
   });
 
   it("mini sınav baraj 70 durur; Dron punchcard Hata Avı taşır", () => {
@@ -345,9 +348,9 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
     expect(exam?.questions[0]?.prompt).not.toContain("48.200");
     const punchcards = dronAcademyPunchcardsForLesson(KEY);
     expect(punchcards.map((card) => card.label)).toEqual(
-      expect.arrayContaining(["HATA AVI", "AI DEDEKTİF"]),
+      expect.arrayContaining(["HATA AVI", "ÇAPRAZ KONTROL"]),
     );
-    expect(punchcards.at(-1)?.end).toBe(564.08);
+    expect(punchcards.at(-1)?.end).toBe(553);
     expect(isAcademyLessonAudioSealed(SLUG, KEY)).toBe(true);
     expect(academyCitizenPlayerLayer(SLUG, KEY).kind).toBe("article+karaoke");
   });
@@ -396,22 +399,24 @@ describe("01_office_ai bölüm 5 — senaryo ve mühür kapısı", () => {
 
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
-    expect(timings?.durationSec).toBe(564.08);
-    expect(timings?.cacheV).toBe(564080);
+    expect(timings?.durationSec).toBe(553);
+    expect(timings?.cacheV).toBe(553000);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.at(-1)?.end).toBe(564.08);
+    expect(cues.at(-1)?.end).toBe(553);
     for (const cue of cues) {
       const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
       expect(pieces[0]?.start, cue.id).toBe(cue.start);
       expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
     }
     const strip = loadAcademyKaraokeStrip(KEY);
-    expect(strip.at(-1)?.end).toBe(564.08);
+    expect(strip.at(-1)?.end).toBe(553);
     const stripText = strip.map((line) => line.text).join(" ");
     expect(stripText).toMatch(/Peki yapay zekâ neden uydurur/u);
     expect(stripText).toMatch(/İkinci satır Demir Lojistik 17\.300/u);
     expect(stripText).toMatch(/İşte buna uydurma \(teknik adıyla halüsinasyon\) diyoruz/u);
-    expect(stripText).toMatch(/sınav kapısı en sonda açılır/u);
+    expect(stripText).toMatch(/Sınav, 8\. ders bitince açılır/u);
+    expect(stripText).not.toMatch(/sınav kapısı en sonda açılır/u);
+    expect(stripText).not.toMatch(/AI DEDEKTİF/u);
     expect(stripText).toMatch(/mantık hatasını veya yanlış toplamı gözünle nasıl avlarsın/u);
     expect(stripText).toMatch(/kontrol edilmeden masaya neden koyulmaz/u);
     expect(strip.some((line) => line.text.includes("59.450"))).toBe(true);

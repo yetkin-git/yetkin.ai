@@ -76,7 +76,7 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
       "/media/01_office_ai_01_frame_01.png",
     );
 
-    expect(curriculumForCourseSlug("01_office_ai")).toHaveLength(9);
+    expect(curriculumForCourseSlug("01_office_ai")).toHaveLength(8);
     expect(ACADEMY_BAKED_MICRO_VIDEO_KEYS).toContain("01_office_ai-1-warmup");
     expect(ACADEMY_BAKED_MICRO_VIDEO_KEYS).not.toContain("office-ai-time-thieves");
   });
@@ -172,6 +172,7 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
     expect(eye).toContain("data-academy-eye-layer");
     expect(eye).toContain("data-academy-punchcard");
     expect(eye).toContain("data-academy-punchcard-dock");
+    expect(eye).toContain("academyCitizenPunchcardLabel");
     expect(eye).toContain('data-academy-canvas="full"');
     expect(eye).toContain('data-academy-waiter-ratio={String(ACADEMY_GOLDEN_WAITER_RATIO)}');
     expect(eye).toContain('data-academy-compare="split"');

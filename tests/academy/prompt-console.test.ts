@@ -260,7 +260,7 @@ describe("Nasıl Yapılır? — Prompt Terminali ve adım bandı", () => {
 
   it("dokuz ofis dersinin istemi Prompt Terminalinde kırpılmaz; 6. ders Cuma metni tam okunur", () => {
     const keys = curriculumLessonKeysForSlug("01_office_ai");
-    expect(keys).toHaveLength(9);
+    expect(keys).toHaveLength(8);
     const prompts = keys.map((key) => {
       const slides = loadAcademyCinemaCueSlides(key);
       const withPrompt = slides.find((slide) => (slide.copilot?.prompt ?? "").trim().length > 0);

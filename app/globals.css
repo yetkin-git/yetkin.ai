@@ -1397,16 +1397,23 @@ body {
   overflow: hidden;
   box-sizing: border-box;
   background: #c8c8c8;
-  padding: 0.28rem 0.32rem 0.3rem;
+  padding: 0.16rem 0.28rem 0.18rem;
 }
 
 .academy-pptx-desk--live {
   overflow: hidden;
 }
 
+.academy-pptx-desk--dump,
+.academy-pptx-desk--full {
+  align-items: stretch;
+  justify-content: stretch;
+}
+
 .academy-pptx-win {
   display: flex;
   width: 100%;
+  max-width: 100%;
   height: auto;
   min-height: 0;
   max-height: none;
@@ -1420,9 +1427,10 @@ body {
 
 .academy-pptx-titlebar {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 0.55rem;
-  height: 1.7rem;
+  height: 1.42rem;
   padding: 0 0.7rem;
   background: #c43e1c;
   color: #fff;
@@ -1446,8 +1454,9 @@ body {
 
 .academy-pptx-ribbon {
   display: flex;
+  flex-shrink: 0;
   gap: 0.9rem;
-  height: 1.7rem;
+  height: 1.42rem;
   align-items: center;
   padding: 0 0.8rem;
   background: #f3f3f3;
@@ -1460,30 +1469,119 @@ body {
   color: #c43e1c;
   font-weight: 700;
   border-bottom: 2px solid #c43e1c;
-  padding-bottom: 0.28rem;
+  padding-bottom: 0.12rem;
 }
 
 .academy-pptx-body {
-  flex: 0 0 auto;
+  box-sizing: border-box;
+  flex: 1 1 auto;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  max-width: 100%;
   min-height: 0;
   min-width: 0;
+  overflow: hidden;
 }
 
 .academy-pptx-body--copilot {
-  grid-template-columns: 5.6rem 1.7fr 0.62fr;
+  grid-template-columns: minmax(6.8rem, 7.4rem) minmax(0, 1fr) minmax(0, 0.62fr);
 }
 
 .academy-pptx-desk--live .academy-pptx-body:not(.academy-pptx-body--copilot) {
-  grid-template-columns: 5.6rem 1fr;
+  grid-template-columns: minmax(6.8rem, 7.4rem) minmax(0, 1fr);
+}
+
+.academy-pptx-desk--dump .academy-pptx-body--copilot {
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 0.72fr);
+}
+
+.academy-pptx-desk--dump .academy-pptx-thumbs {
+  display: none;
+}
+
+.academy-pptx-desk--dump.academy-pptx-desk--live .academy-pptx-body:not(.academy-pptx-body--copilot) {
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+.academy-pptx-desk--full .academy-pptx-body {
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+.academy-pptx-desk--dump .academy-pptx-body,
+.academy-pptx-desk--full .academy-pptx-body {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  min-height: 0;
+}
+
+.academy-pptx-desk--dump.academy-pptx-desk--live .academy-pptx-body:not(.academy-pptx-body--copilot) .academy-pptx-canvas-wrap {
+  grid-column: 1 / -1;
+  display: flex;
+  flex: 1 1 auto;
+  flex-basis: auto;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  min-height: 0;
+}
+
+.academy-pptx-desk--full .academy-pptx-canvas-wrap {
+  grid-column: 1 / -1;
+  display: flex;
+  flex: 1 1 auto;
+  flex-basis: auto;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  min-height: 0;
+}
+
+.academy-pptx-desk--dump .academy-pptx-canvas-wrap {
+  display: flex;
+  flex: 1 1 auto;
+  flex-basis: auto;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  min-height: 0;
+}
+
+.academy-pptx-body > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.academy-pptx-body > .academy-pptx-thumbs {
+  min-width: 6.8rem;
+  max-width: 7.4rem;
 }
 
 .academy-pptx-thumbs {
   display: flex;
+  flex-shrink: 0;
   flex-direction: column;
-  gap: 0.35rem;
-  padding: 0.4rem 0.35rem;
+  gap: 0.42rem;
+  min-width: 6.8rem;
+  max-width: 7.4rem;
+  padding: 0.42rem 0.4rem;
   overflow: auto;
   background: #ececec;
   border-right: 1px solid #d0d0d0;
@@ -1491,15 +1589,30 @@ body {
 
 .academy-pptx-thumb {
   display: flex;
-  gap: 0.28rem;
-  align-items: flex-start;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 0.16rem;
+  align-items: stretch;
   width: 100%;
   min-width: 0;
-  padding: 0.28rem;
+  margin: 0 0 0.12rem;
+  padding: 0.22rem;
   border: 1px solid transparent;
   background: #fff;
   text-align: left;
   cursor: default;
+}
+
+.academy-pptx-thumb-preview {
+  flex: 0 0 auto;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 0;
+  border: 1px solid #d4d4d4;
+  border-radius: 0.08rem;
+  background:
+    linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
 }
 
 .academy-pptx-thumb.on {
@@ -1511,13 +1624,14 @@ body {
   font-size: 0.58rem;
   font-weight: 800;
   color: #c43e1c;
+  line-height: 1.2;
 }
 
 .academy-pptx-thumb em {
   font-style: normal;
   font-size: clamp(0.48rem, 0.9vw, 0.62rem);
   font-weight: 600;
-  line-height: 1.25;
+  line-height: 1.2;
   color: #222;
   overflow-wrap: anywhere;
   white-space: normal;
@@ -1531,11 +1645,13 @@ body {
   position: relative;
   display: flex;
   min-width: 0;
+  max-width: 100%;
   min-height: 0;
+  flex-shrink: 1;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 0.45rem;
+  padding: 0.28rem;
   background: #d9d9d9;
 }
 
@@ -1551,14 +1667,26 @@ body {
   max-height: 100%;
   object-fit: contain;
   margin: 0;
-  padding: 0.85rem 1rem;
+  padding: 0.55rem 0.7rem;
   overflow: hidden;
   background: #fff;
   box-shadow: 0 10px 28px rgba(15, 23, 42, 0.16);
 }
 
+.academy-pptx-desk--dump .academy-pptx-canvas,
+.academy-pptx-desk--full .academy-pptx-canvas {
+  flex: 1 1 auto;
+  flex-basis: auto;
+  align-self: center;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+}
+
 .academy-pptx-canvas:has(.academy-pptx-slide-stage) {
-  padding: 0.42rem;
+  padding: 0.22rem;
   background: #0b1220;
 }
 
@@ -1586,12 +1714,13 @@ body {
 
 .academy-pptx-slide-stage {
   display: flex;
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
   min-height: 0;
   flex-direction: column;
-  gap: 0.55rem;
-  padding: 0.7rem 0.75rem 0.65rem;
+  gap: 0.38rem;
+  padding: 0.42rem 0.65rem 0.38rem;
   border-radius: 0.28rem;
   background:
     radial-gradient(120% 80% at 12% 0%, rgba(56, 189, 248, 0.18), transparent 46%),
@@ -1602,8 +1731,9 @@ body {
 .academy-pptx-slide-title {
   margin: 0;
   min-width: 0;
+  flex-shrink: 0;
   font-weight: 800;
-  font-size: clamp(0.78rem, 2.05vw, 1.35rem);
+  font-size: clamp(0.72rem, 1.85vw, 1.12rem);
   letter-spacing: -0.03em;
   line-height: 1.15;
   color: #f8fbff;
@@ -1744,7 +1874,7 @@ body {
 }
 
 .academy-pptx-example-note {
-  margin: 0.18rem 0 0;
+  margin: 0.06rem 0 0;
   color: #94a3b8;
   font-size: clamp(0.48rem, 0.95vw, 0.68rem);
   font-weight: 600;
@@ -1755,8 +1885,12 @@ body {
 
 .academy-pptx-dump {
   display: flex;
+  box-sizing: border-box;
   flex-direction: column;
   gap: 0.22rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   height: 100%;
   overflow: hidden;
   padding: 0.15rem 0.1rem;
@@ -1770,6 +1904,8 @@ body {
 
 .academy-pptx-dump--word {
   font-family: "Times New Roman", Times, serif;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .academy-pptx-dump-chrome {
@@ -1791,7 +1927,9 @@ body {
 }
 
 .academy-pptx-dump p {
+  box-sizing: border-box;
   margin: 0;
+  max-width: 100%;
   padding: 0.18rem 0.32rem;
   background: rgba(255, 247, 232, 0.86);
   border-left: 3px solid #d97706;
@@ -1803,27 +1941,30 @@ body {
 
 .academy-pptx-dump-line--0 {
   transform: rotate(-0.6deg);
-  margin-left: 0.15rem;
+  transform-origin: center center;
 }
 
 .academy-pptx-dump-line--1 {
   transform: rotate(0.8deg);
-  margin-right: 0.35rem;
+  transform-origin: center center;
   background: #fff1c2;
 }
 
 .academy-pptx-dump-line--2 {
   transform: rotate(-1.1deg);
+  transform-origin: center center;
   font-size: clamp(0.7rem, 1.4vw, 1.05rem);
 }
 
 .academy-pptx-dump-line--3 {
   transform: rotate(0.4deg);
+  transform-origin: center center;
   opacity: 0.88;
 }
 
 .academy-pptx-dump-line--4 {
   transform: rotate(-0.3deg);
+  transform-origin: center center;
   letter-spacing: 0.01em;
 }
 
@@ -1849,16 +1990,33 @@ body {
   position: absolute;
   z-index: 4;
   pointer-events: none;
-  border: 2px solid rgba(56, 189, 248, 0.35);
-  box-shadow: 0 0 16px rgba(56, 189, 248, 0.28);
+  border: 2px solid #c43e1c;
+  box-shadow: 0 0 16px rgba(196, 62, 28, 0.38);
+}
+
+.academy-pptx-active-border::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -0.08rem;
+  width: 0;
+  height: 0;
+  transform: translate(-50%, -100%);
+  border: 0.42rem solid transparent;
+  border-bottom-color: #c43e1c;
+  filter: drop-shadow(0 1px 2px rgba(196, 62, 28, 0.45));
 }
 
 .academy-pptx-copilot {
+  box-sizing: border-box;
   border-left: 1px solid #d0d0d0;
   background: #faf7f5;
   padding: 0.7rem 0.8rem;
   font-size: clamp(0.62rem, 1.05vw, 0.78rem);
   min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  flex-shrink: 1;
 }
 
 .academy-pptx-copilot header {
@@ -2015,12 +2173,37 @@ body {
 .academy-pptx-desk > .academy-office-win-fit {
   align-items: center;
   justify-content: center;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.academy-pptx-desk--dump.academy-pptx-desk--live > .academy-office-win-fit,
+.academy-player-waiter:not(.academy-player-compare) .academy-pptx-desk--dump > .academy-office-win-fit,
+.academy-pptx-desk--full > .academy-office-win-fit {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-width: none;
+  max-height: 100%;
+  flex: 1 1 auto;
+  align-items: stretch;
+  justify-content: stretch;
 }
 
 .academy-player-waiter .academy-pptx-win {
   height: auto;
   min-height: 0;
   max-height: none;
+}
+
+.academy-pptx-desk--dump.academy-pptx-desk--live .academy-pptx-win,
+.academy-pptx-desk--full .academy-pptx-win,
+.academy-player-waiter:not(.academy-player-compare) .academy-pptx-desk--dump .academy-pptx-win {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  flex: 1 1 auto;
+  flex-basis: auto;
 }
 
 .academy-player-waiter .academy-outlook-win {
@@ -3982,6 +4165,18 @@ body {
   gap: 0.35rem;
   overflow: auto;
   anchor-name: --academy-copilot-dock;
+}
+
+.academy-pptx-body .academy-ai-desk {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  flex-shrink: 1;
+}
+
+.academy-pptx-body .academy-prompt-console {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .academy-ai-desk-tabs {

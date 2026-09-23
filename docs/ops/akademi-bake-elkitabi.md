@@ -30,19 +30,19 @@ Bu tablo timings `durationSec` ile birebir durur. Re-bake sonrası sayıyı bura
 
 | Ders anahtarı | timings `durationSec` | `ACADEMY_SEALED_AUDIO_DURATION_SEC` | `cacheV` |
 |---------------|----------------------|-------------------------------------|----------|
-| `01_office_ai-1` | **662.56 sn** | 663 | 662560 |
-| `01_office_ai-k1` | **668.88 sn** | 669 | 668880 |
-| `01_office_ai-2` | **552.68 sn** | 553 | 552680 |
-| `01_office_ai-3` | **575.6 sn** | 576 | 575600 |
-| `01_office_ai-5` | **564.08 sn** | 564 | 564080 |
+| `01_office_ai-1` | **688.68 sn** | 689 | 688680 |
+| `01_office_ai-k1` | **642.16 sn** | 642 | 642160 |
+| `01_office_ai-2` | **517.24 sn** | 517 | 517240 |
+| `01_office_ai-3` | **541.92 sn** | 542 | 541920 |
+| `01_office_ai-5` | **553 sn** | 553 | 553000 |
 | `01_office_ai-4` | **493.8 sn** | 494 | 493800 |
-| `01_office_ai-g1` | **449.586 sn** | 450 | 449586 |
-| `01_office_ai-w1` | **607.688 sn** | 608 | 607688 |
-| `01_office_ai-6` | **444.437 sn** | 444 | 444437 |
+| `01_office_ai-g1` | **568.16 sn** | 568 | 568160 |
+| `01_office_ai-w1` | **563.36 sn** | 563 | 563360 |
+| `01_office_ai-6` | **505.6 sn** | 506 | 505600 |
 
 - `01_office_ai-1` konuşma sonrası Lyria outro kuyruğu **+2.5 sn** (oynatıcı saati; WAV’a sessizlik basılmaz).
-- `cue-06 FARK ORTADA`: **467.48–535.4** (eski hatalı damga `457.12–529` / `386.04–457.04` / `319.92` / `346.36` / `358.92` / `378.96` / `387.92–458.68` kullanılmaz).
-- `cue-07 CEBİNE KOY`: **535.8–584.08** (eski hatalı damga `529.4–575.16` / `457.44–497.08` / `393.32` / `417.20` / `430.12` / `449.64` / `459.08–498.80` kullanılmaz).
+- `cue-06 FARK ORTADA`: **500.08–565.96** (eski hatalı damga `476.24–545` / `467.48–535.4` / `457.12–529` / `386.04–457.04` / `319.92` / `346.36` / `358.92` / `378.96` / `387.92–458.68` kullanılmaz).
+- `cue-07 CEBİNE KOY`: **566.36–615** (eski hatalı damga `545.4–593.48` / `535.8–584.08` / `529.4–575.16` / `457.44–497.08` / `393.32` / `417.20` / `430.12` / `449.64` / `459.08–498.80` kullanılmaz).
 - Veo punch: **2–10 sn** (`ACADEMY_VEO_SCENE_DURATION_SEC = 8`, intro `0–2 sn` sonrası);
   `0–8 sn` yazımı yasaktır.
 - Dron punchcard sonu timings `durationSec` ile biter; web timings ile aynı 8 aralık türetilir.

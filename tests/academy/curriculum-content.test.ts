@@ -46,7 +46,7 @@ describe("03.16 gerçek müfredat gövdesi — amiral compact", () => {
     expect(ACADEMY_PILOT_SKU_LESSON_COUNT).toBe(0);
     expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual([...ACADEMY_GROWTH_SKU_SLUGS]);
     const lessons = curriculumForCourseSlug("01_office_ai");
-    expect(lessons).toHaveLength(9);
+    expect(lessons).toHaveLength(8);
     expect(curriculumForCourseSlug("02_ecommerce_ai")).toHaveLength(0);
     expect(curriculumForCourseSlug("03_social_media_ai")).toHaveLength(0);
     expect(curriculumForCourseSlug("04_chatbot_nocode")).toHaveLength(0);
@@ -113,7 +113,7 @@ describe("03.20 insani diyalog ve terim parantezleri", () => {
     expect(listen).toContain("{instructorName}");
     expect(listen).toContain("çayını yudumlarken");
     expect(listen).toContain("üç noktalarda");
-    expect(curriculumForCourseSlug("01_office_ai").length).toBe(9);
+    expect(curriculumForCourseSlug("01_office_ai").length).toBe(8);
   });
 });
 
@@ -205,7 +205,7 @@ describe("03.22 tek ses tek isim", () => {
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Can")?.speechRate).toBe(
       1,
     );
-    expect(curriculumForCourseSlug("01_office_ai").length).toBe(9);
+    expect(curriculumForCourseSlug("01_office_ai").length).toBe(8);
   });
 });
 
@@ -218,7 +218,7 @@ describe("03.28 hedef kitle pusulası ve saha dili", () => {
     expect(readFileSync(join(ROOT, "archived", "lib", "academy-studio", "field-voice.ts"), "utf8")).toContain(
       "ACADEMY_COMPASS_ANCHOR",
     );
-    expect(curriculumForCourseSlug("01_office_ai").length).toBe(9);
+    expect(curriculumForCourseSlug("01_office_ai").length).toBe(8);
   });
 
   it("tohum ve stüdyo kaynakları ameliyathane kalıbı taşımaz", () => {
@@ -269,10 +269,10 @@ describe("03.30 doğal dil temizliği", () => {
 
   it("yayınlı compact müfredat gövdesi taze ingest bekler; diyalog SKU yoktur", () => {
     expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual(["01_office_ai"]);
-    expect(curriculumForCourseSlug("01_office_ai")).toHaveLength(9);
+    expect(curriculumForCourseSlug("01_office_ai")).toHaveLength(8);
     for (const row of ACADEMY_COURSE_SEEDS) {
       if (row.slug === "01_office_ai") {
-        expect(curriculumForCourseSlug(row.slug)).toHaveLength(9);
+        expect(curriculumForCourseSlug(row.slug)).toHaveLength(8);
         continue;
       }
       expect(curriculumForCourseSlug(row.slug)).toEqual([]);

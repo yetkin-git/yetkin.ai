@@ -3,8 +3,10 @@
  * Taslak gövdeleri ve curriculum.ts bu dosyayı import eder (sıra SSOT); bu dosya onları import etmez.
  * Vatandaş ders numarası bu dizinin 1 tabanlı indeksidir. Teknik anahtar (`k1`, `5`) basılmaz.
  * Ders 0 (Başlamadan Önce) bu dizide yoktur; `lib/academy/prep-strip.ts`.
- * Faz 1 kilit sıra: Excel → KVKK → rapor → slayt → hata avı → e-posta ritüeli
- * → Gmail kapısı → Word → Cuma 30 capstone. Sınav yalnız son dersten sonra.
+ * Aşama 2 kilit sıra: Excel → KVKK → rapor → slayt → hata avı
+ * → e-posta akışı (Gmail / Outlook, ritüel ilk 2 dk) → Word → Cuma 30.
+ * Eski ritüel kaseti `01_office_ai-4` sınav yolunda yoktur; metin `01_office_ai-g1` içindedir.
+ * Sınav yalnız son dersten sonra. Hazırlık şeridi bu sayıya girmez.
  */
 
 export const CURRICULUM_LESSON_KEYS_BY_SLUG: Readonly<Record<string, readonly string[]>> = {
@@ -14,7 +16,6 @@ export const CURRICULUM_LESSON_KEYS_BY_SLUG: Readonly<Record<string, readonly st
     "01_office_ai-2",
     "01_office_ai-3",
     "01_office_ai-5",
-    "01_office_ai-4",
     "01_office_ai-g1",
     "01_office_ai-w1",
     "01_office_ai-6",
@@ -26,7 +27,7 @@ export const CURRICULUM_LESSON_KEYS_BY_SLUG: Readonly<Record<string, readonly st
 };
 
 export const CURRICULUM_LESSON_COUNT_BY_SLUG: Readonly<Record<string, number>> = {
-  "01_office_ai": 9,
+  "01_office_ai": 8,
   "02_ecommerce_ai": 0,
   "03_social_media_ai": 0,
   "04_chatbot_nocode": 0,
@@ -60,7 +61,7 @@ function academyCourseSlugPrefixFromLessonKey(lessonKey: string): string | null 
   return trimmed.slice(0, lastDash);
 }
 
-/** `01_office_ai-5` → 5 (hata avı); `01_office_ai-6` → 9 (Cuma). Anahtar soneki okunmaz. */
+/** `01_office_ai-5` → 5 (hata avı); `01_office_ai-6` → 8 (Cuma). Anahtar soneki okunmaz. */
 export function academyCitizenLessonOrdinalFromKey(lessonKey: string): number | null {
   const slug = academyCourseSlugPrefixFromLessonKey(lessonKey);
   if (!slug) {

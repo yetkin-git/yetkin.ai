@@ -18,14 +18,12 @@ type BridgeCtx = {
 /** Kapanış köprüsü — vatandaş sırası `lesson-index.ts` SSOT'undan türetilir. */
 const CLOSING_BRIDGE: Record<string, (ctx: BridgeCtx) => RegExp> = {
   "01_office_ai-1": ({ nextOrdinal }) => new RegExp(`${nextOrdinal}\\. derste buluşalım`, "u"),
-  "01_office_ai-k1": ({ ordinal }) => new RegExp(`Bu ${ordinal}\\. derstir[\\s\\S]*Sıradaki kapı rapor`, "u"),
+  "01_office_ai-k1": () => /Sıradaki kapı rapor/u,
   "01_office_ai-2": ({ nextOrdinal }) => new RegExp(`${nextOrdinal}\\. ders kapsamında`, "u"),
   "01_office_ai-3": ({ nextOrdinal }) => new RegExp(`${nextOrdinal}\\. derste[\\s\\S]*Hata Avı`, "u"),
-  "01_office_ai-5": () => /Sıradaki ders e-posta ritüeli/u,
-  "01_office_ai-4": () => /bir sonraki derste Gmail Gemini/iu,
-  "01_office_ai-g1": ({ lastOrdinal }) => new RegExp(`o ${lastOrdinal}\\. ders bitince`, "u"),
-  "01_office_ai-w1": ({ ordinal, lastOrdinal }) =>
-    new RegExp(`Bu ${ordinal}\\. derstir[\\s\\S]*${lastOrdinal}\\. ders`, "u"),
+  "01_office_ai-5": () => /Sıradaki ders e-posta akışı/u,
+  "01_office_ai-g1": () => /ataş ile yüklemeyi/u,
+  "01_office_ai-w1": () => /öğretmen sen konuşur/iu,
   "01_office_ai-6": () => /sınav kapısı yalnız bu kapanış dersinden sonra açılır/iu,
 };
 
@@ -35,10 +33,9 @@ const OUTRO_DESTINATION: Record<string, RegExp> = {
   "01_office_ai-k1": /Sıradaki kapı rapor/u,
   "01_office_ai-2": /4\. ders kapsamında/u,
   "01_office_ai-3": /Hata Avı/u,
-  "01_office_ai-5": /e-posta ritüeli/iu,
-  "01_office_ai-4": /Gmail/iu,
+  "01_office_ai-5": /e-posta akışı/iu,
   "01_office_ai-g1": /ataş ile yüklemeyi/u,
-  "01_office_ai-w1": /9\. ders/u,
+  "01_office_ai-w1": /öğretmen sen konuşur/iu,
   "01_office_ai-6": /sınav kapısı yalnız bu dersten sonra açılır/iu,
 };
 
@@ -60,7 +57,6 @@ describe("01_office_ai giriş/kapanış köprü kilidi", () => {
       "01_office_ai-2",
       "01_office_ai-3",
       "01_office_ai-5",
-      "01_office_ai-4",
       "01_office_ai-g1",
       "01_office_ai-w1",
       "01_office_ai-6",

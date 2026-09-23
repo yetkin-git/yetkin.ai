@@ -116,10 +116,15 @@ export function academyExcelIsErrorCell(
   return errorCells.some((cell) => academyExcelIsHighlightCell(cell, col, row));
 }
 
-/** Takma değer hücresi — MASKELİ_* ve Müşteri A/B/C yeşil mühür. */
+/** Takma değer hücresi — Müşteri A/B/C, Tel1–3, IBAN1–3 ve MASKELİ_* yeşil mühür. */
 export function academyExcelIsMaskToken(value: string | undefined): boolean {
   const text = (value ?? "").trim();
-  return text.startsWith("MASKELİ_") || /^Müşteri [A-C]$/u.test(text);
+  return (
+    text.startsWith("MASKELİ_") ||
+    /^Müşteri [A-C]$/u.test(text) ||
+    /^Tel[1-3]$/u.test(text) ||
+    /^IBAN[1-3]$/u.test(text)
+  );
 }
 
 /** `mergedTop` afişi — satır 1, A sütunundan son sütuna (varsayılan A1:F1). */
