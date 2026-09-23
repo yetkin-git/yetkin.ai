@@ -81,7 +81,9 @@ describe("sertifika sosyal paylaşım yüzeyi", () => {
       card: "summary_large_image",
       images: [academyCertificateOgImagePath(HASH)],
     });
-    expect(meta.alternates).toMatchObject({ canonical: `/academy/dogrula/${HASH}` });
+    expect(meta.alternates).toMatchObject({
+      canonical: `https://yetkin.ai/academy/dogrula/${HASH}`,
+    });
     // SEO Tedavi (P1) — sicil thin-content indeksi üretmez; paylaşım bağı takip edilir.
     expect(meta.robots).toEqual({ index: false, follow: true });
   });
@@ -91,9 +93,9 @@ describe("sertifika sosyal paylaşım yüzeyi", () => {
     const alias = readSrc("app/verify/[hash]/page.tsx");
     const landing = readSrc("app/verify/page.tsx");
     expect(config).toContain('source: "/verify"');
-    expect(config).toContain('destination: "/academy/dogrula"');
+    expect(config).toContain('destination: "https://yetkin.ai/academy/dogrula"');
     expect(config).toContain('source: "/verify/:hash"');
-    expect(config).toContain('destination: "/academy/dogrula/:hash"');
+    expect(config).toContain('destination: "https://yetkin.ai/academy/dogrula/:hash"');
     expect(config).toContain("statusCode: 301");
     expect(alias).toContain("permanentRedirect");
     expect(alias).toContain("academyVerifyPath");

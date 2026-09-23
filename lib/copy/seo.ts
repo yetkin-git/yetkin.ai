@@ -111,12 +111,35 @@ type PageSeoInput = {
 
 export const PRODUCT_ROOM_PATHS = ["/academy", "/career"] as const;
 
-/** Sitemap statik kamu yolları — robots allow listesi ile aynı SSOT. */
+/**
+ * Sitemap ve robots Allow — yalnız oturumsuz 200 dönen kamu yolları.
+ * `/career` ürün odasıdır ama kenar oturumsuz isteği 307 ile `/login`’e alır;
+ * site haritasında durursa Search Console «Yönlendirmeli sayfa» yazar.
+ * Kamuya açık vize yüzeyi `/vize`’dir.
+ */
 export const SITEMAP_STATIC_PATHS = [
   "/",
-  ...PRODUCT_ROOM_PATHS,
+  "/academy",
   PAGE_SEO.academyVerify.path,
   PAGE_SEO.publicTalent.path,
+] as const;
+
+/**
+ * 301 alias → oturum duvarı ikinci hop üretir (`/kariyer` → `/career` → `/login`).
+ * Bot bu kaynakları tararsa yönlendirme zinciri görür; crawl edilmez.
+ * Tek hop ile 200 kamu sayfasına inen alias’lar (`/ogren`, `/verify`, `/p`, yasal kısa adlar) listede yoktur: Google 301’i görüp kanoniğe birleştirir.
+ */
+export const ROBOTS_DISALLOW_AUTH_REDIRECTS = [
+  "/career",
+  "/kariyer",
+  "/profile",
+  "/passport",
+  "/giris",
+  "/kayit",
+  "/academy/certificates",
+  "/auth/",
+  "/sifremi-unuttum",
+  "/sifre-yenile",
 ] as const;
 
 /** Oturum / sığınak / kilitli oda — sitemap’te yok; crawl edilmez. */
@@ -134,7 +157,27 @@ export const ROBOTS_DISALLOW_PATHS = [
   // SEO Tedavi (P1) — satın alma duvarı arkası oynatıcı; auth duvarı + sayfa noindex ile üç katmanlı kilit.
   "/academy/*/oyna",
   "/academy/*/cikis-paketi",
+  ...ROBOTS_DISALLOW_AUTH_REDIRECTS,
 ] as const;
+
+/** Google önek kuralı: kural yolun kendisini ve altını kapatır. `*` tek segmenttir. */
+export function isRobotsDisallowedPath(pathname: string): boolean {
+  const path =
+    pathname.length > 1 && pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+  return ROBOTS_DISALLOW_PATHS.some((rule) => {
+    if (rule.includes("*")) {
+      const body = rule
+        .split("*")
+        .map((part) => part.replace(/[.+?^${}()|[\]\\]/g, "\\$&"))
+        .join("[^/]+");
+      return new RegExp(`^${body}(?:/|$)`).test(path);
+    }
+    if (rule.endsWith("/")) {
+      return path === rule.slice(0, -1) || path.startsWith(rule);
+    }
+    return path === rule || path.startsWith(`${rule}/`);
+  });
+}
 
 /**
  * SEO Tedavi (P0) — 01_office_ai amiral meta override.
@@ -237,16 +280,17 @@ export function pageMetadata({
   image,
   keywords,
 }: PageSeoInput): Metadata {
+  const absolute = canonicalUrl(path);
   const images = image ? [{ url: image, alt: title }] : undefined;
   return {
     title,
     description,
     ...(keywords && keywords.length > 0 ? { keywords: [...keywords] } : {}),
-    alternates: { canonical: path },
+    alternates: { canonical: absolute },
     openGraph: {
       type: "website",
       locale: OG_LOCALE,
-      url: path,
+      url: absolute,
       siteName: YETKIN_BRAND,
       title,
       description,

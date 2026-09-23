@@ -378,18 +378,18 @@ describe("lansman hukuk yüzeyi (O13)", () => {
   it("eski yasal URL'ler next.config kalıcı 301 ile kanonik sluga döner", () => {
     const config = readSrc("next.config.ts");
     expect(config).toContain('source: "/legal/gizlilik-politikasi"');
-    expect(config).toContain('destination: "/legal/gizlilik"');
+    expect(config).toContain('destination: "https://yetkin.ai/legal/gizlilik"');
     expect(config).toContain('source: "/legal/kvkk"');
     expect(config).toContain('source: "/legal/cerez-politikasi"');
-    expect(config).toContain('destination: "/legal/cerez"');
+    expect(config).toContain('destination: "https://yetkin.ai/legal/cerez"');
     expect(config).toContain('source: "/legal/iade-sartlari"');
-    expect(config).toContain('destination: "/legal/iade"');
+    expect(config).toContain('destination: "https://yetkin.ai/legal/iade"');
     expect(config).toContain('source: "/legal/kullanim-kosullari"');
-    expect(config).toContain('destination: "/legal/kullanim"');
+    expect(config).toContain('destination: "https://yetkin.ai/legal/kullanim"');
     expect(config).toContain('source: "/legal/kullanim-sartlari"');
     expect(config).toContain('source: "/legal/kullanici-sozlesmesi"');
     expect(config).toContain('source: "/legal/mesafeli-satis-sozlesmesi"');
-    expect(config).toContain('destination: "/legal/mesafeli-satis"');
+    expect(config).toContain('destination: "https://yetkin.ai/legal/mesafeli-satis"');
   });
 
   it("sitemap loc alanları https://yetkin.ai mutlak adresidir", async () => {
@@ -404,7 +404,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(urls).toContain("https://yetkin.ai/legal/kullanim");
     expect(urls).toContain("https://yetkin.ai/iletisim");
     expect(urls).toContain("https://yetkin.ai/academy");
-    expect(urls).toContain("https://yetkin.ai/career");
+    expect(urls).not.toContain("https://yetkin.ai/career");
+    expect(urls).toContain("https://yetkin.ai/vize");
     expect(urls).toContain("https://yetkin.ai/hakkimizda");
     expect(urls).not.toContain("https://yetkin.ai/freelancer");
     for (const url of urls) {
@@ -413,8 +414,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     }
     expect(robots().sitemap).toBe("https://yetkin.ai/sitemap.xml");
     expect(robots().rules).toMatchObject({
-      allow: expect.arrayContaining(["/academy", "/career", "/vize", "/legal"]),
-      disallow: expect.arrayContaining(["/dashboard", "/freelancer"]),
+      allow: expect.arrayContaining(["/academy", "/vize", "/legal"]),
+      disallow: expect.arrayContaining(["/dashboard", "/freelancer", "/career"]),
     });
     vi.unstubAllEnvs();
   });

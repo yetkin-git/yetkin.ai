@@ -86,65 +86,102 @@ const nextConfig: NextConfig = {
     },
   },
   async redirects() {
+    // Hedefler mutlak apextir: www + alias tek hopta kanoniğe iner.
+    // www yakalayıcısı en sonda durur; öndeyse `/kariyer` önce aynı path’e,
+    // sonra ikinci kez odaya giderdi.
+    const retired = academyRetiredStorefrontRedirects().map((rule) => ({
+      ...rule,
+      destination: `https://yetkin.ai${rule.destination}`,
+    }));
     return [
-      { source: "/kariyer", destination: "/career", permanent: true },
-      { source: "/ogren", destination: "/academy", permanent: true },
-      { source: "/profile", destination: "/profil", permanent: true },
-      { source: "/passport", destination: "/pasaport", permanent: true },
-      { source: "/giris", destination: "/login", permanent: true },
+      // `/kariyer` oturumlu vatandaş için tek hop `/career`. Oturumsuz ikinci hop kenar 307’dir;
+      // bot bu çifti tarayamaz (`ROBOTS_DISALLOW_AUTH_REDIRECTS`).
+      { source: "/kariyer", destination: "https://yetkin.ai/career", permanent: true },
+      { source: "/ogren", destination: "https://yetkin.ai/academy", permanent: true },
+      { source: "/profile", destination: "https://yetkin.ai/profil", permanent: true },
+      { source: "/passport", destination: "https://yetkin.ai/pasaport", permanent: true },
+      { source: "/giris", destination: "https://yetkin.ai/login", permanent: true },
       // §2.5 vatandaş çifti — CEO tedavi kilidi: 8 tavanına /kayit eklenir.
-      { source: "/kayit", destination: "/register", permanent: true },
-      { source: "/legal/gizlilik-politikasi", destination: "/legal/gizlilik", permanent: true },
-      { source: "/legal/kvkk", destination: "/legal/gizlilik", permanent: true },
-      { source: "/legal/cerez-politikasi", destination: "/legal/cerez", permanent: true },
-      { source: "/legal/iade-sartlari", destination: "/legal/iade", permanent: true },
-      { source: "/legal/kullanim-kosullari", destination: "/legal/kullanim", permanent: true },
-      { source: "/legal/kullanim-sartlari", destination: "/legal/kullanim", permanent: true },
+      { source: "/kayit", destination: "https://yetkin.ai/register", permanent: true },
+      {
+        source: "/legal/gizlilik-politikasi",
+        destination: "https://yetkin.ai/legal/gizlilik",
+        permanent: true,
+      },
+      { source: "/legal/kvkk", destination: "https://yetkin.ai/legal/gizlilik", permanent: true },
+      {
+        source: "/legal/cerez-politikasi",
+        destination: "https://yetkin.ai/legal/cerez",
+        permanent: true,
+      },
+      { source: "/legal/iade-sartlari", destination: "https://yetkin.ai/legal/iade", permanent: true },
+      {
+        source: "/legal/kullanim-kosullari",
+        destination: "https://yetkin.ai/legal/kullanim",
+        permanent: true,
+      },
+      {
+        source: "/legal/kullanim-sartlari",
+        destination: "https://yetkin.ai/legal/kullanim",
+        permanent: true,
+      },
       {
         source: "/legal/kullanici-sozlesmesi",
-        destination: "/legal/kullanim",
+        destination: "https://yetkin.ai/legal/kullanim",
         permanent: true,
       },
       {
         source: "/legal/mesafeli-satis-sozlesmesi",
-        destination: "/legal/mesafeli-satis",
+        destination: "https://yetkin.ai/legal/mesafeli-satis",
         permanent: true,
       },
       // Eski 13+ vitrin SKU — 301 katalog (antre, oynatıcı, courses alias).
       // SUPER ADMIN: gerçekleşmiş satın alma yok; lisans bekletmesi yok. API 410.
       // Bu blok, genel `/academy/courses/:slug` alias'ından önce durur (tek hop).
-      ...academyRetiredStorefrontRedirects(),
+      ...retired,
       // Bake WAV kamu yolundan düştü; eski oynatıcı adresini yayın MP3'üne bağla.
       {
         source: "/media/academy/audio/:course/:file.wav",
-        destination: "/media/academy/audio/:course/:file.mp3",
+        destination: "https://yetkin.ai/media/academy/audio/:course/:file.mp3",
         statusCode: 301,
       },
       // Akademi antre kanonik yolu `/academy/[slug]`. Compact SKU alias duplicate içerik üretir.
       {
         source: "/academy/courses/:slug",
-        destination: "/academy/:slug",
+        destination: "https://yetkin.ai/academy/:slug",
         statusCode: 301,
       },
       {
         source: "/verify",
-        destination: "/academy/dogrula",
+        destination: "https://yetkin.ai/academy/dogrula",
         statusCode: 301,
       },
       {
         source: "/verify/:hash",
-        destination: "/academy/dogrula/:hash",
+        destination: "https://yetkin.ai/academy/dogrula/:hash",
         statusCode: 301,
       },
       {
         source: "/p",
-        destination: "/vize",
+        destination: "https://yetkin.ai/vize",
         statusCode: 301,
       },
       {
         source: "/p/:id",
-        destination: "/vize/:id",
+        destination: "https://yetkin.ai/vize/:id",
         statusCode: 301,
+      },
+      {
+        source: "/",
+        has: [{ type: "host", value: "www.yetkin.ai" }],
+        destination: "https://yetkin.ai/",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.yetkin.ai" }],
+        destination: "https://yetkin.ai/:path*",
+        permanent: true,
       },
     ];
   },

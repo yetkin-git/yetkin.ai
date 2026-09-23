@@ -4,33 +4,18 @@ import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 import { LEGAL_SITE_PATHS } from "@/lib/copy/legal-launch";
 import {
   CANONICAL_SITE_ORIGIN,
+  isRobotsDisallowedPath,
   SITEMAP_STATIC_PATHS,
   sitemapRoutePolicy,
 } from "@/lib/copy/seo";
 
-/** Google Search Console `<loc>` için kanonik canlı köken. Bağıl yol yasak. */
-
-function publicSiteOrigin(): string {
-  const raw = process.env.NEXT_PUBLIC_APP_URL?.trim();
-  if (!raw) return CANONICAL_SITE_ORIGIN;
-  try {
-    const parsed = new URL(raw);
-    if (parsed.protocol !== "https:") return CANONICAL_SITE_ORIGIN;
-    if (
-      parsed.hostname === "localhost" ||
-      parsed.hostname === "127.0.0.1" ||
-      parsed.hostname.endsWith(".localhost")
-    ) {
-      return CANONICAL_SITE_ORIGIN;
-    }
-    return parsed.origin;
-  } catch {
-    return CANONICAL_SITE_ORIGIN;
-  }
-}
-
+/**
+ * Google Search Console `<loc>` yalnız `https://yetkin.ai`.
+ * `NEXT_PUBLIC_APP_URL` (vercel.app, www, staging) site haritasına yazılmaz;
+ * o kökenler apexe yönlenir ve «Yönlendirmeli sayfa» üretir.
+ */
 function absoluteSiteUrl(path: string): string {
-  return new URL(path, `${publicSiteOrigin()}/`).href;
+  return new URL(path, `${CANONICAL_SITE_ORIGIN}/`).href;
 }
 
 function sitemapEntry(
@@ -87,6 +72,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const merged: MetadataRoute.Sitemap = [];
     for (const entry of [...staticEntries, ...courseEntries]) {
       if (seen.has(entry.url)) {
+        continue;
+      }
+      const pathname = new URL(entry.url).pathname;
+      if (isRobotsDisallowedPath(pathname === "" ? "/" : pathname)) {
         continue;
       }
       seen.add(entry.url);

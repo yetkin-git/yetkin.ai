@@ -89,9 +89,9 @@ describe("kamu yetkinlik kartı ve mühür paylaşımı", () => {
     expect(page).toContain("SealShareGuides");
     expect(page).toContain("publicTalentCta");
     expect(config).toContain('source: "/p"');
-    expect(config).toContain('destination: "/vize"');
+    expect(config).toContain('destination: "https://yetkin.ai/vize"');
     expect(config).toContain('source: "/p/:id"');
-    expect(config).toContain('destination: "/vize/:id"');
+    expect(config).toContain('destination: "https://yetkin.ai/vize/:id"');
     expect(alias).toContain("permanentRedirect");
     expect(alias).toContain("publicTalentPath");
     expect(readSrc("app/(public)/vize/[id]/page.tsx")).not.toContain("requirePageSession");

@@ -14,7 +14,7 @@ import {
 import { loadCareerBoard } from "@/lib/career/load";
 import { requirePageSession } from "@/lib/kernel/auth/session";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
-import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
+import { AUTH_ROBOTS, PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { FREELANCER_PUBLIC_SURFACE_LOCKED } from "@/lib/kernel/compliance/circuit-breakers";
 import {
   FREELANCER_STAMP_SURFACE_PATH,
@@ -27,7 +27,10 @@ import { CAREER_LANDING_FAQ } from "@/lib/copy/sem-keywords";
 
 const ACADEMY_CERTIFICATES_SURFACE_PATH = "/academy/certificates";
 
-export const metadata: Metadata = pageMetadata(PAGE_SEO.career);
+export const metadata: Metadata = pageMetadata({
+  ...PAGE_SEO.career,
+  robots: AUTH_ROBOTS,
+});
 
 export default async function CareerPage() {
   const session = await requirePageSession();

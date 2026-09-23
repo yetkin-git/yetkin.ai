@@ -12,9 +12,9 @@ describe("vatandaş /kayit alias yüzeyi", () => {
   it("next.config /kayit → /register kalıcı yönlendirme taşır", () => {
     const config = readSrc("next.config.ts");
     expect(config).toContain('source: "/kayit"');
-    expect(config).toContain('destination: "/register"');
+    expect(config).toContain('destination: "https://yetkin.ai/register"');
     expect(config).toContain('source: "/giris"');
-    expect(config).toContain('destination: "/login"');
+    expect(config).toContain('destination: "https://yetkin.ai/login"');
     expect(config).toContain("EDGE_SECURITY_HEADER_ENTRIES");
     expect(config).toContain("CSP nonce");
     expect(config).not.toContain("EDGE_CSP_VALUE");
