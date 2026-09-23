@@ -3,6 +3,8 @@ import type { Section } from "../types";
 export const section3: Section = {
   sectionNumber: 4,
   lessonKey: "01_office_ai-3",
+  isPreviewAllowed: false,
+  isLocked: true,
   title: "Metinden Slayta: Sunum Hazırlama",
   targetDurationMinutes: 9,
   estimatedWordCount: 1204,

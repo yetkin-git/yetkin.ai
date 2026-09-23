@@ -4,6 +4,8 @@ import type { Section } from "../types";
 export const section5: Section = {
   sectionNumber: 5,
   lessonKey: "01_office_ai-5",
+  isPreviewAllowed: false,
+  isLocked: true,
   title: "İstisnalar ve Hata Avı: Yapay Zekâ Yanılınca",
   targetDurationMinutes: 9.2,
   estimatedWordCount: 1143,

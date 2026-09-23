@@ -25,6 +25,7 @@ import { normalizeAcronyms } from "@/lib/academy/acronym-normalizer";
 import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
 import { academyExamStartGateHref } from "@/lib/academy/continue-board";
 import { ACADEMY_CARD_OFFER_PATHS } from "@/lib/academy/purchase-path";
+import { isAcademyPlayerPaywallLessonLocked } from "@/lib/academy/preview-lock";
 import { academyCheckoutHref } from "@/lib/academy/storefront-cta";
 import { academyCompareDockPrompt, academyVisualCompareStage } from "@/lib/academy/excel-workspace";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
@@ -173,7 +174,9 @@ export function CurriculumPlayer({
       : active
         ? normalizeAcronyms(active.title)
         : "";
-  const lessonPaywalled = Boolean(paywallLocked && active && !active.open);
+  const lessonPaywalled = Boolean(
+    active && isAcademyPlayerPaywallLessonLocked(courseSlug, active.key, paywallLocked),
+  );
   const playerLayer = useMemo(
     () =>
       active && !lessonPaywalled
@@ -400,6 +403,9 @@ export function CurriculumPlayer({
     if (!active) {
       return;
     }
+    if (isAcademyPlayerPaywallLessonLocked(courseSlug, active.key, paywallLocked)) {
+      return;
+    }
     if (active.open && !activeCompleted) {
       void completeLesson(active.key);
       return;
@@ -514,7 +520,11 @@ export function CurriculumPlayer({
         {lessons.map((lesson) => {
           const selected = lesson.key === active?.key;
           const completed = completedKeys.has(lesson.key) || lesson.completed;
-          const rowLocked = Boolean(paywallLocked && !lesson.open);
+          const rowLocked = isAcademyPlayerPaywallLessonLocked(
+            courseSlug,
+            lesson.key,
+            paywallLocked,
+          );
           const media = academyLessonMediaMeta({ ...lesson, courseSlug });
           const kindLabel = academyLessonKindLabel(media.kind, outline);
           return (

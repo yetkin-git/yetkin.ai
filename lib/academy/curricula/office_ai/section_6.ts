@@ -4,6 +4,8 @@ import type { Section } from "../types";
 export const section6: Section = {
   sectionNumber: 8,
   lessonKey: "01_office_ai-6",
+  isPreviewAllowed: false,
+  isLocked: true,
   title: "Haftalık Sistem: 30 Dakikalık Rutin",
   targetDurationMinutes: 8.4,
   estimatedWordCount: 1101,

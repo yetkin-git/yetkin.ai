@@ -4,6 +4,8 @@ import type { Section } from "../types";
 export const sectionK1: Section = {
   sectionNumber: 2,
   lessonKey: "01_office_ai-k1",
+  isPreviewAllowed: false,
+  isLocked: true,
   title: "KVKK, Şirket Sırları ve Maskeleme: Ne Yüklenmez?",
   targetDurationMinutes: 10.7,
   estimatedWordCount: 1433,

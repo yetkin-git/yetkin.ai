@@ -7,6 +7,8 @@ import {
 export const section1: Section = {
   sectionNumber: 1,
   lessonKey: "01_office_ai-1",
+  isPreviewAllowed: false,
+  isLocked: true,
   title: "A1 Düzeni ve Temiz Veri: Düzensiz Excel → Düzenli Tablo",
   targetDurationMinutes: 11.5,
   estimatedWordCount: 1648,

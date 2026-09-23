@@ -33,6 +33,7 @@ describe("dikey yazma kenar yüzeyi", () => {
     expect(isProtectedWritePath("/freelancer")).toBe(false);
     expect(isProtectedWritePath("/academy")).toBe(false);
     expect(isProtectedCitizenPath("/academy/python-temel/oyna")).toBe(true);
+    expect(isProtectedCitizenPath("/academy/01_office_ai/oyna")).toBe(false);
     expect(isProtectedWritePath("/devlabs/projeler/abc")).toBe(false);
     expect(isProtectedWritePath("/devlabs")).toBe(false);
   });
@@ -56,6 +57,7 @@ describe("dikey yazma kenar yüzeyi", () => {
     expect((await proxy(request("/academy"))).status).toBe(200);
     expect((await proxy(request("/academy/dogrula"))).status).toBe(200);
     expect((await proxy(request("/academy/python-temel/oyna"))).status).toBe(307);
+    expect((await proxy(request("/academy/01_office_ai/oyna"))).status).toBe(200);
     expect((await proxy(request("/academy/certificates"))).status).toBe(307);
     expect((await proxy(request("/career"))).status).toBe(307);
   });

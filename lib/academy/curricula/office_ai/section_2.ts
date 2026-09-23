@@ -3,6 +3,8 @@ import type { Section } from "../types";
 export const section2: Section = {
   sectionNumber: 3,
   lessonKey: "01_office_ai-2",
+  isPreviewAllowed: false,
+  isLocked: true,
   title: "Yönetim Özetine Dönüştürme",
   targetDurationMinutes: 8.6,
   estimatedWordCount: 1175,

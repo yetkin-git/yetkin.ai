@@ -4,6 +4,8 @@ import type { Section } from "../types";
 export const section4: Section = {
   sectionNumber: 6,
   lessonKey: "01_office_ai-4",
+  isPreviewAllowed: false,
+  isLocked: true,
   title: "E-Posta Akışı: Gelen Kutusu Sıfırlama",
   targetDurationMinutes: 8.2,
   estimatedWordCount: 1040,

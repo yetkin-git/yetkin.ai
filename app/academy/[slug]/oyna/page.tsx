@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { canonicalUrl } from "@/lib/copy/seo";
 import { RoomFrame } from "@/components/ui/page-header";
 import { CurriculumPlayer } from "@/components/academy/curriculum-player";
-import { requirePageSession } from "@/lib/kernel/auth/session";
+import { getSession, requirePageSession } from "@/lib/kernel/auth/session";
 import { isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
 import {
   loadCourseBySlug,
@@ -28,7 +28,8 @@ export const dynamicParams = false;
 
 // SEO Tedavi (P1) — duvar arkası oynatıcı indekslenmez.
 // Kanonik kendi adresidir; akademi kataloğunu miras almaz.
-// `robots.ts` disallow (`/academy/*/oyna`) + oturum duvarı ile kilit.
+// `robots.ts` disallow (`/academy/*/oyna`). Ücretsiz kapı yalnız hazırlık şeridi;
+// ana ders gövdesi oturumsuz oynatıcıda da kilitlidir.
 export async function generateMetadata({
   params,
 }: {
@@ -48,9 +49,31 @@ export default async function AcademyCurriculumPlayerPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const [session, { slug }] = await Promise.all([requirePageSession(), params]);
+  const { slug } = await params;
   if (!isAcademyGrowthSkuSlug(slug)) {
     notFound();
+  }
+  const offersPreview = academyCourseOffersFreePreview(slug);
+  const session = offersPreview ? await getSession() : await requirePageSession();
+  if (!session) {
+    const board = await loadCourseBySlug(slug);
+    if (!board) {
+      notFound();
+    }
+    return (
+      <RoomFrame cinema className="flex flex-col gap-0 space-y-0 px-4 py-0 sm:px-6">
+        <div className="flex min-h-0 flex-1 flex-col">
+          <CurriculumPlayer
+            courseId={board.course.id}
+            courseSlug={board.course.slug}
+            lessons={academyPaywallLockedLessonShells(board.course.slug)}
+            curriculumComplete={false}
+            workTasksComplete={false}
+            paywallLocked
+          />
+        </div>
+      </RoomFrame>
+    );
   }
   const userEmail = session.email;
   const board = await loadCourseBySlug(slug);

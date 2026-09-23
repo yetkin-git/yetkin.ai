@@ -3,6 +3,8 @@ import type { Section } from "../types";
 export const sectionG1: Section = {
   sectionNumber: 6,
   lessonKey: "01_office_ai-g1",
+  isPreviewAllowed: false,
+  isLocked: true,
   title: "E-Posta Akışı: Gmail / Outlook ve Aksiyon Listesi",
   targetDurationMinutes: 9.5,
   estimatedWordCount: 1243,

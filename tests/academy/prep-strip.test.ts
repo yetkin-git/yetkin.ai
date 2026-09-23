@@ -11,7 +11,11 @@ import {
   academyPrepStripForSlug,
   isAcademyPrepStripKey,
 } from "@/lib/academy/prep-strip";
-import { academyPaywallLockedLessonShells } from "@/lib/academy/preview-lock";
+import {
+  academyPaywallLockedLessonShells,
+  academySectionAllowsFreePreview,
+  isAcademyPlayerPaywallLessonLocked,
+} from "@/lib/academy/preview-lock";
 import {
   academyCourseOffersFreePreview,
   isAcademyFreePreviewLessonKey,
@@ -67,10 +71,26 @@ describe("01_office_ai Ders 0 — Başlamadan Önce hazırlık şeridi", () => {
       true,
     );
     expect(shells.some((row) => row.key === OFFICE_AI_PREP_STRIP_KEY)).toBe(false);
+    expect(officeAiSections.every((section) => section.isPreviewAllowed === false)).toBe(true);
+    expect(officeAiSections.every((section) => section.isLocked === true)).toBe(true);
+    expect(officeAiSections.every((section) => academySectionAllowsFreePreview(section) === false)).toBe(
+      true,
+    );
+    for (const key of keys) {
+      expect(isAcademyPlayerPaywallLessonLocked(SLUG, key, true)).toBe(true);
+    }
+    expect(isAcademyPlayerPaywallLessonLocked(SLUG, "01_office_ai-1", true)).toBe(true);
+    expect(isAcademyPlayerPaywallLessonLocked(SLUG, "01_office_ai-k1", true)).toBe(true);
+    expect(isAcademyPlayerPaywallLessonLocked(SLUG, OFFICE_AI_PREP_STRIP_KEY, true)).toBe(false);
+    expect(isAcademyPlayerPaywallLessonLocked(SLUG, "01_office_ai-1", false)).toBe(false);
     const oyna = readFileSync(join(process.cwd(), "app/academy/[slug]/oyna/page.tsx"), "utf8");
     expect(oyna).toContain("paywallLocked");
     expect(oyna).toContain("academyPaywallLockedLessonShells");
     expect(oyna).toContain("academyCourseOffersFreePreview");
+    expect(oyna).toContain("getSession");
     expect(oyna).toContain("hasPurchased");
+    const player = readFileSync(join(process.cwd(), "components/academy/curriculum-player.tsx"), "utf8");
+    expect(player).toContain("isAcademyPlayerPaywallLessonLocked");
+    expect(player).not.toContain("paywallLocked && !lesson.open");
   });
 });

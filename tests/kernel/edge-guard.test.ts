@@ -106,11 +106,13 @@ describe("korumalı yazma yolları", () => {
     expect(isProtectedCitizenPath("/studio")).toBe(false);
     expect(isProtectedCitizenPath("/dashboard")).toBe(true);
     expect(isProtectedCitizenPath("/academy/python-temel/oyna")).toBe(true);
+    expect(isProtectedCitizenPath("/academy/01_office_ai/oyna")).toBe(false);
     expect(isProtectedCitizenPath("/academy/certificates")).toBe(true);
     expect(isProtectedCitizenPath("/career")).toBe(true);
     expect(isProtectedCitizenPath("/academy")).toBe(false);
     expect(isProtectedCitizenPath("/academy/dogrula")).toBe(false);
     expect(decideEdgeAction("/academy/python-temel/oyna", false).kind).toBe("auth-307");
+    expect(decideEdgeAction("/academy/01_office_ai/oyna", false).kind).toBe("next");
     expect(decideEdgeAction("/academy/certificates", false).kind).toBe("auth-307");
     expect(decideEdgeAction("/career", false).kind).toBe("auth-307");
     expect(decideEdgeAction("/academy/python-temel", false).kind).toBe("next");

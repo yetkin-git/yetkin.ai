@@ -8,6 +8,7 @@
  * giriş formunu kilitler. XSS kilidi `script-src` nonce + `strict-dynamic`'tedir.
  */
 
+import { academyCourseOffersFreePreview } from "@/lib/academy/purchase-path";
 import { isFrozenShellPagePath } from "../compliance/circuit-breakers";
 import {
   EDGE_HSTS_VALUE,
@@ -137,12 +138,29 @@ export function isAcademyCurriculumPlayerPath(pathname: string): boolean {
   return /^\/academy\/[^/]+\/oyna$/.test(path);
 }
 
+/**
+ * Ücretsiz hazırlık şeridi. Oturum istemez.
+ * Ana ders gövdesi bu yolda da kilitlidir (`isAcademyPlayerPaywallLessonLocked`).
+ */
+export function isAcademyFreePreviewPlayerPath(pathname: string): boolean {
+  const path = normalizePathname(pathname);
+  const match = /^\/academy\/([^/]+)\/oyna$/.exec(path);
+  const slug = match?.[1];
+  if (!slug) {
+    return false;
+  }
+  return academyCourseOffersFreePreview(decodeURIComponent(slug));
+}
+
 /** Sertifikalarım sığınağı — katalog ve kamu `/academy/dogrula` açık kalır. */
 export function isAcademyCertificatesPath(pathname: string): boolean {
   return normalizePathname(pathname) === "/academy/certificates";
 }
 
 export function isProtectedCitizenPath(pathname: string): boolean {
+  if (isAcademyFreePreviewPlayerPath(pathname)) {
+    return false;
+  }
   return (
     isProtectedKernelPath(pathname) ||
     isProtectedWritePath(pathname) ||

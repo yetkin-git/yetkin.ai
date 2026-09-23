@@ -475,6 +475,13 @@ export interface Section {
   contentMarkdown: string;
   /** Taslak anahtarı; yoksa `${slug}-${sectionNumber}`. Ofis Gmail/Word: g1 / w1. */
   lessonKey?: string;
+  /**
+   * Satın alma yokken gövde açılır mı?
+   * Ana derslerde `false`. Ücretsiz kapı yalnız hazırlık şeridi (`01_office_ai-0`).
+   */
+  isPreviewAllowed?: boolean;
+  /** Oturumsuz ve ücretsiz oynatıcıda kilit. Ana derslerde `true`. */
+  isLocked?: boolean;
   videoUrl?: string;
   audioUrl?: string;
 }

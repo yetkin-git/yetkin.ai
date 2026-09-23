@@ -3,6 +3,8 @@ import type { Section } from "../types";
 export const sectionW1: Section = {
   sectionNumber: 7,
   lessonKey: "01_office_ai-w1",
+  isPreviewAllowed: false,
+  isLocked: true,
   title: "Word ve Uzun Belge İncelemesi: Sözleşme, Dilekçe, Rapor",
   targetDurationMinutes: 9.4,
   estimatedWordCount: 1168,
