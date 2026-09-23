@@ -125,8 +125,9 @@ export const SITEMAP_STATIC_PATHS = [
 ] as const;
 
 /**
- * 301 alias → oturum duvarı ikinci hop üretir (`/kariyer` → `/career` → `/login`).
- * Bot bu kaynakları tararsa yönlendirme zinciri görür; crawl edilmez.
+ * Kenar tek hop (`AUTH_PATH_ALIASES`): `/kariyer` oturumsuzda doğrudan girişe,
+ * oturumda `/career` odasına iner. Ara 308 kalkmıştır; ikinci hop yoktur.
+ * Bot bu kaynakları tararsa yine yönlendirme görür; crawl edilmez.
  * Tek hop ile 200 kamu sayfasına inen alias’lar (`/ogren`, `/verify`, `/p`, yasal kısa adlar) listede yoktur: Google 301’i görüp kanoniğe birleştirir.
  */
 export const ROBOTS_DISALLOW_AUTH_REDIRECTS = [

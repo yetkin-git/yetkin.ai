@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { AUTH_ROBOTS, pageMetadata } from "@/lib/copy/seo";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { ResetPasswordForm } from "@/components/auth/reset-password-form";
 import { isSupabaseConfigured } from "@/lib/kernel/auth/session";
@@ -5,6 +7,13 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/link-button";
 import { BrandIcon } from "@/components/ui/brand-icon";
+
+export const metadata: Metadata = pageMetadata({
+  title: SEN_VOICE.auth.reset.title,
+  description: SEN_VOICE.auth.reset.description,
+  path: "/sifre-yenile",
+  robots: AUTH_ROBOTS,
+});
 
 export default function ResetPasswordPage() {
   const configured = isSupabaseConfigured();

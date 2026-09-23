@@ -73,11 +73,24 @@ export const EDGE_NONCE_HEADER = "x-nonce";
 /** Supabase SSR: `sb-<ref>-auth-token` ve parçalı `sb-<ref>-auth-token.N`. */
 export const SUPABASE_AUTH_COOKIE_NAME = /^sb-.+-auth-token(?:\.\d+)?$/;
 
+/**
+ * Eski alias → oturum odası.
+ * next.config bu yolları ara adrese 308 ile bırakırsa ikinci hop kenar 307 olur
+ * (`/kariyer` → `/career` → `/login`). Kenar tek hop basar: oturumsuz giriş,
+ * oturumlu kanonik oda.
+ */
+export const AUTH_PATH_ALIASES = {
+  "/kariyer": "/career",
+  "/profile": "/profil",
+  "/passport": "/pasaport",
+} as const;
+
 export type EdgeDecision =
   | { kind: "museum-404" }
   | { kind: "kayit-308" }
   | { kind: "frozen-410" }
-  | { kind: "auth-307"; to: typeof CITIZEN_LOGIN_PATH }
+  | { kind: "auth-307"; to: typeof CITIZEN_LOGIN_PATH; next?: string }
+  | { kind: "alias-307"; to: string }
   | { kind: "next" };
 
 export function normalizePathname(pathname: string): string {
@@ -94,6 +107,14 @@ export function isMuseumPath(pathname: string): boolean {
 
 export function isKayitPath(pathname: string): boolean {
   return normalizePathname(pathname) === "/kayit";
+}
+
+export function authPathAliasTarget(pathname: string): string | null {
+  const path = normalizePathname(pathname);
+  if (path in AUTH_PATH_ALIASES) {
+    return AUTH_PATH_ALIASES[path as keyof typeof AUTH_PATH_ALIASES];
+  }
+  return null;
 }
 
 function matchesPathPrefix(pathname: string, prefix: string): boolean {
@@ -164,6 +185,13 @@ export function decideEdgeAction(pathname: string, sessionVerified: boolean): Ed
   }
   if (isFrozenShellPagePath(pathname)) {
     return { kind: "frozen-410" };
+  }
+  const aliasTarget = authPathAliasTarget(pathname);
+  if (aliasTarget) {
+    if (!sessionVerified) {
+      return { kind: "auth-307", to: CITIZEN_LOGIN_PATH, next: aliasTarget };
+    }
+    return { kind: "alias-307", to: aliasTarget };
   }
   if (isProtectedCitizenPath(pathname) && !sessionVerified) {
     return { kind: "auth-307", to: CITIZEN_LOGIN_PATH };

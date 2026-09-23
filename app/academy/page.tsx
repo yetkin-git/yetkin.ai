@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { CourseList } from "@/components/academy/course-list";
 import { AcademyContinuePanel } from "@/components/academy/continue-panel";
 import { LegalColophonStrip } from "@/components/legal/legal-colophon-strip";
@@ -16,7 +17,10 @@ import { RoomFrame } from "@/components/ui/page-header";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { ACADEMY_LANDING_FAQ } from "@/lib/copy/sem-keywords";
+import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { getSession } from "@/lib/kernel/auth/session";
+
+export const metadata: Metadata = pageMetadata(PAGE_SEO.academy);
 
 /**
  * Akademi vitrini — PEDAGOJI §D 5'li Vitrin Karması + A5 dürüst yüzey.

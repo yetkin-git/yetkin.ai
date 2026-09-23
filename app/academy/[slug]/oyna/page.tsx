@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
+import { canonicalUrl } from "@/lib/copy/seo";
 import { RoomFrame } from "@/components/ui/page-header";
 import { CurriculumPlayer } from "@/components/academy/curriculum-player";
 import { requirePageSession } from "@/lib/kernel/auth/session";
@@ -26,10 +27,21 @@ export function generateStaticParams() {
 export const dynamicParams = false;
 
 // SEO Tedavi (P1) — duvar arkası oynatıcı indekslenmez.
-// `robots.ts` disallow (`/academy/*/oyna`) + oturum duvarı ile üç katmanlı kilit.
-export const metadata: Metadata = {
-  robots: { index: false, follow: false },
-};
+// Kanonik kendi adresidir; akademi kataloğunu miras almaz.
+// `robots.ts` disallow (`/academy/*/oyna`) + oturum duvarı ile kilit.
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const url = canonicalUrl(`/academy/${slug}/oyna`);
+  return {
+    robots: { index: false, follow: false },
+    alternates: { canonical: url },
+    openGraph: { url },
+  };
+}
 
 export default async function AcademyCurriculumPlayerPage({
   params,

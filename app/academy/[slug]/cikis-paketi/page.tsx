@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
+import { canonicalUrl } from "@/lib/copy/seo";
 import type { Route } from "next";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { LinkButton } from "@/components/ui/link-button";
@@ -23,9 +24,19 @@ export function generateStaticParams() {
 /** Vitrinde olmayan slug yumuşak 200 değil, HTTP 404. */
 export const dynamicParams = false;
 
-export const metadata: Metadata = {
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const url = canonicalUrl(`/academy/${slug}/cikis-paketi`);
+  return {
+    robots: { index: false, follow: false },
+    alternates: { canonical: url },
+    openGraph: { url },
+  };
+}
 
 export default async function AcademyExitKitPage({
   params,

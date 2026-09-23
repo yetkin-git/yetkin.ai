@@ -154,6 +154,22 @@ describe("kenar kararları", () => {
     expect(decideEdgeAction("/freelancer", false)).toEqual({ kind: "frozen-410" });
     expect(decideEdgeAction("/freelancer", true).kind).toBe("frozen-410");
   });
+
+  it("oturum alias'ı tek hop: ara odaya 308 yok", () => {
+    expect(decideEdgeAction("/kariyer", false)).toEqual({
+      kind: "auth-307",
+      to: CITIZEN_LOGIN_PATH,
+      next: "/career",
+    });
+    expect(decideEdgeAction("/kariyer", true)).toEqual({ kind: "alias-307", to: "/career" });
+    expect(decideEdgeAction("/profile", false)).toEqual({
+      kind: "auth-307",
+      to: CITIZEN_LOGIN_PATH,
+      next: "/profil",
+    });
+    expect(decideEdgeAction("/passport", true)).toEqual({ kind: "alias-307", to: "/pasaport" });
+    expect(decideEdgeAction("/profile/", true)).toEqual({ kind: "alias-307", to: "/profil" });
+  });
 });
 
 describe("kenar güvenlik başlıkları", () => {

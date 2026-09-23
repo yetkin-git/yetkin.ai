@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/copy/seo";
 import { CUZDAN_SEN } from "@/lib/copy/sen-voice/cuzdan";
 import { PaytrCheckoutIframe } from "@/components/kernel/paytr-checkout-iframe";
 import { tryGetPaytrIframeUrl } from "@/lib/kernel/payments/paytr/iframe-embed";
@@ -8,10 +9,12 @@ import {
   verifyWalletCheckoutPassport,
 } from "@/lib/kernel/payments/wallet-checkout-passport";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: CUZDAN_SEN.kasaTitle,
+  description: CUZDAN_SEN.kasaLead,
+  path: "/kasa",
   robots: { index: false, follow: false },
-};
+});
 
 export default async function DronKasaPage({
   searchParams,

@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/copy/seo";
 import { CUZDAN_SEN } from "@/lib/copy/sen-voice/cuzdan";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: CUZDAN_SEN.kasaTitle,
+  description: CUZDAN_SEN.kasaLead,
+  path: "/kasa/donus",
   robots: { index: false, follow: false },
-};
+});
 
 export default async function DronKasaReturnPage({
   searchParams,

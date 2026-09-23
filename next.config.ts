@@ -87,19 +87,16 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     // Hedefler mutlak apextir: www + alias tek hopta kanoniğe iner.
-    // www yakalayıcısı en sonda durur; öndeyse `/kariyer` önce aynı path’e,
-    // sonra ikinci kez odaya giderdi.
+    // www yakalayıcısı en sonda durur; öndeyse host kuralı path alias'ından önce
+    // aynı path'e iner, ikinci hop alias'ı taşırdı.
     const retired = academyRetiredStorefrontRedirects().map((rule) => ({
       ...rule,
       destination: `https://yetkin.ai${rule.destination}`,
     }));
     return [
-      // `/kariyer` oturumlu vatandaş için tek hop `/career`. Oturumsuz ikinci hop kenar 307’dir;
-      // bot bu çifti tarayamaz (`ROBOTS_DISALLOW_AUTH_REDIRECTS`).
-      { source: "/kariyer", destination: "https://yetkin.ai/career", permanent: true },
+      // `/kariyer`, `/profile`, `/passport` next.config'te yok: ara oda ikinci hop
+      // (`/career` → giriş) üretirdi. Kenar tek hop basar (`AUTH_PATH_ALIASES`).
       { source: "/ogren", destination: "https://yetkin.ai/academy", permanent: true },
-      { source: "/profile", destination: "https://yetkin.ai/profil", permanent: true },
-      { source: "/passport", destination: "https://yetkin.ai/pasaport", permanent: true },
       { source: "/giris", destination: "https://yetkin.ai/login", permanent: true },
       // §2.5 vatandaş çifti — CEO tedavi kilidi: 8 tavanına /kayit eklenir.
       { source: "/kayit", destination: "https://yetkin.ai/register", permanent: true },

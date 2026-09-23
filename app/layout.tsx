@@ -7,16 +7,17 @@ import { NavigationProgressBar } from "@/components/shell/navigation-progress-ba
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { siteGraphJsonLd } from "@/lib/copy/json-ld";
 import { PUBLIC_SEN } from "@/lib/copy/sen-voice/public";
-import {
-  CANONICAL_SITE_ORIGIN,
-  PAGE_SEO,
-  TITLE_TEMPLATE,
-  pageMetadata,
-} from "@/lib/copy/seo";
+import { CANONICAL_SITE_ORIGIN, OG_LOCALE, PAGE_SEO, TITLE_TEMPLATE, pageMetadata } from "@/lib/copy/seo";
 import "./globals.css";
 
 const homeSeo = pageMetadata(PAGE_SEO.home);
 
+/**
+ * Kök kabuk sayfa kanoniği taşımaz. `alternates` burada olsaydı çocuk rotalar
+ * (kasa, şifre, çıkış paketi) ana sayfa veya akademi URL'sini miras alır ve
+ * Search Console «Standart etiket alternatif sayfa» yazardı.
+ * Kamu sayfaları kendi `pageMetadata` kanoniğini basar.
+ */
 export const metadata: Metadata = {
   metadataBase: new URL(CANONICAL_SITE_ORIGIN),
   title: {
@@ -24,12 +25,14 @@ export const metadata: Metadata = {
     template: TITLE_TEMPLATE,
   },
   description: homeSeo.description,
-  alternates: homeSeo.alternates,
   openGraph: {
-    ...homeSeo.openGraph,
+    type: "website",
+    locale: OG_LOCALE,
     siteName: YETKIN_BRAND,
   },
-  twitter: homeSeo.twitter,
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 /**

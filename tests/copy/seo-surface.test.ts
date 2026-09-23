@@ -86,9 +86,11 @@ describe("Aşama 1 SEO yüzeyi", () => {
     expect(layout).toContain("CANONICAL_SITE_ORIGIN");
     expect(layout).toContain("TITLE_TEMPLATE");
     expect(layout).toContain("PUBLIC_SEN.home.title");
-    expect(layout).toContain("alternates");
+    expect(layout).not.toContain("alternates:");
     expect(layout).toContain("openGraph");
     expect(layout).toContain("twitter");
+    const home = pageMetadata(PAGE_SEO.home);
+    expect(home.alternates).toMatchObject({ canonical: "https://yetkin.ai/" });
   });
 
   it("ana sayfa ve kariyer özgün title/description taşır; 410 freelancer'ın SEO girdisi yoktur", () => {
@@ -130,12 +132,19 @@ describe("Aşama 1 SEO yüzeyi", () => {
     expect(existsSync(join(ROOT, "app/academy/dogrula/[hash]/opengraph-image.tsx"))).toBe(true);
     expect(readSrc("app/academy/dogrula/[hash]/twitter-image.tsx")).toContain("./opengraph-image");
     for (const file of [
-      "app/academy/layout.tsx",
+      "app/academy/page.tsx",
       "app/(public)/iletisim/page.tsx",
       "app/(public)/legal/page.tsx",
     ]) {
       expect(readSrc(file), file).toContain("pageMetadata");
     }
+    expect(readSrc("app/academy/layout.tsx")).not.toContain("pageMetadata");
+    expect(readSrc("app/(public)/kasa/page.tsx")).toContain('path: "/kasa"');
+    expect(readSrc("app/(public)/kasa/donus/page.tsx")).toContain('path: "/kasa/donus"');
+    expect(readSrc("app/(auth)/sifremi-unuttum/page.tsx")).toContain('path: "/sifremi-unuttum"');
+    expect(readSrc("app/(auth)/sifre-yenile/page.tsx")).toContain('path: "/sifre-yenile"');
+    expect(readSrc("app/academy/[slug]/oyna/page.tsx")).toContain("/oyna");
+    expect(readSrc("app/academy/[slug]/cikis-paketi/page.tsx")).toContain("/cikis-paketi");
   });
 
   it("giriş ve kayıt noindex, follow taşır", () => {
@@ -882,9 +891,12 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
     expect(meta.robots).toEqual({ index: false, follow: true });
     const player = readSrc("app/academy/[slug]/oyna/page.tsx");
     expect(player).toContain("index: false");
-    expect(player).toContain("export const metadata");
+    expect(player).toContain("generateMetadata");
+    expect(player).toContain("/oyna");
     const exitKit = readSrc("app/academy/[slug]/cikis-paketi/page.tsx");
     expect(exitKit).toContain("index: false");
+    expect(exitKit).toContain("generateMetadata");
+    expect(exitKit).toContain("/cikis-paketi");
     expect(exitKit).toContain("OfficeAiExitKit");
     expect(exitKit).toContain("requirePageSession");
   });

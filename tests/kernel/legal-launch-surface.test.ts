@@ -294,7 +294,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
       expect(readSrc(layout), layout).toContain("LegalColophonStrip");
     }
     expect(readSrc("app/(kernel)/pasaport/page.tsx")).toContain("LegalColophonStrip");
-    expect(readSrc("app/academy/layout.tsx")).toContain("pageMetadata");
+    expect(readSrc("app/academy/page.tsx")).toContain("pageMetadata");
+    expect(readSrc("app/academy/layout.tsx")).not.toContain("pageMetadata");
     expect(readSrc("app/dashboard/layout.tsx")).not.toContain("LegalSiteFooter");
     expect(readSrc("app/dashboard/layout.tsx")).not.toContain("LegalColophonStrip");
     expect(home).not.toContain("/legal/gizlilik");

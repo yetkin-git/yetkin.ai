@@ -207,9 +207,16 @@ export async function proxy(request: NextRequest) {
     return seal(railEdgeFailResponse(request, apiDecision.error, apiDecision.status));
   }
 
+  if (decision.kind === "alias-307") {
+    const url = request.nextUrl.clone();
+    url.pathname = decision.to;
+    url.search = "";
+    return seal(NextResponse.redirect(url, 307));
+  }
+
   if (decision.kind === "auth-307") {
     const url = request.nextUrl.clone();
-    const login = new URL(buildCitizenLoginHref(pathname), url.origin);
+    const login = new URL(buildCitizenLoginHref(decision.next ?? pathname), url.origin);
     url.pathname = login.pathname;
     url.search = login.search;
     return seal(NextResponse.redirect(url, 307));
