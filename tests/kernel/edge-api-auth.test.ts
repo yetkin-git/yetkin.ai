@@ -29,6 +29,7 @@ describe("K6 public API yolu", () => {
     expect(toPublicApiPath("app/api/(kernel)/payments/webhooks/paytr/route.ts")).toBe(
       "/api/payments/webhooks/paytr",
     );
+    expect(toPublicApiPath("app/api/(kernel)/wallet/refund/route.ts")).toBe("/api/wallet/refund");
     expect(toPublicApiPath("app/api/paytr/callback/route.ts")).toBe("/api/paytr/callback");
     expect(toPublicApiPath("app/api/studio/generate/route.ts")).toBe("/api/studio/generate");
   });
@@ -148,6 +149,26 @@ describe("K6 kenar kararı", () => {
     ).toEqual({ kind: "deny", status: 410, error: EDGE_API_FROZEN_ROOM_ERROR });
   });
 
+  it("cüzdan iadesi oturumla geçer, harita dışı 404 kalır", () => {
+    expect(
+      decideEdgeApiAuth({
+        pathname: "/api/wallet/refund",
+        method: "POST",
+        sessionHint: true,
+        sessionUserId: "user-1",
+        map: ROUTE_AUTH_MAP,
+      }),
+    ).toEqual({ kind: "next" });
+    expect(
+      decideEdgeApiAuth({
+        pathname: "/api/wallet/refund",
+        method: "POST",
+        sessionHint: false,
+        map: ROUTE_AUTH_MAP,
+      }),
+    ).toEqual({ kind: "deny", status: 401, error: EDGE_API_SESSION_ERROR });
+  });
+
   it("haritada olmayan /api yolunu 404 eker", () => {
     expect(
       decideEdgeApiAuth({ pathname: "/api/secret-backdoor", sessionHint: false, map: MAP }),
@@ -235,7 +256,9 @@ describe("üretilen ROUTE_AUTH_MAP", () => {
     expect(ROUTE_AUTH_MAP["/api/_gone/[...path]"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/ai/chat"]).toBe("session");
     expect(Object.keys(ROUTE_AUTH_MAP).some((path) => path.includes("("))).toBe(false);
-    expect(Object.keys(ROUTE_AUTH_MAP)).toHaveLength(54);
+    expect(Object.keys(ROUTE_AUTH_MAP)).toHaveLength(55);
+    expect(ROUTE_AUTH_MAP["/api/wallet/refund"]).toBe("session");
+    expect(ROUTE_AUTH_MAP["/api/wallet/top-up"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/academy/courses/[id]/listen"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/academy/courses/[id]/pdf"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/academy/reviews"]).toBe("public");

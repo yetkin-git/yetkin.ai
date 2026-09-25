@@ -56,6 +56,7 @@ export const ROUTE_AUTH_MAP = {
   "/api/profile": "session",
   "/api/profile/billing": "session",
   "/api/profile/close": "session",
+  "/api/wallet/refund": "session",
   "/api/wallet/top-up": "session"
 } as const;
 

@@ -57,6 +57,7 @@ export const RLS_FORCE_TABLES = [
   "user_billing_info",
   "users",
   "wallets",
+  "wallet_card_refunds",
 ] as const;
 
 /** Kapsamsız tablolar — fail-closed SELECT. INSERT/UPDATE/DELETE üretilmez. */

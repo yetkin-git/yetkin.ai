@@ -46,6 +46,7 @@ model User {
   ledgerEntries       LedgerEntry[]
   escrowHolds         EscrowHold[]
   paymentOrders       PaymentOrder[]
+  walletCardRefunds   WalletCardRefund[]
   checkoutPriceLocks  CheckoutPriceLock[]
   aiTokenUsages       AiTokenUsage[]
   freelancerJobs       FreelancerJob[]       @relation("FreelancerJobClient")
@@ -189,10 +190,34 @@ model PaymentOrder {
   clearedAt                             DateTime?          @map("cleared_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cardRefunds WalletCardRefund[]
 
   @@index([userId, createdAt])
   @@index([status])
   @@map("payment_orders")
+}
+
+/// Kart iadesi — kullanılmamış cüzdan bakiyesinin PayTR `odeme/iade` kaydı.
+/// Defter DEBIT yalnız SUCCEEDED sonrası yazılır. PENDING çift çağrıyı keser.
+model WalletCardRefund {
+  id             String   @id @default(cuid())
+  userId         String   @map("user_id")
+  merchantOid    String?  @map("merchant_oid")
+  amountMinor    Int      @map("amount_minor")
+  currencyCode   String   @db.Char(3) @map("currency_code")
+  /// PENDING | ACCEPTED | SUCCEEDED | FAILED | REQUESTED
+  status         String
+  idempotencyKey String   @unique @map("idempotency_key")
+  detail         String?  @db.Text
+  createdAt      DateTime @default(now()) @map("created_at")
+  settledAt      DateTime? @map("settled_at")
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Restrict)
+  paymentOrder PaymentOrder? @relation(fields: [merchantOid], references: [merchantOid], onDelete: Restrict)
+
+  @@index([userId, status])
+  @@index([merchantOid])
+  @@map("wallet_card_refunds")
 }
 
 /// Append-only nakit anomali / mutabakat kaydı. İkinci bakiye değildir; CREDIT yazmaz.
