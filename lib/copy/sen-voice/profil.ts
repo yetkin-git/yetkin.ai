@@ -50,6 +50,15 @@ export const PROFIL_SEN = {
     pending: "Hesap kapatılıyor…",
     balanceHint: "Önce cüzdandaki bakiyeyi iade et.",
     refundCta: "Bakiyemi İade Et",
+    zeroReady: (amount: string) =>
+      `Cüzdan bakiyeniz ${amount}'dır. Hesabınızı güvenle kapatabilirsiniz.`,
+    modalEyebrow: "KVKK",
+    modalTitle: "Hesabı kapat",
+    modalBody:
+      "Hesabınızı kapatmak üzeresiniz. Kişisel verileriniz KVKK uyarınca anonimleştirilecek ve erişiminiz sonlandırılacaktır. Devam etmek için aşağıya 'KAPAT' yazın.",
+    modalCancel: "Vazgeç",
+    modalClose: "Pencereyi kapat",
+    closedNotice: "Hesabınız başarıyla kapatılmıştır. Yönlendiriliyorsunuz...",
   },
   billing: {
     title: "Fatura künyesi",

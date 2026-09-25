@@ -21,6 +21,25 @@ export const CUZDAN_SEN = {
   paymentsUnconfiguredCta: "Kokpite dön",
   topUpBand: (min: string, max: string) =>
     `Aralık: ${min} – ${max}. Kart ödemesi güvenli ödeme altyapısıyla alınır.`,
+  refundTitle: "Kullanılmamış bakiye",
+  refundBody:
+    "Kurs alımında kullanılmayan bakiye, yüklendiği karta iade edilir. İade kartına işlenmeden defter düşmez.",
+  refundCta: "Bakiyemi İade Et",
+  refundConfirmEyebrow: "Cüzdan",
+  refundConfirmTitle: "Cüzdan Bakiyesi İadesi",
+  refundConfirmBody: (amount: string) =>
+    `Cüzdanınızdaki ${amount} tutarındaki kullanılmamış bakiye kartınıza iade edilecektir. İadeler PayTR altyapısıyla 1-3 iş günü içerisinde hesabınıza yansır. İşlemi onaylıyor musunuz?`,
+  refundConfirmCancel: "Vazgeç",
+  refundConfirmAccept: "Evet, İade Et",
+  refundConfirmClose: "Pencereyi kapat",
+  refundPending: "İade iletiliyor…",
+  refundTiming: "İadeler PayTR altyapısıyla kartınıza 1-3 iş gününde aktarılır",
+  refundDone: (amount: string) =>
+    `İade işleminiz PayTR/Bankanıza iletilmiştir. Tutar (${amount}) 1-3 iş günü içerisinde kartınıza yansıyacaktır. Cüzdan bakiyeniz sıfırlanmıştır.`,
+  refundPartial: (amount: string) =>
+    `İade işleminiz PayTR/Bankanıza iletilmiştir. Tutar (${amount}) 1-3 iş günü içerisinde kartınıza yansıyacaktır. Kalan tutar incelemeye alındı. İşlem tamamlandığında tarafınıza bilgi verilecektir.`,
+  refundRequested: "İade talebiniz incelemeye alındı. İşlem tamamlandığında tarafınıza bilgi verilecektir.",
+  refundFail: "Kart iadesi tamamlanamadı.",
   closedLoopTitle: "Akademi tahsilatı",
   closedLoopBody:
     "Cüzdan Akademi eğitim tahsilatı içindir. Bu odada havale yüzeyi yoktur.",
