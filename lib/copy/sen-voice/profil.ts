@@ -39,6 +39,18 @@ export const PROFIL_SEN = {
     timeZone: "Saat dilimi",
     createdAt: "Kayıt tarihi",
   },
+  close: {
+    title: "Hesabımı Kapat",
+    eyebrow: "KVKK",
+    intro:
+      "Bakiye ₺0 ise hesap anonimleşir, oturum kapanır. Kullanılmamış bakiye varsa önce iade adımı gerekir.",
+    confirmLabel: "Onay",
+    confirmHint: "Kapatmak için KAPAT yaz.",
+    cta: "Hesabımı Kapat",
+    pending: "Hesap kapatılıyor…",
+    balanceHint: "Önce cüzdandaki bakiyeyi iade et.",
+    refundCta: "Bakiyemi İade Et",
+  },
   billing: {
     title: "Fatura künyesi",
     eyebrow: "Kasa öncesi",

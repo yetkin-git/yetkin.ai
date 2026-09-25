@@ -55,6 +55,7 @@ export const ROUTE_AUTH_MAP = {
   "/api/paytr/callback": "webhook",
   "/api/profile": "session",
   "/api/profile/billing": "session",
+  "/api/profile/close": "session",
   "/api/wallet/top-up": "session"
 } as const;
 

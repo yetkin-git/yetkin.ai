@@ -1,3 +1,4 @@
+import { AccountClosePanel } from "@/components/kernel/account-close-panel";
 import { IdentityCard } from "@/components/kernel/identity-card";
 import { IdentityMeritSummary } from "@/components/kernel/identity-merit-summary";
 import { ProfileBillingForm } from "@/components/kernel/profile-billing-form";
@@ -9,6 +10,7 @@ import { StatGrid } from "@/components/ui/stat-grid";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { requirePageSession } from "@/lib/kernel/auth/session";
 import { loadIdentityBoard } from "@/lib/kernel/identity/load";
+import { readSettlementWallet } from "@/lib/kernel/ledger/wallet-read";
 import { PROFILE_UNSET_LABEL, profileDisplayName } from "@/lib/kernel/identity/display";
 import { WALLET_SURFACE_PATH } from "@/lib/kernel/identity/types";
 import { loadPassportBoard } from "@/lib/kernel/passport/load";
@@ -33,9 +35,10 @@ function ProfileShelterActions({ size = "sm" }: { size?: "sm" | "md" }) {
 
 export default async function ProfilePage() {
   const session = await requirePageSession();
-  const [board, passportBoard] = await Promise.all([
+  const [board, passportBoard, wallet] = await Promise.all([
     loadIdentityBoard(session.id),
     loadPassportBoard(session.id),
+    readSettlementWallet(session.id),
   ]);
   const profile = board?.user ?? null;
   const headline = profile ? profileDisplayName(profile.displayName) : PROFILE_UNSET_LABEL;
@@ -105,6 +108,7 @@ export default async function ProfilePage() {
       <Card variant="ink" title={copy.honestyTitle} bodyClassName="text-white/70">
         {copy.honestyBody}
       </Card>
+      <AccountClosePanel balanceMinor={wallet?.amountMinor ?? 0} />
     </RoomFrame>
   );
 }
