@@ -130,12 +130,15 @@ export async function refundUnusedWalletBalanceForUser(userId: string): Promise<
   Awaited<ReturnType<typeof refundUnusedWalletBalance>>
 > {
   const prisma = getPrisma();
-  return prisma.$transaction(async (tx) => {
-    const ports: WalletCardRefundPorts = {
-      refunds: bindWalletCardRefundStore(tx),
-      ledger: bindLedgerStore(tx) as LedgerStore,
-      paytrConfigured: getPaytrCheckoutCredentials() != null,
-    };
-    return refundUnusedWalletBalance(ports, userId);
-  });
+  return prisma.$transaction(
+    async (tx) => {
+      const ports: WalletCardRefundPorts = {
+        refunds: bindWalletCardRefundStore(tx),
+        ledger: bindLedgerStore(tx) as LedgerStore,
+        paytrConfigured: getPaytrCheckoutCredentials() != null,
+      };
+      return refundUnusedWalletBalance(ports, userId);
+    },
+    { maxWait: 10_000, timeout: 20_000 },
+  );
 }

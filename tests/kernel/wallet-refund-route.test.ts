@@ -74,4 +74,26 @@ describe("POST /api/wallet/refund", () => {
     expect(body.ok).toBe(false);
     expect(body.error).toBe(WALLET_REFUND_NONE);
   });
+
+  it("tablo yoksa ham 500 yerine JSON döner", async () => {
+    refundUnusedWalletBalanceForUser.mockRejectedValue(
+      new Error('relation "wallet_card_refunds" does not exist (42P01)'),
+    );
+    const { POST } = await import("@/app/api/(kernel)/wallet/refund/route");
+    const response = await POST(refundRequest());
+    expect(response.status).toBe(503);
+    const body = (await response.json()) as { ok: boolean; error: string };
+    expect(body.ok).toBe(false);
+    expect(body.error).toBe("İade kaydı henüz hazır değil.");
+  });
+
+  it("beklenmeyen hata JSON zarfı döner", async () => {
+    refundUnusedWalletBalanceForUser.mockRejectedValue(new Error("boom"));
+    const { POST } = await import("@/app/api/(kernel)/wallet/refund/route");
+    const response = await POST(refundRequest());
+    expect(response.status).toBe(500);
+    const body = (await response.json()) as { ok: boolean; error: string };
+    expect(body.ok).toBe(false);
+    expect(body.error.length).toBeGreaterThan(0);
+  });
 });
