@@ -102,7 +102,7 @@ export default async function ProfilePage() {
         <div className="space-y-6">
           <IdentityMeritSummary stamps={stamps} soft={meritSoft} />
           <IdentityCard profile={profile} sessionEmail={session.email} />
-          <ProfileBillingForm />
+          <ProfileBillingForm profileFullName={profile.displayName} />
         </div>
       )}
       <Card variant="ink" title={copy.honestyTitle} bodyClassName="text-white/70">

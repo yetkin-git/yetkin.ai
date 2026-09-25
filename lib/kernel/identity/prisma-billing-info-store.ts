@@ -1,7 +1,13 @@
 import "server-only";
 
+import { isSupabaseUserId } from "@/lib/kernel/auth/ids";
 import { getPrisma } from "@/lib/kernel/db";
-import { normalizeTrMobilePhone, type CheckoutBillingInfo } from "@/lib/kernel/identity/billing-info";
+import {
+  normalizeTrMobilePhone,
+  sanitizeBillingProfileIdentity,
+  type BillingProfileIdentity,
+  type CheckoutBillingInfo,
+} from "@/lib/kernel/identity/billing-info";
 import type { BillingInfoStore } from "@/lib/kernel/identity/billing-info-write";
 
 type BillingInvoiceType = "INDIVIDUAL" | "CORPORATE";
@@ -74,6 +80,24 @@ function fromRow(row: BillingRow): CheckoutBillingInfo | null {
     phone,
     address: row.address,
   };
+}
+
+/**
+ * Fatura adı `users.display_name` satırından gelir.
+ * `users` tablosunda cep kolonu yok; sahte ops telefonu burada üretilmez.
+ */
+export async function readUserProfileBillingSeed(userId: string): Promise<BillingProfileIdentity> {
+  if (!isSupabaseUserId(userId)) {
+    return { fullName: "", phone: "" };
+  }
+  const row = await getPrisma().user.findUnique({
+    where: { id: userId },
+    select: { displayName: true },
+  });
+  return sanitizeBillingProfileIdentity({
+    fullName: row?.displayName ?? "",
+    phone: "",
+  });
 }
 
 export function createPrismaBillingInfoStore(): BillingInfoStore {

@@ -75,7 +75,7 @@ export const EMPTY_CHECKOUT_BILLING_FORM: CheckoutBillingFormState = {
   address: "",
 };
 
-/** Ops / e2e — geçerli bireysel künye. */
+/** Ops / e2e — geçerli bireysel künye. Vatandaş yüzeyi bunu kayıtlı kimlik saymaz. */
 export const CHECKOUT_BILLING_PAYLOAD: IndividualBillingInfo = {
   invoiceType: "individual",
   fullName: "Ayşe Kaya",
@@ -84,7 +84,68 @@ export const CHECKOUT_BILLING_PAYLOAD: IndividualBillingInfo = {
   address: "İnönü Mah. 157 Sk. No:3/C Akhisar",
 };
 
+export type BillingProfileIdentity = {
+  fullName: string;
+  phone: string;
+};
+
 const BILLING_NAME_MAX = 120;
+
+/** Kasa betiklerinin yazdığı yerel künye. Ad + cep + adres üçlüsü birebir eşleşirse vatandaş kaydı değildir. */
+export function isOpsCheckoutBillingFixture(billing: CheckoutBillingInfo): boolean {
+  return (
+    billing.invoiceType === CHECKOUT_BILLING_PAYLOAD.invoiceType &&
+    billing.fullName === CHECKOUT_BILLING_PAYLOAD.fullName &&
+    billing.phone === CHECKOUT_BILLING_PAYLOAD.phone &&
+    billing.address === CHECKOUT_BILLING_PAYLOAD.address
+  );
+}
+
+/** Kayıtlı künye varsa onu kullan. Yoksa veya ops künyesiyse profil adını ve gerçek cep numarasını bas. */
+export function checkoutBillingFormSeed(input: {
+  stored: CheckoutBillingInfo | null;
+  profileFullName: string;
+  profilePhone: string;
+}): { form: CheckoutBillingFormState; hadSaved: boolean } {
+  if (input.stored && !isOpsCheckoutBillingFixture(input.stored)) {
+    return { form: billingToForm(input.stored), hadSaved: true };
+  }
+  const profile = sanitizeBillingProfileIdentity({
+    fullName: input.profileFullName,
+    phone: input.profilePhone,
+  });
+  return {
+    form: {
+      ...EMPTY_CHECKOUT_BILLING_FORM,
+      fullName: profile.fullName,
+      phone: profile.phone,
+    },
+    hadSaved: false,
+  };
+}
+
+export function sanitizeBillingProfileIdentity(
+  identity: BillingProfileIdentity,
+): BillingProfileIdentity {
+  const fullName = identity.fullName.trim().slice(0, BILLING_NAME_MAX);
+  const phone = normalizeTrMobilePhone(identity.phone) ?? "";
+  if (fullName === CHECKOUT_BILLING_PAYLOAD.fullName && phone === CHECKOUT_BILLING_PAYLOAD.phone) {
+    return { fullName: "", phone: "" };
+  }
+  return { fullName, phone };
+}
+
+export function parseBillingProfileIdentity(value: unknown): BillingProfileIdentity {
+  if (!value || typeof value !== "object") {
+    return { fullName: "", phone: "" };
+  }
+  const row = value as { fullName?: unknown; phone?: unknown };
+  return sanitizeBillingProfileIdentity({
+    fullName: typeof row.fullName === "string" ? row.fullName : "",
+    phone: typeof row.phone === "string" ? row.phone : "",
+  });
+}
+
 const BILLING_TITLE_MAX = 200;
 const BILLING_OFFICE_MAX = 120;
 const BILLING_ADDRESS_MIN = 8;

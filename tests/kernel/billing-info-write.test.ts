@@ -69,21 +69,48 @@ describe("profil fatura künyesi yazma", () => {
     expect(store.snapshot(OTHER_ID)).toBeNull();
   });
 
-  it("kayıtlı künye yalnız oturum id ile okunur", async () => {
+  it("kayıtlı künye yalnız oturum id ile okunur; ops künyesi profil adıyla değişir", async () => {
     const store = createMemoryBillingStore();
-    await store.upsert({ userId: CITIZEN_ID, billing: CHECKOUT_BILLING_PAYLOAD });
+    const saved = {
+      ...CHECKOUT_BILLING_PAYLOAD,
+      fullName: "Hasan Yılmaz",
+      phone: "05321112233",
+      address: "Moda Cad. No:10 Kadıköy",
+    };
+    await store.upsert({ userId: CITIZEN_ID, billing: saved });
     await store.upsert({
       userId: OTHER_ID,
-      billing: { ...CHECKOUT_BILLING_PAYLOAD, fullName: "Başka Kişi" },
+      billing: { ...saved, fullName: "Başka Kişi" },
     });
-    const response = await runBillingInfoGet({ session: CITIZEN, getStore: () => store });
+    const response = await runBillingInfoGet({
+      session: CITIZEN,
+      getStore: () => store,
+      getProfileIdentity: async () => ({ fullName: "Profil Adı", phone: "" }),
+    });
     expect(response.status).toBe(200);
     const body = (await response.json()) as {
       ok: boolean;
-      data: { billing: CheckoutBillingInfo };
+      data: { billing: CheckoutBillingInfo; profile: { fullName: string; phone: string } };
     };
-    expect(body.data.billing.invoiceType === "individual" ? body.data.billing.fullName : null).toBe(
-      "Ayşe Kaya",
-    );
+    expect(body.data.billing).toMatchObject({ invoiceType: "individual", fullName: "Hasan Yılmaz" });
+    expect(body.data.profile.fullName).toBe("Profil Adı");
+    expect(store.snapshot(OTHER_ID)).toMatchObject({ fullName: "Başka Kişi" });
+  });
+
+  it("ops künyesi vatandaş kaydı değildir; ad users.display_name tohumundan gelir", async () => {
+    const store = createMemoryBillingStore();
+    await store.upsert({ userId: CITIZEN_ID, billing: CHECKOUT_BILLING_PAYLOAD });
+    const response = await runBillingInfoGet({
+      session: CITIZEN,
+      getStore: () => store,
+      getProfileIdentity: async () => ({ fullName: "Yetkin Admin", phone: "" }),
+    });
+    expect(response.status).toBe(200);
+    const body = (await response.json()) as {
+      ok: boolean;
+      data: { billing: CheckoutBillingInfo | null; profile: { fullName: string; phone: string } };
+    };
+    expect(body.data.billing).toBeNull();
+    expect(body.data.profile).toEqual({ fullName: "Yetkin Admin", phone: "" });
   });
 });

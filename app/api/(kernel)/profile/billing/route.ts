@@ -1,7 +1,10 @@
 import { getSession } from "@/lib/kernel/auth/session";
 import { jsonFromUnknown } from "@/lib/kernel/http/json";
 import { runBillingInfoGet, runBillingInfoPut } from "@/lib/kernel/identity/billing-info-write";
-import { createPrismaBillingInfoStore } from "@/lib/kernel/identity/prisma-billing-info-store";
+import {
+  createPrismaBillingInfoStore,
+  readUserProfileBillingSeed,
+} from "@/lib/kernel/identity/prisma-billing-info-store";
 
 export const auth = "session" as const;
 
@@ -11,6 +14,7 @@ export async function GET(request: Request) {
     return await runBillingInfoGet({
       session,
       getStore: createPrismaBillingInfoStore,
+      getProfileIdentity: readUserProfileBillingSeed,
       request,
     });
   } catch (error) {

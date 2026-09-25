@@ -3,19 +3,28 @@
 import { useEffect, useState } from "react";
 import { readCitizenEnvelope } from "@/lib/kernel/http/citizen-json";
 import {
-  billingToForm,
-  EMPTY_CHECKOUT_BILLING_FORM,
+  checkoutBillingFormSeed,
   isCheckoutBillingComplete,
   normalizeBillingInput,
   parseBillingFromUnknown,
+  parseBillingProfileIdentity,
   type CheckoutBillingFormState,
   type CheckoutBillingInfo,
 } from "@/lib/kernel/identity/billing-info";
 import { PROFILE_BILLING_PATH } from "@/lib/kernel/identity/types";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
-export function useCheckoutBilling() {
-  const [form, setForm] = useState<CheckoutBillingFormState>(EMPTY_CHECKOUT_BILLING_FORM);
+export function useCheckoutBilling(profileSeed?: { fullName?: string | null; phone?: string | null }) {
+  const seedFullName = profileSeed?.fullName ?? "";
+  const seedPhone = profileSeed?.phone ?? "";
+  const [form, setForm] = useState<CheckoutBillingFormState>(
+    () =>
+      checkoutBillingFormSeed({
+        stored: null,
+        profileFullName: seedFullName,
+        profilePhone: seedPhone,
+      }).form,
+  );
   const [hadSaved, setHadSaved] = useState(false);
   const [hydrated, setHydrated] = useState(false);
 
@@ -27,15 +36,17 @@ export function useCheckoutBilling() {
         if (cancelled || !envelope.ok) {
           return;
         }
-        const billing = parseBillingFromUnknown(envelope.body.billing);
-        if (!billing) {
-          return;
-        }
-        setForm(billingToForm(billing));
-        setHadSaved(true);
+        const profile = parseBillingProfileIdentity(envelope.body.profile);
+        const next = checkoutBillingFormSeed({
+          stored: parseBillingFromUnknown(envelope.body.billing),
+          profileFullName: profile.fullName || seedFullName,
+          profilePhone: profile.phone || seedPhone,
+        });
+        setForm(next.form);
+        setHadSaved(next.hadSaved);
       })
       .catch(() => {
-        /* kayıtlı künye yoksa boş form */
+        /* kayıtlı künye yoksa profil tohumu durur */
       })
       .finally(() => {
         if (!cancelled) {
@@ -45,7 +56,7 @@ export function useCheckoutBilling() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [seedFullName, seedPhone]);
 
   function payload(): { ok: true; billing: CheckoutBillingInfo } | { ok: false; error: string } {
     return normalizeBillingInput(form);

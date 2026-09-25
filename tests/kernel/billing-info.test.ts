@@ -2,11 +2,13 @@ import { describe, expect, it } from "vitest";
 import {
   CHECKOUT_BILLING_COPY,
   CHECKOUT_BILLING_PAYLOAD,
+  checkoutBillingFormSeed,
   checkoutBillingInfoSchema,
   checkoutBillingIssueMessage,
   checkoutBillingSummaryLine,
   isCheckoutBillingComplete,
   isCheckoutBillingIssue,
+  isOpsCheckoutBillingFixture,
   normalizeBillingInput,
 } from "@/lib/kernel/identity/billing-info";
 import { isValidTckn, isValidVkn } from "@/lib/kernel/identity/tckn-vkn";
@@ -105,6 +107,31 @@ describe("fatura künyesi doğrulama", () => {
         address: "İnönü Mah. 157 Sk. No:3/C Akhisar",
       }),
     ).toBe(true);
+  });
+
+  it("ops künyesi kayıtlı kimlik sayılmaz; form profil adını basar", () => {
+    expect(isOpsCheckoutBillingFixture(CHECKOUT_BILLING_PAYLOAD)).toBe(true);
+    const seeded = checkoutBillingFormSeed({
+      stored: CHECKOUT_BILLING_PAYLOAD,
+      profileFullName: "Yetkin Admin",
+      profilePhone: "",
+    });
+    expect(seeded.hadSaved).toBe(false);
+    expect(seeded.form.fullName).toBe("Yetkin Admin");
+    expect(seeded.form.phone).toBe("");
+    expect(seeded.form.address).toBe("");
+    expect(
+      checkoutBillingFormSeed({
+        stored: {
+          ...CHECKOUT_BILLING_PAYLOAD,
+          fullName: "Hasan Yılmaz",
+          phone: "05321112233",
+          address: "Moda Cad. No:10 Kadıköy",
+        },
+        profileFullName: "Başka Ad",
+        profilePhone: "",
+      }),
+    ).toMatchObject({ hadSaved: true, form: { fullName: "Hasan Yılmaz", phone: "05321112233" } });
   });
 
   it("kurumsal: unvan, vergi dairesi, VKN ve adres zorunlu", () => {

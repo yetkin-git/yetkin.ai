@@ -71,6 +71,11 @@ describe("fatura künyesi checkout yüzeyi", () => {
     expect(billingRoute).toContain('export const auth = "session"');
     expect(billingRoute).toContain("export async function GET");
     expect(billingRoute).toContain("export async function PUT");
+    expect(billingRoute).toContain("readUserProfileBillingSeed");
+    expect(readSrc("app/(kernel)/cuzdan/page.tsx")).toContain("profileFullName={identity?.user?.displayName ?? null}");
+    expect(readSrc("components/legal/use-checkout-billing.ts")).toContain("checkoutBillingFormSeed");
+    expect(readSrc("components/legal/use-checkout-billing.ts")).not.toContain("CHECKOUT_BILLING_PAYLOAD");
+    expect(prismaStore).toContain("displayName: true");
     expect(prismaStore).toContain("where: { userId }");
     expect(prismaStore).toContain("where: { userId: input.userId }");
     expect(prismaStore).not.toContain("input.billing.userId");

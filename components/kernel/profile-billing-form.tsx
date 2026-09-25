@@ -10,9 +10,18 @@ import { readCitizenEnvelope } from "@/lib/kernel/http/citizen-json";
 import { PROFILE_BILLING_PATH } from "@/lib/kernel/identity/types";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
-export function ProfileBillingForm() {
+export function ProfileBillingForm({
+  profileFullName = null,
+  profilePhone = null,
+}: {
+  profileFullName?: string | null;
+  profilePhone?: string | null;
+}) {
   const copy = SEN_VOICE.profil.billing;
-  const { form, setForm, hadSaved, payload } = useCheckoutBilling();
+  const { form, setForm, hadSaved, payload } = useCheckoutBilling({
+    fullName: profileFullName,
+    phone: profilePhone,
+  });
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [pending, setPending] = useState(false);

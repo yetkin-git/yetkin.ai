@@ -6,6 +6,7 @@ import { IconCoin, IconLock, IconWallet } from "@/components/ui/icons";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { StatGrid } from "@/components/ui/stat-grid";
 import { requirePageSession } from "@/lib/kernel/auth/session";
+import { loadIdentityBoard } from "@/lib/kernel/identity/load";
 import { WALLET_LEDGER_TAKE } from "@/lib/kernel/ledger/display";
 import { loadWalletBoard } from "@/lib/kernel/ledger/load";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
@@ -16,7 +17,10 @@ import { isPaymentsPortConfigured } from "@/lib/kernel/payments/port";
 
 export default async function WalletPage() {
   const session = await requirePageSession();
-  const board = await loadWalletBoard(session.id);
+  const [board, identity] = await Promise.all([
+    loadWalletBoard(session.id),
+    loadIdentityBoard(session.id),
+  ]);
   const copy = SEN_VOICE.cuzdan;
   const liveBalance =
     board == null
@@ -55,6 +59,7 @@ export default async function WalletPage() {
             enabled
             paymentsReady={isPaymentsPortConfigured() || isPaytrMockCheckoutAllowed()}
             sandbox={isPaytrSandboxEnabled()}
+            profileFullName={identity?.user?.displayName ?? null}
           />
         </Card>
         <Card variant="ink" title={copy.closedLoopTitle} bodyClassName="text-white/70">

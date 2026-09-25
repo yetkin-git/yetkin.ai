@@ -5,6 +5,9 @@ import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import {
   CHECKOUT_BILLING_REQUIRED,
   checkoutBillingInfoSchema,
+  isOpsCheckoutBillingFixture,
+  sanitizeBillingProfileIdentity,
+  type BillingProfileIdentity,
   type CheckoutBillingInfo,
 } from "@/lib/kernel/identity/billing-info";
 
@@ -36,17 +39,26 @@ export async function persistCheckoutBilling(
   return store.upsert({ userId: actorUserId, billing });
 }
 
+const EMPTY_BILLING_PROFILE: BillingProfileIdentity = { fullName: "", phone: "" };
+
 export async function runBillingInfoGet(input: {
   session: SessionUser | null;
   getStore: () => BillingInfoStore;
+  /** Oturum sahibinin `users.display_name` ve gerçek cep tohumu. Ops künyesi buraya yazılmaz. */
+  getProfileIdentity?: (userId: string) => Promise<BillingProfileIdentity>;
   request?: Request;
 }) {
   try {
     if (!input.session) {
       throw new AuthRequiredError(BILLING_INFO_UNAUTHORIZED);
     }
-    const billing = await readBillingInfo(input.getStore(), input.session.id);
-    return jsonOk({ billing }, 200, undefined, input.request);
+    const stored = await readBillingInfo(input.getStore(), input.session.id);
+    const billing = stored && !isOpsCheckoutBillingFixture(stored) ? stored : null;
+    const rawProfile = input.getProfileIdentity
+      ? await input.getProfileIdentity(input.session.id)
+      : EMPTY_BILLING_PROFILE;
+    const profile = sanitizeBillingProfileIdentity(rawProfile);
+    return jsonOk({ billing, profile }, 200, undefined, input.request);
   } catch (error) {
     return jsonFromUnknown(error, 400, undefined, input.request);
   }

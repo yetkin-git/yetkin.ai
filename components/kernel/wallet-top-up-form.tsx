@@ -32,10 +32,15 @@ export function WalletTopUpForm({
   enabled = true,
   paymentsReady = true,
   sandbox = false,
+  profileFullName = null,
+  profilePhone = null,
 }: {
   enabled?: boolean;
   paymentsReady?: boolean;
   sandbox?: boolean;
+  /** Oturum sahibinin `users.display_name` değeri. Ops künyesi buraya yazılmaz. */
+  profileFullName?: string | null;
+  profilePhone?: string | null;
 }) {
   const router = useRouter();
   const { push } = useActionBridge();
@@ -50,7 +55,7 @@ export function WalletTopUpForm({
   const [sandboxLive, setSandboxLive] = useState(sandbox);
   const [distanceAccepted, setDistanceAccepted] = useState(false);
   const [digitalAccepted, setDigitalAccepted] = useState(false);
-  const billing = useCheckoutBilling();
+  const billing = useCheckoutBilling({ fullName: profileFullName, phone: profilePhone });
   const baselineRef = useRef<number | null>(null);
   const idempotency = useIdempotencyKey();
   const minLabel = formatMinor(WALLET_TOP_UP_MIN_MINOR, SETTLEMENT_CURRENCY);
