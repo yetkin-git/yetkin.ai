@@ -105,6 +105,9 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     const logout = readSrc("app/api/(kernel)/auth/logout/route.ts");
     expect(hub).toContain("AUTH_LOGOUT_API_PATH");
     expect(hub).toContain("AUTH_SEN.logout.submit");
+    expect(hub).toContain("buildCitizenLoginHref");
+    expect(hub).toContain("AUTH_SEN.login.title");
+    expect(hub).toContain("LinkButton");
     expect(hub).toContain('method="POST"');
     expect(hub).toContain("text-[var(--rose)]");
     expect(hub).toContain("IconLogout");

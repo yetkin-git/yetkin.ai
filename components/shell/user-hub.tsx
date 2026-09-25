@@ -2,11 +2,13 @@
 
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
+import type { Route } from "next";
 import { usePathname } from "next/navigation";
 import { IconChevronDown, IconLogout, IconUser, ROOM_ICONS } from "@/components/ui/icons";
 import { cn } from "@/components/ui/cn";
+import { LinkButton } from "@/components/ui/link-button";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
-import { AUTH_LOGOUT_API_PATH } from "@/lib/kernel/auth/redirects";
+import { AUTH_LOGOUT_API_PATH, buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 import { KERNEL_SURFACES } from "@/lib/kernel/modules";
 
 const HUB_MENU_SURFACES = KERNEL_SURFACES.filter((surface) => surface.id !== "cuzdan");
@@ -103,7 +105,15 @@ export function UserHub({
             {userEmail ? (
               <p className="mt-0.5 truncate text-sm font-medium text-[var(--foreground)]">{userEmail}</p>
             ) : (
-              <p className="mt-0.5 text-sm text-[var(--muted)]">Giriş</p>
+              <LinkButton
+                href={buildCitizenLoginHref(pathname) as Route}
+                role="menuitem"
+                size="sm"
+                className="mt-2 w-full"
+                onClick={() => setOpen(false)}
+              >
+                {AUTH_SEN.login.title}
+              </LinkButton>
             )}
           </div>
           {userEmail ? (
