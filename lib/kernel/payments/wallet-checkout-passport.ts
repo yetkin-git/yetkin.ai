@@ -18,7 +18,7 @@ const PASSPORT_SEED_FALLBACK = "yetkin-rail.academy.exam-sitting.mac.v1" as cons
 const PASSPORT_SEED_JWT_DERIVE_INFO = "yetkin-rail.academy.exam-sitting.mac.derive.v1" as const;
 export const WALLET_CHECKOUT_PASSPORT_QUERY = "p" as const;
 export const WALLET_CHECKOUT_PASSPORT_INVALID =
-  "Bu kasa bağlantısı geçersiz veya süresi doldu. Drona dönüp yeniden dene." as const;
+  "Bu ödeme bağlantısı geçersiz veya süresi doldu. Uygulamaya dönüp yeniden dene." as const;
 
 export type WalletCheckoutPassportPayload = {
   v: typeof WALLET_CHECKOUT_PASSPORT_VERSION;

@@ -56,7 +56,7 @@ export const UX_SEN = {
     topUpSettled: {
       title: "Bakiye mühürlendi",
       body: "Kart tahsili bakiyeye düştü.",
-      cta: "Kokpite dön",
+      cta: "Hesabıma dön",
     },
     topUpHref: "/dashboard",
     deliveryPosted: {

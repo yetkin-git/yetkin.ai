@@ -17,8 +17,8 @@ export const CUZDAN_SEN = {
   topUpAuth: "Kart yüklemesi oturum ister. Sahte bakiye yazılmaz.",
   paymentsUnconfigured: "Ödeme henüz bağlanmadı",
   paymentsUnconfiguredBody:
-    "Ödeme henüz bağlanmadı / pasif. Kart tahsilatı bağlı değil. Sahte bakiye yazılmaz. Kokpite dön veya sonra yeniden dene.",
-  paymentsUnconfiguredCta: "Kokpite dön",
+    "Ödeme henüz bağlanmadı / pasif. Kart tahsilatı bağlı değil. Sahte bakiye yazılmaz. Hesabıma dön veya sonra yeniden dene.",
+  paymentsUnconfiguredCta: "Hesabıma dön",
   topUpBand: (min: string, max: string) =>
     `Aralık: ${min} – ${max}. Kart ödemesi güvenli ödeme altyapısıyla alınır.`,
   refundTitle: "Kullanılmamış bakiye",
@@ -50,11 +50,12 @@ export const CUZDAN_SEN = {
   auth: "Defter dökümü oturum ister. Sahte hareket basılmaz.",
   unboundBadge: "Liste henüz yüklenemedi — örnek düzen",
   unboundBody:
-    "Veritabanı bağlanınca gerçek LedgerEntry satırları burada durur. Uydurma bakiye veya sahte hareket yok.",
-  kasaTitle: "Dron kasa",
-  kasaLead: "Kart PayTR iFrame içindedir. Bu sayfa çerez oturumu istemez; HMAC pasaportu yeter.",
+    "Veritabanı bağlanınca gerçek hesap hareketleri burada durur. Uydurma bakiye veya sahte hareket yok.",
+  kasaTitle: "Güvenli ödeme",
+  kasaLead:
+    "Kart bilgisi PayTR’nin güvenli ödeme penceresinde girilir. Bu sayfa oturum çerezi istemez; kısa ömürlü ödeme bağlantısı yeter.",
   kasaInvalid:
-    "Bu kasa bağlantısı geçersiz veya süresi doldu. Drona dönüp yeniden dene.",
+    "Bu ödeme bağlantısı geçersiz veya süresi doldu. Uygulamaya dönüp yeniden dene.",
   kasaReturnOk: "Ödemeniz Onaylanıyor, Akademiye Yönlendiriliyorsunuz...",
   kasaReturnCta: "Akademiye Dön / Eğitimi Başlat",
   kasaReturnFail: "Kart işlemi tamamlanmadı. Akademiye dönüp yeniden deneyebilirsin.",

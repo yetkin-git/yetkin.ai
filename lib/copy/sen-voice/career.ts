@@ -44,7 +44,7 @@ export const CAREER_SEN = {
   scope: {
     eyebrow: "Teklif Kapısı",
     title: "Teklif Kapısı",
-    lead: "Kapı, ilgili Akademi SKU’sunun 8 dersi bitirilip sınav 70+ geçilince açılır. Satın alma belge basmaz. Açık kapıda üç hak doğar: doğrulanmış işveren ağına görünürlük, liyakat mühürlü özgeçmiş bağlantısı ve proje kanıt dosyası.",
+    lead: "Kapı, ilgili eğitimin 8 dersi bitirilip sınav 70+ geçilince açılır. Satın alma belge basmaz. Açık kapıda üç hak doğar: doğrulanmış işveren ağına görünürlük, liyakat mühürlü özgeçmiş bağlantısı ve proje kanıt dosyası.",
     open: "Erişim Hakkı açık",
     closed: "Erişim Hakkı kapalı",
     held: "Sınav mühürlü",
@@ -52,7 +52,7 @@ export const CAREER_SEN = {
     examGate: "8 ders + baraj 70",
     benefitEmployer: "Doğrulanmış İşveren Ağına Görünürlük",
     benefitEmployerBody:
-      "Açık kapı, bu SKU’nun müfredat sınavını (≥70) geçince o uzmanlık ilanında teklif hakkını taşır. İşveren senin mühür kartını oturumsuz görür.",
+      "Açık kapı, bu eğitimin sınavını (≥70) geçince o uzmanlık ilanında teklif hakkını taşır. İşveren senin mühür kartını oturumsuz görür.",
     benefitResume: "Liyakat Mühürlü Özgeçmiş Bağlantısı",
     benefitResumeBody:
       "Kamuya açık yetkinlik kartın mühürleri, sertifika doğrulama bağını ve proje kanıtını tek adreste toplar.",

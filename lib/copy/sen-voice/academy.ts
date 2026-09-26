@@ -60,7 +60,7 @@ export const ACADEMY_SEN = {
     comingSoonMeta: "Hazırlanıyor",
     /** Mühürlü amiral SKU — vitrin durum rozeti. */
     liveBadge: "Yayında",
-    /** Amiral 1. bölüm — vitrin süre satırı. */
+    /** Ofis eğitimi 1. bölüm — vitrin süre satırı. */
     cardMetaAudio: (minutes: number) => `${minutes} dk · Sesli Anlatım`,
     /** Antre hero kimlik şeridi — Temel Seviye · OFF-101. */
     heroLevelIdentity: (level?: string | null, moduleCode?: string | null) => {
@@ -153,7 +153,7 @@ export const ACADEMY_SEN = {
     pathTrainingCta: (priceLabel: string) => `Eğitimi Satın Al (${priceLabel})`,
     pathTrainingCtaIdle: "Eğitimi Satın Al",
     pathTrainingBody:
-      "Amiral: 8 mühürlü sesli ders. Sınav tüm dersler bitmeden açılmaz; baraj 70.",
+      "Bu eğitim: 8 sesli ders. Sınav tüm dersler bitmeden açılmaz; baraj 70.",
     pathExamCta: (priceLabel: string) => `Testi eğitim bitince aç (${priceLabel})`,
     pathExamCtaIdle: "Testi eğitim bitince aç",
     pathExamBody: "Test, dersler bitmeden açılmaz. Belge 70+ puanla gelir.",
@@ -163,7 +163,7 @@ export const ACADEMY_SEN = {
     title: "Ders listesi",
     exam: (passScore: number) =>
       `Eğitim bitince test. Baraj ${passScore}. Geçince sertifika ve yetkinlik Kariyer sayfana işlenir.`,
-    /** Amiral compact SKU — 8 ders bitmeden sınav kapısı kapalı. */
+    /** Satın alınan eğitim — 8 ders bitmeden sınav kapalı. */
     examShield:
       "Sınav, 8 dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
     visaPromise: (passScore: number, listingLabel: string, _listingId: string) =>
