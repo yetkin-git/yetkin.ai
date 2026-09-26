@@ -208,16 +208,16 @@ export function academyCastForDialogueSpeaker(
 }
 
 /**
- * OFF-201 yeniden fırın sesleri — tek ses yasak.
- * Kota açılınca Gemini 3.1 Flash TTS bu karakterlerle sırayla basılır.
+ * OFF-201 kurs sesi — altı ders baştan sona tek eğitmen.
+ * Gemini 3.1 Flash TTS karakteri Callirrhoe (Gözde).
  */
 export const ACADEMY_OFF201_LESSON_TTS_VOICE = {
-  "01_office_ai_ileri-1": "Kore",
-  "01_office_ai_ileri-2": "Puck",
-  "01_office_ai_ileri-3": "Fenrir",
-  "01_office_ai_ileri-4": "Aoede",
-  "01_office_ai_ileri-5": "Leda",
-  "01_office_ai_ileri-6": "Zephyr",
+  "01_office_ai_ileri-1": "Callirrhoe",
+  "01_office_ai_ileri-2": "Callirrhoe",
+  "01_office_ai_ileri-3": "Callirrhoe",
+  "01_office_ai_ileri-4": "Callirrhoe",
+  "01_office_ai_ileri-5": "Callirrhoe",
+  "01_office_ai_ileri-6": "Callirrhoe",
 } as const satisfies Record<string, AcademyInstructorTtsVoice>;
 
 /** Compact stüdyo bake — SKU eğitmen sesi. Ders anahtarı varsa o ses ezer. */

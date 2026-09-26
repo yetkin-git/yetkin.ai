@@ -2,18 +2,18 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 176.481,
+    "end": 140.675,
     "text": "SAYFA KONTROLÜ",
     "section": "Açılış",
     "paragraphs": [
-      "Selamlar, ben Selin. İleri Ofis Yapay Zekâ eğitiminin dördüncü dersine hoş geldin. Geçen derste toplamı formülle hücreye kilitledin. Bu dersin sonunda uzun belgeden maddeyi sayfa numarasıyla çıkaracaksın. Yapay zekânın atladığı maddeyi, o sayfayı açarak denetleyeceksin. «Tam analiz» cümlesini sayfa kontrolünün yerine koymayacaksın. Sayfa 2'de taraf satırı duruyor. «Mehmet Kaya, kimlik numarası 00000000000, IBAN TR00 0000 0000 0000 0000 0000 00.» Sayfa 11'de şu cümle var. «Taraflardan biri, yazılı bildirimle 15 gün sonra sözleşmeyi bitirebilir.» Dört işin adı sende durur. Ödeme günü. Gecikme oranı. Fesih süresi. Gizlilik süresi.",
+      "Selamlar, ben Gözde. İleri Ofis Yapay Zekâ eğitiminin dördüncü dersine hoş geldin. Geçen derste toplamı formülle hücreye kilitledin. Bu dersin sonunda uzun belgeden maddeyi sayfa numarasıyla çıkaracaksın. Yapay zekânın atladığı maddeyi, o sayfayı açarak denetleyeceksin. «Tam analiz» cümlesini sayfa kontrolünün yerine koymayacaksın. Sayfa 2'de taraf satırı duruyor. «Mehmet Kaya, kimlik numarası 00000000000, IBAN TR00 0000 0000 0000 0000 0000 00.» Sayfa 11'de şu cümle var. «Taraflardan biri, yazılı bildirimle 15 gün sonra sözleşmeyi bitirebilir.» Dört işin adı sende durur. Ödeme günü. Gecikme oranı. Fesih süresi. Gizlilik süresi.",
       "Yönetici hemen ardından «slayta da koy» derse aynı kutuya ekleme. Sayfa kontrolü bitmiştir. Slayt yeni istemdir. Yeni istemde de rol, görev, biçim ve kısıt durur. Ham sözleşme kişisel hesaba gitmez. Slayttaki oran, sayfa 7'deki yüzde 2 değilse o slaytı koyma. Eksik parça nasıl görünür? Rol yoksa sohbet kutusu maddeyi kendisi seçer. Görev dağınıksa madde, slayt ve e-posta birbirine bulaşır. Biçim yoksa «tam analiz» paragrafı döner. Kısıt yoksa sayfa 22 ve kimlik eklenir. Dört parçayı yazmadan kutuyu gönderme. Üç adım şunlar. 1. Belgeyi yapıştırmadan önce şirketin onayladığı belge aracını aç. Onaylı araç yoksa sözleşmeyi kişisel hesaba taşıma. 2. Taraf adını, kimlik numarasını ve IBAN'ı çıkar. Dört işi sen adlandır. Ödeme günü, gecikme oranı, fesih süresi, gizlilik süresi. 3. Her satırın sayfasını aç. Sayfada yoksa satırı sil. Listede olmayan işi «tam analiz» cümlesiyle kapatma. O sayfayı sen aç."
     ]
   },
   {
     "id": "cue-02",
-    "start": 176.981,
-    "end": 329.599,
+    "start": 140.925,
+    "end": 267.315,
     "text": "ÜÇ ADIM",
     "section": "Açılış",
     "paragraphs": [
@@ -23,8 +23,8 @@
   },
   {
     "id": "cue-03",
-    "start": 330.099,
-    "end": 369.562,
+    "start": 267.565,
+    "end": 299.086,
     "text": "UZUN BELGE",
     "section": "Açılış",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 370.062,
-    "end": 515.576,
+    "start": 299.336,
+    "end": 413.236,
     "text": "KİMLİĞİ ÇIKAR",
     "section": "VERİYİ VERMEDEN ÖNCE",
     "paragraphs": [
@@ -43,8 +43,8 @@
   },
   {
     "id": "cue-05",
-    "start": 516.076,
-    "end": 620.414,
+    "start": 413.486,
+    "end": 505.438,
     "text": "SAYFAYI YAZ",
     "section": "DÖRT PARÇA",
     "paragraphs": [
@@ -53,8 +53,8 @@
   },
   {
     "id": "cue-06",
-    "start": 620.914,
-    "end": 923.905,
+    "start": 505.688,
+    "end": 631.588,
     "text": "ATLANAN MADDE",
     "section": "YANLIŞ VE DOĞRU",
     "paragraphs": [
@@ -63,8 +63,8 @@
   },
   {
     "id": "cue-07",
-    "start": 924.405,
-    "end": 983.138,
+    "start": 631.838,
+    "end": 690.929,
     "text": "SAYFAYI DENETLE",
     "section": "SAYFAYI DENETLE",
     "paragraphs": [
@@ -73,8 +73,8 @@
   },
   {
     "id": "cue-08",
-    "start": 983.638,
-    "end": 1080.062,
+    "start": 691.179,
+    "end": 765.066,
     "text": "KENDİ BELGEN",
     "section": "KENDİ BELGEN",
     "paragraphs": [

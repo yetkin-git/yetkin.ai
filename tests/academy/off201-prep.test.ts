@@ -12,6 +12,7 @@ import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-inde
 import { ACADEMY_EXAM_PASS_SCORE, gradeAcademyExam } from "@/lib/academy/exam";
 import { OFFICE_AI_2_EXAM_QUESTIONS, academyExamPoolForSlug } from "@/lib/academy/exam-pools";
 import { lockAcademyCoursePrice, purchaseAcademyCourse } from "@/lib/academy/engine";
+import { academyCourseSaleOpen } from "@/lib/academy/pilot-sku";
 import { loadAcademyLessonExam } from "@/lib/academy/lesson-exams";
 import {
   OFF_201_CATALOG_MODULE_KEY,
@@ -182,38 +183,18 @@ describe("OFF-201 fırın öncesi hazırlık", () => {
     expect(page).toContain("academy.off201.catalog_price_unset");
   });
 
-  it("altı ders mühürlüyse satış açılır; OFF-101 belgesi şart değildir", async () => {
+  it("ders 6 kuyruktayken satış kapalıdır; kilit para kesmez", async () => {
+    expect(academyCourseSaleOpen("01_office_ai_ileri")).toBe(false);
     for (const ports of [world(), world(69), world(80, true), world(70)]) {
       await seed(ports);
-      const locked = await lockAcademyCoursePrice(ports, { courseId: ports.course.id, userId: BUYER });
-      expect(locked.lock.amountMinor).toBe(CATALOG_PRICE);
+      await expect(
+        lockAcademyCoursePrice(ports, { courseId: ports.course.id, userId: BUYER }),
+      ).rejects.toThrow("Kurs satışa kapalı.");
       expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START);
     }
-
-    const buyer = world();
-    await seed(buyer);
-    const locked = await lockAcademyCoursePrice(buyer, { courseId: buyer.course.id, userId: BUYER });
-    const bought = await purchaseAcademyCourse(buyer, {
-      courseId: buyer.course.id,
-      userId: BUYER,
-      lockId: locked.lock.id,
-      platformUserId: PLATFORM,
-    });
-    expect(bought.applied).toBe(true);
-    expect(buyer.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START - CATALOG_PRICE);
-    expect(buyer.ledger.snapshot(PLATFORM).amountMinor).toBe(CATALOG_PRICE);
-    const again = await purchaseAcademyCourse(buyer, {
-      courseId: buyer.course.id,
-      userId: BUYER,
-      lockId: locked.lock.id,
-      platformUserId: PLATFORM,
-    });
-    expect(again.applied).toBe(false);
-    expect(buyer.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START - CATALOG_PRICE);
-    expect(buyer.ledger.snapshot(PLATFORM).amountMinor).toBe(CATALOG_PRICE);
   });
 
-  it("baraj altı muafiyet satın almayı kesmez; mühür ikinci kez para kesmez", async () => {
+  it("baraj altı muafiyet mühür basmaz; satış kapalıyken kilit ve satın alma para kesmez", async () => {
     const now = new Date("2026-09-24T08:00:00.000Z");
     const pool = academyExamPoolForSlug("01_office_ai");
     const ports = world();
@@ -241,8 +222,9 @@ describe("OFF-201 fırın öncesi hazırlık", () => {
     });
     expect(lowSubmit.passed).toBe(false);
     expect(lowSubmit.seal).toBeNull();
-    const locked = await lockAcademyCoursePrice(ports, { courseId: ports.course.id, userId: BUYER });
-    expect(locked.lock.amountMinor).toBe(CATALOG_PRICE);
+    await expect(
+      lockAcademyCoursePrice(ports, { courseId: ports.course.id, userId: BUYER }),
+    ).rejects.toThrow("Kurs satışa kapalı.");
     expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START);
 
     const opened = await loadOff101ExemptionExam(ports, ports.prior.id, BUYER, now);
@@ -263,24 +245,8 @@ describe("OFF-201 fırın öncesi hazırlık", () => {
         lockId: "missing-lock",
         platformUserId: PLATFORM,
       }),
-    ).rejects.toThrow("Satın alma için geçerli fiyat kilidi yok.");
+    ).rejects.toThrow("Kurs satışa kapalı.");
     expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START);
-    const bought = await purchaseAcademyCourse(ports, {
-      courseId: ports.course.id,
-      userId: BUYER,
-      lockId: locked.lock.id,
-      platformUserId: PLATFORM,
-    });
-    expect(bought.applied).toBe(true);
-    expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START - CATALOG_PRICE);
-    const repeat = await purchaseAcademyCourse(ports, {
-      courseId: ports.course.id,
-      userId: BUYER,
-      lockId: locked.lock.id,
-      platformUserId: PLATFORM,
-    });
-    expect(repeat.applied).toBe(false);
-    expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START - CATALOG_PRICE);
-    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(CATALOG_PRICE);
+    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
   });
 });

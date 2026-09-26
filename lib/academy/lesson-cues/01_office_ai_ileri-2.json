@@ -2,18 +2,18 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 69.29,
+    "end": 70.409,
     "text": "EYLEM LİSTESİ",
     "section": "Açılış",
     "paragraphs": [
-      "Selamlar, ben Kaan. İleri Ofis Yapay Zekâ eğitiminin ikinci dersine hoş geldin. Bu dersin sonunda dağınık bir toplantı notundan eylem listesi çıkaracaksın. Her maddede kim, ne ve ne zaman duracak. Çakışan saati ayrı satırda işaretleyeceksin. Bazı paneller bu listeye aksiyon listesi der. Bu derste ona eylem listesi diyeceksin. Panel toplantı dökümüne transkript diyebilir. Bu derste ona toplantı notu diyeceksin.",
+      "Selamlar, ben Gözde. İleri Ofis Yapay Zekâ eğitiminin ikinci dersine hoş geldin. Bu dersin sonunda dağınık bir toplantı notundan eylem listesi çıkaracaksın. Her maddede kim, ne ve ne zaman duracak. Çakışan saati ayrı satırda işaretleyeceksin. Bazı paneller bu listeye aksiyon listesi der. Bu derste ona eylem listesi diyeceksin. Panel toplantı dökümüne transkript diyebilir. Bu derste ona toplantı notu diyeceksin.",
       "Saat 14:35. Toplantı bitmiş. Yöneticin yazıyor. «Saat 15'ten önce eylem listesini çıkar. Kim, ne, ne zaman olsun. Çakışan saat varsa işaretle. Takvime henüz yazma.» Not şöyle. Toplantı 14:05 ile 14:28 arası sürdü. Konu Kaya Un sevkiyatı. Marmara deposu Perşembe saat 10:00 dedi. Ege deposu aynı Perşembe saat 10:00'da araç istedi. Kim yazacak belli değil. Hangi Perşembe olduğu yazılmamış. Son satırda Selin Korkmaz ve bir telefon var."
     ]
   },
   {
     "id": "cue-02",
-    "start": 69.54,
-    "end": 179.758,
+    "start": 70.659,
+    "end": 181.478,
     "text": "ÜÇ ADIM",
     "section": "Açılış",
     "paragraphs": [
@@ -23,8 +23,8 @@
   },
   {
     "id": "cue-03",
-    "start": 180.008,
-    "end": 227.573,
+    "start": 181.728,
+    "end": 228.949,
     "text": "İKİ DAVET",
     "section": "Açılış",
     "paragraphs": [
@@ -34,8 +34,8 @@
   },
   {
     "id": "cue-04",
-    "start": 227.823,
-    "end": 326.126,
+    "start": 229.199,
+    "end": 326.298,
     "text": "ADI ÇIKAR",
     "section": "VERİYİ VERMEDEN ÖNCE",
     "paragraphs": [
@@ -45,8 +45,8 @@
   },
   {
     "id": "cue-05",
-    "start": 326.376,
-    "end": 405.497,
+    "start": 326.548,
+    "end": 410.142,
     "text": "ÇAKIŞMAYI İŞARETLE",
     "section": "DÖRT PARÇA",
     "paragraphs": [
@@ -56,8 +56,8 @@
   },
   {
     "id": "cue-06",
-    "start": 405.747,
-    "end": 509.169,
+    "start": 410.392,
+    "end": 505.341,
     "text": "ÇAKIŞAN SAAT",
     "section": "YANLIŞ VE DOĞRU",
     "paragraphs": [
@@ -67,8 +67,8 @@
   },
   {
     "id": "cue-07",
-    "start": 509.419,
-    "end": 556.382,
+    "start": 505.591,
+    "end": 552.554,
     "text": "SAATİ AYIR",
     "section": "SAATİ AYIR",
     "paragraphs": [
@@ -77,8 +77,8 @@
   },
   {
     "id": "cue-08",
-    "start": 556.632,
-    "end": 616.54,
+    "start": 552.804,
+    "end": 615.508,
     "text": "KENDİ TOPLANTIN",
     "section": "KENDİ TOPLANTIN",
     "paragraphs": [

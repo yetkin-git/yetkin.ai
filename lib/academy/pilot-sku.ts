@@ -5,9 +5,9 @@
  * bandındadır; Prisma hayalet SKU ve hayali oynatıcı girmez.
  *
  * `01_office_ai` çekirdek kaydı durur; 8 ders mühürlü ses (`1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`).
- * OFF-201 `01_office_ai_ileri` altı ders Gemini 3.1 Flash TTS ile mühürlüdür.
- * Ders 1, 2 ve 6 26 Eylül 2026 fırınıdır (Kore, Puck, Zephyr). Ders 3–5 yeniden yakılmaz.
- * Eski Gemini 2.5 kaseti arşivdedir; iptal listesi boştur. Fırın kuyruğu boştur.
+ * OFF-201 `01_office_ai_ileri` tek ses hedefi Gözde (Callirrhoe).
+ * Ders 1–5 Gemini 3.1 Flash TTS ile mühürlüdür. Ders 6 günlük kota dolunca durdu.
+ * Eski çoklu ses kaseti arşivdedir. Ders 6 iptal listesinde ve fırın kuyruğundadır.
  * Eski ritüel kaseti `01_office_ai-4` sınav yolunda ve ses mühründe yoktur; dosya arşivde kalır.
  * Sınav yolu `lesson-index.ts` SSOT’udur.
  * PEDAGOJI §D 5'li Vitrin Karması kardeşleri dürüst «Çok Yakında» kabuğu olarak basar.
@@ -83,16 +83,20 @@ export const ACADEMY_MEDIA_SEALED_AUDIO: Readonly<Record<string, readonly string
 
 /**
  * Gemini 2.5 Flash TTS kasetleri. Vatandaş oynatıcı bunları açmaz.
- * OFF-201 ders 1 ve 2, 26 Eylül 2026 Gemini 3.1 mühüründen sonra bu listeden çıktı.
+ * Çoklu ses kasetleri arşivdedir. Ders 6 eski Zephyr kaseti oynatılmaz.
  */
-export const ACADEMY_TTS_REVOKED_CASSETTES: Readonly<Record<string, string>> = {};
+export const ACADEMY_TTS_REVOKED_CASSETTES: Readonly<Record<string, string>> = {
+  "01_office_ai_ileri-6": "gemini-3.1-daily-quota",
+};
 
 /**
  * Kota açılınca yeniden fırınlanacak dersler.
- * OFF-201 ders 1, 2 ve 6 mühürlendi. Kuyruk boştur. Ders 3–5 yeniden yakılmaz.
- * Model yalnız Gemini 3.1 Flash TTS.
+ * OFF-201 ders 1–5 Callirrhoe ile mühürlendi. Ders 6 kota açılınca aynı modelle fırınlanır.
+ * Model yalnız Gemini 3.1 Flash TTS. Alt modele düşülmez.
  */
-export const ACADEMY_TTS_REBAKE_QUEUE: Readonly<Record<string, readonly string[]>> = {};
+export const ACADEMY_TTS_REBAKE_QUEUE: Readonly<Record<string, readonly string[]>> = {
+  "01_office_ai_ileri": ["01_office_ai_ileri-6"],
+};
 
 /**
  * Yeniden fırın metni. Kuyruk bu dosyaları okur.

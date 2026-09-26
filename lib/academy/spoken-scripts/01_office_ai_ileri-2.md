@@ -1,6 +1,6 @@
-<!-- 01_office_ai_ileri-2 — konuşma metni. Ses: Kaan / Puck. Tek cümle, tek iş. Ders 3–5 mühürlüdür; bu dosya ses kuyruğundadır. -->
+<!-- 01_office_ai_ileri-2 — konuşma metni. Ses: Gözde / Callirrhoe. Tek cümle, tek iş. Kurs tek eğitmen sesiyle mühürlenir. -->
 
-Selamlar, ben Kaan. İleri Ofis Yapay Zekâ eğitiminin ikinci dersine hoş geldin. Bu dersin sonunda dağınık bir toplantı notundan eylem listesi çıkaracaksın. Her maddede kim, ne ve ne zaman duracak. Çakışan saati ayrı satırda işaretleyeceksin. Bazı paneller bu listeye aksiyon listesi der. Bu derste ona eylem listesi diyeceksin. Panel toplantı dökümüne transkript diyebilir. Bu derste ona toplantı notu diyeceksin.
+Selamlar, ben Gözde. İleri Ofis Yapay Zekâ eğitiminin ikinci dersine hoş geldin. Bu dersin sonunda dağınık bir toplantı notundan eylem listesi çıkaracaksın. Her maddede kim, ne ve ne zaman duracak. Çakışan saati ayrı satırda işaretleyeceksin. Bazı paneller bu listeye aksiyon listesi der. Bu derste ona eylem listesi diyeceksin. Panel toplantı dökümüne transkript diyebilir. Bu derste ona toplantı notu diyeceksin.
 
 Saat 14:35. Toplantı bitmiş. Yöneticin yazıyor. «Saat 15'ten önce eylem listesini çıkar. Kim, ne, ne zaman olsun. Çakışan saat varsa işaretle. Takvime henüz yazma.» Not şöyle. Toplantı 14:05 ile 14:28 arası sürdü. Konu Kaya Un sevkiyatı. Marmara deposu Perşembe saat 10:00 dedi. Ege deposu aynı Perşembe saat 10:00'da araç istedi. Kim yazacak belli değil. Hangi Perşembe olduğu yazılmamış. Son satırda Selin Korkmaz ve bir telefon var.
 

@@ -2,18 +2,18 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 79.815,
+    "end": 77.363,
     "text": "DÖRT PARÇA",
     "section": "Açılış",
     "paragraphs": [
-      "Selamlar, ben Aylin. İleri Ofis Yapay Zekâ eğitiminin ilk dersine hoş geldin. Bu dersin sonunda bir sipariş satırını dört parçalı bir metne dökeceksin. Kutuya yazacağın bu metne istem diyeceğiz. Dört parça şunlar: rol, görev, biçim ve kısıt. Dört parça aynı kutuda durunca sohbet kutusu işin şeklini tek gönderimde görür. Cevabı sen okursun.",
+      "Selamlar, ben Gözde. İleri Ofis Yapay Zekâ eğitiminin ilk dersine hoş geldin. Bu dersin sonunda bir sipariş satırını dört parçalı bir metne dökeceksin. Kutuya yazacağın bu metne istem diyeceğiz. Dört parça şunlar: rol, görev, biçim ve kısıt. Dört parça aynı kutuda durunca sohbet kutusu işin şeklini tek gönderimde görür. Cevabı sen okursun.",
       "Saat 09:40. Yöneticin yazıyor. «Saat 10'daki toplantıdan önce üç bölgenin notunu özetle. Üç madde olsun. Bir karar cümlesi de yaz.» Masanda dört satır duruyor. Marmara satırı: Kaya Un 1 kg, 120 sipariş. Ege satırı: Kaya Un 1 kg, 80 sipariş. İç Anadolu satırı eksik. Son satırda Ayşe Yılmaz ve bir telefon var. Acele edip kutuya «Bunu güzelce özetle» yazarsan uzun bir metin döner. Notta olmayan bir yüzde eklenebilir. Ad cevaba taşınabilir. Şimdi burada ne oldu böyle demiş olabilirsin. Çok haklısın. Yanlış sayı acele kutudan gelir. Adım adım bakalım."
     ]
   },
   {
     "id": "cue-02",
-    "start": 80.065,
-    "end": 130.124,
+    "start": 77.613,
+    "end": 128.618,
     "text": "ÜÇ ADIM",
     "section": "Açılış",
     "paragraphs": [
@@ -22,8 +22,8 @@
   },
   {
     "id": "cue-03",
-    "start": 130.374,
-    "end": 175.013,
+    "start": 128.868,
+    "end": 167.272,
     "text": "HAM NOT",
     "section": "Açılış",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 175.263,
-    "end": 225.28,
+    "start": 167.522,
+    "end": 214.484,
     "text": "ADI ÇIKAR",
     "section": "VERİYİ VERMEDEN ÖNCE",
     "paragraphs": [
@@ -43,8 +43,8 @@
   },
   {
     "id": "cue-05",
-    "start": 225.53,
-    "end": 310.414,
+    "start": 214.734,
+    "end": 299.962,
     "text": "ROL BAŞTA",
     "section": "DÖRT PARÇA",
     "paragraphs": [
@@ -54,8 +54,8 @@
   },
   {
     "id": "cue-06",
-    "start": 310.664,
-    "end": 394.903,
+    "start": 300.212,
+    "end": 389.226,
     "text": "YANLIŞ ÖZET",
     "section": "YANLIŞ VE DOĞRU",
     "paragraphs": [
@@ -65,8 +65,8 @@
   },
   {
     "id": "cue-07",
-    "start": 395.153,
-    "end": 437.642,
+    "start": 389.476,
+    "end": 434.245,
     "text": "KAYNAĞI KARŞILAŞTIR",
     "section": "KAYNAĞI KARŞILAŞTIR",
     "paragraphs": [
@@ -75,8 +75,8 @@
   },
   {
     "id": "cue-08",
-    "start": 437.892,
-    "end": 523.809,
+    "start": 434.495,
+    "end": 514.261,
     "text": "MASKELİ NOT",
     "section": "MASKELİ NOT",
     "paragraphs": [

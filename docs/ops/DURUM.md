@@ -45,10 +45,10 @@ Canlı vitrin kartıdır. Sınav yolu 6 derstir. Lansman fiyatı katalog tohumun
 
 | Ölçüt | Kod gerçeği |
 |-------|-------------|
-| Sistem mührü | **6/6.** Ders 1–6 Gemini 3.1 Flash TTS ile mühürlü. Ders 1 Kore, ders 2 Puck, ders 6 Zephyr (26 Eylül 2026). Ders 3–5 yeniden yakılmadı. İptal listesi ve fırın kuyruğu boş. Satış kapısı (`academyCourseSaleOpen`) açık. |
+| Sistem mührü | **5/6 oynar.** Ders 1–5 Gemini 3.1 Flash TTS, tek ses Gözde (Callirrhoe), 26 Eylül 2026. Ders 6 günlük kota dolunca durdu. Eski Zephyr kaseti iptal listesindedir. Fırın kuyruğu yalnız ders 6. Satış kapısı (`academyCourseSaleOpen`) kapalı. |
 | Sınav yolu | **6 ders** — `01_office_ai_ileri-1` … `-6` |
-| Mühürlü kaset | **1–6** (`ACADEMY_MEDIA_SEALED_AUDIO`). Oynatıcı altı MP3’ü açar. |
-| Süre | Altı mühür timings toplamı **4945.325 sn ≈ 82.42 dk**. Modül `estimatedTotalMinutes` bu toplamdan türer. Her ders 5 dakikanın üstündedir. |
+| Mühürlü kaset | **1–5** vatandaş karaoke. Ders 6 kuyrukta; oynatıcı eski MP3’ü açmaz. |
+| Süre | Ders 1–5 yeni mühür: **514.261 / 615.508 / 688.064 / 765.066 / 864.722 sn**. Ders 6 eski timings **754.906 sn** (oynatılmaz). Hepsi 5 dakikanın üstündedir. |
 | Fiyat | Lansman tohumu **129.000 kuruş (₺1.290, KDV dahil)**. Satır `academy` / `course:01_office_ai_ileri`. Super Admin yazdıysa tohum tutarı ezmez. |
 | Kart rozeti | Kursun tamamına «Sesli Anlatım» basılmaz. Rozet mühürlü ders sayısını söyler. |
 

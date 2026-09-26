@@ -2,18 +2,18 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 137.929,
+    "end": 123.083,
     "text": "FORMÜLÜ KİLİTLE",
     "section": "Açılış",
     "paragraphs": [
-      "Selamlar, ben Boran. İleri Ofis Yapay Zekâ eğitiminin üçüncü dersine hoş geldin. Geçen derste çakışan saati ayrı satırda işaretledin. Bu dersin sonunda tablodaki toplamı hücreye formülle kilitleyeceksin. Grafiği, formülün okuduğu hücrelerden seçeceksin. Yapay zekânın, yani sohbet kutusunun, yazdığı düz sayıyı masaya koymayacaksın. Uydurma formülü de koymayacaksın. Sayfanın altında bir not satırı duruyor. «Tahsilat: Ayşe Yılmaz, IBAN TR00 0000 0000 0000 0000 0000 00.» Saat 11:10. Yöneticin yazıyor. «Saat 12'deki toplantıdan önce bu tablonun toplamını formülle kilitle. Grafiği o hücreden seç. Yüzde isteme. Toplamı düz sayı yazma.»",
+      "Selamlar, ben Gözde. İleri Ofis Yapay Zekâ eğitiminin üçüncü dersine hoş geldin. Geçen derste çakışan saati ayrı satırda işaretledin. Bu dersin sonunda tablodaki toplamı hücreye formülle kilitleyeceksin. Grafiği, formülün okuduğu hücrelerden seçeceksin. Yapay zekânın, yani sohbet kutusunun, yazdığı düz sayıyı masaya koymayacaksın. Uydurma formülü de koymayacaksın. Sayfanın altında bir not satırı duruyor. «Tahsilat: Ayşe Yılmaz, IBAN TR00 0000 0000 0000 0000 0000 00.» Saat 11:10. Yöneticin yazıyor. «Saat 12'deki toplantıdan önce bu tablonun toplamını formülle kilitle. Grafiği o hücreden seç. Yüzde isteme. Toplamı düz sayı yazma.»",
       "Üç adım şunlar. 1. Tabloyu yapıştırmadan önce şirketin onayladığı tablo aracını aç. Onaylı araç yoksa tabloyu kişisel hesaba taşıma. 2. Adı, IBAN'ı ve diğer kişisel veriyi çıkar. Bölge adı ve adet kalabilir. 3. Tek istem yaz. Rol, görev, biçim ve kısıt aynı kutuda dursun. Formülü B4'e yaz. Hücre 120 ile 80'in toplamını göstermeden grafiği seçme. Bugün maskeli iki satırlık bir tablo seç. Toplam hücresini boş bırak. Gerçek kişi adı, IBAN veya maaş koyma. İstemi dört parçayla yaz. Formülü hücreye sen yaz. F2 ile formülü gör. İki adedi kendin topla. Hücre aynı sayıyı göstermiyorsa grafiği koyma. Cevapta düz toplam, yüzde veya üçüncü dilim varsa kısıtı daralt. Aynı görevi bir kez daha iste."
     ]
   },
   {
     "id": "cue-02",
-    "start": 138.429,
-    "end": 249.298,
+    "start": 123.333,
+    "end": 216.433,
     "text": "ÜÇ ADIM",
     "section": "Açılış",
     "paragraphs": [
@@ -23,8 +23,8 @@
   },
   {
     "id": "cue-03",
-    "start": 249.798,
-    "end": 343.871,
+    "start": 216.683,
+    "end": 292.979,
     "text": "BOŞ HÜCRE",
     "section": "Açılış",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 344.371,
-    "end": 390.659,
+    "start": 293.229,
+    "end": 326.944,
     "text": "IBAN ÇIKAR",
     "section": "VERİYİ VERMEDEN ÖNCE",
     "paragraphs": [
@@ -43,8 +43,8 @@
   },
   {
     "id": "cue-05",
-    "start": 391.159,
-    "end": 490.794,
+    "start": 327.194,
+    "end": 414.801,
     "text": "FORMÜLÜ YAZ",
     "section": "DÖRT PARÇA",
     "paragraphs": [
@@ -53,8 +53,8 @@
   },
   {
     "id": "cue-06",
-    "start": 491.294,
-    "end": 600.966,
+    "start": 415.051,
+    "end": 503.433,
     "text": "DÜZ SAYI",
     "section": "YANLIŞ VE DOĞRU",
     "paragraphs": [
@@ -63,8 +63,8 @@
   },
   {
     "id": "cue-07",
-    "start": 601.466,
-    "end": 757.876,
+    "start": 503.683,
+    "end": 620.938,
     "text": "HÜCREYİ KONTROL ET",
     "section": "HÜCREYİ KONTROL ET",
     "paragraphs": [
@@ -73,8 +73,8 @@
   },
   {
     "id": "cue-08",
-    "start": 758.376,
-    "end": 865.854,
+    "start": 621.188,
+    "end": 688.064,
     "text": "KENDİ TABLON",
     "section": "KENDİ TABLON",
     "paragraphs": [

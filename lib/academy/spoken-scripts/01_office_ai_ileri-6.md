@@ -1,6 +1,6 @@
-<!-- 01_office_ai_ileri-6 — konuşma metni. Ses: Deniz / Zephyr. Tek cümle, tek iş. Ders 3–5 mühürlüdür; bu dosya ses kuyruğundadır. -->
+<!-- 01_office_ai_ileri-6 — konuşma metni. Ses: Gözde / Callirrhoe. Tek cümle, tek iş. Kurs tek eğitmen sesiyle mühürlenir. -->
 
-Selamlar, ben Deniz. İleri Ofis Yapay Zekâ eğitiminin altıncı dersine hoş geldin. Geçen derste postayı üç sınıfa ayırdın. Taslağı göndermedin. Bu dersin sonunda üç dosyadaki sayıyı yan yana okuyacaksın. Bazı paneller tabloya Excel, yazılı nota Word, uzun belgeye PDF der. Aynı paneller bu denetime çapraz denetim der. Bu derste ona üç dosyada yan yana sayı denetimi diyeceksin. Karar notuna yönetici özeti der.
+Selamlar, ben Gözde. İleri Ofis Yapay Zekâ eğitiminin altıncı dersine hoş geldin. Geçen derste postayı üç sınıfa ayırdın. Taslağı göndermedin. Bu dersin sonunda üç dosyadaki sayıyı yan yana okuyacaksın. Bazı paneller tabloya Excel, yazılı nota Word, uzun belgeye PDF der. Aynı paneller bu denetime çapraz denetim der. Bu derste ona üç dosyada yan yana sayı denetimi diyeceksin. Karar notuna yönetici özeti der.
 
 Saat 17:10. Yöneticin yazıyor. «Saat 17:30'dan önce bu üç dosyayı yan yana denetle. Uyuşmayan sayıyı işaretle. Tek sayfalık karar notu yaz. Sayıları birbirine uydurma. Kişi adı yazma.» Üç dosyayı kutuya koymadan önce üç soru vardır. Sırayı bozma.
 

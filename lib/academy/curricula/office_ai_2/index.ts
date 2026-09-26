@@ -28,7 +28,7 @@ export {
 /**
  * OFF-201 canlı modül.
  * `curricula/index.ts` bu diziyi `CURRICULUM_DRAFTS_BY_SLUG` ve sınav indeksine yazar.
- * Ders 3–5 mühürlü sestir. Ders 1, 2 ve 6 yeniden fırın kuyruğundadır.
+ * Tek eğitmen sesi Gözde (Callirrhoe). Ders 1–5 mühürlü. Ders 6 kota kuyruğundadır.
  * `estimatedTotalMinutes` mühürlü altı dersin timings toplamıdır.
  */
 export const officeAi2Sections: Section[] = [
@@ -54,9 +54,9 @@ export const officeAi2MasteryModule: CurriculumModule = {
     "Sen dili, dört parçalı istem (rol, görev, biçim, kısıt), şirket politikası önce, maskeli veri, sıfır kod.",
   estimatedTotalMinutes: academyCourseSealedDurationMinutes(OFFICE_AI_2_SLUG),
   voiceConfig: {
-    voice: "Kore · Puck · Fenrir · Aoede · Leda · Zephyr",
-    style: "Ders başına ayrı karakter. Gözde bu kursta konuşmaz.",
-    gender: "mixed",
+    voice: "Callirrhoe",
+    style: "Tek eğitmen, Gözde. Kurs baştan sona aynı ses.",
+    gender: "female",
     lessonVoices: ACADEMY_OFF201_LESSON_TTS_VOICE,
   },
   sections: officeAi2Sections,

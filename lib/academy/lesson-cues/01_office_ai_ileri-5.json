@@ -2,18 +2,18 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 152.84,
+    "end": 102.438,
     "text": "POSTAYI AYIR",
     "section": "Açılış",
     "paragraphs": [
-      "Selamlar, ben Ece. İleri Ofis Yapay Zekâ eğitiminin beşinci dersine hoş geldin. Geçen derste maddeyi sayfa numarasıyla çıkardın. Bu dersin sonunda karmaşık bir iş postasını sınıflandıracaksın. Her iş ayrı satırda duracak. Yanıt taslağını şirket kuralına göre yazacaksın. Kişisel veriyi taslağa taşımayacaksın. Taslağı göndermeyeceksin. Konu satırı şudur. Kaya Un, gecikme ve hesap. Masanın yanında stok notu duruyor. Not şudur. «Marmara, Kaya Un 1 kg, 120 koli.» Başka sayı yoktur. Bu postada üç iş vardır. Birinci iş stok sorusudur. Sınıfı bilgidir. İkinci iş gecikmedir. Sınıfı şikayettir. Üçüncü iş kimlik ve hesap doğrulamadır. Sınıfı kişisel veri talebidir.",
+      "Selamlar, ben Gözde. İleri Ofis Yapay Zekâ eğitiminin beşinci dersine hoş geldin. Geçen derste maddeyi sayfa numarasıyla çıkardın. Bu dersin sonunda karmaşık bir iş postasını sınıflandıracaksın. Her iş ayrı satırda duracak. Yanıt taslağını şirket kuralına göre yazacaksın. Kişisel veriyi taslağa taşımayacaksın. Taslağı göndermeyeceksin. Konu satırı şudur. Kaya Un, gecikme ve hesap. Masanın yanında stok notu duruyor. Not şudur. «Marmara, Kaya Un 1 kg, 120 koli.» Başka sayı yoktur. Bu postada üç iş vardır. Birinci iş stok sorusudur. Sınıfı bilgidir. İkinci iş gecikmedir. Sınıfı şikayettir. Üçüncü iş kimlik ve hesap doğrulamadır. Sınıfı kişisel veri talebidir.",
       "Tazminat veya yüzde görürsen o cümleyi sil. Kural kartında tazminat yoktur. Finans, olmayan yüzde için pay ayırmaz. Ad, telefon, IBAN veya kimlik görürsen o satırı sil. Ekrandan silmek, kişisel sohbete yapıştırılmış ham postayı geri çağırmaz. Onun için ham posta baştan gitmez. «Gönderildi» görürsen o satırı sil. Düğmeye basma. Yönetici gönder demeden taslak postada kalır. Cevabı satır satır okursun. Üç sınıftan biri yoksa aynı görevi, yalnız eksik sınıf için bir kez daha iste. Eksik sınıfı «nazik cevap» ile kapatma. Üç satır da kural kartıyla eşleşmeden taslağı iletme."
     ]
   },
   {
     "id": "cue-02",
-    "start": 153.34,
-    "end": 353.914,
+    "start": 102.688,
+    "end": 255.099,
     "text": "ÜÇ ADIM",
     "section": "Açılış",
     "paragraphs": [
@@ -23,8 +23,8 @@
   },
   {
     "id": "cue-03",
-    "start": 354.414,
-    "end": 547.576,
+    "start": 255.349,
+    "end": 405.266,
     "text": "KARIŞIK POSTA",
     "section": "Açılış",
     "paragraphs": [
@@ -34,8 +34,8 @@
   },
   {
     "id": "cue-04",
-    "start": 548.076,
-    "end": 700.644,
+    "start": 405.516,
+    "end": 526.728,
     "text": "KİMLİĞİ ÇIKAR",
     "section": "VERİYİ VERMEDEN ÖNCE",
     "paragraphs": [
@@ -44,8 +44,8 @@
   },
   {
     "id": "cue-05",
-    "start": 701.144,
-    "end": 811.274,
+    "start": 526.978,
+    "end": 617.94,
     "text": "SINIFI AYIR",
     "section": "DÖRT PARÇA",
     "paragraphs": [
@@ -54,8 +54,8 @@
   },
   {
     "id": "cue-06",
-    "start": 811.774,
-    "end": 949.947,
+    "start": 618.19,
+    "end": 816.391,
     "text": "TASLAK SATIRI",
     "section": "YANLIŞ VE DOĞRU",
     "paragraphs": [
@@ -74,8 +74,8 @@
   },
   {
     "id": "cue-08",
-    "start": 1046.97,
-    "end": 1104.154,
+    "start": 816.641,
+    "end": 864.722,
     "text": "KENDİ POSTAN",
     "section": "KENDİ POSTAN",
     "paragraphs": [

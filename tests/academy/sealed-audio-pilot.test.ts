@@ -44,11 +44,11 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
       "01_office_ai-g1": 604,
       "01_office_ai-w1": 583,
       "01_office_ai-k1": 702,
-      "01_office_ai_ileri-1": 524,
-      "01_office_ai_ileri-2": 617,
-      "01_office_ai_ileri-3": 866,
-      "01_office_ai_ileri-4": 1080,
-      "01_office_ai_ileri-5": 1104,
+      "01_office_ai_ileri-1": 514,
+      "01_office_ai_ileri-2": 616,
+      "01_office_ai_ileri-3": 688,
+      "01_office_ai_ileri-4": 765,
+      "01_office_ai_ileri-5": 865,
       "01_office_ai_ileri-6": 755,
     });
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, LESSON_KEY)).toBe(true);

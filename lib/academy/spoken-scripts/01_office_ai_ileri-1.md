@@ -1,6 +1,6 @@
-<!-- 01_office_ai_ileri-1 — konuşma metni. Ses: Aylin / Kore. Tek cümle, tek iş. Ders 3–5 mühürlüdür; bu dosya ses kuyruğundadır. -->
+<!-- 01_office_ai_ileri-1 — konuşma metni. Ses: Gözde / Callirrhoe. Tek cümle, tek iş. Kurs tek eğitmen sesiyle mühürlenir. -->
 
-Selamlar, ben Aylin. İleri Ofis Yapay Zekâ eğitiminin ilk dersine hoş geldin. Bu dersin sonunda bir sipariş satırını dört parçalı bir metne dökeceksin. Kutuya yazacağın bu metne istem diyeceğiz. Dört parça şunlar: rol, görev, biçim ve kısıt. Dört parça aynı kutuda durunca sohbet kutusu işin şeklini tek gönderimde görür. Cevabı sen okursun.
+Selamlar, ben Gözde. İleri Ofis Yapay Zekâ eğitiminin ilk dersine hoş geldin. Bu dersin sonunda bir sipariş satırını dört parçalı bir metne dökeceksin. Kutuya yazacağın bu metne istem diyeceğiz. Dört parça şunlar: rol, görev, biçim ve kısıt. Dört parça aynı kutuda durunca sohbet kutusu işin şeklini tek gönderimde görür. Cevabı sen okursun.
 
 Saat 09:40. Yöneticin yazıyor. «Saat 10'daki toplantıdan önce üç bölgenin notunu özetle. Üç madde olsun. Bir karar cümlesi de yaz.» Masanda dört satır duruyor. Marmara satırı: Kaya Un 1 kg, 120 sipariş. Ege satırı: Kaya Un 1 kg, 80 sipariş. İç Anadolu satırı eksik. Son satırda Ayşe Yılmaz ve bir telefon var. Acele edip kutuya «Bunu güzelce özetle» yazarsan uzun bir metin döner. Notta olmayan bir yüzde eklenebilir. Ad cevaba taşınabilir. Şimdi burada ne oldu böyle demiş olabilirsin. Çok haklısın. Yanlış sayı acele kutudan gelir. Adım adım bakalım.
 

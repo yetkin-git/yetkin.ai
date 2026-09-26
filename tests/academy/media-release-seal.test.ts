@@ -55,11 +55,15 @@ describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kase
         "01_office_ai_ileri-6",
       ],
     });
-    expect(ACADEMY_TTS_REVOKED_CASSETTES).toEqual({});
-    expect(ACADEMY_TTS_REBAKE_QUEUE).toEqual({});
+    expect(ACADEMY_TTS_REVOKED_CASSETTES).toEqual({
+      "01_office_ai_ileri-6": "gemini-3.1-daily-quota",
+    });
+    expect(ACADEMY_TTS_REBAKE_QUEUE).toEqual({
+      "01_office_ai_ileri": ["01_office_ai_ileri-6"],
+    });
     expect(academyMediaSealedWavCount()).toBe(14);
     expect(academyCourseSaleOpen("01_office_ai")).toBe(true);
-    expect(academyCourseSaleOpen("01_office_ai_ileri")).toBe(true);
+    expect(academyCourseSaleOpen("01_office_ai_ileri")).toBe(false);
     expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai"]);
     expect(academyLessonAudioObjectPath("sample-course", "sample-course-1")).toBe(
       "academy/audio/sample-course/sample-course-1.wav",
@@ -71,22 +75,21 @@ describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kase
 
   it("OFF-201 altı kaset vatandaş karaoke katmanında mühürlü süreyi taşır", () => {
     const rows = [
-      ["01_office_ai_ileri-1", 523.809],
-      ["01_office_ai_ileri-2", 616.54],
-      ["01_office_ai_ileri-3", 865.854],
-      ["01_office_ai_ileri-4", 1080.062],
-      ["01_office_ai_ileri-5", 1104.154],
-      ["01_office_ai_ileri-6", 754.906],
+      ["01_office_ai_ileri-1", 514.261, false],
+      ["01_office_ai_ileri-2", 615.508, false],
+      ["01_office_ai_ileri-3", 688.064, false],
+      ["01_office_ai_ileri-4", 765.066, false],
+      ["01_office_ai_ileri-5", 864.722, false],
+      ["01_office_ai_ileri-6", 754.906, true],
     ] as const;
-    for (const [lessonKey, durationSec] of rows) {
+    for (const [lessonKey, durationSec, rebake] of rows) {
       const minutes = durationSec / 60;
       expect(minutes, lessonKey).toBeGreaterThanOrEqual(5);
       const timings = loadAcademySealedAudioTimings(lessonKey);
       expect(timings?.durationSec, lessonKey).toBe(durationSec);
       expect(timings?.pieces.at(-1)?.end, lessonKey).toBe(durationSec);
       expect(ACADEMY_SEALED_AUDIO_DURATION_SEC[lessonKey]).toBe(Math.round(durationSec));
-      const revoked = false;
-      const rebake = false;
+      const revoked = rebake;
       expect(isAcademyTtsCassetteRevoked(lessonKey)).toBe(revoked);
       expect(isAcademyLessonAudioSealed(OFF201, lessonKey)).toBe(!rebake);
       expect(isAcademyLessonAudioOnRebakeQueue(OFF201, lessonKey)).toBe(rebake);
