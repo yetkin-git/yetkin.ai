@@ -195,9 +195,10 @@ export type AcademyDialogueCast = {
 
 /**
  * OFF-201 kurs mührü. Tek string.
+ * OFF-101 Gözde (Callirrhoe) kalır. OFF-201 Aylin (Kore) dir; Gözde bu kursta konuşmaz.
  * Ders anahtarına ses yazılamaz.
  */
-export const ACADEMY_OFF201_COURSE_MASTER_VOICE = "Callirrhoe" as const satisfies AcademyInstructorTtsVoice;
+export const ACADEMY_OFF201_COURSE_MASTER_VOICE = "Kore" as const satisfies AcademyInstructorTtsVoice;
 
 /** CastRegistry — speaker yok sayılır; konuşma kursun tek `courseMasterVoice` değeridir. */
 export function academyCastForDialogueSpeaker(

@@ -56,10 +56,22 @@ describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kase
       ],
     });
     expect(ACADEMY_TTS_REVOKED_CASSETTES).toEqual({
-      "01_office_ai_ileri-6": "gemini-3.1-daily-quota",
+      "01_office_ai_ileri-1": "wrong-voice-callirrhoe",
+      "01_office_ai_ileri-2": "wrong-voice-callirrhoe",
+      "01_office_ai_ileri-3": "wrong-voice-callirrhoe",
+      "01_office_ai_ileri-4": "wrong-voice-callirrhoe",
+      "01_office_ai_ileri-5": "wrong-voice-callirrhoe",
+      "01_office_ai_ileri-6": "wrong-voice-callirrhoe",
     });
     expect(ACADEMY_TTS_REBAKE_QUEUE).toEqual({
-      "01_office_ai_ileri": ["01_office_ai_ileri-6"],
+      "01_office_ai_ileri": [
+        "01_office_ai_ileri-1",
+        "01_office_ai_ileri-2",
+        "01_office_ai_ileri-3",
+        "01_office_ai_ileri-4",
+        "01_office_ai_ileri-5",
+        "01_office_ai_ileri-6",
+      ],
     });
     expect(academyMediaSealedWavCount()).toBe(14);
     expect(academyCourseSaleOpen("01_office_ai")).toBe(true);
@@ -75,11 +87,11 @@ describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kase
 
   it("OFF-201 altı kaset vatandaş karaoke katmanında mühürlü süreyi taşır", () => {
     const rows = [
-      ["01_office_ai_ileri-1", 514.261, false],
-      ["01_office_ai_ileri-2", 615.508, false],
-      ["01_office_ai_ileri-3", 688.064, false],
-      ["01_office_ai_ileri-4", 765.066, false],
-      ["01_office_ai_ileri-5", 864.722, false],
+      ["01_office_ai_ileri-1", 514.261, true],
+      ["01_office_ai_ileri-2", 615.508, true],
+      ["01_office_ai_ileri-3", 688.064, true],
+      ["01_office_ai_ileri-4", 765.066, true],
+      ["01_office_ai_ileri-5", 864.722, true],
       ["01_office_ai_ileri-6", 754.906, true],
     ] as const;
     for (const [lessonKey, durationSec, rebake] of rows) {

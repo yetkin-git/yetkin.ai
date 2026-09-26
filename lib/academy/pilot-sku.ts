@@ -5,9 +5,8 @@
  * bandındadır; Prisma hayalet SKU ve hayali oynatıcı girmez.
  *
  * `01_office_ai` çekirdek kaydı durur; 8 ders mühürlü ses (`1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`).
- * OFF-201 `01_office_ai_ileri` tek ses hedefi Gözde (Callirrhoe).
- * Ders 1–5 Gemini 3.1 Flash TTS ile mühürlüdür. Ders 6 günlük kota dolunca durdu.
- * Eski çoklu ses kaseti arşivdedir. Ders 6 iptal listesinde ve fırın kuyruğundadır.
+ * OFF-201 `01_office_ai_ileri` tek ses hedefi Aylin (Kore). Gözde bu kursta konuşmaz.
+ * Eski Callirrhoe kasetleri iptaldir. Altı ders Kore ile yeniden fırın kuyruğundadır.
  * Eski ritüel kaseti `01_office_ai-4` sınav yolunda ve ses mühründe yoktur; dosya arşivde kalır.
  * Sınav yolu `lesson-index.ts` SSOT’udur.
  * PEDAGOJI §D 5'li Vitrin Karması kardeşleri dürüst «Çok Yakında» kabuğu olarak basar.
@@ -82,20 +81,32 @@ export const ACADEMY_MEDIA_SEALED_AUDIO: Readonly<Record<string, readonly string
 };
 
 /**
- * Gemini 2.5 Flash TTS kasetleri. Vatandaş oynatıcı bunları açmaz.
- * Çoklu ses kasetleri arşivdedir. Ders 6 eski Zephyr kaseti oynatılmaz.
+ * Eski ses kasetleri. Vatandaş oynatıcı bunları açmaz.
+ * OFF-201 eski Callirrhoe kasetleri Aylin (Kore) mührüyle uyuşmaz.
  */
 export const ACADEMY_TTS_REVOKED_CASSETTES: Readonly<Record<string, string>> = {
-  "01_office_ai_ileri-6": "gemini-3.1-daily-quota",
+  "01_office_ai_ileri-1": "wrong-voice-callirrhoe",
+  "01_office_ai_ileri-2": "wrong-voice-callirrhoe",
+  "01_office_ai_ileri-3": "wrong-voice-callirrhoe",
+  "01_office_ai_ileri-4": "wrong-voice-callirrhoe",
+  "01_office_ai_ileri-5": "wrong-voice-callirrhoe",
+  "01_office_ai_ileri-6": "wrong-voice-callirrhoe",
 };
 
 /**
  * Kota açılınca yeniden fırınlanacak dersler.
- * OFF-201 ders 1–5 Callirrhoe ile mühürlendi. Ders 6 kota açılınca aynı modelle fırınlanır.
+ * OFF-201 ders 1–6 Aylin (Kore) ve Gemini 3.1 Flash TTS ile fırınlanır.
  * Model yalnız Gemini 3.1 Flash TTS. Alt modele düşülmez.
  */
 export const ACADEMY_TTS_REBAKE_QUEUE: Readonly<Record<string, readonly string[]>> = {
-  "01_office_ai_ileri": ["01_office_ai_ileri-6"],
+  "01_office_ai_ileri": [
+    "01_office_ai_ileri-1",
+    "01_office_ai_ileri-2",
+    "01_office_ai_ileri-3",
+    "01_office_ai_ileri-4",
+    "01_office_ai_ileri-5",
+    "01_office_ai_ileri-6",
+  ],
 };
 
 /**

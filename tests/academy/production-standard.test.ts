@@ -344,10 +344,14 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
       ];
       expect(voicesUsed.length).toBe(1);
     }
-    expect(CURRICULUM_MODULES_BY_SLUG["01_office_ai_ileri"]!.voiceConfig.courseMasterVoice).toBe(
+    expect(CURRICULUM_MODULES_BY_SLUG["01_office_ai"]!.voiceConfig.courseMasterVoice).toBe(
       "Callirrhoe",
     );
-    expect(ACADEMY_OFF201_COURSE_MASTER_VOICE).toBe("Callirrhoe");
-    expect(academyCourseMasterVoice("01_office_ai_ileri")).toBe("Callirrhoe");
+    expect(academyCourseMasterVoice("01_office_ai")).toBe("Callirrhoe");
+    expect(CURRICULUM_MODULES_BY_SLUG["01_office_ai_ileri"]!.voiceConfig.courseMasterVoice).toBe(
+      "Kore",
+    );
+    expect(ACADEMY_OFF201_COURSE_MASTER_VOICE).toBe("Kore");
+    expect(academyCourseMasterVoice("01_office_ai_ileri")).toBe("Kore");
   });
 });

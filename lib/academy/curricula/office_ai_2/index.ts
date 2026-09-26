@@ -28,7 +28,7 @@ export {
 /**
  * OFF-201 canlı modül.
  * `curricula/index.ts` bu diziyi `CURRICULUM_DRAFTS_BY_SLUG` ve sınav indeksine yazar.
- * Tek eğitmen sesi Gözde (Callirrhoe), `courseMasterVoice` tek string. Ders 1–5 mühürlü. Ders 6 kota kuyruğundadır.
+ * Tek eğitmen sesi Aylin (Kore), `courseMasterVoice` tek string. Gözde bu kursta konuşmaz.
  * `estimatedTotalMinutes` mühürlü altı dersin timings toplamıdır.
  */
 export const officeAi2Sections: Section[] = [
@@ -55,7 +55,7 @@ export const officeAi2MasteryModule: CurriculumModule = {
   estimatedTotalMinutes: academyCourseSealedDurationMinutes(OFFICE_AI_2_SLUG),
   voiceConfig: {
     courseMasterVoice: ACADEMY_OFF201_COURSE_MASTER_VOICE,
-    style: "Tek eğitmen, Gözde. Kurs baştan sona aynı ses.",
+    style: "Tek eğitmen, Aylin. Kurs baştan sona aynı ses.",
     gender: "female",
   },
   sections: officeAi2Sections,

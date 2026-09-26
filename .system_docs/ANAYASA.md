@@ -84,7 +84,7 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 
 ## B4. Müfredat ve Yayın Formatı
 
-* **1 Eğitim Kodu = 1 Ses:** Bir kurs kodu tek bir `courseMasterVoice` stringi taşır. Ders bazlı ses haritası yoktur. OFF-201 (`01_office_ai_ileri`) mührü Callirrhoe (Gözde) dir (`ACADEMY_OFF201_COURSE_MASTER_VOICE`).
+* **1 Eğitim Kodu = 1 Ses:** Bir kurs kodu tek bir `courseMasterVoice` stringi taşır. Ders bazlı ses haritası yoktur. OFF-101 (`01_office_ai`) mührü Callirrhoe (Gözde) dir. OFF-201 (`01_office_ai_ileri`) mührü Kore (Aylin) dir (`ACADEMY_OFF201_COURSE_MASTER_VOICE`). OFF-201 eğitmeni Gözde olamaz.
 * **Yayın formatı:** Yetkin.ai eğitim modeli; sade vatandaş diliyle anlatılan, 4 medya katmanından (Gemini 3.1 TTS Ses + Lyria 3.5 Ducking Müzik + Nano Banana/Veo 3.1 Reji + Cue/Karaoke Rozetleri) oluşan EĞİTİM VİDEOSUDUR.
 * **Konunun Hakkı:** Ders makaleye, okuma dökümanına veya «makale + karaoke» yayınına indirgenmez. Süre bantları üretim standardıdır; müfredatın hakkını kesmek için gerekçe gösterilemez.
 * **Süre ve sınır:** Bir ders en az 5 dakikadır. Bir kurs en az 6 derstir. Metni kırmak veya konuşmayı hızlandırmak için üst dakika veya üst ders tavanı yoktur. Taban `lib/academy/production-standard.ts` içindedir (`ACADEMY_AI_LESSON_DURATION_MIN_MINUTES`, `ACADEMY_AI_LESSON_COUNT_MIN`).
