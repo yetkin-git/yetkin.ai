@@ -61,6 +61,7 @@ describe("03.16 gerçek müfredat gövdesi — amiral compact", () => {
     expect(files.sort()).toEqual([
       "index.ts",
       "lesson-index.ts",
+      "phase2-drafts.ts",
       "phase2-exam-readiness.ts",
       "types.ts",
     ]);

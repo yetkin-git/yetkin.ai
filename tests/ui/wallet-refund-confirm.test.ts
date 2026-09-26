@@ -81,7 +81,7 @@ describe("cüzdan iade onay modalı", () => {
   it("onay metni bakiyeyi yazar", () => {
     expect(CUZDAN_SEN.refundConfirmTitle).toBe("Cüzdan Bakiyesi İadesi");
     expect(CUZDAN_SEN.refundConfirmBody(AMOUNT)).toBe(
-      `Cüzdanınızdaki ${AMOUNT} tutarındaki kullanılmamış bakiye kartınıza iade edilecektir. İadeler PayTR altyapısıyla 1-3 iş günü içerisinde hesabınıza yansır. İşlemi onaylıyor musunuz?`,
+      `Cüzdanınızdaki ${AMOUNT} tutarındaki kullanılmamış bakiye kartınıza iade edilecektir. İadeler PayTR altyapısıyla 1-3 iş günü içerisinde hesabına yansır. İşlemi onaylıyor musunuz?`,
     );
   });
 

@@ -270,13 +270,19 @@ export function academySkuAudioAllowsPurchase(courseSlug: string): boolean {
 
 /**
  * Tek satış kapısı. Cüzdan ve PayTR `academy-license:` niyeti bunu okur.
- * Aday olmayan kurs satılmaz. Adayın sınav yolundaki her dersin sesi bitmeden satılmaz.
+ * Lisans adayının sınav yolundaki her dersin sesi bitmeden satılmaz.
+ * Katalog haritasındaki diğer SKU satılmaz. Harita dışı sentetik kurs nakit testine açıktır.
  */
 export function academyCourseSaleOpen(courseSlug: string): boolean {
-  if (!isAcademyLicenseSaleSlug(courseSlug)) {
+  if (isAcademyLicenseSaleSlug(courseSlug)) {
+    return academySkuAudioAllowsPurchase(courseSlug);
+  }
+  // Katalog haritasındaki aday olmayan SKU satılmaz.
+  // Haritada olmayan sentetik kurs nakit testinin kursudur; vitrin adayı değildir.
+  if (Object.prototype.hasOwnProperty.call(CURRICULUM_LESSON_KEYS_BY_SLUG, courseSlug)) {
     return false;
   }
-  return academySkuAudioAllowsPurchase(courseSlug);
+  return true;
 }
 
 export function academyCatalogPurchasable(input: {

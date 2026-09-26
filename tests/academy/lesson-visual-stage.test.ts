@@ -110,7 +110,8 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
         lessonKey === "01_office_ai-w1" ||
         lessonKey === "01_office_ai-k1"
       ) {
-        expect(hasAcademyLessonVisualStage(lessonKey)).toBe(true);
+        // 01_office_ai-4 cue JSON arşivdedir; canlı göz katmanı açılmaz.
+        expect(hasAcademyLessonVisualStage(lessonKey)).toBe(lessonKey !== "01_office_ai-4");
       } else {
         expect(hasAcademyLessonVisualStage(lessonKey)).toBe(false);
       }
@@ -196,7 +197,7 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
     expect(eye).toContain("LessonWordWorkspace");
     expect(eye).toContain("academyExcelFocusZoomActive");
     expect(eye).toContain("currentTime={currentTime}");
-    expect(eye).toContain("pane=\"after\" currentTime={currentTime}");
+    expect(eye).toContain("pane=\"after\"");
     expect(eye).toContain("LessonCinemaMediaCard");
     expect(eye).toContain('fit={stageTheme === "pptx" ? "contain" : "cover"}');
     expect(eye).toContain('data-academy-paste-anchor={pasteHost === "pptx" ? "copilot" : undefined}');

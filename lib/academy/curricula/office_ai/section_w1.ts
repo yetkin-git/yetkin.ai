@@ -7,7 +7,7 @@ export const sectionW1: Section = {
   isLocked: true,
   title: "Word ve Uzun Belge İncelemesi: Sözleşme, Dilekçe, Rapor",
   targetDurationMinutes: 9.7,
-  estimatedWordCount: 1254,
+  estimatedWordCount: 1249,
   pedagogicalObjective:
     "Sözleşmeyi yüklemeden önce şirket onaylı aracı ve maskeyi denetlemeyi göstermek. Neden uzun belgeyi satır satır okutmak yerine riskli maddeleri aratırız? Çünkü satır satır okutunca yığın çıkar; ceza, fesih ve gizlilik ayrı sayfalarda kalır. Resmî belgede neden öğretmen SEN, belge SIZ? Çünkü kulağa SEN gider, kâğıda SIZ yazılır. Unvanı, tarihi, sayıyı ve hitabı sen yazarsın.",
   contentMarkdown: `
