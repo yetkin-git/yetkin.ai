@@ -16,7 +16,7 @@ export const socialMediaAiMasteryModule: CurriculumModule = {
   methodology: "Sen dili, adım adım iş, sıfır kodlama",
   estimatedTotalMinutes: 0,
   voiceConfig: {
-    voice: "Zephyr",
+    courseMasterVoice: "Zephyr",
     style: "Sakin ve günlük iş dili",
     gender: "male",
   },

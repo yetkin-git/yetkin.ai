@@ -193,37 +193,23 @@ export type AcademyDialogueCast = {
   role: "instructor" | "moderator";
 };
 
-/** CastRegistry — speaker yok sayılır; ders sesi yalnız Master Voice Erinome. */
+/**
+ * OFF-201 kurs mührü. Tek string.
+ * Ders anahtarına ses yazılamaz.
+ */
+export const ACADEMY_OFF201_COURSE_MASTER_VOICE = "Callirrhoe" as const satisfies AcademyInstructorTtsVoice;
+
+/** CastRegistry — speaker yok sayılır; konuşma kursun tek `courseMasterVoice` değeridir. */
 export function academyCastForDialogueSpeaker(
   slug: string,
   _speaker: DialogueSpeakerId,
 ): AcademyDialogueCast {
-  const instructor = academyInstructorBySlug(slug);
-  return {
-    voice: ACADEMY_MASTER_VOICE,
-    speechRate: ACADEMY_INSTRUCTOR_SPEECH_RATE,
-    canonicalCharacterName: instructor.name,
-    role: "instructor",
-  };
+  return academyInstructorTtsCast(slug);
 }
 
-/**
- * OFF-201 kurs sesi — altı ders baştan sona tek eğitmen.
- * Gemini 3.1 Flash TTS karakteri Callirrhoe (Gözde).
- */
-export const ACADEMY_OFF201_LESSON_TTS_VOICE = {
-  "01_office_ai_ileri-1": "Callirrhoe",
-  "01_office_ai_ileri-2": "Callirrhoe",
-  "01_office_ai_ileri-3": "Callirrhoe",
-  "01_office_ai_ileri-4": "Callirrhoe",
-  "01_office_ai_ileri-5": "Callirrhoe",
-  "01_office_ai_ileri-6": "Callirrhoe",
-} as const satisfies Record<string, AcademyInstructorTtsVoice>;
-
-/** Compact stüdyo bake — SKU eğitmen sesi. Ders anahtarı varsa o ses ezer. */
-export function academyInstructorTtsCast(slug: string, lessonKey?: string): AcademyDialogueCast {
-  const mapped = lessonKey ? ACADEMY_OFF201_LESSON_TTS_VOICE[lessonKey as keyof typeof ACADEMY_OFF201_LESSON_TTS_VOICE] : undefined;
-  const instructor = mapped ? academyInstructorByVoice(mapped) : academyInstructorBySlug(slug);
+/** Compact stüdyo bake — kursun tek eğitmen sesi. Ders anahtarı bu imzaya girmez. */
+export function academyInstructorTtsCast(slug: string): AcademyDialogueCast {
+  const instructor = academyInstructorBySlug(slug);
   return {
     voice: instructor.voice,
     speechRate: ACADEMY_INSTRUCTOR_SPEECH_RATE,
@@ -567,9 +553,18 @@ export function academyInstructorByVoice(voice: AcademyInstructorTtsVoice): Acad
 
 function academyInstructorVoiceForSlug(slug: string): AcademyInstructorTtsVoice | undefined {
   if (slug === "01_office_ai_ileri") {
-    return "Callirrhoe";
+    return ACADEMY_OFF201_COURSE_MASTER_VOICE;
   }
   return ACADEMY_INSTRUCTOR_VOICE_BY_SLUG[slug as AcademyCourseTitleSlug];
+}
+
+/** 1 Eğitim Kodu = 1 Ses. Dönüş tek stringdir. */
+export function academyCourseMasterVoice(slug: string): AcademyInstructorTtsVoice {
+  const voice = academyInstructorVoiceForSlug(slug);
+  if (!voice) {
+    throw new Error(`Kurs ses mührü yok: ${slug}`);
+  }
+  return voice;
 }
 
 export function academyInstructorBySlug(slug: string): AcademyInstructor {

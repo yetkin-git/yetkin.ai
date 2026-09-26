@@ -179,7 +179,10 @@ export function parseCurriculumFrontmatter(raw: string): {
         throw new Error(`voiceConfig satırı okunamadı: ${trimmed}`);
       }
       const [, key, value] = pair;
-      if (key === "voice") fm.voice = unquote(value!);
+      if (key === "lessonVoices") {
+        throw new Error("lessonVoices yasak. 1 Eğitim Kodu = 1 Ses. courseMasterVoice tek stringdir.");
+      }
+      if (key === "voice" || key === "courseMasterVoice") fm.voice = unquote(value!);
       else if (key === "gender") fm.voiceGender = unquote(value!);
       else if (key === "style") fm.voiceStyle = unquote(value!);
       continue;
@@ -418,7 +421,7 @@ ${meta.targetAudience.map((row) => `    ${JSON.stringify(row)},`).join("\n")}
   methodology: ${JSON.stringify(meta.methodology)},
   estimatedTotalMinutes: ${meta.estimatedTotalMinutes},
   voiceConfig: {
-    voice: ${JSON.stringify(meta.voice)},
+    courseMasterVoice: ${JSON.stringify(meta.voice)},
     style: ${JSON.stringify(meta.voiceStyle)},
     gender: ${JSON.stringify(meta.voiceGender)},
   },

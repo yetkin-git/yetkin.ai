@@ -30,8 +30,11 @@ import {
 } from "@/lib/academy/lesson-veo";
 import {
   ACADEMY_DEFAULT_INSTRUCTOR_VOICE_BY_GENDER,
+  ACADEMY_OFF201_COURSE_MASTER_VOICE,
   academyBakeVoiceForGenderLabel,
+  academyCourseMasterVoice,
   academyDefaultInstructorVoiceForGender,
+  academyInstructorTtsCast,
 } from "@/lib/academy/instructors";
 import {
   GEMINI_TTS_DEFAULT_VOICE_BY_GENDER,
@@ -42,6 +45,7 @@ import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import { ACADEMY_SEALED_AUDIO_DURATION_SEC } from "@/lib/academy/lesson-audio";
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
+import { CURRICULUM_DRAFTS_BY_SLUG, CURRICULUM_MODULES_BY_SLUG } from "@/lib/academy/curricula";
 
 const ROOT = process.cwd();
 
@@ -149,7 +153,9 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).toContain("model-roles.ts");
     expect(pedagogy).not.toContain("Gemini 3.8 Flash");
     expect(pedagogy).toContain("01_office_ai");
-    expect(pedagogy).toContain("ACADEMY_OFF201_LESSON_TTS_VOICE");
+    expect(pedagogy).toContain("1 Eğitim Kodu = 1 Ses");
+    expect(pedagogy).toContain("courseMasterVoice");
+    expect(pedagogy).not.toContain("ACADEMY_OFF201_LESSON_TTS_VOICE");
     expect(pedagogy).toContain("Gemini 3.1 Flash TTS");
     expect(pedagogy).toContain("Callirrhoe");
     expect(pedagogy).toContain("Nano Banana 2 / Veo 3.1 Lite");
@@ -235,6 +241,7 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     );
 
     const constitution = readFileSync(join(ROOT, ".system_docs", "ANAYASA.md"), "utf8");
+    expect(constitution).toContain("1 Eğitim Kodu = 1 Ses");
     expect(constitution).toContain("4 medya katmanından");
     expect(constitution).toContain("EĞİTİM VİDEOSUDUR");
     expect(constitution).not.toContain("Yayın = makale + mühürlü karaoke");
@@ -314,5 +321,33 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     }
     expect(opsDurum).toContain("01_office_ai-2");
     expect(opsDurum).toContain("1 → k1 → 2 → 3 → 5 → g1 → w1 → 6");
+  });
+
+  it("1 Eğitim Kodu = 1 Ses — aktif kurs dersleri tek courseMasterVoice kullanır", () => {
+    const slugs = Object.keys(CURRICULUM_MODULES_BY_SLUG);
+    expect(slugs.length).toBeGreaterThan(0);
+    const instructors = readFileSync(join(ROOT, "lib", "academy", "instructors.ts"), "utf8");
+    expect(instructors).not.toContain("ACADEMY_OFF201_LESSON_TTS_VOICE");
+    expect(instructors).toContain("ACADEMY_OFF201_COURSE_MASTER_VOICE");
+    for (const slug of slugs) {
+      const module = CURRICULUM_MODULES_BY_SLUG[slug];
+      expect(module, slug).toBeDefined();
+      expect(module!.voiceConfig).not.toHaveProperty("lessonVoices");
+      expect(typeof module!.voiceConfig.courseMasterVoice).toBe("string");
+      const lessons = CURRICULUM_DRAFTS_BY_SLUG[slug] ?? [];
+      const voicesUsed = [
+        ...new Set([
+          module!.voiceConfig.courseMasterVoice,
+          academyCourseMasterVoice(slug),
+          ...lessons.map(() => academyInstructorTtsCast(slug).voice),
+        ]),
+      ];
+      expect(voicesUsed.length).toBe(1);
+    }
+    expect(CURRICULUM_MODULES_BY_SLUG["01_office_ai_ileri"]!.voiceConfig.courseMasterVoice).toBe(
+      "Callirrhoe",
+    );
+    expect(ACADEMY_OFF201_COURSE_MASTER_VOICE).toBe("Callirrhoe");
+    expect(academyCourseMasterVoice("01_office_ai_ileri")).toBe("Callirrhoe");
   });
 });

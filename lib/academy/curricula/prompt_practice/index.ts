@@ -15,7 +15,7 @@ export const promptPracticeMasteryModule: CurriculumModule = {
   methodology: "Sen dili, uygulamalı istem, rol + bağlam + biçim, sıfır kodlama",
   estimatedTotalMinutes: 0,
   voiceConfig: {
-    voice: "Callirrhoe",
+    courseMasterVoice: "Callirrhoe",
     style: "Canlı diyalog ve sen dili, uygulamalı şablon odaklı anlatım",
     gender: "female",
   },

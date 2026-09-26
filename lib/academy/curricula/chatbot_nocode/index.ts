@@ -16,7 +16,7 @@ export const chatbotNocodeMasteryModule: CurriculumModule = {
   methodology: "Canlı diyalog ve sen dili, adım adım görsel akış tasarımı, sıfır kodlama, randevu ve teslim seti odaklı uygulamalar",
   estimatedTotalMinutes: 0,
   voiceConfig: {
-    voice: "Puck",
+    courseMasterVoice: "Puck",
     style: "Teknik, net, otomasyon odaklı erkek sesi; adım adım görsel akış rehberliği",
     gender: "male",
   },

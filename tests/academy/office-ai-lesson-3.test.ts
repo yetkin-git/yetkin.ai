@@ -86,7 +86,7 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
   it("makale Gözde girişi, slayt hazırlama ve L5 köprüsü taşır", () => {
     const lessons = curriculumForCourseSlug(SLUG);
     expect(lessons).toHaveLength(8);
-    expect(officeAiMasteryModule.voiceConfig.voice).toBe("Callirrhoe");
+    expect(officeAiMasteryModule.voiceConfig.courseMasterVoice).toBe("Callirrhoe");
     const lesson = lessons.find((row) => row.key === KEY)!;
     expect(lesson.key).toBe(KEY);
     expect(lesson.order).toBe(4);

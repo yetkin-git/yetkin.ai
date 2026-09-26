@@ -17,7 +17,7 @@ export const ecommerceAiMasteryModule: CurriculumModule = {
   methodology: "Canlı diyalog ve sen dili, adım adım ekran rehberliği, sıfır kodlama, satış ve verimlilik odaklı pratik çözümler",
   estimatedTotalMinutes: 0,
   voiceConfig: {
-    voice: "Kore",
+    courseMasterVoice: "Kore",
     style: "Canlı diyalog ve sen dili, sakin ekran rehberliği",
     gender: "female",
   },

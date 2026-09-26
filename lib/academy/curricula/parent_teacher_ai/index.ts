@@ -55,7 +55,7 @@ export const parentTeacherAiModule: CurriculumModule = {
     "Sen dili, dört parçalı istem, okul politikası önce, kimliği çıkarılmış kısa örnek, sıfır kod. Çocuk hesabı açılmaz.",
   estimatedTotalMinutes: 55,
   voiceConfig: {
-    voice: "Callirrhoe",
+    courseMasterVoice: "Callirrhoe",
     style: "Sakin ev ve okul masası, tek iş, dört parçalı istem",
     gender: "female",
   },

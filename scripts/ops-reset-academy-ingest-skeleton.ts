@@ -504,7 +504,7 @@ format: "compact"
 status: "skeleton-awaiting-ingest"
 mediaSeal: "none"
 voiceConfig:
-  voice: "${course.voice}"
+  courseMasterVoice: "${course.voice}"
   gender: "${course.voiceGender}"
   style: ${JSON.stringify(course.voiceStyle)}
 sections:

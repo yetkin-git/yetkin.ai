@@ -461,15 +461,13 @@ export type AcademyVoiceGender = AcademyTtsVoiceGender;
 
 export interface VoiceConfig {
   /**
-   * Tek karakter adı, ya da ders başına döküm etiketi.
-   * `lessonVoices` doluysa fırın o haritayı okur; bu alan tek ses iddiası değildir.
+   * 1 Eğitim Kodu = 1 Ses.
+   * Tek string. Ders bazlı harita bu tipte yoktur; Record atanamaz.
    */
-  voice: string;
+  courseMasterVoice: string;
   style: string;
-  /** Fırınlama sesi. Karma kadroda `mixed`. */
-  gender: AcademyVoiceGender | "mixed";
-  /** Ders anahtarı → TTS karakteri. */
-  lessonVoices?: Readonly<Record<string, string>>;
+  /** Fırınlama sesi. Kurs tek eğitmen taşır. */
+  gender: AcademyVoiceGender;
 }
 
 export interface Section {

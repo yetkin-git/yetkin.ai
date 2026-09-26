@@ -140,7 +140,7 @@ export function academyMediaReleaseTurnsForLesson(
   }
   const paragraphs = loadAcademySpokenScriptParagraphs(lesson.key);
   if (paragraphs.length > 0) {
-    const cast = academyInstructorTtsCast(courseSlug, lesson.key);
+    const cast = academyInstructorTtsCast(courseSlug);
     return paragraphs.map((spokenText) => ({
       speaker: "egitmen" as const,
       text: spokenText,
@@ -154,7 +154,7 @@ export function academyMediaReleaseTurnsForLesson(
   if (!spokenText) {
     return [];
   }
-  const cast = academyInstructorTtsCast(courseSlug, lesson.key);
+  const cast = academyInstructorTtsCast(courseSlug);
   return [
     {
       speaker: "egitmen",

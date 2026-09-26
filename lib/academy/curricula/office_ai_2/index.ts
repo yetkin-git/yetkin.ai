@@ -1,6 +1,6 @@
 import type { CurriculumModule, Section } from "../types";
 import { academyCourseSealedDurationMinutes } from "@/lib/academy/lesson-audio";
-import { ACADEMY_OFF201_LESSON_TTS_VOICE } from "@/lib/academy/instructors";
+import { ACADEMY_OFF201_COURSE_MASTER_VOICE } from "@/lib/academy/instructors";
 import { OFFICE_AI_2_MODULE_CODE, OFFICE_AI_2_SLUG } from "./planned";
 import { officeAi2Section1 } from "./section_1";
 import { officeAi2Section2 } from "./section_2";
@@ -28,7 +28,7 @@ export {
 /**
  * OFF-201 canlı modül.
  * `curricula/index.ts` bu diziyi `CURRICULUM_DRAFTS_BY_SLUG` ve sınav indeksine yazar.
- * Tek eğitmen sesi Gözde (Callirrhoe). Ders 1–5 mühürlü. Ders 6 kota kuyruğundadır.
+ * Tek eğitmen sesi Gözde (Callirrhoe), `courseMasterVoice` tek string. Ders 1–5 mühürlü. Ders 6 kota kuyruğundadır.
  * `estimatedTotalMinutes` mühürlü altı dersin timings toplamıdır.
  */
 export const officeAi2Sections: Section[] = [
@@ -54,10 +54,9 @@ export const officeAi2MasteryModule: CurriculumModule = {
     "Sen dili, dört parçalı istem (rol, görev, biçim, kısıt), şirket politikası önce, maskeli veri, sıfır kod.",
   estimatedTotalMinutes: academyCourseSealedDurationMinutes(OFFICE_AI_2_SLUG),
   voiceConfig: {
-    voice: "Callirrhoe",
+    courseMasterVoice: ACADEMY_OFF201_COURSE_MASTER_VOICE,
     style: "Tek eğitmen, Gözde. Kurs baştan sona aynı ses.",
     gender: "female",
-    lessonVoices: ACADEMY_OFF201_LESSON_TTS_VOICE,
   },
   sections: officeAi2Sections,
 };

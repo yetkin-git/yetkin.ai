@@ -86,3 +86,13 @@ export const CURRICULUM_DRAFTS_BY_SLUG: Record<string, readonly AcademyLessonDra
   "04_chatbot_nocode": compactDraftsFromModule("04_chatbot_nocode", chatbotNocodeMasteryModule),
   "05_prompt_practice": compactDraftsFromModule("05_prompt_practice", promptPracticeMasteryModule),
 };
+
+/** Aktif kurs modülü — ses kilidi `voiceConfig.courseMasterVoice` tek stringdir. */
+export const CURRICULUM_MODULES_BY_SLUG: Record<string, CurriculumModule> = {
+  "01_office_ai": officeAiMasteryModule,
+  "01_office_ai_ileri": officeAi2MasteryModule,
+  "02_ecommerce_ai": ecommerceAiMasteryModule,
+  "03_social_media_ai": socialMediaAiMasteryModule,
+  "04_chatbot_nocode": chatbotNocodeMasteryModule,
+  "05_prompt_practice": promptPracticeMasteryModule,
+};

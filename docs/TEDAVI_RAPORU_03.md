@@ -1,53 +1,49 @@
-# Tedavi Raporu 03 — OFF-201 tek eğitmen sesi
+# Tedavi Raporu 03 — 3 katmanlı tek ses ve kota kilidi
 
 Tarih: 26 Eylül 2026  
 Dal: `off-201-stage`  
-Commit: `fix(academy): unify OFF-201 under single instructor voice`
+Commit: `feat(academy): implement 3-tier hard constraints for single voice and quota protection`
 
 ## Karar
 
-Bir kurs baştan sona tek eğitmen sesiyle anlatılır. OFF-201 (`01_office_ai_ileri`) altı dersi aynı Gemini 3.1 Flash TTS karakterine kilitlendi: **Callirrhoe / Gözde**.
+**1 Eğitim Kodu = 1 Ses.** Bir kurs kodu tek bir `courseMasterVoice` stringi taşır. Ders bazlı ses haritası kodda yoktur. OFF-201 (`01_office_ai_ileri`) mührü **Callirrhoe / Gözde** dir (`ACADEMY_OFF201_COURSE_MASTER_VOICE`).
 
-`ACADEMY_OFF201_LESSON_TTS_VOICE` ders 1–6 için `Callirrhoe` döner. Konuşma hızı `0.93`. Model `gemini-3.1-flash-tts-preview`. `VOICE_TTS_FALLBACK_TO_2_5` kapalı. Tanışma cümlesi «Selamlar, ben Gözde.» Müşteri adı Selin Korkmaz durur.
+Satış kontrolsüz kota yakma yasağı fırın betiğinin API çağrısından önce durur.
 
-## Dry-run
+## Katman 1 — tip daraltma
 
-`npm run generate:academy-audio -- --dry-run --slug=01_office_ai_ileri`
+- `ACADEMY_OFF201_LESSON_TTS_VOICE` kaldırıldı.
+- `VoiceConfig.lessonVoices` ve `voice` alanı yok. Yerine `courseMasterVoice: string`.
+- `academyInstructorTtsCast(slug)` ders anahtarı almaz. İkinci argümanla ses ezilemez.
+- Diyalog dökümü de aynı kurs mührünü okur.
+- Aktif kurslar `CURRICULUM_MODULES_BY_SLUG` üzerinden bu tek stringi taşır.
 
-Harici API yok. Altı ders de Callirrhoe, istek bandı 10–12, tempo 0.93.
+## Katman 2 — fırın duvarı
 
-## Arşiv
+`scripts/generate-academy-lesson-audio.ts`, `GoogleGenAI` istemcisi açılmadan önce üç kontrol çalıştırır:
 
-Eski çoklu ses MP3’leri `archived/academy-audio-revoked/01_office_ai_ileri/multi-voice/` altına kopyalandı. Üst klasördeki eski Gemini 2.5 kasetleri (ders 1 ve 2) ezilmedi.
+1. **Tek ses.** `--voice` veya tur sesi `academyCourseMasterVoice(slug)` ile uyuşmazsa `Error`. API yok.
+2. **Dry-run fişi.** `--seal` ancak başarılı metin/zamanlama dry-run’undan sonra yazılan fiş güncel mühürle eşleşirse açılır. Fiş `media-bake/academy/dry-run-receipts/` altındadır (git dışı).
+3. **Mühürlü MP3.** Ders mühürlüyse ve `public/media/academy/audio/` altında MP3 duruyorsa tekrar fırın `Error` ile durur. `--force` bu kasetin üzerine yazmaz.
 
-## Mühür
+İptal kaset (OFF-201 ders 6, `ACADEMY_TTS_REVOKED_CASSETTES`) mühürlü sayılmaz. Kota açılınca aynı model ve Callirrhoe ile fırın, önce `--dry-run` fişi ister.
 
-Komut: `npm run generate:academy-audio -- --seal --confirm-gemini-spend --force --no-db --no-fallback --slug=01_office_ai_ileri`
+## Katman 3 — test duvarı
 
-`--force` şarttı. WAV diskte varken komut aksi halde dersi atlar.
+`tests/academy/production-standard.test.ts`:
 
-| Ders | Ses | Süre | Yayın |
-| --- | --- | --- | --- |
-| `01_office_ai_ileri-1` | Callirrhoe | 514.261 sn | `public/media/academy/audio/01_office_ai_ileri/01_office_ai_ileri-1.mp3` |
-| `01_office_ai_ileri-2` | Callirrhoe | 615.508 sn | `.../01_office_ai_ileri-2.mp3` |
-| `01_office_ai_ileri-3` | Callirrhoe | 688.064 sn | `.../01_office_ai_ileri-3.mp3` |
-| `01_office_ai_ileri-4` | Callirrhoe | 765.066 sn | `.../01_office_ai_ileri-4.mp3` |
-| `01_office_ai_ileri-5` | Callirrhoe | 864.722 sn | `.../01_office_ai_ileri-5.mp3` |
-| `01_office_ai_ileri-6` | mühürlenmedi | eski timings 754.906 sn | oynatıcı açmaz |
+- Aktif kursları tarar.
+- Her kurs için `voicesUsed` tek eleman olmalıdır: `expect(voicesUsed.length).toBe(1)`.
+- `lessonVoices` ve `ACADEMY_OFF201_LESSON_TTS_VOICE` yokluğu da kilitlenir.
+- OFF-201 `courseMasterVoice` değeri `Callirrhoe` olmalıdır.
 
-Beş ders de 5 dakikanın üstünde. Ders 6, 4. istekte durdu. Günlük kota `generate_requests_per_model_per_day` limiti 100, model `gemini-3.1-flash-tts`. API yaklaşık 8 saat 53 dakika sonra yeniden deneneceğini söyledi. Gemini 2.5 açılmadı. Ders 6 için WAV ve yeni MP3 yazılmadı.
-
-`ACADEMY_TTS_REVOKED_CASSETTES` ders 6’yı `gemini-3.1-daily-quota` ile tutar. `ACADEMY_TTS_REBAKE_QUEUE` yalnız `01_office_ai_ileri-6` taşır. Kota açılınca aynı model ve Callirrhoe ile fırınlanır.
-
-## Satış kapısı
-
-`academyCourseSaleOpen("01_office_ai_ileri")` **false** döner. Altı ders aynı sesle mühürlenmeden satış açılmaz. Ders 6 kuyrukta olduğu için vitrin kartı satın alınamaz. Amiral SKU `01_office_ai` satışı açık kalır.
+SSOT metni: `.system_docs/ANAYASA.md` (B4), `.system_docs/PEDAGOJI.md`, `.cursorrules`.
 
 ## Test
 
 Komut: `npm test` (`vitest run`)
 
 - Test dosyası: 236 geçti
-- Test: 1152 geçti
-- Süre: 61.86 sn
+- Test: 1153 geçti
+- Süre: 61.65 sn
 - Çıkış kodu: 0

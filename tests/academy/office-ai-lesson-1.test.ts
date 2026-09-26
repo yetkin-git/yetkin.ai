@@ -53,7 +53,7 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     const lessons = curriculumForCourseSlug(SLUG);
     expect(lessons).toHaveLength(8);
     expect(officeAiMasteryModule.sections).toHaveLength(8);
-    expect(officeAiMasteryModule.voiceConfig.voice).toBe("Callirrhoe");
+    expect(officeAiMasteryModule.voiceConfig.courseMasterVoice).toBe("Callirrhoe");
     const lesson = lessons.find((row) => row.key === KEY)!;
     expect(lesson.key).toBe(KEY);
     expect(lesson.order).toBe(1);

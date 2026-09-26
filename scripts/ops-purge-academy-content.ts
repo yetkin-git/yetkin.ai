@@ -173,7 +173,7 @@ ${audience}
   methodology: ${JSON.stringify(mod.methodology)},
   estimatedTotalMinutes: 0,
   voiceConfig: {
-    voice: ${JSON.stringify(mod.voice)},
+    courseMasterVoice: ${JSON.stringify(mod.voice)},
     style: ${JSON.stringify(mod.voiceStyle)},
     gender: ${JSON.stringify(mod.voiceGender)},
   },

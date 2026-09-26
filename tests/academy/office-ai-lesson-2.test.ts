@@ -77,7 +77,7 @@ describe("01_office_ai bölüm 2 — tablodan yönetim özetine Altın Şablon",
   it("makale Gözde girişi, yönetim özeti ve L3 köprüsü taşır", () => {
     const lessons = curriculumForCourseSlug(SLUG);
     expect(lessons).toHaveLength(8);
-    expect(officeAiMasteryModule.voiceConfig.voice).toBe("Callirrhoe");
+    expect(officeAiMasteryModule.voiceConfig.courseMasterVoice).toBe("Callirrhoe");
     const lesson = lessons.find((row) => row.key === KEY)!;
     expect(lesson.key).toBe(KEY);
     expect(lesson.order).toBe(3);

@@ -5,6 +5,10 @@
  * Canlı izleme generateSpeech çağırmaz; bu operatör hattı WAV dondurur.
  *
  * Gemini TTS varsayılan KAPALI. API çağrısı yalnız --seal ve --confirm-gemini-spend ile.
+ * Kota kilitleri (API'den önce, Error):
+ *   1. İstenen ses kursun `courseMasterVoice` stringi ile uyuşmazsa dur.
+ *   2. `--seal` ancak başarılı `--dry-run` metin/zamanlama fişi varsa açılır.
+ *   3. Mühürlü dersin `public/media/academy/audio/` MP3'ü varsa tekrar fırın yok.
  * Bake öncesi kapı: --dry-run taraması zorunlu; insan onayı olmadan harici çağrı yok.
  * Skip-preventer: paragraf başı kısa emir ("F2'ye bas") bağlaçlı akışa çevrilir; cue terimleri korunur.
  * İstekler 12–15 doğal nefes bloğu / ders başı 10–12 istek; 3–5 sn mikro dilim YASAK.
@@ -12,7 +16,7 @@
  * Aynı paragraf dilimleri arasına 0.4 sn nefes konur. Kural ve örnek geçişinde 1.75 sn es vardır.
  * Slayt değişince görsel, yeni cümleden 1.5 sn önce açılır.
  * Her konuşma dilimi `ACADEMY_INSTRUCTOR_SPEECH_RATE` (0.93) ile SOLA yavaşlatılır. Perde korunur; 0.70 bandındaki robotik uzatma yok.
- * İstekler arası 6500ms (RPM 10/dk kalkanı). --force mevcut WAV üzerine ana TTS modelini yeniden sentezler.
+ * İstekler arası 6500ms (RPM 10/dk kalkanı). --force mühürlü yayın MP3'ünün üzerine yazmaz.
  *
  *   npm run generate:academy-audio -- --dry-run
  *   npm run generate:academy-audio -- --dry-run --slug=01_office_ai
@@ -45,7 +49,7 @@ import { Client } from "pg";
 import { CURRICULUM_DRAFTS_BY_SLUG } from "@/lib/academy/curricula";
 import { academyDialogueReadingDurationSec } from "@/lib/academy/dialogue-timeline";
 import { academyBakeChunkGap } from "@/lib/academy/human-rhythm";
-import { ACADEMY_INSTRUCTOR_SPEECH_RATE } from "@/lib/academy/instructors";
+import { ACADEMY_INSTRUCTOR_SPEECH_RATE, academyCourseMasterVoice } from "@/lib/academy/instructors";
 import {
   ACADEMY_MEDIA_SEALED_SKU_SLUGS,
   isAcademyLessonAudioOnRebakeQueue,
@@ -148,6 +152,7 @@ function parseArgs(argv: readonly string[]): {
   slug: AcademySealedSkuSlug | null;
   key: string | null;
   model: string | null;
+  voice: string | null;
 } {
   let slug: AcademySealedSkuSlug | null = null;
   const slugArg = argv.find((part) => part.startsWith("--slug="))?.slice("--slug=".length)?.trim();
@@ -183,7 +188,84 @@ function parseArgs(argv: readonly string[]): {
     slug,
     key,
     model: rawModel,
+    voice: argv.find((part) => part.startsWith("--voice="))?.slice("--voice=".length)?.trim() || null,
   };
+}
+
+type DryRunReceipt = {
+  v: 1;
+  courseSlug: string;
+  lessonKey: string;
+  courseMasterVoice: string;
+  mediaReleaseSeal: string;
+};
+
+function dryRunReceiptPath(courseSlug: string, lessonKey: string): string {
+  return join(process.cwd(), "media-bake", "academy", "dry-run-receipts", courseSlug, `${lessonKey}.json`);
+}
+
+/** Katman 2 — istenen ses kurs mühründen saparsa API açılmaz. */
+function assertSingleCourseVoice(jobs: readonly AcademyMediaReleaseJob[], requestedVoice: string | null): void {
+  for (const job of jobs) {
+    const master = academyCourseMasterVoice(job.courseSlug);
+    if (requestedVoice && requestedVoice !== master) {
+      throw new Error(
+        `Tek ses kilidi: istenen ses ${requestedVoice}, kurs mührü ${master} (${job.courseSlug}). API çağrısı yok.`,
+      );
+    }
+    for (const turn of job.turns) {
+      if (turn.voice !== master) {
+        throw new Error(
+          `Tek ses kilidi: tur sesi ${turn.voice}, kurs mührü ${master} (${job.courseSlug}/${job.lessonKey}). API çağrısı yok.`,
+        );
+      }
+    }
+  }
+}
+
+function writeDryRunReceipt(job: AcademyMediaReleaseJob): void {
+  const path = dryRunReceiptPath(job.courseSlug, job.lessonKey);
+  mkdirSync(dirname(path), { recursive: true });
+  const body: DryRunReceipt = {
+    v: 1,
+    courseSlug: job.courseSlug,
+    lessonKey: job.lessonKey,
+    courseMasterVoice: academyCourseMasterVoice(job.courseSlug),
+    mediaReleaseSeal: job.mediaReleaseSeal,
+  };
+  writeFileSync(path, `${JSON.stringify(body)}\n`);
+}
+
+/** Katman 2 — --seal, güncel metin/zamanlama dry-run fişi olmadan açılmaz. */
+function assertDryRunApproved(job: AcademyMediaReleaseJob): void {
+  const path = dryRunReceiptPath(job.courseSlug, job.lessonKey);
+  if (!existsSync(path)) {
+    throw new Error(
+      `Mühür reddedildi: ${job.courseSlug}/${job.lessonKey} için başarılı metin/zamanlama dry-run onayı yok. Önce --dry-run. API çağrısı yok.`,
+    );
+  }
+  let raw: DryRunReceipt;
+  try {
+    raw = JSON.parse(readFileSync(path, "utf8")) as DryRunReceipt;
+  } catch {
+    throw new Error(
+      `Mühür reddedildi: ${job.courseSlug}/${job.lessonKey} dry-run fişi okunamadı. Önce --dry-run. API çağrısı yok.`,
+    );
+  }
+  const master = academyCourseMasterVoice(job.courseSlug);
+  if (raw.v !== 1 || raw.mediaReleaseSeal !== job.mediaReleaseSeal || raw.courseMasterVoice !== master) {
+    throw new Error(
+      `Mühür reddedildi: ${job.courseSlug}/${job.lessonKey} dry-run mührü güncel metin veya ses ile uyuşmuyor. Önce --dry-run. API çağrısı yok.`,
+    );
+  }
+}
+
+/** Katman 2 — mühürlü dersin yayın MP3'ü duruyorsa tekrar fırın yok. */
+function assertSealedMp3Protected(job: AcademyMediaReleaseJob): void {
+  const mp3Path = academyLessonAudioReleaseDiskPath(job.courseSlug, job.lessonKey);
+  if (isAcademyLessonAudioSealed(job.courseSlug, job.lessonKey) && existsSync(mp3Path)) {
+    throw new Error(`Mühürlü kaset korunur: ${mp3Path}. Tekrar fırın yok. API çağrısı yok.`);
+  }
 }
 
 function sleep(ms: number): Promise<void> {
@@ -754,7 +836,7 @@ function overlaySealedCueTimes(
         clockSource: `lib/academy/lesson-cues/${job.lessonKey}.json`,
         lessonKey: job.lessonKey,
         model: "gemini-3.1-flash-tts-preview",
-        voice: "Callirrhoe",
+        voice: academyCourseMasterVoice(job.courseSlug),
         durationSec: timings.durationSec,
         seal: job.mediaReleaseSeal.slice(0, 12),
         cues,
@@ -812,10 +894,11 @@ async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
   let model = args.model ?? getDefaultModelId("VOICE_TTS");
   const jobs = collectJobs(model, args.slug, args.key);
+  assertSingleCourseVoice(jobs, args.voice);
   const turnCount = jobs.reduce((sum, job) => sum + job.turns.length, 0);
   const forceBake = args.force;
   if (forceBake) {
-    process.stdout.write("--force — mevcut WAV üzerine ana TTS modeli yeniden sentezlenir.\n");
+    process.stdout.write("--force mühürlü MP3'ün üzerine yazmaz. Korunan kaset Error ile durur.\n");
   }
   process.stdout.write(
     `academy-audio bake — ${jobs.length} ders, ${turnCount} tur, model=${model}${args.dryRun ? " (dry-run)" : ""}\n`,
@@ -826,6 +909,7 @@ async function main(): Promise<void> {
       const breathChunks = collectBreathChunks(job);
       const sealed = isAcademyLessonAudioSealed(job.courseSlug, job.lessonKey);
       assertAcademyTtsLessonRequestBudget(breathChunks.length, sealed);
+      writeDryRunReceipt(job);
       const budget = academyTtsLessonRequestBudget(breathChunks.length);
       const rpmGapSec = TURN_PAUSE_MS / 1000;
       const minWallSec = breathChunks.length > 1 ? (breathChunks.length - 1) * rpmGapSec : 0;
@@ -847,6 +931,10 @@ async function main(): Promise<void> {
       "academy-audio bake için --dry-run taraması, --seal ve --confirm-gemini-spend gerekir (Pedagoji E.4 / E.5).\n",
     );
     process.exit(1);
+  }
+  for (const job of jobs) {
+    assertDryRunApproved(job);
+    assertSealedMp3Protected(job);
   }
   const apiKey = sanitizeGeminiApiKey(process.env.GEMINI_API_KEY);
   if (!apiKey) {

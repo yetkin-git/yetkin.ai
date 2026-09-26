@@ -65,7 +65,7 @@ export const officeAiMasteryModule: CurriculumModule = {
   methodology: "Canlı diyalog ve sen dili, sakin ve adım adım ekran rehberliği, sıfır kodlama, yüksek verim odaklı pratik ofis çözümleri.",
   estimatedTotalMinutes: academyCourseSealedDurationMinutes("01_office_ai"),
   voiceConfig: {
-    voice: "Callirrhoe",
+    courseMasterVoice: "Callirrhoe",
     style: "Canlı diyalog ve sen dili, sakin ve adım adım ekran rehberliği",
     gender: "female",
   },
