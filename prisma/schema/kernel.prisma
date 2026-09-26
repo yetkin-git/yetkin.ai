@@ -65,6 +65,7 @@ model User {
   freelancerSquadMemberships  FreelancerSquadMember[] @relation("FreelancerSquadMember")
   academyPurchases     AcademyPurchase[]
   academyCertificates  AcademyCertificate[]
+  academyExemptionSeals AcademyExemptionSeal[]
   academyExamAttempts  AcademyExamAttempt[]
   academyExamSittings  AcademyExamSitting[]
   academyLessonCompletions AcademyLessonCompletion[]

@@ -35,11 +35,15 @@ export const RAIL_CONTEXT_PRISMA_MODELS: Readonly<Record<string, RailBoundedCont
   academyPurchase: "proof",
   academyExam: "proof",
   academyExamAttempt: "proof",
+  academyExamSitting: "proof",
+  academyExemptionSeal: "proof",
   academyCertificate: "proof",
   academyLessonCompletion: "proof",
   academyAudioCache: "proof",
   careerVisaStamp: "proof",
   careerPortfolioItem: "proof",
+  /** `/vize` kart sayacı. Kişisel satır yok; kanıt çıkışının hacmidir. */
+  funnelDailyCounter: "proof",
   freelancerJob: "marketplace",
   freelancerBid: "marketplace",
   freelancerContract: "marketplace",
@@ -48,15 +52,29 @@ export const RAIL_CONTEXT_PRISMA_MODELS: Readonly<Record<string, RailBoundedCont
   freelancerSquad: "marketplace",
   freelancerSquadMember: "marketplace",
   wallet: "payments",
+  walletCardRefund: "payments",
   ledgerEntry: "payments",
   escrowHold: "payments",
   paymentOrder: "payments",
   checkoutPriceLock: "payments",
   paymentAnomaly: "payments",
+  priceCatalogEntry: "payments",
+  priceCatalogDecisionLedger: "payments",
+  /** costMinor ölçer. İkinci cüzdan değildir; yazan kernel AI kapısıdır. */
+  aiTokenUsage: "payments",
   httpIdempotencyRecord: "payments",
   paidCommandReservation: "payments",
   userBillingInfo: "payments",
 };
+
+/**
+ * Platform kimliği üç context'in malı değildir.
+ * `user` haritaya yazılmaz: `lib/freelancer/prisma-store.ts` bu satırı okur ve
+ * yazar; akademi ile kariyer aynı satıra FK ile bağlanır. Sahip
+ * `lib/kernel/identity`. Bir context'e bağlamak ya import duvarını kırar
+ * ya da kimlik satırını tek odaya mal eder.
+ */
+export const RAIL_CONTEXT_PLATFORM_DELEGATES = ["user"] as const;
 
 /**
  * Dondurulmuş sızıntı — yeni satır eklemek kanonikleştirme değildir.

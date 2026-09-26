@@ -8,10 +8,11 @@ import { logEvent } from "@/lib/kernel/observability/log";
 type ProvisionResult = { ok: true; userId: string } | { ok: false; error: string };
 
 /**
- * GoTrue Confirm Email + SMTP 500'ünde geliştirme yedeği.
- * auth.users INSERT handle_new_user tetikler (users + TRY wallet).
- * Üretim bu yolu çağırmaz — `isDevSignupFallbackEnabled`.
- * Kayıt yine oturum yazmaz; lab hesabı giriş sayfasından açılır.
+ * GoTrue Confirm Email + Auth SMTP 500'ünde onaylı hesap.
+ * Geliştirme ve üretim aynı kapı: doğrulama postası gidemezse kayıt düşmez.
+ * Var olan satırda yalnız `email_confirmed_at` dolar; şifre ezilmez.
+ * Yoksa auth.users INSERT `handle_new_user` tetikler (users + TRY wallet).
+ * Doğrulama postası gitmezse hesap onaylıdır; kayıt rotası oturumu signIn ile basar.
  */
 export async function provisionConfirmedAuthUser(input: {
   email: string;
@@ -22,6 +23,17 @@ export async function provisionConfirmedAuthUser(input: {
   const appMeta = JSON.stringify({ provider: "email", providers: ["email"] });
   const userMeta = JSON.stringify(input.metadata);
   try {
+    const existing = await prisma.$queryRaw<{ user_id: string }[]>`
+      UPDATE auth.users
+      SET
+        email_confirmed_at = COALESCE(email_confirmed_at, NOW()),
+        updated_at = NOW()
+      WHERE lower(email) = lower(${input.email})
+      RETURNING id::text AS user_id
+    `;
+    if (existing[0]?.user_id) {
+      return { ok: true, userId: existing[0].user_id };
+    }
     const rows = await prisma.$queryRaw<{ user_id: string }[]>`
       WITH created AS (
         INSERT INTO auth.users (

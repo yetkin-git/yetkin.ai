@@ -5,20 +5,36 @@
  * `isPreviewAllowed: true` ana dersi açamaz. `01_office_ai-1` ve `01_office_ai-k1` kilitlidir.
  */
 
-import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import {
   isAcademyFreePreviewLessonKey,
   isAcademyLessonPaywalled,
 } from "@/lib/academy/purchase-path";
 
-export type AcademyPaywallLockedLessonShell = {
-  key: string;
-  order: number;
-  title: string;
-  body: "";
-  completed: false;
-  open: false;
-};
+/**
+ * RSC medya anahtarları. Ödeme duvarında yalnız hazırlık şeridi.
+ * Satın alma sonrası `open: false` dersin cue ve timings anahtarı da düşer.
+ */
+export function academyPlayerMediaLessonKeys(input: {
+  keys: readonly string[];
+  paywallLocked: boolean;
+  openLessonKeys?: readonly string[] | null;
+}): string[] {
+  if (input.paywallLocked) {
+    return input.keys.filter((key) => isAcademyFreePreviewLessonKey(key));
+  }
+  if (!input.openLessonKeys) {
+    return [...input.keys];
+  }
+  const open = new Set(input.openLessonKeys);
+  return input.keys.filter((key) => isAcademyFreePreviewLessonKey(key) || open.has(key));
+}
+
+/** Kapalı ders gövdesi istemciye gitmez. */
+export function sealClosedAcademyLessonPayload<T extends { open: boolean; body: string }>(
+  lessons: readonly T[],
+): T[] {
+  return lessons.map((lesson) => (lesson.open ? lesson : { ...lesson, body: "" }));
+}
 
 /** Müfredat bayrağı önizlemeye yetmez. Anahtar hazırlık şeridi değilse kapalıdır. */
 export function academySectionAllowsFreePreview(section: {
@@ -46,17 +62,4 @@ export function isAcademyPlayerPaywallLessonLocked(
     return false;
   }
   return isAcademyLessonPaywalled(courseSlug, lessonKey, false);
-}
-
-export function academyPaywallLockedLessonShells(
-  courseSlug: string,
-): AcademyPaywallLockedLessonShell[] {
-  return curriculumForCourseSlug(courseSlug).map((lesson) => ({
-    key: lesson.key,
-    order: lesson.order,
-    title: lesson.title,
-    body: "",
-    completed: false,
-    open: false,
-  }));
 }

@@ -1,13 +1,11 @@
 /**
  * Academy ses / süre / metin standartları — tek merkez.
  * TTS üretim, teleprompter tempo ve müfredat bütçeleri buradan okunur.
- * Ders/kurs dakika bantları PEDAGOJI.md §F ile `production-standard.ts` SSOT’udur.
+ * Ders/kurs dakika bantları PEDAGOJI.md §D.1 ile `production-standard.ts` SSOT’udur.
  */
 
 import {
-  ACADEMY_AI_COURSE_DURATION_MAX_MINUTES,
   ACADEMY_AI_COURSE_DURATION_MIN_MINUTES,
-  ACADEMY_AI_LESSON_DURATION_MAX_MINUTES,
   ACADEMY_AI_LESSON_DURATION_MIN_MINUTES,
 } from "@/lib/academy/production-standard";
 
@@ -25,14 +23,12 @@ export const PAUSES = {
  * Bölüm başına hedef süre ve kelime bütçesi — yalnız ses mühürlü (WAV) dersler.
  * Compact makale müfredatı (Anayasa B4) bu bütçeye bağlı değildir; rehber
  * `COMPACT_ARTICLE_GUIDE` içindedir (tavan değil, aralık önerisi).
- * Dakika: §F 7–12 (ders), 45–90 (kurs). Kelime: ~150 wpm × ders bandı.
- * Yayın 30 kaset E.5 sıfır re-bake ile bu banda çekilmez; yeni bake bu LIMITS’i okur.
+ * Dakika tabanı: ders en az 5, kurs en az 45. Üst dakika tavanı yoktur.
+ * Yayın kaseti sıfır re-bake ile kısaltılmaz; yeni bake bu LIMITS’i okur.
  */
 export const SEALED_AUDIO_LIMITS = {
   minMinutes: ACADEMY_AI_LESSON_DURATION_MIN_MINUTES,
-  maxMinutes: ACADEMY_AI_LESSON_DURATION_MAX_MINUTES,
   courseMinMinutes: ACADEMY_AI_COURSE_DURATION_MIN_MINUTES,
-  courseMaxMinutes: ACADEMY_AI_COURSE_DURATION_MAX_MINUTES,
   minWords: 1050,
   maxWords: 1800,
 } as const;

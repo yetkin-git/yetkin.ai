@@ -3,40 +3,10 @@
  * Oynatıcı currentTime bu saniyelerle 1:1; kelime-oranlı duvar saati değildir.
  */
 
-import officeAiPrepTimingsJson from "./01_office_ai-0.json" with { type: "json" };
-import officeAiLesson1TimingsJson from "./01_office_ai-1.json" with { type: "json" };
-import officeAiLesson2TimingsJson from "./01_office_ai-2.json" with { type: "json" };
-import officeAiLesson3TimingsJson from "./01_office_ai-3.json" with { type: "json" };
-import officeAiLesson4TimingsJson from "./01_office_ai-4.json" with { type: "json" };
-import officeAiLesson5TimingsJson from "./01_office_ai-5.json" with { type: "json" };
-import officeAiLesson6TimingsJson from "./01_office_ai-6.json" with { type: "json" };
-import officeAiLessonG1TimingsJson from "./01_office_ai-g1.json" with { type: "json" };
-import officeAiLessonW1TimingsJson from "./01_office_ai-w1.json" with { type: "json" };
-import officeAiLessonK1TimingsJson from "./01_office_ai-k1.json" with { type: "json" };
-import ecommerceAiLesson1TimingsJson from "./02_ecommerce_ai-1.json" with { type: "json" };
-import ecommerceAiLesson2TimingsJson from "./02_ecommerce_ai-2.json" with { type: "json" };
-import ecommerceAiLesson3TimingsJson from "./02_ecommerce_ai-3.json" with { type: "json" };
-import ecommerceAiLesson4TimingsJson from "./02_ecommerce_ai-4.json" with { type: "json" };
-import ecommerceAiLesson5TimingsJson from "./02_ecommerce_ai-5.json" with { type: "json" };
-import ecommerceAiLesson6TimingsJson from "./02_ecommerce_ai-6.json" with { type: "json" };
-import socialMediaAiLesson1TimingsJson from "./03_social_media_ai-1.json" with { type: "json" };
-import socialMediaAiLesson2TimingsJson from "./03_social_media_ai-2.json" with { type: "json" };
-import socialMediaAiLesson3TimingsJson from "./03_social_media_ai-3.json" with { type: "json" };
-import socialMediaAiLesson4TimingsJson from "./03_social_media_ai-4.json" with { type: "json" };
-import socialMediaAiLesson5TimingsJson from "./03_social_media_ai-5.json" with { type: "json" };
-import socialMediaAiLesson6TimingsJson from "./03_social_media_ai-6.json" with { type: "json" };
-import chatbotNocodeLesson1TimingsJson from "./04_chatbot_nocode-1.json" with { type: "json" };
-import chatbotNocodeLesson2TimingsJson from "./04_chatbot_nocode-2.json" with { type: "json" };
-import chatbotNocodeLesson3TimingsJson from "./04_chatbot_nocode-3.json" with { type: "json" };
-import chatbotNocodeLesson4TimingsJson from "./04_chatbot_nocode-4.json" with { type: "json" };
-import chatbotNocodeLesson5TimingsJson from "./04_chatbot_nocode-5.json" with { type: "json" };
-import chatbotNocodeLesson6TimingsJson from "./04_chatbot_nocode-6.json" with { type: "json" };
-import promptPracticeLesson1TimingsJson from "./05_prompt_practice-1.json" with { type: "json" };
-import promptPracticeLesson2TimingsJson from "./05_prompt_practice-2.json" with { type: "json" };
-import promptPracticeLesson3TimingsJson from "./05_prompt_practice-3.json" with { type: "json" };
-import promptPracticeLesson4TimingsJson from "./05_prompt_practice-4.json" with { type: "json" };
-import promptPracticeLesson5TimingsJson from "./05_prompt_practice-5.json" with { type: "json" };
-import promptPracticeLesson6TimingsJson from "./05_prompt_practice-6.json" with { type: "json" };
+import {
+  academyLessonJsonGeneration,
+  readAcademyLessonJson,
+} from "@/lib/academy/lesson-json-store";
 
 export type AcademySealedAudioPiece = {
   index: number;
@@ -112,254 +82,33 @@ export function parseAcademySealedAudioTimings(raw: unknown): AcademySealedAudio
   return { lessonKey, pauseSec, durationSec, cacheV, pieces };
 }
 
-const TIMINGS_BY_LESSON_KEY: Readonly<Record<string, AcademySealedAudioTimings>> = {
-  /** Ders 0 hazırlık şeridi — TAHMİNİ plan (cacheV 1 = mühürsüz). Fırın (--seal) ezer. */
-  "01_office_ai-0": parseAcademySealedAudioTimings(officeAiPrepTimingsJson) ?? {
-    lessonKey: "01_office_ai-0",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "01_office_ai-1": parseAcademySealedAudioTimings(officeAiLesson1TimingsJson) ?? {
-    lessonKey: "01_office_ai-1",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "01_office_ai-2": parseAcademySealedAudioTimings(officeAiLesson2TimingsJson) ?? {
-    lessonKey: "01_office_ai-2",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "01_office_ai-3": parseAcademySealedAudioTimings(officeAiLesson3TimingsJson) ?? {
-    lessonKey: "01_office_ai-3",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "01_office_ai-4": parseAcademySealedAudioTimings(officeAiLesson4TimingsJson) ?? {
-    lessonKey: "01_office_ai-4",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "01_office_ai-5": parseAcademySealedAudioTimings(officeAiLesson5TimingsJson) ?? {
-    lessonKey: "01_office_ai-5",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "01_office_ai-6": parseAcademySealedAudioTimings(officeAiLesson6TimingsJson) ?? {
-    lessonKey: "01_office_ai-6",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "01_office_ai-g1": parseAcademySealedAudioTimings(officeAiLessonG1TimingsJson) ?? {
-    lessonKey: "01_office_ai-g1",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "01_office_ai-w1": parseAcademySealedAudioTimings(officeAiLessonW1TimingsJson) ?? {
-    lessonKey: "01_office_ai-w1",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "01_office_ai-k1": parseAcademySealedAudioTimings(officeAiLessonK1TimingsJson) ?? {
-    lessonKey: "01_office_ai-k1",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "02_ecommerce_ai-1": parseAcademySealedAudioTimings(ecommerceAiLesson1TimingsJson) ?? {
-    lessonKey: "02_ecommerce_ai-1",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "02_ecommerce_ai-2": parseAcademySealedAudioTimings(ecommerceAiLesson2TimingsJson) ?? {
-    lessonKey: "02_ecommerce_ai-2",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "02_ecommerce_ai-3": parseAcademySealedAudioTimings(ecommerceAiLesson3TimingsJson) ?? {
-    lessonKey: "02_ecommerce_ai-3",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "02_ecommerce_ai-4": parseAcademySealedAudioTimings(ecommerceAiLesson4TimingsJson) ?? {
-    lessonKey: "02_ecommerce_ai-4",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "02_ecommerce_ai-5": parseAcademySealedAudioTimings(ecommerceAiLesson5TimingsJson) ?? {
-    lessonKey: "02_ecommerce_ai-5",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "02_ecommerce_ai-6": parseAcademySealedAudioTimings(ecommerceAiLesson6TimingsJson) ?? {
-    lessonKey: "02_ecommerce_ai-6",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "03_social_media_ai-1": parseAcademySealedAudioTimings(socialMediaAiLesson1TimingsJson) ?? {
-    lessonKey: "03_social_media_ai-1",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "03_social_media_ai-2": parseAcademySealedAudioTimings(socialMediaAiLesson2TimingsJson) ?? {
-    lessonKey: "03_social_media_ai-2",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "03_social_media_ai-3": parseAcademySealedAudioTimings(socialMediaAiLesson3TimingsJson) ?? {
-    lessonKey: "03_social_media_ai-3",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "03_social_media_ai-4": parseAcademySealedAudioTimings(socialMediaAiLesson4TimingsJson) ?? {
-    lessonKey: "03_social_media_ai-4",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "03_social_media_ai-5": parseAcademySealedAudioTimings(socialMediaAiLesson5TimingsJson) ?? {
-    lessonKey: "03_social_media_ai-5",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "03_social_media_ai-6": parseAcademySealedAudioTimings(socialMediaAiLesson6TimingsJson) ?? {
-    lessonKey: "03_social_media_ai-6",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "04_chatbot_nocode-1": parseAcademySealedAudioTimings(chatbotNocodeLesson1TimingsJson) ?? {
-    lessonKey: "04_chatbot_nocode-1",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "04_chatbot_nocode-2": parseAcademySealedAudioTimings(chatbotNocodeLesson2TimingsJson) ?? {
-    lessonKey: "04_chatbot_nocode-2",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "04_chatbot_nocode-3": parseAcademySealedAudioTimings(chatbotNocodeLesson3TimingsJson) ?? {
-    lessonKey: "04_chatbot_nocode-3",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "04_chatbot_nocode-4": parseAcademySealedAudioTimings(chatbotNocodeLesson4TimingsJson) ?? {
-    lessonKey: "04_chatbot_nocode-4",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "04_chatbot_nocode-5": parseAcademySealedAudioTimings(chatbotNocodeLesson5TimingsJson) ?? {
-    lessonKey: "04_chatbot_nocode-5",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "04_chatbot_nocode-6": parseAcademySealedAudioTimings(chatbotNocodeLesson6TimingsJson) ?? {
-    lessonKey: "04_chatbot_nocode-6",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "05_prompt_practice-1": parseAcademySealedAudioTimings(promptPracticeLesson1TimingsJson) ?? {
-    lessonKey: "05_prompt_practice-1",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "05_prompt_practice-2": parseAcademySealedAudioTimings(promptPracticeLesson2TimingsJson) ?? {
-    lessonKey: "05_prompt_practice-2",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "05_prompt_practice-3": parseAcademySealedAudioTimings(promptPracticeLesson3TimingsJson) ?? {
-    lessonKey: "05_prompt_practice-3",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "05_prompt_practice-4": parseAcademySealedAudioTimings(promptPracticeLesson4TimingsJson) ?? {
-    lessonKey: "05_prompt_practice-4",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "05_prompt_practice-5": parseAcademySealedAudioTimings(promptPracticeLesson5TimingsJson) ?? {
-    lessonKey: "05_prompt_practice-5",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-  "05_prompt_practice-6": parseAcademySealedAudioTimings(promptPracticeLesson6TimingsJson) ?? {
-    lessonKey: "05_prompt_practice-6",
-    pauseSec: 0.4,
-    durationSec: 0,
-    cacheV: 0,
-    pieces: [],
-  },
-};
+let seenTimingGeneration = -1;
+const parsedTimingCache = new Map<string, AcademySealedAudioTimings | null>();
+
+function syncTimingCacheGeneration(): void {
+  const generation = academyLessonJsonGeneration();
+  if (seenTimingGeneration !== generation) {
+    parsedTimingCache.clear();
+    seenTimingGeneration = generation;
+  }
+}
 
 export function loadAcademySealedAudioTimings(lessonKey: string): AcademySealedAudioTimings | null {
-  const row = TIMINGS_BY_LESSON_KEY[lessonKey.trim()];
-  if (!row || row.pieces.length === 0 || !(row.durationSec > 0)) {
+  const key = lessonKey.trim();
+  syncTimingCacheGeneration();
+  if (parsedTimingCache.has(key)) {
+    return parsedTimingCache.get(key) ?? null;
+  }
+  const raw = readAcademyLessonJson("lesson-audio-timings", key);
+  if (raw === undefined) return null;
+  if (raw == null) {
+    parsedTimingCache.set(key, null);
     return null;
   }
-  return row;
+  const row = parseAcademySealedAudioTimings(raw);
+  const value = row && row.pieces.length > 0 && row.durationSec > 0 ? row : null;
+  parsedTimingCache.set(key, value);
+  return value;
 }
 
 export function academySealedAudioParagraphCount(

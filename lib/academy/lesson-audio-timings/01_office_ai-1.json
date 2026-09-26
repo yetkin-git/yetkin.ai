@@ -1,8 +1,8 @@
 {
   "lessonKey": "01_office_ai-1",
   "pauseSec": 0.4,
-  "durationSec": 688.68,
-  "cacheV": 688680,
+  "durationSec": 691.84,
+  "cacheV": 691840,
   "pieces": [
     {
       "index": 0,
@@ -10,7 +10,7 @@
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
       "start": 2,
-      "end": 41.56,
+      "end": 39.64,
       "text": "Her gün masanın üstünde biriken dosyalar, e-postalarla gelen karmakarışık listeler ve saatlerce içinden çıkamadığın Excel sayfaları... Bu dersin sonunda düzensiz Excel'i düzenli tabloya çevirmeyi tek başına yapacaksın. Sebebi şu: yapay zekâ, sen ona neyi nasıl vereceğini bilmeden o karmaşayı tek başına çözmez. Karmaşık bir veri yığını gördüğünde paniklemek yerine doğru istemi kurarsan, dakikalarca süren el işçiliği düşer. Şimdi arkana yaslan. Bu derste yapay zekâyı soru sorulan bir kutu gibi değil, masadaki asistanın gibi kullanmayı adım adım göstereceğiz."
     },
     {
@@ -18,8 +18,8 @@
       "cueId": "cue-02",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 41.96,
-      "end": 75.96,
+      "start": 40.04,
+      "end": 75.24,
       "text": "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ yolculuğunun ilk dersine hoş geldin! Bu seride seninle birlikte teorik ezberleri bir kenara bırakacak, ofiste her gün karşına çıkan gerçek problemleri yapay zekâ desteğiyle adım adım çözeceğiz. Bugün masandaki en büyük zaman tuzaklarından birini hedef alıyoruz: Açtığında gözünü korkutan, biçimleri birbirine girmiş o karmaşık tablolar. Hazırsan başlayalım; çünkü bu dersin sonunda o tabloyu A bir hücresinden başlayarak düzenlemeyi öğreneceksin ve kontrol sende kalacak."
     },
     {
@@ -27,8 +27,8 @@
       "cueId": "cue-02",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 76.36,
-      "end": 154.72,
+      "start": 75.64,
+      "end": 159.76,
       "text": "Ofiste saatlerini alan o rutin işleri düşün. Bir rapordan kopyalanıp sana iletilen bir liste gelir ve senden acil bir analiz istenir. Ancak sayfayı açtığında hiçbir şey yerli yerinde değildir; sayılar sola yaslanmış, tarihler birbirine karışmıştır. Bu dersteki yükleme, kişi adı ve İban taşımayan kimliği gizlenmiş örnek tablo üzerinden yapılır. Bu örnek tabloyu Çetcipiti, Klod, Cemini, Grok, Kimi, Myuz Spark vb. sohbetine ataş ile yüklersin; Kopilot lisansın varsa Kopilot düğmesinden doğrudan okutursun ya da şirket paneline verirsin. Şirket paneli, şirketinin kurumsal yapay zekâ modelidir: evdeki format ve gizlilik kuralı o panele yazılır. Bu araçlar büyük dil modelleridir (sohbet yapay zekâları); eğilimleri sürümden sürüme değişir. 2026 itibarıyla Çetcipiti çoğu zaman hızlı taslak üretmeye, Klod uzun satırları dikkatle okumaya, Cemini adımları net sıralamaya yatkındır. Grok, Kimi, Myuz Spark vb. de aynı kapıdandır. Hiçbiri sabit karakter değildir. Bu eğilim kartı Eylül 2026 tarihlidir; 6 ayda bir gözden geçirilir. Kod ezberlemen gerekmez. Neden?"
     },
     {
@@ -36,8 +36,8 @@
       "cueId": "cue-02",
       "cueParagraphIndex": 1,
       "chunkIndex": 1,
-      "start": 155.12,
-      "end": 165.16,
+      "start": 160.16,
+      "end": 169.88,
       "text": "Çünkü bu işi çözen şey program yazmak değil; tabloyu doğru kapıdan, doğru sırayla vermektir. Hadi gel, bu dönüşümü adım adım başlatalım."
     },
     {
@@ -45,8 +45,8 @@
       "cueId": "cue-03",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 165.56,
-      "end": 204.76,
+      "start": 170.28,
+      "end": 210.2,
       "text": "Öncelikle karşılaştığımız sorunu netleştirelim. Çoğu zaman önümüze gelen dosya, üzerinde işlem yapmaya uygun olmayan bir ham veri yığınıdır. Birkaç satır boş bırakılmış, bazı başlıklar birleştirme alışkanlığı yüzünden kaymış ve metinler karmakarışık hale gelmiştir. Bu tür bir dağınık yapı gördüğünde genellikle tek tek hücreleri düzeltmeye çalışırsın, değil mi? Oysa bu yaklaşım saatleri yer. Peki neden tek tek hücre düzeltmek yetmez? Çünkü yapay zekâ hücre hücre değil, başlık ve sütun düzenini arar. Tablonun dilini biraz sadeleştirirsen, o karmaşayı bir çırpıda okur."
     },
     {
@@ -54,8 +54,8 @@
       "cueId": "cue-03",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 205.16,
-      "end": 242,
+      "start": 210.6,
+      "end": 246.16,
       "text": "Peki, yapay zekâ bu dağınık sayfaya baktığında aslında ne görür? Sen orada bir müşteri listesi veya bütçe özeti görürken, o önce başlık ve sütun düzenini arar. 2026 modelleri dağınık ızgarayı da okuyabilir; A1 düzeni işi hızlandırır, hata riskini düşürür. Birbirine girmiş hücreler işi yavaşlatır, boş satırlar satır bütünlüğünü keser. Bu yüzden düzensiz tabloyu vermeden önce her verinin ait olduğu yer belli olmalı. Şimdi bu karmaşayı kökünden çözecek hamleye, A bir hücresine, odaklanalım."
     },
     {
@@ -63,8 +63,8 @@
       "cueId": "cue-04",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 242.4,
-      "end": 278.8,
+      "start": 246.56,
+      "end": 283.88,
       "text": "Şimdi mantığı oturtalım. Neden A bir hücresinden başlıyoruz? Çünkü bir tablonun okunması her zaman en sol üst köşeden kurulur. A bir hücresi boşsa ya da alakasız bir genel başlıkla birleştirilmişse, yapay zekâ tablonun nereden başladığını çözemez. Yapman gereken ilk şey, bu noktayı netleştirmektir. Sayfanın en tepesindeki birleştirilmiş başlıkları kaldırıp, A bir hücresine ilk gerçek sütun adını yazmalısın. Örneğin oraya 'Müşteri Adı' ya da 'Sipariş No' gibi net bir sütun başlığı yerleştirdiğinde, yapay zekâ tüm tabloyu doğru okumaya başlar."
     },
     {
@@ -72,8 +72,8 @@
       "cueId": "cue-04",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 279.2,
-      "end": 312.48,
+      "start": 284.28,
+      "end": 316.68,
       "text": "Unutma, A bir hücresi doğru kurgulanmamış bir yapıya ne kadar gelişmiş bir istem yazarsan yaz, alacağın sonuç eksik kalacaktır. Çünkü yapay zekâ veriyi satır ve sütun düzenine göre okur. A bir hücresi doğru bir sütun adı taşıdığında, yanındaki diğer hücreler de otomatik olarak bir anlama kavuşur. 'Ürün', 'Tarih', 'Tutar' gibi başlıkların hepsi birinci satırda yan yana dizilmelidir. Böylece dakikalarca sürecek kafa karışıklığı baştan düşer ve veri isteme hazır hale gelir."
     },
     {
@@ -81,8 +81,8 @@
       "cueId": "cue-05",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 312.88,
-      "end": 388.12,
+      "start": 317.08,
+      "end": 392.12,
       "text": "Şimdi ikinci adıma geçiyoruz. Peki neden A1 kuralını kurmadan temizleme istemi yazmıyoruz? Çünkü hangi kapıya gidersen git, model önce tablonun nereden başladığını arar. Çetcipiti taslağı çabuk gösterme eğilimindedir, Klod uzun dökümü tartmaya yatkındır, Cemini adımları sıraya dizme eğilimindedir; Grok, Kimi, Myuz Spark vb. de aynı sohbet kapısındandır. Şirket paneli — kurumsal model — evdeki formatı kilitlemeye yatkındır. Karmaşık teknik ifadelere hiç girmeden, günlük konuşma diliyle durumu anlatacağız. Modele şunu söyleyebilirsin: 'Sana sunduğum bu ham veri içinde yer alan birleştirilmiş hücreleri tek tek ayır, aralardaki gereksiz boş satırları sil ve sayıları standart sayı formatına getir.' Gördüğün gibi istem günlük dille yazılıyor; model neyi ayıracağını, neyi sileceğini ve sayıyı nasıl standartlaştıracağını net duyuyor. Veri bir kez temizlenir; sonra hangi araca gideceğine sen karar verirsin. Şüpheli hücreye tıkla, klavyenin üstündeki Ef iki tuşuna bas (Mac'te Fn+Ef iki) — hücre düzenleme açılır; kesme işaretini kontrol et. Her zaman orijinal dosyayı koruyup yan sayfada temiz kopyanı oluştur."
     },
     {
@@ -90,17 +90,17 @@
       "cueId": "cue-05",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 388.52,
-      "end": 459.8,
-      "text": "Peki bu veriyi yapay zekâya nasıl vereceksin? Üç Kapı sırası sabittir, çünkü önce en yerinde yolu denersin. 1) Kopilot lisansın varsa Kopilot düğmesinden doğrudan okutursun — bu birinci kapıdır. 2) Yoksa dosyayı ataş simgesinden Çetcipiti, Klod, Cemini, Grok, Kimi, Myuz Spark vb. sohbetine yüklersin — ataş ikinci kapıdır. Kopilot düğmesi varsa Excel dosyanın içindeki hücreleri doğrudan düzenler. Kopilot'ın yoksa dosyayı ataşla sohbete yüklersin; yapay zekâ orijinal dosyanı değiştiremez, ancak sana verileri temizlenmiş yepyeni bir tablo verir. Sen de o tabloyu kopyalar, Excel'ine yapıştırırsın. Bu dersteki örnek kişi adı taşımayan temiz bir tahsilat tablosudur. Kopilot varsa Kopilot düğmesinden doğrudan okut; yoksa dosyayı ataş ile yükle. (Kişisel verileri maskeleme kuralını 2. derste kilitleyeceğiz.) 3) Son çare: isim ve telefonu maskeleyip kısa bir özeti yapıştırırsın. Ham tabloyu ekran görüntüsüyle taşımak öğretilen yol değildir; çünkü ekran görüntüsü hücreleri bozar ve A1 kuralını kaybettirir."
+      "start": 392.52,
+      "end": 475.28,
+      "text": "Peki bu veriyi yapay zekâya nasıl vereceksin? Önce üç adım vardır. Şirketinin onayladığı araç hangisi? Satırda kişisel veri veya şirket sırrı var mı? Ancak ondan sonra aktarım yolunu seçersin. Onaylı araçtaysa sıra şöyledir. 1) Kopilot lisansın varsa Kopilot düğmesinden doğrudan okutursun. 2) Yoksa dosyayı ataş simgesinden Çetcipiti, Klod, Cemini, Grok, Kimi, Myuz Spark vb. sohbetine yüklersin. Kopilot düğmesi varsa Excel dosyanın içindeki hücreleri doğrudan düzenler. Kopilot'ın yoksa dosyayı ataşla sohbete yüklersin; yapay zekâ orijinal dosyanı değiştiremez, ancak sana verileri temizlenmiş yepyeni bir tablo verir. Sen de o tabloyu kopyalar, Excel'ine yapıştırırsın. Bu dersteki örnek kişi adı taşımayan temiz bir tahsilat tablosudur. Kopilot varsa Kopilot düğmesinden doğrudan okut; yoksa dosyayı ataş ile yükle. (Kişisel verileri maskeleme kuralını 2. derste kilitleyeceğiz.) 3) Son çare: isim ve telefonu maskeleyip kısa bir özeti yapıştırırsın. Ham tabloyu ekran görüntüsüyle taşımak öğretilen yol değildir; çünkü ekran görüntüsü hücreleri bozar ve A1 kuralını kaybettirir."
     },
     {
       "index": 10,
       "cueId": "cue-05",
       "cueParagraphIndex": 2,
       "chunkIndex": 0,
-      "start": 460.2,
-      "end": 499.68,
+      "start": 475.68,
+      "end": 513.84,
       "text": "Bu aşamada tür karmaşasını ortadan kaldırmak da hayati bir adımdır. Neden? Çünkü aynı sütunun içinde hem '1.200 TL' yazar, hem sadece '1200', hem de metin şeklinde girilmiş 'bin iki yüz' durursa model hangisinin tutar olduğunu karıştırır. Yapay zekâya 'Tutar sütunundaki tüm değerleri yalnızca sayı olacak şekilde tek tip yap' dediğinde, tüm bu farklılıklar tek bir standarda oturur. Fazladan boşlukları temizler, tarihleri gün-ay-yıl düzenine sokar. Aynı sütun tek tipe inince dağınık yapı düzenli tabloya döner."
     },
     {
@@ -108,8 +108,8 @@
       "cueId": "cue-06",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 500.08,
-      "end": 533.72,
+      "start": 514.24,
+      "end": 548.2,
       "text": "Ekranın ikiye bölünmüş haline dikkatle bak. Sol tarafta düzenlemesiz ham veri duruyor: Birleştirilmiş başlıklar, arada sırıtan boş satırlar ve birbirini tutmayan yazı tipleri. Sağ tarafta ise yapay zekâ ile temizlenmiş düzenli tablo yer alıyor. Fark bu kadar belirgin. Sol taraf karmaşadır ve yanlışa açıktır; sağ taraf hemen bir özet çıkarmaya veya analize girmeye hazırdır. Doğru yönlendirilen yapay zekâ masanda tam olarak bunu yapar: dağınığı okunur hale getirir."
     },
     {
@@ -117,17 +117,17 @@
       "cueId": "cue-06",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 534.12,
-      "end": 565.96,
-      "text": "Gördüğün gibi iki tablo arasındaki tek fark, araya doğru kurallarla yerleştirdiğimiz yapay zekâ filtresi. Sol taraftaki görüntü sana daha önce saatler kaybettirmiş olabilir; formüllerin hata vermesine, grafiklerin yanlış çıkmasına yol açmış olabilir. Sağdaki düzenli tablo ise şirketinde herkesin tek bakışta anlayacağı düzenli bir çalışma sunar. Artık karmaşık dosyalar geldiğinde endişelenmek yerine, bu dönüşümü başlatacak adımları tam olarak biliyorsun. Şimdi üç adımı cebine koyalım."
+      "start": 548.6,
+      "end": 576.84,
+      "text": "Gördüğün gibi sağ tablo, soldaki dağınık tabloya A1 kuralını ve tek tip sütunu uygulayınca çıkar. Sol taraftaki görüntü sana daha önce saatler kaybettirmiş olabilir; formüllerin hata vermesine, grafiklerin yanlış çıkmasına yol açmış olabilir. Sağdaki düzenli tablo ise şirketinde herkesin tek bakışta anlayacağı düzenli bir çalışma sunar. Dağınık dosya geldiğinde önce A1 kuralını kurarsın. Şimdi üç adımı cebine koyalım."
     },
     {
       "index": 13,
       "cueId": "cue-07",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 566.36,
-      "end": 615,
+      "start": 577.24,
+      "end": 625.4,
       "text": "Bugünkü bölümden cebine koyup hemen ofisinde uygulayacağın üç adımımız var. 1. A bir hücresine sütun adı koy; sayfanın en üst sol köşesindeki birleşikleri çözerek ilk sütunun adını net biçimde buraya yaz. Çünkü model tablonun nereden başladığını A bir hücresinden okur. 2. Birleşikleri çöz, boş satırları sil; aradaki anlamsız boşlukları kaldırarak verinin akışını ve satır bütünlüğünü kesintisiz hale getir. Böylece satırlar kopmaz, özet bozulmaz. 3. Yapay zekâya yalın dille türleri tek tip yap; isteminde günlük konuşma diliyle tarihleri, metinleri ve sayıları tek bir format standardına toplamasını iste. Bu üç adımı uyguladığında veri gözünü korkutamaz; çünkü tablo artık düzenli okunur."
     },
     {
@@ -135,8 +135,8 @@
       "cueId": "cue-08",
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
-      "start": 615.4,
-      "end": 652.16,
+      "start": 625.8,
+      "end": 661.76,
       "text": "Şimdi sıra sende! Hemen bugün bu dersteki kimliği gizlenmiş örnek tablolardan birini seç. Gerçek müşteri adı veya İban taşıyan dosyayı henüz yükleme. Kopilot varsa Kopilot düğmesinden doğrudan okut; yoksa dosyayı ataş ile yükle. (Kişisel verileri maskeleme kuralını 2. derste kilitleyeceğiz.) Az önce öğrendiğimiz üç adımı aynen dene. A bir hücresinden başlayarak başlıkları hizala, gereksiz boşlukları ayıklat ve formatları tek bir düzene oturt. Kendi gözlerinle dönüşümün hızını gördüğünde, bu yöntemin ne kadar kalıcı bir alışkanlığa dönüştüğünü fark edeceksin."
     },
     {
@@ -144,9 +144,9 @@
       "cueId": "cue-08",
       "cueParagraphIndex": 1,
       "chunkIndex": 0,
-      "start": 652.56,
-      "end": 688.68,
-      "text": "Unutma, yapay zekâ senin yerine düşünmez ama senin yönlendirmelerinle ofisteki en güvenilir yardımcın olur. Veriyi düzenlemeyi öğrendiğin an, analiz yapmaya, rapor hazırlamaya ve stratejik kararlar almaya çok daha fazla vaktin kalacak. Bu pratiği gün içinde tekrarla; tabloyu temizleme refleksi artık cebinde. Bir sonraki derste bu tabloyu yüklemeden önce neyin sohbete gitmeyeceğini kilitleyeceğiz: Kavekaka ve maskeleme. Hazırsan 2. derste buluşalım. Sınav, 8. ders bitince açılır. Baraj 70 puandır."
+      "start": 662.16,
+      "end": 691.84,
+      "text": "Yapay zekâ senin yerine karar vermez. Sen A1 kuralını kurar, istemi yazarsın. Temiz tablo durunca özet ve rapora vaktin kalır. Bu pratiği gün içinde tekrarla; tabloyu temizleme refleksi artık cebinde. Bir sonraki derste bu tabloyu yüklemeden önce neyin sohbete gitmeyeceğini kilitleyeceğiz: Kavekaka ve maskeleme. Hazırsan 2. derste buluşalım. Sınav, 8. ders bitince açılır. Baraj 70 puandır."
     }
   ]
 }

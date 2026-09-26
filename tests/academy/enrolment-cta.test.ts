@@ -258,6 +258,28 @@ describe("vitrin kartı CTA", () => {
     expect(comingSoon.href).toBe("");
     expect(comingSoon.priceCaption).toBe(ACADEMY_SEN.catalog.comingSoonMeta);
     expect(comingSoon.priceLabel).toBe("₺1.290");
+    const off201NoPrice = resolveAcademyCatalogCardCta({
+      slug: "01_office_ai_ileri",
+      owned: false,
+      priceLabel: null,
+    });
+    expect(off201NoPrice.cta).toBe(ACADEMY_SEN.catalog.pricePending);
+    expect(off201NoPrice.cta).toBe("Kayıt Kapalı / Fiyat Bekleniyor");
+    expect(off201NoPrice.href).toBe("");
+    expect(off201NoPrice.ctaDisabled).toBe(true);
+    expect(off201NoPrice.priceLabel).toBe(ACADEMY_SEN.catalog.priceMissing);
+    const off201Priced = resolveAcademyCatalogCardCta({
+      slug: "01_office_ai_ileri",
+      owned: false,
+      priceLabel: "₺1.290,00",
+    });
+    expect(off201Priced.cta).toBe(ACADEMY_SEN.catalog.cardCtaBuy);
+    expect(off201Priced.cta).toBe("Satın Al");
+    expect(off201Priced.href).toBe("/academy/01_office_ai_ileri");
+    expect(off201Priced.ctaDisabled).toBeUndefined();
+    expect(off201Priced.priceLabel).toBe("₺1.290");
+    expect(ACADEMY_SEN.catalog.off201Advisory).toContain("Tavsiye:");
+    expect(ACADEMY_SEN.catalog.off201Advisory).toContain("Ofiste Yapay Zekâ");
     for (const slug of ["fullstack-temel", "ai-temel", "ux-temel"] as const) {
       const buy = resolveAcademyCatalogCardCta({
         slug,
@@ -336,10 +358,10 @@ describe("kasa eğitim özeti — Aşama 1, amiral ses mührü", () => {
       ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
     );
     expect(ACADEMY_TRAINING_OFFER_SUMMARY_SEALED).toBe(
-      "Sesli Anlatım + Sınav + Mühürlü Sertifika",
+      "Sesli Anlatım + Sınav + Sertifika",
     );
     expect(ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN).toBe(
-      "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+      "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Sertifika",
     );
     expect(ACADEMY_TRAINING_OFFER_SUMMARY_SEALED).not.toMatch(/Video/i);
     expect(ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN).not.toMatch(/Sesli Akademi/i);

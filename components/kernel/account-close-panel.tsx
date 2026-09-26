@@ -28,7 +28,13 @@ function submitLogout() {
   form.submit();
 }
 
-export function AccountClosePanel({ balanceMinor }: { balanceMinor: number }) {
+export function AccountClosePanel({
+  balanceMinor,
+  financeHoldMinor = 0,
+}: {
+  balanceMinor: number;
+  financeHoldMinor?: number;
+}) {
   const { push } = useActionBridge();
   const copy = SEN_VOICE.profil.close;
   const wallet = SEN_VOICE.cuzdan;
@@ -111,7 +117,11 @@ export function AccountClosePanel({ balanceMinor }: { balanceMinor: number }) {
       ) : null}
       {blocked ? (
         <div className="space-y-3">
-          <p className="text-sm text-[var(--foreground)]">{copy.balanceHint}</p>
+          <p className="text-sm text-[var(--foreground)]">
+            {financeHoldMinor > 0
+              ? wallet.refundFinanceHold(formatMinor(liveBalance, SETTLEMENT_CURRENCY))
+              : copy.balanceHint}
+          </p>
           {refund.error ? (
             <p role="alert" className="text-sm text-[var(--rose)]">
               {refund.error}

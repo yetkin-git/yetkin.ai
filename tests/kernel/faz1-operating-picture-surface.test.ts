@@ -65,7 +65,7 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
     const runbook = readSystemDoc("OPS_RUNBOOK.md");
     expect(runbook).toContain("Motor 4 / Kamu Vitrini 3 Oda (Panel, Akademi, Kariyer)");
     expect(runbook).toContain("academy-receipt-mail.ts");
-    expect(runbook).toContain("Akademi mühürlü yayın **9**");
+    expect(runbook).toContain("Akademi mühürlü yayın **8**");
     expect(runbook).toContain("Faz 0: Akademi Canlı T3 Testi Prosedürü");
     expect(runbook).toContain("https://yetkin.ai/api/paytr/callback");
     expect(runbook).toContain("SMTP skipped");

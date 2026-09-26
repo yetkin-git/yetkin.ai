@@ -28,8 +28,10 @@ describe("akademi cue SSOT — 01_office_ai-1 punchcard", () => {
     expect(loadAcademyLessonCues("01_office_ai-2")).toHaveLength(8);
     expect(hasAcademyLessonCues("01_office_ai-3")).toBe(true);
     expect(loadAcademyLessonCues("01_office_ai-3")).toHaveLength(8);
-    expect(hasAcademyLessonCues("01_office_ai-4")).toBe(true);
-    expect(loadAcademyLessonCues("01_office_ai-4")).toHaveLength(8);
+    expect(hasAcademyLessonCues("01_office_ai-4")).toBe(false);
+    expect(loadAcademyLessonCues("01_office_ai-4")).toHaveLength(0);
+    expect(existsSync(join(ROOT, "archived/academy/01_office_ai-4/lesson-cues.json"))).toBe(true);
+    expect(existsSync(join(ROOT, "lib/academy/lesson-cues/01_office_ai-4.json"))).toBe(false);
     expect(hasAcademyLessonCues("01_office_ai-5")).toBe(true);
     expect(loadAcademyLessonCues("01_office_ai-5")).toHaveLength(8);
     expect(hasAcademyLessonCues("01_office_ai-g1")).toBe(true);
@@ -42,22 +44,29 @@ describe("akademi cue SSOT — 01_office_ai-1 punchcard", () => {
   });
 
   it("compact taslak cue şişirmez; vatandaş sahnesi punchcard sözleşmesi durur", () => {
-    expect(ACADEMY_MEDIA_SEALED_AUDIO).toEqual({
-      "01_office_ai": [
-        "01_office_ai-1",
-        "01_office_ai-2",
-        "01_office_ai-3",
-        "01_office_ai-5",
-        "01_office_ai-6",
-        "01_office_ai-g1",
-        "01_office_ai-w1",
-        "01_office_ai-k1",
-      ],
-    });
+    expect(ACADEMY_MEDIA_SEALED_AUDIO["01_office_ai"]).toEqual([
+      "01_office_ai-1",
+      "01_office_ai-2",
+      "01_office_ai-3",
+      "01_office_ai-5",
+      "01_office_ai-6",
+      "01_office_ai-g1",
+      "01_office_ai-w1",
+      "01_office_ai-k1",
+    ]);
+    expect(ACADEMY_MEDIA_SEALED_AUDIO["01_office_ai_ileri"]).toEqual([
+      "01_office_ai_ileri-1",
+      "01_office_ai_ileri-2",
+      "01_office_ai_ileri-3",
+      "01_office_ai_ileri-4",
+      "01_office_ai_ileri-5",
+      "01_office_ai_ileri-6",
+    ]);
     expect(existsSync(join(ROOT, "lib/academy/curricula/office_ai/section_1.ts"))).toBe(true);
     expect(academyPunchcardLabel("DÜZENSİZ TABLO ŞİMDİ HEMEN")).toBe("DÜZENSİZ TABLO ŞİMDİ");
     expect(academyCitizenPunchcardLabel("GİRİŞ KÖPRÜSÜ")).toBe("HATIRLATMA");
-    expect(academyCitizenPunchcardLabel("CEBİNE KOY")).toBe("CEBİNE KOY");
+    expect(academyCitizenPunchcardLabel("CEBİNE KOY")).toBe("ÜÇ ADIM");
+    expect(academyCitizenPunchcardLabel("SIRA SENDE")).toBe("SIRA SİZDE");
     const curriculum = readFileSync(join(ROOT, "lib/academy/curriculum.ts"), "utf8");
     expect(curriculum).not.toContain("lesson-cues");
     expect(readFileSync(join(ROOT, "lib/academy/citizen-player-layer.ts"), "utf8")).toContain(
@@ -75,5 +84,14 @@ describe("akademi cue SSOT — 01_office_ai-1 punchcard", () => {
     expect(readFileSync(join(ROOT, "components/academy/lesson-media-player.tsx"), "utf8")).not.toContain(
       "loadAcademyLessonCues",
     );
+  });
+
+  it("cue ve timings indeksleri JSON'u statik import etmez", () => {
+    const cuesIndex = readFileSync(join(ROOT, "lib/academy/lesson-cues/index.ts"), "utf8");
+    const timingsIndex = readFileSync(join(ROOT, "lib/academy/lesson-audio-timings/index.ts"), "utf8");
+    expect(cuesIndex).not.toContain('with { type: "json" }');
+    expect(timingsIndex).not.toContain('with { type: "json" }');
+    expect(cuesIndex).not.toContain('from "./01_');
+    expect(timingsIndex).not.toContain('from "./01_');
   });
 });

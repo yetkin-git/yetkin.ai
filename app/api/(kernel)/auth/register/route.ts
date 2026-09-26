@@ -1,13 +1,14 @@
 import type { NextRequest } from "next/server";
+import type { AuthCookieWriteOptions } from "@/lib/kernel/auth/cookie-options";
 import { createSupabaseCookieClient } from "@/lib/kernel/auth/supabase-server";
 import { provisionConfirmedAuthUser } from "@/lib/kernel/auth/dev-signup-fallback";
 import {
   clearOrphanCitizenRows,
   upsertCitizenUserAndWallet,
 } from "@/lib/kernel/auth/provision-citizen-profile";
+import { deliverSignupConfirmationMail } from "@/lib/kernel/auth/confirmation-mail";
 import {
   executeCitizenRegister,
-  isDevSignupFallbackEnabled,
   registerCitizen,
 } from "@/lib/kernel/auth/register-citizen";
 import { isSupabaseConfigured } from "@/lib/kernel/auth/require-session";
@@ -27,6 +28,21 @@ import {
 import { z } from "zod";
 
 export const auth = "public" as const;
+
+type PendingAuthCookie = {
+  name: string;
+  value: string;
+  options: AuthCookieWriteOptions;
+};
+
+function rememberAuthCookie(jar: PendingAuthCookie[], cookie: PendingAuthCookie) {
+  const index = jar.findIndex((item) => item.name === cookie.name);
+  if (index >= 0) {
+    jar[index] = cookie;
+    return;
+  }
+  jar.push(cookie);
+}
 
 const bodySchema = z.object({
   email: z.string().min(1).max(320),
@@ -69,6 +85,8 @@ export async function POST(request: NextRequest) {
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ?? "";
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ?? "";
+    const pendingCookies: PendingAuthCookie[] = [];
+    const pendingHeaders = new Headers();
     const supabase = createSupabaseCookieClient({
       url,
       anon,
@@ -76,9 +94,10 @@ export async function POST(request: NextRequest) {
       getAll() {
         return request.cookies.getAll();
       },
-      setCookie() {
-        // Kayıt tarayıcı oturumu yazmaz. Confirm Email kapalı olsa bile Set-Cookie düşer.
+      setCookie(name, value, options) {
+        rememberAuthCookie(pendingCookies, { name, value, options });
       },
+      setHeaders: pendingHeaders,
     });
 
     const result = await executeCitizenRegister({
@@ -100,13 +119,22 @@ export async function POST(request: NextRequest) {
               : null,
           };
         },
-        async signOut() {
-          await supabase.auth.signOut();
+        async signIn({ email, password }) {
+          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+          return { ok: Boolean(data.session) && !error };
         },
       },
-      fallback: isDevSignupFallbackEnabled() ? provisionConfirmedAuthUser : undefined,
+      fallback: provisionConfirmedAuthUser,
       clearOrphans: clearOrphanCitizenRows,
       upsertProfile: upsertCitizenUserAndWallet,
+      deliverMail: ({ email, emailRedirectTo, signupAccepted }) =>
+        deliverSignupConfirmationMail({
+          email,
+          emailRedirectTo,
+          signupAccepted,
+          requestId,
+          route: AUTH_REGISTER_API_PATH,
+        }),
     });
 
     if (!result.ok) {
@@ -127,7 +155,8 @@ export async function POST(request: NextRequest) {
       event: "auth.register",
       requestId,
       route: AUTH_REGISTER_API_PATH,
-      reason: result.fallback ? "fallback" : "confirm",
+      reason: result.mail,
+      action: result.fallback ? "fallback" : "confirm",
       status: 200,
     });
     logEvent({
@@ -139,17 +168,27 @@ export async function POST(request: NextRequest) {
       status: 200,
     });
 
-    return jsonOk(
+    const response = jsonOk(
       {
         created: result.created,
-        session: false,
-        pendingVerification: true,
+        session: result.session,
+        pendingVerification: result.pendingVerification,
         fallback: result.fallback,
+        mail: result.mail,
       },
       200,
       requestId,
       request,
     );
+    if (result.session) {
+      for (const cookie of pendingCookies) {
+        response.cookies.set(cookie.name, cookie.value, cookie.options);
+      }
+      pendingHeaders.forEach((value, key) => {
+        response.headers.set(key, value);
+      });
+    }
+    return response;
   } catch (error) {
     return jsonFromUnknown(error, 500, requestId, request);
   }

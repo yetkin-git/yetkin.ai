@@ -54,8 +54,17 @@ export const AI_MODEL_ROLE_DEFAULTS: Record<AiLiveModelRoleKey, string> = {
   OPEN_LOCAL: "gemma-3-27b-it",
 };
 
-/** 404 / NOT_FOUND olduğunda VOICE_TTS ikinci model. */
-export const VOICE_TTS_FALLBACK_MODEL_ID = "gemini-2.5-flash-preview-tts";
+/**
+ * Kota, 404 veya limit, Gemini 2.5 Flash TTS'e düşmez.
+ * Kota yoksa işlem durur; açılınca yalnız `VOICE_TTS` (Gemini 3.1 Flash TTS) fırınlanır.
+ */
+export const VOICE_TTS_FALLBACK_TO_2_5 = false as const;
+
+/** Yasak alt model. Üretim yolu bu kimliği seçmez. */
+export const VOICE_TTS_FORBIDDEN_MODEL_ID = "gemini-2.5-flash-preview-tts" as const;
+
+/** @deprecated Seçilmez. `VOICE_TTS_FALLBACK_TO_2_5` kapalıdır. */
+export const VOICE_TTS_FALLBACK_MODEL_ID = VOICE_TTS_FORBIDDEN_MODEL_ID;
 
 export const AI_MODEL_ROLE_META: Record<
   AiModelRoleKey,

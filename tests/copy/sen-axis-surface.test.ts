@@ -70,7 +70,8 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
   });
 
   it("kamu, profil ve kalan odalar siz kaçakları taşımaz; SEN_VOICE bağlar", () => {
-    expect(SEN_VOICE.public.home.description).toContain("üretim bandındadır");
+    expect(SEN_VOICE.public.home.description).toContain("hazırlanıyor");
+    expect(SEN_VOICE.public.home.description).not.toContain("üretim band");
     expect(SEN_VOICE.public.home.description).toContain("Dersleri bitir");
     expect(SEN_VOICE.public.home.description).toContain("PayTR iFrame");
     expect(SEN_VOICE.profil.description).toContain("Görünen adını");

@@ -158,9 +158,14 @@ export function buildWalletCheckoutPassportUrl(origin: string, passport: string)
 export function buildPaytrDronCheckoutReturnUrl(
   origin: string,
   outcome: "ok" | "fail",
+  courseSlug?: string | null,
 ): string {
   const base = origin.trim().replace(/\/+$/, "");
   const url = new URL(WALLET_CHECKOUT_PASSPORT_RETURN_PATH, `${base}/`);
   url.searchParams.set("sonuc", outcome);
+  const slug = courseSlug?.trim() ?? "";
+  if (outcome === "ok" && /^[a-z0-9_]+$/u.test(slug)) {
+    url.searchParams.set("kurs", slug);
+  }
   return url.toString();
 }

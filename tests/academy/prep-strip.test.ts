@@ -11,10 +11,12 @@ import {
   academyPrepStripForSlug,
   isAcademyPrepStripKey,
 } from "@/lib/academy/prep-strip";
+import { academyPaywallLockedLessonShells } from "@/lib/academy/paywall-shells";
 import {
-  academyPaywallLockedLessonShells,
+  academyPlayerMediaLessonKeys,
   academySectionAllowsFreePreview,
   isAcademyPlayerPaywallLessonLocked,
+  sealClosedAcademyLessonPayload,
 } from "@/lib/academy/preview-lock";
 import {
   academyCourseOffersFreePreview,
@@ -91,6 +93,31 @@ describe("01_office_ai Ders 0 — Başlamadan Önce hazırlık şeridi", () => {
     expect(oyna).toContain("hasPurchased");
     const player = readFileSync(join(process.cwd(), "components/academy/curriculum-player.tsx"), "utf8");
     expect(player).toContain("isAcademyPlayerPaywallLessonLocked");
-    expect(player).not.toContain("paywallLocked && !lesson.open");
+    expect(player).toContain("lessonMediaBlocked");
+    expect(player).toContain("lessonPlaybackBlocked");
+    expect(oyna).toContain("hasAcademyOynaAccess");
+    expect(oyna).toContain("paywallLocked: true");
+    expect(oyna).toContain("sealClosedAcademyLessonPayload");
+    const mediaKeys = academyPlayerMediaLessonKeys({
+      keys: ["01_office_ai-0", "01_office_ai-1", "01_office_ai-2"],
+      paywallLocked: true,
+    });
+    expect(mediaKeys).toEqual(["01_office_ai-0"]);
+    expect(
+      academyPlayerMediaLessonKeys({
+        keys: ["01_office_ai-0", "01_office_ai-1", "01_office_ai-2"],
+        paywallLocked: false,
+        openLessonKeys: ["01_office_ai-1"],
+      }),
+    ).toEqual(["01_office_ai-0", "01_office_ai-1"]);
+    expect(
+      sealClosedAcademyLessonPayload([
+        { open: true, body: "açık" },
+        { open: false, body: "gizli gövde" },
+      ]),
+    ).toEqual([
+      { open: true, body: "açık" },
+      { open: false, body: "" },
+    ]);
   });
 });

@@ -17,15 +17,20 @@ import {
  * Bake sonrası süre değişirse bu tabloyu güncelle. Taze ingest bekler.
  */
 export const ACADEMY_SEALED_AUDIO_DURATION_SEC: Readonly<Record<string, number>> = {
-  "01_office_ai-1": 689,
-  "01_office_ai-2": 517,
-  "01_office_ai-3": 542,
-  "01_office_ai-4": 494,
+  "01_office_ai-1": 692,
+  "01_office_ai-2": 520,
+  "01_office_ai-3": 538,
   "01_office_ai-5": 553,
   "01_office_ai-6": 506,
-  "01_office_ai-g1": 568,
-  "01_office_ai-w1": 563,
-  "01_office_ai-k1": 642,
+  "01_office_ai-g1": 604,
+  "01_office_ai-w1": 583,
+  "01_office_ai-k1": 702,
+  "01_office_ai_ileri-1": 524,
+  "01_office_ai_ileri-2": 617,
+  "01_office_ai_ileri-3": 866,
+  "01_office_ai_ileri-4": 1080,
+  "01_office_ai_ileri-5": 1104,
+  "01_office_ai_ileri-6": 755,
 };
 
 type AcademySealedLessonKey = keyof typeof ACADEMY_SEALED_AUDIO_DURATION_SEC;
@@ -40,21 +45,11 @@ export const ACADEMY_SEALED_AUDIO_EXTENSION = "mp3" as const;
 export const ACADEMY_SEALED_AUDIO_MIME = "audio/mpeg" as const;
 /** Lyria 3.5 dip müzik — mühürlü bed; izlemede canlı üretim yok. */
 export const ACADEMY_SEALED_BED_EXTENSION = "bed.mp3" as const;
-export const ACADEMY_SEALED_BED_LESSON_KEYS = ["01_office_ai-1", "01_office_ai-2", "01_office_ai-3", "01_office_ai-5", "01_office_ai-6", "01_office_ai-g1", "01_office_ai-w1", "01_office_ai-k1"] as const;
+/** Kendi yatak dosyası diskte duran dersler. Başka dersin yatağı ödünç verilmez. */
+export const ACADEMY_SEALED_BED_LESSON_KEYS = ["01_office_ai-1"] as const;
 
-/** 01_office_ai-2/3/4/5/6/g1/w1/k1 Lyria kaseti 1. ders bed’ini reuse eder — yeni Lyria çağrısı yok. */
 function academyLessonBedAssetKey(lessonKey: string): string {
-  const key = lessonKey.trim();
-  return key === "01_office_ai-2" ||
-    key === "01_office_ai-3" ||
-    key === "01_office_ai-4" ||
-    key === "01_office_ai-5" ||
-    key === "01_office_ai-6" ||
-    key === "01_office_ai-g1" ||
-    key === "01_office_ai-w1" ||
-    key === "01_office_ai-k1"
-    ? "01_office_ai-1"
-    : key;
+  return lessonKey.trim();
 }
 /** Vercel Pro statik yükleme tavanı 1 GB; mühürlü MP3 bu bütçenin altında kalır. */
 export const ACADEMY_SEALED_AUDIO_DEPLOY_MAX_BYTES = 400 * 1024 * 1024;
@@ -110,6 +105,21 @@ export function academyLessonAudioPlaybackSrc(courseSlug: string, lessonKey: str
   const path = academyLessonAudioPublicPath(courseSlug, lessonKey);
   const version = academySealedAudioCacheVersion(lessonKey);
   return version > 0 ? `${path}?v=${version}` : path;
+}
+
+/**
+ * Vatandaş anlatımı — mühür listesi ya da fırınlanmış üretim kuyruğu.
+ * Süre, timings dosyasındaki `durationSec` değeridir.
+ */
+export function academyNarrationDurationSec(courseSlug: string, lessonKey: string): number {
+  if (!isAcademyLessonAudioSealed(courseSlug, lessonKey)) {
+    return 0;
+  }
+  return academySealedAudioDurationSec(courseSlug, lessonKey);
+}
+
+export function isAcademyLessonNarrationReady(courseSlug: string, lessonKey: string): boolean {
+  return academyNarrationDurationSec(courseSlug, lessonKey) > 0;
 }
 
 export function academySealedAudioDurationSec(courseSlug: string, lessonKey: string): number {

@@ -42,7 +42,7 @@ describe("akademi vitrin kapak — amiral 1. bölüm + Yakında şablonu", () =>
     expect(existsSync(join(ROOT, "public", "academy", "cinema", "01_office_ai-1-eye.webp"))).toBe(
       true,
     );
-    expect(ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN).toBe(10);
+    expect(ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN).toBe(12);
 
     for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
       if (slug === ACADEMY_FLAGSHIP_SKU_SLUG) {
@@ -62,6 +62,9 @@ describe("akademi vitrin kapak — amiral 1. bölüm + Yakında şablonu", () =>
     expect(ACADEMY_HOME_LCP_COVER_AVIF_SRCSET).toContain("01_office_ai-1-eye.avif");
     expect(ACADEMY_HOME_LCP_PRELOAD_LINK).toBe("");
     expect(ACADEMY_CATALOG_LCP_PRELOAD_LINK).toBe("");
+    expect(academyCourseCoverPath("01_office_ai_ileri")).toBe("/academy/covers/01_office_ai_ileri.jpg");
+    expect(existsSync(join(ROOT, "public", "academy", "covers", "01_office_ai_ileri.jpg"))).toBe(true);
+    expect(existsSync(join(ROOT, "public", "academy", "covers", "01_office_ai_ileri.svg"))).toBe(false);
   });
 
   it("ana sayfa taslak SKU ızgarası basmaz; üretim bandı dürüst kart durur", () => {

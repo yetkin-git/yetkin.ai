@@ -173,7 +173,7 @@ describe("freelancer ilan tohumu yüzeyi", () => {
     expect(readSrc("components/freelancer/job-card.tsx")).toContain("jobListingDisplayCopy");
     expect(page).not.toContain("FREELANCER_SHOWCASE");
     expect(load).toContain("listOpenJobs");
-    expect(load).toContain("FREELANCER_PUBLIC_SURFACE_LOCKED");
+    expect(load).toContain("isFreelancerPublicSurfaceLocked");
     expect(store).toContain('status: "OPEN"');
     expect(list).not.toContain("FREELANCER_SHOWCASE");
     expect(list).not.toContain("Vitrine");

@@ -20,6 +20,14 @@ export const CURRICULUM_LESSON_KEYS_BY_SLUG: Readonly<Record<string, readonly st
     "01_office_ai-w1",
     "01_office_ai-6",
   ],
+  "01_office_ai_ileri": [
+    "01_office_ai_ileri-1",
+    "01_office_ai_ileri-2",
+    "01_office_ai_ileri-3",
+    "01_office_ai_ileri-4",
+    "01_office_ai_ileri-5",
+    "01_office_ai_ileri-6",
+  ],
   "02_ecommerce_ai": [],
   "03_social_media_ai": [],
   "04_chatbot_nocode": [],
@@ -28,6 +36,7 @@ export const CURRICULUM_LESSON_KEYS_BY_SLUG: Readonly<Record<string, readonly st
 
 export const CURRICULUM_LESSON_COUNT_BY_SLUG: Readonly<Record<string, number>> = {
   "01_office_ai": 8,
+  "01_office_ai_ileri": 6,
   "02_ecommerce_ai": 0,
   "03_social_media_ai": 0,
   "04_chatbot_nocode": 0,
@@ -93,4 +102,40 @@ export function nextAcademyLessonKeyFromIndex(
 ): string | null {
   const done = new Set(completedKeys);
   return curriculumLessonKeysForSlug(slug).find((key) => !done.has(key)) ?? null;
+}
+
+/**
+ * Faz 2 metin katmanı — gömülmeye hazır taslak indeks.
+ * Canlı sınav yolu yukarıdaki `CURRICULUM_LESSON_KEYS_BY_SLUG` içindedir.
+ * Katalog, devam paneli ve `curriculumLessonKeysForSlug` bu anahtarları okumaz.
+ * OFF-201 canlı sınav yoluna alındı. Bu dizide yalnız henüz yayınlanmayan taslaklar durur.
+ * Emekli slug `02_business_ai` bu dizide yoktur.
+ */
+export const PHASE2_DRAFT_LESSON_KEYS_BY_SLUG: Readonly<Record<string, readonly string[]>> = {
+  parent_teacher_ai: [
+    "parent_teacher_ai-1",
+    "parent_teacher_ai-2",
+    "parent_teacher_ai-3",
+    "parent_teacher_ai-4",
+    "parent_teacher_ai-5",
+    "parent_teacher_ai-6",
+  ],
+};
+
+export const PHASE2_DRAFT_LESSON_COUNT_BY_SLUG: Readonly<Record<string, number>> = {
+  parent_teacher_ai: 6,
+};
+
+export function phase2DraftLessonKeysForSlug(slug: string): readonly string[] {
+  return PHASE2_DRAFT_LESSON_KEYS_BY_SLUG[slug] ?? [];
+}
+
+export function phase2DraftLessonCountForSlug(slug: string): number {
+  return PHASE2_DRAFT_LESSON_COUNT_BY_SLUG[slug] ?? 0;
+}
+
+/** Faz 2 sıra numarası — canlı vatandaş ordinal’inden ayrı, 1 tabanlı. */
+export function phase2DraftLessonOrdinal(slug: string, lessonKey: string): number | null {
+  const index = phase2DraftLessonKeysForSlug(slug).indexOf(lessonKey.trim());
+  return index >= 0 ? index + 1 : null;
 }

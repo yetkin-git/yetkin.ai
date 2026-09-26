@@ -230,7 +230,7 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(pieces[0]?.start).toBe(2);
     expect(academyBedDuckGain(0.5, pieces)).toBe(ACADEMY_BED_BREATH_GAIN);
     const lastEnd = pieces.at(-1)?.end ?? 0;
-    expect(lastEnd).toBe(541.92);
+    expect(lastEnd).toBe(537.96);
     expect(academyBedDuckGain(lastEnd, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 1.5, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
     expect(academyBedDuckGain(lastEnd + 4.5, pieces)).toBe(0);
@@ -244,7 +244,7 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
     expect(exam?.questions.map((row) => row.id)).toEqual(["q_off_l3_1", "q_off_l3_2", "q_off_l3_3"]);
     const punchcards = dronAcademyPunchcardsForLesson(KEY);
     expect(punchcards.map((card) => card.label)).toContain("ŞABLON KAOSU");
-    expect(punchcards.at(-1)?.end).toBe(541.92);
+    expect(punchcards.at(-1)?.end).toBe(537.96);
   });
 
   it("Sebep → Eylem → Sonuç ve tek fikir kilidi durur", () => {
@@ -363,17 +363,17 @@ describe("01_office_ai bölüm 3 — Metinden Slayta Altın Şablon", () => {
 
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
-    expect(timings?.durationSec).toBe(541.92);
-    expect(timings?.cacheV).toBe(541920);
+    expect(timings?.durationSec).toBe(537.96);
+    expect(timings?.cacheV).toBe(537960);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.at(-1)?.end).toBe(541.92);
+    expect(cues.at(-1)?.end).toBe(537.96);
     for (const cue of cues) {
       const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
       expect(pieces[0]?.start, cue.id).toBe(cue.start);
       expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
     }
     const strip = loadAcademyKaraokeStrip(KEY);
-    expect(strip.at(-1)?.end).toBe(541.92);
+    expect(strip.at(-1)?.end).toBe(537.96);
     const stripText = strip.map((line) => line.text).join(" ");
     expect(stripText).toMatch(/yönetim özeti/u);
     expect(stripText).toMatch(/Peki neden slayta düz metin yığını doldurulmaz/u);

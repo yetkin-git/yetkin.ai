@@ -3,11 +3,18 @@ import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import { academyBedOutroTailSec, academyPlayerOutroTailSec, ACADEMY_OUTRO_BREATH_MS, ACADEMY_OUTRO_BREATH_SEC } from "@/lib/academy/lesson-bed-duck";
 import { academyPlayerClockDurationSec, academySealedAudioDurationSec } from "@/lib/academy/lesson-audio";
 import { formatAcademyCinemaClock } from "@/lib/academy/lesson-cinema";
+import { academyPlaybackCueAtTime, loadAcademyLessonPlaybackCues } from "@/lib/academy/lesson-cues";
+import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
+import {
+  academyVisualStageActiveCard,
+  loadAcademyLessonVisualStage,
+} from "@/lib/academy/lesson-visual-stage";
 import {
   ACADEMY_LESSON_AUTO_ADVANCE_DEFAULT,
   ACADEMY_LESSON_AUTO_ADVANCE_STORAGE_KEY,
   academyOutroBreathRemainMs,
   canAdvanceAcademyPlayerLesson,
+  academyLessonAudioEndedIsComplete,
   hasAcademyLessonPlaybackReachedEnd,
   hasAcademyOutroBreathElapsed,
   isAcademyPlayerExamReady,
@@ -38,10 +45,11 @@ describe("akademi ders geçiş mimarisi", () => {
     expect(prevAcademyPlayerLesson(lessons, "l1")).toBeNull();
   });
 
-  it("açık derste tamamlanmadan sıradaki derse geçişe izin verir", () => {
+  it("sıradaki ders open değilse geçişe izin vermez", () => {
     const current = lessons[0]!;
     const next = lessons[1]!;
-    expect(canAdvanceAcademyPlayerLesson(current, next)).toBe(true);
+    expect(canAdvanceAcademyPlayerLesson(current, next)).toBe(false);
+    expect(canAdvanceAcademyPlayerLesson(current, { ...next, open: true })).toBe(true);
   });
 
   it("ödev atlandığında TTS her zaman başlar (Otomatik Geçiş kapalı olsa bile)", () => {
@@ -146,14 +154,14 @@ describe("akademi ders geçiş mimarisi", () => {
     ).toBeNull();
   });
 
-  it("ekran saati 09:16/09:16 iken kaset milisaniyesi tam cap olmasa da bitti sayılır", () => {
+  it("ekran saati 09:17 iken kaset milisaniyesi tam cap olmasa da bitti sayılır", () => {
     const durationSec = academyPlayerClockDurationSec({
       audioDuration: 0,
       sealedDuration: academySealedAudioDurationSec("01_office_ai", "01_office_ai-5"),
       spokenDuration: 0,
       outroTailSec: academyBedOutroTailSec("01_office_ai-5"),
     });
-    expect(formatAcademyCinemaClock(durationSec)).toBe("09:16");
+    expect(formatAcademyCinemaClock(durationSec)).toBe("09:17");
     expect(formatAcademyCinemaClock(485)).toBe("08:05");
     expect(
       hasAcademyLessonPlaybackReachedEnd({ currentTime: Math.floor(durationSec), durationSec }),
@@ -171,17 +179,81 @@ describe("akademi ders geçiş mimarisi", () => {
     expect(hasAcademyLessonPlaybackReachedEnd({ currentTime: 8, durationSec: 0 })).toBe(false);
   });
 
-  it("tamamlanmış 5. dersten kilitli görünen 6. derse otomatik geçişe izin verir", () => {
+  it("11:32 kaset 3. saniyede ve ilk cue sonunda bitmez; sahne cue damgasında kalır", () => {
+    const lessonKey = "01_office_ai_ileri-4";
+    const timings = loadAcademySealedAudioTimings(lessonKey);
+    const sealed = timings?.durationSec ?? 0;
+    expect(sealed).toBeGreaterThan(11 * 60);
+    expect(
+      academyLessonAudioEndedIsComplete({ ended: false, currentTime: 3, sealedDurationSec: sealed }),
+    ).toBe(false);
+    expect(
+      academyLessonAudioEndedIsComplete({ ended: true, currentTime: 3, sealedDurationSec: sealed }),
+    ).toBe(false);
+    const firstCueEnd = timings?.pieces.find((piece) => piece.cueId === "cue-01")?.end ?? 0;
+    expect(firstCueEnd).toBeGreaterThan(3);
+    expect(
+      academyLessonAudioEndedIsComplete({
+        ended: true,
+        currentTime: firstCueEnd,
+        sealedDurationSec: sealed,
+      }),
+    ).toBe(false);
+    expect(
+      academyLessonAudioEndedIsComplete({
+        ended: false,
+        currentTime: sealed,
+        sealedDurationSec: sealed,
+      }),
+    ).toBe(false);
+    expect(
+      academyLessonAudioEndedIsComplete({
+        ended: true,
+        currentTime: sealed,
+        sealedDurationSec: sealed,
+      }),
+    ).toBe(true);
+
+    const cues = loadAcademyLessonPlaybackCues(lessonKey);
+    const stage = loadAcademyLessonVisualStage(lessonKey);
+    expect(stage).not.toBeNull();
+    const openingId = cues[0]?.id;
+    expect(academyPlaybackCueAtTime(cues, 3)?.id).toBe(openingId);
+    expect(academyVisualStageActiveCard(stage!, 3)?.cueId).toBe(openingId);
+    for (let second = 0; second <= Math.floor(sealed); second += 1) {
+      const cue = academyPlaybackCueAtTime(cues, second);
+      const card = academyVisualStageActiveCard(stage!, second);
+      if (cue) {
+        expect(card?.cueId).toBe(cue.id);
+      }
+      expect(
+        academyLessonAudioEndedIsComplete({
+          ended: second + 1.5 < sealed,
+          currentTime: second,
+          sealedDurationSec: sealed,
+        }),
+      ).toBe(false);
+    }
+  });
+
+  it("kilitli sıradaki derse otomatik geçiş null döner", () => {
     const current = { key: "01_office_ai-5", open: true, completed: true };
     const next = { key: "01_office_ai-6", open: false, completed: false };
-    expect(canAdvanceAcademyPlayerLesson(current, next)).toBe(true);
+    expect(canAdvanceAcademyPlayerLesson(current, next)).toBe(false);
     expect(
       resolveAcademyAutoAdvanceNextLesson({
         autoAdvanceEnabled: true,
         current,
         next,
-      })?.key,
-    ).toBe("01_office_ai-6");
+      }),
+    ).toBeNull();
+    expect(
+      academyPlayerAutoAdvanceTargetKey({
+        autoAdvanceEnabled: true,
+        lessons: [current, next],
+        endedLessonKey: current.key,
+      }),
+    ).toBeNull();
   });
 
   it("01_office_ai müfredatında 5. dersin sıradaki adımı e-posta ritüelidir", () => {

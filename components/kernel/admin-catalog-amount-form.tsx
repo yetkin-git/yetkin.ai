@@ -16,11 +16,13 @@ import { cn } from "@/components/ui/cn";
 
 export function AdminCatalogAmountForm({
   entryId,
+  moduleKey,
   unitKey,
   unitType,
   initialAmountMinor,
 }: {
-  entryId: string;
+  entryId?: string;
+  moduleKey?: string;
   unitKey: string;
   unitType: PriceCatalogUnitType;
   initialAmountMinor: number;
@@ -44,7 +46,7 @@ export function AdminCatalogAmountForm({
       setError(copy.amountFail);
       return;
     }
-    if (amountMinor === initialAmountMinor) {
+    if (entryId && amountMinor === initialAmountMinor) {
       return;
     }
     if (reason.trim().length < 8) {
@@ -63,12 +65,22 @@ export function AdminCatalogAmountForm({
       withRailApiVersion({
         method: "PATCH",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          id: entryId,
-          amountMinor,
-          reasonCode,
-          reason: reason.trim(),
-        }),
+        body: JSON.stringify(
+          entryId
+            ? {
+                id: entryId,
+                amountMinor,
+                reasonCode,
+                reason: reason.trim(),
+              }
+            : {
+                moduleKey,
+                unitKey,
+                amountMinor,
+                reasonCode,
+                reason: reason.trim(),
+              },
+        ),
       }),
     );
     const parsed = parseRailClientJson<Record<string, unknown>>(await response.json());

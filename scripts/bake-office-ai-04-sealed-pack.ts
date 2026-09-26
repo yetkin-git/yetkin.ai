@@ -648,87 +648,9 @@ async function overlayCueTimesFromTimings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  const args = parseArgs(process.argv.slice(2));
-  if (!args.confirm) {
-    throw new Error("--confirm-gemini-spend gerekli (Google AI Studio harcaması).");
-  }
-  const apiKey = sanitizeGeminiApiKey(process.env.GEMINI_API_KEY);
-  if (!apiKey) {
-    throw new Error("GEMINI_API_KEY yok.");
-  }
-  const client = new GoogleGenAI({
-    apiKey,
-    httpOptions: {
-      timeout: 180_000,
-      retryOptions: { attempts: 1, httpStatusCodes: [] as number[] },
-    },
-  });
-
-  process.stdout.write(`1/3 senaryo ${SCRIPT_MODEL}\n`);
-  let script: ScriptPayload | null = null;
-  let lastScriptError = "";
-  for (let attempt = 1; attempt <= 8; attempt += 1) {
-    try {
-      script = parseScriptPayload(await generateJson(client, SCRIPT_PROMPT));
-      break;
-    } catch (error) {
-      lastScriptError = error instanceof Error ? error.message : String(error);
-      process.stdout.write(`  senaryo deneme ${attempt}/8: ${lastScriptError}\n`);
-    }
-  }
-  if (!script) {
-    throw new Error(`Senaryo mühürlenemedi: ${lastScriptError}`);
-  }
-  const paragraphs = flattenParagraphs(script);
-  writeUtf8("docs/curriculum/01_office_ai_04_script.md", renderCurriculumMarkdown(script));
-  writeUtf8(
-    "lib/academy/spoken-scripts/01_office_ai-4.md",
-    renderSpokenScriptMarkdown(paragraphs),
+  throw new Error(
+    "01_office_ai-4 sınav yolunda yoktur. Gövde archived/academy/01_office_ai-4 altındadır. Bu betik canlı lib'e yazmaz ve TTS açmaz.",
   );
-  const cues = renderCuesJson(paragraphs);
-  writeUtf8(
-    "lib/academy/lesson-cues/01_office_ai-4.json",
-    `${JSON.stringify(cues, null, 2)}\n`,
-  );
-  writeUtf8(
-    "docs/curriculum/01_office_ai_04_cue.json",
-    `${JSON.stringify({ lessonKey: LESSON_KEY, cues }, null, 2)}\n`,
-  );
-
-  process.stdout.write(`2/3 sınav ${SCRIPT_MODEL}\n`);
-  let exam: ExamPayload;
-  if (args.skipExam) {
-    const { readFileSync } = await import("node:fs");
-    exam = parseExamPayload(
-      JSON.parse(readFileSync(join(ROOT, "docs", "curriculum", "01_office_ai_04_exam.json"), "utf8")),
-    );
-    process.stdout.write("sınav atlandı (--skip-exam); mevcut mini sınav durur.\n");
-  } else {
-    exam = parseExamPayload(await generateJson(client, EXAM_PROMPT));
-    writeUtf8(
-      "docs/curriculum/01_office_ai_04_exam.json",
-      `${JSON.stringify(exam, null, 2)}\n`,
-    );
-    writeUtf8(
-      "lib/academy/lesson-exams/01_office_ai-4.json",
-      `${JSON.stringify(exam, null, 2)}\n`,
-    );
-  }
-  writeSection4(script, exam);
-
-  if (args.skipTts) {
-    process.stdout.write(
-      args.dryRun
-        ? "TTS atlandı (--dry-run). Senaryo ve cue yazıldı; mühür yok.\n"
-        : "TTS atlandı (--skip-tts). Metin mühürlü.\n",
-    );
-    return;
-  }
-  process.stdout.write("3/3 TTS gemini-3.1-flash-tts-preview Callirrhoe\n");
-  await runTtsBake();
-  await copySealedAudioAlias();
-  await overlayCueTimesFromTimings();
-  process.stdout.write("01_office_ai bölüm 4 mühür paketi tamam.\n");
 }
 
 main().catch((error) => {

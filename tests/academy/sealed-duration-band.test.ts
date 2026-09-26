@@ -7,7 +7,6 @@ import {
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
 import {
-  ACADEMY_AI_LESSON_DURATION_MAX_SEC,
   ACADEMY_AI_LESSON_DURATION_MIN_SEC,
   isAcademyAiCourseDurationMinutes,
 } from "@/lib/academy/production-standard";
@@ -23,8 +22,7 @@ describe("mühürlü süre bandı ve kurs SSOT", () => {
     expect(minutes).toBe(Math.round((sec / 60) * 100) / 100);
     expect(officeAiMasteryModule.estimatedTotalMinutes).toBe(minutes);
     expect(isAcademyAiCourseDurationMinutes(minutes)).toBe(true);
-    expect(ACADEMY_AI_LESSON_DURATION_MIN_SEC).toBe(420);
-    expect(ACADEMY_AI_LESSON_DURATION_MAX_SEC).toBe(720);
+    expect(ACADEMY_AI_LESSON_DURATION_MIN_SEC).toBe(300);
   });
 
   it("k1 ve 6 konuşma metni bant uzatmasını taşır", () => {
@@ -35,11 +33,10 @@ describe("mühürlü süre bandı ve kurs SSOT", () => {
     expect(capstone).toMatch(/yinelenen bir takvim bloğu/u);
   });
 
-  it("9 kaset timings okunur; underBand boş, tüm dersler 420–720 yeşilindedir", () => {
+  it("9 kaset timings okunur; underBand boş, üst dakika tavanı yoktur", () => {
     const keys = curriculumLessonKeysForSlug(SLUG);
     expect(keys).toHaveLength(8);
     const underBand: string[] = [];
-    const overBand: string[] = [];
     for (const key of keys) {
       const timings = loadAcademySealedAudioTimings(key);
       expect(timings, key).not.toBeNull();
@@ -47,11 +44,7 @@ describe("mühürlü süre bandı ve kurs SSOT", () => {
       if (timings!.durationSec < ACADEMY_AI_LESSON_DURATION_MIN_SEC) {
         underBand.push(key);
       }
-      if (timings!.durationSec > ACADEMY_AI_LESSON_DURATION_MAX_SEC) {
-        overBand.push(key);
-      }
     }
     expect(underBand).toEqual([]);
-    expect(overBand).toEqual([]);
   });
 });

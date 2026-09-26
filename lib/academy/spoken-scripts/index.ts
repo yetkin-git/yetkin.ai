@@ -1,4 +1,8 @@
 /**
+ * Konuşma metninin tek kaynağı bu klasördür (`spoken-scripts/<ders>.md`).
+ * `lesson-cues` ve `lesson-audio-timings` mühürlü saatin türetilmiş kilitleridir; ikinci konuşma editörü değildir.
+ * `docs/curriculum/` bake kopyasıdır; oynatıcı okumaz. OFF-201 çalışma sekmesi bu dosyayı okur.
+ *
  * Stüdyo konuşma metni — compact makaleden ayrı seslendirme SSOT.
  * Ekran cue JSON (F2, F5, Alt+F11, +90, Office 365, Word, PowerPoint, Copilot, Gamma, Teams,
  * SEO, Trendyol, Buybox, Amazon, Bundle, H1, Meta, ChatGPT, Sentiment Analysis, Closed-Loop,

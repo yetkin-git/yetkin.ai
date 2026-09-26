@@ -3,6 +3,35 @@
  * İzleme anında harici API yok; mühürlü bed MP3 + bake parça saati.
  */
 
+/** Lyria 3.5 atmosferi — ders konusuna göre döner. Tek şablon yatak yasak. */
+export const ACADEMY_BED_MOODS = ["ambient", "lo-fi", "upbeat"] as const;
+
+export type AcademyBedMood = (typeof ACADEMY_BED_MOODS)[number];
+
+export const ACADEMY_OFF201_LESSON_BED_MOOD = {
+  "01_office_ai_ileri-1": "ambient",
+  "01_office_ai_ileri-2": "lo-fi",
+  "01_office_ai_ileri-3": "upbeat",
+  "01_office_ai_ileri-4": "ambient",
+  "01_office_ai_ileri-5": "lo-fi",
+  "01_office_ai_ileri-6": "upbeat",
+} as const satisfies Record<string, AcademyBedMood>;
+
+export function academyLessonBedMood(lessonKey: string): AcademyBedMood {
+  const mapped = ACADEMY_OFF201_LESSON_BED_MOOD[lessonKey.trim() as keyof typeof ACADEMY_OFF201_LESSON_BED_MOOD];
+  return mapped ?? "ambient";
+}
+
+export function academyLessonBedPrompt(mood: AcademyBedMood): string {
+  const tone =
+    mood === "upbeat"
+      ? "Light upbeat office pulse, soft kick, muted pluck, forward but not loud."
+      : mood === "lo-fi"
+        ? "Lo-fi study bed, warm tape hiss barely present, dusty keys, slow swing."
+        : "Ambient office air, soft piano, muted guitar, light brushed percussion, gentle analog pad.";
+  return `Instrumental only, no vocals, no lyrics. ${tone} Loop-friendly bed for a spoken lesson. Stays quiet under speech and swells politely in 3 to 5 second breath gaps. No melody that fights the narrator. 44.1 kHz stereo.`;
+}
+
 export const ACADEMY_BED_SPEECH_GAIN = 0.12;
 export const ACADEMY_BED_BREATH_GAIN = 0.46;
 /** Gelecek Ders Köprüsü son kelimesi bittiği an — Lyria zirve kazancı. */

@@ -6,10 +6,10 @@
 |------|--------|
 | Tarih | 17 Ağustos 2026 |
 | Statü | Vizyon ve Strateji Belgesi. Anayasa'nın ruhunu, iş modelini ve büyüme hedeflerini açıklar. |
-| Son Reform | **21 Eylül 2026 (TEDAVİ-OFFICE-AI-01):** 1.3 birincil kitle ofis işçisine çekildi. Compact mühür tanımı izleme + test olarak dürüstleşti. |
+| Son Reform | **24 Eylül 2026 (REFORM-03):** Yayın 4 katmanlı eğitim videosu. Stüdyo jargonu vatandaş yüzeyinden ayrı. **26 Eylül 2026:** Mimari ad B1 cümlesine kilitlendi — Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci. |
 | Yer | `/.system_docs/MANIFESTO.md` |
 | Çelişki | Bir cümle Anayasa ile çatışırsa `.system_docs/ANAYASA.md` bağlayıcıdır. |
-| Durum | Yaşayan kesit `docs/ops/DURUM.md` içindedir; `docs/DURUM.md` uyumluluk aynasıdır. |
+| Durum | Yaşayan kesit `docs/ops/DURUM.md` içindedir. `docs/DURUM.md` yalnız oraya yönlendirir. |
 
 ---
 
@@ -48,6 +48,7 @@ Platformdaki her sertifika, sunucu tarafında SHA-256 içerik özetiyle sicile b
 
 * **Yalın ve Sakin Arayüz (Quiet Luxury):** Güven bağırmaz. Bu bir dogma değil, güven inşa eden bir ürün tercihidir.
 * **Doğrudan İletişim (SEN Aksı):** Varsayılan B2C sesimiz SEN’dir. Dron başına locale edilebilir; B2B yüzeyinde resmî hitap seçilebilir.
+* **Stüdyo sözü vatandaş yüzeyine çıkmaz.** `punchcard`, `bake` ve `kaset` üretim kılavuzunda kalır. Vatandaş sesli dersi, sahnedeki kısa rozeti ve hazırlanan kaydı görür.
 
 ---
 
@@ -64,7 +65,7 @@ Faz 1 kamu vitrini kilidi **Anayasa B2**’dedir; Manifesto o kilidi ikinci kez 
 **Oda tavanı esnektir** cümlesi Faz 2 checklist’idir, Faz 1 kilidini gevşetmez: yeni oda/dron = kayıt + sözleşme + bayrak. Kamu kanıt URL’si (`/vize`) yeni oda açmaz.
 
 ### Dron durumu
-Dron native istemcidir. T3 Akademi halkası (oynatıcı, sınav, mühür, kasa) bağlıdır; Tezgâh / Freelancer yüzeyi izole durur (`publishFrozenUntilFaz1Close: false`, `tezgahStoreIsolated: true`). Bağlıdır ama web-parite değildir: sınav, mühür ve kasa tamdır, Excel/Gmail simülasyonu web’dedir. Shared Kernel `@yetkin/kernel` **mevcut ince sözleşmedir** (para, katalog kimliği, v1 hop, JSON zarf); Prisma/Supabase taşımaz. Dronlar bu paketi ve `/api/v1` hop’unu tüketir.
+Mimari ad **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci**dir (Anayasa B1). «Sürü Dron» ve «Micro-Apps» bu adın yerine geçmez. Amiral gövde bu Next.js monolith’tir. İnce sözleşme paketi `@yetkin/kernel`dir; Prisma ve Supabase taşımaz. Tek native istemci `apps/rail-is`tir ve aynı `/api/v1` hop sicilini tüketir. Bugün filo yoktur. T3 Akademi halkası (oynatıcı, sınav, mühür, kasa) bu istemciye bağlıdır; Tezgâh / Freelancer yüzeyi izole durur (`publishFrozenUntilFaz1Close: false`, `tezgahStoreIsolated: true`). Bağlıdır ama web-parite değildir: sınav, mühür ve kasa tamdır, Excel/Gmail simülasyonu web’dedir. İkinci istemci ancak aynı paketi ve aynı hop’u tüketerek doğar.
 
 ### Kesit kuralı
 Haftalık kesit `docs/ops/DURUM.md` içindedir.
@@ -109,7 +110,7 @@ Güvenli teslimat üzerinden platform komisyonu. Kamu yüzeyi kilitliyken nakit 
 
 # BÖLÜM 4 — YOL HARİTASI İLKESİ
 
-1. **Mimari:** Modüler monolit + mevcut `@yetkin/kernel` ince paketi + API-First dron sözleşmesi. Canlı oynatıcı compact makaledir; mühürlü derste karaoke overlay açılır. İzlemede canlı TTS yoktur.
+1. **Mimari:** Pragmatik Monolit + İnce Sözleşme Paketi (`@yetkin/kernel`) + Tek Native İstemci (`apps/rail-is`). Yayın, Anayasa B4’teki 4 katmanlı eğitim videosudur. İzlemede canlı üretici çağrısı yoktur. `punchcard`, `bake` ve `kaset` vatandaş cümlesine girmez. Ayrı backend, ayrı veritabanı ve ayrı kimlik açılmaz.
 2. **Gelir şimdi:** Merchant iFrame ile cüzdan yükleme + Akademi DEBIT. Kanıt dışarı `/vize` ile çıkar.
 3. **Ölçek sonra:** Split sözleşmesi, freelancer hop geri yazımı, dron kapalı testi. Kurumsal B2B ancak keşif + pilot sonrası.
 

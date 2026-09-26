@@ -1,6 +1,7 @@
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
 import { CITIZEN_PASSWORD_MIN_LENGTH } from "@/lib/kernel/auth/password";
 import { buildSignupEmailRedirectTo } from "@/lib/kernel/auth/redirects";
+import type { AuthMailStatus } from "@/lib/kernel/auth/auth-mail-config";
 import {
   classifySignupAuthError,
   isSignupConfirmationEmailFailure,
@@ -26,10 +27,12 @@ export type RegisterCitizenInput = {
 export type RegisterCitizenOk = {
   ok: true;
   created: true;
-  /** Kayıt tarayıcı oturumu açmaz; e-posta onayı bekler. */
-  session: false;
+  /** Doğrulama linki zorunlu değilse true: tarayıcı oturumu açıktır. */
+  session: boolean;
   fallback: boolean;
-  pendingVerification: true;
+  /** Yalnız posta gerçekten gidince true. Gönderilmediyse arayüz "gönderildi" demez. */
+  pendingVerification: boolean;
+  mail: AuthMailStatus;
 };
 
 export type RegisterCitizenFail = {
@@ -55,8 +58,8 @@ export type RegisterCitizenAuthPort = {
     metadata: SignupAuthMetadata;
     emailRedirectTo: string;
   }) => Promise<RegisterSignUpResult>;
-  /** Confirm Email kapalıysa signUp oturum basar; kayıt bunu düşürür. */
-  signOut: () => Promise<void>;
+  /** Onaylı hesapta doğrulama beklemesi yoksa şifreyle oturum açar. */
+  signIn?: (input: { email: string; password: string }) => Promise<{ ok: boolean }>;
 };
 
 export type RegisterCitizenFallbackPort = (input: {
@@ -75,8 +78,23 @@ export type RegisterCitizenUpsertProfilePort = (input: {
   displayName: string | null;
 }) => Promise<{ ok: true } | { ok: false; errorName: string }>;
 
-export function isDevSignupFallbackEnabled(env: NodeJS.ProcessEnv = process.env): boolean {
-  return env.NODE_ENV !== "production";
+export type RegisterCitizenMailPort = (input: {
+  email: string;
+  emailRedirectTo: string;
+  signupAccepted: boolean;
+}) => Promise<AuthMailStatus>;
+
+/**
+ * Auth SMTP doğrulama postası gidemezse hesap onaylı açılır.
+ * `NODE_ENV` kapısı yoktur: canlı Confirm Email açık ve SMTP bağlı değilken kayıt tamamlanır.
+ */
+export function isSignupSmtpFallbackEnabled(): boolean {
+  return true;
+}
+
+/** Eski ad. Üretim dahil SMTP yedeği açıktır. */
+export function isDevSignupFallbackEnabled(_env: NodeJS.ProcessEnv = process.env): boolean {
+  return isSignupSmtpFallbackEnabled();
 }
 
 function normalizeEmail(raw: string): string {
@@ -123,6 +141,34 @@ export function registerCitizen(input: RegisterCitizenInput, origin: string): Re
   };
 }
 
+async function resolveMail(
+  deliverMail: RegisterCitizenMailPort | undefined,
+  email: string,
+  emailRedirectTo: string,
+  signupAccepted: boolean,
+): Promise<AuthMailStatus> {
+  if (!deliverMail) {
+    return "unconfigured";
+  }
+  try {
+    return await deliverMail({ email, emailRedirectTo, signupAccepted });
+  } catch {
+    return "failed";
+  }
+}
+
+async function openAutoSession(
+  auth: RegisterCitizenAuthPort,
+  email: string,
+  password: string,
+): Promise<boolean> {
+  if (!auth.signIn) {
+    return false;
+  }
+  const signed = await auth.signIn({ email, password });
+  return signed.ok;
+}
+
 async function upsertRegisteredProfile(
   upsertProfile: RegisterCitizenUpsertProfilePort | undefined,
   userId: string | undefined,
@@ -141,10 +187,10 @@ export async function executeCitizenRegister(input: {
   fallback?: RegisterCitizenFallbackPort;
   clearOrphans?: RegisterCitizenClearOrphansPort;
   upsertProfile?: RegisterCitizenUpsertProfilePort;
+  deliverMail?: RegisterCitizenMailPort;
   env?: NodeJS.ProcessEnv;
 }): Promise<RegisterCitizenResult> {
   const { prepared, auth } = input;
-  const env = input.env ?? process.env;
   if (input.clearOrphans) {
     const cleared = await input.clearOrphans(prepared.email);
     if (!cleared.ok) {
@@ -168,7 +214,7 @@ export async function executeCitizenRegister(input: {
     const errorName = classifySignupAuthError(signed.error.message);
     if (
       isSignupConfirmationEmailFailure(signed.error.message) &&
-      isDevSignupFallbackEnabled(env) &&
+      isSignupSmtpFallbackEnabled() &&
       input.fallback
     ) {
       const provisioned = await input.fallback({
@@ -191,12 +237,16 @@ export async function executeCitizenRegister(input: {
         prepared.email,
         prepared.metadata.display_name,
       );
+      const mail = await resolveMail(input.deliverMail, prepared.email, prepared.emailRedirectTo, false);
+      const session =
+        mail === "sent" ? false : await openAutoSession(auth, prepared.email, prepared.password);
       return {
         ok: true,
         created: true,
-        session: false,
+        session,
         fallback: true,
-        pendingVerification: true,
+        pendingVerification: mail === "sent",
+        mail,
       };
     }
     const duplicate = isDuplicateSignupUser(signed.user) || mapped === AUTH_SEN.register.duplicate;
@@ -217,20 +267,29 @@ export async function executeCitizenRegister(input: {
       errorName: "duplicate",
     };
   }
-  if (signed.session) {
-    await auth.signOut();
-  }
   await upsertRegisteredProfile(
     input.upsertProfile,
     signed.user?.id,
     prepared.email,
     prepared.metadata.display_name,
   );
+  const mail = await resolveMail(input.deliverMail, prepared.email, prepared.emailRedirectTo, true);
+  if (signed.session) {
+    return {
+      ok: true,
+      created: true,
+      session: true,
+      fallback: false,
+      pendingVerification: false,
+      mail,
+    };
+  }
   return {
     ok: true,
     created: true,
     session: false,
     fallback: false,
-    pendingVerification: true,
+    pendingVerification: mail === "sent",
+    mail,
   };
 }

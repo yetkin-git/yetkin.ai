@@ -116,7 +116,7 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
     expect(spoken).toMatch(/parça parça/iu);
     expect(spoken).toContain("dosyayı doğrudan yüklersin");
     expect(spoken).toContain(
-      "Word Copilot varsa şeritten okutursun. Yoksa Word belgesini doğrudan Gemini sohbetine yüklersin.",
+      "Onaylı araç ve maske tamamsa Word Copilot varsa şeritten okutursun. Yoksa Word belgesini şirketin onayladığı sohbete yüklersin.",
     );
     expect(spoken).not.toMatch(/ataşla(?:rsın)?/iu);
     expect(spoken).toContain("belirli bir paragraf");
@@ -127,14 +127,14 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
     expect(spoken).not.toMatch(/Dosya adı pratikte yanar/u);
     expect(spoken).not.toMatch(/\bkomut/u);
     expect(spoken).toContain(
-      "Gemini yoksa aynı dosyayı sohbet yapay zekâsına (ChatGPT, Claude, Gemini, Grok, Kimi, Myuz Spark vb.) yüklersin; yöntem değişmez.",
+      "Onaylı sohbet aracı varsa aynı dosyayı oraya yüklersin (ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb.); yöntem değişmez.",
     );
     expect(spoken).not.toMatch(/taşıma sudur/iu);
     expect(spoken).not.toMatch(/öğretilmez/u);
     expect(spoken).not.toMatch(/AI masası/u);
     expect(spoken).not.toMatch(/Sekiz ders bitti/u);
     expect(spoken).toMatch(/Sınav, 8\. ders bitince açılır/u);
-    expect(spoken).toMatch(/Kişi adı, İban veya ticari sır varsa önce maskele/u);
+    expect(spoken).toMatch(/Kişi adı, IBAN veya ticari sır varsa önce maskele/u);
     expect(spoken).not.toMatch(/\b(?:xlsx|docx|pptx)\b/iu);
     const cinemaHtml = readFileSync(join(ROOT, "scripts/render-academy-cinema-html.ts"), "utf8");
     expect(cinemaHtml).toContain('case "word"');
@@ -218,8 +218,8 @@ describe("01_office_ai-w1 — Word doğrudan dosya yükleme reji", () => {
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
     expect(timings).not.toBeNull();
-    expect(timings!.durationSec).toBe(563.36);
-    expect(timings!.cacheV).toBe(563360);
+    expect(timings!.durationSec).toBe(583.36);
+    expect(timings!.cacheV).toBe(583360);
     const cues = loadAcademyLessonCues(KEY);
     expect(cues.at(-1)?.end).toBe(timings!.durationSec);
     for (const cue of cues) {

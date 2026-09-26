@@ -28,6 +28,7 @@ export const EXPECTED_SQL = [
   "20260814110000_freelancer_job_seed.sql",
   "20260823220000_freelancer_job_visa_pathway.sql",
   "20260912220000_academy_sterile_vitrine.sql",
+  "20260926153000_off201_launch_price.sql",
 ] as const;
 
 export const FREELANCER_SEED_JOB_IDS = [
@@ -803,7 +804,7 @@ export const ACADEMY_CATALOG_PRICE_MAP_SEAL = "academy-catalog-price-map-seal";
 
 /**
  * 13 kanon SKU fiyat haritası — vitrin ingest (`01_office_ai`, `02_ecommerce_ai`) `lib/academy/catalog-pricing.ts` → PriceCatalogEntry.
- * SQL ON CONFLICT Super Admin `updated_by` satırını korur; bu adım haritayı yazar.
+ * `updated_by` dolu satırın amount_minor değeri ezilmez. Boş satır tohum tutarını alır.
  * Akademi course:* birimleri SSOT tohumdur; freelancer/studio satırına dokunmaz.
  */
 export async function applyAcademyCatalogPriceMap(query: OpsSealQuery): Promise<void> {
@@ -818,7 +819,8 @@ export async function applyAcademyCatalogPriceMap(query: OpsSealQuery): Promise<
          is_active = true,
          updated_at = now()
        WHERE module_key = 'academy'
-         AND unit_key = $4`,
+         AND unit_key = $4
+         AND updated_by IS NULL`,
       [row.seedAmountMinor, row.seedMinMinor, row.seedMaxMinor, row.catalogUnitKey],
     );
   }
@@ -827,7 +829,7 @@ export async function applyAcademyCatalogPriceMap(query: OpsSealQuery): Promise<
 export async function assertAcademyCatalogPriceMap(query: OpsSealQuery): Promise<void> {
   const { rows } = await query(
     `/* ${ACADEMY_CATALOG_PRICE_MAP_SEAL} */
-     SELECT unit_key, amount_minor, min_minor, max_minor, is_active
+     SELECT unit_key, amount_minor, min_minor, max_minor, is_active, updated_by
      FROM public.price_catalog_entries
      WHERE module_key = 'academy'
        AND unit_key = ANY($1::text[])`,
@@ -843,7 +845,8 @@ export async function assertAcademyCatalogPriceMap(query: OpsSealQuery): Promise
         `Akademi katalog fiyatı eksik: ${seed.catalogUnitKey}. PriceCatalogEntry tohumu uygulanmamış.`,
       );
     }
-    if (Number(live.amount_minor) !== seed.seedAmountMinor) {
+    const operatorOwned = live.updated_by != null && String(live.updated_by).trim().length > 0;
+    if (!operatorOwned && Number(live.amount_minor) !== seed.seedAmountMinor) {
       throw new Error(
         `Akademi katalog fiyatı tohumla uyumsuz: ${seed.catalogUnitKey} ${String(live.amount_minor)} ≠ ${seed.seedAmountMinor}`,
       );

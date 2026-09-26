@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ObfuscatedEmailText } from "@/components/legal/obfuscated-email";
 import {
   LEGAL_FOOTER_LINKS,
   LEGAL_PAGE_TITLE,
@@ -29,10 +30,11 @@ export function LegalColophonStrip() {
               <a
                 key={link.href}
                 href={link.href.replace("@", "%40")}
-                title={link.label}
+                title="Destek"
                 className={className}
+                suppressHydrationWarning
               >
-                {link.label}
+                <ObfuscatedEmailText email={link.label} />
               </a>
             );
           }

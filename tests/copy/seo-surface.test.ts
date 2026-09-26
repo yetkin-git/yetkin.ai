@@ -661,7 +661,7 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
     expect(OFFICE_AI_SEO.description).toBe(
       `Excel Copilot ve Ataş Yöntemi, A1 Düzeni ve Temiz Veri ve yönetim özetine dönüştürme. Gmail'de yerleşik Gemini. ${OFFICE_AI_SEAL_PROOF_SHORT}`,
     );
-    expect(OFFICE_AI_SEO.h1).toBe("İş Hayatında Yapay Zekâ: Excel'den E-Postaya 9 Ders");
+    expect(OFFICE_AI_SEO.h1).toBe("İş Hayatında Yapay Zekâ: Excel'den E-Postaya 8 Ders");
     expect(OFFICE_AI_SEO.keywords).toEqual(
       expect.arrayContaining([
         "İş Hayatında Yapay Zekâ",
@@ -815,7 +815,7 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
     expect(OFFICE_AI_SEAL_PROOF).toMatch(/baraj sınavında %70/u);
     expect(OFFICE_AI_SEAL_PROOF).toMatch(/sunucuda dosya kontrolü yapılmaz/u);
     expect(OFFICE_AI_SEAL_PROOF_SHORT).toBe(
-      "Mühür: 8 ders + 10 soru / 70. Sunucuda dosya kontrolü yok.",
+      "Sertifika: 8 ders + 10 soru / 70. Sunucuda dosya kontrolü yok.",
     );
     expect(OFFICE_AI_SEO.description).toContain(OFFICE_AI_SEAL_PROOF_SHORT);
     expect(OFFICE_AI_SEO.description.length).toBeLessThanOrEqual(180);

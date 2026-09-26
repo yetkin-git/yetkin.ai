@@ -10,6 +10,7 @@ import {
   type PaymentOrderSnapshot,
 } from "@/lib/kernel/payments/clearing";
 import { queryPaytrOrderStatus, type PaytrOrderStatusInquiry } from "@/lib/kernel/payments/paytr/status";
+import { notifyAcademyLicenseHook } from "@/lib/kernel/payments/academy-license-hook";
 import { logEvent } from "@/lib/kernel/observability/log";
 
 /** iframe `timeout_limit` 30 dk; webhook gecikmesi için 2 saat PENDING tavanı. */
@@ -86,6 +87,7 @@ export async function reconcilePaytrPaymentOrder(
     return { action: "skipped", applied: false, reason: "not_found", orderId: null };
   }
   if (order.status === "CLEARED") {
+    await notifyAcademyLicenseHook(order);
     return { action: "cleared", applied: false, reason: "already_cleared", orderId: order.id };
   }
 
@@ -111,6 +113,7 @@ export async function reconcilePaytrPaymentOrder(
     const result = await clearSuccessfulPaymentOrder(ports, merchantOid, now, {
       expectedAmountMinor: psp.amountMinor,
     });
+    await notifyAcademyLicenseHook(result.order);
     return {
       action: "cleared",
       applied: result.applied,

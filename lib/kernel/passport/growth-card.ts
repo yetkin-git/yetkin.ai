@@ -23,7 +23,7 @@ export const PASSPORT_GROWTH_DOOR_LABELS = {
   "02_ecommerce_ai": "E-Ticaret Asistanlığı",
   "03_social_media_ai": "Görsel/Sosyal Medya",
   "04_chatbot_nocode": "Chatbot & Müşteri Hizmetleri",
-  "05_prompt_practice": "Prompt & Üretkenlik",
+  "05_prompt_practice": "İstem ve Günlük İş",
 } as const;
 
 export type PassportGrowthSkuSlug = keyof typeof PASSPORT_GROWTH_DOOR_LABELS;

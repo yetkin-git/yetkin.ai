@@ -78,6 +78,7 @@ import {
 } from "@/lib/academy/kvkk-workspace";
 import { ACADEMY_OUTLOOK_SAMPLE_LOCK } from "@/lib/academy/outlook-workspace";
 import { ACADEMY_WORD_FILE_LABEL, ACADEMY_WORD_FILE_NAME, ACADEMY_WORD_SAMPLE_LOCK, ACADEMY_WORD_UPLOAD_PROMPT } from "@/lib/academy/word-workspace";
+import { loadOff201CinemaCueSlides } from "@/lib/academy/off201-cinema-slides";
 
 export const ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS = [
   "01_office_ai-1",
@@ -117,6 +118,20 @@ export const ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS = [
 
 export type AcademyCinemaCueSlideLessonKey = (typeof ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS)[number];
 
+/** OFF-201 canlı sahne anahtarları. 33 ders iskeletine yazılmaz. */
+export const ACADEMY_OFF201_CINEMA_LESSON_KEYS = [
+  "01_office_ai_ileri-1",
+  "01_office_ai_ileri-2",
+  "01_office_ai_ileri-3",
+  "01_office_ai_ileri-4",
+  "01_office_ai_ileri-5",
+  "01_office_ai_ileri-6",
+] as const;
+
+export type AcademyOff201CinemaLessonKey = (typeof ACADEMY_OFF201_CINEMA_LESSON_KEYS)[number];
+
+export type AcademyCinemaSlideLessonKey = AcademyCinemaCueSlideLessonKey | AcademyOff201CinemaLessonKey;
+
 export type AcademyCinemaCueLayout =
   | "problem"
   | "chat"
@@ -146,7 +161,7 @@ export type AcademyCinemaCompareSpec = {
 };
 
 export type AcademyCinemaCueSlide = {
-  lessonKey: AcademyCinemaCueSlideLessonKey;
+  lessonKey: AcademyCinemaSlideLessonKey;
   cueIndex: number;
   theme: AcademyCinemaThemeId;
   courseLabel: string;
@@ -510,8 +525,8 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "CEBİNE KOY",
-        headline: "CEBİNE KOY",
-        subhead: "Üç adımı cebine koy: A1, birleşikler, yalın istem.",
+        headline: "ÜÇ ADIM",
+        subhead: "Üç adım kalsın: A1, birleşikler, yalın istem.",
         bullets: ["A1 sütun adı", "Birleşik ve boş satır", "Yalın dille söyle"],
         tools: ["Excel", "A1"],
         layout: "excel",
@@ -538,7 +553,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "SIRA SENDE",
-        headline: "SIRA SENDE",
+        headline: "SIRA SİZDE",
         subhead: "Düzenli nihai tablo. A1 hücresini önce ve sonra sakla.",
         bullets: ["50 satır seç", "A1 görüntüsü", "Yan yana koy"],
         tools: ["Excel", "A1"],
@@ -683,7 +698,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "CEBİNE KOY",
-        headline: "CEBİNE KOY",
+        headline: "ÜÇ ADIM",
         subhead: "Üç adım: toplam ve yön, sapan nokta, karar cümlesi.",
         bullets: ["Toplam ve yön", "Sapan nokta ve risk", "Karar cümlesi"],
         tools: ["Excel", "Word"],
@@ -699,7 +714,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "SIRA SENDE",
-        headline: "SIRA SENDE",
+        headline: "SIRA SİZDE",
         subhead: "Kendi tablondan yönetim özeti ve karar cümlesi çıkar. Sonra slayta geçeceğiz.",
         bullets: ["Kendi tablonu seç", "Özet ve karar", "4. ders slayt köprüsü"],
         tools: ["Excel", "Word"],
@@ -847,7 +862,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "CEBİNE KOY",
-        headline: "CEBİNE KOY",
+        headline: "ÜÇ ADIM",
         subhead: "Üç adım: tek fikir, görsel yön, taslağı aktar.",
         bullets: ["Tek fikir / slayt", "Görsel yön", "Taslağı aktar"],
         tools: ["PowerPoint", "Copilot"],
@@ -863,7 +878,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "SIRA SENDE",
-        headline: "SIRA SENDE",
+        headline: "SIRA SİZDE",
         subhead: "Kendi metnini tek tıkla slayt taslağına çevir. Sonra hata avı.",
         bullets: ["Kendi metnini seç", "Slayt taslağı", "5. ders hata avı köprüsü"],
         tools: ["PowerPoint", "Outlook"],
@@ -1021,7 +1036,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "CEBİNE KOY",
-        headline: "CEBİNE KOY",
+        headline: "ÜÇ ADIM",
         subhead: "Üç adım: etiketle, taslak iste, arşive al.",
         bullets: ["Önem sırası etiketle", "Taslak yanıt iste", "Arşive al"],
         tools: ["Outlook", "Copilot"],
@@ -1037,7 +1052,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "SIRA SENDE",
-        headline: "SIRA SENDE",
+        headline: "SIRA SİZDE",
         subhead: "Kendi gelen kutunu 3 kuralla sıfırla. Sonra Gmail kapısı.",
         bullets: ["Kendi kutunu seç", "Üç kural", "7. ders Gmail köprüsü"],
         tools: ["Outlook", "Copilot"],
@@ -1182,7 +1197,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "CEBİNE KOY",
-        headline: "CEBİNE KOY",
+        headline: "ÜÇ ADIM",
         subhead: "Üç adım: toplamı formülle doğrula, mantık hatası sor, insan gözü kilitle.",
         bullets: ["Toplamı formülle doğrula", "Mantık hatası sor", "İnsan gözü kilitle"],
         tools: ["Excel", "Copilot"],
@@ -1198,7 +1213,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "SIRA SENDE",
-        headline: "SIRA SENDE",
+        headline: "SIRA SİZDE",
         subhead: "Kendi tablonda uydurma sayıyı yakala. Sonra e-posta ritüeli.",
         bullets: ["Kendi verini seç", "Çapraz kontrol", "6. ders e-posta köprüsü"],
         tools: ["Excel", "Copilot"],
@@ -1343,7 +1358,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "CEBİNE KOY",
-        headline: "CEBİNE KOY",
+        headline: "ÜÇ ADIM",
         subhead: "Üç adım: takvime yaz, ataş veya Copilot, maskeli kısa özet.",
         bullets: ["Takvime yaz", "Ataş veya Copilot", "Maskeli kısa özet"],
         tools: ["Excel", "Copilot"],
@@ -1359,7 +1374,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "SIRA SENDE",
-        headline: "SIRA SENDE",
+        headline: "SIRA SİZDE",
         subhead: "Cuma 30’u takvime koy. Sınav Kapısı Açıldı. Baraj 70.",
         bullets: ["Takvime koy", "10+10+10", "Sınav Kapısı Açıldı"],
         tools: ["Excel", "Copilot"],
@@ -1516,7 +1531,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "CEBİNE KOY",
-        headline: "CEBİNE KOY",
+        headline: "ÜÇ ADIM",
         subhead: "Üç adım: yerleşik paneli aç, aksiyon tablosu iste, onaylamadan gönderme.",
         bullets: ["Yerleşik paneli aç", "Aksiyon tablosu iste", "Onaylamadan gönderme"],
         tools: ["Gmail", "Gemini"],
@@ -1532,7 +1547,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "SIRA SENDE",
-        headline: "SIRA SENDE",
+        headline: "SIRA SİZDE",
         subhead: "Sabah kutunu yerinde oku. Acil olanla rutini ayır.",
         bullets: ["Kendi Gmail’in", "Üç kural", "Word ataş köprüsü"],
         tools: ["Gmail", "Gemini"],
@@ -1689,7 +1704,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "CEBİNE KOY",
-        headline: "CEBİNE KOY",
+        headline: "ÜÇ ADIM",
         subhead: "Üç adım: dosyayı yükle, üç işi ayrı iste, imzayı kendin at.",
         bullets: ["Dosyayı yükle", "Üç işi ayrı iste", "İmzayı kendin at"],
         tools: ["Word", "Gemini"],
@@ -1705,7 +1720,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "SIRA SENDE",
-        headline: "SIRA SENDE",
+        headline: "SIRA SİZDE",
         subhead: "Kendi sözleşmeni yükle. Belirli bir paragrafı sorabilirsin. Sonra Cuma 30.",
         bullets: ["Kendi dosyan", "Üç kural", "9. ders Cuma köprüsü"],
         tools: ["Word", "Gemini"],
@@ -1842,7 +1857,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "CEBİNE KOY",
-        headline: "CEBİNE KOY",
+        headline: "ÜÇ ADIM",
         subhead: ACADEMY_KVKK_DELETE_BUTTON_SUMMARY,
         bullets: ["Ham veri yükleme", "Maskeleyip sor", "3. Kapı kısa özet"],
         tools: ["Excel", "Copilot"],
@@ -1858,7 +1873,7 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
         beat: "task",
         visualMode: "live",
         section: "SIRA SENDE",
-        headline: "SIRA SENDE",
+        headline: "SIRA SİZDE",
         subhead: "Kendi listeni maskele. Sıradaki kapı rapordur; sınav kapanıştan sonra açılır.",
         bullets: ["Kendi listen", "Üç kural", "3. ders rapor köprüsü"],
         tools: ["Excel", "Copilot"],
@@ -1871,38 +1886,30 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
       },
     ],
   },
-  "02_ecommerce_ai-1": { ...COMMERCE, title: "Mağaza Röntgeni: Nerede Kan Kaybediyorsun", cues: EMPTY_CUES },
-  "02_ecommerce_ai-2": { ...COMMERCE, title: "Liste Hızlandırma: Başlık + Açıklama Sistemi", cues: EMPTY_CUES },
-  "02_ecommerce_ai-3": { ...COMMERCE, title: "Yorum & Soru Madeni: İade Düşürme", cues: EMPTY_CUES },
-  "02_ecommerce_ai-4": { ...COMMERCE, title: "Rakip & Fiyat Radarı: Kör Uçma", cues: EMPTY_CUES },
-  "02_ecommerce_ai-5": { ...COMMERCE, title: "Kampanya & Reklam Metni: Tıklatan Dil", cues: EMPTY_CUES },
-  "02_ecommerce_ai-6": { ...COMMERCE, title: "Haftalık Operasyon Rutini + Sınav Kapısı", cues: EMPTY_CUES },
-  "03_social_media_ai-1": { ...SOCIAL, title: "İçerik Stoku: 1 Fikirden 10 Parça", cues: EMPTY_CUES },
-  "03_social_media_ai-2": { ...SOCIAL, title: "Görsel Hattı: Ürün Çekimi + Afiş", cues: EMPTY_CUES },
-  "03_social_media_ai-3": { ...SOCIAL, title: "Video Hattı: Reels Kurgu Sistemi", cues: EMPTY_CUES },
-  "03_social_media_ai-4": { ...SOCIAL, title: "Metin Hattı: Açıklama + Hashtag + CTA", cues: EMPTY_CUES },
-  "03_social_media_ai-5": { ...SOCIAL, title: "Kalite Kapısı: AI Kokusu Temizliği", cues: EMPTY_CUES },
-  "03_social_media_ai-6": { ...SOCIAL, title: "Yayın Rutini: Haftada 3 + Sınav Kapısı", cues: EMPTY_CUES },
-  "04_chatbot_nocode-1": { ...BOT, title: "KOBİ Acısı: Kaçan Mesaj, Kaçan Randevu", cues: EMPTY_CUES },
-  "04_chatbot_nocode-2": { ...BOT, title: "İlk Bot: Karşılama + SSS + Randevu", cues: EMPTY_CUES },
-  "04_chatbot_nocode-3": { ...BOT, title: "WhatsApp Bağlantısı: Canlıya Alma", cues: EMPTY_CUES },
-  "04_chatbot_nocode-4": { ...BOT, title: "Bozulunca: Yanlış Anlama + Öfke Senaryosu", cues: EMPTY_CUES },
-  "04_chatbot_nocode-5": {
-    ...BOT,
-    title: "Teslim Seti: Keşif + Teklif + Kurulum Checklist",
-    cues: EMPTY_CUES,
-  },
-  "04_chatbot_nocode-6": {
-    ...BOT,
-    title: "İlk Müşteri Oyunu: Pilot Kapatma + Sınav Kapısı",
-    cues: EMPTY_CUES,
-  },
-  "05_prompt_practice-1": { ...PROMPT, title: "Neden Saçmalıyor: 5 Kötü İstem", cues: EMPTY_CUES },
-  "05_prompt_practice-2": { ...PROMPT, title: "İyi İstem Reçetesi: Rol + Bağlam + Format", cues: EMPTY_CUES },
-  "05_prompt_practice-3": { ...PROMPT, title: "Araştırma & Özet: Kaynakla Çalış", cues: EMPTY_CUES },
-  "05_prompt_practice-4": { ...PROMPT, title: "Yazı & Çeviri: Ton Ayarı", cues: EMPTY_CUES },
-  "05_prompt_practice-5": { ...PROMPT, title: "Tablo & Plan: Günlük Hayat Kısayolları", cues: EMPTY_CUES },
-  "05_prompt_practice-6": { ...PROMPT, title: "10 Promptluk Cep Seti + Sınav Kapısı", cues: EMPTY_CUES },
+  "02_ecommerce_ai-1": { ...COMMERCE, title: "Mağaza kaydı: eksik satır", cues: EMPTY_CUES },
+  "02_ecommerce_ai-2": { ...COMMERCE, title: "Liste: başlık ve açıklama", cues: EMPTY_CUES },
+  "02_ecommerce_ai-3": { ...COMMERCE, title: "Yorum ve soru", cues: EMPTY_CUES },
+  "02_ecommerce_ai-4": { ...COMMERCE, title: "Rakip fiyatı", cues: EMPTY_CUES },
+  "02_ecommerce_ai-5": { ...COMMERCE, title: "Kampanya metni", cues: EMPTY_CUES },
+  "02_ecommerce_ai-6": { ...COMMERCE, title: "Haftalık iş listesi", cues: EMPTY_CUES },
+  "03_social_media_ai-1": { ...SOCIAL, title: "Bir fikirden birkaç paylaşım", cues: EMPTY_CUES },
+  "03_social_media_ai-2": { ...SOCIAL, title: "Ürün görseli ve afiş", cues: EMPTY_CUES },
+  "03_social_media_ai-3": { ...SOCIAL, title: "Kısa video", cues: EMPTY_CUES },
+  "03_social_media_ai-4": { ...SOCIAL, title: "Açıklama metni", cues: EMPTY_CUES },
+  "03_social_media_ai-5": { ...SOCIAL, title: "Metni sadeleştir", cues: EMPTY_CUES },
+  "03_social_media_ai-6": { ...SOCIAL, title: "Haftalık yayın", cues: EMPTY_CUES },
+  "04_chatbot_nocode-1": { ...BOT, title: "Kaçan mesaj", cues: EMPTY_CUES },
+  "04_chatbot_nocode-2": { ...BOT, title: "Karşılama, soru ve randevu", cues: EMPTY_CUES },
+  "04_chatbot_nocode-3": { ...BOT, title: "WhatsApp bağlantısı", cues: EMPTY_CUES },
+  "04_chatbot_nocode-4": { ...BOT, title: "Yanlış anlama", cues: EMPTY_CUES },
+  "04_chatbot_nocode-5": { ...BOT, title: "Teslim listesi", cues: EMPTY_CUES },
+  "04_chatbot_nocode-6": { ...BOT, title: "İlk deneme", cues: EMPTY_CUES },
+  "05_prompt_practice-1": { ...PROMPT, title: "Kötü istem neden dağılır", cues: EMPTY_CUES },
+  "05_prompt_practice-2": { ...PROMPT, title: "İstem: rol, bağlam, biçim", cues: EMPTY_CUES },
+  "05_prompt_practice-3": { ...PROMPT, title: "Kaynakla özet", cues: EMPTY_CUES },
+  "05_prompt_practice-4": { ...PROMPT, title: "Yazı ve çeviri", cues: EMPTY_CUES },
+  "05_prompt_practice-5": { ...PROMPT, title: "Tablo ve plan", cues: EMPTY_CUES },
+  "05_prompt_practice-6": { ...PROMPT, title: "Günlük istem seti", cues: EMPTY_CUES },
 };
 
 function asSlide(
@@ -1941,6 +1948,10 @@ export function academyCinemaSlideForCue(
 }
 
 export function loadAcademyCinemaCueSlides(lessonKey: string): readonly AcademyCinemaCueSlide[] {
+  const off201 = loadOff201CinemaCueSlides(lessonKey);
+  if (off201) {
+    return off201;
+  }
   const key = lessonKey.trim() as AcademyCinemaCueSlideLessonKey;
   const draft = LESSONS[key];
   if (!draft) {

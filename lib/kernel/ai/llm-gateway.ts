@@ -12,6 +12,7 @@ import {
   isGeminiModelUnavailableError,
   selectFallbackModelId,
   VOICE_TTS_FALLBACK_MODEL_ID,
+  VOICE_TTS_FALLBACK_TO_2_5,
 } from "@/lib/kernel/ai/model-roles";
 import { logEvent } from "@/lib/kernel/observability/log";
 import { anthropicProvider } from "@/lib/kernel/ai/providers/anthropic";
@@ -551,7 +552,7 @@ export async function generateSpeech(
   const text = trimmed;
   const instruction = sealVoiceTtsPedagogyPrompt(input.instruction);
 
-  let model = input.model?.trim() || getDefaultModelId("VOICE_TTS");
+  const model = input.model?.trim() || getDefaultModelId("VOICE_TTS");
   const budget = await assertGatewayBudgetAllows(
     {
       identifier: input.rateLimit?.identifier,
@@ -631,16 +632,17 @@ export async function generateSpeech(
       };
     } catch (error) {
       lastError = error;
-      if (providerId === "gemini" && isGeminiModelUnavailableError(error)) {
-        const fallback = selectFallbackModelId({
-          assignedModelId: model,
-          previousStableModelId: "",
-          defaultModelId: VOICE_TTS_FALLBACK_MODEL_ID,
+      if (
+        providerId === "gemini" &&
+        (model === VOICE_TTS_FALLBACK_MODEL_ID || !VOICE_TTS_FALLBACK_TO_2_5) &&
+        isGeminiModelUnavailableError(error)
+      ) {
+        logGenerateSpeechFailure({
+          reason: "gemini-model-not-found",
+          errorName: error instanceof Error ? error.name : "unknown",
+          error,
         });
-        if (fallback && fallback !== model) {
-          model = fallback;
-          continue;
-        }
+        return speechGatewayFail("gemini-model-not-found");
       }
       const reason = classifyLlmProviderFailure(error);
       if (reason === "gemini-quota") {

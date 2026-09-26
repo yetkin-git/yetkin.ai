@@ -6,7 +6,11 @@
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import type { AcademyCatalogLearnerStatus } from "@/lib/academy/catalog-learner";
 import type { AcademyStorefrontAccess } from "@/lib/academy/enrolment";
-import { isAcademyProductionLineSkuSlug } from "@/lib/academy/pilot-sku";
+import {
+  ACADEMY_OFF201_STOREFRONT_SLUG,
+  academyCourseSaleOpen,
+  isAcademyProductionLineSkuSlug,
+} from "@/lib/academy/pilot-sku";
 import { stripZeroKurusFromTryLabel } from "@/lib/kernel/money/format";
 
 export const ACADEMY_CHECKOUT_HASH = "satin-al";
@@ -33,6 +37,8 @@ export type AcademyCatalogCardCta = {
   priceCaption: string | null;
   cta: string;
   href: string;
+  /** Fiyat yok — düğme tıklanmaz. */
+  ctaDisabled?: boolean;
 };
 
 export function academyStorefrontMoneyLabel(priceLabel: string | null | undefined): string | null {
@@ -126,6 +132,7 @@ export function resolveAcademyCatalogCardCta(input: {
   owned: boolean;
   learnerStatus?: AcademyCatalogLearnerStatus;
   priceLabel: string | null;
+  purchasable?: boolean;
 }): AcademyCatalogCardCta {
   const copy = ACADEMY_SEN;
   if (input.owned) {
@@ -149,6 +156,27 @@ export function resolveAcademyCatalogCardCta(input: {
   }
   const money = academyStorefrontMoneyLabel(input.priceLabel);
   const display = money ? stripZeroKurusFromTryLabel(money) : null;
+  const saleClosed =
+    input.purchasable === false ||
+    (input.slug === ACADEMY_OFF201_STOREFRONT_SLUG && !academyCourseSaleOpen(input.slug));
+  if (!input.owned && saleClosed) {
+    return {
+      priceLabel: display ?? copy.catalog.priceMissing,
+      priceCaption: null,
+      cta: copy.catalog.pricePending,
+      href: "",
+      ctaDisabled: true,
+    };
+  }
+  if (input.slug === ACADEMY_OFF201_STOREFRONT_SLUG && !display) {
+    return {
+      priceLabel: copy.catalog.priceMissing,
+      priceCaption: null,
+      cta: copy.catalog.pricePending,
+      href: "",
+      ctaDisabled: true,
+    };
+  }
   return {
     priceLabel: display ?? copy.catalog.priceMissing,
     priceCaption: display ? copy.catalog.vatInclusiveHint : null,

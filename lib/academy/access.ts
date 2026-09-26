@@ -7,6 +7,7 @@ import { isAcademyLicenseActive } from "@/lib/academy/license";
 import type { AcademyPurchaseRecord, AcademyStore } from "@/lib/academy/types";
 import {
   isCanonicalSuperAdminEmail,
+  isCitizenTestAccountEmail,
   isSuperAdminActor,
 } from "@/lib/kernel/auth/super-admin";
 import { AuthRequiredError, sessionUserNotInDatabaseMessage } from "@/lib/kernel/auth/require-session";
@@ -54,7 +55,49 @@ export function hasAcademyPlayerAccess(
   actor: AcademyActor,
   now: Date = new Date(),
 ): boolean {
+  if (isCitizenTestAccountEmail(actor.email)) {
+    return hasCommercialAcademyEnrolment(purchase, now);
+  }
   if (hasAcademyAdminBypass(actor)) {
+    return true;
+  }
+  return hasCommercialAcademyEnrolment(purchase, now);
+}
+
+/**
+ * Vatandaş oynatıcısı (`/oyna`).
+ * Vatandaş ve vatandaş test hesabı yalnız ticari lisans.
+ * SUPER_ADMIN üretimde de satın alma satırı olmadan açılır.
+ * Sıfır harçlı bağış yazılmaz; bu kapı nakit değildir.
+ */
+export function hasAcademyOynaAccess(
+  purchase: AcademyPurchaseRecord | null | undefined,
+  actor: AcademyActor,
+  now: Date = new Date(),
+  nodeEnv: string | undefined = process.env.NODE_ENV,
+): boolean {
+  if (isCitizenTestAccountEmail(actor.email)) {
+    return hasCommercialAcademyEnrolment(purchase, now);
+  }
+  if (hasAcademyAdminBypass(actor)) {
+    return true;
+  }
+  if (nodeEnv === "production") {
+    return hasCommercialAcademyEnrolment(purchase, now);
+  }
+  return hasAcademyPlayerAccess(purchase, actor, now);
+}
+
+/**
+ * Kilitli ders metni — asistan ve müfredat içeriği.
+ * Vatandaşta bağış yetmez. SUPER_ADMIN izleme muafiyeti yeter; nakit satır açmaz.
+ */
+export function hasAcademyLockedLessonContentAccess(
+  purchase: AcademyPurchaseRecord | null | undefined,
+  now: Date = new Date(),
+  actor?: AcademyActor | null,
+): boolean {
+  if (actor && hasAcademyAdminBypass(actor)) {
     return true;
   }
   return hasCommercialAcademyEnrolment(purchase, now);

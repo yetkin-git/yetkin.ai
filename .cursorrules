@@ -115,3 +115,79 @@ Kök yapılandırma dosyaları gerektiğinde okunabilir: `next.config.ts`, `tsco
 ## Özet ilke
 
 Bağlamı canlı ürün koduna sıkıştır: **app → components → lib → prisma → middleware → tests → scripts**. Derleme çıktısı, bağımlılık, arşiv, müze ve toplu medya dosyalarına girme.
+
+---
+
+## DEĞİŞTİRİLEMEZ STANDARTLAR KİLİDİ — Akademi sinema / akıllı video (SSOT)
+
+Bu bölüm, Akademi ders üretimi, fırınlama (bake) ve buna dokunan kod için **tek doğruluk kaynağıdır (SSOT)**. Aşağıdaki maddeler silinmez, gevşetilmez ve “sığsın diye” yorumlanmaz.
+
+Her fırınlama ve kodlama adımından önce bu bölüm okunur ve çıktı buna göre doğrulanır. Süre, ritim, ses, ducking ve reji sabitleri kodda bu kilitle aynı değerde durur:
+
+- `lib/academy/production-standard.ts` — ders tabanı `ACADEMY_AI_LESSON_DURATION_MIN_MINUTES` (5), kurs taban bölümü `ACADEMY_AI_LESSON_COUNT_MIN` (6)
+- `lib/academy/instructors.ts` — `ACADEMY_INSTRUCTOR_SPEECH_RATE` (0.93)
+- `lib/academy/human-rhythm.ts` — nefes 0.4 sn, kural ve örnek geçişi 1.5–2.0 sn (varsayılan 1.75), slayt ön-açılışı 1.5 sn
+- `.system_docs/PEDAGOJI.md` — günlük dil, tek iş tek cümle, slogan yasağı
+- `lib/kernel/ai/model-roles.ts` — TTS yalnız `gemini-3.1-flash-tts-preview`; `VOICE_TTS_FALLBACK_TO_2_5` kapalı
+- `lib/academy/instructors.ts` — `ACADEMY_OFF201_LESSON_TTS_VOICE` (ders başına ayrı ses)
+- `lib/academy/pilot-sku.ts` — `ACADEMY_TTS_REVOKED_CASSETTES`, `ACADEMY_TTS_REBAKE_QUEUE`
+- `lib/academy/lesson-beat-visual.ts` — spoiler yasağı ve %80 / %20 reji
+- `lib/academy/lesson-veo.ts` — ders başına 1 Veo 3.1 Lite çağrısı, 6–8 sn ısınma
+- `lib/academy/lesson-bed-duck.ts` — `ACADEMY_BED_MOODS` (ambient, lo-fi, upbeat)
+
+Kod sabiti bu kilitten saparsa sabit kilide çekilir. Metin kırpılmaz, tempo yükseltilmez, ders makaleye indirgenmez.
+
+### 1. Ders ve içerik formatı (sinema / akıllı video şartı)
+
+- Akademi üzerindeki eğitimler kesinlikle makale, okuma metni veya düz dökümana dönüştürülemez.
+- Her ders şu 4 temel medya katmanından oluşur:
+  1. **TTS seslendirme:** Yalnız Gemini 3.1 Flash TTS. Konuşma hızı 0.93. Gözde (Callirrhoe) tek ses değildir; dersin konusu ve seviyesine göre ayrı kadın veya erkek karakter (Puck, Charon, Kore, Fenrir ve sicildeki diğer kaliteli sesler).
+  2. **Ducking fon müziği:** Lyria 3.5 (konuşma anında dipte, es paylarında yüksek).
+  3. **Görsel ve video rejisi:** Nano Banana 2 / Veo 3.1 Lite (canlı uygulama ve ekran kartları).
+  4. **Cue ve karaoke katmanı:** Konuşmayla eşzamanlı akan punchcard rozetleri.
+
+### 2. Taban süre ve bölüm kuralları (Anayasa B4 ve Pedagoji D.1)
+
+- **Ders taban süresi:** Bir ders kesinlikle 5 dakikadan az olamaz (taban >= 5 dk).
+- **Kurs taban bölümü:** Bir kurs kesinlikle 6 bölümden az olamaz (taban >= 6 ders).
+- **Üst süre tavanı yoktur:** Hiçbir ders veya içerik “12 dakikaya sığacak” diye kısıtlanamaz. Metin kırpılamaz. Konuşma temposu yapay şekilde hızlandırılamaz.
+
+### 3. Ses ve pedagojik ritim standartları
+
+- **Konuşma hızı (speaking rate):** `0.93` (doğal temponun tam %7 yavaşı).
+- **Paragraf ve cümle arası nefes:** `0.4 saniye`.
+- **TTS istek bandı:** Ders başına tam 10–12 doğal paragraf bloğu. Tek cümlelik istek ve diksiyonu düşüren dev blok yok. Model yalnız Gemini 3.1 Flash TTS.
+- **Teknik geçiş ve örnek duraklaması:** `1.5 – 2.0 saniye` (varsayılan `1.75` sn).
+- **Slayt geçiş senkronu:** Ekran kartı veya görseli, yeni cümleden `1.5 saniye` önce açılır.
+
+### 4. Görsel dürüstlük ve reji kuralları
+
+- **Spoiler yasağı:** Temiz veya nihai sonuç, karşılaştırma (Comparison) beat’inden önce gösterilemez.
+- **Dengeli dağılım:** Reji sahneleri %80 canlı uygulama ekranı, %20 sinematik veya kılavuz kartlarından oluşur. Sahnede sabit, işlevsiz logo veya placeholder bırakılamaz.
+
+### 5. Kaliteli model ve dinamik ses
+
+- **Model mührü:** TTS üretiminde yalnız **Gemini 3.1 Flash TTS** (`gemini-3.1-flash-tts-preview`) kullanılır.
+- **Alt model yasağı:** Kota bittiğinde veya limit aşıldığında Gemini 2.5 Flash TTS kullanılmaz (`VOICE_TTS_FALLBACK_TO_2_5 = false`). Kota yoksa işlem durur. Kota açılınca aynı ders Gemini 3.1 ile fırınlanır.
+- **Dinamik eğitmen:** Gözde (Callirrhoe) tek veya zorunlu ses değildir. Bir kurstaki derslerin tamamı tek sese kilitlenemez. Konu, seviye ve senaryoya göre ayrı kaliteli kadın veya erkek karakter seçilir.
+- **İptal kasetleri:** Eski Gemini 2.5 kasetleri `archived/academy-audio-revoked/` altındadır. `ACADEMY_TTS_REVOKED_CASSETTES` boştur. Vatandaş oynatıcı 26 Eylül 2026 Gemini 3.1 mühürlerini açar.
+- **Yeniden fırın:** `01_office_ai_ileri` ders 1 (Kore), 2 (Puck) ve 6 (Zephyr) Gemini 3.1 Flash TTS ile mühürlendi. Fırın kuyruğu boştur. Ders 3–5 yeniden yakılmaz. Yeni `--seal` kota doluyken açılmaz; `VOICE_TTS_FALLBACK_TO_2_5` kapalı kalır.
+
+### 6. Dinamik medya ve sinema prodüksiyonu
+
+- **Çoklu anlatıcı:** Her ders aynı sesle basılamaz. İleri ofis, e-posta, analiz ve diğer konular Gemini 3.1 Flash TTS karakterlerinde döner (Puck, Charon, Kore, Fenrir ve sicildeki diğer sesler). OFF-201 sırası `ACADEMY_OFF201_LESSON_TTS_VOICE`.
+- **Dinamik fon müziği:** Lyria 3.5 yatağı ders atmosferine göre seçilir: ambient, lo-fi veya upbeat (`ACADEMY_BED_MOODS`, `academyLessonBedMood`). Konuşurken dipte, es payında yükselir.
+- **1 ders = 1 video:** Veo 3.1 Lite çağrısı ders başına yalnız 1 kliptir. Süre 6–8 saniyedir ve yalnız ısınma (Warm-up) beat'indedir. Anlatımın iş beat'i başlayınca video biter; sahne canlı uygulamaya ve dinamik karta döner. Pahalı Veo 3.1 yasaktır. Yerel MP4 varsa yeni çağrı açılmaz.
+- **Canlı senkron kart:** Sahnede durağan jenerik plaka veya boş logo duramaz. Konuşmanın saniyesiyle birebir akan kart; konuyu, örneği, tabloyu ve istem şablonunu gösterir. Kaynak Nano Banana 2 veya CSS Ken Burns'tür. İzlemede görüntü API'si çağrılmaz.
+
+### 7. İnsan odaklı pedagoji ve anlatım
+
+Amaç şov veya “harika anlatmak” değildir. Amaç vatandaşa sakince öğretmektir. Ders bitince öğrenci “harika anlattı ama ben anlayamadım” dememelidir.
+
+- **Kendini sorgulatma yasağı:** Abartılı, şov amaçlı veya sloganik dil öğrencide “bende bir eksiklik var” hissi ve özgüven kaybı yaratır. Hiçbir metin öğrenciyi kendi kapasitesini sorgulamaya itmez.
+- **Yasaklı hiperbol:** “Muazzam dönüşüm”, “saniyeler içinde”, “mucizevi yöntem”, “prompt mühendisliği”, “devrim niteliğinde” ve aynı aileden afilli ifadeler yazılmaz. Rozet işin adını taşır.
+- **Suçu anlatıcı alır:** Karmaşık adımda tereddüt anlatıcıdadır. Kalıp: “Şimdi ‘burada ne oldu böyle?’ demiş olabilirsin. Çok haklısın, adım adım bakalım...”
+- **Yalınlık:** Konu mucize gibi değil, gündelik işin sakin ve çözülebilir parçası olarak anlatılır.
+- **Günlük dil, tek iş, tek cümle:** Her cümle tek eyleme odaklanır. Cümle kısa, duru ve konuşma dilindedir.
+- **Pekiştirme:** Bir kural söylenince hemen somut örnek gelir. Gerekirse aynı kural “Yani aslında yaptığımız şey...” diye bir kez daha tane tane özetlenir.
+- **İdrak payı:** Konuşma hızı `0.93` kalır. Cümle nefesi `0.4` saniyedir. Kural ve örnek geçişinde öğrenciye `1.5–2.0` saniye (varsayılan `1.75`) bırakılır. Bu pay kısalmaz, tempo yükselmez.

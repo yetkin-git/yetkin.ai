@@ -7,7 +7,7 @@ export const section3: Section = {
   isLocked: true,
   title: "Metinden Slayta: Sunum Hazırlama",
   targetDurationMinutes: 9,
-  estimatedWordCount: 1204,
+  estimatedWordCount: 1188,
   pedagogicalObjective:
       "Metinden slayt başına tek fikir, görsel yönlendirme ve taslak aktarma akışını göstermek. Slayttaki genel toplam veya karar sayısı kaynak Excel hücresiyle aynı değilse slayt yayınlanmaz. Yapay zekâ yönlendirmesi: rol ver, taslak iste, görseli parantezde tarif et. Neden düz metin yığını doldurulmaz? Çünkü dinleyici okur, seni dinlemez.",
   contentMarkdown: `
@@ -15,7 +15,7 @@ Geçtiğimiz derste devasa tabloları ve dağınık ham verileri dakikalar için
 
 Selamlar, ben Gözde. yetkin.ai akademisinin bu dördüncü dersinde seninle birlikte metni slayta çevirmenin yolunu kuracağız. Geçen derste üç maddelik yönetim özetini kilitledik; peki şimdi ne olacak? Özet cebinde durur ama toplantı slayt ister. Hepimiz o toplantı öncesi saatlerce boş sayfaya bakıp durduk. Elinde harika fikirler, eksiksiz veriler var ama onları boş bir slayta dökmek korkutucu gelir. Peki neden sunum hazırlamak bu kadar zaman yer? Çünkü çoğu kişi önce şablonu süsler; mesajı sona bırakır. Bugün o sırayı çevireceğiz: önce tek fikir, sonra slayt taslağı.
 
-Tasarımı önce bitirmeyiz. Sen grafiker değilsin; sen fikrin sahibisin. Metni slayta çevirirken roller değişiyor. Yapay zekâyı yanına aldığında hikâyenin akışına, vurucu mesaja ve sunumunun yaratacağı iş etkisine odaklanırsın.
+Tasarımı önce bitirmeyiz. Slaytın süsünü sen çizmek zorunda değilsin. Sen mesajı seçersin: her slaytta tek fikir. Metni slayta çevirirken iş bölümü değişir. Sen akışı ve tek mesajı seçersin. Yapay zekâ taslağı yazar.
 
 ## ŞABLON KAOSU
 
@@ -33,13 +33,13 @@ Hepimizin yaptığı en büyük hata, sayfaları süslemenin sunumu kaliteli kı
 
 Şimdi ekrana gelen karşılaştırmaya dikkatle bakmanı istiyorum. Sol tarafta ofislerde sıkça gördüğümüz o klasik durum var: Önce, yani düz metin yığını. Paragraflar kopyalanıp doğrudan sayfaya yapıştırılmış, hiçbir vurgu yok ve okumak bile insanı yoruyor. Sağ tarafta ise yapay zekânın ürettiği sonuç duruyor: Sonra, yani görsel hiyerarşi (gözün bakma sırası) ile kurulu slayt. Yapay zekâ sayfayı tek bir güçlü başlık, üç net odak ve dinleyicinin gözünü yormayan mantıklı bir sırayla kurmuş. Peki neden sol taraf yorar da sağ taraf tutar? Çünkü tek fikir slaytta yerini gösterir; yığın ise her şeyi aynı anda bağırır.
 
-Sağ taraftaki yapıda kurulan bakma sırası, yöneticinin veya müşterinin nereye bakması gerektiğini saniyesinde fısıldıyor. En kritik sayı ve anahtar metin hemen göze çarpıyor, destek cümleleri daha küçük durur. Soldaki düz metin kalabalığında dinleyici slaytı okumaya çalışırken konuşmacıyı dinlemeyi tamamen bırakır. Sağdaki kurguda ise slayt senin sözlerini gölgelemez; aksine söylediklerini destekleyen güçlü bir arkadaki destek panosuna dönüşür. Böylece hem mesaj üç saniyede iner hem de sen konuşmayı bırakmazsın.
+Sağ taraftaki bakma sırası, yöneticinin önce nereye bakacağını gösterir. Ana sayı ve ana metin büyük durur, destek cümleleri daha küçük durur. Soldaki düz metin kalabalığında dinleyici slaytı okumaya çalışırken konuşmacıyı dinlemeyi bırakır. Sağdaki kurguda slayt senin cümleni örtmez. Mesaj üç saniyede okunur. Sen konuşmaya devam edersin.
 
 ## FARK ORTADA
 
 Ekrana dikkatli bak. Peki neden fark bu kadar belirgin? Çünkü soldaki düz metin yaklaşımında saatlerce çalışıp yorulsan bile ortaya çıkan sonuç dağınık hissettirir. Sağdaki yapay zekâ modelinde ise doğru bir bakma sırası oluşturulduğu için mesaj doğrudan hedefine ulaşır. Sol taraf her cümleyi taşır, bakış noktası yoktur. Sağ taraf tek başlık ve üç odak taşır, toplantı yürür. Yapay zekâ sana yalnızca bir süs sunmuyor; metnini sadeleştiriyor, sıraya koyuyor ve yöneticinin aklına en hızlı şekilde akmasını sağlıyor. Üstelik bu dönüşümü dakikalarca uğraşarak değil, doğru yönlendirilmiş tek bir istemle elde ediyorsun.
 
-Bu yaklaşımı bir kez kaptığında, sunum hazırlamak artık iş gününü bölen uzun bir iş olmaktan çıkar. Metnini ekrana koyduğunda yapay zekâ sana hazır bir taslak sunduğu için, sen enerjini tamamen sunumun provasına ve anlatım tonuna saklayabilirsin. Hangi veriyi vurgulayacağını, nerede duraklayacağını ve dinleyiciden ne talep edeceğini düşünmek için bolca vaktin kalır. Çünkü slayt senin yerini almaz; senin sözünü taşır.
+Bu yaklaşımı bir kez kaptığında, sunum hazırlamak artık iş gününü bölen uzun bir iş olmaktan çıkar. Metnini ekrana koyduğunda yapay zekâ sana hazır bir taslak sunduğu için, sen enerjini tamamen sunumun provasına ve anlatım tonuna saklayabilirsin. Hangi veriyi vurgulayacağını, nerede duraklayacağını ve dinleyiciden ne talep edeceğini düşünmek için vaktin kalır. Slayt senin yerine konuşmaz. Provayı ve anlatım tonunu sen yaparsın.
 
 ## CEBİNE KOY
 

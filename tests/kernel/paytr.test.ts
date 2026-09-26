@@ -340,6 +340,9 @@ describe("PayTR port", () => {
     expect(normalizePaytrMerchantReturnUrl("https://yetkin.ai/cuzdan/")).toBe(
       "https://yetkin.ai/cuzdan",
     );
+    expect(
+      normalizePaytrMerchantReturnUrl("https://yetkin.ai/kasa/donus/?sonuc=ok&kurs=01_office_ai_ileri"),
+    ).toBe("https://yetkin.ai/kasa/donus?sonuc=ok&kurs=01_office_ai_ileri");
     expect(buildPaytrMerchantBrowserReturnUrl("https://yetkin.ai/")).toBe(
       "https://yetkin.ai/cuzdan",
     );

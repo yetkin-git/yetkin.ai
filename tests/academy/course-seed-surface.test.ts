@@ -110,12 +110,12 @@ describe("akademi kurs tohumu yüzeyi", () => {
     expect(readSrc("lib/copy/sen-voice/academy.ts")).toContain(
       "Eğitimler · Test barajı 70+ · Sertifika Kariyer sayfasına işlenir",
     );
-    expect(readSrc("lib/copy/sen-voice/academy.ts")).toContain("Yeni Müfredat Üretim Bandında");
+    expect(readSrc("lib/copy/sen-voice/academy.ts")).toContain("Yeni eğitimler hazırlanıyor");
     expect(readSrc("lib/copy/sen-voice/academy.ts")).not.toContain("₺690");
     expect(readSrc("lib/copy/sen-voice/academy.ts")).not.toContain("₺990");
     expect(readSrc("lib/copy/sen-voice/academy.ts")).not.toContain("₺1.490");
     expect(readSrc("lib/copy/sen-voice/academy.ts")).not.toContain("Canlı sicil");
-    expect(readSrc("lib/copy/sen-voice/academy.ts")).toContain("Piyasa Talep Skoru");
+    expect(readSrc("lib/copy/sen-voice/academy.ts")).not.toContain("Piyasa Talep Skoru");
     expect(load).toContain("listPublishedCourses");
     expect(load).toContain("mergePublishedAcademyCatalog");
     expect(readSrc("lib/academy/prisma-store.ts")).toContain("orderAcademyCatalogByCurriculum");
@@ -181,8 +181,10 @@ describe("akademi kurs tohumu yüzeyi", () => {
     expect(detail).toContain("trainingHref");
     expect(detail).not.toContain("examHref");
     expect(detail).not.toContain("?gate=exam");
-    expect(readSrc("lib/academy/purchase-path.ts")).toContain("Eğitimi Satın Al & Öğren");
-    expect(readSrc("lib/academy/purchase-path.ts")).toContain("Doğrudan teste gir ve yetkinlik kazan");
+    expect(readSrc("lib/academy/purchase-path.ts")).toContain("Eğitimi Satın Al");
+    expect(readSrc("lib/academy/purchase-path.ts")).not.toContain("Eğitimi Satın Al & Öğren");
+    expect(readSrc("lib/academy/purchase-path.ts")).toContain("Testi eğitim bitince aç");
+    expect(readSrc("lib/academy/purchase-path.ts")).not.toContain("Doğrudan teste gir");
     expect(readSrc("components/academy/exam-start-gate.tsx")).toContain("ExamPanel");
     expect(readSrc("components/academy/exam-start-gate.tsx")).toContain("role=\"dialog\"");
     expect(readSrc("components/academy/exam-start-gate.tsx")).toContain("data-academy-exam-exit");

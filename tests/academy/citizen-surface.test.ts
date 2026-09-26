@@ -74,17 +74,18 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     const copy = SEN_VOICE.academy;
     const ledgerLeak = /SETTLED|amountMinor|CheckoutPriceLock|settlement|debit|escrow/i;
     expect(copy.catalog.description).toContain("Dersler ödeme sonrası açılır");
-    expect(copy.catalog.description).toContain("üretim bandındadır");
-    expect(copy.catalog.stats).toBe("1 eğitim yayında · 4 eğitim çok yakında");
+    expect(copy.catalog.description).toContain("hazırlanıyor");
+    expect(copy.catalog.description).not.toContain("fırın");
+    expect(copy.catalog.stats).toBe("1 eğitim yayında · 1 kayıt kapalı · 4 eğitim çok yakında");
     expect(copy.catalog.description).not.toContain("13 eğitim");
     expect(copy.catalog.description).not.toMatch(ledgerLeak);
     expect(copy.catalog.cardCtaBuy).toBe("Satın Al");
     expect(copy.catalog.audioBadge).toBe("Sesli anlatım");
     expect(copy.catalog.audioBadgeHint).toBe(
-      "Sesli Anlatım + Sınav + Mühürlü Sertifika",
+      "Sesli Anlatım + Sınav + Sertifika",
     );
     expect(copy.catalog.heroAudioBadge).toBe(
-      "Sesli Anlatım + Sınav + Mühürlü Sertifika",
+      "Sesli Anlatım + Sınav + Sertifika",
     );
     expect(copy.catalog.comingSoonBadge).toBe("Çok Yakında / Hazırlanıyor");
     expect(copy.catalog.comingSoonMeta).toBe("Hazırlanıyor");
@@ -92,10 +93,10 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(copy.catalog.cardCtaComingSoon).toBe("Çok Yakında");
     expect(copy.catalog.cardMetaAudio(9)).toBe("9 dk · Sesli Anlatım");
     expect(copy.catalog.articleBadgeHint).toBe(
-      "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+      "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Sertifika",
     );
     expect(copy.catalog.heroArticleBadge).toBe(
-      "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+      "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Sertifika",
     );
     expect(copy.catalog.heroLevelIdentity("Temel", academyModuleCodeBySlug("01_office_ai"))).toBe(
       "Temel Seviye · OFF-101",
@@ -105,7 +106,8 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(copy.catalog.vatInclusiveHint).toBe("KDV dahil");
     expect(copy.catalog.priceVatInclusive("₺890,00")).toBe("₺890,00 · KDV dahil");
     expect(copy.course.heroBuyCta("₺890,00")).toBe("Eğitimi Satın Al — ₺890,00");
-    expect(copy.purchase.cta("₺250,00")).toContain("Eğitimi Satın Al & Öğren");
+    expect(copy.purchase.cta("₺250,00")).toContain("Eğitimi Satın Al");
+    expect(copy.purchase.cta("₺250,00")).not.toContain("& Öğren");
     expect(copy.player.resumeCta).toBe("Kaldığın Yerden Devam Et");
     expect(copy.listen.cta).toBe("Dersi Dinle");
     expect(copy.player.completeCta).toBe("Dersi Tamamladım");

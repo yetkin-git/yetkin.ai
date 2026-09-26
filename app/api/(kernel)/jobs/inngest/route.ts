@@ -2,10 +2,12 @@ import { serve } from "inngest/next";
 import type { NextRequest } from "next/server";
 import { inngest, kernelInngestFunctions, inngestNotConfiguredResponse } from "@/lib/kernel/jobs/inngest";
 import { canInvokeInngestServe, shouldFailClosedInngestServe } from "@/lib/kernel/jobs/inngest-guard";
+import { registerPaytrAcademyLicenseHook } from "@/lib/academy/register-paytr-license-hook";
 import { registerVerticalEscrowRefundHooks } from "../register-escrow-hooks";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 
 registerVerticalEscrowRefundHooks();
+registerPaytrAcademyLicenseHook();
 
 export const auth = "webhook" as const;
 

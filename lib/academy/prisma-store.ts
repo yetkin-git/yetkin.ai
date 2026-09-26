@@ -19,6 +19,7 @@ import {
 } from "@/lib/academy/exam-sitting";
 import type {
   AcademyCertificateRecord,
+  AcademyExemptionSealRecord,
   AcademyCourseRecord,
   AcademyExamAttemptRecord,
   AcademyExamRecord,
@@ -91,6 +92,21 @@ function toCertificate(row: {
   revokeReason: string | null;
   createdAt: Date;
 }): AcademyCertificateRecord {
+  return { ...row };
+}
+
+function toExemptionSeal(row: {
+  id: string;
+  userId: string;
+  courseId: string;
+  examId: string;
+  title: string;
+  score: number;
+  issuedAt: Date;
+  revokedAt: Date | null;
+  revokeReason: string | null;
+  createdAt: Date;
+}): AcademyExemptionSealRecord {
   return { ...row };
 }
 
@@ -188,6 +204,7 @@ export type AcademyWriteDb = Pick<
   | "academyCourse"
   | "academyPurchase"
   | "academyCertificate"
+  | "academyExemptionSeal"
   | "academyExam"
   | "academyExamAttempt"
   | "academyExamSitting"
@@ -380,6 +397,31 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
       }
       const bySerial = await db.academyCertificate.findUnique({ where: { serialKey: hash } });
       return bySerial ? toCertificate(bySerial) : null;
+    },
+    async getExemptionSealByUserAndCourse(userId, courseId) {
+      const row = await db.academyExemptionSeal.findUnique({
+        where: { userId_courseId: { userId, courseId } },
+      });
+      return row ? toExemptionSeal(row) : null;
+    },
+    async insertExemptionSeal(seal) {
+      const row = await db.academyExemptionSeal.upsert({
+        where: { userId_courseId: { userId: seal.userId, courseId: seal.courseId } },
+        create: {
+          id: seal.id,
+          userId: seal.userId,
+          courseId: seal.courseId,
+          examId: seal.examId,
+          title: seal.title,
+          score: seal.score,
+          issuedAt: seal.issuedAt,
+          revokedAt: seal.revokedAt,
+          revokeReason: seal.revokeReason,
+          createdAt: seal.createdAt,
+        },
+        update: {},
+      });
+      return toExemptionSeal(row);
     },
     async listCertificatesForUser(userId) {
       const rows = await db.academyCertificate.findMany({

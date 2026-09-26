@@ -6,7 +6,6 @@
 import officeAi1Cues from "../../../../lib/academy/lesson-cues/01_office_ai-1.json" with { type: "json" };
 import officeAi2Cues from "../../../../lib/academy/lesson-cues/01_office_ai-2.json" with { type: "json" };
 import officeAi3Cues from "../../../../lib/academy/lesson-cues/01_office_ai-3.json" with { type: "json" };
-import officeAi4Cues from "../../../../lib/academy/lesson-cues/01_office_ai-4.json" with { type: "json" };
 import officeAi5Cues from "../../../../lib/academy/lesson-cues/01_office_ai-5.json" with { type: "json" };
 import officeAi6Cues from "../../../../lib/academy/lesson-cues/01_office_ai-6.json" with { type: "json" };
 import officeAiG1Cues from "../../../../lib/academy/lesson-cues/01_office_ai-g1.json" with { type: "json" };
@@ -15,8 +14,13 @@ import officeAiK1Cues from "../../../../lib/academy/lesson-cues/01_office_ai-k1.
 import officeAi1Timings from "../../../../lib/academy/lesson-audio-timings/01_office_ai-1.json" with { type: "json" };
 import officeAi2Timings from "../../../../lib/academy/lesson-audio-timings/01_office_ai-2.json" with { type: "json" };
 import officeAi3Timings from "../../../../lib/academy/lesson-audio-timings/01_office_ai-3.json" with { type: "json" };
-import officeAi4Timings from "../../../../lib/academy/lesson-audio-timings/01_office_ai-4.json" with { type: "json" };
 import officeAi5Timings from "../../../../lib/academy/lesson-audio-timings/01_office_ai-5.json" with { type: "json" };
+import off2013Cues from "../../../../lib/academy/lesson-cues/01_office_ai_ileri-3.json" with { type: "json" };
+import off2014Cues from "../../../../lib/academy/lesson-cues/01_office_ai_ileri-4.json" with { type: "json" };
+import off2015Cues from "../../../../lib/academy/lesson-cues/01_office_ai_ileri-5.json" with { type: "json" };
+import off2013Timings from "../../../../lib/academy/lesson-audio-timings/01_office_ai_ileri-3.json" with { type: "json" };
+import off2014Timings from "../../../../lib/academy/lesson-audio-timings/01_office_ai_ileri-4.json" with { type: "json" };
+import off2015Timings from "../../../../lib/academy/lesson-audio-timings/01_office_ai_ileri-5.json" with { type: "json" };
 import officeAi6Timings from "../../../../lib/academy/lesson-audio-timings/01_office_ai-6.json" with { type: "json" };
 import officeAiG1Timings from "../../../../lib/academy/lesson-audio-timings/01_office_ai-g1.json" with { type: "json" };
 import officeAiW1Timings from "../../../../lib/academy/lesson-audio-timings/01_office_ai-w1.json" with { type: "json" };
@@ -47,10 +51,6 @@ export const DRON_OFFICE_AI_3_PUNCHCARDS: readonly DronAcademyPunchcard[] = punc
   officeAi3Timings,
   officeAi3Cues,
 );
-export const DRON_OFFICE_AI_4_PUNCHCARDS: readonly DronAcademyPunchcard[] = punchcardsFromSealedJson(
-  officeAi4Timings,
-  officeAi4Cues,
-);
 export const DRON_OFFICE_AI_5_PUNCHCARDS: readonly DronAcademyPunchcard[] = punchcardsFromSealedJson(
   officeAi5Timings,
   officeAi5Cues,
@@ -71,17 +71,31 @@ export const DRON_OFFICE_AI_K1_PUNCHCARDS: readonly DronAcademyPunchcard[] = pun
   officeAiK1Timings,
   officeAiK1Cues,
 );
+export const DRON_OFF201_3_PUNCHCARDS: readonly DronAcademyPunchcard[] = punchcardsFromSealedJson(
+  off2013Timings,
+  off2013Cues,
+);
+export const DRON_OFF201_4_PUNCHCARDS: readonly DronAcademyPunchcard[] = punchcardsFromSealedJson(
+  off2014Timings,
+  off2014Cues,
+);
+export const DRON_OFF201_5_PUNCHCARDS: readonly DronAcademyPunchcard[] = punchcardsFromSealedJson(
+  off2015Timings,
+  off2015Cues,
+);
 
 const PUNCHCARDS_BY_LESSON: Readonly<Record<string, readonly DronAcademyPunchcard[]>> = {
   "01_office_ai-1": DRON_OFFICE_AI_1_PUNCHCARDS,
   "01_office_ai-2": DRON_OFFICE_AI_2_PUNCHCARDS,
   "01_office_ai-3": DRON_OFFICE_AI_3_PUNCHCARDS,
-  "01_office_ai-4": DRON_OFFICE_AI_4_PUNCHCARDS,
   "01_office_ai-5": DRON_OFFICE_AI_5_PUNCHCARDS,
   "01_office_ai-6": DRON_OFFICE_AI_6_PUNCHCARDS,
   "01_office_ai-g1": DRON_OFFICE_AI_G1_PUNCHCARDS,
   "01_office_ai-w1": DRON_OFFICE_AI_W1_PUNCHCARDS,
   "01_office_ai-k1": DRON_OFFICE_AI_K1_PUNCHCARDS,
+  "01_office_ai_ileri-3": DRON_OFF201_3_PUNCHCARDS,
+  "01_office_ai_ileri-4": DRON_OFF201_4_PUNCHCARDS,
+  "01_office_ai_ileri-5": DRON_OFF201_5_PUNCHCARDS,
 };
 
 export function dronPunchcardLabel(text: string): string {

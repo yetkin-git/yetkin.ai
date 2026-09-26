@@ -1,0 +1,85 @@
+[
+  {
+    "id": "cue-01",
+    "start": 0,
+    "end": 152.84,
+    "text": "POSTAYI AYIR",
+    "section": "Açılış",
+    "paragraphs": [
+      "Selamlar, ben Ece. İleri Ofis Yapay Zekâ eğitiminin beşinci dersine hoş geldin. Geçen derste maddeyi sayfa numarasıyla çıkardın. Bu dersin sonunda karmaşık bir iş postasını sınıflandıracaksın. Her iş ayrı satırda duracak. Yanıt taslağını şirket kuralına göre yazacaksın. Kişisel veriyi taslağa taşımayacaksın. Taslağı göndermeyeceksin. Konu satırı şudur. Kaya Un, gecikme ve hesap. Masanın yanında stok notu duruyor. Not şudur. «Marmara, Kaya Un 1 kg, 120 koli.» Başka sayı yoktur. Bu postada üç iş vardır. Birinci iş stok sorusudur. Sınıfı bilgidir. İkinci iş gecikmedir. Sınıfı şikayettir. Üçüncü iş kimlik ve hesap doğrulamadır. Sınıfı kişisel veri talebidir.",
+      "Tazminat veya yüzde görürsen o cümleyi sil. Kural kartında tazminat yoktur. Finans, olmayan yüzde için pay ayırmaz. Ad, telefon, IBAN veya kimlik görürsen o satırı sil. Ekrandan silmek, kişisel sohbete yapıştırılmış ham postayı geri çağırmaz. Onun için ham posta baştan gitmez. «Gönderildi» görürsen o satırı sil. Düğmeye basma. Yönetici gönder demeden taslak postada kalır. Cevabı satır satır okursun. Üç sınıftan biri yoksa aynı görevi, yalnız eksik sınıf için bir kez daha iste. Eksik sınıfı «nazik cevap» ile kapatma. Üç satır da kural kartıyla eşleşmeden taslağı iletme."
+    ]
+  },
+  {
+    "id": "cue-02",
+    "start": 153.34,
+    "end": 353.914,
+    "text": "ÜÇ ADIM",
+    "section": "Açılış",
+    "paragraphs": [
+      "Saat 16:40. Yöneticin yazıyor. «Saat 17'den önce bu postayı sınıflandır. Her iş ayrı satır olsun. Yanıt taslağını şirket kuralına göre yaz. Kişisel veriyi taslağa koyma. Gönder düğmesine basma.» Gövde şöyle. Masanın diğer yanında şirket kuralı duruyor. Kural kartı şudur. Acele edip kutuya «Bunu nazikçe cevapla ve gönder» yazarsan yapay zekâ akıcı bir yanıt döndürür. Üç işi tek paragrafta birleştirir. Sınıf satırı yazmaz. Stok için 200 koli diyebilir. Gecikme için yüzde 10 tazminat yazabilir. Mehmet Kaya adını, telefonu, IBAN'ı ve kimlik numarasını yanıtın içine koyabilir. Üste «Gönderildi» yazabilir. O taslağı iletirsen müşteri, hesap bilgisinin kopyasını alır. Satın alma, notta olmayan 200 koli için sipariş açar. Finans, kuralda olmayan yüzde 10 için pay ayırır. Şikayet ayrı satırda durmadığı için gecikme masaya gelmez. «Gönderildi» yazısı, senin basmadığın düğmenin yerini tutar.",
+      "Yönetici hemen ardından «hemen gönder» derse aynı kutuya ekleme. Taslak bitmiştir. Göndermek yeni iştir. Yeni işte de rol, görev, biçim ve kısıt durur. Ham posta kişisel hesaba gitmez. Taslakta kimlik duruyorsa gönderme. Eksik parça nasıl görünür? Rol yoksa sohbet kutusu tazminatı kendisi seçer. Görev dağınıksa sınıf, gönderim ve slayt birbirine bulaşır. Biçim yoksa tek paragraf döner. Kısıt yoksa 200 koli, yüzde 10 ve kimlik eklenir. Dört parçayı yazmadan kutuyu gönderme. Üç adım şunlar. 1. Postayı yapıştırmadan önce şirketin onayladığı posta aracını aç. Onaylı araç yoksa postayı kişisel hesaba taşıma. 2. Adı, telefonu, IBAN'ı ve kimlik numarasını çıkar. Üç işi sen ayır. Bilgi, şikayet, kişisel veri talebi. 3. Her taslak satırını şirket kuralıyla karşılaştır. Notta olmayan sayı, tazminat ve kimlik varsa sil. «Gönderildi» yazısını düğmenin yerine koyma."
+    ]
+  },
+  {
+    "id": "cue-03",
+    "start": 354.414,
+    "end": 547.576,
+    "text": "KARIŞIK POSTA",
+    "section": "Açılış",
+    "paragraphs": [
+      "Ekranda bir iş postası açık. Posta iş hesabında duruyor. «Merhaba. Ben Mehmet Kaya. Telefon 0532 000 00 00. IBAN TR00 0000 0000 0000 0000 0000 00. Kimlik numarası 00000000000. Marmara için Kaya Un 1 kg stokta var mı? Geçen sevkiyat 2 gün geç kaldı. Bunun için yazılı cevap istiyorum. IBAN'ımı ve kimlik numaramı doğrula. Sözleşme kopyasını bu postaya ekle.» «Posta üç sınıftan birine girer. Bilgi. Şikayet. Kişisel veri talebi. Bir postada birden fazla iş varsa her iş ayrı satırdır. Tek sınıf yazıp diğer işi yutma. Bilgi cevabı yalnız stok notundan gelir. Notta 120 koli vardır. Başka sayı yazılmaz. Şikayet cevabı gecikmeyi yazar. Tazminat, yüzde ve yeni tarih yazılmaz. Notta tazminat yoktur. Kişisel veri talebine kimlik, IBAN ve sözleşme kopyası yazılmaz. O satırın taslağı yalnız şunu der. Talebiniz alındı. Kayıt birimine iletildi. Taslak gönderilmez.» Postayı kutuya koymadan önce üç soru vardır. Sırayı bozma.",
+      "Bugün üç işli kısa bir posta seç. Posta, senin kurduğun örnek olsun. Gerçek kişi adı, telefon, IBAN veya kimlik numarası koyma. Üç sınıfı adlandırmadan «nazikçe cevapla» yazma. İstemi dört parçayla yaz. Gelen her satırı kural kartıyla karşılaştır. Kimlik belirdiyse sil. Notta olmayan sayı varsa sil. Postanın gönder düğmesine basma. Sıradaki ders üç dosyayı yan yana koyar. Tablo, yazılı not ve uzun belge. Uyuşmayan sayıyı yakalayacaksın. Tek sayfalık karar notuna dökeceksin. Ham posta kişisel hesaba gitmez."
+    ]
+  },
+  {
+    "id": "cue-04",
+    "start": 548.076,
+    "end": 700.644,
+    "text": "KİMLİĞİ ÇIKAR",
+    "section": "VERİYİ VERMEDEN ÖNCE",
+    "paragraphs": [
+      "Birinci soru şirket politikasıdır. Şirketin onayladığı posta aracı hangisi? Onaylı panel iş hesabındaysa postayı orada aç. Sınıfı orada iste. Taslağı orada yaz. Onaylı araç yoksa bu postayı kişisel sohbet hesabına taşıma. Kimlik ve IBAN da kişisel hesaba gitmez. İkinci soru veri sınıfıdır. Ürün adı ve stok notundaki koli sayısı ürüne ait, kişiye bağlı olmayan satırdır. Gecikmenin gün sayısı, kişiye bağlı olmayan iş notudur. Bu iki iş onaylı araçta istenebilir. Ad, telefon, IBAN ve kimlik numarası kişisel veridir. Ham kimlik, IBAN, maaş ve şirket sırrı hiçbir araca açık hâliyle girmez. Mehmet Kaya satırını, telefonu, IBAN'ı ve kimlik numarasını postadan çıkarırsın. Sözleşme kopyasını da çıkarırsın. Kişisel veri talebinin sınıfı kalır. Talebin içindeki kimlik kalmaz. Üçüncü soru aktarım yoludur. Onaylı araçta sırayla bakarsın. Önce yerleşik araç vardır. Yerleşik araç, iş hesabındaki posta panelidir. Panel yoksa postayı ataş ile yüklersin. Kimlik satırını ve IBAN satırını yükleme. İkisi de yoksa son çare, maskeli kısa özettir. Maskeleme, gerçek satırda kimliği takma değerle değiştirmektir. Aşağıdaki satırlar yalnız işin şeklini gösterir. Postanın tamamını vermez. Bilgi: Marmara, Kaya Un 1 kg, stok notu 120 koli. Şikayet: sevkiyat 2 gün geç. Yazılı cevap isteniyor. Tazminat notta yok. Kişisel veri talebi: kimlik ve hesap doğrulama isteniyor. Ad yok. Telefon yok. IBAN yok. Kimlik numarası yok."
+    ]
+  },
+  {
+    "id": "cue-05",
+    "start": 701.144,
+    "end": 811.274,
+    "text": "SINIFI AYIR",
+    "section": "DÖRT PARÇA",
+    "paragraphs": [
+      "Bu üç işe şimdi istemi yaz. Rol, işin sahibidir. Görev, tek iştir. Biçim, çıktının şeklidir. Kısıt, sohbet kutusunun taşmayacağı çizgidir. İstemi şöyle yaz. Rol: ofis asistanı. Görev: üç işi sınıflandır ve her iş için şirket kuralına uygun bir taslak cümlesi yaz. Biçim: üç satır. Her satırda sınıfın adı, işin tek cümlesi ve taslak cümlesi olsun. Sınıflar şunlardır. Bilgi. Şikayet. Kişisel veri talebi. Kısıt: üç işi tek sınıfta birleştirme. Stok notunda olmayan sayı yazma. Tazminat, yüzde ve yeni tarih yazma. Ad, telefon, IBAN, kimlik numarası ve sözleşme kopyası yazma. «Gönderildi» yazma. İşler: bilgi, Marmara, Kaya Un 1 kg, 120 koli. Şikayet, sevkiyat 2 gün geç, tazminat yok. Kişisel veri talebi, kimlik ve hesap doğrulama. Kimlik metni yok. Rolü başa koyarsın. Görev tek başına «cevapla» diye kalırsa sohbet kutusu üç işi tek paragrafta yutar. Bu işin sahibi ofis asistanıdır. Masanda olmayan bir unvan yazma. «Müşteri temsilcisi» yazarsan sohbet kutusu tazminatı kendisi seçer."
+    ]
+  },
+  {
+    "id": "cue-06",
+    "start": 811.774,
+    "end": 949.947,
+    "text": "TASLAK SATIRI",
+    "section": "YANLIŞ VE DOĞRU",
+    "paragraphs": [
+      "Görev tek kalır. «Sınıflandır, taslak yaz, gönder, slayt hazırla» dört iştir. Dört iş tek kutuda birbirine bulaşır. Bu istemde tek görev vardır. Görev, sınıf satırını ve taslak cümlesini yazmaktır. Postayı göndermek ayrı iştir. Yönetici düğmeye basma dedi. Slayt ayrı istemdir. Biçim, şekli söyler. Üç satır, senin kural kartıyla karşılaştıracağın listedir. «Nazik bir yanıt olsun» dersen sohbet kutusu paragraf seçer. Nazik cümle, sınıf satırının yerini tutmaz. Biçimi sen yazarsın. Kısıt, kuralın dışındaki cümleyi masaya koymama kuralıdır. Stok notu 120 kolidir. 200 koli yoktur. Tazminat yoktur. Yüzde 10 yoktur. Kimlik satır değildir. «Gönderildi» bir sınıf değildir. Yanlış istem şudur. Ham postayı kişisel sohbete yapıştırırsın. Ad, telefon, IBAN ve kimlik de içindedir. Kutuya şunu yazarsın. «Bunu nazikçe cevapla ve gönderilmiş gibi yaz.» Sohbet kutusu akıcı yazar. Tek paragraf döner. Sınıf satırı yoktur. Stok 200 koli diyebilir. Gecikme için yüzde 10 tazminat ve yeni teslim tarihi yazabilir. Mehmet Kaya, telefon, IBAN ve kimlik numarası paragrafın içinde durabilir. Üste «Gönderildi» yazabilir. 200, stok notunda yoktur. Yüzde 10, şirket kuralında yoktur. Kimlik taslakta durursa hesabın kopyası sohbette kalır. «Gönderildi» yazısı, düğmeye basıldığını göstermez. Bu paragrafı iletirsen satın alma yanlış koliyi ister. Finans, kuralda olmayan yüzde için pay ayırır. Gecikme ayrı satır olmadığı için şikayet kapanmış gibi durur."
+    ]
+  },
+  {
+    "id": "cue-07",
+    "start": 950.447,
+    "end": 1046.47,
+    "text": "TASLAĞI TUT",
+    "section": "TASLAĞI TUT",
+    "paragraphs": [
+      "Doğru yol şudur. Önce onaylı aracı açarsın. Adı, telefonu, IBAN'ı ve kimlik numarasını çıkarırsın. Üç işi adlandırırsın. Dört parçalı istemi yazarsın. Kısıt, kural kartındaki sınırdır. Cevabı şöyle okursun. Sonra her satırı kural kartıyla karşılaştırırsın. Birinci satır. Sınıf bilgidir. İş, Marmara için Kaya Un 1 kg stok sorusudur. Taslak cümlesi şudur. Stok notu 120 kolidir. Başka sayı yoktur. İkinci satır. Sınıf şikayettir. İş, sevkiyatın 2 gün geç kalmasıdır. Yazılı cevap istenmiştir. Taslak cümlesi şudur. Sevkiyatın 2 gün geç kaldığı notunuz alındı. Tazminat, yüzde ve yeni tarih bu notta yoktur. Üçüncü satır. Sınıf kişisel veri talebidir. İş, kimlik ve hesap doğrulamadır. Taslak cümlesi şudur. Talebiniz alındı. Kayıt birimine iletildi. Ad yoktur. Telefon yoktur. IBAN yoktur. Kimlik numarası yoktur. Sözleşme kopyası yoktur."
+    ]
+  },
+  {
+    "id": "cue-08",
+    "start": 1046.97,
+    "end": 1104.154,
+    "text": "KENDİ POSTAN",
+    "section": "KENDİ POSTAN",
+    "paragraphs": [
+      "«Gönderildi» yoktur. Postanın gönder düğmesine basılmaz. Şimdi ellerini izle. İş hesabını aç. Onaylı posta panelini bul. Üç işi ayrı satır diye gör. Kimliği çıkar. Dört parçayı aynı kutuya yaz. İstemi gönder. Gelen satırları kural kartıyla karşılaştır. Stok satırı 120 değilse o sayıyı sil. 120'yi sen yaz. Notta 120 vardır. Satın alma, nottaki 120 koliye bakar. Şikayet satırı yoksa «nazik cevap» deme. Üçüncü iş birinci satırın içinde duruyorsa o paragrafı böl. Kişisel veri satırını sen ayır. Gecikme ancak ayrı satırda görünür."
+    ]
+  }
+]

@@ -13,6 +13,7 @@ type LinkHref = ComponentProps<typeof LinkButton>["href"];
 export function ListingCard({
   title,
   summary,
+  footnote,
   price,
   priceCaption,
   badge,
@@ -26,6 +27,7 @@ export function ListingCard({
   footerBadgeTone = "neutral",
   href,
   cta = "Aç",
+  ctaDisabled = false,
   showcase = false,
   icon,
   className,
@@ -45,6 +47,8 @@ export function ListingCard({
 }: {
   title: string;
   summary: string;
+  /** Kart gövdesinde özetin altında, satır tavanına takılmayan not. */
+  footnote?: string;
   price?: string;
   /** Fiyatın altında küçük ipucu (örn. KDV dahil). */
   priceCaption?: string;
@@ -63,6 +67,8 @@ export function ListingCard({
   footerBadgeTone?: BadgeTone;
   href?: LinkHref;
   cta?: string;
+  /** Pasif etiket — fiyat yok veya ön koşul kapalı. Kart ve düğme tıklanmaz. */
+  ctaDisabled?: boolean;
   showcase?: boolean;
   icon?: ReactNode;
   className?: string;
@@ -89,7 +95,7 @@ export function ListingCard({
   ctaVariant?: ButtonVariant;
 }) {
   const isList = layout === "list";
-  const cardHit = Boolean(href) && hit === "card";
+  const cardHit = Boolean(href) && hit === "card" && !ctaDisabled;
   const cinemaCover = Boolean(coverSrc) && !coverComingSoon;
   const showCover = !isList && (cinemaCover || coverComingSoon);
   const hasInlineKicker = Boolean(moduleCode || kicker);
@@ -158,6 +164,11 @@ export function ListingCard({
       >
         {summary}
       </p>
+      {footnote ? (
+        <p className="mt-2 text-xs leading-5 text-[var(--muted)]" data-academy-advisory="">
+          {footnote}
+        </p>
+      ) : null}
       {meta ? <p className="mt-3 text-xs text-[var(--muted)] sm:mt-2">{meta}</p> : null}
     </div>
   );
@@ -206,10 +217,16 @@ export function ListingCard({
           className={buttonClassName(
             ctaVariant,
             ctaSize,
-            cn("pointer-events-none shrink-0 whitespace-nowrap", wideCta && "w-full sm:w-auto"),
+            cn(
+              "pointer-events-none shrink-0 whitespace-nowrap",
+              wideCta && "w-full sm:w-auto",
+              ctaDisabled && "cursor-not-allowed opacity-50",
+            ),
           )}
-          aria-hidden="true"
+          aria-hidden={ctaDisabled ? undefined : true}
+          aria-disabled={ctaDisabled ? true : undefined}
           data-academy-catalog-cta=""
+          data-academy-cta-disabled={ctaDisabled ? "" : undefined}
         >
           {cta}
         </span>

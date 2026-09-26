@@ -5,7 +5,7 @@
  * Anayasal esneklik:
  * - Seviye etiketi serbest stringdir (Temel / Orta / İleri / Masterclass / Modül-N …).
  * - Her dikeyin zorunlu üç seviyesi yoktur (Anayasa B4).
- * - Çok teknik konularda müfredat isteğe bağlı Temel / Orta / İleri bağımsız satılabilir pakete ayrılabilir (PEDAGOJI.md §F.3).
+ * - Çok teknik konularda müfredat isteğe bağlı Temel / Orta / İleri bağımsız satılabilir pakete ayrılabilir (PEDAGOJI.md §B).
  * - Fiyat seviye enum’una kilitli değildir; tutar serbest `amountMinor` (kuruş tamsayısı).
  * - Canlı tutar `PriceCatalogEntry` satırındandır; tohum tutarı yalnız ops soft default’tur.
  */

@@ -43,9 +43,17 @@ describe("Faz 1 kanonikleştirme yüzeyi", () => {
     });
     expect("pazaryeri" in RAIL_PHASE1_ROOM_CONTEXT).toBe(false);
     expect(contextOfPrismaModel("academyCertificate")).toBe("proof");
+    expect(contextOfPrismaModel("academyExamSitting")).toBe("proof");
+    expect(contextOfPrismaModel("academyExemptionSeal")).toBe("proof");
+    expect(contextOfPrismaModel("funnelDailyCounter")).toBe("proof");
     expect(contextOfPrismaModel("freelancerContract")).toBe("marketplace");
     expect(contextOfPrismaModel("escrowHold")).toBe("payments");
+    expect(contextOfPrismaModel("walletCardRefund")).toBe("payments");
+    expect(contextOfPrismaModel("priceCatalogEntry")).toBe("payments");
+    expect(contextOfPrismaModel("priceCatalogDecisionLedger")).toBe("payments");
+    expect(contextOfPrismaModel("aiTokenUsage")).toBe("payments");
     expect(contextOfPrismaModel("careerVisaStamp")).toBe("proof");
+    expect(contextOfPrismaModel("user")).toBeNull();
     expect(RAIL_CONTEXT_PRISMA_ALLOWLIST).toEqual([
       "archived/lib/social/prisma-proofs.ts",
       "archived/lib/studio/load.ts",

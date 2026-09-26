@@ -12,7 +12,7 @@ import {
 } from "@/lib/academy/load-catalog";
 import { isAcademyContinueResumeStrip } from "@/lib/academy/continue-board";
 import { EMPTY_ACADEMY_CATALOG_LEARNER_BOARD } from "@/lib/academy/catalog-learner";
-import { isAcademyGrowthSkuSlug } from "@/lib/academy/pilot-sku";
+import { isAcademyStorefrontSlug } from "@/lib/academy/pilot-sku";
 import { RoomFrame } from "@/components/ui/page-header";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
@@ -39,7 +39,7 @@ export default async function AcademyPage() {
   ]);
   const lessonCounts = Object.fromEntries(
     courses
-      .filter((course) => isAcademyGrowthSkuSlug(course.slug))
+      .filter((course) => isAcademyStorefrontSlug(course.slug))
       .map((course) => [course.slug, publishedLessonCount(course.slug)] as const),
   );
 

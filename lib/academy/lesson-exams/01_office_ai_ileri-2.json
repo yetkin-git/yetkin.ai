@@ -1,0 +1,39 @@
+{
+  "lessonKey": "01_office_ai_ileri-2",
+  "passScore": 70,
+  "questions": [
+    {
+      "id": "q_off201_l2_1",
+      "prompt": "Marmara ve Ege depoları aynı Perşembe saat 10:00'ı tutuyor. Not yeni saat yazmıyor. Listede ne durur?",
+      "choices": [
+        "Tek randevu, saat 10:00",
+        "Modelin seçtiği yeni saat",
+        "İki satır ve ayrı bir çakışma satırı; yeni saat yok",
+        "Bugünün tarihiyle tek davet"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "q_off201_l2_2",
+      "prompt": "Notta Selin Korkmaz ve telefonu var. Depo adı ve saat de var. Eylem listesine ne girmez?",
+      "choices": [
+        "Depo adı",
+        "Saat 10:00",
+        "Ad ve telefon",
+        "Çakışma satırı"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "q_off201_l2_3",
+      "prompt": "Çakışma satırı duruyor. Listeyi takvime ne zaman işlersin?",
+      "choices": [
+        "Cevap gelir gelmez",
+        "Çakışmayı sildikten sonra",
+        "Satırları nottaki saatlerle karşılaştırdıktan sonra, yönetici yaz dediğinde",
+        "Kişisel takvime ham notu yapıştırınca"
+      ],
+      "correctIndex": 2
+    }
+  ]
+}

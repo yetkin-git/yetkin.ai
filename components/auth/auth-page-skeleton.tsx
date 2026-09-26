@@ -8,24 +8,25 @@ function SkeletonLine({ className }: { className?: string }) {
 export function AuthPageSkeleton() {
   return (
     <main
-      className="relative mx-auto flex min-h-dvh max-w-md flex-col justify-center px-6 pb-14 pt-16"
+      className="mx-auto flex min-h-dvh w-full max-w-md flex-col items-center justify-center px-4 py-3 sm:px-6"
       aria-hidden
     >
-      <div className="relative">
-        <SkeletonLine className="mb-4 h-10 w-10 rounded-[8px]" />
-        <SkeletonLine className="h-5 w-24 rounded-full bg-[var(--safir-soft)]" />
-        <SkeletonLine className="mt-3 h-9 w-32" />
-        <SkeletonLine className="mt-2 h-4 w-64" />
-        <div className="mt-6 space-y-3 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-card)]">
-          <SkeletonLine className="h-16 w-full" />
-          <SkeletonLine className="h-16 w-full" />
-          <SkeletonLine className="h-10 w-28 rounded-xl" />
+      <div className="w-full">
+        <div className="flex items-center gap-3">
+          <SkeletonLine className="h-8 w-8 rounded-[8px]" />
+          <div>
+            <SkeletonLine className="h-5 w-24 rounded-full bg-[var(--safir-soft)]" />
+            <SkeletonLine className="mt-1 h-7 w-28" />
+          </div>
+        </div>
+        <SkeletonLine className="mt-1 h-4 w-64" />
+        <div className="mt-3 space-y-2 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-card)]">
+          <SkeletonLine className="h-14 w-full" />
+          <SkeletonLine className="h-14 w-full" />
+          <SkeletonLine className="h-10 w-full rounded-xl" />
         </div>
         <span className="sr-only">{SEN_VOICE.auth.skeletonAria}</span>
-        <div className="mt-4 flex gap-3">
-          <SkeletonLine className="h-8 w-16 rounded-xl" />
-          <SkeletonLine className="h-8 w-20 rounded-xl" />
-        </div>
+        <SkeletonLine className="mt-3 h-10 w-full rounded-xl" />
       </div>
     </main>
   );

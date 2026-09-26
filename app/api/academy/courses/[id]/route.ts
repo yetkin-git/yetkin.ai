@@ -2,7 +2,7 @@ import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { GoneError } from "@/lib/kernel/http/errors";
 import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
-import { isAcademyGrowthSkuSlug } from "@/lib/academy/pilot-sku";
+import { academyCatalogPurchasable, isAcademyGrowthSkuSlug } from "@/lib/academy/pilot-sku";
 import {
   ACADEMY_RETIRED_COURSE_GONE_MESSAGE,
   isAcademyRetiredStorefrontSlug,
@@ -32,7 +32,11 @@ export async function GET(
         ...course,
         priceMinor: entry?.amountMinor ?? null,
         currencyCode: entry?.currencyCode ?? null,
-        purchasable: Boolean(entry) && course.isPublished,
+        purchasable: academyCatalogPurchasable({
+          courseSlug: course.slug,
+          catalogRowPresent: Boolean(entry),
+          isPublished: course.isPublished,
+        }),
       },
     });
   } catch (error) {

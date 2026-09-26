@@ -28,7 +28,7 @@ export const CUZDAN_SEN = {
   refundConfirmEyebrow: "Cüzdan",
   refundConfirmTitle: "Cüzdan Bakiyesi İadesi",
   refundConfirmBody: (amount: string) =>
-    `Cüzdanınızdaki ${amount} tutarındaki kullanılmamış bakiye kartınıza iade edilecektir. İadeler PayTR altyapısıyla 1-3 iş günü içerisinde hesabınıza yansır. İşlemi onaylıyor musunuz?`,
+    `Cüzdanınızdaki ${amount} tutarındaki kullanılmamış bakiye kartınıza iade edilecektir. İadeler PayTR altyapısıyla 1-3 iş günü içerisinde hesabına yansır. İşlemi onaylıyor musunuz?`,
   refundConfirmCancel: "Vazgeç",
   refundConfirmAccept: "Evet, İade Et",
   refundConfirmClose: "Pencereyi kapat",
@@ -39,6 +39,8 @@ export const CUZDAN_SEN = {
   refundPartial: (amount: string) =>
     `İade işleminiz PayTR/Bankanıza iletilmiştir. Tutar (${amount}) 1-3 iş günü içerisinde kartınıza yansıyacaktır. Kalan tutar incelemeye alındı. İşlem tamamlandığında tarafınıza bilgi verilecektir.`,
   refundRequested: "İade talebiniz incelemeye alındı. İşlem tamamlandığında tarafınıza bilgi verilecektir.",
+  refundFinanceHold: (amount: string) =>
+    `${amount} tutarındaki iade talebiniz finans ekibimize iletilmiştir. İnceleme tamamlanıp bakiye sıfırlandığında 'Hesabımı Kapat' adımı aktifleşecektir.`,
   refundFail: "Kart iadesi tamamlanamadı.",
   closedLoopTitle: "Akademi tahsilatı",
   closedLoopBody:
@@ -53,7 +55,8 @@ export const CUZDAN_SEN = {
   kasaLead: "Kart PayTR iFrame içindedir. Bu sayfa çerez oturumu istemez; HMAC pasaportu yeter.",
   kasaInvalid:
     "Bu kasa bağlantısı geçersiz veya süresi doldu. Drona dönüp yeniden dene.",
-  kasaReturnOk:
-    "Kart sonucu Amiral'e iletildi. Drona dön; bakiye banka bildirimi (HMAC) sonrası görünür.",
-  kasaReturnFail: "Kart işlemi tamamlanmadı. Drona dönüp yeni niyet aç.",
+  kasaReturnOk: "Ödemeniz Onaylanıyor, Akademiye Yönlendiriliyorsunuz...",
+  kasaReturnCta: "Akademiye Dön / Eğitimi Başlat",
+  kasaReturnFail: "Kart işlemi tamamlanmadı. Akademiye dönüp yeniden deneyebilirsin.",
+  kasaReturnFailCta: "Akademiye Dön",
 } as const;

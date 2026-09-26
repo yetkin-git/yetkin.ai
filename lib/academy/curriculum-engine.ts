@@ -29,10 +29,13 @@ import {
 } from "@/lib/academy/proof-of-work";
 import {
   createAcademyGrantPurchase,
+  hasAcademyAdminBypass,
+  hasAcademyLockedLessonContentAccess,
   hasUnlimitedAcademyAccess,
   resolveSettledAcademyPurchase,
   type AcademyActor,
 } from "@/lib/academy/access";
+import { isCitizenTestAccountEmail } from "@/lib/kernel/auth/super-admin";
 import { resolveAcademyCourseFromSeed } from "@/lib/academy/published-catalog";
 import type {
   AcademyCertificateRecord,
@@ -206,6 +209,11 @@ async function requireSettledPurchase(
   if (!purchase || purchase.status !== "SETTLED") {
     throw new ForbiddenError("Satın alma mühürlenmeden ders içeriği açılmaz.");
   }
+  const productionGate =
+    process.env.NODE_ENV === "production" || isCitizenTestAccountEmail(actor.email);
+  if (productionGate && !hasAcademyLockedLessonContentAccess(purchase, new Date(), actor)) {
+    throw new ForbiddenError("Satın alma mühürlenmeden ders içeriği açılmaz.");
+  }
   return purchase;
 }
 
@@ -215,6 +223,7 @@ export async function loadAcademyCurriculumPlayer(
 ): Promise<AcademyCurriculumPlayerView> {
   const actor = actorOf(command);
   const unlimited = hasUnlimitedAcademyAccess(actor);
+  const adminView = hasAcademyAdminBypass(actor);
   const course = unlimited
     ? await requireWritableCourse(ports.academy, command.courseId)
     : await requireCourse(ports.academy, command.courseId);
@@ -270,7 +279,7 @@ export async function loadAcademyCurriculumPlayer(
       const completed = done.has(lesson.key);
       return toCurriculumLessonView(lesson, {
         completed,
-        open: unlimited || lesson.key === nextKey || completed,
+        open: unlimited || adminView || lesson.key === nextKey || completed,
         proofOfWorkHash: completed
           ? (row && "proofOfWorkHash" in row ? row.proofOfWorkHash : null) ??
             canonicalAcademyProofOfWorkHash(lesson.key, sha256Hex)
@@ -361,7 +370,7 @@ export async function completeAcademyLesson(
       course.slug,
       completions.map((row) => row.lessonKey),
     );
-    if (!unlimited && nextKey !== lesson.key) {
+    if (!unlimited && !hasAcademyAdminBypass(actor) && nextKey !== lesson.key) {
       throw new ForbiddenError("Sıradaki ders açık. Atlanan ders tamamlanmaz.");
     }
   }

@@ -53,6 +53,23 @@ export type AcademyCertificateRecord = {
   createdAt: Date;
 };
 
+/**
+ * OFF-101 muafiyet mührü. Satın alma, ders lisansı ve kariyer vizesi değildir.
+ * Yalnız OFF-201 satış kapısını açar.
+ */
+export type AcademyExemptionSealRecord = {
+  id: string;
+  userId: string;
+  courseId: string;
+  examId: string;
+  title: string;
+  score: number;
+  issuedAt: Date;
+  revokedAt: Date | null;
+  revokeReason: string | null;
+  createdAt: Date;
+};
+
 export type AcademyExamQuestion = {
   id: string;
   prompt: string;
@@ -100,6 +117,8 @@ export type AcademyCourseWithPrice = AcademyCourseRecord & {
   priceMinor: AmountMinor | null;
   currencyCode: CurrencyCode;
   purchasable: boolean;
+  /** Vitrin kapağı. Boşsa `academyCourseCoverPath` düşer. */
+  coverImage?: string | null;
   /** Serbest seviye etiketi — fiyat bandına kilitli değildir. */
   level?: string | null;
   /**
@@ -178,6 +197,11 @@ export type AcademyStore = {
   getCertificateByUserAndCourse(userId: string, courseId: string): Promise<AcademyCertificateRecord | null>;
   getCertificateByHash(hash: string): Promise<AcademyCertificateRecord | null>;
   listCertificatesForUser(userId: string): Promise<AcademyCertificateRecord[]>;
+  getExemptionSealByUserAndCourse(
+    userId: string,
+    courseId: string,
+  ): Promise<AcademyExemptionSealRecord | null>;
+  insertExemptionSeal(seal: AcademyExemptionSealRecord): Promise<AcademyExemptionSealRecord>;
   insertExam(exam: AcademyExamRecord): Promise<AcademyExamRecord>;
   getExamByCourseId(courseId: string): Promise<AcademyExamRecord | null>;
   insertExamSitting(sitting: AcademyExamSittingRecord): Promise<AcademyExamSittingRecord>;

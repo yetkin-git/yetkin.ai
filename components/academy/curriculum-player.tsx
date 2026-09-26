@@ -5,6 +5,7 @@ import type { Route } from "next";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { LinkButton } from "@/components/ui/link-button";
+import { LessonAssistantPanel } from "@/components/academy/lesson-assistant-panel";
 import { LessonMediaPlayer } from "@/components/academy/lesson-media-player";
 import { LessonPromptConsole } from "@/components/academy/lesson-prompt-console";
 import { LessonStudyTabs } from "@/components/academy/lesson-study-tabs";
@@ -29,19 +30,15 @@ import { isAcademyPlayerPaywallLessonLocked } from "@/lib/academy/preview-lock";
 import { academyCheckoutHref } from "@/lib/academy/storefront-cta";
 import { academyCompareDockPrompt, academyVisualCompareStage } from "@/lib/academy/excel-workspace";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
-import {
-  academyPlayerClockDurationSec,
-  academySealedAudioDurationSec,
-} from "@/lib/academy/lesson-audio";
+import { academyLessonBedPlaybackSrc, isAcademyLessonBedSealed } from "@/lib/academy/lesson-audio";
+import { isAcademyTtsCassetteRevoked } from "@/lib/academy/pilot-sku";
 import {
   academyPlaybackCueAtTime,
   loadAcademyLessonPlaybackCues,
 } from "@/lib/academy/lesson-cues";
-import { academyPlayerOutroTailSec } from "@/lib/academy/lesson-bed-duck";
 import {
   ACADEMY_LESSON_AUTO_ADVANCE_DEFAULT,
   canAdvanceAcademyPlayerLesson,
-  hasAcademyLessonPlaybackReachedEnd,
   isAcademyPlayerExamReady,
   academyPlayerAutoAdvanceTargetKey,
   nextAcademyPlayerLesson,
@@ -59,6 +56,10 @@ import {
 } from "@/lib/academy/lesson-meta";
 import { loadAcademyLessonVisualStage } from "@/lib/academy/lesson-visual-stage";
 import type { AcademyLessonDiagramSlot, AcademyLessonMicroVideoSlot } from "@/lib/academy/lesson-media";
+import {
+  primeAcademyLessonMedia,
+  type AcademyLessonMediaPrime,
+} from "@/lib/academy/lesson-json-store";
 
 export type CurriculumPlayerLesson = {
   key: string;
@@ -77,6 +78,7 @@ export function CurriculumPlayer({
   courseId,
   courseSlug,
   lessons,
+  media,
   curriculumComplete,
   workTasksComplete,
   paywallLocked = false,
@@ -84,11 +86,14 @@ export function CurriculumPlayer({
   courseId: string;
   courseSlug: string;
   lessons: CurriculumPlayerLesson[];
+  /** Bu kursun cue ve timings verisi. Diğer SKU JSON'u istemci paketine girmez. */
+  media?: AcademyLessonMediaPrime | null;
   curriculumComplete: boolean;
   workTasksComplete?: boolean;
   /** Satın alma yok — hazırlık şeridi açık, ana dersler ödeme duvarında. */
   paywallLocked?: boolean;
 }) {
+  primeAcademyLessonMedia(media);
   const router = useRouter();
   const idempotency = useIdempotencyKey();
   const copy = ACADEMY_SEN.player;
@@ -111,7 +116,7 @@ export function CurriculumPlayer({
     () => new Set(lessons.filter((lesson) => lesson.completed).map((lesson) => lesson.key)),
   );
   const [autoAdvanceEnabled, setAutoAdvanceEnabled] = useState(ACADEMY_LESSON_AUTO_ADVANCE_DEFAULT);
-  const [autoStartPlayback, setAutoStartPlayback] = useState(false);
+  const [autoStartPlayback, setAutoStartPlayback] = useState(true);
   const autoAdvanceEnabledRef = useRef(autoAdvanceEnabled);
   const endedLessonKeyRef = useRef<string | null>(null);
   const playbackStartedKeyRef = useRef<string | null>(null);
@@ -160,14 +165,6 @@ export function CurriculumPlayer({
   const activeForAdvance = active ? { ...active, completed: activeCompleted } : null;
   const canAdvance = canAdvanceAcademyPlayerLesson(activeForAdvance, nextLesson);
   const canGoNext = Boolean(nextLesson && (nextLesson.open || canAdvance));
-  const activeClockDurationSec = active
-    ? academyPlayerClockDurationSec({
-        audioDuration: 0,
-        sealedDuration: academySealedAudioDurationSec(courseSlug, active.key),
-        spokenDuration: 0,
-        outroTailSec: academyPlayerOutroTailSec(active.key),
-      })
-    : 0;
   const activeTitle =
     prepActive && prepStrip
       ? prepStrip.title
@@ -177,12 +174,13 @@ export function CurriculumPlayer({
   const lessonPaywalled = Boolean(
     active && isAcademyPlayerPaywallLessonLocked(courseSlug, active.key, paywallLocked),
   );
+  const lessonMediaBlocked = Boolean(active && (lessonPaywalled || !active.open));
   const playerLayer = useMemo(
     () =>
-      active && !lessonPaywalled
+      active && !lessonMediaBlocked
         ? academyCitizenPlayerLayer(courseSlug, active.key)
         : { kind: "article" as const },
-    [active, courseSlug, lessonPaywalled],
+    [active, courseSlug, lessonMediaBlocked],
   );
   const karaoke = playerLayer.kind === "article+karaoke" ? playerLayer : null;
   const prepKaraoke = useMemo(() => {
@@ -214,18 +212,23 @@ export function CurriculumPlayer({
     setMediaPlaying(false);
   }, [activeKey]);
 
+  function lessonPlaybackBlocked(lessonKey: string): boolean {
+    const lesson = lessonsRef.current.find((row) => row.key === lessonKey);
+    if (!lesson || !lesson.open) {
+      return true;
+    }
+    return isAcademyPlayerPaywallLessonLocked(courseSlug, lessonKey, paywallLocked);
+  }
+
   function selectLesson(lessonKey: string, options?: { autoStart?: boolean }) {
     if (!lessonKey || lessonKey === activeKey) {
       return;
     }
+    const blocked = lessonPlaybackBlocked(lessonKey);
     setError(null);
     setMediaElapsed(0);
     setMediaPlaying(false);
-    if (options?.autoStart) {
-      setAutoStartPlayback(true);
-    } else {
-      setAutoStartPlayback(false);
-    }
+    setAutoStartPlayback(Boolean(options?.autoStart) && !blocked);
     setActiveKey(lessonKey);
   }
 
@@ -239,7 +242,7 @@ export function CurriculumPlayer({
       lessons: lessonsRef.current,
       endedLessonKey,
     });
-    if (!sequential) {
+    if (!sequential || lessonPlaybackBlocked(sequential)) {
       return;
     }
     goToNextLesson(sequential);
@@ -260,9 +263,12 @@ export function CurriculumPlayer({
     writeAcademyPrepStripDone(courseSlug, true);
     setPrepDone(true);
     const first = lessons[0];
-    if (first) {
-      selectLesson(first.key, { autoStart: false });
+    if (!first) {
+      return;
     }
+    selectLesson(first.key, {
+      autoStart: first.open && !isAcademyPlayerPaywallLessonLocked(courseSlug, first.key, paywallLocked),
+    });
   }
 
   function selectPrep() {
@@ -305,12 +311,13 @@ export function CurriculumPlayer({
       });
       // API `player.nextLessonKey` ilk tamamlanmamış derstir (devam paneli).
       // Oynatıcı geçişi müfredat sırasındaki +1 adımdır; tamamlanmış ders atlanmaz.
-      const sequentialKey = nextAcademyPlayerLesson(lessonsRef.current, lessonKey)?.key ?? null;
-      if ((options?.advance ?? true) && sequentialKey) {
+      const sequential = nextAcademyPlayerLesson(lessonsRef.current, lessonKey);
+      const sequentialKey = sequential?.open ? sequential.key : null;
+      if ((options?.advance ?? true) && sequentialKey && !lessonPlaybackBlocked(sequentialKey)) {
         if (autoAdvanceEnabledRef.current) {
           autoAdvanceNextLesson(lessonKey);
         } else {
-          selectLesson(sequentialKey, { autoStart: false });
+          selectLesson(sequentialKey, { autoStart: true });
         }
       }
       router.refresh();
@@ -338,6 +345,9 @@ export function CurriculumPlayer({
     if (playbackStartedKeyRef.current !== key) {
       return;
     }
+    if (lessonPaywalled || !active.open) {
+      return;
+    }
     if (pending && active.open && !activeCompleted) {
       return;
     }
@@ -352,9 +362,6 @@ export function CurriculumPlayer({
           return;
         }
         endedLessonKeyRef.current = null;
-        if (shouldAdvance) {
-          autoAdvanceNextLesson(key);
-        }
       });
       return;
     }
@@ -362,24 +369,6 @@ export function CurriculumPlayer({
       autoAdvanceNextLesson(key);
     }
   }
-
-  useEffect(() => {
-    if (!active || mediaElapsed < 1) {
-      return;
-    }
-    if (mediaElapsed + 0.02 < activeClockDurationSec) {
-      return;
-    }
-    if (
-      !hasAcademyLessonPlaybackReachedEnd({
-        currentTime: mediaElapsed,
-        durationSec: activeClockDurationSec,
-      })
-    ) {
-      return;
-    }
-    onMediaEnded(active.key);
-  }, [active, activeClockDurationSec, mediaElapsed, pending]);
 
   function onPrevLesson() {
     if (prepActive) {
@@ -392,7 +381,7 @@ export function CurriculumPlayer({
     if (!prevLesson?.open) {
       return;
     }
-    selectLesson(prevLesson.key, { autoStart: false });
+    selectLesson(prevLesson.key, { autoStart: true });
   }
 
   function onNextOrComplete() {
@@ -411,7 +400,7 @@ export function CurriculumPlayer({
       return;
     }
     if (nextLesson && canGoNext) {
-      selectLesson(nextLesson.key, { autoStart: false });
+      selectLesson(nextLesson.key, { autoStart: true });
     }
   }
 
@@ -443,7 +432,7 @@ export function CurriculumPlayer({
   const prepDurationMin = prepAudioSealed
     ? Math.max(1, Math.round(academyPrepStripAudioDurationSec(courseSlug) / 60))
     : (prepStrip?.estimatedMinutes ?? 0);
-  const trainingCta = ACADEMY_CARD_OFFER_PATHS[0]?.cta ?? "Eğitimi Satın Al & Öğren";
+  const trainingCta = ACADEMY_CARD_OFFER_PATHS[0]?.cta ?? "Eğitimi Satın Al";
 
   const playlist = (
     <aside
@@ -527,6 +516,12 @@ export function CurriculumPlayer({
           );
           const media = academyLessonMediaMeta({ ...lesson, courseSlug });
           const kindLabel = academyLessonKindLabel(media.kind, outline);
+          const audioPending = isAcademyTtsCassetteRevoked(lesson.key);
+          const deliveryLabel = audioPending
+            ? ACADEMY_SEN.listen.audioRecordingPreparing
+            : media.kind === "audio"
+              ? ACADEMY_SEN.catalog.cardMetaAudio(media.durationMin)
+              : `${kindLabel} · ${outline.durationMin(media.durationMin)}`;
           return (
             <li key={lesson.key} className="max-lg:min-w-[16rem] max-lg:shrink-0">
               <button
@@ -564,7 +559,7 @@ export function CurriculumPlayer({
                     {lesson.order}. {normalizeAcronyms(lesson.title)}
                   </span>
                   <span className={`block text-[11px] ${selected ? "text-white/70" : "text-[var(--muted)]"}`}>
-                    {kindLabel} · {outline.durationMin(media.durationMin)}
+                    {deliveryLabel}
                     {rowLocked ? ` · ${outline.locked}` : ""}
                     {completed ? ` · ${copy.alreadyDone}` : ""}
                   </span>
@@ -580,7 +575,7 @@ export function CurriculumPlayer({
   return (
     <div
       className="academy-player-shell mx-auto grid min-h-0 w-full max-w-[1580px] flex-1 grid-cols-1 grid-rows-[auto_auto] gap-3 overflow-visible lg:grid-cols-[minmax(0,1fr)_360px] lg:grid-rows-[auto] lg:items-start lg:gap-4"
-      data-academy-player="article"
+      data-academy-player={karaoke || prepKaraoke ? "karaoke" : "article"}
       data-academy-player-layout="document"
     >
       {active || prepActive ? (
@@ -629,7 +624,7 @@ export function CurriculumPlayer({
               </section>
             ) : null}
 
-            {karaoke && active && !lessonPaywalled ? (
+            {karaoke && active && !lessonMediaBlocked ? (
               <section
                 className="academy-player-karaoke academy-cinema-stage mt-0 overflow-visible bg-transparent pt-0"
                 data-academy-karaoke="sealed"
@@ -653,6 +648,13 @@ export function CurriculumPlayer({
                   lessonKey={active.key}
                   lessonTitle={activeTitle}
                   autoStart={autoStartPlayback}
+                  audioSrcOverride={karaoke.audioSrc}
+                  bedSrcOverride={
+                    isAcademyLessonBedSealed(courseSlug, active.key)
+                      ? academyLessonBedPlaybackSrc(courseSlug, active.key)
+                      : undefined
+                  }
+                  sealedDurationSecOverride={karaoke.durationSec}
                   onSpokenElapsedChange={setMediaElapsed}
                   onPlayingChange={(playing) => {
                     setMediaPlaying(playing);
@@ -680,7 +682,25 @@ export function CurriculumPlayer({
               </section>
             ) : null}
 
-            {active && !lessonPaywalled ? (
+            {active && !lessonMediaBlocked && !karaoke && isAcademyTtsCassetteRevoked(active.key) ? (
+              <p
+                className="academy-player-audio-pending mx-1 mt-3 text-sm leading-6 text-[var(--foreground)]"
+                role="status"
+                data-academy-audio-pending-notice=""
+              >
+                {ACADEMY_SEN.listen.audioRecordingPreparing}
+              </p>
+            ) : null}
+
+            {active && !lessonMediaBlocked ? (
+              <LessonAssistantPanel
+                courseSlug={courseSlug}
+                lessonKey={active.key}
+                currentTimeSec={mediaElapsed}
+              />
+            ) : null}
+
+            {active && !lessonMediaBlocked ? (
               <LessonStudyTabs
                 lessonKey={active.key}
                 articleBody={active.body}

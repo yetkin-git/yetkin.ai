@@ -1,6 +1,6 @@
 import "server-only";
 
-import { FREELANCER_PUBLIC_SURFACE_LOCKED } from "@/lib/kernel/compliance/circuit-breakers";
+import { isFreelancerPublicSurfaceLocked } from "@/lib/kernel/compliance/circuit-breakers";
 import { queryJobBoard, type FreelancerJobBoardView } from "@/lib/freelancer/job-board";
 import { createPrismaFreelancerPorts } from "@/lib/freelancer/runtime";
 import type {
@@ -14,7 +14,7 @@ import type {
 import type { EscrowHoldRecord } from "@/lib/kernel/escrow/types";
 
 export async function loadOpenJobs(): Promise<FreelancerJobRecord[] | null> {
-  if (FREELANCER_PUBLIC_SURFACE_LOCKED) {
+  if (isFreelancerPublicSurfaceLocked()) {
     return [];
   }
   try {
@@ -28,7 +28,7 @@ export async function loadOpenJobs(): Promise<FreelancerJobRecord[] | null> {
 export async function loadDirectOffersForInvitee(
   userId: string,
 ): Promise<FreelancerJobRecord[] | null> {
-  if (FREELANCER_PUBLIC_SURFACE_LOCKED) {
+  if (isFreelancerPublicSurfaceLocked()) {
     return [];
   }
   try {
@@ -43,7 +43,7 @@ export async function loadJobBoard(
   jobId: string,
   actorUserId: string | null,
 ): Promise<FreelancerJobBoardView | null> {
-  if (FREELANCER_PUBLIC_SURFACE_LOCKED) {
+  if (isFreelancerPublicSurfaceLocked()) {
     return null;
   }
   try {
@@ -63,7 +63,7 @@ export async function loadContractBoard(contractId: string): Promise<{
   squad: FreelancerSquadRecord | null;
   squadMembers: FreelancerSquadMemberRecord[];
 } | null> {
-  if (FREELANCER_PUBLIC_SURFACE_LOCKED) {
+  if (isFreelancerPublicSurfaceLocked()) {
     return null;
   }
   try {

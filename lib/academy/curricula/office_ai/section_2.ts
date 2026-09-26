@@ -6,8 +6,8 @@ export const section2: Section = {
   isPreviewAllowed: false,
   isLocked: true,
   title: "Yönetim Özetine Dönüştürme",
-  targetDurationMinutes: 8.6,
-  estimatedWordCount: 1175,
+  targetDurationMinutes: 8.7,
+  estimatedWordCount: 1167,
   pedagogicalObjective:
     "Temiz tablodan üç maddelik yönetim özeti ve karar cümlesi çıkarma akışını göstermek. Neden üç madde? Çünkü yönetici on sayfayı okumaz. Sayıları hücreden kilitle; uydurma yüzde yasaktır.",
   contentMarkdown: `
@@ -37,9 +37,9 @@ Sol tarafta ÖNCE etiketli 10 sayfalık döküm dururken, sağ tarafta SONRA eti
 
 ## FARK ORTADA
 
-Ekrana dikkatli bak. Peki neden fark bu kadar belirgin? Çünkü sol tarafta okuması saatler süren 10 sayfa dolusu ham veri tablosu var; sağ tarafta ise yapay zekânın çıkardığı, işe yarayan net 3 madde yer alıyor. Sol taraf her satırı taşır, karar yoktur. Sağ taraf üç madde ve bir karar cümlesi taşır, toplantı yürür. Hangi tarafın yöneticiye zaman kazandıracağını tahmin etmek zor değil. Bu iki ekran arasındaki fark, eski çalışma tarzınla yeni üretkenliğin arasındaki farktır.
+Ekrana dikkatli bak. Peki neden fark bu kadar belirgin? Çünkü sol tarafta okuması saatler süren 10 sayfa dolusu ham veri tablosu var; sağ tarafta ise yapay zekânın çıkardığı, işe yarayan net 3 madde yer alıyor. Sol taraf her satırı taşır, karar yoktur. Sağ taraf üç madde ve bir karar cümlesi taşır, toplantı yürür. Hangi tarafın yöneticiye zaman kazandıracağını tahmin etmek zor değil. Bu iki ekran arasındaki fark, on sayfa okumak ile üç madde okumaktır.
 
-Eski yöntemde o 10 sayfa içindeki tek bir tutarsızlığı yakalamak için satır satır okurdun. Şimdi ise sadece 3 madde okuyarak tablonun bütününü görüyorsun. Zamanını verileri toparlamaya değil, o verilerin işaret ettiği ne yapılacağını tartışmaya ayırıyorsun. Bu dönüşüm seni yalnızca hızlı çalışan biri yapmaz. Çünkü tablonun bütününü üç maddede görürsün; toplantıda satır avına düşmezsin.
+Eski yöntemde o 10 sayfa içindeki tek bir tutarsızlığı yakalamak için satır satır okurdun. Şimdi ise sadece 3 madde okuyarak tablonun bütününü görüyorsun. Zamanını verileri toparlamaya değil, o verilerin işaret ettiği ne yapılacağını tartışmaya ayırıyorsun. Üç maddeyi okuyunca tablonun bütününü görürsün. Toplantıda satır avına düşmezsin.
 
 ## CEBİNE KOY
 

@@ -1,0 +1,39 @@
+{
+  "lessonKey": "01_office_ai_ileri-6",
+  "passScore": 70,
+  "questions": [
+    {
+      "id": "q_off201_l6_1",
+      "prompt": "Tabloda B2 hücresi 120. Yazılı not 150 diyor. Karar notuna 150 yazılır mı?",
+      "choices": [
+        "Evet, yazılı not daha yenidir",
+        "Hayır, hücreyle uyuşmayan sayı karar notuna girmez",
+        "Evet, ikisinin ortası 135 olarak",
+        "Evet, «kaynaklar uyumlu» dendiği için"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "q_off201_l6_2",
+      "prompt": "Model 120 ile 150'nin ortası olan 135'i yazdı. 135'i ne yaparsın?",
+      "choices": [
+        "Karar notunun resmi adedi yaparsın",
+        "Silersin; hiçbir dosyada yoktur",
+        "Satın almaya 135 koli yazarsın",
+        "Grafiğe düz sayı olarak koyarsın"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "q_off201_l6_3",
+      "prompt": "Üç dosyada ad, telefon, kimlik numarası ve IBAN var. Karar notuna hangisi girmez?",
+      "choices": [
+        "Hücredeki Marmara adedi, sayıyla aynıysa",
+        "Sayfadaki ödeme günü",
+        "Sayfadaki gecikme oranı",
+        "Ad, telefon, kimlik numarası ve IBAN"
+      ],
+      "correctIndex": 3
+    }
+  ]
+}

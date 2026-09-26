@@ -155,6 +155,16 @@ function extractSummaryMarkdown(markdown: string): string {
     }
   }
   if (start < 0) {
+    for (let i = 0; i < lines.length; i += 1) {
+      const heading = lines[i]!.match(/^(#{1,6})\s+(.*)$/);
+      const nextBody = lines.slice(i + 1).find((line) => line.trim().length > 0) ?? "";
+      if (heading && (/CEBİNE KOY/i.test(heading[2]!) || /^Üç adım/u.test(nextBody.trim()))) {
+        start = i + 1;
+        break;
+      }
+    }
+  }
+  if (start < 0) {
     return "";
   }
   const body: string[] = [];

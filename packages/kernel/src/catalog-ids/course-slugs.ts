@@ -28,11 +28,11 @@ export const ACADEMY_COURSE_TITLES = {
   "02_ecommerce_ai":
     "E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı (Trendyol, Hepsiburada, Amazon & Shopify)",
   "03_social_media_ai":
-    "Yapay Zekâ ile Sosyal Medya İçerik Üretimi ve Görsel/Video Fabrikası (Midjourney, Runway, Kling & CapCut)",
+    "Yapay Zekâ ile Sosyal Medya İçeriği (Görsel ve Kısa Video)",
   "04_chatbot_nocode":
     "Müşteri Hizmetleri ve Satış İçin Kodsuz WhatsApp / Web Chatbot Kurulumu (Voiceflow & Botpress)",
   "05_prompt_practice":
-    "Pratik Prompt Mühendisliği ve Günlük Üretkenlik Rehberi (ChatGPT, Claude & Perplexity)",
+    "Günlük İşler İçin İstem Yazma",
   "06_n8n_automation":
     "Kurumsal İş Akışı Otomasyonu (Self-Hosted n8n, Make & AI Entegrasyonları)",
   "07_langgraph_agents":
@@ -52,6 +52,16 @@ export const ACADEMY_COURSE_TITLES = {
 } as const satisfies Record<(typeof ACADEMY_CANON_SKU_SLUGS)[number], string>;
 
 export type AcademyCourseTitleSlug = keyof typeof ACADEMY_COURSE_TITLES;
+
+/**
+ * Kanon 13 dışı canlı vitrin kartı. 13’lük tip kilidi burada genişlemez.
+ * Başlık web `OFF_201_TITLE` ile aynı cümledir.
+ */
+export const ACADEMY_STOREFRONT_EXTRA_TITLES = {
+  "01_office_ai_ileri": "İleri Ofis Yapay Zekâ",
+} as const;
+
+export type AcademyStorefrontExtraSlug = keyof typeof ACADEMY_STOREFRONT_EXTRA_TITLES;
 
 export const ACADEMY_CATALOG_LAYER_BY_SLUG = {
   "01_office_ai": 1,
@@ -91,6 +101,14 @@ export const ACADEMY_ONBOARDING_COURSE_SLUG: AcademyCourseTitleSlug | null = nul
 
 export function academyCourseTitleBySlug(slug: string): string | undefined {
   return ACADEMY_COURSE_TITLES[slug as AcademyCourseTitleSlug];
+}
+
+/** Kanon başlık, yoksa vitrin eki (`01_office_ai_ileri`). */
+export function academyStorefrontTitleBySlug(slug: string): string | undefined {
+  return (
+    academyCourseTitleBySlug(slug) ??
+    ACADEMY_STOREFRONT_EXTRA_TITLES[slug as AcademyStorefrontExtraSlug]
+  );
 }
 
 export function academySlugFromCourseTitle(title: string): AcademyCourseTitleSlug | null {

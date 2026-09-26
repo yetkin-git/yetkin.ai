@@ -11,6 +11,7 @@ import {
   mintWalletCheckoutPassport,
   verifyWalletCheckoutPassport,
 } from "@/lib/kernel/payments/wallet-checkout-passport";
+import { kasaReturnCourseHref } from "@/components/kernel/kasa-return-panel";
 import { decideEdgeAction } from "@/lib/kernel/security/edge-guard";
 
 const ROOT = process.cwd();
@@ -65,6 +66,15 @@ describe("Dron cüzdan HMAC kasa pasaportu", () => {
     expect(buildPaytrDronCheckoutReturnUrl("https://yetkin.ai", "ok")).toBe(
       "https://yetkin.ai/kasa/donus?sonuc=ok",
     );
+    expect(buildPaytrDronCheckoutReturnUrl("https://yetkin.ai", "ok", "01_office_ai_ileri")).toBe(
+      "https://yetkin.ai/kasa/donus?sonuc=ok&kurs=01_office_ai_ileri",
+    );
+    expect(buildPaytrDronCheckoutReturnUrl("https://yetkin.ai", "fail", "01_office_ai_ileri")).toBe(
+      "https://yetkin.ai/kasa/donus?sonuc=fail",
+    );
+    expect(kasaReturnCourseHref("01_office_ai_ileri")).toBe("/academy/01_office_ai_ileri");
+    expect(kasaReturnCourseHref("01_office_ai")).toBe("/academy/01_office_ai");
+    expect(kasaReturnCourseHref("not-a-course")).toBe("/academy/01_office_ai");
     expect(existsSync(join(ROOT, "app/(public)/kasa/page.tsx"))).toBe(true);
     expect(existsSync(join(ROOT, "app/(public)/kasa/donus/page.tsx"))).toBe(true);
     expect(readSrc("app/(public)/kasa/page.tsx")).toContain("verifyWalletCheckoutPassport");

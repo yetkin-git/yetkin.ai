@@ -44,6 +44,7 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     ]);
     expect([...ACADEMY_VITRINE_SHELL_SKU_SLUGS]).toEqual([
       "01_office_ai",
+      "01_office_ai_ileri",
       "02_ecommerce_ai",
       "03_social_media_ai",
       "04_chatbot_nocode",
@@ -64,19 +65,22 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     ]);
     expect(academyVitrineShellCourses().map((row) => academyModuleCodeBySlug(row.slug))).toEqual([
       "OFF-101",
+      "OFF-201",
       "EC-102",
       "SM-103",
       "BOT-104",
       "PR-105",
     ]);
     expect(academyModuleCodeBySlug("01_office_ai_ileri")).toBe("OFF-201");
-    expect(
-      academyVitrineShellCourses()
-        .map((row) => academyModuleCodeBySlug(row.slug))
-        .includes("OFF-201"),
-    ).toBe(false);
+    expect(academyVitrineShellCourses().find((row) => row.slug === "01_office_ai_ileri")?.purchasable).toBe(
+      true,
+    );
+    expect(academyVitrineShellCourses().find((row) => row.slug === "01_office_ai_ileri")?.priceMinor).toBe(
+      129_000,
+    );
     expect(academyVitrineShellCourses().filter((row) => row.purchasable).map((row) => row.slug)).toEqual([
       "01_office_ai",
+      "01_office_ai_ileri",
     ]);
   });
 
@@ -111,12 +115,12 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(antre).toContain("dynamicParams = false");
     expect(antre).toContain("generateStaticParams");
     expect(antre).toContain("academyStorefrontStaticParams");
-    expect(antre).toContain("isAcademyGrowthSkuSlug");
+    expect(antre).toContain("isAcademyStorefrontSlug");
     expect(antre).toContain("notFound()");
     expect(antre).not.toContain("PAGE_SEO.academy.title");
     expect(oyna).toContain("dynamicParams = false");
     expect(oyna).toContain("academyStorefrontStaticParams");
-    expect(oyna).toContain("isAcademyGrowthSkuSlug");
+    expect(oyna).toContain("isAcademyStorefrontSlug");
     expect(oyna).toContain("notFound()");
     expect(exitKit).toContain("dynamicParams = false");
     expect(exitKit).toContain("OFFICE_AI_EXIT_KIT_SLUG");
@@ -125,7 +129,7 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
 
   it("SEN oynatıcı callout hayalet python-temel href taşımaz", () => {
     expect(ACADEMY_SEN.player.codeCalloutHref).toBe("/academy");
-    expect(ACADEMY_SEN.player.codeCalloutModule).toBe("Pratik Prompt Mühendisliği");
+    expect(ACADEMY_SEN.player.codeCalloutModule).toBe("Günlük İşler İçin İstem Yazma");
     expect(ACADEMY_SEN.player.codeCalloutHref).not.toContain("python-temel");
     expect(JSON.stringify(ACADEMY_SEN)).not.toContain("/academy/python-temel");
     expect(JSON.stringify(ACADEMY_SEN)).not.toContain("Python ile Yazılım ve Veri Mühendisliği");
@@ -178,12 +182,13 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
 
   it("vitrin dürüstlük kilidi: beş SKU compact makale; video vaadi yok; 13 eğitim vaadi yok", () => {
     expect(ACADEMY_SEN.catalog.heroAudioBadge).toBe(
-      "Sesli Anlatım + Sınav + Mühürlü Sertifika",
+      "Sesli Anlatım + Sınav + Sertifika",
     );
     expect(ACADEMY_SEN.catalog.heroArticleBadge).toBe(
-      "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+      "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Sertifika",
     );
-    expect(ACADEMY_SEN.catalog.description).toContain("üretim bandındadır");
+    expect(ACADEMY_SEN.catalog.description).toContain("hazırlanıyor");
+    expect(ACADEMY_SEN.catalog.description).not.toContain("fırın");
     expect(ACADEMY_SEN.catalog.description).toContain("Çok Yakında / Hazırlanıyor");
     expect(ACADEMY_SEN.catalog.description).not.toContain("13 eğitim");
     expect(ACADEMY_SEN.catalog.description).not.toMatch(/Video/i);
@@ -197,9 +202,9 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(ACADEMY_GROWTH_SKU_SLUGS).toHaveLength(1);
     expect(ACADEMY_GROWTH_SKU_SLUGS).not.toContain("06_n8n_automation");
     const purchase = readSrc("lib/academy/purchase-path.ts");
-    expect(purchase).toContain("Sesli Anlatım + Sınav + Mühürlü Sertifika");
+    expect(purchase).toContain("Sesli Anlatım + Sınav + Sertifika");
     expect(purchase).toContain(
-      "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+      "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Sertifika",
     );
     expect(ACADEMY_SEN.catalog.heroArticleBadge).not.toMatch(/Sesli Akademi/i);
     expect(ACADEMY_SEN.catalog.heroAudioBadge).not.toMatch(/Sesli Akademi/i);

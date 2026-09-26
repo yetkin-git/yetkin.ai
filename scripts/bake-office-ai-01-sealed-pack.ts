@@ -746,7 +746,7 @@ async function main(): Promise<void> {
   );
   writeUtf8(
     "docs/curriculum/01_office_ai_01_cue.json",
-    `${JSON.stringify({ lessonKey: LESSON_KEY, cues }, null, 2)}\n`,
+    `${JSON.stringify({ derived: true, role: "generated-copy", speechSource: `lib/academy/spoken-scripts/${LESSON_KEY}.md`, lessonKey: LESSON_KEY, cues }, null, 2)}\n`,
   );
 
   process.stdout.write(`2/4 sınav ${SCRIPT_MODEL}\n`);

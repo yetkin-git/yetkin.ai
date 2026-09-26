@@ -30,6 +30,7 @@ describe("akademi katalog sıra yardımcısı", () => {
     expect(slugs.map((slug) => academyModuleCodeBySlug(slug))).toEqual(["OFF-101"]);
     expect(ACADEMY_VITRINE_SHELL_SKU_SLUGS.map((slug) => academyModuleCodeBySlug(slug))).toEqual([
       "OFF-101",
+      "OFF-201",
       "EC-102",
       "SM-103",
       "BOT-104",
@@ -39,6 +40,14 @@ describe("akademi katalog sıra yardımcısı", () => {
     expect(academyModuleCodeBySlug("01_office_ai_ileri")).not.toBe("EC-102");
     expect(ACADEMY_MODULE_LEVEL_SPOKEN["201"]).toBe("iki yüz bir");
     expect(academySpokenModuleCode("01_office_ai_ileri")).toBe("Ofis iki yüz bir");
+    const shelves = groupAcademyCatalogBySeries([
+      { slug: "02_ecommerce_ai", level: "Orta" },
+      { slug: "02_business_ai", level: "İleri" },
+    ]);
+    expect(shelves.find((shelf) => shelf.key === "02_ecommerce_ai")?.courses.map((row) => row.slug)).toEqual([
+      "02_ecommerce_ai",
+    ]);
+    expect(shelves.find((shelf) => shelf.key === "02_")?.courses ?? []).toEqual([]);
     expect(existsSync(join(process.cwd(), "components/academy/filter-bar.tsx"))).toBe(false);
   });
 

@@ -15,8 +15,8 @@ import { logEvent } from "@/lib/kernel/observability/log";
 /**
  * Akademi satın alma makbuzu — TESPIT E5.
  * Tetik noktası akademi settlement'tır (`purchaseAcademyCourse` applied=true):
- * PayTR webhook'u yalnız ön ödemeli bakiyeyi doldurur (CLEARED→CREDIT), kurs
- * adağı ayrı adımda cüzdandan düşer. Bu yüzden makbuzdaki İşlem Numarası
+ * PayTR webhook'u bakiyeyi doldurur (CLEARED→CREDIT). Kurs niyetli emir
+ * (`academy-license:{slug}`) aynı kapanışta lisansı SETTLED yazar. Makbuzdaki İşlem Numarası
  * `AcademyPurchase.id` satın alma referansıdır; PayTR `merchant_oid` cüzdan
  * yükleme katmanına aittir ve burada uydurulmaz.
  * SMTP boşsa dürüst atlanır (`SMTP skipped`); nakit/satın alma durmaz. SMTP taşıma hatası

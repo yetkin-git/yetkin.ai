@@ -1,4 +1,4 @@
-import { FREELANCER_PUBLIC_SURFACE_LOCKED } from "@/lib/kernel/compliance/circuit-breakers";
+import { isFreelancerPublicSurfaceLocked } from "@/lib/kernel/compliance/circuit-breakers";
 import { FreelancerPulseWidget } from "@/components/dashboard/freelancer-pulse-widget";
 import { AcademyPulseWidget } from "@/components/dashboard/academy-pulse-widget";
 import { CareerPulseWidget } from "@/components/dashboard/career-pulse-widget";
@@ -34,14 +34,14 @@ export default async function DashboardPage() {
         </div>
         <div
           className={
-            FREELANCER_PUBLIC_SURFACE_LOCKED
+            isFreelancerPublicSurfaceLocked()
               ? "grid min-w-0 items-stretch gap-4 lg:grid-cols-2"
               : "grid min-w-0 items-stretch gap-4 lg:grid-cols-3"
           }
         >
           <AcademyPulseWidget />
           <CareerPulseWidget />
-          {FREELANCER_PUBLIC_SURFACE_LOCKED ? null : <FreelancerPulseWidget />}
+          {isFreelancerPublicSurfaceLocked() ? null : <FreelancerPulseWidget />}
         </div>
       </RoomFrame>
     </DashboardPulseProvider>

@@ -6,15 +6,16 @@
   İstem kutusu SSOT: lib/academy/lesson-beat-visual.ts ACADEMY_OFFICE_AI_W1_COPILOT_PROMPT
   Ekran: IBAN. Ses: İban.
   Ekran: Muse Spark. Ses: Myuz Spark.
+  Gövde 23 Eylül 2026 kaset şeridine çekildi. Sınav cümlesi konuşma sözleşmesidir; makaleye yazılmaz.
 -->
 
-Peki neden uzun sözleşmeyi yapay zekâya satır satır okutmak yerine riskli maddeleri aratırız? Çünkü satır satır okutunca yığın çıkar; ceza oranı sayfa dörtte, fesih sayfa on birde kalır. Gizlilik sayfa on sekizdedir. Bu dersin sonunda sözleşmeyi ataş ile yükleyip riskli maddeyi çıkarmayı tek başına yapacaksın. Bugün dosyayı olduğu gibi yüklüyorsun. Word Copilot varsa şeritten okutursun. Yoksa Word belgesini doğrudan Gemini sohbetine yüklersin. Yapay zekâ imzalamaz. Unvanı, tarihi, sayıyı ve hitabı sen yazarsın.
+Peki neden uzun sözleşmeyi yapay zekâya satır satır okutmak yerine riskli maddeleri aratırız? Çünkü satır satır okutunca yığın çıkar; ceza oranı sayfa dörtte, fesih sayfa on birde kalır. Gizlilik sayfa on sekizdedir. Bu dersin sonunda sözleşmeyi yüklemeden önce üç soruyu sorup riskli maddeyi çıkarmayı tek başına yapacaksın. Sözleşmeyi yüklemeden önce dur. Şirket onaylı araç mı? Tutar, taraf ve IBAN maskelendi mi? Üçü de evet değilse dosya gitmez. Onaylı araç ve maske tamamsa Word Copilot varsa şeritten okutursun. Yoksa Word belgesini şirketin onayladığı sohbete yüklersin. Onaylı araç yoksa dosyayı dışarı taşımazsın; maskeli kısa özet yazarsın. Yapay zekâ imzalamaz. Unvanı, tarihi, sayıyı ve hitabı sen yazarsın.
 
 Selamlar, ben Gözde. Word ve uzun belge incelemesi dersine hoş geldin. Dün e-postada aksiyon listesi aldın; bugün üç işi dosya yükleyerek çözüyorsun. Peki Word dosyasını parça parça kopyalamak neden doğru bir yöntem değildir? Çünkü metni parça parça kopyaladığında belgenin bütünlüğü bozulur; en doğrusu Word dosyasını doğrudan yüklemektir. Tüm belgeyi kopyalamakla uğraşmazsın; dosyayı doğrudan yüklersin. İncelemek istediğin belirli bir paragraf varsa, onu istemine ekleyip doğrudan o bölümü sorabilirsin. Bugün üç iş: tedarik sözleşmesi, resmî dilekçe, kısa rapor. Hepsi aynı yöntemle yapılır: ataş ile yükleme.
 
 Üç işi baştan haritala. Birinci iş sözleşmedir: riskli madde avı. İkinci iş dilekçedir: hitap ve talep düzeni. Üçüncü iş rapordur: saha notundan durum raporu. Üç iş tek yöntemle açılır: dosya bütün hâliyle modele gidince yöntem değişmez; yalnızca istem değişir. Üç iş, üç istem, tek ataş yöntemi.
 
-Önünde bir tedarik sözleşmesi durur. Cezai şart, fesih ve gizlilik üç ayrı yerde gizlenir. Peki neden otuz sayfayı satır satır okutmak yerine bu üç maddeyi aratırız? Çünkü şirket aleyhine olan yer orasıdır. Asıl yöntem ataş ile yüklemektir. Word Copilot varsa şeritten okut. Yoksa Gemini sohbetine Word belgesi yüklersin.
+Önünde bir tedarik sözleşmesi durur. Cezai şart, fesih ve gizlilik üç ayrı yerde gizlenir. Peki neden otuz sayfayı satır satır okutmak yerine bu üç maddeyi aratırız? Çünkü şirket aleyhine olan yer orasıdır. Yüklemeden önce aynı üç soruyu sor: şirket onaylı araç mı, tutar maskeli mi, taraf ve IBAN maskeli mi? Üçü evetse dosyayı bütün hâliyle yüklersin. Word Copilot varsa şeritten okut. Yoksa onaylı sohbete Word belgesi yüklersin.
 
 Tek tek kopyalama şudur: sayfa dördü kopyala, yapıştır, sayfa on biri kopyala, yine yapıştır. Peki neden bu atlanmış kapıdır, yasak listesi değil? Çünkü model yarım cümle görür; ceza oranını kaçırır. Otuz sayfayı parça parça taşımak üçüncü kapı değildir. Üçüncü kapı son çaredir: tek paragraf, maskeli kısa yapıştırma. Bu yolu önermiyoruz.
 
@@ -22,7 +23,7 @@ Parça parça kopyalarsan önemli maddeleri atlarsın. Örneğin 4. sayfadaki ce
 
 Sayfa dördü alıp sayfa on biri unutmak işi bitirmez. Model yarım görür, sen tam sanırsın. Ataş bu kopukluğu kapatır: dosya bütün gider, madde listesi sayfa numarasıyla döner.
 
-Şimdi sözleşmeyi yükle. Dosya adını pratikte kendi dosyanla değiştir. İstemi istem kutusuna yazıyorsun:
+Denetim geçtiyse sözleşmeyi yükle. Dosya adını pratikte kendi dosyanla değiştir. İstemi istem kutusuna yazıyorsun:
 
 Yüklediğim sözleşme dosyasını (Word belgesi) baştan sona incele. Şirketimiz aleyhine olabilecek cezai şart maddelerini, fesih koşullarını ve gizlilik yükümlülüklerini liste halinde özetle. Sayfa numarası yaz. Uydurma madde ekleme.
 
@@ -40,8 +41,8 @@ Raporun anatomisini bil: başlık, üç madde, sonraki adım. Gözlem ile karar 
 
 Sol ekran kopuk parçadır. Sağ ekran tam dosyadır. Peki neden fark bu kadar belirgin? Çünkü ataş dosyayı senden koparmaz; satır satır kopya koparır. Üç kart: cezai şart, dilekçe hitabı, rapor maddesi. Outlook Copilot ister, Gmail Gemini ister, Word ve Excel ataş ister. Bu eşleşme sabittir. Karttaki %15 örnektir; kendi oranını dosyandan oku.
 
-Parça parça yapıştırmak zaman kaybettirir ve detayları kaçırır; dosyayı tek parçada yüklemek ise sana saniyeler içinde tam analiz verir. Sağ ekranı kart kart oku: cezai şart sayfa numarasıyla durur, dilekçe hitabı SIZ durur, rapor üç maddeye iner. Sağ ekran güven verir: dosya bütün gitmiştir; madde listesi denetlenebilir.
+Parça parça yapıştırmak satır kaçırır. Dosyayı tek parçada yüklersen analiz aynı dosyanın bütününden gelir. Sağ ekranı kart kart oku: cezai şart sayfa numarasıyla durur, dilekçe hitabı SIZ durur, rapor üç maddeye iner. Sağ ekran güven verir: dosya bütün gitmiştir; madde listesi denetlenebilir.
 
 Cebine üç adım koy. Birincisi: dosyayı yükle. Çünkü satır satır okutmak riskli maddeyi kaçırır. Sözleşme, dilekçe veya rapor fark etmez; yöntem ataştır. İkincisi: sözleşme, dilekçe veya raporu ayrı istemle sor. Çünkü tek istem üç işi yığar. Madde, hitap ve rapor düzeni birbirine karışmaz. Üçüncüsü: tarih, sayı ve imzayı sen yazarsın. Çünkü model taslak yazar, mühür basmaz. Şu paragrafı soracaksan istemine ekle; liste halinde al, uydurma kanun maddesini sil, imzayı kendin at.
 
-Sıra sende. Kendi Word belgeni veya dilekçe taslağını yükle. Kişi adı, İban veya ticari sır varsa önce maskele; ham Word belgesini sohbete yükleme. Gemini yoksa aynı dosyayı sohbet yapay zekâsına (ChatGPT, Claude, Gemini, Grok, Kimi, Myuz Spark vb.) yüklersin; yöntem değişmez. Üç maddeyi çıkar. Tüm dosyayı sayfa sayfa kopyalama. Sözleşmede cezai şart, fesih ve gizlilik; dilekçede hitap, konu ve talep; raporda başlık, üç madde ve sonraki adım. Öğretmen SEN konuşur; belge SIZ durur. Sınav, 8. ders bitince açılır. Baraj 70 puandır.
+Sıra sende. Yüklemeden önce sor: şirket onaylı araç mı? Tutar, taraf ve IBAN maskelendi mi? Kişi adı, IBAN veya ticari sır varsa önce maskele; ham Word belgesini sohbete yükleme. Onaylı araç yoksa dosyayı dışarı taşıma; maskeli kısa özet yaz. Onaylı sohbet aracı varsa aynı dosyayı oraya yüklersin (ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb.); yöntem değişmez. Üç maddeyi çıkar. Tüm dosyayı sayfa sayfa kopyalama. Sözleşmede cezai şart, fesih ve gizlilik; dilekçede hitap, konu ve talep; raporda başlık, üç madde ve sonraki adım. Öğretmen SEN konuşur; belge SIZ durur. Sınav, 8. ders bitince açılır. Baraj 70 puandır.

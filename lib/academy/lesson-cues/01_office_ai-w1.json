@@ -2,29 +2,29 @@
   {
     "id": "cue-01",
     "start": 2,
-    "end": 39.4,
+    "end": 55.6,
     "text": "GİRİŞ KÖPRÜSÜ",
     "section": "GİRİŞ KÖPRÜSÜ",
     "paragraphs": [
-      "Peki neden uzun sözleşmeyi yapay zekâya satır satır okutmak yerine riskli maddeleri aratırız? Çünkü satır satır okutunca yığın çıkar; ceza oranı sayfa dörtte, fesih sayfa on birde kalır. Gizlilik sayfa on sekizdedir. Bu dersin sonunda sözleşmeyi ataş ile yükleyip riskli maddeyi çıkarmayı tek başına yapacaksın. Bugün dosyayı olduğu gibi yüklüyorsun. Word Copilot varsa şeritten okutursun. Yoksa Word belgesini doğrudan Gemini sohbetine yüklersin. Yapay zekâ imzalamaz. Unvanı, tarihi, sayıyı ve hitabı sen yazarsın."
+      "Peki neden uzun sözleşmeyi yapay zekâya satır satır okutmak yerine riskli maddeleri aratırız? Çünkü satır satır okutunca yığın çıkar; ceza oranı sayfa dörtte, fesih sayfa on birde kalır. Gizlilik sayfa on sekizdedir. Bu dersin sonunda sözleşmeyi yüklemeden önce üç soruyu sorup riskli maddeyi çıkarmayı tek başına yapacaksın. Sözleşmeyi yüklemeden önce dur. Şirket onaylı araç mı? Tutar, taraf ve IBAN maskelendi mi? Üçü de evet değilse dosya gitmez. Onaylı araç ve maske tamamsa Word Copilot varsa şeritten okutursun. Yoksa Word belgesini şirketin onayladığı sohbete yüklersin. Onaylı araç yoksa dosyayı dışarı taşımazsın; maskeli kısa özet yazarsın. Yapay zekâ imzalamaz. Unvanı, tarihi, sayıyı ve hitabı sen yazarsın."
     ]
   },
   {
     "id": "cue-02",
-    "start": 39.8,
-    "end": 137.92,
+    "start": 56,
+    "end": 162.04,
     "text": "HOŞ GELDİN",
     "section": "HOŞ GELDİN",
     "paragraphs": [
       "Selamlar, ben Gözde. Word ve uzun belge incelemesi dersine hoş geldin. Dün e-postada aksiyon listesi aldın; bugün üç işi dosya yükleyerek çözüyorsun. Peki Word dosyasını parça parça kopyalamak neden doğru bir yöntem değildir? Çünkü metni parça parça kopyaladığında belgenin bütünlüğü bozulur; en doğrusu Word dosyasını doğrudan yüklemektir. Tüm belgeyi kopyalamakla uğraşmazsın; dosyayı doğrudan yüklersin. İncelemek istediğin belirli bir paragraf varsa, onu istemine ekleyip doğrudan o bölümü sorabilirsin. Bugün üç iş: tedarik sözleşmesi, resmî dilekçe, kısa rapor. Hepsi aynı yöntemle yapılır: ataş ile yükleme.",
       "Üç işi baştan haritala. Birinci iş sözleşmedir: riskli madde avı. İkinci iş dilekçedir: hitap ve talep düzeni. Üçüncü iş rapordur: saha notundan durum raporu. Üç iş tek yöntemle açılır: dosya bütün hâliyle modele gidince yöntem değişmez; yalnızca istem değişir. Üç iş, üç istem, tek ataş yöntemi.",
-      "Önünde bir tedarik sözleşmesi durur. Cezai şart, fesih ve gizlilik üç ayrı yerde gizlenir. Peki neden otuz sayfayı satır satır okutmak yerine bu üç maddeyi aratırız? Çünkü şirket aleyhine olan yer orasıdır. Asıl yöntem ataş ile yüklemektir. Word Copilot varsa şeritten okut. Yoksa Gemini sohbetine Word belgesi yüklersin."
+      "Önünde bir tedarik sözleşmesi durur. Cezai şart, fesih ve gizlilik üç ayrı yerde gizlenir. Peki neden otuz sayfayı satır satır okutmak yerine bu üç maddeyi aratırız? Çünkü şirket aleyhine olan yer orasıdır. Yüklemeden önce aynı üç soruyu sor: şirket onaylı araç mı, tutar maskeli mi, taraf ve IBAN maskeli mi? Üçü evetse dosyayı bütün hâliyle yüklersin. Word Copilot varsa şeritten okut. Yoksa onaylı sohbete Word belgesi yüklersin."
     ]
   },
   {
     "id": "cue-03",
-    "start": 138.32,
-    "end": 213.56,
+    "start": 162.44,
+    "end": 237.56,
     "text": "PARÇA PARÇA",
     "section": "PARÇA PARÇA",
     "paragraphs": [
@@ -35,12 +35,12 @@
   },
   {
     "id": "cue-04",
-    "start": 213.96,
-    "end": 275.56,
+    "start": 237.96,
+    "end": 300.96,
     "text": "ATAŞ YÜKLE",
     "section": "ATAŞ YÜKLE",
     "paragraphs": [
-      "Şimdi sözleşmeyi yükle. Dosya adını pratikte kendi dosyanla değiştir. İstemi istem kutusuna yazıyorsun:",
+      "Denetim geçtiyse sözleşmeyi yükle. Dosya adını pratikte kendi dosyanla değiştir. İstemi istem kutusuna yazıyorsun:",
       "Yüklediğim sözleşme dosyasını (Word belgesi) baştan sona incele. Şirketimiz aleyhine olabilecek cezai şart maddelerini, fesih koşullarını ve gizlilik yükümlülüklerini liste halinde özetle. Sayfa numarası yaz. Uydurma madde ekleme.",
       "İstem dosyanın bütününe gider. Tüm metni taşımazsın: istem ataşa gider; satır satır kopya dosyayı koparır.",
       "Adım adım ilerle. Birinci adım dosyadır: Word belgesini ataş simgesinden yükle. İkinci adım istemdir: cezai şart, fesih ve gizliliği sor; sayfa numarası iste. Sayfa numarası istersin: numarasız madde denetlenemez. Üçüncü adım kontroldür: listeyi dosyada aç, madde gerçekten orada mı bak. Uydurma madde görürsen sil."
@@ -48,8 +48,8 @@
   },
   {
     "id": "cue-05",
-    "start": 275.96,
-    "end": 418.4,
+    "start": 301.36,
+    "end": 433.2,
     "text": "TEK DOSYAYLA ANALİZ",
     "section": "TEK DOSYAYLA ANALİZ",
     "paragraphs": [
@@ -61,19 +61,19 @@
   },
   {
     "id": "cue-06",
-    "start": 418.8,
-    "end": 474.08,
+    "start": 433.6,
+    "end": 489.68,
     "text": "FARK ORTADA",
     "section": "FARK ORTADA",
     "paragraphs": [
       "Sol ekran kopuk parçadır. Sağ ekran tam dosyadır. Peki neden fark bu kadar belirgin? Çünkü ataş dosyayı senden koparmaz; satır satır kopya koparır. Üç kart: cezai şart, dilekçe hitabı, rapor maddesi. Outlook Copilot ister, Gmail Gemini ister, Word ve Excel ataş ister. Bu eşleşme sabittir. Karttaki %15 örnektir; kendi oranını dosyandan oku.",
-      "Parça parça yapıştırmak zaman kaybettirir ve detayları kaçırır; dosyayı tek parçada yüklemek ise sana saniyeler içinde tam analiz verir. Sağ ekranı kart kart oku: cezai şart sayfa numarasıyla durur, dilekçe hitabı SIZ durur, rapor üç maddeye iner. Sağ ekran güven verir: dosya bütün gitmiştir; madde listesi denetlenebilir."
+      "Parça parça yapıştırmak satır kaçırır. Dosyayı tek parçada yüklersen analiz aynı dosyanın bütününden gelir. Sağ ekranı kart kart oku: cezai şart sayfa numarasıyla durur, dilekçe hitabı SIZ durur, rapor üç maddeye iner. Sağ ekran güven verir: dosya bütün gitmiştir; madde listesi denetlenebilir."
     ]
   },
   {
     "id": "cue-07",
-    "start": 474.48,
-    "end": 514.36,
+    "start": 490.08,
+    "end": 528.64,
     "text": "CEBİNE KOY",
     "section": "CEBİNE KOY",
     "paragraphs": [
@@ -82,12 +82,12 @@
   },
   {
     "id": "cue-08",
-    "start": 514.76,
-    "end": 563.36,
+    "start": 529.04,
+    "end": 583.36,
     "text": "SIRA SENDE",
     "section": "SIRA SENDE",
     "paragraphs": [
-      "Sıra sende. Kendi Word belgeni veya dilekçe taslağını yükle. Kişi adı, IBAN veya ticari sır varsa önce maskele; ham Word belgesini sohbete yükleme. Gemini yoksa aynı dosyayı sohbet yapay zekâsına (ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb.) yüklersin; yöntem değişmez. Üç maddeyi çıkar. Tüm dosyayı sayfa sayfa kopyalama. Sözleşmede cezai şart, fesih ve gizlilik; dilekçede hitap, konu ve talep; raporda başlık, üç madde ve sonraki adım. Öğretmen SEN konuşur; belge SIZ durur. Sınav, 8. ders bitince açılır. Baraj 70 puandır."
+      "Sıra sende. Yüklemeden önce sor: şirket onaylı araç mı? Tutar, taraf ve IBAN maskelendi mi? Kişi adı, IBAN veya ticari sır varsa önce maskele; ham Word belgesini sohbete yükleme. Onaylı araç yoksa dosyayı dışarı taşıma; maskeli kısa özet yaz. Onaylı sohbet aracı varsa aynı dosyayı oraya yüklersin (ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb.); yöntem değişmez. Üç maddeyi çıkar. Tüm dosyayı sayfa sayfa kopyalama. Sözleşmede cezai şart, fesih ve gizlilik; dilekçede hitap, konu ve talep; raporda başlık, üç madde ve sonraki adım. Öğretmen SEN konuşur; belge SIZ durur. Sınav, 8. ders bitince açılır. Baraj 70 puandır."
     ]
   }
 ]

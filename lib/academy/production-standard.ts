@@ -1,19 +1,17 @@
 /**
- * Yapay zekâ eğitimi üretim ve doygunluk standardı — PEDAGOJI.md §F.
- * Compact makale gövdesini kesmez (Anayasa B4). Mühürlü sinema / konuşma metni bu banda kilitlenir.
+ * Yapay zekâ eğitimi üretim ve doygunluk standardı — PEDAGOJI.md §D.1 ve §E.
+ * Belgede §F yoktur. Mühür tabanı buradadır: ders en az 5 dakika, kurs en az 6 ders.
+ * Üst dakika ve üst ders tavanı yoktur (Anayasa B4). Vitrin kartındaki dakika yuvarlaması
+ * `lesson-meta.ts` içindedir; bu dosya mühür tabanıdır.
  */
 
 export const ACADEMY_AI_COURSE_DURATION_MIN_MINUTES = 45;
-export const ACADEMY_AI_COURSE_DURATION_MAX_MINUTES = 90;
-/** Alt sınır doygun ders içindir (spot kaset kurs sayılmaz). Üst sınır B4’e göre esner (9–10 veya 101/201). */
+/** Mühür tabanı. Spot kaset kurs sayılmaz. Üst ders adedi yoktur. */
 export const ACADEMY_AI_LESSON_COUNT_MIN = 6;
-export const ACADEMY_AI_LESSON_COUNT_MAX = 12;
-export const ACADEMY_AI_LESSON_DURATION_MIN_MINUTES = 7;
-export const ACADEMY_AI_LESSON_DURATION_MAX_MINUTES = 12;
-/** 7 dk × 60 — mühürlü kaset alt bandı (saniye). */
+/** Taban süre. Üst dakika tavanı yoktur: 12, 15, 18 dk serbesttir. */
+export const ACADEMY_AI_LESSON_DURATION_MIN_MINUTES = 5;
+/** 5 dk × 60 — mühürlü kaset alt tabanı (saniye). Üst saniye tavanı yoktur. */
 export const ACADEMY_AI_LESSON_DURATION_MIN_SEC = ACADEMY_AI_LESSON_DURATION_MIN_MINUTES * 60;
-/** 12 dk × 60 — mühürlü kaset üst bandı (saniye). */
-export const ACADEMY_AI_LESSON_DURATION_MAX_SEC = ACADEMY_AI_LESSON_DURATION_MAX_MINUTES * 60;
 
 export const ACADEMY_TTS_VOICE_GENDERS = ["female", "male"] as const;
 
@@ -81,23 +79,19 @@ export function academyTtsVoiceGenderFromLabel(raw: string | null | undefined): 
 }
 
 export function isAcademyAiCourseDurationMinutes(minutes: number): boolean {
-  return Number.isFinite(minutes) && minutes >= ACADEMY_AI_COURSE_DURATION_MIN_MINUTES && minutes <= ACADEMY_AI_COURSE_DURATION_MAX_MINUTES;
+  return Number.isFinite(minutes) && minutes >= ACADEMY_AI_COURSE_DURATION_MIN_MINUTES;
 }
 
 export function isAcademyAiLessonCount(count: number): boolean {
-  return Number.isInteger(count) && count >= ACADEMY_AI_LESSON_COUNT_MIN && count <= ACADEMY_AI_LESSON_COUNT_MAX;
+  return Number.isInteger(count) && count >= ACADEMY_AI_LESSON_COUNT_MIN;
 }
 
 export function isAcademyAiLessonDurationMinutes(minutes: number): boolean {
-  return Number.isFinite(minutes) && minutes >= ACADEMY_AI_LESSON_DURATION_MIN_MINUTES && minutes <= ACADEMY_AI_LESSON_DURATION_MAX_MINUTES;
+  return Number.isFinite(minutes) && minutes >= ACADEMY_AI_LESSON_DURATION_MIN_MINUTES;
 }
 
 export function isAcademyAiLessonDurationSec(seconds: number): boolean {
-  return (
-    Number.isFinite(seconds) &&
-    seconds >= ACADEMY_AI_LESSON_DURATION_MIN_SEC &&
-    seconds <= ACADEMY_AI_LESSON_DURATION_MAX_SEC
-  );
+  return Number.isFinite(seconds) && seconds >= ACADEMY_AI_LESSON_DURATION_MIN_SEC;
 }
 
 export function academyLessonSaturationTotalMinutes(): number {

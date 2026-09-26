@@ -5,6 +5,8 @@
  * Beat 3: dikey split-screen Önce / Sonra; temiz tablo ilk kez sağ panelde.
  * Beat 4: düzenli nihai tabloya dönüş.
  * Vatandaş etiketinde «Kirli» yok.
+ * OFF-201 (`01_office_ai_ileri`) reji bu dosyanın sonundadır.
+ * Canlı sahne `lib/academy/off201-cinema-slides.ts` üzerinden bu kaydı okur.
  */
 
 import { academyPlaybackCueAtTime, type AcademyLessonCue } from "@/lib/academy/lesson-cues";
@@ -38,7 +40,7 @@ export const ACADEMY_OFFICE_AI_3_COMPARE_AFTER_LABEL = "SONRA (SIRALI SLAYT - AI
 export const ACADEMY_OFFICE_AI_3_COPILOT_PROMPT =
   "Bu üç maddeyi slayt başına tek fikirle taslağa çevir. Her slayt için başlığı, tek cümlelik mesajı ve parantez içinde görsel yönlendirmeyi yaz. Konuşmacı notunu slayt gövdesinden ayrı tut. Uydurma sayı ekleme." as const;
 
-/** Model istemine girmez — konsol alt-notu / howto bandı. */
+/** Sohbet kutusu istemine girmez — konsol alt-notu / howto bandı. */
 export const ACADEMY_OFFICE_AI_3_COPILOT_HINT =
   "Copilot varsa şeride yaz; yoksa PowerPoint sunusu olarak ataşla." as const;
 
@@ -325,6 +327,13 @@ const HOWTO_ACTIVE_BY_LESSON: Readonly<Record<string, Readonly<Record<string, 0 
 };
 
 export function academyHowtoSteps(lessonKey: string): readonly AcademyHowtoStep[] | null {
+  const visual = academyBusinessAiBeatVisual(lessonKey);
+  if (visual) {
+    return visual.pocketSteps.map((label, index) => ({
+      n: (index + 1) as 1 | 2 | 3,
+      label,
+    }));
+  }
   const key = lessonKey.trim();
   if (key === "01_office_ai-0") {
     return ACADEMY_OFFICE_AI_0_HOWTO_STEPS;
@@ -371,6 +380,17 @@ export function academyHowtoActiveIndex(lessonKey: string, section: string | und
   if (!academyHowtoBandVisible(section) || !academyHowtoSteps(lessonKey)) {
     return -1;
   }
+  const business = academyBusinessAiBeatVisual(lessonKey);
+  if (business) {
+    const name = section!.trim();
+    if (name === "VERİYİ VERMEDEN ÖNCE" || name === "DÖRT PARÇA") {
+      return 1;
+    }
+    if (name === "YANLIŞ VE DOĞRU" || name === "SIRA SENDE") {
+      return 2;
+    }
+    return 0;
+  }
   const mapped = HOWTO_ACTIVE_BY_LESSON[lessonKey.trim()]?.[section!.trim()];
   return mapped ?? 0;
 }
@@ -389,10 +409,19 @@ export function academyPocketChecklistSteps(
   lessonKey: string,
   section: string,
 ): readonly string[] | null {
-  if (section.trim() !== "CEBİNE KOY") {
+  const trimmed = section.trim();
+  const key = lessonKey.trim();
+  const businessFirst = academyBusinessAiBeatVisual(key);
+  if (businessFirst) {
+    const pocket = businessFirst.punchcards.find((card) => card.beat === "pocket");
+    if (!pocket || trimmed !== pocket.section) {
+      return null;
+    }
+    return businessFirst.pocketSteps;
+  }
+  if (trimmed !== "CEBİNE KOY") {
     return null;
   }
-  const key = lessonKey.trim();
   if (key === "01_office_ai-0") {
     return ACADEMY_OFFICE_AI_0_POCKET_STEPS;
   }
@@ -437,3 +466,399 @@ export const ACADEMY_GOLDEN_BEAT_VISUAL = {
 } as const;
 
 export type AcademyGoldenVisualMode = (typeof ACADEMY_GOLDEN_BEAT_VISUAL)[AcademyGoldenBeatId]["mode"];
+
+/**
+ * OFF-201 taslak reji — `01_office_ai_ileri-1` … `01_office_ai_ileri-6`.
+ * Punchcard rozeti en fazla üç sözcüktür (PEDAGOJI §E.2). İşin adıdır.
+ * Split, YANLIŞ VE DOĞRU bölümündedir. Temiz sonuç sağ panelden önce açılmaz.
+ * Canlı sahne bu kaydın rozet, split ve cep adımlarını cue slaytına bağlar.
+ * `01_office_ai-*` sabitleri Amiral Gemisi dersleridir; bu blok onlara yazılmaz.
+ */
+export const ACADEMY_BUSINESS_AI_PUNCHCARD_COUNT = 8 as const;
+
+export const ACADEMY_BUSINESS_AI_LESSON_KEYS = [
+  "01_office_ai_ileri-1",
+  "01_office_ai_ileri-2",
+  "01_office_ai_ileri-3",
+  "01_office_ai_ileri-4",
+  "01_office_ai_ileri-5",
+  "01_office_ai_ileri-6",
+] as const;
+
+export type AcademyBusinessAiLessonKey = (typeof ACADEMY_BUSINESS_AI_LESSON_KEYS)[number];
+
+export type AcademyBusinessAiBeatSlot = "bridge" | AcademyGoldenBeatId | "pocket";
+
+export type AcademyBusinessAiPunchcard = {
+  order: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  beat: AcademyBusinessAiBeatSlot;
+  /** Onaylı gövdedeki bölüm. Açılışta markdown başlığı yoktur. */
+  section: string;
+  /** Sahnedeki kısa rozet. En fazla üç sözcük. */
+  label: string;
+};
+
+export type AcademyBusinessAiSplitScene = {
+  beat: "comparison";
+  visualMode: "split";
+  section: "YANLIŞ VE DOĞRU";
+  beforeLabel: string;
+  afterLabel: string;
+  /** Sol panel. Turuncu çerçeve. Dağınık iş. */
+  beforeScene: string;
+  /** Sağ panel. Temiz sonuç ilk kez burada açılır. */
+  afterScene: string;
+  /** Sağ panelden önce ekranda durmayan sonuç. */
+  withheldUntilSplit: string;
+};
+
+export type AcademyBusinessAiLessonBeatVisual = {
+  lessonKey: AcademyBusinessAiLessonKey;
+  title: string;
+  punchcards: readonly [
+    AcademyBusinessAiPunchcard,
+    AcademyBusinessAiPunchcard,
+    AcademyBusinessAiPunchcard,
+    AcademyBusinessAiPunchcard,
+    AcademyBusinessAiPunchcard,
+    AcademyBusinessAiPunchcard,
+    AcademyBusinessAiPunchcard,
+    AcademyBusinessAiPunchcard,
+  ];
+  split: AcademyBusinessAiSplitScene;
+  /** CEBİNE KOY overlay. Üç kısa adım. */
+  pocketSteps: readonly [string, string, string];
+};
+
+function businessAiBridge(label: string): AcademyBusinessAiPunchcard {
+  return { order: 1, beat: "bridge", section: "Açılış", label };
+}
+
+function businessAiWelcome(label: string): AcademyBusinessAiPunchcard {
+  return { order: 2, beat: "warmup", section: "Açılış", label };
+}
+
+function businessAiCompare(label: string): AcademyBusinessAiPunchcard {
+  return { order: 6, beat: "comparison", section: "YANLIŞ VE DOĞRU", label };
+}
+
+function businessAiPocket(label: string): AcademyBusinessAiPunchcard {
+  return { order: 7, beat: "pocket", section: label, label };
+}
+
+function businessAiTask(label: string): AcademyBusinessAiPunchcard {
+  return { order: 8, beat: "task", section: label, label };
+}
+
+function businessAiDataBadge(label: string): AcademyBusinessAiPunchcard {
+  return {
+    order: 4,
+    beat: "command",
+    section: "VERİYİ VERMEDEN ÖNCE",
+    label,
+  };
+}
+
+function businessAiCommandBadge(label: string): AcademyBusinessAiPunchcard {
+  return {
+    order: 5,
+    beat: "command",
+    section: "DÖRT PARÇA",
+    label,
+  };
+}
+
+function businessAiProblemBadge(label: string): AcademyBusinessAiPunchcard {
+  return {
+    order: 3,
+    beat: "warmup",
+    section: "Açılış",
+    label,
+  };
+}
+
+export const ACADEMY_BUSINESS_AI_BEAT_VISUAL: Readonly<
+  Record<AcademyBusinessAiLessonKey, AcademyBusinessAiLessonBeatVisual>
+> = {
+  "01_office_ai_ileri-1": {
+    lessonKey: "01_office_ai_ileri-1",
+    title: "Dört Parçalı İstem",
+    punchcards: [
+      businessAiBridge("DÖRT PARÇA"),
+      businessAiWelcome("ÜÇ ADIM"),
+      businessAiProblemBadge("HAM NOT"),
+      businessAiDataBadge("ADI ÇIKAR"),
+      businessAiCommandBadge("ROL BAŞTA"),
+      businessAiCompare("YANLIŞ ÖZET"),
+      businessAiPocket("KAYNAĞI KARŞILAŞTIR"),
+      businessAiTask("MASKELİ NOT"),
+    ],
+    split: {
+      beat: "comparison",
+      visualMode: "split",
+      section: "YANLIŞ VE DOĞRU",
+      beforeLabel: "ÖNCE (GÜZELCE ÖZETLE)",
+      afterLabel: "SONRA (DÖRT PARÇALI İSTEM)",
+      beforeScene:
+        "Ham not kutudadır. Ad ve telefon durur. İstem «Bunu güzelce özetle»dir. Uzun metin, notta olmayan yüzde ve kişi adı döner.",
+      afterScene:
+        "Ürüne ait üç satır maskelidir. Dört parça aynı kutudadır. Üç madde 120, 80 ve eksik İç Anadolu satırıdır. Karar cümlesi yüzde ve kişi adı taşımaz.",
+      withheldUntilSplit: "Kaynak satırla eşleşen üç madde ve karar cümlesi.",
+    },
+    pocketSteps: ["Onaylı aracı aç", "Adı ve telefonu çıkar", "Dört parçayı aynı kutuya yaz"],
+  },
+  "01_office_ai_ileri-2": {
+    lessonKey: "01_office_ai_ileri-2",
+    title: "Toplantı Notu ve Eylem Listesi",
+    punchcards: [
+      businessAiBridge("EYLEM LİSTESİ"),
+      businessAiWelcome("ÜÇ ADIM"),
+      businessAiProblemBadge("İKİ DAVET"),
+      businessAiDataBadge("ADI ÇIKAR"),
+      businessAiCommandBadge("ÇAKIŞMAYI İŞARETLE"),
+      businessAiCompare("ÇAKIŞAN SAAT"),
+      businessAiPocket("SAATİ AYIR"),
+      businessAiTask("KENDİ TOPLANTIN"),
+    ],
+    split: {
+      beat: "comparison",
+      visualMode: "split",
+      section: "YANLIŞ VE DOĞRU",
+      beforeLabel: "ÖNCE (TEK RANDEVU)",
+      afterLabel: "SONRA (ÇAKIŞMA SATIRI)",
+      beforeScene:
+        "İki Perşembe 10:00 tek randevuya inmiştir. Notta olmayan tarih vardır. Selin Korkmaz sahip yazılmıştır.",
+      afterScene:
+        "İki satır ayrı durur. Çakışma ayrı satırdadır. Sahip yoktur. Hangi Perşembe yoktur. Yeni saat yoktur. Ad yoktur.",
+      withheldUntilSplit: "Çakışması ayrı satırda duran eylem listesi.",
+    },
+    pocketSteps: ["Onaylı takvimi aç", "Adı ve telefonu çıkar", "Çakışan saati ayrı satırda ara"],
+  },
+  "01_office_ai_ileri-3": {
+    lessonKey: "01_office_ai_ileri-3",
+    title: "Excel Formül ve Grafik",
+    punchcards: [
+      businessAiBridge("FORMÜLÜ KİLİTLE"),
+      businessAiWelcome("ÜÇ ADIM"),
+      businessAiProblemBadge("BOŞ HÜCRE"),
+      businessAiDataBadge("IBAN ÇIKAR"),
+      businessAiCommandBadge("FORMÜLÜ YAZ"),
+      businessAiCompare("DÜZ SAYI"),
+      businessAiPocket("HÜCREYİ KONTROL ET"),
+      businessAiTask("KENDİ TABLON"),
+    ],
+    split: {
+      beat: "comparison",
+      visualMode: "split",
+      section: "YANLIŞ VE DOĞRU",
+      beforeLabel: "ÖNCE (DÜZ SAYI)",
+      afterLabel: "SONRA (TOPLA FORMÜLÜ)",
+      beforeScene:
+        "B4 hücresinde düz 250 yazar. Pasta grafikte üçüncü dilim vardır. Marmara için yüzde vardır. IBAN notu kutudadır.",
+      afterScene:
+        "B4 formülü =TOPLA(B2:B3) olur. Hücre 200 gösterir. Grafik yalnız B2 ve B3 hücrelerinden seçilir. Yüzde yoktur. IBAN yoktur.",
+      withheldUntilSplit: "Formülle kilitlenmiş toplam ve o hücreden seçilen grafik.",
+    },
+    pocketSteps: ["Onaylı tabloyu aç", "Adı ve IBAN'ı çıkar", "Formülü B4 hücresine yaz"],
+  },
+  "01_office_ai_ileri-4": {
+    lessonKey: "01_office_ai_ileri-4",
+    title: "Uzun Belge ve Sayfa Kontrolü",
+    punchcards: [
+      businessAiBridge("SAYFA KONTROLÜ"),
+      businessAiWelcome("ÜÇ ADIM"),
+      businessAiProblemBadge("UZUN BELGE"),
+      businessAiDataBadge("KİMLİĞİ ÇIKAR"),
+      businessAiCommandBadge("SAYFAYI YAZ"),
+      businessAiCompare("ATLANAN MADDE"),
+      businessAiPocket("SAYFAYI DENETLE"),
+      businessAiTask("KENDİ BELGEN"),
+    ],
+    split: {
+      beat: "comparison",
+      visualMode: "split",
+      section: "YANLIŞ VE DOĞRU",
+      beforeLabel: "ÖNCE (TAM ANALİZ)",
+      afterLabel: "SONRA (SAYFA SATIRI)",
+      beforeScene:
+        "Listenin üstünde «Tam analiz tamam» yazar. Sayfa 7 yerine yüzde 10 vardır. Dosyada olmayan 22. sayfada 5 yıllık yenileme vardır. Sayfa 11'deki 15 gün listede yoktur. Ad ve IBAN durur.",
+      afterScene:
+        "Ödeme günü sayfa 4, 30 gündür. Gecikme oranı sayfa 7, yüzde 2'dir. Fesih süresi sayfa 11, 15 gündür. Gizlilik süresi sayfa 18, 2 yıldır. 22. sayfa yoktur. Ad yoktur. IBAN yoktur.",
+      withheldUntilSplit: "Sayfa numarasıyla eşleşen dört madde.",
+    },
+    pocketSteps: ["Onaylı belgeyi aç", "Kimliği ve IBAN'ı çıkar", "Her satırın sayfasını aç"],
+  },
+  "01_office_ai_ileri-5": {
+    lessonKey: "01_office_ai_ileri-5",
+    title: "E-Posta Sınıflandırma ve Yanıt Taslağı",
+    punchcards: [
+      businessAiBridge("POSTAYI AYIR"),
+      businessAiWelcome("ÜÇ ADIM"),
+      businessAiProblemBadge("KARIŞIK POSTA"),
+      businessAiDataBadge("KİMLİĞİ ÇIKAR"),
+      businessAiCommandBadge("SINIFI AYIR"),
+      businessAiCompare("TASLAK SATIRI"),
+      businessAiPocket("TASLAĞI TUT"),
+      businessAiTask("KENDİ POSTAN"),
+    ],
+    split: {
+      beat: "comparison",
+      visualMode: "split",
+      section: "YANLIŞ VE DOĞRU",
+      beforeLabel: "ÖNCE (NAZİK PARAGRAF)",
+      afterLabel: "SONRA (ÜÇ SINIF SATIRI)",
+      beforeScene:
+        "Tek paragraf döner. Üstte «Gönderildi» yazar. Stok 200 koli olur. Yüzde 10 tazminat vardır. Ad, telefon, IBAN ve kimlik paragrafın içindedir.",
+      afterScene:
+        "Birinci satır bilgidir: stok notu 120 kolidir. İkinci satır şikayettir: 2 gün gecikme, tazminat yoktur. Üçüncü satır kişisel veri talebidir: ad, telefon, IBAN ve kimlik yoktur. «Gönderildi» yoktur.",
+      withheldUntilSplit: "Kural kartıyla eşleşen üç sınıf satırı.",
+    },
+    pocketSteps: ["Onaylı postayı aç", "Kimliği taslaktan çıkar", "Taslağı kurala karşılaştır"],
+  },
+  "01_office_ai_ileri-6": {
+    lessonKey: "01_office_ai_ileri-6",
+    title: "Üç Dosyada Yan Yana Sayı Denetimi",
+    punchcards: [
+      businessAiBridge("YAN YANA SAYI"),
+      businessAiWelcome("ÜÇ ADIM"),
+      businessAiProblemBadge("ÜÇ DOSYA"),
+      businessAiDataBadge("ADI ÇIKAR"),
+      businessAiCommandBadge("YAN YANA BAK"),
+      businessAiCompare("UYUŞMAYAN SAYI"),
+      businessAiPocket("UYUŞMAYANI YAZMA"),
+      businessAiTask("ÜÇ DOSYAYI SEÇ"),
+    ],
+    split: {
+      beat: "comparison",
+      visualMode: "split",
+      section: "YANLIŞ VE DOĞRU",
+      beforeLabel: "ÖNCE (ORTA SAYI)",
+      afterLabel: "SONRA (UYUŞAN SATIR)",
+      beforeScene:
+        "Üstte «Kaynaklar uyumlu» yazar. Marmara 150 veya 135 olur. Toplam 230 olur. Ödeme 45 gündür. Gecikme yüzde 10'dur. Ad ve telefon sayfanın altında durur.",
+      afterScene:
+        "Karar notunda 120, 200, 30 gün ve yüzde 2 durur. 150, 230, 135, 45 gün ve yüzde 10 yoktur. Ad yoktur. «Kaynaklar uyumlu» yoktur.",
+      withheldUntilSplit: "Tablo ve sayfayla eşleşen tek sayfalık karar notu.",
+    },
+    pocketSteps: ["Onaylı aracı aç", "Kimliği nottan çıkar", "Uyuşmayan sayıyı yazma"],
+  },
+};
+
+export function academyBusinessAiBeatVisual(
+  lessonKey: string,
+): AcademyBusinessAiLessonBeatVisual | null {
+  const key = lessonKey.trim();
+  if (!(key in ACADEMY_BUSINESS_AI_BEAT_VISUAL)) {
+    return null;
+  }
+  return ACADEMY_BUSINESS_AI_BEAT_VISUAL[key as AcademyBusinessAiLessonKey];
+}
+
+export type AcademyOff201SpokenTableKey = "raw" | "mask" | "clean";
+
+export type AcademyOff201SpokenSentence = {
+  cueId: string;
+  text: string;
+  start: number;
+  end: number;
+};
+
+export type AcademyOff201SpokenVisualCue = {
+  cueId: string;
+  /** Cümlenin başladığı an — mühürlü parça saatinin cümle payı. */
+  start: number;
+  end: number;
+  tableKey: AcademyOff201SpokenTableKey;
+  rowIndex: number;
+  needle: string;
+  highlightCell: string;
+};
+
+const SPOKEN_NEEDLE_MIN_CHARS = 10;
+
+function foldSpoken(text: string): string {
+  return text.toLocaleLowerCase("tr-TR").replace(/\s+/gu, " ").trim();
+}
+
+function spokenNeedles(
+  tables: Record<AcademyOff201SpokenTableKey, { rows: readonly (readonly string[])[] }>,
+): { tableKey: AcademyOff201SpokenTableKey; rowIndex: number; needle: string }[] {
+  const keys: AcademyOff201SpokenTableKey[] = ["raw", "mask", "clean"];
+  const needles: { tableKey: AcademyOff201SpokenTableKey; rowIndex: number; needle: string }[] = [];
+  for (const tableKey of keys) {
+    tables[tableKey].rows.forEach((row, rowIndex) => {
+      for (const cell of row) {
+        const needle = cell.replace(/\s+/gu, " ").trim();
+        if (needle.length < SPOKEN_NEEDLE_MIN_CHARS) {
+          continue;
+        }
+        needles.push({ tableKey, rowIndex, needle });
+      }
+    });
+  }
+  return needles;
+}
+
+/**
+ * Konuşulan cümlenin başında görsel cue açılır.
+ * Saat, mühürlü ses parçasının cümle sınırıdır; cue rozetinin başı değildir.
+ */
+export function academyOff201SpokenVisualCues(input: {
+  sentences: readonly AcademyOff201SpokenSentence[];
+  tables: Record<AcademyOff201SpokenTableKey, { rows: readonly (readonly string[])[] }>;
+}): readonly AcademyOff201SpokenVisualCue[] {
+  const needles = spokenNeedles(input.tables);
+  const cues: AcademyOff201SpokenVisualCue[] = [];
+  for (const sentence of input.sentences) {
+    const folded = foldSpoken(sentence.text);
+    let best: { tableKey: AcademyOff201SpokenTableKey; rowIndex: number; needle: string; at: number } | null =
+      null;
+    for (const needle of needles) {
+      const at = folded.indexOf(foldSpoken(needle.needle));
+      if (at < 0) {
+        continue;
+      }
+      const longer = best != null && needle.needle.length > best.needle.length;
+      const earlier = best != null && needle.needle.length === best.needle.length && at < best.at;
+      if (best == null || longer || earlier) {
+        best = { ...needle, at };
+      }
+    }
+    if (!best) {
+      continue;
+    }
+    cues.push({
+      cueId: sentence.cueId,
+      start: sentence.start,
+      end: sentence.end,
+      tableKey: best.tableKey,
+      rowIndex: best.rowIndex,
+      needle: best.needle,
+      highlightCell: `A${best.rowIndex + 2}`,
+    });
+  }
+  return cues;
+}
+
+const SPOKEN_CUE_BREATH_SEC = 0.45;
+
+export function academyOff201SpokenVisualCueAtTime(
+  cues: readonly AcademyOff201SpokenVisualCue[],
+  currentTime: number,
+): AcademyOff201SpokenVisualCue | null {
+  const t = Number.isFinite(currentTime) ? currentTime : 0;
+  let held: AcademyOff201SpokenVisualCue | null = null;
+  for (const cue of cues) {
+    if (cue.start > t) {
+      break;
+    }
+    held = cue;
+  }
+  if (!held) {
+    return null;
+  }
+  if (t < held.end + SPOKEN_CUE_BREATH_SEC) {
+    return held;
+  }
+  return null;
+}

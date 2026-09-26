@@ -19,6 +19,7 @@ export function Card({
   action,
   children,
   variant = "default",
+  dense = false,
   className = "",
   bodyClassName = "",
 }: {
@@ -27,13 +28,15 @@ export function Card({
   action?: ReactNode;
   children: ReactNode;
   variant?: CardVariant;
+  dense?: boolean;
   className?: string;
   bodyClassName?: string;
 }) {
   return (
     <section
       className={cn(
-        "room-card rounded-[var(--radius-card)] p-6 transition-[border-color,box-shadow] duration-200",
+        "room-card rounded-[var(--radius-card)] transition-[border-color,box-shadow] duration-200",
+        dense ? "p-4" : "p-6",
         VARIANT[variant],
         className,
       )}

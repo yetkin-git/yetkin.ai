@@ -66,7 +66,7 @@ describe("anayasa yüzey sözleşmeleri", () => {
     expect(RIBBON_ROOMS.map((room) => room.label)).not.toContain("Panel");
     expect(RIBBON_ROOMS.map((room) => room.label)).not.toContain("Pazaryeri");
     expect(VERTICAL_ROOMS.find((room) => room.id === "career")?.blurb).toBe(
-      "Doğrulanmış Rozet ve Teklif Kapısı",
+      "Sertifika ve ilanlar",
     );
     expect(VERTICAL_ROOMS.find((room) => room.id === "freelancer")?.blurb).toBe(
       "Arka plan · modül pasif",

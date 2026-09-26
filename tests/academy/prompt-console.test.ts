@@ -48,7 +48,7 @@ describe("Nasıl Yapılır? — Prompt Terminali ve adım bandı", () => {
   it("seste komut verilirken istem harf harf açılır; reduced-motion tam metni basar", () => {
     const prompt = ACADEMY_OUTLOOK_COPILOT_PROMPT;
     expect(academyCinemaCueId(4)).toBe("cue-04");
-    expect(academyPromptCueStart("01_office_ai-4", 4)).toBe(208.64);
+    expect(academyPromptCueStart("01_office_ai-4", 4)).toBeUndefined();
     expect(ACADEMY_PROMPT_CHARS_PER_SEC).toBe(22);
     expect(loadAcademyCinemaCueSlides("01_office_ai-4")[3]?.copilot?.prompt).toBe(prompt);
     const waiting = academyPromptTypedText({ prompt, currentTime: 200, cueStart: 201.2 });

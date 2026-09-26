@@ -226,6 +226,39 @@ describe("admin katalog PATCH yazma", () => {
     expect(store.snapshot("cat_studio_generation_text")?.amountMinor).toBe(100);
   });
 
+  it("OFF-201 satırı yokken Super Admin birimi açar; başka eksik birim 404 kalır", async () => {
+    process.env.SUPER_ADMIN_USER_ID = ADMIN_ID;
+    const store = createMemoryCatalogWriteStore([]);
+    const missing = await runCatalogPatch({
+      session: ADMIN,
+      body: {
+        moduleKey: "academy",
+        unitKey: "course:01_office_ai",
+        amountMinor: 89_000,
+        ...REASON,
+      },
+      getStore: () => store,
+    });
+    expect(missing.status).toBe(404);
+
+    const opened = await runCatalogPatch({
+      session: ADMIN,
+      body: {
+        moduleKey: "academy",
+        unitKey: "course:01_office_ai_ileri",
+        amountMinor: 129_000,
+        ...REASON,
+      },
+      getStore: () => store,
+    });
+    expect(opened.status).toBe(200);
+    const row = await store.findByModuleUnit("academy", "course:01_office_ai_ileri");
+    expect(row?.amountMinor).toBe(129_000);
+    expect(row?.isActive).toBe(true);
+    expect(store.decisions()[0]?.oldMinor).toBe(0);
+    expect(store.decisions()[0]?.newMinor).toBe(129_000);
+  });
+
   it("yazma yolu /api/admin/catalog sabitidir", () => {
     expect(CATALOG_WRITE_PATH).toBe("/api/admin/catalog");
   });

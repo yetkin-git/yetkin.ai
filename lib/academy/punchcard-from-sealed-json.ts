@@ -45,6 +45,10 @@ export function punchcardLabelFromText(
  */
 export const ACADEMY_PUNCHCARD_CITIZEN_LABELS: Readonly<Record<string, string>> = {
   "GİRİŞ KÖPRÜSÜ": "HATIRLATMA",
+  /** Pekiştirme durağı. İşin adı üç adımdır; giriş rozetiyle aynı kelimeye binmez. */
+  "CEBİNE KOY": "ÜÇ ADIM",
+  /** Saha görevi. Stüdyo tabelası sahnede durmaz. */
+  "SIRA SENDE": "SIRA SİZDE",
 };
 
 export function academyCitizenPunchcardLabel(label: string): string {

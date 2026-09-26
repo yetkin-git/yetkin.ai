@@ -8,11 +8,13 @@ import { ECOMMERCE_AI_EXAM_QUESTIONS } from "@/lib/academy/exam-pools-ecommerce"
 import { SOCIAL_MEDIA_AI_EXAM_QUESTIONS } from "@/lib/academy/exam-pools-social";
 import { CHATBOT_NOCODE_EXAM_QUESTIONS } from "@/lib/academy/exam-pools-chatbot";
 import { PROMPT_PRACTICE_EXAM_QUESTIONS } from "@/lib/academy/exam-pools-prompt";
+import { OFFICE_AI_2_EXAM_QUESTIONS } from "@/lib/academy/exam-pools-office-ai-2";
 import { mcq } from "@/lib/academy/exam-pools-growth";
 export { ECOMMERCE_AI_EXAM_QUESTIONS } from "@/lib/academy/exam-pools-ecommerce";
 export { SOCIAL_MEDIA_AI_EXAM_QUESTIONS } from "@/lib/academy/exam-pools-social";
 export { CHATBOT_NOCODE_EXAM_QUESTIONS } from "@/lib/academy/exam-pools-chatbot";
 export { PROMPT_PRACTICE_EXAM_QUESTIONS } from "@/lib/academy/exam-pools-prompt";
+export { OFFICE_AI_2_EXAM_QUESTIONS } from "@/lib/academy/exam-pools-office-ai-2";
 
 /**
  * Ofis AI mühür havuzu — canlı slug `01_office_ai`.
@@ -486,15 +488,17 @@ export const OFFICE_AI_EXAM_QUESTIONS: AcademyExamQuestion[] = [
 
 const MODULE_POOLS: Record<string, readonly AcademyExamQuestion[]> = {
   "CURR-OFFICE-AI-101": OFFICE_AI_EXAM_QUESTIONS,
+  "OFF-201": OFFICE_AI_2_EXAM_QUESTIONS,
   "CURR-ECOMMERCE-AI-102": ECOMMERCE_AI_EXAM_QUESTIONS,
   "CURR-SOCIAL-MEDIA-AI-103": SOCIAL_MEDIA_AI_EXAM_QUESTIONS,
   "CURR-CHATBOT-NOCODE-104": CHATBOT_NOCODE_EXAM_QUESTIONS,
   "CURR-PROMPT-PRACTICE-105": PROMPT_PRACTICE_EXAM_QUESTIONS,
 };
 
-/** Canlı yayın slug havuzu — ingest edilmiş kanon SKU. */
+/** Slug havuzu. Canlı kanon SKU’lar ve fırın öncesi OFF-201 (`01_office_ai_ileri`). */
 const POOL_BY_SLUG: Record<string, readonly AcademyExamQuestion[]> = {
   "01_office_ai": OFFICE_AI_EXAM_QUESTIONS,
+  "01_office_ai_ileri": OFFICE_AI_2_EXAM_QUESTIONS,
   "02_ecommerce_ai": ECOMMERCE_AI_EXAM_QUESTIONS,
   "03_social_media_ai": SOCIAL_MEDIA_AI_EXAM_QUESTIONS,
   "04_chatbot_nocode": CHATBOT_NOCODE_EXAM_QUESTIONS,
@@ -527,6 +531,7 @@ function assertAcademyExamPool(label: string, pool: readonly AcademyExamQuestion
 }
 
 assertAcademyExamPool("01_office_ai", OFFICE_AI_EXAM_QUESTIONS);
+assertAcademyExamPool("01_office_ai_ileri", OFFICE_AI_2_EXAM_QUESTIONS);
 assertAcademyExamPool("02_ecommerce_ai", ECOMMERCE_AI_EXAM_QUESTIONS);
 assertAcademyExamPool("03_social_media_ai", SOCIAL_MEDIA_AI_EXAM_QUESTIONS);
 assertAcademyExamPool("04_chatbot_nocode", CHATBOT_NOCODE_EXAM_QUESTIONS);

@@ -142,23 +142,22 @@ export function OfficeAiGuidePreview() {
           </li>
           <li>
             <strong className="font-semibold text-[var(--foreground)]">
-              Üç sahte satır yeter, otuz gerçek satır gerekmez.
+              Maskeleme ile örnek satır ayrı tekniktir.
             </strong>{" "}
-            Yapay zekâya tablonun mantığını kavratmak için bin kişilik müşteri listesinin tamamını
-            yüklemene gerek yoktur. Sütun başlıklarını ve mantığı gösterecek üç tane örnek, sahte
-            satır yüklersen model mantığı anlar. Böylece hem bin kişinin gerçek ad, soyad ve IBAN
-            verisini riske atmamış olursun, hem de aynı özeti alırsın. Model fazladan gerçek isimle
-            daha iyi özet yazmaz; sen ise daha fazla insanı riske atmış olursun.
+            Maskeleme, gerçek satırda adı ve IBAN’ı takma değerle değiştirmektir. Tutar yerinde
+            kalırsa özeti o maskeli tablodan alırsın. Örnek satır başka iştir: uydurulmuş üç satır
+            yalnız sütun şeklini öğretir, bin satırın toplamını ve yönünü vermez. Ham müşteri
+            dökümü de gerekmez. Fazla gerçek isim modeli daha zeki yapmaz; daha fazla insanı
+            riske atar.
           </li>
           <li>
             <strong className="font-semibold text-[var(--foreground)]">
-              Üçüncü kapı yalnız maskeli kısa özettir.
+              Önce şirket, sonra veri, sonra yol.
             </strong>{" "}
-            Şirketinin kendi şeridi veya ataş yolu varken ham listeyi dış sohbete taşımana gerek
-            yoktur. Lisans yoksa ve ataş da uygun değilse üçüncü kapıyı açarsın; ama yine bütün
-            listeyi değil, maskeli kısa özeti taşırsın. Ham kutu yapıştırmak üçüncü kapı değildir.
-            Ekran görüntüsü zinciri üçüncü kapı değildir. Bunlar atlanmış kapıdır: birinci ve ikinci
-            kapıyı denemeden, maske de koymadan ham kimliği dışarı taşır.
+            Şirketinin onayladığı araç varken ham listeyi dış sohbete taşımana gerek yoktur.
+            Onaylı araç yoksa kutuyu kişisel hesaba taşıma. Maskeli kısa özet yaz; bütün listeyi
+            değil. Ham kutu yapıştırmak bu özet değildir. Ekran görüntüsü zinciri de değildir.
+            İkisi de maske koymadan ham kimliği dışarı taşır.
           </li>
           <li>
             <strong className="font-semibold text-[var(--foreground)]">

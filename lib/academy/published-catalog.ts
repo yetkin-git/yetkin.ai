@@ -9,11 +9,16 @@ import {
   type AcademyCatalogSeed,
 } from "@/lib/academy/catalog-seed";
 import {
+  ACADEMY_OFF201_STOREFRONT_SLUG,
   ACADEMY_VITRINE_SHELL_SKU_SLUGS,
+  academyCatalogPurchasable,
   isAcademyGrowthSkuSlug,
   isAcademyProductionLineSkuSlug,
 } from "@/lib/academy/pilot-sku";
+import { ACADEMY_OFF201_DEFAULT_COVER } from "@/lib/academy/course-cover";
+import { OFF_201_TITLE } from "@/lib/academy/curricula/office_ai/off-201";
 import type { AcademyCourseRecord, AcademyCourseWithPrice } from "@/lib/academy/types";
+import { OFF_201_LAUNCH_PRICE_MINOR } from "@/lib/academy/catalog-pricing";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 
 const SEED_STAMP = new Date("2026-08-21T15:00:00.000Z");
@@ -56,7 +61,11 @@ export function publishedAcademyCourseFromSeed(row: AcademyCatalogSeed): Academy
     ...academyCourseRecordFromSeed(row),
     priceMinor: toAmountMinor(row.seedAmountMinor),
     currencyCode: ACADEMY_SEED_CURRENCY,
-    purchasable: true,
+    purchasable: academyCatalogPurchasable({
+      courseSlug: row.slug,
+      catalogRowPresent: true,
+      isPublished: true,
+    }),
   });
 }
 
@@ -86,23 +95,11 @@ export function publishedCoursesFromSeed(): AcademyCourseWithPrice[] {
   return orderAcademyShowcaseCatalog(ACADEMY_CATALOG_SEEDS.map(publishedAcademyCourseFromSeed));
 }
 
+/**
+ * Canlı satırın tutarı katalogdadır. Tutar yoksa tohum haritası kartı doldurmaz.
+ */
 export function overlaySeedCatalogPrice(course: AcademyCourseWithPrice): AcademyCourseWithPrice {
-  if (course.priceMinor != null) {
-    return withCardHonesty(course);
-  }
-  const seed =
-    academyCatalogSeedMatch(course.slug) ??
-    academyCatalogSeedMatch(course.id) ??
-    academyVitrineDisplaySeed(course.slug);
-  if (!seed) {
-    return withCardHonesty(course);
-  }
-  return withCardHonesty({
-    ...course,
-    priceMinor: toAmountMinor(seed.seedAmountMinor),
-    currencyCode: ACADEMY_SEED_CURRENCY,
-    purchasable: course.isPublished && isAcademyGrowthSkuSlug(course.slug),
-  });
+  return withCardHonesty(course);
 }
 
 /**
@@ -133,6 +130,11 @@ export function academyVitrineShellCourses(
       next.push(liveRow);
       continue;
     }
+    if (slug === ACADEMY_OFF201_STOREFRONT_SLUG) {
+      const row = liveRow ?? off201VitrineCourse();
+      next.push({ ...row, coverImage: row.coverImage ?? ACADEMY_OFF201_DEFAULT_COVER });
+      continue;
+    }
     if (!isAcademyProductionLineSkuSlug(slug)) {
       continue;
     }
@@ -144,7 +146,46 @@ export function academyVitrineShellCourses(
   return next;
 }
 
+const OFF201_STAMP = new Date("2026-09-24T06:00:00.000Z");
+
+/** OFF-201 kurs satırı. Katalog satırı yokken fiyat basılmaz; kilit `PriceCatalogEntry` keser. */
+export function off201StorefrontCourseRecord(): AcademyCourseRecord {
+  return {
+    id: "ac_01_office_ai_ileri",
+    slug: ACADEMY_OFF201_STOREFRONT_SLUG,
+    title: OFF_201_TITLE,
+    summary:
+      "İleri ofis işi: dört parçalı istem, toplantı notu, formül, uzun belge, e-posta taslağı ve üç dosyada sayı denetimi.",
+    catalogUnitKey: "course:01_office_ai_ileri",
+    globalRank: 14,
+    localRank: 2,
+    trendScore: 28,
+    isPublished: true,
+    createdAt: OFF201_STAMP,
+    updatedAt: OFF201_STAMP,
+  };
+}
+
+function off201VitrineCourse(): AcademyCourseWithPrice {
+  const record = off201StorefrontCourseRecord();
+  return withCardHonesty({
+    ...record,
+    priceMinor: toAmountMinor(OFF_201_LAUNCH_PRICE_MINOR),
+    currencyCode: ACADEMY_SEED_CURRENCY,
+    purchasable: academyCatalogPurchasable({
+      courseSlug: record.slug,
+      catalogRowPresent: true,
+      isPublished: record.isPublished,
+    }),
+    level: "İleri",
+    coverImage: ACADEMY_OFF201_DEFAULT_COVER,
+  });
+}
+
 export function resolveAcademyCourseFromSeed(idOrSlug: string): AcademyCourseRecord | null {
+  if (idOrSlug === ACADEMY_OFF201_STOREFRONT_SLUG || idOrSlug === "ac_01_office_ai_ileri") {
+    return off201StorefrontCourseRecord();
+  }
   const seed = academyCatalogSeedMatch(idOrSlug);
   if (seed) {
     return academyCourseRecordFromSeed(seed);

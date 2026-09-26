@@ -10,17 +10,19 @@ import {
   loadAcademyCurriculum,
   loadPurchaseForUserCourse,
 } from "@/lib/academy/load";
-import { hasAcademyPlayerAccess } from "@/lib/academy/access";
-import { hasCommercialAcademyEnrolment } from "@/lib/academy/enrolment";
+import { hasAcademyOynaAccess } from "@/lib/academy/access";
 import {
+  ACADEMY_OFF201_STOREFRONT_SLUG,
   academyStorefrontStaticParams,
-  isAcademyGrowthSkuSlug,
+  isAcademyStorefrontSlug,
 } from "@/lib/academy/pilot-sku";
 import { academyCourseOffersFreePreview } from "@/lib/academy/purchase-path";
-import { academyPaywallLockedLessonShells } from "@/lib/academy/preview-lock";
+import { sealClosedAcademyLessonPayload } from "@/lib/academy/preview-lock";
+import { academyPaywallLockedLessonShells } from "@/lib/academy/paywall-shells";
+import { loadAcademyLessonMediaPrime } from "@/lib/academy/lesson-media-prime";
 
 export function generateStaticParams() {
-  return academyStorefrontStaticParams();
+  return [...academyStorefrontStaticParams(), { slug: ACADEMY_OFF201_STOREFRONT_SLUG }];
 }
 
 /** Vitrinde olmayan slug yumuşak 200 değil, HTTP 404. */
@@ -50,7 +52,7 @@ export default async function AcademyCurriculumPlayerPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  if (!isAcademyGrowthSkuSlug(slug)) {
+  if (!isAcademyStorefrontSlug(slug)) {
     notFound();
   }
   const offersPreview = academyCourseOffersFreePreview(slug);
@@ -70,6 +72,7 @@ export default async function AcademyCurriculumPlayerPage({
             curriculumComplete={false}
             workTasksComplete={false}
             paywallLocked
+            media={loadAcademyLessonMediaPrime(board.course.slug, { paywallLocked: true })}
           />
         </div>
       </RoomFrame>
@@ -82,9 +85,7 @@ export default async function AcademyCurriculumPlayerPage({
   }
   const purchase = await loadPurchaseForUserCourse(session.id, board.course.id, userEmail);
   const actor = { userId: session.id, email: userEmail };
-  const canAccess =
-    hasCommercialAcademyEnrolment(purchase) || hasAcademyPlayerAccess(purchase, actor);
-  const hasPurchased = canAccess;
+  const hasPurchased = hasAcademyOynaAccess(purchase, actor);
   const grantStudio = isSuperAdminActor({ id: session.id, email: userEmail });
 
   if (!hasPurchased) {
@@ -101,6 +102,7 @@ export default async function AcademyCurriculumPlayerPage({
             curriculumComplete={false}
             workTasksComplete={false}
             paywallLocked
+            media={loadAcademyLessonMediaPrime(board.course.slug, { paywallLocked: true })}
           />
         </div>
       </RoomFrame>
@@ -121,9 +123,12 @@ export default async function AcademyCurriculumPlayerPage({
         <CurriculumPlayer
           courseId={board.course.id}
           courseSlug={board.course.slug}
-          lessons={player.lessons}
+          lessons={sealClosedAcademyLessonPayload(player.lessons)}
           curriculumComplete={player.curriculumComplete}
           workTasksComplete={player.workTasksComplete}
+          media={loadAcademyLessonMediaPrime(board.course.slug, {
+            openLessonKeys: player.lessons.filter((lesson) => lesson.open).map((lesson) => lesson.key),
+          })}
         />
       </div>
     </RoomFrame>

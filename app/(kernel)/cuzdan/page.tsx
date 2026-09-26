@@ -1,3 +1,4 @@
+import { WalletRefundButton } from "@/components/kernel/wallet-refund-button";
 import { WalletTopUpForm } from "@/components/kernel/wallet-top-up-form";
 import { LedgerHistory } from "@/components/kernel/ledger-history";
 import { Badge } from "@/components/ui/badge";
@@ -61,6 +62,12 @@ export default async function WalletPage() {
             sandbox={isPaytrSandboxEnabled()}
             profileFullName={identity?.user?.displayName ?? null}
           />
+        </Card>
+        <Card variant="ink" title={copy.refundTitle} bodyClassName="text-white/70">
+          <WalletRefundButton balanceMinor={board?.wallet?.amountMinor ?? 0} />
+          {board?.wallet && board.wallet.amountMinor > 0 ? null : (
+            <p>{copy.refundBody}</p>
+          )}
         </Card>
         <Card variant="ink" title={copy.closedLoopTitle} bodyClassName="text-white/70">
           {copy.closedLoopBody}

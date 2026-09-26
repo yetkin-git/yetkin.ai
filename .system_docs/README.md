@@ -20,7 +20,7 @@ Bu klasör kalıcı anayasa ve sistem belgeleridir. Ürün kodu buradaki markdow
 
 İstemci ops: `DRON_CLIENT_SPEC.md` — Bearer, JWT yenileme, Idempotency-Key, 401/426. Shared Kernel `@yetkin/kernel` paketidir.
 
-Eğitim: `PEDAGOJI.md` — Yayın = Makale + Mühürlü Karaoke. Sayılar `docs/DURUM.md` ve koddadır. Bake SOP `docs/ops/akademi-bake-elkitabi.md` içindedir.
+Eğitim: `PEDAGOJI.md` — Yayın = 4 katmanlı eğitim videosu (Anayasa B4). Sayılar `docs/ops/DURUM.md` ve koddadır. Bake SOP `docs/ops/akademi-bake-elkitabi.md` içindedir.
 
 Kimlik **Supabase Auth**, veri **Prisma**, gövde **Next.js** App Router (**B1: Pragmatik Modüler Monolit + API-First**). Dronlar `@yetkin/kernel` ve `/api/v1` zarfını konuşur. Kamu vitrini Panel + Akademi + Kariyer + kanıt URL’si (`/vize`). Freelancer kilitli motordur. Motor 2 keşif fazındadır.
 

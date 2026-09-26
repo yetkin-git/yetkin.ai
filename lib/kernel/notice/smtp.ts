@@ -18,6 +18,7 @@ export type NoticeSmtpMail = {
   to: string;
   subject: string;
   text: string;
+  html?: string;
   fromName?: string;
 };
 
@@ -196,15 +197,37 @@ export async function sendNoticeSmtp(config: NoticeSmtpConfig, mail: NoticeSmtpM
         const headerFrom = mail.fromName
           ? `"${mail.fromName.replace(/[\r\n"<>]/g, "")}" <${from}>`
           : from;
+        const text = mail.text.replace(/\r?\n/g, CRLF);
+        const html = mail.html?.replace(/\r?\n/g, CRLF);
+        const mime = html
+          ? [
+              "MIME-Version: 1.0",
+              `Content-Type: multipart/alternative; boundary="rail-mail"`,
+              "",
+              "--rail-mail",
+              "Content-Type: text/plain; charset=UTF-8",
+              "Content-Transfer-Encoding: 8bit",
+              "",
+              text,
+              "--rail-mail",
+              "Content-Type: text/html; charset=UTF-8",
+              "Content-Transfer-Encoding: 8bit",
+              "",
+              html,
+              "--rail-mail--",
+            ]
+          : [
+              "MIME-Version: 1.0",
+              "Content-Type: text/plain; charset=UTF-8",
+              "Content-Transfer-Encoding: 8bit",
+              "",
+              text,
+            ];
         const body = [
           `From: ${headerFrom}`,
           `To: ${to}`,
           `Subject: ${encodeSubject(mail.subject)}`,
-          "MIME-Version: 1.0",
-          "Content-Type: text/plain; charset=UTF-8",
-          "Content-Transfer-Encoding: 8bit",
-          "",
-          mail.text.replace(/\r?\n/g, CRLF),
+          ...mime,
           ".",
         ].join(CRLF);
         await session.command(body, 250);

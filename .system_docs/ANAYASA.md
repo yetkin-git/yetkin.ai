@@ -4,12 +4,12 @@
 
 Bu belge iki katmandan oluşur:
 - **A Katmanı (A1–A5) — tek dokunulmaz katman:** Yasal, finansal ve temel güvenlik zorunluluklarıdır. Değişmez ve taviz verilemez.
-- **B Katmanı (B1–B5) — yaşayan ilkeler:** Mimari ve ürün rehberliğidir. Ürünle birlikte güncellenir. Operasyonel sayılar, env bayrakları ve HTTP kod tabloları burada durmaz; yaşayan kesit `docs/ops/DURUM.md`, uyumluluk aynası `docs/DURUM.md` ve `.system_docs/ops/` altındadır.
+- **B Katmanı (B1–B5) — yaşayan ilkeler:** Mimari ve ürün rehberliğidir. Ürünle birlikte güncellenir. Operasyonel sayılar, env bayrakları ve HTTP kod tabloları burada durmaz; tek yaşayan kesit `docs/ops/DURUM.md` içindedir. `docs/DURUM.md` yalnız oraya yönlendirir.
 
 | Alan | Değer |
 |------|--------|
 | Tarih | 16 Ağustos 2026 |
-| Son Reform | **21 Eylül 2026 (TEDAVİ-OFFICE-AI-01):** B4’e süre bandının müfredatı budayamayacağı cümlesi eklendi. A Katmanı (A1–A5) değişmez. |
+| Son Reform | **24 Eylül 2026 (REFORM-03):** B4 yayın formatı 4 katmanlı eğitim videosudur. A1’de satış fiyatı `PriceCatalogEntry`’dir; koddaki tutar soğuk tohumdur. Ders tabanı 5 dakika, kurs tabanı 6 derstir; üst tavan yoktur. A1–A5 çizgisi gevşetilmedi. |
 | Kamu markası / domain | `yetkin.ai` |
 | Kalıcı belgeler | `/.system_docs` |
 | Ops | `.system_docs/OPS_RUNBOOK.md` (db / paytr / inngest / dron) |
@@ -27,7 +27,7 @@ Bu bölüm doğrudan yasal yaptırım, finansal kayıp ve kritik veri güvenliğ
 * **Para Birimi Tamsayıdır:** Tüm şema ve tiplerde tutarlar **`amountMinor`** (kuruş cinsinden pozitif tamsayı) ve `currencyCode` olarak tutulur. Float (ondalıklı) para kullanımı kesinlikle yasaktır.
 * **Tek Finansal SSOT:** Sistemdeki tek bakiye kaynağı `Wallet` satırı ve append-only (yalnızca eklemeli) çalışan `LedgerEntry` defteridir. `User` modelinde bakiye kolonu bulunamaz. Çift bakiye, kontrolsüz holding havuzları ve defter dışı nakit yazıcılar yasaktır.
 * **Emanet İkinci Bakiye Değildir:** `EscrowHold` tablosu bağımsız bir sanal para havuzu değildir; lisanslı ödeme sağlayıcısı (PSP) nezdindeki işlem referansı (`referenceKey` / `pspPaymentId`) ile eşleşir. `Wallet`, platform içi merchant işlem bakiyesidir.
-* **Fiyat Dinamiktir:** Satış fiyatları kod içerisine gömülü sabitler olamaz; Super Admin yönetimindeki dinamik katalog fiyatı SSOT’tur.
+* **Fiyat Dinamiktir:** Satış fiyatının tek ve gerçek kaynağı Super Admin’in veritabanına yazdığı `PriceCatalogEntry.amountMinor` satırıdır. Koda gömülü tutar yalnız soğuk başlangıç tohumudur. Tohum vitrinde, JSON-LD’de ve tahsilatta satış fiyatı değildir. Katalog satırı yokken fiyat basılmaz. Super Admin tutarını tohum ezmez.
 
 ## A2. Ödeme Kuruluşu Değiliz (S43 ve 6493 Sayılı Kanun Uyumu)
 
@@ -61,12 +61,13 @@ Bu bölüm doğrudan yasal yaptırım, finansal kayıp ve kritik veri güvenliğ
 
 Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme rehberliğidir; ürün gerçeği değişince bu maddeler güncellenir. Import duvarı (kernel ↛ dikey) B1 mühendisliği olarak durur.
 
-## B1. Pragmatik Modüler Monolit ve API-First Sözleşme
+## B1. Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci
 
-* **Katman disiplini:** Modülerlik ESLint kuralları, TypeScript ve sağlıklı yazılım prensipleriyle korunur.
-* **Yeni yetenek önce v1 hop’tur.** Dronların ve ikincil istemcilerin tüketeceği yazma/okuma yeteneği `RAIL_V1_HOPS_META` siciline yazılır; kanonik handler aynı omurgada durur. RSC’nin `lib/` üzerinden **okuma/query** yüklemesi serbesttir. Yazma işlemi sessizce yalnız web BFF’te bırakılmaz.
-* **Dış sözleşme:** Mobil istemciler ve harici dronlar `/api/v1` JSON zarfı `{ ok, error, requestId, apiVersion, data }` ile konuşur. Shared Kernel `@yetkin/kernel` paketidir; saf (Prisma/Supabase bağımsız) sözleşme buradan sürülür.
-* **Kayıt kuralı:** Yeni oda/dron = `lib/dronlar/kayit.ts` kaydı + sözleşme + `DronBayrakları.isKapali(id)` bayrağı. Yasak liste değil, checklist vardır.
+* **Mimari ad:** Canlı ürün bu cümledir. Amiral gövde bu Next.js monolith’tir (`app/`, `lib/`). İnce sözleşme paketi `@yetkin/kernel` (`packages/kernel`)dir; para, katalog kimliği, v1 hop ve JSON zarfını taşır. Prisma ve Supabase taşımaz. Tek native istemci `apps/rail-is`tir ve aynı `/api/v1` hop sicilini tüketir. Ayrı deploy, ayrı veritabanı ve ayrı kimlik yoktur. «Sürü Dron» ve «Micro-Apps» bu adın yerine geçmez. İkinci istemci ancak aynı paketi ve aynı hop’u tüketerek doğar. Bugün tek native istemci vardır.
+* **Katman disiplini:** Modülerlik ESLint kuralları, TypeScript ve sağlıklı yazılım prensipleriyle korunur. `lib/kernel` dikey oda motoru import etmez.
+* **Yeni yetenek önce v1 hop’tur.** Tek native istemcinin tüketeceği yazma/okuma yeteneği `RAIL_V1_HOPS_META` siciline yazılır; kanonik handler aynı omurgada durur. RSC’nin `lib/` üzerinden **okuma/query** yüklemesi serbesttir. Yazma işlemi sessizce yalnız web BFF’te bırakılmaz.
+* **Dış sözleşme:** Tek native istemci `/api/v1` JSON zarfı `{ ok, error, requestId, apiVersion, data }` ile konuşur. Shared Kernel `@yetkin/kernel` paketidir.
+* **Kayıt kuralı:** Yeni oda = `lib/dronlar/kayit.ts` kaydı + sözleşme + `DronBayrakları.isKapali(id)` bayrağı. Yasak liste değil, checklist vardır. Kayıt ayrı bir uygulama açmaz.
 
 ## B2. Odaklar ve Dinamik Modül Alanı
 
@@ -81,22 +82,22 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 * **Ön Derleme Kapısı (`verify:prebuild`):** Bu kapı yalnızca A Katmanı'ndaki hayati güvenlik ve finansal unsurları denetler (sır taraması, tamsayı para, RLS durumu, IDOR testleri ve temel API sözleşmesi). Paket sürümü (`@yetkin/kernel`) v1 sözleşme kapısının parçasıdır.
 * **Esnek Grep ve Stil Taramaları:** Belirli Türkçe kelimeleri veya stil tercihlerini denetleyen taramalar derlemeyi kıran mutlak engeller değildir; isteğe bağlı kalite veya nightly raporlama araçlarıdır.
 
-## B4. Müfredat
+## B4. Müfredat ve Yayın Formatı
 
-* **Konunun Hakkı:** Compact yayın makalesi kelime tavanı veya sabit ders adediyle kesilmez. Süre bantları üretim standardıdır; müfredatın hakkını kesmek için gerekçe gösterilemez.
-* **Kelime bütçesi adı:** Mühürlü ses bütçesi kodda `SEALED_AUDIO_LIMITS` adını taşır. Compact için `COMPACT_ARTICLE_GUIDE` aralık önerisidir, tavan değildir.
-* **Müfredat ilkesi `.system_docs/PEDAGOJI.md` içindedir.** Anayasa süre bandı, SKU adedi, kaset listesi veya karaoke dakikası taşımaz.
-* **Yayın = makale + mühürlü karaoke; sayılar ve müfredat koddadır.** Canlı kaset/sınav yolu `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` SSOT’udur; yaşayan haftalık kesit `docs/ops/DURUM.md` içindedir (`docs/DURUM.md` uyumluluk aynasıdır). İzlemede canlı üretici API (`VIDEO_GEN` / TTS) yoktur. Bake ayrıntısı `docs/ops/akademi-bake-elkitabi.md` içindedir.
+* **Yayın formatı:** Yetkin.ai eğitim modeli; sade vatandaş diliyle anlatılan, 4 medya katmanından (Gemini 3.1 TTS Ses + Lyria 3.5 Ducking Müzik + Nano Banana/Veo 3.1 Reji + Cue/Karaoke Rozetleri) oluşan EĞİTİM VİDEOSUDUR.
+* **Konunun Hakkı:** Ders makaleye, okuma dökümanına veya «makale + karaoke» yayınına indirgenmez. Süre bantları üretim standardıdır; müfredatın hakkını kesmek için gerekçe gösterilemez.
+* **Süre ve sınır:** Bir ders en az 5 dakikadır. Bir kurs en az 6 derstir. Metni kırmak veya konuşmayı hızlandırmak için üst dakika veya üst ders tavanı yoktur. Taban `lib/academy/production-standard.ts` içindedir (`ACADEMY_AI_LESSON_DURATION_MIN_MINUTES`, `ACADEMY_AI_LESSON_COUNT_MIN`).
+* **Müfredat ilkesi `.system_docs/PEDAGOJI.md` içindedir.** Haftalık SKU envanteri ve kaset listesi Anayasa maddesi değildir; sayılar ve müfredat koddadır.
+* **Canlı yol** `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` SSOT’udur; yaşayan haftalık kesit `docs/ops/DURUM.md` içindedir. `docs/DURUM.md` yalnız oraya yönlendirir. İzlemede canlı üretici API (`VIDEO_GEN` / TTS) yoktur. Bake ayrıntısı `docs/ops/akademi-bake-elkitabi.md` içindedir.
 * **Karar tablosu (tek bakış, sıfır atlama):**
 
 | Soru | SSOT |
 |------|------|
-| Ders / kurs süre bandı | `lib/academy/production-standard.ts` |
+| Yayın formatı | Bu madde (B4) ve `.system_docs/PEDAGOJI.md` |
+| Ders tabanı (≥ 5 dk) ve kurs tabanı (≥ 6 ders); üst tavan yok | `lib/academy/production-standard.ts` |
 | Sınav barajı | `lib/academy/exam.ts` (`ACADEMY_EXAM_PASS_SCORE`) |
-| Compact makale kelime rehberi | `COMPACT_ARTICLE_GUIDE` |
-| Mühürlü ses bütçesi | `SEALED_AUDIO_LIMITS` |
 | Canlı kaset / sınav yolu | `lib/academy/pilot-sku.ts`, `lib/academy/curricula/lesson-index.ts` |
-| Haftalık kesit | `docs/ops/DURUM.md` (`docs/DURUM.md` uyumluluk aynası) |
+| Haftalık kesit | `docs/ops/DURUM.md` (`docs/DURUM.md` yalnız yönlendirir) |
 | Bake SOP | `docs/ops/akademi-bake-elkitabi.md` |
 | Müfredat ilkesi | `.system_docs/PEDAGOJI.md` |
 

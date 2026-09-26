@@ -10,14 +10,14 @@ import "./load-academy-bake-env";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { GoogleGenAI } from "@google/genai";
+import { academyLessonBedMood, academyLessonBedPrompt } from "@/lib/academy/lesson-bed-duck";
 import { academyLessonBedDiskPath } from "@/lib/academy/media-release-seal";
 
 const MIN_GEMINI_KEY_CHARS = 8;
 const LESSON_KEY = "01_office_ai-1";
 const COURSE_SLUG = "01_office_ai";
 const LYRIA_MODEL = "lyria-3.5";
-const BED_PROMPT =
-  "Instrumental only, no vocals, no lyrics. Warm contemporary Turkish office underscore for an Excel training lesson. Soft piano, muted guitar, light brushed percussion, gentle analog pad. Loop-friendly 6 to 8 minutes. Designed as a ducked bed: stays quiet under speech, swells politely in 3 to 5 second breath gaps. No melody that fights a female narrator. 44.1 kHz stereo.";
+const BED_PROMPT = academyLessonBedPrompt(academyLessonBedMood(LESSON_KEY));
 
 type GeminiPart = {
   text?: string;

@@ -36,7 +36,7 @@ export const OFFICE_AI_SEAL_PROOF =
 
 /** SERP ve katalog kartı tavanı — aynı iddia, kısa. */
 export const OFFICE_AI_SEAL_PROOF_SHORT =
-  "Mühür: 8 ders + 10 soru / 70. Sunucuda dosya kontrolü yok." as const;
+  "Sertifika: 8 ders + 10 soru / 70. Sunucuda dosya kontrolü yok." as const;
 
 export type SemLandingKeyword = (typeof SEM_LANDING_KEYWORDS)[number];
 
@@ -49,12 +49,12 @@ const FAQ = {
   aiTraining: {
     question: "yetkin.ai yapay zeka eğitimi ve online kurs sunuyor mu?",
     answer:
-      "Evet. yetkin.ai yapay zeka eğitimi ve online kurs sunar. Amiral kurs yayındadır. Kardeş müfredat ve prompt eğitimi Çok Yakında / Hazırlanıyor rozetiyle durur; mühürsüz ders için hayali oynatıcı basılmaz. Dersler ödeme sonrası açılır.",
+      "Evet. yetkin.ai yapay zeka eğitimi ve online kurs sunar. Amiral kurs yayındadır. Kardeş müfredat ve prompt eğitimi Çok Yakında / Hazırlanıyor rozetiyle durur; sesi bitmemiş ders için boş oynatıcı basılmaz. Dersler ödeme sonrası açılır.",
   },
   certificate: {
     question: "Yapay zeka sertifikası nasıl alınır?",
     answer:
-      "Eğitimi bitir, testi 70+ ile geç. Yapay zeka sertifikan sunucuda mühürlenir; sahte rozet eklenmez.",
+      "Eğitimi bitir, testi 70+ ile geç. Yapay zeka sertifikan sunucuda basılır; sahte rozet eklenmez.",
   },
   visa: {
     question: "Kariyer vizesi nedir?",
@@ -64,7 +64,7 @@ const FAQ = {
   prompt: {
     question: "Prompt eğitimi hangi kursta?",
     answer:
-      "Prompt eğitimi (ChatGPT, Claude ve Perplexity) Akademi vitrininde Çok Yakında / Hazırlanıyor kartıdır. Mühürlenince oynatıcı açılır.",
+      "Prompt eğitimi (ChatGPT, Claude ve Perplexity) Akademi vitrininde Çok Yakında / Hazırlanıyor kartıdır. Sesi bitince oynatıcı açılır.",
   },
   online: {
     question: "Online kurs mobilde işler mi?",
@@ -121,7 +121,7 @@ export const OFFICE_AI_COURSE_FAQ: readonly LandingFaqItem[] = [
   {
     question: "KVKK'ya uygun mu? Verilerim güvende mi?",
     answer:
-      `Eğitimde anlatılan KVKK kuralları, veri yüklerken uyulan adımlardır; hukuki danışmanlık yerine geçmez. Müşteri listesi, IBAN, T.C. Kimlik No, maaş tablosu ve şirket sırrı ham haliyle açık yapay zekâ ekranına yüklenmez; 2. derste maskeleme kilitlenir (Müşteri A, MASKELİ_IBAN). Aboneliğin ücretli (Plus/Pro/Team) olsa bile açık sohbete ham kişisel veri ve şirket sırrı atılamaz. Ücretli üyelik modeli eğitmese de veri sunucuya gider. Yüklemeden önce her zaman maskeliyoruz. ${ACADEMY_KVKK_DELETE_BUTTON_SUMMARY} Modele tablonun mantığını öğretmek için üç maskeli örnek satır yeter; bin gerçek satır gerekmez. Ödeme PayTR iFrame + 3D Secure ile yürür; kart numarası platformda tutulmaz.`,
+      `Eğitimde anlatılan KVKK kuralları, veri yüklerken uyulan adımlardır; hukuki danışmanlık yerine geçmez. Müşteri listesi, IBAN, T.C. Kimlik No, maaş tablosu ve şirket sırrı ham haliyle açık yapay zekâ ekranına yüklenmez; 2. derste maskeleme kilitlenir (Müşteri A, MASKELİ_IBAN). Aboneliğin ücretli (Plus/Pro/Team) olsa bile açık sohbete ham kişisel veri ve şirket sırrı atılamaz. Ücretli üyelik modeli eğitmese de veri sunucuya gider. Yüklemeden önce her zaman maskeliyoruz. ${ACADEMY_KVKK_DELETE_BUTTON_SUMMARY} Maskeleme kimliği takma değerle değiştirir. Uydurma üç satır yalnız tablo şeklini gösterir; bin satırın toplamını vermez. Ödeme PayTR iFrame + 3D Secure ile yürür; kart numarası platformda tutulmaz.`,
   },
   {
     question: "Sınav barajı ve süresi nedir?",

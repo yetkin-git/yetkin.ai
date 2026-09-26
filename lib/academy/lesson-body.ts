@@ -194,7 +194,7 @@ export const ACADEMY_LESSON_ACT_HEADINGS = {
 
 export type AcademyLessonAct = keyof typeof ACADEMY_LESSON_ACT_HEADINGS;
 
-/** PEDAGOJI.md §F — tek eğitmen, 4 adımlı doygunluk. Anahtarlar zaman çizelgesi mührüdür. */
+/** PEDAGOJI.md §B — tek eğitmen, 4 adımlı doygunluk. Anahtarlar zaman çizelgesi mührüdür. */
 export const ACADEMY_FIVE_ACT_HEADINGS = {
   warmup: "Isınma / İş Problemi",
   problem: "Birinci Senaryo / Temel Yöntem",

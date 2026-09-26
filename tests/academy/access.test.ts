@@ -4,12 +4,20 @@ import {
   createAcademyAdminBypassPurchase,
   createAcademyGrantPurchase,
   hasAcademyAdminBypass,
+  hasAcademyLockedLessonContentAccess,
+  hasAcademyOynaAccess,
   hasPurchased,
   hasUnlimitedAcademyAccess,
   hasAcademyArtifactAccess,
   hasAcademyPlayerAccess,
   isZeroFeeAcademyGrantOpen,
 } from "@/lib/academy/access";
+import {
+  CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT,
+  CITIZEN_TEST_ACCOUNT_EMAIL,
+  isSuperAdminActor,
+  resolveCanonicalSuperAdminEmail,
+} from "@/lib/kernel/auth/super-admin";
 import { hasCommercialAcademyEnrolment } from "@/lib/academy/enrolment";
 import { mergePublishedAcademyCatalog, publishedCoursesFromSeed } from "@/lib/academy/published-catalog";
 import { ACADEMY_COURSE_SEEDS } from "@/lib/academy/seed";
@@ -89,6 +97,55 @@ describe("akademi Super Admin erişimi ve katalog birleştirme", () => {
       false,
     );
     expect(hasPurchased(null, { userId: "citizen-1", email: "vatandas@yetkin.rail" })).toBe(false);
+  });
+
+  it("varsayılan Super Admin yapinet360@gmail.com; yetkin.vision vatandaş kalır", () => {
+    delete process.env.SUPER_ADMIN_USER_ID;
+    delete process.env.CANONICAL_SUPER_ADMIN_EMAIL;
+    expect(resolveCanonicalSuperAdminEmail()).toBe(CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT);
+    expect(CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT).toBe("yapinet360@gmail.com");
+    expect(CITIZEN_TEST_ACCOUNT_EMAIL).toBe("yetkin.vision@gmail.com");
+    expect(isSuperAdminActor({ id: ADMIN_ID, email: "yapinet360@gmail.com" })).toBe(true);
+    expect(isSuperAdminActor({ id: ADMIN_ID, email: CITIZEN_TEST_ACCOUNT_EMAIL })).toBe(false);
+
+    process.env.CANONICAL_SUPER_ADMIN_EMAIL = CITIZEN_TEST_ACCOUNT_EMAIL;
+    process.env.SUPER_ADMIN_USER_ID = ADMIN_ID;
+    expect(resolveCanonicalSuperAdminEmail()).toBe("yapinet360@gmail.com");
+    expect(isSuperAdminActor({ id: ADMIN_ID, email: CITIZEN_TEST_ACCOUNT_EMAIL })).toBe(false);
+    expect(hasAcademyAdminBypass({ userId: ADMIN_ID, email: CITIZEN_TEST_ACCOUNT_EMAIL })).toBe(false);
+    expect(hasAcademyPlayerAccess(null, { userId: ADMIN_ID, email: CITIZEN_TEST_ACCOUNT_EMAIL })).toBe(
+      false,
+    );
+    expect(hasAcademyOynaAccess(null, { userId: ADMIN_ID, email: CITIZEN_TEST_ACCOUNT_EMAIL }, new Date(), "production")).toBe(
+      false,
+    );
+    expect(hasAcademyOynaAccess(null, { userId: ADMIN_ID, email: "yapinet360@gmail.com" }, new Date(), "production")).toBe(
+      true,
+    );
+    expect(
+      hasAcademyOynaAccess(null, { userId: "citizen-1", email: "vatandas@yetkin.rail" }, new Date(), "production"),
+    ).toBe(false);
+    expect(hasAcademyLockedLessonContentAccess(null)).toBe(false);
+    expect(
+      hasAcademyLockedLessonContentAccess(null, new Date(), {
+        userId: ADMIN_ID,
+        email: "yapinet360@gmail.com",
+      }),
+    ).toBe(true);
+    expect(
+      hasAcademyLockedLessonContentAccess(null, new Date(), {
+        userId: ADMIN_ID,
+        email: CITIZEN_TEST_ACCOUNT_EMAIL,
+      }),
+    ).toBe(false);
+    delete process.env.SUPER_ADMIN_USER_ID;
+    process.env.CANONICAL_SUPER_ADMIN_EMAIL = ADMIN_EMAIL;
+    expect(hasAcademyOynaAccess(null, { userId: ADMIN_ID, email: ADMIN_EMAIL }, new Date(), "test")).toBe(
+      true,
+    );
+    expect(
+      hasAcademyOynaAccess(null, { userId: ADMIN_ID, email: ADMIN_EMAIL }, new Date(), "production"),
+    ).toBe(true);
   });
 
   it("mühürlü vitrin tohumu amiral SKU taşır; hayalet SKU girmez", () => {

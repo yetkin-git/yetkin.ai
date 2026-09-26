@@ -1,6 +1,6 @@
 /**
  * TTS paragraf bloğu — Gemini'ye 3–5 sn mikro dilim gitmez.
- * Ders metni 12–15 doğal nefes bloğuna paketlenir; ders başı istek 10–12 bandındadır.
+ * Ders metni doğal paragraf bloklarına paketlenir. Fırın ders başına tam 10–12 istek atar.
  * Cümle geçişlerindeki [pause] bake hattında enjekte edilir (teleprompter metni temiz kalır).
  * Dilimler arasına 0.3–0.5 sn sessizlik + 6.5 sn RPM kalkanı konur.
  */
@@ -17,9 +17,10 @@ export const ACADEMY_TTS_BREATH_CHUNK_MAX_SEC = 70;
 export const ACADEMY_TTS_BREATH_ATOMIC_MAX_SEC = 80;
 /** RPM 10/dk tavanının altında kalmak için istekler arası zorunlu boşluk. */
 export const ACADEMY_TTS_RPM_GAP_MS = 6_500;
-/** Nefes bloğu tavanı — bir ders API’ye en fazla bu kadar doğal blok gider. */
-export const ACADEMY_TTS_LESSON_BREATH_BLOCK_MAX = 15;
-/** Ders başı istek hedef bandı (kota / request shaping). */
+/** Bir blok bu süreyi aşınca diksiyon düşer; birleştirme burada durur, bant yine 10–12 kalır. */
+export const ACADEMY_TTS_LESSON_BLOCK_DICTION_MAX_SEC = 120;
+/** Ders başı istek bandı — tam 10–12 doğal paragraf bloğu. */
+export const ACADEMY_TTS_LESSON_BREATH_BLOCK_MAX = 12;
 export const ACADEMY_TTS_LESSON_REQUEST_MIN = 10;
 export const ACADEMY_TTS_LESSON_REQUEST_MAX = 12;
 
@@ -33,19 +34,29 @@ export function academyTtsLessonRequestBudget(count: number): AcademyTtsLessonRe
   return {
     count,
     inTargetBand: count >= ACADEMY_TTS_LESSON_REQUEST_MIN && count <= ACADEMY_TTS_LESSON_REQUEST_MAX,
-    withinHardMax: count > 0 && count <= ACADEMY_TTS_LESSON_BREATH_BLOCK_MAX,
+    withinHardMax: count >= ACADEMY_TTS_LESSON_REQUEST_MIN && count <= ACADEMY_TTS_LESSON_REQUEST_MAX,
   };
 }
 
-/** Yeni fırınlama: tavan 15; 10–12 hedef. Mühürlü kaset kotayı ezer (sıfır re-bake). */
-export function assertAcademyTtsLessonRequestBudget(count: number, sealed: boolean): void {
-  if (sealed) {
+/**
+ * Yeni fırın: ders başına 10–12 istek. Metin 10 bloğa yetmeyecek kadar kısaysa
+ * mikro cümle üretilmez; uzun metin 12 üstüne taşmaz.
+ */
+export function assertAcademyTtsLessonRequestBudget(
+  count: number,
+  _sealed: boolean,
+  speechSec = Number.POSITIVE_INFINITY,
+): void {
+  if (count <= 0) {
+    throw new Error("TTS istek yok: konuşma metni boş.");
+  }
+  const canFillBand = speechSec >= ACADEMY_TTS_BREATH_CHUNK_MIN_SEC * ACADEMY_TTS_LESSON_REQUEST_MIN;
+  if (!canFillBand) {
     return;
   }
-  const budget = academyTtsLessonRequestBudget(count);
-  if (!budget.withinHardMax) {
+  if (count < ACADEMY_TTS_LESSON_REQUEST_MIN || count > ACADEMY_TTS_LESSON_REQUEST_MAX) {
     throw new Error(
-      `TTS istek tavanı aşıldı: ${count} (hedef ${ACADEMY_TTS_LESSON_REQUEST_MIN}–${ACADEMY_TTS_LESSON_REQUEST_MAX}, tavan ${ACADEMY_TTS_LESSON_BREATH_BLOCK_MAX}). Paragrafları 10–12 doğal nefes bloğuna birleştir.`,
+      `TTS istek bandı ${ACADEMY_TTS_LESSON_REQUEST_MIN}–${ACADEMY_TTS_LESSON_REQUEST_MAX}; gelen ${count}.`,
     );
   }
 }
@@ -175,4 +186,112 @@ export function splitAcademyTtsBreathChunks(text: string): string[] {
     return splitOversizedUnit(trimmed);
   }
   return packSpeechChunks(sentences);
+}
+
+export type AcademyTtsLessonRequest = {
+  /** Kaynak atom indeksleri. Bölünmüş atom iki istekte de aynı indeksi taşır. */
+  atomIndexes: readonly number[];
+  text: string;
+};
+
+function canSplitBlock(text: string): { left: string; right: string } | null {
+  const sentences = splitBy(text, SENTENCE_BOUNDARY);
+  if (sentences.length < 2) {
+    return null;
+  }
+  let best: { left: string; right: string; gap: number } | null = null;
+  const total = speechSec(text);
+  const half = total / 2;
+  for (let cut = 1; cut < sentences.length; cut += 1) {
+    const left = sentences.slice(0, cut).join(" ");
+    const right = sentences.slice(cut).join(" ");
+    const leftSec = speechSec(left);
+    const rightSec = speechSec(right);
+    if (leftSec < ACADEMY_TTS_BREATH_CHUNK_MIN_SEC || rightSec < ACADEMY_TTS_BREATH_CHUNK_MIN_SEC) {
+      continue;
+    }
+    const gap = Math.abs(leftSec - half);
+    if (!best || gap < best.gap) {
+      best = { left, right, gap };
+    }
+  }
+  return best ? { left: best.left, right: best.right } : null;
+}
+
+/**
+ * Paragrafları ders başına 10–12 Gemini isteğine paketler.
+ * Komşu kısa bloklar birleşir; dev blok cümle grubundan bölünür. Tek cümlelik istek üretilmez.
+ */
+export function packAcademyTtsLessonRequests(paragraphs: readonly string[]): AcademyTtsLessonRequest[] {
+  const atoms = paragraphs.flatMap((paragraph) => splitAcademyTtsBreathChunks(paragraph));
+  if (atoms.length === 0) {
+    return [];
+  }
+  type Group = { atomIndexes: number[]; text: string; sec: number };
+  let groups: Group[] = atoms.map((text, index) => ({
+    atomIndexes: [index],
+    text,
+    sec: speechSec(text),
+  }));
+  const totalSec = groups.reduce((sum, group) => sum + group.sec, 0);
+  const canFillBand = totalSec >= ACADEMY_TTS_BREATH_CHUNK_MIN_SEC * ACADEMY_TTS_LESSON_REQUEST_MIN;
+
+  while (groups.length > ACADEMY_TTS_LESSON_REQUEST_MAX) {
+    let best = -1;
+    let bestSum = Number.POSITIVE_INFINITY;
+    for (let index = 0; index < groups.length - 1; index += 1) {
+      const sum = groups[index]!.sec + groups[index + 1]!.sec;
+      if (sum <= ACADEMY_TTS_LESSON_BLOCK_DICTION_MAX_SEC && sum < bestSum) {
+        bestSum = sum;
+        best = index;
+      }
+    }
+    if (best < 0) {
+      break;
+    }
+    const left = groups[best]!;
+    const right = groups[best + 1]!;
+    const merged: Group = {
+      atomIndexes: [...left.atomIndexes, ...right.atomIndexes],
+      text: `${left.text} ${right.text}`.replace(/\s+/gu, " ").trim(),
+      sec: left.sec + right.sec,
+    };
+    groups = [...groups.slice(0, best), merged, ...groups.slice(best + 2)];
+  }
+
+  while (canFillBand && groups.length < ACADEMY_TTS_LESSON_REQUEST_MIN) {
+    let best = -1;
+    let bestSec = 0;
+    for (let index = 0; index < groups.length; index += 1) {
+      const group = groups[index]!;
+      if (group.sec > bestSec && canSplitBlock(group.text)) {
+        best = index;
+        bestSec = group.sec;
+      }
+    }
+    if (best < 0) {
+      break;
+    }
+    const group = groups[best]!;
+    const split = canSplitBlock(group.text);
+    if (!split) {
+      break;
+    }
+    const left: Group = {
+      atomIndexes: group.atomIndexes,
+      text: split.left,
+      sec: speechSec(split.left),
+    };
+    const right: Group = {
+      atomIndexes: group.atomIndexes,
+      text: split.right,
+      sec: speechSec(split.right),
+    };
+    groups = [...groups.slice(0, best), left, right, ...groups.slice(best + 1)];
+  }
+
+  return groups.map((group) => ({
+    atomIndexes: group.atomIndexes,
+    text: group.text,
+  }));
 }

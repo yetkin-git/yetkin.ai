@@ -17,8 +17,8 @@ describe("Dron punchcard — web timings JSON türevi", () => {
     const dron = dronAcademyPunchcardsForLesson("01_office_ai-1");
     expect(dron).toEqual(derived);
     expect(dron).toHaveLength(8);
-    expect(dron[0]).toMatchObject({ id: "cue-01", label: "GİRİŞ KÖPRÜSÜ", start: 2, end: 41.56 });
-    expect(dron.at(-1)?.end).toBe(688.68);
+    expect(dron[0]).toMatchObject({ id: "cue-01", label: "GİRİŞ KÖPRÜSÜ", start: 2, end: 39.64 });
+    expect(dron.at(-1)?.end).toBe(691.84);
     expect(dronLessonDeliveryLabel("01_office_ai-1")).toBe("Sesli anlatım");
   });
 
@@ -35,15 +35,15 @@ describe("Dron punchcard — web timings JSON türevi", () => {
     const dron = dronAcademyPunchcardsForLesson("01_office_ai-6");
     expect(dron).toEqual(derived);
     expect(dron).toHaveLength(8);
-    expect(dron.at(-1)?.end).toBe(505.6);
-    expect(dron.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(57.4);
+    expect(dron.at(-1)?.end).toBe(506.04);
+    expect(dron.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(58.2);
     expect(dronLessonDeliveryLabel("01_office_ai-6")).toBe("Sesli anlatım");
   });
 
   it("KVKK kaseti mühürlü; Dron sesli anlatım taşır", () => {
     const dron = dronAcademyPunchcardsForLesson("01_office_ai-k1");
     expect(dron).toHaveLength(8);
-    expect(dron.at(-1)?.end).toBe(642.16);
+    expect(dron.at(-1)?.end).toBe(702);
     expect(dronLessonDeliveryLabel("01_office_ai-k1")).toBe("Sesli anlatım");
   });
 

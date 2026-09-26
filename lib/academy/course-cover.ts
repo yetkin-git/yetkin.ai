@@ -6,6 +6,7 @@
 import { academyMicroVideoPublicSources } from "@/lib/academy/lesson-media";
 import {
   ACADEMY_FLAGSHIP_SKU_SLUG,
+  ACADEMY_OFF201_STOREFRONT_SLUG,
   isAcademyGrowthSkuSlug,
   isAcademyProductionLineSkuSlug,
 } from "@/lib/academy/pilot-sku";
@@ -19,8 +20,15 @@ const FLAGSHIP_CINEMA_COVER_STEM = "01_office_ai-1-eye" as const;
 /** Favicon / marka mührü — vitrin kartı kapağı değildir. */
 export const ACADEMY_BRAND_FALLBACK_COVER = "/icon.svg" as const;
 
-/** Amiral 1. bölüm — mühürlü süre 572 sn ≈ 10 dk. */
-export const ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN = 10 as const;
+/** OFF-201 varsayılan kapak — amiral ile aynı sıcak çalışma alanı fotoğrafı. */
+export const ACADEMY_OFF201_DEFAULT_COVER = "/academy/covers/01_office_ai_ileri.jpg" as const;
+
+/**
+ * Amiral 1. bölüm vitrin dakikası.
+ * Mühürlü kaset `01_office_ai-1` 691.84 sn; antre ve oynatıcı
+ * `academyMediaDurationMin(academySealedAudioDurationSec)` ile 12 dk basar.
+ */
+export const ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN = 12 as const;
 
 /** Katalog kartı — mobil tam genişlik, tablet yarım, masaüstü üçte bir. */
 export const ACADEMY_COURSE_COVER_SIZES =
@@ -63,6 +71,9 @@ export function academyCourseIsComingSoon(slug: string): boolean {
  * Diğer SKU `null` döner; kart CSS Yakında plakası basar, OG varsayılan plakaya düşer.
  */
 export function academyCourseCoverPath(slug: string): string | null {
+  if (slug === ACADEMY_OFF201_STOREFRONT_SLUG) {
+    return ACADEMY_OFF201_DEFAULT_COVER;
+  }
   if (academyCourseHasCinemaCover(slug)) {
     return `/academy/cinema/${FLAGSHIP_CINEMA_COVER_STEM}.webp`;
   }

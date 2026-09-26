@@ -13,6 +13,7 @@ import {
   academyMediaDurationMin,
   academyProgressPercent,
 } from "@/lib/academy/lesson-meta";
+import { ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN } from "@/lib/academy/course-cover";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { academyAntreVisaPromise } from "@/lib/academy/antre-visa";
 import { academyLearningOutcomesForSlug } from "@/lib/academy/learning-outcomes";
@@ -135,6 +136,14 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
       "01_office_ai-w1",
       "01_office_ai-6",
     ]);
+    expect(syllabus.lessons[0]?.key).toBe("01_office_ai-1");
+    expect(syllabus.lessons[0]?.durationMin).toBe(ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN);
+    expect(syllabus.lessons[0]?.durationMin).toBe(
+      academyLessonDurationMin({
+        key: "01_office_ai-1",
+        courseSlug: "01_office_ai",
+      }),
+    );
     expect(syllabus.lessons[1]?.key).toBe("01_office_ai-k1");
     expect(syllabus.lessons[1]?.kind).toBe("audio");
     expect(syllabus.lessons[5]?.title).toMatch(/E-Posta Akışı/u);

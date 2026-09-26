@@ -37,6 +37,7 @@ import {
 } from "@/lib/academy/excel-workspace";
 import { academyExcelFocusZoomActive } from "@/lib/academy/excel-focus-zoom";
 import { ACADEMY_GOLDEN_WAITER_RATIO, academyHowtoActiveIndexAtTime, academyHowtoSteps } from "@/lib/academy/lesson-beat-visual";
+import { academyOff201FrameSlide } from "@/lib/academy/off201-spoken-visual";
 import { academyLessonIntroIsActive, academyLessonOutroIsActive, ACADEMY_INTRO_GENERIC_TITLE, academyOutroSummaryLabels } from "@/lib/academy/lesson-intro";
 import {
   academyAiDeskActiveTab,
@@ -211,11 +212,12 @@ export function LessonCinemaEyeLayer({
   const punchcard = academyActivePunchcard(punchcards, currentTime);
   const clockCue = academyPlaybackCueAtTime(punchcards, currentTime);
   const clockCueId = clockCue?.id ?? card?.cueId;
-  const waiterSlide = clockCueId
+  const waiterBase = clockCueId
     ? academyVisualWaiterSlide(stage.lessonKey, clockCueId, {
         includeVeoTable: card ? academyVisualVeoPunchHasEnded(card, currentTime) : true,
       })
     : null;
+  const waiterSlide = waiterBase ? academyOff201FrameSlide(waiterBase, currentTime) : null;
   const excelFocusZoom = academyExcelFocusZoomActive(stage.lessonKey, currentTime);
   const compare = clockCueId ? academyVisualCompareStage(stage.lessonKey, clockCueId) : null;
   const beat = compare?.beat ?? waiterSlide?.beat;
@@ -360,6 +362,7 @@ export function LessonCinemaEyeLayer({
       ) : null}
       {compare ? (
         <div
+          key={clockCueId}
           className="academy-player-waiter academy-player-compare"
           data-academy-waiter-stage={academyVisualWaiterStageFromLayout(compare.after.layout)}
           data-academy-compare="split"
@@ -371,18 +374,26 @@ export function LessonCinemaEyeLayer({
             data-academy-compare-pane="before"
           >
             <p className="academy-player-compare-label">{compare.beforeLabel}</p>
-            <LessonWaiterWorkspace slide={compare.before} pane="before" />
+            <LessonWaiterWorkspace
+              slide={academyOff201FrameSlide(compare.before, currentTime, { allowSwap: false })}
+              pane="before"
+            />
           </div>
           <div
             className="academy-player-compare-pane academy-player-compare-pane--after"
             data-academy-compare-pane="after"
           >
             <p className="academy-player-compare-label">{compare.afterLabel}</p>
-            <LessonWaiterWorkspace slide={compare.after} pane="after" currentTime={currentTime} />
+            <LessonWaiterWorkspace
+              slide={academyOff201FrameSlide(compare.after, currentTime, { allowSwap: false })}
+              pane="after"
+              currentTime={currentTime}
+            />
           </div>
         </div>
       ) : waiterSlide ? (
         <div
+          key={clockCueId}
           className="academy-player-waiter"
           data-academy-waiter-stage={academyVisualWaiterStageFromLayout(waiterSlide.layout)}
           data-academy-clock-cue={clockCueId}

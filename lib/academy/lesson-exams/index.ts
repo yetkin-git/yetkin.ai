@@ -8,6 +8,12 @@ import officeAiLesson6ExamJson from "./01_office_ai-6.json" with { type: "json" 
 import officeAiLessonG1ExamJson from "./01_office_ai-g1.json" with { type: "json" };
 import officeAiLessonW1ExamJson from "./01_office_ai-w1.json" with { type: "json" };
 import officeAiLessonK1ExamJson from "./01_office_ai-k1.json" with { type: "json" };
+import officeAiIleriLesson1ExamJson from "./01_office_ai_ileri-1.json" with { type: "json" };
+import officeAiIleriLesson2ExamJson from "./01_office_ai_ileri-2.json" with { type: "json" };
+import officeAiIleriLesson3ExamJson from "./01_office_ai_ileri-3.json" with { type: "json" };
+import officeAiIleriLesson4ExamJson from "./01_office_ai_ileri-4.json" with { type: "json" };
+import officeAiIleriLesson5ExamJson from "./01_office_ai_ileri-5.json" with { type: "json" };
+import officeAiIleriLesson6ExamJson from "./01_office_ai_ileri-6.json" with { type: "json" };
 
 export const ACADEMY_LESSON_EXAM_PASS_SCORE = 70 as const;
 
@@ -97,6 +103,36 @@ const LESSON_EXAMS: Readonly<Record<string, AcademyLessonExam>> = {
   },
   "01_office_ai-k1": parseLessonExam(officeAiLessonK1ExamJson) ?? {
     lessonKey: "01_office_ai-k1",
+    passScore: ACADEMY_LESSON_EXAM_PASS_SCORE,
+    questions: [],
+  },
+  "01_office_ai_ileri-1": parseLessonExam(officeAiIleriLesson1ExamJson) ?? {
+    lessonKey: "01_office_ai_ileri-1",
+    passScore: ACADEMY_LESSON_EXAM_PASS_SCORE,
+    questions: [],
+  },
+  "01_office_ai_ileri-2": parseLessonExam(officeAiIleriLesson2ExamJson) ?? {
+    lessonKey: "01_office_ai_ileri-2",
+    passScore: ACADEMY_LESSON_EXAM_PASS_SCORE,
+    questions: [],
+  },
+  "01_office_ai_ileri-3": parseLessonExam(officeAiIleriLesson3ExamJson) ?? {
+    lessonKey: "01_office_ai_ileri-3",
+    passScore: ACADEMY_LESSON_EXAM_PASS_SCORE,
+    questions: [],
+  },
+  "01_office_ai_ileri-4": parseLessonExam(officeAiIleriLesson4ExamJson) ?? {
+    lessonKey: "01_office_ai_ileri-4",
+    passScore: ACADEMY_LESSON_EXAM_PASS_SCORE,
+    questions: [],
+  },
+  "01_office_ai_ileri-5": parseLessonExam(officeAiIleriLesson5ExamJson) ?? {
+    lessonKey: "01_office_ai_ileri-5",
+    passScore: ACADEMY_LESSON_EXAM_PASS_SCORE,
+    questions: [],
+  },
+  "01_office_ai_ileri-6": parseLessonExam(officeAiIleriLesson6ExamJson) ?? {
+    lessonKey: "01_office_ai_ileri-6",
     passScore: ACADEMY_LESSON_EXAM_PASS_SCORE,
     questions: [],
   },

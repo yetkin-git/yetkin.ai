@@ -28,8 +28,9 @@ const countLines = Object.entries(keysBySlug)
 const body = `/**
  * Katalog / devam paneli — gövdesiz müfredat indeksi.
  * Taslak gövdeleri ve curriculum.ts bu dosyayı import etmez; bu dosya onları import etmez.
- * Anahtarlar taslak key dizisidir; ofis amiral 9 ders. Faz 1 kilit sıra
- * Excel → KVKK → rapor → slayt → hata avı → e-posta ritüeli → Gmail → Word → Cuma 30.
+ * Anahtarlar taslak key dizisidir; ofis amiral 8 ders (\`lesson-index.ts\`).
+ * Excel → KVKK → rapor → slayt → hata avı → e-posta (g1) → Word → Cuma 30.
+ * \`01_office_ai-4\` sınav yolunda yoktur.
  */
 
 export const CURRICULUM_LESSON_KEYS_BY_SLUG: Readonly<Record<string, readonly string[]>> = {
