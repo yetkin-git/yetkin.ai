@@ -16,7 +16,7 @@
  * Bu sürümde yoktur: XLOOKUP, özet tablo, OCR, belge birleştirme.
  *
  * Ön koşul kapısı yoktur. Ekrandaki öğüt metni yeter.
- * Ders 3–5 mühürlü sestir. Ders 1, 2 ve 6 yeniden fırın kuyruğundadır.
+ * OFF-201 0/6 mühürlüdür. İptal haritasındadır, Kore/Gemini 3.1 TTS re-bake kuyruğundadır. Satış KAPALIDIR.
  */
 
 import {

@@ -29,7 +29,8 @@ export {
  * OFF-201 canlı modül.
  * `curricula/index.ts` bu diziyi `CURRICULUM_DRAFTS_BY_SLUG` ve sınav indeksine yazar.
  * Tek eğitmen sesi Aylin (Kore), `courseMasterVoice` tek string. Gözde bu kursta konuşmaz.
- * `estimatedTotalMinutes` mühürlü altı dersin timings toplamıdır.
+ * OFF-201 0/6 mühürlüdür. İptal haritasındadır, Kore/Gemini 3.1 TTS re-bake kuyruğundadır. Satış KAPALIDIR.
+ * `estimatedTotalMinutes` timings dosyalarının toplamıdır. Bu toplam vatandaş mührü değildir.
  */
 export const officeAi2Sections: Section[] = [
   officeAi2Section1,

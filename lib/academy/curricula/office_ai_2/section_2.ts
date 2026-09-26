@@ -3,7 +3,8 @@ import { officeAi2SpokenMarkdown } from "./spoken-body";
 
 /**
  * OFF-201 Ders 2 — canlı indeks dersi.
- * Sınav yolu `lesson-index.ts` içindedir. Ses 1, 2 ve 6 yeniden fırın kuyruğundadır; 3–5 mühürlüdür.
+ * Sınav yolu `lesson-index.ts` içindedir.
+ * OFF-201 0/6 mühürlüdür. İptal haritasındadır, Kore/Gemini 3.1 TTS re-bake kuyruğundadır. Satış KAPALIDIR.
  */
 export const officeAi2Section2: Section = {
   sectionNumber: 2,

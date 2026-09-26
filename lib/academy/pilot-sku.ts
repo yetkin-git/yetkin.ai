@@ -42,6 +42,12 @@ export const ACADEMY_PRODUCTION_LINE_SKU_SLUGS = [
 /** OFF-201 vitrin kartı. Kanon 13’e girmez. Soğuk okuma ₺1.290; kilit katalog satırındadır. */
 export const ACADEMY_OFF201_STOREFRONT_SLUG = "01_office_ai_ileri" as const;
 
+/**
+ * OFF-201 satış mandalı. Kore fırını, cue ve CEO onayı bitmeden `true` yapılmaz.
+ * İptal kaset listesi kalksa bile bu mandal kapalıyken satın alınamaz.
+ */
+export const ACADEMY_OFF201_LAUNCH_SALE_OPEN = false;
+
 export const ACADEMY_VITRINE_SHELL_SKU_SLUGS = [
   ACADEMY_FLAGSHIP_SKU_SLUG,
   ACADEMY_OFF201_STOREFRONT_SLUG,
@@ -283,6 +289,9 @@ export function academySkuAudioAllowsPurchase(courseSlug: string): boolean {
  * Katalog haritasındaki diğer SKU satılmaz. Harita dışı sentetik kurs nakit testine açıktır.
  */
 export function academyCourseSaleOpen(courseSlug: string): boolean {
+  if (courseSlug === ACADEMY_OFF201_STOREFRONT_SLUG && !ACADEMY_OFF201_LAUNCH_SALE_OPEN) {
+    return false;
+  }
   if (isAcademyLicenseSaleSlug(courseSlug)) {
     return academySkuAudioAllowsPurchase(courseSlug);
   }
