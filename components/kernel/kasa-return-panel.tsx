@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Route } from "next";
-import { ACADEMY_FLAGSHIP_SKU_SLUG } from "@/lib/academy/pilot-sku";
+import { ACADEMY_FLAGSHIP_SKU_SLUG, isAcademyStorefrontSlug } from "@/lib/academy/pilot-sku";
 import { CUZDAN_SEN } from "@/lib/copy/sen-voice/cuzdan";
 import { buttonClassName } from "@/components/ui/button";
 
@@ -12,9 +12,23 @@ const KASA_RETURN_REDIRECT_MS = 3_000;
 const KASA_RETURN_COURSE_HREF = `/academy/${ACADEMY_FLAGSHIP_SKU_SLUG}` as Route;
 const KASA_RETURN_ACADEMY_HREF = "/academy" as Route;
 
-export function KasaReturnPanel({ ok }: { ok: boolean }) {
+export function kasaReturnCourseHref(courseSlug: string | null | undefined): Route {
+  const slug = courseSlug?.trim() ?? "";
+  if (isAcademyStorefrontSlug(slug)) {
+    return `/academy/${slug}` as Route;
+  }
+  return KASA_RETURN_COURSE_HREF;
+}
+
+export function KasaReturnPanel({
+  ok,
+  courseSlug = null,
+}: {
+  ok: boolean;
+  courseSlug?: string | null;
+}) {
   const router = useRouter();
-  const href = ok ? KASA_RETURN_COURSE_HREF : KASA_RETURN_ACADEMY_HREF;
+  const href = ok ? kasaReturnCourseHref(courseSlug) : KASA_RETURN_ACADEMY_HREF;
 
   useEffect(() => {
     if (!ok) {

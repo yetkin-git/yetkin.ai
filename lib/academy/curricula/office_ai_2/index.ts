@@ -29,7 +29,7 @@ export {
  * OFF-201 canlı modül.
  * `curricula/index.ts` bu diziyi `CURRICULUM_DRAFTS_BY_SLUG` ve sınav indeksine yazar.
  * Ders 3–5 mühürlü sestir. Ders 1, 2 ve 6 yeniden fırın kuyruğundadır.
- * `estimatedTotalMinutes` mühürlü üç dersin timings toplamıdır.
+ * `estimatedTotalMinutes` mühürlü altı dersin timings toplamıdır.
  */
 export const officeAi2Sections: Section[] = [
   officeAi2Section1,

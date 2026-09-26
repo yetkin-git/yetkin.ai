@@ -280,7 +280,7 @@ export async function POST(request: Request) {
 
         const dronCheckout = isV1JsonRequest(request);
         const merchantReturnUrl = dronCheckout
-          ? buildPaytrDronCheckoutReturnUrl(origin, "ok")
+          ? buildPaytrDronCheckoutReturnUrl(origin, "ok", courseSlug)
           : buildPaytrMerchantBrowserReturnUrl(origin);
         const merchantFailUrl = dronCheckout
           ? buildPaytrDronCheckoutReturnUrl(origin, "fail")

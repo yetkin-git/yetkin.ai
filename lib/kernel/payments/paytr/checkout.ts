@@ -282,7 +282,7 @@ export function normalizePaytrMerchantReturnUrl(url: string): string {
   try {
     const parsed = new URL(trimmed);
     const path = parsed.pathname.replace(/\/+$/, "");
-    return `${parsed.protocol}//${parsed.host}${path}`;
+    return `${parsed.protocol}//${parsed.host}${path}${parsed.search}`;
   } catch {
     return trimmed.replace(/\/+$/, "");
   }

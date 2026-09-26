@@ -73,11 +73,14 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     ]);
     expect(academyModuleCodeBySlug("01_office_ai_ileri")).toBe("OFF-201");
     expect(academyVitrineShellCourses().find((row) => row.slug === "01_office_ai_ileri")?.purchasable).toBe(
-      false,
+      true,
     );
-    expect(academyVitrineShellCourses().find((row) => row.slug === "01_office_ai_ileri")?.priceMinor).toBeNull();
+    expect(academyVitrineShellCourses().find((row) => row.slug === "01_office_ai_ileri")?.priceMinor).toBe(
+      129_000,
+    );
     expect(academyVitrineShellCourses().filter((row) => row.purchasable).map((row) => row.slug)).toEqual([
       "01_office_ai",
+      "01_office_ai_ileri",
     ]);
   });
 

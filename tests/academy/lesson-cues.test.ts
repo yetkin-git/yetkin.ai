@@ -55,9 +55,12 @@ describe("akademi cue SSOT — 01_office_ai-1 punchcard", () => {
       "01_office_ai-k1",
     ]);
     expect(ACADEMY_MEDIA_SEALED_AUDIO["01_office_ai_ileri"]).toEqual([
+      "01_office_ai_ileri-1",
+      "01_office_ai_ileri-2",
       "01_office_ai_ileri-3",
       "01_office_ai_ileri-4",
       "01_office_ai_ileri-5",
+      "01_office_ai_ileri-6",
     ]);
     expect(existsSync(join(ROOT, "lib/academy/curricula/office_ai/section_1.ts"))).toBe(true);
     expect(academyPunchcardLabel("DÜZENSİZ TABLO ŞİMDİ HEMEN")).toBe("DÜZENSİZ TABLO ŞİMDİ");

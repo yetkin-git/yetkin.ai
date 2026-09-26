@@ -47,6 +47,13 @@ export const ACADEMY_CATALOG_PRICE_MINOR = {
  */
 export const OFF_201_CATALOG_READER_DEFAULT_MINOR = null;
 
+/**
+ * OFF-201 lansman tohumu — KDV dahil ₺1.290.
+ * Canlı kilit `PriceCatalogEntry` `course:01_office_ai_ileri` satırıdır.
+ * Super Admin satırı yazdıysa tohum o tutarı ezmez.
+ */
+export const OFF_201_LAUNCH_PRICE_MINOR = 129_000;
+
 export function academyCatalogPriceMinorForSlug(slug: string): number | null {
   if (slug in ACADEMY_CATALOG_PRICE_MINOR) {
     return ACADEMY_CATALOG_PRICE_MINOR[slug as AcademyCourseTitleSlug];

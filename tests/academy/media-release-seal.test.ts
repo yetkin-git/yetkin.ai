@@ -47,25 +47,19 @@ describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kase
         "01_office_ai-k1",
       ],
       "01_office_ai_ileri": [
+        "01_office_ai_ileri-1",
+        "01_office_ai_ileri-2",
         "01_office_ai_ileri-3",
         "01_office_ai_ileri-4",
         "01_office_ai_ileri-5",
+        "01_office_ai_ileri-6",
       ],
     });
-    expect(ACADEMY_TTS_REVOKED_CASSETTES["01_office_ai_ileri-1"]).toBe(
-      "gemini-2.5-flash-preview-tts",
-    );
-    expect(ACADEMY_TTS_REVOKED_CASSETTES["01_office_ai_ileri-2"]).toBe(
-      "gemini-2.5-flash-preview-tts",
-    );
-    expect(ACADEMY_TTS_REBAKE_QUEUE["01_office_ai_ileri"]).toEqual([
-      "01_office_ai_ileri-1",
-      "01_office_ai_ileri-2",
-      "01_office_ai_ileri-6",
-    ]);
-    expect(academyMediaSealedWavCount()).toBe(11);
+    expect(ACADEMY_TTS_REVOKED_CASSETTES).toEqual({});
+    expect(ACADEMY_TTS_REBAKE_QUEUE).toEqual({});
+    expect(academyMediaSealedWavCount()).toBe(14);
     expect(academyCourseSaleOpen("01_office_ai")).toBe(true);
-    expect(academyCourseSaleOpen("01_office_ai_ileri")).toBe(false);
+    expect(academyCourseSaleOpen("01_office_ai_ileri")).toBe(true);
     expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai"]);
     expect(academyLessonAudioObjectPath("sample-course", "sample-course-1")).toBe(
       "academy/audio/sample-course/sample-course-1.wav",
@@ -77,12 +71,12 @@ describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kase
 
   it("OFF-201 altı kaset vatandaş karaoke katmanında mühürlü süreyi taşır", () => {
     const rows = [
-      ["01_office_ai_ileri-1", 474.235],
-      ["01_office_ai_ileri-2", 580.151],
+      ["01_office_ai_ileri-1", 523.809],
+      ["01_office_ai_ileri-2", 616.54],
       ["01_office_ai_ileri-3", 865.854],
       ["01_office_ai_ileri-4", 1080.062],
       ["01_office_ai_ileri-5", 1104.154],
-      ["01_office_ai_ileri-6", 1198.19],
+      ["01_office_ai_ileri-6", 754.906],
     ] as const;
     for (const [lessonKey, durationSec] of rows) {
       const minutes = durationSec / 60;
@@ -91,8 +85,8 @@ describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kase
       expect(timings?.durationSec, lessonKey).toBe(durationSec);
       expect(timings?.pieces.at(-1)?.end, lessonKey).toBe(durationSec);
       expect(ACADEMY_SEALED_AUDIO_DURATION_SEC[lessonKey]).toBe(Math.round(durationSec));
-      const revoked = lessonKey.endsWith("-1") || lessonKey.endsWith("-2");
-      const rebake = revoked || lessonKey.endsWith("-6");
+      const revoked = false;
+      const rebake = false;
       expect(isAcademyTtsCassetteRevoked(lessonKey)).toBe(revoked);
       expect(isAcademyLessonAudioSealed(OFF201, lessonKey)).toBe(!rebake);
       expect(isAcademyLessonAudioOnRebakeQueue(OFF201, lessonKey)).toBe(rebake);

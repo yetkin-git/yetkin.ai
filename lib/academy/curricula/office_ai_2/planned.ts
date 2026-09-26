@@ -4,15 +4,15 @@
  * Canlı sınav yolu `CURRICULUM_LESSON_KEYS_BY_SLUG` bu altı anahtarı yazar.
  * `curricula/index.ts` bu modülü import eder.
  * Uydu vaadi bu altı dersle aynıdır. XLOOKUP, özet tablo, OCR ve belge birleştirme bu sürümde yoktur.
- * Ders 3–5 mühürlüdür. Ders 1, 2 ve 6 ses bekler (`audio_pending`).
+ * Altı ders Gemini 3.1 Flash TTS ile mühürlüdür. Ders 3–5 yeniden yakılmaz.
  */
 
 /** Canlı slug. Adres `01_office_ai_ileri`. Kart kodu `OFF-201`. */
 export const OFFICE_AI_2_SLUG = "01_office_ai_ileri" as const;
 export const OFFICE_AI_2_MODULE_CODE = "OFF-201" as const;
-/** Modül kaydı yayında. Ders 1, 2 ve 6 sesi ayrı: `audio_pending`. Satış kapısı bu etiketten açılmaz. */
+/** Modül kaydı yayında. Satış kapısı ses mühründen açılır; bu etiket satışı açmaz. */
 export const OFFICE_AI_2_STATUS = "published" as const;
-/** İptal kaset. Metin açık; ses yeniden fırın bekler. */
+/** Eski ses bekler etiketi. Ders 1, 2 ve 6 mühürlendikten sonra plan bunu kullanmaz. */
 export const OFFICE_AI_2_AUDIO_PENDING = "audio_pending" as const;
 
 export const OFFICE_AI_2_LESSON_PLAN = [
@@ -20,14 +20,14 @@ export const OFFICE_AI_2_LESSON_PLAN = [
     key: "01_office_ai_ileri-1",
     order: 1,
     title: "Dört Parçalı İstem",
-    status: OFFICE_AI_2_AUDIO_PENDING,
+    status: OFFICE_AI_2_STATUS,
     focus: "Tek bir iş notunu, veri sırasından sonra dört parçalı isteme döker. Parçalar rol, görev, biçim ve kısıttır. Eksik parça akıcı ama yanlış cevap üretir.",
   },
   {
     key: "01_office_ai_ileri-2",
     order: 2,
     title: "Toplantı Notu ve Eylem Listesi",
-    status: OFFICE_AI_2_AUDIO_PENDING,
+    status: OFFICE_AI_2_STATUS,
     focus: "Dağınık toplantı notundan kim, ne, ne zaman çıkarır. Çakışan saati ayrı satırda işaretler. Ham not kişisel hesaba gitmez.",
   },
   {
@@ -55,7 +55,7 @@ export const OFFICE_AI_2_LESSON_PLAN = [
     key: "01_office_ai_ileri-6",
     order: 6,
     title: "Üç Dosyada Yan Yana Sayı Denetimi",
-    status: OFFICE_AI_2_AUDIO_PENDING,
+    status: OFFICE_AI_2_STATUS,
     focus: "Tablo, yazılı not ve uzun belgeyi yan yana denetler. Uyuşmayan sayıyı tek sayfalık karar notuna koymaz. İki sayının ortası yeni sayıdır. Ad, telefon ve IBAN nota girmez.",
   },
 ] as const;

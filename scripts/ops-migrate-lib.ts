@@ -28,6 +28,7 @@ export const EXPECTED_SQL = [
   "20260814110000_freelancer_job_seed.sql",
   "20260823220000_freelancer_job_visa_pathway.sql",
   "20260912220000_academy_sterile_vitrine.sql",
+  "20260926153000_off201_launch_price.sql",
 ] as const;
 
 export const FREELANCER_SEED_JOB_IDS = [

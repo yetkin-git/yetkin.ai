@@ -18,6 +18,7 @@ import {
 import { ACADEMY_OFF201_DEFAULT_COVER } from "@/lib/academy/course-cover";
 import { OFF_201_TITLE } from "@/lib/academy/curricula/office_ai/off-201";
 import type { AcademyCourseRecord, AcademyCourseWithPrice } from "@/lib/academy/types";
+import { OFF_201_LAUNCH_PRICE_MINOR } from "@/lib/academy/catalog-pricing";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 
 const SEED_STAMP = new Date("2026-08-21T15:00:00.000Z");
@@ -166,11 +167,16 @@ export function off201StorefrontCourseRecord(): AcademyCourseRecord {
 }
 
 function off201VitrineCourse(): AcademyCourseWithPrice {
+  const record = off201StorefrontCourseRecord();
   return withCardHonesty({
-    ...off201StorefrontCourseRecord(),
-    priceMinor: null,
+    ...record,
+    priceMinor: toAmountMinor(OFF_201_LAUNCH_PRICE_MINOR),
     currencyCode: ACADEMY_SEED_CURRENCY,
-    purchasable: false,
+    purchasable: academyCatalogPurchasable({
+      courseSlug: record.slug,
+      catalogRowPresent: true,
+      isPublished: record.isPublished,
+    }),
     level: "İleri",
     coverImage: ACADEMY_OFF201_DEFAULT_COVER,
   });

@@ -2,7 +2,7 @@
 
 **Durum (26 Eylül 2026):** Bu fazda **vatandaş ürün deposu yoktur.** Studio imzalı PUT, `studio-assets` bucket, Dashboard yükleme paneli ve Storage CORS canlı reçete değildir. Studio sayfa/API HTTP **410**; Prisma Studio tabloları DROP; motor `archived/lib/studio/storage.ts`.
 
-**Akademi ses gerçeği:** OFF-101 mühürlü yayın **8** derstir (`01_office_ai-1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`). `01_office_ai-4` sınav yolunda yoktur; süre tablosunda ve canlı konuşma gövdesinde durmaz. OFF-201 mühürlü yayın **3** derstir (`01_office_ai_ileri-3`, `-4`, `-5`). Ders 1, 2 ve 6 ses kuyruğundadır (`ACADEMY_TTS_REBAKE_QUEUE`); kuyruk boş değildir. Kardeş SKU `02`–`05` vitrinde Çok Yakında kabuğudur. Bake WAV `media-bake/academy/audio/{slug}/{key}.wav` altındadır (git/Vercel dışı). Kamu yayın yolu `public/media/academy/audio/{slug}/{key}.mp3`. `generateSpeech` ve `listen` kapıları **410**. Prisma `AcademyAudioCache` şemada durabilir; locator yayın vaadi değildir.
+**Akademi ses gerçeği:** OFF-101 mühürlü yayın **8** derstir (`01_office_ai-1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`). `01_office_ai-4` sınav yolunda yoktur; süre tablosunda ve canlı konuşma gövdesinde durmaz. OFF-201 mühürlü yayın **6** derstir (`01_office_ai_ileri-1` … `-6`). Fırın kuyruğu boştur. Kardeş SKU `02`–`05` vitrinde Çok Yakında kabuğudur. Bake WAV `media-bake/academy/audio/{slug}/{key}.wav` altındadır (git/Vercel dışı). Kamu yayın yolu `public/media/academy/audio/{slug}/{key}.mp3`. `generateSpeech` ve `listen` kapıları **410**. Prisma `AcademyAudioCache` şemada durabilir; locator yayın vaadi değildir.
 
 Bu dosya sistem beşlisinin beşincisidir. Ajan “nesne depo yok” cümlesini Studio yasağı sanırsa doğrudur; mühürsüz dersi sesli satarsa yanlıştır.
 

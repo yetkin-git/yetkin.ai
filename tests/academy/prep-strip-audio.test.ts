@@ -231,7 +231,7 @@ describe("Ders 0 fırın işi + 101 dokunulmazlığı", () => {
 
   it("101 mührü değişmez: 8 ders, 8 kaset; toplam mühür 14; 8 konuşma metni, 33 sinema anahtarı", () => {
     expect(ACADEMY_MEDIA_SEALED_AUDIO["01_office_ai"]).toHaveLength(8);
-    expect(academyMediaSealedWavCount()).toBe(11);
+    expect(academyMediaSealedWavCount()).toBe(14);
     expect(ACADEMY_SPOKEN_SCRIPT_LESSON_KEYS).toHaveLength(8);
     expect(isAcademySpokenScriptLessonKey(KEY)).toBe(false);
     expect(curriculumForCourseSlug(SLUG)).toHaveLength(8);

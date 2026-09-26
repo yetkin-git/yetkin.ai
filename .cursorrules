@@ -170,8 +170,8 @@ Kod sabiti bu kilitten saparsa sabit kilide çekilir. Metin kırpılmaz, tempo y
 - **Model mührü:** TTS üretiminde yalnız **Gemini 3.1 Flash TTS** (`gemini-3.1-flash-tts-preview`) kullanılır.
 - **Alt model yasağı:** Kota bittiğinde veya limit aşıldığında Gemini 2.5 Flash TTS kullanılmaz (`VOICE_TTS_FALLBACK_TO_2_5 = false`). Kota yoksa işlem durur. Kota açılınca aynı ders Gemini 3.1 ile fırınlanır.
 - **Dinamik eğitmen:** Gözde (Callirrhoe) tek veya zorunlu ses değildir. Bir kurstaki derslerin tamamı tek sese kilitlenemez. Konu, seviye ve senaryoya göre ayrı kaliteli kadın veya erkek karakter seçilir.
-- **İptal kasetleri:** `01_office_ai_ileri-1` ve `01_office_ai_ileri-2` Gemini 2.5 kasetidir. Vatandaş oynatıcı bunları açmaz (`ACADEMY_TTS_REVOKED_CASSETTES`).
-- **Yeniden fırın:** Kota açılınca `01_office_ai_ileri` ders 1, 2 ve 6, Gemini 3.1 Flash TTS ve `ACADEMY_OFF201_LESSON_TTS_VOICE` sırasıyla yeniden fırınlanır. Ders 6 metin sırası düzeltildi; eski kaset oynatılmaz. Ders 3–5 mühürlüdür. Bu adım ücretli çağrıdır; kota doluyken `--seal` açılmaz.
+- **İptal kasetleri:** Eski Gemini 2.5 kasetleri `archived/academy-audio-revoked/` altındadır. `ACADEMY_TTS_REVOKED_CASSETTES` boştur. Vatandaş oynatıcı 26 Eylül 2026 Gemini 3.1 mühürlerini açar.
+- **Yeniden fırın:** `01_office_ai_ileri` ders 1 (Kore), 2 (Puck) ve 6 (Zephyr) Gemini 3.1 Flash TTS ile mühürlendi. Fırın kuyruğu boştur. Ders 3–5 yeniden yakılmaz. Yeni `--seal` kota doluyken açılmaz; `VOICE_TTS_FALLBACK_TO_2_5` kapalı kalır.
 
 ### 6. Dinamik medya ve sinema prodüksiyonu
 

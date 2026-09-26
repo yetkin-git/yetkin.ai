@@ -273,10 +273,10 @@ describe("vitrin kartı CTA", () => {
       owned: false,
       priceLabel: "₺1.290,00",
     });
-    expect(off201Priced.cta).toBe("Kayıt Kapalı / Fiyat Bekleniyor");
-    expect(off201Priced.cta).toBe(ACADEMY_SEN.catalog.pricePending);
-    expect(off201Priced.href).toBe("");
-    expect(off201Priced.ctaDisabled).toBe(true);
+    expect(off201Priced.cta).toBe(ACADEMY_SEN.catalog.cardCtaBuy);
+    expect(off201Priced.cta).toBe("Satın Al");
+    expect(off201Priced.href).toBe("/academy/01_office_ai_ileri");
+    expect(off201Priced.ctaDisabled).toBeUndefined();
     expect(off201Priced.priceLabel).toBe("₺1.290");
     expect(ACADEMY_SEN.catalog.off201Advisory).toContain("Tavsiye:");
     expect(ACADEMY_SEN.catalog.off201Advisory).toContain("Ofiste Yapay Zekâ");

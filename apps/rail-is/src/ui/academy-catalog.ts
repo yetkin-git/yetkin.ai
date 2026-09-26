@@ -2,7 +2,7 @@ import { DRON_COURSE_SLUGS, dronCourseTitle, type DronCourseSlug } from "./cours
 
 /**
  * Amiral + OFF-201 vitrin.
- * Fiyat satırı olmayan kart «Fiyat Bekleniyor» der. Tutar kod sabiti değildir.
+ * OFF-201 lansman etiketi tohumla aynıdır: ₺1.290. Canlı kilit katalog satırındadır.
  */
 export const DRON_ACADEMY_VITRINE_SLUGS = DRON_COURSE_SLUGS;
 
@@ -20,7 +20,7 @@ export function dronAcademyCatalog(): DronAcademyCatalogItem[] {
   return DRON_ACADEMY_VITRINE_SLUGS.map((slug) => ({
     slug,
     title: dronCourseTitle(slug),
-    priceLabel: slug === "01_office_ai_ileri" ? DRON_PRICE_PENDING_LABEL : null,
+    priceLabel: slug === "01_office_ai_ileri" ? "₺1.290" : null,
   }));
 }
 

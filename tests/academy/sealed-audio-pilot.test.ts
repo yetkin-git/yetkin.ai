@@ -34,7 +34,7 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
       "01_office_ai-w1",
       "01_office_ai-k1",
     ]);
-    expect(academyMediaSealedWavCount()).toBe(11);
+    expect(academyMediaSealedWavCount()).toBe(14);
     expect(ACADEMY_SEALED_AUDIO_DURATION_SEC).toEqual({
       "01_office_ai-1": 692,
       "01_office_ai-2": 520,
@@ -44,12 +44,12 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
       "01_office_ai-g1": 604,
       "01_office_ai-w1": 583,
       "01_office_ai-k1": 702,
-      "01_office_ai_ileri-1": 474,
-      "01_office_ai_ileri-2": 580,
+      "01_office_ai_ileri-1": 524,
+      "01_office_ai_ileri-2": 617,
       "01_office_ai_ileri-3": 866,
       "01_office_ai_ileri-4": 1080,
       "01_office_ai_ileri-5": 1104,
-      "01_office_ai_ileri-6": 1198,
+      "01_office_ai_ileri-6": 755,
     });
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, LESSON_KEY)).toBe(true);
     expect(isAcademyCompactLessonKey(LESSON_KEY)).toBe(true);

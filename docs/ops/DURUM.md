@@ -41,15 +41,15 @@ Yayın ilkesi Anayasa B4’tür: dört katmanlı eğitim videosu. Bu haftanın o
 
 ## İleri ofis `01_office_ai_ileri` (OFF-201)
 
-Canlı vitrin kartıdır. Sınav yolu 6 derstir. Katalog satırı yokken kart fiyat basmaz.
+Canlı vitrin kartıdır. Sınav yolu 6 derstir. Lansman fiyatı katalog tohumundadır.
 
 | Ölçüt | Kod gerçeği |
 |-------|-------------|
-| Sistem mührü | **3/6.** Ders 3–5 mühürlü. Ders 1–2 iptal kasetidir (`ACADEMY_TTS_REVOKED_CASSETTES`, Gemini 2.5). Ders 6 `audio_pending`; eski kaset oynatılmaz. Ders 1, 2 ve 6 ses kuyruğundadır (`ACADEMY_TTS_REBAKE_QUEUE`). Vitrin kartı kodda vardır. Satış kapısı (`academyCourseSaleOpen`) kapalıdır. |
+| Sistem mührü | **6/6.** Ders 1–6 Gemini 3.1 Flash TTS ile mühürlü. Ders 1 Kore, ders 2 Puck, ders 6 Zephyr (26 Eylül 2026). Ders 3–5 yeniden yakılmadı. İptal listesi ve fırın kuyruğu boş. Satış kapısı (`academyCourseSaleOpen`) açık. |
 | Sınav yolu | **6 ders** — `01_office_ai_ileri-1` … `-6` |
-| Mühürlü kaset | **3, 4, 5** (`ACADEMY_MEDIA_SEALED_AUDIO`). 1, 2 ve 6 oynatıcıda mühürlü ses açmaz. |
-| Süre | Mühürlü üç ders timings toplamı **3050.07 sn ≈ 50.83 dk**. Altı timings dosyası toplamı **5302.646 sn ≈ 88.38 dk**. Modül `estimatedTotalMinutes` mühürlü derslerin timings toplamıdır. |
-| Fiyat | `PriceCatalogEntry` satırı yokken **Fiyat Bekleniyor**. Soğuk 129.000 kuruş basılmaz. Super Admin satırı `academy` / `course:01_office_ai_ileri` birimini açınca kilit o tutarı okur. |
+| Mühürlü kaset | **1–6** (`ACADEMY_MEDIA_SEALED_AUDIO`). Oynatıcı altı MP3’ü açar. |
+| Süre | Altı mühür timings toplamı **4945.325 sn ≈ 82.42 dk**. Modül `estimatedTotalMinutes` bu toplamdan türer. Her ders 5 dakikanın üstündedir. |
+| Fiyat | Lansman tohumu **129.000 kuruş (₺1.290, KDV dahil)**. Satır `academy` / `course:01_office_ai_ileri`. Super Admin yazdıysa tohum tutarı ezmez. |
 | Kart rozeti | Kursun tamamına «Sesli Anlatım» basılmaz. Rozet mühürlü ders sayısını söyler. |
 
 ---

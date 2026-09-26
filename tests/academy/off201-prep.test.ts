@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import {
   academyCatalogPriceMinorForSlug,
   OFF_201_CATALOG_READER_DEFAULT_MINOR,
+  OFF_201_LAUNCH_PRICE_MINOR,
 } from "@/lib/academy/catalog-pricing";
 import { assertPhase2ExamInterfacesReadyForText } from "@/lib/academy/curricula/phase2-exam-readiness";
 import { OFF_201_EXAM_PASS_SCORE } from "@/lib/academy/curricula/office_ai/off-201";
@@ -149,6 +150,10 @@ describe("OFF-201 fırın öncesi hazırlık", () => {
   it("katalog satırı yokken soğuk fiyat basmaz; satır varsa o kuruşu keser", () => {
     expect(OFF_201_CATALOG_READER_DEFAULT_MINOR).toBeNull();
     expect(academyCatalogPriceMinorForSlug("01_office_ai_ileri")).toBeNull();
+    expect(OFF_201_LAUNCH_PRICE_MINOR).toBe(129_000);
+    expect(readFileSync(join(process.cwd(), "supabase/migrations/20260926153000_off201_launch_price.sql"), "utf8")).toContain(
+      "129000",
+    );
     expect(OFF_201_CATALOG_MODULE_KEY).toBe(ACADEMY_MODULE_KEY);
     expect(OFF_201_CATALOG_UNIT_KEY).toBe("course:01_office_ai_ileri");
     const slot = readFileSync(join(process.cwd(), "lib/academy/off201-catalog-slot.ts"), "utf8");
@@ -177,40 +182,35 @@ describe("OFF-201 fırın öncesi hazırlık", () => {
     expect(page).toContain("academy.off201.catalog_price_unset");
   });
 
-  it("ses bitmeden satın alma açılmaz; OFF-101 belgesi kapıyı açmaz", async () => {
-    const none = world();
-    await seed(none);
-    await expect(
-      lockAcademyCoursePrice(none, { courseId: none.course.id, userId: BUYER }),
-    ).rejects.toThrow("Kurs satışa kapalı.");
-    expect(none.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START);
+  it("altı ders mühürlüyse satış açılır; OFF-101 belgesi şart değildir", async () => {
+    for (const ports of [world(), world(69), world(80, true), world(70)]) {
+      await seed(ports);
+      const locked = await lockAcademyCoursePrice(ports, { courseId: ports.course.id, userId: BUYER });
+      expect(locked.lock.amountMinor).toBe(CATALOG_PRICE);
+      expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START);
+    }
 
-    const low = world(69);
-    await seed(low);
-    await expect(
-      lockAcademyCoursePrice(low, { courseId: low.course.id, userId: BUYER }),
-    ).rejects.toThrow("Kurs satışa kapalı.");
-    expect(low.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START);
-
-    const revoked = world(80, true);
-    await seed(revoked);
-    await expect(
-      lockAcademyCoursePrice(revoked, { courseId: revoked.course.id, userId: BUYER }),
-    ).rejects.toThrow("Kurs satışa kapalı.");
-    expect(revoked.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START);
-
-    const passed = world(70);
-    await seed(passed);
-    await expect(
-      purchaseAcademyCourse(passed, {
-        courseId: passed.course.id,
-        userId: BUYER,
-        lockId: "missing-lock",
-        platformUserId: PLATFORM,
-      }),
-    ).rejects.toThrow("Kurs satışa kapalı.");
-    expect(passed.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START);
-    expect(passed.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
+    const buyer = world();
+    await seed(buyer);
+    const locked = await lockAcademyCoursePrice(buyer, { courseId: buyer.course.id, userId: BUYER });
+    const bought = await purchaseAcademyCourse(buyer, {
+      courseId: buyer.course.id,
+      userId: BUYER,
+      lockId: locked.lock.id,
+      platformUserId: PLATFORM,
+    });
+    expect(bought.applied).toBe(true);
+    expect(buyer.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START - CATALOG_PRICE);
+    expect(buyer.ledger.snapshot(PLATFORM).amountMinor).toBe(CATALOG_PRICE);
+    const again = await purchaseAcademyCourse(buyer, {
+      courseId: buyer.course.id,
+      userId: BUYER,
+      lockId: locked.lock.id,
+      platformUserId: PLATFORM,
+    });
+    expect(again.applied).toBe(false);
+    expect(buyer.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START - CATALOG_PRICE);
+    expect(buyer.ledger.snapshot(PLATFORM).amountMinor).toBe(CATALOG_PRICE);
   });
 
   it("baraj altı muafiyet satın almayı kesmez; mühür ikinci kez para kesmez", async () => {
@@ -241,9 +241,8 @@ describe("OFF-201 fırın öncesi hazırlık", () => {
     });
     expect(lowSubmit.passed).toBe(false);
     expect(lowSubmit.seal).toBeNull();
-    await expect(
-      lockAcademyCoursePrice(ports, { courseId: ports.course.id, userId: BUYER }),
-    ).rejects.toThrow("Kurs satışa kapalı.");
+    const locked = await lockAcademyCoursePrice(ports, { courseId: ports.course.id, userId: BUYER });
+    expect(locked.lock.amountMinor).toBe(CATALOG_PRICE);
     expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START);
 
     const opened = await loadOff101ExemptionExam(ports, ports.prior.id, BUYER, now);
@@ -264,8 +263,24 @@ describe("OFF-201 fırın öncesi hazırlık", () => {
         lockId: "missing-lock",
         platformUserId: PLATFORM,
       }),
-    ).rejects.toThrow("Kurs satışa kapalı.");
+    ).rejects.toThrow("Satın alma için geçerli fiyat kilidi yok.");
     expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START);
-    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
+    const bought = await purchaseAcademyCourse(ports, {
+      courseId: ports.course.id,
+      userId: BUYER,
+      lockId: locked.lock.id,
+      platformUserId: PLATFORM,
+    });
+    expect(bought.applied).toBe(true);
+    expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START - CATALOG_PRICE);
+    const repeat = await purchaseAcademyCourse(ports, {
+      courseId: ports.course.id,
+      userId: BUYER,
+      lockId: locked.lock.id,
+      platformUserId: PLATFORM,
+    });
+    expect(repeat.applied).toBe(false);
+    expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START - CATALOG_PRICE);
+    expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(CATALOG_PRICE);
   });
 });
