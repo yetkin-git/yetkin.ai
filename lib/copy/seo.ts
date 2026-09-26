@@ -37,7 +37,7 @@ export const PAGE_SEO = {
   home: {
     title: PUBLIC_SEN.home.title,
     description:
-      "Yapay zeka eğitimi ve online kurs vitrini yeni müfredat üretim bandındadır. Prompt eğitimi mühürlenince yayımlanır. Testi geç; yapay zeka sertifikan mühürlenir, kariyer vizesi Kariyer sayfana işlenir. PayTR iFrame + 3D Secure.",
+      "Yapay zeka eğitimi ve online kurs vitrini hazırlanıyor. Prompt eğitimi hazır olunca yayımlanır. Testi geç; yapay zeka sertifikan mühürlenir, kariyer vizesi Kariyer sayfana işlenir. PayTR iFrame + 3D Secure.",
     path: "/",
     image: DEFAULT_OG_IMAGE,
   },
@@ -59,7 +59,7 @@ export const PAGE_SEO = {
   academy: {
     title: ACADEMY_SEN.catalog.title,
     description:
-      "Yapay zeka eğitimi ve online kurslar: amiral kurs yayındadır. Prompt eğitimi ve kardeş müfredat Çok Yakında / Hazırlanıyor rozetiyle durur. Dersi bitir, testi 70+ ile geç, yapay zeka sertifikan ve kariyer vizesi Kariyer sayfana işlensin. Akademi yalnız mühürlü müfredatı satar.",
+      "Yapay zeka eğitimi ve online kurslar: amiral kurs yayındadır. Prompt eğitimi ve kardeş müfredat Çok Yakında / Hazırlanıyor rozetiyle durur. Dersi bitir, testi 70+ ile geç, yapay zeka sertifikan ve kariyer vizesi Kariyer sayfana işlensin. Akademi yalnız sesi bitmiş eğitimi satar.",
     path: "/academy",
     image: DEFAULT_OG_IMAGE,
   },
@@ -198,7 +198,7 @@ export const OFFICE_AI_SEO = {
   title: "Excel Yapay Zekâ Eğitimi: Ofiste ChatGPT + Sertifika",
   description: `Excel Copilot ve Ataş Yöntemi, A1 Düzeni ve Temiz Veri ve yönetim özetine dönüştürme. Gmail'de yerleşik Gemini. ${OFFICE_AI_SEAL_PROOF_SHORT}`,
   /** Gövde H1 — kullanıcı dili; title (arama dili) ile ayrışır. */
-  h1: "İş Hayatında Yapay Zekâ: Excel'den E-Postaya 9 Ders",
+  h1: "İş Hayatında Yapay Zekâ: Excel'den E-Postaya 8 Ders",
   keywords: [
     "İş Hayatında Yapay Zekâ",
     "Excel Copilot ve Ataş Yöntemi",

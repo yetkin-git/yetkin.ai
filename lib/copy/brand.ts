@@ -5,4 +5,4 @@ export const YETKIN_BRAND = "yetkin.ai" as const;
 export const YETKIN_RELEASE_LABEL = "v1.0.0 Beta" as const;
 
 /** Kabuk alt satırı — manşetin kısa yankısı; emek/emeklilik çağrışımı taşımaz. */
-export const YETKIN_SHELL_TAGLINE = "Mühürlü kariyer OS" as const;
+export const YETKIN_SHELL_TAGLINE = "Eğitim ve kariyer" as const;

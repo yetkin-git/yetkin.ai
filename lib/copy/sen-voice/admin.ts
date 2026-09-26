@@ -77,6 +77,10 @@ export const ADMIN_SEN = {
   catalogTitle: "Fiyat kataloğu",
   catalogIntro:
     "Satırlar PriceCatalogEntry kayıtlarıdır. amountMinor tamsayıdır; Super Admin gerekçeyle günceller. Sessiz zam yok.",
+  off201PriceUnset: {
+    title: "OFF-201 fiyat satırı yok",
+    body: "Sınav havuzu hazır. Ön koşul zorunlu değildir. Birim academy / course:01_office_ai_ileri. Tutar kodda durmaz. Bu birimi PriceCatalogEntry satırı olarak açınca satın alma kilidi o tutarı okur. Satır açılmadan fiyat basılmaz.",
+  },
   emptyBody:
     "Ops tohumu uygulanınca birimler burada durur. Uydurma fiyat basılmaz.",
   /** Quiet Luxury denetim paneli — müfredat / ilan / sığınak yönleri. */

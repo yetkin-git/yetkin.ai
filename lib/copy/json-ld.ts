@@ -164,7 +164,10 @@ export function courseJsonLd(input: {
   description: string;
   imagePath: string;
   datePublished: Date | string;
-  /** Verilmezse tohum fiyat haritasından (`ACADEMY_CATALOG_PRICE_MINOR`) çözülür. */
+  /**
+   * Katalog tutarı. `null` fiyat basmaz.
+   * Alan verilmezse yalnız tohum haritası okunur; verilen `null` o haritayla ezilmez.
+   */
   priceMinor?: number | null;
   priceCurrency?: string | null;
   /** Verilmezse 01_office_ai için `OFFICE_AI_COURSE_TEACHES` düşer. */
@@ -177,7 +180,8 @@ export function courseJsonLd(input: {
     input.datePublished instanceof Date
       ? input.datePublished.toISOString()
       : input.datePublished;
-  const priceMinor = input.priceMinor ?? academyCatalogPriceMinorForSlug(input.slug);
+  const priceMinor =
+    input.priceMinor !== undefined ? input.priceMinor : academyCatalogPriceMinorForSlug(input.slug);
   const price = priceMinor == null ? null : minorToOfferPrice(priceMinor);
   const priceCurrency = input.priceCurrency?.trim() || "TRY";
   const teaches =
@@ -297,7 +301,8 @@ export function educationalOccupationalProgramJsonLd(input: {
     typeof input.durationMin === "number" && input.durationMin > 0
       ? minutesToIso8601Duration(input.durationMin)
       : null;
-  const priceMinor = input.priceMinor ?? academyCatalogPriceMinorForSlug(input.slug);
+  const priceMinor =
+    input.priceMinor !== undefined ? input.priceMinor : academyCatalogPriceMinorForSlug(input.slug);
   const price = priceMinor == null ? null : minorToOfferPrice(priceMinor);
   const priceCurrency = input.priceCurrency?.trim() || "TRY";
   return {

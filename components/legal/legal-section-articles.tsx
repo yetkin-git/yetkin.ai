@@ -7,6 +7,7 @@ import {
   LEGAL_SUPPORT_MAILTO,
   type LegalLaunchSection,
 } from "@/lib/copy/legal-launch";
+import { ObfuscatedEmailText } from "@/components/legal/obfuscated-email";
 import { Card } from "@/components/ui/card";
 
 /** Card varsayılanı `p-6`; `cn` çakışan utility’leri silmediği için `!p-8`. */
@@ -39,8 +40,12 @@ export function LegalSupportEmailLine() {
   return (
     <p className="text-base leading-relaxed text-zinc-800">
       {LEGAL_SUPPORT_LINE_LABEL}{" "}
-      <a href={LEGAL_SUPPORT_MAILTO} className="font-semibold text-[var(--safir-deep)] hover:underline">
-        {LEGAL_SUPPORT_EMAIL}
+      <a
+        href={LEGAL_SUPPORT_MAILTO.replace("@", "%40")}
+        className="font-semibold text-[var(--safir-deep)] hover:underline"
+        suppressHydrationWarning
+      >
+        <ObfuscatedEmailText email={LEGAL_SUPPORT_EMAIL} />
       </a>
     </p>
   );

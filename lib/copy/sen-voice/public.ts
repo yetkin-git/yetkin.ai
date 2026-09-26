@@ -6,7 +6,7 @@ export const PUBLIC_SEN = {
     badge: YETKIN_BRAND,
     title: "Yapay zekâ yetkinliğini kanıtla, kariyerini mühürle",
     description:
-      "Yapay zeka eğitimi ve online kurs vitrini yeni müfredat üretim bandındadır. Taslak kartlar yayında değildir. Prompt eğitimi mühürlenince vitrine düşer. Dersleri bitir, testi geç; yapay zeka sertifikan sunucuda mühürlenir, kariyer vizesi Kariyer sayfana işlenir. PayTR iFrame + 3D Secure; kart numarası platformda tutulmaz.",
+      "Yapay zeka eğitimi ve online kurs vitrini hazırlanıyor. Taslak kartlar yayında değildir. Prompt eğitimi hazır olunca vitrine düşer. Dersleri bitir, testi geç; yapay zeka sertifikan sunucuda mühürlenir, kariyer vizesi Kariyer sayfana işlenir. PayTR iFrame + 3D Secure; kart numarası platformda tutulmaz.",
     academyCta: "Eğitimleri İncele",
     loginCta: "Giriş Yap",
     registerCta: "Kayıt Ol",
@@ -20,12 +20,12 @@ export const PUBLIC_SEN = {
     ],
     cinemaKicker: "Yapay zeka eğitimi · online kurs",
     cinemaHint:
-      "Yeni müfredat üretim bandında. Taslak katalog kartları yayında değildir. Prompt eğitimi mühürlenince vitrine düşer.",
+      "Yeni eğitimler hazırlanıyor. Taslak katalog kartları yayında değildir. Prompt eğitimi hazır olunca vitrine düşer.",
     roomsKicker: "Bugün satılan ürün",
     hero: {
       kicker: "Akademi",
       title: "Öğren, sınavı geç, belgeni mühürle",
-      body: "Yapay zeka eğitimi ve online kurs vitrini üretim bandındadır. Testi 70+ ile geçince yapay zeka sertifikan ve kariyer vizesi Kariyer sayfana işlenir.",
+      body: "Yapay zeka eğitimi ve online kurs vitrini hazırlanıyor. Testi 70+ ile geçince yapay zeka sertifikan ve kariyer vizesi Kariyer sayfana işlenir.",
       href: "/academy",
     },
     faqHeading: "Sık sorulanlar",
