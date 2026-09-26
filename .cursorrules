@@ -124,7 +124,7 @@ Bu bölüm, Akademi ders üretimi, fırınlama (bake) ve buna dokunan kod için 
 
 Her fırınlama ve kodlama adımından önce bu bölüm okunur ve çıktı buna göre doğrulanır. Süre, ritim, ses, ducking ve reji sabitleri kodda bu kilitle aynı değerde durur:
 
-- `lib/academy/production-standard.ts` — ders tabanı `ACADEMY_AI_LESSON_DURATION_MIN_MINUTES` (5), kurs taban bölümü `ACADEMY_AI_LESSON_COUNT_MIN` (6)
+- `lib/academy/production-standard.ts` — ders tabanı `ACADEMY_AI_LESSON_DURATION_MIN_MINUTES` (5), kurs taban bölümü `ACADEMY_AI_LESSON_COUNT_MIN` (6), maç düdük tavanı `ACADEMY_MATCH_WHISTLE_MAX` (100)
 - `lib/academy/instructors.ts` — `ACADEMY_INSTRUCTOR_SPEECH_RATE` (0.93)
 - `lib/academy/human-rhythm.ts` — nefes 0.4 sn, kural ve örnek geçişi 1.5–2.0 sn (varsayılan 1.75), slayt ön-açılışı 1.5 sn
 - `.system_docs/PEDAGOJI.md` — günlük dil, tek iş tek cümle, slogan yasağı
@@ -157,6 +157,8 @@ Kod sabiti bu kilitten saparsa sabit kilide çekilir. Metin kırpılmaz, tempo y
 - **Konuşma hızı (speaking rate):** `0.93` (doğal temponun tam %7 yavaşı).
 - **Paragraf ve cümle arası nefes:** `0.4 saniye`.
 - **TTS istek bandı:** Ders başına tam 10–12 doğal paragraf bloğu. Tek cümlelik istek ve diksiyonu düşüren dev blok yok. Model yalnız Gemini 3.1 Flash TTS.
+- **1 Maç = 1 Hakem:** Bir kurs baştan sona tek hakem sesiyle anlatılır. OFF-101 hakemi Gözde (Callirrhoe) dir. OFF-201 hakemi Aylin (Kore) dir. OFF-201 hakemi Gözde olamaz.
+- **1 Maç = MAX 100 Düdük:** Bir kursun Gemini TTS isteği, uzatma ve duraklama dahil 100’ü aşmaz (`ACADEMY_MATCH_WHISTLE_MAX`). Normal süre 70–80 istek bandındadır. Kalan 15–20 istek yalnız zorunlu uzatma ve duraklama içindir.
 - **Teknik geçiş ve örnek duraklaması:** `1.5 – 2.0 saniye` (varsayılan `1.75` sn).
 - **Slayt geçiş senkronu:** Ekran kartı veya görseli, yeni cümleden `1.5 saniye` önce açılır.
 

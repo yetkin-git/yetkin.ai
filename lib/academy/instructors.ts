@@ -194,9 +194,9 @@ export type AcademyDialogueCast = {
 };
 
 /**
- * OFF-201 kurs mührü. Tek string.
- * OFF-101 Gözde (Callirrhoe) kalır. OFF-201 Aylin (Kore) dir; Gözde bu kursta konuşmaz.
- * Ders anahtarına ses yazılamaz.
+ * OFF-201 kurs mührü. 1 Maç = 1 Hakem. Tek string.
+ * OFF-101 hakemi Gözde (Callirrhoe) kalır. OFF-201 hakemi Aylin (Kore) dir.
+ * OFF-201 hakemi Gözde olamaz. Ders anahtarına ses yazılamaz.
  */
 export const ACADEMY_OFF201_COURSE_MASTER_VOICE = "Kore" as const satisfies AcademyInstructorTtsVoice;
 

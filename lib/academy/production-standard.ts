@@ -13,6 +13,48 @@ export const ACADEMY_AI_LESSON_DURATION_MIN_MINUTES = 5;
 /** 5 dk × 60 — mühürlü kaset alt tabanı (saniye). Üst saniye tavanı yoktur. */
 export const ACADEMY_AI_LESSON_DURATION_MIN_SEC = ACADEMY_AI_LESSON_DURATION_MIN_MINUTES * 60;
 
+/**
+ * 1 Maç = MAX 100 Düdük.
+ * Bir kursun Gemini TTS isteği, uzatma ve duraklama dahil bu tavanı aşmaz.
+ */
+export const ACADEMY_MATCH_WHISTLE_MAX = 100;
+/** Normal süre. Temel anlatım bu bantta planlanır. */
+export const ACADEMY_MATCH_WHISTLE_REGULATION_MIN = 70;
+export const ACADEMY_MATCH_WHISTLE_REGULATION_MAX = 80;
+/** Yedek. Yalnız zorunlu uzatma ve duraklama bu payı kullanır. */
+export const ACADEMY_MATCH_WHISTLE_RESERVE_MIN = 15;
+export const ACADEMY_MATCH_WHISTLE_RESERVE_MAX = 20;
+
+export type AcademyMatchWhistlePlan = {
+  requests: number;
+  withinCap: boolean;
+  inRegulationBand: boolean;
+  reserveRemaining: number;
+};
+
+export function academyMatchWhistlePlan(requests: number): AcademyMatchWhistlePlan {
+  return {
+    requests,
+    withinCap: requests <= ACADEMY_MATCH_WHISTLE_MAX,
+    inRegulationBand:
+      requests >= ACADEMY_MATCH_WHISTLE_REGULATION_MIN &&
+      requests <= ACADEMY_MATCH_WHISTLE_REGULATION_MAX,
+    reserveRemaining: ACADEMY_MATCH_WHISTLE_MAX - requests,
+  };
+}
+
+/** Plan 100 düdüğü aşarsa fırın açılmaz. */
+export function assertAcademyMatchWhistleBudget(requests: number): void {
+  if (!Number.isInteger(requests) || requests < 0) {
+    throw new Error("Maç düdük sayısı geçersiz.");
+  }
+  if (requests > ACADEMY_MATCH_WHISTLE_MAX) {
+    throw new Error(
+      `1 Maç = MAX 100 Düdük. Plan ${requests} istek, tavan ${ACADEMY_MATCH_WHISTLE_MAX}. API çağrısı yok.`,
+    );
+  }
+}
+
 export const ACADEMY_TTS_VOICE_GENDERS = ["female", "male"] as const;
 
 export type AcademyTtsVoiceGender = (typeof ACADEMY_TTS_VOICE_GENDERS)[number];

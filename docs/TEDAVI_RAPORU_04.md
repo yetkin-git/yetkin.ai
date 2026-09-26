@@ -1,26 +1,40 @@
-# Tedavi Raporu 04 — OFF-201 için Gözde dışı tek eğitmen sesi
+# Tedavi Raporu 04 — OFF-201 tek hakem ve 100 düdük bütçesi
 
 Tarih: 26 Eylül 2026  
 Dal: `off-201-stage`  
-Commit: `fix(academy): set dedicated non-Gozde master voice for OFF-201`
+Commit: `fix(academy): assign dedicated non-Gozde master voice and enforce 100-request quota budget`
 
-## Karar
+## Hakem
 
-OFF-101 (`01_office_ai`) anlatıcısı Gözde (Callirrhoe) kalır.
+**1 Maç = 1 Hakem.** OFF-201 (`01_office_ai_ileri`) kurs mührü tek stringdir: **Kore / Aylin** (`ACADEMY_OFF201_COURSE_MASTER_VOICE`).
 
-OFF-201 (`01_office_ai_ileri`) eğitmeni Gözde olamaz. Kurs mührü tek stringdir: **Kore / Aylin** (`ACADEMY_OFF201_COURSE_MASTER_VOICE`). Ders 1’den ders 6’ya kadar aynı ses anlatır. Ders bazlı ses haritası yoktur.
+OFF-101 (`01_office_ai`) hakemi Gözde (Callirrhoe) kalır. OFF-201 hakemi Gözde değildir. Altı ders aynı sesi kullanır. Ders bazlı ses haritası yoktur.
 
-Konuşma metni ve cue selamı `Selamlar, ben Aylin.` olur. Eski Callirrhoe kasetleri `wrong-voice-callirrhoe` ile iptaldir. Oynatıcı onları açmaz. Altı ders `ACADEMY_TTS_REBAKE_QUEUE` içindedir.
+## Düdük bütçesi
+
+**1 Maç = MAX 100 Düdük** (`ACADEMY_MATCH_WHISTLE_MAX`). Normal süre 70–80 istektir. Kalan 15–20 istek yalnız zorunlu uzatma ve duraklama içindir.
+
+Dry-run (`--slug=01_office_ai_ileri`, harici çağrı yok) planı:
+
+| Ders | Hakem | İstek |
+|------|--------|------:|
+| `01_office_ai_ileri-1` | Kore | 12 |
+| `01_office_ai_ileri-2` | Kore | 12 |
+| `01_office_ai_ileri-3` | Kore | 11 |
+| `01_office_ai_ileri-4` | Kore | 12 |
+| `01_office_ai_ileri-5` | Kore | 12 |
+| `01_office_ai_ileri-6` | Kore | 12 |
+| **Maç** | **Kore** | **71** |
+
+71 istek normal süre bandındadır (70–80). Yedek pay 29’dur. Tavan 100 aşılmamıştır. Model `gemini-3.1-flash-tts-preview` dir.
 
 ## Mühür
 
-Dry-run (`--slug=01_office_ai_ileri`) altı dersi de Kore, Gemini 3.1 Flash TTS, ders başı 12 istek olarak geçti. Harici çağrı yoktu.
-
-`--seal --confirm-gemini-spend --no-db --no-fallback` açıldı. Ders 1’in ilk nefes dilimi 23.5 sn döndü. Sonraki turlar 429 ile tekrarlandı. Fırın şu hatayla durdu:
+`--seal --confirm-gemini-spend --no-db --no-fallback` açıldı. Ders 1’in ilk nefes dilimi (23.5 sn) sekiz kez tekrarlandı. Dokuzuncu çağrıda fırın durdu:
 
 `402 RESOURCE_EXHAUSTED — Your prepayment credits are depleted.`
 
-Günlük 0/100 RPD penceresi bu turda mühür üretmedi. Ön ödeme kredisi bitmiş. Hiçbir OFF-201 dersi Kore ile diske yazılmadı. Alt modele düşülmedi.
+Bu turda **9 düdük** gitti. Hepsi reddedildi. Hiçbir OFF-201 dersi Kore ile diske yazılmadı. Alt modele düşülmedi. Ön ödeme kredisi bitmişken aynı 402 artık düdük tekrarlamaz; kredi açılınca aynı model ve Kore ile yeniden fırınlanır.
 
 ## Satış kapısı
 
@@ -32,5 +46,5 @@ Komut: `npm test` (`vitest run`)
 
 - Test dosyası: 236 geçti
 - Test: 1153 geçti
-- Süre: 63.06 sn
+- Süre: 60.23 sn
 - Çıkış kodu: 0

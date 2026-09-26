@@ -6,6 +6,13 @@ import {
   ACADEMY_AI_LESSON_COUNT_MIN,
   ACADEMY_AI_LESSON_DURATION_MIN_MINUTES,
   ACADEMY_AI_LESSON_DURATION_MIN_SEC,
+  ACADEMY_MATCH_WHISTLE_MAX,
+  ACADEMY_MATCH_WHISTLE_REGULATION_MAX,
+  ACADEMY_MATCH_WHISTLE_REGULATION_MIN,
+  ACADEMY_MATCH_WHISTLE_RESERVE_MAX,
+  ACADEMY_MATCH_WHISTLE_RESERVE_MIN,
+  academyMatchWhistlePlan,
+  assertAcademyMatchWhistleBudget,
   ACADEMY_LESSON_SATURATION_BEATS,
   ACADEMY_OPTIONAL_LEVEL_PACKAGES,
   ACADEMY_SEALED_MEDIA_LAYERS,
@@ -46,6 +53,10 @@ import { ACADEMY_SEALED_AUDIO_DURATION_SEC } from "@/lib/academy/lesson-audio";
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
 import { CURRICULUM_DRAFTS_BY_SLUG, CURRICULUM_MODULES_BY_SLUG } from "@/lib/academy/curricula";
+import {
+  ACADEMY_TTS_LESSON_REQUEST_MAX,
+  ACADEMY_TTS_LESSON_REQUEST_MIN,
+} from "@/lib/academy/tts-breath-chunks";
 
 const ROOT = process.cwd();
 
@@ -154,6 +165,8 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).not.toContain("Gemini 3.8 Flash");
     expect(pedagogy).toContain("01_office_ai");
     expect(pedagogy).toContain("1 Eğitim Kodu = 1 Ses");
+    expect(pedagogy).toContain("1 Maç = 1 Hakem");
+    expect(pedagogy).toContain("1 Maç = MAX 100 Düdük");
     expect(pedagogy).toContain("courseMasterVoice");
     expect(pedagogy).not.toContain("ACADEMY_OFF201_LESSON_TTS_VOICE");
     expect(pedagogy).toContain("Gemini 3.1 Flash TTS");
@@ -242,6 +255,8 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
 
     const constitution = readFileSync(join(ROOT, ".system_docs", "ANAYASA.md"), "utf8");
     expect(constitution).toContain("1 Eğitim Kodu = 1 Ses");
+    expect(constitution).toContain("1 Maç = 1 Hakem");
+    expect(constitution).toContain("1 Maç = MAX 100 Düdük");
     expect(constitution).toContain("4 medya katmanından");
     expect(constitution).toContain("EĞİTİM VİDEOSUDUR");
     expect(constitution).not.toContain("Yayın = makale + mühürlü karaoke");
@@ -295,6 +310,7 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(veoBake).not.toContain("veo-3.1-generate-preview");
 
     const bakeElkitabi = readFileSync(join(ROOT, "docs", "ops", "akademi-bake-elkitabi.md"), "utf8");
+    expect(bakeElkitabi).toContain("1 Maç = MAX 100 Düdük");
     expect(bakeElkitabi).toContain("Veo 3.1 Lite");
     expect(bakeElkitabi).toContain("--dry-run");
     expect(bakeElkitabi).toContain("0.70");
@@ -351,7 +367,32 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(CURRICULUM_MODULES_BY_SLUG["01_office_ai_ileri"]!.voiceConfig.courseMasterVoice).toBe(
       "Kore",
     );
+    expect(CURRICULUM_MODULES_BY_SLUG["01_office_ai_ileri"]!.voiceConfig.courseMasterVoice).not.toBe(
+      "Callirrhoe",
+    );
     expect(ACADEMY_OFF201_COURSE_MASTER_VOICE).toBe("Kore");
     expect(academyCourseMasterVoice("01_office_ai_ileri")).toBe("Kore");
+    expect(academyCourseMasterVoice("01_office_ai_ileri")).not.toBe("Callirrhoe");
+    const cursorrules = readFileSync(join(ROOT, ".cursorrules"), "utf8");
+    expect(cursorrules).toContain("1 Maç = 1 Hakem");
+    expect(cursorrules).toContain("1 Maç = MAX 100 Düdük");
+    expect(ACADEMY_MATCH_WHISTLE_MAX).toBe(100);
+    expect(ACADEMY_MATCH_WHISTLE_REGULATION_MIN).toBe(70);
+    expect(ACADEMY_MATCH_WHISTLE_REGULATION_MAX).toBe(80);
+    expect(ACADEMY_MATCH_WHISTLE_RESERVE_MIN).toBe(15);
+    expect(ACADEMY_MATCH_WHISTLE_RESERVE_MAX).toBe(20);
+    const regulationTop = ACADEMY_AI_LESSON_COUNT_MIN * ACADEMY_TTS_LESSON_REQUEST_MAX;
+    expect(regulationTop).toBeGreaterThanOrEqual(ACADEMY_MATCH_WHISTLE_REGULATION_MIN);
+    expect(regulationTop).toBeLessThanOrEqual(ACADEMY_MATCH_WHISTLE_REGULATION_MAX);
+    expect(academyMatchWhistlePlan(regulationTop).inRegulationBand).toBe(true);
+    expect(academyMatchWhistlePlan(regulationTop).withinCap).toBe(true);
+    expect(ACADEMY_MATCH_WHISTLE_MAX - ACADEMY_MATCH_WHISTLE_REGULATION_MAX).toBe(
+      ACADEMY_MATCH_WHISTLE_RESERVE_MAX,
+    );
+    expect(() => assertAcademyMatchWhistleBudget(ACADEMY_MATCH_WHISTLE_MAX)).not.toThrow();
+    expect(() => assertAcademyMatchWhistleBudget(ACADEMY_MATCH_WHISTLE_MAX + 1)).toThrow(
+      /1 Maç = MAX 100 Düdük/u,
+    );
+    expect(ACADEMY_TTS_LESSON_REQUEST_MIN).toBe(10);
   });
 });

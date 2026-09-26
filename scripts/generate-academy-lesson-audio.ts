@@ -12,6 +12,7 @@
  * Bake öncesi kapı: --dry-run taraması zorunlu; insan onayı olmadan harici çağrı yok.
  * Skip-preventer: paragraf başı kısa emir ("F2'ye bas") bağlaçlı akışa çevrilir; cue terimleri korunur.
  * İstekler 12–15 doğal nefes bloğu / ders başı 10–12 istek; 3–5 sn mikro dilim YASAK.
+ * 1 Maç = MAX 100 Düdük: kurs planı ve gerçekleşen çağrı `ACADEMY_MATCH_WHISTLE_MAX` üstüne çıkmaz.
  * Cümle geçişlerine `[pause]` enjekte edilir; eğitmenin tonlaması blok içinde canlı kalır.
  * Aynı paragraf dilimleri arasına 0.4 sn nefes konur. Kural ve örnek geçişinde 1.75 sn es vardır.
  * Slayt değişince görsel, yeni cümleden 1.5 sn önce açılır.
@@ -87,6 +88,11 @@ import {
 } from "@/lib/kernel/ai/pcm-wav";
 import { canonicalizeGeminiTtsLanguageCode, canonicalizeGeminiTtsVoiceName } from "@/lib/kernel/ai/tts-voices";
 import { academyLessonCueParagraphPlan } from "@/lib/academy/lesson-cues";
+import {
+  ACADEMY_MATCH_WHISTLE_MAX,
+  academyMatchWhistlePlan,
+  assertAcademyMatchWhistleBudget,
+} from "@/lib/academy/production-standard";
 import { academyLessonIntroOffsetSec } from "@/lib/academy/lesson-intro";
 import type { AcademySealedAudioPiece, AcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import { normalizeRuntimeDatabaseUrl } from "@/lib/kernel/postgres-url";
@@ -122,6 +128,18 @@ const NETWORK_RETRY_CAP = 4;
 const MIN_WAV_BYTES = 2_048;
 const MIN_GEMINI_KEY_CHARS = 8;
 const SPEECH_ATTEMPTS = 12;
+/** Bu süreçte atılan Gemini TTS düdüğü. 1 Maç = MAX 100 Düdük. */
+let matchWhistlesUsed = 0;
+
+function takeMatchWhistle(): number {
+  if (matchWhistlesUsed >= ACADEMY_MATCH_WHISTLE_MAX) {
+    throw new Error(
+      `1 Maç = MAX 100 Düdük. ${matchWhistlesUsed} istek kullanıldı, tavan ${ACADEMY_MATCH_WHISTLE_MAX}. Yeni API çağrısı yok.`,
+    );
+  }
+  matchWhistlesUsed += 1;
+  return matchWhistlesUsed;
+}
 const MIN_SPEECH_CHUNK_RETRY_CHARS = 80;
 
 type GeminiSpeechPart = {
@@ -328,6 +346,10 @@ function isDailyModelQuotaError(error: unknown): boolean {
   return delaySec != null && delaySec >= DAILY_QUOTA_RETRY_DELAY_MIN_SEC;
 }
 
+function isPrepayDepletedError(error: unknown): boolean {
+  return /prepayment credits are depleted/i.test(errorMessage(error));
+}
+
 function isRateLimitError(error: unknown): boolean {
   if (typeof error === "object" && error !== null) {
     const record = error as { status?: unknown; code?: unknown };
@@ -482,6 +504,7 @@ async function synthesizeChunk(input: {
   let networkStreak = 0;
   for (;;) {
     try {
+      takeMatchWhistle();
       const wav = await requestSpeechWav({
         client: input.client,
         model,
@@ -492,6 +515,14 @@ async function synthesizeChunk(input: {
       return wav;
     } catch (error) {
       const message = errorMessage(error);
+      if (message.includes("1 Maç = MAX 100 Düdük")) {
+        throw error;
+      }
+      if (isPrepayDepletedError(error)) {
+        throw new Error(
+          `Gemini ön ödeme kredisi bitti. Düdük tekrarlanmaz. Kredi açılınca aynı modelle yeniden fırınlanır. ${message}`,
+        );
+      }
       if (isDailyModelQuotaError(error)) {
         throw error;
       }
@@ -904,9 +935,11 @@ async function main(): Promise<void> {
     `academy-audio bake — ${jobs.length} ders, ${turnCount} tur, model=${model}${args.dryRun ? " (dry-run)" : ""}\n`,
   );
   if (args.dryRun) {
+    let plannedWhistles = 0;
     for (const job of jobs) {
       assertSpokenScriptMatchesCues(job.lessonKey);
       const breathChunks = collectBreathChunks(job);
+      plannedWhistles += breathChunks.length;
       const sealed = isAcademyLessonAudioSealed(job.courseSlug, job.lessonKey);
       assertAcademyTtsLessonRequestBudget(breathChunks.length, sealed);
       writeDryRunReceipt(job);
@@ -921,6 +954,12 @@ async function main(): Promise<void> {
         `  ${job.courseSlug}/${job.lessonKey}  ${job.turns.length} paragraf  ${breathChunks.length} istek (${band})  skip-preventer  RPM kalkanı=${rpmGapSec}s  min.ara=${minWallSec.toFixed(0)}s  ${job.turns[0]?.voice ?? "?"}  ${queued ? "KUYRUK" : "MÜHÜR"}  seal=${job.mediaReleaseSeal.slice(0, 12)}  → ${job.publicPath}\n`,
       );
     }
+    assertAcademyMatchWhistleBudget(plannedWhistles);
+    const matchPlan = academyMatchWhistlePlan(plannedWhistles);
+    const bandLabel = matchPlan.inRegulationBand ? "normal süre" : "yedek payına taşabilir";
+    process.stdout.write(
+      `1 Maç = MAX 100 Düdük: plan ${matchPlan.requests} istek (${bandLabel}), yedek ${matchPlan.reserveRemaining}, tavan ${ACADEMY_MATCH_WHISTLE_MAX}.\n`,
+    );
     process.stdout.write(
       "Bake öncesi kapı: --dry-run taraması tamam. Harici API yok. İnsan --seal ve --confirm-gemini-spend olmadan çağrı açılmaz.\nKeşif bitti.\n",
     );
@@ -932,10 +971,17 @@ async function main(): Promise<void> {
     );
     process.exit(1);
   }
+  let plannedWhistles = 0;
   for (const job of jobs) {
     assertDryRunApproved(job);
     assertSealedMp3Protected(job);
+    plannedWhistles += collectBreathChunks(job).length;
   }
+  assertAcademyMatchWhistleBudget(plannedWhistles);
+  const matchPlan = academyMatchWhistlePlan(plannedWhistles);
+  process.stdout.write(
+    `1 Maç = MAX 100 Düdük: plan ${matchPlan.requests} istek, yedek ${matchPlan.reserveRemaining}, tavan ${ACADEMY_MATCH_WHISTLE_MAX}.\n`,
+  );
   const apiKey = sanitizeGeminiApiKey(process.env.GEMINI_API_KEY);
   if (!apiKey) {
     throw new Error("GEMINI_API_KEY yok.");
@@ -1003,6 +1049,9 @@ async function main(): Promise<void> {
       await stampMediaReleaseSeal(activeJob, wav, activeModel);
     }
   }
+  process.stdout.write(
+    `1 Maç = MAX 100 Düdük: kullanılan ${matchWhistlesUsed} istek, tavan ${ACADEMY_MATCH_WHISTLE_MAX}.\n`,
+  );
 }
 
 void main().catch((error: unknown) => {
