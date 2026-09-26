@@ -1,3 +1,4 @@
+import { AccountClosePanel } from "@/components/kernel/account-close-panel";
 import { PassportStampList } from "@/components/kernel/passport-stamp-list";
 import { LegalColophonStrip } from "@/components/legal/legal-colophon-strip";
 import { Card } from "@/components/ui/card";
@@ -11,6 +12,8 @@ import {
   latestPassportStamp,
   PASSPORT_UNSET_LABEL,
 } from "@/lib/kernel/passport/display";
+import { readSettlementWallet } from "@/lib/kernel/ledger/wallet-read";
+import { readWalletFinanceHoldMinor } from "@/lib/kernel/payments/finance-hold-read";
 import { loadPassportBoard } from "@/lib/kernel/passport/load";
 import {
   ACADEMY_CERTIFICATES_SURFACE_PATH,
@@ -19,7 +22,7 @@ import {
   FREELANCER_STAMP_SURFACE_PATH,
 } from "@/lib/kernel/passport/types";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
-import { FREELANCER_PUBLIC_SURFACE_LOCKED } from "@/lib/kernel/compliance/circuit-breakers";
+import { isFreelancerPublicSurfaceLocked } from "@/lib/kernel/compliance/circuit-breakers";
 
 function PassportShelterActions({ soft = false }: { soft?: boolean }) {
   const copy = SEN_VOICE.pasaport;
@@ -32,7 +35,7 @@ function PassportShelterActions({ soft = false }: { soft?: boolean }) {
       <LinkButton href={ACADEMY_CERTIFICATES_SURFACE_PATH} variant="outline" size={size}>
         {copy.certificatesCta}
       </LinkButton>
-      {FREELANCER_PUBLIC_SURFACE_LOCKED ? null : (
+      {isFreelancerPublicSurfaceLocked() ? null : (
         <LinkButton href={FREELANCER_STAMP_SURFACE_PATH} variant="outline" size={size}>
           {copy.freelancerBoardCta}
         </LinkButton>
@@ -43,7 +46,11 @@ function PassportShelterActions({ soft = false }: { soft?: boolean }) {
 
 export default async function PassportPage() {
   const session = await requirePageSession();
-  const board = await loadPassportBoard(session.id);
+  const [board, wallet, financeHoldMinor] = await Promise.all([
+    loadPassportBoard(session.id),
+    readSettlementWallet(session.id),
+    readWalletFinanceHoldMinor(session.id),
+  ]);
   const stamps = board?.stamps ?? [];
   const latest = latestPassportStamp(stamps);
   const copy = SEN_VOICE.pasaport;
@@ -99,6 +106,7 @@ export default async function PassportPage() {
           {copy.verifyCta}
         </LinkButton>
       </p>
+      <AccountClosePanel balanceMinor={wallet?.amountMinor ?? 0} financeHoldMinor={financeHoldMinor} />
       <LegalColophonStrip />
     </RoomFrame>
   );

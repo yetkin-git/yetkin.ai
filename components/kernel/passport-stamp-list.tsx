@@ -29,7 +29,7 @@ import {
   type SealedPassportStamp,
 } from "@/lib/kernel/passport/types";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
-import { FREELANCER_PUBLIC_SURFACE_LOCKED } from "@/lib/kernel/compliance/circuit-breakers";
+import { isFreelancerPublicSurfaceLocked } from "@/lib/kernel/compliance/circuit-breakers";
 
 function StampArticle({ stamp }: { stamp: SealedPassportStamp }) {
   const copy = SEN_VOICE.pasaport;
@@ -177,7 +177,7 @@ export function PassportStampList({ stamps }: { stamps: SealedPassportStamp[] })
           ))}
         </ul>
       </section>
-      {FREELANCER_PUBLIC_SURFACE_LOCKED ? null : (
+      {isFreelancerPublicSurfaceLocked() ? null : (
       <section className="mb-6 space-y-3">
         <h3 className="text-sm font-semibold tracking-tight text-[var(--foreground)]">
           {copy.freelancerStrip.title}
@@ -211,7 +211,7 @@ export function PassportStampList({ stamps }: { stamps: SealedPassportStamp[] })
           <LinkButton href={ACADEMY_STAMP_SURFACE_PATH} variant="primary" size="sm">
             {copy.academyCta}
           </LinkButton>
-          {FREELANCER_PUBLIC_SURFACE_LOCKED ? null : (
+          {isFreelancerPublicSurfaceLocked() ? null : (
             <LinkButton href={FREELANCER_STAMP_SURFACE_PATH} variant="secondary" size="sm">
               {copy.freelancerBoardCta}
             </LinkButton>

@@ -10,8 +10,8 @@ import { DronBayrakları, DRON_KAYIT } from "@/lib/dronlar/kayit";
 import { isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
 import {
   FREELANCER_LOCKED_API_PREFIXES,
-  FREELANCER_PUBLIC_SURFACE_LOCKED,
   FROZEN_SHELL_ROOM_IDS,
+  isFreelancerPublicSurfaceLocked,
 } from "@/lib/kernel/compliance/circuit-breakers";
 import { canonicalApiPathname } from "@/lib/kernel/http/api-v1";
 import {
@@ -37,7 +37,7 @@ const MUTATING_HTTP_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 export function isFrozenRoomApi(pathname: string): boolean {
   const path = canonicalApiPathname(pathname);
   if (
-    FREELANCER_PUBLIC_SURFACE_LOCKED &&
+    isFreelancerPublicSurfaceLocked() &&
     FREELANCER_LOCKED_API_PREFIXES.some(
       (prefix) => path === prefix || path.startsWith(`${prefix}/`),
     )
@@ -53,7 +53,7 @@ export function isFrozenRoomApi(pathname: string): boolean {
   }
   return DRON_KAYIT.some(
     (row) =>
-      DronBayrakları.isKapali(row.id) &&
+      (row.id === "freelancer" ? isFreelancerPublicSurfaceLocked() : DronBayrakları.isKapali(row.id)) &&
       (path === `/api/${row.id}` || path.startsWith(`/api/${row.id}/`)),
   );
 }

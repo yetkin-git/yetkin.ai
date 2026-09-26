@@ -1,8 +1,8 @@
 import { PUBLIC_SEN } from "@/lib/copy/sen-voice/public";
 import {
   FROZEN_DISK_ROOM_CATALOG,
-  FREELANCER_PUBLIC_SURFACE_LOCKED,
   isFreelancerPublicPagePath,
+  isFreelancerPublicSurfaceLocked,
 } from "@/lib/kernel/compliance/circuit-breakers";
 import { EDGE_API_FROZEN_ROOM_ERROR } from "@/lib/kernel/security/edge-api-auth";
 
@@ -10,7 +10,7 @@ import { EDGE_API_FROZEN_ROOM_ERROR } from "@/lib/kernel/security/edge-api-auth"
 export const FROZEN_ROOM_GONE_HEADLINE = EDGE_API_FROZEN_ROOM_ERROR;
 
 export function frozenRoomLabelFromPath(pathname: string): string {
-  if (FREELANCER_PUBLIC_SURFACE_LOCKED && isFreelancerPublicPagePath(pathname)) {
+  if (isFreelancerPublicSurfaceLocked() && isFreelancerPublicPagePath(pathname)) {
     return "Freelancer";
   }
   const match = FROZEN_DISK_ROOM_CATALOG.find(

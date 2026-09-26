@@ -32,6 +32,7 @@ export const RLS_FORCE_TABLES = [
   "academy_exam_attempts",
   "academy_exam_sittings",
   "academy_exams",
+  "academy_exemption_seals",
   "academy_lesson_completions",
   "academy_purchases",
   "ai_token_usages",

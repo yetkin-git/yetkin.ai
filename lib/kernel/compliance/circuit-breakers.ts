@@ -1,4 +1,5 @@
 import { DronBayrakları, DRON_KAYIT, FROZEN_DISK_ROOMS, VERTICAL_ROOMS, type VerticalRoomId } from "@/lib/dronlar/kayit";
+import { MARKETPLACE_SPLIT_LIVE } from "@/lib/kernel/payments/marketplace-split-live";
 
 /**
  * Üretim kilitleri — yalnız gerçek yasal/güvenlik kapıları.
@@ -35,7 +36,7 @@ export const FREELANCER_LOCKED_API_PREFIXES = ["/api/freelancer", "/api/client/j
 function isPublicVitrineVerticalRoom(
   room: (typeof VERTICAL_ROOMS)[number],
 ): boolean {
-  return !(room.id === "freelancer" && DronBayrakları.isKapali("freelancer"));
+  return !(room.id === "freelancer" && isFreelancerPublicSurfaceLocked());
 }
 
 /** Kamu vitrin: Panel + Akademi + Kariyer. Freelancer kilitliyken nav'dan düşer. */
@@ -102,7 +103,16 @@ export function isJuniorProductionFrozen(): boolean {
   return JUNIOR_PRODUCTION_LOCKED;
 }
 
+/**
+ * Freelancer kamu yüzeyi tek kapı.
+ * Açık sayılması için üçünün birden geçmesi gerekir:
+ * derleme kilidi kalkmış, `MARKETPLACE_SPLIT_LIVE` açık, dron kaydı kapalı değil.
+ * `DRON_FREELANCER_OPEN` tek başına vitrini açmaz.
+ */
 export function isFreelancerPublicSurfaceLocked(): boolean {
+  if (FREELANCER_PUBLIC_SURFACE_LOCKED || !MARKETPLACE_SPLIT_LIVE) {
+    return true;
+  }
   return DronBayrakları.isKapali("freelancer");
 }
 

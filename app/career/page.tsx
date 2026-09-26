@@ -15,7 +15,7 @@ import { loadCareerBoard } from "@/lib/career/load";
 import { requirePageSession } from "@/lib/kernel/auth/session";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { AUTH_ROBOTS, PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
-import { FREELANCER_PUBLIC_SURFACE_LOCKED } from "@/lib/kernel/compliance/circuit-breakers";
+import { isFreelancerPublicSurfaceLocked } from "@/lib/kernel/compliance/circuit-breakers";
 import {
   FREELANCER_STAMP_SURFACE_PATH,
   PASSPORT_SURFACE_PATH,
@@ -72,7 +72,7 @@ export default async function CareerPage() {
             <LinkButton href={ACADEMY_CERTIFICATES_SURFACE_PATH} variant="outline" size="sm">
               {copy.certificatesCta}
             </LinkButton>
-            {FREELANCER_PUBLIC_SURFACE_LOCKED ? null : (
+            {isFreelancerPublicSurfaceLocked() ? null : (
               <LinkButton href={FREELANCER_STAMP_SURFACE_PATH} variant="outline" size="sm">
                 {copy.freelancerBoardCta}
               </LinkButton>

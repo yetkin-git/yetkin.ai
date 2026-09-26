@@ -46,7 +46,7 @@ export const GEMINI_TTS_PREBUILT_VOICES = [
 
 export type GeminiTtsPrebuiltVoice = (typeof GEMINI_TTS_PREBUILT_VOICES)[number];
 
-/** Fırınlama varsayılanı — konunun tonuna göre kadın veya erkek TTS (PEDAGOJI.md §F.3). Slug ses mührü ezer. */
+/** Fırınlama varsayılanı — konunun tonuna göre kadın veya erkek TTS (PEDAGOJI.md §B). Slug ses mührü ezer. */
 export const GEMINI_TTS_DEFAULT_VOICE_BY_GENDER = {
   female: "Callirrhoe",
   male: "Fenrir",

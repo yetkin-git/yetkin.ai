@@ -8,7 +8,7 @@
  * giriş formunu kilitler. XSS kilidi `script-src` nonce + `strict-dynamic`'tedir.
  */
 
-import { academyCourseOffersFreePreview } from "@/lib/academy/purchase-path";
+import { academyCourseOffersFreePreview } from "@/lib/kernel/catalog-ids/free-preview";
 import { isFrozenShellPagePath } from "../compliance/circuit-breakers";
 import {
   EDGE_HSTS_VALUE,
@@ -237,6 +237,9 @@ export function buildEdgeCsp(
     "img-src 'self' data: blob:; " +
     `${EDGE_CSP_STYLE_SRC_DIRECTIVE}; ` +
     `${EDGE_CSP_STYLE_SRC_ATTR_DIRECTIVE}; ` +
+    // Cloudflare Email Obfuscation `/cdn-cgi/scripts/.../email-decode.min.js` basar.
+    // Nonce + strict-dynamic host allowlist'i yok sayar; script allowlist'e eklenmez.
+    // Ham `user@host` HTML'de durmaz (JSON-LD \\u0040, mailto %40, etiket parçalı).
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${scriptEval} ${EDGE_CSP_PAYTR_SCRIPT_SRC}; ` +
     `${EDGE_CSP_CONNECT_SRC_DIRECTIVE}; ` +
     `${EDGE_CSP_MEDIA_SRC_DIRECTIVE}; ` +
