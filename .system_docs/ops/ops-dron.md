@@ -24,7 +24,9 @@ SSOT: `@yetkin/kernel` `RAIL_V1_HOPS_META` + Amiral Zod. `RAIL_V1_HOPS`, **16 ka
 
 Amiral çerezle `/api/...`, Dron Bearer ile `/api/v1/...` aynı handler'ı konuşur.
 
-## Ders → Native Yüzey Matrisi (`01_office_ai`, 9 ders)
+## Ders → Native Yüzey Matrisi (`01_office_ai`, 8 ders)
+
+SSOT: `lib/academy/curricula/lesson-index.ts`. Vatandaş sırası 1…8. Teknik sonek ders numarası değildir. `01_office_ai-4` sınav yolunda yoktur (arşiv). Hazırlık şeridi `01_office_ai-0` bu sayıya girmez.
 
 Native teslimat tektir (`apps/rail-is/src/screens/AcademyPlayerScreen.tsx`): **Sesli anlatım** = punchcard rozetleri (cue saatiyle yanar, `ui/academy-punchcards.ts`, saat web timings JSON'dan türetilir) + compact makale metni + sınav / mühür / kasa hop'ları. Native TTS hop'u yoktur; «garsonu göster» Excel/Gmail klonu taşınmaz. Canlı masa yalnız web sinemasındadır.
 
@@ -35,12 +37,11 @@ Native teslimat tektir (`apps/rail-is/src/screens/AcademyPlayerScreen.tsx`): **S
 | 3 | `01_office_ai-2` | Sesli anlatım + makale + rozetler | Rapor dense-dump tablosu |
 | 4 | `01_office_ai-3` | Sesli anlatım + makale + rozetler | PowerPoint sineması (Copilot dock) |
 | 5 | `01_office_ai-5` | Sesli anlatım + makale + rozetler | Hata-avı masası (Kaya/Demir/Yıldız) |
-| 6 | `01_office_ai-4` | Sesli anlatım + makale + rozetler | Outlook e-posta ritüel masası |
-| 7 | `01_office_ai-g1` | Sesli anlatım + makale + rozetler | Gmail + Gemini çift-hat posta masası |
-| 8 | `01_office_ai-w1` | Sesli anlatım + makale + rozetler | Word masası (sözleşme/dilekçe/rapor) |
-| 9 | `01_office_ai-6` | Sesli anlatım + makale + rozetler + sınav kapısı | Capstone Cuma 30 masası |
+| 6 | `01_office_ai-g1` | Sesli anlatım + makale + rozetler | Gmail + Outlook posta masası |
+| 7 | `01_office_ai-w1` | Sesli anlatım + makale + rozetler | Word masası (sözleşme/dilekçe/rapor) |
+| 8 | `01_office_ai-6` | Sesli anlatım + makale + rozetler + sınav kapısı | Capstone Cuma 30 masası |
 
-Sınav kapısı yalnız 9. dersten sonra iki platformda da açılır. Timings `durationSec` / `cacheV` değişince Dron punchcard saatleri aynı kaynaktan türetilir; eski native bundle eski saati taşır (bakım: `docs/ops/akademi-bake-elkitabi.md` § Timings → Dron punchcard sürüm sözleşmesi).
+Sınav kapısı yalnız 8. dersten (`01_office_ai-6`) sonra iki platformda da açılır. Timings `durationSec` / `cacheV` değişince Dron punchcard saatleri aynı kaynaktan türetilir; eski native bundle eski saati taşır (bakım: `docs/ops/akademi-bake-elkitabi.md` § Timings → Dron punchcard sürüm sözleşmesi).
 
 ## Closed Testing — T3 B2C
 
