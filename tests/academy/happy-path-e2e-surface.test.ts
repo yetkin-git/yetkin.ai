@@ -27,7 +27,7 @@ describe("O8 akademi nakit E2E yüzeyi", () => {
     expect(spec).toContain("E-Ticaret ve Pazaryeri Yapay Zekâ");
     expect(spec).toContain("Sosyal Medya İçerik Üretimi");
     expect(spec).toContain("Kodsuz WhatsApp");
-    expect(spec).toContain("Pratik Prompt Mühendisliği");
+    expect(spec).toContain("Günlük İşler İçin İstem Yazma");
     expect(spec).not.toContain("python-temel");
     expect(spec).not.toContain("ac_rail_temel");
     expect(spec).toContain("Idempotency-Key");

@@ -9,8 +9,7 @@ import { OFFICE_AI_EXIT_KIT_SLUG } from "@/lib/academy/exit-kit";
 import { requirePageSession } from "@/lib/kernel/auth/session";
 import { isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
 import { loadCourseBySlug, loadPurchaseForUserCourse } from "@/lib/academy/load";
-import { hasAcademyPlayerAccess } from "@/lib/academy/access";
-import { hasCommercialAcademyEnrolment } from "@/lib/academy/enrolment";
+import { hasAcademyOynaAccess } from "@/lib/academy/access";
 import {
   academyStorefrontStaticParams,
   isAcademyGrowthSkuSlug,
@@ -54,8 +53,7 @@ export default async function AcademyExitKitPage({
   }
   const purchase = await loadPurchaseForUserCourse(session.id, board.course.id, userEmail);
   const actor = { userId: session.id, email: userEmail };
-  const canAccess =
-    hasCommercialAcademyEnrolment(purchase) || hasAcademyPlayerAccess(purchase, actor);
+  const canAccess = hasAcademyOynaAccess(purchase, actor);
 
   if (!canAccess) {
     redirect(`/academy/${board.course.slug}`);

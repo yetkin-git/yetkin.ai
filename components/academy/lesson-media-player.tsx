@@ -23,8 +23,8 @@ import {
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import { formatAcademyCinemaClock } from "@/lib/academy/lesson-cinema";
 import {
+  academyLessonAudioEndedIsComplete,
   academyOutroBreathRemainMs,
-  hasAcademyLessonPlaybackReachedEnd,
   hasAcademyOutroBreathElapsed,
   shouldSealProgressAfterDialogueEnded,
 } from "@/lib/academy/lesson-advance";
@@ -261,16 +261,7 @@ export function LessonMediaPlayer({
       if (!(Number.isFinite(audio.currentTime) && audio.currentTime >= 0)) {
         return;
       }
-      const cap = clockRef.current.duration > 0 ? clockRef.current.duration : fallbackDuration;
-      const audioCap = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : cap;
-      const inOutro = cap > audioCap + 0.05 && (audio.ended || audio.currentTime + 0.08 >= audioCap);
-      const cassetteLastSecond = hasAcademyLessonPlaybackReachedEnd({
-        currentTime: audio.currentTime,
-        durationSec: audioCap,
-      });
-      if (inOutro || cassetteLastSecond) {
-        markOutroBreath(clockRef.current.elapsed);
-        pushSpokenClock(clockRef.current.elapsed);
+      if (audio.ended) {
         return;
       }
       clockRef.current.lastAudioTime = audio.currentTime;
@@ -328,14 +319,18 @@ export function LessonMediaPlayer({
 
   const sealIfEnded = useCallback((nextElapsed: number, cap: number, forceBreath = false) => {
     const clock = clockRef.current;
+    const audio = audioRef.current;
     const waitMs = Math.max(ACADEMY_OUTRO_BREATH_MS, Math.round(outroTail * 1000));
+    const audioEnded = academyLessonAudioEndedIsComplete({
+      ended: audio?.ended === true,
+      currentTime: audio && Number.isFinite(audio.currentTime) ? audio.currentTime : nextElapsed,
+      sealedDurationSec: sealedDuration,
+    });
     if (
+      !audioEnded ||
       !shouldSealProgressAfterDialogueEnded({
         playbackStarted: clock.playbackStarted,
-        reachedEnd: hasAcademyLessonPlaybackReachedEnd({
-          currentTime: nextElapsed,
-          durationSec: cap,
-        }),
+        reachedEnd: true,
       }) ||
       (!forceBreath && !hasAcademyOutroBreathElapsed(intoOutroBreathMs(), waitMs))
     ) {
@@ -357,7 +352,7 @@ export function LessonMediaPlayer({
     applyBedDuck(cap, false);
     notifyEnded();
     return true;
-  }, [applyBedDuck, intoOutroBreathMs, notifyEnded, outroTail]);
+  }, [applyBedDuck, intoOutroBreathMs, notifyEnded, outroTail, sealedDuration]);
 
   const armOutroEndTimeout = useCallback(
     (fromElapsed: number, cap: number) => {
@@ -409,7 +404,8 @@ export function LessonMediaPlayer({
         const audioCap = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : clamped;
         audio.currentTime = Math.min(clamped, audioCap);
       }
-      if (!sealIfEnded(clamped, cap) && clamped >= cap && cap > 0) {
+      const audioEnded = audio?.ended === true;
+      if (audioEnded && !sealIfEnded(clamped, cap) && clamped >= cap && cap > 0) {
         armOutroEndTimeout(clamped, cap);
       }
     },
@@ -445,64 +441,30 @@ export function LessonMediaPlayer({
       clock.lastStamp = stamp;
       const cap = clock.duration > 0 ? clock.duration : fallbackDuration;
       const audio = audioRef.current;
-      if (audioReady && audio && Number.isFinite(audio.currentTime)) {
-        commitDuration(audio.duration);
-        const audioCap = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : cap;
-        const cassetteLastSecond = hasAcademyLessonPlaybackReachedEnd({
-          currentTime: audio.currentTime,
-          durationSec: audioCap,
-        });
-        const inOutro =
-          cap > audioCap + 0.05 && (audio.ended || audio.currentTime + 0.08 >= audioCap || cassetteLastSecond);
-        if (inOutro || cassetteLastSecond) {
-          markOutroBreath(clock.elapsed);
-          const next = Math.min(clock.elapsed + delta, cap);
-          clock.elapsed = next;
-          setElapsed((current) => (Math.abs(current - next) >= 0.05 ? next : current));
-          pushSpokenClock(next);
-          applyBedDuck(next, true);
-          if (sealIfEnded(next, cap)) {
-            rafRef.current = 0;
-            return;
-          }
-          if (outroEndTimerRef.current === 0) {
-            armOutroEndTimeout(next, cap);
-          }
-          rafRef.current = window.requestAnimationFrame(tick);
-          return;
-        }
-        const reported = audio.currentTime;
-        const stalled =
-          !audio.paused &&
-          Math.abs(reported - clock.lastAudioTime) < 0.04 &&
-          reported + 0.35 < cap;
-        if (stalled) {
-          clock.stallMs += delta * 1000;
-          const next = Math.min(clock.elapsed + delta, cap);
-          clock.elapsed = next;
-        setElapsed((current) => (Math.abs(current - next) >= 0.05 ? next : current));
-          if (clock.stallMs > 280 && Number.isFinite(audio.duration) && reported + 0.2 < cap) {
-            audio.currentTime = Math.min(reported + 0.12, cap);
-          }
-        } else {
-          clock.stallMs = 0;
-          clock.lastAudioTime = reported;
-          clock.elapsed = reported;
-          setElapsed((current) => (Math.abs(current - reported) >= 0.05 ? reported : current));
-        }
-        if (sealIfEnded(clock.elapsed, cap)) {
-          rafRef.current = 0;
-          return;
-        }
-      } else {
-        const next = clock.elapsed + delta;
-        if (sealIfEnded(next, cap)) {
-          clock.elapsed = cap;
-          rafRef.current = 0;
-          return;
-        }
+      if (audioReady && audio && audio.ended) {
+        markOutroBreath(clock.elapsed);
+        const next = Math.min(clock.elapsed + delta, cap);
         clock.elapsed = next;
         setElapsed((current) => (Math.abs(current - next) >= 0.05 ? next : current));
+        pushSpokenClock(next);
+        applyBedDuck(next, true);
+        if (sealIfEnded(next, cap)) {
+          rafRef.current = 0;
+          return;
+        }
+        if (outroEndTimerRef.current === 0) {
+          armOutroEndTimeout(next, cap);
+        }
+        rafRef.current = window.requestAnimationFrame(tick);
+        return;
+      }
+      if (audioReady && audio && Number.isFinite(audio.currentTime)) {
+        commitDuration(audio.duration);
+        const reported = audio.currentTime;
+        clock.stallMs = 0;
+        clock.lastAudioTime = reported;
+        clock.elapsed = reported;
+        setElapsed((current) => (Math.abs(current - reported) >= 0.05 ? reported : current));
       }
       pushSpokenClock(clock.elapsed);
       applyBedDuck(clock.elapsed, true);
@@ -517,21 +479,6 @@ export function LessonMediaPlayer({
       rafRef.current = 0;
     };
   }, [applyBedDuck, armOutroEndTimeout, audioReady, commitDuration, fallbackDuration, markOutroBreath, playing, pushSpokenClock, sealIfEnded]);
-
-  useEffect(() => {
-    const cap = clockRef.current.duration > 0 ? clockRef.current.duration : fallbackDuration;
-    if (
-      !hasAcademyLessonPlaybackReachedEnd({
-        currentTime: elapsed,
-        durationSec: cap,
-      })
-    ) {
-      return;
-    }
-    if (!sealIfEnded(Math.max(elapsed, cap), cap) && outroEndTimerRef.current === 0) {
-      armOutroEndTimeout(elapsed, cap);
-    }
-  }, [armOutroEndTimeout, elapsed, fallbackDuration, sealIfEnded]);
 
   useEffect(() => {
     return () => {
@@ -719,24 +666,11 @@ export function LessonMediaPlayer({
           if (!audio || pauseLockRef.current) {
             return;
           }
-          const resolved = commitDuration(audio.duration);
+          commitDuration(audio.duration);
           if (!(Number.isFinite(audio.currentTime) && audio.currentTime >= 0)) {
             return;
           }
-          const cap = resolved > 0 ? resolved : clockRef.current.duration;
-          const audioCap = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : cap;
-          if (cap > audioCap + 0.05 && audio.currentTime + 0.08 >= audioCap && clockRef.current.elapsed >= audioCap) {
-            applyBedDuck(clockRef.current.elapsed, clockRef.current.playing && !pauseLockRef.current);
-            setAudioReady(true);
-            setAudioFailed(false);
-            return;
-          }
-          const frozen =
-            clockRef.current.playing &&
-            clockRef.current.elapsed > audio.currentTime + 0.08 &&
-            audio.currentTime + 0.35 < cap &&
-            Math.abs(audio.currentTime - clockRef.current.lastAudioTime) < 0.04;
-          if (frozen) {
+          if (audio.ended) {
             return;
           }
           clockRef.current.lastAudioTime = audio.currentTime;
@@ -793,29 +727,24 @@ export function LessonMediaPlayer({
           const cap = clockRef.current.duration > 0 ? clockRef.current.duration : fallbackDuration;
           const audio = audioRef.current;
           const reported = audio && Number.isFinite(audio.currentTime) ? audio.currentTime : clockRef.current.elapsed;
-          if (
-            !falseEndRetryRef.current &&
-            cap > 150 &&
-            reported > 90 &&
-            reported < 125 &&
-            reported < cap * 0.85
-          ) {
-            falseEndRetryRef.current = true;
-            pauseLockRef.current = false;
-            clockRef.current.playing = true;
-            clockRef.current.sealed = false;
-            if (audio) {
-              audio.currentTime = Math.min(reported + 0.2, cap);
+          const complete = academyLessonAudioEndedIsComplete({
+            ended: true,
+            currentTime: reported,
+            sealedDurationSec: sealedDuration,
+          });
+          if (!complete) {
+            if (!falseEndRetryRef.current && audio) {
+              falseEndRetryRef.current = true;
+              pauseLockRef.current = false;
+              clockRef.current.playing = true;
+              clockRef.current.sealed = false;
+              audio.currentTime = Math.min(reported + 0.2, Math.max(reported + 0.2, sealedDuration));
               void audio.play().catch(() => undefined);
+              setPlaying(true);
             }
-            setPlaying(true);
             return;
           }
-          const audioCap = audio && Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : reported;
-          clockRef.current.elapsed = Math.max(
-            clockRef.current.elapsed,
-            Math.min(reported, Number.isFinite(audioCap) ? audioCap : reported),
-          );
+          clockRef.current.elapsed = Math.max(clockRef.current.elapsed, reported);
           applyBedDuck(clockRef.current.elapsed, true);
           armOutroEndTimeout(clockRef.current.elapsed, cap);
         }}

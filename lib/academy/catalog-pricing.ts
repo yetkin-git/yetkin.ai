@@ -1,7 +1,8 @@
 /**
  * Akademi vitrin tutarı — KDV dahil, kuruş tamsayısı.
  * Seviye bandı uygulanmaz; SKU başına serbest analiz tutarıdır.
- * Canlı kilit ve vitrin `PriceCatalogEntry.amountMinor`. Bu harita tohum SQL / DB yokken soğuk vitrin.
+ * Canlı kilit `PriceCatalogEntry.amountMinor`. Bu harita yalnız tohumdur.
+ * Vitrin ve JSON-LD, katalog satırı yokken bu sayıyı basmaz. Satır varsa bu harita onu ezmez.
  *
  * 13 kanon SKU fiyatı dondurulmuştur. Katman 1 ₺890–1.290, Katman 2 ₺2.900–7.500,
  * Katman 3 PayTR cüzdan tavanına (₺20.000) sığan kurumsal bant.
@@ -13,7 +14,7 @@ import { WALLET_TOP_UP_MAX_MINOR, WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/p
 
 /**
  * Ops yazma penceresi — ticari taban/tavan değildir.
- * Tohum tutarı bu aralıkta serbestçe durur; kartta görünen rakam `ACADEMY_CATALOG_PRICE_MINOR`.
+ * Tohum tutarı bu aralıkta durur. Karttaki rakam katalog satırındandır.
  */
 export const ACADEMY_CATALOG_PRICE_WINDOW = {
   minMinor: 1,
@@ -39,6 +40,12 @@ export const ACADEMY_CATALOG_PRICE_MINOR = {
   "12_onprem_finetune": 1_900_000,
   "13_ai_governance": 1_500_000,
 } as const satisfies Record<AcademyCourseTitleSlug, number>;
+
+/**
+ * Eski soğuk yedek. Vitrin bunu basmaz.
+ * Katalog satırı yokken kart `pricePending` gösterir. Satır varsa `PriceCatalogEntry` keser.
+ */
+export const OFF_201_CATALOG_READER_DEFAULT_MINOR = null;
 
 export function academyCatalogPriceMinorForSlug(slug: string): number | null {
   if (slug in ACADEMY_CATALOG_PRICE_MINOR) {

@@ -39,6 +39,19 @@ const CATALOG_PREFIX_ORDER: readonly (readonly string[])[] = [
 /** Tekil Beceriler rafı */
 const TEKIL_BECERI_PREFIXES: readonly string[] = [];
 
+/**
+ * Emekli slug. `02_` öneki e-ticaret rafına düşürür.
+ * İleri ofis `01_office_ai_ileri` / OFF-201 altındadır. Bu kimlik rafa girmez.
+ */
+const RETIRED_CATALOG_SLUGS = new Set(["02_business_ai"]);
+
+function catalogSlugMatchesPrefix(slug: string, prefix: string): boolean {
+  if (RETIRED_CATALOG_SLUGS.has(slug)) {
+    return false;
+  }
+  return slug.startsWith(prefix);
+}
+
 const MODULE_CODE_BY_SLUG: Record<string, string> = {
   "01_office_ai": "OFF-101",
   "office-ai": "OFF-101",
@@ -133,7 +146,7 @@ export function academySpokenModuleCode(slug: string): string | null {
 function catalogVerticalOrderIndex(slug: string): number {
   let index = 0;
   for (const prefixes of CATALOG_PREFIX_ORDER) {
-    if (prefixes.some((prefix) => slug.startsWith(prefix))) {
+    if (prefixes.some((prefix) => catalogSlugMatchesPrefix(slug, prefix))) {
       return index;
     }
     index += 1;
@@ -208,7 +221,7 @@ function catalogSeriesKey(slug: string): string {
     return "excel";
   }
   for (const prefixes of CATALOG_PREFIX_ORDER) {
-    const match = prefixes.find((prefix) => slug.startsWith(prefix));
+    const match = prefixes.find((prefix) => catalogSlugMatchesPrefix(slug, prefix));
     if (match) {
       return match.replace(/-$/, "");
     }

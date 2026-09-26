@@ -10,6 +10,7 @@ import {
 } from "@/lib/academy/course-level";
 import { ACADEMY_TERM } from "@/archived/lib/academy-studio/term-glossary";
 import {
+  ACADEMY_INSTRUCTOR_SPEECH_RATE,
   ACADEMY_INSTRUCTORS_BY_VOICE,
   ACADEMY_INSTRUCTOR_TTS_VOICES,
   academyInstructorBySlug,
@@ -60,6 +61,7 @@ describe("03.16 gerçek müfredat gövdesi — amiral compact", () => {
     expect(files.sort()).toEqual([
       "index.ts",
       "lesson-index.ts",
+      "phase2-exam-readiness.ts",
       "types.ts",
     ]);
     for (const name of files) {
@@ -183,10 +185,10 @@ describe("03.22 tek ses tek isim", () => {
     expect(academyInstructorBySlug("04_chatbot_nocode").name).toBe("Kaan");
     expect(academyInstructorBySlug("04_chatbot_nocode").voice).toBe("Puck");
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Aylin")?.speechRate).toBe(
-      0.93,
+      ACADEMY_INSTRUCTOR_SPEECH_RATE,
     );
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Gözde")?.speechRate).toBe(
-      0.93,
+      ACADEMY_INSTRUCTOR_SPEECH_RATE,
     );
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Tarık")?.speechRate).toBe(
       1,
@@ -194,13 +196,13 @@ describe("03.22 tek ses tek isim", () => {
     expect(ACADEMY_ANNOUNCER.voice).toBe("Orus");
     expect(ACADEMY_MODERATOR.role).toBe("Stüdyo Sunucusu / Moderatör");
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Maya")?.speechRate).toBe(
-      0.93,
+      ACADEMY_INSTRUCTOR_SPEECH_RATE,
     );
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Koray")?.speechRate).toBe(
       1,
     );
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Ece")?.speechRate).toBe(
-      0.93,
+      ACADEMY_INSTRUCTOR_SPEECH_RATE,
     );
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Can")?.speechRate).toBe(
       1,

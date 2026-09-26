@@ -15,6 +15,7 @@ import {
   academyTtsLessonRequestBudget,
   assertAcademyTtsLessonRequestBudget,
   injectAcademyTtsBreathPauses,
+  packAcademyTtsLessonRequests,
   splitAcademyTtsBreathChunks,
   stripAcademyTtsBreathPauses,
 } from "@/lib/academy/tts-breath-chunks";
@@ -28,12 +29,15 @@ describe("TTS nefes dilimleyici", () => {
     expect(60_000 / ACADEMY_TTS_RPM_GAP_MS).toBeLessThan(10);
     expect(ACADEMY_TTS_LESSON_REQUEST_MIN).toBe(10);
     expect(ACADEMY_TTS_LESSON_REQUEST_MAX).toBe(12);
-    expect(ACADEMY_TTS_LESSON_BREATH_BLOCK_MAX).toBe(15);
+    expect(ACADEMY_TTS_LESSON_BREATH_BLOCK_MAX).toBe(12);
     expect(academyTtsLessonRequestBudget(12).inTargetBand).toBe(true);
-    expect(academyTtsLessonRequestBudget(15).withinHardMax).toBe(true);
-    expect(academyTtsLessonRequestBudget(16).withinHardMax).toBe(false);
-    expect(() => assertAcademyTtsLessonRequestBudget(16, false)).toThrow(/TTS istek tavanı/u);
-    expect(() => assertAcademyTtsLessonRequestBudget(19, true)).not.toThrow();
+    expect(academyTtsLessonRequestBudget(12).withinHardMax).toBe(true);
+    expect(academyTtsLessonRequestBudget(9).withinHardMax).toBe(false);
+    expect(academyTtsLessonRequestBudget(13).withinHardMax).toBe(false);
+    expect(() => assertAcademyTtsLessonRequestBudget(16, false)).toThrow(/TTS istek bandı/u);
+    expect(() => assertAcademyTtsLessonRequestBudget(11, false)).not.toThrow();
+    expect(() => assertAcademyTtsLessonRequestBudget(4, false, 40)).not.toThrow();
+    expect(() => assertAcademyTtsLessonRequestBudget(0, false)).toThrow(/TTS istek yok/u);
 
     const officeOne = loadAcademySpokenScriptParagraphs("01_office_ai-1");
     expect(officeOne).toHaveLength(15);
@@ -41,8 +45,7 @@ describe("TTS nefes dilimleyici", () => {
     expect(officeTwo).toHaveLength(14);
     const officeThree = loadAcademySpokenScriptParagraphs("01_office_ai-3");
     expect(officeThree).toHaveLength(14);
-    const officeFour = loadAcademySpokenScriptParagraphs("01_office_ai-4");
-    expect(officeFour).toHaveLength(14);
+    expect(loadAcademySpokenScriptParagraphs("01_office_ai-4")).toEqual([]);
     const officeFive = loadAcademySpokenScriptParagraphs("01_office_ai-5");
     expect(officeFive).toHaveLength(14);
     const officeSix = loadAcademySpokenScriptParagraphs("01_office_ai-6");
@@ -53,9 +56,12 @@ describe("TTS nefes dilimleyici", () => {
     expect(officeW1).toHaveLength(19);
     const officeK1 = loadAcademySpokenScriptParagraphs("01_office_ai-k1");
     expect(officeK1).toHaveLength(14);
-    const officeChunks = officeOne.flatMap((paragraph) => splitAcademyTtsBreathChunks(paragraph));
-    expect(officeChunks.length).toBeGreaterThanOrEqual(ACADEMY_TTS_LESSON_REQUEST_MIN);
-    expect(officeChunks.length).toBe(16);
+    const officeRequests = packAcademyTtsLessonRequests(officeOne);
+    expect(officeRequests.length).toBeGreaterThanOrEqual(ACADEMY_TTS_LESSON_REQUEST_MIN);
+    expect(officeRequests.length).toBeLessThanOrEqual(ACADEMY_TTS_LESSON_REQUEST_MAX);
+    expect(officeRequests.map((block) => block.text).join(" ")).toBe(
+      officeOne.flatMap((paragraph) => splitAcademyTtsBreathChunks(paragraph)).join(" "),
+    );
     const leftoverKeys = [
       "02_ecommerce_ai-1",
       "02_ecommerce_ai-2",
@@ -94,7 +100,6 @@ describe("TTS nefes dilimleyici", () => {
       "01_office_ai-1": 16,
       "01_office_ai-2": 14,
       "01_office_ai-3": 14,
-      "01_office_ai-4": 14,
       "01_office_ai-5": 14,
       "01_office_ai-6": 18,
       "01_office_ai-g1": 18,
@@ -108,14 +113,14 @@ describe("TTS nefes dilimleyici", () => {
     }
     const six = loadAcademySealedAudioTimings("01_office_ai-6");
     expect(six).not.toBeNull();
-    expect(six!.durationSec).toBe(505.6);
-    expect(six!.cacheV).toBe(505600);
+    expect(six!.durationSec).toBe(506.04);
+    expect(six!.cacheV).toBe(506040);
     const breathGaps = six!.pieces.slice(1).map((piece, index) =>
       Number((piece.start - six!.pieces[index]!.end).toFixed(3)),
     );
     expect(breathGaps).toHaveLength(17);
     expect(breathGaps.every((gap) => gap === 0.4)).toBe(true);
-    expect(Math.abs(academyCourseSealedDurationSec("01_office_ai") - 4580.12)).toBeLessThanOrEqual(0.01);
+    expect(Math.abs(academyCourseSealedDurationSec("01_office_ai") - 4698.12)).toBeLessThanOrEqual(0.01);
   });
 
   it("kısa metni tek parça bırakır", () => {

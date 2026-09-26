@@ -121,7 +121,7 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     expect(ACADEMY_SEN.player.codeViewerLabel).toBe("Kod");
     expect(ACADEMY_SEN.player.codeCalloutTitle).toBe("💡 KOD BİLMEYENLER İÇİN NOT");
     expect(ACADEMY_SEN.player.codeCalloutHref).toBe("/academy");
-    expect(ACADEMY_SEN.player.codeCalloutModule).toBe("Pratik Prompt Mühendisliği");
+    expect(ACADEMY_SEN.player.codeCalloutModule).toBe("Günlük İşler İçin İstem Yazma");
     expect(ACADEMY_SEN.player.codeCalloutHref).not.toContain("python-temel");
     expect(ACADEMY_SEN.player.codeCalloutLead).toContain("JSON");
     expect(readSrc("app/globals.css")).toContain("academy-player-code-callout");

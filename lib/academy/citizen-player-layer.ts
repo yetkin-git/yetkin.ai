@@ -1,6 +1,6 @@
 /**
  * Vatandaş oynatıcı sözleşmesi — tek kabuk, iki katman.
- * Varsayılan: compact makale. Karaoke yalnız mühürlü WAV + cue JSON.
+ * Varsayılan: compact makale. Karaoke mühürlü WAV ya da fırınlanmış üretim kaseti + cue JSON.
  * Sahne: tam boy canlı ekran + punchcard rozeti. Konuşma metni videonun altındaki
  * sabit yükseklikli kelime şeridinde currentTime ile akar; görsele paragraf
  * binmez, kelime şeridi overlay değildir. Kelime-saati (`buildAcademyDialogueTimeline`) bu katmana girmez.
@@ -8,13 +8,14 @@
 
 import {
   academyLessonAudioPlaybackSrc,
-  academySealedAudioDurationSec,
+  academyNarrationDurationSec,
+  isAcademyLessonNarrationReady,
 } from "@/lib/academy/lesson-audio";
+import { isAcademyPlayerArchiveLesson } from "@/lib/academy/lesson-playback";
 import {
   loadAcademyTeleprompterFlow,
   type AcademyTeleprompterLine,
 } from "@/lib/academy/lesson-teleprompter-flow";
-import { isAcademyLessonAudioSealed } from "@/lib/academy/pilot-sku";
 
 export type AcademyCitizenArticleLayer = {
   kind: "article";
@@ -34,7 +35,7 @@ export function academyCitizenPlayerLayer(
   courseSlug: string,
   lessonKey: string,
 ): AcademyCitizenPlayerLayer {
-  if (!isAcademyLessonAudioSealed(courseSlug, lessonKey)) {
+  if (isAcademyPlayerArchiveLesson(lessonKey) || !isAcademyLessonNarrationReady(courseSlug, lessonKey)) {
     return { kind: "article" };
   }
   const cues = loadAcademyTeleprompterFlow(lessonKey);
@@ -46,7 +47,7 @@ export function academyCitizenPlayerLayer(
     lessonKey,
     audioSrc: academyLessonAudioPlaybackSrc(courseSlug, lessonKey),
     cues,
-    durationSec: academySealedAudioDurationSec(courseSlug, lessonKey),
+    durationSec: academyNarrationDurationSec(courseSlug, lessonKey),
   };
 }
 

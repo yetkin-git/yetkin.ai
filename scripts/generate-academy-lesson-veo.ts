@@ -19,6 +19,7 @@ import {
   ACADEMY_VEO_BAKE_DURATION_SEC,
   ACADEMY_VEO_BAKE_MODEL,
   assertAcademyVeoBudgetBakeModel,
+  assertAcademyVeoLessonBudget,
 } from "@/lib/academy/lesson-veo";
 import { academyMicroVideoPublicSources } from "@/lib/academy/lesson-media";
 
@@ -155,6 +156,10 @@ async function downloadVeoMp4(
 
 async function bakeVeoMp4(client: GoogleGenAI, dest: string): Promise<Buffer> {
   assertAcademyVeoBudgetBakeModel(ACADEMY_VEO_BAKE_MODEL);
+  assertAcademyVeoLessonBudget({
+    calls: 1,
+    durationSec: ACADEMY_VEO_BAKE_DURATION_SEC,
+  });
   const gateway = client as unknown as {
     models: { generateVideos: (input: Record<string, unknown>) => Promise<GenerateVideosOperation> };
     operations?: {

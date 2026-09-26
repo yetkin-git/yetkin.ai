@@ -68,6 +68,7 @@ export function AcademyPlayerScreen({
           >
             <Text style={styles.rowTitle}>{item.title}</Text>
             <Text style={styles.muted}>{item.slug}</Text>
+            {item.priceLabel ? <Text style={styles.meta}>{item.priceLabel}</Text> : null}
             <Text style={styles.meta}>{copy.open}</Text>
           </Pressable>
         ))}

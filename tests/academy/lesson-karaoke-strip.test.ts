@@ -89,7 +89,7 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     expect(bridgeLines.every((line) => line.cueId === "cue-08")).toBe(true);
     expect(bridgeLines[0]?.start).toBeGreaterThan(450);
     expect(bridgeLines.at(-1)?.end).toBeGreaterThan(650);
-    expect(strip.at(-1)?.end).toBe(688.68);
+    expect(strip.at(-1)?.end).toBe(691.84);
     for (const line of bridgeLines) {
       const words = academyKaraokeWords(line);
       expect(academyKaraokeWordState(words[0]!, line.start)).toBe("active");
@@ -290,7 +290,8 @@ describe("karaoke kelime boşluğu ve noktalama yapışması", () => {
       /Geçtiğimiz derste/u.test(line.text),
     );
     expect(opening).toBeTruthy();
-    for (const key of ["01_office_ai-3", "01_office_ai-4"] as const) {
+    expect(loadAcademyKaraokeStrip("01_office_ai-4")).toEqual([]);
+    for (const key of ["01_office_ai-3"] as const) {
       for (const line of loadAcademyKaraokeStrip(key)) {
         expect(academyKaraokeReconstructLine(academyKaraokeWords(line))).toBe(academyKaraokeNormalizeLine(line.text));
       }

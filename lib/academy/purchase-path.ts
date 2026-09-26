@@ -6,6 +6,9 @@
  */
 
 import { academyCourseHasSealedAudio } from "@/lib/academy/pilot-sku";
+import { academyCourseOffersFreePreview } from "@/lib/kernel/catalog-ids/free-preview";
+
+export { academyCourseOffersFreePreview };
 
 export const ACADEMY_PURCHASE_PATHS = ["training", "exam"] as const;
 
@@ -25,21 +28,21 @@ export type AcademyCardOfferPath = {
  * Ses vaadi yalnız mühürlü SKU'dadır. Video/WebM vaadi yoktur. Kanon 13 SKU vitrin vaadi değildir.
  */
 export const ACADEMY_TRAINING_OFFER_SUMMARY_SEALED =
-  "Sesli Anlatım + Sınav + Mühürlü Sertifika";
+  "Sesli Anlatım + Sınav + Sertifika";
 export const ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN =
-  "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika";
+  "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Sertifika";
 
 export const ACADEMY_CARD_OFFER_PATHS: readonly AcademyCardOfferPath[] = [
   {
     path: "training",
-    cta: "Eğitimi Satın Al & Öğren",
+    cta: "Eğitimi Satın Al",
     summary: ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
   },
   {
     path: "exam",
-    cta: "Doğrudan teste gir ve yetkinlik kazan",
+    cta: "Testi eğitim bitince aç",
     summary:
-      "Dersleri atla; yalnız 70+ barajlı test. Belge ve Kariyer yetkinliği test sonucuna bağlıdır.",
+      "Test, dersler bitmeden açılmaz. Belge 70+ puanla gelir.",
   },
 ] as const;
 
@@ -78,11 +81,6 @@ export const ACADEMY_FREE_PREVIEW_LESSON_KEY = "01_office_ai-0" as const;
 
 export function isAcademyFreePreviewLessonKey(lessonKey: string): boolean {
   return lessonKey.trim() === ACADEMY_FREE_PREVIEW_LESSON_KEY;
-}
-
-/** Hazırlık şeridi olan kurs. Diğer SKU'larda oynatıcı hâlâ satın alma ister. */
-export function academyCourseOffersFreePreview(courseSlug: string): boolean {
-  return courseSlug.trim() === "01_office_ai";
 }
 
 /** Satın alma yokken ana ders ödeme duvarındadır. Hazırlık şeridi açık kalır. */

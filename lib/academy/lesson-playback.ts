@@ -36,11 +36,21 @@ export function resolveAcademyLessonAudioUrl(
 /**
  * Oynatıcı kaynağı — mühürlü ders Callirrhoe WAV; aksi halde açık URL / demo podcast.
  */
+/** Sınav yolu dışı arşiv kaseti. Oynatıcı ses ve karaoke açmaz. */
+export const ACADEMY_PLAYER_ARCHIVE_LESSON_KEYS = ["01_office_ai-4"] as const;
+
+export function isAcademyPlayerArchiveLesson(lessonKey: string): boolean {
+  return (ACADEMY_PLAYER_ARCHIVE_LESSON_KEYS as readonly string[]).includes(lessonKey.trim());
+}
+
 export function resolveAcademyLessonPlayerAudioSrc(
   courseSlug: string,
   lessonKey: string,
   audioUrl?: string | null,
 ): string | undefined {
+  if (isAcademyPlayerArchiveLesson(lessonKey)) {
+    return undefined;
+  }
   if (isAcademyLessonAudioSealed(courseSlug, lessonKey)) {
     return academyLessonAudioPlaybackSrc(courseSlug, lessonKey);
   }

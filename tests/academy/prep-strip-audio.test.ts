@@ -47,7 +47,9 @@ import {
 } from "@/lib/academy/prep-strip";
 import {
   ACADEMY_ARTICLE_SPOKEN_FORBIDDEN,
+  academyCassetteTrackParagraphs,
   academyProseJaccard,
+  academySpokenScriptDisplayParagraphs,
 } from "@/lib/academy/article-spoken-diff";
 import {
   ACADEMY_SPOKEN_SCRIPT_LESSON_KEYS,
@@ -90,8 +92,9 @@ describe("Ders 0 fırın hazırlığı — konuşma metni + cue + timings", () =
   });
 
   it("makale (prep.ts) ile konuşma metni aynı şeridi anlatır", () => {
-    const spoken = loadAcademySpokenScriptRawMarkdown(KEY);
-    const jaccard = academyProseJaccard(OFFICE_AI_PREP_STRIP.contentMarkdown, spoken);
+    const spoken = academySpokenScriptDisplayParagraphs(loadAcademySpokenScriptRawMarkdown(KEY)).join(" ");
+    const cassette = academyCassetteTrackParagraphs(OFFICE_AI_PREP_STRIP.contentMarkdown).join(" ");
+    const jaccard = academyProseJaccard(cassette, spoken);
     expect(jaccard).toBeGreaterThan(0.9);
     expect(OFFICE_AI_PREP_STRIP.contentMarkdown).toMatch(/Ham Excel tablosu/u);
   });
@@ -108,7 +111,8 @@ describe("Ders 0 fırın hazırlığı — konuşma metni + cue + timings", () =
     expect(blob).toMatch(/KVKK/u);
     expect(blob).toMatch(/A1 hücresi/u);
     expect(blob).toMatch(/şirketinin paralı lisansı yoksa takılma, ücretsiz panelle devam et/u);
-    expect(blob).toMatch(/Zekâ modelde değil, temiz veridedir/u);
+    expect(blob).toMatch(/Önce tabloyu temizlersin/u);
+    expect(blob).toMatch(/kapı sırası/u);
     expect(blob).not.toMatch(/lisans yoksa durma/u);
     expect(blob).not.toMatch(/«Daha zeki model» satın almak/u);
     expect(loadAcademyLessonPlaybackCues(KEY)).toHaveLength(8);
@@ -225,14 +229,14 @@ describe("Ders 0 fırın işi + 101 dokunulmazlığı", () => {
     expect(job.publicPath).toContain("/media/academy/audio/01_office_ai/01_office_ai-0.mp3");
   });
 
-  it("101 mührü değişmez: 9 ders, 9 kaset, 9 konuşma metni, 33 sinema anahtarı", () => {
-    expect(Object.values(ACADEMY_MEDIA_SEALED_AUDIO).flat()).toHaveLength(8);
-    expect(academyMediaSealedWavCount()).toBe(8);
+  it("101 mührü değişmez: 8 ders, 8 kaset; toplam mühür 14; 8 konuşma metni, 33 sinema anahtarı", () => {
+    expect(ACADEMY_MEDIA_SEALED_AUDIO["01_office_ai"]).toHaveLength(8);
+    expect(academyMediaSealedWavCount()).toBe(11);
     expect(ACADEMY_SPOKEN_SCRIPT_LESSON_KEYS).toHaveLength(8);
     expect(isAcademySpokenScriptLessonKey(KEY)).toBe(false);
     expect(curriculumForCourseSlug(SLUG)).toHaveLength(8);
     expect(ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS).toHaveLength(33);
     const total = academyCourseSealedDurationSec(SLUG);
-    expect(Math.abs(total - 4580.12)).toBeLessThanOrEqual(0.01);
+    expect(Math.abs(total - 4698.12)).toBeLessThanOrEqual(0.01);
   });
 });

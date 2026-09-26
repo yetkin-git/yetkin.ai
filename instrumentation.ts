@@ -10,6 +10,7 @@ export async function register() {
   if (process.env.NEXT_RUNTIME !== "nodejs") {
     return;
   }
+  await import("@/lib/academy/lesson-json-disk");
   const { preferIpv6ForDirectHost } = await import("@/lib/kernel/dns-ipv6-first");
   preferIpv6ForDirectHost();
   if (process.env.NODE_ENV !== "production") {

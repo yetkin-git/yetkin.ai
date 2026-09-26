@@ -100,9 +100,30 @@ export function shouldSealProgressAfterDialogueEnded(input: {
 }
 
 /**
+ * Ders bitti ve otomatik geçiş yalnız `HTMLAudioElement.ended`.
+ * İlk cue sonu, floor saniye ve duvar saati bu kapıyı açmaz.
+ * `currentTime` mühürlü sürenin gerisindeyse erken `ended` dersi bitirmez.
+ */
+export function academyLessonAudioEndedIsComplete(input: {
+  ended: boolean;
+  currentTime: number;
+  sealedDurationSec: number;
+}): boolean {
+  if (input.ended !== true) {
+    return false;
+  }
+  const currentTime = Number.isFinite(input.currentTime) ? Math.max(0, input.currentTime) : 0;
+  const sealed = Number.isFinite(input.sealedDurationSec) ? input.sealedDurationSec : 0;
+  if (sealed <= 0) {
+    return true;
+  }
+  return currentTime + 1.5 >= sealed;
+}
+
+/**
  * Oynatıcı saati son karede mi?
  * Ekran `mm:ss` floor saniye kullanır; 08:05 / 08:05, kaset 485,06 / 485,50 olsa da bitti sayılır.
- * Native `ended` kaçarsa `currentTime >= durationSec` yedeği aynı kapıdan geçer.
+ * Ders bitirme kapısı bu değildir — o kapı `academyLessonAudioEndedIsComplete`.
  */
 export function hasAcademyLessonPlaybackReachedEnd(input: {
   currentTime: number;
@@ -214,7 +235,7 @@ export function resolveAcademyAutoAdvanceNextLesson<T extends AcademyPlayerAdvan
 export function academyPlayerAutoAdvanceTargetKey(input: {
   autoAdvanceEnabled: boolean;
   fallback?: boolean;
-  lessons: readonly { key: string }[];
+  lessons: readonly { key: string; open?: boolean }[];
   endedLessonKey: string;
   /** Devam paneli / API resume işaretçisi — oynatıcı geçişinde yok sayılır. */
   resumeLessonKey?: string | null;
@@ -228,7 +249,11 @@ export function academyPlayerAutoAdvanceTargetKey(input: {
     return null;
   }
   void input.resumeLessonKey;
-  return nextAcademyPlayerLesson(input.lessons, input.endedLessonKey)?.key ?? null;
+  const next = nextAcademyPlayerLesson(input.lessons, input.endedLessonKey);
+  if (!next || next.open !== true) {
+    return null;
+  }
+  return next.key;
 }
 
 /** Müfredat sırasındaki bir sonraki ders; atlama yok. */
@@ -267,16 +292,11 @@ export function canAdvanceAcademyPlayerLesson(
   current: AcademyPlayerAdvanceLesson | null,
   next: AcademyPlayerAdvanceLesson | null,
 ): boolean {
-  if (!next) {
+  if (!next?.open) {
     return false;
   }
-  if (next.open) {
-    return true;
-  }
-  if (current?.completed) {
-    return true;
-  }
-  return Boolean(current?.open && !current.completed);
+  void current;
+  return true;
 }
 
 /**

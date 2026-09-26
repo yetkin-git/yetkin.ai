@@ -1,6 +1,7 @@
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
+import { academyCatalogPurchasable } from "@/lib/academy/pilot-sku";
 import { mergePublishedAcademyCatalog, overlaySeedCatalogPrice } from "@/lib/academy/published-catalog";
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
@@ -19,7 +20,11 @@ export async function GET(request: Request) {
           ...course,
           priceMinor: entry?.amountMinor ?? null,
           currencyCode: entry?.currencyCode ?? SETTLEMENT_CURRENCY,
-          purchasable: Boolean(entry) && course.isPublished,
+          purchasable: academyCatalogPurchasable({
+            courseSlug: course.slug,
+            catalogRowPresent: Boolean(entry),
+            isPublished: course.isPublished,
+          }),
         });
       }),
     );

@@ -8,6 +8,7 @@ const FROZEN_TEST_GLOBS = FROZEN_VITEST_ROOMS.map((id) => `tests/${id}/**`);
 export default defineConfig({
   test: {
     environment: "node",
+    setupFiles: ["./tests/setup/academy-json-disk.ts"],
     include: ["tests/**/*.test.ts"],
     exclude: [
       "yetkin_muze/**",

@@ -2,6 +2,7 @@ import "server-only";
 
 import { cache } from "react";
 import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
+import { academyCatalogPurchasable } from "@/lib/academy/pilot-sku";
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import { loadAcademyExamGateStatus } from "@/lib/academy/exam-engine";
 import {
@@ -43,6 +44,7 @@ import type {
 import type { AcademyCourseLevel } from "@/lib/academy/course-level";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import {
+  academyVitrineShellCourses,
   overlaySeedCatalogPrice,
   publishedCoursesFromSeed,
   resolveAcademyCourseFromSeed,
@@ -51,6 +53,7 @@ import {
   createAcademyAdminBypassPurchase,
   hasAcademyAdminBypass,
   hasAcademyPlayerAccess,
+  hasUnlimitedAcademyAccess,
   resolveAcademyArtifactPurchase,
   resolveSettledAcademyPurchase,
   type AcademyActor,
@@ -81,7 +84,14 @@ const ACADEMY_COURSE_OVERLAY_TIMEOUT_MS = 250;
 
 function academySeedBoard(slug: string): { course: AcademyCourseWithPrice } | null {
   const priced = publishedCoursesFromSeed().find((row) => row.slug === slug);
-  return priced ? { course: priced } : null;
+  if (priced) {
+    return { course: priced };
+  }
+  if (slug === "01_office_ai_ileri") {
+    const shell = academyVitrineShellCourses().find((row) => row.slug === slug);
+    return shell ? { course: shell } : null;
+  }
+  return null;
 }
 
 async function academySsrRead<T>(work: () => Promise<T>, label: string): Promise<T> {
@@ -125,7 +135,11 @@ export const loadCourseBySlug = cache(async function loadCourseBySlug(slug: stri
           ...course,
           priceMinor: entry?.amountMinor ?? null,
           currencyCode: entry?.currencyCode ?? SETTLEMENT_CURRENCY,
-          purchasable: Boolean(entry) && course.isPublished,
+          purchasable: academyCatalogPurchasable({
+            courseSlug: course.slug,
+            catalogRowPresent: Boolean(entry),
+            isPublished: course.isPublished,
+          }),
         }),
       };
     }
@@ -231,7 +245,7 @@ export const loadCurriculumPlayerForUser = cache(async function loadCurriculumPl
   email?: string | null,
 ): Promise<AcademyCurriculumPlayerView | null> {
   const actor: AcademyActor = { userId, email };
-  if (hasAcademyAdminBypass(actor) && !isPrismaQueryEngineReady()) {
+  if (hasUnlimitedAcademyAccess(actor) && !isPrismaQueryEngineReady()) {
     void ensurePrismaQueryEngine();
     const seeded = resolveAcademyCourseFromSeed(courseId);
     return seeded ? buildUnlimitedSeedCurriculumPlayer(seeded, userId) : null;
@@ -242,7 +256,7 @@ export const loadCurriculumPlayerForUser = cache(async function loadCurriculumPl
       return await loadAcademyCurriculumPlayer(ports, { courseId, userId, email });
     }, "academy.player");
   } catch {
-    if (!hasAcademyAdminBypass(actor)) {
+    if (!hasUnlimitedAcademyAccess(actor)) {
       return null;
     }
     const seeded = resolveAcademyCourseFromSeed(courseId);

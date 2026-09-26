@@ -2,7 +2,7 @@
   {
     "id": "cue-01",
     "start": 2,
-    "end": 48.36,
+    "end": 46.8,
     "text": "GİRİŞ KÖPRÜSÜ",
     "section": "GİRİŞ KÖPRÜSÜ",
     "paragraphs": [
@@ -11,19 +11,19 @@
   },
   {
     "id": "cue-02",
-    "start": 48.76,
-    "end": 106.16,
+    "start": 47.2,
+    "end": 106.88,
     "text": "HOŞ GELDİN",
     "section": "HOŞ GELDİN",
     "paragraphs": [
       "Selamlar, ben Gözde. yetkin.ai akademisinin bu dördüncü dersinde seninle birlikte metni slayta çevirmenin yolunu kuracağız. Geçen derste üç maddelik yönetim özetini kilitledik; peki şimdi ne olacak? Özet cebinde durur ama toplantı slayt ister. Hepimiz o toplantı öncesi saatlerce boş sayfaya bakıp durduk. Elinde harika fikirler, eksiksiz veriler var ama onları boş bir slayta dökmek korkutucu gelir. Peki neden sunum hazırlamak bu kadar zaman yer? Çünkü çoğu kişi önce şablonu süsler; mesajı sona bırakır. Bugün o sırayı çevireceğiz: önce tek fikir, sonra slayt taslağı.",
-      "Tasarımı önce bitirmeyiz. Sen grafiker değilsin; sen fikrin sahibisin. Metni slayta çevirirken roller değişiyor. Yapay zekâyı yanına aldığında hikâyenin akışına, vurucu mesaja ve sunumunun yaratacağı iş etkisine odaklanırsın."
+      "Tasarımı önce bitirmeyiz. Slaytın süsünü sen çizmek zorunda değilsin. Sen mesajı seçersin: her slaytta tek fikir. Metni slayta çevirirken iş bölümü değişir. Sen akışı ve tek mesajı seçersin. Yapay zekâ taslağı yazar."
     ]
   },
   {
     "id": "cue-03",
-    "start": 106.56,
-    "end": 181.2,
+    "start": 107.28,
+    "end": 180.04,
     "text": "ŞABLON KAOSU",
     "section": "ŞABLON KAOSU",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 181.6,
-    "end": 268.52,
+    "start": 180.44,
+    "end": 267.72,
     "text": "SLAYT İSTE",
     "section": "SLAYT İSTE",
     "paragraphs": [
@@ -44,30 +44,30 @@
   },
   {
     "id": "cue-05",
-    "start": 268.92,
-    "end": 348.92,
+    "start": 268.12,
+    "end": 339.6,
     "text": "HİYERARŞİ",
     "section": "HİYERARŞİ",
     "paragraphs": [
       "Şimdi ekrana gelen karşılaştırmaya dikkatle bakmanı istiyorum. Sol tarafta ofislerde sıkça gördüğümüz o klasik durum var: Önce, yani düz metin yığını. Paragraflar kopyalanıp doğrudan sayfaya yapıştırılmış, hiçbir vurgu yok ve okumak bile insanı yoruyor. Sağ tarafta ise yapay zekânın ürettiği sonuç duruyor: Sonra, yani görsel hiyerarşi (gözün bakma sırası) ile kurulu slayt. Yapay zekâ sayfayı tek bir güçlü başlık, üç net odak ve dinleyicinin gözünü yormayan mantıklı bir sırayla kurmuş. Peki neden sol taraf yorar da sağ taraf tutar? Çünkü tek fikir slaytta yerini gösterir; yığın ise her şeyi aynı anda bağırır.",
-      "Sağ taraftaki yapıda kurulan bakma sırası, yöneticinin veya müşterinin nereye bakması gerektiğini saniyesinde fısıldıyor. En kritik sayı ve anahtar metin hemen göze çarpıyor, destek cümleleri daha küçük durur. Soldaki düz metin kalabalığında dinleyici slaytı okumaya çalışırken konuşmacıyı dinlemeyi tamamen bırakır. Sağdaki kurguda ise slayt senin sözlerini gölgelemez; aksine söylediklerini destekleyen güçlü bir arkadaki destek panosuna dönüşür. Böylece hem mesaj üç saniyede iner hem de sen konuşmayı bırakmazsın."
+      "Sağ taraftaki bakma sırası, yöneticinin önce nereye bakacağını gösterir. Ana sayı ve ana metin büyük durur, destek cümleleri daha küçük durur. Soldaki düz metin kalabalığında dinleyici slaytı okumaya çalışırken konuşmacıyı dinlemeyi bırakır. Sağdaki kurguda slayt senin cümleni örtmez. Mesaj üç saniyede okunur. Sen konuşmaya devam edersin."
     ]
   },
   {
     "id": "cue-06",
-    "start": 349.32,
-    "end": 423,
+    "start": 340,
+    "end": 413.56,
     "text": "FARK ORTADA",
     "section": "FARK ORTADA",
     "paragraphs": [
       "Ekrana dikkatli bak. Peki neden fark bu kadar belirgin? Çünkü soldaki düz metin yaklaşımında saatlerce çalışıp yorulsan bile ortaya çıkan sonuç dağınık hissettirir. Sağdaki yapay zekâ modelinde ise doğru bir bakma sırası oluşturulduğu için mesaj doğrudan hedefine ulaşır. Sol taraf her cümleyi taşır, bakış noktası yoktur. Sağ taraf tek başlık ve üç odak taşır, toplantı yürür. Yapay zekâ sana yalnızca bir süs sunmuyor; metnini sadeleştiriyor, sıraya koyuyor ve yöneticinin aklına en hızlı şekilde akmasını sağlıyor. Üstelik bu dönüşümü dakikalarca uğraşarak değil, doğru yönlendirilmiş tek bir istemle elde ediyorsun.",
-      "Bu yaklaşımı bir kez kaptığında, sunum hazırlamak artık iş gününü bölen uzun bir iş olmaktan çıkar. Metnini ekrana koyduğunda yapay zekâ sana hazır bir taslak sunduğu için, sen enerjini tamamen sunumun provasına ve anlatım tonuna saklayabilirsin. Hangi veriyi vurgulayacağını, nerede duraklayacağını ve dinleyiciden ne talep edeceğini düşünmek için bolca vaktin kalır. Çünkü slayt senin yerini almaz; senin sözünü taşır."
+      "Bu yaklaşımı bir kez kaptığında, sunum hazırlamak artık iş gününü bölen uzun bir iş olmaktan çıkar. Metnini ekrana koyduğunda yapay zekâ sana hazır bir taslak sunduğu için, sen enerjini tamamen sunumun provasına ve anlatım tonuna saklayabilirsin. Hangi veriyi vurgulayacağını, nerede duraklayacağını ve dinleyiciden ne talep edeceğini düşünmek için vaktin kalır. Slayt senin yerine konuşmaz. Provayı ve anlatım tonunu sen yaparsın."
     ]
   },
   {
     "id": "cue-07",
-    "start": 423.4,
-    "end": 474.88,
+    "start": 413.96,
+    "end": 467.88,
     "text": "CEBİNE KOY",
     "section": "CEBİNE KOY",
     "paragraphs": [
@@ -76,8 +76,8 @@
   },
   {
     "id": "cue-08",
-    "start": 475.28,
-    "end": 541.92,
+    "start": 468.28,
+    "end": 537.96,
     "text": "SIRA SENDE",
     "section": "SIRA SENDE",
     "paragraphs": [

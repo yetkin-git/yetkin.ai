@@ -36,6 +36,7 @@ export function ExamStartGate({
   instructorName,
   nextCourseTitle,
   nextCourseHref,
+  mode = "exam",
 }: {
   courseId: string;
   courseTitle?: string;
@@ -46,6 +47,7 @@ export function ExamStartGate({
   instructorName?: string;
   nextCourseTitle?: string | null;
   nextCourseHref?: string | null;
+  mode?: "exam" | "exemption";
 }) {
   const copy = ACADEMY_SEN.exam;
   const titleId = useId();
@@ -89,7 +91,7 @@ export function ExamStartGate({
     setPending(true);
     setError(null);
     const response = await fetch(
-      `/api/academy/courses/${courseId}/exam`,
+      `/api/academy/courses/${courseId}/${mode === "exemption" ? "exemption" : "exam"}`,
       await withRailSession({ method: "GET" }),
     );
     const parsed = parseRailClientJson<{
@@ -164,6 +166,9 @@ export function ExamStartGate({
             instructorName={instructorName}
             nextCourseTitle={nextCourseTitle}
             nextCourseHref={nextCourseHref}
+            submitPath={
+              mode === "exemption" ? `/api/academy/courses/${courseId}/exemption` : undefined
+            }
             onAbandon={abandonSitting}
           />
         </div>

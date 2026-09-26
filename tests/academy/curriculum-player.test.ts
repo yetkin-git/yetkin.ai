@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import { lockAcademyCoursePrice, purchaseAcademyCourse } from "@/lib/academy/engine";
@@ -39,6 +39,10 @@ function world() {
 }
 
 describe("akademi müfredat oynatıcısı", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
   it("SETTLED olmadan ders gövdesi açılmaz", async () => {
     const ctx = world();
     await ctx.ports.academy.insertCourse(ctx.course);
@@ -109,5 +113,33 @@ describe("akademi müfredat oynatıcısı", () => {
     });
     expect(player.lessons).toHaveLength(8);
     expect(player.lessons[0]?.key).toBe("01_office_ai-1");
+    expect(player.lessons.filter((lesson) => lesson.open)).toHaveLength(1);
+  });
+
+  it("üretimde Super Admin satın alma satırı yazmadan tüm dersleri açar", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("CANONICAL_SUPER_ADMIN_EMAIL", "yapinet360@gmail.com");
+    vi.stubEnv("SUPER_ADMIN_USER_ID", "");
+    const course = memoryCourse({
+      id: "ac_01_office_ai",
+      slug: "01_office_ai",
+      title: "Ofiste Yapay Zekâ",
+      catalogUnitKey: "course:01_office_ai",
+    });
+    const academy = createMemoryAcademyStore();
+    await academy.insertCourse(course);
+    await expect(
+      loadAcademyCurriculumPlayer(
+        { academy },
+        { courseId: course.id, userId: "citizen-1", email: "vatandas@yetkin.rail" },
+      ),
+    ).rejects.toBeInstanceOf(ForbiddenError);
+    const player = await loadAcademyCurriculumPlayer(
+      { academy },
+      { courseId: course.id, userId: "admin-1", email: "yapinet360@gmail.com" },
+    );
+    expect(player.lessons).toHaveLength(8);
+    expect(player.lessons.every((lesson) => lesson.open)).toBe(true);
+    expect(await academy.listPurchasesForUser("admin-1")).toHaveLength(0);
   });
 });

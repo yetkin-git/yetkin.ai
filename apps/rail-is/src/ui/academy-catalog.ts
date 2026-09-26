@@ -1,24 +1,26 @@
-import { ACADEMY_COURSE_TITLES, academyCourseTitleBySlug } from "@yetkin/kernel";
+import { DRON_COURSE_SLUGS, dronCourseTitle, type DronCourseSlug } from "./course-slugs";
 
 /**
- * Amiral vitrin — GET katalog hop'u yoktur.
- * Taslak kardeş SKU üretim bandındadır. Başlık `@yetkin/kernel` SSOT.
+ * Amiral + OFF-201 vitrin.
+ * Fiyat satırı olmayan kart «Fiyat Bekleniyor» der. Tutar kod sabiti değildir.
  */
-export const DRON_ACADEMY_VITRINE_SLUGS = [
-  "01_office_ai",
-] as const;
+export const DRON_ACADEMY_VITRINE_SLUGS = DRON_COURSE_SLUGS;
 
-export type DronAcademyVitrineSlug = (typeof DRON_ACADEMY_VITRINE_SLUGS)[number];
+export type DronAcademyVitrineSlug = DronCourseSlug;
+
+export const DRON_PRICE_PENDING_LABEL = "Fiyat Bekleniyor" as const;
 
 export type DronAcademyCatalogItem = {
   slug: DronAcademyVitrineSlug;
   title: string;
+  priceLabel: string | null;
 };
 
 export function dronAcademyCatalog(): DronAcademyCatalogItem[] {
   return DRON_ACADEMY_VITRINE_SLUGS.map((slug) => ({
     slug,
-    title: academyCourseTitleBySlug(slug) ?? ACADEMY_COURSE_TITLES[slug],
+    title: dronCourseTitle(slug),
+    priceLabel: slug === "01_office_ai_ileri" ? DRON_PRICE_PENDING_LABEL : null,
   }));
 }
 

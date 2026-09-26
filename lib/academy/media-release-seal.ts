@@ -27,7 +27,7 @@ import {
 
 export const ACADEMY_MEDIA_RELEASE_BUCKET = "public" as const;
 export const ACADEMY_MEDIA_RELEASE_LANGUAGE = "tr-TR" as const;
-export const ACADEMY_MEDIA_RELEASE_MAX_BYTES = 80 * 1024 * 1024;
+export const ACADEMY_MEDIA_RELEASE_MAX_BYTES = 200 * 1024 * 1024;
 /** Perde/cümle ölçeği — karakter mikro dilimi değil; süre bütçesi `tts-breath-chunks`. */
 export const ACADEMY_MEDIA_RELEASE_SPEECH_CHUNK_CHARS = 12_000;
 /** Dilimler arası taze nefes — 300–500 ms sessizlik. */
@@ -140,7 +140,7 @@ export function academyMediaReleaseTurnsForLesson(
   }
   const paragraphs = loadAcademySpokenScriptParagraphs(lesson.key);
   if (paragraphs.length > 0) {
-    const cast = academyInstructorTtsCast(courseSlug);
+    const cast = academyInstructorTtsCast(courseSlug, lesson.key);
     return paragraphs.map((spokenText) => ({
       speaker: "egitmen" as const,
       text: spokenText,
@@ -154,7 +154,7 @@ export function academyMediaReleaseTurnsForLesson(
   if (!spokenText) {
     return [];
   }
-  const cast = academyInstructorTtsCast(courseSlug);
+  const cast = academyInstructorTtsCast(courseSlug, lesson.key);
   return [
     {
       speaker: "egitmen",

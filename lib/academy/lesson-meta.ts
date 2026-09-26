@@ -4,12 +4,18 @@
  */
 
 import { buildAcademyDialogueTimeline } from "@/lib/academy/dialogue-timeline";
-import { academySealedAudioDurationSec, isAcademyLessonAudioSealed } from "@/lib/academy/lesson-audio";
+import { academyNarrationDurationSec } from "@/lib/academy/lesson-audio";
 
 export type AcademyLessonContentKind = "audio" | "video" | "document";
 
 const READING_WORDS_PER_MIN = 160;
+/**
+ * Vitrin yuvarlaması. Mühür tabanı değildir.
+ * Mühür tabanı `ACADEMY_AI_LESSON_DURATION_MIN_MINUTES` (5 dk); üst mühür tavanı yoktur.
+ * Belge yedeği, sesi olmayan satırda kart dakikasını 4’ten başlatır.
+ */
 const MIN_LESSON_MINUTES = 4;
+/** Vitrin kartı dakikası. Konuşmayı kesmez; 25’ten uzun mühürlü kaset kartta 25 görünür. */
 const MAX_LESSON_MINUTES = 25;
 
 export type AcademyLessonMediaMetaInput = {
@@ -45,9 +51,9 @@ function resolveAudioDurationSec(input: AcademyLessonMediaMetaInput, spokenDurat
     return input.audioDurationSec;
   }
   if (input.courseSlug && input.key) {
-    const sealedSec = academySealedAudioDurationSec(input.courseSlug, input.key);
-    if (sealedSec > 0) {
-      return sealedSec;
+    const narrationSec = academyNarrationDurationSec(input.courseSlug, input.key);
+    if (narrationSec > 0) {
+      return narrationSec;
     }
   }
   return spokenDuration > 0 ? spokenDuration : 0;
@@ -62,10 +68,9 @@ function readingPlusVideoMin(input: AcademyLessonMediaMetaInput): number {
 }
 
 export function academyLessonMediaMeta(input: AcademyLessonMediaMetaInput): AcademyLessonMediaMeta {
-  const sealed = Boolean(
-    input.courseSlug && input.key && isAcademyLessonAudioSealed(input.courseSlug, input.key),
-  );
-  if (sealed) {
+  const narrationSec =
+    input.courseSlug && input.key ? academyNarrationDurationSec(input.courseSlug, input.key) : 0;
+  if (narrationSec > 0) {
     const timeline = input.body
       ? buildAcademyDialogueTimeline(input.body, input.courseSlug)
       : { turns: [] as const, spokenDuration: 0 };

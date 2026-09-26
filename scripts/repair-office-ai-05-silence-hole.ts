@@ -5,7 +5,7 @@
  *
  *   npx tsx scripts/repair-office-ai-05-silence-hole.ts
  */
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { extractPcmFromWav, pcmWavDurationSec, wrapPcmAsWav } from "@/lib/kernel/ai/pcm-wav";
 import type { AcademySealedAudioPiece, AcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
@@ -92,16 +92,24 @@ function overlayCueTimes(timings: AcademySealedAudioTimings): void {
     cue.end = group[group.length - 1]!.end;
   }
   writeFileSync(cuePath, `${JSON.stringify(cues, null, 2)}\n`);
+  process.stdout.write(`  cue saatleri mühürlendi → ${cueRelative}\n`);
   const docsRelative = join("docs", "curriculum", "01_office_ai_05_cue.json");
   const docsPath = join(process.cwd(), docsRelative);
+  if (!existsSync(docsPath)) {
+    process.stdout.write(`  curriculum türetilmiş kopya yok, atlandı → ${docsRelative}\n`);
+    return;
+  }
   const docsRaw: unknown = JSON.parse(readFileSync(docsPath, "utf8"));
   const docs = docsRaw && typeof docsRaw === "object" ? (docsRaw as Record<string, unknown>) : {};
+  docs.derived = true;
+  docs.role = "generated-copy";
+  docs.speechSource = `lib/academy/spoken-scripts/${LESSON_KEY}.md`;
+  docs.clockSource = cueRelative.replace(/\\/gu, "/");
   docs.durationSec = timings.durationSec;
   docs.cues = cues;
   docs.pieces = timings.pieces;
   writeFileSync(docsPath, `${JSON.stringify(docs, null, 2)}\n`);
-  process.stdout.write(`  cue saatleri mühürlendi → ${cueRelative}\n`);
-  process.stdout.write(`  curriculum cue mühürlendi → ${docsRelative}\n`);
+  process.stdout.write(`  curriculum türetilmiş kopya → ${docsRelative}\n`);
 }
 
 function main(): void {

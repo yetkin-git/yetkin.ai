@@ -29,6 +29,19 @@ export function CourseCoverImage({
   sizes: string;
   className?: string;
 }) {
+  if (src.endsWith(".svg")) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={src}
+        alt={alt}
+        width={fill ? undefined : COVER_WIDTH}
+        height={fill ? undefined : COVER_HEIGHT}
+        decoding="async"
+        className={cn(fill && "absolute inset-0 h-full w-full object-cover", className)}
+      />
+    );
+  }
   const avifSrc = academyCourseCoverAvifFromPath(src);
   const lcpSrc = highPriority && avifSrc ? avifSrc : src;
   const avifSrcSet = avifSrc ? academyCourseCoverSrcSet(avifSrc) : null;

@@ -172,7 +172,8 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
     const prose = loadAcademySpokenScriptProse(KEY);
     expect(prose).toMatch(/Neden\?/u);
     expect(prose).toMatch(/Peki neden üç satır yeter de otuz satırlık müşteri dökümü yetmez\?/u);
-    expect(prose).toMatch(/bin kişilik müşteri listesinin tamamını yüklemene gerek yok/u);
+    expect(prose).toMatch(/bin kişilik müşteri listesinin tamamını ham yüklemene gerek yok/u);
+    expect(prose).toMatch(/Aynı özeti sahte satırdan alamazsın/u);
     expect(prose).toMatch(/üç tane örnek, sahte satır/u);
     expect(prose).toMatch(/fazla gerçek satır modeli daha zeki yapmaz/u);
     expect(prose).toMatch(/Silmek yetmez, çünkü silinen satır mantığı da götürür/u);
@@ -222,19 +223,19 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
     expect(slides[5]?.subhead).toMatch(/MASKELİ_IBAN/u);
   });
 
-  it("642.16 sn kaset ile karaoke cue saatleri birebir; harf düşmez", () => {
+  it("702 sn kaset ile karaoke cue saatleri birebir; harf düşmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
-    expect(timings?.durationSec).toBe(642.16);
-    expect(timings?.pieces.at(-1)?.end).toBe(642.16);
+    expect(timings?.durationSec).toBe(702);
+    expect(timings?.pieces.at(-1)?.end).toBe(702);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.at(-1)?.end).toBe(642.16);
+    expect(cues.at(-1)?.end).toBe(702);
     for (const cue of cues) {
       const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
       expect(pieces[0]?.start, cue.id).toBe(cue.start);
       expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
     }
     const strip = loadAcademyKaraokeStrip(KEY);
-    expect(strip.at(-1)?.end).toBe(642.16);
+    expect(strip.at(-1)?.end).toBe(702);
     const stripBlob = strip.map((line) => line.text).join(" ");
     expect(stripBlob).toMatch(/KVKK/u);
     expect(stripBlob).not.toMatch(/Kavekaka/u);

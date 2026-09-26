@@ -14,7 +14,7 @@ test.describe("O8 akademi nakit & sınav yolculuğu", () => {
     await expect(page.getByText("Yayında").first()).toBeVisible();
     await expect(page.getByText("Çok Yakında / Hazırlanıyor").first()).toBeVisible();
     await expect(page.getByText("Ofiste Yapay Zekâ").first()).toBeVisible();
-    await expect(page.getByText("Pratik Prompt Mühendisliği").first()).toBeVisible();
+    await expect(page.getByText("Günlük İşler İçin İstem Yazma").first()).toBeVisible();
     await expect(page.getByText("Kodsuz WhatsApp").first()).toBeVisible();
     await expect(page.getByText("E-Ticaret ve Pazaryeri Yapay Zekâ").first()).toBeVisible();
     await expect(page.getByText("Sosyal Medya İçerik Üretimi").first()).toBeVisible();

@@ -4,6 +4,7 @@ import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import type {
   AcademyCertificateRecord,
   AcademyCourseRecord,
+  AcademyExemptionSealRecord,
   AcademyExamAttemptRecord,
   AcademyExamRecord,
   AcademyExamSittingRecord,
@@ -30,6 +31,7 @@ type AcademyMemoryState = {
   courses: Array<[string, AcademyCourseRecord]>;
   purchases: Array<[string, AcademyPurchaseRecord]>;
   certificates: Array<[string, AcademyCertificateRecord]>;
+  exemptionSeals: Array<[string, AcademyExemptionSealRecord]>;
   exams: Array<[string, AcademyExamRecord]>;
   attempts: Array<[string, AcademyExamAttemptRecord]>;
   completions: Array<[string, AcademyLessonCompletionRecord]>;
@@ -46,6 +48,7 @@ export function createMemoryAcademyStore(): MemoryAcademyStore {
   const courses = new Map<string, AcademyCourseRecord>();
   const purchases = new Map<string, AcademyPurchaseRecord>();
   const certificates = new Map<string, AcademyCertificateRecord>();
+  const exemptionSeals = new Map<string, AcademyExemptionSealRecord>();
   const exams = new Map<string, AcademyExamRecord>();
   const attempts = new Map<string, AcademyExamAttemptRecord>();
   const completions = new Map<string, AcademyLessonCompletionRecord>();
@@ -61,6 +64,7 @@ export function createMemoryAcademyStore(): MemoryAcademyStore {
         courses: [...courses.entries()].map(([key, value]) => [key, { ...value }]),
         purchases: [...purchases.entries()].map(([key, value]) => [key, { ...value }]),
         certificates: [...certificates.entries()].map(([key, value]) => [key, { ...value }]),
+        exemptionSeals: [...exemptionSeals.entries()].map(([key, value]) => [key, { ...value }]),
         exams: [...exams.entries()].map(([key, value]) => [
           key,
           { ...value, questions: value.questions.map((question) => ({ ...question })) },
@@ -83,6 +87,7 @@ export function createMemoryAcademyStore(): MemoryAcademyStore {
       courses.clear();
       purchases.clear();
       certificates.clear();
+      exemptionSeals.clear();
       exams.clear();
       attempts.clear();
       completions.clear();
@@ -95,6 +100,9 @@ export function createMemoryAcademyStore(): MemoryAcademyStore {
       }
       for (const [key, value] of state.certificates) {
         certificates.set(key, { ...value });
+      }
+      for (const [key, value] of state.exemptionSeals) {
+        exemptionSeals.set(key, { ...value });
       }
       for (const [key, value] of state.exams) {
         exams.set(key, {
@@ -205,6 +213,22 @@ export function createMemoryAcademyStore(): MemoryAcademyStore {
         (row) => row.certificateHash === hash || row.serialKey === hash,
       );
       return found ? { ...found } : null;
+    },
+    async getExemptionSealByUserAndCourse(userId, courseId) {
+      const found = [...exemptionSeals.values()].find(
+        (row) => row.userId === userId && row.courseId === courseId,
+      );
+      return found ? { ...found } : null;
+    },
+    async insertExemptionSeal(seal) {
+      const existing = [...exemptionSeals.values()].find(
+        (row) => row.userId === seal.userId && row.courseId === seal.courseId,
+      );
+      if (existing) {
+        return { ...existing };
+      }
+      exemptionSeals.set(seal.id, seal);
+      return { ...seal };
     },
     async listCertificatesForUser(userId) {
       return [...certificates.values()]

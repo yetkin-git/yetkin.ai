@@ -2,7 +2,7 @@
   {
     "id": "cue-01",
     "start": 2,
-    "end": 53.96,
+    "end": 53.52,
     "text": "GİRİŞ KÖPRÜSÜ",
     "section": "GİRİŞ KÖPRÜSÜ",
     "paragraphs": [
@@ -11,8 +11,8 @@
   },
   {
     "id": "cue-02",
-    "start": 54.36,
-    "end": 119.84,
+    "start": 53.92,
+    "end": 119.76,
     "text": "HOŞ GELDİN",
     "section": "HOŞ GELDİN",
     "paragraphs": [
@@ -22,8 +22,8 @@
   },
   {
     "id": "cue-03",
-    "start": 120.24,
-    "end": 191.8,
+    "start": 120.16,
+    "end": 192.16,
     "text": "UZUN RAPOR",
     "section": "UZUN RAPOR",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 192.2,
-    "end": 272.04,
+    "start": 192.56,
+    "end": 271.92,
     "text": "ÖZET İSTE",
     "section": "ÖZET İSTE",
     "paragraphs": [
@@ -44,8 +44,8 @@
   },
   {
     "id": "cue-05",
-    "start": 272.44,
-    "end": 344.52,
+    "start": 272.32,
+    "end": 347.08,
     "text": "KARAR NOTU",
     "section": "KARAR NOTU",
     "paragraphs": [
@@ -55,19 +55,19 @@
   },
   {
     "id": "cue-06",
-    "start": 344.92,
-    "end": 406.12,
+    "start": 347.48,
+    "end": 402.52,
     "text": "FARK ORTADA",
     "section": "FARK ORTADA",
     "paragraphs": [
-      "Ekrana dikkatli bak. Peki neden fark bu kadar belirgin? Çünkü sol tarafta okuması saatler süren 10 sayfa dolusu ham veri tablosu var; sağ tarafta ise yapay zekânın çıkardığı, işe yarayan net 3 madde yer alıyor. Sol taraf her satırı taşır, karar yoktur. Sağ taraf üç madde ve bir karar cümlesi taşır, toplantı yürür. Hangi tarafın yöneticiye zaman kazandıracağını tahmin etmek zor değil. Bu iki ekran arasındaki fark, eski çalışma tarzınla yeni üretkenliğin arasındaki farktır.",
-      "Eski yöntemde o 10 sayfa içindeki tek bir tutarsızlığı yakalamak için satır satır okurdun. Şimdi ise sadece 3 madde okuyarak tablonun bütününü görüyorsun. Zamanını verileri toparlamaya değil, o verilerin işaret ettiği ne yapılacağını tartışmaya ayırıyorsun. Bu dönüşüm seni yalnızca hızlı çalışan biri yapmaz. Çünkü tablonun bütününü üç maddede görürsün; toplantıda satır avına düşmezsin."
+      "Ekrana dikkatli bak. Peki neden fark bu kadar belirgin? Çünkü sol tarafta okuması saatler süren 10 sayfa dolusu ham veri tablosu var; sağ tarafta ise yapay zekânın çıkardığı, işe yarayan net 3 madde yer alıyor. Sol taraf her satırı taşır, karar yoktur. Sağ taraf üç madde ve bir karar cümlesi taşır, toplantı yürür. Hangi tarafın yöneticiye zaman kazandıracağını tahmin etmek zor değil. Bu iki ekran arasındaki fark, on sayfa okumak ile üç madde okumaktır.",
+      "Eski yöntemde o 10 sayfa içindeki tek bir tutarsızlığı yakalamak için satır satır okurdun. Şimdi ise sadece 3 madde okuyarak tablonun bütününü görüyorsun. Zamanını verileri toparlamaya değil, o verilerin işaret ettiği ne yapılacağını tartışmaya ayırıyorsun. Üç maddeyi okuyunca tablonun bütününü görürsün. Toplantıda satır avına düşmezsin."
     ]
   },
   {
     "id": "cue-07",
-    "start": 406.52,
-    "end": 449.68,
+    "start": 402.92,
+    "end": 450.76,
     "text": "CEBİNE KOY",
     "section": "CEBİNE KOY",
     "paragraphs": [
@@ -76,8 +76,8 @@
   },
   {
     "id": "cue-08",
-    "start": 450.08,
-    "end": 517.24,
+    "start": 451.16,
+    "end": 520.08,
     "text": "SIRA SENDE",
     "section": "SIRA SENDE",
     "paragraphs": [

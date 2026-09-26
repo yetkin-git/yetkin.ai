@@ -103,9 +103,9 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
   it("konuşma metni SEN dili, atlanmış kapı ve prompt terminalini taşır", () => {
     const spoken = readFileSync(join(ROOT, "lib/academy/spoken-scripts/01_office_ai-g1.md"), "utf8");
     expect(spoken).toContain("Selamlar, ben Gözde");
-    expect(spoken).toContain("taşıma su");
-    expect(spoken).toContain("atlanmış kapı");
-    expect(spoken).not.toMatch(/taşıma su yasak/iu);
+    expect(spoken).toContain("İş postasını kişisel hesaba taşımazsın");
+    expect(spoken).toContain("atlanmış yoldur");
+    expect(spoken).not.toMatch(/Copilot yoksa Gmail/u);
     expect(spoken).not.toMatch(/Dördüncü derste Outlook/u);
     expect(spoken).not.toMatch(/Sekiz ders bitmeden/u);
     expect(spoken).toMatch(/altıncı dersine/u);
@@ -139,8 +139,8 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
     expect(prose).toMatch(/Peki neden kopyala-yapıştır varsayılan yol değildir\?/u);
     expect(prose).toMatch(/Peki aksiyon listesinde kim, ne, ne zaman neden kilitlenir\?/u);
     expect(prose).toMatch(/gönderen yoksa tahsilat kime bağlanır/u);
-    expect(prose).toMatch(/Peki Cemini yan paneli neden bir tıklama adımı değil de birinci kapıdır\?/u);
-    expect(prose).toMatch(/Peki neden bu atlanmış kapıdır/u);
+    expect(prose).toMatch(/Peki Cemini yan paneli neden bir tıklama adımı değil de kutunun içindeki araçtır\?/u);
+    expect(prose).toMatch(/Peki neden bu atlanmış yoldur/u);
     expect(prose).toMatch(/Peki neden fark bu kadar belirgin\?/u);
     expect(prose).not.toMatch(/kahramanlıktır/u);
     expect(prose).not.toMatch(/Tablo istemek yöneticiliktir/u);
@@ -192,8 +192,8 @@ describe("01_office_ai-g1 — Gmail + Gemini ana akış reji", () => {
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
     expect(timings).not.toBeNull();
-    expect(timings!.durationSec).toBe(568.16);
-    expect(timings!.cacheV).toBe(568160);
+    expect(timings!.durationSec).toBe(603.84);
+    expect(timings!.cacheV).toBe(603840);
     const cues = loadAcademyLessonCues(KEY);
     expect(cues.at(-1)?.end).toBe(timings!.durationSec);
     for (const cue of cues) {

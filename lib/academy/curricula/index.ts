@@ -3,8 +3,12 @@ import {
   type AcademyLessonDraft,
   type CurriculumModule,
 } from "@/lib/academy/curricula/types";
-import { academyCitizenLessonOrdinal } from "@/lib/academy/curricula/lesson-index";
+import {
+  academyCitizenLessonOrdinal,
+  phase2DraftLessonOrdinal,
+} from "@/lib/academy/curricula/lesson-index";
 import { officeAiMasteryModule } from "@/lib/academy/curricula/office_ai";
+import { officeAi2MasteryModule } from "@/lib/academy/curricula/office_ai_2";
 import { ecommerceAiMasteryModule } from "@/lib/academy/curricula/ecommerce_ai";
 import { socialMediaAiMasteryModule } from "@/lib/academy/curricula/social_media_ai";
 import { chatbotNocodeMasteryModule } from "@/lib/academy/curricula/chatbot_nocode";
@@ -51,7 +55,10 @@ export function compactDraftsFromModule(
 ): readonly AcademyLessonDraft[] {
   return module.sections.map((section) => {
     const key = section.lessonKey ?? `${slug}-${section.sectionNumber}`;
-    const order = academyCitizenLessonOrdinal(slug, key) ?? section.sectionNumber;
+    const order =
+      academyCitizenLessonOrdinal(slug, key) ??
+      phase2DraftLessonOrdinal(slug, key) ??
+      section.sectionNumber;
     return academyCompactLessonDraft(
       key,
       order,
@@ -68,9 +75,12 @@ export function compactDraftsFromModule(
 /**
  * Canlı yayın taslağı — ingest edilmiş compact makaleler.
  * Katman 2–3 master metinler `docs/curriculum/*.md` taslağıdır; buraya basılmaz.
+ * OFF-201 (`01_office_ai_ileri`) canlı kayıttadır. `parent_teacher_ai` bu dosyaya girmez.
+ * Kayıt ve bütünlük bekçisi `phase2-drafts.ts` içindedir. Canlı yükleme o dosyayı import etmez.
  */
 export const CURRICULUM_DRAFTS_BY_SLUG: Record<string, readonly AcademyLessonDraft[]> = {
   "01_office_ai": compactDraftsFromModule("01_office_ai", officeAiMasteryModule),
+  "01_office_ai_ileri": compactDraftsFromModule("01_office_ai_ileri", officeAi2MasteryModule),
   "02_ecommerce_ai": compactDraftsFromModule("02_ecommerce_ai", ecommerceAiMasteryModule),
   "03_social_media_ai": compactDraftsFromModule("03_social_media_ai", socialMediaAiMasteryModule),
   "04_chatbot_nocode": compactDraftsFromModule("04_chatbot_nocode", chatbotNocodeMasteryModule),

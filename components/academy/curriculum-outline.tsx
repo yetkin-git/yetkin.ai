@@ -11,12 +11,18 @@ export function CurriculumOutline({
   completedKeys = [],
   showProgress = false,
   visaPromise = null,
+  showKind = true,
+  showExamShield = true,
 }: {
   syllabus: AcademySyllabus;
   passScore: number;
   completedKeys?: readonly string[];
   showProgress?: boolean;
   visaPromise?: string | null;
+  /** Aynı format rozeti her ders satırında tekrarlanmaz. */
+  showKind?: boolean;
+  /** Amiral 8 ders kalkanı. Ders sayısı farklı olan kursta basılmaz. */
+  showExamShield?: boolean;
 }) {
   const copy = ACADEMY_SEN.outline;
   const done = new Set(completedKeys);
@@ -64,7 +70,8 @@ export function CurriculumOutline({
                           </span>
                         ) : null}
                         <span className="mt-0.5 block text-xs text-[var(--muted)]">
-                          {kindLabel} · {copy.durationMin(lesson.durationMin)}
+                          {showKind ? `${kindLabel} · ` : null}
+                          {copy.durationMin(lesson.durationMin)}
                           {completed ? ` · ${copy.completed}` : null}
                         </span>
                       </span>
@@ -77,9 +84,11 @@ export function CurriculumOutline({
         </div>
       )}
       <p className="mt-4 text-sm text-[var(--foreground)]">{copy.exam(passScore)}</p>
-      <p className="mt-2 text-sm text-[var(--foreground)]" data-academy-exam-shield="">
-        {copy.examShield}
-      </p>
+      {showExamShield ? (
+        <p className="mt-2 text-sm text-[var(--foreground)]" data-academy-exam-shield="">
+          {copy.examShield}
+        </p>
+      ) : null}
       {visaPromise ? (
         <p className="mt-2 text-sm text-[var(--foreground)]" data-academy-visa-promise="">
           {visaPromise}

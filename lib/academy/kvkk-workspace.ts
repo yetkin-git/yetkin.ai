@@ -4,11 +4,11 @@
  */
 
 /**
- * 2. ders kritik özeti — Sil düğmesi ekrandan kaldırır, modelin gördüğünü geri almaz.
+ * 2. ders kritik özeti — Sil düğmesi senin ekranından kaldırır, modelin gördüğünü geri almaz.
  * Kart, el kitabı, SSS ve çıkış şablonu bu cümleyi birebir taşır.
  */
 export const ACADEMY_KVKK_DELETE_BUTTON_SUMMARY =
-  "Sohbet ekranında Sil düğmesine basmak, o veriyi yapay zekânın aklından silmez; sadece sizin ekranınızdan kaldırır. Model o adresi, IBAN'ı bir kez gördüyse sunucusuna kaydetmiştir. Bu yüzden 'silmesi kolay' deyip gerçek veriyi sohbete asla atmıyoruz, önce maskeliyoruz." as const;
+  "Sohbet ekranında Sil düğmesine basmak, o veriyi yapay zekânın aklından silmez; sadece senin ekranından kaldırır. Model o adresi, IBAN'ı bir kez gördüyse sunucusuna kaydetmiştir. Bu yüzden 'silmesi kolay' deyip gerçek veriyi sohbete asla atmazsın, önce maskelersin." as const;
 
 export const ACADEMY_KVKK_WINDOW_TITLE = "Excel" as const;
 export const ACADEMY_KVKK_FILE_NAME = "Musteri_Liste_Maske.xlsx" as const;
@@ -47,5 +47,5 @@ export const ACADEMY_KVKK_MASKED_TABLE = {
     ["Müşteri B", "Tel2", "IBAN2", "Yağ 18L"],
     ["Müşteri C", "Tel3", "IBAN3", "Şeker"],
   ],
-  note: "3. Kapı: maskeli kısa özet. Ham kutu ve ekran görüntüsü zinciri yok. Üç satır yeter.",
+  note: "Maskeli kısa özet. Ham kutu ve ekran görüntüsü zinciri yok. Üç satır tablo şeklini gösterir.",
 } as const;

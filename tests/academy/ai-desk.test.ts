@@ -156,7 +156,7 @@ describe("Nereye yazılacak — Copilot vs ChatGPT masası", () => {
     const excel = readSrc("components/academy/lesson-excel-workspace.tsx");
     const pptx = readSrc("components/academy/lesson-pptx-workspace.tsx");
     const eye = readSrc("components/academy/lesson-visual-stage.tsx");
-    const spoken = readSrc("lib/academy/spoken-scripts/01_office_ai-4.md");
+    const spoken = readSrc("archived/academy/01_office_ai-4/spoken-script.md");
     const css = readSrc("app/globals.css");
     expect(desk).not.toContain(">AI masası<");
     expect(outlook).not.toContain(">AI masası<");

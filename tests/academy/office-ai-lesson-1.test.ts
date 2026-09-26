@@ -96,8 +96,9 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(prose).not.toMatch(/kopyala-yapıştır/u);
     expect(prose).not.toMatch(/taşıma su/iu);
     expect(prose).toMatch(/ataş simgesinden/u);
-    expect(prose).toMatch(/Üç Kapı/u);
-    expect(prose).toMatch(/birinci kapı/u);
+    expect(prose).toMatch(/Önce üç adım vardır/u);
+    expect(prose).toMatch(/Şirketinin onayladığı araç hangisi/u);
+    expect(prose).toMatch(/Yapay zekâ senin yerine karar vermez/u);
     expect(prose).not.toMatch(/gemini\.google\.com/u);
     expect(prose).not.toMatch(/Favoriler veya Uygulamalar/u);
     expect(prose).not.toMatch(/Gmail'de Cemini yerleşik eklentisini/u);

@@ -34,6 +34,7 @@ export function ExamPanel({
   nextCourseTitle,
   nextCourseHref,
   onAbandon,
+  submitPath,
 }: {
   courseId: string;
   courseTitle?: string;
@@ -51,6 +52,8 @@ export function ExamPanel({
   nextCourseHref?: string | null;
   /** Focus Chamber: oturumu iptal et; JTI tüketilmez. */
   onAbandon?: () => void;
+  /** Varsayılan kurs sonu sınavı. Muafiyet yolu sertifika ve vize basmaz. */
+  submitPath?: string;
 }) {
   const router = useRouter();
   const { push } = useActionBridge();
@@ -122,7 +125,7 @@ export function ExamPanel({
         choiceIndex: choices[question.id]!,
       }));
     const response = await fetch(
-      `/api/academy/courses/${courseId}/exam`,
+      submitPath ?? `/api/academy/courses/${courseId}/exam`,
       await withRailSession({
         method: "POST",
         headers: { "content-type": "application/json", ...idempotency.headers() },
@@ -139,6 +142,7 @@ export function ExamPanel({
       score?: number;
       certificate?: { certificateHash?: string | null; serialKey?: string };
       visaStamp?: { id?: string } | null;
+      seal?: { title?: string; score?: number } | null;
     }>(await response.json());
     setPending(false);
     if (!parsed.ok || parsed.data.score == null || parsed.data.passed == null) {

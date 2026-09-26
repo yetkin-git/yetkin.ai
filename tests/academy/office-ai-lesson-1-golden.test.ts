@@ -69,7 +69,7 @@ describe("01_office_ai-1 altın model — giriş nefesi ve Veo Warm-up", () => {
     expect(spoken).not.toMatch(/gemini\.google\.com/u);
     expect(spoken).not.toMatch(/Favoriler veya Uygulamalar/u);
     expect(spoken).not.toMatch(/Gmail'de Gemini yerleşik eklentisini/u);
-    expect(spoken).toMatch(/Üç Kapı/u);
+    expect(spoken).toMatch(/Önce üç adım vardır/u);
     expect(spoken).toMatch(/Copilot lisansın varsa/u);
     const veo = stage?.cards[0];
     expect(veo).toBeTruthy();

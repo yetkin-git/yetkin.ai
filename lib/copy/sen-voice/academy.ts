@@ -3,13 +3,13 @@ export const ACADEMY_SEN = {
     eyebrow: "Akademi",
     title: "Yapay zeka eğitimi ve online kurslar",
     description:
-      "Yapay zeka eğitimi ve online kurs vitrini. Amiral eğitim yayındadır. Kardeş müfredat üretim bandındadır ve Çok Yakında / Hazırlanıyor rozetiyle durur; mühürsüz ders için hayali oynatıcı basılmaz. Eğitimi incele. Dersler ödeme sonrası açılır. Sertifika doğrulama ve mevcut lisanslar çalışır.",
-    stats: "1 eğitim yayında · 4 eğitim çok yakında",
+      "Yapay zeka eğitimi ve online kurs vitrini. Ofiste Yapay Zekâ yayındadır. İleri Ofis Eğitimi kayıt kapalıdır. İleri ofiste üç ders seslidir; 1, 2 ve 6. dersin sesi henüz hazır değildir. Kardeş eğitimler hazırlanıyor ve Çok Yakında / Hazırlanıyor rozetiyle durur. Sesi bitmemiş ders için boş oynatıcı açılmaz. Eğitimi incele. Dersler ödeme sonrası açılır. Sertifika doğrulama ve mevcut lisanslar çalışır.",
+    stats: "1 eğitim yayında · 1 kayıt kapalı · 4 eğitim çok yakında",
     certificatesCta: "Sertifikalar",
     verifyCta: "Doğrula",
     live: (count: number) => (count > 0 ? "Eğitimler — ders, test ve yetkinlik" : ""),
     unbound: "Liste henüz yüklenemedi.",
-    empty: "Yeni Müfredat Üretim Bandında",
+    empty: "Yeni eğitimler hazırlanıyor",
     cardCtaInspect: "İncele",
     cardCtaOpen: "Eğitimi Gör",
     /** Vitrin kartı — satın alma yokken birincil eylem. Fiyat butonda yazılmaz. */
@@ -35,21 +35,25 @@ export const ACADEMY_SEN = {
      * Seri modülünde seviye sözcüğü (Temel / Orta / İleri) önde durur; kod ikinci.
      */
     cardLevelContext: (level?: string | null, moduleCode?: string | null) => {
-      const label = level?.trim() ?? "";
       const code = moduleCode?.trim() ?? "";
+      if (code === "OFF-201") return "İleri Ofis Eğitimi";
+      const label = level?.trim() ?? "";
       if (label && code) return `${label} · ${code}`;
       return label || code;
     },
-    badgeClosed: "Kayıt kapalı",
+    badgeClosed: "Kayıt Kapalı / Fiyat Bekleniyor",
     /** WAV mührü olan SKU — katalog kartı sağ üst; mühürsüz ders karaoke basmaz. */
     audioBadge: "Sesli anlatım",
-    audioBadgeHint: "Sesli Anlatım + Sınav + Mühürlü Sertifika",
-    /** Antre hero — mühürlü ses vaadi; karttaki kısa rozet değil. */
-    heroAudioBadge: "Sesli Anlatım + Sınav + Mühürlü Sertifika",
+    audioBadgeHint: "Sesli Anlatım + Sınav + Sertifika",
+    /** Antre hero — ses vaadi; karttaki kısa rozet değil. */
+    heroAudioBadge: "Sesli Anlatım + Sınav + Sertifika",
+    /** OFF-201 vitrin — mühürlü ders sayısını söyler. Kursun tamamına ses vaadi basılmaz. */
+    narrationBadge: "Sesli Anlatım",
+    sealedLessonBadge: (sealed: number, total: number) => `${sealed}/${total} ders sesli`,
     /** WAV mührü olmayan compact SKU — makale / pratik, ses vaadi yok. */
     articleBadge: "Makale / Okuma Metni",
-    articleBadgeHint: "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
-    heroArticleBadge: "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Mühürlü Sertifika",
+    articleBadgeHint: "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Sertifika",
+    heroArticleBadge: "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Sertifika",
     /** Taze ingest bekleyen vitrin SKU — şeffaf kapak şablonu. */
     comingSoonBadge: "Çok Yakında / Hazırlanıyor",
     comingSoonHint: "Hazırlanıyor — ders metni ve sınav kapısı yakında.",
@@ -70,14 +74,16 @@ export const ACADEMY_SEN = {
               ? "İleri Seviye"
               : raw;
       const code = moduleCode?.trim() ?? "";
+      if (code === "OFF-201") return "İleri Ofis Eğitimi";
       if (label && code) return `${label} · ${code}`;
       return label || code;
     },
     priceMissing: "Fiyat yok",
-    /** Quiet Luxury Piyasa Talep Skoru — 100 üzerinden Match Score mührü. */
-    marketDemandScoreTitle: "Piyasa Talep Skoru",
-    marketDemandScore: (score: number) => `✦ ${score.toFixed(1)}`,
-    marketRank: (rank: number) => `Piyasa Sırası: #${rank}`,
+    /** Fiyat yok veya ses eksik — kartta tek durum cümlesi. */
+    pricePending: "Kayıt Kapalı / Fiyat Bekleniyor",
+    /** OFF-201 — zorunlu ön koşul yok; dürüst tavsiye. */
+    off201Advisory:
+      "Tavsiye: Bu eğitim ileri seviye uygulamalar içerir. Temeline güveniyorsan doğrudan başlayabilirsin. Temel seviyeyi görmek istersen Ofiste Yapay Zekâ eğitimine göz atabilirsin.",
     /** Kart meta — eğitmen + ders sayısı; teknik anahtar vatandaşa basılmaz. */
     cardMeta: (lessons: number, instructorName?: string) =>
       [instructorName ? `Eğitmen: ${instructorName}` : null, `${lessons} Ders`]
@@ -139,15 +145,18 @@ export const ACADEMY_SEN = {
     libraryGuarantee:
       "Satın aldığın eğitim kütüphanende 365 gün kalır. Sertifika yalnız testi 70+ ile geçince basılır.",
     purchaseEyebrow: "Eğitimi başlat",
+    /** OFF-201 antre — 8 ders kalkanı ve çift sertifika cümlesi yok. */
+    purchaseBodyPlain:
+      "Dersleri bitir, testi 70+ ile geç. Sertifika Kariyer sayfana işlenir. Gösterilen tutar KDV dahildir.",
     purchaseBody:
       "Dersleri bitir, testi 70+ ile geç. Sertifika ve yetkinlik Kariyer sayfana işlenir. Satın alma tek başına sertifika basmaz. Gösterilen tutar KDV dahildir. Sınav, 8 dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
-    pathTrainingCta: (priceLabel: string) => `Eğitimi Satın Al & Öğren (${priceLabel})`,
-    pathTrainingCtaIdle: "Eğitimi Satın Al & Öğren",
+    pathTrainingCta: (priceLabel: string) => `Eğitimi Satın Al (${priceLabel})`,
+    pathTrainingCtaIdle: "Eğitimi Satın Al",
     pathTrainingBody:
       "Amiral: 8 mühürlü sesli ders. Sınav tüm dersler bitmeden açılmaz; baraj 70.",
-    pathExamCta: (priceLabel: string) => `Doğrudan teste gir ve yetkinlik kazan (${priceLabel})`,
-    pathExamCtaIdle: "Doğrudan teste gir ve yetkinlik kazan",
-    pathExamBody: "Dersleri atla; yalnız test. Belge 70+ puanla gelir.",
+    pathExamCta: (priceLabel: string) => `Testi eğitim bitince aç (${priceLabel})`,
+    pathExamCtaIdle: "Testi eğitim bitince aç",
+    pathExamBody: "Test, dersler bitmeden açılmaz. Belge 70+ puanla gelir.",
   },
   outline: {
     eyebrow: "İçerik",
@@ -199,10 +208,10 @@ export const ACADEMY_SEN = {
       ] as const,
   },
   purchase: {
-    cta: (priceLabel: string) => `Eğitimi Satın Al & Öğren (${priceLabel})`,
-    ctaIdle: "Eğitimi Satın Al & Öğren",
-    ctaExam: (priceLabel: string) => `Doğrudan teste gir ve yetkinlik kazan (${priceLabel})`,
-    ctaExamIdle: "Doğrudan teste gir ve yetkinlik kazan",
+    cta: (priceLabel: string) => `Eğitimi Satın Al (${priceLabel})`,
+    ctaIdle: "Eğitimi Satın Al",
+    ctaExam: (priceLabel: string) => `Testi eğitim bitince aç (${priceLabel})`,
+    ctaExamIdle: "Testi eğitim bitince aç",
     ctaTopUp: "Bakiye Yükle / Öde",
     closed: "Ödeme henüz bağlanmadı / pasif",
     closedBody:
@@ -274,7 +283,7 @@ export const ACADEMY_SEN = {
       "Bu dersteki amacımız kod ezberlemek veya yazmak değil; yapay zekanın veriyi nasıl bir formata (JSON) soktuğunu kavramaktır.",
     codeCalloutInviteBefore:
       "Kod ezberlemeden günlük işini hızlandırmak istersen Akademi vitrinindeki ",
-    codeCalloutModule: "Pratik Prompt Mühendisliği",
+    codeCalloutModule: "Günlük İşler İçin İstem Yazma",
     codeCalloutInviteAfter: " eğitimine göz at.",
     codeCalloutHref: "/academy",
     companionEyebrow: "Ders açıklaması",
@@ -435,6 +444,7 @@ export const ACADEMY_SEN = {
     modeListen: "Sesli Dinleme",
     fallbackNotice: "Pürüzsüz Okuma Modu",
     studioPreparing: "Pürüzsüz Okuma Modu",
+    audioRecordingPreparing: "Bu dersin ses kaydı hazırlanmaktadır.",
     failVoiceBinding:
       "Bu dersin mühürlü ses kaydı henüz yok; metin açık, eski veya uydurma ses çalınmaz. Kota sıfırlanınca yeniden basılmaya hazırdır.",
     failKey: "Ses servisi şu an yapılandırılmamış.",

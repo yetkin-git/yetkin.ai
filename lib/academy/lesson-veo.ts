@@ -10,6 +10,11 @@ export const ACADEMY_VEO_BAKE_MODEL = "veo-3.1-lite-generate-preview" as const;
 /** Pahalı Veo 3.1 — her ders fırınında çağrı yasak (PEDAGOJI §E.4). */
 export const ACADEMY_VEO_PREMIUM_MODEL = "veo-3.1-generate-preview" as const;
 export const ACADEMY_VEO_BAKE_DURATION_SEC = 8 as const;
+/** Warm-up B-roll bandı. Varsayılan 8 sn bu bandın üst ucudur. */
+export const ACADEMY_VEO_BAKE_DURATION_MIN_SEC = 6 as const;
+export const ACADEMY_VEO_BAKE_DURATION_MAX_SEC = 8 as const;
+/** Ders başına tek Veo 3.1 Lite çağrısı — yalnız ısınma beat'i. */
+export const ACADEMY_VEO_CALLS_PER_LESSON = 1 as const;
 
 export function isAcademyVeoPremiumBakeModel(model: string): boolean {
   return model.trim() === ACADEMY_VEO_PREMIUM_MODEL;
@@ -18,6 +23,19 @@ export function isAcademyVeoPremiumBakeModel(model: string): boolean {
 export function assertAcademyVeoBudgetBakeModel(model: string): void {
   if (isAcademyVeoPremiumBakeModel(model)) {
     throw new Error("Pahalı Veo 3.1 API her ders fırınında yasaktır (PEDAGOJI §E.4).");
+  }
+}
+
+/** 1 ders = 1 Lite klip, 6–8 sn, yalnız ısınma. Anlatım beat'inde ikinci çağrı yok. */
+export function assertAcademyVeoLessonBudget(input: { calls: number; durationSec: number }): void {
+  if (input.calls !== ACADEMY_VEO_CALLS_PER_LESSON) {
+    throw new Error("Veo 3.1 Lite ders başına yalnız 1 çağrıdır.");
+  }
+  if (
+    input.durationSec < ACADEMY_VEO_BAKE_DURATION_MIN_SEC ||
+    input.durationSec > ACADEMY_VEO_BAKE_DURATION_MAX_SEC
+  ) {
+    throw new Error("Veo 3.1 Lite B-roll 6–8 saniye bandındadır.");
   }
 }
 

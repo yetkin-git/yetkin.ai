@@ -207,6 +207,39 @@ export function createMemoryCatalogWriteStore(
       const row = id ? byId.get(id) : undefined;
       return row ? { ...row } : null;
     },
+    async openAmount(input) {
+      const row: SealedCatalogEntry = {
+        id: input.id,
+        moduleKey: input.moduleKey,
+        unitKey: input.unitKey,
+        unitType: input.unitType,
+        amountMinor: toAmountMinor(input.amountMinor),
+        currencyCode: input.currencyCode,
+        isActive: true,
+        minMinor: toAmountMinor(input.minMinor),
+        maxMinor: toAmountMinor(input.maxMinor),
+        description: input.description,
+        updatedBy: input.updatedBy,
+        updatedAt: new Date("2026-09-25T00:00:00.000Z"),
+      };
+      byId.set(row.id, row);
+      byModuleUnit.set(`${row.moduleKey}:${row.unitKey}`, row.id);
+      ledger.unshift({
+        id: `dec_open_${input.id}`,
+        catalogEntryId: input.id,
+        moduleKey: input.moduleKey,
+        unitKey: input.unitKey,
+        unitType: input.unitType,
+        reasonCode: input.reasonCode,
+        reason: input.reason,
+        oldMinor: toAmountMinor(0),
+        newMinor: toAmountMinor(input.amountMinor),
+        currencyCode: input.currencyCode,
+        actorUserId: input.updatedBy,
+        createdAt: new Date("2026-09-25T00:00:00.000Z"),
+      });
+      return { ...row };
+    },
     async updateAmount(input) {
       const row = byId.get(input.id);
       if (!row) {

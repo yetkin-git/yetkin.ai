@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
@@ -18,6 +19,7 @@ import { stripZeroKurusFromTryLabel } from "@/lib/kernel/money/format";
 import { WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
 import type { AcademyPurchasePath } from "@/lib/academy/purchase-path";
 import { academyCardOfferPaths } from "@/lib/academy/purchase-path";
+import { OFF_101_EXEMPTION_ENTRY_LABEL } from "@/lib/academy/off101-exemption";
 import { academyPaytrTopUpMinor } from "@/lib/academy/catalog-pricing";
 import { ACADEMY_CHECKOUT_HASH, ACADEMY_HERO_PAYTR_EVENT } from "@/lib/academy/storefront-cta";
 import { CheckoutConsentFields } from "@/components/legal/checkout-consent-fields";
@@ -191,6 +193,7 @@ export function PurchaseButton({
               digitalImmediatePerformanceAccepted: true,
               consentVersion: CHECKOUT_LEGAL_CONSENT_VERSION,
               billing: billingInfo,
+              ...(courseSlug ? { courseSlug } : {}),
             }),
           }),
         );
@@ -219,7 +222,7 @@ export function PurchaseButton({
         return null;
       }
     },
-    [idempotency, report, reportPaytrIframeError],
+    [courseSlug, idempotency, report, reportPaytrIframeError],
   );
 
   const startPaytrCheckout = useCallback(async () => {
@@ -375,6 +378,15 @@ export function PurchaseButton({
           {ctaFor(offer.path)}
         </Button>
       ))}
+      {courseSlug === "01_office_ai" ? (
+        <Link
+          href="/academy/01_office_ai?gate=exemption#academy-exam-gate"
+          className="text-sm font-medium text-[var(--safir-deep)] underline-offset-4 hover:underline"
+          data-academy-exemption-entry=""
+        >
+          {OFF_101_EXEMPTION_ENTRY_LABEL}
+        </Link>
+      ) : null}
       <SecurePaymentMarks compact />
       {status ? (
         <p aria-live="polite" className="text-xs text-[var(--muted)]">

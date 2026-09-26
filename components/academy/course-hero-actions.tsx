@@ -21,6 +21,8 @@ export function CourseHeroActions({
   level,
   moduleCode,
   hasSealedAudio = false,
+  narration = false,
+  narrationLabel,
   comingSoon = false,
   audioPreview = false,
   primaryHref,
@@ -34,6 +36,10 @@ export function CourseHeroActions({
   level: AcademyCourseLevel | null;
   moduleCode?: string | null;
   hasSealedAudio?: boolean;
+  /** Kısa ses rozeti. Uzun makale / sınav / sertifika şeridi basılmaz. */
+  narration?: boolean;
+  /** Yarım mühürde dürüst sayım. Boşsa `narrationBadge` basılır. */
+  narrationLabel?: string;
   /** Taze ingest yok — Yazılı compact vaadi basılmaz. */
   comingSoon?: boolean;
   /** Amiral 1. bölüm sesli; karaoke mührü yokken kısa rozet. */
@@ -72,6 +78,12 @@ export function CourseHeroActions({
         <span data-academy-hero-coming-soon="">
           <Badge tone="neutral" className="normal-case tracking-normal">
             {ACADEMY_SEN.catalog.comingSoonHint}
+          </Badge>
+        </span>
+      ) : narration ? (
+        <span data-academy-hero-audio="">
+          <Badge tone="safir" className="normal-case tracking-normal">
+            {narrationLabel || ACADEMY_SEN.catalog.narrationBadge}
           </Badge>
         </span>
       ) : hasSealedAudio ? (

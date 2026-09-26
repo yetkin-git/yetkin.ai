@@ -4,6 +4,7 @@
  *
  *   npx tsx scripts/sync-academy-cue-paragraphs.ts --key=01_office_ai-5
  */
+import "@/lib/academy/lesson-json-disk";
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { loadAcademyLessonCues } from "@/lib/academy/lesson-cues";

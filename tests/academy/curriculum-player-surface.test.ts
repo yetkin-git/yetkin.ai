@@ -160,12 +160,11 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(player).not.toContain("autoAdvanceNextLesson(nextKey)");
     expect(player).toContain("nextAcademyPlayerLesson(lessonsRef.current, lessonKey)");
     expect(player).toContain("{ advance: shouldAdvance }");
-    expect(player).toContain("academyPlayerOutroTailSec");
-    expect(player).toContain("hasAcademyLessonPlaybackReachedEnd");
+    expect(player).toContain("onEnded={onMediaEnded}");
+    expect(player).not.toContain("hasAcademyLessonPlaybackReachedEnd");
     expect(player).toContain("endedLessonKeyRef");
     expect(player).toContain("selectLesson");
     expect(player).toContain("idempotency.rotate");
-    expect(player).toContain("activeClockDurationSec");
     expect(player).toContain("data-academy-autoplay-toggle");
     expect(player).toContain("readAcademyLessonAutoAdvanceFromStorage");
     expect(player).toContain("writeAcademyLessonAutoAdvanceToStorage");
@@ -202,7 +201,8 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(media).toContain("autoStartTriedRef");
     expect(media).toContain("playSealedAudio");
     expect(media).toContain("onCanPlay");
-    expect(media).toContain("hasAcademyLessonPlaybackReachedEnd");
+    expect(media).toContain("academyLessonAudioEndedIsComplete");
+    expect(media).not.toContain("hasAcademyLessonPlaybackReachedEnd");
     expect(media).toContain("armOutroEndTimeout");
     expect(media).toContain("academyOutroBreathRemainMs");
     expect(media).toContain("ACADEMY_OUTRO_BREATH_MS");

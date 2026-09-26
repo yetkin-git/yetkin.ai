@@ -62,7 +62,7 @@ export type DialogueTurn = {
 };
 
 /**
- * Tek eğitmen — 4 perde. PEDAGOJI.md §F doygunluk akışına eşlenir.
+ * Tek eğitmen — 4 perde. PEDAGOJI.md §B doygunluk akışına eşlenir.
  * Eski warmup/development anahtarları derlemede eşlenir.
  */
 export type AcademyFourActInstructor = {
@@ -386,7 +386,7 @@ function collapseFiveActToInstructor(
   };
 }
 
-/** PEDAGOJI.md §F — tek eğitmen, öğrenciye doğrudan hitap, 4 adımlı doygunluk. Metin birebir; şablon eklenmez. */
+/** PEDAGOJI.md §B — tek eğitmen, öğrenciye doğrudan hitap, 4 adımlı doygunluk. Metin birebir; şablon eklenmez. */
 export function academyInstructorLessonDraft(spec: {
   key: string;
   order: number;
@@ -460,10 +460,16 @@ export function academyFiveActLessonDraft(spec: {
 export type AcademyVoiceGender = AcademyTtsVoiceGender;
 
 export interface VoiceConfig {
+  /**
+   * Tek karakter adı, ya da ders başına döküm etiketi.
+   * `lessonVoices` doluysa fırın o haritayı okur; bu alan tek ses iddiası değildir.
+   */
   voice: string;
   style: string;
-  /** Fırınlama sesi — konunun tonuna göre kadın veya erkek TTS. */
-  gender: AcademyVoiceGender;
+  /** Fırınlama sesi. Karma kadroda `mixed`. */
+  gender: AcademyVoiceGender | "mixed";
+  /** Ders anahtarı → TTS karakteri. */
+  lessonVoices?: Readonly<Record<string, string>>;
 }
 
 export interface Section {

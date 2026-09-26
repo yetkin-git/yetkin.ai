@@ -18,7 +18,12 @@ import {
 import type { AcademyCatalogLearnerStatus } from "@/lib/academy/catalog-learner";
 import type { AcademyCatalogViewMode } from "@/lib/academy/catalog-view-pref";
 import { resolveAcademyCatalogCardCta } from "@/lib/academy/storefront-cta";
-import { academyCourseHasSealedAudio } from "@/lib/academy/pilot-sku";
+import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
+import {
+  ACADEMY_OFF201_STOREFRONT_SLUG,
+  academyCourseHasSealedAudio,
+  academyMediaSealedLessonKeys,
+} from "@/lib/academy/pilot-sku";
 import { cn } from "@/components/ui/cn";
 
 export type CourseCardSurface = "catalog" | "library";
@@ -60,11 +65,14 @@ export function CourseCard({
   const moneyLabel = course.priceMinor
     ? formatMinorCompact(course.priceMinor, course.currencyCode)
     : ACADEMY_SEN.catalog.priceMissing;
+  const comingSoon = academyCourseIsComingSoon(course.slug);
+  const saleClosed = !comingSoon && !owned && !course.purchasable;
   const storefront = resolveAcademyCatalogCardCta({
     slug: course.slug,
     owned,
     learnerStatus,
     priceLabel: course.priceMinor ? moneyLabel : null,
+    purchasable: comingSoon ? undefined : course.purchasable,
   });
   const learnerLabel =
     learnerStatus === "continue"
@@ -73,9 +81,15 @@ export function CourseCard({
         ? ACADEMY_SEN.catalog.statusCompleted
         : null;
 
-  const comingSoon = academyCourseIsComingSoon(course.slug);
-  const cinemaCover = academyCourseCoverPath(course.slug);
+  const cinemaCover = course.coverImage ?? academyCourseCoverPath(course.slug);
   const sealedAudio = academyCourseHasSealedAudio(course.slug);
+  const sealedLessonCount = academyMediaSealedLessonKeys(course.slug).length;
+  const rosterCount = lessonCount || curriculumLessonKeysForSlug(course.slug).length;
+  const partialNarration =
+    course.slug === ACADEMY_OFF201_STOREFRONT_SLUG &&
+    sealedLessonCount > 0 &&
+    rosterCount > sealedLessonCount;
+  const partialNarrationLabel = ACADEMY_SEN.catalog.sealedLessonBadge(sealedLessonCount, rosterCount);
   const hasAudio = sealedAudio || academyCourseHasCinemaCover(course.slug);
   const audioBadge = comingSoon ? (
     <span
@@ -85,6 +99,16 @@ export function CourseCard({
       className="inline-flex shrink-0 items-center gap-1 rounded-full bg-transparent px-2 py-0.5 text-[10px] font-semibold tracking-wide text-[var(--muted)] ring-1 ring-inset ring-[color-mix(in_srgb,var(--border)_70%,transparent)]"
     >
       {ACADEMY_SEN.catalog.comingSoonBadge}
+    </span>
+  ) : partialNarration ? (
+    <span
+      data-academy-audio-badge=""
+      title={partialNarrationLabel}
+      aria-label={partialNarrationLabel}
+      className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[var(--safir-soft)] px-2 py-0.5 text-[10px] font-semibold tracking-wide text-[var(--safir-deep)] ring-1 ring-inset ring-[var(--safir-soft)]"
+    >
+      <IconVolume className="h-3 w-3" />
+      {partialNarrationLabel}
     </span>
   ) : hasAudio ? (
     <span
@@ -117,12 +141,16 @@ export function CourseCard({
   );
   const cardMeta = comingSoon
     ? ACADEMY_SEN.catalog.comingSoonMeta
-    : hasAudio
-      ? ACADEMY_SEN.catalog.cardMetaAudio(ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN)
-      : ACADEMY_SEN.catalog.cardMeta(lessonCount);
+    : partialNarration
+      ? partialNarrationLabel
+      : hasAudio
+        ? ACADEMY_SEN.catalog.cardMetaAudio(ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN)
+        : ACADEMY_SEN.catalog.cardMeta(lessonCount);
   const hitAriaExtra = comingSoon
     ? ACADEMY_SEN.catalog.comingSoonHint
-    : sealedAudio
+    : partialNarration
+      ? partialNarrationLabel
+      : sealedAudio
       ? ACADEMY_SEN.catalog.audioBadgeHint
       : hasAudio
         ? ACADEMY_SEN.catalog.cardMetaAudio(ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN)
@@ -160,19 +188,29 @@ export function CourseCard({
       layout={layout}
       hit="card"
       title={course.title}
-      moduleCode={moduleCode}
-      kicker={levelKicker}
+      moduleCode={course.slug === ACADEMY_OFF201_STOREFRONT_SLUG ? undefined : moduleCode}
+      kicker={
+        course.slug === ACADEMY_OFF201_STOREFRONT_SLUG ? "İleri Ofis Eğitimi" : levelKicker
+      }
       summary={summary}
+      footnote={
+        course.slug === ACADEMY_OFF201_STOREFRONT_SLUG ? ACADEMY_SEN.catalog.off201Advisory : undefined
+      }
       summaryClamp={featured ? 3 : 2}
       price={storefront.priceLabel}
       priceCaption={storefront.priceCaption ?? undefined}
-      badge={statusBadge ?? (comingSoon ? undefined : ACADEMY_SEN.catalog.liveBadge)}
-      lockLabel={comingSoon || course.purchasable ? undefined : ACADEMY_SEN.catalog.badgeClosed}
+      badge={
+        saleClosed
+          ? ACADEMY_SEN.catalog.pricePending
+          : (statusBadge ?? (comingSoon ? undefined : ACADEMY_SEN.catalog.liveBadge))
+      }
+      lockLabel={undefined}
       meta={cardMeta}
       href={storefront.href || undefined}
       cta={storefront.cta}
+      ctaDisabled={storefront.ctaDisabled}
       ctaSize="md"
-      ctaVariant={owned ? "success" : comingSoon ? "outline" : "primary"}
+      ctaVariant={storefront.ctaDisabled || comingSoon ? "outline" : owned ? "success" : "primary"}
       coverSrc={cinemaCover}
       coverComingSoon={comingSoon}
       comingSoonLabel={ACADEMY_SEN.catalog.comingSoonBadge}

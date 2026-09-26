@@ -4,7 +4,7 @@
  * Client-safe: sınav şıkları ve GEMINI_API_KEY yoktur.
  * Faz 3: pusula / Koray montajı `archived/lib/academy-studio/` (field-voice, studio-cast).
  * Bu dosya vitrin biyografisi ve ses mührüdür; fabrika import etmez.
- * Master Voice: Erinome — net, berrak, yakın mikrofon; teknik anlatım %93 tempo.
+ * Master Voice: Erinome — net, berrak, yakın mikrofon; teknik anlatım 0.93 tempo.
  */
 
 import { YETKIN_BRAND } from "@/lib/copy/brand";
@@ -58,7 +58,7 @@ export type AcademyCastBinding = {
   role: "instructor" | "moderator" | "announcer";
   voice: AcademyTtsVoice;
   voiceFingerprint: AcademyVoiceFingerprint;
-  /** 0.93 = teknik akademi temposu; 1 = %100. */
+  /** 0.93 = doğal temponun %7 yavaşı; 1 = %100. Perde SOLA ile korunur. */
   speechRate: number;
 };
 
@@ -161,7 +161,11 @@ export function isAcademyDigitalSkillsSlug(slug: string): boolean {
   );
 }
 
-/** Eğitmen usta temposu — teknik kavramlar acele etmeden, %93. */
+/**
+ * Eğitmen temposu — doğal konuşmanın tam %7 yavaşı.
+ * 0.70 bandı faz bulaştırır ve robotik duyulur; 0.93 perdeyi koruyan kısa SOLA ile akıcı kalır.
+ * Bake her konuşma dilimine bu oranı basar.
+ */
 export const ACADEMY_INSTRUCTOR_SPEECH_RATE = 0.93 as const;
 
 /** Gemini TTS Master Voice — yüksek frekans, berrak, yakın mikrofon. */
@@ -203,9 +207,23 @@ export function academyCastForDialogueSpeaker(
   };
 }
 
-/** Compact stüdyo bake — SKU eğitmen sesi (ofis: Callirrhoe / Gözde; e-ticaret: Kore / Aylin; sosyal: Zephyr / Deniz; chatbot: Puck / Kaan). */
-export function academyInstructorTtsCast(slug: string): AcademyDialogueCast {
-  const instructor = academyInstructorBySlug(slug);
+/**
+ * OFF-201 yeniden fırın sesleri — tek ses yasak.
+ * Kota açılınca Gemini 3.1 Flash TTS bu karakterlerle sırayla basılır.
+ */
+export const ACADEMY_OFF201_LESSON_TTS_VOICE = {
+  "01_office_ai_ileri-1": "Kore",
+  "01_office_ai_ileri-2": "Puck",
+  "01_office_ai_ileri-3": "Fenrir",
+  "01_office_ai_ileri-4": "Aoede",
+  "01_office_ai_ileri-5": "Leda",
+  "01_office_ai_ileri-6": "Zephyr",
+} as const satisfies Record<string, AcademyInstructorTtsVoice>;
+
+/** Compact stüdyo bake — SKU eğitmen sesi. Ders anahtarı varsa o ses ezer. */
+export function academyInstructorTtsCast(slug: string, lessonKey?: string): AcademyDialogueCast {
+  const mapped = lessonKey ? ACADEMY_OFF201_LESSON_TTS_VOICE[lessonKey as keyof typeof ACADEMY_OFF201_LESSON_TTS_VOICE] : undefined;
+  const instructor = mapped ? academyInstructorByVoice(mapped) : academyInstructorBySlug(slug);
   return {
     voice: instructor.voice,
     speechRate: ACADEMY_INSTRUCTOR_SPEECH_RATE,
@@ -378,7 +396,7 @@ export const ACADEMY_DEFAULT_INSTRUCTOR_VOICE_BY_GENDER = {
   erkek: "Fenrir",
 } as const satisfies Record<AcademyInstructorGender, AcademyInstructorTtsVoice>;
 
-/** Fırınlama varsayılanı — slug ses mührü bu seçimi ezer (PEDAGOJI.md §F.3). */
+/** Fırınlama varsayılanı — slug ses mührü bu seçimi ezer (PEDAGOJI.md §B). */
 export function academyDefaultInstructorVoiceForGender(
   gender: AcademyInstructorGender,
 ): AcademyInstructorTtsVoice {
@@ -411,7 +429,7 @@ export const ACADEMY_COURSE_OPEN: Record<AcademyCourseTitleSlug, AcademyCourseOp
   },
   "03_social_media_ai": {
     field: "Sosyal medya içeriği",
-    topic: "Görsel, Reels ve video fabrikası",
+    topic: "Görsel ve kısa video",
   },
   "04_chatbot_nocode": {
     field: "Kodsuz müşteri hizmetleri",
@@ -419,7 +437,7 @@ export const ACADEMY_COURSE_OPEN: Record<AcademyCourseTitleSlug, AcademyCourseOp
   },
   "05_prompt_practice": {
     field: "Günlük üretkenlik",
-    topic: "Pratik prompt mühendisliği",
+    topic: "Günlük işler için istem yazma",
   },
   "06_n8n_automation": {
     field: "İş akışı otomasyonu",
@@ -547,8 +565,15 @@ export function academyInstructorByVoice(voice: AcademyInstructorTtsVoice): Acad
   return ACADEMY_INSTRUCTORS_BY_VOICE[voice];
 }
 
+function academyInstructorVoiceForSlug(slug: string): AcademyInstructorTtsVoice | undefined {
+  if (slug === "01_office_ai_ileri") {
+    return "Callirrhoe";
+  }
+  return ACADEMY_INSTRUCTOR_VOICE_BY_SLUG[slug as AcademyCourseTitleSlug];
+}
+
 export function academyInstructorBySlug(slug: string): AcademyInstructor {
-  const voice = ACADEMY_INSTRUCTOR_VOICE_BY_SLUG[slug as AcademyCourseTitleSlug];
+  const voice = academyInstructorVoiceForSlug(slug);
   if (!voice) {
     throw new Error(`Eğitmen mühürü yok: ${slug}`);
   }
@@ -556,7 +581,7 @@ export function academyInstructorBySlug(slug: string): AcademyInstructor {
 }
 
 export function academyInstructorBySlugOrNull(slug: string): AcademyInstructor | null {
-  const voice = ACADEMY_INSTRUCTOR_VOICE_BY_SLUG[slug as AcademyCourseTitleSlug];
+  const voice = academyInstructorVoiceForSlug(slug);
   return voice ? ACADEMY_INSTRUCTORS_BY_VOICE[voice] : null;
 }
 

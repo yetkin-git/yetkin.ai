@@ -45,7 +45,7 @@ function publicPlayer(player: Awaited<ReturnType<typeof loadAcademyCurriculumPla
       key: lesson.key,
       order: lesson.order,
       title: lesson.title,
-      body: lesson.body,
+      body: lesson.open ? lesson.body : "",
       completed: lesson.completed,
       open: lesson.open,
       completedAt: lesson.completedAt ? lesson.completedAt.toISOString() : null,

@@ -459,7 +459,7 @@ describe("Office AI vatandaş lisanı — yasaklı jargon kilidi", () => {
     expect(blob).not.toMatch(/bağlayacağız/u);
     expect(blob).toMatch(/yan sayfada/u);
     expect(blob).not.toMatch(/yeni sayfa/u);
-    expect(blob).toMatch(/Üç Kapı yığılırsa/u);
+    expect(blob).toMatch(/üçü yığılırsa tablo yarım kalır/u);
     expect(blob).toMatch(/satın alma kartı basmaz/u);
     expect(blob).not.toMatch(/A1 eşiği/u);
     expect(blob).toMatch(/A1 kuralını kontrol et/u);
@@ -529,10 +529,10 @@ describe("Office AI vatandaş lisanı — yasaklı jargon kilidi", () => {
     expect(seventh?.lessonKey).toBe("01_office_ai-g1");
     const blob = `${seventh!.contentMarkdown}\n${seventh!.pedagogicalObjective}`;
     expect(blob).toMatch(/İstem kutusunda duran istem/u);
-    expect(blob).toMatch(/iletiyi ChatGPT/u);
-    expect(blob).toMatch(/birinci kapıdır/u);
+    expect(blob).toMatch(/ChatGPT penceresine yapıştırınca/u);
+    expect(blob).toMatch(/kutunun içindeki araçtır/u);
     expect(blob).toMatch(/yerleşik yapay zekâ/u);
-    expect(blob).toMatch(/kopyalıyorsun/u);
+    expect(blob).toMatch(/kopyalarsan/u);
     expect(blob).toMatch(/yazıyorsun/u);
     expect(blob).toMatch(/göreceksin/u);
     expect(blob).toMatch(/dürüstçe yazar/u);
@@ -594,7 +594,7 @@ describe("Office AI vatandaş lisanı — yasaklı jargon kilidi", () => {
     expect(blob).toMatch(/Dosya adını pratikte kendi dosyanla değiştir/u);
     expect(blob).toMatch(/İstem dosyanın bütününe gider/u);
     expect(blob).toMatch(
-      /Gemini yoksa aynı dosyayı sohbet yapay zekâsına \(ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb\.\) yüklersin/u,
+      /Onaylı sohbet aracı varsa aynı dosyayı oraya yüklersin \(ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb\.\)/u,
     );
     expect(blob).toMatch(/Örnek oran|kendi oranını dosyandan oku|Gizlilik sayfa on sekizdedir/u);
     expect(blob).not.toMatch(/\bkomut/u);

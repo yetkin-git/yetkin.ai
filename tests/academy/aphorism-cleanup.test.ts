@@ -26,6 +26,10 @@ const BANNED = [
   /Ataş konuşur/u,
   /Etiket yoksa taslak yalandır/u,
   /Taslak insan onayı olmadan gitmez/u,
+  /saniyeler içinde/iu,
+  /muazzam dönüşüm/iu,
+  /mucizevi yöntem/iu,
+  /devrim niteliğinde/iu,
 ] as const;
 
 function read(relative: string): string {

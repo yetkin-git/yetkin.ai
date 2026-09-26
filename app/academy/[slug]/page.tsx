@@ -22,13 +22,16 @@ import {
 } from "@/lib/academy/load";
 import { academyStorefrontAccess, hasCommercialAcademyEnrolment } from "@/lib/academy/enrolment";
 import { resolveAcademyAntreHeroCta, academyCheckoutHref, ACADEMY_CHECKOUT_HASH } from "@/lib/academy/storefront-cta";
-import { hasAcademyPlayerAccess } from "@/lib/academy/access";
+import { hasAcademyAdminBypass, hasAcademyPlayerAccess } from "@/lib/academy/access";
 import { resolveAcademyContinueBoard } from "@/lib/academy/continue-board";
 import { LinkButton } from "@/components/ui/link-button";
+import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
 import { curriculumSyllabusForCourseSlug } from "@/lib/academy/curriculum-syllabus";
 import { academyProgressPercent } from "@/lib/academy/lesson-meta";
 import { academyAntreVisaPromise } from "@/lib/academy/antre-visa";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
+import { ACADEMY_EXAM_DURATION_MS } from "@/lib/academy/exam-duration";
+import { OFF_101_EXEMPTION_ENTRY_LABEL } from "@/lib/academy/off101-exemption";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { getSession } from "@/lib/kernel/auth/session";
 import { walletAvailableMinor } from "@/lib/kernel/ledger/load";
@@ -46,8 +49,10 @@ import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 import { resolveAcademyCourseFromSeed } from "@/lib/academy/published-catalog";
 import {
   academyCourseHasSealedAudio,
+  academyMediaSealedLessonKeys,
   academyStorefrontStaticParams,
-  isAcademyGrowthSkuSlug,
+  ACADEMY_OFF201_STOREFRONT_SLUG,
+  isAcademyStorefrontSlug,
 } from "@/lib/academy/pilot-sku";
 import { JsonLd } from "@/components/seo/json-ld";
 import { LandingFaq } from "@/components/seo/landing-faq";
@@ -68,7 +73,10 @@ import { OFFICE_AI_COURSE_FAQ, OFFICE_AI_FAQ_HEADING } from "@/lib/copy/sem-keyw
 import type { Route } from "next";
 
 export function generateStaticParams() {
-  return academyStorefrontStaticParams();
+  return [
+    ...academyStorefrontStaticParams(),
+    { slug: ACADEMY_OFF201_STOREFRONT_SLUG },
+  ];
 }
 
 /** Vitrinde olmayan slug (python-temel, 06_n8n, eski dikey) next.config 301 → /academy; harita dışı 404. Satın alma bekletmesi yok. */
@@ -80,7 +88,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  if (!isAcademyGrowthSkuSlug(slug)) {
+  if (!isAcademyStorefrontSlug(slug)) {
     notFound();
   }
   const course = resolveAcademyCourseFromSeed(slug);
@@ -111,7 +119,7 @@ export default async function AcademyCoursePage({
     getSession(),
     searchParams ?? Promise.resolve(undefined),
   ]);
-  if (!isAcademyGrowthSkuSlug(slug)) {
+  if (!isAcademyStorefrontSlug(slug)) {
     notFound();
   }
   const gate = gateQuery?.gate;
@@ -134,9 +142,13 @@ export default async function AcademyCoursePage({
     }),
   ]);
   const actor = session ? { userId: session.id, email: session.email } : null;
-  const labPlayer = actor != null && hasAcademyPlayerAccess(purchase, actor);
+  const adminPlayer = actor != null && hasAcademyAdminBypass(actor);
+  const labPlayer =
+    process.env.NODE_ENV !== "production" &&
+    actor != null &&
+    hasAcademyPlayerAccess(purchase, actor);
   const enrolled = hasCommercialAcademyEnrolment(purchase);
-  const hasAccess = enrolled || labPlayer;
+  const hasAccess = enrolled || labPlayer || adminPlayer;
   const access = hasAccess ? "enrolled" : academyStorefrontAccess(artifact);
   const [examGate, wallet, player] = await Promise.all([
     session && enrolled
@@ -150,6 +162,7 @@ export default async function AcademyCoursePage({
       : Promise.resolve(null),
   ]);
   const preferExamGate = gate === "exam" && Boolean(examGate && !examGate.certificate);
+  const exemptionGate = board.course.slug === "01_office_ai" && gate === "exemption";
   const paymentsReady = isPaymentsPortConfigured() || isPaytrMockCheckoutAllowed();
   const copy = SEN_VOICE.academy.course;
   const playerCopy = SEN_VOICE.academy.player;
@@ -163,6 +176,7 @@ export default async function AcademyCoursePage({
     ? formatMinor(board.course.priceMinor, board.course.currencyCode)
     : null;
   const level = academyCourseLevelBySlug(board.course.slug);
+  const isOff201 = board.course.slug === ACADEMY_OFF201_STOREFRONT_SLUG;
   const completedKeys = examGate?.certificate
     ? syllabus.lessons.map((lesson) => lesson.key)
     : (player?.lessons.filter((lesson) => lesson.completed).map((lesson) => lesson.key) ?? []);
@@ -248,10 +262,21 @@ export default async function AcademyCoursePage({
         description={board.course.summary}
         actions={
           <CourseHeroActions
-            priceLabel={hero.priceLabel}
-            level={level}
+            priceLabel={
+              isOff201 && hero.priceLabel !== copy.accessOpen ? "" : hero.priceLabel
+            }
+            level={isOff201 ? null : level}
             moduleCode={academyModuleCodeBySlug(board.course.slug)}
             hasSealedAudio={academyCourseHasSealedAudio(board.course.slug)}
+            narration={isOff201}
+            narrationLabel={
+              isOff201
+                ? SEN_VOICE.academy.catalog.sealedLessonBadge(
+                    academyMediaSealedLessonKeys(board.course.slug).length,
+                    curriculumLessonKeysForSlug(board.course.slug).length,
+                  )
+                : undefined
+            }
             comingSoon={academyCourseIsComingSoon(board.course.slug)}
             audioPreview={academyCourseHasCinemaCover(board.course.slug)}
             primaryHref={hero.primaryHref}
@@ -269,7 +294,18 @@ export default async function AcademyCoursePage({
           label={playerCopy.progress(completedKeys.length, syllabus.lessonCount)}
         />
       ) : null}
-      {continueBoard && !revealExamGate ? <AcademyContinuePanel board={continueBoard} /> : null}
+      {exemptionGate && session ? (
+        <ExamStartGate
+          courseId={board.course.id}
+          courseTitle={board.course.title}
+          examTitle={OFF_101_EXEMPTION_ENTRY_LABEL}
+          passScore={ACADEMY_EXAM_PASS_SCORE}
+          durationMs={ACADEMY_EXAM_DURATION_MS}
+          holderName={holderName}
+          mode="exemption"
+        />
+      ) : null}
+      {continueBoard && !revealExamGate && !exemptionGate ? <AcademyContinuePanel board={continueBoard} /> : null}
       {hasAccess ? (
         enrolled && examGate?.certificate ? (
           <Card title={copy.certificateEyebrow}>
@@ -319,7 +355,12 @@ export default async function AcademyCoursePage({
       ) : board.course.purchasable ? (
         <div className="scroll-mt-24" id={ACADEMY_CHECKOUT_HASH}>
           <Card title={copy.purchaseEyebrow}>
-            <p>{copy.purchaseBody}</p>
+            <p>{isOff201 ? copy.purchaseBodyPlain : copy.purchaseBody}</p>
+            {board.course.slug === ACADEMY_OFF201_STOREFRONT_SLUG ? (
+              <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]" data-academy-advisory="">
+                {SEN_VOICE.academy.catalog.off201Advisory}
+              </p>
+            ) : null}
             {visaPromise ? (
               <p className="mt-2 text-sm text-[var(--foreground)]" data-academy-visa-promise="">
                 {visaPromise}
@@ -372,6 +413,8 @@ export default async function AcademyCoursePage({
         completedKeys={completedKeys}
         showProgress={hasAccess}
         visaPromise={visaPromise}
+        showKind={!isOff201}
+        showExamShield={!isOff201}
       />
       {prepStrip ? <PrepStripTeaser strip={prepStrip} /> : null}
       {board.course.slug === OFFICE_AI_SEO.slug ? <OfficeAiGuidePreview /> : null}

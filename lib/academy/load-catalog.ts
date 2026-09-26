@@ -7,6 +7,7 @@ import "server-only";
 
 import { cache } from "react";
 import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
+import { academyCatalogPurchasable } from "@/lib/academy/pilot-sku";
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import type { AcademyCourseRecord, AcademyCourseWithPrice } from "@/lib/academy/types";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
@@ -81,7 +82,11 @@ export const loadPublishedCourses = cache(async function loadPublishedCourses():
         ...course,
         priceMinor: entry?.amountMinor ?? null,
         currencyCode: entry?.currencyCode ?? SETTLEMENT_CURRENCY,
-        purchasable: Boolean(entry) && course.isPublished,
+        purchasable: academyCatalogPurchasable({
+          courseSlug: course.slug,
+          catalogRowPresent: Boolean(entry),
+          isPublished: course.isPublished,
+        }),
       });
     });
     return mergePublishedAcademyCatalog(live, seeded);

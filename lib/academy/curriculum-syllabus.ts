@@ -1,13 +1,17 @@
 /**
  * Kurs detayı — modül, ders türü (ses/video/doküman) ve süre.
  * Oynatıcı gövdesini açmaz; tohum müfredatından özet basar.
+ * Süre, oynatıcıyla aynı mühürlü timings dosyasından okunur.
  */
 
+import "@/lib/academy/lesson-json-disk";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
+import { academyCourseSealedDurationMinutes } from "@/lib/academy/lesson-audio";
 import {
   academyLessonMediaMeta,
   type AcademyLessonContentKind,
 } from "@/lib/academy/lesson-meta";
+import { academyCourseHasSealedAudio, academyTtsRebakeLessonKeys } from "@/lib/academy/pilot-sku";
 import {
   academySyllabusModulePlansFor,
   type AcademySyllabusModulePlan,
@@ -64,11 +68,17 @@ export function curriculumSyllabusForCourseSlug(slug: string): AcademySyllabus {
     });
     offset += plan.size;
   }
+  const summed = lessons.reduce((sum, lesson) => sum + lesson.durationMin, 0);
+  const sealedMinutes = academyCourseSealedDurationMinutes(slug);
+  const durationMin =
+    academyCourseHasSealedAudio(slug) && academyTtsRebakeLessonKeys(slug).length > 0 && sealedMinutes > 0
+      ? sealedMinutes
+      : summed;
   return {
     slug,
     modules,
     lessons,
-    durationMin: lessons.reduce((sum, lesson) => sum + lesson.durationMin, 0),
+    durationMin,
     lessonCount: lessons.length,
   };
 }

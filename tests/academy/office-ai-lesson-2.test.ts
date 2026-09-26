@@ -193,7 +193,7 @@ describe("01_office_ai bölüm 2 — tablodan yönetim özetine Altın Şablon",
     expect(pieces[0]?.start).toBe(2);
     expect(academyBedDuckGain(0.5, pieces)).toBe(ACADEMY_BED_BREATH_GAIN);
     const lastEnd = pieces.at(-1)?.end ?? 0;
-    expect(lastEnd).toBe(517.24);
+    expect(lastEnd).toBe(520.08);
     expect(academyBedDuckGain(lastEnd, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
   });
 
@@ -272,17 +272,17 @@ describe("01_office_ai bölüm 2 — tablodan yönetim özetine Altın Şablon",
 
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
-    expect(timings?.durationSec).toBe(517.24);
-    expect(timings?.cacheV).toBe(517240);
+    expect(timings?.durationSec).toBe(520.08);
+    expect(timings?.cacheV).toBe(520080);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.at(-1)?.end).toBe(517.24);
+    expect(cues.at(-1)?.end).toBe(520.08);
     for (const cue of cues) {
       const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
       expect(pieces[0]?.start, cue.id).toBe(cue.start);
       expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
     }
     const strip = loadAcademyKaraokeStrip(KEY);
-    expect(strip.at(-1)?.end).toBe(517.24);
+    expect(strip.at(-1)?.end).toBe(520.08);
     expect(strip.some((line) => /üç maddelik yönetim özeti/u.test(line.text))).toBe(true);
     expect(strip.some((line) => /uydurma yüzde/iu.test(line.text))).toBe(true);
     expect(strip.some((line) => /hücreden aldırırsın/u.test(line.text))).toBe(true);
