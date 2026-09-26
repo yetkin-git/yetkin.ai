@@ -33,8 +33,17 @@ Preview’a canlı üçlü yazılmaz.
 
 ## Runtime kalkan
 
-- HMAC: `merchant_oid + merchant_salt + status + total_amount`, timing-safe. Geçersiz imza 403. CREDIT yok.
-- Üçlü eksik: 400 `missing_credentials` (Destek IP URL testi 200 OK, CREDIT yok).
+Bildirim iki yoldan gelir. HTTP kodu yola göre değişir. İmza tutmazsa CREDIT yazılmaz.
+
+| Yol | Geçersiz imza | `production_safety` | `missing_credentials` / `invalid_payload` | Boş gövde (yoklama) |
+|-----|----------------|---------------------|------------------------------------------|---------------------|
+| Kanonik `/api/payments/webhooks/paytr` (resmî IP değil) | 403 | 403 | 400 | 200 düz metin `OK` |
+| Panel takma adı `/api/paytr/callback` | 200 `OK` + `paytr.webhook.silent_ack_alarm` | 200 `OK` + aynı alarm | 200 `OK` + aynı alarm | 200 `OK`, alarm yok |
+| Resmî PayTR IP (kanonik veya panel) | 200 `OK`, CREDIT yok | 200 `OK`, CREDIT yok | 200 `OK`, CREDIT yok | 200 `OK` |
+
+Panel takma adındaki `OK`, valör değildir. Uyumsuz veya eksik imzada olay `paytr.webhook.silent_ack_alarm` (seviye error) düşer. Kurtarma Inngest mutabakatıdır: `paytr-clearing-scan` her 30 dakikada `PENDING`, `PAID` ve son 7 gün `FAILED` siparişleri PayTR durum sorgusuna sorar. `paid` ve tutar eşleşirse CLEARED. PSP `failed` veya 2 saat `PENDING` ise FAILED. PSP yoksa sipariş `psp_unavailable` ile PENDING kalır.
+
+- HMAC: `merchant_oid + merchant_salt + status + total_amount`, timing-safe.
 - Aynı `merchant_oid` tekil CREDIT: `FOR UPDATE` + unique idempotency + CLEARED kısa devre.
 - `total_amount === amountMinor` değilse clearing yok.
 - Clearing throw → Inngest defer. `inngest.send` düşerse `"OK"` dönülmez.

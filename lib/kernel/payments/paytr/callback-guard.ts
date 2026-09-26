@@ -107,6 +107,21 @@ export function assertPaytrCallbackRouteIntegrity(inventory: PaytrCallbackRouteI
   }
 }
 
+/** Panel takma adında imzasız veya uyumsuz imza ile dönen OK valör değildir. */
+export const PAYTR_SILENT_ACK_ALARM_REASONS = [
+  "invalid_signature",
+  "missing_credentials",
+  "production_safety",
+  "invalid_payload",
+] as const;
+
+export function shouldAlarmPaytrSilentAck(route: string, reason: string): boolean {
+  return (
+    isPaytrPanelWebhookPath(route) &&
+    (PAYTR_SILENT_ACK_ALARM_REASONS as readonly string[]).includes(reason)
+  );
+}
+
 export function assertPaytrMerchantBrowserReturnDoesNotCredit(pathnameOrUrl: string): void {
   if (isPaytrNotificationPath(pathnameOrUrl) || isForbiddenPaytrCallbackPath(pathnameOrUrl)) {
     throw new Error(

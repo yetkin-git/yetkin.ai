@@ -9,7 +9,10 @@ import {
   requestHasPaytrOfficialNotificationIp,
   resolvePaytrWebhookIpAllowlist,
 } from "@/lib/kernel/payments/paytr/webhook";
-import { isPaytrPanelWebhookPath } from "@/lib/kernel/payments/paytr/callback-guard";
+import {
+  isPaytrPanelWebhookPath,
+  shouldAlarmPaytrSilentAck,
+} from "@/lib/kernel/payments/paytr/callback-guard";
 import { paytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import { isPaytrProductionSafetyError } from "@/lib/kernel/payments/paytr/checkout";
 import { createPrismaClearingPorts, createPrismaPaymentOrderStore } from "@/lib/kernel/payments/prisma-order-store";
@@ -54,8 +57,19 @@ function paytrOfficialIpAck(
   reason: string,
   extra?: { errorName?: string; merchantOid?: string },
 ) {
+  if (shouldAlarmPaytrSilentAck(route, reason)) {
+    logEvent({
+      level: "error",
+      event: "paytr.webhook.silent_ack_alarm",
+      requestId,
+      reason,
+      route,
+      merchantOid: extra?.merchantOid,
+      errorName: extra?.errorName ?? reason,
+    });
+  }
   logEvent({
-    level: "info",
+    level: shouldAlarmPaytrSilentAck(route, reason) ? "error" : "info",
     event: "paytr.webhook.official_ip_ack",
     requestId,
     reason,
