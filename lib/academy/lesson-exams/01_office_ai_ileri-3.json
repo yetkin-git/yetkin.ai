@@ -1,0 +1,39 @@
+{
+  "lessonKey": "01_office_ai_ileri-3",
+  "passScore": 70,
+  "questions": [
+    {
+      "id": "q_off201_l3_1",
+      "prompt": "Marmara 120, Ege 80. Toplam hücresi boş. Hücreye ne yazarsın?",
+      "choices": [
+        "Düz sayı 200",
+        "Toplama formülü",
+        "Yüzde ve üçüncü dilim",
+        "120 ile 80'in ortası"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "q_off201_l3_2",
+      "prompt": "Hücre henüz 120 ile 80'in toplamını göstermiyor. Grafiği ne zaman seçersin?",
+      "choices": [
+        "Model grafik deyince",
+        "Düz 200 yazınca",
+        "Hücre doğru toplamı göstermeden seçmezsin",
+        "Üçüncü dilimi ekleyince"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "q_off201_l3_3",
+      "prompt": "Tabloda ad ve IBAN var. Bölge adı ve adet de var. Onaylı araca ne gider?",
+      "choices": [
+        "Ad, IBAN ve adet birlikte",
+        "Ad ve IBAN çıkar; bölge adı ve adet kalabilir",
+        "Ham tablo kişisel hesaba",
+        "Yalnız IBAN"
+      ],
+      "correctIndex": 1
+    }
+  ]
+}

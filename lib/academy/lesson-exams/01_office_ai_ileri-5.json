@@ -1,0 +1,39 @@
+{
+  "lessonKey": "01_office_ai_ileri-5",
+  "passScore": 70,
+  "questions": [
+    {
+      "id": "q_off201_l5_1",
+      "prompt": "Postada stok bilgisi, gecikme şikayeti ve kimlik talebi var. Sınıflar hangisidir?",
+      "choices": [
+        "Bilgi, şikayet ve kişisel veri talebi",
+        "Acil, normal ve reklam",
+        "Gelen, giden ve silinen",
+        "Satış, depo ve muhasebe"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q_off201_l5_2",
+      "prompt": "Taslakta ad, telefon, IBAN ve kimlik numarası var. Notta stok 120. Model 200 koli yazmış. Ne silersin?",
+      "choices": [
+        "Yalnız selamlama satırını",
+        "Ad, telefon, IBAN, kimlik ve notta olmayan 200 koliyi",
+        "120 koli satırını",
+        "Şikayet satırını"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "q_off201_l5_3",
+      "prompt": "Taslağın üstünde «Gönderildi» yazıyor. Düğmeye sen basmadın. Ne yaparsın?",
+      "choices": [
+        "Posta gitmiş sayılır",
+        "Taslağı kişisel kutudan iletirsin",
+        "Gönder düğmesine basmazsın; yazı düğmenin yerini tutmaz",
+        "Üç işi tek paragrafta birleştirip gönderirsin"
+      ],
+      "correctIndex": 2
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "lessonKey": "01_office_ai_ileri-6",
+  "pauseSec": 0.4,
+  "durationSec": 1198.19,
+  "cacheV": 1198190,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 94.467,
+      "text": "Selamlar, ben Deniz. İleri Ofis Yapay Zekâ eğitiminin altıncı dersine hoş geldin. Geçen derste postayı üç sınıfa ayırdın. Taslağı göndermedin. Bu dersin sonunda tabloyu, yazılı notu ve uzun belgeyi yan yana denetleyeceksin. Uyuşmayan sayıyı yakalayacaksın. Uyuşan sayıyı tek sayfalık karar notuna yazacaksın. Bazı paneller tabloya Excel, yazılı nota Vörd, uzun belgeye taşınabilir belge biçimi (PDF) der. Aynı paneller bu denetime çapraz denetim der. Bu derste ona üç dosyada yan yana sayı denetimi diyeceksin. Karar notuna yönetici özeti der. Birinci dosya tablodur. A2 Marmara'dır. B2 120'dir. A3 Ege'dir. B3 80'dir. A4 Toplam'dır. B4'te formül vardır. Formül =TOPLA(B2:B3). Hücre 200 gösterir. 120 ile 80'in toplamı 200'dür. Üçüncü dosya uzun belgedir. Sayfa 4'te şu cümle var."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 94.867,
+      "end": 167.313,
+      "text": "«Fatura tarihinden itibaren 30 gün içinde ödenir.» Sayfa 7'de şu cümle var. «Gecikmede her ay yüzde 2 işler.» Sayfa 2'de taraf satırı duruyor. «Mehmet Kaya, kimlik numarası 00000000000, İban TR00 0000 0000 0000 0000 0000 00.» Sayfa 2 bu derste de dışarıda kalır. Saat 17:10. Yöneticin yazıyor. «Saat 17:30'dan önce bu üç dosyayı yan yana denetle. Uyuşmayan sayıyı işaretle. Tek sayfalık karar notu yaz. Sayıları birbirine uydurma. Kişi adı yazma.»"
+    },
+    {
+      "index": 2,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 169.813,
+      "end": 238.187,
+      "text": "Ödeme günü: sayfa 4, 30 gün. Yazılı not 45 gün. Uyuşmuyor. Notta 30 gün durur. Gecikme oranı: sayfa 7, yüzde 2. Yazılı not yüzde 10. Uyuşmuyor. Notta yüzde 2 durur. Karar cümlesi şudur. Toplantıda 120, 80 ve 200 okunur. 30 gün ve yüzde 2 okunur. 150, 230, 135, 45 gün ve yüzde 10 okunmaz. Ad okunmaz. «Kaynaklar uyumlu» bu sayfada durmaz. Cevabı satır satır okursun. Dört karşılaştırmadan biri yoksa o dosyayı açarsın. Aynı görevi, yalnız eksik satır için bir kez daha isteyebilirsin. Eksik satırı «kaynaklar uyumlu» ile kapatmazsın. Dört satır da açık dosyayla eşleşmeden toplantıya gitme."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 240.687,
+      "end": 282.337,
+      "text": "İkinci dosya yazılı nottur. Not şöyle. Dört karşılaştırma sende durur. Marmara adedi. Toplam. Ödeme günü. Gecikme oranı. Ekranda üç dosya açık. Üçü de iş hesabında duruyor. «Marmara 150 koli. Ege 80 koli. Toplam 230. Ödeme 45 gün. Gecikme her ay yüzde 10. Tahsilat: Ayşe Yılmaz, 0532 000 00 00.»"
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 284.837,
+      "end": 364.28,
+      "text": "Yönetici hemen ardından «slayta da koy» derse aynı kutuya ekleme. Karar notu bitmiştir. Slayt yeni istemdir. Yeni istemde de rol, görev, biçim ve kısıt durur. Ham dosya kişisel hesaba gitmez. Slayttaki adet, B2'deki 120 değilse o slaytı koyma. Slayttaki oran, sayfa 7'deki yüzde 2 değilse o slaytı koyma. Eksik parça nasıl görünür? Rol yoksa sohbet kutusu 150'yi seçer. Görev dağınıksa denetim, slayt ve e-posta birbirine bulaşır. Biçim yoksa «kaynaklar uyumlu» paragrafı döner. Kısıt yoksa 135 ve kimlik eklenir. Dört parçayı yazmadan kutuyu gönderme. Üç adım şunlar. 1. Üç dosyayı yapıştırmadan önce şirketin onayladığı aracı aç. Onaylı araç yoksa dosyayı kişisel hesaba taşıma. 2. Adı, telefonu, kimlik numarasını ve İban'ı çıkar. Dört karşılaştırmayı sen adlandır."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 364.68,
+      "end": 393.255,
+      "text": "Marmara adedi, toplam, ödeme günü, gecikme oranı. 3. Tabloyu ve sayfayı aç. Yazılı nottaki sayı hücrede veya sayfada yoksa karar notuna koyma. İki sayının ortasını alma."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 395.755,
+      "end": 461.835,
+      "text": "Acele edip kutuya «Üç dosyayı tek sayfada uzlaştır. Güzel bir yönetici özeti yaz» yazarsan yapay zekâ akıcı bir sayfa döndürür. Üste «Kaynaklar uyumlu» yazabilir. Marmara için 150 yazabilir. Toplam için 230 yazabilir. 120 ile 150'nin ortasını alıp 135 yazabilir. Ödeme için 45 gün yazabilir. Gecikme için yüzde 10 yazabilir. Ayşe Yılmaz adını ve telefonu nota taşıyabilir. O sayfa toplantıya giderse satın alma, hücrede olmayan 150 koli için un ayırır. Finans, sayfa 7'deki yüzde 2 yerine yüzde 10 için pay ayırır. Tahsilat, 30 gün yerine 45 gün diye okunur. «Kaynaklar uyumlu» yazısı, açılmamış hücrenin yerini tutar. Üç dosyayı kutuya koymadan önce üç soru vardır. Sırayı bozma. Birinci soru şirket politikasıdır."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 462.235,
+      "end": 563.641,
+      "text": "Şirketin onayladığı tablo, belge ve not aracı hangisi? Onaylı panel iş hesabındaysa üç dosyayı orada aç. Karşılaştırmayı orada iste. Onaylı araç yoksa bu dosyaları kişisel sohbet hesabına taşıma. Sayfa 2 ve tahsilat satırı da kişisel hesaba gitmez. İkinci soru veri sınıfıdır. Bölge adı ve kişiye bağlı olmayan adet katalog cümlesidir. Ödeme günü ve gecikme oranı bu belgenin iş maddesidir. Bunlar onaylı araçta istenebilir. Ad, telefon, kimlik numarası ve İban kişisel veridir. Ham kimlik, İban, maaş ve şirket sırrı hiçbir araca açık hâliyle girmez. Ayşe Yılmaz satırını ve telefonu yazılı nottan çıkarırsın. Sayfa 2'yi uzun belgeden çıkarırsın. Mehmet Kaya, kimlik ve İban karşılaştırma satırı değildir."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 566.141,
+      "end": 649.827,
+      "text": "Bugün üç kısa dosya seç. Dosyalar, senin kurduğun örnek olsun. Bir sayıda tablo ile yazılı not ayrılsın. Gerçek kişi adı, telefon, İban veya kimlik numarası koyma. Dört karşılaştırmayı adlandırmadan «uzlaştır» yazma. İstemi dört parçayla yaz. Gelen her sayının hücresini veya sayfasını aç. Uyuşmayan sayıyı sil. Ortadan üretilmiş sayı varsa sil. Bu modülün altı dersi burada biter. İstemde dört parça durur. Saat notta durur. Toplam hücrede durur. Madde açık sayfada durur. Posta sınıfı ayrı satırda durur. Uyuşmayan sayı karar notuna girmez. Ham dosya kişisel hesaba gitmez."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 652.327,
+      "end": 740.429,
+      "text": "Üçüncü soru aktarım yoludur. Onaylı araçta sırayla bakarsın. Önce yerleşik araç vardır. Yerleşik araç, iş hesabındaki tablo ve belge panelidir. Panel yoksa dosyayı ataş ile yüklersin. Sayfa 2'yi ve tahsilat satırını yükleme. İkisi de yoksa son çare, maskeli kısa özettir. Maskeleme, gerçek satırda kimliği takma değerle değiştirmektir. Aşağıdaki satırlar yalnız sayıların şeklini gösterir. Üç dosyanın tamamını vermez. Tablo: Marmara 120, Ege 80, toplam hücresi 200, formül =TOPLA(B2:B3). Yazılı not: Marmara 150, Ege 80, toplam 230, ödeme 45 gün, gecikme yüzde 10. Uzun belge: sayfa 4, 30 gün. Sayfa 7, yüzde 2. Ad yok. Telefon yok. İban yok. Bu üç dosyaya şimdi istemi yaz. Rol, işin sahibidir. Görev, tek iştir. Biçim, çıktının şeklidir. Kısıt, sohbet kutusunun taşmayacağı çizgidir."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 740.829,
+      "end": 742.794,
+      "text": "İstemi şöyle yaz."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 745.294,
+      "end": 835.575,
+      "text": "Rol: ofis asistanı. Görev: dört karşılaştırmayı ayrı satırda yaz ve uyuşmayan sayıyı işaretle. Sonra tek karar cümlesi yaz. Karşılaştırmalar şunlardır. Marmara adedi. Toplam. Ödeme günü. Gecikme oranı. Biçim: dört satır ve bir karar cümlesi. Her satırda işin adı, tablodaki veya sayfadaki sayı, yazılı nottaki sayı ve uyuşma olsun. Uyuşmuyorsa «uyuşmuyor» yaz. Kısıt: «kaynaklar uyumlu» yazma. İki sayının ortasını alma. Yazılı nottaki sayıyı, tablo veya açık sayfa aynı sayıyı göstermeden karar cümlesine koyma. Ad, telefon, kimlik numarası ve İban yazma. Satırlar: tablo, Marmara 120, Ege 80, toplam 200. Yazılı not, Marmara 150, Ege 80, toplam 230, ödeme 45 gün, gecikme yüzde 10. Uzun belge, sayfa 4, 30 gün. Sayfa 7, yüzde 2. Rolü başa koyarsın."
+    },
+    {
+      "index": 12,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 835.975,
+      "end": 900.048,
+      "text": "Görev tek başına «uzlaştır» diye kalırsa sohbet kutusu 150'yi seçer. Bu işin sahibi ofis asistanıdır. Masanda olmayan bir unvan yazma. «Rapor müdürü» yazarsan sohbet kutusu sayıyı kendisi eşitler. Görev tek kalır. «Denetle, uzlaştır, slayt yap, e-posta yaz» dört iştir. Dört iş tek kutuda birbirine bulaşır. Bu istemde tek görev vardır. Görev, dört satırı ve karar cümlesini yazmaktır. Slayt ayrı istemdir. E-posta ayrı istemdir. Biçim, şekli söyler. Dört satır, senin hücreyle ve sayfayla karşılaştıracağın listedir. «Güzel bir özet olsun» dersen sohbet kutusu paragraf seçer. Biçimi sen yazarsın."
+    },
+    {
+      "index": 13,
+      "cueId": "cue-06",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 902.548,
+      "end": 981.302,
+      "text": "Kısıt, dosyada olmayan sayıyı masaya koymama kuralıdır. 135, 120 ile 150'nin ortasıdır. Orta, yeni sayıdır. Yönetici yeni sayı istemedi. Yanlış istem şudur. Üç dosyayı kişisel sohbete yüklersin. Sayfa 2 ve Ayşe Yılmaz satırı da içindedir. Kutuya şunu yazarsın. «Üçünü uzlaştır. Kaynaklar uyumlu olsun. Güzel bir özet yaz.» Sohbet kutusu akıcı yazar. Üste «Kaynaklar uyumlu» diyebilir. Marmara 150 diyebilir. Toplam 230 diyebilir. Ortayı alıp Marmara 135 diyebilir. Ödeme 45 gün diyebilir. Gecikme yüzde 10 diyebilir. Ayşe Yılmaz ve telefon sayfanın altında durabilir. 150, B2'de yazan adet değildir. 230, formülün gösterdiği 200 değildir. 135 hiçbir dosyada yoktur. 45 gün, sayfa 4'te yazan süre değildir. Yüzde 10, sayfa 7'de yazan oran değildir."
+    },
+    {
+      "index": 14,
+      "cueId": "cue-06",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 981.702,
+      "end": 1038.378,
+      "text": "Bu sayfayı toplantıya götürürsen yanlış koli ve yanlış oran masaya oturur. 30 gün masaya oturmaz. Doğru yol şudur. Önce onaylı aracı açarsın. Adı, telefonu ve sayfa 2'yi dışarıda bırakırsın. Dört karşılaştırmayı adlandırırsın. Dört parçalı istemi yazarsın. Cevabı şöyle okursun. Sonra tabloyu ve sayfaları sen açarsın. Tabloyu aç. B2'ye bak. 120 duruyorsa yazılı nottaki 150 uyuşmuyor. 150'yi karar notuna yazma. 120 ile 150'yi toplayıp ikiye bölme. 135 hiçbir dosyada yoktur. 135'i de yazma. Satın alma, B2'deki 120 koliye bakar."
+    },
+    {
+      "index": 15,
+      "cueId": "cue-07",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 1040.878,
+      "end": 1158.743,
+      "text": "B4'ü aç. Ef iki'ye bas. Formül =TOPLA(B2:B3) ise hücre 200 gösterir. 120 ile 80'i kendin topla. Toplam 200'dür. Yazılı nottaki 230 uyuşmuyor. 230'u karar notuna yazma. 230, 150'yi okur. 150, B2'de yoktur. Sayfa 4'ü aç. Cümle 30 gün diyorsa yazılı nottaki 45 gün uyuşmuyor. 45'i sil. 30 günü sen yaz. Görmeden yazma. Sayfa 7'yi aç. Yüzde 2 yazıyorsa yazılı nottaki yüzde 10 uyuşmuyor. Yüzde 10'u sil. Yüzde 2'yi sen yaz. Finans, sayfadaki yüzde 2 için pay ayırır. Ege satırına bak. Tablo 80 der. Yazılı not 80 der. Karar cümlesinde 80 durur. Ayrı satır açma. 80'i görmeden yazma."
+    },
+    {
+      "index": 16,
+      "cueId": "cue-08",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 1161.243,
+      "end": 1198.19,
+      "text": "Ad veya telefon duruyorsa o satırı sil. Toplantı notuna taşıma. Ekrandan silmek, kişisel sohbete yüklenmiş sayfa 2'yi geri çağırmaz. Onun için sayfa 2 baştan gitmez. Karar notu ancak bu açımdan sonra durur. Marmara adedi: tablo 120, yazılı not 150, uyuşmuyor. Notta 120 durur. Toplam: tablo 200, yazılı not 230, uyuşmuyor. Notta 200 durur."
+    }
+  ],
+  "scriptPath": "lib/academy/spoken-scripts/01_office_ai_ileri-6.md"
+}

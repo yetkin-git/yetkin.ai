@@ -1,0 +1,84 @@
+[
+  {
+    "id": "cue-01",
+    "start": 0,
+    "end": 96.139,
+    "text": "EYLEM LİSTESİ",
+    "section": "Açılış",
+    "paragraphs": [
+      "Selamlar, ben Kaan. İleri Ofis Yapay Zekâ eğitiminin ikinci dersine hoş geldin. Bu dersin sonunda dağınık bir toplantı notundan eylem listesi çıkaracaksın. Her maddede kim, ne ve ne zaman duracak. Çakışan saati ayrı satırda işaretleyeceksin. Bazı paneller bu listeye aksiyon listesi der. Bu derste ona eylem listesi diyeceksin. Masanda toplantının yazılı dökümü duruyor. Panel buna transkript diyebilir. Bu derste ona toplantı notu diyeceksin. Not şöyle. Saat 14:35. Toplantı bitmiş. Yöneticin yazıyor. «Saat 15'ten önce eylem listesini çıkar. Kim, ne, ne zaman olsun. Çakışan saat varsa işaretle. Takvime henüz yazma.»",
+      "Üç adım şunlar. 1. Notu yapıştırmadan önce şirketin onayladığı takvim aracını aç. Onaylı araç yoksa notu kişisel hesaba taşıma. 2. Adı, telefonu ve diğer kişisel veriyi çıkar. Depo adı ve saat kalabilir. 3. Tek istem yaz. Rol, görev, biçim ve kısıt aynı kutuda dursun. Çakışan saati ayrı satırda ara. Cevabı nottaki saatlerle karşılaştır. Bugün maskeli bir toplantı notu seç. İki randevu aynı saate denk gelsin. Gerçek kişi adı, telefon veya IBAN koyma. İstemi dört parçayla yaz. Cevabı oku. Uydurma tarih, uydurma sahip veya silinmiş çakışma varsa kısıtı daralt. Aynı görevi bir kez daha iste. Listeyi takvime ancak çakışma satırını gördükten sonra işle."
+    ]
+  },
+  {
+    "id": "cue-02",
+    "start": 96.389,
+    "end": 176.394,
+    "text": "ÜÇ ADIM",
+    "section": "Açılış",
+    "paragraphs": [
+      "«Toplantı 14:05 ile 14:28 arası sürdü. Konu Kaya Un sevkiyatı. Marmara deposu Perşembe saat 10:00 dedi. Ege deposu aynı Perşembe saat 10:00'da araç istedi. Kim yazacak belli değil. Hangi Perşembe olduğu yazılmamış. Son satır: Selin Korkmaz, 0532 000 00 00, tahsilat aransın.» Ekranda iki davet açık. İkisi de iş hesabındaki takvimde duruyor. Birinci davet: Marmara deposu, Perşembe 10:00–10:30, Kaya Un sevkiyatı. İkinci davet: Ege deposu, Perşembe 10:00–10:30, Kaya Un sevkiyatı. İki davet aynı saati tutmuş. Acele edip kutuya «Bunu toparla ve takvime işle» yazarsan yapay zekâ akıcı bir liste döndürür. Notta olmayan bir tarih seçebilir. Notta olmayan bir saat, örneğin 14:00, uydurabilir. Selin Korkmaz adını işin sahibi yapabilir. İki davetin aynı 10:00 iddiasını tek randevuya indirip çakışmayı silebilir. O listeyi takvime yazarsan iki araç aynı saatte kalkar. Yanlış saati sen yazmış olursun.",
+      "Sıradaki ders tablodur. Sayı hücreden gelir. Ham toplantı notu kişisel hesaba gitmez."
+    ]
+  },
+  {
+    "id": "cue-03",
+    "start": 176.644,
+    "end": 225.855,
+    "text": "İKİ DAVET",
+    "section": "Açılış",
+    "paragraphs": [
+      "Notu kutuya koymadan önce üç soru vardır. Sırayı bozma. Birinci soru şirket politikasıdır. Şirketinin onayladığı takvim veya toplantı aracı hangisi? Onaylı panel iş hesabındaysa daveti orada oku. Notu da orada oku. Onaylı araç yoksa bu notu kişisel sohbet hesabına taşıma. İş takvimi de kişisel hesaba gitmez. İkinci soru veri sınıfıdır. Depo adı ve saat, kişiye bağlı olmayan iş notudur. Bu not gidebilir. Ad ve telefon kişisel veridir. Ham kimlik, IBAN, maaş ve şirket sırrı hiçbir araca açık hâliyle girmez. Selin Korkmaz satırını ve telefonu nottan çıkarırsın. Hangi Perşembe olduğu yazılmamışsa tarih uydurma. Notta olmayan saati de uydurma."
+    ]
+  },
+  {
+    "id": "cue-04",
+    "start": 226.105,
+    "end": 281.423,
+    "text": "ADI ÇIKAR",
+    "section": "VERİYİ VERMEDEN ÖNCE",
+    "paragraphs": [
+      "Üçüncü soru aktarım yoludur. Onaylı araçta sırayla bakarsın. Önce yerleşik araç vardır. Yerleşik araç, iş hesabındaki takvim veya toplantı panelidir. Panel yoksa notu ataş ile yüklersin. İkisi de yoksa son çare, maskeli kısa özettir. Maskeleme, gerçek satırda kimliği takma değerle değiştirmektir. Aşağıdaki satırlar yalnız notun şeklini gösterir. Tüm toplantının dökümünü vermez. Marmara deposu, Perşembe 10:00–10:30, Kaya Un sevkiyatı. Ege deposu, Perşembe 10:00–10:30, Kaya Un sevkiyatı. Kim yazacak belli değil. Hangi Perşembe yazılmamış. Bu nota şimdi istemi yaz. Rol, işin sahibidir. Görev, tek iştir. Biçim, çıktının şeklidir. Kısıt, sohbet kutusunun taşmayacağı çizgidir."
+    ]
+  },
+  {
+    "id": "cue-05",
+    "start": 281.673,
+    "end": 344.303,
+    "text": "ÇAKIŞMAYI İŞARETLE",
+    "section": "DÖRT PARÇA",
+    "paragraphs": [
+      "İstemi şöyle yaz. Maskeli satırlar da kutunun içindedir. Rol: ofis asistanı. Görev: bu nottan eylem listesi çıkar ve çakışan saati işaretle. Biçim: her madde kim, ne, ne zaman desin. Çakışma ayrı bir satır olsun. Kısıt: kaynakta olmayan kişi, tarih ve saat yazma. Çakışan iki saati tek randevuya indirgeme. Eksik sahibi belli değil diye bırak. Kişi adı yazma. Satırlar: Marmara deposu, Perşembe 10:00–10:30, Kaya Un sevkiyatı. Ege deposu, Perşembe 10:00–10:30, Kaya Un sevkiyatı. Sahip yok. Hangi Perşembe yok. Rolü başa koyarsın. Görev tek başına «toparla» diye kalırsa sohbet kutusu takvimi kendisi doldurur. Bu işin sahibi ofis asistanıdır. Masanda olmayan bir unvan yazma. «Takvim yöneticisi» yazarsan sohbet kutusu saati kendisi kilitler."
+    ]
+  },
+  {
+    "id": "cue-06",
+    "start": 344.553,
+    "end": 399.828,
+    "text": "ÇAKIŞAN SAAT",
+    "section": "YANLIŞ VE DOĞRU",
+    "paragraphs": [
+      "Görev tek kalır. «Liste çıkar, takvime işle, e-posta yaz» üç iştir. Üç iş tek kutuda birbirine bulaşır. Bu istemde tek görev vardır. Görev, eylem listesi çıkarmak ve çakışmayı işaretlemektir. Takvime yazmak ayrı istemdir. Yönetici henüz yazma dedi. Biçim, şekli söyler. «Kim, ne, ne zaman» yöneticinin okuyacağı şekildir. Çakışma ayrı satırda durur. «Kısa olsun» dersen sohbet kutusu çakışmayı yutabilir. Biçimi sen yazarsın. Kısıt, yanlış saati masaya koymama kuralıdır. Kaynakta iki davet vardır. İkisi de Perşembe 10:00–10:30 der. Başka saat yoktur. 14:00 yazmak yeni saattir. Yönetici yeni saat istemedi. Sahip yoktur. Ad yazılmaz. Günün tarihi yoktur. Tarih yazılmaz."
+    ]
+  },
+  {
+    "id": "cue-07",
+    "start": 400.078,
+    "end": 500.84,
+    "text": "SAATİ AYIR",
+    "section": "SAATİ AYIR",
+    "paragraphs": [
+      "Yanlış istem şudur. Ham notu yapıştırırsın. Ad ve telefon da içindedir. Kutuya şunu yazarsın. «Bunu güzelce toparla, takvime işle, mail de yaz.» Sohbet kutusu üç işi birden dener. Akıcı yazar. Notta olmayan bir Perşembe tarihi seçebilir. Selin Korkmaz adını sahibi yapabilir. İki 10:00 davetini tek randevuya indirip çakışmayı silebilir. Doğru yol şudur. Önce onaylı aracı açarsın. Adı ve telefonu çıkarırsın. Maskeli notu onaylı yoldan verirsin. Dört parçalı istemi yazarsın. Cevabı şöyle okursun. Birinci madde: Marmara deposu, Kaya Un sevkiyatı, Perşembe 10:00–10:30. Sahibi notta yok. İkinci madde: Ege deposu, Kaya Un sevkiyatı, Perşembe 10:00–10:30. Sahibi notta yok. Üçüncü satır çakışmadır. İki davet aynı Perşembe saat 10:00'ı tutuyor. Not, kimin kayacağını yazmıyor. Not, yeni saat yazmıyor. Hangi Perşembe notta yok. Bu iki davet tek randevuya indirilmez. Tarih uydurulmaz. Yeni saat uydurulmaz. Cevapta kişi adı durmaz. Cevapta telefon durmaz. Şimdi ellerini izle. İş hesabını aç. Onaylı takvim panelini bul. İki daveti yerinde oku. Maskeli notu oraya koy. Dört parçayı aynı kutuya yaz. Gönder. Gelen satırları nottaki iki 10:00 ile karşılaştır. Çakışma satırı yoksa kısıtı daralt. Aynı görevi bir kez daha iste. Tarihi notta arama. Notta ayın kaçı yoksa cevapta da tarih durmamalı."
+    ]
+  },
+  {
+    "id": "cue-08",
+    "start": 501.09,
+    "end": 580.151,
+    "text": "KENDİ TOPLANTIN",
+    "section": "KENDİ TOPLANTIN",
+    "paragraphs": [
+      "Cevabı satır satır okursun. Kaynakta olmayan bir saat görürsen o satırı takvime yazmazsın. Çakışma duruyorsa iki aracı aynı saate koymazsın. Listeyi takvime ancak sen okuduktan sonra, yönetici yaz dediğinde işlersin. Yönetici hemen ardından «takvime de işle» derse aynı kutuya ekleme. Liste bitmiştir. Takvime işlemek yeni istemdir. Yeni istemde de rol, görev, biçim ve kısıt durur. Ham not kişisel hesaba gitmez. Çakışma satırı duruyorsa saati kilitleme. Eksik parça nasıl görünür? Rol yoksa sohbet kutusu takvimi kendisi doldurur. Görev dağınıksa liste, randevu ve e-posta birbirine bulaşır. Biçim yoksa çakışma uzun metnin içinde kaybolur. Kısıt yoksa uydurma tarih ve uydurma sahip eklenir. Dört parçayı yazmadan kutuyu gönderme."
+    ]
+  }
+]

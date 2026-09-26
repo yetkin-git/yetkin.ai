@@ -1,0 +1,39 @@
+{
+  "lessonKey": "01_office_ai_ileri-4",
+  "passScore": 70,
+  "questions": [
+    {
+      "id": "q_off201_l4_1",
+      "prompt": "Model bir maddeye sayfa numarası yazdı. O sayfayı açtın; madde sayfada yok. Ne yaparsın?",
+      "choices": [
+        "Maddeyi listede bırakırsın",
+        "Satırı silersin",
+        "«Tam analiz» yazıp kapatırsın",
+        "Yanındaki sayfanın numarasını yazarsın"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "q_off201_l4_2",
+      "prompt": "Cevap «tam analiz edildi» diyor. Listede olmayan bir iş de var. Ne yaparsın?",
+      "choices": [
+        "Cümle varsa iş bitmiştir",
+        "Olmayan işi de eklersin",
+        "O sayfayı sen açarsın; cümle sayfa kontrolünün yerini tutmaz",
+        "Belgeyi kişisel hesaba taşırsın"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "q_off201_l4_3",
+      "prompt": "Sözleşmede taraf adı, kimlik numarası ve IBAN duruyor. Onaylı araca hangisi ham haliyle girmez?",
+      "choices": [
+        "Ödeme gününün adı",
+        "Fesih süresinin adı",
+        "Gizlilik süresinin adı",
+        "Taraf adı, kimlik numarası ve IBAN"
+      ],
+      "correctIndex": 3
+    }
+  ]
+}

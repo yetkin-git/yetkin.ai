@@ -1,0 +1,39 @@
+{
+  "lessonKey": "01_office_ai_ileri-1",
+  "passScore": 70,
+  "questions": [
+    {
+      "id": "q_off201_l1_1",
+      "prompt": "Yönetici saat 10'dan önce üç madde ve bir karar cümlesi istiyor. İstemde biçim olarak ne yazarsın?",
+      "choices": [
+        "Üç madde ve bir karar cümlesi",
+        "Kısa olsun",
+        "Güzelce özetle, slayt da yap",
+        "Hukuk müşaviri ağzıyla yaz"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "q_off201_l1_2",
+      "prompt": "İç Anadolu satırı eksik. Marmara 120, Ege 80. Cevapta İç Anadolu için ne durur?",
+      "choices": [
+        "120 ile 80'in toplamı",
+        "Eksik satırın uydurma adedi",
+        "Satır eksik; bu nottan sayı yok",
+        "Üç bölgenin ortalama siparişi"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "q_off201_l1_3",
+      "prompt": "Onaylı araç yok. Ad ve telefon notta duruyor. Notu nereye koymazsın?",
+      "choices": [
+        "Maskeli kısa özete, ad ve telefon çıkmış halde",
+        "Kişisel sohbet hesabına",
+        "İş hesabındaki onaylı panele, varsa",
+        "Ürün adı ve kişiye bağlı olmayan sipariş sayısının durduğu kısa özete"
+      ],
+      "correctIndex": 1
+    }
+  ]
+}

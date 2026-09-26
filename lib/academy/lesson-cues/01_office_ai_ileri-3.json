@@ -1,0 +1,84 @@
+[
+  {
+    "id": "cue-01",
+    "start": 0,
+    "end": 137.929,
+    "text": "FORMÜLÜ KİLİTLE",
+    "section": "Açılış",
+    "paragraphs": [
+      "Selamlar, ben Boran. İleri Ofis Yapay Zekâ eğitiminin üçüncü dersine hoş geldin. Geçen derste çakışan saati ayrı satırda işaretledin. Bu dersin sonunda tablodaki toplamı hücreye formülle kilitleyeceksin. Grafiği, formülün okuduğu hücrelerden seçeceksin. Yapay zekânın, yani sohbet kutusunun, yazdığı düz sayıyı masaya koymayacaksın. Uydurma formülü de koymayacaksın. Sayfanın altında bir not satırı duruyor. «Tahsilat: Ayşe Yılmaz, IBAN TR00 0000 0000 0000 0000 0000 00.» Saat 11:10. Yöneticin yazıyor. «Saat 12'deki toplantıdan önce bu tablonun toplamını formülle kilitle. Grafiği o hücreden seç. Yüzde isteme. Toplamı düz sayı yazma.»",
+      "Üç adım şunlar. 1. Tabloyu yapıştırmadan önce şirketin onayladığı tablo aracını aç. Onaylı araç yoksa tabloyu kişisel hesaba taşıma. 2. Adı, IBAN'ı ve diğer kişisel veriyi çıkar. Bölge adı ve adet kalabilir. 3. Tek istem yaz. Rol, görev, biçim ve kısıt aynı kutuda dursun. Formülü B4'e yaz. Hücre 120 ile 80'in toplamını göstermeden grafiği seçme. Bugün maskeli iki satırlık bir tablo seç. Toplam hücresini boş bırak. Gerçek kişi adı, IBAN veya maaş koyma. İstemi dört parçayla yaz. Formülü hücreye sen yaz. F2 ile formülü gör. İki adedi kendin topla. Hücre aynı sayıyı göstermiyorsa grafiği koyma. Cevapta düz toplam, yüzde veya üçüncü dilim varsa kısıtı daralt. Aynı görevi bir kez daha iste."
+    ]
+  },
+  {
+    "id": "cue-02",
+    "start": 138.429,
+    "end": 249.298,
+    "text": "ÜÇ ADIM",
+    "section": "Açılış",
+    "paragraphs": [
+      "Acele edip kutuya «Bu tabloyu analiz et, formül yaz, güzel bir grafik yap» yazarsan sohbet kutusu akıcı bir paragraf döndürür. 120 ile 80'in toplamı yerine başka bir sayı yazabilir. Örneğin 250. Formülü, tabloda olmayan bir çarpanla kurabilir. Marmara için yüzde yazabilir. Pasta grafiğe üçüncü bir dilim ekleyebilir. O paragrafı slayta taşırsan yönetici, hücrede olmayan adet üzerinden un ayırır. B4'e o sayıyı düz yazarsan 120 değişince toplam yerinde kalır. Grafiği o paragraftan seçersen sütunlar da eski sayıda kalır. Yanlış adedi sen yazmış olursun. Ekranda tablo açık. Tablo iş hesabında duruyor. A1 hücresinde Bölge yazar. B1 hücresinde Adet yazar. A2 Marmara'dır. B2 120'dir. A3 Ege'dir. B3 80'dir. A4 Toplam'dır. B4 boştur. Tabloyu kutuya koymadan önce üç soru vardır. Sırayı bozma.",
+      "Sıradaki ders uzun belgedir. Sayfa numarası istenir. Uydurma madde silinir. Bu tablodaki formül hücrede durur. Ham tablo kişisel hesaba gitmez."
+    ]
+  },
+  {
+    "id": "cue-03",
+    "start": 249.798,
+    "end": 343.871,
+    "text": "BOŞ HÜCRE",
+    "section": "Açılış",
+    "paragraphs": [
+      "Birinci soru şirket politikasıdır. Şirketin onayladığı tablo aracı hangisi? Onaylı panel iş hesabındaysa tabloyu orada aç. Formülü orada yaz. Onaylı araç yoksa bu tabloyu kişisel sohbet hesabına taşıma. IBAN de kişisel hesaba gitmez. İkinci soru veri sınıfıdır. Bölge adı ve kişiye bağlı olmayan adet ürüne ait, kişiye bağlı olmayan satırdır. Bu iki sütun gidebilir. Ad ve IBAN kişisel veridir. Ham kimlik, IBAN, maaş ve şirket sırrı hiçbir araca açık hâliyle girmez. Ayşe Yılmaz satırını ve IBAN'ı tablodan çıkarırsın. B4 boştur. Boş hücreyi düz sayıya çevirme. Kaynakta olmayan yüzdeyi de yazma. Üçüncü soru aktarım yoludur. Onaylı araçta sırayla bakarsın. Önce yerleşik araç vardır. Yerleşik araç, iş hesabındaki tablo panelidir. Panel yoksa tabloyu ataş ile yüklersin. İkisi de yoksa son çare, maskeli kısa özettir. Maskeleme, gerçek satırda kimliği takma değerle değiştirmektir. Aşağıdaki satırlar yalnız tablonun şeklini gösterir. Tüm dosyanın dökümünü vermez."
+    ]
+  },
+  {
+    "id": "cue-04",
+    "start": 344.371,
+    "end": 390.659,
+    "text": "IBAN ÇIKAR",
+    "section": "VERİYİ VERMEDEN ÖNCE",
+    "paragraphs": [
+      "Bölge, Adet. Marmara, 120. Ege, 80. Toplam hücresi B4, boş. Ad yok. IBAN yok. Bu tabloya şimdi istemi yaz. Rol, işin sahibidir. Görev, tek iştir. Biçim, çıktının şeklidir. Kısıt, sohbet kutusunun taşmayacağı çizgidir. İstemi şöyle yaz. Maskeli satırlar da kutunun içindedir."
+    ]
+  },
+  {
+    "id": "cue-05",
+    "start": 391.159,
+    "end": 490.794,
+    "text": "FORMÜLÜ YAZ",
+    "section": "DÖRT PARÇA",
+    "paragraphs": [
+      "Rol: ofis asistanı. Görev: bu tablonun toplamı için formül taslağı yaz ve grafiğin hangi hücreden okunacağını söyle. Biçim: üç satır. Birinci satır formülün yazılacağı hücre. İkinci satır formülün kendisi. Üçüncü satır grafiğin okuyacağı hücreler. Kısıt: kaynakta olmayan sayı yazma. Toplamı düz sayı olarak basma. Yüzde yazma. Boş hücreyi sayıya çevirme. Grafiğe kaynakta olmayan dilim ekleme. Kişi adı ve IBAN yazma. Satırlar: Marmara 120. Ege 80. Toplam hücresi B4, boş. Rolü başa koyarsın. Görev tek başına «analiz et» diye kalırsa sohbet kutusu yüzde ve düz sayı yazar. Bu işin sahibi ofis asistanıdır. Masanda olmayan bir unvan yazma. «Veri analisti» yazarsan sohbet kutusu toplamı kendisi seçer. Görev tek kalır. «Formül yaz, grafik yap, slayt hazırla, e-posta yaz» dört iştir. Dört iş tek kutuda birbirine bulaşır. Bu istemde tek görev vardır. Görev, formül taslağını yazmak ve grafiğin kaynağını söylemektir. Grafiği sayfaya sen eklersin. Slayt ayrı istemdir. E-posta ayrı istemdir."
+    ]
+  },
+  {
+    "id": "cue-06",
+    "start": 491.294,
+    "end": 600.966,
+    "text": "DÜZ SAYI",
+    "section": "YANLIŞ VE DOĞRU",
+    "paragraphs": [
+      "Biçim, şekli söyler. Üç satır, senin hücreye yazacağın şekildir. «Güzel bir analiz olsun» dersen sohbet kutusu paragraf seçer. Biçimi sen yazarsın. Kısıt, uydurma toplamı masaya koymama kuralıdır. Kaynakta 120 ve 80 vardır. Başka adet yoktur. Çarpan yoktur. Yüzde yoktur. Üçüncü dilim yoktur. Toplam, B4 hücresine düz sayı diye yazılmaz. Excel'de toplama formülünün adı TOPLA'dır. Formül hücrede durur. Sohbet cümlesi toplamın yerine geçmez. Yanlış istem şudur. Ham tabloyu yapıştırırsın. Ad ve IBAN da içindedir. Kutuya şunu yazarsın. «Bunu analiz et, formül yaz, güzel bir grafik yap, yüzde de ver.» Sohbet kutusu akıcı yazar. Toplam 250 diyebilir. Marmara için yüzde 48 yazabilir. Formülü =TOPLA(B2:B3)*1,25 diye kurabilir. Pasta grafiğe üçüncü dilim ekleyebilir. Üçüncü dilime büyüme diyebilir. 1,25 tabloda yoktur. Yüzde 48 tabloda yoktur. Üçüncü dilim tabloda yoktur. B4'e 250 yazarsan hücre düz sayı olur. 120 değişince toplam yerinde kalır."
+    ]
+  },
+  {
+    "id": "cue-07",
+    "start": 601.466,
+    "end": 757.876,
+    "text": "HÜCREYİ KONTROL ET",
+    "section": "HÜCREYİ KONTROL ET",
+    "paragraphs": [
+      "Doğru yol şudur. Önce onaylı aracı açarsın. Adı ve IBAN'ı çıkarırsın. Maskeli satırları onaylı yoldan verirsin. Dört parçalı istemi yazarsın. Cevabı şöyle okursun. Birinci satır: formül B4 hücresine yazılır. İkinci satır: formül =TOPLA(B2:B3). Üçüncü satır: grafik sütun grafiğidir. Grafik A2:B3 hücrelerini okur. İki sütun vardır. Üçüncü sütun yoktur. Yüzde yoktur. Cevapta kişi adı durmaz. Cevapta IBAN durmaz. Şimdi ellerini izle. İş hesabını aç. Onaylı tablo panelini bul. Maskeli satırları oraya koy. Dört parçayı aynı kutuya yaz. Gönder. Gelen formülü B4'e sen yaz. Enter'a bas. Hücre 200 gösterir. 120 ile 80'i kendin topla. Toplam 200'dür. Hücre başka sayı gösterirse o formülü sil. Aynı görevi bir kez daha iste. Hücre 200 göstermeden grafik seçme. Grafiği sen eklersin. Türü sütun grafiğidir. Kaynağı A2:B3'tür. Bu aralık, formülün okuduğu hücrelerdir. İki sütun vardır. Toplam satırını grafiğe ekleme. 200 üçüncü sütun olursa tablo iki bölgeyi üç parça gibi gösterir. Grafik sohbet cümlesini okumaz. B2 121 olursa Marmara sütunu 121 olur. B4 ayrıdır. B4'te formül varsa toplam 201 olur. B4'te düz 200 varsa toplam 200'de kalır. Toplam hücreyi F2 ile aç. Formülü gör. F2 yalnız 200 gösterirse formül yoktur. 200'ü sil. =TOPLA(B2:B3) yaz."
+    ]
+  },
+  {
+    "id": "cue-08",
+    "start": 758.376,
+    "end": 865.854,
+    "text": "KENDİ TABLON",
+    "section": "KENDİ TABLON",
+    "paragraphs": [
+      "Cevabı satır satır okursun. 250 görürsen o sayıyı slayta yazmazsın. Yüzde görürsen o satırı grafiğe taşımazsın. Üçüncü dilim görürsen kısıtı daraltırsın. Aynı görevi bir kez daha istersin. Toplamı toplantıya ancak hücre 200 gösterdikten sonra götürürsün. Yönetici hemen ardından «slayta da koy» derse aynı kutuya ekleme. Formül bitmiştir. Slayt yeni istemdir. Yeni istemde de rol, görev, biçim ve kısıt durur. Ham tablo kişisel hesaba gitmez. Slayttaki adet, B4'ün gösterdiği 200 değilse o slaytı koyma. Eksik parça nasıl görünür? Rol yoksa sohbet kutusu yüzde yazar. Görev dağınıksa formül, slayt ve e-posta birbirine bulaşır. Biçim yoksa uzun paragraf döner. Kısıt yoksa 250 ve üçüncü dilim eklenir. Dört parçayı yazmadan kutuyu gönderme."
+    ]
+  }
+]

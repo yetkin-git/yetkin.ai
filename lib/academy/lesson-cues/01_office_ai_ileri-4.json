@@ -1,0 +1,84 @@
+[
+  {
+    "id": "cue-01",
+    "start": 0,
+    "end": 176.481,
+    "text": "SAYFA KONTROLÜ",
+    "section": "Açılış",
+    "paragraphs": [
+      "Selamlar, ben Selin. İleri Ofis Yapay Zekâ eğitiminin dördüncü dersine hoş geldin. Geçen derste toplamı formülle hücreye kilitledin. Bu dersin sonunda uzun belgeden maddeyi sayfa numarasıyla çıkaracaksın. Yapay zekânın atladığı maddeyi, o sayfayı açarak denetleyeceksin. «Tam analiz» cümlesini sayfa kontrolünün yerine koymayacaksın. Sayfa 2'de taraf satırı duruyor. «Mehmet Kaya, kimlik numarası 00000000000, IBAN TR00 0000 0000 0000 0000 0000 00.» Sayfa 11'de şu cümle var. «Taraflardan biri, yazılı bildirimle 15 gün sonra sözleşmeyi bitirebilir.» Dört işin adı sende durur. Ödeme günü. Gecikme oranı. Fesih süresi. Gizlilik süresi.",
+      "Yönetici hemen ardından «slayta da koy» derse aynı kutuya ekleme. Sayfa kontrolü bitmiştir. Slayt yeni istemdir. Yeni istemde de rol, görev, biçim ve kısıt durur. Ham sözleşme kişisel hesaba gitmez. Slayttaki oran, sayfa 7'deki yüzde 2 değilse o slaytı koyma. Eksik parça nasıl görünür? Rol yoksa sohbet kutusu maddeyi kendisi seçer. Görev dağınıksa madde, slayt ve e-posta birbirine bulaşır. Biçim yoksa «tam analiz» paragrafı döner. Kısıt yoksa sayfa 22 ve kimlik eklenir. Dört parçayı yazmadan kutuyu gönderme. Üç adım şunlar. 1. Belgeyi yapıştırmadan önce şirketin onayladığı belge aracını aç. Onaylı araç yoksa sözleşmeyi kişisel hesaba taşıma. 2. Taraf adını, kimlik numarasını ve IBAN'ı çıkar. Dört işi sen adlandır. Ödeme günü, gecikme oranı, fesih süresi, gizlilik süresi. 3. Her satırın sayfasını aç. Sayfada yoksa satırı sil. Listede olmayan işi «tam analiz» cümlesiyle kapatma. O sayfayı sen aç."
+    ]
+  },
+  {
+    "id": "cue-02",
+    "start": 176.981,
+    "end": 329.599,
+    "text": "ÜÇ ADIM",
+    "section": "Açılış",
+    "paragraphs": [
+      "Saat 15:20. Yöneticin yazıyor. «Saat 16'daki toplantıdan önce bu sözleşmeden dört maddeyi çıkar. Her maddenin sayfa numarasını yaz. Tam analiz isteme. Atlanan maddeyi sen denetle.» Sayfa 4'te şu cümle var. «Fatura tarihinden itibaren 30 gün içinde ödenir.» Sayfa 18'de şu cümle var. «Gizlilik, sözleşme bitince 2 yıl sürer.» Acele edip kutuya «Bu belgeyi tamamen analiz et. Hiçbir maddeyi atlama. Eksiksiz rapor yaz» yazarsan sohbet kutusu akıcı bir liste döndürür. Listenin üstüne «Tam analiz tamam» yazabilir. Sayfa 7'deki yüzde 2 yerine yüzde 10 yazabilir. Dosyada olmayan 22. sayfaya 5 yıllık yenileme ekleyebilir. Sayfa 11'deki 15 günü listeye koymaz. O liste toplantıya giderse yönetici, dosyada olmayan yenileme üzerinden karar verir. Finans, yüzde 2 yerine yüzde 10 için pay ayırır. 15 günlük bildirim masaya gelmez. Süreyi sen kaçırmış olursun. Ad ve IBAN listede durursa tarafın kaydı sohbette kopya kalır.",
+      "Bugün dört maddelik kısa bir belge seç. Belge, senin kurduğun örnek olsun. Gerçek taraf adı, kimlik numarası, IBAN veya maaş koyma. Dört işi adlandırmadan «tam analiz» yazma. İstemi dört parçayla yaz. Gelen her satırın sayfasını aç. Oran sayfadaki oran değilse sil. Listede olmayan iş varsa o sayfayı sen aç. Dosyada olmayan sayfa numarası varsa o satırı sil. Sıradaki ders iş postasıdır. Karmaşık postayı sınıflandıracaksın. Yanıt taslağını şirket kuralına göre yazacaksın. Kişisel veriyi taslağa taşımayacaksın. Ham sözleşme kişisel hesaba gitmez."
+    ]
+  },
+  {
+    "id": "cue-03",
+    "start": 330.099,
+    "end": 369.562,
+    "text": "UZUN BELGE",
+    "section": "Açılış",
+    "paragraphs": [
+      "Ekranda uzun bir belge açık. Belge iş hesabında duruyor. Yirmi sayfa. Bazı paneller bu dosyaya PDF der. Sayfalar taranmıştır. Sayfa 7'de şu cümle var. «Gecikmede her ay yüzde 2 işler.» Sayfa 20 imzadır. Dosya burada biter. 22. sayfa yoktur. Belgeyi kutuya koymadan önce üç soru vardır. Sırayı bozma."
+    ]
+  },
+  {
+    "id": "cue-04",
+    "start": 370.062,
+    "end": 515.576,
+    "text": "KİMLİĞİ ÇIKAR",
+    "section": "VERİYİ VERMEDEN ÖNCE",
+    "paragraphs": [
+      "Birinci soru şirket politikasıdır. Şirketin onayladığı belge aracı hangisi? Onaylı panel iş hesabındaysa belgeyi orada aç. Maddeyi orada iste. Onaylı araç yoksa bu sözleşmeyi kişisel sohbet hesabına taşıma. Sayfa 2 de kişisel hesaba gitmez. İkinci soru veri sınıfıdır. Taraf adı, kimlik numarası ve IBAN kişisel veridir. Ham kimlik, IBAN, maaş ve şirket sırrı hiçbir araca açık hâliyle girmez. Sayfa 2'yi onaylı araca da açık hâliyle verme. Ödeme günü, gecikme, fesih ve gizlilik bu belgenin iş maddeleridir. Onlar onaylı araçta istenebilir. Taraf adının olduğu sayfa onlarla birlikte gitmez. Üçüncü soru aktarım yoludur. Onaylı araçta sırayla bakarsın. Önce yerleşik araç vardır. Yerleşik araç, iş hesabındaki belge panelidir. Panel yoksa belgeyi ataş ile yüklersin. Araç sayfa seçmeyi gösteriyorsa sayfa 2'yi yükleme. Sayfa seçme yoksa kısıta kimlik ve IBAN yazma. İkisi de yoksa son çare, kimliği çıkarılmış kısa nottur. Maskeleme, gerçek satırda kimliği takma değerle değiştirmektir. Not şudur. Ödeme günü. Gecikme oranı. Fesih süresi. Gizlilik süresi. Taraf adı yok. Kimlik numarası yok. IBAN yok. Bu not, maddenin cümlesini ve sayfa numarasını taşımaz. Cümleyi ve numarayı, açtığın sayfadan sen yazarsın. Yirmi sayfayı bu notun yerine koyma. Bu belgeye şimdi istemi yaz. Rol, işin sahibidir. Görev, tek iştir. Biçim, çıktının şeklidir. Kısıt, sohbet kutusunun taşmayacağı çizgidir."
+    ]
+  },
+  {
+    "id": "cue-05",
+    "start": 516.076,
+    "end": 620.414,
+    "text": "SAYFAYI YAZ",
+    "section": "DÖRT PARÇA",
+    "paragraphs": [
+      "İstemi şöyle yaz. Rol: ofis asistanı. Görev: dört iş için maddenin geçtiği sayfa numarasını ve maddenin tek cümlesini yaz. İşler şunlardır. Ödeme günü. Gecikme oranı. Fesih süresi. Gizlilik süresi. Biçim: dört satır. Her satırda işin adı, sayfa numarası ve tek cümle olsun. O iş belgede yoksa satırda «bu belgede yok» yaz. Kısıt: «tam analiz» yazma. Dosyada olmayan sayfa numarası yazma. Kaynakta olmayan oran yazma. Eksik işi «başka madde yok» diye kapatma. Taraf adı, kimlik numarası ve IBAN yazma. Rolü başa koyarsın. Görev tek başına «analiz et» diye kalırsa sohbet kutusu yirmi sayfayı tek paragrafta kapatır. Bu işin sahibi ofis asistanıdır. Masanda olmayan bir unvan yazma. «Hukuk müşaviri» yazarsan sohbet kutusu maddeyi kendisi seçer. Görev tek kalır. «Madde çıkar, tam analiz yap, slayt hazırla, e-posta yaz» dört iştir. Dört iş tek kutuda birbirine bulaşır. Bu istemde tek görev vardır. Görev, dört adı geçen işin sayfa satırını yazmaktır. Slayt ayrı istemdir. E-posta ayrı istemdir."
+    ]
+  },
+  {
+    "id": "cue-06",
+    "start": 620.914,
+    "end": 923.905,
+    "text": "ATLANAN MADDE",
+    "section": "YANLIŞ VE DOĞRU",
+    "paragraphs": [
+      "Biçim, şekli söyler. Dört satır, senin sayfayla karşılaştıracağın listedir. «Eksiksiz rapor olsun» dersen sohbet kutusu paragraf seçer. «Hiçbir maddeyi atlama» demen, dört işi adlandırmanın yerini tutmaz. Adı olmayan iş, listede boşluk bırakmaz. Boşluğu göremezsin. Biçimi sen yazarsın. Kısıt, dosyada olmayan sayfayı masaya koymama kuralıdır. 22. sayfa yoktur. Yüzde 10 sayfa 7'de yoktur. «Tam analiz tamam» bir satır değildir. Kimlik ve IBAN satır değildir. Yanlış istem şudur. Yirmi sayfayı kişisel sohbete yüklersin. Sayfa 2 de içindedir. Kutuya şunu yazarsın. «Bunu tamamen analiz et. Hiçbir maddeyi atlama. Eksiksiz rapor yaz.» Sohbet kutusu akıcı yazar. Üste «Tam analiz tamam. Tüm maddeler aşağıdadır» diyebilir. Ödeme için 30 gün ve sayfa 4 yazabilir. Gecikme için yüzde 10 ve sayfa 7 yazabilir. Yenileme için 5 yıl ve sayfa 22 yazabilir. Gizlilik için 2 yıl ve sayfa 18 yazabilir. Fesih satırı yoktur. Mehmet Kaya ve IBAN listenin altında durabilir. Yüzde 10, sayfa 7'de yazan oran değildir. Sayfa 22 dosyada yoktur. 15 gün listede yoktur. Bu listeyi toplantıya götürürsen yanlış oran ve olmayan yenileme masaya oturur. Bildirim süresi masaya oturmaz. Doğru yol şudur. Önce onaylı aracı açarsın. Sayfa 2'yi dışarıda bırakırsın. Dört işi adlandırırsın. Dört parçalı istemi yazarsın. Cevabı şöyle okursun. Sonra her sayfayı açarsın."
+    ]
+  },
+  {
+    "id": "cue-07",
+    "start": 924.405,
+    "end": 983.138,
+    "text": "SAYFAYI DENETLE",
+    "section": "SAYFAYI DENETLE",
+    "paragraphs": [
+      "Sayfa 4'ü aç. Cümle 30 gün diyorsa satır kalır. Başka sayı diyorsa o sayıyı sil. Sayfadaki cümleyi sen yaz. Sayfa 7'yi aç. Yüzde 2 yazıyorsa satır kalır. Yüzde 10 yazıyorsa yüzde 10'u sil. Yüzde 2'yi sen yaz. Finans, sayfadaki yüzde 2 için pay ayırır. Fesih satırı yoksa «tamam» deme. «Tam analiz» o satırın yerini tutmaz. «Başka madde yok» da tutmaz. Sayfa 11'i aç. 15 günü görürsen satırı sen yaz. Sayfa numarası 11'dir. Görmeden yazma. Sayfa 18'i aç. 2 yıl yazıyorsa satır kalır. Yazmıyorsa sil. Sayfadaki süreyi sen yaz."
+    ]
+  },
+  {
+    "id": "cue-08",
+    "start": 983.638,
+    "end": 1080.062,
+    "text": "KENDİ BELGEN",
+    "section": "KENDİ BELGEN",
+    "paragraphs": [
+      "Listede 22. sayfa duruyorsa dosyanın sonuna bak. Son sayfa 20'dir. 22 yoktur. O satırı sil. 5 yıllık yenileme toplantıya gitmez. Ad veya IBAN duruyorsa o satırı sil. Toplantı notuna taşıma. Ekrandan silmek, kişisel sohbete yüklenmiş sayfa 2'yi geri çağırmaz. Onun için sayfa 2 baştan gitmez. Toplantıya giden liste ancak bu kontrolden sonra durur. Ödeme günü, sayfa 4, 30 gün. Gecikme oranı, sayfa 7, yüzde 2. Fesih süresi, sayfa 11, yazılı bildirimle 15 gün. Gizlilik süresi, sayfa 18, 2 yıl. Ad yoktur. IBAN yoktur. 22. sayfa yoktur. Cevabı satır satır okursun. Dört işten biri yoksa o sayfayı açarsın. Aynı görevi, yalnız eksik iş için bir kez daha isteyebilirsin. Eksik işi «tam analiz» ile kapatmazsın. Dört satır da açık sayfayla eşleşmeden toplantıya gitme."
+    ]
+  }
+]
