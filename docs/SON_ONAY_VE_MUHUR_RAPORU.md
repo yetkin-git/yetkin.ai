@@ -5,7 +5,7 @@
 | Tarih | 27 Eylül 2026 |
 | Dal | `off-201-stage` |
 | `origin/main` | `49761f4` — bu mühür orada yok |
-| `origin/main`’e uzaklık | 24 commit önde, 0 commit geride |
+| `origin/main`’e uzaklık | 26 commit önde, 0 commit geride |
 | İtme | Yok. Uzak dal ve canlı dağıtım bu oturumda değişmedi. |
 | Test | `npm run test` — **237 dosya, 1156 test geçti**, çıkış kodu 0, süre 53 sn |
 
@@ -21,7 +21,8 @@ Dört tedavi commit’i ve bu kapanış belgesi `off-201-stage` üzerindedir. `m
 | `eeb30ca` | Ücretli ders sesi için imzalı izin |
 | `0f8f1e3` | OFF-201 satış mandalı kapalı; 6 iptal MP3 kamu ağacından çıktı |
 | `126942d` | Vatandaş metninden kasa, kokpit ve SKU etiketleri çıktı |
-| Bu dosyanın commit’i | Durum yönlendirmesi, kılavuzlar ve mühür kaydı |
+| `8252899` | Durum yönlendirmesi, kılavuzlar ve mühür kaydı |
+| Sayı düzeltmesi | Bu satırdaki uzaklık, kapanış commit’i dahil 26’dır |
 
 `ACADEMY_OFF201_LAUNCH_SALE_OPEN = false` commit `0f8f1e3` içindedir. `academyCourseSaleOpen("01_office_ai_ileri")` bu sabit kapalıyken `false` döner.
 
