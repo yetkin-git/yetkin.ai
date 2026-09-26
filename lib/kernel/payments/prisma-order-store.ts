@@ -21,6 +21,10 @@ type LockedPaymentOrderRow = {
   currency_code: string;
   status: PaymentOrderSnapshot["status"];
   created_at: Date;
+  purpose: string;
+  consent_version: string | null;
+  distance_contract_accepted: boolean | null;
+  digital_immediate_performance_accepted: boolean | null;
 };
 
 async function selectPaymentOrderForUpdate(
@@ -28,7 +32,9 @@ async function selectPaymentOrderForUpdate(
   merchantOid: string,
 ): Promise<LockedPaymentOrderRow | null> {
   const rows = await db.$queryRaw<LockedPaymentOrderRow[]>`
-    SELECT id, user_id, merchant_oid, amount_minor, currency_code, status, created_at
+    SELECT id, user_id, merchant_oid, amount_minor, currency_code, status, created_at,
+           purpose, consent_version, distance_contract_accepted,
+           digital_immediate_performance_accepted
     FROM payment_orders
     WHERE merchant_oid = ${merchantOid}
     FOR UPDATE
@@ -44,6 +50,10 @@ function toOrder(row: {
   currencyCode: string;
   status: PaymentOrderSnapshot["status"];
   createdAt: Date;
+  purpose?: string;
+  consentVersion?: string | null;
+  distanceContractAccepted?: boolean | null;
+  digitalImmediatePerformanceAccepted?: boolean | null;
 }): PaymentOrderSnapshot {
   return {
     id: row.id,
@@ -53,6 +63,10 @@ function toOrder(row: {
     currencyCode: parseCurrencyCode(row.currencyCode),
     status: row.status,
     createdAt: row.createdAt,
+    purpose: row.purpose,
+    consentVersion: row.consentVersion ?? null,
+    distanceContractAccepted: row.distanceContractAccepted ?? null,
+    digitalImmediatePerformanceAccepted: row.digitalImmediatePerformanceAccepted ?? null,
   };
 }
 
@@ -71,6 +85,10 @@ export function bindPaymentOrderStore(db: PaymentOrderWriteDb): PaymentOrderStor
         currencyCode: locked.currency_code,
         status: locked.status,
         createdAt: locked.created_at,
+        purpose: locked.purpose,
+        consentVersion: locked.consent_version,
+        distanceContractAccepted: locked.distance_contract_accepted,
+        digitalImmediatePerformanceAccepted: locked.digital_immediate_performance_accepted,
       });
     },
     async markPaid(id, at) {

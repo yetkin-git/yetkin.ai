@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { KasaReturnPanel } from "@/components/kernel/kasa-return-panel";
 import { pageMetadata } from "@/lib/copy/seo";
 import { CUZDAN_SEN } from "@/lib/copy/sen-voice/cuzdan";
 
@@ -24,10 +25,10 @@ export default async function DronKasaReturnPage({
       <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">
         {CUZDAN_SEN.kasaTitle}
       </p>
-      <h1 className="mt-2 text-2xl font-semibold text-[var(--foreground)]">{CUZDAN_SEN.kasaTitle}</h1>
-      <p className="mt-4 text-sm text-[var(--foreground)]">
-        {ok ? CUZDAN_SEN.kasaReturnOk : CUZDAN_SEN.kasaReturnFail}
-      </p>
+      <h1 className="mt-2 text-2xl font-semibold text-[var(--foreground)]" suppressHydrationWarning>
+        {ok ? "Ödeme" : CUZDAN_SEN.kasaTitle}
+      </h1>
+      <KasaReturnPanel ok={ok} />
     </main>
   );
 }

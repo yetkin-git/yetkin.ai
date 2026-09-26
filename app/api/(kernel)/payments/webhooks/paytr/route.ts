@@ -27,7 +27,10 @@ import {
   SITE_MAINTENANCE_API_ERROR,
   SITE_MAINTENANCE_RETRY_AFTER_SECONDS,
 } from "@/lib/kernel/http/site-maintenance";
+import { registerPaytrAcademyLicenseHook } from "@/lib/academy/register-paytr-license-hook";
 import { logEvent } from "@/lib/kernel/observability/log";
+
+registerPaytrAcademyLicenseHook();
 
 export const auth = "webhook" as const;
 

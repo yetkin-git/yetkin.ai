@@ -31,6 +31,11 @@ export type PaymentOrderSnapshot = {
   currencyCode: CurrencyCode;
   status: "PENDING" | "PAID" | "FAILED" | "CLEARED";
   createdAt: Date;
+  /** Sipariş niyeti. Akademi kasası `academy-license:{slug}`; düz yükleme `wallet-top-up`. */
+  purpose?: string;
+  consentVersion?: string | null;
+  distanceContractAccepted?: boolean | null;
+  digitalImmediatePerformanceAccepted?: boolean | null;
 };
 
 export type PaymentOrderStore = {

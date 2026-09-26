@@ -19,6 +19,13 @@ import { loadAdminFunnelBoard } from "@/lib/kernel/admin/funnel-load";
 import { coerceFunnelRange } from "@/lib/kernel/admin/funnel-window";
 import { resolveSuperAdminAccess } from "@/lib/kernel/auth/session";
 import { REQUIRED_CATALOG_DEFINITIONS } from "@/lib/kernel/pricing/catalog-definitions";
+import { AdminCatalogAmountForm } from "@/components/kernel/admin-catalog-amount-form";
+import {
+  OFF_201_CATALOG_MODULE_KEY,
+  OFF_201_CATALOG_UNIT_KEY,
+  off201CatalogPriceIsSet,
+} from "@/lib/academy/off201-catalog-slot";
+import { logEvent } from "@/lib/kernel/observability/log";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 
 export default async function AdminPage({
@@ -41,7 +48,17 @@ export default async function AdminPage({
   const entries = board?.access === "ok" ? board.entries : [];
   const decisions = board?.access === "ok" ? board.decisions : [];
   const live = board?.access === "ok";
+  const off201PriceUnset = live && !off201CatalogPriceIsSet(entries);
   const copy = SEN_VOICE.admin;
+  if (off201PriceUnset) {
+    logEvent({
+      level: "info",
+      event: "academy.off201.catalog_price_unset",
+      action: "super_admin_notice",
+      purpose: "off201_prep_ready",
+      route: "/admin",
+    });
+  }
 
   return (
     <RoomFrame>
@@ -104,6 +121,19 @@ export default async function AdminPage({
         </div>
       ) : (
         <div className="space-y-4">
+          {off201PriceUnset ? (
+            <Card title={copy.off201PriceUnset.title} eyebrow="OFF-201">
+              <p className="text-sm text-[var(--muted)]">{copy.off201PriceUnset.body}</p>
+              <div className="mt-3 flex justify-end">
+                <AdminCatalogAmountForm
+                  moduleKey={OFF_201_CATALOG_MODULE_KEY}
+                  unitKey={OFF_201_CATALOG_UNIT_KEY}
+                  unitType="MINOR"
+                  initialAmountMinor={0}
+                />
+              </div>
+            </Card>
+          ) : null}
           <AdminFunnelBoard board={funnel} range={funnelRange} />
           <AdminAuditChambers />
           <AdminPriceDecisionLedger decisions={decisions} />

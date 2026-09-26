@@ -63,6 +63,12 @@ import {
 } from "@/lib/kernel/identity/billing-info";
 import { persistCheckoutBilling } from "@/lib/kernel/identity/billing-info-write";
 import { createPrismaBillingInfoStore } from "@/lib/kernel/identity/prisma-billing-info-store";
+import {
+  academyLicenseOrderPurpose,
+  readAcademyLicenseSlug,
+} from "@/lib/academy/paytr-license-bridge";
+import { academyCourseSaleOpen, isAcademyLicenseSaleSlug } from "@/lib/academy/pilot-sku";
+import { WALLET_TOP_UP_PURPOSE } from "@/lib/kernel/payments/clearing";
 
 export const auth = "session" as const;
 
@@ -71,6 +77,7 @@ const WALLET_TOP_UP_ROUTE = "/api/wallet/top-up";
 const bodySchema = checkoutLegalConsentSchema.extend({
   amountMinor: z.number().int(),
   billing: checkoutBillingInfoSchema,
+  courseSlug: z.string().trim().min(1).max(64).optional(),
 });
 
 function isUniqueViolation(error: unknown): boolean {
@@ -137,6 +144,17 @@ export async function POST(request: Request) {
       return jsonFail(message, 400, requestId, request);
     }
     const amountMinor = assertWalletTopUpAmountMinor(parsed.data.amountMinor);
+    const courseSlug = parsed.data.courseSlug;
+    if (courseSlug && !isAcademyLicenseSaleSlug(courseSlug)) {
+      return jsonFail("Kurs kodu geçersiz.", 400, requestId, request);
+    }
+    if (courseSlug && !academyCourseSaleOpen(courseSlug)) {
+      return jsonFail("Kurs satışa kapalı.", 400, requestId, request);
+    }
+    if (courseSlug && !readAcademyLicenseSlug(academyLicenseOrderPurpose(courseSlug))) {
+      return jsonFail("Kurs satışa kapalı.", 400, requestId, request);
+    }
+    const orderPurpose = courseSlug ? academyLicenseOrderPurpose(courseSlug) : WALLET_TOP_UP_PURPOSE;
     await persistCheckoutBilling(createPrismaBillingInfoStore(), user.id, parsed.data.billing);
 
     if (!isPaymentsPortConfigured() && !isPaytrMockCheckoutAllowed()) {
@@ -160,6 +178,7 @@ export async function POST(request: Request) {
         requestHash: hashIdempotencyPayload({
           amountMinor,
           consentVersion: parsed.data.consentVersion,
+          ...(courseSlug ? { courseSlug } : {}),
         }),
         requestId,
         request,
@@ -222,7 +241,7 @@ export async function POST(request: Request) {
                 userId: user.id,
                 provider: "paytr",
                 merchantOid,
-                purpose: "wallet-top-up",
+                purpose: orderPurpose,
                 amountMinor,
                 currencyCode: SETTLEMENT_CURRENCY,
                 status: "PENDING",
@@ -278,7 +297,13 @@ export async function POST(request: Request) {
             currencyCode: SETTLEMENT_CURRENCY,
             merchantOkUrl: merchantReturnUrl,
             merchantFailUrl,
-            userBasket: [{ name: "Cuzdan yukleme", amountMinor, quantity: 1 }],
+            userBasket: [
+              {
+                name: courseSlug ? `Akademi ${courseSlug}` : "Cuzdan yukleme",
+                amountMinor,
+                quantity: 1,
+              },
+            ],
             userName: paytrUser.userName,
             userAddress: paytrUser.userAddress,
             userPhone: paytrUser.userPhone,

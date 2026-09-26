@@ -27,8 +27,9 @@ function refundNotice(
   if (refundedMinor > 0) {
     return { text: wallet.refundPartial(formatMinor(refundedMinor, SETTLEMENT_CURRENCY)), tone: "amber" };
   }
-  if (requestedMinor > 0) {
-    return { text: wallet.refundRequested, tone: "amber" };
+  const held = nextBalance > 0 ? nextBalance : requestedMinor;
+  if (held > 0) {
+    return { text: wallet.refundFinanceHold(formatMinor(held, SETTLEMENT_CURRENCY)), tone: "amber" };
   }
   return { text: wallet.refundRequested, tone: "amber" };
 }

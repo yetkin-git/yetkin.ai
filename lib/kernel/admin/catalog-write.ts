@@ -5,6 +5,7 @@ import { SUPER_ADMIN_FORBIDDEN, assertSuperAdminActor } from "@/lib/kernel/auth/
 import { NotFoundError, BadRequestError } from "@/lib/kernel/http/errors";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
+import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { assertHoldBps } from "@/lib/kernel/pricing/hold-bps";
 import {
   assertCatalogWriteAmountWithinBand,
@@ -40,7 +41,44 @@ export type CatalogWriteStore = {
     unitType: SealedCatalogEntry["unitType"];
     currencyCode: SealedCatalogEntry["currencyCode"];
   }): Promise<SealedCatalogEntry>;
+  openAmount(input: {
+    id: string;
+    moduleKey: string;
+    unitKey: string;
+    unitType: SealedCatalogEntry["unitType"];
+    amountMinor: number;
+    currencyCode: SealedCatalogEntry["currencyCode"];
+    minMinor: number;
+    maxMinor: number;
+    description: string;
+    updatedBy: string;
+    reasonCode: PriceDecisionReasonCode;
+    reason: string;
+  }): Promise<SealedCatalogEntry>;
 };
+
+/**
+ * Satırı olmayan tek açılabilir birim. Tutar istekten gelir; kod fiyat basmaz.
+ * Kart, satır yazılana kadar «Fiyat Bekleniyor» kalır.
+ */
+export const CATALOG_OPENABLE_UNITS = [
+  {
+    moduleKey: "academy",
+    unitKey: "course:01_office_ai_ileri",
+    unitType: "MINOR" as const,
+    currencyCode: SETTLEMENT_CURRENCY,
+    minMinor: 1,
+    maxMinor: 50_000_000,
+    description: "OFF-201 satın alma kilidi. Tutar Super Admin satırındadır.",
+  },
+] as const;
+
+export function catalogOpenableUnit(moduleKey: string, unitKey: string) {
+  return (
+    CATALOG_OPENABLE_UNITS.find((row) => row.moduleKey === moduleKey && row.unitKey === unitKey) ??
+    null
+  );
+}
 
 export type CatalogPatchCommand = {
   actorUserId: string;
@@ -111,7 +149,42 @@ export async function patchCatalogAmount(
       : null;
 
   if (!entry) {
-    throw new NotFoundError(CATALOG_PATCH_NOT_FOUND);
+    const openable =
+      !command.id && command.moduleKey && command.unitKey
+        ? catalogOpenableUnit(command.moduleKey, command.unitKey)
+        : null;
+    if (!openable) {
+      throw new NotFoundError(CATALOG_PATCH_NOT_FOUND);
+    }
+    const draft: SealedCatalogEntry = {
+      id: "pending",
+      moduleKey: openable.moduleKey,
+      unitKey: openable.unitKey,
+      unitType: openable.unitType,
+      amountMinor: toAmountMinor(0),
+      currencyCode: openable.currencyCode,
+      isActive: true,
+      minMinor: toAmountMinor(openable.minMinor),
+      maxMinor: toAmountMinor(openable.maxMinor),
+      description: openable.description,
+      updatedBy: null,
+      updatedAt: new Date(0),
+    };
+    const amountMinor = sealCatalogAmount(draft, command.amountMinor);
+    return store.openAmount({
+      id: `pce_${openable.unitKey.replace(/[^a-z0-9]+/giu, "_")}`,
+      moduleKey: openable.moduleKey,
+      unitKey: openable.unitKey,
+      unitType: openable.unitType,
+      amountMinor,
+      currencyCode: openable.currencyCode,
+      minMinor: openable.minMinor,
+      maxMinor: openable.maxMinor,
+      description: openable.description,
+      updatedBy: command.actorUserId,
+      reasonCode: command.reasonCode,
+      reason: command.reason,
+    });
   }
 
   const amountMinor = sealCatalogAmount(entry, command.amountMinor);
