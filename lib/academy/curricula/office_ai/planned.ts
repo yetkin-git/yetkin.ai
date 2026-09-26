@@ -6,8 +6,9 @@
  * → 6 E-posta akışı (Gmail / Outlook; ritüel ilk 2 dk) → 7 Word → 8 Cuma 30.
  * Eski ritüel anahtarı `01_office_ai-4` sınav yolunda yoktur; gövde `01_office_ai-g1` içindedir.
  * Sınav yalnız 8. dersten sonra.
- * Uydu (OFF-201 taslak, OFF-101 sınav yoluna girmez): 10 takvim/toplantı, 11 Excel formül/grafik, 12 PDF.
- * OFF-201 taslağı `off-102.ts` içindedir (salt okunur projeksiyon; ana şerit 8 ders durur).
+ * Uydu (OFF-201, OFF-101 sınav yoluna girmez): 10 toplantı notu, 11 formül/grafik, 12 uzun belge.
+ * Vaat, `01_office_ai_ileri` altı dersidir. XLOOKUP, özet tablo, OCR ve belge birleştirme bu sürümde yoktur.
+ * Projeksiyon `off-201.ts` içindedir. Ana şerit 8 ders durur.
  * Üç Kapı Hiyerarşisi PEDAGOJI.md §E.10 — yalnız aktarım:
  * 1. Kapı yerleşik panel (Copilot / Gemini şeridi) → 2. Kapı ataş (Excel tablosu / Word belgesi / PowerPoint sunusu) → 3. Kapı maskeli kısa özet.
  * Güvenlik sınıfı ayrı eksendir: kişisel veri / şirket sırrı / açık katalog bilgisi. Kapı adı değildir.
@@ -120,33 +121,33 @@ export const OFFICE_AI_PLANNED_LESSONS = [
   },
   {
     key: "01_office_ai-10",
-    title: "Takvim ve Toplantı AI: Outlook, Teams, Meet",
+    title: "Toplantı Notu ve Eylem Listesi",
     status: "planned",
     lane: "satellite",
     method: "copilot-live",
     targetModuleCode: "OFF-201",
     pedagogicalObjective:
-      "Davet triyajı ve transkriptten aksiyon listesi. 1. Kapı Teams Copilot / Meet Gemini, 2. Kapı transkript ataş, 3. Kapı maskeli kısa özet. Çekirdek 8’e girmez; OFF-201 taslak.",
+      "Dağınık toplantı notundan kim, ne, ne zaman çıkarılır. Çakışan saat ayrı satırda işaretlenir. Ham not kişisel hesaba gitmez. Çekirdek 8’e girmez. Vaat, 01_office_ai_ileri ders 2 ile aynıdır.",
   },
   {
     key: "01_office_ai-11",
-    title: "Excel Formül ve Grafik AI: XLOOKUP, Özet Tablo, Grafik",
+    title: "Excel Formül ve Grafik",
     status: "planned",
     lane: "satellite",
     method: "direct-file-upload",
     targetModuleCode: "OFF-201",
     pedagogicalObjective:
-      "Formül yazdırma, TOPLA kilidi, grafik seçimi. Hata avı ile üret → kilitle → görselleştir. Çekirdek 8’e girmez; OFF-201 taslak.",
+      "Toplam =TOPLA(B2:B3) ile hücreye kilitlenir. Grafik, formülün okuduğu hücrelerden seçilir. Çekirdek 8’e girmez. Vaat, 01_office_ai_ileri ders 3 ile aynıdır.",
   },
   {
     key: "01_office_ai-12",
-    title: "PDF ve Uzun Belge AI: OCR, Birleştirme, Karşılaştırma",
+    title: "Uzun Belge ve Sayfa Kontrolü",
     status: "planned",
     lane: "satellite",
     method: "doc-upload-gemini",
     targetModuleCode: "OFF-201",
     pedagogicalObjective:
-      "Taranmış PDF’yi ataşla; sayfa numarası iste; uydurma maddeyi sil. KVKK maskesi PDF’te durur. Çekirdek 8’e girmez; OFF-201 taslak.",
+      "Uzun belgeden madde sayfa numarasıyla çıkarılır. Atlanan madde, o sayfa açılarak denetlenir. Kimlik sayfası açık hâliyle gitmez. Çekirdek 8’e girmez. Vaat, 01_office_ai_ileri ders 4 ile aynıdır.",
   },
 ] as const satisfies readonly OfficeAiPlannedLesson[];
 

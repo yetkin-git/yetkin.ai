@@ -22,7 +22,7 @@ ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb. — hangisi masanda duruyors
 
 ## ÜCRETSİZ VE ÜCRETLİ
 
-Ücretsiz model yavaşlar, kuyrukta bekletir, uzun dosyada nefesini keser. Ücretli model daha hızlı döner, daha uzun metni taşır. Sihirli değildir. Bu kursta öğrettiğimiz şey kapı sırasıdır: yerleşik panel, ataş, maskeli kısa özet. O sıra ücretsiz hesapta da durur. İlk hafta ücretli plana geçmek zorunda değilsin. Kota dolduysa yeni sohbet aç; işi böl. En pahalı yapay zekâyı da satın alsan, başlığı olmayan bozuk tabloyu düzeltemez. Zekâ modelde değil, temiz veridedir.
+Ücretsiz model yavaşlar, kuyrukta bekletir, uzun dosyada nefesini keser. Ücretli model daha hızlı döner, daha uzun metni taşır. Sihirli değildir. Bu kursta öğrettiğimiz şey kapı sırasıdır: yerleşik panel, ataş, maskeli kısa özet. O sıra ücretsiz hesapta da durur. İlk hafta ücretli plana geçmek zorunda değilsin. Kota dolduysa yeni sohbet aç; işi böl. En pahalı yapay zekâyı da satın alsan, başlığı olmayan bozuk tabloyu düzeltemez. Önce tabloyu temizlersin.
 
 ## SOHBET EKRANI
 
@@ -38,7 +38,7 @@ Belgen Türkçeyse istemi Türkçe yaz. Belgen İngilizceyse istemi İngilizce y
 
 ## CEBİNE KOY
 
-Üç kural. Hesabı aç, kutuyu tanı, ataşı gör; şirketinin paralı lisansı yoksa takılma, ücretsiz panelle devam et. 2. İstemi dört parçayla yaz: rol, görev, biçim, kısıt. 3. Belgenin dilinde yaz; ham kişisel veriyi bu kutuya koyma. Bu üçü oturunca 1. dersin A1 hücresi korkutmaz.
+Üç kural. 1. Hesabı aç, kutuyu tanı, ataşı gör; şirketinin paralı lisansı yoksa takılma, ücretsiz panelle devam et. 2. İstemi dört parçayla yaz: rol, görev, biçim, kısıt. 3. Belgenin dilinde yaz; ham kişisel veriyi bu kutuya koyma. Bu üçü oturunca 1. dersin A1 hücresi korkutmaz.
 
 ## SIRA SENDE
 

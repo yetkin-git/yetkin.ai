@@ -17,32 +17,19 @@ export {
   officeAiPlannedLessonByKey,
 } from "./planned";
 export {
-  OFF_102_EXAM_PASS_SCORE,
-  OFF_102_EXAM_POOL_MAX,
-  OFF_102_EXAM_POOL_MIN,
-  OFF_102_MODULE_CODE_ALTERNATIVE,
-  OFF_102_MODULE_CODE_DRAFT,
-  OFF_102_MODULE_CODE_RETIRED,
-  OFF_102_PREREQUISITE_LESSON_COUNT,
-  OFF_102_PREREQUISITE_SKU_SLUG,
-  OFF_102_SKU_SLUG_DRAFT,
-  OFF_102_TITLE_DRAFT,
   OFF_201_ECOMMERCE_COLLISION_CODE,
   OFF_201_EXAM_PASS_SCORE,
   OFF_201_EXAM_POOL_MAX,
   OFF_201_EXAM_POOL_MIN,
   OFF_201_MODULE_CODE,
-  OFF_201_PREREQUISITE_LESSON_COUNT,
-  OFF_201_PREREQUISITE_SKU_SLUG,
+  OFF_201_NOT_IN_THIS_VERSION,
   OFF_201_SATELLITE_KEYS,
-  OFF_201_SKU_SLUG_DRAFT,
-  OFF_201_TITLE_DRAFT,
-  assertOff102DraftIntegrity,
+  OFF_201_SKU_SLUG,
+  OFF_201_TITLE,
   assertOff201DraftIntegrity,
-  off102DraftLessonsFromSatellites,
   off201DraftLessonsFromSatellites,
-} from "./off-102";
-export type { Off102DraftLesson, Off201DraftLesson } from "./off-102";
+} from "./off-201";
+export type { Off201DraftLesson } from "./off-201";
 export type {
   OfficeAiPlannedLesson,
   OfficeAiPlannedLessonLane,
