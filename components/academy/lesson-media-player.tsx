@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { IconPause, IconPlay, IconVolume, IconVolumeOff } from "@/components/ui/icons";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
+import { academyAudioGrantApiPath } from "@/lib/academy/lesson-audio-grant-path";
 import {
   academyLessonAudioPlaybackSrc,
   academyLessonBedPlaybackSrc,
@@ -60,18 +61,59 @@ export function LessonMediaPlayer({
   const listenCopy = ACADEMY_SEN.listen;
   const audioSealed = isAcademyLessonAudioSealed(courseSlug, lessonKey);
   const bedSealed = isAcademyLessonBedSealed(courseSlug, lessonKey);
-  const audioSrc = useMemo(
+  const playbackCandidate = useMemo(
     () =>
       audioSrcOverride?.trim() ||
       (audioSealed ? academyLessonAudioPlaybackSrc(courseSlug, lessonKey) : undefined),
     [audioSealed, audioSrcOverride, courseSlug, lessonKey],
   );
-  const bedSrc = useMemo(
+  const bedCandidate = useMemo(
     () =>
       bedSrcOverride?.trim() ||
       (bedSealed ? academyLessonBedPlaybackSrc(courseSlug, lessonKey) : undefined),
     [bedSealed, bedSrcOverride, courseSlug, lessonKey],
   );
+  const [audioSrc, setAudioSrc] = useState<string | undefined>();
+  const [bedSrc, setBedSrc] = useState<string | undefined>();
+  const [grantDenied, setGrantDenied] = useState(false);
+
+  useEffect(() => {
+    if (!playbackCandidate && !bedCandidate) {
+      setAudioSrc(undefined);
+      setBedSrc(undefined);
+      setGrantDenied(false);
+      return;
+    }
+    const controller = new AbortController();
+    setGrantDenied(false);
+    void (async () => {
+      try {
+        const response = await fetch(academyAudioGrantApiPath(courseSlug, lessonKey), {
+          credentials: "same-origin",
+          signal: controller.signal,
+        });
+        if (!response.ok) {
+          setAudioSrc(undefined);
+          setBedSrc(undefined);
+          setGrantDenied(true);
+          return;
+        }
+        const body = (await response.json()) as {
+          data?: { src?: string; bedSrc?: string | null };
+        };
+        setAudioSrc(body.data?.src);
+        setBedSrc(body.data?.bedSrc ?? undefined);
+        setGrantDenied(!body.data?.src);
+      } catch {
+        if (!controller.signal.aborted) {
+          setAudioSrc(undefined);
+          setBedSrc(undefined);
+          setGrantDenied(true);
+        }
+      }
+    })();
+    return () => controller.abort();
+  }, [bedCandidate, courseSlug, lessonKey, playbackCandidate]);
   const bedPieces = useMemo(
     () => loadAcademySealedAudioTimings(lessonKey)?.pieces ?? [],
     [lessonKey],
@@ -625,7 +667,11 @@ export function LessonMediaPlayer({
   const progressPct = duration > 0 ? Math.min(100, Math.max(0, (elapsed / duration) * 100)) : 0;
   const hasAudioSrc = audioSrc != null && audioSrc.length > 0;
   const preparing = hasAudioSrc && !audioReady && !audioFailed;
-  const audioFailedNotice = hasAudioSrc && audioFailed ? listenCopy.failVoiceBinding : null;
+  const audioFailedNotice = grantDenied
+    ? listenCopy.failTextMode
+    : hasAudioSrc && audioFailed
+      ? listenCopy.failVoiceBinding
+      : null;
   const speechEndSec = bedPieces.at(-1)?.end ?? 0;
   const intoOutro = elapsed - speechEndSec;
   const bedOutro =

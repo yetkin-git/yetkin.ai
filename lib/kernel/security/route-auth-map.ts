@@ -8,6 +8,7 @@ export const ROUTE_AUTH_MAP = {
   "/api/academy/certificates/[hash]": "public",
   "/api/academy/courses": "session",
   "/api/academy/courses/[id]": "session",
+  "/api/academy/courses/[id]/audio-grant": "session",
   "/api/academy/courses/[id]/curriculum": "session",
   "/api/academy/courses/[id]/exam": "session",
   "/api/academy/courses/[id]/listen": "public",

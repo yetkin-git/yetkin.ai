@@ -43,6 +43,10 @@ import {
   shouldInterceptForSiteMaintenance,
   siteMaintenanceNextResponse,
 } from "./lib/kernel/http/site-maintenance";
+import {
+  decideAcademyAudioPublicRequest,
+  isAcademyAudioPublicPath,
+} from "./lib/academy/lesson-audio-grant";
 
 /**
  * Tek edge girişi (Next 16 `proxy.ts`). Kök `middleware.ts` yoktur.
@@ -67,8 +71,26 @@ function isPaytrNotificationEdgePath(pathname: string): boolean {
   return PAYTR_NOTIFICATION_EDGE_PATHS.has(canonicalApiPathname(pathname));
 }
 
+function academyAudioGateResponse(decision: "forbidden" | "revoked"): NextResponse {
+  const revoked = decision === "revoked";
+  return new NextResponse(revoked ? "Bu kayıt yayında değil." : "Bu ders sesi satın alma sonrası açılır.", {
+    status: revoked ? 404 : 403,
+    headers: {
+      "content-type": "text/plain; charset=utf-8",
+      "cache-control": "no-store",
+    },
+  });
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  if (isAcademyAudioPublicPath(pathname)) {
+    const decision = await decideAcademyAudioPublicRequest(request.nextUrl);
+    if (decision !== "allow") {
+      return academyAudioGateResponse(decision);
+    }
+    return NextResponse.next();
+  }
   const nonce = createEdgeNonce();
   const v1 = isApiV1Pathname(pathname);
 
@@ -241,10 +263,11 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // /media/academy/audio yayın MP3 — kenar JWT/getUser Range isteğini kesmesin.
-  // Hash’li ikon, cinema kapak ve font/MP3 kenar worker’a düşmesin (CDN Gzip + immutable cache).
+  // Akademi sesi ayrı eşleşir: imzasız istek 403, iptal kaset 404. Oturum sorgusu yok.
+  // Diğer /media, hash’li ikon, cinema kapak ve font kenar worker’a düşmesin.
   matcher: [
     "/",
+    "/media/academy/audio/:path*",
     "/((?!_next/static|_next/image|favicon.ico|media/|icon.svg|apple-icon.png|.*\\.(?:ico|png|jpg|jpeg|gif|webp|avif|svg|woff|woff2|ttf|otf|mp3|mp4)$).*)",
   ],
 };
