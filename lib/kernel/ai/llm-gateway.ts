@@ -552,7 +552,7 @@ export async function generateSpeech(
   const text = trimmed;
   const instruction = sealVoiceTtsPedagogyPrompt(input.instruction);
 
-  let model = input.model?.trim() || getDefaultModelId("VOICE_TTS");
+  const model = input.model?.trim() || getDefaultModelId("VOICE_TTS");
   const budget = await assertGatewayBudgetAllows(
     {
       identifier: input.rateLimit?.identifier,
