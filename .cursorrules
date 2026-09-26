@@ -148,8 +148,8 @@ Kod sabiti bu kilitten saparsa sabit kilide çekilir. Metin kırpılmaz, tempo y
 
 ### 2. Taban süre ve bölüm kuralları (Anayasa B4 ve Pedagoji D.1)
 
-- **Ders taban süresi:** Bir ders kesinlikle 5 dakikadan az olamaz (taban >= 5 dk).
-- **Kurs taban bölümü:** Bir kurs kesinlikle 6 bölümden az olamaz (taban >= 6 ders).
+- **Ders taban süresi:** Bir ders kesinlikle 5 dakikadan az olamaz (taban >= 5 dk). **1 Yarı = En az 5 dakika.**
+- **Kurs taban bölümü:** Bir kurs kesinlikle 6 bölümden az olamaz (taban >= 6 ders). **1 Maç = En az 6 yarı** (set/ders).
 - **Üst süre tavanı yoktur:** Hiçbir ders veya içerik “12 dakikaya sığacak” diye kısıtlanamaz. Metin kırpılamaz. Konuşma temposu yapay şekilde hızlandırılamaz.
 
 ### 3. Ses ve pedagojik ritim standartları
@@ -169,6 +169,7 @@ Kod sabiti bu kilitten saparsa sabit kilide çekilir. Metin kırpılmaz, tempo y
 
 ### 5. Kaliteli model ve dinamik ses
 
+- **FIFA Kokartlı Hakem:** TTS üretiminde yalnız **Gemini 3.1 Flash TTS** (`gemini-3.1-flash-tts-preview`) kullanılır. Gemini 2.5 ve alt modeller yasaktır.
 - **Model mührü:** TTS üretiminde yalnız **Gemini 3.1 Flash TTS** (`gemini-3.1-flash-tts-preview`) kullanılır.
 - **Alt model yasağı:** Kota bittiğinde veya limit aşıldığında Gemini 2.5 Flash TTS kullanılmaz (`VOICE_TTS_FALLBACK_TO_2_5 = false`). Kota yoksa işlem durur. Kota açılınca aynı ders Gemini 3.1 ile fırınlanır.
 - **Tek eğitmen:** **1 Eğitim Kodu = 1 Ses.** Kurs `courseMasterVoice` tek stringdir. OFF-101 Gözde (Callirrhoe) ile kilitlenir. OFF-201 `ACADEMY_OFF201_COURSE_MASTER_VOICE` ile Aylin (Kore) kilitlenir. OFF-201 eğitmeni Gözde olamaz. Başka kurs başka sicil sesi seçebilir. Aynı kursun dersleri ayrı karaktere bölünmez. Ders bazlı ses ataması kodda yoktur.

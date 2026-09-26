@@ -9,7 +9,7 @@ Bu belge iki katmandan oluşur:
 | Alan | Değer |
 |------|--------|
 | Tarih | 16 Ağustos 2026 |
-| Son Reform | **24 Eylül 2026 (REFORM-03):** B4 yayın formatı 4 katmanlı eğitim videosudur. A1’de satış fiyatı `PriceCatalogEntry`’dir; koddaki tutar soğuk tohumdur. Ders tabanı 5 dakika, kurs tabanı 6 derstir; üst tavan yoktur. A1–A5 çizgisi gevşetilmedi. |
+| Son Reform | **27 Eylül 2026:** B3’e PR ve önizleme yayın kuralı eklendi: önizleme serbesttir; mühürsüz satış/merge ve canlı yayın yasaktır. B4 hedef mimariyi dört katman olarak ayırır; satışta yeterli yüzey karaoke ve karttır. Süre ve sayısal sınırın tek evi koddur. A1–A5 çizgisi gevşetilmedi. |
 | Kamu markası / domain | `yetkin.ai` |
 | Kalıcı belgeler | `/.system_docs` |
 | Ops | `.system_docs/OPS_RUNBOOK.md` (db / paytr / inngest / dron) |
@@ -81,25 +81,28 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 
 * **Ön Derleme Kapısı (`verify:prebuild`):** Bu kapı yalnızca A Katmanı'ndaki hayati güvenlik ve finansal unsurları denetler (sır taraması, tamsayı para, RLS durumu, IDOR testleri ve temel API sözleşmesi). Paket sürümü (`@yetkin/kernel`) v1 sözleşme kapısının parçasıdır.
 * **Esnek Grep ve Stil Taramaları:** Belirli Türkçe kelimeleri veya stil tercihlerini denetleyen taramalar derlemeyi kıran mutlak engeller değildir; isteğe bağlı kalite veya nightly raporlama araçlarıdır.
+* **PR ve Önizleme Yayın Kuralı (Mühürsüz Satış / Merge Yasağı):**
+  - **Önizleme Ortamı Serbesttir:** Yapılan geliştirmeler, PR açılması ve Vercel Preview (Önizleme) ortamında otomatik derlenip incelenmesi serbesttir.
+  - **Mühürsüz Merge ve Yayın Yasağı:** Ancak ilgili kursun/modülün medya fırınlama (bake), mühürlü ses (Gemini 3.1 Flash TTS), cue-zamanlama, sınav ve onay süreçleri %100 tamamlanmadan ve CEO/Super Admin onayı alınmadan, satışa veya yayına alma içeren hiçbir PR (`feat/launch`, `price update` vb.) GitHub ana dalına (main) **birleştirilemez (merge edilemez)** ve canlıya (production) alınamaz. Vercel Preview URL'si yalnız test içindir; ürün lansmanı anlamına gelmez.
 
 ## B4. Müfredat ve Yayın Formatı
 
 * **1 Eğitim Kodu = 1 Ses:** Bir kurs kodu tek bir `courseMasterVoice` stringi taşır. Ders bazlı ses haritası yoktur. OFF-101 (`01_office_ai`) mührü Callirrhoe (Gözde) dir. OFF-201 (`01_office_ai_ileri`) mührü Kore (Aylin) dir (`ACADEMY_OFF201_COURSE_MASTER_VOICE`). OFF-201 eğitmeni Gözde olamaz.
-* **1 Maç = 1 Hakem:** Bir maç nasıl tek orta hakemle yönetilirse, bir kurs da baştan sona tek hakem sesiyle anlatılır. OFF-101 hakemi Gözde (Callirrhoe) dir. OFF-201 hakemi Aylin (Kore) dir. OFF-201 hakemi Gözde olamaz.
-* **1 Maç = MAX 100 Düdük:** Bir kursun Gemini TTS isteği, uzatma ve duraklama dahil 100’ü aşmaz (`ACADEMY_MATCH_WHISTLE_MAX`). Normal süre 70–80 istektir. Kalan 15–20 istek yalnız zorunlu uzatma ve duraklama içindir.
-* **Yayın formatı:** Yetkin.ai eğitim modeli; sade vatandaş diliyle anlatılan, 4 medya katmanından (Gemini 3.1 TTS Ses + Lyria 3.5 Ducking Müzik + Nano Banana/Veo 3.1 Reji + Cue/Karaoke Rozetleri) oluşan EĞİTİM VİDEOSUDUR.
-* **Konunun Hakkı:** Ders makaleye, okuma dökümanına veya «makale + karaoke» yayınına indirgenmez. Süre bantları üretim standardıdır; müfredatın hakkını kesmek için gerekçe gösterilemez.
-* **Süre ve sınır:** Bir ders en az 5 dakikadır. Bir kurs en az 6 derstir. Metni kırmak veya konuşmayı hızlandırmak için üst dakika veya üst ders tavanı yoktur. Taban `lib/academy/production-standard.ts` içindedir (`ACADEMY_AI_LESSON_DURATION_MIN_MINUTES`, `ACADEMY_AI_LESSON_COUNT_MIN`).
+* **Ses modeli:** Seslendirme yalnız Gemini 3.1 Flash TTS (`gemini-3.1-flash-tts-preview`) dir. Gemini 2.5 ve alt modeller yasaktır (`VOICE_TTS_FALLBACK_TO_2_5` kapalı). Kota yoksa işlem durur. Kota açılınca aynı model ve aynı kurs sesi kullanılır.
+* **Süre ve sayısal sınır:** Tabanlar `lib/academy/production-standard.ts` içindeki `ACADEMY_AI_LESSON_DURATION_MIN_MINUTES` ve `ACADEMY_AI_LESSON_COUNT_MIN` sabitlerindedir. TTS bütçe tavanı aynı dosyadaki `ACADEMY_MATCH_WHISTLE_MAX` (kurs başına 100 istek) ve `lib/academy/tts-breath-chunks.ts` içindeki ders bandı 10–12 istektir. Üst dakika dayatması yoktur: metin kırpılmaz, tempo yükseltilmez. İstek bandına sığmayan metin yeniden paketlenir; bütçe tavanı konunun hakkını kesmek için gerekçe değildir.
+* **Hedef mimari:** Yayın hedefi dört katmanlı eğitim videosudur: Gemini 3.1 TTS ses, Lyria 3.5 ducking müzik, Nano Banana 2 / Veo 3.1 Lite reji, cue ve karaoke rozeti. Bu dörtlü olması gereken mimaridir. İzlemede canlı üretici çağrısı yoktur.
+* **Bugünkü disk:** Ürün satışı için yeterli yüzey mühürlü TTS, karaoke rozeti ve canlı karttır. Yatak ve ısınma klibi mühürlenince eklenir; eksikleri satışı tek başına kapatmaz. Satışı kapatan eşik ses mührüdür. Makale katmanı, ses yokken dürüst boşluktur; satış yüzeyi değildir.
+* **Konunun Hakkı:** Ders makaleye veya okuma dökümanına indirgenmez. Süre bantları üretim standardıdır; müfredatın hakkını kesmek için gerekçe gösterilemez.
 * **Müfredat ilkesi `.system_docs/PEDAGOJI.md` içindedir.** Haftalık SKU envanteri ve kaset listesi Anayasa maddesi değildir; sayılar ve müfredat koddadır.
 * **Canlı yol** `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` SSOT’udur; yaşayan haftalık kesit `docs/ops/DURUM.md` içindedir. `docs/DURUM.md` yalnız oraya yönlendirir. İzlemede canlı üretici API (`VIDEO_GEN` / TTS) yoktur. Bake ayrıntısı `docs/ops/akademi-bake-elkitabi.md` içindedir.
 * **Karar tablosu (tek bakış, sıfır atlama):**
 
 | Soru | SSOT |
 |------|------|
-| Yayın formatı | Bu madde (B4) ve `.system_docs/PEDAGOJI.md` |
-| 1 Eğitim Kodu = 1 Ses / 1 Maç = 1 Hakem | `lib/academy/instructors.ts` (`courseMasterVoice`, `ACADEMY_OFF201_COURSE_MASTER_VOICE`) |
-| 1 Maç = MAX 100 Düdük | `lib/academy/production-standard.ts` (`ACADEMY_MATCH_WHISTLE_MAX`) |
-| Ders tabanı (≥ 5 dk) ve kurs tabanı (≥ 6 ders); üst tavan yok | `lib/academy/production-standard.ts` |
+| Yayın formatı (hedef dört katman; satışta karaoke + kart) | Bu madde (B4) ve `.system_docs/PEDAGOJI.md` |
+| 1 Eğitim Kodu = 1 Ses | `lib/academy/instructors.ts` (`courseMasterVoice`, `ACADEMY_OFF201_COURSE_MASTER_VOICE`) |
+| Ses modeli (yalnız Gemini 3.1 Flash TTS) | `lib/kernel/ai/model-roles.ts` (`VOICE_TTS`, `VOICE_TTS_FALLBACK_TO_2_5`) |
+| Süre, ders sayısı ve TTS istek tavanı | `lib/academy/production-standard.ts` |
 | Sınav barajı | `lib/academy/exam.ts` (`ACADEMY_EXAM_PASS_SCORE`) |
 | Canlı kaset / sınav yolu | `lib/academy/pilot-sku.ts`, `lib/academy/curricula/lesson-index.ts` |
 | Haftalık kesit | `docs/ops/DURUM.md` (`docs/DURUM.md` yalnız yönlendirir) |

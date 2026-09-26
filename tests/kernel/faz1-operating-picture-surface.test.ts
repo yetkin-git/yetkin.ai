@@ -46,9 +46,11 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
     expect(manifesto).toContain("4. oda (Freelancer) kilitli motordur");
     expect(manifesto).toContain("/vize");
     expect(manifesto).not.toContain("donuk laboratuvar");
-    expect(manifesto).toContain("publishFrozenUntilFaz1Close");
-    expect(manifesto).toContain("@yetkin/kernel");
-    expect(manifesto).toContain("mevcut ince sözleşme");
+    expect(manifesto).toContain("Anayasa B1");
+    expect(manifesto).toContain("Bu belge o paragrafı ikinci kez yazmaz");
+    expect(manifesto).not.toContain("publishFrozenUntilFaz1Close");
+    expect(manifesto).not.toContain("@yetkin/kernel");
+    expect(manifesto).toContain("pazar, vizyon ve gelir modelinde kalır");
     expect(manifesto).not.toMatch(/dört oda eşit omurga/i);
   });
 

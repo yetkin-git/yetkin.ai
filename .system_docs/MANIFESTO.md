@@ -6,7 +6,7 @@
 |------|--------|
 | Tarih | 17 Ağustos 2026 |
 | Statü | Vizyon ve Strateji Belgesi. Anayasa'nın ruhunu, iş modelini ve büyüme hedeflerini açıklar. |
-| Son Reform | **24 Eylül 2026 (REFORM-03):** Yayın 4 katmanlı eğitim videosu. Stüdyo jargonu vatandaş yüzeyinden ayrı. **26 Eylül 2026:** Mimari ad B1 cümlesine kilitlendi — Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci. |
+| Son Reform | **27 Eylül 2026:** Mimari paragraf Anayasa B1’e bırakıldı. Bu belge pazar, vizyon ve gelir modelinde kalır. |
 | Yer | `/.system_docs/MANIFESTO.md` |
 | Çelişki | Bir cümle Anayasa ile çatışırsa `.system_docs/ANAYASA.md` bağlayıcıdır. |
 | Durum | Yaşayan kesit `docs/ops/DURUM.md` içindedir. `docs/DURUM.md` yalnız oraya yönlendirir. |
@@ -65,7 +65,7 @@ Faz 1 kamu vitrini kilidi **Anayasa B2**’dedir; Manifesto o kilidi ikinci kez 
 **Oda tavanı esnektir** cümlesi Faz 2 checklist’idir, Faz 1 kilidini gevşetmez: yeni oda/dron = kayıt + sözleşme + bayrak. Kamu kanıt URL’si (`/vize`) yeni oda açmaz.
 
 ### Dron durumu
-Mimari ad **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci**dir (Anayasa B1). «Sürü Dron» ve «Micro-Apps» bu adın yerine geçmez. Amiral gövde bu Next.js monolith’tir. İnce sözleşme paketi `@yetkin/kernel`dir; Prisma ve Supabase taşımaz. Tek native istemci `apps/rail-is`tir ve aynı `/api/v1` hop sicilini tüketir. Bugün filo yoktur. T3 Akademi halkası (oynatıcı, sınav, mühür, kasa) bu istemciye bağlıdır; Tezgâh / Freelancer yüzeyi izole durur (`publishFrozenUntilFaz1Close: false`, `tezgahStoreIsolated: true`). Bağlıdır ama web-parite değildir: sınav, mühür ve kasa tamdır, Excel/Gmail simülasyonu web’dedir. İkinci istemci ancak aynı paketi ve aynı hop’u tüketerek doğar.
+Mimari ad, ince sözleşme paketi ve native istemci sınırı **Anayasa B1**’dedir. Bu belge o paragrafı ikinci kez yazmaz. Haftalık istemci kesiti `docs/ops/DURUM.md` içindedir.
 
 ### Kesit kuralı
 Haftalık kesit `docs/ops/DURUM.md` içindedir.
@@ -110,7 +110,7 @@ Güvenli teslimat üzerinden platform komisyonu. Kamu yüzeyi kilitliyken nakit 
 
 # BÖLÜM 4 — YOL HARİTASI İLKESİ
 
-1. **Mimari:** Pragmatik Monolit + İnce Sözleşme Paketi (`@yetkin/kernel`) + Tek Native İstemci (`apps/rail-is`). Yayın, Anayasa B4’teki 4 katmanlı eğitim videosudur. İzlemede canlı üretici çağrısı yoktur. `punchcard`, `bake` ve `kaset` vatandaş cümlesine girmez. Ayrı backend, ayrı veritabanı ve ayrı kimlik açılmaz.
+1. **Mimari:** Anayasa B1. Bu belge mimariyi ikinci kez yazmaz. Yayın hedefi ve satış yüzeyi Anayasa B4’tedir. `punchcard`, `bake` ve `kaset` vatandaş cümlesine girmez. TTS bütçe tavanı kurs başına 100 istek, ders başına 10–12 istektir. Süre için üst dakika dayatması yoktur. Sayıların evi `lib/academy/production-standard.ts` ve `lib/academy/tts-breath-chunks.ts` içindedir.
 2. **Gelir şimdi:** Merchant iFrame ile cüzdan yükleme + Akademi DEBIT. Kanıt dışarı `/vize` ile çıkar.
 3. **Ölçek sonra:** Split sözleşmesi, freelancer hop geri yazımı, dron kapalı testi. Kurumsal B2B ancak keşif + pilot sonrası.
 

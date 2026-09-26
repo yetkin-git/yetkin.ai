@@ -2,7 +2,7 @@
 
 Bu belge platformun **kalıcı eğitim felsefesini**, Google AI Studio medya fabrikası rol dağılımını ve görsel-işitsel reji standartlarını tanımlar. Canlı uç kimliği kod SSOT’tadır (`lib/kernel/ai/model-roles.ts`). Bake SOP ve CLI `docs/ops/akademi-bake-elkitabi.md` içindedir. Canlı kaset ve sınav sayıları `docs/ops/DURUM.md` ve koddadır. `docs/DURUM.md` yalnız oraya yönlendirir. Ders adedi `lib/academy/curricula/lesson-index.ts` içindedir.
 
-Çelişkide `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır. Yayın formatı Anayasa B4 ile aynıdır: 4 katmanlı eğitim videosu. Son hiza **24 Eylül 2026 (REFORM-03)**.
+Çelişkide `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır. Hedef yayın Anayasa B4’tür: dört katmanlı eğitim videosu. Bugünkü satış yüzeyi mühürlü ses, karaoke rozeti ve canlı karttır. Süre ve sayısal sınırın tek evi koddur. Son hiza **27 Eylül 2026**.
 
 Mimari ad Anayasa B1’dir: **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci**. Bu belge öğretme kuralını ve yayın formatını tutar. İkinci bir ürün mimarisi, sürü veya ayrı servis hikâyesi açmaz.
 
@@ -28,7 +28,15 @@ Sıfır jargon, insani, sıcak ve çözüme giden bir dil kullanılır.
 * **Günlük Dil, Tek İş, Tek Cümle:** Her cümle tek eyleme odaklanır. Cümle kısa, duru ve konuşma dilindedir. Kural söylenince hemen somut örnek gelir.
 * **Aforizma / Ajans Sloganı Yasağı:** Eğitim dili aforizma, ajans sloganı veya tekerleme olamaz. «Karar notu insanındır», «Sunum fabrikası» gibi edebi laflar yasaktır. «Muazzam dönüşüm», «saniyeler içinde», «mucizevi yöntem», «prompt mühendisliği» ve «devrim niteliğinde» de yasaktır. Bu dil, konuyu anlamayan öğrencide «bende bir eksiklik var» hissi yaratır. Dil; bir öğretmenin öğrencisine doğrudan, sade ve eylem odaklı anlattığı duru Türkçe olmak zorundadır.
 * **Tereddüt anlatıcıdadır:** Karmaşık adımda «Şimdi 'burada ne oldu böyle?' demiş olabilirsin. Çok haklısın, adım adım bakalım...» denir. Konu mucize değil, gündelik işin sakin parçasıdır.
-* **Stüdyo dili öğrenci yüzeyine girmez:** bake, kaset, compact, punchcard, kapı ve taşıma su yalnız üretim kılavuzundadır. Vatandaş metninde günlük karşılık kullanılır: sesli ders, tam ders metni, sahnedeki kısa rozet.
+* **Stüdyo dili öğrenci yüzeyine girmez:** bake, kaset, compact, punchcard ve taşıma su yalnız üretim kılavuzundadır. «Kapı» slogan ve stüdyo kısaltmasıdır; yeni vatandaş cümlesine girmez. Mühürlü OFF-101 kasetindeki «Üç Kapı» panel, ataş ve maskeli özetin ders içindeki adıdır. Bu ad bir sonraki yetkili fırına kadar kaset ve sınavda kalır. Yeni metin bu adı eklemez. Vatandaş sırasının adı «üç adım»dır (§C). Vatandaş metninde günlük karşılık kullanılır: sesli ders, tam ders metni, sahnedeki kısa rozet.
+
+### 2.1 Evrensel Metin Standardı
+
+Fırın, bitmiş mutfak metnini seslendirir. Taslak cümle mühürlenmez.
+
+* **Mutfak hazırlığı:** Senaryo, cue ve görsel senkron %100 oturmadan fırınlama açılmaz. Çiğ metin fırına atılamaz. Ücretli `--seal` bu kapıdan önce çağrılmaz (§E.5).
+* **Evrensel vatandaş dili:** Dil duru ve sadedir. Jargon, slogan ve pankart yoktur. Cümle tek iş taşır. Aynı metin İngilizce ve başka dillere uyarlanabilir; küresel karşılığı olmayan bir deyime yaslanmaz.
+* **Diksiyon temposu:** Konuşma hızı %93’tür (`0.93`, `ACADEMY_INSTRUCTOR_SPEECH_RATE`). Tempo yükseltilmez. Sabit `lib/academy/instructors.ts` içindedir.
 
 ### 3. Bilişsel Yük
 
@@ -59,10 +67,12 @@ Yapay zeka fırınlarının görev dağılımı şöyledir:
 | Rol | Fırın | Görev |
 |-----|-------|--------|
 | Metin & Senaryo | **`FAST_STREAM`** (`model-roles.ts`) | 4-beat reji yapısına (Warm-up → Command → Comparison → Task) uygun ders senaryolarını hazırlar. |
-| Seslendirme | **Gemini 3.1 Flash TTS** | **1 Eğitim Kodu = 1 Ses. 1 Maç = 1 Hakem.** Kurs `courseMasterVoice` tek stringdir. Ders bazlı ses haritası yoktur. Amiral SKU `01_office_ai` metnini Gözde (**Callirrhoe**) ile mühürler. OFF-201 (`01_office_ai_ileri`) metnini Aylin (**Kore**) ile mühürler. OFF-201 hakemi Gözde olamaz. **1 Maç = MAX 100 Düdük:** kursun TTS isteği 100’ü aşmaz; normal süre 70–80, yedek 15–20 yalnız zorunlu uzatma içindir. |
+| Seslendirme | **Gemini 3.1 Flash TTS** | **1 Eğitim Kodu = 1 Ses.** Kurs `courseMasterVoice` tek stringdir. Ders bazlı ses haritası yoktur. Amiral SKU `01_office_ai` metnini Gözde (**Callirrhoe**) ile mühürler. OFF-201 (`01_office_ai_ileri`) metnini Aylin (**Kore**) ile mühürler. OFF-201 eğitmeni Gözde olamaz. İstek tavanı ve süre tabanı bu hücrede tekrarlanmaz; tek ev `lib/academy/production-standard.ts` içindedir. |
 | Görsel & Video | **Nano Banana 2 / Veo 3.1 Lite** | %80 canlı uygulama / %20 sinematik. Varsayılan B-roll: **Veo 3.1 Lite** veya `/public/media/academy/micro/` yerel MP4 reuse. Pahalı Veo 3.1 API her ders fırınında **KESİNLİKLE YASAKTIR**. Yedek: Nano Banana 2 (Gemini 3.1 Flash Image) + CSS Ken Burns. |
 | Ducking Müzik | **Lyria 3.5** | Konuşmanın arkasına ritmik dip müziği basar. Eğitmen konuşurken müzik dipte kalır; konuşma aralarındaki 3–5 saniyelik nefes paylarında hafifçe yükselir. |
 | Müfredat, fırın ve montaj | **Üretken yapay zekâ (Cursor)** | Senaryoyu, cue zamanlamasını ve görsel rejiyi dört katman standardına göre üretir. Dönen ses, görüntü ve müziği mühürler; oynatıcıda senkronize eder. Ücretli çağrı insan onayı ve `--seal` kapısıyla açılır. |
+
+Sayısal fırın tavanı ve süre tabanı bu tabloda tekrarlanmaz. Tek ev `lib/academy/production-standard.ts` içindedir. Metin modelinin adı bu belgede dondurulmaz; kimlik `FAST_STREAM` rolünden okunur.
 
 **4-beat reji (Warm-up → Command → Comparison → Task)** tek eğitmen, SEN dili; **Pekiştirme ve Tekrar** iki durak ekler:
 
@@ -96,13 +106,13 @@ Vatandaş etiketinde «Kirli» yok. Yerine «Düzensiz Tablo», «Ham Veri» vey
 
 Kod SSOT: `lib/academy/production-standard.ts`. Görsel reji SSOT: `lib/academy/lesson-beat-visual.ts`.
 
-Süre bandı ve sınav barajı kod SSOT’tadır (`lib/academy/production-standard.ts`, `ACADEMY_EXAM_PASS_SCORE`). Mühür tabanı 5 dakika ve 6 derstir; üst dakika tavanı yoktur. Vitrin kartındaki dakika yuvarlaması ayrıdır (`lib/academy/lesson-meta.ts`). Çok teknik konularda müfredat **Temel / Orta / İleri** bağımsız paket olarak ayrılabilir; her SKU’ya zorunlu basamak değildir. Ses seçimi fırınlama aşamasında **kadın veya erkek** TTS yuvasıdır. **1 Eğitim Kodu = 1 Ses. 1 Maç = 1 Hakem:** `courseMasterVoice` tek stringdir; dersler ayrı sese bölünmez ve ders bazlı ses haritası yoktur. Gözde (Callirrhoe) amiral SKU `01_office_ai` mühürüdür. OFF-201 mührü Aylin (Kore) dir. OFF-201 kilidi `lib/academy/instructors.ts` içindeki `ACADEMY_OFF201_COURSE_MASTER_VOICE` sabitidir. OFF-201 hakemi Gözde olamaz. **1 Maç = MAX 100 Düdük:** bir kursun Gemini TTS isteği, uzatma ve duraklama dahil `ACADEMY_MATCH_WHISTLE_MAX` (100) değerini aşmaz. Normal süre 70–80 istektir. Kalan 15–20 istek yalnız zorunlu uzatma ve duraklama içindir. Sabit `lib/academy/production-standard.ts` içindedir.
+Süre bandı ve sınav barajı kod SSOT’tadır (`lib/academy/production-standard.ts`, `ACADEMY_EXAM_PASS_SCORE`). TTS bütçe tavanı D.1’dedir. Vitrin kartındaki dakika yuvarlaması ayrıdır (`lib/academy/lesson-meta.ts`). Çok teknik konularda müfredat **Temel / Orta / İleri** bağımsız paket olarak ayrılabilir; her SKU’ya zorunlu basamak değildir. Ses seçimi fırınlama aşamasında **kadın veya erkek** TTS yuvasıdır. **1 Eğitim Kodu = 1 Ses:** `courseMasterVoice` tek stringdir; dersler ayrı sese bölünmez ve ders bazlı ses haritası yoktur. Gözde (Callirrhoe) amiral SKU `01_office_ai` mühürüdür. OFF-201 mührü Aylin (Kore) dir. OFF-201 kilidi `lib/academy/instructors.ts` içindeki `ACADEMY_OFF201_COURSE_MASTER_VOICE` sabitidir. OFF-201 eğitmeni Gözde olamaz. Süre tabanı, ders tabanı ve TTS istek tavanı `lib/academy/production-standard.ts` içindedir; bu paragraf o sayıları ikinci kez yazmaz.
 
 ---
 
 ## C. VERİYİ VERMEDEN ÖNCE — ÜÇ ADIM
 
-Sıra sabittir. Eski «üç kapı» sırası önce aktarım yolunu soruyordu. Ofiste ilk soru şirketin hangi aracı onayladığıdır.
+Sıra sabittir ve vatandaş dilinde **üç adım**dır. Stüdyo kısaltması «kapı» bu sıranın adı değildir (§A.2). Ofiste ilk soru şirketin hangi aracı onayladığıdır.
 
 1. **Şirket politikası.** Şirketin onayladığı araç hangisi? Onaylı olmayan araca iş postası, sözleşme ve müşteri listesi gitmez. Onaylı araç yoksa kutuyu veya dosyayı kişisel hesaba taşımazsın.
 2. **Veri sınıfı.** Kişisel veri, şirket sırrı ve herkese açık katalog ayrıdır. Ham kimlik, IBAN, maaş ve sır hiçbir araca açık hâliyle girmez. Ürüne ait, kişiye bağlı olmayan satır (ürün adı, tutarı olmayan genel stok) gidebilir.
@@ -110,7 +120,7 @@ Sıra sabittir. Eski «üç kapı» sırası önce aktarım yolunu soruyordu. Of
 
 Ham kutu veya ham sözleşmeyi dış sohbete taşımak öğretilen yol değildir. Kopyala-yapıştır, onaylı panel dururken varsayılan yol değildir.
 
-«Kapı» ve «taşıma su» stüdyo kısaltmasıdır. Öğrenci metninde günlük karşılık kullanılır.
+Öğrenci metninde bu sıra «üç adım» diye anılır. Yeni öğrenci cümlesine «Kapı» girmez. Mühürlü OFF-101 kaseti «Üç Kapı» adını panel, ataş ve maskeli özet için kullanır; fırın yenilenmeden bu ad silinmez. «Taşıma su» stüdyo kısaltmasıdır (§A.2).
 
 Araç eşleşmesi ve masaüstü kısıtı kod SSOT’tadır (`lib/academy/ai-desk.ts`). Pedagoji tek bir aracı dayatmaz. Soyut «AI Masası» paneli **KESİNLİKLE YASAKTIR**. Öğrenci gerçek paneli veya ataşı görür.
 
@@ -127,7 +137,7 @@ Vitrin dürüsttür. Mühürü olmayan eğitim «yayında» diye satılmaz. Bağ
 
 Hangi eğitimin yayında olduğu, kaset süreleri, gain sayıları ve yeniden fırın kuyruğu bu maddenin envanteri değildir. Yaşayan kesit `docs/ops/DURUM.md` içindedir. `docs/DURUM.md` yalnız oraya yönlendirir.
 
-**Ders adedi Pedagoji kotası değildir.** Üst süre tavanı yoktur. Taban süre ve taban bölüm Anayasa B4’tür; sayılar `lib/academy/production-standard.ts` içindedir. Konuşma hızı, nefes ve gain `lib/academy/instructors.ts`, `lib/academy/human-rhythm.ts` ve `lib/academy/lesson-bed-duck.ts` içindedir. Bu sayılar felsefe paragrafına ikinci kez yazılmaz.
+**Ders adedi Pedagoji kotası değildir.** Süre için üst dakika dayatması yoktur; metin kırpılmaz ve tempo yükseltilmez. TTS bütçe tavanı vardır: bir kurs en fazla 100 istek (`ACADEMY_MATCH_WHISTLE_MAX`), bir ders 10–12 istek (`ACADEMY_TTS_LESSON_REQUEST_MIN`, `ACADEMY_TTS_LESSON_REQUEST_MAX`). Bu tavan `lib/academy/production-standard.ts` ve `lib/academy/tts-breath-chunks.ts` içindedir. Taban süre ve taban ders sayısının tek evi aynı üretim dosyasındadır. Anayasa B4 o tabanları ikinci kez yazmaz. Nefes ve gain `lib/academy/human-rhythm.ts` ve `lib/academy/lesson-bed-duck.ts` içindedir; bu sayılar felsefe paragrafına ikinci kez yazılmaz. Diksiyon temposu Evrensel Metin Standardı’nda bir kez anılır.
 
 İleri ofis adresi `01_office_ai_ileri` durur. Ayrım örneği SKU `OFF-101` / `OFF-201`. Kart kodu `OFF-102` EC-102 ile çakışır, kullanılmaz. `02_business_ai` kullanılmaz. Görsel reji kodu: `lib/academy/lesson-beat-visual.ts`.
 
@@ -137,7 +147,7 @@ Hangi eğitimin yayında olduğu, kaset süreleri, gain sayıları ve yeniden f�
 
 ### E.2 Rozet dili
 
-**Aforizma / Ajans Sloganı** rozete de girmez. Rozet işin net adıdır. Jenerik övgü basılmaz. Jenerik tabela da basılmaz: sahnedeki rozet `CEBİNE KOY` veya `SIRA SENDE` olamaz. Rozet somut işi söyler («Tek Tek Kopyalama», «Tek Dosyayla Analiz», «KAYNAĞI KARŞILAŞTIR», «UYUŞMAYANI YAZMA»). Stüdyo bölüm anahtarı ile vatandaşın gördüğü rozet metni ayrıdır.
+**Aforizma / Ajans Sloganı** rozete de girmez. Rozet işin net adıdır. Jenerik övgü basılmaz. Jenerik tabela da basılmaz: sahnedeki rozet `CEBİNE KOY` olamaz. Sıra rozeti SEN aksındadır: `SIRA SENDE`. `SIRA SİZDE` bu rozette durmaz; «siz» yalnız dilekçe, resmî yazı ve sözleşme çıktısındadır (§A.2). Ağız ve rozet aynı kelimeyi taşır. Rozet somut işi söyler («Tek Tek Kopyalama», «Tek Dosyayla Analiz», «KAYNAĞI KARŞILAŞTIR», «UYUŞMAYANI YAZMA»). Stüdyo bölüm anahtarı ile vatandaşın gördüğü rozet metni ayrıdır.
 
 ### E.3 İşitsel Reji ve Outro Crescendo
 
@@ -163,7 +173,7 @@ Google AI Studio bütçesi her ders fırınında korunur. Pahalı **Veo 3.1** AP
 
 Ücretli TTS ve video mühürü, reji oturmadan açılmaz.
 
-* Senaryo, cue ve visual zoom senkronizasyonu tam oturmadan `--seal` (ücretli TTS/Video) çağrısı **KESİNLİKLE YASAKTIR**.
+* Senaryo, cue ve visual zoom senkronizasyonu tam oturmadan `--seal` (ücretli TTS/Video) çağrısı **KESİNLİKLE YASAKTIR**. Mutfak hazırlığı %100 bitmeden çiğ metin fırına atılamaz.
 * Geliştirme ve deneme aşamasında tüm testler `--dry-run` bayrağı ile yürütülür; harici Google AI Studio çağrısı doğmaz.
 * `--seal` yalnız `--confirm-gemini-spend` ve insan onayı ile; vatandaş yüzeyine taslak WAV/MP4 basılmaz.
 * B-roll’da yerel kaset varsa API atlanır (reuse). Yeni kaset gerekirse yalnız Veo 3.1 Lite; pahalı Veo 3.1 yok.

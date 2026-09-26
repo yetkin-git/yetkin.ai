@@ -49,6 +49,7 @@ import {
   isGeminiTtsPrebuiltVoice,
 } from "@/lib/kernel/ai/tts-voices";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
+import { ACADEMY_TTS_LESSON_REQUEST_MAX, ACADEMY_TTS_LESSON_REQUEST_MIN } from "@/lib/academy/tts-breath-chunks";
 import { ACADEMY_SEALED_AUDIO_DURATION_SEC } from "@/lib/academy/lesson-audio";
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
@@ -165,8 +166,20 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).not.toContain("Gemini 3.8 Flash");
     expect(pedagogy).toContain("01_office_ai");
     expect(pedagogy).toContain("1 Eğitim Kodu = 1 Ses");
-    expect(pedagogy).toContain("1 Maç = 1 Hakem");
-    expect(pedagogy).toContain("1 Maç = MAX 100 Düdük");
+    expect(pedagogy).not.toContain("1 Maç = 1 Hakem");
+    expect(pedagogy).not.toContain("1 Maç = MAX 100 Düdük");
+    expect(pedagogy).not.toContain("Yardımcı Hakem Kadrosu");
+    expect(pedagogy).not.toContain("FIFA");
+    expect(pedagogy).not.toContain("VAR Hakemi");
+    expect(pedagogy).toContain("Evrensel Metin Standardı");
+    expect(pedagogy).toContain("Çiğ metin fırına atılamaz");
+    expect(pedagogy).toContain("0.93");
+    expect(pedagogy).toContain("Lyria 3.5");
+    expect(pedagogy).toContain("Nano Banana 2");
+    expect(pedagogy).toContain("Veo 3.1 Lite");
+    expect(pedagogy).toContain("SIRA SENDE");
+    expect(pedagogy).toContain("`SIRA SİZDE` bu rozette durmaz");
+    expect(pedagogy).toContain("vatandaş dilinde **üç adım**dır");
     expect(pedagogy).toContain("courseMasterVoice");
     expect(pedagogy).not.toContain("ACADEMY_OFF201_LESSON_TTS_VOICE");
     expect(pedagogy).toContain("Gemini 3.1 Flash TTS");
@@ -208,8 +221,13 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).not.toContain("Üç Kapı yalnız aktarım yöntemidir");
     expect(pedagogy).toContain("Son çare");
     expect(pedagogy).toContain("Ders adedi Pedagoji kotası değildir");
-    expect(pedagogy).toContain("Üst süre tavanı yoktur");
-    expect(pedagogy).toContain("Mühür tabanı 5 dakika ve 6 derstir");
+    expect(pedagogy).not.toContain("Üst süre tavanı yoktur");
+    expect(pedagogy).toContain("TTS bütçe tavanı");
+    expect(ACADEMY_MATCH_WHISTLE_MAX).toBe(100);
+    expect(ACADEMY_TTS_LESSON_REQUEST_MIN).toBe(10);
+    expect(ACADEMY_TTS_LESSON_REQUEST_MAX).toBe(12);
+    expect(pedagogy).toContain("bu paragraf o sayıları ikinci kez yazmaz");
+    expect(pedagogy).not.toContain("Mühür tabanı 5 dakika ve 6 derstir");
     expect(pedagogy).not.toContain("Çekirdek 9 ders kilitlidir");
     expect(pedagogy).not.toContain("Aptala Anlatır");
     expect(pedagogy).not.toContain("TAŞIMA SU YASAĞI");
@@ -255,10 +273,19 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
 
     const constitution = readFileSync(join(ROOT, ".system_docs", "ANAYASA.md"), "utf8");
     expect(constitution).toContain("1 Eğitim Kodu = 1 Ses");
-    expect(constitution).toContain("1 Maç = 1 Hakem");
-    expect(constitution).toContain("1 Maç = MAX 100 Düdük");
-    expect(constitution).toContain("4 medya katmanından");
-    expect(constitution).toContain("EĞİTİM VİDEOSUDUR");
+    expect(constitution).not.toContain("1 Maç = 1 Hakem");
+    expect(constitution).not.toContain("1 Maç = MAX 100 Düdük");
+    expect(constitution).not.toContain("FIFA Kokartlı Hakem");
+    expect(constitution).not.toContain("1 Maç = En az 6 yarı");
+    expect(constitution).not.toContain("1 Yarı = En az 5 dakika");
+    expect(constitution).toContain("Gemini 2.5 ve alt modeller yasaktır");
+    expect(constitution).toContain("Hedef mimari");
+    expect(constitution).toContain("dört katmanlı eğitim videosudur");
+    expect(constitution).toContain("karaoke rozeti ve canlı karttır");
+    expect(constitution).toContain("ACADEMY_AI_LESSON_DURATION_MIN_MINUTES");
+    expect(constitution).not.toContain("üst dakika veya üst ders tavanı yoktur");
+    expect(constitution).toContain("kurs başına 100 istek");
+    expect(constitution).toContain("10–12");
     expect(constitution).not.toContain("Yayın = makale + mühürlü karaoke");
     expect(constitution).toContain("sayılar ve müfredat koddadır");
     expect(constitution).toContain(
@@ -285,6 +312,11 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(opsDurumSeal).toContain("Tam mühürlü");
     expect(durum).toContain("MARKETPLACE_SPLIT_LIVE = false");
     expect(durum).toContain("publishFrozenUntilFaz1Close: false");
+    expect(durum).toContain(
+      "OFF-201 0/6 mühürlüdür. İptal haritasındadır, Kore/Gemini 3.1 TTS re-bake kuyruğundadır. Satış KAPALIDIR.",
+    );
+    expect(durum).not.toContain("3–5 mühür");
+    expect(durum).not.toContain("ders 1, 2 ve 6");
 
     const runbook = readFileSync(join(ROOT, ".system_docs", "OPS_RUNBOOK.md"), "utf8");
     expect(runbook).toContain("Akademi mühürlü yayın **8**");
@@ -373,10 +405,9 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(ACADEMY_OFF201_COURSE_MASTER_VOICE).toBe("Kore");
     expect(academyCourseMasterVoice("01_office_ai_ileri")).toBe("Kore");
     expect(academyCourseMasterVoice("01_office_ai_ileri")).not.toBe("Callirrhoe");
-    const cursorrules = readFileSync(join(ROOT, ".cursorrules"), "utf8");
-    expect(cursorrules).toContain("1 Maç = 1 Hakem");
-    expect(cursorrules).toContain("1 Maç = MAX 100 Düdük");
     expect(ACADEMY_MATCH_WHISTLE_MAX).toBe(100);
+    expect(ACADEMY_TTS_LESSON_REQUEST_MIN).toBe(10);
+    expect(ACADEMY_TTS_LESSON_REQUEST_MAX).toBe(12);
     expect(ACADEMY_MATCH_WHISTLE_REGULATION_MIN).toBe(70);
     expect(ACADEMY_MATCH_WHISTLE_REGULATION_MAX).toBe(80);
     expect(ACADEMY_MATCH_WHISTLE_RESERVE_MIN).toBe(15);

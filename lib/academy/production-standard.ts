@@ -1,16 +1,16 @@
 /**
  * Yapay zekâ eğitimi üretim ve doygunluk standardı — PEDAGOJI.md §D.1 ve §E.
  * Belgede §F yoktur. Mühür tabanı buradadır: ders en az 5 dakika, kurs en az 6 ders.
- * Üst dakika ve üst ders tavanı yoktur (Anayasa B4). Vitrin kartındaki dakika yuvarlaması
- * `lesson-meta.ts` içindedir; bu dosya mühür tabanıdır.
+ * Üst dakika dayatması yoktur. TTS bütçe tavanı vardır: kurs 100 istek, ders 10–12 istek.
+ * Vitrin kartındaki dakika yuvarlaması `lesson-meta.ts` içindedir; bu dosya mühür tabanıdır.
  */
 
 export const ACADEMY_AI_COURSE_DURATION_MIN_MINUTES = 45;
-/** Mühür tabanı. Spot kaset kurs sayılmaz. Üst ders adedi yoktur. */
+/** Mühür tabanı. Spot kaset kurs sayılmaz. Ders adedi TTS bütçesine (100 istek) sığar. */
 export const ACADEMY_AI_LESSON_COUNT_MIN = 6;
-/** Taban süre. Üst dakika tavanı yoktur: 12, 15, 18 dk serbesttir. */
+/** Taban süre. 12, 15, 18 dk serbesttir. Ders başına istek bandı 10–12’dir. */
 export const ACADEMY_AI_LESSON_DURATION_MIN_MINUTES = 5;
-/** 5 dk × 60 — mühürlü kaset alt tabanı (saniye). Üst saniye tavanı yoktur. */
+/** 5 dk × 60 — mühürlü kaset alt tabanı (saniye). */
 export const ACADEMY_AI_LESSON_DURATION_MIN_SEC = ACADEMY_AI_LESSON_DURATION_MIN_MINUTES * 60;
 
 /**
