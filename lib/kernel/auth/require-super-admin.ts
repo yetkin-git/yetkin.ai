@@ -10,7 +10,8 @@ export type SuperAdminAccess =
 /**
  * Super Admin tek kapı: oturum (getUser) + `isSuperAdminActor`
  * (SUPER_ADMIN_USER_ID veya CANONICAL_SUPER_ADMIN_EMAIL).
- * Boş env kimseyi admin yapmaz. Kenar `auth = "admin"` aynı SSOT'u okur.
+ * Env boşsa varsayılan kanonik e-posta. `yetkin.vision@gmail.com` admin değildir.
+ * Kenar `auth = "admin"` aynı SSOT'u okur.
  */
 export async function requireSuperAdmin(request?: Request): Promise<SessionUser> {
   const session = await requireSession(request);

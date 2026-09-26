@@ -129,7 +129,8 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-3">
+    <form onSubmit={onSubmit} className="flex min-h-0 flex-1 flex-col">
+      <div className="min-h-0 flex-1 space-y-2 overflow-y-auto">
       <label
         className="block text-sm font-medium"
         htmlFor="login-email"
@@ -174,16 +175,17 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
           {copy.forgotCta}
         </Link>
       </div>
+      </div>
       {error ? (
         <div
           role="alert"
           data-testid="login-error"
-          className="rounded-[var(--radius-card)] border border-[var(--rose)] bg-[var(--rose-soft)] px-3 py-2 text-sm text-[var(--rose)]"
+          className="mt-2 shrink-0 rounded-[var(--radius-card)] border border-[var(--rose)] bg-[var(--rose-soft)] px-3 py-2 text-sm text-[var(--rose)]"
         >
           {error}
         </div>
       ) : null}
-      <Button type="submit" disabled={pending} suppressHydrationWarning={true}>
+      <Button type="submit" className="mt-2 w-full shrink-0" disabled={pending} suppressHydrationWarning={true}>
         {pending ? copy.pending : copy.submit}
       </Button>
     </form>

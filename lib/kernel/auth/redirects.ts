@@ -11,10 +11,12 @@ export const AUTH_CALLBACK_ERROR_PATH = "/login";
 export const AUTH_CALLBACK_DEFAULT_NEXT = "/dashboard";
 /** POST — çerezleri siler, 303 ile girişe döner. Kenar kind: public. */
 export const AUTH_LOGOUT_API_PATH = "/api/auth/logout";
-/** POST — vatandaş kaydı. Kenar kind: public. Oturum yazılmaz; e-posta onayı bekler. */
+/** POST — vatandaş kaydı. Kenar kind: public. Doğrulama zorunlu değilse oturum çerezi yazar. */
 export const AUTH_REGISTER_API_PATH = "/api/auth/register";
 /** POST — şifre sıfırlama e-postası. Kenar kind: public. SMTP 500 Türkçe basılır. */
 export const AUTH_RESET_PASSWORD_API_PATH = "/api/auth/reset-password";
+/** POST — doğrulama postasını yeniden gönderir. Kenar kind: public. */
+export const AUTH_RESEND_CONFIRMATION_API_PATH = "/api/auth/resend-confirmation";
 
 /** Dashboard allowlist — path (query `next` aynı origin'de kalır). */
 export const SUPABASE_DASHBOARD_REDIRECT_PATHS = [

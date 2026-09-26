@@ -51,8 +51,13 @@ export const AUTH_SEN = {
       "Kayıt veritabanında düştü. Kullanıcı veya cüzdan tetikleyicisi kısıtı olabilir.",
     pendingVerification:
       "E-posta adresine doğrulama bağlantısı gönderildi. Gelen kutudaki bağlantıyı aç; onaylanmadan panele girilmez.",
+    mailFailed: "Doğrulama e-postası gönderilemedi. Tekrar gönder.",
+    mailUnconfigured: "E-posta servisi şu an bağlı değil. Doğrulama postası çıkmadı.",
+    resend: "Tekrar Gönder",
+    resendPending: "Gönderiliyor…",
+    resendSent: "Doğrulama e-postası tekrar gönderildi. Gelen kutunu ve spam klasörünü kontrol et.",
     devFallback:
-      "Geliştirme: doğrulama e-postası gönderilemedi. Hesap açıldı; giriş sayfasından devam et.",
+      "Hesap açıldı. Doğrulama e-postası gönderilemedi; giriş sayfasından devam et.",
     loginCta: "Giriş",
     generatePassword: "Güvenli Şifre Üret",
     copy: "Kopyala",

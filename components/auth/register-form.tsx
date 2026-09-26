@@ -12,7 +12,11 @@ import {
   describePublicSupabaseBrowserEnv,
   SupabaseBrowserEnvError,
 } from "@/lib/kernel/auth/supabase-browser";
-import { AUTH_REGISTER_API_PATH } from "@/lib/kernel/auth/redirects";
+import {
+  AUTH_REGISTER_API_PATH,
+  AUTH_RESEND_CONFIRMATION_API_PATH,
+  readPostLoginPathFromSearch,
+} from "@/lib/kernel/auth/redirects";
 import { resolveSignupAuthError } from "@/lib/kernel/auth/signup-errors";
 import { buildSignupAuthMetadata } from "@/lib/kernel/auth/signup-metadata";
 import {
@@ -67,17 +71,22 @@ function resolveSignUpFailure(caught: unknown, copy: typeof AUTH_SEN.register): 
   return copy.fail;
 }
 
-function readRegisterOkState(body: unknown): { fallback: boolean } | null {
-  if (!body || typeof body !== "object" || !("ok" in body) || body.ok !== true) {
-    return null;
-  }
-  if (!("data" in body) || !body.data || typeof body.data !== "object") {
-    return { fallback: false };
+function readMail(body: unknown): "sent" | "failed" | "unconfigured" {
+  if (!body || typeof body !== "object" || !("data" in body) || !body.data || typeof body.data !== "object") {
+    return "unconfigured";
   }
   const data = body.data;
-  return {
-    fallback: "fallback" in data && data.fallback === true,
-  };
+  if ("mail" in data && (data.mail === "sent" || data.mail === "failed" || data.mail === "unconfigured")) {
+    return data.mail;
+  }
+  return "unconfigured";
+}
+
+function readSession(body: unknown): boolean {
+  if (!body || typeof body !== "object" || !("data" in body) || !body.data || typeof body.data !== "object") {
+    return false;
+  }
+  return "session" in body.data && body.data.session === true;
 }
 
 function readRegisterFailMessage(body: unknown, copy: typeof AUTH_SEN.register): string {
@@ -87,7 +96,7 @@ function readRegisterFailMessage(body: unknown, copy: typeof AUTH_SEN.register):
   return copy.fail;
 }
 
-export function RegisterForm() {
+export function RegisterForm({ nextPath }: { nextPath?: string }) {
   const copy = AUTH_SEN.register;
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -97,6 +106,8 @@ export function RegisterForm() {
   const [message, setMessage] = useState<string | null>(null);
   const [copyNotice, setCopyNotice] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [canResend, setCanResend] = useState(false);
+  const [resendPending, setResendPending] = useState(false);
   const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [termsConfirmed, setTermsConfirmed] = useState(false);
 
@@ -127,6 +138,7 @@ export function RegisterForm() {
     setPending(true);
     setError(null);
     setMessage(null);
+    setCanResend(false);
     try {
       const metadata = buildSignupAuthMetadata(fullName, ageConfirmed, termsConfirmed);
       if (!metadata) {
@@ -169,12 +181,23 @@ export function RegisterForm() {
         const next = readRegisterFailMessage(body, copy);
         console.error(REGISTER_DEBUG, "register:error", response.status, next);
         setError(next);
+        setCanResend(true);
         return;
       }
-      const okState = readRegisterOkState(body);
-      console.log(REGISTER_DEBUG, "register:ok → pending-verification");
+      const mail = readMail(body);
+      console.log(REGISTER_DEBUG, "register:mail", mail);
       emitSemConversion("register");
-      setMessage(okState?.fallback ? copy.devFallback : copy.pendingVerification);
+      if (readSession(body)) {
+        window.location.assign(readPostLoginPathFromSearch(window.location.search, nextPath));
+        return;
+      }
+      if (mail === "sent") {
+        setMessage(copy.pendingVerification);
+        setCanResend(false);
+        return;
+      }
+      setCanResend(true);
+      setError(mail === "unconfigured" ? copy.mailUnconfigured : copy.mailFailed);
     } catch (caught) {
       console.error(REGISTER_DEBUG, "caught", caught);
       setError(resolveSignUpFailure(caught, copy));
@@ -184,8 +207,36 @@ export function RegisterForm() {
     }
   }
 
+  async function onResend() {
+    setResendPending(true);
+    setError(null);
+    setMessage(null);
+    try {
+      const response = await fetch(AUTH_RESEND_CONFIRMATION_API_PATH, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const body: unknown = await response.json().catch(() => null);
+      const mail = readMail(body);
+      if (mail === "sent") {
+        setMessage(copy.resendSent);
+        setCanResend(false);
+        return;
+      }
+      setCanResend(true);
+      setError(mail === "unconfigured" ? copy.mailUnconfigured : copy.mailFailed);
+    } catch {
+      setCanResend(true);
+      setError(copy.mailFailed);
+    } finally {
+      setResendPending(false);
+    }
+  }
+
   return (
-    <form onSubmit={onSubmit} className="space-y-3">
+    <form onSubmit={onSubmit} className="flex min-h-0 flex-1 flex-col">
+      <div className="min-h-0 flex-1 space-y-2 overflow-y-auto">
       <label className="block text-sm font-medium" htmlFor="register-full-name">
         {copy.fullName}
         <Input
@@ -287,27 +338,38 @@ export function RegisterForm() {
           {copy.termsConsentSuffix}
         </span>
       </label>
-      {error ? (
-        <div
-          role="alert"
-          data-testid="register-error"
-          className="rounded-[var(--radius-card)] border border-[var(--rose)] bg-[var(--rose-soft)] px-3 py-2 text-sm text-[var(--rose)]"
-        >
-          {error}
-        </div>
-      ) : null}
-      {message ? (
-        <p
-          className="text-sm text-[var(--safir)]"
-          role="status"
-          data-testid="register-pending"
-        >
-          {message}
-        </p>
-      ) : null}
-      <Button type="submit" disabled={pending}>
-        {pending ? copy.pending : copy.submit}
-      </Button>
+      </div>
+      <div className="mt-2 flex shrink-0 flex-col gap-2">
+        {error ? (
+          <div
+            role="alert"
+            data-testid="register-error"
+            className="rounded-[var(--radius-card)] border border-[var(--rose)] bg-[var(--rose-soft)] px-3 py-2 text-sm text-[var(--rose)]"
+          >
+            {error}
+          </div>
+        ) : null}
+        {message ? (
+          <p className="text-sm text-[var(--safir)]" role="status" data-testid="register-pending">
+            {message}
+          </p>
+        ) : null}
+        <Button type="submit" className="w-full" disabled={pending || resendPending}>
+          {pending ? copy.pending : copy.submit}
+        </Button>
+        {canResend ? (
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            disabled={resendPending || pending || !email}
+            data-testid="register-resend"
+            onClick={() => void onResend()}
+          >
+            {resendPending ? copy.resendPending : copy.resend}
+          </Button>
+        ) : null}
+      </div>
     </form>
   );
 }

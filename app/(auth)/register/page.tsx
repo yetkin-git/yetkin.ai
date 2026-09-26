@@ -23,19 +23,30 @@ export default async function RegisterPage({
   const nextRaw = Array.isArray(params.next) ? params.next[0] : params.next;
   const nextPath = readPostLoginPathFromSearch(null, nextRaw);
   return (
-    <main className="relative mx-auto flex min-h-dvh max-w-md flex-col justify-center px-6 pb-14 pt-16">
-      <div className="relative">
-        <BrandIcon className="mb-4 h-10 w-10" />
-        <Badge tone="safir">{SEN_VOICE.auth.brand}</Badge>
-        <h1 className="mt-3 text-3xl font-semibold tracking-tight">{copy.title}</h1>
-        <p className="mt-2 text-base text-slate-600">{copy.description}</p>
-        <Card variant="glass" className="mt-6">
-          <RegisterForm />
-        </Card>
-        <div className="mt-4">
-          <LinkButton href={buildCitizenLoginHref(nextPath)} variant="outline" size="sm">
-            {copy.loginCta}
-          </LinkButton>
+    <main className="mx-auto flex h-dvh max-h-dvh w-full max-w-md flex-col px-4 py-3 sm:px-6">
+      <div className="flex h-full min-h-0 w-full flex-col justify-center">
+        <div className="flex max-h-full min-h-0 w-full flex-col">
+          <div className="flex shrink-0 items-center gap-3">
+            <BrandIcon className="h-8 w-8 shrink-0" />
+            <div className="min-w-0">
+              <Badge tone="safir">{SEN_VOICE.auth.brand}</Badge>
+              <h1 className="text-2xl font-semibold tracking-tight">{copy.title}</h1>
+            </div>
+          </div>
+          <p className="mt-1 shrink-0 text-sm text-slate-600">{copy.description}</p>
+          <Card
+            variant="glass"
+            dense
+            className="mt-3 flex min-h-0 flex-col overflow-hidden"
+            bodyClassName="flex min-h-0 flex-1 flex-col"
+          >
+            <RegisterForm nextPath={nextPath} />
+          </Card>
+          <div className="mt-3 shrink-0">
+            <LinkButton href={buildCitizenLoginHref(nextPath)} variant="secondary" size="md" className="w-full">
+              {copy.loginCta}
+            </LinkButton>
+          </div>
         </div>
       </div>
     </main>

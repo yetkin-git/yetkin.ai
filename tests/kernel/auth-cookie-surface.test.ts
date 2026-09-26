@@ -99,9 +99,16 @@ describe("Supabase SSR 0.12 çerez hizası", () => {
     expect(login).not.toContain("router.refresh");
     expect(register).toContain("AUTH_REGISTER_API_PATH");
     expect(register).not.toContain("createSupabaseBrowserClient");
-    expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("signUp");
-    expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("emailRedirectTo");
-    expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("pendingVerification");
+    expect(register).toContain("readPostLoginPathFromSearch");
+    expect(register).toContain("window.location.assign(");
+    expect(register).toContain("readSession");
+    const registerRoute = readSrc("app/api/(kernel)/auth/register/route.ts");
+    expect(registerRoute).toContain("signUp");
+    expect(registerRoute).toContain("signInWithPassword");
+    expect(registerRoute).toContain("emailRedirectTo");
+    expect(registerRoute).toContain("pendingVerification");
+    expect(registerRoute).toContain("result.session");
+    expect(registerRoute).toContain("response.cookies.set");
     expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("upsertCitizenUserAndWallet");
     expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("clearOrphanCitizenRows");
     expect(readSrc("lib/kernel/auth/provision-citizen-profile.ts")).toContain(
@@ -112,8 +119,7 @@ describe("Supabase SSR 0.12 çerez hizası", () => {
     );
     expect(readSrc("lib/kernel/auth/register-citizen.ts")).toContain("buildSignupEmailRedirectTo");
     expect(readSrc("lib/kernel/auth/register-citizen.ts")).toContain("buildSignupAuthMetadata");
-    expect(register).not.toContain("readPostLoginPathFromSearch");
-    expect(register).not.toContain("window.location.assign(");
+    expect(readSrc("lib/kernel/auth/register-citizen.ts")).toContain("openAutoSession");
     expect(register).not.toContain("router.push");
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("display_name");
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("age_confirmed_at");

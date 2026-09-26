@@ -25,26 +25,43 @@ export function LoginPageContent({
   const copy = mounted ? SEN_VOICE.auth.login : serverCopy;
 
   return (
-    <main className="relative mx-auto flex min-h-dvh max-w-md flex-col justify-center px-6 pb-14 pt-16">
-      <div className="relative">
-        <BrandIcon className="mb-4 h-10 w-10" />
-        <Badge tone="safir">{SEN_VOICE.auth.brand}</Badge>
-        <h1 className="mt-3 text-3xl font-semibold tracking-tight" suppressHydrationWarning={true}>
-          {copy.title}
-        </h1>
-        <p className="mt-2 text-base text-slate-600" suppressHydrationWarning={true}>
-          {copy.description}
-        </p>
-        <Card variant="glass" className="mt-6">
-          {children}
-        </Card>
-        <div className="mt-4 flex gap-3">
-          <LinkButton href="/register" variant="outline" size="sm" suppressHydrationWarning={true}>
-            {copy.registerCta}
-          </LinkButton>
-          <LinkButton href="/" variant="ghost" size="sm" suppressHydrationWarning={true}>
-            {copy.homeCta}
-          </LinkButton>
+    <main className="mx-auto flex h-dvh max-h-dvh w-full max-w-md flex-col px-4 py-3 sm:px-6">
+      <div className="flex h-full min-h-0 w-full flex-col justify-center">
+        <div className="flex max-h-full min-h-0 w-full flex-col">
+          <div className="flex shrink-0 items-center gap-3">
+            <BrandIcon className="h-8 w-8 shrink-0" />
+            <div className="min-w-0">
+              <Badge tone="safir">{SEN_VOICE.auth.brand}</Badge>
+              <h1 className="text-2xl font-semibold tracking-tight" suppressHydrationWarning={true}>
+                {copy.title}
+              </h1>
+            </div>
+          </div>
+          <p className="mt-1 shrink-0 text-sm text-slate-600" suppressHydrationWarning={true}>
+            {copy.description}
+          </p>
+          <Card
+            variant="glass"
+            dense
+            className="mt-3 flex min-h-0 flex-col overflow-hidden"
+            bodyClassName="flex min-h-0 flex-1 flex-col"
+          >
+            {children}
+          </Card>
+          <div className="mt-3 flex shrink-0 flex-col gap-2">
+            <LinkButton
+              href="/register"
+              variant="secondary"
+              size="md"
+              className="w-full"
+              suppressHydrationWarning={true}
+            >
+              {copy.registerCta}
+            </LinkButton>
+            <LinkButton href="/" variant="outline" size="md" className="w-full" suppressHydrationWarning={true}>
+              {copy.homeCta}
+            </LinkButton>
+          </div>
         </div>
       </div>
     </main>

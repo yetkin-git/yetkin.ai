@@ -29,6 +29,7 @@ model AcademyCourse {
 
   purchases    AcademyPurchase[]
   certificates AcademyCertificate[]
+  exemptionSeals AcademyExemptionSeal[]
   exam         AcademyExam?
   examSittings AcademyExamSitting[]
   lessonCompletions AcademyLessonCompletion[]
@@ -153,6 +154,28 @@ model AcademyCertificate {
   @@unique([userId, courseId])
   @@index([userId, issuedAt])
   @@map("academy_certificates")
+}
+
+/// OFF-101 muafiyet mührü. Satın alma ve sertifika değildir; OFF-201 kapısını açar.
+/// Ders lisansı ve kariyer vizesi basılmaz.
+model AcademyExemptionSeal {
+  id           String    @id @default(cuid())
+  userId       String    @map("user_id")
+  courseId     String    @map("course_id")
+  examId       String    @map("exam_id")
+  title        String
+  score        Int
+  issuedAt     DateTime  @map("issued_at")
+  revokedAt    DateTime? @map("revoked_at")
+  revokeReason String?   @map("revoke_reason")
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  user   User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course AcademyCourse @relation(fields: [courseId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, courseId])
+  @@index([userId, issuedAt])
+  @@map("academy_exemption_seals")
 }
 
 /// SETTLED satın alma sonrası ders tamamlama. İçerik kod tohumudur (CMS yok).
