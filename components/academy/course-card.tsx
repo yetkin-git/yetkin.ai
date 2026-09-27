@@ -41,6 +41,7 @@ export function CourseCard({
   learnerStatus,
   featured = false,
   owned = false,
+  studioPreview = false,
   favorited = false,
   onToggleFavorite,
 }: {
@@ -54,6 +55,8 @@ export function CourseCard({
   featured?: boolean;
   /** Satın alınmış eğitim — Super Admin lab overlay vitrinde owned basabilir; nakit değildir. */
   owned?: boolean;
+  /** Satış kapalı olsa da Super Admin karttan `/oyna` açar. Fiyat gizlenmez. */
+  studioPreview?: boolean;
   favorited?: boolean;
   onToggleFavorite?: () => void;
 }) {
@@ -73,6 +76,7 @@ export function CourseCard({
     learnerStatus,
     priceLabel: course.priceMinor ? moneyLabel : null,
     purchasable: comingSoon ? undefined : course.purchasable,
+    studioPreview,
   });
   const learnerLabel =
     learnerStatus === "continue"
@@ -210,7 +214,13 @@ export function CourseCard({
       cta={storefront.cta}
       ctaDisabled={storefront.ctaDisabled}
       ctaSize="md"
-      ctaVariant={storefront.ctaDisabled || comingSoon ? "outline" : owned ? "success" : "primary"}
+      ctaVariant={
+        storefront.ctaDisabled || comingSoon
+          ? "outline"
+          : owned || storefront.href.endsWith("/oyna")
+            ? "success"
+            : "primary"
+      }
       coverSrc={cinemaCover}
       coverComingSoon={comingSoon}
       comingSoonLabel={ACADEMY_SEN.catalog.comingSoonBadge}

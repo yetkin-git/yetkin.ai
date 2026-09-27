@@ -183,18 +183,17 @@ describe("OFF-201 fırın öncesi hazırlık", () => {
     expect(page).toContain("academy.off201.catalog_price_unset");
   });
 
-  it("ders 6 kuyruktayken satış kapalıdır; kilit para kesmez", async () => {
-    expect(academyCourseSaleOpen("01_office_ai_ileri")).toBe(false);
+  it("satış açıktır; fiyat kilidi para kesmez", async () => {
+    expect(academyCourseSaleOpen("01_office_ai_ileri")).toBe(true);
     for (const ports of [world(), world(69), world(80, true), world(70)]) {
       await seed(ports);
-      await expect(
-        lockAcademyCoursePrice(ports, { courseId: ports.course.id, userId: BUYER }),
-      ).rejects.toThrow("Kurs satışa kapalı.");
+      const locked = await lockAcademyCoursePrice(ports, { courseId: ports.course.id, userId: BUYER });
+      expect(locked.lock.amountMinor).toBe(CATALOG_PRICE);
       expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START);
     }
   });
 
-  it("baraj altı muafiyet mühür basmaz; satış kapalıyken kilit ve satın alma para kesmez", async () => {
+  it("baraj altı muafiyet mühür basmaz; eksik kilit satın almada para kesmez", async () => {
     const now = new Date("2026-09-24T08:00:00.000Z");
     const pool = academyExamPoolForSlug("01_office_ai");
     const ports = world();
@@ -222,9 +221,8 @@ describe("OFF-201 fırın öncesi hazırlık", () => {
     });
     expect(lowSubmit.passed).toBe(false);
     expect(lowSubmit.seal).toBeNull();
-    await expect(
-      lockAcademyCoursePrice(ports, { courseId: ports.course.id, userId: BUYER }),
-    ).rejects.toThrow("Kurs satışa kapalı.");
+    const locked = await lockAcademyCoursePrice(ports, { courseId: ports.course.id, userId: BUYER });
+    expect(locked.lock.amountMinor).toBe(CATALOG_PRICE);
     expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START);
 
     const opened = await loadOff101ExemptionExam(ports, ports.prior.id, BUYER, now);
@@ -245,7 +243,7 @@ describe("OFF-201 fırın öncesi hazırlık", () => {
         lockId: "missing-lock",
         platformUserId: PLATFORM,
       }),
-    ).rejects.toThrow("Kurs satışa kapalı.");
+    ).rejects.toThrow("Satın alma için geçerli fiyat kilidi yok.");
     expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START);
     expect(ports.ledger.snapshot(PLATFORM).amountMinor).toBe(0);
   });

@@ -273,11 +273,40 @@ describe("vitrin kartı CTA", () => {
       owned: false,
       priceLabel: "₺1.290,00",
     });
-    expect(off201Priced.cta).toBe(ACADEMY_SEN.catalog.pricePending);
-    expect(off201Priced.cta).toBe("Kayıt Kapalı / Fiyat Bekleniyor");
-    expect(off201Priced.href).toBe("");
-    expect(off201Priced.ctaDisabled).toBe(true);
+    expect(off201Priced.cta).toBe(ACADEMY_SEN.catalog.cardCtaBuy);
+    expect(off201Priced.href).toBe("/academy/01_office_ai_ileri");
+    expect(off201Priced.ctaDisabled).toBeUndefined();
     expect(off201Priced.priceLabel).toBe("₺1.290");
+    expect(off201Priced.priceCaption).toBe(ACADEMY_SEN.catalog.vatInclusiveHint);
+    const off201ClosedCitizen = resolveAcademyCatalogCardCta({
+      slug: "01_office_ai_ileri",
+      owned: false,
+      priceLabel: "₺1.290,00",
+      purchasable: false,
+    });
+    expect(off201ClosedCitizen.cta).toBe(ACADEMY_SEN.catalog.pricePending);
+    expect(off201ClosedCitizen.href).toBe("");
+    expect(off201ClosedCitizen.ctaDisabled).toBe(true);
+    const off201ClosedAdmin = resolveAcademyCatalogCardCta({
+      slug: "01_office_ai_ileri",
+      owned: false,
+      priceLabel: "₺1.290,00",
+      purchasable: false,
+      studioPreview: true,
+    });
+    expect(off201ClosedAdmin.cta).toBe(ACADEMY_SEN.player.openCta);
+    expect(off201ClosedAdmin.href).toBe("/academy/01_office_ai_ileri/oyna");
+    expect(off201ClosedAdmin.ctaDisabled).toBeUndefined();
+    expect(off201ClosedAdmin.priceLabel).toBe("₺1.290");
+    expect(off201ClosedAdmin.priceLabel).not.toBe(ACADEMY_SEN.course.accessOpen);
+    const page = readFileSync(join(process.cwd(), "app/academy/page.tsx"), "utf8");
+    const card = readFileSync(join(process.cwd(), "components/academy/course-card.tsx"), "utf8");
+    const list = readFileSync(join(process.cwd(), "components/academy/course-list.tsx"), "utf8");
+    expect(page).toContain("isSuperAdminActor");
+    expect(page).toContain("studioPreview={studioPreview}");
+    expect(page).not.toContain("overlayStudioGrowthLearnerBoard");
+    expect(card).toContain("studioPreview");
+    expect(list).toContain("studioPreview={studioPreview}");
     expect(ACADEMY_SEN.catalog.off201Advisory).toContain("Tavsiye:");
     expect(ACADEMY_SEN.catalog.off201Advisory).toContain("Ofiste Yapay Zekâ");
     for (const slug of ["fullstack-temel", "ai-temel", "ux-temel"] as const) {

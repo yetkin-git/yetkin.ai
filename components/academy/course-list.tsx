@@ -33,6 +33,7 @@ export function CourseList({
   certificatesCta = ACADEMY_SEN.catalog.certificatesCta,
   lead = null,
   footer = null,
+  studioPreview = false,
 }: {
   courses: AcademyCourseWithPrice[];
   extraBadge?: string | null;
@@ -47,6 +48,8 @@ export function CourseList({
   lead?: ReactNode;
   /** Yasal künye — katalog gövdesinin sonunda, doğal kaydırmada. */
   footer?: ReactNode;
+  /** Super Admin — satış kapalı kartta Derse başla. */
+  studioPreview?: boolean;
 }) {
   const copy = ACADEMY_SEN.catalog;
   const visible = useMemo(
@@ -93,6 +96,7 @@ export function CourseList({
                   lessonCount={lessonCounts[course.slug] ?? 0}
                   learnerStatus={learnerBoard.statusBySlug[course.slug]}
                   owned={owned}
+                  studioPreview={studioPreview}
                 />
               </li>
             );

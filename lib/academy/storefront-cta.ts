@@ -133,6 +133,8 @@ export function resolveAcademyCatalogCardCta(input: {
   learnerStatus?: AcademyCatalogLearnerStatus;
   priceLabel: string | null;
   purchasable?: boolean;
+  /** Super Admin — satış kapalı kartta doğrudan `/oyna`. Fiyat «Erişim Açık» olmaz. */
+  studioPreview?: boolean;
 }): AcademyCatalogCardCta {
   const copy = ACADEMY_SEN;
   if (input.owned) {
@@ -160,6 +162,14 @@ export function resolveAcademyCatalogCardCta(input: {
     input.purchasable === false ||
     (input.slug === ACADEMY_OFF201_STOREFRONT_SLUG && !academyCourseSaleOpen(input.slug));
   if (!input.owned && saleClosed) {
+    if (input.studioPreview) {
+      return {
+        priceLabel: display ?? copy.catalog.priceMissing,
+        priceCaption: null,
+        cta: copy.player.openCta,
+        href: `/academy/${input.slug}/oyna`,
+      };
+    }
     return {
       priceLabel: display ?? copy.catalog.priceMissing,
       priceCaption: null,

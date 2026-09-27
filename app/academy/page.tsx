@@ -19,6 +19,7 @@ import { faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { ACADEMY_LANDING_FAQ } from "@/lib/copy/sem-keywords";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { getSession } from "@/lib/kernel/auth/session";
+import { isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
 
 export const metadata: Metadata = pageMetadata(PAGE_SEO.academy);
 
@@ -30,6 +31,7 @@ export const metadata: Metadata = pageMetadata(PAGE_SEO.academy);
 export default async function AcademyPage() {
   const copy = SEN_VOICE.academy.catalog;
   const session = await getSession();
+  const studioPreview = Boolean(session && isSuperAdminActor(session));
   const [courses, continueBoard, learnerBoard] = await Promise.all([
     loadAcademyVitrineCourses(),
     session ? loadAcademyContinueBoard(session.id) : Promise.resolve(null),
@@ -49,6 +51,7 @@ export default async function AcademyPage() {
       <CourseList
         courses={courses}
         learnerBoard={learnerBoard}
+        studioPreview={studioPreview}
         lessonCounts={lessonCounts}
         title={copy.title}
         certificatesCta={copy.certificatesCta}

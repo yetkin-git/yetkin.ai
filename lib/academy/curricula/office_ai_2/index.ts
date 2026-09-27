@@ -29,7 +29,7 @@ export {
  * OFF-201 canlı modül.
  * `curricula/index.ts` bu diziyi `CURRICULUM_DRAFTS_BY_SLUG` ve sınav indeksine yazar.
  * Tek eğitmen sesi Aylin (Kore), `courseMasterVoice` tek string. Gözde bu kursta konuşmaz.
- * OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış KAPALIDIR.
+ * OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış AÇIKTIR.
  * `estimatedTotalMinutes` mühürlü timings toplamıdır. Satış mandalı bu süreyi açmaz.
  */
 export const officeAi2Sections: Section[] = [

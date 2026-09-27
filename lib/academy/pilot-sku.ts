@@ -6,7 +6,7 @@
  *
  * `01_office_ai` çekirdek kaydı durur; 8 ders mühürlü ses (`1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`).
  * OFF-201 `01_office_ai_ileri` tek ses Aylin (Kore). Altı ders Gemini 3.1 Flash TTS ile mühürlüdür.
- * Eski Callirrhoe kasetleri arşivdedir. Yeniden fırın kuyruğu boştur. Satış mandalı kapalıdır.
+ * Eski Callirrhoe kasetleri arşivdedir. Yeniden fırın kuyruğu boştur. Satış mandalı açıktır.
  * Eski ritüel kaseti `01_office_ai-4` sınav yolunda ve ses mühründe yoktur; dosya arşivde kalır.
  * Sınav yolu `lesson-index.ts` SSOT’udur.
  * PEDAGOJI §D 5'li Vitrin Karması kardeşleri dürüst «Çok Yakında» kabuğu olarak basar.
@@ -43,10 +43,9 @@ export const ACADEMY_PRODUCTION_LINE_SKU_SLUGS = [
 export const ACADEMY_OFF201_STOREFRONT_SLUG = "01_office_ai_ileri" as const;
 
 /**
- * OFF-201 satış mandalı. Kore fırını ve cue bitti. CEO onayı olmadan `true` yapılmaz.
- * Mühür listesi dolu olsa bile bu mandal kapalıyken satın alınamaz.
+ * OFF-201 satış mandalı. Lansman açık. `false` olursa mühür listesi dolu olsa bile satın alınamaz.
  */
-export const ACADEMY_OFF201_LAUNCH_SALE_OPEN = false;
+export const ACADEMY_OFF201_LAUNCH_SALE_OPEN = true;
 
 export const ACADEMY_VITRINE_SHELL_SKU_SLUGS = [
   ACADEMY_FLAGSHIP_SKU_SLUG,

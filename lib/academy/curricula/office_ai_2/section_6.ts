@@ -4,7 +4,7 @@ import { officeAi2SpokenMarkdown } from "./spoken-body";
 /**
  * OFF-201 Ders 6 — canlı indeks dersi. Modülün kapanış dersidir.
  * Sınav yolu `lesson-index.ts` içindedir.
- * OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış KAPALIDIR.
+ * OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış AÇIKTIR.
  */
 export const officeAi2Section6: Section = {
   sectionNumber: 6,

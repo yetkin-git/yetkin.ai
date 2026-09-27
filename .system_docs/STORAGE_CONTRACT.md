@@ -2,14 +2,14 @@
 
 **Durum (26 Eylül 2026):** Bu fazda **vatandaş ürün deposu yoktur.** Studio imzalı PUT, `studio-assets` bucket, Dashboard yükleme paneli ve Storage CORS canlı reçete değildir. Studio sayfa/API HTTP **410**; Prisma Studio tabloları DROP; motor `archived/lib/studio/storage.ts`.
 
-**Akademi ses gerçeği:** OFF-101 mühürlü yayın **8** derstir (`01_office_ai-1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`). `01_office_ai-4` sınav yolunda yoktur; süre tablosunda ve canlı konuşma gövdesinde durmaz. OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış KAPALIDIR. Eski Callirrhoe OFF-201 MP3 dosyaları `public/` altında durmaz. Kore mührü `public/media/academy/audio/01_office_ai_ileri/` altındadır. Kardeş SKU `02`–`05` vitrinde Çok Yakında kabuğudur. Bake WAV `media-bake/academy/audio/{slug}/{key}.wav` altındadır (git/Vercel dışı). Yayın dosyası `public/media/academy/audio/{slug}/{key}.mp3` yolundadır; kenar kısa ömürlü imza (`g`) olmadan 403 döner. İzin `GET /api/academy/courses/[id]/audio-grant` ile, satın alma sonrası verilir. `generateSpeech` ve `listen` kapıları **410**. Prisma `AcademyAudioCache` şemada durabilir; locator yayın vaadi değildir.
+**Akademi ses gerçeği:** OFF-101 mühürlü yayın **8** derstir (`01_office_ai-1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`). `01_office_ai-4` sınav yolunda yoktur; süre tablosunda ve canlı konuşma gövdesinde durmaz. OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış AÇIKTIR. Eski Callirrhoe OFF-201 MP3 dosyaları `public/` altında durmaz. Kore mührü `public/media/academy/audio/01_office_ai_ileri/` altındadır. Kardeş SKU `02`–`05` vitrinde Çok Yakında kabuğudur. Bake WAV `media-bake/academy/audio/{slug}/{key}.wav` altındadır (git/Vercel dışı). Yayın dosyası `public/media/academy/audio/{slug}/{key}.mp3` yolundadır; kenar kısa ömürlü imza (`g`) olmadan 403 döner. İzin `GET /api/academy/courses/[id]/audio-grant` ile, satın alma sonrası verilir. `generateSpeech` ve `listen` kapıları **410**. Prisma `AcademyAudioCache` şemada durabilir; locator yayın vaadi değildir.
 
 Bu dosya sistem beşlisinin beşincisidir. Ajan “nesne depo yok” cümlesini Studio yasağı sanırsa doğrudur; mühürsüz dersi sesli satarsa yanlıştır.
 
 | Madde | Bu faz |
 |-------|--------|
 | Vatandaş / Studio object store | Yok (410) |
-| Akademi mühürlü yayın | **8** OFF-101 (`1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`). OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış KAPALIDIR. `01_office_ai-4` yok. Kardeşler Çok Yakında. |
+| Akademi mühürlü yayın | **8** OFF-101 (`1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`). OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış AÇIKTIR. `01_office_ai-4` yok. Kardeşler Çok Yakında. |
 | `lesson-audios` / yayın yolu | MP3: `public/media/academy/audio/{slug}/{key}.mp3`. Oturumsuz indirme yok; kenar imza ister. Eski Callirrhoe OFF-201 kaseti bu klasörde durmaz. Kore mührü durur. Bake WAV `media-bake/` (Vercel dışı). Bucket provision yayın vaadi değildir. |
 | Kör `data_base64` gövde | Yasak; Studio DROP. Akademi sesi Base64 kolonunda durmaz. |
 | `service_role` JS anahtarı | Yok |

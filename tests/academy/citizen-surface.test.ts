@@ -76,7 +76,7 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(copy.catalog.description).toContain("Dersler ödeme sonrası açılır");
     expect(copy.catalog.description).toContain("hazırlanıyor");
     expect(copy.catalog.description).not.toContain("fırın");
-    expect(copy.catalog.stats).toBe("1 eğitim yayında · 1 kayıt kapalı · 4 eğitim çok yakında");
+    expect(copy.catalog.stats).toBe("2 eğitim yayında · 4 eğitim çok yakında");
     expect(copy.catalog.description).not.toContain("13 eğitim");
     expect(copy.catalog.description).not.toMatch(ledgerLeak);
     expect(copy.catalog.cardCtaBuy).toBe("Satın Al");
