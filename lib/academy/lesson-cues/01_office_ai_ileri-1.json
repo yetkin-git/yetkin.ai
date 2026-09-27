@@ -2,7 +2,7 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 77.363,
+    "end": 82.309,
     "text": "DÖRT PARÇA",
     "section": "Açılış",
     "paragraphs": [
@@ -12,8 +12,8 @@
   },
   {
     "id": "cue-02",
-    "start": 77.613,
-    "end": 128.618,
+    "start": 82.559,
+    "end": 139.887,
     "text": "ÜÇ ADIM",
     "section": "Açılış",
     "paragraphs": [
@@ -22,8 +22,8 @@
   },
   {
     "id": "cue-03",
-    "start": 128.868,
-    "end": 167.272,
+    "start": 140.137,
+    "end": 183.874,
     "text": "HAM NOT",
     "section": "Açılış",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 167.522,
-    "end": 214.484,
+    "start": 184.124,
+    "end": 233.753,
     "text": "ADI ÇIKAR",
     "section": "VERİYİ VERMEDEN ÖNCE",
     "paragraphs": [
@@ -43,8 +43,8 @@
   },
   {
     "id": "cue-05",
-    "start": 214.734,
-    "end": 299.962,
+    "start": 234.003,
+    "end": 318.414,
     "text": "ROL BAŞTA",
     "section": "DÖRT PARÇA",
     "paragraphs": [
@@ -54,8 +54,8 @@
   },
   {
     "id": "cue-06",
-    "start": 300.212,
-    "end": 389.226,
+    "start": 318.664,
+    "end": 404.108,
     "text": "YANLIŞ ÖZET",
     "section": "YANLIŞ VE DOĞRU",
     "paragraphs": [
@@ -65,8 +65,8 @@
   },
   {
     "id": "cue-07",
-    "start": 389.476,
-    "end": 434.245,
+    "start": 404.358,
+    "end": 451.148,
     "text": "KAYNAĞI KARŞILAŞTIR",
     "section": "KAYNAĞI KARŞILAŞTIR",
     "paragraphs": [
@@ -75,8 +75,8 @@
   },
   {
     "id": "cue-08",
-    "start": 434.495,
-    "end": 514.261,
+    "start": 451.398,
+    "end": 532.798,
     "text": "MASKELİ NOT",
     "section": "MASKELİ NOT",
     "paragraphs": [

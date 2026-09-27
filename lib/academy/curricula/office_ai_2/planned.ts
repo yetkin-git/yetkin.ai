@@ -4,7 +4,7 @@
  * Canlı sınav yolu `CURRICULUM_LESSON_KEYS_BY_SLUG` bu altı anahtarı yazar.
  * `curricula/index.ts` bu modülü import eder.
  * Uydu vaadi bu altı dersle aynıdır. XLOOKUP, özet tablo, OCR ve belge birleştirme bu sürümde yoktur.
- * OFF-201 0/6 mühürlüdür. İptal haritasındadır, Kore/Gemini 3.1 TTS re-bake kuyruğundadır. Satış KAPALIDIR.
+ * OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış KAPALIDIR.
  */
 
 /** Canlı slug. Adres `01_office_ai_ileri`. Kart kodu `OFF-201`. */
@@ -12,7 +12,7 @@ export const OFFICE_AI_2_SLUG = "01_office_ai_ileri" as const;
 export const OFFICE_AI_2_MODULE_CODE = "OFF-201" as const;
 /** Modül kaydı yayında. Satış kapısı ses mühründen açılır; bu etiket satışı açmaz. */
 export const OFFICE_AI_2_STATUS = "published" as const;
-/** Eski ses bekler etiketi. Satışı açmaz. Kurs 0/6 mühürlüdür; bu sabit durum olarak kullanılmaz. */
+/** Eski ses bekler etiketi. Satışı açmaz. Kurs 6/6 mühürlüdür; bu sabit durum olarak kullanılmaz. */
 export const OFFICE_AI_2_AUDIO_PENDING = "audio_pending" as const;
 
 export const OFFICE_AI_2_LESSON_PLAN = [

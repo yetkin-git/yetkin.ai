@@ -11,7 +11,7 @@ import { academyLessonAudioPlaybackSrc } from "@/lib/academy/lesson-audio";
 const ENV = { NODE_ENV: "test", VITEST: "true" } as const;
 
 describe("ders sesi imza kapısı", () => {
-  it("imzasız adres yasaktır; imzalı adres geçer; iptal kaset imzayla da açılmaz", async () => {
+  it("imzasız adres yasaktır; imzalı mühürlü adres geçer", async () => {
     const src = await withAcademyAudioGrant(
       academyLessonAudioPlaybackSrc("01_office_ai", "01_office_ai-1"),
       Date.now(),
@@ -25,14 +25,14 @@ describe("ders sesi imza kapısı", () => {
     const naked = new URL("https://yetkin.ai/media/academy/audio/01_office_ai/01_office_ai-1.mp3");
     expect(await decideAcademyAudioPublicRequest(naked, Date.now(), ENV)).toBe("forbidden");
 
-    const revoked = await withAcademyAudioGrant(
+    const off201 = await withAcademyAudioGrant(
       "/media/academy/audio/01_office_ai_ileri/01_office_ai_ileri-1.mp3",
       Date.now(),
       ENV,
     );
-    expect(revoked).toContain("g=");
-    const revokedUrl = new URL(revoked!, "https://yetkin.ai");
-    expect(await decideAcademyAudioPublicRequest(revokedUrl, Date.now(), ENV)).toBe("revoked");
+    expect(off201).toContain("g=");
+    const off201Url = new URL(off201!, "https://yetkin.ai");
+    expect(await decideAcademyAudioPublicRequest(off201Url, Date.now(), ENV)).toBe("allow");
   });
 
   it("süresi dolmuş imza geçmez", async () => {
@@ -47,18 +47,19 @@ describe("ders sesi imza kapısı", () => {
     expect(await decideAcademyAudioPublicRequest(url, later, ENV)).toBe("forbidden");
   });
 
-  it("kenar imzasız isteği 403, iptal kaseti 404 döner", async () => {
+  it("kenar imzasız isteği 403 döner", async () => {
     const denied = await proxy(
       new NextRequest(new URL("https://yetkin.ai/media/academy/audio/01_office_ai/01_office_ai-1.mp3")),
     );
     expect(denied.status).toBe(403);
     expect(denied.headers.get("cache-control")).toBe("no-store");
 
-    const gone = await proxy(
+    const off201 = await proxy(
       new NextRequest(
         new URL("https://yetkin.ai/media/academy/audio/01_office_ai_ileri/01_office_ai_ileri-1.mp3"),
       ),
     );
-    expect(gone.status).toBe(404);
+    expect(off201.status).toBe(403);
+    expect(off201.headers.get("cache-control")).toBe("no-store");
   });
 });

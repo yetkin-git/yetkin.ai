@@ -58,10 +58,10 @@ Canlı vitrin kartıdır. Sınav yolu 6 derstir. Lansman fiyatı katalog tohumun
 
 | Ölçüt | Kod gerçeği |
 |-------|-------------|
-| Sistem mührü | OFF-201 0/6 mühürlüdür. İptal haritasındadır, Kore/Gemini 3.1 TTS re-bake kuyruğundadır. Satış KAPALIDIR. |
+| Sistem mührü | OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış KAPALIDIR. |
 | Sınav yolu | **6 ders** — `01_office_ai_ileri-1` … `-6` |
-| Mühürlü kaset | **0** vatandaş karaoke. Ders 1–6 kuyrukta; oynatıcı eski MP3’ü açmaz. |
-| Süre | Eski timings durur ve oynatılmaz: **514.261 / 615.508 / 688.064 / 765.066 / 864.722 / 754.906 sn**. Hepsi 5 dakikanın üstündedir. |
+| Mühürlü kaset | **6** vatandaş karaoke. Ders 1–6 Aylin (Kore), Gemini 3.1 Flash TTS. Oynatıcı kamu MP3’ünü imzayla açar. |
+| Süre | **532.798 / 641.229 / 690.602 / 763.174 / 840.464 / 793.186 sn**. Toplam **4261.453 sn (71.02 dk)**. Hepsi 5 dakikanın üstündedir. |
 | Fiyat | Lansman tohumu **129.000 kuruş (₺1.290, KDV dahil)**. Satır `academy` / `course:01_office_ai_ileri`. Super Admin yazdıysa tohum tutarı ezmez. |
 | Kart rozeti | Kursun tamamına «Sesli Anlatım» basılmaz. Rozet mühürlü ders sayısını söyler. |
 
@@ -119,7 +119,7 @@ Amiral antre indekslenir; oynatıcı ve çıkış paketi noindex + robots disall
 |-------|--------|
 | T3 Akademi halkası | **Bağlı.** `publishFrozenUntilFaz1Close: false`. Oynatıcı, sınav, mühür, kasa hop’ları durur. |
 | Tezgâh | İzole (`tezgahStoreIsolated: true`). Faz 2 yansıtma. |
-| Punchcard saatleri | Web timings JSON’undan türetilir. Elle kopya SSOT değildir. Yol 8 kaset. Arşiv `01_office_ai-4` oynatıcı rozetine bağlı değildir; konuşma gövdesi `archived/academy/01_office_ai-4/` altındadır. OFF-201 0/6 mühürlüdür. İptal haritasındadır, Kore/Gemini 3.1 TTS re-bake kuyruğundadır. Satış KAPALIDIR. |
+| Punchcard saatleri | Web timings JSON’undan türetilir. Elle kopya SSOT değildir. Yol 8 kaset. Arşiv `01_office_ai-4` oynatıcı rozetine bağlı değildir; konuşma gövdesi `archived/academy/01_office_ai-4/` altındadır. OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış KAPALIDIR. |
 | Sinema masası | Web’dedir. Native «garsonu göster» Excel/Gmail klonu taşımaz; nakit + metin + rozet + sınav taşır. |
 
 ---
@@ -150,4 +150,4 @@ v1 hop sicili: `RAIL_V1_HOPS` — **16 kayıt.**
 
 ## Bu hafta dürüst cümle
 
-Mimari ad **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci**dir (Anayasa B1). Motor (cüzdan, sınav, mühür, hop) ayaktadır. `01_office_ai` sınav yolu **8 derstir** ve **8/8 mühürlüdür.** OFF-201 0/6 mühürlüdür. İptal haritasındadır, Kore/Gemini 3.1 TTS re-bake kuyruğundadır. Satış KAPALIDIR. Canlı nakit hattında PayTR `CLEARED` tanığı vardır (₺15,00; 18 Eylül 2026). Split ve Freelancer açılmaz. E-ticaret, sosyal, chatbot, prompt ve veli-öğretmen satın alınmaz.
+Mimari ad **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci**dir (Anayasa B1). Motor (cüzdan, sınav, mühür, hop) ayaktadır. `01_office_ai` sınav yolu **8 derstir** ve **8/8 mühürlüdür.** OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış KAPALIDIR. Canlı nakit hattında PayTR `CLEARED` tanığı vardır (₺15,00; 18 Eylül 2026). Split ve Freelancer açılmaz. E-ticaret, sosyal, chatbot, prompt ve veli-öğretmen satın alınmaz.

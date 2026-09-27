@@ -25,12 +25,12 @@ export const ACADEMY_SEALED_AUDIO_DURATION_SEC: Readonly<Record<string, number>>
   "01_office_ai-g1": 604,
   "01_office_ai-w1": 583,
   "01_office_ai-k1": 702,
-  "01_office_ai_ileri-1": 514,
-  "01_office_ai_ileri-2": 616,
-  "01_office_ai_ileri-3": 688,
-  "01_office_ai_ileri-4": 765,
-  "01_office_ai_ileri-5": 865,
-  "01_office_ai_ileri-6": 755,
+  "01_office_ai_ileri-1": 533,
+  "01_office_ai_ileri-2": 641,
+  "01_office_ai_ileri-3": 691,
+  "01_office_ai_ileri-4": 763,
+  "01_office_ai_ileri-5": 840,
+  "01_office_ai_ileri-6": 793,
 };
 
 type AcademySealedLessonKey = keyof typeof ACADEMY_SEALED_AUDIO_DURATION_SEC;

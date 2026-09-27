@@ -13,7 +13,7 @@ Pedagoji ilkeleri `.system_docs/PEDAGOJI.md` içindedir. Bu dosya operatör SOP�
 | Kapı | `--dry-run` keşif; `--seal` + `--confirm-gemini-spend` | `scripts/generate-academy-lesson-audio.ts` |
 | 1 Maç = MAX 100 Düdük | Normal süre 70–80 istek. Yedek 15–20 yalnız zorunlu uzatma. Tavan 100 | `ACADEMY_MATCH_WHISTLE_MAX` |
 | B-roll | Veo 3.1 Lite veya yerel MP4 reuse; pahalı Veo 3.1 yasak | `lib/academy/lesson-veo.ts` |
-| Yayın | Mühür listesi kod + `docs/ops/DURUM.md`. OFF-101: **8/8** mühürlü kaset (`lesson-index.ts`). `01_office_ai-4` arşivdir, süre tablosuna girmez. OFF-201 mührü Aylin (Kore); eski Callirrhoe kasetleri iptal, fırın kuyruğu 6 ders | `lib/academy/pilot-sku.ts` |
+| Yayın | Mühür listesi kod + `docs/ops/DURUM.md`. OFF-101: **8/8** mühürlü kaset (`lesson-index.ts`). `01_office_ai-4` arşivdir, süre tablosuna girmez. OFF-201 mührü Aylin (Kore), 6/6 mühürlü; eski Callirrhoe kasetleri arşivde, fırın kuyruğu boş | `lib/academy/pilot-sku.ts` |
 
 ```
 npx tsx scripts/generate-academy-lesson-audio.ts --dry-run --slug=01_office_ai --key=01_office_ai-1

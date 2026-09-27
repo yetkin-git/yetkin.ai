@@ -55,24 +55,8 @@ describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kase
         "01_office_ai_ileri-6",
       ],
     });
-    expect(ACADEMY_TTS_REVOKED_CASSETTES).toEqual({
-      "01_office_ai_ileri-1": "wrong-voice-callirrhoe",
-      "01_office_ai_ileri-2": "wrong-voice-callirrhoe",
-      "01_office_ai_ileri-3": "wrong-voice-callirrhoe",
-      "01_office_ai_ileri-4": "wrong-voice-callirrhoe",
-      "01_office_ai_ileri-5": "wrong-voice-callirrhoe",
-      "01_office_ai_ileri-6": "wrong-voice-callirrhoe",
-    });
-    expect(ACADEMY_TTS_REBAKE_QUEUE).toEqual({
-      "01_office_ai_ileri": [
-        "01_office_ai_ileri-1",
-        "01_office_ai_ileri-2",
-        "01_office_ai_ileri-3",
-        "01_office_ai_ileri-4",
-        "01_office_ai_ileri-5",
-        "01_office_ai_ileri-6",
-      ],
-    });
+    expect(ACADEMY_TTS_REVOKED_CASSETTES).toEqual({});
+    expect(ACADEMY_TTS_REBAKE_QUEUE).toEqual({});
     expect(academyMediaSealedWavCount()).toBe(14);
     expect(academyCourseSaleOpen("01_office_ai")).toBe(true);
     expect(academyCourseSaleOpen("01_office_ai_ileri")).toBe(false);
@@ -87,12 +71,12 @@ describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kase
 
   it("OFF-201 altı kaset vatandaş karaoke katmanında mühürlü süreyi taşır", () => {
     const rows = [
-      ["01_office_ai_ileri-1", 514.261, true],
-      ["01_office_ai_ileri-2", 615.508, true],
-      ["01_office_ai_ileri-3", 688.064, true],
-      ["01_office_ai_ileri-4", 765.066, true],
-      ["01_office_ai_ileri-5", 864.722, true],
-      ["01_office_ai_ileri-6", 754.906, true],
+      ["01_office_ai_ileri-1", 532.798, false],
+      ["01_office_ai_ileri-2", 641.229, false],
+      ["01_office_ai_ileri-3", 690.602, false],
+      ["01_office_ai_ileri-4", 763.174, false],
+      ["01_office_ai_ileri-5", 840.464, false],
+      ["01_office_ai_ileri-6", 793.186, false],
     ] as const;
     for (const [lessonKey, durationSec, rebake] of rows) {
       const minutes = durationSec / 60;

@@ -5,8 +5,8 @@
  * bandındadır; Prisma hayalet SKU ve hayali oynatıcı girmez.
  *
  * `01_office_ai` çekirdek kaydı durur; 8 ders mühürlü ses (`1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`).
- * OFF-201 `01_office_ai_ileri` tek ses hedefi Aylin (Kore). Gözde bu kursta konuşmaz.
- * Eski Callirrhoe kasetleri iptaldir. Altı ders Kore ile yeniden fırın kuyruğundadır.
+ * OFF-201 `01_office_ai_ileri` tek ses Aylin (Kore). Altı ders Gemini 3.1 Flash TTS ile mühürlüdür.
+ * Eski Callirrhoe kasetleri arşivdedir. Yeniden fırın kuyruğu boştur. Satış mandalı kapalıdır.
  * Eski ritüel kaseti `01_office_ai-4` sınav yolunda ve ses mühründe yoktur; dosya arşivde kalır.
  * Sınav yolu `lesson-index.ts` SSOT’udur.
  * PEDAGOJI §D 5'li Vitrin Karması kardeşleri dürüst «Çok Yakında» kabuğu olarak basar.
@@ -43,8 +43,8 @@ export const ACADEMY_PRODUCTION_LINE_SKU_SLUGS = [
 export const ACADEMY_OFF201_STOREFRONT_SLUG = "01_office_ai_ileri" as const;
 
 /**
- * OFF-201 satış mandalı. Kore fırını, cue ve CEO onayı bitmeden `true` yapılmaz.
- * İptal kaset listesi kalksa bile bu mandal kapalıyken satın alınamaz.
+ * OFF-201 satış mandalı. Kore fırını ve cue bitti. CEO onayı olmadan `true` yapılmaz.
+ * Mühür listesi dolu olsa bile bu mandal kapalıyken satın alınamaz.
  */
 export const ACADEMY_OFF201_LAUNCH_SALE_OPEN = false;
 
@@ -88,32 +88,16 @@ export const ACADEMY_MEDIA_SEALED_AUDIO: Readonly<Record<string, readonly string
 
 /**
  * Eski ses kasetleri. Vatandaş oynatıcı bunları açmaz.
- * OFF-201 eski Callirrhoe kasetleri Aylin (Kore) mührüyle uyuşmaz.
+ * OFF-201 eski Callirrhoe dosyaları arşivdedir; kamu yolu Kore mührüdür. Liste boştur.
  */
-export const ACADEMY_TTS_REVOKED_CASSETTES: Readonly<Record<string, string>> = {
-  "01_office_ai_ileri-1": "wrong-voice-callirrhoe",
-  "01_office_ai_ileri-2": "wrong-voice-callirrhoe",
-  "01_office_ai_ileri-3": "wrong-voice-callirrhoe",
-  "01_office_ai_ileri-4": "wrong-voice-callirrhoe",
-  "01_office_ai_ileri-5": "wrong-voice-callirrhoe",
-  "01_office_ai_ileri-6": "wrong-voice-callirrhoe",
-};
+export const ACADEMY_TTS_REVOKED_CASSETTES: Readonly<Record<string, string>> = {};
 
 /**
  * Kota açılınca yeniden fırınlanacak dersler.
- * OFF-201 ders 1–6 Aylin (Kore) ve Gemini 3.1 Flash TTS ile fırınlanır.
+ * OFF-201 ders 1–6 Aylin (Kore) ve Gemini 3.1 Flash TTS ile mühürlendi. Kuyruk boştur.
  * Model yalnız Gemini 3.1 Flash TTS. Alt modele düşülmez.
  */
-export const ACADEMY_TTS_REBAKE_QUEUE: Readonly<Record<string, readonly string[]>> = {
-  "01_office_ai_ileri": [
-    "01_office_ai_ileri-1",
-    "01_office_ai_ileri-2",
-    "01_office_ai_ileri-3",
-    "01_office_ai_ileri-4",
-    "01_office_ai_ileri-5",
-    "01_office_ai_ileri-6",
-  ],
-};
+export const ACADEMY_TTS_REBAKE_QUEUE: Readonly<Record<string, readonly string[]>> = {};
 
 /**
  * Yeniden fırın metni. Kuyruk bu dosyaları okur.

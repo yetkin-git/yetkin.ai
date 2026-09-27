@@ -2,7 +2,7 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 123.083,
+    "end": 123.858,
     "text": "FORMÜLÜ KİLİTLE",
     "section": "Açılış",
     "paragraphs": [
@@ -12,8 +12,8 @@
   },
   {
     "id": "cue-02",
-    "start": 123.333,
-    "end": 216.433,
+    "start": 124.108,
+    "end": 210.11,
     "text": "ÜÇ ADIM",
     "section": "Açılış",
     "paragraphs": [
@@ -23,8 +23,8 @@
   },
   {
     "id": "cue-03",
-    "start": 216.683,
-    "end": 292.979,
+    "start": 210.36,
+    "end": 279.903,
     "text": "BOŞ HÜCRE",
     "section": "Açılış",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 293.229,
-    "end": 326.944,
+    "start": 280.153,
+    "end": 317.266,
     "text": "IBAN ÇIKAR",
     "section": "VERİYİ VERMEDEN ÖNCE",
     "paragraphs": [
@@ -43,8 +43,8 @@
   },
   {
     "id": "cue-05",
-    "start": 327.194,
-    "end": 414.801,
+    "start": 317.516,
+    "end": 401.984,
     "text": "FORMÜLÜ YAZ",
     "section": "DÖRT PARÇA",
     "paragraphs": [
@@ -53,8 +53,8 @@
   },
   {
     "id": "cue-06",
-    "start": 415.051,
-    "end": 503.433,
+    "start": 402.234,
+    "end": 486.831,
     "text": "DÜZ SAYI",
     "section": "YANLIŞ VE DOĞRU",
     "paragraphs": [
@@ -63,8 +63,8 @@
   },
   {
     "id": "cue-07",
-    "start": 503.683,
-    "end": 620.938,
+    "start": 487.081,
+    "end": 621.712,
     "text": "HÜCREYİ KONTROL ET",
     "section": "HÜCREYİ KONTROL ET",
     "paragraphs": [
@@ -73,8 +73,8 @@
   },
   {
     "id": "cue-08",
-    "start": 621.188,
-    "end": 688.064,
+    "start": 621.962,
+    "end": 690.602,
     "text": "KENDİ TABLON",
     "section": "KENDİ TABLON",
     "paragraphs": [

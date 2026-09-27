@@ -313,7 +313,7 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(durum).toContain("MARKETPLACE_SPLIT_LIVE = false");
     expect(durum).toContain("publishFrozenUntilFaz1Close: false");
     expect(durum).toContain(
-      "OFF-201 0/6 mühürlüdür. İptal haritasındadır, Kore/Gemini 3.1 TTS re-bake kuyruğundadır. Satış KAPALIDIR.",
+      "OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış KAPALIDIR.",
     );
     expect(durum).not.toContain("3–5 mühür");
     expect(durum).not.toContain("ders 1, 2 ve 6");

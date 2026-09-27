@@ -16,7 +16,7 @@
  * Bu sürümde yoktur: XLOOKUP, özet tablo, OCR, belge birleştirme.
  *
  * Ön koşul kapısı yoktur. Ekrandaki öğüt metni yeter.
- * OFF-201 0/6 mühürlüdür. İptal haritasındadır, Kore/Gemini 3.1 TTS re-bake kuyruğundadır. Satış KAPALIDIR.
+ * OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış KAPALIDIR.
  */
 
 import {

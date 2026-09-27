@@ -2,7 +2,7 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 102.438,
+    "end": 109.492,
     "text": "POSTAYI AYIR",
     "section": "Açılış",
     "paragraphs": [
@@ -12,8 +12,8 @@
   },
   {
     "id": "cue-02",
-    "start": 102.688,
-    "end": 255.099,
+    "start": 109.742,
+    "end": 261.293,
     "text": "ÜÇ ADIM",
     "section": "Açılış",
     "paragraphs": [
@@ -23,8 +23,8 @@
   },
   {
     "id": "cue-03",
-    "start": 255.349,
-    "end": 405.266,
+    "start": 261.543,
+    "end": 394.944,
     "text": "KARIŞIK POSTA",
     "section": "Açılış",
     "paragraphs": [
@@ -34,8 +34,8 @@
   },
   {
     "id": "cue-04",
-    "start": 405.516,
-    "end": 526.728,
+    "start": 395.194,
+    "end": 510.685,
     "text": "KİMLİĞİ ÇIKAR",
     "section": "VERİYİ VERMEDEN ÖNCE",
     "paragraphs": [
@@ -44,8 +44,8 @@
   },
   {
     "id": "cue-05",
-    "start": 526.978,
-    "end": 617.94,
+    "start": 510.935,
+    "end": 598.284,
     "text": "SINIFI AYIR",
     "section": "DÖRT PARÇA",
     "paragraphs": [
@@ -54,8 +54,8 @@
   },
   {
     "id": "cue-06",
-    "start": 618.19,
-    "end": 816.391,
+    "start": 598.534,
+    "end": 789.08,
     "text": "TASLAK SATIRI",
     "section": "YANLIŞ VE DOĞRU",
     "paragraphs": [
@@ -74,8 +74,8 @@
   },
   {
     "id": "cue-08",
-    "start": 816.641,
-    "end": 864.722,
+    "start": 789.33,
+    "end": 840.464,
     "text": "KENDİ POSTAN",
     "section": "KENDİ POSTAN",
     "paragraphs": [
