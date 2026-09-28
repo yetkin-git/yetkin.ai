@@ -3,6 +3,12 @@ import { academyDialogueReadingDurationSec } from "@/lib/academy/dialogue-timeli
 import { academyCourseSealedDurationSec } from "@/lib/academy/lesson-audio";
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import { loadAcademySpokenScriptParagraphs } from "@/lib/academy/spoken-scripts";
+import { academyTtsPieceCachePaths, academyTtsPieceFingerprint } from "@/lib/academy/tts-piece-cache";
+import {
+  ACADEMY_TTS_PACE_NOTE,
+  ACADEMY_TTS_STUDIO_ACOUSTIC_DIRECTIVE,
+  buildAcademyTtsStudioContents,
+} from "@/lib/academy/tts-studio-prompt";
 import {
   ACADEMY_TTS_BREATH_ATOMIC_MAX_SEC,
   ACADEMY_TTS_BREATH_CHUNK_MAX_SEC,
@@ -12,6 +18,7 @@ import {
   ACADEMY_TTS_LESSON_REQUEST_MAX,
   ACADEMY_TTS_LESSON_REQUEST_MIN,
   ACADEMY_TTS_RPM_GAP_MS,
+  academyLessonRequestTargetForCourse,
   academyTtsLessonRequestBudget,
   assertAcademyTtsLessonRequestBudget,
   injectAcademyTtsBreathPauses,
@@ -56,9 +63,10 @@ describe("TTS nefes dilimleyici", () => {
     expect(officeW1).toHaveLength(19);
     const officeK1 = loadAcademySpokenScriptParagraphs("01_office_ai-k1");
     expect(officeK1).toHaveLength(14);
-    const officeRequests = packAcademyTtsLessonRequests(officeOne);
-    expect(officeRequests.length).toBeGreaterThanOrEqual(ACADEMY_TTS_LESSON_REQUEST_MIN);
-    expect(officeRequests.length).toBeLessThanOrEqual(ACADEMY_TTS_LESSON_REQUEST_MAX);
+    expect(academyLessonRequestTargetForCourse(8)).toBe(10);
+    expect(academyLessonRequestTargetForCourse(6)).toBe(12);
+    const officeRequests = packAcademyTtsLessonRequests(officeOne, 10);
+    expect(officeRequests.length).toBe(10);
     expect(officeRequests.map((block) => block.text).join(" ")).toBe(
       officeOne.flatMap((paragraph) => splitAcademyTtsBreathChunks(paragraph)).join(" "),
     );
@@ -95,16 +103,16 @@ describe("TTS nefes dilimleyici", () => {
     expect(chunks.every((chunk) => chunk.length > 0)).toBe(true);
   });
 
-  it("9 kaset parça sayısı, 6. ders 0.4 sn nefes ve kurs toplamı mühürlü timings ile kilitlenir", () => {
+  it("8 kaset 10’ar parça, 6. ders 1.75 sn geçiş ve kurs toplamı mühürlü timings ile kilitlenir", () => {
     const pieceCounts: Record<string, number> = {
-      "01_office_ai-1": 16,
-      "01_office_ai-2": 14,
-      "01_office_ai-3": 14,
-      "01_office_ai-5": 14,
-      "01_office_ai-6": 18,
-      "01_office_ai-g1": 18,
-      "01_office_ai-w1": 19,
-      "01_office_ai-k1": 15,
+      "01_office_ai-1": 13,
+      "01_office_ai-2": 10,
+      "01_office_ai-3": 11,
+      "01_office_ai-5": 11,
+      "01_office_ai-6": 10,
+      "01_office_ai-g1": 11,
+      "01_office_ai-w1": 11,
+      "01_office_ai-k1": 12,
     };
     for (const [key, count] of Object.entries(pieceCounts)) {
       const timings = loadAcademySealedAudioTimings(key);
@@ -113,14 +121,92 @@ describe("TTS nefes dilimleyici", () => {
     }
     const six = loadAcademySealedAudioTimings("01_office_ai-6");
     expect(six).not.toBeNull();
-    expect(six!.durationSec).toBe(506.04);
-    expect(six!.cacheV).toBe(506040);
+    expect(six!.durationSec).toBe(526.723);
+    expect(six!.cacheV).toBe(529723);
     const breathGaps = six!.pieces.slice(1).map((piece, index) =>
       Number((piece.start - six!.pieces[index]!.end).toFixed(3)),
     );
-    expect(breathGaps).toHaveLength(17);
-    expect(breathGaps.every((gap) => gap === 0.4)).toBe(true);
-    expect(Math.abs(academyCourseSealedDurationSec("01_office_ai") - 4698.12)).toBeLessThanOrEqual(0.01);
+    expect(breathGaps).toHaveLength(9);
+    expect(breathGaps.every((gap) => gap === 1.75)).toBe(true);
+    expect(Math.abs(academyCourseSealedDurationSec("01_office_ai") - 4880.862)).toBeLessThanOrEqual(0.01);
+  });
+
+  it("OFF-101 sekiz dersi metin düşürmeden 10’ar isteğe paketler", () => {
+    const keys = [
+      "01_office_ai-1",
+      "01_office_ai-2",
+      "01_office_ai-3",
+      "01_office_ai-5",
+      "01_office_ai-6",
+      "01_office_ai-g1",
+      "01_office_ai-w1",
+      "01_office_ai-k1",
+    ];
+    let total = 0;
+    for (const key of keys) {
+      const paragraphs = loadAcademySpokenScriptParagraphs(key);
+      const packed = packAcademyTtsLessonRequests(paragraphs, academyLessonRequestTargetForCourse(8));
+      expect(packed, key).toHaveLength(10);
+      expect(packed.map((block) => block.text).join(" "), key).toBe(
+        paragraphs.flatMap((paragraph) => splitAcademyTtsBreathChunks(paragraph)).join(" "),
+      );
+      total += packed.length;
+    }
+    expect(total).toBe(80);
+  });
+
+  it("parça önbelleği aynı metni aynı yola kilitler", () => {
+    const fingerprint = academyTtsPieceFingerprint({
+      model: "gemini-3.8-flash-tts",
+      voice: "Callirrhoe",
+      speechRate: 0.93,
+      text: "Merhaba. Ben Gözde.",
+    });
+    const again = academyTtsPieceFingerprint({
+      model: "gemini-3.8-flash-tts",
+      voice: "Callirrhoe",
+      speechRate: 0.93,
+      text: "Merhaba. Ben Gözde.",
+    });
+    const other = academyTtsPieceFingerprint({
+      model: "gemini-3.8-flash-tts",
+      voice: "Callirrhoe",
+      speechRate: 0.93,
+      text: "Merhaba. Ben Aylin.",
+    });
+    expect(again).toBe(fingerprint);
+    expect(other).not.toBe(fingerprint);
+    const acoustic = academyTtsPieceFingerprint({
+      model: "gemini-3.8-flash-tts",
+      voice: "Callirrhoe",
+      speechRate: 0.93,
+      text: "Merhaba. Ben Gözde.",
+      acoustic: "studio-grade natural voice, close-mic, clean acoustic environment, no reverb, crisp presence",
+    });
+    expect(acoustic).not.toBe(fingerprint);
+    const paths = academyTtsPieceCachePaths({
+      root: "D:/yetkin.ai",
+      courseSlug: "01_office_ai",
+      lessonKey: "01_office_ai-1",
+      index: 0,
+      fingerprint,
+    });
+    expect(paths.wav).toContain(`00-${fingerprint}.wav`);
+    expect(paths.mp3).toContain(`00-${fingerprint}.mp3`);
+    expect(paths.wav).toContain("piece-cache");
+  });
+
+  it("stüdyo direktifi transkriptin üstünde kalır", () => {
+    const spoken = "Merhaba. Ben Gözde.";
+    const contents = buildAcademyTtsStudioContents(spoken);
+    expect(ACADEMY_TTS_STUDIO_ACOUSTIC_DIRECTIVE).toBe(
+      "studio-grade natural voice, close-mic, clean acoustic environment, no reverb, crisp presence",
+    );
+    expect(contents).toContain(ACADEMY_TTS_STUDIO_ACOUSTIC_DIRECTIVE);
+    expect(contents).toContain(ACADEMY_TTS_PACE_NOTE);
+    expect(ACADEMY_TTS_PACE_NOTE).toBe("Pace: calm, natural, clear accent.");
+    expect(contents.indexOf("#### TRANSCRIPT")).toBeLessThan(contents.indexOf(spoken));
+    expect(contents.endsWith(spoken)).toBe(true);
   });
 
   it("kısa metni tek parça bırakır", () => {

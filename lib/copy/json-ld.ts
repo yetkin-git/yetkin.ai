@@ -7,7 +7,13 @@ import { academyCatalogPriceMinorForSlug } from "@/lib/academy/catalog-pricing";
 import { academySyllabusModulePlansFor } from "@/lib/academy/syllabus-groups";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { LEGAL_ENTITY, LEGAL_PAGE_TITLE, LEGAL_WHATSAPP_HREF } from "@/lib/copy/legal-launch";
-import { CANONICAL_SITE_ORIGIN, OFFICE_AI_SEO, PAGE_SEO, canonicalUrl } from "@/lib/copy/seo";
+import {
+  CANONICAL_SITE_ORIGIN,
+  OFFICE_AI_ILERI_SEO,
+  OFFICE_AI_SEO,
+  PAGE_SEO,
+  canonicalUrl,
+} from "@/lib/copy/seo";
 
 export const ORGANIZATION_ID = `${CANONICAL_SITE_ORIGIN}/#organization` as const;
 export const WEBSITE_ID = `${CANONICAL_SITE_ORIGIN}/#website` as const;
@@ -110,6 +116,16 @@ export const OFFICE_AI_COURSE_TEACHES = [
   "Haftalık verimlilik rutini",
 ] as const;
 
+/** OFF-201 altı dersin öğrettiği iş. Antre JSON-LD `teaches` yedeği. */
+export const OFFICE_AI_ILERI_COURSE_TEACHES = [
+  "Dört parçalı istem",
+  "Toplantı notu ve eylem listesi",
+  "Excel formül ve grafik",
+  "Uzun belge ve sayfa kontrolü",
+  "E-posta sınıflandırma ve yanıt taslağı",
+  "Üç dosyada sayı denetimi",
+] as const;
+
 export type CourseSyllabusLessonInput = {
   name: string;
   durationMin?: number | null;
@@ -186,7 +202,17 @@ export function courseJsonLd(input: {
   const priceCurrency = input.priceCurrency?.trim() || "TRY";
   const teaches =
     input.teaches ??
-    (input.slug === "01_office_ai" ? [...OFFICE_AI_COURSE_TEACHES] : undefined);
+    (input.slug === "01_office_ai"
+      ? [...OFFICE_AI_COURSE_TEACHES]
+      : input.slug === OFFICE_AI_ILERI_SEO.slug
+        ? [...OFFICE_AI_ILERI_COURSE_TEACHES]
+        : undefined);
+  const keywords =
+    input.slug === OFFICE_AI_SEO.slug
+      ? [...OFFICE_AI_SEO.keywords]
+      : input.slug === OFFICE_AI_ILERI_SEO.slug
+        ? [...OFFICE_AI_ILERI_SEO.keywords]
+        : undefined;
   const lessons =
     input.lessons ??
     (input.slug === "01_office_ai" ? OFFICE_AI_SYLLABUS_LESSONS : undefined);
@@ -216,7 +242,8 @@ export function courseJsonLd(input: {
                     ? minutesToIso8601Duration(lesson.durationMin)
                     : null;
                 return {
-                  "@type": "CreativeWork",
+                  "@type": "LearningResource",
+                  learningResourceType: "lesson",
                   position,
                   name: lesson.name,
                   ...(lessonDuration ? { timeRequired: lessonDuration } : {}),
@@ -240,14 +267,16 @@ export function courseJsonLd(input: {
     ...(lessons && lessons.length > 0
       ? {
           hasPart: lessons.map((lesson, index) => ({
-            "@type": "CreativeWork",
+            "@type": "LearningResource",
+            learningResourceType: "lesson",
             position: index + 1,
             name: lesson.name,
+            url: `${url}#lesson-${index + 1}`,
           })),
         }
       : {}),
     ...(syllabusSections ? { syllabusSections } : {}),
-    ...(input.slug === OFFICE_AI_SEO.slug ? { keywords: [...OFFICE_AI_SEO.keywords] } : {}),
+    ...(keywords && keywords.length > 0 ? { keywords } : {}),
     educationalCredentialAwarded: {
       "@type": "EducationalOccupationalCredential",
       name:

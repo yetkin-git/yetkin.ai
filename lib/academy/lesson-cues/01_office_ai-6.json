@@ -2,17 +2,17 @@
   {
     "id": "cue-01",
     "start": 2,
-    "end": 39.8,
+    "end": 43.364,
     "text": "GİRİŞ KÖPRÜSÜ",
     "section": "GİRİŞ KÖPRÜSÜ",
     "paragraphs": [
-      "Word dersinde dosyayı ataş ile yükledin. İmza sende kaldı. Hata avında uydurma sayıyı yakaladın. E-postada ritüel ve yerleşik kapı duruyor. KVKK başta maskeyi öğretti. Bu dersin sonunda Cuma günkü 30 dakikalık takvime yazıp üç bloğu kapatmayı tek başına yapacaksın. Her kriz geldiğinde aynı işi baştan kurarsan Cuma akşamı yine yetiştirmeye çalışırsın. Bu 30 dakikalık rutini takvimine işlemezsen, haftalık işler birikir ve kriz kaçınılmaz olur. Haftalık Sistem bu alışkanlıkları tek Cuma penceresine bağlar. Bu kapanış dersidir."
+      "Word dersinde dosyayı ataş ile yükledin. İmza sende kaldı. Hata avında uydurma sayıyı yakaladın. E-postada ritüel ve yerleşik panel duruyor. KVKK başta maskeyi öğretti. Bu dersin sonunda Cuma günkü 30 dakikalık takvime yazıp üç bloğu kapatmayı tek başına yapacaksın. Her kriz geldiğinde aynı işi baştan kurarsan Cuma akşamı yine yetiştirmeye çalışırsın. Bu 30 dakikalık rutini takvimine işlemezsen, haftalık işler birikir ve kriz kaçınılmaz olur. Haftalık Sistem bu alışkanlıkları tek Cuma penceresine bağlar. Bu kapanış dersidir."
     ]
   },
   {
     "id": "cue-02",
-    "start": 40.2,
-    "end": 109.32,
+    "start": 43.614,
+    "end": 115.735,
     "text": "HOŞ GELDİN",
     "section": "HOŞ GELDİN",
     "paragraphs": [
@@ -22,8 +22,8 @@
   },
   {
     "id": "cue-03",
-    "start": 109.72,
-    "end": 159.88,
+    "start": 115.985,
+    "end": 167.275,
     "text": "DAĞINIK HAFTA",
     "section": "DAĞINIK HAFTA",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 160.28,
-    "end": 260.32,
+    "start": 167.525,
+    "end": 278.279,
     "text": "OTUZ DAKİKA",
     "section": "OTUZ DAKİKA",
     "paragraphs": [
@@ -46,8 +46,8 @@
   },
   {
     "id": "cue-05",
-    "start": 260.72,
-    "end": 314.48,
+    "start": 278.529,
+    "end": 333.911,
     "text": "ÜÇ BLOK",
     "section": "ÜÇ BLOK",
     "paragraphs": [
@@ -57,8 +57,8 @@
   },
   {
     "id": "cue-06",
-    "start": 314.88,
-    "end": 413.2,
+    "start": 334.161,
+    "end": 434.209,
     "text": "FARK ORTADA",
     "section": "FARK ORTADA",
     "paragraphs": [
@@ -70,18 +70,18 @@
   },
   {
     "id": "cue-07",
-    "start": 413.6,
-    "end": 457.88,
-    "text": "CEBİNE KOY",
+    "start": 434.459,
+    "end": 476.426,
+    "text": "CUMA BLOĞUNU YAZ",
     "section": "CEBİNE KOY",
     "paragraphs": [
-      "Cebine üç kural koy. Bir: Cuma 30 bloğunu takvime yaz; 10 Excel + 10 slayt + 10 kutu. Çünkü blok takvimde yoksa kriz Cuma gecesine kayar. Başlık Cuma 30, süre otuz dakika, tekrar her hafta. İki: önce Copilot veya ataş. Çünkü ekran görüntüsü tabloyu koparır. Excel tablosunu ve PowerPoint sunusunu ataş ile yükle veya Copilot varsa şeritten okut. Üç: onaylı panel ve dosya yükleme yoksa maskeli kısa özet; ham kopyala-yapıştır varsayılan yol değildir. Çünkü ham yapıştırma maskeyi deler. İş postasını kişisel Gmail’e taşıma."
+      "Üç kuralı yaz. Bir: Cuma 30 bloğunu takvime yaz; 10 Excel + 10 slayt + 10 kutu. Çünkü blok takvimde yoksa kriz Cuma gecesine kayar. Başlık Cuma 30, süre otuz dakika, tekrar her hafta. İki: önce Copilot veya ataş. Çünkü ekran görüntüsü tabloyu koparır. Excel tablosunu ve PowerPoint sunusunu ataş ile yükle veya Copilot varsa şeritten okut. Üç: onaylı panel ve dosya yükleme yoksa maskeli kısa özet; ham kopyala-yapıştır varsayılan yol değildir. Çünkü ham yapıştırma maskeyi deler. İş postasını kişisel Gmail’e taşıma."
     ]
   },
   {
     "id": "cue-08",
-    "start": 458.28,
-    "end": 506.04,
+    "start": 476.676,
+    "end": 526.723,
     "text": "SIRA SENDE",
     "section": "SIRA SENDE",
     "paragraphs": [

@@ -29,17 +29,33 @@ export type AcademyMatchWhistlePlan = {
   requests: number;
   withinCap: boolean;
   inRegulationBand: boolean;
+  /** Maç tavanına kalan ham pay. 70 istekte 30’dur. */
   reserveRemaining: number;
+  /**
+   * Uzatma düdüğü. Yedek tavanı 20’dir.
+   * Normal süre tavanı + yedek tavanı = maç tavanı (80 + 20 = 100).
+   */
+  extensionReserve: number;
 };
 
+/** 80 + 20 = 100. Normal süre tabanı bu toplamın içinde kalır. */
+export function academyMatchWhistlePartitionHolds(): boolean {
+  return (
+    ACADEMY_MATCH_WHISTLE_REGULATION_MAX + ACADEMY_MATCH_WHISTLE_RESERVE_MAX ===
+    ACADEMY_MATCH_WHISTLE_MAX
+  );
+}
+
 export function academyMatchWhistlePlan(requests: number): AcademyMatchWhistlePlan {
+  const reserveRemaining = ACADEMY_MATCH_WHISTLE_MAX - requests;
   return {
     requests,
     withinCap: requests <= ACADEMY_MATCH_WHISTLE_MAX,
     inRegulationBand:
       requests >= ACADEMY_MATCH_WHISTLE_REGULATION_MIN &&
       requests <= ACADEMY_MATCH_WHISTLE_REGULATION_MAX,
-    reserveRemaining: ACADEMY_MATCH_WHISTLE_MAX - requests,
+    reserveRemaining,
+    extensionReserve: Math.min(Math.max(0, reserveRemaining), ACADEMY_MATCH_WHISTLE_RESERVE_MAX),
   };
 }
 
@@ -97,9 +113,56 @@ export const ACADEMY_SEALED_MEDIA_LAYERS = [
   "timed_cues",
   "diagrams",
   "cinematic_media",
+  "veo_video",
+  "lyria_music",
 ] as const;
 
 export type AcademySealedMediaLayer = (typeof ACADEMY_SEALED_MEDIA_LAYERS)[number];
+
+/**
+ * Zorunlu üretim sırası. Biri eksikken fırın açılmaz ve `--seal` basılmaz.
+ * Kimlik dizesi `lib/kernel/ai/model-roles.ts` içindedir.
+ */
+export const ACADEMY_PRODUCTION_MEDIA_LAYERS = [
+  "text",
+  "voice",
+  "video",
+  "visual",
+  "music",
+] as const;
+
+export type AcademyProductionMediaLayer = (typeof ACADEMY_PRODUCTION_MEDIA_LAYERS)[number];
+
+/** 3 aşamalı kontrol kapısı. Son kapı beş katmanı teyit etmeden mühür basmaz. */
+export const ACADEMY_QUALITY_GATES = [
+  "draft_script",
+  "pedagogy_review",
+  "final_layer_check",
+] as const;
+
+export type AcademyQualityGate = (typeof ACADEMY_QUALITY_GATES)[number];
+
+export type AcademyProductionSealPresence = Record<AcademyProductionMediaLayer, boolean>;
+
+const ACADEMY_PRODUCTION_LAYER_LABEL: Record<AcademyProductionMediaLayer, string> = {
+  text: "Metin",
+  voice: "Ses",
+  video: "Video (Veo)",
+  visual: "Görsel",
+  music: "Müzik (Lyria)",
+};
+
+/**
+ * Son kontrol. Video (Veo) ve Müzik (Lyria) dahil beş katman yoksa `--seal` basılamaz.
+ */
+export function assertAcademyProductionSeal(presence: AcademyProductionSealPresence): void {
+  const missing = ACADEMY_PRODUCTION_MEDIA_LAYERS.filter((layer) => presence[layer] !== true);
+  if (missing.length === 0) return;
+  const labels = missing.map((layer) => ACADEMY_PRODUCTION_LAYER_LABEL[layer]).join(", ");
+  throw new Error(
+    `5 medya katmanı eksik: ${labels}. Video (Veo) ve Müzik (Lyria) dahil beş katman teyit edilmeden --seal basılamaz.`,
+  );
+}
 
 export const ACADEMY_OPTIONAL_LEVEL_PACKAGES = ["Temel", "Orta", "İleri"] as const;
 

@@ -17,14 +17,14 @@ import {
  * Bake sonrası süre değişirse bu tabloyu güncelle. Taze ingest bekler.
  */
 export const ACADEMY_SEALED_AUDIO_DURATION_SEC: Readonly<Record<string, number>> = {
-  "01_office_ai-1": 692,
-  "01_office_ai-2": 520,
-  "01_office_ai-3": 538,
-  "01_office_ai-5": 553,
-  "01_office_ai-6": 506,
-  "01_office_ai-g1": 604,
-  "01_office_ai-w1": 583,
-  "01_office_ai-k1": 702,
+  "01_office_ai-1": 707,
+  "01_office_ai-2": 537,
+  "01_office_ai-3": 568,
+  "01_office_ai-5": 589,
+  "01_office_ai-6": 527,
+  "01_office_ai-g1": 638,
+  "01_office_ai-w1": 581,
+  "01_office_ai-k1": 735,
   "01_office_ai_ileri-1": 533,
   "01_office_ai_ileri-2": 641,
   "01_office_ai_ileri-3": 691,
@@ -46,7 +46,52 @@ export const ACADEMY_SEALED_AUDIO_MIME = "audio/mpeg" as const;
 /** Lyria 3.5 dip müzik — mühürlü bed; izlemede canlı üretim yok. */
 export const ACADEMY_SEALED_BED_EXTENSION = "bed.mp3" as const;
 /** Kendi yatak dosyası diskte duran dersler. Başka dersin yatağı ödünç verilmez. */
-export const ACADEMY_SEALED_BED_LESSON_KEYS = ["01_office_ai-1"] as const;
+export const ACADEMY_SEALED_BED_LESSON_KEYS = [
+  "01_office_ai-1",
+  "01_office_ai-2",
+  "01_office_ai-3",
+  "01_office_ai-5",
+  "01_office_ai-6",
+  "01_office_ai-g1",
+  "01_office_ai-w1",
+  "01_office_ai-k1",
+  "01_office_ai_ileri-1",
+  "01_office_ai_ileri-2",
+  "01_office_ai_ileri-3",
+  "01_office_ai_ileri-4",
+  "01_office_ai_ileri-5",
+  "01_office_ai_ileri-6",
+] as const;
+
+/**
+ * Fon müziği konuşma MP3'ünün içine FFmpeg ile mühürlü dersler.
+ * Oynatıcı bu derslerde ikinci audio etiketini açmaz.
+ */
+/** OFF-101 hard-mix. Giriş 3.00 sn (`ACADEMY_OFF101_BED_INTRO_SEC`). */
+export const ACADEMY_OFF101_BED_HARD_MIX_LESSON_KEYS = [
+  "01_office_ai-1",
+  "01_office_ai-2",
+  "01_office_ai-3",
+  "01_office_ai-5",
+  "01_office_ai-6",
+  "01_office_ai-g1",
+  "01_office_ai-w1",
+  "01_office_ai-k1",
+] as const;
+
+export const ACADEMY_BED_HARD_MIX_LESSON_KEYS = [
+  ...ACADEMY_OFF101_BED_HARD_MIX_LESSON_KEYS,
+  "01_office_ai_ileri-1",
+  "01_office_ai_ileri-2",
+  "01_office_ai_ileri-3",
+  "01_office_ai_ileri-4",
+  "01_office_ai_ileri-5",
+  "01_office_ai_ileri-6",
+] as const;
+
+export function academyLessonBedIsHardMixed(lessonKey: string): boolean {
+  return (ACADEMY_BED_HARD_MIX_LESSON_KEYS as readonly string[]).includes(lessonKey.trim());
+}
 
 function academyLessonBedAssetKey(lessonKey: string): string {
   return lessonKey.trim();

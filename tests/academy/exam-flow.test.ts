@@ -183,6 +183,7 @@ describe("akademi sınav kapısı (S58-A)", () => {
       BUYER,
       undefined,
       ADMIN_EMAIL,
+      "2026-01-01T00:00:00.000Z",
     );
     expect(view).not.toBeNull();
     expect(view?.questions.length).toBeGreaterThan(0);
@@ -191,6 +192,7 @@ describe("akademi sınav kapısı (S58-A)", () => {
         courseId: ctx.course.id,
         userId: BUYER,
         email: ADMIN_EMAIL,
+        emailConfirmedAt: "2026-01-01T00:00:00.000Z",
       }),
     ).rejects.toThrow(/Müfredat mühürü basılamaz/);
   });

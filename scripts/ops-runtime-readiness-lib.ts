@@ -89,7 +89,8 @@ export type HealthSimulation = {
 export type JwtFallbackMode = "jwks-only" | "hs256-fallback-set";
 export type NoticeSmtpMode = "configured" | "honest-skip" | "partial";
 export type DronOriginsMode = "native-no-cors" | "allowlist-set";
-export type SuperAdminMode = "configured" | "nobody-is-admin";
+/** `uuid-unset`: UUID kolonu boş. Kanonik e-posta varsayılanı bu etiketi admin yok diye okumaz. */
+export type SuperAdminMode = "configured" | "uuid-unset";
 export type DevlabsPepperMode = "configured" | "dev-default";
 export type RateLimitStoreMode = "in-process-single-node";
 export type HostingClass = "vercel" | "unspecified";
@@ -279,7 +280,7 @@ export function inspectSafeDefaultOps(env: Record<string, string | undefined>): 
     jwtFallback: filled(env, "SUPABASE_JWT_SECRET") ? "hs256-fallback-set" : "jwks-only",
     noticeSmtp: inspectNoticeSmtp(env),
     railDronOrigins: filled(env, "RAIL_DRON_ORIGINS") ? "allowlist-set" : "native-no-cors",
-    superAdmin: filled(env, "SUPER_ADMIN_USER_ID") ? "configured" : "nobody-is-admin",
+    superAdmin: filled(env, "SUPER_ADMIN_USER_ID") ? "configured" : "uuid-unset",
     devlabsPepper: filled(env, "DEVLABS_KEY_PEPPER") ? "configured" : "dev-default",
     authRedirectPaths: AUTH_DASHBOARD_REDIRECT_PATHS,
     appUrlClass: classifyAppUrl(env.NEXT_PUBLIC_APP_URL),
@@ -416,7 +417,7 @@ export function formatSafeDefaultLines(ops: SafeDefaultOps): string[] {
     `  noticeSmtp=${smtp.mode} host=${yesNo(smtp.host)} port=${yesNo(smtp.port)} user=${yesNo(smtp.user)} pass=${yesNo(smtp.pass)} from=${yesNo(smtp.mailFrom)} (gün 0 dolu olmalı; boşsa nakit durmaz)`,
     `  trustedProxyHops=${ops.trustedProxyHops} (CF+Vercel=2)`,
     `  railDronOrigins=${ops.railDronOrigins} (üretim doğru varsayılan: native-no-cors)`,
-    `  superAdmin=${ops.superAdmin}`,
+    `  superAdmin=${ops.superAdmin} (uuid-unset = SUPER_ADMIN_USER_ID boş; kanonik e-posta varsayılanı ayrı kapıdır)`,
     `  authRedirects=${ops.authRedirectPaths.join(" ")} originClass=${ops.appUrlClass} (Dashboard Redirect URLs; origin basılmaz)`,
     `  llm gemini=${yesNo(llm.gemini)} openai=${yesNo(llm.openai)} anthropic=${yesNo(llm.anthropic)}`,
     "OPS-5 Hız tavanı (lansman kararı 19 Ağustos 2026):",

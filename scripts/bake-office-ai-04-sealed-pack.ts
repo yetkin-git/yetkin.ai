@@ -13,9 +13,10 @@ import { spawn } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { GoogleGenAI } from "@google/genai";
+import { ACADEMY_BAKE_MODELS, academyBakeVoiceModelId } from "@/lib/kernel/ai/model-roles";
 
 const ROOT = process.cwd();
-const SCRIPT_MODEL = "gemini-3.8-flash";
+const SCRIPT_MODEL = ACADEMY_BAKE_MODELS.LONG_HORIZON_TEXT;
 const MIN_GEMINI_KEY_CHARS = 8;
 const PUNCHCARDS = [
   "GİRİŞ KÖPRÜSÜ",
@@ -437,7 +438,8 @@ function writeSection4(script: ScriptPayload, exam: ExamPayload): void {
   const markdown = renderSectionMarkdown(script, exam);
   const words = wordCount(markdown);
   const minutes = Math.round((words / 140) * 10) / 10;
-  const source = `import type { Section } from "../types";
+  const source = `/** ARŞİV çıktısı. Canlı müfredat yolu yasaktır. */
+import type { Section } from "@/lib/academy/curricula/types";
 
 export const section4: Section = {
   sectionNumber: 4,
@@ -448,7 +450,7 @@ export const section4: Section = {
   contentMarkdown: ${JSON.stringify(`\n${markdown}`)},
 };
 `;
-  writeUtf8("lib/academy/curricula/office_ai/section_4.ts", source);
+  writeUtf8("archived/academy/01_office_ai-4/section_4.generated.ts", source);
 }
 
 async function generateJson(client: GoogleGenAI, prompt: string): Promise<unknown> {
@@ -635,7 +637,7 @@ async function overlayCueTimesFromTimings(): Promise<void> {
     `${JSON.stringify(
       {
         lessonKey: LESSON_KEY,
-        model: "gemini-3.1-flash-tts-preview",
+        model: academyBakeVoiceModelId(),
         voice: "Callirrhoe",
         durationSec: timings.durationSec ?? null,
         cues,
@@ -648,6 +650,12 @@ async function overlayCueTimesFromTimings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
+  if (process.argv.includes("--dry-run") || process.argv.includes("--sample-only")) {
+    process.stdout.write(
+      "dry-run: 01_office_ai-4 sınav yolunda yok. TTS açılmaz. API yok.\n",
+    );
+    return;
+  }
   throw new Error(
     "01_office_ai-4 sınav yolunda yoktur. Gövde archived/academy/01_office_ai-4 altındadır. Bu betik canlı lib'e yazmaz ve TTS açmaz.",
   );

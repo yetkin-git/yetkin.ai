@@ -6,6 +6,7 @@ import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { academyAudioGrantApiPath } from "@/lib/academy/lesson-audio-grant-path";
 import {
   academyLessonAudioPlaybackSrc,
+  academyLessonBedIsHardMixed,
   academyLessonBedPlaybackSrc,
   academyPlayerClockDurationSec,
   academySealedAudioDurationSec,
@@ -18,7 +19,10 @@ import {
   academyBedSpeechEndSec,
   academyOutroBreathFadeGain,
   academyPlayerOutroTailSec,
+  ACADEMY_BED_BREATH_DB,
+  ACADEMY_BED_INTRO_SEC,
   ACADEMY_BED_OUTRO_HOLD_SEC,
+  ACADEMY_BED_SPEECH_DB,
   ACADEMY_OUTRO_BREATH_MS,
 } from "@/lib/academy/lesson-bed-duck";
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
@@ -60,7 +64,8 @@ export function LessonMediaPlayer({
   const copy = ACADEMY_SEN.player;
   const listenCopy = ACADEMY_SEN.listen;
   const audioSealed = isAcademyLessonAudioSealed(courseSlug, lessonKey);
-  const bedSealed = isAcademyLessonBedSealed(courseSlug, lessonKey);
+  const bedHardMixed = academyLessonBedIsHardMixed(lessonKey);
+  const bedSealed = isAcademyLessonBedSealed(courseSlug, lessonKey) && !bedHardMixed;
   const playbackCandidate = useMemo(
     () =>
       audioSrcOverride?.trim() ||
@@ -69,9 +74,11 @@ export function LessonMediaPlayer({
   );
   const bedCandidate = useMemo(
     () =>
-      bedSrcOverride?.trim() ||
-      (bedSealed ? academyLessonBedPlaybackSrc(courseSlug, lessonKey) : undefined),
-    [bedSealed, bedSrcOverride, courseSlug, lessonKey],
+      bedHardMixed
+        ? undefined
+        : bedSrcOverride?.trim() ||
+          (bedSealed ? academyLessonBedPlaybackSrc(courseSlug, lessonKey) : undefined),
+    [bedHardMixed, bedSealed, bedSrcOverride, courseSlug, lessonKey],
   );
   const [audioSrc, setAudioSrc] = useState<string | undefined>();
   const [bedSrc, setBedSrc] = useState<string | undefined>();
@@ -102,7 +109,7 @@ export function LessonMediaPlayer({
           data?: { src?: string; bedSrc?: string | null };
         };
         setAudioSrc(body.data?.src);
-        setBedSrc(body.data?.bedSrc ?? undefined);
+        setBedSrc(bedHardMixed ? undefined : (body.data?.bedSrc ?? undefined));
         setGrantDenied(!body.data?.src);
       } catch {
         if (!controller.signal.aborted) {
@@ -113,15 +120,16 @@ export function LessonMediaPlayer({
       }
     })();
     return () => controller.abort();
-  }, [bedCandidate, courseSlug, lessonKey, playbackCandidate]);
+  }, [bedCandidate, bedHardMixed, courseSlug, lessonKey, playbackCandidate]);
   const bedPieces = useMemo(
     () => loadAcademySealedAudioTimings(lessonKey)?.pieces ?? [],
     [lessonKey],
   );
-  const sealedDuration =
+  const sealedSpeechSec =
     sealedDurationSecOverride != null && sealedDurationSecOverride > 0
       ? sealedDurationSecOverride
       : academySealedAudioDurationSec(courseSlug, lessonKey);
+  const sealedDuration = sealedSpeechSec + (bedHardMixed ? ACADEMY_BED_INTRO_SEC : 0);
   const brandedOutroTail = academyBedOutroTailSec(lessonKey);
   const outroTail = academyPlayerOutroTailSec(lessonKey);
   const fallbackDuration = sealedDuration + outroTail;
@@ -253,13 +261,13 @@ export function LessonMediaPlayer({
     if (outroBreathStartedAtMsRef.current > 0) {
       return Math.max(0, performance.now() - outroBreathStartedAtMsRef.current);
     }
-    const speechEnd = academyBedSpeechEndSec(bedPieces);
+    const speechEnd = academyBedSpeechEndSec(bedPieces) + (bedHardMixed ? ACADEMY_BED_INTRO_SEC : 0);
     const elapsedSec = clockRef.current.elapsed;
     if (speechEnd > 0 && elapsedSec >= speechEnd) {
       return Math.max(0, (elapsedSec - speechEnd) * 1000);
     }
     return 0;
-  }, [bedPieces]);
+  }, [bedHardMixed, bedPieces]);
 
   const markOutroBreath = useCallback(
     (fromElapsed: number) => {
@@ -279,7 +287,7 @@ export function LessonMediaPlayer({
       if (startedAt != null) {
         return academyOutroBreathFadeGain(intoOutroBreathMs() / 1000, outroBreathFromGainRef.current);
       }
-      const speechEnd = academyBedSpeechEndSec(bedPieces);
+      const speechEnd = academyBedSpeechEndSec(bedPieces) + (bedHardMixed ? ACADEMY_BED_INTRO_SEC : 0);
       if (speechEnd > 0 && elapsedSec >= speechEnd) {
         return academyOutroBreathFadeGain(
           elapsedSec - speechEnd,
@@ -288,7 +296,7 @@ export function LessonMediaPlayer({
       }
       return academyBedDuckGain(elapsedSec, bedPieces);
     },
-    [bedPieces, intoOutroBreathMs],
+    [bedHardMixed, bedPieces, intoOutroBreathMs],
   );
 
   useEffect(() => {
@@ -425,7 +433,7 @@ export function LessonMediaPlayer({
     (next: number) => {
       const cap = clockRef.current.duration > 0 ? clockRef.current.duration : fallbackDuration;
       const clamped = Math.max(0, Math.min(next, cap));
-      const speechEnd = academyBedSpeechEndSec(bedPieces);
+      const speechEnd = academyBedSpeechEndSec(bedPieces) + (bedHardMixed ? ACADEMY_BED_INTRO_SEC : 0);
       if (clamped + 0.05 < (speechEnd > 0 ? speechEnd : cap)) {
         outroBreathFromRef.current = null;
         outroBreathFromGainRef.current = 0;
@@ -451,7 +459,7 @@ export function LessonMediaPlayer({
         armOutroEndTimeout(clamped, cap);
       }
     },
-    [applyBedDuck, armOutroEndTimeout, audioReady, bedPieces, fallbackDuration, pushSpokenClock, sealIfEnded],
+    [applyBedDuck, armOutroEndTimeout, audioReady, bedHardMixed, bedPieces, fallbackDuration, pushSpokenClock, sealIfEnded],
   );
 
   const applyPauseLock = useCallback(() => {
@@ -672,7 +680,7 @@ export function LessonMediaPlayer({
     : hasAudioSrc && audioFailed
       ? listenCopy.failVoiceBinding
       : null;
-  const speechEndSec = bedPieces.at(-1)?.end ?? 0;
+  const speechEndSec = (bedPieces.at(-1)?.end ?? 0) + (bedHardMixed ? ACADEMY_BED_INTRO_SEC : 0);
   const intoOutro = elapsed - speechEndSec;
   const bedOutro =
     bedSrc &&
@@ -798,7 +806,7 @@ export function LessonMediaPlayer({
         <source src={audioSrc} type="audio/mpeg" />
       </audio>
       ) : null}
-      {bedSrc ? (
+      {bedSrc && !bedHardMixed ? (
         <audio
           key={bedSrc}
           ref={bedRef}
@@ -807,6 +815,8 @@ export function LessonMediaPlayer({
           loop
           aria-hidden
           data-academy-bed-audio="lyria"
+          data-academy-bed-speech-db={ACADEMY_BED_SPEECH_DB}
+          data-academy-bed-breath-db={ACADEMY_BED_BREATH_DB}
         >
           <source src={bedSrc} type="audio/mpeg" />
         </audio>

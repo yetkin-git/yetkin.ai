@@ -3,6 +3,11 @@
  * İzleme anında harici API yok; mühürlü bed MP3 + bake parça saati.
  */
 
+import {
+  ACADEMY_OFF101_BED_HARD_MIX_LESSON_KEYS,
+  academyLessonBedIsHardMixed,
+} from "@/lib/academy/lesson-audio";
+
 /** Lyria 3.5 atmosferi — ders konusuna göre döner. Tek şablon yatak yasak. */
 export const ACADEMY_BED_MOODS = ["ambient", "lo-fi", "upbeat"] as const;
 
@@ -17,9 +22,26 @@ export const ACADEMY_OFF201_LESSON_BED_MOOD = {
   "01_office_ai_ileri-6": "upbeat",
 } as const satisfies Record<string, AcademyBedMood>;
 
+/** OFF-101 Lyria atmosferi. Tek şablon yatak yok; ders konusu döner. */
+export const ACADEMY_OFF101_LESSON_BED_MOOD = {
+  "01_office_ai-1": "ambient",
+  "01_office_ai-2": "lo-fi",
+  "01_office_ai-3": "upbeat",
+  "01_office_ai-5": "ambient",
+  "01_office_ai-6": "lo-fi",
+  "01_office_ai-g1": "upbeat",
+  "01_office_ai-w1": "ambient",
+  "01_office_ai-k1": "lo-fi",
+} as const satisfies Record<string, AcademyBedMood>;
+
 export function academyLessonBedMood(lessonKey: string): AcademyBedMood {
-  const mapped = ACADEMY_OFF201_LESSON_BED_MOOD[lessonKey.trim() as keyof typeof ACADEMY_OFF201_LESSON_BED_MOOD];
-  return mapped ?? "ambient";
+  const key = lessonKey.trim();
+  const off201 = ACADEMY_OFF201_LESSON_BED_MOOD[key as keyof typeof ACADEMY_OFF201_LESSON_BED_MOOD];
+  if (off201) {
+    return off201;
+  }
+  const off101 = ACADEMY_OFF101_LESSON_BED_MOOD[key as keyof typeof ACADEMY_OFF101_LESSON_BED_MOOD];
+  return off101 ?? "ambient";
 }
 
 export function academyLessonBedPrompt(mood: AcademyBedMood): string {
@@ -27,13 +49,59 @@ export function academyLessonBedPrompt(mood: AcademyBedMood): string {
     mood === "upbeat"
       ? "Light upbeat office pulse, soft kick, muted pluck, forward but not loud."
       : mood === "lo-fi"
-        ? "Lo-fi study bed, warm tape hiss barely present, dusty keys, slow swing."
-        : "Ambient office air, soft piano, muted guitar, light brushed percussion, gentle analog pad.";
-  return `Instrumental only, no vocals, no lyrics. ${tone} Loop-friendly bed for a spoken lesson. Stays quiet under speech and swells politely in 3 to 5 second breath gaps. No melody that fights the narrator. 44.1 kHz stereo.`;
+        ? "Lo-fi study bed, warm tape hiss barely present, dusty keys, slow swing, soft synth."
+        : "Corporate ambient air, soft piano, muted guitar, light brushed percussion, gentle analog pad, soft lo-fi synth.";
+  return `Instrumental only, no vocals, no lyrics, no humming, no choir. Calm focus-enhancing bed. ${tone} About ninety seconds, loop-friendly, gentle edges so it can repeat under a spoken lesson. Stays quiet under speech and swells politely in 3 to 5 second breath gaps. No melody that fights the narrator. 44.1 kHz stereo.`;
 }
 
-export const ACADEMY_BED_SPEECH_GAIN = 0.12;
-export const ACADEMY_BED_BREATH_GAIN = 0.46;
+/**
+ * Hard-mix yatak kazancı. Konuşma dosyasının içinde kalır; ayrı audio etiketi yok.
+ * Kulakla duyulur dip: anlatımı bastırmaz, sessiz dipte kaybolmaz.
+ */
+export const ACADEMY_BED_HARD_MIX_DB = -18;
+/**
+ * Hard-mix giriş bandı. İlk 3–5 sn yalnız müzik (crescendo).
+ * Mühür ortası 4.00 sn. Konuşma bu saniyeden sonra girer; yatak -18 dB’ye iner.
+ */
+export const ACADEMY_BED_INTRO_MIN_SEC = 3;
+export const ACADEMY_BED_INTRO_MAX_SEC = 5;
+export const ACADEMY_BED_INTRO_SEC = 4;
+/** OFF-101 hard-mix girişi. Bant alt ucu: 3.00 sn yalnız müzik. */
+export const ACADEMY_OFF101_BED_INTRO_SEC = ACADEMY_BED_INTRO_MIN_SEC;
+/** Giriş crescendo tepesi. Konuşma yokken yatak duyulur; 0 dB’ye yapışmaz. */
+export const ACADEMY_BED_INTRO_PEAK_DB = -8;
+/** Giriş tabanı. Crescendo buradan tepeye çıkar, sonra -18 dB duck. */
+export const ACADEMY_BED_INTRO_FLOOR_DB = -20;
+/** Konuşma girerken yatak iniş rampası. Nefes payı ile aynı aile. */
+export const ACADEMY_BED_INTRO_DUCK_SEC = 0.4;
+
+export function academyBedIntroSec(lessonKey: string): number {
+  const key = lessonKey.trim();
+  if ((ACADEMY_OFF101_BED_HARD_MIX_LESSON_KEYS as readonly string[]).includes(key)) {
+    return ACADEMY_OFF101_BED_INTRO_SEC;
+  }
+  return academyLessonBedIsHardMixed(key) ? ACADEMY_BED_INTRO_SEC : 0;
+}
+
+/** Konuşma saati. Hard-mix dosyasında ilk saniyeler yalnız müziktir. */
+export function academyBedSpeechClockSec(lessonKey: string, mediaSec: number): number {
+  const t = Number.isFinite(mediaSec) ? Math.max(0, mediaSec) : 0;
+  return Math.max(0, t - academyBedIntroSec(lessonKey));
+}
+
+/** Konuşma altı dip — lineer kazanç `10^(dB/20)`. Anlatımı bastırmaz. Ayrı yatak etiketi içindir. */
+export const ACADEMY_BED_SPEECH_DB = -25;
+/** Nefes payı — konuşmadan 3 dB açık, hâlâ dipte. */
+export const ACADEMY_BED_BREATH_DB = -22;
+/** İlk konuşma 0. saniyede açılırsa yatak bu sürede 0’dan dipe yükselir. */
+export const ACADEMY_BED_ENGAGE_SEC = 1.5;
+
+export function academyBedDbToLinear(db: number): number {
+  return 10 ** (db / 20);
+}
+
+export const ACADEMY_BED_SPEECH_GAIN = academyBedDbToLinear(ACADEMY_BED_SPEECH_DB);
+export const ACADEMY_BED_BREATH_GAIN = academyBedDbToLinear(ACADEMY_BED_BREATH_DB);
 /** Gelecek Ders Köprüsü son kelimesi bittiği an — Lyria zirve kazancı. */
 export const ACADEMY_BED_OUTRO_PEAK_GAIN = 0.7;
 /** Nefes payı yükseliş penceresi (saniye). */
@@ -41,7 +109,7 @@ export const ACADEMY_BED_BREATH_MIN_SEC = 3;
 export const ACADEMY_BED_BREATH_MAX_SEC = 5;
 /** Oynatıcı hacim süzgeci — 3–5 sn bandının ortası. */
 export const ACADEMY_BED_DUCK_TAU_SEC = 4;
-/** Gelecek Ders Köprüsü son 3 sn — dip müzik 0.46’ya yükselir. */
+/** Gelecek Ders Köprüsü son 3 sn — dip müzik nefes payına (-22 dB) yükselir. */
 export const ACADEMY_BED_OUTRO_LIFT_SEC = 3;
 /** Logo + özet + checklist üstünde coşkulu kapanış jeneriği. */
 export const ACADEMY_BED_OUTRO_HOLD_SEC = 3;
@@ -80,7 +148,7 @@ export type AcademyBedSpeechWindow = {
   cueId?: string;
 };
 
-/** CEBİNE KOY pekiştirme durağında 0.46. Giriş 0–2 sn konuşmasız (nefes kazancı); konuşma 2.0’de 0.12. */
+/** CEBİNE KOY pekiştirme durağında -22 dB. Giriş 0–2 sn konuşmasız (nefes kazancı); konuşma 3 sn içinde -25 dB. */
 export const ACADEMY_BED_LIFT_CUE_IDS = ["cue-07"] as const;
 
 export function academyBedIsLiftCue(cueId: string | undefined): boolean {
@@ -91,6 +159,14 @@ export function academyBedSpeechWindows(
   pieces: readonly AcademyBedSpeechWindow[],
 ): readonly AcademyBedSpeechWindow[] {
   return pieces.filter((piece) => piece.end > piece.start);
+}
+
+/** Konuşma 0’da başlıyorsa yatak sert açılmaz; 1.5 sn içinde dipe oturur. */
+function engageBedFade(gain: number, fromStart: number, pieceStart: number, firstStart: number): number {
+  if (pieceStart > 0.05 || firstStart > 0.05 || fromStart >= ACADEMY_BED_ENGAGE_SEC) {
+    return gain;
+  }
+  return gain * smoothstep(0, ACADEMY_BED_ENGAGE_SEC, fromStart);
 }
 
 function clamp01(value: number): number {
@@ -166,7 +242,8 @@ export function academyBedDuckGain(
     const fromStart = t - piece.start;
     if (fromStart < ACADEMY_BED_BREATH_MIN_SEC) {
       const u = smoothstep(0, ACADEMY_BED_BREATH_MIN_SEC, fromStart);
-      return ACADEMY_BED_BREATH_GAIN + (ACADEMY_BED_SPEECH_GAIN - ACADEMY_BED_BREATH_GAIN) * u;
+      const dipped = ACADEMY_BED_BREATH_GAIN + (ACADEMY_BED_SPEECH_GAIN - ACADEMY_BED_BREATH_GAIN) * u;
+      return engageBedFade(dipped, fromStart, piece.start, windows[0]?.start ?? piece.start);
     }
     return ACADEMY_BED_SPEECH_GAIN;
   }

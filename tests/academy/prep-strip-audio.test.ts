@@ -68,7 +68,7 @@ const PUNCHCARDS = [
   "SOHBET EKRANI",
   "İLK İSTEM",
   "HANGİ DİL",
-  "CEBİNE KOY",
+  "DÖRT PARÇAYLA YAZ",
   "SIRA SENDE",
 ] as const;
 
@@ -112,7 +112,7 @@ describe("Ders 0 fırın hazırlığı — konuşma metni + cue + timings", () =
     expect(blob).toMatch(/A1 hücresi/u);
     expect(blob).toMatch(/şirketinin paralı lisansı yoksa takılma, ücretsiz panelle devam et/u);
     expect(blob).toMatch(/Önce tabloyu temizlersin/u);
-    expect(blob).toMatch(/kapı sırası/u);
+    expect(blob).toMatch(/üç adımdır/u);
     expect(blob).not.toMatch(/lisans yoksa durma/u);
     expect(blob).not.toMatch(/«Daha zeki model» satın almak/u);
     expect(loadAcademyLessonPlaybackCues(KEY)).toHaveLength(8);
@@ -237,6 +237,6 @@ describe("Ders 0 fırın işi + 101 dokunulmazlığı", () => {
     expect(curriculumForCourseSlug(SLUG)).toHaveLength(8);
     expect(ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS).toHaveLength(33);
     const total = academyCourseSealedDurationSec(SLUG);
-    expect(Math.abs(total - 4698.12)).toBeLessThanOrEqual(0.01);
+    expect(Math.abs(total - 4880.862)).toBeLessThanOrEqual(0.01);
   });
 });

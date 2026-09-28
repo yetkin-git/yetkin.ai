@@ -66,7 +66,12 @@ async function citizenFromAccessToken(
   if (!isSupabaseUserId(data.user.id)) {
     return null;
   }
-  return { id: data.user.id, email: data.user.email, accessToken };
+  return {
+    id: data.user.id,
+    email: data.user.email,
+    emailConfirmedAt: data.user.email_confirmed_at ?? null,
+    accessToken,
+  };
 }
 
 function parseCookieHeader(header: string | null | undefined): { name: string; value: string }[] {
@@ -167,7 +172,11 @@ async function userFromCookies(
   if (!isSupabaseUserId(data.user.id)) {
     return null;
   }
-  return { id: data.user.id, email: data.user.email };
+  return {
+    id: data.user.id,
+    email: data.user.email,
+    emailConfirmedAt: data.user.email_confirmed_at ?? null,
+  };
 }
 
 async function citizenFromCookies(
@@ -200,7 +209,12 @@ async function citizenFromCookies(
   if (!accessToken) {
     return null;
   }
-  return { id: data.user.id, email: data.user.email, accessToken };
+  return {
+    id: data.user.id,
+    email: data.user.email,
+    emailConfirmedAt: data.user.email_confirmed_at ?? null,
+    accessToken,
+  };
 }
 
 export function isSupabaseConfigured(): boolean {

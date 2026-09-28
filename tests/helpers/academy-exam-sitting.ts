@@ -58,6 +58,7 @@ export async function submitAcademyExamWithFreshSitting(
     courseId: string;
     userId: string;
     email?: string | null;
+    emailConfirmedAt?: string | null;
     now?: Date;
     mode?: "perfect" | "failing";
     proof?: Parameters<typeof submitAcademyExam>[1]["proof"];
@@ -70,6 +71,7 @@ export async function submitAcademyExamWithFreshSitting(
     command.userId,
     command.now,
     command.email,
+    command.emailConfirmedAt,
   );
   if (!view) {
     throw new Error("Sınav oturumu açılamadı.");
@@ -88,6 +90,7 @@ export async function submitAcademyExamWithFreshSitting(
     courseId: command.courseId,
     userId: command.userId,
     email: command.email,
+    emailConfirmedAt: command.emailConfirmedAt,
     now: command.now,
     answers,
     sessionToken: view.sessionToken,

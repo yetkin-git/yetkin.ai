@@ -517,7 +517,7 @@ export const ACADEMY_SEN = {
       "Haklı hata veya eksiklik (REVİZYON_TALEBİ) yorumları burada durur. Onay, ilgili ders sürümünü günceller ve tohum güncelleme günlüğüne yazar. Müfredat mührü ve tohum dosyası bu adımda değişmez.",
     auth: "Müfredat revizyonu oturum ister. Sahte onay basılmaz.",
     forbidden:
-      "Bu sığınak Super Admin kilidine bağlıdır. SUPER_ADMIN_USER_ID eşleşmezse kuyruk okunmaz.",
+      "Bu sığınak Super Admin kilidine bağlıdır. Doğrulanmış e-posta ve üretim kimliği eşleşmezse kuyruk okunmaz.",
     approve: "Revizyon Onayla",
     pending: "Onaylanıyor…",
     empty: "Bekleyen revizyon talebi yok.",

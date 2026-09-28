@@ -7,7 +7,7 @@ export const sectionW1: Section = {
   isLocked: true,
   title: "Word ve Uzun Belge İncelemesi: Sözleşme, Dilekçe, Rapor",
   targetDurationMinutes: 9.7,
-  estimatedWordCount: 1249,
+  estimatedWordCount: 1248,
   pedagogicalObjective:
     "Sözleşmeyi yüklemeden önce şirket onaylı aracı ve maskeyi denetlemeyi göstermek. Neden uzun belgeyi satır satır okutmak yerine riskli maddeleri aratırız? Çünkü satır satır okutunca yığın çıkar; ceza, fesih ve gizlilik ayrı sayfalarda kalır. Resmî belgede neden öğretmen SEN, belge SIZ? Çünkü kulağa SEN gider, kâğıda SIZ yazılır. Unvanı, tarihi, sayıyı ve hitabı sen yazarsın.",
   contentMarkdown: `
@@ -21,9 +21,9 @@ Selamlar, ben Gözde. Word ve uzun belge incelemesi dersine hoş geldin. Dün e-
 
 ## PARÇA PARÇA
 
-Tek tek kopyalama şudur: sayfa dördü kopyala, yapıştır, sayfa on biri kopyala, yine yapıştır. Peki neden bu atlanmış kapıdır, yasak listesi değil? Çünkü model yarım cümle görür; ceza oranını kaçırır. Otuz sayfayı parça parça taşımak üçüncü kapı değildir. Üçüncü kapı son çaredir: tek paragraf, maskeli kısa yapıştırma. Bu yolu önermiyoruz.
+Tek tek kopyalama şudur: sayfa dördü kopyala, yapıştır, sayfa on biri kopyala, yine yapıştır. Peki neden bu atlanmış adımdır, yasak listesi değil? Çünkü model yarım cümle görür; ceza oranını kaçırır. Otuz sayfayı parça parça taşımak üçüncü adım değildir. Üçüncü adım son çaredir: tek paragraf, maskeli kısa yapıştırma. Bu yolu önermiyoruz.
 
-Parça parça kopyalarsan önemli maddeleri atlarsın. Örneğin 4. sayfadaki ceza şartını alıp 11. sayfadaki süreyi unuttuğunda analiz eksik kalır. Dilekçeden sadece bir paragraf kopyalarsan, resmi kurum adı ve talep kısmı dışarıda kaldığı için yapay zekâ dilekçeyi tam yorumlayamaz. Raporda kayıp ayrımdır: gözlem ile karar notu karışır. Parça parça taşımak üçüncü kapı sayılmaz. Üçüncü kapı tek paragraftır: isim yok, hesap yok. Dosya bütün hâliyle yüklenir.
+Parça parça kopyalarsan önemli maddeleri atlarsın. Örneğin 4. sayfadaki ceza şartını alıp 11. sayfadaki süreyi unuttuğunda analiz eksik kalır. Dilekçeden sadece bir paragraf kopyalarsan, resmi kurum adı ve talep kısmı dışarıda kaldığı için yapay zekâ dilekçeyi tam yorumlayamaz. Raporda kayıp ayrımdır: gözlem ile karar notu karışır. Parça parça taşımak üçüncü adım sayılmaz. Üçüncü adım tek paragraftır: isim yok, hesap yok. Dosya bütün hâliyle yüklenir.
 
 Sayfa dördü alıp sayfa on biri unutmak işi bitirmez. Model yarım görür, sen tam sanırsın. Ataş bu kopukluğu kapatır: dosya bütün gider, madde listesi sayfa numarasıyla döner.
 
@@ -55,7 +55,7 @@ Parça parça yapıştırmak satır kaçırır. Dosyayı tek parçada yüklersen
 
 ## CEBİNE KOY
 
-Cebine üç adım koy. Birincisi: dosyayı yükle. Çünkü satır satır okutmak riskli maddeyi kaçırır. Sözleşme, dilekçe veya rapor fark etmez; yöntem ataştır. İkincisi: sözleşme, dilekçe veya raporu ayrı istemle sor. Çünkü tek istem üç işi yığar. Madde, hitap ve rapor düzeni birbirine karışmaz. Üçüncüsü: tarih, sayı ve imzayı sen yazarsın. Çünkü model taslak yazar, mühür basmaz. Şu paragrafı soracaksan istemine ekle; liste halinde al, uydurma kanun maddesini sil, imzayı kendin at.
+Üç adımı yaz. Birincisi: dosyayı yükle. Çünkü satır satır okutmak riskli maddeyi kaçırır. Sözleşme, dilekçe veya rapor fark etmez; yöntem ataştır. İkincisi: sözleşme, dilekçe veya raporu ayrı istemle sor. Çünkü tek istem üç işi yığar. Madde, hitap ve rapor düzeni birbirine karışmaz. Üçüncüsü: tarih, sayı ve imzayı sen yazarsın. Çünkü model taslak yazar, mühür basmaz. Şu paragrafı soracaksan istemine ekle; liste halinde al, uydurma kanun maddesini sil, imzayı kendin at.
 
 ## SIRA SENDE
 

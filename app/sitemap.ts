@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { academyCourseCoverPath } from "@/lib/academy/course-cover";
-import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
+import { ACADEMY_GROWTH_SKU_SLUGS, ACADEMY_OFF201_STOREFRONT_SLUG } from "@/lib/academy/pilot-sku";
 import { LEGAL_SITE_PATHS } from "@/lib/copy/legal-launch";
 import {
   CANONICAL_SITE_ORIGIN,
@@ -34,12 +34,17 @@ function sitemapEntry(
 }
 
 /**
- * Yayın vitrin SKU’ları — `ACADEMY_GROWTH_SKU_SLUGS` SSOT.
+ * Yayın antreleri — büyüme vitrini ve mühürlü OFF-201.
  * Fiyat/tohum/Prisma katmanı sitemap’e girmez; katalog throw 500 üretmez.
  */
+const SITEMAP_ACADEMY_COURSE_SLUGS = [
+  ...ACADEMY_GROWTH_SKU_SLUGS,
+  ACADEMY_OFF201_STOREFRONT_SLUG,
+] as const;
+
 function publishedAcademyCourseEntries(lastModified: Date): MetadataRoute.Sitemap {
   try {
-    return ACADEMY_GROWTH_SKU_SLUGS.map((slug) => {
+    return SITEMAP_ACADEMY_COURSE_SLUGS.map((slug) => {
       let images: string[] | undefined;
       try {
         const cover = academyCourseCoverPath(slug);
@@ -63,7 +68,7 @@ function staticSitemapEntries(lastModified: Date): MetadataRoute.Sitemap {
 export default function sitemap(): MetadataRoute.Sitemap {
   // SEO Tedavi (P1) — sabit mühür yerine dinamik üretim anı.
   // Sitemap isteğe bağlı üretildiği için bu değer her derlemede/isteğe güncellenir;
-  // kurs girdileri tohum SSOT'undan (`ACADEMY_GROWTH_SKU_SLUGS`) beslenmeye devam eder.
+  // kurs girdileri mühürlü antre SSOT'undan (`SITEMAP_ACADEMY_COURSE_SLUGS`) beslenir.
   const lastModified = new Date();
   try {
     const staticEntries = staticSitemapEntries(lastModified);

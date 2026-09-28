@@ -2,7 +2,7 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 78.495,
+    "end": 73.448,
     "text": "YAN YANA SAYI",
     "section": "Açılış",
     "paragraphs": [
@@ -12,8 +12,8 @@
   },
   {
     "id": "cue-02",
-    "start": 78.745,
-    "end": 151.556,
+    "start": 73.698,
+    "end": 137.64,
     "text": "ÜÇ ADIM",
     "section": "Açılış",
     "paragraphs": [
@@ -23,8 +23,8 @@
   },
   {
     "id": "cue-03",
-    "start": 151.806,
-    "end": 224.403,
+    "start": 137.89,
+    "end": 196.363,
     "text": "ÜÇ DOSYA",
     "section": "Açılış",
     "paragraphs": [
@@ -34,8 +34,8 @@
   },
   {
     "id": "cue-04",
-    "start": 224.653,
-    "end": 335.043,
+    "start": 196.613,
+    "end": 302.33,
     "text": "ADI ÇIKAR",
     "section": "VERİYİ VERMEDEN ÖNCE",
     "paragraphs": [
@@ -45,8 +45,8 @@
   },
   {
     "id": "cue-05",
-    "start": 335.293,
-    "end": 451.145,
+    "start": 302.58,
+    "end": 406.869,
     "text": "YAN YANA BAK",
     "section": "DÖRT PARÇA",
     "paragraphs": [
@@ -56,8 +56,8 @@
   },
   {
     "id": "cue-06",
-    "start": 451.395,
-    "end": 551.777,
+    "start": 407.119,
+    "end": 515.229,
     "text": "UYUŞMAYAN SAYI",
     "section": "YANLIŞ VE DOĞRU",
     "paragraphs": [
@@ -67,8 +67,8 @@
   },
   {
     "id": "cue-07",
-    "start": 552.027,
-    "end": 685.686,
+    "start": 515.479,
+    "end": 614.145,
     "text": "UYUŞMAYANI YAZMA",
     "section": "UYUŞMAYANI YAZMA",
     "paragraphs": [
@@ -78,8 +78,8 @@
   },
   {
     "id": "cue-08",
-    "start": 685.936,
-    "end": 793.186,
+    "start": 614.395,
+    "end": 714.382,
     "text": "ÜÇ DOSYAYI SEÇ",
     "section": "ÜÇ DOSYAYI SEÇ",
     "paragraphs": [

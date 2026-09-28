@@ -167,8 +167,9 @@ export const loadPurchaseForUserCourse = cache(async function loadPurchaseForUse
   userId: string,
   courseId: string,
   email?: string | null,
+  emailConfirmedAt?: string | null,
 ): Promise<AcademyPurchaseRecord | null> {
-  const actor: AcademyActor = { userId, email };
+  const actor: AcademyActor = { userId, email, emailConfirmedAt };
   if (hasAcademyAdminBypass(actor) && !isPrismaQueryEngineReady()) {
     void ensurePrismaQueryEngine();
     return createAcademyAdminBypassPurchase(userId, courseId);
@@ -191,8 +192,9 @@ export const loadArtifactPurchaseForUserCourse = cache(async function loadArtifa
   userId: string,
   courseId: string,
   email?: string | null,
+  emailConfirmedAt?: string | null,
 ): Promise<AcademyPurchaseRecord | null> {
-  const actor: AcademyActor = { userId, email };
+  const actor: AcademyActor = { userId, email, emailConfirmedAt };
   try {
     const ports = createPrismaAcademyPorts();
     return await academySsrRead(
@@ -214,6 +216,7 @@ export const loadExamGateForUserCourse = cache(async function loadExamGateForUse
   userId: string,
   courseId: string,
   email?: string | null,
+  emailConfirmedAt?: string | null,
 ): Promise<{
   examTitle: string;
   passScore: number;
@@ -223,7 +226,14 @@ export const loadExamGateForUserCourse = cache(async function loadExamGateForUse
   try {
     return await academySsrRead(async () => {
       const ports = createPrismaAcademyPorts();
-      const view = await loadAcademyExamGateStatus(ports, courseId, userId, undefined, email);
+      const view = await loadAcademyExamGateStatus(
+        ports,
+        courseId,
+        userId,
+        undefined,
+        email,
+        emailConfirmedAt,
+      );
       if (!view) {
         return null;
       }
@@ -243,8 +253,9 @@ export const loadCurriculumPlayerForUser = cache(async function loadCurriculumPl
   userId: string,
   courseId: string,
   email?: string | null,
+  emailConfirmedAt?: string | null,
 ): Promise<AcademyCurriculumPlayerView | null> {
-  const actor: AcademyActor = { userId, email };
+  const actor: AcademyActor = { userId, email, emailConfirmedAt };
   if (hasUnlimitedAcademyAccess(actor) && !isPrismaQueryEngineReady()) {
     void ensurePrismaQueryEngine();
     const seeded = resolveAcademyCourseFromSeed(courseId);
@@ -253,7 +264,7 @@ export const loadCurriculumPlayerForUser = cache(async function loadCurriculumPl
   try {
     return await academySsrRead(async () => {
       const ports = createPrismaAcademyPorts();
-      return await loadAcademyCurriculumPlayer(ports, { courseId, userId, email });
+      return await loadAcademyCurriculumPlayer(ports, { courseId, userId, email, emailConfirmedAt });
     }, "academy.player");
   } catch {
     if (!hasUnlimitedAcademyAccess(actor)) {
@@ -355,6 +366,7 @@ export async function loadAcademyPathwayCatalog(input: {
 export const loadAcademyProgressionForCourse = cache(async function loadAcademyProgressionForCourse(input: {
   userId: string | null;
   email?: string | null;
+  emailConfirmedAt?: string | null;
   currentSlug: string;
   courses?: readonly { id: string; slug: string }[];
 }): Promise<{
@@ -369,10 +381,16 @@ export const loadAcademyProgressionForCourse = cache(async function loadAcademyP
       if (!input.userId || !next) {
         return false;
       }
-      const purchase = await loadPurchaseForUserCourse(input.userId, next.id, input.email);
+      const purchase = await loadPurchaseForUserCourse(
+        input.userId,
+        next.id,
+        input.email,
+        input.emailConfirmedAt,
+      );
       return hasAcademyPlayerAccess(purchase, {
         userId: input.userId,
         email: input.email,
+        emailConfirmedAt: input.emailConfirmedAt,
       });
     })(),
     input.userId != null ? loadCertificatesForUser(input.userId) : Promise.resolve(null),

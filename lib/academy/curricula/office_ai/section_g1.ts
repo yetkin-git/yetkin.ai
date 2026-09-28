@@ -6,8 +6,8 @@ export const sectionG1: Section = {
   isPreviewAllowed: false,
   isLocked: true,
   title: "E-Posta Akışı: Gmail / Outlook ve Aksiyon Listesi",
-  targetDurationMinutes: 10.1,
-  estimatedWordCount: 1301,
+  targetDurationMinutes: 10.6,
+  estimatedWordCount: 1300,
   pedagogicalObjective:
     "İlk iki dakika etiket, taslak, insan onayı ve arşiv. Ardından gelen kutuyu şirketin onayladığı panelde yerinde aksiyon listesine dökmek. Onaylı araç yoksa kutuyu kişisel Gmail'e taşıma; maskeli kısa özet yaz. Kopyalanan metin tarihi, göndereni ve bağlamı kaybeder. Aksiyon listesinde kim, ne, ne zaman kilitlenir.",
   contentMarkdown: `
@@ -19,7 +19,7 @@ Peki e-posta triyajı nedir? İletiyi açmadan önce acil, aksiyon veya arşivli
 
 Bu derste iki kutu vardır. Gmail kolunda Gemini paneli, Outlook kolunda Copilot şeridi durur. Sebebi şu: kutu değişir, iş değişmez: ödeme, onay ve acil aksiyon her iki kutuda da aynı üç soruyu ister. Kim gönderdi, iş nedir, son tarih ne zaman. Panelin adı değişir; tablonun sütunları değişmez. Bugün Gmail kolunu göreceksin; Outlook kolu aynı cümleyle çalışır. Şirketin onayladığı panel yoksa rutin değişmez: maskeli kısa özet yazarsın. İş postasını kişisel hesaba taşımazsın.
 
-Sabah gelen kutusunu açtığında acil olanla rutin olanı nasıl ayırırsın? Ödeme, onay, acil aksiyon, banka dekontu ve bülten aynı yığında durur. Tek tek açmak günü yer. Peki aksiyon listesinde kim, ne, ne zaman neden kilitlenir? Çünkü gönderen yoksa tahsilat kime bağlanır; iş yoksa bülten ödeme gibi durur; son tarih yoksa Kaya Gıda’nın bugünü kaybolur. Kaya Gıda 54.650 TL ödeme onayı istiyor; yanıtı hemen yazıp konuyu kapat. Asıl kapı Gmail’in yanındaki Gemini paneli ve Outlook’taki Copilot şerididir. Çıktı aksiyon tablosudur: Gönderen | İş | Son tarih | Taslak yanıt notu.
+Sabah gelen kutusunu açtığında acil olanla rutin olanı nasıl ayırırsın? Ödeme, onay, acil aksiyon, banka dekontu ve bülten aynı yığında durur. Tek tek açmak günü yer. Peki aksiyon listesinde kim, ne, ne zaman neden kilitlenir? Çünkü gönderen yoksa tahsilat kime bağlanır; iş yoksa bülten ödeme gibi durur; son tarih yoksa Kaya Gıda’nın bugünü kaybolur. Kaya Gıda 54.650 TL ödeme onayı istiyor; yanıtı hemen yazıp konuyu kapat. Asıl yol Gmail’in yanındaki Gemini paneli ve Outlook’taki Copilot şerididir. Çıktı aksiyon tablosudur: Gönderen | İş | Son tarih | Taslak yanıt notu.
 
 Tablonun dört sütunu işi ayırır. Gönderen işin sahibini yazar, iş talebi yazar, son tarih günü kilitler, taslak yanıt notu ilk cümleyi yazar. Dördüncü sütun nottur, metin değildir: not kontrol ister; metin gönder ister. Kaya Gıda satırında tahsilat kırmızı durur; bülten satırında arşivlik yeşil durur.
 
@@ -53,7 +53,7 @@ Farkı üç renkte ölç. Kırmızı bugün ödeme bekleyen satırdır. Sarı bu
 
 ## CEBİNE KOY
 
-Bu dersten cebine üç kural koy. Bir: kutuyu yerinde oku. Çünkü şirketin onayladığı panel kutunun içindedir; Gmail’de Gemini, Outlook’ta Copilot. Onaylı panel dururken kopyala-yapıştır atlanmış yoldur. İki: kim, ne, ne zaman kilitlensin. Çünkü gönderen, iş ve son tarih yoksa tahsilat bültenin altında kaybolur. Dördüncü sütun taslak notudur; gönder tuşu değildir. Üç: insan onayından önce gönderme. Çünkü model nezaket üretir, taahhüt üretemez. Taslak notu «şu cümleyi kontrol et» demektir; «onayla ve gönder» demek değildir.
+Bu dersten üç kuralı yaz. Bir: kutuyu yerinde oku. Çünkü şirketin onayladığı panel kutunun içindedir; Gmail’de Gemini, Outlook’ta Copilot. Onaylı panel dururken kopyala-yapıştır atlanmış yoldur. İki: kim, ne, ne zaman kilitlensin. Çünkü gönderen, iş ve son tarih yoksa tahsilat bültenin altında kaybolur. Dördüncü sütun taslak notudur; gönder tuşu değildir. Üç: insan onayından önce gönderme. Çünkü model nezaket üretir, taahhüt üretemez. Taslak notu «şu cümleyi kontrol et» demektir; «onayla ve gönder» demek değildir.
 
 ## SIRA SENDE
 

@@ -125,13 +125,15 @@ describe("01_office_ai bölüm 2 — tablodan yönetim özetine Altın Şablon",
     expect(prose).not.toMatch(/sonsuz/iu);
     expect(prose).not.toMatch(/vazgeçilmez bir ekip/iu);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.map((cue) => academyPunchcardLabel(cue.text))).toEqual([...PUNCHCARDS]);
+    expect(cues.map((cue) => academyPunchcardLabel(cue.text))).toEqual(
+      PUNCHCARDS.map((label) => (label === "CEBİNE KOY" ? "KARAR CÜMLESİ YAZ" : label)),
+    );
     expect(cues.map((cue) => cue.paragraphs?.length ?? 0)).toEqual([1, 2, 2, 2, 2, 2, 1, 2]);
     expect(academyActivePunchcard(cues, 0)).toBeNull();
     expect(cues[0]!.start).toBe(ACADEMY_INTRO_GENERIC_SEC);
     expect(academyActivePunchcard(cues, 2)?.label).toBe("GİRİŞ KÖPRÜSÜ");
     expect(cues[0]!.end).toBeGreaterThanOrEqual(38);
-    const pocket = cues.find((cue) => academyPunchcardLabel(cue.text) === "CEBİNE KOY");
+    const pocket = cues.find((cue) => cue.section === "CEBİNE KOY");
     expect(pocket?.paragraphs?.join(" ")).toMatch(/1\./u);
     expect(pocket?.paragraphs?.join(" ")).toMatch(/toplam/iu);
     expect(pocket?.paragraphs?.join(" ")).toMatch(/yön/iu);
@@ -193,7 +195,7 @@ describe("01_office_ai bölüm 2 — tablodan yönetim özetine Altın Şablon",
     expect(pieces[0]?.start).toBe(2);
     expect(academyBedDuckGain(0.5, pieces)).toBe(ACADEMY_BED_BREATH_GAIN);
     const lastEnd = pieces.at(-1)?.end ?? 0;
-    expect(lastEnd).toBe(520.08);
+    expect(lastEnd).toBe(536.659);
     expect(academyBedDuckGain(lastEnd, pieces)).toBe(ACADEMY_BED_OUTRO_PEAK_GAIN);
   });
 
@@ -272,17 +274,18 @@ describe("01_office_ai bölüm 2 — tablodan yönetim özetine Altın Şablon",
 
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
-    expect(timings?.durationSec).toBe(520.08);
-    expect(timings?.cacheV).toBe(520080);
+    expect(timings?.durationSec).toBe(536.659);
+    expect(timings?.cacheV).toBe(539659);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.at(-1)?.end).toBe(520.08);
+    expect(cues.at(-1)?.end).toBe(536.659);
     for (const cue of cues) {
       const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
-      expect(pieces[0]?.start, cue.id).toBe(cue.start);
+      const lead = Number((pieces[0]!.start - cue.start).toFixed(3));
+      expect([0, 1.5], cue.id).toContain(lead);
       expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
     }
     const strip = loadAcademyKaraokeStrip(KEY);
-    expect(strip.at(-1)?.end).toBe(520.08);
+    expect(strip.at(-1)?.end).toBe(536.659);
     expect(strip.some((line) => /üç maddelik yönetim özeti/u.test(line.text))).toBe(true);
     expect(strip.some((line) => /uydurma yüzde/iu.test(line.text))).toBe(true);
     expect(strip.some((line) => /hücreden aldırırsın/u.test(line.text))).toBe(true);

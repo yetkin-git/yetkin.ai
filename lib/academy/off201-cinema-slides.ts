@@ -277,7 +277,7 @@ function pack(
       tools: ["Onaylı araç"],
       layout: "excel",
       beat: card.beat === "bridge" || card.beat === "pocket" ? "task" : card.beat,
-      visualMode: split ? "split" : "live",
+      visualMode: split ? "split" : cueIndex === 1 ? "veo" : "live",
       compare: split
         ? {
             beforeCueIndex: 3,

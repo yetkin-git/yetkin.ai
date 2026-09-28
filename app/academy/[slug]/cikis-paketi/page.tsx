@@ -9,7 +9,7 @@ import { OFFICE_AI_EXIT_KIT_SLUG } from "@/lib/academy/exit-kit";
 import { requirePageSession } from "@/lib/kernel/auth/session";
 import { isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
 import { loadCourseBySlug, loadPurchaseForUserCourse } from "@/lib/academy/load";
-import { hasAcademyOynaAccess } from "@/lib/academy/access";
+import { academyActorFromSession, hasAcademyOynaAccess } from "@/lib/academy/access";
 import {
   academyStorefrontStaticParams,
   isAcademyGrowthSkuSlug,
@@ -51,8 +51,13 @@ export default async function AcademyExitKitPage({
   if (!board) {
     notFound();
   }
-  const purchase = await loadPurchaseForUserCourse(session.id, board.course.id, userEmail);
-  const actor = { userId: session.id, email: userEmail };
+  const purchase = await loadPurchaseForUserCourse(
+    session.id,
+    board.course.id,
+    userEmail,
+    session.emailConfirmedAt,
+  );
+  const actor = academyActorFromSession(session);
   const canAccess = hasAcademyOynaAccess(purchase, actor);
 
   if (!canAccess) {
@@ -60,7 +65,7 @@ export default async function AcademyExitKitPage({
   }
 
   const copy = ACADEMY_SEN.player;
-  const grantStudio = isSuperAdminActor({ id: session.id, email: userEmail });
+  const grantStudio = isSuperAdminActor(session);
 
   return (
     <RoomFrame>

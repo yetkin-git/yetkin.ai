@@ -7,12 +7,12 @@ export const section6: Section = {
   isPreviewAllowed: false,
   isLocked: true,
   title: "Haftalık Sistem: 30 Dakikalık Rutin",
-  targetDurationMinutes: 8.4,
-  estimatedWordCount: 1145,
+  targetDurationMinutes: 8.8,
+  estimatedWordCount: 1144,
   pedagogicalObjective:
     "Haftalık 30 dakikalık rutini 10 dakika Excel düzeni + 10 dakika slayt kontrolü + 10 dakika e-posta kutusu sıfırlama olarak takvime bağlamak. Üç blok bitince kısa bir Word ve hata kontrolü. Neden 10+10+10? Çünkü üç iş yığılırsa tablo yarım, slayt uydurma, kutu geceye sarkar. Sınav kapısı bu ders bitince açılır; mühür sekiz dersin hepsini ister; satın alma kartı basmaz. Baraj 70.",
   contentMarkdown: `
-Word dersinde dosyayı ataş ile yükledin. İmza sende kaldı. Hata avında uydurma sayıyı yakaladın. E-postada ritüel ve yerleşik kapı duruyor. KVKK başta maskeyi öğretti. Bu dersin sonunda Cuma günkü 30 dakikalık takvime yazıp üç bloğu kapatmayı tek başına yapacaksın. Her kriz geldiğinde aynı işi baştan kurarsan Cuma akşamı yine yetiştirmeye çalışırsın. Bu 30 dakikalık rutini takvimine işlemezsen, haftalık işler birikir ve kriz kaçınılmaz olur. Haftalık Sistem bu alışkanlıkları tek Cuma penceresine bağlar. Bu kapanış dersidir.
+Word dersinde dosyayı ataş ile yükledin. İmza sende kaldı. Hata avında uydurma sayıyı yakaladın. E-postada ritüel ve yerleşik panel duruyor. KVKK başta maskeyi öğretti. Bu dersin sonunda Cuma günkü 30 dakikalık takvime yazıp üç bloğu kapatmayı tek başına yapacaksın. Her kriz geldiğinde aynı işi baştan kurarsan Cuma akşamı yine yetiştirmeye çalışırsın. Bu 30 dakikalık rutini takvimine işlemezsen, haftalık işler birikir ve kriz kaçınılmaz olur. Haftalık Sistem bu alışkanlıkları tek Cuma penceresine bağlar. Bu kapanış dersidir.
 
 Selamlar, ben Gözde. Haftalık Sistem dersine hoş geldin. Bugün önceki derslerin alışkanlığını tek bir Cuma rutinine bağlayacaksın. Amacın net: her Cuma otuz dakikada haftalık işleri yapay zekâyla kapat. Peki neden Cuma otuzu on artı on artı on olarak bölünür? Çünkü Excel, slayt ve e-posta üç ayrı iştir; üçü yığılırsa tablo yarım kalır. Peki neden bu ders bitince sınav kapısı açılır? Çünkü mühürlü vize kartı sekiz dersin hepsini ister. Baraj 70 durur. Satın alma o kartı basmaz.
 
@@ -52,7 +52,7 @@ Dağınık haftada sıra kayar: onaylı panel atlanır, dosya yükleme unutulur,
 
 ## CEBİNE KOY
 
-Cebine üç kural koy. Bir: Cuma 30 bloğunu takvime yaz; 10 Excel + 10 slayt + 10 kutu. Çünkü blok takvimde yoksa kriz Cuma gecesine kayar. Başlık Cuma 30, süre otuz dakika, tekrar her hafta. İki: önce Copilot veya ataş. Çünkü ekran görüntüsü tabloyu koparır. Excel tablosunu ve PowerPoint sunusunu ataş ile yükle veya Copilot varsa şeritten okut. Üç: onaylı panel ve dosya yükleme yoksa maskeli kısa özet; ham kopyala-yapıştır varsayılan yol değildir. Çünkü ham yapıştırma maskeyi deler. İş postasını kişisel Gmail’e taşıma.
+Üç kuralı yaz. Bir: Cuma 30 bloğunu takvime yaz; 10 Excel + 10 slayt + 10 kutu. Çünkü blok takvimde yoksa kriz Cuma gecesine kayar. Başlık Cuma 30, süre otuz dakika, tekrar her hafta. İki: önce Copilot veya ataş. Çünkü ekran görüntüsü tabloyu koparır. Excel tablosunu ve PowerPoint sunusunu ataş ile yükle veya Copilot varsa şeritten okut. Üç: onaylı panel ve dosya yükleme yoksa maskeli kısa özet; ham kopyala-yapıştır varsayılan yol değildir. Çünkü ham yapıştırma maskeyi deler. İş postasını kişisel Gmail’e taşıma.
 
 ## SIRA SENDE
 

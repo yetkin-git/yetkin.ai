@@ -57,10 +57,10 @@ export const OFFICE_AI_EXAM_QUESTIONS: AcademyExamQuestion[] = [
   ),
   mcq(
     "q_off_4",
-    "Excel tablosunu yapay zekâya verirken Üç Kapı sırası hangisidir?",
+    "Excel tablosunu yapay zekâya verirken üç adım sırası hangisidir?",
     [
       "Önce harici sohbet sitesine gitmek, sonra ataş, en son Copilot şeridi",
-      "1. Kapı yerleşik panel (Copilot / Gemini şeridi), 2. Kapı ataş (Excel tablosu, Word belgesi, PowerPoint sunusu), 3. Kapı maskeli kısa özet",
+      "1. Adım yerleşik panel (Copilot / Gemini şeridi), 2. Adım ataş (Excel tablosu, Word belgesi, PowerPoint sunusu), 3. Adım maskeli kısa özet",
       "Önce VBA, sonra ekran görüntüsü zinciri",
       "Ham tabloyu her zaman dış sohbete yapıştırmak",
     ],

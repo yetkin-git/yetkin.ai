@@ -5,7 +5,7 @@
  * bandındadır; Prisma hayalet SKU ve hayali oynatıcı girmez.
  *
  * `01_office_ai` çekirdek kaydı durur; 8 ders mühürlü ses (`1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`).
- * OFF-201 `01_office_ai_ileri` tek ses Aylin (Kore). Altı ders Gemini 3.1 Flash TTS ile mühürlüdür.
+ * OFF-201 `01_office_ai_ileri` tek ses Aylin (Kore). Altı ders Gemini 3.8 Flash TTS ile mühürlüdür.
  * Eski Callirrhoe kasetleri arşivdedir. Yeniden fırın kuyruğu boştur. Satış mandalı açıktır.
  * Eski ritüel kaseti `01_office_ai-4` sınav yolunda ve ses mühründe yoktur; dosya arşivde kalır.
  * Sınav yolu `lesson-index.ts` SSOT’udur.
@@ -93,8 +93,8 @@ export const ACADEMY_TTS_REVOKED_CASSETTES: Readonly<Record<string, string>> = {
 
 /**
  * Kota açılınca yeniden fırınlanacak dersler.
- * OFF-201 ders 1–6 Aylin (Kore) ve Gemini 3.1 Flash TTS ile mühürlendi. Kuyruk boştur.
- * Model yalnız Gemini 3.1 Flash TTS. Alt modele düşülmez.
+ * OFF-201 ders 1–6 Aylin (Kore) ve Gemini 3.8 Flash TTS ile mühürlendi. Kuyruk boştur.
+ * Fırın modeli `academyBakeVoiceModelId()` (`gemini-3.8-flash-tts`). Alt modele düşülmez.
  */
 export const ACADEMY_TTS_REBAKE_QUEUE: Readonly<Record<string, readonly string[]>> = {};
 

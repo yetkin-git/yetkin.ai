@@ -10,7 +10,7 @@ import {
   loadAcademyCurriculum,
   loadPurchaseForUserCourse,
 } from "@/lib/academy/load";
-import { hasAcademyOynaAccess } from "@/lib/academy/access";
+import { academyActorFromSession, hasAcademyOynaAccess } from "@/lib/academy/access";
 import {
   ACADEMY_OFF201_STOREFRONT_SLUG,
   academyStorefrontStaticParams,
@@ -83,10 +83,15 @@ export default async function AcademyCurriculumPlayerPage({
   if (!board) {
     notFound();
   }
-  const purchase = await loadPurchaseForUserCourse(session.id, board.course.id, userEmail);
-  const actor = { userId: session.id, email: userEmail };
+  const actor = academyActorFromSession(session);
+  const purchase = await loadPurchaseForUserCourse(
+    session.id,
+    board.course.id,
+    userEmail,
+    session.emailConfirmedAt,
+  );
   const hasPurchased = hasAcademyOynaAccess(purchase, actor);
-  const grantStudio = isSuperAdminActor({ id: session.id, email: userEmail });
+  const grantStudio = isSuperAdminActor(session);
 
   if (!hasPurchased) {
     if (!academyCourseOffersFreePreview(board.course.slug)) {
@@ -109,7 +114,12 @@ export default async function AcademyCurriculumPlayerPage({
     );
   }
 
-  const player = await loadAcademyCurriculum(session.id, board.course.id, userEmail);
+  const player = await loadAcademyCurriculum(
+    session.id,
+    board.course.id,
+    userEmail,
+    session.emailConfirmedAt,
+  );
   if (!player) {
     redirect(`/academy/${board.course.slug}`);
   }

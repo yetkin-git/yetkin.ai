@@ -44,7 +44,14 @@ export async function GET(
     if (!course) {
       return jsonFail("Kurs bulunamadı.", 404);
     }
-    const view = await loadAcademyExam(ports, course.id, user.id, undefined, user.email);
+    const view = await loadAcademyExam(
+      ports,
+      course.id,
+      user.id,
+      undefined,
+      user.email,
+      user.emailConfirmedAt,
+    );
     if (!view) {
       return jsonFail("Sınav için bu eğitimi satın almış olman gerekir.", 403);
     }
@@ -108,6 +115,7 @@ export async function POST(
           courseId,
           userId: user.id,
           email: user.email,
+          emailConfirmedAt: user.emailConfirmedAt,
           answers: parsed.data.answers,
           sessionToken: parsed.data.sessionToken,
           timedOut: parsed.data.timedOut,

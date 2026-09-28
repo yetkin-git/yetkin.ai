@@ -26,6 +26,7 @@ import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 
 const ADMIN_ID = "11111111-1111-4111-8111-111111111111";
 const ADMIN_EMAIL = "admin@yetkin.test";
+const CONFIRMED = "2026-01-01T00:00:00.000Z";
 const ORIGINAL_ADMIN = process.env.SUPER_ADMIN_USER_ID;
 const ORIGINAL_EMAIL = process.env.CANONICAL_SUPER_ADMIN_EMAIL;
 
@@ -46,8 +47,12 @@ describe("akademi Super Admin erişimi ve katalog birleştirme", () => {
   it("kanonik e-posta ve SUPER_ADMIN UUID hasPurchased / SETTLED bayrağını açar", () => {
     delete process.env.SUPER_ADMIN_USER_ID;
     process.env.CANONICAL_SUPER_ADMIN_EMAIL = ADMIN_EMAIL;
-    expect(hasUnlimitedAcademyAccess({ userId: ADMIN_ID, email: ADMIN_EMAIL })).toBe(true);
-    expect(hasPurchased(null, { userId: ADMIN_ID, email: ADMIN_EMAIL })).toBe(true);
+    expect(
+      hasUnlimitedAcademyAccess({ userId: ADMIN_ID, email: ADMIN_EMAIL, emailConfirmedAt: CONFIRMED }),
+    ).toBe(true);
+    expect(
+      hasPurchased(null, { userId: ADMIN_ID, email: ADMIN_EMAIL, emailConfirmedAt: CONFIRMED }),
+    ).toBe(true);
     expect(hasPurchased(null, { userId: ADMIN_ID, email: "vatandas@yetkin.rail" })).toBe(false);
 
     const expired = {
@@ -62,15 +67,25 @@ describe("akademi Super Admin erişimi ve katalog birleştirme", () => {
     );
 
     process.env.SUPER_ADMIN_USER_ID = ADMIN_ID;
-    expect(hasUnlimitedAcademyAccess({ userId: ADMIN_ID, email: "vatandas@yetkin.rail" })).toBe(true);
+    expect(
+      hasUnlimitedAcademyAccess({
+        userId: ADMIN_ID,
+        email: "vatandas@yetkin.rail",
+        emailConfirmedAt: CONFIRMED,
+      }),
+    ).toBe(true);
     const grant = createAcademyGrantPurchase(ADMIN_ID, "ac_sample_course");
     expect(grant.status).toBe("SETTLED");
     expect(grant.amountMinor).toBe(0);
     expect(ACADEMY_GRANT_PURPOSE).toBe("academy-grant");
     expect(isZeroFeeAcademyGrantOpen()).toBe(true);
     expect(grant.priceLockId.startsWith("sa_grant:")).toBe(true);
-    expect(hasAcademyPlayerAccess(null, { userId: ADMIN_ID, email: ADMIN_EMAIL })).toBe(true);
-    expect(hasAcademyPlayerAccess(grant, { userId: ADMIN_ID, email: ADMIN_EMAIL })).toBe(true);
+    expect(
+      hasAcademyPlayerAccess(null, { userId: ADMIN_ID, email: ADMIN_EMAIL, emailConfirmedAt: CONFIRMED }),
+    ).toBe(true);
+    expect(
+      hasAcademyPlayerAccess(grant, { userId: ADMIN_ID, email: ADMIN_EMAIL, emailConfirmedAt: CONFIRMED }),
+    ).toBe(true);
     expect(
       hasAcademyPlayerAccess(null, { userId: "citizen-1", email: "vatandas@yetkin.rail" }),
     ).toBe(false);
@@ -85,9 +100,15 @@ describe("akademi Super Admin erişimi ve katalog birleştirme", () => {
   it("ADMIN / SUPER_ADMIN satın almadan oynatıcıyı açar; vatandaş kapalı kalır", () => {
     delete process.env.SUPER_ADMIN_USER_ID;
     process.env.CANONICAL_SUPER_ADMIN_EMAIL = ADMIN_EMAIL;
-    expect(hasAcademyAdminBypass({ userId: ADMIN_ID, email: ADMIN_EMAIL })).toBe(true);
-    expect(hasAcademyPlayerAccess(null, { userId: ADMIN_ID, email: ADMIN_EMAIL })).toBe(true);
-    expect(hasPurchased(null, { userId: ADMIN_ID, email: ADMIN_EMAIL })).toBe(true);
+    expect(
+      hasAcademyAdminBypass({ userId: ADMIN_ID, email: ADMIN_EMAIL, emailConfirmedAt: CONFIRMED }),
+    ).toBe(true);
+    expect(
+      hasAcademyPlayerAccess(null, { userId: ADMIN_ID, email: ADMIN_EMAIL, emailConfirmedAt: CONFIRMED }),
+    ).toBe(true);
+    expect(
+      hasPurchased(null, { userId: ADMIN_ID, email: ADMIN_EMAIL, emailConfirmedAt: CONFIRMED }),
+    ).toBe(true);
     const preview = createAcademyAdminBypassPurchase(ADMIN_ID, "ac_sample_course");
     expect(preview.status).toBe("SETTLED");
     expect(preview.amountMinor).toBe(0);
@@ -105,7 +126,14 @@ describe("akademi Super Admin erişimi ve katalog birleştirme", () => {
     expect(resolveCanonicalSuperAdminEmail()).toBe(CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT);
     expect(CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT).toBe("yapinet360@gmail.com");
     expect(CITIZEN_TEST_ACCOUNT_EMAIL).toBe("yetkin.vision@gmail.com");
-    expect(isSuperAdminActor({ id: ADMIN_ID, email: "yapinet360@gmail.com" })).toBe(true);
+    expect(
+      isSuperAdminActor({
+        id: ADMIN_ID,
+        email: "yapinet360@gmail.com",
+        emailConfirmedAt: CONFIRMED,
+      }),
+    ).toBe(true);
+    expect(isSuperAdminActor({ id: ADMIN_ID, email: "yapinet360@gmail.com" })).toBe(false);
     expect(isSuperAdminActor({ id: ADMIN_ID, email: CITIZEN_TEST_ACCOUNT_EMAIL })).toBe(false);
 
     process.env.CANONICAL_SUPER_ADMIN_EMAIL = CITIZEN_TEST_ACCOUNT_EMAIL;
@@ -119,9 +147,14 @@ describe("akademi Super Admin erişimi ve katalog birleştirme", () => {
     expect(hasAcademyOynaAccess(null, { userId: ADMIN_ID, email: CITIZEN_TEST_ACCOUNT_EMAIL }, new Date(), "production")).toBe(
       false,
     );
-    expect(hasAcademyOynaAccess(null, { userId: ADMIN_ID, email: "yapinet360@gmail.com" }, new Date(), "production")).toBe(
-      true,
-    );
+    expect(
+      hasAcademyOynaAccess(
+        null,
+        { userId: ADMIN_ID, email: "yapinet360@gmail.com", emailConfirmedAt: CONFIRMED },
+        new Date(),
+        "production",
+      ),
+    ).toBe(true);
     expect(
       hasAcademyOynaAccess(null, { userId: "citizen-1", email: "vatandas@yetkin.rail" }, new Date(), "production"),
     ).toBe(false);
@@ -130,6 +163,7 @@ describe("akademi Super Admin erişimi ve katalog birleştirme", () => {
       hasAcademyLockedLessonContentAccess(null, new Date(), {
         userId: ADMIN_ID,
         email: "yapinet360@gmail.com",
+        emailConfirmedAt: CONFIRMED,
       }),
     ).toBe(true);
     expect(
@@ -140,11 +174,21 @@ describe("akademi Super Admin erişimi ve katalog birleştirme", () => {
     ).toBe(false);
     delete process.env.SUPER_ADMIN_USER_ID;
     process.env.CANONICAL_SUPER_ADMIN_EMAIL = ADMIN_EMAIL;
-    expect(hasAcademyOynaAccess(null, { userId: ADMIN_ID, email: ADMIN_EMAIL }, new Date(), "test")).toBe(
-      true,
-    );
     expect(
-      hasAcademyOynaAccess(null, { userId: ADMIN_ID, email: ADMIN_EMAIL }, new Date(), "production"),
+      hasAcademyOynaAccess(
+        null,
+        { userId: ADMIN_ID, email: ADMIN_EMAIL, emailConfirmedAt: CONFIRMED },
+        new Date(),
+        "test",
+      ),
+    ).toBe(true);
+    expect(
+      hasAcademyOynaAccess(
+        null,
+        { userId: ADMIN_ID, email: ADMIN_EMAIL, emailConfirmedAt: CONFIRMED },
+        new Date(),
+        "production",
+      ),
     ).toBe(true);
   });
 

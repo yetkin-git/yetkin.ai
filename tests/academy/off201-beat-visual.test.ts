@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
@@ -10,12 +10,34 @@ import {
   academyVisualCompareStage,
   academyVisualWaiterSlide,
 } from "@/lib/academy/excel-workspace";
-import { academyCinemaEyeFallbackPublicPath } from "@/lib/academy/lesson-visual-stage";
+import { isAcademyMicroVideoBaked } from "@/lib/academy/baked-micro-videos";
+import { resolveAcademyCinemaSource } from "@/lib/academy/lesson-cinema";
+import { academyLessonBedIsHardMixed, isAcademyLessonBedSealed } from "@/lib/academy/lesson-audio";
+import {
+  ACADEMY_BED_INTRO_MAX_SEC,
+  ACADEMY_BED_INTRO_MIN_SEC,
+  ACADEMY_BED_INTRO_SEC,
+  academyBedSpeechClockSec,
+} from "@/lib/academy/lesson-bed-duck";
+import {
+  ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY,
+  ACADEMY_VEO_BAKE_DURATION_SEC,
+  academyLessonWarmupVeoAssetKey,
+  academyLessonWarmupVeoCueId,
+} from "@/lib/academy/lesson-veo";
+import {
+  academyCinemaEyeFallbackPublicPath,
+  loadAcademyLessonVisualStage,
+} from "@/lib/academy/lesson-visual-stage";
+import { assertAcademyProductionSeal } from "@/lib/academy/production-standard";
 import {
   academyHowtoSteps,
   academyOff201SpokenVisualCueAtTime,
   academyPocketChecklistSteps,
   ACADEMY_BUSINESS_AI_BEAT_VISUAL,
+  ACADEMY_OFF201_WARMUP_SOURCE,
+  ACADEMY_OFF201_WARMUP_TIMELINE_SEC,
+  academyOff201WarmupAssetKey,
   ACADEMY_BUSINESS_AI_LESSON_KEYS,
   ACADEMY_BUSINESS_AI_PUNCHCARD_COUNT,
   ACADEMY_OFFICE_AI_1_POCKET_STEPS,
@@ -136,12 +158,15 @@ describe("OFF-201 taslak reji", () => {
         (slide) => `${slide.headline}|${slide.sheetName}|${slide.visualMode}|${slide.table?.rows[0]?.join(",")}`,
       );
       expect(new Set(signatures).size).toBe(8);
+      expect(slides[0]?.visualMode).toBe("veo");
       expect(slides[5]?.visualMode).toBe("split");
       expect(academyVisualCompareStage(key, "cue-06")?.beforeLabel).toBe(
         ACADEMY_BUSINESS_AI_BEAT_VISUAL[key].split.beforeLabel,
       );
       expect(academyVisualCompareStage(key, "cue-06")?.after.table?.rows.length).toBeGreaterThan(0);
-      for (const cueId of ["cue-01", "cue-02", "cue-03", "cue-04", "cue-05", "cue-07", "cue-08"]) {
+      expect(academyVisualWaiterSlide(key, "cue-01")).toBeNull();
+      expect(academyVisualWaiterSlide(key, "cue-01", { includeVeoTable: true })?.table?.rows.length).toBeGreaterThan(0);
+      for (const cueId of ["cue-02", "cue-03", "cue-04", "cue-05", "cue-07", "cue-08"]) {
         const slide = academyCinemaSlideForCue(key, cueId);
         expect(slide?.table?.rows.length).toBeGreaterThan(0);
         expect(academyVisualWaiterSlide(key, cueId)).not.toBeNull();
@@ -192,5 +217,49 @@ describe("OFF-201 taslak reji", () => {
     const framed = academyOff201FrameSlide(generic!, marmara!.start + 0.01);
     expect(framed.table?.rows[0]?.join(" ")).toContain("Marmara");
     expect(framed.highlightCell).toBe("A2");
+  });
+
+  it("ısınma klibi yerel OFF-201 kasetine bağlanır; hard-mix ve beş katman mührü durur", () => {
+    const slug = "01_office_ai_ileri";
+    const root = process.cwd();
+    const video = join(root, "public/media/academy/micro/01_office_ai_ileri-warmup.mp4");
+    expect(existsSync(video)).toBe(true);
+    expect(isAcademyMicroVideoBaked(ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY)).toBe(true);
+    const cinema = resolveAcademyCinemaSource(ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY);
+    expect(cinema.kind).toBe("html5");
+    expect(cinema.mp4).toBe("/media/academy/micro/01_office_ai_ileri-warmup.mp4?v=8000");
+    expect(ACADEMY_OFF201_WARMUP_SOURCE).toBe("01_office_ai_ileri-warmup.mp4");
+    expect(ACADEMY_OFF201_WARMUP_TIMELINE_SEC).toBe(8);
+    expect(ACADEMY_BED_INTRO_SEC).toBeGreaterThanOrEqual(ACADEMY_BED_INTRO_MIN_SEC);
+    expect(ACADEMY_BED_INTRO_SEC).toBeLessThanOrEqual(ACADEMY_BED_INTRO_MAX_SEC);
+    expect(academyBedSpeechClockSec("01_office_ai_ileri-1", 0)).toBe(0);
+    expect(academyBedSpeechClockSec("01_office_ai_ileri-1", 4)).toBe(0);
+    expect(academyBedSpeechClockSec("01_office_ai_ileri-1", 12)).toBe(8);
+    for (const key of ACADEMY_BUSINESS_AI_LESSON_KEYS) {
+      expect(academyOff201WarmupAssetKey(key)).toBe(ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY);
+      expect(academyLessonWarmupVeoAssetKey(key)).toBe(ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY);
+      expect(academyLessonWarmupVeoCueId(key)).toBe("cue-01");
+      const stage = loadAcademyLessonVisualStage(key);
+      const card = stage?.cards[0];
+      expect(card?.kind).toBe("veo");
+      expect(card?.startSec).toBe(0);
+      expect(card?.durationSec).toBe(ACADEMY_VEO_BAKE_DURATION_SEC);
+      expect(card?.src).toBe(ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY);
+      expect((stage?.cards.length ?? 0) > 1).toBe(true);
+      expect(academyLessonBedIsHardMixed(key)).toBe(true);
+      expect(isAcademyLessonBedSealed(slug, key)).toBe(true);
+      expect(existsSync(join(root, "public/media/academy/audio", slug, `${key}.mp3`))).toBe(true);
+      expect(existsSync(join(root, "public/media/academy/audio", slug, `${key}.bed.mp3`))).toBe(true);
+      expect(existsSync(join(root, "lib/academy/spoken-scripts", `${key}.md`))).toBe(true);
+    }
+    expect(() =>
+      assertAcademyProductionSeal({
+        text: true,
+        voice: true,
+        video: true,
+        visual: true,
+        music: true,
+      }),
+    ).not.toThrow();
   });
 });

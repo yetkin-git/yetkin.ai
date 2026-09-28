@@ -39,7 +39,7 @@ describe("Merchant akademi lab yüzeyi", () => {
     const prevSandbox = process.env.PAYTR_SANDBOX;
     const prevMock = process.env.PAYTR_ALLOW_MOCK_CHECKOUT;
     try {
-      process.env.NODE_ENV = "production";
+      (process.env as { NODE_ENV?: string }).NODE_ENV = "production";
       process.env.PAYTR_SANDBOX = "1";
       expect(() => assertPaytrProductionSafety("merchant-lab-surface")).toThrow(
         PaytrProductionSafetyError,
@@ -50,7 +50,7 @@ describe("Merchant akademi lab yüzeyi", () => {
         /PAYTR_ALLOW_MOCK_CHECKOUT üretimde yasak/,
       );
     } finally {
-      process.env.NODE_ENV = prevNode;
+      (process.env as { NODE_ENV?: string }).NODE_ENV = prevNode;
       process.env.PAYTR_SANDBOX = prevSandbox;
       process.env.PAYTR_ALLOW_MOCK_CHECKOUT = prevMock;
     }

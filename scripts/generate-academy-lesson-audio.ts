@@ -7,6 +7,7 @@
  * Gemini TTS varsayılan KAPALI. API çağrısı yalnız --seal ve --confirm-gemini-spend ile.
  * Kota kilitleri (API'den önce, Error):
  *   1. İstenen ses kursun `courseMasterVoice` stringi ile uyuşmazsa dur.
+ *      İstisna: --sample-only --voice= yalnız 1. parçayı o sesle dener; kurs mührü ve ders kasedi değişmez.
  *   2. `--seal` ancak başarılı `--dry-run` metin/zamanlama fişi varsa açılır.
  *   3. Mühürlü dersin `public/media/academy/audio/` MP3'ü varsa tekrar fırın yok.
  * Bake öncesi kapı: --dry-run taraması zorunlu; insan onayı olmadan harici çağrı yok.
@@ -16,7 +17,8 @@
  * Cümle geçişlerine `[pause]` enjekte edilir; eğitmenin tonlaması blok içinde canlı kalır.
  * Aynı paragraf dilimleri arasına 0.4 sn nefes konur. Kural ve örnek geçişinde 1.75 sn es vardır.
  * Slayt değişince görsel, yeni cümleden 1.5 sn önce açılır.
- * Her konuşma dilimi `ACADEMY_INSTRUCTOR_SPEECH_RATE` (0.93) ile SOLA yavaşlatılır. Perde korunur; 0.70 bandındaki robotik uzatma yok.
+ * Tempo DSP yoktur. Sakin tempo yönetmen notundadır (`Pace: calm, natural, clear accent`).
+ * Seviye ffmpeg EBU R128 loudnorm'dur. Tarak filtreli tempo ve tanh kırpıcı çağrılmaz.
  * İstekler arası 6500ms (RPM 10/dk kalkanı). --force mühürlü yayın MP3'ünün üzerine yazmaz.
  *
  *   npm run generate:academy-audio -- --dry-run
@@ -32,12 +34,14 @@
  *   npm run generate:academy-audio -- --dry-run --slug=04_chatbot_nocode --key=04_chatbot_nocode-1
  *   npm run generate:academy-audio -- --seal --confirm-gemini-spend --force --no-db --slug=04_chatbot_nocode --key=04_chatbot_nocode-1
  *   npm run generate:academy-audio -- --dry-run --slug=05_prompt_practice --key=05_prompt_practice-1
+ *   npm run generate:academy-audio -- --sample-only --seal --confirm-gemini-spend --slug=01_office_ai --key=01_office_ai-1
  *   npm run generate:academy-audio -- --seal --confirm-gemini-spend --force --no-db --slug=05_prompt_practice --key=05_prompt_practice-1
  *
  * WAV süresi değişince bake `lib/academy/lesson-audio-timings/{key}.json` yazar;
  * oynatıcı currentTime ile nefes dilimi saniyesini 1:1 kilitler. `ACADEMY_SEALED_AUDIO_DURATION_SEC`
  * yedek tablodur. `cacheV` tarayıcı immutable cache’ini kırar.
- * Çıkış: +8 dB gain + 48 kHz resample (Chrome 24 kHz 1:47 takılması).
+ * Çıkış: EBU R128 loudnorm (I=-16) + 48 kHz. Ham Gemini WAV raw-cache'te durur.
+ * Akustik mühür: stüdyo, close-mic, reverberasyonsuz. Direktif transkriptin üstünde kalır.
  */
 import "./load-academy-bake-env";
 import "@/lib/academy/lesson-json-disk";
@@ -53,6 +57,7 @@ import { academyBakeChunkGap } from "@/lib/academy/human-rhythm";
 import { ACADEMY_INSTRUCTOR_SPEECH_RATE, academyCourseMasterVoice } from "@/lib/academy/instructors";
 import {
   ACADEMY_MEDIA_SEALED_SKU_SLUGS,
+  academyMediaSealedLessonKeys,
   isAcademyLessonAudioOnRebakeQueue,
   isAcademyLessonAudioSealed,
 } from "@/lib/academy/pilot-sku";
@@ -69,22 +74,20 @@ import {
   type AcademySealedSkuSlug,
 } from "@/lib/academy/media-release-seal";
 import {
-  getDefaultModelId,
+  academyBakeVoiceModelId,
   VOICE_TTS_FALLBACK_TO_2_5,
   VOICE_TTS_FORBIDDEN_MODEL_ID,
 } from "@/lib/kernel/ai/model-roles";
 import {
-  boostPcmWavGain,
   collectGeminiInlineAudioParts,
   concatPcmWavBuffers,
   concatPcmWavBuffersSeamless,
   createSilentPcmWav,
+  decodeGeminiInlineAudio,
   mergeGeminiInlineAudioToWav,
   pcmWavDurationSec,
-  PCM_WAV_GAIN_DB,
   PCM_WAV_PLAYBACK_SAMPLE_RATE,
-  resamplePcmWav,
-  tempoStretchPcmWav,
+  wrapPcmAsWav,
 } from "@/lib/kernel/ai/pcm-wav";
 import { canonicalizeGeminiTtsLanguageCode, canonicalizeGeminiTtsVoiceName } from "@/lib/kernel/ai/tts-voices";
 import { academyLessonCueParagraphPlan } from "@/lib/academy/lesson-cues";
@@ -101,12 +104,27 @@ import {
   ACADEMY_TTS_LESSON_REQUEST_MAX,
   ACADEMY_TTS_LESSON_REQUEST_MIN,
   ACADEMY_TTS_RPM_GAP_MS,
+  academyLessonRequestTargetForCourse,
   academyTtsLessonRequestBudget,
   assertAcademyTtsLessonRequestBudget,
   injectAcademyTtsBreathPauses,
   packAcademyTtsLessonRequests,
   splitAcademyTtsBreathChunks,
 } from "@/lib/academy/tts-breath-chunks";
+import { ACADEMY_BAKE_ATEMPO, masterAcademySpeechWav } from "@/lib/academy/tts-loudnorm";
+import { assertAcademySpeechQuality } from "@/lib/academy/tts-quality-gate";
+import { writeAcademyTtsAbSample } from "@/lib/academy/tts-ab-sample";
+import {
+  ACADEMY_TTS_DSP_REV,
+  academyTtsPieceCachePaths,
+  academyTtsPieceFingerprint,
+  academyTtsRawPieceCachePaths,
+  academyTtsRawPieceFingerprint,
+} from "@/lib/academy/tts-piece-cache";
+import {
+  academyTtsStudioFingerprintMaterial,
+  buildAcademyTtsStudioContents,
+} from "@/lib/academy/tts-studio-prompt";
 import { transcodeAcademyWavToMp3 } from "./transcode-academy-lesson-audio";
 import { academyPrepStripForSlug, isAcademyPrepStripKey } from "@/lib/academy/prep-strip";
 import {
@@ -156,8 +174,207 @@ type GeminiSpeechResponse = {
   promptFeedback?: { blockReason?: string };
 };
 
+/** sample-only ham döküm. Lanczos, SOLA ve FFmpeg bu dosyalara dokunmaz. */
+const ACADEMY_RAW_DUMP_DIR = join(process.cwd(), "media-bake", "academy", "raw-dump");
+let rawDumpLessonKey: string | null = null;
+let rawDumpWritten = false;
+
+function armAcademyRawDump(lessonKey: string, probeVoice: string | null = null): void {
+  rawDumpLessonKey = probeVoice ? join(lessonKey, probeVoice) : lessonKey;
+  rawDumpWritten = false;
+}
+
+function mimeDeclaredSampleRate(mimeType: string | null | undefined): number | null {
+  const match = mimeType?.match(/rate=(\d+)/i);
+  if (!match) {
+    return null;
+  }
+  const rate = Number.parseInt(match[1] ?? "", 10);
+  return Number.isInteger(rate) && rate > 0 ? rate : null;
+}
+
+function classifyGeminiAudioEncoding(mimeType: string | null | undefined): string {
+  const mime = mimeType?.trim() ?? "";
+  if (!mime) {
+    return "undeclared";
+  }
+  if (/linear16|\bl16\b/i.test(mime)) {
+    return "LINEAR16";
+  }
+  if (/pcm/i.test(mime)) {
+    return "PCM";
+  }
+  if (/wav/i.test(mime)) {
+    return "WAV";
+  }
+  return mime;
+}
+
+function probeRawPcmEcho(pcm: Buffer, sampleRate: number): {
+  windowSamples: number;
+  peakCorrelation: number;
+  peakLagMs: number;
+  highpassEnergyRatio: number;
+} | null {
+  const samples = Math.floor(pcm.length / 2);
+  if (!(sampleRate > 0) || samples < sampleRate / 5) {
+    return null;
+  }
+  const window = Math.min(samples, Math.round(sampleRate * 0.75));
+  const offset = Math.min(Math.floor(samples * 0.15), samples - window);
+  let energy = 0;
+  let highEnergy = 0;
+  let previous = 0;
+  for (let index = 0; index < window; index += 1) {
+    const sample = pcm.readInt16LE((offset + index) * 2);
+    energy += sample * sample;
+    const delta = sample - previous;
+    highEnergy += delta * delta;
+    previous = sample;
+  }
+  const minLag = Math.round(sampleRate * 0.015);
+  const maxLag = Math.min(window - 1, Math.round(sampleRate * 0.12));
+  let peak = 0;
+  let peakLag = minLag;
+  for (let lag = minLag; lag <= maxLag; lag += 2) {
+    let acc = 0;
+    const limit = window - lag;
+    for (let index = 0; index < limit; index += 1) {
+      acc += pcm.readInt16LE((offset + index) * 2) * pcm.readInt16LE((offset + index + lag) * 2);
+    }
+    const corr = energy > 0 ? acc / energy : 0;
+    if (corr > peak) {
+      peak = corr;
+      peakLag = lag;
+    }
+  }
+  return {
+    windowSamples: window,
+    peakCorrelation: Math.round(peak * 1000) / 1000,
+    peakLagMs: Math.round((peakLag / sampleRate) * 1000),
+    highpassEnergyRatio: energy > 0 ? Math.round((highEnergy / energy) * 1000) / 1000 : 0,
+  };
+}
+
+function writeGeminiRawAudioDump(input: {
+  response: GeminiSpeechResponse;
+  speechConfig: {
+    languageCode?: string;
+    voiceConfig: { prebuiltVoiceConfig: { voiceName: string } };
+  };
+  model: string;
+  voiceName: string;
+}): void {
+  if (!rawDumpLessonKey || rawDumpWritten) {
+    return;
+  }
+  const candidateParts = input.response.candidates?.[0]?.content?.parts ?? [];
+  const topParts = input.response.parts ?? [];
+  const audioParts = collectGeminiInlineAudioParts([...candidateParts, ...topParts]);
+  if (audioParts.length === 0) {
+    return;
+  }
+  const payloads = audioParts.map((part) => ({
+    mimeType: part.mimeType ?? null,
+    sampleRateHertz: mimeDeclaredSampleRate(part.mimeType),
+    encoding: classifyGeminiAudioEncoding(part.mimeType),
+    bytes: decodeGeminiInlineAudio(part.data ?? ""),
+  }));
+  const payload = Buffer.concat(payloads.map((part) => part.bytes));
+  const declaredRates = payloads
+    .map((part) => part.sampleRateHertz)
+    .filter((rate): rate is number => rate != null);
+  const uniqueRates = [...new Set(declaredRates)];
+  const isRiff = payload.length >= 12 && payload.subarray(0, 4).equals(Buffer.from("RIFF"));
+  let pcm = payload;
+  let wav = payload;
+  let fmt: { format: number; channels: number; sampleRate: number; bits: number } | null = null;
+  const trailingChunks: string[] = [];
+  if (isRiff) {
+    let offset = 12;
+    let data: Buffer | null = null;
+    while (offset + 8 <= payload.length) {
+      const id = payload.toString("ascii", offset, offset + 4);
+      const size = payload.readUInt32LE(offset + 4);
+      const start = offset + 8;
+      if (id === "fmt " && size >= 16 && start + 16 <= payload.length) {
+        fmt = {
+          format: payload.readUInt16LE(start),
+          channels: payload.readUInt16LE(start + 2),
+          sampleRate: payload.readUInt32LE(start + 4),
+          bits: payload.readUInt16LE(start + 14),
+        };
+      } else if (id === "data") {
+        const end = Math.min(payload.length, start + Math.max(0, size));
+        data = payload.subarray(start, end);
+      } else if (id !== "data") {
+        trailingChunks.push(id.trim());
+      }
+      offset = start + size + (size % 2);
+    }
+    wav = payload;
+    pcm = Buffer.from(data ?? payload);
+  } else {
+    const headerRate = uniqueRates[0] ?? 24_000;
+    wav = Buffer.from(wrapPcmAsWav(payload, headerRate, 1, 16));
+  }
+  const headerRate = fmt?.sampleRate ?? uniqueRates[0] ?? null;
+  const dir = join(ACADEMY_RAW_DUMP_DIR, rawDumpLessonKey);
+  mkdirSync(dir, { recursive: true });
+  const pcmPath = join(dir, "raw_dump.pcm");
+  const wavPath = join(dir, "raw_dump.wav");
+  writeFileSync(pcmPath, pcm);
+  writeFileSync(wavPath, wav);
+  const echo = headerRate ? probeRawPcmEcho(pcm, headerRate) : null;
+  const meta = {
+    lessonKey: rawDumpLessonKey,
+    model: input.model,
+    voiceName: input.voiceName,
+    request: {
+      responseModalities: ["AUDIO"],
+      speechConfig: input.speechConfig,
+      audioConfig: null,
+      encoding: null,
+      sampleRateHertz: null,
+    },
+    response: {
+      partCount: payloads.length,
+      parts: payloads.map((part) => ({
+        mimeType: part.mimeType,
+        encoding: part.encoding,
+        sampleRateHertz: part.sampleRateHertz,
+        byteLength: part.bytes.length,
+      })),
+      declaredSampleRates: uniqueRates,
+      wavFmt: fmt,
+      encodingFromFmt: fmt?.format === 1 ? "LINEAR16" : null,
+      wavHeaderSampleRate: headerRate,
+      trailingChunks,
+      pcmBytes: pcm.length,
+      wavBytes: wav.length,
+      container: isRiff ? "RIFF" : "raw-pcm",
+      durationSec:
+        headerRate && headerRate > 0
+          ? Math.round((pcm.length / 2 / headerRate) * 1000) / 1000
+          : null,
+      echoProbe: echo,
+    },
+    pipeline: {
+      lanczos: false,
+      ffmpeg: false,
+      sola: false,
+      gainDb: 0,
+    },
+  };
+  writeFileSync(join(dir, "raw_dump.meta.json"), `${JSON.stringify(meta, null, 2)}\n`);
+  rawDumpWritten = true;
+  process.stdout.write(
+    `      ham döküm ${meta.response.container} mime=${payloads[0]?.mimeType ?? "yok"} fmt=${headerRate ?? "yok"} Hz ${pcm.length} bayt → ${dir}\n`,
+  );
+}
+
 function allowedBakeModels(): readonly string[] {
-  return [getDefaultModelId("VOICE_TTS")];
+  return [academyBakeVoiceModelId()];
 }
 
 function parseArgs(argv: readonly string[]): {
@@ -167,6 +384,7 @@ function parseArgs(argv: readonly string[]): {
   confirmGeminiSpend: boolean;
   noDb: boolean;
   noFallback: boolean;
+  sampleOnly: boolean;
   slug: AcademySealedSkuSlug | null;
   key: string | null;
   model: string | null;
@@ -203,6 +421,7 @@ function parseArgs(argv: readonly string[]): {
     confirmGeminiSpend,
     noDb: argv.includes("--no-db"),
     noFallback: argv.includes("--no-fallback"),
+    sampleOnly: argv.includes("--sample-only"),
     slug,
     key,
     model: rawModel,
@@ -222,13 +441,33 @@ function dryRunReceiptPath(courseSlug: string, lessonKey: string): string {
   return join(process.cwd(), "media-bake", "academy", "dry-run-receipts", courseSlug, `${lessonKey}.json`);
 }
 
-/** Katman 2 — istenen ses kurs mühründen saparsa API açılmaz. */
-function assertSingleCourseVoice(jobs: readonly AcademyMediaReleaseJob[], requestedVoice: string | null): void {
+/**
+ * Katman 2 — istenen ses kurs mühründen saparsa API açılmaz.
+ * --sample-only --voice= probe döner: kurs mührü ve ders kasedi aynı kalır, yalnız 1. parça o sesle gider.
+ */
+function assertSingleCourseVoice(
+  jobs: readonly AcademyMediaReleaseJob[],
+  requestedVoice: string | null,
+  sampleOnly: boolean,
+): string | null {
+  let probe: string | null = null;
   for (const job of jobs) {
     const master = academyCourseMasterVoice(job.courseSlug);
     if (requestedVoice && requestedVoice !== master) {
-      throw new Error(
-        `Tek ses kilidi: istenen ses ${requestedVoice}, kurs mührü ${master} (${job.courseSlug}). API çağrısı yok.`,
+      if (!sampleOnly) {
+        throw new Error(
+          `Tek ses kilidi: istenen ses ${requestedVoice}, kurs mührü ${master} (${job.courseSlug}). API çağrısı yok.`,
+        );
+      }
+      const canonical = canonicalizeGeminiTtsVoiceName(requestedVoice);
+      if (probe && probe !== canonical) {
+        throw new Error(
+          `sample-only probe tek ses ister. ${probe} ve ${canonical} birlikte olmaz. API çağrısı yok.`,
+        );
+      }
+      probe = canonical;
+      process.stdout.write(
+        `sample-only probe: kurs mührü ${master} kalır. 1. parça ${canonical}. Ders mührü yazılmaz.\n`,
       );
     }
     for (const turn of job.turns) {
@@ -239,6 +478,7 @@ function assertSingleCourseVoice(jobs: readonly AcademyMediaReleaseJob[], reques
       }
     }
   }
+  return probe;
 }
 
 function writeDryRunReceipt(job: AcademyMediaReleaseJob): void {
@@ -404,19 +644,26 @@ async function requestSpeechWav(input: {
   voiceName: string;
   languageCode?: string;
 }): Promise<Buffer> {
+  const speechConfig = {
+    ...(input.languageCode ? { languageCode: input.languageCode } : {}),
+    voiceConfig: {
+      prebuiltVoiceConfig: { voiceName: input.voiceName },
+    },
+  };
   const response = (await input.client.models.generateContent({
     model: input.model,
-    contents: [{ role: "user", parts: [{ text: input.text }] }],
+    contents: [{ role: "user", parts: [{ text: buildAcademyTtsStudioContents(input.text) }] }],
     config: {
       responseModalities: ["AUDIO"],
-      speechConfig: {
-        ...(input.languageCode ? { languageCode: input.languageCode } : {}),
-        voiceConfig: {
-          prebuiltVoiceConfig: { voiceName: input.voiceName },
-        },
-      },
+      speechConfig,
     },
   })) as GeminiSpeechResponse;
+  writeGeminiRawAudioDump({
+    response,
+    speechConfig,
+    model: input.model,
+    voiceName: input.voiceName,
+  });
   return wavFromSpeechResponse(response);
 }
 
@@ -675,7 +922,13 @@ function collectBreathChunks(job: AcademyMediaReleaseJob): BreathBakeChunk[] {
       });
     }
   }
-  const requests = packAcademyTtsLessonRequests(atoms.map((atom) => atom.text));
+  const sealedCount = academyMediaSealedLessonKeys(job.courseSlug).length;
+  const packTarget =
+    sealedCount > 0 ? academyLessonRequestTargetForCourse(sealedCount) : ACADEMY_TTS_LESSON_REQUEST_MAX;
+  const requests = packAcademyTtsLessonRequests(
+    atoms.map((atom) => atom.text),
+    packTarget,
+  );
   return requests.map((request, requestIndex) => {
     const first = atoms[request.atomIndexes[0]!]!;
     return {
@@ -689,17 +942,96 @@ function collectBreathChunks(job: AcademyMediaReleaseJob): BreathBakeChunk[] {
   });
 }
 
+async function loadOrSynthesizePiece(input: {
+  client: GoogleGenAI;
+  job: AcademyMediaReleaseJob;
+  model: string;
+  index: number;
+  voiceName: string;
+  text: string;
+  bypassCache?: boolean;
+}): Promise<{ wav: Buffer; wavPath: string; mp3Path: string; fromCache: boolean }> {
+  const spokenText = injectAcademyTtsBreathPauses(input.text);
+  const acoustic = academyTtsStudioFingerprintMaterial();
+  const rawFingerprint = academyTtsRawPieceFingerprint({
+    model: input.model,
+    voice: input.voiceName,
+    text: spokenText,
+    acoustic,
+  });
+  const fingerprint = academyTtsPieceFingerprint({
+    model: input.model,
+    voice: input.voiceName,
+    speechRate: ACADEMY_INSTRUCTOR_SPEECH_RATE,
+    text: spokenText,
+    acoustic,
+    dspRev: ACADEMY_TTS_DSP_REV,
+  });
+  const rawPaths = academyTtsRawPieceCachePaths({
+    courseSlug: input.job.courseSlug,
+    lessonKey: input.job.lessonKey,
+    index: input.index,
+    fingerprint: rawFingerprint,
+  });
+  const paths = academyTtsPieceCachePaths({
+    courseSlug: input.job.courseSlug,
+    lessonKey: input.job.lessonKey,
+    index: input.index,
+    fingerprint,
+  });
+  if (!input.bypassCache && existsSync(paths.wav) && statSync(paths.wav).size >= MIN_WAV_BYTES) {
+    const cached = readFileSync(paths.wav);
+    if (pcmWavDurationSec(cached) > 0) {
+      if (!existsSync(paths.mp3)) {
+        transcodeAcademyWavToMp3(paths.wav, paths.mp3);
+      }
+      process.stdout.write(`      önbellek ${input.index + 1} API yok → ${paths.wav}\n`);
+      return { wav: cached, wavPath: paths.wav, mp3Path: paths.mp3, fromCache: true };
+    }
+  }
+  let spokenWav: Buffer;
+  let fromRawCache = false;
+  if (!input.bypassCache && existsSync(rawPaths.wav) && statSync(rawPaths.wav).size >= MIN_WAV_BYTES) {
+    spokenWav = readFileSync(rawPaths.wav);
+    fromRawCache = true;
+    process.stdout.write(`      ham önbellek ${input.index + 1} API yok → ${rawPaths.wav}\n`);
+  } else {
+    spokenWav = await synthesizeSeamlessScript({
+      client: input.client,
+      text: spokenText,
+      voiceName: input.voiceName,
+      model: input.model,
+    });
+    mkdirSync(rawPaths.dir, { recursive: true });
+    writeFileSync(rawPaths.wav, spokenWav);
+    process.stdout.write(`      ham Gemini yazıldı → ${rawPaths.wav}\n`);
+  }
+  const chunkWav = masterAcademySpeechWav(spokenWav, { atempo: true });
+  mkdirSync(paths.dir, { recursive: true });
+  writeFileSync(paths.wav, chunkWav);
+  transcodeAcademyWavToMp3(paths.wav, paths.mp3);
+  process.stdout.write(`      parça yazıldı WAV+MP3 → ${paths.wav}\n`);
+  return { wav: chunkWav, wavPath: paths.wav, mp3Path: paths.mp3, fromCache: fromRawCache };
+}
+
 async function bakeLessonWav(
   client: GoogleGenAI,
   job: AcademyMediaReleaseJob,
   model: string,
+  sampleOnly = false,
+  voiceProbe: string | null = null,
 ): Promise<{
   wav: Buffer;
   pieces: AcademySealedAudioPiece[];
   pauseSec: number;
   visualLeadByPiece: ReadonlyMap<number, number>;
+  sampleOnly: boolean;
+  samplePath: string | null;
 }> {
   assertSpokenScriptMatchesCues(job.lessonKey);
+  if (sampleOnly) {
+    armAcademyRawDump(job.lessonKey, voiceProbe);
+  }
   const breathChunks = collectBreathChunks(job);
   const speechSec = breathChunks.reduce(
     (sum, chunk) => sum + academyDialogueReadingDurationSec(chunk.text, "egitmen"),
@@ -717,11 +1049,11 @@ async function bakeLessonWav(
   const introSec = academyLessonIntroOffsetSec(job.lessonKey);
   let cursorSec = introSec;
   if (introSec > 0) {
-    parts.push(createSilentPcmWav(Math.round(introSec * 1000)));
+    parts.push(createSilentPcmWav(Math.round(introSec * 1000), PCM_WAV_PLAYBACK_SAMPLE_RATE));
     process.stdout.write(`    giriş jeneriği ${introSec.toFixed(1)}s sessizlik (konuşma ${introSec.toFixed(1)}s'de)\n`);
   }
   process.stdout.write(
-    `    ${breathChunks.length} nefes dilimi +${PCM_WAV_GAIN_DB} dB / ${PCM_WAV_PLAYBACK_SAMPLE_RATE / 1000} kHz  tempo=${ACADEMY_INSTRUCTOR_SPEECH_RATE}  nefes=${pauseSec}s\n`,
+    `    ${breathChunks.length} nefes dilimi atempo=${ACADEMY_BAKE_ATEMPO} WSOLA + loudnorm I=-16 / ${PCM_WAV_PLAYBACK_SAMPLE_RATE / 1000} kHz  nefes=${pauseSec}s\n`,
   );
   for (let index = 0; index < breathChunks.length; index += 1) {
     const chunk = breathChunks[index]!;
@@ -737,7 +1069,7 @@ async function bakeLessonWav(
       if (gap.visualLeadSec > 0) {
         visualLeadByPiece.set(index, gap.visualLeadSec);
       }
-      parts.push(createSilentPcmWav(Math.round(gap.pauseSec * 1000)));
+      parts.push(createSilentPcmWav(Math.round(gap.pauseSec * 1000), PCM_WAV_PLAYBACK_SAMPLE_RATE));
       cursorSec += gap.pauseSec;
       process.stdout.write(
         `      es ${gap.pauseSec.toFixed(1)}s${gap.visualLeadSec > 0 ? ` görsel ${gap.visualLeadSec.toFixed(1)}s önden` : ""}\n`,
@@ -746,13 +1078,16 @@ async function bakeLessonWav(
     process.stdout.write(
       `      ${index + 1}/${breathChunks.length} cue=${chunk.cueId} p${chunk.cueParagraphIndex}.${chunk.chunkIndex} ${chunk.text.length} karakter ${academyDialogueReadingDurationSec(chunk.text, "egitmen").toFixed(1)}s\n`,
     );
-    const spokenWav = await synthesizeSeamlessScript({
+    const piece = await loadOrSynthesizePiece({
       client,
-      text: injectAcademyTtsBreathPauses(chunk.text),
-      voiceName: chunk.voiceName,
+      job,
       model,
+      index,
+      voiceName: voiceProbe ?? chunk.voiceName,
+      text: chunk.text,
+      bypassCache: sampleOnly,
     });
-    const chunkWav = tempoStretchPcmWav(spokenWav, ACADEMY_INSTRUCTOR_SPEECH_RATE);
+    const chunkWav = piece.wav;
     const chunkSec = pcmWavDurationSec(chunkWav);
     if (!(chunkSec > 0)) {
       throw new Error(`Dilimin süresi ölçülemedi: ${job.lessonKey} #${index}`);
@@ -768,13 +1103,35 @@ async function bakeLessonWav(
     });
     parts.push(chunkWav);
     cursorSec += chunkSec;
-    if (index < breathChunks.length - 1) {
+    const pieceQuality = assertAcademySpeechQuality(chunkWav);
+    process.stdout.write(
+      `      kalite kapısı parça ${index + 1}: 300 Hz–1 kHz %${(pieceQuality.bandShare * 100).toFixed(1)} LUFS ${pieceQuality.integratedLufs.toFixed(1)}\n`,
+    );
+    if (sampleOnly) {
+      const quality = pieceQuality;
+      process.stdout.write(
+        `sample-only: 1. parça hazır${piece.fromCache ? " (önbellek, API yok)" : " (1 düdük)"}. Ders mührü yazılmadı. 300 Hz–1 kHz %${(quality.bandShare * 100).toFixed(1)} LUFS ${quality.integratedLufs.toFixed(1)}. Ham döküm: ${join(ACADEMY_RAW_DUMP_DIR, job.lessonKey)}\n`,
+      );
+      return {
+        wav: chunkWav,
+        pieces,
+        pauseSec,
+        visualLeadByPiece,
+        sampleOnly: true,
+        samplePath: piece.wavPath,
+      };
+    }
+    if (index < breathChunks.length - 1 && !piece.fromCache) {
       await sleep(TURN_PAUSE_MS);
     }
   }
   const merged = concatPcmWavBuffers(parts);
-  const wav = resamplePcmWav(boostPcmWavGain(merged, PCM_WAV_GAIN_DB), PCM_WAV_PLAYBACK_SAMPLE_RATE);
-  return { wav, pieces, pauseSec, visualLeadByPiece };
+  const wav = masterAcademySpeechWav(merged, { atempo: false });
+  const quality = assertAcademySpeechQuality(wav);
+  process.stdout.write(
+    `    kalite kapısı geçti: 300 Hz–1 kHz %${(quality.bandShare * 100).toFixed(1)} LUFS ${quality.integratedLufs.toFixed(1)}\n`,
+  );
+  return { wav, pieces, pauseSec, visualLeadByPiece, sampleOnly: false, samplePath: null };
 }
 
 /** Bake parça saatlerini dondurur — oynatıcı currentTime ile nefes dilimini 1:1 kilitler. */
@@ -866,7 +1223,7 @@ function overlaySealedCueTimes(
         speechSource: `lib/academy/spoken-scripts/${job.lessonKey}.md`,
         clockSource: `lib/academy/lesson-cues/${job.lessonKey}.json`,
         lessonKey: job.lessonKey,
-        model: "gemini-3.1-flash-tts-preview",
+        model: academyBakeVoiceModelId(),
         voice: academyCourseMasterVoice(job.courseSlug),
         durationSec: timings.durationSec,
         seal: job.mediaReleaseSeal.slice(0, 12),
@@ -923,23 +1280,32 @@ async function stampMediaReleaseSeal(job: AcademyMediaReleaseJob, wav: Buffer, m
 
 async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
-  let model = args.model ?? getDefaultModelId("VOICE_TTS");
+  const explicitDryRun = process.argv.includes("--dry-run");
+  if (args.sampleOnly && !args.seal && !explicitDryRun) {
+    const lessonKey = args.key ?? "01_office_ai_ileri-1";
+    const sample = writeAcademyTtsAbSample({ lessonKey });
+    process.stdout.write(
+      `sample-only yerel A/B (API yok): ${sample.lessonKey}\n  ham ${sample.rawPath}\n  işlenmiş ${sample.processedPath}\n  300 Hz–1 kHz %${(sample.quality.bandShare * 100).toFixed(1)} LUFS ${sample.quality.integratedLufs.toFixed(1)}\n`,
+    );
+    return;
+  }
+  let model = args.model ?? academyBakeVoiceModelId();
   const jobs = collectJobs(model, args.slug, args.key);
-  assertSingleCourseVoice(jobs, args.voice);
+  const voiceProbe = assertSingleCourseVoice(jobs, args.voice, args.sampleOnly);
   const turnCount = jobs.reduce((sum, job) => sum + job.turns.length, 0);
   const forceBake = args.force;
   if (forceBake) {
     process.stdout.write("--force mühürlü MP3'ün üzerine yazmaz. Korunan kaset Error ile durur.\n");
   }
   process.stdout.write(
-    `academy-audio bake — ${jobs.length} ders, ${turnCount} tur, model=${model}${args.dryRun ? " (dry-run)" : ""}\n`,
+    `academy-audio bake — ${jobs.length} ders, ${turnCount} tur, model=${model}${args.dryRun ? " (dry-run)" : ""}${args.sampleOnly ? " (sample-only)" : ""}\n`,
   );
   if (args.dryRun) {
-    let plannedWhistles = 0;
+    const byCourse = new Map<string, number>();
     for (const job of jobs) {
       assertSpokenScriptMatchesCues(job.lessonKey);
       const breathChunks = collectBreathChunks(job);
-      plannedWhistles += breathChunks.length;
+      byCourse.set(job.courseSlug, (byCourse.get(job.courseSlug) ?? 0) + breathChunks.length);
       const sealed = isAcademyLessonAudioSealed(job.courseSlug, job.lessonKey);
       assertAcademyTtsLessonRequestBudget(breathChunks.length, sealed);
       writeDryRunReceipt(job);
@@ -953,13 +1319,41 @@ async function main(): Promise<void> {
       process.stdout.write(
         `  ${job.courseSlug}/${job.lessonKey}  ${job.turns.length} paragraf  ${breathChunks.length} istek (${band})  skip-preventer  RPM kalkanı=${rpmGapSec}s  min.ara=${minWallSec.toFixed(0)}s  ${job.turns[0]?.voice ?? "?"}  ${queued ? "KUYRUK" : "MÜHÜR"}  seal=${job.mediaReleaseSeal.slice(0, 12)}  → ${job.publicPath}\n`,
       );
+      breathChunks.forEach((chunk, index) => {
+        const spokenText = injectAcademyTtsBreathPauses(chunk.text);
+        const fingerprint = academyTtsPieceFingerprint({
+          model,
+          voice: chunk.voiceName,
+          speechRate: ACADEMY_INSTRUCTOR_SPEECH_RATE,
+          text: spokenText,
+          acoustic: academyTtsStudioFingerprintMaterial(),
+          dspRev: ACADEMY_TTS_DSP_REV,
+        });
+        const paths = academyTtsPieceCachePaths({
+          courseSlug: job.courseSlug,
+          lessonKey: job.lessonKey,
+          index,
+          fingerprint,
+        });
+        const hit = existsSync(paths.wav);
+        process.stdout.write(
+          `    parça ${index + 1} ${hit ? "önbellek" : "yok"} → ${paths.wav}\n`,
+        );
+      });
     }
-    assertAcademyMatchWhistleBudget(plannedWhistles);
-    const matchPlan = academyMatchWhistlePlan(plannedWhistles);
-    const bandLabel = matchPlan.inRegulationBand ? "normal süre" : "yedek payına taşabilir";
-    process.stdout.write(
-      `1 Maç = MAX 100 Düdük: plan ${matchPlan.requests} istek (${bandLabel}), yedek ${matchPlan.reserveRemaining}, tavan ${ACADEMY_MATCH_WHISTLE_MAX}.\n`,
-    );
+    for (const [slug, count] of byCourse) {
+      assertAcademyMatchWhistleBudget(count);
+      const matchPlan = academyMatchWhistlePlan(count);
+      const bandLabel = matchPlan.inRegulationBand ? "normal süre" : "yedek payına taşabilir";
+      process.stdout.write(
+        `1 Maç = MAX 100 Düdük: ${slug} plan ${matchPlan.requests} istek (${bandLabel}), ham pay ${matchPlan.reserveRemaining}, uzatma ${matchPlan.extensionReserve}, tavan ${ACADEMY_MATCH_WHISTLE_MAX}.\n`,
+      );
+    }
+    if (args.sampleOnly) {
+      process.stdout.write(
+        "sample-only: canlıda ders başına yalnız 1. parça gider (1 düdük). Bu taramada API yok.\n",
+      );
+    }
     process.stdout.write(
       "Bake öncesi kapı: --dry-run taraması tamam. Harici API yok. İnsan --seal ve --confirm-gemini-spend olmadan çağrı açılmaz.\nKeşif bitti.\n",
     );
@@ -971,17 +1365,24 @@ async function main(): Promise<void> {
     );
     process.exit(1);
   }
-  let plannedWhistles = 0;
+  const plannedByCourse = new Map<string, number>();
   for (const job of jobs) {
     assertDryRunApproved(job);
-    assertSealedMp3Protected(job);
-    plannedWhistles += collectBreathChunks(job).length;
+    if (!args.sampleOnly) {
+      assertSealedMp3Protected(job);
+    }
+    plannedByCourse.set(
+      job.courseSlug,
+      (plannedByCourse.get(job.courseSlug) ?? 0) + collectBreathChunks(job).length,
+    );
   }
-  assertAcademyMatchWhistleBudget(plannedWhistles);
-  const matchPlan = academyMatchWhistlePlan(plannedWhistles);
-  process.stdout.write(
-    `1 Maç = MAX 100 Düdük: plan ${matchPlan.requests} istek, yedek ${matchPlan.reserveRemaining}, tavan ${ACADEMY_MATCH_WHISTLE_MAX}.\n`,
-  );
+  for (const [slug, count] of plannedByCourse) {
+    assertAcademyMatchWhistleBudget(count);
+    const matchPlan = academyMatchWhistlePlan(count);
+    process.stdout.write(
+      `1 Maç = MAX 100 Düdük: ${slug} plan ${matchPlan.requests} istek, ham pay ${matchPlan.reserveRemaining}, uzatma ${matchPlan.extensionReserve}, tavan ${ACADEMY_MATCH_WHISTLE_MAX}.\n`,
+    );
+  }
   const apiKey = sanitizeGeminiApiKey(process.env.GEMINI_API_KEY);
   if (!apiKey) {
     throw new Error("GEMINI_API_KEY yok.");
@@ -1007,19 +1408,25 @@ async function main(): Promise<void> {
       pieces: AcademySealedAudioPiece[];
       pauseSec: number;
       visualLeadByPiece: ReadonlyMap<number, number>;
+      sampleOnly: boolean;
+      samplePath: string | null;
     };
     if (activeModel === VOICE_TTS_FORBIDDEN_MODEL_ID || VOICE_TTS_FALLBACK_TO_2_5) {
       throw new Error("Gemini 2.5 Flash TTS yasaktır. Kota yoksa fırın durur.");
     }
     try {
-      baked = await bakeLessonWav(client, activeJob, activeModel);
+      baked = await bakeLessonWav(client, activeJob, activeModel, args.sampleOnly, voiceProbe);
     } catch (error) {
       if (isDailyModelQuotaError(error)) {
         throw new Error(
-          `Gemini 3.1 Flash TTS kotası doldu. Alt modele düşülmez. Kota açılınca aynı modelle yeniden fırınlanır. ${error instanceof Error ? error.message : String(error)}`,
+          `${activeModel} kotası doldu. Alt modele düşülmez. Kota açılınca aynı modelle yeniden fırınlanır. ${error instanceof Error ? error.message : String(error)}`,
         );
       }
       throw error;
+    }
+    if (baked.sampleOnly) {
+      process.stdout.write(`  sample-only durdu → ${baked.samplePath}\n`);
+      continue;
     }
     const wav = baked.wav;
     if (wav.byteLength < MIN_WAV_BYTES) {

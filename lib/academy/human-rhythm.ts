@@ -1,6 +1,6 @@
 /**
  * İnsani anlatım ritmi — üst süre tavanı yoktur.
- * Konuşma hızı `ACADEMY_INSTRUCTOR_SPEECH_RATE` (0.93 — doğal temponun %7 yavaşı).
+ * Konuşma temposu ölçülen doğal hedeftir (`ACADEMY_INSTRUCTOR_SPEECH_RATE`, 0.93). DSP katsayısı değildir.
  * Cümle ve paragraf nefesi 0.4 sn. Teknik kural / örnek geçişi 1.5–2.0 sn bandının ortasıdır.
  * Slayt değişince görsel, yeni cümleden 1.5 sn önce açılır.
  */

@@ -30,7 +30,12 @@ import { isAcademyPlayerPaywallLessonLocked } from "@/lib/academy/preview-lock";
 import { academyCheckoutHref } from "@/lib/academy/storefront-cta";
 import { academyCompareDockPrompt, academyVisualCompareStage } from "@/lib/academy/excel-workspace";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
-import { academyLessonBedPlaybackSrc, isAcademyLessonBedSealed } from "@/lib/academy/lesson-audio";
+import { academyBedSpeechClockSec } from "@/lib/academy/lesson-bed-duck";
+import {
+  academyLessonBedIsHardMixed,
+  academyLessonBedPlaybackSrc,
+  isAcademyLessonBedSealed,
+} from "@/lib/academy/lesson-audio";
 import { isAcademyTtsCassetteRevoked } from "@/lib/academy/pilot-sku";
 import {
   academyPlaybackCueAtTime,
@@ -191,13 +196,14 @@ export function CurriculumPlayer({
     return isAcademyPrepStripKaraokeLayer(layer) ? layer : null;
   }, [prepActive, courseSlug]);
   const eyeStage = karaoke ? loadAcademyLessonVisualStage(karaoke.lessonKey) : null;
+  const speechElapsed = academyBedSpeechClockSec(active?.key ?? "", mediaElapsed);
   const dockPrompt = useMemo(() => {
     if (!karaoke) {
       return null;
     }
     const clockCue = academyPlaybackCueAtTime(
       loadAcademyLessonPlaybackCues(karaoke.lessonKey),
-      mediaElapsed,
+      academyBedSpeechClockSec(karaoke.lessonKey, mediaElapsed),
     );
     if (!clockCue) {
       return null;
@@ -526,7 +532,7 @@ export function CurriculumPlayer({
             <li key={lesson.key} className="max-lg:min-w-[16rem] max-lg:shrink-0">
               <button
                 type="button"
-                disabled={!lesson.open && !rowLocked}
+                disabled={rowLocked ? false : !lesson.open}
                 aria-current={selected ? "true" : undefined}
                 data-academy-paywall={rowLocked ? "locked" : undefined}
                 onClick={() => {
@@ -650,7 +656,8 @@ export function CurriculumPlayer({
                   autoStart={autoStartPlayback}
                   audioSrcOverride={karaoke.audioSrc}
                   bedSrcOverride={
-                    isAcademyLessonBedSealed(courseSlug, active.key)
+                    isAcademyLessonBedSealed(courseSlug, active.key) &&
+                    !academyLessonBedIsHardMixed(active.key)
                       ? academyLessonBedPlaybackSrc(courseSlug, active.key)
                       : undefined
                   }
@@ -673,7 +680,7 @@ export function CurriculumPlayer({
                   >
                     <LessonPromptConsole
                       prompt={dockPrompt.prompt}
-                      currentTime={mediaElapsed}
+                      currentTime={speechElapsed}
                       lessonKey={karaoke.lessonKey}
                       cueIndex={dockPrompt.cueIndex}
                     />
@@ -696,7 +703,7 @@ export function CurriculumPlayer({
               <LessonAssistantPanel
                 courseSlug={courseSlug}
                 lessonKey={active.key}
-                currentTimeSec={mediaElapsed}
+                currentTimeSec={speechElapsed}
               />
             ) : null}
 

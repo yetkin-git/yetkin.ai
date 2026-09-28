@@ -72,6 +72,7 @@ export function decideEdgeApiAuth(input: {
   sessionHint: boolean;
   sessionUserId?: string | null;
   sessionEmail?: string | null;
+  sessionEmailConfirmedAt?: string | null;
   map?: Record<string, string>;
 }): EdgeApiDecision {
   // sessionHint adı tarihîdir; çağıran kenar JWT doğrulaması geçirmelidir.
@@ -104,7 +105,11 @@ export function decideEdgeApiAuth(input: {
     const userId = input.sessionUserId?.trim() ?? "";
     if (
       !userId ||
-      !isSuperAdminActor({ id: userId, email: input.sessionEmail })
+      !isSuperAdminActor({
+        id: userId,
+        email: input.sessionEmail,
+        emailConfirmedAt: input.sessionEmailConfirmedAt,
+      })
     ) {
       return { kind: "deny", status: 403, error: EDGE_API_FORBIDDEN_ERROR };
     }

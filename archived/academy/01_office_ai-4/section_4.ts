@@ -1,5 +1,5 @@
-/** ARŞİV — sınav yolunda yok. Ritüel `01_office_ai-g1` ilk iki dakikasına alındı. Dosya adı teknik sonektir. */
-import type { Section } from "../types";
+/** ARŞİV — sınav yolunda yok. `officeAiSections` bu dosyayı okumaz. Ritüel `01_office_ai-g1` içindedir. */
+import type { Section } from "@/lib/academy/curricula/types";
 
 export const section4: Section = {
   sectionNumber: 6,

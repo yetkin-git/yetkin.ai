@@ -44,19 +44,47 @@ export class AiGatewayForbiddenError extends ForbiddenError {
   }
 }
 
+/** Canlı TTS çağrı kimliği. Stüdyo ürün adı bunun yerine geçmez. */
+export const VOICE_TTS_MODEL_ID = "gemini-3.1-flash-tts-preview" as const;
+
 export const AI_MODEL_ROLE_DEFAULTS: Record<AiLiveModelRoleKey, string> = {
   EXECUTIVE_BRAIN: "gemini-3.1-pro-preview",
   DEEP_RESEARCH: "gemini-3.1-pro-preview",
   FAST_STREAM: "gemini-3.6-flash",
   LITE_STREAM: "gemini-3.5-flash-lite",
   IMAGE_GEN: "imagen-4.0-generate-001",
-  VOICE_TTS: "gemini-3.1-flash-tts-preview",
+  VOICE_TTS: VOICE_TTS_MODEL_ID,
   OPEN_LOCAL: "gemma-3-27b-it",
 };
 
 /**
+ * Akademi fırın sicili. Canlı 8 rol tavanını şişirmez.
+ * Vatandaş izlemesi bu kimlikleri çağırmaz.
+ * Canlı sohbet `FAST_STREAM` okur. Uzun ufuklu senaryo `LONG_HORIZON_TEXT` okur.
+ * Canlı görsel gümrüğü `IMAGE_GEN` (Imagen) okur. Fırın karesi `IMAGE_NANO_BANANA_2` okur.
+ * Canlı `VIDEO_GEN` mühürlü-ölüdür. Otomatik Veo API iptaldir. Isınma klibi yerel `-warmup.mp4` reuse.
+ */
+export const ACADEMY_BAKE_MODELS = {
+  LONG_HORIZON_TEXT: "gemini-3.8-flash",
+  /**
+   * Fırın ses çağrısı. `academyBakeVoiceModelId()` bu sabiti okur.
+   * Canlı gümrük `VOICE_TTS` ayrı kalır.
+   */
+  VOICE_TTS_STUDIO_PRODUCT: "gemini-3.8-flash-tts",
+  IMAGE_NANO_BANANA_2: "gemini-3.1-flash-image",
+  MUSIC_LYRIA: "lyria-3.5",
+  VIDEO_VEO_LITE: "veo-3.1-lite-generate-preview",
+  VIDEO_VEO_PREMIUM_FORBIDDEN: "veo-3.1-generate-preview",
+} as const;
+
+/** Fırın sesi stüdyo ürün kimliğini okur. Canlı gümrük `getDefaultModelId("VOICE_TTS")` ayrıdır. */
+export function academyBakeVoiceModelId(): typeof ACADEMY_BAKE_MODELS.VOICE_TTS_STUDIO_PRODUCT {
+  return ACADEMY_BAKE_MODELS.VOICE_TTS_STUDIO_PRODUCT;
+}
+
+/**
  * Kota, 404 veya limit, Gemini 2.5 Flash TTS'e düşmez.
- * Kota yoksa işlem durur; açılınca yalnız `VOICE_TTS` (Gemini 3.1 Flash TTS) fırınlanır.
+ * Kota yoksa işlem durur. Fırın açılınca yalnız `academyBakeVoiceModelId()` kullanılır.
  */
 export const VOICE_TTS_FALLBACK_TO_2_5 = false as const;
 

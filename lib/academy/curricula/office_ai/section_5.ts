@@ -7,12 +7,12 @@ export const section5: Section = {
   isPreviewAllowed: false,
   isLocked: true,
   title: "İstisnalar ve Hata Avı: Yapay Zekâ Yanılınca",
-  targetDurationMinutes: 9.2,
-  estimatedWordCount: 1143,
+  targetDurationMinutes: 9.8,
+  estimatedWordCount: 1130,
   pedagogicalObjective:
     "Yapay zekâ çıktısına gözü kapalı güvenmeme. Yapay zekâ neden uydurur? Dil modeli işlemci değildir; kelime olasılığını tahmin eder. Tablodaki sapmayı gözünle nasıl avlarsın? Satır toplamı ile genel toplamı çapraz kontrol et. Yapay zekâ çıktısı kontrol edilmeden masaya neden koyulmaz? Uydurma satır genel toplamı şişirir, bütçeye sızar.",
   contentMarkdown: `
-Dördüncü dersimizde slayt başına tek fikir kuralını oturtmuştuk. Akıcı slayt, doğru sayı demek değildir. Bu dersin sonunda uydurma sayıyı kaynak hücreyle kilitlemeyi tek başına yapacaksın. Hâlâ e-postaya geçmiyoruz: slaytın arkasındaki rakam kilitlenmeden toplantıya çıkılmaz; yönetici o slayttaki toplamı karar sanır. Güzel bir slayt, şişmiş bir toplamı gizlemez; aksine onu kürsüye taşır. E-postayı henüz açmadık; önce rapordaki uydurma sayıyı yakalayacaksın. Şimdi o sayının nasıl şiştiğine bakıyorsun.
+Dördüncü dersimizde slayt başına tek fikir kuralını oturtmuştuk. Akıcı slayt, doğru sayı demek değildir. Bu dersin sonunda uydurma sayıyı kaynak hücreyle kilitlemeyi tek başına yapacaksın. Hâlâ e-postaya geçmiyoruz: slaytın arkasındaki rakam kilitlenmeden toplantıya çıkılmaz; yönetici o slayttaki toplamı karar sanır. E-postayı henüz açmadık; önce rapordaki uydurma sayıyı yakalayacaksın. Şimdi o sayının nasıl şiştiğine bakıyorsun.
 
 Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin beşinci dersine hoş geldin. Geçen derste slaytı kurduk; peki şimdi ne olacak? Akıcı slayt masaya gider ama içindeki sayı yanlışsa yönetici o yanlışı karar sanır. Hepimiz o tabloyu bir kez okuyup «düzenli duruyor, doğrudur» dediğimiz anı hatırlıyoruz. Peki neden hızlanırken hata avı gerekir? Çünkü tablo düzenli görününce çoğu kişi her rakamın doğru olduğunu varsayar. Bugün o varsayımı kıracağız: önce sapmayı gör, sonra raporu kilitle.
 
@@ -22,7 +22,7 @@ Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin beşin
 
 Peki yapay zekâ neden uydurur? Çünkü dil modeli matematiksel bir işlemci değildir; kelime olasılığını tahmin eder. Hesap makinesi gibi çalışmaz; bir sonraki kelimeyi «doğru duran» bir cümleye oturtur. Özetlerken veya toplarken hiç var olmayan bir sayıyı, düzgün bir dille, belgede varmış gibi yazabilir. Satır durur, virgül durur, para birimi durur; kaynak evrak durmaz. İşte buna uydurma (teknik adıyla halüsinasyon) diyoruz. Toplantıda genel müdüre uydurma sayı okumak istemiyorsan, raporu kontrol etmeden masaya koyma.
 
-Bir finans raporunu veya aylık satış tablosunu modele emanet ettiğinde formüllerin her zaman doğru çalıştığını varsaymak büyük bir hatadır. Karmaşık toplamlarda veya aradaki tek tük satırlarda model kaynaksız bir tutarı listeye ekleyebilir. Peki yapay zekâ çıktısı kontrol edilmeden masaya neden koyulmaz? Çünkü o uydurma satır genel toplamı şişirir; şişen toplam bütçeye ve tedarik kararına sızar. Yönetici 59.450 görürse o rakamı bütçe sanır. Bu kör güveni kırmak için çapraz kontrolü refleks haline getir.
+Bir finans raporunu veya aylık satış tablosunu modele emanet ettiğinde formüllerin her zaman doğru çalıştığını varsaymak büyük bir hatadır. Karmaşık toplamlarda veya aradaki tek tük satırlarda model kaynaksız bir tutarı listeye ekleyebilir. Peki yapay zekâ çıktısı kontrol edilmeden masaya neden koyulmaz? Çünkü o uydurma satır genel toplamı şişirir; şişen toplam bütçeye ve tedarik kararına sızar. Yönetici 59.450 görürse o rakamı bütçe sanır. Bu varsayımı kırmak için çapraz kontrolü refleks haline getir.
 
 ## HATA AVI
 
@@ -44,7 +44,7 @@ Gördüğün gibi denetim, hatayı krize dönüşmeden önce yakalar. Yapay zek�
 
 ## CEBİNE KOY
 
-Bu derste öğrendiğin hata avını iş hayatında şu üç adımla cebine koy. 1. Tablolardaki tüm toplamları doğrudan modele bırakmak yerine her zaman bir formül aracılığıyla ikinci kez doğrula. Doğrulamayı TOPLA formülüne bırak: satır toplamı genel toplamı vermiyorsa raporu gönderme. Çünkü dil modeli işlemci değildir; formül hücrenin işidir. 2. Üretim tamamlandığında yapay zekâya bu tabloda mantık hatası var mı diye sor. Çünkü sormazsan uydurma satır akıcı özetin içinde kalır. 3. Finansal veya operasyonel açıdan en kritik veriyi her zaman son bir insan gözü denetimiyle kilitle. Çünkü kaynak evrak yoksa sayı masaya çıkmaz. Bu üç filtre uydurma verinin iş akışını bozmasını engeller.
+Bu derste öğrendiğin hata avını iş hayatında şu üç adımla yaz. 1. Tablolardaki tüm toplamları doğrudan modele bırakmak yerine her zaman bir formül aracılığıyla ikinci kez doğrula. Doğrulamayı TOPLA formülüne bırak: satır toplamı genel toplamı vermiyorsa raporu gönderme. Çünkü dil modeli işlemci değildir; formül hücrenin işidir. 2. Üretim tamamlandığında yapay zekâya bu tabloda mantık hatası var mı diye sor. Çünkü sormazsan uydurma satır akıcı özetin içinde kalır. 3. Finansal veya operasyonel açıdan en kritik veriyi her zaman son bir insan gözü denetimiyle kilitle. Çünkü kaynak evrak yoksa sayı masaya çıkmaz. Bu üç filtre uydurma verinin iş akışını bozmasını engeller.
 
 ## SIRA SENDE
 

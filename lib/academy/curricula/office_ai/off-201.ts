@@ -19,6 +19,7 @@
  * OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış AÇIKTIR.
  */
 
+import { ACADEMY_EXAM_POOL_MAX, ACADEMY_EXAM_POOL_MIN } from "@/lib/academy/exam-duration";
 import {
   OFFICE_AI_PLANNED_LESSONS,
   type OfficeAiPlannedLesson,
@@ -34,8 +35,9 @@ export const OFF_201_MODULE_CODE = "OFF-201" as const;
 export const OFF_201_TITLE = "İleri Ofis Yapay Zekâ" as const;
 
 export const OFF_201_EXAM_PASS_SCORE = 70 as const;
-export const OFF_201_EXAM_POOL_MIN = 30 as const;
-export const OFF_201_EXAM_POOL_MAX = 50 as const;
+/** Ofis bandı. Tek sayı `ACADEMY_EXAM_POOL_MIN` / `ACADEMY_EXAM_POOL_MAX`. */
+export const OFF_201_EXAM_POOL_MIN = ACADEMY_EXAM_POOL_MIN;
+export const OFF_201_EXAM_POOL_MAX = ACADEMY_EXAM_POOL_MAX;
 
 export const OFF_201_ECOMMERCE_COLLISION_CODE = "EC-102" as const;
 

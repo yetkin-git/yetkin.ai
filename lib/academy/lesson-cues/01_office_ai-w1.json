@@ -2,7 +2,7 @@
   {
     "id": "cue-01",
     "start": 2,
-    "end": 55.6,
+    "end": 56.099,
     "text": "GİRİŞ KÖPRÜSÜ",
     "section": "GİRİŞ KÖPRÜSÜ",
     "paragraphs": [
@@ -11,8 +11,8 @@
   },
   {
     "id": "cue-02",
-    "start": 56,
-    "end": 162.04,
+    "start": 56.349,
+    "end": 159.238,
     "text": "HOŞ GELDİN",
     "section": "HOŞ GELDİN",
     "paragraphs": [
@@ -23,20 +23,20 @@
   },
   {
     "id": "cue-03",
-    "start": 162.44,
-    "end": 237.56,
+    "start": 159.488,
+    "end": 236.873,
     "text": "PARÇA PARÇA",
     "section": "PARÇA PARÇA",
     "paragraphs": [
-      "Tek tek kopyalama şudur: sayfa dördü kopyala, yapıştır, sayfa on biri kopyala, yine yapıştır. Peki neden bu atlanmış kapıdır, yasak listesi değil? Çünkü model yarım cümle görür; ceza oranını kaçırır. Otuz sayfayı parça parça taşımak üçüncü kapı değildir. Üçüncü kapı son çaredir: tek paragraf, maskeli kısa yapıştırma. Bu yolu önermiyoruz.",
-      "Parça parça kopyalarsan önemli maddeleri atlarsın. Örneğin 4. sayfadaki ceza şartını alıp 11. sayfadaki süreyi unuttuğunda analiz eksik kalır. Dilekçeden sadece bir paragraf kopyalarsan, resmi kurum adı ve talep kısmı dışarıda kaldığı için yapay zekâ dilekçeyi tam yorumlayamaz. Raporda kayıp ayrımdır: gözlem ile karar notu karışır. Parça parça taşımak üçüncü kapı sayılmaz. Üçüncü kapı tek paragraftır: isim yok, hesap yok. Dosya bütün hâliyle yüklenir.",
+      "Tek tek kopyalama şudur: sayfa dördü kopyala, yapıştır, sayfa on biri kopyala, yine yapıştır. Peki neden bu atlanmış adımdır, yasak listesi değil? Çünkü model yarım cümle görür; ceza oranını kaçırır. Otuz sayfayı parça parça taşımak üçüncü adım değildir. Üçüncü adım son çaredir: tek paragraf, maskeli kısa yapıştırma. Bu yolu önermiyoruz.",
+      "Parça parça kopyalarsan önemli maddeleri atlarsın. Örneğin 4. sayfadaki ceza şartını alıp 11. sayfadaki süreyi unuttuğunda analiz eksik kalır. Dilekçeden sadece bir paragraf kopyalarsan, resmi kurum adı ve talep kısmı dışarıda kaldığı için yapay zekâ dilekçeyi tam yorumlayamaz. Raporda kayıp ayrımdır: gözlem ile karar notu karışır. Parça parça taşımak üçüncü adım sayılmaz. Üçüncü adım tek paragraftır: isim yok, hesap yok. Dosya bütün hâliyle yüklenir.",
       "Sayfa dördü alıp sayfa on biri unutmak işi bitirmez. Model yarım görür, sen tam sanırsın. Ataş bu kopukluğu kapatır: dosya bütün gider, madde listesi sayfa numarasıyla döner."
     ]
   },
   {
     "id": "cue-04",
-    "start": 237.96,
-    "end": 300.96,
+    "start": 236.873,
+    "end": 299.138,
     "text": "ATAŞ YÜKLE",
     "section": "ATAŞ YÜKLE",
     "paragraphs": [
@@ -48,8 +48,8 @@
   },
   {
     "id": "cue-05",
-    "start": 301.36,
-    "end": 433.2,
+    "start": 299.388,
+    "end": 428.583,
     "text": "TEK DOSYAYLA ANALİZ",
     "section": "TEK DOSYAYLA ANALİZ",
     "paragraphs": [
@@ -61,8 +61,8 @@
   },
   {
     "id": "cue-06",
-    "start": 433.6,
-    "end": 489.68,
+    "start": 428.833,
+    "end": 480.815,
     "text": "FARK ORTADA",
     "section": "FARK ORTADA",
     "paragraphs": [
@@ -72,18 +72,18 @@
   },
   {
     "id": "cue-07",
-    "start": 490.08,
-    "end": 528.64,
-    "text": "CEBİNE KOY",
+    "start": 481.065,
+    "end": 522.255,
+    "text": "TARİHİ SEN YAZ",
     "section": "CEBİNE KOY",
     "paragraphs": [
-      "Cebine üç adım koy. Birincisi: dosyayı yükle. Çünkü satır satır okutmak riskli maddeyi kaçırır. Sözleşme, dilekçe veya rapor fark etmez; yöntem ataştır. İkincisi: sözleşme, dilekçe veya raporu ayrı istemle sor. Çünkü tek istem üç işi yığar. Madde, hitap ve rapor düzeni birbirine karışmaz. Üçüncüsü: tarih, sayı ve imzayı sen yazarsın. Çünkü model taslak yazar, mühür basmaz. Şu paragrafı soracaksan istemine ekle; liste halinde al, uydurma kanun maddesini sil, imzayı kendin at."
+      "Üç adımı yaz. Birincisi: dosyayı yükle. Çünkü satır satır okutmak riskli maddeyi kaçırır. Sözleşme, dilekçe veya rapor fark etmez; yöntem ataştır. İkincisi: sözleşme, dilekçe veya raporu ayrı istemle sor. Çünkü tek istem üç işi yığar. Madde, hitap ve rapor düzeni birbirine karışmaz. Üçüncüsü: tarih, sayı ve imzayı sen yazarsın. Çünkü model taslak yazar, mühür basmaz. Şu paragrafı soracaksan istemine ekle; liste halinde al, uydurma kanun maddesini sil, imzayı kendin at."
     ]
   },
   {
     "id": "cue-08",
-    "start": 529.04,
-    "end": 583.36,
+    "start": 522.505,
+    "end": 580.984,
     "text": "SIRA SENDE",
     "section": "SIRA SENDE",
     "paragraphs": [

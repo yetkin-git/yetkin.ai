@@ -36,7 +36,9 @@ import {
   OG_IMAGE_SIZE,
   OG_LOCALE,
   OFFICE_AI_LESSON_TEASERS,
+  OFFICE_AI_ILERI_SEO,
   OFFICE_AI_SEO,
+  academyCourseSeoOverride,
   PAGE_SEO,
   PRODUCT_ROOM_PATHS,
   ROBOTS_ALLOW_COURSE_PATHS,
@@ -245,6 +247,11 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(byPath.get("/")?.priority).toBe(1);
     expect(byPath.get("/academy")?.priority).toBe(1);
     expect(sitemapRoutePolicy("/career").priority).toBe(0.9);
+    expect(byPath.has("/academy/01_office_ai_ileri"), "/academy/01_office_ai_ileri").toBe(true);
+    expect(byPath.get("/academy/01_office_ai_ileri")?.priority).toBe(0.8);
+    expect(byPath.get("/academy/01_office_ai_ileri")?.images?.[0]).toBe(
+      "https://yetkin.ai/academy/covers/01_office_ai_ileri.jpg",
+    );
     expect(byPath.has("/freelancer")).toBe(false);
     expect(byPath.get("/hakkimizda")?.priority).toBe(0.5);
     expect(byPath.get("/legal")?.priority).toBe(0.5);
@@ -292,8 +299,15 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(ROBOTS_DISALLOW_PATHS).toContain("/academy/*/cikis-paketi");
     expect(rule?.disallow).toEqual(expect.arrayContaining(["/academy/*/oyna"]));
     expect(rule?.disallow).toEqual(expect.arrayContaining(["/academy/*/cikis-paketi"]));
-    expect(ROBOTS_ALLOW_COURSE_PATHS).toEqual(["/academy/01_office_ai"]);
-    expect(rule?.allow).toEqual(expect.arrayContaining(["/academy/01_office_ai"]));
+    expect(ROBOTS_ALLOW_COURSE_PATHS).toEqual([
+      "/academy/01_office_ai",
+      "/academy/01_office_ai_ileri",
+    ]);
+    expect(rule?.allow).toEqual(
+      expect.arrayContaining(["/academy/01_office_ai", "/academy/01_office_ai_ileri"]),
+    );
+    expect(isRobotsDisallowedPath("/academy/01_office_ai_ileri")).toBe(false);
+    expect(isRobotsDisallowedPath("/academy/01_office_ai_ileri/oyna")).toBe(true);
   });
 });
 
@@ -686,15 +700,68 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
     expect(OFFICE_AI_SEO.h1).not.toBe(OFFICE_AI_SEO.title);
 
     const page = readSrc("app/academy/[slug]/page.tsx");
+    expect(page).toContain("academyCourseSeoOverride");
     expect(page).toContain("OFFICE_AI_SEO");
-    expect(page).toContain("OFFICE_AI_SEO.title");
-    expect(page).toContain("OFFICE_AI_SEO.description");
-    expect(page).toContain("OFFICE_AI_SEO.h1");
-    expect(page).toContain("OFFICE_AI_SEO.keywords");
+    expect(page).toContain("OFFICE_AI_ILERI_SEO");
+    expect(page).toContain("seo?.title");
+    expect(page).toContain("seo?.description");
+    expect(page).toContain("seo?.h1");
+    expect(page).toContain("seo?.keywords");
     expect(page).toContain("educationalOccupationalProgramJsonLd");
     // Sicil başlığı korunur: breadcrumb + JSON-LD `name` hâlâ course.title.
     expect(page).toContain("label={board.course.title}");
     expect(page).toContain("title: board.course.title");
+  });
+
+  it("OFF-201 title/description/H1 indekslenir; LearningResource ders düğümü Course altına bağlanır", () => {
+    expect(OFFICE_AI_ILERI_SEO.slug).toBe("01_office_ai_ileri");
+    expect(OFFICE_AI_ILERI_SEO.path).toBe("/academy/01_office_ai_ileri");
+    expect(academyCourseSeoOverride("01_office_ai")).toBe(OFFICE_AI_SEO);
+    expect(academyCourseSeoOverride("01_office_ai_ileri")).toBe(OFFICE_AI_ILERI_SEO);
+    const finalTitle = TITLE_TEMPLATE.replace("%s", OFFICE_AI_ILERI_SEO.title);
+    expect(OFFICE_AI_ILERI_SEO.title.length).toBeLessThanOrEqual(55);
+    expect(finalTitle.length).toBeLessThanOrEqual(65);
+    expect(OFFICE_AI_ILERI_SEO.description.length).toBeLessThanOrEqual(180);
+    expect(OFFICE_AI_ILERI_SEO.h1).not.toBe(OFFICE_AI_ILERI_SEO.title);
+    expect(OFFICE_AI_ILERI_SEO.description).toMatch(/6 ders \+ 10 soru \/ 70/u);
+    expect(OFFICE_AI_ILERI_SEO.description).toMatch(/Sunucuda dosya kontrolü yok/u);
+
+    const course = courseJsonLd({
+      slug: OFFICE_AI_ILERI_SEO.slug,
+      title: "İleri Ofis Yapay Zekâ",
+      description: OFFICE_AI_ILERI_SEO.description,
+      imagePath: academyCourseCoverPath(OFFICE_AI_ILERI_SEO.slug) ?? DEFAULT_OG_IMAGE,
+      datePublished: "2026-09-26T12:00:00.000Z",
+      priceMinor: 129_000,
+      priceCurrency: "TRY",
+      lessons: [
+        { name: "Dört Parçalı İstem", durationMin: 8 },
+        { name: "Üç Dosyada Yan Yana Sayı Denetimi", durationMin: 8 },
+      ],
+    });
+    expect(course["@type"]).toBe("Course");
+    expect(course.url).toBe("https://yetkin.ai/academy/01_office_ai_ileri");
+    expect(course.image).toBe("https://yetkin.ai/academy/covers/01_office_ai_ileri.jpg");
+    const parts = course.hasPart as Array<{ "@type": string; name: string }>;
+    expect(parts[0]?.["@type"]).toBe("LearningResource");
+    expect(parts.map((part) => part.name)).toEqual([
+      "Dört Parçalı İstem",
+      "Üç Dosyada Yan Yana Sayı Denetimi",
+    ]);
+    const meta = pageMetadata({
+      title: OFFICE_AI_ILERI_SEO.title,
+      description: OFFICE_AI_ILERI_SEO.description,
+      path: OFFICE_AI_ILERI_SEO.path,
+      image: academyCourseCoverPath(OFFICE_AI_ILERI_SEO.slug) ?? DEFAULT_OG_IMAGE,
+      keywords: OFFICE_AI_ILERI_SEO.keywords,
+    });
+    expect(meta.alternates).toEqual({
+      canonical: "https://yetkin.ai/academy/01_office_ai_ileri",
+    });
+    expect(meta.openGraph).toMatchObject({
+      url: "https://yetkin.ai/academy/01_office_ai_ileri",
+      images: [{ url: "/academy/covers/01_office_ai_ileri.jpg", alt: OFFICE_AI_ILERI_SEO.title }],
+    });
   });
 
   it("kursa özel SSS görünür HTML ile FAQPage JSON-LD'de birebir aynı metni taşır", () => {

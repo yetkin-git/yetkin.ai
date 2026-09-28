@@ -56,7 +56,7 @@ export const ACADEMY_OFFICE_AI_W1_OUTRO_SUMMARY_LABELS = [
 export const ACADEMY_OFFICE_AI_K1_OUTRO_SUMMARY_LABELS = [
   "Ham veri yükleme",
   "Maskeleyip sor",
-  "3. Kapı kısa özet",
+  "Maskeli kısa özet",
 ] as const;
 
 export function academyLessonHasIntroGeneric(lessonKey: string): boolean {

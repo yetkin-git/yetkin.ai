@@ -1,6 +1,8 @@
 export type SessionUser = {
   id: string;
   email: string;
+  /** Supabase `email_confirmed_at`. Super Admin kapısı bunu ister. */
+  emailConfirmedAt?: string | null;
 };
 
 /** Vatandaş JWT — Storage imzalı PUT/GET. `service_role` değildir. */

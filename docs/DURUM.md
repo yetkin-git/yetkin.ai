@@ -1,6 +1,3 @@
-# Durum
+# DURUM
 
-Güncel operasyon kaydı `docs/ops/DURUM.md` dosyasındadır.
-Eski fırın raporları bu köke geri konmaz.
-
-Bu dosya yalnız yönlendirmedir. Sayı, kaset listesi ve nakit tanığı burada durmaz.
+Yaşayan kesit `docs/ops/DURUM.md` dosyasındadır. Bu sayfa ikinci kopya değildir.

@@ -215,11 +215,22 @@ function emailFromPayload(payload: JWTPayload): string | null {
   return typeof raw === "string" && raw.trim() ? raw.trim() : null;
 }
 
-function actorFromPayload(payload: JWTPayload): { userId: string; email: string | null } | null {
+function emailConfirmedAtFromPayload(payload: JWTPayload): string | null {
+  const raw = payload.email_confirmed_at;
+  return typeof raw === "string" && raw.trim() ? raw.trim() : null;
+}
+
+function actorFromPayload(
+  payload: JWTPayload,
+): { userId: string; email: string | null; emailConfirmedAt: string | null } | null {
   if (!claimsAreAuthenticated(payload) || typeof payload.sub !== "string") {
     return null;
   }
-  return { userId: payload.sub, email: emailFromPayload(payload) };
+  return {
+    userId: payload.sub,
+    email: emailFromPayload(payload),
+    emailConfirmedAt: emailConfirmedAtFromPayload(payload),
+  };
 }
 
 export async function verifyEdgeAccessToken(
@@ -233,7 +244,7 @@ export async function verifyEdgeAccessToken(
 export async function verifyEdgeAccessTokenClaims(
   token: string,
   env: EdgeJwtEnv = readEdgeJwtEnv(),
-): Promise<{ userId: string; email: string | null } | null> {
+): Promise<{ userId: string; email: string | null; emailConfirmedAt: string | null } | null> {
   if (!looksLikeJwt(token)) {
     return null;
   }
@@ -298,12 +309,14 @@ export type EdgeSessionState = {
   verified: boolean;
   userId: string | null;
   email: string | null;
+  emailConfirmedAt: string | null;
 };
 
 const ANONYMOUS_EDGE_SESSION: EdgeSessionState = {
   verified: false,
   userId: null,
   email: null,
+  emailConfirmedAt: null,
 };
 
 export async function resolveEdgeSessionState(input: {
@@ -327,7 +340,12 @@ export async function resolveEdgeSessionState(input: {
   if (!claims) {
     return ANONYMOUS_EDGE_SESSION;
   }
-  return { verified: true, userId: claims.userId, email: claims.email };
+  return {
+    verified: true,
+    userId: claims.userId,
+    email: claims.email,
+    emailConfirmedAt: claims.emailConfirmedAt,
+  };
 }
 
 export async function resolveEdgeSession(input: {

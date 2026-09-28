@@ -24,6 +24,31 @@ const require = createRequire(import.meta.url);
 const ffmpegPath = require("ffmpeg-static") as string | null;
 const ROOT = process.cwd();
 const TRANSCODE_CONCURRENCY = 3;
+/** Yayın saati. 24 kHz oynatma boru bandı bırakır. */
+export const ACADEMY_MP3_SAMPLE_RATE = 48_000;
+/** Taban 192 kbps. Mühür 320 kbps CBR — LAME alçak geçirenini konuşma bandının üstüne iter. */
+export const ACADEMY_MP3_BITRATE = "320k";
+const ACADEMY_MP3_BITRATE_FLOOR_KBPS = 192;
+
+function assertMp3BitrateLocked(): void {
+  const kbps = Number.parseInt(ACADEMY_MP3_BITRATE, 10);
+  if (!Number.isFinite(kbps) || kbps < ACADEMY_MP3_BITRATE_FLOOR_KBPS) {
+    throw new Error(`MP3 bitrate tabanı ${ACADEMY_MP3_BITRATE_FLOOR_KBPS} kbps; kilit ${ACADEMY_MP3_BITRATE}.`);
+  }
+}
+
+function readWavLayout(wavPath: string): { sampleRate: number; channels: number } {
+  const header = readFileSync(wavPath).subarray(0, 44);
+  if (header.length < 44 || header.toString("ascii", 0, 4) !== "RIFF") {
+    return { sampleRate: ACADEMY_MP3_SAMPLE_RATE, channels: 1 };
+  }
+  const channels = header.readUInt16LE(22);
+  const sampleRate = header.readUInt32LE(24);
+  return {
+    sampleRate: sampleRate > 0 ? sampleRate : ACADEMY_MP3_SAMPLE_RATE,
+    channels: channels > 0 ? channels : 1,
+  };
+}
 
 export function resolveAcademyBakeWavPath(
   courseSlug: string,
@@ -45,28 +70,29 @@ export function transcodeAcademyWavToMp3(wavPath: string, mp3Path: string): void
   if (!ffmpegPath) {
     throw new Error("ffmpeg-static ikili yok; npm ci / ffmpeg-static kur.");
   }
+  assertMp3BitrateLocked();
   mkdirSync(dirname(mp3Path), { recursive: true });
-  const result = spawnSync(
-    ffmpegPath,
-    [
-      "-y",
-      "-hide_banner",
-      "-loglevel",
-      "error",
-      "-i",
-      wavPath,
-      "-codec:a",
-      "libmp3lame",
-      "-b:a",
-      "192k",
-      "-ac",
-      "1",
-      "-id3v2_version",
-      "3",
-      mp3Path,
-    ],
-    { stdio: ["ignore", "pipe", "pipe"] },
-  );
+  const layout = readWavLayout(wavPath);
+  const args = [
+    "-y",
+    "-hide_banner",
+    "-loglevel",
+    "error",
+    "-i",
+    wavPath,
+  ];
+  if (layout.sampleRate !== ACADEMY_MP3_SAMPLE_RATE) {
+    args.push(
+      "-af",
+      `aresample=osr=${ACADEMY_MP3_SAMPLE_RATE}:filter_size=256:phase_count=64:linear_interp=0:cutoff=0.99`,
+    );
+  }
+  args.push("-ar", String(ACADEMY_MP3_SAMPLE_RATE), "-codec:a", "libmp3lame", "-b:a", ACADEMY_MP3_BITRATE);
+  if (layout.channels <= 1) {
+    args.push("-ac", "1");
+  }
+  args.push("-id3v2_version", "3", mp3Path);
+  const result = spawnSync(ffmpegPath, args, { stdio: ["ignore", "pipe", "pipe"] });
   if (result.status !== 0) {
     const err = result.stderr?.toString("utf8").trim() || `exit ${result.status}`;
     throw new Error(`ffmpeg FAIL ${wavPath}: ${err}`);

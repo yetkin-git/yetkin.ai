@@ -18,7 +18,7 @@ type BridgeCtx = {
 /** Kapanış köprüsü — vatandaş sırası `lesson-index.ts` SSOT'undan türetilir. */
 const CLOSING_BRIDGE: Record<string, (ctx: BridgeCtx) => RegExp> = {
   "01_office_ai-1": ({ nextOrdinal }) => new RegExp(`${nextOrdinal}\\. derste buluşalım`, "u"),
-  "01_office_ai-k1": () => /Sıradaki kapı rapor/u,
+  "01_office_ai-k1": () => /Sıradaki ders rapor/u,
   "01_office_ai-2": ({ nextOrdinal }) => new RegExp(`${nextOrdinal}\\. ders kapsamında`, "u"),
   "01_office_ai-3": ({ nextOrdinal }) => new RegExp(`${nextOrdinal}\\. derste[\\s\\S]*Hata Avı`, "u"),
   "01_office_ai-5": () => /Sıradaki ders e-posta akışı/u,
@@ -30,7 +30,7 @@ const CLOSING_BRIDGE: Record<string, (ctx: BridgeCtx) => RegExp> = {
 /** Makale SIRA SENDE ↔ timings outro — aynı hedef (T3/T4/T6 çapraz kilit). */
 const OUTRO_DESTINATION: Record<string, RegExp> = {
   "01_office_ai-1": /2\. derste buluşalım/u,
-  "01_office_ai-k1": /Sıradaki kapı rapor/u,
+  "01_office_ai-k1": /Sıradaki (?:ders|kapı) rapor/u,
   "01_office_ai-2": /4\. ders kapsamında/u,
   "01_office_ai-3": /Hata Avı/u,
   "01_office_ai-5": /e-posta akışı/iu,

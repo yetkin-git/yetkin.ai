@@ -2,7 +2,7 @@
 
 Pedagoji ilkeleri `.system_docs/PEDAGOJI.md` içindedir. Bu dosya operatör SOP’udur.
 
-İnsan `--seal` olmadan harici TTS yok. İzlemede canlı TTS yoktur. Pahalı Veo 3.1 her ders fırınında yasaktır (PEDAGOJI §E.4); B-roll varsayılanı Veo 3.1 Lite veya `/public/media/academy/micro/` yerel MP4 reuse, yedek Nano Banana 2 + CSS Ken Burns. Senaryo / cue / visual zoom oturmadan `--seal` yok; deneme `--dry-run` (PEDAGOJI §E.5).
+İnsan `--seal` olmadan harici TTS yok. İzlemede canlı TTS yoktur. Otomatik Veo 3.1 API iptaldir (PEDAGOJI §E.4); B-roll yalnız `/public/media/academy/micro/` yerel `-warmup.mp4` reuse, yedek Nano Banana 2 + CSS Ken Burns. Senaryo / cue / visual zoom oturmadan `--seal` yok; deneme `--dry-run` (PEDAGOJI §E.5).
 
 | Ölçüt | Değer | Kod |
 |-------|--------|-----|
@@ -12,7 +12,7 @@ Pedagoji ilkeleri `.system_docs/PEDAGOJI.md` içindedir. Bu dosya operatör SOP�
 | 3–5 sn mikro dilim | yasak | breath-chunks SSOT |
 | Kapı | `--dry-run` keşif; `--seal` + `--confirm-gemini-spend` | `scripts/generate-academy-lesson-audio.ts` |
 | 1 Maç = MAX 100 Düdük | Normal süre 70–80 istek. Yedek 15–20 yalnız zorunlu uzatma. Tavan 100 | `ACADEMY_MATCH_WHISTLE_MAX` |
-| B-roll | Veo 3.1 Lite veya yerel MP4 reuse; pahalı Veo 3.1 yasak | `lib/academy/lesson-veo.ts` |
+| B-roll | Yerel `-warmup.mp4` reuse; otomatik Veo 3.1 Lite ve pahalı Veo 3.1 iptal | `lib/academy/lesson-veo.ts` |
 | Yayın | Mühür listesi kod + `docs/ops/DURUM.md`. OFF-101: **8/8** mühürlü kaset (`lesson-index.ts`). `01_office_ai-4` arşivdir, süre tablosuna girmez. OFF-201 mührü Aylin (Kore), 6/6 mühürlü; eski Callirrhoe kasetleri arşivde, fırın kuyruğu boş | `lib/academy/pilot-sku.ts` |
 
 ```
@@ -31,7 +31,7 @@ Bu tablo timings `durationSec` ile birebir durur. Re-bake sonrası sayıyı bura
 
 | Ölçüt | Değer |
 |-------|--------|
-| Konuşma hızı | 0.93 — doğal temponun %7 yavaşı; her dilime perde koruyan SOLA |
+| Konuşma temposu | 0.93 ölçülen doğal hedef; yönetmen notu. DSP tempo yok. Seviye EBU R128 loudnorm |
 | Cümle ve paragraf nefesi | 0.4 sn |
 | Teknik kural ve örnek geçişi | 1.75 sn (1.5–2.0 bandının ortası) |
 | Slayt değişimi | Görsel, yeni cümleden 1.5 sn önce açılır |
@@ -104,14 +104,14 @@ Bu sayılar Anayasa/Pedagoji dogması değildir. Kod SSOT: `lib/academy/lesson-b
 
 | Kaynak | Ne zaman |
 |--------|----------|
-| Yerel MP4 reuse | `/public/media/academy/micro/` altında kaset varsa varsayılan |
-| Veo 3.1 Lite | `veo-3.1-lite-generate-preview` — yeni kaset gerektiğinde |
-| Imagen + CSS Ken Burns | Lite yoksa; anahtar `academy-eye-kenburns` |
-| Pahalı Veo 3.1 | `veo-3.1-generate-preview` — **yasak** (bu el kitabı, B-roll) |
+| Yerel MP4 reuse | `/public/media/academy/micro/*-warmup.mp4` zorunlu |
+| Veo 3.1 Lite | `veo-3.1-lite-generate-preview` — **iptal**, çağrı açılmaz |
+| Imagen + CSS Ken Burns | Yerel kaset yoksa ekran yedeği; anahtar `academy-eye-kenburns` |
+| Pahalı Veo 3.1 | `veo-3.1-generate-preview` — **iptal** (bu el kitabı, B-roll) |
 
 Warm-up B-roll **8 sn** (`ACADEMY_VEO_SCENE_DURATION_SEC`); punch **2–10 sn** (intro 0–2 sn sonrası). `0–8 sn` yazımı yasaktır.
 
-Senaryo varsayılanı kodda `FAST_STREAM` (`gemini-3.6-flash`). TTS `VOICE_TTS` (`gemini-3.1-flash-tts-preview`). Görsel `IMAGE_GEN` (`imagen-4.0-generate-001`). Dip müzik bake script’i Lyria 3.5 kimliğini taşır. Fırın rol tablosu, ducking gain ve altın şablon `.system_docs/PEDAGOJI.md` §B ve §E içindedir. Canlı uç kimliği `lib/kernel/ai/model-roles.ts` içindedir.
+Fırın kimliği `ACADEMY_BAKE_MODELS` (`lib/kernel/ai/model-roles.ts`). Senaryo `LONG_HORIZON_TEXT`. Canlı sohbet ayrıdır: `FAST_STREAM`. TTS çağrısı `academyBakeVoiceModelId()` (`VOICE_TTS_STUDIO_PRODUCT`). Canlı gümrük `VOICE_TTS` ayrıdır. Görsel kare `IMAGE_NANO_BANANA_2`; canlı gümrük `IMAGE_GEN` bu kareyi seçmez. Dip müzik `MUSIC_LYRIA`. Isınma yerel `-warmup.mp4` reuse; `VIDEO_VEO_LITE` (`veo-3.1-lite-generate-preview`) çağrılmaz. Fırın rol tablosu, ducking gain ve altın şablon `.system_docs/PEDAGOJI.md` §B ve §E içindedir.
 
 ### Altın Şablon görsel tablo (`01_office_ai-1`)
 

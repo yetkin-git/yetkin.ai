@@ -7,6 +7,7 @@ import {
   isAcademyHlsBaked,
   isAcademyMicroVideoBaked,
 } from "@/lib/academy/baked-micro-videos";
+import { academyWarmupCassettePublicPath } from "@/lib/academy/lesson-veo";
 import {
   academyMicroVideoPublicSources,
   type AcademyMicroVideoPublicSources,
@@ -20,13 +21,16 @@ export type AcademyCinemaSource = AcademyMicroVideoPublicSources & {
 
 export function resolveAcademyCinemaSource(assetKey: string): AcademyCinemaSource {
   const sources = academyMicroVideoPublicSources(assetKey);
+  const key = assetKey.trim();
+  const mp4 = key.endsWith("-warmup") ? academyWarmupCassettePublicPath(key) : sources.mp4;
+  const resolved = { ...sources, mp4 };
   if (isAcademyHlsBaked(assetKey)) {
-    return { kind: "hls", ...sources };
+    return { kind: "hls", ...resolved };
   }
   if (isAcademyMicroVideoBaked(assetKey)) {
-    return { kind: "html5", ...sources };
+    return { kind: "html5", ...resolved };
   }
-  return { kind: "canvas", ...sources };
+  return { kind: "canvas", ...resolved };
 }
 
 export function academyCinemaCanPlayNativeHls(video: Pick<HTMLVideoElement, "canPlayType">): boolean {

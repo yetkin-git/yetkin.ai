@@ -24,10 +24,12 @@ export async function POST(request: Request) {
       user.id,
       course.course.id,
       user.email,
+      user.emailConfirmedAt,
     );
     const commercialEnrolment = hasAcademyLockedLessonContentAccess(purchase, new Date(), {
       userId: user.id,
       email: user.email,
+      emailConfirmedAt: user.emailConfirmedAt,
     });
     if (!isAcademyFreePreviewLessonKey(parsed.data.lessonKey) && !commercialEnrolment) {
       return jsonFail("Satın alma mühürlenmeden ders içeriği açılmaz.", 403, requestId, request);

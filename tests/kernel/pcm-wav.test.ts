@@ -107,8 +107,43 @@ describe("Gemini TTS PCM → WAV tamponu", () => {
 
     const resampled = resamplePcmWav(wav, PCM_WAV_PLAYBACK_SAMPLE_RATE);
     expect(resampled.readUInt32LE(24)).toBe(48_000);
+    expect(resampled.readUInt16LE(22)).toBe(1);
     expect(extractPcmFromWav(resampled).length / 2).toBe(samples * 2);
     expect(pcmWavDurationSec(resampled)).toBeCloseTo(pcmWavDurationSec(wav), 3);
+  });
+
+  it("48 kHz Lanczos tizi korur ve stereo kanallarını katlamaz", () => {
+    const rate = 24_000;
+    const frames = 480;
+    const toneHz = 6_000;
+    const pcm = Buffer.alloc(frames * 2 * 2);
+    for (let frame = 0; frame < frames; frame += 1) {
+      const sample = Math.round(12_000 * Math.sin((2 * Math.PI * toneHz * frame) / rate));
+      pcm.writeInt16LE(sample, frame * 4);
+      pcm.writeInt16LE(Math.round(sample * 0.5), frame * 4 + 2);
+    }
+    const wav = wrapPcmAsWav(pcm, rate, 2, 16);
+    const resampled = resamplePcmWav(wav, PCM_WAV_PLAYBACK_SAMPLE_RATE);
+    expect(resampled.readUInt32LE(24)).toBe(48_000);
+    expect(resampled.readUInt16LE(22)).toBe(2);
+    const out = extractPcmFromWav(resampled);
+    const outFrames = out.length / 4;
+    expect(outFrames).toBe(frames * 2);
+    let inEnergy = 0;
+    let outEnergy = 0;
+    for (let frame = 0; frame < frames; frame += 1) {
+      const sample = pcm.readInt16LE(frame * 4);
+      inEnergy += sample * sample;
+    }
+    for (let frame = 0; frame < outFrames; frame += 1) {
+      const left = out.readInt16LE(frame * 4);
+      const right = out.readInt16LE(frame * 4 + 2);
+      outEnergy += left * left;
+      expect(Math.abs(right * 2 - left)).toBeLessThan(1_500);
+    }
+    const inRms = Math.sqrt(inEnergy / frames);
+    const outRms = Math.sqrt(outEnergy / outFrames);
+    expect(outRms / inRms).toBeGreaterThan(0.75);
   });
 
   it("extractPcmFromWav fmt sonrası data parçasını yürür", () => {

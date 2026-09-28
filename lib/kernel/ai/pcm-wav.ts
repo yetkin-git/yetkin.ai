@@ -126,7 +126,18 @@ export function extractPcmFromWav(wav: Buffer): Buffer {
   return parsePcmWavAudio(wav)?.pcm ?? Buffer.alloc(0);
 }
 
-/** +gainDb, tepe limiter. Sessiz TTS'i laptop %50'de gürleştirir. */
+export function readPcmWavLayout(wav: Buffer): { sampleRate: number; channels: number; pcm: Buffer } | null {
+  const parsed = parsePcmWavAudio(wav);
+  if (!parsed) {
+    return null;
+  }
+  return { sampleRate: parsed.sampleRate, channels: parsed.channels, pcm: parsed.pcm };
+}
+
+/**
+ * Eski +8 dB tanh kırpıcı. Fırın hattı bunu çağırmaz.
+ * Seviye `lib/academy/tts-loudnorm.ts` içinde EBU R128 loudnorm ile ayarlanır.
+ */
 export function boostPcmWavGain(wav: Buffer, gainDb = PCM_WAV_GAIN_DB): Buffer {
   const parsed = parsePcmWavAudio(wav);
   if (!parsed || parsed.bits !== 16) {
@@ -144,7 +155,26 @@ export function boostPcmWavGain(wav: Buffer, gainDb = PCM_WAV_GAIN_DB): Buffer {
   return wrapPcmAsWav(out, parsed.sampleRate, parsed.channels, 16);
 }
 
-/** Lineer yeniden örnekleme — 24 kHz Chrome takılmasını 48 kHz ile keser. */
+/** Lanczos yarıçapı. Doğrusal ara değer tizi ezer; boru/kutu rengini bu çekirdek keser. */
+const PCM_WAV_RESAMPLE_LANCZOS_A = 8;
+
+function lanczosWeight(distance: number, radius: number): number {
+  const ax = Math.abs(distance);
+  if (ax < 1e-8) {
+    return 1;
+  }
+  if (ax >= radius) {
+    return 0;
+  }
+  const piDist = Math.PI * distance;
+  const piWindow = (Math.PI * ax) / radius;
+  return (Math.sin(piDist) / piDist) * (Math.sin(piWindow) / piWindow);
+}
+
+/**
+ * Bant sınırlı yeniden örnekleme — 24 kHz Chrome takılmasını 48 kHz ile keser.
+ * Kanallar ayrı yürür; stereo mono'ya katlanmaz, frekans kaybı olmaz.
+ */
 export function resamplePcmWav(wav: Buffer, targetRate = PCM_WAV_PLAYBACK_SAMPLE_RATE): Buffer {
   const parsed = parsePcmWavAudio(wav);
   if (!parsed || parsed.bits !== 16) {
@@ -160,16 +190,26 @@ export function resamplePcmWav(wav: Buffer, targetRate = PCM_WAV_PLAYBACK_SAMPLE
   const outFrames = Math.max(1, Math.round((inFrames * targetRate) / parsed.sampleRate));
   const out = Buffer.alloc(outFrames * parsed.channels * 2);
   const ratio = parsed.sampleRate / targetRate;
+  const radius = PCM_WAV_RESAMPLE_LANCZOS_A;
   for (let frame = 0; frame < outFrames; frame += 1) {
     const src = frame * ratio;
-    const i0 = Math.min(inFrames - 1, Math.floor(src));
-    const i1 = Math.min(inFrames - 1, i0 + 1);
-    const frac = src - i0;
+    const iCenter = Math.floor(src);
+    const iStart = iCenter - radius + 1;
+    const iEnd = iCenter + radius;
     for (let channel = 0; channel < parsed.channels; channel += 1) {
-      const s0 = parsed.pcm.readInt16LE((i0 * parsed.channels + channel) * 2);
-      const s1 = parsed.pcm.readInt16LE((i1 * parsed.channels + channel) * 2);
+      let acc = 0;
+      let norm = 0;
+      for (let index = iStart; index <= iEnd; index += 1) {
+        const weight = lanczosWeight(index - src, radius);
+        if (weight === 0 || index < 0 || index >= inFrames) {
+          continue;
+        }
+        acc += parsed.pcm.readInt16LE((index * parsed.channels + channel) * 2) * weight;
+        norm += weight;
+      }
+      const sample = norm > 1e-8 ? acc / norm : 0;
       out.writeInt16LE(
-        Math.round(s0 + (s1 - s0) * frac),
+        Math.max(-32768, Math.min(32767, Math.round(sample))),
         (frame * parsed.channels + channel) * 2,
       );
     }
@@ -224,7 +264,10 @@ function solaTimeStretchInt16(pcm: Buffer, rate: number): Buffer {
   return out;
 }
 
-/** Konuşma hızı — 0.95 = %5 yavaşlatma. Süre uzar; perde SOLA ile korunur. */
+/**
+ * Eski hizasız OLA. Fırın hattı bunu çağırmaz: 0.93 hızda ~1190 Hz tarak filtresi basar.
+ * Tempo yönetmen notundadır. DSP gerekirse yalnız ffmpeg `atempo` (WSOLA).
+ */
 export function tempoStretchPcmWav(wav: Buffer, rate: number): Buffer {
   const parsed = parsePcmWavAudio(wav);
   if (!parsed) {

@@ -10,6 +10,26 @@
  */
 
 import { academyPlaybackCueAtTime, type AcademyLessonCue } from "@/lib/academy/lesson-cues";
+import {
+  ACADEMY_OFF201_WARMUP_FILE,
+  ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY,
+  ACADEMY_VEO_BAKE_DURATION_SEC,
+} from "@/lib/academy/lesson-veo";
+
+/**
+ * OFF-201 giriş videosu. Ders 1–6 aynı ofis kasetini zaman çizelgesinin
+ * 0.00–8.00 aralığında oynatır. Eski kısa kaset ve adsız kopya bu anahtara düşmez.
+ */
+export const ACADEMY_OFF201_WARMUP_SOURCE = ACADEMY_OFF201_WARMUP_FILE;
+export const ACADEMY_OFF201_WARMUP_TIMELINE_SEC = ACADEMY_VEO_BAKE_DURATION_SEC;
+
+export function academyOff201WarmupAssetKey(lessonKey: string): typeof ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY | null {
+  const key = lessonKey.trim();
+  if (key.startsWith("01_office_ai_ileri-")) {
+    return ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY;
+  }
+  return null;
+}
 
 export const ACADEMY_GOLDEN_BEAT_IDS = ["warmup", "command", "comparison", "task"] as const;
 
@@ -169,7 +189,7 @@ export const ACADEMY_OFFICE_AI_W1_POCKET_STEPS = [
 export const ACADEMY_OFFICE_AI_K1_POCKET_STEPS = [
   "Ham veri yükleme",
   "Maskeleyip sor",
-  "3. Kapı kısa özet",
+  "Maskeli kısa özet",
 ] as const;
 
 /** Command akış bandı — punchcard durum değil, Nasıl Yapılır? 1-2-3. */
@@ -320,7 +340,7 @@ const HOWTO_ACTIVE_BY_LESSON: Readonly<Record<string, Readonly<Record<string, 0 
     "HOŞ GELDİN": 0,
     "YASAK LİSTE": 0,
     "MASKELE": 1,
-    "ÜÇÜNCÜ KAPI": 2,
+    "ÜÇ ADIM": 2,
     "FARK ORTADA": 2,
     "SIRA SENDE": 2,
   },
@@ -455,7 +475,7 @@ export function academyPocketChecklistSteps(
   return null;
 }
 
-/** 01_office_ai-1 pekiştirme — CEBİNE KOY ducking 0.46. Giriş jeneriği 0–2 sn ayrı. Bitiş 2–3 sn fade-out. */
+/** 01_office_ai-1 pekiştirme — CEBİNE KOY ducking -22 dB. Giriş jeneriği 0–2 sn ayrı. Bitiş 2–3 sn fade-out. */
 export const ACADEMY_GOLDEN_REINFORCEMENT_CUE_IDS = ["cue-07"] as const;
 
 export const ACADEMY_GOLDEN_BEAT_VISUAL = {

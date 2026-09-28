@@ -161,7 +161,7 @@ describe("akademi ders geçiş mimarisi", () => {
       spokenDuration: 0,
       outroTailSec: academyBedOutroTailSec("01_office_ai-5"),
     });
-    expect(formatAcademyCinemaClock(durationSec)).toBe("09:17");
+    expect(formatAcademyCinemaClock(durationSec)).toBe("09:53");
     expect(formatAcademyCinemaClock(485)).toBe("08:05");
     expect(
       hasAcademyLessonPlaybackReachedEnd({ currentTime: Math.floor(durationSec), durationSec }),

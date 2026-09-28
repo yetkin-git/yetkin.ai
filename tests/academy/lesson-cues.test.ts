@@ -19,7 +19,7 @@ describe("akademi cue SSOT — 01_office_ai-1 punchcard", () => {
       "A1 HÜCRESİ",
       "TEMİZLE ŞİMDİ",
       "FARK ORTADA",
-      "CEBİNE KOY",
+      "A1 KURALINI KUR",
       "SIRA SENDE",
     ]);
     expect(hasAcademyLessonCues("01_office_ai-6")).toBe(true);

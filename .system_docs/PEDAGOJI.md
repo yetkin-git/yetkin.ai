@@ -2,7 +2,7 @@
 
 Bu belge platformun **kalıcı eğitim felsefesini**, Google AI Studio medya fabrikası rol dağılımını ve görsel-işitsel reji standartlarını tanımlar. Canlı uç kimliği kod SSOT’tadır (`lib/kernel/ai/model-roles.ts`). Bake SOP ve CLI `docs/ops/akademi-bake-elkitabi.md` içindedir. Canlı kaset ve sınav sayıları `docs/ops/DURUM.md` ve koddadır. `docs/DURUM.md` yalnız oraya yönlendirir. Ders adedi `lib/academy/curricula/lesson-index.ts` içindedir.
 
-Çelişkide `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır. Hedef yayın Anayasa B4’tür: dört katmanlı eğitim videosu. Bugünkü satış yüzeyi mühürlü ses, karaoke rozeti ve canlı karttır. Süre ve sayısal sınırın tek evi koddur. Son hiza **27 Eylül 2026**.
+Çelişkide `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır. Hedef yayın Anayasa B4’tür: beş medya katmanlı eğitim videosu. Metin, Ses, Video, Görsel ve Müzik katmanlarından biri eksikken fırın açılmaz ve `--seal` basılmaz. Süre ve sayısal sınırın tek evi koddur. Son hiza **28 Eylül 2026**.
 
 Mimari ad Anayasa B1’dir: **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci**. Bu belge öğretme kuralını ve yayın formatını tutar. İkinci bir ürün mimarisi, sürü veya ayrı servis hikâyesi açmaz.
 
@@ -28,7 +28,7 @@ Sıfır jargon, insani, sıcak ve çözüme giden bir dil kullanılır.
 * **Günlük Dil, Tek İş, Tek Cümle:** Her cümle tek eyleme odaklanır. Cümle kısa, duru ve konuşma dilindedir. Kural söylenince hemen somut örnek gelir.
 * **Aforizma / Ajans Sloganı Yasağı:** Eğitim dili aforizma, ajans sloganı veya tekerleme olamaz. «Karar notu insanındır», «Sunum fabrikası» gibi edebi laflar yasaktır. «Muazzam dönüşüm», «saniyeler içinde», «mucizevi yöntem», «prompt mühendisliği» ve «devrim niteliğinde» de yasaktır. Bu dil, konuyu anlamayan öğrencide «bende bir eksiklik var» hissi yaratır. Dil; bir öğretmenin öğrencisine doğrudan, sade ve eylem odaklı anlattığı duru Türkçe olmak zorundadır.
 * **Tereddüt anlatıcıdadır:** Karmaşık adımda «Şimdi 'burada ne oldu böyle?' demiş olabilirsin. Çok haklısın, adım adım bakalım...» denir. Konu mucize değil, gündelik işin sakin parçasıdır.
-* **Stüdyo dili öğrenci yüzeyine girmez:** bake, kaset, compact, punchcard ve taşıma su yalnız üretim kılavuzundadır. «Kapı» slogan ve stüdyo kısaltmasıdır; yeni vatandaş cümlesine girmez. Mühürlü OFF-101 kasetindeki «Üç Kapı» panel, ataş ve maskeli özetin ders içindeki adıdır. Bu ad bir sonraki yetkili fırına kadar kaset ve sınavda kalır. Yeni metin bu adı eklemez. Vatandaş sırasının adı «üç adım»dır (§C). Vatandaş metninde günlük karşılık kullanılır: sesli ders, tam ders metni, sahnedeki kısa rozet.
+* **Stüdyo dili öğrenci yüzeyine girmez:** bake, kaset, compact, punchcard ve taşıma su yalnız üretim kılavuzundadır. «Kapı» slogan ve stüdyo kısaltmasıdır; yeni vatandaş cümlesine girmez. Vatandaş sırasının adı «üç adım»dır (§C). Kaynak metin ve sınav bu adı kullanır. Yayınlanmış WAV dökümü eski adı bir sonraki `--seal` kadar taşır. Vatandaş metninde günlük karşılık kullanılır: sesli ders, tam ders metni, sahnedeki kısa rozet.
 
 ### 2.1 Evrensel Metin Standardı
 
@@ -36,7 +36,7 @@ Fırın, bitmiş mutfak metnini seslendirir. Taslak cümle mühürlenmez.
 
 * **Mutfak hazırlığı:** Senaryo, cue ve görsel senkron %100 oturmadan fırınlama açılmaz. Çiğ metin fırına atılamaz. Ücretli `--seal` bu kapıdan önce çağrılmaz (§E.5).
 * **Evrensel vatandaş dili:** Dil duru ve sadedir. Jargon, slogan ve pankart yoktur. Cümle tek iş taşır. Aynı metin İngilizce ve başka dillere uyarlanabilir; küresel karşılığı olmayan bir deyime yaslanmaz.
-* **Diksiyon temposu:** Konuşma hızı %93’tür (`0.93`, `ACADEMY_INSTRUCTOR_SPEECH_RATE`). Tempo yükseltilmez. Sabit `lib/academy/instructors.ts` içindedir.
+* **Diksiyon temposu:** Konuşma parçası `atempo=0.93` (`ACADEMY_BAKE_ATEMPO`) ve EBU R128 `loudnorm` görür. Ölçülen doğal hedef aynı sayıdır (`0.93`, `ACADEMY_INSTRUCTOR_SPEECH_RATE`). Birleşik zaman çizelgesi atempo almaz; es payı pedagoji süresinde kalır. Tempo 1.0 üzerine yükseltilmez. Sabitler `lib/academy/tts-loudnorm.ts` ve `lib/academy/instructors.ts` içindedir.
 
 ### 3. Bilişsel Yük
 
@@ -60,19 +60,38 @@ Sahne süresi **%80 canlı uygulama ekranı**, **%20 sinematik veya kılavuz kar
 
 Üretken yapay zekâ müfredat senaryosunu, fırınlamayı ve montajı meşru olarak yürütür. Vatandaş yüzeyi mühürlü eğitim videosunu oynatır. İzlemede model çağrılmaz. Taslak ses ve taslak görüntü yüzeye basılmaz.
 
-**Model sicili.** Canlı uç kimliği `lib/kernel/ai/model-roles.ts` dosyasındadır. Bu belgede metin, görsel ve montaj modeli isimle dondurulmaz ve «tablodaki ad silinmez» kuralı yoktur. Rol kimliği değişince felsefe metni yeniden yazılmaz; dört katman ve pedagoji durur. Metin ve ders asistanı `FAST_STREAM` rolünden okunur. Ses mührü istisnadır: `VOICE_TTS` yalnız **Gemini 3.1 Flash TTS** (`gemini-3.1-flash-tts-preview`). Kota bitince Gemini 2.5 açılmaz (`VOICE_TTS_FALLBACK_TO_2_5` kapalı). Bake sırası ve CLI `docs/ops/akademi-bake-elkitabi.md` içindedir.
+### Zorunlu üretim sırası — 5 medya katmanı
+
+Hiçbir eğitim videosu Metin, Ses, Video, Görsel ve Müzik katmanlarından biri eksikken fırınlanamaz ve mühürlenemez. Sıra sabittir:
+
+1. **Metin** — vatandaş dili, tek iş tek cümle.
+2. **Ses** — Gemini 3.8 Flash TTS (`academyBakeVoiceModelId()`). Konuşma parçası `atempo=0.93`. Seviye EBU R128 `loudnorm`.
+3. **Video** — Yerel `-warmup.mp4`, ilk 6–8 sn ısınma klibi. Otomatik Veo 3.1 API video üretimi maliyet sızıntısı yarattığı için iptal edilmiştir. Tüm ısınma videoları Gemini yönergesiyle arayüzden manuel üretilir, ilgili slug adıyla `public/media/academy/micro/` dizinine yerleştirilir ve yerel olarak kullanılır.
+4. **Görsel** — Nano Banana 2. 4K canlı uygulama kartları.
+5. **Müzik** — Lyria 3.5. Vokalsiz fon müziği yatağı, -22 dB ducking (`ACADEMY_BED_BREATH_DB`).
+
+Cue ve karaoke rozeti konuşmayla akar. Beş katmanın yerine geçmez. Görsel ve video fırın çifti **Nano Banana 2 / Veo 3.1 Lite** durur; mühürde ayrı katmandır.
+
+### 3 aşamalı kontrol kapısı
+
+1. **Taslak metin oluşturma** — senaryo ve chunking.
+2. **Gözden geçirme** — pedagoji, jargon ve aforizma taraması.
+3. **Son kontrol** — beş katmanın tamamı teyit edilmeden `--seal` basılamaz. Video (Veo) ve Müzik (Lyria) bu kapının parçasıdır. Kod kapısı `assertAcademyProductionSeal` (`lib/academy/production-standard.ts`).
+
+**Model sicili.** Canlı uç kimliği `lib/kernel/ai/model-roles.ts` dosyasındadır. Fırın kimlikleri aynı dosyadaki `ACADEMY_BAKE_MODELS` nesnesindedir. Bu belgede metin, görsel ve montaj modeli isimle dondurulmaz ve «tablodaki ad silinmez» kuralı yoktur. Rol kimliği değişince felsefe metni yeniden yazılmaz; beş medya katmanı ve pedagoji durur. Canlı sohbet `FAST_STREAM` okur. Uzun ufuklu senaryo `LONG_HORIZON_TEXT` okur. Ses mührü: çağrı kimliği yalnız `lib/kernel/ai/model-roles.ts` içindedir. Fırın `academyBakeVoiceModelId()` **Gemini 3.8 Flash TTS** okur. Canlı gümrük `VOICE_TTS` **Gemini 3.1 Flash TTS** rolünü okur. Kota bitince Gemini 2.5 açılmaz (`VOICE_TTS_FALLBACK_TO_2_5` kapalı). Konuşma parçası `atempo=0.93` ve EBU R128 `loudnorm` görür. Bake sırası ve CLI `docs/ops/akademi-bake-elkitabi.md` içindedir.
 
 Yapay zeka fırınlarının görev dağılımı şöyledir:
 
 | Rol | Fırın | Görev |
 |-----|-------|--------|
-| Metin & Senaryo | **`FAST_STREAM`** (`model-roles.ts`) | 4-beat reji yapısına (Warm-up → Command → Comparison → Task) uygun ders senaryolarını hazırlar. |
-| Seslendirme | **Gemini 3.1 Flash TTS** | **1 Eğitim Kodu = 1 Ses.** Kurs `courseMasterVoice` tek stringdir. Ders bazlı ses haritası yoktur. Amiral SKU `01_office_ai` metnini Gözde (**Callirrhoe**) ile mühürler. OFF-201 (`01_office_ai_ileri`) metnini Aylin (**Kore**) ile mühürler. OFF-201 eğitmeni Gözde olamaz. İstek tavanı ve süre tabanı bu hücrede tekrarlanmaz; tek ev `lib/academy/production-standard.ts` içindedir. |
-| Görsel & Video | **Nano Banana 2 / Veo 3.1 Lite** | %80 canlı uygulama / %20 sinematik. Varsayılan B-roll: **Veo 3.1 Lite** veya `/public/media/academy/micro/` yerel MP4 reuse. Pahalı Veo 3.1 API her ders fırınında **KESİNLİKLE YASAKTIR**. Yedek: Nano Banana 2 (Gemini 3.1 Flash Image) + CSS Ken Burns. |
-| Ducking Müzik | **Lyria 3.5** | Konuşmanın arkasına ritmik dip müziği basar. Eğitmen konuşurken müzik dipte kalır; konuşma aralarındaki 3–5 saniyelik nefes paylarında hafifçe yükselir. |
-| Müfredat, fırın ve montaj | **Üretken yapay zekâ (Cursor)** | Senaryoyu, cue zamanlamasını ve görsel rejiyi dört katman standardına göre üretir. Dönen ses, görüntü ve müziği mühürler; oynatıcıda senkronize eder. Ücretli çağrı insan onayı ve `--seal` kapısıyla açılır. |
+| Metin & Senaryo | **`ACADEMY_BAKE_MODELS.LONG_HORIZON_TEXT`** | 4-beat reji yapısına (Warm-up → Command → Comparison → Task) uygun ders senaryolarını hazırlar. Canlı sohbet ayrıdır: `FAST_STREAM`. |
+| Seslendirme | **Gemini 3.8 Flash TTS** (`academyBakeVoiceModelId()`). Canlı gümrük **Gemini 3.1 Flash TTS** (`VOICE_TTS`) | **1 Eğitim Kodu = 1 Ses.** Kurs `courseMasterVoice` tek stringdir. Ders bazlı ses haritası yoktur. Amiral SKU `01_office_ai` metnini Gözde (**Callirrhoe**) ile mühürler. OFF-201 (`01_office_ai_ileri`) metnini Aylin (**Kore**) ile mühürler. OFF-201 eğitmeni Gözde olamaz. Konuşma parçası `atempo=0.93`, seviye EBU R128. İstek tavanı ve süre tabanı bu hücrede tekrarlanmaz; tek ev `lib/academy/production-standard.ts` içindedir. |
+| Görsel | **Nano Banana 2** (`IMAGE_NANO_BANANA_2`) | 4K canlı uygulama kartları. %80 canlı uygulama / %20 sinematik veya kılavuz kartı. Yedek: Nano Banana 2 + CSS Ken Burns. |
+| Video | Yerel `-warmup.mp4` | İlk 6–8 sn ısınma klibi. Otomatik Veo 3.1 Lite (`VIDEO_VEO_LITE`) ve pahalı Veo 3.1 (`VIDEO_VEO_PREMIUM_FORBIDDEN`) API çağrıları iptaldir. Kaset `public/media/academy/micro/` altından okunur. Canlı `VIDEO_GEN` mühürlü-ölüdür. |
+| Ducking Müzik | **Lyria 3.5** (`MUSIC_LYRIA`) | Vokalsiz fon müziği yatağı. Konuşurken dipte kalır; nefes payında -22 dB ducking (`ACADEMY_BED_BREATH_DB`). |
+| Müfredat, fırın ve montaj | **Üretken yapay zekâ (Cursor)** | Senaryoyu, cue zamanlamasını ve görsel rejiyi beş medya katmanı standardına göre üretir. Dönen ses, görüntü ve müziği mühürler; oynatıcıda senkronize eder. Ücretli çağrı insan onayı ve `--seal` kapısıyla açılır. Beş katman teyit edilmeden son mühür basılmaz. |
 
-Sayısal fırın tavanı ve süre tabanı bu tabloda tekrarlanmaz. Tek ev `lib/academy/production-standard.ts` içindedir. Metin modelinin adı bu belgede dondurulmaz; kimlik `FAST_STREAM` rolünden okunur.
+Sayısal fırın tavanı ve süre tabanı bu tabloda tekrarlanmaz. Tek ev `lib/academy/production-standard.ts` içindedir. Metin modelinin adı bu belgede dondurulmaz; fırın `LONG_HORIZON_TEXT`, canlı sohbet `FAST_STREAM` okur.
 
 **4-beat reji (Warm-up → Command → Comparison → Task)** tek eğitmen, SEN dili; **Pekiştirme ve Tekrar** iki durak ekler:
 
@@ -93,14 +112,14 @@ Konuşma 2.0 saniyede başlar. Bu aralıkta ekranda iş kartı durur. Jenerik lo
 |------|-------|-----|
 | — Giriş | Konuşmadan önce iş kartı. Logo plakası opsiyonel | Konuşma yok. Gain kodda |
 | — Bitiş | 1-2-3 iş özeti zorunlu. Logo plakası opsiyonel | Gain ve fade kodda |
-| 1 Warm-up | 8 sn Veo 3.1 Lite ofis/veri-akışı B-roll (yerel MP4 reuse veya Ken Burns), sonra canlı Excel | Statik plaka yok; pahalı Veo 3.1 API yok |
+| 1 Warm-up | 8 sn ofis/veri-akışı B-roll (`public/media/academy/micro/*-warmup.mp4` reuse veya Ken Burns), sonra canlı Excel | Statik plaka yok; otomatik Veo 3.1 API yok |
 | 2 Command | %80 tek ekran canlı uygulama | İlk istem ve çözüm; ChatGPT / Claude / Gemini / API masası; **Spoiler Yasağı** — temiz/nihai tablo yok |
 | 3 Comparison | Dikey split-screen | Sol: ÖNCE (DÜZENLEMESİZ) ham/düzensiz tablo, turuncu çerçeve. Sağ: SONRA (AI İLE) düzenli tablo, yeşil-mavi neon, A1 ışıldar. Temiz tablo **ilk kez** sağ panelde açılır |
 | 4 Task | Düzenli nihai tablo | Saha görevi; karşılaştırmadan yumuşak dönüş |
 
 Vatandaş etiketinde «Kirli» yok. Yerine «Düzensiz Tablo», «Ham Veri» veya «Dağınık Yapı». Görsel SSOT: `lib/academy/lesson-beat-visual.ts`.
 
-Üretim sırası **senaryo → mühürlü ses → cue → görsel/video → ducking müzik → montaj**’dır; tersine değil. Senaryo, cue ve visual zoom senkronu tam oturmadan `--seal` (ücretli TTS/Video) **KESİNLİKLE** çağrılmaz. Geliştirme ve deneme `--dry-run` ile yürür. Taslak ses vatandaş yüzeyine basılmaz. İnsan onayı olmadan harici TTS yok. Ayrıntı bake el kitabındadır (`skip preventer`, `--seal` kapısı, §E.4–E.5).
+Üretim sırası **metin → ses → video → görsel → müzik**’tir; tersine değil. Cue konuşmayla akar. Senaryo, cue ve visual zoom senkronu tam oturmadan ücretli çağrı **KESİNLİKLE** açılmaz. Son `--seal`, beş katman teyit edilmeden basılmaz. Geliştirme ve deneme `--dry-run` ile yürür. Taslak ses vatandaş yüzeyine basılmaz. İnsan onayı olmadan harici TTS yok. Ayrıntı bake el kitabındadır (`skip preventer`, `--seal` kapısı, §E.4–E.5).
 
 **İzleme anında harici üretici API çağrılmaz.** Fırın bake’de çalışır; oynatıcı mühürlü medyayı senkronize eder. Cue orijinal terimi korur; ses fonetik okur. Placeholder test-pattern vatandaşa basılmaz.
 
@@ -120,7 +139,7 @@ Sıra sabittir ve vatandaş dilinde **üç adım**dır. Stüdyo kısaltması «k
 
 Ham kutu veya ham sözleşmeyi dış sohbete taşımak öğretilen yol değildir. Kopyala-yapıştır, onaylı panel dururken varsayılan yol değildir.
 
-Öğrenci metninde bu sıra «üç adım» diye anılır. Yeni öğrenci cümlesine «Kapı» girmez. Mühürlü OFF-101 kaseti «Üç Kapı» adını panel, ataş ve maskeli özet için kullanır; fırın yenilenmeden bu ad silinmez. «Taşıma su» stüdyo kısaltmasıdır (§A.2).
+Öğrenci metninde bu sıra «üç adım» diye anılır. Yeni öğrenci cümlesine «Kapı» girmez. Yayınlanmış WAV dökümü eski adı `--seal` yenilenene kadar taşır. «Taşıma su» stüdyo kısaltmasıdır (§A.2).
 
 Araç eşleşmesi ve masaüstü kısıtı kod SSOT’tadır (`lib/academy/ai-desk.ts`). Pedagoji tek bir aracı dayatmaz. Soyut «AI Masası» paneli **KESİNLİKLE YASAKTIR**. Öğrenci gerçek paneli veya ataşı görür.
 
@@ -154,16 +173,18 @@ Hangi eğitimin yayında olduğu, kaset süreleri, gain sayıları ve yeniden f�
 * **Intro:** 2.0 sn’ye kadar konuşma olmaz. Zorunlu olan iş kartıdır. Jenerik logo plakası opsiyoneldir ve sahnenin gövdesi olamaz (§A.4). Konuşma 2.0. sn’de başlar.
 * **Outro:** Konuşma bitince ekranda 1-2-3 iş özeti durur. Logo plakası bu özete eklenmek zorunda değildir. Gain, zirve ve fade `lib/academy/lesson-bed-duck.ts` içindedir. Bu madde o sayıları ikinci kez dondurmaz.
 
-### E.4 Bütçe Korumalı B-roll Mimarisi (Veo Lite & Reuse)
+### E.4 Bütçe Korumalı B-roll Mimarisi (yerel reuse)
 
-Google AI Studio bütçesi her ders fırınında korunur. Pahalı **Veo 3.1** API çağrısı (`veo-3.1-generate-preview`) **KESİNLİKLE YAPILMAZ**.
+Otomatik Veo 3.1 API video üretimi maliyet sızıntısı yarattığı için iptal edilmiştir. Tüm ısınma videoları Gemini yönergesiyle arayüzden manuel üretilir, ilgili slug adıyla `public/media/academy/micro/` dizinine yerleştirilir ve yerel olarak kullanılır.
+
+Ofis istemi `ACADEMY_WARMUP_OFFICE_PROMPT` (`lib/academy/lesson-veo.ts`) yalnız Gemini arayüzüne elle yazılır. Betik bu metni API'ye göndermez. Çıkan dosya `-warmup.mp4` adını taşır.
 
 | Kaynak | Maliyet | Ne zaman |
 |--------|---------|----------|
-| Yerel MP4 reuse | Sıfır | Kaset `/public/media/academy/micro/` altında duruyorsa varsayılan |
-| **Veo 3.1 Lite** | Düşük | Yeni kaset gerektiğinde; endpoint `veo-3.1-lite-generate-preview` |
-| Nano Banana 2 + CSS Ken Burns | Sıfır video API | Lite yoksa veya deneme: Gemini 3.1 Flash Image plakası üzerine Pan-Zoom |
-| Pahalı Veo 3.1 | **Yasak** | Her ders fırınında çağrı açılmaz |
+| Yerel `-warmup.mp4` reuse | Sıfır | Zorunlu. Kaset `public/media/academy/micro/` altında durur |
+| Veo 3.1 Lite | **İptal** | `veo-3.1-lite-generate-preview` çağrılmaz |
+| Nano Banana 2 + CSS Ken Burns | Sıfır video API | Yerel kaset yoksa ekran yedeği: Gemini 3.1 Flash Image plakası üzerine Pan-Zoom |
+| Pahalı Veo 3.1 | **İptal** | `veo-3.1-generate-preview` çağrılmaz |
 
 * Warm-up B-roll 8 sn kalır; punch sonrası canlı Excel’e kesilir (donmuş kare yok).
 * Oynatıcı izlemede VIDEO_GEN çağırmaz. Ken Burns CSS anahtarı: `academy-eye-kenburns` (`app/globals.css`); punch penceresinde Nano Banana 2 plakasına Pan-Zoom basar.
@@ -171,10 +192,11 @@ Google AI Studio bütçesi her ders fırınında korunur. Pahalı **Veo 3.1** AP
 
 ### E.5 Fırınlama (Bake) Disiplini
 
-Ücretli TTS ve video mühürü, reji oturmadan açılmaz.
+Ücretli TTS ve video mühürü, reji oturmadan açılmaz. Son mühür, beş katman teyit edilmeden basılmaz.
 
-* Senaryo, cue ve visual zoom senkronizasyonu tam oturmadan `--seal` (ücretli TTS/Video) çağrısı **KESİNLİKLE YASAKTIR**. Mutfak hazırlığı %100 bitmeden çiğ metin fırına atılamaz.
+* **3 aşamalı kontrol kapısı:** (1) taslak metin — senaryo ve chunking, (2) gözden geçirme — pedagoji, jargon ve aforizma taraması, (3) son kontrol — Metin, Ses, Video (Veo) ve Müzik (Lyria) dahil beş katman yoksa `--seal` **KESİNLİKLE YASAKTIR**.
+* Senaryo, cue ve visual zoom senkronizasyonu tam oturmadan ücretli çağrı **KESİNLİKLE YASAKTIR**. Mutfak hazırlığı %100 bitmeden çiğ metin fırına atılamaz.
 * Geliştirme ve deneme aşamasında tüm testler `--dry-run` bayrağı ile yürütülür; harici Google AI Studio çağrısı doğmaz.
 * `--seal` yalnız `--confirm-gemini-spend` ve insan onayı ile; vatandaş yüzeyine taslak WAV/MP4 basılmaz.
-* B-roll’da yerel kaset varsa API atlanır (reuse). Yeni kaset gerekirse yalnız Veo 3.1 Lite; pahalı Veo 3.1 yok.
+* B-roll yalnız yerel `-warmup.mp4` reuse. Otomatik Veo 3.1 Lite ve pahalı Veo 3.1 API çağrıları iptaldir.
 * Kod SSOT: `scripts/generate-academy-lesson-audio.ts`, `scripts/generate-academy-lesson-veo.ts`, `scripts/generate-academy-lesson-bed.ts`. Operatör SOP: `docs/ops/akademi-bake-elkitabi.md`.

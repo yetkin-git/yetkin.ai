@@ -83,6 +83,7 @@ export function catalogOpenableUnit(moduleKey: string, unitKey: string) {
 export type CatalogPatchCommand = {
   actorUserId: string;
   actorEmail?: string | null;
+  actorEmailConfirmedAt?: string | null;
   id?: string;
   moduleKey?: string;
   unitKey?: string;
@@ -140,7 +141,11 @@ export async function patchCatalogAmount(
   store: CatalogWriteStore,
   command: CatalogPatchCommand,
 ): Promise<SealedCatalogEntry> {
-  assertSuperAdminActor({ id: command.actorUserId, email: command.actorEmail });
+  assertSuperAdminActor({
+    id: command.actorUserId,
+    email: command.actorEmail,
+    emailConfirmedAt: command.actorEmailConfirmedAt,
+  });
 
   const entry = command.id
     ? await store.findById(command.id)
@@ -225,6 +230,7 @@ export async function runCatalogPatch(input: {
     const entry = await patchCatalogAmount(input.getStore(), {
       actorUserId: input.session.id,
       actorEmail: input.session.email,
+      actorEmailConfirmedAt: input.session.emailConfirmedAt,
       id: parsed.data.id,
       moduleKey: parsed.data.moduleKey,
       unitKey: parsed.data.unitKey,

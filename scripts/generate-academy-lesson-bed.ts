@@ -1,23 +1,22 @@
 #!/usr/bin/env tsx
 /**
- * Lyria 3.5 dip müzik bake — 01_office_ai-1.
+ * Lyria 3.5 dip müzik bake — müfredat dersi, `--slug` ve `--key`.
  * İnsan --seal ve --confirm-gemini-spend olmadan harici çağrı yok.
- *   npx tsx scripts/generate-academy-lesson-bed.ts --dry-run --slug=01_office_ai --key=01_office_ai-1
- *   npx tsx scripts/generate-academy-lesson-bed.ts --seal --confirm-gemini-spend --slug=01_office_ai --key=01_office_ai-1
+ *   npx tsx scripts/generate-academy-lesson-bed.ts --dry-run --slug=01_office_ai_ileri --key=01_office_ai_ileri-1
+ *   npx tsx scripts/generate-academy-lesson-bed.ts --seal --confirm-gemini-spend --slug=01_office_ai_ileri --key=01_office_ai_ileri-1
  */
 import "./load-academy-bake-env";
 
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { GoogleGenAI } from "@google/genai";
+import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
 import { academyLessonBedMood, academyLessonBedPrompt } from "@/lib/academy/lesson-bed-duck";
 import { academyLessonBedDiskPath } from "@/lib/academy/media-release-seal";
+import { ACADEMY_BAKE_MODELS } from "@/lib/kernel/ai/model-roles";
 
 const MIN_GEMINI_KEY_CHARS = 8;
-const LESSON_KEY = "01_office_ai-1";
-const COURSE_SLUG = "01_office_ai";
-const LYRIA_MODEL = "lyria-3.5";
-const BED_PROMPT = academyLessonBedPrompt(academyLessonBedMood(LESSON_KEY));
+const LYRIA_MODEL = ACADEMY_BAKE_MODELS.MUSIC_LYRIA;
 
 type GeminiPart = {
   text?: string;
@@ -37,10 +36,20 @@ type InteractionAudio = {
   mimeType?: string;
 };
 
+type InteractionContentBlock = {
+  type?: string;
+  data?: string;
+  text?: string;
+};
+
 type InteractionResponse = {
   output_audio?: InteractionAudio;
   outputAudio?: InteractionAudio;
   outputs?: Array<{ inlineData?: { data?: string; mimeType?: string | null } } | null>;
+  steps?: Array<{
+    type?: string;
+    content?: Array<InteractionContentBlock | null> | null;
+  } | null> | null;
 };
 
 function parseArgs(argv: readonly string[]): {
@@ -51,7 +60,7 @@ function parseArgs(argv: readonly string[]): {
   key: string | null;
 } {
   return {
-    dryRun: argv.includes("--dry-run"),
+    dryRun: argv.includes("--dry-run") || argv.includes("--sample-only"),
     seal: argv.includes("--seal"),
     confirmGeminiSpend: argv.includes("--confirm-gemini-spend"),
     slug: argv.find((part) => part.startsWith("--slug="))?.slice("--slug=".length)?.trim() || null,
@@ -99,43 +108,95 @@ function collectInteractionAudio(response: InteractionResponse): Buffer | null {
       return Buffer.from(data, "base64");
     }
   }
+  for (const step of response.steps ?? []) {
+    if (step?.type && step.type !== "model_output") {
+      continue;
+    }
+    for (const block of step?.content ?? []) {
+      if (block?.type === "audio" && block.data) {
+        return Buffer.from(block.data, "base64");
+      }
+    }
+  }
   return null;
 }
 
-async function bakeLyriaBed(client: GoogleGenAI): Promise<Buffer> {
+function isAudioPayload(bytes: Buffer): boolean {
+  if (bytes.length >= 3 && bytes[0] === 0x49 && bytes[1] === 0x44 && bytes[2] === 0x33) {
+    return true;
+  }
+  if (bytes.length >= 2 && bytes[0] === 0xff && (bytes[1]! & 0xe0) === 0xe0) {
+    return true;
+  }
+  return bytes.length >= 4 && bytes.toString("ascii", 0, 4) === "RIFF";
+}
+
+async function bakeLyriaBed(client: GoogleGenAI, prompt: string): Promise<Buffer> {
   const interactions = client as GoogleGenAI & {
     interactions?: {
       create: (input: { model: string; input: string }) => Promise<InteractionResponse>;
     };
   };
   if (typeof interactions.interactions?.create === "function") {
-    const interaction = await interactions.interactions.create({
-      model: LYRIA_MODEL,
-      input: BED_PROMPT,
-    });
-    const fromInteraction = collectInteractionAudio(interaction);
-    if (fromInteraction && fromInteraction.byteLength > 2048) {
-      return fromInteraction;
+    try {
+      const interaction = await interactions.interactions.create({
+        model: LYRIA_MODEL,
+        input: prompt,
+      });
+      const fromInteraction = collectInteractionAudio(interaction);
+      if (fromInteraction && fromInteraction.byteLength > 2048 && isAudioPayload(fromInteraction)) {
+        return fromInteraction;
+      }
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      process.stderr.write(`Lyria interactions atlandı — ${message}\n`);
     }
   }
   const response = (await client.models.generateContent({
     model: LYRIA_MODEL,
-    contents: BED_PROMPT,
-  })) as GeminiResponse;
+    contents: prompt,
+  })) as GeminiResponse & {
+    promptFeedback?: { blockReason?: string; blockReasonMessage?: string };
+  };
   const fromContent = collectInlineAudio(response);
-  if (!fromContent || fromContent.byteLength < 2048) {
-    throw new Error("Lyria 3.5 boş dip müzik döndü.");
+  if (fromContent && fromContent.byteLength > 2048 && isAudioPayload(fromContent)) {
+    return fromContent;
   }
-  return fromContent;
+  const parts = response.candidates?.[0]?.content?.parts ?? [];
+  const summary = parts
+    .map((part) => {
+      const mime = part?.inlineData?.mimeType ?? part?.inline_data?.mimeType ?? part?.inline_data?.mime_type ?? "";
+      const text = part?.text?.replace(/\s+/g, " ").trim().slice(0, 180) ?? "";
+      return [mime, text].filter(Boolean).join(":");
+    })
+    .filter(Boolean)
+    .join(" | ");
+  const feedback = response.promptFeedback;
+  const block = [feedback?.blockReason, feedback?.blockReasonMessage].filter(Boolean).join(" ");
+  throw new Error(
+    `Lyria 3.5 boş dip müzik döndü.${block ? ` block=${block}` : ""}${summary ? ` parts=${summary}` : " parts=yok"}`,
+  );
+}
+
+function requireCurriculumLesson(slug: string, key: string): void {
+  if (!/^[a-z0-9][a-z0-9_-]{0,80}$/.test(slug) || !/^[a-z0-9][a-z0-9_-]{0,80}$/.test(key)) {
+    throw new Error("Lyria bed slug ve key yalnız küçük harf, rakam, alt çizgi ve tire kabul eder.");
+  }
+  const keys = curriculumLessonKeysForSlug(slug);
+  if (!keys.includes(key)) {
+    throw new Error(`Lyria bed müfredat dışı: ${slug}/${key}.`);
+  }
 }
 
 async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
-  const slug = args.slug ?? COURSE_SLUG;
-  const key = args.key ?? LESSON_KEY;
-  if (slug !== COURSE_SLUG || key !== LESSON_KEY) {
-    throw new Error(`Lyria bed yalnız ${COURSE_SLUG}/${LESSON_KEY}.`);
+  const slug = args.slug ?? "";
+  const key = args.key ?? "";
+  if (!slug || !key) {
+    throw new Error("Lyria bed --slug ve --key ister.");
   }
+  requireCurriculumLesson(slug, key);
+  const prompt = academyLessonBedPrompt(academyLessonBedMood(key));
   const diskPath = academyLessonBedDiskPath(slug, key);
   if (args.dryRun || !args.seal || !args.confirmGeminiSpend) {
     process.stdout.write(
@@ -158,12 +219,12 @@ async function main(): Promise<void> {
   const client = new GoogleGenAI({
     apiKey,
     httpOptions: {
-      timeout: 180_000,
+      timeout: 300_000,
       retryOptions: { attempts: 1, httpStatusCodes: [] as number[] },
     },
   });
-  process.stdout.write(`Lyria ${LYRIA_MODEL} dip müzik\n`);
-  const mp3 = await bakeLyriaBed(client);
+  process.stdout.write(`Lyria ${LYRIA_MODEL} dip müzik ${slug}/${key}\n`);
+  const mp3 = await bakeLyriaBed(client, prompt);
   mkdirSync(dirname(diskPath), { recursive: true });
   writeFileSync(diskPath, mp3);
   process.stdout.write(`yazıldı ${mp3.byteLength} bayt → ${join("public", "media", "academy", "audio", slug, `${key}.bed.mp3`)}\n`);

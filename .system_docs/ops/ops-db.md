@@ -16,7 +16,7 @@ Müze dizini (`yetkin_muze/`) OPS yasağıdır: `.env` kopyalanmaz; git, indeks,
 | `SITE_MAINTENANCE_FREEZE` | isteğe bağlı | `"true"` / `"1"` = ürün 503. **Canlı yayın:** `LIVE_BROADCAST_SHUTDOWN` env (13 Eylül 2026 itibarıyla varsayılan kapalı). Acil kapatma: env `true` + deploy. |
 | `NEXT_PUBLIC_SUPABASE_URL` / `_ANON_KEY` | auth | `service_role` yazılmaz. |
 | `SUPABASE_JWT_SECRET` | kenar HS256 yedek | Boşsa ES256 JWKS. |
-| `SUPER_ADMIN_USER_ID` | admin | Auth UUID. Boşsa kimse admin değildir. |
+| `SUPER_ADMIN_USER_ID` | admin | Auth UUID. Boşsa UUID kolonu kimseyi admin yapmaz. Kanonik e-posta ayrı kapıdır (`CANONICAL_SUPER_ADMIN_EMAIL`, boşsa `yapinet360@gmail.com`). |
 | `PLATFORM_TREASURY_USER_ID` | hazine sentinel | Super Admin olarak **yazılmaz**. |
 | `NOTICE_SMTP_HOST` / `NOTICE_MAIL_FROM` | bildirim | İkisi boşsa dürüst atlanır (`SMTP skipped`), nakit durmaz. |
 | `ACADEMY_EXAM_SITTING_SECRET` | sınav MAC | Üretimde ≥16 karakter. |
@@ -57,12 +57,16 @@ DIRECT_URL=postgresql://postgres:<PASSWORD>@db.<PROJECT_REF>.supabase.co:5432/po
 
 Kullanıcı **`postgres.<PROJECT_REF>`**. Prisma 7 adapter `$transaction` + `FOR UPDATE` aynı TCP'de kalır. Serverless havuz `max=1`.
 
-## 3. Super Admin UUID
+## 3. Super Admin
 
-1. `/register` ile ilk vatandaş hesabını aç. Confirm email açık olmalı.
+İki kolon vardır. Oturum kapısı `isSuperAdminActor` / `assertSuperAdminActor` ikisine de bakar. Vatandaş test hesabı `yetkin.vision@gmail.com` hiçbir kolonda admin değildir.
+
+1. `/register` ile hesabı aç. Confirm email açık olmalı. Kanonik adres `yapinet360@gmail.com`.
 2. Supabase Dashboard → Users → UUID kopyala.
 3. `SUPER_ADMIN_USER_ID=<uuid>`. Hazine sentinel’i yazma.
-4. Boş env = kimse admin değildir.
+4. `CANONICAL_SUPER_ADMIN_EMAIL` boşsa veya vatandaş test adresine çekilmişse kod `CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT` (`yapinet360@gmail.com`) kullanır. Bu varsayılan, UUID env’si boşken de e-posta eşleşen oturumu admin sayar.
+5. `SUPER_ADMIN_USER_ID` boş veya yalnız boşluksa UUID kolonu kimseyi admin yapmaz (`isSuperAdminUser` / `assertSuperAdminUserId`). Bu cümle e-posta kolonunu kapatmaz.
+6. `assertSuperAdminUserId` e-postayı okumaz. Üretim oturum kapısı `assertSuperAdminActor` kullanır ve geçerli Supabase kullanıcı kimliği ister (`isSupabaseUserId`). E-posta eşleşse de kimlik UUID biçiminde değilse kapı kapanır.
 
 ## 6. Redirect URLs
 
@@ -107,7 +111,7 @@ T3 akademi nakit döngüsü: `npm run ops:t3-academy-loop`. T4 kazanç halkası 
 3. Supabase URL + anon
 4. Direct TCP `:5432` yeşil — yalnız migrate
 5. `npm run ops:migrate`
-6. `/register` → `SUPER_ADMIN_USER_ID`
+6. `/register` → `SUPER_ADMIN_USER_ID` ve kanonik e-posta (`yapinet360@gmail.com` varsayılanı)
 7. PayTR + Inngest (kendi parçaları) + Redirect URLs
 8. Bildirim SMTP — gün 0 operatör zorunluluğu. Boşsa nakit durmaz.
 9. `ACADEMY_EXAM_SITTING_SECRET` ≥16

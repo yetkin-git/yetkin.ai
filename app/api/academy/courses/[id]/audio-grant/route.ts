@@ -4,6 +4,7 @@ import { hasPurchased, resolveSettledAcademyPurchase } from "@/lib/academy/acces
 import { lookupAcademyCurriculumCourse } from "@/lib/academy/curriculum-engine";
 import {
   academyLessonAudioPlaybackSrc,
+  academyLessonBedIsHardMixed,
   academyLessonBedPlaybackSrc,
   isAcademyLessonBedSealed,
 } from "@/lib/academy/lesson-audio";
@@ -56,7 +57,11 @@ export async function GET(
     if (!course) {
       return jsonFail("Kurs bulunamadı.", 404, undefined, request);
     }
-    const actor = { userId: user.id, email: user.email };
+    const actor = {
+      userId: user.id,
+      email: user.email,
+      emailConfirmedAt: user.emailConfirmedAt,
+    };
     const purchase = await resolveSettledAcademyPurchase(ports.academy, actor, course.id);
     if (!hasPurchased(purchase, actor)) {
       return jsonFail("Satın alma tamamlanmadan ders sesi açılmaz.", 403, undefined, request);
@@ -68,9 +73,10 @@ export async function GET(
     if (!src) {
       return jsonFail("Ders sesi şu an açılamıyor.", 503, undefined, request);
     }
-    const bedSrc = isAcademyLessonBedSealed(course.slug, lessonKey)
-      ? await withAcademyAudioGrant(academyLessonBedPlaybackSrc(course.slug, lessonKey))
-      : null;
+    const bedSrc =
+      isAcademyLessonBedSealed(course.slug, lessonKey) && !academyLessonBedIsHardMixed(lessonKey)
+        ? await withAcademyAudioGrant(academyLessonBedPlaybackSrc(course.slug, lessonKey))
+        : null;
     return jsonOk({ src, bedSrc }, 200, undefined, request);
   } catch (error) {
     return jsonFromUnknown(error);

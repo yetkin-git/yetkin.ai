@@ -8,7 +8,7 @@
   Gövde 23 Eylül 2026 kaset şeridine çekildi. Sınav cümlesi konuşma sözleşmesidir; makaleye yazılmaz.
 -->
 
-Word dersinde dosyayı ataş ile yükledin. İmza sende kaldı. Hata avında uydurma sayıyı yakaladın. E-postada ritüel ve yerleşik kapı duruyor. KVKK başta maskeyi öğretti. Bu dersin sonunda Cuma günkü 30 dakikalık takvime yazıp üç bloğu kapatmayı tek başına yapacaksın. Her kriz geldiğinde aynı işi baştan kurarsan Cuma akşamı yine yetiştirmeye çalışırsın. Bu 30 dakikalık rutini takvimine işlemezsen, haftalık işler birikir ve kriz kaçınılmaz olur. Haftalık Sistem bu alışkanlıkları tek Cuma penceresine bağlar. Bu kapanış dersidir.
+Word dersinde dosyayı ataş ile yükledin. İmza sende kaldı. Hata avında uydurma sayıyı yakaladın. E-postada ritüel ve yerleşik panel duruyor. KVKK başta maskeyi öğretti. Bu dersin sonunda Cuma günkü 30 dakikalık takvime yazıp üç bloğu kapatmayı tek başına yapacaksın. Her kriz geldiğinde aynı işi baştan kurarsan Cuma akşamı yine yetiştirmeye çalışırsın. Bu 30 dakikalık rutini takvimine işlemezsen, haftalık işler birikir ve kriz kaçınılmaz olur. Haftalık Sistem bu alışkanlıkları tek Cuma penceresine bağlar. Bu kapanış dersidir.
 
 Selamlar, ben Gözde. Haftalık Sistem dersine hoş geldin. Bugün önceki derslerin alışkanlığını tek bir Cuma rutinine bağlayacaksın. Amacın net: her Cuma otuz dakikada haftalık işleri yapay zekâyla kapat. Peki neden Cuma otuzu on artı on artı on olarak bölünür? Çünkü Excel, slayt ve e-posta üç ayrı iştir; üçü yığılırsa tablo yarım kalır. Peki neden bu ders bitince sınav kapısı açılır? Çünkü mühürlü vize kartı sekiz dersin hepsini ister. Baraj 70 durur. Satın alma o kartı basmaz.
 
@@ -38,7 +38,7 @@ Dağınık haftada sıra kayar: onaylı panel atlanır, dosya yükleme unutulur,
 
 Önce tablo temizlenir, sonra özet çıkar, sonra kutu kapanır. Sıra bozulmaz; kriz araya giremez. Cuma otuzda üç blok aynı pencerede yürür. Üç blok bitince kısa bir belge ve hata kontrolü yap: Word belgesindeki sayı slayttaki sayıyla aynı mı, imza sende mi. Bu dördüncü on dakika değildir.
 
-Cebine üç kural koy. Bir: Cuma 30 bloğunu takvime yaz; 10 Excel + 10 slayt + 10 kutu. Çünkü blok takvimde yoksa kriz Cuma gecesine kayar. Başlık Cuma 30, süre otuz dakika, tekrar her hafta. İki: önce Copilot veya ataş. Çünkü ekran görüntüsü tabloyu koparır. Excel tablosunu ve PowerPoint sunusunu ataş ile yükle veya Copilot varsa şeritten okut. Üç: onaylı panel ve dosya yükleme yoksa maskeli kısa özet; ham kopyala-yapıştır varsayılan yol değildir. Çünkü ham yapıştırma maskeyi deler. İş postasını kişisel Gmail’e taşıma.
+Üç kuralı yaz. Bir: Cuma 30 bloğunu takvime yaz; 10 Excel + 10 slayt + 10 kutu. Çünkü blok takvimde yoksa kriz Cuma gecesine kayar. Başlık Cuma 30, süre otuz dakika, tekrar her hafta. İki: önce Copilot veya ataş. Çünkü ekran görüntüsü tabloyu koparır. Excel tablosunu ve PowerPoint sunusunu ataş ile yükle veya Copilot varsa şeritten okut. Üç: onaylı panel ve dosya yükleme yoksa maskeli kısa özet; ham kopyala-yapıştır varsayılan yol değildir. Çünkü ham yapıştırma maskeyi deler. İş postasını kişisel Gmail’e taşıma.
 
 Sıra sende. Bu Cuma 30 dakikalık bloğu takvimine koy. Bir gerçek tabloyu Copilot veya ataş ile yükle. Kişi adı, IBAN veya şirket sırrı varsa önce maskele; ham tabloyu sohbete bırakma. Bir slayt taslağını üç maddeyle çıkar. Kutudaki işi aynı pencerede kapat. E-posta bloğunda Gmail Gemini veya Outlook Copilot kullan; slayt bloğunda PowerPoint sunusunu ataş ile yükle.
 

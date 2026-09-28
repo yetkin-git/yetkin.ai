@@ -108,7 +108,8 @@ describe("OFF-201 taslağı — uydu 10/11/12 projeksiyonu (kart kodu kilitli, s
     expect(pedagogy).toContain("OFF-201");
     expect(pedagogy).toContain("Model sicili");
     expect(pedagogy).toContain("`lib/kernel/ai/model-roles.ts`");
-    expect(pedagogy).not.toContain("Gemini 3.8 Flash");
+    expect(pedagogy).toContain("Gemini 3.8 Flash TTS");
+    expect(pedagogy).toContain("academyBakeVoiceModelId");
     expect(pedagogy).not.toContain("tablodaki adlar silinmez");
     expect(pedagogy).toContain("`01_office_ai_ileri`");
   });

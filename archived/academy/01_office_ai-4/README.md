@@ -7,6 +7,7 @@ Taşınan dosyalar:
 - `spoken-script.md` — eski konuşma metni
 - `lesson-cues.json` — eski cue
 - `lesson-audio-timings.json` — eski saat (493.8 sn)
+- `section_4.ts` — müfredat gövdesi. `officeAiSections` ve sınav yolu bu dosyayı okumaz.
 
 Süre tablosu `ACADEMY_SEALED_AUDIO_DURATION_SEC` bu anahtarı tutmaz.
 Aynı iş `01_office_ai-g1` içindedir.

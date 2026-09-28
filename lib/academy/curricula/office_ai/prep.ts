@@ -18,11 +18,11 @@ Selamlar, ben Gözde. Bu şerit bir sınav dersi değildir. Sekiz mühürlü der
 
 ## HESAP
 
-ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb. — hangisi masanda duruyorsa onu aç. Bunlar büyük dil modelleridir (sohbet yapay zekâları); ücretsiz hesapla bu kursun işini görürler. Şirket paneli (kurumsal model) varsa onu kullan; evdeki gizlilik kuralı oraya yazılır. Hesap açmak beş dakikadır: e-posta, onay, sohbet kutusu. Telefon numarası isteyen ekrana gelirsen numaranı girmek zorunda değilsin, o adımı atlayabilirsin; bu şerit için zorunlu bir adım değildir. Copilot lisansın yoksa üzülme. Sekiz dersin her biri «lisans yoksa» yolunu yazar.
+ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb. — hangisi masanda duruyorsa onu aç. Bunlar sohbet yapay zekâlarıdır (büyük dil modelleri); ücretsiz hesapla bu kursun işini görürler. Şirket paneli (kurumsal model) varsa onu kullan; evdeki gizlilik kuralı oraya yazılır. Hesap açmak beş dakikadır: e-posta, onay, sohbet kutusu. Telefon numarası isteyen ekrana gelirsen numaranı girmek zorunda değilsin, o adımı atlayabilirsin; bu şerit için zorunlu bir adım değildir. Copilot lisansın yoksa üzülme. Sekiz dersin her biri «lisans yoksa» yolunu yazar.
 
 ## ÜCRETSİZ VE ÜCRETLİ
 
-Ücretsiz model yavaşlar, kuyrukta bekletir, uzun dosyada nefesini keser. Ücretli model daha hızlı döner, daha uzun metni taşır. Sihirli değildir. Bu kursta öğrettiğimiz şey kapı sırasıdır: yerleşik panel, ataş, maskeli kısa özet. O sıra ücretsiz hesapta da durur. İlk hafta ücretli plana geçmek zorunda değilsin. Kota dolduysa yeni sohbet aç; işi böl. En pahalı yapay zekâyı da satın alsan, başlığı olmayan bozuk tabloyu düzeltemez. Önce tabloyu temizlersin.
+Ücretsiz model yavaşlar, kuyrukta bekletir, uzun dosyada yavaşlar. Ücretli model daha hızlı döner, daha uzun metni taşır. Ücret, bozuk tabloyu düzeltmez. Bu kursta öğrettiğimiz şey üç adımdır: yerleşik panel, ataş, maskeli kısa özet. O sıra ücretsiz hesapta da durur. İlk hafta ücretli plana geçmek zorunda değilsin. Kota dolduysa yeni sohbet aç; işi böl. En pahalı yapay zekâyı da satın alsan, başlığı olmayan bozuk tabloyu düzeltemez. Önce tabloyu temizlersin.
 
 ## SOHBET EKRANI
 
@@ -30,7 +30,7 @@ Ekranın ortası konuşma alanıdır. Altta bir kutu durur: burası istem kutusu
 
 ## İLK İSTEM
 
-İstem, modele verdiğin iş emridir. Sihirli cümle yoktur. Dört parça yeter: rol, görev, biçim, kısıt. Örnek: «Rol: ofis asistanı. Görev: bu üç satırlık tabloyu sütun adına göre özetle. Biçim: üç madde. Kısıt: uydurma sayı ekleme.» Görüyorsun: günlük dil. Kod yok. İngilizce jargon yok. İlk denemende kutu boş dönerse cümleyi uzatma; görevi küçült. Bir iş, bir istem. Üç işi tek kutuya yığmak, üç cevabı birbirine bulaştırır.
+İstem, modele verdiğin iş emridir. Hazır kalıp cümle yoktur. Dört parça yeter: rol, görev, biçim, kısıt. Örnek: «Rol: ofis asistanı. Görev: bu üç satırlık tabloyu sütun adına göre özetle. Biçim: üç madde. Kısıt: uydurma sayı ekleme.» Görüyorsun: günlük dil. Kod yok. İngilizce terim yok. İlk denemende kutu boş dönerse cümleyi uzatma; görevi küçült. Bir iş, bir istem. Üç işi tek kutuya yığmak, üç cevabı birbirine bulaştırır.
 
 ## TÜRKÇE Mİ İNGİLİZCE Mİ
 

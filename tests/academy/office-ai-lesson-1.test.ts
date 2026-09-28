@@ -138,13 +138,15 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(cues.flatMap((cue) => cue.paragraphs ?? []).join(" ")).not.toMatch(/özel API/u);
     expect(prose).toMatch(/özet çıkarmaya/u);
     expect(prose).not.toMatch(/özet tabloya/u);
-    expect(cues.map((cue) => academyPunchcardLabel(cue.text))).toEqual([...PUNCHCARDS]);
+    expect(cues.map((cue) => academyPunchcardLabel(cue.text))).toEqual(
+      PUNCHCARDS.map((label) => (label === "CEBİNE KOY" ? "A1 KURALINI KUR" : label)),
+    );
     expect(cues.map((cue) => cue.paragraphs?.length ?? 0)).toEqual([1, 2, 2, 2, 3, 2, 1, 2]);
     expect(academyActivePunchcard(cues, 0)).toBeNull();
     expect(academyActivePunchcard(cues, 2)?.label).toBe("GİRİŞ KÖPRÜSÜ");
     const last = cues[cues.length - 1]!;
     expect(academyActivePunchcard(cues, last.start + 0.1)?.label).toBe("SIRA SENDE");
-    const pocket = cues.find((cue) => academyPunchcardLabel(cue.text) === "CEBİNE KOY");
+    const pocket = cues.find((cue) => cue.section === "CEBİNE KOY");
     expect(pocket?.paragraphs?.join(" ")).toMatch(/1\./u);
   });
 

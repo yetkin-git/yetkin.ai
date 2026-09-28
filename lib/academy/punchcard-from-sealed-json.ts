@@ -45,7 +45,10 @@ export function punchcardLabelFromText(
  */
 export const ACADEMY_PUNCHCARD_CITIZEN_LABELS: Readonly<Record<string, string>> = {
   "GİRİŞ KÖPRÜSÜ": "HATIRLATMA",
-  /** Pekiştirme durağı. İşin adı üç adımdır; giriş rozetiyle aynı kelimeye binmez. */
+  /**
+   * Pekiştirme durağı. Canlı OFF-101 cue `text` iş adıdır.
+   * Bu satır, stüdyo anahtarı hâlâ `CEBİNE KOY` gelen bir rozeti slogana düşürmez.
+   */
   "CEBİNE KOY": "ÜÇ ADIM",
   /** Saha görevi. Stüdyo tabelası sahnede durmaz. */
   "SIRA SENDE": "SIRA SİZDE",

@@ -15,7 +15,7 @@
     },
     {
       "id": "q_off_lk1_2",
-      "prompt": "Üç Kapı’da 3. Kapı (son çare) hangisidir?",
+      "prompt": "Üç adımda son çare hangisidir?",
       "choices": [
         "Ham müşteri kutusunu dış sohbete taşımak",
         "Tüm müşteri programını ekran görüntüsüyle yüklemek",

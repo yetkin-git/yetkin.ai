@@ -8,14 +8,13 @@ export type SuperAdminAccess =
   | { kind: "ok"; user: SessionUser };
 
 /**
- * Super Admin tek kapı: oturum (getUser) + `isSuperAdminActor`
- * (SUPER_ADMIN_USER_ID veya CANONICAL_SUPER_ADMIN_EMAIL).
- * Env boşsa varsayılan kanonik e-posta. `yetkin.vision@gmail.com` admin değildir.
+ * Super Admin tek kapı: oturum (getUser) + `isSuperAdminActor`.
+ * `email_confirmed_at` zorunlu. Üretimde env boşsa geçiş kapalıdır.
  * Kenar `auth = "admin"` aynı SSOT'u okur.
  */
 export async function requireSuperAdmin(request?: Request): Promise<SessionUser> {
   const session = await requireSession(request);
-  assertSuperAdminActor({ id: session.id, email: session.email });
+  assertSuperAdminActor(session);
   return session;
 }
 
@@ -24,7 +23,7 @@ export async function resolveSuperAdminAccess(request?: Request): Promise<SuperA
   if (!session) {
     return { kind: "unauthenticated" };
   }
-  if (!isSupabaseUserId(session.id) || !isSuperAdminActor({ id: session.id, email: session.email })) {
+  if (!isSupabaseUserId(session.id) || !isSuperAdminActor(session)) {
     return { kind: "forbidden" };
   }
   return { kind: "ok", user: session };

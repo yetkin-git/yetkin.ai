@@ -2,7 +2,7 @@
   {
     "id": "cue-01",
     "start": 2,
-    "end": 47.76,
+    "end": 50.972,
     "text": "GİRİŞ KÖPRÜSÜ",
     "section": "GİRİŞ KÖPRÜSÜ",
     "paragraphs": [
@@ -11,23 +11,23 @@
   },
   {
     "id": "cue-02",
-    "start": 48.16,
-    "end": 250.6,
+    "start": 51.222,
+    "end": 289.856,
     "text": "HOŞ GELDİN",
     "section": "HOŞ GELDİN",
     "paragraphs": [
       "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin altıncı dersine hoş geldin. Bugün E-Posta Akışı: Gmail, Outlook ve aksiyon listesi. İlk iki dakika ritüeldir; ardından panel açılır. Peki neden gelen kutusu şişer? Çünkü her yeni satır aynı yığında durur; ödeme, bülten ve davet birbirine girer. Peki neden kopyala-yapıştır varsayılan yol değildir? Çünkü ileti gövdesi dış sohbete gidince kutu senden kopar. Gelen kutusu yerinde kalır. İnsan onayından önce taslak gitmez.",
       "Peki e-posta triyajı nedir? İletiyi açmadan önce acil, aksiyon veya arşivlik diye ayırmaktır. Acil, bugün para veya imza isteyen satırdır. Aksiyon, bu hafta cevap bekleyen satırdır. Arşivlik, okuyup kapatacağın satırdır: dekont, bülten, bilgi. Üç etiket yeter. Peki yapay zekâya neden taslak yanıt yazdırılır? Çünkü model nezaket üretir, taahhüt üretemez. Tarihi, teslimat sözünü ve fiyatı sen belirlersin. Peki taslak insan onayı verilmeden neden gönderilmez? Çünkü yanlış tarih veya yanlış vaat şirketi bağlar. Taslak onaylanmadan gönderilmez. İş biten satır arşive iner. Arşiv silmek değildir; eski yazışma durur. Ritüel bu kadar. Şimdi aynı dört adımı canlı kutuda basıyoruz.",
       "Bu derste iki kutu vardır. Gmail kolunda Gemini paneli, Outlook kolunda Copilot şeridi durur. Sebebi şu: kutu değişir, iş değişmez: ödeme, onay ve acil aksiyon her iki kutuda da aynı üç soruyu ister. Kim gönderdi, iş nedir, son tarih ne zaman. Panelin adı değişir; tablonun sütunları değişmez. Bugün Gmail kolunu göreceksin; Outlook kolu aynı cümleyle çalışır. Şirketin onayladığı panel yoksa rutin değişmez: maskeli kısa özet yazarsın. İş postasını kişisel hesaba taşımazsın.",
-      "Sabah gelen kutusunu açtığında acil olanla rutin olanı nasıl ayırırsın? Ödeme, onay, acil aksiyon, banka dekontu ve bülten aynı yığında durur. Tek tek açmak günü yer. Peki aksiyon listesinde kim, ne, ne zaman neden kilitlenir? Çünkü gönderen yoksa tahsilat kime bağlanır; iş yoksa bülten ödeme gibi durur; son tarih yoksa Kaya Gıda’nın bugünü kaybolur. Kaya Gıda 54.650 TL ödeme onayı istiyor; yanıtı hemen yazıp konuyu kapat. Asıl kapı Gmail’in yanındaki Gemini paneli ve Outlook’taki Copilot şerididir. Çıktı aksiyon tablosudur: Gönderen | İş | Son tarih | Taslak yanıt notu.",
+      "Sabah gelen kutusunu açtığında acil olanla rutin olanı nasıl ayırırsın? Ödeme, onay, acil aksiyon, banka dekontu ve bülten aynı yığında durur. Tek tek açmak günü yer. Peki aksiyon listesinde kim, ne, ne zaman neden kilitlenir? Çünkü gönderen yoksa tahsilat kime bağlanır; iş yoksa bülten ödeme gibi durur; son tarih yoksa Kaya Gıda’nın bugünü kaybolur. Kaya Gıda 54.650 TL ödeme onayı istiyor; yanıtı hemen yazıp konuyu kapat. Asıl yol Gmail’in yanındaki Gemini paneli ve Outlook’taki Copilot şerididir. Çıktı aksiyon tablosudur: Gönderen | İş | Son tarih | Taslak yanıt notu.",
       "Tablonun dört sütunu işi ayırır. Gönderen işin sahibini yazar, iş talebi yazar, son tarih günü kilitler, taslak yanıt notu ilk cümleyi yazar. Dördüncü sütun nottur, metin değildir: not kontrol ister; metin gönder ister. Kaya Gıda satırında tahsilat kırmızı durur; bülten satırında arşivlik yeşil durur."
     ]
   },
   {
     "id": "cue-03",
-    "start": 251,
-    "end": 304.32,
-    "text": "TAŞIMA SU",
+    "start": 290.106,
+    "end": 348.794,
+    "text": "KUTUDAN KOPUK",
     "section": "TAŞIMA SU",
     "paragraphs": [
       "Kutuyu dışarı taşımak, şirketin onayladığı panel dururken iletiyi seçip dış sohbete yapıştırmaktır. Peki neden bu atlanmış yoldur, yasak listesi değil? Çünkü gelen kutusu kopuk kalır. Etiket oluşmaz. Bütün kutuyu ekran görüntüsüyle taşımak maskeli kısa özet değildir. Son çare maskeli, kısa özettir. İş postasını kişisel Gmail'e taşımak da bu yol değildir.",
@@ -36,8 +36,8 @@
   },
   {
     "id": "cue-04",
-    "start": 304.72,
-    "end": 408.6,
+    "start": 349.044,
+    "end": 432.425,
     "text": "GEMİNİ AÇ",
     "section": "GEMİNİ AÇ",
     "paragraphs": [
@@ -49,8 +49,8 @@
   },
   {
     "id": "cue-05",
-    "start": 409,
-    "end": 468.48,
+    "start": 432.675,
+    "end": 487.965,
     "text": "YERLEŞİK YOL",
     "section": "YERLEŞİK YOL",
     "paragraphs": [
@@ -60,8 +60,8 @@
   },
   {
     "id": "cue-06",
-    "start": 468.88,
-    "end": 518.56,
+    "start": 488.215,
+    "end": 535.316,
     "text": "FARK ORTADA",
     "section": "FARK ORTADA",
     "paragraphs": [
@@ -71,18 +71,18 @@
   },
   {
     "id": "cue-07",
-    "start": 518.96,
-    "end": 561.56,
-    "text": "CEBİNE KOY",
+    "start": 535.316,
+    "end": 577.355,
+    "text": "TASLAĞI ONAYLA",
     "section": "CEBİNE KOY",
     "paragraphs": [
-      "Bu dersten cebine üç kural koy. Bir: kutuyu yerinde oku. Çünkü şirketin onayladığı panel kutunun içindedir; Gmail’de Gemini, Outlook’ta Copilot. Onaylı panel dururken kopyala-yapıştır atlanmış yoldur. İki: kim, ne, ne zaman kilitlensin. Çünkü gönderen, iş ve son tarih yoksa tahsilat bültenin altında kaybolur. Dördüncü sütun taslak notudur; gönder tuşu değildir. Üç: insan onayından önce gönderme. Çünkü model nezaket üretir, taahhüt üretemez. Taslak notu «şu cümleyi kontrol et» demektir; «onayla ve gönder» demek değildir."
+      "Bu dersten üç kuralı yaz. Bir: kutuyu yerinde oku. Çünkü şirketin onayladığı panel kutunun içindedir; Gmail’de Gemini, Outlook’ta Copilot. Onaylı panel dururken kopyala-yapıştır atlanmış yoldur. İki: kim, ne, ne zaman kilitlensin. Çünkü gönderen, iş ve son tarih yoksa tahsilat bültenin altında kaybolur. Dördüncü sütun taslak notudur; gönder tuşu değildir. Üç: insan onayından önce gönderme. Çünkü model nezaket üretir, taahhüt üretemez. Taslak notu «şu cümleyi kontrol et» demektir; «onayla ve gönder» demek değildir."
     ]
   },
   {
     "id": "cue-08",
-    "start": 561.96,
-    "end": 603.84,
+    "start": 577.605,
+    "end": 637.634,
     "text": "SIRA SENDE",
     "section": "SIRA SENDE",
     "paragraphs": [

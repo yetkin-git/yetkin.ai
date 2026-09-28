@@ -6,7 +6,7 @@ export const ADMIN_SEN = {
     "Fiyat birimleri PriceCatalogEntry sicilinden okunur. Satış fiyatı kod sabiti değildir. Super Admin amountMinor değerini tamsayı olarak günceller.",
   auth: "Admin kataloğu oturum ister. Sahte fiyat basılmaz.",
   forbidden:
-    "Bu sığınak Super Admin kilidine bağlıdır. SUPER_ADMIN_USER_ID eşleşmezse katalog okunmaz.",
+    "Bu sığınak Super Admin kilidine bağlıdır. Doğrulanmış e-posta ve üretim kimliği eşleşmezse katalog okunmaz.",
   /** Katalog okunamadığında vatandaşa dürüst, gürültüsüz mesaj — geliştirici rozeti yok. */
   loadSoft:
     "Katalog şu an okunamadı. Bağlantı kurulunca PriceCatalogEntry satırları burada durur; uydurma fiyat basılmaz.",

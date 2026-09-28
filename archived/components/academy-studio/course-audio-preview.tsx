@@ -8,7 +8,7 @@ import {
   buildAcademyDialogueTimeline,
   buildAcademyTeleprompterCues,
 } from "@/lib/academy/dialogue-timeline";
-import { getOrCreateAcademyAudioGainBoost } from "@/lib/academy/audio-gain";
+import { getOrCreateAcademyAudioGainBoost } from "../../lib/academy/audio-gain";
 import { ACADEMY_GEMINI_TTS_SLOT } from "@/lib/academy/lesson-tts-slot";
 import { resolveAcademyLessonAudioUrl } from "@/lib/academy/lesson-playback";
 import { chunkAcademyWebSpeechText, prepareAcademyWebSpeechText } from "@/lib/academy/web-speech";

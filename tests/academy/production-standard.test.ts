@@ -11,10 +11,14 @@ import {
   ACADEMY_MATCH_WHISTLE_REGULATION_MIN,
   ACADEMY_MATCH_WHISTLE_RESERVE_MAX,
   ACADEMY_MATCH_WHISTLE_RESERVE_MIN,
+  academyMatchWhistlePartitionHolds,
   academyMatchWhistlePlan,
   assertAcademyMatchWhistleBudget,
+  assertAcademyProductionSeal,
   ACADEMY_LESSON_SATURATION_BEATS,
   ACADEMY_OPTIONAL_LEVEL_PACKAGES,
+  ACADEMY_PRODUCTION_MEDIA_LAYERS,
+  ACADEMY_QUALITY_GATES,
   ACADEMY_SEALED_MEDIA_LAYERS,
   ACADEMY_TTS_VOICE_GENDERS,
   academyLessonSaturationTotalMinutes,
@@ -54,10 +58,6 @@ import { ACADEMY_SEALED_AUDIO_DURATION_SEC } from "@/lib/academy/lesson-audio";
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
 import { CURRICULUM_DRAFTS_BY_SLUG, CURRICULUM_MODULES_BY_SLUG } from "@/lib/academy/curricula";
-import {
-  ACADEMY_TTS_LESSON_REQUEST_MAX,
-  ACADEMY_TTS_LESSON_REQUEST_MIN,
-} from "@/lib/academy/tts-breath-chunks";
 
 const ROOT = process.cwd();
 
@@ -113,7 +113,48 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
       "timed_cues",
       "diagrams",
       "cinematic_media",
+      "veo_video",
+      "lyria_music",
     ]);
+    expect([...ACADEMY_PRODUCTION_MEDIA_LAYERS]).toEqual([
+      "text",
+      "voice",
+      "video",
+      "visual",
+      "music",
+    ]);
+    expect([...ACADEMY_QUALITY_GATES]).toEqual([
+      "draft_script",
+      "pedagogy_review",
+      "final_layer_check",
+    ]);
+    expect(() =>
+      assertAcademyProductionSeal({
+        text: true,
+        voice: true,
+        video: true,
+        visual: true,
+        music: true,
+      }),
+    ).not.toThrow();
+    expect(() =>
+      assertAcademyProductionSeal({
+        text: true,
+        voice: true,
+        video: false,
+        visual: true,
+        music: true,
+      }),
+    ).toThrow(/Video \(Veo\)/u);
+    expect(() =>
+      assertAcademyProductionSeal({
+        text: true,
+        voice: true,
+        video: true,
+        visual: true,
+        music: false,
+      }),
+    ).toThrow(/Müzik \(Lyria\)/u);
     expect([...ACADEMY_OPTIONAL_LEVEL_PACKAGES]).toEqual(["Temel", "Orta", "İleri"]);
     expect([...ACADEMY_COURSE_LEVELS]).toEqual([...ACADEMY_OPTIONAL_LEVEL_PACKAGES]);
     expect([...ACADEMY_TTS_VOICE_GENDERS]).toEqual(["female", "male"]);
@@ -163,7 +204,9 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).toContain("Punchcard Rozetleri");
     expect(pedagogy).toContain("## B. GOOGLE AI STUDIO FABRİKASI VE ROL DAĞILIMI");
     expect(pedagogy).toContain("model-roles.ts");
-    expect(pedagogy).not.toContain("Gemini 3.8 Flash");
+    expect(pedagogy).toContain("Gemini 3.8 Flash TTS");
+    expect(pedagogy).toContain("5 medya katmanı");
+    expect(pedagogy).toContain("assertAcademyProductionSeal");
     expect(pedagogy).toContain("01_office_ai");
     expect(pedagogy).toContain("1 Eğitim Kodu = 1 Ses");
     expect(pedagogy).not.toContain("1 Maç = 1 Hakem");
@@ -279,9 +322,11 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(constitution).not.toContain("1 Maç = En az 6 yarı");
     expect(constitution).not.toContain("1 Yarı = En az 5 dakika");
     expect(constitution).toContain("Gemini 2.5 ve alt modeller yasaktır");
-    expect(constitution).toContain("Hedef mimari");
-    expect(constitution).toContain("dört katmanlı eğitim videosudur");
-    expect(constitution).toContain("karaoke rozeti ve canlı karttır");
+    expect(constitution).toContain("5 medya katmanı zorunluluğu");
+    expect(constitution).toContain("Gemini 3.8 Flash TTS");
+    expect(constitution).toContain("beş katmanın tamamı teyit edilmeden `--seal` basılamaz");
+    expect(constitution).not.toContain("dört katmanlı eğitim videosudur");
+    expect(constitution).not.toContain("eksikleri satışı tek başına kapatmaz");
     expect(constitution).toContain("ACADEMY_AI_LESSON_DURATION_MIN_MINUTES");
     expect(constitution).not.toContain("üst dakika veya üst ders tavanı yoktur");
     expect(constitution).toContain("kurs başına 100 istek");
@@ -329,17 +374,24 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(ACADEMY_VEO_PREMIUM_MODEL).toBe("veo-3.1-generate-preview");
     expect(isAcademyVeoPremiumBakeModel(ACADEMY_VEO_BAKE_MODEL)).toBe(false);
     expect(isAcademyVeoPremiumBakeModel(ACADEMY_VEO_PREMIUM_MODEL)).toBe(true);
-    expect(() => assertAcademyVeoBudgetBakeModel(ACADEMY_VEO_BAKE_MODEL)).not.toThrow();
+    expect(() => assertAcademyVeoBudgetBakeModel(ACADEMY_VEO_BAKE_MODEL)).toThrow(/PEDAGOJI §E\.4/u);
     expect(() => assertAcademyVeoBudgetBakeModel(ACADEMY_VEO_PREMIUM_MODEL)).toThrow(/PEDAGOJI §E\.4/u);
-    expect(() => assertAcademyVeoLessonBudget({ calls: 1, durationSec: 8 })).not.toThrow();
-    expect(() => assertAcademyVeoLessonBudget({ calls: 2, durationSec: 8 })).toThrow(/1 çağrı/u);
-    expect(() => assertAcademyVeoLessonBudget({ calls: 1, durationSec: 12 })).toThrow(/6–8/u);
+    expect(() => assertAcademyVeoLessonBudget({ calls: 0, durationSec: 8 })).not.toThrow();
+    expect(() => assertAcademyVeoLessonBudget({ calls: 1, durationSec: 8 })).toThrow(/0 çağrı/u);
+    expect(() => assertAcademyVeoLessonBudget({ calls: 0, durationSec: 12 })).toThrow(/6–8/u);
 
     const veoBake = readFileSync(join(ROOT, "scripts", "generate-academy-lesson-veo.ts"), "utf8");
-    expect(veoBake).toContain("assertAcademyVeoBudgetBakeModel");
+    expect(veoBake).toContain("assertAcademyVeoApiCancelled");
     expect(veoBake).toContain("reuse");
     expect(veoBake).toContain("--dry-run");
+    expect(veoBake).toContain("-warmup.mp4");
+    expect(veoBake).toContain("public/media/academy/micro");
+    expect(veoBake).not.toContain("generateVideos");
+    expect(veoBake).not.toContain("GoogleGenAI");
     expect(veoBake).not.toContain("veo-3.1-generate-preview");
+    expect(veoBake).not.toContain("veo-3.1-lite-generate-preview");
+    expect(pedagogy).toContain("Otomatik Veo 3.1 API video üretimi maliyet sızıntısı yarattığı için iptal edilmiştir.");
+    expect(constitution).toContain("Otomatik Veo 3.1 API video üretimi maliyet sızıntısı yarattığı için iptal edilmiştir.");
 
     const bakeElkitabi = readFileSync(join(ROOT, "docs", "ops", "akademi-bake-elkitabi.md"), "utf8");
     expect(bakeElkitabi).toContain("1 Maç = MAX 100 Düdük");
@@ -417,9 +469,14 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(regulationTop).toBeLessThanOrEqual(ACADEMY_MATCH_WHISTLE_REGULATION_MAX);
     expect(academyMatchWhistlePlan(regulationTop).inRegulationBand).toBe(true);
     expect(academyMatchWhistlePlan(regulationTop).withinCap).toBe(true);
+    expect(academyMatchWhistlePartitionHolds()).toBe(true);
     expect(ACADEMY_MATCH_WHISTLE_MAX - ACADEMY_MATCH_WHISTLE_REGULATION_MAX).toBe(
       ACADEMY_MATCH_WHISTLE_RESERVE_MAX,
     );
+    expect(academyMatchWhistlePlan(80).extensionReserve).toBe(ACADEMY_MATCH_WHISTLE_RESERVE_MAX);
+    expect(academyMatchWhistlePlan(70).reserveRemaining).toBe(30);
+    expect(academyMatchWhistlePlan(70).extensionReserve).toBe(ACADEMY_MATCH_WHISTLE_RESERVE_MAX);
+    expect(8 * ACADEMY_TTS_LESSON_REQUEST_MIN).toBe(ACADEMY_MATCH_WHISTLE_REGULATION_MAX);
     expect(() => assertAcademyMatchWhistleBudget(ACADEMY_MATCH_WHISTLE_MAX)).not.toThrow();
     expect(() => assertAcademyMatchWhistleBudget(ACADEMY_MATCH_WHISTLE_MAX + 1)).toThrow(
       /1 Maç = MAX 100 Düdük/u,

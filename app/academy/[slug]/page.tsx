@@ -22,7 +22,7 @@ import {
 } from "@/lib/academy/load";
 import { academyStorefrontAccess, hasCommercialAcademyEnrolment } from "@/lib/academy/enrolment";
 import { resolveAcademyAntreHeroCta, academyCheckoutHref, ACADEMY_CHECKOUT_HASH } from "@/lib/academy/storefront-cta";
-import { hasAcademyAdminBypass, hasAcademyPlayerAccess } from "@/lib/academy/access";
+import { academyActorFromSession, hasAcademyAdminBypass, hasAcademyPlayerAccess } from "@/lib/academy/access";
 import { resolveAcademyContinueBoard } from "@/lib/academy/continue-board";
 import { LinkButton } from "@/components/ui/link-button";
 import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
@@ -67,8 +67,15 @@ import {
   faqPageJsonLd,
   jsonLdDocument,
   OFFICE_AI_COURSE_TEACHES,
+  OFFICE_AI_ILERI_COURSE_TEACHES,
 } from "@/lib/copy/json-ld";
-import { DEFAULT_OG_IMAGE, OFFICE_AI_SEO, pageMetadata } from "@/lib/copy/seo";
+import {
+  academyCourseSeoOverride,
+  DEFAULT_OG_IMAGE,
+  OFFICE_AI_ILERI_SEO,
+  OFFICE_AI_SEO,
+  pageMetadata,
+} from "@/lib/copy/seo";
 import { OFFICE_AI_COURSE_FAQ, OFFICE_AI_FAQ_HEADING } from "@/lib/copy/sem-keywords";
 import type { Route } from "next";
 
@@ -97,13 +104,13 @@ export async function generateMetadata({
   }
   // SEO Tedavi (P0) — amiral SKU arama niyeti diline çevrilir (64 kr final title).
   // Sicil/sertifika başlığı (`course.title` SSOT) değişmez; yalnız meta dalı override edilir.
-  const isOfficeAiSeo = course.slug === OFFICE_AI_SEO.slug;
+  const seo = academyCourseSeoOverride(course.slug);
   return pageMetadata({
-    title: isOfficeAiSeo ? OFFICE_AI_SEO.title : `${course.title} · Akademi`,
-    description: isOfficeAiSeo ? OFFICE_AI_SEO.description : course.summary,
+    title: seo?.title ?? `${course.title} · Akademi`,
+    description: seo?.description ?? course.summary,
     path: `/academy/${course.slug}`,
     image: academyCourseCoverPath(course.slug) ?? DEFAULT_OG_IMAGE,
-    keywords: isOfficeAiSeo ? OFFICE_AI_SEO.keywords : undefined,
+    keywords: seo?.keywords,
   });
 }
 
@@ -129,19 +136,25 @@ export default async function AcademyCoursePage({
   }
   const [purchase, artifact, holderName, progression] = await Promise.all([
     session
-      ? loadPurchaseForUserCourse(session.id, board.course.id, session.email)
+      ? loadPurchaseForUserCourse(session.id, board.course.id, session.email, session.emailConfirmedAt)
       : Promise.resolve(null),
     session
-      ? loadArtifactPurchaseForUserCourse(session.id, board.course.id, session.email)
+      ? loadArtifactPurchaseForUserCourse(
+          session.id,
+          board.course.id,
+          session.email,
+          session.emailConfirmedAt,
+        )
       : Promise.resolve(null),
     session ? loadAcademyHolderName(session.id) : Promise.resolve("Aday"),
     loadAcademyProgressionForCourse({
       userId: session?.id ?? null,
       email: session?.email,
+      emailConfirmedAt: session?.emailConfirmedAt,
       currentSlug: board.course.slug,
     }),
   ]);
-  const actor = session ? { userId: session.id, email: session.email } : null;
+  const actor = session ? academyActorFromSession(session) : null;
   const adminPlayer = actor != null && hasAcademyAdminBypass(actor);
   const labPlayer =
     process.env.NODE_ENV !== "production" &&
@@ -152,13 +165,13 @@ export default async function AcademyCoursePage({
   const access = hasAccess ? "enrolled" : academyStorefrontAccess(artifact);
   const [examGate, wallet, player] = await Promise.all([
     session && enrolled
-      ? loadExamGateForUserCourse(session.id, board.course.id, session.email)
+      ? loadExamGateForUserCourse(session.id, board.course.id, session.email, session.emailConfirmedAt)
       : Promise.resolve(null),
     session && !hasAccess
       ? loadAcademyWalletBoard(session.id)
       : Promise.resolve(null),
     session && hasAccess
-      ? loadCurriculumPlayerForUser(session.id, board.course.id, session.email)
+      ? loadCurriculumPlayerForUser(session.id, board.course.id, session.email, session.emailConfirmedAt)
       : Promise.resolve(null),
   ]);
   const preferExamGate = gate === "exam" && Boolean(examGate && !examGate.certificate);
@@ -177,6 +190,7 @@ export default async function AcademyCoursePage({
     : null;
   const level = academyCourseLevelBySlug(board.course.slug);
   const isOff201 = board.course.slug === ACADEMY_OFF201_STOREFRONT_SLUG;
+  const seo = academyCourseSeoOverride(board.course.slug);
   const completedKeys = examGate?.certificate
     ? syllabus.lessons.map((lesson) => lesson.key)
     : (player?.lessons.filter((lesson) => lesson.completed).map((lesson) => lesson.key) ?? []);
@@ -217,16 +231,17 @@ export default async function AcademyCoursePage({
           courseJsonLd({
             slug: board.course.slug,
             title: board.course.title,
-            description:
-              board.course.slug === OFFICE_AI_SEO.slug
-                ? OFFICE_AI_SEO.description
-                : board.course.summary,
+            description: seo?.description ?? board.course.summary,
             imagePath: academyCourseCoverPath(board.course.slug) ?? DEFAULT_OG_IMAGE,
             datePublished: board.course.createdAt,
             priceMinor: board.course.priceMinor,
             priceCurrency: board.course.currencyCode,
             teaches:
-              board.course.slug === OFFICE_AI_SEO.slug ? [...OFFICE_AI_COURSE_TEACHES] : undefined,
+              board.course.slug === OFFICE_AI_SEO.slug
+                ? [...OFFICE_AI_COURSE_TEACHES]
+                : board.course.slug === OFFICE_AI_ILERI_SEO.slug
+                  ? [...OFFICE_AI_ILERI_COURSE_TEACHES]
+                  : undefined,
             lessons: syllabus.lessons.map((lesson) => ({
               name: lesson.title,
               durationMin: lesson.durationMin,
@@ -234,12 +249,14 @@ export default async function AcademyCoursePage({
           }),
           // SEO Tedavi (P0) — görünür SSS ile AYNI sabit; JSON-LD/HTML %100 eşleşir.
           ...(board.course.slug === OFFICE_AI_SEO.slug
+            ? [faqPageJsonLd(OFFICE_AI_COURSE_FAQ)]
+            : []),
+          ...(seo
             ? [
-                faqPageJsonLd(OFFICE_AI_COURSE_FAQ),
                 educationalOccupationalProgramJsonLd({
                   slug: board.course.slug,
                   name: board.course.title,
-                  description: OFFICE_AI_SEO.description,
+                  description: seo.description,
                   imagePath: academyCourseCoverPath(board.course.slug) ?? DEFAULT_OG_IMAGE,
                   durationMin: syllabus.durationMin,
                   priceMinor: board.course.priceMinor,
@@ -258,7 +275,7 @@ export default async function AcademyCoursePage({
       <BreadcrumbPageLabel href={`/academy/${board.course.slug}`} label={board.course.title} />
       <PageHeader
         eyebrow={copy.eyebrow}
-        title={board.course.slug === OFFICE_AI_SEO.slug ? OFFICE_AI_SEO.h1 : board.course.title}
+        title={seo?.h1 ?? board.course.title}
         description={board.course.summary}
         actions={
           <CourseHeroActions

@@ -33,6 +33,17 @@ describe("ders sesi imza kapısı", () => {
     expect(off201).toContain("g=");
     const off201Url = new URL(off201!, "https://yetkin.ai");
     expect(await decideAcademyAudioPublicRequest(off201Url, Date.now(), ENV)).toBe("allow");
+
+    for (const lesson of [2, 3, 4, 5, 6]) {
+      const src = await withAcademyAudioGrant(
+        `/media/academy/audio/01_office_ai_ileri/01_office_ai_ileri-${lesson}.mp3`,
+        Date.now(),
+        ENV,
+      );
+      expect(src).toContain("g=");
+      const url = new URL(src!, "https://yetkin.ai");
+      expect(await decideAcademyAudioPublicRequest(url, Date.now(), ENV)).toBe("allow");
+    }
   });
 
   it("süresi dolmuş imza geçmez", async () => {

@@ -35,6 +35,7 @@ import {
   resolveSettledAcademyPurchase,
   type AcademyActor,
 } from "@/lib/academy/access";
+import { hasCommercialAcademyEnrolment } from "@/lib/academy/enrolment";
 import { isCitizenTestAccountEmail } from "@/lib/kernel/auth/super-admin";
 import { resolveAcademyCourseFromSeed } from "@/lib/academy/published-catalog";
 import type {
@@ -92,8 +93,30 @@ function toCurriculumLessonView(
   };
 }
 
-function actorOf(command: { userId: string; email?: string | null }): AcademyActor {
-  return { userId: command.userId, email: command.email };
+function actorOf(command: {
+  userId: string;
+  email?: string | null;
+  emailConfirmedAt?: string | null;
+}): AcademyActor {
+  return {
+    userId: command.userId,
+    email: command.email,
+    emailConfirmedAt: command.emailConfirmedAt,
+  };
+}
+
+/**
+ * Oynatıcı kataloğu — Super Admin (`isSuperAdminActor`) ve ticari kayıt
+ * tüm dersleri açar. Sıra kilidi yalnız kayıtsız oturumda kalır.
+ */
+export function academyPlayerCatalogFullyOpen(
+  actor: AcademyActor,
+  purchase: AcademyPurchaseRecord | null | undefined,
+): boolean {
+  if (hasUnlimitedAcademyAccess(actor) || hasAcademyAdminBypass(actor)) {
+    return true;
+  }
+  return hasCommercialAcademyEnrolment(purchase);
 }
 
 /** Prisma yokken Super Admin oynatıcı gövdesi — sıra kilidi açık, ilerleme yok. */
@@ -219,11 +242,10 @@ async function requireSettledPurchase(
 
 export async function loadAcademyCurriculumPlayer(
   ports: AcademyCurriculumPorts,
-  command: { courseId: string; userId: string; email?: string | null },
+  command: { courseId: string; userId: string; email?: string | null; emailConfirmedAt?: string | null },
 ): Promise<AcademyCurriculumPlayerView> {
   const actor = actorOf(command);
   const unlimited = hasUnlimitedAcademyAccess(actor);
-  const adminView = hasAcademyAdminBypass(actor);
   const course = unlimited
     ? await requireWritableCourse(ports.academy, command.courseId)
     : await requireCourse(ports.academy, command.courseId);
@@ -237,6 +259,7 @@ export async function loadAcademyCurriculumPlayer(
     course.id,
     unlimited,
   );
+  const catalogOpen = academyPlayerCatalogFullyOpen(actor, purchase);
   const completions = (
     await ports.academy.listLessonCompletionsByPurchase(purchase.id)
   ).map(attachAcademyProofOfWorkHash);
@@ -279,7 +302,7 @@ export async function loadAcademyCurriculumPlayer(
       const completed = done.has(lesson.key);
       return toCurriculumLessonView(lesson, {
         completed,
-        open: unlimited || adminView || lesson.key === nextKey || completed,
+        open: catalogOpen || lesson.key === nextKey || completed,
         proofOfWorkHash: completed
           ? (row && "proofOfWorkHash" in row ? row.proofOfWorkHash : null) ??
             canonicalAcademyProofOfWorkHash(lesson.key, sha256Hex)
@@ -343,6 +366,7 @@ export async function completeAcademyLesson(
     userId: string;
     lessonKey: string;
     email?: string | null;
+    emailConfirmedAt?: string | null;
     now?: Date;
     proof?: AcademyProofSubmission;
   },
@@ -355,6 +379,7 @@ export async function completeAcademyLesson(
     throw new ForbiddenError("Ders müfredatta yok.");
   }
   const purchase = await requireSettledPurchase(ports.academy, actor, course.id, true);
+  const catalogOpen = academyPlayerCatalogFullyOpen(actor, purchase);
   const existingRaw = await ports.academy.getLessonCompletion(purchase.id, lesson.key);
   const existing = existingRaw ? attachAcademyProofOfWorkHash(existingRaw) : null;
   if (existing?.proofOfWorkHash) {
@@ -370,7 +395,7 @@ export async function completeAcademyLesson(
       course.slug,
       completions.map((row) => row.lessonKey),
     );
-    if (!unlimited && !hasAcademyAdminBypass(actor) && nextKey !== lesson.key) {
+    if (!catalogOpen && nextKey !== lesson.key) {
       throw new ForbiddenError("Sıradaki ders açık. Atlanan ders tamamlanmaz.");
     }
   }
@@ -411,7 +436,13 @@ export async function completeAcademyLesson(
 
 export async function completeAcademyCurriculum(
   ports: AcademyCurriculumPorts,
-  command: { courseId: string; userId: string; email?: string | null; now?: Date },
+  command: {
+    courseId: string;
+    userId: string;
+    email?: string | null;
+    emailConfirmedAt?: string | null;
+    now?: Date;
+  },
 ): Promise<AcademyCurriculumPlayerView> {
   let player = await loadAcademyCurriculumPlayer(ports, command);
   while (player.nextLessonKey) {
@@ -423,6 +454,7 @@ export async function completeAcademyCurriculum(
       courseId: command.courseId,
       userId: command.userId,
       email: command.email,
+      emailConfirmedAt: command.emailConfirmedAt,
       lessonKey: player.nextLessonKey,
       now: command.now,
       proof,
@@ -434,7 +466,13 @@ export async function completeAcademyCurriculum(
 
 export async function assertAcademyCurriculumComplete(
   ports: AcademyCurriculumPorts,
-  command: { courseId: string; userId: string; courseSlug: string; email?: string | null },
+  command: {
+    courseId: string;
+    userId: string;
+    courseSlug: string;
+    email?: string | null;
+    emailConfirmedAt?: string | null;
+  },
 ): Promise<void> {
   const actor = actorOf(command);
   if (hasUnlimitedAcademyAccess(actor)) {

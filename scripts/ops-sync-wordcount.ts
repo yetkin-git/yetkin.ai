@@ -21,7 +21,6 @@ const OFFICE_AI_SECTION_FILES: Readonly<Record<string, string>> = {
   "01_office_ai-2": "lib/academy/curricula/office_ai/section_2.ts",
   "01_office_ai-3": "lib/academy/curricula/office_ai/section_3.ts",
   "01_office_ai-5": "lib/academy/curricula/office_ai/section_5.ts",
-  "01_office_ai-4": "lib/academy/curricula/office_ai/section_4.ts",
   "01_office_ai-g1": "lib/academy/curricula/office_ai/section_g1.ts",
   "01_office_ai-w1": "lib/academy/curricula/office_ai/section_w1.ts",
   "01_office_ai-6": "lib/academy/curricula/office_ai/section_6.ts",

@@ -37,7 +37,7 @@ describe("01_office_ai ölçme sızıntısı — compact makale ve mühür havuz
     expect(blob).not.toMatch(/sınav barajı kaçtır/iu);
     expect(blob).not.toMatch(/sınav köprüsü ne zaman açılır/iu);
     expect(blob).not.toMatch(/sertifika ne zaman hak edilir/iu);
-    expect(OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_4")?.prompt).toMatch(/Üç Kapı/u);
+    expect(OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_4")?.prompt).toMatch(/üç adım/u);
     expect(OFFICE_AI_EXAM_QUESTIONS.find((row) => row.id === "q_off_4")?.choices[1]).toMatch(
       /yerleşik panel/iu,
     );

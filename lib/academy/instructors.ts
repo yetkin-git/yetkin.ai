@@ -8,6 +8,7 @@
  */
 
 import { YETKIN_BRAND } from "@/lib/copy/brand";
+import { VOICE_TTS_MODEL_ID } from "@/lib/kernel/ai/model-roles";
 import {
   academyCourseTitleBySlug,
   type AcademyCourseTitleSlug,
@@ -47,7 +48,7 @@ export type AcademyInstructorTtsVoice = (typeof ACADEMY_INSTRUCTOR_TTS_VOICES)[n
 
 export type AcademyVoiceFingerprint = {
   provider: "google-gemini";
-  model: "gemini-3.1-flash-tts-preview";
+  model: typeof VOICE_TTS_MODEL_ID;
   providerVoiceId: AcademyTtsVoice;
   modelRevision: "preview";
 };
@@ -65,7 +66,7 @@ export type AcademyCastBinding = {
 function academyVoiceFingerprint(voice: AcademyTtsVoice): AcademyVoiceFingerprint {
   return {
     provider: "google-gemini",
-    model: "gemini-3.1-flash-tts-preview",
+    model: VOICE_TTS_MODEL_ID,
     providerVoiceId: voice,
     modelRevision: "preview",
   };
@@ -162,9 +163,8 @@ export function isAcademyDigitalSkillsSlug(slug: string): boolean {
 }
 
 /**
- * Eğitmen temposu — doğal konuşmanın tam %7 yavaşı.
- * 0.70 bandı faz bulaştırır ve robotik duyulur; 0.93 perdeyi koruyan kısa SOLA ile akıcı kalır.
- * Bake her konuşma dilimine bu oranı basar.
+ * Ölçülen doğal tempo hedefi — doğal konuşmanın yaklaşık %7 sakinı.
+ * Bu sayı bir DSP katsayısı değildir. Fırın temposu yönetmen notuyla istenir.
  */
 export const ACADEMY_INSTRUCTOR_SPEECH_RATE = 0.93 as const;
 

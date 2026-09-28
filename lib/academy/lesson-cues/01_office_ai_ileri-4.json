@@ -2,7 +2,7 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 147.815,
+    "end": 144.446,
     "text": "SAYFA KONTROLÜ",
     "section": "Açılış",
     "paragraphs": [
@@ -12,8 +12,8 @@
   },
   {
     "id": "cue-02",
-    "start": 148.065,
-    "end": 274.798,
+    "start": 144.696,
+    "end": 271.672,
     "text": "ÜÇ ADIM",
     "section": "Açılış",
     "paragraphs": [
@@ -23,8 +23,8 @@
   },
   {
     "id": "cue-03",
-    "start": 275.048,
-    "end": 310.656,
+    "start": 271.922,
+    "end": 309.66,
     "text": "UZUN BELGE",
     "section": "Açılış",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 310.906,
-    "end": 431.129,
+    "start": 309.91,
+    "end": 427.221,
     "text": "KİMLİĞİ ÇIKAR",
     "section": "VERİYİ VERMEDEN ÖNCE",
     "paragraphs": [
@@ -43,8 +43,8 @@
   },
   {
     "id": "cue-05",
-    "start": 431.379,
-    "end": 528.836,
+    "start": 427.471,
+    "end": 514.725,
     "text": "SAYFAYI YAZ",
     "section": "DÖRT PARÇA",
     "paragraphs": [
@@ -53,8 +53,8 @@
   },
   {
     "id": "cue-06",
-    "start": 529.086,
-    "end": 645.394,
+    "start": 514.975,
+    "end": 634.271,
     "text": "ATLANAN MADDE",
     "section": "YANLIŞ VE DOĞRU",
     "paragraphs": [
@@ -63,8 +63,8 @@
   },
   {
     "id": "cue-07",
-    "start": 645.644,
-    "end": 698.155,
+    "start": 634.521,
+    "end": 684.83,
     "text": "SAYFAYI DENETLE",
     "section": "SAYFAYI DENETLE",
     "paragraphs": [
@@ -73,8 +73,8 @@
   },
   {
     "id": "cue-08",
-    "start": 698.405,
-    "end": 763.174,
+    "start": 685.08,
+    "end": 751.895,
     "text": "KENDİ BELGEN",
     "section": "KENDİ BELGEN",
     "paragraphs": [

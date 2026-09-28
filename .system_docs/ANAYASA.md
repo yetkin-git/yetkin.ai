@@ -9,7 +9,7 @@ Bu belge iki katmandan oluşur:
 | Alan | Değer |
 |------|--------|
 | Tarih | 16 Ağustos 2026 |
-| Son Reform | **27 Eylül 2026:** B3’e PR ve önizleme yayın kuralı eklendi: önizleme serbesttir; mühürsüz satış/merge ve canlı yayın yasaktır. B4 hedef mimariyi dört katman olarak ayırır; satışta yeterli yüzey karaoke ve karttır. Süre ve sayısal sınırın tek evi koddur. A1–A5 çizgisi gevşetilmedi. |
+| Son Reform | **28 Eylül 2026:** B4 yayın hedefini beş medya katmanına kilitler. Metin, Ses, Video, Görsel ve Müzik katmanlarından biri eksikken fırın açılmaz ve `--seal` basılmaz. Üç aşamalı kontrol kapısı son kontrolde beş katmanı teyit eder. Süre ve sayısal sınırın tek evi koddur. A1–A5 çizgisi gevşetilmedi. |
 | Kamu markası / domain | `yetkin.ai` |
 | Kalıcı belgeler | `/.system_docs` |
 | Ops | `.system_docs/OPS_RUNBOOK.md` (db / paytr / inngest / dron) |
@@ -88,10 +88,19 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 ## B4. Müfredat ve Yayın Formatı
 
 * **1 Eğitim Kodu = 1 Ses:** Bir kurs kodu tek bir `courseMasterVoice` stringi taşır. Ders bazlı ses haritası yoktur. OFF-101 (`01_office_ai`) mührü Callirrhoe (Gözde) dir. OFF-201 (`01_office_ai_ileri`) mührü Kore (Aylin) dir (`ACADEMY_OFF201_COURSE_MASTER_VOICE`). OFF-201 eğitmeni Gözde olamaz.
-* **Ses modeli:** Seslendirme yalnız Gemini 3.1 Flash TTS (`gemini-3.1-flash-tts-preview`) dir. Gemini 2.5 ve alt modeller yasaktır (`VOICE_TTS_FALLBACK_TO_2_5` kapalı). Kota yoksa işlem durur. Kota açılınca aynı model ve aynı kurs sesi kullanılır.
+* **Ses modeli:** Çağrı kimliği yalnız `lib/kernel/ai/model-roles.ts` içindedir. Canlı gümrük `VOICE_TTS` okur. Fırın `academyBakeVoiceModelId()` Gemini 3.8 Flash TTS okur. Gemini 2.5 ve alt modeller yasaktır (`VOICE_TTS_FALLBACK_TO_2_5` kapalı). Kota yoksa işlem durur. Kota açılınca aynı rol ve aynı kurs sesi kullanılır. Konuşma parçası `atempo=0.93` (`ACADEMY_BAKE_ATEMPO`) ve EBU R128 `loudnorm` görür. Tempo 1.0 üzerine yükseltilmez. Ölçülen doğal hedef `ACADEMY_INSTRUCTOR_SPEECH_RATE` (`0.93`) dir.
 * **Süre ve sayısal sınır:** Tabanlar `lib/academy/production-standard.ts` içindeki `ACADEMY_AI_LESSON_DURATION_MIN_MINUTES` ve `ACADEMY_AI_LESSON_COUNT_MIN` sabitlerindedir. TTS bütçe tavanı aynı dosyadaki `ACADEMY_MATCH_WHISTLE_MAX` (kurs başına 100 istek) ve `lib/academy/tts-breath-chunks.ts` içindeki ders bandı 10–12 istektir. Üst dakika dayatması yoktur: metin kırpılmaz, tempo yükseltilmez. İstek bandına sığmayan metin yeniden paketlenir; bütçe tavanı konunun hakkını kesmek için gerekçe değildir.
-* **Hedef mimari:** Yayın hedefi dört katmanlı eğitim videosudur: Gemini 3.1 TTS ses, Lyria 3.5 ducking müzik, Nano Banana 2 / Veo 3.1 Lite reji, cue ve karaoke rozeti. Bu dörtlü olması gereken mimaridir. İzlemede canlı üretici çağrısı yoktur.
-* **Bugünkü disk:** Ürün satışı için yeterli yüzey mühürlü TTS, karaoke rozeti ve canlı karttır. Yatak ve ısınma klibi mühürlenince eklenir; eksikleri satışı tek başına kapatmaz. Satışı kapatan eşik ses mührüdür. Makale katmanı, ses yokken dürüst boşluktur; satış yüzeyi değildir.
+* **5 medya katmanı zorunluluğu:** Üretim sırası sabittir. Hiçbir eğitim videosu bu katmanlardan biri eksikken fırınlanamaz ve mühürlenemez.
+  1. **Metin** — vatandaş dili, tek iş tek cümle.
+  2. **Ses** — Gemini 3.8 Flash TTS (`academyBakeVoiceModelId()`). Konuşma parçası `atempo=0.93`. Seviye EBU R128 `loudnorm`. Kimlik dizesi `lib/kernel/ai/model-roles.ts` içindedir; bu madde o dizeyi yeniden yazmaz. Canlı gümrük `VOICE_TTS` ayrı kalır.
+  3. **Video** — Yerel ısınma kaseti, ilk 6–8 sn. Otomatik Veo 3.1 API video üretimi maliyet sızıntısı yarattığı için iptal edilmiştir. Tüm ısınma videoları Gemini yönergesiyle arayüzden manuel üretilir, ilgili slug adıyla `public/media/academy/micro/` dizinine yerleştirilir ve yerel olarak kullanılır. Dosya adı `-warmup.mp4` ile biter. Canlı `VIDEO_GEN` mühürlü-ölüdür.
+  4. **Görsel** — Nano Banana 2. 4K canlı uygulama kartları.
+  5. **Müzik** — Lyria 3.5. Vokalsiz fon müziği yatağı, -22 dB ducking.
+* **3 aşamalı kontrol kapısı:**
+  1. **Taslak metin** — senaryo ve chunking.
+  2. **Gözden geçirme** — pedagoji, jargon ve aforizma taraması.
+  3. **Son kontrol** — beş katmanın tamamı teyit edilmeden `--seal` basılamaz. Video (Veo) ve Müzik (Lyria) bu kapının parçasıdır. Kapı `assertAcademyProductionSeal` içindedir.
+* Cue ve karaoke rozeti konuşmayla akar; beş katmanın yerine geçmez. İzlemede canlı üretici çağrısı yoktur. Makale katmanı, ses yokken dürüst boşluktur; satış yüzeyi değildir.
 * **Konunun Hakkı:** Ders makaleye veya okuma dökümanına indirgenmez. Süre bantları üretim standardıdır; müfredatın hakkını kesmek için gerekçe gösterilemez.
 * **Müfredat ilkesi `.system_docs/PEDAGOJI.md` içindedir.** Haftalık SKU envanteri ve kaset listesi Anayasa maddesi değildir; sayılar ve müfredat koddadır.
 * **Canlı yol** `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` SSOT’udur; yaşayan haftalık kesit `docs/ops/DURUM.md` içindedir. `docs/DURUM.md` yalnız oraya yönlendirir. İzlemede canlı üretici API (`VIDEO_GEN` / TTS) yoktur. Bake ayrıntısı `docs/ops/akademi-bake-elkitabi.md` içindedir.
@@ -99,9 +108,9 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 
 | Soru | SSOT |
 |------|------|
-| Yayın formatı (hedef dört katman; satışta karaoke + kart) | Bu madde (B4) ve `.system_docs/PEDAGOJI.md` |
+| Yayın formatı (5 medya katmanı; son kontrol olmadan `--seal` yok) | Bu madde (B4) ve `.system_docs/PEDAGOJI.md` |
 | 1 Eğitim Kodu = 1 Ses | `lib/academy/instructors.ts` (`courseMasterVoice`, `ACADEMY_OFF201_COURSE_MASTER_VOICE`) |
-| Ses modeli (yalnız Gemini 3.1 Flash TTS) | `lib/kernel/ai/model-roles.ts` (`VOICE_TTS`, `VOICE_TTS_FALLBACK_TO_2_5`) |
+| Ses modeli | `lib/kernel/ai/model-roles.ts` (`VOICE_TTS`, `academyBakeVoiceModelId`, `VOICE_TTS_FALLBACK_TO_2_5`) |
 | Süre, ders sayısı ve TTS istek tavanı | `lib/academy/production-standard.ts` |
 | Sınav barajı | `lib/academy/exam.ts` (`ACADEMY_EXAM_PASS_SCORE`) |
 | Canlı kaset / sınav yolu | `lib/academy/pilot-sku.ts`, `lib/academy/curricula/lesson-index.ts` |

@@ -181,6 +181,7 @@ describe("K6 kenar kararı", () => {
     const adminId = "11111111-1111-4111-8111-111111111111";
     const citizenId = "22222222-2222-4222-8222-222222222222";
     const adminEmail = "admin@yetkin.test";
+    const confirmed = "2026-01-01T00:00:00.000Z";
     try {
       process.env.SUPER_ADMIN_USER_ID = adminId;
       process.env.CANONICAL_SUPER_ADMIN_EMAIL = adminEmail;
@@ -207,6 +208,7 @@ describe("K6 kenar kararı", () => {
           method: "PATCH",
           sessionHint: true,
           sessionUserId: adminId,
+          sessionEmailConfirmedAt: confirmed,
           map: MAP,
         }).kind,
       ).toBe("next");
@@ -226,6 +228,7 @@ describe("K6 kenar kararı", () => {
           sessionHint: true,
           sessionUserId: citizenId,
           sessionEmail: adminEmail,
+          sessionEmailConfirmedAt: confirmed,
           map: MAP,
         }).kind,
       ).toBe("next");

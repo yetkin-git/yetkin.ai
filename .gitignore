@@ -59,6 +59,7 @@ tmp/
 .cache/
 .eslintcache
 gitstatus.txt
+supabase/.temp/
 
 # Müze — ilham ve yasak listesi (OPS). Rail git geçmişine girmez.
 # Nested repo; `git add` ve ajan taraması dışındadır. Kod silinmez.

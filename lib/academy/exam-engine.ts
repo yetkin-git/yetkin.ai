@@ -54,6 +54,7 @@ export type SubmitAcademyExamCommand = {
   answers: AcademyExamAnswer[];
   now?: Date;
   email?: string | null;
+  emailConfirmedAt?: string | null;
   /** Fail-closed zorunlu oturum jetonu — boş ile havuz puanlama yok. */
   sessionToken: string;
   timedOut?: boolean;
@@ -174,7 +175,11 @@ export async function submitAcademyExam(
   if (!course) {
     throw new Error("Kurs bulunamadı.");
   }
-  const actor = { userId: command.userId, email: command.email };
+  const actor = {
+    userId: command.userId,
+    email: command.email,
+    emailConfirmedAt: command.emailConfirmedAt,
+  };
   const purchase = await resolveSettledAcademyPurchase(ports.academy, actor, course.id, {
     persistGrant: hasUnlimitedAcademyAccess(actor),
   });
@@ -186,6 +191,7 @@ export async function submitAcademyExam(
     userId: command.userId,
     courseSlug: course.slug,
     email: command.email,
+    emailConfirmedAt: command.emailConfirmedAt,
   });
 
   const exam = await requireExamForCourse(ports.academy, course.id);
@@ -276,6 +282,7 @@ async function resolveAcademyExamEligibility(
   userId: string,
   now?: Date,
   email?: string | null,
+  emailConfirmedAt?: string | null,
 ): Promise<{
   course: NonNullable<Awaited<ReturnType<AcademyStore["getCourse"]>>>;
   purchase: { id: string };
@@ -286,7 +293,7 @@ async function resolveAcademyExamEligibility(
   if (!course) {
     return null;
   }
-  const actor = { userId, email };
+  const actor = { userId, email, emailConfirmedAt };
   const unlimited = hasUnlimitedAcademyAccess(actor);
   const purchase = unlimited
     ? ((await resolveSettledAcademyPurchase(ports.academy, actor, course.id, { persistGrant: false })) ??
@@ -300,6 +307,7 @@ async function resolveAcademyExamEligibility(
     userId,
     courseSlug: course.slug,
     email,
+    emailConfirmedAt,
   });
   const exam = await requireExamForCourse(ports.academy, course.id).catch(() => null);
   if (!exam) {
@@ -316,8 +324,16 @@ export async function loadAcademyExamGateStatus(
   userId: string,
   now?: Date,
   email?: string | null,
+  emailConfirmedAt?: string | null,
 ): Promise<AcademyExamGateStatus | null> {
-  const eligible = await resolveAcademyExamEligibility(ports, courseId, userId, now, email);
+  const eligible = await resolveAcademyExamEligibility(
+    ports,
+    courseId,
+    userId,
+    now,
+    email,
+    emailConfirmedAt,
+  );
   if (!eligible) {
     return null;
   }
@@ -340,8 +356,16 @@ export async function loadAcademyExam(
   userId: string,
   now?: Date,
   email?: string | null,
+  emailConfirmedAt?: string | null,
 ): Promise<PublicAcademyExamView | null> {
-  const eligible = await resolveAcademyExamEligibility(ports, courseId, userId, now, email);
+  const eligible = await resolveAcademyExamEligibility(
+    ports,
+    courseId,
+    userId,
+    now,
+    email,
+    emailConfirmedAt,
+  );
   if (!eligible) {
     return null;
   }

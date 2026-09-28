@@ -3,14 +3,13 @@ import { academyCourseSealedDurationMinutes } from "@/lib/academy/lesson-audio";
 import { section1 } from "./section_1";
 import { section2 } from "./section_2";
 import { section3 } from "./section_3";
-import { section4 } from "./section_4";
 import { section5 } from "./section_5";
 import { section6 } from "./section_6";
 import { sectionG1 } from "./section_g1";
 import { sectionW1 } from "./section_w1";
 import { sectionK1 } from "./section_k1";
 
-export { section1, section2, section3, section4, section5, section6, sectionG1, sectionW1, sectionK1 };
+export { section1, section2, section3, section5, section6, sectionG1, sectionW1, sectionK1 };
 export { OFFICE_AI_PREP_STRIP, OFFICE_AI_PREP_STRIP_KEY } from "./prep";
 export {
   OFFICE_AI_PLANNED_LESSONS,
@@ -36,7 +35,7 @@ export type {
   OfficeAiPlannedLessonStatus,
 } from "./planned";
 
-/** 101 kanonu — 8 ana ders. Ders 0 (`prep.ts`) bu diziye girmez. `section4` arşivdir; sınav yoluna girmez. */
+/** 101 kanonu — 8 ana ders. Ders 0 (`prep.ts`) bu diziye girmez. Eski `section_4` arşivdedir (`archived/academy/01_office_ai-4/`); sınav yoluna girmez. */
 export const officeAiSections: Section[] = [
   section1,
   sectionK1,

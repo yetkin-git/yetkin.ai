@@ -5,7 +5,7 @@ import type { StudioEnginePorts } from "@/lib/studio/engine";
 import { bindLedgerStore } from "@/lib/kernel/ledger/prisma-store";
 import { createPrismaPriceCatalogStore } from "@/lib/kernel/pricing/prisma-catalog-store";
 import { bindAiTokenUsageStore } from "@/lib/kernel/ai/prisma-usage-store";
-import { bindPaidCommandStore } from "@/lib/kernel/ai/prisma-command-store";
+import { bindPaidCommandStore } from "../kernel/ai/prisma-command-store";
 import { getPrisma } from "@/lib/kernel/db";
 
 export function createPrismaStudioPorts(): StudioEnginePorts {

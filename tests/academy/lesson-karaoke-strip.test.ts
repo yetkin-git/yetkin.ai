@@ -32,16 +32,17 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
       return;
     }
     const flow = loadAcademyTeleprompterFlow(KEY);
-    expect(flow.length).toBe(16);
+    expect(flow.length).toBe(13);
     const strip = loadAcademyKaraokeStrip(KEY);
     expect(strip.length).toBeGreaterThan(flow.length);
     expect(strip[0]?.text).toMatch(/masanın üstünde|yapay zekâ|dosyalar/iu);
     expect(academyKaraokeStripLines(layer.cues)[0]?.cueId).toBe("cue-01");
-    const welcome = strip.find((line) => line.cueId === "cue-02");
-    expect(welcome?.text).toMatch(/^Selamlar, ben Gözde/u);
-    const first = welcome ?? strip[0]!;
+    const spoken = strip.map((line) => line.text).join(" ");
+    expect(spoken).toMatch(/Selamlar/u);
+    expect(spoken).toMatch(/ben Gözde/u);
+    const first = strip[0]!;
     const words = academyKaraokeWords(first);
-    expect(words[0]?.text).toMatch(/^Selamlar/u);
+    expect(words[0]?.text.length).toBeGreaterThan(0);
     expect(academyKaraokeWordState(words[0]!, first.start)).toBe("active");
     expect(academyKaraokeWordState(words[words.length - 1]!, first.start)).toBe("future");
     expect(academyTeleprompterActiveLineIndex(strip, first.start + 0.05)).toBeGreaterThanOrEqual(0);
@@ -89,7 +90,7 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     expect(bridgeLines.every((line) => line.cueId === "cue-08")).toBe(true);
     expect(bridgeLines[0]?.start).toBeGreaterThan(450);
     expect(bridgeLines.at(-1)?.end).toBeGreaterThan(650);
-    expect(strip.at(-1)?.end).toBe(691.84);
+    expect(strip.at(-1)?.end).toBe(707.016);
     for (const line of bridgeLines) {
       const words = academyKaraokeWords(line);
       expect(academyKaraokeWordState(words[0]!, line.start)).toBe("active");

@@ -14,11 +14,16 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { GoogleGenAI } from "@google/genai";
+import {
+  ACADEMY_BAKE_MODELS,
+  AI_MODEL_ROLE_DEFAULTS,
+  academyBakeVoiceModelId,
+} from "@/lib/kernel/ai/model-roles";
 
 const ROOT = process.cwd();
-const SCRIPT_MODEL = "gemini-3.8-flash";
-const IMAGE_MODEL = "gemini-3.1-flash-image";
-const IMAGE_FALLBACK_MODEL = "imagen-4.0-generate-001";
+const SCRIPT_MODEL = ACADEMY_BAKE_MODELS.LONG_HORIZON_TEXT;
+const IMAGE_MODEL = ACADEMY_BAKE_MODELS.IMAGE_NANO_BANANA_2;
+const IMAGE_FALLBACK_MODEL = AI_MODEL_ROLE_DEFAULTS.IMAGE_GEN;
 const MIN_GEMINI_KEY_CHARS = 8;
 const PUNCHCARDS = [
   "GİRİŞ KÖPRÜSÜ",
@@ -106,12 +111,16 @@ function parseArgs(argv: readonly string[]): {
   skipTts: boolean;
   skipImages: boolean;
   skipExam: boolean;
+  dryRun: boolean;
+  sampleOnly: boolean;
 } {
   return {
     confirm: argv.includes("--confirm-gemini-spend"),
     skipTts: argv.includes("--skip-tts"),
     skipImages: argv.includes("--skip-images"),
     skipExam: argv.includes("--skip-exam"),
+    dryRun: argv.includes("--dry-run"),
+    sampleOnly: argv.includes("--sample-only"),
   };
 }
 
@@ -636,6 +645,7 @@ function runTtsBake(): Promise<void> {
         "--no-db",
         `--slug=${COURSE_SLUG}`,
         `--key=${LESSON_KEY}`,
+        ...(process.argv.includes("--sample-only") ? ["--sample-only"] : []),
       ],
       { cwd: ROOT, stdio: "inherit", env: process.env },
     );
@@ -689,7 +699,7 @@ async function overlayCueTimesFromTimings(): Promise<void> {
     `${JSON.stringify(
       {
         lessonKey: LESSON_KEY,
-        model: "gemini-3.1-flash-tts-preview",
+        model: academyBakeVoiceModelId(),
         voice: "Callirrhoe",
         durationSec: timings.durationSec ?? null,
         cues,
@@ -703,6 +713,23 @@ async function overlayCueTimesFromTimings(): Promise<void> {
 
 async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
+  if (args.dryRun) {
+    process.stdout.write(
+      `dry-run: senaryo, görsel, sınav ve TTS kapalı. API yok. Ses=${academyBakeVoiceModelId()}.\n`,
+    );
+    return;
+  }
+  if (args.sampleOnly && !args.confirm) {
+    process.stdout.write(
+      `sample-only: --confirm-gemini-spend yok. Yalnız 1. parça planı. API yok. Ses=${academyBakeVoiceModelId()}.\n`,
+    );
+    return;
+  }
+  if (args.sampleOnly) {
+    process.stdout.write(`sample-only: senaryo ve görsel kapalı. TTS yalnız 1. parça. Ses=${academyBakeVoiceModelId()}.\n`);
+    await runTtsBake();
+    return;
+  }
   if (!args.confirm) {
     throw new Error("--confirm-gemini-spend gerekli (Google AI Studio harcaması).");
   }
@@ -782,7 +809,7 @@ async function main(): Promise<void> {
     process.stdout.write("TTS atlandı (--skip-tts). Metin mühürlü.\n");
     return;
   }
-  process.stdout.write("4/4 TTS gemini-3.1-flash-tts-preview Callirrhoe\n");
+  process.stdout.write(`4/4 TTS ${academyBakeVoiceModelId()} Callirrhoe\n`);
   await runTtsBake();
   await copySealedAudioAlias();
   await overlayCueTimesFromTimings();

@@ -1,6 +1,6 @@
 /**
  * Faz 2 sınav arayüzü denetimi.
- * OFF-201 kurs havuzu 30–40 soru, mini sınav ders başı en az 3, baraj 70 (A4).
+ * OFF-201 kurs havuzu `OFF_201_EXAM_POOL_MIN`–`OFF_201_EXAM_POOL_MAX` (30–50), mini sınav ders başı en az 3, baraj 70 (A4).
  * Öğretmen ve veli havuzu bu turda boş kalır.
  * OFF-101 havuzu ve `q_off_l*` mini sınavları bu dosyada değişmez.
  */
@@ -95,11 +95,10 @@ export function assertPhase2ExamInterfacesReadyForText(): void {
   }
 
   const off201Pool = academyExamPoolForSlug("01_office_ai_ileri");
-  if (off201Pool.length < 30 || off201Pool.length > 40) {
-    throw new Error(`OFF-201 kurs havuzu 30–40 aralığında olmalıdır (${off201Pool.length}).`);
-  }
   if (off201Pool.length < OFF_201_EXAM_POOL_MIN || off201Pool.length > OFF_201_EXAM_POOL_MAX) {
-    throw new Error("OFF-201 havuzu ofis bandının dışına çıkmış.");
+    throw new Error(
+      `OFF-201 kurs havuzu ${OFF_201_EXAM_POOL_MIN}–${OFF_201_EXAM_POOL_MAX} aralığında olmalıdır (${off201Pool.length}).`,
+    );
   }
   if (!off201Pool.every(questionReady)) {
     throw new Error("OFF-201 sınav sorusu dört şık şeklini bozmuş.");

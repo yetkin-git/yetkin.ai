@@ -36,15 +36,15 @@ Canlı site `origin/main` HEAD ile aynı commit’ten beslenir. Başka dal üret
 | Mühürlü kaset | **8/8** — `1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6` (`ACADEMY_MEDIA_SEALED_AUDIO`). `01_office_ai-4` arşiv dosyasıdır, toplama girmez. |
 | Karaoke | **8/8** yol dersi `article+karaoke`. Cue ve zaman JSON’u bu fırının MP3 sürelerine kilitli. |
 | Üç adım SSOT | 1) Şirket politikası → 2) Veri sınıfı → 3) Aktarım yolu. Onaylı araçta: yerleşik panel, yoksa dosya yükleme, ikisi de yoksa maskeli kısa özet. |
-| 1. ders | Üç Kapı + A1 hijyeni (`01_office_ai-1`, **691.84 sn**). Karaoke «grafik raporu» vaadi yok. |
-| 2. ders | KVKK / maskeleme (`01_office_ai-k1`, **702 sn**). Vatandaş dili. Yükleme alışkanlığından önce. Bant içi mühürlü kaset. 23 Eylül 2026 fırını. |
-| 3. ders | Rapor: tablodan yönetim özeti (`01_office_ai-2`, **520.08 sn**). |
-| 4. ders | PowerPoint Copilot + PowerPoint sunusu ataş, sıfır kodlama (`01_office_ai-3`, **537.96 sn**). **18 Eylül 2026 — 16:9 contain kamera, Copilot dock çapa ve zoom clamp kilitlendi.** |
-| 5. ders | Hata avı; sol dip toplam **59.450** ekran + karaoke + TTS (`01_office_ai-5`, **553 sn**). |
-| 6. ders | E-Posta Akışı: Gmail / Outlook ve aksiyon listesi (`01_office_ai-g1`, **603.84 sn**). Ritüel bu dersin ilk iki dakikasıdır; ses bu metindir. |
-| 7. ders | Word ataş / uzun doküman (`01_office_ai-w1`, **583.36 sn**). Birincil model 23 Eylül 2026. |
-| 8. ders | **Haftalık Sistem** capstone 10+10+10 ve kısa Word/hata kontrolü (`01_office_ai-6`, **506.04 sn**). Sınav kapısı bu dersten sonra açılır. Birincil model 23 Eylül 2026. |
-| Kurs süresi SSOT | `academyCourseSealedDurationSec("01_office_ai")` — timings toplamı **4698.12 sn ≈ 78.30 dk**; `estimatedTotalMinutes` buradan türetilir. Eski ritüel kaseti (493.8 sn) toplama girmez. |
+| 1. ders | Üç Kapı + A1 hijyeni (`01_office_ai-1`, **707.016 sn**). Karaoke «grafik raporu» vaadi yok. |
+| 2. ders | KVKK / maskeleme (`01_office_ai-k1`, **734.865 sn**). Vatandaş dili. Yükleme alışkanlığından önce. Bant içi mühürlü kaset. 28 Eylül 2026 fırını. |
+| 3. ders | Rapor: tablodan yönetim özeti (`01_office_ai-2`, **536.659 sn**). |
+| 4. ders | PowerPoint Copilot + PowerPoint sunusu ataş, sıfır kodlama (`01_office_ai-3`, **567.761 sn**). **18 Eylül 2026 — 16:9 contain kamera, Copilot dock çapa ve zoom clamp kilitlendi.** |
+| 5. ders | Hata avı; sol dip toplam **59.450** ekran + karaoke + TTS (`01_office_ai-5`, **589.22 sn**). |
+| 6. ders | E-Posta Akışı: Gmail / Outlook ve aksiyon listesi (`01_office_ai-g1`, **637.634 sn**). Ritüel bu dersin ilk iki dakikasıdır; ses bu metindir. |
+| 7. ders | Word ataş / uzun doküman (`01_office_ai-w1`, **580.984 sn**). Birincil model 28 Eylül 2026. |
+| 8. ders | **Haftalık Sistem** capstone 10+10+10 ve kısa Word/hata kontrolü (`01_office_ai-6`, **526.723 sn**). Sınav kapısı bu dersten sonra açılır. Birincil model 28 Eylül 2026. |
+| Kurs süresi SSOT | `academyCourseSealedDurationSec("01_office_ai")` — timings toplamı **4880.862 sn ≈ 81.35 dk**; `estimatedTotalMinutes` buradan türetilir. Eski ritüel kaseti (493.8 sn) toplama girmez. |
 | Köprüler | Çekirdek 8 kilitli. İleriki fırın: takvim/toplantı, Excel formül/grafik, PDF (`planned.ts` uydu, `lane: satellite`). |
 | Kardeş SKU `02`–`05` | Vitrinde **Çok Yakında / Hazırlanıyor.** Satın alma ve hayali oynatıcı yok. |
 

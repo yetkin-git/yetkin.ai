@@ -48,6 +48,7 @@ import {
   academyAiDeskHostFromLayout,
   academyAiDeskPinnedForLesson,
 } from "@/lib/academy/ai-desk";
+import { academyBedSpeechClockSec } from "@/lib/academy/lesson-bed-duck";
 import {
   ACADEMY_VEO_SCENE_DURATION_SEC,
   academyVisualStageActiveCard,
@@ -101,12 +102,14 @@ function LessonCinemaMediaCard({
   motion,
   fallbackSrc,
   fit,
+  currentTime,
 }: {
   card: AcademyLessonVisualCard;
   playing: boolean;
   motion: ReturnType<typeof academyVisualStageMotion>;
   fallbackSrc: string;
   fit?: "contain" | "cover";
+  currentTime: number;
 }) {
   const cinema = card.kind === "veo" ? resolveAcademyCinemaSource(card.src) : null;
   const bakedFile = cinema?.kind === "html5" || cinema?.kind === "hls";
@@ -119,26 +122,24 @@ function LessonCinemaMediaCard({
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) {
+    if (!video || card.kind !== "veo") {
       return;
     }
-    if (motion === "hold" || motion === "rest") {
-      video.pause();
-      const punch = Math.min(ACADEMY_VEO_SCENE_DURATION_SEC, Number.isFinite(video.duration) ? video.duration : ACADEMY_VEO_SCENE_DURATION_SEC);
-      if (Number.isFinite(punch) && punch > 0) {
-        video.currentTime = punch;
+    const span = ACADEMY_VEO_SCENE_DURATION_SEC;
+    const local = Math.min(span, Math.max(0, currentTime - card.startSec));
+    const hold = local >= span - 0.05 || motion === "hold" || motion === "rest";
+    if (video.readyState >= 1) {
+      const target = hold ? Math.max(0, span - 0.04) : local;
+      if (Math.abs(video.currentTime - target) > 0.3) {
+        video.currentTime = target;
       }
-      return;
     }
-    if (video.currentTime > ACADEMY_VEO_SCENE_DURATION_SEC) {
-      video.currentTime = 0;
-    }
-    if (playing) {
+    if (playing && !hold) {
       void video.play().catch(() => undefined);
       return;
     }
     video.pause();
-  }, [playing, motion, card.cueId, card.src]);
+  }, [playing, motion, currentTime, card.kind, card.startSec, card.cueId, card.src]);
 
   return (
     <div
@@ -149,13 +150,15 @@ function LessonCinemaMediaCard({
     >
       {bakedFile && cinema ? (
         <video
+          key={cinema.mp4}
           ref={videoRef}
           className="academy-player-eye-plate"
           data-motion={motion}
           data-fit={fit ?? "cover"}
+          data-academy-warmup-sec={String(ACADEMY_VEO_SCENE_DURATION_SEC)}
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
           poster={card.posterSrc}
           src={cinema.mp4}
         />
@@ -205,36 +208,38 @@ export function LessonCinemaEyeLayer({
     () => loadAcademyLessonPlaybackCues(stage.lessonKey),
     [stage.lessonKey],
   );
-  const card = academyVisualStageActiveCard(stage, currentTime);
-  const nextCard = academyVisualStageNextCard(stage, currentTime);
-  const motion = academyVisualStageMotion(stage, currentTime, playing);
+  const speechTime = academyBedSpeechClockSec(stage.lessonKey, currentTime);
+  const card = academyVisualStageActiveCard(stage, speechTime);
+  const nextCard = academyVisualStageNextCard(stage, speechTime);
+  const motion = academyVisualStageMotion(stage, speechTime, playing);
   const kind = academyVisualStageCinemaKind(stage);
-  const punchcard = academyActivePunchcard(punchcards, currentTime);
-  const clockCue = academyPlaybackCueAtTime(punchcards, currentTime);
+  const punchcard = academyActivePunchcard(punchcards, speechTime);
+  const clockCue = academyPlaybackCueAtTime(punchcards, speechTime);
   const clockCueId = clockCue?.id ?? card?.cueId;
+  const veoPunchEnded = card ? academyVisualVeoPunchHasEnded(card, currentTime) : true;
   const waiterBase = clockCueId
     ? academyVisualWaiterSlide(stage.lessonKey, clockCueId, {
-        includeVeoTable: card ? academyVisualVeoPunchHasEnded(card, currentTime) : true,
+        includeVeoTable: veoPunchEnded,
       })
     : null;
-  const waiterSlide = waiterBase ? academyOff201FrameSlide(waiterBase, currentTime) : null;
-  const excelFocusZoom = academyExcelFocusZoomActive(stage.lessonKey, currentTime);
+  const waiterSlide = waiterBase ? academyOff201FrameSlide(waiterBase, speechTime) : null;
+  const excelFocusZoom = academyExcelFocusZoomActive(stage.lessonKey, speechTime);
   const compare = clockCueId ? academyVisualCompareStage(stage.lessonKey, clockCueId) : null;
   const beat = compare?.beat ?? waiterSlide?.beat;
-  const veoPunchLive = Boolean(card && academyVisualVeoPunchHasEnded(card, currentTime));
+  const veoPunchLive = Boolean(card && veoPunchEnded);
   const visualMode = compare ? "split" : waiterSlide ? "live" : card?.kind === "veo" ? "veo" : "cinema";
   const stageTheme = academyVisualStageBackdropTheme(stage.lessonKey);
   const sealedFrameSrc = academyVisualCinematicFrameSrc(stage.lessonKey);
   const cinematicFrameSrc = sealedFrameSrc ?? stage.posterSrc;
   const excelBackdrop = stageTheme === "excel" && Boolean(sealedFrameSrc);
-  const activeIndex = academyTeleprompterActiveLineIndex(lines, currentTime);
+  const activeIndex = academyTeleprompterActiveLineIndex(lines, speechTime);
   const activeRef = useRef<HTMLParagraphElement | null>(null);
   const mediaActive = card != null;
-  const introActive = academyLessonIntroIsActive(stage.lessonKey, currentTime);
+  const introActive = academyLessonIntroIsActive(stage.lessonKey, speechTime);
   const speechEndSec = punchcards.at(-1)?.end ?? 0;
-  const outroActive = academyLessonOutroIsActive(stage.lessonKey, currentTime, speechEndSec);
+  const outroActive = academyLessonOutroIsActive(stage.lessonKey, speechTime, speechEndSec);
   const howtoSteps = academyHowtoSteps(stage.lessonKey);
-  const howtoActiveIndex = academyHowtoActiveIndexAtTime(stage.lessonKey, currentTime, punchcards);
+  const howtoActiveIndex = academyHowtoActiveIndexAtTime(stage.lessonKey, speechTime, punchcards);
   const dockPrompt = academyCompareDockPrompt(compare);
   const showHowto =
     howtoSteps != null &&
@@ -250,7 +255,7 @@ export function LessonCinemaEyeLayer({
     compare == null &&
     academyAiDeskGuideVisible(pasteHost);
   const pasteTab = academyAiDeskActiveTab({
-    currentTime,
+    currentTime: speechTime,
     cueStart: waiterSlide ? academyAiDeskCueStart(stage.lessonKey, waiterSlide.cueIndex) : undefined,
     pinned: academyAiDeskPinnedForLesson(stage.lessonKey),
   });
@@ -375,7 +380,7 @@ export function LessonCinemaEyeLayer({
           >
             <p className="academy-player-compare-label">{compare.beforeLabel}</p>
             <LessonWaiterWorkspace
-              slide={academyOff201FrameSlide(compare.before, currentTime, { allowSwap: false })}
+              slide={academyOff201FrameSlide(compare.before, speechTime, { allowSwap: false })}
               pane="before"
             />
           </div>
@@ -385,9 +390,9 @@ export function LessonCinemaEyeLayer({
           >
             <p className="academy-player-compare-label">{compare.afterLabel}</p>
             <LessonWaiterWorkspace
-              slide={academyOff201FrameSlide(compare.after, currentTime, { allowSwap: false })}
+              slide={academyOff201FrameSlide(compare.after, speechTime, { allowSwap: false })}
               pane="after"
-              currentTime={currentTime}
+              currentTime={speechTime}
             />
           </div>
         </div>
@@ -402,7 +407,7 @@ export function LessonCinemaEyeLayer({
             slide={waiterSlide}
             pane="live"
             focusZoom={excelFocusZoom}
-            currentTime={currentTime}
+            currentTime={speechTime}
           />
         </div>
       ) : card ? (
@@ -410,6 +415,7 @@ export function LessonCinemaEyeLayer({
           card={card}
           playing={playing}
           motion={motion}
+          currentTime={currentTime}
           fallbackSrc={cinematicFrameSrc}
           fit={stageTheme === "pptx" ? "contain" : "cover"}
         />
@@ -456,7 +462,7 @@ export function LessonCinemaEyeLayer({
         >
           <div className="academy-player-teleprompter-track">
             {lines.map((line, index) => {
-              const state = academyTeleprompterLineState(line, currentTime, activeIndex, index);
+              const state = academyTeleprompterLineState(line, speechTime, activeIndex, index);
               const active = state === "active";
               return (
                 <p
@@ -480,7 +486,7 @@ export function LessonCinemaEyeLayer({
         <div className="academy-player-karaoke-overlay" data-academy-karaoke-overlay="">
           <LessonKaraokeStrip
             cues={karaokeCues}
-            currentTime={currentTime}
+            currentTime={speechTime}
             playing={playing}
           />
         </div>

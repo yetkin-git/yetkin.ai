@@ -224,6 +224,7 @@ export async function proxy(request: NextRequest) {
     sessionHint: session.verified,
     sessionUserId: session.userId,
     sessionEmail: session.email,
+    sessionEmailConfirmedAt: session.emailConfirmedAt,
   });
   if (apiDecision.kind === "deny") {
     return seal(railEdgeFailResponse(request, apiDecision.error, apiDecision.status));

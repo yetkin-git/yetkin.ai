@@ -217,6 +217,51 @@ export const OFFICE_AI_SEO = {
   ],
 } as const;
 
+/**
+ * OFF-201 (`01_office_ai_ileri`) kamu meta override.
+ * Sicil başlığı `OFF_201_TITLE` durur; yalnız title / description / H1 / keywords bu daldadır.
+ * Title 55 kr tavanı `TITLE_TEMPLATE` ile birlikte SERP kesintisine sığar.
+ * Mühür iddiası OFF-101 ile aynıdır: 6 ders izleme + 10 soruluk baraj (70). Sunucu dosya kontrolü yoktur.
+ */
+export const OFFICE_AI_ILERI_SEO = {
+  slug: "01_office_ai_ileri",
+  path: "/academy/01_office_ai_ileri",
+  title: "İleri Ofis Yapay Zekâ: 6 Ders ve Sertifika",
+  description:
+    "Dört parçalı istem, toplantı notu, Excel formül ve grafik, uzun belge, e-posta taslağı ve üç dosyada sayı denetimi. Sertifika: 6 ders + 10 soru / 70. Sunucuda dosya kontrolü yok.",
+  h1: "İleri Ofis Yapay Zekâ: Toplantı Notundan Sayı Denetimine",
+  keywords: [
+    "İleri Ofis Yapay Zekâ",
+    "dört parçalı istem",
+    "toplantı notu",
+    "Excel formül ve grafik",
+    "uzun belge kontrolü",
+    "e-posta taslağı",
+    "sayı denetimi",
+    "ofiste yapay zeka ileri eğitim",
+  ],
+} as const;
+
+export type AcademyCourseSeo = {
+  slug: string;
+  path: string;
+  title: string;
+  description: string;
+  h1: string;
+  keywords: readonly string[];
+};
+
+/** Yayın antre meta override. Sicil başlığını ezmez. */
+export function academyCourseSeoOverride(slug: string): AcademyCourseSeo | null {
+  if (slug === OFFICE_AI_SEO.slug) {
+    return OFFICE_AI_SEO;
+  }
+  if (slug === OFFICE_AI_ILERI_SEO.slug) {
+    return OFFICE_AI_ILERI_SEO;
+  }
+  return null;
+}
+
 /** Kamuya açık antre ders özetleri — tam compact makale duvar arkasındadır. */
 export const OFFICE_AI_LESSON_TEASERS: Readonly<Record<string, string>> = {
   "01_office_ai-1":
@@ -237,8 +282,11 @@ export const OFFICE_AI_LESSON_TEASERS: Readonly<Record<string, string>> = {
     "Haftalık Cuma rutini: on dakika Excel, on dakika slayt, on dakika kutu; takvime yazılır.",
 };
 
-/** robots.txt Allow — yayın amiral antresi (prefix `/academy` yedeğine ek kesin yol). */
-export const ROBOTS_ALLOW_COURSE_PATHS = [OFFICE_AI_SEO.path] as const;
+/** robots.txt Allow — mühürlü yayın antreleri (prefix `/academy` yedeğine ek kesin yol). */
+export const ROBOTS_ALLOW_COURSE_PATHS = [
+  OFFICE_AI_SEO.path,
+  OFFICE_AI_ILERI_SEO.path,
+] as const;
 
 export type SitemapChangeFrequency =
   | "always"

@@ -73,6 +73,7 @@ export async function GET(
         courseId: course.id,
         userId: user.id,
         email: user.email,
+        emailConfirmedAt: user.emailConfirmedAt,
       });
       return jsonOk({ player: publicPlayer(player) });
     } catch (error) {
@@ -117,6 +118,7 @@ export async function POST(
       courseId: course.id,
       userId: user.id,
       email: user.email,
+      emailConfirmedAt: user.emailConfirmedAt,
     };
     return settleHttpIdempotency(
       {

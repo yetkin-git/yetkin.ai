@@ -185,6 +185,7 @@ describe("mühürlü PDF ders notu — boş müfredat", () => {
           courseId: course.id,
           userId: ADMIN,
           email: ADMIN_EMAIL,
+          emailConfirmedAt: "2026-01-01T00:00:00.000Z",
           lessonKey: "sample-course-1",
         }),
       ).rejects.toThrow(/Müfredat tohumu yok|Ders müfredatta yok|Eğitmen/);

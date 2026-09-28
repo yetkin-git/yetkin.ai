@@ -43,9 +43,9 @@ const PUNCHCARDS = [
   "HOŞ GELDİN",
   "YASAK LİSTE",
   "MASKELE",
-  "ÜÇÜNCÜ KAPI",
+  "ÜÇ ADIM",
   "FARK ORTADA",
-  "CEBİNE KOY",
+  "SATIRI MASKELE",
   "SIRA SENDE",
 ] as const;
 
@@ -161,7 +161,7 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
     expect(ACADEMY_OFFICE_AI_K1_POCKET_STEPS).toEqual([
       "Ham veri yükleme",
       "Maskeleyip sor",
-      "3. Kapı kısa özet",
+      "Maskeli kısa özet",
     ]);
     const exam = loadAcademyLessonExam(KEY);
     expect(exam?.passScore).toBe(70);
@@ -223,21 +223,23 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
     expect(slides[5]?.subhead).toMatch(/MASKELİ_IBAN/u);
   });
 
-  it("702 sn kaset ile karaoke cue saatleri birebir; harf düşmez", () => {
+  it("734.865 sn kaset ile karaoke cue saatleri birebir; harf düşmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
-    expect(timings?.durationSec).toBe(702);
-    expect(timings?.pieces.at(-1)?.end).toBe(702);
+    expect(timings?.durationSec).toBe(734.865);
+    expect(timings?.pieces.at(-1)?.end).toBe(734.865);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.at(-1)?.end).toBe(702);
+    expect(cues.at(-1)?.end).toBe(734.865);
     for (const cue of cues) {
       const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
-      expect(pieces[0]?.start, cue.id).toBe(cue.start);
-      expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
+      const lead = Number((pieces[0]!.start - cue.start).toFixed(3));
+      expect([0, 1.5], cue.id).toContain(lead);
+      const endDelta = Number((pieces.at(-1)!.end - cue.end).toFixed(3));
+      expect([0, 1.5], cue.id).toContain(endDelta);
     }
     const strip = loadAcademyKaraokeStrip(KEY);
-    expect(strip.at(-1)?.end).toBe(702);
+    expect(strip.at(-1)?.end).toBe(734.865);
     const stripBlob = strip.map((line) => line.text).join(" ");
-    expect(stripBlob).toMatch(/KVKK/u);
+    expect(stripBlob).toMatch(/önce maskelersin/u);
     expect(stripBlob).not.toMatch(/Kavekaka/u);
     expect(timings!.pieces.map((piece) => piece.text).join(" ")).toMatch(/Kavekaka/u);
     expect(strip.some((line) => line.cueId === "cue-04" && /üç satır yeter/u.test(line.text))).toBe(

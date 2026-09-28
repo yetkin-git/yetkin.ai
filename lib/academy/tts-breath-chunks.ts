@@ -6,6 +6,11 @@
  */
 
 import { academyDialogueReadingDurationSec } from "@/lib/academy/dialogue-timeline";
+import {
+  ACADEMY_MATCH_WHISTLE_MAX,
+  ACADEMY_MATCH_WHISTLE_REGULATION_MAX,
+  ACADEMY_MATCH_WHISTLE_REGULATION_MIN,
+} from "@/lib/academy/production-standard";
 
 /** Hedef konuşma penceresi — anlamlı paragraf bloğu; 3–5 sn mikro dilim YASAK. */
 export const ACADEMY_TTS_BREATH_CHUNK_MIN_SEC = 18;
@@ -219,10 +224,48 @@ function canSplitBlock(text: string): { left: string; right: string } | null {
 }
 
 /**
- * Paragrafları ders başına 10–12 Gemini isteğine paketler.
- * Komşu kısa bloklar birleşir; dev blok cümle grubundan bölünür. Tek cümlelik istek üretilmez.
+ * Kurs ders sayısı için bant içi hedef.
+ * 8 ders × 10 = 80 (normal süre tavanı). 6 ders × 12 = 72 (normal süre bandı).
  */
-export function packAcademyTtsLessonRequests(paragraphs: readonly string[]): AcademyTtsLessonRequest[] {
+export function academyLessonRequestTargetForCourse(lessonCount: number): number {
+  if (!Number.isInteger(lessonCount) || lessonCount < 1) {
+    throw new Error("Ders sayısı geçersiz. API çağrısı yok.");
+  }
+  for (
+    let target = ACADEMY_TTS_LESSON_REQUEST_MIN;
+    target <= ACADEMY_TTS_LESSON_REQUEST_MAX;
+    target += 1
+  ) {
+    const total = lessonCount * target;
+    if (total >= ACADEMY_MATCH_WHISTLE_REGULATION_MIN && total <= ACADEMY_MATCH_WHISTLE_REGULATION_MAX) {
+      return target;
+    }
+  }
+  if (lessonCount * ACADEMY_TTS_LESSON_REQUEST_MIN <= ACADEMY_MATCH_WHISTLE_MAX) {
+    return ACADEMY_TTS_LESSON_REQUEST_MIN;
+  }
+  throw new Error(
+    `1 Maç = MAX 100 Düdük. ${lessonCount} ders × ${ACADEMY_TTS_LESSON_REQUEST_MIN} istek tavanı aşar. API çağrısı yok.`,
+  );
+}
+
+/**
+ * Paragrafları ders başına 10–12 Gemini isteğine paketler.
+ * `target` verilmezse tavan 12’de durur. Metin düşmez; komşu bloklar birleşir.
+ */
+export function packAcademyTtsLessonRequests(
+  paragraphs: readonly string[],
+  target: number = ACADEMY_TTS_LESSON_REQUEST_MAX,
+): AcademyTtsLessonRequest[] {
+  if (
+    !Number.isInteger(target) ||
+    target < ACADEMY_TTS_LESSON_REQUEST_MIN ||
+    target > ACADEMY_TTS_LESSON_REQUEST_MAX
+  ) {
+    throw new Error(
+      `TTS paket hedefi ${ACADEMY_TTS_LESSON_REQUEST_MIN}–${ACADEMY_TTS_LESSON_REQUEST_MAX}; gelen ${target}.`,
+    );
+  }
   const atoms = paragraphs.flatMap((paragraph) => splitAcademyTtsBreathChunks(paragraph));
   if (atoms.length === 0) {
     return [];
@@ -236,7 +279,7 @@ export function packAcademyTtsLessonRequests(paragraphs: readonly string[]): Aca
   const totalSec = groups.reduce((sum, group) => sum + group.sec, 0);
   const canFillBand = totalSec >= ACADEMY_TTS_BREATH_CHUNK_MIN_SEC * ACADEMY_TTS_LESSON_REQUEST_MIN;
 
-  while (groups.length > ACADEMY_TTS_LESSON_REQUEST_MAX) {
+  while (groups.length > target) {
     let best = -1;
     let bestSum = Number.POSITIVE_INFINITY;
     for (let index = 0; index < groups.length - 1; index += 1) {

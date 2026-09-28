@@ -22,7 +22,20 @@ export const ACADEMY_GRANT_PURPOSE = "academy-grant" as const;
 export type AcademyActor = {
   userId: string;
   email?: string | null;
+  emailConfirmedAt?: string | null;
 };
+
+export function academyActorFromSession(session: {
+  id: string;
+  email?: string | null;
+  emailConfirmedAt?: string | null;
+}): AcademyActor {
+  return {
+    userId: session.id,
+    email: session.email,
+    emailConfirmedAt: session.emailConfirmedAt,
+  };
+}
 
 /** Üretimde sıfır harçlı SETTLED bağış kapalıdır. Lab'ta Super Admin + audit. */
 export function isZeroFeeAcademyGrantOpen(
@@ -36,7 +49,11 @@ export function isZeroFeeAcademyGrantOpen(
  * Prisma rol kolonu yok; UUID veya kanonik e-posta aynı kişiyi tanımlar.
  */
 export function hasAcademyAdminBypass(actor: AcademyActor): boolean {
-  return isSuperAdminActor({ id: actor.userId, email: actor.email });
+  return isSuperAdminActor({
+    id: actor.userId,
+    email: actor.email,
+    emailConfirmedAt: actor.emailConfirmedAt,
+  });
 }
 
 export function hasUnlimitedAcademyAccess(actor: AcademyActor): boolean {

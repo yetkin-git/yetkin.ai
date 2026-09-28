@@ -32,8 +32,16 @@ export type AcademyLessonNotePorts = {
   academy: AcademyStore;
 };
 
-function actorOf(command: { userId: string; email?: string | null }): AcademyActor {
-  return { userId: command.userId, email: command.email };
+function actorOf(command: {
+  userId: string;
+  email?: string | null;
+  emailConfirmedAt?: string | null;
+}): AcademyActor {
+  return {
+    userId: command.userId,
+    email: command.email,
+    emailConfirmedAt: command.emailConfirmedAt,
+  };
 }
 
 function proofHashForLesson(purchaseId: string, lessonKey: string): string | null {
@@ -46,6 +54,7 @@ export async function loadAcademyLessonNotePdf(
     courseId: string;
     userId: string;
     email?: string | null;
+    emailConfirmedAt?: string | null;
     lessonKey?: string | null;
   },
 ): Promise<{ bytes: Uint8Array; filename: string }> {

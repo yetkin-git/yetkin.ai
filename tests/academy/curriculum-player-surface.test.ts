@@ -40,6 +40,9 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     const oyna = readSrc("app/academy/[slug]/oyna/page.tsx");
     expect(oyna).toContain("CurriculumPlayer");
     expect(oyna).toContain("loadAcademyCurriculum");
+    expect(oyna).toContain("session.emailConfirmedAt");
+    const curriculumRoute = readSrc("app/api/academy/courses/[id]/curriculum/route.ts");
+    expect(curriculumRoute).toContain("emailConfirmedAt: user.emailConfirmedAt");
     expect(oyna).toContain("cinema");
     expect(oyna).not.toContain("LessonListenButton");
     expect(oyna).not.toContain("academy-player-viewport-lock");

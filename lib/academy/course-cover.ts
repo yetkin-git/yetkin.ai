@@ -25,7 +25,7 @@ export const ACADEMY_OFF201_DEFAULT_COVER = "/academy/covers/01_office_ai_ileri.
 
 /**
  * Amiral 1. bölüm vitrin dakikası.
- * Mühürlü kaset `01_office_ai-1` 691.84 sn; antre ve oynatıcı
+ * Mühürlü konuşma `01_office_ai-1` 707.016 sn; antre ve oynatıcı
  * `academyMediaDurationMin(academySealedAudioDurationSec)` ile 12 dk basar.
  */
 export const ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN = 12 as const;

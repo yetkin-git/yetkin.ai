@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatMinor } from "@/lib/kernel/money/format";
 import type { JuniorAllowanceRecord } from "@/lib/junior/types";
 import type { MebTrack } from "@/lib/junior/meb-catalog";
-import { GuardianShieldBanner } from "@/components/theme/room-chrome";
+import { GuardianShieldBanner } from "../theme/room-chrome";
 
 export function MebTrackList({
   tracks,

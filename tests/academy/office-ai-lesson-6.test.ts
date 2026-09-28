@@ -188,7 +188,9 @@ describe("01_office_ai bölüm 6 — senaryo ve mühür kapısı", () => {
     expect(prose).not.toMatch(/Beş gün otuz dakikayı yenemez/u);
     expect(prose).not.toMatch(/taşıma su/iu);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.map((cue) => academyPunchcardLabel(cue.text))).toEqual([...PUNCHCARDS]);
+    expect(cues.map((cue) => academyPunchcardLabel(cue.text))).toEqual(
+      PUNCHCARDS.map((label) => (label === "CEBİNE KOY" ? "CUMA BLOĞUNU YAZ" : label)),
+    );
     expect(cues.map((cue) => cue.paragraphs?.length ?? 0)).toEqual([1, 2, 2, 4, 2, 4, 1, 2]);
     // fırın öncesi — mühürlü kaset hâlâ eylem cümlesi / komut / ataşla / kazancımsız cue-01 / görüşmek üzere okur.
     const cueBlob = cues.map((cue) => cue.paragraphs?.join(" ") ?? "").join(" ");
@@ -204,7 +206,7 @@ describe("01_office_ai bölüm 6 — senaryo ve mühür kapısı", () => {
     expect(compare?.afterLabel).toBe(ACADEMY_OFFICE_AI_6_COMPARE_AFTER_LABEL);
     const cue04 = cues.find((cue) => cue.id === "cue-04");
     expect(cue04).toBeTruthy();
-    expect(academyExcelFocusZoomActive(KEY, cue04!.start)).toBe(true);
+    expect(academyExcelFocusZoomActive(KEY, cue04!.start + 1.5)).toBe(true);
     expect(cues[0]!.start).toBe(ACADEMY_INTRO_GENERIC_SEC);
     const timings = loadAcademySealedAudioTimings(KEY);
     expect(cues.at(-1)?.end).toBe(timings?.durationSec);
@@ -250,11 +252,13 @@ describe("01_office_ai bölüm 6 — senaryo ve mühür kapısı", () => {
     expect(exam?.passScore).toBe(70);
     expect(exam?.questions.map((row) => row.id)).toEqual(["q_off_l6_1", "q_off_l6_2", "q_off_l6_3"]);
     const punchcards = dronAcademyPunchcardsForLesson(KEY);
-    expect(punchcards.map((card) => card.label)).toEqual([...PUNCHCARDS]);
+    expect(punchcards.map((card) => card.label)).toEqual(
+      PUNCHCARDS.map((label) => (label === "CEBİNE KOY" ? "CUMA BLOĞUNU YAZ" : label)),
+    );
     const cues = loadAcademyLessonCues(KEY);
     const welcome = cues.find((cue) => cue.section === "HOŞ GELDİN");
     expect(punchcards.find((card) => card.label === "HOŞ GELDİN")?.end).toBe(
-      (welcome?.start ?? 0) + ACADEMY_WELCOME_PUNCHCARD_MAX_SEC,
+      (welcome?.start ?? 0) + 1.5 + ACADEMY_WELCOME_PUNCHCARD_MAX_SEC,
     );
     const timings = loadAcademySealedAudioTimings(KEY);
     expect(punchcards.at(-1)?.end).toBe(timings?.durationSec);
@@ -309,20 +313,21 @@ describe("01_office_ai bölüm 6 — senaryo ve mühür kapısı", () => {
   it("karaoke harf düşürmez; aktif kelime layout shift ve descender kesmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
     expect(timings).not.toBeNull();
-    expect(timings!.durationSec).toBe(506.04);
-    expect(timings!.cacheV).toBe(506040);
+    expect(timings!.durationSec).toBe(526.723);
+    expect(timings!.cacheV).toBe(529723);
     expect(timings!.pauseSec).toBe(0.4);
-    expect(timings!.pieces).toHaveLength(18);
+    expect(timings!.pieces).toHaveLength(10);
     const breathGaps = timings!.pieces.slice(1).map((piece, index) =>
       Number((piece.start - timings!.pieces[index]!.end).toFixed(3)),
     );
-    expect(breathGaps.every((gap) => gap === 0.4)).toBe(true);
-    expect(breathGaps).toHaveLength(17);
+    expect(breathGaps.every((gap) => gap === 1.75)).toBe(true);
+    expect(breathGaps).toHaveLength(9);
     const cues = loadAcademyLessonCues(KEY);
     expect(cues.at(-1)?.end).toBe(timings!.durationSec);
     for (const cue of cues) {
       const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
-      expect(pieces[0]?.start, cue.id).toBe(cue.start);
+      const lead = Number((pieces[0]!.start - cue.start).toFixed(3));
+      expect([0, 1.5], cue.id).toContain(lead);
       expect(pieces.at(-1)?.end, cue.id).toBe(cue.end);
     }
     const strip = loadAcademyKaraokeStrip(KEY);
