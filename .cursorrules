@@ -118,82 +118,23 @@ Bağlamı canlı ürün koduna sıkıştır: **app → components → lib → pr
 
 ---
 
-## DEĞİŞTİRİLEMEZ STANDARTLAR KİLİDİ — Akademi sinema / akıllı video (SSOT)
+## Akademi üretim işaretçileri
 
-Bu bölüm, Akademi ders üretimi, fırınlama (bake) ve buna dokunan kod için **tek doğruluk kaynağıdır (SSOT)**. Aşağıdaki maddeler silinmez, gevşetilmez ve “sığsın diye” yorumlanmaz.
+Sayı, model kimliği, tempo ve ses mührü bu dosyada tekrarlanmaz. Fırın ve mühür kararı aşağıdaki evlerden okunur. Sabit saparsa ev düzeltilir; bu liste ikinci ev değildir.
 
-Her fırınlama ve kodlama adımından önce bu bölüm okunur ve çıktı buna göre doğrulanır. Süre, ritim, ses, ducking ve reji sabitleri kodda bu kilitle aynı değerde durur:
+| Kural | Ev |
+|-------|-----|
+| Beş medya katmanı, süre ve ders tabanı, TTS istek tavanı, mühür kapısı | `lib/academy/production-standard.ts` (`assertAcademyProductionSeal`) |
+| Fırın ve gümrük medya kimliği `ACADEMY_SEALED_MEDIA_MODEL` | `lib/kernel/ai/model-roles.ts` |
+| 1 Eğitim Kodu = 1 Ses, OFF-101 / OFF-201 ses mührü, konuşma temposu | `lib/academy/instructors.ts` |
+| İptal kaseti, yeniden fırın kuyruğu, satış mandalı | `lib/academy/pilot-sku.ts` |
+| Nefes, kural-örnek payı, slayt ön-açılışı | `lib/academy/human-rhythm.ts` |
+| Spoiler yasağı ve sahne dağılımı | `lib/academy/lesson-beat-visual.ts` |
+| Isınma videosu: yerel `-warmup.mp4`; otomatik video API iptal | `lib/academy/lesson-veo.ts` |
+| Fon müziği yatakları | `lib/academy/lesson-bed-duck.ts` |
+| Vatandaş dili, tek iş tek cümle, slogan yasağı | `.system_docs/PEDAGOJI.md` |
+| Ders metni: Deniz usta, beş aşama, yazım istemi | `lib/academy/lesson-text-standard.ts` |
+| Yayın formatı ve satış kapısı | `.system_docs/ANAYASA.md` B3 ve B4 |
 
-- `lib/academy/production-standard.ts` — ders tabanı `ACADEMY_AI_LESSON_DURATION_MIN_MINUTES` (5), kurs taban bölümü `ACADEMY_AI_LESSON_COUNT_MIN` (6), maç düdük tavanı `ACADEMY_MATCH_WHISTLE_MAX` (100)
-- `lib/academy/instructors.ts` — `ACADEMY_INSTRUCTOR_SPEECH_RATE` (ölçülen doğal tempo hedefi, 0.93). Konuşma parçası fırını `ACADEMY_BAKE_ATEMPO` (`atempo=0.93`) ve EBU R128 `loudnorm` kullanır. Tempo 1.0 üzerine yükseltilmez.
-- `lib/academy/human-rhythm.ts` — nefes 0.4 sn, kural ve örnek geçişi 1.5–2.0 sn (varsayılan 1.75), slayt ön-açılışı 1.5 sn
-- `.system_docs/PEDAGOJI.md` — günlük dil, tek iş tek cümle, slogan yasağı
-- `lib/kernel/ai/model-roles.ts` — model kimliğinin tek evi. Canlı `VOICE_TTS`. Fırın `academyBakeVoiceModelId()`. `VOICE_TTS_FALLBACK_TO_2_5` kapalı
-- `lib/academy/instructors.ts` — `ACADEMY_OFF201_COURSE_MASTER_VOICE` (1 Eğitim Kodu = 1 Ses; OFF-201 tek string: Kore / Aylin). OFF-101 mührü Callirrhoe / Gözde kalır.
-- `lib/academy/pilot-sku.ts` — `ACADEMY_TTS_REVOKED_CASSETTES`, `ACADEMY_TTS_REBAKE_QUEUE`
-- `lib/academy/lesson-beat-visual.ts` — spoiler yasağı ve %80 / %20 reji
-- `lib/academy/lesson-veo.ts` — otomatik Veo API iptal; yerel `public/media/academy/micro/*-warmup.mp4` reuse, 6–8 sn ısınma
-- `lib/academy/lesson-bed-duck.ts` — `ACADEMY_BED_MOODS` (ambient, lo-fi, upbeat)
+Fırın, beş katmandan biri eksikken mühürlenmez. Metin kırpılmaz. Ayrıntı yukarıdaki evlerdedir.
 
-Kod sabiti bu kilitten saparsa sabit kilide çekilir. Metin kırpılmaz, tempo yükseltilmez, ders makaleye indirgenmez.
-
-### 1. Ders ve içerik formatı (sinema / akıllı video şartı)
-
-- Akademi üzerindeki eğitimler kesinlikle makale, okuma metni veya düz dökümana dönüştürülemez.
-- **Hiçbir eğitim videosu Metin, Ses, Video, Görsel ve Müzik katmanlarından biri eksikken fırınlanamaz ve mühürlenemez.**
-- Her ders şu 5 medya katmanından, bu sırayla oluşur:
-  1. **Metin:** Vatandaş dili, tek iş tek cümle.
-  2. **Ses:** Gemini 3.8 Flash TTS. Çağrı kimliği yalnız `lib/kernel/ai/model-roles.ts` içindedir. Canlı gümrük `VOICE_TTS` okur. Fırın `academyBakeVoiceModelId()` okur. Konuşma parçası `atempo=0.93` (`ACADEMY_BAKE_ATEMPO`) ve EBU R128 `loudnorm` görür. Tempo 1.0 üzerine yükseltilmez. **1 Eğitim Kodu = 1 Ses:** kurs `courseMasterVoice` tek stringdir; ders bazlı ses haritası yoktur. OFF-101 mührü Gözde (Callirrhoe) dir. OFF-201 mührü Aylin (Kore) dir. OFF-201 eğitmeni Gözde olamaz. Başka kurs başka sicil sesi seçebilir; aynı kursun dersleri ayrı sese bölünmez.
-  3. **Video:** Yerel `public/media/academy/micro/*-warmup.mp4`. İlk 6–8 sn ısınma klibi. Otomatik Veo 3.1 API iptaldir.
-  4. **Görsel:** Nano Banana 2. 4K canlı uygulama kartları.
-  5. **Müzik:** Lyria 3.5. Vokalsiz fon müziği yatağı, -22 dB ducking. Konuşma anında dipte, es paylarında yüksek.
-- **3 aşamalı kontrol kapısı:** (1) taslak metin — senaryo ve chunking, (2) gözden geçirme — pedagoji, jargon ve aforizma taraması, (3) son kontrol — beş katman teyit edilmeden `--seal` basılamaz. Kapı `assertAcademyProductionSeal` içindedir. Video (Veo) ve Müzik (Lyria) son kontrolün parçasıdır.
-- **Cue ve karaoke katmanı:** Konuşmayla eşzamanlı akan punchcard rozetleri. Beş katmanın yerine geçmez.
-
-### 2. Taban süre ve bölüm kuralları (Anayasa B4 ve Pedagoji D.1)
-
-- **Ders taban süresi:** Bir ders kesinlikle 5 dakikadan az olamaz (taban >= 5 dk). **1 Yarı = En az 5 dakika.**
-- **Kurs taban bölümü:** Bir kurs kesinlikle 6 bölümden az olamaz (taban >= 6 ders). **1 Maç = En az 6 yarı** (set/ders).
-- **Üst süre tavanı yoktur:** Hiçbir ders veya içerik “12 dakikaya sığacak” diye kısıtlanamaz. Metin kırpılamaz. Konuşma temposu yapay şekilde hızlandırılamaz.
-
-### 3. Ses ve pedagojik ritim standartları
-
-- **Konuşma temposu:** Konuşma parçası ffmpeg `atempo=0.93` (`ACADEMY_BAKE_ATEMPO`) ve EBU R128 `loudnorm` görür. Birleşik zaman çizelgesi atempo almaz; es payı pedagoji süresinde kalır. Tempo 1.0 üzerine yükseltilmez. Fırın `Pace: calm, natural, clear accent` yönetmen notunu kullanır. Ölçülen doğal hedef aynı sayıdır (`ACADEMY_INSTRUCTOR_SPEECH_RATE`).
-- **Paragraf ve cümle arası nefes:** `0.4 saniye`.
-- **TTS istek bandı:** Ders başına 10–12 doğal paragraf bloğu hedef aralıktır. Tek cümlelik istek ve diksiyonu düşüren dev blok yok. Model kimliği `model-roles.ts` okunur.
-- **1 Maç = 1 Hakem:** Bir kurs baştan sona tek hakem sesiyle anlatılır. OFF-101 hakemi Gözde (Callirrhoe) dir. OFF-201 hakemi Aylin (Kore) dir. OFF-201 hakemi Gözde olamaz.
-- **1 Maç = MAX 100 Düdük:** Bir kursun Gemini TTS isteği, uzatma ve duraklama dahil 100’ü aşmaz (`ACADEMY_MATCH_WHISTLE_MAX`). Normal süre 70–80 istek bandındadır. Kalan 15–20 istek yalnız zorunlu uzatma ve duraklama içindir.
-- **Teknik geçiş ve örnek duraklaması:** `1.5 – 2.0 saniye` (varsayılan `1.75` sn).
-- **Slayt geçiş senkronu:** Ekran kartı veya görseli, yeni cümleden `1.5 saniye` önce açılır.
-
-### 4. Görsel dürüstlük ve reji kuralları
-
-- **Spoiler yasağı:** Temiz veya nihai sonuç, karşılaştırma (Comparison) beat’inden önce gösterilemez.
-- **Dengeli dağılım:** Reji sahneleri %80 canlı uygulama ekranı, %20 sinematik veya kılavuz kartlarından oluşur. Sahnede sabit, işlevsiz logo veya placeholder bırakılamaz.
-
-### 5. Kaliteli model ve dinamik ses
-
-- **Model mührü:** Kimlik dizesi yalnız `lib/kernel/ai/model-roles.ts` içindedir. Canlı `VOICE_TTS`. Fırın `academyBakeVoiceModelId()`. Gemini 2.5 ve alt modeller yasaktır. Belgeler kimlik dizesini yeniden yazmaz.
-- **Alt model yasağı:** Kota bittiğinde veya limit aşıldığında Gemini 2.5 Flash TTS kullanılmaz (`VOICE_TTS_FALLBACK_TO_2_5 = false`). Kota yoksa işlem durur. Kota açılınca aynı ders `academyBakeVoiceModelId()` ile fırınlanır.
-- **Tek eğitmen:** **1 Eğitim Kodu = 1 Ses.** Kurs `courseMasterVoice` tek stringdir. OFF-101 Gözde (Callirrhoe) ile kilitlenir. OFF-201 `ACADEMY_OFF201_COURSE_MASTER_VOICE` ile Aylin (Kore) kilitlenir. OFF-201 eğitmeni Gözde olamaz. Başka kurs başka sicil sesi seçebilir. Aynı kursun dersleri ayrı karaktere bölünmez. Ders bazlı ses ataması kodda yoktur.
-- **İptal kasetleri:** Eski çoklu ses ve Gemini 2.5 kasetleri `archived/academy-audio-revoked/` altındadır. OFF-201’in eski Callirrhoe kasetleri `ACADEMY_TTS_REVOKED_CASSETTES` içindedir. Vatandaş oynatıcı bu iptal kasetleri açmaz.
-- **Yeniden fırın:** `01_office_ai_ileri` ders 1–6 `academyBakeVoiceModelId()` ve Kore (Aylin) ile fırınlanır. Eski Callirrhoe kaseti bu kurs için geçersizdir; `ACADEMY_TTS_REBAKE_QUEUE` altı dersi taşır. Kota açılınca aynı rol ve Kore ile mühürlenir. Yeni `--seal` kota doluyken açılmaz; `VOICE_TTS_FALLBACK_TO_2_5` kapalı kalır. Ham Gemini önbelleği DSP düzeltmesinde düdük harcamaz.
-
-### 6. Dinamik medya ve sinema prodüksiyonu
-
-- **Tek anlatıcı:** **1 Eğitim Kodu = 1 Ses.** Kurs dersleri `courseMasterVoice` ile basılır. OFF-101 mührü Callirrhoe / Gözde dir. OFF-201 mührü `ACADEMY_OFF201_COURSE_MASTER_VOICE` (Kore / Aylin) dir. Ders bazlı ses sırası yoktur. Başka kursun sicil sesi ayrı kalabilir.
-- **Dinamik fon müziği:** Lyria 3.5 yatağı ders atmosferine göre seçilir: ambient, lo-fi veya upbeat (`ACADEMY_BED_MOODS`, `academyLessonBedMood`). Konuşurken dipte, es payında yükselir.
-- **1 ders = 1 video:** Isınma klibi ders başına yerel bir `-warmup.mp4` kasetidir. Süre 6–8 saniyedir ve yalnız ısınma (Warm-up) beat'indedir. Anlatımın iş beat'i başlayınca video biter; sahne canlı uygulamaya ve dinamik karta döner. Otomatik Veo 3.1 API iptaldir. Kaset `public/media/academy/micro/` altından okunur.
-- **Canlı senkron kart:** Sahnede durağan jenerik plaka veya boş logo duramaz. Konuşmanın saniyesiyle birebir akan kart; konuyu, örneği, tabloyu ve istem şablonunu gösterir. Kaynak Nano Banana 2 veya CSS Ken Burns'tür. İzlemede görüntü API'si çağrılmaz.
-
-### 7. İnsan odaklı pedagoji ve anlatım
-
-Amaç şov veya “harika anlatmak” değildir. Amaç vatandaşa sakince öğretmektir. Ders bitince öğrenci “harika anlattı ama ben anlayamadım” dememelidir.
-
-- **Kendini sorgulatma yasağı:** Abartılı, şov amaçlı veya sloganik dil öğrencide “bende bir eksiklik var” hissi ve özgüven kaybı yaratır. Hiçbir metin öğrenciyi kendi kapasitesini sorgulamaya itmez.
-- **Yasaklı hiperbol:** “Muazzam dönüşüm”, “saniyeler içinde”, “mucizevi yöntem”, “prompt mühendisliği”, “devrim niteliğinde” ve aynı aileden afilli ifadeler yazılmaz. Rozet işin adını taşır.
-- **Suçu anlatıcı alır:** Karmaşık adımda tereddüt anlatıcıdadır. Kalıp: “Şimdi ‘burada ne oldu böyle?’ demiş olabilirsin. Çok haklısın, adım adım bakalım...”
-- **Yalınlık:** Konu mucize gibi değil, gündelik işin sakin ve çözülebilir parçası olarak anlatılır.
-- **Günlük dil, tek iş, tek cümle:** Her cümle tek eyleme odaklanır. Cümle kısa, duru ve konuşma dilindedir.
-- **Pekiştirme:** Bir kural söylenince hemen somut örnek gelir. Gerekirse aynı kural “Yani aslında yaptığımız şey...” diye bir kez daha tane tane özetlenir.
-- **İdrak payı:** Tempo `atempo=0.93` durur. Cümle nefesi `0.4` saniyedir. Kural ve örnek geçişinde öğrenciye `1.5–2.0` saniye (varsayılan `1.75`) bırakılır. Bu pay kısalmaz. Tempo 1.0 üzerine yükseltilmez.
