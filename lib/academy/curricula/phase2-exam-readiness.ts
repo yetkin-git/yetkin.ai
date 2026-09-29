@@ -10,7 +10,7 @@ import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import { ACADEMY_EXAM_DRAW_COUNT, ACADEMY_EXAM_POOL_MAX, ACADEMY_EXAM_POOL_MIN } from "@/lib/academy/exam-duration";
 import { loadAcademyLessonExam } from "@/lib/academy/lesson-exams";
 import { OFF_201_EXAM_PASS_SCORE, OFF_201_EXAM_POOL_MAX, OFF_201_EXAM_POOL_MIN } from "@/lib/academy/curricula/office_ai/off-201";
-import { PARENT_TEACHER_AI_EXAM_PASS_SCORE } from "@/lib/academy/curricula/parent_teacher_ai/planned";
+import { PARENT_TEACHER_AI_EXAM_PASS_SCORE } from "@/lib/academy/curricula/phase2-drafts/parent_teacher_ai/planned";
 import { curriculumLessonKeysForSlug, phase2DraftLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
 import type { AcademyExamQuestion } from "@/lib/academy/types";
 

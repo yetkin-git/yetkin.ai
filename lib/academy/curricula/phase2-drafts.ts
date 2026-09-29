@@ -15,7 +15,7 @@ import {
   CURRICULUM_LESSON_COUNT_BY_SLUG,
   PHASE2_DRAFT_LESSON_KEYS_BY_SLUG,
 } from "@/lib/academy/curricula/lesson-index";
-import { parentTeacherAiModule } from "@/lib/academy/curricula/parent_teacher_ai";
+import { parentTeacherAiModule } from "@/lib/academy/curricula/phase2-drafts/parent_teacher_ai";
 
 export const PHASE2_CURRICULUM_DRAFTS_BY_SLUG: Readonly<Record<string, readonly AcademyLessonDraft[]>> = {
   parent_teacher_ai: compactDraftsFromModule("parent_teacher_ai", parentTeacherAiModule),
