@@ -141,7 +141,7 @@ describe("ops:migrate havuz yasağı", () => {
   });
 });
 
-describe("on SQL mühür planı", () => {
+describe("on bir SQL mühür planı", () => {
   it("diskteki dosya adları kilitli sırayla birebir", () => {
     const files = readdirSync(MIG_DIR)
       .filter((name) => name.endsWith(".sql"))
