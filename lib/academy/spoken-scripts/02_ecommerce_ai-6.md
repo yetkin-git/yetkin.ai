@@ -1,0 +1,77 @@
+Merhaba, ben Deniz. Bugün bu modülün son dersindeyiz. Çayın duruyorsa bir yudum al. Sonra panele beraber bakacağız.
+
+Geçen ders, beşinci derste, zamana bakmıştık. Elli ürüne aynı şablonla SEO uyumlu ürün açıklaması yazdırmıştık. Şablonu bir kez kurmuştun. Ürün satırlarını bir listeye koymuştun. Yapay zekâ her satır için başlığı, açıklamayı ve özellik maddesini kurmuştu. Bilgisayar başında belin bükülmesin diye o yazıyı tek tek sen yazmamıştın. Ölçüyü satırla karşılaştırmıştın. Listede olmayan kelimeyi silmiştin. Listing'e metni sen koymuştun. O işi orada bırakmıştık.
+
+Yazı vitrine çıkınca dükkân işi bitmez. Alıcı ürünü görür. Aklına bir soru takılır. Soruyu paneldeki Soru Sor kutusuna yazar. Cevap gecikirse alıcı beklemez. Başka mağazanın ürününe gider.
+
+Bu derste odağımız mağaza puanı. Mağaza puanını yukarı çekeceğiz. Müşteriyi kaçırmayacağız. Müşterinin mesajına yapay zekâ asistanı ile bekletmeden cevap vereceğiz. Cevap kibar olacak. Cevap, sorunun işini çözecek. Cevap, ürün bilgisine yüzde yüz sadık kalacak. Bilgide yazmayan kelime taslağa girmeyecek. Puanı yukarı çeken şey, bekletilmeyen ve ürüne sadık cevaptır.
+
+Sabah dükkânı açarsın. Kargo poşeti masada durur. Panelde biriken sorular da durur. Bir alıcı kargo gününü sorar. Bir alıcı kulpun rengini sorar. Bir alıcı beden sorar. Sen poşeti kapatırken soru orada bekler. Akşam panele dönünce soru hâlâ duruyordur. Aradan saatler geçmiştir. O saatler, alıcının başka mağazaya gittiği saattir.
+
+Bekleyen soru, soruyu yazan alıcıyı kaçırır. Sonraki alıcıyı da kaçırır. Soru Sor kutusu ürün sayfasında açık durur. Sonraki alıcı o kutuyu okur. Cevap yoksa alıcının aklına şüphe düşer. Şüphe düşünce sepete koymaz. Sepete koymadan sayfayı kapatır.
+
+Pazaryeri de bu bekleyişi ölçer. Soru cevaplandı mı, diye bakar. Ne kadar sürede cevaplandı, diye bakar. Cevap, alıcının işini çözdü mü, diye bakar. Cevap geç kalırsa mağaza puanı düşer. Soru hiç cevaplanmazsa puan yine düşer. Üçüncü derste bir yıldızlı yorumun puanı düşürdüğünü görmüştük. Bugün puanı düşüren başka bir yer var. Cevapsız soru. Geç kalan soru.
+
+Pazaryerin Trendyol da olur, Hepsiburada da, Amazon da, N11 de, ÇiçekSepeti de, PttAVM de, Getir de, Pazarama da. Kutunun adı bir yerde Soru Sor diye durur. Ötekinde mesaj diye durur. Ölçülen iş aynıdır. Geç cevap ve cevapsız soru, mağaza puanını aşağı çeker.
+
+Puan düşünce mağazan aramada alta kayar. Alıcı, puanı yüksek mağazayı üstte görür. Aynı mal sende de vardır. Alıcı üstteki mağazadan alır. Dün giden sipariş bugün durur. Satış birden kesilir. Geç cevap, yazının da fotoğrafın da fiyatın da önüne geçer. Alıcı önce puana bakar. Puan düşükse ürüne tıklamaz. Tıklamayınca kasa o gün boş kalır.
+
+Bunu tek soruluk bir dükkânda hafife alabilirsin. Çok satan bir üründe öğleden önce yirmi soru gelir. Her soruya oturup sıfırdan cümle kurarsan kargo yetişmez. Kargo yetişmezse bu kez kargo gecikmesi puanı düşürür. Soru da bekler. Kargo da gecikir. İki yerden de puan erir. O yüzden cevabı uzun uzun sıfırdan yazmayacağız. Taslağı kısa sürede kuracağız. Göndermeden önce okuyacağız.
+
+Yapay zekâyı burada bir dükkân çırağı gibi kullanırız. Çırak tezgâhın yanındadır. Müşterinin sorusunu duyar. Ürün bilgisini sen verirsin. Çırak kibar bir cevap taslağı yazar. Taslağı müşteriye kendisi göndermez. Taslağı sana uzatır. Sen okursun. Tutan cümleyi panele sen yazarsın. Uymayan cümleyi silersin. Çırak taslağı kurar. Sen taslağı okursun. Mesajı sen gönderirsin. Mağaza puanını bu sıra korur.
+
+On saniye, taslağın önüne gelme süresidir. Soruyu kopyalarsın. Ürün bilgisini altına yazarsın. Prompt'u yapıştırırsın. Sen ona kadar sayarken taslak gelir. Gönderme, sen okuduktan sonra olur. Okumadan yapıştırılan taslak, ürün sayfasında kalır. Sonraki alıcı da onu okur. Uydurma cümle sayfada durursa yeni şikâyet oradan doğar.
+
+Üç soruyla göstereyim. Üçü de aynı dükkândan gelsin. Birinci soru kargo. İkinci soru kulp rengi. Üçüncü soru beden. Ürün bilgisinde olmayan şeyi cevapta görmeyeceğiz.
+
+Birinci soru şudur. Kargo ne zaman çıkar? Ürün, bej seramik kupadır. Üç yüz mililitredir. Kulpludur. Teklidir. Senin kargo kuralın da şudur. Saat on altıdan önce onaylanan sipariş aynı gün kargoya verilir. Saat on altıdan sonra onaylanan sipariş ertesi iş günü kargoya verilir. Kargon alıcıya varacağı gün, kargo firmasına bağlıdır. O günü sen bilmiyorsan cevapta o gün yazılmaz.
+
+Yanlış taslak şudur. Yarın kapınızda olur, merak etmeyin. Bu cümlede senin kuralın yok. Saat on altı yok. Kargo firması yok. Kesin teslim var. Alıcı yarına kadar bekler. Yarın gelmezse şikâyet açar. Şikâyet, üçüncü dersteki iade gibi puanı bir kez daha düşürür. Bir acele cümle, iki ayrı yerden puan yer.
+
+Doğru taslak şudur. Sipariş saat on altıdan önce onaylanırsa aynı gün kargoya verilir. Saat on altıdan sonra onaylanırsa ertesi iş günü kargoya verilir. Teslim günü kargo firmasına göre değişir. Bu üç cümle, senin yazdığın kuralın aynıdır. Fazlası yoktur. Alıcı ne zaman hazırlanacağını bilir. Yarına kilitlenmez. Soru kapanır. Doğru kapanış, mağaza puanını korur.
+
+İkinci soru şudur. Kupanın kulp rengi ne? Ürün bilgisinde gövde bej yazar. Kulp da bej yazar. Malzeme seramik yazar.
+
+Yanlış taslak şudur. Kulp altın rengindedir ve mutfağınıza çok yakışır. Listede altın yok. Övgü var. Alıcı altın kulp bekler. Kutuda bej kulp görür. Üçüncü derste bu fark iade olmuştu. İade kargosu yine senin sırtına biner. Güzel cümle, yanlış renk olunca puanı düşürür.
+
+Doğru taslak şudur. Kulp rengi bejdir. Gövde ile aynı renktedir. Malzeme seramiktir. Alıcı kutuyu açınca gördüğü renk, sayfada okuduğu renktir. Soru kapanır. Yeni şikâyet açılmaz. Sayfadaki cevap, sonraki alıcıya da aynı rengi söyler. O yüzden renk, bilgi satırındaki renk olarak kalır.
+
+Üçüncü soru şudur. Hangi beden almalıyım? Bu soru iki ayrı malda iki ayrı cevap ister. Kupada beden yoktur. Beden tablosu da yoktur. O zaman doğru cümle şudur. Bu ürün seramik kupadır. Bedeni yoktur. Ölçüsü üç yüz mililitredir. M beden alın, demek uydurmadır. Uydurma beden, alıcıya yanlış mal bekletir. Yanlış beklenti iade getirir.
+
+Aynı soru bir tişörtte gelirse tabloyu sen verirsin. Göğüs genişliği küçük bedende kırk sekiz santimetredir. Orta bedende elli iki santimetredir. Büyük bedende elli altı santimetredir. Kumaş pamuktur. Tabloda yıkama yoksa yıkama yazılmaz. Doğru taslak, bu üç ölçüyü aynen söyler. Alıcının göğüs ölçüsü tabloda yoksa o bedeni yazmaz. Tabloda olmayan beden, alıcıya dar ya da bol mal götürür. Dar gelen mal iade olarak döner. Dönüş kargosu yine sendedir.
+
+Şimdi şunu demiş olabilirsin. Ben bu üç cevabı zaten yazarım, çırak ne işime yarar, demiş olabilirsin. Çok haklısın, adım adım bakalım. Tek soru kolaydır. Öğleden önce yirmi soru gelince kolaylık biter. Elinde kargo bandı vardır. Her soruya yeni cümle kuramazsın. Kuramazsan soru bekler. Bekleyen soru puanı düşürür. Çırak, her sorunun taslağını on saniyede önüne koyar. Sen taslağı okursun. Ürün bilgisine uyanı gönderirsin. Uymayan cümleyi silersin. Böylece kargo da yetişir. Soru da beklemez. Puan da o gün erimez.
+
+Kopyalarken müşterinin adını, telefonunu, adresini ve sipariş numarasını sohbete koymazsın. Soru metnini koyarsın. Ürün adını, rengi, ölçüyü, malzemeyi, kargo kuralını ve varsa beden tablosunu koyarsın. Başka satıcının cevabını kopyalamazsın. Başka sitenin adresini yazdırmazsın. Fiyatı bu cevapta uydurmazsın. Fiyat, dördüncü derste kasada kalmıştı. Mesaj kutusuna maliyet girmez. Alış fiyatın vitrine de çıkmaz. Cevap kutusuna da çıkmaz.
+
+Müşteri sorusunu ve ürün bilgisini sohbete koyarken şu Prompt'u olduğu gibi yapıştırırsın. Soruyu ve ürün satırını en alta eklersin.
+
+Sana bir müşteri sorusu ve o sorunun ürün bilgisi veriyorum. Müşteri adı, telefon, adres ve sipariş numarası yok. IBAN ve vergi numarası da yok. Böyle bir satır görürsen onu yok say. Rolün, pazaryerinde satış yapan bir esnafın dükkân çırağıdır. Çırağın işi cevap taslağı yazmaktır. Taslağı müşteriye gönderme. Taslağı bana yaz. Ben okuyacağım. Ben göndereceğim. Cevap kibar olsun. Cevap kısa olsun. Cevap sorunun işini çözsün. Ürün bilgisinde olmayan özelliği yazma. Kargo gününü tahmin etme. Teslim gününü kesin diye yazma. Rengi değiştirme. Ölçüyü değiştirme. Bedeni uydurma. Beden tablosu yoksa beden seçme. Tablo varsa yalnız tablodaki ölçüyü yaz. Alıcının göğüs ölçüsü tabloda yoksa beden yazma. Emin olmadığın cümleye kesin deme. Bilgi yoksa bilgim yok diye dürüst yaz. Övgü cümlesi ekleme. Rakibin cümlesini kopyalama. Telefon, adres ve başka sitenin adresini yazma. Fiyat ve maliyet yazma. Soru ve ürün bilgisi aşağıda.
+
+Listenin altı da şöyle durur. Soru bir. Kargo ne zaman çıkar. Ürün, seramik kupa, bej, üç yüz mililitre, kulplu, tekli. Kargo kuralı, saat on altıdan önce onaylanan sipariş aynı gün kargoya verilir. Saat on altıdan sonra ertesi iş günü verilir. Teslim günü kargo firmasına bağlıdır. Soru iki. Kupanın kulp rengi ne. Gövde bej. Kulp bej. Malzeme seramik. Soru üç. Hangi beden almalıyım. Bu satır kupaysa beden yoktur. Ölçü üç yüz mililitredir. Bu satır tişörtse göğüs genişliği küçük kırk sekiz, orta elli iki, büyük elli altı santimetredir. Kumaş pamuktur. Yıkama bilgisi yoktur.
+
+Bu Prompt'tan sonra gelen taslağa dört yerden bakarsın. Cümle, senin verdiğin ürün bilgisinde duruyor mu? Kargo günü, senin kuralının dışında bir gün söylüyor mu? Renk, ölçü veya beden uydurulmuş mu? Müşterinin adı, telefonu veya adresi taslakta var mı? Dördünden biri tutmuyorsa o cümleyi silersin. Silinen yeri yeniden sorarsın. Tutan taslağı Soru Sor kutusuna sen yapıştırırsın. Yapay zekâ cümleyi kurar. Mesajı sen gönderirsin. Gönderilen cevap ürün sayfasında kalır. Sonraki alıcı da onu okur. O yüzden uydurma cümle sayfada durmasın.
+
+Aynı şablon yarınki soruya da uyar. Ürün değişince alttaki satırı değiştirirsin. Prompt'un üstü aynı kalır. Eski kupanın cevabını tişörtün sorusuna yapıştırmazsın. Kargo kuralın değişirse alt satırdaki saati de değiştirirsin. Eski saati yeni günde bırakmazsın. Yeni mal gelince yeni bilgiyi yazarsın. Eski taslağı yeni soruya kondurmazsın.
+
+Bu derste şunu işledik. Soru Sor kutusuna geç cevap vermek ya da soruyu cevapsız bırakmak mağaza puanını düşürür. Puan düşünce satış birden kesilir. Müşterinin sorusunu ve ürün bilgisini yapay zekâya verince kibar cevap taslağı on saniyede önüne gelir. Taslak, ürün bilgisine sadık kalır. Uydurma cümleyi silersin. Mesajı sen gönderirsin. Böylece soru beklemez. Müşteri de kaçmaz.
+
+Altı dersi buraya kadar getirdin. Eline sağlık. Her dersin somut bir işi vardı. O işleri dükkâna tek tek koyduk. Bugün o altı işi yan yana hatırlayalım.
+
+Birinci derste SEO başlığını ve ürün açıklamasını kurduk. Başlıkta ürün adı, renk ve ölçü durdu. Övgü cümlesi aramada çıkmadığı için onu sildik. Aramada çıkma işinin adı SEO'ydu. Metni Listing'e sen koydun. Alıcı ne aldığını o yazıdan anladı.
+
+İkinci derste görsel standardına baktık. Telefonla çekilen karenin arkasında mutfak masası duruyordu. O arkayı temizledik. Ana görseli beyaz arka plana çektik. Beyaz olmayan kareyi Listing'e koymadın. Alıcı malın rengini net görsün diye o işi bitirdik. Pazaryeri de o beyaz kareyi ana görsel diye kabul etsin diye bitirdik.
+
+Üçüncü derste yoruma ve iadeye baktık. Bir yıldızlı yorumun ve iadenin ortak şikâyetini yapay zekâya saydırdık. Hatayı kutuda, fotoğrafta ya da Listing yazısında, kaynağında düzelttin. Kulp, renk ve ölçü şikâyeti oradan kesildi. Aynı iade kargosu ertesi gün yine cebinden çıkmasın diye o işi orada kapattık.
+
+Dördüncü derste maliyete ve kâr marjına baktık. Malı, paketi, kargoyu ve komisyonu ayrı yazdık. Satış fiyatından bu dört satır düşünce elde kalan payı gördük. O payın adı kâr marjıydı. Rakibin bir lira altına, maliyeti saymadan inmedin. Tabanın üstündeki fiyatı Listing'e sen koydun. Kasa, satış çoğaldıkça açık vermesin diye o hesabı orada bıraktık.
+
+Beşinci derste zamanı kurtardık. Elli ürüne aynı şablonla SEO uyumlu açıklama yazdırdık. Bilgisayar başında belin bükülmesin diye cümleyi tek tek sen kurmadın. Ölçüyü satırla karşılaştırdın. Listede olmayan kelimeyi sildin. Listing'e sen aldın. Yazı işi gününü yemedi. Kargoya ve müşteriye vakit kaldı.
+
+Altıncı derste, bugün, mağaza puanına ve müşteri mesajına baktık. Geç kalan sorunun puanı düşürdüğünü gördük. Cevapsız sorunun da puanı düşürdüğünü gördük. Yapay zekâyı dükkân çırağı gibi kullandık. Kibar ve ürüne sadık taslağı kurduk. Mesajı sen gönderdin. Müşteri cevapsız kalmadı. Mağaza puanı da o cevapla yukarı çekildi.
+
+Altı derste altı iş duruyor. Yazı, görsel, şikâyet, fiyat, toplu açıklama ve mesaj. Yazı boşsa alıcı malı anlamaz. Görsel kirliyse yayın açılmaz. Şikâyet kaynağında durursa iade sürer. Fiyat maliyetin altındaysa kasa açılır. Açıklama tek tek yazılırsa gün biter. Soru beklerse puan düşer. Satış da o puanla birlikte kesilir. Altı iş yerinde durunca alıcı malı anlar. Güvenir. Cevabını bekletilmeden alır.
+
+Bu modülü tamamladın. Seni tebrik ederim. Dükkân işinin başında durdun. Her derste gelen metni okudun. Uydurma cümleyi sildin. Listing'e kendi elinle koydun. Mesajı da kendi elinle gönderdin. Bu işi yaptın.
+
+Mağazan bereketli olsun. Kazancın bol gelsin. Kapına hayırlı müşteri gelsin. Mağaza puanın yüksek kalsın. Satışın kesilmesin. Kargon zamanında çıksın. Bu modülü burada bırakıyoruz. Kendine iyi bak. Selamlar.
