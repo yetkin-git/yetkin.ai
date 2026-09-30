@@ -162,7 +162,7 @@ describe("akademi kurs tohumu yüzeyi", () => {
     expect(readSrc("lib/academy/catalog-summaries.ts")).not.toContain("12 bölüm");
     expect(readSrc("lib/academy/catalog-summaries.ts")).not.toContain("Temel'den İleri");
     expect(readSrc("lib/academy/published-catalog.ts")).toContain("summary: seed?.summary ?? course.summary");
-    expect(readSrc("components/academy/level-pathway.tsx")).not.toContain("MarketPopularityBadge");
+    expect(existsSync(join(ROOT, "components/academy/level-pathway.tsx"))).toBe(false);
     expect(existsSync(join(ROOT, "components/academy/filter-bar.tsx"))).toBe(false);
     expect(readSrc("components/showcase/listing-card.tsx")).toContain("justify-end");
     expect(list).toContain("courses.length === 0");
