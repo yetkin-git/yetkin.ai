@@ -96,7 +96,7 @@ function veoWarmupCard(
     durationSec: ACADEMY_VEO_SCENE_DURATION_SEC,
     endSec: cue.end,
     src: academyLessonWarmupVeoAssetKey(lessonKey) ?? cue.id,
-    posterSrc: fallbackPoster,
+    posterSrc: academyCinemaCueSlidePublicPath(lessonKey, cue.id) || fallbackPoster,
   };
 }
 

@@ -220,6 +220,9 @@ describe("admin katalog yüzeyi", () => {
     const revisionsPage = readSrc("app/(kernel)/admin/curriculum-revisions/page.tsx");
     const approve = readSrc("archived/components/academy-studio/curriculum-revision-approve-button.tsx");
     const board = readSrc("archived/components/academy-studio/curriculum-revision-board.tsx");
+    expect(revisionsPage).toContain("resolveSuperAdminAccess");
+    expect(revisionsPage).toContain("AuthNeeded");
+    expect(revisionsPage).toContain("Forbidden");
     expect(revisionsPage).toContain("ACADEMY_SEN.revisions");
     expect(revisionsPage).toContain("RevisionShelterActions");
     expect(revisionsPage).toContain("ADMIN_SURFACE_PATH");

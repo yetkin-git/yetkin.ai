@@ -5,8 +5,11 @@
 
 import { academyMicroVideoPublicSources } from "@/lib/academy/lesson-media";
 import {
+  ACADEMY_EC102_PUBLIC_RELEASE_OPEN,
   ACADEMY_FLAGSHIP_SKU_SLUG,
+  ACADEMY_NEXT_BODY_SKU_SLUG,
   ACADEMY_OFF201_STOREFRONT_SLUG,
+  academyCourseNarrationPublished,
   isAcademyGrowthSkuSlug,
   isAcademyProductionLineSkuSlug,
 } from "@/lib/academy/pilot-sku";
@@ -61,8 +64,14 @@ export function academyCourseHasCinemaCover(slug: string): boolean {
   return slug === ACADEMY_FLAGSHIP_SKU_SLUG;
 }
 
-/** Vitrin SKU — taze ingest yok; şeffaf Yakında şablonu. */
+/** Vitrin SKU — ses mührü bitmemiş kardeş şeffaf Yakında şablonuna düşer. */
 export function academyCourseIsComingSoon(slug: string): boolean {
+  if (slug === ACADEMY_NEXT_BODY_SKU_SLUG && !ACADEMY_EC102_PUBLIC_RELEASE_OPEN) {
+    return true;
+  }
+  if (academyCourseNarrationPublished(slug)) {
+    return false;
+  }
   return isAcademyProductionLineSkuSlug(slug) || (isAcademyGrowthSkuSlug(slug) && !academyCourseHasCinemaCover(slug));
 }
 

@@ -86,7 +86,7 @@ export async function POST(request: Request) {
       return jsonOk(result);
     }
     if (body.action === "human-settle") {
-      if (!isSuperAdminActor({ id: user.id, email: user.email })) {
+      if (!isSuperAdminActor(user)) {
         return jsonFail("İnsan incelemesini yalnız Super Admin sonuçlandırır.", 403);
       }
       if (body.employerRefundBps == null) {
@@ -95,6 +95,7 @@ export async function POST(request: Request) {
       const result = await settleHumanReviewDispute(ports, {
         ...actor,
         actorEmail: user.email,
+        actorEmailConfirmedAt: user.emailConfirmedAt,
         employerRefundBps: body.employerRefundBps,
       });
       return jsonOk(result);

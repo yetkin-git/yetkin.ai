@@ -3,7 +3,14 @@
  * Belgede §F yoktur. Mühür tabanı buradadır: ders en az 5 dakika, kurs en az 6 ders.
  * Üst dakika dayatması yoktur. TTS bütçe tavanı vardır: kurs 100 istek, ders 10–12 istek.
  * Vitrin kartındaki dakika yuvarlaması `lesson-meta.ts` içindedir; bu dosya mühür tabanıdır.
+ * Beş katman disk okuyucusu `production-seal-disk.ts` kaydeder. Bu dosya `node:fs` import etmez.
  */
+
+import {
+  ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY,
+  ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY,
+  academyLessonWarmupVeoAssetKey,
+} from "@/lib/academy/lesson-veo";
 
 export const ACADEMY_AI_COURSE_DURATION_MIN_MINUTES = 45;
 /** Mühür tabanı. Spot kaset kurs sayılmaz. Ders adedi TTS bütçesine (100 istek) sığar. */
@@ -147,21 +154,108 @@ export type AcademyProductionSealPresence = Record<AcademyProductionMediaLayer, 
 const ACADEMY_PRODUCTION_LAYER_LABEL: Record<AcademyProductionMediaLayer, string> = {
   text: "Metin",
   voice: "Ses",
-  video: "Video (Veo)",
-  visual: "Görsel",
-  music: "Müzik (Lyria)",
+  video: "Isınma MP4",
+  visual: "Görsel JPG",
+  music: "Müzik BED",
 };
 
+export type AcademyProductionDiskProbe = (relativePath: string) => boolean;
+
+let productionDiskProbe: AcademyProductionDiskProbe | null = null;
+
+/** Sunucu ve test disk okuyucusunu kaydeder. İstemci paketi `node:fs` taşımaz. */
+export function registerAcademyProductionDiskProbe(next: AcademyProductionDiskProbe | null): void {
+  productionDiskProbe = next;
+}
+
 /**
- * Son kontrol. Video (Veo) ve Müzik (Lyria) dahil beş katman yoksa `--seal` basılamaz.
+ * Beş katmanın repo köküne göre yolu.
+ * Görsel katman dersin ilk sinema karesidir: `public/academy/cinema/{ders}-cue-1.jpg`.
+ * Isınma kaseti dersin bağlı `-warmup.mp4` dosyasıdır. Bağ yoksa video yolu boştur.
  */
-export function assertAcademyProductionSeal(presence: AcademyProductionSealPresence): void {
-  const missing = ACADEMY_PRODUCTION_MEDIA_LAYERS.filter((layer) => presence[layer] !== true);
+/**
+ * Dersin ısınma dosyası. Oynatıcı bağlamı yoksa kurs kaseti aranır.
+ * `01_office_ai-3` PowerPoint dersidir; kaset `01_office_ai-1-warmup.mp4` diskte durur.
+ */
+function academyProductionWarmupAssetKey(lessonKey: string): string | null {
+  const bound = academyLessonWarmupVeoAssetKey(lessonKey);
+  if (bound) return bound;
+  if (lessonKey.startsWith("01_office_ai_ileri-")) return ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY;
+  if (lessonKey.startsWith("01_office_ai-")) return ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY;
+  return null;
+}
+
+export function academyProductionLayerRelativePaths(
+  courseSlug: string,
+  lessonKey: string,
+): Record<AcademyProductionMediaLayer, string | null> {
+  const slug = courseSlug.trim();
+  const key = lessonKey.trim();
+  const warmup = academyProductionWarmupAssetKey(key);
+  return {
+    text: `lib/academy/spoken-scripts/${key}.md`,
+    voice: `public/media/academy/audio/${slug}/${key}.mp3`,
+    video: warmup ? `public/media/academy/micro/${warmup}.mp4` : null,
+    visual: `public/academy/cinema/${key}-cue-1.jpg`,
+    music: `public/media/academy/audio/${slug}/${key}.bed.mp3`,
+  };
+}
+
+export function academyProductionLayerPresence(
+  courseSlug: string,
+  lessonKey: string,
+): AcademyProductionSealPresence {
+  const paths = academyProductionLayerRelativePaths(courseSlug, lessonKey);
+  const read = productionDiskProbe;
+  const present = (layer: AcademyProductionMediaLayer): boolean => {
+    if (!read) return false;
+    const relative = paths[layer];
+    if (!relative) return false;
+    return read(relative) === true;
+  };
+  return {
+    text: present("text"),
+    voice: present("voice"),
+    video: present("video"),
+    visual: present("visual"),
+    music: present("music"),
+  };
+}
+
+function academyProductionMissingLayers(
+  courseSlug: string,
+  lessonKey: string,
+): AcademyProductionMediaLayer[] {
+  const presence = academyProductionLayerPresence(courseSlug, lessonKey);
+  return ACADEMY_PRODUCTION_MEDIA_LAYERS.filter((layer) => presence[layer] !== true);
+}
+
+/**
+ * Son kontrol. Metin, Ses, Isınma MP4, Görsel JPG ve Müzik BED diskte yoksa `--seal` basılamaz.
+ * Çağıran boolean doldurmaz. Okuyucu yoksa fail-closed.
+ */
+export function assertAcademyProductionSeal(target: {
+  courseSlug: string;
+  lessonKey: string;
+}): void {
+  if (!productionDiskProbe) {
+    throw new Error("5 medya katmanı diskten okunamadı. Fail-closed. Mühür basılmaz.");
+  }
+  const missing = academyProductionMissingLayers(target.courseSlug, target.lessonKey);
   if (missing.length === 0) return;
   const labels = missing.map((layer) => ACADEMY_PRODUCTION_LAYER_LABEL[layer]).join(", ");
   throw new Error(
-    `5 medya katmanı eksik: ${labels}. Video (Veo) ve Müzik (Lyria) dahil beş katman teyit edilmeden --seal basılamaz.`,
+    `5 medya katmanı eksik: ${labels}. Metin, Ses, Isınma MP4, Görsel JPG ve Müzik BED diskte birebir durmadan --seal basılamaz.`,
   );
+}
+
+/** Sınav yolundaki her dersin beş katmanı diskte duruyorsa true. Okuyucu yoksa false. */
+export function academyCourseProductionDiskSealed(
+  courseSlug: string,
+  lessonKeys: readonly string[],
+): boolean {
+  if (!productionDiskProbe || lessonKeys.length === 0) return false;
+  return lessonKeys.every((lessonKey) => academyProductionMissingLayers(courseSlug, lessonKey).length === 0);
 }
 
 export const ACADEMY_OPTIONAL_LEVEL_PACKAGES = ["Temel", "Orta", "İleri"] as const;

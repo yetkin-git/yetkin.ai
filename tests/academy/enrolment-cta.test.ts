@@ -398,7 +398,7 @@ describe("kasa eğitim özeti — Aşama 1, amiral ses mührü", () => {
       ACADEMY_TRAINING_OFFER_SUMMARY_SEALED,
     );
     expect(academyCardOfferPaths("02_ecommerce_ai").find((offer) => offer.path === "training")?.summary).toBe(
-      ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
+      ACADEMY_TRAINING_OFFER_SUMMARY_SEALED,
     );
     expect(academyCardOfferPaths("03_social_media_ai").find((offer) => offer.path === "training")?.summary).toBe(
       ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,

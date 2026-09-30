@@ -117,20 +117,72 @@ export function academySealedAudioParagraphCount(
   return cues.reduce((sum, cue) => sum + (cue.paragraphs?.length ?? 0), 0);
 }
 
-export function applyAcademySealedAudioTimingsToCues<T extends { id: string; start: number; end: number }>(
-  cues: readonly T[],
-  timings: AcademySealedAudioTimings | null,
-): readonly T[] {
+function academyCueClockProbe(text: string): string {
+  return text.replace(/\s+/gu, " ").trim();
+}
+
+function academyCueOpeningProbe(cue: { paragraphs?: readonly string[] }): string {
+  const opening = academyCueClockProbe(cue.paragraphs?.[0] ?? "");
+  return opening.slice(0, 48);
+}
+
+/**
+ * Parça saati cue'yu örter. Parçasız özet ve veda, son parçanın içindeki cümleden okunur.
+ * Böylece slayt, konuşmanın bittiği saniyeden önce kapanmaz ve ortadaki saate binmez.
+ */
+export function applyAcademySealedAudioTimingsToCues<
+  T extends { id: string; start: number; end: number; paragraphs?: readonly string[] },
+>(cues: readonly T[], timings: AcademySealedAudioTimings | null): readonly T[] {
   if (!timings || timings.pieces.length === 0) {
     return cues;
   }
-  return cues.map((cue) => {
+  const backed = cues.map((cue) => timings.pieces.some((piece) => piece.cueId === cue.id));
+  const result = cues.map((cue) => {
     const group = timings.pieces.filter((piece) => piece.cueId === cue.id);
     if (group.length === 0) {
       return cue;
     }
-    const start = group[0]!.start;
-    const end = group[group.length - 1]!.end;
-    return { ...cue, start, end };
+    return { ...cue, start: group[0]!.start, end: group[group.length - 1]!.end };
   });
+  for (let index = 0; index < result.length; index += 1) {
+    if (backed[index]) {
+      continue;
+    }
+    const probe = academyCueOpeningProbe(result[index]!);
+    if (probe.length < 12) {
+      continue;
+    }
+    let host: { pieceIndex: number; offset: number; bodyLength: number } | null = null;
+    for (let pieceIndex = 0; pieceIndex < timings.pieces.length; pieceIndex += 1) {
+      const body = academyCueClockProbe(timings.pieces[pieceIndex]!.text);
+      const at = body.indexOf(probe);
+      if (at >= 0) {
+        host = { pieceIndex, offset: at, bodyLength: body.length };
+        break;
+      }
+    }
+    if (!host || host.bodyLength <= 0) {
+      continue;
+    }
+    const piece = timings.pieces[host.pieceIndex]!;
+    const span = Math.max(0, piece.end - piece.start);
+    const start = piece.start + (host.offset / host.bodyLength) * span;
+    result[index] = { ...result[index]!, start, end: piece.end };
+    const hostCueIndex = result.findIndex((cue) => cue.id === piece.cueId);
+    const hostCue = hostCueIndex >= 0 ? result[hostCueIndex] : null;
+    if (hostCue && start > hostCue.start && start < hostCue.end) {
+      result[hostCueIndex] = { ...hostCue, end: start };
+    }
+  }
+  for (let index = 0; index < result.length - 1; index += 1) {
+    if (backed[index + 1]) {
+      continue;
+    }
+    const current = result[index]!;
+    const next = result[index + 1]!;
+    if (next.start < current.end && next.start >= current.start) {
+      result[index] = { ...current, end: next.start };
+    }
+  }
+  return result;
 }

@@ -46,13 +46,13 @@ describe("akademi cue SSOT — 01_office_ai-1 punchcard", () => {
   it("compact taslak cue şişirmez; vatandaş sahnesi punchcard sözleşmesi durur", () => {
     expect(ACADEMY_MEDIA_SEALED_AUDIO["01_office_ai"]).toEqual([
       "01_office_ai-1",
+      "01_office_ai-k1",
       "01_office_ai-2",
       "01_office_ai-3",
       "01_office_ai-5",
-      "01_office_ai-6",
       "01_office_ai-g1",
       "01_office_ai-w1",
-      "01_office_ai-k1",
+      "01_office_ai-6",
     ]);
     expect(ACADEMY_MEDIA_SEALED_AUDIO["01_office_ai_ileri"]).toEqual([
       "01_office_ai_ileri-1",

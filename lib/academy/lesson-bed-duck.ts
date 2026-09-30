@@ -34,8 +34,36 @@ export const ACADEMY_OFF101_LESSON_BED_MOOD = {
   "01_office_ai-k1": "lo-fi",
 } as const satisfies Record<string, AcademyBedMood>;
 
+/**
+ * EC-102 yatak haritası.
+ * Ders 1, 2, 5: naylon gitar ve hafif piyano.
+ * Ders 3, 4, 6: lo-fi synth ve odak ritmi.
+ */
+export const ACADEMY_EC102_LESSON_BED_KIND = {
+  "02_ecommerce_ai-1": "nylon-piano",
+  "02_ecommerce_ai-2": "nylon-piano",
+  "02_ecommerce_ai-3": "lofi-synth",
+  "02_ecommerce_ai-4": "lofi-synth",
+  "02_ecommerce_ai-5": "nylon-piano",
+  "02_ecommerce_ai-6": "lofi-synth",
+} as const;
+
+export type AcademyEc102BedKind = (typeof ACADEMY_EC102_LESSON_BED_KIND)[keyof typeof ACADEMY_EC102_LESSON_BED_KIND];
+
+export function academyEc102BedKind(lessonKey: string): AcademyEc102BedKind | null {
+  const key = lessonKey.trim();
+  return ACADEMY_EC102_LESSON_BED_KIND[key as keyof typeof ACADEMY_EC102_LESSON_BED_KIND] ?? null;
+}
+
 export function academyLessonBedMood(lessonKey: string): AcademyBedMood {
   const key = lessonKey.trim();
+  const ec102 = academyEc102BedKind(key);
+  if (ec102 === "nylon-piano") {
+    return "ambient";
+  }
+  if (ec102 === "lofi-synth") {
+    return "lo-fi";
+  }
   const off201 = ACADEMY_OFF201_LESSON_BED_MOOD[key as keyof typeof ACADEMY_OFF201_LESSON_BED_MOOD];
   if (off201) {
     return off201;
@@ -52,6 +80,24 @@ export function academyLessonBedPrompt(mood: AcademyBedMood): string {
         ? "Lo-fi study bed, warm tape hiss barely present, dusty keys, slow swing, soft synth."
         : "Corporate ambient air, soft piano, muted guitar, light brushed percussion, gentle analog pad, soft lo-fi synth.";
   return `Instrumental only, no vocals, no lyrics, no humming, no choir. Calm focus-enhancing bed. ${tone} About ninety seconds, loop-friendly, gentle edges so it can repeat under a spoken lesson. Stays quiet under speech and swells politely in 3 to 5 second breath gaps. No melody that fights the narrator. 44.1 kHz stereo.`;
+}
+
+const ACADEMY_EC102_NYLON_PIANO_PROMPT =
+  "Instrumental only, no vocals, no lyrics, no humming, no choir. Calm focus-enhancing bed. Nylon guitar and light piano, soft brushes, warm room, no drums that fight speech. About ninety seconds, loop-friendly, gentle edges so it can repeat under a spoken lesson. Stays quiet under speech and swells politely in 3 to 5 second breath gaps. No melody that fights the narrator. 44.1 kHz stereo.";
+
+const ACADEMY_EC102_LOFI_SYNTH_PROMPT =
+  "Instrumental only, no vocals, no lyrics. Calm focus bed. Soft synthesizer pads and a quiet steady pulse, warm electric piano, light shaker, gentle tempo. About ninety seconds, loop-friendly, soft edges so it can repeat under spoken narration. Stays quiet under the voice and rises slightly in short pauses. 44.1 kHz stereo.";
+
+/** Ders anahtarı EC-102 yatak haritasındaysa o promptu, değilse mood şablonunu okur. */
+export function academyLessonBedPromptForLesson(lessonKey: string): string {
+  const kind = academyEc102BedKind(lessonKey);
+  if (kind === "nylon-piano") {
+    return ACADEMY_EC102_NYLON_PIANO_PROMPT;
+  }
+  if (kind === "lofi-synth") {
+    return ACADEMY_EC102_LOFI_SYNTH_PROMPT;
+  }
+  return academyLessonBedPrompt(academyLessonBedMood(lessonKey));
 }
 
 /**
@@ -91,6 +137,8 @@ export function academyBedSpeechClockSec(lessonKey: string, mediaSec: number): n
 
 /** Konuşma altı dip — lineer kazanç `10^(dB/20)`. Anlatımı bastırmaz. Ayrı yatak etiketi içindir. */
 export const ACADEMY_BED_SPEECH_DB = -25;
+/** EC-102 Puck anlatımının altı. Lyria yatak ayrı etikette bu seviyede durur. */
+export const ACADEMY_EC102_BED_SPEECH_DB = -22;
 /** Nefes payı — konuşmadan 3 dB açık, hâlâ dipte. */
 export const ACADEMY_BED_BREATH_DB = -22;
 /** İlk konuşma 0. saniyede açılırsa yatak bu sürede 0’dan dipe yükselir. */
@@ -102,6 +150,12 @@ export function academyBedDbToLinear(db: number): number {
 
 export const ACADEMY_BED_SPEECH_GAIN = academyBedDbToLinear(ACADEMY_BED_SPEECH_DB);
 export const ACADEMY_BED_BREATH_GAIN = academyBedDbToLinear(ACADEMY_BED_BREATH_DB);
+export const ACADEMY_EC102_BED_SPEECH_GAIN = academyBedDbToLinear(ACADEMY_EC102_BED_SPEECH_DB);
+
+/** EC-102 yatak konuşma altında -22 dB. Diğer kurslar -25 dB kalır. */
+export function academyBedSpeechGainForLesson(lessonKey: string): number {
+  return academyEc102BedKind(lessonKey) ? ACADEMY_EC102_BED_SPEECH_GAIN : ACADEMY_BED_SPEECH_GAIN;
+}
 /** Gelecek Ders Köprüsü son kelimesi bittiği an — Lyria zirve kazancı. */
 export const ACADEMY_BED_OUTRO_PEAK_GAIN = 0.7;
 /** Nefes payı yükseliş penceresi (saniye). */
@@ -216,10 +270,11 @@ export function academyBedIsSpeech(
 export function academyBedDuckGain(
   currentTime: number,
   pieces: readonly AcademyBedSpeechWindow[],
+  speechGain: number = ACADEMY_BED_SPEECH_GAIN,
 ): number {
   const windows = academyBedSpeechWindows(pieces);
   if (windows.length === 0) {
-    return ACADEMY_BED_SPEECH_GAIN;
+    return speechGain;
   }
   const t = Number.isFinite(currentTime) ? Math.max(0, currentTime) : 0;
   const speaking = academyBedIsSpeech(t, windows);
@@ -227,7 +282,7 @@ export function academyBedDuckGain(
   if (speaking) {
     const piece = windows.find((row) => t >= row.start && t < row.end);
     if (!piece) {
-      return ACADEMY_BED_SPEECH_GAIN;
+      return speechGain;
     }
     if (academyBedIsLiftCue(piece.cueId)) {
       return ACADEMY_BED_BREATH_GAIN;
@@ -236,16 +291,16 @@ export function academyBedDuckGain(
       const liftFrom = Math.max(piece.start, piece.end - ACADEMY_BED_OUTRO_LIFT_SEC);
       if (t >= liftFrom) {
         const u = smoothstep(liftFrom, piece.end, t);
-        return ACADEMY_BED_SPEECH_GAIN + (ACADEMY_BED_BREATH_GAIN - ACADEMY_BED_SPEECH_GAIN) * u;
+        return speechGain + (ACADEMY_BED_BREATH_GAIN - speechGain) * u;
       }
     }
     const fromStart = t - piece.start;
     if (fromStart < ACADEMY_BED_BREATH_MIN_SEC) {
       const u = smoothstep(0, ACADEMY_BED_BREATH_MIN_SEC, fromStart);
-      const dipped = ACADEMY_BED_BREATH_GAIN + (ACADEMY_BED_SPEECH_GAIN - ACADEMY_BED_BREATH_GAIN) * u;
+      const dipped = ACADEMY_BED_BREATH_GAIN + (speechGain - ACADEMY_BED_BREATH_GAIN) * u;
       return engageBedFade(dipped, fromStart, piece.start, windows[0]?.start ?? piece.start);
     }
-    return ACADEMY_BED_SPEECH_GAIN;
+    return speechGain;
   }
   if (t >= last.end) {
     const intoOutro = t - last.end;
@@ -265,7 +320,7 @@ export function academyBedDuckGain(
   const intoGap = t - previous.end;
   const rise = Math.min(ACADEMY_BED_BREATH_MAX_SEC, Math.max(ACADEMY_BED_BREATH_MIN_SEC, ACADEMY_BED_DUCK_TAU_SEC));
   const u = smoothstep(0, rise, intoGap);
-  return ACADEMY_BED_SPEECH_GAIN + (ACADEMY_BED_BREATH_GAIN - ACADEMY_BED_SPEECH_GAIN) * u;
+  return speechGain + (ACADEMY_BED_BREATH_GAIN - speechGain) * u;
 }
 
 export function academyBedDuckLerp(currentGain: number, targetGain: number, deltaSec: number): number {

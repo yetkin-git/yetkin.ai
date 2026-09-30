@@ -2,7 +2,9 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
-import { ACADEMY_LEGACY_PURGE_CATALOG_UNITS } from "@/lib/academy/catalog-seed";
+import { ACADEMY_LEGACY_PURGE_CATALOG_UNITS, academyVitrineDisplaySeed } from "@/lib/academy/catalog-seed";
+import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
+import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import {
   ACADEMY_FLAGSHIP_SKU_SLUG,
   ACADEMY_GROWTH_SKU_SLUGS,
@@ -15,7 +17,7 @@ import {
 } from "@/lib/academy/pilot-sku";
 import { academyCourseIsComingSoon } from "@/lib/academy/course-cover";
 import { academyModuleCodeBySlug } from "@/lib/academy/catalog-filter";
-import { academyVitrineShellCourses } from "@/lib/academy/published-catalog";
+import { academyCourseRecordFromSeed, academyVitrineShellCourses } from "@/lib/academy/published-catalog";
 import {
   ACADEMY_LEGACY_UNIT_SLUGS_FOR_TEST,
   ACADEMY_RETIRED_STOREFRONT_SLUGS,
@@ -72,16 +74,38 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
       "PR-105",
     ]);
     expect(academyModuleCodeBySlug("01_office_ai_ileri")).toBe("OFF-201");
-    expect(academyVitrineShellCourses().find((row) => row.slug === "01_office_ai_ileri")?.purchasable).toBe(
-      true,
-    );
-    expect(academyVitrineShellCourses().find((row) => row.slug === "01_office_ai_ileri")?.priceMinor).toBe(
-      129_000,
-    );
-    expect(academyVitrineShellCourses().filter((row) => row.purchasable).map((row) => row.slug)).toEqual([
-      "01_office_ai",
-      "01_office_ai_ileri",
-    ]);
+    const closed = academyVitrineShellCourses();
+    expect(closed.find((row) => row.slug === "01_office_ai_ileri")?.purchasable).toBe(false);
+    expect(closed.find((row) => row.slug === "01_office_ai_ileri")?.isPublished).toBe(false);
+    expect(closed.find((row) => row.slug === "01_office_ai_ileri")?.priceMinor).toBeNull();
+    expect(closed.filter((row) => row.purchasable).map((row) => row.slug)).toEqual([]);
+    expect(closed.find((row) => row.slug === "02_ecommerce_ai")?.isPublished).toBe(false);
+    expect(closed.find((row) => row.slug === "02_ecommerce_ai")?.purchasable).toBe(false);
+    expect(academyCourseIsComingSoon("02_ecommerce_ai")).toBe(true);
+  });
+
+  it("EC-102 kamu kapısı yayınlı ve fiyatlı satırı da satın aldırmaz", () => {
+    const seed = academyVitrineDisplaySeed("02_ecommerce_ai");
+    expect(seed).toBeDefined();
+    const base = academyCourseRecordFromSeed(seed!);
+    const priced = {
+      ...base,
+      isPublished: true,
+      priceMinor: toAmountMinor(seed!.seedAmountMinor),
+      currencyCode: SETTLEMENT_CURRENCY,
+      purchasable: false,
+    };
+    const open = academyVitrineShellCourses([priced]);
+    expect(open.find((row) => row.slug === "02_ecommerce_ai")?.purchasable).toBe(false);
+    expect(open.find((row) => row.slug === "02_ecommerce_ai")?.isPublished).toBe(false);
+    expect(open.find((row) => row.slug === "01_office_ai")?.purchasable).toBe(false);
+
+    const unpublished = academyVitrineShellCourses([{ ...priced, isPublished: false }]);
+    expect(unpublished.find((row) => row.slug === "02_ecommerce_ai")?.purchasable).toBe(false);
+
+    const noPrice = academyVitrineShellCourses([{ ...priced, priceMinor: null }]);
+    expect(noPrice.find((row) => row.slug === "02_ecommerce_ai")?.purchasable).toBe(false);
+    expect(noPrice.find((row) => row.slug === "02_ecommerce_ai")?.isPublished).toBe(false);
   });
 
   it("katalog viewport kilidi html taşmasını kesmez; künye kaydırma gövdesindedir", () => {
@@ -129,7 +153,9 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
 
   it("SEN oynatıcı callout hayalet python-temel href taşımaz", () => {
     expect(ACADEMY_SEN.player.codeCalloutHref).toBe("/academy");
-    expect(ACADEMY_SEN.player.codeCalloutModule).toBe("Günlük İşler İçin İstem Yazma");
+    expect(ACADEMY_SEN.player.codeCalloutModule).toBe(
+      "Yapay Zekâ Prompt Mühendisliği",
+    );
     expect(ACADEMY_SEN.player.codeCalloutHref).not.toContain("python-temel");
     expect(JSON.stringify(ACADEMY_SEN)).not.toContain("/academy/python-temel");
     expect(JSON.stringify(ACADEMY_SEN)).not.toContain("Python ile Yazılım ve Veri Mühendisliği");
@@ -147,7 +173,7 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
       expect(isAcademyRetiredStorefrontSlug(slug), slug).toBe(false);
     }
-    expect([...ACADEMY_VITRINE_SLUGS_FOR_TEST]).toEqual([...ACADEMY_GROWTH_SKU_SLUGS]);
+    expect([...ACADEMY_VITRINE_SLUGS_FOR_TEST]).toEqual(["01_office_ai"]);
     const fromUnits = ACADEMY_LEGACY_PURGE_CATALOG_UNITS.map((unit) => unit.slice("course:".length));
     expect([...ACADEMY_LEGACY_UNIT_SLUGS_FOR_TEST].sort()).toEqual([...fromUnits].sort());
     const redirects = academyRetiredStorefrontRedirects();
@@ -174,7 +200,7 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(aliasPage).toContain("isAcademyRetiredStorefrontSlug");
     expect(aliasPage).toContain('permanentRedirect("/academy")');
     expect(academyCourseHasSealedAudio("01_office_ai")).toBe(true);
-    expect(academyCourseHasSealedAudio("02_ecommerce_ai")).toBe(false);
+    expect(academyCourseHasSealedAudio("02_ecommerce_ai")).toBe(true);
     expect(academyCourseHasSealedAudio("05_prompt_practice")).toBe(false);
     expect(ACADEMY_SEN.catalog.audioBadge).not.toContain("Seslendirmeli");
     expect(ACADEMY_RETIRED_STOREFRONT_SLUGS).toContain("siber-guvenlik");

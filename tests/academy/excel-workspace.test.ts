@@ -224,7 +224,9 @@ describe("Beat 3 Prompt Terminali dock", () => {
     expect(academyVisualStageBackdropTheme("01_office_ai-1")).toBe("excel");
     expect(academyVisualStageBackdropTheme("01_office_ai-3")).toBe("pptx");
     expect(academyVisualStageBackdropTheme("01_office_ai-4")).toBe("outlook");
+    expect(academyVisualStageBackdropTheme("02_ecommerce_ai-1")).toBe("brand");
     expect(academyVisualCinematicFrameSrc("01_office_ai-1")).toBe(ACADEMY_OFFICE_AI_01_FRAME_PUBLIC_PATH);
+    expect(academyVisualCinematicFrameSrc("02_ecommerce_ai-1")).toBeNull();
     expect(academyVisualCinematicFrameSrc("01_office_ai-3")).toBeNull();
     expect(academyVisualCinematicFrameSrc("01_office_ai-4")).toBeNull();
   });

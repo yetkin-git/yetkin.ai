@@ -1,5 +1,5 @@
 /**
- * Kanıt okuma sözleşmesi — Modüler Monolit çekirdeği.
+ * Kanıt okuma sözleşmesi — Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci.
  * Kariyer dikey akademi/freelancer iç okuma dosyasını import etmez;
  * yalnız bu portu ve `lib/kernel/catalog-ids` kimliğini konuşur. Yazma yok; oda motoru yok.
  */

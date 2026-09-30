@@ -1,8 +1,7 @@
 /**
  * Satın almamış oynatıcı — ders kabuğu.
- * Gövde, diyagram ve mikro video istemciye gitmez.
- * Ücretsiz kapı hazırlık şerididir (`01_office_ai-0`); ana ders bu listeye açık girmez.
- * `isPreviewAllowed: true` ana dersi açamaz. `01_office_ai-1` ve `01_office_ai-k1` kilitlidir.
+ * Ücretsiz kapı hazırlık şeridi ve sınav yolunun ilk dersidir (`free-preview.ts`).
+ * Ders 2 ve sonrası gövdesi istemciye gitmez.
  */
 
 import {
@@ -36,22 +35,35 @@ export function sealClosedAcademyLessonPayload<T extends { open: boolean; body: 
   return lessons.map((lesson) => (lesson.open ? lesson : { ...lesson, body: "" }));
 }
 
-/** Müfredat bayrağı önizlemeye yetmez. Anahtar hazırlık şeridi değilse kapalıdır. */
+/**
+ * Bölüm bayrağı aynı kapıyı okur.
+ * Sınav yolunun ilk dersi `isPreviewAllowed: true` ve `isLocked: false` olur.
+ */
+export function applyAcademySectionPreviewGate<T extends {
+  lessonKey?: string;
+  isPreviewAllowed?: boolean;
+  isLocked?: boolean;
+}>(section: T): T {
+  const open = isAcademyFreePreviewLessonKey(section.lessonKey ?? "");
+  return { ...section, isPreviewAllowed: open, isLocked: !open };
+}
+
+/** Müfredat bayrağı kapıdan gelir. İlk ders ve hazırlık şeridi açıktır. */
 export function academySectionAllowsFreePreview(section: {
   lessonKey?: string;
   isPreviewAllowed?: boolean;
   isLocked?: boolean;
 }): boolean {
   const key = section.lessonKey?.trim() ?? "";
-  if (!key || section.isLocked === true || section.isPreviewAllowed !== true) {
+  if (!key || !isAcademyFreePreviewLessonKey(key)) {
     return false;
   }
-  return isAcademyFreePreviewLessonKey(key);
+  return section.isPreviewAllowed === true && section.isLocked !== true;
 }
 
 /**
- * Oynatıcı satırı. Ödeme duvarında `lesson.open` yok sayılır.
- * `01_office_ai-1` ve `01_office_ai-k1` dahil 1–8 kilitlidir.
+ * Oynatıcı satırı. Ödeme duvarında ders 1 açıktır.
+ * Ders 2 ve sonrası kilitlidir.
  */
 export function isAcademyPlayerPaywallLessonLocked(
   courseSlug: string,

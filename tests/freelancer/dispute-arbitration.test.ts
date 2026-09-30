@@ -26,6 +26,9 @@ import {
 } from "../helpers/memory-money";
 import { createMemoryAiTokenUsageStore } from "../helpers/memory-ai-usage";
 
+const ADMIN_ID = "11111111-1111-4111-8111-111111111111";
+const ADMIN_EMAIL = "admin@yetkin.test";
+const CONFIRMED = "2026-01-01T00:00:00.000Z";
 const CLIENT = "client-1";
 const FREELANCER = "freelancer-1";
 const PLATFORM = PLATFORM_TREASURY_USER_ID;
@@ -180,10 +183,12 @@ describe("freelancer 2 turlu AI bilirkişi tahkimi", () => {
       refundFreelancerContract(ports, { contractId: contract.id, actorUserId: CLIENT }),
     ).rejects.toThrow();
 
+    process.env.CANONICAL_SUPER_ADMIN_EMAIL = ADMIN_EMAIL;
     const settled = await settleHumanReviewDispute(ports, {
       disputeId: opened.dispute.id,
-      actorUserId: "admin-1",
-      asSuperAdmin: true,
+      actorUserId: ADMIN_ID,
+      actorEmail: ADMIN_EMAIL,
+      actorEmailConfirmedAt: CONFIRMED,
       employerRefundBps: 2500,
       platformUserId: PLATFORM,
     });
@@ -235,10 +240,12 @@ describe("freelancer 2 turlu AI bilirkişi tahkimi", () => {
       disputeId: opened.dispute.id,
       actorUserId: CLIENT,
     });
+    process.env.CANONICAL_SUPER_ADMIN_EMAIL = ADMIN_EMAIL;
     const settled = await settleHumanReviewDispute(ports, {
       disputeId: opened.dispute.id,
-      actorUserId: "admin-1",
-      asSuperAdmin: true,
+      actorUserId: ADMIN_ID,
+      actorEmail: ADMIN_EMAIL,
+      actorEmailConfirmedAt: CONFIRMED,
       employerRefundBps: 10_000,
       platformUserId: PLATFORM,
     });

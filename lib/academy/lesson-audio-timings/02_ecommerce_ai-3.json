@@ -1,7 +1,116 @@
 {
   "lessonKey": "02_ecommerce_ai-3",
   "pauseSec": 0.4,
-  "durationSec": 0,
-  "cacheV": 0,
-  "pieces": []
+  "durationSec": 607.601,
+  "cacheV": 607601,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 42.748,
+      "text": "Merhaba, ben Deniz. Yeni bir dersle yine beraberiz! Umarım keyifler yerindedir. Geçen ders, ikinci derste, stüdyoya gidip stüdyo parası ödemeden ürün fotoğrafını pazaryerinin görsel kuralına getirmiştik. Arka planı düz beyaz bırakmıştık, üstüne stüdyo ışığı vurmuştuk, filigranı silmiştik ve kareyi net tutmuştuk. Bunu alıcı ürünün kendi rengini ve kendi şeklini görsün diye yaptık, bir de yanlış fotoğraf yüzünden geri dönen iadenin önüne geçelim diye. O işi orada bırakmıştık. Fotoğraf düzelince şikâyet kendiliğinden bitmez. Müşteri malı eline alınca yazar, kargo kutuyu hırpalayınca yazar, Listing'de ölçü eksik kalınca da yazar."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 1,
+      "start": 44.498,
+      "end": 77.91,
+      "text": "Bu derste odağımız tamamen cebindeki parayı korumak. Müşterinin yazdığı yorumu, gelen şikâyeti ve iade gerekçesini yapay zekâ ile okuyacağız, hatayı da kaynağında çözeceğiz. Kaynak bazen ürünün kendisidir, bazen Listing yazısıdır, bazen fotoğraftır, bazen de kutunun kargodaki halidir. Kaynağı düzeltmezsen aynı şikâyet yarın yine düşer. Düşen her kötü yorum mağaza puanını aşağı çeker. Geri dönen her iade, kargo parasını senin sırtına yükler."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 2,
+      "start": 79.66,
+      "end": 127.69,
+      "text": "Şimdi pazaryeri paneline beraber bakalım. Pazaryerin Trend yol da olur, Hepsi burada da, Ama zon da, N11 de, ÇiçekSepeti de, PttAVM de, Getir de, Pazarama da. Panelin adı değişir, zarar yine aynı yerden girer. Sabah çayın yanında paneli açtığında gözüne ilk bir yıldızlı yorumlar çarpar. O tek yıldız mağaza puanının ortalamasını aşağı çeker. Alıcı sepete koymadan önce bu puana bakar. Puan düşünce aynı malı satan yüksek puanlı mağazaya kayar, senin Listing'in aramada geride kalır ve satışın kesilir. Aramada geride kalma işinin adı Es i o'dur. Birinci derste Es i o'yu başlık için konuşmuştuk. Bugün aynı Es i o, puan düşünce de seni geride bırakır."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 129.44,
+      "end": 166.078,
+      "text": "Bir de iade var, o da ayrı bir cep deliği. Müşteri ürünü geri yolladığında, gerekçe bozuk ürünse, eksik parçaysa ya da fotoğraftakinden farklıysa, iade kargosunun ücreti çoğu zaman senin sırtına biner. Ürün sana kırık döner, o satışın parası da cebinden çıkar. Kırık malı ikinci kez aynı fiyata satamazsın. Kargo parası gider, satış parası da gider. Tutarı panelindeki iade satırı söyler. Orada kargo bedelini ve geri ödenen tutarı görürsün. O iki kalem, o hafta cebinden çıkan paradır."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 4,
+      "start": 167.828,
+      "end": 236.073,
+      "text": "Diyelim bej seramik kupa hâlâ vitrinde. Geçen ders onun ana görselini beyaz arka plana çekmiştik. Bu hafta panele altmış bir yıldız ve kırk iade düşmüş olsun. Oturup tek tek okumaya kalkarsın. Birinde kulp kırık yazar, ötekinde renk koyu yazar, bir sonrakinde küçük geldi yazar. İki akşam bunu okursan yorulursun. Yorulunca ortak sebebi kaçırırsın. Ortak sebebi kaçırırsan kutuyu, fotoğrafı ve Listing yazısını aynı hatalı haliyle bırakırsın. Yarın aynı iade yine gelir ve yine senin kargo paranla döner. Bütün yorumları tek tek okumak zorunda değilsin. Panelde o ürünün yorum sayfasını açarsın. Bir yıldızlı yorumun yazısını kopyalarsın, yıldız sayısını da satırın başına yazarsın. İade gerekçesi kısa bir kodsa onu da eklersin. Kod çoğu zaman şöyle durur. Ürün hasarlı geldi. Fotoğraftan farklı. Beklentimi karşılamadı. Yanlış ürün geldi. Bu kısa kodu da yoruma yapıştırırsın. Çünkü asıl sebep bazen uzun yazıda durmaz, o kısa kodda durur."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 5,
+      "start": 237.823,
+      "end": 277.075,
+      "text": "Şimdi şunu demiş olabilirsin. Yüzlerce satırı nereye koyacağım, karışır mı? Çok haklısın, adım adım bakalım. Aynı anda üç ürünün yorumunu birbirine karıştırma. Kupanın yorumu ayrı gider, havlunun yorumu ayrı gider. Karışınca yapay zekâ kulp şikâyetini havluya yazar, sen de yanlış malın kutusunu düzeltirsin ve para yine gider. Elinde üç yorum varsa ortak sebep henüz görünmez. O üç yorumu da yapıştırabilirsin, cevabın başına az örnek olduğunu yazdırırsın. Karar için bir ürünün son yorumlarını, elinde ne kadar varsa, tek blok hâlinde verirsin."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 6,
+      "start": 278.825,
+      "end": 317.309,
+      "text": "Kopyalarken müşterinin adını, telefonunu, adresini ve sipariş numarasını sohbete koymazsın. Yorum metni ve iade gerekçesi yeter. İsim satırda duruyorsa onu silersin. Ürün şikâyeti gider, kişi gitmez. Sonra hepsini bir sohbete yapıştırırsın. Yapay zekâya iki soru sorarsın. En çok hangi konuda şikâyet var? Ürünün neresi defolu, neresi yanlış anlaşılıyor? Cevap on saniyede önüne gelir. Sen o cevapta grubu görürsün. Grubu görünce parayı nerede kaybettiğini de görürsün."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 7,
+      "start": 319.059,
+      "end": 375.436,
+      "text": "Aynı kupa örneğinde cevap şöyle dursun. Yirmi sekiz yorumda kulp kargoda kırılmış. On sekiz yorumda renk fotoğraftan koyu görünmüş. Dokuz yorumda kupa beklenenden küçük gelmiş. Geri kalan dağınık ve tek tek kalmış. İlk iş en kalabalık gruptur, çünkü en çok iade oradan çıkar ve en çok kargo parası da oradan çıkar. Kulp kırığı için kutuya köşe desteği koyarsın, kupayı kutunun içinde oynatmazsın. Rengi koyu bulan için Listing'deki ana görseli gerçek bej ile değiştirirsin. Geçen dersin kuralı durur. Arka plan beyaz kalır, ürünün bejini beyaza çekmezsin. Küçük geldi diyen için açıklamanın ilk satırına ölçüyü yazarsın. Birinci derste başlığı ölçüyle kurmuştuk. Aynı ölçü burada da yanlış beklentiyi keser. Beklenti düzelince o gerekçeyle gelen iade seyrekleşir."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 8,
+      "start": 377.186,
+      "end": 438.333,
+      "text": "Yorumda yazmayan arızayı düzeltmeye kalkmazsın. Üç kişi kargo geç kaldı diye yazdıysa, bunu kulp kırığıyla bir tutmazsın. Geç kargo ayrı satırdır. Onun kaynağı depo çıkış saatin ya da kargo firmandır. Kutuya köşe desteği o satırı çözmez. Her grup kendi kaynağına gider. Bir de yarım kalan soruyu göstereyim, çünkü çoğu satıcı burada takılır. Sohbete yalnız şunu yazarsan iş yarım kalır. Bu yorumları analiz et ve özet çıkar. Gelen cevap çoğu zaman şudur. Müşteriler genelde memnun değil. Bunu sen panelde zaten görüyorsun. Kaç kişide geçtiği yok, kaynak yok, yarın sabah kutuya mı el atacaksın, fotoğrafa mı, Listing'in ilk satırına mı, belli değil. O yüzden Prompt eksiksiz olur. Grubu, sayıyı, kaynağı ve her kaynak için tek düzeltmeyi ister. Yorumda olmayan arızayı da yasaklar. Panelden kopyaladığın yorumları sohbete koyarken şu Prompt'u olduğu gibi yapıştırırsın. Yorumları en alta eklersin."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 9,
+      "start": 440.083,
+      "end": 506.173,
+      "text": "Sana bir ürünün müşteri yorumlarını ve iade gerekçelerini veriyorum. İsim, telefon, adres ve sipariş numarası yok. Satırda böyle bir bilgi görürsen onu yok say. Üç iş yap. Birincisi, en çok tekrar eden şikâyeti yaz ve kaç yorumda geçtiğini say. İkincisi, şikâyetleri şu kutulara ayır. Kırık veya defolu. Eksik parça. Yanlış beden veya yanlış ölçü. Yanlış renk. Fotoğraftakinden farklı. Geç kargo. Kötü paket. Diğer. Üçüncüsü, her kutu için kaynağı tek kelimeyle yaz. Kaynak ürün, Listing, fotoğraf ya da kargo olsun. Her kutunun karşısına, kaynağında ne düzelteceğimi tek cümle yaz. Yorumda yazmayan arızayı uydurma. Az yorum varsa bunu başta söyle. En çok iade getiren kutuyu en üste koy. Az görüleni alta bırak. Yorumlar aşağıda."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 10,
+      "start": 507.923,
+      "end": 537.811,
+      "text": "Bu Prompt'tan sonra gelen cevaba üç yerden bakarsın. En üstte en kalabalık şikâyet duruyor mu? Her şikâyetin kaynağı ürün, Listing, fotoğraf ya da kargo diye yazıyor mu? Kaynağın karşısında tek bir düzeltme duruyor mu? Durmuyorsa aynı Prompt'u bir kez daha yollarsın. Uydurma satır görürsen o satırı silersin. Kutuya, fotoğrafa ve Listing'e sen karar verirsin. Yapay zekâ grubu sayar, malı sen düzeltirsin."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 11,
+      "start": 539.561,
+      "end": 607.601,
+      "text": "Düzeltmeden sonra iş bitmez. Ertesi hafta aynı ürünün yeni yorumunu açarsın. Kulp satırı seyreldi mi diye bakarsın. Seyrelmediyse destek yetmemiştir, kutuyu bir kez daha değiştirirsin. Renk satırı sürüyorsa görseli bir kez daha gerçek bej ile değiştirirsin. Aynı şikâyet seyrekleşince o kargo parası cebinde kalır. Bu derste şunu işledik. Bir yıldızlı yorum ve iade, mağaza puanını düşürür, iade kargosunu senin sırtına yükler ve satışını keser. Yüzlerce yorumu tek tek okumak yerine hepsini yapay zekâya verip ortak şikâyeti on saniyede görürsün. Gördüğün hatayı kutuda, fotoğrafta ya da Listing yazısında, yani kaynağında düzeltirsin. Böylece aynı para yarın yine cebinden çıkmaz. Sıradaki ders dördüncü ders. Orada yapay zekâ ile rakip analizi yapacağız, fiyatı nasıl koyacağını konuşacağız ve kâr marjını nasıl koruyacağını göreceğiz. Başkasının fiyatını olduğu gibi almak yerine kendi maliyetini ezdirmeden bakacağız. Herkese bol kazançlı günler, hayırlı müşteriler diliyorum. Sonraki derste görüşmek üzere. Kendinize çok iyi bakın. Selamlar."
+    }
+  ]
 }

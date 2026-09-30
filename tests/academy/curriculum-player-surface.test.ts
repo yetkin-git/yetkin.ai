@@ -84,7 +84,7 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(articleCount).toBe(0);
     expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-1").kind).toBe("article+karaoke");
     expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-6").kind).toBe("article+karaoke");
-    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-1").kind).toBe("article");
+    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-1").kind).toBe("article+karaoke");
     expect(ACADEMY_PILOT_SKU_SLUG).toBeNull();
   });
 

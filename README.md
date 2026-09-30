@@ -15,7 +15,7 @@ Vatandaş ve dış dünya markası **yetkin.ai**. npm paketi `yetkin.ai`. Lab ve
 
 **Motor 4 / Kamu Vitrini 3 Oda.** `/vize` 5. oda değildir. Freelancer (`/freelancer`) sicilde durur, kamu **410 Gone**; nakit iddiası taşımaz. Lisanslı Split bağlı değilken accept **503**. Junior (`/junior`) 18 yaş altı / veli odasıdır, üretim kilitli **410**. Sahte bakiye veya sahte CREDIT yazılmaz (fail-closed). Faz 1 tek nakit kanalı **PayTR Merchant** (B2C eğitim satışı). Dron T3 Akademi halkası bağlıdır; Tezgâh izole durur. Saf sözleşmeler `@yetkin/kernel` paketindedir.
 
-Kimlik Supabase Auth, nakit tek `amountMinor` defteri, dış sözleşme `/api/v1`. Gövde **Modüler Monolit + API-First Dron Sözleşmesi**dir; saf kernel paketi Amiral ve Dron arasında paylaşılır, mikroservis platformu değildir.
+Kimlik Supabase Auth, nakit tek `amountMinor` defteri, dış sözleşme `/api/v1`. Gövde **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci**dir (Anayasa B1). İnce sözleşme paketi `@yetkin/kernel`dir. Tek native istemci `apps/rail-is`tir.
 
 ## Bağlama
 

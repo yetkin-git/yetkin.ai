@@ -1,5 +1,5 @@
 /**
- * Müfredat kimliği — Modüler Monolit çekirdek sözleşmesi.
+ * Müfredat kimliği — Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci.
  * Yalnız canlı SKU halkaları. Kariyer ve freelancer lib/academy import etmez.
  *
  * Boş vitrin: canlı pathway yok.

@@ -69,13 +69,15 @@ export function CourseCard({
     ? formatMinorCompact(course.priceMinor, course.currencyCode)
     : ACADEMY_SEN.catalog.priceMissing;
   const comingSoon = academyCourseIsComingSoon(course.slug);
-  const saleClosed = !comingSoon && !owned && !course.purchasable;
+  const unpublished = !comingSoon && !course.isPublished;
+  const saleClosed = !comingSoon && !unpublished && !owned && !course.purchasable;
   const storefront = resolveAcademyCatalogCardCta({
     slug: course.slug,
     owned,
     learnerStatus,
     priceLabel: course.priceMinor ? moneyLabel : null,
-    purchasable: comingSoon ? undefined : course.purchasable,
+    purchasable: comingSoon || unpublished ? undefined : course.purchasable,
+    isPublished: comingSoon ? undefined : course.isPublished,
     studioPreview,
   });
   const learnerLabel =
@@ -204,9 +206,11 @@ export function CourseCard({
       price={storefront.priceLabel}
       priceCaption={storefront.priceCaption ?? undefined}
       badge={
-        saleClosed
-          ? ACADEMY_SEN.catalog.pricePending
-          : (statusBadge ?? (comingSoon ? undefined : ACADEMY_SEN.catalog.liveBadge))
+        unpublished
+          ? ACADEMY_SEN.catalog.unpublishedBadge
+          : saleClosed
+            ? ACADEMY_SEN.catalog.pricePending
+            : (statusBadge ?? (comingSoon ? undefined : ACADEMY_SEN.catalog.liveBadge))
       }
       lockLabel={undefined}
       meta={cardMeta}
@@ -215,7 +219,7 @@ export function CourseCard({
       ctaDisabled={storefront.ctaDisabled}
       ctaSize="md"
       ctaVariant={
-        storefront.ctaDisabled || comingSoon
+        storefront.ctaDisabled || comingSoon || unpublished
           ? "outline"
           : owned || storefront.href.endsWith("/oyna")
             ? "success"

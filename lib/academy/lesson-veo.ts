@@ -1,10 +1,8 @@
-import { ACADEMY_BAKE_MODELS } from "@/lib/kernel/ai/model-roles";
-
 /**
  * Isınma B-roll — yerel `-warmup.mp4` reuse. Otomatik Veo API iptal (PEDAGOJI §E.4).
  * Kaset yalnız `/public/media/academy/micro/{anahtar}.mp4`. Anahtar `-warmup` ile biter.
  * Ofis istemi `ACADEMY_WARMUP_OFFICE_PROMPT` Gemini arayüzünde elle yazılır; bu dosya çağrı açmaz.
- * Kimlik `ACADEMY_BAKE_MODELS` içindedir. Canlı `VIDEO_GEN` bu dosyayı açmaz.
+ * Canlı video yuvası bu dosyayı açmaz.
  */
 
 export const ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY = "01_office_ai-1-warmup" as const;
@@ -22,10 +20,14 @@ export const ACADEMY_OFF201_WARMUP_FILE = `${ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY
  * 8000 = 8.00 saniye. Eski kısa kaset aynı URL’de kalmasın.
  */
 export const ACADEMY_OFF201_WARMUP_CACHE_V = 8000 as const;
+/** EC-102 ders 1–2. Kaset `public/media/academy/micro/02_ecommerce_ai-listing-warmup.mp4`. */
+export const ACADEMY_EC102_LISTING_WARMUP_KEY = "02_ecommerce_ai-listing-warmup" as const;
+/** EC-102 ders 3–6. Kaset `public/media/academy/micro/02_ecommerce_ai-ops-warmup.mp4`. */
+export const ACADEMY_EC102_OPS_WARMUP_KEY = "02_ecommerce_ai-ops-warmup" as const;
 /** Eski Lite kimliği. Otomatik çağrı iptal; sabit yalnız reddetmek için durur. */
-export const ACADEMY_VEO_BAKE_MODEL = ACADEMY_BAKE_MODELS.VIDEO_VEO_LITE;
+export const ACADEMY_VEO_BAKE_MODEL = "veo-3.1-lite-generate-preview" as const;
 /** Pahalı Veo 3.1 kimliği. Otomatik çağrı iptal (PEDAGOJI §E.4). */
-export const ACADEMY_VEO_PREMIUM_MODEL = ACADEMY_BAKE_MODELS.VIDEO_VEO_PREMIUM_FORBIDDEN;
+export const ACADEMY_VEO_PREMIUM_MODEL = "veo-3.1-generate-preview" as const;
 export const ACADEMY_VEO_BAKE_DURATION_SEC = 8 as const;
 /** Warm-up B-roll bandı. Varsayılan 8 sn bu bandın üst ucudur. */
 export const ACADEMY_VEO_BAKE_DURATION_MIN_SEC = 6 as const;
@@ -119,10 +121,25 @@ const OFF201_WARMUP_VEO_LESSON_KEYS = [
   "01_office_ai_ileri-6",
 ] as const;
 
+const EC102_LISTING_WARMUP_LESSON_KEYS = ["02_ecommerce_ai-1", "02_ecommerce_ai-2"] as const;
+
+const EC102_OPS_WARMUP_LESSON_KEYS = [
+  "02_ecommerce_ai-3",
+  "02_ecommerce_ai-4",
+  "02_ecommerce_ai-5",
+  "02_ecommerce_ai-6",
+] as const;
+
 export function academyLessonWarmupVeoAssetKey(lessonKey: string): string | null {
   const key = lessonKey.trim();
   if ((OFF201_WARMUP_VEO_LESSON_KEYS as readonly string[]).includes(key)) {
     return ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY;
+  }
+  if ((EC102_LISTING_WARMUP_LESSON_KEYS as readonly string[]).includes(key)) {
+    return ACADEMY_EC102_LISTING_WARMUP_KEY;
+  }
+  if ((EC102_OPS_WARMUP_LESSON_KEYS as readonly string[]).includes(key)) {
+    return ACADEMY_EC102_OPS_WARMUP_KEY;
   }
   return (WARMUP_VEO_LESSON_KEYS as readonly string[]).includes(key)
     ? ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY
@@ -133,6 +150,8 @@ export function academyLessonWarmupVeoCueId(lessonKey: string): string | null {
   const key = lessonKey.trim();
   const bound =
     (WARMUP_VEO_LESSON_KEYS as readonly string[]).includes(key) ||
-    (OFF201_WARMUP_VEO_LESSON_KEYS as readonly string[]).includes(key);
+    (OFF201_WARMUP_VEO_LESSON_KEYS as readonly string[]).includes(key) ||
+    (EC102_LISTING_WARMUP_LESSON_KEYS as readonly string[]).includes(key) ||
+    (EC102_OPS_WARMUP_LESSON_KEYS as readonly string[]).includes(key);
   return bound ? "cue-01" : null;
 }

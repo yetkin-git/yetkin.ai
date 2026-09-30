@@ -8,6 +8,7 @@ export {
   ACADEMY_CATALOG_LAYER_BY_SLUG,
   ACADEMY_COURSE_TITLES,
   ACADEMY_ONBOARDING_COURSE_SLUG,
+  PROMPT_PRACTICE_SUBTITLE,
   academyCourseTitleBySlug,
   academySlugFromCourseTitle,
   isAcademyCanonSkuSlug,

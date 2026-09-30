@@ -142,6 +142,61 @@ describe("invokeLlm gümrük kapısı", () => {
     );
     expect(result?.dataBase64).toBe("aaaa");
     expect(result?.mimeType).toBe("image/png");
+    expect(result?.model).toBe("gemini-3.1-flash-image");
+  });
+
+  it("görsel ve ses gümrüğü yabancı model kimliğini reddeder", async () => {
+    let imageCalls = 0;
+    let speechCalls = 0;
+    const adapter: LlmProviderAdapter = {
+      ...fakeGemini,
+      async generateImage() {
+        imageCalls += 1;
+        return {
+          mimeType: "image/png",
+          dataBase64: "aaaa",
+          usage: { promptTokens: 1, completionTokens: 1, totalTokens: 2 },
+        };
+      },
+      async generateSpeech() {
+        speechCalls += 1;
+        return {
+          mimeType: "audio/wav",
+          dataBase64: "UklGRg==",
+          usage: { promptTokens: 1, completionTokens: 1, totalTokens: 2 },
+        };
+      },
+    };
+    const deps = {
+      providers: { gemini: adapter },
+      budgetPort: createMemoryBudgetShieldPort(),
+    };
+    await expect(
+      generateImage(
+        {
+          provider: "gemini",
+          role: "IMAGE_GEN",
+          model: "imagen-4.0-generate-001",
+          prompt: "ray",
+          billing: { userId: "u1", source: "studio" },
+        },
+        deps,
+      ),
+    ).rejects.toThrow(/fail-closed/);
+    await expect(
+      generateSpeech(
+        {
+          provider: "gemini",
+          role: "VOICE_TTS",
+          model: "gemini-3.1-flash-tts-preview",
+          text: "Ders gövdesi",
+          billing: { userId: "u1", source: "academy" },
+        },
+        deps,
+      ),
+    ).rejects.toThrow(/fail-closed/);
+    expect(imageCalls).toBe(0);
+    expect(speechCalls).toBe(0);
   });
 
   it("generateSpeech adapter yoksa null döner; varsa WAV tamponu basar", async () => {
@@ -188,7 +243,7 @@ describe("invokeLlm gümrük kapısı", () => {
     expect(isSpeechGatewayFail(result)).toBe(false);
     expect(result && "dataBase64" in result ? result.dataBase64 : undefined).toBe("UklGRg==");
     expect(result && "mimeType" in result ? result.mimeType : undefined).toBe("audio/wav");
-    expect(result && "model" in result ? result.model : undefined).toBe("gemini-3.1-flash-tts-preview");
+    expect(result && "model" in result ? result.model : undefined).toBe("gemini-3.8-flash-tts");
     // NO META IN AUDIO: pedagoji mührü text'e sızmaz; instruction kanalındadır.
     expect(spokenText).toBe("Ders gövdesi");
     expect(spokenText).not.toContain("le-le-me");

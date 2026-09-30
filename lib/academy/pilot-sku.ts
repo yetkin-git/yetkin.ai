@@ -1,19 +1,22 @@
 /**
  * Akademi vitrin kataloğu — yayın SKU listesi.
- * Kanon 13 SKU `ACADEMY_COURSE_TITLES` içindedir; satın alınır büyüme
- * vitrini mühürlü amiral SKU’dur. Kardeş Katman 1 taslakları üretim
- * bandındadır; Prisma hayalet SKU ve hayali oynatıcı girmez.
+ * Kanon 13 SKU `ACADEMY_COURSE_TITLES` içindedir. Satın alınır büyüme
+ * vitrini mühürlü canlı SKU’lardır. Prisma hayalet SKU ve hayali oynatıcı girmez.
  *
  * `01_office_ai` çekirdek kaydı durur; 8 ders mühürlü ses (`1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`).
- * OFF-201 `01_office_ai_ileri` tek ses Aylin (Kore). Altı ders Gemini 3.8 Flash TTS ile mühürlüdür.
- * Eski Callirrhoe kasetleri arşivdedir. Yeniden fırın kuyruğu boştur. Satış mandalı açıktır.
+ * OFF-201 `01_office_ai_ileri` canlıdır. Tek ses Aylin (Kore). Durum cümlesi `academyOff201VoiceStatus`.
+ * EC-102 `02_ecommerce_ai` HOTFIX ile kamuya kapalıdır. Konuşan ad Deniz. Satış `ACADEMY_EC102_PUBLIC_RELEASE_OPEN` kapalıyken açılmaz.
+ * Eski Callirrhoe kasetleri arşivdedir. Yeniden fırın kuyruğu boştur.
  * Eski ritüel kaseti `01_office_ai-4` sınav yolunda ve ses mühründe yoktur; dosya arşivde kalır.
- * Sınav yolu `lesson-index.ts` SSOT’udur.
- * PEDAGOJI §D 5'li Vitrin Karması kardeşleri dürüst «Çok Yakında» kabuğu olarak basar.
+ * Sınav yolu `lesson-index.ts` üzerinden `lib/kernel/catalog-ids/exam-path.ts` tablosunu okur.
+ * `03_social_media_ai`, `04_chatbot_nocode` ve `05_prompt_practice` dürüst «Çok Yakında» kabuğudur.
  */
 
 import type { AcademyCourseTitleSlug } from "@/lib/kernel/catalog-ids/course-slugs";
+import { CURRICULUM_LESSON_KEYS_BY_SLUG as EXAM_PATH_KEYS_BY_SLUG } from "@/lib/kernel/catalog-ids/exam-path";
+import { academyBakeVoiceModelId } from "@/lib/kernel/ai/model-roles";
 import { CURRICULUM_LESSON_KEYS_BY_SLUG, curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
+import { academyCourseProductionDiskSealed } from "@/lib/academy/production-standard";
 
 export const ACADEMY_PILOT_SKU_SLUG = null;
 
@@ -25,8 +28,9 @@ export const ACADEMY_GROWTH_SKU_SLUGS = [
 ] as const satisfies readonly AcademyCourseTitleSlug[];
 
 /**
- * PEDAGOJI §D kardeş kabuk — üretim bandı.
- * Satın alma / antre / oynatıcı yok; katalog kartı «Çok Yakında / Hazırlanıyor».
+ * PEDAGOJI §D kardeş kabuk.
+ * EC-102 (`02_ecommerce_ai`) bu listede durur. Kamu kapısı `ACADEMY_EC102_PUBLIC_RELEASE_OPEN`.
+ * Kapı kapalıyken kart «Çok Yakında / Hazırlanıyor»dır. `03_social_media_ai`, `04_chatbot_nocode` ve `05_prompt_practice` aynı kabuktadır.
  */
 export const ACADEMY_PRODUCTION_LINE_SKU_SLUGS = [
   "02_ecommerce_ai",
@@ -44,8 +48,34 @@ export const ACADEMY_OFF201_STOREFRONT_SLUG = "01_office_ai_ileri" as const;
 
 /**
  * OFF-201 satış mandalı. Lansman açık. `false` olursa mühür listesi dolu olsa bile satın alınamaz.
+ * Kurs mührü git birleştirme şartı değildir. Canlı satış bu bayrak ve mühür listesini okur.
  */
 export const ACADEMY_OFF201_LAUNCH_SALE_OPEN = true;
+
+/**
+ * OFF-201 kamu cümlesi. Satış hükmü `academyCourseSaleOpen` ile aynıdır.
+ * Fırın modeli `academyBakeVoiceModelId` okur. Cümle modül yükünde dondurulmaz.
+ */
+export function academyOff201VoiceStatus(): string {
+  const sale = academyCourseSaleOpen(ACADEMY_OFF201_STOREFRONT_SLUG)
+    ? "Satış açıktır."
+    : "Satış kapalıdır.";
+  return `OFF-201 6/6 mühürlüdür. Yeniden fırın kuyruğu boştur. ${sale} Fırın ve gümrük ${academyBakeVoiceModelId()} okur. Kamu MP3 kimliği bayt olarak teyit edilmedi.`;
+}
+
+/**
+ * EC-102 gövde. Fırın sesi Puck (sicil adı Kaan, cinsiyet erkek). Konuşan ad Deniz.
+ * Kadın Deniz sesi bu mühürde yoktur. Kaset yeniden fırınlanmadan kapı açılmaz.
+ * Yayın, fiyat ve disk mührü `academyCourseSaleOpen` içinde birlikte okunur.
+ */
+export const ACADEMY_NEXT_BODY_SKU_SLUG = "02_ecommerce_ai" as const;
+
+/**
+ * EC-102 kamu kapısı. HOTFIX-EC102: ham görsel ve erkek Puck kaseti kamuya çıkmaz.
+ * `false` iken satış, antre, oynatıcı ve site haritası kapalıdır.
+ * Beş katman yeniden doğrulanmadan `true` yapılmaz.
+ */
+export const ACADEMY_EC102_PUBLIC_RELEASE_OPEN = false;
 
 export const ACADEMY_VITRINE_SHELL_SKU_SLUGS = [
   ACADEMY_FLAGSHIP_SKU_SLUG,
@@ -62,28 +92,13 @@ export function academyStorefrontStaticParams(): { slug: AcademyGrowthSkuSlug }[
 export const ACADEMY_DIALOGUE_SKU_SLUGS = [] as const satisfies readonly AcademyCourseTitleSlug[];
 
 /**
- * Diskteki ses mührü — kurs slug → mühürlü ders anahtarları.
+ * Diskteki ses mührü. Tek tablo `exam-path.ts` içindeki sınav yoludur.
+ * Boş kabuk (dersi olmayan slug) bu kayda girmez. Sıra sınav yoluyla aynıdır.
+ * İkinci el liste yazılmaz.
  */
-export const ACADEMY_MEDIA_SEALED_AUDIO: Readonly<Record<string, readonly string[]>> = {
-  "01_office_ai": [
-    "01_office_ai-1",
-    "01_office_ai-2",
-    "01_office_ai-3",
-    "01_office_ai-5",
-    "01_office_ai-6",
-    "01_office_ai-g1",
-    "01_office_ai-w1",
-    "01_office_ai-k1",
-  ],
-  "01_office_ai_ileri": [
-    "01_office_ai_ileri-1",
-    "01_office_ai_ileri-2",
-    "01_office_ai_ileri-3",
-    "01_office_ai_ileri-4",
-    "01_office_ai_ileri-5",
-    "01_office_ai_ileri-6",
-  ],
-};
+export const ACADEMY_MEDIA_SEALED_AUDIO: Readonly<Record<string, readonly string[]>> = Object.fromEntries(
+  Object.entries(EXAM_PATH_KEYS_BY_SLUG).filter((entry) => entry[1].length > 0),
+);
 
 /**
  * Eski ses kasetleri. Vatandaş oynatıcı bunları açmaz.
@@ -92,9 +107,8 @@ export const ACADEMY_MEDIA_SEALED_AUDIO: Readonly<Record<string, readonly string
 export const ACADEMY_TTS_REVOKED_CASSETTES: Readonly<Record<string, string>> = {};
 
 /**
- * Kota açılınca yeniden fırınlanacak dersler.
- * OFF-201 ders 1–6 Aylin (Kore) ve Gemini 3.8 Flash TTS ile mühürlendi. Kuyruk boştur.
- * Fırın modeli `academyBakeVoiceModelId()` (`gemini-3.8-flash-tts`). Alt modele düşülmez.
+ * Kota açılınca yeniden fırınlanacak dersler. Kuyruk boştur.
+ * Bir sonraki fırın `ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS` okur. Alt modele düşülmez.
  */
 export const ACADEMY_TTS_REBAKE_QUEUE: Readonly<Record<string, readonly string[]>> = {};
 
@@ -154,7 +168,13 @@ export function isAcademyPilotSkuSlug(_slug: string): _slug is AcademyPilotSkuSl
 }
 
 export function isAcademyStorefrontSlug(slug: string): boolean {
-  return isAcademyGrowthSkuSlug(slug) || slug === ACADEMY_OFF201_STOREFRONT_SLUG;
+  return (
+    isAcademyGrowthSkuSlug(slug) ||
+    slug === ACADEMY_OFF201_STOREFRONT_SLUG ||
+    (slug === ACADEMY_NEXT_BODY_SKU_SLUG &&
+      ACADEMY_EC102_PUBLIC_RELEASE_OPEN &&
+      academyCourseNarrationPublished(slug))
+  );
 }
 
 export function isAcademyGrowthSkuSlug(slug: string): slug is AcademyGrowthSkuSlug {
@@ -168,6 +188,7 @@ export function isAcademyGrowthSkuSlug(slug: string): slug is AcademyGrowthSkuSl
 export const ACADEMY_LICENSE_SALE_SLUGS = [
   ACADEMY_FLAGSHIP_SKU_SLUG,
   ACADEMY_OFF201_STOREFRONT_SLUG,
+  ACADEMY_NEXT_BODY_SKU_SLUG,
 ] as const;
 
 export function isAcademyLicenseSaleSlug(slug: string): boolean {
@@ -219,6 +240,18 @@ export function academyCourseHasSealedAudio(slug: string): boolean {
   return academyMediaSealedLessonKeys(slug).length > 0;
 }
 
+/** Sınav yolundaki her dersin sesi diskte mühürlüyse vitrin «Yayında»dır. */
+export function academyCourseNarrationPublished(slug: string): boolean {
+  if (!Object.prototype.hasOwnProperty.call(CURRICULUM_LESSON_KEYS_BY_SLUG, slug)) {
+    return false;
+  }
+  const keys = curriculumLessonKeysForSlug(slug);
+  if (keys.length === 0) {
+    return false;
+  }
+  return keys.every((lessonKey) => isAcademyLessonAudioSealed(slug, lessonKey));
+}
+
 export function academyMediaSealedLessonKeys(courseSlug: string): readonly string[] {
   if (!isAcademyMediaSealedSkuSlug(courseSlug)) {
     return [];
@@ -267,12 +300,14 @@ export function academySkuAudioAllowsPurchase(courseSlug: string): boolean {
 }
 
 /**
- * Tek satış kapısı. Cüzdan ve PayTR `academy-license:` niyeti bunu okur.
- * Lisans adayının sınav yolundaki her dersin sesi bitmeden satılmaz.
- * Katalog haritasındaki diğer SKU satılmaz. Harita dışı sentetik kurs nakit testine açıktır.
+ * Liste mührü. Vitrin CTA bunu okur; disk okumaz (istemci paketi `node:fs` taşımaz).
+ * Nakit kapısı `academyCourseSaleOpen` disk katmanını da ister.
  */
-export function academyCourseSaleOpen(courseSlug: string): boolean {
+export function academyCourseSaleListed(courseSlug: string): boolean {
   if (courseSlug === ACADEMY_OFF201_STOREFRONT_SLUG && !ACADEMY_OFF201_LAUNCH_SALE_OPEN) {
+    return false;
+  }
+  if (courseSlug === ACADEMY_NEXT_BODY_SKU_SLUG && !ACADEMY_EC102_PUBLIC_RELEASE_OPEN) {
     return false;
   }
   if (isAcademyLicenseSaleSlug(courseSlug)) {
@@ -284,6 +319,22 @@ export function academyCourseSaleOpen(courseSlug: string): boolean {
     return false;
   }
   return true;
+}
+
+/**
+ * Tek satış kapısı. Cüzdan ve PayTR `academy-license:` niyeti bunu okur.
+ * Lisans adayının sınav yolundaki her dersin beş katmanı diskte durmadan satılmaz.
+ * Okuyucu yoksa fail-closed. Katalog haritasındaki diğer SKU satılmaz.
+ * Harita dışı sentetik kurs nakit testine açıktır.
+ */
+export function academyCourseSaleOpen(courseSlug: string): boolean {
+  if (!academyCourseSaleListed(courseSlug)) {
+    return false;
+  }
+  if (!isAcademyLicenseSaleSlug(courseSlug)) {
+    return true;
+  }
+  return academyCourseProductionDiskSealed(courseSlug, curriculumLessonKeysForSlug(courseSlug));
 }
 
 export function academyCatalogPurchasable(input: {
@@ -322,7 +373,8 @@ export function filterAcademyGrowthCatalog<T extends { slug: string }>(courses: 
 }
 
 /**
- * PEDAGOJI §D 5'li Vitrin Karması — amiral + dürüst Yakında kabukları.
+ * PEDAGOJI §D 5'li Vitrin Karması.
+ * Canlı kartlar OFF-101 ve OFF-201. EC-102 kamu kapısı kapalıyken Yakında kabuğudur. Kalan üç slug dürüst Yakında kabuğudur.
  */
 export function filterAcademyVitrineCatalog<T extends { slug: string }>(courses: readonly T[]): T[] {
   const bySlug = new Map(courses.map((row) => [row.slug, row] as const));

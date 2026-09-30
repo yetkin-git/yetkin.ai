@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 /**
  * 01_office_ai bölüm 5 — Google AI Studio mühür paketi.
- * Metin uydurulmaz. Gemini 3.8 Flash + (ayrı) Gemini 3.1 Flash TTS Callirrhoe.
+ * Metin uydurulmaz. Kimlik `ACADEMY_SEALED_MEDIA_MODEL`. Ses Callirrhoe.
  *
  *   npx tsx scripts/bake-office-ai-05-sealed-pack.ts --confirm-gemini-spend --dry-run
  *   npx tsx scripts/bake-office-ai-05-sealed-pack.ts --confirm-gemini-spend --skip-tts
@@ -13,10 +13,10 @@ import { spawn } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { GoogleGenAI } from "@google/genai";
-import { ACADEMY_BAKE_MODELS, academyBakeVoiceModelId } from "@/lib/kernel/ai/model-roles";
+import { ACADEMY_SEALED_MEDIA_MODEL, academyBakeVoiceModelId } from "@/lib/kernel/ai/model-roles";
 
 const ROOT = process.cwd();
-const SCRIPT_MODEL = ACADEMY_BAKE_MODELS.LONG_HORIZON_TEXT;
+const SCRIPT_MODEL = ACADEMY_SEALED_MEDIA_MODEL.TEXT_GEN;
 const MIN_GEMINI_KEY_CHARS = 8;
 const PUNCHCARDS = [
   "GİRİŞ KÖPRÜSÜ",

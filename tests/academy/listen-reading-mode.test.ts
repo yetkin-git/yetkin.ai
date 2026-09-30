@@ -20,7 +20,7 @@ describe("dersi dinle stüdyo kilidi ve Okuma Modu", () => {
   it("Gemini / mühürlü model stüdyo sesidir; fallback tamponu değildir", () => {
     expect(
       isAcademyListenStudioAudio({
-        model: "gemini-3.1-flash-tts-preview",
+        model: "gemini-3.8-flash-tts",
         usedFallback: false,
       }),
     ).toBe(true);
@@ -32,7 +32,7 @@ describe("dersi dinle stüdyo kilidi ve Okuma Modu", () => {
     ).toBe(false);
     expect(
       isAcademyListenStudioAudio({
-        model: "gemini-3.1-flash-tts-preview",
+        model: "gemini-3.8-flash-tts",
         usedFallback: true,
       }),
     ).toBe(false);

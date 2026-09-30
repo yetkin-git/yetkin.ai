@@ -22,8 +22,11 @@ function expectV1Fail(body: unknown, error: string) {
   });
 }
 
-async function signHs256(sub = TEST_USER): Promise<string> {
-  return new SignJWT({ role: "authenticated" })
+async function signHs256(
+  sub = TEST_USER,
+  extra: Record<string, unknown> = {},
+): Promise<string> {
+  return new SignJWT({ role: "authenticated", ...extra })
     .setProtectedHeader({ alg: "HS256" })
     .setSubject(sub)
     .setAudience("authenticated")
@@ -235,7 +238,11 @@ describe("proxy.ts kenar mühürleri", () => {
     const admin = await proxy(
       new NextRequest(new URL("/api/admin/catalog", "http://localhost:3000"), {
         method: "PATCH",
-        headers: { authorization: `Bearer ${await signHs256()}` },
+        headers: {
+          authorization: `Bearer ${await signHs256(TEST_USER, {
+            email_confirmed_at: "2026-01-01T00:00:00.000Z",
+          })}`,
+        },
       }),
     );
     expect(admin.status).toBe(200);

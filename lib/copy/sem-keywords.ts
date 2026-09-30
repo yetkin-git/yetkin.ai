@@ -49,7 +49,7 @@ const FAQ = {
   aiTraining: {
     question: "yetkin.ai yapay zeka eğitimi ve online kurs sunuyor mu?",
     answer:
-      "Evet. yetkin.ai yapay zeka eğitimi ve online kurs sunar. Amiral kurs yayındadır. Kardeş müfredat ve prompt eğitimi Çok Yakında / Hazırlanıyor rozetiyle durur; sesi bitmemiş ders için boş oynatıcı basılmaz. Dersler ödeme sonrası açılır.",
+      "Evet. yetkin.ai yapay zeka eğitimi ve online kurs sunar. Ofiste Yapay Zekâ ve İleri Ofis yayındadır. E-Ticaret, sosyal medya, chatbot ve istem pratiği Çok Yakında / Hazırlanıyor rozetiyle durur; sesi bitmemiş ders için boş oynatıcı basılmaz. Dersler ödeme sonrası açılır.",
   },
   certificate: {
     question: "Yapay zeka sertifikası nasıl alınır?",

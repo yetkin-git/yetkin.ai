@@ -23,6 +23,7 @@ import {
 } from "@/lib/academy/instructors";
 import {
   ACADEMY_GROWTH_SKU_SLUGS,
+  ACADEMY_NEXT_BODY_SKU_SLUG,
   ACADEMY_PILOT_SKU_LESSON_COUNT,
   ACADEMY_PILOT_SKU_SLUG,
 } from "@/lib/academy/pilot-sku";
@@ -48,7 +49,7 @@ describe("03.16 gerçek müfredat gövdesi — amiral compact", () => {
     expect(ACADEMY_COURSE_SEEDS.map((row) => row.slug)).toEqual([...ACADEMY_GROWTH_SKU_SLUGS]);
     const lessons = curriculumForCourseSlug("01_office_ai");
     expect(lessons).toHaveLength(8);
-    expect(curriculumForCourseSlug("02_ecommerce_ai")).toHaveLength(0);
+    expect(curriculumForCourseSlug("02_ecommerce_ai")).toHaveLength(6);
     expect(curriculumForCourseSlug("03_social_media_ai")).toHaveLength(0);
     expect(curriculumForCourseSlug("04_chatbot_nocode")).toHaveLength(0);
     expect(curriculumForCourseSlug("05_prompt_practice")).toHaveLength(0);
@@ -178,8 +179,14 @@ describe("03.22 tek ses tek isim", () => {
     expect(ACADEMY_DIGITAL_SKILLS_MODERATOR.name).toBe("Tarık");
     expect(ACADEMY_DIGITAL_SKILLS_MODERATOR.voice).toBe("Iapetus");
     expect(ACADEMY_DIGITAL_SKILLS_MODERATOR.speechRate).toBe(1);
-    expect(academyInstructorBySlug("02_ecommerce_ai").name).toBe("Aylin");
-    expect(academyInstructorBySlug("02_ecommerce_ai").voice).toBe("Kore");
+    expect(academyInstructorBySlug("02_ecommerce_ai").name).toBe("Deniz");
+    expect(academyInstructorBySlug("02_ecommerce_ai").voice).toBe("Puck");
+    expect(ACADEMY_NEXT_BODY_SKU_SLUG).toBe("02_ecommerce_ai");
+    expect(academyInstructorBySlug("02_ecommerce_ai").roleTitle).toContain("E-Ticaret");
+    expect(academyInstructorBySlug("01_office_ai_ileri").voice).toBe("Kore");
+    expect(academyInstructorBySlug("01_office_ai_ileri").name).toBe("Aylin");
+    expect(academyInstructorBySlug("01_office_ai_ileri").roleTitle).not.toContain("E-Ticaret");
+    expect(ACADEMY_COURSE_TITLES["05_prompt_practice"]).toBe("Yapay Zekâ Prompt Mühendisliği");
     expect(academyInstructorBySlug("01_office_ai").name).toBe("Gözde");
     expect(academyInstructorBySlug("03_social_media_ai").name).toBe("Deniz");
     expect(academyInstructorBySlug("03_social_media_ai").voice).toBe("Zephyr");

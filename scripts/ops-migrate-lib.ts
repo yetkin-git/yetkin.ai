@@ -30,6 +30,7 @@ export const EXPECTED_SQL = [
   "20260912220000_academy_sterile_vitrine.sql",
   "20260926153000_off201_launch_price.sql",
   "20260929180000_ec102_publish.sql",
+  "20260930133000_hotfix_ec102_unpublish.sql",
 ] as const;
 
 export const FREELANCER_SEED_JOB_IDS = [
@@ -159,6 +160,8 @@ export const EXPECTED_PRISMA_MIGRATIONS = [
   "20260831190000_user_billing_phone",
   "20260905010000_checkout_consent_evidence",
   "20260912010000_funnel_daily_counter",
+  "20260924100000_academy_exemption_seal",
+  "20260925120000_wallet_card_refund",
 ] as const;
 
 export const LAB_RESTORE_DATABASE = "yetkin_rail_lab_restore";

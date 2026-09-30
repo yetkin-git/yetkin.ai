@@ -72,7 +72,7 @@ describe("01_office_ai-1 mühür bağları — punchcard, Lyria ducking, sınav 
     expect(player).toContain("academyBedOutroTailSec");
     expect(player).toContain("academyLessonBedPlaybackSrc");
     const bake = readFileSync(join(ROOT, "scripts/generate-academy-lesson-bed.ts"), "utf8");
-    expect(bake).toContain("ACADEMY_BAKE_MODELS.MUSIC_LYRIA");
+    expect(bake).toContain("ACADEMY_SEALED_MEDIA_MODEL.MUSIC_GEN");
     expect(readFileSync(join(ROOT, "lib/kernel/ai/model-roles.ts"), "utf8")).toContain("lyria-3.5");
     expect(bake).toContain("--confirm-gemini-spend");
   });

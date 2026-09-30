@@ -95,10 +95,12 @@ describe("Faz 2 tamamlama — T3 yeşil halka yüzeyi", () => {
     expect(ci).not.toMatch(/eas-cli/);
     expect(ci).not.toMatch(/expo\s+publish/i);
 
-    expect(existsSync(join(ROOT, "docs/ops/DURUM.md"))).toBe(true);
-    expect(readSrc("docs/ops/DURUM.md")).toContain("T3 Akademi halkası");
-    expect(readSrc("docs/DURUM.md")).toContain("docs/ops/DURUM.md");
-    expect(readSrc("docs/DURUM.md")).not.toContain("## Amiral SKU");
+    expect(existsSync(join(ROOT, "docs/ops/DURUM.md"))).toBe(false);
+    expect(readSrc(".system_docs/ops/ops-dron.md")).toContain("T3 Akademi yüzeyi");
+    expect(readSrc(".system_docs/ANAYASA.md")).not.toContain("docs/ops/DURUM.md");
+    expect(readSrc(".system_docs/ANAYASA.md")).toContain(
+      "Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci",
+    );
     expect(readSrc(".system_docs/DRON_CLIENT_SPEC.md")).toContain("Native IAP");
     expect(readSrc(".system_docs/DRON_CLIENT_SPEC.md")).toContain("/kasa");
     expect(readSrc(".system_docs/ops/ops-dron.md")).toContain("native IAP yoktur");

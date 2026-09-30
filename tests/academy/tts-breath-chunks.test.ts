@@ -70,13 +70,17 @@ describe("TTS nefes dilimleyici", () => {
     expect(officeRequests.map((block) => block.text).join(" ")).toBe(
       officeOne.flatMap((paragraph) => splitAcademyTtsBreathChunks(paragraph)).join(" "),
     );
-    const leftoverKeys = [
+    for (const key of [
       "02_ecommerce_ai-1",
       "02_ecommerce_ai-2",
       "02_ecommerce_ai-3",
       "02_ecommerce_ai-4",
       "02_ecommerce_ai-5",
       "02_ecommerce_ai-6",
+    ]) {
+      expect(loadAcademySpokenScriptParagraphs(key).length, key).toBeGreaterThan(0);
+    }
+    const leftoverKeys = [
       "03_social_media_ai-1",
       "03_social_media_ai-6",
       "04_chatbot_nocode-1",

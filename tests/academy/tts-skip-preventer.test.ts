@@ -35,6 +35,8 @@ describe("TTS model skip preventer", () => {
     expect(applyAcademyCueDisplayPhonetics("+90")).toMatch(/artı doksan/iu);
     expect(applyAcademyCueDisplayPhonetics("Alt+F11")).toBe("Alt Ef on bir");
     expect(applyAcademyCueDisplayPhonetics("SEO")).toBe("Es i o");
+    expect(applyAcademyCueDisplayPhonetics("N11")).toBe("En on bir");
+    expect(applyAcademySpokenPhoneticsToDisplay("En on bir")).toBe("N11");
     expect(applyAcademyCueDisplayPhonetics("Trendyol")).toBe("Trend yol");
     expect(applyAcademyCueDisplayPhonetics("Buybox")).toBe("Baybaks");
     expect(applyAcademyCueDisplayPhonetics("Bundle")).toBe("Bantıl");

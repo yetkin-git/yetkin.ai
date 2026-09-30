@@ -247,6 +247,7 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(byPath.get("/")?.priority).toBe(1);
     expect(byPath.get("/academy")?.priority).toBe(1);
     expect(sitemapRoutePolicy("/career").priority).toBe(0.9);
+    expect(byPath.has("/academy/02_ecommerce_ai"), "/academy/02_ecommerce_ai").toBe(false);
     expect(byPath.has("/academy/01_office_ai_ileri"), "/academy/01_office_ai_ileri").toBe(true);
     expect(byPath.get("/academy/01_office_ai_ileri")?.priority).toBe(0.8);
     expect(byPath.get("/academy/01_office_ai_ileri")?.images?.[0]).toBe(
@@ -304,8 +305,12 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
       "/academy/01_office_ai_ileri",
     ]);
     expect(rule?.allow).toEqual(
-      expect.arrayContaining(["/academy/01_office_ai", "/academy/01_office_ai_ileri"]),
+      expect.arrayContaining([
+        "/academy/01_office_ai",
+        "/academy/01_office_ai_ileri",
+      ]),
     );
+    expect(rule?.allow ?? []).not.toContain("/academy/02_ecommerce_ai");
     expect(isRobotsDisallowedPath("/academy/01_office_ai_ileri")).toBe(false);
     expect(isRobotsDisallowedPath("/academy/01_office_ai_ileri/oyna")).toBe(true);
   });

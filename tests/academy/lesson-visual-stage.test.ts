@@ -83,35 +83,22 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
 
   it("33 ders anahtarı durur; Excel slayt 1. 2. 5. 6. ve k1, pptx slayt 3., outlook slayt 4., gmail g1, word w1 açılır", () => {
     expect(ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS).toHaveLength(33);
-    expect(listAcademyCinemaCueSlides()).toHaveLength(72);
+    const slides = listAcademyCinemaCueSlides();
+    expect(slides).toHaveLength(103);
+    expect(slides.filter((slide) => slide.lessonKey.startsWith("01_office_ai-"))).toHaveLength(72);
+    expect(slides.filter((slide) => slide.lessonKey.startsWith("02_ecommerce_ai-"))).toHaveLength(31);
     expect(
-      listAcademyCinemaCueSlides().every(
+      slides.every(
         (slide) =>
-          slide.lessonKey === "01_office_ai-1" ||
-          slide.lessonKey === "01_office_ai-2" ||
-          slide.lessonKey === "01_office_ai-3" ||
-          slide.lessonKey === "01_office_ai-4" ||
-          slide.lessonKey === "01_office_ai-5" ||
-          slide.lessonKey === "01_office_ai-6" ||
-          slide.lessonKey === "01_office_ai-g1" ||
-          slide.lessonKey === "01_office_ai-w1" ||
-          slide.lessonKey === "01_office_ai-k1",
+          slide.lessonKey.startsWith("01_office_ai-") || slide.lessonKey.startsWith("02_ecommerce_ai-"),
       ),
     ).toBe(true);
     for (const lessonKey of ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS) {
-      if (
-        lessonKey === "01_office_ai-1" ||
-        lessonKey === "01_office_ai-2" ||
-        lessonKey === "01_office_ai-3" ||
-        lessonKey === "01_office_ai-4" ||
-        lessonKey === "01_office_ai-5" ||
-        lessonKey === "01_office_ai-6" ||
-        lessonKey === "01_office_ai-g1" ||
-        lessonKey === "01_office_ai-w1" ||
-        lessonKey === "01_office_ai-k1"
-      ) {
+      if (lessonKey.startsWith("01_office_ai-")) {
         // 01_office_ai-4 cue JSON arşivdedir; canlı göz katmanı açılmaz.
         expect(hasAcademyLessonVisualStage(lessonKey)).toBe(lessonKey !== "01_office_ai-4");
+      } else if (lessonKey.startsWith("02_ecommerce_ai-")) {
+        expect(hasAcademyLessonVisualStage(lessonKey)).toBe(true);
       } else {
         expect(hasAcademyLessonVisualStage(lessonKey)).toBe(false);
       }

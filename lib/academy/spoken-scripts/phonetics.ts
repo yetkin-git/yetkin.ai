@@ -95,6 +95,7 @@ const ACADEMY_CUE_DISPLAY_PHONETICS: readonly { display: string; spoken: string 
   { display: "WordPress", spoken: "Vördpres" },
   { display: "Word", spoken: "Vörd" },
   { display: "SEO", spoken: "Es i o" },
+  { display: "N11", spoken: "En on bir" },
   { display: "AIDA", spoken: "Ayda" },
   { display: "CaaS", spoken: "Si ey as" },
   { display: "CTA", spoken: "Si ti a" },

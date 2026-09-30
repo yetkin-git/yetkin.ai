@@ -16,6 +16,7 @@ import type { CheckoutPriceLockStore } from "@/lib/kernel/pricing/lock-store";
 import type { CheckoutPriceLockSnapshot } from "@/lib/kernel/pricing/price-lock";
 import { academyCourseLevelBySlug, type AcademyCourseLevel } from "@/lib/academy/course-level";
 import { isAcademyLicenseActive } from "@/lib/academy/license";
+import "@/lib/academy/production-seal-disk";
 import { academyCourseSaleOpen } from "@/lib/academy/pilot-sku";
 import { resolveAcademyCourseFromSeed } from "@/lib/academy/published-catalog";
 import {
@@ -119,10 +120,14 @@ async function requirePublishedCourse(
   store: AcademyStore,
   courseId: string,
 ): Promise<AcademyCourseRecord> {
-  const course = (await store.getCourse(courseId)) ?? resolveAcademyCourseFromSeed(courseId);
-  if (!course) {
-    throw new Error("Kurs bulunamadı.");
+  const stored = await store.getCourse(courseId);
+  if (!stored) {
+    if (!resolveAcademyCourseFromSeed(courseId)) {
+      throw new Error("Kurs bulunamadı.");
+    }
+    throw new GoneError("Kurs satışa kapalı.");
   }
+  const course = stored;
   if (isAcademyRetiredStorefrontSlug(course.slug) || !course.isPublished) {
     throw new GoneError(
       isAcademyRetiredStorefrontSlug(course.slug)

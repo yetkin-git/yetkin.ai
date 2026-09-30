@@ -8,7 +8,7 @@ import type { AcademyCatalogLearnerStatus } from "@/lib/academy/catalog-learner"
 import type { AcademyStorefrontAccess } from "@/lib/academy/enrolment";
 import {
   ACADEMY_OFF201_STOREFRONT_SLUG,
-  academyCourseSaleOpen,
+  academyCourseSaleListed,
   isAcademyProductionLineSkuSlug,
 } from "@/lib/academy/pilot-sku";
 import { stripZeroKurusFromTryLabel } from "@/lib/kernel/money/format";
@@ -133,6 +133,8 @@ export function resolveAcademyCatalogCardCta(input: {
   learnerStatus?: AcademyCatalogLearnerStatus;
   priceLabel: string | null;
   purchasable?: boolean;
+  /** Veritabanı `is_published`. Boş bırakılırsa bu kapı uygulanmaz. */
+  isPublished?: boolean;
   /** Super Admin — satış kapalı kartta doğrudan `/oyna`. Fiyat «Erişim Açık» olmaz. */
   studioPreview?: boolean;
 }): AcademyCatalogCardCta {
@@ -146,7 +148,7 @@ export function resolveAcademyCatalogCardCta(input: {
       href: `/academy/${input.slug}/oyna`,
     };
   }
-  if (isAcademyProductionLineSkuSlug(input.slug)) {
+  if (isAcademyProductionLineSkuSlug(input.slug) && !academyCourseSaleListed(input.slug)) {
     const money = academyStorefrontMoneyLabel(input.priceLabel);
     const display = money ? stripZeroKurusFromTryLabel(money) : null;
     return {
@@ -156,11 +158,22 @@ export function resolveAcademyCatalogCardCta(input: {
       href: "",
     };
   }
+  if (input.isPublished === false) {
+    const money = academyStorefrontMoneyLabel(input.priceLabel);
+    const display = money ? stripZeroKurusFromTryLabel(money) : null;
+    return {
+      priceLabel: display ?? copy.catalog.unpublishedBadge,
+      priceCaption: null,
+      cta: copy.catalog.unpublishedBadge,
+      href: "",
+      ctaDisabled: true,
+    };
+  }
   const money = academyStorefrontMoneyLabel(input.priceLabel);
   const display = money ? stripZeroKurusFromTryLabel(money) : null;
   const saleClosed =
     input.purchasable === false ||
-    (input.slug === ACADEMY_OFF201_STOREFRONT_SLUG && !academyCourseSaleOpen(input.slug));
+    (input.slug === ACADEMY_OFF201_STOREFRONT_SLUG && !academyCourseSaleListed(input.slug));
   if (!input.owned && saleClosed) {
     if (input.studioPreview) {
       return {

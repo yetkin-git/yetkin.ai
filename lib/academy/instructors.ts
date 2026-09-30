@@ -8,7 +8,7 @@
  */
 
 import { YETKIN_BRAND } from "@/lib/copy/brand";
-import { VOICE_TTS_MODEL_ID } from "@/lib/kernel/ai/model-roles";
+import { academyBakeVoiceModelId } from "@/lib/kernel/ai/model-roles";
 import {
   academyCourseTitleBySlug,
   type AcademyCourseTitleSlug,
@@ -48,9 +48,10 @@ export type AcademyInstructorTtsVoice = (typeof ACADEMY_INSTRUCTOR_TTS_VOICES)[n
 
 export type AcademyVoiceFingerprint = {
   provider: "google-gemini";
-  model: typeof VOICE_TTS_MODEL_ID;
+  /** Fırın modeli. Kimlik `academyBakeVoiceModelId()`; Super Admin değiştirene kadar sabit. */
+  model: ReturnType<typeof academyBakeVoiceModelId>;
   providerVoiceId: AcademyTtsVoice;
-  modelRevision: "preview";
+  modelRevision: "studio";
 };
 
 export type AcademyCastBinding = {
@@ -66,9 +67,9 @@ export type AcademyCastBinding = {
 function academyVoiceFingerprint(voice: AcademyTtsVoice): AcademyVoiceFingerprint {
   return {
     provider: "google-gemini",
-    model: VOICE_TTS_MODEL_ID,
+    model: academyBakeVoiceModelId(),
     providerVoiceId: voice,
-    modelRevision: "preview",
+    modelRevision: "studio",
   };
 }
 
@@ -199,6 +200,19 @@ export type AcademyDialogueCast = {
  * OFF-201 hakemi Gözde olamaz. Ders anahtarına ses yazılamaz.
  */
 export const ACADEMY_OFF201_COURSE_MASTER_VOICE = "Kore" as const satisfies AcademyInstructorTtsVoice;
+
+/**
+ * EC-102 kurs mührü. 1 Eğitim Kodu = 1 Ses.
+ * Fırın modeli `academyBakeVoiceModelId()`. Konuşan ad Deniz.
+ * Puck sicil adı Kaan'dır ve cinsiyeti erkektir. Kadın Deniz yuvası bu tabloda yoktur.
+ * Zephyr'in sicil adı da Deniz'dir ve o yuva da erkektir. Bu sabit kadın sese çevrilmez:
+ * diskteki kaset Puck'tır. Kadın fırın, beş katman onayı ve kamu kapısı birlikte açılır.
+ */
+export const ACADEMY_EC102_COURSE_MASTER_VOICE = "Puck" as const satisfies AcademyInstructorTtsVoice;
+
+export function academyEcommerceBakeVoice(): AcademyInstructorTtsVoice {
+  return ACADEMY_EC102_COURSE_MASTER_VOICE;
+}
 
 /** CastRegistry — speaker yok sayılır; konuşma kursun tek `courseMasterVoice` değeridir. */
 export function academyCastForDialogueSpeaker(
@@ -342,13 +356,13 @@ export const ACADEMY_INSTRUCTORS_BY_VOICE: Record<AcademyInstructorTtsVoice, Aca
     voice: "Kore",
     voiceFingerprint: academyVoiceFingerprint("Kore"),
     name: "Aylin",
-    title: "Kıdemli E-Ticaret ve Yapay Zekâ Eğitmeni",
+    title: "Kıdemli Ofis ve Yapay Zekâ Eğitmeni",
     gender: "kadin",
     tone: "enerjik",
     toneLabel: "Kadın / Dinamik",
     greetingLead: "Merhaba, ben Aylin",
-    roleTitle: "Kıdemli E-Ticaret ve Yapay Zekâ Eğitmeni",
-    bio: "E-ticaret ve pazaryeri uzmanıyım. Kıdemli E-Ticaret ve Yapay Zekâ Eğitmeni olarak satış vitrinini tane tane kuruyorum.",
+    roleTitle: "Kıdemli Ofis ve Yapay Zekâ Eğitmeni",
+    bio: "Ofis işinde yapay zekâ eğitmeniyim. Kıdemli Ofis ve Yapay Zekâ Eğitmeni olarak belge, tablo ve e-posta işini tane tane kuruyorum.",
   },
 };
 
@@ -358,7 +372,7 @@ export const ACADEMY_INSTRUCTOR_VOICE_BY_SLUG: Record<
   AcademyInstructorTtsVoice
 > = {
   "01_office_ai": "Callirrhoe",
-  "02_ecommerce_ai": "Kore",
+  "02_ecommerce_ai": "Puck",
   "03_social_media_ai": "Zephyr",
   "04_chatbot_nocode": "Puck",
   "05_prompt_practice": "Callirrhoe",
@@ -423,8 +437,8 @@ export const ACADEMY_COURSE_OPEN: Record<AcademyCourseTitleSlug, AcademyCourseOp
     topic: "WhatsApp ve web chatbot kurulumu",
   },
   "05_prompt_practice": {
-    field: "Günlük üretkenlik",
-    topic: "Günlük işler için istem yazma",
+    field: "Prompt mühendisliği",
+    topic: "yapay zekâya doğru talimat verme",
   },
   "06_n8n_automation": {
     field: "İş akışı otomasyonu",
@@ -568,17 +582,81 @@ export function academyCourseMasterVoice(slug: string): AcademyInstructorTtsVoic
   return voice;
 }
 
+/**
+ * Modül ses mührü. Model Super Admin kaydından okunur.
+ * Karakter kursun `courseMasterVoice` değeridir ve kurs boyunca değişmez.
+ */
+export function academyCourseVoiceSeal(slug: string): {
+  model: ReturnType<typeof academyBakeVoiceModelId>;
+  courseMasterVoice: AcademyInstructorTtsVoice;
+  gender: AcademyTtsVoiceGender;
+} {
+  const courseMasterVoice = academyCourseMasterVoice(slug);
+  const instructor = ACADEMY_INSTRUCTORS_BY_VOICE[courseMasterVoice];
+  return {
+    model: academyBakeVoiceModelId(),
+    courseMasterVoice,
+    gender: academyInstructorGenderToTtsVoiceGender(instructor.gender),
+  };
+}
+
+/** Yazılı `courseMasterVoice` ve cinsiyet mühürden saparsa modül açılmaz. */
+export function assertAcademyCourseVoiceConfig(
+  slug: string,
+  voiceConfig: { courseMasterVoice: string; gender: AcademyTtsVoiceGender },
+): void {
+  const seal = academyCourseVoiceSeal(slug);
+  if (voiceConfig.courseMasterVoice !== seal.courseMasterVoice) {
+    throw new Error(
+      `courseMasterVoice sapması: ${slug}. Mühür ${seal.courseMasterVoice}. Kurs boyunca tek ses kalır.`,
+    );
+  }
+  if (voiceConfig.gender !== seal.gender) {
+    throw new Error(
+      `Ses karakteri sapması: ${slug}. Mühür ${seal.gender}. Kurs boyunca sabit kalır.`,
+    );
+  }
+}
+
+/**
+ * Aynı ağız iki kursta durabilir. Vitrin unvanı kursa göredir.
+ * EC-102 anlatıcısı Deniz'dir (Puck). OFF-201 ofis dersi Kore'yi ofis unvanıyla gösterir.
+ */
+const ACADEMY_OFF201_DISPLAY_PERSONA = {
+  title: "Kıdemli Ofis ve Yapay Zekâ Eğitmeni",
+  roleTitle: "Kıdemli Ofis ve Yapay Zekâ Eğitmeni",
+  bio: "Ofis işinde yapay zekâ eğitmeniyim. Kıdemli Ofis ve Yapay Zekâ Eğitmeni olarak belge, tablo ve e-posta işini tane tane kuruyorum.",
+} as const;
+
+const ACADEMY_EC102_DISPLAY_PERSONA = {
+  name: "Deniz",
+  title: "Kıdemli E-Ticaret ve Yapay Zekâ Eğitmeni",
+  roleTitle: "Kıdemli E-Ticaret ve Yapay Zekâ Eğitmeni",
+  bio: "E-ticaret ve pazaryeri uzmanıyım. Kıdemli E-Ticaret ve Yapay Zekâ Eğitmeni olarak satış vitrinini tane tane kuruyorum.",
+  greetingLead: "Merhaba, ben Deniz",
+} as const;
+
+function withCoursePersona(slug: string, instructor: AcademyInstructor): AcademyInstructor {
+  if (slug === "01_office_ai_ileri") {
+    return { ...instructor, ...ACADEMY_OFF201_DISPLAY_PERSONA };
+  }
+  if (slug === "02_ecommerce_ai") {
+    return { ...instructor, ...ACADEMY_EC102_DISPLAY_PERSONA };
+  }
+  return instructor;
+}
+
 export function academyInstructorBySlug(slug: string): AcademyInstructor {
   const voice = academyInstructorVoiceForSlug(slug);
   if (!voice) {
     throw new Error(`Eğitmen mühürü yok: ${slug}`);
   }
-  return ACADEMY_INSTRUCTORS_BY_VOICE[voice];
+  return withCoursePersona(slug, ACADEMY_INSTRUCTORS_BY_VOICE[voice]);
 }
 
 export function academyInstructorBySlugOrNull(slug: string): AcademyInstructor | null {
   const voice = academyInstructorVoiceForSlug(slug);
-  return voice ? ACADEMY_INSTRUCTORS_BY_VOICE[voice] : null;
+  return voice ? withCoursePersona(slug, ACADEMY_INSTRUCTORS_BY_VOICE[voice]) : null;
 }
 
 function firstLessonBio(instructor: AcademyInstructor, field: string, topic: string): string {

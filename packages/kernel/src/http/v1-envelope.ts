@@ -1,5 +1,5 @@
 /**
- * Kanonik `/api/v1` JSON zarfı — API-First Dron sözleşmesi.
+ * Kanonik `/api/v1` JSON zarfı — Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci.
  * Yayınlanan tek zarf v1'dir: kökte yalnız `ok, error, requestId, apiVersion, data`.
  * Versiyonsuz `{ ok, ...data }` parse'da tanınır ki sızıntı fail olsun; basılmaz, yaşatılmaz.
  * Üçüncü zarf yasaktır.

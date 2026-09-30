@@ -1,5 +1,5 @@
 /**
- * Gemini 3.1 Flash TTS akustik mührü.
+ * Akademi TTS akustik mührü. Model `ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS`.
  * Direktif `#### TRANSCRIPT` çizgisinin üstünde kalır; konuşulan metne karışmaz.
  * systemInstruction kanalı 400 döner; stil kullanıcı içeriğinin yönetmen katmanındadır.
  */

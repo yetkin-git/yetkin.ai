@@ -121,7 +121,11 @@ describe("03.33 müfredat revizyon kuyruğu", () => {
     expect(getAcademyLessonContentVersion("python-temel-2")).toBe("v1.0");
 
     const ok = await runAcademyCurriculumRevisionApprove({
-      session: { id: ADMIN_ID, email: "admin@yetkin.rail" },
+      session: {
+        id: ADMIN_ID,
+        email: "admin@yetkin.rail",
+        emailConfirmedAt: "2026-01-01T00:00:00.000Z",
+      },
       body: { revisionId: queuedRow!.id },
     });
     expect(ok.status).toBe(200);

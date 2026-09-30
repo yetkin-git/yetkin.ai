@@ -251,15 +251,13 @@ describe("OFF-201 taslak reji", () => {
       expect(existsSync(join(root, "public/media/academy/audio", slug, `${key}.mp3`))).toBe(true);
       expect(existsSync(join(root, "public/media/academy/audio", slug, `${key}.bed.mp3`))).toBe(true);
       expect(existsSync(join(root, "lib/academy/spoken-scripts", `${key}.md`))).toBe(true);
+      expect(existsSync(join(root, "public/academy/cinema", `${key}-cue-1.jpg`))).toBe(true);
+      expect(() =>
+        assertAcademyProductionSeal({
+          courseSlug: slug,
+          lessonKey: key,
+        }),
+      ).not.toThrow();
     }
-    expect(() =>
-      assertAcademyProductionSeal({
-        text: true,
-        voice: true,
-        video: true,
-        visual: true,
-        music: true,
-      }),
-    ).not.toThrow();
   });
 });

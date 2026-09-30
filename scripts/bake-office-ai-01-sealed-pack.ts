@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 /**
  * 01_office_ai bölüm 1 — Google AI Studio mühür paketi.
- * Metin/görsel uydurulmaz. Gemini 3.8 Flash + Nano Banana + (ayrı) Gemini 3.1 Flash TTS.
+ * Metin/görsel uydurulmaz. Kimlik `ACADEMY_SEALED_MEDIA_MODEL`.
  *
  *   npx tsx scripts/bake-office-ai-01-sealed-pack.ts --confirm-gemini-spend --skip-tts
  *   npx tsx scripts/bake-office-ai-01-sealed-pack.ts --confirm-gemini-spend --skip-images --skip-exam
@@ -15,15 +15,14 @@ import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { GoogleGenAI } from "@google/genai";
 import {
-  ACADEMY_BAKE_MODELS,
-  AI_MODEL_ROLE_DEFAULTS,
+  ACADEMY_SEALED_MEDIA_MODEL,
   academyBakeVoiceModelId,
+  assertAcademySealedMediaModel,
 } from "@/lib/kernel/ai/model-roles";
 
 const ROOT = process.cwd();
-const SCRIPT_MODEL = ACADEMY_BAKE_MODELS.LONG_HORIZON_TEXT;
-const IMAGE_MODEL = ACADEMY_BAKE_MODELS.IMAGE_NANO_BANANA_2;
-const IMAGE_FALLBACK_MODEL = AI_MODEL_ROLE_DEFAULTS.IMAGE_GEN;
+const SCRIPT_MODEL = ACADEMY_SEALED_MEDIA_MODEL.TEXT_GEN;
+const IMAGE_MODEL = ACADEMY_SEALED_MEDIA_MODEL.IMAGE_GEN;
 const MIN_GEMINI_KEY_CHARS = 8;
 const PUNCHCARDS = [
   "GİRİŞ KÖPRÜSÜ",
@@ -576,40 +575,24 @@ KURALLAR:
 const IMAGE_PROMPT = `Photorealistic 16:9 photograph of a live Microsoft Excel desktop in a Turkish office at dusk. 80 percent of the frame is a real Excel window: messy unstructured accounts-receivable sheet transforming into a tidy table. Left side still shows a merged title banner across A1:F1 reading "Mart 2026 Tahsilat Dökümü", empty row 2, mixed date formats, text-looking amounts. Right side / overlay shows the same book cleaned: A1 selected with a bright green-cyan neon cell border, formula bar showing the single word "Tarih", header row Tarih / Cari / Fatura / Tutar / Durum, AutoFilter arrows on. 20 percent cinematic: shallow depth of field, warm desk lamp, ceramic coffee cup at the edge, no readable long paragraphs on screen, no fake lorem ipsum walls of text. Photoreal UI, not illustration, not 3D cartoon. No watermarks, no extra captions.`;
 
 async function generateImagePng(client: GoogleGenAI): Promise<Buffer> {
-  try {
-    const response = (await client.models.generateContent({
-      model: IMAGE_MODEL,
-      contents: IMAGE_PROMPT,
-      config: {
-        responseModalities: ["IMAGE"],
-        imageConfig: {
-          aspectRatio: "16:9",
-        },
-      },
-    })) as GeminiResponse;
-    const inline = collectInlineImage(response);
-    if (!inline) {
-      throw new Error("Nano Banana boş görsel.");
-    }
-    return Buffer.from(inline.data, "base64");
-  } catch (error) {
-    process.stdout.write(
-      `Nano Banana ${IMAGE_MODEL} hata; Imagen yedeği ${IMAGE_FALLBACK_MODEL}\n`,
-    );
-    const fallback = (await client.models.generateImages({
-      model: IMAGE_FALLBACK_MODEL,
-      prompt: IMAGE_PROMPT,
-      config: {
-        numberOfImages: 1,
+  assertAcademySealedMediaModel("IMAGE_GEN", IMAGE_MODEL);
+  const response = (await client.models.generateContent({
+    model: IMAGE_MODEL,
+    contents: IMAGE_PROMPT,
+    config: {
+      responseModalities: ["IMAGE"],
+      imageConfig: {
         aspectRatio: "16:9",
       },
-    })) as GeminiResponse;
-    const inline = collectInlineImage(fallback);
-    if (!inline) {
-      throw error;
-    }
-    return Buffer.from(inline.data, "base64");
+    },
+  })) as GeminiResponse;
+  const inline = collectInlineImage(response);
+  if (!inline) {
+    throw new Error(
+      `Görsel mühürü fail-closed. ${IMAGE_MODEL} boş döndü. Imagen ve alt modele geçilmez.`,
+    );
   }
+  return Buffer.from(inline.data, "base64");
 }
 
 async function writeFrameAssets(png: Buffer): Promise<void> {

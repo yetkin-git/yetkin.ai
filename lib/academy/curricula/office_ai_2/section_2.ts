@@ -4,7 +4,7 @@ import { officeAi2SpokenMarkdown } from "./spoken-body";
 /**
  * OFF-201 Ders 2 — canlı indeks dersi.
  * Sınav yolu `lesson-index.ts` içindedir.
- * OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış AÇIKTIR.
+ * Durum cümlesi `academyOff201VoiceStatus` (`lib/academy/pilot-sku.ts`).
  */
 export const officeAi2Section2: Section = {
   sectionNumber: 2,

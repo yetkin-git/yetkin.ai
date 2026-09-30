@@ -83,15 +83,15 @@ export {
 const ACADEMY_COURSE_OVERLAY_TIMEOUT_MS = 250;
 
 function academySeedBoard(slug: string): { course: AcademyCourseWithPrice } | null {
+  const shell = academyVitrineShellCourses().find((row) => row.slug === slug);
+  if (shell) {
+    return { course: shell };
+  }
   const priced = publishedCoursesFromSeed().find((row) => row.slug === slug);
-  if (priced) {
-    return { course: priced };
+  if (!priced) {
+    return null;
   }
-  if (slug === "01_office_ai_ileri") {
-    const shell = academyVitrineShellCourses().find((row) => row.slug === slug);
-    return shell ? { course: shell } : null;
-  }
-  return null;
+  return { course: { ...priced, purchasable: false } };
 }
 
 async function academySsrRead<T>(work: () => Promise<T>, label: string): Promise<T> {
@@ -130,15 +130,18 @@ export const loadCourseBySlug = cache(async function loadCourseBySlug(slug: stri
     );
     const course = bySlug ?? byId;
     if (course) {
+      const priceMinor = entry?.amountMinor ?? null;
+      const isPublished = course.isPublished;
       return {
         course: overlaySeedCatalogPrice({
           ...course,
-          priceMinor: entry?.amountMinor ?? null,
+          isPublished,
+          priceMinor,
           currencyCode: entry?.currencyCode ?? SETTLEMENT_CURRENCY,
           purchasable: academyCatalogPurchasable({
             courseSlug: course.slug,
             catalogRowPresent: Boolean(entry),
-            isPublished: course.isPublished,
+            isPublished,
           }),
         }),
       };

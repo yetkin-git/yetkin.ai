@@ -15,6 +15,7 @@ import {
 } from "@/lib/academy/lesson-audio";
 import {
   academyBedDuckGain,
+  academyBedSpeechGainForLesson,
   academyBedOutroTailSec,
   academyBedSpeechEndSec,
   academyOutroBreathFadeGain,
@@ -45,6 +46,8 @@ export function LessonMediaPlayer({
   audioSrcOverride,
   bedSrcOverride,
   sealedDurationSecOverride,
+  grantedSrc,
+  grantedBedSrc,
 }: {
   courseSlug: string;
   lessonKey: string;
@@ -60,6 +63,9 @@ export function LessonMediaPlayer({
   audioSrcOverride?: string | null;
   bedSrcOverride?: string | null;
   sealedDurationSecOverride?: number | null;
+  /** Satış vitrini — sayfa imzalı adresi verir; oturum grant API çağrılmaz. */
+  grantedSrc?: string | null;
+  grantedBedSrc?: string | null;
 }) {
   const copy = ACADEMY_SEN.player;
   const listenCopy = ACADEMY_SEN.listen;
@@ -85,6 +91,12 @@ export function LessonMediaPlayer({
   const [grantDenied, setGrantDenied] = useState(false);
 
   useEffect(() => {
+    if (grantedSrc) {
+      setAudioSrc(grantedSrc);
+      setBedSrc(grantedBedSrc?.trim() || undefined);
+      setGrantDenied(false);
+      return;
+    }
     if (!playbackCandidate && !bedCandidate) {
       setAudioSrc(undefined);
       setBedSrc(undefined);
@@ -120,11 +132,12 @@ export function LessonMediaPlayer({
       }
     })();
     return () => controller.abort();
-  }, [bedCandidate, bedHardMixed, courseSlug, lessonKey, playbackCandidate]);
+  }, [bedCandidate, bedHardMixed, courseSlug, grantedBedSrc, grantedSrc, lessonKey, playbackCandidate]);
   const bedPieces = useMemo(
     () => loadAcademySealedAudioTimings(lessonKey)?.pieces ?? [],
     [lessonKey],
   );
+  const bedSpeechGain = useMemo(() => academyBedSpeechGainForLesson(lessonKey), [lessonKey]);
   const sealedSpeechSec =
     sealedDurationSecOverride != null && sealedDurationSecOverride > 0
       ? sealedDurationSecOverride
@@ -276,9 +289,9 @@ export function LessonMediaPlayer({
       }
       outroBreathStartedAtMsRef.current = performance.now();
       outroBreathFromRef.current = fromElapsed;
-      outroBreathFromGainRef.current = academyBedDuckGain(fromElapsed, bedPieces);
+      outroBreathFromGainRef.current = academyBedDuckGain(fromElapsed, bedPieces, bedSpeechGain);
     },
-    [bedPieces],
+    [bedPieces, bedSpeechGain],
   );
 
   const resolveBedGain = useCallback(
@@ -291,12 +304,12 @@ export function LessonMediaPlayer({
       if (speechEnd > 0 && elapsedSec >= speechEnd) {
         return academyOutroBreathFadeGain(
           elapsedSec - speechEnd,
-          academyBedDuckGain(speechEnd, bedPieces),
+          academyBedDuckGain(speechEnd, bedPieces, bedSpeechGain),
         );
       }
-      return academyBedDuckGain(elapsedSec, bedPieces);
+      return academyBedDuckGain(elapsedSec, bedPieces, bedSpeechGain);
     },
-    [bedHardMixed, bedPieces, intoOutroBreathMs],
+    [bedHardMixed, bedPieces, bedSpeechGain, intoOutroBreathMs],
   );
 
   useEffect(() => {

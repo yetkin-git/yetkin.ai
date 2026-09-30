@@ -94,15 +94,89 @@ describe("requireSuperAdmin tek merkez", () => {
           emailConfirmedAt: CONFIRMED,
         }),
       ).toBe(false);
+      expect(
+        hasAcademyAdminBypass({
+          userId: ADMIN_ID,
+          email: "yapinet360@gmail.com",
+          emailConfirmedAt: CONFIRMED,
+        }),
+      ).toBe(false);
       process.env.CANONICAL_SUPER_ADMIN_EMAIL = ADMIN_EMAIL;
       expect(
         isSuperAdminActor({ id: ADMIN_ID, email: ADMIN_EMAIL, emailConfirmedAt: CONFIRMED }),
+      ).toBe(false);
+      expect(
+        hasAcademyAdminBypass({
+          userId: ADMIN_ID,
+          email: ADMIN_EMAIL,
+          emailConfirmedAt: CONFIRMED,
+        }),
       ).toBe(false);
       process.env.SUPER_ADMIN_USER_ID = ADMIN_ID;
       expect(
         isSuperAdminActor({ id: ADMIN_ID, email: ADMIN_EMAIL, emailConfirmedAt: CONFIRMED }),
       ).toBe(true);
+      expect(
+        hasAcademyAdminBypass({
+          userId: ADMIN_ID,
+          email: ADMIN_EMAIL,
+          emailConfirmedAt: CONFIRMED,
+        }),
+      ).toBe(true);
       expect(isSuperAdminActor({ id: ADMIN_ID, email: ADMIN_EMAIL })).toBe(false);
+    } finally {
+      (process.env as { NODE_ENV?: string }).NODE_ENV = previousNode;
+    }
+  });
+
+  it("yapinet360@gmail.com geliştirmede doğrulanmış e-posta ile, üretimde UUID ile açılır", () => {
+    const previousNode = process.env.NODE_ENV;
+    const adminId = "11111111-1111-4111-8111-111111111111";
+    try {
+      (process.env as { NODE_ENV?: string }).NODE_ENV = "development";
+      delete process.env.CANONICAL_SUPER_ADMIN_EMAIL;
+      delete process.env.SUPER_ADMIN_USER_ID;
+      expect(resolveCanonicalSuperAdminEmail()).toBe("yapinet360@gmail.com");
+      expect(
+        isSuperAdminActor({
+          id: adminId,
+          email: "yapinet360@gmail.com",
+          emailConfirmedAt: CONFIRMED,
+        }),
+      ).toBe(true);
+      expect(
+        assertSuperAdminActor({
+          id: adminId,
+          email: "yapinet360@gmail.com",
+          emailConfirmedAt: CONFIRMED,
+        }),
+      ).toBeUndefined();
+      (process.env as { NODE_ENV?: string }).NODE_ENV = "production";
+      delete process.env.CANONICAL_SUPER_ADMIN_EMAIL;
+      delete process.env.SUPER_ADMIN_USER_ID;
+      expect(
+        isSuperAdminActor({
+          id: adminId,
+          email: "yapinet360@gmail.com",
+          emailConfirmedAt: CONFIRMED,
+        }),
+      ).toBe(false);
+      process.env.CANONICAL_SUPER_ADMIN_EMAIL = "yapinet360@gmail.com";
+      process.env.SUPER_ADMIN_USER_ID = adminId;
+      expect(
+        isSuperAdminActor({
+          id: adminId,
+          email: "yapinet360@gmail.com",
+          emailConfirmedAt: CONFIRMED,
+        }),
+      ).toBe(true);
+      expect(
+        isSuperAdminActor({
+          id: CITIZEN_ID,
+          email: "yapinet360@gmail.com",
+          emailConfirmedAt: CONFIRMED,
+        }),
+      ).toBe(false);
     } finally {
       (process.env as { NODE_ENV?: string }).NODE_ENV = previousNode;
     }

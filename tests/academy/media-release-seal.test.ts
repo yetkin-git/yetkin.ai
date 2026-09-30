@@ -21,12 +21,13 @@ import {
   academyLessonAudioObjectPath,
   academyMediaReleaseCacheKey,
 } from "@/lib/academy/media-release-seal";
+import { CURRICULUM_LESSON_KEYS_BY_SLUG } from "@/lib/kernel/catalog-ids/exam-path";
 
 const ROOT = process.cwd();
 const OFF201 = "01_office_ai_ileri";
 
 describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kaset", () => {
-  it("ses mührü 14 dersi taşır; üretim kuyruğu boş; bake allowlist 6 SKU durur", () => {
+  it("ses mührü 20 dersi taşır; üretim kuyruğu boş; bake allowlist 6 SKU durur", () => {
     expect(ACADEMY_MEDIA_SEALED_SKU_SLUGS).toEqual([
       "01_office_ai",
       "01_office_ai_ileri",
@@ -38,13 +39,13 @@ describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kase
     expect(ACADEMY_MEDIA_SEALED_AUDIO).toEqual({
       "01_office_ai": [
         "01_office_ai-1",
+        "01_office_ai-k1",
         "01_office_ai-2",
         "01_office_ai-3",
         "01_office_ai-5",
-        "01_office_ai-6",
         "01_office_ai-g1",
         "01_office_ai-w1",
-        "01_office_ai-k1",
+        "01_office_ai-6",
       ],
       "01_office_ai_ileri": [
         "01_office_ai_ileri-1",
@@ -54,12 +55,28 @@ describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kase
         "01_office_ai_ileri-5",
         "01_office_ai_ileri-6",
       ],
+      "02_ecommerce_ai": [
+        "02_ecommerce_ai-1",
+        "02_ecommerce_ai-2",
+        "02_ecommerce_ai-3",
+        "02_ecommerce_ai-4",
+        "02_ecommerce_ai-5",
+        "02_ecommerce_ai-6",
+      ],
     });
     expect(ACADEMY_TTS_REVOKED_CASSETTES).toEqual({});
     expect(ACADEMY_TTS_REBAKE_QUEUE).toEqual({});
-    expect(academyMediaSealedWavCount()).toBe(14);
+    expect(academyMediaSealedWavCount()).toBe(20);
+    for (const [slug, keys] of Object.entries(CURRICULUM_LESSON_KEYS_BY_SLUG)) {
+      if (keys.length === 0) {
+        expect(ACADEMY_MEDIA_SEALED_AUDIO[slug], slug).toBeUndefined();
+      } else {
+        expect(ACADEMY_MEDIA_SEALED_AUDIO[slug], slug).toEqual([...keys]);
+      }
+    }
     expect(academyCourseSaleOpen("01_office_ai")).toBe(true);
     expect(academyCourseSaleOpen("01_office_ai_ileri")).toBe(true);
+    expect(academyCourseSaleOpen("02_ecommerce_ai")).toBe(false);
     expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai"]);
     expect(academyLessonAudioObjectPath("sample-course", "sample-course-1")).toBe(
       "academy/audio/sample-course/sample-course-1.wav",
@@ -71,12 +88,12 @@ describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kase
 
   it("OFF-201 altı kaset vatandaş karaoke katmanında mühürlü süreyi taşır", () => {
     const rows = [
-      ["01_office_ai_ileri-1", 532.798, false],
-      ["01_office_ai_ileri-2", 641.229, false],
-      ["01_office_ai_ileri-3", 690.602, false],
-      ["01_office_ai_ileri-4", 763.174, false],
-      ["01_office_ai_ileri-5", 840.464, false],
-      ["01_office_ai_ileri-6", 793.186, false],
+      ["01_office_ai_ileri-1", 485.144, false],
+      ["01_office_ai_ileri-2", 605.618, false],
+      ["01_office_ai_ileri-3", 658.323, false],
+      ["01_office_ai_ileri-4", 751.895, false],
+      ["01_office_ai_ileri-5", 843.653, false],
+      ["01_office_ai_ileri-6", 714.382, false],
     ] as const;
     for (const [lessonKey, durationSec, rebake] of rows) {
       const minutes = durationSec / 60;

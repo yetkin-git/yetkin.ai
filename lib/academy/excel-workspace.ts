@@ -328,7 +328,7 @@ export type AcademyVisualStageBackdropTheme = AcademyVisualWaiterKind | "brand";
 /** Sahne letterbox teması — ilk slayt layout’u. Excel karesi yalnız Excel derslerinde. */
 export function academyVisualStageBackdropTheme(lessonKey: string): AcademyVisualStageBackdropTheme {
   const layout = loadAcademyCinemaCueSlides(lessonKey.trim())[0]?.layout;
-  if (!layout) {
+  if (!layout || layout === "listing") {
     return "brand";
   }
   return academyVisualWaiterStageFromLayout(layout);

@@ -1,9 +1,24 @@
 /**
- * Ücretsiz hazırlık şeridi olan kurs.
- * Kenar (`edge-guard`) bu kimliği akademi motorundan okumaz.
+ * Ücretsiz kapı. Slug listesi yoktur.
+ * Bir kursun sınav yolunun ilk anahtarı herkese açıktır.
+ * Tablo `exam-path.ts` içindedir. Kenar akademi motorunu import etmez.
+ * Boş kabuk (0 ders) kapalıdır.
  */
-export const ACADEMY_FREE_PREVIEW_COURSE_SLUG = "01_office_ai" as const;
+
+import {
+  curriculumExamPathFirstLessonKey,
+  curriculumExamPathHasOpeningLesson,
+  isCurriculumExamPathFirstLessonKey,
+} from "@/lib/kernel/catalog-ids/exam-path";
 
 export function academyCourseOffersFreePreview(courseSlug: string): boolean {
-  return courseSlug.trim() === ACADEMY_FREE_PREVIEW_COURSE_SLUG;
+  return curriculumExamPathHasOpeningLesson(courseSlug);
+}
+
+export function academyExamPathFirstLessonKey(courseSlug: string): string | null {
+  return curriculumExamPathFirstLessonKey(courseSlug);
+}
+
+export function isAcademyExamPathFirstLessonKey(lessonKey: string): boolean {
+  return isCurriculumExamPathFirstLessonKey(lessonKey);
 }

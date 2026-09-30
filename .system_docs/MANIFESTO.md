@@ -9,7 +9,7 @@
 | Son Reform | **27 Eylül 2026:** Mimari paragraf Anayasa B1’e bırakıldı. Bu belge pazar, vizyon ve gelir modelinde kalır. |
 | Yer | `/.system_docs/MANIFESTO.md` |
 | Çelişki | Bir cümle Anayasa ile çatışırsa `.system_docs/ANAYASA.md` bağlayıcıdır. |
-| Durum | Yaşayan kesit `docs/ops/DURUM.md` içindedir. `docs/DURUM.md` yalnız oraya yönlendirir. |
+| Durum | Yaşayan kesit `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir. |
 
 ---
 
@@ -65,10 +65,10 @@ Faz 1 kamu vitrini kilidi **Anayasa B2**’dedir; Manifesto o kilidi ikinci kez 
 **Oda tavanı esnektir** cümlesi Faz 2 checklist’idir, Faz 1 kilidini gevşetmez: yeni oda/dron = kayıt + sözleşme + bayrak. Kamu kanıt URL’si (`/vize`) yeni oda açmaz.
 
 ### Dron durumu
-Mimari ad, ince sözleşme paketi ve native istemci sınırı **Anayasa B1**’dedir. Bu belge o paragrafı ikinci kez yazmaz. Haftalık istemci kesiti `docs/ops/DURUM.md` içindedir.
+Mimari ad, ince sözleşme paketi ve native istemci sınırı **Anayasa B1**’dedir: **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci**. Bu belge o paragrafı ikinci kez yazmaz. Haftalık istemci kesiti `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir.
 
 ### Kesit kuralı
-Haftalık kesit `docs/ops/DURUM.md` içindedir.
+Haftalık kesit `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir.
 
 ## Kural 2 — Vize Kapısı
 
@@ -114,7 +114,7 @@ Güvenli teslimat üzerinden platform komisyonu. Kamu yüzeyi kilitliyken nakit 
 2. **Gelir şimdi:** Merchant iFrame ile cüzdan yükleme + Akademi DEBIT. Kanıt dışarı `/vize` ile çıkar.
 3. **Ölçek sonra:** Split sözleşmesi, freelancer hop geri yazımı, dron kapalı testi. Kurumsal B2B ancak keşif + pilot sonrası.
 
-Operasyonel hop sayısı, SKU listesi ve env bayrakları bu belgede durmaz; `docs/ops/DURUM.md` haftalık gerçektir.
+Operasyonel hop sayısı, SKU listesi ve env bayrakları bu belgede durmaz; haftalık gerçek `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir.
 
 ---
 

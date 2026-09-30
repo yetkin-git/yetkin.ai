@@ -481,10 +481,10 @@ export interface Section {
   lessonKey?: string;
   /**
    * Satın alma yokken gövde açılır mı?
-   * Ana derslerde `false`. Ücretsiz kapı yalnız hazırlık şeridi (`01_office_ai-0`).
+   * Modül dizisi `applyAcademySectionPreviewGate` ile bağlar: sınav yolunun ilk dersi `true`.
    */
   isPreviewAllowed?: boolean;
-  /** Oturumsuz ve ücretsiz oynatıcıda kilit. Ana derslerde `true`. */
+  /** Oturumsuz oynatıcıda kilit. İlk ders `false`; sonraki dersler `true`. */
   isLocked?: boolean;
   videoUrl?: string;
   audioUrl?: string;

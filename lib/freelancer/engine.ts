@@ -77,7 +77,7 @@ export function isFreelancerUniqueViolation(error: unknown): boolean {
 
 async function assertJobClientExists(
   freelancer: FreelancerEnginePorts["freelancer"],
-  client: { clientId: string; clientEmail?: string },
+  client: { clientId: string; clientEmail?: string; clientEmailConfirmedAt?: string | null },
 ): Promise<void> {
   if (!freelancer.hasUser) {
     return;
@@ -90,7 +90,11 @@ async function assertJobClientExists(
   if (
     email &&
     freelancer.ensureUser &&
-    isSuperAdminActor({ id: client.clientId, email })
+    isSuperAdminActor({
+      id: client.clientId,
+      email,
+      emailConfirmedAt: client.clientEmailConfirmedAt,
+    })
   ) {
     await freelancer.ensureUser({ id: client.clientId, email });
     return;
@@ -133,6 +137,7 @@ async function resolveHoldReferenceKey(
 export type CreateJobCommand = {
   clientId: string;
   clientEmail?: string;
+  clientEmailConfirmedAt?: string | null;
   title: string;
   brief: string;
   budgetMinor: number;

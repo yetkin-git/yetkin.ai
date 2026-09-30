@@ -14,8 +14,9 @@ const ADMIN_ID = "11111111-1111-4111-8111-111111111111";
 const CITIZEN_ID = "22222222-2222-4222-8222-222222222222";
 const ORIGINAL_ADMIN = process.env.SUPER_ADMIN_USER_ID;
 
-const ADMIN = { id: ADMIN_ID, email: "admin@yetkin.rail" };
-const CITIZEN = { id: CITIZEN_ID, email: "vatandas@yetkin.rail" };
+const CONFIRMED = "2026-01-01T00:00:00.000Z";
+const ADMIN = { id: ADMIN_ID, email: "admin@yetkin.rail", emailConfirmedAt: CONFIRMED };
+const CITIZEN = { id: CITIZEN_ID, email: "vatandas@yetkin.rail", emailConfirmedAt: CONFIRMED };
 
 const REASON = {
   reasonCode: "ADMIN_MANUAL" as const,

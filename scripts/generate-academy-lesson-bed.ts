@@ -11,12 +11,16 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { GoogleGenAI } from "@google/genai";
 import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
-import { academyLessonBedMood, academyLessonBedPrompt } from "@/lib/academy/lesson-bed-duck";
+import { academyEc102BedKind, academyLessonBedPromptForLesson } from "@/lib/academy/lesson-bed-duck";
 import { academyLessonBedDiskPath } from "@/lib/academy/media-release-seal";
-import { ACADEMY_BAKE_MODELS } from "@/lib/kernel/ai/model-roles";
+import {
+  ACADEMY_SEALED_MEDIA_MODEL,
+  assertAcademySealedMediaModel,
+  isGeminiModelUnavailableError,
+} from "@/lib/kernel/ai/model-roles";
 
 const MIN_GEMINI_KEY_CHARS = 8;
-const LYRIA_MODEL = ACADEMY_BAKE_MODELS.MUSIC_LYRIA;
+const LYRIA_MODEL = ACADEMY_SEALED_MEDIA_MODEL.MUSIC_GEN;
 
 type GeminiPart = {
   text?: string;
@@ -132,6 +136,7 @@ function isAudioPayload(bytes: Buffer): boolean {
 }
 
 async function bakeLyriaBed(client: GoogleGenAI, prompt: string): Promise<Buffer> {
+  assertAcademySealedMediaModel("MUSIC_GEN", LYRIA_MODEL);
   const interactions = client as GoogleGenAI & {
     interactions?: {
       create: (input: { model: string; input: string }) => Promise<InteractionResponse>;
@@ -149,7 +154,14 @@ async function bakeLyriaBed(client: GoogleGenAI, prompt: string): Promise<Buffer
       }
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
-      process.stderr.write(`Lyria interactions atlandı — ${message}\n`);
+      if (isGeminiModelUnavailableError(error)) {
+        throw new Error(
+          `Müzik mühürü fail-closed. ${LYRIA_MODEL} API'de yok. lyria-3 ve alt modele geçilmez. ${message}`,
+        );
+      }
+      process.stderr.write(
+        `Lyria interactions ${LYRIA_MODEL} durdu; aynı model generateContent ile sürer. Alt model yok. ${message}\n`,
+      );
     }
   }
   const response = (await client.models.generateContent({
@@ -196,11 +208,12 @@ async function main(): Promise<void> {
     throw new Error("Lyria bed --slug ve --key ister.");
   }
   requireCurriculumLesson(slug, key);
-  const prompt = academyLessonBedPrompt(academyLessonBedMood(key));
+  const prompt = academyLessonBedPromptForLesson(key);
+  const bedKind = academyEc102BedKind(key);
   const diskPath = academyLessonBedDiskPath(slug, key);
   if (args.dryRun || !args.seal || !args.confirmGeminiSpend) {
     process.stdout.write(
-      `academy-bed bake — ${slug}/${key} model=${LYRIA_MODEL}${args.dryRun || !args.seal ? " (dry-run)" : ""}\n  → ${diskPath}\n`,
+      `academy-bed bake — ${slug}/${key} model=${LYRIA_MODEL}${bedKind ? ` yatak=${bedKind}` : ""}${args.dryRun || !args.seal ? " (dry-run)" : ""}\n  → ${diskPath}\n`,
     );
     if (!args.seal || !args.confirmGeminiSpend) {
       process.stdout.write(

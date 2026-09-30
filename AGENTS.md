@@ -12,6 +12,6 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 Hiçbir eğitim videosu Metin, Ses, Video, Görsel ve Müzik katmanlarından biri eksikken fırınlanamaz ve mühürlenemez.
 
-Zorunlu sıra: (1) Metin — vatandaş dili, tek iş tek cümle, (2) Ses — Gemini 3.8 Flash TTS, `atempo=0.93`, EBU R128, (3) Video — yerel `public/media/academy/micro/*-warmup.mp4` reuse, otomatik Veo 3.1 API iptal, ilk 6–8 sn ısınma klibi, (4) Görsel — Nano Banana 2, 4K canlı uygulama kartları, (5) Müzik — Lyria 3.5, vokalsiz fon müziği yatağı, -22 dB ducking.
+Zorunlu sıra: (1) Metin — vatandaş dili, tek iş tek cümle, (2) Ses — `ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS`, (3) Video — yerel `public/media/academy/micro/*-warmup.mp4`, (4) Görsel — `ACADEMY_SEALED_MEDIA_MODEL.IMAGE_GEN`, (5) Müzik — `ACADEMY_SEALED_MEDIA_MODEL.MUSIC_GEN`. Model kimliği, tempo ve ducking bu dosyada tekrarlanmaz. Ev `lib/kernel/ai/model-roles.ts` ve `lib/academy/production-standard.ts`.
 
-3 aşamalı kontrol kapısı: taslak metin (senaryo ve chunking), gözden geçirme (pedagoji, jargon ve aforizma taraması), son kontrol. Beş katman teyit edilmeden `--seal` basılamaz. Kapı `assertAcademyProductionSeal` (`lib/academy/production-standard.ts`). Ayrıntı `.system_docs/PEDAGOJI.md`, `.system_docs/ANAYASA.md` B4 ve `.cursorrules` kilit bölümündedir. Kimlik dizesi `lib/kernel/ai/model-roles.ts` içindedir.
+3 aşamalı kontrol kapısı: taslak metin, gözden geçirme, son kontrol. Beş katman teyit edilmeden `--seal` basılamaz. Kapı `assertAcademyProductionSeal` (`lib/academy/production-standard.ts`). Ayrıntı `.system_docs/PEDAGOJI.md` ve `.system_docs/ANAYASA.md` B4. Kimlik dizesi `lib/kernel/ai/model-roles.ts` içindedir.

@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
@@ -13,6 +13,7 @@ import { ACADEMY_EXAM_PASS_SCORE, gradeAcademyExam } from "@/lib/academy/exam";
 import { OFFICE_AI_2_EXAM_QUESTIONS, academyExamPoolForSlug } from "@/lib/academy/exam-pools";
 import { lockAcademyCoursePrice, purchaseAcademyCourse } from "@/lib/academy/engine";
 import { academyCourseSaleOpen } from "@/lib/academy/pilot-sku";
+import { registerAcademyProductionDiskProbe } from "@/lib/academy/production-standard";
 import { loadAcademyLessonExam } from "@/lib/academy/lesson-exams";
 import {
   OFF_201_CATALOG_MODULE_KEY,
@@ -183,13 +184,29 @@ describe("OFF-201 fırın öncesi hazırlık", () => {
     expect(page).toContain("academy.off201.catalog_price_unset");
   });
 
-  it("satış açıktır; fiyat kilidi para kesmez", async () => {
-    expect(academyCourseSaleOpen("01_office_ai_ileri")).toBe(true);
-    for (const ports of [world(), world(69), world(80, true), world(70)]) {
-      await seed(ports);
-      const locked = await lockAcademyCoursePrice(ports, { courseId: ports.course.id, userId: BUYER });
-      expect(locked.lock.amountMinor).toBe(CATALOG_PRICE);
-      expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START);
+  it("görsel JPG diskte yoksa satış kapalıdır; fiyat kilidi para kesmez", async () => {
+    const onDisk = (relativePath: string): boolean => {
+      try {
+        const absolute = join(process.cwd(), relativePath);
+        return existsSync(absolute) && statSync(absolute).size > 0;
+      } catch {
+        return false;
+      }
+    };
+    registerAcademyProductionDiskProbe((relativePath) =>
+      relativePath.endsWith(".jpg") ? false : onDisk(relativePath),
+    );
+    try {
+      expect(academyCourseSaleOpen("01_office_ai_ileri")).toBe(false);
+      for (const ports of [world(), world(69), world(80, true), world(70)]) {
+        await seed(ports);
+        await expect(
+          lockAcademyCoursePrice(ports, { courseId: ports.course.id, userId: BUYER }),
+        ).rejects.toThrow("Kurs satışa kapalı.");
+        expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(BUYER_START);
+      }
+    } finally {
+      registerAcademyProductionDiskProbe(onDisk);
     }
   });
 

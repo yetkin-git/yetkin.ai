@@ -1,4 +1,5 @@
 import type { CurriculumModule, Section } from "../types";
+import { academyCourseVoiceSeal } from "@/lib/academy/instructors";
 
 export const socialMediaAiSections: Section[] = [];
 
@@ -16,9 +17,9 @@ export const socialMediaAiMasteryModule: CurriculumModule = {
   methodology: "Sen dili, adım adım iş, sıfır kodlama",
   estimatedTotalMinutes: 0,
   voiceConfig: {
-    courseMasterVoice: "Zephyr",
+    courseMasterVoice: academyCourseVoiceSeal("03_social_media_ai").courseMasterVoice,
     style: "Sakin ve günlük iş dili",
-    gender: "male",
+    gender: academyCourseVoiceSeal("03_social_media_ai").gender,
   },
   sections: socialMediaAiSections,
 };

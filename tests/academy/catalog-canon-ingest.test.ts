@@ -78,9 +78,10 @@ describe("13 kanon katalog ve 02_ecommerce_ai ingest", () => {
     );
   });
 
-  it("02_ecommerce_ai compact müfredat taze ingest bekler; mastery dosyası boştur", () => {
+  it("02_ecommerce_ai compact müfredat mühür gövdesini taşır; mastery dosyası boştur", () => {
     const lessons = curriculumForCourseSlug("02_ecommerce_ai");
-    expect(lessons).toHaveLength(0);
+    expect(lessons).toHaveLength(6);
+    expect(lessons[0]?.body).toContain("Merhaba, ben Deniz");
     expect(existsSync(MASTERY)).toBe(false);
   });
 

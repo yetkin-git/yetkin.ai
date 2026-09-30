@@ -12,6 +12,8 @@ import {
 } from "@/lib/academy/load";
 import { academyActorFromSession, hasAcademyOynaAccess } from "@/lib/academy/access";
 import {
+  ACADEMY_EC102_PUBLIC_RELEASE_OPEN,
+  ACADEMY_NEXT_BODY_SKU_SLUG,
   ACADEMY_OFF201_STOREFRONT_SLUG,
   academyStorefrontStaticParams,
   isAcademyStorefrontSlug,
@@ -19,10 +21,15 @@ import {
 import { academyCourseOffersFreePreview } from "@/lib/academy/purchase-path";
 import { sealClosedAcademyLessonPayload } from "@/lib/academy/preview-lock";
 import { academyPaywallLockedLessonShells } from "@/lib/academy/paywall-shells";
+import { loadAcademyFreePreviewAudioGrants } from "@/lib/academy/free-preview-audio";
 import { loadAcademyLessonMediaPrime } from "@/lib/academy/lesson-media-prime";
 
 export function generateStaticParams() {
-  return [...academyStorefrontStaticParams(), { slug: ACADEMY_OFF201_STOREFRONT_SLUG }];
+  return [
+    ...academyStorefrontStaticParams(),
+    { slug: ACADEMY_OFF201_STOREFRONT_SLUG },
+    ...(ACADEMY_EC102_PUBLIC_RELEASE_OPEN ? [{ slug: ACADEMY_NEXT_BODY_SKU_SLUG }] : []),
+  ];
 }
 
 /** Vitrinde olmayan slug yumuşak 200 değil, HTTP 404. */
@@ -30,8 +37,8 @@ export const dynamicParams = false;
 
 // SEO Tedavi (P1) — duvar arkası oynatıcı indekslenmez.
 // Kanonik kendi adresidir; akademi kataloğunu miras almaz.
-// `robots.ts` disallow (`/academy/*/oyna`). Ücretsiz kapı yalnız hazırlık şeridi;
-// ana ders gövdesi oturumsuz oynatıcıda da kilitlidir.
+// `robots.ts` disallow (`/academy/*/oyna`). Ücretsiz kapı ders 1 satış vitrini
+// ve hazırlık şerididir. Ders 2+ gövdesi oturumsuz oynatıcıda kilitlidir.
 export async function generateMetadata({
   params,
 }: {
@@ -62,6 +69,7 @@ export default async function AcademyCurriculumPlayerPage({
     if (!board) {
       notFound();
     }
+    const freePreviewAudio = await loadAcademyFreePreviewAudioGrants(board.course.slug);
     return (
       <RoomFrame cinema className="flex flex-col gap-0 space-y-0 px-4 py-0 sm:px-6">
         <div className="flex min-h-0 flex-1 flex-col">
@@ -72,6 +80,7 @@ export default async function AcademyCurriculumPlayerPage({
             curriculumComplete={false}
             workTasksComplete={false}
             paywallLocked
+            freePreviewAudio={freePreviewAudio}
             media={loadAcademyLessonMediaPrime(board.course.slug, { paywallLocked: true })}
           />
         </div>
@@ -97,6 +106,7 @@ export default async function AcademyCurriculumPlayerPage({
     if (!academyCourseOffersFreePreview(board.course.slug)) {
       redirect(`/academy/${board.course.slug}`);
     }
+    const freePreviewAudio = await loadAcademyFreePreviewAudioGrants(board.course.slug);
     return (
       <RoomFrame cinema className="flex flex-col gap-0 space-y-0 px-4 py-0 sm:px-6">
         <div className="flex min-h-0 flex-1 flex-col">
@@ -107,6 +117,7 @@ export default async function AcademyCurriculumPlayerPage({
             curriculumComplete={false}
             workTasksComplete={false}
             paywallLocked
+            freePreviewAudio={freePreviewAudio}
             media={loadAcademyLessonMediaPrime(board.course.slug, { paywallLocked: true })}
           />
         </div>

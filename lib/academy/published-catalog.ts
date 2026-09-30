@@ -9,16 +9,16 @@ import {
   type AcademyCatalogSeed,
 } from "@/lib/academy/catalog-seed";
 import {
+  ACADEMY_EC102_PUBLIC_RELEASE_OPEN,
+  ACADEMY_NEXT_BODY_SKU_SLUG,
   ACADEMY_OFF201_STOREFRONT_SLUG,
   ACADEMY_VITRINE_SHELL_SKU_SLUGS,
   academyCatalogPurchasable,
-  isAcademyGrowthSkuSlug,
-  isAcademyProductionLineSkuSlug,
+  academyCourseNarrationPublished,
 } from "@/lib/academy/pilot-sku";
 import { ACADEMY_OFF201_DEFAULT_COVER } from "@/lib/academy/course-cover";
 import { OFF_201_TITLE } from "@/lib/academy/curricula/office_ai/off-201";
 import type { AcademyCourseRecord, AcademyCourseWithPrice } from "@/lib/academy/types";
-import { OFF_201_LAUNCH_PRICE_MINOR } from "@/lib/academy/catalog-pricing";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 
 const SEED_STAMP = new Date("2026-08-21T15:00:00.000Z");
@@ -115,33 +115,73 @@ export function mergePublishedAcademyCatalog(
 }
 
 /**
- * PEDAGOJI §D 5'li Vitrin Karması — amiral satın alınır; kardeşler dürüst Yakında kabuğu.
- * Hayali oynatıcı / antre SKU basılmaz.
+ * Anlatımı bitmiş ama bu çağrıda doğrulanmış satırı olmayan kart.
+ * Satın Al basılmaz. Tohum tutarı kasa fiyatı değildir.
+ */
+function unpublishedNarratedCard(row: AcademyCatalogSeed): AcademyCourseWithPrice {
+  return withCardHonesty({
+    ...academyCourseRecordFromSeed(row),
+    isPublished: false,
+    priceMinor: null,
+    currencyCode: ACADEMY_SEED_CURRENCY,
+    purchasable: false,
+  });
+}
+
+/**
+ * Doğrulanmış satır. Satın Al yalnız üçü birden varken: yayın, aktif fiyat, disk mührü.
+ * `priceMinor` aktif katalog satırından gelir; tohum tutarı buraya yazılmaz.
+ */
+function confirmedVitrineCard(row: AcademyCourseWithPrice): AcademyCourseWithPrice {
+  return withCardHonesty({
+    ...row,
+    purchasable: academyCatalogPurchasable({
+      courseSlug: row.slug,
+      catalogRowPresent: row.priceMinor != null,
+      isPublished: row.isPublished,
+    }),
+  });
+}
+
+/**
+ * PEDAGOJI §D 5'li Vitrin Karması.
+ * `live` yalnız veritabanından okunmuş kurs satırlarıdır. Boş dizi, yayın teyidi yok demektir.
+ * Satın Al: `is_published`, aktif fiyat ve beş katman disk mührü. Biri eksikse kart satın al demez.
+ * Anlatımı bitmemiş kardeş «Çok Yakında»dır. EC-102 kamu kapısı kapalıyken aynı kabuğa düşer.
+ * Anlatımı bitmiş ama satırı kapalı kurs «Yayında Değil»dir.
  */
 export function academyVitrineShellCourses(
-  live: readonly AcademyCourseWithPrice[] = publishedCoursesFromSeed(),
+  live: readonly AcademyCourseWithPrice[] = [],
 ): AcademyCourseWithPrice[] {
-  const published = mergePublishedAcademyCatalog(live);
-  const bySlug = new Map(published.map((row) => [row.slug, row]));
+  const bySlug = new Map(live.map((row) => [row.slug, row]));
   const next: AcademyCourseWithPrice[] = [];
   for (const slug of ACADEMY_VITRINE_SHELL_SKU_SLUGS) {
     const liveRow = bySlug.get(slug);
-    if (liveRow && isAcademyGrowthSkuSlug(slug)) {
-      next.push(liveRow);
-      continue;
-    }
     if (slug === ACADEMY_OFF201_STOREFRONT_SLUG) {
-      const row = liveRow ?? off201VitrineCourse();
-      next.push({ ...row, coverImage: row.coverImage ?? ACADEMY_OFF201_DEFAULT_COVER });
+      if (!academyCourseNarrationPublished(slug)) {
+        next.push(off201ClosedVitrineCourse());
+        continue;
+      }
+      const row = liveRow ? confirmedVitrineCard(liveRow) : off201ClosedVitrineCourse();
+      next.push({
+        ...row,
+        coverImage: row.coverImage ?? ACADEMY_OFF201_DEFAULT_COVER,
+        level: row.level ?? "İleri",
+      });
       continue;
     }
-    if (!isAcademyProductionLineSkuSlug(slug)) {
+    const seed = academyCatalogSeedMatch(slug) ?? academyVitrineDisplaySeed(slug);
+    if (!seed) {
       continue;
     }
-    const seed = academyVitrineDisplaySeed(slug);
-    if (seed) {
+    if (
+      (slug === ACADEMY_NEXT_BODY_SKU_SLUG && !ACADEMY_EC102_PUBLIC_RELEASE_OPEN) ||
+      !academyCourseNarrationPublished(slug)
+    ) {
       next.push(comingSoonAcademyCourseFromSeed(seed));
+      continue;
     }
+    next.push(liveRow ? confirmedVitrineCard(liveRow) : unpublishedNarratedCard(seed));
   }
   return next;
 }
@@ -166,17 +206,15 @@ export function off201StorefrontCourseRecord(): AcademyCourseRecord {
   };
 }
 
-function off201VitrineCourse(): AcademyCourseWithPrice {
+/** OFF-201 satırı bu çağrıda doğrulanmadı. Tohum tutarı Satın Al açmaz. */
+function off201ClosedVitrineCourse(): AcademyCourseWithPrice {
   const record = off201StorefrontCourseRecord();
   return withCardHonesty({
     ...record,
-    priceMinor: toAmountMinor(OFF_201_LAUNCH_PRICE_MINOR),
+    isPublished: false,
+    priceMinor: null,
     currencyCode: ACADEMY_SEED_CURRENCY,
-    purchasable: academyCatalogPurchasable({
-      courseSlug: record.slug,
-      catalogRowPresent: true,
-      isPublished: record.isPublished,
-    }),
+    purchasable: false,
     level: "İleri",
     coverImage: ACADEMY_OFF201_DEFAULT_COVER,
   });
@@ -189,6 +227,10 @@ export function resolveAcademyCourseFromSeed(idOrSlug: string): AcademyCourseRec
   const seed = academyCatalogSeedMatch(idOrSlug);
   if (seed) {
     return academyCourseRecordFromSeed(seed);
+  }
+  const publishedShell = academyVitrineDisplaySeed(idOrSlug);
+  if (publishedShell && academyCourseNarrationPublished(idOrSlug)) {
+    return academyCourseRecordFromSeed(publishedShell);
   }
   return null;
 }

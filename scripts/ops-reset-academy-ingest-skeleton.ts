@@ -36,6 +36,8 @@ type SkeletonCourse = {
   masteryFile: string;
   moduleCode: string;
   title: string;
+  /** Vitrin alt tanımı. Yalnız doluysa mastery ön yüzüne yazılır. */
+  summary?: string;
   instructor: string;
   category: string;
   audience: readonly string[];
@@ -384,9 +386,10 @@ const COURSES: readonly SkeletonCourse[] = [
     slug: "05_prompt_practice",
     masteryFile: "05_prompt_engineering_mastery.md",
     moduleCode: "CURR-PROMPT-PRACTICE-105",
-    title: "Pratik Prompt Mühendisliği ve Günlük Üretkenlik Rehberi (ChatGPT, Claude & Perplexity)",
+    title: "Yapay Zekâ Prompt Mühendisliği",
+    summary: "Yapay Zekâya Doğru Talimat Verme Sanatı",
     instructor: "Eğitmen",
-    category: "KATMAN 1.5 — Pratik Prompt Mühendisliği ve Bilişsel Üretkenlik (Katman 1 Büyük Kapanış Modülü)",
+    category: "Katman 1 — Yapay Zekâya Doğru Talimat Verme Sanatı",
     audience: ["Günlük işlerinde yapay zekâyı sistemli kullanmak isteyenler", "Öğrenciler", "Serbest çalışanlar"],
     methodology:
       "Canlı diyalog ve doğrudan sen hitabı, uygulamalı prompt şablonları, rol + bağlam + format, sıfır kodlama",
@@ -493,7 +496,7 @@ ${sectionBody(section)}
 slug: "${course.slug}"
 moduleCode: "${course.moduleCode}"
 title: ${JSON.stringify(course.title)}
-instructor: ${JSON.stringify(course.instructor)}
+${course.summary ? `summary: ${JSON.stringify(course.summary)}\n` : ""}instructor: ${JSON.stringify(course.instructor)}
 category: ${JSON.stringify(course.category)}
 layer: 1
 targetAudience:

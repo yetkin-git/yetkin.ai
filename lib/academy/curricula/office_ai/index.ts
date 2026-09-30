@@ -1,4 +1,6 @@
+import { applyAcademySectionPreviewGate } from "@/lib/academy/preview-lock";
 import type { CurriculumModule, Section } from "../types";
+import { academyCourseVoiceSeal } from "@/lib/academy/instructors";
 import { academyCourseSealedDurationMinutes } from "@/lib/academy/lesson-audio";
 import { section1 } from "./section_1";
 import { section2 } from "./section_2";
@@ -45,7 +47,7 @@ export const officeAiSections: Section[] = [
   sectionG1,
   sectionW1,
   section6,
-];
+].map(applyAcademySectionPreviewGate);
 
 export const officeAiMasteryModule: CurriculumModule = {
   moduleCode: "CURR-OFFICE-AI-101",
@@ -64,9 +66,9 @@ export const officeAiMasteryModule: CurriculumModule = {
   methodology: "Canlı diyalog ve sen dili, sakin ve adım adım ekran rehberliği, sıfır kodlama, yüksek verim odaklı pratik ofis çözümleri.",
   estimatedTotalMinutes: academyCourseSealedDurationMinutes("01_office_ai"),
   voiceConfig: {
-    courseMasterVoice: "Callirrhoe",
+    courseMasterVoice: academyCourseVoiceSeal("01_office_ai").courseMasterVoice,
     style: "Canlı diyalog ve sen dili, sakin ve adım adım ekran rehberliği",
-    gender: "female",
+    gender: academyCourseVoiceSeal("01_office_ai").gender,
   },
   sections: officeAiSections,
 };

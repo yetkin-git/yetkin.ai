@@ -352,7 +352,7 @@ async function main(): Promise<void> {
   }
 
   console.log(
-    "ops:migrate — Prisma şema (D2 halkası, defter immutability, sertifika iptal, P3 donmuş DROP), sonra on bir SQL.",
+    "ops:migrate — Prisma şema (D2 halkası, defter immutability, sertifika iptal, P3 donmuş DROP), sonra on iki SQL.",
   );
   console.log(`   Prisma halka: ${PRISMA_RING_MIGRATIONS.join(" → ")}`);
   console.log(`   Defter mührü: ${LEDGER_IMMUTABILITY_MIGRATION}`);

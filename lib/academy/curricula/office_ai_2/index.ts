@@ -1,6 +1,7 @@
+import { applyAcademySectionPreviewGate } from "@/lib/academy/preview-lock";
 import type { CurriculumModule, Section } from "../types";
 import { academyCourseSealedDurationMinutes } from "@/lib/academy/lesson-audio";
-import { ACADEMY_OFF201_COURSE_MASTER_VOICE } from "@/lib/academy/instructors";
+import { academyCourseVoiceSeal } from "@/lib/academy/instructors";
 import { OFFICE_AI_2_MODULE_CODE, OFFICE_AI_2_SLUG } from "./planned";
 import { officeAi2Section1 } from "./section_1";
 import { officeAi2Section2 } from "./section_2";
@@ -10,7 +11,6 @@ import { officeAi2Section5 } from "./section_5";
 import { officeAi2Section6 } from "./section_6";
 
 export {
-  OFFICE_AI_2_AUDIO_PENDING,
   OFFICE_AI_2_LESSON_PLAN,
   OFFICE_AI_2_MODULE_CODE,
   OFFICE_AI_2_SLUG,
@@ -29,7 +29,7 @@ export {
  * OFF-201 canlı modül.
  * `curricula/index.ts` bu diziyi `CURRICULUM_DRAFTS_BY_SLUG` ve sınav indeksine yazar.
  * Tek eğitmen sesi Aylin (Kore), `courseMasterVoice` tek string. Gözde bu kursta konuşmaz.
- * OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış AÇIKTIR.
+ * Durum cümlesi `academyOff201VoiceStatus` (`lib/academy/pilot-sku.ts`).
  * `estimatedTotalMinutes` mühürlü timings toplamıdır. Satış mandalı bu süreyi açmaz.
  */
 export const officeAi2Sections: Section[] = [
@@ -39,7 +39,7 @@ export const officeAi2Sections: Section[] = [
   officeAi2Section4,
   officeAi2Section5,
   officeAi2Section6,
-];
+].map(applyAcademySectionPreviewGate);
 
 export const officeAi2MasteryModule: CurriculumModule = {
   moduleCode: OFFICE_AI_2_MODULE_CODE,
@@ -55,9 +55,9 @@ export const officeAi2MasteryModule: CurriculumModule = {
     "Sen dili, dört parçalı istem (rol, görev, biçim, kısıt), şirket politikası önce, maskeli veri, sıfır kod.",
   estimatedTotalMinutes: academyCourseSealedDurationMinutes(OFFICE_AI_2_SLUG),
   voiceConfig: {
-    courseMasterVoice: ACADEMY_OFF201_COURSE_MASTER_VOICE,
+    courseMasterVoice: academyCourseVoiceSeal("01_office_ai_ileri").courseMasterVoice,
     style: "Tek eğitmen, Aylin. Kurs baştan sona aynı ses.",
-    gender: "female",
+    gender: academyCourseVoiceSeal("01_office_ai_ileri").gender,
   },
   sections: officeAi2Sections,
 };

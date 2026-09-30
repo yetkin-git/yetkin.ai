@@ -193,8 +193,20 @@ if (!roles.includes("export function assertLiveAiModelRole")) {
 if (!roles.includes("Kesilmiş ölü yuva")) {
   violations.push("lib/kernel/ai/model-roles.ts — mühürlü-ölü yuva açıklaması kayboldu");
 }
-if (!roles.includes("gemini-3.1-flash-tts-preview")) {
-  violations.push("lib/kernel/ai/model-roles.ts — VOICE_TTS varsayılan TTS modeli kayboldu");
+if (!roles.includes("export const ACADEMY_SEALED_MEDIA_MODEL")) {
+  violations.push("lib/kernel/ai/model-roles.ts — ACADEMY_SEALED_MEDIA_MODEL kayboldu");
+}
+if (!roles.includes("gemini-3.8-flash-tts")) {
+  violations.push("lib/kernel/ai/model-roles.ts — mühürlü TTS kimliği kayboldu");
+}
+if (roles.includes("gemini-3.1-flash-tts-preview") || roles.includes("VOICE_TTS_FALLBACK")) {
+  violations.push("lib/kernel/ai/model-roles.ts — eski veya yedek TTS kimliği duruyor");
+}
+if (!roles.includes("gemini-3.8-live")) {
+  violations.push("lib/kernel/ai/model-roles.ts — canlı sohbet gemini-3.8-live okumuyor");
+}
+if (roles.includes("gemini-3.6-flash")) {
+  violations.push("lib/kernel/ai/model-roles.ts — eski FAST_STREAM kimliği duruyor");
 }
 
 const gemini = join(ROOT, "lib/kernel/ai/providers/gemini.ts");

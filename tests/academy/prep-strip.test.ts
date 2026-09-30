@@ -56,32 +56,55 @@ describe("01_office_ai Ders 0 — Başlamadan Önce hazırlık şeridi", () => {
     expect(academyPrepStripForSlug("02_ecommerce_ai")).toBeNull();
   });
 
-  it("yalnız hazırlık şeridi ücretsizdir; 1–8 ana ders satın almadan kilitlidir", () => {
+  it("hazırlık şeridi ve ders 1 ücretsizdir; ders 2–8 satın almadan kilitlidir", () => {
     const keys = curriculumLessonKeysForSlug(SLUG);
     expect(academyCourseOffersFreePreview(SLUG)).toBe(true);
+    expect(academyCourseOffersFreePreview("01_office_ai_ileri")).toBe(true);
     expect(isAcademyFreePreviewLessonKey(OFFICE_AI_PREP_STRIP_KEY)).toBe(true);
+    expect(isAcademyFreePreviewLessonKey("01_office_ai-1")).toBe(true);
     expect(isAcademyLessonPaywalled(SLUG, OFFICE_AI_PREP_STRIP_KEY, false)).toBe(false);
+    expect(isAcademyLessonPaywalled(SLUG, "01_office_ai-1", false)).toBe(false);
+    expect(isAcademyLessonPaywalled("01_office_ai_ileri", "01_office_ai_ileri-1", false)).toBe(false);
+    expect(isAcademyLessonPaywalled("01_office_ai_ileri", "01_office_ai_ileri-2", false)).toBe(true);
     expect(keys).toHaveLength(8);
     for (const key of keys) {
-      expect(isAcademyLessonPaywalled(SLUG, key, false)).toBe(true);
+      const free = key === "01_office_ai-1";
+      expect(isAcademyLessonPaywalled(SLUG, key, false)).toBe(!free);
       expect(isAcademyLessonPaywalled(SLUG, key, true)).toBe(false);
     }
-    expect(isAcademyLessonPaywalled("02_ecommerce_ai", "02_ecommerce_ai-1", false)).toBe(true);
+    expect(academyCourseOffersFreePreview("02_ecommerce_ai")).toBe(true);
+    expect(academyCourseOffersFreePreview("03_social_media_ai")).toBe(false);
+    expect(isAcademyLessonPaywalled("02_ecommerce_ai", "02_ecommerce_ai-1", false)).toBe(false);
+    expect(isAcademyLessonPaywalled("02_ecommerce_ai", "02_ecommerce_ai-2", false)).toBe(true);
     const shells = academyPaywallLockedLessonShells(SLUG);
     expect(shells.map((row) => row.key)).toEqual([...keys]);
-    expect(shells.every((row) => row.open === false && row.body === "" && row.completed === false)).toBe(
-      true,
-    );
+    const lesson1 = shells.find((row) => row.key === "01_office_ai-1");
+    expect(lesson1?.open).toBe(true);
+    expect(lesson1?.body.length).toBeGreaterThan(0);
+    expect(
+      shells
+        .filter((row) => row.key !== "01_office_ai-1")
+        .every((row) => row.open === false && row.body === "" && row.completed === false),
+    ).toBe(true);
     expect(shells.some((row) => row.key === OFFICE_AI_PREP_STRIP_KEY)).toBe(false);
-    expect(officeAiSections.every((section) => section.isPreviewAllowed === false)).toBe(true);
-    expect(officeAiSections.every((section) => section.isLocked === true)).toBe(true);
-    expect(officeAiSections.every((section) => academySectionAllowsFreePreview(section) === false)).toBe(
-      true,
-    );
+    const opening = officeAiSections.find((section) => section.lessonKey === "01_office_ai-1");
+    expect(opening?.isPreviewAllowed).toBe(true);
+    expect(opening?.isLocked).toBe(false);
+    expect(academySectionAllowsFreePreview(opening!)).toBe(true);
+    expect(
+      officeAiSections
+        .filter((section) => section.lessonKey !== "01_office_ai-1")
+        .every(
+          (section) =>
+            section.isPreviewAllowed === false &&
+            section.isLocked === true &&
+            academySectionAllowsFreePreview(section) === false,
+        ),
+    ).toBe(true);
     for (const key of keys) {
-      expect(isAcademyPlayerPaywallLessonLocked(SLUG, key, true)).toBe(true);
+      expect(isAcademyPlayerPaywallLessonLocked(SLUG, key, true)).toBe(key !== "01_office_ai-1");
     }
-    expect(isAcademyPlayerPaywallLessonLocked(SLUG, "01_office_ai-1", true)).toBe(true);
+    expect(isAcademyPlayerPaywallLessonLocked(SLUG, "01_office_ai-1", true)).toBe(false);
     expect(isAcademyPlayerPaywallLessonLocked(SLUG, "01_office_ai-k1", true)).toBe(true);
     expect(isAcademyPlayerPaywallLessonLocked(SLUG, OFFICE_AI_PREP_STRIP_KEY, true)).toBe(false);
     expect(isAcademyPlayerPaywallLessonLocked(SLUG, "01_office_ai-1", false)).toBe(false);
@@ -102,7 +125,7 @@ describe("01_office_ai Ders 0 — Başlamadan Önce hazırlık şeridi", () => {
       keys: ["01_office_ai-0", "01_office_ai-1", "01_office_ai-2"],
       paywallLocked: true,
     });
-    expect(mediaKeys).toEqual(["01_office_ai-0"]);
+    expect(mediaKeys).toEqual(["01_office_ai-0", "01_office_ai-1"]);
     expect(
       academyPlayerMediaLessonKeys({
         keys: ["01_office_ai-0", "01_office_ai-1", "01_office_ai-2"],

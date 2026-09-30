@@ -7,7 +7,8 @@ import "server-only";
 
 import { cache } from "react";
 import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
-import { academyCatalogPurchasable } from "@/lib/academy/pilot-sku";
+import "@/lib/academy/production-seal-disk";
+import { ACADEMY_VITRINE_SHELL_SKU_SLUGS, academyCatalogPurchasable } from "@/lib/academy/pilot-sku";
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import type { AcademyCourseRecord, AcademyCourseWithPrice } from "@/lib/academy/types";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
@@ -95,12 +96,44 @@ export const loadPublishedCourses = cache(async function loadPublishedCourses():
   }
 });
 
-/** PEDAGOJI §D vitrin — amiral + dürüst Yakında kabukları. Müfredat gövdesi çekilmez. */
+/**
+ * Vitrin satırları. `listPublishedCourses` yalnız büyüme süzgecidir; kabuk slug’ları
+ * `getCourseBySlug` ile okunur. Aktif fiyat `listActiveEntries`. Disk mührü
+ * `academyCatalogPurchasable` içindedir. Motor yoksa veya okuma düşerse satın al basılmaz.
+ */
 export const loadAcademyVitrineCourses = cache(async function loadAcademyVitrineCourses(): Promise<
   AcademyCourseWithPrice[]
 > {
-  const live = await loadPublishedCourses();
-  return academyVitrineShellCourses(live);
+  try {
+    const engineReady = await ensurePrismaQueryEngine();
+    if (!engineReady) {
+      return academyVitrineShellCourses([]);
+    }
+    const ports = createPrismaAcademyPorts();
+    const slugs = [...ACADEMY_VITRINE_SHELL_SKU_SLUGS];
+    const found = await Promise.all(slugs.map((slug) => ports.academy.getCourseBySlug(slug)));
+    const courses = found.filter((row): row is AcademyCourseRecord => row !== null);
+    const unitKeys = [...new Set(courses.map((course) => course.catalogUnitKey))];
+    const entries =
+      unitKeys.length > 0 ? await ports.catalog.listActiveEntries(ACADEMY_MODULE_KEY, unitKeys) : [];
+    const byUnit = new Map(entries.map((entry) => [entry.unitKey, entry] as const));
+    const live = courses.map((course) => {
+      const entry = byUnit.get(course.catalogUnitKey);
+      return overlaySeedCatalogPrice({
+        ...course,
+        priceMinor: entry?.amountMinor ?? null,
+        currencyCode: entry?.currencyCode ?? SETTLEMENT_CURRENCY,
+        purchasable: academyCatalogPurchasable({
+          courseSlug: course.slug,
+          catalogRowPresent: Boolean(entry),
+          isPublished: course.isPublished,
+        }),
+      });
+    });
+    return academyVitrineShellCourses(live);
+  } catch {
+    return academyVitrineShellCourses([]);
+  }
 });
 
 /** Katalog sekmeleri — aldıklarım / durum rozetleri (Devam Et · Tamamlandı). */

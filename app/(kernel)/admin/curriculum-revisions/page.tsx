@@ -1,4 +1,6 @@
 import { LinkButton } from "@/components/ui/link-button";
+import { AuthNeeded } from "@/components/ui/auth-needed";
+import { Forbidden } from "@/components/ui/forbidden";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import {
   ADMIN_ACADEMY_SHELTER_PATH,
@@ -6,6 +8,7 @@ import {
   ADMIN_FREELANCER_SHELTER_PATH,
   ADMIN_SURFACE_PATH,
 } from "@/lib/kernel/admin/types";
+import { resolveSuperAdminAccess } from "@/lib/kernel/auth/session";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 
 const ACADEMY_STUDIO_GONE = {
@@ -32,17 +35,21 @@ function RevisionShelterActions() {
   );
 }
 
-/** Faz 3 — revizyon kuyruğu arşivde; Super Admin sığınak iskeleti durur. */
-export default function AdminCurriculumRevisionsPage() {
+/** Faz 3 — revizyon kuyruğu arşivde. Kapı `/admin` ile aynı: `resolveSuperAdminAccess`. */
+export default async function AdminCurriculumRevisionsPage() {
+  const access = await resolveSuperAdminAccess();
   const copy = ACADEMY_SEN.revisions;
+  const allowed = access.kind === "ok";
   return (
     <RoomFrame>
       <PageHeader
         eyebrow={copy.eyebrow}
         title={copy.title}
-        description={ACADEMY_STUDIO_GONE.revisions}
-        actions={<RevisionShelterActions />}
+        description={allowed ? ACADEMY_STUDIO_GONE.revisions : copy.description}
+        actions={allowed ? <RevisionShelterActions /> : undefined}
       />
+      {access.kind === "unauthenticated" ? <AuthNeeded message={copy.auth} /> : null}
+      {access.kind === "forbidden" ? <Forbidden message={copy.forbidden} /> : null}
     </RoomFrame>
   );
 }

@@ -1,9 +1,11 @@
+import { ACADEMY_COURSE_TITLES } from "@/lib/academy/course-titles";
+
 export const ACADEMY_SEN = {
   catalog: {
     eyebrow: "Akademi",
     title: "Yapay zeka eğitimi ve online kurslar",
     description:
-      "Yapay zeka eğitimi ve online kurs vitrini. Ofiste Yapay Zekâ ve İleri Ofis Eğitimi yayındadır. İleri ofiste altı ders seslidir. Kardeş eğitimler hazırlanıyor ve Çok Yakında / Hazırlanıyor rozetiyle durur. Sesi bitmemiş ders için boş oynatıcı açılmaz. Eğitimi incele. Dersler ödeme sonrası açılır. Sertifika doğrulama ve mevcut lisanslar çalışır.",
+      "Yapay zeka eğitimi ve online kurs vitrini. Ofiste Yapay Zekâ ve İleri Ofis Eğitimi yayındadır. İleri ofiste altı ders seslidir. E-Ticaret, sosyal medya, chatbot ve istem pratiği hazırlanıyor ve Çok Yakında / Hazırlanıyor rozetiyle durur. Sesi bitmemiş ders için boş oynatıcı açılmaz. Eğitimi incele. Dersler ödeme sonrası açılır. Sertifika doğrulama ve mevcut lisanslar çalışır.",
     stats: "2 eğitim yayında · 4 eğitim çok yakında",
     certificatesCta: "Sertifikalar",
     verifyCta: "Doğrula",
@@ -79,8 +81,10 @@ export const ACADEMY_SEN = {
       return label || code;
     },
     priceMissing: "Fiyat yok",
-    /** Fiyat yok veya ses eksik — kartta tek durum cümlesi. */
+    /** Fiyat yok veya disk mührü eksik — kartta tek durum cümlesi. */
     pricePending: "Kayıt Kapalı / Fiyat Bekleniyor",
+    /** Anlatım duruyor; veritabanı yayını yok. Satın Al basılmaz. */
+    unpublishedBadge: "Yayında Değil",
     /** OFF-201 — zorunlu ön koşul yok; dürüst tavsiye. */
     off201Advisory:
       "Tavsiye: Bu eğitim ileri seviye uygulamalar içerir. Temeline güveniyorsan doğrudan başlayabilirsin. Temel seviyeyi görmek istersen Ofiste Yapay Zekâ eğitimine göz atabilirsin.",
@@ -267,6 +271,8 @@ export const ACADEMY_SEN = {
     catalogCta: "Eğitime dön",
     locked: "Ödeme alınmadan ders içeriği açılmaz.",
     lockedBody: "Dersler ödeme sonrası açılır. Eğitimi kurs sayfasından başlat.",
+    funnelTitle: "Eğitimin Tüm Derslerini Aç ve Sertifika Al",
+    funnelLead: "İlk ders ücretsiz açık. Kalan dersler ve sertifika ödeme sonrası açılır.",
     progress: (done: number, total: number) => `${done} / ${total} ders tamam`,
     cardProgress: (current: number, total: number) => `${current} / ${total} Ders`,
     nextCardCta: "Sonraki",
@@ -283,7 +289,7 @@ export const ACADEMY_SEN = {
       "Bu dersteki amacımız kod ezberlemek veya yazmak değil; yapay zekanın veriyi nasıl bir formata (JSON) soktuğunu kavramaktır.",
     codeCalloutInviteBefore:
       "Kod ezberlemeden günlük işini hızlandırmak istersen Akademi vitrinindeki ",
-    codeCalloutModule: "Günlük İşler İçin İstem Yazma",
+    codeCalloutModule: ACADEMY_COURSE_TITLES["05_prompt_practice"],
     codeCalloutInviteAfter: " eğitimine göz at.",
     codeCalloutHref: "/academy",
     companionEyebrow: "Ders açıklaması",

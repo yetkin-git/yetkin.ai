@@ -13,6 +13,7 @@ import { ecommerceAiMasteryModule } from "@/lib/academy/curricula/ecommerce_ai";
 import { socialMediaAiMasteryModule } from "@/lib/academy/curricula/social_media_ai";
 import { chatbotNocodeMasteryModule } from "@/lib/academy/curricula/chatbot_nocode";
 import { promptPracticeMasteryModule } from "@/lib/academy/curricula/prompt_practice";
+import { assertAcademyCourseVoiceConfig } from "@/lib/academy/instructors";
 
 export {
   academyCompactLessonDraft,
@@ -75,7 +76,8 @@ export function compactDraftsFromModule(
 /**
  * Canlı yayın taslağı — ingest edilmiş compact makaleler.
  * Katman 2–3 master metinler `docs/curriculum/*.md` taslağıdır; buraya basılmaz.
- * OFF-201 (`01_office_ai_ileri`) canlı kayıttadır. `parent_teacher_ai` bu dosyaya girmez.
+ * OFF-201 (`01_office_ai_ileri`) canlı kayıttadır.
+ * `parent_teacher_ai` faz 2 taslak adasındadır: `phase2-drafts/parent_teacher_ai`. Bu dosyaya girmez.
  * Kayıt ve bütünlük bekçisi `phase2-drafts.ts` içindedir. Canlı yükleme o dosyayı import etmez.
  */
 export const CURRICULUM_DRAFTS_BY_SLUG: Record<string, readonly AcademyLessonDraft[]> = {
@@ -96,3 +98,7 @@ export const CURRICULUM_MODULES_BY_SLUG: Record<string, CurriculumModule> = {
   "04_chatbot_nocode": chatbotNocodeMasteryModule,
   "05_prompt_practice": promptPracticeMasteryModule,
 };
+
+for (const [slug, module] of Object.entries(CURRICULUM_MODULES_BY_SLUG)) {
+  assertAcademyCourseVoiceConfig(slug, module.voiceConfig);
+}

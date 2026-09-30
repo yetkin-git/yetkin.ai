@@ -1,5 +1,6 @@
 /** Canlı ders asistanı — kota, ders dışı kapı, SEN dili. İstemci bu dosyayı okuyabilir. */
 
+import { ACADEMY_LESSON_HYPERBOLE_RE } from "@/lib/academy/lesson-text-standard";
 import { getDefaultModelId } from "@/lib/kernel/ai/model-roles";
 
 /** Ders asistanı model adı burada gömülmez. Kimlik `model-roles.ts` FAST_STREAM rolündedir. */
@@ -59,9 +60,6 @@ function sharesLessonToken(question: string, corpus: string): boolean {
   return contentTokens(question).some((token) => known.has(token));
 }
 
-const HYPERBOLE_RE =
-  /\b(muazzam dönüşüm|saniyeler içinde|mucizevi yöntem|prompt mühendisliği|devrim niteliğinde)\b/giu;
-
 /** Yalnız ders metni, o saniyedeki satır ve doğrudan iş uygulaması. Başka her şey kapalıdır. */
 export function isAcademyLessonAssistantOffTopic(
   question: string,
@@ -89,7 +87,7 @@ export function academyLessonAssistantReplyStaysOnLesson(reply: string, corpus: 
 }
 
 export function scrubAcademyLessonAssistantReply(text: string): string {
-  return text.replace(HYPERBOLE_RE, "bu iş").replace(/\s+/gu, " ").trim();
+  return text.replace(ACADEMY_LESSON_HYPERBOLE_RE, "bu iş").replace(/\s+/gu, " ").trim();
 }
 
 export function academyLessonAssistantSystemPrompt(input: {

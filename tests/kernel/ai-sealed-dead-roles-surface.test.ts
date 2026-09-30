@@ -12,6 +12,8 @@ import {
   AI_SEALED_DEAD_FACTORY_ERROR,
   AI_SEALED_DEAD_ROLE_KEYS,
   AiGatewayForbiddenError,
+  ACADEMY_SEALED_MEDIA_MODEL,
+  assertAcademySealedMediaModel,
   assertLiveAiModelRole,
   getDefaultModelId,
   isLiveAiModelRoleKey,
@@ -43,8 +45,9 @@ describe("VIDEO_GEN mühürlü-ölü; VOICE_TTS generateSpeech factory", () => {
     expect(() => assertLiveAiModelRole("VIDEO_GEN")).toThrow(AiGatewayForbiddenError);
     expect(() => assertLiveAiModelRole("VIDEO_GEN")).toThrow(AI_SEALED_DEAD_FACTORY_ERROR);
     expect(() => getDefaultModelId("VIDEO_GEN")).toThrow(AiGatewayForbiddenError);
-    expect(getDefaultModelId("VOICE_TTS")).toBe("gemini-3.1-flash-tts-preview");
-    expect(getDefaultModelId("FAST_STREAM")).toBe("gemini-3.6-flash");
+    expect(getDefaultModelId("VOICE_TTS")).toBe(ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS);
+    expect(getDefaultModelId("IMAGE_GEN")).toBe(ACADEMY_SEALED_MEDIA_MODEL.IMAGE_GEN);
+    expect(getDefaultModelId("FAST_STREAM")).toBe("gemini-3.8-live");
     expect(getDefaultModelId("LITE_STREAM")).toBe("gemini-3.5-flash-lite");
   });
 
@@ -98,8 +101,14 @@ describe("VIDEO_GEN mühürlü-ölü; VOICE_TTS generateSpeech factory", () => {
     expect(roles).toContain("AI_SEALED_DEAD_ROLE_KEYS");
     expect(roles).toContain("class AiGatewayForbiddenError");
     expect(roles).toContain("Kesilmiş ölü yuva");
-    expect(roles).toContain("gemini-3.1-flash-tts-preview");
-    expect(roles).toContain("gemini-2.5-flash-preview-tts");
+    expect(roles).toContain("ACADEMY_SEALED_MEDIA_MODEL");
+    expect(roles).toContain("gemini-3.8-flash-tts");
+    expect(roles).toContain("gemini-3.8-live");
+    expect(roles).not.toContain("gemini-3.6-flash");
+    expect(roles).not.toContain("gemini-3.1-flash-tts-preview");
+    expect(roles).not.toContain("gemini-2.5-flash-preview-tts");
+    expect(roles).not.toContain("ACADEMY_BAKE_MODELS");
+    expect(roles).not.toContain("selectFallbackModelId");
     expect(roles).not.toContain("veo-3.0");
     expect(roles).not.toContain("elevenlabs");
 
@@ -120,5 +129,25 @@ describe("VIDEO_GEN mühürlü-ölü; VOICE_TTS generateSpeech factory", () => {
       expect(source, file).not.toContain("VIDEO_GEN");
       expect(source, file).not.toContain("VOICE_TTS");
     }
+  });
+
+  it("medya mühürü alt modele düşmez", () => {
+    assertAcademySealedMediaModel("TEXT_GEN", "gemini-3.8-flash");
+    assertAcademySealedMediaModel("VOICE_TTS", "gemini-3.8-flash-tts");
+    assertAcademySealedMediaModel("IMAGE_GEN", "models/gemini-3.1-flash-image");
+    assertAcademySealedMediaModel("MUSIC_GEN", "lyria-3.5");
+    expect(() => assertAcademySealedMediaModel("MUSIC_GEN", "lyria-3")).toThrow(/fail-closed/);
+    expect(() => assertAcademySealedMediaModel("IMAGE_GEN", "imagen-4.0-generate-001")).toThrow(/fail-closed/);
+    expect(() => assertAcademySealedMediaModel("VOICE_TTS", "gemini-2.5-flash-preview-tts")).toThrow(/fail-closed/);
+    expect(() => assertAcademySealedMediaModel("VOICE_TTS", "gemini-3.1-flash-tts-preview")).toThrow(/fail-closed/);
+    const gateway = readSrc("lib/kernel/ai/llm-gateway.ts");
+    expect(gateway).toContain("ACADEMY_SEALED_MEDIA_MODEL.IMAGE_GEN");
+    expect(gateway).toContain("ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS");
+    expect(gateway).not.toContain("selectFallbackModelId");
+    expect(gateway).not.toContain("VOICE_TTS_FALLBACK");
+    expect(gateway).not.toContain('input.model?.trim() || getDefaultModelId("IMAGE_GEN")');
+    expect(gateway).not.toContain('input.model?.trim() || getDefaultModelId("VOICE_TTS")');
+    expect(readSrc("scripts/bake-office-ai-01-sealed-pack.ts")).not.toContain("IMAGE_FALLBACK_MODEL");
+    expect(readSrc("scripts/bake-office-ai-01-sealed-pack.ts")).not.toContain("generateImages");
   });
 });

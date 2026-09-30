@@ -4,7 +4,7 @@
 
 Bu belge iki katmandan oluşur:
 - **A Katmanı (A1–A5) — tek dokunulmaz katman:** Yasal, finansal ve temel güvenlik zorunluluklarıdır. Değişmez ve taviz verilemez.
-- **B Katmanı (B1–B5) — yaşayan ilkeler:** Mimari ve ürün rehberliğidir. Ürünle birlikte güncellenir. Operasyonel sayılar, env bayrakları ve HTTP kod tabloları burada durmaz; tek yaşayan kesit `docs/ops/DURUM.md` içindedir. `docs/DURUM.md` yalnız oraya yönlendirir.
+- **B Katmanı (B1–B5) — yaşayan ilkeler:** Mimari ve ürün rehberliğidir. Ürünle birlikte güncellenir. Operasyonel sayılar, env bayrakları ve HTTP kod tabloları burada durmaz; tek yaşayan kesit `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir.
 
 | Alan | Değer |
 |------|--------|
@@ -81,41 +81,41 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 
 * **Ön Derleme Kapısı (`verify:prebuild`):** Bu kapı yalnızca A Katmanı'ndaki hayati güvenlik ve finansal unsurları denetler (sır taraması, tamsayı para, RLS durumu, IDOR testleri ve temel API sözleşmesi). Paket sürümü (`@yetkin/kernel`) v1 sözleşme kapısının parçasıdır.
 * **Esnek Grep ve Stil Taramaları:** Belirli Türkçe kelimeleri veya stil tercihlerini denetleyen taramalar derlemeyi kıran mutlak engeller değildir; isteğe bağlı kalite veya nightly raporlama araçlarıdır.
-* **PR ve Önizleme Yayın Kuralı (Mühürsüz Satış / Merge Yasağı):**
-  - **Önizleme Ortamı Serbesttir:** Yapılan geliştirmeler, PR açılması ve Vercel Preview (Önizleme) ortamında otomatik derlenip incelenmesi serbesttir.
-  - **Mühürsüz Merge ve Yayın Yasağı:** Ancak ilgili kursun/modülün medya fırınlama (bake), mühürlü ses (Gemini 3.1 Flash TTS), cue-zamanlama, sınav ve onay süreçleri %100 tamamlanmadan ve CEO/Super Admin onayı alınmadan, satışa veya yayına alma içeren hiçbir PR (`feat/launch`, `price update` vb.) GitHub ana dalına (main) **birleştirilemez (merge edilemez)** ve canlıya (production) alınamaz. Vercel Preview URL'si yalnız test içindir; ürün lansmanı anlamına gelmez.
+* **Önizleme ve satış kapısı:**
+  - **Önizleme serbesttir:** PR açılması ve Vercel Preview ortamında derlenip incelenmesi serbesttir. Kurs mührü GitHub `main` birleştirme şartı değildir.
+  - **Mühürsüz satış kapalıdır:** Canlı satış, derleme kapısından ayrıdır. Karttaki Satın Al `academyCatalogPurchasable` okur. Üçü birden gerekir: veritabanında kurs yayını (`is_published`), aktif fiyat satırı (`findActiveEntry`, `is_active`) ve diskte beş katman (`academyCourseSaleOpen` → `academyCourseProductionDiskSealed`). Mühür listesi (`academySkuAudioAllowsPurchase`) tek başına satın al açmaz. Biri eksikse kart satın al demez. Preview URL ürün lansmanı değildir. Derleme kapısı A katmanında kalır (`verify:prebuild`).
 
 ## B4. Müfredat ve Yayın Formatı
 
 * **1 Eğitim Kodu = 1 Ses:** Bir kurs kodu tek bir `courseMasterVoice` stringi taşır. Ders bazlı ses haritası yoktur. OFF-101 (`01_office_ai`) mührü Callirrhoe (Gözde) dir. OFF-201 (`01_office_ai_ileri`) mührü Kore (Aylin) dir (`ACADEMY_OFF201_COURSE_MASTER_VOICE`). OFF-201 eğitmeni Gözde olamaz.
-* **Ses modeli:** Çağrı kimliği yalnız `lib/kernel/ai/model-roles.ts` içindedir. Canlı gümrük `VOICE_TTS` okur. Fırın `academyBakeVoiceModelId()` Gemini 3.8 Flash TTS okur. Gemini 2.5 ve alt modeller yasaktır (`VOICE_TTS_FALLBACK_TO_2_5` kapalı). Kota yoksa işlem durur. Kota açılınca aynı rol ve aynı kurs sesi kullanılır. Konuşma parçası `atempo=0.93` (`ACADEMY_BAKE_ATEMPO`) ve EBU R128 `loudnorm` görür. Tempo 1.0 üzerine yükseltilmez. Ölçülen doğal hedef `ACADEMY_INSTRUCTOR_SPEECH_RATE` (`0.93`) dir.
-* **Süre ve sayısal sınır:** Tabanlar `lib/academy/production-standard.ts` içindeki `ACADEMY_AI_LESSON_DURATION_MIN_MINUTES` ve `ACADEMY_AI_LESSON_COUNT_MIN` sabitlerindedir. TTS bütçe tavanı aynı dosyadaki `ACADEMY_MATCH_WHISTLE_MAX` (kurs başına 100 istek) ve `lib/academy/tts-breath-chunks.ts` içindeki ders bandı 10–12 istektir. Üst dakika dayatması yoktur: metin kırpılmaz, tempo yükseltilmez. İstek bandına sığmayan metin yeniden paketlenir; bütçe tavanı konunun hakkını kesmek için gerekçe değildir.
+* **Ses modeli:** Çağrı kimliği yalnız `lib/kernel/ai/model-roles.ts` içindeki `ACADEMY_SEALED_MEDIA_MODEL` nesnesindedir. Fırın ve gümrük `VOICE_TTS` aynı kimliği okur. Gemini 2.5 ve alt modeller yasaktır. Kota yoksa işlem durur. Kota açılınca aynı rol ve aynı kurs sesi kullanılır. Konuşma temposu `ACADEMY_BAKE_ATEMPO`, ölçülen hedef `ACADEMY_INSTRUCTOR_SPEECH_RATE` dir. Ev `lib/academy/tts-loudnorm.ts` ve `lib/academy/instructors.ts`. Tempo, kodun yazdığı katsayının üzerine yükseltilmez. Bu maddede model kimliği, tempo ve desibel tekrarlanmaz.
+* **Süre ve sayısal sınır:** Tabanlar ve TTS bütçe tavanı `lib/academy/production-standard.ts` içindeki `ACADEMY_AI_LESSON_DURATION_MIN_MINUTES`, `ACADEMY_AI_LESSON_COUNT_MIN` ve `ACADEMY_MATCH_WHISTLE_MAX` sabitlerindedir. Ders istek bandı `lib/academy/tts-breath-chunks.ts` içindedir. Bu maddede o sayılar tekrarlanmaz. Metin kırpılmaz, tempo yükseltilmez. İstek bandına sığmayan metin yeniden paketlenir; bütçe tavanı konunun hakkını kesmek için gerekçe değildir.
 * **5 medya katmanı zorunluluğu:** Üretim sırası sabittir. Hiçbir eğitim videosu bu katmanlardan biri eksikken fırınlanamaz ve mühürlenemez.
   1. **Metin** — vatandaş dili, tek iş tek cümle.
-  2. **Ses** — Gemini 3.8 Flash TTS (`academyBakeVoiceModelId()`). Konuşma parçası `atempo=0.93`. Seviye EBU R128 `loudnorm`. Kimlik dizesi `lib/kernel/ai/model-roles.ts` içindedir; bu madde o dizeyi yeniden yazmaz. Canlı gümrük `VOICE_TTS` ayrı kalır.
-  3. **Video** — Yerel ısınma kaseti, ilk 6–8 sn. Otomatik Veo 3.1 API video üretimi maliyet sızıntısı yarattığı için iptal edilmiştir. Tüm ısınma videoları Gemini yönergesiyle arayüzden manuel üretilir, ilgili slug adıyla `public/media/academy/micro/` dizinine yerleştirilir ve yerel olarak kullanılır. Dosya adı `-warmup.mp4` ile biter. Canlı `VIDEO_GEN` mühürlü-ölüdür.
-  4. **Görsel** — Nano Banana 2. 4K canlı uygulama kartları.
-  5. **Müzik** — Lyria 3.5. Vokalsiz fon müziği yatağı, -22 dB ducking.
-* **3 aşamalı kontrol kapısı:**
-  1. **Taslak metin** — senaryo ve chunking.
-  2. **Gözden geçirme** — pedagoji, jargon ve aforizma taraması.
-  3. **Son kontrol** — beş katmanın tamamı teyit edilmeden `--seal` basılamaz. Video (Veo) ve Müzik (Lyria) bu kapının parçasıdır. Kapı `assertAcademyProductionSeal` içindedir.
+  2. **Ses** — Fırın ve gümrük `ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS` okur. Ev `lib/kernel/ai/model-roles.ts`. Tempo `lib/academy/tts-loudnorm.ts`. Seviye EBU R128 `loudnorm`.
+  3. **Video** — Yerel ısınma kaseti. Otomatik Veo 3.1 API video üretimi maliyet sızıntısı yarattığı için iptal edilmiştir. Dosya adı `-warmup.mp4` ile biter. Yol `lib/academy/lesson-veo.ts`. Canlı `VIDEO_GEN` mühürlü-ölüdür.
+  4. **Görsel** — `ACADEMY_SEALED_MEDIA_MODEL.IMAGE_GEN`. Ev `lib/kernel/ai/model-roles.ts`.
+  5. **Müzik** — `ACADEMY_SEALED_MEDIA_MODEL.MUSIC_GEN`. Vokalsiz fon müziği yatağı. Ducking `lib/academy/lesson-bed-duck.ts` (`ACADEMY_BED_BREATH_DB`).
+* **3 aşamalı kontrol kapısı:** Anlatının tek evi `.system_docs/PEDAGOJI.md` §B’dir. Bu madde o listeyi ikinci kez açmaz.
+  1. **Taslak metin** — operatör ve süreç kontrolü. Kod fail-closed zorlamaz.
+  2. **Gözden geçirme** — operatör ve süreç kontrolü. Kod fail-closed zorlamaz.
+  3. **Son kontrol** — kod seviyesinde fail-closed zorunluluk: beş katmanın tamamı teyit edilmeden `--seal` basılamaz. Kapı `assertAcademyProductionSeal` içindedir. Video yerel `-warmup.mp4` ve müzik yatağı bu kapının parçasıdır. Müzik rolü `ACADEMY_SEALED_MEDIA_MODEL.MUSIC_GEN`.
 * Cue ve karaoke rozeti konuşmayla akar; beş katmanın yerine geçmez. İzlemede canlı üretici çağrısı yoktur. Makale katmanı, ses yokken dürüst boşluktur; satış yüzeyi değildir.
 * **Konunun Hakkı:** Ders makaleye veya okuma dökümanına indirgenmez. Süre bantları üretim standardıdır; müfredatın hakkını kesmek için gerekçe gösterilemez.
 * **Müfredat ilkesi `.system_docs/PEDAGOJI.md` içindedir.** Haftalık SKU envanteri ve kaset listesi Anayasa maddesi değildir; sayılar ve müfredat koddadır.
-* **Canlı yol** `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` SSOT’udur; yaşayan haftalık kesit `docs/ops/DURUM.md` içindedir. `docs/DURUM.md` yalnız oraya yönlendirir. İzlemede canlı üretici API (`VIDEO_GEN` / TTS) yoktur. Bake ayrıntısı `docs/ops/akademi-bake-elkitabi.md` içindedir.
+* **Canlı yol** `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` SSOT’udur. Sınav yolu anahtar tablosu `lib/kernel/catalog-ids/exam-path.ts` içindedir; `lesson-index` onu yeniden dışa aktarır. İzlemede canlı üretici API (`VIDEO_GEN` / TTS) yoktur. Bake ayrıntısı `lib/academy/production-standard.ts` ve `scripts/generate-academy-lesson-audio.ts`, `scripts/generate-academy-lesson-veo.ts`, `scripts/generate-academy-lesson-bed.ts` içindedir.
 * **Karar tablosu (tek bakış, sıfır atlama):**
 
 | Soru | SSOT |
 |------|------|
 | Yayın formatı (5 medya katmanı; son kontrol olmadan `--seal` yok) | Bu madde (B4) ve `.system_docs/PEDAGOJI.md` |
 | 1 Eğitim Kodu = 1 Ses | `lib/academy/instructors.ts` (`courseMasterVoice`, `ACADEMY_OFF201_COURSE_MASTER_VOICE`) |
-| Ses modeli | `lib/kernel/ai/model-roles.ts` (`VOICE_TTS`, `academyBakeVoiceModelId`, `VOICE_TTS_FALLBACK_TO_2_5`) |
+| Ses modeli | `lib/kernel/ai/model-roles.ts` (`ACADEMY_SEALED_MEDIA_MODEL`) |
 | Süre, ders sayısı ve TTS istek tavanı | `lib/academy/production-standard.ts` |
 | Sınav barajı | `lib/academy/exam.ts` (`ACADEMY_EXAM_PASS_SCORE`) |
 | Canlı kaset / sınav yolu | `lib/academy/pilot-sku.ts`, `lib/academy/curricula/lesson-index.ts` |
-| Haftalık kesit | `docs/ops/DURUM.md` (`docs/DURUM.md` yalnız yönlendirir) |
-| Bake SOP | `docs/ops/akademi-bake-elkitabi.md` |
+| Haftalık kesit | `lib/academy/pilot-sku.ts`, `lib/academy/curricula/lesson-index.ts` |
+| Bake SOP | `lib/academy/production-standard.ts` ve `scripts/generate-academy-lesson-*.ts` |
 | Müfredat ilkesi | `.system_docs/PEDAGOJI.md` |
 
 ## B5. Harici Entegrasyonlar ve Pilot İş Modelleri

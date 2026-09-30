@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
@@ -15,6 +15,7 @@ import {
   academyMatchWhistlePlan,
   assertAcademyMatchWhistleBudget,
   assertAcademyProductionSeal,
+  registerAcademyProductionDiskProbe,
   ACADEMY_LESSON_SATURATION_BEATS,
   ACADEMY_OPTIONAL_LEVEL_PACKAGES,
   ACADEMY_PRODUCTION_MEDIA_LAYERS,
@@ -30,6 +31,7 @@ import {
   isAcademyTtsVoiceGender,
 } from "@/lib/academy/production-standard";
 import { ACADEMY_FIVE_ACT_HEADINGS } from "@/lib/academy/lesson-body";
+import { academyCourseSaleOpen, academyOff201VoiceStatus } from "@/lib/academy/pilot-sku";
 import { ACADEMY_COURSE_LEVELS } from "@/lib/academy/course-level";
 import { LIMITS, SEALED_AUDIO_LIMITS, COMPACT_ARTICLE_GUIDE } from "@/lib/academy/config";
 import {
@@ -44,9 +46,13 @@ import {
   ACADEMY_OFF201_COURSE_MASTER_VOICE,
   academyBakeVoiceForGenderLabel,
   academyCourseMasterVoice,
+  academyCourseVoiceSeal,
   academyDefaultInstructorVoiceForGender,
+  academyEcommerceBakeVoice,
+  academyInstructorBySlug,
   academyInstructorTtsCast,
 } from "@/lib/academy/instructors";
+import { academyBakeVoiceModelId } from "@/lib/kernel/ai/model-roles";
 import {
   GEMINI_TTS_DEFAULT_VOICE_BY_GENDER,
   geminiTtsVoiceForGender,
@@ -130,31 +136,24 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     ]);
     expect(() =>
       assertAcademyProductionSeal({
-        text: true,
-        voice: true,
-        video: true,
-        visual: true,
-        music: true,
+        courseSlug: "01_office_ai",
+        lessonKey: "01_office_ai-1",
       }),
     ).not.toThrow();
+    for (const lessonNumber of [1, 2, 3, 4, 5, 6]) {
+      expect(() =>
+        assertAcademyProductionSeal({
+          courseSlug: "01_office_ai_ileri",
+          lessonKey: `01_office_ai_ileri-${lessonNumber}`,
+        }),
+      ).not.toThrow();
+    }
     expect(() =>
       assertAcademyProductionSeal({
-        text: true,
-        voice: true,
-        video: false,
-        visual: true,
-        music: true,
+        courseSlug: "01_office_ai",
+        lessonKey: "yok-ders",
       }),
-    ).toThrow(/Video \(Veo\)/u);
-    expect(() =>
-      assertAcademyProductionSeal({
-        text: true,
-        voice: true,
-        video: true,
-        visual: true,
-        music: false,
-      }),
-    ).toThrow(/Müzik \(Lyria\)/u);
+    ).toThrow(/Metin/u);
     expect([...ACADEMY_OPTIONAL_LEVEL_PACKAGES]).toEqual(["Temel", "Orta", "İleri"]);
     expect([...ACADEMY_COURSE_LEVELS]).toEqual([...ACADEMY_OPTIONAL_LEVEL_PACKAGES]);
     expect([...ACADEMY_TTS_VOICE_GENDERS]).toEqual(["female", "male"]);
@@ -173,6 +172,43 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(academyBakeVoiceForGenderLabel("female")).toBe("Callirrhoe");
     expect(academyBakeVoiceForGenderLabel("male")).toBe("Fenrir");
     expect(ACADEMY_EXAM_PASS_SCORE).toBe(70);
+  });
+
+  it("ısınma MP4 veya müzik BED diskte yoksa mühür fail-closed", () => {
+    const onDisk = (relativePath: string): boolean => {
+      const absolute = join(ROOT, relativePath);
+      try {
+        return existsSync(absolute) && statSync(absolute).size > 0;
+      } catch {
+        return false;
+      }
+    };
+    registerAcademyProductionDiskProbe((relativePath) =>
+      relativePath.endsWith(".bed.mp3") ? false : onDisk(relativePath),
+    );
+    try {
+      expect(() =>
+        assertAcademyProductionSeal({
+          courseSlug: "01_office_ai",
+          lessonKey: "01_office_ai-1",
+        }),
+      ).toThrow(/Müzik BED/u);
+    } finally {
+      registerAcademyProductionDiskProbe(onDisk);
+    }
+    registerAcademyProductionDiskProbe((relativePath) =>
+      relativePath.endsWith("-warmup.mp4") ? false : onDisk(relativePath),
+    );
+    try {
+      expect(() =>
+        assertAcademyProductionSeal({
+          courseSlug: "01_office_ai",
+          lessonKey: "01_office_ai-1",
+        }),
+      ).toThrow(/Isınma MP4/u);
+    } finally {
+      registerAcademyProductionDiskProbe(onDisk);
+    }
   });
 
   it("PEDAGOJI.md ilkeleri kilitler; CSS/piksel ve süre sayısı kod SSOT'tadır", () => {
@@ -204,7 +240,11 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).toContain("Punchcard Rozetleri");
     expect(pedagogy).toContain("## B. GOOGLE AI STUDIO FABRİKASI VE ROL DAĞILIMI");
     expect(pedagogy).toContain("model-roles.ts");
-    expect(pedagogy).toContain("Gemini 3.8 Flash TTS");
+    expect(pedagogy).toContain("ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS");
+    expect(pedagogy).not.toContain("Gemini 3.8 Flash TTS");
+    expect(pedagogy).not.toContain("gemini-3.8-flash-tts");
+    expect(pedagogy).not.toContain("atempo=0.93");
+    expect(pedagogy).not.toContain("-22 dB");
     expect(pedagogy).toContain("5 medya katmanı");
     expect(pedagogy).toContain("assertAcademyProductionSeal");
     expect(pedagogy).toContain("01_office_ai");
@@ -216,19 +256,24 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).not.toContain("VAR Hakemi");
     expect(pedagogy).toContain("Evrensel Metin Standardı");
     expect(pedagogy).toContain("Çiğ metin fırına atılamaz");
-    expect(pedagogy).toContain("0.93");
-    expect(pedagogy).toContain("Lyria 3.5");
-    expect(pedagogy).toContain("Nano Banana 2");
+    expect(pedagogy).toContain("ACADEMY_BAKE_ATEMPO");
+    expect(pedagogy).not.toContain("0.93");
+    expect(pedagogy).toContain("MUSIC_GEN");
+    expect(pedagogy).not.toContain("Lyria 3.5");
+    expect(pedagogy).toContain("IMAGE_GEN");
+    expect(pedagogy).not.toContain("Nano Banana 2");
     expect(pedagogy).toContain("Veo 3.1 Lite");
     expect(pedagogy).toContain("SIRA SENDE");
     expect(pedagogy).toContain("`SIRA SİZDE` bu rozette durmaz");
     expect(pedagogy).toContain("vatandaş dilinde **üç adım**dır");
     expect(pedagogy).toContain("courseMasterVoice");
     expect(pedagogy).not.toContain("ACADEMY_OFF201_LESSON_TTS_VOICE");
-    expect(pedagogy).toContain("Gemini 3.1 Flash TTS");
+    expect(pedagogy).toContain("ACADEMY_SEALED_MEDIA_MODEL");
+    expect(pedagogy).not.toContain("Gemini 3.1 Flash TTS");
     expect(pedagogy).toContain("Callirrhoe");
-    expect(pedagogy).toContain("Nano Banana 2 / Veo 3.1 Lite");
-    expect(pedagogy).toContain("Lyria 3.5");
+    expect(pedagogy).toContain("yerel `-warmup.mp4`");
+    expect(pedagogy).not.toContain("Nano Banana 2 / Veo 3.1 Lite");
+    expect(pedagogy).toContain("ACADEMY_BED_BREATH_DB");
     expect(pedagogy).toContain("lib/academy/lesson-bed-duck.ts");
     expect(pedagogy).toContain("Jenerik logo plakası opsiyoneldir");
     expect(pedagogy).toContain("1-2-3 iş özeti");
@@ -281,27 +326,9 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).toContain("ÖNCE (DÜZENLEMESİZ)");
     expect(pedagogy).toContain("SONRA (AI İLE)");
     expect(pedagogy).toContain("Düzensiz Tablo");
-    expect(pedagogy).toContain("docs/ops/akademi-bake-elkitabi.md");
-    const bake = readFileSync(join(ROOT, "docs", "ops", "akademi-bake-elkitabi.md"), "utf8");
-    expect(bake).toContain("Callirrhoe");
-    expect(bake).toContain("Fenrir");
-    expect(bake).toContain("Descender Harf Koruması");
-    expect(bake).toContain("16:9 Tuval ve Contain Sözleşmesi");
-    expect(bake).toContain("Ken Burns");
-    expect(bake).toContain("Adım 1: İletileri Seç");
-    expect(bake).toContain("Sıfır Ekstra API Maliyeti");
-    expect(bake).toContain("Harf harf yazma dayatması yoktur");
-    expect(bake).toContain("Nereye Yükleyeceksin?");
-    expect(bake).toContain("01_office_ai-w1");
-    expect(bake).toContain("01_office_ai-g1");
-    expect(bake).toContain("Gmail + Gemini");
-    expect(bake).toContain("doc-upload-gemini");
-    expect(bake).toContain("Outlook → Copilot");
-    expect(bake).toContain("Gmail → Gemini");
-    expect(bake).toContain("ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark");
-    expect(bake).toContain("8/8");
-    expect(bake).not.toContain("Sınav 9. ders bitince açılır");
-    expect(bake).not.toContain("**9/9**");
+    expect(pedagogy).toContain("lib/academy/production-standard.ts");
+    expect(pedagogy).not.toContain("docs/ops/akademi-bake-elkitabi.md");
+    expect(pedagogy).not.toContain("docs/ops/DURUM.md");
     expect(pedagogy).toContain("01_office_ai");
     expect(pedagogy).toContain("Çok Yakında / Hazırlanıyor");
     expect(pedagogy).not.toContain("Video katmanı terk edilmiştir");
@@ -323,14 +350,22 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(constitution).not.toContain("1 Yarı = En az 5 dakika");
     expect(constitution).toContain("Gemini 2.5 ve alt modeller yasaktır");
     expect(constitution).toContain("5 medya katmanı zorunluluğu");
-    expect(constitution).toContain("Gemini 3.8 Flash TTS");
+    expect(constitution).toContain("ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS");
+    expect(constitution).not.toContain("Gemini 3.8 Flash TTS");
+    expect(constitution).not.toContain("gemini-3.8-flash-tts");
+    expect(constitution).not.toContain("atempo=0.93");
+    expect(constitution).not.toContain("-22 dB");
+    expect(constitution).toContain("academyCatalogPurchasable");
+    expect(constitution).toContain("academyCourseProductionDiskSealed");
     expect(constitution).toContain("beş katmanın tamamı teyit edilmeden `--seal` basılamaz");
     expect(constitution).not.toContain("dört katmanlı eğitim videosudur");
     expect(constitution).not.toContain("eksikleri satışı tek başına kapatmaz");
     expect(constitution).toContain("ACADEMY_AI_LESSON_DURATION_MIN_MINUTES");
     expect(constitution).not.toContain("üst dakika veya üst ders tavanı yoktur");
-    expect(constitution).toContain("kurs başına 100 istek");
-    expect(constitution).toContain("10–12");
+    expect(constitution).toContain("ACADEMY_MATCH_WHISTLE_MAX");
+    expect(constitution).toContain("lib/academy/tts-breath-chunks.ts");
+    expect(constitution).not.toContain("kurs başına 100 istek");
+    expect(constitution).not.toContain("10–12");
     expect(constitution).not.toContain("Yayın = makale + mühürlü karaoke");
     expect(constitution).toContain("sayılar ve müfredat koddadır");
     expect(constitution).toContain(
@@ -339,29 +374,15 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(constitution).not.toContain("Mühürlü ders sayısı depo gerçeğidir: **5**");
     expect(constitution).not.toContain("PEDAGOJI.md` §F");
 
-    const durumPath = join(ROOT, "docs", "ops", "DURUM.md");
-    expect(existsSync(durumPath)).toBe(true);
-    const durum = readFileSync(durumPath, "utf8");
-    const durumPointer = readFileSync(join(ROOT, "docs", "DURUM.md"), "utf8");
-    expect(durumPointer).toContain("docs/ops/DURUM.md");
-    expect(durumPointer).not.toContain("## Amiral SKU");
-    expect(durum).toContain("Sınav yolu");
-    expect(durum).toContain("Mühürlü kaset");
-    expect(durum).toContain("8/8");
-    expect(durum).not.toContain("Makale / Okuma Metni");
-    expect(durum).toContain("PayTR canlı tanık");
-    expect(durum).toContain("P0-1 Canlı Nakit Tanığı Başarıyla Alındı — PayTR CLEARED Teyit Edildi (18 Eylül 2026)");
-    expect(durum).not.toContain("Bu kesitte yok");
-    const opsDurumSeal = durum;
-    expect(opsDurumSeal).toContain("P0-1 Canlı Nakit Tanığı Başarıyla Alındı — PayTR CLEARED Teyit Edildi (18 Eylül 2026)");
-    expect(opsDurumSeal).toContain("Tam mühürlü");
-    expect(durum).toContain("MARKETPLACE_SPLIT_LIVE = false");
-    expect(durum).toContain("publishFrozenUntilFaz1Close: false");
-    expect(durum).toContain(
-      "OFF-201 6/6 mühürlüdür. Kore ve Gemini 3.1 Flash TTS kaseti yayındadır. Yeniden fırın kuyruğu boştur. Satış AÇIKTIR.",
-    );
-    expect(durum).not.toContain("3–5 mühür");
-    expect(durum).not.toContain("ders 1, 2 ve 6");
+    expect(constitution).toContain("lib/academy/pilot-sku.ts");
+    expect(constitution).toContain("lib/academy/curricula/lesson-index.ts");
+    expect(constitution).not.toContain("docs/ops/DURUM.md");
+    expect(constitution).not.toContain("docs/ops/akademi-bake-elkitabi.md");
+    expect(constitution).toContain("Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci");
+    const saleOpen = academyCourseSaleOpen("01_office_ai_ileri");
+    const voiceStatus = academyOff201VoiceStatus();
+    expect(voiceStatus).toContain(saleOpen ? "Satış açıktır." : "Satış kapalıdır.");
+    expect(voiceStatus).not.toContain(saleOpen ? "Satış kapalıdır." : "Satış açıktır.");
 
     const runbook = readFileSync(join(ROOT, ".system_docs", "OPS_RUNBOOK.md"), "utf8");
     expect(runbook).toContain("Akademi mühürlü yayın **8**");
@@ -393,34 +414,22 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).toContain("Otomatik Veo 3.1 API video üretimi maliyet sızıntısı yarattığı için iptal edilmiştir.");
     expect(constitution).toContain("Otomatik Veo 3.1 API video üretimi maliyet sızıntısı yarattığı için iptal edilmiştir.");
 
-    const bakeElkitabi = readFileSync(join(ROOT, "docs", "ops", "akademi-bake-elkitabi.md"), "utf8");
-    expect(bakeElkitabi).toContain("1 Maç = MAX 100 Düdük");
-    expect(bakeElkitabi).toContain("Veo 3.1 Lite");
-    expect(bakeElkitabi).toContain("--dry-run");
-    expect(bakeElkitabi).toContain("0.70");
-    expect(bakeElkitabi).toContain("skip preventer");
-    expect(bakeElkitabi).toContain("veo-3.1-lite-generate-preview");
-    expect(bakeElkitabi).toContain("veo-3.1-generate-preview");
-    expect(bakeElkitabi).toContain("transform: scale(1.2)");
-    expect(bakeElkitabi).toContain("punchcard-from-sealed-json");
-    expect(bakeElkitabi).toContain("public/media/academy/micro");
+    expect(constitution).toContain("lib/academy/production-standard.ts");
+    expect(existsSync(join(ROOT, "docs", "ops", "akademi-bake-elkitabi.md"))).toBe(false);
+    expect(existsSync(join(ROOT, "docs", "ops", "DURUM.md"))).toBe(false);
   });
 
   it("yaşayan kesit süreleri timings SSOT ile birebir eşleşir", () => {
-    const opsDurum = readFileSync(join(ROOT, "docs", "ops", "DURUM.md"), "utf8");
     const keys = curriculumLessonKeysForSlug("01_office_ai");
     expect(keys).toHaveLength(8);
+    expect(keys.join(" → ")).toBe("01_office_ai-1 → 01_office_ai-k1 → 01_office_ai-2 → 01_office_ai-3 → 01_office_ai-5 → 01_office_ai-g1 → 01_office_ai-w1 → 01_office_ai-6");
     for (const lessonKey of keys) {
       const timings = loadAcademySealedAudioTimings(lessonKey);
       expect(timings?.durationSec, lessonKey).toBeGreaterThan(0);
-      const needle = `**${timings!.durationSec} sn**`;
-      expect(opsDurum, lessonKey).toContain(needle);
       const rounded = Math.round(timings!.durationSec);
       expect(ACADEMY_SEALED_AUDIO_DURATION_SEC[lessonKey]).toBe(rounded);
       expect(isAcademyAiLessonDurationSec(timings!.durationSec)).toBe(true);
     }
-    expect(opsDurum).toContain("01_office_ai-2");
-    expect(opsDurum).toContain("1 → k1 → 2 → 3 → 5 → g1 → w1 → 6");
   });
 
   it("1 Eğitim Kodu = 1 Ses — aktif kurs dersleri tek courseMasterVoice kullanır", () => {
@@ -457,6 +466,25 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(ACADEMY_OFF201_COURSE_MASTER_VOICE).toBe("Kore");
     expect(academyCourseMasterVoice("01_office_ai_ileri")).toBe("Kore");
     expect(academyCourseMasterVoice("01_office_ai_ileri")).not.toBe("Callirrhoe");
+    expect(CURRICULUM_MODULES_BY_SLUG["02_ecommerce_ai"]!.voiceConfig.courseMasterVoice).toBe(
+      "Puck",
+    );
+    expect(academyCourseMasterVoice("02_ecommerce_ai")).toBe("Puck");
+    expect(academyEcommerceBakeVoice()).toBe("Puck");
+    expect(academyCourseVoiceSeal("02_ecommerce_ai")).toMatchObject({
+      model: academyBakeVoiceModelId(),
+      courseMasterVoice: "Puck",
+      gender: "male",
+    });
+    expect(academyCourseVoiceSeal("01_office_ai")).toMatchObject({
+      model: academyBakeVoiceModelId(),
+      courseMasterVoice: "Callirrhoe",
+      gender: "female",
+    });
+    expect(academyInstructorBySlug("02_ecommerce_ai").voiceFingerprint.model).toBe(
+      academyBakeVoiceModelId(),
+    );
+    expect(academyBakeVoiceModelId()).toBe("gemini-3.8-flash-tts");
     expect(ACADEMY_MATCH_WHISTLE_MAX).toBe(100);
     expect(ACADEMY_TTS_LESSON_REQUEST_MIN).toBe(10);
     expect(ACADEMY_TTS_LESSON_REQUEST_MAX).toBe(12);

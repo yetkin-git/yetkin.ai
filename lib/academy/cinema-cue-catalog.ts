@@ -19,6 +19,10 @@
  */
 
 import {
+  ECOMMERCE_CINEMA_LESSONS,
+  type EcommerceCinemaLesson,
+} from "@/lib/academy/curricula/ecommerce_ai/cinema-slides";
+import {
   ACADEMY_GOLDEN_COMPARE_AFTER_LABEL,
   ACADEMY_GOLDEN_COMPARE_BEFORE_LABEL,
   ACADEMY_OFFICE_AI_1_COPILOT_PROMPT,
@@ -218,8 +222,16 @@ const OFFICE = {
 const COMMERCE = {
   theme: "commerce" as const,
   courseLabel: "E-Ticaret AI · Trendyol HB Amazon",
-  instructor: "Aylin",
+  instructor: "Deniz",
 };
+
+function requireEcommerceCinemaLesson(key: string): EcommerceCinemaLesson {
+  const lesson = ECOMMERCE_CINEMA_LESSONS[key];
+  if (!lesson) {
+    throw new Error(`EC-102 sinema dersi yok: ${key}`);
+  }
+  return lesson;
+}
 const SOCIAL = {
   theme: "social" as const,
   courseLabel: "Sosyal Medya AI · Reels Fabrikası",
@@ -232,7 +244,7 @@ const BOT = {
 };
 const PROMPT = {
   theme: "prompt" as const,
-  courseLabel: "Prompt Atölyesi · ChatGPT Claude Perplexity",
+  courseLabel: "Prompt Mühendisliği · Doğru Talimat",
   instructor: "Gözde",
 };
 
@@ -1886,12 +1898,12 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
       },
     ],
   },
-  "02_ecommerce_ai-1": { ...COMMERCE, title: "Mağaza kaydı: eksik satır", cues: EMPTY_CUES },
-  "02_ecommerce_ai-2": { ...COMMERCE, title: "Liste: başlık ve açıklama", cues: EMPTY_CUES },
-  "02_ecommerce_ai-3": { ...COMMERCE, title: "Yorum ve soru", cues: EMPTY_CUES },
-  "02_ecommerce_ai-4": { ...COMMERCE, title: "Rakip fiyatı", cues: EMPTY_CUES },
-  "02_ecommerce_ai-5": { ...COMMERCE, title: "Kampanya metni", cues: EMPTY_CUES },
-  "02_ecommerce_ai-6": { ...COMMERCE, title: "Haftalık iş listesi", cues: EMPTY_CUES },
+  "02_ecommerce_ai-1": { ...COMMERCE, ...requireEcommerceCinemaLesson("02_ecommerce_ai-1") },
+  "02_ecommerce_ai-2": { ...COMMERCE, ...requireEcommerceCinemaLesson("02_ecommerce_ai-2") },
+  "02_ecommerce_ai-3": { ...COMMERCE, ...requireEcommerceCinemaLesson("02_ecommerce_ai-3") },
+  "02_ecommerce_ai-4": { ...COMMERCE, ...requireEcommerceCinemaLesson("02_ecommerce_ai-4") },
+  "02_ecommerce_ai-5": { ...COMMERCE, ...requireEcommerceCinemaLesson("02_ecommerce_ai-5") },
+  "02_ecommerce_ai-6": { ...COMMERCE, ...requireEcommerceCinemaLesson("02_ecommerce_ai-6") },
   "03_social_media_ai-1": { ...SOCIAL, title: "Bir fikirden birkaç paylaşım", cues: EMPTY_CUES },
   "03_social_media_ai-2": { ...SOCIAL, title: "Ürün görseli ve afiş", cues: EMPTY_CUES },
   "03_social_media_ai-3": { ...SOCIAL, title: "Kısa video", cues: EMPTY_CUES },

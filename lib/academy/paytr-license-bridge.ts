@@ -1,4 +1,5 @@
 import { lockAcademyCoursePrice, purchaseAcademyCourse, type AcademyEnginePorts } from "@/lib/academy/engine";
+import "@/lib/academy/production-seal-disk";
 import { academyCourseSaleOpen, isAcademyLicenseSaleSlug } from "@/lib/academy/pilot-sku";
 import {
   CHECKOUT_LEGAL_CONSENT_PAYLOAD,
@@ -65,9 +66,14 @@ export async function fulfillAcademyLicenseFromClearedOrder(
     return { applied: false, purchaseId: null, reason: "not_cleared" };
   }
 
+  const course = await ports.academy.getCourseBySlug(slug);
+  if (!course) {
+    return { applied: false, purchaseId: null, reason: "closed" };
+  }
+
   try {
     const locked = await lockAcademyCoursePrice(ports, {
-      courseId: slug,
+      courseId: course.id,
       userId: order.userId,
       now,
     });

@@ -26,15 +26,15 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
   it("WAV mührü, cue, timings ve karaoke katmanı açılır", () => {
     expect(ACADEMY_MEDIA_SEALED_AUDIO["01_office_ai"]).toEqual([
       "01_office_ai-1",
+      "01_office_ai-k1",
       "01_office_ai-2",
       "01_office_ai-3",
       "01_office_ai-5",
-      "01_office_ai-6",
       "01_office_ai-g1",
       "01_office_ai-w1",
-      "01_office_ai-k1",
+      "01_office_ai-6",
     ]);
-    expect(academyMediaSealedWavCount()).toBe(14);
+    expect(academyMediaSealedWavCount()).toBe(20);
     expect(ACADEMY_SEALED_AUDIO_DURATION_SEC).toEqual({
       "01_office_ai-1": 707,
       "01_office_ai-2": 537,
@@ -44,12 +44,18 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
       "01_office_ai-g1": 638,
       "01_office_ai-w1": 581,
       "01_office_ai-k1": 735,
-      "01_office_ai_ileri-1": 533,
-      "01_office_ai_ileri-2": 641,
-      "01_office_ai_ileri-3": 691,
-      "01_office_ai_ileri-4": 763,
-      "01_office_ai_ileri-5": 840,
-      "01_office_ai_ileri-6": 793,
+      "01_office_ai_ileri-1": 485,
+      "01_office_ai_ileri-2": 606,
+      "01_office_ai_ileri-3": 658,
+      "01_office_ai_ileri-4": 752,
+      "01_office_ai_ileri-5": 844,
+      "01_office_ai_ileri-6": 714,
+      "02_ecommerce_ai-1": 869,
+      "02_ecommerce_ai-2": 891,
+      "02_ecommerce_ai-3": 608,
+      "02_ecommerce_ai-4": 831,
+      "02_ecommerce_ai-5": 846,
+      "02_ecommerce_ai-6": 1034,
     });
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, LESSON_KEY)).toBe(true);
     expect(isAcademyCompactLessonKey(LESSON_KEY)).toBe(true);
@@ -254,9 +260,7 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
     expect(Math.abs(total - 4880.862)).toBeLessThanOrEqual(0.01);
     const minutes = total / 60;
     expect(minutes).toBeGreaterThanOrEqual(ACADEMY_AI_COURSE_DURATION_MIN_MINUTES);
-    const opsDurum = readFileSync(join(ROOT, "docs", "ops", "DURUM.md"), "utf8");
-    const durumPointer = readFileSync(join(ROOT, "docs", "DURUM.md"), "utf8");
-    expect(opsDurum).toContain("4880.862 sn");
-    expect(durumPointer).not.toContain("4880.862 sn");
+    expect(existsSync(join(ROOT, "docs", "ops", "DURUM.md"))).toBe(false);
+    expect(existsSync(join(ROOT, "docs", "DURUM.md"))).toBe(false);
   });
 });

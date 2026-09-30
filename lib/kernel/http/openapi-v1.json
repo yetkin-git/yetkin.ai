@@ -3,7 +3,7 @@
   "info": {
     "title": "yetkin.ai API v1",
     "version": "1",
-    "description": "yetkin.ai Modüler Monolit + API-First Dron sözleşmesi — Proof / Payments. Faz 1 kamu sözleşmesi B2C'dir; Marketplace tag'i ve freelancer path'leri yayınlanmaz (iç bounded-context adı durur). Kopya `app/api/v1` handler ağacı yoktur; kenar soyar. Zarf: { ok, error, requestId, apiVersion, data }. X-Rail-Min-Version API sözleşme sürümüdür; mağaza uygulama build'i değildir (X-Rail-App-Build ayrı, v1'de kapı değil). Amiral ve Dron aynı v1 zarfı konuşur. Versiyonsuz `{ ok, ...data }` serimi kapalıdır. Yayınlanmış alan sessizce düşmez. CORS joker ve Allow-Credentials yoktur. SHA-256 akademi kaydı kriptografik imza değildir; içerik özeti / bütünlük kaydıdır."
+    "description": "yetkin.ai Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci — Proof / Payments. Faz 1 kamu sözleşmesi B2C'dir; Marketplace tag'i ve freelancer path'leri yayınlanmaz (iç bounded-context adı durur). Kopya `app/api/v1` handler ağacı yoktur; kenar soyar. Zarf: { ok, error, requestId, apiVersion, data }. X-Rail-Min-Version API sözleşme sürümüdür; mağaza uygulama build'i değildir (X-Rail-App-Build ayrı, v1'de kapı değil). Amiral ve Dron aynı v1 zarfı konuşur. Versiyonsuz `{ ok, ...data }` serimi kapalıdır. Yayınlanmış alan sessizce düşmez. CORS joker ve Allow-Credentials yoktur. SHA-256 akademi kaydı kriptografik imza değildir; içerik özeti / bütünlük kaydıdır."
   },
   "servers": [
     {

@@ -6,9 +6,17 @@
  */
 
 import { academyCourseHasSealedAudio } from "@/lib/academy/pilot-sku";
-import { academyCourseOffersFreePreview } from "@/lib/kernel/catalog-ids/free-preview";
+import {
+  academyCourseOffersFreePreview,
+  academyExamPathFirstLessonKey,
+  isAcademyExamPathFirstLessonKey,
+} from "@/lib/kernel/catalog-ids/free-preview";
 
-export { academyCourseOffersFreePreview };
+export {
+  academyCourseOffersFreePreview,
+  academyExamPathFirstLessonKey,
+  isAcademyExamPathFirstLessonKey,
+};
 
 export const ACADEMY_PURCHASE_PATHS = ["training", "exam"] as const;
 
@@ -74,16 +82,22 @@ export function academyPurchaseSuccessHref(
 }
 
 /**
- * Ücretsiz önizleme — yalnız hazırlık şeridi.
- * `01_office_ai-1` … `01_office_ai-6` (k1, g1, w1 dahil) satın alma olmadan kilitlidir.
+ * Ücretsiz önizleme.
+ * Hazırlık şeridi (`01_office_ai-0`) sınav yolunda değildir; o şerit açık kalır.
+ * Sınav yolunun ilk anahtarı her kurs için dinamik açıktır. Ders 2 ve sonrası kilitlidir.
  */
 export const ACADEMY_FREE_PREVIEW_LESSON_KEY = "01_office_ai-0" as const;
 
-export function isAcademyFreePreviewLessonKey(lessonKey: string): boolean {
-  return lessonKey.trim() === ACADEMY_FREE_PREVIEW_LESSON_KEY;
+export function isAcademySalesFunnelLessonKey(lessonKey: string): boolean {
+  return isAcademyExamPathFirstLessonKey(lessonKey);
 }
 
-/** Satın alma yokken ana ders ödeme duvarındadır. Hazırlık şeridi açık kalır. */
+export function isAcademyFreePreviewLessonKey(lessonKey: string): boolean {
+  const key = lessonKey.trim();
+  return key === ACADEMY_FREE_PREVIEW_LESSON_KEY || isAcademyExamPathFirstLessonKey(key);
+}
+
+/** Satın alma yokken ders 2+ ödeme duvarındadır. Hazırlık şeridi ve sınav yolunun ilk dersi açık kalır. */
 export function isAcademyLessonPaywalled(
   courseSlug: string,
   lessonKey: string,
@@ -92,8 +106,10 @@ export function isAcademyLessonPaywalled(
   if (purchased) {
     return false;
   }
-  if (!academyCourseOffersFreePreview(courseSlug)) {
-    return true;
+  const key = lessonKey.trim();
+  if (key === ACADEMY_FREE_PREVIEW_LESSON_KEY && courseSlug.trim() === "01_office_ai") {
+    return false;
   }
-  return !isAcademyFreePreviewLessonKey(lessonKey);
+  const first = academyExamPathFirstLessonKey(courseSlug);
+  return first == null || key !== first;
 }

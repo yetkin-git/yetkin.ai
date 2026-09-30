@@ -7,12 +7,11 @@ import {
 import { createPrismaBudgetShieldPort } from "@/lib/kernel/ai/prisma-budget-shield";
 import { estimateLlmCostMinor } from "@/lib/kernel/ai/cost";
 import {
+  ACADEMY_SEALED_MEDIA_MODEL,
+  assertAcademySealedMediaModel,
   assertLiveAiModelRole,
   getDefaultModelId,
   isGeminiModelUnavailableError,
-  selectFallbackModelId,
-  VOICE_TTS_FALLBACK_MODEL_ID,
-  VOICE_TTS_FALLBACK_TO_2_5,
 } from "@/lib/kernel/ai/model-roles";
 import { logEvent } from "@/lib/kernel/observability/log";
 import { anthropicProvider } from "@/lib/kernel/ai/providers/anthropic";
@@ -264,7 +263,7 @@ export async function invokeLlm(
 
   const timeoutMs = input.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   const maxAttempts = input.maxAttempts ?? DEFAULT_MAX_ATTEMPTS;
-  let model = resolved.model;
+  const model = resolved.model;
   let lastError: unknown;
 
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
@@ -311,16 +310,8 @@ export async function invokeLlm(
       if (error instanceof NonRetriableLlmError) {
         return null;
       }
-      if (providerId === "gemini" && isGeminiModelUnavailableError(error) && input.role) {
-        const fallback = selectFallbackModelId({
-          assignedModelId: model,
-          previousStableModelId: "",
-          defaultModelId: getDefaultModelId(input.role),
-        });
-        if (fallback && fallback !== model) {
-          model = fallback;
-          continue;
-        }
+      if (providerId === "gemini" && isGeminiModelUnavailableError(error)) {
+        return null;
       }
       const message = error instanceof Error ? error.message : String(error);
       if (attempt < maxAttempts && isRetriableStatusMessage(message)) {
@@ -368,7 +359,11 @@ export async function generateImage(
     return null;
   }
 
-  const model = input.model?.trim() || getDefaultModelId("IMAGE_GEN");
+  const requestedImageModel = input.model?.trim();
+  if (requestedImageModel) {
+    assertAcademySealedMediaModel("IMAGE_GEN", requestedImageModel);
+  }
+  const model = ACADEMY_SEALED_MEDIA_MODEL.IMAGE_GEN;
   const budget = await assertGatewayBudgetAllows(
     {
       identifier: input.rateLimit?.identifier,
@@ -552,7 +547,11 @@ export async function generateSpeech(
   const text = trimmed;
   const instruction = sealVoiceTtsPedagogyPrompt(input.instruction);
 
-  const model = input.model?.trim() || getDefaultModelId("VOICE_TTS");
+  const requestedSpeechModel = input.model?.trim();
+  if (requestedSpeechModel) {
+    assertAcademySealedMediaModel("VOICE_TTS", requestedSpeechModel);
+  }
+  const model = ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS;
   const budget = await assertGatewayBudgetAllows(
     {
       identifier: input.rateLimit?.identifier,
@@ -632,11 +631,7 @@ export async function generateSpeech(
       };
     } catch (error) {
       lastError = error;
-      if (
-        providerId === "gemini" &&
-        (model === VOICE_TTS_FALLBACK_MODEL_ID || !VOICE_TTS_FALLBACK_TO_2_5) &&
-        isGeminiModelUnavailableError(error)
-      ) {
+      if (providerId === "gemini" && isGeminiModelUnavailableError(error)) {
         logGenerateSpeechFailure({
           reason: "gemini-model-not-found",
           errorName: error instanceof Error ? error.name : "unknown",

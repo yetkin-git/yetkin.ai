@@ -6,8 +6,8 @@ import { section1, section2, section3, section4, section5, section6 } from "./se
 export { section1, section2, section3, section4, section5, section6 };
 
 /**
- * EC-102 canlı gövde. Konuşma `lib/academy/spoken-scripts/02_ecommerce_ai-*.md` dosyasındadır.
- * Anlatıcı Deniz. Karakter `courseMasterVoice` (Puck). Model fırın mühründen okunur.
+ * EC-102 gövde. Kamu kapısı kapalıdır. Konuşma `lib/academy/spoken-scripts/02_ecommerce_ai-*.md` dosyasındadır.
+ * Anlatıcı adı Deniz. Mühürlü karakter `courseMasterVoice` (Puck, erkek). Kadın ses atanmamıştır.
  * İlk ders bayrağı `applyAcademySectionPreviewGate` ile bağlanır.
  */
 export const ecommerceAiSections: Section[] = [

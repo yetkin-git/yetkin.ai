@@ -59,7 +59,7 @@ export const PAGE_SEO = {
   academy: {
     title: ACADEMY_SEN.catalog.title,
     description:
-      "Yapay zeka eğitimi ve online kurslar: amiral kurs yayındadır. Prompt eğitimi ve kardeş müfredat Çok Yakında / Hazırlanıyor rozetiyle durur. Dersi bitir, testi 70+ ile geç, yapay zeka sertifikan ve kariyer vizesi Kariyer sayfana işlensin. Akademi yalnız sesi bitmiş eğitimi satar.",
+      "Yapay zeka eğitimi ve online kurslar: Ofiste Yapay Zekâ ve İleri Ofis yayındadır. E-Ticaret, sosyal medya, chatbot ve istem pratiği Çok Yakında / Hazırlanıyor rozetiyle durur. Dersi bitir, testi 70+ ile geç, yapay zeka sertifikan ve kariyer vizesi Kariyer sayfana işlensin. Akademi yalnız üç satış şartı tamam olan eğitimi satar.",
     path: "/academy",
     image: DEFAULT_OG_IMAGE,
   },
@@ -283,6 +283,7 @@ export const OFFICE_AI_LESSON_TEASERS: Readonly<Record<string, string>> = {
 };
 
 /** robots.txt Allow — mühürlü yayın antreleri (prefix `/academy` yedeğine ek kesin yol). */
+/** EC-102 yolu HOTFIX ile çıktı. Kapı `ACADEMY_EC102_PUBLIC_RELEASE_OPEN` açılınca geri yazılır. */
 export const ROBOTS_ALLOW_COURSE_PATHS = [
   OFFICE_AI_SEO.path,
   OFFICE_AI_ILERI_SEO.path,

@@ -1,6 +1,11 @@
 import type { MetadataRoute } from "next";
 import { academyCourseCoverPath } from "@/lib/academy/course-cover";
-import { ACADEMY_GROWTH_SKU_SLUGS, ACADEMY_OFF201_STOREFRONT_SLUG } from "@/lib/academy/pilot-sku";
+import {
+  ACADEMY_GROWTH_SKU_SLUGS,
+  ACADEMY_NEXT_BODY_SKU_SLUG,
+  ACADEMY_OFF201_STOREFRONT_SLUG,
+  isAcademyStorefrontSlug,
+} from "@/lib/academy/pilot-sku";
 import { LEGAL_SITE_PATHS } from "@/lib/copy/legal-launch";
 import {
   CANONICAL_SITE_ORIGIN,
@@ -40,11 +45,12 @@ function sitemapEntry(
 const SITEMAP_ACADEMY_COURSE_SLUGS = [
   ...ACADEMY_GROWTH_SKU_SLUGS,
   ACADEMY_OFF201_STOREFRONT_SLUG,
+  ACADEMY_NEXT_BODY_SKU_SLUG,
 ] as const;
 
 function publishedAcademyCourseEntries(lastModified: Date): MetadataRoute.Sitemap {
   try {
-    return SITEMAP_ACADEMY_COURSE_SLUGS.map((slug) => {
+    return SITEMAP_ACADEMY_COURSE_SLUGS.filter((slug) => isAcademyStorefrontSlug(slug)).map((slug) => {
       let images: string[] | undefined;
       try {
         const cover = academyCourseCoverPath(slug);

@@ -32,6 +32,6 @@ describe("vatandaş oynatıcı katmanı — 01_office_ai 9 karaoke, kardeşler m
     expect(academyCitizenPlayerLayer("01_office_ai", "01_office_ai-6")).toEqual(
       expect.objectContaining({ kind: "article+karaoke", lessonKey: "01_office_ai-6" }),
     );
-    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-1")).toEqual({ kind: "article" });
+    expect(academyCitizenPlayerLayer("02_ecommerce_ai", "02_ecommerce_ai-1").kind).toBe("article+karaoke");
   });
 });

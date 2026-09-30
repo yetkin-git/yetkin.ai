@@ -23,6 +23,6 @@ describe("soğuk şablon başlık süzgeci — Aşama 1 oynatıcı", () => {
 
   it("01_office_ai ders gövdesi 1. bölümü taşır", () => {
     expect(curriculumForCourseSlug("01_office_ai")).toHaveLength(8);
-    expect(curriculumForCourseSlug("02_ecommerce_ai")).toEqual([]);
+    expect(curriculumForCourseSlug("02_ecommerce_ai")).toHaveLength(6);
   });
 });

@@ -49,8 +49,8 @@ export type RebutDisputeCommand = DisputeActorCommand & {
 
 export type HumanSettleCommand = DisputeActorCommand & {
   employerRefundBps: number;
-  asSuperAdmin?: boolean;
   actorEmail?: string | null;
+  actorEmailConfirmedAt?: string | null;
   platformUserId?: string;
 };
 
@@ -388,9 +388,11 @@ export async function settleHumanReviewDispute(
   if (!contract) {
     throw new Error("Sözleşme bulunamadı.");
   }
-  const adminOk =
-    command.asSuperAdmin === true ||
-    isSuperAdminActor({ id: command.actorUserId, email: command.actorEmail });
+  const adminOk = isSuperAdminActor({
+    id: command.actorUserId,
+    email: command.actorEmail,
+    emailConfirmedAt: command.actorEmailConfirmedAt,
+  });
   if (!adminOk) {
     throw new Error("İnsan incelemesini yalnız Super Admin sonuçlandırır.");
   }

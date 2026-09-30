@@ -118,6 +118,14 @@ Bağlamı canlı ürün koduna sıkıştır: **app → components → lib → pr
 
 ---
 
+## Dokunulmaz referans kartı
+
+`.system_docs/AKADEMI_URETIM_ANAYASASI.md ve bağlı görseller dokunulmazdır, ajan tarafından düzenlenemez.`
+
+Bu kart Super Admin’in insan gözüyle okuduğu değişmez referanstır. Metin, görsel ve model tablosu silinmez, değiştirilmez, refactor edilmez. Kod tarafındaki model kimliği SSOT `lib/kernel/ai/model-roles.ts` olmaya devam eder.
+
+---
+
 ## Akademi üretim işaretçileri
 
 Sayı, model kimliği, tempo ve ses mührü bu dosyada tekrarlanmaz. Fırın ve mühür kararı aşağıdaki evlerden okunur. Sabit saparsa ev düzeltilir; bu liste ikinci ev değildir.

@@ -12,6 +12,7 @@ import {
   resolveAcademyLessonAudioUrl,
 } from "@/lib/academy/lesson-playback";
 import { ACADEMY_GEMINI_TTS_SLOT, requestAcademyGeminiTts } from "@/lib/academy/lesson-tts-slot";
+import { academyBakeVoiceModelId } from "@/lib/kernel/ai/model-roles";
 
 const ROOT = process.cwd();
 
@@ -89,7 +90,7 @@ describe("akademi ders medya hizası — videoUrl / audioUrl", () => {
 
   it("Gemini 3.1 TTS yuvası kapalıdır ve çağrı basmaz", () => {
     expect(ACADEMY_GEMINI_TTS_SLOT.enabled).toBe(false);
-    expect(ACADEMY_GEMINI_TTS_SLOT.model).toBe("gemini-3.1-tts");
+    expect(ACADEMY_GEMINI_TTS_SLOT.model).toBe(academyBakeVoiceModelId());
     expect(requestAcademyGeminiTts({ text: "Merhaba", languageCode: "tr-TR" })).toBeNull();
     expect(classifyAcademyLessonVideoSrc(undefined).kind).toBe("none");
     expect(classifyAcademyLessonVideoSrc(ACADEMY_DEMO_VIDEO_PUBLIC_PATH).kind).toBe("file");

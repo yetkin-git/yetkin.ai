@@ -123,8 +123,8 @@ const EMPTY_MODULES: readonly EmptyModule[] = [
     folder: "prompt_practice",
     exportPrefix: "promptPractice",
     moduleCode: "CURR-PROMPT-PRACTICE-105",
-    title: "Pratik Prompt Mühendisliği ve Günlük Üretkenlik Rehberi (ChatGPT, Claude & Perplexity)",
-    category: "KATMAN 1.5 — Pratik Prompt Mühendisliği ve Bilişsel Üretkenlik (Katman 1 Büyük Kapanış Modülü)",
+    title: "Yapay Zekâ Prompt Mühendisliği",
+    category: "Katman 1 — Yapay Zekâya Doğru Talimat Verme Sanatı",
     audience: [
       "Günlük işlerinde yapay zekâyı sistemli kullanmak isteyenler",
       "Öğrenciler",

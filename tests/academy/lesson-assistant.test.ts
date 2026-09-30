@@ -108,7 +108,7 @@ describe("canlı ders asistanı", () => {
       {
         userId: "u1",
         courseSlug: "01_office_ai",
-        lessonKey: "01_office_ai-1",
+        lessonKey: "01_office_ai-2",
         currentTimeSec: 4,
         question: "Bu satırda ne yaptık?",
         commercialEnrolment: false,

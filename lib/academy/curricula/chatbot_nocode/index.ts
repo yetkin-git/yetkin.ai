@@ -1,4 +1,5 @@
 import type { CurriculumModule, Section } from "../types";
+import { academyCourseVoiceSeal } from "@/lib/academy/instructors";
 
 export const chatbotNocodeSections: Section[] = [];
 
@@ -16,9 +17,9 @@ export const chatbotNocodeMasteryModule: CurriculumModule = {
   methodology: "Canlı diyalog ve sen dili, adım adım görsel akış tasarımı, sıfır kodlama, randevu ve teslim seti odaklı uygulamalar",
   estimatedTotalMinutes: 0,
   voiceConfig: {
-    courseMasterVoice: "Puck",
+    courseMasterVoice: academyCourseVoiceSeal("04_chatbot_nocode").courseMasterVoice,
     style: "Teknik, net, otomasyon odaklı erkek sesi; adım adım görsel akış rehberliği",
-    gender: "male",
+    gender: academyCourseVoiceSeal("04_chatbot_nocode").gender,
   },
   sections: chatbotNocodeSections,
 };

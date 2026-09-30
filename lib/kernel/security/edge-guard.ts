@@ -139,8 +139,8 @@ export function isAcademyCurriculumPlayerPath(pathname: string): boolean {
 }
 
 /**
- * Ücretsiz hazırlık şeridi. Oturum istemez.
- * Ana ders gövdesi bu yolda da kilitlidir (`isAcademyPlayerPaywallLessonLocked`).
+ * Ücretsiz vitrin oynatıcısı. Oturum istemez.
+ * Sınav yolu olan her kursun ilk dersi açıktır; ders 2+ kilitlidir.
  */
 export function isAcademyFreePreviewPlayerPath(pathname: string): boolean {
   const path = normalizePathname(pathname);

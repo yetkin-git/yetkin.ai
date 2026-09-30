@@ -2,7 +2,7 @@
 
 İndeks: `.system_docs/OPS_RUNBOOK.md`. Sözleşme: `.system_docs/DRON_CLIENT_SPEC.md`. Shared Kernel: `@yetkin/kernel`.
 
-Paket `yetkin.publishFrozenUntilFaz1Close: false`. T3 Akademi yüzeyi (müfredat / sınav / mühür) Dron UI'dadır. Play Closed Testing ve Apple TestFlight **protokol olarak açık**. Mağaza binary hattı `apps/rail-is/eas.json` (development / preview / production). **CI `eas` / `eas-cli` / `expo publish` koşmaz** — binary operatör basar. Kapalı teste 410/404 Tezgâh hop'u sürmek yapılmaz. `DRON_TEZGAH_STORE_ISOLATED: true` — "Açık işler / İşlerim" sekmesi gizlidir; kaçak yüzey `Phase2LockScreen` (Faz 2 — Yansıtma bekleniyor). İnceleme: `.system_docs/DRON_CLIENT_SPEC.md` + `docs/DURUM.md`.
+Paket `yetkin.publishFrozenUntilFaz1Close: false`. T3 Akademi yüzeyi (müfredat / sınav / mühür) Dron UI'dadır. Play Closed Testing ve Apple TestFlight **protokol olarak açık**. Mağaza binary hattı `apps/rail-is/eas.json` (development / preview / production). **CI `eas` / `eas-cli` / `expo publish` koşmaz** — binary operatör basar. Kapalı teste 410/404 Tezgâh hop'u sürmek yapılmaz. `DRON_TEZGAH_STORE_ISOLATED: true` — "Açık işler / İşlerim" sekmesi gizlidir; kaçak yüzey `Phase2LockScreen` (Faz 2 — Yansıtma bekleniyor). İnceleme: `.system_docs/DRON_CLIENT_SPEC.md` + `.system_docs/ops/ops-dron.md`.
 
 Native env yalnız `EXPO_PUBLIC_RAIL_API_BASE` + `EXPO_PUBLIC_SUPABASE_URL` + `EXPO_PUBLIC_SUPABASE_ANON_KEY`. `service_role` yoktur. Dron `@yetkin/kernel` paketini tüketir; hop meta codegen-kopya değildir.
 
@@ -41,12 +41,12 @@ Native teslimat tektir (`apps/rail-is/src/screens/AcademyPlayerScreen.tsx`): **S
 | 7 | `01_office_ai-w1` | Sesli anlatım + makale + rozetler | Word masası (sözleşme/dilekçe/rapor) |
 | 8 | `01_office_ai-6` | Sesli anlatım + makale + rozetler + sınav kapısı | Capstone Cuma 30 masası |
 
-Sınav kapısı yalnız 8. dersten (`01_office_ai-6`) sonra iki platformda da açılır. Timings `durationSec` / `cacheV` değişince Dron punchcard saatleri aynı kaynaktan türetilir; eski native bundle eski saati taşır (bakım: `docs/ops/akademi-bake-elkitabi.md` § Timings → Dron punchcard sürüm sözleşmesi).
+Sınav kapısı yalnız 8. dersten (`01_office_ai-6`) sonra iki platformda da açılır. Timings `durationSec` / `cacheV` değişince Dron punchcard saatleri aynı kaynaktan türetilir; eski native bundle eski saati taşır (bakım: `lib/academy/lesson-audio-timings` ve `lib/academy/production-standard.ts`).
 
 ## Closed Testing — T3 B2C
 
 1. Amiral: `LIVE_BROADCAST_SHUTDOWN` boş (varsayılan kapalı); `RAIL_DRON_ORIGINS` boş; sandbox yok; Inngest çift anahtar.
 2. Dron env (EAS Secrets, git'e yazılmaz): `EXPO_PUBLIC_RAIL_API_BASE` + `EXPO_PUBLIC_SUPABASE_URL` + `EXPO_PUBLIC_SUPABASE_ANON_KEY`.
-3. İnceleme: `.system_docs/DRON_CLIENT_SPEC.md` + `docs/DURUM.md`. IAP yoktur; yükleme v1 hop + HMAC `/kasa`. Akademi oynatıcı / sınav / mühür Dron UI'dadır. Tezgâh sekmesi yoktur.
+3. İnceleme: `.system_docs/DRON_CLIENT_SPEC.md` + `.system_docs/ops/ops-dron.md`. IAP yoktur; yükleme v1 hop + HMAC `/kasa`. Akademi oynatıcı / sınav / mühür Dron UI'dadır. Tezgâh sekmesi yoktur.
 4. Binary: `cd apps/rail-is` sonra `eas init` (bir kez; `extra.eas.projectId` uydurulmaz) → `eas build --profile preview` (internal APK) veya `--profile production --platform android` (AAB) / `--platform ios` (IPA). Kök `eas.json` yoktur. `npx eas-cli` yeter; repo `eas-cli` bağımlılığı ve CI adımı **yoktur**.
 5. Hâlâ kapalı: freelancer GET/POST (istemci HTTP atmaz), refund, dispute, native IAP, S43 çekim, Split.

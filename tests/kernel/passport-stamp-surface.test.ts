@@ -204,7 +204,7 @@ describe("pasaport vize yüzeyi", () => {
     expect(PASSPORT_GROWTH_DOOR_LABELS["02_ecommerce_ai"]).toBe("E-Ticaret Asistanlığı");
     expect(PASSPORT_GROWTH_DOOR_LABELS["03_social_media_ai"]).toBe("Görsel/Sosyal Medya");
     expect(PASSPORT_GROWTH_DOOR_LABELS["04_chatbot_nocode"]).toBe("Chatbot & Müşteri Hizmetleri");
-    expect(PASSPORT_GROWTH_DOOR_LABELS["05_prompt_practice"]).toBe("Prompt & Üretkenlik");
+    expect(PASSPORT_GROWTH_DOOR_LABELS["05_prompt_practice"]).toBe("Prompt Mühendisliği");
     expect(passportGrowthDoorLabel("06_n8n_automation")).toBeNull();
     expect(passportFreelancerStamps([])).toEqual([]);
     expect(passportNonGrowthAcademyStamps([])).toEqual([]);
@@ -227,7 +227,7 @@ describe("pasaport vize yüzeyi", () => {
     expect(card.find((slot) => slot.slug === "01_office_ai")?.doorLabel).toBe("Ofis Yapay Zekâ");
     expect(card.find((slot) => slot.slug === "05_prompt_practice")?.held).toBe(true);
     expect(card.find((slot) => slot.slug === "05_prompt_practice")?.doorLabel).toBe(
-      "Prompt & Üretkenlik",
+      "Prompt Mühendisliği",
     );
     expect(card.filter((slot) => slot.held)).toHaveLength(2);
     expect(card.find((slot) => slot.slug === "02_ecommerce_ai")?.held).toBe(false);

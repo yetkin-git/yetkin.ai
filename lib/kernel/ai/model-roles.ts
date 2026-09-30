@@ -44,55 +44,50 @@ export class AiGatewayForbiddenError extends ForbiddenError {
   }
 }
 
-/** Canlı TTS çağrı kimliği. Stüdyo ürün adı bunun yerine geçmez. */
-export const VOICE_TTS_MODEL_ID = "gemini-3.1-flash-tts-preview" as const;
+/**
+ * Fırın ve gümrük medya kimliği. İkinci sicil yoktur.
+ * Canlı sohbet `FAST_STREAM` okur. Senaryo `TEXT_GEN` okur.
+ * Canlı `VIDEO_GEN` mühürlü-ölüdür. Isınma klibi yerel `-warmup.mp4` dosyasıdır.
+ */
+export const ACADEMY_SEALED_MEDIA_MODEL = {
+  TEXT_GEN: "gemini-3.8-flash", // Metin Üretimi
+  VOICE_TTS: "gemini-3.8-flash-tts", // Ses Mührü
+  IMAGE_GEN: "gemini-3.1-flash-image", // Görsel (Nano Banana 2)
+  MUSIC_GEN: "lyria-3.5", // Fon Müziği
+} as const;
+
+export type AcademySealedMediaModelKey = keyof typeof ACADEMY_SEALED_MEDIA_MODEL;
 
 export const AI_MODEL_ROLE_DEFAULTS: Record<AiLiveModelRoleKey, string> = {
   EXECUTIVE_BRAIN: "gemini-3.1-pro-preview",
   DEEP_RESEARCH: "gemini-3.1-pro-preview",
-  FAST_STREAM: "gemini-3.6-flash",
+  FAST_STREAM: "gemini-3.8-live",
   LITE_STREAM: "gemini-3.5-flash-lite",
-  IMAGE_GEN: "imagen-4.0-generate-001",
-  VOICE_TTS: VOICE_TTS_MODEL_ID,
+  IMAGE_GEN: ACADEMY_SEALED_MEDIA_MODEL.IMAGE_GEN,
+  VOICE_TTS: ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS,
   OPEN_LOCAL: "gemma-3-27b-it",
 };
 
-/**
- * Akademi fırın sicili. Canlı 8 rol tavanını şişirmez.
- * Vatandaş izlemesi bu kimlikleri çağırmaz.
- * Canlı sohbet `FAST_STREAM` okur. Uzun ufuklu senaryo `LONG_HORIZON_TEXT` okur.
- * Canlı görsel gümrüğü `IMAGE_GEN` (Imagen) okur. Fırın karesi `IMAGE_NANO_BANANA_2` okur.
- * Canlı `VIDEO_GEN` mühürlü-ölüdür. Otomatik Veo API iptaldir. Isınma klibi yerel `-warmup.mp4` reuse.
- */
-export const ACADEMY_BAKE_MODELS = {
-  LONG_HORIZON_TEXT: "gemini-3.8-flash",
-  /**
-   * Fırın ses çağrısı. `academyBakeVoiceModelId()` bu sabiti okur.
-   * Canlı gümrük `VOICE_TTS` ayrı kalır.
-   */
-  VOICE_TTS_STUDIO_PRODUCT: "gemini-3.8-flash-tts",
-  IMAGE_NANO_BANANA_2: "gemini-3.1-flash-image",
-  MUSIC_LYRIA: "lyria-3.5",
-  VIDEO_VEO_LITE: "veo-3.1-lite-generate-preview",
-  VIDEO_VEO_PREMIUM_FORBIDDEN: "veo-3.1-generate-preview",
-} as const;
-
-/** Fırın sesi stüdyo ürün kimliğini okur. Canlı gümrük `getDefaultModelId("VOICE_TTS")` ayrıdır. */
-export function academyBakeVoiceModelId(): typeof ACADEMY_BAKE_MODELS.VOICE_TTS_STUDIO_PRODUCT {
-  return ACADEMY_BAKE_MODELS.VOICE_TTS_STUDIO_PRODUCT;
+/** Fırın ve gümrük sesi aynı kimliği okur. */
+export function academyBakeVoiceModelId(): typeof ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS {
+  return ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS;
 }
 
 /**
- * Kota, 404 veya limit, Gemini 2.5 Flash TTS'e düşmez.
- * Kota yoksa işlem durur. Fırın açılınca yalnız `academyBakeVoiceModelId()` kullanılır.
+ * Tanımlı model çağrılamazsa işlem durur. Alt model seçilmez.
  */
-export const VOICE_TTS_FALLBACK_TO_2_5 = false as const;
-
-/** Yasak alt model. Üretim yolu bu kimliği seçmez. */
-export const VOICE_TTS_FORBIDDEN_MODEL_ID = "gemini-2.5-flash-preview-tts" as const;
-
-/** @deprecated Seçilmez. `VOICE_TTS_FALLBACK_TO_2_5` kapalıdır. */
-export const VOICE_TTS_FALLBACK_MODEL_ID = VOICE_TTS_FORBIDDEN_MODEL_ID;
+export function assertAcademySealedMediaModel(
+  layer: AcademySealedMediaModelKey,
+  modelId: string,
+): void {
+  const expected = ACADEMY_SEALED_MEDIA_MODEL[layer];
+  const actual = normalizeGoogleModelId(modelId);
+  if (actual !== expected) {
+    throw new Error(
+      `Medya mühürü fail-closed. ${layer} yalnız ${expected} okur. Gelen kimlik ${actual || "boş"}. Alt model ve simülasyon yok.`,
+    );
+  }
+}
 
 export const AI_MODEL_ROLE_META: Record<
   AiModelRoleKey,
@@ -192,19 +187,3 @@ export function isGeminiModelUnavailableError(error: unknown): boolean {
   return /\b404\b|NOT_FOUND|not found|does not exist|model .+ not found/i.test(message);
 }
 
-export function selectFallbackModelId(input: {
-  assignedModelId: string;
-  previousStableModelId: string;
-  defaultModelId: string;
-}): string | null {
-  const assigned = input.assignedModelId.trim();
-  const previous = input.previousStableModelId.trim();
-  const fallbackDefault = input.defaultModelId.trim();
-  if (previous && previous !== assigned) {
-    return previous;
-  }
-  if (fallbackDefault && fallbackDefault !== assigned) {
-    return fallbackDefault;
-  }
-  return null;
-}

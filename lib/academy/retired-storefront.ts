@@ -7,7 +7,11 @@
 
 import { ACADEMY_CANON_SKU_SLUGS } from "../kernel/catalog-ids/course-slugs";
 
-/** Canlı vitrin — `ACADEMY_GROWTH_SKU_SLUGS` ile testte kilitlenir; next.config yaprak kalsın. */
+/**
+ * Canlı vitrin URL'si — amiral. EC-102 HOTFIX ile bu listeden çıktı;
+ * kanon slug 301 ile kataloğa döner. Kart kabuğu `pilot-sku` vitrin sırasında durur.
+ * next.config yaprak kalsın; `@/` yok.
+ */
 const ACADEMY_VITRINE_SLUGS = ["01_office_ai"] as const;
 
 /** Katalog biriminden (`course:python-temel`) türetilen eski vitrin slug'ları. */

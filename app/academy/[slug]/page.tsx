@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { PurchaseButton } from "@/components/academy/purchase-button";
@@ -51,6 +51,8 @@ import {
   academyCourseHasSealedAudio,
   academyMediaSealedLessonKeys,
   academyStorefrontStaticParams,
+  ACADEMY_EC102_PUBLIC_RELEASE_OPEN,
+  ACADEMY_NEXT_BODY_SKU_SLUG,
   ACADEMY_OFF201_STOREFRONT_SLUG,
   isAcademyStorefrontSlug,
 } from "@/lib/academy/pilot-sku";
@@ -83,6 +85,7 @@ export function generateStaticParams() {
   return [
     ...academyStorefrontStaticParams(),
     { slug: ACADEMY_OFF201_STOREFRONT_SLUG },
+    ...(ACADEMY_EC102_PUBLIC_RELEASE_OPEN ? [{ slug: ACADEMY_NEXT_BODY_SKU_SLUG }] : []),
   ];
 }
 
@@ -155,6 +158,9 @@ export default async function AcademyCoursePage({
     }),
   ]);
   const actor = session ? academyActorFromSession(session) : null;
+  if (actor && hasAcademyAdminBypass(actor)) {
+    redirect(`/academy/${board.course.slug}/oyna`);
+  }
   const adminPlayer = actor != null && hasAcademyAdminBypass(actor);
   const labPlayer =
     process.env.NODE_ENV !== "production" &&

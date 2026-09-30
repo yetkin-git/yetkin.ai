@@ -1,14 +1,16 @@
 /**
- * Ders sesi — ücretsiz/mock katman ile Gemini 3.1 TTS yuvası.
- *
- * Bu aşamada paralı API çağrısı yoktur. `enabled: false` ürün onayına kadar kilitli kalır.
- * Onay sonrası `generateSpeech` gümrük kapısı (`lib/kernel/ai/llm-gateway.ts`) buraya bağlanır.
+ * Ders sesi yuvası. Model adı burada yazılmaz; fırın mührü `academyBakeVoiceModelId()` okur.
+ * `enabled: false` iken API çağrısı yoktur. Onay sonrası `generateSpeech` gümrük kapısı bağlanır.
  */
 
+import { academyBakeVoiceModelId } from "@/lib/kernel/ai/model-roles";
+
+const ACADEMY_BAKE_VOICE_MODEL_ID = academyBakeVoiceModelId();
+
 export const ACADEMY_GEMINI_TTS_SLOT = {
-  id: "gemini-3.1-tts",
+  id: ACADEMY_BAKE_VOICE_MODEL_ID,
   provider: "gemini",
-  model: "gemini-3.1-tts",
+  model: ACADEMY_BAKE_VOICE_MODEL_ID,
   enabled: false,
 } as const;
 
@@ -37,7 +39,8 @@ export const ACADEMY_LESSON_TTS_SLOT: AcademyLessonTtsSlot = {
 };
 
 /**
- * Gemini 3.1 TTS — kasıtlı no-op. Ürün onayı ve `enabled: true` olmadan çağrı yoktur.
+ * Fırın ses mührü — kasıtlı no-op. Ürün onayı ve `enabled: true` olmadan çağrı yoktur.
+ * Kapalı yuva sahte ses basmaz.
  */
 export function requestAcademyGeminiTts(_input: AcademyGeminiTtsRequest): AcademyGeminiTtsResult | null {
   if (!ACADEMY_GEMINI_TTS_SLOT.enabled) {

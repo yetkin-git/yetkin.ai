@@ -67,6 +67,7 @@ import {
   academyLicenseOrderPurpose,
   readAcademyLicenseSlug,
 } from "@/lib/academy/paytr-license-bridge";
+import "@/lib/academy/production-seal-disk";
 import { academyCourseSaleOpen, isAcademyLicenseSaleSlug } from "@/lib/academy/pilot-sku";
 import { WALLET_TOP_UP_PURPOSE } from "@/lib/kernel/payments/clearing";
 

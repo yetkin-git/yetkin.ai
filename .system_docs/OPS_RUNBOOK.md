@@ -21,4 +21,33 @@ Faz 0: Akademi Canlı T3 Testi Prosedürü `ops-db.md` içindedir. PayTR Bildiri
 
 v1 hop SSOT: `RAIL_V1_HOPS`, **16 kayıt** (`@yetkin/kernel` hop meta + Amiral Zod). Yazma hop’ları dron Bearer ile tüketilebilir; native IAP yoktur. Cüzdan yükleme HMAC `/kasa` pasaportudur.
 
-Closed Testing reçetesi T3 B2C (`ops-dron.md`). Tezgâh yüzeyi izole; Split ayrı idari kapıdır. Mağaza binary: `apps/rail-is/eas.json` (CI eas yok). İnceleme: `.system_docs/DRON_CLIENT_SPEC.md` + `docs/DURUM.md`.
+Closed Testing reçetesi T3 B2C (`ops-dron.md`). Tezgâh yüzeyi izole; Split ayrı idari kapıdır. Mağaza binary: `apps/rail-is/eas.json` (CI eas yok). İnceleme: `.system_docs/DRON_CLIENT_SPEC.md` + `.system_docs/ops/ops-dron.md`.
+
+## Akademi mastering WAV — yedek ve kurtarma
+
+`media-bake/` git dışıdır (`.gitignore`: `/media-bake/`). Vercel paketine girmez; kök `.gitignore` yorumu boyutu yaklaşık 1,5 GB diye işaretler. Yayın türevi `public/media/academy/audio/{slug}/{key}.mp3` repodadır. Mastering WAV kaybolursa yayın MP3’ten kayıpsız geri dönülmez. Yeniden fırın `ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS` çağırır ve ücretlidir.
+
+| Ne | Yol | Kayıp |
+|----|-----|--------|
+| Mastering WAV | `media-bake/academy/audio/{slug}/{key}.wav` (`academyLessonAudioDiskPath`) | Ücretli TTS olmadan yerine konmaz |
+| Konuşma yedeği (MP3) | `media-bake/academy/speech-master/{slug}/{key}.mp3` | WAV yoksa hard-mix buraya, o da yoksa yayın MP3 kopyasına düşer |
+| Önbellek | `piece-cache`, `raw-cache`, `raw-dump`, `ab-sample`, `dry-run-receipts` | Fırın artığı; master sayılmaz |
+| Yayın | `public/media/academy/audio/{slug}/{key}.mp3` | Git’te durur; WAV’ın yerine geçmez |
+
+`public/media/academy/audio/**/*.wav` de git dışıdır. Canlı kaset MP3’tür.
+
+**Yedek.** Disk silme, makine değişimi veya `git clean` öncesi tüm `media-bake/` ağacı repo dışına kopyalanır. Hedef operatörün harici diski veya şifreli bulutudur. Git’e ve Vercel statik dosyasına konmaz. En az iki kopya durur: çalışan makine ve saha dışı kopya. Öncelik `academy/audio/**/*.wav` dosyalarıdır. `speech-master` ikinci sıradadır. Önbellek klasörleri isteğe bağlıdır.
+
+Kopya öncesi boyut ve dosya sayısı not edilir. Windows ölçümü:
+
+```powershell
+Get-ChildItem -Path media-bake -Recurse -File | Measure-Object -Property Length -Sum
+```
+
+Kopya sonrası bir mastering WAV’ın SHA-256 özeti kaynak ve hedefte aynı olmalıdır:
+
+```powershell
+Get-FileHash -Algorithm SHA256 .\media-bake\academy\audio\<slug>\<key>.wav
+```
+
+**Kurtarma.** Fırın ve hard-mix süreçleri durur. Ağaç aynı göreli yollarla repo kökündeki `media-bake/` altına geri konur. `academy/audio/{slug}/{key}.wav` dosyası `academyLessonAudioDiskPath` ile açılır. Yayın MP3’ü yeniden basılacaksa kaynak bu WAV’dır (`scripts/hard-mix-academy-bed.ts`). WAV duruyorsa yeni TTS fırını açılmaz. WAV yoksa ve yalnız yayın MP3 duruyorsa hard-mix onu `speech-master` altına kopyalar; bu, mastering kaybını kapatmaz.

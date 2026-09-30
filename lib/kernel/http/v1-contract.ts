@@ -1349,7 +1349,7 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
       title: RAIL_V1_CONTRACT_TITLE,
       version: RAIL_API_VERSION_LABEL,
       description: [
-        `${YETKIN_BRAND} Modüler Monolit + API-First Dron sözleşmesi — Proof / Payments.`,
+        `${YETKIN_BRAND} Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci — Proof / Payments.`,
         "Faz 1 kamu sözleşmesi B2C'dir; Marketplace tag'i ve freelancer path'leri yayınlanmaz (iç bounded-context adı durur).",
         "Kopya `app/api/v1` handler ağacı yoktur; kenar soyar.",
         "Zarf: { ok, error, requestId, apiVersion, data }.",

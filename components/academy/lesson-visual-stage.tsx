@@ -113,6 +113,7 @@ function LessonCinemaMediaCard({
 }) {
   const cinema = card.kind === "veo" ? resolveAcademyCinemaSource(card.src) : null;
   const bakedFile = cinema?.kind === "html5" || cinema?.kind === "hls";
+  const warmupSettled = card.kind === "veo" && (motion === "hold" || motion === "rest");
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [plateSrc, setPlateSrc] = useState(card.src);
 
@@ -148,7 +149,7 @@ function LessonCinemaMediaCard({
       data-academy-media-kind={card.kind}
       data-academy-media-cue={card.cueId}
     >
-      {bakedFile && cinema ? (
+      {bakedFile && cinema && !warmupSettled ? (
         <video
           key={cinema.mp4}
           ref={videoRef}
@@ -167,7 +168,7 @@ function LessonCinemaMediaCard({
           className="academy-player-eye-plate"
           data-motion={motion}
           data-fit={fit ?? "cover"}
-          src={plateSrc}
+          src={warmupSettled ? card.posterSrc : plateSrc}
           alt=""
           width={1280}
           height={720}

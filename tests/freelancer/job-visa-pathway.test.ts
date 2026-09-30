@@ -136,6 +136,7 @@ describe("freelancer ilan visaPathwayId kilidi", () => {
     const job = await createFreelancerJob(world, {
       clientId: SUPER_ADMIN_ID,
       clientEmail: SUPER_ADMIN_EMAIL,
+      clientEmailConfirmedAt: "2026-01-01T00:00:00.000Z",
       title: "Logo ve kartvizit seti",
       brief: "Kurumsal kimlik: logo, kartvizit ve antetli kâğıt.",
       budgetMinor: 250_000,

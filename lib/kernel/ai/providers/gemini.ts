@@ -186,24 +186,25 @@ export const geminiProvider: LlmProviderAdapter = {
   },
   async generateImage(input, signal): Promise<ProviderGenerateImageResult> {
     const client = requireGeminiClient();
-    const response = await client.models.generateImages({
+    const response = await client.models.generateContent({
       model: input.model,
-      prompt: input.prompt,
+      contents: input.prompt,
       config: {
-        numberOfImages: 1,
-        aspectRatio: "16:9",
+        responseModalities: ["IMAGE"],
+        imageConfig: { aspectRatio: "16:9" },
         abortSignal: signal,
         httpOptions: GEMINI_FAST_FAIL_HTTP_OPTIONS,
       },
     });
-    const imageBytes = response.generatedImages?.[0]?.image?.imageBytes;
-    if (!imageBytes) {
+    const parts = response.candidates?.[0]?.content?.parts ?? [];
+    const inline = parts.find((part) => part.inlineData?.data)?.inlineData;
+    if (!inline?.data) {
       throw new Error("Boş görsel yanıtı.");
     }
     const promptTokens = Math.max(1, Math.trunc(input.prompt.length / 4));
     return {
-      mimeType: "image/png",
-      dataBase64: imageBytes,
+      mimeType: inline.mimeType?.trim() || "image/png",
+      dataBase64: inline.data,
       usage: {
         promptTokens,
         completionTokens: 1,

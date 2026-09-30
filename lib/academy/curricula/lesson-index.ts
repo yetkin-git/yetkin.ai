@@ -3,45 +3,19 @@
  * Taslak gövdeleri ve curriculum.ts bu dosyayı import eder (sıra SSOT); bu dosya onları import etmez.
  * Vatandaş ders numarası bu dizinin 1 tabanlı indeksidir. Teknik anahtar (`k1`, `5`) basılmaz.
  * Ders 0 (Başlamadan Önce) bu dizide yoktur; `lib/academy/prep-strip.ts`.
+ * Anahtar tablosu `lib/kernel/catalog-ids/exam-path.ts` içindedir (kenar aynı tabloyu okur).
  * Aşama 2 kilit sıra: Excel → KVKK → rapor → slayt → hata avı
  * → e-posta akışı (Gmail / Outlook, ritüel ilk 2 dk) → Word → Cuma 30.
  * Eski ritüel kaseti `01_office_ai-4` sınav yolunda yoktur; metin `01_office_ai-g1` içindedir.
  * Sınav yalnız son dersten sonra. Hazırlık şeridi bu sayıya girmez.
  */
 
-export const CURRICULUM_LESSON_KEYS_BY_SLUG: Readonly<Record<string, readonly string[]>> = {
-  "01_office_ai": [
-    "01_office_ai-1",
-    "01_office_ai-k1",
-    "01_office_ai-2",
-    "01_office_ai-3",
-    "01_office_ai-5",
-    "01_office_ai-g1",
-    "01_office_ai-w1",
-    "01_office_ai-6",
-  ],
-  "01_office_ai_ileri": [
-    "01_office_ai_ileri-1",
-    "01_office_ai_ileri-2",
-    "01_office_ai_ileri-3",
-    "01_office_ai_ileri-4",
-    "01_office_ai_ileri-5",
-    "01_office_ai_ileri-6",
-  ],
-  "02_ecommerce_ai": [],
-  "03_social_media_ai": [],
-  "04_chatbot_nocode": [],
-  "05_prompt_practice": [],
-};
+import {
+  CURRICULUM_LESSON_COUNT_BY_SLUG,
+  CURRICULUM_LESSON_KEYS_BY_SLUG,
+} from "@/lib/kernel/catalog-ids/exam-path";
 
-export const CURRICULUM_LESSON_COUNT_BY_SLUG: Readonly<Record<string, number>> = {
-  "01_office_ai": 8,
-  "01_office_ai_ileri": 6,
-  "02_ecommerce_ai": 0,
-  "03_social_media_ai": 0,
-  "04_chatbot_nocode": 0,
-  "05_prompt_practice": 0,
-};
+export { CURRICULUM_LESSON_COUNT_BY_SLUG, CURRICULUM_LESSON_KEYS_BY_SLUG };
 
 export function curriculumLessonCountForSlug(slug: string): number {
   return CURRICULUM_LESSON_COUNT_BY_SLUG[slug] ?? 0;

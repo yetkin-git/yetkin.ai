@@ -25,7 +25,6 @@ import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { normalizeAcronyms } from "@/lib/academy/acronym-normalizer";
 import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
 import { academyExamStartGateHref } from "@/lib/academy/continue-board";
-import { ACADEMY_CARD_OFFER_PATHS } from "@/lib/academy/purchase-path";
 import { isAcademyPlayerPaywallLessonLocked } from "@/lib/academy/preview-lock";
 import { academyCheckoutHref } from "@/lib/academy/storefront-cta";
 import { academyCompareDockPrompt, academyVisualCompareStage } from "@/lib/academy/excel-workspace";
@@ -87,6 +86,7 @@ export function CurriculumPlayer({
   curriculumComplete,
   workTasksComplete,
   paywallLocked = false,
+  freePreviewAudio = null,
 }: {
   courseId: string;
   courseSlug: string;
@@ -95,8 +95,10 @@ export function CurriculumPlayer({
   media?: AcademyLessonMediaPrime | null;
   curriculumComplete: boolean;
   workTasksComplete?: boolean;
-  /** Satın alma yok — hazırlık şeridi açık, ana dersler ödeme duvarında. */
+  /** Satın alma yok — ders 1 ve hazırlık şeridi açık, ders 2+ ödeme duvarında. */
   paywallLocked?: boolean;
+  /** Ders 1 imzalı sesi. Oturumsuz vitrin grant API çağırmaz. */
+  freePreviewAudio?: Readonly<Record<string, { src: string; bedSrc?: string | null }>> | null;
 }) {
   primeAcademyLessonMedia(media);
   const router = useRouter();
@@ -106,11 +108,15 @@ export function CurriculumPlayer({
   const firstOpen = lessons.find((lesson) => lesson.open && !lesson.completed) ?? lessons[0];
   const prepStrip = useMemo(() => academyPrepStripForSlug(courseSlug), [courseSlug]);
   const [activeKey, setActiveKey] = useState(() => {
-    if (paywallLocked && prepStrip) {
-      return prepStrip.key;
+    if (paywallLocked) {
+      const preview = lessons.find((lesson) => lesson.open);
+      if (preview) {
+        return preview.key;
+      }
     }
     return firstOpen?.key ?? lessons[0]?.key ?? "";
   });
+  const [funnelOpen, setFunnelOpen] = useState(false);
   const [prepDone, setPrepDone] = useState(false);
   const didInitPrepRef = useRef(false);
   const [error, setError] = useState<string | null>(null);
@@ -146,7 +152,6 @@ export function CurriculumPlayer({
     const done = readAcademyPrepStripDone(courseSlug);
     setPrepDone(done);
     if (paywallLocked) {
-      setActiveKey(prepStrip.key);
       return;
     }
     if (!done && !lessons.some((row) => row.completed) && !curriculumComplete) {
@@ -231,6 +236,9 @@ export function CurriculumPlayer({
       return;
     }
     const blocked = lessonPlaybackBlocked(lessonKey);
+    if (!blocked) {
+      setFunnelOpen(false);
+    }
     setError(null);
     setMediaElapsed(0);
     setMediaPlaying(false);
@@ -354,6 +362,15 @@ export function CurriculumPlayer({
     if (lessonPaywalled || !active.open) {
       return;
     }
+    if (
+      paywallLocked &&
+      nextLesson &&
+      isAcademyPlayerPaywallLessonLocked(courseSlug, nextLesson.key, true)
+    ) {
+      endedLessonKeyRef.current = key;
+      setFunnelOpen(true);
+      return;
+    }
     if (pending && active.open && !activeCompleted) {
       return;
     }
@@ -399,6 +416,15 @@ export function CurriculumPlayer({
       return;
     }
     if (isAcademyPlayerPaywallLessonLocked(courseSlug, active.key, paywallLocked)) {
+      setFunnelOpen(true);
+      return;
+    }
+    if (
+      paywallLocked &&
+      nextLesson &&
+      isAcademyPlayerPaywallLessonLocked(courseSlug, nextLesson.key, true)
+    ) {
+      setFunnelOpen(true);
       return;
     }
     if (active.open && !activeCompleted) {
@@ -438,7 +464,6 @@ export function CurriculumPlayer({
   const prepDurationMin = prepAudioSealed
     ? Math.max(1, Math.round(academyPrepStripAudioDurationSec(courseSlug) / 60))
     : (prepStrip?.estimatedMinutes ?? 0);
-  const trainingCta = ACADEMY_CARD_OFFER_PATHS[0]?.cta ?? "Eğitimi Satın Al";
 
   const playlist = (
     <aside
@@ -540,6 +565,7 @@ export function CurriculumPlayer({
                     return;
                   }
                   if (rowLocked) {
+                    setFunnelOpen(true);
                     selectLesson(lesson.key, { autoStart: false });
                     return;
                   }
@@ -605,30 +631,10 @@ export function CurriculumPlayer({
             ) : null}
 
             {lessonPaywalled && active ? (
-              <section
-                className="academy-player-study min-h-[18rem] rounded-2xl border border-[var(--border)] bg-white px-5 py-8 shadow-[var(--shadow-card)] sm:px-8"
-                data-academy-paywall="locked"
-                data-academy-paywall-lesson={active.key}
-              >
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--safir-deep)]">
-                  {outline.locked}
-                </p>
-                <h3 className="mt-2 text-xl font-semibold tracking-tight text-slate-900">
-                  {normalizeAcronyms(active.title)}
-                </h3>
-                <p className="mt-3 text-[15px] leading-7 text-slate-700">{copy.locked}</p>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{copy.lockedBody}</p>
-                <div className="mt-5">
-                  <LinkButton
-                    href={academyCheckoutHref(courseSlug) as Route}
-                    size="sm"
-                    data-academy-paywall-cta=""
-                  >
-                    {trainingCta}
-                  </LinkButton>
-                </div>
-              </section>
+              <SalesFunnelCard courseSlug={courseSlug} lessonKey={active.key} />
             ) : null}
+
+            {funnelOpen && !lessonPaywalled ? <SalesFunnelCard courseSlug={courseSlug} /> : null}
 
             {karaoke && active && !lessonMediaBlocked ? (
               <section
@@ -655,6 +661,8 @@ export function CurriculumPlayer({
                   lessonTitle={activeTitle}
                   autoStart={autoStartPlayback}
                   audioSrcOverride={karaoke.audioSrc}
+                  grantedSrc={paywallLocked ? freePreviewAudio?.[active.key]?.src : undefined}
+                  grantedBedSrc={paywallLocked ? freePreviewAudio?.[active.key]?.bedSrc : undefined}
                   bedSrcOverride={
                     isAcademyLessonBedSealed(courseSlug, active.key) &&
                     !academyLessonBedIsHardMixed(active.key)
@@ -747,14 +755,15 @@ export function CurriculumPlayer({
                       {copy.exitKitCta}
                     </LinkButton>
                   ) : null}
-                  {lessonPaywalled ? (
+                  {lessonPaywalled || funnelOpen ? (
                     <LinkButton
                       href={academyCheckoutHref(courseSlug) as Route}
                       size="sm"
                       className="min-h-10 rounded-full px-5 text-[13px]"
                       data-academy-paywall-cta=""
+                      data-academy-sales-funnel-cta=""
                     >
-                      {trainingCta}
+                      {copy.funnelTitle}
                     </LinkButton>
                   ) : examOpen && !prepActive ? (
                     <LinkButton
@@ -794,5 +803,41 @@ export function CurriculumPlayer({
         <p className="text-[15px] text-[var(--muted)]">{copy.openCta}</p>
       )}
     </div>
+  );
+}
+
+function SalesFunnelCard({
+  courseSlug,
+  lessonKey,
+}: {
+  courseSlug: string;
+  lessonKey?: string;
+}) {
+  const copy = ACADEMY_SEN.player;
+  return (
+    <section
+      className="academy-player-study min-h-[18rem] rounded-2xl border border-[var(--safir)]/35 bg-white px-5 py-8 shadow-[var(--shadow-card)] sm:px-8"
+      data-academy-sales-funnel=""
+      data-academy-paywall={lessonKey ? "locked" : undefined}
+      data-academy-paywall-lesson={lessonKey}
+    >
+      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--safir-deep)]">
+        {copy.locked}
+      </p>
+      <h3 className="mt-2 max-w-xl text-xl font-semibold tracking-tight text-slate-900">
+        {copy.funnelTitle}
+      </h3>
+      <p className="mt-3 max-w-xl text-[15px] leading-7 text-slate-700">{copy.funnelLead}</p>
+      <div className="mt-5">
+        <LinkButton
+          href={academyCheckoutHref(courseSlug) as Route}
+          size="sm"
+          data-academy-paywall-cta=""
+          data-academy-sales-funnel-cta=""
+        >
+          {copy.funnelTitle}
+        </LinkButton>
+      </div>
+    </section>
   );
 }

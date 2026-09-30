@@ -34,6 +34,7 @@ describe("dikey yazma kenar yüzeyi", () => {
     expect(isProtectedWritePath("/academy")).toBe(false);
     expect(isProtectedCitizenPath("/academy/python-temel/oyna")).toBe(true);
     expect(isProtectedCitizenPath("/academy/01_office_ai/oyna")).toBe(false);
+    expect(isProtectedCitizenPath("/academy/02_ecommerce_ai/oyna")).toBe(false);
     expect(isProtectedWritePath("/devlabs/projeler/abc")).toBe(false);
     expect(isProtectedWritePath("/devlabs")).toBe(false);
   });

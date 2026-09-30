@@ -45,8 +45,10 @@ export function isZeroFeeAcademyGrantOpen(
 }
 
 /**
- * Akademi içerik bypass — Super Admin SSOT (`isSuperAdminActor`).
- * Prisma rol kolonu yok; UUID veya kanonik e-posta aynı kişiyi tanımlar.
+ * Akademi ödeme duvarı muafiyeti.
+ * Prisma `role` kolonu yok. Tek kapı `isSuperAdminActor`:
+ * e-posta doğrulanmış olmalı; üretimde UUID ve kanonik e-posta env birlikte eşleşmeli.
+ * Ayrı e-posta kümesi yoktur. Üretim env’i boşken kanonik adres duvarı açmaz.
  */
 export function hasAcademyAdminBypass(actor: AcademyActor): boolean {
   return isSuperAdminActor({

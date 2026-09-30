@@ -31,8 +31,7 @@ export const ACADEMY_COURSE_TITLES = {
     "Yapay Zekâ ile Sosyal Medya İçeriği (Görsel ve Kısa Video)",
   "04_chatbot_nocode":
     "Müşteri Hizmetleri ve Satış İçin Kodsuz WhatsApp / Web Chatbot Kurulumu (Voiceflow & Botpress)",
-  "05_prompt_practice":
-    "Günlük İşler İçin İstem Yazma",
+  "05_prompt_practice": "Yapay Zekâ Prompt Mühendisliği",
   "06_n8n_automation":
     "Kurumsal İş Akışı Otomasyonu (Self-Hosted n8n, Make & AI Entegrasyonları)",
   "07_langgraph_agents":
@@ -52,6 +51,9 @@ export const ACADEMY_COURSE_TITLES = {
 } as const satisfies Record<(typeof ACADEMY_CANON_SKU_SLUGS)[number], string>;
 
 export type AcademyCourseTitleSlug = keyof typeof ACADEMY_COURSE_TITLES;
+
+/** PR-105 alt tanım. Vitrin özeti bu cümleyle açılır. */
+export const PROMPT_PRACTICE_SUBTITLE = "Yapay Zekâya Doğru Talimat Verme Sanatı";
 
 /**
  * Kanon 13 dışı canlı vitrin kartı. 13’lük tip kilidi burada genişlemez.

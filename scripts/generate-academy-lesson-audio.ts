@@ -75,8 +75,7 @@ import {
 } from "@/lib/academy/media-release-seal";
 import {
   academyBakeVoiceModelId,
-  VOICE_TTS_FALLBACK_TO_2_5,
-  VOICE_TTS_FORBIDDEN_MODEL_ID,
+  assertAcademySealedMediaModel,
 } from "@/lib/kernel/ai/model-roles";
 import {
   collectGeminiInlineAudioParts,
@@ -1290,6 +1289,7 @@ async function main(): Promise<void> {
     return;
   }
   let model = args.model ?? academyBakeVoiceModelId();
+  assertAcademySealedMediaModel("VOICE_TTS", model);
   const jobs = collectJobs(model, args.slug, args.key);
   const voiceProbe = assertSingleCourseVoice(jobs, args.voice, args.sampleOnly);
   const turnCount = jobs.reduce((sum, job) => sum + job.turns.length, 0);
@@ -1411,9 +1411,6 @@ async function main(): Promise<void> {
       sampleOnly: boolean;
       samplePath: string | null;
     };
-    if (activeModel === VOICE_TTS_FORBIDDEN_MODEL_ID || VOICE_TTS_FALLBACK_TO_2_5) {
-      throw new Error("Gemini 2.5 Flash TTS yasaktır. Kota yoksa fırın durur.");
-    }
     try {
       baked = await bakeLessonWav(client, activeJob, activeModel, args.sampleOnly, voiceProbe);
     } catch (error) {
