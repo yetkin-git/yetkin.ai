@@ -10,7 +10,7 @@
  * TikTok, Instagram, Reels, CTR, Voiceflow, Botpress, OpenAI, Make.com,
  * Webhook, Guardrails, Fallback, RAG, LLM, CaaS, SLA,
  * chatgpt.com, claude.ai, perplexity.ai, Few-Shot, Chain-of-Thought, SWOT, Pre-Mortem, Vision);
- * skip-preventer bağlaçlı akışa çevirir; TTS fonetik haritayı okur.
+ * skip-preventer bağlaçlı akışa çevirir ve cümle başı komut nidasını yumuşatır; TTS fonetik haritayı okur.
  */
 
 import { existsSync, readFileSync } from "node:fs";

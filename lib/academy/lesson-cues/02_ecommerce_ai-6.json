@@ -2,11 +2,11 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 93.027,
-    "text": "İNSANİ GİRİŞ VE",
+    "end": 83.255,
+    "text": "İNSANİ GİRİŞ VE HATIRLATMA",
     "section": "İnsani giriş ve hatırlatma",
     "paragraphs": [
-      "Merhaba, ben Deniz. Bugün bu modülün son dersindeyiz. Çayın duruyorsa bir yudum al. Sonra panele beraber bakacağız.",
+      "Merhaba, ben Selin. Bugün bu modülün son dersindeyiz. Çayın duruyorsa bir yudum al. Sonra panele beraber bakacağız.",
       "Geçen ders, beşinci derste, zamana bakmıştık. Elli ürüne aynı şablonla SEO uyumlu ürün açıklaması yazdırmıştık. Şablonu bir kez kurmuştun. Ürün satırlarını bir listeye koymuştun. Yapay zekâ her satır için başlığı, açıklamayı ve özellik maddesini kurmuştu. Bilgisayar başında belin bükülmesin diye o yazıyı tek tek sen yazmamıştın. Ölçüyü satırla karşılaştırmıştın. Listede olmayan kelimeyi silmiştin. Listing'e metni sen koymuştun. O işi orada bırakmıştık.",
       "Yazı vitrine çıkınca dükkân işi bitmez. Alıcı ürünü görür. Aklına bir soru takılır. Soruyu paneldeki Soru Sor kutusuna yazar. Cevap gecikirse alıcı beklemez. Başka mağazanın ürününe gider.",
       "Bu derste odağımız mağaza puanı. Mağaza puanını yukarı çekeceğiz. Müşteriyi kaçırmayacağız. Müşterinin mesajına yapay zekâ asistanı ile bekletmeden cevap vereceğiz. Cevap kibar olacak. Cevap, sorunun işini çözecek. Cevap, ürün bilgisine yüzde yüz sadık kalacak. Bilgide yazmayan kelime taslağa girmeyecek. Puanı yukarı çeken şey, bekletilmeyen ve ürüne sadık cevaptır."
@@ -14,9 +14,9 @@
   },
   {
     "id": "cue-02",
-    "start": 93.277,
-    "end": 680.009,
-    "text": "MAĞAZA PUANI VE",
+    "start": 85.005,
+    "end": 657.983,
+    "text": "MAĞAZA PUANI VE MÜŞTERİ MESAJLARI",
     "section": "Mağaza puanı ve müşteri mesajları",
     "paragraphs": [
       "Sabah dükkânı açarsın. Kargo poşeti masada durur. Panelde biriken sorular da durur. Bir alıcı kargo gününü sorar. Bir alıcı kulpun rengini sorar. Bir alıcı beden sorar. Sen poşeti kapatırken soru orada bekler. Akşam panele dönünce soru hâlâ duruyordur. Aradan saatler geçmiştir. O saatler, alıcının başka mağazaya gittiği saattir.",
@@ -42,8 +42,8 @@
   },
   {
     "id": "cue-03",
-    "start": 680.259,
-    "end": 820.297,
+    "start": 659.733,
+    "end": 776.536,
     "text": "PROMPT",
     "section": "Prompt",
     "paragraphs": [
@@ -56,8 +56,8 @@
   },
   {
     "id": "cue-04",
-    "start": 654.234,
-    "end": 679.073,
+    "start": 776.536,
+    "end": 804.085,
     "text": "DERS SONU ÖZETİ",
     "section": "Ders sonu özeti",
     "paragraphs": [
@@ -66,8 +66,8 @@
   },
   {
     "id": "cue-05",
-    "start": 820.547,
-    "end": 1034.163,
+    "start": 805.835,
+    "end": 979.28,
     "text": "MODÜL KAPANIŞI",
     "section": "Modül kapanışı",
     "paragraphs": [
@@ -83,8 +83,8 @@
   },
   {
     "id": "cue-06",
-    "start": 838.992,
-    "end": 864.734,
+    "start": 979.28,
+    "end": 1012.471,
     "text": "TEBRİK VE VEDA",
     "section": "Tebrik ve veda",
     "paragraphs": [

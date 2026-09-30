@@ -1,11 +1,19 @@
 /**
  * Model skip preventer — paragraf başındaki kısa emir/teknik cümleler
- * Gemini TTS'in sessiz atlamasına yol açar. Cue ekran metni değişmez;
- * yalnız ses metni bağlaçlı akışa çevrilir. Fonetik harita sonra uygulanır.
+ * Gemini TTS'in sessiz atlamasına yol açar. Cümle başındaki tek kelimelik
+ * komut nidası (Gel, Bak, Dur, Hadi, Haydi) gırtlak patlaması üretir;
+ * ses metninde «Şimdi …» akışına iner. Cue ekran metni değişmez.
+ * Fonetik harita sonra uygulanır.
  */
 
 const SENTENCE_BOUNDARY = /(?<=[.!?…])\s+/u;
 const ALREADY_FLOWING = /^(?:şimdi|sonra|ardından|ardindan)\b/iu;
+/**
+ * Cümle başı tek kelime + virgül. «Gel, vitrinin başına…» gibi nida,
+ * TTS'te kısa patlama olur. Asıl yüklem cümlenin devamındadır.
+ */
+const SENTENCE_ONSET_COMMAND_INTERJECTION =
+  /^(?:Gel|Bak|Dur|Hadi|Haydi),\s+/u;
 const MAX_COMMAND_WORDS = 8;
 
 const KEY_TOKEN =
@@ -57,9 +65,32 @@ function expandCommandSentence(sentence: string): string {
   return expandKeyCommand(trimmed) ?? trimmed;
 }
 
+function softenSentenceOnsetCommand(sentence: string): string {
+  const trimmed = sentence.replace(/\s+/gu, " ").trim();
+  if (!trimmed || ALREADY_FLOWING.test(trimmed) || !SENTENCE_ONSET_COMMAND_INTERJECTION.test(trimmed)) {
+    return trimmed;
+  }
+  const rest = trimmed.replace(SENTENCE_ONSET_COMMAND_INTERJECTION, "").trim();
+  if (!rest) {
+    return trimmed;
+  }
+  return `Şimdi ${rest}`;
+}
+
+/** Her cümle başını tarar. Paragrafın ilk cümlesiyle sınırlı değildir. */
+function softenSentenceOnsetCommands(text: string): string {
+  return text
+    .split(SENTENCE_BOUNDARY)
+    .map((part) => softenSentenceOnsetCommand(part))
+    .filter((part) => part.length > 0)
+    .join(" ");
+}
+
 /**
  * Paragraf başındaki kısa emir/teknik cümleyi bağlaçlı akışa çevirir.
+ * Cümle başı komut nidasını da ses metninde yumuşatır.
  * Cue JSON’a uygulanmaz. Örn. "F2'ye bas" → "Şimdi F2 tuşuna basıyorsun."
+ * Örn. "Gel, vitrinin başına beraber geçelim." → "Şimdi vitrinin başına beraber geçelim."
  */
 export function expandAcademyTtsSkipPreventer(text: string): string {
   const trimmed = text.replace(/\s+/gu, " ").trim();
@@ -71,12 +102,14 @@ export function expandAcademyTtsSkipPreventer(text: string): string {
     return "";
   }
   const expanded = expandCommandSentence(head);
-  if (expanded === head) {
-    return trimmed;
+  let merged = trimmed;
+  if (expanded !== head) {
+    if (!rest) {
+      merged = expanded;
+    } else {
+      const headWithStop = /[.!?…]$/u.test(expanded) ? expanded : `${expanded}.`;
+      merged = `${headWithStop} ${rest}`;
+    }
   }
-  if (!rest) {
-    return expanded;
-  }
-  const headWithStop = /[.!?…]$/u.test(expanded) ? expanded : `${expanded}.`;
-  return `${headWithStop} ${rest}`;
+  return softenSentenceOnsetCommands(merged);
 }

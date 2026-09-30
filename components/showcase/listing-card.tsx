@@ -254,7 +254,7 @@ export function ListingCard({
     >
       {showCover ? (
         <div
-          className="relative aspect-[16/9] w-full overflow-hidden rounded-t-[var(--radius-card)] bg-[color-mix(in_srgb,var(--surface-muted)_55%,transparent)]"
+          className="relative aspect-[16/9] h-44 max-h-48 w-full shrink-0 overflow-hidden rounded-t-[var(--radius-card)] bg-[color-mix(in_srgb,var(--surface-muted)_55%,transparent)] [&_img]:absolute [&_img]:inset-0 [&_img]:h-full [&_img]:w-full [&_img]:object-cover"
           data-academy-catalog-cover=""
           data-academy-coming-soon-cover={coverComingSoon ? "" : undefined}
         >
@@ -266,7 +266,7 @@ export function ListingCard({
               eager={coverPriority}
               highPriority={coverPriority}
               sizes={coverSizes}
-              className="h-full w-full object-cover transition duration-200 group-hover:scale-[1.03]"
+              className="absolute inset-0 h-full w-full object-cover transition duration-200 group-hover:scale-[1.03]"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center">

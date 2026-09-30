@@ -7,6 +7,7 @@ import {
   academyLessonJsonGeneration,
   readAcademyLessonJson,
 } from "@/lib/academy/lesson-json-store";
+import { applyAcademyCueDisplayPhonetics } from "@/lib/academy/spoken-scripts/phonetics";
 
 export type AcademySealedAudioPiece = {
   index: number;
@@ -185,4 +186,82 @@ export function applyAcademySealedAudioTimingsToCues<
     }
   }
   return result;
+}
+
+function roundCueSec(value: number): number {
+  return Math.round(value * 1000) / 1000;
+}
+
+function ecommerceOpeningProbes(paragraph: string): string[] {
+  const raw = academyCueClockProbe(paragraph).slice(0, 48);
+  const spoken = academyCueClockProbe(applyAcademyCueDisplayPhonetics(paragraph)).slice(0, 48);
+  return [...new Set([spoken, raw].filter((probe) => probe.length >= 12))];
+}
+
+/**
+ * EC-102 cue saati. Parça `cueId` sınırı esastır.
+ * Parçasız özet ve veda, fonetik parça metninin içinden okunur.
+ * Saatler dosya sırasında artar. Son `end` ses süresidir.
+ */
+export function sealEcommerceCueClock<
+  T extends { id: string; start: number; end: number; paragraphs?: readonly string[] },
+>(cues: readonly T[], timings: AcademySealedAudioTimings | null): readonly T[] {
+  if (!timings || timings.pieces.length === 0 || cues.length === 0) {
+    return cues;
+  }
+  const windows = cues.map((cue) => {
+    const group = timings.pieces.filter((piece) => piece.cueId === cue.id);
+    if (group.length > 0) {
+      return { start: group[0]!.start, end: group[group.length - 1]!.end, placed: true };
+    }
+    const probes = ecommerceOpeningProbes(cue.paragraphs?.[0] ?? "");
+    for (let pieceIndex = 0; pieceIndex < timings.pieces.length; pieceIndex += 1) {
+      const piece = timings.pieces[pieceIndex]!;
+      const body = academyCueClockProbe(piece.text);
+      if (body.length === 0) {
+        continue;
+      }
+      const at = probes.reduce((found, probe) => (found >= 0 ? found : body.indexOf(probe)), -1);
+      if (at < 0) {
+        continue;
+      }
+      const span = Math.max(0, piece.end - piece.start);
+      return {
+        start: piece.start + (at / body.length) * span,
+        end: piece.end,
+        placed: true,
+      };
+    }
+    return { start: cue.start, end: cue.end, placed: false };
+  });
+  for (let index = 1; index < windows.length; index += 1) {
+    const previous = windows[index - 1]!;
+    const current = windows[index]!;
+    if (current.start < previous.start) {
+      current.start = previous.end;
+      current.placed = false;
+    }
+    if (current.start < previous.end) {
+      previous.end = current.start;
+    }
+    if (current.end < current.start) {
+      current.end = current.start;
+    }
+  }
+  const last = windows[windows.length - 1]!;
+  if (last.end < timings.durationSec) {
+    last.end = timings.durationSec;
+  }
+  if (last.start >= last.end && windows.length > 1) {
+    const previous = windows[windows.length - 2]!;
+    const split = Math.max(previous.start, timings.durationSec - 0.25);
+    previous.end = split;
+    last.start = split;
+    last.end = timings.durationSec;
+  }
+  return cues.map((cue, index) => ({
+    ...cue,
+    start: roundCueSec(Math.max(0, windows[index]!.start)),
+    end: roundCueSec(windows[index]!.end),
+  }));
 }

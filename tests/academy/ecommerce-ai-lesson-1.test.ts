@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
-import { academyInstructorBySlug } from "@/lib/academy/instructors";
+import { academyInstructorBySlug, academyInstructorHonorific } from "@/lib/academy/instructors";
 import { isAcademyLessonBedSealed } from "@/lib/academy/lesson-audio";
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import {
@@ -20,16 +20,21 @@ describe("02_ecommerce_ai gövde ve cue — ses mührü fırın sonrası", () =>
   it("konuşma gövdesi ve cue durur; karaoke ses dosyası mühürlenmeden açılmaz", () => {
     const lessons = curriculumForCourseSlug(SLUG);
     expect(lessons).toHaveLength(6);
-    expect(lessons[0]?.body).toContain("Merhaba, ben Deniz");
+    expect(lessons[0]?.body).toContain("Merhaba, ben Selin");
+    expect(lessons[0]?.body).toContain("Şimdi vitrinin başına beraber geçelim");
+    expect(lessons[0]?.body).not.toContain("Gel, vitrinin");
+    expect(lessons[0]?.body).not.toContain("Selin Usta");
     expect(isAcademySpokenScriptLessonKey(`${SLUG}-1`)).toBe(false);
-    expect(loadAcademySpokenScriptProse(`${SLUG}-1`)).toContain("Merhaba, ben Deniz");
+    expect(loadAcademySpokenScriptProse(`${SLUG}-1`)).toContain("Merhaba, ben Selin");
     expect(hasAcademyLessonCues(`${SLUG}-1`)).toBe(true);
     expect(hasAcademyLessonVisualStage(`${SLUG}-1`)).toBe(true);
     expect(isAcademyLessonAudioSealed(SLUG, `${SLUG}-1`)).toBe(true);
     expect(academyCitizenPlayerLayer(SLUG, `${SLUG}-1`).kind).toBe("article+karaoke");
-    expect(academyInstructorBySlug(SLUG).name).toBe("Deniz");
-    expect(academyInstructorBySlug(SLUG).voice).toBe("Puck");
-    expect(academyInstructorBySlug(SLUG).gender).toBe("erkek");
+    expect(academyInstructorBySlug(SLUG).name).toBe("Selin");
+    expect(academyInstructorBySlug(SLUG).greetingLead).toBe("Merhaba, ben Selin");
+    expect(academyInstructorHonorific(academyInstructorBySlug(SLUG))).toBe("Selin Hanım");
+    expect(academyInstructorBySlug(SLUG).voice).toBe("Aoede");
+    expect(academyInstructorBySlug(SLUG).gender).toBe("kadin");
     expect(isAcademyLessonBedSealed(SLUG, `${SLUG}-1`)).toBe(true);
     expect(academyBedSpeechGainForLesson(`${SLUG}-1`)).toBe(ACADEMY_EC102_BED_SPEECH_GAIN);
     expect(academyLessonWarmupVeoAssetKey(`${SLUG}-1`)).toBe("02_ecommerce_ai-listing-warmup");

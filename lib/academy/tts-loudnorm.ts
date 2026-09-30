@@ -24,6 +24,16 @@ export const ACADEMY_LOUDNORM_FILTER =
 /** Konuşma parçası WSOLA. Birleşik ders zaman çizelgesine uygulanmaz. */
 export const ACADEMY_BAKE_ATEMPO = 0.93 as const;
 
+/**
+ * EC-102 (`02_ecommerce_ai`) konuşma parçası bu katsayıda kilitlidir.
+ * Eğitmen evi `ACADEMY_EC102_SPEECH_RATE` ile aynı sayıdır: %93.
+ */
+export const ACADEMY_EC102_BAKE_ATEMPO = 0.93 as const;
+
+if (ACADEMY_EC102_BAKE_ATEMPO !== ACADEMY_BAKE_ATEMPO) {
+  throw new Error("EC-102 atempo fırın katsayısından saptı.");
+}
+
 function ffmpegBinary(): string {
   const ffmpegPath = require("ffmpeg-static") as string | null;
   if (!ffmpegPath) {

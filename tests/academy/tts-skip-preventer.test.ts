@@ -34,7 +34,50 @@ describe("TTS model skip preventer", () => {
     expect(applyAcademyCueDisplayPhonetics("F2 tuşuna basardın")).toContain("Ef iki");
     expect(applyAcademyCueDisplayPhonetics("+90")).toMatch(/artı doksan/iu);
     expect(applyAcademyCueDisplayPhonetics("Alt+F11")).toBe("Alt Ef on bir");
-    expect(applyAcademyCueDisplayPhonetics("SEO")).toBe("Es i o");
+    expect(applyAcademyCueDisplayPhonetics("SEO")).toBe("Seo");
+    expect(applyAcademyCueDisplayPhonetics("SEO'dur")).toBe("Seo'dur");
+    expect(applyAcademyCueDisplayPhonetics("Es i o")).toBe("Seo");
+    expect(applyAcademyCueDisplayPhonetics("ÇiçekSepeti")).toBe("Çiçek sepeti");
+    expect(applyAcademyCueDisplayPhonetics("PttAVM")).toBe("Piti avm");
+    expect(applyAcademyCueDisplayPhonetics("Listing'e")).toBe("Listin'e");
+    expect(applyAcademyCueDisplayPhonetics("Prompt")).toBe("Promt");
+    expect(applyAcademySpokenPhoneticsToDisplay("Çiçek sepeti")).toBe("ÇiçekSepeti");
+    expect(applyAcademySpokenPhoneticsToDisplay("Piti avm")).toBe("PttAVM");
+    expect(applyAcademySpokenPhoneticsToDisplay("Listin")).toBe("Listing");
+    expect(applyAcademySpokenPhoneticsToDisplay("Promt")).toBe("Prompt");
+    expect(applyAcademySpokenPhoneticsToDisplay("Seo")).toBe("SEO");
+    expect(applyAcademySpokenPhoneticsToDisplay("Es i o'dur")).toBe("SEO'dur");
+    expect(applyAcademyCueDisplayPhonetics("elliye yetmiş santimetre, iki adet")).toBe(
+      "elliye yetmiş santimetre, iki adet",
+    );
+    expect(applyAcademySpokenPhoneticsToDisplay("elliye yetmiş santimetre, iki adet")).toBe("50x70 cm, 2 adet");
+    expect(applyAcademyCueDisplayPhonetics("50x70 cm, 2 adet")).toBe("elliye yetmiş santimetre, iki adet");
+    expect(
+      applyAcademySpokenPhoneticsToDisplay(
+        "Pamuklu mutfak havlusu, ekru, elliye yetmiş santimetre, iki adet.",
+      ),
+    ).toBe("Pamuklu mutfak havlusu, ekru, 50x70 cm, 2 adet.");
+    expect(applyAcademySpokenPhoneticsToDisplay("Ölçü elliye yetmiş santimetredir.")).toBe("Ölçü 50x70 cm.");
+    expect(applyAcademySpokenPhoneticsToDisplay("kırk sekiz santimetredir")).toBe("48 cm");
+    expect(applyAcademySpokenPhoneticsToDisplay("üç yüz mililitredir")).toBe("300 ml");
+    expect(applyAcademySpokenPhoneticsToDisplay("yüz yirmi mililitre")).toBe("120 ml");
+    expect(applyAcademySpokenPhoneticsToDisplay("iki adettir")).toBe("2 adettir");
+    expect(applyAcademySpokenPhoneticsToDisplay("yüzde yüz pamuk")).toBe("%100 pamuk");
+    expect(applyAcademySpokenPhoneticsToDisplay("yüz yirmi liranın yüzde on beşi, on sekiz liradır.")).toBe(
+      "120 liranın %15'i, 18 liradır.",
+    );
+    expect(
+      applyAcademySpokenPhoneticsToDisplay(
+        "göğüs genişliği küçük kırk sekiz, orta elli iki, büyük elli altı santimetredir",
+      ),
+    ).toBe("göğüs genişliği küçük 48 cm, orta 52 cm, büyük 56 cm");
+    expect(applyAcademySpokenPhoneticsToDisplay("Elliye yetmiş havlu")).toBe("50x70 havlu");
+    expect(applyAcademySpokenPhoneticsToDisplay("iki havlu")).toBe("iki havlu");
+    expect(applyAcademySpokenPhoneticsToDisplay("Bu yüzden santimetre yazılmaz")).toBe(
+      "Bu yüzden santimetre yazılmaz",
+    );
+    expect(applyAcademyCueDisplayPhonetics("30 dakikalık")).toBe("30 dakikalık");
+    expect(applyAcademyCueDisplayPhonetics("%100 aynı")).toBe("%100 aynı");
     expect(applyAcademyCueDisplayPhonetics("N11")).toBe("En on bir");
     expect(applyAcademySpokenPhoneticsToDisplay("En on bir")).toBe("N11");
     expect(applyAcademyCueDisplayPhonetics("Trendyol")).toBe("Trend yol");
@@ -97,6 +140,30 @@ describe("TTS model skip preventer", () => {
     expect(applyAcademySpokenPhoneticsToDisplay("Ayda otuz dikey")).toBe("Ayda otuz dikey");
     expect(applyAcademySpokenPhoneticsToDisplay("Ayda ve Pas")).toBe("AIDA ve PAS");
     expect(applyAcademySpokenPhoneticsToDisplay("Bir: Ayda.")).toBe("Bir: AIDA.");
+  });
+
+  it("cümle başı tek kelimelik komut nidasını seste akışa çevirir", () => {
+    expect(
+      expandAcademyTtsSkipPreventer(
+        "Merhaba, ben Selin. Hoş geldin. İlk dersimizdeyiz. Gel, vitrinin başına beraber geçelim.",
+      ),
+    ).toBe("Merhaba, ben Selin. Hoş geldin. İlk dersimizdeyiz. Şimdi vitrinin başına beraber geçelim.");
+    expect(expandAcademyTtsSkipPreventer("Gel, tezgâhın kenarına şöyle otur.")).toBe(
+      "Şimdi tezgâhın kenarına şöyle otur.",
+    );
+    expect(expandAcademyTtsSkipPreventer("Merhaba, ben Selin. Gel, bugün kasaya beraber bakalım.")).toBe(
+      "Merhaba, ben Selin. Şimdi bugün kasaya beraber bakalım.",
+    );
+    expect(expandAcademyTtsSkipPreventer("Bak, fiyat tabanın altında. Dur, bu adımı atlama.")).toBe(
+      "Şimdi fiyat tabanın altında. Şimdi bu adımı atlama.",
+    );
+    expect(expandAcademyTtsSkipPreventer("Hadi, kasaya bakalım.")).toBe("Şimdi kasaya bakalım.");
+    expect(expandAcademyTtsSkipPreventer("Şimdi vitrinin başına beraber geçelim.")).toBe(
+      "Şimdi vitrinin başına beraber geçelim.",
+    );
+    expect(expandAcademyTtsSkipPreventer("Hoş geldin. İlk dersimizdeyiz.")).toBe(
+      "Hoş geldin. İlk dersimizdeyiz.",
+    );
   });
 
   it("akış cümlesini ve selamlaşmayı dokunmadan bırakır", () => {

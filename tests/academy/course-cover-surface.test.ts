@@ -62,6 +62,12 @@ describe("akademi vitrin kapak — amiral 1. bölüm + Yakında şablonu", () =>
     expect(ACADEMY_HOME_LCP_COVER_AVIF_SRCSET).toContain("01_office_ai-1-eye.avif");
     expect(ACADEMY_HOME_LCP_PRELOAD_LINK).toBe("");
     expect(ACADEMY_CATALOG_LCP_PRELOAD_LINK).toBe("");
+    expect(academyCourseCoverPath("02_ecommerce_ai")).toBe(
+      "/academy/cinema/02_ecommerce_ai-1-cue-1.jpg",
+    );
+    expect(existsSync(join(ROOT, "public", "academy", "cinema", "02_ecommerce_ai-1-cue-1.jpg"))).toBe(
+      true,
+    );
     expect(academyCourseCoverPath("01_office_ai_ileri")).toBe("/academy/covers/01_office_ai_ileri.jpg");
     expect(existsSync(join(ROOT, "public", "academy", "covers", "01_office_ai_ileri.jpg"))).toBe(true);
     expect(existsSync(join(ROOT, "public", "academy", "covers", "01_office_ai_ileri.svg"))).toBe(false);
@@ -107,6 +113,8 @@ describe("akademi vitrin kapak — amiral 1. bölüm + Yakında şablonu", () =>
     expect(academy).not.toContain("preload(");
     expect(academy).not.toContain("ACADEMY_HOME_LCP_COVER_AVIF");
     expect(listing).toContain("aspect-[16/9]");
+    expect(listing).toContain("h-44");
+    expect(listing).toContain("max-h-48");
     expect(listing).toContain("data-academy-coming-soon-cover");
     expect(config).toContain('source: "/academy"');
     expect(config).not.toContain("ACADEMY_CATALOG_LCP_PRELOAD_LINK");

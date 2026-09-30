@@ -5,7 +5,7 @@
  *
  * `01_office_ai` çekirdek kaydı durur; 8 ders mühürlü ses (`1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`).
  * OFF-201 `01_office_ai_ileri` canlıdır. Tek ses Aylin (Kore). Durum cümlesi `academyOff201VoiceStatus`.
- * EC-102 `02_ecommerce_ai` kamu kapısı açıktır. Konuşan ad Deniz. Satış `ACADEMY_EC102_PUBLIC_RELEASE_OPEN` ile okunur.
+ * EC-102 `02_ecommerce_ai` kamu kapısı açıktır. Konuşan ad Selin. Satış `ACADEMY_EC102_PUBLIC_RELEASE_OPEN` ile okunur.
  * Eski Callirrhoe kasetleri arşivdedir. Yeniden fırın kuyruğu boştur.
  * Eski ritüel kaseti `01_office_ai-4` sınav yolunda ve ses mühründe yoktur; dosya arşivde kalır.
  * Sınav yolu `lesson-index.ts` üzerinden `lib/kernel/catalog-ids/exam-path.ts` tablosunu okur.
@@ -64,11 +64,18 @@ export function academyOff201VoiceStatus(): string {
 }
 
 /**
- * EC-102 gövde. Fırın sesi Puck (sicil adı Kaan, cinsiyet erkek). Konuşan ad Deniz.
- * Kadın Deniz sesi bu mühürde yoktur. Kaset yeniden fırınlanmadan kapı açılmaz.
+ * EC-102 gövde. Fırın sesi Aoede (sicil adı Selin, cinsiyet kadın). Konuşan ad Selin.
+ * Kart hitabı «Selin Hanım». Usta unvanı bu kursta yoktur. Kaset yeniden fırınlanmadan yeni ağız diske yazılmaz.
  * Yayın, fiyat ve disk mührü `academyCourseSaleOpen` içinde birlikte okunur.
  */
 export const ACADEMY_NEXT_BODY_SKU_SLUG = "02_ecommerce_ai" as const;
+
+/**
+ * EC-102 vitrin kapağı. 1. dersin ilk sinema karesi.
+ * Kart `academyCourseCoverPath` bu yolu okur.
+ */
+export const ACADEMY_EC102_STOREFRONT_COVER =
+  "/academy/cinema/02_ecommerce_ai-1-cue-1.jpg" as const;
 
 /**
  * EC-102 kamu kapısı. Açıkken satış, antre, oynatıcı ve site haritası bu bayrağı okur.

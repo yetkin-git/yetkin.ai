@@ -2,20 +2,20 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 149.552,
-    "text": "İNSANİ GİRİŞ VE",
+    "end": 153.292,
+    "text": "İNSANİ GİRİŞ VE ORYANTASYON",
     "section": "İnsani giriş ve oryantasyon",
     "paragraphs": [
-      "Merhaba, ben Deniz. Hoş geldin. İlk dersimizdeyiz. Gel, vitrinin başına beraber geçelim.",
+      "Merhaba, ben Selin. Hoş geldin. İlk dersimizdeyiz. Şimdi vitrinin başına beraber geçelim.",
       "Bu altı ders boyunca yapay zekâyı tezgâhının yanında bir asistan gibi kullanacağız. Asistan tekrar eden yazıyı kurar. Sen okursun. Sen karar verirsin. Vitrine de sen koyarsın. İşin özü iki yerde durur. Satışın artsın. Hatalı işlem cebinden para götürmesin. Pazaryerin Trendyol da olur, Hepsiburada da, Amazon da. N11 de, ÇiçekSepeti de, PttAVM de, Getir de, Pazarama da aynı masaya oturur. Panelin adı değişir. Kârın ve zararın girdiği yer değişmez. Her ürünün yazısını gece boyu, ezberden, tek başına kurmaya kalkarsan akşam biter. Ölçüyü atladığın cümle de alıcıya yanlış mal vaat eder. Yanlış vaat geri döner. Geri dönen malın kargo parası da çoğu zaman senin sırtına biner. O yüzden bu seride paneli kör doldurmayacağız. Ürünün gerçek bilgisini asistana vereceğiz. Çıkan metni sen okuyacaksın. Kutuda olmayan cümleyi sileceksin.",
       "Bu ilk derste vitrinin yazısına bakıyoruz. Alıcı arama kutusuna malın adını yazar. Senin başlığın o adla açılmazsa, alıcı seni o aramada göremez. Göremezse tıklamaz. Tıklamazsa satış olmaz. Bu işin adı SEO'dur. SEO, ürünün aramada çıkması için başlığa ve açıklamaya doğru kelimeyi koymaktır. Bir de açıklama boş kalırsa alıcı ne aldığını anlamaz. Anlamazsa sepete koymaz. Bugün o başlığı ve o açıklamayı, elindeki gerçek üründen kuracağız."
     ]
   },
   {
     "id": "cue-02",
-    "start": 149.802,
-    "end": 599.438,
-    "text": "SEO BAŞLIK VE",
+    "start": 155.042,
+    "end": 604.757,
+    "text": "SEO BAŞLIK VE ÜRÜN AÇIKLAMASI",
     "section": "SEO başlık ve ürün açıklaması",
     "paragraphs": [
       "Ürünün vitrin sayfasına Listing denir. Başlık da, açıklama da, özellik listesi de bu sayfanın içindedir. Alıcının gördüğü vitrin budur.",
@@ -38,8 +38,8 @@
   },
   {
     "id": "cue-03",
-    "start": 599.688,
-    "end": 869.365,
+    "start": 606.507,
+    "end": 808.757,
     "text": "PROMPT",
     "section": "Prompt",
     "paragraphs": [
@@ -53,8 +53,8 @@
   },
   {
     "id": "cue-04",
-    "start": 677.266,
-    "end": 702.556,
+    "start": 808.757,
+    "end": 835.446,
     "text": "DERS SONU ÖZETİ",
     "section": "Ders sonu özeti",
     "paragraphs": [
@@ -63,9 +63,9 @@
   },
   {
     "id": "cue-05",
-    "start": 702.806,
-    "end": 727.645,
-    "text": "GELECEK DERS VE",
+    "start": 835.446,
+    "end": 863.128,
+    "text": "GELECEK DERS VE VEDA",
     "section": "Gelecek ders ve veda",
     "paragraphs": [
       "Sıradaki ders ikinci ders. Orada pazaryeri görsel standartlarına bakacağız. Ürün fotoğrafının arka planını temizleyeceğiz. Yazı doğru olsa da ilk kare mutfak masasında kalırsa alıcı ürünün rengini göremez. Göremezse yine sepete koymaz. O işi sıradaki derste ele alacağız.",

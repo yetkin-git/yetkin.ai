@@ -2,20 +2,20 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 77.91,
-    "text": "İNSANİ GİRİŞ VE",
+    "end": 80.557,
+    "text": "İNSANİ GİRİŞ VE HATIRLATMA",
     "section": "İnsani giriş ve hatırlatma",
     "paragraphs": [
-      "Merhaba, ben Deniz. Yeni bir dersle yine beraberiz! Umarım keyifler yerindedir.",
+      "Merhaba, ben Selin. Yeni bir dersle yine beraberiz! Umarım keyifler yerindedir.",
       "Geçen ders, ikinci derste, stüdyoya gidip stüdyo parası ödemeden ürün fotoğrafını pazaryerinin görsel kuralına getirmiştik. Arka planı düz beyaz bırakmıştık, üstüne stüdyo ışığı vurmuştuk, filigranı silmiştik ve kareyi net tutmuştuk. Bunu alıcı ürünün kendi rengini ve kendi şeklini görsün diye yaptık, bir de yanlış fotoğraf yüzünden geri dönen iadenin önüne geçelim diye. O işi orada bırakmıştık. Fotoğraf düzelince şikâyet kendiliğinden bitmez. Müşteri malı eline alınca yazar, kargo kutuyu hırpalayınca yazar, Listing'de ölçü eksik kalınca da yazar.",
       "Bu derste odağımız tamamen cebindeki parayı korumak. Müşterinin yazdığı yorumu, gelen şikâyeti ve iade gerekçesini yapay zekâ ile okuyacağız, hatayı da kaynağında çözeceğiz. Kaynak bazen ürünün kendisidir, bazen Listing yazısıdır, bazen fotoğraftır, bazen de kutunun kargodaki halidir. Kaynağı düzeltmezsen aynı şikâyet yarın yine düşer. Düşen her kötü yorum mağaza puanını aşağı çeker. Geri dönen her iade, kargo parasını senin sırtına yükler."
     ]
   },
   {
     "id": "cue-02",
-    "start": 78.16,
-    "end": 438.333,
-    "text": "MÜŞTERİ YORUMLARI VE",
+    "start": 82.307,
+    "end": 430.732,
+    "text": "MÜŞTERİ YORUMLARI VE İADE",
     "section": "Müşteri yorumları ve iade",
     "paragraphs": [
       "Şimdi pazaryeri paneline beraber bakalım. Pazaryerin Trendyol da olur, Hepsiburada da, Amazon da, N11 de, ÇiçekSepeti de, PttAVM de, Getir de, Pazarama da. Panelin adı değişir, zarar yine aynı yerden girer. Sabah çayın yanında paneli açtığında gözüne ilk bir yıldızlı yorumlar çarpar. O tek yıldız mağaza puanının ortalamasını aşağı çeker. Alıcı sepete koymadan önce bu puana bakar. Puan düşünce aynı malı satan yüksek puanlı mağazaya kayar, senin Listing'in aramada geride kalır ve satışın kesilir. Aramada geride kalma işinin adı SEO'dur. Birinci derste SEO'yu başlık için konuşmuştuk. Bugün aynı SEO, puan düşünce de seni geride bırakır.",
@@ -32,8 +32,8 @@
   },
   {
     "id": "cue-03",
-    "start": 438.583,
-    "end": 607.601,
+    "start": 432.482,
+    "end": 541.385,
     "text": "PROMPT",
     "section": "Prompt",
     "paragraphs": [
@@ -45,8 +45,8 @@
   },
   {
     "id": "cue-04",
-    "start": 483.073,
-    "end": 507.008,
+    "start": 541.385,
+    "end": 566.527,
     "text": "DERS SONU ÖZETİ",
     "section": "Ders sonu özeti",
     "paragraphs": [
@@ -55,13 +55,13 @@
   },
   {
     "id": "cue-05",
-    "start": 507.258,
-    "end": 528.484,
-    "text": "GELECEK DERS VE",
+    "start": 566.527,
+    "end": 591.122,
+    "text": "GELECEK DERS VE VEDA",
     "section": "Gelecek ders ve veda",
     "paragraphs": [
       "Sıradaki ders dördüncü ders. Orada yapay zekâ ile rakip analizi yapacağız, fiyatı nasıl koyacağını konuşacağız ve kâr marjını nasıl koruyacağını göreceğiz. Başkasının fiyatını olduğu gibi almak yerine kendi maliyetini ezdirmeden bakacağız.",
-      "Herkese bol kazançlı günler, hayırlı müşteriler diliyorum. Sonraki derste görüşmek üzere. Kendinize çok iyi bakın. Selamlar."
+      "Herkese bol kazançlı günler, hayırlı müşteriler diliyorum. Sonraki derste görüşmek üzere. Kendine çok iyi bak. Selamlar."
     ]
   }
 ]

@@ -9,7 +9,7 @@ import {
 } from "@/lib/academy/curricula/lesson-index";
 import { officeAiMasteryModule } from "@/lib/academy/curricula/office_ai";
 import { officeAi2MasteryModule } from "@/lib/academy/curricula/office_ai_2";
-import { ecommerceAiMasteryModule } from "@/lib/academy/curricula/ecommerce_ai";
+import { ecommerceAiMasteryModule } from "@/lib/academy/curricula/02_ecommerce_ai";
 import { socialMediaAiMasteryModule } from "@/lib/academy/curricula/social_media_ai";
 import { chatbotNocodeMasteryModule } from "@/lib/academy/curricula/chatbot_nocode";
 import { promptPracticeMasteryModule } from "@/lib/academy/curricula/prompt_practice";

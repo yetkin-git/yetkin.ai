@@ -1,4 +1,4 @@
-Merhaba, ben Deniz. Hoş geldin. İlk dersimizdeyiz. Gel, vitrinin başına beraber geçelim.
+Merhaba, ben Selin. Hoş geldin. İlk dersimizdeyiz. Şimdi vitrinin başına beraber geçelim.
 
 Bu altı ders boyunca yapay zekâyı tezgâhının yanında bir asistan gibi kullanacağız. Asistan tekrar eden yazıyı kurar. Sen okursun. Sen karar verirsin. Vitrine de sen koyarsın. İşin özü iki yerde durur. Satışın artsın. Hatalı işlem cebinden para götürmesin. Pazaryerin Trendyol da olur, Hepsiburada da, Amazon da. N11 de, ÇiçekSepeti de, PttAVM de, Getir de, Pazarama da aynı masaya oturur. Panelin adı değişir. Kârın ve zararın girdiği yer değişmez. Her ürünün yazısını gece boyu, ezberden, tek başına kurmaya kalkarsan akşam biter. Ölçüyü atladığın cümle de alıcıya yanlış mal vaat eder. Yanlış vaat geri döner. Geri dönen malın kargo parası da çoğu zaman senin sırtına biner. O yüzden bu seride paneli kör doldurmayacağız. Ürünün gerçek bilgisini asistana vereceğiz. Çıkan metni sen okuyacaksın. Kutuda olmayan cümleyi sileceksin.
 

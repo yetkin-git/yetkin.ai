@@ -162,8 +162,8 @@ const COURSES: readonly SkeletonCourse[] = [
     ],
     methodology:
       "Canlı diyalog ve sen dili, adım adım ekran rehberliği, sıfır kodlama, satış ve verimlilik odaklı pratik çözümler",
-    voice: "Kore",
-    voiceGender: "female",
+    voice: "Zephyr",
+    voiceGender: "male",
     voiceStyle: "Canlı diyalog ve sen dili, sakin ekran rehberliği",
     examPrefix: "q_ec_",
     poolRef: "lib/academy/exam-pools.ts#ECOMMERCE_AI_EXAM_QUESTIONS",

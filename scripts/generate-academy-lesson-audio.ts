@@ -384,6 +384,7 @@ function parseArgs(argv: readonly string[]): {
   noDb: boolean;
   noFallback: boolean;
   sampleOnly: boolean;
+  bypassCache: boolean;
   slug: AcademySealedSkuSlug | null;
   key: string | null;
   model: string | null;
@@ -421,6 +422,7 @@ function parseArgs(argv: readonly string[]): {
     noDb: argv.includes("--no-db"),
     noFallback: argv.includes("--no-fallback"),
     sampleOnly: argv.includes("--sample-only"),
+    bypassCache: argv.includes("--bypass-cache"),
     slug,
     key,
     model: rawModel,
@@ -951,7 +953,7 @@ async function loadOrSynthesizePiece(input: {
   bypassCache?: boolean;
 }): Promise<{ wav: Buffer; wavPath: string; mp3Path: string; fromCache: boolean }> {
   const spokenText = injectAcademyTtsBreathPauses(input.text);
-  const acoustic = academyTtsStudioFingerprintMaterial();
+  const acoustic = academyTtsStudioFingerprintMaterial(spokenText);
   const rawFingerprint = academyTtsRawPieceFingerprint({
     model: input.model,
     voice: input.voiceName,
@@ -1019,6 +1021,7 @@ async function bakeLessonWav(
   model: string,
   sampleOnly = false,
   voiceProbe: string | null = null,
+  bypassCache = false,
 ): Promise<{
   wav: Buffer;
   pieces: AcademySealedAudioPiece[];
@@ -1084,7 +1087,7 @@ async function bakeLessonWav(
       index,
       voiceName: voiceProbe ?? chunk.voiceName,
       text: chunk.text,
-      bypassCache: sampleOnly,
+      bypassCache: sampleOnly || bypassCache,
     });
     const chunkWav = piece.wav;
     const chunkSec = pcmWavDurationSec(chunkWav);
@@ -1294,8 +1297,13 @@ async function main(): Promise<void> {
   const voiceProbe = assertSingleCourseVoice(jobs, args.voice, args.sampleOnly);
   const turnCount = jobs.reduce((sum, job) => sum + job.turns.length, 0);
   const forceBake = args.force;
-  if (forceBake) {
+  if (forceBake && !args.bypassCache) {
     process.stdout.write("--force mühürlü MP3'ün üzerine yazmaz. Korunan kaset Error ile durur.\n");
+  }
+  if (args.bypassCache) {
+    process.stdout.write(
+      "--bypass-cache parça ve ham önbelleği yok sayar. Mühürlü yayın MP3'ünün üzerine yazar.\n",
+    );
   }
   process.stdout.write(
     `academy-audio bake — ${jobs.length} ders, ${turnCount} tur, model=${model}${args.dryRun ? " (dry-run)" : ""}${args.sampleOnly ? " (sample-only)" : ""}\n`,
@@ -1326,7 +1334,7 @@ async function main(): Promise<void> {
           voice: chunk.voiceName,
           speechRate: ACADEMY_INSTRUCTOR_SPEECH_RATE,
           text: spokenText,
-          acoustic: academyTtsStudioFingerprintMaterial(),
+          acoustic: academyTtsStudioFingerprintMaterial(spokenText),
           dspRev: ACADEMY_TTS_DSP_REV,
         });
         const paths = academyTtsPieceCachePaths({
@@ -1368,7 +1376,7 @@ async function main(): Promise<void> {
   const plannedByCourse = new Map<string, number>();
   for (const job of jobs) {
     assertDryRunApproved(job);
-    if (!args.sampleOnly) {
+    if (!args.sampleOnly && !args.bypassCache) {
       assertSealedMp3Protected(job);
     }
     plannedByCourse.set(
@@ -1412,7 +1420,14 @@ async function main(): Promise<void> {
       samplePath: string | null;
     };
     try {
-      baked = await bakeLessonWav(client, activeJob, activeModel, args.sampleOnly, voiceProbe);
+      baked = await bakeLessonWav(
+        client,
+        activeJob,
+        activeModel,
+        args.sampleOnly,
+        voiceProbe,
+        args.bypassCache,
+      );
     } catch (error) {
       if (isDailyModelQuotaError(error)) {
         throw new Error(

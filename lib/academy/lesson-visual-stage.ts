@@ -45,9 +45,20 @@ export function academyCinemaCueSlideId(cueId: string): string {
   return match ? `cue-${match[1]}` : cueId.trim();
 }
 
+/**
+ * EC-102 sinema adresi. `next.config` bu yolu `immutable` bir yıl saklar.
+ * Damga, tarayıcıdaki eski yazı sızmış kareyi diskin yeni JPEG'inden ayırır.
+ * Dosya yeniden yazılırsa damga yükseltilir.
+ */
+export const ACADEMY_EC102_CINEMA_CACHE_V = "20260930114537" as const;
+
 /** Cue slaytı — `{lessonKey}-{cueId}.jpg`. */
 export function academyCinemaCueSlidePublicPath(lessonKey: string, cueId: string): string {
-  return `/academy/cinema/${lessonKey.trim()}-${academyCinemaCueSlideId(cueId)}.jpg`;
+  const path = `/academy/cinema/${lessonKey.trim()}-${academyCinemaCueSlideId(cueId)}.jpg`;
+  if (lessonKey.trim().startsWith("02_ecommerce_ai")) {
+    return `${path}?v=${ACADEMY_EC102_CINEMA_CACHE_V}`;
+  }
+  return path;
 }
 
 /**

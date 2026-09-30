@@ -101,7 +101,7 @@ function round3(value: number): number {
 }
 
 function punchcard(heading: string): string {
-  return heading.split(/\s+/u).slice(0, 3).join(" ").toLocaleUpperCase("tr-TR");
+  return heading.replace(/\s+/gu, " ").trim().toLocaleUpperCase("tr-TR");
 }
 
 function loadLesson(n: number, file: string): LessonPack {

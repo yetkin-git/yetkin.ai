@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
-import { ecommerceAiSections } from "@/lib/academy/curricula/ecommerce_ai";
+import { ecommerceAiSections } from "@/lib/academy/curricula/02_ecommerce_ai";
 import { hasAcademyLessonCues } from "@/lib/academy/lesson-cues";
 import { isAcademyLessonAudioSealed } from "@/lib/academy/pilot-sku";
 

@@ -14,10 +14,11 @@ describe("ders metni standardı", () => {
       expect(ACADEMY_LESSON_TEXT_SYSTEM_PROMPT).toContain(stage);
     }
     expect(ACADEMY_LESSON_TEXT_SYSTEM_PROMPT).toContain("Sen");
-    expect(ACADEMY_LESSON_TEXT_SYSTEM_PROMPT).toContain("Es i o");
+    expect(ACADEMY_LESSON_TEXT_SYSTEM_PROMPT).toContain("Seo");
     expect(ACADEMY_LESSON_TEXT_SYSTEM_PROMPT).toContain("En on bir");
     expect(ACADEMY_LESSON_TEXT_SYSTEM_PROMPT).toContain("elliye yetmiş santimetre");
     expect(ACADEMY_LESSON_TEXT_SYSTEM_PROMPT).toContain("iki adet");
+    expect(ACADEMY_LESSON_TEXT_SYSTEM_PROMPT).toContain("50x70 cm, 2 adet");
     expect(ACADEMY_LESSON_TEXT_SYSTEM_PROMPT).toContain(ACADEMY_LESSON_BENCH_CLOSING);
     expect(ACADEMY_LESSON_TEXT_SYSTEM_PROMPT).toContain("Rol, Ürün Adı, Ölçü, Malzeme, Özellik Listesi");
   });

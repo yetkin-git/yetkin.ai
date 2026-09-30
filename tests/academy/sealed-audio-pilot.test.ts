@@ -55,7 +55,7 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
       "02_ecommerce_ai-3": 608,
       "02_ecommerce_ai-4": 831,
       "02_ecommerce_ai-5": 846,
-      "02_ecommerce_ai-6": 1034,
+      "02_ecommerce_ai-6": 1012,
     });
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, LESSON_KEY)).toBe(true);
     expect(isAcademyCompactLessonKey(LESSON_KEY)).toBe(true);

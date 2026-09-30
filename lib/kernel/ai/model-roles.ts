@@ -46,6 +46,10 @@ export class AiGatewayForbiddenError extends ForbiddenError {
 
 /**
  * Fırın ve gümrük medya kimliği. İkinci sicil yoktur.
+ * Yetkili kılavuz `.system_docs/AKADEMI_URETIM_ANAYASASI.md` (eğitim hazırlama prosedürü).
+ * Bu sabitler 1.1 Kilitli Model Haritasının kod karşılığıdır.
+ * Bilgi kesim tarihi bu kimlikleri silmez ve `gemini-2.5` dahil eski sürüme düşürmez.
+ * Harita değişince kod haritaya çekilir. Ters yön ve fallback yoktur.
  * Canlı sohbet `FAST_STREAM` okur. Senaryo `TEXT_GEN` okur.
  * Canlı `VIDEO_GEN` mühürlü-ölüdür. Isınma klibi yerel `-warmup.mp4` dosyasıdır.
  */

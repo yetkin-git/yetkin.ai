@@ -21,7 +21,7 @@
 import {
   ECOMMERCE_CINEMA_LESSONS,
   type EcommerceCinemaLesson,
-} from "@/lib/academy/curricula/ecommerce_ai/cinema-slides";
+} from "@/lib/academy/curricula/02_ecommerce_ai/cinema-slides";
 import {
   ACADEMY_GOLDEN_COMPARE_AFTER_LABEL,
   ACADEMY_GOLDEN_COMPARE_BEFORE_LABEL,
@@ -222,7 +222,7 @@ const OFFICE = {
 const COMMERCE = {
   theme: "commerce" as const,
   courseLabel: "E-Ticaret AI · Trendyol HB Amazon",
-  instructor: "Deniz",
+  instructor: "Selin",
 };
 
 function requireEcommerceCinemaLesson(key: string): EcommerceCinemaLesson {

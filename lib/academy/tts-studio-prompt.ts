@@ -4,14 +4,18 @@
  * systemInstruction kanalı 400 döner; stil kullanıcı içeriğinin yönetmen katmanındadır.
  */
 
+import { academyEcommerceEmphasisDirectorNote } from "@/lib/academy/instructors";
+
 export const ACADEMY_TTS_STUDIO_ACOUSTIC_DIRECTIVE =
   "studio-grade natural voice, close-mic, clean acoustic environment, no reverb, crisp presence";
 
 /** Tempo DSP katsayısı değildir. Model doğal nefesiyle sakin konuşur. */
 export const ACADEMY_TTS_PACE_NOTE = "Pace: calm, natural, clear accent.";
 
-export function academyTtsStudioFingerprintMaterial(): string {
-  return `${ACADEMY_TTS_STUDIO_ACOUSTIC_DIRECTIVE}\n${ACADEMY_TTS_PACE_NOTE}`;
+export function academyTtsStudioFingerprintMaterial(transcript = ""): string {
+  const base = `${ACADEMY_TTS_STUDIO_ACOUSTIC_DIRECTIVE}\n${ACADEMY_TTS_PACE_NOTE}`;
+  const emphasis = academyEcommerceEmphasisDirectorNote(transcript);
+  return emphasis ? `${base}\n${emphasis}` : base;
 }
 
 /**
@@ -38,7 +42,8 @@ export const ACADEMY_TTS_CLEAR_FEMALE_PROBE = {
 /** Konuşulan transkripti stüdyo yönetmen katmanının altına kilitler. */
 export function buildAcademyTtsStudioContents(transcript: string): string {
   const spoken = transcript.trim();
-  return [
+  const emphasis = academyEcommerceEmphasisDirectorNote(spoken);
+  const lines = [
     "# AUDIO PROFILE: Yetkin stüdyo",
     ACADEMY_TTS_STUDIO_ACOUSTIC_DIRECTIVE,
     "",
@@ -48,9 +53,15 @@ export function buildAcademyTtsStudioContents(transcript: string): string {
     "### DIRECTOR'S NOTES",
     `Style: ${ACADEMY_TTS_STUDIO_ACOUSTIC_DIRECTIVE}`,
     ACADEMY_TTS_PACE_NOTE,
+  ];
+  if (emphasis) {
+    lines.push(emphasis);
+  }
+  lines.push(
     "Speak only the transcript verbatim. Do not read the profile, the scene, or these notes.",
     "",
     "#### TRANSCRIPT",
     spoken,
-  ].join("\n");
+  );
+  return lines.join("\n");
 }

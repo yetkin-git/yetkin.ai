@@ -211,7 +211,7 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     }
     expect(academyCourseCoverPath("03_social_media_ai")).toBeNull();
     expect(academyCourseCoverPath("02_ecommerce_ai")).toBe(
-      academyCourseCoverPath("03_social_media_ai"),
+      "/academy/cinema/02_ecommerce_ai-1-cue-1.jpg",
     );
   });
 

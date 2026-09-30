@@ -2,11 +2,11 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 95.605,
-    "text": "İNSANİ GİRİŞ VE",
+    "end": 102.658,
+    "text": "İNSANİ GİRİŞ VE HATIRLATMA",
     "section": "İnsani giriş ve hatırlatma",
     "paragraphs": [
-      "Merhaba, ben Deniz. Gel, tezgâhın kenarına şöyle otur. Telefonun elinin altındaysa masaya koy. Bugün yazıya değil, malın durduğu ilk kareye bakacağız.",
+      "Merhaba, ben Selin. Şimdi tezgâhın kenarına şöyle otur. Telefonun elinin altındaysa masaya koy. Bugün yazıya değil, malın durduğu ilk kareye bakacağız.",
       "Geçen ders, birinci derste, SEO uyumlu başlığı ve ürün açıklamasını kurmuştuk. SEO, ürünün aramada çıkması için başlığa ve açıklamaya doğru kelimeyi koymaktı. Başlık ürün türüyle açılıyordu. Renk, ölçü ve adet de aynı satırda duruyordu. Alıcı arama kutusuna malın adını yazınca seni o başlık sayesinde görüyordu. Açıklama da kutuda ne olduğunu söylüyordu. Övgüyü başlıktan çıkarmıştık. O yazıyı orada bırakmıştık.",
       "Yazı doğru oturunca kare kendiliğinden doğru olmaz. Başlığın yanındaki ilk fotoğraf mutfak masasında kalırsa alıcı ürünün rengini göremez. Göremezse, başlık ne kadar yerinde olsa da sepete koymaz. Tıklasa bile kutuda başka renk bulunca malı geri yollar. Geri dönen malın kargo parası da çoğu zaman senin sırtına biner.",
       "Bu derste o güzel başlığın yanına gelecek ana görseli konuşacağız. Telefonla çektiğin kareyi, stüdyoya gidip stüdyo parası ödemeden, pazaryerinin kabul ettiği görsele getireceğiz. Arka plan düz beyaz olacak. Kare bire bir olacak. Bire bir, en ile boyun eşit durmasıdır. Üstüne stüdyo ışığı vuracak. Filigran da silinecek. Filigran, fotoğrafın üstüne yapışan yazı ve logodur. Bunu alıcı ürünün kendi rengini ve kendi şeklini görsün diye yapacağız. Bir de yanlış fotoğraf yüzünden geri dönen iadenin önüne geçelim diye."
@@ -14,8 +14,8 @@
   },
   {
     "id": "cue-02",
-    "start": 95.855,
-    "end": 518.797,
+    "start": 104.408,
+    "end": 526.417,
     "text": "PAZARYERİ GÖRSEL KURALLARI",
     "section": "Pazaryeri görsel kuralları",
     "paragraphs": [
@@ -34,8 +34,8 @@
   },
   {
     "id": "cue-03",
-    "start": 519.047,
-    "end": 891.007,
+    "start": 528.167,
+    "end": 855.154,
     "text": "PROMPT",
     "section": "Prompt",
     "paragraphs": [
@@ -53,8 +53,8 @@
   },
   {
     "id": "cue-04",
-    "start": 725.137,
-    "end": 749.976,
+    "start": 855.154,
+    "end": 883.931,
     "text": "DERS SONU ÖZETİ",
     "section": "Ders sonu özeti",
     "paragraphs": [
@@ -63,9 +63,9 @@
   },
   {
     "id": "cue-05",
-    "start": 750.226,
-    "end": 774.613,
-    "text": "GELECEK DERS VE",
+    "start": 883.931,
+    "end": 913.823,
+    "text": "GELECEK DERS VE VEDA",
     "section": "Gelecek ders ve veda",
     "paragraphs": [
       "Sıradaki ders üçüncü ders. Orada müşterinin yazdığı yorumu, gelen şikâyeti ve iade gerekçesini yapay zekâ ile okuyacağız. Ortak hatayı sayacağız. Hatayı kutuda, fotoğrafta ya da Listing yazısında, yani kaynağında keseceğiz. Böylece aynı zarar yarın yine cebinden çıkmasın.",

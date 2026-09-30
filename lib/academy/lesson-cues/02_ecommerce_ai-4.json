@@ -2,11 +2,11 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 63.906,
-    "text": "İNSANİ GİRİŞ VE",
+    "end": 63.65,
+    "text": "İNSANİ GİRİŞ VE HATIRLATMA",
     "section": "İnsani giriş ve hatırlatma",
     "paragraphs": [
-      "Merhaba, ben Deniz. Gel, bugün kasaya beraber bakalım. Fiyat işini ayaküstü geçmeyelim.",
+      "Merhaba, ben Selin. Şimdi bugün kasaya beraber bakalım. Fiyat işini ayaküstü geçmeyelim.",
       "Geçen ders, üçüncü derste, müşterinin yorumunu ve iade şikâyetini yapay zekâ ile okumuştuk. En çok tekrar eden hatayı saymıştık. Hatayı kaynağında çözmüştük. Kaynak bazen ürünün kendisiydi, bazen Listing yazısıydı, bazen fotoğraftı, bazen de kargonun kutuya yaptığı şeydi. Kaynağı düzeltince aynı iade seyrekleşmişti. İade kargosunun parası da senin cebinde kalmıştı. O işi orada bırakmıştık.",
       "Yorum düzelince fiyat kendiliğinden doğru olmaz. Malı, maliyetini saymadan ucuza koyarsan, yorumun iyiyken de her satışta cebinden para gider.",
       "Bu derste konumuz ticaretin kalbi. Yapay zekâ ile rakip analizi yapacağız. Doğru fiyatı koyacağız. Kâr marjını koruyacağız. Kâr marjı, satış fiyatından maliyet düşünce elde kalan paydır. O pay erirse sattığın mal çoğalır, kasada lira kalmaz."
@@ -14,9 +14,9 @@
   },
   {
     "id": "cue-02",
-    "start": 64.156,
-    "end": 562.934,
-    "text": "RAKİP ANALİZİ VE",
+    "start": 65.4,
+    "end": 562.125,
+    "text": "RAKİP ANALİZİ VE FİYATLANDIRMA",
     "section": "Rakip analizi ve fiyatlandırma",
     "paragraphs": [
       "Pazaryerinde fiyat, alıcının ilk baktığı satırdır. Pazaryerin Trendyol da olur, Hepsiburada da, Amazon da, N11 de, ÇiçekSepeti de, PttAVM de, Getir de, Pazarama da. Ekranın adı değişir, zarar yine aynı yerden girer. Aynı malı satan başka dükkân bir lira aşağı iner. Sen de bir lira aşağı inersin. O da yine iner. Buna fiyat savaşı denir. Fiyat savaşında vitrindeki sayı düşer. Düşen sayı, senin maliyetini bilmez.",
@@ -41,8 +41,8 @@
   },
   {
     "id": "cue-03",
-    "start": 563.184,
-    "end": 781.326,
+    "start": 563.875,
+    "end": 778.596,
     "text": "PROMPT",
     "section": "Prompt",
     "paragraphs": [
@@ -55,8 +55,8 @@
   },
   {
     "id": "cue-04",
-    "start": 781.576,
-    "end": 830.507,
+    "start": 780.346,
+    "end": 801.77,
     "text": "DERS SONU ÖZETİ",
     "section": "Ders sonu özeti",
     "paragraphs": [
@@ -65,9 +65,9 @@
   },
   {
     "id": "cue-05",
-    "start": 706.871,
-    "end": 729.903,
-    "text": "GELECEK DERS VE",
+    "start": 801.77,
+    "end": 831.47,
+    "text": "GELECEK DERS VE VEDA",
     "section": "Gelecek ders ve veda",
     "paragraphs": [
       "Sıradaki ders beşinci ders. Orada yapay zekâ ile toplu ürün açıklaması üreteceğiz. Aynı mal bilgisinden bir şablon kuracağız. Her ürüne yeniden oturmadan açıklamayı çoğaltacağız. Böylece zaman kazanacağız. Aynı iş için harcadığın emeği de azaltacağız.",

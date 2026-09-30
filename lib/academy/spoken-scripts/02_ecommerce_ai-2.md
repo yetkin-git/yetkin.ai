@@ -1,4 +1,4 @@
-Merhaba, ben Deniz. Gel, tezgâhın kenarına şöyle otur. Telefonun elinin altındaysa masaya koy. Bugün yazıya değil, malın durduğu ilk kareye bakacağız.
+Merhaba, ben Selin. Şimdi tezgâhın kenarına şöyle otur. Telefonun elinin altındaysa masaya koy. Bugün yazıya değil, malın durduğu ilk kareye bakacağız.
 
 Geçen ders, birinci derste, SEO uyumlu başlığı ve ürün açıklamasını kurmuştuk. SEO, ürünün aramada çıkması için başlığa ve açıklamaya doğru kelimeyi koymaktı. Başlık ürün türüyle açılıyordu. Renk, ölçü ve adet de aynı satırda duruyordu. Alıcı arama kutusuna malın adını yazınca seni o başlık sayesinde görüyordu. Açıklama da kutuda ne olduğunu söylüyordu. Övgüyü başlıktan çıkarmıştık. O yazıyı orada bırakmıştık.
 

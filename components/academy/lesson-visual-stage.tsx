@@ -214,7 +214,11 @@ export function LessonCinemaEyeLayer({
   const nextCard = academyVisualStageNextCard(stage, speechTime);
   const motion = academyVisualStageMotion(stage, speechTime, playing);
   const kind = academyVisualStageCinemaKind(stage);
-  const punchcard = academyActivePunchcard(punchcards, speechTime);
+  const punchcard = academyActivePunchcard(
+    punchcards,
+    speechTime,
+    stage.lessonKey.startsWith("02_ecommerce_ai") ? 16 : undefined,
+  );
   const clockCue = academyPlaybackCueAtTime(punchcards, speechTime);
   const clockCueId = clockCue?.id ?? card?.cueId;
   const veoPunchEnded = card ? academyVisualVeoPunchHasEnded(card, currentTime) : true;

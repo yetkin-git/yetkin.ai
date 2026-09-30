@@ -1,4 +1,4 @@
-Merhaba, ben Deniz. Gel, bugün kasaya beraber bakalım. Fiyat işini ayaküstü geçmeyelim.
+Merhaba, ben Selin. Şimdi bugün kasaya beraber bakalım. Fiyat işini ayaküstü geçmeyelim.
 
 Geçen ders, üçüncü derste, müşterinin yorumunu ve iade şikâyetini yapay zekâ ile okumuştuk. En çok tekrar eden hatayı saymıştık. Hatayı kaynağında çözmüştük. Kaynak bazen ürünün kendisiydi, bazen Listing yazısıydı, bazen fotoğraftı, bazen de kargonun kutuya yaptığı şeydi. Kaynağı düzeltince aynı iade seyrekleşmişti. İade kargosunun parası da senin cebinde kalmıştı. O işi orada bırakmıştık.
 

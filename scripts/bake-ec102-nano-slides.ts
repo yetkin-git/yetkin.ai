@@ -12,7 +12,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { GoogleGenAI } from "@google/genai";
-import { ECOMMERCE_CINEMA_LESSONS } from "@/lib/academy/curricula/ecommerce_ai/cinema-slides";
+import { ECOMMERCE_CINEMA_LESSONS } from "@/lib/academy/curricula/02_ecommerce_ai/cinema-slides";
 import { ACADEMY_SEALED_MEDIA_MODEL, assertAcademySealedMediaModel } from "@/lib/kernel/ai/model-roles";
 
 const ROOT = process.cwd();
@@ -21,25 +21,25 @@ const MIN_GEMINI_KEY_CHARS = 8;
 
 const LESSON_PROMPTS: Record<string, string> = {
   "02_ecommerce_ai-1":
-    "4K lesson cover, 3840 by 2160, 16:9. One consistent visual system for EC-102 lesson 1. A quiet e-commerce worktable in warm daylight. Three symbols only, arranged as one scene, not a collage. On the left, two folded ecru cotton kitchen towels, soft cloth, no print, no logo. In the center, one marketplace vitrin card: a clean product-page title bar, the title a long product-type line followed by three short marks for color, measure, and count, no readable letters, no digits, no brand wordmark. On the right, one search field with three blank keyword chips under it, standing for the words a buyer types. The cotton towel, the vitrin title, and the search words are the whole story. No second product, no watermark, no brand logos, no trademark wordmarks. No faces, no phone, no address, no price tag. Palette: warm paper, ecru cotton, clean white margin, soft cardboard. Photoreal, sharp, quiet, series-ready.",
+    "4K photograph, 3840 by 2160, 16:9. One quiet wooden worktable in warm daylight. Two folded ecru cotton kitchen towels on the left, plain cloth with no print. A small beige ceramic bowl in the center. A smooth river stone on the right. One continuous photograph, one table, no screen, no paper facing the camera, no sign. Palette: warm wood, ecru cotton, beige ceramic. Photoreal, sharp, quiet.",
   "02_ecommerce_ai-2":
-    "4K lesson cover, 3840 by 2160, 16:9. One consistent visual system for EC-102 lesson 2. A quiet e-commerce worktable in warm daylight. One beige ceramic mug, handle on the right, shown as a single transformation, not a collage of many products. The left edge is the raw phone photo: the same mug on a wooden kitchen table, a dinner plate behind it, a warm window shadow across the body. The finished frame is the lesson: that mug centered in a 1:1 square on a plain white background, filling most of the square, a thin white margin, even studio light on every side, a soft base shadow under the mug, beige color unchanged, handle fully visible, no second mug. No decorative frame, no price, no letters, no watermark, no logo on the finished mug. No brand logos, no trademark wordmarks. No faces, no address, no price tag, no extra handle, no cut handle, no second product. Palette: beige ceramic, a narrow wood edge only as the before, clean white studio. Photoreal, sharp, quiet, series-ready.",
+    "4K photograph, 3840 by 2160, 16:9. One quiet studio table in warm daylight. One beige ceramic mug, handle on the right, centered on a plain white surface. The mug fills the middle of one continuous frame. Even studio light, a soft shadow under the base, a thin white margin around the mug. Beige clay stays beige. One single photograph of one mug. No paper, no screen, no second object. Palette: beige ceramic and clean white. Photoreal, sharp, quiet.",
   "02_ecommerce_ai-3":
-    "4K lesson cover, 3840 by 2160, 16:9. One consistent visual system for EC-102 lesson 3. A quiet e-commerce worktable in warm daylight. Three symbols only, arranged as one scene, not a collage of many products. On the left, a seller review panel: a single amber star, the other stars dim, a short stack of comment lines with no readable words. In the center, an open cardboard return box with a beige ceramic mug inside, handle intact, a simple return arrow on the carton, no carrier logo. On the right, one analysis sheet: three grouped bars, the tallest bar first, a short source label under each bar with no readable letters. The mug color stays beige. No second product, no price tag, no watermark, no brand logos, no trademark wordmarks. No faces, no phone numbers, no addresses, no order numbers. Palette: warm paper, cardboard brown, amber star, beige ceramic, clean white margin. Photoreal, sharp, quiet, series-ready.",
+    "4K photograph, 3840 by 2160, 16:9. One quiet wooden worktable in warm daylight. A small brass star on the left. An open cardboard box in the center with one beige ceramic mug inside, handle intact. Three plain wooden blocks on the right, the left block tallest. One continuous photograph. No paper, no screen, no sign. Palette: warm wood, cardboard, brass, beige ceramic. Photoreal, sharp, quiet.",
   "02_ecommerce_ai-4":
-    "4K lesson cover, 3840 by 2160, 16:9. One consistent visual system for EC-102 lesson 4. A quiet e-commerce worktable in warm daylight. Three symbols only, arranged as one scene, not a collage of many products. On the left, a small open cash drawer: paper notes and coins in neat stacks, no readable amounts, no bank name. In the center, one cost sheet with four short rows and a remainder line under a thin rule, marks only, no readable letters, no digits. On the right, three upright price cards of one beige ceramic mug, the left card sitting below a faint floor line, the middle and right cards sitting above that line, no readable prices. The mug color stays beige. No second product, no watermark, no brand logos, no trademark wordmarks. No faces, no IBAN, no invoice photo, no tax number. Palette: warm paper, brass drawer, cardboard brown, beige ceramic, clean white margin. Photoreal, sharp, quiet, series-ready.",
+    "4K photograph, 3840 by 2160, 16:9. One quiet wooden worktable in warm daylight. A small open brass dish of coins on the left. A small brass balance scale in the center. Three beige ceramic mugs on the right, the left mug sitting lower than the other two. One continuous photograph. No paper, no screen, no sign. Palette: warm wood, brass, beige ceramic. Photoreal, sharp, quiet.",
   "02_ecommerce_ai-5":
-    "4K lesson cover, 3840 by 2160, 16:9. One consistent visual system for EC-102 lesson 5. A quiet e-commerce worktable in warm daylight. Three symbols only, arranged as one scene, not a collage. On the left, one open spreadsheet list with three short rows: a beige ceramic mug, a folded ecru kitchen towel, and a plain glass tea cup, shown as objects in the cells, column marks only, no readable letters, no digits. In the center, one blank template card with three stacked slots, and from that single card a neat fan of many finished description cards spreading to the right, same order on every card, no readable words. On the right, a still-warm glass of tea beside one small sealed parcel, the table otherwise clear. No second spreadsheet, no watermark, no brand logos, no trademark wordmarks, no Excel logo. No faces, no phone, no address, no IBAN, no price tag. Palette: warm paper, cardboard brown, beige ceramic, ecru cloth, clear glass, clean white margin. Photoreal, sharp, quiet, series-ready.",
+    "4K photograph, 3840 by 2160, 16:9. One quiet wooden worktable in warm daylight. In a row: one beige ceramic mug, one folded ecru kitchen towel, one plain glass tea cup. To the right, a neat fan of thick cream cardstock seen only from the edge. A still-warm glass of tea and one small sealed kraft parcel at the near edge. One continuous photograph. No screen, no sign, no grid. Palette: warm wood, beige ceramic, ecru cloth, clear glass, kraft. Photoreal, sharp, quiet.",
   "02_ecommerce_ai-6":
-    "4K lesson cover, 3840 by 2160, 16:9. One consistent visual system for EC-102 lesson 6, the module finale. A quiet e-commerce worktable in warm daylight. Three symbols only, arranged as one scene, not a collage. On the left, one store-rating panel standing upright, a high row of simple star marks, no readable score, no digits, no letters. In the center, one customer message window, a single quiet question card inside a plain panel, marks only, no readable words. On the right, one reply-assistant card, a short draft held just beside the window, not yet sent, no readable words, no robot, no face. A small still-warm glass of tea sits at the near edge of the table. No second screen, no watermark, no brand logos, no trademark wordmarks. No faces, no hands in close-up, no phone number, no address, no IBAN, no price tag. Palette: warm paper, cardboard brown, beige ceramic, soft star gold, clean white margin. Photoreal, sharp, quiet, series-ready.",
+    "4K photograph, 3840 by 2160, 16:9. One quiet wooden worktable in warm daylight, the last calm scene of the day. Five small brass stars in a row on the left. A closed kraft envelope in the center. A second kraft envelope just beside it, also closed. A small glass of tea at the near edge. One continuous photograph. No screen, no sign, no open page. Palette: warm wood, brass, kraft, tea amber. Photoreal, sharp, quiet.",
 };
 
 const BEAT_CAMERA = [
   "Camera: wide, the whole table in morning light.",
-  "Camera: closer on the center symbol, side symbols still in frame.",
-  "Camera: a blank paper card on the near edge of the same table, no letters and no digits.",
+  "Camera: closer on the center object, side objects still in frame.",
+  "Camera: lower angle along the table edge, the same objects.",
   "Camera: the same table settled, slightly wider.",
-  "Camera: warm late light, a small glass of tea at the near edge, the lesson symbols still on the table.",
+  "Camera: warm late light, a small glass of tea at the near edge, the same objects still on the table.",
   "Camera: closing frame, tea glass in front, quiet end of the day.",
 ] as const;
 
@@ -181,7 +181,7 @@ async function main(): Promise<void> {
     }
     for (const cue of lesson.cues) {
       const camera = BEAT_CAMERA[Math.min(cue.cueIndex, BEAT_CAMERA.length) - 1] ?? BEAT_CAMERA[0];
-      const prompt = `${base} Beat: ${cue.section}. ${camera} Photoreal tabletop photograph only. Do not draw a software dashboard, headline, caption box, or black text panel. No readable words.`;
+      const prompt = `${base} ${camera} One photograph of this same table.`;
       const relative = `public/academy/cinema/${lessonKey}-cue-${cue.cueIndex}.jpg`;
       const diskPath = join(ROOT, relative);
       process.stdout.write(`fırın ${relative}\n`);

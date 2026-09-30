@@ -1,11 +1,13 @@
 /**
- * Kurs kapak görseli — yalnız taze ingest edilen 1. bölüm sinema plakası bağlanır.
- * Diğer vitrin SKU’ları şeffaf «Yakında» şablonuna düşer; marka Y mührü kapak değildir.
+ * Kurs kapak görseli.
+ * Amiral 1. bölüm sinema plakası, OFF-201 kapak JPG ve EC-102 ilk sinema karesi bağlanır.
+ * Kalan vitrin SKU’ları şeffaf «Yakında» şablonuna düşer; marka Y mührü kapak değildir.
  */
 
 import { academyMicroVideoPublicSources } from "@/lib/academy/lesson-media";
 import {
   ACADEMY_EC102_PUBLIC_RELEASE_OPEN,
+  ACADEMY_EC102_STOREFRONT_COVER,
   ACADEMY_FLAGSHIP_SKU_SLUG,
   ACADEMY_NEXT_BODY_SKU_SLUG,
   ACADEMY_OFF201_STOREFRONT_SLUG,
@@ -76,12 +78,16 @@ export function academyCourseIsComingSoon(slug: string): boolean {
 }
 
 /**
- * Kamuya açık kapak yolu — yalnız amiral 1. bölüm WebP.
- * Diğer SKU `null` döner; kart CSS Yakında plakası basar, OG varsayılan plakaya düşer.
+ * Kamuya açık kapak yolu.
+ * Amiral 1. bölüm WebP, OFF-201 kapak JPG, EC-102 ilk sinema karesi.
+ * Kalan SKU `null` döner; kart CSS Yakında plakası basar, OG varsayılan plakaya düşer.
  */
 export function academyCourseCoverPath(slug: string): string | null {
   if (slug === ACADEMY_OFF201_STOREFRONT_SLUG) {
     return ACADEMY_OFF201_DEFAULT_COVER;
+  }
+  if (slug === ACADEMY_NEXT_BODY_SKU_SLUG) {
+    return ACADEMY_EC102_STOREFRONT_COVER;
   }
   if (academyCourseHasCinemaCover(slug)) {
     return `/academy/cinema/${FLAGSHIP_CINEMA_COVER_STEM}.webp`;

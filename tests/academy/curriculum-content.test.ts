@@ -179,8 +179,10 @@ describe("03.22 tek ses tek isim", () => {
     expect(ACADEMY_DIGITAL_SKILLS_MODERATOR.name).toBe("Tarık");
     expect(ACADEMY_DIGITAL_SKILLS_MODERATOR.voice).toBe("Iapetus");
     expect(ACADEMY_DIGITAL_SKILLS_MODERATOR.speechRate).toBe(1);
-    expect(academyInstructorBySlug("02_ecommerce_ai").name).toBe("Deniz");
-    expect(academyInstructorBySlug("02_ecommerce_ai").voice).toBe("Puck");
+    expect(academyInstructorBySlug("02_ecommerce_ai").name).toBe("Selin");
+    expect(academyInstructorBySlug("02_ecommerce_ai").greetingLead).toBe("Merhaba, ben Selin");
+    expect(academyInstructorBySlug("02_ecommerce_ai").gender).toBe("kadin");
+    expect(academyInstructorBySlug("02_ecommerce_ai").voice).toBe("Aoede");
     expect(ACADEMY_NEXT_BODY_SKU_SLUG).toBe("02_ecommerce_ai");
     expect(academyInstructorBySlug("02_ecommerce_ai").roleTitle).toContain("E-Ticaret");
     expect(academyInstructorBySlug("01_office_ai_ileri").voice).toBe("Kore");

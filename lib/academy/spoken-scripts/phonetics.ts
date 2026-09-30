@@ -3,6 +3,11 @@
  * Sıra önemli: uzun biçim önce.
  */
 
+import {
+  applyDisplayMeasuresToSpoken,
+  applySpokenMeasuresToDisplay,
+} from "@/lib/academy/spoken-scripts/measure-display";
+
 const ACADEMY_CUE_DISPLAY_PHONETICS: readonly { display: string; spoken: string }[] = [
   { display: "developers.facebook.com", spoken: "developers nokta feysbuk nokta kom" },
   { display: "business.facebook.com", spoken: "biznis nokta feysbuk nokta kom" },
@@ -52,6 +57,14 @@ const ACADEMY_CUE_DISPLAY_PHONETICS: readonly { display: string; spoken: string 
   { display: "Shopify", spoken: "Şopifay" },
   { display: "Trendyol", spoken: "Trend yol" },
   { display: "Hepsiburada", spoken: "Hepsi burada" },
+  /** Marka iki Türkçe kelimedir. Harf kodu durmaz. Ekranda ÇiçekSepeti kalır. */
+  { display: "ÇiçekSepeti", spoken: "Çiçek sepeti" },
+  /** Günlük okunuş «Piti avm». Harf kodu «Pe te te a ve em» durmaz. */
+  { display: "PttAVM", spoken: "Piti avm" },
+  /** Tezgâh jargonu «Listin». Harf harf okunmaz. Ekranda Listing kalır. */
+  { display: "Listing", spoken: "Listin" },
+  /** Tezgâh jargonu «Promt». Harf harf okunmaz. Ekranda Prompt kalır. */
+  { display: "Prompt", spoken: "Promt" },
   { display: "ElevenLabs", spoken: "Ilevın Labs" },
   { display: "Metricool", spoken: "Metrikul" },
   { display: "ManyChat", spoken: "Meniçet" },
@@ -94,7 +107,8 @@ const ACADEMY_CUE_DISPLAY_PHONETICS: readonly { display: string; spoken: string 
   { display: "Teams", spoken: "Tims" },
   { display: "WordPress", spoken: "Vördpres" },
   { display: "Word", spoken: "Vörd" },
-  { display: "SEO", spoken: "Es i o" },
+  /** Günlük okunuş «Seo». Harf kodu «Es i o» ne seste ne ekranda durur. */
+  { display: "SEO", spoken: "Seo" },
   { display: "N11", spoken: "En on bir" },
   { display: "AIDA", spoken: "Ayda" },
   { display: "CaaS", spoken: "Si ey as" },
@@ -158,9 +172,11 @@ export function applyAcademyOfficeFileExtPhoneticsToDisplay(text: string): strin
     .replace(/\bpptx\b/giu, "PowerPoint sunusu");
 }
 
-/** Ekran terimini TTS'in şaşırmayacağı fonetiğe çevirir. */
+/** Ekran terimini TTS'in şaşırmayacağı fonetiğe çevirir. Ölçü kelimesi burada rakama dönmez. */
 export function applyAcademyCueDisplayPhonetics(text: string): string {
   let out = applyAcademyOfficeFileExtPhonetics(text);
+  out = out.replaceAll("Es i o", "Seo").replaceAll("es i o", "Seo");
+  out = applyDisplayMeasuresToSpoken(out);
   for (const row of ACADEMY_CUE_DISPLAY_PHONETICS) {
     out = out.replaceAll(row.display, row.spoken);
   }
@@ -184,7 +200,10 @@ function replaceSpokenAydaWithDisplay(text: string): string {
   });
 }
 
-/** TTS fonetiğini teleprompter/cue ekran terimine çevirir. */
+/**
+ * TTS fonetiğini teleprompter/cue ekran terimine çevirir.
+ * Ölçü, adet ve yüzde burada rakama döner; TTS katmanı kelimeyi korur.
+ */
 export function applyAcademySpokenPhoneticsToDisplay(text: string): string {
   let out = text;
   for (const row of ACADEMY_CUE_DISPLAY_PHONETICS) {
@@ -196,5 +215,7 @@ export function applyAcademySpokenPhoneticsToDisplay(text: string): string {
       out = out.replaceAll(row.spoken, row.display);
     }
   }
+  out = out.replaceAll("Es i o", "SEO").replaceAll("es i o", "SEO");
+  out = applySpokenMeasuresToDisplay(out);
   return applyAcademyOfficeFileExtPhoneticsToDisplay(out);
 }

@@ -15,6 +15,16 @@ export const ACADEMY_LESSON_TEXT_STAGES = [
 export const ACADEMY_LESSON_BENCH_CLOSING =
   "Tezgâhın bereketli olsun. Satışın hayırlı gelsin." as const;
 
+/**
+ * Sese giden fonetik ölçü. Rakam bu katmanda durmaz.
+ * Ekran ve altyazı karşılığı `ACADEMY_LESSON_DISPLAY_MEASURE_FORM`.
+ */
+export const ACADEMY_LESSON_SPOKEN_MEASURE_FORM =
+  "elliye yetmiş santimetre, iki adet" as const;
+
+/** Ekrana ve altyazıya basılan ölçü. Kelime okunuşu bu katmanda durmaz. */
+export const ACADEMY_LESSON_DISPLAY_MEASURE_FORM = "50x70 cm, 2 adet" as const;
+
 /** Ajans sloganı. Asistan cevabından da silinir. */
 export const ACADEMY_LESSON_HYPERBOLE_PHRASES = [
   "muazzam dönüşüm",
@@ -42,7 +52,7 @@ Görevin, sana verilen konuyu yetkin.ai Metin Standardı'na tam uygun şekilde d
 1. Ajans sloganı, aforizma ve akademik jargon kullanmayacaksın. Şu laflar yasaktır: muazzam dönüşüm, saniyeler içinde, devrim niteliğinde, büyü burada başlıyor.
 2. Öğrenciye "Sen" diye hitap edecek, usta-çırak samimiyetini koruyacaksın. Yapay zekâ işi yapan değil, asistandır. Sen okursun. Sen karar verirsin. Vitrine de sen koyarsın.
 3. Yanlış vs. Doğru kıyasını somut nesneler üzerinden yapacaksın. Yanlışta övgü vardır, bilgi yoktur. Doğruda ürün türü, renk, ölçü ve adet durur.
-4. Kısaltmaları ve sayıları TTS okunuşuna uygun yazacaksın. Es i o. En on bir. elliye yetmiş santimetre. iki adet. Bir cümlede tek eylem durur.
+4. İki yüzey ayrıdır. Sese giden fonetik metinde sayı ve ölçü okunuşuyla kelime olarak yazılır: ${ACADEMY_LESSON_SPOKEN_MEASURE_FORM}. Ekrana ve altyazıya basılan metinde ölçü ve sayılar rakamsal kısa formatta basılır: ${ACADEMY_LESSON_DISPLAY_MEASURE_FORM}. Kısaltma seste doğal okunuştur. Seo. En on bir. Harf kodu durmaz. Bir cümlede tek eylem durur.
 5. Dersi şu 5 aşamayla kurgulayacaksın: Giriş, Saha Gerçeği, Yanlış/Doğru Kıyası, Prompt Şablonu, Özet ve Tezgâh Duası.
 6. Prompt şablonunda beş girdi durur: Rol, Ürün Adı, Ölçü, Malzeme, Özellik Listesi.
 7. Dersi şu cümleyle kapatacaksın: Tezgâhın bereketli olsun. Satışın hayırlı gelsin.

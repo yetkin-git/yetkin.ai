@@ -203,15 +203,42 @@ export const ACADEMY_OFF201_COURSE_MASTER_VOICE = "Kore" as const satisfies Acad
 
 /**
  * EC-102 kurs mührü. 1 Eğitim Kodu = 1 Ses.
- * Fırın modeli `academyBakeVoiceModelId()`. Konuşan ad Deniz.
- * Puck sicil adı Kaan'dır ve cinsiyeti erkektir. Kadın Deniz yuvası bu tabloda yoktur.
- * Zephyr'in sicil adı da Deniz'dir ve o yuva da erkektir. Bu sabit kadın sese çevrilmez:
- * diskteki kaset Puck'tır. Kadın fırın, beş katman onayı ve kamu kapısı birlikte açılır.
+ * Fırın modeli `academyBakeVoiceModelId()`. Konuşan ad Selin, selam «Merhaba, ben Selin».
+ * Kadın ses yuvası Aoede'dir. Kart hitabı «Selin Hanım». Usta unvanı bu kursta yoktur.
+ * Zephyr sicil adı Deniz'dir; Puck sicil adı Kaan'dır. EC-102 o ağızlara bağlanmaz.
  */
-export const ACADEMY_EC102_COURSE_MASTER_VOICE = "Puck" as const satisfies AcademyInstructorTtsVoice;
+export const ACADEMY_EC102_COURSE_MASTER_VOICE = "Aoede" as const satisfies AcademyInstructorTtsVoice;
 
 export function academyEcommerceBakeVoice(): AcademyInstructorTtsVoice {
   return ACADEMY_EC102_COURSE_MASTER_VOICE;
+}
+
+/** EC-102 kilitli tempo. Küresel eğitmen temposu ile aynıdır: doğal konuşmanın %93'ü. */
+export const ACADEMY_EC102_SPEECH_RATE = ACADEMY_INSTRUCTOR_SPEECH_RATE;
+
+if (ACADEMY_EC102_SPEECH_RATE !== 0.93) {
+  throw new Error("EC-102 ses temposu %93 dışında.");
+}
+
+/**
+ * EC-102 kritik çıkışları. Düz okunmaz.
+ * Not yönetmen katmanındadır; konuşulan transkripte yazılmaz.
+ */
+export const ACADEMY_EC102_EMPHASIS_CUES = [
+  "satış olmaz",
+  "ürün kaybolur",
+  "kelime kaybolur",
+  "işin adı seo",
+] as const;
+
+export const ACADEMY_EC102_EMPHASIS_DIRECTOR_NOTE =
+  'Emphasis: on the critical warning and the exit, sound firm, decisive, and authoritative. Do not read these lines flat: "satış olmaz", "ürün kaybolur", "kelime kaybolur", "işin adı Seo\'dur". Stress the warning firmly, then return to the calm pace. Say Seo, never letter by letter.';
+
+/** Transkriptte kritik çıkış varsa EC-102 vurgu notunu döner. Yoksa boş. */
+export function academyEcommerceEmphasisDirectorNote(transcript: string): string {
+  const folded = transcript.toLocaleLowerCase("tr-TR");
+  const hit = ACADEMY_EC102_EMPHASIS_CUES.some((cue) => folded.includes(cue));
+  return hit ? ACADEMY_EC102_EMPHASIS_DIRECTOR_NOTE : "";
 }
 
 /** CastRegistry — speaker yok sayılır; konuşma kursun tek `courseMasterVoice` değeridir. */
@@ -227,7 +254,7 @@ export function academyInstructorTtsCast(slug: string): AcademyDialogueCast {
   const instructor = academyInstructorBySlug(slug);
   return {
     voice: instructor.voice,
-    speechRate: ACADEMY_INSTRUCTOR_SPEECH_RATE,
+    speechRate: slug === "02_ecommerce_ai" ? ACADEMY_EC102_SPEECH_RATE : ACADEMY_INSTRUCTOR_SPEECH_RATE,
     canonicalCharacterName: instructor.name,
     role: "instructor",
   };
@@ -372,7 +399,7 @@ export const ACADEMY_INSTRUCTOR_VOICE_BY_SLUG: Record<
   AcademyInstructorTtsVoice
 > = {
   "01_office_ai": "Callirrhoe",
-  "02_ecommerce_ai": "Puck",
+  "02_ecommerce_ai": "Aoede",
   "03_social_media_ai": "Zephyr",
   "04_chatbot_nocode": "Puck",
   "05_prompt_practice": "Callirrhoe",
@@ -620,7 +647,8 @@ export function assertAcademyCourseVoiceConfig(
 
 /**
  * Aynı ağız iki kursta durabilir. Vitrin unvanı kursa göredir.
- * EC-102 anlatıcısı Deniz'dir (Puck). OFF-201 ofis dersi Kore'yi ofis unvanıyla gösterir.
+ * EC-102 anlatıcısı Selin'dir (Aoede). Selam «Merhaba, ben Selin». Kart hitabı «Selin Hanım».
+ * OFF-201 ofis dersi Kore'yi ofis unvanıyla gösterir.
  */
 const ACADEMY_OFF201_DISPLAY_PERSONA = {
   title: "Kıdemli Ofis ve Yapay Zekâ Eğitmeni",
@@ -629,11 +657,12 @@ const ACADEMY_OFF201_DISPLAY_PERSONA = {
 } as const;
 
 const ACADEMY_EC102_DISPLAY_PERSONA = {
-  name: "Deniz",
+  name: "Selin",
+  gender: "kadin",
   title: "Kıdemli E-Ticaret ve Yapay Zekâ Eğitmeni",
   roleTitle: "Kıdemli E-Ticaret ve Yapay Zekâ Eğitmeni",
   bio: "E-ticaret ve pazaryeri uzmanıyım. Kıdemli E-Ticaret ve Yapay Zekâ Eğitmeni olarak satış vitrinini tane tane kuruyorum.",
-  greetingLead: "Merhaba, ben Deniz",
+  greetingLead: "Merhaba, ben Selin",
 } as const;
 
 function withCoursePersona(slug: string, instructor: AcademyInstructor): AcademyInstructor {

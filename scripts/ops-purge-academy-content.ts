@@ -75,8 +75,8 @@ const EMPTY_MODULES: readonly EmptyModule[] = [
     ],
     methodology:
       "Canlı diyalog ve sen dili, adım adım ekran rehberliği, sıfır kodlama, satış ve verimlilik odaklı pratik çözümler",
-    voice: "Kore",
-    voiceGender: "female",
+    voice: "Zephyr",
+    voiceGender: "male",
     voiceStyle: "Canlı diyalog ve sen dili, sakin ekran rehberliği",
   },
   {

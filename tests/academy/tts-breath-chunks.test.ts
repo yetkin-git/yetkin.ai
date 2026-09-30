@@ -211,6 +211,12 @@ describe("TTS nefes dilimleyici", () => {
     expect(ACADEMY_TTS_PACE_NOTE).toBe("Pace: calm, natural, clear accent.");
     expect(contents.indexOf("#### TRANSCRIPT")).toBeLessThan(contents.indexOf(spoken));
     expect(contents.endsWith(spoken)).toBe(true);
+    const warning = buildAcademyTtsStudioContents("Tıklamazsa satış olmaz. Bu işin adı Seo'dur.");
+    expect(warning.indexOf("firm, decisive, and authoritative")).toBeLessThan(
+      warning.indexOf("#### TRANSCRIPT"),
+    );
+    expect(warning.lastIndexOf("satış olmaz")).toBeGreaterThan(warning.indexOf("#### TRANSCRIPT"));
+    expect(warning.endsWith("Tıklamazsa satış olmaz. Bu işin adı Seo'dur.")).toBe(true);
   });
 
   it("kısa metni tek parça bırakır", () => {

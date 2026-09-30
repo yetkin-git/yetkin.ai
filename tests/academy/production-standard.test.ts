@@ -467,14 +467,14 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(academyCourseMasterVoice("01_office_ai_ileri")).toBe("Kore");
     expect(academyCourseMasterVoice("01_office_ai_ileri")).not.toBe("Callirrhoe");
     expect(CURRICULUM_MODULES_BY_SLUG["02_ecommerce_ai"]!.voiceConfig.courseMasterVoice).toBe(
-      "Puck",
+      "Aoede",
     );
-    expect(academyCourseMasterVoice("02_ecommerce_ai")).toBe("Puck");
-    expect(academyEcommerceBakeVoice()).toBe("Puck");
+    expect(academyCourseMasterVoice("02_ecommerce_ai")).toBe("Aoede");
+    expect(academyEcommerceBakeVoice()).toBe("Aoede");
     expect(academyCourseVoiceSeal("02_ecommerce_ai")).toMatchObject({
       model: academyBakeVoiceModelId(),
-      courseMasterVoice: "Puck",
-      gender: "male",
+      courseMasterVoice: "Aoede",
+      gender: "female",
     });
     expect(academyCourseVoiceSeal("01_office_ai")).toMatchObject({
       model: academyBakeVoiceModelId(),

@@ -12,6 +12,7 @@ import {
 import {
   applyAcademySealedAudioTimingsToCues,
   loadAcademySealedAudioTimings,
+  sealEcommerceCueClock,
 } from "@/lib/academy/lesson-audio-timings";
 import {
   ACADEMY_PUNCHCARD_MAX_WORDS,
@@ -86,10 +87,11 @@ export function academyPlaybackCueAtTime<T extends Pick<AcademyLessonCue, "id" |
 export function academyActivePunchcard(
   cues: readonly Pick<AcademyLessonCue, "id" | "text" | "start" | "end">[],
   currentTime: number,
+  maxWords: number = ACADEMY_PUNCHCARD_MAX_WORDS,
 ): { cueId: string; label: string } | null {
   const t = Number.isFinite(currentTime) ? currentTime : 0;
   for (const cue of cues) {
-    const label = academyPunchcardLabel(cue.text);
+    const label = punchcardLabelFromText(cue.text, maxWords);
     if (!label) {
       continue;
     }
@@ -187,10 +189,12 @@ export function academyLessonCueParagraphPlan(
 
 /** Mühürlü WAV parça saniyesi; bake yoksa duvar saati. */
 export function loadAcademyLessonPlaybackCues(lessonKey: string): readonly AcademyLessonCue[] {
-  return applyAcademySealedAudioTimingsToCues(
-    loadAcademyLessonCues(lessonKey),
-    loadAcademySealedAudioTimings(lessonKey),
-  );
+  const cues = loadAcademyLessonCues(lessonKey);
+  const timings = loadAcademySealedAudioTimings(lessonKey);
+  if (lessonKey.startsWith("02_ecommerce_ai-")) {
+    return sealEcommerceCueClock(cues, timings);
+  }
+  return applyAcademySealedAudioTimingsToCues(cues, timings);
 }
 
 export function hasAcademyLessonCues(lessonKey: string): boolean {

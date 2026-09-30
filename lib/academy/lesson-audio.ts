@@ -36,7 +36,7 @@ export const ACADEMY_SEALED_AUDIO_DURATION_SEC: Readonly<Record<string, number>>
   "02_ecommerce_ai-3": 608,
   "02_ecommerce_ai-4": 831,
   "02_ecommerce_ai-5": 846,
-  "02_ecommerce_ai-6": 1034,
+  "02_ecommerce_ai-6": 1012,
 };
 
 type AcademySealedLessonKey = keyof typeof ACADEMY_SEALED_AUDIO_DURATION_SEC;
