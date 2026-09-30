@@ -26,7 +26,7 @@ export const metadata: Metadata = pageMetadata(PAGE_SEO.academy);
 /**
  * Akademi vitrini — PEDAGOJI §D 5'li Vitrin Karması + A5 dürüst yüzey.
  * Mühürlü `01_office_ai-1` amiral kartı yayındadır. OFF-201 (`01_office_ai_ileri`) canlıdır.
- * EC-102 (`02_ecommerce_ai`) HOTFIX ile «Çok Yakında / Hazırlanıyor» kabuğundadır.
+ * EC-102 (`02_ecommerce_ai`) kamu kapısı açıktır; kart Satın Al basar, birinci ders önizlemesi `/oyna` yolundadır.
  * `03_social_media_ai`, `04_chatbot_nocode` ve `05_prompt_practice` aynı kabuktadır.
  * Hayali oynatıcı basılmaz.
  */

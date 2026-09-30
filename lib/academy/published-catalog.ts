@@ -147,7 +147,7 @@ function confirmedVitrineCard(row: AcademyCourseWithPrice): AcademyCourseWithPri
  * PEDAGOJI §D 5'li Vitrin Karması.
  * `live` yalnız veritabanından okunmuş kurs satırlarıdır. Boş dizi, yayın teyidi yok demektir.
  * Satın Al: `is_published`, aktif fiyat ve beş katman disk mührü. Biri eksikse kart satın al demez.
- * Anlatımı bitmemiş kardeş «Çok Yakında»dır. EC-102 kamu kapısı kapalıyken aynı kabuğa düşer.
+ * Anlatımı bitmemiş kardeş «Çok Yakında»dır. EC-102 kamu kapısı kapalıyken aynı kabuğa düşer; kapı açıkken doğrulanmış satır satın alınır.
  * Anlatımı bitmiş ama satırı kapalı kurs «Yayında Değil»dir.
  */
 export function academyVitrineShellCourses(

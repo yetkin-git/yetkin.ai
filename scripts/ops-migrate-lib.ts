@@ -31,6 +31,7 @@ export const EXPECTED_SQL = [
   "20260926153000_off201_launch_price.sql",
   "20260929180000_ec102_publish.sql",
   "20260930133000_hotfix_ec102_unpublish.sql",
+  "20260930140000_ec102_republish.sql",
 ] as const;
 
 export const FREELANCER_SEED_JOB_IDS = [

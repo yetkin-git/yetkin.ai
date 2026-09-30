@@ -5,7 +5,7 @@
  *
  * `01_office_ai` çekirdek kaydı durur; 8 ders mühürlü ses (`1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`).
  * OFF-201 `01_office_ai_ileri` canlıdır. Tek ses Aylin (Kore). Durum cümlesi `academyOff201VoiceStatus`.
- * EC-102 `02_ecommerce_ai` HOTFIX ile kamuya kapalıdır. Konuşan ad Deniz. Satış `ACADEMY_EC102_PUBLIC_RELEASE_OPEN` kapalıyken açılmaz.
+ * EC-102 `02_ecommerce_ai` kamu kapısı açıktır. Konuşan ad Deniz. Satış `ACADEMY_EC102_PUBLIC_RELEASE_OPEN` ile okunur.
  * Eski Callirrhoe kasetleri arşivdedir. Yeniden fırın kuyruğu boştur.
  * Eski ritüel kaseti `01_office_ai-4` sınav yolunda ve ses mühründe yoktur; dosya arşivde kalır.
  * Sınav yolu `lesson-index.ts` üzerinden `lib/kernel/catalog-ids/exam-path.ts` tablosunu okur.
@@ -29,7 +29,7 @@ export const ACADEMY_GROWTH_SKU_SLUGS = [
 
 /**
  * PEDAGOJI §D kardeş kabuk.
- * EC-102 (`02_ecommerce_ai`) bu listede durur. Kamu kapısı `ACADEMY_EC102_PUBLIC_RELEASE_OPEN`.
+ * EC-102 (`02_ecommerce_ai`) bu listede durur. Kamu kapısı `ACADEMY_EC102_PUBLIC_RELEASE_OPEN` açıktır.
  * Kapı kapalıyken kart «Çok Yakında / Hazırlanıyor»dır. `03_social_media_ai`, `04_chatbot_nocode` ve `05_prompt_practice` aynı kabuktadır.
  */
 export const ACADEMY_PRODUCTION_LINE_SKU_SLUGS = [
@@ -71,11 +71,10 @@ export function academyOff201VoiceStatus(): string {
 export const ACADEMY_NEXT_BODY_SKU_SLUG = "02_ecommerce_ai" as const;
 
 /**
- * EC-102 kamu kapısı. HOTFIX-EC102: ham görsel ve erkek Puck kaseti kamuya çıkmaz.
- * `false` iken satış, antre, oynatıcı ve site haritası kapalıdır.
- * Beş katman yeniden doğrulanmadan `true` yapılmaz.
+ * EC-102 kamu kapısı. Açıkken satış, antre, oynatıcı ve site haritası bu bayrağı okur.
+ * `false` iken kart «Çok Yakında / Hazırlanıyor» kalır.
  */
-export const ACADEMY_EC102_PUBLIC_RELEASE_OPEN = false;
+export const ACADEMY_EC102_PUBLIC_RELEASE_OPEN = true;
 
 export const ACADEMY_VITRINE_SHELL_SKU_SLUGS = [
   ACADEMY_FLAGSHIP_SKU_SLUG,
@@ -374,7 +373,7 @@ export function filterAcademyGrowthCatalog<T extends { slug: string }>(courses: 
 
 /**
  * PEDAGOJI §D 5'li Vitrin Karması.
- * Canlı kartlar OFF-101 ve OFF-201. EC-102 kamu kapısı kapalıyken Yakında kabuğudur. Kalan üç slug dürüst Yakında kabuğudur.
+ * Canlı kartlar OFF-101, OFF-201 ve EC-102. Kalan üç slug dürüst Yakında kabuğudur.
  */
 export function filterAcademyVitrineCatalog<T extends { slug: string }>(courses: readonly T[]): T[] {
   const bySlug = new Map(courses.map((row) => [row.slug, row] as const));

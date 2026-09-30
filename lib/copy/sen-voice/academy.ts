@@ -5,8 +5,8 @@ export const ACADEMY_SEN = {
     eyebrow: "Akademi",
     title: "Yapay zeka eğitimi ve online kurslar",
     description:
-      "Yapay zeka eğitimi ve online kurs vitrini. Ofiste Yapay Zekâ ve İleri Ofis Eğitimi yayındadır. İleri ofiste altı ders seslidir. E-Ticaret, sosyal medya, chatbot ve istem pratiği hazırlanıyor ve Çok Yakında / Hazırlanıyor rozetiyle durur. Sesi bitmemiş ders için boş oynatıcı açılmaz. Eğitimi incele. Dersler ödeme sonrası açılır. Sertifika doğrulama ve mevcut lisanslar çalışır.",
-    stats: "2 eğitim yayında · 4 eğitim çok yakında",
+      "Yapay zeka eğitimi ve online kurs vitrini. Ofiste Yapay Zekâ, İleri Ofis Eğitimi ve E-Ticaret yayındadır. İleri ofiste altı ders seslidir. Sosyal medya, chatbot ve istem pratiği hazırlanıyor ve Çok Yakında / Hazırlanıyor rozetiyle durur. Sesi bitmemiş ders için boş oynatıcı açılmaz. Eğitimi incele. Dersler ödeme sonrası açılır. Sertifika doğrulama ve mevcut lisanslar çalışır.",
+    stats: "3 eğitim yayında · 3 eğitim çok yakında",
     certificatesCta: "Sertifikalar",
     verifyCta: "Doğrula",
     live: (count: number) => (count > 0 ? "Eğitimler — ders, test ve yetkinlik" : ""),

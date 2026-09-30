@@ -16,6 +16,7 @@ import {
   isAcademyProductionLineSkuSlug,
 } from "@/lib/academy/pilot-sku";
 import { academyCourseIsComingSoon } from "@/lib/academy/course-cover";
+import { resolveAcademyCatalogCardCta } from "@/lib/academy/storefront-cta";
 import { academyModuleCodeBySlug } from "@/lib/academy/catalog-filter";
 import { academyCourseRecordFromSeed, academyVitrineShellCourses } from "@/lib/academy/published-catalog";
 import {
@@ -81,10 +82,10 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(closed.filter((row) => row.purchasable).map((row) => row.slug)).toEqual([]);
     expect(closed.find((row) => row.slug === "02_ecommerce_ai")?.isPublished).toBe(false);
     expect(closed.find((row) => row.slug === "02_ecommerce_ai")?.purchasable).toBe(false);
-    expect(academyCourseIsComingSoon("02_ecommerce_ai")).toBe(true);
+    expect(academyCourseIsComingSoon("02_ecommerce_ai")).toBe(false);
   });
 
-  it("EC-102 kamu kapısı yayınlı ve fiyatlı satırı da satın aldırmaz", () => {
+  it("EC-102 kamu kapısı açıkken yayınlı ve fiyatlı satır satın alınır", () => {
     const seed = academyVitrineDisplaySeed("02_ecommerce_ai");
     expect(seed).toBeDefined();
     const base = academyCourseRecordFromSeed(seed!);
@@ -96,8 +97,19 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
       purchasable: false,
     };
     const open = academyVitrineShellCourses([priced]);
-    expect(open.find((row) => row.slug === "02_ecommerce_ai")?.purchasable).toBe(false);
-    expect(open.find((row) => row.slug === "02_ecommerce_ai")?.isPublished).toBe(false);
+    const ec102 = open.find((row) => row.slug === "02_ecommerce_ai");
+    expect(ec102?.purchasable).toBe(true);
+    expect(ec102?.isPublished).toBe(true);
+    const card = resolveAcademyCatalogCardCta({
+      slug: "02_ecommerce_ai",
+      owned: false,
+      priceLabel: "₺990,00",
+      purchasable: ec102?.purchasable,
+      isPublished: ec102?.isPublished,
+    });
+    expect(card.cta).toBe("Satın Al");
+    expect(card.href).toBe("/academy/02_ecommerce_ai");
+    expect(card.ctaDisabled).toBeUndefined();
     expect(open.find((row) => row.slug === "01_office_ai")?.purchasable).toBe(false);
 
     const unpublished = academyVitrineShellCourses([{ ...priced, isPublished: false }]);
@@ -105,7 +117,7 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
 
     const noPrice = academyVitrineShellCourses([{ ...priced, priceMinor: null }]);
     expect(noPrice.find((row) => row.slug === "02_ecommerce_ai")?.purchasable).toBe(false);
-    expect(noPrice.find((row) => row.slug === "02_ecommerce_ai")?.isPublished).toBe(false);
+    expect(noPrice.find((row) => row.slug === "02_ecommerce_ai")?.isPublished).toBe(true);
   });
 
   it("katalog viewport kilidi html taşmasını kesmez; künye kaydırma gövdesindedir", () => {
@@ -167,13 +179,13 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(isAcademyRetiredStorefrontSlug("security-temel")).toBe(true);
     expect(isAcademyRetiredStorefrontSlug("excel-masterclass")).toBe(true);
     expect(isAcademyRetiredStorefrontSlug("06_n8n_automation")).toBe(true);
-    expect(isAcademyRetiredStorefrontSlug("02_ecommerce_ai")).toBe(true);
+    expect(isAcademyRetiredStorefrontSlug("02_ecommerce_ai")).toBe(false);
     expect(isAcademyRetiredStorefrontSlug("05_prompt_practice")).toBe(true);
     expect(isAcademyRetiredStorefrontSlug("01_office_ai")).toBe(false);
     for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
       expect(isAcademyRetiredStorefrontSlug(slug), slug).toBe(false);
     }
-    expect([...ACADEMY_VITRINE_SLUGS_FOR_TEST]).toEqual(["01_office_ai"]);
+    expect([...ACADEMY_VITRINE_SLUGS_FOR_TEST]).toEqual(["01_office_ai", "02_ecommerce_ai"]);
     const fromUnits = ACADEMY_LEGACY_PURGE_CATALOG_UNITS.map((unit) => unit.slice("course:".length));
     expect([...ACADEMY_LEGACY_UNIT_SLUGS_FOR_TEST].sort()).toEqual([...fromUnits].sort());
     const redirects = academyRetiredStorefrontRedirects();

@@ -24,9 +24,9 @@ function readSrc(relative: string): string {
 }
 
 describe("saha pilotu — hosted apply disk planı", () => {
-  it("35 Prisma + on iki SQL birebir; ops:migrate lab stub basmaz", () => {
+  it("35 Prisma + on üç SQL birebir; ops:migrate lab stub basmaz", () => {
     expect(EXPECTED_PRISMA_MIGRATIONS).toHaveLength(35);
-    expect(EXPECTED_SQL).toHaveLength(12);
+    expect(EXPECTED_SQL).toHaveLength(13);
     const plan = inspectHostedApplyDiskPlan(ROOT);
     expect(plan.issues).toEqual([]);
     expect(plan.prismaFolders).toEqual([...EXPECTED_PRISMA_MIGRATIONS]);

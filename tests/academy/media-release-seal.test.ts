@@ -76,7 +76,7 @@ describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kase
     }
     expect(academyCourseSaleOpen("01_office_ai")).toBe(true);
     expect(academyCourseSaleOpen("01_office_ai_ileri")).toBe(true);
-    expect(academyCourseSaleOpen("02_ecommerce_ai")).toBe(false);
+    expect(academyCourseSaleOpen("02_ecommerce_ai")).toBe(true);
     expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai"]);
     expect(academyLessonAudioObjectPath("sample-course", "sample-course-1")).toBe(
       "academy/audio/sample-course/sample-course-1.wav",
