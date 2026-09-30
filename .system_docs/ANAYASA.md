@@ -9,12 +9,13 @@ Bu belge iki katmandan oluşur:
 | Alan | Değer |
 |------|--------|
 | Tarih | 16 Ağustos 2026 |
-| Son Reform | **28 Eylül 2026:** B4 yayın hedefini beş medya katmanına kilitler. Metin, Ses, Video, Görsel ve Müzik katmanlarından biri eksikken fırın açılmaz ve `--seal` basılmaz. Üç aşamalı kontrol kapısı son kontrolde beş katmanı teyit eder. Süre ve sayısal sınırın tek evi koddur. A1–A5 çizgisi gevşetilmedi. |
 | Kamu markası / domain | `yetkin.ai` |
 | Kalıcı belgeler | `/.system_docs` |
 | Ops | `.system_docs/OPS_RUNBOOK.md` (db / paytr / inngest / dron) |
 | Vizyon | `.system_docs/MANIFESTO.md` |
 | Günlük rapor | `/docs` — build fixture değildir |
+
+**SSOT sırası.** Sayı, model kimliği, rol ve bayrak değeri yaşayan koddadır; bu belge onları tekrarlamaz, yalnız ilkeyi ve kodun evini söyler. Model ve rol tanımının tek çalışma zamanı evi `lib/kernel/ai/model-roles.ts` dosyasıdır (`ACADEMY_SEALED_MEDIA_MODEL`). Bu belge, `MANIFESTO.md`, `PEDAGOJI.md` ve `.cursorrules` bu kodla hizalıdır. Super Admin’in kilitli model haritası `.system_docs/AKADEMI_URETIM_ANAYASASI.md` dosyasındadır; kod o haritayla aynı kalır. Uyumsuzluk bulunursa belge silinmez veya eski modele çekilmez, kod dosyası haritaya eşitlenir.
 
 ---
 
@@ -64,6 +65,7 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 ## B1. Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci
 
 * **Mimari ad:** Canlı ürün bu cümledir. Amiral gövde bu Next.js monolith’tir (`app/`, `lib/`). İnce sözleşme paketi `@yetkin/kernel` (`packages/kernel`)dir; para, katalog kimliği, v1 hop ve JSON zarfını taşır. Prisma ve Supabase taşımaz. Tek native istemci `apps/rail-is`tir ve aynı `/api/v1` hop sicilini tüketir. Ayrı deploy, ayrı veritabanı ve ayrı kimlik yoktur. «Sürü Dron» ve «Micro-Apps» bu adın yerine geçmez. İkinci istemci ancak aynı paketi ve aynı hop’u tüketerek doğar. Bugün tek native istemci vardır.
+* **Terminoloji hizası:** «Amiral Gemi + Sürü Dron» ve «Core + Micro-Apps / Shared Kernel» eski anlatım dilidir; ayrı bir mimari tarif etmez, bu maddedeki yapının takma adıdır. Karşılıkları: Amiral Gemi = Pragmatik Monolit. Sürü Dron = monolit içindeki kayıtlı yetenek ve oda (`lib/dronlar/kayit.ts` kaydı, `DronBayrakları` bayrağı, route öneki); ayrı uygulama veya ayrı dağıtım değildir. Shared Kernel = `@yetkin/kernel`. Yeni belge ve kod bu adı değil Mimari adı kullanır.
 * **Katman disiplini:** Modülerlik ESLint kuralları, TypeScript ve sağlıklı yazılım prensipleriyle korunur. `lib/kernel` dikey oda motoru import etmez.
 * **Yeni yetenek önce v1 hop’tur.** Tek native istemcinin tüketeceği yazma/okuma yeteneği `RAIL_V1_HOPS_META` siciline yazılır; kanonik handler aynı omurgada durur. RSC’nin `lib/` üzerinden **okuma/query** yüklemesi serbesttir. Yazma işlemi sessizce yalnız web BFF’te bırakılmaz.
 * **Dış sözleşme:** Tek native istemci `/api/v1` JSON zarfı `{ ok, error, requestId, apiVersion, data }` ile konuşur. Shared Kernel `@yetkin/kernel` paketidir.
@@ -104,13 +106,16 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 * **Konunun Hakkı:** Ders makaleye veya okuma dökümanına indirgenmez. Süre bantları üretim standardıdır; müfredatın hakkını kesmek için gerekçe gösterilemez.
 * **Müfredat ilkesi `.system_docs/PEDAGOJI.md` içindedir.** Haftalık SKU envanteri ve kaset listesi Anayasa maddesi değildir; sayılar ve müfredat koddadır.
 * **Canlı yol** `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` SSOT’udur. Sınav yolu anahtar tablosu `lib/kernel/catalog-ids/exam-path.ts` içindedir; `lesson-index` onu yeniden dışa aktarır. İzlemede canlı üretici API (`VIDEO_GEN` / TTS) yoktur. Bake ayrıntısı `lib/academy/production-standard.ts` ve `scripts/generate-academy-lesson-audio.ts`, `scripts/generate-academy-lesson-veo.ts`, `scripts/generate-academy-lesson-bed.ts` içindedir.
+* **Freemium ilkesi (ücretsiz önizleme):** Her eğitimin ilk dersi, varsa hazırlık şeridiyle birlikte, herkese açık ve ücretsiz önizlemedir. Oturumsuz ziyaretçi o dersi izler ve dinler; bu, eğitimin vitrinidir. Sonraki dersler, sınav yolu ve sertifika lisans ister. Önizleme A4 mührünü, A1 fiyat kaydını veya satış kapısını (B3) gevşetmez; yalnız ilk dersin oynatımını açar. Dersi olmayan boş kabuk eğitimde önizleme yoktur. Önizlemenin süresi yoktur; lisansın süresi ayrıdır. Hangi dersin açık sayıldığının tek kaynağı koddur: sınav yolunun ilk anahtarı (`lib/kernel/catalog-ids/exam-path.ts`, `lib/kernel/catalog-ids/free-preview.ts`). Bu ilke bir veritabanı bayrağı değildir; Super Admin DB’den açıp kapatamaz, karar bu belgede ve kodda durur.
 * **Karar tablosu (tek bakış, sıfır atlama):**
 
 | Soru | SSOT |
 |------|------|
 | Yayın formatı (5 medya katmanı; son kontrol olmadan `--seal` yok) | Bu madde (B4) ve `.system_docs/PEDAGOJI.md` |
 | 1 Eğitim Kodu = 1 Ses | `lib/academy/instructors.ts` (`courseMasterVoice`, `ACADEMY_OFF201_COURSE_MASTER_VOICE`) |
+| Model ve rol kimliği (ses, görsel, müzik, metin, canlı sohbet) | `lib/kernel/ai/model-roles.ts` (`ACADEMY_SEALED_MEDIA_MODEL`); Super Admin haritası `.system_docs/AKADEMI_URETIM_ANAYASASI.md` ile hizalı |
 | Ses modeli | `lib/kernel/ai/model-roles.ts` (`ACADEMY_SEALED_MEDIA_MODEL`) |
+| Ücretsiz önizleme (her eğitimin ilk dersi) | Bu madde (B4) ve `.system_docs/PEDAGOJI.md`; kod `lib/kernel/catalog-ids/exam-path.ts` |
 | Süre, ders sayısı ve TTS istek tavanı | `lib/academy/production-standard.ts` |
 | Sınav barajı | `lib/academy/exam.ts` (`ACADEMY_EXAM_PASS_SCORE`) |
 | Canlı kaset / sınav yolu | `lib/academy/pilot-sku.ts`, `lib/academy/curricula/lesson-index.ts` |

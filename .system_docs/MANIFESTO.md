@@ -5,8 +5,7 @@
 | Alan | Değer |
 |------|--------|
 | Tarih | 17 Ağustos 2026 |
-| Statü | Vizyon ve Strateji Belgesi. Anayasa'nın ruhunu, iş modelini ve büyüme hedeflerini açıklar. |
-| Son Reform | **27 Eylül 2026:** Mimari paragraf Anayasa B1’e bırakıldı. Bu belge pazar, vizyon ve gelir modelinde kalır. |
+| Statü | Vizyon ve Strateji Belgesi. Anayasa'nın ruhunu, iş modelini ve büyüme hedeflerini açıklar. Mimari paragraf Anayasa B1’dedir; bu belge pazar, vizyon ve gelir modelinde kalır. |
 | Yer | `/.system_docs/MANIFESTO.md` |
 | Çelişki | Bir cümle Anayasa ile çatışırsa `.system_docs/ANAYASA.md` bağlayıcıdır. |
 | Durum | Yaşayan kesit `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir. |
@@ -65,14 +64,14 @@ Faz 1 kamu vitrini kilidi **Anayasa B2**’dedir; Manifesto o kilidi ikinci kez 
 **Oda tavanı esnektir** cümlesi Faz 2 checklist’idir, Faz 1 kilidini gevşetmez: yeni oda/dron = kayıt + sözleşme + bayrak. Kamu kanıt URL’si (`/vize`) yeni oda açmaz.
 
 ### Dron durumu
-Mimari ad, ince sözleşme paketi ve native istemci sınırı **Anayasa B1**’dedir: **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci**. Bu belge o paragrafı ikinci kez yazmaz. Haftalık istemci kesiti `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir.
+Mimari ad, ince sözleşme paketi ve native istemci sınırı **Anayasa B1**’dedir: **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci**. Bu belge o paragrafı ikinci kez yazmaz. «Amiral Gemi + Sürü Dron» ve «Core + Micro-Apps» eski anlatım dilidir; karşılığı bu yapıdır: Amiral Gemi Pragmatik Monolit’tir, Sürü Dron monolit içindeki kayıtlı yetenek ve odadır (ayrı dağıtım değildir), Shared Kernel Anayasa B1’deki ince sözleşme paketidir. Model ve rol kimliği bu belgede durmaz; çalışma zamanı tek evi `lib/kernel/ai/model-roles.ts` dosyasıdır ve belgeler bu kodla hizalıdır. Haftalık istemci kesiti `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir.
 
 ### Kesit kuralı
 Haftalık kesit `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir.
 
 ## Kural 2 — Vize Kapısı
 
-Nitelikli ilana teklif, ilgili belgelenmiş yetkinliğe (Kariyer vizesi) bağlıdır. Bu, alıcıyı kalitesiz teklif yağmurundan korur. Kapı ayrıntısı ve teknik şartname `docs/specs/freelancer-vize-kapisi.md` içindedir. Bu kural vizyon sicilidir; kilitli yüzeyde canlı kapı diye okunmaz.
+Nitelikli ilana teklif, ilgili belgelenmiş yetkinliğe (Kariyer vizesi) bağlıdır. Bu, alıcıyı kalitesiz teklif yağmurundan korur. Kapının tek evi koddur: `lib/career/visa-gate.ts` ve `lib/freelancer/job-visa-lock.ts`. Bu kural vizyon sicilidir; kilitli yüzeyde canlı kapı diye okunmaz.
 
 ## Kural 3 — Tek Defter ve S43
 

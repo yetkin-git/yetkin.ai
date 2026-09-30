@@ -1,10 +1,10 @@
 # PEDAGOJI.md — Eğitim felsefesi
 
-Bu belge platformun **kalıcı eğitim felsefesini**, Google AI Studio medya fabrikası rol dağılımını ve görsel-işitsel reji standartlarını tanımlar. Canlı uç kimliği kod SSOT’tadır (`lib/kernel/ai/model-roles.ts`). Bake kapısı `lib/academy/production-standard.ts` içindedir. CLI `scripts/generate-academy-lesson-audio.ts`, `scripts/generate-academy-lesson-veo.ts` ve `scripts/generate-academy-lesson-bed.ts` içindedir. Canlı kaset `lib/academy/pilot-sku.ts` içindedir. Ders adedi `lib/academy/curricula/lesson-index.ts` içindedir.
+Bu belge platformun **kalıcı eğitim felsefesini**, Google AI Studio medya fabrikası rol dağılımını ve görsel-işitsel reji standartlarını tanımlar. Model ve rol kimliğinin çalışma zamanı tek evi koddur (`lib/kernel/ai/model-roles.ts`); bu belge o kodla hizalıdır ve kimliği tekrarlamaz. Super Admin’in kilitli model haritası `.system_docs/AKADEMI_URETIM_ANAYASASI.md` dosyasındadır; uyumsuzlukta kod haritaya eşitlenir. Bake kapısı `lib/academy/production-standard.ts` içindedir. CLI `scripts/generate-academy-lesson-audio.ts`, `scripts/generate-academy-lesson-veo.ts` ve `scripts/generate-academy-lesson-bed.ts` içindedir. Canlı kaset `lib/academy/pilot-sku.ts` içindedir. Ders adedi `lib/academy/curricula/lesson-index.ts` içindedir.
 
-Çelişkide `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır. Hedef yayın Anayasa B4 karar tablosudur. Beş medya katmanının bu belgedeki tek tanımı §B «Zorunlu üretim sırası» altındadır. Üç kontrol kapısının tek tanımı aynı bölümdeki «3 aşamalı kontrol kapısı» altındadır. Süre ve sayısal sınırın tek evi koddur. Son hiza **30 Eylül 2026**.
+Çelişkide `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır. Hedef yayın Anayasa B4 karar tablosudur. Beş medya katmanının bu belgedeki tek tanımı §B «Zorunlu üretim sırası» altındadır. Üç kontrol kapısının tek tanımı aynı bölümdeki «3 aşamalı kontrol kapısı» altındadır. Süre ve sayısal sınırın tek evi koddur.
 
-Mimari ad Anayasa B1’dir: **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci**. Bu belge öğretme kuralını ve yayın formatını tutar. İkinci bir ürün mimarisi, sürü veya ayrı servis hikâyesi açmaz.
+Mimari ad Anayasa B1’dir: **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci**. «Amiral Gemi + Sürü Dron» eski anlatım dilidir; karşılığı bu yapıdır (Amiral Gemi Pragmatik Monolit, Sürü Dron monolit içindeki kayıtlı yetenek ve oda, Shared Kernel `@yetkin/kernel`). Bu belge öğretme kuralını ve yayın formatını tutar. İkinci bir ürün mimarisi, sürü veya ayrı servis hikâyesi açmaz.
 
 ---
 
@@ -45,7 +45,7 @@ Konuşma metninin kişiliği tezgâhın yanındaki ustadır. Anlatıcı akademis
 * **Eylem öğrencidedir.** Yapay zekâ işi yapan değil, asistandır. «Sen okursun. Sen karar verirsin. Vitrine de sen koyarsın.»
 * **Kapanış duası:** «Tezgâhın bereketli olsun. Satışın hayırlı gelsin.»
 * **Konuşan ad:** Tezgâh kursunun anlatıcısı Deniz'dir. Mühürlü ses adı kursa göredir. OFF-101 Gözde, OFF-201 Aylin adıyla açılır (Anayasa B4, `lib/academy/instructors.ts`). Bu madde o mührü değiştirmez. Dil her kursta aynı usta dilidir.
-* **Fonetik yazım:** Kaynak cümle sayıyı ve ölçüyü kelimeyle yazar (`iki adet`, `elliye yetmiş santimetre`). Kısaltmanın ses okunuşu `lib/academy/spoken-scripts/phonetics.ts` içindedir (`SEO` → `Es i o`, `N11` → `En on bir`).
+* **Fonetik yazım:** Kaynak cümle sayıyı ve ölçüyü kelimeyle yazar (`iki adet`, `elliye yetmiş santimetre`). Ses bu kelimeyi okur. Ekran ve altyazı aynı ölçüyü rakamla basar (`2 adet`, `50x70 cm`). Kısaltmanın ses okunuşu `lib/academy/spoken-scripts/phonetics.ts` içindedir (`SEO` → `Seo`, `N11` → `En on bir`).
 
 Her yeni ders metni şu beş aşamayla yazılır. İstem `ACADEMY_LESSON_TEXT_SYSTEM_PROMPT` (`lib/academy/lesson-text-standard.ts`) içindedir. Bu paragraf o istemin ikinci kopyası değildir.
 
@@ -72,6 +72,10 @@ Karaoke sahnesinde uzun paragraf gösterilmez. Sahnede yalnız o saniyeye ait k�
 ### 4. Reji dağılımı
 
 Sahne süresi **%80 canlı uygulama ekranı**, **%20 sinematik veya kılavuz kartı**dır. Sabit, işlevsiz logo veya boş plaka sahnenin gövdesi olamaz. Isınma klibi biter; iş beat’i canlı ekranda yürür. Ayrıntı `lib/academy/lesson-beat-visual.ts` içindedir.
+
+### 5. Ücretsiz önizleme (Freemium)
+
+Her eğitimin ilk dersi, varsa hazırlık şeridiyle birlikte, herkese açık ve ücretsiz önizlemedir. Öğrenci karar vermeden önce eğitimin dilini, sesini ve temposunu bedelsiz görür. Bu, pedagojinin parçasıdır: ilk ders tam ders kalitesinde yazılır ve seslendirilir, kırpılmış tanıtım olmaz. Sonraki dersler lisans ister. Önizleme sertifika, sınav mührü veya fiyat kaydı yerine geçmez; resmî ilke Anayasa B4 «Freemium ilkesi» maddesidir. Açık dersin kararı kodda sınav yolunun ilk anahtarıdır (`lib/kernel/catalog-ids/exam-path.ts`). Yeni kurs eklenirken sınav yolunun ilk dersi bu kuralı taşıyacak şekilde seçilir.
 
 ---
 

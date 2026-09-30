@@ -120,9 +120,15 @@ Bağlamı canlı ürün koduna sıkıştır: **app → components → lib → pr
 
 ## Dokunulmaz referans kartı
 
-`.system_docs/AKADEMI_URETIM_ANAYASASI.md ve bağlı görseller dokunulmazdır, ajan tarafından düzenlenemez.`
+AKADEMI_URETIM_ANAYASASI.md dosyası Yetkin.ai Akademi Eğitim Hazırlama Prosedürüdür. Ajan, Kilitli Model Haritasındaki güncel model isimlerini (Gemini 3.8 v.s.) kendi bilgi sınırına dayanarak değiştiremez, silemez, eski modellere düşüremez. Kod tarafı (lib/kernel/ai/model-roles.ts) bu prosedürdeki güncel modellere uymak zorundadır.
 
-Bu kart Super Admin’in insan gözüyle okuduğu değişmez referanstır. Metin, görsel ve model tablosu silinmez, değiştirilmez, refactor edilmez. Kod tarafındaki model kimliği SSOT `lib/kernel/ai/model-roles.ts` olmaya devam eder.
+Bağlı görseller (`.system_docs` ekran görüntüleri) ajan tarafından silinmez ve yeniden yazılmaz. Model tablosu ve beş aşama kapısı silinmez, eski modele çekilmez, refactor edilmez.
+
+SUPER_ADMIN model tercihlerini .system_docs/AKADEMI_URETIM_ANAYASASI.md üzerinden yönetir. Ajan bu dokümandaki model haritasını veya metinleri asla silemez. Bir uyumsuzluk varsa ajan dokümanı değil, kod dosyasını (lib/kernel/ai/model-roles.ts) dokümana eşitlemekle yükümlüdür.
+
+SSOT hizası: Model ve rol kimliğinin çalışma zamanı tek evi `lib/kernel/ai/model-roles.ts` dosyasıdır. `ANAYASA.md`, `MANIFESTO.md`, `PEDAGOJI.md` ve bu dosya o kodla hizalıdır; kimliği kendi içlerinde tekrarlamaz. Kilitli model haritası yukarıdaki kartta anılan SOP belgesindedir ve kod ona eşittir. Hizayı bozan taraf koddur; düzeltilen taraf kod olur, harita silinmez.
+
+Terminoloji: «Amiral Gemi + Sürü Dron» eski anlatım dilidir. Canlı mimari `ANAYASA.md` B1’deki **Pragmatik Monolit + İnce Sözleşme Paketi (`@yetkin/kernel`) + Tek Native İstemci** yapısıdır. Yeni kod, yorum ve belge bu adı kullanır.
 
 ---
 
@@ -143,6 +149,8 @@ Sayı, model kimliği, tempo ve ses mührü bu dosyada tekrarlanmaz. Fırın ve 
 | Vatandaş dili, tek iş tek cümle, slogan yasağı | `.system_docs/PEDAGOJI.md` |
 | Ders metni: Deniz usta, beş aşama, yazım istemi | `lib/academy/lesson-text-standard.ts` |
 | Yayın formatı ve satış kapısı | `.system_docs/ANAYASA.md` B3 ve B4 |
+| Ücretsiz önizleme: her eğitimin ilk dersi (ve varsa hazırlık şeridi) herkese açık | `.system_docs/ANAYASA.md` B4, `.system_docs/PEDAGOJI.md` §A.5; kod `lib/kernel/catalog-ids/exam-path.ts` |
+| Mimari ad ve terminoloji (Amiral Gemi + Sürü Dron eşleşmesi) | `.system_docs/ANAYASA.md` B1 |
 
 Fırın, beş katmandan biri eksikken mühürlenmez. Metin kırpılmaz. Ayrıntı yukarıdaki evlerdedir.
 
