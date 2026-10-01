@@ -36,7 +36,7 @@ export const PAGE_SEO = {
   home: {
     title: PUBLIC_SEN.home.title,
     description:
-      "Yapay zeka eğitimi ve online kurs vitrini hazırlanıyor. Prompt eğitimi hazır olunca yayımlanır. Testi geç; yapay zeka sertifikan mühürlenir, kariyer vizesi Kariyer sayfana işlenir. PayTR iFrame + 3D Secure.",
+      "Yapay zekâ odaklı çevrim içi eğitimler, sertifikasyon programları ve kariyer atölyeleri sunan beceri tabanlı dijital eğitim platformu. Ofiste ChatGPT, Excel Copilot ve E-Ticaret Yapay Zekâ Asistanlığı eğitimleriyle yetkinliğini kanıtla, kariyerini mühürle.",
     path: "/",
     image: DEFAULT_OG_IMAGE,
   },
