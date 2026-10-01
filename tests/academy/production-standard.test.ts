@@ -439,14 +439,14 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(instructors).not.toContain("ACADEMY_OFF201_LESSON_TTS_VOICE");
     expect(instructors).toContain("ACADEMY_OFF201_COURSE_MASTER_VOICE");
     for (const slug of slugs) {
-      const module = CURRICULUM_MODULES_BY_SLUG[slug];
-      expect(module, slug).toBeDefined();
-      expect(module!.voiceConfig).not.toHaveProperty("lessonVoices");
-      expect(typeof module!.voiceConfig.courseMasterVoice).toBe("string");
+      const courseModule = CURRICULUM_MODULES_BY_SLUG[slug];
+      expect(courseModule, slug).toBeDefined();
+      expect(courseModule!.voiceConfig).not.toHaveProperty("lessonVoices");
+      expect(typeof courseModule!.voiceConfig.courseMasterVoice).toBe("string");
       const lessons = CURRICULUM_DRAFTS_BY_SLUG[slug] ?? [];
       const voicesUsed = [
         ...new Set([
-          module!.voiceConfig.courseMasterVoice,
+          courseModule!.voiceConfig.courseMasterVoice,
           academyCourseMasterVoice(slug),
           ...lessons.map(() => academyInstructorTtsCast(slug).voice),
         ]),

@@ -372,7 +372,6 @@ export async function completeAcademyLesson(
   },
 ): Promise<{ applied: boolean; completion: AcademyLessonCompletionRecord; player: AcademyCurriculumPlayerView }> {
   const actor = actorOf(command);
-  const unlimited = hasUnlimitedAcademyAccess(actor);
   const course = await requireWritableCourse(ports.academy, command.courseId);
   const lesson = academyLessonByKey(course.slug, command.lessonKey);
   if (!lesson) {
