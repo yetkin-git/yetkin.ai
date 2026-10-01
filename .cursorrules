@@ -122,7 +122,7 @@ Bağlamı canlı ürün koduna sıkıştır: **app → components → lib → pr
 
 AKADEMI_URETIM_ANAYASASI.md dosyası Yetkin.ai Akademi Eğitim Hazırlama Prosedürüdür. Ajan, Kilitli Model Haritasındaki güncel model isimlerini (Gemini 3.8 v.s.) kendi bilgi sınırına dayanarak değiştiremez, silemez, eski modellere düşüremez. Kod tarafı (lib/kernel/ai/model-roles.ts) bu prosedürdeki güncel modellere uymak zorundadır.
 
-Bağlı görseller (`.system_docs` ekran görüntüleri) ajan tarafından silinmez ve yeniden yazılmaz. Model tablosu ve beş aşama kapısı silinmez, eski modele çekilmez, refactor edilmez.
+Model tablosu ve beş aşama kapısı silinmez, eski modele çekilmez, refactor edilmez.
 
 SUPER_ADMIN model tercihlerini .system_docs/AKADEMI_URETIM_ANAYASASI.md üzerinden yönetir. Ajan bu dokümandaki model haritasını veya metinleri asla silemez. Bir uyumsuzluk varsa ajan dokümanı değil, kod dosyasını (lib/kernel/ai/model-roles.ts) dokümana eşitlemekle yükümlüdür.
 
