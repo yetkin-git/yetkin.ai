@@ -1,6 +1,6 @@
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
+import { resolveAcademyEntitlement } from "@/lib/academy/entitlement";
 import type { AcademyLessonDiagramSlot, AcademyLessonMicroVideoSlot } from "@/lib/academy/lesson-media";
-import { isAcademyFreePreviewLessonKey } from "@/lib/academy/purchase-path";
 
 export type AcademyPaywallLockedLessonShell = {
   key: string;
@@ -20,8 +20,15 @@ export type AcademyPaywallLockedLessonShell = {
 export function academyPaywallLockedLessonShells(
   courseSlug: string,
 ): AcademyPaywallLockedLessonShell[] {
+  const now = new Date();
   return curriculumForCourseSlug(courseSlug).map((lesson) => {
-    const preview = isAcademyFreePreviewLessonKey(lesson.key);
+    const preview = resolveAcademyEntitlement({
+      actor: null,
+      purchase: null,
+      courseSlug,
+      lessonKey: lesson.key,
+      now,
+    }).open;
     if (!preview) {
       return {
         key: lesson.key,

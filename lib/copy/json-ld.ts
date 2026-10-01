@@ -9,9 +9,11 @@ import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { LEGAL_ENTITY, LEGAL_PAGE_TITLE, LEGAL_WHATSAPP_HREF } from "@/lib/copy/legal-launch";
 import {
   CANONICAL_SITE_ORIGIN,
+  ECOMMERCE_AI_SEO,
   OFFICE_AI_ILERI_SEO,
   OFFICE_AI_SEO,
   PAGE_SEO,
+  academyCourseSeoOverride,
   canonicalUrl,
 } from "@/lib/copy/seo";
 
@@ -126,6 +128,29 @@ export const OFFICE_AI_ILERI_COURSE_TEACHES = [
   "Üç dosyada sayı denetimi",
 ] as const;
 
+/** EC-102 altı dersin öğrettiği iş. Antre JSON-LD `teaches` yedeği. */
+export const ECOMMERCE_AI_COURSE_TEACHES = [
+  "Pazaryeri ürün açıklaması",
+  "Görsel standart ve arka plan temizleme",
+  "Yorum, şikâyet ve iade analizi",
+  "Rakip, fiyat ve kâr marjı",
+  "Toplu ürün açıklaması ve şablon",
+  "Mağaza puanı ve müşteri mesajı",
+] as const;
+
+/** SERP title `| yetkin.ai` ile biterse sertifika adı markayı ikinci kez yazmaz. */
+function courseCredentialLabel(title: string): string {
+  const brandedSuffix = ` | ${YETKIN_BRAND}`;
+  return title.endsWith(brandedSuffix) ? title.slice(0, -brandedSuffix.length) : title;
+}
+
+function courseCredentialName(slug: string, title: string): string {
+  if (slug === OFFICE_AI_SEO.slug) {
+    return "yetkin.ai Ofis Yapay Zekâ Sertifikası";
+  }
+  return `${YETKIN_BRAND} ${courseCredentialLabel(title)} Sertifikası`;
+}
+
 export type CourseSyllabusLessonInput = {
   name: string;
   durationMin?: number | null;
@@ -202,17 +227,14 @@ export function courseJsonLd(input: {
   const priceCurrency = input.priceCurrency?.trim() || "TRY";
   const teaches =
     input.teaches ??
-    (input.slug === "01_office_ai"
+    (input.slug === OFFICE_AI_SEO.slug
       ? [...OFFICE_AI_COURSE_TEACHES]
       : input.slug === OFFICE_AI_ILERI_SEO.slug
         ? [...OFFICE_AI_ILERI_COURSE_TEACHES]
-        : undefined);
-  const keywords =
-    input.slug === OFFICE_AI_SEO.slug
-      ? [...OFFICE_AI_SEO.keywords]
-      : input.slug === OFFICE_AI_ILERI_SEO.slug
-        ? [...OFFICE_AI_ILERI_SEO.keywords]
-        : undefined;
+        : input.slug === ECOMMERCE_AI_SEO.slug
+          ? [...ECOMMERCE_AI_COURSE_TEACHES]
+          : undefined);
+  const keywords = academyCourseSeoOverride(input.slug)?.keywords;
   const lessons =
     input.lessons ??
     (input.slug === "01_office_ai" ? OFFICE_AI_SYLLABUS_LESSONS : undefined);
@@ -279,10 +301,7 @@ export function courseJsonLd(input: {
     ...(keywords && keywords.length > 0 ? { keywords } : {}),
     educationalCredentialAwarded: {
       "@type": "EducationalOccupationalCredential",
-      name:
-        input.slug === "01_office_ai"
-          ? "yetkin.ai Ofis Yapay Zekâ Sertifikası"
-          : `${YETKIN_BRAND} ${input.title} Sertifikası`,
+      name: courseCredentialName(input.slug, input.title),
       credentialCategory: "certificate",
       recognizedBy: { "@id": ORGANIZATION_ID },
     },
@@ -343,15 +362,13 @@ export function educationalOccupationalProgramJsonLd(input: {
     image: canonicalUrl(input.imagePath),
     inLanguage: "tr",
     educationalProgramMode: "online",
-    occupationalCategory: "Ofis çalışanı",
+    occupationalCategory:
+      input.slug === ECOMMERCE_AI_SEO.slug ? "E-ticaret çalışanı" : "Ofis çalışanı",
     ...(timeToComplete ? { timeToComplete } : {}),
     hasCourse: { "@id": `${url}#course` },
     educationalCredentialAwarded: {
       "@type": "EducationalOccupationalCredential",
-      name:
-        input.slug === OFFICE_AI_SEO.slug
-          ? "yetkin.ai Ofis Yapay Zekâ Sertifikası"
-          : `${YETKIN_BRAND} ${input.name} Sertifikası`,
+      name: courseCredentialName(input.slug, input.name),
       credentialCategory: "certificate",
       recognizedBy: { "@id": ORGANIZATION_ID },
     },

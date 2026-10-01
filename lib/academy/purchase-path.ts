@@ -5,6 +5,7 @@
  * Baraj sayısı `ACADEMY_EXAM_PASS_SCORE` (70) ile hizalıdır; exam motorunu import etmez.
  */
 
+import { resolveAcademyEntitlement } from "@/lib/academy/entitlement";
 import { academyCourseHasSealedAudio } from "@/lib/academy/pilot-sku";
 import {
   academyCourseOffersFreePreview,
@@ -97,19 +98,29 @@ export function isAcademyFreePreviewLessonKey(lessonKey: string): boolean {
   return key === ACADEMY_FREE_PREVIEW_LESSON_KEY || isAcademyExamPathFirstLessonKey(key);
 }
 
-/** Satın alma yokken ders 2+ ödeme duvarındadır. Hazırlık şeridi ve sınav yolunun ilk dersi açık kalır. */
+/**
+ * Satın alma yokken ders 2+ ödeme duvarındadır.
+ * Hazırlık şeridi ve sınav yolunun ilk dersi açık kalır.
+ * Karar `resolveAcademyEntitlement`. Yabancı anahtar, satın alındı dense de duvarda kalır.
+ * `purchased` çağıranın kurs lisansı bayrağıdır; önizleme dersinin süresini kesmez.
+ */
 export function isAcademyLessonPaywalled(
   courseSlug: string,
   lessonKey: string,
   purchased: boolean,
 ): boolean {
+  const decision = resolveAcademyEntitlement({
+    actor: null,
+    purchase: null,
+    courseSlug,
+    lessonKey,
+    now: new Date(0),
+  });
+  if (!decision.lessonBelongsToCourse) {
+    return true;
+  }
   if (purchased) {
     return false;
   }
-  const key = lessonKey.trim();
-  if (key === ACADEMY_FREE_PREVIEW_LESSON_KEY && courseSlug.trim() === "01_office_ai") {
-    return false;
-  }
-  const first = academyExamPathFirstLessonKey(courseSlug);
-  return first == null || key !== first;
+  return decision.paywallLocked;
 }

@@ -1,8 +1,9 @@
 import { randomUUID } from "node:crypto";
 import {
-  ACADEMY_GRANT_LOCK_PREFIX,
-  hasCommercialAcademyEnrolment,
-} from "@/lib/academy/enrolment";
+  ACADEMY_LOCKED_LESSON_PROBE,
+  resolveAcademyEntitlement,
+} from "@/lib/academy/entitlement";
+import { ACADEMY_GRANT_LOCK_PREFIX } from "@/lib/academy/enrolment";
 import { isAcademyLicenseActive } from "@/lib/academy/license";
 import type { AcademyPurchaseRecord, AcademyStore } from "@/lib/academy/types";
 import {
@@ -16,6 +17,13 @@ import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 
 export { isCanonicalSuperAdminEmail };
+export {
+  academyLessonBelongsToCourse,
+  resolveAcademyEntitlement,
+  type AcademyEntitlement,
+  type AcademyEntitlementActor,
+  type AcademyEntitlementReason,
+} from "@/lib/academy/entitlement";
 
 export const ACADEMY_GRANT_PURPOSE = "academy-grant" as const;
 
@@ -66,21 +74,35 @@ export function hasUnlimitedAcademyAccess(actor: AcademyActor): boolean {
 }
 
 /**
+ * Kurs düzeyi lisans.
+ * Önizleme dersi açık sayılmaz: sonda `ACADEMY_LOCKED_LESSON_PROBE` ikinci derstir.
+ * Dönüş yalnız `admin-bypass` veya `active-licence` iken doğrudur.
+ */
+function licenceProbeOpens(
+  purchase: AcademyPurchaseRecord | null | undefined,
+  actor: AcademyActor | null,
+  now: Date,
+): boolean {
+  const decision = resolveAcademyEntitlement({
+    actor,
+    purchase,
+    courseSlug: ACADEMY_LOCKED_LESSON_PROBE.courseSlug,
+    lessonKey: ACADEMY_LOCKED_LESSON_PROBE.lessonKey,
+    now,
+  });
+  return decision.reason === "admin-bypass" || decision.reason === "active-licence";
+}
+
+/**
  * Ders oynatıcı + Antre içerik kapısı — ticari lisans veya ADMIN bypass.
- * `hasCommercialAcademyEnrolment` ayrı kalır: bağış "satın alındı" değildir, nakit yazılmaz.
+ * Karar `resolveAcademyEntitlement`. Bağış "satın alındı" değildir, nakit yazılmaz.
  */
 export function hasAcademyPlayerAccess(
   purchase: AcademyPurchaseRecord | null | undefined,
   actor: AcademyActor,
   now: Date = new Date(),
 ): boolean {
-  if (isCitizenTestAccountEmail(actor.email)) {
-    return hasCommercialAcademyEnrolment(purchase, now);
-  }
-  if (hasAcademyAdminBypass(actor)) {
-    return true;
-  }
-  return hasCommercialAcademyEnrolment(purchase, now);
+  return licenceProbeOpens(purchase, actor, now);
 }
 
 /**
@@ -96,13 +118,13 @@ export function hasAcademyOynaAccess(
   nodeEnv: string | undefined = process.env.NODE_ENV,
 ): boolean {
   if (isCitizenTestAccountEmail(actor.email)) {
-    return hasCommercialAcademyEnrolment(purchase, now);
+    return licenceProbeOpens(purchase, actor, now);
   }
   if (hasAcademyAdminBypass(actor)) {
     return true;
   }
   if (nodeEnv === "production") {
-    return hasCommercialAcademyEnrolment(purchase, now);
+    return licenceProbeOpens(purchase, actor, now);
   }
   return hasAcademyPlayerAccess(purchase, actor, now);
 }
@@ -116,10 +138,7 @@ export function hasAcademyLockedLessonContentAccess(
   now: Date = new Date(),
   actor?: AcademyActor | null,
 ): boolean {
-  if (actor && hasAcademyAdminBypass(actor)) {
-    return true;
-  }
-  return hasCommercialAcademyEnrolment(purchase, now);
+  return licenceProbeOpens(purchase, actor ?? null, now);
 }
 
 /** Satın alma yoksa bile ADMIN / SUPER_ADMIN SETTLED sayılır — içerik kapısı. */
@@ -128,7 +147,7 @@ export function hasPurchased(
   actor: AcademyActor,
   now: Date = new Date(),
 ): boolean {
-  if (hasAcademyAdminBypass(actor)) {
+  if (licenceProbeOpens(purchase, actor, now)) {
     return true;
   }
   if (purchase?.status !== "SETTLED") {
@@ -145,7 +164,7 @@ export function hasAcademyArtifactAccess(
   purchase: AcademyPurchaseRecord | null,
   actor: AcademyActor,
 ): boolean {
-  if (hasAcademyAdminBypass(actor)) {
+  if (licenceProbeOpens(purchase, actor, new Date())) {
     return true;
   }
   return purchase?.status === "SETTLED";

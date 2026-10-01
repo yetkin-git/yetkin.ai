@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { LEGAL_PAGE_TITLE } from "@/lib/copy/legal-launch";
-import { OFFICE_AI_SEAL_PROOF_SHORT } from "@/lib/copy/sem-keywords";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
 import { PUBLIC_SEN } from "@/lib/copy/sen-voice/public";
@@ -181,64 +180,67 @@ export function isRobotsDisallowedPath(pathname: string): boolean {
 }
 
 /**
- * SEO Tedavi (P0) — 01_office_ai amiral meta override.
- * `course.title` SSOT'u (sicil/sertifika başlığı) değişmez; yalnız SEO dalı bu metinleri basar.
- * Title 52 kr + `TITLE_TEMPLATE` (12 kr) = 64 kr final; SERP kesintisiz.
- *
- * T-01 (21 Eylül 2026) — kamu vaadi mühürlü müfredat kapılarıyla aynıdır:
- * Excel'de Copilot/ataş, Gmail'de yerleşik Gemini, Word belgesi inceleme,
- * KVKK maskeleme, haftalık Cuma rutini. Yanlış yerleşik kapı adı ve İngilizce ürün kodu yok.
- * T-02 (21 Eylül 2026) — mühür izleme + 10 soruluk barajdır; sunucu dosya kontrolü yoktur.
- * Description 180 kr tavanı için Cuma «haftalık» sıfatı meta dışında (katalog/SSS/teaser) durur.
- * Compact makale gövdesi duvar arkasındadır; antre özeti + ders teaser'ı indekslenir.
+ * Canlı yayın SEO — üç amiral antre.
+ * `course.title` sicil/sertifika başlığıdır; yalnız bu dal arama title / description / keywords basar.
+ * Title dizesi `| yetkin.ai` ile biter. `pageMetadata` bunu mutlak başlık yapar;
+ * kök `TITLE_TEMPLATE` markayı ikinci kez eklemez.
+ * Description 180 karakter tavanındadır. Mühür cümlesi (izleme + baraj, sunucu dosya kontrolü yok)
+ * katalog, SSS ve rehberde durur; snippet bu arama niyeti metnidir.
  */
 export const OFFICE_AI_SEO = {
   slug: "01_office_ai",
   path: "/academy/01_office_ai",
-  title: "Excel Yapay Zekâ Eğitimi: Ofiste ChatGPT + Sertifika",
-  description: `Excel Copilot ve Ataş Yöntemi, A1 Düzeni ve Temiz Veri ve yönetim özetine dönüştürme. Gmail'de yerleşik Gemini. ${OFFICE_AI_SEAL_PROOF_SHORT}`,
+  title: "İş Hayatında Yapay Zekâ Eğitimi: Excel, Word, PowerPoint & E-Posta | yetkin.ai",
+  description:
+    "İş hayatında yapay zekâ ve Copilot kullanımı: Excel formülleri, yönetim özeti, Gmail Gemini ve KVKK uyumlu e-posta akışları. 8 derste pratik beceri ve sertifika.",
   /** Gövde H1 — kullanıcı dili; title (arama dili) ile ayrışır. */
   h1: "İş Hayatında Yapay Zekâ: Excel'den E-Postaya 8 Ders",
   keywords: [
-    "İş Hayatında Yapay Zekâ",
-    "Excel Copilot ve Ataş Yöntemi",
-    "A1 Düzeni ve Temiz Veri",
-    "Yönetim Özetine Dönüştürme",
-    "Excel'de Temiz Veri",
-    "Excel Copilot ve Ataş",
-    "Gmail'de Yerleşik Gemini",
-    "Word Belgesi İnceleme",
-    "Word Ataş İle Belge Analizi",
-    "KVKK Maskeleme",
-    "Haftalık Cuma Rutini",
-    "Excel yapay zeka eğitimi",
-    "ofiste ChatGPT",
-    "Word yapay zeka",
+    "iş hayatında yapay zeka",
+    "excel yapay zeka",
+    "office copilot eğitimi",
+    "yapay zeka sertifikası",
+    "prompt mühendisliği office",
   ],
 } as const;
 
 /**
  * OFF-201 (`01_office_ai_ileri`) kamu meta override.
- * Sicil başlığı `OFF_201_TITLE` durur; yalnız title / description / H1 / keywords bu daldadır.
- * Title 55 kr tavanı `TITLE_TEMPLATE` ile birlikte SERP kesintisine sığar.
- * Mühür iddiası OFF-101 ile aynıdır: 6 ders izleme + 10 soruluk baraj (70). Sunucu dosya kontrolü yoktur.
+ * Sicil başlığı durur; title / description / H1 / keywords bu daldadır.
  */
 export const OFFICE_AI_ILERI_SEO = {
   slug: "01_office_ai_ileri",
   path: "/academy/01_office_ai_ileri",
-  title: "İleri Ofis Yapay Zekâ: 6 Ders ve Sertifika",
+  title: "İleri Ofis Yapay Zekâ Eğitimi: Toplantı Notundan Sayı Denetimine | yetkin.ai",
   description:
-    "Dört parçalı istem, toplantı notu, Excel formül ve grafik, uzun belge, e-posta taslağı ve üç dosyada sayı denetimi. Sertifika: 6 ders + 10 soru / 70. Sunucuda dosya kontrolü yok.",
+    "İleri düzey yapay zekâ uygulamaları: Dört parçalı istem, toplantı notu analizi, uzun belge özetleme ve 3 dosyada sayı denetimi. İleri seviye ofis uzmanlığı.",
   h1: "İleri Ofis Yapay Zekâ: Toplantı Notundan Sayı Denetimine",
   keywords: [
-    "İleri Ofis Yapay Zekâ",
-    "dört parçalı istem",
-    "toplantı notu",
-    "Excel formül ve grafik",
-    "uzun belge kontrolü",
-    "e-posta taslağı",
-    "sayı denetimi",
-    "ofiste yapay zeka ileri eğitim",
+    "ileri ofis yapay zeka",
+    "toplantı notu yapay zeka",
+    "veri denetimi yapay zeka",
+    "ileri seviye prompt",
+  ],
+} as const;
+
+/**
+ * EC-102 (`02_ecommerce_ai`) kamu meta override.
+ * Sicil başlığı müfredat adıdır; arama title / description / keywords bu daldadır.
+ */
+export const ECOMMERCE_AI_SEO = {
+  slug: "02_ecommerce_ai",
+  path: "/academy/02_ecommerce_ai",
+  title:
+    "E-Ticaret ve Pazaryeri Yapay Zekâ Eğitimi: Trendyol, Hepsiburada, Amazon & Shopify | yetkin.ai",
+  description:
+    "Trendyol, Hepsiburada, Amazon, Shopify ve PttAVM için SEO uyumlu ürün açıklaması, görsel temizleme, iade analizi ve mağaza puanı asistanı. 6 derste e-ticaret yapay zekâ uzmanlığı.",
+  h1: "E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı (Trendyol, Hepsiburada, Amazon & Shopify)",
+  keywords: [
+    "e-ticaret yapay zeka",
+    "pazaryeri yapay zeka asistanı",
+    "trendyol ürün açıklaması yapay zeka",
+    "hepsiburada yapay zeka",
+    "e-ticaret seo prompt",
   ],
 } as const;
 
@@ -259,13 +261,16 @@ export function academyCourseSeoOverride(slug: string): AcademyCourseSeo | null 
   if (slug === OFFICE_AI_ILERI_SEO.slug) {
     return OFFICE_AI_ILERI_SEO;
   }
+  if (slug === ECOMMERCE_AI_SEO.slug) {
+    return ECOMMERCE_AI_SEO;
+  }
   return null;
 }
 
 /** Kamuya açık antre ders özetleri — tam compact makale duvar arkasındadır. */
 export const OFFICE_AI_LESSON_TEASERS: Readonly<Record<string, string>> = {
   "01_office_ai-1":
-    "Excel Copilot ve Ataş Yöntemi: A1 Düzeni ve Temiz Veri ile dağınık tabloyu düzenli tabloya çevirirsin.",
+    "Excel'de temiz veri: Excel Copilot ve Ataş Yöntemi ve A1 Düzeni ve Temiz Veri ile dağınık tabloyu düzenli tabloya çevirirsin.",
   "01_office_ai-k1":
     "KVKK maskeleme: ham müşteri listesi yüklenmez; maske refleksini kilitlersin.",
   "01_office_ai-2":
@@ -283,12 +288,12 @@ export const OFFICE_AI_LESSON_TEASERS: Readonly<Record<string, string>> = {
 };
 
 /** robots.txt Allow — mühürlü yayın antreleri (prefix `/academy` yedeğine ek kesin yol). */
-export const ECOMMERCE_AI_PUBLIC_PATH = "/academy/02_ecommerce_ai" as const;
+export const ECOMMERCE_AI_PUBLIC_PATH = ECOMMERCE_AI_SEO.path;
 
 export const ROBOTS_ALLOW_COURSE_PATHS = [
   OFFICE_AI_SEO.path,
   OFFICE_AI_ILERI_SEO.path,
-  ECOMMERCE_AI_PUBLIC_PATH,
+  ECOMMERCE_AI_SEO.path,
 ] as const;
 
 export type SitemapChangeFrequency =
@@ -334,8 +339,12 @@ export function pageMetadata({
 }: PageSeoInput): Metadata {
   const absolute = canonicalUrl(path);
   const images = image ? [{ url: image, alt: title }] : undefined;
+  const brandedSuffix = ` | ${YETKIN_BRAND}`;
+  const resolvedTitle: Metadata["title"] = title.endsWith(brandedSuffix)
+    ? { absolute: title }
+    : title;
   return {
-    title,
+    title: resolvedTitle,
     description,
     ...(keywords && keywords.length > 0 ? { keywords: [...keywords] } : {}),
     alternates: { canonical: absolute },

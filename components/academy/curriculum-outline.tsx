@@ -1,8 +1,13 @@
+import type { Route } from "next";
 import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { LinkButton } from "@/components/ui/link-button";
+import { IconLock, IconPlay } from "@/components/ui/icons";
 import { AcademyProgressBar } from "@/components/academy/progress-bar";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import type { AcademySyllabus } from "@/lib/academy/curriculum-syllabus";
 import { academyLessonKindLabel, academyProgressPercent } from "@/lib/academy/lesson-meta";
+import { isAcademyLessonPaywalled } from "@/lib/academy/purchase-path";
 import { OFFICE_AI_LESSON_TEASERS, OFFICE_AI_SEO } from "@/lib/copy/seo";
 
 export function CurriculumOutline({
@@ -13,6 +18,7 @@ export function CurriculumOutline({
   visaPromise = null,
   showKind = true,
   showExamShield = true,
+  freemium = false,
 }: {
   syllabus: AcademySyllabus;
   passScore: number;
@@ -23,6 +29,8 @@ export function CurriculumOutline({
   showKind?: boolean;
   /** Amiral 8 ders kalkanı. Ders sayısı farklı olan kursta basılmaz. */
   showExamShield?: boolean;
+  /** Lisans yok ve sınav yolunun ilk dersi açık. Ders 2+ lisanslı kalır. */
+  freemium?: boolean;
 }) {
   const copy = ACADEMY_SEN.outline;
   const done = new Set(completedKeys);
@@ -53,28 +61,59 @@ export function CurriculumOutline({
                 {module.lessons.map((lesson) => {
                   const completed = done.has(lesson.key);
                   const kindLabel = academyLessonKindLabel(lesson.kind, copy);
+                  const previewOpen =
+                    freemium && !isAcademyLessonPaywalled(syllabus.slug, lesson.key, false);
                   return (
                     <li
                       key={lesson.key}
-                      className="flex items-start gap-3 rounded-xl border border-[var(--border)] px-3 py-2.5 text-sm text-[var(--foreground)]"
+                      className="flex flex-col gap-2 rounded-xl border border-[var(--border)] px-3 py-2.5 text-sm text-[var(--foreground)] sm:flex-row sm:items-center"
+                      data-academy-lesson-row={previewOpen ? "preview" : freemium ? "licensed" : undefined}
                     >
-                      <span className="mt-0.5 inline-flex h-6 min-w-6 items-center justify-center rounded-lg bg-[var(--safir-soft)] text-xs font-semibold text-[var(--safir-deep)]">
-                        {lesson.order}
-                      </span>
-                      <span className="min-w-0 flex-1 leading-6">
-                        <span className="block font-medium">{lesson.title}</span>
-                        {syllabus.slug === OFFICE_AI_SEO.slug &&
-                        OFFICE_AI_LESSON_TEASERS[lesson.key] ? (
-                          <span className="mt-0.5 block text-xs leading-5 text-[var(--muted)]">
-                            {OFFICE_AI_LESSON_TEASERS[lesson.key]}
+                      <span className="flex min-w-0 flex-1 items-start gap-3">
+                        <span className="mt-0.5 inline-flex h-6 min-w-6 items-center justify-center rounded-lg bg-[var(--safir-soft)] text-xs font-semibold text-[var(--safir-deep)]">
+                          {lesson.order}
+                        </span>
+                        <span className="min-w-0 flex-1 leading-6">
+                          <span className="block font-medium">{lesson.title}</span>
+                          {syllabus.slug === OFFICE_AI_SEO.slug &&
+                          OFFICE_AI_LESSON_TEASERS[lesson.key] ? (
+                            <span className="mt-0.5 block text-xs leading-5 text-[var(--muted)]">
+                              {OFFICE_AI_LESSON_TEASERS[lesson.key]}
+                            </span>
+                          ) : null}
+                          <span className="mt-0.5 block text-xs text-[var(--muted)]">
+                            {showKind ? `${kindLabel} · ` : null}
+                            {copy.durationMin(lesson.durationMin)}
+                            {completed ? ` · ${copy.completed}` : null}
                           </span>
-                        ) : null}
-                        <span className="mt-0.5 block text-xs text-[var(--muted)]">
-                          {showKind ? `${kindLabel} · ` : null}
-                          {copy.durationMin(lesson.durationMin)}
-                          {completed ? ` · ${copy.completed}` : null}
                         </span>
                       </span>
+                      {previewOpen ? (
+                        <span className="flex flex-wrap items-center gap-2 pl-9 sm:pl-0">
+                          <span data-academy-lesson-preview="">
+                            <Badge tone="emerald" className="normal-case tracking-normal">
+                              {copy.previewBadge}
+                            </Badge>
+                          </span>
+                          <LinkButton
+                            href={`/academy/${syllabus.slug}/oyna` as Route}
+                            size="sm"
+                            variant="success"
+                            data-academy-lesson-play=""
+                          >
+                            <IconPlay className="h-3.5 w-3.5" />
+                            {copy.previewPlayCta}
+                          </LinkButton>
+                        </span>
+                      ) : freemium ? (
+                        <span
+                          className="inline-flex items-center gap-1.5 pl-9 text-xs font-medium text-[var(--muted)] sm:pl-0"
+                          data-academy-lesson-licensed=""
+                        >
+                          <IconLock className="h-3.5 w-3.5" />
+                          {copy.licensed}
+                        </span>
+                      ) : null}
                     </li>
                   );
                 })}
@@ -94,7 +133,11 @@ export function CurriculumOutline({
           {visaPromise}
         </p>
       ) : null}
-      {!showProgress ? <p className="mt-2 text-xs text-[var(--muted)]">{copy.lockedHint}</p> : null}
+      {!showProgress ? (
+        <p className="mt-2 text-xs text-[var(--muted)]">
+          {freemium ? copy.previewHint : copy.lockedHint}
+        </p>
+      ) : null}
     </Card>
   );
 }

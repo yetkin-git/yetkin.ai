@@ -37,6 +37,7 @@ import { getSession } from "@/lib/kernel/auth/session";
 import { walletAvailableMinor } from "@/lib/kernel/ledger/load";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { CourseHeroActions } from "@/components/academy/course-hero-actions";
+import { FreePreviewLink } from "@/components/academy/free-preview-link";
 import { BreadcrumbPageLabel } from "@/components/shell/header-breadcrumb";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
@@ -47,6 +48,7 @@ import { isPaymentsPortConfigured } from "@/lib/kernel/payments/port";
 import { isPaytrMockCheckoutAllowed } from "@/lib/kernel/payments/paytr/checkout";
 import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 import { resolveAcademyCourseFromSeed } from "@/lib/academy/published-catalog";
+import { academyCourseOffersFreePreview } from "@/lib/kernel/catalog-ids/free-preview";
 import {
   academyCourseHasSealedAudio,
   academyMediaSealedLessonKeys,
@@ -68,12 +70,14 @@ import {
   educationalOccupationalProgramJsonLd,
   faqPageJsonLd,
   jsonLdDocument,
+  ECOMMERCE_AI_COURSE_TEACHES,
   OFFICE_AI_COURSE_TEACHES,
   OFFICE_AI_ILERI_COURSE_TEACHES,
 } from "@/lib/copy/json-ld";
 import {
   academyCourseSeoOverride,
   DEFAULT_OG_IMAGE,
+  ECOMMERCE_AI_SEO,
   OFFICE_AI_ILERI_SEO,
   OFFICE_AI_SEO,
   pageMetadata,
@@ -105,8 +109,8 @@ export async function generateMetadata({
   if (!course) {
     notFound();
   }
-  // SEO Tedavi (P0) — amiral SKU arama niyeti diline çevrilir (64 kr final title).
-  // Sicil/sertifika başlığı (`course.title` SSOT) değişmez; yalnız meta dalı override edilir.
+  // Canlı yayın SEO — üç amiral antre. Title `| yetkin.ai` ile biter ve mutlak basılır.
+  // Sicil/sertifika başlığı (`course.title`) değişmez; yalnız meta dalı override edilir.
   const seo = academyCourseSeoOverride(course.slug);
   return pageMetadata({
     title: seo?.title ?? `${course.title} · Akademi`,
@@ -229,6 +233,8 @@ export default async function AcademyCoursePage({
       ? playerCopy.resumeCta
       : playerCopy.openCta;
   const progressPercent = academyProgressPercent(completedKeys.length, syllabus.lessonCount);
+  const showFreePreview = !hasAccess && academyCourseOffersFreePreview(board.course.slug);
+  const previewHref = showFreePreview ? `/academy/${board.course.slug}/oyna` : null;
 
   return (
     <RoomFrame className="space-y-5" data-academy-lab-player={labPlayer ? "true" : undefined}>
@@ -236,7 +242,7 @@ export default async function AcademyCoursePage({
         data={jsonLdDocument([
           courseJsonLd({
             slug: board.course.slug,
-            title: board.course.title,
+            title: seo?.title ?? board.course.title,
             description: seo?.description ?? board.course.summary,
             imagePath: academyCourseCoverPath(board.course.slug) ?? DEFAULT_OG_IMAGE,
             datePublished: board.course.createdAt,
@@ -247,7 +253,9 @@ export default async function AcademyCoursePage({
                 ? [...OFFICE_AI_COURSE_TEACHES]
                 : board.course.slug === OFFICE_AI_ILERI_SEO.slug
                   ? [...OFFICE_AI_ILERI_COURSE_TEACHES]
-                  : undefined,
+                  : board.course.slug === ECOMMERCE_AI_SEO.slug
+                    ? [...ECOMMERCE_AI_COURSE_TEACHES]
+                    : undefined,
             lessons: syllabus.lessons.map((lesson) => ({
               name: lesson.title,
               durationMin: lesson.durationMin,
@@ -306,6 +314,7 @@ export default async function AcademyCoursePage({
             primaryLabel={hero.primaryLabel}
             primaryAction={hero.action}
             paytrCheckout={Boolean(session) && hero.action === "buy" && paymentsReady}
+            previewHref={previewHref}
             catalogHref={"/academy" as Route}
             catalogLabel={copy.catalogCta}
           />
@@ -374,6 +383,12 @@ export default async function AcademyCoursePage({
       ) : access === "expired" ? (
         <Card title={copy.eyebrow}>
           <p>{playerCopy.licenseEnded}</p>
+          {previewHref ? (
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
+              <FreePreviewLink href={previewHref} surface="expired" className="w-full sm:w-auto" />
+              <p className="text-sm text-[var(--muted)]">{copy.previewLead}</p>
+            </div>
+          ) : null}
         </Card>
       ) : board.course.purchasable ? (
         <div className="scroll-mt-24" id={ACADEMY_CHECKOUT_HASH}>
@@ -390,7 +405,17 @@ export default async function AcademyCoursePage({
               </p>
             ) : null}
             {session ? (
-              <div className="mt-4" data-academy-purchase-gate="">
+              <div className="mt-4 space-y-4" data-academy-purchase-gate="">
+                {previewHref ? (
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                    <FreePreviewLink
+                      href={previewHref}
+                      surface="purchase"
+                      className="w-full sm:w-auto"
+                    />
+                    <p className="text-sm text-[var(--muted)]">{copy.previewLead}</p>
+                  </div>
+                ) : null}
                 <PurchaseButton
                   courseId={board.course.id}
                   courseSlug={board.course.slug}
@@ -406,15 +431,25 @@ export default async function AcademyCoursePage({
               </div>
             ) : (
               <div className="mt-4 space-y-3" data-academy-purchase-gate="">
-                {hero.primaryHref && hero.primaryLabel ? (
-                  <LinkButton
-                    href={hero.primaryHref as Route}
-                    size="sm"
-                    data-academy-checkout-cta={hero.action}
-                  >
-                    {hero.primaryLabel}
-                  </LinkButton>
-                ) : null}
+                <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+                  {previewHref ? (
+                    <FreePreviewLink
+                      href={previewHref}
+                      surface="purchase"
+                      className="w-full sm:w-auto"
+                    />
+                  ) : null}
+                  {hero.primaryHref && hero.primaryLabel ? (
+                    <LinkButton
+                      href={hero.primaryHref as Route}
+                      size="lg"
+                      className="w-full sm:w-auto"
+                      data-academy-checkout-cta={hero.action}
+                    >
+                      {hero.primaryLabel}
+                    </LinkButton>
+                  ) : null}
+                </div>
                 <p>
                   {copy.loginLead}{" "}
                   <Link href={buildCitizenLoginHref(academyCheckoutHref(board.course.slug)) as Route} className="text-[var(--safir)] hover:underline">
@@ -438,6 +473,7 @@ export default async function AcademyCoursePage({
         visaPromise={visaPromise}
         showKind={!isOff201}
         showExamShield={!isOff201}
+        freemium={showFreePreview}
       />
       {prepStrip ? <PrepStripTeaser strip={prepStrip} /> : null}
       {board.course.slug === OFFICE_AI_SEO.slug ? <OfficeAiGuidePreview /> : null}

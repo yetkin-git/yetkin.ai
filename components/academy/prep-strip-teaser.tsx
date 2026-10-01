@@ -19,8 +19,8 @@ export function PrepStripTeaser({ strip }: { strip: AcademyPrepStrip }) {
       <p className="text-sm leading-7 text-[var(--foreground)]">
         Ücretsiz önizleme. Sınav ve mühür yoluna girmez. Hesap açma, ücretsiz ile ücretli farkı,
         sohbet ekranı, ilk istem ve Türkçe mi İngilizce mi yazılacağı bu şeritte
-        {audioSealed ? " sesli anlatım olarak açılır." : " açılır."} 1. dersten itibaren sekiz ders
-        ödeme sonrası açılır.
+        {audioSealed ? " sesli anlatım olarak açılır." : " açılır."} 1. ders de herkese
+        açıktır. 2. dersten itibaren lisans gerekir.
       </p>
       <p className="mt-2 text-xs text-[var(--muted)]">
         {copy.prepKind} · {copy.durationMin(strip.estimatedMinutes)} · 8 dersin sayısını değiştirmez

@@ -134,6 +134,9 @@ export const ACADEMY_SEN = {
     /** Antre hero — DURUM A. Fiyat yalnız bu CTA içinde; bağımsız ₺ satırı yok. */
     heroBuyCta: (priceLabel: string) => `Eğitimi Satın Al — ${priceLabel}`,
     heroBuyCtaIdle: "Satın Al",
+    /** Anayasa B4 — satın alma duvarının yanında birincil önizleme. Oynatıcı `/oyna`. */
+    heroPreviewCta: "1. Dersi Ücretsiz İzle",
+    previewLead: "İlk ders herkese açık. Karar vermeden önce izle.",
     /** Antre / vitrin fiyat yerine — DURUM B (satın alındı). */
     accessOpen: "Erişim Açık",
     purchasedBadge: "Satın Alındı",
@@ -173,6 +176,10 @@ export const ACADEMY_SEN = {
     visaPromise: (passScore: number, listingLabel: string, _listingId: string) =>
       `Sınavı ${passScore}+ puanla tamamladığında «${listingLabel}» sertifikan Pasaport siciline işlenir ve Kariyer sayfanda doğrulanır.`,
     lockedHint: "Ders gövdesi ödeme sonrası açılır.",
+    previewBadge: "Ücretsiz / Önizleme",
+    previewPlayCta: "İzle",
+    licensed: "Lisanslı",
+    previewHint: "İlk ders ücretsiz açıktır. Sonraki dersler lisans ister.",
     empty: "Bu eğitimin ders listesi henüz yok.",
     kindAudio: "Ses",
     kindVideo: "Video",

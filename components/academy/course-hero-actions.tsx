@@ -10,6 +10,7 @@ import {
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN } from "@/lib/academy/course-cover";
 import { ACADEMY_HERO_PAYTR_EVENT, type AcademyAntreHeroAction } from "@/lib/academy/storefront-cta";
+import { FreePreviewLink } from "@/components/academy/free-preview-link";
 import type { Route } from "next";
 
 /**
@@ -29,6 +30,7 @@ export function CourseHeroActions({
   primaryLabel,
   primaryAction = "none",
   paytrCheckout = false,
+  previewHref = null,
   catalogHref,
   catalogLabel,
 }: {
@@ -49,14 +51,45 @@ export function CourseHeroActions({
   primaryAction?: AcademyAntreHeroAction;
   /** Oturumlu satın alma — #satin-al yerine PayTR iFrame. */
   paytrCheckout?: boolean;
+  /** Lisans yokken ilk ders. Boş kabukta verilmez. */
+  previewHref?: string | null;
   catalogHref: Route;
   catalogLabel: string;
 }) {
   const identity = ACADEMY_SEN.catalog.heroLevelIdentity(level, moduleCode);
   const buyPriced = primaryAction === "buy";
   const statusLabel = !buyPriced && priceLabel ? priceLabel : null;
+  const buyControl =
+    primaryHref && primaryLabel ? (
+      paytrCheckout && primaryAction === "buy" ? (
+        <Button
+          size="lg"
+          className="w-full tabular-nums"
+          data-academy-hero-cta={primaryAction}
+          data-academy-hero-paytr=""
+          data-academy-hero-price=""
+          onClick={() => {
+            window.dispatchEvent(new Event(ACADEMY_HERO_PAYTR_EVENT));
+          }}
+        >
+          {primaryLabel}
+        </Button>
+      ) : (
+        <LinkButton
+          href={primaryHref as Route}
+          size="lg"
+          variant={primaryAction === "play" || primaryAction === "exam" ? "success" : "primary"}
+          className="w-full tabular-nums"
+          data-academy-hero-cta={primaryAction}
+          data-academy-hero-price={primaryAction === "buy" ? "" : undefined}
+        >
+          {primaryLabel}
+        </LinkButton>
+      )
+    ) : null;
   return (
-    <div className="flex flex-wrap items-center justify-end gap-x-3 gap-y-2">
+    <div className="flex w-full flex-col items-stretch gap-3 sm:w-max sm:shrink-0 sm:items-end">
+      <div className="flex flex-wrap items-center justify-start gap-x-3 gap-y-2 sm:justify-end">
       {statusLabel ? (
         <span data-academy-hero-status="">
           <Badge tone="safir" className="normal-case tracking-normal">
@@ -105,36 +138,16 @@ export function CourseHeroActions({
           </Badge>
         </span>
       )}
-      {primaryHref && primaryLabel ? (
-        paytrCheckout && primaryAction === "buy" ? (
-          <Button
-            size="lg"
-            className="min-w-[12rem] tabular-nums"
-            data-academy-hero-cta={primaryAction}
-            data-academy-hero-paytr=""
-            data-academy-hero-price=""
-            onClick={() => {
-              window.dispatchEvent(new Event(ACADEMY_HERO_PAYTR_EVENT));
-            }}
-          >
-            {primaryLabel}
-          </Button>
-        ) : (
-          <LinkButton
-            href={primaryHref as Route}
-            size="lg"
-            variant={primaryAction === "play" || primaryAction === "exam" ? "success" : "primary"}
-            className="min-w-[12rem] tabular-nums"
-            data-academy-hero-cta={primaryAction}
-            data-academy-hero-price={primaryAction === "buy" ? "" : undefined}
-          >
-            {primaryLabel}
-          </LinkButton>
-        )
-      ) : null}
-      <LinkButton href={catalogHref} variant="outline" size="sm">
-        {catalogLabel}
-      </LinkButton>
+      </div>
+      <div className="flex w-full min-w-[12rem] flex-col gap-2 sm:w-max sm:shrink-0">
+        {previewHref ? (
+          <FreePreviewLink href={previewHref} surface="hero" className="w-full" />
+        ) : null}
+        {buyControl}
+        <LinkButton href={catalogHref} variant="outline" size="sm" className="w-full">
+          {catalogLabel}
+        </LinkButton>
+      </div>
     </div>
   );
 }
