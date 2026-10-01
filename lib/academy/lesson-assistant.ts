@@ -1,7 +1,10 @@
 import "server-only";
 
 import { z } from "zod";
-import { isAcademyFreePreviewLessonKey } from "@/lib/academy/purchase-path";
+import { resolveAcademyEntitlement } from "@/lib/academy/entitlement";
+import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
+import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
+import type { AcademyPurchaseRecord } from "@/lib/academy/types";
 import { academyCourseSlugFromLessonKey } from "@/lib/academy/pilot-sku";
 import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
@@ -93,6 +96,24 @@ async function consumeLessonQuota(userId: string, lessonKey: string): Promise<Le
 }
 
 export const ACADEMY_LESSON_ASSISTANT_LOCKED = "Satın alma mühürlenmeden ders içeriği açılmaz.";
+export const ACADEMY_LESSON_ASSISTANT_FOREIGN = "Bu ders bu kursa ait değil.";
+
+/** Handler lisans bayrağı satın alma satırı taşımaz. Kapı aynı saf kararı okur. */
+function commercialFlagPurchase(now: Date): AcademyPurchaseRecord {
+  const settledAt = new Date(now.getTime() - 60_000);
+  return {
+    id: "assistant-licence-flag",
+    userId: "assistant-licence-flag",
+    courseId: "assistant-licence-flag",
+    priceLockId: "price_assistant_flag",
+    amountMinor: toAmountMinor(1),
+    currencyCode: SETTLEMENT_CURRENCY,
+    status: "SETTLED",
+    settledAt,
+    createdAt: settledAt,
+    updatedAt: settledAt,
+  };
+}
 
 export async function answerAcademyLessonAssistant(
   input: {
@@ -117,10 +138,24 @@ export async function answerAcademyLessonAssistant(
     };
   }
 
-  if (
-    !isAcademyFreePreviewLessonKey(parsed.data.lessonKey) &&
-    input.commercialEnrolment !== true
-  ) {
+  const now = new Date();
+  const entitlement = resolveAcademyEntitlement({
+    actor: null,
+    purchase: input.commercialEnrolment === true ? commercialFlagPurchase(now) : null,
+    courseSlug: parsed.data.courseSlug,
+    lessonKey: parsed.data.lessonKey,
+    now,
+  });
+  if (!entitlement.lessonBelongsToCourse) {
+    return {
+      ok: false,
+      error: ACADEMY_LESSON_ASSISTANT_FOREIGN,
+      status: 403,
+      remaining: ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT,
+      limit: ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT,
+    };
+  }
+  if (!entitlement.open) {
     return {
       ok: false,
       error: ACADEMY_LESSON_ASSISTANT_LOCKED,

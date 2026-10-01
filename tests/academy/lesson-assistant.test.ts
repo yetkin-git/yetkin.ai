@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  ACADEMY_LESSON_ASSISTANT_FOREIGN,
   ACADEMY_LESSON_ASSISTANT_LOCKED,
   answerAcademyLessonAssistant,
 } from "@/lib/academy/lesson-assistant";
@@ -141,6 +142,48 @@ describe("canlı ders asistanı", () => {
       },
     );
     expect(prep.ok).toBe(true);
+  });
+
+  it("başka kursun ilk ders anahtarı bu kursun asistanını açmaz", async () => {
+    let loaded = 0;
+    const loadLessonText = () => {
+      loaded += 1;
+      return { title: "Yabancı", text: "Bu metin yüklenmemeli." };
+    };
+    const anonymous = await answerAcademyLessonAssistant(
+      {
+        userId: "u1",
+        courseSlug: "01_office_ai",
+        lessonKey: "02_ecommerce_ai-1",
+        currentTimeSec: 1,
+        question: "Bu satırda ne yaptık?",
+        commercialEnrolment: false,
+      },
+      { loadLessonText },
+    );
+    expect(anonymous.ok).toBe(false);
+    if (!anonymous.ok) {
+      expect(anonymous.status).toBe(403);
+      expect(anonymous.error).toBe(ACADEMY_LESSON_ASSISTANT_FOREIGN);
+    }
+
+    const licensed = await answerAcademyLessonAssistant(
+      {
+        userId: "u1",
+        courseSlug: "02_ecommerce_ai",
+        lessonKey: "01_office_ai-1",
+        currentTimeSec: 1,
+        question: "Bu satırda ne yaptık?",
+        commercialEnrolment: true,
+      },
+      { loadLessonText },
+    );
+    expect(licensed.ok).toBe(false);
+    if (!licensed.ok) {
+      expect(licensed.status).toBe(403);
+      expect(licensed.error).toBe(ACADEMY_LESSON_ASSISTANT_FOREIGN);
+    }
+    expect(loaded).toBe(0);
   });
 
   it("sistem istemi sen dili ve ders dışı kapıyı taşır", () => {

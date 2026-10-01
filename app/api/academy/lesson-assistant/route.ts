@@ -1,7 +1,11 @@
-import { hasAcademyLockedLessonContentAccess } from "@/lib/academy/access";
-import { answerAcademyLessonAssistant, lessonAssistantRequestSchema } from "@/lib/academy/lesson-assistant";
+import { resolveAcademyEntitlement } from "@/lib/academy/access";
+import {
+  ACADEMY_LESSON_ASSISTANT_FOREIGN,
+  ACADEMY_LESSON_ASSISTANT_LOCKED,
+  answerAcademyLessonAssistant,
+  lessonAssistantRequestSchema,
+} from "@/lib/academy/lesson-assistant";
 import { loadCourseBySlug, loadPurchaseForUserCourse } from "@/lib/academy/load";
-import { isAcademyFreePreviewLessonKey } from "@/lib/academy/purchase-path";
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
@@ -26,13 +30,22 @@ export async function POST(request: Request) {
       user.email,
       user.emailConfirmedAt,
     );
-    const commercialEnrolment = hasAcademyLockedLessonContentAccess(purchase, new Date(), {
-      userId: user.id,
-      email: user.email,
-      emailConfirmedAt: user.emailConfirmedAt,
+    const entitlement = resolveAcademyEntitlement({
+      actor: {
+        userId: user.id,
+        email: user.email,
+        emailConfirmedAt: user.emailConfirmedAt,
+      },
+      purchase,
+      courseSlug: parsed.data.courseSlug,
+      lessonKey: parsed.data.lessonKey,
+      now: new Date(),
     });
-    if (!isAcademyFreePreviewLessonKey(parsed.data.lessonKey) && !commercialEnrolment) {
-      return jsonFail("Satın alma mühürlenmeden ders içeriği açılmaz.", 403, requestId, request);
+    if (!entitlement.lessonBelongsToCourse) {
+      return jsonFail(ACADEMY_LESSON_ASSISTANT_FOREIGN, 403, requestId, request);
+    }
+    if (!entitlement.open) {
+      return jsonFail(ACADEMY_LESSON_ASSISTANT_LOCKED, 403, requestId, request);
     }
     const result = await answerAcademyLessonAssistant({
       userId: user.id,
@@ -40,7 +53,7 @@ export async function POST(request: Request) {
       lessonKey: parsed.data.lessonKey,
       currentTimeSec: parsed.data.currentTimeSec,
       question: parsed.data.question,
-      commercialEnrolment,
+      commercialEnrolment: entitlement.commercialEnrolment || entitlement.reason === "admin-bypass",
     });
     if (!result.ok) {
       return jsonFail(result.error, result.status, requestId, request);
