@@ -9,12 +9,12 @@
 import { COURSE_REGISTRY } from "./course-registry";
 
 type CourseCard = (typeof COURSE_REGISTRY)[number];
-type CanonCard = Extract<CourseCard, { canon: true }>;
+type CanonCard = Extract<CourseCard, { canon: true; audience: "adult" }>;
 type CanonSlug = CanonCard["slug"];
-type ExtraCard = Extract<CourseCard, { canon: false }>;
+type AdultExtraCard = Extract<CourseCard, { canon: false; audience: "adult" }>;
 
 function isCanonCard(row: CourseCard): row is CanonCard {
-  return row.canon;
+  return row.audience === "adult" && row.canon;
 }
 
 export const ACADEMY_CANON_SKU_SLUGS = COURSE_REGISTRY.filter(isCanonCard).map((row) => row.slug);
@@ -33,8 +33,10 @@ export const PROMPT_PRACTICE_SUBTITLE = "Yapay Zekâya Doğru Talimat Verme Sana
  * Başlık web `OFF_201_TITLE` ile aynı cümledir.
  */
 export const ACADEMY_STOREFRONT_EXTRA_TITLES = Object.fromEntries(
-  COURSE_REGISTRY.filter((row): row is ExtraCard => !row.canon).map((row) => [row.slug, row.title]),
-) as { [K in ExtraCard["slug"]]: Extract<ExtraCard, { slug: K }>["title"] };
+  COURSE_REGISTRY.filter((row): row is AdultExtraCard => row.audience === "adult" && !row.canon).map(
+    (row) => [row.slug, row.title],
+  ),
+) as { [K in AdultExtraCard["slug"]]: Extract<AdultExtraCard, { slug: K }>["title"] };
 
 export type AcademyStorefrontExtraSlug = keyof typeof ACADEMY_STOREFRONT_EXTRA_TITLES;
 

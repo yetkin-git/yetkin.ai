@@ -112,7 +112,7 @@ export async function proxy(request: NextRequest) {
     if (v1) {
       applyRailV1Cors(maintenance, request);
     }
-    applyEdgeSecurityHeaders(maintenance, { nonce });
+    applyEdgeSecurityHeaders(maintenance, { nonce, pathname });
     return maintenance;
   }
 
@@ -125,7 +125,7 @@ export async function proxy(request: NextRequest) {
     const response = NextResponse.next({
       request: { headers: requestHeaders },
     });
-    applyEdgeSecurityHeaders(response, { nonce });
+    applyEdgeSecurityHeaders(response, { nonce, pathname });
     return response;
   }
 
@@ -138,7 +138,7 @@ export async function proxy(request: NextRequest) {
     if (v1) {
       applyRailV1Cors(response, request);
     }
-    applyEdgeSecurityHeaders(response, { nonce });
+    applyEdgeSecurityHeaders(response, { nonce, pathname });
     refreshed.applyTo(response);
     return response;
   };

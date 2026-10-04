@@ -13,7 +13,22 @@ export const VERTICAL_ROOMS = [
 
 export type VerticalRoomId = (typeof VERTICAL_ROOMS)[number]["id"];
 
-/** Donmuş 8 oda — canlı `lib/` tavanı yasak; `archived/` + kenar 410. */
+/**
+ * Müstakil oda. Dört kamu vitrinine yazılmaz. Akademi kayıt defterinde kartı yoktur.
+ * Ziyaretçi kapısı aşağıdaki donmuş yol listesinde durur. Oturum açmış veli kapalı pilotu görür.
+ */
+export const INDEPENDENT_ROOMS = [
+  {
+    id: "junior",
+    path: "/junior",
+    label: "Junior",
+    blurb: "10-18 yaş, veli hesabı altında, veli rızalı okul dersi",
+  },
+] as const;
+
+export type IndependentRoomId = (typeof INDEPENDENT_ROOMS)[number]["id"];
+
+/** Donmuş oda yolları. Junior burada ziyaretçi kapısıdır; ürün evi `lib/junior` dir. */
 export const FROZEN_DISK_ROOMS = [
   "studio",
   "devlabs",

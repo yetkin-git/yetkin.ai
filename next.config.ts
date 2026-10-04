@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 import { academyRetiredStorefrontRedirects } from "./lib/academy/retired-storefront";
-import { EDGE_SECURITY_HEADER_ENTRIES } from "./lib/kernel/security/edge-security-headers";
+import { edgeSecurityHeaderEntriesForPath } from "./lib/kernel/security/edge-security-headers";
 
 /**
  * yetkin_muze müze klasörü build, webpack ve izleme kapsamı dışındadır (OPS; Anayasa maddesi değildir).
@@ -61,7 +61,6 @@ const nextConfig: NextConfig = {
       "lib/hibe/**",
       "lib/arena/**",
       "lib/pazaryeri/**",
-      "lib/junior/**",
       "lib/social/**",
       ...MEDIA_FUNCTION_TRACE_EXCLUDES,
     ],
@@ -208,15 +207,21 @@ const nextConfig: NextConfig = {
   async headers() {
     // CSP nonce SSOT `proxy.ts` / `buildEdgeCsp`'dir. Statik CSP çift başlık
     // üretir ve nonce'u ezer; burada yalnız nonce'suz yedek başlıklar kalır.
-    const securityHeaders = EDGE_SECURITY_HEADER_ENTRIES.map(([key, value]) => ({
+    const securityHeaders = edgeSecurityHeaderEntriesForPath(null).map(([key, value]) => ({
+      key,
+      value,
+    }));
+    const juniorSecurityHeaders = edgeSecurityHeaderEntriesForPath("/junior").map(([key, value]) => ({
       key,
       value,
     }));
     if (process.env.NODE_ENV === "production") {
-      securityHeaders.push({
+      const hsts = {
         key: "Strict-Transport-Security",
         value: "max-age=63072000; includeSubDomains; preload",
-      });
+      };
+      securityHeaders.push(hsts);
+      juniorSecurityHeaders.push(hsts);
     }
     return [
       {
@@ -259,7 +264,9 @@ const nextConfig: NextConfig = {
         source: "/:all*(ico|png|jpg|jpeg|gif|webp|avif|svg|woff|woff2|ttf|otf|mp3|mp4)",
         headers: [IMMUTABLE_STATIC_CACHE],
       },
-      { source: "/:path*", headers: securityHeaders },
+      { source: "/:path((?!junior$|junior/).*)", headers: securityHeaders },
+      { source: "/junior", headers: juniorSecurityHeaders },
+      { source: "/junior/:path*", headers: juniorSecurityHeaders },
     ];
   },
 };

@@ -66,7 +66,7 @@ Karaoke sahnesinde uzun paragraf gösterilmez. Sahnede yalnız o saniyeye ait k�
 
 Çalışma sekmesindeki tam metin, eğitim videosunun konuşma katmanıdır; ayrı bir makale yayını değildir (Anayasa B4). Nasıl-yapılır adım bandı overlay paragrafı değildir.
 
-**Junior oda ≠ başlangıç seviyesi.** 18 yaş altı ürün yoktur (`JUNIOR_PRODUCTION_LOCKED`; Anayasa B2). Başlangıç seviyesi Akademi içi **Temel Paketler** ile karşılanır.
+**Junior oda ≠ başlangıç seviyesi.** Başlangıç seviyesi Akademi içi **Temel Paketler** ile karşılanır. 10-18 yaş okul dersi Yetkin Junior müstakil odasıdır (Anayasa B2 ve B6). Akademi kayıt defterine girmez. Kamu kapısı `JUNIOR_PRODUCTION_LOCKED` iken kapalıdır. Öğretme, yaş üslubu ve veli esasları **Ek-J** bölümündedir.
 
 **Quiet Luxury:** sahne sakin durur. Dikkat süsle değil, o anki işle kalır.
 
@@ -228,3 +228,49 @@ Ofis istemi `ACADEMY_WARMUP_OFFICE_PROMPT` (`lib/academy/lesson-veo.ts`) yalnız
 * `--seal` yalnız `--confirm-gemini-spend` ve insan onayı ile; vatandaş yüzeyine taslak WAV/MP4 basılmaz.
 * B-roll yalnız yerel `-warmup.mp4` reuse. Otomatik Veo 3.1 Lite ve pahalı Veo 3.1 API çağrıları iptaldir.
 * Kod SSOT: `scripts/generate-academy-lesson-audio.ts`, `scripts/generate-academy-lesson-veo.ts`, `scripts/generate-academy-lesson-bed.ts`. Kapı: `lib/academy/production-standard.ts`.
+
+---
+
+## Ek-J: Junior Pedagojisi ve Veli Modeli
+
+Bu ek, yetişkin ofis dersinin kurallarını değiştirmez. Deniz usta, tezgâh duası ve ofis rejisi (§A.2.2, §A.4) yetişkin eğitimde durur. Junior okul dersidir. Başlangıç seviyesi değildir. Yetişkin başlangıcı Temel Paketlerdir (§A.3).
+
+### Dinle ve Anlat
+
+Çocuk dersi önce dinler. Sonra aynı konuyu kendi sözüyle anlatır. Anlatış seslidir. Mikrofon kapalıysa aynı anlatış yazıyla yapılır. Yazılı yol, sesli yolun yedeğidir. İkisi de aynı işi görür: çocuk konuyu kendi cümlesiyle söyler.
+
+Yanıt, o dersin kazanımına bağlıdır. Serbest sohbet yoktur. Konu dışındaki söz geri çevrilir. Sistem emin değilse «emin değilim» der. Uydurma puan basılmaz.
+
+Dinle ve Anlat öğretir. Sertifika, mühür ve kariyer vizesi vermez. Resmî sınav sunucuda puanlanır. Sesli anlatış bu kapının yerine geçmez.
+
+Değerlendirme üslubu çocuğun yaş grubuna göre değişir. Sistem istemi, profildeki doğum yılından grubu okur. Üç üslup vardır. Biri seçilir. Üçü birden aynı anlatışa yazılmaz.
+
+### Yaş grupları ve üslup
+
+**10-12 yaş (5, 6 ve 7. sınıf).** Üslup merak uyandıran, sıcak, oyunlaştırması yüksek ve cesaretlendiricidir. Cümle kısa durur. Önce doğru söylenen parça görülür. Eksik nokta azar gibi gelmez. Küçük bir sonraki adım verilir.
+
+**13-14 yaş (8. sınıf / LGS).** Üslup hedef odaklı, sınav stresini yöneten, stratejik ve ritmiktir. Adım sırayla söylenir. Acele ettirilmez. Sınav kaygısı, bilgi cümlesinin yerine geçmez. Eksik nokta bir strateji olarak söylenir.
+
+**15-18 yaş (9, 10, 11 ve 12. sınıf).** Üslup analitik, genç yetişkin saygısında, akran rehberliğinde net ve doğrudandır. Süslü övgü kurulmaz. Doğru, eksik ve sonraki adım ayrı cümlelerdir. Çocuk yerine konuşulmaz.
+
+Pilot sınıf 6’dır. Bu sınıf 10-12 üslubuna girer. Aynı dersi dinleyen 8. sınıf öğrencisi 13-14 üslubunu, lise öğrencisi 15-18 üslubunu duyar. Dersin kazanımı değişmez. Değişen, değerlendirme cümlesinin sesidir.
+
+### Veli modeli ve çocuk güvenliği
+
+Hesap velinindir. Çocuk, veli hesabının altında bir profildir. Bu fazda çocuğa ayrı e-posta ve ayrı giriş açılmaz.
+
+Ders, veli rızası olmadan açılmaz. Rıza yoksa kanal kapalıdır.
+
+Platform çocuk adına bakiye, harçlık veya kredi tutmaz. Oyun puanı para değildir. Parayla alınamaz. Paraya çevrilemez.
+
+Çocuğun sesi saklanmaz. Değerlendirme bitince ses silinir. Kalan, yazıya dökülmüş metin ve öğretici nottur.
+
+Çocuk başka kullanıcıya mesaj atamaz. Reklam yoktur. Parayla açılan ödül kutusu yoktur. Seri kaçırmak ceza doğurmaz.
+
+Çocuğun adı ve okulu, herkese açık doğrulama sayfasında görünmez.
+
+İlk konu ücretsizdir. Sonraki konular veli lisansına bağlıdır. Ücretsiz konu tam ders kalitesindedir. Kırpılmış tanıtım değildir.
+
+Okul kitabı metni kopyalanmaz. Kazanım anlatılır. Cümle özgün yazılır.
+
+Yetişkin üretim kapısı bu ekte gevşetilmez. Beş katman, süre tabanı ve «1 Eğitim Kodu = 1 Ses» yetişkin dersinde durur. Junior dersinin kendi süresi ve kendi sesi ayrı karardır. O karar yetişkin standardın yerine yazılmaz.

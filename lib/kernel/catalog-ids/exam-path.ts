@@ -4,12 +4,16 @@
  * Boş dizi kabuktur: ilk ders yoktur, ücretsiz kapı açılmaz.
  * Mühür listesi `ACADEMY_MEDIA_SEALED_AUDIO` bu tablonun dolu satırlarından türer.
  * Anahtarlar `course-registry.ts` kartındaki `lessonKeys` alanından okunur.
+ * Yalnız `audience === "adult"` kartlar girer. Junior kendi odasındadır; bu deftere yazılmaz.
  */
 
 import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
 
 export const CURRICULUM_LESSON_KEYS_BY_SLUG: Readonly<Record<string, readonly string[]>> = Object.fromEntries(
-  COURSE_REGISTRY.filter((row) => row.lessonKeys.length > 0).map((row) => [row.slug, row.lessonKeys]),
+  COURSE_REGISTRY.filter((row) => row.audience === "adult" && row.lessonKeys.length > 0).map((row) => [
+    row.slug,
+    row.lessonKeys,
+  ]),
 );
 
 export const CURRICULUM_LESSON_COUNT_BY_SLUG: Readonly<Record<string, number>> = Object.fromEntries(

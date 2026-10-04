@@ -3,14 +3,17 @@
  * Saf veri: dosya sistemi, Prisma ve akademi motoru yok.
  * Akademi odası ve mobil istemci bu kartı okur. İçerik, canlı fiyat ve mühür kapısı burada durmaz.
  *
- * 13 kanon kart (`01_` … `13_`) ve kanon dışı OFF-201 (`01_office_ai_ileri`).
+ * 13 kanon yetişkin kart (`01_` … `13_`) ve kanon dışı OFF-201 (`01_office_ai_ileri`).
  * `06_`–`13_` vitrin sırası yoktur; ders yolu boştur. Kabuk «hazırlanıyor» halidir.
+ * Junior bu deftere girmez. Kendi odası `lib/junior` içindedir. `audience: "junior"` kartı yasaktır.
  */
 
 const SHELL_SUMMARY =
   "Hazırlanıyor. Compact müfredat, kapak ve sınav kapısı yakında basılır; satın alma tek başına belge üretmez." as const;
 
 export type CourseRegistryLayer = 1 | 2 | 3;
+
+export type CourseAudience = "adult" | "junior";
 
 export type CourseWarmupBinding = {
   readonly assetKey: string;
@@ -35,6 +38,7 @@ export type CourseRegistryCard = {
   readonly title: string;
   readonly level: string;
   readonly layer: CourseRegistryLayer;
+  readonly audience: CourseAudience;
   readonly canon: boolean;
   readonly priceSeedMinor: number;
   readonly voice: string;
@@ -57,6 +61,7 @@ export const COURSE_REGISTRY = [
       "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Verimliliği)",
     level: "Temel",
     layer: 1,
+    audience: "adult",
     canon: true,
     priceSeedMinor: 89_000,
     voice: "Callirrhoe",
@@ -114,6 +119,7 @@ export const COURSE_REGISTRY = [
     title: "İleri Ofis Yapay Zekâ",
     level: "İleri",
     layer: 1,
+    audience: "adult",
     canon: false,
     priceSeedMinor: 129_000,
     voice: "Kore",
@@ -165,6 +171,7 @@ export const COURSE_REGISTRY = [
       "E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı (Trendyol, Hepsiburada, Amazon & Shopify)",
     level: "Temel",
     layer: 1,
+    audience: "adult",
     canon: true,
     priceSeedMinor: 99_000,
     voice: "Puck",
@@ -219,6 +226,7 @@ export const COURSE_REGISTRY = [
     title: "Yapay Zekâ ile Sosyal Medya İçeriği (Görsel ve Kısa Video)",
     level: "Temel",
     layer: 1,
+    audience: "adult",
     canon: true,
     priceSeedMinor: 89_000,
     voice: "Aoede",
@@ -270,6 +278,7 @@ export const COURSE_REGISTRY = [
       "Müşteri Hizmetleri ve Satış İçin Kodsuz WhatsApp / Web Chatbot Kurulumu (Voiceflow & Botpress)",
     level: "Masterclass",
     layer: 1,
+    audience: "adult",
     canon: true,
     priceSeedMinor: 129_000,
     voice: "Achird",
@@ -320,6 +329,7 @@ export const COURSE_REGISTRY = [
     title: "Yapay Zekâ Prompt Mühendisliği",
     level: "Masterclass",
     layer: 1,
+    audience: "adult",
     canon: true,
     priceSeedMinor: 129_000,
     voice: "Fenrir",
@@ -370,6 +380,7 @@ export const COURSE_REGISTRY = [
     title: "Kurumsal İş Akışı Otomasyonu (Self-Hosted n8n, Make & AI Entegrasyonları)",
     level: "Orta",
     layer: 2,
+    audience: "adult",
     canon: true,
     priceSeedMinor: 390_000,
     voice: "Zephyr",
@@ -389,6 +400,7 @@ export const COURSE_REGISTRY = [
     title: "Otonom Yapay Zekâ Ajanları Mimarisi (LangGraph, CrewAI & Tool-Calling)",
     level: "Orta",
     layer: 2,
+    audience: "adult",
     canon: true,
     priceSeedMinor: 590_000,
     voice: "Fenrir",
@@ -409,6 +421,7 @@ export const COURSE_REGISTRY = [
       "Production RAG ve Kurumsal Arama Sistemleri (Vektör Veritabanları, GraphRAG & Hibrit Arama)",
     level: "Orta",
     layer: 2,
+    audience: "adult",
     canon: true,
     priceSeedMinor: 690_000,
     voice: "Erinome",
@@ -428,6 +441,7 @@ export const COURSE_REGISTRY = [
     title: "AI-Native Fullstack Web Geliştirme (Next.js, Vercel AI SDK & Reaktif Arayüzler)",
     level: "Orta",
     layer: 2,
+    audience: "adult",
     canon: true,
     priceSeedMinor: 490_000,
     voice: "Puck",
@@ -447,6 +461,7 @@ export const COURSE_REGISTRY = [
     title: "Veri Analitiği, SQL ve İş Zekâsı İçin Yapay Zekâ (Power BI, Python & AI Analytics)",
     level: "Orta",
     layer: 2,
+    audience: "adult",
     canon: true,
     priceSeedMinor: 349_000,
     voice: "Aoede",
@@ -466,6 +481,7 @@ export const COURSE_REGISTRY = [
     title: "Yapay Zekâ Güvenliği, LLM Red Teaming & Guardrails Mimarisi",
     level: "İleri",
     layer: 3,
+    audience: "adult",
     canon: true,
     priceSeedMinor: 1_500_000,
     voice: "Fenrir",
@@ -485,6 +501,7 @@ export const COURSE_REGISTRY = [
     title: "Yerel Model Dağıtımı ve İnce Ayar (Applied Fine-Tuning, LoRA/QLoRA & vLLM)",
     level: "İleri",
     layer: 3,
+    audience: "adult",
     canon: true,
     priceSeedMinor: 1_900_000,
     voice: "Puck",
@@ -504,6 +521,7 @@ export const COURSE_REGISTRY = [
     title: "Kurumsal AI Yönetişimi, Hukuk ve Regülasyon Uyumu (AB Yapay Zekâ Yasası & KVKK)",
     level: "İleri",
     layer: 3,
+    audience: "adult",
     canon: true,
     priceSeedMinor: 1_500_000,
     voice: "Leda",
@@ -550,15 +568,30 @@ function assertCourseRegistry(): void {
   if (new Set(slugs).size !== slugs.length) {
     throw new Error("Kurs kayıt defterinde slug tekrarlı.");
   }
-  const canon = COURSE_REGISTRY.filter((row) => row.canon);
+  const codes = COURSE_REGISTRY.map((row) => row.code);
+  if (new Set(codes).size !== codes.length) {
+    throw new Error("Kurs kayıt defterinde kod tekrarlı.");
+  }
+
+  const cards: readonly CourseRegistryCard[] = COURSE_REGISTRY;
+  const adults = cards.filter((row) => row.audience === "adult");
+  const juniors = cards.filter((row) => row.audience === "junior");
+  if (adults.length + juniors.length !== COURSE_REGISTRY.length) {
+    throw new Error("Kurs kartının kitlesi adult veya junior olmalıdır.");
+  }
+  if (adults.length !== 14) {
+    throw new Error("Yetişkin kart 14 olmalıdır.");
+  }
+
+  const canon = adults.filter((row) => row.canon);
   if (canon.length !== 13) {
     throw new Error("Kanon 13 olmalıdır.");
   }
-  if (COURSE_REGISTRY.length - canon.length !== 1) {
+  if (adults.length - canon.length !== 1) {
     throw new Error("Kanon dışı kart yalnız OFF-201 olmalıdır.");
   }
   const orders: number[] = [];
-  for (const row of COURSE_REGISTRY) {
+  for (const row of adults) {
     if (row.vitrineOrder !== null) {
       orders.push(row.vitrineOrder);
     }
@@ -567,12 +600,20 @@ function assertCourseRegistry(): void {
   if (sortedOrders.join(",") !== "1,2,3,4,5,6" || new Set(orders).size !== orders.length) {
     throw new Error("Vitrin sırası 1’den 6’ya kadar, tekrarsız olmalıdır.");
   }
-  if (COURSE_REGISTRY.filter((row) => row.nativeListed).length !== 2) {
+  if (adults.filter((row) => row.nativeListed).length !== 2) {
     throw new Error("Mobil liste iki karttır.");
   }
-  if (COURSE_REGISTRY.filter((row) => row.passportListed).length !== 5) {
+  if (adults.filter((row) => row.passportListed).length !== 5) {
     throw new Error("Pasaport kapısı beş koddur.");
   }
+
+  if (juniors.length !== 0) {
+    throw new Error("Junior kartı Akademi defterinde durmaz. Kendi odası lib/junior içindedir.");
+  }
+  if (cards.some((row) => row.slug.startsWith("jr_"))) {
+    throw new Error("Junior ders kodu Akademi defterine yazılmaz.");
+  }
+
   const warmupKeys: string[] = [];
   for (const row of COURSE_REGISTRY) {
     for (const binding of row.warmup) {

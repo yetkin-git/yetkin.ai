@@ -77,7 +77,7 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 * **Kamu kanıt URL’si oda değildir:** `/vize` ve `/academy/dogrula` kanıt çıkışıdır; yeni oda açmaz.
 * **Çekirdek yetenekler (eski “sığınak” kavramı emeklidir):** Kimlik (`/profil`), fatura/cüzdan (`/cuzdan`), pasaport (`/pasaport`) ve idare (`/admin`) çekirdek yeteneklerdir; yan alan değildir.
 * **Genişleme:** Meşru ürün ihtiyaçları kayıt + bayrak + hop checklist’i ile monolit içinde açılır. Arşiv (`yetkin_muze/`, `archived/`) ana akışı kirletmez.
-* **18 yaş altı ürün yoktur.** Junior kamu yüzeyi kilitlidir (`circuit-breakers`).
+* **Yetkin Junior:** Junior modülü, 10-18 yaş grubuna veli hesabı altında müstakil bir oda olarak hizmet veren veli rızalı özel kanaldır. Akademi kayıt defterine girmez. Kapı, pasaport ve öğretme ayrıntısı B6’dadır.
 
 ## B3. Geliştirici Dostu Test ve CI Politikası
 
@@ -129,3 +129,10 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 * **Faz 2 açılış kriterleri (checklist):** (1) lisanslı Pazaryeri sözleşmesi, (2) alt satıcı onboard, (3) freelancer hop’larının v1 siciline geri yazımı, (4) kapalı test halkası yeşil, (5) `DronBayrakları.isKapali("freelancer") === false`. İmza Super Admin + CEO.
 * **Motor 2 (B2B):** Keşif fazındadır. Kurumsal oda arşivde kalır; ilk pilot müşteri profili olmadan kamu vitrini açılmaz.
 * **Altyapı:** Redis, Inngest, e-posta gibi üçüncü taraf servisler operasyonel ihtiyaçlara göre devreye alınır; eksiklikte sahte yeşil basılmaz.
+
+## B6. Yetkin Junior
+
+* **Yetkin Junior:** Junior modülü, 10-18 yaş grubuna veli hesabı altında müstakil bir oda olarak hizmet veren veli rızalı özel kanaldır. Sahte bakiye tutmaz. Her dersin ilk konusu ücretsizdir. Pilot sınıf 6’dır. Kartlar `jr_06_mat`, `jr_06_fen` ve `jr_06_turkce` dir. Ev `lib/junior/catalog.ts`.
+* **Kapı:** Bu oda Akademi’nin iç kanalı değildir. Panel, Akademi ve Kariyer vitrini B2’de durur. `/junior` ziyaretçi kapısı `JUNIOR_PRODUCTION_LOCKED` kapalıyken açılmaz. Açılış ayrı karardır. Yetişkin Akademi vitrini bu odadan etkilenmez.
+* **Pasaport:** Junior kursu Kariyer vizesine girmez. Kayıt defterinde `passportListed` kapalıdır. Ev `packages/kernel/src/catalog-ids/course-registry.ts`.
+* **Öğretme:** Dinle ve Anlat ile veli modeli `.system_docs/PEDAGOJI.md` ve `.system_docs/MANIFESTO.md` Ek-J bölümlerindedir. Bu madde o metni ikinci kez yazmaz.

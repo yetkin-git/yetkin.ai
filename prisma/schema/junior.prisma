@@ -1,0 +1,60 @@
+// Yetkin Junior kapalı pilot — veli hesabının altındaki çocuk profili.
+// Ayrı çocuk e-postası yoktur. Oyun puanı cüzdan değildir.
+// Ses kolonu yoktur: anlatış biter bitmez yalnız yazı kalır.
+
+model JuniorProfile {
+  id         String   @id @default(cuid())
+  userId     String   @map("user_id")
+  nickname   String
+  grade      Int
+  birthYear  Int      @map("birth_year")
+  consentAt  DateTime @map("consent_at")
+  selected   Boolean  @default(false)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  progress JuniorProgress[]
+  xp       JuniorXp?
+
+  @@index([userId, createdAt])
+  @@map("junior_profiles")
+}
+
+/// Kazanım notu. Ses, cüzdan ve defter satırı taşımaz.
+model JuniorProgress {
+  id         String   @id @default(cuid())
+  userId     String   @map("user_id")
+  profileId  String   @map("profile_id")
+  lessonKey  String   @map("lesson_key")
+  mode       String
+  praised    String   @db.Text
+  missing    String   @db.Text
+  advice     String   @db.Text
+  score      Int
+  xpAwarded  Int      @map("xp_awarded")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  profile JuniorProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  user    User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([profileId, createdAt])
+  @@index([userId, createdAt])
+  @@map("junior_progress")
+}
+
+/// Oyun puanı ve rozet. Nakit satırına bağlanmaz. Paraya çevrilmez.
+model JuniorXp {
+  id         String   @id @default(cuid())
+  userId     String   @map("user_id")
+  profileId  String   @unique @map("profile_id")
+  points     Int      @default(0)
+  badgesJson String   @default("[]") @map("badges_json") @db.Text
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  profile JuniorProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  user    User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("junior_xp")
+}

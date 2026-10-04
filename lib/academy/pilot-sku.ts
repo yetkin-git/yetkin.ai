@@ -40,7 +40,11 @@ type ProductionLineSlug = Exclude<
 >;
 
 export const ACADEMY_PRODUCTION_LINE_SKU_SLUGS = COURSE_REGISTRY.filter(
-  (row) => row.canon && row.vitrineOrder !== null && row.slug !== ACADEMY_FLAGSHIP_SKU_SLUG,
+  (row) =>
+    row.audience === "adult" &&
+    row.canon &&
+    row.vitrineOrder !== null &&
+    row.slug !== ACADEMY_FLAGSHIP_SKU_SLUG,
 )
   .slice()
   .sort((a, b) => (a.vitrineOrder ?? 0) - (b.vitrineOrder ?? 0))
@@ -62,7 +66,7 @@ type Off201Slug = Extract<CourseRegistryCard, { canon: false; vitrineOrder: numb
 function off201StorefrontSlug(): Off201Slug {
   const row = COURSE_REGISTRY.find(
     (item): item is Extract<CourseRegistryCard, { canon: false; vitrineOrder: number }> =>
-      item.canon === false && item.vitrineOrder !== null,
+      item.audience === "adult" && item.canon === false && item.vitrineOrder !== null,
   );
   if (!row) {
     throw new Error("OFF-201 vitrin kartı yok.");
@@ -188,7 +192,7 @@ type MediaSealedSkuSlug = Extract<
 >["slug"];
 
 export const ACADEMY_MEDIA_SEALED_SKU_SLUGS = COURSE_REGISTRY.filter(
-  (row) => row.lessonKeys.length > 0,
+  (row) => row.audience === "adult" && row.lessonKeys.length > 0,
 ).map((row) => row.slug) as readonly MediaSealedSkuSlug[];
 
 export type AcademyPilotSkuSlug = never;
@@ -236,7 +240,7 @@ export function isAcademyGrowthSkuSlug(slug: string): slug is AcademyGrowthSkuSl
  * Vitrin yayını (`ACADEMY_GROWTH_SKU_SLUGS`) ayrıdır; satış bu listeden açılır.
  */
 export const ACADEMY_LICENSE_SALE_SLUGS = COURSE_REGISTRY.filter(
-  (row) => row.vitrineOrder !== null && row.lessonKeys.length > 0,
+  (row) => row.audience === "adult" && row.vitrineOrder !== null && row.lessonKeys.length > 0,
 )
   .slice()
   .sort((a, b) => (a.vitrineOrder ?? 0) - (b.vitrineOrder ?? 0))

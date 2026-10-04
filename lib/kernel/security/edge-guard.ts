@@ -12,13 +12,16 @@ import { academyCourseOffersFreePreview } from "@/lib/kernel/catalog-ids/free-pr
 import { isFrozenShellPagePath } from "../compliance/circuit-breakers";
 import {
   EDGE_HSTS_VALUE,
-  EDGE_SECURITY_HEADER_ENTRIES,
+  edgeSecurityHeaderEntriesForPath,
 } from "./edge-security-headers";
 
 export {
   EDGE_HSTS_VALUE,
+  EDGE_JUNIOR_PERMISSIONS_POLICY_VALUE,
   EDGE_PERMISSIONS_POLICY_VALUE,
   EDGE_SECURITY_HEADER_ENTRIES,
+  edgePermissionsPolicyForPath,
+  isJuniorMicrophonePath,
 } from "./edge-security-headers";
 
 export const CITIZEN_LOGIN_PATH = "/login";
@@ -108,6 +111,15 @@ export function isMuseumPath(pathname: string): boolean {
 
 export function isKayitPath(pathname: string): boolean {
   return normalizePathname(pathname) === "/kayit";
+}
+
+/**
+ * Kapalı pilot sayfası. `/juniorism` bu kapıya girmez.
+ * Ziyaretçi kenarda 410 alır. Veli oturumu `decideEdgeAction` ile geçer.
+ */
+export function isJuniorClosedPilotPath(pathname: string): boolean {
+  const path = normalizePathname(pathname);
+  return path === "/junior" || path.startsWith("/junior/");
 }
 
 export function authPathAliasTarget(pathname: string): string | null {
@@ -215,6 +227,10 @@ export function decideEdgeAction(pathname: string, sessionVerified: boolean): Ed
     return { kind: "root-308" };
   }
   if (isFrozenShellPagePath(pathname)) {
+    // Kapalı pilot: ziyaretçi 410. Oturum açmış veli sayfayı görür. Para kapısı ayrı kalır.
+    if (sessionVerified && isJuniorClosedPilotPath(pathname)) {
+      return { kind: "next" };
+    }
     return { kind: "frozen-410" };
   }
   const aliasTarget = authPathAliasTarget(pathname);
@@ -273,11 +289,11 @@ export function attachEdgeNonceRequestHeaders(
 
 export function applyEdgeSecurityHeaders(
   response: { headers: { set(name: string, value: string): void } },
-  input: { nonce: string; env?: { NODE_ENV?: string } },
+  input: { nonce: string; env?: { NODE_ENV?: string }; pathname?: string | null },
 ): void {
   const env = input.env ?? process.env;
   response.headers.set("Content-Security-Policy", buildEdgeCsp(input.nonce, env));
-  for (const [key, value] of EDGE_SECURITY_HEADER_ENTRIES) {
+  for (const [key, value] of edgeSecurityHeaderEntriesForPath(input.pathname)) {
     response.headers.set(key, value);
   }
   if (env.NODE_ENV === "production") {

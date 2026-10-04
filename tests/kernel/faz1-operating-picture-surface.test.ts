@@ -59,8 +59,10 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
     expect(pedagoji).toContain("Junior oda ≠ başlangıç seviyesi");
     expect(pedagoji).toContain("JUNIOR_PRODUCTION_LOCKED");
     expect(pedagoji).toContain("Temel Paketler");
-    expect(pedagoji).toContain("18 yaş altı");
+    expect(pedagoji).toContain("Ek-J: Junior Pedagojisi ve Veli Modeli");
+    expect(pedagoji).toContain("Dinle ve Anlat");
     expect(pedagoji).toContain("Eğitim felsefesi");
+    expect(pedagoji).not.toContain("18 yaş altı ürün yoktur");
   });
 
   it("Runbook Motor 4 / Kamu Vitrini 3 Oda der; Akademi makbuzu SMTP env'ine bağlıdır", () => {

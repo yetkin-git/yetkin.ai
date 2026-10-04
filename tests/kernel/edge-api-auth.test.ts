@@ -259,7 +259,11 @@ describe("üretilen ROUTE_AUTH_MAP", () => {
     expect(ROUTE_AUTH_MAP["/api/_gone/[...path]"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/ai/chat"]).toBe("session");
     expect(Object.keys(ROUTE_AUTH_MAP).some((path) => path.includes("("))).toBe(false);
-    expect(Object.keys(ROUTE_AUTH_MAP)).toHaveLength(61);
+    expect(Object.keys(ROUTE_AUTH_MAP)).toHaveLength(64);
+    expect(ROUTE_AUTH_MAP["/api/junior-pilot/profiles"]).toBe("session");
+    expect(ROUTE_AUTH_MAP["/api/junior-pilot/tell"]).toBe("session");
+    expect(ROUTE_AUTH_MAP["/api/junior-pilot/practice"]).toBe("session");
+    expect(Object.hasOwn(ROUTE_AUTH_MAP, "/api/junior")).toBe(false);
     expect(ROUTE_AUTH_MAP["/api/wallet/refund"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/wallet/top-up"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/academy/courses/[id]/listen"]).toBe("public");

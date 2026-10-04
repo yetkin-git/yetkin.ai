@@ -11,7 +11,9 @@ import {
   EDGE_CSP_STYLE_SRC_DIRECTIVE,
   EDGE_CSP_SUPABASE_CONNECT_SRC,
   EDGE_HSTS_VALUE,
+  EDGE_JUNIOR_PERMISSIONS_POLICY_VALUE,
   EDGE_PERMISSIONS_POLICY_VALUE,
+  isJuniorMicrophonePath,
   hasEdgeSessionHint,
   hasSupabaseAuthCookieHint,
   isProtectedCitizenPath,
@@ -216,10 +218,60 @@ describe("kenar güvenlik başlıkları", () => {
     expect(headers.get("X-Frame-Options")).toBe("DENY");
     expect(headers.get("Referrer-Policy")).toBe("strict-origin-when-cross-origin");
     expect(headers.get("Permissions-Policy")).toBe(EDGE_PERMISSIONS_POLICY_VALUE);
+    expect(EDGE_PERMISSIONS_POLICY_VALUE).toContain("microphone=()");
+    expect(EDGE_PERMISSIONS_POLICY_VALUE).not.toContain("microphone=(self)");
     expect(EDGE_PERMISSIONS_POLICY_VALUE).toContain("payment=(self");
     expect(EDGE_PERMISSIONS_POLICY_VALUE).toContain("https://www.paytr.com");
     expect(EDGE_PERMISSIONS_POLICY_VALUE).not.toContain("payment=()");
     expect(headers.has("Strict-Transport-Security")).toBe(false);
+  });
+
+  it("mikrofon sitede kapalıdır; yalnız /junior yolunda self izni vardır", () => {
+    expect(isJuniorMicrophonePath("/junior")).toBe(true);
+    expect(isJuniorMicrophonePath("/junior/")).toBe(true);
+    expect(isJuniorMicrophonePath("/junior/dinle")).toBe(true);
+    expect(isJuniorMicrophonePath("/juniorism")).toBe(false);
+    expect(isJuniorMicrophonePath("/academy")).toBe(false);
+    expect(isJuniorMicrophonePath("/academy/junior")).toBe(false);
+
+    function policyFor(pathname: string | undefined) {
+      const headers = new Map<string, string>();
+      applyEdgeSecurityHeaders(
+        {
+          headers: {
+            set(name, value) {
+              headers.set(name, value);
+            },
+          },
+        },
+        { nonce: "mic-nonce", env: { NODE_ENV: "test" }, pathname },
+      );
+      return headers.get("Permissions-Policy") ?? "";
+    }
+
+    const site = policyFor("/academy");
+    expect(site).toBe(EDGE_PERMISSIONS_POLICY_VALUE);
+    expect(site).toContain("microphone=()");
+    expect(site).not.toContain("microphone=(self)");
+    expect(policyFor(undefined)).toBe(EDGE_PERMISSIONS_POLICY_VALUE);
+
+    const junior = policyFor("/junior/dinle");
+    expect(junior).toBe(EDGE_JUNIOR_PERMISSIONS_POLICY_VALUE);
+    expect(junior).toContain("microphone=(self)");
+    expect(junior).not.toContain("microphone=()");
+    expect(junior).toContain("payment=(self");
+    expect(junior).toContain("camera=()");
+    expect(policyFor("/junior")).toBe(EDGE_JUNIOR_PERMISSIONS_POLICY_VALUE);
+    expect(policyFor("/juniorism")).toBe(EDGE_PERMISSIONS_POLICY_VALUE);
+  });
+
+  it("kapalı pilot: ziyaretçi /junior adresinde 410 alır, veli oturumu sayfaya geçer", () => {
+    expect(decideEdgeAction("/junior", false)).toEqual({ kind: "frozen-410" });
+    expect(decideEdgeAction("/junior/ders/jr_06_fen-1", false)).toEqual({ kind: "frozen-410" });
+    expect(decideEdgeAction("/junior", true)).toEqual({ kind: "next" });
+    expect(decideEdgeAction("/junior/ders/jr_06_fen-1", true)).toEqual({ kind: "next" });
+    expect(decideEdgeAction("/studio", true)).toEqual({ kind: "frozen-410" });
+    expect(decideEdgeAction("/juniorism", false).kind).not.toBe("frozen-410");
   });
 
   it("geliştirmede unsafe-eval kalır; üretimde HSTS + upgrade-insecure-requests, eval yok", () => {

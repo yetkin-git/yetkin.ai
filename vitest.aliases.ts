@@ -1,12 +1,22 @@
 import path from "node:path";
 import { FROZEN_DISK_ROOMS } from "./lib/dronlar/kayit";
 
-/** Donmuş 8 oda — Amiral derlemesi `archived/`; Vitest `@/lib/{oda}` takma adını oraya çevirir (canlı `lib/` tavanı yok). */
+/** Donmuş odalar. Canlı `npm test` bu odaların testlerini koşmaz. */
 export const FROZEN_VITEST_ROOMS = FROZEN_DISK_ROOMS;
 
-export function railVitestAliases(rootDir: string) {
+/**
+ * Canlı Vitest takma adı. Junior bu listede yoktur.
+ * `@/lib/junior` canlı klasöre düşer; arşivdeki eski oda onu gölgelemez.
+ * Donmuş envanter `vitest.frozen.config.ts` içinde `FROZEN_VITEST_ROOMS` ile arşive bağlanır.
+ */
+export const LIVE_VITEST_ARCHIVE_ROOMS = FROZEN_DISK_ROOMS.filter((id) => id !== "junior");
+
+export function railVitestAliases(
+  rootDir: string,
+  rooms: readonly string[] = LIVE_VITEST_ARCHIVE_ROOMS,
+) {
   return [
-    ...FROZEN_VITEST_ROOMS.flatMap((id) => [
+    ...rooms.flatMap((id) => [
       {
         find: `@/lib/${id}`,
         replacement: path.join(rootDir, "archived", "lib", id),

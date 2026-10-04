@@ -5,6 +5,12 @@
 
 export const LIB_SHARED_TOP_DIRS = ["copy", "kernel", "showcase", "ui", "dronlar"] as const;
 
+/**
+ * Müstakil Junior odası. Dört kamu vitrinine eklenmez.
+ * Akademi kayıt defterinde kartı yoktur. Eski harçlık odası arşivde kalır.
+ */
+export const CLOSED_PILOT_LIB_DIRS = ["junior"] as const;
+
 export const ROOMS_SSOT_REL = "lib/dronlar/kayit.ts";
 
 export function parseVerticalRoomIdsFromSsot(source: string): string[] | null {
@@ -66,7 +72,7 @@ export function unexpectedLibTopDirs(
   dirNames: readonly string[],
   roomIds: readonly string[],
 ): string[] {
-  const allowed = new Set<string>([...roomIds, ...LIB_SHARED_TOP_DIRS]);
+  const allowed = new Set<string>([...roomIds, ...LIB_SHARED_TOP_DIRS, ...CLOSED_PILOT_LIB_DIRS]);
   return dirNames.filter((name) => !allowed.has(name)).sort();
 }
 

@@ -15,7 +15,7 @@ describe("vatandaş /kayit alias yüzeyi", () => {
     expect(config).toContain('destination: "https://yetkin.ai/register"');
     expect(config).toContain('source: "/giris"');
     expect(config).toContain('destination: "https://yetkin.ai/login"');
-    expect(config).toContain("EDGE_SECURITY_HEADER_ENTRIES");
+    expect(config).toContain("edgeSecurityHeaderEntriesForPath");
     expect(config).toContain("CSP nonce");
     expect(config).not.toContain("EDGE_CSP_VALUE");
     expect(config).not.toMatch(/key:\s*"Content-Security-Policy"/);

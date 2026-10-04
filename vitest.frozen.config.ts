@@ -10,6 +10,6 @@ export default defineConfig({
     exclude: ["yetkin_muze/**", "node_modules/**", ".next/**", "tests/**/*.pg.test.ts"],
   },
   resolve: {
-    alias: railVitestAliases(path.resolve(import.meta.dirname)),
+    alias: railVitestAliases(path.resolve(import.meta.dirname), FROZEN_VITEST_ROOMS),
   },
 });

@@ -269,7 +269,9 @@ for (const dir of SCAN_DIRS) {
         if (resolved.startsWith("components/")) {
           add(file, spec, "api.ui");
         }
-        if (resolved.startsWith("archived/") || frozenOfLib(resolved)) {
+        const closedPilot =
+          file.startsWith("app/api/junior-pilot/") && frozenOfLib(resolved) === "junior";
+        if (resolved.startsWith("archived/") || (frozenOfLib(resolved) && !closedPilot)) {
           add(file, spec, "api.frozen");
         }
         continue;
