@@ -1,6 +1,5 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { academyProductionFilePresent } from "@/lib/academy/production-seal-disk";
 import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
 import { ACADEMY_SEALED_AUDIO_DURATION_SEC } from "@/lib/academy/lesson-audio";
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
@@ -23,7 +22,6 @@ import {
 } from "@/lib/academy/media-release-seal";
 import { CURRICULUM_LESSON_KEYS_BY_SLUG } from "@/lib/kernel/catalog-ids/exam-path";
 
-const ROOT = process.cwd();
 const OFF201 = "01_office_ai_ileri";
 
 describe("akademi medya mühür sicili — katman 1 altı eğitim", () => {
@@ -152,7 +150,7 @@ describe("akademi medya mühür sicili — katman 1 altı eğitim", () => {
         `/media/academy/audio/${OFF201}/${lessonKey}.mp3`,
       );
       expect(
-        existsSync(join(ROOT, "public/media/academy/audio", OFF201, `${lessonKey}.mp3`)),
+        academyProductionFilePresent(`public/media/academy/audio/${OFF201}/${lessonKey}.mp3`),
         lessonKey,
       ).toBe(true);
     }

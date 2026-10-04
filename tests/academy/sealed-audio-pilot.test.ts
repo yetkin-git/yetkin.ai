@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { academyProductionFilePresent } from "@/lib/academy/production-seal-disk";
 import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
 import { ACADEMY_SEALED_AUDIO_DURATION_SEC, academyCourseSealedDurationSec } from "@/lib/academy/lesson-audio";
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
@@ -74,12 +75,12 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
     expect(resolveAcademyLessonPlayerAudioSrc(COURSE_SLUG, LESSON_KEY, undefined)).toContain(
       "/media/academy/audio/01_office_ai/01_office_ai-1.mp3",
     );
-    expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-1.mp3"))).toBe(true);
-    expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-1.bed.mp3"))).toBe(true);
-    expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-2.mp3"))).toBe(true);
-    expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-3.mp3"))).toBe(true);
-    expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-4.mp3"))).toBe(false);
-    expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-5.mp3"))).toBe(true);
+    expect(academyProductionFilePresent("public/media/academy/audio/01_office_ai/01_office_ai-1.mp3")).toBe(true);
+    expect(academyProductionFilePresent("public/media/academy/audio/01_office_ai/01_office_ai-1.bed.mp3")).toBe(true);
+    expect(academyProductionFilePresent("public/media/academy/audio/01_office_ai/01_office_ai-2.mp3")).toBe(true);
+    expect(academyProductionFilePresent("public/media/academy/audio/01_office_ai/01_office_ai-3.mp3")).toBe(true);
+    expect(academyProductionFilePresent("public/media/academy/audio/01_office_ai/01_office_ai-4.mp3")).toBe(false);
+    expect(academyProductionFilePresent("public/media/academy/audio/01_office_ai/01_office_ai-5.mp3")).toBe(true);
     const lessonTwo = "01_office_ai-2";
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, lessonTwo)).toBe(true);
     expect(loadAcademySealedAudioTimings(lessonTwo)?.durationSec).toBe(536.659);
@@ -139,7 +140,7 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
     expect(loadAcademyLessonCues(lessonSix)).toHaveLength(8);
     expect(loadAcademySpokenScriptProse(lessonSix)).toMatch(/Selamlar, ben Gözde/u);
     expect(academyCitizenPlayerLayer(COURSE_SLUG, lessonSix).kind).toBe("article+karaoke");
-    expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-6.mp3"))).toBe(true);
+    expect(academyProductionFilePresent("public/media/academy/audio/01_office_ai/01_office_ai-6.mp3")).toBe(true);
     const lessonG1 = "01_office_ai-g1";
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, lessonG1)).toBe(true);
     expect(loadAcademySealedAudioTimings(lessonG1)?.durationSec).toBe(637.634);
@@ -151,7 +152,7 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
     expect(loadAcademyLessonCues(lessonG1)).toHaveLength(8);
     expect(loadAcademySpokenScriptProse(lessonG1)).toMatch(/Selamlar, ben Gözde/u);
     expect(academyCitizenPlayerLayer(COURSE_SLUG, lessonG1).kind).toBe("article+karaoke");
-    expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-g1.mp3"))).toBe(true);
+    expect(academyProductionFilePresent("public/media/academy/audio/01_office_ai/01_office_ai-g1.mp3")).toBe(true);
     const lessonW1 = "01_office_ai-w1";
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, lessonW1)).toBe(true);
     expect(loadAcademySealedAudioTimings(lessonW1)?.durationSec).toBe(580.984);
@@ -175,7 +176,7 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
     expect(loadAcademyLessonCues(lessonW1)).toHaveLength(8);
     expect(loadAcademySpokenScriptProse(lessonW1)).toMatch(/Selamlar, ben Gözde/u);
     expect(academyCitizenPlayerLayer(COURSE_SLUG, lessonW1).kind).toBe("article+karaoke");
-    expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-w1.mp3"))).toBe(true);
+    expect(academyProductionFilePresent("public/media/academy/audio/01_office_ai/01_office_ai-w1.mp3")).toBe(true);
     const lessonK1 = "01_office_ai-k1";
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, lessonK1)).toBe(true);
     expect(loadAcademySealedAudioTimings(lessonK1)?.durationSec).toBe(734.865);
@@ -193,7 +194,7 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
     expect(loadAcademyLessonCues(lessonK1)).toHaveLength(8);
     expect(loadAcademySpokenScriptProse(lessonK1)).toMatch(/Selamlar, ben Gözde/u);
     expect(academyCitizenPlayerLayer(COURSE_SLUG, lessonK1).kind).toBe("article+karaoke");
-    expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-k1.mp3"))).toBe(true);
+    expect(academyProductionFilePresent("public/media/academy/audio/01_office_ai/01_office_ai-k1.mp3")).toBe(true);
     expect(curriculumForCourseSlug(COURSE_SLUG)).toHaveLength(8);
   });
 

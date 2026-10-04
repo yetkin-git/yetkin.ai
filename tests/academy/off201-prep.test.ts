@@ -1,6 +1,7 @@
-import { existsSync, readFileSync, statSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { academyProductionFilePresent } from "@/lib/academy/production-seal-disk";
 import {
   academyCatalogPriceMinorForSlug,
   OFF_201_CATALOG_READER_DEFAULT_MINOR,
@@ -185,14 +186,7 @@ describe("OFF-201 fırın öncesi hazırlık", () => {
   });
 
   it("görsel JPG diskte yoksa satış kapalıdır; fiyat kilidi para kesmez", async () => {
-    const onDisk = (relativePath: string): boolean => {
-      try {
-        const absolute = join(process.cwd(), relativePath);
-        return existsSync(absolute) && statSync(absolute).size > 0;
-      } catch {
-        return false;
-      }
-    };
+    const onDisk = (relativePath: string): boolean => academyProductionFilePresent(relativePath);
     registerAcademyProductionDiskProbe((relativePath) =>
       relativePath.endsWith(".jpg") ? false : onDisk(relativePath),
     );

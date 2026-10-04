@@ -29,6 +29,7 @@ import {
   academyCinemaEyeFallbackPublicPath,
   loadAcademyLessonVisualStage,
 } from "@/lib/academy/lesson-visual-stage";
+import { academyProductionFilePresent } from "@/lib/academy/production-seal-disk";
 import { assertAcademyProductionSeal } from "@/lib/academy/production-standard";
 import {
   academyHowtoSteps,
@@ -248,8 +249,8 @@ describe("OFF-201 taslak reji", () => {
       expect((stage?.cards.length ?? 0) > 1).toBe(true);
       expect(academyLessonBedIsHardMixed(key)).toBe(true);
       expect(isAcademyLessonBedSealed(slug, key)).toBe(true);
-      expect(existsSync(join(root, "public/media/academy/audio", slug, `${key}.mp3`))).toBe(true);
-      expect(existsSync(join(root, "public/media/academy/audio", slug, `${key}.bed.mp3`))).toBe(true);
+      expect(academyProductionFilePresent(`public/media/academy/audio/${slug}/${key}.mp3`)).toBe(true);
+      expect(academyProductionFilePresent(`public/media/academy/audio/${slug}/${key}.bed.mp3`)).toBe(true);
       expect(existsSync(join(root, "lib/academy/spoken-scripts", `${key}.md`))).toBe(true);
       expect(existsSync(join(root, "public/academy/cinema", `${key}-cue-1.jpg`))).toBe(true);
       expect(() =>

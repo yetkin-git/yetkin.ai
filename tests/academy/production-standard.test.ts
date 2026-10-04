@@ -1,6 +1,7 @@
-import { existsSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { academyProductionFilePresent } from "@/lib/academy/production-seal-disk";
 import {
   ACADEMY_AI_COURSE_DURATION_MIN_MINUTES,
   ACADEMY_AI_LESSON_COUNT_MIN,
@@ -235,14 +236,7 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
   });
 
   it("ısınma MP4 veya müzik BED diskte yoksa mühür fail-closed", () => {
-    const onDisk = (relativePath: string): boolean => {
-      const absolute = join(ROOT, relativePath);
-      try {
-        return existsSync(absolute) && statSync(absolute).size > 0;
-      } catch {
-        return false;
-      }
-    };
+    const onDisk = (relativePath: string): boolean => academyProductionFilePresent(relativePath);
     registerAcademyProductionDiskProbe((relativePath) =>
       relativePath.endsWith(".bed.mp3") ? false : onDisk(relativePath),
     );
