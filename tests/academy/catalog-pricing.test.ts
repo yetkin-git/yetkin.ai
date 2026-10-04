@@ -48,7 +48,7 @@ describe("akademi katalog fiyat haritası — KDV dahil, PayTR hizası", () => {
     }
   });
 
-  it("satın alınmamış kart Erişim Açık basmaz; fiyat solda, KDV ipucu ayrı, CTA yalnız Satın Al", () => {
+  it("satın alınmamış kart Erişim Açık basmaz; fiyat solda, yeşil düğme ücretsiz ders, satın alma ikincil", () => {
     for (const row of ACADEMY_COURSE_SEEDS) {
       const money = formatMinor(row.seedAmountMinor, SETTLEMENT_CURRENCY);
       const compact = formatMinorCompact(row.seedAmountMinor, SETTLEMENT_CURRENCY);
@@ -62,10 +62,12 @@ describe("akademi katalog fiyat haritası — KDV dahil, PayTR hizası", () => {
       expect(locked.priceCaption).toBe(ACADEMY_SEN.catalog.vatInclusiveHint);
       expect(locked.priceLabel).not.toContain("KDV dahil");
       expect(locked.priceLabel).not.toBe(ACADEMY_SEN.course.accessOpen);
-      expect(locked.cta).toBe(ACADEMY_SEN.catalog.cardCtaBuy);
-      expect(locked.cta).toBe("Satın Al");
+      expect(locked.cta).toBe(ACADEMY_SEN.catalog.cardCtaFreePreview);
+      expect(locked.cta).toBe("► 1. Dersi Ücretsiz İzle");
       expect(locked.cta).not.toMatch(/₺/);
-      expect(locked.href).toBe(`/academy/${row.slug}`);
+      expect(locked.href).toBe(`/academy/${row.slug}/oyna`);
+      expect(locked.secondaryCta).toBe(ACADEMY_SEN.catalog.cardCtaBuyPriced(compact));
+      expect(locked.secondaryHref).toBe(`/academy/${row.slug}#satin-al`);
 
       const owned = resolveAcademyCatalogCardCta({
         slug: row.slug,

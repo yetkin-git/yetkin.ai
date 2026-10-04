@@ -80,6 +80,7 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(copy.catalog.description).not.toContain("13 eğitim");
     expect(copy.catalog.description).not.toMatch(ledgerLeak);
     expect(copy.catalog.cardCtaBuy).toBe("Satın Al");
+    expect(copy.catalog.cardCtaFreePreview).toBe("► 1. Dersi Ücretsiz İzle");
     expect(copy.catalog.audioBadge).toBe("Sesli anlatım");
     expect(copy.catalog.audioBadgeHint).toBe(
       "Sesli Anlatım + Sınav + Sertifika",
@@ -92,6 +93,7 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(copy.catalog.liveBadge).toBe("Yayında");
     expect(copy.catalog.cardCtaComingSoon).toBe("Çok Yakında");
     expect(copy.catalog.cardMetaAudio(9)).toBe("9 dk · Sesli Anlatım");
+    expect(copy.catalog.cardMetaNarration(8)).toBe("8 Ders • Sesli Anlatım");
     expect(copy.catalog.articleBadgeHint).toBe(
       "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Sertifika",
     );
@@ -146,7 +148,9 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(readSrc("components/academy/course-list.tsx")).toContain("orderAcademyCatalogByCurriculum");
     expect(readSrc("components/academy/course-list.tsx")).not.toContain("groupAcademyCatalogBySeries");
     expect(readSrc("components/academy/course-list.tsx")).not.toContain("seriesPath");
-    expect(readSrc("components/academy/course-list.tsx")).toContain("md:grid-cols-3");
+    expect(readSrc("components/academy/course-list.tsx")).toContain(
+      "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
+    );
     expect(readSrc("components/academy/course-list.tsx")).toContain("ACADEMY_FLAGSHIP_SKU_SLUG");
     expect(readSrc("app/academy/page.tsx")).not.toContain("academy-catalog-viewport-lock");
     expect(readSrc("app/academy/page.tsx")).toContain("LegalColophonStrip");
@@ -162,7 +166,9 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(readSrc("components/showcase/listing-card.tsx")).toContain("CourseCoverImage");
     expect(readSrc("components/academy/course-card.tsx")).toContain("data-academy-audio-badge");
     expect(readSrc("components/academy/course-card.tsx")).toContain("data-academy-coming-soon-badge");
-    expect(readSrc("components/academy/course-card.tsx")).toContain("cardMetaAudio");
+    expect(readSrc("components/academy/course-card.tsx")).toContain("cardMetaNarration");
+    expect(readSrc("components/academy/course-card.tsx")).not.toContain("cardMetaAudio");
+    expect(readSrc("components/academy/course-card.tsx")).not.toContain("min-h-[40rem]");
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("academyModuleCodeBySlug");
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("academyCourseHasSealedAudio");
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("CurriculumOutcomes");

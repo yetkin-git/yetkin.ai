@@ -9,6 +9,7 @@
  */
 
 import type { AcademyCourseTitleSlug } from "@/lib/academy/course-titles";
+import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
 import { computeWalletShortfallMinor, suggestQuickTopUpAmountMinor } from "@/lib/kernel/payments/quick-top-up";
 import { WALLET_TOP_UP_MAX_MINOR, WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
 
@@ -25,21 +26,9 @@ export const ACADEMY_CATALOG_PRICE_WINDOW = {
  * KDV dahil liste (kuruş). 13 kanon SKU.
  * Amiral: ₺890. E-ticaret: ₺990. Masterclass (04/05): ₺1.290.
  */
-export const ACADEMY_CATALOG_PRICE_MINOR = {
-  "01_office_ai": 89_000,
-  "02_ecommerce_ai": 99_000,
-  "03_social_media_ai": 89_000,
-  "04_chatbot_nocode": 129_000,
-  "05_prompt_practice": 129_000,
-  "06_n8n_automation": 390_000,
-  "07_langgraph_agents": 590_000,
-  "08_production_rag": 690_000,
-  "09_nextjs_ai": 490_000,
-  "10_data_analytics_ai": 349_000,
-  "11_llm_redteam": 1_500_000,
-  "12_onprem_finetune": 1_900_000,
-  "13_ai_governance": 1_500_000,
-} as const satisfies Record<AcademyCourseTitleSlug, number>;
+export const ACADEMY_CATALOG_PRICE_MINOR = Object.fromEntries(
+  COURSE_REGISTRY.filter((row) => row.canon).map((row) => [row.slug, row.priceSeedMinor]),
+) as Record<AcademyCourseTitleSlug, number>;
 
 /**
  * Eski soğuk yedek. Vitrin bunu basmaz.
@@ -52,7 +41,12 @@ export const OFF_201_CATALOG_READER_DEFAULT_MINOR = null;
  * Canlı kilit `PriceCatalogEntry` `course:01_office_ai_ileri` satırıdır.
  * Super Admin satırı yazdıysa tohum o tutarı ezmez.
  */
-export const OFF_201_LAUNCH_PRICE_MINOR = 129_000;
+const off201PriceSeedMinor = COURSE_REGISTRY.find((row) => row.slug === "01_office_ai_ileri")?.priceSeedMinor;
+if (off201PriceSeedMinor == null) {
+  throw new Error("OFF-201 tohum fiyatı kartta yok.");
+}
+
+export const OFF_201_LAUNCH_PRICE_MINOR = off201PriceSeedMinor;
 
 export function academyCatalogPriceMinorForSlug(slug: string): number | null {
   if (slug in ACADEMY_CATALOG_PRICE_MINOR) {

@@ -37,12 +37,15 @@ test.describe("vatandaş /kayit mutlu yolu", () => {
     await expect(page.locator("form")).toBeVisible();
   });
 
-  test("oturumsuz /dashboard ve /pasaport kenarda /login’e 307 gider", async ({ request }) => {
-    for (const path of ["/dashboard", "/pasaport"]) {
-      const response = await request.get(path, { maxRedirects: 0 });
-      expect(response.status()).toBe(307);
-      expect(response.headers().location ?? "").toContain("/login");
-      expect(response.headers()["content-security-policy"] ?? "").toContain("default-src 'self'");
-    }
+  test("oturumsuz /dashboard kendi sayfasında kalır, /pasaport girişe 307 gider", async ({ request }) => {
+    const dashboard = await request.get("/dashboard", { maxRedirects: 0 });
+    expect(dashboard.status()).toBe(200);
+    expect(dashboard.headers().location ?? "").toBe("");
+    expect(dashboard.headers()["content-security-policy"] ?? "").toContain("default-src 'self'");
+
+    const passport = await request.get("/pasaport", { maxRedirects: 0 });
+    expect(passport.status()).toBe(307);
+    expect(passport.headers().location ?? "").toContain("/login");
+    expect(passport.headers()["content-security-policy"] ?? "").toContain("default-src 'self'");
   });
 });

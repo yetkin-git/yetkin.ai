@@ -175,13 +175,15 @@ describe("kenar JWT doğrulama (JWKS ES256)", () => {
 
 describe("kenar JWT ihtiyaç kapısı", () => {
   it("korumalı sayfa ve session API ister; kamu, webhook ve OPTIONS istemez", () => {
-    expect(needsEdgeJwtVerification("/dashboard")).toBe(true);
+    expect(needsEdgeJwtVerification("/dashboard")).toBe(false);
+    expect(needsEdgeJwtVerification("/cuzdan")).toBe(true);
     expect(needsEdgeJwtVerification("/studio")).toBe(true);
     expect(needsEdgeJwtVerification("/api/studio/generate", "POST")).toBe(true);
     expect(needsEdgeJwtVerification("/api/v1/studio/generate", "POST")).toBe(true);
     expect(needsEdgeJwtVerification("/academy")).toBe(false);
     expect(needsEdgeJwtVerification("/academy/certificates")).toBe(true);
-    expect(needsEdgeJwtVerification("/career")).toBe(true);
+    expect(needsEdgeJwtVerification("/career")).toBe(false);
+    expect(needsEdgeJwtVerification("/career/ek")).toBe(true);
     expect(needsEdgeJwtVerification("/academy/dogrula")).toBe(false);
     expect(needsEdgeJwtVerification("/academy/python-temel/oyna")).toBe(true);
     expect(needsEdgeJwtVerification("/api/health")).toBe(false);
@@ -202,7 +204,7 @@ describe("kenar JWT ihtiyaç kapısı", () => {
   it("sahte cookie korumalı yolda oturum sayılmaz", async () => {
     expect(
       await resolveEdgeSession({
-        pathname: "/dashboard",
+        pathname: "/cuzdan",
         cookies: [{ name: "sb-testref-auth-token", value: "session-chunk" }],
         env: TEST_ENV,
       }),
@@ -221,11 +223,18 @@ describe("kenar JWT ihtiyaç kapısı", () => {
     const token = await signHs256();
     expect(
       await resolveEdgeSession({
-        pathname: "/dashboard",
+        pathname: "/cuzdan",
         cookies: [{ name: "sb-testref-auth-token", value: JSON.stringify({ access_token: token }) }],
         env: TEST_ENV,
       }),
     ).toBe(true);
+    expect(
+      await resolveEdgeSession({
+        pathname: "/dashboard",
+        cookies: [{ name: "sb-testref-auth-token", value: JSON.stringify({ access_token: token }) }],
+        env: TEST_ENV,
+      }),
+    ).toBe(false);
     expect(
       await resolveEdgeSession({
         pathname: "/academy",

@@ -28,15 +28,16 @@ test.describe("Faz 1 kamu navigasyonu", () => {
     await expect(page.getByText("YetkinX")).toHaveCount(0);
   });
 
-  test("kamu /career oturumsuz /login 307 sığınağına gider", async ({ page, request }) => {
+  test("kamu /career oturumsuz kendi sayfasında kalır", async ({ page, request }) => {
     const career = await request.get("/career", { maxRedirects: 0 });
-    expect(career.status()).toBe(307);
-    expect(career.headers().location ?? "").toContain("/login?next=%2Fcareer");
+    expect(career.status()).toBe(200);
+    expect(career.headers().location ?? "").toBe("");
 
     const followed = await page.goto("/career");
     expect(followed?.status()).toBeLessThan(400);
-    await expect(page).toHaveURL(/\/login\?next=%2Fcareer/);
-    await expect(page.getByRole("heading", { name: "Kariyer", exact: true })).toHaveCount(0);
+    await expect(page).toHaveURL(/\/career\/?$/);
+    await expect(page.getByRole("heading", { name: "Kariyer vizesi" }).first()).toBeVisible();
+    await expect(page.getByText("Örnek mühürlü sertifika")).toBeVisible();
     await expect(page.getByText("Yetenek Radarı")).toHaveCount(0);
     await expect(page.getByText("SWOT")).toHaveCount(0);
   });

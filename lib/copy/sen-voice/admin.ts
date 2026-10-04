@@ -76,7 +76,12 @@ export const ADMIN_SEN = {
   catalogEyebrow: "PriceCatalogEntry sicili",
   catalogTitle: "Fiyat kataloğu",
   catalogIntro:
-    "Satırlar PriceCatalogEntry kayıtlarıdır. amountMinor tamsayıdır; Super Admin gerekçeyle günceller. Sessiz zam yok.",
+    "Satırlar PriceCatalogEntry kayıtlarıdır. amountMinor tamsayıdır; Super Admin gerekçeyle günceller. Sessiz zam yok. Kurs satırının yanında Yayında / Pasif anahtarı durur. Anahtar fiyat tutarını değiştirmez.",
+  publishOn: "Yayında",
+  publishOff: "Pasif",
+  publishColumn: "Yayın",
+  publishFail: "Yayın güncellenemedi.",
+  publishReasonPlaceholder: "Neden açıp kapattığınızı yazın",
   off201PriceUnset: {
     title: "OFF-201 fiyat satırı yok",
     body: "Sınav havuzu hazır. Ön koşul zorunlu değildir. Birim academy / course:01_office_ai_ileri. Tutar kodda durmaz. Bu birimi PriceCatalogEntry satırı olarak açınca satın alma kilidi o tutarı okur. Satır açılmadan fiyat basılmaz.",
@@ -123,6 +128,10 @@ export const ADMIN_SEN = {
     amountBody: (unitKey: string, from: string, to: string, reasonCode: string) =>
       `${unitKey}: amountMinor ${from} → ${to} (${reasonCode}). PriceCatalogEntry ve karar defteri yazılır.`,
     amountConfirm: "Güncelle",
+    publishTitle: "Yayın durumunu değiştir?",
+    publishBody: (unitKey: string, next: string) =>
+      `${unitKey} ${next} olur. Fiyat tutarı yerinde kalır. Kurs satırı ve varsa katalog aktifliği yazılır.`,
+    publishConfirm: "Kaydet",
     amountCancel: "Vazgeç",
     closeLabel: "Kapat",
     pending: "…",

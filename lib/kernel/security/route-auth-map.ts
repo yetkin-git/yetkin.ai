@@ -22,6 +22,7 @@ export const ROUTE_AUTH_MAP = {
   "/api/academy/pulse": "session",
   "/api/academy/reviews": "public",
   "/api/admin/catalog": "admin",
+  "/api/admin/catalog/publish": "admin",
   "/api/admin/curriculum-revisions": "public",
   "/api/admin/funnel": "admin",
   "/api/ai/chat": "session",

@@ -18,22 +18,11 @@ import { toSupabaseSessionPoolerUrl } from "@/lib/kernel/postgres-url";
 /** Akademi tohum kimlikleri lib/academy/catalog-seed.ts (13 kanon SKU; vitrin mühürlü amiral `01_office_ai`). Eski ac_rail_temel yayını kapanır, lisans DROP yok. */
 export { ACADEMY_SEED_CATALOG_UNITS, ACADEMY_SEED_COURSE_IDS };
 
-export const EXPECTED_SQL = [
-  "20260814010000_handle_new_user_auth_sync.sql",
-  "20260814020000_enforce_rls_all_tables.sql",
-  "20260814030000_rls_user_scoped_policies.sql",
-  "20260814040000_price_catalog_definitions.sql",
-  "20260814090000_academy_course_seed.sql",
-  "20260814100000_handle_user_email_update.sql",
-  "20260814110000_freelancer_job_seed.sql",
-  "20260823220000_freelancer_job_visa_pathway.sql",
-  "20260912220000_academy_sterile_vitrine.sql",
-  "20260926153000_off201_launch_price.sql",
-  "20260929180000_ec102_publish.sql",
-  "20260930133000_hotfix_ec102_unpublish.sql",
-  "20260930140000_ec102_republish.sql",
-  "20261003230400_sm103_bot104_pr105_publish.sql",
-] as const;
+/**
+ * SQL mühür adı. Kaynak klasördür; elle dizi yoktur.
+ * 14 haneli damga, alt çizgi, küçük harf / rakam / alt çizgi, `.sql`.
+ */
+export const SQL_SEAL_FILE_NAME = /^\d{14}_[a-z0-9_]+\.sql$/;
 
 export const FREELANCER_SEED_JOB_IDS = [
   "fj_rail_icon_set",
@@ -1194,8 +1183,22 @@ export function listSqlSealFiles(sqlDir: string): string[] {
     return [];
   }
   return readdirSync(sqlDir)
-    .filter((name) => name.endsWith(".sql"))
+    .filter((name) => SQL_SEAL_FILE_NAME.test(name))
     .sort();
+}
+
+/** Kalıba uymayan her dosya apply'i durdurur. Sıra, `listSqlSealFiles` çıktısıdır. */
+export function assertSqlSealDirectory(sqlDir: string): string[] {
+  if (!existsSync(sqlDir)) {
+    return [];
+  }
+  const issues: string[] = [];
+  for (const name of readdirSync(sqlDir)) {
+    if (!SQL_SEAL_FILE_NAME.test(name)) {
+      issues.push(`SQL ad kalıbı bozuk: ${name}`);
+    }
+  }
+  return issues;
 }
 
 export type HostedApplyDiskPlan = {
@@ -1237,14 +1240,7 @@ export function inspectHostedApplyDiskPlan(root: string): HostedApplyDiskPlan {
       issues.push(`Prisma sıra ${index + 1}: beklenen ${expected} ≠ ${actual ?? "yok"}`);
     }
   }
-  if (sqlFiles.length !== EXPECTED_SQL.length) {
-    issues.push(`SQL sayısı kilitli ${EXPECTED_SQL.length} değil (${sqlFiles.length}): ${sqlFiles.join(", ")}`);
-  }
-  for (let index = 0; index < EXPECTED_SQL.length; index += 1) {
-    if (sqlFiles[index] !== EXPECTED_SQL[index]) {
-      issues.push(`SQL sıra: beklenen ${EXPECTED_SQL[index]} ≠ ${sqlFiles[index] ?? "yok"}`);
-    }
-  }
+  issues.push(...assertSqlSealDirectory(sqlDir));
 
   issues.push(...assertPrismaRingMigrationsPresent(prismaFolders));
   issues.push(...assertLedgerImmutabilityMigrationPresent(prismaFolders));
@@ -1293,7 +1289,7 @@ export function inspectHostedApplyDiskPlan(root: string): HostedApplyDiskPlan {
   }
 
   const sqlByFile: Record<string, string> = {};
-  for (const file of EXPECTED_SQL) {
+  for (const file of sqlFiles) {
     const path = join(sqlDir, file);
     if (existsSync(path)) {
       sqlByFile[file] = readFileSync(path, "utf8");

@@ -397,15 +397,15 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     vi.stubEnv("NEXT_PUBLIC_APP_URL", "http://localhost:3000");
     const { default: sitemap } = await import("@/app/sitemap");
     const { default: robots } = await import("@/app/robots");
-    const urls = sitemap().map((entry) => entry.url);
-    expect(urls).toContain("https://yetkin.ai/");
+    const urls = (await sitemap()).map((entry) => entry.url);
+    expect(urls).not.toContain("https://yetkin.ai/");
     expect(urls).toContain("https://yetkin.ai/legal");
     expect(urls).toContain("https://yetkin.ai/legal/gizlilik");
     expect(urls).toContain("https://yetkin.ai/legal/cerez");
     expect(urls).toContain("https://yetkin.ai/legal/kullanim");
     expect(urls).toContain("https://yetkin.ai/iletisim");
     expect(urls).toContain("https://yetkin.ai/academy");
-    expect(urls).not.toContain("https://yetkin.ai/career");
+    expect(urls).toContain("https://yetkin.ai/career");
     expect(urls).toContain("https://yetkin.ai/vize");
     expect(urls).toContain("https://yetkin.ai/hakkimizda");
     expect(urls).not.toContain("https://yetkin.ai/freelancer");
@@ -415,8 +415,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     }
     expect(robots().sitemap).toBe("https://yetkin.ai/sitemap.xml");
     expect(robots().rules).toMatchObject({
-      allow: expect.arrayContaining(["/academy", "/vize", "/legal"]),
-      disallow: expect.arrayContaining(["/dashboard", "/freelancer", "/career"]),
+      allow: expect.arrayContaining(["/academy", "/career", "/vize", "/legal"]),
+      disallow: expect.arrayContaining(["/dashboard", "/freelancer", "/kariyer"]),
     });
     vi.unstubAllEnvs();
   });

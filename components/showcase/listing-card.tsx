@@ -27,6 +27,8 @@ export function ListingCard({
   footerBadgeTone = "neutral",
   href,
   cta = "Aç",
+  secondaryHref,
+  secondaryCta,
   ctaDisabled = false,
   showcase = false,
   icon,
@@ -67,6 +69,9 @@ export function ListingCard({
   footerBadgeTone?: BadgeTone;
   href?: LinkHref;
   cta?: string;
+  /** Ücretsiz ders birincilken satın alma bağlantısı. Kart gövdesinin üstünde durur. */
+  secondaryHref?: LinkHref;
+  secondaryCta?: string;
   /** Pasif etiket — fiyat yok veya ön koşul kapalı. Kart ve düğme tıklanmaz. */
   ctaDisabled?: boolean;
   showcase?: boolean;
@@ -213,23 +218,42 @@ export function ListingCard({
           {cta}
         </LinkButton>
       ) : hit === "card" && cta ? (
-        <span
-          className={buttonClassName(
-            ctaVariant,
-            ctaSize,
-            cn(
-              "pointer-events-none shrink-0 whitespace-nowrap",
-              wideCta && "w-full sm:w-auto",
-              ctaDisabled && "cursor-not-allowed opacity-50",
-            ),
-          )}
-          aria-hidden={ctaDisabled ? undefined : true}
-          aria-disabled={ctaDisabled ? true : undefined}
-          data-academy-catalog-cta=""
-          data-academy-cta-disabled={ctaDisabled ? "" : undefined}
-        >
-          {cta}
-        </span>
+        <div className="flex shrink-0 flex-col items-stretch gap-2 sm:items-end">
+          <span
+            className={buttonClassName(
+              ctaVariant,
+              ctaSize,
+              cn(
+                "pointer-events-none shrink-0 whitespace-nowrap",
+                wideCta && "w-full sm:w-auto",
+                ctaDisabled && "cursor-not-allowed opacity-50",
+              ),
+            )}
+            aria-hidden={ctaDisabled ? undefined : true}
+            aria-disabled={ctaDisabled ? true : undefined}
+            data-academy-catalog-cta=""
+            data-academy-cta-disabled={ctaDisabled ? "" : undefined}
+          >
+            {cta}
+          </span>
+          {secondaryHref && secondaryCta ? (
+            <Link
+              href={secondaryHref}
+              className={buttonClassName(
+                "outline",
+                "sm",
+                cn(
+                  "pointer-events-auto relative z-10 shrink-0 whitespace-nowrap",
+                  wideCta && "w-full sm:w-auto",
+                ),
+              )}
+              data-academy-catalog-secondary-cta=""
+              onClick={(event) => event.stopPropagation()}
+            >
+              {secondaryCta}
+            </Link>
+          ) : null}
+        </div>
       ) : null}
     </div>
   );
@@ -249,7 +273,7 @@ export function ListingCard({
       )}
       bodyClassName={cn(
         "flex h-full text-[var(--foreground)]",
-        isList ? "flex-col gap-3 sm:flex-row sm:items-center sm:gap-5" : "flex-col justify-between",
+        isList ? "flex-col gap-3 sm:flex-row sm:items-center sm:gap-5" : "min-h-0 flex-1 flex-col justify-between",
       )}
     >
       {showCover ? (
@@ -278,7 +302,7 @@ export function ListingCard({
         </div>
       ) : null}
       {showCover ? (
-        <div className="flex min-h-0 flex-1 flex-col p-4">
+        <div className="flex min-h-0 flex-1 flex-col justify-between p-4">
           {chromeAndCopy}
           {footer}
         </div>
@@ -296,7 +320,7 @@ export function ListingCard({
   }
 
   return (
-    <div className="group relative h-full">
+    <div className="group relative h-full flex flex-col justify-between">
       <Link
         href={href}
         className="absolute inset-0 z-0 rounded-[var(--radius-card)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--safir-soft)] focus-visible:ring-offset-2"

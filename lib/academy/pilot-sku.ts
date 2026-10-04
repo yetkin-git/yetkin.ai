@@ -5,14 +5,15 @@
  *
  * `01_office_ai` çekirdek kaydı durur; 8 ders mühürlü ses (`1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`).
  * OFF-201 `01_office_ai_ileri` canlıdır. Tek ses Aylin (Kore). Durum cümlesi `academyOff201VoiceStatus`.
- * EC-102 `02_ecommerce_ai` kamu kapısı açıktır. Konuşan ad Kaan. Satış `ACADEMY_EC102_PUBLIC_RELEASE_OPEN` ile okunur.
- * SM-103, BOT-104 ve PR-105 kamu kapıları açıktır. Satış aynı desenle okunur.
+ * EC-102 `02_ecommerce_ai` kamu kapısı veritabanı satırındadır. Konuşan ad Kaan.
+ * SM-103, BOT-104 ve PR-105 kamu kapıları da `academy_courses.is_published` satırından okunur.
  * Eski Callirrhoe kasetleri arşivdedir. Yeniden fırın kuyruğu boştur.
  * Eski ritüel kaseti `01_office_ai-4` sınav yolunda ve ses mühründe yoktur; dosya arşivde kalır.
  * Sınav yolu `lesson-index.ts` üzerinden `lib/kernel/catalog-ids/exam-path.ts` tablosunu okur.
  */
 
 import type { AcademyCourseTitleSlug } from "@/lib/kernel/catalog-ids/course-slugs";
+import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
 import { CURRICULUM_LESSON_KEYS_BY_SLUG as EXAM_PATH_KEYS_BY_SLUG } from "@/lib/kernel/catalog-ids/exam-path";
 import { academyBakeVoiceModelId } from "@/lib/kernel/ai/model-roles";
 import { CURRICULUM_LESSON_KEYS_BY_SLUG, curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
@@ -30,29 +31,50 @@ export const ACADEMY_GROWTH_SKU_SLUGS = [
 /**
  * PEDAGOJI §D kardeş kabuk.
  * EC-102, SM-103, BOT-104 ve PR-105 bu listede durur. Kamu kapısı kapalıyken kart «Çok Yakında / Hazırlanıyor»dır.
+ * Sıra, kanon kartın `vitrineOrder` alanından okunur. Amiral bu listeye girmez.
  */
-export const ACADEMY_PRODUCTION_LINE_SKU_SLUGS = [
-  "02_ecommerce_ai",
-  "03_social_media_ai",
-  "04_chatbot_nocode",
-  "05_prompt_practice",
-] as const satisfies readonly AcademyCourseTitleSlug[];
+type CourseRegistryCard = (typeof COURSE_REGISTRY)[number];
+type ProductionLineSlug = Exclude<
+  Extract<CourseRegistryCard, { canon: true; vitrineOrder: number }>["slug"],
+  typeof ACADEMY_FLAGSHIP_SKU_SLUG
+>;
+
+export const ACADEMY_PRODUCTION_LINE_SKU_SLUGS = COURSE_REGISTRY.filter(
+  (row) => row.canon && row.vitrineOrder !== null && row.slug !== ACADEMY_FLAGSHIP_SKU_SLUG,
+)
+  .slice()
+  .sort((a, b) => (a.vitrineOrder ?? 0) - (b.vitrineOrder ?? 0))
+  .map((row) => row.slug) as readonly ProductionLineSlug[];
 
 /**
- * 5'li Vitrin Karması sırası — sayısal slug kilidi: 01 → 02 → 03 → 04 → 05.
+ * Vitrin kabuğu. Üyelik amiral, OFF-201 ve üretim hattıdır.
+ * Ekran sırası kayıt defterindeki `vitrineOrder` alanıdır.
  * `ACADEMY_GROWTH_SKU_SLUGS` satın alınır alt kümedir; kabuk listesi onu aşar.
  */
-/** OFF-201 vitrin kartı. Kanon 13’e girmez. Soğuk okuma ₺1.290; kilit katalog satırındadır. */
-export const ACADEMY_OFF201_STOREFRONT_SLUG = "01_office_ai_ileri" as const;
+function vitrineRank(slug: string): number {
+  const rank = COURSE_REGISTRY.find((row) => row.slug === slug)?.vitrineOrder;
+  return typeof rank === "number" ? rank : Number.MAX_SAFE_INTEGER;
+}
 
-/**
- * OFF-201 satış mandalı. Lansman açık. `false` olursa mühür listesi dolu olsa bile satın alınamaz.
- * Kurs mührü git birleştirme şartı değildir. Canlı satış bu bayrak ve mühür listesini okur.
- */
-export const ACADEMY_OFF201_LAUNCH_SALE_OPEN = true;
+/** OFF-201 vitrin kartı. Kanon 13’e girmez. Soğuk okuma ₺1.290; kilit katalog satırındadır. */
+type Off201Slug = Extract<CourseRegistryCard, { canon: false; vitrineOrder: number }>["slug"];
+
+function off201StorefrontSlug(): Off201Slug {
+  const row = COURSE_REGISTRY.find(
+    (item): item is Extract<CourseRegistryCard, { canon: false; vitrineOrder: number }> =>
+      item.canon === false && item.vitrineOrder !== null,
+  );
+  if (!row) {
+    throw new Error("OFF-201 vitrin kartı yok.");
+  }
+  return row.slug;
+}
+
+export const ACADEMY_OFF201_STOREFRONT_SLUG: Off201Slug = off201StorefrontSlug();
 
 /**
  * OFF-201 kamu cümlesi. Satış hükmü `academyCourseSaleOpen` ile aynıdır.
+ * Yayın kararı kod bayrağı değildir; `academy_courses.is_published` satırıdır.
  * Fırın modeli `academyBakeVoiceModelId` okur. Cümle modül yükünde dondurulmaz.
  */
 export function academyOff201VoiceStatus(): string {
@@ -69,62 +91,53 @@ export function academyOff201VoiceStatus(): string {
  */
 export const ACADEMY_NEXT_BODY_SKU_SLUG = "02_ecommerce_ai" as const;
 
+function registryCoverPath(slug: CourseRegistryCard["slug"]): string {
+  const path = COURSE_REGISTRY.find((row) => row.slug === slug)?.coverPath;
+  if (!path) {
+    throw new Error(`Vitrin kapağı yok: ${slug}`);
+  }
+  return path;
+}
+
 /**
  * EC-102 vitrin kapağı. 1. dersin ilk sinema karesi.
  * Kart `academyCourseCoverPath` bu yolu okur.
  */
-export const ACADEMY_EC102_STOREFRONT_COVER =
-  "/academy/cinema/02_ecommerce_ai-1-cue-1.jpg" as const;
+export const ACADEMY_EC102_STOREFRONT_COVER = registryCoverPath("02_ecommerce_ai");
 
-/**
- * EC-102 kamu kapısı. Açıkken satış, antre, oynatıcı ve site haritası bu bayrağı okur.
- * `false` iken kart «Çok Yakında / Hazırlanıyor» kalır.
- */
-export const ACADEMY_EC102_PUBLIC_RELEASE_OPEN = true;
-
-/** SM-103 kamu kapısı. Açıkken satış, antre, oynatıcı ve site haritası bu bayrağı okur. */
+/** SM-103 vitrin kapağı. Yayın hükmü veritabanı satırındadır. */
 export const ACADEMY_SM103_STOREFRONT_SLUG = "03_social_media_ai" as const;
-export const ACADEMY_SM103_PUBLIC_RELEASE_OPEN = true;
-export const ACADEMY_SM103_STOREFRONT_COVER =
-  "/academy/cinema/03_social_media_ai-1-cue-1.jpg" as const;
+export const ACADEMY_SM103_STOREFRONT_COVER = registryCoverPath("03_social_media_ai");
 
-/** BOT-104 kamu kapısı. Açıkken satış, antre, oynatıcı ve site haritası bu bayrağı okur. */
+/** BOT-104 vitrin kapağı. Yayın hükmü veritabanı satırındadır. */
 export const ACADEMY_BOT104_STOREFRONT_SLUG = "04_chatbot_nocode" as const;
-export const ACADEMY_BOT104_PUBLIC_RELEASE_OPEN = true;
-export const ACADEMY_BOT104_STOREFRONT_COVER =
-  "/academy/cinema/04_chatbot_nocode-1-cue-1.jpg" as const;
+export const ACADEMY_BOT104_STOREFRONT_COVER = registryCoverPath("04_chatbot_nocode");
 
-/** PR-105 kamu kapısı. Açıkken satış, antre, oynatıcı ve site haritası bu bayrağı okur. */
+/** PR-105 vitrin kapağı. Yayın hükmü veritabanı satırındadır. */
 export const ACADEMY_PR105_STOREFRONT_SLUG = "05_prompt_practice" as const;
-export const ACADEMY_PR105_PUBLIC_RELEASE_OPEN = true;
-export const ACADEMY_PR105_STOREFRONT_COVER =
-  "/academy/cinema/05_prompt_practice-1-cue-1.jpg" as const;
+export const ACADEMY_PR105_STOREFRONT_COVER = registryCoverPath("05_prompt_practice");
 
-/** Üretim hattı kamu kapısı. Kapalı slug kartta «Çok Yakında / Hazırlanıyor» kalır. */
-export function academyProductionLineReleaseOpen(slug: string): boolean {
-  if (slug === ACADEMY_NEXT_BODY_SKU_SLUG) return ACADEMY_EC102_PUBLIC_RELEASE_OPEN;
-  if (slug === ACADEMY_SM103_STOREFRONT_SLUG) return ACADEMY_SM103_PUBLIC_RELEASE_OPEN;
-  if (slug === ACADEMY_BOT104_STOREFRONT_SLUG) return ACADEMY_BOT104_PUBLIC_RELEASE_OPEN;
-  if (slug === ACADEMY_PR105_STOREFRONT_SLUG) return ACADEMY_PR105_PUBLIC_RELEASE_OPEN;
-  return true;
-}
+type VitrineShellSlug =
+  | typeof ACADEMY_FLAGSHIP_SKU_SLUG
+  | typeof ACADEMY_OFF201_STOREFRONT_SLUG
+  | (typeof ACADEMY_PRODUCTION_LINE_SKU_SLUGS)[number];
 
-export const ACADEMY_VITRINE_SHELL_SKU_SLUGS = [
+export const ACADEMY_VITRINE_SHELL_SKU_SLUGS: readonly VitrineShellSlug[] = [
   ACADEMY_FLAGSHIP_SKU_SLUG,
   ACADEMY_OFF201_STOREFRONT_SLUG,
   ...ACADEMY_PRODUCTION_LINE_SKU_SLUGS,
-] as const;
+].sort((a, b) => vitrineRank(a) - vitrineRank(b));
 
 /** Antre / oynatıcı `generateStaticParams` — vitrinde olmayan slug HTTP 404. */
 export function academyStorefrontStaticParams(): { slug: AcademyGrowthSkuSlug }[] {
   return ACADEMY_GROWTH_SKU_SLUGS.map((slug) => ({ slug }));
 }
 
-/** Kamu kapısı açık üretim hattı — antre ve oynatıcı statik yolları. */
+/** Anlatımı bitmiş üretim hattı — antre ve oynatıcı statik yolları. Yayın satırı istek anında okunur. */
 export function academyReleasedProductionLineParams(): { slug: AcademyProductionLineSkuSlug }[] {
-  return ACADEMY_PRODUCTION_LINE_SKU_SLUGS.filter(
-    (slug) => academyProductionLineReleaseOpen(slug) && academyCourseNarrationPublished(slug),
-  ).map((slug) => ({ slug }));
+  return ACADEMY_PRODUCTION_LINE_SKU_SLUGS.filter((slug) => academyCourseNarrationPublished(slug)).map(
+    (slug) => ({ slug }),
+  );
 }
 
 /** DialogueTurn[] mührü — düz metin okuma kilidinde kapalı. */
@@ -169,14 +182,14 @@ export const ACADEMY_TTS_REBAKE_SCRIPT_BY_LESSON = {
  * kuyruktaki SKU da dry-run / seal kapısından geçer.
  * Vatandaş karaoke yalnız `ACADEMY_MEDIA_SEALED_AUDIO` ders anahtarıyladır.
  */
-export const ACADEMY_MEDIA_SEALED_SKU_SLUGS = [
-  "01_office_ai",
-  "01_office_ai_ileri",
-  "02_ecommerce_ai",
-  "03_social_media_ai",
-  "04_chatbot_nocode",
-  "05_prompt_practice",
-] as const satisfies readonly string[];
+type MediaSealedSkuSlug = Extract<
+  CourseRegistryCard,
+  { lessonKeys: readonly [string, ...string[]] }
+>["slug"];
+
+export const ACADEMY_MEDIA_SEALED_SKU_SLUGS = COURSE_REGISTRY.filter(
+  (row) => row.lessonKeys.length > 0,
+).map((row) => row.slug) as readonly MediaSealedSkuSlug[];
 
 export type AcademyPilotSkuSlug = never;
 export type AcademyGrowthSkuSlug = (typeof ACADEMY_GROWTH_SKU_SLUGS)[number];
@@ -210,9 +223,7 @@ export function isAcademyStorefrontSlug(slug: string): boolean {
   return (
     isAcademyGrowthSkuSlug(slug) ||
     slug === ACADEMY_OFF201_STOREFRONT_SLUG ||
-    (isAcademyProductionLineSkuSlug(slug) &&
-      academyProductionLineReleaseOpen(slug) &&
-      academyCourseNarrationPublished(slug))
+    (isAcademyProductionLineSkuSlug(slug) && academyCourseNarrationPublished(slug))
   );
 }
 
@@ -224,14 +235,12 @@ export function isAcademyGrowthSkuSlug(slug: string): slug is AcademyGrowthSkuSl
  * Cüzdan ve PayTR lisans niyeti aynı aday kümesini okur.
  * Vitrin yayını (`ACADEMY_GROWTH_SKU_SLUGS`) ayrıdır; satış bu listeden açılır.
  */
-export const ACADEMY_LICENSE_SALE_SLUGS = [
-  ACADEMY_FLAGSHIP_SKU_SLUG,
-  ACADEMY_OFF201_STOREFRONT_SLUG,
-  ACADEMY_NEXT_BODY_SKU_SLUG,
-  ACADEMY_SM103_STOREFRONT_SLUG,
-  ACADEMY_BOT104_STOREFRONT_SLUG,
-  ACADEMY_PR105_STOREFRONT_SLUG,
-] as const;
+export const ACADEMY_LICENSE_SALE_SLUGS = COURSE_REGISTRY.filter(
+  (row) => row.vitrineOrder !== null && row.lessonKeys.length > 0,
+)
+  .slice()
+  .sort((a, b) => (a.vitrineOrder ?? 0) - (b.vitrineOrder ?? 0))
+  .map((row) => row.slug);
 
 export function isAcademyLicenseSaleSlug(slug: string): boolean {
   return (ACADEMY_LICENSE_SALE_SLUGS as readonly string[]).includes(slug);
@@ -346,12 +355,6 @@ export function academySkuAudioAllowsPurchase(courseSlug: string): boolean {
  * Nakit kapısı `academyCourseSaleOpen` disk katmanını da ister.
  */
 export function academyCourseSaleListed(courseSlug: string): boolean {
-  if (courseSlug === ACADEMY_OFF201_STOREFRONT_SLUG && !ACADEMY_OFF201_LAUNCH_SALE_OPEN) {
-    return false;
-  }
-  if (isAcademyProductionLineSkuSlug(courseSlug) && !academyProductionLineReleaseOpen(courseSlug)) {
-    return false;
-  }
   if (isAcademyLicenseSaleSlug(courseSlug)) {
     return academySkuAudioAllowsPurchase(courseSlug);
   }
@@ -415,8 +418,9 @@ export function filterAcademyGrowthCatalog<T extends { slug: string }>(courses: 
 }
 
 /**
- * PEDAGOJI §D 5'li Vitrin Karması.
- * Canlı kartlar OFF-101, OFF-201, EC-102, SM-103, BOT-104 ve PR-105. Kapalı üretim hattı Yakında kabuğudur.
+ * PEDAGOJI §D vitrin karması.
+ * Canlı kartlar EC-102, SM-103, PR-105, BOT-104, OFF-101 ve OFF-201.
+ * Sıra kayıt defterindeki `vitrineOrder` alanıdır. Kapalı üretim hattı Yakında kabuğudur.
  */
 export function filterAcademyVitrineCatalog<T extends { slug: string }>(courses: readonly T[]): T[] {
   const bySlug = new Map(courses.map((row) => [row.slug, row] as const));

@@ -6,6 +6,7 @@
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import type { AcademyCatalogLearnerStatus } from "@/lib/academy/catalog-learner";
 import type { AcademyStorefrontAccess } from "@/lib/academy/enrolment";
+import { academyCourseOffersFreePreview } from "@/lib/kernel/catalog-ids/free-preview";
 import {
   ACADEMY_OFF201_STOREFRONT_SLUG,
   academyCourseSaleListed,
@@ -39,6 +40,9 @@ export type AcademyCatalogCardCta = {
   href: string;
   /** Fiyat yok — düğme tıklanmaz. */
   ctaDisabled?: boolean;
+  /** Ücretsiz ders birincilken satın alma ikincil kalır. */
+  secondaryCta?: string | null;
+  secondaryHref?: string | null;
 };
 
 export function academyStorefrontMoneyLabel(priceLabel: string | null | undefined): string | null {
@@ -198,6 +202,16 @@ export function resolveAcademyCatalogCardCta(input: {
       cta: copy.catalog.pricePending,
       href: "",
       ctaDisabled: true,
+    };
+  }
+  if (display && academyCourseOffersFreePreview(input.slug)) {
+    return {
+      priceLabel: display,
+      priceCaption: copy.catalog.vatInclusiveHint,
+      cta: copy.catalog.cardCtaFreePreview,
+      href: `/academy/${input.slug}/oyna`,
+      secondaryCta: copy.catalog.cardCtaBuyPriced(display),
+      secondaryHref: academyCheckoutHref(input.slug),
     };
   }
   return {

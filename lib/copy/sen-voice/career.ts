@@ -1,3 +1,5 @@
+import { YETKIN_BRAND } from "@/lib/copy/brand";
+
 /** Rail SEN aksı — kariyer odası. Doğrulanmış Rozetten türetilen salt okuma damga projeksiyonu. */
 export const CAREER_SEN = {
   eyebrow: "Kariyer",
@@ -67,6 +69,32 @@ export const CAREER_SEN = {
     eyebrow: "İşveren Kapısı",
     title: "Proof-of-Work ve İşveren Kapısı",
     lead: "Vaat panosu değil: açık kapı, paylaşılabilir mühür kartı ve damgaya bağlı proje kanıtı. Sahte vitrin yok.",
+  },
+  /** Oturumsuz Kariyer — kişisel vize defteri yok. */
+  publicRoom: {
+    eyebrow: "Kariyer",
+    title: "Kariyer vizesi",
+    lead: `${YETKIN_BRAND} sertifikası Akademi sınavından türer. Geçen mühür burada kariyer vizesine dönüşür. Bu sayfa herkese açıktır. Giriş yapınca kendi vizelerin açılır.`,
+    sampleEyebrow: "Örnek mühür",
+    sampleTitle: "Örnek mühürlü sertifika",
+    sampleNote:
+      "Bu kart örnektir. Canlı sicil kaydı değildir. Doğrulama sayfası bu örneği geçerli saymaz.",
+    sampleCourse: "Ofiste Yapay Zekâ",
+    sampleHolderLabel: "Ad",
+    sampleHolder: "Örnek ad",
+    sampleScoreLabel: "Puan",
+    sampleScore: "82",
+    sampleStatus: "Örnek mühür",
+    stepsTitle: "Sertifika doğrulama",
+    stepsLead: "Canlı belgeyi üç adımda kontrol edersin.",
+    steps: [
+      "Sertifikandaki SHA-256 özetini kopyala.",
+      "Doğrulama sayfasını aç.",
+      "Özeti yapıştır. Sicilde varsa mühür görünür. Yoksa uydurma geçerli damga basılmaz.",
+    ],
+    verifyCta: "Sertifika doğrula",
+    academyCta: "Akademiye git",
+    loginCta: "Giriş yap",
   },
   publicPage: {
     eyebrow: "Kamuya açık yetkinlik",

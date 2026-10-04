@@ -101,7 +101,9 @@ describe("akademi vitrin kapak — amiral 1. bölüm + Yakında şablonu", () =>
     expect(card).toContain("ACADEMY_COURSE_COVER_SIZES");
     expect(card).toContain("coverPriority={featured}");
     expect(card).toContain("comingSoonBadge");
-    expect(card).toContain("cardMetaAudio");
+    expect(card).toContain("cardMetaNarration");
+    expect(card).not.toContain("cardMetaAudio");
+    expect(card).not.toContain("min-h-[40rem]");
     expect(card).not.toContain("ACADEMY_BRAND_FALLBACK_COVER");
     expect(ACADEMY_COURSE_COVER_SIZES).toBe(
       "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",

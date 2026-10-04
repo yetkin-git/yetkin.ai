@@ -76,9 +76,8 @@ export const SUPABASE_AUTH_COOKIE_NAME = /^sb-.+-auth-token(?:\.\d+)?$/;
 
 /**
  * Eski alias → oturum odası.
- * next.config bu yolları ara adrese 308 ile bırakırsa ikinci hop kenar 307 olur
- * (`/kariyer` → `/career` → `/login`). Kenar tek hop basar: oturumsuz giriş,
- * oturumlu kanonik oda.
+ * next.config bu yolları ara adrese 308 ile bırakırsa ikinci hop kenar 307 olur.
+ * `/kariyer` tek hop `/career` sayfasına iner. Kenar tek hop basar.
  */
 export const AUTH_PATH_ALIASES = {
   "/kariyer": "/career",
@@ -89,6 +88,7 @@ export const AUTH_PATH_ALIASES = {
 export type EdgeDecision =
   | { kind: "museum-404" }
   | { kind: "kayit-308" }
+  | { kind: "root-308" }
   | { kind: "frozen-410" }
   | { kind: "auth-307"; to: typeof CITIZEN_LOGIN_PATH; next?: string }
   | { kind: "alias-307"; to: string }
@@ -157,8 +157,17 @@ export function isAcademyCertificatesPath(pathname: string): boolean {
   return normalizePathname(pathname) === "/academy/certificates";
 }
 
+/**
+ * Anasayfa ve Kariyer herkese açıktır. Alt yollar sığınak kalır.
+ * Kenar bu iki adresi kataloğa veya girişe düşürmez.
+ */
+export function isPublicKernelVitrinePath(pathname: string): boolean {
+  const path = normalizePathname(pathname);
+  return path === "/dashboard" || path === "/career";
+}
+
 export function isProtectedCitizenPath(pathname: string): boolean {
-  if (isAcademyFreePreviewPlayerPath(pathname)) {
+  if (isAcademyFreePreviewPlayerPath(pathname) || isPublicKernelVitrinePath(pathname)) {
     return false;
   }
   return (
@@ -201,12 +210,16 @@ export function decideEdgeAction(pathname: string, sessionVerified: boolean): Ed
   if (isKayitPath(pathname)) {
     return { kind: "kayit-308" };
   }
+  // CEO: soğuk iniş kalkar. Kök adres oturumdan bağımsız Akademi kataloğuna iner.
+  if (normalizePathname(pathname) === "/") {
+    return { kind: "root-308" };
+  }
   if (isFrozenShellPagePath(pathname)) {
     return { kind: "frozen-410" };
   }
   const aliasTarget = authPathAliasTarget(pathname);
   if (aliasTarget) {
-    if (!sessionVerified) {
+    if (!sessionVerified && isProtectedCitizenPath(aliasTarget)) {
       return { kind: "auth-307", to: CITIZEN_LOGIN_PATH, next: aliasTarget };
     }
     return { kind: "alias-307", to: aliasTarget };

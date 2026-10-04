@@ -224,7 +224,7 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
 });
 
 describe("vitrin kartı CTA", () => {
-  it("satın alınmadıysa Satın Al ve fiyat; purchased /oyna ve Erişim Açık", () => {
+  it("ilk dersi olan kart ücretsiz oynatıcıya gider; satın alma ikincil kalır", () => {
     const locked = resolveAcademyCatalogCardCta({
       slug: "python-temel",
       owned: false,
@@ -255,8 +255,10 @@ describe("vitrin kartı CTA", () => {
       purchasable: true,
       isPublished: true,
     });
-    expect(prompt.cta).toBe(ACADEMY_SEN.catalog.cardCtaBuy);
-    expect(prompt.href).toBe("/academy/05_prompt_practice");
+    expect(prompt.cta).toBe(ACADEMY_SEN.catalog.cardCtaFreePreview);
+    expect(prompt.href).toBe("/academy/05_prompt_practice/oyna");
+    expect(prompt.secondaryCta).toBe("Satın Al — ₺1.290");
+    expect(prompt.secondaryHref).toBe("/academy/05_prompt_practice#satin-al");
     expect(prompt.priceCaption).toBe(ACADEMY_SEN.catalog.vatInclusiveHint);
     expect(prompt.priceLabel).toBe("₺1.290");
     const off201NoPrice = resolveAcademyCatalogCardCta({
@@ -274,8 +276,9 @@ describe("vitrin kartı CTA", () => {
       owned: false,
       priceLabel: "₺1.290,00",
     });
-    expect(off201Priced.cta).toBe(ACADEMY_SEN.catalog.cardCtaBuy);
-    expect(off201Priced.href).toBe("/academy/01_office_ai_ileri");
+    expect(off201Priced.cta).toBe(ACADEMY_SEN.catalog.cardCtaFreePreview);
+    expect(off201Priced.href).toBe("/academy/01_office_ai_ileri/oyna");
+    expect(off201Priced.secondaryCta).toBe("Satın Al — ₺1.290");
     expect(off201Priced.ctaDisabled).toBeUndefined();
     expect(off201Priced.priceLabel).toBe("₺1.290");
     expect(off201Priced.priceCaption).toBe(ACADEMY_SEN.catalog.vatInclusiveHint);

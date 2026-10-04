@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   EXPECTED_PRISMA_MIGRATIONS,
-  EXPECTED_SQL,
+  listSqlSealFiles,
   assertHostedApplyTargetUrl,
   hostedApplyForbidsLabStub,
   inspectHostedApplyDiskPlan,
@@ -26,11 +26,12 @@ function readSrc(relative: string): string {
 describe("saha pilotu — hosted apply disk planı", () => {
   it("35 Prisma + on dört SQL birebir; ops:migrate lab stub basmaz", () => {
     expect(EXPECTED_PRISMA_MIGRATIONS).toHaveLength(35);
-    expect(EXPECTED_SQL).toHaveLength(14);
+    const sqlFiles = listSqlSealFiles(join(ROOT, "supabase", "migrations"));
+    expect(sqlFiles).toHaveLength(14);
     const plan = inspectHostedApplyDiskPlan(ROOT);
     expect(plan.issues).toEqual([]);
     expect(plan.prismaFolders).toEqual([...EXPECTED_PRISMA_MIGRATIONS]);
-    expect(plan.sqlFiles).toEqual([...EXPECTED_SQL]);
+    expect(plan.sqlFiles).toEqual(sqlFiles);
     expect(
       hostedApplyForbidsLabStub(
         readSrc("scripts/ops-migrate.ts"),

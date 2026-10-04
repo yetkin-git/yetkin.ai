@@ -29,12 +29,12 @@ describe("akademi katalog sıra yardımcısı", () => {
     expect(slugs).toEqual(["01_office_ai"]);
     expect(slugs.map((slug) => academyModuleCodeBySlug(slug))).toEqual(["OFF-101"]);
     expect(ACADEMY_VITRINE_SHELL_SKU_SLUGS.map((slug) => academyModuleCodeBySlug(slug))).toEqual([
-      "OFF-101",
-      "OFF-201",
       "EC-102",
       "SM-103",
-      "BOT-104",
       "PR-105",
+      "BOT-104",
+      "OFF-101",
+      "OFF-201",
     ]);
     expect(academyModuleCodeBySlug("01_office_ai_ileri")).toBe("OFF-201");
     expect(academyModuleCodeBySlug("01_office_ai_ileri")).not.toBe("EC-102");

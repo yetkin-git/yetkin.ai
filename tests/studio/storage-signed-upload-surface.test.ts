@@ -69,7 +69,8 @@ describe("Studio imzalı yükleme yüzeyi (T2-2)", () => {
     expect(sql).not.toContain("TO anon");
     expect(ops).not.toContain("studio-assets");
     expect(ops).not.toContain("storage.objects");
-    expect(opsLib).toContain("EXPECTED_SQL");
+    expect(opsLib).toContain("SQL_SEAL_FILE_NAME");
+    expect(opsLib).not.toContain("EXPECTED_SQL");
     expect(opsLib.match(/20260814\d+_/g)?.length).toBeGreaterThanOrEqual(7);
     expect(prismaSql).toContain("storage_kind");
     expect(prismaSql).toContain("object_path");

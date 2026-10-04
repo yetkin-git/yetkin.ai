@@ -7,7 +7,11 @@ import { hasAcademyAdminBypass, hasAcademyOynaAccess } from "@/lib/academy/acces
 import { loadAcademyFreePreviewAudioGrants } from "@/lib/academy/free-preview-audio";
 import {
   ACADEMY_AUDIO_GRANT_TTL_SEC,
+  academySealedObjectPathFromPlayback,
+  assertAcademySealedBucket,
   decideAcademyAudioPublicRequest,
+  registerAcademyStorageSigner,
+  resolveAcademyMediaRead,
   withAcademyAudioGrant,
 } from "@/lib/academy/lesson-audio-grant";
 import { academyLessonAudioPlaybackSrc } from "@/lib/academy/lesson-audio";
@@ -156,12 +160,89 @@ describe("ders sesi imza kapısı", () => {
     const nakedLesson = new URL("https://yetkin.ai/media/academy/audio/01_office_ai/01_office_ai-1.mp3");
     expect(await decideAcademyAudioPublicRequest(nakedLesson, Date.now(), ENV)).toBe("forbidden");
 
-    expect(ACADEMY_SEN.player.funnelTitle).toBe("Eğitimin Tüm Derslerini Aç ve Sertifika Al");
+    expect(ACADEMY_SEN.player.funnelTitle).toBe("Eğitimin Tamamına Erişim Sağla ve Sertifika Al");
+    expect(ACADEMY_SEN.player.funnelCta("₺890")).toBe(
+      "Eğitimin Tamamına Erişim Sağla ve Sertifika Al — Satın Al ₺890",
+    );
     const coursePage = readFileSync(join(process.cwd(), "app/academy/[slug]/page.tsx"), "utf8");
     const player = readFileSync(join(process.cwd(), "components/academy/curriculum-player.tsx"), "utf8");
     expect(coursePage).toContain("hasAcademyAdminBypass");
     expect(coursePage).toContain("redirect(`/academy/${board.course.slug}/oyna`)");
     expect(player).toContain("data-academy-sales-funnel");
     expect(player).toContain("copy.funnelTitle");
+  });
+
+  it("local okuma kenar imzasında kalır; storage kovadan 4 saatlik adres üretir", async () => {
+    expect(resolveAcademyMediaRead(ENV)).toBe("local");
+    expect(resolveAcademyMediaRead({ ...ENV, ACADEMY_MEDIA_READ: "local" })).toBe("local");
+    expect(resolveAcademyMediaRead({ ...ENV, ACADEMY_MEDIA_READ: "storage" })).toBe("storage");
+    expect(() => assertAcademySealedBucket("lesson-audios")).toThrow(/lesson-audios/);
+
+    const playback = academyLessonAudioPlaybackSrc("01_office_ai", "01_office_ai-1");
+    const local = await withAcademyAudioGrant(
+      playback,
+      Date.now(),
+      { ...ENV, ACADEMY_MEDIA_READ: "local" },
+      async () => "https://evil.example/storage/v1/object/sign/academy-sealed/yanlis.mp3?token=x",
+    );
+    expect(local).toContain("/media/academy/audio/01_office_ai/01_office_ai-1.mp3");
+    expect(local).toContain("g=");
+    expect(local).not.toContain("evil.example");
+
+    const objectPath = academySealedObjectPathFromPlayback(playback);
+    expect(objectPath).toMatch(/^01_office_ai\/01_office_ai-1\/v[1-9]\d*\.mp3$/u);
+    expect(academySealedObjectPathFromPlayback("media-bake/academy/audio/01_office_ai/01_office_ai-1.wav")).toBeNull();
+
+    registerAcademyStorageSigner(null);
+    const missingSigner = await withAcademyAudioGrant(playback, Date.now(), {
+      ...ENV,
+      ACADEMY_MEDIA_READ: "storage",
+    });
+    expect(missingSigner).toBeNull();
+
+    let seenTtl = 0;
+    const signed = await withAcademyAudioGrant(
+      playback,
+      Date.now(),
+      { ...ENV, ACADEMY_MEDIA_READ: "storage" },
+      async (path, ttl) => {
+        seenTtl = ttl;
+        return `https://project.supabase.co/storage/v1/object/sign/academy-sealed/${path}?token=abc`;
+      },
+    );
+    expect(seenTtl).toBe(ACADEMY_AUDIO_GRANT_TTL_SEC);
+    expect(signed).toBe(
+      `https://project.supabase.co/storage/v1/object/sign/academy-sealed/${objectPath}?token=abc`,
+    );
+
+    const wrongBucket = await withAcademyAudioGrant(
+      playback,
+      Date.now(),
+      { ...ENV, ACADEMY_MEDIA_READ: "storage" },
+      async (path) => `https://project.supabase.co/storage/v1/object/sign/lesson-audios/${path}?token=abc`,
+    );
+    expect(wrongBucket).toBeNull();
+
+    const storageEnv = { ...ENV, ACADEMY_MEDIA_READ: "storage" };
+    const preview = await loadAcademyFreePreviewAudioGrants(
+      "03_social_media_ai",
+      Date.now(),
+      storageEnv,
+      async (path, ttl) => {
+        expect(ttl).toBe(ACADEMY_AUDIO_GRANT_TTL_SEC);
+        return `https://project.supabase.co/storage/v1/object/sign/academy-sealed/${path}?token=abc`;
+      },
+    );
+    expect(preview["03_social_media_ai-1"]?.src).toContain("/academy-sealed/");
+    expect(preview["03_social_media_ai-1"]?.src).toContain("03_social_media_ai-1/v");
+    expect(preview["03_social_media_ai-1"]?.bedSrc).toContain(".bed.mp3");
+    expect(preview["03_social_media_ai-2"]).toBeUndefined();
+
+    const route = readFileSync(join(process.cwd(), "app/api/academy/courses/[id]/audio-grant/route.ts"), "utf8");
+    expect(route).toContain("hasPurchased");
+    expect(route).toContain("Satın alma tamamlanmadan ders sesi açılmaz.");
+    expect(route.indexOf("if (!hasPurchased(purchase, actor))")).toBeLessThan(
+      route.indexOf("ensureAcademySealedStorageSigner()"),
+    );
   });
 });

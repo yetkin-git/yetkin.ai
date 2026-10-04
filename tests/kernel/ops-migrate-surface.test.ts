@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { listSqlSealFiles } from "../../scripts/ops-migrate-lib";
 
 const ROOT = process.cwd();
 
@@ -100,7 +101,7 @@ describe("ops migrate yüzeyi", () => {
       "academy_course_seed.sql",
       "handle_user_email_update.sql",
       "freelancer_job_seed.sql",
-    ].map((suffix) => script.indexOf(suffix));
+    ].map((suffix) => listSqlSealFiles(join(ROOT, "supabase", "migrations")).findIndex((name) => name.endsWith(suffix)));
     expect(order.every((index) => index >= 0)).toBe(true);
     expect(order[0]).toBeLessThan(order[1]!);
     expect(order[1]).toBeLessThan(order[2]!);
@@ -114,7 +115,9 @@ describe("ops migrate yüzeyi", () => {
 
   it("kilitli SQL studio-assets taşımaz; seremoni mührü sahte phase yazmaz", () => {
     const opsLib = readSrc("scripts/ops-migrate-lib.ts");
-    expect(opsLib).toContain("EXPECTED_SQL");
+    expect(opsLib).toContain("SQL_SEAL_FILE_NAME");
+    expect(opsLib).toContain("assertSqlSealDirectory");
+    expect(opsLib).not.toContain("EXPECTED_SQL");
     expect(opsLib).not.toContain("studio-assets.sql");
     expect(opsLib).not.toContain("storage/studio-assets");
     expect(opsLib).not.toContain("lesson-audios.sql");

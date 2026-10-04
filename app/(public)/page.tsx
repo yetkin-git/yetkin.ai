@@ -13,6 +13,11 @@ import { LandingFaq } from "@/components/seo/landing-faq";
 import { faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { HOME_LANDING_FAQ } from "@/lib/copy/sem-keywords";
 
+/**
+ * Soğuk iniş gövdesi. Canlı kök bu dosyayı basmaz.
+ * `next.config.ts` ve `proxy.ts` kalıcı 308 ile `/academy` kataloğuna alır.
+ * Bu gövde yalnız yönlendirme katmanı düşerse durur.
+ */
 export const metadata: Metadata = pageMetadata(PAGE_SEO.home);
 
 export default function PublicHomePage() {

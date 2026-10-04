@@ -17,7 +17,6 @@ import {
   DIRECT_PORT_OPERATOR_PROTOCOL,
   DIRECT_POSTGRES_PORT,
   EXPECTED_PRISMA_MIGRATIONS,
-  EXPECTED_SQL,
   assertHostedApplyTargetUrl,
   hostedApplyForbidsLabStub,
   inspectHostedApplyDiskPlan,
@@ -72,7 +71,7 @@ async function pingHosted(url: string): Promise<void> {
 async function main(): Promise<void> {
   const plan = inspectHostedApplyDiskPlan(ROOT);
   console.log(
-    `→ Disk plan: ${plan.prismaFolders.length} Prisma / ${plan.sqlFiles.length} SQL (kilit ${EXPECTED_PRISMA_MIGRATIONS.length} / ${EXPECTED_SQL.length})`,
+    `→ Disk plan: ${plan.prismaFolders.length} Prisma / ${plan.sqlFiles.length} SQL (Prisma kilit ${EXPECTED_PRISMA_MIGRATIONS.length}, SQL ad kalıbı)`,
   );
   for (const folder of plan.prismaFolders) {
     console.log(`     - ${folder}`);

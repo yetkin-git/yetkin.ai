@@ -3,60 +3,14 @@
  * Sıra fonksiyonları `lib/academy/curricula/lesson-index.ts` içindedir.
  * Boş dizi kabuktur: ilk ders yoktur, ücretsiz kapı açılmaz.
  * Mühür listesi `ACADEMY_MEDIA_SEALED_AUDIO` bu tablonun dolu satırlarından türer.
+ * Anahtarlar `course-registry.ts` kartındaki `lessonKeys` alanından okunur.
  */
 
-export const CURRICULUM_LESSON_KEYS_BY_SLUG: Readonly<Record<string, readonly string[]>> = {
-  "01_office_ai": [
-    "01_office_ai-1",
-    "01_office_ai-k1",
-    "01_office_ai-2",
-    "01_office_ai-3",
-    "01_office_ai-5",
-    "01_office_ai-g1",
-    "01_office_ai-w1",
-    "01_office_ai-6",
-  ],
-  "01_office_ai_ileri": [
-    "01_office_ai_ileri-1",
-    "01_office_ai_ileri-2",
-    "01_office_ai_ileri-3",
-    "01_office_ai_ileri-4",
-    "01_office_ai_ileri-5",
-    "01_office_ai_ileri-6",
-  ],
-  "02_ecommerce_ai": [
-    "02_ecommerce_ai-1",
-    "02_ecommerce_ai-2",
-    "02_ecommerce_ai-3",
-    "02_ecommerce_ai-4",
-    "02_ecommerce_ai-5",
-    "02_ecommerce_ai-6",
-  ],
-  "03_social_media_ai": [
-    "03_social_media_ai-1",
-    "03_social_media_ai-2",
-    "03_social_media_ai-3",
-    "03_social_media_ai-4",
-    "03_social_media_ai-5",
-    "03_social_media_ai-6",
-  ],
-  "04_chatbot_nocode": [
-    "04_chatbot_nocode-1",
-    "04_chatbot_nocode-2",
-    "04_chatbot_nocode-3",
-    "04_chatbot_nocode-4",
-    "04_chatbot_nocode-5",
-    "04_chatbot_nocode-6",
-  ],
-  "05_prompt_practice": [
-    "05_prompt_practice-1",
-    "05_prompt_practice-2",
-    "05_prompt_practice-3",
-    "05_prompt_practice-4",
-    "05_prompt_practice-5",
-    "05_prompt_practice-6",
-  ],
-};
+import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
+
+export const CURRICULUM_LESSON_KEYS_BY_SLUG: Readonly<Record<string, readonly string[]>> = Object.fromEntries(
+  COURSE_REGISTRY.filter((row) => row.lessonKeys.length > 0).map((row) => [row.slug, row.lessonKeys]),
+);
 
 export const CURRICULUM_LESSON_COUNT_BY_SLUG: Readonly<Record<string, number>> = Object.fromEntries(
   Object.entries(CURRICULUM_LESSON_KEYS_BY_SLUG).map(([slug, keys]) => [slug, keys.length]),

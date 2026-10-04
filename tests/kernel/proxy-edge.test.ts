@@ -96,16 +96,18 @@ describe("proxy.ts kenar mühürleri", () => {
     expectNonceCsp(response);
   });
 
-  it("oturumsuz /dashboard /cuzdan /profil /pasaport /career /admin /academy/certificates → /login 307", async () => {
-    for (const path of [
-      "/dashboard",
-      "/cuzdan",
-      "/profil",
-      "/pasaport",
-      "/career",
-      "/admin",
-      "/academy/certificates",
-    ]) {
+  it("oturumsuz /dashboard ve /career kendi sayfasında kalır; diğer sığınaklar /login", async () => {
+    for (const path of ["/dashboard", "/career"] as const) {
+      const response = await proxy(request(path));
+      expect(response.status).toBe(200);
+      expect(response.headers.get("location")).toBeNull();
+      expectNonceCsp(response);
+    }
+    const kariyer = await proxy(request("/kariyer"));
+    expect(kariyer.status).toBe(307);
+    expect(kariyer.headers.get("location")).toBe("http://localhost:3000/career");
+
+    for (const path of ["/cuzdan", "/profil", "/pasaport", "/admin", "/academy/certificates"]) {
       const response = await proxy(request(path));
       expect(response.status).toBe(307);
       expect(response.headers.get("location")).toBe(loginLocation(path));
@@ -115,11 +117,17 @@ describe("proxy.ts kenar mühürleri", () => {
 
   it("sahte Supabase cookie korumalı yolu 307 ile keser", async () => {
     const response = await proxy(
-      request("/dashboard", { cookie: "sb-testref-auth-token=session-chunk" }),
+      request("/cuzdan", { cookie: "sb-testref-auth-token=session-chunk" }),
     );
     expect(response.status).toBe(307);
-    expect(response.headers.get("location")).toBe(loginLocation("/dashboard"));
+    expect(response.headers.get("location")).toBe(loginLocation("/cuzdan"));
     expectNonceCsp(response);
+
+    const home = await proxy(
+      request("/dashboard", { cookie: "sb-testref-auth-token=session-chunk" }),
+    );
+    expect(home.status).toBe(200);
+    expect(home.headers.get("location")).toBeNull();
   });
 
   it("doğrulanmış JWT cookie korumalı yolu geçirir", async () => {
@@ -259,10 +267,16 @@ describe("proxy.ts kenar mühürleri", () => {
     expectV1Fail(await citizen.json(), "Bu sığınak Super Admin kilidine bağlıdır.");
   });
 
-  it("oturumsuz kamu vitrin GET nonce CSP basar", async () => {
+  it("kök adres akademi kataloğuna 308 iner; kamu sayfa nonce CSP basar", async () => {
     const home = await proxy(request("/"));
-    expect(home.status).toBe(200);
+    expect(home.status).toBe(308);
+    expect(home.headers.get("location")).toBe("http://localhost:3000/academy");
     expectNonceCsp(home);
+    const tracked = await proxy(request("/?utm_source=google"));
+    expect(tracked.status).toBe(308);
+    expect(tracked.headers.get("location")).toBe(
+      "http://localhost:3000/academy?utm_source=google",
+    );
     const legal = await proxy(request("/hakkimizda"));
     expect(legal.status).toBe(200);
     expectNonceCsp(legal);

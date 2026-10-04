@@ -8,7 +8,6 @@ import {
   type AcademyCourseLevel,
 } from "@/lib/academy/course-level";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
-import { ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN } from "@/lib/academy/course-cover";
 import { ACADEMY_HERO_PAYTR_EVENT, type AcademyAntreHeroAction } from "@/lib/academy/storefront-cta";
 import { FreePreviewLink } from "@/components/academy/free-preview-link";
 import type { Route } from "next";
@@ -128,7 +127,7 @@ export function CourseHeroActions({
       ) : audioPreview ? (
         <span data-academy-hero-audio="">
           <Badge tone="safir" className="normal-case tracking-normal">
-            {ACADEMY_SEN.catalog.cardMetaAudio(ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN)}
+            {ACADEMY_SEN.catalog.narrationBadge}
           </Badge>
         </span>
       ) : (

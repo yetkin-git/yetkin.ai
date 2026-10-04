@@ -1,3 +1,5 @@
+import { YETKIN_BRAND } from "@/lib/copy/brand";
+
 /** Rail SEN aksı — Dashboard kokpiti. Müze sen-voice kopyalanmaz. */
 
 const WELCOME_TITLE = "Hoş Geldin";
@@ -28,7 +30,7 @@ export function dashboardWelcomeTitle(input: {
 }
 
 export const DASHBOARD_SEN = {
-  eyebrow: "Panel",
+  eyebrow: "Anasayfa",
   title: WELCOME_TITLE,
   overviewTitle: OVERVIEW_TITLE,
   welcomeTitle: dashboardWelcomeTitle,
@@ -36,6 +38,42 @@ export const DASHBOARD_SEN = {
     "Eğitimlerin, kanıtlanmış uzmanlıkların ve çalışma süreçlerin tek bir güvenli panelde.",
   featured:
     "Kariyer yolculuğuna başlamak için Akademi'den sana uygun eğitimi seçebilir veya Kariyer odasından hedefini belirleyebilirsin.",
+  /** Oturumsuz Anasayfa — kişisel nabız yok. */
+  publicPanel: {
+    eyebrow: "Anasayfa",
+    title: OVERVIEW_TITLE,
+    lead: `${YETKIN_BRAND} eğitim, sınav ve kariyer vizesini bir arada tutar. Giriş yapmadan bu özeti görürsün. Giriş yapınca kişisel özetin açılır.`,
+    featuresTitle: "Öne çıkanlar",
+    features: [
+      {
+        title: "Akademi",
+        body: "Dersi bitirirsin. Testi geçince sertifikan sunucuda mühürlenir.",
+        href: "/academy",
+        cta: "Eğitimleri incele",
+      },
+      {
+        title: "Kariyer vizesi",
+        body: "Mühürlü sertifika kariyer vizesine dönüşür. Sahte rozet eklenmez.",
+        href: "/career",
+        cta: "Kariyer sayfasını aç",
+      },
+      {
+        title: "Sertifika doğrulama",
+        body: "Sertifika özetini açık sicilden kontrol edersin. Oturum istenmez.",
+        href: "/academy/dogrula",
+        cta: "Sertifika doğrula",
+      },
+    ],
+    summaryTitle: "Sistem özeti",
+    summary: [
+      "Eğitim Akademi kataloğundadır.",
+      "Sınav barajı 70'tir. Satın alma tek başına belge basmaz.",
+      "Mühür Kariyer sayfasında vize olarak durur.",
+      "Cüzdan, profil ve pasaport giriş ister.",
+    ],
+    loginCta: "Giriş yap",
+    registerCta: "Kayıt ol",
+  },
   /** Kişiselleştirilmiş Sıradaki Eylem — nabız sinyallerine göre. */
   nextBestAction: {
     eyebrow: "Sıradaki Eylem",

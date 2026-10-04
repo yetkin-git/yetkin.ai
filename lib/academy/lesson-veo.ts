@@ -3,16 +3,28 @@
  * Kaset yalnız `/public/media/academy/micro/{anahtar}.mp4`. Anahtar `-warmup` ile biter.
  * Ofis istemi `ACADEMY_WARMUP_OFFICE_PROMPT` Gemini arayüzünde elle yazılır; bu dosya çağrı açmaz.
  * Canlı video yuvası bu dosyayı açmaz.
+ * Kaset adı ve bağlı dersler `course-registry.ts` kartındaki `warmup` alanından okunur.
  */
 
-export const ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY = "01_office_ai-1-warmup" as const;
+import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
+
+function warmupAssetKey(slug: string, index: number): string {
+  const row = COURSE_REGISTRY.find((item) => item.slug === slug);
+  const asset = row ? row.warmup[index]?.assetKey : undefined;
+  if (!asset) {
+    throw new Error(`Isınma kaseti yok: ${slug}`);
+  }
+  return asset;
+}
+
+export const ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY = warmupAssetKey("01_office_ai", 0);
 /**
  * Immutable `/media` önbelleğini kıran mühür.
  * 8000 = 8.00 saniye. Kaset sessizdir; anlatım ve yatak ders MP3'ündedir.
  */
 export const ACADEMY_OFF101_WARMUP_CACHE_V = 8000 as const;
 /** OFF-201 ısınma kaseti. Dış fırın, 0 API. Ders 1–6 aynı dosyayı ilk 8.00 sn’de oynatır. */
-export const ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY = "01_office_ai_ileri-warmup" as const;
+export const ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY = warmupAssetKey("01_office_ai_ileri", 0);
 /** Disk adı. `public/media/academy/micro/01_office_ai_ileri-warmup.mp4`. */
 export const ACADEMY_OFF201_WARMUP_FILE = `${ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY}.mp4` as const;
 /**
@@ -21,15 +33,15 @@ export const ACADEMY_OFF201_WARMUP_FILE = `${ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY
  */
 export const ACADEMY_OFF201_WARMUP_CACHE_V = 8000 as const;
 /** EC-102 ders 1–2. Kaset `public/media/academy/micro/02_ecommerce_ai-listing-warmup.mp4`. */
-export const ACADEMY_EC102_LISTING_WARMUP_KEY = "02_ecommerce_ai-listing-warmup" as const;
+export const ACADEMY_EC102_LISTING_WARMUP_KEY = warmupAssetKey("02_ecommerce_ai", 0);
 /** EC-102 ders 3–6. Kaset `public/media/academy/micro/02_ecommerce_ai-ops-warmup.mp4`. */
-export const ACADEMY_EC102_OPS_WARMUP_KEY = "02_ecommerce_ai-ops-warmup" as const;
+export const ACADEMY_EC102_OPS_WARMUP_KEY = warmupAssetKey("02_ecommerce_ai", 1);
 /** SM-103 ders 1–6. Kaset `public/media/academy/micro/03_social_media_ai-warmup.mp4`. */
-export const ACADEMY_SM103_WARMUP_KEY = "03_social_media_ai-warmup" as const;
+export const ACADEMY_SM103_WARMUP_KEY = warmupAssetKey("03_social_media_ai", 0);
 /** BOT-104 ders 1–6. Kaset `public/media/academy/micro/04_chatbot_nocode-warmup.mp4`. */
-export const ACADEMY_BOT104_WARMUP_KEY = "04_chatbot_nocode-warmup" as const;
+export const ACADEMY_BOT104_WARMUP_KEY = warmupAssetKey("04_chatbot_nocode", 0);
 /** PR-105 ders 1–6. Kaset `public/media/academy/micro/05_prompt_practice-warmup.mp4`. */
-export const ACADEMY_PR105_WARMUP_KEY = "05_prompt_practice-warmup" as const;
+export const ACADEMY_PR105_WARMUP_KEY = warmupAssetKey("05_prompt_practice", 0);
 /** Eski Lite kimliği. Otomatik çağrı iptal; sabit yalnız reddetmek için durur. */
 export const ACADEMY_VEO_BAKE_MODEL = "veo-3.1-lite-generate-preview" as const;
 /** Pahalı Veo 3.1 kimliği. Otomatik çağrı iptal (PEDAGOJI §E.4). */
@@ -101,102 +113,23 @@ export function assertAcademyVeoLessonBudget(input: { calls: number; durationSec
 }
 
 /**
- * Excel B-roll yalnız Excel masalı derslerde. Ders 4 (`01_office_ai-3`) PowerPoint plakası taşır.
+ * Excel B-roll yalnız Excel masalı derslerde. Ders 3 (`01_office_ai-3`) PowerPoint plakası taşır.
  * Ders 0 yerel `01_office_ai-1-warmup` kasetini reuse eder.
  * OFF-201 (`01_office_ai_ileri` 1–6) yerel `01_office_ai_ileri-warmup` kasetini ilk 8 sn ısınma beat'inde oynatır.
  * Otomatik Veo çağrısı açılmaz. Kaset `public/media/academy/micro/*-warmup.mp4` dosyasıdır.
  */
-const WARMUP_VEO_LESSON_KEYS = [
-  "01_office_ai-0",
-  "01_office_ai-1",
-  "01_office_ai-2",
-  "01_office_ai-4",
-  "01_office_ai-5",
-  "01_office_ai-6",
-  "01_office_ai-g1",
-  "01_office_ai-w1",
-  "01_office_ai-k1",
-] as const;
-
-const OFF201_WARMUP_VEO_LESSON_KEYS = [
-  "01_office_ai_ileri-1",
-  "01_office_ai_ileri-2",
-  "01_office_ai_ileri-3",
-  "01_office_ai_ileri-4",
-  "01_office_ai_ileri-5",
-  "01_office_ai_ileri-6",
-] as const;
-
-const EC102_LISTING_WARMUP_LESSON_KEYS = ["02_ecommerce_ai-1", "02_ecommerce_ai-2"] as const;
-
-const EC102_OPS_WARMUP_LESSON_KEYS = [
-  "02_ecommerce_ai-3",
-  "02_ecommerce_ai-4",
-  "02_ecommerce_ai-5",
-  "02_ecommerce_ai-6",
-] as const;
-
-const SM103_WARMUP_LESSON_KEYS = [
-  "03_social_media_ai-1",
-  "03_social_media_ai-2",
-  "03_social_media_ai-3",
-  "03_social_media_ai-4",
-  "03_social_media_ai-5",
-  "03_social_media_ai-6",
-] as const;
-
-const BOT104_WARMUP_LESSON_KEYS = [
-  "04_chatbot_nocode-1",
-  "04_chatbot_nocode-2",
-  "04_chatbot_nocode-3",
-  "04_chatbot_nocode-4",
-  "04_chatbot_nocode-5",
-  "04_chatbot_nocode-6",
-] as const;
-
-const PR105_WARMUP_LESSON_KEYS = [
-  "05_prompt_practice-1",
-  "05_prompt_practice-2",
-  "05_prompt_practice-3",
-  "05_prompt_practice-4",
-  "05_prompt_practice-5",
-  "05_prompt_practice-6",
-] as const;
-
 export function academyLessonWarmupVeoAssetKey(lessonKey: string): string | null {
   const key = lessonKey.trim();
-  if ((OFF201_WARMUP_VEO_LESSON_KEYS as readonly string[]).includes(key)) {
-    return ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY;
+  for (const row of COURSE_REGISTRY) {
+    for (const binding of row.warmup) {
+      if ((binding.lessonKeys as readonly string[]).includes(key)) {
+        return binding.assetKey;
+      }
+    }
   }
-  if ((EC102_LISTING_WARMUP_LESSON_KEYS as readonly string[]).includes(key)) {
-    return ACADEMY_EC102_LISTING_WARMUP_KEY;
-  }
-  if ((EC102_OPS_WARMUP_LESSON_KEYS as readonly string[]).includes(key)) {
-    return ACADEMY_EC102_OPS_WARMUP_KEY;
-  }
-  if ((SM103_WARMUP_LESSON_KEYS as readonly string[]).includes(key)) {
-    return ACADEMY_SM103_WARMUP_KEY;
-  }
-  if ((BOT104_WARMUP_LESSON_KEYS as readonly string[]).includes(key)) {
-    return ACADEMY_BOT104_WARMUP_KEY;
-  }
-  if ((PR105_WARMUP_LESSON_KEYS as readonly string[]).includes(key)) {
-    return ACADEMY_PR105_WARMUP_KEY;
-  }
-  return (WARMUP_VEO_LESSON_KEYS as readonly string[]).includes(key)
-    ? ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY
-    : null;
+  return null;
 }
 
 export function academyLessonWarmupVeoCueId(lessonKey: string): string | null {
-  const key = lessonKey.trim();
-  const bound =
-    (WARMUP_VEO_LESSON_KEYS as readonly string[]).includes(key) ||
-    (OFF201_WARMUP_VEO_LESSON_KEYS as readonly string[]).includes(key) ||
-    (EC102_LISTING_WARMUP_LESSON_KEYS as readonly string[]).includes(key) ||
-    (EC102_OPS_WARMUP_LESSON_KEYS as readonly string[]).includes(key) ||
-    (SM103_WARMUP_LESSON_KEYS as readonly string[]).includes(key) ||
-    (BOT104_WARMUP_LESSON_KEYS as readonly string[]).includes(key) ||
-    (PR105_WARMUP_LESSON_KEYS as readonly string[]).includes(key);
-  return bound ? "cue-01" : null;
+  return academyLessonWarmupVeoAssetKey(lessonKey) ? "cue-01" : null;
 }

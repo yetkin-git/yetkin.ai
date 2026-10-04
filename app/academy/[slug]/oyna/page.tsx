@@ -22,6 +22,15 @@ import { sealClosedAcademyLessonPayload } from "@/lib/academy/preview-lock";
 import { academyPaywallLockedLessonShells } from "@/lib/academy/paywall-shells";
 import { loadAcademyFreePreviewAudioGrants } from "@/lib/academy/free-preview-audio";
 import { loadAcademyLessonMediaPrime } from "@/lib/academy/lesson-media-prime";
+import { formatMinorCompact } from "@/lib/kernel/money/format";
+import type { AcademyCourseWithPrice } from "@/lib/academy/types";
+
+function academyPlayerPaywallPrice(course: AcademyCourseWithPrice): string | null {
+  if (course.priceMinor == null) {
+    return null;
+  }
+  return formatMinorCompact(course.priceMinor, course.currencyCode);
+}
 
 export function generateStaticParams() {
   return [
@@ -65,7 +74,7 @@ export default async function AcademyCurriculumPlayerPage({
   const session = offersPreview ? await getSession() : await requirePageSession();
   if (!session) {
     const board = await loadCourseBySlug(slug);
-    if (!board) {
+    if (!board || !board.course.isPublished) {
       notFound();
     }
     const freePreviewAudio = await loadAcademyFreePreviewAudioGrants(board.course.slug);
@@ -79,6 +88,7 @@ export default async function AcademyCurriculumPlayerPage({
             curriculumComplete={false}
             workTasksComplete={false}
             paywallLocked
+            paywallPriceLabel={academyPlayerPaywallPrice(board.course)}
             freePreviewAudio={freePreviewAudio}
             media={loadAcademyLessonMediaPrime(board.course.slug, { paywallLocked: true })}
           />
@@ -101,6 +111,10 @@ export default async function AcademyCurriculumPlayerPage({
   const hasPurchased = hasAcademyOynaAccess(purchase, actor);
   const grantStudio = isSuperAdminActor(session);
 
+  if (!board.course.isPublished && !hasPurchased) {
+    notFound();
+  }
+
   if (!hasPurchased) {
     if (!academyCourseOffersFreePreview(board.course.slug)) {
       redirect(`/academy/${board.course.slug}`);
@@ -116,6 +130,7 @@ export default async function AcademyCurriculumPlayerPage({
             curriculumComplete={false}
             workTasksComplete={false}
             paywallLocked
+            paywallPriceLabel={academyPlayerPaywallPrice(board.course)}
             freePreviewAudio={freePreviewAudio}
             media={loadAcademyLessonMediaPrime(board.course.slug, { paywallLocked: true })}
           />

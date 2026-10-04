@@ -5,6 +5,7 @@
  */
 
 import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
+import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
 import {
   ACADEMY_PATHWAY_IDS,
   ACADEMY_PATHWAY_TITLES,
@@ -20,21 +21,9 @@ export type AcademyCatalogSortable = {
  * Kulvar (seri raf) önceliği — vitrin rafları bu diziye kilitlidir.
  * Katman 1 (kitlesel) → Katman 2 (mesleki) → Katman 3 (kurumsal).
  */
-const CATALOG_PREFIX_ORDER: readonly (readonly string[])[] = [
-  ["01_office_ai", "01_"],
-  ["02_ecommerce_ai", "02_"],
-  ["03_social_media_ai", "03_"],
-  ["04_chatbot_nocode", "04_"],
-  ["05_prompt_practice", "05_"],
-  ["06_n8n_automation", "06_"],
-  ["07_langgraph_agents", "07_"],
-  ["08_production_rag", "08_"],
-  ["09_nextjs_ai", "09_"],
-  ["10_data_analytics_ai", "10_"],
-  ["11_llm_redteam", "11_"],
-  ["12_onprem_finetune", "12_"],
-  ["13_ai_governance", "13_"],
-];
+const CATALOG_PREFIX_ORDER: readonly (readonly string[])[] = COURSE_REGISTRY.filter(
+  (row) => row.canon,
+).map((row) => [row.slug, `${row.slug.slice(0, 2)}_`] as const);
 
 /** Tekil Beceriler rafı */
 const TEKIL_BECERI_PREFIXES: readonly string[] = [];
@@ -53,21 +42,8 @@ function catalogSlugMatchesPrefix(slug: string, prefix: string): boolean {
 }
 
 const MODULE_CODE_BY_SLUG: Record<string, string> = {
-  "01_office_ai": "OFF-101",
+  ...Object.fromEntries(COURSE_REGISTRY.map((row) => [row.slug, row.code])),
   "office-ai": "OFF-101",
-  "01_office_ai_ileri": "OFF-201",
-  "02_ecommerce_ai": "EC-102",
-  "03_social_media_ai": "SM-103",
-  "04_chatbot_nocode": "BOT-104",
-  "05_prompt_practice": "PR-105",
-  "06_n8n_automation": "N8N-201",
-  "07_langgraph_agents": "LG-202",
-  "08_production_rag": "RAG-203",
-  "09_nextjs_ai": "NX-204",
-  "10_data_analytics_ai": "DA-205",
-  "11_llm_redteam": "RT-301",
-  "12_onprem_finetune": "FT-302",
-  "13_ai_governance": "GV-303",
 };
 
 const STEM_PREFIX: Record<string, string> = {

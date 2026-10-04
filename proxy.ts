@@ -50,7 +50,8 @@ import {
 
 /**
  * Tek edge girişi (Next 16 `proxy.ts`). Kök `middleware.ts` yoktur.
- * İnce mühür: müze 404, `/kayit` 308, oturumsuz çekirdek → `/giris`,
+ * İnce mühür: müze 404, `/kayit` 308, kök `/` → `/academy` 308,
+ * oturumsuz Anasayfa ve Kariyer kendi sayfasında kalır, diğer çekirdek → `/login`,
  * K6 `export const auth` kind, JWKS/HS256 JWT fail-closed, nonce CSP,
  * auth çerez yenileme (0.12 getAll/setAll + Cache-Control; çerezsiz kamu GET atlanır),
  * çerezli web yazmalarında Origin / Sec-Fetch-Site fail-closed,
@@ -157,6 +158,12 @@ export async function proxy(request: NextRequest) {
   if (decision.kind === "kayit-308") {
     const url = request.nextUrl.clone();
     url.pathname = "/register";
+    return seal(NextResponse.redirect(url, 308));
+  }
+
+  if (decision.kind === "root-308") {
+    const url = request.nextUrl.clone();
+    url.pathname = "/academy";
     return seal(NextResponse.redirect(url, 308));
   }
 

@@ -1,3 +1,4 @@
+import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import { orderAcademyCatalogByCurriculum } from "@/lib/academy/catalog-filter";
 import { ACADEMY_COURSE_TITLES, type AcademyCourseTitleSlug } from "@/lib/academy/course-titles";
@@ -48,7 +49,24 @@ export function academyTrendScore(globalRank: number, localRank: number): number
   return globalRank * localRank;
 }
 
-const SEED_META: Record<
+const SEED_META = Object.fromEntries(
+  COURSE_REGISTRY.filter((row) => row.canon && row.seedRanks).map((row) => {
+    const ranks = row.seedRanks;
+    if (!ranks) {
+      throw new Error(`Tohum sırası yok: ${row.slug}`);
+    }
+    return [
+      row.slug,
+      {
+        id: `ac_${row.slug}`,
+        catalogEntryId: `cat_academy_course_${row.slug}`,
+        examId: `exam_${row.slug}`,
+        globalRank: ranks.globalRank,
+        localRank: ranks.localRank,
+      },
+    ];
+  }),
+) as Record<
   AcademyCourseTitleSlug,
   {
     id: string;
@@ -57,99 +75,7 @@ const SEED_META: Record<
     globalRank: number;
     localRank: number;
   }
-> = {
-  "01_office_ai": {
-    id: "ac_01_office_ai",
-    catalogEntryId: "cat_academy_course_01_office_ai",
-    examId: "exam_01_office_ai",
-    globalRank: 1,
-    localRank: 1,
-  },
-  "02_ecommerce_ai": {
-    id: "ac_02_ecommerce_ai",
-    catalogEntryId: "cat_academy_course_02_ecommerce_ai",
-    examId: "exam_02_ecommerce_ai",
-    globalRank: 2,
-    localRank: 1,
-  },
-  "03_social_media_ai": {
-    id: "ac_03_social_media_ai",
-    catalogEntryId: "cat_academy_course_03_social_media_ai",
-    examId: "exam_03_social_media_ai",
-    globalRank: 3,
-    localRank: 1,
-  },
-  "04_chatbot_nocode": {
-    id: "ac_04_chatbot_nocode",
-    catalogEntryId: "cat_academy_course_04_chatbot_nocode",
-    examId: "exam_04_chatbot_nocode",
-    globalRank: 4,
-    localRank: 1,
-  },
-  "05_prompt_practice": {
-    id: "ac_05_prompt_practice",
-    catalogEntryId: "cat_academy_course_05_prompt_practice",
-    examId: "exam_05_prompt_practice",
-    globalRank: 5,
-    localRank: 1,
-  },
-  "06_n8n_automation": {
-    id: "ac_06_n8n_automation",
-    catalogEntryId: "cat_academy_course_06_n8n_automation",
-    examId: "exam_06_n8n_automation",
-    globalRank: 6,
-    localRank: 2,
-  },
-  "07_langgraph_agents": {
-    id: "ac_07_langgraph_agents",
-    catalogEntryId: "cat_academy_course_07_langgraph_agents",
-    examId: "exam_07_langgraph_agents",
-    globalRank: 7,
-    localRank: 2,
-  },
-  "08_production_rag": {
-    id: "ac_08_production_rag",
-    catalogEntryId: "cat_academy_course_08_production_rag",
-    examId: "exam_08_production_rag",
-    globalRank: 8,
-    localRank: 2,
-  },
-  "09_nextjs_ai": {
-    id: "ac_09_nextjs_ai",
-    catalogEntryId: "cat_academy_course_09_nextjs_ai",
-    examId: "exam_09_nextjs_ai",
-    globalRank: 9,
-    localRank: 2,
-  },
-  "10_data_analytics_ai": {
-    id: "ac_10_data_analytics_ai",
-    catalogEntryId: "cat_academy_course_10_data_analytics_ai",
-    examId: "exam_10_data_analytics_ai",
-    globalRank: 10,
-    localRank: 2,
-  },
-  "11_llm_redteam": {
-    id: "ac_11_llm_redteam",
-    catalogEntryId: "cat_academy_course_11_llm_redteam",
-    examId: "exam_11_llm_redteam",
-    globalRank: 11,
-    localRank: 3,
-  },
-  "12_onprem_finetune": {
-    id: "ac_12_onprem_finetune",
-    catalogEntryId: "cat_academy_course_12_onprem_finetune",
-    examId: "exam_12_onprem_finetune",
-    globalRank: 12,
-    localRank: 3,
-  },
-  "13_ai_governance": {
-    id: "ac_13_ai_governance",
-    catalogEntryId: "cat_academy_course_13_ai_governance",
-    examId: "exam_13_ai_governance",
-    globalRank: 13,
-    localRank: 3,
-  },
-};
+>;
 
 const SLUG_ORDER = ACADEMY_GROWTH_SKU_SLUGS as readonly AcademyCourseTitleSlug[];
 

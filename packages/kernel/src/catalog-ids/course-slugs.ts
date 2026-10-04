@@ -1,54 +1,27 @@
 /**
  * Yayın SKU kimliği — vize damgası başlık eşlemesi.
- * Vitrin metni akademi odasında çoğaltılmaz; bu sicil SSOT’tur.
+ * Vitrin metni akademi odasında çoğaltılmaz. Sicil `course-registry.ts` kartındadır.
  *
  * Kanon: pazar analizindeki 13 odaklı eğitim (Katman 1×5 + Katman 2×5 + Katman 3×3).
  * Canlı vitrin `ACADEMY_GROWTH_SKU_SLUGS` mühürlü amiral SKU’dur.
  */
 
-export const ACADEMY_CANON_SKU_SLUGS = [
-  "01_office_ai",
-  "02_ecommerce_ai",
-  "03_social_media_ai",
-  "04_chatbot_nocode",
-  "05_prompt_practice",
-  "06_n8n_automation",
-  "07_langgraph_agents",
-  "08_production_rag",
-  "09_nextjs_ai",
-  "10_data_analytics_ai",
-  "11_llm_redteam",
-  "12_onprem_finetune",
-  "13_ai_governance",
-] as const;
+import { COURSE_REGISTRY } from "./course-registry";
 
-export const ACADEMY_COURSE_TITLES = {
-  "01_office_ai":
-    "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Verimliliği)",
-  "02_ecommerce_ai":
-    "E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı (Trendyol, Hepsiburada, Amazon & Shopify)",
-  "03_social_media_ai":
-    "Yapay Zekâ ile Sosyal Medya İçeriği (Görsel ve Kısa Video)",
-  "04_chatbot_nocode":
-    "Müşteri Hizmetleri ve Satış İçin Kodsuz WhatsApp / Web Chatbot Kurulumu (Voiceflow & Botpress)",
-  "05_prompt_practice": "Yapay Zekâ Prompt Mühendisliği",
-  "06_n8n_automation":
-    "Kurumsal İş Akışı Otomasyonu (Self-Hosted n8n, Make & AI Entegrasyonları)",
-  "07_langgraph_agents":
-    "Otonom Yapay Zekâ Ajanları Mimarisi (LangGraph, CrewAI & Tool-Calling)",
-  "08_production_rag":
-    "Production RAG ve Kurumsal Arama Sistemleri (Vektör Veritabanları, GraphRAG & Hibrit Arama)",
-  "09_nextjs_ai":
-    "AI-Native Fullstack Web Geliştirme (Next.js, Vercel AI SDK & Reaktif Arayüzler)",
-  "10_data_analytics_ai":
-    "Veri Analitiği, SQL ve İş Zekâsı İçin Yapay Zekâ (Power BI, Python & AI Analytics)",
-  "11_llm_redteam":
-    "Yapay Zekâ Güvenliği, LLM Red Teaming & Guardrails Mimarisi",
-  "12_onprem_finetune":
-    "Yerel Model Dağıtımı ve İnce Ayar (Applied Fine-Tuning, LoRA/QLoRA & vLLM)",
-  "13_ai_governance":
-    "Kurumsal AI Yönetişimi, Hukuk ve Regülasyon Uyumu (AB Yapay Zekâ Yasası & KVKK)",
-} as const satisfies Record<(typeof ACADEMY_CANON_SKU_SLUGS)[number], string>;
+type CourseCard = (typeof COURSE_REGISTRY)[number];
+type CanonCard = Extract<CourseCard, { canon: true }>;
+type CanonSlug = CanonCard["slug"];
+type ExtraCard = Extract<CourseCard, { canon: false }>;
+
+function isCanonCard(row: CourseCard): row is CanonCard {
+  return row.canon;
+}
+
+export const ACADEMY_CANON_SKU_SLUGS = COURSE_REGISTRY.filter(isCanonCard).map((row) => row.slug);
+
+export const ACADEMY_COURSE_TITLES = Object.fromEntries(
+  COURSE_REGISTRY.filter(isCanonCard).map((row) => [row.slug, row.title]),
+) as { [K in CanonSlug]: Extract<CanonCard, { slug: K }>["title"] };
 
 export type AcademyCourseTitleSlug = keyof typeof ACADEMY_COURSE_TITLES;
 
@@ -59,29 +32,25 @@ export const PROMPT_PRACTICE_SUBTITLE = "Yapay Zekâya Doğru Talimat Verme Sana
  * Kanon 13 dışı canlı vitrin kartı. 13’lük tip kilidi burada genişlemez.
  * Başlık web `OFF_201_TITLE` ile aynı cümledir.
  */
-export const ACADEMY_STOREFRONT_EXTRA_TITLES = {
-  "01_office_ai_ileri": "İleri Ofis Yapay Zekâ",
-} as const;
+export const ACADEMY_STOREFRONT_EXTRA_TITLES = Object.fromEntries(
+  COURSE_REGISTRY.filter((row): row is ExtraCard => !row.canon).map((row) => [row.slug, row.title]),
+) as { [K in ExtraCard["slug"]]: Extract<ExtraCard, { slug: K }>["title"] };
 
 export type AcademyStorefrontExtraSlug = keyof typeof ACADEMY_STOREFRONT_EXTRA_TITLES;
 
-export const ACADEMY_CATALOG_LAYER_BY_SLUG = {
-  "01_office_ai": 1,
-  "02_ecommerce_ai": 1,
-  "03_social_media_ai": 1,
-  "04_chatbot_nocode": 1,
-  "05_prompt_practice": 1,
-  "06_n8n_automation": 2,
-  "07_langgraph_agents": 2,
-  "08_production_rag": 2,
-  "09_nextjs_ai": 2,
-  "10_data_analytics_ai": 2,
-  "11_llm_redteam": 3,
-  "12_onprem_finetune": 3,
-  "13_ai_governance": 3,
-} as const satisfies Record<AcademyCourseTitleSlug, 1 | 2 | 3>;
+export const ACADEMY_CATALOG_LAYER_BY_SLUG = Object.fromEntries(
+  COURSE_REGISTRY.filter(isCanonCard).map((row) => [row.slug, row.layer]),
+) as { [K in CanonSlug]: Extract<CanonCard, { slug: K }>["layer"] };
 
-type CanonLength = (typeof ACADEMY_CANON_SKU_SLUGS)["length"];
+type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never) extends (k: infer I) => void
+  ? I
+  : never;
+type LastOf<T> = UnionToIntersection<T extends unknown ? () => T : never> extends () => infer R ? R : never;
+type TuplifyUnion<T, L = LastOf<T>, N = [T] extends [never] ? true : false> = true extends N
+  ? []
+  : [...TuplifyUnion<Exclude<T, L>>, L];
+
+type CanonLength = TuplifyUnion<CanonSlug>["length"];
 const _canonIsThirteen: CanonLength extends 13 ? true : never = true;
 void _canonIsThirteen;
 

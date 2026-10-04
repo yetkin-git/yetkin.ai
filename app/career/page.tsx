@@ -1,4 +1,5 @@
 import type { Metadata, Route } from "next";
+import { PublicCareerPanel } from "@/components/career/public-career-panel";
 import { EmployerGateway } from "@/components/career/employer-gateway";
 import { SealShareGuideButtons, SealShareGuides } from "@/components/career/seal-share-guides";
 import { VisaLedger } from "@/components/career/visa-ledger";
@@ -12,9 +13,9 @@ import {
   careerStampVerifyHref,
 } from "@/lib/career/stamp-surface";
 import { loadCareerBoard } from "@/lib/career/load";
-import { requirePageSession } from "@/lib/kernel/auth/session";
+import { getSession, requirePageSession } from "@/lib/kernel/auth/session";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
-import { AUTH_ROBOTS, PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
+import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { isFreelancerPublicSurfaceLocked } from "@/lib/kernel/compliance/circuit-breakers";
 import {
   FREELANCER_STAMP_SURFACE_PATH,
@@ -27,12 +28,17 @@ import { CAREER_LANDING_FAQ } from "@/lib/copy/sem-keywords";
 
 const ACADEMY_CERTIFICATES_SURFACE_PATH = "/academy/certificates";
 
-export const metadata: Metadata = pageMetadata({
-  ...PAGE_SEO.career,
-  robots: AUTH_ROBOTS,
-});
+export const metadata: Metadata = pageMetadata(PAGE_SEO.career);
 
 export default async function CareerPage() {
+  const session = await getSession();
+  if (!session) {
+    return <PublicCareerPanel />;
+  }
+  return <SignedInCareerPage />;
+}
+
+async function SignedInCareerPage() {
   const session = await requirePageSession();
   const board = await loadCareerBoard(session.id);
   const stamps = board?.stamps ?? [];

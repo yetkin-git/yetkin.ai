@@ -39,8 +39,8 @@ function sitemapEntry(
 }
 
 /**
- * Yayın antreleri — büyüme vitrini ve mühürlü OFF-201.
- * Fiyat/tohum/Prisma katmanı sitemap’e girmez; katalog throw 500 üretmez.
+ * Yayın adayları — karttaki vitrin slug’ları.
+ * İstek anında `is_published` satırı süzgeçtir. Okuma düşerse kart listesi kalır.
  */
 const SITEMAP_ACADEMY_COURSE_SLUGS = [
   ...ACADEMY_GROWTH_SKU_SLUGS,
@@ -48,9 +48,39 @@ const SITEMAP_ACADEMY_COURSE_SLUGS = [
   ...ACADEMY_PRODUCTION_LINE_SKU_SLUGS,
 ] as const;
 
-function publishedAcademyCourseEntries(lastModified: Date): MetadataRoute.Sitemap {
+export function sitemapCourseSlugs(
+  candidates: readonly string[],
+  publishedSlugs: ReadonlySet<string> | null,
+): string[] {
+  if (!publishedSlugs) {
+    return [...candidates];
+  }
+  return candidates.filter((slug) => publishedSlugs.has(slug));
+}
+
+async function readPublishedAcademySlugs(): Promise<ReadonlySet<string> | null> {
+  if (process.env.VITEST === "true" || !process.env.DATABASE_URL?.trim()) {
+    return null;
+  }
   try {
-    return SITEMAP_ACADEMY_COURSE_SLUGS.filter((slug) => isAcademyStorefrontSlug(slug)).map((slug) => {
+    const { getPrisma } = await import("@/lib/kernel/db");
+    const rows = await getPrisma().academyCourse.findMany({
+      where: { isPublished: true },
+      select: { slug: true },
+    });
+    return new Set(rows.map((row) => row.slug));
+  } catch {
+    return null;
+  }
+}
+
+function publishedAcademyCourseEntries(
+  lastModified: Date,
+  publishedSlugs: ReadonlySet<string> | null,
+): MetadataRoute.Sitemap {
+  try {
+    const candidates = SITEMAP_ACADEMY_COURSE_SLUGS.filter((slug) => isAcademyStorefrontSlug(slug));
+    return sitemapCourseSlugs(candidates, publishedSlugs).map((slug) => {
       let images: string[] | undefined;
       try {
         const cover = academyCourseCoverPath(slug);
@@ -71,14 +101,16 @@ function staticSitemapEntries(lastModified: Date): MetadataRoute.Sitemap {
   return uniqueStatic.map((path) => sitemapEntry(path, lastModified));
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const dynamic = "force-dynamic";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // SEO Tedavi (P1) — sabit mühür yerine dinamik üretim anı.
-  // Sitemap isteğe bağlı üretildiği için bu değer her derlemede/isteğe güncellenir;
-  // kurs girdileri mühürlü antre SSOT'undan (`SITEMAP_ACADEMY_COURSE_SLUGS`) beslenir.
+  // Kurs girdisi kartta duran ve satırı yayında olan slug’dır.
   const lastModified = new Date();
   try {
+    const publishedSlugs = await readPublishedAcademySlugs();
     const staticEntries = staticSitemapEntries(lastModified);
-    const courseEntries = publishedAcademyCourseEntries(lastModified);
+    const courseEntries = publishedAcademyCourseEntries(lastModified, publishedSlugs);
     const seen = new Set<string>();
     const merged: MetadataRoute.Sitemap = [];
     for (const entry of [...staticEntries, ...courseEntries]) {

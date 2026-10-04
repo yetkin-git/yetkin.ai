@@ -13,8 +13,6 @@ import {
   ACADEMY_VITRINE_SHELL_SKU_SLUGS,
   academyCatalogPurchasable,
   academyCourseNarrationPublished,
-  academyProductionLineReleaseOpen,
-  isAcademyProductionLineSkuSlug,
 } from "@/lib/academy/pilot-sku";
 import { ACADEMY_OFF201_DEFAULT_COVER } from "@/lib/academy/course-cover";
 import { OFF_201_TITLE } from "@/lib/academy/curricula/office_ai/off-201";
@@ -147,8 +145,8 @@ function confirmedVitrineCard(row: AcademyCourseWithPrice): AcademyCourseWithPri
  * PEDAGOJI §D 5'li Vitrin Karması.
  * `live` yalnız veritabanından okunmuş kurs satırlarıdır. Boş dizi, yayın teyidi yok demektir.
  * Satın Al: `is_published`, aktif fiyat ve beş katman disk mührü. Biri eksikse kart satın al demez.
- * Anlatımı bitmemiş kardeş «Çok Yakında»dır. Üretim hattı kamu kapısı kapalıyken aynı kabuğa düşer; kapı açıkken doğrulanmış satır satın alınır.
- * Anlatımı bitmiş ama satırı kapalı kurs «Yayında Değil»dir.
+ * Anlatımı bitmemiş kardeş «Çok Yakında»dır. Anlatımı bitmiş kursun yayın hükmü satırdaki `is_published` değeridir.
+ * Satırı kapalı kurs «Yayında Değil»dir.
  */
 export function academyVitrineShellCourses(
   live: readonly AcademyCourseWithPrice[] = [],
@@ -174,10 +172,7 @@ export function academyVitrineShellCourses(
     if (!seed) {
       continue;
     }
-    if (
-      (isAcademyProductionLineSkuSlug(slug) && !academyProductionLineReleaseOpen(slug)) ||
-      !academyCourseNarrationPublished(slug)
-    ) {
+    if (!academyCourseNarrationPublished(slug)) {
       next.push(comingSoonAcademyCourseFromSeed(seed));
       continue;
     }

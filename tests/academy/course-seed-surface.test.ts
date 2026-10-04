@@ -148,7 +148,7 @@ describe("akademi kurs tohumu yüzeyi", () => {
     expect(list).toContain('surface = "catalog"');
     expect(list).toContain("orderAcademyCatalogByCurriculum");
     expect(list).not.toContain("groupAcademyCatalogBySeries");
-    expect(list).toContain("md:grid-cols-3");
+    expect(list).toContain("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6");
     expect(readSrc("components/academy/course-card.tsx")).toContain("resolveAcademyCatalogCardCta");
     expect(readSrc("lib/academy/storefront-cta.ts")).toContain("/academy/${input.slug}");
     expect(readSrc("components/academy/course-card.tsx")).not.toContain("MarketPopularityBadge");

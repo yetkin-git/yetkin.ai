@@ -16,12 +16,12 @@ import {
   ACADEMY_FLAGSHIP_SKU_SLUG,
   filterAcademyVitrineCatalog,
 } from "@/lib/academy/pilot-sku";
-import { cn } from "@/components/ui/cn";
 
 export type AcademyCatalogShelf = "catalog" | "owned" | "favorites";
 
-/** Tek raf — PEDAGOJI §D 5'li Vitrin Karması; kardeşler dürüst Yakında kabuğu. */
-export const ACADEMY_CATALOG_GRID_CLASS = "grid gap-4 md:grid-cols-3";
+/** Tek raf. Telefonda bir kolon, tablette iki, masaüstünde üç eşit kart. */
+export const ACADEMY_CATALOG_GRID_CLASS =
+  "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6";
 
 export function CourseList({
   courses,
@@ -82,7 +82,7 @@ export function CourseList({
             return (
               <li
                 key={course.id}
-                className={cn("h-full", featured && "md:col-span-2")}
+                className="h-full flex flex-col justify-between"
                 data-academy-catalog-series={course.slug}
                 data-academy-flagship-card={featured ? "" : undefined}
                 data-academy-coming-soon-card={featured ? undefined : ""}

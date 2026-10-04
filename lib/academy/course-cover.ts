@@ -4,6 +4,7 @@
  * Kalan vitrin SKU’ları şeffaf «Yakında» şablonuna düşer; marka Y mührü kapak değildir.
  */
 
+import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
 import { academyMicroVideoPublicSources } from "@/lib/academy/lesson-media";
 import {
   ACADEMY_BOT104_STOREFRONT_COVER,
@@ -17,7 +18,6 @@ import {
   ACADEMY_SM103_STOREFRONT_COVER,
   ACADEMY_SM103_STOREFRONT_SLUG,
   academyCourseNarrationPublished,
-  academyProductionLineReleaseOpen,
   isAcademyGrowthSkuSlug,
   isAcademyProductionLineSkuSlug,
 } from "@/lib/academy/pilot-sku";
@@ -28,16 +28,24 @@ const FIRST_LESSON_COVER_DIAGRAM: Readonly<Record<string, string>> = {};
 /** Taze ingest — `01_office_ai` 1. bölüm göz plakası. */
 const FLAGSHIP_CINEMA_COVER_STEM = "01_office_ai-1-eye" as const;
 
+const flagshipCoverPath = COURSE_REGISTRY.find((row) => row.slug === ACADEMY_FLAGSHIP_SKU_SLUG)?.coverPath;
+if (flagshipCoverPath !== `/academy/cinema/${FLAGSHIP_CINEMA_COVER_STEM}.webp`) {
+  throw new Error("Amiral kapak yolu karttan sapıyor.");
+}
+
 /** Favicon / marka mührü — vitrin kartı kapağı değildir. */
 export const ACADEMY_BRAND_FALLBACK_COVER = "/icon.svg" as const;
 
 /** OFF-201 varsayılan kapak — amiral ile aynı sıcak çalışma alanı fotoğrafı. */
-export const ACADEMY_OFF201_DEFAULT_COVER = "/academy/covers/01_office_ai_ileri.jpg" as const;
+const off201CoverPath = COURSE_REGISTRY.find((row) => row.slug === "01_office_ai_ileri")?.coverPath;
+if (!off201CoverPath) {
+  throw new Error("OFF-201 kapak yolu kartta yok.");
+}
+export const ACADEMY_OFF201_DEFAULT_COVER = off201CoverPath;
 
 /**
- * Amiral 1. bölüm vitrin dakikası.
- * Mühürlü konuşma `01_office_ai-1` 696.951 sn; antre ve oynatıcı
- * `academyMediaDurationMin(academySealedAudioDurationSec)` ile 12 dk basar.
+ * Amiral 1. bölümün mühürlü konuşma uzunluğu.
+ * Katalog kartı bu dakikayı kurs süresi diye basmaz.
  */
 export const ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN = 12 as const;
 
@@ -74,9 +82,6 @@ export function academyCourseHasCinemaCover(slug: string): boolean {
 
 /** Vitrin SKU — ses mührü bitmemiş kardeş şeffaf Yakında şablonuna düşer. */
 export function academyCourseIsComingSoon(slug: string): boolean {
-  if (isAcademyProductionLineSkuSlug(slug) && !academyProductionLineReleaseOpen(slug)) {
-    return true;
-  }
   if (academyCourseNarrationPublished(slug)) {
     return false;
   }

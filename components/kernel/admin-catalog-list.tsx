@@ -1,4 +1,5 @@
 import { AdminCatalogAmountForm } from "@/components/kernel/admin-catalog-amount-form";
+import { AdminCoursePublishSwitch } from "@/components/kernel/admin-course-publish-switch";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
@@ -13,15 +14,38 @@ import {
   groupCatalogEntriesByModule,
   isHoldBpsInCodeBand,
 } from "@/lib/kernel/admin/display";
-import type { SealedCatalogEntry } from "@/lib/kernel/admin/types";
 import {
   ADMIN_ACADEMY_SHELTER_PATH,
   ADMIN_DASHBOARD_SHELTER_PATH,
   ADMIN_FREELANCER_SHELTER_PATH,
+  type AcademyCoursePublishRow,
+  type SealedCatalogEntry,
 } from "@/lib/kernel/admin/types";
+import { courseRegistryBySlug } from "@yetkin/kernel/catalog-ids/course-registry";
 import { ACADEMY_CURRICULUM_REVISIONS_PATH } from "@/lib/academy/curriculum-revision-paths";
 
-function CatalogEntryTable({ entries }: { entries: SealedCatalogEntry[] }) {
+function coursePublishFor(
+  entry: SealedCatalogEntry,
+  rows: readonly AcademyCoursePublishRow[],
+): { slug: string; published: boolean } | null {
+  if (!entry.unitKey.startsWith("course:")) {
+    return null;
+  }
+  const slug = entry.unitKey.slice("course:".length);
+  if (!courseRegistryBySlug(slug)) {
+    return null;
+  }
+  const row = rows.find((item) => item.unitKey === entry.unitKey || item.slug === slug);
+  return { slug, published: row?.isPublished ?? false };
+}
+
+function CatalogEntryTable({
+  entries,
+  coursePublish,
+}: {
+  entries: SealedCatalogEntry[];
+  coursePublish: readonly AcademyCoursePublishRow[];
+}) {
   const copy = ADMIN_SEN;
   return (
     <div className="overflow-x-auto rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-card)]">
@@ -33,6 +57,7 @@ function CatalogEntryTable({ entries }: { entries: SealedCatalogEntry[] }) {
             <th className="px-4 py-3 text-right">Tutar</th>
             <th className="px-4 py-3 text-right">Taban → tavan</th>
             <th className="px-4 py-3">Durum</th>
+            <th className="px-4 py-3">{copy.publishColumn}</th>
             <th className="px-4 py-3 text-right">Fiyat değiştir</th>
           </tr>
         </thead>
@@ -40,6 +65,7 @@ function CatalogEntryTable({ entries }: { entries: SealedCatalogEntry[] }) {
           {entries.map((entry) => {
             const bpsOutOfBand =
               entry.unitType === "BPS" && !isHoldBpsInCodeBand(entry.amountMinor);
+            const publish = coursePublishFor(entry, coursePublish);
             return (
               <tr key={entry.id} className="border-b border-[var(--border)] last:border-b-0">
                 <td className="px-4 py-3">
@@ -70,6 +96,17 @@ function CatalogEntryTable({ entries }: { entries: SealedCatalogEntry[] }) {
                   <Badge tone={entry.isActive ? "emerald" : "neutral"}>
                     {entry.isActive ? copy.statusActive : copy.statusInactive}
                   </Badge>
+                </td>
+                <td className="px-4 py-3">
+                  {publish ? (
+                    <AdminCoursePublishSwitch
+                      slug={publish.slug}
+                      unitKey={entry.unitKey}
+                      published={publish.published}
+                    />
+                  ) : (
+                    <span className="text-[var(--muted)]">{ADMIN_UNSET_LABEL}</span>
+                  )}
                 </td>
                 <td className="px-4 py-3">
                   <AdminCatalogAmountForm
@@ -111,9 +148,11 @@ function EmptyCatalogActions() {
 
 export function AdminCatalogList({
   entries,
+  coursePublish = [],
   showEmptyActions = true,
 }: {
   entries: SealedCatalogEntry[];
+  coursePublish?: readonly AcademyCoursePublishRow[];
   /** Soft yüklemede üst CTA zaten varsa çift şerit basılmaz. */
   showEmptyActions?: boolean;
 }) {
@@ -144,7 +183,7 @@ export function AdminCatalogList({
             bodyClassName="text-[var(--foreground)]"
           >
             <p className="mb-4 text-sm text-[var(--muted)]">{copy.catalogIntro}</p>
-            <CatalogEntryTable entries={group.entries} />
+            <CatalogEntryTable entries={group.entries} coursePublish={coursePublish} />
           </Card>
         ))
       )}

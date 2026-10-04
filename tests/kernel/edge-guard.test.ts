@@ -17,6 +17,7 @@ import {
   isProtectedCitizenPath,
   isProtectedKernelPath,
   isProtectedWritePath,
+  isPublicKernelVitrinePath,
   readCspNonce,
 } from "@/lib/kernel/security/edge-guard";
 
@@ -104,7 +105,11 @@ describe("korumalı yazma yolları", () => {
     expect(isProtectedWritePath("/freelancer")).toBe(false);
     expect(isProtectedWritePath("/academy")).toBe(false);
     expect(isProtectedCitizenPath("/studio")).toBe(false);
-    expect(isProtectedCitizenPath("/dashboard")).toBe(true);
+    expect(isPublicKernelVitrinePath("/dashboard")).toBe(true);
+    expect(isPublicKernelVitrinePath("/career")).toBe(true);
+    expect(isPublicKernelVitrinePath("/dashboard/ek")).toBe(false);
+    expect(isProtectedCitizenPath("/dashboard")).toBe(false);
+    expect(isProtectedCitizenPath("/dashboard/ek")).toBe(true);
     expect(isProtectedCitizenPath("/academy/python-temel/oyna")).toBe(true);
     expect(isProtectedCitizenPath("/academy/01_office_ai/oyna")).toBe(false);
     expect(isProtectedCitizenPath("/academy/01_office_ai_ileri/oyna")).toBe(false);
@@ -113,7 +118,8 @@ describe("korumalı yazma yolları", () => {
     expect(isProtectedCitizenPath("/academy/04_chatbot_nocode/oyna")).toBe(false);
     expect(isProtectedCitizenPath("/academy/05_prompt_practice/oyna")).toBe(false);
     expect(isProtectedCitizenPath("/academy/certificates")).toBe(true);
-    expect(isProtectedCitizenPath("/career")).toBe(true);
+    expect(isProtectedCitizenPath("/career")).toBe(false);
+    expect(isProtectedCitizenPath("/career/ek")).toBe(true);
     expect(isProtectedCitizenPath("/academy")).toBe(false);
     expect(isProtectedCitizenPath("/academy/dogrula")).toBe(false);
     expect(decideEdgeAction("/academy/python-temel/oyna", false).kind).toBe("auth-307");
@@ -122,7 +128,7 @@ describe("korumalı yazma yolları", () => {
     expect(decideEdgeAction("/academy/04_chatbot_nocode/oyna", false).kind).toBe("next");
     expect(decideEdgeAction("/academy/05_prompt_practice/oyna", false).kind).toBe("next");
     expect(decideEdgeAction("/academy/certificates", false).kind).toBe("auth-307");
-    expect(decideEdgeAction("/career", false).kind).toBe("auth-307");
+    expect(decideEdgeAction("/career", false).kind).toBe("next");
     expect(decideEdgeAction("/academy/python-temel", false).kind).toBe("next");
     expect(decideEdgeAction("/academy/dogrula", false).kind).toBe("next");
     expect(decideEdgeAction("/vize", false).kind).toBe("next");
@@ -133,17 +139,17 @@ describe("korumalı yazma yolları", () => {
 });
 
 describe("kenar kararları", () => {
-  it("müze yolunu 404, /kayit yolunu 308 yapar", () => {
+  it("müze yolunu 404, /kayit yolunu 308, kökü akademi 308 yapar", () => {
     expect(decideEdgeAction("/yetkin.ai", false)).toEqual({ kind: "museum-404" });
     expect(decideEdgeAction("/kayit/", false)).toEqual({ kind: "kayit-308" });
+    expect(decideEdgeAction("/", false)).toEqual({ kind: "root-308" });
+    expect(decideEdgeAction("/", true)).toEqual({ kind: "root-308" });
+    expect(decideEdgeAction("/academy", false)).toEqual({ kind: "next" });
   });
 
   it("oturumsuz korumalı yolu /login 307 yapar; oturum ipucu varsa geçirir", () => {
     expect(CITIZEN_LOGIN_PATH).toBe("/login");
-    expect(decideEdgeAction("/dashboard", false)).toEqual({
-      kind: "auth-307",
-      to: CITIZEN_LOGIN_PATH,
-    });
+    expect(decideEdgeAction("/dashboard", false)).toEqual({ kind: "next" });
     expect(decideEdgeAction("/cuzdan", false).kind).toBe("auth-307");
     expect(decideEdgeAction("/profil", false).kind).toBe("auth-307");
     expect(decideEdgeAction("/admin", false).kind).toBe("auth-307");
@@ -151,7 +157,8 @@ describe("kenar kararları", () => {
       kind: "auth-307",
       to: CITIZEN_LOGIN_PATH,
     });
-    expect(decideEdgeAction("/career", false)).toEqual({
+    expect(decideEdgeAction("/career", false)).toEqual({ kind: "next" });
+    expect(decideEdgeAction("/career/ek", false)).toEqual({
       kind: "auth-307",
       to: CITIZEN_LOGIN_PATH,
     });
@@ -166,11 +173,7 @@ describe("kenar kararları", () => {
   });
 
   it("oturum alias'ı tek hop: ara odaya 308 yok", () => {
-    expect(decideEdgeAction("/kariyer", false)).toEqual({
-      kind: "auth-307",
-      to: CITIZEN_LOGIN_PATH,
-      next: "/career",
-    });
+    expect(decideEdgeAction("/kariyer", false)).toEqual({ kind: "alias-307", to: "/career" });
     expect(decideEdgeAction("/kariyer", true)).toEqual({ kind: "alias-307", to: "/career" });
     expect(decideEdgeAction("/profile", false)).toEqual({
       kind: "auth-307",

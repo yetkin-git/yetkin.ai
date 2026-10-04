@@ -46,18 +46,18 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
       ...ACADEMY_GROWTH_SKU_SLUGS,
     ]);
     expect([...ACADEMY_VITRINE_SHELL_SKU_SLUGS]).toEqual([
-      "01_office_ai",
-      "01_office_ai_ileri",
       "02_ecommerce_ai",
       "03_social_media_ai",
-      "04_chatbot_nocode",
       "05_prompt_practice",
+      "04_chatbot_nocode",
+      "01_office_ai",
+      "01_office_ai_ileri",
     ]);
     expect([...ACADEMY_PRODUCTION_LINE_SKU_SLUGS]).toEqual([
       "02_ecommerce_ai",
       "03_social_media_ai",
-      "04_chatbot_nocode",
       "05_prompt_practice",
+      "04_chatbot_nocode",
     ]);
     expect(isAcademyProductionLineSkuSlug("05_prompt_practice")).toBe(true);
     expect(isAcademyProductionLineSkuSlug("01_office_ai")).toBe(false);
@@ -69,12 +69,12 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
       ...ACADEMY_VITRINE_SHELL_SKU_SLUGS,
     ]);
     expect(academyVitrineShellCourses().map((row) => academyModuleCodeBySlug(row.slug))).toEqual([
-      "OFF-101",
-      "OFF-201",
       "EC-102",
       "SM-103",
-      "BOT-104",
       "PR-105",
+      "BOT-104",
+      "OFF-101",
+      "OFF-201",
     ]);
     expect(academyModuleCodeBySlug("01_office_ai_ileri")).toBe("OFF-201");
     const closed = academyVitrineShellCourses();
@@ -109,8 +109,10 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
       purchasable: ec102?.purchasable,
       isPublished: ec102?.isPublished,
     });
-    expect(card.cta).toBe("Satın Al");
-    expect(card.href).toBe("/academy/02_ecommerce_ai");
+    expect(card.cta).toBe("► 1. Dersi Ücretsiz İzle");
+    expect(card.href).toBe("/academy/02_ecommerce_ai/oyna");
+    expect(card.secondaryCta).toBe("Satın Al — ₺990");
+    expect(card.secondaryHref).toBe("/academy/02_ecommerce_ai#satin-al");
     expect(card.ctaDisabled).toBeUndefined();
     expect(open.find((row) => row.slug === "01_office_ai")?.purchasable).toBe(false);
 
@@ -138,7 +140,9 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(list).toContain("filterAcademyVitrineCatalog");
     expect(list).toContain("orderAcademyCatalogByCurriculum");
     expect(list).toContain("ACADEMY_FLAGSHIP_SKU_SLUG");
-    expect(list).toContain("md:col-span-2");
+    expect(list).toContain("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6");
+    expect(list).toContain("h-full flex flex-col justify-between");
+    expect(list).not.toContain("md:col-span-2");
     expect(css).not.toContain("html:has(.academy-catalog-viewport-lock)");
     expect(css).toContain("html:has(.academy-player-viewport-lock)");
     expect(strip).toContain("opacity-90");

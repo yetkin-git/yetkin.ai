@@ -7,23 +7,13 @@
  * P3 donmuş 23 tabloyu DROP eder. Post-apply mühür yoksa fail-closed çıkar.
  * Yeni tablo icat etmez; SQL dosyaları idempotenttir. Canlı DB ister.
  *
- * Sıra (kilitli):
- *   1) prisma migrate deploy (D2.1 academy_lesson_completions, D2.2 curriculum_seal,
- *      D2.3 corporate_job_offers (tarihsel), defter immutability + paid_command_reservations,
- *      P3 drop_frozen_room_tables — Direct :5432; Windows IPv6/P1001 ise pooler session)
- *   2) 20260814010000_handle_new_user_auth_sync.sql
- *   3) 20260814020000_enforce_rls_all_tables.sql
- *   4) 20260814030000_rls_user_scoped_policies.sql
- *   5) 20260814040000_price_catalog_definitions.sql
- *   6) 20260814090000_academy_course_seed.sql
- *   7) 20260814100000_handle_user_email_update.sql
- *   8) 20260814110000_freelancer_job_seed.sql
- *   9) 20260823220000_freelancer_job_visa_pathway.sql
- *  10) 20260912220000_academy_sterile_vitrine.sql
+ * SQL sırası `supabase/migrations` klasöründeki `YYYYMMDDHHMMSS_*.sql` adlarıdır.
+ * Elle dizi yoktur. Kalıba uymayan dosya apply'i durdurur.
+ * Prisma deploy Direct :5432 ister; Windows IPv6/P1001 ise pooler session.
  */
 
 import { spawnSync } from "node:child_process";
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import dns from "node:dns";
 import net from "node:net";
 import { resolve } from "node:path";
@@ -34,7 +24,8 @@ import {
   ACADEMY_SEED_COURSE_IDS,
   DIRECT_PORT_OPERATOR_PROTOCOL,
   DIRECT_POSTGRES_PORT,
-  EXPECTED_SQL,
+  assertSqlSealDirectory,
+  listSqlSealFiles,
   FREELANCER_SEED_JOB_IDS,
   LEDGER_IMMUTABILITY_MIGRATION,
   ESCROW_HOLD_CHECKS_MIGRATION,
@@ -197,23 +188,15 @@ function listSqlFiles(): string[] {
   if (!existsSync(dir)) {
     fail("supabase/migrations dizini yok.");
   }
-  const files = readdirSync(dir)
-    .filter((name) => name.endsWith(".sql"))
-    .sort();
+  const nameIssues = assertSqlSealDirectory(dir);
+  if (nameIssues.length > 0) {
+    fail(nameIssues.join("; "));
+  }
+  const files = listSqlSealFiles(dir);
   if (files.length === 0) {
     fail("supabase/migrations altında SQL yok.");
   }
-  if (files.length !== EXPECTED_SQL.length) {
-    fail(
-      `SQL sayısı kilitli ${EXPECTED_SQL.length} değil (${files.length}). Ek dosya veya eksik: ${files.join(", ")}`,
-    );
-  }
-  for (let index = 0; index < EXPECTED_SQL.length; index += 1) {
-    if (files[index] !== EXPECTED_SQL[index]) {
-      fail(`Beklenen SQL sırası bozuldu: ${EXPECTED_SQL[index]} ≠ ${files[index]}`);
-    }
-  }
-  return [...EXPECTED_SQL];
+  return files;
 }
 
 function runPrismaDeploy(url: string): void {

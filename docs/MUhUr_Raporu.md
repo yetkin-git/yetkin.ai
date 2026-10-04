@@ -94,3 +94,5 @@ Gönderilemeyen kayıtlar:
 6. `54d5927` — aşama 2 tedavi raporu
 7. `80cdbc9` — üç eğitimin arama kartı
 8. Bu dosya — mühür raporu
+
+PUSH VE YAYIN BAŞARILI

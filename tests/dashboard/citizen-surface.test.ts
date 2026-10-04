@@ -132,9 +132,9 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(widget).toContain("invisible");
   });
 
-  it("sol menü Panel açıklaması Genel Bakış'tır; kaldığın yer yoktur", () => {
+  it("sol menü Anasayfa açıklaması Genel Bakış'tır; kaldığın yer yoktur", () => {
     const dashboard = VERTICAL_ROOMS.find((room) => room.id === "dashboard");
-    expect(dashboard?.label).toBe("Panel");
+    expect(dashboard?.label).toBe("Anasayfa");
     expect(dashboard?.blurb).toBe("Genel bakış");
     expect(dashboard?.blurb).not.toContain("Kaldığın yer");
     expect(readSrc("lib/kernel/modules.ts")).not.toContain("Kaldığın yer");

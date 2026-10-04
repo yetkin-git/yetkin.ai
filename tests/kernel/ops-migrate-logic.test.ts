@@ -3,7 +3,9 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   ACADEMY_SEED_COURSE_IDS,
-  EXPECTED_SQL,
+  assertSqlSealDirectory,
+  listSqlSealFiles,
+  SQL_SEAL_FILE_NAME,
   FREELANCER_SEED_JOB_IDS,
   PRISMA_RING_MIGRATIONS,
   assertAuthUsers,
@@ -37,9 +39,13 @@ import {
 const ROOT = process.cwd();
 const MIG_DIR = join(ROOT, "supabase", "migrations");
 
+function sqlSealFiles(): string[] {
+  return listSqlSealFiles(MIG_DIR);
+}
+
 function loadSqlByFile(): Record<string, string> {
   const sqlByFile: Record<string, string> = {};
-  for (const file of EXPECTED_SQL) {
+  for (const file of sqlSealFiles()) {
     sqlByFile[file] = readFileSync(join(MIG_DIR, file), "utf8");
   }
   return sqlByFile;
@@ -142,11 +148,15 @@ describe("ops:migrate havuz yasağı", () => {
 });
 
 describe("on dört SQL mühür planı", () => {
-  it("diskteki dosya adları kilitli sırayla birebir", () => {
-    const files = readdirSync(MIG_DIR)
-      .filter((name) => name.endsWith(".sql"))
-      .sort();
-    expect(files).toEqual([...EXPECTED_SQL]);
+  it("diskteki dosya adları damga kalıbıyla sıralanır; bozuk ad apply'i durdurur", () => {
+    const files = sqlSealFiles();
+    expect(files.length).toBeGreaterThan(0);
+    expect(assertSqlSealDirectory(MIG_DIR)).toEqual([]);
+    expect(files.every((name) => SQL_SEAL_FILE_NAME.test(name))).toBe(true);
+    expect(readdirSync(MIG_DIR).filter((name) => name.endsWith(".sql")).sort()).toEqual(files);
+    expect(SQL_SEAL_FILE_NAME.test("notes.sql")).toBe(false);
+    expect(SQL_SEAL_FILE_NAME.test("20260814010000_Handle.sql")).toBe(false);
+    expect(SQL_SEAL_FILE_NAME.test("20260814010000_handle_new_user_auth_sync.sql")).toBe(true);
   });
 
   it("SQL dosyaları RLS, Auth tetikleyicileri ve tohumları eksiksiz mühürler", () => {
@@ -177,7 +187,7 @@ describe("ops:migrate bellek katalog simülasyonu", () => {
     await assertPublicUsers(query);
     await assertAuthUsers(query);
 
-    for (const file of EXPECTED_SQL) {
+    for (const file of sqlSealFiles()) {
       applySqlToMemoryCatalog(catalog, readFileSync(join(MIG_DIR, file), "utf8"));
     }
 
@@ -192,7 +202,7 @@ describe("ops:migrate bellek katalog simülasyonu", () => {
     await expect(assertAuthUsers(createMemoryOpsSealQuery(noAuth))).rejects.toThrow(/auth\.users yok/);
 
     const catalog = createPostPrismaMemoryCatalog();
-    for (const file of EXPECTED_SQL) {
+    for (const file of sqlSealFiles()) {
       if (file.includes("handle_user_email_update")) {
         continue;
       }

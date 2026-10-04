@@ -41,7 +41,7 @@ export const PUBLIC_SEN = {
       academy: "Akademi odası yüklenemedi. Tekrar dene veya kataloga dön.",
       career: "Kariyer sayfası yüklenemedi. Tekrar dene veya Kariyer'e dön.",
       freelancer: "Freelancer odası yüklenemedi. Tekrar dene veya Freelancer İlan Panosu'na dön.",
-      dashboard: "Panel yüklenemedi. Tekrar dene veya panele dön.",
+      dashboard: "Anasayfa yüklenemedi. Tekrar dene veya anasayfaya dön.",
     },
   },
   gone: {

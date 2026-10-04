@@ -112,25 +112,25 @@ export const PRODUCT_ROOM_PATHS = ["/academy", "/career"] as const;
 
 /**
  * Sitemap ve robots Allow — yalnız oturumsuz 200 dönen kamu yolları.
- * `/career` ürün odasıdır ama kenar oturumsuz isteği 307 ile `/login`’e alır;
- * site haritasında durursa Search Console «Yönlendirmeli sayfa» yazar.
+ * Kök `/` kalıcı 308 ile `/academy` kataloğuna iner; site haritasında durmaz
+ * (Search Console «Yönlendirmeli sayfa»).
+ * `/career` herkese açık kariyer vizesi sayfasıdır; site haritasındadır.
  * Kamuya açık vize yüzeyi `/vize`’dir.
  */
 export const SITEMAP_STATIC_PATHS = [
-  "/",
   "/academy",
+  PAGE_SEO.career.path,
   PAGE_SEO.academyVerify.path,
   PAGE_SEO.publicTalent.path,
 ] as const;
 
 /**
- * Kenar tek hop (`AUTH_PATH_ALIASES`): `/kariyer` oturumsuzda doğrudan girişe,
- * oturumda `/career` odasına iner. Ara 308 kalkmıştır; ikinci hop yoktur.
+ * Kenar tek hop (`AUTH_PATH_ALIASES`): `/kariyer` `/career` sayfasına 307 iner.
+ * Ara 308 kalkmıştır; ikinci hop yoktur.
  * Bot bu kaynakları tararsa yine yönlendirme görür; crawl edilmez.
  * Tek hop ile 200 kamu sayfasına inen alias’lar (`/ogren`, `/verify`, `/p`, yasal kısa adlar) listede yoktur: Google 301’i görüp kanoniğe birleştirir.
  */
 export const ROBOTS_DISALLOW_AUTH_REDIRECTS = [
-  "/career",
   "/kariyer",
   "/profile",
   "/passport",
@@ -375,7 +375,7 @@ export type SitemapChangeFrequency =
   | "never";
 
 /**
- * Aşama 2 sitemap önceliği: ana sayfa/akademi 1.0, kurs 0.8, yasal/iletişim/hakkımızda 0.5.
+ * Aşama 2 sitemap önceliği: akademi katalog 1.0, kurs 0.8, yasal/iletişim/hakkımızda 0.5.
  * Kariyer 0.9.
  */
 export function sitemapRoutePolicy(path: string): {

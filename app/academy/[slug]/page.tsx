@@ -22,7 +22,7 @@ import {
 } from "@/lib/academy/load";
 import { academyStorefrontAccess, hasCommercialAcademyEnrolment } from "@/lib/academy/enrolment";
 import { resolveAcademyAntreHeroCta, academyCheckoutHref, ACADEMY_CHECKOUT_HASH } from "@/lib/academy/storefront-cta";
-import { academyActorFromSession, hasAcademyAdminBypass, hasAcademyPlayerAccess } from "@/lib/academy/access";
+import { academyActorFromSession, hasAcademyAdminBypass, hasAcademyOynaAccess, hasAcademyPlayerAccess } from "@/lib/academy/access";
 import { resolveAcademyContinueBoard } from "@/lib/academy/continue-board";
 import { LinkButton } from "@/components/ui/link-button";
 import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
@@ -156,6 +156,11 @@ export default async function AcademyCoursePage({
       currentSlug: board.course.slug,
     }),
   ]);
+  const holdsSeat =
+    session != null && hasAcademyOynaAccess(purchase, academyActorFromSession(session));
+  if (!board.course.isPublished && !holdsSeat) {
+    notFound();
+  }
   const actor = session ? academyActorFromSession(session) : null;
   if (actor && hasAcademyAdminBypass(actor)) {
     redirect(`/academy/${board.course.slug}/oyna`);

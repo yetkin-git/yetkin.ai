@@ -166,9 +166,9 @@ describe("Aşama 1 SEO yüzeyi", () => {
     expect(readSrc("app/(auth)/register/page.tsx")).toContain("AUTH_ROBOTS");
     expect(readSrc("app/(auth)/login/page.tsx")).toContain("PAGE_SEO.login");
     expect(readSrc("app/(auth)/register/page.tsx")).toContain("PAGE_SEO.register");
-    expect(readSrc("app/career/page.tsx")).toContain("AUTH_ROBOTS");
-    const careerMeta = pageMetadata({ ...PAGE_SEO.career, robots: AUTH_ROBOTS });
-    expect(careerMeta.robots).toEqual(AUTH_ROBOTS);
+    expect(readSrc("app/career/page.tsx")).not.toContain("AUTH_ROBOTS");
+    const careerMeta = pageMetadata(PAGE_SEO.career);
+    expect(careerMeta.robots).toBeUndefined();
     expect(careerMeta.alternates).toMatchObject({ canonical: "https://yetkin.ai/career" });
   });
 });
@@ -236,14 +236,16 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
   it("sitemap ürün odaları, iletişim/yasal ve yayın kurslarını doğru öncelikle basar", async () => {
     vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://yetkin-ai.vercel.app");
     const { default: sitemap } = await import("@/app/sitemap");
-    const entries = sitemap();
+    const entries = await sitemap();
     const byPath = new Map(entries.map((entry) => [sitemapPathname(entry.url), entry]));
 
     expect(PRODUCT_ROOM_PATHS).toEqual(["/academy", "/career"]);
-    for (const path of ["/", "/academy", "/academy/dogrula", "/vize", "/legal", "/iletisim", "/hakkimizda"]) {
+    expect(byPath.has("/")).toBe(false);
+    for (const path of ["/academy", "/academy/dogrula", "/vize", "/legal", "/iletisim", "/hakkimizda"]) {
       expect(byPath.has(path), path).toBe(true);
     }
-    expect(byPath.has("/career")).toBe(false);
+    expect(byPath.has("/career")).toBe(true);
+    expect(byPath.get("/career")?.priority).toBe(0.9);
 
     const published = publishedCoursesFromSeed().filter((row) => row.isPublished);
     expect(published.length).toBe(ACADEMY_GROWTH_SKU_SLUGS.length);
@@ -262,7 +264,6 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
       expect(byPath.has(`/academy/courses/${row.slug}`), `/academy/courses/${row.slug}`).toBe(false);
     }
 
-    expect(byPath.get("/")?.priority).toBe(1);
     expect(byPath.get("/academy")?.priority).toBe(1);
     expect(sitemapRoutePolicy("/career").priority).toBe(0.9);
     expect(byPath.has("/academy/02_ecommerce_ai"), "/academy/02_ecommerce_ai").toBe(true);
@@ -301,14 +302,14 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     const { default: robots } = await import("@/app/robots");
     const rules = robots().rules;
     const rule = Array.isArray(rules) ? rules[0] : rules;
-    expect(SITEMAP_STATIC_PATHS).toEqual(["/", "/academy", "/academy/dogrula", "/vize"]);
-    expect(SITEMAP_STATIC_PATHS).not.toContain("/career");
+    expect(SITEMAP_STATIC_PATHS).toEqual(["/academy", "/career", "/academy/dogrula", "/vize"]);
+    expect(SITEMAP_STATIC_PATHS).not.toContain("/");
     expect(rule?.allow).toEqual(expect.arrayContaining([...SITEMAP_STATIC_PATHS, "/legal"]));
-    expect(rule?.allow).toEqual(expect.arrayContaining(["/academy", "/vize"]));
-    expect(rule?.allow ?? []).not.toContain("/career");
+    expect(rule?.allow).toEqual(expect.arrayContaining(["/academy", "/career", "/vize"]));
     expect(rule?.disallow).toEqual(expect.arrayContaining([...ROBOTS_DISALLOW_PATHS]));
     expect(rule?.disallow).toEqual(expect.arrayContaining([...ROBOTS_DISALLOW_AUTH_REDIRECTS]));
-    expect(isRobotsDisallowedPath("/career")).toBe(true);
+    expect(isRobotsDisallowedPath("/career")).toBe(false);
+    expect(isRobotsDisallowedPath("/kariyer")).toBe(true);
     expect(isRobotsDisallowedPath("/academy/01_office_ai/oyna")).toBe(true);
     expect(isRobotsDisallowedPath("/academy/01_office_ai")).toBe(false);
     expect(isRobotsDisallowedPath("/profil")).toBe(true);

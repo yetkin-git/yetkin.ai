@@ -1,4 +1,5 @@
 import { isFreelancerPublicSurfaceLocked } from "@/lib/kernel/compliance/circuit-breakers";
+import { PublicHomePanel } from "@/components/dashboard/public-home-panel";
 import { FreelancerPulseWidget } from "@/components/dashboard/freelancer-pulse-widget";
 import { AcademyPulseWidget } from "@/components/dashboard/academy-pulse-widget";
 import { CareerPulseWidget } from "@/components/dashboard/career-pulse-widget";
@@ -7,13 +8,21 @@ import { DashboardPulseProvider } from "@/components/dashboard/dashboard-pulse-p
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { emptyDashboardPulse, loadDashboardPulse } from "@/app/api/dashboard/pulse/load";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
-import { requirePageSession } from "@/lib/kernel/auth/session";
+import { getSession, requirePageSession } from "@/lib/kernel/auth/session";
 import { loadIdentityBoard } from "@/lib/kernel/identity/load";
 
 /** RSC nabız+kimlik; Hobby 10s tavanı bağlar. */
 export const maxDuration = 15;
 
 export default async function DashboardPage() {
+  const session = await getSession();
+  if (!session) {
+    return <PublicHomePanel />;
+  }
+  return <SignedInDashboard />;
+}
+
+async function SignedInDashboard() {
   const copy = SEN_VOICE.dashboard;
   const session = await requirePageSession();
   const [board, pulse] = await Promise.all([

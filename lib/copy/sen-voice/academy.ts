@@ -16,6 +16,8 @@ export const ACADEMY_SEN = {
     cardCtaOpen: "Eğitimi Gör",
     /** Vitrin kartı — satın alma yokken birincil eylem. Fiyat butonda yazılmaz. */
     cardCtaBuy: "Satın Al",
+    /** Vitrin kartı — ilk ders herkese açık. Doğrudan oynatıcı. */
+    cardCtaFreePreview: "► 1. Dersi Ücretsiz İzle",
     /** PEDAGOJI §D — kardeş kabuk; satın alma ve hayali oynatıcı yok. */
     cardCtaComingSoon: "Çok Yakında",
     /** Vitrin kartı — DURUM A fiyatlı birincil eylem (antre; kartta kullanılmaz). */
@@ -62,8 +64,10 @@ export const ACADEMY_SEN = {
     comingSoonMeta: "Hazırlanıyor",
     /** Mühürlü amiral SKU — vitrin durum rozeti. */
     liveBadge: "Yayında",
-    /** Ofis eğitimi 1. bölüm — vitrin süre satırı. */
+    /** Oynatıcı ders satırı — o dersin gerçek süresi. Katalog kartı bunu basmaz. */
     cardMetaAudio: (minutes: number) => `${minutes} dk · Sesli Anlatım`,
+    /** Katalog kartı — ders adedi ve format. Sabit dakika yok. */
+    cardMetaNarration: (lessons: number) => `${lessons} Ders • Sesli Anlatım`,
     /** Antre hero kimlik şeridi — Temel Seviye · OFF-101. */
     heroLevelIdentity: (level?: string | null, moduleCode?: string | null) => {
       const raw = level?.trim() ?? "";
@@ -278,7 +282,10 @@ export const ACADEMY_SEN = {
     catalogCta: "Eğitime dön",
     locked: "Ödeme alınmadan ders içeriği açılmaz.",
     lockedBody: "Dersler ödeme sonrası açılır. Eğitimi kurs sayfasından başlat.",
-    funnelTitle: "Eğitimin Tüm Derslerini Aç ve Sertifika Al",
+    funnelTitle: "Eğitimin Tamamına Erişim Sağla ve Sertifika Al",
+    funnelCta: (priceLabel: string) =>
+      `Eğitimin Tamamına Erişim Sağla ve Sertifika Al — Satın Al ${priceLabel}`,
+    funnelDismiss: "Kapat",
     funnelLead: "İlk ders ücretsiz açık. Kalan dersler ve sertifika ödeme sonrası açılır.",
     progress: (done: number, total: number) => `${done} / ${total} ders tamam`,
     cardProgress: (current: number, total: number) => `${current} / ${total} Ders`,

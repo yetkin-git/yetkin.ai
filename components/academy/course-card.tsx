@@ -10,7 +10,6 @@ import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
 import { academyCatalogSummaryBySlug } from "@/lib/academy/catalog-summaries";
 import {
   ACADEMY_COURSE_COVER_SIZES,
-  ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN,
   academyCourseCoverPath,
   academyCourseHasCinemaCover,
   academyCourseIsComingSoon,
@@ -30,7 +29,8 @@ export type CourseCardSurface = "catalog" | "library";
 
 /**
  * Akademi kurs kartı — dürüst bilgi bloku: başlık, meta, fiyat *veya* erişim mührü.
- * Kartın tamamı tık. CTA satın alma durumuna bağlıdır.
+ * Satın alınmamış ve ilk dersi açık kartta yeşil düğme oynatıcıya gider.
+ * Satın alma fiyat etiketinin yanında ikincil kalır.
  */
 export function CourseCard({
   course,
@@ -51,7 +51,7 @@ export function CourseCard({
   layout?: AcademyCatalogViewMode;
   lessonCount?: number;
   learnerStatus?: AcademyCatalogLearnerStatus;
-  /** Amiral SKU — vitrinde daha geniş kart ve üç satır özet. */
+  /** Amiral SKU — aynı ebatta kart; ince çerçeve ve üç satır özet. */
   featured?: boolean;
   /** Satın alınmış eğitim — Super Admin lab overlay vitrinde owned basabilir; nakit değildir. */
   owned?: boolean;
@@ -97,6 +97,10 @@ export function CourseCard({
     rosterCount > sealedLessonCount;
   const partialNarrationLabel = ACADEMY_SEN.catalog.sealedLessonBadge(sealedLessonCount, rosterCount);
   const hasAudio = sealedAudio || academyCourseHasCinemaCover(course.slug);
+  const narrationMeta =
+    rosterCount > 0
+      ? ACADEMY_SEN.catalog.cardMetaNarration(rosterCount)
+      : ACADEMY_SEN.catalog.narrationBadge;
   const audioBadge = comingSoon ? (
     <span
       data-academy-coming-soon-badge=""
@@ -119,16 +123,8 @@ export function CourseCard({
   ) : hasAudio ? (
     <span
       data-academy-audio-badge=""
-      title={
-        sealedAudio
-          ? ACADEMY_SEN.catalog.audioBadgeHint
-          : ACADEMY_SEN.catalog.cardMetaAudio(ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN)
-      }
-      aria-label={
-        sealedAudio
-          ? ACADEMY_SEN.catalog.audioBadgeHint
-          : ACADEMY_SEN.catalog.cardMetaAudio(ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN)
-      }
+      title={sealedAudio ? ACADEMY_SEN.catalog.audioBadgeHint : narrationMeta}
+      aria-label={sealedAudio ? ACADEMY_SEN.catalog.audioBadgeHint : narrationMeta}
       className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[var(--safir-soft)] px-2 py-0.5 text-[10px] font-semibold tracking-wide text-[var(--safir-deep)] ring-1 ring-inset ring-[var(--safir-soft)]"
     >
       <IconVolume className="h-3 w-3" />
@@ -150,17 +146,17 @@ export function CourseCard({
     : partialNarration
       ? partialNarrationLabel
       : hasAudio
-        ? ACADEMY_SEN.catalog.cardMetaAudio(ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN)
+        ? narrationMeta
         : ACADEMY_SEN.catalog.cardMeta(lessonCount);
   const hitAriaExtra = comingSoon
     ? ACADEMY_SEN.catalog.comingSoonHint
     : partialNarration
       ? partialNarrationLabel
       : sealedAudio
-      ? ACADEMY_SEN.catalog.audioBadgeHint
-      : hasAudio
-        ? ACADEMY_SEN.catalog.cardMetaAudio(ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN)
-        : ACADEMY_SEN.catalog.articleBadgeHint;
+        ? ACADEMY_SEN.catalog.audioBadgeHint
+        : hasAudio
+          ? narrationMeta
+          : ACADEMY_SEN.catalog.articleBadgeHint;
   const favoriteButton =
     !isLibrary && onToggleFavorite ? (
       <button
@@ -216,6 +212,8 @@ export function CourseCard({
       meta={cardMeta}
       href={storefront.href || undefined}
       cta={storefront.cta}
+      secondaryHref={storefront.secondaryHref || undefined}
+      secondaryCta={storefront.secondaryCta || undefined}
       ctaDisabled={storefront.ctaDisabled}
       ctaSize="md"
       ctaVariant={
@@ -235,6 +233,7 @@ export function CourseCard({
       extraBadge={chrome}
       hitAriaExtra={hitAriaExtra}
       className={cn(
+        "h-full flex flex-col",
         featured &&
           "ring-1 ring-[color-mix(in_srgb,var(--safir)_42%,transparent)] bg-[color-mix(in_srgb,var(--safir-soft)_55%,var(--surface))]",
       )}

@@ -33,10 +33,21 @@ export type SealedPriceDecision = {
   createdAt: Date;
 };
 
+export type AcademyCoursePublishRow = {
+  slug: string;
+  unitKey: string;
+  isPublished: boolean;
+};
+
 export type AdminCatalogBoard =
   | { access: "forbidden" }
   | { access: "unavailable" }
-  | { access: "ok"; entries: SealedCatalogEntry[]; decisions: SealedPriceDecision[] };
+  | {
+      access: "ok";
+      entries: SealedCatalogEntry[];
+      decisions: SealedPriceDecision[];
+      coursePublish: AcademyCoursePublishRow[];
+    };
 
 export type CatalogModuleGroup = {
   moduleKey: string;
@@ -45,6 +56,7 @@ export type CatalogModuleGroup = {
 
 export const ADMIN_SURFACE_PATH = "/admin" as const;
 export const CATALOG_WRITE_PATH = "/api/admin/catalog" as const;
+export const COURSE_PUBLISH_PATH = "/api/admin/catalog/publish" as const;
 export const FUNNEL_READ_PATH = "/api/admin/funnel" as const;
 /** Admin sığınak yönlendirmeleri — canlı CTA hedefleri. */
 export const ADMIN_DASHBOARD_SHELTER_PATH = "/dashboard" as const;

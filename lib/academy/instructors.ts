@@ -8,6 +8,7 @@
  */
 
 import { YETKIN_BRAND } from "@/lib/copy/brand";
+import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
 import { academyBakeVoiceModelId } from "@/lib/kernel/ai/model-roles";
 import {
   academyCourseTitleBySlug,
@@ -200,7 +201,15 @@ export type AcademyDialogueCast = {
  * OFF-101 hakemi Gözde (Callirrhoe) kalır. OFF-201 hakemi Aylin (Kore) dir.
  * OFF-201 hakemi Gözde olamaz. Ders anahtarına ses yazılamaz.
  */
-export const ACADEMY_OFF201_COURSE_MASTER_VOICE = "Kore" as const satisfies AcademyInstructorTtsVoice;
+function courseRegistryVoice(slug: string): AcademyInstructorTtsVoice {
+  const voice = COURSE_REGISTRY.find((row) => row.slug === slug)?.voice;
+  if (!voice || !(ACADEMY_INSTRUCTOR_TTS_VOICES as readonly string[]).includes(voice)) {
+    throw new Error(`Kurs ses mührü yok: ${slug}`);
+  }
+  return voice as AcademyInstructorTtsVoice;
+}
+
+export const ACADEMY_OFF201_COURSE_MASTER_VOICE = courseRegistryVoice("01_office_ai_ileri");
 
 /**
  * EC-102 kurs mührü. 1 Eğitim Kodu = 1 Ses.
@@ -208,7 +217,7 @@ export const ACADEMY_OFF201_COURSE_MASTER_VOICE = "Kore" as const satisfies Acad
  * Erkek ses yuvası Puck'tır. Kart hitabı «Kaan Bey». Usta unvanı bu kursta yoktur.
  * Zephyr sicil adı Deniz'dir; Aoede sicil adı Selin'dir. EC-102 o ağızlara bağlanmaz.
  */
-export const ACADEMY_EC102_COURSE_MASTER_VOICE = "Puck" as const satisfies AcademyInstructorTtsVoice;
+export const ACADEMY_EC102_COURSE_MASTER_VOICE = courseRegistryVoice("02_ecommerce_ai");
 
 export function academyEcommerceBakeVoice(): AcademyInstructorTtsVoice {
   return ACADEMY_EC102_COURSE_MASTER_VOICE;
@@ -406,28 +415,17 @@ export const ACADEMY_INSTRUCTORS_BY_VOICE: Record<AcademyInstructorTtsVoice, Aca
   },
 };
 
-/** SKU → ses. İsim sesten okunur; sluga ikinci isim yazılmaz. */
-export const ACADEMY_INSTRUCTOR_VOICE_BY_SLUG: Record<
-  AcademyCourseTitleSlug,
-  AcademyInstructorTtsVoice
-> = {
-  "01_office_ai": "Callirrhoe",
-  "02_ecommerce_ai": ACADEMY_EC102_COURSE_MASTER_VOICE,
-  /** SM-103 anlatıcısı Selin. Ağzı Aoede'dir. */
-  "03_social_media_ai": "Aoede",
-  /** BOT-104 anlatıcısı Mert. Ağzı Achird'dir (erkek). Zephyr Google kataloğunda kadındır; bu kursa bağlanmaz. */
-  "04_chatbot_nocode": "Achird",
-  /** PR-105 anlatıcısı Oğuz. Ağzı Fenrir'dir. Sicil adı Boran kalır. */
-  "05_prompt_practice": "Fenrir",
-  "06_n8n_automation": "Zephyr",
-  "07_langgraph_agents": "Fenrir",
-  "08_production_rag": "Erinome",
-  "09_nextjs_ai": "Puck",
-  "10_data_analytics_ai": "Aoede",
-  "11_llm_redteam": "Fenrir",
-  "12_onprem_finetune": "Puck",
-  "13_ai_governance": "Leda",
-};
+/**
+ * SKU → ses. İsim sesten okunur; sluga ikinci isim yazılmaz.
+ * Ağız `course-registry.ts` kartındaki `voice` alanından okunur.
+ * SM-103 anlatıcısı Selin. Ağzı Aoede'dir.
+ * BOT-104 anlatıcısı Mert. Ağzı Achird'dir (erkek). Zephyr Google kataloğunda kadındır; bu kursa bağlanmaz.
+ * PR-105 anlatıcısı Oğuz. Ağzı Fenrir'dir. Sicil adı Boran kalır.
+ * EC-102 anlatıcısı Kaan'dır. Ağzı Puck'tır.
+ */
+export const ACADEMY_INSTRUCTOR_VOICE_BY_SLUG = Object.fromEntries(
+  COURSE_REGISTRY.filter((row) => row.canon).map((row) => [row.slug, courseRegistryVoice(row.slug)]),
+) as Record<AcademyCourseTitleSlug, AcademyInstructorTtsVoice>;
 
 export function academyInstructorGenderToTtsVoiceGender(
   gender: AcademyInstructorGender,

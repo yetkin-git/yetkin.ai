@@ -47,6 +47,7 @@ export default async function AdminPage({
       : [null, null];
   const entries = board?.access === "ok" ? board.entries : [];
   const decisions = board?.access === "ok" ? board.decisions : [];
+  const coursePublish = board?.access === "ok" ? board.coursePublish : [];
   const live = board?.access === "ok";
   const off201PriceUnset = live && !off201CatalogPriceIsSet(entries);
   const copy = SEN_VOICE.admin;
@@ -117,7 +118,7 @@ export default async function AdminPage({
           <AdminShelterActions soft />
           <AdminFunnelBoard board={funnel} range={funnelRange} />
           <AdminAuditChambers />
-          <AdminCatalogList entries={[]} showEmptyActions={false} />
+          <AdminCatalogList entries={[]} coursePublish={coursePublish} showEmptyActions={false} />
         </div>
       ) : (
         <div className="space-y-4">
@@ -137,7 +138,7 @@ export default async function AdminPage({
           <AdminFunnelBoard board={funnel} range={funnelRange} />
           <AdminAuditChambers />
           <AdminPriceDecisionLedger decisions={decisions} />
-          <AdminCatalogList entries={entries} />
+          <AdminCatalogList entries={entries} coursePublish={coursePublish} />
         </div>
       )}
       <Card variant="ink" title={copy.honestyTitle} bodyClassName="text-white/70">

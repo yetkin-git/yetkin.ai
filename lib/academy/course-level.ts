@@ -11,6 +11,7 @@
  */
 
 import type { AcademyCourseTitleSlug } from "@/lib/academy/course-titles";
+import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
 
 /** Yaygın yol haritası ve isteğe bağlı teknik paket etiketleri — anayasal zorunluluk veya kapalı enum değildir. */
 export const ACADEMY_COURSE_LEVELS = ["Temel", "Orta", "İleri"] as const;
@@ -76,21 +77,9 @@ export function resolveAcademySeedMoney(input: {
   return { amountMinor, minMinor, maxMinor };
 }
 
-export const ACADEMY_COURSE_LEVEL_BY_SLUG: Record<AcademyCourseTitleSlug, AcademyCourseLevel> = {
-  "01_office_ai": "Temel",
-  "02_ecommerce_ai": "Temel",
-  "03_social_media_ai": "Temel",
-  "04_chatbot_nocode": "Masterclass",
-  "05_prompt_practice": "Masterclass",
-  "06_n8n_automation": "Orta",
-  "07_langgraph_agents": "Orta",
-  "08_production_rag": "Orta",
-  "09_nextjs_ai": "Orta",
-  "10_data_analytics_ai": "Orta",
-  "11_llm_redteam": "İleri",
-  "12_onprem_finetune": "İleri",
-  "13_ai_governance": "İleri",
-};
+export const ACADEMY_COURSE_LEVEL_BY_SLUG = Object.fromEntries(
+  COURSE_REGISTRY.filter((row) => row.canon).map((row) => [row.slug, row.level]),
+) as Record<AcademyCourseTitleSlug, AcademyCourseLevel>;
 
 function academyCommonLevelFromSlugSuffix(slug: string): string | null {
   if (slug.endsWith("-ileri")) {

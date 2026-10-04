@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import type { Route } from "next";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -87,6 +88,7 @@ export function CurriculumPlayer({
   curriculumComplete,
   workTasksComplete,
   paywallLocked = false,
+  paywallPriceLabel = null,
   freePreviewAudio = null,
 }: {
   courseId: string;
@@ -98,6 +100,8 @@ export function CurriculumPlayer({
   workTasksComplete?: boolean;
   /** Satın alma yok — ders 1 ve hazırlık şeridi açık, ders 2+ ödeme duvarında. */
   paywallLocked?: boolean;
+  /** Duvar düğmesindeki tutar. Yoksa fiyatsız başlık basılır. */
+  paywallPriceLabel?: string | null;
   /** Ders 1 imzalı sesi. Oturumsuz vitrin grant API çağırmaz. */
   freePreviewAudio?: Readonly<Record<string, { src: string; bedSrc?: string | null }>> | null;
 }) {
@@ -568,7 +572,6 @@ export function CurriculumPlayer({
                   }
                   if (rowLocked) {
                     setFunnelOpen(true);
-                    selectLesson(lesson.key, { autoStart: false });
                     return;
                   }
                   selectLesson(lesson.key, { autoStart: true });
@@ -632,11 +635,29 @@ export function CurriculumPlayer({
               <PrepStripPanel strip={prepStrip} done={prepDone} courseSlug={courseSlug} />
             ) : null}
 
-            {lessonPaywalled && active ? (
-              <SalesFunnelCard courseSlug={courseSlug} lessonKey={active.key} />
+            {lessonPaywalled || funnelOpen ? (
+              <SalesFunnelModal
+                courseSlug={courseSlug}
+                lessonKey={lessonPaywalled ? active?.key : undefined}
+                priceLabel={paywallPriceLabel}
+                onClose={() => {
+                  setFunnelOpen(false);
+                  if (
+                    active &&
+                    isAcademyPlayerPaywallLessonLocked(courseSlug, active.key, paywallLocked)
+                  ) {
+                    const free = lessons.find(
+                      (lesson) =>
+                        lesson.open &&
+                        !isAcademyPlayerPaywallLessonLocked(courseSlug, lesson.key, paywallLocked),
+                    );
+                    if (free) {
+                      selectLesson(free.key, { autoStart: false });
+                    }
+                  }
+                }}
+              />
             ) : null}
-
-            {funnelOpen && !lessonPaywalled ? <SalesFunnelCard courseSlug={courseSlug} /> : null}
 
             {karaoke && active && !lessonMediaBlocked ? (
               <section
@@ -765,7 +786,7 @@ export function CurriculumPlayer({
                       data-academy-paywall-cta=""
                       data-academy-sales-funnel-cta=""
                     >
-                      {copy.funnelTitle}
+                      {paywallPriceLabel ? copy.funnelCta(paywallPriceLabel) : copy.funnelTitle}
                     </LinkButton>
                   ) : examOpen && !prepActive ? (
                     <LinkButton
@@ -808,38 +829,82 @@ export function CurriculumPlayer({
   );
 }
 
-function SalesFunnelCard({
+function SalesFunnelModal({
   courseSlug,
   lessonKey,
+  priceLabel,
+  onClose,
 }: {
   courseSlug: string;
   lessonKey?: string;
+  priceLabel?: string | null;
+  onClose: () => void;
 }) {
   const copy = ACADEMY_SEN.player;
-  return (
-    <section
-      className="academy-player-study min-h-[18rem] rounded-2xl border border-[var(--safir)]/35 bg-white px-5 py-8 shadow-[var(--shadow-card)] sm:px-8"
-      data-academy-sales-funnel=""
-      data-academy-paywall={lessonKey ? "locked" : undefined}
-      data-academy-paywall-lesson={lessonKey}
+  const titleId = useId();
+  const actionLabel = priceLabel ? copy.funnelCta(priceLabel) : copy.funnelTitle;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  if (!mounted) {
+    return null;
+  }
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-40 flex items-end justify-center bg-[color-mix(in_srgb,var(--surface-ink)_45%,transparent)] p-4 sm:items-center"
+      onClick={onClose}
+      role="presentation"
     >
-      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--safir-deep)]">
-        {copy.locked}
-      </p>
-      <h3 className="mt-2 max-w-xl text-xl font-semibold tracking-tight text-slate-900">
-        {copy.funnelTitle}
-      </h3>
-      <p className="mt-3 max-w-xl text-[15px] leading-7 text-slate-700">{copy.funnelLead}</p>
-      <div className="mt-5">
-        <LinkButton
-          href={academyCheckoutHref(courseSlug) as Route}
-          size="sm"
-          data-academy-paywall-cta=""
-          data-academy-sales-funnel-cta=""
-        >
+      <section
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        className="w-full max-w-lg rounded-2xl border border-[var(--safir)]/35 bg-white px-5 py-8 shadow-[var(--shadow-card)] sm:px-8"
+        data-academy-sales-funnel=""
+        data-academy-paywall={lessonKey ? "locked" : undefined}
+        data-academy-paywall-lesson={lessonKey}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--safir-deep)]">
+          {copy.locked}
+        </p>
+        <h3 id={titleId} className="mt-2 max-w-xl text-xl font-semibold tracking-tight text-slate-900">
           {copy.funnelTitle}
-        </LinkButton>
-      </div>
-    </section>
+        </h3>
+        <p className="mt-3 max-w-xl text-[15px] leading-7 text-slate-700">{copy.funnelLead}</p>
+        <div className="mt-5 flex flex-wrap items-center gap-2">
+          <LinkButton
+            href={academyCheckoutHref(courseSlug) as Route}
+            size="sm"
+            data-academy-paywall-cta=""
+            data-academy-sales-funnel-cta=""
+          >
+            {actionLabel}
+          </LinkButton>
+          <button
+            type="button"
+            className="min-h-10 rounded-full px-4 text-[13px] font-medium text-slate-600"
+            onClick={onClose}
+          >
+            {copy.funnelDismiss}
+          </button>
+        </div>
+      </section>
+    </div>,
+    document.body,
   );
 }

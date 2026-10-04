@@ -107,7 +107,7 @@ const nextConfig: NextConfig = {
     }));
     return [
       // `/kariyer`, `/profile`, `/passport` next.config'te yok: ara oda ikinci hop
-      // (`/career` → giriş) üretirdi. Kenar tek hop basar (`AUTH_PATH_ALIASES`).
+      // üretirdi. Kenar tek hop basar (`AUTH_PATH_ALIASES`).
       { source: "/ogren", destination: "https://yetkin.ai/academy", permanent: true },
       { source: "/giris", destination: "https://yetkin.ai/login", permanent: true },
       // §2.5 vatandaş çifti — CEO tedavi kilidi: 8 tavanına /kayit eklenir.
@@ -180,10 +180,18 @@ const nextConfig: NextConfig = {
         destination: "https://yetkin.ai/vize/:id",
         statusCode: 301,
       },
+      // CEO: soğuk iniş kalkar. www kökü tek hopta kanonik kataloğa iner.
       {
         source: "/",
         has: [{ type: "host", value: "www.yetkin.ai" }],
-        destination: "https://yetkin.ai/",
+        destination: "https://yetkin.ai/academy",
+        permanent: true,
+      },
+      // Apex ve yerel geliştirme aynı hostta kalır (`localhost` üretime kaçmaz).
+      // www kuralı önde durur; bu kural www'yu ikinci hopa bırakmaz.
+      {
+        source: "/",
+        destination: "/academy",
         permanent: true,
       },
       {

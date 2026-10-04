@@ -8,7 +8,8 @@ import {
   academyLessonBedPlaybackSrc,
   isAcademyLessonBedSealed,
 } from "@/lib/academy/lesson-audio";
-import { withAcademyAudioGrant } from "@/lib/academy/lesson-audio-grant";
+import { ensureAcademySealedStorageSigner } from "@/lib/academy/academy-sealed-storage";
+import { resolveAcademyMediaRead, withAcademyAudioGrant } from "@/lib/academy/lesson-audio-grant";
 import {
   academyPrepStripForSlug,
   isAcademyPrepStripAudioSealed,
@@ -36,7 +37,9 @@ function lessonAudioEligible(courseSlug: string, lessonKey: string): boolean {
 
 /**
  * Satın alınmış dersin kısa ömürlü ses adresi.
- * Dosyanın kendisi kenarda aynı imzayı ister; bu yanıt dosyayı taşımaz.
+ * Satın alma yoksa 403. Adres üretilemezse 503; başka dersin sesi konmaz.
+ * local: kenar aynı imzayı ister. storage: özel kovanın 4 saatlik adresi.
+ * Bu yanıt dosyanın kendisini taşımaz.
  */
 export async function GET(
   request: Request,
@@ -69,14 +72,21 @@ export async function GET(
     if (!lessonAudioEligible(course.slug, lessonKey)) {
       return jsonFail("Bu dersin sesi henüz yok.", 404, undefined, request);
     }
+    if (resolveAcademyMediaRead(process.env) === "storage") {
+      ensureAcademySealedStorageSigner();
+    }
     const src = await withAcademyAudioGrant(academyLessonAudioPlaybackSrc(course.slug, lessonKey));
     if (!src) {
       return jsonFail("Ders sesi şu an açılamıyor.", 503, undefined, request);
     }
-    const bedSrc =
-      isAcademyLessonBedSealed(course.slug, lessonKey) && !academyLessonBedIsHardMixed(lessonKey)
-        ? await withAcademyAudioGrant(academyLessonBedPlaybackSrc(course.slug, lessonKey))
-        : null;
+    const bedNeeded =
+      isAcademyLessonBedSealed(course.slug, lessonKey) && !academyLessonBedIsHardMixed(lessonKey);
+    const bedSrc = bedNeeded
+      ? await withAcademyAudioGrant(academyLessonBedPlaybackSrc(course.slug, lessonKey))
+      : null;
+    if (bedNeeded && !bedSrc) {
+      return jsonFail("Ders sesi şu an açılamıyor.", 503, undefined, request);
+    }
     return jsonOk({ src, bedSrc }, 200, undefined, request);
   } catch (error) {
     return jsonFromUnknown(error);

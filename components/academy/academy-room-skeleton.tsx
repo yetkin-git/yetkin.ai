@@ -106,10 +106,15 @@ export function AcademyRoomSkeleton({
             <Pulse className="h-10 w-28 rounded-xl" />
           </div>
         </div>
-        <ul className="grid gap-4 md:grid-cols-3" data-academy-skeleton-grid="">
-          <li className="md:col-span-3">
-            <Pulse className="h-40 rounded-[var(--radius-card)] border border-dashed border-[var(--border)] bg-[var(--surface)]" />
-          </li>
+        <ul
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          data-academy-skeleton-grid=""
+        >
+          {Array.from({ length: 6 }, (_, index) => (
+            <li key={index} className="h-full flex flex-col justify-between">
+              <Pulse className="h-[40rem] w-full rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
+            </li>
+          ))}
         </ul>
       </div>
     </RoomFrame>

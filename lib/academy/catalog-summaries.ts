@@ -1,34 +1,31 @@
 /**
  * Vitrin kart özeti — client-safe SSOT.
- * Amiral 1. bölüm taze ingest; kardeş SKU şeffaf Yakında şablonuna düşer.
+ * Cümle `course-registry.ts` kartındaki `summary` alanından okunur.
  * T-02 — amiral özeti mührü 8 ders + 10 soru / 70 olarak tanımlar; sunucu dosya kontrolü yoktur.
  */
 
+import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
 import { PROMPT_PRACTICE_SUBTITLE, type AcademyCourseTitleSlug } from "@/lib/academy/course-titles";
 import { OFFICE_AI_SEAL_PROOF_SHORT } from "@/lib/copy/sem-keywords";
 
-export const ACADEMY_COMING_SOON_SUMMARY =
-  "Hazırlanıyor. Compact müfredat, kapak ve sınav kapısı yakında basılır; satın alma tek başına belge üretmez.";
+const shellSummary = COURSE_REGISTRY.find((row) => row.slug === "06_n8n_automation")?.summary;
+if (!shellSummary) {
+  throw new Error("Hazırlanıyor özeti kartta yok.");
+}
 
-export const ACADEMY_CATALOG_SUMMARIES: Record<AcademyCourseTitleSlug, string> = {
-  "01_office_ai":
-    `İş hayatında yapay zekâ: Excel Copilot ve Ataş Yöntemi, A1 Düzeni ve Temiz Veri, yönetim özetine dönüştürme, Gmail'de yerleşik Gemini, Word belgesi inceleme, KVKK maskeleme ve haftalık Cuma rutini. ${OFFICE_AI_SEAL_PROOF_SHORT}`,
-  "02_ecommerce_ai":
-    "Pazaryeri vitrini: ürün yazısı, fotoğraf, yorum, fiyat, toplu açıklama ve mağaza mesajı. Altı ders seslidir. Sınav barajı 70'tir.",
-  "03_social_media_ai":
-    "Sosyal medya görseli ve kısa video: künye, istem, tek stil ve yayından önce kontrol. Altı ders seslidir. Sınav barajı 70'tir.",
-  "04_chatbot_nocode":
-    "Kodsuz müşteri asistanı: WhatsApp ve web sohbet akışı, randevu ve teslim seti. Altı ders seslidir. Sınav barajı 70'tir.",
-  "05_prompt_practice": `${PROMPT_PRACTICE_SUBTITLE}. Altı ders seslidir. Sınav barajı 70'tir.`,
-  "06_n8n_automation": ACADEMY_COMING_SOON_SUMMARY,
-  "07_langgraph_agents": ACADEMY_COMING_SOON_SUMMARY,
-  "08_production_rag": ACADEMY_COMING_SOON_SUMMARY,
-  "09_nextjs_ai": ACADEMY_COMING_SOON_SUMMARY,
-  "10_data_analytics_ai": ACADEMY_COMING_SOON_SUMMARY,
-  "11_llm_redteam": ACADEMY_COMING_SOON_SUMMARY,
-  "12_onprem_finetune": ACADEMY_COMING_SOON_SUMMARY,
-  "13_ai_governance": ACADEMY_COMING_SOON_SUMMARY,
-};
+export const ACADEMY_COMING_SOON_SUMMARY = shellSummary;
+
+export const ACADEMY_CATALOG_SUMMARIES = Object.fromEntries(
+  COURSE_REGISTRY.filter((row) => row.canon).map((row) => [row.slug, row.summary]),
+) as Record<AcademyCourseTitleSlug, string>;
+
+if (!ACADEMY_CATALOG_SUMMARIES["01_office_ai"].includes(OFFICE_AI_SEAL_PROOF_SHORT)) {
+  throw new Error("Amiral özeti mühür cümlesini taşımıyor.");
+}
+
+if (!ACADEMY_CATALOG_SUMMARIES["05_prompt_practice"].startsWith(PROMPT_PRACTICE_SUBTITLE)) {
+  throw new Error("PR-105 özeti alt tanımla açılmıyor.");
+}
 
 export function academyCatalogSummaryBySlug(slug: string): string | undefined {
   return ACADEMY_CATALOG_SUMMARIES[slug as AcademyCourseTitleSlug];

@@ -6,6 +6,7 @@ import { getPrisma } from "@/lib/kernel/db";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { parseCurrencyCode } from "@/lib/kernel/money/currency";
 import type {
+  AcademyCoursePublishRow,
   AdminCatalogBoard,
   SealedCatalogEntry,
   SealedPriceDecision,
@@ -54,6 +55,19 @@ async function findPriceCatalogEntries(): Promise<SealedCatalogEntry[]> {
   }));
 }
 
+async function findAcademyCoursePublish(): Promise<AcademyCoursePublishRow[]> {
+  const prisma = getPrisma();
+  const rows = await prisma.academyCourse.findMany({
+    orderBy: { slug: "asc" },
+    select: { slug: true, catalogUnitKey: true, isPublished: true },
+  });
+  return rows.map((row) => ({
+    slug: row.slug,
+    unitKey: row.catalogUnitKey,
+    isPublished: row.isPublished,
+  }));
+}
+
 async function findPriceDecisions(): Promise<SealedPriceDecision[]> {
   const prisma = getPrisma();
   const rows = await prisma.priceCatalogDecisionLedger.findMany({
@@ -90,11 +104,12 @@ export async function loadAdminCatalogBoard(actor: SuperAdminActor): Promise<Adm
   }
 
   try {
-    const [entries, decisions] = await Promise.all([
+    const [entries, decisions, coursePublish] = await Promise.all([
       findPriceCatalogEntries(),
       findPriceDecisions(),
+      findAcademyCoursePublish(),
     ]);
-    return { access: "ok", entries, decisions };
+    return { access: "ok", entries, decisions, coursePublish };
   } catch {
     return { access: "unavailable" };
   }
