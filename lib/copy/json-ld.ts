@@ -9,10 +9,13 @@ import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { LEGAL_ENTITY, LEGAL_PAGE_TITLE, LEGAL_WHATSAPP_HREF } from "@/lib/copy/legal-launch";
 import {
   CANONICAL_SITE_ORIGIN,
+  CHATBOT_NOCODE_SEO,
   ECOMMERCE_AI_SEO,
   OFFICE_AI_ILERI_SEO,
   OFFICE_AI_SEO,
   PAGE_SEO,
+  PROMPT_PRACTICE_SEO,
+  SOCIAL_MEDIA_AI_SEO,
   academyCourseSeoOverride,
   canonicalUrl,
 } from "@/lib/copy/seo";
@@ -138,6 +141,56 @@ export const ECOMMERCE_AI_COURSE_TEACHES = [
   "Mağaza puanı ve müşteri mesajı",
 ] as const;
 
+/** SM-103 altı dersin öğrettiği iş. Antre JSON-LD `teaches` yedeği. */
+export const SOCIAL_MEDIA_AI_COURSE_TEACHES = [
+  "Fikirden künye",
+  "Işık, kadraj ve yüzey",
+  "Aynı dünyadan beş kare",
+  "Üç saniyelik kanca",
+  "Söz, altyazı ve müzik",
+  "Haftalık akış ve dürüst çizgi",
+] as const;
+
+/** BOT-104 altı dersin öğrettiği iş. Antre JSON-LD `teaches` yedeği. */
+export const CHATBOT_NOCODE_COURSE_TEACHES = [
+  "Kaçan mesaj",
+  "Karşılama, soru ve randevu",
+  "WhatsApp bağlantısı",
+  "Yanlış anlama",
+  "Teslim listesi",
+  "İlk deneme",
+] as const;
+
+/** PR-105 altı dersin öğrettiği iş. Antre JSON-LD `teaches` yedeği. */
+export const PROMPT_PRACTICE_COURSE_TEACHES = [
+  "İstem mimarisinin anatomisi",
+  "Rol, bağlam ve biçim",
+  "Zincirleme düşünce",
+  "Kaynak sınırı",
+  "Tablo ve plan",
+  "Günlük istem seti",
+] as const;
+
+/** Antre `Course.teaches` — slug yoksa tanımsız. Uydurma yetkinlik yazılmaz. */
+export function academyCourseTeachesForSlug(slug: string): readonly string[] | undefined {
+  if (slug === OFFICE_AI_SEO.slug) return [...OFFICE_AI_COURSE_TEACHES];
+  if (slug === OFFICE_AI_ILERI_SEO.slug) return [...OFFICE_AI_ILERI_COURSE_TEACHES];
+  if (slug === ECOMMERCE_AI_SEO.slug) return [...ECOMMERCE_AI_COURSE_TEACHES];
+  if (slug === SOCIAL_MEDIA_AI_SEO.slug) return [...SOCIAL_MEDIA_AI_COURSE_TEACHES];
+  if (slug === CHATBOT_NOCODE_SEO.slug) return [...CHATBOT_NOCODE_COURSE_TEACHES];
+  if (slug === PROMPT_PRACTICE_SEO.slug) return [...PROMPT_PRACTICE_COURSE_TEACHES];
+  return undefined;
+}
+
+/** EducationalOccupationalProgram meslek sınıfı. Ofis antreleri «Ofis çalışanı» kalır. */
+export function academyOccupationalCategory(slug: string): string {
+  if (slug === ECOMMERCE_AI_SEO.slug) return "E-ticaret çalışanı";
+  if (slug === SOCIAL_MEDIA_AI_SEO.slug) return "Sosyal medya çalışanı";
+  if (slug === CHATBOT_NOCODE_SEO.slug) return "Müşteri hizmetleri çalışanı";
+  if (slug === PROMPT_PRACTICE_SEO.slug) return "Bilgi çalışanı";
+  return "Ofis çalışanı";
+}
+
 /** SERP title `| yetkin.ai` ile biterse sertifika adı markayı ikinci kez yazmaz. */
 function courseCredentialLabel(title: string): string {
   const brandedSuffix = ` | ${YETKIN_BRAND}`;
@@ -225,15 +278,7 @@ export function courseJsonLd(input: {
     input.priceMinor !== undefined ? input.priceMinor : academyCatalogPriceMinorForSlug(input.slug);
   const price = priceMinor == null ? null : minorToOfferPrice(priceMinor);
   const priceCurrency = input.priceCurrency?.trim() || "TRY";
-  const teaches =
-    input.teaches ??
-    (input.slug === OFFICE_AI_SEO.slug
-      ? [...OFFICE_AI_COURSE_TEACHES]
-      : input.slug === OFFICE_AI_ILERI_SEO.slug
-        ? [...OFFICE_AI_ILERI_COURSE_TEACHES]
-        : input.slug === ECOMMERCE_AI_SEO.slug
-          ? [...ECOMMERCE_AI_COURSE_TEACHES]
-          : undefined);
+  const teaches = input.teaches ?? academyCourseTeachesForSlug(input.slug);
   const keywords = academyCourseSeoOverride(input.slug)?.keywords;
   const lessons =
     input.lessons ??
@@ -362,8 +407,7 @@ export function educationalOccupationalProgramJsonLd(input: {
     image: canonicalUrl(input.imagePath),
     inLanguage: "tr",
     educationalProgramMode: "online",
-    occupationalCategory:
-      input.slug === ECOMMERCE_AI_SEO.slug ? "E-ticaret çalışanı" : "Ofis çalışanı",
+    occupationalCategory: academyOccupationalCategory(input.slug),
     ...(timeToComplete ? { timeToComplete } : {}),
     hasCourse: { "@id": `${url}#course` },
     educationalCredentialAwarded: {

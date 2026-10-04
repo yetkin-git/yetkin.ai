@@ -64,20 +64,16 @@ import { PrepStripTeaser } from "@/components/academy/prep-strip-teaser";
 import { academyPrepStripForSlug } from "@/lib/academy/prep-strip";
 import {
   academyCourseBreadcrumbs,
+  academyCourseTeachesForSlug,
   breadcrumbListJsonLd,
   courseJsonLd,
   educationalOccupationalProgramJsonLd,
   faqPageJsonLd,
   jsonLdDocument,
-  ECOMMERCE_AI_COURSE_TEACHES,
-  OFFICE_AI_COURSE_TEACHES,
-  OFFICE_AI_ILERI_COURSE_TEACHES,
 } from "@/lib/copy/json-ld";
 import {
   academyCourseSeoOverride,
   DEFAULT_OG_IMAGE,
-  ECOMMERCE_AI_SEO,
-  OFFICE_AI_ILERI_SEO,
   OFFICE_AI_SEO,
   pageMetadata,
 } from "@/lib/copy/seo";
@@ -108,7 +104,7 @@ export async function generateMetadata({
   if (!course) {
     notFound();
   }
-  // Canlı yayın SEO — üç amiral antre. Title `| yetkin.ai` ile biter ve mutlak basılır.
+  // Canlı yayın SEO — altı antre. Title `| yetkin.ai` ile biter ve mutlak basılır.
   // Sicil/sertifika başlığı (`course.title`) değişmez; yalnız meta dalı override edilir.
   const seo = academyCourseSeoOverride(course.slug);
   return pageMetadata({
@@ -247,14 +243,7 @@ export default async function AcademyCoursePage({
             datePublished: board.course.createdAt,
             priceMinor: board.course.priceMinor,
             priceCurrency: board.course.currencyCode,
-            teaches:
-              board.course.slug === OFFICE_AI_SEO.slug
-                ? [...OFFICE_AI_COURSE_TEACHES]
-                : board.course.slug === OFFICE_AI_ILERI_SEO.slug
-                  ? [...OFFICE_AI_ILERI_COURSE_TEACHES]
-                  : board.course.slug === ECOMMERCE_AI_SEO.slug
-                    ? [...ECOMMERCE_AI_COURSE_TEACHES]
-                    : undefined,
+            teaches: academyCourseTeachesForSlug(board.course.slug),
             lessons: syllabus.lessons.map((lesson) => ({
               name: lesson.title,
               durationMin: lesson.durationMin,

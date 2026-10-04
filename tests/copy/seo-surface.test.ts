@@ -10,9 +10,14 @@ import { LEGAL_ENTITY, LEGAL_PAGE_TITLE, LEGAL_WHATSAPP_HREF } from "@/lib/copy/
 import { academyVerifyShareMetadata } from "@/lib/academy/certificate-share";
 import { curriculumSyllabusForCourseSlug } from "@/lib/academy/curriculum-syllabus";
 import {
+  CHATBOT_NOCODE_COURSE_TEACHES,
   ECOMMERCE_AI_COURSE_TEACHES,
   OFFICE_AI_COURSE_TEACHES,
   OFFICE_AI_SYLLABUS_LESSONS,
+  PROMPT_PRACTICE_COURSE_TEACHES,
+  SOCIAL_MEDIA_AI_COURSE_TEACHES,
+  academyCourseTeachesForSlug,
+  academyOccupationalCategory,
   ORGANIZATION_ID,
   ORGANIZATION_LOGO_PATH,
   ORGANIZATION_SAME_AS,
@@ -36,10 +41,13 @@ import {
   DEFAULT_OG_IMAGE_ALT,
   OG_IMAGE_SIZE,
   OG_LOCALE,
+  CHATBOT_NOCODE_SEO,
   ECOMMERCE_AI_SEO,
   OFFICE_AI_LESSON_TEASERS,
   OFFICE_AI_ILERI_SEO,
   OFFICE_AI_SEO,
+  PROMPT_PRACTICE_SEO,
+  SOCIAL_MEDIA_AI_SEO,
   academyCourseSeoOverride,
   PAGE_SEO,
   PRODUCT_ROOM_PATHS,
@@ -731,14 +739,19 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
 
     const page = readSrc("app/academy/[slug]/page.tsx");
     expect(page).toContain("academyCourseSeoOverride");
+    expect(page).toContain("academyCourseTeachesForSlug");
     expect(page).toContain("OFFICE_AI_SEO");
-    expect(page).toContain("OFFICE_AI_ILERI_SEO");
     expect(page).toContain("seo?.title");
     expect(page).toContain("seo?.description");
     expect(page).toContain("seo?.h1");
     expect(page).toContain("seo?.keywords");
-    expect(page).toContain("ECOMMERCE_AI_SEO");
     expect(page).toContain("educationalOccupationalProgramJsonLd");
+    const seoSrc = readSrc("lib/copy/seo.ts");
+    expect(seoSrc).toContain("OFFICE_AI_ILERI_SEO");
+    expect(seoSrc).toContain("ECOMMERCE_AI_SEO");
+    expect(seoSrc).toContain("SOCIAL_MEDIA_AI_SEO");
+    expect(seoSrc).toContain("CHATBOT_NOCODE_SEO");
+    expect(seoSrc).toContain("PROMPT_PRACTICE_SEO");
     // Sicil başlığı breadcrumb'da durur. Course `name` arama title'ıdır.
     expect(page).toContain("label={board.course.title}");
     expect(page).toContain("title: board.course.title");
@@ -870,6 +883,97 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
       title: ECOMMERCE_AI_SEO.title,
       images: ["/academy/cinema/02_ecommerce_ai-1-cue-1.jpg"],
     });
+  });
+
+  it("SM-103, BOT-104 ve PR-105 title, açıklama, kart ve program şeması kilitlidir", () => {
+    const rows = [
+      {
+        seo: SOCIAL_MEDIA_AI_SEO,
+        teaches: SOCIAL_MEDIA_AI_COURSE_TEACHES,
+        cover: "/academy/cinema/03_social_media_ai-1-cue-1.jpg",
+        occupation: "Sosyal medya çalışanı",
+        priceMinor: 89_000,
+        price: "890",
+      },
+      {
+        seo: CHATBOT_NOCODE_SEO,
+        teaches: CHATBOT_NOCODE_COURSE_TEACHES,
+        cover: "/academy/cinema/04_chatbot_nocode-1-cue-1.jpg",
+        occupation: "Müşteri hizmetleri çalışanı",
+        priceMinor: 129_000,
+        price: "1290",
+      },
+      {
+        seo: PROMPT_PRACTICE_SEO,
+        teaches: PROMPT_PRACTICE_COURSE_TEACHES,
+        cover: "/academy/cinema/05_prompt_practice-1-cue-1.jpg",
+        occupation: "Bilgi çalışanı",
+        priceMinor: 129_000,
+        price: "1290",
+      },
+    ] as const;
+
+    for (const row of rows) {
+      expect(academyCourseSeoOverride(row.seo.slug)).toBe(row.seo);
+      expect(row.seo.title.endsWith(" | yetkin.ai")).toBe(true);
+      expect(row.seo.description.length).toBeLessThanOrEqual(180);
+      expect(row.seo.h1).not.toBe(row.seo.title);
+      expect(row.seo.keywords.length).toBeGreaterThan(0);
+      expect(academyCourseTeachesForSlug(row.seo.slug)).toEqual([...row.teaches]);
+      expect(academyOccupationalCategory(row.seo.slug)).toBe(row.occupation);
+      expect(academyCourseCoverPath(row.seo.slug)).toBe(row.cover);
+
+      const meta = pageMetadata({
+        title: row.seo.title,
+        description: row.seo.description,
+        path: row.seo.path,
+        image: row.cover,
+        keywords: row.seo.keywords,
+      });
+      expect(meta.title).toEqual({ absolute: row.seo.title });
+      expect(meta.alternates).toEqual({ canonical: `https://yetkin.ai${row.seo.path}` });
+      expect(meta.keywords).toEqual([...row.seo.keywords]);
+      expect(meta.openGraph).toMatchObject({
+        url: `https://yetkin.ai${row.seo.path}`,
+        title: row.seo.title,
+        description: row.seo.description,
+        images: [{ url: row.cover, alt: row.seo.title }],
+      });
+      expect(meta.twitter).toMatchObject({
+        card: "summary_large_image",
+        title: row.seo.title,
+        images: [row.cover],
+      });
+
+      const course = courseJsonLd({
+        slug: row.seo.slug,
+        title: row.seo.title,
+        description: row.seo.description,
+        imagePath: row.cover,
+        datePublished: "2026-10-03T20:04:00.000Z",
+        priceMinor: row.priceMinor,
+        priceCurrency: "TRY",
+      });
+      expect(course["@type"]).toBe("Course");
+      expect(course.teaches).toEqual([...row.teaches]);
+      expect(course.keywords).toEqual([...row.seo.keywords]);
+      expect(course.image).toBe(`https://yetkin.ai${row.cover}`);
+
+      const program = educationalOccupationalProgramJsonLd({
+        slug: row.seo.slug,
+        name: row.seo.h1,
+        description: row.seo.description,
+        imagePath: row.cover,
+        durationMin: 34,
+        priceMinor: row.priceMinor,
+        priceCurrency: "TRY",
+      });
+      expect(program["@type"]).toBe("EducationalOccupationalProgram");
+      expect(program["@id"]).toBe(`https://yetkin.ai${row.seo.path}#program`);
+      expect(program.hasCourse).toEqual({ "@id": `https://yetkin.ai${row.seo.path}#course` });
+      expect(program.occupationalCategory).toBe(row.occupation);
+      expect(program.offers).toMatchObject({ price: row.price, priceCurrency: "TRY" });
+    }
   });
 
   it("kursa özel SSS görünür HTML ile FAQPage JSON-LD'de birebir aynı metni taşır", () => {

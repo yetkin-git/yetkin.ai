@@ -180,7 +180,7 @@ export function isRobotsDisallowedPath(pathname: string): boolean {
 }
 
 /**
- * Canlı yayın SEO — üç amiral antre.
+ * Canlı yayın SEO — altı antre.
  * `course.title` sicil/sertifika başlığıdır; yalnız bu dal arama title / description / keywords basar.
  * Title dizesi `| yetkin.ai` ile biter. `pageMetadata` bunu mutlak başlık yapar;
  * kök `TITLE_TEMPLATE` markayı ikinci kez eklemez.
@@ -244,6 +244,63 @@ export const ECOMMERCE_AI_SEO = {
   ],
 } as const;
 
+/**
+ * SM-103 (`03_social_media_ai`) kamu meta override.
+ * Sicil başlığı müfredat adıdır; arama title / description / keywords bu daldadır.
+ */
+export const SOCIAL_MEDIA_AI_SEO = {
+  slug: "03_social_media_ai",
+  path: "/academy/03_social_media_ai",
+  title: "Yapay Zekâ ile Sosyal Medya Eğitimi: Görsel ve Kısa Video | yetkin.ai",
+  description:
+    "Sosyal medya görseli ve kısa video: künye, tek stil, üç saniyelik kanca, altyazı ve yayından önce kontrol. 6 derste içerik üretimi ve sertifika.",
+  h1: "Yapay Zekâ ile Sosyal Medya: Künyeden Kısa Videoya",
+  keywords: [
+    "sosyal medya yapay zeka",
+    "kısa video yapay zeka",
+    "instagram içerik eğitimi",
+    "yapay zeka görsel üretimi",
+  ],
+} as const;
+
+/**
+ * BOT-104 (`04_chatbot_nocode`) kamu meta override.
+ * Sicil başlığı müfredat adıdır; arama title / description / keywords bu daldadır.
+ */
+export const CHATBOT_NOCODE_SEO = {
+  slug: "04_chatbot_nocode",
+  path: "/academy/04_chatbot_nocode",
+  title: "Kodsuz Chatbot Eğitimi: WhatsApp ve Web Müşteri Asistanı | yetkin.ai",
+  description:
+    "Kodsuz WhatsApp ve web chatbot: karşılama, randevu, yanlış anlama ve teslim listesi. 6 derste müşteri asistanı kurulumu ve sertifika.",
+  h1: "Kodsuz WhatsApp ve Web Chatbot: Karşılamadan Teslime",
+  keywords: [
+    "whatsapp chatbot",
+    "kodsuz chatbot kurulumu",
+    "müşteri hizmetleri chatbot",
+    "web chatbot eğitimi",
+  ],
+} as const;
+
+/**
+ * PR-105 (`05_prompt_practice`) kamu meta override.
+ * Sicil başlığı müfredat adıdır; arama title / description / keywords bu daldadır.
+ */
+export const PROMPT_PRACTICE_SEO = {
+  slug: "05_prompt_practice",
+  path: "/academy/05_prompt_practice",
+  title: "Yapay Zekâ Prompt Eğitimi: Doğru Talimat Verme | yetkin.ai",
+  description:
+    "Yapay zekâya doğru talimat: rol, bağlam, biçim, kaynak sınırı, tablo ve günlük istem seti. 6 derste prompt pratiği ve sertifika.",
+  h1: "Yapay Zekâya Doğru Talimat Verme: Altı Ders",
+  keywords: [
+    "prompt mühendisliği",
+    "yapay zeka prompt eğitimi",
+    "doğru talimat verme",
+    "istem yazma pratiği",
+  ],
+} as const;
+
 export type AcademyCourseSeo = {
   slug: string;
   path: string;
@@ -263,6 +320,15 @@ export function academyCourseSeoOverride(slug: string): AcademyCourseSeo | null 
   }
   if (slug === ECOMMERCE_AI_SEO.slug) {
     return ECOMMERCE_AI_SEO;
+  }
+  if (slug === SOCIAL_MEDIA_AI_SEO.slug) {
+    return SOCIAL_MEDIA_AI_SEO;
+  }
+  if (slug === CHATBOT_NOCODE_SEO.slug) {
+    return CHATBOT_NOCODE_SEO;
+  }
+  if (slug === PROMPT_PRACTICE_SEO.slug) {
+    return PROMPT_PRACTICE_SEO;
   }
   return null;
 }
