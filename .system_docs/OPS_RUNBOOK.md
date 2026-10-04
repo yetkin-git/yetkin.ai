@@ -2,7 +2,7 @@
 
 İnsan ops SSOT indeksi. Anayasa: `.system_docs/ANAYASA.md`. Ürün kodu bu dosyayı import etmez. Credential icat edilmez.
 
-**Canlı reçete:** Motor 4 / Kamu Vitrini 3 Oda (Panel, Akademi, Kariyer) + çekirdek yetenekler (`/profil`, `/cuzdan`, `/pasaport`, `/admin`). Freelancer motor sicilinde durur; kamu yüzeyi **410**. Akademi mühürlü yayın **8**’dir (`01_office_ai-1`, `01_office_ai-k1`, `01_office_ai-2`, `01_office_ai-3`, `01_office_ai-5`, `01_office_ai-g1`, `01_office_ai-w1`, `01_office_ai-6`). Dron T3 Akademi yüzeyi bağlıdır; Tezgâh donuk. Video katmanı terk edilmiştir. Motor 2 keşif fazındadır.
+**Canlı reçete:** Motor 4 / Kamu Vitrini 3 Oda (Panel, Akademi, Kariyer) + çekirdek yetenekler (`/profil`, `/cuzdan`, `/pasaport`, `/admin`). Freelancer motor sicilinde durur; kamu yüzeyi **410**. Akademi mühürlü yayın **6** eğitimdir: OFF-101 (`01_office_ai`), OFF-201 (`01_office_ai_ileri`), EC-102 (`02_ecommerce_ai`), SM-103 (`03_social_media_ai`), BOT-104 (`04_chatbot_nocode`), PR-105 (`05_prompt_practice`). OFF-101 sınav yolu `01_office_ai-1`, `01_office_ai-k1`, `01_office_ai-2`, `01_office_ai-3`, `01_office_ai-5`, `01_office_ai-g1`, `01_office_ai-w1`, `01_office_ai-6` dersleridir; `01_office_ai-4` yayın klasöründe durmaz. Dron T3 Akademi yüzeyi bağlıdır; Tezgâh donuk. Video katmanı yerel ısınma kasetidir (`public/media/academy/micro/*-warmup.mp4`). Motor 2 keşif fazındadır.
 
 `LIVE_BROADCAST_SHUTDOWN` üretim kilidi 13 Eylül 2026 itibarıyla **kapalı** (varsayılan `false`; acil kapatma env `true|1`). `SITE_MAINTENANCE_FREEZE` ayrı bakım bayrağıdır.
 

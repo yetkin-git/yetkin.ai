@@ -1,352 +1,368 @@
-# TESPİT RAPORU — Aşama 1 (Tespit ve Mimari Analiz)
+# TESPİT VE MİMARİ SAĞLIK RAPORU — Aşama 1
 
 | Alan | Değer |
 |------|--------|
-| Tarih | 30 Eylül 2026 |
-| Kapsam | Super Admin yetkisi, eğitim kapıları (freemium), dosya/SSOT hijyeni, doküman–kod örtüşmesi, stratejik sorgulama |
-| Yöntem | Kod okuma + salt-okunur doğrulama (tsc, hedefli vitest, `verify:api-auth`, `verify:boundaries`, import-grafı taraması) |
-| Değişiklik | **Hiçbir kaynak, doküman veya konfigürasyon dosyası değiştirilmedi.** Tek yeni dosya bu rapordur. |
-| Dal / HEAD | `main` / `db10963 feat(academy): open the EC-102 storefront sale` |
+| Tarih | 4 Ekim 2026 |
+| Kime | CEO |
+| Dil | Yalın Türkçe. Teknik ad yalnızca "nerede bakılır" diye parantez içinde geçer. |
+| Kural | Sıfır risk. Koda, belgeye, ayara, veritabanına **hiçbir değişiklik yapılmadı.** Bu dosya tek yeni dosyadır. |
+| Önceki rapor | `docs/TESPIT_RAPORU_260930.md` (30 Eylül). Bu rapor onun üstüne değil, **bugünkü durumun sıfırdan yeniden ölçümüne** dayanır. Onda yazılanların çoğu o günden beri düzeltilmiş; aşağıda ayrıca belirttim. |
 
 ---
 
-## 0. YÖNETİCİ ÖZETİ
+## 0. BİR SAYFADA ÖZET
+
+**Genel hava:** Temel sağlam, ama "son metre" tıkalı. Üç yeni eğitim (SM-103, BOT-104, PR-105) içerik ve medya olarak **bitmiş**, kod tarafında "yayında" diye işaretlenmiş, ama **veritabanında hâlâ kapalı** ve onu açacak yol (migrasyon) **kendi kilidine takılmış**. Yani bugün bu üç eğitim ücretsiz ilk dersiyle izlenir ama **satılamaz.**
 
 | # | Bulgu | Önem |
 |---|-------|------|
-| 1 | `yapinet360@gmail.com` **kod düzeyinde** tek kanonik Super Admin'dir. Kapı 3 katmanda (kenar `proxy.ts`, API handler, sayfa/loader) aynı SSOT'u (`isSuperAdminActor`) okur. Testler yeşil. **Canlı Supabase/Vercel durumu repodan doğrulanamaz** (Bölüm 1.1.4). | Bilgi / Doğrulama gerekli |
-| 2 | Yetki **DB rolü değil, env + Auth JWT** tabanlıdır (`CANONICAL_SUPER_ADMIN_EMAIL` + `SUPER_ADMIN_USER_ID`). Üretimde ikisi birden dolu olmazsa **kimse admin olamaz** (fail-closed). İkinci admin / break-glass / yönetim denetim izi yok. | Orta |
-| 3 | "Her eğitimin ilk dersi açık" kuralı **DB bayrağı ile değil, kodda türetilmiş** olarak çalışır (`exam-path.ts` ilk anahtar). OFF-101, OFF-201 ve EC-102 için üçü de doğru çalışıyor. **Kural hiçbir anayasa/manifesto/pedagoji belgesinde yazılı değil.** OFF-101'de ek olarak hazırlık şeridi (`01_office_ai-0`) de açık → "ilk ders" tek değil iki birim. | Orta |
-| 4 | Çalışma ağacında **~108 yolluk commit edilmemiş iş** var (EC-102 `02_ecommerce_ai/` dizini dahil **untracked**). `.cursorrules`'un koruduğu **3 ekran görüntüsü working tree'de silinmiş (D)** durumda. | **Yüksek** |
-| 5 | `public/` = **866 MB** (Vercel Pro statik tavanı ~1 GB). Git paketi **2.94 GiB + 433 MiB gevşek**. Her yeniden fırın ~30–40 MB × 6 mp3 git geçmişine ekleniyor. | **Yüksek** (ölçek) |
-| 6 | Mimari **düzenli modüler monolittir** (import duvarları `verify:boundaries` ile yeşil; `lib/kernel` → dikey import sayısı **0**). "Sürü Dron / Micro-Apps" bir **etiket**tir; Anayasa B1 bunu açıkça reddeder. Spagetti değil, ama `lib/academy` (287 dosya) şişiyor. | Bilgi |
-| 7 | Erişim kapısı dağınık: `lib/academy/access.ts` içinde ~10 benzer kapı fonksiyonu, serbest önizleme mantığı 5+ dosyada. | Orta |
-| 8 | Doküman–doküman çelişkileri: model SSOT'u (doküman mı kod mu), Deniz/Selin kişiliği, olmayan `docs/specs/...` referansı, "sayı tekrarlanmaz" kuralının ihlali. | Düşük–Orta |
+| 1 | **Yeni üç eğitimin satışa açılması tıkalı.** Veritabanında `SM-103`, `BOT-104`, `PR-105` "yayında değil" ve fiyatları "pasif". Bunları açan SQL dosyası (`20261003230400_…publish.sql`) diskte duruyor ama migrasyon aracının kilitli listesinde yok; araç "14 dosya var, 13 bekliyordum" diye **durur.** | KIRMIZI |
+| 2 | **`public/` klasörü 927,8 MB.** Derlemeyi durduran hata eşiği 950 MB. Elde **~22 MB** pay var. Yeni bir eğitim ortalama 90–200 MB ekliyor. Bir sonraki eğitim derlemeyi kırar. | KIRMIZI |
+| 3 | **Son commit'ten sonra 318 dosya değişmiş** (1 Ekim 23:02'den sonra). Yeni üç eğitimin metni, sesi, görseli, videosu muhtemelen **hiçbir yerde yedekli değil** (bu makinede `git` çalışmadığı için kesin teyit edemedim; dosya tarihlerinden çıkardım). | KIRMIZI |
+| 4 | **Test paketi bugün 3 hata veriyor** (1193/1196 geçti). İkisi gerçek ve sürekli kırmızı (eski varsayımlı test + migrasyon listesi), biri yük altında zaman aşımı (tek başına çalışınca geçti). CI `npm run test` çalıştırıyor; yani bugünkü hâliyle CI kırmızı olur. | SARI |
+| 5 | **"Her eğitimin ilk dersi ücretsiz" kuralı web'de kodda doğru ve kurs-bağımsız çalışıyor** (6 eğitimin hepsi dahil). **Eksik yer: mobil uygulama.** Orada ücretsiz izleme yok; ayrıca uygulama yalnız 2 eğitimi biliyor. | SARI |
+| 6 | **`yapinet360@gmail.com` canlı veritabanında var, e-postası onaylı, kimliği ayardaki Super Admin kimliğiyle birebir aynı.** Kodda tam yetkili tek kişi o. Ama "tam yetki" dar: fiyat ve gösterge paneli var, **eğitimi yayına alma/kapatma düğmesi ve ikinci yönetici yok.** | YEŞİL / SARI |
+| 7 | **Belgeler büyük ölçüde güncel** (30 Eylül'deki 8 sürtünmenin çoğu giderilmiş). Kalan: iki belgede "yayın 8" gibi eski sayılar, EC-102'de eski dua cümlesi, AGENTS.md ile .cursorrules'un birbirine ters talimatı. | SARI |
+| 8 | **"Sürü Dron / Micro-Apps" hâlâ bir etiket, gerçek ayrı yapı değil.** Kod disiplinli bir **modüler monolit.** Bu iyi bir şey; belgeler de bunu açıkça söylüyor. Asıl sorun mimari değil, "yeni eğitim eklemek ~66 dosyaya dokunmak" ve medyanın depoda yaşaması. | SARI |
 
-Doğrulama özeti: `tsc --noEmit` **temiz (exit 0)**; hedefli 9 test dosyası **54/54 geçti**; `verify:api-auth` **OK (60 route: session 36, public 18, admin 2, webhook 4)**; `verify:boundaries` **OK**.
-
----
-
-## 1. İNCELEME VE TESPİT
-
-### 1.1 Super Admin Yetkilendirmesi (`yapinet360@gmail.com`)
-
-#### 1.1.1 Mimari: kimlik nerede yaşıyor?
-
-- Kimlik: **Supabase Auth** (`auth.users`). `public.users` satırı `handle_new_user()` tetikleyicisiyle oluşur (`supabase/migrations/20260814010000_handle_new_user_auth_sync.sql`). 18+ ve KVKK rızası yoksa kayıt düşer (fail-closed).
-- Veri: **Prisma** (`prisma/schema/*.prisma`). **`role` / `is_admin` kolonu yoktur** (`roleKey` yalnızca kernel.prisma:315'te, yetki değil). Supabase migrasyonlarında admin'e özel RLS politikası yok; admin işlemleri sunucuda Prisma rolüyle yürür.
-- Yani **RBAC tablosu yok**; yetki **"kanonik e-posta + UUID env" SSOT**'udur: `lib/kernel/auth/super-admin.ts`.
-
-#### 1.1.2 Karar mantığı (`isSuperAdminActor`)
-
-1. `email_confirmed_at` boşsa → **admin değil**.
-2. `yetkin.vision@gmail.com` (vatandaş test hesabı) → **asla admin** (env'e yazılsa bile).
-3. `NODE_ENV=production`:
-   - `CANONICAL_SUPER_ADMIN_EMAIL` **ve** `SUPER_ADMIN_USER_ID` ikisi de dolu olmalı, aksi hâlde **kimse admin değil**.
-   - Ve oturumdaki `email` kanonik adres **ve** `id` = `SUPER_ADMIN_USER_ID` olmalı (çift kilit).
-4. Geliştirme: doğrulanmış kanonik e-posta **veya** UUID yeter. Env boşsa varsayılan `yapinet360@gmail.com` (`CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT`).
-
-Sonuç: `yapinet360@gmail.com` kodda **tam yetkili** (geliştirmede e-posta tek başına; üretimde e-posta + UUID + doğrulanmış e-posta).
-
-#### 1.1.3 Yetkinin uygulandığı yerler (derinlemesine savunma)
-
-| Katman | Mekanizma | Dosya |
-|--------|-----------|-------|
-| Kenar | JWT (JWKS/HS256) doğrulanır; `email` + `email_confirmed_at` **imzalı claim**'den okunur. `auth = "admin"` route'ları `isSuperAdminActor` ile 403 | `proxy.ts`, `lib/kernel/security/edge-jwt.ts`, `lib/kernel/security/edge-api-auth.ts` |
-| Route haritası | `/api/admin/catalog`, `/api/admin/funnel` → `admin` (yalnız 2 adet) | `lib/kernel/security/route-auth-map.ts` |
-| Handler | `requireSuperAdmin(request)` | `app/api/(kernel)/admin/{catalog,funnel}/route.ts` |
-| Sayfa / loader | `resolveSuperAdminAccess()`; loader `isSuperAdminActor` eşleşmezse Prisma'ya gitmez | `app/(kernel)/admin/page.tsx`, `lib/kernel/admin/load.ts`, `funnel-load.ts` |
-| Akademi duvarı | `hasAcademyAdminBypass` → tüm oynatıcı/ders/PDF/asistan kapıları | `lib/academy/access.ts` |
-| Ops | `ops-super-admin-academy-grant` (lab grant) | `scripts/ops-super-admin-academy-grant.ts` |
-
-Ek güvenceler:
-- Üretimde **sıfır harçlı bağış kapalı** (`isZeroFeeAcademyGrantOpen()` → `NODE_ENV !== "production"`). Admin üretimde satın alma satırı olmadan **bellek içi** izleme yetkisi alır, DB'ye yazılmaz.
-- Vatandaş test hesabı (`yetkin.vision@gmail.com`) hiçbir kapıda admin muafiyeti almaz; ticari lisans ister.
-
-#### 1.1.4 Doğrulanamayanlar (dürüst sınır)
-
-- **Canlı `auth.users` satırı**, e-postanın onaylı olup olmadığı, Vercel **Production** env'inde iki değişkenin dolu olup olmadığı repodan görülemez.
-- Yalnızca yerel `.env.local` için şu kadarı teyit edildi (değer okunmadı): `CANONICAL_SUPER_ADMIN_EMAIL` **dolu**, `SUPER_ADMIN_USER_ID` **dolu**. Bu üretimi kanıtlamaz.
-- Önerilen salt-okunur doğrulama: `npm run ops:runtime-readiness` (çıktıda `superAdmin=configured` beklenir) ve canlıda kanonik hesapla `/admin` açılışı.
-
-#### 1.1.5 Bulgular ve riskler
-
-| Kod | Bulgu | Önem |
-|-----|-------|------|
-| A-1 | Tek kişi / tek hesap: yetki devri env değişikliği + yeniden dağıtım ister. İkinci admin, break-glass ve **yönetim eylemi denetim tablosu** yok (katalog yazımında audit var; rol yönetiminde yok çünkü rol yok). | Orta |
-| A-2 | Üretimde env eksikse "admin yoktur ve akademi duvarı da açılmaz" — güvenli ama **kilitlenme riski** (operasyonel). `ops-runtime-readiness` bunu raporluyor; dağıtım öncesi zorunlu kapı olmalı. | Düşük |
-| A-3 | `/api/admin/curriculum-revisions` route'u `auth = "public"` ama **410 saplama** (motor arşivde). Güvenli; fakat adı "admin" olup kaydı "public" olması okuyan biri için yanıltıcı. Sayfa karşılığı: `app/(kernel)/admin/curriculum-revisions/page.tsx`. | Düşük |
-| A-4 | Geliştirme/lab modunda doğrulanmış e-posta tek başına admin yeter. Lab ortamı Supabase projesi **üretimle paylaşılıyorsa** (aynı `auth.users`) bu zayıflar. Ayrı proje olduğu teyit edilmeli. | Düşük (teyit) |
+**Tek cümlelik görüşüm:** Yeni mimari kurmak yerine, önce bitmiş üç eğitimi güvene alıp satışa açacak "boru hattını" onarın; sonra bu hattı bir daha tıkanmasın diye sadeleştirin.
 
 ---
 
-### 1.2 Eğitim Modülleri ve Freemium (İlk Ders Açık) Mantığı
+## 1. NASIL ÇALIŞTIM, NELERİ GÖREMEDİM
 
-#### 1.2.1 Eğitim durumları
+**Yaptıklarım (hepsi salt-okunur):**
+- Kural ve kılavuz belgeleri okudum: `ANAYASA.md`, `MANIFESTO.md`, `PEDAGOJI.md`, `AKADEMI_URETIM_ANAYASASI.md`, `.cursorrules`, `AGENTS.md`, `.system_docs/README.md`, `STORAGE_CONTRACT.md`, `OPS_RUNBOOK.md`.
+- Kodu okudum ve ölçtüm: erişim kapıları, ücretsiz önizleme, Super Admin kararı, eğitim kayıtları, medya klasörleri, test ve doğrulama komutları.
+- Çalıştırdığım kontroller: `tsc` (tip denetimi), `verify:academy-curriculum`, `verify:api-auth`, `verify:boundaries`, `verify:public-size`, `ops:runtime-readiness`, tüm `npm test`.
+- Projenin kendi `.env.local` bağlantısıyla veritabanına **tek bir salt-okunur sorgu seti** gönderdim (`BEGIN READ ONLY` + `ROLLBACK`; yazma imkânı yok, sır yazdırılmadı). Sonuçlar 2. ve 3. bölümde.
+- Geçici betiklerimi proje dışındaki geçici klasöre koydum; projeye yalnız bu rapor yazıldı.
 
-| Kod | Slug | Ders (sınav yolu) | Ses mührü (master voice) | Satış / yayın | Diskte medya (mp3 / bed / warmup / cinema jpg / spoken md) |
-|-----|------|-------------------|--------------------------|---------------|------------------------------------------------------------|
-| OFF-101 | `01_office_ai` | 8 (`-1,-k1,-2,-3,-5,-g1,-w1,-6`) + hazırlık şeridi `-0` (sınav yolu dışı) | Gözde / Callirrhoe | Amiral SKU; satın alınır | 18 / 8 / 2 / 73 / 9 |
-| OFF-201 | `01_office_ai_ileri` | 6 | Aylin / Kore | `ACADEMY_OFF201_LAUNCH_SALE_OPEN = true` | 12 / 6 / 1 / **6** / 6 |
-| EC-102 | `02_ecommerce_ai` | 6 | Selin / Aoede | `ACADEMY_EC102_PUBLIC_RELEASE_OPEN = true` + `academyCourseNarrationPublished` | 12 / 6 / 2 / 31 / 6 |
-| — | `03_social_media_ai`, `04_chatbot_nocode`, `05_prompt_practice` | 0 (boş kabuk) | — | "Çok Yakında"; vitrinde kart, satış yok | — |
-
-Gözlem: OFF-201 yalnız **6 cinema karesi** taşıyor (ders başına ~1), OFF-101 73, EC-102 31. "Görsel" katmanının yoğunluğu kurslar arasında tutarsız; mühür kapısı yalnızca varlığı arıyorsa bu sessizce geçer (kapının eşiği bu çalışmada okunmadı).
-
-Satış kapısı (tek kapı): `academyCatalogPurchasable` = DB `is_published` **ve** aktif `PriceCatalogEntry` **ve** `academyCourseSaleOpen` → `academyCourseProductionDiskSealed` (beş katman diskte).
-
-#### 1.2.2 "Her eğitimin ilk dersi herkese açık" kuralı — kod haritası
-
-**Tanım yeri (tek kaynak):** `lib/kernel/catalog-ids/exam-path.ts` → `CURRICULUM_LESSON_KEYS_BY_SLUG[slug][0]`. Bu anahtar `free-preview.ts` (kenar-güvenli) üzerinden okunur: `academyCourseOffersFreePreview(slug)` = "ilk ders var mı". Boş kabuk (03–05) kapalı.
-
-| Kurs | Herkese açık ders(ler) |
-|------|------------------------|
-| OFF-101 | `01_office_ai-1` **ve** `01_office_ai-0` (hazırlık şeridi; `ACADEMY_FREE_PREVIEW_LESSON_KEY` sabiti **elle yazılmış**) |
-| OFF-201 | `01_office_ai_ileri-1` |
-| EC-102 | `02_ecommerce_ai-1` |
-
-**DB bayrağı var mı?** **Hayır.** Prisma şemasında `is_preview`/`is_locked` yok. `isPreviewAllowed` ve `isLocked` yalnızca müfredat `Section` tipinde çalışma anında **türetilen** alanlar (`applyAcademySectionPreviewGate`, `lib/academy/preview-lock.ts`). Yani serbest önizleme **kod sabiti**dir; Super Admin DB'den açıp kapatamaz.
-
-**Uygulama katmanları (kim neyi zorluyor):**
-
-| Katman | Davranış | Dosya |
-|--------|----------|-------|
-| Kenar | `/academy/<slug>/oyna` yolu, sınav yolu ilk dersi olan slug için **oturumsuz açık** (`isAcademyFreePreviewPlayerPath`). Diğer oynatıcı yolları 307 ile girişe | `lib/kernel/security/edge-guard.ts` |
-| Sayfa | Oturumsuz veya lisanssız: `paywallLocked`, `academyPaywallLockedLessonShells` (ders 1 gövdesi dolu, diğerlerinin `body: ""`) | `app/academy/[slug]/oyna/page.tsx`, `lib/academy/paywall-shells.ts` |
-| Medya | Ödeme duvarında yalnız açık derslerin cue/timings anahtarı RSC'ye gider | `lib/academy/preview-lock.ts` (`academyPlayerMediaLessonKeys`) |
-| Ses | Anonim kullanıcıya yalnız **ders 1** için HMAC'li kısa ömürlü (4 sa) ses adresi. Diğer mp3'ler kenarda 403 | `lib/academy/free-preview-audio.ts`, `lib/academy/lesson-audio-grant.ts`, `proxy.ts` |
-| API | `lesson-assistant`: ücretsiz ders anahtarı **veya** ticari kayıt | `app/api/academy/lesson-assistant/route.ts` |
-| İçerik motoru | Üretimde gövde yalnız ticari lisans/admin ile (`requireSettledPurchase` + `hasAcademyLockedLessonContentAccess`) | `lib/academy/curriculum-engine.ts` |
-
-#### 1.2.3 Expiration, paywall ve middleware sınırları
-
-- **Ücretli lisans 365 gündür** (`lib/academy/license.ts`): `settledAt + 365 gün`. Kolon yok; süre `settledAt`'ten hesaplanır. Süre dolunca oynatıcı yine **kabuk + ders 1** görünümüne döner; sertifika/iş kanıtı PDF'i `SETTLED` kayıtla açık kalır (`hasAcademyArtifactAccess`).
-- **Serbest önizlemenin süresi yoktur**; herkese, her zaman açık.
-- Alıcı için ders sırası kilidi: `open = catalogOpen || lesson.key === nextKey || completed` (sıralı açılım). Admin/ticari katalogda tüm dersler açık.
-- Kenar (proxy) kuralları: çerezli yazmalarda Origin/Sec-Fetch-Site fail-closed; LLM ve cüzdan yollarında hız sınırı (`aiChatUser: 5/gün`, `llmIp: 20/10dk`, vb.). Hız sınırı **Redis REST doluysa paylaşılan, değilse bellek içi** (`rate-limit-runtime.ts`) — serverless'ta bellek içi, örnekler arası paylaşılmaz.
-- Bakım modu (`SITE_MAINTENANCE_FREEZE`/`LIVE_BROADCAST_SHUTDOWN`) önizlemeyi de 503 yapar; PayTR bildirim uçları ayrı geçer.
-
-#### 1.2.4 Bulgular
-
-| Kod | Bulgu | Önem |
-|-----|-------|------|
-| F-1 | Kural **yalnızca kod yorumlarında** var; `ANAYASA.md`, `MANIFESTO.md`, `PEDAGOJI.md` "ilk ders ücretsiz" demiyor. Ürün kararı ile kod arasında yazılı sözleşme yok. | Orta |
-| F-2 | "İlk ders" iki mekanizmayla tanımlı: (a) exam-path[0] (dinamik), (b) `ACADEMY_FREE_PREVIEW_LESSON_KEY = "01_office_ai-0"` (sabit). OFF-101 için ücretsiz birim sayısı **2** — diğer iki kurstan farklı. | Orta |
-| F-3 | `isAcademyFreePreviewLessonKey(lessonKey)` **slug'a bağlı değil**: herhangi bir kursun ilk anahtarı, herhangi bir bağlamda "açık" sayılır. Şu an sızıntı yaratmıyor (anahtarlar benzersiz) ama `lesson-assistant` istemciden gelen `lessonKey`'i slug ile eşleştirmeden kabul ediyor. | Düşük |
-| F-4 | Erişim kapısı fonksiyonları çoğaldı: `hasAcademyPlayerAccess`, `hasAcademyOynaAccess`, `hasAcademyLockedLessonContentAccess`, `hasPurchased`, `hasAcademyArtifactAccess`, `hasUnlimitedAcademyAccess`, `hasAcademyAdminBypass`, `academyPlayerCatalogFullyOpen`, `resolveSettledAcademyPurchase`, `resolveAcademyArtifactPurchase`. Üretim/lab ve vatandaş-test dalları iç içe. Kırılgan. | Orta |
-| F-5 | Anonim ders 1 sesi ~30–38 MB'lık mp3 (+ bed). Anonim trafikte bant genişliği maliyeti ve kötüye kullanım yüzeyi; kenar imza doğruluyor ama sayfa her render'da yeni grant üretiyor. | Düşük–Orta |
-| F-6 | Serbest önizleme testleri dağınık (`lesson-audio-grant.test.ts`, `prep-strip.test.ts`, `access.test.ts`); "üç kursta ders 1 açık, ders 2 kapalı" için tek sözleşme testi bulunamadı. | Düşük |
+**Göremediklerim / emin olmadığım şeyler (dürüst liste):**
+1. **Canlı site (Vercel) ve canlı ortam değişkenleri.** Bu bilgisayardaki `.env.local` hangi veritabanına bağlıysa onu gördüm. Bu veritabanının "canlı" mı "laboratuvar" mı olduğunu repodan **kanıtlayamam.** İşaret: içinde yalnızca 1 kullanıcı var (Super Admin) ve vatandaş test hesabı (`yetkin.vision@gmail.com`) yok. Canlıysa henüz müşteri yok demektir; laboratuvarsa canlı ayrı bir yerde. **Bunu sizin teyit etmeniz gerekiyor.**
+2. **`git` bu makinede çalışmıyor** (komut satırında bulunamadı). Bu yüzden commit durumunu `.git` kayıt dosyası ve dosya tarihleriyle çıkardım.
+3. İkinci veritabanı sorgu setim (satın alma, sertifika, defter, tablo bazlı güvenlik) otomatik güvenlik denetiminde reddedildi; ısrar etmedim. **Bu sayılar yok:** satın alma sayısı, defter, tablo bazlı RLS durumu, `public.users` aynası.
+4. Ses kalitesini **dinlemedim**, videoları **izlemedim**, mobil uygulamayı **çalıştırmadım**, uçtan uca (Playwright) testleri koşmadım.
 
 ---
 
-### 1.3 Dosya Temizliği ve Tek Doğru Kaynak (SSOT)
+## 2. ADIM 1 — KILAVUZ DOKÜMANLAR
 
-> Yöntem notu: Yetim listesi, `app/ components/ lib/ scripts/ tests/` üzerinde import grafı taramasıyla üretildi (alias `@/…` + göreli import). Dinamik `import()` ve string tabanlı kayıtlar yanlış pozitif verebilir. **Silme kararı öncesi manuel teyit gerekir.**
+### 2.1 Belgeler canlı duruma ne kadar uyuyor?
 
-#### 1.3.1 Yetim / atıl modüller (hiçbir yerde import edilmiyor)
+**Kısa cevap: İyi uyuyor; 30 Eylül'deki raporun işaret ettiği sorunların çoğu giderilmiş.**
 
-| Dosya | Not |
-|-------|-----|
-| `lib/academy/curricula/ecommerce_ai/sections.ts` | Shim (yeniden dışa aktarım); kimse import etmiyor |
-| `lib/academy/curricula/ecommerce_ai/spoken-body.ts` | Shim; kimse import etmiyor |
-| `lib/kernel/env.ts` | Zod env şeması; import eden yok (yanlış pozitif olasılığı: düşük) |
-| `lib/showcase/catalog.ts` | Import eden yok |
-| `lib/freelancer/released-proofs.ts` | Import eden yok |
-| `components/academy/level-pathway.tsx` | Import eden yok |
-| `components/freelancer/{direct-job-offer-modal,direct-offer-inbox,squad-create-button,squad-panel,squad-teaser,standalone-squad-modal,usta-expertise-list}.tsx` | Freelancer yüzeyi kilitli (410) olduğu için atıl |
-| `components/legal/{legal-back-to-home,legal-section-articles,legal-site-footer}.tsx` | Import edilmiyor; yalnızca metin olarak anılıyor olabilir — **teyit gerekli** |
-| `components/shell/frozen-room-gone-page.tsx` | Import edilmiyor; `lib/kernel/http/frozen-410-html.ts` ayrıca var |
+| Konu | 30 Eylül | Bugün |
+|------|----------|-------|
+| "İlk ders ücretsiz" kuralı hiçbir belgede yok | Eksikti | **Yazılı** (`ANAYASA.md` B4 "Freemium ilkesi", `PEDAGOJI.md` bölüm A.5) |
+| Mimari adı (Amiral Gemi / Sürü Dron) | Çelişki | Net: `ANAYASA.md` B1 "Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci"; eski ad "takma ad" olarak açıklanmış |
+| Olmayan `docs/specs/…` dosyasına atıf (`MANIFESTO.md`) | Vardı | Giderilmiş (kapı artık kod dosyalarına işaret ediyor) |
+| Yasa metnine karışan "Son Reform" günlükleri | Vardı | Giderilmiş |
+| Model SSOT yönü (belge mi kod mu) | Belirsiz | Net: `ANAYASA.md` "uyumsuzlukta belge silinmez, kod belgeye eşitlenir" |
+| EC-102 anlatıcısı (Selin mi Kaan mı) | Çelişki | Net: Kaan/Puck. `ANAYASA.md`, `PEDAGOJI.md`, `instructors.ts`, `pilot-sku.ts` aynı şeyi söylüyor |
+| Erişim kapısı dağınıklığı | ~10 kapı, parça parça | **Tek karar fonksiyonu yazılmış** (`lib/academy/entitlement.ts`, `resolveAcademyEntitlement`) |
 
-#### 1.3.2 Yalnızca testlerin kullandığı modüller (üretim ağacında referanssız)
+Mimari iddia ile kod örtüşmesi (bugün ölçtüğüm):
+- `verify:boundaries` **OK** → çekirdek (`lib/kernel`) dikey odaları (akademi, kariyer, freelancer) import etmiyor.
+- `verify:api-auth` **OK** → 60 API kapısı, 36 oturumlu, 18 açık, 2 yönetici, 4 webhook.
+- `tsc` (tip denetimi) **temiz.**
+- Dron kayıt defteri (`lib/dronlar/kayit.ts`): Panel, Akademi, Kariyer açık; Freelancer kapalı (410). `ANAYASA.md` B2 ile aynı.
+- Beş medya katmanı kapısı ve fiyatın veritabanında olması (A1) kodda duruyor.
 
-`components/kernel/kasa-return-panel.tsx`, `lib/academy/{article-spoken-diff,catalog-favorites,config,issued-certificates,lesson-description,lesson-listen,syntax-highlight,web-speech}.ts`, `lib/academy/curricula/phase2-exam-readiness.ts`, `lib/freelancer/standalone-squad-store.ts`, `lib/kernel/ai/paid-command.ts`, `lib/kernel/http/memory-idempotency-store.ts`, `lib/kernel/rooms.ssot.ts`.
+### 2.2 Bizi kısıtlayan, kendi ipimizde boğan kurallar
 
-#### 1.3.3 Ölü HTTP yüzeyi (route var, cevap 410)
+Aşağıda **belgeleri** ve **kodun içine gömülü kuralları** ayrı ayrı yazdım; çünkü asıl boğucu olanlar belge değil, koddaki kilitler.
 
-11 route dosyası / sayfa 410 saplaması: `api/academy/{discussion,reviews,generateSpeech}`, `api/academy/courses/[id]/{listen,pdf}`, `api/(kernel)/admin/curriculum-revisions` (+ sayfası), `api/freelancer/{squad,direct-offers,direct-offers/[id]/accept,…/decline}`. Bunlar `ROUTE_AUTH_MAP`'te `public` görünür (18 public'in büyük kısmı bu). Sicil gürültüsü ve yanlış "açık yüzey" algısı yaratır.
+| # | Kural / yapı | Sorun | Önerim |
+|---|--------------|-------|--------|
+| K-1 | **Kilitli migrasyon listesi** (`scripts/ops-migrate-lib.ts` `EXPECTED_SQL` + test). Her yeni SQL dosyası **3 yerde** elle kaydedilmeden uygulanamıyor. | Bugün **yeni üç eğitimin yayınını fiilen engelliyor** (bulgu 1). Güvenlik niyeti iyi (sıra bozulmasın) ama liste unutulunca sistem sessizce değil, gürültüyle durur: yani doğru davranıyor, ama operasyonel olarak ağır. | Sıra kilidini koru, **listeyi dosya adından otomatik türet** (ya da yeni dosya eklenince testin otomatik güncellenmesini sağla). |
+| K-2 | **Yayın/kapama = SQL migrasyonu.** EC-102 için üç ayrı migrasyon (yayınla / geri al / tekrar yayınla), OFF-201 fiyat, şimdi SM/BOT/PR. Yönetici panelinde "yayınla/kapat" düğmesi yok. | Bir eğitimi açmak için kod yazmak ve dağıtmak gerekiyor. | Süper Admin için "yayında/değil" anahtarı. (Ücretsiz önizleme anayasa gereği hâlâ kodda kalır.) |
+| K-3 | **Mühür kapısı medyayı depoda arıyor** (`public/media/...` dosyaları diskte olmalı). | Güvenli ve dürüst bir fikir, ama medyanın kod deposunda ve Vercel paketinde yaşamasını zorunlu kılıyor → `public/` şişiyor (bulgu 2). | Kuralın ruhu "dosya gerçekten var" — bunu "depolama alanında var" diye yeniden tanımlamak mühürü bozmaz (bkz. bölüm 7.3). `AKADEMI_URETIM_ANAYASASI.md`'ye **dokunmadan**, uygulama tarafında. |
+| K-4 | **`AGENTS.md` ile `.cursorrules` birbirine ters.** `AGENTS.md`: "kod yazmadan önce `node_modules/next/dist/docs/` oku". `.cursorrules`: "`node_modules/` içindeki dosyalar **asla** okunmaz." | Yapay zekâ ajanı iki talimatın arasında kalıyor. | `.cursorrules`'a tek satırlık istisna: "yalnız `node_modules/next/dist/docs/` okunabilir." |
+| K-5 | **"Sayı burada tekrarlanmaz, koda bak" deseni.** | Niyet doğru (sapmayı önler) ama bir sayıyı öğrenmek için 4–5 dosyaya gidilmesi gerekiyor. Ayrıca bu kural belgelerde kendi kendine çiğneniyor (örnek: `STORAGE_CONTRACT.md`, `OPS_RUNBOOK.md` "yayın **8**"). | Sayı yazan belgeleri ya güncelleyin ya da sayıyı kaldırıp koda atıf bırakın (aşağıda D-1). |
+| K-6 | **Ücretsiz önizlemenin DB'den kapatılamaması** (`ANAYASA.md` B4). | Bilinçli bir karar ve ürün açısından doğru (karar kodda, tek kaynak). Ama acil durumda (hatalı ders, hukuki talep) tek bir dersi **kapatmak** için kod değişikliği + dağıtım gerekir. | Açma yetkisini hiçbir şekilde DB'ye vermeden, yalnız "acil **kapat**" mandalı eklemeyi düşünün. Anayasa metni değişmeden de bunun için yer var (kapatma, açmayı gevşetmez). |
+| K-7 | **Eski mimari dili hâlâ yaşıyor.** Bu görev metni de "Amiral Gemi + Sürü Dron (Core + Micro-Apps)" diyor; belgeler ise bu adı emekli ediyor. | Ajanlar ve yeni gelenler ayrı dağıtım bekleyebilir; yanlış beklenti yanlış iş üretir. | Belgelerin başına tek satır sözlük: "Amiral Gemi = monolit; Sürü Dron = kayıtlı yetenek; Shared Kernel = `@yetkin/kernel`." Bu zaten `ANAYASA.md` B1'de var; kısa bir "kapak notu" yeter. |
 
-#### 1.3.4 Tekrarlı / ikilem yaratan yapılar
+**Dokunulmaması gerekenler (benim de önerim):** A1–A5 (para, ödeme kuruluşu olmama, güvenlik, kanıt satın alınamaz, dürüst yüzey); model tablosu; 5 aşama kapısı; "kota gelince dur" politikası. Bunları gevşetmeyi önermiyorum.
 
-| Konu | Tekrar | Risk |
-|------|--------|------|
-| EC-102 müfredat dizini | `curricula/02_ecommerce_ai/` (gerçek, **untracked**) + `curricula/ecommerce_ai/` (4 dosyalık shim, git'te **modified**). `cinema-cue-catalog.ts`, `scripts/bake-ec102-nano-slides.ts`, `tests/academy/ecommerce-ai-lesson-3.test.ts` hâlâ **eski** yoldan import ediyor | Yarım kalmış taşıma; iki ev |
-| Dizin adlandırma | Slug `01_office_ai` ↔ dizin `office_ai`; `01_office_ai_ileri` ↔ `office_ai_2`; `03_social_media_ai` ↔ `social_media_ai`; yalnız EC-102 `02_` önekini aldı | Tutarsız kanon |
-| Sinema slaytları | `lib/academy/off201-cinema-slides.ts` (820 satır, lib kökünde) vs `curricula/02_ecommerce_ai/cinema-slides.ts` vs `cinema-cue-catalog.ts` (1950 satır, merkezde) | Üç farklı konum/kalıp |
-| Serbest önizleme | `purchase-path.ts`, `kernel/catalog-ids/{free-preview,exam-path}.ts`, `preview-lock.ts`, `paywall-shells.ts`, `edge-guard.ts` | Bkz. F-2/F-4 |
-| Hop sicili | `packages/kernel/src/http/v1-hops-meta.ts` ↔ `apps/rail-is/src/api/hops.ts` ("hizalı" yorumuyla elle) | Sapma riski |
-| Route auth | Her route'ta `export const auth` + üretilmiş `route-auth-map.ts` + `generated/route-auth-map.json` | Üretilmiş çıktı 3 yerde |
-| Yönetici e-postası | `super-admin.ts`, `lib/copy/legal-launch.ts` (`adminEmail`), `.env.example`, test/doküman | Aynı e-posta farklı amaçla 3 yerde sabit |
-| Kernel paketi | `lib/kernel/money/*`, `lib/kernel/catalog-ids/course-slugs.ts` → `@yetkin/kernel`'e **re-export** | İyi örnek (tek ev) |
-| Test konfigleri | `vitest.config.ts`, `vitest.frozen.config.ts`, `vitest.pg.config.ts` | Kasıtlı, belgeli |
+### 2.3 Belge belge karar
 
-#### 1.3.5 Geçici / atıl dosya ve disk durumu
+| Belge | Karar | Neden |
+|-------|-------|-------|
+| `ANAYASA.md` | **Küçük güncelleme** | A katmanı olduğu gibi kalsın. B4'te yalnız üç kursun anlatıcısı yazılı; SM-103, BOT-104, PR-105 anlatıcıları (Selin/Aoede, Mert/Achird, Oğuz/Fenrir) yalnız kodda (`instructors.ts`). Başlık tarihi "16 Ağustos" eski. |
+| `MANIFESTO.md` | **Dokunma** (tarih notu hariç) | Vizyon belgesi; mimari çıkışı doğru yönlendiriyor. |
+| `PEDAGOJI.md` | **Küçük güncelleme + bir çelişki çözümü** | Bölüm 2.2 kapanış duası olarak "Tezgâhın bereketli olsun…"u şart koşuyor; `AKADEMI_URETIM_ANAYASASI.md` 1-B aynı cümleyi **temizlenecek slogan** sayıyor (D-2). |
+| `AKADEMI_URETIM_ANAYASASI.md` | **Dokunma** | Dokunulmaz kart. Tek not: Madde 4/1 katmanı "`.ts` / spokenScript" diyor; kod aslında `lib/academy/spoken-scripts/{ders}.md` dosyasına bakıyor. Kod belgeye eşitlenecekse bu ancak CEO kararıyla. |
+| `STORAGE_CONTRACT.md`, `OPS_RUNBOOK.md` | **Güncelle** | "Yayın **8**", "kardeş SKU 02–05 Çok Yakında", "Video katmanı terk edilmiştir" eski. Bugün 6 eğitim, 5 katman (video = yerel ısınma kaseti). |
+| `README.md` (`.system_docs`) | **Küçük** | "Beş zorunlu dosya" diyor ama klasörde 8 belge + `ops/` altında 4 belge var. |
+| `.cursorrules` | **Küçük** | K-4 istisnası. Dışlama listesi (public/media, archived, node_modules) bağlam için makul. |
+| `AGENTS.md` / `CLAUDE.md` | **Dokunma** | `next dev` tarafından yönetilen blok; sadece K-4 çelişkisini çözün. |
 
-| Yol | Boyut | Durum |
+**D-1 (eski sayılar):** `STORAGE_CONTRACT.md` ve `OPS_RUNBOOK.md` hâlâ "Akademi mühürlü yayın 8; kardeşler Çok Yakında" diyor. Gerçek: 6 eğitim, hepsi diskte mühürlü.
+**D-2 (çelişen dua cümlesi):** EC-102'nin 4 dersinde (1, 2, 5, 6) "Tezgâhın bereketli olsun. Satışın hayırlı gelsin." var — bu seslere **fırınlanmış** durumda. Yeni üç eğitimin tüm dersleri ise SOP'un önerdiği "Zihnine sağlık…" cümlesini kullanıyor. Yani pratikte SOP kazanmış; `PEDAGOJI.md` geride. EC-102'yi değiştirmek yeniden ses fırını (ücretli) demek; bu **CEO kararı**.
+**D-3 (bir kez daha ses haritası):** Bu görev metnindeki "OFF-101/201 ve EC-102 canlı" sözü doğru; ama yeni üç eğitimin "geliştirme" sayılması artık eski (bölüm 3).
+
+---
+
+## 3. ADIM 2 — EĞİTİMLER VE KULLANICI DENEYİMİ
+
+### 3.1 Altı eğitimin bugünkü durumu (kod + disk + veritabanı)
+
+Kullandığım ölçüler: ders sayısı ve konuşma metni (`verify:academy-curriculum`), disk (`public/…` altındaki ses, fon müziği, görsel, ısınma videosu), kod kapısı (`pilot-sku.ts`), veritabanı (salt-okunur sorgu).
+
+| Kod | Slug | Anlatıcı (ses) | Ders / kelime / süre | 5 medya katmanı diskte | Kodda kapı | Veritabanı | Gerçekte şu an |
+|-----|------|----------------|----------------------|------------------------|------------|------------|----------------|
+| **OFF-101** | `01_office_ai` | Gözde (Callirrhoe) | 8 ders · 10.252 kelime · ~85 dk (+ hazırlık şeridi) | Tam: 8 ses, 8 fon, 73 görsel, 1 video | Satışa açık | Yayında · ₺890 aktif | **Canlı, satın alınabilir** |
+| **OFF-201** | `01_office_ai_ileri` | Aylin (Kore) | 6 ders · 6.820 kelime · ~57 dk | Tam: 6 ses, 6 fon, **6 görsel (ders başına 1)**, 1 video | Satışa açık (`LAUNCH_SALE_OPEN`) | Yayında · ₺1.290 aktif | **Canlı, satın alınabilir** |
+| **EC-102** | `02_ecommerce_ai` | Kaan (Puck) | 6 ders · 9.588 kelime · ~80 dk | Tam: 6 ses, 6 fon, 31 görsel, 2 video | Açık | Yayında · ₺990 aktif | **Canlı, satın alınabilir** |
+| **SM-103** | `03_social_media_ai` | Selin (Aoede) | 6 ders · 4.117 kelime · ~34 dk | Tam: 6 ses, 6 fon, 30 görsel, 1 video | **Açık** (bu sabah 09:14'te değişti) | **Yayında değil · ₺890 PASİF** | İlk ders izlenir; **satılamaz** |
+| **BOT-104** | `04_chatbot_nocode` | Mert (Achird) | 6 ders · 4.048 kelime · ~34 dk | Tam: 6 ses, 6 fon, 30 görsel, 1 video | **Açık** | **Yayında değil · ₺1.290 PASİF** | İlk ders izlenir; **satılamaz** |
+| **PR-105** | `05_prompt_practice` | Oğuz (Fenrir) | 6 ders · 4.318 kelime · ~36 dk | Tam: 6 ses, 6 fon, 30 görsel, 1 video | **Açık** | **Yayında değil · ₺1.290 PASİF** | İlk ders izlenir; **satılamaz** |
+
+Doğrulamalar: `verify:academy-curriculum` OK (her ders ≥ 600 kelime, UTF-8 sağlam). Mühür listesi (`production-seal-manifest.ts`) 6 eğitimin 5 katmanını tam gösteriyor. Veritabanı fiyatlarının hiçbiri Super Admin eliyle girilmemiş (hepsinde `updated_by` boş; yani "tohum" fiyat — A1 uyarınca satış fiyatı DB satırıdır ve bu satırlar var, ama panelden hiç ayarlanmamış).
+
+**Dikkat çeken tespitler:**
+1. **"Geliştirme" artık doğru kelime değil.** PR-105, SM-103 ve BOT-104 geliştirmeyi bitirmiş; eksik olan **yayın adımı**. Neden satılamadığı: veritabanında kurs kapalı + fiyat pasif (bu ikisini bu sabahki migrasyon açacaktı), migrasyon da kilitli listeye eklenmediği için uygulanamıyor (bulgu 1).
+2. **Yeni üç eğitim, ilk üçün neredeyse yarısı kadar kısa:** ~34–36 dakika; OFF-101 ~85, EC-102 ~80, OFF-201 ~57. Kapı eşiği (ders başına ≥ 600 kelime) geçiliyor ama BOT-104'ün bazı dersleri tabana yakın (636–650 kelime). Fiyatları ise OFF-201 ile aynı bandda (₺1.290). Bu yasaklanmış bir şey değil; yalnızca ürün/fiyat dengesi sorusu: **"₺1.290 için 36 dakika"** pazarda nasıl karşılanır, sizin takdiriniz.
+3. **Görsel yoğunluğu tutarsız:** OFF-201 yalnız 6 görsel taşıyor, diğerlerinin hepsi 30'a yakın. Mühür kapısı yalnızca her dersin ilk görselini arıyor, o yüzden sessizce geçiyor. Kalite hedefiniz bunu da kapsıyorsa kapıya eşik konabilir.
+4. **EC-102 ses kapanışı** (D-2): 4 derste eski dua cümlesi seslendirilmiş halde.
+5. **Ölü ağırlık:** `01_office_ai-4.mp3` (11,3 MB) hâlâ `public/` altında; bu ders sınav yolunda yok ("arşivde kalır" denmiş ama dosya yayın klasöründe).
+6. **Satılabilirliğin DB'ye bağlı iki yüzü:** Kodda SM/BOT/PR "kapı açık" ama DB "yayında değil" olduğu için vitrin kartı bugün "Yayında Değil" gösterecek, ders 1 ise ücretsiz izlenecek. Dürüst yüzey ilkesine (A5) uyuyor; sadece beklenmeyen bir ara hâl.
+
+### 3.2 Özel UX kuralı: "Her eğitimin ilk dersi ödeme duvarsız, herkese açık"
+
+**Cevap: Web'de evet, kodda mevcut ve doğru kurgulanmış. Eksikler aşağıda.**
+
+**Kural nerede yaşıyor?** Tek karar fonksiyonu: `resolveAcademyEntitlement` (`lib/academy/entitlement.ts`). Kural: "eğitimin sınav yolunun ilk dersi herkese açık; OFF-101'de ek olarak hazırlık şeridi." İlk dersin kimliği `lib/kernel/catalog-ids/exam-path.ts` tablosundan türetiliyor. **Kurs listesi yazılmıyor**; yani tabloya eklenen her yeni eğitim kuralı otomatik alıyor. Bu yüzden SM-103, BOT-104, PR-105 de kuralın içinde (ders 1: `…-1`).
+
+| Katman | Davranış | Nerede |
+|--------|----------|--------|
+| Belge | Yazılı (B4 Freemium ilkesi, Pedagoji A.5) | `ANAYASA.md`, `PEDAGOJI.md` |
+| Kenar (giriş kapısı) | `/academy/<eğitim>/oyna` yolu, dersi olan her eğitimde **oturumsuz açık**; boş kabukta kapalı | `lib/kernel/security/edge-guard.ts` |
+| Sayfa | Oturumsuz/lisanssız: ders 1 dolu, ders 2+ gövdesi **boşaltılmış** (istemciye hiç gitmiyor) | `app/academy/[slug]/oyna/page.tsx`, `lib/academy/paywall-shells.ts`, `preview-lock.ts` |
+| Ses | Oturumsuz kullanıcıya yalnız ders 1 için kısa ömürlü imzalı adres | `lib/academy/free-preview-audio.ts` |
+| Asistan | Ders anahtarını kursa bağlıyor (başka kursun ilk dersiyle sızma yok) | `app/api/academy/lesson-assistant/route.ts` |
+| Test | "Ders 1 açık, ders 2 kilitli, lisans bitince geri kapanır, yabancı anahtar açmaz, Super Admin lisanssız açar" | `tests/academy/freemium-contract.test.ts` |
+
+**Eksik / zayıf yerler:**
+
+| # | Eksik | Nerede | Etki |
+|---|-------|--------|------|
+| F-1 | **Mobil uygulama (`apps/rail-is`) hiç "ücretsiz önizleme" bilmiyor** (kodda böyle bir kavram bulunmadı) ve oturum istiyor. | `apps/rail-is/src/…` | Kural mobilde **uygulanmıyor.** |
+| F-2 | **Mobil uygulama yalnız 2 eğitimi tanıyor** (`DRON_COURSE_SLUGS = ["01_office_ai", "01_office_ai_ileri"]`). EC-102 ve yenileri listede yok. Web'in listesiyle elle senkron. | `apps/rail-is/src/ui/course-slugs.ts` | Yeni eğitimler mobilde görünmez. |
+| F-3 | **Sözleşme testi yalnız eski üç kursu kapsıyor.** SM/BOT/PR için "ders 1 açık / ders 2 kapalı" testi yok. Üstelik eski bir test (`edge-guard.test.ts` satır 112) SM-103 oynatıcısının **korumalı (kapalı)** olduğunu bekliyor — artık yanlış, bugünkü iki kırmızı testten biri. | `tests/kernel/edge-guard.test.ts`, `tests/academy/freemium-contract.test.ts` | Kural doğru çalışıyor ama güvence eksik. |
+| F-4 | **Kilitli ders kontrolü "EC-102 ders 2"yi sonda olarak kullanıyor** (`ACADEMY_LOCKED_LESSON_PROBE`). "Bu kullanıcı lisanslı mı?" sorusunu yanıtlamak için sabit bir eğitimin ikinci dersine soruluyor. EC-102 bir gün yeniden adlandırılırsa modül yüklenirken hata fırlatır ve uygulama açılmaz. | `lib/academy/entitlement.ts` | Kırılgan ama şu an çalışıyor. |
+| F-5 | **İki ayrı sabit aynı şeyi söylüyor:** hazırlık şeridi anahtarı hem `ACADEMY_FREE_PREVIEW_LESSON_KEY = "01_office_ai-0"` (`purchase-path.ts`) hem `OFFICE_AI_PREP_STRIP_KEY` olarak tanımlı. | `lib/academy/purchase-path.ts`, `curricula/office_ai/prep` | Tek kaynak ilkesine aykırı; küçük. |
+| F-6 | **Ücretsiz ders sesi büyük:** ders 1 mp3'leri 20–27 MB (+ fon müziği). Her anonim izleme bu baytı çekiyor; bant genişliği maliyeti ve kötüye kullanım yüzeyi var. Hız sınırı için Redis bu makinede **tanımlı değil** (bellek içi sayaç kullanılır; sunucusuz ortamda örnekler arası paylaşılmaz). | `proxy.ts`, `.env.local` | Ölçek geldikçe maliyet. |
+| F-7 | **Veritabanı yayın bayrağı kapalı olan eğitimlerde ders 1 yine de açık.** Kod "serbest önizleme eğitim yayında olmasa da çalışır" diyor (kurs tohumdan çözülüyor). Karar tutarlı ama bilinmeli: SM/BOT/PR bugün yarı açık. | `lib/academy/load.ts` | Bilgi. |
+
+**Sonuç:** Kuralın **kod omurgası eksiksiz ve yeni kurslara kendiliğinden uyuyor.** Boşluklar: mobil (F-1, F-2), testin yeni kursları kapsamaması (F-3) ve yarı açık ara hâl (F-7).
+
+---
+
+## 4. ADIM 3 — SUPER_ADMIN VE YETKİLENDİRME
+
+### 4.1 `yapinet360@gmail.com` bugün ne durumda?
+
+**Veritabanı (salt-okunur sorguyla bugün ölçtüm):**
+
+| Soru | Cevap |
+|------|-------|
+| Hesap var mı? | **Evet** (Supabase kimlik tablosunda, 26 Eylül 2026'da açılmış) |
+| E-postası onaylı mı? | **Evet** (onaylı) |
+| Yasaklı / silinmiş mi? | **Hayır** / **Hayır** |
+| Giriş yöntemi | E-posta (parola) |
+| Son giriş | 30 Eylül 2026, 21:51 (UTC) |
+| Kimliği (UUID), ayardaki `SUPER_ADMIN_USER_ID` ile aynı mı? | **Evet, birebir aynı** |
+| Bu veritabanında toplam kullanıcı | **1** (yalnız bu hesap) |
+| `public.users` aynasındaki satır, satın alma/sertifika durumu | **Ölçülemedi** (2. sorgu seti reddedildi) |
+
+**Kod (yetkiyi kim, nasıl veriyor):** Tek karar fonksiyonu `isSuperAdminActor` (`lib/kernel/auth/super-admin.ts`):
+1. E-posta onaylı değilse → admin değil.
+2. `yetkin.vision@gmail.com` (vatandaş test hesabı) → **asla** admin.
+3. Üretimde: ayarda `CANONICAL_SUPER_ADMIN_EMAIL` **ve** `SUPER_ADMIN_USER_ID` ikisi de dolu olmalı; oturumdaki e-posta **ve** kimlik ikisi de eşleşmeli (çift kilit). Biri eksikse **kimse admin olamaz** (güvenli ama kilitlenme riski).
+4. Geliştirmede: onaylı kanonik e-posta yeter.
+
+Bu karar üç katmanda aynı fonksiyonu okuyor: giriş kapısı (`proxy.ts`), API (`requireSuperAdmin`), sayfa (`resolveSuperAdminAccess`). Akademi duvarını da aynı kapı geçiriyor (`hasAcademyAdminBypass`).
+
+Bu bilgisayarın ayarları (değer okunmadı, yalnız "dolu mu?" bakıldı): `CANONICAL_SUPER_ADMIN_EMAIL` **dolu**, `SUPER_ADMIN_USER_ID` **dolu**, `ops:runtime-readiness` çıktısı `superAdmin=configured`.
+
+### 4.2 "Eksiksiz tam yetki" var mı?
+
+**Platformun ürettiği tek yetkili rol o ve onu eksiksiz tanıyor.** Ama "tam" kelimesi bugün şu anlama geliyor, fazlasına gelmiyor:
+
+| Yapabildiği | Yapamadığı / yok |
+|-------------|------------------|
+| Akademi duvarını lisanssız geçer, tüm dersleri izler (üretimde de, DB'ye yazmadan) | **Eğitimi yayına alma/kapama düğmesi yok** (yalnız SQL migrasyonu) |
+| `/admin`: fiyat kataloğunu görür ve değiştirir (karar defteri ile), satış gösterge paneli (funnel), denetim odaları | **Kullanıcı yönetimi / satın alma / iade ekranı yok** |
+| Sertifika iptali ve bağış komutları (komut satırı betikleriyle) | **İkinci yönetici, acil durum yedek hesabı (break-glass), yönetici eylem denetim izi yok** |
+
+**Eksikler ve riskler:**
+1. **Tek hesap, tek ayar.** Yetkiyi devretmek için ayar değişikliği + yeniden dağıtım gerekir. Hesap kaybolur ya da e-posta erişimi kopar ise platformu kimse yönetemez.
+2. **Üretim ortamı değişkenleri doğrulanmadı.** Yerelde dolu; Vercel Production'da ikisinin dolu olduğunu **buradan göremem.** Biri eksikse üretimde `/admin` kimseye açılmaz. Önerilen kontrol: üretimde `ops:runtime-readiness` ve kendi hesabınızla `/admin` açılışı.
+3. **Geliştirme modu açık kapı:** Yerelde `npm run dev` ile bu `.env.local` kullanılırsa (aynı barındırılan veritabanı), onaylı e-posta tek başına admin ve **sıfır harçlı bağış yazma** (laboratuvar bağışı) açıktır (`isZeroFeeAcademyGrantOpen` = üretim dışı). Bu veritabanı canlıysa, yerel geliştirme canlı veriyi etkileyebilir. Lab/canlı ayrımını teyit edin.
+4. **Yerel ayarda bir uyarı:** `DIRECT_URL` "doğrudan bağlantı" olması gerekirken havuz (`pooler`) adresine işaret ediyor (`ops:runtime-readiness`: `direct-fail`). Yani bu makineden `npm run ops:migrate` zaten çalışmaz (Bölüm 3.1'deki migrasyon sorununa ek olarak).
+5. **Sınav oturumu sırrı** bu makinede tanımsız (`examSitting=unconfigured`). Üretimde de yoksa sınav 503 verir. Teyit edin.
+
+---
+
+## 5. ADIM 4 — ATIL, GEREKSİZ VE ÇİFT KAYNAKLI DOSYALAR
+
+### 5.1 Geçici / atıl dosyalar
+
+| Yer | Boyut | Durum |
 |-----|-------|-------|
-| `.tmp/ec102-puck-mp3/` | ~194 MB | `.gitignore`'da; yerelde atıl saha kalıntısı |
-| `media-bake/` | ~2.2 GB (245 dosya) | `.gitignore`'da; yerel fırın çıktısı (WAV) |
-| `archived/` | 139 MB, **268 dosya git'te** | Tasarım gereği (donmuş oda tarihi); derleme dışı |
-| `public/media/` | 608 MB, 48 dosya git'te | mp3/mp4 (en büyük tek dosya ~38.6 MB) |
-| `public/academy/` | 258 MB | cinema jpg/avif/webp |
-| **`public/` toplam** | **866 MB** | `.gitignore` yorumu "Vercel Pro statik tavanı 1 GB" diyor → **~%85 dolu** |
-| `.git` | 2.94 GiB paket + 433 MiB gevşek | `git gc` / geçmiş ağırlığı |
-| `tsconfig.tsbuildinfo` | 0.5 MB | ignore'da; sorun yok |
+| `.bak/.orig/.old/.rej/.swp/.log` türü kalıntı | — | **Bulunmadı.** |
+| `.tmp/` | 3 küçük `.txt` | Fırın "bitti" işaretleri; git dışı; sorunsuz. |
+| `media-bake/` | **1,53 GB, 523 dosya** | Git dışı (doğru). **Sadece bu bilgisayarda.** Ses ana kayıtları (WAV). `OPS_RUNBOOK.md` saha dışı yedek şart koşuyor; yedek yoksa kayıp = ücretli yeniden fırın. |
+| `archived/` | 139 MB, 268 dosya (git'te) | Tasarım gereği donmuş tarih. Derlemeye girmiyor. |
+| `generated/` | 3,4 MB | Üretilmiş, git dışı. |
+| `public/` | **927,8 MB** (hata eşiği 950) | Ses 872 MB · ısınma videoları 19 MB · görseller 35 MB. Ses klasörleri: OFF-101 223 MB, OFF-201 169 MB, EC-102 204 MB, PR-105 98 MB, SM-103 93 MB, BOT-104 87 MB. |
+| `01_office_ai-4.mp3` (11,3 MB) | | Sınav yolunda olmayan, emekli ders; yayın klasöründe duruyor. |
+| `docs/` | 2 rapor (+ bu) | `TEDAVI_RAPORU_260920.md` dosya adı 20 Eylül diyor ama içerik 30 Eylül işleri; isim yanıltıcı. |
 
-`.bak / .orig / .old / .rej / .swp` türü dosya **bulunmadı**.
+### 5.2 Hiçbir yerden çağrılmayan modüller
 
-#### 1.3.6 Çalışma ağacı hijyeni (kritik)
+Basit bir bağlantı taramasıyla bulduklarım (yanlış alarm olasılığı var; silmeden önce elle teyit gerekir):
 
-- **~108 yol** değişmiş/untracked (`git status --short`; rapor dosyası hariç): `lib/academy/curricula/02_ecommerce_ai/*` (**untracked**), `scripts/lock-ec102-cue-clock.ts`, `scripts/verify-ec102-live-media.ts`, `lib/academy/spoken-scripts/measure-display.ts` (**untracked**), 6 EC-102 mp3, ~30 cinema jpg, 12 cue/timings JSON vb.
-- **Silinmiş (D) ve korunması gereken:** `.system_docs/Ekran görüntüsü 2026-09-30 005227.png`, `…005251.png`, `…005309.png`. `.cursorrules` "bağlı görseller silinmez" der. (Bu çalışmada ben silmedim; başlangıç `git status`'ta zaten `D`.) **Geri yükleme kararı kullanıcıya aittir.**
-- **Silinmiş (D):** `docs/FAZ1_MASTER_RAPORU.md`, `HOTFIX_EC102_RAPORU.md`, `TEDAVI_RAPORU_01.md`, `TESPIT_RAPORU_01_GLM.md`. `.system_docs/README.md` `/docs`'un silinebilir olduğunu söylüyor; sorun değil, ama geçmiş rapor zinciri git geçmişinde kaldı.
-- Commit edilmemiş iş (özellikle `02_ecommerce_ai/`) **tek makine / tek disk** riski taşıyor.
+- **Dondurulmuş Freelancer arayüzü, kimse kullanmıyor (7):** `components/freelancer/{direct-job-offer-modal, direct-offer-inbox, squad-create-button, squad-panel, squad-teaser, standalone-squad-modal, usta-expertise-list}.tsx`.
+- **Diğer:** `components/shell/frozen-room-gone-page.tsx`, `lib/freelancer/released-proofs.ts`, `lib/kernel/env.ts`.
+- **Yalnız testlerin kullandığı (üretimde karşılığı yok):** `lib/academy/{article-spoken-diff, catalog-favorites, config, issued-certificates, lesson-description, lesson-listen, syntax-highlight, web-speech}.ts`, `lib/academy/curricula/{phase2-drafts, phase2-exam-readiness}.ts`, `lib/freelancer/standalone-squad-store.ts`, `lib/kernel/{ai/paid-command, http/memory-idempotency-store, rooms.ssot}.ts`.
+- **Kendi başına duran tek seferlik betikler:** 34 betik ne `package.json`'da ne başka dosyada anılıyor (çoğu tek kursa özel fırın/mühür betiği: `bake-sm-103-…`, `bake-sm103-nano-slides`, `seal-pr105-player-clock` vb.).
+- **410 saplamaları:** API haritasında hâlâ 60 kapı (11'i "yayından kalktı" cevabı veren saplama) — 30 Eylül'den beri sayı değişmedi.
 
----
+(30 Eylül'de listelenen 4 yetim dosya ve `ecommerce_ai` yönlendirme klasörü temizlenmiş.)
 
-### 1.4 Doküman ve Anayasa Sorgulaması
+### 5.3 "Tek Doğru Kaynak" ilkesine aykırı / çelişen yapılar
 
-Okunanlar: `ANAYASA.md`, `MANIFESTO.md`, `PEDAGOJI.md`, `AKADEMI_URETIM_ANAYASASI.md`, `.system_docs/README.md`, `.cursorrules`, `AGENTS.md`/`CLAUDE.md`.
+| # | Yapı | Sorun | Risk |
+|---|------|-------|------|
+| S-1 | **Eğitim listesi ~66 dosyada.** `05_prompt_practice` adı kod, test, betik, migrasyon, paket dosyalarında 66 dosyada geçiyor (`01_office_ai_ileri` için 74). Başlıca evler: `exam-path.ts`, `course-slugs.ts` (paket), `pilot-sku.ts` (5 ayrı liste), `instructors.ts` (3 ayrı harita), `lesson-veo.ts` (ısınma listeleri), `catalog-seed.ts`, `retired-storefront.ts`, `seo.ts`, SQL dosyaları, 3–4 betik. | Yeni eğitim eklemek "her yere elle yazmak" demek; birini unutmak sessiz hata üretir (bugün bunun örneği: migrasyon listesi). | YÜKSEK (süreç riski) |
+| S-2 | **Mobil uygulama eğitim listesi** elle kopya (yalnız 2 eğitim). | Sapmış durumda (F-2). | ORTA |
+| S-3 | **Müfredat klasör adları tutarsız:** `office_ai`, `office_ai_2`, `02_ecommerce_ai`, `sm-103`, `bot-104`, `pr-105`; ayrıca `social_media_ai`, `chatbot_nocode`, `prompt_practice` adında **1 dosyalık yönlendirme klasörleri** — 30 Eylül'de `ecommerce_ai` için temizlenen aynı hatanın üç yeni kopyası. Betik adları da tutarsız (`bake-sm-103-…` / `bake-sm103-…`). | Dört adlandırma kalıbı; yeni geleni şaşırtır. | ORTA |
+| S-4 | **Migrasyon listesi 3 yerde** (dosya, `EXPECTED_SQL`, test beklentisi). | Bugünkü tıkanma (bulgu 1). | YÜKSEK |
+| S-5 | **Aynı fiyat 3 yerde:** migrasyon SQL'i, koddaki tohum, veritabanı satırı. Doğru olan (A1) DB'dir; ama bugün hepsi "tohum" ve panelden hiç ayarlanmamış. | Gerçek kaynak ile görünen kaynak ayrışabilir. | DÜŞÜK-ORTA |
+| S-6 | **Kod ile belgede iki ayrı "ses haritası":** `AKADEMI_URETIM_ANAYASASI.md` (model kimlikleri) ↔ `model-roles.ts` bugün **uyumlu**; anlatıcı adları ise yalnız kodda. | Belge geride. | DÜŞÜK |
+| S-7 | **Mühür manifestosu** (`production-seal-manifest.ts`, 159 satır) üretilmiş bir dosya olarak depoda duruyor ve her medya değişiminde yeniden üretiliyor. | Her fırında gürültülü fark; eski kalırsa yanlış rapor riski. | DÜŞÜK |
+| S-8 | **Ücretsiz ders sabiti 2 yerde** (F-5). | Küçük. | DÜŞÜK |
 
-#### 1.4.1 Canlı mimariyle örtüşme
-
-| Belge maddesi | Canlı kod | Örtüşme |
-|---------------|-----------|---------|
-| B1 Pragmatik Monolit + ince `@yetkin/kernel` + tek native istemci | Next.js monolit; `packages/kernel` (money, catalog-ids, http zarf, hop meta); `apps/rail-is` tek istemci; `DRON_KAYIT` sicili | **Tam** |
-| B1 `lib/kernel` dikey import etmez | `lib/kernel` → academy/freelancer/career/showcase/dashboard import sayısı **0**; `verify:boundaries` OK | **Tam** |
-| B2 Faz 1 kamu vitrini: Panel+Akademi+Kariyer; Freelancer kilitli | `VERTICAL_ROOMS`, `FROZEN_DISK_ROOMS` (8), `DronBayrakları`, 410 kenarı | **Tam** |
-| A1 `amountMinor` tamsayı, tek defter, fiyat DB'de | `PriceCatalogEntry`, tohum Super Admin tutarını ezmez (`prisma/seed.ts`); `verify:amount-minor` prebuild'de | **Tam** (bu çalışmada yeniden çalıştırılmadı) |
-| A3 RLS/IDOR/servis anahtarı | `enforce_rls_all_tables`, `rls_user_scoped_policies`, `verify:rls-status`, `verify:idor-seals` | Tasarım olarak tam; canlı RLS durumu doğrulanmadı |
-| A4 Sunucu puanlama, SHA-256 mühür | Sunucu tarafı exam/certificate motoru; `/academy/dogrula` kamu | Kod yapısı uyumlu |
-| B4 Beş medya katmanı + `assertAcademyProductionSeal` + `academyCourseSaleOpen` | `production-standard.ts`, `pilot-sku.ts`; testler yeşil | **Tam** |
-| AKADEMİ SOP Model Haritası ↔ `model-roles.ts` | `TEXT_GEN=gemini-3.8-flash`, `VOICE_TTS=gemini-3.8-flash-tts`, `IMAGE_GEN=gemini-3.1-flash-image`, `MUSIC_GEN=lyria-3.5`, `FAST_STREAM=gemini-3.8-live`, `VIDEO_GEN` mühürlü-ölü | **Tam** (değişmedi; dokunulmadı) |
-
-#### 1.4.2 Doküman–doküman / doküman–kod sürtünmeleri
-
-| Kod | Bulgu |
-|-----|-------|
-| D-1 | **Model SSOT'u iki yönde yazılı:** `PEDAGOJI.md` ve `ANAYASA.md` B4 "kimlik kod SSOT'tadır (`model-roles.ts`)" der; `.cursorrules` + AKADEMİ SOP "SUPER_ADMIN dokümanı yönetir, kod dokümana eşitlenir" der. Uygulamada ikincisi geçerli (haritalar eşleşiyor), ama birinci metin yanıltıcı. |
-| D-2 | **Kurs kimliği:** `PEDAGOJI.md` §2.2 "Tezgâh kursunun anlatıcısı Deniz'dir… kapanış duası", AKADEMİ SOP "Deniz Usta dili". `pilot-sku.ts`: "EC-102 konuşan ad Selin… **Usta unvanı bu kursta yoktur**". Persona (dil) ile anlatıcı adı (ses) ayrımı bir cümleyle netleştirilmemiş. |
-| D-3 | **Olmayan referans:** `MANIFESTO.md` Kural 2 → `docs/specs/freelancer-vize-kapisi.md`. `docs/specs/` yok. |
-| D-4 | **"Sayı burada tekrarlanmaz" kuralı kendi içinde çiğneniyor:** `MANIFESTO.md` §4.1 ve `PEDAGOJI.md` D.1, TTS tavanı "kurs başına 100 / ders başına 10–12" sayılarını yazıyor. |
-| D-5 | **Yasa metnine değişiklik günlüğü karışmış:** `ANAYASA.md` ve `MANIFESTO.md` başlık tablosunda "Son Reform" paragrafları. Kalıcı ilke ile tarihçe aynı sayfada. |
-| D-6 | **Ücretsiz önizleme kuralı hiçbir belgede yok** (F-1). |
-| D-7 | **`.cursorrules` korunan görselleri** anıyor; `AKADEMI_URETIM_ANAYASASI.md`'nin HEAD sürümünde **hiçbir görsel bağlantısı yok** ve üç png şu an working tree'de silinmiş. Kural ile dosya ilişkisi belirsiz. |
-| D-8 | `.cursorrules` / `CLAUDE.md` → `@AGENTS.md`; `AGENTS.md` Next.js "kırıcı değişiklik" notu ve "Akademi üretim standardı" bölümü. Model ID "tekrarlanmaz" deniyor ama AKADEMİ SOP tabloyu tutuyor — pratikte SOP üçüncü ev oldu. |
+Doğru kurulmuş örnek: para birimi ve katalog kimlikleri `@yetkin/kernel` paketinde **tek evde**; web de mobil de ordan okuyor (mobilin eğitim listesi hariç).
 
 ---
 
-## 2. STRATEJİK / TARAFSIZ SORGULAMA
-
-### 2.1 SEN OLSAYDIN NE YAPARDIN? — İlk 3 kritik nokta
-
-**1) Erişim/entitlement'ı tek fonksiyona indir.**
-Bugün "kim neyi görebilir?" sorusu `access.ts` (≈10 fonksiyon), `preview-lock.ts`, `paywall-shells.ts`, `purchase-path.ts`, `edge-guard.ts`, `curriculum-engine.ts` ve `lesson-assistant` içinde parça parça cevaplanıyor; üretim/lab ve vatandaş-test dalları iç içe. Önerim: tek saf fonksiyon `resolveAcademyEntitlement({ actor, purchase, courseSlug, lessonKey, now }) → { tier: "admin" | "licensed" | "preview" | "none", reason }` ve tüm yüzeylerin onu çağırması; serbest önizleme kümesi `exam-path[0]` (+ açıkça adlandırılmış istisna: OFF-101 hazırlık şeridi) tek tabloda; "3 kursta ders 1 açık, ders 2 kapalı, lisans dolunca geri kapanır" için tek sözleşme testi. Hem güvenlik (sızıntı yüzeyi) hem bakım maliyeti düşer.
-
-**2) Medya ağırlığını repodan ve `public/` tavanından çıkar.**
-`public/` 866 MB / ~1 GB tavan, git 3.4 GiB, her yeniden fırın 6×~33 MB. EC-102'nin yeniden fırınlanmış 6 mp3'ü bile henüz commit edilmedi. Önerim: mühürlü mp3/mp4/bed dosyalarını nesne depolamaya (Supabase Storage / S3-uyumlu) taşımak; zaten var olan HMAC grant mekanizmasını imzalı URL üretimine bağlamak; repoda yalnızca **içerik-hash manifesti** tutmak (mühür kapısı manifest + depo HEAD kontrolü okusun). Fiziksel disk şartını (SOP Bölüm 4) "depoda fiziksel olarak var" olarak yeniden tanımlamak mühürün ruhunu bozmaz. Bu, yeni kurs eklemenin (03–05) ön şartı.
-
-**3) İçerik ile çalışma zamanı kodunu ayır; müfredatı tembel yükle.**
-`lib/academy` 287 dosya; `curricula/index.ts` **tüm kursların** gövdelerini (`CURRICULUM_MODULES_BY_SLUG`) eager import ediyor ve modül yüklenirken `assertAcademyCourseVoiceConfig` çalışıyor; `cinema-cue-catalog.ts` 1950 satır. Ders gövdeleri ve sinema cue'ları veri olarak (JSON/MD + şema doğrulama) ya da slug başına dinamik `import()` ile yüklenmeli; dizin adları slug'la 1:1 olmalı (`01_office_ai`, `01_office_ai_ileri`, `02_ecommerce_ai`…), `ecommerce_ai` shim'i ve yetim dosyalar kaldırılmalı. Hedef: üretim hattı (bake/TTS/cue) ile oynatıcı çalışma zamanı ayrı paketler gibi davransın.
-
-*(Bonus, 4.)* Yetki modeli: tek env'e bağlı Super Admin'e ek olarak, kanonik yolu koruyarak (A-1) DB'de denetlenebilir bir platform rol tablosu + yönetim eylemi audit'i. Bu, Anayasa'nın "Prisma `role` kolonu yok" notuyla çelişebilir; bilinçli karar istenir.
-
-### 2.2 PLATFORM KURGUSU DOĞRU MU? (Amiral Gemi + Sürü Dron)
-
-**Kısa cevap:** Kod, "Amiral Gemi + Sürü Dron" olarak değil, **disiplinli modüler monolit** olarak doğru kurulmuş. Spagettiye kayma riski şu an **düşük**, şişme riski **orta**.
-
-Kanıtlar:
-- `lib/kernel` → dikey oda import'u: **0**. `lib/academy` ↔ `lib/career`/`lib/freelancer` çapraz import'u: **0** (kimlik `catalog-ids` üzerinden).
-- ESLint `no-restricted-imports` duvarları + `verify:boundaries` CI kapısı.
-- Tek edge girişi (`proxy.ts`); route kinds (`session|admin|public|webhook`) bir harita ile doğrulanıyor (`verify:api-auth`).
-- Ortak sözleşme `packages/kernel` ve tek native istemci `apps/rail-is` (46 dosya) `/api/v1` hop siciliyle bağlı.
-
-Dikkat edilmesi gerekenler:
-- **Terminoloji çatışması:** Anayasa B1 açıkça "«Sürü Dron» ve «Micro-Apps» bu adın yerine geçmez; ayrı deploy, ayrı DB, ayrı kimlik yoktur" der. Bu istemdeki "Core + Micro-Apps / Shared Kernel" dili kodun gerçeğini değil, **eski adı** yansıtıyor. Gerçek ad: *Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci*. Yanlış isim, yanlış beklenti (ör. bağımsız dağıtım) üretir.
-- "Dron" bugün fiilen **yetenek bayrağı + route öneki** (`DRON_KAYIT`: dashboard, academy, career, freelancer). Gerçek mikro-uygulama sınırı (ayrı paket/dağıtım) yok; olmaması da B1'e uygun.
-- **Akademi dikeyi şişiyor:** 287 dosya; üretim hattı (TTS, cue, bake, mühür) ile runtime (oynatıcı, erişim, sınav) aynı `lib/academy` içinde. Bu, bir sonraki kursta ve ikinci native istemcide sürtünme yaratır.
-- **Donmuş yüzey ağırlığı:** Freelancer motoru (lib 27 dosya + 25 bileşen + ~14 route) canlı derleme ağacında; 7 bileşen fiilen yetim. `archived/` kopya tarihçesi 268 dosya olarak git'te.
-- Gürültü: 61 route dosyasının 11'i 410 saplaması.
-
-### 2.3 KUTSAL DOKÜMANLARIN SORGULANMASI
-
-Dokunulmazlar (A1–A5, model tablosu, beş aşama kapısı) **yerinde ve kodla uyumlu**; bunları gevşetme önerim yok. Sorgulanması gerekenler:
-
-| Madde | Değerlendirme |
-|-------|---------------|
-| "Bu belge sayıyı tekrarlamaz, koda bak" deseni (PEDAGOJI, ANAYASA B4) | Niyet doğru (drift'i önler) ama okumayı 4–5 sıçramaya çevirdi; yeni katılan biri tek sayfada "bir ders ne kadar sürer / kaç istek" öğrenemiyor. Belge kendi kuralını da çiğniyor (D-4). **Uygulamada pratiksiz.** |
-| Model SSOT yönü (D-1) | Hangi dosyanın hakem olduğu tek cümleyle ve tek yerde yazılmalı. |
-| "Yasa" içinde "Son Reform" günlükleri (D-5) | Tarihçe `CHANGELOG`'a; anayasa sade kalsın. |
-| Deniz/Selin persona (D-2) | Persona ile anlatıcı adını ayıran bir not gerek. |
-| 3 aşamalı kontrol kapısının ilk ikisi (taslak, gözden geçirme) | Kodda zorlanmıyor; "operatör disiplini" olarak dürüstçe yazılmış. Pratik: bir kontrol listesi/arayüz yoksa uygulanabilirlik operatöre kalıyor. Kaldırmak değil, bir ops checklist'ine bağlamak önerilir. |
-| Sıfır fallback / kota gelince dur | Bilinçli politika (Super Admin kararı); **değiştirme önerilmiyor.** Yalnızca bir "kota/404'te operatör prosedürü" paragrafı eksik. |
-| MANIFESTO Kural 2 (`docs/specs/…`) | Olmayan dosyaya referans (D-3). |
-| Serbest önizleme | Belgelerde yok (D-6); eklenmeli. |
-| `.cursorrules` dışlama listesi | `public/media/` ve `archived/`'ı tarama dışı bırakması bağlam için makul. Ancak "görsel dokunulmaz" maddesi fiilî dosya durumuyla uyuşmuyor (D-7). |
-
-### 2.4 GELECEK MASTER PLANI
-
-**Faz 0 — Güvene al (gün 0–2)**
-1. Çalışma ağacını (~108 yol) bölerek commit et (EC-102 müfredat/`02_ecommerce_ai`, medya, betikler, doküman). Silinen 3 korunan png için geri yükleme kararı.
-2. `npm run typecheck` + `npm test` + `npm run verify:prebuild` tam koşu.
-3. Üretimde Super Admin teyidi: Vercel Production env'de iki değişken, `ops:runtime-readiness`, canlıda `/admin` açılışı, e-posta onayı.
-
-**Faz 1 — EC-102 lansmanı (hafta 1)**
-1. DB: `is_published` + aktif fiyat satırı (A1 — fiyat Super Admin'den).
-2. `scripts/verify-ec102-live-media.ts` canlı medya doğrulaması (untracked betik; commit sonrası koşulacak).
-3. Duman testi: anonim ders 1 (ses dahil), ders 2 kabuk; lisans satın alma (PayTR), 365 gün süresi, sertifika.
-4. İzleme: anonim ses bant genişliği, hız sınırı (Redis REST bağlı mı?), hata oranı.
-5. Kurs başına mühür eşiği: cinema kare yoğunluğu tutarlılığı (OFF-201 = 6).
-
-**Faz 2 — SSOT ve hijyen (hafta 2–3)**
-1. `resolveAcademyEntitlement` + sözleşme testi (2.1 #1).
-2. `ecommerce_ai` shim'inin kaldırılması, import'ların `02_ecommerce_ai`'ye çekilmesi; dizin adlarının slug'la hizalanması.
-3. Yetim/yalnızca-test modüllerinin onaylı kaldırılması (1.3.1–1.3.2); 410 saplamalarının `_gone` yakalayıcıya toplanması.
-4. Belge onarımı: D-1…D-8 (ve serbest önizleme maddesi).
-
-**Faz 3 — Performans / ölçek (ay 1)**
-1. Medyanın nesne depolamaya taşınması; manifest tabanlı mühür (2.1 #2). `public/` tavan uyarısı CI'da.
-2. Müfredat tembel yükleme; kurs başına paket; `cinema-cue-catalog` bölünmesi.
-3. `next/image` ve CDN cache başlıkları cinema kareleri için; bundle analizi.
-4. Rate limit için üretimde Redis zorunluluğu (readiness'te hata).
-
-**Faz 4 — Güvenlik (ay 1–2)**
-1. Yönetici modeli: ikinci admin/break-glass, yönetim audit'i (A-1) — Anayasa kararıyla.
-2. Lab/üretim Supabase projelerinin ayrılığı teyidi (A-4).
-3. RLS ve IDOR testlerinin CI'da zorunlu koşulması; bağımlılık güncelleme turu.
-4. Anonim medya için ek kötüye kullanım koruması (grant TTL, IP oranı).
-
-**Faz 5 — Mikro uygulama genişlemesi (çeyrek)**
-1. Yeni yetenek = `DRON_KAYIT` kaydı + `RAIL_V1_HOPS_META` + `@yetkin/kernel` sözleşmesi (B1 checklist); ikinci istemci yalnızca aynı paket/hop ile.
-2. 03–05 kursları aynı SOP (Bölüm 1 mimari → API) ile; her biri için önce sıfır-API kod tamlığı.
-3. Freelancer Faz 2 yalnız lisanslı Split + B5 kriterleri; donmuş kod ayrı pakete ya da `archived`'a.
-4. Terminoloji kararı: "Sürü Dron / Micro-Apps" etiketi ya resmen emekliye ya da B1 ile yeniden tanımlanır.
-
-### 2.5 SONRAKİ AŞAMA ÖNERİSİ (Tedavi / Uygulama)
-
-Öncelik sırası:
-
-1. **Tedavi-01: Güvene alma** — çalışma ağacının mantıksal commit'lere bölünmesi (özellikle `02_ecommerce_ai/` ve medya), korunan 3 png için karar, tam test/prebuild koşusu. Bu, sonraki tüm temizliklerin güvenlik ağıdır.
-2. **Tedavi-02: Canlı yetki teyidi (salt-okunur)** — üretim env'inde Super Admin ikilisi, `ops:runtime-readiness`, `/admin` açılış kontrolü.
-3. **Tedavi-03: Serbest önizleme + erişim kapısı tekleştirme** — belgeye kural maddesi, `resolveAcademyEntitlement`, tek sözleşme testi. Lansman öncesi en yüksek fayda/risk oranı.
-4. **Tedavi-04: Shim ve yetim temizliği** — onayınızla, küçük ve geri alınabilir PR'lar.
-5. Medya depolama kararı (Faz 3) — mimari karar gerektirir; lansmandan sonra ama yeni kurstan önce.
-
----
-
-## 3. EK: DOĞRULAMA KAYDI
+## 6. SAĞLIK ÖLÇÜMLERİ (bugün çalıştırıldı)
 
 | Kontrol | Sonuç |
 |---------|-------|
-| `tsc --noEmit --incremental false -p tsconfig.json` | exit 0 |
-| `vitest run` (require-super-admin, access, edge-guard, edge-api-auth, sealed-audio-pilot, production-standard, curriculum-content, ecommerce-ai-lesson-1, ecommerce-ai-lesson-3) | 9 dosya / 54 test geçti |
-| `verify:api-auth` | OK — 60 route; `admin:2` |
+| Tip denetimi (`tsc --noEmit`) | Temiz (çıkış kodu 0) |
+| `verify:academy-curriculum` | OK — 6 eğitim, 36 ders, hepsi ≥ 600 kelime |
+| `verify:api-auth` | OK — 60 kapı |
 | `verify:boundaries` | OK |
-| Tam `npm test`, `verify:prebuild`, Playwright E2E, canlı DB/Vercel sorgusu | **Bu çalışmada koşulmadı** |
-| Yetim modül taraması | Geçici betik sistem geçici dizininde çalıştırıldı (repo dışı); repoya dosya yazılmadı |
+| `verify:public-size` | **UYARI** — 927,8 MB (uyarı 850, hata 950) |
+| `ops:runtime-readiness` | Uyarılı (çıkış 0): doğrudan bağlantı adresi hatalı, sınav sırrı yok, IP izin listesi yok |
+| `npm test` | **1193 / 1196 geçti.** Kırmızı: (a) `tests/kernel/edge-guard.test.ts:112` — SM-103'ü hâlâ "kapalı" sanan eski test; (b) `tests/kernel/ops-migrate-logic.test.ts` — beklenen 13 SQL, diskte 14 (yeni migrasyon listeye girmemiş); (c) `live-broadcast-shutdown.test.ts` 5 sn zaman aşımı — **tek başına çalıştırınca 4/4 geçti**, yük kaynaklı. |
+| CI iş akışı (`.github/workflows/ci.yml`) | `lint`, `verify:prebuild`, `typecheck`, `test` çalıştırıyor → (a) ve (b) yüzünden bugünkü hâliyle kırmızı olur. |
 
-## 4. SINIRLAR
+---
 
-- Canlı Supabase/Auth, Vercel env ve üretim DB'sine erişim yok; Bölüm 1.1 ve 1.2'nin canlı doğrulaması yukarıdaki salt-okunur adımlara bağlıdır.
-- `.env.local` yalnızca iki anahtarın **doluluğu** için kontrol edildi; değer okunmadı/yazılmadı.
-- Yetim dosya listesi sezgiseldir; silme öncesi manuel teyit gerekir.
-- Bu rapor yalnızca tespit ve öneridir; hiçbir uygulama değişikliği yapılmamıştır.
+## 7. ADIM 5 — STRATEJİK DEĞERLENDİRME (BENİM GÖRÜŞÜM)
+
+### 7.1 SEN OLSAYDIN NE YAPARDIN? — İlk müdahale
+
+**İlk müdahalem "yayın hattını açmak" olurdu; yeni özellik ya da yeni mimari değil.** Gerekçe: Elinizde bitmiş, medyası mühürlü, üç ürün var (SM-103, BOT-104, PR-105). Bunlar bugün hiçbir gelir getirmiyor; çünkü sistemin kendi kilitleri onları kapalı tutuyor. Bu kilitlerin hepsi küçük işler:
+
+1. **Yedekle (30 dakika):** 318 değişikliği mantıklı parçalara bölerek kaydedin (içerik, medya, kod, belge ayrı). Bu makinede `git` çalışmıyor; önce o düzelmeli. `media-bake/` (1,5 GB, tek kopya) için saha dışı bir kopya.
+2. **Migrasyon listesini düzelt (30 dakika):** Yeni SQL dosyasını `EXPECTED_SQL`'e ve testine ekleyin. Bu makineden uygulama için `DIRECT_URL`'in doğrudan adresi şart (şu an havuza işaret ediyor).
+3. **İki kırmızı testi düzelt:** `edge-guard` testini "SM-103 ilk ders açık" olarak güncelleyin; SM/BOT/PR için `freemium-contract` testine satır ekleyin.
+4. **Bütçe frenini serbest bırak:** `01_office_ai-4.mp3` (11 MB) gibi emekli dosyaları çıkarmak yalnız küçük nefes; asıl çözüm 7.3 Faz 3. Ama **bir sonraki eğitimden önce** çözülmeli.
+5. **Fiyat/süre kararı (sizde):** SM/BOT/PR fiyatları ve ~35 dakikalık süre pazara uygun mu? Karar sizin; migrasyon yalnız "tohum" koyuyor, panelden değiştirilebilir.
+6. **Sonra "yayınla".**
+
+### 7.2 PLATFORM KURGUSU — "Amiral Gemi + Sürü Dron" doğru tasarlanmış mı?
+
+**Kısa cevap:** Evet, ama **bu isimle değil.** Doğru ad: *modüler monolit + ince sözleşme paketi + tek mobil istemci.* Bu, bu ölçekte (1 yönetici, 6 eğitim, bir mobil uygulama) doğru seçim. Ayrı mikro uygulamalar şu an yük olurdu.
+
+**İyi yapılmış damarlar:**
+- Çekirdek ↔ dikey odalar arasında sert duvar (kod denetimi ile zorlanıyor; bugün yeşil).
+- Tek giriş kapısı, tek yetki kararı, tek erişim karar fonksiyonu (artık).
+- Para: tek defter, tam sayı kuruş, fiyat veritabanında.
+- Fail-closed kültürü: "bağlı değilse dürüstçe söyle" (A5), mühür diskte olmadan satış yok.
+- Mobil + web aynı `/api/v1` sözleşmesini ve aynı paketi konuşuyor.
+
+**Tıkalı / eksik damarlar (önem sırasıyla):**
+1. **Yayın damarı:** eğitim yayınlamak = SQL yazmak + 3 yerde liste güncellemek + dağıtmak. Panelden yayınlama yok.
+2. **Medya damarı:** medya kod deposunda ve Vercel paketinde; 950 MB tavanda. Bu mimarinin en büyük **ölçek** engeli.
+3. **Kayıt damarı:** "bir eğitim = ~66 dosya." Tek bir kurs kayıt dosyası (kod, ad, anlatıcı, ders listesi, ısınma eşlemesi, kapı) olsa gerisi türetilir.
+4. **Mobil damar:** mobil eğitim listesi elle, 2 eğitimde kalmış; ücretsiz önizleme yok.
+5. **Yönetim damarı:** tek yönetici, panelde yalnız fiyat ve gösterge; kullanıcı/iade/yayın yok; yönetici eylem izi yok.
+6. **Ortam damarı:** lab ve canlı veritabanı ayrımı kanıtlanamıyor; yerel `.env.local` hosted veritabanına bağlı.
+7. **Test/CI damarı:** testler yeni gerçekliğe (SM/BOT/PR açık) yetişmemiş.
+
+"Sürü Dron" için: gerçek bir ayrı uygulama sınırı bugün yok ve olması da gerekmiyor. Freelancer odası kapalı (410), kodu derleme ağacında duruyor (7 yetim bileşen). Yeni "dron" fikrine geçmeden, yukarıdaki yedi damar tıkalıyken sürüyü büyütmek işi zorlaştırır.
+
+### 7.3 MASTER PLAN (önerim)
+
+**Faz 0 — Güvene al ve kilitleri aç (1–2 gün)**
+1. 318 dosyayı commit'leyin (parçalayarak). `media-bake/` yedeği saha dışı.
+2. Migrasyon kilidi düzeltmesi, 2 kırmızı testin düzeltilmesi, CI yeşil.
+3. Canlı/lab veritabanı ayrımını teyit edin. Üretimde `ops:runtime-readiness` ve `/admin` kontrolü.
+4. EC-102 dua cümlesi için karar (bırak / yeniden fırınla).
+
+**Faz 1 — Üç eğitimi satışa aç (hafta 1)**
+1. Migrasyonu uygula → DB'de SM/BOT/PR yayında ve fiyat aktif.
+2. Canlı duman testi: oturumsuz ders 1 (ses dahil), ders 2 kilitli, PayTR ile satın alma, 365 gün lisans, sertifika doğrulama.
+3. İlk gerçek müşteriler. **Bu veritabanı canlıysa şu an sıfır müşteri var;** teknik mükemmeliyetten çok ilk 10 ödeme öğretici olacaktır.
+4. Fiyat/süre dengesini gerçek veriyle sınayın.
+
+**Faz 2 — Hattı sadeleştir (hafta 2–4)**
+1. **Tek kurs kayıt defteri:** eğitim başına tek kayıt; `pilot-sku`, `instructors`, `lesson-veo`, mobil liste ve seed bundan türesin. Hedef: yeni eğitim = 1 kayıt + içerik.
+2. Migrasyon listesi otomatik türetme. Yayın/kapama için yönetici panelinde anahtar (ücretsiz önizleme anayasadaki gibi kodda kalır; yalnız acil "kapat" eklenebilir).
+3. Klasör/betik adlandırmasında tek kalıp (`NN_slug`), 3 yönlendirme klasörünün ve yetim dosyaların onaylı temizliği.
+4. Testlere "her eğitimde ders 1 açık, ders 2 kapalı" tek döngülü sözleşme (tabloya yeni kurs eklenince otomatik kapsansın).
+5. Belge onarımı (bölüm 2.3).
+
+**Faz 3 — Medyayı depodan çıkar (ay 1–2)**
+1. Mühürlü ses/video/görsel dosyalarını nesne depolamaya (Supabase Storage veya benzeri) taşımak; mevcut kısa ömürlü imzalı adres sistemi bu yöne zaten hazır.
+2. Mühür kapısını "depoda dosya var + bayt/özet uyumlu" şekline taşımak. **`AKADEMI_URETIM_ANAYASASI.md` metnine dokunmadan** (kapıdaki fiziksel dosya şartı korunur, yalnız fiziksel yer değişir); bu CEO onayı gerektirir.
+3. Hız sınırı için Redis'in canlıda zorunlu hâle gelmesi.
+4. `public/` bütçe uyarısı CI'da erken (850 MB'de zaten uyarıyor).
+
+**Faz 4 — Mobil ve yönetim (ay 2–3)**
+1. Mobil eğitim listesini API'den okutmak; ücretsiz önizleme.
+2. İkinci yönetici / yedek hesap, yönetici eylem izi, basit satın alma ve iade görünümü.
+3. Güvenlik turu: RLS ve yetki testlerinin CI'da zorunlu koşması.
+
+**Faz 5 — Büyüme (çeyrek)**
+1. Yeni eğitimler (06+) yalnız Faz 2–3 bittikten sonra.
+2. Kurumsal (B2B) keşif: önce bir pilot müşteri (Manifesto Motor 2).
+3. Freelancer yalnız lisanslı Split + `ANAYASA.md` B5 koşullarıyla (A2 değişmez).
+
+### 7.4 BİR SONRAKİ AŞAMA — tam olarak ne yapmalıyız?
+
+**Aşama 2 / Paket 1 — "Yayın hattını aç" (önerim, sizin onayınızla):**
+
+1. **(Siz)** Bu veritabanı canlı mı, lab mı? Bir cümle yeter.
+2. **(Siz)** `git`'i bu bilgisayarda çalışır hâle getirin (PATH) ya da hangi araçla commit yaptığınızı söyleyin.
+3. **(Ben)** 318 değişikliği mantıklı commit'lere bölerim.
+4. **(Ben)** `EXPECTED_SQL` + test düzeltmesi, `edge-guard` testi, SM/BOT/PR sözleşme testi, CI yeşil.
+5. **(Siz)** `DIRECT_URL`'i doğrudan bağlantı adresiyle düzeltip migrasyonu çalıştırın (ya da bana yetki verin); sonra canlı duman testi.
+6. **(Siz)** Karar: EC-102 duası, SM/BOT/PR fiyat ve süre, 6 görselli OFF-201 için ek görsel istenip istenmediği.
+
+Bu paket bittiğinde üç yeni ürün satışta, CI yeşil, her şey yedekli olur. Ondan sonra Faz 2'deki "tek kurs kayıt defteri"ne geçilir; **yeni eğitim yapmadan önce.**
+
+---
+
+## 8. EK — Karar bekleyen sorular (CEO için)
+
+| # | Soru | Neden önemli |
+|---|------|--------------|
+| 1 | `.env.local`'in bağlı olduğu Supabase projesi canlı mı? | Yerel geliştirme canlı veriyi etkileyebilir; müşteri sayısı yorumu buna bağlı. |
+| 2 | SM-103 / BOT-104 / PR-105 fiyatları (₺890 / ₺1.290 / ₺1.290) ve ~35 dk süre uygun mu? | Migrasyon bunları "tohum" olarak koyar; A1 gereği fiyat Super Admin'in. |
+| 3 | EC-102'deki "Tezgâhın bereketli olsun" seslerini yeniden fırınlayalım mı? | Ücretli TTS; kalan 4 ders. |
+| 4 | Medyanın nesne depolamaya taşınması onaylanıyor mu (Faz 3)? | Mühür kapısının uygulama biçimini değiştirir. |
+| 5 | Yayın/kapama için panel anahtarı ve acil "ders kapat" mandalı onaylanıyor mu? | Anayasa B4'ün ruhuna dokunur; yalnız kapatma yönünde. |
+| 6 | İkinci yönetici / yedek hesap açılsın mı? | Tek hesap = tek arıza noktası. |
+
+---
+
+*Bu rapor yalnız tespit ve önerir. Hiçbir uygulama değişikliği yapılmamıştır.*

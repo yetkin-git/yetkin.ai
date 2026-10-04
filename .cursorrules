@@ -13,6 +13,10 @@ Aşağıdaki klasör ve dosyalar **kesinlikle taranmamalı**, aranmamalı, okunm
 - `apps/*/node_modules/`
 - `.pnp`, `.pnp.js`
 
+### Next.js ajan kılavuzu (tek okuma istisnası)
+- `node_modules/next/dist/docs/` okunabilir. `AGENTS.md` kod yazmadan önce bu kılavuzu şart koşar; o blok `next dev` tarafından yönetilir ve buradan silinmez.
+- İstisna yalnız o klasör içindir. `node_modules/` geri kalanı taranmaz, listelenmez ve okunmaz.
+
 ### Derleme, test ve dağıtım çıktıları
 - `.next/`
 - `out/`
@@ -73,7 +77,7 @@ Aşağıdaki klasör ve dosyalar **kesinlikle taranmamalı**, aranmamalı, okunm
 ## Tarama ve analiz talimatları
 
 1. Kod arama, sembol çözümleme, dosya okuma ve yanıt üretiminde yukarıdaki yollar **tamamen göz ardı edilir**.
-2. Bu yolları taramak veya içeriklerini özetlemek yasaktır; yalnızca kullanıcı açıkça bir yol belirtirse ve o görev için zorunluysa istisna uygulanır.
+2. Bu yolları taramak veya içeriklerini özetlemek yasaktır; yalnızca kullanıcı açıkça bir yol belirtirse ve o görev için zorunluysa istisna uygulanır. Ayrıca `node_modules/next/dist/docs/` ajan kılavuzu her zaman okunabilir.
 3. Geniş glob aramaları (`**/*`) yapılmadan önce dışlama listesi uygulanır; sonuçlar bu listeyle filtrelenir.
 4. `archived/` ve `yetkin_muze/` aktif ürün kodu değildir; canlı davranış için referans alınmaz.
 5. `public/media/` altındaki dosyalar kod değildir; medya üretim scriptleri (`scripts/render-academy-lesson-media.ts` vb.) üzerinden anlaşılır.
@@ -83,7 +87,7 @@ Aşağıdaki klasör ve dosyalar **kesinlikle taranmamalı**, aranmamalı, okunm
 ## Bağımlılık kontrolü
 
 - Paket sürümleri, script'ler ve bağımlılık listesi için **yalnızca** kök `package.json` ve gerektiğinde `apps/rail-is/package.json` okunur.
-- `node_modules/` içindeki dosyalar **asla** okunmaz veya listelenmez.
+- `node_modules/` içindeki dosyalar **asla** okunmaz veya listelenmez. Tek istisna: `node_modules/next/dist/docs/` (`AGENTS.md` Next.js kılavuzu).
 - `package-lock.json` / `apps/rail-is/package-lock.json` yalnızca kilit çakışması veya sürüm tutarlılığı sorulduğunda, minimal diff için kullanılır.
 
 ---

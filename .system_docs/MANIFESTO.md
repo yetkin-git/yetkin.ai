@@ -109,7 +109,7 @@ Güvenli teslimat üzerinden platform komisyonu. Kamu yüzeyi kilitliyken nakit 
 
 # BÖLÜM 4 — YOL HARİTASI İLKESİ
 
-1. **Mimari:** Anayasa B1. Bu belge mimariyi ikinci kez yazmaz. Yayın hedefi ve satış yüzeyi Anayasa B4’tedir. `punchcard`, `bake` ve `kaset` vatandaş cümlesine girmez. TTS bütçe tavanı kurs başına 100 istek, ders başına 10–12 istektir. Süre için üst dakika dayatması yoktur. Sayıların evi `lib/academy/production-standard.ts` ve `lib/academy/tts-breath-chunks.ts` içindedir.
+1. **Mimari:** Anayasa B1. Bu belge mimariyi ikinci kez yazmaz. Yayın hedefi ve satış yüzeyi Anayasa B4’tedir. `punchcard`, `bake` ve `kaset` vatandaş cümlesine girmez. TTS bütçe tavanı vardır. Kurs tavanı `ACADEMY_MATCH_WHISTLE_MAX`, ders istek bandı `ACADEMY_TTS_LESSON_REQUEST_MIN` ve `ACADEMY_TTS_LESSON_REQUEST_MAX` adlarıyla durur. Süre için üst dakika dayatması yoktur. Sayıların evi `lib/academy/production-standard.ts` ve `lib/academy/tts-breath-chunks.ts` içindedir. Kilidi `tests/academy/production-standard.test.ts` dir. Model kimliği `lib/kernel/ai/model-roles.ts` içindedir. Bu madde o sayıları tekrarlamaz.
 2. **Gelir şimdi:** Merchant iFrame ile cüzdan yükleme + Akademi DEBIT. Kanıt dışarı `/vize` ile çıkar.
 3. **Ölçek sonra:** Split sözleşmesi, freelancer hop geri yazımı, dron kapalı testi. Kurumsal B2B ancak keşif + pilot sonrası.
 
