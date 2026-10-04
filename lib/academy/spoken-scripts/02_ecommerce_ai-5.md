@@ -1,4 +1,4 @@
-Merhaba, ben Selin. Çayın yanındaysan bırak soğumasın. Bugün akşama kadar ekrana yazı dökmeyeceğiz.
+Merhaba, ben Kaan. Çayın yanındaysan bırak soğumasın. Bugün akşama kadar ekrana yazı dökmeyeceğiz.
 
 Geçen ders, dördüncü derste, kasaya beraber bakmıştık. Malı, paketi, kargoyu ve komisyonu ayrı ayrı yazmıştık. Satış fiyatından bu dört satır düşünce elde ne kaldığını görmüştük. O elde kalan payın adı kâr marjıydı. Rakibin bir lira aşağı inmesine, maliyeti saymadan uymamıştık. Tabanın altındaki fiyatı işaretlemiştik. Tabanın üstündeki fiyatı Listing'e sen koymuştun. O işi orada bırakmıştık.
 

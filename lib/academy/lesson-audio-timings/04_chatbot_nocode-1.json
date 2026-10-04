@@ -1,7 +1,134 @@
 {
   "lessonKey": "04_chatbot_nocode-1",
   "pauseSec": 0.4,
-  "durationSec": 0,
-  "cacheV": 0,
-  "pieces": []
+  "durationSec": 348,
+  "cacheV": 348000,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 1.591,
+      "text": "Merhaba, ben Mert."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 1.991,
+      "end": 55.715,
+      "text": "Neredeyiz? Kodsuz WhatsApp ve Web Chatbot Kurulumu eğitimindeyiz. Toplam altı ders var, bu da ilk dersimiz. Bu seride ne yapacağız? Müşteri hizmetleri ve satış için çalışan bir sohbet botunu baştan sona kuracağız. Önce müşterilerin gerçekte ne sorduğunu toplayacağız. Sonra Voiceflow ve Botpress üzerinde bunu bir karar ağacına çevireceğiz. Ardından WhatsApp hattına ve web sitene bağlayacağız, yanlış anlamaları yöneteceğiz, işi sahibine teslim edeceğimiz bir dosyaya dökeceğiz ve canlıda ilk denemeyi yapacağız. Tek satır kod yazmayacağız. Bugün elimize ne geçecek? Bir soru defteri geçecek. Son otuz mesajını okuyup beş gruba ayıracaksın, her gruba tek cümlelik bir cevap yazacaksın, bir de botun kendi başına asla cevaplamayacağı konuları işaretleyeceksin. Bu defter, serinin geri kalanında kuracağımız her şeyin hammaddesi olacak."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 56.115,
+      "end": 81.76,
+      "text": "Tolga diye bir arkadaşım var, mahallede küçük bir bisiklet atölyesi işletiyor. Gün boyu elleri yağlı, telefonu çalışma masasının köşesinde şarjda duruyor. Akşam dokuzda bir müşteri yazıyor: «Pazar günü açık mısınız?» Tolga o saatte evde, yemekte. Mesajı sabah görüyor. Sabaha kadar müşteri başka bir atölyeye yazmış, orada cevap almış, randevusunu da orada almış."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 82.16,
+      "end": 104.542,
+      "text": "Buna kaçan mesaj diyorum. Kimse kötü niyetli değil, kimse tembel değil. Sadece bir insan, bir telefon ve gün içinde bitmeyen bir iş var. Ben bunu analitik bakmayı sevdiğim için şöyle özetliyorum: mesaj gelir, cevap gecikir, müşteri bekleyemez. Bot bu zinciri ortadan bölüyor. Tolga uyurken bile ilk cevap yerinde duruyor."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 104.942,
+      "end": 126.462,
+      "text": "Bir ayrım yapmadan hiçbir araca dokunma. Bu ayrım bütün seriyi taşıyacak. Aynı soru sık sık geliyorsa ve cevap kimin sorduğuna göre değişmiyorsa, bu botun işidir. «Pazar açık mısınız?» böyle bir soru. «Lastik tamiri ne kadar sürer?» de böyle. Cevap bellidir, yazılır, bitmiştir."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 126.862,
+      "end": 154.682,
+      "text": "Cevap duruma göre değişiyorsa, para kararı gerekiyorsa, müşteri kızgınsa ya da bir istisna varsa, bu insanın işidir. «Kaza yapan bisikletimin çerçevesi çatlamış, ne yapacağım?» sorusuna bot cevap vermez. Bu soruda doğru cevap Tolga'nın bisikleti görmesinden geçer. Bunu iki kelimeyle tutabilirsin: tekrar eden bota, karar isteyen insana. Elinde iki yığın olacak, her mesaj bunlardan birine düşecek."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 155.928,
+      "end": 162.504,
+      "text": "Şimdi bugünün işine geçelim. Aracı açmadan, bir kâğıtla ya da boş bir not dosyasıyla başlıyorsun."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 162.904,
+      "end": 191.106,
+      "text": "Birinci adım, mesajları topla. WhatsApp'ı, sosyal medya mesajlarını, telefonda not aldığın soruları, hepsini tara. Son otuz mesaj yeter. Fazlası seni yorar, azı da tabloyu eksik gösterir. İkinci adım, mesajları cevap için değil soru için oku. Çoğu insan buraya yanlış girer, hemen cevap yazmaya başlar. Sen yalnızca soruyu çıkar. Her soruyu ayrı bir satıra yaz."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 191.506,
+      "end": 212.147,
+      "text": "Üçüncü adım, benzer soruları grupla ve beş grupta dur. Grubun adını da müşterinin kendi cümlesiyle koy, senin iç jargonunla değil. «Açık mısınız?» diye yaz, «çalışma saatleri talebi» diye yazma. Çünkü ileride botun menüsüne de aynı cümleyi koyacağız ve müşteri kendi sözünü görünce tereddüt etmeyecek."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 0,
+      "start": 212.547,
+      "end": 252.063,
+      "text": "Dördüncü adım, her gruba tek cümlelik bir cevap yaz. Tek cümle, tek bilgi. «Pazartesiden cumaya sabah dokuzdan akşam altıya, cumartesi öğlene kadar açığız.» Böyle. İkinci bilgiyi eklemek istersen yeni bir grup aç. Beşinci adım, devir listesini yaz. Botun kendi başına yanıtlamayacağı konuları sırala. İade, şikâyet, özel fiyat, pazarlık, hasarlı ürün, garanti tartışması. Bu liste, botun nerede duracağını söyler. Dördüncü derste bu listeyi kullanarak botun sınırlarını çizeceğiz."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 0,
+      "start": 252.463,
+      "end": 277.709,
+      "text": "Tolga'nın beş grubu şöyle çıktı. Açık mısınız. Lastik tamiri ne kadar sürer. Randevu alabilir miyim. Siparişim geldi mi. Fiyat öğrenmek istiyorum. Beşinci grupta bir sorun fark ettik: fiyat soruları işin türüne göre değişiyordu. Burada bir karar verdik. Bot yalnızca fiyat listesindeki üç sabit işin fiyatını söyleyecek, geri kalan her fiyat sorusu devir listesine girecek."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 0,
+      "start": 278.109,
+      "end": 289.388,
+      "text": "Gördün mü, defter yazarken bile bir tasarım kararı verdin. Neyi botun sorumluluğuna bırakacağını seçtin. Kendi defterinde de aynı yerde bir karar çıkacak, onu not et."
+    },
+    {
+      "index": 12,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 289.678,
+      "end": 317.272,
+      "text": "Grup adı: müşterinin kendi cümlesi. Cevap: tek cümle, tek bilgi. Devir: botun kendi başına yanıtlamayacağı konular. Bugünün işi şu: son otuz mesajını topla, soruları çıkar, beş gruba ayır, her gruba tek cümlelik cevap yaz, devir listeni işaretle. Altıncı bir grup açmaya kalkma. Beş grup mesajların büyük bölümünü karşılar, kalan bölüm zaten insana gidecek."
+    },
+    {
+      "index": 13,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 317.672,
+      "end": 348,
+      "text": "Bugün aracı açmadan önce, müşterinin ne sorduğuna baktın. Tekrar edeni karar isteyenden ayırdın. Elinde artık beş cevap ve bir devir listesi var. Küçük bir iş gibi duruyor ama kurulumdan sonra çıkacak sorunların çoğu, bu defteri baştan eksik yazmaktan çıkıyor. Bir sonraki derste bu defteri alıp Voiceflow'da ilk karar ağacını çizeceğiz. Karşılamayı, üç düğmeyi ve randevu dalını kuracağız. Zihnine sağlık. Bir sonraki derste görüşmek üzere, kendine iyi bak."
+    }
+  ]
 }

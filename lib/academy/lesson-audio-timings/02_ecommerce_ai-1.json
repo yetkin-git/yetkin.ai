@@ -1,8 +1,8 @@
 {
   "lessonKey": "02_ecommerce_ai-1",
   "pauseSec": 0.4,
-  "durationSec": 863.128,
-  "cacheV": 863128,
+  "durationSec": 900.136,
+  "cacheV": 900136,
   "pieces": [
     {
       "index": 0,
@@ -10,107 +10,107 @@
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
       "start": 0,
-      "end": 73.062,
-      "text": "Merhaba, ben Selin. Hoş geldin. İlk dersimizdeyiz. Şimdi vitrinin başına beraber geçelim. Bu altı ders boyunca yapay zekâyı tezgâhının yanında bir asistan gibi kullanacağız. Asistan tekrar eden yazıyı kurar. Sen okursun. Sen karar verirsin. Vitrine de sen koyarsın. İşin özü iki yerde durur. Satışın artsın. Hatalı işlem cebinden para götürmesin. Pazaryerin Trend yol da olur, Hepsi burada da, Ama zon da. En on bir de, ÇiçekSepeti de, PttAVM de, Getir de, Pazarama da aynı masaya oturur. Panelin adı değişir. Kârın ve zararın girdiği yer değişmez. Her ürünün yazısını gece boyu, ezberden, tek başına kurmaya kalkarsan akşam biter. Ölçüyü atladığın cümle de alıcıya yanlış mal vaat eder. Yanlış vaat geri döner. Geri dönen malın kargo parası da çoğu zaman senin sırtına biner. O yüzden bu seride paneli kör doldurmayacağız. Ürünün gerçek bilgisini asistana vereceğiz. Çıkan metni sen okuyacaksın. Kutuda olmayan cümleyi sileceksin."
+      "end": 30.391,
+      "text": "Merhaba, ben Kaan. E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı eğitiminin ilk dersine hoş geldin. Bu altı derslik seride yapay zekâyı tezgâhında bir asistan yapmayı öğreneceksin. Bugün, bu ilk derste doğrudan ürün vitrinine odaklanıyoruz: Trend yol, Hepsi burada ve Ama zon'da aramalarda öne çıkacak Arama Motoru Optimizasyonu (SEO) uyumlu ürün açıklamalarını yapay zekâya hatasız yazdırmayı eline alacaksın. Şimdi vitrinin başına beraber geçelim."
     },
     {
       "index": 1,
       "cueId": "cue-01",
-      "cueParagraphIndex": 2,
+      "cueParagraphIndex": 1,
       "chunkIndex": 1,
-      "start": 74.812,
-      "end": 153.292,
-      "text": "Bu ilk derste vitrinin yazısına bakıyoruz. Alıcı arama kutusuna malın adını yazar. Senin başlığın o adla açılmazsa, alıcı seni o aramada göremez. Göremezse tıklamaz. Tıklamazsa satış olmaz. Bu işin adı Es i o'dur. Es i o, ürünün aramada çıkması için başlığa ve açıklamaya doğru kelimeyi koymaktır. Bir de açıklama boş kalırsa alıcı ne aldığını anlamaz. Anlamazsa sepete koymaz. Bugün o başlığı ve o açıklamayı, elindeki gerçek üründen kuracağız. Ürünün vitrin sayfasına Listing denir. Başlık da, açıklama da, özellik listesi de bu sayfanın içindedir. Alıcının gördüğü vitrin budur. Ürünü sen çok iyi bilirsin. Depoda durur. Elinde tartarsın. Rengini gün ışığında görürsün. Ölçüsünü mezura ile alırsın. Kutuyu açınca içinde kaç tane olduğunu da sen sayarsın. Müşteriye dükkânda anlatırken kelime kendiliğinden gelir. Panele geçince aynı kelime kaybolur. İmleç başlık kutusunda yanıp durur. Açıklama kutusu bomboş kalır. Sen de içini rahatlatan kısa bir cümle yazıp geçersin. Kaliteli ürün. Uygun fiyat. Kaçırma. Bunu yazınca satıcının içi rahatlar. Alıcının içi rahatlamaz."
+      "start": 32.141,
+      "end": 94.319,
+      "text": "Bu altı ders boyunca yapay zekâyı tezgâhının yanında bir asistan gibi kullanacağız. Asistan tekrar eden yazıyı kurar. Sen okursun. Sen karar verirsin. Vitrine de sen koyarsın. İşin özü iki yerde durur. Satışın artsın. Hatalı işlem cebinden para götürmesin. Pazaryerin Trend yol da olur, Hepsi burada da, Ama zon da. En on bir de, Çiçek sepeti de, Pe te te A Ve Me de, Getir de, Pazarama da aynı masaya oturur. Panelin adı değişir. Kârın ve zararın girdiği yer değişmez. Her ürünün yazısını gece boyu, ezberden, tek başına kurmaya kalkarsan akşam biter. Ölçüyü atladığın cümle de alıcıya yanlış mal vaat eder. Yanlış vaat geri döner. Geri dönen malın kargo parası da çoğu zaman senin sırtına biner. O yüzden bu seride paneli kör doldurmayacağız. Ürünün gerçek bilgisini asistana vereceğiz. Çıkan metni sen okuyacaksın. Kutuda olmayan cümleyi sileceksin."
     },
     {
       "index": 2,
-      "cueId": "cue-02",
+      "cueId": "cue-01",
       "cueParagraphIndex": 2,
       "chunkIndex": 2,
-      "start": 155.042,
-      "end": 199.378,
-      "text": "Alıcı o sayfayı çoğu zaman gece, telefonda açar. Havluyu eline alamaz. Koklayamaz. Mezura tutamaz. Gördüğü tek şey senin yazdığın satırdır. Satırda pamuk mu, karışım mı, belli değildir. Ekru mu, beyaz mı, belli değildir. Boyu kısa mı, uzun mu, belli değildir. Kutuda bir havlu mu var, iki havlu mu var, o da belli değildir. Alıcı emin olamaz. Emin olamayan alıcı sepete koymaz. Sayfayı kapatır. Aynı kelimeyi bir daha arar. Ölçüsü yazan başka dükkâna gider. Senin havlun rafta kalır. Rafta kalan mal yer kaplar. Satış getirmez. Bu, malın kötü olmasından ayrı bir kayıptır. Mal iyidir. Yazı yoktur. Yazı olmayınca satış da olmaz."
+      "start": 96.069,
+      "end": 174.082,
+      "text": "Bu ilk derste vitrinin yazısına bakıyoruz. Alıcı arama kutusuna malın adını yazar. Senin başlığın o adla açılmazsa, alıcı seni o aramada göremez. Göremezse tıklamaz. Tıklamazsa satış olmaz. Bu işin adı Arama Motoru Optimizasyonu (SEO)'dur. Arama Motoru Optimizasyonu (SEO), ürünün aramada çıkması için başlığa ve açıklamaya doğru kelimeyi koymaktır. Bir de açıklama boş kalırsa alıcı ne aldığını anlamaz. Anlamazsa sepete koymaz. Bugün o başlığı ve o açıklamayı, elindeki gerçek üründen kuracağız. Ürünün vitrin sayfasına Listin denir. Başlık da, açıklama da, özellik listesi de bu sayfanın içindedir. Alıcının gördüğü vitrin budur. Ürünü sen çok iyi bilirsin. Depoda durur. Elinde tartarsın. Rengini gün ışığında görürsün. Ölçüsünü mezura ile alırsın. Kutuyu açınca içinde kaç tane olduğunu da sen sayarsın. Müşteriye dükkânda anlatırken kelime kendiliğinden gelir. Panele geçince aynı kelime kaybolur. İmleç başlık kutusunda yanıp durur. Açıklama kutusu bomboş kalır. Sen de içini rahatlatan kısa bir cümle yazıp geçersin. Kaliteli ürün. Uygun fiyat. Kaçırma. Bunu yazınca satıcının içi rahatlar. Alıcının içi rahatlamaz."
     },
     {
       "index": 3,
       "cueId": "cue-02",
-      "cueParagraphIndex": 3,
+      "cueParagraphIndex": 2,
       "chunkIndex": 3,
-      "start": 201.128,
-      "end": 274.926,
-      "text": "Bir de tersi vardır. Alıcı ölçüyü görmeden alır. Kutu gelince havlu beklediğinden kısa çıkar. İade açar. İade kargosu çoğu zaman senin sırtına biner. Mal sana geri döner. O satışın parası da cebinden çıkar. Boş açıklama satışı kaçırır. Eksik açıklama, kaçan satışın üstüne bir de iade parası yazar. İkisini de baştan kesen şey, doğru başlık ve doğru açıklamadır. Başlık neden ürün türüyle başlar? Çünkü alıcı arama kutusuna övgü yazmaz. Alıcı aradığı malın adını yazar. Pamuklu mutfak havlusu yazar. Pazaryeri bu kelimeyi senin başlığının ilk kelimeleriyle karşılaştırır. Başlık bu kelimeyle açılırsa Listing o aramada çıkar. Başlık övgüyle açılırsa pazaryeri o aramada seni eşleştiremez. Eşleşmeyen Listing alta gömülür. Alta gömülen Listing'e tıklama gelmez. Tıklama gelmezse kasa o gün o üründen dolmaz. Yanlış başlık şudur. Harika kalite, kaçırma. Bu cümlede havlu yok. Pamuk yok. Renk yok. Ölçü yok. Adet yok. Alıcı pamuklu mutfak havlusu yazdığında bu cümle o aramayla eşleşmez. Eşleşmeyen başlık vitrinde kendi kendine durur. Duran vitrin satış getirmez."
+      "start": 175.832,
+      "end": 224.379,
+      "text": "Alıcı o sayfayı çoğu zaman gece, telefonda açar. Havluyu eline alamaz. Koklayamaz. Mezura tutamaz. Gördüğü tek şey senin yazdığın satırdır. Satırda pamuk mu, karışım mı, belli değildir. Ekru mu, beyaz mı, belli değildir. Boyu kısa mı, uzun mu, belli değildir. Kutuda bir havlu mu var, iki havlu mu var, o da belli değildir. Alıcı emin olamaz. Emin olamayan alıcı sepete koymaz. Sayfayı kapatır. Aynı kelimeyi bir daha arar. Ölçüsü yazan başka dükkâna gider. Senin havlun rafta kalır. Rafta kalan mal yer kaplar. Satış getirmez. Bu, malın kötü olmasından ayrı bir kayıptır. Mal iyidir. Yazı yoktur. Yazı olmayınca satış da olmaz."
     },
     {
       "index": 4,
       "cueId": "cue-02",
-      "cueParagraphIndex": 6,
+      "cueParagraphIndex": 3,
       "chunkIndex": 4,
-      "start": 276.676,
-      "end": 367.331,
-      "text": "Doğru başlık şudur. Pamuklu mutfak havlusu, ekru, elliye yetmiş santimetre, iki adet. İlk kelimeler ürün türüdür. Alıcının kutuya yazdığı kelime orada durur. Sonra renk gelir. Ekru, beyaz değildir. Bunu başlıkta görene alıcı beyaz havlu beklemez. Sonra ölçü gelir. Elliye yetmiş santimetre, alıcının mutfak askısına uyup uymayacağını söyler. En sonda adet durur. İki adet, kutuda bir havlu değil, iki havlu olduğunu söyler. Bu dört parça, alıcının sepete koymadan önce sorduğu dört sorudur. Başlık o dört soruyu tek satırda cevaplar. Bu örnekte marka yok. Alıcı çoğu zaman markayı değil, malın adını arar. O yüzden başlık ürün türüyle açılır. Markan varsa ve alıcı o markayı da arıyorsa, markayı ürün türünün yanına eklersin. Ürün türünü silip yerine yalnız markayı koymazsın. Silersen havlu araması seni bulamaz. Arama kelimesi, alıcının kutuya yazdığı günlük kelimedir. Pamuklu mutfak havlusu bir arama kelimesidir. Ekru mutfak havlusu da bir arama kelimesidir. Elliye yetmiş havlu da bir arama kelimesidir. Bu kelime başlığın içinde durmazsa, başlık o aramada çıkmaz. Arama kelimesi başlıkta yoksa başlığı düzeltirsin. Yeni bir övgü eklemezsin. Eksik olan malın adını, rengini ya da ölçüsünü eklersin."
+      "start": 226.129,
+      "end": 307.147,
+      "text": "Bir de tersi vardır. Alıcı ölçüyü görmeden alır. Kutu gelince havlu beklediğinden kısa çıkar. İade açar. İade kargosu çoğu zaman senin sırtına biner. Mal sana geri döner. O satışın parası da cebinden çıkar. Boş açıklama satışı kaçırır. Eksik açıklama, kaçan satışın üstüne bir de iade parası yazar. İkisini de baştan kesen şey, doğru başlık ve doğru açıklamadır. Başlık neden ürün türüyle başlar? Çünkü alıcı arama kutusuna övgü yazmaz. Alıcı aradığı malın adını yazar. Pamuklu mutfak havlusu yazar. Pazaryeri bu kelimeyi senin başlığının ilk kelimeleriyle karşılaştırır. Başlık bu kelimeyle açılırsa Listin o aramada çıkar. Başlık övgüyle açılırsa pazaryeri o aramada seni eşleştiremez. Eşleşmeyen Listin alta gömülür. Alta gömülen Listin'e tıklama gelmez. Tıklama gelmezse kasa o gün o üründen dolmaz. Yanlış başlık şudur. Harika kalite, kaçırma. Bu cümlede havlu yok. Pamuk yok. Renk yok. Ölçü yok. Adet yok. Alıcı pamuklu mutfak havlusu yazdığında bu cümle o aramayla eşleşmez. Eşleşmeyen başlık vitrinde kendi kendine durur. Duran vitrin satış getirmez."
     },
     {
       "index": 5,
       "cueId": "cue-02",
-      "cueParagraphIndex": 9,
+      "cueParagraphIndex": 6,
       "chunkIndex": 5,
-      "start": 369.081,
-      "end": 464.904,
-      "text": "Özellik listesi kısa maddelerden oluşur. Bir madde malzemeyi söyler. Yüzde yüz pamuk. Bir madde ölçüyü söyler. Elliye yetmiş santimetre. Bir madde kutuda ne olduğunu söyler. İki havlu. Yıkama bilgisi kutuda yazıyorsa onu da ayrı bir madde yaparsın. Elde ve makinede yıkanır. Kutuda yazmayan özelliği bu listeye koymazsın. Çabuk kurur, diye kutuda yazmıyorsa çabuk kurur çıkmaz. Alıcı metinde gördüğünü kutuda bulamazsa iade eder. İade yine senin kargo paranla döner. Pazaryerlerin Trend yol, Hepsi burada, Ama zon, En on bir, ÇiçekSepeti, PttAVM, Getir ve Pazarama'dır. Sekizinde de alıcı aynı işi yapar. Arama kutusuna malın adını yazar. Başlık o adla açılmazsa seni göremez. Kutunun adı değişir. Kural değişmez. Trend yol, Hepsi burada, En on bir, ÇiçekSepeti, PttAVM, Getir ve Pazarama'da başlığı ürün adı kutusuna yazarsın. Ama zon'da aynı cümleyi ürün başlığı kutusuna yazarsın. Kelime aynıdır. Kutunun etiketi başkadır. Özellik maddelerini ürün açıklamasına alt alta yazarsın. Açıklamanın ilk cümlesinde de ürün türü, renk ve ölçü geçsin. Alıcı başlığı okumadan açıklamaya inerse, orada da aynı malı görsün. Başlıkta iki havlu, açıklamada tek havlu yazarsa alıcı şüphelenir. Şüphelenince sepete koymaz."
+      "start": 308.897,
+      "end": 398.181,
+      "text": "Doğru başlık şudur. Pamuklu mutfak havlusu, ekru, elliye yetmiş santimetre, iki adet. İlk kelimeler ürün türüdür. Alıcının kutuya yazdığı kelime orada durur. Sonra renk gelir. Ekru, beyaz değildir. Bunu başlıkta görene alıcı beyaz havlu beklemez. Sonra ölçü gelir. Elliye yetmiş santimetre, alıcının mutfak askısına uyup uymayacağını söyler. En sonda adet durur. İki adet, kutuda bir havlu değil, iki havlu olduğunu söyler. Bu dört parça, alıcının sepete koymadan önce sorduğu dört sorudur. Başlık o dört soruyu tek satırda cevaplar. Bu örnekte marka yok. Alıcı çoğu zaman markayı değil, malın adını arar. O yüzden başlık ürün türüyle açılır. Markan varsa ve alıcı o markayı da arıyorsa, markayı ürün türünün yanına eklersin. Ürün türünü silip yerine yalnız markayı koymazsın. Silersen havlu araması seni bulamaz. Arama kelimesi, alıcının kutuya yazdığı günlük kelimedir. Pamuklu mutfak havlusu bir arama kelimesidir. Ekru mutfak havlusu da bir arama kelimesidir. Elliye yetmiş havlu da bir arama kelimesidir. Bu kelime başlığın içinde durmazsa, başlık o aramada çıkmaz. Arama kelimesi başlıkta yoksa başlığı düzeltirsin. Yeni bir övgü eklemezsin. Eksik olan malın adını, rengini ya da ölçüsünü eklersin."
     },
     {
       "index": 6,
       "cueId": "cue-02",
-      "cueParagraphIndex": 12,
+      "cueParagraphIndex": 9,
       "chunkIndex": 6,
-      "start": 466.654,
-      "end": 529.477,
-      "text": "Telefonu, müşteri adresini ve başka sitenin adresini Listing'e yazmazsın. Alıcı zaten o pazaryerinin sayfasındadır. Başka adrese yollanan alıcı sepeti o sayfada bırakır. Başka satıcının cümlesini de kopyalamazsın. Onun övgüsü senin malını anlatmaz. Onun ölçüsü senin kutunda yoktur. Kopyalanan cümle, alıcıya yanlış mal vaat eder. Yanlış vaat iade getirir. Şimdi şunu demiş olabilirsin. Havluyu bilirim, bu cümleyi kuramam, demiş olabilirsin. Çok haklısın, adım adım bakalım. Cümleyi akşam boyunca sen kurmayacaksın. Elindeki gerçek bilgiyi yazacaksın. Cümleyi yapay zekâ kuracak. Sen de çıkan cümleyi, kutudaki havluyla karşılaştıracaksın. Kopyalarken müşterinin adını, telefonunu, adresini ve sipariş numarasını sohbete koymazsın. O bilgi ürüne ait değildir. Kişiye aittir. Ürünün adı, rengi, ölçüsü, malzemesi ve kutu içeriği gider. Kişi gitmez."
+      "start": 399.931,
+      "end": 491.183,
+      "text": "Özellik listesi kısa maddelerden oluşur. Bir madde malzemeyi söyler. Yüzde yüz pamuk. Bir madde ölçüyü söyler. Elliye yetmiş santimetre. Bir madde kutuda ne olduğunu söyler. İki havlu. Yıkama bilgisi kutuda yazıyorsa onu da ayrı bir madde yaparsın. Elde ve makinede yıkanır. Kutuda yazmayan özelliği bu listeye koymazsın. Çabuk kurur, diye kutuda yazmıyorsa çabuk kurur çıkmaz. Alıcı metinde gördüğünü kutuda bulamazsa iade eder. İade yine senin kargo paranla döner. Pazaryerlerin Trend yol, Hepsi burada, Ama zon, En on bir, Çiçek sepeti, Pe te te A Ve Me, Getir ve Pazarama'dır. Sekizinde de alıcı aynı işi yapar. Arama kutusuna malın adını yazar. Başlık o adla açılmazsa seni göremez. Kutunun adı değişir. Kural değişmez. Trend yol, Hepsi burada, En on bir, Çiçek sepeti, Pe te te A Ve Me, Getir ve Pazarama'da başlığı ürün adı kutusuna yazarsın. Ama zon'da aynı cümleyi ürün başlığı kutusuna yazarsın. Kelime aynıdır. Kutunun etiketi başkadır. Özellik maddelerini ürün açıklamasına alt alta yazarsın. Açıklamanın ilk cümlesinde de ürün türü, renk ve ölçü geçsin. Alıcı başlığı okumadan açıklamaya inerse, orada da aynı malı görsün. Başlıkta iki havlu, açıklamada tek havlu yazarsa alıcı şüphelenir. Şüphelenince sepete koymaz."
     },
     {
       "index": 7,
       "cueId": "cue-02",
-      "cueParagraphIndex": 15,
+      "cueParagraphIndex": 12,
       "chunkIndex": 7,
-      "start": 531.227,
-      "end": 604.757,
-      "text": "Bir de yarım kalan soruyu göstereyim. Çünkü çoğu satıcı burada takılır. Sohbete yalnız şunu yazarsan iş yarım kalır. Bu havluya güzel bir Es i o başlığı yaz. Gelen cevap çoğu zaman şudur. Harika kalite, kaçırma, mutfakların gözdesi. Bunu sen zaten aklından yazabiliyordun. Pamuk yok. Ölçü yok. Adet yok. Alıcı yine ne aldığını anlamaz. O yüzden Prompt eksiksiz olur. Prompt, sohbete yapıştırdığın yazı kalıbıdır. Bu Prompt'ta beş şey durur. Rol. Ürün adı. Ölçü. Malzeme. Özellik listesi. Rol, yapay zekâya kim gibi yazacağını söyler. Ürün adı, alıcının aradığı maldır. Ölçü, alıcının kutuda beklediği boydur. Malzeme, havlunun kendisidir. Özellik listesi, kutuda ne olduğunu söyler. Bu beş şey durunca üç parça birden gelir. Başlık. Arama kelimeleri. Kısa özellik listesi. Akşam boyu cümle aramazsın. Kalıbı bir kez yapıştırırsın. Ürünün gerçek satırını sohbete koyarken şu Prompt'u olduğu gibi yapıştırırsın. Ürün satırını en alta eklersin."
+      "start": 492.933,
+      "end": 556.527,
+      "text": "Telefonu, müşteri adresini ve başka sitenin adresini Listin'e yazmazsın. Alıcı zaten o pazaryerinin sayfasındadır. Başka adrese yollanan alıcı sepeti o sayfada bırakır. Başka satıcının cümlesini de kopyalamazsın. Onun övgüsü senin malını anlatmaz. Onun ölçüsü senin kutunda yoktur. Kopyalanan cümle, alıcıya yanlış mal vaat eder. Yanlış vaat iade getirir. Şimdi şunu demiş olabilirsin. Havluyu bilirim, bu cümleyi kuramam, demiş olabilirsin. Çok haklısın, adım adım bakalım. Cümleyi akşam boyunca sen kurmayacaksın. Elindeki gerçek bilgiyi yazacaksın. Cümleyi yapay zekâ kuracak. Sen de çıkan cümleyi, kutudaki havluyla karşılaştıracaksın. Kopyalarken müşterinin adını, telefonunu, adresini ve sipariş numarasını sohbete koymazsın. O bilgi ürüne ait değildir. Kişiye aittir. Ürünün adı, rengi, ölçüsü, malzemesi ve kutu içeriği gider. Kişi gitmez."
     },
     {
       "index": 8,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 1,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 15,
       "chunkIndex": 8,
-      "start": 606.507,
-      "end": 691.44,
-      "text": "Sana bir ürünün gerçek bilgilerini veriyorum. Müşteri adı, telefon, adres ve sipariş numarası yok. Satırda böyle bir bilgi görürsen onu yok say. Rolün, pazaryerinde satış yapan bir esnafın ürün yazısını kuran asistandır. Bu bilgilerden üç parça yaz. Birinci parça Listing başlığıdır. İkinci parça alıcının arayacağı kelimelerdir. Üçüncü parça kısa özellik listesidir. Başlık ürün türüyle başlasın. Sonra renk gelsin. Sonra ölçü gelsin. Sonra adet gelsin. Örnek düzen şudur. Pamuklu mutfak havlusu, ekru, elliye yetmiş santimetre, iki adet. Aynı kelimeyi art arda tekrarlama. Arama kelimeleri günlük kelimeler olsun. Alıcının arama kutusuna yazacağı kelime olsun. Her arama kelimesi başlıkta da geçsin. Başlıkta yoksa başlığa ekle. Özellik listesi kısa maddeler olsun. Bir madde malzemeyi söylesin. Bir madde ölçüyü söylesin. Bir madde kutuda ne olduğunu söylesin. Kutuda olmayan özelliği yazma. Ölçüyü tahmin etme. Rengi değiştirme. Adedi çoğaltma. En iyi, mucize, harika kalite ve kaçırma gibi övgü yazma. Telefon, müşteri adresi ve başka sitenin adresi yazma. Başka satıcının cümlesini kopyalama."
+      "start": 558.277,
+      "end": 631.809,
+      "text": "Bir de yarım kalan soruyu göstereyim. Çünkü çoğu satıcı burada takılır. Sohbete yalnız şunu yazarsan iş yarım kalır. Bu havluya güzel bir Arama Motoru Optimizasyonu (SEO) başlığı yaz. Gelen cevap çoğu zaman şudur. Harika kalite, kaçırma, mutfakların gözdesi. Bunu sen zaten aklından yazabiliyordun. Pamuk yok. Ölçü yok. Adet yok. Alıcı yine ne aldığını anlamaz. O yüzden Promt eksiksiz olur. Promt, sohbete yapıştırdığın yazı kalıbıdır. Bu Promt'ta beş şey durur. Rol. Ürün adı. Ölçü. Malzeme. Özellik listesi. Rol, yapay zekâya kim gibi yazacağını söyler. Ürün adı, alıcının aradığı maldır. Ölçü, alıcının kutuda beklediği boydur. Malzeme, havlunun kendisidir. Özellik listesi, kutuda ne olduğunu söyler. Bu beş şey durunca üç parça birden gelir. Başlık. Arama kelimeleri. Kısa özellik listesi. Akşam boyu cümle aramazsın. Kalıbı bir kez yapıştırırsın. Ürünün gerçek satırını sohbete koyarken şu Promt'u olduğu gibi yapıştırırsın. Ürün satırını en alta eklersin."
     },
     {
       "index": 9,
       "cueId": "cue-03",
       "cueParagraphIndex": 1,
       "chunkIndex": 9,
-      "start": 691.84,
-      "end": 752.643,
-      "text": "Çıktıyı üç başlık altında ver. Başlık. Arama kelimeleri. Özellik listesi. Ürün bilgisi aşağıda. Ürün adı pamuklu mutfak havlusudur. Renk ekrudur. Ölçü elliye yetmiş santimetredir. Malzeme yüzde yüz pamuktur. Paket iki adettir. Yıkama elde ve makinededir. Kutuda iki havlu vardır. Doğru çıktı şöyle durur. Başlık şudur. Pamuklu mutfak havlusu, ekru, elliye yetmiş santimetre, iki adet. Arama kelimeleri şunlardır. Pamuklu mutfak havlusu. Ekru mutfak havlusu. Elliye yetmiş havlu. Özellik listesinde malzeme yüzde yüz pamuktur. Ölçü elliye yetmiş santimetredir. Kutuda iki havlu vardır. Yıkama elde ve makinededir. Yanlış çıktı da şudur. Eşsiz kalitede harika havlu, kaçırma. Bu metinde ölçü yok. Övgü var. Bu metin Listing'e gitmez."
+      "start": 633.559,
+      "end": 718.883,
+      "text": "Sana bir ürünün gerçek bilgilerini veriyorum. Müşteri adı, telefon, adres ve sipariş numarası yok. Satırda böyle bir bilgi görürsen onu yok say. Rolün, pazaryerinde satış yapan bir esnafın ürün yazısını kuran asistandır. Bu bilgilerden üç parça yaz. Birinci parça Listin başlığıdır. İkinci parça alıcının arayacağı kelimelerdir. Üçüncü parça kısa özellik listesidir. Başlık ürün türüyle başlasın. Sonra renk gelsin. Sonra ölçü gelsin. Sonra adet gelsin. Örnek düzen şudur. Pamuklu mutfak havlusu, ekru, elliye yetmiş santimetre, iki adet. Aynı kelimeyi art arda tekrarlama. Arama kelimeleri günlük kelimeler olsun. Alıcının arama kutusuna yazacağı kelime olsun. Her arama kelimesi başlıkta da geçsin. Başlıkta yoksa başlığa ekle. Özellik listesi kısa maddeler olsun. Bir madde malzemeyi söylesin. Bir madde ölçüyü söylesin. Bir madde kutuda ne olduğunu söylesin. Kutuda olmayan özelliği yazma. Ölçüyü tahmin etme. Rengi değiştirme. Adedi çoğaltma. En iyi, mucize, harika kalite ve kaçırma gibi övgü yazma. Telefon, müşteri adresi ve başka sitenin adresi yazma. Başka satıcının cümlesini kopyalama."
     },
     {
       "index": 10,
       "cueId": "cue-03",
-      "cueParagraphIndex": 4,
+      "cueParagraphIndex": 1,
       "chunkIndex": 10,
-      "start": 754.393,
-      "end": 790.981,
-      "text": "Bu Prompt'tan sonra gelen cevaba üç yerden bakarsın. Başlık pamuklu mutfak havlusu ile açılıyor mu? Renk, ölçü ve adet başlıkta duruyor mu? Özellik listesinde kutuda olmayan bir kelime var mı? Övgü sızmışsa o cümleyi silersin. Ölçü yanlışsa aynı Prompt'u bir kez daha yollarsın. Çıkan başlığı bir de sesli okursun. Okurken kutuyu gözünün önüne getirirsin. Kutuda iki havlu varsa metin de iki desin. Metin üç diyorsa o satırı silersin. Listing'e sen koyarsın. Yapay zekâ cümleyi kurar. Yayına sen alırsın."
+      "start": 719.283,
+      "end": 823.598,
+      "text": "Çıktıyı üç başlık altında ver. Başlık. Arama kelimeleri. Özellik listesi. Ürün bilgisi aşağıda. Ürün adı pamuklu mutfak havlusudur. Renk ekrudur. Ölçü elliye yetmiş santimetredir. Malzeme yüzde yüz pamuktur. Paket iki adettir. Yıkama elde ve makinededir. Kutuda iki havlu vardır. Doğru çıktı şöyle durur. Başlık şudur. Pamuklu mutfak havlusu, ekru, elliye yetmiş santimetre, iki adet. Arama kelimeleri şunlardır. Pamuklu mutfak havlusu. Ekru mutfak havlusu. Elliye yetmiş havlu. Özellik listesinde malzeme yüzde yüz pamuktur. Ölçü elliye yetmiş santimetredir. Kutuda iki havlu vardır. Yıkama elde ve makinededir. Yanlış çıktı da şudur. Eşsiz kalitede harika havlu, kaçırma. Bu metinde ölçü yok. Övgü var. Bu metin Listin'e gitmez. Bu Promt'tan sonra gelen cevaba üç yerden bakarsın. Başlık pamuklu mutfak havlusu ile açılıyor mu? Renk, ölçü ve adet başlıkta duruyor mu? Özellik listesinde kutuda olmayan bir kelime var mı? Övgü sızmışsa o cümleyi silersin. Ölçü yanlışsa aynı Promt'u bir kez daha yollarsın. Çıkan başlığı bir de sesli okursun. Okurken kutuyu gözünün önüne getirirsin. Kutuda iki havlu varsa metin de iki desin. Metin üç diyorsa o satırı silersin. Listin'e sen koyarsın. Yapay zekâ cümleyi kurar. Yayına sen alırsın."
     },
     {
       "index": 11,
       "cueId": "cue-03",
       "cueParagraphIndex": 5,
       "chunkIndex": 11,
-      "start": 792.731,
-      "end": 863.128,
-      "text": "Kendi dükkânından bir ürün seçince havlu satırlarını onunla değiştirirsin. Kupanın rengini havluya yazmazsın. Havlunun adedini kupa sanmazsın. Her ürün kendi kutusuyla gider. Karışınca alıcı yanlış mal bekler. Yanlış beklenti yine iade olur. Bu derste şunu işledik. Ürünü sen iyi bilirsin ama panele gelince kelime kaybolur, açıklama boş kalır ve alıcı ne aldığını anlamadan sayfayı kapatır. Başlığı ürün türüyle kurduk, övgünün aramada çıkmadığını gördük, sekiz pazaryerinde başlığın hangi kutuya yazılacağını konuştuk ve doğru Prompt ile başlığı, arama kelimesini ve kısa özellik listesini bir seferde kurup Listing'e senin koyacağını gördük. Sıradaki ders ikinci ders. Orada pazaryeri görsel standartlarına bakacağız. Ürün fotoğrafının arka planını temizleyeceğiz. Yazı doğru olsa da ilk kare mutfak masasında kalırsa alıcı ürünün rengini göremez. Göremezse yine sepete koymaz. O işi sıradaki derste ele alacağız. Tezgâhın bereketli olsun. Satışın hayırlı gelsin. Başlığın alıcının aradığı kelimeyle açılsın. İkinci derste görüşürüz. Kendine iyi bak. Selamlar."
+      "start": 825.348,
+      "end": 900.136,
+      "text": "Kendi dükkânından bir ürün seçince havlu satırlarını onunla değiştirirsin. Kupanın rengini havluya yazmazsın. Havlunun adedini kupa sanmazsın. Her ürün kendi kutusuyla gider. Karışınca alıcı yanlış mal bekler. Yanlış beklenti yine iade olur. Bu derste şunu işledik. Ürünü sen iyi bilirsin ama panele gelince kelime kaybolur, açıklama boş kalır ve alıcı ne aldığını anlamadan sayfayı kapatır. Başlığı ürün türüyle kurduk, övgünün aramada çıkmadığını gördük, sekiz pazaryerinde başlığın hangi kutuya yazılacağını konuştuk ve doğru Promt ile başlığı, arama kelimesini ve kısa özellik listesini bir seferde kurup Listin'e senin koyacağını gördük. Sıradaki ders ikinci ders. Orada pazaryeri görsel standartlarına bakacağız. Ürün fotoğrafının arka planını temizleyeceğiz. Yazı doğru olsa da ilk kare mutfak masasında kalırsa alıcı ürünün rengini göremez. Göremezse yine sepete koymaz. O işi sıradaki derste ele alacağız. Tezgâhın bereketli olsun. Satışın hayırlı gelsin. Başlığın alıcının aradığı kelimeyle açılsın. İkinci derste görüşürüz. Kendine iyi bak. Selamlar."
     }
   ]
 }

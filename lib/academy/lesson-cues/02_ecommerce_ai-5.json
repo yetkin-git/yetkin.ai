@@ -2,11 +2,11 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 104.478,
+    "end": 83.375,
     "text": "İNSANİ GİRİŞ VE HATIRLATMA",
     "section": "İnsani giriş ve hatırlatma",
     "paragraphs": [
-      "Merhaba, ben Selin. Çayın yanındaysan bırak soğumasın. Bugün akşama kadar ekrana yazı dökmeyeceğiz.",
+      "Merhaba, ben Kaan. Çayın yanındaysan bırak soğumasın. Bugün akşama kadar ekrana yazı dökmeyeceğiz.",
       "Geçen ders, dördüncü derste, kasaya beraber bakmıştık. Malı, paketi, kargoyu ve komisyonu ayrı ayrı yazmıştık. Satış fiyatından bu dört satır düşünce elde ne kaldığını görmüştük. O elde kalan payın adı kâr marjıydı. Rakibin bir lira aşağı inmesine, maliyeti saymadan uymamıştık. Tabanın altındaki fiyatı işaretlemiştik. Tabanın üstündeki fiyatı Listing'e sen koymuştun. O işi orada bırakmıştık.",
       "Fiyat doğru oturunca açıklama kendiliğinden yazılmaz. Vitrinde yeni mal durur. Her birinin yazısı boşsa alıcı yine ne aldığını anlamaz. Anlamazsa sepete koymaz.",
       "Bu derste odağımız zaman. Bilgisayar başında belin bükülmesin. Yüzlerce ürünü tek tek elinle yazmayacağız. Bir şablon kuracağız. Şablonu yapay zekâya vereceğiz. Toplu hâlde, aramada çıkan ürün açıklaması yazdıracağız. Aramada çıkma işinin adı SEO'dur. Birinci derste SEO'yu tek başlık için kurmuştuk. Bugün aynı kuralı elli ürüne birden uygulayacağız. Böylece yazı işi gününü yemez. Kargoya ve müşteriye vakit kalır."
@@ -14,8 +14,8 @@
   },
   {
     "id": "cue-02",
-    "start": 106.228,
-    "end": 578.715,
+    "start": 83.458,
+    "end": 570.414,
     "text": "TOPLU ÜRÜN AÇIKLAMASI VE ŞABLON",
     "section": "Toplu ürün açıklaması ve şablon",
     "paragraphs": [
@@ -41,8 +41,8 @@
   },
   {
     "id": "cue-03",
-    "start": 580.465,
-    "end": 775.466,
+    "start": 571.281,
+    "end": 763.178,
     "text": "PROMPT",
     "section": "Prompt",
     "paragraphs": [
@@ -55,8 +55,8 @@
   },
   {
     "id": "cue-04",
-    "start": 775.466,
-    "end": 798.524,
+    "start": 764.156,
+    "end": 786.135,
     "text": "DERS SONU ÖZETİ",
     "section": "Ders sonu özeti",
     "paragraphs": [
@@ -65,8 +65,8 @@
   },
   {
     "id": "cue-05",
-    "start": 798.524,
-    "end": 828.944,
+    "start": 786.987,
+    "end": 819.052,
     "text": "GELECEK DERS VE VEDA",
     "section": "Gelecek ders ve veda",
     "paragraphs": [

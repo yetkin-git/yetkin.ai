@@ -1,4 +1,4 @@
-Merhaba, ben Selin. Yeni bir dersle yine beraberiz! Umarım keyifler yerindedir.
+Merhaba, ben Kaan. Yeni bir dersle yine beraberiz! Umarım keyifler yerindedir.
 
 Geçen ders, ikinci derste, stüdyoya gidip stüdyo parası ödemeden ürün fotoğrafını pazaryerinin görsel kuralına getirmiştik. Arka planı düz beyaz bırakmıştık, üstüne stüdyo ışığı vurmuştuk, filigranı silmiştik ve kareyi net tutmuştuk. Bunu alıcı ürünün kendi rengini ve kendi şeklini görsün diye yaptık, bir de yanlış fotoğraf yüzünden geri dönen iadenin önüne geçelim diye. O işi orada bırakmıştık. Fotoğraf düzelince şikâyet kendiliğinden bitmez. Müşteri malı eline alınca yazar, kargo kutuyu hırpalayınca yazar, Listing'de ölçü eksik kalınca da yazar.
 

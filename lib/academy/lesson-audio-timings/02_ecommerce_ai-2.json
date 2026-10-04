@@ -1,8 +1,8 @@
 {
   "lessonKey": "02_ecommerce_ai-2",
   "pauseSec": 0.4,
-  "durationSec": 913.823,
-  "cacheV": 913823,
+  "durationSec": 892.088,
+  "cacheV": 892088,
   "pieces": [
     {
       "index": 0,
@@ -10,107 +10,2816 @@
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
       "start": 0,
-      "end": 102.658,
-      "text": "Merhaba, ben Selin. Şimdi tezgâhın kenarına şöyle otur. Telefonun elinin altındaysa masaya koy. Bugün yazıya değil, malın durduğu ilk kareye bakacağız. Geçen ders, birinci derste, Es i o uyumlu başlığı ve ürün açıklamasını kurmuştuk. Es i o, ürünün aramada çıkması için başlığa ve açıklamaya doğru kelimeyi koymaktı. Başlık ürün türüyle açılıyordu. Renk, ölçü ve adet de aynı satırda duruyordu. Alıcı arama kutusuna malın adını yazınca seni o başlık sayesinde görüyordu. Açıklama da kutuda ne olduğunu söylüyordu. Övgüyü başlıktan çıkarmıştık. O yazıyı orada bırakmıştık. Yazı doğru oturunca kare kendiliğinden doğru olmaz. Başlığın yanındaki ilk fotoğraf mutfak masasında kalırsa alıcı ürünün rengini göremez. Göremezse, başlık ne kadar yerinde olsa da sepete koymaz. Tıklasa bile kutuda başka renk bulunca malı geri yollar. Geri dönen malın kargo parası da çoğu zaman senin sırtına biner. Bu derste o güzel başlığın yanına gelecek ana görseli konuşacağız. Telefonla çektiğin kareyi, stüdyoya gidip stüdyo parası ödemeden, pazaryerinin kabul ettiği görsele getireceğiz. Arka plan düz beyaz olacak. Kare bire bir olacak. Bire bir, en ile boyun eşit durmasıdır. Üstüne stüdyo ışığı vuracak. Filigran da silinecek. Filigran, fotoğrafın üstüne yapışan yazı ve logodur. Bunu alıcı ürünün kendi rengini ve kendi şeklini görsün diye yapacağız. Bir de yanlış fotoğraf yüzünden geri dönen iadenin önüne geçelim diye."
+      "end": 1.319,
+      "text": "Merhaba, ben Kaan."
     },
     {
       "index": 1,
-      "cueId": "cue-02",
+      "cueId": "cue-01",
       "cueParagraphIndex": 0,
       "chunkIndex": 1,
-      "start": 104.408,
-      "end": 161.171,
-      "text": "Çoğu akşam iş şöyle biter. Kargoyu kapatırsın. Çayın dibini bitirirsin. Bej seramik kupayı mutfak masasına koyarsın. Bir kare çekeyim, sabah yüklerim, dersin. Arkada akşam yemeğinden kalma tabak durur. Pencereden sarı bir gölge kupanın gövdesine düşer. Köşede dükkânın küçük logosu da vardır. Sen masanın başında olduğun için kupayı net görürsün. Alıcı o kareyi telefonda, başparmak kadar görür. Kupanın bejini masanın kahverengisiyle karıştırır. Tabaktaki rengi de ürün sanır. Pencere gölgesini leke sanır. Rengi seçemez. Seçemeyince sepete koymaz. Sayfayı kapatır. Aynı kelimeyi bir daha arar. Beyaz zeminde duran başka dükkâna gider. Senin kupan rafta kalır. Rafta kalan mal yer kaplar. Satış getirmez. Bu, malın kötü olmasından ayrı bir kayıptır. Mal iyidir. İlk kare kötüdür."
+      "start": 1.677,
+      "end": 3.865,
+      "text": "Şimdi tezgâhın kenarına şöyle otur."
     },
     {
       "index": 2,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
       "chunkIndex": 2,
-      "start": 162.921,
-      "end": 228.458,
-      "text": "Pazaryeri de bu kareyi ana görsel diye almaz. Dün akşam yüklediğin bej kupanın üstünde bu sabah red yazar. Gerekçede arka plan yazar. O gün satış açılmaz. Alıcı kupayı aramada göremez. Aynı mutfak karesini bir kez daha yüklersen aynı red yine gelir. Hatalı görseli üst üste yüklersen pazaryeri mağazana ceza da yazabilir. Ceza satışını yavaşlatır. Ceza tutarını buradan söylemem. Panelindeki satır ne yazıyorsa odur. Hatalı kareyi yüklemezsen o satır açılmaz. Bir de mal satılıp geri dönerse ayrı bir delik açılır. Karanlık köşe rengi gizler. Flaş da kupanın üstünde beyaz bir leke bırakır. Alıcı o lekeyi çizik sanır. Fotoğrafta açık bej görür, kutuda koyu bej bulur. Ya da gölgeyi kir sanır. İade açar. İade kargosunun ücreti çoğu zaman senin sırtına biner. Ürün sana geri döner. O satışın parası da cebinden çıkar. Kırık ya da kirli sanılan malı ikinci kez aynı fiyata satamazsın. Yazı doğru olsa da yanlış fotoğraf hem satışı kaçırır hem kargo parasını geri getirir."
+      "start": 4.378,
+      "end": 6.327,
+      "text": "Telefonun elinin altındaysa masaya koy."
     },
     {
       "index": 3,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 3,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
       "chunkIndex": 3,
-      "start": 230.208,
-      "end": 283.743,
-      "text": "Ana görsel ilk karedir. Alıcı aramada önce o kareyi görür. İlk kare kötüyse sonraki kareye geçmez. Yaşam fotoğrafını ilk kareye koymazsın. Masanın üstündeki ikinci ürünü de koymazsın. Süslü çerçeveyi de koymazsın. Başka satıcının fotoğrafını da kopyalamazsın. Onun masası senin malını anlatmaz. Onun rengi senin kutunda yoktur. Bu dersin işi senin ilk karendir. Ana görsel neden beyaz olur? Alıcı ürünün kendi rengini görsün diye. Masa görünmesin, tabak görünmesin, perde görünmesin, oda görünmesin diye. Pazaryeri de bu kareyi ana görsel diye alsın diye. Krem zemin beyaz sayılmaz. Gri zemin beyaz sayılmaz. Açık gri bir leke bile, Ama zon'da, ürünü reddettirir."
+      "start": 6.891,
+      "end": 9.777,
+      "text": "Bugün yazıya değil, malın durduğu ilk kareye bakacağız."
     },
     {
       "index": 4,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 5,
-      "chunkIndex": 4,
-      "start": 285.493,
-      "end": 372.022,
-      "text": "Pazaryerin Trend yol da olur, Hepsi burada da, Ama zon da, En on bir de, ÇiçekSepeti de, PttAVM de, Getir de, Pazarama da. Panelin adı değişir. Ana görselin dört kuralı değişmez. Düz beyaz arka plan. Bire bir kare oran. Stüdyo ışığı. Filigransız görsel. Trend yol'da alıcı aramada ilk kareyi görür. Hepsi burada'da da ilk kareyi görür. Ama zon'da da. En on bir'de, ÇiçekSepeti'nde, PttAVM'de, Getir'de ve Pazarama'da da alıcının gözü önce o kareye düşer. Mutfak masası sekizinde de aynı işi yapar. Ürünü gizler. Beyaz zemin sekizinde de aynı işi yapar. Ürünü ortaya çıkarır. Birinci kural düz beyaz arka plandır. Tabak silinir. Pencere silinir. Perde silinir. Krem bir örtü serip beyaz sandım deme. Ama zon bu konuda en sıkı duran pazaryeridir. Zeminde gri bir leke varsa Ama zon o kareyi ana görsel diye almaz. Krem de geçmez. Gölge de geçmez. En sıkı beyaz oradadır. O beyazı geçen kare, öbür yedi pazaryerine de gider. Trend yol'a da, Hepsi burada'ya da, En on bir'e de, ÇiçekSepeti'ne de, PttAVM'ye de, Getir'e de, Pazarama'ya da aynı kareyi koyarsın. Her pazaryeri için ayrı fotoğraf çekmezsin. Sekiz çekim yapmazsın. Bir kareyi Ama zon'un beyazına göre kurarsın."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 10.417,
+      "end": 15.765,
+      "text": "Geçen ders, birinci derste, Arama Motoru Optimizasyonu (SEO) uyumlu başlığı ve ürün açıklamasını kurmuştuk."
     },
     {
       "index": 5,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 7,
-      "chunkIndex": 5,
-      "start": 373.772,
-      "end": 456.641,
-      "text": "İkinci kural bire bir kare orandır. En ile boy eşittir. Dikey telefon karesini olduğu gibi yüklersen pazaryeri kenarları kırpar. Kırpılan yerde kulp kaybolur. Kırpılan yerde kupanın ağzı da kaybolur. Kesik kulpu beyaz arka plan geri getirmez. O yüzden çekimde kulp tam görünür. Ürün karenin ortasında durur. Ürün karenin büyük kısmını doldurur. Kenarda ince bir beyaz pay kalır. Boş bir oda fotoğrafı ana görsel olmaz. Yatay bir masa fotoğrafı da ana görsel olmaz. Kare olmayan görsel, sekiz pazaryerinde de kırpılır. Üçüncü kural stüdyo ışığıdır. Işık ürünün her yanına aynı vurur. Bir taraf gece, bir taraf güneş olmaz. Buna stüdyo ışığı denir. Karanlık köşe beji kahverengi gösterir. Alıcı yanlış renk sanır. Ürünü geri yollar. Geri giden ürün senin zararın olur. Işığın altında yumuşak bir gölge durur. Bu gölgeye taban gölgesi denir. Taban gölgesi, kupanın yere sağlam oturduğunu gösterir. Odanın pencere gölgesi değildir. Pencere gölgesi silinir. Taban gölgesi kalır. Flaşın bıraktığı beyaz leke de kalmaz. O leke stüdyo ışığı değildir."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 16.508,
+      "end": 22.366,
+      "text": "Arama Motoru Optimizasyonu (SEO), ürünün aramada çıkması için başlığa ve açıklamaya doğru kelimeyi koymaktı."
     },
     {
       "index": 6,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 9,
-      "chunkIndex": 6,
-      "start": 458.391,
-      "end": 526.417,
-      "text": "Dördüncü kural filigransız görseldir. Filigran kulpun üstünü örter. Ana görselde filigran durmaz. Köşedeki dükkân logosu da durmaz. Fiyat da ana görsele yazılmaz. Fiyat değişince eski yazı görselde kalır. Alıcı fotoğrafta eski fiyatı görür. Kasada başka fiyat görür. Şüphelenir. Sepete koymaz. Başlık da görselin üstüne yazılmaz. Başlık Listing'de durur. Listing, ürünün vitrin sayfasıdır. Birinci derste kurduğun başlık, kupanın fotoğrafına yapışmaz. Yapışırsa fiyat da başlık da görselde eskir. Yazı Listing'de durur. Görselde mal durur. Yanlış görsel şudur. Bej seramik kupa, ahşap masa, arkada tabak, pencere gölgesi ve köşede dükkân logosu. Doğru görsel şudur. Aynı kupa, düz beyaz arka plan, karenin ortası, stüdyo ışığı ve yumuşak taban gölgesi. Kulpu yerinde durur. Rengi bej kalır. Bej, beyaza çekilmez. Logosu yoktur. İkinci bir kupa da yoktur. Çerçeve de yoktur."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 23.009,
+      "end": 24.583,
+      "text": "Başlık ürün türüyle açılıyordu."
     },
     {
       "index": 7,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 0,
-      "chunkIndex": 7,
-      "start": 528.167,
-      "end": 605.662,
-      "text": "Şimdi şunu demiş olabilirsin. Stüdyom yok, ışığım yok, bu kareyi nasıl beyazlatacağım, demiş olabilirsin. Çok haklısın, adım adım bakalım. Fotoğrafı dışarıda bir stüdyoya götürmene gerek kalmaz. Stüdyo parası da ödemezsin. Ürünü düz bir yere koyarsın. Arkanda tabak, perde ve kalabalık eşya durmaz. Telefonu ürüne dik tutarsın. Parmağın görüntüye girmez. Flaşı kapatırsın. Gün ışığı yeter. Ürün karenin büyük kısmını doldurur. Kenarda ince bir pay kalır. Bu ham kareyi sohbete eklersin. Fotoğrafı yalnız yazıyla anlatmazsın. Yapay zekâ kareyi görmeden arka planı doğru çekemez. Yapay zekâ arka planı beyaza çeker. Ürünü karenin ortasına alır. En ile boyu eşitler. Üstüne stüdyo ışığı vurur. Altına yumuşak taban gölgesi koyar. Yazıyı siler. Logoyu siler. Bunu sen Prompt ile söylersin. Prompt, sohbete yapıştırdığın yazı kalıbıdır. Söylemezsen yapay zekâ kendi bildiğini yapar. Beji beyaza çeker. İkinci bir kulp çıkarır. Arkaya yine bir mutfak koyar. O görseli silersin. Listing'e koymazsın."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 25.088,
+      "end": 27.828,
+      "text": "Renk, ölçü ve adet de aynı satırda duruyordu."
     },
     {
       "index": 8,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 2,
-      "chunkIndex": 8,
-      "start": 607.412,
-      "end": 713.986,
-      "text": "Çıkan görsele sen bakarsın. Arka plan düz beyaz mı? Gri leke duruyor mu? En ile boy eşit mi? Işık kupanın her yanına vurmuş mu? Taban gölgesi var mı, pencere gölgesi kalmış mı? Yazı, logo, fiyat var mı? Renk hâlâ bej mi? Kulp kesilmiş mi? Görüntü bulanık mı? Biri eksikse Listing'e koymazsın. Dört kural tamamsa Listing'e sen koyarsın. Pazaryeri yine reddederse red gerekçesini okursun. Gerekçede arka plan, oran, ışık ya da filigran yazıyorsa o kuralı düzeltirsin. Aynı fotoğraftan yeni görsel alırsın. Kontrol etmediğin görseli yeniden yüklemezsin. Kopyalarken müşterinin yüzünü, sipariş ekranını, adresini ve kargo fişini sohbete koymazsın. Fişte adres vardır. Yalnız ürün fotoğrafı gider. Ürün gider, kişi gitmez. Bir de yarım kalan soruyu göstereyim. Çünkü çoğu satıcı burada takılır. Sohbete yalnız şunu yazarsan iş yarım kalır. Bu fotoğrafı güzelleştir, arka planı temizle. Gelen görsel çoğu zaman şudur. Kupa durur, arkada yine bir mutfak kalır. Ya da bej beyaza döner. Ya da köşedeki logo silinmeden kalır. Bunu sen panelde zaten yaşıyorsun. Ama zon gri lekeye geçit vermez. Yarım soru o lekeyi bırakır. O yüzden Prompt eksiksiz olur. Beyazı, bire bir kareyi, stüdyo ışığını, taban gölgesini ve filigran yasağını ister. Rengin ve şeklin değişmesini de yasaklar. Telefonla çektiğin ham fotoğrafı sohbete koyarken şu Prompt'u olduğu gibi yapıştırırsın. Fotoğrafı da aynı sohbete eklersin."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 28.406,
+      "end": 32.498,
+      "text": "Alıcı arama kutusuna malın adını yazınca seni o başlık sayesinde görüyordu."
     },
     {
       "index": 9,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 6,
-      "chunkIndex": 9,
-      "start": 715.736,
-      "end": 787.505,
-      "text": "Sana bir ürün fotoğrafı ekliyorum. Arka planı düz beyaz yap. Krem zemin bırakma. Gri zemin bırakma. Gri leke bırakma. Ürün karenin ortasında kalsın. Görsel kare olsun. En ve boy eşit olsun. Ürün karenin büyük kısmını doldursun. Kenarda ince beyaz pay kalsın. Ürünün üstüne stüdyo ışığı vur. Işık her yana aynı gelsin. Odanın gölgesi kalmasın. Masa görüntüsü kalmasın. Tabak görüntüsü kalmasın. Pencere gölgesi kalmasın. Ürünün altına yumuşak bir taban gölgesi koy. Fotoğrafın üstüne yazı koyma. Logo koyma. Filigran koyma. Fiyat yazma. Başlık yazma. Ürünün rengini değiştirme. Ürünün şeklini değiştirme. Kutuda olmayan parça ekleme. İkinci bir kulp çıkarma. İkinci bir ürün ekleme. Çerçeve ekleme. Başka satıcının fotoğrafını kopyalama. Çıktıyı tek görsel olarak ver."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 5,
+      "start": 33.012,
+      "end": 35.1,
+      "text": "Açıklama da kutuda ne olduğunu söylüyordu."
     },
     {
       "index": 10,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 7,
-      "chunkIndex": 10,
-      "start": 789.255,
-      "end": 837.12,
-      "text": "Örnek ürün bej seramik kupadır. Kulpu sağdadır. Masada tek kupa durur. Arkada tabak vardır. Pencereden gölge düşer. Köşede dükkân logosu vardır. Bu logoyu sil. Rengi bej bırak. Kulpu kesme. Bu Prompt'tan sonra gelen görsele dört yerden bakarsın. Zemin düz beyaz mı, gri leke var mı? En ile boy eşit mi, kulp karede tam mı? Stüdyo ışığı ve taban gölgesi duruyor mu? Yazı, logo ve fiyat silinmiş mi, bej yerinde mi? Biri tutmuyorsa aynı Prompt'u bir kez daha yollarsın. Rengi değişmiş görseli silersin. İkinci kulp çıkmış görseli de silersin. Listing'e görseli sen koyarsın. Yapay zekâ kareyi kurar. Yayına sen alırsın."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 6,
+      "start": 35.616,
+      "end": 37.099,
+      "text": "Övgüyü başlıktan çıkarmıştık."
     },
     {
       "index": 11,
-      "cueId": "cue-03",
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 7,
+      "start": 37.673,
+      "end": 38.974,
+      "text": "O yazıyı orada bırakmıştık."
+    },
+    {
+      "index": 12,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 39.534,
+      "end": 42.377,
+      "text": "Yazı doğru oturunca kare kendiliğinden doğru olmaz."
+    },
+    {
+      "index": 13,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 1,
+      "start": 43.145,
+      "end": 47.972,
+      "text": "Başlığın yanındaki ilk fotoğraf mutfak masasında kalırsa alıcı ürünün rengini göremez."
+    },
+    {
+      "index": 14,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 2,
+      "start": 48.372,
+      "end": 51.476,
+      "text": "Göremezse, başlık ne kadar yerinde olsa da sepete koymaz."
+    },
+    {
+      "index": 15,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 3,
+      "start": 51.921,
+      "end": 58.362,
+      "text": "Tıklasa bile kutuda başka renk bulunca malı geri yollar."
+    },
+    {
+      "index": 16,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 4,
+      "start": 58.839,
+      "end": 62.573,
+      "text": "Geri dönen malın kargo parası da çoğu zaman senin sırtına biner."
+    },
+    {
+      "index": 17,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 62.988,
+      "end": 69.037,
+      "text": "Bu derste o güzel başlığın yanına gelecek ana görseli konuşacağız."
+    },
+    {
+      "index": 18,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 1,
+      "start": 69.605,
+      "end": 71.149,
+      "text": "Telefonla çektiğin kareyi, stüdyoya gidip stüdyo parası ödemeden, pazaryerinin kabul ettiği görsele getireceğiz."
+    },
+    {
+      "index": 19,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 2,
+      "start": 71.763,
+      "end": 72.8,
+      "text": "Arka plan düz beyaz olacak."
+    },
+    {
+      "index": 20,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 3,
+      "start": 73.43,
+      "end": 73.931,
+      "text": "Kare bire bir olacak."
+    },
+    {
+      "index": 21,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 4,
+      "start": 74.658,
+      "end": 76.628,
+      "text": "Bire bir, en ile boyun eşit durmasıdır."
+    },
+    {
+      "index": 22,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 5,
+      "start": 77.728,
+      "end": 79.114,
+      "text": "Üstüne stüdyo ışığı vuracak."
+    },
+    {
+      "index": 23,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 6,
+      "start": 80.362,
+      "end": 81.629,
+      "text": "Filigran da silinecek."
+    },
+    {
+      "index": 24,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 7,
+      "start": 82.803,
+      "end": 86,
+      "text": "Filigran, fotoğrafın üstüne yapışan yazı ve logodur."
+    },
+    {
+      "index": 25,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 8,
+      "start": 87.128,
+      "end": 91.135,
+      "text": "Bunu alıcı ürünün kendi rengini ve kendi şeklini görsün diye yapacağız."
+    },
+    {
+      "index": 26,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 9,
+      "start": 91.47,
+      "end": 95.3,
+      "text": "Bir de yanlış fotoğraf yüzünden geri dönen iadenin önüne geçelim diye."
+    },
+    {
+      "index": 27,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 97.896,
+      "end": 99.773,
+      "text": "Çoğu akşam iş şöyle biter."
+    },
+    {
+      "index": 28,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 100.515,
+      "end": 101.763,
+      "text": "Kargoyu kapatırsın."
+    },
+    {
+      "index": 29,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 2,
+      "start": 102.15,
+      "end": 103.641,
+      "text": "Çayın dibini bitirirsin."
+    },
+    {
+      "index": 30,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 3,
+      "start": 104.188,
+      "end": 106.835,
+      "text": "Bej seramik kupayı mutfak masasına koyarsın."
+    },
+    {
+      "index": 31,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 4,
+      "start": 107.582,
+      "end": 109.693,
+      "text": "Bir kare çekeyim, sabah yüklerim, dersin."
+    },
+    {
+      "index": 32,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 5,
+      "start": 110.633,
+      "end": 113.207,
+      "text": "Arkada akşam yemeğinden kalma tabak durur."
+    },
+    {
+      "index": 33,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 6,
+      "start": 113.841,
+      "end": 116.5,
+      "text": "Pencereden sarı bir gölge kupanın gövdesine düşer."
+    },
+    {
+      "index": 34,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 7,
+      "start": 117.393,
+      "end": 119.525,
+      "text": "Köşede dükkânın küçük logosu da vardır."
+    },
+    {
+      "index": 35,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 8,
+      "start": 119.985,
+      "end": 123.479,
+      "text": "Sen masanın başında olduğun için kupayı net görürsün."
+    },
+    {
+      "index": 36,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 9,
+      "start": 124.182,
+      "end": 127.093,
+      "text": "Alıcı o kareyi telefonda, başparmak kadar görür."
+    },
+    {
+      "index": 37,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 10,
+      "start": 127.846,
+      "end": 130.494,
+      "text": "Kupanın bejini masanın kahverengisiyle karıştırır."
+    },
+    {
+      "index": 38,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 11,
+      "start": 131.239,
+      "end": 132.814,
+      "text": "Tabaktaki rengi de ürün sanır."
+    },
+    {
+      "index": 39,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 12,
+      "start": 133.565,
+      "end": 135.09,
+      "text": "Pencere gölgesini leke sanır."
+    },
+    {
+      "index": 40,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 13,
+      "start": 135.878,
+      "end": 136.77,
+      "text": "Rengi seçemez."
+    },
+    {
+      "index": 41,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 14,
+      "start": 137.483,
+      "end": 139.212,
+      "text": "Seçemeyince sepete koymaz."
+    },
+    {
+      "index": 42,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 15,
+      "start": 139.833,
+      "end": 140.736,
+      "text": "Sayfayı kapatır."
+    },
+    {
+      "index": 43,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 16,
+      "start": 141.508,
+      "end": 142.832,
+      "text": "Aynı kelimeyi bir daha arar."
+    },
+    {
+      "index": 44,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 17,
+      "start": 143.65,
+      "end": 145.668,
+      "text": "Beyaz zeminde duran başka dükkâna gider."
+    },
+    {
+      "index": 45,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 18,
+      "start": 146.458,
+      "end": 147.735,
+      "text": "Senin kupan rafta kalır."
+    },
+    {
+      "index": 46,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 19,
+      "start": 148.615,
+      "end": 150.093,
+      "text": "Rafta kalan mal yer kaplar."
+    },
+    {
+      "index": 47,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 20,
+      "start": 150.607,
+      "end": 151.496,
+      "text": "Satış getirmez."
+    },
+    {
+      "index": 48,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 21,
+      "start": 152.329,
+      "end": 154.818,
+      "text": "Bu, malın kötü olmasından ayrı bir kayıptır."
+    },
+    {
+      "index": 49,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 22,
+      "start": 155.559,
+      "end": 156.128,
+      "text": "Mal iyidir."
+    },
+    {
+      "index": 50,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 23,
+      "start": 156.876,
+      "end": 157.735,
+      "text": "İlk kare kötüdür."
+    },
+    {
+      "index": 51,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 159.979,
+      "end": 162.494,
+      "text": "Pazaryeri de bu kareyi ana görsel diye almaz."
+    },
+    {
+      "index": 52,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 163.109,
+      "end": 166.261,
+      "text": "Dün akşam yüklediğin bej kupanın üstünde bu sabah red yazar."
+    },
+    {
+      "index": 53,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 166.823,
+      "end": 168.278,
+      "text": "Gerekçede arka plan yazar."
+    },
+    {
+      "index": 54,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 169.116,
+      "end": 170.192,
+      "text": "O gün satış açılmaz."
+    },
+    {
+      "index": 55,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 170.749,
+      "end": 172.221,
+      "text": "Alıcı kupayı aramada göremez."
+    },
+    {
+      "index": 56,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 5,
+      "start": 172.885,
+      "end": 176.85,
+      "text": "Aynı mutfak karesini bir kez daha yüklersen aynı red yine gelir."
+    },
+    {
+      "index": 57,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 6,
+      "start": 177.518,
+      "end": 181.918,
+      "text": "Hatalı görseli üst üste yüklersen pazaryeri mağazana ceza da yazabilir."
+    },
+    {
+      "index": 58,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 7,
+      "start": 182.643,
+      "end": 183.943,
+      "text": "Ceza satışını yavaşlatır."
+    },
+    {
+      "index": 59,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 8,
+      "start": 184.63,
+      "end": 186.044,
+      "text": "Ceza tutarını buradan söylemem."
+    },
+    {
+      "index": 60,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 9,
+      "start": 186.709,
+      "end": 188.625,
+      "text": "Panelindeki satır ne yazıyorsa odur."
+    },
+    {
+      "index": 61,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 10,
+      "start": 189.404,
+      "end": 191.801,
+      "text": "Hatalı kareyi yüklemezsen o satır açılmaz."
+    },
+    {
+      "index": 62,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 192.698,
+      "end": 195.524,
+      "text": "Bir de mal satılıp geri dönerse ayrı bir delik açılır."
+    },
+    {
+      "index": 63,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 1,
+      "start": 196.33,
+      "end": 197.836,
+      "text": "Karanlık köşe rengi gizler."
+    },
+    {
+      "index": 64,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 2,
+      "start": 198.58,
+      "end": 200.93,
+      "text": "Flaş da kupanın üstünde beyaz bir leke bırakır."
+    },
+    {
+      "index": 65,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 3,
+      "start": 201.811,
+      "end": 203.377,
+      "text": "Alıcı o lekeyi çizik sanır."
+    },
+    {
+      "index": 66,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 4,
+      "start": 204.051,
+      "end": 205.497,
+      "text": "Fotoğrafta açık bej görür, kutuda koyu bej bulur."
+    },
+    {
+      "index": 67,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 5,
+      "start": 205.886,
+      "end": 207.188,
+      "text": "Ya da gölgeyi kir sanır."
+    },
+    {
+      "index": 68,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 6,
+      "start": 207.938,
+      "end": 210.427,
+      "text": "İade açar."
+    },
+    {
+      "index": 69,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 7,
+      "start": 211.196,
+      "end": 213.976,
+      "text": "İade kargosunun ücreti çoğu zaman senin sırtına biner."
+    },
+    {
+      "index": 70,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 8,
+      "start": 214.628,
+      "end": 215.708,
+      "text": "Ürün sana geri döner."
+    },
+    {
+      "index": 71,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 9,
+      "start": 216.185,
+      "end": 217.98,
+      "text": "O satışın parası da cebinden çıkar."
+    },
+    {
+      "index": 72,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 10,
+      "start": 218.867,
+      "end": 222.366,
+      "text": "Kırık ya da kirli sanılan malı ikinci kez aynı fiyata satamazsın."
+    },
+    {
+      "index": 73,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 11,
+      "start": 223.132,
+      "end": 228.455,
+      "text": "Yazı doğru olsa da yanlış fotoğraf hem satışı kaçırır hem kargo parasını geri getirir."
+    },
+    {
+      "index": 74,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 230.688,
+      "end": 232.12,
+      "text": "Ana görsel ilk karedir."
+    },
+    {
+      "index": 75,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 1,
+      "start": 232.728,
+      "end": 234.962,
+      "text": "Alıcı aramada önce o kareyi görür."
+    },
+    {
+      "index": 76,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 2,
+      "start": 235.689,
+      "end": 237.997,
+      "text": "İlk kare kötüyse sonraki kareye geçmez."
+    },
+    {
+      "index": 77,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 3,
+      "start": 238.856,
+      "end": 240.665,
+      "text": "Yaşam fotoğrafını ilk kareye koymazsın."
+    },
+    {
+      "index": 78,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 4,
+      "start": 241.434,
+      "end": 243.841,
+      "text": "Masanın üstündeki ikinci ürünü de koymazsın."
+    },
+    {
+      "index": 79,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 5,
+      "start": 244.631,
+      "end": 246.143,
+      "text": "Süslü çerçeveyi de koymazsın."
+    },
+    {
+      "index": 80,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 6,
+      "start": 246.992,
+      "end": 249.237,
+      "text": "Başka satıcının fotoğrafını da kopyalamazsın."
+    },
+    {
+      "index": 81,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 7,
+      "start": 250.177,
+      "end": 252.177,
+      "text": "Onun masası senin malını anlatmaz."
+    },
+    {
+      "index": 82,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 8,
+      "start": 253.084,
+      "end": 254.951,
+      "text": "Onun rengi senin kutunda yoktur."
+    },
+    {
+      "index": 83,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 9,
+      "start": 255.939,
+      "end": 258.046,
+      "text": "Bu dersin işi senin ilk karendir."
+    },
+    {
+      "index": 84,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 0,
+      "start": 259.14,
+      "end": 260.639,
+      "text": "Ana görsel neden beyaz olur?"
+    },
+    {
+      "index": 85,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 1,
+      "start": 261.648,
+      "end": 263.841,
+      "text": "Alıcı ürünün kendi rengini görsün diye."
+    },
+    {
+      "index": 86,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 2,
+      "start": 264.659,
+      "end": 269.209,
+      "text": "Masa görünmesin, tabak görünmesin, perde görünmesin, oda görünmesin diye."
+    },
+    {
+      "index": 87,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 3,
+      "start": 270.076,
+      "end": 272.651,
+      "text": "Pazaryeri de bu kareyi ana görsel diye alsın diye."
+    },
+    {
+      "index": 88,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 4,
+      "start": 273.626,
+      "end": 275.134,
+      "text": "Krem zemin beyaz sayılmaz."
+    },
+    {
+      "index": 89,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 5,
+      "start": 275.993,
+      "end": 277.533,
+      "text": "Gri zemin beyaz sayılmaz."
+    },
+    {
+      "index": 90,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 6,
+      "start": 278.548,
+      "end": 281.705,
+      "text": "Açık gri bir leke bile, Ama zon'da, ürünü reddettirir."
+    },
+    {
+      "index": 91,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 0,
+      "start": 282.536,
+      "end": 292.133,
+      "text": "Pazaryerin Trend yol da olur, Hepsi burada da, Ama zon da, En on bir de, Çiçek sepeti de, Pe te te A Ve Me de, Getir de, Pazarama da."
+    },
+    {
+      "index": 92,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 1,
+      "start": 293.039,
+      "end": 294.101,
+      "text": "Panelin adı değişir."
+    },
+    {
+      "index": 93,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 2,
+      "start": 294.893,
+      "end": 296.694,
+      "text": "Ana görselin dört kuralı değişmez."
+    },
+    {
+      "index": 94,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 3,
+      "start": 297.473,
+      "end": 298.472,
+      "text": "Düz beyaz arka plan."
+    },
+    {
+      "index": 95,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 4,
+      "start": 299.299,
+      "end": 300.342,
+      "text": "Bire bir kare oran."
+    },
+    {
+      "index": 96,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 5,
+      "start": 301.149,
+      "end": 301.983,
+      "text": "Stüdyo ışığı."
+    },
+    {
+      "index": 97,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 6,
+      "start": 302.664,
+      "end": 303.671,
+      "text": "Filigransız görsel."
+    },
+    {
+      "index": 98,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 7,
+      "start": 304.624,
+      "end": 306.961,
+      "text": "Trend yol'da alıcı aramada ilk kareyi görür."
+    },
+    {
+      "index": 99,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 8,
+      "start": 307.82,
+      "end": 309.328,
+      "text": "Hepsi burada'da da ilk kareyi görür."
+    },
+    {
+      "index": 100,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 9,
+      "start": 310.105,
+      "end": 310.756,
+      "text": "Ama zon'da da."
+    },
+    {
+      "index": 101,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 10,
+      "start": 311.747,
+      "end": 319.7,
+      "text": "En on bir'de, Çiçek sepeti'nde, Pe te te A Ve Me'de, Getir'de ve Pazarama'da da alıcının gözü önce o kareye düşer."
+    },
+    {
+      "index": 102,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 11,
+      "start": 320.467,
+      "end": 322.828,
+      "text": "Mutfak masası sekizinde de aynı işi yapar."
+    },
+    {
+      "index": 103,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 12,
+      "start": 323.375,
+      "end": 324.43,
+      "text": "Ürünü gizler."
+    },
+    {
+      "index": 104,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 13,
+      "start": 325.214,
+      "end": 327.45,
+      "text": "Beyaz zemin sekizinde de aynı işi yapar."
+    },
+    {
+      "index": 105,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 14,
+      "start": 328.768,
+      "end": 329.926,
+      "text": "Ürünü ortaya çıkarır."
+    },
+    {
+      "index": 106,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 0,
+      "start": 332.157,
+      "end": 334.873,
+      "text": "Birinci kural düz beyaz arka plandır."
+    },
+    {
+      "index": 107,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 1,
+      "start": 335.629,
+      "end": 336.541,
+      "text": "Tabak silinir."
+    },
+    {
+      "index": 108,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 2,
+      "start": 336.935,
+      "end": 337.904,
+      "text": "Pencere silinir."
+    },
+    {
+      "index": 109,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 3,
+      "start": 338.279,
+      "end": 339.053,
+      "text": "Perde silinir."
+    },
+    {
+      "index": 110,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 4,
+      "start": 339.836,
+      "end": 342.14,
+      "text": "Krem bir örtü serip beyaz sandım deme."
+    },
+    {
+      "index": 111,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 5,
+      "start": 342.944,
+      "end": 345.491,
+      "text": "Ama zon bu konuda en sıkı duran pazaryeridir."
+    },
+    {
+      "index": 112,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 6,
+      "start": 346.076,
+      "end": 350.422,
+      "text": "Zeminde gri bir leke varsa Ama zon o kareyi ana görsel diye almaz."
+    },
+    {
+      "index": 113,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 7,
+      "start": 350.997,
+      "end": 351.765,
+      "text": "Krem de geçmez."
+    },
+    {
+      "index": 114,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 8,
+      "start": 352.488,
+      "end": 353.351,
+      "text": "Gölge de geçmez."
+    },
+    {
+      "index": 115,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 9,
+      "start": 354.132,
+      "end": 355.53,
+      "text": "En sıkı beyaz oradadır."
+    },
+    {
+      "index": 116,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 10,
+      "start": 356.245,
+      "end": 359.369,
+      "text": "O beyazı geçen kare, öbür yedi pazaryerine de gider."
+    },
+    {
+      "index": 117,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 11,
+      "start": 359.92,
+      "end": 369.489,
+      "text": "Trend yol'a da, Hepsi burada'ya da, En on bir'e de, Çiçek sepeti'ne de, Pe te te A Ve Me'ye de, Getir'e de, Pazarama'ya da aynı kareyi koyarsın."
+    },
+    {
+      "index": 118,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 12,
+      "start": 370.219,
+      "end": 372.465,
+      "text": "Her pazaryeri için ayrı fotoğraf çekmezsin."
+    },
+    {
+      "index": 119,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 13,
+      "start": 372.986,
+      "end": 374.244,
+      "text": "Sekiz çekim yapmazsın."
+    },
+    {
+      "index": 120,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 14,
+      "start": 374.935,
+      "end": 377.497,
+      "text": "Bir kareyi Ama zon'un beyazına göre kurarsın."
+    },
+    {
+      "index": 121,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 0,
+      "start": 379.758,
+      "end": 382.116,
+      "text": "İkinci kural bire bir kare orandır."
+    },
+    {
+      "index": 122,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 1,
+      "start": 382.794,
+      "end": 383.937,
+      "text": "En ile boy eşittir."
+    },
+    {
+      "index": 123,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 2,
+      "start": 384.743,
+      "end": 388.934,
+      "text": "Dikey telefon karesini olduğu gibi yüklersen pazaryeri kenarları kırpar."
+    },
+    {
+      "index": 124,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 3,
+      "start": 389.608,
+      "end": 391.16,
+      "text": "Kırpılan yerde kulp kaybolur."
+    },
+    {
+      "index": 125,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 4,
+      "start": 391.924,
+      "end": 393.923,
+      "text": "Kırpılan yerde kupanın ağzı da kaybolur."
+    },
+    {
+      "index": 126,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 5,
+      "start": 394.752,
+      "end": 397.091,
+      "text": "Kesik kulpu beyaz arka plan geri getirmez."
+    },
+    {
+      "index": 127,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 6,
+      "start": 397.96,
+      "end": 399.76,
+      "text": "O yüzden çekimde kulp tam görünür."
+    },
+    {
+      "index": 128,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 7,
+      "start": 400.413,
+      "end": 401.897,
+      "text": "Ürün karenin ortasında durur."
+    },
+    {
+      "index": 129,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 8,
+      "start": 402.549,
+      "end": 404.43,
+      "text": "Ürün karenin büyük kısmını doldurur."
+    },
+    {
+      "index": 130,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 9,
+      "start": 405.232,
+      "end": 406.894,
+      "text": "Kenarda ince bir beyaz pay kalır."
+    },
+    {
+      "index": 131,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 10,
+      "start": 407.558,
+      "end": 409.671,
+      "text": "Boş bir oda fotoğrafı ana görsel olmaz."
+    },
+    {
+      "index": 132,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 11,
+      "start": 410.524,
+      "end": 412.819,
+      "text": "Yatay bir masa fotoğrafı da ana görsel olmaz."
+    },
+    {
+      "index": 133,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 12,
+      "start": 413.554,
+      "end": 416.71,
+      "text": "Kare olmayan görsel, sekiz pazaryerinde de kırpılır."
+    },
+    {
+      "index": 134,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 0,
+      "start": 417.536,
+      "end": 419.104,
+      "text": "Üçüncü kural stüdyo ışığıdır."
+    },
+    {
+      "index": 135,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 1,
+      "start": 419.937,
+      "end": 421.973,
+      "text": "Işık ürünün her yanına aynı vurur."
+    },
+    {
+      "index": 136,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 2,
+      "start": 422.773,
+      "end": 424.699,
+      "text": "Bir taraf gece, bir taraf güneş olmaz."
+    },
+    {
+      "index": 137,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 3,
+      "start": 425.283,
+      "end": 426.475,
+      "text": "Buna stüdyo ışığı denir."
+    },
+    {
+      "index": 138,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 4,
+      "start": 427.441,
+      "end": 429.694,
+      "text": "Karanlık köşe beji kahverengi gösterir."
+    },
+    {
+      "index": 139,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 5,
+      "start": 430.483,
+      "end": 431.627,
+      "text": "Alıcı yanlış renk sanır."
+    },
+    {
+      "index": 140,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 6,
+      "start": 432.173,
+      "end": 433.035,
+      "text": "Ürünü geri yollar."
+    },
+    {
+      "index": 141,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 7,
+      "start": 433.772,
+      "end": 435.378,
+      "text": "Geri giden ürün senin zararın olur."
+    },
+    {
+      "index": 142,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 8,
+      "start": 436.169,
+      "end": 438.4,
+      "text": "Işığın altında yumuşak bir gölge durur."
+    },
+    {
+      "index": 143,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 9,
+      "start": 439.09,
+      "end": 440.806,
+      "text": "Bu gölgeye taban gölgesi denir."
+    },
+    {
+      "index": 144,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 10,
+      "start": 441.392,
+      "end": 444.528,
+      "text": "Taban gölgesi, kupanın yere sağlam oturduğunu gösterir."
+    },
+    {
+      "index": 145,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 11,
+      "start": 445.107,
+      "end": 446.874,
+      "text": "Odanın pencere gölgesi değildir."
+    },
+    {
+      "index": 146,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 12,
+      "start": 447.518,
+      "end": 448.755,
+      "text": "Pencere gölgesi silinir."
+    },
+    {
+      "index": 147,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 13,
+      "start": 449.535,
+      "end": 450.581,
+      "text": "Taban gölgesi kalır."
+    },
+    {
+      "index": 148,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 14,
+      "start": 451.484,
+      "end": 453.387,
+      "text": "Flaşın bıraktığı beyaz leke de kalmaz."
+    },
+    {
+      "index": 149,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 15,
+      "start": 454.096,
+      "end": 455.551,
+      "text": "O leke stüdyo ışığı değildir."
+    },
+    {
+      "index": 150,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 0,
+      "start": 457.857,
+      "end": 460.154,
+      "text": "Dördüncü kural filigransız görseldir."
+    },
+    {
+      "index": 151,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 1,
+      "start": 460.938,
+      "end": 462.638,
+      "text": "Filigran kulpun üstünü örter."
+    },
+    {
+      "index": 152,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 2,
+      "start": 463.261,
+      "end": 464.884,
+      "text": "Ana görselde filigran durmaz."
+    },
+    {
+      "index": 153,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 3,
+      "start": 465.619,
+      "end": 467.268,
+      "text": "Köşedeki dükkân logosu da durmaz."
+    },
+    {
+      "index": 154,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 4,
+      "start": 468.176,
+      "end": 469.888,
+      "text": "Fiyat da ana görsele yazılmaz."
+    },
+    {
+      "index": 155,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 5,
+      "start": 470.564,
+      "end": 472.694,
+      "text": "Fiyat değişince eski yazı görselde kalır."
+    },
+    {
+      "index": 156,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 6,
+      "start": 473.442,
+      "end": 475.478,
+      "text": "Alıcı fotoğrafta eski fiyatı görür."
+    },
+    {
+      "index": 157,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 7,
+      "start": 475.777,
+      "end": 477,
+      "text": "Kasada başka fiyat görür."
+    },
+    {
+      "index": 158,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 8,
+      "start": 477.543,
+      "end": 478.111,
+      "text": "Şüphelenir."
+    },
+    {
+      "index": 159,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 9,
+      "start": 478.714,
+      "end": 479.515,
+      "text": "Sepete koymaz."
+    },
+    {
+      "index": 160,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 10,
+      "start": 480.149,
+      "end": 482.367,
+      "text": "Başlık da görselin üstüne yazılmaz."
+    },
+    {
+      "index": 161,
+      "cueId": "cue-02",
       "cueParagraphIndex": 9,
       "chunkIndex": 11,
-      "start": 838.87,
-      "end": 913.823,
-      "text": "Kendi telefonundan bir ürün fotoğrafı seçince kupa satırlarını onunla değiştirirsin. Havlunun rengini kupaya yazmazsın. Her ürün kendi karesiyle gider. Karışınca alıcı yanlış mal bekler. Yanlış beklenti yine iade olur. Bu derste şunu işledik. Mutfak masasında, arkada tabak ve pencere gölgesi varken çekilen kare reddedilir, alıcı rengi seçemez ve yanlış fotoğraf iade kargosunu senin sırtına bindirir. Sekiz pazaryerinde ana görseli, Ama zon'un gri lekeye geçit vermeyen beyazına göre, düz beyaz, bire bir, stüdyo ışığıyla ve filigransız kurarsın, ham kareyi yapay zekâya verip Listing'e de sen koyarsın. Sıradaki ders üçüncü ders. Orada müşterinin yazdığı yorumu, gelen şikâyeti ve iade gerekçesini yapay zekâ ile okuyacağız. Ortak hatayı sayacağız. Hatayı kutuda, fotoğrafta ya da Listing yazısında, yani kaynağında keseceğiz. Böylece aynı zarar yarın yine cebinden çıkmasın. Işığın düzgün düşsün. Kupanın rengi yerini bulsun. Kazancın bereketli gelsin. Üçüncü derste görüşürüz. Kendine iyi bak. Selamlar."
+      "start": 482.896,
+      "end": 484.227,
+      "text": "Başlık Listin'de durur."
+    },
+    {
+      "index": 162,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 12,
+      "start": 484.676,
+      "end": 486.842,
+      "text": "Listin, ürünün vitrin sayfasıdır."
+    },
+    {
+      "index": 163,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 13,
+      "start": 487.398,
+      "end": 494.233,
+      "text": "Birinci derste kurduğun başlık, kupanın fotoğrafına yapışmaz."
+    },
+    {
+      "index": 164,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 14,
+      "start": 494.777,
+      "end": 496.144,
+      "text": "Yapışırsa fiyat da başlık da görselde eskir."
+    },
+    {
+      "index": 165,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 15,
+      "start": 496.738,
+      "end": 497.798,
+      "text": "Yazı Listin'de durur."
+    },
+    {
+      "index": 166,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 16,
+      "start": 498.204,
+      "end": 499.658,
+      "text": "Görselde mal durur."
+    },
+    {
+      "index": 167,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 0,
+      "start": 500.54,
+      "end": 501.631,
+      "text": "Yanlış görsel şudur."
+    },
+    {
+      "index": 168,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 1,
+      "start": 501.939,
+      "end": 508.372,
+      "text": "Bej seramik kupa, ahşap masa, arkada tabak, pencere gölgesi ve köşede dükkân logosu."
+    },
+    {
+      "index": 169,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 2,
+      "start": 508.978,
+      "end": 509.753,
+      "text": "Doğru görsel şudur."
+    },
+    {
+      "index": 170,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 3,
+      "start": 510.169,
+      "end": 515.386,
+      "text": "Aynı kupa, düz beyaz arka plan, karenin ortası, stüdyo ışığı ve yumuşak taban gölgesi."
+    },
+    {
+      "index": 171,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 4,
+      "start": 515.929,
+      "end": 517.133,
+      "text": "Kulpu yerinde durur."
+    },
+    {
+      "index": 172,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 5,
+      "start": 517.737,
+      "end": 518.768,
+      "text": "Rengi bej kalır."
+    },
+    {
+      "index": 173,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 6,
+      "start": 519.185,
+      "end": 520.499,
+      "text": "Bej, beyaza çekilmez."
+    },
+    {
+      "index": 174,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 7,
+      "start": 521.34,
+      "end": 522.185,
+      "text": "Logosu yoktur."
+    },
+    {
+      "index": 175,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 8,
+      "start": 522.636,
+      "end": 523.847,
+      "text": "İkinci bir kupa da yoktur."
+    },
+    {
+      "index": 176,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 9,
+      "start": 524.264,
+      "end": 525.101,
+      "text": "Çerçeve de yoktur."
+    },
+    {
+      "index": 177,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 527.406,
+      "end": 528.879,
+      "text": "Şimdi şunu demiş olabilirsin."
+    },
+    {
+      "index": 178,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 529.441,
+      "end": 533.337,
+      "text": "Stüdyom yok, ışığım yok, bu kareyi nasıl beyazlatacağım, demiş olabilirsin."
+    },
+    {
+      "index": 179,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 2,
+      "start": 533.702,
+      "end": 536.407,
+      "text": "Çok haklısın, adım adım bakalım."
+    },
+    {
+      "index": 180,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 3,
+      "start": 537.362,
+      "end": 540.08,
+      "text": "Fotoğrafı dışarıda bir stüdyoya götürmene gerek kalmaz."
+    },
+    {
+      "index": 181,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 4,
+      "start": 540.621,
+      "end": 541.846,
+      "text": "Stüdyo parası da ödemezsin."
+    },
+    {
+      "index": 182,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 5,
+      "start": 542.739,
+      "end": 543.973,
+      "text": "Ürünü düz bir yere koyarsın."
+    },
+    {
+      "index": 183,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 6,
+      "start": 544.692,
+      "end": 547.425,
+      "text": "Arkanda tabak, perde ve kalabalık eşya durmaz."
+    },
+    {
+      "index": 184,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 7,
+      "start": 548.236,
+      "end": 549.905,
+      "text": "Telefonu ürüne dik tutarsın."
+    },
+    {
+      "index": 185,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 8,
+      "start": 550.406,
+      "end": 551.611,
+      "text": "Parmağın görüntüye girmez."
+    },
+    {
+      "index": 186,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 9,
+      "start": 552.345,
+      "end": 553.327,
+      "text": "Flaşı kapatırsın."
+    },
+    {
+      "index": 187,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 10,
+      "start": 553.895,
+      "end": 554.62,
+      "text": "Gün ışığı yeter."
+    },
+    {
+      "index": 188,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 11,
+      "start": 555.163,
+      "end": 557.087,
+      "text": "Ürün karenin büyük kısmını doldurur."
+    },
+    {
+      "index": 189,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 12,
+      "start": 557.657,
+      "end": 559.055,
+      "text": "Kenarda ince bir pay kalır."
+    },
+    {
+      "index": 190,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 13,
+      "start": 559.734,
+      "end": 561.407,
+      "text": "Bu ham kareyi sohbete eklersin."
+    },
+    {
+      "index": 191,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 14,
+      "start": 561.955,
+      "end": 563.825,
+      "text": "Fotoğrafı yalnız yazıyla anlatmazsın."
+    },
+    {
+      "index": 192,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 15,
+      "start": 564.453,
+      "end": 567.36,
+      "text": "Yapay zekâ kareyi görmeden arka planı doğru çekemez."
+    },
+    {
+      "index": 193,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 568.09,
+      "end": 570.119,
+      "text": "Yapay zekâ arka planı beyaza çeker."
+    },
+    {
+      "index": 194,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 570.652,
+      "end": 572.117,
+      "text": "Ürünü karenin ortasına alır."
+    },
+    {
+      "index": 195,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 572.768,
+      "end": 573.828,
+      "text": "En ile boyu eşitler."
+    },
+    {
+      "index": 196,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 574.498,
+      "end": 575.842,
+      "text": "Üstüne stüdyo ışığı vurur."
+    },
+    {
+      "index": 197,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 576.318,
+      "end": 578.214,
+      "text": "Altına yumuşak taban gölgesi koyar."
+    },
+    {
+      "index": 198,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 5,
+      "start": 578.901,
+      "end": 579.593,
+      "text": "Yazıyı siler."
+    },
+    {
+      "index": 199,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 6,
+      "start": 580.124,
+      "end": 580.79,
+      "text": "Logoyu siler."
+    },
+    {
+      "index": 200,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 7,
+      "start": 581.61,
+      "end": 583.118,
+      "text": "Bunu sen Promt ile söylersin."
+    },
+    {
+      "index": 201,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 8,
+      "start": 583.715,
+      "end": 585.995,
+      "text": "Promt, sohbete yapıştırdığın yazı kalıbıdır."
+    },
+    {
+      "index": 202,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 9,
+      "start": 586.624,
+      "end": 588.768,
+      "text": "Söylemezsen yapay zekâ kendi bildiğini yapar."
+    },
+    {
+      "index": 203,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 10,
+      "start": 589.328,
+      "end": 590.33,
+      "text": "Beji beyaza çeker."
+    },
+    {
+      "index": 204,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 11,
+      "start": 590.748,
+      "end": 591.9,
+      "text": "İkinci bir kulp çıkarır."
+    },
+    {
+      "index": 205,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 12,
+      "start": 592.363,
+      "end": 593.797,
+      "text": "Arkaya yine bir mutfak koyar."
+    },
+    {
+      "index": 206,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 13,
+      "start": 594.449,
+      "end": 595.568,
+      "text": "O görseli silersin."
+    },
+    {
+      "index": 207,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 14,
+      "start": 595.883,
+      "end": 596.821,
+      "text": "Listin'e koymazsın."
+    },
+    {
+      "index": 208,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 599.04,
+      "end": 600.758,
+      "text": "Çıkan görsele sen bakarsın."
+    },
+    {
+      "index": 209,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 1,
+      "start": 601.367,
+      "end": 602.699,
+      "text": "Arka plan düz beyaz mı?"
+    },
+    {
+      "index": 210,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 2,
+      "start": 603.28,
+      "end": 604.381,
+      "text": "Gri leke duruyor mu?"
+    },
+    {
+      "index": 211,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 3,
+      "start": 604.948,
+      "end": 606.116,
+      "text": "En ile boy eşit mi?"
+    },
+    {
+      "index": 212,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 4,
+      "start": 606.758,
+      "end": 608.697,
+      "text": "Işık kupanın her yanına vurmuş mu?"
+    },
+    {
+      "index": 213,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 5,
+      "start": 609.334,
+      "end": 611.946,
+      "text": "Taban gölgesi var mı, pencere gölgesi kalmış mı?"
+    },
+    {
+      "index": 214,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 6,
+      "start": 612.604,
+      "end": 614.253,
+      "text": "Yazı, logo, fiyat var mı?"
+    },
+    {
+      "index": 215,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 7,
+      "start": 614.825,
+      "end": 615.871,
+      "text": "Renk hâlâ bej mi?"
+    },
+    {
+      "index": 216,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 8,
+      "start": 616.552,
+      "end": 617.465,
+      "text": "Kulp kesilmiş mi?"
+    },
+    {
+      "index": 217,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 9,
+      "start": 618.045,
+      "end": 618.912,
+      "text": "Görüntü bulanık mı?"
+    },
+    {
+      "index": 218,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 10,
+      "start": 619.617,
+      "end": 621.501,
+      "text": "Biri eksikse Listin'e koymazsın."
+    },
+    {
+      "index": 219,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 11,
+      "start": 622.192,
+      "end": 624.822,
+      "text": "Dört kural tamamsa Listin'e sen koyarsın."
+    },
+    {
+      "index": 220,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 12,
+      "start": 625.505,
+      "end": 628.468,
+      "text": "Pazaryeri yine reddederse red gerekçesini okursun."
+    },
+    {
+      "index": 221,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 13,
+      "start": 629.125,
+      "end": 634.265,
+      "text": "Gerekçede arka plan, oran, ışık ya da filigran yazıyorsa o kuralı düzeltirsin."
+    },
+    {
+      "index": 222,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 14,
+      "start": 634.982,
+      "end": 636.655,
+      "text": "Aynı fotoğraftan yeni görsel alırsın."
+    },
+    {
+      "index": 223,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 15,
+      "start": 637.352,
+      "end": 639.637,
+      "text": "Kontrol etmediğin görseli yeniden yüklemezsin."
+    },
+    {
+      "index": 224,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 640.457,
+      "end": 648.006,
+      "text": "Kopyalarken müşterinin yüzünü, sipariş ekranını, adresini ve kargo fişini sohbete koymazsın."
+    },
+    {
+      "index": 225,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 1,
+      "start": 648.708,
+      "end": 649.921,
+      "text": "Fişte adres vardır."
+    },
+    {
+      "index": 226,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 2,
+      "start": 650.623,
+      "end": 651.198,
+      "text": "Yalnız ürün fotoğrafı gider."
+    },
+    {
+      "index": 227,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 3,
+      "start": 651.524,
+      "end": 652.145,
+      "text": "Ürün gider, kişi gitmez."
+    },
+    {
+      "index": 228,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 0,
+      "start": 652.935,
+      "end": 655.189,
+      "text": "Bir de yarım kalan soruyu göstereyim."
+    },
+    {
+      "index": 229,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 1,
+      "start": 655.617,
+      "end": 657.149,
+      "text": "Çünkü çoğu satıcı burada takılır."
+    },
+    {
+      "index": 230,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 2,
+      "start": 657.861,
+      "end": 660.366,
+      "text": "Sohbete yalnız şunu yazarsan iş yarım kalır."
+    },
+    {
+      "index": 231,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 3,
+      "start": 661.107,
+      "end": 663.597,
+      "text": "Bu fotoğrafı güzelleştir, arka planı temizle."
+    },
+    {
+      "index": 232,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 4,
+      "start": 664.405,
+      "end": 665.872,
+      "text": "Gelen görsel çoğu zaman şudur."
+    },
+    {
+      "index": 233,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 5,
+      "start": 666.762,
+      "end": 669.115,
+      "text": "Kupa durur, arkada yine bir mutfak kalır."
+    },
+    {
+      "index": 234,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 6,
+      "start": 669.861,
+      "end": 671.535,
+      "text": "Ya da bej beyaza döner."
+    },
+    {
+      "index": 235,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 7,
+      "start": 672.078,
+      "end": 674.232,
+      "text": "Ya da köşedeki logo silinmeden kalır."
+    },
+    {
+      "index": 236,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 8,
+      "start": 675.018,
+      "end": 676.754,
+      "text": "Bunu sen panelde zaten yaşıyorsun."
+    },
+    {
+      "index": 237,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 9,
+      "start": 677.467,
+      "end": 679.63,
+      "text": "Ama zon gri lekeye geçit vermez."
+    },
+    {
+      "index": 238,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 10,
+      "start": 680.325,
+      "end": 681.713,
+      "text": "Yarım soru o lekeyi bırakır."
+    },
+    {
+      "index": 239,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 11,
+      "start": 682.378,
+      "end": 683.822,
+      "text": "O yüzden Promt eksiksiz olur."
+    },
+    {
+      "index": 240,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 12,
+      "start": 684.55,
+      "end": 690.632,
+      "text": "Beyazı, bire bir kareyi, stüdyo ışığını, taban gölgesini ve filigran yasağını ister."
+    },
+    {
+      "index": 241,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 13,
+      "start": 692.469,
+      "end": 694.747,
+      "text": "Rengin ve şeklin değişmesini de yasaklar."
+    },
+    {
+      "index": 242,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 0,
+      "start": 696.584,
+      "end": 701.725,
+      "text": "Telefonla çektiğin ham fotoğrafı sohbete koyarken şu Promt'u olduğu gibi yapıştırırsın."
+    },
+    {
+      "index": 243,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 1,
+      "start": 703.405,
+      "end": 704.979,
+      "text": "Fotoğrafı da aynı sohbete eklersin."
+    },
+    {
+      "index": 244,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 0,
+      "start": 707.349,
+      "end": 709.177,
+      "text": "Sana bir ürün fotoğrafı ekliyorum."
+    },
+    {
+      "index": 245,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 1,
+      "start": 709.95,
+      "end": 711.537,
+      "text": "Arka planı düz beyaz yap."
+    },
+    {
+      "index": 246,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 2,
+      "start": 712.294,
+      "end": 713.308,
+      "text": "Krem zemin bırakma."
+    },
+    {
+      "index": 247,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 3,
+      "start": 713.982,
+      "end": 715.096,
+      "text": "Gri zemin bırakma."
+    },
+    {
+      "index": 248,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 4,
+      "start": 715.663,
+      "end": 716.696,
+      "text": "Gri leke bırakma."
+    },
+    {
+      "index": 249,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 5,
+      "start": 717.767,
+      "end": 719.457,
+      "text": "Ürün karenin ortasında kalsın."
+    },
+    {
+      "index": 250,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 6,
+      "start": 720.321,
+      "end": 721.327,
+      "text": "Görsel kare olsun."
+    },
+    {
+      "index": 251,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 7,
+      "start": 722.22,
+      "end": 723.494,
+      "text": "En ve boy eşit olsun."
+    },
+    {
+      "index": 252,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 8,
+      "start": 724.417,
+      "end": 726.323,
+      "text": "Ürün karenin büyük kısmını doldursun."
+    },
+    {
+      "index": 253,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 9,
+      "start": 727.03,
+      "end": 728.773,
+      "text": "Kenarda ince beyaz pay kalsın."
+    },
+    {
+      "index": 254,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 10,
+      "start": 729.682,
+      "end": 731.232,
+      "text": "Ürünün üstüne stüdyo ışığı vur."
+    },
+    {
+      "index": 255,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 11,
+      "start": 731.97,
+      "end": 733.463,
+      "text": "Işık her yana aynı gelsin."
+    },
+    {
+      "index": 256,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 12,
+      "start": 734.345,
+      "end": 735.638,
+      "text": "Odanın gölgesi kalmasın."
+    },
+    {
+      "index": 257,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 13,
+      "start": 736.513,
+      "end": 737.82,
+      "text": "Masa görüntüsü kalmasın."
+    },
+    {
+      "index": 258,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 14,
+      "start": 738.535,
+      "end": 739.846,
+      "text": "Tabak görüntüsü kalmasın."
+    },
+    {
+      "index": 259,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 15,
+      "start": 740.623,
+      "end": 741.944,
+      "text": "Pencere gölgesi kalmasın."
+    },
+    {
+      "index": 260,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 16,
+      "start": 742.858,
+      "end": 745.103,
+      "text": "Ürünün altına yumuşak bir taban gölgesi koy."
+    },
+    {
+      "index": 261,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 17,
+      "start": 746,
+      "end": 747.508,
+      "text": "Fotoğrafın üstüne yazı koyma."
+    },
+    {
+      "index": 262,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 18,
+      "start": 748.244,
+      "end": 749.063,
+      "text": "Logo koyma."
+    },
+    {
+      "index": 263,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 19,
+      "start": 749.707,
+      "end": 750.738,
+      "text": "Filigran koyma."
+    },
+    {
+      "index": 264,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 20,
+      "start": 751.392,
+      "end": 752.14,
+      "text": "Fiyat yazma."
+    },
+    {
+      "index": 265,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 21,
+      "start": 753.003,
+      "end": 753.791,
+      "text": "Başlık yazma."
+    },
+    {
+      "index": 266,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 22,
+      "start": 754.707,
+      "end": 756.014,
+      "text": "Ürünün rengini değiştirme."
+    },
+    {
+      "index": 267,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 23,
+      "start": 756.808,
+      "end": 758.235,
+      "text": "Ürünün şeklini değiştirme."
+    },
+    {
+      "index": 268,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 24,
+      "start": 759.157,
+      "end": 760.73,
+      "text": "Kutuda olmayan parça ekleme."
+    },
+    {
+      "index": 269,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 25,
+      "start": 761.54,
+      "end": 762.807,
+      "text": "İkinci bir kulp çıkarma."
+    },
+    {
+      "index": 270,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 26,
+      "start": 763.599,
+      "end": 764.799,
+      "text": "İkinci bir ürün ekleme."
+    },
+    {
+      "index": 271,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 27,
+      "start": 765.654,
+      "end": 766.534,
+      "text": "Çerçeve ekleme."
+    },
+    {
+      "index": 272,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 28,
+      "start": 767.458,
+      "end": 769.314,
+      "text": "Başka satıcının fotoğrafını kopyalama."
+    },
+    {
+      "index": 273,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 29,
+      "start": 770.016,
+      "end": 771.609,
+      "text": "Çıktıyı tek görsel olarak ver."
+    },
+    {
+      "index": 274,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 0,
+      "start": 773.913,
+      "end": 776.13,
+      "text": "Örnek ürün bej seramik kupadır."
+    },
+    {
+      "index": 275,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 1,
+      "start": 776.723,
+      "end": 777.652,
+      "text": "Kulpu sağdadır."
+    },
+    {
+      "index": 276,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 2,
+      "start": 778.194,
+      "end": 779.414,
+      "text": "Masada tek kupa durur."
+    },
+    {
+      "index": 277,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 3,
+      "start": 779.951,
+      "end": 781.019,
+      "text": "Arkada tabak vardır."
+    },
+    {
+      "index": 278,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 4,
+      "start": 781.562,
+      "end": 782.783,
+      "text": "Pencereden gölge düşer."
+    },
+    {
+      "index": 279,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 5,
+      "start": 783.325,
+      "end": 784.825,
+      "text": "Köşede dükkân logosu vardır."
+    },
+    {
+      "index": 280,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 6,
+      "start": 785.311,
+      "end": 785.941,
+      "text": "Bu logoyu sil."
+    },
+    {
+      "index": 281,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 7,
+      "start": 786.483,
+      "end": 787.388,
+      "text": "Rengi bej bırak."
+    },
+    {
+      "index": 282,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 8,
+      "start": 787.722,
+      "end": 788.411,
+      "text": "Kulpu kesme."
+    },
+    {
+      "index": 283,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 0,
+      "start": 788.736,
+      "end": 791.965,
+      "text": "Bu Promt'tan sonra gelen görsele dört yerden bakarsın."
+    },
+    {
+      "index": 284,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 1,
+      "start": 792.531,
+      "end": 793.771,
+      "text": "Zemin düz beyaz mı, gri leke var mı?"
+    },
+    {
+      "index": 285,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 2,
+      "start": 794.098,
+      "end": 796.752,
+      "text": "En ile boy eşit mi, kulp karede tam mı?"
+    },
+    {
+      "index": 286,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 3,
+      "start": 797.067,
+      "end": 800.934,
+      "text": "Stüdyo ışığı ve taban gölgesi duruyor mu?"
+    },
+    {
+      "index": 287,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 4,
+      "start": 801.413,
+      "end": 803.373,
+      "text": "Yazı, logo ve fiyat silinmiş mi, bej yerinde mi?"
+    },
+    {
+      "index": 288,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 5,
+      "start": 803.704,
+      "end": 807.718,
+      "text": "Biri tutmuyorsa aynı Promt'u bir kez daha yollarsın."
+    },
+    {
+      "index": 289,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 6,
+      "start": 808.249,
+      "end": 809.885,
+      "text": "Rengi değişmiş görseli silersin."
+    },
+    {
+      "index": 290,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 7,
+      "start": 810.451,
+      "end": 812.227,
+      "text": "İkinci kulp çıkmış görseli de silersin."
+    },
+    {
+      "index": 291,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 8,
+      "start": 812.897,
+      "end": 814.409,
+      "text": "Listin'e görseli sen koyarsın."
+    },
+    {
+      "index": 292,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 9,
+      "start": 814.944,
+      "end": 816.345,
+      "text": "Yapay zekâ kareyi kurar."
+    },
+    {
+      "index": 293,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 10,
+      "start": 816.691,
+      "end": 817.527,
+      "text": "Yayına sen alırsın."
+    },
+    {
+      "index": 294,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 0,
+      "start": 819.84,
+      "end": 824.547,
+      "text": "Kendi telefonundan bir ürün fotoğrafı seçince kupa satırlarını onunla değiştirirsin."
+    },
+    {
+      "index": 295,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 1,
+      "start": 825.162,
+      "end": 826.954,
+      "text": "Havlunun rengini kupaya yazmazsın."
+    },
+    {
+      "index": 296,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 2,
+      "start": 827.614,
+      "end": 829.146,
+      "text": "Her ürün kendi karesiyle gider."
+    },
+    {
+      "index": 297,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 3,
+      "start": 829.765,
+      "end": 831.907,
+      "text": "Karışınca alıcı yanlış mal bekler."
+    },
+    {
+      "index": 298,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 4,
+      "start": 832.538,
+      "end": 834.701,
+      "text": "Yanlış beklenti yine iade olur."
+    },
+    {
+      "index": 299,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 835.525,
+      "end": 836.596,
+      "text": "Bu derste şunu işledik."
+    },
+    {
+      "index": 300,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 837.339,
+      "end": 847.464,
+      "text": "Mutfak masasında, arkada tabak ve pencere gölgesi varken çekilen kare reddedilir, alıcı rengi seçemez ve yanlış fotoğraf iade kargosunu senin sırtına bindirir."
+    },
+    {
+      "index": 301,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 2,
+      "start": 848.253,
+      "end": 862.041,
+      "text": "Sekiz pazaryerinde ana görseli, Ama zon'un gri lekeye geçit vermeyen beyazına göre, düz beyaz, bire bir, stüdyo ışığıyla ve filigransız kurarsın, ham kareyi yapay zekâya verip Listin'e de sen koyarsın."
+    },
+    {
+      "index": 302,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 862.824,
+      "end": 864.148,
+      "text": "Sıradaki ders üçüncü ders."
+    },
+    {
+      "index": 303,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 864.813,
+      "end": 870.903,
+      "text": "Orada müşterinin yazdığı yorumu, gelen şikâyeti ve iade gerekçesini yapay zekâ ile okuyacağız."
+    },
+    {
+      "index": 304,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 2,
+      "start": 871.542,
+      "end": 872.832,
+      "text": "Ortak hatayı sayacağız."
+    },
+    {
+      "index": 305,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 3,
+      "start": 873.2,
+      "end": 878.392,
+      "text": "Hatayı kutuda, fotoğrafta ya da Listin yazısında, yani kaynağında keseceğiz."
+    },
+    {
+      "index": 306,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 4,
+      "start": 879.035,
+      "end": 881.835,
+      "text": "Böylece aynı zarar yarın yine cebinden çıkmasın."
+    },
+    {
+      "index": 307,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 882.655,
+      "end": 883.693,
+      "text": "Işığın düzgün düşsün."
+    },
+    {
+      "index": 308,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 884.245,
+      "end": 885.599,
+      "text": "Kupanın rengi yerini bulsun."
+    },
+    {
+      "index": 309,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 886.169,
+      "end": 887.591,
+      "text": "Kazancın bereketli gelsin."
+    },
+    {
+      "index": 310,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 888.275,
+      "end": 889.419,
+      "text": "Üçüncü derste görüşürüz."
+    },
+    {
+      "index": 311,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 890.007,
+      "end": 890.777,
+      "text": "Kendine iyi bak."
+    },
+    {
+      "index": 312,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 5,
+      "start": 891.285,
+      "end": 891.768,
+      "text": "Selamlar."
     }
   ]
 }

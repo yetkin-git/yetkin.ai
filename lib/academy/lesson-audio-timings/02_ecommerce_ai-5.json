@@ -1,8 +1,8 @@
 {
   "lessonKey": "02_ecommerce_ai-5",
   "pauseSec": 0.4,
-  "durationSec": 828.944,
-  "cacheV": 828944,
+  "durationSec": 819.052,
+  "cacheV": 819052,
   "pieces": [
     {
       "index": 0,
@@ -10,107 +10,2537 @@
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
       "start": 0,
-      "end": 38.521,
-      "text": "Merhaba, ben Selin. Çayın yanındaysan bırak soğumasın. Bugün akşama kadar ekrana yazı dökmeyeceğiz. Geçen ders, dördüncü derste, kasaya beraber bakmıştık. Malı, paketi, kargoyu ve komisyonu ayrı ayrı yazmıştık. Satış fiyatından bu dört satır düşünce elde ne kaldığını görmüştük. O elde kalan payın adı kâr marjıydı. Rakibin bir lira aşağı inmesine, maliyeti saymadan uymamıştık. Tabanın altındaki fiyatı işaretlemiştik. Tabanın üstündeki fiyatı Listing'e sen koymuştun. O işi orada bırakmıştık."
+      "end": 1.954,
+      "text": "Merhaba, ben Kaan."
     },
     {
       "index": 1,
       "cueId": "cue-01",
-      "cueParagraphIndex": 2,
+      "cueParagraphIndex": 0,
       "chunkIndex": 1,
-      "start": 40.271,
-      "end": 104.478,
-      "text": "Fiyat doğru oturunca açıklama kendiliğinden yazılmaz. Vitrinde yeni mal durur. Her birinin yazısı boşsa alıcı yine ne aldığını anlamaz. Anlamazsa sepete koymaz. Bu derste odağımız zaman. Bilgisayar başında belin bükülmesin. Yüzlerce ürünü tek tek elinle yazmayacağız. Bir şablon kuracağız. Şablonu yapay zekâya vereceğiz. Toplu hâlde, aramada çıkan ürün açıklaması yazdıracağız. Aramada çıkma işinin adı Es i o'dur. Birinci derste Es i o'yu tek başlık için kurmuştuk. Bugün aynı kuralı elli ürüne birden uygulayacağız. Böylece yazı işi gününü yemez. Kargoya ve müşteriye vakit kalır. Dükkâna mal gelince iş bitmez. Tedarikçi dükkâna elli koli bırakır. Her kolinin içinde ayrı bir ürün vardır. Birinde bej seramik kupa durur. Birinde pamuklu mutfak havlusu durur. Birinde cam çay bardağı durur. Elli satır böyle uzar. Sen o gün kargoyu da yetiştireceksin. Müşterinin sorusuna da bakacaksın. Yazı, bu iki işin üstüne biner."
+      "start": 2.102,
+      "end": 4.186,
+      "text": "Çayın yanındaysan bırak soğumasın."
     },
     {
       "index": 2,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
       "chunkIndex": 2,
-      "start": 106.228,
-      "end": 158.858,
-      "text": "Panele oturursun. Her ürün için başlık yazarsın. Sonra açıklama yazarsın. Sonra özellik listesini madde madde yazarsın. Bir üründe ölçü aklına gelir. Ötekinde malzeme unutulur. Üçüncüsünde kutu adedini karıştırırsın. Bir açıklama yaklaşık on dakika sürer. Elli açıklama bir iş gününü yer. İki akşam da sürebilir. Akşam bitince kargo hâlâ paketlenmemiştir. Müşterinin sorusu da cevap bekler. Belin ağrır. Yarın aynı masaya yine oturursun. Bu, malın satılmamasından ayrı bir kayıptır. Mal rafta durur. Yazı bitmediği için vitrine çıkmaz. Vitrine çıkmayan mal yer kaplar. Satış getirmez. Sen o sırada hâlâ klavyenin başındasındır."
+      "start": 4.855,
+      "end": 7.33,
+      "text": "Bugün akşama kadar ekrana yazı dökmeyeceğiz."
     },
     {
       "index": 3,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 3,
-      "start": 160.608,
-      "end": 229.801,
-      "text": "Bunu tek tek yazmak zorunda değilsin. Birinci derste tek ürün için doğru Prompt'u kurmuştuk. O Prompt'ta beş şey duruyordu. Rol. Ürün adı. Ölçü. Malzeme. Özellik listesi. Rol, yapay zekâya kim gibi yazacağını söyler. Ürün adı, alıcının aradığı maldır. Ölçü, üçüncü derste iadeyi kesen satırdır. Malzeme, kutunun içindeki maddedir. Özellik listesi, kutuda ne olduğunu söyler. Kulp var mı, adet kaç, renk ne, orada yazar. Tek kupada bu kalıp işe yaradı. Elli üründe aynı kalıbı elli kez elle yazarsan yine akşamı yersin. O yüzden kalıbı bir kez yazarsın. Ürün satırlarını bir Excel tablosuna koyarsın. Tablon yoksa düz bir liste de olur. Aynı bilgiler alt alta durur. Tabloyu da listeyi de aynı sohbete yapıştırırsın. Yapay zekâ her satır için ayrı açıklama üretir. Liste hazırsa elli satır bir dakikada önüne gelir. Sen o bir dakikada yeni cümle kurmazsın. Gelen cümleyi satır satır okursun."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 8.038,
+      "end": 11.449,
+      "text": "Geçen ders, dördüncü derste, kasaya beraber bakmıştık."
     },
     {
       "index": 4,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 5,
-      "chunkIndex": 4,
-      "start": 231.551,
-      "end": 308.572,
-      "text": "Şimdi şunu demiş olabilirsin. Elli satırı ben yine elle dolduracağım, kazanç nerede, demiş olabilirsin. Çok haklısın, adım adım bakalım. Tabloya roman yazmazsın. Tabloya kısa satır yazarsın. Ürün adı, renk, ölçü, malzeme ve özellik. Bunlar tedarikçinin mal listesinde durur. Ürünün kendi kutusunda da durur. Sen o kısa satırı kopyalarsın. Açıklamadaki cümleyi, arama kelimesini ve madde madde özelliği yapay zekâ kurar. Senin elin elli paragraf yazmaz. Senin elin elli kısa satır taşır. Kısa satır bir öğleden sonra biter. Paragraf işi iki akşam yer. Aradaki fark, kargoya ve müşteriye kalan vakittir. Bu kalıbın adı şablondur. Şablon, her üründe aynı sırayı tutan yazı kalıbıdır. Sıra bozulursa kupanın ölçüsü havluya gider. Havlunun adedi bardağa yazılır. Alıcı yanlış mal bekler. Üçüncü derste yanlış ölçü iade olarak geri dönmüştü. İade kargosu senin sırtına binmişti. Şablon o karışmayı keser. Her satırın başında sıra numarası durur. Cevap da aynı numarayla gelir. Bir numaralı açıklama bir numaralı ürüne gider. Onu havlunun Listing'ine yapıştırmazsın."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 12.135,
+      "end": 15.786,
+      "text": "Malı, paketi, kargoyu ve komisyonu ayrı ayrı yazmıştık."
     },
     {
       "index": 5,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 7,
-      "chunkIndex": 5,
-      "start": 310.322,
-      "end": 378.693,
-      "text": "Bej seramik kupa hâlâ bizim ilk satırımız. Birinci derste başlığını ölçüyle kurmuştuk. İkinci derste görselini beyaz arka plana çekmiştik. Üçüncü derste kulp, renk ve ölçü şikâyetini kaynağında kesmiştik. Dördüncü derste fiyatını, maliyeti ezdirmeden koymuştuk. Bugün o kupanın açıklamasını, yanındaki ürünlerle birlikte aynı şablondan çıkaracağız. Tabloda üç satır örnek olsun. Gerideki satırları sen aynı düzende eklersin. Kırk yedi satır daha gelse de sıra değişmez. Adlar ve sayılar bu örneğe aittir. Senin kolin başka mal da gelebilir. Kutudaki yazı neyse tabloya o gider. Bir. Ürün adı, seramik kupa. Renk, bej. Ölçü, üç yüz mililitre. Malzeme, seramik. Özellik, kulplu ve tekli. İki. Ürün adı, mutfak havlusu. Renk, ekru. Ölçü, elliye yetmiş santimetre. Malzeme, pamuk. Özellik, iki adet. Üç. Ürün adı, çay bardağı. Renk, sade cam. Ölçü, yüz yirmi mililitre. Malzeme, cam. Özellik, altılı set ve kulpsuz."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 16.234,
+      "end": 20.37,
+      "text": "Satış fiyatından bu dört satır düşünce elde ne kaldığını görmüştük."
     },
     {
       "index": 6,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 12,
-      "chunkIndex": 6,
-      "start": 380.443,
-      "end": 433.127,
-      "text": "Bu üç satırda olmayan şeyi açıklamaya yazdırmayız. Kupada el yapımı yazmıyorsa el yapımı çıkmaz. Havluda çabuk kurur yazmıyorsa çabuk kurur çıkmaz. Bardakta başka bir cam türü yazmıyorsa o kelime çıkmaz. Olmayan özellik, üçüncü dersteki yanlış beklentidir. Alıcı metinde gördüğünü kutuda bulamazsa iade eder. İade yine senin kargo paranla döner. Kopyalarken müşterinin adını, telefonunu, adresini ve sipariş numarasını sohbete koymazsın. Tedarikçinin İban'ını ve vergi numarasını da koymazsın. Dördüncü dersteki maliyet de bu işe girmez. Mal, paket, kargo ve komisyon açıklamanın konusu değildir. Alış fiyatın vitrine çıkmaz. Vitrine ürünün adı, rengi, ölçüsü, malzemesi ve kutu içeriği çıkar."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 20.966,
+      "end": 23.393,
+      "text": "O elde kalan payın adı kâr marjıydı."
     },
     {
       "index": 7,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 14,
-      "chunkIndex": 7,
-      "start": 434.877,
-      "end": 484.803,
-      "text": "Bir de yarım kalan soruyu göstereyim. Çünkü toplu işte çoğu satıcı burada dağılır. Sohbete yalnız şunu yazarsan liste boşa gider. Bu ürünlere Es i o uyumlu, güzel bir açıklama yaz. Elli satır altta yoksa yapay zekâ ürünü kendisi kurar. Ölçüyü tahmin eder. Malzemeyi süsler. Rakibin cümlesine benzeyen bir övgü ekler. Birinci derste övgü cümlesi aramada çıkmıyordu. Harika kalite, kaçırma. Alıcı ölçüyü bilmeden kalıyordu. Elli üründe aynı cümle elli kez tekrar ederse vitrin birbirinin kopyası olur. Alıcı farkı göremez. O yüzden Prompt eksiksiz olur. Rolü, sıra numarasını, ilk cümledeki arama kelimesini, malzemeyi, özellik maddesini ve uydurma yasağını ister."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 23.982,
+      "end": 28.035,
+      "text": "Rakibin bir lira aşağı inmesine, maliyeti saymadan uymamıştık."
     },
     {
       "index": 8,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 15,
-      "chunkIndex": 8,
-      "start": 486.553,
-      "end": 578.715,
-      "text": "Doğru şablondan kupa için gelen cevap şöyle durur. Başlık, seramik kupa, bej, üç yüz mililitre, tekli. Açıklamanın ilk cümlesi, bej seramik kupa üç yüz mililitredir. İkinci cümle, malzeme seramiktir. Özellik maddesi, kulp vardır. İkinci madde, kutuda bir adet kupa vardır. Havlu ve bardak da kendi satırının adıyla, rengiyle, ölçüsüyle ve adediyle aynı sırada gelir. Yanlış cevap da şudur. Eşsiz el yapımı bej kupa mutfağına şıklık katar ve bulaşık makinesinde yıkanır. Bu cümlede ölçü yok. Listede olmayan el yapımı var. Listede olmayan yıkama var. Övgü var. Bu metin Listing'e gitmez. Ölçüsüz cümle, üçüncü dersteki küçük geldi şikâyetini geri getirir. Pazaryerin Trend yol da olur, Hepsi burada da, Ama zon da, En on bir de, ÇiçekSepeti de, PttAVM de, Getir de, Pazarama da. Açıklama kutusunun adı değişir. Şablon aynı kalır. Başlığı ürün adı satırına sen koyarsın. Açıklamayı açıklama kutusuna sen koyarsın. Özellik maddesini de sen alt alta yapıştırırsın. Telefonu, müşteri adresini ve başka sitenin adresini Listing'e yazmazsın. Başka satıcının cümlesini de yapıştırmazsın. Ürün satırlarını sohbete koyarken şu Prompt'u olduğu gibi yapıştırırsın. Listeyi en alta eklersin."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 5,
+      "start": 28.121,
+      "end": 31.762,
+      "text": "Tabanın altındaki fiyatı işaretlemiştik."
     },
     {
       "index": 9,
-      "cueId": "cue-03",
+      "cueId": "cue-01",
       "cueParagraphIndex": 1,
-      "chunkIndex": 9,
-      "start": 580.465,
-      "end": 660.285,
-      "text": "Sana bir ürün listesi veriyorum. Her satır ayrı bir üründür. Müşteri adı, telefon, adres ve sipariş numarası yok. İban, vergi numarası ve maliyet de yok. Satırda böyle bir bilgi görürsen onu yok say. Rolün, pazaryerinde satış yapan bir esnafın ürün yazısını kuran asistandır. Her satır için üç parça yaz. Başlık, açıklama ve özellik listesi. Üç parçayı da satırın sıra numarasıyla başlat. Sıra numarasını değiştirme. Ürünleri birbirine karıştırma. Başlıkta ürün adı, renk, ölçü ve adet dursun. Övgü kelimesi başlığa girmez. Açıklamanın ilk cümlesinde ürün adı, renk ve ölçü geçsin. Alıcının arama kutusuna yazacağı günlük kelime bu ilk cümlede dursun. İkinci cümlede yalnız malzeme geçsin. Sonra özellik listesini alt alta kısa madde yap. Madde, kutuda ne olduğunu söylesin. Listede olmayan özelliği uydurma. Ölçüyü tahmin etme. Rengi değiştirme. Adedi çoğaltma. El yapımı, çabuk kurur, bulaşık makinesinde yıkanır gibi bir cümle, satırda yoksa yazma. Rakibin cümlesini kopyalama. Telefon, adres ve başka sitenin adresini yazma. Maliyeti ve fiyatı yazma."
+      "chunkIndex": 6,
+      "start": 31.893,
+      "end": 34.478,
+      "text": "Tabanın üstündeki fiyatı Listin'e sen koymuştun."
     },
     {
       "index": 10,
-      "cueId": "cue-03",
+      "cueId": "cue-01",
       "cueParagraphIndex": 1,
-      "chunkIndex": 10,
-      "start": 660.685,
-      "end": 756.283,
-      "text": "Fiyatı Listing'e ben koyacağım. Sen yazıyı kur. Liste aşağıda. Listenin altı da şöyle durur. Bir. Seramik kupa. Bej. Üç yüz mililitre. Seramik. Kulplu, tekli. İki. Mutfak havlusu. Ekru. Elliye yetmiş santimetre. Pamuk. İki adet. Üç. Çay bardağı. Sade cam. Yüz yirmi mililitre. Cam. Altılı set, kulpsuz. Elli ürünün varsa üçün arkasında kırk yedi satır daha aynı düzende durur. Sütun sırasını bozmazsın. Bozarsan renk, ölçü yerine geçer. Bu Prompt'tan sonra gelen cevaba dört yerden bakarsın. Sıra numarası tablodaki numarayla duruyor mu? Başlıkta ve ilk cümlede ölçü var mı? Listede olmayan kelime sızmış mı? Üçüncü satırın adedi altılı kalmış mı? Sızmış cümleyi silersin. Ölçü yanlışsa o satırı yeniden sorarsın. Bütün elliyi kör yapıştırmazsın. Önce üç satırı okursun. Üçü de tutuyorsa aynı şablon gerideki satırlarda da aynı sırayı tutar. Yine de vitrine koymadan önce her açıklamanın ilk cümlesindeki ölçüyü, tablodaki ölçüyle bir kez karşılaştırırsın. Bu bakış iki akşam sürmez. Bir çay demlenene kadar biter. Tutmayan satırı silersin. Listing'e metni sen koyarsın. Yapay zekâ cümleyi kurar. Yayına sen alırsın."
+      "chunkIndex": 7,
+      "start": 35.043,
+      "end": 36.414,
+      "text": "O işi orada bırakmıştık."
     },
     {
       "index": 11,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 38.164,
+      "end": 41.8,
+      "text": "Fiyat doğru oturunca açıklama kendiliğinden yazılmaz."
+    },
+    {
+      "index": 12,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 1,
+      "start": 42.374,
+      "end": 43.856,
+      "text": "Vitrinde yeni mal durur."
+    },
+    {
+      "index": 13,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 2,
+      "start": 44.121,
+      "end": 47.391,
+      "text": "Her birinin yazısı boşsa alıcı yine ne aldığını anlamaz."
+    },
+    {
+      "index": 14,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 3,
+      "start": 48.063,
+      "end": 49.367,
+      "text": "Anlamazsa sepete koymaz."
+    },
+    {
+      "index": 15,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 50.234,
+      "end": 51.62,
+      "text": "Bu derste odağımız zaman."
+    },
+    {
+      "index": 16,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 1,
+      "start": 52.41,
+      "end": 54.087,
+      "text": "Bilgisayar başında belin bükülmesin."
+    },
+    {
+      "index": 17,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 2,
+      "start": 54.801,
+      "end": 57.299,
+      "text": "Yüzlerce ürünü tek tek elinle yazmayacağız."
+    },
+    {
+      "index": 18,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 3,
+      "start": 57.933,
+      "end": 58.892,
+      "text": "Bir şablon kuracağız."
+    },
+    {
+      "index": 19,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 4,
+      "start": 59.403,
+      "end": 61.123,
+      "text": "Şablonu yapay zekâya vereceğiz."
+    },
+    {
+      "index": 20,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 5,
+      "start": 61.816,
+      "end": 64.924,
+      "text": "Toplu hâlde, aramada çıkan ürün açıklaması yazdıracağız."
+    },
+    {
+      "index": 21,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 6,
+      "start": 65.605,
+      "end": 69.309,
+      "text": "Aramada çıkma işinin adı Arama Motoru Optimizasyonu (SEO)'dur."
+    },
+    {
+      "index": 22,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 7,
+      "start": 70.248,
+      "end": 74.636,
+      "text": "Birinci derste Arama Motoru Optimizasyonu (SEO)'yu tek başlık için kurmuştuk."
+    },
+    {
+      "index": 23,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 8,
+      "start": 75.275,
+      "end": 77.991,
+      "text": "Bugün aynı kuralı elli ürüne birden uygulayacağız."
+    },
+    {
+      "index": 24,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 9,
+      "start": 78.711,
+      "end": 80.449,
+      "text": "Böylece yazı işi gününü yemez."
+    },
+    {
+      "index": 25,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 10,
+      "start": 80.893,
+      "end": 83.375,
+      "text": "Kargoya ve müşteriye vakit kalır."
+    },
+    {
+      "index": 26,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 83.458,
+      "end": 85.065,
+      "text": "Dükkâna mal gelince iş bitmez."
+    },
+    {
+      "index": 27,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 85.779,
+      "end": 87.786,
+      "text": "Tedarikçi dükkâna elli koli bırakır."
+    },
+    {
+      "index": 28,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 2,
+      "start": 88.345,
+      "end": 90.303,
+      "text": "Her kolinin içinde ayrı bir ürün vardır."
+    },
+    {
+      "index": 29,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 3,
+      "start": 90.92,
+      "end": 92.629,
+      "text": "Birinde bej seramik kupa durur."
+    },
+    {
+      "index": 30,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 4,
+      "start": 93.099,
+      "end": 95.011,
+      "text": "Birinde pamuklu mutfak havlusu durur."
+    },
+    {
+      "index": 31,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 5,
+      "start": 95.613,
+      "end": 97.098,
+      "text": "Birinde cam çay bardağı durur."
+    },
+    {
+      "index": 32,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 6,
+      "start": 97.677,
+      "end": 98.939,
+      "text": "Elli satır böyle uzar."
+    },
+    {
+      "index": 33,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 7,
+      "start": 99.612,
+      "end": 101.462,
+      "text": "Sen o gün kargoyu da yetiştireceksin."
+    },
+    {
+      "index": 34,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 8,
+      "start": 101.795,
+      "end": 103.274,
+      "text": "Müşterinin sorusuna da bakacaksın."
+    },
+    {
+      "index": 35,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 9,
+      "start": 103.967,
+      "end": 105.98,
+      "text": "Yazı, bu iki işin üstüne biner."
+    },
+    {
+      "index": 36,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 107.73,
+      "end": 108.879,
+      "text": "Panele oturursun."
+    },
+    {
+      "index": 37,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 109.705,
+      "end": 111.317,
+      "text": "Her ürün için başlık yazarsın."
+    },
+    {
+      "index": 38,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 111.952,
+      "end": 113.243,
+      "text": "Sonra açıklama yazarsın."
+    },
+    {
+      "index": 39,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 113.929,
+      "end": 116.447,
+      "text": "Sonra özellik listesini madde madde yazarsın."
+    },
+    {
+      "index": 40,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 117.21,
+      "end": 118.728,
+      "text": "Bir üründe ölçü aklına gelir."
+    },
+    {
+      "index": 41,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 5,
+      "start": 119.182,
+      "end": 120.715,
+      "text": "Ötekinde malzeme unutulur."
+    },
+    {
+      "index": 42,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 6,
+      "start": 121.297,
+      "end": 123.335,
+      "text": "Üçüncüsünde kutu adedini karıştırırsın."
+    },
+    {
+      "index": 43,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 7,
+      "start": 124.132,
+      "end": 126.155,
+      "text": "Bir açıklama yaklaşık on dakika sürer."
+    },
+    {
+      "index": 44,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 8,
+      "start": 126.845,
+      "end": 128.619,
+      "text": "Elli açıklama bir iş gününü yer."
+    },
+    {
+      "index": 45,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 9,
+      "start": 129.378,
+      "end": 130.562,
+      "text": "İki akşam da sürebilir."
+    },
+    {
+      "index": 46,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 10,
+      "start": 131.339,
+      "end": 134.014,
+      "text": "Akşam bitince kargo hâlâ paketlenmemiştir."
+    },
+    {
+      "index": 47,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 11,
+      "start": 134.622,
+      "end": 136.248,
+      "text": "Müşterinin sorusu da cevap bekler."
+    },
+    {
+      "index": 48,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 12,
+      "start": 136.985,
+      "end": 137.671,
+      "text": "Belin ağrır."
+    },
+    {
+      "index": 49,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 13,
+      "start": 138.327,
+      "end": 140.152,
+      "text": "Yarın aynı masaya yine oturursun."
+    },
+    {
+      "index": 50,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 140.93,
+      "end": 143.407,
+      "text": "Bu, malın satılmamasından ayrı bir kayıptır."
+    },
+    {
+      "index": 51,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 1,
+      "start": 144.042,
+      "end": 144.855,
+      "text": "Mal rafta durur."
+    },
+    {
+      "index": 52,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 2,
+      "start": 145.504,
+      "end": 147.214,
+      "text": "Yazı bitmediği için vitrine çıkmaz."
+    },
+    {
+      "index": 53,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 3,
+      "start": 147.995,
+      "end": 149.796,
+      "text": "Vitrine çıkmayan mal yer kaplar."
+    },
+    {
+      "index": 54,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 4,
+      "start": 150.406,
+      "end": 151.349,
+      "text": "Satış getirmez."
+    },
+    {
+      "index": 55,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 5,
+      "start": 152.108,
+      "end": 154.77,
+      "text": "Sen o sırada hâlâ klavyenin başındasındır."
+    },
+    {
+      "index": 56,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 156.52,
+      "end": 159.103,
+      "text": "Bunu tek tek yazmak zorunda değilsin."
+    },
+    {
+      "index": 57,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 1,
+      "start": 159.719,
+      "end": 162.505,
+      "text": "Birinci derste tek ürün için doğru Promt'u kurmuştuk."
+    },
+    {
+      "index": 58,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 2,
+      "start": 163.12,
+      "end": 164.62,
+      "text": "O Promt'ta beş şey duruyordu."
+    },
+    {
+      "index": 59,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 3,
+      "start": 165.299,
+      "end": 165.641,
+      "text": "Rol."
+    },
+    {
+      "index": 60,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 4,
+      "start": 166.286,
+      "end": 166.838,
+      "text": "Ürün adı."
+    },
+    {
+      "index": 61,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 5,
+      "start": 167.435,
+      "end": 167.932,
+      "text": "Ölçü."
+    },
+    {
+      "index": 62,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 6,
+      "start": 168.561,
+      "end": 169.176,
+      "text": "Malzeme."
+    },
+    {
+      "index": 63,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 7,
+      "start": 169.721,
+      "end": 170.562,
+      "text": "Özellik listesi."
+    },
+    {
+      "index": 64,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 8,
+      "start": 171.29,
+      "end": 174.114,
+      "text": "Rol, yapay zekâya kim gibi yazacağını söyler."
+    },
+    {
+      "index": 65,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 9,
+      "start": 174.83,
+      "end": 176.73,
+      "text": "Ürün adı, alıcının aradığı maldır."
+    },
+    {
+      "index": 66,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 10,
+      "start": 177.525,
+      "end": 180.384,
+      "text": "Ölçü, üçüncü derste iadeyi kesen satırdır."
+    },
+    {
+      "index": 67,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 11,
+      "start": 181.134,
+      "end": 183.18,
+      "text": "Malzeme, kutunun içindeki maddedir."
+    },
+    {
+      "index": 68,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 12,
+      "start": 183.902,
+      "end": 186.302,
+      "text": "Özellik listesi, kutuda ne olduğunu söyler."
+    },
+    {
+      "index": 69,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 13,
+      "start": 187.046,
+      "end": 190.403,
+      "text": "Kulp var mı, adet kaç, renk ne, orada yazar."
+    },
+    {
+      "index": 70,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 0,
+      "start": 191.12,
+      "end": 192.567,
+      "text": "Tek kupada bu kalıp işe yaradı."
+    },
+    {
+      "index": 71,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 1,
+      "start": 193.144,
+      "end": 197.355,
+      "text": "Elli üründe aynı kalıbı elli kez elle yazarsan yine akşamı yersin."
+    },
+    {
+      "index": 72,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 2,
+      "start": 197.964,
+      "end": 199.813,
+      "text": "O yüzden kalıbı bir kez yazarsın."
+    },
+    {
+      "index": 73,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 3,
+      "start": 200.368,
+      "end": 202.836,
+      "text": "Ürün satırlarını bir Excel tablosuna koyarsın."
+    },
+    {
+      "index": 74,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 4,
+      "start": 203.471,
+      "end": 205.203,
+      "text": "Tablon yoksa düz bir liste de olur."
+    },
+    {
+      "index": 75,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 5,
+      "start": 205.828,
+      "end": 207.326,
+      "text": "Aynı bilgiler alt alta durur."
+    },
+    {
+      "index": 76,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 6,
+      "start": 207.933,
+      "end": 210.892,
+      "text": "Tabloyu da listeyi de aynı sohbete yapıştırırsın."
+    },
+    {
+      "index": 77,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 7,
+      "start": 211.535,
+      "end": 214.534,
+      "text": "Yapay zekâ her satır için ayrı açıklama üretir."
+    },
+    {
+      "index": 78,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 8,
+      "start": 215.159,
+      "end": 218.418,
+      "text": "Liste hazırsa elli satır bir dakikada önüne gelir."
+    },
+    {
+      "index": 79,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 9,
+      "start": 218.985,
+      "end": 221.103,
+      "text": "Sen o bir dakikada yeni cümle kurmazsın."
+    },
+    {
+      "index": 80,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 10,
+      "start": 221.706,
+      "end": 223.946,
+      "text": "Gelen cümleyi satır satır okursun."
+    },
+    {
+      "index": 81,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 0,
+      "start": 225.696,
+      "end": 227.846,
+      "text": "Şimdi şunu demiş olabilirsin."
+    },
+    {
+      "index": 82,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 1,
+      "start": 228.389,
+      "end": 232.81,
+      "text": "Elli satırı ben yine elle dolduracağım, kazanç nerede, demiş olabilirsin."
+    },
+    {
+      "index": 83,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 2,
+      "start": 233.352,
+      "end": 234.968,
+      "text": "Çok haklısın, adım adım bakalım."
+    },
+    {
+      "index": 84,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 3,
+      "start": 236.233,
+      "end": 237.547,
+      "text": "Tabloya roman yazmazsın."
+    },
+    {
+      "index": 85,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 4,
+      "start": 238.054,
+      "end": 241.093,
+      "text": "Tabloya kısa satır yazarsın."
+    },
+    {
+      "index": 86,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 5,
+      "start": 241.199,
+      "end": 244.005,
+      "text": "Ürün adı, renk, ölçü, malzeme ve özellik."
+    },
+    {
+      "index": 87,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 6,
+      "start": 244.608,
+      "end": 246.766,
+      "text": "Bunlar tedarikçinin mal listesinde durur."
+    },
+    {
+      "index": 88,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 7,
+      "start": 247.217,
+      "end": 248.756,
+      "text": "Ürünün kendi kutusunda da durur."
+    },
+    {
+      "index": 89,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 8,
+      "start": 249.375,
+      "end": 251.032,
+      "text": "Sen o kısa satırı kopyalarsın."
+    },
+    {
+      "index": 90,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 9,
+      "start": 251.7,
+      "end": 256.843,
+      "text": "Açıklamadaki cümleyi, arama kelimesini ve madde madde özelliği yapay zekâ kurar."
+    },
+    {
+      "index": 91,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 10,
+      "start": 257.485,
+      "end": 259.465,
+      "text": "Senin elin elli paragraf yazmaz."
+    },
+    {
+      "index": 92,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 11,
+      "start": 259.938,
+      "end": 261.798,
+      "text": "Senin elin elli kısa satır taşır."
+    },
+    {
+      "index": 93,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 12,
+      "start": 263.066,
+      "end": 264.829,
+      "text": "Kısa satır bir öğleden sonra biter."
+    },
+    {
+      "index": 94,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 13,
+      "start": 265.362,
+      "end": 267.113,
+      "text": "Paragraf işi iki akşam yer."
+    },
+    {
+      "index": 95,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 14,
+      "start": 267.725,
+      "end": 270.509,
+      "text": "Aradaki fark, kargoya ve müşteriye kalan vakittir."
+    },
+    {
+      "index": 96,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 0,
+      "start": 271.145,
+      "end": 272.333,
+      "text": "Bu kalıbın adı şablondur."
+    },
+    {
+      "index": 97,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 1,
+      "start": 272.989,
+      "end": 275.932,
+      "text": "Şablon, her üründe aynı sırayı tutan yazı kalıbıdır."
+    },
+    {
+      "index": 98,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 2,
+      "start": 276.561,
+      "end": 279.214,
+      "text": "Sıra bozulursa kupanın ölçüsü havluya gider."
+    },
+    {
+      "index": 99,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 3,
+      "start": 279.712,
+      "end": 281.435,
+      "text": "Havlunun adedi bardağa yazılır."
+    },
+    {
+      "index": 100,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 4,
+      "start": 281.904,
+      "end": 283.574,
+      "text": "Alıcı yanlış mal bekler."
+    },
+    {
+      "index": 101,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 5,
+      "start": 283.738,
+      "end": 286.676,
+      "text": "Üçüncü derste yanlış ölçü iade olarak geri dönmüştü."
+    },
+    {
+      "index": 102,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 6,
+      "start": 287.156,
+      "end": 289.649,
+      "text": "İade kargosu senin sırtına binmişti."
+    },
+    {
+      "index": 103,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 7,
+      "start": 289.853,
+      "end": 291.359,
+      "text": "Şablon o karışmayı keser."
+    },
+    {
+      "index": 104,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 8,
+      "start": 292.158,
+      "end": 294.142,
+      "text": "Her satırın başında sıra numarası durur."
+    },
+    {
+      "index": 105,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 9,
+      "start": 294.659,
+      "end": 296.209,
+      "text": "Cevap da aynı numarayla gelir."
+    },
+    {
+      "index": 106,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 10,
+      "start": 296.687,
+      "end": 299.305,
+      "text": "Bir numaralı açıklama bir numaralı ürüne gider."
+    },
+    {
+      "index": 107,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 11,
+      "start": 299.714,
+      "end": 301.991,
+      "text": "Onu havlunun Listin'ine yapıştırmazsın."
+    },
+    {
+      "index": 108,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 0,
+      "start": 303.741,
+      "end": 306.822,
+      "text": "Bej seramik kupa hâlâ bizim ilk satırımız."
+    },
+    {
+      "index": 109,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 1,
+      "start": 307.403,
+      "end": 309.632,
+      "text": "Birinci derste başlığını ölçüyle kurmuştuk."
+    },
+    {
+      "index": 110,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 2,
+      "start": 310.09,
+      "end": 313.384,
+      "text": "İkinci derste görselini beyaz arka plana çekmiştik."
+    },
+    {
+      "index": 111,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 3,
+      "start": 313.611,
+      "end": 317.956,
+      "text": "Üçüncü derste kulp, renk ve ölçü şikâyetini kaynağında kesmiştik."
+    },
+    {
+      "index": 112,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 4,
+      "start": 318.394,
+      "end": 321.859,
+      "text": "Dördüncü derste fiyatını, maliyeti ezdirmeden koymuştuk."
+    },
+    {
+      "index": 113,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 5,
+      "start": 322.619,
+      "end": 327.796,
+      "text": "Bugün o kupanın açıklamasını, yanındaki ürünlerle birlikte aynı şablondan çıkaracağız."
+    },
+    {
+      "index": 114,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 0,
+      "start": 327.992,
+      "end": 329.639,
+      "text": "Tabloda üç satır örnek olsun."
+    },
+    {
+      "index": 115,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 1,
+      "start": 330.28,
+      "end": 332.671,
+      "text": "Gerideki satırları sen aynı düzende eklersin."
+    },
+    {
+      "index": 116,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 2,
+      "start": 333.344,
+      "end": 336.198,
+      "text": "Kırk yedi satır daha gelse de sıra değişmez."
+    },
+    {
+      "index": 117,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 3,
+      "start": 336.57,
+      "end": 338.483,
+      "text": "Adlar ve sayılar bu örneğe aittir."
+    },
+    {
+      "index": 118,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 4,
+      "start": 338.944,
+      "end": 340.68,
+      "text": "Senin kolin başka mal da gelebilir."
+    },
+    {
+      "index": 119,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 5,
+      "start": 341.328,
+      "end": 343.53,
+      "text": "Kutudaki yazı neyse tabloya o gider."
+    },
+    {
+      "index": 120,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 0,
+      "start": 344.171,
+      "end": 344.437,
+      "text": "Bir."
+    },
+    {
+      "index": 121,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 1,
+      "start": 345.337,
+      "end": 346.753,
+      "text": "Ürün adı, seramik kupa."
+    },
+    {
+      "index": 122,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 2,
+      "start": 347.435,
+      "end": 348.434,
+      "text": "Renk, bej."
+    },
+    {
+      "index": 123,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 3,
+      "start": 349.069,
+      "end": 350.757,
+      "text": "Ölçü, üç yüz mililitre."
+    },
+    {
+      "index": 124,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 4,
+      "start": 351.235,
+      "end": 352.45,
+      "text": "Malzeme, seramik."
+    },
+    {
+      "index": 125,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 5,
+      "start": 352.985,
+      "end": 354.802,
+      "text": "Özellik, kulplu ve tekli."
+    },
+    {
+      "index": 126,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 0,
+      "start": 355.697,
+      "end": 355.941,
+      "text": "İki."
+    },
+    {
+      "index": 127,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 1,
+      "start": 356.745,
+      "end": 358.222,
+      "text": "Ürün adı, mutfak havlusu."
+    },
+    {
+      "index": 128,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 2,
+      "start": 358.9,
+      "end": 359.936,
+      "text": "Renk, ekru."
+    },
+    {
+      "index": 129,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 3,
+      "start": 360.555,
+      "end": 362.864,
+      "text": "Ölçü, elliye yetmiş santimetre."
+    },
+    {
+      "index": 130,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 4,
+      "start": 363.384,
+      "end": 364.515,
+      "text": "Malzeme, pamuk."
+    },
+    {
+      "index": 131,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 5,
+      "start": 365.019,
+      "end": 366.25,
+      "text": "Özellik, iki adet."
+    },
+    {
+      "index": 132,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 11,
+      "chunkIndex": 0,
+      "start": 367.061,
+      "end": 367.305,
+      "text": "Üç."
+    },
+    {
+      "index": 133,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 11,
+      "chunkIndex": 1,
+      "start": 368.142,
+      "end": 369.464,
+      "text": "Ürün adı, çay bardağı."
+    },
+    {
+      "index": 134,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 11,
+      "chunkIndex": 2,
+      "start": 370.292,
+      "end": 371.571,
+      "text": "Renk, sade cam."
+    },
+    {
+      "index": 135,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 11,
+      "chunkIndex": 3,
+      "start": 372.135,
+      "end": 373.913,
+      "text": "Ölçü, yüz yirmi mililitre."
+    },
+    {
+      "index": 136,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 11,
+      "chunkIndex": 4,
+      "start": 374.525,
+      "end": 375.685,
+      "text": "Malzeme, cam."
+    },
+    {
+      "index": 137,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 11,
+      "chunkIndex": 5,
+      "start": 376.269,
+      "end": 378.829,
+      "text": "Özellik, altılı set ve kulpsuz."
+    },
+    {
+      "index": 138,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 12,
+      "chunkIndex": 0,
+      "start": 380.579,
+      "end": 383.973,
+      "text": "Bu üç satırda olmayan şeyi açıklamaya yazdırmayız."
+    },
+    {
+      "index": 139,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 12,
+      "chunkIndex": 1,
+      "start": 384.735,
+      "end": 387.356,
+      "text": "Kupada el yapımı yazmıyorsa el yapımı çıkmaz."
+    },
+    {
+      "index": 140,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 12,
+      "chunkIndex": 2,
+      "start": 387.964,
+      "end": 391.604,
+      "text": "Havluda çabuk kurur yazmıyorsa çabuk kurur çıkmaz."
+    },
+    {
+      "index": 141,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 12,
+      "chunkIndex": 3,
+      "start": 391.735,
+      "end": 395.575,
+      "text": "Bardakta başka bir cam türü yazmıyorsa o kelime çıkmaz."
+    },
+    {
+      "index": 142,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 12,
+      "chunkIndex": 4,
+      "start": 395.769,
+      "end": 398.712,
+      "text": "Olmayan özellik, üçüncü dersteki yanlış beklentidir."
+    },
+    {
+      "index": 143,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 12,
+      "chunkIndex": 5,
+      "start": 399.617,
+      "end": 403.095,
+      "text": "Alıcı metinde gördüğünü kutuda bulamazsa iade eder."
+    },
+    {
+      "index": 144,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 12,
+      "chunkIndex": 6,
+      "start": 403.283,
+      "end": 405.284,
+      "text": "İade yine senin kargo paranla döner."
+    },
+    {
+      "index": 145,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 0,
+      "start": 406.23,
+      "end": 411.668,
+      "text": "Kopyalarken müşterinin adını, telefonunu, adresini ve sipariş numarasını sohbete koymazsın."
+    },
+    {
+      "index": 146,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 1,
+      "start": 411.993,
+      "end": 415.131,
+      "text": "Tedarikçinin İban'ını ve vergi numarasını da koymazsın."
+    },
+    {
+      "index": 147,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 2,
+      "start": 416.12,
+      "end": 419.079,
+      "text": "Dördüncü dersteki maliyet de bu işe girmez."
+    },
+    {
+      "index": 148,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 3,
+      "start": 419.281,
+      "end": 423.039,
+      "text": "Mal, paket, kargo ve komisyon açıklamanın konusu değildir."
+    },
+    {
+      "index": 149,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 4,
+      "start": 423.948,
+      "end": 426.498,
+      "text": "Alış fiyatın vitrine çıkmaz."
+    },
+    {
+      "index": 150,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 5,
+      "start": 426.617,
+      "end": 431.368,
+      "text": "Vitrine ürünün adı, rengi, ölçüsü, malzemesi ve kutu içeriği çıkar."
+    },
+    {
+      "index": 151,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 0,
+      "start": 433.118,
+      "end": 435.29,
+      "text": "Bir de yarım kalan soruyu göstereyim."
+    },
+    {
+      "index": 152,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 1,
+      "start": 435.752,
+      "end": 438.855,
+      "text": "Çünkü toplu işte çoğu satıcı burada dağılır."
+    },
+    {
+      "index": 153,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 2,
+      "start": 438.95,
+      "end": 441.889,
+      "text": "Sohbete yalnız şunu yazarsan liste boşa gider."
+    },
+    {
+      "index": 154,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 3,
+      "start": 442.446,
+      "end": 446.383,
+      "text": "Bu ürünlere Arama Motoru Optimizasyonu (SEO) uyumlu, güzel bir açıklama yaz."
+    },
+    {
+      "index": 155,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 4,
+      "start": 447.638,
+      "end": 450.883,
+      "text": "Elli satır altta yoksa yapay zekâ ürünü kendisi kurar."
+    },
+    {
+      "index": 156,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 5,
+      "start": 451.319,
+      "end": 452.594,
+      "text": "Ölçüyü tahmin eder."
+    },
+    {
+      "index": 157,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 6,
+      "start": 453.105,
+      "end": 454.232,
+      "text": "Malzemeyi süsler."
+    },
+    {
+      "index": 158,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 7,
+      "start": 455.02,
+      "end": 457.203,
+      "text": "Rakibin cümlesine benzeyen bir övgü ekler."
+    },
+    {
+      "index": 159,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 8,
+      "start": 458.366,
+      "end": 460.978,
+      "text": "Birinci derste övgü cümlesi aramada çıkmıyordu."
+    },
+    {
+      "index": 160,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 9,
+      "start": 461.425,
+      "end": 462.992,
+      "text": "Harika kalite, kaçırma."
+    },
+    {
+      "index": 161,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 10,
+      "start": 464.128,
+      "end": 465.8,
+      "text": "Alıcı ölçüyü bilmeden kalıyordu."
+    },
+    {
+      "index": 162,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 11,
+      "start": 466.73,
+      "end": 471.395,
+      "text": "Elli üründe aynı cümle elli kez tekrar ederse vitrin birbirinin kopyası olur."
+    },
+    {
+      "index": 163,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 12,
+      "start": 471.954,
+      "end": 473.13,
+      "text": "Alıcı farkı göremez."
+    },
+    {
+      "index": 164,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 13,
+      "start": 473.734,
+      "end": 475.78,
+      "text": "O yüzden Promt eksiksiz olur."
+    },
+    {
+      "index": 165,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 14,
+      "start": 476.381,
+      "end": 484.583,
+      "text": "Rolü, sıra numarasını, ilk cümledeki arama kelimesini, malzemeyi, özellik maddesini ve uydurma yasağını ister."
+    },
+    {
+      "index": 166,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 15,
+      "chunkIndex": 0,
+      "start": 486.333,
+      "end": 489.55,
+      "text": "Doğru şablondan kupa için gelen cevap şöyle durur."
+    },
+    {
+      "index": 167,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 15,
+      "chunkIndex": 1,
+      "start": 490.315,
+      "end": 494.976,
+      "text": "Başlık, seramik kupa, bej, üç yüz mililitre, tekli."
+    },
+    {
+      "index": 168,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 15,
+      "chunkIndex": 2,
+      "start": 495.452,
+      "end": 500.497,
+      "text": "Açıklamanın ilk cümlesi, bej seramik kupa üç yüz mililitredir."
+    },
+    {
+      "index": 169,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 15,
+      "chunkIndex": 3,
+      "start": 501.161,
+      "end": 503.363,
+      "text": "İkinci cümle, malzeme seramiktir."
+    },
+    {
+      "index": 170,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 15,
+      "chunkIndex": 4,
+      "start": 504.245,
+      "end": 506.328,
+      "text": "Özellik maddesi, kulp vardır."
+    },
+    {
+      "index": 171,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 15,
+      "chunkIndex": 5,
+      "start": 506.978,
+      "end": 509.701,
+      "text": "İkinci madde, kutuda bir adet kupa vardır."
+    },
+    {
+      "index": 172,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 15,
+      "chunkIndex": 6,
+      "start": 510.375,
+      "end": 515.979,
+      "text": "Havlu ve bardak da kendi satırının adıyla, rengiyle, ölçüsüyle ve adediyle aynı sırada gelir."
+    },
+    {
+      "index": 173,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 16,
+      "chunkIndex": 0,
+      "start": 516.682,
+      "end": 517.793,
+      "text": "Yanlış cevap da şudur."
+    },
+    {
+      "index": 174,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 16,
+      "chunkIndex": 1,
+      "start": 518.515,
+      "end": 523.629,
+      "text": "Eşsiz el yapımı bej kupa mutfağına şıklık katar ve bulaşık makinesinde yıkanır."
+    },
+    {
+      "index": 175,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 16,
+      "chunkIndex": 2,
+      "start": 524.557,
+      "end": 525.459,
+      "text": "Bu cümlede ölçü yok."
+    },
+    {
+      "index": 176,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 16,
+      "chunkIndex": 3,
+      "start": 526.074,
+      "end": 527.998,
+      "text": "Listede olmayan el yapımı var."
+    },
+    {
+      "index": 177,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 16,
+      "chunkIndex": 4,
+      "start": 528.632,
+      "end": 530.353,
+      "text": "Listede olmayan yıkama var."
+    },
+    {
+      "index": 178,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 16,
+      "chunkIndex": 5,
+      "start": 530.919,
+      "end": 531.525,
+      "text": "Övgü var."
+    },
+    {
+      "index": 179,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 16,
+      "chunkIndex": 6,
+      "start": 532.092,
+      "end": 533.861,
+      "text": "Bu metin Listin'e gitmez."
+    },
+    {
+      "index": 180,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 16,
+      "chunkIndex": 7,
+      "start": 534.32,
+      "end": 539.056,
+      "text": "Ölçüsüz cümle, üçüncü dersteki küçük geldi şikâyetini geri getirir."
+    },
+    {
+      "index": 181,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 17,
+      "chunkIndex": 0,
+      "start": 539.857,
+      "end": 549.008,
+      "text": "Pazaryerin Trend yol da olur, Hepsi burada da, Ama zon da, En on bir de, Çiçek sepeti de, Pe te te A Ve Me de, Getir de, Pazarama da."
+    },
+    {
+      "index": 182,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 17,
+      "chunkIndex": 1,
+      "start": 549.732,
+      "end": 551.421,
+      "text": "Açıklama kutusunun adı değişir."
+    },
+    {
+      "index": 183,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 17,
+      "chunkIndex": 2,
+      "start": 552.023,
+      "end": 553.545,
+      "text": "Şablon aynı kalır."
+    },
+    {
+      "index": 184,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 17,
+      "chunkIndex": 3,
+      "start": 553.741,
+      "end": 556.101,
+      "text": "Başlığı ürün adı satırına sen koyarsın."
+    },
+    {
+      "index": 185,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 17,
+      "chunkIndex": 4,
+      "start": 556.627,
+      "end": 559.023,
+      "text": "Açıklamayı açıklama kutusuna sen koyarsın."
+    },
+    {
+      "index": 186,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 17,
+      "chunkIndex": 5,
+      "start": 559.761,
+      "end": 562.574,
+      "text": "Özellik maddesini de sen alt alta yapıştırırsın."
+    },
+    {
+      "index": 187,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 17,
+      "chunkIndex": 6,
+      "start": 563.306,
+      "end": 567.611,
+      "text": "Telefonu, müşteri adresini ve başka sitenin adresini Listin'e yazmazsın."
+    },
+    {
+      "index": 188,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 17,
+      "chunkIndex": 7,
+      "start": 568.337,
+      "end": 570.414,
+      "text": "Başka satıcının cümlesini de yapıştırmazsın."
+    },
+    {
+      "index": 189,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 571.281,
+      "end": 575.569,
+      "text": "Ürün satırlarını sohbete koyarken şu Promt'u olduğu gibi yapıştırırsın."
+    },
+    {
+      "index": 190,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 576.232,
+      "end": 577.936,
+      "text": "Listeyi en alta eklersin."
+    },
+    {
+      "index": 191,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 579.686,
+      "end": 581.495,
+      "text": "Sana bir ürün listesi veriyorum."
+    },
+    {
+      "index": 192,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 582.051,
+      "end": 583.62,
+      "text": "Her satır ayrı bir üründür."
+    },
+    {
+      "index": 193,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 584.321,
+      "end": 587.923,
+      "text": "Müşteri adı, telefon, adres ve sipariş numarası yok."
+    },
+    {
+      "index": 194,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 588.313,
+      "end": 591.038,
+      "text": "İban, vergi numarası ve maliyet de yok."
+    },
+    {
+      "index": 195,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 591.506,
+      "end": 594.268,
+      "text": "Satırda böyle bir bilgi görürsen onu yok say."
+    },
+    {
+      "index": 196,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 5,
+      "start": 594.431,
+      "end": 599.363,
+      "text": "Rolün, pazaryerinde satış yapan bir esnafın ürün yazısını kuran asistandır."
+    },
+    {
+      "index": 197,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 6,
+      "start": 599.494,
+      "end": 601.165,
+      "text": "Her satır için üç parça yaz."
+    },
+    {
+      "index": 198,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 7,
+      "start": 601.552,
+      "end": 604.021,
+      "text": "Başlık, açıklama ve özellik listesi."
+    },
+    {
+      "index": 199,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 8,
+      "start": 605.022,
+      "end": 607.382,
+      "text": "Üç parçayı da satırın sıra numarasıyla başlat."
+    },
+    {
+      "index": 200,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 9,
+      "start": 607.78,
+      "end": 609.567,
+      "text": "Sıra numarasını değiştirme."
+    },
+    {
+      "index": 201,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 10,
+      "start": 609.803,
+      "end": 612.137,
+      "text": "Ürünleri birbirine karıştırma."
+    },
+    {
+      "index": 202,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 11,
+      "start": 612.228,
+      "end": 615.677,
+      "text": "Başlıkta ürün adı, renk, ölçü ve adet dursun."
+    },
+    {
+      "index": 203,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 12,
+      "start": 615.886,
+      "end": 617.467,
+      "text": "Övgü kelimesi başlığa girmez."
+    },
+    {
+      "index": 204,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 13,
+      "start": 618.291,
+      "end": 622.027,
+      "text": "Açıklamanın ilk cümlesinde ürün adı, renk ve ölçü geçsin."
+    },
+    {
+      "index": 205,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 14,
+      "start": 622.607,
+      "end": 626.99,
+      "text": "Alıcının arama kutusuna yazacağı günlük kelime bu ilk cümlede dursun."
+    },
+    {
+      "index": 206,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 15,
+      "start": 627.206,
+      "end": 629.117,
+      "text": "İkinci cümlede yalnız malzeme geçsin."
+    },
+    {
+      "index": 207,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 16,
+      "start": 629.923,
+      "end": 632.669,
+      "text": "Sonra özellik listesini alt alta kısa madde yap."
+    },
+    {
+      "index": 208,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 17,
+      "start": 633.413,
+      "end": 635.33,
+      "text": "Madde, kutuda ne olduğunu söylesin."
+    },
+    {
+      "index": 209,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 18,
+      "start": 635.904,
+      "end": 638.16,
+      "text": "Listede olmayan özelliği uydurma."
+    },
+    {
+      "index": 210,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 19,
+      "start": 638.326,
+      "end": 639.612,
+      "text": "Ölçüyü tahmin etme."
+    },
+    {
+      "index": 211,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 20,
+      "start": 639.866,
+      "end": 640.986,
+      "text": "Rengi değiştirme."
+    },
+    {
+      "index": 212,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 21,
+      "start": 641.266,
+      "end": 642.106,
+      "text": "Adedi çoğaltma."
+    },
+    {
+      "index": 213,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 22,
+      "start": 642.505,
+      "end": 647.905,
+      "text": "El yapımı, çabuk kurur, bulaşık makinesinde yıkanır gibi bir cümle, satırda yoksa yazma."
+    },
+    {
+      "index": 214,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 23,
+      "start": 648.384,
+      "end": 650.011,
+      "text": "Rakibin cümlesini kopyalama."
+    },
+    {
+      "index": 215,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 24,
+      "start": 650.539,
+      "end": 653.504,
+      "text": "Telefon, adres ve başka sitenin adresini yazma."
+    },
+    {
+      "index": 216,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 25,
+      "start": 654.071,
+      "end": 655.588,
+      "text": "Maliyeti ve fiyatı yazma."
+    },
+    {
+      "index": 217,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 26,
+      "start": 655.988,
+      "end": 658.08,
+      "text": "Fiyatı Listin'e ben koyacağım."
+    },
+    {
+      "index": 218,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 27,
+      "start": 658.48,
+      "end": 659.32,
+      "text": "Sen yazıyı kur."
+    },
+    {
+      "index": 219,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 28,
+      "start": 659.943,
+      "end": 660.754,
+      "text": "Liste aşağıda."
+    },
+    {
+      "index": 220,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 661.443,
+      "end": 662.942,
+      "text": "Listenin altı da şöyle durur."
+    },
+    {
+      "index": 221,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 1,
+      "start": 663.584,
+      "end": 663.823,
+      "text": "Bir."
+    },
+    {
+      "index": 222,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 2,
+      "start": 664.499,
+      "end": 665.282,
+      "text": "Seramik kupa."
+    },
+    {
+      "index": 223,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 3,
+      "start": 665.962,
+      "end": 666.311,
+      "text": "Bej."
+    },
+    {
+      "index": 224,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 4,
+      "start": 667.036,
+      "end": 668.066,
+      "text": "Üç yüz mililitre."
+    },
+    {
+      "index": 225,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 5,
+      "start": 668.659,
+      "end": 669.237,
+      "text": "Seramik."
+    },
+    {
+      "index": 226,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 6,
+      "start": 669.829,
+      "end": 671.243,
+      "text": "Kulplu, tekli."
+    },
+    {
+      "index": 227,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 7,
+      "start": 671.929,
+      "end": 672.26,
+      "text": "İki."
+    },
+    {
+      "index": 228,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 8,
+      "start": 672.939,
+      "end": 673.789,
+      "text": "Mutfak havlusu."
+    },
+    {
+      "index": 229,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 9,
+      "start": 674.458,
+      "end": 674.926,
+      "text": "Ekru."
+    },
+    {
+      "index": 230,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 10,
+      "start": 675.556,
+      "end": 676.91,
+      "text": "Elliye yetmiş santimetre."
+    },
+    {
+      "index": 231,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 11,
+      "start": 677.572,
+      "end": 677.973,
+      "text": "Pamuk."
+    },
+    {
+      "index": 232,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 12,
+      "start": 678.587,
+      "end": 679.113,
+      "text": "İki adet."
+    },
+    {
+      "index": 233,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 13,
+      "start": 679.681,
+      "end": 679.951,
+      "text": "Üç."
+    },
+    {
+      "index": 234,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 14,
+      "start": 680.597,
+      "end": 681.308,
+      "text": "Çay bardağı."
+    },
+    {
+      "index": 235,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 15,
+      "start": 681.925,
+      "end": 682.581,
+      "text": "Sade cam."
+    },
+    {
+      "index": 236,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 16,
+      "start": 683.236,
+      "end": 684.309,
+      "text": "Yüz yirmi mililitre."
+    },
+    {
+      "index": 237,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 17,
+      "start": 684.955,
+      "end": 685.232,
+      "text": "Cam."
+    },
+    {
+      "index": 238,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 18,
+      "start": 685.87,
+      "end": 687.648,
+      "text": "Altılı set, kulpsuz."
+    },
+    {
+      "index": 239,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 19,
+      "start": 688.312,
+      "end": 692.348,
+      "text": "Elli ürünün varsa üçün arkasında kırk yedi satır daha aynı düzende durur."
+    },
+    {
+      "index": 240,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 20,
+      "start": 692.946,
+      "end": 694.268,
+      "text": "Sütun sırasını bozmazsın."
+    },
+    {
+      "index": 241,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 21,
+      "start": 694.787,
+      "end": 696.724,
+      "text": "Bozarsan renk, ölçü yerine geçer."
+    },
+    {
+      "index": 242,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 697.25,
+      "end": 700.026,
+      "text": "Bu Promt'tan sonra gelen cevaba dört yerden bakarsın."
+    },
+    {
+      "index": 243,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 1,
+      "start": 700.627,
+      "end": 702.696,
+      "text": "Sıra numarası tablodaki numarayla duruyor mu?"
+    },
+    {
+      "index": 244,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 2,
+      "start": 703.345,
+      "end": 705.288,
+      "text": "Başlıkta ve ilk cümlede ölçü var mı?"
+    },
+    {
+      "index": 245,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 3,
+      "start": 705.917,
+      "end": 707.718,
+      "text": "Listede olmayan kelime sızmış mı?"
+    },
+    {
+      "index": 246,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 4,
+      "start": 708.353,
+      "end": 710.524,
+      "text": "Üçüncü satırın adedi altılı kalmış mı?"
+    },
+    {
+      "index": 247,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 5,
+      "start": 711.141,
+      "end": 712.452,
+      "text": "Sızmış cümleyi silersin."
+    },
+    {
+      "index": 248,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 6,
+      "start": 713.029,
+      "end": 715.21,
+      "text": "Ölçü yanlışsa o satırı yeniden sorarsın."
+    },
+    {
+      "index": 249,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 7,
+      "start": 715.872,
+      "end": 717.468,
+      "text": "Bütün elliyi kör yapıştırmazsın."
+    },
+    {
+      "index": 250,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 8,
+      "start": 718.055,
+      "end": 719.269,
+      "text": "Önce üç satırı okursun."
+    },
+    {
+      "index": 251,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 9,
+      "start": 719.87,
+      "end": 723.225,
+      "text": "Üçü de tutuyorsa aynı şablon gerideki satırlarda da aynı sırayı tutar."
+    },
+    {
+      "index": 252,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 10,
+      "start": 723.883,
+      "end": 729.776,
+      "text": "Yine de vitrine koymadan önce her açıklamanın ilk cümlesindeki ölçüyü, tablodaki ölçüyle bir kez karşılaştırırsın."
+    },
+    {
+      "index": 253,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 11,
+      "start": 730.369,
+      "end": 731.944,
+      "text": "Bu bakış iki akşam sürmez."
+    },
+    {
+      "index": 254,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 12,
+      "start": 732.312,
+      "end": 733.796,
+      "text": "Bir çay demlenene kadar biter."
+    },
+    {
+      "index": 255,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 13,
+      "start": 734.327,
+      "end": 735.574,
+      "text": "Tutmayan satırı silersin."
+    },
+    {
+      "index": 256,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 14,
+      "start": 736.193,
+      "end": 737.696,
+      "text": "Listin'e metni sen koyarsın."
+    },
+    {
+      "index": 257,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 15,
+      "start": 738.419,
+      "end": 739.988,
+      "text": "Yapay zekâ cümleyi kurar."
+    },
+    {
+      "index": 258,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 16,
+      "start": 742.547,
+      "end": 744.067,
+      "text": "Yayına sen alırsın."
+    },
+    {
+      "index": 259,
       "cueId": "cue-03",
       "cueParagraphIndex": 4,
-      "chunkIndex": 11,
-      "start": 758.033,
-      "end": 828.944,
-      "text": "Satır doğruysa açıklama da o satıra uyar. Uydurma kelime girmez. Girerse sen silersin. Vitrine giden metin, senin okuduğun hâliyle durur. Eski cevabı yeni koliye yapıştırmazsın. Mal listesi değişince aynı şablonu yeni listeyle bir kez daha yollarsın. Bu derste şunu işledik. Elli ürünün başlığını, açıklamasını ve özelliğini tek tek yazmak bir gününü yer, kargoya ve müşteriye vakit kalmaz. Aynı şablonu bir Excel listesine koyup yapay zekâya verince açıklamalar bir dakikada önüne gelir. Listede olmayan özelliği silersin, ölçüyü satırla karşılaştırırsın ve Listing'e sen koyarsın. Sıradaki ders altıncı ders. Bu modülün son dersi. Orada pazaryeri mağaza puanını yükselteceğiz. Müşterinin mesajına yapay zekâ asistanı ile anında cevap vereceğiz. Anında, burada mesajı bekletmeden cevap vermektir. Mesaj birikince cevap gecikir. Geciken cevap da puanı aşağı çeker. Onu bir sonraki derste çözeceğiz. Zamanın bereketli geçsin. Çayın soğumasın, kargon da sırada kalmasın. Altıncı derste görüşürüz. Kendine iyi bak. Selamlar."
+      "chunkIndex": 0,
+      "start": 745.817,
+      "end": 748.556,
+      "text": "Satır doğruysa açıklama da o satıra uyar."
+    },
+    {
+      "index": 260,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 1,
+      "start": 749.088,
+      "end": 750.37,
+      "text": "Uydurma kelime girmez."
+    },
+    {
+      "index": 261,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 2,
+      "start": 750.635,
+      "end": 751.908,
+      "text": "Girerse sen silersin."
+    },
+    {
+      "index": 262,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 3,
+      "start": 752.565,
+      "end": 755.607,
+      "text": "Vitrine giden metin, senin okuduğun hâliyle durur."
+    },
+    {
+      "index": 263,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 4,
+      "start": 756.281,
+      "end": 758.471,
+      "text": "Eski cevabı yeni koliye yapıştırmazsın."
+    },
+    {
+      "index": 264,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 5,
+      "start": 759.291,
+      "end": 763.178,
+      "text": "Mal listesi değişince aynı şablonu yeni listeyle bir kez daha yollarsın."
+    },
+    {
+      "index": 265,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 764.156,
+      "end": 765.37,
+      "text": "Bu derste şunu işledik."
+    },
+    {
+      "index": 266,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 765.597,
+      "end": 772.958,
+      "text": "Elli ürünün başlığını, açıklamasını ve özelliğini tek tek yazmak bir gününü yer, kargoya ve müşteriye vakit kalmaz."
+    },
+    {
+      "index": 267,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 2,
+      "start": 773.738,
+      "end": 779.626,
+      "text": "Aynı şablonu bir Excel listesine koyup yapay zekâya verince açıklamalar bir dakikada önüne gelir."
+    },
+    {
+      "index": 268,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 3,
+      "start": 780.4,
+      "end": 786.135,
+      "text": "Listede olmayan özelliği silersin, ölçüyü satırla karşılaştırırsın ve Listin'e sen koyarsın."
+    },
+    {
+      "index": 269,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 786.987,
+      "end": 788.52,
+      "text": "Sıradaki ders altıncı ders."
+    },
+    {
+      "index": 270,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 788.989,
+      "end": 790.152,
+      "text": "Bu modülün son dersi."
+    },
+    {
+      "index": 271,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 2,
+      "start": 791.009,
+      "end": 793.608,
+      "text": "Orada pazaryeri mağaza puanını yükselteceğiz."
+    },
+    {
+      "index": 272,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 3,
+      "start": 794.303,
+      "end": 798.503,
+      "text": "Müşterinin mesajına yapay zekâ asistanı ile anında cevap vereceğiz."
+    },
+    {
+      "index": 273,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 4,
+      "start": 799.378,
+      "end": 802.359,
+      "text": "Anında, burada mesajı bekletmeden cevap vermektir."
+    },
+    {
+      "index": 274,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 5,
+      "start": 803.01,
+      "end": 804.592,
+      "text": "Mesaj birikince cevap gecikir."
+    },
+    {
+      "index": 275,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 6,
+      "start": 805.259,
+      "end": 807.026,
+      "text": "Geciken cevap da puanı aşağı çeker."
+    },
+    {
+      "index": 276,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 7,
+      "start": 807.933,
+      "end": 809.543,
+      "text": "Onu bir sonraki derste çözeceğiz."
+    },
+    {
+      "index": 277,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 810.302,
+      "end": 811.617,
+      "text": "Zamanın bereketli geçsin."
+    },
+    {
+      "index": 278,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 812.153,
+      "end": 814.664,
+      "text": "Çayın soğumasın, kargon da sırada kalmasın."
+    },
+    {
+      "index": 279,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 815.392,
+      "end": 816.584,
+      "text": "Altıncı derste görüşürüz."
+    },
+    {
+      "index": 280,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 816.906,
+      "end": 817.708,
+      "text": "Kendine iyi bak."
+    },
+    {
+      "index": 281,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 818.288,
+      "end": 819.052,
+      "text": "Selamlar."
     }
   ]
 }

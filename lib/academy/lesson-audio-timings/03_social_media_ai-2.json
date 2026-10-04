@@ -1,7 +1,125 @@
 {
   "lessonKey": "03_social_media_ai-2",
   "pauseSec": 0.4,
-  "durationSec": 0,
-  "cacheV": 0,
-  "pieces": []
+  "durationSec": 373.61,
+  "cacheV": 373610,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 28.72,
+      "text": "Merhaba, ben Selin. Cebinde bir künye duruyor: kimin için, ne hissettirsin, tek cümle. Yanında da değişmezler listesi. Nehir'in kupası için o liste şöyleydi: mat yeşil, üç yüz mililitre, tek kulp, elde yapılmış doku. Bugün bu kâğıdı ilk kez bir görsele çevireceğiz. Ve işin en keyifli yerine geldik, çünkü ışığı, mesafeyi, yüzeyi sen yöneteceksin."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 29.12,
+      "end": 53.063,
+      "text": "Bir fotoğrafçıyla çalıştığını düşün. Ona «güzel çek» demezsin. Nerede çekeceğini, ışığın hangi taraftan geleceğini, ne kadar yakın duracağını söylersin. Yapay zekâ ile de aynı konuşmayı yapacağız, sadece karşındaki kişi sabırlı ve hiç soru sormuyor. Sormadığı için de eksik bıraktığın her yeri kendi bildiğiyle dolduruyor."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 53.463,
+      "end": 80.494,
+      "text": "Bir görsel istemi beş şeyden oluşur. Ben bunlara beş çekmece diyorum. Birinci çekmece, konu. Ne görünecek? «Mat yeşil, el yapımı, üç yüz mililitrelik seramik kupa.» Rengi, ölçüyü, malzemeyi yaz. Değişmezler listeni buraya aynen taşı. İkinci çekmece, zemin ve mekân. «Açık renk ahşap masa, arkada hafif bulanık bir pencere.» Tek mekân seç, iki mekân yazma."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 0,
+      "start": 80.894,
+      "end": 100.277,
+      "text": "Üçüncü çekmece, ışık. İşte çoğu kişinin atladığı yer burası. «Sabah ışığı soldan geliyor, yumuşak ve uzun bir gölge bırakıyor.» Işığın nereden geldiğini yazmazsan araç ortadan, kusursuz ve düz bir ışık kurar. Düz ışık ürünü cansız gösterir."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 0,
+      "start": 100.677,
+      "end": 127.219,
+      "text": "Dördüncü çekmece, kadraj. Ne kadar yakın, hangi açıdan? «Yakın plan, hafif yukarıdan bakış, kupanın yüzeyindeki doku net.» Doku dediğin an araç yüzeye odaklanıyor. Beşinci çekmece, renk ve his. Künyendeki üç kelime buraya geliyor: «Sıcak tonlar, sakin, acelesiz.»"
+    },
+    {
+      "index": 5,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 128.345,
+      "end": 149.748,
+      "text": "Yanlış istem: «Mat yeşil kupa için estetik, profesyonel, yüksek kaliteli bir fotoğraf.» Estetik, profesyonel, yüksek kaliteli. Bu üç kelime hiçbir şey tarif etmiyor. Araç da bu yüzden en kalabalık çıkan sonucu döküyor: parlak, pürüzsüz, kusursuz."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 150.148,
+      "end": 184.567,
+      "text": "Doğru istem şöyle: «Mat yeşil, el yapımı, üç yüz mililitrelik seramik kupa, tek kulp. Açık renk ahşap masa, arkada bulanık pencere. Sabah ışığı soldan, yumuşak gölge. Yakın plan, hafif yukarıdan, yüzey dokusu net. Sıcak tonlar, sakin his. Dikey, dörde beş oranında.» Bunu ilk okuduğunda uzun gelebilir. Bir kere yazdın mı kalıp oluyor, sonra sadece birkaç kelimeyi değiştiriyorsun."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 184.967,
+      "end": 212.645,
+      "text": "Gönderinin nerede duracağı belli olmadan görsel isteme. Ben bu hatayı çok yaptım. Güzel bir kare ürettim, sonra telefonda kırptım, kupanın kulpu kesildi. Üç ölçü bil. Kare, yani bire bir, akışta düzgün durur. Dikey dörde beş, akışta daha çok yer kaplar. Tam dikey dokuza on altı ise kısa video ve hikâye alanı için. İlk istemde biçimi yaz, sonra kırpma derdin kalmaz."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 0,
+      "start": 213.045,
+      "end": 253.509,
+      "text": "Burada dürüstlük çizgisini çekelim. İki ayrı iş var. Birincisi duygu görseli. Sabah, pencere, kahve buharı, bulanık bir mutfak. Burada ürün ana oyuncu değil, bir atmosfer kuruyorsun. Tamamen üretilmiş olabilir. İkincisi satış görseli. Müşterinin alacağı şeyi gösteriyorsun. Burada en güvenli yol, kendi çektiğin düz bir fotoğrafı yüklemek ve aracın sadece arka planı, ışığı değiştirmesini istemek. Ürünün kendisi senin fotoğrafın olarak kalır. Tamamen üretilmiş bir satış görselinde kupanın rengi, kulpu, hatta üstündeki leke bile başkalaşabilir."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 253.909,
+      "end": 292.413,
+      "text": "Görsel geldiğinde beğenmeden önce üç şeye bak. Renk senin ürününün rengi mi? Ekranda yeşil, gerçekte zeytin olabilir. Şekil doğru mu? Kulp bir tane mi, kupa yuvarlak mı, gölge doğru yöne düşüyor mu? Yazı var mı? Araç kupanın üstüne anlamsız harfler ekleyebiliyor. Varsa istemde «yüzeyde yazı olmasın» de ve yeniden iste. Yazıyı ileride kendi telefonunda sen ekleyeceksin. Bir tanesi bile tutmuyorsa o görsel gitmesin. Üç kez dene, üçüncüde de tutmuyorsa istemi sadeleştir, sebebi genelde fazla çekmece."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 292.813,
+      "end": 325.406,
+      "text": "Tek denemede mükemmel kareyi bekleme. Ben her istem için üç deneme hakkı tanırım. Birinci deneme beş çekmeceyle olduğu gibi gider. Gelen görselde en çok rahatsız eden şeyi bul, mesela gölge fazla sert ya da arka plan kalabalık. İkinci denemede yalnızca o çekmeceyi değiştir, diğer dördüne dokunma. Üçüncüde de tutmazsa istemi baştan sadeleştir. Aynı anda birkaç çekmeceyi değiştirirsen hangisinin işe yaradığını bilemezsin ve öğrenmeden sonuca varırsın."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 325.806,
+      "end": 357.534,
+      "text": "Konu: renk, malzeme, ölçü, adet. Zemin: tek mekân. Işık: yön ve yumuşaklık. Kadraj: mesafe ve açı. His: künyedeki üç kelime. Biçim: kare, dikey dörde beş ya da dokuza on altı. Bugünün işi: kendi ürününle bir kalıp doldur, dörde beş dikey bir görsel iste, üç kontrolü yap. Beş çekmeceyi tam doldur. Bir çekmece boşsa aracın alışkanlığı oraya oturur."
+    },
+    {
+      "index": 12,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 357.934,
+      "end": 373.61,
+      "text": "Bir sonraki derste tek bir güzel görselin yetmediğini göreceğiz. Aynı dünyadan beş kare üretmeyi, yani akışının tek bir markaya benzemesini konuşacağız. Zihnine sağlık. Bir sonraki derste görüşmek üzere, kendine iyi bak."
+    }
+  ]
 }

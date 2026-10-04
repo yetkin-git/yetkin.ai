@@ -7,7 +7,7 @@ export { section1, section2, section3, section4, section5, section6 };
 
 /**
  * EC-102 gövde. Kamu kapısı açıktır. Konuşma `lib/academy/spoken-scripts/02_ecommerce_ai-*.md` dosyasındadır.
- * Anlatıcı adı Selin. Mühürlü karakter `courseMasterVoice` (Aoede, kadın). Selam «Merhaba, ben Selin». Kart hitabı «Selin Hanım».
+ * Anlatıcı adı Kaan. Mühürlü karakter `courseMasterVoice` (Puck, erkek). Selam «Merhaba, ben Kaan». Kart hitabı «Kaan Bey».
  * İlk ders bayrağı `applyAcademySectionPreviewGate` ile bağlanır.
  * Aşama 0: bu klasör diskten okunur. TTS, görsel ve LLM isteği bu modülde yoktur.
  */
@@ -37,7 +37,7 @@ const ecommerceSpokenMinutes = ecommerceAiSections.reduce(
 export const ecommerceAiMasteryModule: CurriculumModule = {
   moduleCode: "CURR-ECOMMERCE-AI-102",
   title: "E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı (Trendyol, Hepsiburada, Amazon & Shopify)",
-  instructor: "Selin",
+  instructor: "Kaan",
   category: "KATMAN 1.2 — Ekmek Teknesi / Kitlesel Eğitim Serisi (Pazarın %80'i / Temel & Başlangıç Seviyesi)",
   targetAudience: [
     "Pazaryeri satıcıları",

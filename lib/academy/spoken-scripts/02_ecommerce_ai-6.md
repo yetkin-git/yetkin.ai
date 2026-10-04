@@ -1,4 +1,4 @@
-Merhaba, ben Selin. Bugün bu modülün son dersindeyiz. Çayın duruyorsa bir yudum al. Sonra panele beraber bakacağız.
+Merhaba, ben Kaan. Bugün bu modülün son dersindeyiz. Çayın duruyorsa bir yudum al. Sonra panele beraber bakacağız.
 
 Geçen ders, beşinci derste, zamana bakmıştık. Elli ürüne aynı şablonla SEO uyumlu ürün açıklaması yazdırmıştık. Şablonu bir kez kurmuştun. Ürün satırlarını bir listeye koymuştun. Yapay zekâ her satır için başlığı, açıklamayı ve özellik maddesini kurmuştu. Bilgisayar başında belin bükülmesin diye o yazıyı tek tek sen yazmamıştın. Ölçüyü satırla karşılaştırmıştın. Listede olmayan kelimeyi silmiştin. Listing'e metni sen koymuştun. O işi orada bırakmıştık.
 

@@ -1,0 +1,90 @@
+import type { Section } from "../types";
+import { sm103Section } from "./spoken-body";
+
+/**
+ * SM-103 ders 4.
+ * Konuşma metni bu dosyanın spokenScript alanındadır.
+ * API isteği yok.
+ */
+const spokenScript = `
+Merhaba, ben Selin.
+
+Telefonunda şu an aynı dünyadan beş kare duruyor. Kapak, detay, ölçek, kullanım, kapanış. Bugün bunlardan birini alıp kıpırdatacağız. Ama baştan söyleyeyim, video işinde en çok yapılan hata her şeyi bir anda istemek. Ben de yaptım. Kupa dönsün, buhar çıksın, ışık değişsin, kamera uçsun, arkada çiçekler sallansın dedim. Üç saniye sonra kupanın kulpu iki oldu, sonra kayboldu. Bugün bunu nasıl önleyeceğimizi konuşacağız.
+
+## Üç saniyede ne oluyor
+
+Kısa videoda izleyici ilk üç saniyede kalıp kalmayacağına karar veriyor. O yüzden videonu üç bölümde düşün. Kanca, orta, kapanış.
+
+Kanca, ilk üç saniye. Bir şey olmalı ama telaşlı bir şey değil. Kupadan buhar yükseliyor. Bir el kupayı kaldırıyor. Merak uyandıracak tek bir hareket yeter.
+
+Orta, ürünün ya da fikrin kendisi. Kulp, doku, kahvenin dökülüşü.
+
+Kapanış, son iki üç saniye. Net bir kare, bir cümle, bir davet. Orada ne yapacağını sen biliyorsun, araç bilmiyor.
+
+Tüm video on beş saniyeyi geçmesin. Bu bir kural değil, bir başlangıç noktası. Kısa videoda ne kadar az şey olursa o kadar iyi gidiyor.
+
+## Bir sahne, bir hareket
+
+Bu dersin altın cümlesi şu: bir klip, bir hareket. Yapay zekâ bir kareyi hareketlendirirken her şeyi aynı anda değiştirmek ister. Sen tek bir şey söyle.
+
+Yanlış istem: «Kupa dönsün, buhar çıksın, kamera yaklaşsın, ışık değişsin, arka plan canlansın.» Beş hareket var. Araç hepsini yapmaya çalışırken ürünün şeklini bozuyor.
+
+Doğru istem: «Kamera yavaşça yaklaşır. Kupadan hafif buhar yükselir. Başka hiçbir şey değişmez.» İki hareket, ve ikincisi küçük. Sonuna «başka hiçbir şey değişmez» cümlesini eklemeyi alışkanlık haline getir. Çok işe yarıyor.
+
+## Kareden video yapmak
+
+En güvenli yol, hazır bir kareyi videoya çevirmek. Buna kareden videoya diyoruz. Üçüncü derste ürettiğin beş kareden birini yükle, hareketi tek cümleyle tarif et. Çünkü kare zaten senin dünyan, ışığı, palet ve yüzeyi hazır. Araç sıfırdan sahne kurmuyor, sadece kıpırdatıyor.
+
+Klipleri kısa tut, beş altı saniye yeter. Uzun klipte ürün yavaş yavaş başka bir şeye dönüşebiliyor. Üç klip al. Biri kupa yakın plan buhar, biri elin kupayı kaldırması, biri kapanış karesi. Sonra telefondaki bir kurgu uygulamasında bunları arka arkaya diz. Hiçbir ek araç gerekmiyor.
+
+## Kamera hareketi menüsü
+
+Kamerayı hareket ettirirken sade bir sözlüğün olsun. Yavaşça yaklaş. Yavaşça uzaklaş. Sabit kal. Hafifçe sola kay. Bu dördünü geçme. Havadan dönen, tepeden dalan, dönen kamera gibi hareketler ürünün biçimini bozar. Hareket ne kadar sade olursa video o kadar sakin ve güvenilir durur.
+
+## Dört kontrol
+
+Klibi izle. Ama ilk izlemede güzel mi diye bakma, bozuk mu diye bak.
+
+Kulp sayısı doğru mu? Kupa üç saniye sonra hâlâ aynı kupa mı?
+
+Işık titriyor mu? Kare kare yanıp sönen bir ışık ucuz görünür.
+
+Yazı belirdi mi? Yüzeyde anlamsız harfler çıktıysa klibi at.
+
+Eller doğru mu? Hareket ederken parmaklar sık bozulur.
+
+Bu kontrolü iki kez izleyerek yap. Bir kez normal hızda, bir kez yarı hızda. Yarı hızda hata saklanamaz.
+
+## İlk kare ve son kare
+
+Videoyu paylaşmadan önce iki kareye ayrıca bak. Birincisi ilk kare. Birçok platformda video akışta durağan bir kapak gibi görünüyor, yani insanlar hareket başlamadan o kareye bakıyor. İlk karen bulanıksa ya da kupanın yarısı çerçeveden taşmışsa, o kareyi videonun başına yeniden koy. İkincisi son kare. Video bittiğinde ekranda ne kalıyor? Nehir'in videosunda son kare, kupanın tam ortada durduğu, altında «Atölyeden sana.» yazan sakin bir kare. İzleyici başa dönerse bu kare ilk kareye yumuşakça bağlanıyor, video kendi kendini tekrar ediyor.
+
+Bu iki kareyi ayarlamak beş dakikanı alır, ama videonun hissini değiştirir.
+
+## Dikey çerçeve
+
+Video dikey olacaksa kareyi de dikey ver. Dokuza on altı. Yatay bir kare yükleyip dikey video istersen araç boşlukları uyduruyor, kupanın iki yanına yeni şeyler çiziyor. Dikey bir kare yükle, dikey bir video al.
+
+## Kalıp
+
+Kare: set içinden dikey olan.
+Hareket: bir kamera hareketi, bir nesne hareketi.
+Kısıt: başka hiçbir şey değişmez.
+Süre: beş altı saniye.
+Kurgu: kanca, orta, kapanış.
+
+Bugünün işi: beş karelik setten üç tanesini seç, her birine tek hareket yaz, üç klip üret. Dört kontrolü yap, tutmayanı at. Telefonda arka arkaya diz, toplam on beş saniyeyi geçme.
+
+Bir sonraki derste bu sessiz videoya ses ve söz vereceğiz. Altyazı, açıklama metni ve müzik meselesini konuşacağız.
+
+Zihnine sağlık. Bir sonraki derste görüşmek üzere, kendine iyi bak.
+`;
+
+export const section4: Section = sm103Section({
+  sectionNumber: 4,
+  lessonKey: "03_social_media_ai-4",
+  title: "Üç Saniyelik Kanca",
+  pedagogicalObjective:
+    "Öğrenci videoyu kanca, orta ve kapanış olarak üç bölüme ayırır, her klibe tek hareket yazar, hazır kareden beş altı saniyelik klipler üretir ve kulp, ışık, yazı, el kontrolünden geçirir.",
+  spokenScript,
+});

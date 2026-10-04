@@ -2,19 +2,19 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 153.292,
+    "end": 174.082,
     "text": "İNSANİ GİRİŞ VE ORYANTASYON",
     "section": "İnsani giriş ve oryantasyon",
     "paragraphs": [
-      "Merhaba, ben Selin. Hoş geldin. İlk dersimizdeyiz. Şimdi vitrinin başına beraber geçelim.",
+      "Merhaba, ben Kaan. E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı eğitiminin ilk dersine hoş geldin. Bu altı derslik seride yapay zekâyı tezgâhında bir asistan yapmayı öğreneceksin. Bugün, bu ilk derste doğrudan ürün vitrinine odaklanıyoruz: Trendyol, Hepsiburada ve Amazon'da aramalarda öne çıkacak SEO uyumlu ürün açıklamalarını yapay zekâya hatasız yazdırmayı eline alacaksın. Şimdi vitrinin başına beraber geçelim.",
       "Bu altı ders boyunca yapay zekâyı tezgâhının yanında bir asistan gibi kullanacağız. Asistan tekrar eden yazıyı kurar. Sen okursun. Sen karar verirsin. Vitrine de sen koyarsın. İşin özü iki yerde durur. Satışın artsın. Hatalı işlem cebinden para götürmesin. Pazaryerin Trendyol da olur, Hepsiburada da, Amazon da. N11 de, ÇiçekSepeti de, PttAVM de, Getir de, Pazarama da aynı masaya oturur. Panelin adı değişir. Kârın ve zararın girdiği yer değişmez. Her ürünün yazısını gece boyu, ezberden, tek başına kurmaya kalkarsan akşam biter. Ölçüyü atladığın cümle de alıcıya yanlış mal vaat eder. Yanlış vaat geri döner. Geri dönen malın kargo parası da çoğu zaman senin sırtına biner. O yüzden bu seride paneli kör doldurmayacağız. Ürünün gerçek bilgisini asistana vereceğiz. Çıkan metni sen okuyacaksın. Kutuda olmayan cümleyi sileceksin.",
       "Bu ilk derste vitrinin yazısına bakıyoruz. Alıcı arama kutusuna malın adını yazar. Senin başlığın o adla açılmazsa, alıcı seni o aramada göremez. Göremezse tıklamaz. Tıklamazsa satış olmaz. Bu işin adı SEO'dur. SEO, ürünün aramada çıkması için başlığa ve açıklamaya doğru kelimeyi koymaktır. Bir de açıklama boş kalırsa alıcı ne aldığını anlamaz. Anlamazsa sepete koymaz. Bugün o başlığı ve o açıklamayı, elindeki gerçek üründen kuracağız."
     ]
   },
   {
     "id": "cue-02",
-    "start": 155.042,
-    "end": 604.757,
+    "start": 174.332,
+    "end": 631.809,
     "text": "SEO BAŞLIK VE ÜRÜN AÇIKLAMASI",
     "section": "SEO başlık ve ürün açıklaması",
     "paragraphs": [
@@ -38,8 +38,8 @@
   },
   {
     "id": "cue-03",
-    "start": 606.507,
-    "end": 808.757,
+    "start": 632.059,
+    "end": 900.136,
     "text": "PROMPT",
     "section": "Prompt",
     "paragraphs": [
@@ -53,8 +53,8 @@
   },
   {
     "id": "cue-04",
-    "start": 808.757,
-    "end": 835.446,
+    "start": 790.683,
+    "end": 816.525,
     "text": "DERS SONU ÖZETİ",
     "section": "Ders sonu özeti",
     "paragraphs": [
@@ -63,8 +63,8 @@
   },
   {
     "id": "cue-05",
-    "start": 835.446,
-    "end": 863.128,
+    "start": 817.229,
+    "end": 849.231,
     "text": "GELECEK DERS VE VEDA",
     "section": "Gelecek ders ve veda",
     "paragraphs": [

@@ -1,0 +1,65 @@
+[
+  {
+    "id": "cue-01",
+    "start": 0,
+    "end": 65.325,
+    "text": "KURDUN SIRA TESLİMDE",
+    "section": "Giriş",
+    "paragraphs": [
+      "Merhaba, ben Mert.",
+      "Tolga'nın botu artık iki kapıdan müşteri alıyor, anlamadığı yerde iki denemeden sonra insana dönüyor ve fren balatası sorusunda uydurma fiyat vermiyor. Çalışan bir sistemin var. Ama çalışan bir sistem ile teslim edilmiş bir sistem aynı şey değil. Bugün işi sahibinin eline, tek bir klasörde, kimseye ihtiyaç duymadan yürüyecek şekilde nasıl bırakacağını konuşacağız.",
+      "İşi kuran kişi genelde en son kendi ekranını kapatır ve kurulumu bitmiş sayar. Üç hafta sonra işletme sahibi bir cevabı değiştirmek istiyor ve nereden değişeceğini bilmiyor. Seni arıyor, sen müsait değilsin, cevap eski kalıyor. Fiyat güncellenmemiş bir bot müşteriye yanlış bilgi vermeye devam ediyor.",
+      "Ben bunu kendi işlerimde yaşadım. O günden sonra bir kural koydum: bir bot, sahibi onu sensiz yönetemiyorsa teslim edilmiş sayılmaz. Bu kuralı beş parçalı bir listeye çevirdim. Bugün onu birlikte kuracağız."
+    ]
+  },
+  {
+    "id": "cue-02",
+    "start": 65.725,
+    "end": 128.092,
+    "text": "TEK SAYFA AKIŞ",
+    "section": "Harita",
+    "paragraphs": [
+      "Kâğıtta çizdiğin karar ağacını temizle ve tek bir sayfaya sığdır. Kutular, oklar, her kutunun altında botun söylediği cümle. Sahibi bu sayfaya baktığında botun müşteriye ne dediğini görüyor.",
+      "Bu sayfa şunu sağlıyor: ekran açmadan botun mantığını anlatabiliyorsun. Sahibi bir şey değiştirmek istediğinde, önce kâğıtta hangi kutu olduğunu gösteriyor, sonra ekranda o bloğa gidiyor.",
+      "Soru defterini ilk günkü haliyle bırakma. Kurulum sırasında iki cevabı değiştirdiysen, defterde de değiştir. Bot ile defter aynı şeyi söylemeli. Sahibi bir cevabı güncellemek isterse, önce defteri düzeltecek, sonra botu.",
+      "Dördüncü derste hazırladığın iki kez kuralını, anahtar kelime kartını ve devir notunun üç satırını tek bir kâğıda yaz. Bu kâğıt, botun insana ne zaman döneceğini söylüyor. Sahibi için şu soruyu da cevaplıyor: «Bot ne zaman bana yazıyor?» Cevabı kâğıtta görürse, telefonuna düşen bir bildirimi şaşkınlıkla karşılamıyor."
+    ]
+  },
+  {
+    "id": "cue-03",
+    "start": 128.492,
+    "end": 170.753,
+    "text": "ANAHTAR SAHİBİNDE",
+    "section": "Erişim",
+    "paragraphs": [
+      "Bu parça en sık atlanan ve en çok sorun çıkaran parça. Botun bulunduğu platform hesabı, WhatsApp hattının bağlı olduğu Meta hesabı, web sitesindeki kod parçası, hepsi sahibinin adına olmalı. Sen onlara ortak yönetici olarak eklensin. Şifre paylaşmak yerine platformların kendi davet ve yetki ekranlarını kullan. Sohbet mesajıyla şifre isteme.",
+      "Neden önemli? Çünkü bir gün sen yoksan, sahibi kendi hesabına girebilmeli. Senin adına açılmış bir hesabı sahibine geri vermek, sanıldığından zor oluyor. Tolga'nın hesabında ilk günden onun adı yazıyordu, ben yalnızca ortak yöneticiydim."
+    ]
+  },
+  {
+    "id": "cue-04",
+    "start": 171.012,
+    "end": 248.328,
+    "text": "BOT KİM OLDUĞUNU SÖYLER",
+    "section": "Gizlilik",
+    "paragraphs": [
+      "Üçüncü ve dördüncü derste yaptığın denemeleri bir kâğıda yaz. Hangi mesajı yazdın, bot ne cevap verdi, doğru muydu. Bu kayıt, sahibine botun hangi denemelerden geçtiğini gösteriyor.",
+      "Yanına bir sayfalık kullanım notu ekle. İçinde yalnızca üç şey olsun: bir cevap nasıl değiştirilir, botu geçici olarak nasıl durdururum, bir sorun çıkarsa kime yazarım. Üç madde, her biri üç adım. Daha fazlası okunmuyor.",
+      "Teslimin içinde açıkça söylenmesi gereken bir konu daha var: müşteri botla konuştuğunu bilmeli. İkinci derste karşılama mesajının kim konuştuğunu söylemesi gerektiğini konuşmuştuk. Burada bunun bir adım ötesi var.",
+      "Botun topladığı kişisel bilgiyi en aza indir. Adı al, gerekiyorsa konuyu al. Kimlik numarası, banka bilgisi, kart numarası gibi şeyleri sohbetten isteme. Müşteriye bilgisinin neden istendiğini kısa bir cümleyle söyle: «Randevu talebini iletmek için adını alıyorum.» Bu konuda bağlayıcı olan, kişisel verilerin korunması kanunu. Kanunun ayrıntısı için işletmenin kendi danışmanına ya da resmî kurumun yayımladığı rehberlere bak. Ben burada hukuki öneri vermiyorum, sadece şunu söylüyorum: bilgi toplamayı küçük tut, söylediğin kadarını topla."
+    ]
+  },
+  {
+    "id": "cue-05",
+    "start": 248.728,
+    "end": 308.23,
+    "text": "BEŞ PARÇALI TESLİM",
+    "section": "Özet",
+    "paragraphs": [
+      "Teslimin son adımı, sahibine bir bakım ritmi bırakmak. Ayda bir kez, on beş dakika. Konuşma kayıtlarına bak, botun anlamadığı soruları say, defterine ekle. Fiyat ya da çalışma saati değiştiyse botu güncelle. Bu on beş dakikayı takvime yazmasını öner. Yazılmayan bakım, yapılmayan bakımdır.",
+      "Bugün çalışan botu teslim edilebilir hale getirdin. Akış haritası, güncel defter, devir kâğıdı, sahibine ait erişim, bir de deneme kaydıyla kısa kullanım notu. Bunlarla sahibi, sen olmadan da botu yönetebilir. Müşteriye karşı dürüstlük ve kişisel veriyi küçük tutma kuralı da listenin parçası oldu.",
+      "Bir sonraki derste teslimden sonraki ilk haftaya bakacağız. Botu canlıya alıp ne olduğunu sayacağız ve haftada tek bir değişiklikle iyileştireceğiz.",
+      "Zihnine sağlık. Bir sonraki derste görüşmek üzere, kendine iyi bak."
+    ]
+  }
+]

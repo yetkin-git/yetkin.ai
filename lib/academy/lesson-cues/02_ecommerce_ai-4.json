@@ -2,11 +2,11 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 63.65,
+    "end": 60.332,
     "text": "İNSANİ GİRİŞ VE HATIRLATMA",
     "section": "İnsani giriş ve hatırlatma",
     "paragraphs": [
-      "Merhaba, ben Selin. Şimdi bugün kasaya beraber bakalım. Fiyat işini ayaküstü geçmeyelim.",
+      "Merhaba, ben Kaan. Şimdi bugün kasaya beraber bakalım. Fiyat işini ayaküstü geçmeyelim.",
       "Geçen ders, üçüncü derste, müşterinin yorumunu ve iade şikâyetini yapay zekâ ile okumuştuk. En çok tekrar eden hatayı saymıştık. Hatayı kaynağında çözmüştük. Kaynak bazen ürünün kendisiydi, bazen Listing yazısıydı, bazen fotoğraftı, bazen de kargonun kutuya yaptığı şeydi. Kaynağı düzeltince aynı iade seyrekleşmişti. İade kargosunun parası da senin cebinde kalmıştı. O işi orada bırakmıştık.",
       "Yorum düzelince fiyat kendiliğinden doğru olmaz. Malı, maliyetini saymadan ucuza koyarsan, yorumun iyiyken de her satışta cebinden para gider.",
       "Bu derste konumuz ticaretin kalbi. Yapay zekâ ile rakip analizi yapacağız. Doğru fiyatı koyacağız. Kâr marjını koruyacağız. Kâr marjı, satış fiyatından maliyet düşünce elde kalan paydır. O pay erirse sattığın mal çoğalır, kasada lira kalmaz."
@@ -14,8 +14,8 @@
   },
   {
     "id": "cue-02",
-    "start": 65.4,
-    "end": 562.125,
+    "start": 62.082,
+    "end": 550.657,
     "text": "RAKİP ANALİZİ VE FİYATLANDIRMA",
     "section": "Rakip analizi ve fiyatlandırma",
     "paragraphs": [
@@ -41,8 +41,8 @@
   },
   {
     "id": "cue-03",
-    "start": 563.875,
-    "end": 778.596,
+    "start": 551.42,
+    "end": 769.049,
     "text": "PROMPT",
     "section": "Prompt",
     "paragraphs": [
@@ -55,8 +55,8 @@
   },
   {
     "id": "cue-04",
-    "start": 780.346,
-    "end": 801.77,
+    "start": 770.799,
+    "end": 787.926,
     "text": "DERS SONU ÖZETİ",
     "section": "Ders sonu özeti",
     "paragraphs": [
@@ -65,8 +65,8 @@
   },
   {
     "id": "cue-05",
-    "start": 801.77,
-    "end": 831.47,
+    "start": 788.538,
+    "end": 811.728,
     "text": "GELECEK DERS VE VEDA",
     "section": "Gelecek ders ve veda",
     "paragraphs": [

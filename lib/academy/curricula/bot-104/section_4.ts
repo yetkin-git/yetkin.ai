@@ -1,0 +1,70 @@
+import type { Section } from "../types";
+import { bot104Section } from "./spoken-body";
+
+/**
+ * BOT-104 ders 4.
+ * Konuşma metni bu dosyanın spokenScript alanındadır.
+ * API isteği yok.
+ */
+const spokenScript = `
+Merhaba, ben Mert.
+
+Kendi telefonundan botun numarasına ilk mesajı yazdın ve karşılama geldi. Düğmelere bastığında ağaç yürüdü. Peki ya düğmeye basmayan bir müşteri? Mesela «fren balatam ses yapıyor, ne kadar tutar» yazan biri. Ağacın bunu karşılayacak bir kutusu yok. Bugün tam bu boşluğu konuşacağız: bot anlamadığında ne olacak?
+
+## Anlamadı, ama nasıl anlamadı
+
+Yanlış anlamanın en kötü hali, botun aynı cümleyi tekrar tekrar söylemesi. Müşteri yazıyor, bot «anlayamadım, tekrar eder misin» diyor. Müşteri yine yazıyor, bot yine aynı cümleyi söylüyor. Üçüncü turda müşteri sinirleniyor, dördüncüde kapatıp gidiyor. Ben bunu kendi kurduğum ilk botta gördüm. O gün, her anlamama durumu için bir plan gerektiğini öğrendim.
+
+Planın adı yedek cevap. Voiceflow'da da Botpress'te de bu bir hazır kutu olarak geliyor. Sana düşen, o kutunun içine ne yazacağını ve sonra nereye gideceğini söylemek.
+
+## İki kez kuralı
+
+Benim kuralım şu: bot bir kez anlamazsa nazikçe yeniden sorar ve düğmeleri tekrar gösterir. İkinci kez anlamazsa insana devreder. Üçüncü bir deneme yok.
+
+Tolga için yedek cevap şöyle yazıldı. İlk seferde: «Tam anlayamadım. Aşağıdaki seçeneklerden biri sana uyar mı?» ve üç düğme. İkinci seferde: «Bunu doğru yanıtlayabilmem için Tolga'ya aktarıyorum. En geç yarın sabah sana dönecek.» Sonra akış devir dalına gidiyor.
+
+Bu iki cümle çok sade, ama iki iş yapıyor. Müşteriye bir sonraki adımın ne olduğunu ve ne zaman olacağını söylüyor. Müşteri beklediği şeyi bilirse sabrediyor.
+
+## Bu kelimeler doğrudan insana gider
+
+Bazı mesajlar için iki kez beklemenin anlamı yok. Müşteri «şikâyet», «iade», «avukat», «dolandırıldım» ya da «kaza» yazdıysa, bot bir saniye bile oyalanmadan devretmeli. Bunun için küçük bir anahtar kelime kartı hazırlıyorsun.
+
+Kartı soru defterinin devir listesinden çıkarıyorsun. Defterde yazdığın iade, şikâyet, özel fiyat, hasar, garanti tartışması başlıkları, kartın ilk satırları oluyor. Yanına müşterilerin bu konuları nasıl ifade ettiğini ekle. «Param geri gelmedi», «bozuk geldi», «bu kadar pahalı olmaz». Tolga kendi mesajlarına bakıp yedi tane daha kelime ekledi. Kartı her ay güncelle.
+
+Bunu araçta bir koşul kutusu olarak kuruyorsun. Mesaj bu kelimelerden birini içeriyorsa, düğmeleri atla, doğrudan devir dalına git.
+
+## Devir notu
+
+İnsana devrederken sadece «bir müşteri sizi bekliyor» demek yetmez. Tolga telefonu açtığında müşteriye aynı şeyi yeniden sorarsa, müşteri botla konuşmanın boşuna olduğunu düşünür.
+
+Bu yüzden devir notu üç satır taşıyor. Birinci satır, müşterinin adı. İkinci satır, müşterinin sorduğu şey, kendi cümlesiyle. Üçüncü satır, botun müşteriye ne söylediği. Tolga bu notu açtığında konuşmayı tek bakışta anlıyor ve doğrudan cevaba geçiyor.
+
+## Bilgi tabanı ve sınırlar
+
+Hem Voiceflow hem Botpress, yazdığın metinlerden bir bilgi tabanı kurmana izin veriyor. Müşteri serbest bir cümle yazdığında bot, bu metinlerin içinden cevap bulmaya çalışıyor. Bu çok işe yarıyor, ama burada tehlikeli bir yer var.
+
+Bilgi tabanına yüklediğin şeylerin sınırını kendin çiz. İçeri yalnızca kendi yazdığın metinleri koy: soru defterin, fiyat listen, çalışma saatlerin, iade koşulların. İnternetten bulduğun bir metni ya da başka bir işletmenin sayfasını koyma. Bot, içerideki metinden uzaklaştığı anda uydurmaya başlayabilir.
+
+Ayrıca araca açık bir talimat ver. «Cevap yalnızca yüklenen metinlerde varsa söyle. Yoksa bilmediğini söyle ve insana aktar.» Bu cümleyi bota yazarken tek bir satır ekle: «Fiyat, stok ya da teslim tarihi vaadi verme.» Fren balatası sorusunda bot, fiyat listesinde olmayan bir şey söylemeyecek, devir dalına gidecek.
+
+## Bilerek yanlış sor
+
+Bu bölümü kurduktan sonra bir deneme yap ve kasıtlı olarak yanlış sor. Anlamsız bir harf dizisi yaz. Konu dışı bir şey sor. «Hava nasıl» yaz. Öfkeli bir mesaj yaz: «bu iş rezalet». Fiyatı listede olmayan bir iş sor. Her denemede bot ya doğru bir cevap vermeli ya da devir dalına gitmeli. Bir cevap uydurursa o yeri bilgi tabanından kaldır ve talimatı sıkılaştır.
+
+## Toparlayalım
+
+Bugün botun anlamadığı yerleri tasarladın. İki kez kuralını, anahtar kelime kartını, üç satırlık devir notunu ve bilgi tabanının sınırlarını kurdun. Bot artık bilmediği yerde susmuyor ve uydurmuyor, insana dönüyor.
+
+Bir sonraki derste bu botu işin sahibine teslim edeceğiz. Neyi, nasıl ve hangi kâğıtla vereceğimizi birlikte yazacağız.
+
+Zihnine sağlık. Bir sonraki derste görüşmek üzere, kendine iyi bak.
+`;
+
+export const section4: Section = bot104Section({
+  sectionNumber: 4,
+  lessonKey: "04_chatbot_nocode-4",
+  title: "Yanlış Anlama",
+  pedagogicalObjective:
+    "Öğrenci yedek cevabı iki kez kuralıyla kurar, doğrudan insana giden anahtar kelime kartını hazırlar, üç satırlık devir notunu yazar ve bilgi tabanını yalnızca kendi metinleriyle sınırlar.",
+  spokenScript,
+});

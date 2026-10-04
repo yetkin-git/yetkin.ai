@@ -59,8 +59,8 @@ const ACADEMY_CUE_DISPLAY_PHONETICS: readonly { display: string; spoken: string 
   { display: "Hepsiburada", spoken: "Hepsi burada" },
   /** Marka iki Türkçe kelimedir. Harf kodu durmaz. Ekranda ÇiçekSepeti kalır. */
   { display: "ÇiçekSepeti", spoken: "Çiçek sepeti" },
-  /** Günlük okunuş «Piti avm». Harf kodu «Pe te te a ve em» durmaz. */
-  { display: "PttAVM", spoken: "Piti avm" },
+  /** Marka harf harf okunur. Kilit «Pe te te A Ve Me». Ekranda PttAVM kalır. */
+  { display: "PttAVM", spoken: "Pe te te A Ve Me" },
   /** Tezgâh jargonu «Listin». Harf harf okunmaz. Ekranda Listing kalır. */
   { display: "Listing", spoken: "Listin" },
   /** Tezgâh jargonu «Promt». Harf harf okunmaz. Ekranda Prompt kalır. */

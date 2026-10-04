@@ -1,8 +1,8 @@
 {
   "lessonKey": "02_ecommerce_ai-4",
   "pauseSec": 0.4,
-  "durationSec": 831.47,
-  "cacheV": 831470,
+  "durationSec": 811.728,
+  "cacheV": 811728,
   "pieces": [
     {
       "index": 0,
@@ -10,107 +10,2276 @@
       "cueParagraphIndex": 0,
       "chunkIndex": 0,
       "start": 0,
-      "end": 63.65,
-      "text": "Merhaba, ben Selin. Şimdi bugün kasaya beraber bakalım. Fiyat işini ayaküstü geçmeyelim. Geçen ders, üçüncü derste, müşterinin yorumunu ve iade şikâyetini yapay zekâ ile okumuştuk. En çok tekrar eden hatayı saymıştık. Hatayı kaynağında çözmüştük. Kaynak bazen ürünün kendisiydi, bazen Listing yazısıydı, bazen fotoğraftı, bazen de kargonun kutuya yaptığı şeydi. Kaynağı düzeltince aynı iade seyrekleşmişti. İade kargosunun parası da senin cebinde kalmıştı. O işi orada bırakmıştık. Yorum düzelince fiyat kendiliğinden doğru olmaz. Malı, maliyetini saymadan ucuza koyarsan, yorumun iyiyken de her satışta cebinden para gider. Bu derste konumuz ticaretin kalbi. Yapay zekâ ile rakip analizi yapacağız. Doğru fiyatı koyacağız. Kâr marjını koruyacağız. Kâr marjı, satış fiyatından maliyet düşünce elde kalan paydır. O pay erirse sattığın mal çoğalır, kasada lira kalmaz."
+      "end": 1.521,
+      "text": "Merhaba, ben Kaan."
     },
     {
       "index": 1,
-      "cueId": "cue-02",
+      "cueId": "cue-01",
       "cueParagraphIndex": 0,
       "chunkIndex": 1,
-      "start": 65.4,
-      "end": 146.595,
-      "text": "Pazaryerinde fiyat, alıcının ilk baktığı satırdır. Pazaryerin Trend yol da olur, Hepsi burada da, Ama zon da, En on bir de, ÇiçekSepeti de, PttAVM de, Getir de, Pazarama da. Ekranın adı değişir, zarar yine aynı yerden girer. Aynı malı satan başka dükkân bir lira aşağı iner. Sen de bir lira aşağı inersin. O da yine iner. Buna fiyat savaşı denir. Fiyat savaşında vitrindeki sayı düşer. Düşen sayı, senin maliyetini bilmez. Maliyetini hesaba katmadan o sayıya uyarsan zararına satış yaparsın. Zararına satış, malın gitmesi demek değildir. Mal gider, üstüne cebinden para gider. Hafta sonunda satış toplamın kalabalık görünür. Kasa o kalabalığı taşıyamaz. Bej seramik kupa hâlâ bizim örneğimiz. Birinci derste başlığını ölçüyle kurmuştuk. İkinci derste ana görselini beyaz arka plana çekmiştik. Üçüncü derste kulp, renk ve ölçü şikâyetini kaynağında kesmiştik. Bugün aynı kupanın fiyatını koyacağız. Bu koyuşun adı fiyatlandırmadır. Önce kendi maliyetini yaz. Rakibin fiyatına bakmadan önce bu dört satır durur. Sayılar bu örneğe aittir. Senin faturan başka olabilir. Panelindeki komisyon da başka olabilir. Oranı ekrandan okursun. Kafandan tahmin etmezsin."
+      "start": 2.151,
+      "end": 4.051,
+      "text": "Şimdi bugün kasaya beraber bakalım."
     },
     {
       "index": 2,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 4,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
       "chunkIndex": 2,
-      "start": 148.345,
-      "end": 221.491,
-      "text": "Mal, seksen lira. Bunu tedarikçi faturandan sen yazarsın. Paket ve dolgu, on lira. Kargo, otuz lira. Otuz lira bu örneğin kargo tarifesidir. Senin anlaşman yirmi de olabilir, kırk da. Paneldeki tarife neyse onu yazarsın. Listing'de kargo bedava yazsan bile, kargo sende ise bu tutar senin cebinden çıkar. Alıcı ödemiyor diye satır silinmez. Komisyon, panelinde yüzde on beş yazıyor diyelim. Komisyon, satış fiyatının üstünden kesilir. Fiyat değişince komisyon da değişir. O yüzden komisyonu mala yapıştırıp tek sayı sanmazsın. KDV'yi bu dört satırın dışında tutuyorum. KDV'yi muhasebecin söyler. Panelindeki satış fiyatı KDV dahilse, KDV'yi maliyete bir kez daha ekleme. Emin değilsen fiyatı yayına almadan muhasebecine sor. Şimdi iki yüz liraya koyduğunu düşün. İki yüz liranın yüzde on beşi, otuz liradır. Mal seksen, paket on, kargo otuz, komisyon otuz. Toplam yüz elli lira. İki yüzden yüz elli çıkınca elde elli lira kalır. Bu elli lira, bu örneğin kâr marjıdır."
+      "start": 4.711,
+      "end": 6.569,
+      "text": "Fiyat işini ayaküstü geçmeyelim."
     },
     {
       "index": 3,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 7,
-      "chunkIndex": 3,
-      "start": 223.241,
-      "end": 271.963,
-      "text": "Geçen ders iade kargosunu senin sırtına bindirmiştik. Elde kalan elli lira, satış tamamlanırsa kasada durur. Müşteri malı geri yollarsa o satışın parası da geri çıkar. Üstüne iade kargosu da senin sırtına biner. Payın elli liraysa bir iade canını yakar. Dükkânı tek başına kapatmaz. Yüz yirmi liralık satışta iade gelmeden de açıktasın. İade gelince açık büyür. Payı incelten fiyat, birkaç iadede haftanın kârını yer. Şimdi arama kutusuna bej seramik kupa yaz. Aynı malı satan üç vitrin gelsin. Üçü de tek kupa olsun. İki adetlik paketi bu hesaba karıştırma. Karışınca ucuz görünen fiyat aslında çift malın fiyatıdır. Sen tek malı ona uydurursun ve açığa düşersin."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 7.395,
+      "end": 13.265,
+      "text": "Geçen ders, üçüncü derste, müşterinin yorumunu ve iade şikâyetini yapay zekâ ile okumuştuk."
     },
     {
       "index": 4,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 9,
-      "chunkIndex": 4,
-      "start": 273.713,
-      "end": 344.452,
-      "text": "Birinci rakip, başlığa yalnız seramik kupa yazmış. Ölçü yok. Renk yok. Fiyatı yüz yirmi lira. Kargo satıcıda. İkinci rakip, başlığa bej seramik kupa ve üç yüz mililitre yazmış. Fiyatı yüz seksen lira. Üçüncü rakip, başlığa bej, üç yüz mililitre ve kulplu yazmış. Fiyatı iki yüz on lira. Bu bakışın adı rakip analizidir. Rakip analizi, aynı malı satan dükkânın fiyatına ve başlıkta öne çıkardığı şeye bakmaktır. Şimdi şunu demiş olabilirsin. Yüz yirmiye inersem çok satarım, az paydan dönerim, demiş olabilirsin. Çok haklısın, adım adım bakalım. Yüz yirmi liranın yüzde on beşi, on sekiz liradır. Mal seksen, paket on, kargo otuz, komisyon on sekiz. Toplam yüz otuz sekiz lira. Yüz yirmiden yüz otuz sekiz çıkınca on sekiz lira açık kalır. Her satışta cebinden on sekiz lira gider. Yüz satışta açık bin sekiz yüz liraya çıkar. Satış çoğaldıkça zarar küçülmez. Satış çoğaldıkça açık büyür. Az paydan dönmek, ancak her satışta elde lira kalınca işe yarar."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 14.012,
+      "end": 15.914,
+      "text": "En çok tekrar eden hatayı saymıştık."
     },
     {
       "index": 5,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 11,
-      "chunkIndex": 5,
-      "start": 346.202,
-      "end": 406.786,
-      "text": "Yüz seksen liranın yüzde on beşi, yirmi yedi liradır. Mal seksen, paket on, kargo otuz, komisyon yirmi yedi. Toplam yüz kırk yedi lira. Yüz seksenden yüz kırk yedi çıkınca elde otuz üç lira kalır. İki yüz lirada, az önce saydığımız gibi, elde elli lira kalır. İkisi de maliyetin üstündedir. Yüz yirmi, maliyetin altındadır. Maliyetin üstünde birden fazla fiyat durabilir. Hangisini Listing'e yazacağına sen karar verirsin. Bir de kampanya var. Kampanya ekranında ek yüzde on kesinti yazıyorsa, onu da maliyete eklersin. İki yüz liralık fiyattan yüzde on, yirmi liradır. Elde kalan elli liradan yirmi düşünce otuz lira kalır. Otuz lira hâlâ artıdır. Yüz yirmide zaten on sekiz lira açık vardı. Üstüne kampanya binince açık büyür. Ekranda böyle bir oran yoksa oranı uydurma. Yapay zekâ da uydurmasın."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 16.362,
+      "end": 17.904,
+      "text": "Hatayı kaynağında çözmüştük."
     },
     {
       "index": 6,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 13,
-      "chunkIndex": 6,
-      "start": 408.536,
-      "end": 497.897,
-      "text": "Rakiplerin başlığı da fiyat kadar işe yarar. Yüz yirmi liralık vitrin ölçüyü saklıyor. Yüz seksen liralık vitrin ölçüyü ve rengi yazıyor. İki yüz on liralık vitrin ölçüye kulpu da ekliyor. Birinci derste başlığı ölçüyle kurmuştuk. Ölçüyü yazan başlık aramada çıkar. Bu işin adı Es i o'dur. Sen ölçüyü silmek zorunda değilsin. Ölçü, birinci dersten beri başlıkta durur. Fiyatı da yüz yirmiye indirmek zorunda değilsin. Çünkü o fiyat senin maliyetinin altındadır. Ölçüyü yerinde bırakırsın. Fiyatı da pay bırakan satırdan seçersin. Bunu tek tek kâğıda dökmek, üç vitrinde kolaydır. Otuz vitrin olunca fiyat, başlık ve kargo birbirine karışır. Karışınca çift paketi tek kupayla bir tutarsın. O yüzden rakiplerin satırını ve kendi maliyetini yapay zekâya tek seferde verirsin. Ayrı bir hesap tablosu kurmana gerek kalmaz. Kopyalarsın. Sohbete yapıştırırsın. Yapay zekâ fiyat aralığını dizer. Başlıkta öne çıkanı yazar. Senin maliyetinin altındaki fiyatı işaretler. Kâr marjını ezdirmeden kuracağın yol budur. Taban, senin maliyetindir. Tabanın altında inilmez. Tabanın üstündeki fiyatlardan hangisine oturacağına sen karar verirsin. Bu, fiyatlandırma stratejindir."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 18.466,
+      "end": 26.011,
+      "text": "Kaynak bazen ürünün kendisiydi, bazen Listin yazısıydı, bazen fotoğraftı, bazen de kargonun kutuya yaptığı şeydi."
     },
     {
       "index": 7,
-      "cueId": "cue-02",
-      "cueParagraphIndex": 15,
-      "chunkIndex": 7,
-      "start": 499.647,
-      "end": 562.125,
-      "text": "Bu hesabı bir kez kurunca, rakibin bir lira inmesi seni yerinden oynatmaz. Önce kendi dört satırına bakarsın. Dört satır hâlâ tutuyorsa fiyatın durur. Tutmuyorsa sayıyı yeniden yazarsın. Yeniden yazmadan önce yine aynı Prompt gider. Kopyalarken müşterinin adını, telefonunu, adresini ve sipariş numarasını sohbete koymazsın. Tedarikçi faturasının fotoğrafını, İban'ı ve vergi numarasını da koymazsın. Vitrinde herkese açık duran başlık ve fiyat gider. Maliyetin dört satırını da sen kendi elinle yazarsın. Yapay zekâ alış fiyatını ucuzlatamaz. Faturanda seksen yazıyorsa seksen gider. Rakipte kargo alıcıya ait diye kendi kargo satırını silme. Senin panelinde kargo sende ise otuz lira durur. Onun ayarı onun maliyetidir. Senin ayarın senin maliyetindir. Maliyetini ve rakip satırlarını sohbete koyarken şu Prompt'u olduğu gibi yapıştırırsın. Satırları en alta eklersin."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 26.75,
+      "end": 29.415,
+      "text": "Kaynağı düzeltince aynı iade seyrekleşmişti."
     },
     {
       "index": 8,
-      "cueId": "cue-03",
+      "cueId": "cue-01",
       "cueParagraphIndex": 1,
-      "chunkIndex": 8,
-      "start": 563.875,
-      "end": 641.238,
-      "text": "Sana kendi maliyetimi ve rakiplerin vitrin satırlarını veriyorum. Müşteri adı, telefon, adres ve sipariş numarası yok. Tedarikçi faturası, İban ve vergi numarası da yok. Satırda böyle bir bilgi görürsen onu yok say. Önce benim maliyetimi topla. Mal, paket, kargo ve komisyon ayrı dursun. Komisyonu, verdiğim orandan hesapla. Oranı tahmin etme. Kargo bedava yazsa bile, kargo bende ise kargoyu maliyetime ekle. Rakipte kargo alıcıda diye benim kargo satırımı silme. Sonra üç iş yap. Birincisi, en düşük fiyatı, en yüksek fiyatı ve ortaya yakın fiyatı yaz. Buna fiyat aralığı de. Çift paket ile tek ürünü aynı satırda toplama. İkincisi, başlıkta en çok neyi öne çıkardıklarını yaz. Ölçü, renk, adet, malzeme ya da kulp olsun. Üçüncüsü, maliyetimin altında kalan rakip fiyatını işaretle. O fiyata inersem satış başına kaç lira açık vereceğimi yaz. Yüz satışta bu açığın kaç liraya çıktığını da yaz. Maliyetimin üstünde iki fiyat yaz. Birini ortaya yakın seç. Birini elde daha çok pay bırakan fiyattan seç."
+      "chunkIndex": 5,
+      "start": 29.776,
+      "end": 32.373,
+      "text": "İade kargosunun parası da senin cebinde kalmıştı."
     },
     {
       "index": 9,
-      "cueId": "cue-03",
+      "cueId": "cue-01",
       "cueParagraphIndex": 1,
-      "chunkIndex": 9,
-      "start": 641.638,
-      "end": 703.44,
-      "text": "İkisinde de mal, paket, kargo ve komisyon düştükten sonra elde kaç lira kaldığını yaz. Kampanya kesintisi verdiğim satırda yoksa kampanyaya gir deme. Varsa o kesintiyi de düş. Elde kalanı yeniden yaz. Rakibin başlığını olduğu gibi kopyalama. Ürünümde olmayan özelliği yazma. Alış fiyatımı değiştirme. Fiyatı Listing'e ben koyacağım. Sen hesabı çıkar. Benim maliyetim ve rakip satırları aşağıda. Eksik soru şudur. Rakiplere bak ve bana rekabetçi bir fiyat ver. Bu soruda senin malın, paketin, kargon ve komisyonun yoktur. Gelen cevap çoğu zaman şudur. Fiyatı yüz yirmiye çek, yoksa satış kaçırısın. Bunu panelde zaten görüyorsun. Elde kalan lira yok. Açık yok. Yüz satışta kasadan ne çıkacağı yok. O yüzden Prompt eksiksiz olur. Maliyeti, fiyat aralığını, başlıkta öne çıkanı ve tabanın altındaki açığı ister."
+      "chunkIndex": 6,
+      "start": 32.913,
+      "end": 33.925,
+      "text": "O işi orada bırakmıştık."
     },
     {
       "index": 10,
-      "cueId": "cue-03",
-      "cueParagraphIndex": 3,
-      "chunkIndex": 10,
-      "start": 705.19,
-      "end": 778.596,
-      "text": "Bu Prompt'tan sonra gelen cevaba dört yerden bakarsın. Maliyet satır satır duruyor mu? Yüz yirmi lira açık diye işaretli mi? Yüz seksen ve iki yüz lira için elde kalan yazıyor mu? Başlıkta ölçüyü saklayan ile ölçüyü yazan ayrı mı duruyor? Durmuyorsa aynı Prompt'u bir kez daha yollarsın. Alış fiyatını değiştirmiş bir satır görürsen o satırı silersin. Listing'e fiyatı sen yazarsın. Yapay zekâ hesabı çıkarır. Fiyatı sen koyarsın. Cevabı fiyat kutusuna olduğu gibi yapıştırmazsın. Önce elde kalan satırını okursun. Sonra sayıyı panelde elle yazarsın. Örnekte cevap şöyle dursun. İki yüz lirada elde elli lira kalır. Yüz seksen lirada elde otuz üç lira kalır. Yüz yirmi lira maliyetin altındadır. Satış başına on sekiz lira açık verir. Yüz satışta açık bin sekiz yüz liradır. Başlıkta biri ölçüyü saklar. İkisi ölçüyü yazar. Sen Listing'e iki yüz lirayı da yazabilirsin, yüz sekseni de. Yüz yirmiyi yazmazsın. İkisinden birini seçmen, o günkü stokuna ve kargo ayarına bağlıdır. Hesap değişirse fiyatı da yeniden sorarsın. Eski cevabı yeni faturaya yapıştırmazsın."
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 34.467,
+      "end": 37.22,
+      "text": "Yorum düzelince fiyat kendiliğinden doğru olmaz."
     },
     {
       "index": 11,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 1,
+      "start": 37.847,
+      "end": 43.34,
+      "text": "Malı, maliyetini saymadan ucuza koyarsan, yorumun iyiyken de her satışta cebinden para gider."
+    },
+    {
+      "index": 12,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 43.873,
+      "end": 45.739,
+      "text": "Bu derste konumuz ticaretin kalbi."
+    },
+    {
+      "index": 13,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 1,
+      "start": 46.424,
+      "end": 48.388,
+      "text": "Yapay zekâ ile rakip analizi yapacağız."
+    },
+    {
+      "index": 14,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 2,
+      "start": 49.016,
+      "end": 50.22,
+      "text": "Doğru fiyatı koyacağız."
+    },
+    {
+      "index": 15,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 3,
+      "start": 50.45,
+      "end": 51.662,
+      "text": "Kâr marjını koruyacağız."
+    },
+    {
+      "index": 16,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 4,
+      "start": 51.94,
+      "end": 55.596,
+      "text": "Kâr marjı, satış fiyatından maliyet düşünce elde kalan paydır."
+    },
+    {
+      "index": 17,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 5,
+      "start": 56.312,
+      "end": 60.332,
+      "text": "O pay erirse sattığın mal çoğalır, kasada lira kalmaz."
+    },
+    {
+      "index": 18,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 62.082,
+      "end": 65.359,
+      "text": "Pazaryerinde fiyat, alıcının ilk baktığı satırdır."
+    },
+    {
+      "index": 19,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 65.92,
+      "end": 74.475,
+      "text": "Pazaryerin Trend yol da olur, Hepsi burada da, Ama zon da, En on bir de, Çiçek sepeti de, Pe te te A Ve Me de, Getir de, Pazarama da."
+    },
+    {
+      "index": 20,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 2,
+      "start": 74.637,
+      "end": 77.754,
+      "text": "Ekranın adı değişir, zarar yine aynı yerden girer."
+    },
+    {
+      "index": 21,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 3,
+      "start": 78.269,
+      "end": 81.087,
+      "text": "Aynı malı satan başka dükkân bir lira aşağı iner."
+    },
+    {
+      "index": 22,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 4,
+      "start": 81.505,
+      "end": 83.015,
+      "text": "Sen de bir lira aşağı inersin."
+    },
+    {
+      "index": 23,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 5,
+      "start": 83.476,
+      "end": 84.395,
+      "text": "O da yine iner."
+    },
+    {
+      "index": 24,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 6,
+      "start": 84.703,
+      "end": 86.036,
+      "text": "Buna fiyat savaşı denir."
+    },
+    {
+      "index": 25,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 7,
+      "start": 86.405,
+      "end": 88.687,
+      "text": "Fiyat savaşında vitrindeki sayı düşer."
+    },
+    {
+      "index": 26,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 8,
+      "start": 89.243,
+      "end": 91.3,
+      "text": "Düşen sayı, senin maliyetini bilmez."
+    },
+    {
+      "index": 27,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 91.603,
+      "end": 95.725,
+      "text": "Maliyetini hesaba katmadan o sayıya uyarsan zararına satış yaparsın."
+    },
+    {
+      "index": 28,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 96.05,
+      "end": 98.997,
+      "text": "Zararına satış, malın gitmesi demek değildir."
+    },
+    {
+      "index": 29,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 99.363,
+      "end": 101.606,
+      "text": "Mal gider, üstüne cebinden para gider."
+    },
+    {
+      "index": 30,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 101.926,
+      "end": 104.781,
+      "text": "Hafta sonunda satış toplamın kalabalık görünür."
+    },
+    {
+      "index": 31,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 105.06,
+      "end": 106.528,
+      "text": "Kasa o kalabalığı taşıyamaz."
+    },
+    {
+      "index": 32,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 106.944,
+      "end": 109.314,
+      "text": "Bej seramik kupa hâlâ bizim örneğimiz."
+    },
+    {
+      "index": 33,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 1,
+      "start": 109.661,
+      "end": 111.978,
+      "text": "Birinci derste başlığını ölçüyle kurmuştuk."
+    },
+    {
+      "index": 34,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 2,
+      "start": 112.257,
+      "end": 115.41,
+      "text": "İkinci derste ana görselini beyaz arka plana çekmiştik."
+    },
+    {
+      "index": 35,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 3,
+      "start": 115.751,
+      "end": 119.928,
+      "text": "Üçüncü derste kulp, renk ve ölçü şikâyetini kaynağında kesmiştik."
+    },
+    {
+      "index": 36,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 4,
+      "start": 120.107,
+      "end": 122.046,
+      "text": "Bugün aynı kupanın fiyatını koyacağız."
+    },
+    {
+      "index": 37,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 5,
+      "start": 122.472,
+      "end": 124.238,
+      "text": "Bu koyuşun adı fiyatlandırmadır."
+    },
+    {
+      "index": 38,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 124.796,
+      "end": 126.276,
+      "text": "Önce kendi maliyetini yaz."
+    },
+    {
+      "index": 39,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 1,
+      "start": 126.65,
+      "end": 129.374,
+      "text": "Rakibin fiyatına bakmadan önce bu dört satır durur."
+    },
+    {
+      "index": 40,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 2,
+      "start": 129.866,
+      "end": 131.185,
+      "text": "Sayılar bu örneğe aittir."
+    },
+    {
+      "index": 41,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 3,
+      "start": 131.302,
+      "end": 133.137,
+      "text": "Senin faturan başka olabilir."
+    },
+    {
+      "index": 42,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 4,
+      "start": 133.347,
+      "end": 135.629,
+      "text": "Panelindeki komisyon da başka olabilir."
+    },
+    {
+      "index": 43,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 5,
+      "start": 135.738,
+      "end": 136.929,
+      "text": "Oranı ekrandan okursun."
+    },
+    {
+      "index": 44,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 6,
+      "start": 137.275,
+      "end": 138.85,
+      "text": "Kafandan tahmin etmezsin."
+    },
+    {
+      "index": 45,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 0,
+      "start": 140.6,
+      "end": 142.113,
+      "text": "Mal, seksen lira."
+    },
+    {
+      "index": 46,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 1,
+      "start": 142.709,
+      "end": 144.963,
+      "text": "Bunu tedarikçi faturandan sen yazarsın."
+    },
+    {
+      "index": 47,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 2,
+      "start": 145.716,
+      "end": 147.323,
+      "text": "Paket ve dolgu, on lira."
+    },
+    {
+      "index": 48,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 3,
+      "start": 148.022,
+      "end": 149.898,
+      "text": "Kargo, otuz lira."
+    },
+    {
+      "index": 49,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 4,
+      "start": 150.144,
+      "end": 152.466,
+      "text": "Otuz lira bu örneğin kargo tarifesidir."
+    },
+    {
+      "index": 50,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 5,
+      "start": 152.931,
+      "end": 155.438,
+      "text": "Senin anlaşman yirmi de olabilir, kırk da."
+    },
+    {
+      "index": 51,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 6,
+      "start": 156.317,
+      "end": 158.271,
+      "text": "Paneldeki tarife neyse onu yazarsın."
+    },
+    {
+      "index": 52,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 7,
+      "start": 159.261,
+      "end": 164.411,
+      "text": "Listin'de kargo bedava yazsan bile, kargo sende ise bu tutar senin cebinden çıkar."
+    },
+    {
+      "index": 53,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 8,
+      "start": 165.133,
+      "end": 167.08,
+      "text": "Alıcı ödemiyor diye satır silinmez."
+    },
+    {
+      "index": 54,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 9,
+      "start": 168.041,
+      "end": 170.493,
+      "text": "Komisyon, panelinde yüzde on beş yazıyor diyelim."
+    },
+    {
+      "index": 55,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 10,
+      "start": 171.234,
+      "end": 173.684,
+      "text": "Komisyon, satış fiyatının üstünden kesilir."
+    },
+    {
+      "index": 56,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 11,
+      "start": 174.359,
+      "end": 176.389,
+      "text": "Fiyat değişince komisyon da değişir."
+    },
+    {
+      "index": 57,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 12,
+      "start": 177.014,
+      "end": 179.913,
+      "text": "O yüzden komisyonu mala yapıştırıp tek sayı sanmazsın."
+    },
+    {
+      "index": 58,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 0,
+      "start": 180.983,
+      "end": 183.067,
+      "text": "KDV'yi bu dört satırın dışında tutuyorum."
+    },
+    {
+      "index": 59,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 1,
+      "start": 183.748,
+      "end": 185.268,
+      "text": "KDV'yi muhasebecin söyler."
+    },
+    {
+      "index": 60,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 2,
+      "start": 186.017,
+      "end": 191.266,
+      "text": "Panelindeki satış fiyatı KDV dahilse, KDV'yi maliyete bir kez daha ekleme."
+    },
+    {
+      "index": 61,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 3,
+      "start": 192.054,
+      "end": 194.743,
+      "text": "Emin değilsen fiyatı yayına almadan muhasebecine sor."
+    },
+    {
+      "index": 62,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 0,
+      "start": 195.968,
+      "end": 197.733,
+      "text": "Şimdi iki yüz liraya koyduğunu düşün."
+    },
+    {
+      "index": 63,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 1,
+      "start": 198.497,
+      "end": 201.017,
+      "text": "İki yüz liranın yüzde on beşi, otuz liradır."
+    },
+    {
+      "index": 64,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 2,
+      "start": 202.007,
+      "end": 206.59,
+      "text": "Mal seksen, paket on, kargo otuz, komisyon otuz."
+    },
+    {
+      "index": 65,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 3,
+      "start": 207.242,
+      "end": 208.274,
+      "text": "Toplam yüz elli lira."
+    },
+    {
+      "index": 66,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 4,
+      "start": 209.179,
+      "end": 212.342,
+      "text": "İki yüzden yüz elli çıkınca elde elli lira kalır."
+    },
+    {
+      "index": 67,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 6,
+      "chunkIndex": 5,
+      "start": 212.978,
+      "end": 215.552,
+      "text": "Bu elli lira, bu örneğin kâr marjıdır."
+    },
+    {
+      "index": 68,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 0,
+      "start": 217.302,
+      "end": 220.78,
+      "text": "Geçen ders iade kargosunu senin sırtına bindirmiştik."
+    },
+    {
+      "index": 69,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 1,
+      "start": 221.443,
+      "end": 224.555,
+      "text": "Elde kalan elli lira, satış tamamlanırsa kasada durur."
+    },
+    {
+      "index": 70,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 2,
+      "start": 225.225,
+      "end": 228.751,
+      "text": "Müşteri malı geri yollarsa o satışın parası da geri çıkar."
+    },
+    {
+      "index": 71,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 3,
+      "start": 229.41,
+      "end": 231.731,
+      "text": "Üstüne iade kargosu da senin sırtına biner."
+    },
+    {
+      "index": 72,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 4,
+      "start": 232.767,
+      "end": 235.211,
+      "text": "Payın elli liraysa bir iade canını yakar."
+    },
+    {
+      "index": 73,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 5,
+      "start": 235.945,
+      "end": 237.436,
+      "text": "Dükkânı tek başına kapatmaz."
+    },
+    {
+      "index": 74,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 6,
+      "start": 238.48,
+      "end": 241.49,
+      "text": "Yüz yirmi liralık satışta iade gelmeden de açıktasın."
+    },
+    {
+      "index": 75,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 7,
+      "start": 242.03,
+      "end": 243.729,
+      "text": "İade gelince açık büyür."
+    },
+    {
+      "index": 76,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 8,
+      "start": 244.576,
+      "end": 247.975,
+      "text": "Payı incelten fiyat, birkaç iadede haftanın kârını yer."
+    },
+    {
+      "index": 77,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 0,
+      "start": 248.6,
+      "end": 251.168,
+      "text": "Şimdi arama kutusuna bej seramik kupa yaz."
+    },
+    {
+      "index": 78,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 1,
+      "start": 251.936,
+      "end": 253.681,
+      "text": "Aynı malı satan üç vitrin gelsin."
+    },
+    {
+      "index": 79,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 2,
+      "start": 254.639,
+      "end": 255.713,
+      "text": "Üçü de tek kupa olsun."
+    },
+    {
+      "index": 80,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 3,
+      "start": 256.445,
+      "end": 258.933,
+      "text": "İki adetlik paketi bu hesaba karıştırma."
+    },
+    {
+      "index": 81,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 4,
+      "start": 259.706,
+      "end": 263.012,
+      "text": "Karışınca ucuz görünen fiyat aslında çift malın fiyatıdır."
+    },
+    {
+      "index": 82,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 8,
+      "chunkIndex": 5,
+      "start": 263.629,
+      "end": 266.49,
+      "text": "Sen tek malı ona uydurursun ve açığa düşersin."
+    },
+    {
+      "index": 83,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 0,
+      "start": 268.24,
+      "end": 271.919,
+      "text": "Birinci rakip, başlığa yalnız seramik kupa yazmış."
+    },
+    {
+      "index": 84,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 1,
+      "start": 272.522,
+      "end": 273.226,
+      "text": "Ölçü yok."
+    },
+    {
+      "index": 85,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 2,
+      "start": 273.442,
+      "end": 274.08,
+      "text": "Renk yok."
+    },
+    {
+      "index": 86,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 3,
+      "start": 274.389,
+      "end": 275.47,
+      "text": "Fiyatı yüz yirmi lira."
+    },
+    {
+      "index": 87,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 4,
+      "start": 275.961,
+      "end": 277.605,
+      "text": "Kargo satıcıda."
+    },
+    {
+      "index": 88,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 5,
+      "start": 277.871,
+      "end": 282.259,
+      "text": "İkinci rakip, başlığa bej seramik kupa ve üç yüz mililitre yazmış."
+    },
+    {
+      "index": 89,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 6,
+      "start": 282.801,
+      "end": 285.133,
+      "text": "Fiyatı yüz seksen lira."
+    },
+    {
+      "index": 90,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 7,
+      "start": 285.38,
+      "end": 289.701,
+      "text": "Üçüncü rakip, başlığa bej, üç yüz mililitre ve kulplu yazmış."
+    },
+    {
+      "index": 91,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 8,
+      "start": 290.169,
+      "end": 292.318,
+      "text": "Fiyatı iki yüz on lira."
+    },
+    {
+      "index": 92,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 9,
+      "start": 292.513,
+      "end": 294.328,
+      "text": "Bu bakışın adı rakip analizidir."
+    },
+    {
+      "index": 93,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 9,
+      "chunkIndex": 10,
+      "start": 294.844,
+      "end": 300.229,
+      "text": "Rakip analizi, aynı malı satan dükkânın fiyatına ve başlıkta öne çıkardığı şeye bakmaktır."
+    },
+    {
+      "index": 94,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 0,
+      "start": 300.938,
+      "end": 302.727,
+      "text": "Şimdi şunu demiş olabilirsin."
+    },
+    {
+      "index": 95,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 1,
+      "start": 303.483,
+      "end": 308.505,
+      "text": "Yüz yirmiye inersem çok satarım, az paydan dönerim, demiş olabilirsin."
+    },
+    {
+      "index": 96,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 2,
+      "start": 308.686,
+      "end": 311.233,
+      "text": "Çok haklısın, adım adım bakalım."
+    },
+    {
+      "index": 97,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 3,
+      "start": 311.414,
+      "end": 314.325,
+      "text": "Yüz yirmi liranın yüzde on beşi, on sekiz liradır."
+    },
+    {
+      "index": 98,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 4,
+      "start": 314.96,
+      "end": 319.808,
+      "text": "Mal seksen, paket on, kargo otuz, komisyon on sekiz."
+    },
+    {
+      "index": 99,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 5,
+      "start": 320.292,
+      "end": 321.844,
+      "text": "Toplam yüz otuz sekiz lira."
+    },
+    {
+      "index": 100,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 6,
+      "start": 322.595,
+      "end": 326.925,
+      "text": "Yüz yirmiden yüz otuz sekiz çıkınca on sekiz lira açık kalır."
+    },
+    {
+      "index": 101,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 7,
+      "start": 327.073,
+      "end": 329.37,
+      "text": "Her satışta cebinden on sekiz lira gider."
+    },
+    {
+      "index": 102,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 8,
+      "start": 330.111,
+      "end": 333.58,
+      "text": "Yüz satışta açık bin sekiz yüz liraya çıkar."
+    },
+    {
+      "index": 103,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 9,
+      "start": 333.69,
+      "end": 335.767,
+      "text": "Satış çoğaldıkça zarar küçülmez."
+    },
+    {
+      "index": 104,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 10,
+      "start": 336.257,
+      "end": 338.082,
+      "text": "Satış çoğaldıkça açık büyür."
+    },
+    {
+      "index": 105,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 10,
+      "chunkIndex": 11,
+      "start": 338.921,
+      "end": 342.981,
+      "text": "Az paydan dönmek, ancak her satışta elde lira kalınca işe yarar."
+    },
+    {
+      "index": 106,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 11,
+      "chunkIndex": 0,
+      "start": 344.731,
+      "end": 348.674,
+      "text": "Yüz seksen liranın yüzde on beşi, yirmi yedi liradır."
+    },
+    {
+      "index": 107,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 11,
+      "chunkIndex": 1,
+      "start": 349.519,
+      "end": 354.256,
+      "text": "Mal seksen, paket on, kargo otuz, komisyon yirmi yedi."
+    },
+    {
+      "index": 108,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 11,
+      "chunkIndex": 2,
+      "start": 355.183,
+      "end": 357.33,
+      "text": "Toplam yüz kırk yedi lira."
+    },
+    {
+      "index": 109,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 11,
+      "chunkIndex": 3,
+      "start": 357.468,
+      "end": 361.142,
+      "text": "Yüz seksenden yüz kırk yedi çıkınca elde otuz üç lira kalır."
+    },
+    {
+      "index": 110,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 11,
+      "chunkIndex": 4,
+      "start": 362.03,
+      "end": 366.041,
+      "text": "İki yüz lirada, az önce saydığımız gibi, elde elli lira kalır."
+    },
+    {
+      "index": 111,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 11,
+      "chunkIndex": 5,
+      "start": 366.868,
+      "end": 369.182,
+      "text": "İkisi de maliyetin üstündedir."
+    },
+    {
+      "index": 112,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 11,
+      "chunkIndex": 6,
+      "start": 369.366,
+      "end": 371.352,
+      "text": "Yüz yirmi, maliyetin altındadır."
+    },
+    {
+      "index": 113,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 11,
+      "chunkIndex": 7,
+      "start": 372.451,
+      "end": 374.664,
+      "text": "Maliyetin üstünde birden fazla fiyat durabilir."
+    },
+    {
+      "index": 114,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 11,
+      "chunkIndex": 8,
+      "start": 375.127,
+      "end": 377.453,
+      "text": "Hangisini Listin'e yazacağına sen karar verirsin."
+    },
+    {
+      "index": 115,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 12,
+      "chunkIndex": 0,
+      "start": 378.406,
+      "end": 379.28,
+      "text": "Bir de kampanya var."
+    },
+    {
+      "index": 116,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 12,
+      "chunkIndex": 1,
+      "start": 379.766,
+      "end": 384.996,
+      "text": "Kampanya ekranında ek yüzde on kesinti yazıyorsa, onu da maliyete eklersin."
+    },
+    {
+      "index": 117,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 12,
+      "chunkIndex": 2,
+      "start": 385.966,
+      "end": 388.946,
+      "text": "İki yüz liralık fiyattan yüzde on, yirmi liradır."
+    },
+    {
+      "index": 118,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 12,
+      "chunkIndex": 3,
+      "start": 389.472,
+      "end": 393.192,
+      "text": "Elde kalan elli liradan yirmi düşünce otuz lira kalır."
+    },
+    {
+      "index": 119,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 12,
+      "chunkIndex": 4,
+      "start": 394.052,
+      "end": 395.459,
+      "text": "Otuz lira hâlâ artıdır."
+    },
+    {
+      "index": 120,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 12,
+      "chunkIndex": 5,
+      "start": 396.573,
+      "end": 398.95,
+      "text": "Yüz yirmide zaten on sekiz lira açık vardı."
+    },
+    {
+      "index": 121,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 12,
+      "chunkIndex": 6,
+      "start": 399.409,
+      "end": 401.191,
+      "text": "Üstüne kampanya binince açık büyür."
+    },
+    {
+      "index": 122,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 12,
+      "chunkIndex": 7,
+      "start": 401.304,
+      "end": 404.566,
+      "text": "Ekranda böyle bir oran yoksa oranı uydurma."
+    },
+    {
+      "index": 123,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 12,
+      "chunkIndex": 8,
+      "start": 405.387,
+      "end": 406.829,
+      "text": "Yapay zekâ da uydurmasın."
+    },
+    {
+      "index": 124,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 0,
+      "start": 408.579,
+      "end": 411.875,
+      "text": "Rakiplerin başlığı da fiyat kadar işe yarar."
+    },
+    {
+      "index": 125,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 1,
+      "start": 412.473,
+      "end": 414.715,
+      "text": "Yüz yirmi liralık vitrin ölçüyü saklıyor."
+    },
+    {
+      "index": 126,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 2,
+      "start": 415.221,
+      "end": 417.992,
+      "text": "Yüz seksen liralık vitrin ölçüyü ve rengi yazıyor."
+    },
+    {
+      "index": 127,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 3,
+      "start": 418.58,
+      "end": 421.645,
+      "text": "İki yüz on liralık vitrin ölçüye kulpu da ekliyor."
+    },
+    {
+      "index": 128,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 4,
+      "start": 422.161,
+      "end": 424.389,
+      "text": "Birinci derste başlığı ölçüyle kurmuştuk."
+    },
+    {
+      "index": 129,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 5,
+      "start": 425.067,
+      "end": 427.355,
+      "text": "Ölçüyü yazan başlık aramada çıkar."
+    },
+    {
+      "index": 130,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 6,
+      "start": 428.195,
+      "end": 431.693,
+      "text": "Bu işin adı Arama Motoru Optimizasyonu (SEO)'dur."
+    },
+    {
+      "index": 131,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 7,
+      "start": 432.912,
+      "end": 434.618,
+      "text": "Sen ölçüyü silmek zorunda değilsin."
+    },
+    {
+      "index": 132,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 8,
+      "start": 435.323,
+      "end": 437.562,
+      "text": "Ölçü, birinci dersten beri başlıkta durur."
+    },
+    {
+      "index": 133,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 9,
+      "start": 438.369,
+      "end": 440.516,
+      "text": "Fiyatı da yüz yirmiye indirmek zorunda değilsin."
+    },
+    {
+      "index": 134,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 10,
+      "start": 441.172,
+      "end": 443.523,
+      "text": "Çünkü o fiyat senin maliyetinin altındadır."
+    },
+    {
+      "index": 135,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 11,
+      "start": 444.371,
+      "end": 445.731,
+      "text": "Ölçüyü yerinde bırakırsın."
+    },
+    {
+      "index": 136,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 13,
+      "chunkIndex": 12,
+      "start": 446.17,
+      "end": 448.481,
+      "text": "Fiyatı da pay bırakan satırdan seçersin."
+    },
+    {
+      "index": 137,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 0,
+      "start": 449.511,
+      "end": 452.509,
+      "text": "Bunu tek tek kâğıda dökmek, üç vitrinde kolaydır."
+    },
+    {
+      "index": 138,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 1,
+      "start": 453.438,
+      "end": 457.175,
+      "text": "Otuz vitrin olunca fiyat, başlık ve kargo birbirine karışır."
+    },
+    {
+      "index": 139,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 2,
+      "start": 458.167,
+      "end": 461.207,
+      "text": "Karışınca çift paketi tek kupayla bir tutarsın."
+    },
+    {
+      "index": 140,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 3,
+      "start": 462.293,
+      "end": 467.529,
+      "text": "O yüzden rakiplerin satırını ve kendi maliyetini yapay zekâya tek seferde verirsin."
+    },
+    {
+      "index": 141,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 4,
+      "start": 468.128,
+      "end": 470.409,
+      "text": "Ayrı bir hesap tablosu kurmana gerek kalmaz."
+    },
+    {
+      "index": 142,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 5,
+      "start": 471.056,
+      "end": 471.89,
+      "text": "Kopyalarsın."
+    },
+    {
+      "index": 143,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 6,
+      "start": 472.163,
+      "end": 473.453,
+      "text": "Sohbete yapıştırırsın."
+    },
+    {
+      "index": 144,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 7,
+      "start": 473.949,
+      "end": 475.906,
+      "text": "Yapay zekâ fiyat aralığını dizer."
+    },
+    {
+      "index": 145,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 8,
+      "start": 476.375,
+      "end": 477.969,
+      "text": "Başlıkta öne çıkanı yazar."
+    },
+    {
+      "index": 146,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 9,
+      "start": 478.4,
+      "end": 481.091,
+      "text": "Senin maliyetinin altındaki fiyatı işaretler."
+    },
+    {
+      "index": 147,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 10,
+      "start": 481.659,
+      "end": 484.229,
+      "text": "Kâr marjını ezdirmeden kuracağın yol budur."
+    },
+    {
+      "index": 148,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 11,
+      "start": 485.181,
+      "end": 486.814,
+      "text": "Taban, senin maliyetindir."
+    },
+    {
+      "index": 149,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 12,
+      "start": 487.416,
+      "end": 488.688,
+      "text": "Tabanın altında inilmez."
+    },
+    {
+      "index": 150,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 13,
+      "start": 489.387,
+      "end": 494.317,
+      "text": "Tabanın üstündeki fiyatlardan hangisine oturacağına sen karar verirsin."
+    },
+    {
+      "index": 151,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 14,
+      "chunkIndex": 14,
+      "start": 494.429,
+      "end": 496.441,
+      "text": "Bu, fiyatlandırma stratejindir."
+    },
+    {
+      "index": 152,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 15,
+      "chunkIndex": 0,
+      "start": 498.191,
+      "end": 503.046,
+      "text": "Bu hesabı bir kez kurunca, rakibin bir lira inmesi seni yerinden oynatmaz."
+    },
+    {
+      "index": 153,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 15,
+      "chunkIndex": 1,
+      "start": 503.603,
+      "end": 505.536,
+      "text": "Önce kendi dört satırına bakarsın."
+    },
+    {
+      "index": 154,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 15,
+      "chunkIndex": 2,
+      "start": 506.245,
+      "end": 508.594,
+      "text": "Dört satır hâlâ tutuyorsa fiyatın durur."
+    },
+    {
+      "index": 155,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 15,
+      "chunkIndex": 3,
+      "start": 509.217,
+      "end": 511.479,
+      "text": "Tutmuyorsa sayıyı yeniden yazarsın."
+    },
+    {
+      "index": 156,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 15,
+      "chunkIndex": 4,
+      "start": 511.761,
+      "end": 514.443,
+      "text": "Yeniden yazmadan önce yine aynı Promt gider."
+    },
+    {
+      "index": 157,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 16,
+      "chunkIndex": 0,
+      "start": 515.503,
+      "end": 520.78,
+      "text": "Kopyalarken müşterinin adını, telefonunu, adresini ve sipariş numarasını sohbete koymazsın."
+    },
+    {
+      "index": 158,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 16,
+      "chunkIndex": 1,
+      "start": 521.34,
+      "end": 525.764,
+      "text": "Tedarikçi faturasının fotoğrafını, İban'ı ve vergi numarasını da koymazsın."
+    },
+    {
+      "index": 159,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 16,
+      "chunkIndex": 2,
+      "start": 526.552,
+      "end": 529.31,
+      "text": "Vitrinde herkese açık duran başlık ve fiyat gider."
+    },
+    {
+      "index": 160,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 16,
+      "chunkIndex": 3,
+      "start": 530.439,
+      "end": 533.098,
+      "text": "Maliyetin dört satırını da sen kendi elinle yazarsın."
+    },
+    {
+      "index": 161,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 16,
+      "chunkIndex": 4,
+      "start": 533.744,
+      "end": 535.908,
+      "text": "Yapay zekâ alış fiyatını ucuzlatamaz."
+    },
+    {
+      "index": 162,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 16,
+      "chunkIndex": 5,
+      "start": 536.475,
+      "end": 538.638,
+      "text": "Faturanda seksen yazıyorsa seksen gider."
+    },
+    {
+      "index": 163,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 17,
+      "chunkIndex": 0,
+      "start": 539.245,
+      "end": 542.721,
+      "text": "Rakipte kargo alıcıya ait diye kendi kargo satırını silme."
+    },
+    {
+      "index": 164,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 17,
+      "chunkIndex": 1,
+      "start": 543.339,
+      "end": 546.123,
+      "text": "Senin panelinde kargo sende ise otuz lira durur."
+    },
+    {
+      "index": 165,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 17,
+      "chunkIndex": 2,
+      "start": 546.769,
+      "end": 548.406,
+      "text": "Onun ayarı onun maliyetidir."
+    },
+    {
+      "index": 166,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 17,
+      "chunkIndex": 3,
+      "start": 548.778,
+      "end": 550.657,
+      "text": "Senin ayarın senin maliyetindir."
+    },
+    {
+      "index": 167,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 551.42,
+      "end": 556.161,
+      "text": "Maliyetini ve rakip satırlarını sohbete koyarken şu Promt'u olduğu gibi yapıştırırsın."
+    },
+    {
+      "index": 168,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 556.816,
+      "end": 558.74,
+      "text": "Satırları en alta eklersin."
+    },
+    {
+      "index": 169,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 560.49,
+      "end": 564.171,
+      "text": "Sana kendi maliyetimi ve rakiplerin vitrin satırlarını veriyorum."
+    },
+    {
+      "index": 170,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 564.756,
+      "end": 567.875,
+      "text": "Müşteri adı, telefon, adres ve sipariş numarası yok."
+    },
+    {
+      "index": 171,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 568.608,
+      "end": 571.213,
+      "text": "Tedarikçi faturası, İban ve vergi numarası da yok."
+    },
+    {
+      "index": 172,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 571.36,
+      "end": 574.045,
+      "text": "Satırda böyle bir bilgi görürsen onu yok say."
+    },
+    {
+      "index": 173,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 574.798,
+      "end": 577.325,
+      "text": "Önce benim maliyetimi topla."
+    },
+    {
+      "index": 174,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 5,
+      "start": 577.486,
+      "end": 579.665,
+      "text": "Mal, paket, kargo ve komisyon ayrı dursun."
+    },
+    {
+      "index": 175,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 6,
+      "start": 580.328,
+      "end": 582.046,
+      "text": "Komisyonu, verdiğim orandan hesapla."
+    },
+    {
+      "index": 176,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 7,
+      "start": 582.688,
+      "end": 584.385,
+      "text": "Oranı tahmin etme."
+    },
+    {
+      "index": 177,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 8,
+      "start": 584.502,
+      "end": 588.366,
+      "text": "Kargo bedava yazsa bile, kargo bende ise kargoyu maliyetime ekle."
+    },
+    {
+      "index": 178,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 9,
+      "start": 589.065,
+      "end": 592.237,
+      "text": "Rakipte kargo alıcıda diye benim kargo satırımı silme."
+    },
+    {
+      "index": 179,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 10,
+      "start": 592.845,
+      "end": 593.696,
+      "text": "Sonra üç iş yap."
+    },
+    {
+      "index": 180,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 11,
+      "start": 594.426,
+      "end": 598.936,
+      "text": "Birincisi, en düşük fiyatı, en yüksek fiyatı ve ortaya yakın fiyatı yaz."
+    },
+    {
+      "index": 181,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 12,
+      "start": 599.487,
+      "end": 600.491,
+      "text": "Buna fiyat aralığı de."
+    },
+    {
+      "index": 182,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 13,
+      "start": 601.178,
+      "end": 603.453,
+      "text": "Çift paket ile tek ürünü aynı satırda toplama."
+    },
+    {
+      "index": 183,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 14,
+      "start": 604.22,
+      "end": 607.31,
+      "text": "İkincisi, başlıkta en çok neyi öne çıkardıklarını yaz."
+    },
+    {
+      "index": 184,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 15,
+      "start": 607.781,
+      "end": 610.745,
+      "text": "Ölçü, renk, adet, malzeme ya da kulp olsun."
+    },
+    {
+      "index": 185,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 16,
+      "start": 611.455,
+      "end": 614.938,
+      "text": "Üçüncüsü, maliyetimin altında kalan rakip fiyatını işaretle."
+    },
+    {
+      "index": 186,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 17,
+      "start": 615.649,
+      "end": 618.78,
+      "text": "O fiyata inersem satış başına kaç lira açık vereceğimi yaz."
+    },
+    {
+      "index": 187,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 18,
+      "start": 619.429,
+      "end": 621.908,
+      "text": "Yüz satışta bu açığın kaç liraya çıktığını da yaz."
+    },
+    {
+      "index": 188,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 19,
+      "start": 622.589,
+      "end": 624.293,
+      "text": "Maliyetimin üstünde iki fiyat yaz."
+    },
+    {
+      "index": 189,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 20,
+      "start": 624.924,
+      "end": 626.176,
+      "text": "Birini ortaya yakın seç."
+    },
+    {
+      "index": 190,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 21,
+      "start": 626.831,
+      "end": 629.289,
+      "text": "Birini elde daha çok pay bırakan fiyattan seç."
+    },
+    {
+      "index": 191,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 22,
+      "start": 629.689,
+      "end": 636.367,
+      "text": "İkisinde de mal, paket, kargo ve komisyon düştükten sonra elde kaç lira kaldığını yaz."
+    },
+    {
+      "index": 192,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 23,
+      "start": 637.169,
+      "end": 641.099,
+      "text": "Kampanya kesintisi verdiğim satırda yoksa kampanyaya gir deme."
+    },
+    {
+      "index": 193,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 24,
+      "start": 641.993,
+      "end": 643.811,
+      "text": "Varsa o kesintiyi de düş."
+    },
+    {
+      "index": 194,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 25,
+      "start": 644.49,
+      "end": 645.783,
+      "text": "Elde kalanı yeniden yaz."
+    },
+    {
+      "index": 195,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 26,
+      "start": 646.697,
+      "end": 648.961,
+      "text": "Rakibin başlığını olduğu gibi kopyalama."
+    },
+    {
+      "index": 196,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 27,
+      "start": 649.845,
+      "end": 651.783,
+      "text": "Ürünümde olmayan özelliği yazma."
+    },
+    {
+      "index": 197,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 28,
+      "start": 652.683,
+      "end": 653.798,
+      "text": "Alış fiyatımı değiştirme."
+    },
+    {
+      "index": 198,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 29,
+      "start": 654.605,
+      "end": 656.042,
+      "text": "Fiyatı Listin'e ben koyacağım."
+    },
+    {
+      "index": 199,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 30,
+      "start": 656.833,
+      "end": 657.829,
+      "text": "Sen hesabı çıkar."
+    },
+    {
+      "index": 200,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 31,
+      "start": 658.61,
+      "end": 661.225,
+      "text": "Benim maliyetim ve rakip satırları aşağıda."
+    },
+    {
+      "index": 201,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 662.026,
+      "end": 662.935,
+      "text": "Eksik soru şudur."
+    },
+    {
+      "index": 202,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 1,
+      "start": 663.729,
+      "end": 666.672,
+      "text": "Rakiplere bak ve bana rekabetçi bir fiyat ver."
+    },
+    {
+      "index": 203,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 2,
+      "start": 667.463,
+      "end": 671.702,
+      "text": "Bu soruda senin malın, paketin, kargon ve komisyonun yoktur."
+    },
+    {
+      "index": 204,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 3,
+      "start": 672.503,
+      "end": 674.167,
+      "text": "Gelen cevap çoğu zaman şudur."
+    },
+    {
+      "index": 205,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 4,
+      "start": 674.986,
+      "end": 677.507,
+      "text": "Fiyatı yüz yirmiye çek, yoksa satış kaçırısın."
+    },
+    {
+      "index": 206,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 5,
+      "start": 678.333,
+      "end": 679.818,
+      "text": "Bunu panelde zaten görüyorsun."
+    },
+    {
+      "index": 207,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 6,
+      "start": 680.66,
+      "end": 681.751,
+      "text": "Elde kalan lira yok."
+    },
+    {
+      "index": 208,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 7,
+      "start": 682.307,
+      "end": 682.893,
+      "text": "Açık yok."
+    },
+    {
+      "index": 209,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 8,
+      "start": 683.462,
+      "end": 685.436,
+      "text": "Yüz satışta kasadan ne çıkacağı yok."
+    },
+    {
+      "index": 210,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 9,
+      "start": 686.28,
+      "end": 687.969,
+      "text": "O yüzden Promt eksiksiz olur."
+    },
+    {
+      "index": 211,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 10,
+      "start": 688.818,
+      "end": 694.703,
+      "text": "Maliyeti, fiyat aralığını, başlıkta öne çıkanı ve tabanın altındaki açığı ister."
+    },
+    {
+      "index": 212,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 696.453,
+      "end": 699.533,
+      "text": "Bu Promt'tan sonra gelen cevaba dört yerden bakarsın."
+    },
+    {
+      "index": 213,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 1,
+      "start": 700.289,
+      "end": 701.878,
+      "text": "Maliyet satır satır duruyor mu?"
+    },
+    {
+      "index": 214,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 2,
+      "start": 702.685,
+      "end": 704.677,
+      "text": "Yüz yirmi lira açık diye işaretli mi?"
+    },
+    {
+      "index": 215,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 3,
+      "start": 705.481,
+      "end": 708.183,
+      "text": "Yüz seksen ve iki yüz lira için elde kalan yazıyor mu?"
+    },
+    {
+      "index": 216,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 4,
+      "start": 709.065,
+      "end": 712.45,
+      "text": "Başlıkta ölçüyü saklayan ile ölçüyü yazan ayrı mı duruyor?"
+    },
+    {
+      "index": 217,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 5,
+      "start": 713.259,
+      "end": 715.521,
+      "text": "Durmuyorsa aynı Promt'u bir kez daha yollarsın."
+    },
+    {
+      "index": 218,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 6,
+      "start": 716.231,
+      "end": 719.526,
+      "text": "Alış fiyatını değiştirmiş bir satır görürsen o satırı silersin."
+    },
+    {
+      "index": 219,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 7,
+      "start": 720.339,
+      "end": 721.872,
+      "text": "Listin'e fiyatı sen yazarsın."
+    },
+    {
+      "index": 220,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 8,
+      "start": 722.633,
+      "end": 724.068,
+      "text": "Yapay zekâ hesabı çıkarır."
+    },
+    {
+      "index": 221,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 9,
+      "start": 724.671,
+      "end": 725.727,
+      "text": "Fiyatı sen koyarsın."
+    },
+    {
+      "index": 222,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 0,
+      "start": 726.388,
+      "end": 728.733,
+      "text": "Cevabı fiyat kutusuna olduğu gibi yapıştırmazsın."
+    },
+    {
+      "index": 223,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 1,
+      "start": 729.372,
+      "end": 731.261,
+      "text": "Önce elde kalan satırını okursun."
+    },
+    {
+      "index": 224,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 2,
+      "start": 731.775,
+      "end": 733.775,
+      "text": "Sonra sayıyı panelde elle yazarsın."
+    },
+    {
+      "index": 225,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 3,
+      "start": 734.513,
+      "end": 735.905,
+      "text": "Örnekte cevap şöyle dursun."
+    },
+    {
+      "index": 226,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 4,
+      "start": 736.661,
+      "end": 738.524,
+      "text": "İki yüz lirada elde elli lira kalır."
+    },
+    {
+      "index": 227,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 5,
+      "start": 739.251,
+      "end": 741.358,
+      "text": "Yüz seksen lirada elde otuz üç lira kalır."
+    },
+    {
+      "index": 228,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 6,
+      "start": 741.98,
+      "end": 743.785,
+      "text": "Yüz yirmi lira maliyetin altındadır."
+    },
+    {
+      "index": 229,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 7,
+      "start": 744.432,
+      "end": 746.427,
+      "text": "Satış başına on sekiz lira açık verir."
+    },
+    {
+      "index": 230,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 8,
+      "start": 747.16,
+      "end": 749.076,
+      "text": "Yüz satışta açık bin sekiz yüz liradır."
+    },
+    {
+      "index": 231,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 9,
+      "start": 749.734,
+      "end": 751.262,
+      "text": "Başlıkta biri ölçüyü saklar."
+    },
+    {
+      "index": 232,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 10,
+      "start": 751.824,
+      "end": 753.028,
+      "text": "İkisi ölçüyü yazar."
+    },
+    {
+      "index": 233,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 11,
+      "start": 753.607,
+      "end": 756.899,
+      "text": "Sen Listin'e iki yüz lirayı da yazabilirsin, yüz sekseni de."
+    },
+    {
+      "index": 234,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 12,
+      "start": 757.635,
+      "end": 758.71,
+      "text": "Yüz yirmiyi yazmazsın."
+    },
+    {
+      "index": 235,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 13,
+      "start": 759.362,
+      "end": 762.905,
+      "text": "İkisinden birini seçmen, o günkü stokuna ve kargo ayarına bağlıdır."
+    },
+    {
+      "index": 236,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 14,
+      "start": 763.753,
+      "end": 766.11,
+      "text": "Hesap değişirse fiyatı da yeniden sorarsın."
+    },
+    {
+      "index": 237,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 15,
+      "start": 766.662,
+      "end": 769.049,
+      "text": "Eski cevabı yeni faturaya yapıştırmazsın."
+    },
+    {
+      "index": 238,
       "cueId": "cue-04",
       "cueParagraphIndex": 0,
-      "chunkIndex": 11,
-      "start": 780.346,
-      "end": 831.47,
-      "text": "Bu derste şunu işledik. Rakibin kırdığı fiyata maliyeti saymadan uyarsan, satış çoğaldıkça açık büyür ve iade kargosu o açığın üstüne biner. Maliyetini ve rakiplerin başlığını yapay zekâya verince tabanın altını görürsün, tabanın üstündeki fiyatı da Listing'e kendin koyarsın. Sıradaki ders beşinci ders. Orada yapay zekâ ile toplu ürün açıklaması üreteceğiz. Aynı mal bilgisinden bir şablon kuracağız. Her ürüne yeniden oturmadan açıklamayı çoğaltacağız. Böylece zaman kazanacağız. Aynı iş için harcadığın emeği de azaltacağız. Bereketli bir hafta diliyorum. Kazancın helalinden gelsin. Kasan seni yormasın. Beşinci derste görüşürüz. Kendine iyi bak. Selamlar."
+      "chunkIndex": 0,
+      "start": 770.799,
+      "end": 772.197,
+      "text": "Bu derste şunu işledik."
+    },
+    {
+      "index": 239,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 772.897,
+      "end": 779.785,
+      "text": "Rakibin kırdığı fiyata maliyeti saymadan uyarsan, satış çoğaldıkça açık büyür ve iade kargosu o açığın üstüne biner."
+    },
+    {
+      "index": 240,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 2,
+      "start": 780.57,
+      "end": 787.926,
+      "text": "Maliyetini ve rakiplerin başlığını yapay zekâya verince tabanın altını görürsün, tabanın üstündeki fiyatı da Listin'e kendin koyarsın."
+    },
+    {
+      "index": 241,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 788.538,
+      "end": 789.956,
+      "text": "Sıradaki ders beşinci ders."
+    },
+    {
+      "index": 242,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 1,
+      "start": 790.528,
+      "end": 793.5,
+      "text": "Orada yapay zekâ ile toplu ürün açıklaması üreteceğiz."
+    },
+    {
+      "index": 243,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 2,
+      "start": 794.021,
+      "end": 796.026,
+      "text": "Aynı mal bilgisinden bir şablon kuracağız."
+    },
+    {
+      "index": 244,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 3,
+      "start": 796.407,
+      "end": 798.711,
+      "text": "Her ürüne yeniden oturmadan açıklamayı çoğaltacağız."
+    },
+    {
+      "index": 245,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 4,
+      "start": 799.257,
+      "end": 800.822,
+      "text": "Böylece zaman kazanacağız."
+    },
+    {
+      "index": 246,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 5,
+      "start": 801.17,
+      "end": 803.295,
+      "text": "Aynı iş için harcadığın emeği de azaltacağız."
+    },
+    {
+      "index": 247,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 803.881,
+      "end": 805.007,
+      "text": "Bereketli bir hafta diliyorum."
+    },
+    {
+      "index": 248,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 1,
+      "start": 805.264,
+      "end": 806.721,
+      "text": "Kazancın helalinden gelsin."
+    },
+    {
+      "index": 249,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 2,
+      "start": 807.075,
+      "end": 808.173,
+      "text": "Kasan seni yormasın."
+    },
+    {
+      "index": 250,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 3,
+      "start": 808.652,
+      "end": 809.794,
+      "text": "Beşinci derste görüşürüz."
+    },
+    {
+      "index": 251,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 4,
+      "start": 810.063,
+      "end": 810.576,
+      "text": "Kendine iyi bak."
+    },
+    {
+      "index": 252,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 5,
+      "start": 811.03,
+      "end": 811.728,
+      "text": "Selamlar."
     }
   ]
 }

@@ -1,7 +1,134 @@
 {
   "lessonKey": "04_chatbot_nocode-6",
   "pauseSec": 0.4,
-  "durationSec": 0,
-  "cacheV": 0,
-  "pieces": []
+  "durationSec": 332.02,
+  "cacheV": 332020,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 25.681,
+      "text": "Merhaba, ben Mert. Tolga'nın klasörü masada duruyor: akış haritası, güncel defter, devir kâğıdı, kendi adına açılmış hesaplar. Her şey teslime hazır. Ama bir bot, ilk gerçek müşteri yazana kadar hâlâ bir varsayım. Bugün o varsayımı sınayacağız. Botu açacağız, ilk hafta ne olduğunu izleyeceğiz ve elimizdeki sayılardan bir sonraki adımı çıkaracağız."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 26.271,
+      "end": 41.033,
+      "text": "Canlıya çıkmadan, yakın çevrenden kişilerle on deneme konuşması yap. Tolga'nın kardeşine, bir komşuya, iki arkadaşına botun numarasını verdik ve onlardan şunu istedik: gerçek bir müşteri gibi yaz, ama her biri bir şeyi bozsun."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 41.433,
+      "end": 71.69,
+      "text": "Biri acele eden olsun, tek kelimeyle yazsın. Biri yazım hatası yapsın. Biri konu dışına çıksın, bisiklet yerine kargo sorsun. Biri öfkeli yazsın. Biri fiyat listesinde olmayan bir iş sorsun. Biri bota insan istediğini söylesin. Biri gece yarısı yazsın. Biri düğme yerine uzun bir paragraf yazsın. Biri aynı soruyu üç kez sorsun. Biri hiç cevap vermeden ortada kalsın."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 72.09,
+      "end": 88.648,
+      "text": "Sonunda elinde on konuşma kaydı oluyor. Her birini oku ve bot yerinde mi davrandı, devir gerektiğinde devretti mi, uydurma bir şey söyledi mi, bunları işaretle. Bu aşamada çıkan hatalar, canlıda çıkacak hataların ucuz hali."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 89.048,
+      "end": 122.764,
+      "text": "Hatayı düzelttikten sonra botu bir yerde, tek bir yerde aç. Tolga için bu yer, web sitesindeki sohbet kutusuydu. WhatsApp numarasını tüm dünyaya birden duyurmak yerine, önce müşteri kartına ve sosyal medya profilinin bir köşesine koyduk. Neden böyle? Çünkü ilk hafta, bot hakkında sürpriz yaşayacaksın. Sürprizin küçük bir kitleye çıkması, sürprizin hepsini görmeni sağlıyor. Mesaj akışı az olduğu için her konuşmayı okuyabiliyorsun. Okuyabildiğin sürece, hatayı düzeltmek kolay."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 123.164,
+      "end": 151.756,
+      "text": "İlk hafta her akşam on dakikanı ayır ve gelen konuşmaları üç yığına ayır. Birinci yığın, botun kendi başına çözdüğü konuşmalar. Müşteri bir şey sordu, cevap aldı, teşekkür etti ya da sessizce çıktı. İkinci yığın, insana devredilen konuşmalar. Devir doğru yerde mi oldu? Devir notunun üç satırı yeterli miydi? Tolga cevabı verirken müşteriye aynı şeyi yeniden sormak zorunda kaldı mı?"
+    },
+    {
+      "index": 6,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 152.156,
+      "end": 168.45,
+      "text": "Üçüncü yığın, kaçan konuşmalar. Müşteri bir şey sordu, bot cevap veremedi ve müşteri bir daha yazmadı. Asıl öğrenme burada. Bu yığındaki her konuşma, defterinde eksik bir soru ya da ağaçta kapanmamış bir dal gösteriyor."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 4,
+      "chunkIndex": 0,
+      "start": 168.85,
+      "end": 186.711,
+      "text": "Bu üç yığın için tek bir tablo yeter: kaç konuşma çözüldü, kaç konuşma devredildi, kaç konuşma kaçtı. Üç sayıyı bir kâğıdın kenarına yaz. Oranlara takılma. Hafta sonunda sayının ne söylediğinden çok, kaçan konuşmaların ne söylediğine bak."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 187.518,
+      "end": 197.667,
+      "text": "En sık yapılan hata, ilk haftanın sonunda on şeyi birden değiştirmek. On şeyi birden değiştirirsen, ikinci hafta sonunda hangisinin işe yaradığını bilemezsin."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 198.067,
+      "end": 220.497,
+      "text": "Ben bunu şöyle yapıyorum: kaçan konuşmalara bakıp en sık tekrarlanan tek bir soruyu seçiyorum. Defterine yeni bir grup olarak ekliyorum ve ağaca bir dal çiziyorum. Tek bir değişiklik, bir hafta. Sonraki hafta aynı sayımı tekrar yapıyorum ve kaçan konuşmaların azalıp azalmadığına bakıyorum."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 220.897,
+      "end": 243.624,
+      "text": "Tolga'nın ilk haftasında kaçan konuşmaların çoğu aynı soruydu: «Yedek parça getirseniz takar mısınız?» Defterde böyle bir grup yoktu. Ağaçta da. Bir cümlelik cevap yazdık ve devir dalına bir not ekledik: parçayı görmeden fiyat verilmiyor. İkinci hafta aynı soru bir kez daha geldi ama bu kez kaçmadı."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 244.024,
+      "end": 270.364,
+      "text": "Bir noktada kendine şu soruyu soracaksın: bu bot gerçekten işe yarıyor mu? Cevabı sayıdan değil, işletme sahibinden al. Tolga'ya haftanın sonunda sor: sabah telefonu açtığında bekleyen mesaj sayısı azaldı mı? Müşteri aynı gün cevap alıyor mu? Cevaplar evet ise bot yerini bulmuş demektir. Hayır ise sorun botta değil, belki devir kuralında ya da bakım ritminde."
+    },
+    {
+      "index": 12,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 270.764,
+      "end": 306.583,
+      "text": "Bu altı derste şu yolu yürüdük. Önce müşterinin ne sorduğuna baktık ve beş gruplu bir soru defteri yazdık. O defteri bir karar ağacına çevirdik. Ağacı web sohbet kutusuna ve WhatsApp hattına bağladık. Botun anlamadığı yerlerde ne olacağını tasarladık. İşi sahibine teslim edecek bir klasör hazırladık. Bugün de ilk denemeyi yaptık. Bu zincirin her halkası bir öncekine yaslanıyor. Defter eksikse ağaç eksik oluyor, ağaç eksikse bot anlamıyor, bot anlamıyorsa devir çalışmıyor. Bir şey ters giderse, geri dönüp zincirin başına bak."
+    },
+    {
+      "index": 13,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 306.983,
+      "end": 332.02,
+      "text": "Bugün botu gerçek bir müşteriye açmadan önce on denemeyle sınadın. Sessiz bir açılış yaptın, ilk hafta üç yığını saydın ve haftada tek değişiklik kuralını öğrendin. Artık elinde, bir işletmeye kurup teslim edebileceğin ve zamanla iyileştirebileceğin bir yapı var. Zihnine sağlık. Serinin sonuna geldik, bundan sonrası senin masanda, kendine iyi bak."
+    }
+  ]
 }

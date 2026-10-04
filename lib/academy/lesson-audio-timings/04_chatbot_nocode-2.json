@@ -1,7 +1,125 @@
 {
   "lessonKey": "04_chatbot_nocode-2",
   "pauseSec": 0.4,
-  "durationSec": 0,
-  "cacheV": 0,
-  "pieces": []
+  "durationSec": 338.11,
+  "cacheV": 338110,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 29.46,
+      "text": "Merhaba, ben Mert. Soru defterin masanın üstünde duruyor. Beş grup, beş tek cümlelik cevap, bir de devir listesi. Tolga'nın defterinde botun yalnızca üç sabit işin fiyatını söylediğini, kalan fiyat sorularının ise devir listesine girdiğini biliyorsun. İşte o karar bugün işimize yarayacak. Şimdi o defteri botun yürüyebileceği yollara çevireceğiz. Yani bir karar ağacı çizeceğiz."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 29.86,
+      "end": 45.448,
+      "text": "Voiceflow'u ya da Botpress'i açmadan önce kâğıda dön. Ben bu sırayı ilk günden beri değiştirmiyorum. Çünkü ekranda kutu sürüklemek insana çalışıyormuş hissi veriyor, oysa asıl iş mantığı kurmak. Mantık kâğıtta kurulur, araç yalnızca onu taşır."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 45.848,
+      "end": 75.406,
+      "text": "Kâğıdın ortasına bir kutu çiz ve içine «Karşılama» yaz. Bu, botun müşteriyle ilk konuştuğu yer. Karşılamadan üç ok çıkacak, çünkü ilk menüde üç seçenek yeter. Tolga için bunlar şöyle: bir, çalışma saatleri ve adres. İki, tamir ve fiyat. Üç, randevu. Defterdeki diğer gruplar bu üç kutunun içine yerleşiyor. Siparişim geldi mi sorusu tamir kutusunun içinde bir alt adım oluyor."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 75.806,
+      "end": 95.235,
+      "text": "Karar ağacını kurarken üç kuralı yanında taşı. Birinci kural, bir adımda bir soru. Bot «adınız nedir, hangi gün gelmek istersiniz ve bisikletinizde ne sorun var» diye tek mesajda üç şey sorarsa müşteri birini cevaplar, ikisini atlar. Her soru ayrı bir kutu olsun."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 95.635,
+      "end": 117.326,
+      "text": "İkinci kural, mümkün olan her yerde düğme kullan. Müşteri yazmak zorunda kaldığında yazım hatası yapar, kelimeyi farklı söyler, konuyu dağıtır. Düğmeye bastığında ise bot ne dediğini kesin olarak bilir. Serbest yazıyı yalnızca düğmenin işe yaramadığı yerde aç, örneğin müşterinin adını alırken."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 117.726,
+      "end": 149.189,
+      "text": "Üçüncü kural, her dal kapanmalı. Bir dalın sonu ya «sorun cevaplandı», ya «randevu talebi alındı», ya da «insana devredildi» olacak. Dalın ortasında kapı kapanıp müşteri boşluğa kalıyorsa, ağaçta hata var demektir. Ben kâğıdın üzerinde her okun ucunu parmağımla takip ediyorum. Bir yerde takılırsam orayı yeniden çiziyorum. Karşılama mesajı kısa olmalı ve üç iş yapmalı. Kim konuştuğunu söylemeli, ne yapabildiğini söylemeli, insana nasıl ulaşılacağını göstermeli."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 0,
+      "start": 149.589,
+      "end": 175.96,
+      "text": "Tolga'nınki şöyle: «Merhaba, ben Tolga Bisiklet'in sanal asistanıyım. Çalışma saatlerini, tamir bilgisini ve randevu talebini ben alabilirim. Bir insanla konuşmak istersen, istediğin an insan yazman yeter.» Altında üç düğme duruyor. Bu mesajda yapay zekâ olduğunu saklamıyoruz. Müşteri botla konuştuğunu bilirse, beklentisini ona göre ayarlıyor. Beşinci derste bu konuya yeniden döneceğiz."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 176.372,
+      "end": 182.398,
+      "text": "Randevu dalı en dikkatli çizmen gereken yer, çünkü burada ilk defa müşteriden bilgi alıyorsun."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 182.798,
+      "end": 217.564,
+      "text": "Sırayla gidelim. İlk kutu, adı sorar. İkinci kutu, günü sorar ve düğmeler sunar: bugün, yarın, bu hafta içinde başka bir gün. Üçüncü kutu, sorunu sorar ve düğmeler sunar: lastik, fren, vites, başka bir şey. Dördüncü kutu, özet gösterir: «Adın Zeynep, yarın, lastik için. Doğru mu?» Altında iki düğme: evet, değiştir. Doğru derse son kutuya geçilir."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 217.964,
+      "end": 245.291,
+      "text": "Burada bir dürüstlük noktası var. Bu ilk sürümde bot randevuyu kesinleştirmiyor. Takvimi bilmeyen bir bot «yarın saat on için yerinizi ayırdım» derse bir sözü Tolga yerine veriyor demektir. Bunun yerine şunu söyleyecek: «Talebini aldım, Tolga en geç yarın sabah dönüş yapacak.» Kesinleştirme insanın elinde kalıyor. Takvim bağlantısını ileride eklemek mümkün ama önce kapıyı kapalı tutarak başlıyoruz."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 245.691,
+      "end": 268.949,
+      "text": "Kâğıdın hazırsa Voiceflow'a geç. Yeni bir proje aç, karşılama kutusunu koy, altına üç düğme ekle, her düğmeye bir yol bağla. Kâğıttaki her kutunun karşılığı ekranda bir blok olacak. Botpress'te de aynı şeyi yaparsın. Blokların adı değişir, mantık değişmez. Bu yüzden araç seçimine takılma. Hangisini rahat kullanıyorsan onunla başla."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 269.349,
+      "end": 305.556,
+      "text": "Tek bir şeye dikkat et. Her bloğun içindeki metni, defterdeki cevabın kelimesi kelimesine aynısı olarak yaz. Bot yeni cümle uydurmasın. Defteri yazarken verdiğin kararlar buraya taşınıyor. Kurduktan sonra hemen canlıya almıyoruz. Önce üç hayalî müşteriyle dene. Birincisi aceleci, ilk düğmeye basıp çıkıyor. İkincisi yazım hatalı, «randvu» yazıyor. Üçüncüsü konu dışı, bisiklet yerine kargo soruyor. Üçünün de ağaçtan boşluğa düşmeden bir yere ulaşıp ulaşmadığına bak. Düşenler olacak. Düşen yeri bir sonraki derse not al."
+    },
+    {
+      "index": 12,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 305.956,
+      "end": 338.11,
+      "text": "Bugün defterini bir karar ağacına çevirdin. Bir adımda bir soru, mümkün olan her yerde düğme, her dalın kapanışı. Karşılama mesajını ve randevu dalını kurdun, kesinleştirmeyi insana bıraktın. Bu yapı sağlam durursa gerisini bunun üstüne ekleyebiliriz. Bir sonraki derste bu akışı gerçek hatlara bağlayacağız. Önce web sohbet kutusunu, sonra WhatsApp'ı bağlayıp kendi telefonundan ilk mesajı yazacağız. Zihnine sağlık. Bir sonraki derste görüşmek üzere, kendine iyi bak."
+    }
+  ]
 }

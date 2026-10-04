@@ -1,7 +1,134 @@
 {
   "lessonKey": "03_social_media_ai-1",
   "pauseSec": 0.4,
-  "durationSec": 0,
-  "cacheV": 0,
-  "pieces": []
+  "durationSec": 355.2,
+  "cacheV": 355200,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 2.168,
+      "text": "Merhaba, ben Selin."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 2.568,
+      "end": 49.516,
+      "text": "Neredeyiz? Yapay Zekâ ile Sosyal Medya İçeriği, görsel ve kısa video eğitimindeyiz. Toplam altı ders var, bu da ilk dersimiz. Bu seride ne yapacağız? Bir ürünü ya da bir fikri, yapay zekâ yardımıyla paylaşıma hazır bir görsele, beş karelik bir sete ve on beş saniyelik dikey bir videoya çevireceğiz. Yazısını, altyazısını ve haftalık akışını da kuracağız. Kod yok, tasarım programı yok. Elinde bir telefon ve bir sohbet kutusu yeter. Bugün elimize ne geçecek? Üç satırlık bir içerik künyesi geçecek. Kimin için paylaşıyorsun, ne hissettirmek istiyorsun, tek cümleyle ne söylüyorsun. Bu künye, serinin geri kalanında yazacağın her istemin en üstüne oturacak."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 49.916,
+      "end": 83.343,
+      "text": "Sana bir şey söyleyeyim, çünkü bunu duymak işini kolaylaştırır. Yapay zekâ bir görsel üretmeyi çok kolaylaştırdı. Ama güzel bir görsel ile senin görselin arasındaki fark hâlâ karardan geliyor. Akşam kendi akışını aç ve bir dakika kaydır. Birçok hesabın görseli aynı parlaklıkta, aynı cilada, aynı kusursuz ışıkta duruyor. Hepsi güzel ama hiçbiri kimseye ait değil. Aracı herkes kullanıyor. Farkı yaratan, aracın ne yapacağını önceden senin bilmen."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 83.743,
+      "end": 115.599,
+      "text": "Bir örnek üzerinden gidelim, seri boyunca da aynı örnekle çalışacağız. Nehir diye bir arkadaşım var, küçük bir seramik atölyesi işletiyor. Elinde mat yeşil, üç yüz mililitrelik, elde yapılmış kupalar var. Her kupa biraz farklı çıkıyor, kulpun eğimi bile birbirini tutmuyor. Nehir fotoğraf çekmeye vakit bulamıyor. Fırın yanarken masaya ışık kurup poz vermek ona uzak bir şey. Yapay zekâya sığınmak istiyor ama bir korkusu var: kupasını gerçekte olmadığı gibi göstermek."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 115.999,
+      "end": 142.031,
+      "text": "Nehir ilk denemede kutuya şunu yazmış: «Kupam için güzel bir sosyal medya görseli yap.» Gelen şey gerçekten güzel. Parlak sırlı, simetrik, kusursuz bir kupa, arkasında bulanık bir çiçek. Nehir'in kupası mat, hafif düzensiz ve üstünde fırının bıraktığı küçük lekeler var. Bu görsel yayınlansa, kargoyu açan müşteri «ben bunu almamıştım» der."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 142.431,
+      "end": 154.182,
+      "text": "Kutuyu suçlamayalım. Kutu sana güzel dedin, o da kendi bildiği güzeli yaptı. Güzel kelimesi bir yön tarif etmiyor. Yön vermezsen boşluğu kutunun alışkanlığı doldurur."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 154.42,
+      "end": 181.676,
+      "text": "İşin ilk adımı araca hiç dokunmamak. Bir kâğıt al, üç satır yaz. Birinci satır, kimin için. «Hafta sonu sabahı kahvesini yavaş içmek isteyen, el işine meraklı insanlar.» Yaş yazma, yaşam anı yaz. Çünkü görseli yaşam anı belirler. İkinci satır, ne hissettirsin. «Sakin, sıcak, acelesiz.» Üç kelimeyi geçme. Beşinci kelime dördüncüyü ezer."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 182.076,
+      "end": 216.635,
+      "text": "Üçüncü satır, tek cümleyle ne söylüyorsun. «Her kupa elde yapıldığı için biraz farklıdır.» Bu cümle bir slogan değil. Bu cümle, görselin neyi göstermesi gerektiğini söyleyen bir iş emri. Bu üç satırın altına bir de değişmezler listesi ekle. Ürünün, hangi görselde olursa olsun aynı kalması gereken özellikleri. Nehir için: mat yeşil, üç yüz mililitre, tek kulp, elde yapılmış doku. Bu liste ileride ürünün gerçeğiyle görselin kopmamasını sağlayacak."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 217.035,
+      "end": 242.667,
+      "text": "Şimdi künyeyi sohbet kutusuna yapıştır ve ona bir rol ver: «Sen sosyal medya içerik yönetmenisin. Aşağıdaki künyeye göre üç farklı görsel fikri öner. Her fikir tek cümle olsun ve tek bir sahneyi anlatsın. Değişmezler listesinde olmayan hiçbir özelliği ürüne ekleme.»"
+    },
+    {
+      "index": 9,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 243.067,
+      "end": 269.098,
+      "text": "Üç fikir gelecek. Mesela biri pencere kenarında sabah kahvesi, biri atölye rafında sıra sıra kupalar, biri de elde tutulan kupa. Hangisini seçeceksin? Kutuya sorma. Künyeye dön ve sor: bu sahne hafta sonu sabahını hissettiriyor mu? Elde yapılmış olduğunu gösteriyor mu? Evet diyenlerden birini seç. Seçmek senin işin, kutunun işi sunmak."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 269.498,
+      "end": 280.559,
+      "text": "Ben bu adımı atlayıp doğrudan görsele geçmeyi çok denedim. Sonuç hep aynı oldu. Üretim hızlı bitti ama ben gün sonunda yine baştan başlıyordum."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 281.46,
+      "end": 307.829,
+      "text": "Künye: Kimin için, ne hissettirsin, tek cümle. Değişmezler: Renk, ölçü, doku, adet. Rol: Sen sosyal medya içerik yönetmenisin. Görev: Üç görsel fikri öner, her biri tek cümle, tek sahne. Kısıt: Değişmezler dışında ürüne özellik ekleme."
+    },
+    {
+      "index": 12,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 308.229,
+      "end": 325.476,
+      "text": "Bugünün işi şu: kendi ürününü ya da fikrini al, künyeyi yaz, değişmezleri sırala, kutudan üç fikir iste ve birini seç. Dördüncü bir fikir istemeye kalkma. Üç yeter, üçten fazlası seçimi yorar."
+    },
+    {
+      "index": 13,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 325.876,
+      "end": 355.2,
+      "text": "Bugün aracı açmadan önce kâğıda üç satır yazmayı öğrendin. Ürünün değişmezlerini ayırdın. Kutuya yönetmen rolü verip fikir aldın ve kararı kendin verdin. Küçük bir iş gibi görünüyor ama sonraki beş dersin temeli bu. Bir sonraki derste künyeni kullanıp ilk görseli üreteceğiz. Işığı, kadrajı ve dokuyu kutuya nasıl tarif edeceğini konuşacağız. Zihnine sağlık. Bir sonraki derste görüşmek üzere, kendine iyi bak."
+    }
+  ]
 }

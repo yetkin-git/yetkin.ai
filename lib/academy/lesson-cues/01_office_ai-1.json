@@ -2,28 +2,28 @@
   {
     "id": "cue-01",
     "start": 2,
-    "end": 38.122,
+    "end": 66.634,
     "text": "GİRİŞ KÖPRÜSÜ",
     "section": "GİRİŞ KÖPRÜSÜ",
     "paragraphs": [
-      "Her gün masanın üstünde biriken dosyalar, e-postalarla gelen karmakarışık listeler ve saatlerce içinden çıkamadığın Excel sayfaları... Bu dersin sonunda düzensiz Excel'i düzenli tabloya çevirmeyi tek başına yapacaksın. Sebebi şu: yapay zekâ, sen ona neyi nasıl vereceğini bilmeden o karmaşayı tek başına çözmez. Karmaşık bir veri yığını gördüğünde paniklemek yerine doğru istemi kurarsan, dakikalarca süren el işçiliği düşer. Şimdi masaya oturalım. Bu derste yapay zekâyı soru sorulan bir kutu gibi değil, masadaki asistanın gibi kullanmayı adım adım göstereceğiz."
+      "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitiminin ilk dersine hoş geldin. Bu sekiz derslik seride ofiste her gün karşına çıkan işi yapay zekâ ile adım adım çözmeyi öğreneceksin. Bugün, bu ilk derste doğrudan düzensiz tabloya odaklanıyoruz: A1 hücresinden başlayarak dağınık Excel listesini düzenli tabloya çevirmeyi eline alacaksın. Bu dersin sonunda düzensiz Excel'i düzenli tabloya çevirmeyi tek başına yapacaksın. Son düzeni sen kurarsın."
     ]
   },
   {
     "id": "cue-02",
-    "start": 38.122,
-    "end": 199.556,
+    "start": 68.384,
+    "end": 202.743,
     "text": "HOŞ GELDİN",
     "section": "HOŞ GELDİN",
     "paragraphs": [
-      "Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ ilk dersine hoş geldin! Bu seride seninle birlikte ofiste her gün karşına çıkan işi yapay zekâ ile adım adım çözeceksin. Bugün açınca gözünü korkutan, biçimleri birbirine girmiş tabloyu ele alıyoruz. Hazırsan başlayalım; çünkü bu dersin sonunda o tabloyu A1 hücresinden başlayarak düzenlemeyi öğreneceksin. Son düzeni sen kurarsın.",
+      "Her gün masanın üstünde biriken dosyalar, e-postalarla gelen karmakarışık listeler ve saatlerce içinden çıkamadığın Excel sayfaları... Sebebi şu: yapay zekâ, sen ona neyi nasıl vereceğini bilmeden o karmaşayı tek başına çözmez. Karmaşık bir veri yığını gördüğünde paniklemek yerine doğru istemi kurarsan, dakikalarca süren el işçiliği düşer. Şimdi masaya oturalım. Bu derste yapay zekâyı soru sorulan bir kutu gibi değil, masadaki asistanın gibi kullanmayı adım adım göstereceğiz.",
       "Ofiste saatlerini alan o rutin işleri düşün. Bir rapordan kopyalanıp sana iletilen bir liste gelir ve senden acil bir analiz istenir. Ancak sayfayı açtığında hiçbir şey yerli yerinde değildir; sayılar sola yaslanmış, tarihler birbirine karışmıştır. Bu dersteki yükleme, kişi adı ve IBAN taşımayan kimliği gizlenmiş örnek tablo üzerinden yapılır. Bu örnek tabloyu ChatGPT, Claude, Gemini, Grok, Kimi, Muse Spark vb. sohbetine ataş ile yüklersin; Copilot lisansın varsa Copilot düğmesinden doğrudan okutursun ya da şirket paneline verirsin. Şirket paneli, şirketinin kurumsal yapay zekâ modelidir: evdeki format ve gizlilik kuralı o panele yazılır. Bu araçlar sohbet yapay zekâlarıdır (büyük dil modelleri); eğilimleri sürümden sürüme değişir. 2026 itibarıyla ChatGPT çoğu zaman hızlı taslak üretmeye, Claude uzun satırları dikkatle okumaya, Gemini adımları net sıralamaya yatkındır. Grok, Kimi, Muse Spark vb. de aynı sohbet yolundandır. Hiçbiri sabit karakter değildir. Bu eğilim kartı Eylül 2026 tarihlidir; 6 ayda bir gözden geçirilir. Kod ezberlemen gerekmez. Neden? Çünkü bu işi çözen şey program yazmak değil; tabloyu doğru yoldan, doğru sırayla vermektir. Şimdi A1 hücresinden başlayalım."
     ]
   },
   {
     "id": "cue-03",
-    "start": 199.806,
-    "end": 232.96,
+    "start": 204.493,
+    "end": 236.989,
     "text": "DÜZENSİZ TABLO",
     "section": "DÜZENSİZ TABLO",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 232.96,
-    "end": 310.678,
+    "start": 236.989,
+    "end": 310.649,
     "text": "A1 HÜCRESİ",
     "section": "A1 HÜCRESİ",
     "paragraphs": [
@@ -44,8 +44,8 @@
   },
   {
     "id": "cue-05",
-    "start": 310.928,
-    "end": 515.785,
+    "start": 312.399,
+    "end": 508.37,
     "text": "TEMİZLE ŞİMDİ",
     "section": "TEMİZLE ŞİMDİ",
     "paragraphs": [
@@ -56,8 +56,8 @@
   },
   {
     "id": "cue-06",
-    "start": 515.785,
-    "end": 583.369,
+    "start": 508.37,
+    "end": 571.333,
     "text": "FARK ORTADA",
     "section": "FARK ORTADA",
     "paragraphs": [
@@ -67,8 +67,8 @@
   },
   {
     "id": "cue-07",
-    "start": 583.619,
-    "end": 639.218,
+    "start": 573.083,
+    "end": 617.112,
     "text": "A1 KURALINI KUR",
     "section": "CEBİNE KOY",
     "paragraphs": [
@@ -77,8 +77,8 @@
   },
   {
     "id": "cue-08",
-    "start": 639.468,
-    "end": 707.016,
+    "start": 618.862,
+    "end": 696.951,
     "text": "SIRA SENDE",
     "section": "SIRA SENDE",
     "paragraphs": [

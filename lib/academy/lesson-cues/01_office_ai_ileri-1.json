@@ -2,18 +2,18 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 73.804,
+    "end": 86.463,
     "text": "DÖRT PARÇA",
     "section": "Açılış",
     "paragraphs": [
-      "Selamlar, ben Aylin. İleri Ofis Yapay Zekâ eğitiminin ilk dersine hoş geldin. Bu dersin sonunda bir sipariş satırını dört parçalı bir metne dökeceksin. Kutuya yazacağın bu metne istem diyeceğiz. Dört parça şunlar: rol, görev, biçim ve kısıt. Dört parça aynı kutuda durunca sohbet kutusu işin şeklini tek gönderimde görür. Cevabı sen okursun.",
+      "Selamlar, ben Aylin. İleri Ofis Yapay Zekâ eğitiminin ilk dersine hoş geldin. Bu altı derslik seride ofis notunu, tabloyu, belgeyi ve postayı yapay zekâya tek iş olarak yaptırmayı öğreneceksin. Bugün, bu ilk derste doğrudan sipariş satırına odaklanıyoruz: bir satırı rol, görev, biçim ve kısıt olarak dört parçalı bir metne dökmeyi eline alacaksın. Kutuya yazacağın bu metne istem diyeceğiz. Dört parça aynı kutuda durunca sohbet kutusu işin şeklini tek gönderimde görür. Cevabı sen okursun.",
       "Saat 09:40. Yöneticin yazıyor. «Saat 10'daki toplantıdan önce üç bölgenin notunu özetle. Üç madde olsun. Bir karar cümlesi de yaz.» Masanda dört satır duruyor. Marmara satırı: Kaya Un 1 kg, 120 sipariş. Ege satırı: Kaya Un 1 kg, 80 sipariş. İç Anadolu satırı eksik. Son satırda Ayşe Yılmaz ve bir telefon var. Acele edip kutuya «Bunu güzelce özetle» yazarsan uzun bir metin döner. Notta olmayan bir yüzde eklenebilir. Ad cevaba taşınabilir. Şimdi burada ne oldu böyle demiş olabilirsin. Çok haklısın. Yanlış sayı acele kutudan gelir. Adım adım bakalım."
     ]
   },
   {
     "id": "cue-02",
-    "start": 74.054,
-    "end": 121.655,
+    "start": 86.713,
+    "end": 134.737,
     "text": "ÜÇ ADIM",
     "section": "Açılış",
     "paragraphs": [
@@ -22,8 +22,8 @@
   },
   {
     "id": "cue-03",
-    "start": 121.905,
-    "end": 159.905,
+    "start": 134.987,
+    "end": 177.547,
     "text": "HAM NOT",
     "section": "Açılış",
     "paragraphs": [
@@ -33,8 +33,8 @@
   },
   {
     "id": "cue-04",
-    "start": 160.155,
-    "end": 209.641,
+    "start": 177.797,
+    "end": 222.032,
     "text": "ADI ÇIKAR",
     "section": "VERİYİ VERMEDEN ÖNCE",
     "paragraphs": [
@@ -43,8 +43,8 @@
   },
   {
     "id": "cue-05",
-    "start": 209.891,
-    "end": 289.675,
+    "start": 222.282,
+    "end": 304.681,
     "text": "ROL BAŞTA",
     "section": "DÖRT PARÇA",
     "paragraphs": [
@@ -54,8 +54,8 @@
   },
   {
     "id": "cue-06",
-    "start": 289.925,
-    "end": 367.807,
+    "start": 304.931,
+    "end": 387.292,
     "text": "YANLIŞ ÖZET",
     "section": "YANLIŞ VE DOĞRU",
     "paragraphs": [
@@ -65,8 +65,8 @@
   },
   {
     "id": "cue-07",
-    "start": 368.057,
-    "end": 407.819,
+    "start": 387.542,
+    "end": 425.637,
     "text": "KAYNAĞI KARŞILAŞTIR",
     "section": "KAYNAĞI KARŞILAŞTIR",
     "paragraphs": [
@@ -75,8 +75,8 @@
   },
   {
     "id": "cue-08",
-    "start": 408.069,
-    "end": 485.144,
+    "start": 425.887,
+    "end": 504.249,
     "text": "MASKELİ NOT",
     "section": "MASKELİ NOT",
     "paragraphs": [

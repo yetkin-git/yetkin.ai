@@ -48,7 +48,7 @@ export type {
 
 /**
  * Compact makale müfredatı — `CurriculumModule.sections` → canlı taslak.
- * Diyalog / görsel yuva istemez. Taze ingest yokken dizi boştur.
+ * Diyalog / görsel yuva istemez. SM-103, BOT-104 ve PR-105 canlı kayıttadır.
  */
 export function compactDraftsFromModule(
   slug: string,

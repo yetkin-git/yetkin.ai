@@ -10,14 +10,14 @@ export const section1: Section = {
   isPreviewAllowed: false,
   isLocked: true,
   title: "A1 Düzeni ve Temiz Veri: Düzensiz Excel → Düzenli Tablo",
-  targetDurationMinutes: 11.8,
-  estimatedWordCount: 1606,
+  targetDurationMinutes: 11.6,
+  estimatedWordCount: 1604,
   pedagogicalObjective:
     `Düzensiz Excel tablosunu A1 hücresinden başlayarak düzenli tabloya çevirmeyi göstermek. Neden A1? Çünkü model tablonun nereden başladığını oradan okur. Yükleme kimliği gizlenmiş örnek tablo üzerinden yapılır; maskeleme kuralı 2. derste kilitlenir. ${ACADEMY_CHAT_MODEL_LIST} ve şirket paneli (kurumsal model) farkını eğilim diliyle oturtmak.`,
   contentMarkdown: `
-Her gün masanın üstünde biriken dosyalar, e-postalarla gelen karmakarışık listeler ve saatlerce içinden çıkamadığın Excel sayfaları... Bu dersin sonunda düzensiz Excel'i düzenli tabloya çevirmeyi tek başına yapacaksın. Sebebi şu: yapay zekâ, sen ona neyi nasıl vereceğini bilmeden o karmaşayı tek başına çözmez. Karmaşık bir veri yığını gördüğünde paniklemek yerine doğru istemi kurarsan, dakikalarca süren el işçiliği düşer. Şimdi masaya oturalım. Bu derste yapay zekâyı soru sorulan bir kutu gibi değil, masadaki asistanın gibi kullanmayı adım adım göstereceğiz.
+Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitiminin ilk dersine hoş geldin. Bu sekiz derslik seride ofiste her gün karşına çıkan işi yapay zekâ ile adım adım çözmeyi öğreneceksin. Bugün, bu ilk derste doğrudan düzensiz tabloya odaklanıyoruz: A1 hücresinden başlayarak dağınık Excel listesini düzenli tabloya çevirmeyi eline alacaksın. Bu dersin sonunda düzensiz Excel'i düzenli tabloya çevirmeyi tek başına yapacaksın. Son düzeni sen kurarsın.
 
-Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ ilk dersine hoş geldin! Bu seride seninle birlikte ofiste her gün karşına çıkan işi yapay zekâ ile adım adım çözeceksin. Bugün açınca gözünü korkutan, biçimleri birbirine girmiş tabloyu ele alıyoruz. Hazırsan başlayalım; çünkü bu dersin sonunda o tabloyu A1 hücresinden başlayarak düzenlemeyi öğreneceksin. Son düzeni sen kurarsın.
+Her gün masanın üstünde biriken dosyalar, e-postalarla gelen karmakarışık listeler ve saatlerce içinden çıkamadığın Excel sayfaları... Sebebi şu: yapay zekâ, sen ona neyi nasıl vereceğini bilmeden o karmaşayı tek başına çözmez. Karmaşık bir veri yığını gördüğünde paniklemek yerine doğru istemi kurarsan, dakikalarca süren el işçiliği düşer. Şimdi masaya oturalım. Bu derste yapay zekâyı soru sorulan bir kutu gibi değil, masadaki asistanın gibi kullanmayı adım adım göstereceğiz.
 
 Ofiste saatlerini alan o rutin işleri düşün. Bir rapordan kopyalanıp sana iletilen bir liste gelir ve senden acil bir analiz istenir. Ancak sayfayı açtığında hiçbir şey yerli yerinde değildir; sayılar sola yaslanmış, tarihler birbirine karışmıştır. Bu dersteki yükleme, kişi adı ve IBAN taşımayan kimliği gizlenmiş örnek tablo üzerinden yapılır. Bu örnek tabloyu ${ACADEMY_CHAT_MODEL_LIST} sohbetine ataş ile yüklersin; Copilot lisansın varsa Copilot düğmesinden doğrudan okutursun ya da şirket paneline verirsin. Şirket paneli, şirketinin kurumsal yapay zekâ modelidir: evdeki format ve gizlilik kuralı o panele yazılır. Bu araçlar sohbet yapay zekâlarıdır (büyük dil modelleri); eğilimleri sürümden sürüme değişir. 2026 itibarıyla ChatGPT çoğu zaman hızlı taslak üretmeye, Claude uzun satırları dikkatle okumaya, Gemini adımları net sıralamaya yatkındır. Grok, Kimi, Muse Spark vb. de aynı sohbet yolundandır. Hiçbiri sabit karakter değildir. Bu eğilim kartı Eylül 2026 tarihlidir; 6 ayda bir gözden geçirilir. Kod ezberlemen gerekmez. Neden? Çünkü bu işi çözen şey program yazmak değil; tabloyu doğru yoldan, doğru sırayla vermektir. Şimdi A1 hücresinden başlayalım.
 

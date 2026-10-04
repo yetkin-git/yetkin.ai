@@ -1,7 +1,125 @@
 {
   "lessonKey": "05_prompt_practice-4",
   "pauseSec": 0.4,
-  "durationSec": 0,
-  "cacheV": 0,
-  "pieces": []
+  "durationSec": 379.101,
+  "cacheV": 379101,
+  "pieces": [
+    {
+      "index": 0,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 0,
+      "end": 1.686,
+      "text": "Merhaba, ben Oğuz."
+    },
+    {
+      "index": 1,
+      "cueId": "cue-01",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 2.086,
+      "end": 43.51,
+      "text": "Dün cevaptan önce numaralı adım yazdın. Kaynağı olmayan adımı sildin. Kâğıtta durmayan cümle depoya inmedi. Şimdi aynı bakışı bir ürün notuna tut. Bir müşteri düşün. Sitenden mutfak havlusu aldı, ama kutu eline geçince şikâyet yazıyor: «Çabuk kuruyor demiştiniz, kurumuyor.» Sen böyle bir şey demedin. Ürün sayfasında öyle bir cümle de yoktu. Ama sayfayı sohbet kutusuna yazdıran sendin ve kutu o cümleyi kendiliğinden eklemişti. Ben bunu ilk yaşadığımda sayfayı baştan sona üç kez okudum, hatayı kendimde aradım. Bugün bu hatanın nasıl önüne geçeceğimizi konuşacağız."
+    },
+    {
+      "index": 2,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 43.91,
+      "end": 87.294,
+      "text": "Elinde kısa bir ürün notu var. Not masanın solunda duruyor. Sohbet kutusu sağda. Kutudan özet istiyorsun. Özetin her cümlesi, soldaki notun bir satırına bağlanmalı. Bağlanmayan cümle vitrine çıkmaz. Kutu notun dışından bir övgü eklerse alıcı kutuda olmayan bir şey bekler. «Çabuk kurur» yazılmışsa alıcı çabuk kuruyan bir havlu bekler. Kutuda öyle bir söz yoksa iade fişi senin masana gelir. Buna kaynak sınırı diyoruz. Cevap, notun bittiği satırda biter. O satırdan sonra gelen her sıfat senin sıfatın değildir."
+    },
+    {
+      "index": 3,
+      "cueId": "cue-02",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 87.694,
+      "end": 100.163,
+      "text": "Çeviri de aynı konuda. Çeviri, aynı sözü başka bir dilde söylemektir. İkinci dilde yeni bir özellik çıktıysa o artık çeviri değil, yeni bir ilandır. İlanı silersin."
+    },
+    {
+      "index": 4,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 101.106,
+      "end": 111.062,
+      "text": "Elimizdeki not şu: pamuklu mutfak havlusu, renk ekru, ölçü elli çarpı yetmiş santimetre, kutuda iki adet."
+    },
+    {
+      "index": 5,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 1,
+      "chunkIndex": 0,
+      "start": 111.462,
+      "end": 150.833,
+      "text": "Yanlış istem: «Bunu etkileyici bir vitrin yazısına çevir, çabuk kuruduğunu da ekle.» Notta çabuk kurur diye bir şey yok. Eklenen cümle yeni bir vaat. Etkileyici kelimesi de bir ölçü değil, notun dört gerçeğinin yerini tutmuyor. Böyle bir istekte genelde şu cümleler çıkar: «Yumuşacık dokunuş.» «Aynı gün kargo.» «Organik pamuk.» Bu üçü de notta yok. Üçünü de silersin. Geriye dört gerçek kalır: tür pamuklu mutfak havlusu, renk ekru, ölçü elli çarpı yetmiş santimetre, adet iki."
+    },
+    {
+      "index": 6,
+      "cueId": "cue-03",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 151.233,
+      "end": 186.611,
+      "text": "Doğru istem şöyle: «Yalnız bu notu özetle. Dört kısa cümle yaz. Notta olmayan özelliği yazma. Emin değilsen o cümleyi boş bırak.» Çeviri de istiyorsan: «Aynı dört cümleyi ikinci dilde yaz. Yeni sıfat ekleme.» Doğru özette birinci cümle türü söyler, ikinci cümle rengi, üçüncü cümle ölçüyü, dördüncü cümle adedi. Başka cümle yok. Çeviri de bu dört cümleyi taşır. Çeviride beşinci bir sıfat çıktıysa o satırı sil."
+    },
+    {
+      "index": 7,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 187.011,
+      "end": 219.517,
+      "text": "Rol: Sen bir kaynak özet asistanısın. Bağlam: [yapıştırılan not, başka yerden cümle yok]. Görev: Yalnız bu notu özetle. Biçim: Dört cümle. İstersen altında aynı dört cümlenin çevirisi. Kısıt: Notta olmayan özellik yok. Notta olmayan sayı yok. Boş kalan yere «notta yok» yaz. Notu bağlam kutusuna olduğu gibi yapıştır. Üstüne kendi övgünü yazma, çünkü kendi övgün kaynak sayılmaz. Kaynak, ürün kâğıdındaki satırlardır."
+    },
+    {
+      "index": 8,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 2,
+      "chunkIndex": 0,
+      "start": 219.917,
+      "end": 252.074,
+      "text": "Özeti gönderirken notla yan yana tut. Her cümleyi notta bir satırla eşleştir. Birinci cümle pamuklu mutfak havlusuna, ikinci cümle ekru renge, üçüncü cümle elli çarpı yetmiş santimetreye, dördüncü cümle iki adede gider. Eşleşmeyen cümleyi sil. Eşleşen cümlede notta olmayan bir sayı varsa onu da düzelt. Ölçü elli çarpı yetmişse altmış çarpı seksen yazılmaz. Adet ikiyse üç yazılmaz."
+    },
+    {
+      "index": 9,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 3,
+      "chunkIndex": 0,
+      "start": 252.474,
+      "end": 283.546,
+      "text": "Çeviriyi de aynı dört satıra tut. Çeviride «hızlı kurur» çıktıysa o cümleyi sil. «Premium» kelimesi çıktıysa onu da çıkar. İkinci dil, birinci dilin söylediğinden fazlasını söyleyemez. Göndermeden önce notu elinle kapat. Özeti notsuz oku. Duyduğunda «bunu nereden çıkardı?» dediğin bir yer olursa o cümle notta yok demektir. Sil. Sonra notu aç ve kalan cümleleri tek tek eşle. Dört eşleşme tamamsa vitrine koy."
+    },
+    {
+      "index": 10,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 5,
+      "chunkIndex": 0,
+      "start": 283.946,
+      "end": 315.022,
+      "text": "Öğleden sonra ikinci not geliyor: cam kavanoz, renk şeffaf, içinde beş yüz mililitre, kutuda bir adet. Aynı şablonu aç. Bağlamı bu dört satırla değiştir. Eski havlu notunu orada bırakma. Bırakırsan kavanozun rengi ekru çıkabilir. O renk bu notta yok. Kutu «bulaşık makinesinde yıkanır» yazarsa o cümleyi sil, notta makine geçmiyor. «İki adet» yazarsa ikiyi sil, notta adet bir. Çeviride yeni bir dayanıklılık sözü çıkarsa onu da sil."
+    },
+    {
+      "index": 11,
+      "cueId": "cue-04",
+      "cueParagraphIndex": 7,
+      "chunkIndex": 0,
+      "start": 315.422,
+      "end": 346.707,
+      "text": "İki notu karıştırma. Havlu özeti havlu sayfasında, kavanoz özeti kavanoz sayfasında durur. Ölçü ve adet birinden ötekine geçmez. Sayfayı yayınlamadan önce son bir kez bak: havlu sayfasında elli çarpı yetmiş var mı, iki adet var mı? Kavanoz sayfasında beş yüz mililitre var mı, bir adet var mı? Eksik varsa eksik cümleyi nottan sen yaz. Kutudan yeni ölçü isteme, ölçü notta yazılı."
+    },
+    {
+      "index": 12,
+      "cueId": "cue-05",
+      "cueParagraphIndex": 0,
+      "chunkIndex": 0,
+      "start": 347.107,
+      "end": 379.101,
+      "text": "Bugün cevabı notun içine kilitledin. Çevirinin yeni bir vaat taşımasına izin vermedin. Eşleşmeyen cümleyi, notta olmayan sayıyı ve sıfatı sildin. Ürünün ölçüsünü ve adedini nottaki kelimeyle bıraktın. Müşteri kutuda olmayan bir şeyi aramayacak. Bir sonraki derste aynı kilidi tabloya ve plana taşıyacağız. Satır sayısını baştan yazacağız. Dördüncü bir iş çıkarsa o satırı birlikte silmeyi göreceğiz. Zihnine sağlık. Bir sonraki derste görüşürüz, kendine iyi bak."
+    }
+  ]
 }

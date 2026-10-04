@@ -2,19 +2,19 @@
   {
     "id": "cue-01",
     "start": 0,
-    "end": 80.557,
+    "end": 74.193,
     "text": "İNSANİ GİRİŞ VE HATIRLATMA",
     "section": "İnsani giriş ve hatırlatma",
     "paragraphs": [
-      "Merhaba, ben Selin. Yeni bir dersle yine beraberiz! Umarım keyifler yerindedir.",
+      "Merhaba, ben Kaan. Yeni bir dersle yine beraberiz! Umarım keyifler yerindedir.",
       "Geçen ders, ikinci derste, stüdyoya gidip stüdyo parası ödemeden ürün fotoğrafını pazaryerinin görsel kuralına getirmiştik. Arka planı düz beyaz bırakmıştık, üstüne stüdyo ışığı vurmuştuk, filigranı silmiştik ve kareyi net tutmuştuk. Bunu alıcı ürünün kendi rengini ve kendi şeklini görsün diye yaptık, bir de yanlış fotoğraf yüzünden geri dönen iadenin önüne geçelim diye. O işi orada bırakmıştık. Fotoğraf düzelince şikâyet kendiliğinden bitmez. Müşteri malı eline alınca yazar, kargo kutuyu hırpalayınca yazar, Listing'de ölçü eksik kalınca da yazar.",
       "Bu derste odağımız tamamen cebindeki parayı korumak. Müşterinin yazdığı yorumu, gelen şikâyeti ve iade gerekçesini yapay zekâ ile okuyacağız, hatayı da kaynağında çözeceğiz. Kaynak bazen ürünün kendisidir, bazen Listing yazısıdır, bazen fotoğraftır, bazen de kutunun kargodaki halidir. Kaynağı düzeltmezsen aynı şikâyet yarın yine düşer. Düşen her kötü yorum mağaza puanını aşağı çeker. Geri dönen her iade, kargo parasını senin sırtına yükler."
     ]
   },
   {
     "id": "cue-02",
-    "start": 82.307,
-    "end": 430.732,
+    "start": 75.943,
+    "end": 416.961,
     "text": "MÜŞTERİ YORUMLARI VE İADE",
     "section": "Müşteri yorumları ve iade",
     "paragraphs": [
@@ -32,8 +32,8 @@
   },
   {
     "id": "cue-03",
-    "start": 432.482,
-    "end": 541.385,
+    "start": 417.821,
+    "end": 532.497,
     "text": "PROMPT",
     "section": "Prompt",
     "paragraphs": [
@@ -45,8 +45,8 @@
   },
   {
     "id": "cue-04",
-    "start": 541.385,
-    "end": 566.527,
+    "start": 533.285,
+    "end": 555.197,
     "text": "DERS SONU ÖZETİ",
     "section": "Ders sonu özeti",
     "paragraphs": [
@@ -55,8 +55,8 @@
   },
   {
     "id": "cue-05",
-    "start": 566.527,
-    "end": 591.122,
+    "start": 556.051,
+    "end": 577.536,
     "text": "GELECEK DERS VE VEDA",
     "section": "Gelecek ders ve veda",
     "paragraphs": [
