@@ -8,11 +8,17 @@
 import { ACADEMY_CANON_SKU_SLUGS } from "../kernel/catalog-ids/course-slugs";
 
 /**
- * Canlı vitrin URL'si — amiral ve EC-102. Bu listedeki kanon slug 301 almaz.
+ * Canlı vitrin URL'si — amiral, EC-102, SM-103, BOT-104 ve PR-105. Bu listedeki kanon slug 301 almaz.
  * Kart kabuğu `pilot-sku` vitrin sırasında durur.
  * next.config yaprak kalsın; `@/` yok.
  */
-const ACADEMY_VITRINE_SLUGS = ["01_office_ai", "02_ecommerce_ai"] as const;
+const ACADEMY_VITRINE_SLUGS = [
+  "01_office_ai",
+  "02_ecommerce_ai",
+  "03_social_media_ai",
+  "04_chatbot_nocode",
+  "05_prompt_practice",
+] as const;
 
 /** Katalog biriminden (`course:python-temel`) türetilen eski vitrin slug'ları. */
 const ACADEMY_LEGACY_UNIT_SLUGS = [

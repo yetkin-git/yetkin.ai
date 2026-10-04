@@ -9,12 +9,12 @@ import {
   type AcademyCatalogSeed,
 } from "@/lib/academy/catalog-seed";
 import {
-  ACADEMY_EC102_PUBLIC_RELEASE_OPEN,
-  ACADEMY_NEXT_BODY_SKU_SLUG,
   ACADEMY_OFF201_STOREFRONT_SLUG,
   ACADEMY_VITRINE_SHELL_SKU_SLUGS,
   academyCatalogPurchasable,
   academyCourseNarrationPublished,
+  academyProductionLineReleaseOpen,
+  isAcademyProductionLineSkuSlug,
 } from "@/lib/academy/pilot-sku";
 import { ACADEMY_OFF201_DEFAULT_COVER } from "@/lib/academy/course-cover";
 import { OFF_201_TITLE } from "@/lib/academy/curricula/office_ai/off-201";
@@ -147,7 +147,7 @@ function confirmedVitrineCard(row: AcademyCourseWithPrice): AcademyCourseWithPri
  * PEDAGOJI §D 5'li Vitrin Karması.
  * `live` yalnız veritabanından okunmuş kurs satırlarıdır. Boş dizi, yayın teyidi yok demektir.
  * Satın Al: `is_published`, aktif fiyat ve beş katman disk mührü. Biri eksikse kart satın al demez.
- * Anlatımı bitmemiş kardeş «Çok Yakında»dır. EC-102 kamu kapısı kapalıyken aynı kabuğa düşer; kapı açıkken doğrulanmış satır satın alınır.
+ * Anlatımı bitmemiş kardeş «Çok Yakında»dır. Üretim hattı kamu kapısı kapalıyken aynı kabuğa düşer; kapı açıkken doğrulanmış satır satın alınır.
  * Anlatımı bitmiş ama satırı kapalı kurs «Yayında Değil»dir.
  */
 export function academyVitrineShellCourses(
@@ -175,7 +175,7 @@ export function academyVitrineShellCourses(
       continue;
     }
     if (
-      (slug === ACADEMY_NEXT_BODY_SKU_SLUG && !ACADEMY_EC102_PUBLIC_RELEASE_OPEN) ||
+      (isAcademyProductionLineSkuSlug(slug) && !academyProductionLineReleaseOpen(slug)) ||
       !academyCourseNarrationPublished(slug)
     ) {
       next.push(comingSoonAcademyCourseFromSeed(seed));

@@ -23,6 +23,18 @@ import {
   type EcommerceCinemaLesson,
 } from "@/lib/academy/curricula/02_ecommerce_ai/cinema-slides";
 import {
+  PR105_CINEMA_LESSONS,
+  type Pr105CinemaSlide,
+} from "@/lib/academy/curricula/pr-105/cinema-slides";
+import {
+  BOT104_CINEMA_LESSONS,
+  type Bot104CinemaSlide,
+} from "@/lib/academy/curricula/bot-104/cinema-slides";
+import {
+  SM103_CINEMA_LESSONS,
+  type Sm103CinemaSlide,
+} from "@/lib/academy/curricula/sm-103/cinema-slides";
+import {
   ACADEMY_GOLDEN_COMPARE_AFTER_LABEL,
   ACADEMY_GOLDEN_COMPARE_BEFORE_LABEL,
   ACADEMY_OFFICE_AI_1_COPILOT_PROMPT,
@@ -212,8 +224,6 @@ type LessonDraft = {
   cues: readonly OverlayDraft[];
 };
 
-const EMPTY_CUES: readonly OverlayDraft[] = [];
-
 const OFFICE = {
   theme: "office" as const,
   courseLabel: "Ofis AI · Excel Word PPT Outlook",
@@ -222,7 +232,7 @@ const OFFICE = {
 const COMMERCE = {
   theme: "commerce" as const,
   courseLabel: "E-Ticaret AI · Trendyol HB Amazon",
-  instructor: "Selin",
+  instructor: "Kaan",
 };
 
 function requireEcommerceCinemaLesson(key: string): EcommerceCinemaLesson {
@@ -232,20 +242,74 @@ function requireEcommerceCinemaLesson(key: string): EcommerceCinemaLesson {
   }
   return lesson;
 }
+
+function pr105CinemaCues(key: keyof typeof PR105_CINEMA_LESSONS): readonly OverlayDraft[] {
+  return PR105_CINEMA_LESSONS[key].slides.map((slide) => pr105CinemaCue(slide));
+}
+
+function pr105CinemaCue(slide: Pr105CinemaSlide): OverlayDraft {
+  const words = slide.headline.split(/\s+/u).filter((word) => word.length > 0);
+  return {
+    cueIndex: slide.cueIndex,
+    section: slide.section,
+    headline: slide.headline,
+    subhead: slide.section,
+    bullets: [slide.section],
+    tools: ["Sohbet kutusu"],
+    layout: "prompt",
+    nodes: words.map((word) => ({ title: word, sub: slide.section })),
+  };
+}
+
+function sm103CinemaCues(key: keyof typeof SM103_CINEMA_LESSONS): readonly OverlayDraft[] {
+  return SM103_CINEMA_LESSONS[key].slides.map((slide) => sm103CinemaCue(slide));
+}
+
+function sm103CinemaCue(slide: Sm103CinemaSlide): OverlayDraft {
+  const words = slide.headline.split(/\s+/u).filter((word) => word.length > 0);
+  return {
+    cueIndex: slide.cueIndex,
+    section: slide.section,
+    headline: slide.headline,
+    subhead: slide.section,
+    bullets: [slide.section],
+    tools: ["Telefon", "Sohbet kutusu"],
+    layout: "reels",
+    nodes: words.map((word) => ({ title: word, sub: slide.section })),
+  };
+}
+
+function bot104CinemaCues(key: keyof typeof BOT104_CINEMA_LESSONS): readonly OverlayDraft[] {
+  return BOT104_CINEMA_LESSONS[key].slides.map((slide) => bot104CinemaCue(slide));
+}
+
+function bot104CinemaCue(slide: Bot104CinemaSlide): OverlayDraft {
+  const words = slide.headline.split(/\s+/u).filter((word) => word.length > 0);
+  return {
+    cueIndex: slide.cueIndex,
+    section: slide.section,
+    headline: slide.headline,
+    subhead: slide.section,
+    bullets: [slide.section],
+    tools: ["Voiceflow", "Botpress", "WhatsApp"],
+    layout: "flow",
+    nodes: words.map((word) => ({ title: word, sub: slide.section })),
+  };
+}
 const SOCIAL = {
   theme: "social" as const,
   courseLabel: "Sosyal Medya AI · Reels Fabrikası",
-  instructor: "Deniz",
+  instructor: "Selin",
 };
 const BOT = {
   theme: "bot" as const,
   courseLabel: "Kodsuz Chatbot · Voiceflow Botpress",
-  instructor: "Kaan",
+  instructor: "Mert",
 };
 const PROMPT = {
   theme: "prompt" as const,
   courseLabel: "Prompt Mühendisliği · Doğru Talimat",
-  instructor: "Gözde",
+  instructor: "Oğuz",
 };
 
 /** 01_office_ai-1 Command beat — dağınık ızgara; temiz tablo yalnız Beat 3 sağ panelde. */
@@ -1904,24 +1968,24 @@ const LESSONS: Record<AcademyCinemaCueSlideLessonKey, LessonDraft> = {
   "02_ecommerce_ai-4": { ...COMMERCE, ...requireEcommerceCinemaLesson("02_ecommerce_ai-4") },
   "02_ecommerce_ai-5": { ...COMMERCE, ...requireEcommerceCinemaLesson("02_ecommerce_ai-5") },
   "02_ecommerce_ai-6": { ...COMMERCE, ...requireEcommerceCinemaLesson("02_ecommerce_ai-6") },
-  "03_social_media_ai-1": { ...SOCIAL, title: "Bir fikirden birkaç paylaşım", cues: EMPTY_CUES },
-  "03_social_media_ai-2": { ...SOCIAL, title: "Ürün görseli ve afiş", cues: EMPTY_CUES },
-  "03_social_media_ai-3": { ...SOCIAL, title: "Kısa video", cues: EMPTY_CUES },
-  "03_social_media_ai-4": { ...SOCIAL, title: "Açıklama metni", cues: EMPTY_CUES },
-  "03_social_media_ai-5": { ...SOCIAL, title: "Metni sadeleştir", cues: EMPTY_CUES },
-  "03_social_media_ai-6": { ...SOCIAL, title: "Haftalık yayın", cues: EMPTY_CUES },
-  "04_chatbot_nocode-1": { ...BOT, title: "Kaçan mesaj", cues: EMPTY_CUES },
-  "04_chatbot_nocode-2": { ...BOT, title: "Karşılama, soru ve randevu", cues: EMPTY_CUES },
-  "04_chatbot_nocode-3": { ...BOT, title: "WhatsApp bağlantısı", cues: EMPTY_CUES },
-  "04_chatbot_nocode-4": { ...BOT, title: "Yanlış anlama", cues: EMPTY_CUES },
-  "04_chatbot_nocode-5": { ...BOT, title: "Teslim listesi", cues: EMPTY_CUES },
-  "04_chatbot_nocode-6": { ...BOT, title: "İlk deneme", cues: EMPTY_CUES },
-  "05_prompt_practice-1": { ...PROMPT, title: "Kötü istem neden dağılır", cues: EMPTY_CUES },
-  "05_prompt_practice-2": { ...PROMPT, title: "İstem: rol, bağlam, biçim", cues: EMPTY_CUES },
-  "05_prompt_practice-3": { ...PROMPT, title: "Kaynakla özet", cues: EMPTY_CUES },
-  "05_prompt_practice-4": { ...PROMPT, title: "Yazı ve çeviri", cues: EMPTY_CUES },
-  "05_prompt_practice-5": { ...PROMPT, title: "Tablo ve plan", cues: EMPTY_CUES },
-  "05_prompt_practice-6": { ...PROMPT, title: "Günlük istem seti", cues: EMPTY_CUES },
+  "03_social_media_ai-1": { ...SOCIAL, title: SM103_CINEMA_LESSONS["03_social_media_ai-1"].title, cues: sm103CinemaCues("03_social_media_ai-1") },
+  "03_social_media_ai-2": { ...SOCIAL, title: SM103_CINEMA_LESSONS["03_social_media_ai-2"].title, cues: sm103CinemaCues("03_social_media_ai-2") },
+  "03_social_media_ai-3": { ...SOCIAL, title: SM103_CINEMA_LESSONS["03_social_media_ai-3"].title, cues: sm103CinemaCues("03_social_media_ai-3") },
+  "03_social_media_ai-4": { ...SOCIAL, title: SM103_CINEMA_LESSONS["03_social_media_ai-4"].title, cues: sm103CinemaCues("03_social_media_ai-4") },
+  "03_social_media_ai-5": { ...SOCIAL, title: SM103_CINEMA_LESSONS["03_social_media_ai-5"].title, cues: sm103CinemaCues("03_social_media_ai-5") },
+  "03_social_media_ai-6": { ...SOCIAL, title: SM103_CINEMA_LESSONS["03_social_media_ai-6"].title, cues: sm103CinemaCues("03_social_media_ai-6") },
+  "04_chatbot_nocode-1": { ...BOT, title: BOT104_CINEMA_LESSONS["04_chatbot_nocode-1"].title, cues: bot104CinemaCues("04_chatbot_nocode-1") },
+  "04_chatbot_nocode-2": { ...BOT, title: BOT104_CINEMA_LESSONS["04_chatbot_nocode-2"].title, cues: bot104CinemaCues("04_chatbot_nocode-2") },
+  "04_chatbot_nocode-3": { ...BOT, title: BOT104_CINEMA_LESSONS["04_chatbot_nocode-3"].title, cues: bot104CinemaCues("04_chatbot_nocode-3") },
+  "04_chatbot_nocode-4": { ...BOT, title: BOT104_CINEMA_LESSONS["04_chatbot_nocode-4"].title, cues: bot104CinemaCues("04_chatbot_nocode-4") },
+  "04_chatbot_nocode-5": { ...BOT, title: BOT104_CINEMA_LESSONS["04_chatbot_nocode-5"].title, cues: bot104CinemaCues("04_chatbot_nocode-5") },
+  "04_chatbot_nocode-6": { ...BOT, title: BOT104_CINEMA_LESSONS["04_chatbot_nocode-6"].title, cues: bot104CinemaCues("04_chatbot_nocode-6") },
+  "05_prompt_practice-1": { ...PROMPT, title: PR105_CINEMA_LESSONS["05_prompt_practice-1"].title, cues: pr105CinemaCues("05_prompt_practice-1") },
+  "05_prompt_practice-2": { ...PROMPT, title: PR105_CINEMA_LESSONS["05_prompt_practice-2"].title, cues: pr105CinemaCues("05_prompt_practice-2") },
+  "05_prompt_practice-3": { ...PROMPT, title: PR105_CINEMA_LESSONS["05_prompt_practice-3"].title, cues: pr105CinemaCues("05_prompt_practice-3") },
+  "05_prompt_practice-4": { ...PROMPT, title: PR105_CINEMA_LESSONS["05_prompt_practice-4"].title, cues: pr105CinemaCues("05_prompt_practice-4") },
+  "05_prompt_practice-5": { ...PROMPT, title: PR105_CINEMA_LESSONS["05_prompt_practice-5"].title, cues: pr105CinemaCues("05_prompt_practice-5") },
+  "05_prompt_practice-6": { ...PROMPT, title: PR105_CINEMA_LESSONS["05_prompt_practice-6"].title, cues: pr105CinemaCues("05_prompt_practice-6") },
 };
 
 function asSlide(

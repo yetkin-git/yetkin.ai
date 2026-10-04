@@ -12,7 +12,7 @@ import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 
 /**
  * Anayasa B4 Freemium ilkesi.
- * Üç canlı kursta ders 1 (OFF-101 hazırlık şeridiyle) oturumsuz açıktır.
+ * Altı canlı kursta ders 1 (OFF-101 hazırlık şeridiyle) oturumsuz açıktır.
  * İkinci ders kapalıdır. Yürürlükteki lisans onu açar; süre dolunca yeniden kilitlenir.
  * Önizlemenin süresi yoktur.
  */
@@ -50,6 +50,27 @@ const COURSES = [
     lesson1: "02_ecommerce_ai-1",
     lesson2: "02_ecommerce_ai-2",
   },
+  {
+    code: "SM-103",
+    slug: "03_social_media_ai",
+    prepKey: null,
+    lesson1: "03_social_media_ai-1",
+    lesson2: "03_social_media_ai-2",
+  },
+  {
+    code: "BOT-104",
+    slug: "04_chatbot_nocode",
+    prepKey: null,
+    lesson1: "04_chatbot_nocode-1",
+    lesson2: "04_chatbot_nocode-2",
+  },
+  {
+    code: "PR-105",
+    slug: "05_prompt_practice",
+    prepKey: null,
+    lesson1: "05_prompt_practice-1",
+    lesson2: "05_prompt_practice-2",
+  },
 ] as const;
 
 function settledPurchase(settledAt: Date, priceLockId = "price_freemium"): AcademyPurchaseRecord {
@@ -67,7 +88,7 @@ function settledPurchase(settledAt: Date, priceLockId = "price_freemium"): Acade
   };
 }
 
-describe("Freemium sözleşme — OFF-101, OFF-201, EC-102", () => {
+describe("Freemium sözleşme — OFF-101, OFF-201, EC-102, SM-103, BOT-104, PR-105", () => {
   afterEach(() => {
     if (ORIGINAL_ADMIN == null) {
       delete process.env.SUPER_ADMIN_USER_ID;

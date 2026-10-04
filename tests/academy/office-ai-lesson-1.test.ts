@@ -58,7 +58,10 @@ describe("01_office_ai bölüm 1 — insani ses ve çok katmanlı reji", () => {
     expect(lesson.key).toBe(KEY);
     expect(lesson.order).toBe(1);
     expect(lesson.title).toContain("Düzensiz Excel");
-    expect(lesson.body).toMatch(/Bu dersin sonunda düzensiz Excel'i düzenli tabloya çevirmeyi tek başına yapacaksın\. Sebebi şu:/u);
+    expect(lesson.body).toMatch(
+      /Bu dersin sonunda düzensiz Excel'i düzenli tabloya çevirmeyi tek başına yapacaksın\./u,
+    );
+    expect(lesson.body).toMatch(/Sebebi şu:/u);
     expect(lesson.body).toMatch(/Birbirine girmiş hücreler işi yavaşlatır, boş satırlar satır bütünlüğünü keser/u);
     expect(lesson.body).not.toMatch(/sistemin mantığını bozar/u);
     expect(lesson.body).toMatch(/A1 hücresi/u);

@@ -84,20 +84,32 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
   it("33 ders anahtarı durur; Excel slayt 1. 2. 5. 6. ve k1, pptx slayt 3., outlook slayt 4., gmail g1, word w1 açılır", () => {
     expect(ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS).toHaveLength(33);
     const slides = listAcademyCinemaCueSlides();
-    expect(slides).toHaveLength(103);
+    expect(slides).toHaveLength(193);
     expect(slides.filter((slide) => slide.lessonKey.startsWith("01_office_ai-"))).toHaveLength(72);
     expect(slides.filter((slide) => slide.lessonKey.startsWith("02_ecommerce_ai-"))).toHaveLength(31);
+    expect(slides.filter((slide) => slide.lessonKey.startsWith("03_social_media_ai-"))).toHaveLength(30);
+    expect(slides.filter((slide) => slide.lessonKey.startsWith("04_chatbot_nocode-"))).toHaveLength(30);
+    expect(slides.filter((slide) => slide.lessonKey.startsWith("05_prompt_practice-"))).toHaveLength(30);
     expect(
       slides.every(
         (slide) =>
-          slide.lessonKey.startsWith("01_office_ai-") || slide.lessonKey.startsWith("02_ecommerce_ai-"),
+          slide.lessonKey.startsWith("01_office_ai-") ||
+          slide.lessonKey.startsWith("02_ecommerce_ai-") ||
+          slide.lessonKey.startsWith("03_social_media_ai-") ||
+          slide.lessonKey.startsWith("04_chatbot_nocode-") ||
+          slide.lessonKey.startsWith("05_prompt_practice-"),
       ),
     ).toBe(true);
     for (const lessonKey of ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS) {
       if (lessonKey.startsWith("01_office_ai-")) {
         // 01_office_ai-4 cue JSON arşivdedir; canlı göz katmanı açılmaz.
         expect(hasAcademyLessonVisualStage(lessonKey)).toBe(lessonKey !== "01_office_ai-4");
-      } else if (lessonKey.startsWith("02_ecommerce_ai-")) {
+      } else if (
+        lessonKey.startsWith("02_ecommerce_ai-") ||
+        lessonKey.startsWith("03_social_media_ai-") ||
+        lessonKey.startsWith("04_chatbot_nocode-") ||
+        lessonKey.startsWith("05_prompt_practice-")
+      ) {
         expect(hasAcademyLessonVisualStage(lessonKey)).toBe(true);
       } else {
         expect(hasAcademyLessonVisualStage(lessonKey)).toBe(false);

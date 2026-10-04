@@ -23,6 +23,7 @@ export function loadAcademyLessonMediaPrime(
     ],
     paywallLocked: options.paywallLocked === true,
     openLessonKeys: options.openLessonKeys,
+    courseSlug: slug,
   });
   const cues: Record<string, unknown> = {};
   const timings: Record<string, unknown> = {};

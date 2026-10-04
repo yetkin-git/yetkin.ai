@@ -6,12 +6,18 @@
 
 import { academyMicroVideoPublicSources } from "@/lib/academy/lesson-media";
 import {
-  ACADEMY_EC102_PUBLIC_RELEASE_OPEN,
+  ACADEMY_BOT104_STOREFRONT_COVER,
+  ACADEMY_BOT104_STOREFRONT_SLUG,
   ACADEMY_EC102_STOREFRONT_COVER,
   ACADEMY_FLAGSHIP_SKU_SLUG,
   ACADEMY_NEXT_BODY_SKU_SLUG,
   ACADEMY_OFF201_STOREFRONT_SLUG,
+  ACADEMY_PR105_STOREFRONT_COVER,
+  ACADEMY_PR105_STOREFRONT_SLUG,
+  ACADEMY_SM103_STOREFRONT_COVER,
+  ACADEMY_SM103_STOREFRONT_SLUG,
   academyCourseNarrationPublished,
+  academyProductionLineReleaseOpen,
   isAcademyGrowthSkuSlug,
   isAcademyProductionLineSkuSlug,
 } from "@/lib/academy/pilot-sku";
@@ -30,7 +36,7 @@ export const ACADEMY_OFF201_DEFAULT_COVER = "/academy/covers/01_office_ai_ileri.
 
 /**
  * Amiral 1. bölüm vitrin dakikası.
- * Mühürlü konuşma `01_office_ai-1` 707.016 sn; antre ve oynatıcı
+ * Mühürlü konuşma `01_office_ai-1` 696.951 sn; antre ve oynatıcı
  * `academyMediaDurationMin(academySealedAudioDurationSec)` ile 12 dk basar.
  */
 export const ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN = 12 as const;
@@ -68,7 +74,7 @@ export function academyCourseHasCinemaCover(slug: string): boolean {
 
 /** Vitrin SKU — ses mührü bitmemiş kardeş şeffaf Yakında şablonuna düşer. */
 export function academyCourseIsComingSoon(slug: string): boolean {
-  if (slug === ACADEMY_NEXT_BODY_SKU_SLUG && !ACADEMY_EC102_PUBLIC_RELEASE_OPEN) {
+  if (isAcademyProductionLineSkuSlug(slug) && !academyProductionLineReleaseOpen(slug)) {
     return true;
   }
   if (academyCourseNarrationPublished(slug)) {
@@ -88,6 +94,15 @@ export function academyCourseCoverPath(slug: string): string | null {
   }
   if (slug === ACADEMY_NEXT_BODY_SKU_SLUG) {
     return ACADEMY_EC102_STOREFRONT_COVER;
+  }
+  if (slug === ACADEMY_SM103_STOREFRONT_SLUG) {
+    return ACADEMY_SM103_STOREFRONT_COVER;
+  }
+  if (slug === ACADEMY_BOT104_STOREFRONT_SLUG) {
+    return ACADEMY_BOT104_STOREFRONT_COVER;
+  }
+  if (slug === ACADEMY_PR105_STOREFRONT_SLUG) {
+    return ACADEMY_PR105_STOREFRONT_COVER;
   }
   if (academyCourseHasCinemaCover(slug)) {
     return `/academy/cinema/${FLAGSHIP_CINEMA_COVER_STEM}.webp`;

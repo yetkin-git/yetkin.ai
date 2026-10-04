@@ -2,6 +2,8 @@
 /**
  * Her app/api route.ts dosyasi `export const auth` tasimak zorundadir.
  * Kenar K6 haritasi: lib/kernel/security/route-auth-map.ts (grup klasorleri URL'de yoktur).
+ * --check: üretilen haritayı diske yazmaz. Git'teki dosya saparsa exit 1.
+ * CI bu bayrağı `verify:prebuild` içinde koşar. Yazmak için: npm run verify:api-auth
  */
 
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
@@ -11,6 +13,12 @@ import { API_AUTH_KINDS, isApiAuthKind, toPublicApiPath } from "@/lib/kernel/sec
 const ROOT = process.cwd();
 const API_DIR = join(ROOT, "app", "api");
 const AUTH_EXPORT_REGEX = /export\s+const\s+auth\s*=\s*["']([^"']+)["']/;
+const CHECK = process.argv.includes("--check");
+const ROUTE_AUTH_MAP_PATH = join(ROOT, "lib", "kernel", "security", "route-auth-map.ts");
+
+function normalizeNewlines(value: string): string {
+  return value.replace(/\r\n/g, "\n");
+}
 
 function walk(dir: string): string[] {
   if (!existsSync(dir)) {
@@ -62,19 +70,11 @@ if (invalid.length > 0) {
 
 const sorted = Object.fromEntries(Object.keys(map).sort().map((key) => [key, map[key]!]));
 
-const outDir = join(ROOT, "generated");
-if (!existsSync(outDir)) {
-  mkdirSync(outDir, { recursive: true });
-}
-writeFileSync(join(outDir, "route-auth-map.json"), `${JSON.stringify(sorted, null, 2)}\n`);
-
 const entries = Object.entries(sorted)
   .map(([path, kind]) => `  ${JSON.stringify(path)}: ${JSON.stringify(kind)}`)
   .join(",\n");
 
-writeFileSync(
-  join(ROOT, "lib", "kernel", "security", "route-auth-map.ts"),
-  `/**
+const routeAuthMapSource = `/**
  * Üretir: npm run verify:api-auth
  * Kenar K6 bu haritayı okur. Route grupları ((kernel)) URL'de yoktur.
  */
@@ -83,13 +83,36 @@ ${entries}
 } as const;
 
 export type RouteAuthPath = keyof typeof ROUTE_AUTH_MAP;
-`,
-);
+`;
 
 const counts = Object.fromEntries(API_AUTH_KINDS.map((kind) => [kind, 0]));
 for (const kind of Object.values(sorted)) {
   counts[kind] = (counts[kind] ?? 0) + 1;
 }
+
+if (CHECK) {
+  const onDisk = existsSync(ROUTE_AUTH_MAP_PATH) ? readFileSync(ROUTE_AUTH_MAP_PATH, "utf8") : "";
+  if (normalizeNewlines(onDisk) !== normalizeNewlines(routeAuthMapSource)) {
+    console.error(
+      [
+        "verify:api-auth --check BAŞARISIZ: lib/kernel/security/route-auth-map.ts route'larla örtüşmüyor.",
+        "Kenar bu dosyayı okur. Yeniden yazıp commit et: npm run verify:api-auth",
+      ].join("\n"),
+    );
+    process.exit(1);
+  }
+  console.log(
+    `verify:api-auth --check OK — ${files.length} route. ${JSON.stringify(counts)}`,
+  );
+  process.exit(0);
+}
+
+const outDir = join(ROOT, "generated");
+if (!existsSync(outDir)) {
+  mkdirSync(outDir, { recursive: true });
+}
+writeFileSync(join(outDir, "route-auth-map.json"), `${JSON.stringify(sorted, null, 2)}\n`);
+writeFileSync(ROUTE_AUTH_MAP_PATH, routeAuthMapSource);
 
 console.log(
   `verify:api-auth OK — ${files.length} route. ${JSON.stringify(counts)}`,

@@ -33,8 +33,16 @@ describe("akademi vitrin kapak — amiral 1. bölüm + Yakında şablonu", () =>
     expect(isAcademyCinemaCoverPath(flagship!)).toBe(true);
     expect(academyCourseHasCinemaCover(ACADEMY_FLAGSHIP_SKU_SLUG)).toBe(true);
     expect(academyCourseIsComingSoon(ACADEMY_FLAGSHIP_SKU_SLUG)).toBe(false);
-    expect(academyCourseIsComingSoon("05_prompt_practice")).toBe(true);
-    expect(academyCourseCoverPath("05_prompt_practice")).toBeNull();
+    expect(academyCourseIsComingSoon("05_prompt_practice")).toBe(false);
+    expect(academyCourseCoverPath("05_prompt_practice")).toBe(
+      "/academy/cinema/05_prompt_practice-1-cue-1.jpg",
+    );
+    expect(academyCourseCoverPath("03_social_media_ai")).toBe(
+      "/academy/cinema/03_social_media_ai-1-cue-1.jpg",
+    );
+    expect(academyCourseCoverPath("04_chatbot_nocode")).toBe(
+      "/academy/cinema/04_chatbot_nocode-1-cue-1.jpg",
+    );
     expect(academyCourseCoverAvifPath(ACADEMY_FLAGSHIP_SKU_SLUG)).toBe(
       "/academy/cinema/01_office_ai-1-eye.avif",
     );

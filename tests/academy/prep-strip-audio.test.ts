@@ -229,14 +229,14 @@ describe("Ders 0 fırın işi + 101 dokunulmazlığı", () => {
     expect(job.publicPath).toContain("/media/academy/audio/01_office_ai/01_office_ai-0.mp3");
   });
 
-  it("101 mührü değişmez: 8 ders, 8 kaset; toplam mühür 20; 8 konuşma metni, 33 sinema anahtarı", () => {
+  it("101 mührü değişmez: 8 ders, 8 kaset; toplam mühür 38; 8 konuşma metni, 33 sinema anahtarı", () => {
     expect(ACADEMY_MEDIA_SEALED_AUDIO["01_office_ai"]).toHaveLength(8);
-    expect(academyMediaSealedWavCount()).toBe(20);
+    expect(academyMediaSealedWavCount()).toBe(38);
     expect(ACADEMY_SPOKEN_SCRIPT_LESSON_KEYS).toHaveLength(8);
     expect(isAcademySpokenScriptLessonKey(KEY)).toBe(false);
     expect(curriculumForCourseSlug(SLUG)).toHaveLength(8);
     expect(ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS).toHaveLength(33);
     const total = academyCourseSealedDurationSec(SLUG);
-    expect(Math.abs(total - 4880.862)).toBeLessThanOrEqual(0.01);
+    expect(Math.abs(total - 4870.797)).toBeLessThanOrEqual(0.01);
   });
 });

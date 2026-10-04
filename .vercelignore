@@ -3,9 +3,15 @@
 .next
 node_modules
 yetkin_muze
-media-bake
+media-bake/
+media-bake/**
+.tmp/
+.tmp/**
+temp/
+tmp/
 public/media/academy/audio/**/*.wav
-.tmp
+public/media/**/*.wav
+public/media/**/*.hardmix.tmp.mp3
 .cursor
 coverage
 test-results

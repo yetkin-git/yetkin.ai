@@ -9,6 +9,7 @@
  *
  *   npx tsx scripts/hard-mix-academy-bed.ts
  *   npx tsx scripts/hard-mix-academy-bed.ts --slug=01_office_ai
+ *   npx tsx scripts/hard-mix-academy-bed.ts --slug=01_office_ai --key=01_office_ai-1
  */
 import { spawnSync } from "node:child_process";
 import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync, unlinkSync, writeFileSync } from "node:fs";
@@ -30,6 +31,7 @@ const require = createRequire(import.meta.url);
 const SLUG =
   process.argv.find((part) => part.startsWith("--slug="))?.slice("--slug=".length)?.trim() ||
   "01_office_ai_ileri";
+const KEY = process.argv.find((part) => part.startsWith("--key="))?.slice("--key=".length)?.trim() || "";
 const ROOT = process.cwd();
 const PUBLIC_DIR = join(ROOT, "public", "media", "academy", "audio", SLUG);
 const WAV_DIR = join(ROOT, "media-bake", "academy", "audio", SLUG);
@@ -167,7 +169,7 @@ function measureLufs(filePath: string): string {
 
 const rows: string[] = [];
 const lessonKeys = ACADEMY_BED_HARD_MIX_LESSON_KEYS.filter((lessonKey) =>
-  lessonKey.startsWith(`${SLUG}-`),
+  lessonKey.startsWith(`${SLUG}-`) && (KEY.length === 0 || lessonKey === KEY),
 );
 if (lessonKeys.length === 0) {
   throw new Error(`hard-mix dersi yok: ${SLUG}`);

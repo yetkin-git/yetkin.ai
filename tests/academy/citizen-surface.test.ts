@@ -74,9 +74,9 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     const copy = SEN_VOICE.academy;
     const ledgerLeak = /SETTLED|amountMinor|CheckoutPriceLock|settlement|debit|escrow/i;
     expect(copy.catalog.description).toContain("Dersler ödeme sonrası açılır");
-    expect(copy.catalog.description).toContain("hazırlanıyor");
+    expect(copy.catalog.description).toContain("yayındadır");
     expect(copy.catalog.description).not.toContain("fırın");
-    expect(copy.catalog.stats).toBe("3 eğitim yayında · 3 eğitim çok yakında");
+    expect(copy.catalog.stats).toBe("6 eğitim yayında");
     expect(copy.catalog.description).not.toContain("13 eğitim");
     expect(copy.catalog.description).not.toMatch(ledgerLeak);
     expect(copy.catalog.cardCtaBuy).toBe("Satın Al");

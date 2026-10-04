@@ -50,11 +50,24 @@ function runFfmpeg(args: string[]): { status: number | null; stderr: string } {
 export type AcademySpeechMasterOptions = {
   /** Konuşma parçasında WSOLA. Birleşik zaman çizelgesinde `false`. */
   atempo?: boolean;
+  /**
+   * WSOLA katsayısı. Verilmezse `ACADEMY_BAKE_ATEMPO` (0.93).
+   * PR-105 Aşama 2 fırını 0.92 verir. Diğer kurslar varsayılanı okur.
+   */
+  tempo?: number;
 };
+
+function resolveAcademyBakeAtempo(tempo: number | undefined): number {
+  const rate = tempo ?? ACADEMY_BAKE_ATEMPO;
+  if (!Number.isFinite(rate) || rate < 0.5 || rate > 2) {
+    throw new Error(`atempo aralık dışı: ${rate}. API çağrısı yok.`);
+  }
+  return rate;
+}
 
 /**
  * 48 kHz mono PCM16 + EBU R128. Tarak filtresi ve tanh yok.
- * `atempo` açıksa ffmpeg WSOLA `atempo=0.93` loudnorm'dan önce gelir.
+ * `atempo` açıksa ffmpeg WSOLA loudnorm'dan önce gelir. Varsayılan katsayı 0.93.
  * soxr yoksa swr `aresample` yedeği aynı seviyeyi basar.
  */
 export function masterAcademySpeechWav(
@@ -62,7 +75,7 @@ export function masterAcademySpeechWav(
   options?: AcademySpeechMasterOptions,
 ): Buffer {
   const applyAtempo = options?.atempo ?? true;
-  const tempo = applyAtempo ? `atempo=${ACADEMY_BAKE_ATEMPO},` : "";
+  const tempo = applyAtempo ? `atempo=${resolveAcademyBakeAtempo(options?.tempo)},` : "";
   const dir = mkdtempSync(join(tmpdir(), "yetkin-tts-"));
   const input = join(dir, "in.wav");
   const output = join(dir, "out.wav");

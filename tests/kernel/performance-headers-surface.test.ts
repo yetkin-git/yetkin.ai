@@ -29,8 +29,10 @@ describe("amiral performans mühürleri — Gzip / cache / istek", () => {
   it("kenar matcher statik gövdeyi worker dışına alır", () => {
     const proxy = readSrc("proxy.ts");
     expect(proxy).toContain("favicon.ico|media/");
+    expect(proxy).toContain("academy/cinema/");
+    expect(proxy).toContain("/media/academy/audio/:path*");
     expect(proxy).toContain("icon.svg|apple-icon.png");
-    expect(proxy).toContain("ico|png|jpg|jpeg|gif|webp|avif|svg|woff|woff2|ttf|otf|mp3|mp4");
+    expect(proxy).toContain("ico|png|jpg|jpeg|gif|webp|avif|svg|woff|woff2|ttf|otf|mp3|mp4|wav|webm");
   });
 
   it("TTFB: Frankfurt kökeni, nonce connection, çerezsiz Auth atlanır", () => {
@@ -49,6 +51,18 @@ describe("amiral performans mühürleri — Gzip / cache / istek", () => {
     expect(config).toContain("./generated/prisma/**");
     expect(config).not.toContain("publicHtmlPrismaTraceExcludes");
     expect(config).toContain("./node_modules/@prisma/adapter-pg/**");
+    expect(config).toContain("./public/media/**/*");
+    expect(config).toContain("./public/academy/cinema/**/*");
+    expect(config).toContain("./media-bake/**/*");
+    expect(config).toContain('"/_middleware"');
+    expect(readSrc(".vercelignore")).toContain("media-bake/");
+    expect(readSrc(".vercelignore")).toContain(".tmp/");
+    expect(readSrc(".vercelignore")).toContain("public/media/**/*.wav");
+    expect(readSrc("lib/academy/production-seal-disk.ts")).toContain("turbopackIgnore: true");
+    expect(readSrc("lib/academy/production-seal-disk.ts")).not.toContain(
+      "join(process.cwd(), relativePath)",
+    );
+    expect(readSrc("package.json")).toContain("generate:production-seal-manifest");
   });
 
   it("kamu yasal nav prefetch basmaz; mailto Cloudflare decode tetiklemez", () => {

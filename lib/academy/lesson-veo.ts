@@ -24,6 +24,12 @@ export const ACADEMY_OFF201_WARMUP_CACHE_V = 8000 as const;
 export const ACADEMY_EC102_LISTING_WARMUP_KEY = "02_ecommerce_ai-listing-warmup" as const;
 /** EC-102 ders 3–6. Kaset `public/media/academy/micro/02_ecommerce_ai-ops-warmup.mp4`. */
 export const ACADEMY_EC102_OPS_WARMUP_KEY = "02_ecommerce_ai-ops-warmup" as const;
+/** SM-103 ders 1–6. Kaset `public/media/academy/micro/03_social_media_ai-warmup.mp4`. */
+export const ACADEMY_SM103_WARMUP_KEY = "03_social_media_ai-warmup" as const;
+/** BOT-104 ders 1–6. Kaset `public/media/academy/micro/04_chatbot_nocode-warmup.mp4`. */
+export const ACADEMY_BOT104_WARMUP_KEY = "04_chatbot_nocode-warmup" as const;
+/** PR-105 ders 1–6. Kaset `public/media/academy/micro/05_prompt_practice-warmup.mp4`. */
+export const ACADEMY_PR105_WARMUP_KEY = "05_prompt_practice-warmup" as const;
 /** Eski Lite kimliği. Otomatik çağrı iptal; sabit yalnız reddetmek için durur. */
 export const ACADEMY_VEO_BAKE_MODEL = "veo-3.1-lite-generate-preview" as const;
 /** Pahalı Veo 3.1 kimliği. Otomatik çağrı iptal (PEDAGOJI §E.4). */
@@ -130,6 +136,33 @@ const EC102_OPS_WARMUP_LESSON_KEYS = [
   "02_ecommerce_ai-6",
 ] as const;
 
+const SM103_WARMUP_LESSON_KEYS = [
+  "03_social_media_ai-1",
+  "03_social_media_ai-2",
+  "03_social_media_ai-3",
+  "03_social_media_ai-4",
+  "03_social_media_ai-5",
+  "03_social_media_ai-6",
+] as const;
+
+const BOT104_WARMUP_LESSON_KEYS = [
+  "04_chatbot_nocode-1",
+  "04_chatbot_nocode-2",
+  "04_chatbot_nocode-3",
+  "04_chatbot_nocode-4",
+  "04_chatbot_nocode-5",
+  "04_chatbot_nocode-6",
+] as const;
+
+const PR105_WARMUP_LESSON_KEYS = [
+  "05_prompt_practice-1",
+  "05_prompt_practice-2",
+  "05_prompt_practice-3",
+  "05_prompt_practice-4",
+  "05_prompt_practice-5",
+  "05_prompt_practice-6",
+] as const;
+
 export function academyLessonWarmupVeoAssetKey(lessonKey: string): string | null {
   const key = lessonKey.trim();
   if ((OFF201_WARMUP_VEO_LESSON_KEYS as readonly string[]).includes(key)) {
@@ -140,6 +173,15 @@ export function academyLessonWarmupVeoAssetKey(lessonKey: string): string | null
   }
   if ((EC102_OPS_WARMUP_LESSON_KEYS as readonly string[]).includes(key)) {
     return ACADEMY_EC102_OPS_WARMUP_KEY;
+  }
+  if ((SM103_WARMUP_LESSON_KEYS as readonly string[]).includes(key)) {
+    return ACADEMY_SM103_WARMUP_KEY;
+  }
+  if ((BOT104_WARMUP_LESSON_KEYS as readonly string[]).includes(key)) {
+    return ACADEMY_BOT104_WARMUP_KEY;
+  }
+  if ((PR105_WARMUP_LESSON_KEYS as readonly string[]).includes(key)) {
+    return ACADEMY_PR105_WARMUP_KEY;
   }
   return (WARMUP_VEO_LESSON_KEYS as readonly string[]).includes(key)
     ? ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY
@@ -152,6 +194,9 @@ export function academyLessonWarmupVeoCueId(lessonKey: string): string | null {
     (WARMUP_VEO_LESSON_KEYS as readonly string[]).includes(key) ||
     (OFF201_WARMUP_VEO_LESSON_KEYS as readonly string[]).includes(key) ||
     (EC102_LISTING_WARMUP_LESSON_KEYS as readonly string[]).includes(key) ||
-    (EC102_OPS_WARMUP_LESSON_KEYS as readonly string[]).includes(key);
+    (EC102_OPS_WARMUP_LESSON_KEYS as readonly string[]).includes(key) ||
+    (SM103_WARMUP_LESSON_KEYS as readonly string[]).includes(key) ||
+    (BOT104_WARMUP_LESSON_KEYS as readonly string[]).includes(key) ||
+    (PR105_WARMUP_LESSON_KEYS as readonly string[]).includes(key);
   return bound ? "cue-01" : null;
 }

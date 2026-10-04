@@ -1,7 +1,9 @@
 /**
  * Yapay zekâ eğitimi üretim ve doygunluk standardı — PEDAGOJI.md §D.1 ve §E.
  * Belgede §F yoktur. Mühür tabanı buradadır: ders en az 5 dakika, kurs en az 6 ders.
+ * Konuşma tabanı 600 kelimedir. 600 kelime, 5 dakikalık sakin konuşmadır.
  * Üst dakika dayatması yoktur. TTS bütçe tavanı vardır: kurs 100 istek, ders 10–12 istek.
+ * spokenScript taşıyan section dosyası bu alanı düz metin olarak taşır. BOM, uyumsuz bayt ve U+FFFD fail-closed.
  * Vitrin kartındaki dakika yuvarlaması `lesson-meta.ts` içindedir; bu dosya mühür tabanıdır.
  * Beş katman disk okuyucusu `production-seal-disk.ts` kaydeder. Bu dosya `node:fs` import etmez.
  */
@@ -11,6 +13,7 @@ import {
   ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY,
   academyLessonWarmupVeoAssetKey,
 } from "@/lib/academy/lesson-veo";
+import { countAcademyMarkdownWords } from "@/lib/academy/word-count";
 
 export const ACADEMY_AI_COURSE_DURATION_MIN_MINUTES = 45;
 /** Mühür tabanı. Spot kaset kurs sayılmaz. Ders adedi TTS bütçesine (100 istek) sığar. */
@@ -19,6 +22,11 @@ export const ACADEMY_AI_LESSON_COUNT_MIN = 6;
 export const ACADEMY_AI_LESSON_DURATION_MIN_MINUTES = 5;
 /** 5 dk × 60 — mühürlü kaset alt tabanı (saniye). */
 export const ACADEMY_AI_LESSON_DURATION_MIN_SEC = ACADEMY_AI_LESSON_DURATION_MIN_MINUTES * 60;
+/**
+ * Sakin konuşma tabanı. Her dersin konuşma metni en az bu kadar kelimedir.
+ * 600 kelime, 5 dakikadır. Dakika hesabı bu iki sabitten türer.
+ */
+export const ACADEMY_AI_LESSON_SPOKEN_WORD_MIN = 600;
 
 /**
  * 1 Maç = MAX 100 Düdük.
@@ -291,6 +299,96 @@ export function isAcademyAiLessonDurationMinutes(minutes: number): boolean {
 
 export function isAcademyAiLessonDurationSec(seconds: number): boolean {
   return Number.isFinite(seconds) && seconds >= ACADEMY_AI_LESSON_DURATION_MIN_SEC;
+}
+
+/** Sakin konuşma. 600 kelime / 5 dakika. Tempo katsayısı bu oran değildir. */
+export function academyCalmSpeechWordsPerMinute(): number {
+  return ACADEMY_AI_LESSON_SPOKEN_WORD_MIN / ACADEMY_AI_LESSON_DURATION_MIN_MINUTES;
+}
+
+/** Konuşma dakikası. Kelime tabanı ve dakika tabanı dışında bir hız burada durmaz. */
+export function academySpokenMinutesFromWordCount(wordCount: number): number {
+  if (!Number.isFinite(wordCount) || wordCount < 1) {
+    throw new Error("Konuşma kelime sayısı boş.");
+  }
+  const perMinute = academyCalmSpeechWordsPerMinute();
+  return Math.round((wordCount / perMinute) * 10) / 10;
+}
+
+export function isAcademyAiLessonSpokenWordCount(count: number): boolean {
+  return Number.isInteger(count) && count >= ACADEMY_AI_LESSON_SPOKEN_WORD_MIN;
+}
+
+/** 600 kelimenin altı fail-closed. Fırın açılmaz. */
+export function assertAcademyAiLessonSpokenWordCount(count: number, lessonLabel: string): void {
+  const label = lessonLabel.trim() || "ders";
+  if (isAcademyAiLessonSpokenWordCount(count)) return;
+  const shown = Number.isFinite(count) ? String(count) : "geçersiz";
+  throw new Error(
+    `${label} konuşma metni ${shown} kelime. Taban ${ACADEMY_AI_LESSON_SPOKEN_WORD_MIN} kelime. Fail-closed. Fırın açılmaz.`,
+  );
+}
+
+/** 6 dersten azı fail-closed. Fırın açılmaz. */
+export function assertAcademyAiLessonCount(count: number, courseLabel: string): void {
+  const label = courseLabel.trim() || "eğitim";
+  if (isAcademyAiLessonCount(count)) return;
+  const shown = Number.isFinite(count) ? String(count) : "geçersiz";
+  throw new Error(
+    `${label} ders sayısı ${shown}. Taban ${ACADEMY_AI_LESSON_COUNT_MIN} ders. Fail-closed. Fırın açılmaz.`,
+  );
+}
+
+const ACADEMY_SECTION_SPOKEN_SCRIPT =
+  /(?:^|[\r\n])[ \t]*(?:export[ \t]+)?const[ \t]+spokenScript[ \t]*=[ \t]*`([\s\S]*?)`[ \t]*;/u;
+
+/** Dosya gövdesindeki düz `spokenScript` metni. Dolaylı `${...}` fail-closed. */
+export function academySpokenScriptFromSectionSource(source: string, lessonLabel: string): string {
+  const label = lessonLabel.trim() || "ders";
+  const body = source.match(ACADEMY_SECTION_SPOKEN_SCRIPT)?.[1];
+  if (body === undefined) {
+    throw new Error(`${label} spokenScript alanı yok. Fail-closed. Fırın açılmaz.`);
+  }
+  if (body.includes("${")) {
+    throw new Error(`${label} spokenScript dolaylı ifade taşıyor. Fail-closed. Fırın açılmaz.`);
+  }
+  return body;
+}
+
+/** `spokenScript` en az 600 kelimedir. Altı fail-closed. */
+export function assertAcademySectionSpokenScriptSource(source: string, lessonLabel: string): number {
+  const words = countAcademyMarkdownWords(academySpokenScriptFromSectionSource(source, lessonLabel));
+  assertAcademyAiLessonSpokenWordCount(words, lessonLabel);
+  return words;
+}
+
+/** Metindeki U+FFFD fail-closed. Bayt denetimi `assertAcademyUtf8SourceBytes`. */
+export function assertAcademyUtf8Text(text: string, label: string): void {
+  const name = label.trim() || "dosya";
+  if (text.includes("\uFFFD")) {
+    throw new Error(`${name} bozuk karakter taşıyor. Fail-closed. Fırın açılmaz.`);
+  }
+}
+
+/**
+ * UTF-8, BOM'suz. Uyumsuz bayt veya bozuk karakter fail-closed.
+ * Bu fonksiyon diski okumaz. Baytı çağıran verir.
+ */
+export function assertAcademyUtf8SourceBytes(bytes: Uint8Array, label: string): void {
+  const name = label.trim() || "dosya";
+  const b0 = bytes[0];
+  const b1 = bytes[1];
+  const b2 = bytes[2];
+  if (b0 === 0xef && b1 === 0xbb && b2 === 0xbf) {
+    throw new Error(`${name} UTF-8 BOM taşıyor. Fail-closed. Fırın açılmaz.`);
+  }
+  let text: string;
+  try {
+    text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } catch {
+    throw new Error(`${name} UTF-8 uyumsuz bayt taşıyor. Fail-closed. Fırın açılmaz.`);
+  }
+  assertAcademyUtf8Text(text, name);
 }
 
 export function academyLessonSaturationTotalMinutes(): number {

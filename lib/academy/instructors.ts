@@ -33,6 +33,7 @@ export const ACADEMY_INSTRUCTOR_TTS_VOICES = [
   "Leda",
   "Callirrhoe",
   "Kore",
+  "Achird",
 ] as const;
 
 export const ACADEMY_TTS_VOICES = [
@@ -203,11 +204,11 @@ export const ACADEMY_OFF201_COURSE_MASTER_VOICE = "Kore" as const satisfies Acad
 
 /**
  * EC-102 kurs mührü. 1 Eğitim Kodu = 1 Ses.
- * Fırın modeli `academyBakeVoiceModelId()`. Konuşan ad Selin, selam «Merhaba, ben Selin».
- * Kadın ses yuvası Aoede'dir. Kart hitabı «Selin Hanım». Usta unvanı bu kursta yoktur.
- * Zephyr sicil adı Deniz'dir; Puck sicil adı Kaan'dır. EC-102 o ağızlara bağlanmaz.
+ * Fırın modeli `academyBakeVoiceModelId()`. Konuşan ad Kaan, selam «Merhaba, ben Kaan».
+ * Erkek ses yuvası Puck'tır. Kart hitabı «Kaan Bey». Usta unvanı bu kursta yoktur.
+ * Zephyr sicil adı Deniz'dir; Aoede sicil adı Selin'dir. EC-102 o ağızlara bağlanmaz.
  */
-export const ACADEMY_EC102_COURSE_MASTER_VOICE = "Aoede" as const satisfies AcademyInstructorTtsVoice;
+export const ACADEMY_EC102_COURSE_MASTER_VOICE = "Puck" as const satisfies AcademyInstructorTtsVoice;
 
 export function academyEcommerceBakeVoice(): AcademyInstructorTtsVoice {
   return ACADEMY_EC102_COURSE_MASTER_VOICE;
@@ -391,6 +392,18 @@ export const ACADEMY_INSTRUCTORS_BY_VOICE: Record<AcademyInstructorTtsVoice, Aca
     roleTitle: "Kıdemli Ofis ve Yapay Zekâ Eğitmeni",
     bio: "Ofis işinde yapay zekâ eğitmeniyim. Kıdemli Ofis ve Yapay Zekâ Eğitmeni olarak belge, tablo ve e-posta işini tane tane kuruyorum.",
   },
+  Achird: {
+    voice: "Achird",
+    voiceFingerprint: academyVoiceFingerprint("Achird"),
+    name: "Mert",
+    title: "Kıdemli Otomasyon ve Chatbot Eğitmeni",
+    gender: "erkek",
+    tone: "pratik",
+    toneLabel: "Erkek / Samimi",
+    greetingLead: "Merhaba, ben Mert",
+    roleTitle: "Kıdemli Otomasyon ve Chatbot Eğitmeni",
+    bio: "Kodsuz otomasyon ve diyalog sistemleri uzmanıyım. Kıdemli Otomasyon ve Chatbot Eğitmeni olarak Voiceflow, Botpress ve WhatsApp hattını sahada kuruyorum.",
+  },
 };
 
 /** SKU → ses. İsim sesten okunur; sluga ikinci isim yazılmaz. */
@@ -399,10 +412,13 @@ export const ACADEMY_INSTRUCTOR_VOICE_BY_SLUG: Record<
   AcademyInstructorTtsVoice
 > = {
   "01_office_ai": "Callirrhoe",
-  "02_ecommerce_ai": "Aoede",
-  "03_social_media_ai": "Zephyr",
-  "04_chatbot_nocode": "Puck",
-  "05_prompt_practice": "Callirrhoe",
+  "02_ecommerce_ai": ACADEMY_EC102_COURSE_MASTER_VOICE,
+  /** SM-103 anlatıcısı Selin. Ağzı Aoede'dir. */
+  "03_social_media_ai": "Aoede",
+  /** BOT-104 anlatıcısı Mert. Ağzı Achird'dir (erkek). Zephyr Google kataloğunda kadındır; bu kursa bağlanmaz. */
+  "04_chatbot_nocode": "Achird",
+  /** PR-105 anlatıcısı Oğuz. Ağzı Fenrir'dir. Sicil adı Boran kalır. */
+  "05_prompt_practice": "Fenrir",
   "06_n8n_automation": "Zephyr",
   "07_langgraph_agents": "Fenrir",
   "08_production_rag": "Erinome",
@@ -646,9 +662,13 @@ export function assertAcademyCourseVoiceConfig(
 }
 
 /**
- * Aynı ağız iki kursta durabilir. Vitrin unvanı kursa göredir.
- * EC-102 anlatıcısı Selin'dir (Aoede). Selam «Merhaba, ben Selin». Kart hitabı «Selin Hanım».
+ * Aynı ağız iki kursta durabilir. Vitrin adı ve unvanı kursa göredir.
+ * Sicil adı seste kalır: Zephyr Deniz, Fenrir Boran, Aoede Selin.
+ * EC-102 anlatıcısı Kaan'dır (Puck). Selam «Merhaba, ben Kaan». Kart hitabı «Kaan Bey».
  * OFF-201 ofis dersi Kore'yi ofis unvanıyla gösterir.
+ * PR-105 anlatıcısı Oğuz'dur (Fenrir). Selam «Merhaba, ben Oğuz».
+ * SM-103 anlatıcısı Selin'dir (Aoede). Selam «Merhaba, ben Selin».
+ * BOT-104 anlatıcısı Mert'tir (Achird). Selam «Merhaba, ben Mert». Zephyr bu kursa bağlanmaz.
  */
 const ACADEMY_OFF201_DISPLAY_PERSONA = {
   title: "Kıdemli Ofis ve Yapay Zekâ Eğitmeni",
@@ -657,17 +677,56 @@ const ACADEMY_OFF201_DISPLAY_PERSONA = {
 } as const;
 
 const ACADEMY_EC102_DISPLAY_PERSONA = {
-  name: "Selin",
-  gender: "kadin",
+  name: "Kaan",
+  gender: "erkek",
   title: "Kıdemli E-Ticaret ve Yapay Zekâ Eğitmeni",
   roleTitle: "Kıdemli E-Ticaret ve Yapay Zekâ Eğitmeni",
   bio: "E-ticaret ve pazaryeri uzmanıyım. Kıdemli E-Ticaret ve Yapay Zekâ Eğitmeni olarak satış vitrinini tane tane kuruyorum.",
+  greetingLead: "Merhaba, ben Kaan",
+} as const;
+
+/** PR-105 selamı «Merhaba, ben Oğuz». Ses Fenrir. Sicil adı Boran bu kursta konuşulmaz. */
+const ACADEMY_PR105_DISPLAY_PERSONA = {
+  name: "Oğuz",
+  gender: "erkek",
+  title: "Kıdemli Prompt Mühendisliği Eğitmeni",
+  roleTitle: "Kıdemli Prompt Mühendisliği Eğitmeni",
+  bio: "İstem ve sohbet kutusu uzmanıyım. Kıdemli Prompt Mühendisliği Eğitmeni olarak rol, bağlam ve biçimi tane tane kuruyorum.",
+  greetingLead: "Merhaba, ben Oğuz",
+} as const;
+
+/** SM-103 selamı «Merhaba, ben Selin». Ses Aoede. Unvan bu kursta sosyal medya üretimidir. */
+const ACADEMY_SM103_DISPLAY_PERSONA = {
+  name: "Selin",
+  gender: "kadin",
+  title: "Kıdemli Sosyal Medya ve Görsel Fabrika Eğitmeni",
+  roleTitle: "Kıdemli Sosyal Medya ve Görsel Fabrika Eğitmeni",
+  bio: "Ajans ve sosyal medya üretim hattı uzmanıyım. Kıdemli Sosyal Medya ve Görsel Fabrika Eğitmeni olarak sahada görsel ve video fabrikasını kuruyorum.",
   greetingLead: "Merhaba, ben Selin",
+} as const;
+
+/** BOT-104 selamı «Merhaba, ben Mert». Ses Achird (erkek). Zephyr ve Aoede bu kursa bağlanmaz. */
+const ACADEMY_BOT104_DISPLAY_PERSONA = {
+  name: "Mert",
+  gender: "erkek",
+  title: "Kıdemli Otomasyon ve Chatbot Eğitmeni",
+  roleTitle: "Kıdemli Otomasyon ve Chatbot Eğitmeni",
+  bio: "Kodsuz otomasyon ve diyalog sistemleri uzmanıyım. Kıdemli Otomasyon ve Chatbot Eğitmeni olarak Voiceflow, Botpress ve WhatsApp hattını sahada kuruyorum.",
+  greetingLead: "Merhaba, ben Mert",
 } as const;
 
 function withCoursePersona(slug: string, instructor: AcademyInstructor): AcademyInstructor {
   if (slug === "01_office_ai_ileri") {
     return { ...instructor, ...ACADEMY_OFF201_DISPLAY_PERSONA };
+  }
+  if (slug === "05_prompt_practice") {
+    return { ...instructor, ...ACADEMY_PR105_DISPLAY_PERSONA };
+  }
+  if (slug === "03_social_media_ai") {
+    return { ...instructor, ...ACADEMY_SM103_DISPLAY_PERSONA };
+  }
+  if (slug === "04_chatbot_nocode") {
+    return { ...instructor, ...ACADEMY_BOT104_DISPLAY_PERSONA };
   }
   if (slug === "02_ecommerce_ai") {
     return { ...instructor, ...ACADEMY_EC102_DISPLAY_PERSONA };

@@ -50,7 +50,7 @@ export function academyCinemaCueSlideId(cueId: string): string {
  * Damga, tarayıcıdaki eski yazı sızmış kareyi diskin yeni JPEG'inden ayırır.
  * Dosya yeniden yazılırsa damga yükseltilir.
  */
-export const ACADEMY_EC102_CINEMA_CACHE_V = "20260930114537" as const;
+export const ACADEMY_EC102_CINEMA_CACHE_V = "20261002233000" as const;
 
 /** Cue slaytı — `{lessonKey}-{cueId}.jpg`. */
 export function academyCinemaCueSlidePublicPath(lessonKey: string, cueId: string): string {

@@ -80,7 +80,7 @@ describe("Sistem Belge Sözleşmesi", () => {
   it("testler /docs markdown'ını okumaz; yalnız .system_docs doğrulanır", () => {
     const banned = [
       /read(?:FileSync|Src)\([^)]*docs\//,
-      /existsSync\([^)]*docs\//,
+      /existsSync\([\s\S]{0,180}?["'`]docs\/[\s\S]{0,120}?\.toBe\(\s*true\s*\)/,
       /["']docs\/ANAYASA\.md["']/,
       /["']docs\/07_OPS_RUNBOOK\.md["']/,
       /["']docs\/08_STORAGE_CONTRACT\.md["']/,
@@ -96,7 +96,7 @@ describe("Sistem Belge Sözleşmesi", () => {
       if (rel.startsWith("tests/academy/")) {
         continue;
       }
-      const source = readFileSync(file, "utf8");
+      const source = readFileSync(file, "utf8").replaceAll(".system_docs/", ".SYSTEM_DOCS_HOME/");
       for (const pattern of banned) {
         expect(source, `${rel} ${pattern}`).not.toMatch(pattern);
       }

@@ -6,13 +6,20 @@ import {
   ACADEMY_AI_LESSON_COUNT_MIN,
   ACADEMY_AI_LESSON_DURATION_MIN_MINUTES,
   ACADEMY_AI_LESSON_DURATION_MIN_SEC,
+  ACADEMY_AI_LESSON_SPOKEN_WORD_MIN,
   ACADEMY_MATCH_WHISTLE_MAX,
   ACADEMY_MATCH_WHISTLE_REGULATION_MAX,
   ACADEMY_MATCH_WHISTLE_REGULATION_MIN,
   ACADEMY_MATCH_WHISTLE_RESERVE_MAX,
   ACADEMY_MATCH_WHISTLE_RESERVE_MIN,
+  academyCalmSpeechWordsPerMinute,
   academyMatchWhistlePartitionHolds,
   academyMatchWhistlePlan,
+  academySpokenMinutesFromWordCount,
+  assertAcademyAiLessonCount,
+  assertAcademyAiLessonSpokenWordCount,
+  assertAcademySectionSpokenScriptSource,
+  assertAcademyUtf8SourceBytes,
   assertAcademyMatchWhistleBudget,
   assertAcademyProductionSeal,
   registerAcademyProductionDiskProbe,
@@ -28,6 +35,7 @@ import {
   isAcademyAiLessonCount,
   isAcademyAiLessonDurationMinutes,
   isAcademyAiLessonDurationSec,
+  isAcademyAiLessonSpokenWordCount,
   isAcademyTtsVoiceGender,
 } from "@/lib/academy/production-standard";
 import { ACADEMY_FIVE_ACT_HEADINGS } from "@/lib/academy/lesson-body";
@@ -43,6 +51,7 @@ import {
 } from "@/lib/academy/lesson-veo";
 import {
   ACADEMY_DEFAULT_INSTRUCTOR_VOICE_BY_GENDER,
+  ACADEMY_EC102_COURSE_MASTER_VOICE,
   ACADEMY_OFF201_COURSE_MASTER_VOICE,
   academyBakeVoiceForGenderLabel,
   academyCourseMasterVoice,
@@ -172,6 +181,57 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(academyBakeVoiceForGenderLabel("female")).toBe("Callirrhoe");
     expect(academyBakeVoiceForGenderLabel("male")).toBe("Fenrir");
     expect(ACADEMY_EXAM_PASS_SCORE).toBe(70);
+  });
+
+  it("600 kelimenin altını ve 6 dersten azını fail-closed keser", () => {
+    expect(ACADEMY_AI_LESSON_SPOKEN_WORD_MIN).toBe(600);
+    expect(academyCalmSpeechWordsPerMinute()).toBe(
+      ACADEMY_AI_LESSON_SPOKEN_WORD_MIN / ACADEMY_AI_LESSON_DURATION_MIN_MINUTES,
+    );
+    expect(academySpokenMinutesFromWordCount(ACADEMY_AI_LESSON_SPOKEN_WORD_MIN)).toBe(
+      ACADEMY_AI_LESSON_DURATION_MIN_MINUTES,
+    );
+    expect(isAcademyAiLessonSpokenWordCount(ACADEMY_AI_LESSON_SPOKEN_WORD_MIN)).toBe(true);
+    expect(isAcademyAiLessonSpokenWordCount(ACADEMY_AI_LESSON_SPOKEN_WORD_MIN - 1)).toBe(false);
+    expect(() => assertAcademyAiLessonSpokenWordCount(599, "deneme-ders")).toThrow(/Fail-closed/);
+    expect(() => assertAcademyAiLessonSpokenWordCount(600, "deneme-ders")).not.toThrow();
+    expect(() => assertAcademyAiLessonCount(5, "deneme-egitim")).toThrow(/Fail-closed/);
+    expect(() => assertAcademyAiLessonCount(6, "deneme-egitim")).not.toThrow();
+  });
+
+  it("spokenScript 600 kelimenin altını, dolaylı ifadeyi ve bozuk UTF-8'i fail-closed keser", () => {
+    const words = Array.from({ length: ACADEMY_AI_LESSON_SPOKEN_WORD_MIN }, () => "ışık").join(" ");
+    const source = `const spokenScript = \`\n${words}\n\`;`;
+    const bytes = new TextEncoder().encode(source);
+    expect(() => assertAcademyUtf8SourceBytes(bytes, "tam")).not.toThrow();
+    expect(assertAcademySectionSpokenScriptSource(source, "tam")).toBe(ACADEMY_AI_LESSON_SPOKEN_WORD_MIN);
+
+    const short = "const spokenScript = `bir iki`;";
+    expect(() => assertAcademySectionSpokenScriptSource(short, "kisa")).toThrow(/Fail-closed/);
+    expect(() => assertAcademySectionSpokenScriptSource("export const section = {};", "yok")).toThrow(
+      /spokenScript/,
+    );
+    const indirect = `const spokenScript = \`\${baslik} ${words}\`;`;
+    expect(() => assertAcademySectionSpokenScriptSource(indirect, "dolayli")).toThrow(/dolaylı/);
+
+    expect(() => assertAcademyUtf8SourceBytes(Uint8Array.of(0xef, 0xbb, 0xbf, 0x41), "bom")).toThrow(
+      /BOM/,
+    );
+    expect(() => assertAcademyUtf8SourceBytes(Uint8Array.of(0xff), "bayt")).toThrow(/uyumsuz bayt/);
+    expect(() =>
+      assertAcademyUtf8SourceBytes(new TextEncoder().encode("yazı \uFFFD"), "bozuk"),
+    ).toThrow(/bozuk karakter/);
+
+    const dir = join(ROOT, "lib/academy/curricula/pr-105");
+    for (let n = 1; n <= ACADEMY_AI_LESSON_COUNT_MIN; n += 1) {
+      const file = join(dir, `section_${n}.ts`);
+      const lessonBytes = readFileSync(file);
+      expect(() => assertAcademyUtf8SourceBytes(lessonBytes, `section_${n}.ts`)).not.toThrow();
+      const lessonSource = new TextDecoder("utf-8", { fatal: true }).decode(lessonBytes);
+      expect(
+        assertAcademySectionSpokenScriptSource(lessonSource, `section_${n}.ts`),
+      ).toBeGreaterThanOrEqual(ACADEMY_AI_LESSON_SPOKEN_WORD_MIN);
+    }
   });
 
   it("ısınma MP4 veya müzik BED diskte yoksa mühür fail-closed", () => {
@@ -335,7 +395,7 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(pedagogy).not.toContain("Vitrin cümlesi video vaadi taşımaz.");
     expect(pedagogy).not.toContain("gelecek müfredatın anayasa maddesidir");
     expect(readFileSync(join(ROOT, ".system_docs", "README.md"), "utf8")).toContain(
-      "Akademi mühürlü yayın **8**",
+      "Akademi mühürlü yayın **6** eğitim",
     );
     expect(readFileSync(join(ROOT, ".system_docs", "README.md"), "utf8")).not.toContain(
       "Akademi mühürlü WAV **18**",
@@ -385,7 +445,8 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(voiceStatus).not.toContain(saleOpen ? "Satış kapalıdır." : "Satış açıktır.");
 
     const runbook = readFileSync(join(ROOT, ".system_docs", "OPS_RUNBOOK.md"), "utf8");
-    expect(runbook).toContain("Akademi mühürlü yayın **8**");
+    expect(runbook).toContain("Akademi mühürlü yayın **6** eğitimdir");
+    expect(runbook).not.toContain("Video katmanı terk edilmiştir");
     expect(runbook).toContain("01_office_ai-1");
     expect(runbook).toContain("ops/ops-db.md");
     const opsDb = readFileSync(join(ROOT, ".system_docs", "ops", "ops-db.md"), "utf8");
@@ -466,15 +527,22 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(ACADEMY_OFF201_COURSE_MASTER_VOICE).toBe("Kore");
     expect(academyCourseMasterVoice("01_office_ai_ileri")).toBe("Kore");
     expect(academyCourseMasterVoice("01_office_ai_ileri")).not.toBe("Callirrhoe");
+    expect(ACADEMY_EC102_COURSE_MASTER_VOICE).toBe("Puck");
     expect(CURRICULUM_MODULES_BY_SLUG["02_ecommerce_ai"]!.voiceConfig.courseMasterVoice).toBe(
-      "Aoede",
+      "Puck",
     );
-    expect(academyCourseMasterVoice("02_ecommerce_ai")).toBe("Aoede");
-    expect(academyEcommerceBakeVoice()).toBe("Aoede");
+    expect(academyCourseMasterVoice("02_ecommerce_ai")).toBe("Puck");
+    expect(academyEcommerceBakeVoice()).toBe("Puck");
     expect(academyCourseVoiceSeal("02_ecommerce_ai")).toMatchObject({
       model: academyBakeVoiceModelId(),
-      courseMasterVoice: "Aoede",
-      gender: "female",
+      courseMasterVoice: "Puck",
+      gender: "male",
+    });
+    expect(academyInstructorBySlug("02_ecommerce_ai")).toMatchObject({
+      name: "Kaan",
+      voice: "Puck",
+      gender: "erkek",
+      greetingLead: "Merhaba, ben Kaan",
     });
     expect(academyCourseVoiceSeal("01_office_ai")).toMatchObject({
       model: academyBakeVoiceModelId(),

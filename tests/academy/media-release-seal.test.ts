@@ -26,8 +26,8 @@ import { CURRICULUM_LESSON_KEYS_BY_SLUG } from "@/lib/kernel/catalog-ids/exam-pa
 const ROOT = process.cwd();
 const OFF201 = "01_office_ai_ileri";
 
-describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kaset", () => {
-  it("ses mührü 20 dersi taşır; üretim kuyruğu boş; bake allowlist 6 SKU durur", () => {
+describe("akademi medya mühür sicili — katman 1 altı eğitim", () => {
+  it("ses mührü 38 dersi taşır; üretim kuyruğu boş; bake allowlist 6 SKU durur", () => {
     expect(ACADEMY_MEDIA_SEALED_SKU_SLUGS).toEqual([
       "01_office_ai",
       "01_office_ai_ileri",
@@ -63,10 +63,34 @@ describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kase
         "02_ecommerce_ai-5",
         "02_ecommerce_ai-6",
       ],
+      "03_social_media_ai": [
+        "03_social_media_ai-1",
+        "03_social_media_ai-2",
+        "03_social_media_ai-3",
+        "03_social_media_ai-4",
+        "03_social_media_ai-5",
+        "03_social_media_ai-6",
+      ],
+      "04_chatbot_nocode": [
+        "04_chatbot_nocode-1",
+        "04_chatbot_nocode-2",
+        "04_chatbot_nocode-3",
+        "04_chatbot_nocode-4",
+        "04_chatbot_nocode-5",
+        "04_chatbot_nocode-6",
+      ],
+      "05_prompt_practice": [
+        "05_prompt_practice-1",
+        "05_prompt_practice-2",
+        "05_prompt_practice-3",
+        "05_prompt_practice-4",
+        "05_prompt_practice-5",
+        "05_prompt_practice-6",
+      ],
     });
     expect(ACADEMY_TTS_REVOKED_CASSETTES).toEqual({});
     expect(ACADEMY_TTS_REBAKE_QUEUE).toEqual({});
-    expect(academyMediaSealedWavCount()).toBe(20);
+    expect(academyMediaSealedWavCount()).toBe(38);
     for (const [slug, keys] of Object.entries(CURRICULUM_LESSON_KEYS_BY_SLUG)) {
       if (keys.length === 0) {
         expect(ACADEMY_MEDIA_SEALED_AUDIO[slug], slug).toBeUndefined();
@@ -77,6 +101,9 @@ describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kase
     expect(academyCourseSaleOpen("01_office_ai")).toBe(true);
     expect(academyCourseSaleOpen("01_office_ai_ileri")).toBe(true);
     expect(academyCourseSaleOpen("02_ecommerce_ai")).toBe(true);
+    expect(academyCourseSaleOpen("03_social_media_ai")).toBe(true);
+    expect(academyCourseSaleOpen("04_chatbot_nocode")).toBe(true);
+    expect(academyCourseSaleOpen("05_prompt_practice")).toBe(true);
     expect([...ACADEMY_GROWTH_SKU_SLUGS]).toEqual(["01_office_ai"]);
     expect(academyLessonAudioObjectPath("sample-course", "sample-course-1")).toBe(
       "academy/audio/sample-course/sample-course-1.wav",
@@ -88,7 +115,7 @@ describe("akademi medya mühür sicili — 01_office_ai 8 kaset + OFF-201 6 kase
 
   it("OFF-201 altı kaset vatandaş karaoke katmanında mühürlü süreyi taşır", () => {
     const rows = [
-      ["01_office_ai_ileri-1", 485.144, false],
+      ["01_office_ai_ileri-1", 504.249, false],
       ["01_office_ai_ileri-2", 605.618, false],
       ["01_office_ai_ileri-3", 658.323, false],
       ["01_office_ai_ileri-4", 751.895, false],

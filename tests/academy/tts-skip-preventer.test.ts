@@ -38,11 +38,17 @@ describe("TTS model skip preventer", () => {
     expect(applyAcademyCueDisplayPhonetics("SEO'dur")).toBe("Seo'dur");
     expect(applyAcademyCueDisplayPhonetics("Es i o")).toBe("Seo");
     expect(applyAcademyCueDisplayPhonetics("ÇiçekSepeti")).toBe("Çiçek sepeti");
-    expect(applyAcademyCueDisplayPhonetics("PttAVM")).toBe("Piti avm");
+    expect(applyAcademyCueDisplayPhonetics("PttAVM")).toBe("Pe te te A Ve Me");
+    expect(applyAcademyCueDisplayPhonetics("PttAVM de")).toBe("Pe te te A Ve Me de");
+    expect(applyAcademyCueDisplayPhonetics("PttAVM'de")).toBe("Pe te te A Ve Me'de");
+    expect(applyAcademyCueDisplayPhonetics("PttAVM'ye")).toBe("Pe te te A Ve Me'ye");
     expect(applyAcademyCueDisplayPhonetics("Listing'e")).toBe("Listin'e");
     expect(applyAcademyCueDisplayPhonetics("Prompt")).toBe("Promt");
     expect(applyAcademySpokenPhoneticsToDisplay("Çiçek sepeti")).toBe("ÇiçekSepeti");
-    expect(applyAcademySpokenPhoneticsToDisplay("Piti avm")).toBe("PttAVM");
+    expect(applyAcademySpokenPhoneticsToDisplay("Pe te te A Ve Me")).toBe("PttAVM");
+    expect(applyAcademySpokenPhoneticsToDisplay("Pe te te A Ve Me de")).toBe("PttAVM de");
+    expect(applyAcademySpokenPhoneticsToDisplay("Pe te te A Ve Me'de")).toBe("PttAVM'de");
+    expect(applyAcademySpokenPhoneticsToDisplay("Pe te te A Ve Me'ye")).toBe("PttAVM'ye");
     expect(applyAcademySpokenPhoneticsToDisplay("Listin")).toBe("Listing");
     expect(applyAcademySpokenPhoneticsToDisplay("Promt")).toBe("Prompt");
     expect(applyAcademySpokenPhoneticsToDisplay("Seo")).toBe("SEO");
@@ -145,14 +151,14 @@ describe("TTS model skip preventer", () => {
   it("cümle başı tek kelimelik komut nidasını seste akışa çevirir", () => {
     expect(
       expandAcademyTtsSkipPreventer(
-        "Merhaba, ben Selin. Hoş geldin. İlk dersimizdeyiz. Gel, vitrinin başına beraber geçelim.",
+        "Merhaba, ben Kaan. Hoş geldin. İlk dersimizdeyiz. Gel, vitrinin başına beraber geçelim.",
       ),
-    ).toBe("Merhaba, ben Selin. Hoş geldin. İlk dersimizdeyiz. Şimdi vitrinin başına beraber geçelim.");
+    ).toBe("Merhaba, ben Kaan. Hoş geldin. İlk dersimizdeyiz. Şimdi vitrinin başına beraber geçelim.");
     expect(expandAcademyTtsSkipPreventer("Gel, tezgâhın kenarına şöyle otur.")).toBe(
       "Şimdi tezgâhın kenarına şöyle otur.",
     );
-    expect(expandAcademyTtsSkipPreventer("Merhaba, ben Selin. Gel, bugün kasaya beraber bakalım.")).toBe(
-      "Merhaba, ben Selin. Şimdi bugün kasaya beraber bakalım.",
+    expect(expandAcademyTtsSkipPreventer("Merhaba, ben Kaan. Gel, bugün kasaya beraber bakalım.")).toBe(
+      "Merhaba, ben Kaan. Şimdi bugün kasaya beraber bakalım.",
     );
     expect(expandAcademyTtsSkipPreventer("Bak, fiyat tabanın altında. Dur, bu adımı atlama.")).toBe(
       "Şimdi fiyat tabanın altında. Şimdi bu adımı atlama.",

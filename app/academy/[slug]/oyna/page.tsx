@@ -12,9 +12,8 @@ import {
 } from "@/lib/academy/load";
 import { academyActorFromSession, hasAcademyOynaAccess } from "@/lib/academy/access";
 import {
-  ACADEMY_EC102_PUBLIC_RELEASE_OPEN,
-  ACADEMY_NEXT_BODY_SKU_SLUG,
   ACADEMY_OFF201_STOREFRONT_SLUG,
+  academyReleasedProductionLineParams,
   academyStorefrontStaticParams,
   isAcademyStorefrontSlug,
 } from "@/lib/academy/pilot-sku";
@@ -28,7 +27,7 @@ export function generateStaticParams() {
   return [
     ...academyStorefrontStaticParams(),
     { slug: ACADEMY_OFF201_STOREFRONT_SLUG },
-    ...(ACADEMY_EC102_PUBLIC_RELEASE_OPEN ? [{ slug: ACADEMY_NEXT_BODY_SKU_SLUG }] : []),
+    ...academyReleasedProductionLineParams(),
   ];
 }
 

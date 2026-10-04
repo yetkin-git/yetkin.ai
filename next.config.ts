@@ -21,9 +21,19 @@ const IMMUTABLE_STATIC_CACHE = {
 /**
  * Prisma WASM + pg, `includes["*"]` ile Node function izinde kalır.
  * Kamu HTML (`/`, `/login`, `/legal`, …) `db` import etmez; kod yolu TTFB kazancıdır.
- * Per-route `outputFileTracingExcludes` 5e4d6e4 fra1 yayınında motoru akademi ve
- * `/api/health` lambdasından sildi (boş 500). Exclude yazılmaz; include durur.
+ * Per-route exclude motoru (`generated/prisma`, `@prisma`) silmişti (boş 500).
+ * Medya globs o yollara dokunmaz. Ses, ham video ve sinema JPG statik CDN’dedir;
+ * `_middleware` sıkıştırılmamış tavanı 250 MB.
  */
+const MEDIA_FUNCTION_TRACE_EXCLUDES = [
+  "./media-bake/**/*",
+  "./.tmp/**/*",
+  "./temp/**/*",
+  "./tmp/**/*",
+  "./public/media/**/*",
+  "./public/academy/cinema/**/*",
+] as const;
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   typedRoutes: true,
@@ -53,7 +63,9 @@ const nextConfig: NextConfig = {
       "lib/pazaryeri/**",
       "lib/junior/**",
       "lib/social/**",
+      ...MEDIA_FUNCTION_TRACE_EXCLUDES,
     ],
+    "/_middleware": [...MEDIA_FUNCTION_TRACE_EXCLUDES],
   },
   outputFileTracingIncludes: {
     "*": [

@@ -11,6 +11,9 @@ export const ACADEMY_BAKED_MICRO_VIDEO_KEYS: readonly string[] = [
   "01_office_ai_ileri-warmup",
   "02_ecommerce_ai-listing-warmup",
   "02_ecommerce_ai-ops-warmup",
+  "03_social_media_ai-warmup",
+  "04_chatbot_nocode-warmup",
+  "05_prompt_practice-warmup",
 ];
 export const ACADEMY_BAKED_HLS_KEYS: readonly string[] = [];
 

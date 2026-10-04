@@ -32,6 +32,7 @@ export const EXPECTED_SQL = [
   "20260929180000_ec102_publish.sql",
   "20260930133000_hotfix_ec102_unpublish.sql",
   "20260930140000_ec102_republish.sql",
+  "20261003230400_sm103_bot104_pr105_publish.sql",
 ] as const;
 
 export const FREELANCER_SEED_JOB_IDS = [
@@ -588,6 +589,7 @@ export function inspectSqlSealPlan(sqlByFile: Record<string, string>): SqlSealPl
   const academy = sqlByFile["20260814090000_academy_course_seed.sql"] ?? "";
   const freelancer = sqlByFile["20260814110000_freelancer_job_seed.sql"] ?? "";
   const catalog = sqlByFile["20260814040000_price_catalog_definitions.sql"] ?? "";
+  const siblingPublish = sqlByFile["20261003230400_sm103_bot104_pr105_publish.sql"] ?? "";
   const authSync = sqlByFile["20260814010000_handle_new_user_auth_sync.sql"] ?? "";
   const email = sqlByFile["20260814100000_handle_user_email_update.sql"] ?? "";
   const rls = sqlByFile["20260814020000_enforce_rls_all_tables.sql"] ?? "";
@@ -624,7 +626,8 @@ export function inspectSqlSealPlan(sqlByFile: Record<string, string>): SqlSealPl
     catalogOperatorPricePreserve:
       catalogSqlPreservesOperatorPrice(catalog) &&
       catalogSqlPreservesOperatorPrice(academy) &&
-      catalogSqlPreservesOperatorPrice(freelancer),
+      catalogSqlPreservesOperatorPrice(freelancer) &&
+      catalogSqlPreservesOperatorPrice(siblingPublish),
   };
 }
 

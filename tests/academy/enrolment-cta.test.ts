@@ -248,16 +248,17 @@ describe("vitrin kartı CTA", () => {
     expect(owned.priceLabel).toBe(ACADEMY_SEN.course.accessOpen);
     expect(owned.priceCaption).toBeNull();
     expect(owned.href).toBe("/academy/python-temel/oyna");
-    const comingSoon = resolveAcademyCatalogCardCta({
+    const prompt = resolveAcademyCatalogCardCta({
       slug: "05_prompt_practice",
       owned: false,
       priceLabel: "₺1.290,00",
+      purchasable: true,
+      isPublished: true,
     });
-    expect(comingSoon.cta).toBe(ACADEMY_SEN.catalog.cardCtaComingSoon);
-    expect(comingSoon.cta).not.toBe(ACADEMY_SEN.catalog.cardCtaBuy);
-    expect(comingSoon.href).toBe("");
-    expect(comingSoon.priceCaption).toBe(ACADEMY_SEN.catalog.comingSoonMeta);
-    expect(comingSoon.priceLabel).toBe("₺1.290");
+    expect(prompt.cta).toBe(ACADEMY_SEN.catalog.cardCtaBuy);
+    expect(prompt.href).toBe("/academy/05_prompt_practice");
+    expect(prompt.priceCaption).toBe(ACADEMY_SEN.catalog.vatInclusiveHint);
+    expect(prompt.priceLabel).toBe("₺1.290");
     const off201NoPrice = resolveAcademyCatalogCardCta({
       slug: "01_office_ai_ileri",
       owned: false,
@@ -401,13 +402,13 @@ describe("kasa eğitim özeti — Aşama 1, amiral ses mührü", () => {
       ACADEMY_TRAINING_OFFER_SUMMARY_SEALED,
     );
     expect(academyCardOfferPaths("03_social_media_ai").find((offer) => offer.path === "training")?.summary).toBe(
-      ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
+      ACADEMY_TRAINING_OFFER_SUMMARY_SEALED,
     );
     expect(academyCardOfferPaths("04_chatbot_nocode").find((offer) => offer.path === "training")?.summary).toBe(
-      ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
+      ACADEMY_TRAINING_OFFER_SUMMARY_SEALED,
     );
     expect(academyCardOfferPaths("05_prompt_practice").find((offer) => offer.path === "training")?.summary).toBe(
-      ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
+      ACADEMY_TRAINING_OFFER_SUMMARY_SEALED,
     );
   });
 });

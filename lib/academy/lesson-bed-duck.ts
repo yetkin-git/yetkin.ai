@@ -50,9 +50,30 @@ export const ACADEMY_EC102_LESSON_BED_KIND = {
 
 export type AcademyEc102BedKind = (typeof ACADEMY_EC102_LESSON_BED_KIND)[keyof typeof ACADEMY_EC102_LESSON_BED_KIND];
 
+/**
+ * Aşama 4-B — kurs başına tek tema. Üç eğitim aynı şablonu paylaşmaz.
+ * Dersler kurs temasını okur; canlı sınav yolu bu haritayla açılmaz.
+ */
+export const ACADEMY_STAGE4B_BED_THEME = {
+  "05_prompt_practice": "deep-focus-ambient",
+  "03_social_media_ai": "studio-lofi-downtempo",
+  "04_chatbot_nocode": "tech-modular-ambient",
+} as const;
+
+export type AcademyStage4bBedSlug = keyof typeof ACADEMY_STAGE4B_BED_THEME;
+export type AcademyStage4bBedTheme = (typeof ACADEMY_STAGE4B_BED_THEME)[AcademyStage4bBedSlug];
+
+const ACADEMY_STAGE4B_BED_SLUGS = Object.keys(ACADEMY_STAGE4B_BED_THEME) as AcademyStage4bBedSlug[];
+
 export function academyEc102BedKind(lessonKey: string): AcademyEc102BedKind | null {
   const key = lessonKey.trim();
   return ACADEMY_EC102_LESSON_BED_KIND[key as keyof typeof ACADEMY_EC102_LESSON_BED_KIND] ?? null;
+}
+
+export function academyStage4bBedTheme(lessonKey: string): AcademyStage4bBedTheme | null {
+  const key = lessonKey.trim();
+  const slug = ACADEMY_STAGE4B_BED_SLUGS.find((candidate) => key.startsWith(`${candidate}-`));
+  return slug ? ACADEMY_STAGE4B_BED_THEME[slug] : null;
 }
 
 export function academyLessonBedMood(lessonKey: string): AcademyBedMood {
@@ -88,8 +109,30 @@ const ACADEMY_EC102_NYLON_PIANO_PROMPT =
 const ACADEMY_EC102_LOFI_SYNTH_PROMPT =
   "Instrumental only, no vocals, no lyrics. Calm focus bed. Soft synthesizer pads and a quiet steady pulse, warm electric piano, light shaker, gentle tempo. About ninety seconds, loop-friendly, soft edges so it can repeat under spoken narration. Stays quiet under the voice and rises slightly in short pauses. 44.1 kHz stereo.";
 
-/** Ders anahtarı EC-102 yatak haritasındaysa o promptu, değilse mood şablonunu okur. */
+/** PR-105 — derin odak, minimal, uzak sentetik hava. Ritimsiz. */
+const ACADEMY_PR105_DEEP_FOCUS_PROMPT =
+  "Instrumental only, no vocals, no lyrics, no humming, no choir. Deep focus ambient bed for a prompt lesson. Minimal and spacious. Soft synthetic tones from far away, slow atmospheric pads, no drum kit, no bright melody, no lo-fi beat. About ninety seconds, loop-friendly, gentle edges so it can repeat under spoken narration. Stays quiet under speech and swells politely in 3 to 5 second breath gaps. 44.1 kHz stereo.";
+
+/** SM-103 — stüdyo lo-fi, hafif ritmik, akıcı downtempo. */
+const ACADEMY_SM103_STUDIO_LOFI_PROMPT =
+  "Instrumental only, no vocals, no lyrics, no humming, no choir. Creative studio lo-fi downtempo bed for a social media lesson. Modern and flowing. Warm electric piano, a light rhythmic pulse kept far back, soft drum-machine hats, inspiring but never busy. About ninety seconds, loop-friendly, gentle edges so it can repeat under spoken narration. Stays quiet under speech and swells politely in 3 to 5 second breath gaps. 44.1 kHz stereo.";
+
+/** BOT-104 — modüler, dijital, sistematik nabız. Analitik, agresif değil. */
+const ACADEMY_BOT104_TECH_MODULAR_PROMPT =
+  "Instrumental only, no vocals, no lyrics, no humming, no choir. Tech modular analytical ambient bed for a no-code chatbot lesson. Digital and systematic. Soft sequenced plucks, a quiet constructive pulse, clean modular tones, no aggressive drums, no guitar, no dusty tape. About ninety seconds, loop-friendly, gentle edges so it can repeat under spoken narration. Stays quiet under speech and swells politely in 3 to 5 second breath gaps. 44.1 kHz stereo.";
+
+const ACADEMY_STAGE4B_BED_PROMPT: Record<AcademyStage4bBedTheme, string> = {
+  "deep-focus-ambient": ACADEMY_PR105_DEEP_FOCUS_PROMPT,
+  "studio-lofi-downtempo": ACADEMY_SM103_STUDIO_LOFI_PROMPT,
+  "tech-modular-ambient": ACADEMY_BOT104_TECH_MODULAR_PROMPT,
+};
+
+/** Ders anahtarı kurs temasına, EC-102 yatak haritasına veya mood şablonuna düşer. */
 export function academyLessonBedPromptForLesson(lessonKey: string): string {
+  const stage4b = academyStage4bBedTheme(lessonKey);
+  if (stage4b) {
+    return ACADEMY_STAGE4B_BED_PROMPT[stage4b];
+  }
   const kind = academyEc102BedKind(lessonKey);
   if (kind === "nylon-piano") {
     return ACADEMY_EC102_NYLON_PIANO_PROMPT;
@@ -139,6 +182,11 @@ export function academyBedSpeechClockSec(lessonKey: string, mediaSec: number): n
 export const ACADEMY_BED_SPEECH_DB = -25;
 /** EC-102 Puck anlatımının altı. Lyria yatak ayrı etikette bu seviyede durur. */
 export const ACADEMY_EC102_BED_SPEECH_DB = -22;
+/**
+ * PR-105, SM-103 ve BOT-104 konuşma altı. EBU duck −22 dB.
+ * Dosya tam seviyede durur; ikinci bir −22 dB dosyaya yazılmaz.
+ */
+export const ACADEMY_STAGE4B_BED_SPEECH_DB = -22;
 /** Nefes payı — konuşmadan 3 dB açık, hâlâ dipte. */
 export const ACADEMY_BED_BREATH_DB = -22;
 /** İlk konuşma 0. saniyede açılırsa yatak bu sürede 0’dan dipe yükselir. */
@@ -151,9 +199,13 @@ export function academyBedDbToLinear(db: number): number {
 export const ACADEMY_BED_SPEECH_GAIN = academyBedDbToLinear(ACADEMY_BED_SPEECH_DB);
 export const ACADEMY_BED_BREATH_GAIN = academyBedDbToLinear(ACADEMY_BED_BREATH_DB);
 export const ACADEMY_EC102_BED_SPEECH_GAIN = academyBedDbToLinear(ACADEMY_EC102_BED_SPEECH_DB);
+export const ACADEMY_STAGE4B_BED_SPEECH_GAIN = academyBedDbToLinear(ACADEMY_STAGE4B_BED_SPEECH_DB);
 
-/** EC-102 yatak konuşma altında -22 dB. Diğer kurslar -25 dB kalır. */
+/** EC-102 ve Aşama 4-B yatak konuşma altında −22 dB. Diğer kurslar −25 dB kalır. */
 export function academyBedSpeechGainForLesson(lessonKey: string): number {
+  if (academyStage4bBedTheme(lessonKey)) {
+    return ACADEMY_STAGE4B_BED_SPEECH_GAIN;
+  }
   return academyEc102BedKind(lessonKey) ? ACADEMY_EC102_BED_SPEECH_GAIN : ACADEMY_BED_SPEECH_GAIN;
 }
 /** Gelecek Ders Köprüsü son kelimesi bittiği an — Lyria zirve kazancı. */

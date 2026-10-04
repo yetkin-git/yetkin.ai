@@ -54,7 +54,10 @@ async function renderSlide(slide: AcademyCinemaCueSlide, context: BrowserContext
 
 async function main(): Promise<void> {
   const onlyKey = parseKeyFlag(process.argv.slice(2));
-  const slides = listAcademyCinemaCueSlides().filter((slide) => (onlyKey ? slide.lessonKey === onlyKey : true));
+  const slides = listAcademyCinemaCueSlides().filter((slide) => {
+    if (!onlyKey) return true;
+    return slide.lessonKey === onlyKey || slide.lessonKey.startsWith(`${onlyKey}-`);
+  });
   if (slides.length === 0) {
     process.stderr.write(`cinema cue bake: slayt yok${onlyKey ? ` (${onlyKey})` : ""}.\n`);
     process.exitCode = 1;

@@ -52,9 +52,8 @@ import { academyCourseOffersFreePreview } from "@/lib/kernel/catalog-ids/free-pr
 import {
   academyCourseHasSealedAudio,
   academyMediaSealedLessonKeys,
+  academyReleasedProductionLineParams,
   academyStorefrontStaticParams,
-  ACADEMY_EC102_PUBLIC_RELEASE_OPEN,
-  ACADEMY_NEXT_BODY_SKU_SLUG,
   ACADEMY_OFF201_STOREFRONT_SLUG,
   isAcademyStorefrontSlug,
 } from "@/lib/academy/pilot-sku";
@@ -89,7 +88,7 @@ export function generateStaticParams() {
   return [
     ...academyStorefrontStaticParams(),
     { slug: ACADEMY_OFF201_STOREFRONT_SLUG },
-    ...(ACADEMY_EC102_PUBLIC_RELEASE_OPEN ? [{ slug: ACADEMY_NEXT_BODY_SKU_SLUG }] : []),
+    ...academyReleasedProductionLineParams(),
   ];
 }
 

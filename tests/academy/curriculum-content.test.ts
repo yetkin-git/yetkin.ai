@@ -50,9 +50,9 @@ describe("03.16 gerçek müfredat gövdesi — amiral compact", () => {
     const lessons = curriculumForCourseSlug("01_office_ai");
     expect(lessons).toHaveLength(8);
     expect(curriculumForCourseSlug("02_ecommerce_ai")).toHaveLength(6);
-    expect(curriculumForCourseSlug("03_social_media_ai")).toHaveLength(0);
-    expect(curriculumForCourseSlug("04_chatbot_nocode")).toHaveLength(0);
-    expect(curriculumForCourseSlug("05_prompt_practice")).toHaveLength(0);
+    expect(curriculumForCourseSlug("03_social_media_ai")).toHaveLength(6);
+    expect(curriculumForCourseSlug("04_chatbot_nocode")).toHaveLength(6);
+    expect(curriculumForCourseSlug("05_prompt_practice")).toHaveLength(6);
     expect(curriculumForCourseSlug("sample-course")).toEqual([]);
     expect(existsSync(MASTERY_DOC)).toBe(false);
   });
@@ -122,7 +122,7 @@ describe("03.20 insani diyalog ve terim parantezleri", () => {
 });
 
 describe("03.22 tek ses tek isim", () => {
-  it("sekiz TTS kodu sekiz Türkçe isme mühürlüdür; ikinci isim yok", () => {
+  it("dokuz TTS kodu dokuz Türkçe isme mühürlüdür; ikinci isim yok", () => {
     expect(ACADEMY_INSTRUCTOR_TTS_VOICES).toEqual([
       "Zephyr",
       "Erinome",
@@ -132,6 +132,7 @@ describe("03.22 tek ses tek isim", () => {
       "Leda",
       "Callirrhoe",
       "Kore",
+      "Achird",
     ]);
     expect(ACADEMY_TTS_VOICES).toEqual([
       "Zephyr",
@@ -142,6 +143,7 @@ describe("03.22 tek ses tek isim", () => {
       "Leda",
       "Callirrhoe",
       "Kore",
+      "Achird",
       "Charon",
       "Enceladus",
       "Iapetus",
@@ -155,10 +157,12 @@ describe("03.22 tek ses tek isim", () => {
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Leda.name).toBe("Ece");
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Callirrhoe.name).toBe("Gözde");
     expect(ACADEMY_INSTRUCTORS_BY_VOICE.Kore.name).toBe("Aylin");
+    expect(ACADEMY_INSTRUCTORS_BY_VOICE.Achird.name).toBe("Mert");
+    expect(ACADEMY_INSTRUCTORS_BY_VOICE.Achird.gender).toBe("erkek");
     const names = ACADEMY_INSTRUCTOR_TTS_VOICES.map(
       (voice) => ACADEMY_INSTRUCTORS_BY_VOICE[voice].name,
     );
-    expect(new Set(names).size).toBe(8);
+    expect(new Set(names).size).toBe(9);
     for (const voice of ACADEMY_INSTRUCTOR_TTS_VOICES) {
       expect(ACADEMY_INSTRUCTORS_BY_VOICE[voice].voice).toBe(voice);
     }
@@ -179,10 +183,10 @@ describe("03.22 tek ses tek isim", () => {
     expect(ACADEMY_DIGITAL_SKILLS_MODERATOR.name).toBe("Tarık");
     expect(ACADEMY_DIGITAL_SKILLS_MODERATOR.voice).toBe("Iapetus");
     expect(ACADEMY_DIGITAL_SKILLS_MODERATOR.speechRate).toBe(1);
-    expect(academyInstructorBySlug("02_ecommerce_ai").name).toBe("Selin");
-    expect(academyInstructorBySlug("02_ecommerce_ai").greetingLead).toBe("Merhaba, ben Selin");
-    expect(academyInstructorBySlug("02_ecommerce_ai").gender).toBe("kadin");
-    expect(academyInstructorBySlug("02_ecommerce_ai").voice).toBe("Aoede");
+    expect(academyInstructorBySlug("02_ecommerce_ai").name).toBe("Kaan");
+    expect(academyInstructorBySlug("02_ecommerce_ai").greetingLead).toBe("Merhaba, ben Kaan");
+    expect(academyInstructorBySlug("02_ecommerce_ai").gender).toBe("erkek");
+    expect(academyInstructorBySlug("02_ecommerce_ai").voice).toBe("Puck");
     expect(ACADEMY_NEXT_BODY_SKU_SLUG).toBe("02_ecommerce_ai");
     expect(academyInstructorBySlug("02_ecommerce_ai").roleTitle).toContain("E-Ticaret");
     expect(academyInstructorBySlug("01_office_ai_ileri").voice).toBe("Kore");
@@ -190,10 +194,16 @@ describe("03.22 tek ses tek isim", () => {
     expect(academyInstructorBySlug("01_office_ai_ileri").roleTitle).not.toContain("E-Ticaret");
     expect(ACADEMY_COURSE_TITLES["05_prompt_practice"]).toBe("Yapay Zekâ Prompt Mühendisliği");
     expect(academyInstructorBySlug("01_office_ai").name).toBe("Gözde");
-    expect(academyInstructorBySlug("03_social_media_ai").name).toBe("Deniz");
-    expect(academyInstructorBySlug("03_social_media_ai").voice).toBe("Zephyr");
-    expect(academyInstructorBySlug("04_chatbot_nocode").name).toBe("Kaan");
-    expect(academyInstructorBySlug("04_chatbot_nocode").voice).toBe("Puck");
+    expect(academyInstructorBySlug("03_social_media_ai").name).toBe("Selin");
+    expect(academyInstructorBySlug("03_social_media_ai").voice).toBe("Aoede");
+    expect(academyInstructorBySlug("03_social_media_ai").greetingLead).toBe("Merhaba, ben Selin");
+    expect(academyInstructorBySlug("04_chatbot_nocode").name).toBe("Mert");
+    expect(academyInstructorBySlug("04_chatbot_nocode").voice).toBe("Achird");
+    expect(academyInstructorBySlug("04_chatbot_nocode").gender).toBe("erkek");
+    expect(academyInstructorBySlug("04_chatbot_nocode").greetingLead).toBe("Merhaba, ben Mert");
+    expect(academyInstructorBySlug("05_prompt_practice").name).toBe("Oğuz");
+    expect(academyInstructorBySlug("05_prompt_practice").voice).toBe("Fenrir");
+    expect(academyInstructorBySlug("05_prompt_practice").greetingLead).toBe("Merhaba, ben Oğuz");
     expect(ACADEMY_CAST_REGISTRY.find((row) => row.canonicalCharacterName === "Aylin")?.speechRate).toBe(
       ACADEMY_INSTRUCTOR_SPEECH_RATE,
     );

@@ -17,8 +17,8 @@ describe("Dron punchcard — web timings JSON türevi", () => {
     const dron = dronAcademyPunchcardsForLesson("01_office_ai-1");
     expect(dron).toEqual(derived);
     expect(dron).toHaveLength(8);
-    expect(dron[0]).toMatchObject({ id: "cue-01", label: "GİRİŞ KÖPRÜSÜ", start: 2, end: 39.622 });
-    expect(dron.at(-1)?.end).toBe(707.016);
+    expect(dron[0]).toMatchObject({ id: "cue-01", label: "GİRİŞ KÖPRÜSÜ", start: 2, end: 66.634 });
+    expect(dron.at(-1)?.end).toBe(696.951);
     expect(dronLessonDeliveryLabel("01_office_ai-1")).toBe("Sesli anlatım");
   });
 

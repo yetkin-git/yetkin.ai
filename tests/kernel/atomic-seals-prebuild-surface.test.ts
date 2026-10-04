@@ -36,7 +36,10 @@ describe("prebuild güvenlik kapısı ve nightly grep kovası — yazma yüzeyi"
     expect(prebuild).toContain("verify:no-secrets");
     expect(prebuild).toContain("verify:amount-minor");
     expect(prebuild).toContain("verify:rls-status");
-    expect(prebuild).not.toContain("verify:api-auth");
+    expect(prebuild).toContain("tsx scripts/verify-api-auth.ts --check");
+    expect(prebuild).toContain("verify:public-size");
+    expect(pkg.scripts["verify:public-size"]).toBe("tsx scripts/verify-public-size.ts");
+    expect(prebuild).not.toContain("npm run verify:api-auth");
     expect(prebuild).not.toContain("verify:boundaries");
     expect(grepSeals).toContain("verify:api-auth");
     expect(grepSeals).toContain("verify:boundaries");
@@ -143,7 +146,11 @@ describe("prebuild güvenlik kapısı ve nightly grep kovası — yazma yüzeyi"
     expect(v1ArtifactsAt).toBeGreaterThan(rlsAt);
     expect(idorAt).toBeGreaterThan(v1ArtifactsAt);
     expect(prebuild).not.toContain("verify:atomic-seals");
-    expect(prebuild).not.toContain("verify:api-auth");
+    expect(prebuild).toContain("tsx scripts/verify-api-auth.ts --check");
+    expect(prebuild).toContain("verify:public-size");
+    const publicSizeAt = prebuild.indexOf("verify:public-size");
+    expect(publicSizeAt).toBeGreaterThan(prebuild.indexOf("verify-api-auth.ts --check"));
+    expect(prebuild).not.toContain("npm run verify:api-auth");
     expect(prebuild).not.toContain("verify:boundaries");
     expect(prebuild).not.toContain("verify:academy-pedagogy-seals");
   });

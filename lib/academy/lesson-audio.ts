@@ -17,7 +17,7 @@ import {
  * Bake sonrası süre değişirse bu tabloyu güncelle. Taze ingest bekler.
  */
 export const ACADEMY_SEALED_AUDIO_DURATION_SEC: Readonly<Record<string, number>> = {
-  "01_office_ai-1": 707,
+  "01_office_ai-1": 697,
   "01_office_ai-2": 537,
   "01_office_ai-3": 568,
   "01_office_ai-5": 589,
@@ -25,18 +25,18 @@ export const ACADEMY_SEALED_AUDIO_DURATION_SEC: Readonly<Record<string, number>>
   "01_office_ai-g1": 638,
   "01_office_ai-w1": 581,
   "01_office_ai-k1": 735,
-  "01_office_ai_ileri-1": 485,
+  "01_office_ai_ileri-1": 504,
   "01_office_ai_ileri-2": 606,
   "01_office_ai_ileri-3": 658,
   "01_office_ai_ileri-4": 752,
   "01_office_ai_ileri-5": 844,
   "01_office_ai_ileri-6": 714,
-  "02_ecommerce_ai-1": 869,
-  "02_ecommerce_ai-2": 891,
-  "02_ecommerce_ai-3": 608,
-  "02_ecommerce_ai-4": 831,
-  "02_ecommerce_ai-5": 846,
-  "02_ecommerce_ai-6": 1012,
+  "02_ecommerce_ai-1": 900,
+  "02_ecommerce_ai-2": 892,
+  "02_ecommerce_ai-3": 578,
+  "02_ecommerce_ai-4": 812,
+  "02_ecommerce_ai-5": 819,
+  "02_ecommerce_ai-6": 1006,
 };
 
 type AcademySealedLessonKey = keyof typeof ACADEMY_SEALED_AUDIO_DURATION_SEC;
@@ -73,6 +73,24 @@ export const ACADEMY_SEALED_BED_LESSON_KEYS = [
   "02_ecommerce_ai-4",
   "02_ecommerce_ai-5",
   "02_ecommerce_ai-6",
+  "03_social_media_ai-1",
+  "03_social_media_ai-2",
+  "03_social_media_ai-3",
+  "03_social_media_ai-4",
+  "03_social_media_ai-5",
+  "03_social_media_ai-6",
+  "04_chatbot_nocode-1",
+  "04_chatbot_nocode-2",
+  "04_chatbot_nocode-3",
+  "04_chatbot_nocode-4",
+  "04_chatbot_nocode-5",
+  "04_chatbot_nocode-6",
+  "05_prompt_practice-1",
+  "05_prompt_practice-2",
+  "05_prompt_practice-3",
+  "05_prompt_practice-4",
+  "05_prompt_practice-5",
+  "05_prompt_practice-6",
 ] as const;
 
 /**

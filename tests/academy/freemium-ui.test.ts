@@ -51,7 +51,9 @@ describe("kurs detay freemium yüzeyi", () => {
 
     expect(academyCourseOffersFreePreview("01_office_ai")).toBe(true);
     expect(academyCourseOffersFreePreview("01_office_ai_ileri")).toBe(true);
-    expect(academyCourseOffersFreePreview("03_social_media_ai")).toBe(false);
+    expect(academyCourseOffersFreePreview("03_social_media_ai")).toBe(true);
+    expect(academyCourseOffersFreePreview("04_chatbot_nocode")).toBe(true);
+    expect(academyCourseOffersFreePreview("05_prompt_practice")).toBe(true);
     expect(isAcademyLessonPaywalled("01_office_ai", "01_office_ai-1", false)).toBe(false);
     expect(isAcademyLessonPaywalled("01_office_ai", "01_office_ai-k1", false)).toBe(true);
     expect(isAcademyLessonPaywalled("01_office_ai_ileri", "01_office_ai_ileri-1", false)).toBe(false);

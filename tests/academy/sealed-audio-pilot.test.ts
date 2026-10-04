@@ -34,9 +34,9 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
       "01_office_ai-w1",
       "01_office_ai-6",
     ]);
-    expect(academyMediaSealedWavCount()).toBe(20);
+    expect(academyMediaSealedWavCount()).toBe(38);
     expect(ACADEMY_SEALED_AUDIO_DURATION_SEC).toEqual({
-      "01_office_ai-1": 707,
+      "01_office_ai-1": 697,
       "01_office_ai-2": 537,
       "01_office_ai-3": 568,
       "01_office_ai-5": 589,
@@ -44,25 +44,25 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
       "01_office_ai-g1": 638,
       "01_office_ai-w1": 581,
       "01_office_ai-k1": 735,
-      "01_office_ai_ileri-1": 485,
+      "01_office_ai_ileri-1": 504,
       "01_office_ai_ileri-2": 606,
       "01_office_ai_ileri-3": 658,
       "01_office_ai_ileri-4": 752,
       "01_office_ai_ileri-5": 844,
       "01_office_ai_ileri-6": 714,
-      "02_ecommerce_ai-1": 869,
-      "02_ecommerce_ai-2": 891,
-      "02_ecommerce_ai-3": 608,
-      "02_ecommerce_ai-4": 831,
-      "02_ecommerce_ai-5": 846,
-      "02_ecommerce_ai-6": 1012,
+      "02_ecommerce_ai-1": 900,
+      "02_ecommerce_ai-2": 892,
+      "02_ecommerce_ai-3": 578,
+      "02_ecommerce_ai-4": 812,
+      "02_ecommerce_ai-5": 819,
+      "02_ecommerce_ai-6": 1006,
     });
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, LESSON_KEY)).toBe(true);
     expect(isAcademyCompactLessonKey(LESSON_KEY)).toBe(true);
     const timings = loadAcademySealedAudioTimings(LESSON_KEY);
-    expect(timings?.durationSec).toBe(707.016);
-    expect(timings?.cacheV).toBe(710016);
-    expect(timings?.pieces).toHaveLength(13);
+    expect(timings?.durationSec).toBe(696.951);
+    expect(timings?.cacheV).toBe(699951);
+    expect(timings?.pieces).toHaveLength(12);
     expect(timings?.pieces.at(-1)?.text).toMatch(/Hazırsan 2\. derste buluşalım/u);
     expect(timings?.pieces.at(-1)?.text).not.toMatch(/görüşmek üzere/u);
     expect(hasAcademyLessonCues(LESSON_KEY)).toBe(true);
@@ -78,7 +78,7 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
     expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-1.bed.mp3"))).toBe(true);
     expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-2.mp3"))).toBe(true);
     expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-3.mp3"))).toBe(true);
-    expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-4.mp3"))).toBe(true);
+    expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-4.mp3"))).toBe(false);
     expect(existsSync(join(ROOT, "public/media/academy/audio/01_office_ai/01_office_ai-5.mp3"))).toBe(true);
     const lessonTwo = "01_office_ai-2";
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, lessonTwo)).toBe(true);
@@ -255,9 +255,9 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
     expect(layer).toContain("loadAcademyTeleprompterFlow");
   });
 
-  it("kurs toplamı timings SSOT kilidindedir: 4880.862 sn ±0.01 ve en az 45 dk (Y1)", () => {
+  it("kurs toplamı timings SSOT kilidindedir: 4870.797 sn ±0.01 ve en az 45 dk (Y1)", () => {
     const total = academyCourseSealedDurationSec(COURSE_SLUG);
-    expect(Math.abs(total - 4880.862)).toBeLessThanOrEqual(0.01);
+    expect(Math.abs(total - 4870.797)).toBeLessThanOrEqual(0.01);
     const minutes = total / 60;
     expect(minutes).toBeGreaterThanOrEqual(ACADEMY_AI_COURSE_DURATION_MIN_MINUTES);
     expect(existsSync(join(ROOT, "docs", "ops", "DURUM.md"))).toBe(false);

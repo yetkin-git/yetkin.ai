@@ -49,7 +49,7 @@ const FAQ = {
   aiTraining: {
     question: "yetkin.ai yapay zeka eğitimi ve online kurs sunuyor mu?",
     answer:
-      "Evet. yetkin.ai yapay zeka eğitimi ve online kurs sunar. Ofiste Yapay Zekâ, İleri Ofis ve E-Ticaret yayındadır. Sosyal medya, chatbot ve istem pratiği Çok Yakında / Hazırlanıyor rozetiyle durur; sesi bitmemiş ders için boş oynatıcı basılmaz. Dersler ödeme sonrası açılır.",
+      "Evet. yetkin.ai yapay zeka eğitimi ve online kurs sunar. Ofiste Yapay Zekâ, İleri Ofis, E-Ticaret, Sosyal Medya, Chatbot ve Prompt eğitimi yayındadır. İlk ders ücretsiz izlenir. Dersler ödeme sonrası açılır.",
   },
   certificate: {
     question: "Yapay zeka sertifikası nasıl alınır?",
@@ -64,7 +64,7 @@ const FAQ = {
   prompt: {
     question: "Prompt eğitimi hangi kursta?",
     answer:
-      "Prompt eğitimi (ChatGPT, Claude ve Perplexity) Akademi vitrininde Çok Yakında / Hazırlanıyor kartıdır. Sesi bitince oynatıcı açılır.",
+      "Prompt eğitimi Akademi vitrininde yayındadır. İlk ders ücretsiz izlenir. Sonraki dersler lisans ister.",
   },
   online: {
     question: "Online kurs mobilde işler mi?",

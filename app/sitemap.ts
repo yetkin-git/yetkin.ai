@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 import { academyCourseCoverPath } from "@/lib/academy/course-cover";
 import {
   ACADEMY_GROWTH_SKU_SLUGS,
-  ACADEMY_NEXT_BODY_SKU_SLUG,
   ACADEMY_OFF201_STOREFRONT_SLUG,
+  ACADEMY_PRODUCTION_LINE_SKU_SLUGS,
   isAcademyStorefrontSlug,
 } from "@/lib/academy/pilot-sku";
 import { LEGAL_SITE_PATHS } from "@/lib/copy/legal-launch";
@@ -45,7 +45,7 @@ function sitemapEntry(
 const SITEMAP_ACADEMY_COURSE_SLUGS = [
   ...ACADEMY_GROWTH_SKU_SLUGS,
   ACADEMY_OFF201_STOREFRONT_SLUG,
-  ACADEMY_NEXT_BODY_SKU_SLUG,
+  ...ACADEMY_PRODUCTION_LINE_SKU_SLUGS,
 ] as const;
 
 function publishedAcademyCourseEntries(lastModified: Date): MetadataRoute.Sitemap {

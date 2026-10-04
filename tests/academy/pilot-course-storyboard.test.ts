@@ -31,8 +31,8 @@ describe("Amiral Ders — compact ingest SKU", () => {
     expect(academyExamPoolForSlug("05_prompt_practice").length).toBeGreaterThanOrEqual(30);
     expect(curriculumForCourseSlug("01_office_ai")).toHaveLength(8);
     expect(curriculumForCourseSlug("02_ecommerce_ai")).toHaveLength(6);
-    expect(curriculumForCourseSlug("03_social_media_ai")).toHaveLength(0);
-    expect(curriculumForCourseSlug("04_chatbot_nocode")).toHaveLength(0);
-    expect(curriculumForCourseSlug("05_prompt_practice")).toHaveLength(0);
+    expect(curriculumForCourseSlug("03_social_media_ai")).toHaveLength(6);
+    expect(curriculumForCourseSlug("04_chatbot_nocode")).toHaveLength(6);
+    expect(curriculumForCourseSlug("05_prompt_practice")).toHaveLength(6);
   });
 });

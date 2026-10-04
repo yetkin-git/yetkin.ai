@@ -7,11 +7,20 @@
  */
 import "./load-academy-bake-env";
 
-import { mkdirSync, writeFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import { createRequire } from "node:module";
+import { mkdirSync, unlinkSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { GoogleGenAI } from "@google/genai";
+import { BOT104_LESSON_KEYS } from "@/lib/academy/curricula/bot-104/spoken-body";
 import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
-import { academyEc102BedKind, academyLessonBedPromptForLesson } from "@/lib/academy/lesson-bed-duck";
+import { PR105_LESSON_KEYS } from "@/lib/academy/curricula/pr-105/spoken-body";
+import { SM103_LESSON_KEYS } from "@/lib/academy/curricula/sm-103/spoken-body";
+import {
+  academyEc102BedKind,
+  academyLessonBedPromptForLesson,
+  academyStage4bBedTheme,
+} from "@/lib/academy/lesson-bed-duck";
 import { academyLessonBedDiskPath } from "@/lib/academy/media-release-seal";
 import {
   ACADEMY_SEALED_MEDIA_MODEL,
@@ -19,8 +28,16 @@ import {
   isGeminiModelUnavailableError,
 } from "@/lib/kernel/ai/model-roles";
 
+const require = createRequire(import.meta.url);
 const MIN_GEMINI_KEY_CHARS = 8;
 const LYRIA_MODEL = ACADEMY_SEALED_MEDIA_MODEL.MUSIC_GEN;
+
+/** Canlı sınav yolu boşken Aşama 4-B fırını bu anahtarları okur. Sınav yolu açılmaz. */
+const STAGE0_BED_KEYS_BY_SLUG: Readonly<Record<string, readonly string[]>> = {
+  "05_prompt_practice": PR105_LESSON_KEYS,
+  "03_social_media_ai": SM103_LESSON_KEYS,
+  "04_chatbot_nocode": BOT104_LESSON_KEYS,
+};
 
 type GeminiPart = {
   text?: string;
@@ -190,13 +207,65 @@ async function bakeLyriaBed(client: GoogleGenAI, prompt: string): Promise<Buffer
   );
 }
 
+function bedLessonKeys(slug: string): readonly string[] {
+  const live = curriculumLessonKeysForSlug(slug);
+  if (live.length > 0) {
+    return live;
+  }
+  return STAGE0_BED_KEYS_BY_SLUG[slug] ?? [];
+}
+
 function requireCurriculumLesson(slug: string, key: string): void {
   if (!/^[a-z0-9][a-z0-9_-]{0,80}$/.test(slug) || !/^[a-z0-9][a-z0-9_-]{0,80}$/.test(key)) {
     throw new Error("Lyria bed slug ve key yalnız küçük harf, rakam, alt çizgi ve tire kabul eder.");
   }
-  const keys = curriculumLessonKeysForSlug(slug);
+  const keys = bedLessonKeys(slug);
   if (!keys.includes(key)) {
     throw new Error(`Lyria bed müfredat dışı: ${slug}/${key}.`);
+  }
+}
+
+function ffmpegBinary(): string {
+  const ffmpegPath = require("ffmpeg-static") as string | null;
+  if (!ffmpegPath) {
+    throw new Error("ffmpeg-static ikili yok.");
+  }
+  return ffmpegPath;
+}
+
+/** Lyria çıktısını 44.1 kHz stereo MP3 olarak mühürler. Duck kazancı oynatıcıdadır. */
+function sealStereoBed(raw: Buffer, diskPath: string): void {
+  mkdirSync(dirname(diskPath), { recursive: true });
+  const rawPath = `${diskPath}.lyria-raw`;
+  writeFileSync(rawPath, raw);
+  try {
+    const result = spawnSync(
+      ffmpegBinary(),
+      [
+        "-y",
+        "-hide_banner",
+        "-loglevel",
+        "error",
+        "-i",
+        rawPath,
+        "-ar",
+        "44100",
+        "-ac",
+        "2",
+        "-c:a",
+        "libmp3lame",
+        "-b:a",
+        "192k",
+        diskPath,
+      ],
+      { stdio: ["ignore", "ignore", "pipe"] },
+    );
+    if (result.status !== 0) {
+      const stderr = result.stderr?.toString("utf8").trim() ?? "";
+      throw new Error(`bed mp3 mühür FAIL: ${stderr.slice(-400) || `exit ${result.status}`}`);
+    }
+  } finally {
+    unlinkSync(rawPath);
   }
 }
 
@@ -210,10 +279,11 @@ async function main(): Promise<void> {
   requireCurriculumLesson(slug, key);
   const prompt = academyLessonBedPromptForLesson(key);
   const bedKind = academyEc102BedKind(key);
+  const stage4b = academyStage4bBedTheme(key);
   const diskPath = academyLessonBedDiskPath(slug, key);
   if (args.dryRun || !args.seal || !args.confirmGeminiSpend) {
     process.stdout.write(
-      `academy-bed bake — ${slug}/${key} model=${LYRIA_MODEL}${bedKind ? ` yatak=${bedKind}` : ""}${args.dryRun || !args.seal ? " (dry-run)" : ""}\n  → ${diskPath}\n`,
+      `academy-bed bake — ${slug}/${key} model=${LYRIA_MODEL}${bedKind ? ` yatak=${bedKind}` : ""}${stage4b ? ` tema=${stage4b} duck=-22dB` : ""}${args.dryRun || !args.seal ? " (dry-run)" : ""}\n  → ${diskPath}\n`,
     );
     if (!args.seal || !args.confirmGeminiSpend) {
       process.stdout.write(
@@ -238,9 +308,8 @@ async function main(): Promise<void> {
   });
   process.stdout.write(`Lyria ${LYRIA_MODEL} dip müzik ${slug}/${key}\n`);
   const mp3 = await bakeLyriaBed(client, prompt);
-  mkdirSync(dirname(diskPath), { recursive: true });
-  writeFileSync(diskPath, mp3);
-  process.stdout.write(`yazıldı ${mp3.byteLength} bayt → ${join("public", "media", "academy", "audio", slug, `${key}.bed.mp3`)}\n`);
+  sealStereoBed(mp3, diskPath);
+  process.stdout.write(`yazıldı 44.1 kHz stereo → ${join("public", "media", "academy", "audio", slug, `${key}.bed.mp3`)}\n`);
 }
 
 void main().catch((error: unknown) => {

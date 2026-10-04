@@ -80,16 +80,15 @@ describe("TTS nefes dilimleyici", () => {
     ]) {
       expect(loadAcademySpokenScriptParagraphs(key).length, key).toBeGreaterThan(0);
     }
-    const leftoverKeys = [
+    for (const key of [
       "03_social_media_ai-1",
       "03_social_media_ai-6",
       "04_chatbot_nocode-1",
       "04_chatbot_nocode-6",
       "05_prompt_practice-1",
       "05_prompt_practice-6",
-    ];
-    for (const key of leftoverKeys) {
-      expect(loadAcademySpokenScriptParagraphs(key), key).toEqual([]);
+    ]) {
+      expect(loadAcademySpokenScriptParagraphs(key).length, key).toBeGreaterThan(0);
     }
 
     const syntheticParagraph =
@@ -109,7 +108,7 @@ describe("TTS nefes dilimleyici", () => {
 
   it("8 kaset 10’ar parça, 6. ders 1.75 sn geçiş ve kurs toplamı mühürlü timings ile kilitlenir", () => {
     const pieceCounts: Record<string, number> = {
-      "01_office_ai-1": 13,
+      "01_office_ai-1": 12,
       "01_office_ai-2": 10,
       "01_office_ai-3": 11,
       "01_office_ai-5": 11,
@@ -132,7 +131,7 @@ describe("TTS nefes dilimleyici", () => {
     );
     expect(breathGaps).toHaveLength(9);
     expect(breathGaps.every((gap) => gap === 1.75)).toBe(true);
-    expect(Math.abs(academyCourseSealedDurationSec("01_office_ai") - 4880.862)).toBeLessThanOrEqual(0.01);
+    expect(Math.abs(academyCourseSealedDurationSec("01_office_ai") - 4870.797)).toBeLessThanOrEqual(0.01);
   });
 
   it("OFF-101 sekiz dersi metin düşürmeden 10’ar isteğe paketler", () => {

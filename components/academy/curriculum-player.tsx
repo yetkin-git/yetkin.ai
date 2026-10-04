@@ -61,6 +61,7 @@ import {
 import { loadAcademyLessonVisualStage } from "@/lib/academy/lesson-visual-stage";
 import type { AcademyLessonDiagramSlot, AcademyLessonMicroVideoSlot } from "@/lib/academy/lesson-media";
 import {
+  academyLessonJsonGeneration,
   primeAcademyLessonMedia,
   type AcademyLessonMediaPrime,
 } from "@/lib/academy/lesson-json-store";
@@ -101,6 +102,7 @@ export function CurriculumPlayer({
   freePreviewAudio?: Readonly<Record<string, { src: string; bedSrc?: string | null }>> | null;
 }) {
   primeAcademyLessonMedia(media);
+  const lessonMediaGeneration = academyLessonJsonGeneration();
   const router = useRouter();
   const idempotency = useIdempotencyKey();
   const copy = ACADEMY_SEN.player;
@@ -190,7 +192,7 @@ export function CurriculumPlayer({
       active && !lessonMediaBlocked
         ? academyCitizenPlayerLayer(courseSlug, active.key)
         : { kind: "article" as const },
-    [active, courseSlug, lessonMediaBlocked],
+    [active, courseSlug, lessonMediaBlocked, lessonMediaGeneration],
   );
   const karaoke = playerLayer.kind === "article+karaoke" ? playerLayer : null;
   const prepKaraoke = useMemo(() => {

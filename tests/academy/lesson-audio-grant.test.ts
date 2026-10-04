@@ -89,7 +89,9 @@ describe("ders sesi imza kapısı", () => {
     expect(academyCourseOffersFreePreview("01_office_ai")).toBe(true);
     expect(academyCourseOffersFreePreview("01_office_ai_ileri")).toBe(true);
     expect(academyCourseOffersFreePreview("02_ecommerce_ai")).toBe(true);
-    expect(academyCourseOffersFreePreview("03_social_media_ai")).toBe(false);
+    expect(academyCourseOffersFreePreview("03_social_media_ai")).toBe(true);
+    expect(academyCourseOffersFreePreview("04_chatbot_nocode")).toBe(true);
+    expect(academyCourseOffersFreePreview("05_prompt_practice")).toBe(true);
     expect(isAcademyFreePreviewLessonKey("01_office_ai-1")).toBe(true);
     expect(isAcademyFreePreviewLessonKey("01_office_ai_ileri-1")).toBe(true);
     expect(isAcademyFreePreviewLessonKey("02_ecommerce_ai-1")).toBe(true);

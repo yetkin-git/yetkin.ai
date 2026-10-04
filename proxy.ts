@@ -269,6 +269,6 @@ export const config = {
   matcher: [
     "/",
     "/media/academy/audio/:path*",
-    "/((?!_next/static|_next/image|favicon.ico|media/|icon.svg|apple-icon.png|.*\\.(?:ico|png|jpg|jpeg|gif|webp|avif|svg|woff|woff2|ttf|otf|mp3|mp4)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|media/|academy/cinema/|icon.svg|apple-icon.png|.*\\.(?:ico|png|jpg|jpeg|gif|webp|avif|svg|woff|woff2|ttf|otf|mp3|mp4|wav|webm)$).*)",
   ],
 };

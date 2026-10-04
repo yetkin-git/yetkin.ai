@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && npm run generate:v1-client && npm run verify:prebuild && next build",
+    "build": "prisma generate && npm run generate:v1-client && npm run verify:prebuild && npm run generate:production-seal-manifest && next build",
     "start": "next start",
     "lint": "eslint .",
     "postinstall": "prisma generate",
@@ -16,6 +16,7 @@
     "db:validate": "prisma validate",
     "seed": "tsx prisma/seed.ts",
     "render:academy-media": "tsx scripts/render-academy-cinema-cues.ts",
+    "generate:production-seal-manifest": "tsx scripts/write-production-seal-manifest.ts",
     "generate:academy-audio": "tsx scripts/generate-academy-lesson-audio.ts",
     "generate:academy-veo": "tsx scripts/generate-academy-lesson-veo.ts",
     "transcode:academy-audio": "tsx scripts/transcode-academy-lesson-audio.ts",
@@ -71,7 +72,9 @@
     "verify:sen-axis": "tsx scripts/verify-sen-axis.ts",
     "test:surface": "vitest run surface.test.ts constitution-surfaces.test.ts",
     "verify:grep-seals": "npm run verify:api-auth && npm run verify:boundaries && npm run verify:atomic-seals && npm run verify:sen-axis",
-    "verify:prebuild": "npm run verify:no-secrets && npm run verify:amount-minor && npm run verify:rls-status && npm run verify:v1-contract-artifacts && npm run verify:idor-seals && npm run ops:runtime-readiness",
+    "verify:public-size": "tsx scripts/verify-public-size.ts",
+    "verify:academy-curriculum": "tsx scripts/verify-academy-curriculum.ts",
+    "verify:prebuild": "npm run verify:no-secrets && npm run verify:amount-minor && npm run verify:rls-status && npm run verify:v1-contract-artifacts && npm run verify:idor-seals && npm run ops:runtime-readiness && tsx scripts/verify-api-auth.ts --check && npm run verify:public-size && npm run verify:academy-curriculum",
     "verify:nightly": "npm run verify:grep-seals && npm run verify:ai-gateway && npm run verify:web-security-seals && npm run verify:paytr-reconciliation-seals && npm run test:surface"
   },
   "engines": {

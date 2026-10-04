@@ -62,7 +62,9 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(isAcademyProductionLineSkuSlug("05_prompt_practice")).toBe(true);
     expect(isAcademyProductionLineSkuSlug("01_office_ai")).toBe(false);
     expect(academyCourseIsComingSoon("01_office_ai")).toBe(false);
-    expect(academyCourseIsComingSoon("05_prompt_practice")).toBe(true);
+    expect(academyCourseIsComingSoon("03_social_media_ai")).toBe(false);
+    expect(academyCourseIsComingSoon("04_chatbot_nocode")).toBe(false);
+    expect(academyCourseIsComingSoon("05_prompt_practice")).toBe(false);
     expect(academyVitrineShellCourses().map((row) => row.slug)).toEqual([
       ...ACADEMY_VITRINE_SHELL_SKU_SLUGS,
     ]);
@@ -180,12 +182,20 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(isAcademyRetiredStorefrontSlug("excel-masterclass")).toBe(true);
     expect(isAcademyRetiredStorefrontSlug("06_n8n_automation")).toBe(true);
     expect(isAcademyRetiredStorefrontSlug("02_ecommerce_ai")).toBe(false);
-    expect(isAcademyRetiredStorefrontSlug("05_prompt_practice")).toBe(true);
+    expect(isAcademyRetiredStorefrontSlug("05_prompt_practice")).toBe(false);
+    expect(isAcademyRetiredStorefrontSlug("03_social_media_ai")).toBe(false);
+    expect(isAcademyRetiredStorefrontSlug("04_chatbot_nocode")).toBe(false);
     expect(isAcademyRetiredStorefrontSlug("01_office_ai")).toBe(false);
     for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
       expect(isAcademyRetiredStorefrontSlug(slug), slug).toBe(false);
     }
-    expect([...ACADEMY_VITRINE_SLUGS_FOR_TEST]).toEqual(["01_office_ai", "02_ecommerce_ai"]);
+    expect([...ACADEMY_VITRINE_SLUGS_FOR_TEST]).toEqual([
+      "01_office_ai",
+      "02_ecommerce_ai",
+      "03_social_media_ai",
+      "04_chatbot_nocode",
+      "05_prompt_practice",
+    ]);
     const fromUnits = ACADEMY_LEGACY_PURGE_CATALOG_UNITS.map((unit) => unit.slice("course:".length));
     expect([...ACADEMY_LEGACY_UNIT_SLUGS_FOR_TEST].sort()).toEqual([...fromUnits].sort());
     const redirects = academyRetiredStorefrontRedirects();
@@ -213,7 +223,9 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(aliasPage).toContain('permanentRedirect("/academy")');
     expect(academyCourseHasSealedAudio("01_office_ai")).toBe(true);
     expect(academyCourseHasSealedAudio("02_ecommerce_ai")).toBe(true);
-    expect(academyCourseHasSealedAudio("05_prompt_practice")).toBe(false);
+    expect(academyCourseHasSealedAudio("05_prompt_practice")).toBe(true);
+    expect(academyCourseHasSealedAudio("03_social_media_ai")).toBe(true);
+    expect(academyCourseHasSealedAudio("04_chatbot_nocode")).toBe(true);
     expect(ACADEMY_SEN.catalog.audioBadge).not.toContain("Seslendirmeli");
     expect(ACADEMY_RETIRED_STOREFRONT_SLUGS).toContain("siber-guvenlik");
   });
@@ -225,9 +237,9 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(ACADEMY_SEN.catalog.heroArticleBadge).toBe(
       "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Sertifika",
     );
-    expect(ACADEMY_SEN.catalog.description).toContain("hazırlanıyor");
+    expect(ACADEMY_SEN.catalog.description).toContain("yayındadır");
     expect(ACADEMY_SEN.catalog.description).not.toContain("fırın");
-    expect(ACADEMY_SEN.catalog.description).toContain("Çok Yakında / Hazırlanıyor");
+    expect(ACADEMY_SEN.catalog.description).not.toContain("Çok Yakında / Hazırlanıyor");
     expect(ACADEMY_SEN.catalog.description).not.toContain("13 eğitim");
     expect(ACADEMY_SEN.catalog.description).not.toMatch(/Video/i);
     expect(ACADEMY_SEN.catalog.infoBand(1)).toContain("Test barajı 70+");

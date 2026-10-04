@@ -58,7 +58,7 @@ export const PAGE_SEO = {
   academy: {
     title: ACADEMY_SEN.catalog.title,
     description:
-      "Yapay zeka eğitimi ve online kurslar: Ofiste Yapay Zekâ, İleri Ofis ve E-Ticaret yayındadır. Sosyal medya, chatbot ve istem pratiği Çok Yakında / Hazırlanıyor rozetiyle durur. Dersi bitir, testi 70+ ile geç, yapay zeka sertifikan ve kariyer vizesi Kariyer sayfana işlensin. Akademi yalnız üç satış şartı tamam olan eğitimi satar.",
+      "Yapay zeka eğitimi ve online kurslar: Ofiste Yapay Zekâ, İleri Ofis, E-Ticaret, Sosyal Medya, Chatbot ve Prompt eğitimi yayındadır. Dersi bitir, testi 70+ ile geç, yapay zeka sertifikan ve kariyer vizesi Kariyer sayfana işlensin. Akademi yalnız üç satış şartı tamam olan eğitimi satar.",
     path: "/academy",
     image: DEFAULT_OG_IMAGE,
   },
@@ -294,6 +294,9 @@ export const ROBOTS_ALLOW_COURSE_PATHS = [
   OFFICE_AI_SEO.path,
   OFFICE_AI_ILERI_SEO.path,
   ECOMMERCE_AI_SEO.path,
+  "/academy/03_social_media_ai",
+  "/academy/04_chatbot_nocode",
+  "/academy/05_prompt_practice",
 ] as const;
 
 export type SitemapChangeFrequency =

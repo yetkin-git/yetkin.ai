@@ -32,9 +32,30 @@ export const CURRICULUM_LESSON_KEYS_BY_SLUG: Readonly<Record<string, readonly st
     "02_ecommerce_ai-5",
     "02_ecommerce_ai-6",
   ],
-  "03_social_media_ai": [],
-  "04_chatbot_nocode": [],
-  "05_prompt_practice": [],
+  "03_social_media_ai": [
+    "03_social_media_ai-1",
+    "03_social_media_ai-2",
+    "03_social_media_ai-3",
+    "03_social_media_ai-4",
+    "03_social_media_ai-5",
+    "03_social_media_ai-6",
+  ],
+  "04_chatbot_nocode": [
+    "04_chatbot_nocode-1",
+    "04_chatbot_nocode-2",
+    "04_chatbot_nocode-3",
+    "04_chatbot_nocode-4",
+    "04_chatbot_nocode-5",
+    "04_chatbot_nocode-6",
+  ],
+  "05_prompt_practice": [
+    "05_prompt_practice-1",
+    "05_prompt_practice-2",
+    "05_prompt_practice-3",
+    "05_prompt_practice-4",
+    "05_prompt_practice-5",
+    "05_prompt_practice-6",
+  ],
 };
 
 export const CURRICULUM_LESSON_COUNT_BY_SLUG: Readonly<Record<string, number>> = Object.fromEntries(

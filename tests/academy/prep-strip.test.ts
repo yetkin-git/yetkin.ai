@@ -73,7 +73,11 @@ describe("01_office_ai Ders 0 — Başlamadan Önce hazırlık şeridi", () => {
       expect(isAcademyLessonPaywalled(SLUG, key, true)).toBe(false);
     }
     expect(academyCourseOffersFreePreview("02_ecommerce_ai")).toBe(true);
-    expect(academyCourseOffersFreePreview("03_social_media_ai")).toBe(false);
+    expect(academyCourseOffersFreePreview("03_social_media_ai")).toBe(true);
+    expect(academyCourseOffersFreePreview("04_chatbot_nocode")).toBe(true);
+    expect(academyCourseOffersFreePreview("05_prompt_practice")).toBe(true);
+    expect(isAcademyLessonPaywalled("03_social_media_ai", "03_social_media_ai-1", false)).toBe(false);
+    expect(isAcademyLessonPaywalled("03_social_media_ai", "03_social_media_ai-2", false)).toBe(true);
     expect(isAcademyLessonPaywalled("02_ecommerce_ai", "02_ecommerce_ai-1", false)).toBe(false);
     expect(isAcademyLessonPaywalled("02_ecommerce_ai", "02_ecommerce_ai-2", false)).toBe(true);
     const shells = academyPaywallLockedLessonShells(SLUG);

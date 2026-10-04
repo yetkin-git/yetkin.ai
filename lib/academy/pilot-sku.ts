@@ -5,11 +5,11 @@
  *
  * `01_office_ai` çekirdek kaydı durur; 8 ders mühürlü ses (`1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`).
  * OFF-201 `01_office_ai_ileri` canlıdır. Tek ses Aylin (Kore). Durum cümlesi `academyOff201VoiceStatus`.
- * EC-102 `02_ecommerce_ai` kamu kapısı açıktır. Konuşan ad Selin. Satış `ACADEMY_EC102_PUBLIC_RELEASE_OPEN` ile okunur.
+ * EC-102 `02_ecommerce_ai` kamu kapısı açıktır. Konuşan ad Kaan. Satış `ACADEMY_EC102_PUBLIC_RELEASE_OPEN` ile okunur.
+ * SM-103, BOT-104 ve PR-105 kamu kapıları açıktır. Satış aynı desenle okunur.
  * Eski Callirrhoe kasetleri arşivdedir. Yeniden fırın kuyruğu boştur.
  * Eski ritüel kaseti `01_office_ai-4` sınav yolunda ve ses mühründe yoktur; dosya arşivde kalır.
  * Sınav yolu `lesson-index.ts` üzerinden `lib/kernel/catalog-ids/exam-path.ts` tablosunu okur.
- * `03_social_media_ai`, `04_chatbot_nocode` ve `05_prompt_practice` dürüst «Çok Yakında» kabuğudur.
  */
 
 import type { AcademyCourseTitleSlug } from "@/lib/kernel/catalog-ids/course-slugs";
@@ -29,8 +29,7 @@ export const ACADEMY_GROWTH_SKU_SLUGS = [
 
 /**
  * PEDAGOJI §D kardeş kabuk.
- * EC-102 (`02_ecommerce_ai`) bu listede durur. Kamu kapısı `ACADEMY_EC102_PUBLIC_RELEASE_OPEN` açıktır.
- * Kapı kapalıyken kart «Çok Yakında / Hazırlanıyor»dır. `03_social_media_ai`, `04_chatbot_nocode` ve `05_prompt_practice` aynı kabuktadır.
+ * EC-102, SM-103, BOT-104 ve PR-105 bu listede durur. Kamu kapısı kapalıyken kart «Çok Yakında / Hazırlanıyor»dır.
  */
 export const ACADEMY_PRODUCTION_LINE_SKU_SLUGS = [
   "02_ecommerce_ai",
@@ -64,8 +63,8 @@ export function academyOff201VoiceStatus(): string {
 }
 
 /**
- * EC-102 gövde. Fırın sesi Aoede (sicil adı Selin, cinsiyet kadın). Konuşan ad Selin.
- * Kart hitabı «Selin Hanım». Usta unvanı bu kursta yoktur. Kaset yeniden fırınlanmadan yeni ağız diske yazılmaz.
+ * EC-102 gövde. Fırın sesi Puck (sicil adı Kaan, cinsiyet erkek). Konuşan ad Kaan.
+ * Kart hitabı «Kaan Bey». Usta unvanı bu kursta yoktur. Kaset yeniden fırınlanmadan yeni ağız diske yazılmaz.
  * Yayın, fiyat ve disk mührü `academyCourseSaleOpen` içinde birlikte okunur.
  */
 export const ACADEMY_NEXT_BODY_SKU_SLUG = "02_ecommerce_ai" as const;
@@ -83,6 +82,33 @@ export const ACADEMY_EC102_STOREFRONT_COVER =
  */
 export const ACADEMY_EC102_PUBLIC_RELEASE_OPEN = true;
 
+/** SM-103 kamu kapısı. Açıkken satış, antre, oynatıcı ve site haritası bu bayrağı okur. */
+export const ACADEMY_SM103_STOREFRONT_SLUG = "03_social_media_ai" as const;
+export const ACADEMY_SM103_PUBLIC_RELEASE_OPEN = true;
+export const ACADEMY_SM103_STOREFRONT_COVER =
+  "/academy/cinema/03_social_media_ai-1-cue-1.jpg" as const;
+
+/** BOT-104 kamu kapısı. Açıkken satış, antre, oynatıcı ve site haritası bu bayrağı okur. */
+export const ACADEMY_BOT104_STOREFRONT_SLUG = "04_chatbot_nocode" as const;
+export const ACADEMY_BOT104_PUBLIC_RELEASE_OPEN = true;
+export const ACADEMY_BOT104_STOREFRONT_COVER =
+  "/academy/cinema/04_chatbot_nocode-1-cue-1.jpg" as const;
+
+/** PR-105 kamu kapısı. Açıkken satış, antre, oynatıcı ve site haritası bu bayrağı okur. */
+export const ACADEMY_PR105_STOREFRONT_SLUG = "05_prompt_practice" as const;
+export const ACADEMY_PR105_PUBLIC_RELEASE_OPEN = true;
+export const ACADEMY_PR105_STOREFRONT_COVER =
+  "/academy/cinema/05_prompt_practice-1-cue-1.jpg" as const;
+
+/** Üretim hattı kamu kapısı. Kapalı slug kartta «Çok Yakında / Hazırlanıyor» kalır. */
+export function academyProductionLineReleaseOpen(slug: string): boolean {
+  if (slug === ACADEMY_NEXT_BODY_SKU_SLUG) return ACADEMY_EC102_PUBLIC_RELEASE_OPEN;
+  if (slug === ACADEMY_SM103_STOREFRONT_SLUG) return ACADEMY_SM103_PUBLIC_RELEASE_OPEN;
+  if (slug === ACADEMY_BOT104_STOREFRONT_SLUG) return ACADEMY_BOT104_PUBLIC_RELEASE_OPEN;
+  if (slug === ACADEMY_PR105_STOREFRONT_SLUG) return ACADEMY_PR105_PUBLIC_RELEASE_OPEN;
+  return true;
+}
+
 export const ACADEMY_VITRINE_SHELL_SKU_SLUGS = [
   ACADEMY_FLAGSHIP_SKU_SLUG,
   ACADEMY_OFF201_STOREFRONT_SLUG,
@@ -92,6 +118,13 @@ export const ACADEMY_VITRINE_SHELL_SKU_SLUGS = [
 /** Antre / oynatıcı `generateStaticParams` — vitrinde olmayan slug HTTP 404. */
 export function academyStorefrontStaticParams(): { slug: AcademyGrowthSkuSlug }[] {
   return ACADEMY_GROWTH_SKU_SLUGS.map((slug) => ({ slug }));
+}
+
+/** Kamu kapısı açık üretim hattı — antre ve oynatıcı statik yolları. */
+export function academyReleasedProductionLineParams(): { slug: AcademyProductionLineSkuSlug }[] {
+  return ACADEMY_PRODUCTION_LINE_SKU_SLUGS.filter(
+    (slug) => academyProductionLineReleaseOpen(slug) && academyCourseNarrationPublished(slug),
+  ).map((slug) => ({ slug }));
 }
 
 /** DialogueTurn[] mührü — düz metin okuma kilidinde kapalı. */
@@ -177,8 +210,8 @@ export function isAcademyStorefrontSlug(slug: string): boolean {
   return (
     isAcademyGrowthSkuSlug(slug) ||
     slug === ACADEMY_OFF201_STOREFRONT_SLUG ||
-    (slug === ACADEMY_NEXT_BODY_SKU_SLUG &&
-      ACADEMY_EC102_PUBLIC_RELEASE_OPEN &&
+    (isAcademyProductionLineSkuSlug(slug) &&
+      academyProductionLineReleaseOpen(slug) &&
       academyCourseNarrationPublished(slug))
   );
 }
@@ -195,6 +228,9 @@ export const ACADEMY_LICENSE_SALE_SLUGS = [
   ACADEMY_FLAGSHIP_SKU_SLUG,
   ACADEMY_OFF201_STOREFRONT_SLUG,
   ACADEMY_NEXT_BODY_SKU_SLUG,
+  ACADEMY_SM103_STOREFRONT_SLUG,
+  ACADEMY_BOT104_STOREFRONT_SLUG,
+  ACADEMY_PR105_STOREFRONT_SLUG,
 ] as const;
 
 export function isAcademyLicenseSaleSlug(slug: string): boolean {
@@ -313,7 +349,7 @@ export function academyCourseSaleListed(courseSlug: string): boolean {
   if (courseSlug === ACADEMY_OFF201_STOREFRONT_SLUG && !ACADEMY_OFF201_LAUNCH_SALE_OPEN) {
     return false;
   }
-  if (courseSlug === ACADEMY_NEXT_BODY_SKU_SLUG && !ACADEMY_EC102_PUBLIC_RELEASE_OPEN) {
+  if (isAcademyProductionLineSkuSlug(courseSlug) && !academyProductionLineReleaseOpen(courseSlug)) {
     return false;
   }
   if (isAcademyLicenseSaleSlug(courseSlug)) {
@@ -380,7 +416,7 @@ export function filterAcademyGrowthCatalog<T extends { slug: string }>(courses: 
 
 /**
  * PEDAGOJI §D 5'li Vitrin Karması.
- * Canlı kartlar OFF-101, OFF-201 ve EC-102. Kalan üç slug dürüst Yakında kabuğudur.
+ * Canlı kartlar OFF-101, OFF-201, EC-102, SM-103, BOT-104 ve PR-105. Kapalı üretim hattı Yakında kabuğudur.
  */
 export function filterAcademyVitrineCatalog<T extends { slug: string }>(courses: readonly T[]): T[] {
   const bySlug = new Map(courses.map((row) => [row.slug, row] as const));

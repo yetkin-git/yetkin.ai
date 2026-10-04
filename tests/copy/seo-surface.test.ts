@@ -211,7 +211,15 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
       }
       expect(academyCourseCoverPath(slug), slug).toBeNull();
     }
-    expect(academyCourseCoverPath("03_social_media_ai")).toBeNull();
+    expect(academyCourseCoverPath("03_social_media_ai")).toBe(
+      "/academy/cinema/03_social_media_ai-1-cue-1.jpg",
+    );
+    expect(academyCourseCoverPath("04_chatbot_nocode")).toBe(
+      "/academy/cinema/04_chatbot_nocode-1-cue-1.jpg",
+    );
+    expect(academyCourseCoverPath("05_prompt_practice")).toBe(
+      "/academy/cinema/05_prompt_practice-1-cue-1.jpg",
+    );
     expect(academyCourseCoverPath("02_ecommerce_ai")).toBe(
       "/academy/cinema/02_ecommerce_ai-1-cue-1.jpg",
     );
@@ -250,6 +258,9 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(byPath.get("/academy")?.priority).toBe(1);
     expect(sitemapRoutePolicy("/career").priority).toBe(0.9);
     expect(byPath.has("/academy/02_ecommerce_ai"), "/academy/02_ecommerce_ai").toBe(true);
+    expect(byPath.has("/academy/03_social_media_ai"), "/academy/03_social_media_ai").toBe(true);
+    expect(byPath.has("/academy/04_chatbot_nocode"), "/academy/04_chatbot_nocode").toBe(true);
+    expect(byPath.has("/academy/05_prompt_practice"), "/academy/05_prompt_practice").toBe(true);
     expect(byPath.has("/academy/01_office_ai_ileri"), "/academy/01_office_ai_ileri").toBe(true);
     expect(byPath.get("/academy/01_office_ai_ileri")?.priority).toBe(0.8);
     expect(byPath.get("/academy/01_office_ai_ileri")?.images?.[0]).toBe(
@@ -306,12 +317,18 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
       "/academy/01_office_ai",
       "/academy/01_office_ai_ileri",
       "/academy/02_ecommerce_ai",
+      "/academy/03_social_media_ai",
+      "/academy/04_chatbot_nocode",
+      "/academy/05_prompt_practice",
     ]);
     expect(rule?.allow).toEqual(
       expect.arrayContaining([
         "/academy/01_office_ai",
         "/academy/01_office_ai_ileri",
         "/academy/02_ecommerce_ai",
+        "/academy/03_social_media_ai",
+        "/academy/04_chatbot_nocode",
+        "/academy/05_prompt_practice",
       ]),
     );
     expect(isRobotsDisallowedPath("/academy/02_ecommerce_ai")).toBe(false);

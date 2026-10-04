@@ -292,23 +292,17 @@ function overlayCueDisplayText(
   piece: Pick<AcademySealedAudioPiece, "cueId" | "cueParagraphIndex" | "chunkIndex" | "text">,
   pieces: readonly Pick<AcademySealedAudioPiece, "cueId" | "cueParagraphIndex">[],
 ): string {
-  const fallback = applyAcademySpokenPhoneticsToDisplay(piece.text);
   const cue = cues.find((row) => row.id === piece.cueId);
-  if (!cue) {
-    return fallback;
-  }
-  const displayParagraph = academyLessonCueScriptParagraphs(cue)[piece.cueParagraphIndex];
-  if (!displayParagraph) {
-    return fallback;
-  }
-  const displayChunks = splitAcademyTtsBreathChunks(displayParagraph);
+  const displayParagraph = cue ? academyLessonCueScriptParagraphs(cue)[piece.cueParagraphIndex] : undefined;
+  const displayChunks = displayParagraph ? splitAcademyTtsBreathChunks(displayParagraph) : [];
   const siblingCount = pieces.filter(
     (row) => row.cueId === piece.cueId && row.cueParagraphIndex === piece.cueParagraphIndex,
   ).length;
+  const spoken = piece.text.trim();
   const overlay =
-    displayChunks.length === siblingCount
-      ? (displayChunks[piece.chunkIndex] ?? fallback)
-      : fallback;
+    displayChunks.length > 0 && displayChunks.length === siblingCount
+      ? (displayChunks[piece.chunkIndex] ?? spoken)
+      : spoken;
   return applyAcademySpokenPhoneticsToDisplay(overlay);
 }
 
@@ -398,6 +392,7 @@ export function loadAcademyTeleprompterFlow(lessonKey: string): readonly Academy
   return compactCaptions ? compactAcademyTeleprompterCaptions(flow) : flow;
 }
 
+/** Saat saniyedir (JSON üç ondalık). Üst üste binen pencerede en dar aralık kazanır. */
 export function academyTeleprompterActiveLineIndex(
   lines: readonly Pick<AcademyTeleprompterLine, "start" | "end">[],
   currentTime: number,
@@ -410,17 +405,21 @@ export function academyTeleprompterActiveLineIndex(
   if (t < first.start) {
     return null;
   }
+  let best: number | null = null;
+  let bestSpan = Number.POSITIVE_INFINITY;
   let lastHit: number | null = null;
   for (let index = 0; index < lines.length; index += 1) {
     const line = lines[index]!;
-    if (t >= line.start && t < line.end) {
-      return index;
+    const span = line.end - line.start;
+    if (t >= line.start && t < line.end && span < bestSpan) {
+      best = index;
+      bestSpan = span;
     }
     if (t >= line.end) {
       lastHit = index;
     }
   }
-  return lastHit ?? 0;
+  return best ?? lastHit ?? 0;
 }
 
 export function academyTeleprompterLineState(
