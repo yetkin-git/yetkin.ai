@@ -1,8 +1,11 @@
 /**
  * Ücretli ders sesi — kısa ömürlü izin.
- * `ACADEMY_MEDIA_READ=local` (varsayılan): dosya sitede kalır, kenar `g` imzası ister.
+ * `ACADEMY_MEDIA_READ=local`: dosya sitede kalır, kenar `g` imzası ister.
  * `ACADEMY_MEDIA_READ=storage`: satın alma veya ücretsiz önizleme doğrulandıktan sonra
- * özel `academy-sealed` kovasının 4 saatlik adresi döner. Kenar bu adresi üretmez.
+ * özel `academy-sealed` kovasının 4 saatlik adresi döner.
+ * Üretimde anahtar boşsa kova okunur. Yayın MP3 sitede değil, kovadadır.
+ * Geliştirme ve testte boş anahtar site yolunda kalır.
+ * Kenar bu adresi üretmez.
  * Sır cüzdan pasaportundan ayrıdır. İstemci bu modülü import etmez.
  * Servis anahtarı bu dosyada durmaz.
  */
@@ -122,12 +125,24 @@ export async function verifyAcademyAudioGrant(
 
 export type AcademyMediaRead = "local" | "storage";
 
-/** Boş, `local` ve tanınmayan değer yerelde kalır. Yalnız açık `storage` kovayı okur. */
+/**
+ * Açık `storage` kovayı okur. Açık `local` site yolunda kalır.
+ * Üretimde boş anahtar kovayı okur. Geliştirme, test ve tanınmayan değer site yolunda kalır.
+ */
 export function resolveAcademyMediaRead(
   env: Record<string, string | undefined>,
 ): AcademyMediaRead {
   const raw = env.ACADEMY_MEDIA_READ?.trim().toLowerCase() ?? "";
-  return raw === "storage" ? "storage" : "local";
+  if (raw === "storage") {
+    return "storage";
+  }
+  if (raw === "local") {
+    return "local";
+  }
+  if (raw.length === 0 && env.NODE_ENV === "production") {
+    return "storage";
+  }
+  return "local";
 }
 
 export function assertAcademySealedBucket(bucket: string): void {

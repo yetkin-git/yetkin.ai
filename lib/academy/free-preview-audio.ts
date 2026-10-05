@@ -22,6 +22,7 @@ export type AcademyFreePreviewAudioGrant = {
  * Satış vitrini (ders 1) için kısa ömürlü ses adresi.
  * Ders 2+ bu haritaya girmez. Giriş şartı yoktur.
  * `local`: kenar imzası. `storage`: özel kovanın 4 saatlik adresi.
+ * Üretimde okuma anahtarı boşsa storage geçerlidir.
  * İmza üretilemezse ders haritaya girmez; başka dersin sesi konmaz.
  */
 export async function loadAcademyFreePreviewAudioGrants(

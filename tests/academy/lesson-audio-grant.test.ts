@@ -176,6 +176,9 @@ describe("ders sesi imza kapısı", () => {
     expect(resolveAcademyMediaRead(ENV)).toBe("local");
     expect(resolveAcademyMediaRead({ ...ENV, ACADEMY_MEDIA_READ: "local" })).toBe("local");
     expect(resolveAcademyMediaRead({ ...ENV, ACADEMY_MEDIA_READ: "storage" })).toBe("storage");
+    expect(resolveAcademyMediaRead({ NODE_ENV: "production" })).toBe("storage");
+    expect(resolveAcademyMediaRead({ NODE_ENV: "production", ACADEMY_MEDIA_READ: "" })).toBe("storage");
+    expect(resolveAcademyMediaRead({ NODE_ENV: "production", ACADEMY_MEDIA_READ: "local" })).toBe("local");
     expect(() => assertAcademySealedBucket("lesson-audios")).toThrow(/lesson-audios/);
 
     const playback = academyLessonAudioPlaybackSrc("01_office_ai", "01_office_ai-1");

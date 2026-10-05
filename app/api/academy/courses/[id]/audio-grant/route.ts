@@ -39,6 +39,7 @@ function lessonAudioEligible(courseSlug: string, lessonKey: string): boolean {
  * Satın alınmış dersin kısa ömürlü ses adresi.
  * Satın alma yoksa 403. Adres üretilemezse 503; başka dersin sesi konmaz.
  * local: kenar aynı imzayı ister. storage: özel kovanın 4 saatlik adresi.
+ * Üretimde okuma anahtarı boşsa storage geçerlidir.
  * Bu yanıt dosyanın kendisini taşımaz.
  */
 export async function GET(
