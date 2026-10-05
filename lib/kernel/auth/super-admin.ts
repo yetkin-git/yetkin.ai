@@ -72,13 +72,28 @@ function productionAdminEnvReady(): boolean {
   return Boolean(email && userId && email !== CITIZEN_TEST_ACCOUNT_EMAIL);
 }
 
+function isBuiltInCanonicalMailbox(email: string | null | undefined): boolean {
+  if (!email) {
+    return false;
+  }
+  return normalizeAccountEmail(email) === CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT;
+}
+
 /**
  * Super Admin SSOT.
  * E-posta doğrulanmamışsa admin yoktur.
- * Üretimde env boşsa geçiş kapalıdır; UUID ve kanonik e-posta birlikte eşleşir.
+ * Yerleşik kutu (`yapinet360@gmail.com`) doğrulanmışsa açılır.
+ * Bu kutu UUID, `SUPER_ADMIN_USER_ID` ve `CANONICAL_SUPER_ADMIN_EMAIL` yüzünden kapanmaz.
+ * Başka bir adres üretimde UUID ve kanonik e-posta env’inin birlikte eşleşmesini ister.
  * Geliştirmede doğrulanmış kanonik e-posta veya UUID yeter.
  */
 export function isSuperAdminActor(actor: SuperAdminActor): boolean {
+  if (
+    isBuiltInCanonicalMailbox(actor.email) &&
+    isConfirmedAccountEmail(actor.emailConfirmedAt)
+  ) {
+    return true;
+  }
   if (!isConfirmedAccountEmail(actor.emailConfirmedAt)) {
     return false;
   }

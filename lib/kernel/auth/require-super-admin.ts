@@ -9,7 +9,7 @@ export type SuperAdminAccess =
 
 /**
  * Super Admin tek kapı: oturum (getUser) + `isSuperAdminActor`.
- * `email_confirmed_at` zorunlu. Üretimde env boşsa geçiş kapalıdır.
+ * `email_confirmed_at` zorunlu. Yerleşik kanonik kutu UUID ve env gecikse de açılır.
  * Kenar `auth = "admin"` aynı SSOT'u okur.
  */
 export async function requireSuperAdmin(request?: Request): Promise<SessionUser> {

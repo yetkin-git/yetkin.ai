@@ -80,7 +80,7 @@ describe("requireSuperAdmin tek merkez", () => {
     ).toBe(true);
   });
 
-  it("üretimde env boşsa admin yoktur; UUID ve e-posta birlikte gerekir", () => {
+  it("üretimde env boşsa yalnız doğrulanmış yerleşik kutu açılır; başka adres UUID ister", () => {
     const previousNode = process.env.NODE_ENV;
     (process.env as { NODE_ENV?: string }).NODE_ENV = "production";
     delete process.env.CANONICAL_SUPER_ADMIN_EMAIL;
@@ -93,14 +93,27 @@ describe("requireSuperAdmin tek merkez", () => {
           email: "yapinet360@gmail.com",
           emailConfirmedAt: CONFIRMED,
         }),
-      ).toBe(false);
+      ).toBe(true);
       expect(
         hasAcademyAdminBypass({
           userId: ADMIN_ID,
           email: "yapinet360@gmail.com",
           emailConfirmedAt: CONFIRMED,
         }),
+      ).toBe(true);
+      expect(
+        isSuperAdminActor({
+          id: ADMIN_ID,
+          email: "yapinet360@gmail.com",
+        }),
       ).toBe(false);
+      expect(
+        isSuperAdminActor({
+          id: "admin-1",
+          email: "yapinet360@gmail.com",
+          emailConfirmedAt: CONFIRMED,
+        }),
+      ).toBe(true);
       process.env.CANONICAL_SUPER_ADMIN_EMAIL = ADMIN_EMAIL;
       expect(
         isSuperAdminActor({ id: ADMIN_ID, email: ADMIN_EMAIL, emailConfirmedAt: CONFIRMED }),
@@ -124,12 +137,15 @@ describe("requireSuperAdmin tek merkez", () => {
         }),
       ).toBe(true);
       expect(isSuperAdminActor({ id: ADMIN_ID, email: ADMIN_EMAIL })).toBe(false);
+      expect(
+        isSuperAdminActor({ id: CITIZEN_ID, email: ADMIN_EMAIL, emailConfirmedAt: CONFIRMED }),
+      ).toBe(false);
     } finally {
       (process.env as { NODE_ENV?: string }).NODE_ENV = previousNode;
     }
   });
 
-  it("yapinet360@gmail.com geliştirmede doğrulanmış e-posta ile, üretimde UUID ile açılır", () => {
+  it("yapinet360@gmail.com geliştirmede ve üretimde doğrulanmış e-posta ile açılır", () => {
     const previousNode = process.env.NODE_ENV;
     const adminId = "11111111-1111-4111-8111-111111111111";
     try {
@@ -160,9 +176,9 @@ describe("requireSuperAdmin tek merkez", () => {
           email: "yapinet360@gmail.com",
           emailConfirmedAt: CONFIRMED,
         }),
-      ).toBe(false);
+      ).toBe(true);
       process.env.CANONICAL_SUPER_ADMIN_EMAIL = "yapinet360@gmail.com";
-      process.env.SUPER_ADMIN_USER_ID = adminId;
+      process.env.SUPER_ADMIN_USER_ID = "33333333-3333-4333-8333-333333333333";
       expect(
         isSuperAdminActor({
           id: adminId,
@@ -174,6 +190,13 @@ describe("requireSuperAdmin tek merkez", () => {
         isSuperAdminActor({
           id: CITIZEN_ID,
           email: "yapinet360@gmail.com",
+          emailConfirmedAt: CONFIRMED,
+        }),
+      ).toBe(true);
+      expect(
+        isSuperAdminActor({
+          id: CITIZEN_ID,
+          email: "baska@yetkin.test",
           emailConfirmedAt: CONFIRMED,
         }),
       ).toBe(false);
