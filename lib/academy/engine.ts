@@ -16,7 +16,7 @@ import type { CheckoutPriceLockStore } from "@/lib/kernel/pricing/lock-store";
 import type { CheckoutPriceLockSnapshot } from "@/lib/kernel/pricing/price-lock";
 import { academyCourseLevelBySlug, type AcademyCourseLevel } from "@/lib/academy/course-level";
 import { isAcademyLicenseActive } from "@/lib/academy/license";
-import "@/lib/academy/production-seal-disk";
+import { ensureAcademyProductionDiskProbe } from "@/lib/academy/production-seal-disk";
 import { academyCourseSaleOpen } from "@/lib/academy/pilot-sku";
 import { resolveAcademyCourseFromSeed } from "@/lib/academy/published-catalog";
 import {
@@ -135,6 +135,7 @@ async function requirePublishedCourse(
         : "Kurs satışa kapalı.",
     );
   }
+  ensureAcademyProductionDiskProbe();
   if (!academyCourseSaleOpen(course.slug)) {
     throw new GoneError("Kurs satışa kapalı.");
   }

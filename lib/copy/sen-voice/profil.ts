@@ -24,6 +24,7 @@ export const PROFIL_SEN = {
   passportCta: "Pasaport sığınağı",
   walletCta: "Cüzdanı aç",
   careerCta: "Mücevher vitrini",
+  adminPanelCta: "Admin Paneline Git",
   verifyCta: "Sertifika doğrula",
   dashboardCta: "Panele dön",
   honestyTitle: "Kimlik dürüstlüğü",

@@ -235,6 +235,21 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     }
   });
 
+  it("disk okuyucusu süreç yuvasında durur; boş yuva satışı kapatır", () => {
+    const key = Symbol.for("yetkin.academy.productionDiskProbe");
+    registerAcademyProductionDiskProbe(null);
+    try {
+      const box = (globalThis as typeof globalThis & {
+        [key]?: { current: ((relativePath: string) => boolean) | null };
+      })[key];
+      expect(box?.current).toBeNull();
+      expect(academyCourseSaleOpen("01_office_ai")).toBe(false);
+    } finally {
+      registerAcademyProductionDiskProbe(academyProductionFilePresent);
+    }
+    expect(academyCourseSaleOpen("01_office_ai")).toBe(true);
+  });
+
   it("ısınma MP4 veya müzik BED diskte yoksa mühür fail-closed", () => {
     const onDisk = (relativePath: string): boolean => academyProductionFilePresent(relativePath);
     registerAcademyProductionDiskProbe((relativePath) =>

@@ -169,11 +169,40 @@ const ACADEMY_PRODUCTION_LAYER_LABEL: Record<AcademyProductionMediaLayer, string
 
 export type AcademyProductionDiskProbe = (relativePath: string) => boolean;
 
-let productionDiskProbe: AcademyProductionDiskProbe | null = null;
+/**
+ * Okuyucu yuvası. Next sunucusu `production-standard` dosyasını birden fazla pakette
+ * kopyalayabilir. Modül değişkeni kopyalar arasında paylaşılmaz; satış o zaman fail-closed
+ * kalır ve kart «Kayıt Kapalı / Fiyat Bekleniyor» der. `Symbol.for` süreçte tektir.
+ */
+const ACADEMY_PRODUCTION_DISK_PROBE = Symbol.for("yetkin.academy.productionDiskProbe");
+
+type AcademyProductionDiskProbeBox = {
+  current: AcademyProductionDiskProbe | null;
+};
+
+function productionDiskProbeBox(): AcademyProductionDiskProbeBox {
+  const host = globalThis as typeof globalThis & {
+    [ACADEMY_PRODUCTION_DISK_PROBE]?: AcademyProductionDiskProbeBox;
+  };
+  const existing = host[ACADEMY_PRODUCTION_DISK_PROBE];
+  if (existing) return existing;
+  const created: AcademyProductionDiskProbeBox = { current: null };
+  host[ACADEMY_PRODUCTION_DISK_PROBE] = created;
+  return created;
+}
+
+function readProductionDiskProbe(): AcademyProductionDiskProbe | null {
+  return productionDiskProbeBox().current;
+}
 
 /** Sunucu ve test disk okuyucusunu kaydeder. İstemci paketi `node:fs` taşımaz. */
 export function registerAcademyProductionDiskProbe(next: AcademyProductionDiskProbe | null): void {
-  productionDiskProbe = next;
+  productionDiskProbeBox().current = next;
+}
+
+/** Test sahte okuyucuyu koyduysa satış yolu onu ezmez. Boş yuva fail-closed kalır. */
+export function academyProductionDiskProbeIsSet(): boolean {
+  return readProductionDiskProbe() !== null;
 }
 
 /**
@@ -214,7 +243,7 @@ export function academyProductionLayerPresence(
   lessonKey: string,
 ): AcademyProductionSealPresence {
   const paths = academyProductionLayerRelativePaths(courseSlug, lessonKey);
-  const read = productionDiskProbe;
+  const read = readProductionDiskProbe();
   const present = (layer: AcademyProductionMediaLayer): boolean => {
     if (!read) return false;
     const relative = paths[layer];
@@ -246,7 +275,7 @@ export function assertAcademyProductionSeal(target: {
   courseSlug: string;
   lessonKey: string;
 }): void {
-  if (!productionDiskProbe) {
+  if (!readProductionDiskProbe()) {
     throw new Error("5 medya katmanı diskten okunamadı. Fail-closed. Mühür basılmaz.");
   }
   const missing = academyProductionMissingLayers(target.courseSlug, target.lessonKey);
@@ -262,7 +291,7 @@ export function academyCourseProductionDiskSealed(
   courseSlug: string,
   lessonKeys: readonly string[],
 ): boolean {
-  if (!productionDiskProbe || lessonKeys.length === 0) return false;
+  if (!readProductionDiskProbe() || lessonKeys.length === 0) return false;
   return lessonKeys.every((lessonKey) => academyProductionMissingLayers(courseSlug, lessonKey).length === 0);
 }
 

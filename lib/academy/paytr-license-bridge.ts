@@ -1,5 +1,5 @@
 import { lockAcademyCoursePrice, purchaseAcademyCourse, type AcademyEnginePorts } from "@/lib/academy/engine";
-import "@/lib/academy/production-seal-disk";
+import { ensureAcademyProductionDiskProbe } from "@/lib/academy/production-seal-disk";
 import { academyCourseSaleOpen, isAcademyLicenseSaleSlug } from "@/lib/academy/pilot-sku";
 import {
   CHECKOUT_LEGAL_CONSENT_PAYLOAD,
@@ -17,6 +17,7 @@ export function academyLicenseOrderPurpose(slug: string): string {
   if (!isAcademyLicenseSaleSlug(slug)) {
     throw new Error("Akademi lisans SKU'su geçersiz.");
   }
+  ensureAcademyProductionDiskProbe();
   if (!academyCourseSaleOpen(slug)) {
     throw new Error("Kurs satışa kapalı.");
   }
@@ -28,6 +29,7 @@ export function readAcademyLicenseSlug(purpose: string | undefined): string | nu
     return null;
   }
   const slug = purpose.slice(ACADEMY_LICENSE_ORDER_PURPOSE_PREFIX.length).trim();
+  ensureAcademyProductionDiskProbe();
   return academyCourseSaleOpen(slug) ? slug : null;
 }
 

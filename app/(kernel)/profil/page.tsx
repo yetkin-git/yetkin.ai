@@ -9,6 +9,8 @@ import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { StatGrid } from "@/components/ui/stat-grid";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { requirePageSession } from "@/lib/kernel/auth/session";
+import { isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
+import { ADMIN_SURFACE_PATH } from "@/lib/kernel/admin/types";
 import { loadIdentityBoard } from "@/lib/kernel/identity/load";
 import { readSettlementWallet } from "@/lib/kernel/ledger/wallet-read";
 import { readWalletFinanceHoldMinor } from "@/lib/kernel/payments/finance-hold-read";
@@ -17,10 +19,21 @@ import { WALLET_SURFACE_PATH } from "@/lib/kernel/identity/types";
 import { loadPassportBoard } from "@/lib/kernel/passport/load";
 import { CAREER_STAMP_SURFACE_PATH, PASSPORT_SURFACE_PATH } from "@/lib/kernel/passport/types";
 
-function ProfileShelterActions({ size = "sm" }: { size?: "sm" | "md" }) {
+function ProfileShelterActions({
+  size = "sm",
+  showAdmin = false,
+}: {
+  size?: "sm" | "md";
+  showAdmin?: boolean;
+}) {
   const copy = SEN_VOICE.profil;
   return (
     <>
+      {showAdmin ? (
+        <LinkButton href={ADMIN_SURFACE_PATH} variant="primary" size={size}>
+          {copy.adminPanelCta}
+        </LinkButton>
+      ) : null}
       <LinkButton href={PASSPORT_SURFACE_PATH} variant="secondary" size={size}>
         {copy.passportCta}
       </LinkButton>
@@ -47,6 +60,7 @@ export default async function ProfilePage() {
   const copy = SEN_VOICE.profil;
   const stamps = passportBoard?.stamps ?? [];
   const meritSoft = passportBoard === null;
+  const showAdmin = isSuperAdminActor(session);
 
   return (
     <RoomFrame>
@@ -54,7 +68,7 @@ export default async function ProfilePage() {
         eyebrow={copy.eyebrow}
         title={copy.title}
         description={copy.description}
-        actions={<ProfileShelterActions />}
+        actions={<ProfileShelterActions showAdmin={showAdmin} />}
       />
       <StatGrid
         columns={3}
@@ -86,7 +100,7 @@ export default async function ProfilePage() {
             <LinkButton href="/dashboard" variant="outline" size="sm">
               {copy.dashboardCta}
             </LinkButton>
-            <ProfileShelterActions />
+            <ProfileShelterActions showAdmin={showAdmin} />
           </div>
           <IdentityMeritSummary stamps={[]} soft />
           <IdentityCard profile={null} sessionEmail={session.email} />
@@ -95,7 +109,7 @@ export default async function ProfilePage() {
         <div className="space-y-3">
           <p className="text-sm text-[var(--muted)]">{copy.missingSoft}</p>
           <div className="flex flex-wrap gap-2">
-            <ProfileShelterActions />
+            <ProfileShelterActions showAdmin={showAdmin} />
           </div>
           <IdentityMeritSummary stamps={stamps} soft={meritSoft} />
           <IdentityCard profile={null} sessionEmail={session.email} />

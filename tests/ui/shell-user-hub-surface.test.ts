@@ -96,6 +96,7 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     expect(sessionHub).toContain("readWalletStripSnapshot");
     expect(sessionHub).toContain("Suspense");
     expect(hub).toContain("showAdmin");
+    expect(hub).toContain("ADMIN_CATALOG_SURFACE_PATH");
     expect(hub).toContain('surface.id !== "admin"');
     expect(hub).toContain('surface.id !== "cuzdan"');
   });

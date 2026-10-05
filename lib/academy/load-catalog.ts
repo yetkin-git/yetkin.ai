@@ -7,7 +7,7 @@ import "server-only";
 
 import { cache } from "react";
 import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
-import "@/lib/academy/production-seal-disk";
+import { ensureAcademyProductionDiskProbe } from "@/lib/academy/production-seal-disk";
 import { ACADEMY_VITRINE_SHELL_SKU_SLUGS, academyCatalogPurchasable } from "@/lib/academy/pilot-sku";
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import type { AcademyCourseRecord, AcademyCourseWithPrice } from "@/lib/academy/types";
@@ -57,6 +57,7 @@ function courseSlugFromCatalog(
 export const loadPublishedCourses = cache(async function loadPublishedCourses(): Promise<
   AcademyCourseWithPrice[]
 > {
+  ensureAcademyProductionDiskProbe();
   const seeded = publishedCoursesFromSeed();
   try {
     // Fiyat, kilit ve PayTR aynı `PriceCatalogEntry` satırındandır.
@@ -104,6 +105,7 @@ export const loadPublishedCourses = cache(async function loadPublishedCourses():
 export const loadAcademyVitrineCourses = cache(async function loadAcademyVitrineCourses(): Promise<
   AcademyCourseWithPrice[]
 > {
+  ensureAcademyProductionDiskProbe();
   try {
     const engineReady = await ensurePrismaQueryEngine();
     if (!engineReady) {

@@ -49,6 +49,10 @@ describe("profil kimlik yüzeyi", () => {
     expect(page).toContain("PASSPORT_SURFACE_PATH");
     expect(page).toContain("WALLET_SURFACE_PATH");
     expect(page).toContain("CAREER_STAMP_SURFACE_PATH");
+    expect(page).toContain("isSuperAdminActor");
+    expect(page).toContain("ADMIN_SURFACE_PATH");
+    expect(page).toContain("adminPanelCta");
+    expect(page).toContain("showAdmin");
     expect(page).not.toContain("syncCareerVisaStamps");
     expect(page).not.toContain("@/lib/career");
   });
@@ -71,6 +75,7 @@ describe("profil kimlik yüzeyi", () => {
     expect(sen).toContain("verifyCta");
     expect(sen).toContain("walletCta");
     expect(sen).toContain("careerCta");
+    expect(sen).toContain("Admin Paneline Git");
     expect(sen).toContain("loadSoft");
     expect(sen).toContain("merit:");
     expect(sen).not.toContain("unboundBadge");

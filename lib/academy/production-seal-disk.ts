@@ -16,7 +16,10 @@ import {
   ACADEMY_PREP_STRIP_AUDIO_SEALED,
   academyPrepStripForSlug,
 } from "@/lib/academy/prep-strip";
-import { registerAcademyProductionDiskProbe } from "@/lib/academy/production-standard";
+import {
+  academyProductionDiskProbeIsSet,
+  registerAcademyProductionDiskProbe,
+} from "@/lib/academy/production-standard";
 
 const SEAL_RELATIVE_PREFIXES = [
   "lib/academy/spoken-scripts/",
@@ -92,4 +95,13 @@ export function academyProductionFilePresent(relativePath: string): boolean {
   }
 }
 
-registerAcademyProductionDiskProbe(academyProductionFilePresent);
+/**
+ * Satış yolu bunu çağırır. Yan etki importu paketleyici tarafından düşürülse de kayıt kalır.
+ * Yuva doluysa dokunulmaz: testin sahte okuyucusu ve süreçteki asıl kayıt ezilmez.
+ */
+export function ensureAcademyProductionDiskProbe(): void {
+  if (academyProductionDiskProbeIsSet()) return;
+  registerAcademyProductionDiskProbe(academyProductionFilePresent);
+}
+
+ensureAcademyProductionDiskProbe();

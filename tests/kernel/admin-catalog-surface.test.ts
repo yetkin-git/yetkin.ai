@@ -21,6 +21,7 @@ import {
   ADMIN_ACADEMY_SHELTER_PATH,
   ADMIN_DASHBOARD_SHELTER_PATH,
   ADMIN_FREELANCER_SHELTER_PATH,
+  ADMIN_CATALOG_SURFACE_PATH,
   ADMIN_SURFACE_PATH,
   CATALOG_WRITE_PATH,
   FUNNEL_READ_PATH,
@@ -80,6 +81,7 @@ describe("admin katalog yüzeyi", () => {
     expect(ADMIN_EMPTY_LABEL).toBe("Henüz katalog satırı yok");
     expect(ADMIN_UNSET_LABEL).toBe("—");
     expect(ADMIN_SURFACE_PATH).toBe("/admin");
+    expect(ADMIN_CATALOG_SURFACE_PATH).toBe("/admin/catalog");
     expect(CATALOG_WRITE_PATH).toBe("/api/admin/catalog");
     expect(FUNNEL_READ_PATH).toBe("/api/admin/funnel");
     expect(ADMIN_DASHBOARD_SHELTER_PATH).toBe("/dashboard");
@@ -122,6 +124,12 @@ describe("admin katalog yüzeyi", () => {
 
   it("sayfa RoomSeal taşımaz; oturum + Super Admin kilidi ile katalog çeker", () => {
     const page = readSrc("app/(kernel)/admin/page.tsx");
+    const catalogPage = readSrc("app/(kernel)/admin/catalog/page.tsx");
+    expect(catalogPage).toContain("resolveSuperAdminAccess");
+    expect(catalogPage).toContain("loadAdminCatalogBoard");
+    expect(catalogPage).toContain("AdminCatalogList");
+    expect(catalogPage).toContain("Forbidden");
+    expect(catalogPage).not.toContain("notFound(");
     expect(page).not.toContain("RoomSeal");
     expect(page).toContain("loadAdminCatalogBoard");
     expect(page).toContain("resolveSuperAdminAccess");
@@ -173,6 +181,7 @@ describe("admin katalog yüzeyi", () => {
     expect(list).toContain("ADMIN_FREELANCER_SHELTER_PATH");
     expect(list).toContain("ACADEMY_CURRICULUM_REVISIONS_PATH");
     expect(shelter).toContain("ADMIN_FREELANCER_SHELTER_PATH");
+    expect(shelter).toContain("ADMIN_CATALOG_SURFACE_PATH");
     expect(shelter).toContain("ACADEMY_CURRICULUM_REVISIONS_PATH");
     expect(audit).toContain("copy.audit");
     expect(audit).toContain('variant="primary"');

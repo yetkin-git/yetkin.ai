@@ -1,8 +1,10 @@
+import type { Route } from "next";
 import { LinkButton } from "@/components/ui/link-button";
 import { ACADEMY_CURRICULUM_REVISIONS_PATH } from "@/lib/academy/curriculum-revision-paths";
 import { ADMIN_SEN } from "@/lib/copy/sen-voice/admin";
 import {
   ADMIN_ACADEMY_SHELTER_PATH,
+  ADMIN_CATALOG_SURFACE_PATH,
   ADMIN_DASHBOARD_SHELTER_PATH,
   ADMIN_FREELANCER_SHELTER_PATH,
 } from "@/lib/kernel/admin/types";
@@ -21,6 +23,9 @@ export function AdminShelterActions({
   const resolved: ShelterSize = size ?? (soft ? "sm" : "md");
   return (
     <div className="flex flex-wrap gap-2">
+      <LinkButton href={ADMIN_CATALOG_SURFACE_PATH as Route} variant="secondary" size={resolved}>
+        {copy.catalogTitle}
+      </LinkButton>
       <LinkButton href={ACADEMY_CURRICULUM_REVISIONS_PATH} variant="secondary" size={resolved}>
         {copy.revisionsCta}
       </LinkButton>

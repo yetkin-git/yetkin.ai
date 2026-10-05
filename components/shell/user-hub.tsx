@@ -4,11 +4,12 @@ import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import type { Route } from "next";
 import { usePathname } from "next/navigation";
-import { IconChevronDown, IconLogout, IconUser, ROOM_ICONS } from "@/components/ui/icons";
+import { IconChevronDown, IconLogout, IconShield, IconUser, ROOM_ICONS } from "@/components/ui/icons";
 import { cn } from "@/components/ui/cn";
 import { LinkButton } from "@/components/ui/link-button";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
 import { AUTH_LOGOUT_API_PATH, buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
+import { ADMIN_CATALOG_SURFACE_PATH } from "@/lib/kernel/admin/types";
 import { KERNEL_SURFACES } from "@/lib/kernel/modules";
 
 const HUB_MENU_SURFACES = KERNEL_SURFACES.filter((surface) => surface.id !== "cuzdan");
@@ -33,9 +34,15 @@ export function UserHub({
   const menuSurfaces = HUB_MENU_SURFACES.filter(
     (surface) => surface.id !== "admin" || showAdmin,
   );
-  const menuActive = menuSurfaces.some(
-    (surface) => pathname === surface.path || pathname?.startsWith(`${surface.path}/`),
-  );
+  const catalogActive =
+    showAdmin &&
+    (pathname === ADMIN_CATALOG_SURFACE_PATH ||
+      pathname?.startsWith(`${ADMIN_CATALOG_SURFACE_PATH}/`));
+  const menuActive =
+    catalogActive ||
+    menuSurfaces.some(
+      (surface) => pathname === surface.path || pathname?.startsWith(`${surface.path}/`),
+    );
 
   useEffect(() => {
     if (!menuOpen) {
@@ -157,6 +164,37 @@ export function UserHub({
                 </li>
               );
             })}
+            {showAdmin ? (
+              <li>
+                <Link
+                  href={ADMIN_CATALOG_SURFACE_PATH as Route}
+                  role="menuitem"
+                  onClick={() => setOpen(false)}
+                  className={cn(
+                    "flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition",
+                    pathname === ADMIN_CATALOG_SURFACE_PATH ||
+                      pathname?.startsWith(`${ADMIN_CATALOG_SURFACE_PATH}/`)
+                      ? "bg-[var(--safir-soft)] font-semibold text-[var(--safir-deep)]"
+                      : "text-[var(--foreground)] hover:bg-[var(--surface-muted)]",
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "inline-flex h-8 w-8 items-center justify-center rounded-lg",
+                      pathname === ADMIN_CATALOG_SURFACE_PATH
+                        ? "bg-[var(--safir)] text-white"
+                        : "bg-[var(--surface-muted)] text-[var(--muted)]",
+                    )}
+                  >
+                    <IconShield className="h-4 w-4" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block font-medium">Fiyat kataloğu</span>
+                    <span className="block text-[11px] text-[var(--muted)]">Yayın ve satış</span>
+                  </span>
+                </Link>
+              </li>
+            ) : null}
           </ul>
           <div className="my-1 h-px bg-[var(--border)]" aria-hidden />
           <form action={AUTH_LOGOUT_API_PATH} method="POST" onSubmit={() => setSigningOut(true)}>

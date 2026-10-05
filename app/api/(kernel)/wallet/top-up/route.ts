@@ -67,7 +67,7 @@ import {
   academyLicenseOrderPurpose,
   readAcademyLicenseSlug,
 } from "@/lib/academy/paytr-license-bridge";
-import "@/lib/academy/production-seal-disk";
+import { ensureAcademyProductionDiskProbe } from "@/lib/academy/production-seal-disk";
 import { academyCourseSaleOpen, isAcademyLicenseSaleSlug } from "@/lib/academy/pilot-sku";
 import { academyCourseRowIsPublished } from "@/lib/kernel/admin/prisma-course-publish";
 import { WALLET_TOP_UP_PURPOSE } from "@/lib/kernel/payments/clearing";
@@ -150,6 +150,7 @@ export async function POST(request: Request) {
     if (courseSlug && !isAcademyLicenseSaleSlug(courseSlug)) {
       return jsonFail("Kurs kodu geçersiz.", 400, requestId, request);
     }
+    ensureAcademyProductionDiskProbe();
     if (courseSlug && !academyCourseSaleOpen(courseSlug)) {
       return jsonFail("Kurs satışa kapalı.", 400, requestId, request);
     }

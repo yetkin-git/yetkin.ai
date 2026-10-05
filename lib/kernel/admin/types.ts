@@ -55,6 +55,8 @@ export type CatalogModuleGroup = {
 };
 
 export const ADMIN_SURFACE_PATH = "/admin" as const;
+/** Fiyat ve yayın tahtası. API yazımı `CATALOG_WRITE_PATH` üzerindedir. */
+export const ADMIN_CATALOG_SURFACE_PATH = "/admin/catalog" as const;
 export const CATALOG_WRITE_PATH = "/api/admin/catalog" as const;
 export const COURSE_PUBLISH_PATH = "/api/admin/catalog/publish" as const;
 export const FUNNEL_READ_PATH = "/api/admin/funnel" as const;
