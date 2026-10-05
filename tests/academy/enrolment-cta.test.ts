@@ -177,6 +177,7 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
     expect(page).toContain("hero.primaryLabel");
     expect(page).toContain("copy.loginCta");
     expect(page).toContain("paytrCheckout");
+    expect(page).toContain("AcademyCheckoutAutostart");
   });
 
   it("hero bağımsız ₺ satırı basmaz; fiyat yalnız satın al CTA içindedir", () => {
@@ -259,6 +260,26 @@ describe("vitrin kartı CTA", () => {
     expect(prompt.href).toBe("/academy/05_prompt_practice/oyna");
     expect(prompt.secondaryCta).toBe("Satın Al — ₺1.290");
     expect(prompt.secondaryHref).toBe("/academy/05_prompt_practice#satin-al");
+    const guestBuy = resolveAcademyCatalogCardCta({
+      slug: "01_office_ai",
+      owned: false,
+      priceLabel: "₺890,00",
+      purchasable: true,
+      isPublished: true,
+      buyHref: "/login?next=%2Facademy%2F01_office_ai%23satin-al",
+    });
+    expect(guestBuy.href).toBe("/academy/01_office_ai/oyna");
+    expect(guestBuy.secondaryCta).toBe("Satın Al — ₺890");
+    expect(guestBuy.secondaryHref).toBe("/login?next=%2Facademy%2F01_office_ai%23satin-al");
+    const memberBuy = resolveAcademyCatalogCardCta({
+      slug: "02_ecommerce_ai",
+      owned: false,
+      priceLabel: "₺990,00",
+      purchasable: true,
+      isPublished: true,
+      buyHref: "/academy/02_ecommerce_ai#satin-al",
+    });
+    expect(memberBuy.secondaryHref).toBe("/academy/02_ecommerce_ai#satin-al");
     expect(prompt.priceCaption).toBe(ACADEMY_SEN.catalog.vatInclusiveHint);
     expect(prompt.priceLabel).toBe("₺1.290");
     const off201NoPrice = resolveAcademyCatalogCardCta({
@@ -307,6 +328,8 @@ describe("vitrin kartı CTA", () => {
     const card = readFileSync(join(process.cwd(), "components/academy/course-card.tsx"), "utf8");
     const list = readFileSync(join(process.cwd(), "components/academy/course-list.tsx"), "utf8");
     expect(page).toContain("isSuperAdminActor");
+    expect(page).toContain("buildCitizenLoginHref");
+    expect(page).toContain("buyHrefs={buyHrefs}");
     expect(page).toContain("studioPreview={studioPreview}");
     expect(page).not.toContain("overlayStudioGrowthLearnerBoard");
     expect(card).toContain("studioPreview");

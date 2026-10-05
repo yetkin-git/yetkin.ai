@@ -13,6 +13,8 @@ import {
 import { isAcademyContinueResumeStrip } from "@/lib/academy/continue-board";
 import { EMPTY_ACADEMY_CATALOG_LEARNER_BOARD } from "@/lib/academy/catalog-learner";
 import { isAcademyStorefrontSlug } from "@/lib/academy/pilot-sku";
+import { academyCheckoutHref } from "@/lib/academy/storefront-cta";
+import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 import { RoomFrame } from "@/components/ui/page-header";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
@@ -46,6 +48,13 @@ export default async function AcademyPage() {
       .filter((course) => isAcademyStorefrontSlug(course.slug))
       .map((course) => [course.slug, publishedLessonCount(course.slug)] as const),
   );
+  const signedIn = Boolean(session);
+  const buyHrefs = Object.fromEntries(
+    courses.map((course) => {
+      const checkout = academyCheckoutHref(course.slug);
+      return [course.slug, signedIn ? checkout : buildCitizenLoginHref(checkout)] as const;
+    }),
+  );
 
   return (
     <RoomFrame className="space-y-3 pb-8">
@@ -54,6 +63,7 @@ export default async function AcademyPage() {
         courses={courses}
         learnerBoard={learnerBoard}
         studioPreview={studioPreview}
+        buyHrefs={buyHrefs}
         lessonCounts={lessonCounts}
         title={copy.title}
         certificatesCta={copy.certificatesCta}

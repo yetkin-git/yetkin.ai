@@ -23,7 +23,14 @@ import { academyPaywallLockedLessonShells } from "@/lib/academy/paywall-shells";
 import { loadAcademyFreePreviewAudioGrants } from "@/lib/academy/free-preview-audio";
 import { loadAcademyLessonMediaPrime } from "@/lib/academy/lesson-media-prime";
 import { formatMinorCompact } from "@/lib/kernel/money/format";
+import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
+import { academyCheckoutHref } from "@/lib/academy/storefront-cta";
 import type { AcademyCourseWithPrice } from "@/lib/academy/types";
+
+function academyPlayerCheckoutHref(slug: string, signedIn: boolean): string {
+  const checkout = academyCheckoutHref(slug);
+  return signedIn ? checkout : buildCitizenLoginHref(checkout);
+}
 
 function academyPlayerPaywallPrice(course: AcademyCourseWithPrice): string | null {
   if (course.priceMinor == null) {
@@ -74,7 +81,7 @@ export default async function AcademyCurriculumPlayerPage({
   const session = offersPreview ? await getSession() : await requirePageSession();
   if (!session) {
     const board = await loadCourseBySlug(slug);
-    if (!board || !board.course.isPublished) {
+    if (!board || (!board.course.isPublished && !offersPreview)) {
       notFound();
     }
     const freePreviewAudio = await loadAcademyFreePreviewAudioGrants(board.course.slug);
@@ -90,6 +97,7 @@ export default async function AcademyCurriculumPlayerPage({
             paywallLocked
             paywallPriceLabel={academyPlayerPaywallPrice(board.course)}
             freePreviewAudio={freePreviewAudio}
+            checkoutHref={academyPlayerCheckoutHref(board.course.slug, false)}
             media={loadAcademyLessonMediaPrime(board.course.slug, { paywallLocked: true })}
           />
         </div>
@@ -111,7 +119,7 @@ export default async function AcademyCurriculumPlayerPage({
   const hasPurchased = hasAcademyOynaAccess(purchase, actor);
   const grantStudio = isSuperAdminActor(session);
 
-  if (!board.course.isPublished && !hasPurchased) {
+  if (!board.course.isPublished && !hasPurchased && !offersPreview) {
     notFound();
   }
 
@@ -132,6 +140,7 @@ export default async function AcademyCurriculumPlayerPage({
             paywallLocked
             paywallPriceLabel={academyPlayerPaywallPrice(board.course)}
             freePreviewAudio={freePreviewAudio}
+            checkoutHref={academyPlayerCheckoutHref(board.course.slug, true)}
             media={loadAcademyLessonMediaPrime(board.course.slug, { paywallLocked: true })}
           />
         </div>

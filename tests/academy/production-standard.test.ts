@@ -250,6 +250,28 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
     expect(academyCourseSaleOpen("01_office_ai")).toBe(true);
   });
 
+  it("üretimde boş yuva mühür anlığını okur ve altı vitrin satışa açılır", () => {
+    const env = process.env as { NODE_ENV?: string };
+    const previous = env.NODE_ENV;
+    registerAcademyProductionDiskProbe(null);
+    env.NODE_ENV = "production";
+    try {
+      for (const slug of [
+        "01_office_ai",
+        "01_office_ai_ileri",
+        "02_ecommerce_ai",
+        "03_social_media_ai",
+        "04_chatbot_nocode",
+        "05_prompt_practice",
+      ]) {
+        expect(academyCourseSaleOpen(slug), slug).toBe(true);
+      }
+    } finally {
+      env.NODE_ENV = previous;
+      registerAcademyProductionDiskProbe(academyProductionFilePresent);
+    }
+  });
+
   it("ısınma MP4 veya müzik BED diskte yoksa mühür fail-closed", () => {
     const onDisk = (relativePath: string): boolean => academyProductionFilePresent(relativePath);
     registerAcademyProductionDiskProbe((relativePath) =>

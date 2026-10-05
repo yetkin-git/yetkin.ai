@@ -13,6 +13,7 @@ import {
   ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY,
   academyLessonWarmupVeoAssetKey,
 } from "@/lib/academy/lesson-veo";
+import { ACADEMY_PRODUCTION_SEAL_MANIFEST } from "@/lib/academy/production-seal-manifest";
 import { countAcademyMarkdownWords } from "@/lib/academy/word-count";
 
 export const ACADEMY_AI_COURSE_DURATION_MIN_MINUTES = 45;
@@ -191,8 +192,19 @@ function productionDiskProbeBox(): AcademyProductionDiskProbeBox {
   return created;
 }
 
+/** Lambda medya baytını taşımaz. Üretim okuyucusu mühür anlığıdır. */
+function academyProductionManifestProbe(relativePath: string): boolean {
+  const normalized = relativePath.replaceAll("\\", "/");
+  return ACADEMY_PRODUCTION_SEAL_MANIFEST[normalized] === true;
+}
+
 function readProductionDiskProbe(): AcademyProductionDiskProbe | null {
-  return productionDiskProbeBox().current;
+  const current = productionDiskProbeBox().current;
+  if (current) return current;
+  // Kayıt yan etkisi paketleyici tarafından düşerse kart «Kayıt Kapalı» kalır.
+  // Üretimde boş yuva anlığı okur. Testte boş yuva fail-closed kalır.
+  if (process.env.NODE_ENV === "production") return academyProductionManifestProbe;
+  return null;
 }
 
 /** Sunucu ve test disk okuyucusunu kaydeder. İstemci paketi `node:fs` taşımaz. */

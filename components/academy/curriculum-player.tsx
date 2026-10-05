@@ -90,6 +90,7 @@ export function CurriculumPlayer({
   paywallLocked = false,
   paywallPriceLabel = null,
   freePreviewAudio = null,
+  checkoutHref: checkoutHrefProp = null,
 }: {
   courseId: string;
   courseSlug: string;
@@ -104,6 +105,8 @@ export function CurriculumPlayer({
   paywallPriceLabel?: string | null;
   /** Ders 1 imzalı sesi. Oturumsuz vitrin grant API çağırmaz. */
   freePreviewAudio?: Readonly<Record<string, { src: string; bedSrc?: string | null }>> | null;
+  /** Satın Al. Oturum varsa kasa çapası, yoksa giriş. Boşsa `#satin-al`. */
+  checkoutHref?: string | null;
 }) {
   primeAcademyLessonMedia(media);
   const lessonMediaGeneration = academyLessonJsonGeneration();
@@ -189,6 +192,13 @@ export function CurriculumPlayer({
         : "";
   const lessonPaywalled = Boolean(
     active && isAcademyPlayerPaywallLessonLocked(courseSlug, active.key, paywallLocked),
+  );
+  const checkoutHref = checkoutHrefProp?.trim() || academyCheckoutHref(courseSlug);
+  const previewUpsell = Boolean(
+    paywallLocked &&
+      !lessonPaywalled &&
+      nextLesson &&
+      isAcademyPlayerPaywallLessonLocked(courseSlug, nextLesson.key, true),
   );
   const lessonMediaBlocked = Boolean(active && (lessonPaywalled || !active.open));
   const playerLayer = useMemo(
@@ -637,7 +647,7 @@ export function CurriculumPlayer({
 
             {lessonPaywalled || funnelOpen ? (
               <SalesFunnelModal
-                courseSlug={courseSlug}
+                checkoutHref={checkoutHref}
                 lessonKey={lessonPaywalled ? active?.key : undefined}
                 priceLabel={paywallPriceLabel}
                 onClose={() => {
@@ -720,6 +730,24 @@ export function CurriculumPlayer({
               </section>
             ) : null}
 
+            {previewUpsell ? (
+              <div
+                className="mx-1 flex flex-col gap-2 rounded-2xl border border-[color-mix(in_srgb,var(--safir)_35%,transparent)] bg-[var(--safir-soft)] px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+                data-academy-preview-upsell=""
+              >
+                <p className="text-sm leading-6 text-[var(--foreground)]">{copy.funnelLead}</p>
+                <LinkButton
+                  href={checkoutHref as Route}
+                  size="sm"
+                  className="shrink-0"
+                  data-academy-paywall-cta=""
+                  data-academy-sales-funnel-cta=""
+                >
+                  {paywallPriceLabel ? copy.funnelCta(paywallPriceLabel) : copy.funnelTitle}
+                </LinkButton>
+              </div>
+            ) : null}
+
             {active && !lessonMediaBlocked && !karaoke && isAcademyTtsCassetteRevoked(active.key) ? (
               <p
                 className="academy-player-audio-pending mx-1 mt-3 text-sm leading-6 text-[var(--foreground)]"
@@ -778,9 +806,9 @@ export function CurriculumPlayer({
                       {copy.exitKitCta}
                     </LinkButton>
                   ) : null}
-                  {lessonPaywalled || funnelOpen ? (
+                  {lessonPaywalled || funnelOpen || previewUpsell ? (
                     <LinkButton
-                      href={academyCheckoutHref(courseSlug) as Route}
+                      href={checkoutHref as Route}
                       size="sm"
                       className="min-h-10 rounded-full px-5 text-[13px]"
                       data-academy-paywall-cta=""
@@ -830,12 +858,12 @@ export function CurriculumPlayer({
 }
 
 function SalesFunnelModal({
-  courseSlug,
+  checkoutHref,
   lessonKey,
   priceLabel,
   onClose,
 }: {
-  courseSlug: string;
+  checkoutHref: string;
   lessonKey?: string;
   priceLabel?: string | null;
   onClose: () => void;
@@ -888,7 +916,7 @@ function SalesFunnelModal({
         <p className="mt-3 max-w-xl text-[15px] leading-7 text-slate-700">{copy.funnelLead}</p>
         <div className="mt-5 flex flex-wrap items-center gap-2">
           <LinkButton
-            href={academyCheckoutHref(courseSlug) as Route}
+            href={checkoutHref as Route}
             size="sm"
             data-academy-paywall-cta=""
             data-academy-sales-funnel-cta=""

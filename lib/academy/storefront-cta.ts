@@ -141,6 +141,11 @@ export function resolveAcademyCatalogCardCta(input: {
   isPublished?: boolean;
   /** Super Admin — satış kapalı kartta doğrudan `/oyna`. Fiyat «Erişim Açık» olmaz. */
   studioPreview?: boolean;
+  /**
+   * Satın Al hedefi. Oturum varsa kasa çapası, yoksa giriş.
+   * Boşsa kart `#satin-al` basar; çağıran oturumu kendisi keser.
+   */
+  buyHref?: string | null;
 }): AcademyCatalogCardCta {
   const copy = ACADEMY_SEN;
   if (input.owned) {
@@ -211,7 +216,7 @@ export function resolveAcademyCatalogCardCta(input: {
       cta: copy.catalog.cardCtaFreePreview,
       href: `/academy/${input.slug}/oyna`,
       secondaryCta: copy.catalog.cardCtaBuyPriced(display),
-      secondaryHref: academyCheckoutHref(input.slug),
+      secondaryHref: input.buyHref ?? academyCheckoutHref(input.slug),
     };
   }
   return {

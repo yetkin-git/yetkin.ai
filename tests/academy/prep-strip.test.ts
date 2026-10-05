@@ -124,6 +124,9 @@ describe("01_office_ai Ders 0 — Başlamadan Önce hazırlık şeridi", () => {
     expect(player).toContain("lessonPlaybackBlocked");
     expect(oyna).toContain("hasAcademyOynaAccess");
     expect(oyna).toContain("paywallLocked: true");
+    expect(oyna).toContain("checkoutHref");
+    expect(oyna).toContain("buildCitizenLoginHref");
+    expect(player).toContain("data-academy-preview-upsell");
     expect(oyna).toContain("sealClosedAcademyLessonPayload");
     const mediaKeys = academyPlayerMediaLessonKeys({
       keys: ["01_office_ai-0", "01_office_ai-1", "01_office_ai-2"],

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
+import { AcademyCheckoutAutostart } from "@/components/academy/checkout-autostart";
 import { PurchaseButton } from "@/components/academy/purchase-button";
 import { ExamStartGate } from "@/components/academy/exam-start-gate";
 import { CertificateSeal } from "@/components/academy/certificate-seal";
@@ -399,6 +400,7 @@ export default async function AcademyCoursePage({
             ) : null}
             {session ? (
               <div className="mt-4 space-y-4" data-academy-purchase-gate="">
+                <AcademyCheckoutAutostart enabled={paymentsReady && hero.action === "buy"} />
                 {previewHref ? (
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                     <FreePreviewLink

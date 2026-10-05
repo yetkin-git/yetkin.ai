@@ -34,6 +34,7 @@ export function CourseList({
   lead = null,
   footer = null,
   studioPreview = false,
+  buyHrefs = {},
 }: {
   courses: AcademyCourseWithPrice[];
   extraBadge?: string | null;
@@ -50,6 +51,8 @@ export function CourseList({
   footer?: ReactNode;
   /** Super Admin — satış kapalı kartta Derse başla. */
   studioPreview?: boolean;
+  /** Slug → Satın Al hedefi. Oturum varsa kasa, yoksa giriş. */
+  buyHrefs?: Readonly<Record<string, string>>;
 }) {
   const copy = ACADEMY_SEN.catalog;
   const visible = useMemo(
@@ -97,6 +100,7 @@ export function CourseList({
                   learnerStatus={learnerBoard.statusBySlug[course.slug]}
                   owned={owned}
                   studioPreview={studioPreview}
+                  buyHref={buyHrefs[course.slug] ?? null}
                 />
               </li>
             );

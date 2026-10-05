@@ -42,6 +42,7 @@ export function CourseCard({
   featured = false,
   owned = false,
   studioPreview = false,
+  buyHref = null,
   favorited = false,
   onToggleFavorite,
 }: {
@@ -57,6 +58,8 @@ export function CourseCard({
   owned?: boolean;
   /** Satış kapalı olsa da Super Admin karttan `/oyna` açar. Fiyat gizlenmez. */
   studioPreview?: boolean;
+  /** Oturumlu kasa çapası veya oturumsuz giriş. Boşsa kart `#satin-al` basar. */
+  buyHref?: string | null;
   favorited?: boolean;
   onToggleFavorite?: () => void;
 }) {
@@ -79,6 +82,7 @@ export function CourseCard({
     purchasable: comingSoon || unpublished ? undefined : course.purchasable,
     isPublished: comingSoon ? undefined : course.isPublished,
     studioPreview,
+    buyHref,
   });
   const learnerLabel =
     learnerStatus === "continue"
