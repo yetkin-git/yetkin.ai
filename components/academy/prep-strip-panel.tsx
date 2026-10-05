@@ -17,10 +17,15 @@ export function PrepStripPanel({
   strip,
   done,
   courseSlug,
+  grantedSrc,
+  grantedBedSrc,
 }: {
   strip: AcademyPrepStrip;
   done: boolean;
   courseSlug: string;
+  /** Sayfanın gömdüğü imzalı ses. Doluysa grant kapısı çağrılmaz. */
+  grantedSrc?: string | null;
+  grantedBedSrc?: string | null;
 }) {
   const copy = ACADEMY_SEN.outline;
   const [mounted, setMounted] = useState(false);
@@ -72,6 +77,8 @@ export function PrepStripPanel({
             autoStart={false}
             audioSrcOverride={karaoke.audioSrc}
             bedSrcOverride={bedSrc}
+            grantedSrc={grantedSrc}
+            grantedBedSrc={grantedBedSrc}
             sealedDurationSecOverride={karaoke.durationSec}
             onSpokenElapsedChange={setMediaElapsed}
             onPlayingChange={setMediaPlaying}

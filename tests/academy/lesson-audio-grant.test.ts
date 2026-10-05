@@ -3,8 +3,9 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { NextRequest } from "next/server";
 import { proxy } from "../../proxy";
-import { hasAcademyAdminBypass, hasAcademyOynaAccess } from "@/lib/academy/access";
+import { hasAcademyAdminBypass, hasAcademyOynaAccess, hasPurchased } from "@/lib/academy/access";
 import { loadAcademyFreePreviewAudioGrants } from "@/lib/academy/free-preview-audio";
+import { issueAcademyLessonAudioGrant, loadAcademyOynaAudioGrants } from "@/lib/academy/lesson-audio-issue";
 import {
   ACADEMY_AUDIO_GRANT_TTL_SEC,
   academySealedObjectPathFromPlayback,
@@ -243,9 +244,105 @@ describe("ders sesi imza kapısı", () => {
 
     const route = readFileSync(join(process.cwd(), "app/api/academy/courses/[id]/audio-grant/route.ts"), "utf8");
     expect(route).toContain("hasPurchased");
+    expect(route).toContain("requireSession");
     expect(route).toContain("Satın alma tamamlanmadan ders sesi açılmaz.");
+    expect(route).toContain("allowMissingBed: true");
+    expect(route).not.toContain("if (bedNeeded && !bedSrc)");
     expect(route.indexOf("if (!hasPurchased(purchase, actor))")).toBeLessThan(
       route.indexOf("ensureAcademySealedStorageSigner()"),
     );
+  });
+
+  it("tam oynatıcı açık derslere kova adresi gömer; yatak boşsa anlatım kalır", async () => {
+    const confirmed = "2026-01-01T00:00:00.000Z";
+    const previousEmail = process.env.CANONICAL_SUPER_ADMIN_EMAIL;
+    const previousId = process.env.SUPER_ADMIN_USER_ID;
+    delete process.env.CANONICAL_SUPER_ADMIN_EMAIL;
+    delete process.env.SUPER_ADMIN_USER_ID;
+    try {
+      expect(
+        hasPurchased(null, {
+          userId: "11111111-1111-4111-8111-111111111111",
+          email: "yapinet360@gmail.com",
+          emailConfirmedAt: confirmed,
+        }),
+      ).toBe(true);
+    } finally {
+      if (previousEmail == null) {
+        delete process.env.CANONICAL_SUPER_ADMIN_EMAIL;
+      } else {
+        process.env.CANONICAL_SUPER_ADMIN_EMAIL = previousEmail;
+      }
+      if (previousId == null) {
+        delete process.env.SUPER_ADMIN_USER_ID;
+      } else {
+        process.env.SUPER_ADMIN_USER_ID = previousId;
+      }
+    }
+
+    const storageEnv = { ...ENV, ACADEMY_MEDIA_READ: "storage" };
+    const sign = async (path: string) => {
+      if (path.includes("03_social_media_ai-2") && path.endsWith(".bed.mp3")) {
+        return null;
+      }
+      return `https://project.supabase.co/storage/v1/object/sign/academy-sealed/${path}?token=abc`;
+    };
+    const now = Date.now();
+    const full = await loadAcademyOynaAudioGrants(
+      "03_social_media_ai",
+      ["03_social_media_ai-1", "03_social_media_ai-2", "03_social_media_ai-9"],
+      now,
+      storageEnv,
+      sign,
+    );
+    expect(full["03_social_media_ai-1"]?.src).toContain("/academy-sealed/");
+    expect(full["03_social_media_ai-1"]?.src).toContain("03_social_media_ai-1/v");
+    expect(full["03_social_media_ai-1"]?.bedSrc).toContain(".bed.mp3");
+    expect(full["03_social_media_ai-2"]?.src).toContain("03_social_media_ai-2/v");
+    expect(full["03_social_media_ai-2"]?.bedSrc).toBeNull();
+    expect(full["03_social_media_ai-9"]).toBeUndefined();
+
+    const speechOnly = await issueAcademyLessonAudioGrant(
+      "03_social_media_ai",
+      "03_social_media_ai-2",
+      now,
+      storageEnv,
+      async (path) =>
+        path.endsWith(".bed.mp3")
+          ? null
+          : `https://project.supabase.co/storage/v1/object/sign/academy-sealed/${path}?token=abc`,
+      { allowMissingBed: true },
+    );
+    expect(speechOnly?.src).toContain("03_social_media_ai-2/v");
+    expect(speechOnly?.bedSrc).toBeNull();
+    const dropped = await issueAcademyLessonAudioGrant(
+      "03_social_media_ai",
+      "03_social_media_ai-2",
+      now,
+      storageEnv,
+      async (path) =>
+        path.endsWith(".bed.mp3")
+          ? null
+          : `https://project.supabase.co/storage/v1/object/sign/academy-sealed/${path}?token=abc`,
+    );
+    expect(dropped).toBeNull();
+
+    const firstOnly = await loadAcademyOynaAudioGrants(
+      "03_social_media_ai",
+      ["03_social_media_ai-1"],
+      now,
+      storageEnv,
+      sign,
+    );
+    expect(firstOnly["03_social_media_ai-2"]).toBeUndefined();
+
+    const oyna = readFileSync(join(process.cwd(), "app/academy/[slug]/oyna/page.tsx"), "utf8");
+    expect(oyna).toContain("loadAcademyOynaAudioGrants");
+    expect(oyna).toContain("freePreviewAudio={lessonAudio}");
+    expect(oyna.match(/freePreviewAudio=/g)).toHaveLength(3);
+    const player = readFileSync(join(process.cwd(), "components/academy/curriculum-player.tsx"), "utf8");
+    expect(player).toContain("grantedSrc={freePreviewAudio?.[active.key]?.src}");
+    expect(player).not.toContain("paywallLocked ? freePreviewAudio");
+    expect(player).toContain("grantedSrc={freePreviewAudio?.[prepStrip.key]?.src}");
   });
 });

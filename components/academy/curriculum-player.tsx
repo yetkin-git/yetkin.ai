@@ -103,7 +103,7 @@ export function CurriculumPlayer({
   paywallLocked?: boolean;
   /** Duvar düğmesindeki tutar. Yoksa fiyatsız başlık basılır. */
   paywallPriceLabel?: string | null;
-  /** Ders 1 imzalı sesi. Oturumsuz vitrin grant API çağırmaz. */
+  /** Sayfanın gömdüğü imzalı ses. Vitrinde ilk ders. Tam oynatıcıda açık dersler. Doluysa grant kapısı çağrılmaz. */
   freePreviewAudio?: Readonly<Record<string, { src: string; bedSrc?: string | null }>> | null;
   /** Satın Al. Oturum varsa kasa çapası, yoksa giriş. Boşsa `#satin-al`. */
   checkoutHref?: string | null;
@@ -642,7 +642,13 @@ export function CurriculumPlayer({
             </span>
 
             {prepActive && prepStrip ? (
-              <PrepStripPanel strip={prepStrip} done={prepDone} courseSlug={courseSlug} />
+              <PrepStripPanel
+                strip={prepStrip}
+                done={prepDone}
+                courseSlug={courseSlug}
+                grantedSrc={freePreviewAudio?.[prepStrip.key]?.src}
+                grantedBedSrc={freePreviewAudio?.[prepStrip.key]?.bedSrc}
+              />
             ) : null}
 
             {lessonPaywalled || funnelOpen ? (
@@ -694,8 +700,8 @@ export function CurriculumPlayer({
                   lessonTitle={activeTitle}
                   autoStart={autoStartPlayback}
                   audioSrcOverride={karaoke.audioSrc}
-                  grantedSrc={paywallLocked ? freePreviewAudio?.[active.key]?.src : undefined}
-                  grantedBedSrc={paywallLocked ? freePreviewAudio?.[active.key]?.bedSrc : undefined}
+                  grantedSrc={freePreviewAudio?.[active.key]?.src}
+                  grantedBedSrc={freePreviewAudio?.[active.key]?.bedSrc}
                   bedSrcOverride={
                     isAcademyLessonBedSealed(courseSlug, active.key) &&
                     !academyLessonBedIsHardMixed(active.key)

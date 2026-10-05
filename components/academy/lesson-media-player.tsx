@@ -63,7 +63,7 @@ export function LessonMediaPlayer({
   audioSrcOverride?: string | null;
   bedSrcOverride?: string | null;
   sealedDurationSecOverride?: number | null;
-  /** Satış vitrini — sayfa imzalı adresi verir; oturum grant API çağrılmaz. */
+  /** Sayfa imzalı adresi verir. Doluysa oturum grant kapısı çağrılmaz. */
   grantedSrc?: string | null;
   grantedBedSrc?: string | null;
 }) {

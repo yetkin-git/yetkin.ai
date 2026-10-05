@@ -21,7 +21,9 @@ import { academyCourseOffersFreePreview } from "@/lib/academy/purchase-path";
 import { sealClosedAcademyLessonPayload } from "@/lib/academy/preview-lock";
 import { academyPaywallLockedLessonShells } from "@/lib/academy/paywall-shells";
 import { loadAcademyFreePreviewAudioGrants } from "@/lib/academy/free-preview-audio";
+import { loadAcademyOynaAudioGrants } from "@/lib/academy/lesson-audio-issue";
 import { loadAcademyLessonMediaPrime } from "@/lib/academy/lesson-media-prime";
+import { academyPrepStripForSlug, isAcademyPrepStripAudioSealed } from "@/lib/academy/prep-strip";
 import { formatMinorCompact } from "@/lib/kernel/money/format";
 import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 import { academyCheckoutHref } from "@/lib/academy/storefront-cta";
@@ -158,6 +160,14 @@ export default async function AcademyCurriculumPlayerPage({
     redirect(`/academy/${board.course.slug}`);
   }
 
+  const openLessonKeys = player.lessons.filter((lesson) => lesson.open).map((lesson) => lesson.key);
+  const prepStrip = academyPrepStripForSlug(board.course.slug);
+  const audioLessonKeys =
+    prepStrip && isAcademyPrepStripAudioSealed(board.course.slug)
+      ? [...openLessonKeys, prepStrip.key]
+      : openLessonKeys;
+  const lessonAudio = await loadAcademyOynaAudioGrants(board.course.slug, audioLessonKeys);
+
   return (
     <RoomFrame cinema className="flex flex-col gap-0 space-y-0 px-4 py-0 sm:px-6">
       <div className="flex min-h-0 flex-1 flex-col">
@@ -170,8 +180,9 @@ export default async function AcademyCurriculumPlayerPage({
           lessons={sealClosedAcademyLessonPayload(player.lessons)}
           curriculumComplete={player.curriculumComplete}
           workTasksComplete={player.workTasksComplete}
+          freePreviewAudio={lessonAudio}
           media={loadAcademyLessonMediaPrime(board.course.slug, {
-            openLessonKeys: player.lessons.filter((lesson) => lesson.open).map((lesson) => lesson.key),
+            openLessonKeys,
           })}
         />
       </div>

@@ -1,22 +1,13 @@
 import { ensureAcademySealedStorageSigner } from "@/lib/academy/academy-sealed-storage";
 import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
 import {
-  academyLessonAudioPlaybackSrc,
-  academyLessonBedIsHardMixed,
-  academyLessonBedPlaybackSrc,
-  isAcademyLessonBedSealed,
-} from "@/lib/academy/lesson-audio";
-import {
-  resolveAcademyMediaRead,
-  withAcademyAudioGrant,
-  type AcademyStorageSigner,
-} from "@/lib/academy/lesson-audio-grant";
+  issueAcademyLessonAudioGrant,
+  type AcademyLessonAudioGrant,
+} from "@/lib/academy/lesson-audio-issue";
+import { resolveAcademyMediaRead, type AcademyStorageSigner } from "@/lib/academy/lesson-audio-grant";
 import { isAcademySalesFunnelLessonKey } from "@/lib/academy/purchase-path";
 
-export type AcademyFreePreviewAudioGrant = {
-  src: string;
-  bedSrc: string | null;
-};
+export type AcademyFreePreviewAudioGrant = AcademyLessonAudioGrant;
 
 /**
  * Satış vitrini (ders 1) için kısa ömürlü ses adresi.
@@ -39,29 +30,17 @@ export async function loadAcademyFreePreviewAudioGrants(
     if (!isAcademySalesFunnelLessonKey(lessonKey)) {
       continue;
     }
-    const src = await withAcademyAudioGrant(
-      academyLessonAudioPlaybackSrc(courseSlug, lessonKey),
+    const issued = await issueAcademyLessonAudioGrant(
+      courseSlug,
+      lessonKey,
       nowMs,
       env,
       storageSigner,
     );
-    if (!src) {
+    if (!issued) {
       continue;
     }
-    const bedNeeded =
-      isAcademyLessonBedSealed(courseSlug, lessonKey) && !academyLessonBedIsHardMixed(lessonKey);
-    const bedSrc = bedNeeded
-      ? await withAcademyAudioGrant(
-          academyLessonBedPlaybackSrc(courseSlug, lessonKey),
-          nowMs,
-          env,
-          storageSigner,
-        )
-      : null;
-    if (bedNeeded && !bedSrc) {
-      continue;
-    }
-    grants[lessonKey] = { src, bedSrc };
+    grants[lessonKey] = issued;
   }
   return grants;
 }

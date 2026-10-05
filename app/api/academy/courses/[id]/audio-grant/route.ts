@@ -2,42 +2,23 @@ import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { hasPurchased, resolveSettledAcademyPurchase } from "@/lib/academy/access";
 import { lookupAcademyCurriculumCourse } from "@/lib/academy/curriculum-engine";
-import {
-  academyLessonAudioPlaybackSrc,
-  academyLessonBedIsHardMixed,
-  academyLessonBedPlaybackSrc,
-  isAcademyLessonBedSealed,
-} from "@/lib/academy/lesson-audio";
 import { ensureAcademySealedStorageSigner } from "@/lib/academy/academy-sealed-storage";
-import { resolveAcademyMediaRead, withAcademyAudioGrant } from "@/lib/academy/lesson-audio-grant";
+import { resolveAcademyMediaRead } from "@/lib/academy/lesson-audio-grant";
 import {
-  academyPrepStripForSlug,
-  isAcademyPrepStripAudioSealed,
-  isAcademyPrepStripKey,
-} from "@/lib/academy/prep-strip";
-import { isAcademyLessonAudioSealed, isAcademyTtsCassetteRevoked } from "@/lib/academy/pilot-sku";
+  academyLessonAudioEligible,
+  issueAcademyLessonAudioGrant,
+} from "@/lib/academy/lesson-audio-issue";
+import { isAcademyTtsCassetteRevoked } from "@/lib/academy/pilot-sku";
 import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
 
 export const auth = "session" as const;
 
-function lessonAudioEligible(courseSlug: string, lessonKey: string): boolean {
-  if (isAcademyTtsCassetteRevoked(lessonKey)) {
-    return false;
-  }
-  if (isAcademyLessonAudioSealed(courseSlug, lessonKey)) {
-    return true;
-  }
-  const strip = academyPrepStripForSlug(courseSlug);
-  return (
-    isAcademyPrepStripKey(lessonKey) &&
-    isAcademyPrepStripAudioSealed(courseSlug) &&
-    strip?.key === lessonKey
-  );
-}
-
 /**
  * Satın alınmış dersin kısa ömürlü ses adresi.
- * Satın alma yoksa 403. Adres üretilemezse 503; başka dersin sesi konmaz.
+ * Oturum çerez veya Bearer ile doğrulanır (`requireSession`). Kenar kaydı `session` dir.
+ * Doğrulanmış Super Admin (`yapinet360@gmail.com`) satın alma satırı aranmadan geçer (`hasPurchased`).
+ * Lisans yoksa ve kişi Super Admin değilse 403.
+ * Anlatım adresi üretilemezse 503. Fon yatağı boşsa anlatım yine döner; yatak `null` kalır.
  * local: kenar aynı imzayı ister. storage: özel kovanın 4 saatlik adresi.
  * Üretimde okuma anahtarı boşsa storage geçerlidir.
  * Bu yanıt dosyanın kendisini taşımaz.
@@ -70,25 +51,19 @@ export async function GET(
     if (!hasPurchased(purchase, actor)) {
       return jsonFail("Satın alma tamamlanmadan ders sesi açılmaz.", 403, undefined, request);
     }
-    if (!lessonAudioEligible(course.slug, lessonKey)) {
+    if (!academyLessonAudioEligible(course.slug, lessonKey)) {
       return jsonFail("Bu dersin sesi henüz yok.", 404, undefined, request);
     }
     if (resolveAcademyMediaRead(process.env) === "storage") {
       ensureAcademySealedStorageSigner();
     }
-    const src = await withAcademyAudioGrant(academyLessonAudioPlaybackSrc(course.slug, lessonKey));
-    if (!src) {
+    const issued = await issueAcademyLessonAudioGrant(course.slug, lessonKey, Date.now(), process.env, undefined, {
+      allowMissingBed: true,
+    });
+    if (!issued) {
       return jsonFail("Ders sesi şu an açılamıyor.", 503, undefined, request);
     }
-    const bedNeeded =
-      isAcademyLessonBedSealed(course.slug, lessonKey) && !academyLessonBedIsHardMixed(lessonKey);
-    const bedSrc = bedNeeded
-      ? await withAcademyAudioGrant(academyLessonBedPlaybackSrc(course.slug, lessonKey))
-      : null;
-    if (bedNeeded && !bedSrc) {
-      return jsonFail("Ders sesi şu an açılamıyor.", 503, undefined, request);
-    }
-    return jsonOk({ src, bedSrc }, 200, undefined, request);
+    return jsonOk({ src: issued.src, bedSrc: issued.bedSrc }, 200, undefined, request);
   } catch (error) {
     return jsonFromUnknown(error);
   }
