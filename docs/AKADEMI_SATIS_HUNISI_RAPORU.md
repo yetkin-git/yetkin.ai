@@ -5,6 +5,7 @@
 | Tarih | 5 Ekim 2026 |
 | Kime | SUPER_ADMIN |
 | Dal | `main` |
+| Commit | `5b0aabf` |
 | Konu | İlk ders herkese açık; vitrin satışı genel kullanıma açık |
 
 ## Ne değişti
