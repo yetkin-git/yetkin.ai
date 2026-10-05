@@ -162,8 +162,9 @@ async function gradeSitting(input: {
 
 /**
  * S58-A: satın al ≠ sertifika. Baraj ≥70. Hash SHA256.
- * Sınav kapısı SETTLED lisans + müfredat tamamı ister (doğrudan atlama yok).
- * Super Admin `assertAcademyCurriculumComplete` içinde sınırsız erişimle geçer.
+ * Üretimde sınav kapısı gerçek SETTLED satır ve bitmiş müfredat ister.
+ * `hasUnlimitedAcademyAccess` yalnız üretim dışında doğar. Üretimde süper yönetici sınavı ve sertifikayı atlamaz.
+ * İzleme muafiyeti ders gövdesini açar; bu kapıyı geçirmez.
  * Oturum jetonu zorunlu; yalnız çekilen iş kanıtı / müfredat soruları puanlanır.
  */
 export async function submitAcademyExam(

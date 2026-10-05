@@ -106,8 +106,9 @@ function actorOf(command: {
 }
 
 /**
- * Oynatıcı kataloğu — Super Admin (`isSuperAdminActor`) ve ticari kayıt
- * tüm dersleri açar. Sıra kilidi yalnız kayıtsız oturumda kalır.
+ * Oynatıcı kataloğu. Süper yönetici izleme muafiyeti ve ticari kayıt ders gövdesini açar.
+ * Bu, sınav ve sertifika muafiyeti değildir. Sınav atlama yalnız üretim dışında
+ * `hasUnlimitedAcademyAccess` ile doğar.
  */
 export function academyPlayerCatalogFullyOpen(
   actor: AcademyActor,
@@ -474,6 +475,7 @@ export async function assertAcademyCurriculumComplete(
   },
 ): Promise<void> {
   const actor = actorOf(command);
+  // Laboratuvar geçişi. Üretimde false döner; süper yönetici sınav müfredatını atlamaz.
   if (hasUnlimitedAcademyAccess(actor)) {
     return;
   }

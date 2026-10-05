@@ -10,7 +10,7 @@ import { assertSuperAdminActor } from "@/lib/kernel/auth/super-admin";
 import { BadRequestError, NotFoundError } from "@/lib/kernel/http/errors";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { logEvent } from "@/lib/kernel/observability/log";
-import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
+import { ACADEMY_MODULE_KEY } from "@/lib/kernel/catalog/academy-module-key";
 import { COURSE_PUBLISH_PATH } from "@/lib/kernel/admin/types";
 
 export { COURSE_PUBLISH_PATH };

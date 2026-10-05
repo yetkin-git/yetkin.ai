@@ -1,136 +1,157 @@
-# TEDAVİ RAPORU — Yayın hattı, Aşama 2
+# Yetkin.ai Tedavi Raporu
 
-| Alan | Değer |
-|------|--------|
-| Tarih | 4 Ekim 2026 |
-| Kime | CEO |
-| Dayanak | `docs/Tespit_Raporu.md` (aynı gün, Aşama 1) |
-| Dil | Yalın Türkçe |
+| | |
+|---|---|
+| Tarih | 5 Ekim 2026 |
+| Dayanak | `docs/TESPIT_RAPORU.md` ve bu turdaki düzeltme adımları |
+| Dil | Vatandaş lisanı |
+| Ölçülen | Kod, birim testler, yerelde açılan Junior sayfaları |
+| Ölçülmeyen | Canlı veritabanı, Vercel ortam değişkenleri, `public/media/` baytları |
 
-Bu rapor, tespitte kırmızı ve sarı işaretlenen işlerin hangisinin bittiğini, testin ne söylediğini ve bir sonraki onayın ne olduğunu yazar.
-
----
-
-## 1. Kısa sonuç
-
-Kod tarafındaki kilit açıldı. Test paketi yeşil. Üç yeni eğitimin metni, görseli ve sesi yerel kayda alındı. Emekli ofis kaseti yayın klasöründen çıktı.
-
-Veritabanında SM-103, BOT-104 ve PR-105 hâlâ kendiliğinden yayına çıkmadı. Onları açan SQL dosyası artık kilitli listede ve sıra bozulmadan uygulanabilir. Bu makineden uygulamak için veritabanı adresinin havuz kapısı değil, doğrudan kapı olması gerekiyor. Tespit bunu `direct-fail` diye işaretlemişti. Adres düzeltilmeden `npm run ops:migrate` çalıştırılmadı. Canlı siteye de bir şey gönderilmedi.
+Bu rapor, bu turda kodda ne değiştiğini anlatır. Canlı sitede hangi satırın yazılı olduğunu söylemez.
 
 ---
 
-## 2. Yapılan işler
+## 1. Ne düzeltildi
 
-### 2.1 Kayıtlar (git)
+### 1.1 Junior kapısı
 
-Bu bilgisayarda `git` komutu kurulu değildi. Kayıtlar, depo geçmişindeki mevcut yazar adıyla yalnız bu makineye alındı. GitHub’a gönderilmedi.
+Eskiden `/junior` adresi bütünüyle kapalıydı. Ziyaretçi ders listesini göremiyordu. Anayasa B6 ise listenin açık, kilidin parada olduğunu yazar.
 
-Tespit 318 dosya diyordu. Kayıt anında çalışma kopyasında 339 satır değişiklik vardı. Dört parçaya bölündü:
+Şimdi:
 
-| Parça | Kayıt | Ne var |
-|-------|--------|--------|
-| İçerik | `bc4c411` | 115 dosya. SM-103, BOT-104 ve PR-105 konuşma metni, sahne ipucu ve süre saati. |
-| Medya | `60d69d5` | 168 dosya. Sinema kareleri, ders sesleri, ısınma videoları. Emekli `01_office_ai-4.mp3` çıktı. |
-| Kod | `4e92cfe` | 98 dosya. Yayın SQL’i, kilit listesi, ücretsiz ilk ders testleri, katalog kapısı. |
-| Belgeler | `cc2afc1` | 16 dosya. Altı eğitimli yayın cümlesi, Next.js kılavuz istisnası, eski raporların tarihli adı. |
+- `/junior` ders listesi ziyaretçiye açıktır. Sol menüdeki Junior linki bu listeye gider.
+- Her dersin **ilk konusu** açılır. Ziyaretçi metni ve görseli görür. Dinle düğmesi durur.
+- **İkinci konular** gövde vermez. Ekranda “bu konu veli girişi ve yıllık paket ister” yazar.
+- **Anlatış kaydı** (“Şimdi Sen Anlat”) ve **konu testi**, veli oturumu ve açık yıllık paket olmadan çalışmaz. Paket yoksa düğme yerine bu cümle durur: “Anlatış kaydı ve konu testi veli girişi ile yıllık paket ister.”
+- Kasa sayfası adres olarak açılır ve satışın kapalı olduğunu söyler. Tahsilat ağzı hâlâ kapalıdır. Kart numarası alınmaz.
+- Eski stüdyo adresi (`/studio`) eskisi gibi kapalıdır.
 
-`media-bake/` hâlâ `.gitignore` satır 69 ile dışarıda. Kayda girmedi. Bu klasör yaklaşık 1,5 GB ve yalnız bu bilgisayarda. Saha dışı kopyası bu işte alınmadı. Makine bozulursa ses ana kayıtları ücretli yeniden fırın ister.
+Yerelde ölçülen adresler:
 
-### 2.2 Yayın kilidi
+| Adres | Sonuç |
+|---|---|
+| `/junior` | Açık (200) |
+| `/junior/ders/jr_06_mat-1` | Açık. İlk konu görünür. Anlatış kilitli. |
+| `/junior/ders/jr_06_ing_main-1` | Açık. Test adımı “Hazırlık Aşamasında”. |
+| `/junior/ders/jr_06_mat-2` | Açık kabuk. Gövde yok. Paket ister. |
+| `/junior/checkout` | Açık sayfa. Ziyaretçiye “ödeme için veli girişi” der. |
+| `/studio` | Kapalı (410) |
+| Anlatış ağzı, oturumsuz | Oturum gerekli (401). Satış açılmaz. |
+| Kasa ağzı, oturumsuz | Kapalı (410). Para çekilmez. |
 
-Diskteki `supabase/migrations/20261003230400_sm103_bot104_pr105_publish.sql` kilitli listeye on dördüncü dosya olarak eklendi (`scripts/ops-migrate-lib.ts`). Aynı sayı testlerde de 14.
+### 1.2 Sınıf seçici
 
-Bu SQL şunu yapar:
+Başka sınıf seçilince kartın adı değişiyor, metin 6. sınıf kalıyordu. Bu yanılsama kalktı.
 
-- SM-103, BOT-104 ve PR-105 satırını yayında işaretler.
-- Fiyatı aktif eder. Tohum: SM-103 ₺890, BOT-104 ve PR-105 ₺1.290. KDV dahil.
-- Super Admin panelden fiyat girmişse tutarı ezmez (`updated_by` doluysa eski tutar kalır).
+- Yeni profil yalnız **6. sınıf** olarak açılır. Sınıf kutusu kilitlidir.
+- 7. veya 8. sınıf isteği reddedilir. Cümle şudur: “Bu sınıf yakında gelecektir. Şu an sadece 6. Sınıf Pilot aktiftir.”
+- Raf başlığı artık seçilen sınıfa çekilmez. Kart “6. Sınıf Matematik” olarak kalır.
+- Aynı cümle ders listesinin üstünde de durur.
 
-Liste ile disk birebir. Saha planı testi bunu boş sorun listesiyle geçti. Uygulama adımı ayrıdır ve doğrudan veritabanı adresi ister.
+Daha önce kaydedilmiş bir profil başka sınıfta duruyorsa, rozetindeki sayı eski kayıttır. Raftaki metin yine 6. sınıf pilotudur. Bu tur canlı veritabanındaki eski satırları okumadı.
 
-### 2.3 Emekli ses
+### 1.3 Tek doğru liste
 
-`public/media/academy/audio/01_office_ai/01_office_ai-4.mp3` silindi (11,3 MB). Bu ders sınav yolunda yok. Konuşma metni arşivde duruyor.
+Ücretsiz konu iki yerde ayrı yazılıyordu. Biri “her kartın ilk konusu” diyordu. Diğeri yalnız matematik, fen ve Türkçe’nin ilk konusunu sayıyordu.
 
-`public/` boyutu: **916,4 MB**. Uyarı 850 MB, derlemeyi durduran tavan 950 MB. Kazanılan pay yaklaşık 11 MB. Yeni bir eğitim 90–200 MB ekler. Bir sonraki eğitim, medya depodan çıkmadan derlemeyi kırar.
+Tek ev artık katalogdur. Her kartın ilk konusu ücretsiz izlemedir. İngilizce ve seçmeliler de buna girer. Soru arşivi bu listeyi daraltmaz. Arşivi olan konu ayrıdır: matematik, fen ve Türkçe’nin ilk konusu.
 
-### 2.4 Testler
+Yetişkin fiyatında üçüncü bir liste açılmadı. Tohum, kurs kartındadır. Müşterinin ödediği tutar, veritabanındaki fiyat satırıdır. Tohum, satır varken onu ezmez. Bu düzen bu turda bozulmadı. Canlı vitrindeki rakam, fiyat satırı okunmadan ilan edilmez.
 
-`npm test`: **1196 geçti, 0 kaldı.** Süre 65 saniye. Dün kırmızı olan üç yer:
+### 1.4 Süper yönetici notu
 
-| Eski kırmızı | Bugün |
-|--------------|--------|
-| Kenar testi SM-103 oynatıcısını kapalı sanıyordu | SM-103, BOT-104 ve PR-105 oynatıcısı oturumsuz açık |
-| Kilit 13 SQL bekliyor, diskte 14 vardı | Kilit 14 ve disk 14 |
-| Yük altında zaman aşımı | Bu koşuda tüm paket geçti |
+`yapinet360@gmail.com` için kod içi cümleler, üretimdeki işe çekildi.
 
-Ücretsiz ders sözleşmesi artık altı eğitimi de dener: ders 1 herkese açık, ders 2 lisanssız kilitli, süre dolunca ders 2 yine kapanır, ders 1 açık kalır.
+- Doğrulanmış bu kutu, yetişkin derste satın alma satırı olmadan **ders gövdesini** izler.
+- Üretimde sınavı ve sertifikayı atlamaz. Sınırsız laboratuvar geçişi yalnız üretim dışında doğar.
+- Junior’da paket kuralı bu kutu için de durur. İkinci konu, anlatış ve konu testi paket ister.
 
-CI’nın çalıştırdığı komut `npm run test`. Bu komut bugünkü haliyle yeşil.
+### 1.5 Soru arşivi olmayan konu
 
-### 2.5 Belgeler ve ajan kuralı
+Ana İngilizce, bütün ikinci konular ve altı seçmeli dersin konu testi yoktu. Test kurulamayan konuda puanlama yapılmıyor.
 
-- `.system_docs/OPS_RUNBOOK.md` ve `.system_docs/STORAGE_CONTRACT.md`: “yayın 8” ve “kardeşler Çok Yakında” kalktı. Yerine altı mühürlü eğitim yazıldı. Video katmanı “terk edildi” değil; yerel ısınma kaseti.
-- `.system_docs/README.md` indeks satırı da altı eğitime çekildi. Aksi halde indeks eski sayıyı tekrarlıyordu.
-- `AGENTS.md` dosyasına dokunulmadı. O blok `next dev` tarafından yeniden yazılıyor. Çelişki `.cursorrules` içinde çözüldü: `node_modules/` yine okunmaz; tek istisna `node_modules/next/dist/docs/`.
+Ekranda ve serviste bu konular **“Hazırlık Aşamasında”** yazar. Boş test, dersi bitmiş saymaz. On soruluk arşivi olan üç konuda test, paket ve anlatış şartıyla eskisi gibi durur. Baraj değişmedi: on soruda en az yedi doğru.
 
----
+### 1.6 Junior PayTR
 
-## 3. Bitmeyen iş (bilerek)
-
-| İş | Neden durdu |
-|----|-------------|
-| Migrasyonu veritabanına basmak | Doğrudan adres havuza işaret ediyor. Yanlış kapıdan basmak ya reddedilir ya da yanlış hedefe gider. |
-| Canlı duman testi | Satış satırı veritabanında açılmadan kart hâlâ “yayında değil” kalır. İlk ders web’de izlenir. |
-| Uzak depoya gönderme | İstenmedi. Dört kayıt yalnız bu makinede. |
-| `media-bake/` yedeği | Git’e konmaz. Harici diske kopya operatör işi. |
-| Mobil ücretsiz ilk ders | Uygulama hâlâ iki eğitimi biliyor ve önizleme kavramı yok. Bu paketin dışı. |
-| Tek kurs kayıt defteri | Aşağıda. Bu turda kod sadeleştirilmedi. |
+Deneme mağaza numarası `000000` satış açmaz. Deneme anahtarı, deneme tuzu ve sandbox da açmaz. Üretim kilidi dururken, canlı üçlü gelse bile bu sürümde tahsilat bağlanmaz. Kasa yine “bağlı değil” der. Kart, güvenlik kodu ve kimlik numarası bu ekranda alınmaz.
 
 ---
 
-## 4. Değerlendirme
+## 2. Dosyalar
 
-### 4.1 Sen olsan ne yapardın? Sistem pürüzsüz mü?
+### Silinen
 
-Hayır. Boru tıkalı değildi; musluk hâlâ kapalı.
+- `docs/TESPIT_RAPORU_.md` — alt çizgili eski kardeş. Canlı tespit `docs/TESPIT_RAPORU.md` dosyasıdır.
 
-Kod, test ve yerel kayıt tarafı düzeldi. Satışın kendisi veritabanı satırına bağlı. O satır bu turda değişmedi. Ayrıca `public/` tavanı duruyor, mobil liste geride, yeni eğitim hâlâ onlarca dosyaya elle yazılıyor, ses ana kaydı tek makinede.
+### Yeni
 
-Pürüzsüz saymam için şunlar da bitmeli: doğrudan adres, migrasyonun uygulanması, oturumsuz ders 1 ve kilitli ders 2’nin canlıda görülmesi, bir deneme ödemesi. Ondan sonra “yayın hattı açık” denir.
+- `docs/TEDAVI_RAPORU.md` — bu rapor.
 
-### 4.2 Tek kurs kayıt defterine hazır mıyız?
+### Düzenlenen kod
 
-Tasarıma hazırız. Kesmeye hazır değiliz.
+- `lib/kernel/security/edge-guard.ts` — `/junior` artık toptan kapanmaz.
+- `lib/kernel/security/edge-api-auth.ts` — anlatış, pekiştirme ve konu testi ağızları toptan kapanmaz. Oturum ister.
+- `lib/kernel/compliance/circuit-breakers.ts` — para kilidi durur. Anlatış ağızlarının adı ayrıldı.
+- `lib/dronlar/kayit.ts` — Junior yorumu listeye uyar.
+- `lib/junior/limits.ts` — pilot cümlesi, paket cümlesi, hazırlık etiketi. İkinci ücretsiz liste silindi.
+- `lib/junior/catalog.ts` — ücretsiz listenin tek evi. Raf başlığı sınıfa göre değişmez.
+- `lib/junior/profile-rules.ts` — yeni profil yalnız 6. sınıf.
+- `lib/junior/service.ts` — anlatış ve test paket ister. Arşivsiz test hazırlık der. Sınıf değişimi 6 dışında reddedilir.
+- `lib/junior/topic-quiz.ts` — arşivi hazır mı, tek soru.
+- `lib/junior/question-bank.ts` — arşivi olan konuların listesi.
+- `lib/junior/paytr.ts` — deneme mağaza numarasıyla satış kapısı.
+- `lib/junior/checkout.ts` — kasa, bu kapı geçmeden tahsilat yapmaz.
+- `lib/junior/load.ts` — ders sayfası paketin açık olup olmadığını taşır.
+- `lib/academy/access.ts` — süper yönetici yorumu.
+- `lib/academy/exam-engine.ts` — sınav yorumu.
+- `lib/academy/curriculum-engine.ts` — izleme ile sınav ayrımı.
+- `app/junior/page.tsx` — pilot cümlesi listede.
+- `app/junior/ders/[lessonKey]/page.tsx` — ziyaretçi ilk konuyu görür. İkinci konu kilitli kabuktur.
+- `app/api/junior-pilot/tell/route.ts` — toptan kilit kalktı. Kural servistedir.
+- `app/api/junior-pilot/quiz/route.ts` — aynı.
+- `app/api/junior-pilot/practice/route.ts` — aynı.
+- `components/junior/listen-and-tell.tsx` — anlatış ve test kilitleri.
+- `components/junior/lesson-chain.tsx` — aynı kilitleri taşır.
+- `components/junior/visual-course-cards.tsx` — ikinci konu “Kilitli konu” der.
+- `components/junior/profile-switcher.tsx` — sınıf kutusu 6’da kilitli.
+- `components/junior/checkout-form.tsx` — deneme anahtarı satış açmaz cümlesi.
+- `scripts/verify-junior-pilot-seals.ts` — mühür, yeni kapıya uyar.
 
-İyi haber: ücretsiz ilk ders zaten kurs listesi yazmadan çalışıyor. Kaynak `lib/kernel/catalog-ids/exam-path.ts`. Tabloya ders eklenince kapı kendiliğinden açılıyor. Bu, kayıt defterinin çekirdeği.
+### Düzenlenen belgeler
 
-Kötü haber: ad, anlatıcı, fiyat tohumu, ısınma videosu, mobil liste ve mühür hâlâ ayrı listelerde. Tespit bunu yaklaşık 66 dosya diye ölçtü. Hepsini bu hafta tek dosyaya yıkmak, yeni açılacak üç satışın üstüne ikinci bir risk bindirir.
+- `.system_docs/ANAYASA.md` B6 — liste, ilk konu, ikinci konu, anlatış, test, sınıf ve para aynı cümlede.
+- `.system_docs/PEDAGOJI.md` — Junior cümlesi aynı kapıya çekildi.
 
-Sıra şöyle olmalı: önce üç eğitim veritabanında yayında ve duman testi temiz. Sonra kayıt defteri. Defter bitmeden yedinci eğitime başlanmamalı.
+### Düzenlenen testler
 
-### 4.3 Faz 2 ve Faz 3 takvimi
+- `tests/kernel/edge-guard.test.ts`
+- `tests/kernel/junior-faz2-pilot.test.ts`
+- `tests/kernel/junior-checkout.test.ts`
+- `tests/kernel/junior-question-bank.test.ts`
+- `tests/kernel/junior-lesson-chain.test.ts`
+- `tests/kernel/junior-guardian-consent.test.ts`
 
-Tavan dar olduğu için medya işini sadeleştirmenin sonuna bırakmıyorum. İkisi örtüşür.
+---
 
-| Ne zaman | Ne |
-|----------|----|
-| Bu hafta | Doğrudan veritabanı adresi. Yayın migrasyonu. Canlıda ders 1 açık, ders 2 kilitli, deneme satın alma. Fiyat ve süre kararı panelden, sizde. |
-| Hafta 2 | Faz 2 başlangıcı. Tek kayıt defterinin şekli: kod, ad, anlatıcı, ders listesi, ısınma dosyası. Migrasyon listesi dosya adından türetilir; sıra kilidi kalır. |
-| Hafta 3–4 | Katalog, anlatıcı ve ısınma listeleri o defterden okunur. Klasör adları tek kalıba iner. Ücretsiz ders testi yeni kursu kendiliğinden kapsar (bu turda altı kurs elle eklendi; defter bunu gereksiz kılar). |
-| Hafta 3’ten itibaren, paralel | Faz 3 tasarımı. Mühürlü ses, görsel ve ısınma videosu nesne depoda durur. Kısa ömürlü imzalı adres kalır. Mühür kuralının metni (`AKADEMI_URETIM_ANAYASASI.md`) değişmez; “dosya var” kontrolü deponun adresine bakar. Bu sizin onayınız olmadan başlamaz. |
-| Hafta 5–8 | Faz 3 uygulaması. `public/` tavanın altına iner. Ancak ondan sonra yedinci eğitim fırınlanır. |
+## 3. Doğrulama
 
-EC-102 kapanış cümlesini yeniden seslendirmek bu takvime dahil değil. Ücretli fırın. Ayrı karar.
+Junior kapı, katalog, kasa, soru arşivi ve kenar testleri yeşil bitti. Junior mühür scripti de yeşil bitti.
 
-### 4.4 Bir sonraki aşamada onayınıza gelecek iş
+Yerel sayfa açıldı. Ziyaretçi ders listesini, 6. sınıf başlıklarını ve pilot cümlesini gördü. İlk matematik konusu gövdesiyle açıldı. İkinci konu gövde vermedi. Ana İngilizce’de hazırlık yazısı durdu. Stüdyo kapalı kaldı.
 
-Tek paket, üç onay:
+---
 
-1. Bu makinenin bağlı olduğu veritabanı canlı mı, laboratuvar mı?
-2. Onaylarsanız doğrudan veritabanı adresini düzeltip `20261003230400_sm103_bot104_pr105_publish.sql` dosyasını uygularım. Onay yoksa dosya diskte kalır, satış açılmaz.
-3. Uygulama bitince canlı duman: oturumsuz ilk ders (ses dahil), ikinci ders kilitli, fiyat kartta görünür.
+## 4. Elle ve canlı ortamda duran işler
 
-Ayrıca, isterseniz bu dört yerel kayıt GitHub’a gönderilir. Gönderilmedi.
+Bunlar bu turda kodla bitmez.
 
-Fiyat (₺890 / ₺1.290 / ₺1.290) ve yaklaşık 35 dakikalık süre bu pakette değiştirilmedi. Tohum böyle. Panelden değiştirilebilir. Uygun değilse migrasyondan önce söyleyin.
+1. **Yasal kilit duruyor.** Veli doğrulaması ve hukuki altyapı bitmeden Junior para akışı açılmaz. Yeni paket satışı bu sürümde yoktur. Kilidi indirmek ayrı ve bilinçli bir karardır. İndirince açma bayrağı da ayrıca açılır. İkisi birden gerekir.
+2. **Canlı PayTR üçlüsü bu oturumda okunmadı.** Canlı mağaza numarası, anahtar ve tuz yerinde değilse satış açılmaz. Deneme numarası `000000` yerinde durduğu sürece de açılmaz. Fatura ve bildirim hattı bu pakete bağlanmadan 5.499 TL tahsil edilemez.
+3. **Soru arşivi eksik.** Ana İngilizce, bütün ikinci konular ve seçmeli dersler on soruluk arşiv bekler. O arşiv yazılmadan bu konuların testi “Hazırlık Aşamasında” kalır. Çocuk bu konularda dersi “bitti” sayamaz.
+4. **İki konu, tam yıl değildir.** Ürün sözü “6. sınıfın tamamı” olmamalıdır. Söz, dört çekirdekte ve seçmelilerde ikişer konu olan bir pilottur. Üç çekirdeğin ilk konusunda test vardır.
+5. **Profil yazma ağzı hâlâ kilitli.** Yeni çocuk profili, seçmeli kayıt ve sınıf yazma ağızları yasal kilit dururken kapalıdır. Liste ve ilk konu bu kilide girmez. Anlatış, ancak hesapta zaten açık bir paket ve duran bir profil varsa işler. Yeni veli bu turda profil açamaz.
+6. **Eski profil sınıfı.** Canlı veritabanında 6 dışında kalmış bir çocuk rozeti varsa, metin yine 6. sınıf pilotudur. O satırlar bu oturumda düzeltilmedi.
+7. **Yetişkin vitrin üçlüsü ölçülmedi.** Hangi kartın bugün gerçekten satıldığı; yayın satırı, aktif fiyat ve beş katmanın diskte durması okunmadan ilan edilmez.
+8. **Süper yönetici Junior paketi almadan ikinci konuyu açamaz.** Bu, yetişkin izleme muafiyetinden ayrıdır ve bu turda böyle bırakıldı.

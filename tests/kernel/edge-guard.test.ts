@@ -5,6 +5,7 @@ import {
   CITIZEN_LOGIN_PATH,
   createEdgeNonce,
   decideEdgeAction,
+  isAdminShelterPath,
   EDGE_CSP_PAYTR_FRAME_SRC,
   EDGE_CSP_PAYTR_SCRIPT_SRC,
   EDGE_CSP_STYLE_SRC_ATTR_DIRECTIVE,
@@ -84,6 +85,10 @@ describe("korumalı çekirdek yolları", () => {
     expect(isProtectedKernelPath("/career")).toBe(true);
     expect(isProtectedKernelPath("/career/")).toBe(true);
     expect(isProtectedKernelPath("/admin/katalog")).toBe(true);
+    expect(isProtectedKernelPath("/admin/catalog")).toBe(true);
+    expect(isAdminShelterPath("/admin")).toBe(true);
+    expect(isAdminShelterPath("/admin/catalog")).toBe(true);
+    expect(isAdminShelterPath("/administration")).toBe(false);
   });
 
   it("kamu ve auth yollarını korumaz", () => {
@@ -155,6 +160,9 @@ describe("kenar kararları", () => {
     expect(decideEdgeAction("/cuzdan", false).kind).toBe("auth-307");
     expect(decideEdgeAction("/profil", false).kind).toBe("auth-307");
     expect(decideEdgeAction("/admin", false).kind).toBe("auth-307");
+    expect(decideEdgeAction("/admin", true).kind).toBe("next");
+    expect(decideEdgeAction("/admin/catalog", false).kind).toBe("auth-307");
+    expect(decideEdgeAction("/admin/catalog", true).kind).toBe("next");
     expect(decideEdgeAction("/pasaport", false)).toEqual({
       kind: "auth-307",
       to: CITIZEN_LOGIN_PATH,
@@ -265,11 +273,12 @@ describe("kenar güvenlik başlıkları", () => {
     expect(policyFor("/juniorism")).toBe(EDGE_PERMISSIONS_POLICY_VALUE);
   });
 
-  it("kapalı pilot: ziyaretçi /junior adresinde 410 alır, veli oturumu sayfaya geçer", () => {
-    expect(decideEdgeAction("/junior", false)).toEqual({ kind: "frozen-410" });
-    expect(decideEdgeAction("/junior/ders/jr_06_fen-1", false)).toEqual({ kind: "frozen-410" });
+  it("Junior ders listesi ziyaretçiye açıktır; stüdyo 410 kalır", () => {
+    expect(decideEdgeAction("/junior", false)).toEqual({ kind: "next" });
+    expect(decideEdgeAction("/junior/ders/jr_06_fen-1", false)).toEqual({ kind: "next" });
     expect(decideEdgeAction("/junior", true)).toEqual({ kind: "next" });
-    expect(decideEdgeAction("/junior/ders/jr_06_fen-1", true)).toEqual({ kind: "next" });
+    expect(decideEdgeAction("/junior/ders/jr_06_mat-2", true)).toEqual({ kind: "next" });
+    expect(decideEdgeAction("/junior/checkout", false)).toEqual({ kind: "next" });
     expect(decideEdgeAction("/studio", true)).toEqual({ kind: "frozen-410" });
     expect(decideEdgeAction("/juniorism", false).kind).not.toBe("frozen-410");
   });

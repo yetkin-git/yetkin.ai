@@ -314,6 +314,11 @@ export function encodePaytrUserBasket(items: PaytrUserBasketItem[]): string {
   return Buffer.from(JSON.stringify(payload)).toString("base64");
 }
 
+/** Tek kalem sepet. Birim fiyat kuruş tam sayıdır. Sepet satırında ondalık TL durur. */
+export function encodePaytrSingleBasket(name: string, unitPriceMinor: number, quantity = 1): string {
+  return encodePaytrUserBasket([{ name, amountMinor: unitPriceMinor, quantity }]);
+}
+
 /** Sepet Σ(birim × adet) — kart/vitrin amountMinor ile get-token payment_amount aynı kapıda durur. */
 export function paytrUserBasketTotalMinor(items: readonly PaytrUserBasketItem[]): number {
   let total = 0;

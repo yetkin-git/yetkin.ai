@@ -1,8 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { VectorPlayer } from "@/components/junior/vector-player";
 import { Button } from "@/components/ui/button";
-import { JUNIOR_TELL_MAX_SEC, JUNIOR_TELL_MIN_SEC, JUNIOR_TELL_PATH } from "@/lib/junior/limits";
+import {
+  JUNIOR_PAID_ACTION_ERROR,
+  JUNIOR_QUIZ_PREPARING_LABEL,
+  JUNIOR_TELL_MAX_SEC,
+  JUNIOR_TELL_MIN_SEC,
+  JUNIOR_TELL_PASS_SCORE,
+  JUNIOR_TELL_PATH,
+} from "@/lib/junior/limits";
+import { beginJuniorSpeech, endJuniorSpeech, juniorSpeechSessionCurrent } from "@/lib/junior/speech";
+import type { JuniorVectorScene } from "@/lib/junior/types";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
 type Feedback = {
@@ -19,6 +29,18 @@ type ListenAndTellProps = {
   lessonKey: string;
   title: string;
   script: string;
+  scene: JuniorVectorScene;
+  mebNote: string;
+  lifeUse: string;
+  steps?: readonly string[];
+  hasQuiz?: boolean;
+  recording?: "open" | "locked";
+  quizSlot?: "ready" | "preparing" | "locked";
+  tellPassed?: boolean;
+  quizDone?: boolean;
+  onScored?: (feedback: Feedback) => void;
+  onOpenQuiz?: () => void;
+  trailing?: ReactNode;
 };
 
 function pickMime(): string {
@@ -50,13 +72,28 @@ function blobToBase64(blob: Blob): Promise<string> {
   });
 }
 
-export function ListenAndTell({ profileId, lessonKey, title, script }: ListenAndTellProps) {
+export function ListenAndTell({
+  profileId,
+  lessonKey,
+  title,
+  script,
+  scene,
+  mebNote,
+  lifeUse,
+  steps,
+  hasQuiz = true,
+  recording: recordingGate = "open",
+  quizSlot = "ready",
+  tellPassed = false,
+  quizDone = false,
+  onScored,
+  onOpenQuiz,
+  trailing,
+}: ListenAndTellProps) {
   const [bars, setBars] = useState<number[]>(() => Array.from({ length: 12 }, () => 12));
   const [seconds, setSeconds] = useState(0);
   const [recording, setRecording] = useState(false);
   const [sending, setSending] = useState(false);
-  const [writeMode, setWriteMode] = useState(false);
-  const [text, setText] = useState("");
   const [note, setNote] = useState("");
   const [feedback, setFeedback] = useState<Feedback | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -84,20 +121,43 @@ export function ListenAndTell({ profileId, lessonKey, title, script }: ListenAnd
       stopMeters();
       recorderRef.current = null;
       chunksRef.current = [];
+      endJuniorSpeech();
       window.speechSynthesis?.cancel();
     };
   }, []);
 
   function speak() {
-    if (!window.speechSynthesis) {
-      setNote("Bu tarayıcı sesli okuyamıyor. Metni birlikte okuyun.");
+    const playback = beginJuniorSpeech(lessonKey, script);
+    const synth = window.speechSynthesis;
+    if (!synth) {
+      setNote("Bu tarayıcı sesli okuyamıyor.");
       return;
     }
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(script);
-    utterance.lang = "tr-TR";
-    utterance.rate = 0.95;
-    window.speechSynthesis.speak(utterance);
+    if (playback.chunks.length === 0) {
+      setNote("Okunacak metin yok.");
+      return;
+    }
+    synth.cancel();
+    const say = (index: number) => {
+      if (!juniorSpeechSessionCurrent(playback.sessionId)) {
+        return;
+      }
+      const piece = playback.chunks[index];
+      if (!piece) {
+        return;
+      }
+      const utterance = new SpeechSynthesisUtterance(piece);
+      utterance.lang = playback.lang;
+      utterance.rate = playback.rate;
+      utterance.onend = () => say(index + 1);
+      utterance.onerror = () => {
+        if (juniorSpeechSessionCurrent(playback.sessionId)) {
+          endJuniorSpeech();
+        }
+      };
+      synth.speak(utterance);
+    };
+    say(0);
   }
 
   async function sendClip(blob: Blob, durationSec: number, mimeType: string) {
@@ -131,9 +191,9 @@ export function ListenAndTell({ profileId, lessonKey, title, script }: ListenAnd
         return;
       }
       setFeedback(body.data);
+      onScored?.(body.data);
     } catch {
-      setNote("Ses gönderilemedi. Yazarak anlatabilirsin.");
-      setWriteMode(true);
+      setNote("Ses gönderilemedi. Biraz sonra yeniden dene.");
     } finally {
       audioBase64 = "";
       chunksRef.current = [];
@@ -145,8 +205,7 @@ export function ListenAndTell({ profileId, lessonKey, title, script }: ListenAnd
     setFeedback(null);
     setNote("");
     if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
-      setWriteMode(true);
-      setNote("Mikrofon yok. Yazarak anlat.");
+      setNote("Mikrofon yok. Anlatış için mikrofon gerekir.");
       return;
     }
     try {
@@ -207,8 +266,7 @@ export function ListenAndTell({ profileId, lessonKey, title, script }: ListenAnd
     } catch {
       stopMeters();
       setRecording(false);
-      setWriteMode(true);
-      setNote("Mikrofon izni yok. Yazarak anlat.");
+      setNote("Mikrofon izni yok. İzin ver, sonra yeniden dene.");
     }
   }
 
@@ -219,123 +277,130 @@ export function ListenAndTell({ profileId, lessonKey, title, script }: ListenAnd
     }
   }
 
-  async function sendText() {
-    const trimmed = text.trim();
-    if (trimmed.length < 20) {
-      setNote("En az bir kısa cümle yaz.");
-      return;
-    }
-    setSending(true);
-    setNote("");
-    try {
-      const response = await fetch(
-        JUNIOR_TELL_PATH,
-        withRailApiVersion({
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            profileId,
-            lessonKey,
-            mode: "write",
-            text: trimmed,
-          }),
-        }),
-      );
-      const body = (await response.json().catch(() => null)) as {
-        ok?: boolean;
-        error?: string | null;
-        data?: Feedback;
-      } | null;
-      if (!response.ok || !body?.data) {
-        setNote(body?.error || "Yazı gönderilemedi.");
-        return;
-      }
-      setFeedback(body.data);
-      setText("");
-    } finally {
-      setSending(false);
-    }
-  }
+  const showBand = recording || sending || note.length > 0 || feedback !== null || trailing != null;
 
   return (
-    <section className="junior-quest rounded-[1.6rem] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-card)]">
-      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--safir-deep)]">Dinle ve Anlat</p>
-      <h2 className="mt-1 text-xl font-semibold">{title}</h2>
-      <p className="mt-3 text-base leading-7">{script}</p>
-      <div className="mt-4 flex flex-wrap gap-2">
-        <Button type="button" variant="outline" onClick={speak}>
+    <section
+      aria-label={title}
+      className={
+        showBand
+          ? "junior-quest flex flex-col gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-2 shadow-[var(--shadow-card)] lg:min-h-0 lg:flex-1 lg:grid lg:grid-rows-[auto_auto_minmax(0,1fr)] lg:overflow-hidden"
+          : "junior-quest flex flex-col gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-2 shadow-[var(--shadow-card)] lg:min-h-0 lg:flex-1 lg:grid lg:grid-rows-[minmax(0,1fr)_auto] lg:overflow-hidden"
+      }
+    >
+      <div className={showBand ? "shrink-0" : "min-h-0 lg:h-full"}>
+        <VectorPlayer fill={!showBand} scene={scene} mebNote={mebNote} lifeUse={lifeUse} steps={steps} />
+      </div>
+      <div className="flex shrink-0 flex-wrap items-center gap-2 border-t border-[var(--border)] pt-2">
+        <Button type="button" size="sm" variant="outline" onClick={speak}>
           Dinle
         </Button>
-        {recording ? (
-          <Button type="button" onClick={finishRecording}>
-            Anlatmayı bitir
-          </Button>
+        {recordingGate === "open" ? (
+          recording ? (
+            <Button type="button" size="sm" onClick={finishRecording}>
+              Anlatmayı bitir
+            </Button>
+          ) : (
+            <Button type="button" size="sm" onClick={() => void startRecording()} disabled={sending}>
+              Şimdi Sen Anlat
+            </Button>
+          )
         ) : (
-          <Button type="button" onClick={() => void startRecording()} disabled={sending}>
-            Şimdi sen anlat
-          </Button>
+          <span className="min-w-0 text-xs text-[var(--muted)]">{JUNIOR_PAID_ACTION_ERROR}</span>
         )}
-        <Button type="button" variant="ghost" onClick={() => setWriteMode((open) => !open)}>
-          Yazarak anlat
-        </Button>
-      </div>
-      {recording ? (
-        <div className="mt-4" aria-live="polite">
-          <p className="text-sm font-semibold">Şimdi Sen Anlat</p>
-          <div className="mt-2 flex h-16 items-end gap-1" aria-hidden>
-            {bars.map((height, index) => (
-              <span
-                key={index}
-                className="w-2 rounded-full bg-[var(--safir)]"
-                style={{ height: `${height}%` }}
-              />
-            ))}
-          </div>
-          <p className="mt-2 text-sm text-[var(--muted)]">
-            {seconds} sn · en az {JUNIOR_TELL_MIN_SEC}, en fazla {JUNIOR_TELL_MAX_SEC}
-          </p>
-        </div>
-      ) : null}
-      {writeMode ? (
-        <div className="mt-4">
-          <label className="text-sm font-medium" htmlFor="junior-write">
-            Yazarak anlat
-          </label>
-          <textarea
-            id="junior-write"
-            value={text}
-            onChange={(event) => setText(event.target.value)}
-            maxLength={600}
-            rows={4}
-            className="mt-1 w-full rounded-xl border border-[var(--border-strong)] bg-white px-3 py-2"
-            placeholder="Güneş bir yıldızdır. Dünya bir gezegendir."
+        {quizSlot === "ready" && hasQuiz ? (
+          <QuizGate
+            tellPassed={tellPassed}
+            quizDone={quizDone}
+            score={feedback?.score ?? null}
+            onOpenQuiz={onOpenQuiz}
           />
-          <Button type="button" className="mt-2" onClick={() => void sendText()} disabled={sending}>
-            Yazıyı gönder
-          </Button>
-        </div>
-      ) : null}
-      {sending ? <p className="mt-3 text-sm">Dinleniyor. Ses saklanmaz.</p> : null}
-      {note ? <p className="mt-3 text-sm text-[var(--rose)]">{note}</p> : null}
-      {feedback ? (
-        <div className="mt-4 grid gap-3">
-          <article className="rounded-2xl bg-[var(--emerald-soft)] p-3">
-            <h3 className="text-sm font-semibold">Harika Anlattın</h3>
-            <p className="mt-1 text-sm">{feedback.praised}</p>
-          </article>
-          <article className="rounded-2xl bg-[var(--amber-soft)] p-3">
-            <h3 className="text-sm font-semibold">Eksik Kalan Nokta</h3>
-            <p className="mt-1 text-sm">{feedback.missing}</p>
-          </article>
-          <article className="rounded-2xl bg-[var(--safir-soft)] p-3">
-            <h3 className="text-sm font-semibold">Geliştirme Tavsiyesi</h3>
-            <p className="mt-1 text-sm">{feedback.advice}</p>
-          </article>
-          <p className="text-sm">
-            Kazanım puanı: {feedback.xpAwarded}. Toplam oyun puanı: {feedback.points}. Bu puan cüzdan değildir.
-          </p>
+        ) : null}
+        {quizSlot === "preparing" ? (
+          <span className="text-xs font-semibold">{JUNIOR_QUIZ_PREPARING_LABEL}</span>
+        ) : null}
+        {quizSlot === "locked" && recordingGate === "open" ? (
+          <span className="min-w-0 text-xs text-[var(--muted)]">{JUNIOR_PAID_ACTION_ERROR}</span>
+        ) : null}
+      </div>
+      {showBand ? (
+        <div className="grid min-h-0 content-start gap-2 overflow-y-auto">
+          {recording ? (
+            <div aria-live="polite">
+              <p className="text-xs font-semibold">Şimdi Sen Anlat</p>
+              <div className="mt-1 flex h-8 items-end gap-1" aria-hidden>
+                {bars.map((height, index) => (
+                  <span
+                    key={index}
+                    className="w-1.5 rounded-full bg-[var(--safir)]"
+                    style={{ height: `${height}%` }}
+                  />
+                ))}
+              </div>
+              <p className="mt-1 text-xs text-[var(--muted)]">
+                {seconds} sn · en az {JUNIOR_TELL_MIN_SEC}, en fazla {JUNIOR_TELL_MAX_SEC}
+              </p>
+            </div>
+          ) : null}
+          {sending ? <p className="text-sm">Dinleniyor. Ses saklanmaz.</p> : null}
+          {note ? <p className="text-sm text-[var(--rose)]">{note}</p> : null}
+          {feedback ? (
+            <div className="grid gap-2">
+              <article className="rounded-xl bg-[var(--emerald-soft)] p-2">
+                <h3 className="text-sm font-semibold">Harika Anlattın</h3>
+                <p className="mt-0.5 text-sm">{feedback.praised}</p>
+              </article>
+              <article className="rounded-xl bg-[var(--amber-soft)] p-2">
+                <h3 className="text-sm font-semibold">Eksik Kalan Nokta</h3>
+                <p className="mt-0.5 text-sm">{feedback.missing}</p>
+              </article>
+              <article className="rounded-xl bg-[var(--safir-soft)] p-2">
+                <h3 className="text-sm font-semibold">Geliştirme Tavsiyesi</h3>
+                <p className="mt-0.5 text-sm">{feedback.advice}</p>
+              </article>
+              <p className="text-sm">
+                Kazanım puanı: {feedback.xpAwarded}. Toplam oyun puanı: {feedback.points}. Bu puan cüzdan değildir.
+              </p>
+            </div>
+          ) : null}
+          {trailing}
         </div>
       ) : null}
     </section>
+  );
+}
+
+function QuizGate({
+  tellPassed,
+  quizDone,
+  score,
+  onOpenQuiz,
+}: {
+  tellPassed: boolean;
+  quizDone: boolean;
+  score: number | null;
+  onOpenQuiz?: () => void;
+}) {
+  const canOpen = tellPassed || (score !== null && score >= JUNIOR_TELL_PASS_SCORE);
+  return (
+    <>
+      <Button
+        type="button"
+        size="sm"
+        variant={canOpen ? "primary" : "outline"}
+        disabled={!canOpen}
+        onClick={() => onOpenQuiz?.()}
+      >
+        Konu Testini Çöz
+      </Button>
+      {quizDone ? <span className="text-xs font-semibold">Bu ders tamamlandı.</span> : null}
+      {canOpen ? null : (
+        <span className="min-w-0 text-xs text-[var(--muted)]">
+          {score !== null
+            ? "Konu testi kilitli. Geliştirme tavsiyesine bak ve yeniden anlat."
+            : "Konu testi kilitli. Önce dinle, sonra kendi sözünle anlat."}
+        </span>
+      )}
+    </>
   );
 }

@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   JUNIOR_BADGE_LABELS,
-  JUNIOR_GRADE_MAX,
-  JUNIOR_GRADE_MIN,
   JUNIOR_PILOT_GRADE,
+  JUNIOR_PILOT_SHELF_LINE,
   JUNIOR_PROFILES_PATH,
   juniorBirthYearChoices,
   juniorDefaultBirthYear,
@@ -26,19 +25,25 @@ export function ProfileSwitcher({
   profiles,
   xp,
   ready,
+  planActive = false,
+  gradeSwitchRights = 0,
 }: {
   profiles: JuniorProfileView[];
   xp: JuniorXpView;
   ready: boolean;
+  planActive?: boolean;
+  gradeSwitchRights?: number;
 }) {
   const router = useRouter();
   const years = juniorBirthYearChoices();
+  const selected = profiles.find((profile) => profile.selected) ?? profiles[0] ?? null;
+  const [open, setOpen] = useState(profiles.length === 0);
   const [nickname, setNickname] = useState("");
-  const [grade, setGrade] = useState(String(JUNIOR_PILOT_GRADE));
   const [birthYear, setBirthYear] = useState(String(juniorDefaultBirthYear()));
   const [consent, setConsent] = useState(false);
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
+  const showForm = ready && (profiles.length === 0 || open);
 
   async function onCreate(event: FormEvent) {
     event.preventDefault();
@@ -56,7 +61,7 @@ export function ProfileSwitcher({
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
             nickname,
-            grade: Number(grade),
+            grade: JUNIOR_PILOT_GRADE,
             birthYear: Number(birthYear),
             consent: true,
           }),
@@ -68,6 +73,7 @@ export function ProfileSwitcher({
       }
       setNickname("");
       setConsent(false);
+      setOpen(false);
       router.refresh();
     } finally {
       setPending(false);
@@ -88,6 +94,7 @@ export function ProfileSwitcher({
       setError(await readError(response));
       return;
     }
+    setOpen(false);
     router.refresh();
   }
 
@@ -95,95 +102,135 @@ export function ProfileSwitcher({
     .map((badge) => JUNIOR_BADGE_LABELS[badge as keyof typeof JUNIOR_BADGE_LABELS] ?? badge)
     .join(" · ");
 
-  return (
-    <section className="junior-shield-card rounded-[1.6rem] border border-[var(--border)] p-4 shadow-[var(--shadow-card)]">
-      <h2 className="text-lg font-semibold">Çocuk profili</h2>
-      <p className="mt-1 text-sm text-[var(--muted)]">
-        Hesap senindir. Çocuğun ayrı e-postası yok. Buradaki puan cüzdan değildir.
-      </p>
-      {profiles.length > 0 ? (
-        <div className="mt-4 flex flex-wrap gap-2">
-          {profiles.map((profile) => (
-            <button
-              key={profile.id}
-              type="button"
-              onClick={() => void onSelect(profile.id)}
-              className={
-                profile.selected
-                  ? "rounded-full bg-[var(--safir)] px-4 py-2 text-sm font-semibold text-white"
-                  : "rounded-full border border-[var(--border-strong)] bg-white px-4 py-2 text-sm font-semibold"
-              }
-            >
-              {profile.nickname} · {profile.grade}. sınıf
-            </button>
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  const profileForm = (
+    <form onSubmit={onCreate} className="mt-4 grid gap-3 sm:grid-cols-2">
+      <label className="text-sm font-medium">
+        Takma ad
+        <input
+          value={nickname}
+          onChange={(event) => setNickname(event.target.value)}
+          maxLength={20}
+          placeholder="Örneğin Ege"
+          className="mt-1 w-full rounded-xl border border-[var(--border-strong)] bg-white px-3 py-2"
+          required
+        />
+      </label>
+      <label className="text-sm font-medium">
+        Sınıf
+        <select
+          value={String(JUNIOR_PILOT_GRADE)}
+          disabled
+          className="mt-1 w-full rounded-xl border border-[var(--border-strong)] bg-white px-3 py-2"
+        >
+          <option value={String(JUNIOR_PILOT_GRADE)}>6. sınıf</option>
+        </select>
+      </label>
+      <p className="text-sm text-[var(--muted)] sm:col-span-2">{JUNIOR_PILOT_SHELF_LINE}</p>
+      <label className="text-sm font-medium">
+        Doğum yılı
+        <select
+          value={birthYear}
+          onChange={(event) => setBirthYear(event.target.value)}
+          className="mt-1 w-full rounded-xl border border-[var(--border-strong)] bg-white px-3 py-2"
+        >
+          {years.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
           ))}
+        </select>
+      </label>
+      <label className="flex items-start gap-2 text-sm sm:col-span-2">
+        <input
+          type="checkbox"
+          checked={consent}
+          onChange={(event) => setConsent(event.target.checked)}
+          className="mt-1"
+        />
+        <span>Bu profili ben, veli olarak açıyorum. Çocuğun sesi saklanmaz. Ders, onay olmadan açılmaz.</span>
+      </label>
+      <div className="sm:col-span-2">
+        <Button type="submit" disabled={pending || !consent}>
+          {pending ? "Kaydediliyor" : "Profili ekle"}
+        </Button>
+      </div>
+    </form>
+  );
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        aria-label={selected ? `${selected.nickname} - ${selected.grade}. Sınıf` : "Profil ekle"}
+        title="Profili değiştir veya ekle"
+        aria-expanded={open}
+        aria-haspopup="dialog"
+        onClick={() => setOpen((value) => !value)}
+        className="inline-flex items-center gap-1.5 rounded-full bg-[var(--safir-soft)] px-3 py-1.5 text-sm font-semibold text-[var(--safir-deep)]"
+      >
+        {selected ? `${selected.nickname} - ${selected.grade}. Sınıf` : "Profil ekle"}
+        <span aria-hidden className="text-[10px]">{open ? "▴" : "▾"}</span>
+      </button>
+      {open ? (
+        <div
+          role="dialog"
+          aria-label="Öğrenci profili"
+          className="absolute left-0 top-[calc(100%+0.5rem)] z-30 grid w-[min(36rem,calc(100vw-2rem))] gap-4 rounded-2xl border border-[var(--border)] bg-white p-4 shadow-[var(--shadow-card)]"
+        >
+          <p className="text-sm">
+            Oyun Puanı: <strong>{xp.points}</strong>
+            {badgeLine ? <span className="text-[var(--muted)]"> · {badgeLine}</span> : null}
+          </p>
+          <p className="text-sm text-[var(--muted)]">
+            Hesap senindir. Çocuğun ayrı e-postası yok. Buradaki puan cüzdan değildir.
+          </p>
+          <p className="text-sm text-[var(--muted)]">
+            {JUNIOR_PILOT_SHELF_LINE}
+            {planActive || gradeSwitchRights >= 0
+              ? " Paket ve sınıf hakkı, raftaki metni başka sınıfa çevirmez."
+              : ""}
+          </p>
+          {selected ? (
+            <div>
+              <h2 className="text-base font-semibold">Profil değiştir veya ekle</h2>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {profiles.map((profile) => (
+                  <button
+                    key={profile.id}
+                    type="button"
+                    onClick={() => void onSelect(profile.id)}
+                    className={
+                      profile.selected
+                        ? "rounded-full bg-[var(--safir)] px-4 py-2 text-sm font-semibold text-white"
+                        : "rounded-full border border-[var(--border-strong)] bg-white px-4 py-2 text-sm font-semibold"
+                    }
+                  >
+                    {profile.nickname} · {profile.grade}. sınıf
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
+          {showForm ? profileForm : null}
+          {!showForm && !selected ? (
+            <p className="text-sm text-[var(--muted)]">Profil kaydı şu an yazılamıyor.</p>
+          ) : null}
+          {error ? <p className="text-sm text-[var(--rose)]">{error}</p> : null}
         </div>
       ) : null}
-      <p className="mt-3 text-sm">
-        Oyun puanı: <strong>{xp.points}</strong>
-        {badgeLine ? <span className="text-[var(--muted)]"> · {badgeLine}</span> : null}
-      </p>
-      {ready ? (
-        <form onSubmit={onCreate} className="mt-4 grid gap-3 sm:grid-cols-2">
-          <label className="text-sm font-medium">
-            Takma ad
-            <input
-              value={nickname}
-              onChange={(event) => setNickname(event.target.value)}
-              maxLength={20}
-              placeholder="Örneğin Ege"
-              className="mt-1 w-full rounded-xl border border-[var(--border-strong)] bg-white px-3 py-2"
-              required
-            />
-          </label>
-          <label className="text-sm font-medium">
-            Sınıf
-            <select
-              value={grade}
-              onChange={(event) => setGrade(event.target.value)}
-              className="mt-1 w-full rounded-xl border border-[var(--border-strong)] bg-white px-3 py-2"
-            >
-              {Array.from({ length: JUNIOR_GRADE_MAX - JUNIOR_GRADE_MIN + 1 }, (_, index) => {
-                const value = JUNIOR_GRADE_MIN + index;
-                return (
-                  <option key={value} value={value}>
-                    {value}. sınıf
-                  </option>
-                );
-              })}
-            </select>
-          </label>
-          <label className="text-sm font-medium">
-            Doğum yılı
-            <select
-              value={birthYear}
-              onChange={(event) => setBirthYear(event.target.value)}
-              className="mt-1 w-full rounded-xl border border-[var(--border-strong)] bg-white px-3 py-2"
-            >
-              {years.map((year) => (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="flex items-start gap-2 text-sm sm:col-span-2">
-            <input
-              type="checkbox"
-              checked={consent}
-              onChange={(event) => setConsent(event.target.checked)}
-              className="mt-1"
-            />
-            <span>Bu profili ben, veli olarak açıyorum. Çocuğun sesi saklanmaz. Ders, onay olmadan açılmaz.</span>
-          </label>
-          <div className="sm:col-span-2">
-            <Button type="submit" disabled={pending || !consent}>
-              {pending ? "Kaydediliyor" : "Profili ekle"}
-            </Button>
-          </div>
-        </form>
-      ) : null}
-      {error ? <p className="mt-3 text-sm text-[var(--rose)]">{error}</p> : null}
-    </section>
+    </div>
   );
 }

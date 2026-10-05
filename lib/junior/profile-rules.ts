@@ -1,9 +1,20 @@
 import { z } from "zod";
 import {
+  JUNIOR_GUARDIAN_NOTICE,
+  JUNIOR_GUARDIAN_YEAR_ERROR,
+  JUNIOR_NOTICE_UNSEALED_ERROR,
+  JUNIOR_NOTICE_VERSION_ERROR,
+  guardianBirthYearBounds,
+  isJuniorNoticeUsable,
+  type JuniorGuardianNotice,
+} from "@/lib/junior/guardian-notice";
+import {
   JUNIOR_GRADE_MAX,
   JUNIOR_GRADE_MIN,
   JUNIOR_NICKNAME_MAX,
   JUNIOR_NICKNAME_MIN,
+  JUNIOR_PILOT_GRADE,
+  JUNIOR_PILOT_SHELF_LINE,
   juniorBirthYearBounds,
 } from "@/lib/junior/limits";
 
@@ -18,9 +29,30 @@ export const juniorProfileCreateSchema = z
   })
   .strict();
 
+export const juniorProfileCreateSealedSchema = juniorProfileCreateSchema.extend({
+  consentVersion: z.string(),
+  guardianBirthYear: z.coerce.number(),
+});
+
+export const juniorProfileConsentUpdateSchema = z
+  .object({
+    profileId: z.string().trim().min(1).max(40),
+    consent: z.literal(true),
+    consentVersion: z.string(),
+    guardianBirthYear: z.coerce.number(),
+  })
+  .strict();
+
 export const juniorProfileSelectSchema = z
   .object({
     profileId: z.string().trim().min(1).max(40),
+  })
+  .strict();
+
+export const juniorGradeSwitchSchema = z
+  .object({
+    profileId: z.string().trim().min(1).max(40),
+    grade: z.coerce.number(),
   })
   .strict();
 
@@ -35,9 +67,27 @@ export function normalizeJuniorNickname(raw: string): string | null {
   return nickname;
 }
 
+function hasVersionField(input: unknown): boolean {
+  if (!input || typeof input !== "object") {
+    return false;
+  }
+  return Object.keys(input as Record<string, unknown>).some(
+    (key) => key === "consentVersion" || key === "guardianBirthYear",
+  );
+}
+
+export function juniorGuardianYearError(year: number, now = new Date()): string | null {
+  const bounds = guardianBirthYearBounds(now);
+  if (!Number.isInteger(year) || year < bounds.min || year > bounds.max) {
+    return JUNIOR_GUARDIAN_YEAR_ERROR;
+  }
+  return null;
+}
+
 export function juniorProfileFieldError(
   input: unknown,
   now = new Date(),
+  notice: JuniorGuardianNotice | null = JUNIOR_GUARDIAN_NOTICE,
 ): string | null {
   if (input && typeof input === "object") {
     const keys = Object.keys(input as Record<string, unknown>);
@@ -45,9 +95,25 @@ export function juniorProfileFieldError(
       return "Bu formda e-posta yok. Çocuk, veli hesabının altında bir profildir.";
     }
   }
-  const parsed = juniorProfileCreateSchema.safeParse(input);
+  if (notice && !isJuniorNoticeUsable(notice)) {
+    return JUNIOR_NOTICE_VERSION_ERROR;
+  }
+  if (!notice && hasVersionField(input)) {
+    return JUNIOR_NOTICE_UNSEALED_ERROR;
+  }
+  const parsed = (notice ? juniorProfileCreateSealedSchema : juniorProfileCreateSchema).safeParse(input);
   if (!parsed.success) {
-    return "Veli onayı olmadan profil açılmaz.";
+    return notice ? JUNIOR_NOTICE_VERSION_ERROR : "Veli onayı olmadan profil açılmaz.";
+  }
+  if (notice) {
+    const sealed = juniorProfileCreateSealedSchema.parse(input);
+    if (sealed.consentVersion !== notice.version) {
+      return JUNIOR_NOTICE_VERSION_ERROR;
+    }
+    const yearError = juniorGuardianYearError(sealed.guardianBirthYear, now);
+    if (yearError) {
+      return yearError;
+    }
   }
   if (!normalizeJuniorNickname(parsed.data.nickname)) {
     return "Takma ad iki ile yirmi harf arasında olsun. E-posta ve rakam yazma.";
@@ -55,9 +121,10 @@ export function juniorProfileFieldError(
   if (
     !Number.isInteger(parsed.data.grade) ||
     parsed.data.grade < JUNIOR_GRADE_MIN ||
-    parsed.data.grade > JUNIOR_GRADE_MAX
+    parsed.data.grade > JUNIOR_GRADE_MAX ||
+    parsed.data.grade !== JUNIOR_PILOT_GRADE
   ) {
-    return "Sınıf 5 ile 12 arasında olsun.";
+    return JUNIOR_PILOT_SHELF_LINE;
   }
   const bounds = juniorBirthYearBounds(now);
   if (

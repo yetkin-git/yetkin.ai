@@ -56,6 +56,7 @@ const CATALOG_SQL = [
   "supabase/migrations/20260814040000_price_catalog_definitions.sql",
   "supabase/migrations/20260814090000_academy_course_seed.sql",
   "supabase/migrations/20260814110000_freelancer_job_seed.sql",
+  "supabase/migrations/20261005160000_junior_yearly_price_seed.sql",
 ] as const;
 
 const FROM_RE = /\bfrom\s+["']([^"']+)["']/g;

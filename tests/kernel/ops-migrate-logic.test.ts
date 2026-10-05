@@ -147,7 +147,7 @@ describe("ops:migrate havuz yasağı", () => {
   });
 });
 
-describe("on dört SQL mühür planı", () => {
+describe("on altı SQL mühür planı", () => {
   it("diskteki dosya adları damga kalıbıyla sıralanır; bozuk ad apply'i durdurur", () => {
     const files = sqlSealFiles();
     expect(files.length).toBeGreaterThan(0);

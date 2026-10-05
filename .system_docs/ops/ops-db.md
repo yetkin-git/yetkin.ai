@@ -16,7 +16,7 @@ Müze dizini (`yetkin_muze/`) OPS yasağıdır: `.env` kopyalanmaz; git, indeks,
 | `SITE_MAINTENANCE_FREEZE` | isteğe bağlı | `"true"` / `"1"` = ürün 503. **Canlı yayın:** `LIVE_BROADCAST_SHUTDOWN` env (13 Eylül 2026 itibarıyla varsayılan kapalı). Acil kapatma: env `true` + deploy. |
 | `NEXT_PUBLIC_SUPABASE_URL` / `_ANON_KEY` | auth | `service_role` yazılmaz. |
 | `SUPABASE_JWT_SECRET` | kenar HS256 yedek | Boşsa ES256 JWKS. |
-| `SUPER_ADMIN_USER_ID` | admin | Auth UUID. Üretimde `CANONICAL_SUPER_ADMIN_EMAIL` ile birlikte dolu olmalıdır. Biri eksikse admin yoktur. Geliştirmede e-posta env boşsa varsayılan `yapinet360@gmail.com`. |
+| `SUPER_ADMIN_USER_ID` | admin | Auth UUID. Üretimde `yapinet360@gmail.com` hesabının id’si yazılır. Bu kutu e-postası doğrulanmışsa env boş veya eski olsa da sığınak açılır. Başka bir adres için `CANONICAL_SUPER_ADMIN_EMAIL` ile birlikte dolu olmalıdır. |
 | `PLATFORM_TREASURY_USER_ID` | hazine sentinel | Super Admin olarak **yazılmaz**. |
 | `NOTICE_SMTP_HOST` / `NOTICE_MAIL_FROM` | bildirim | İkisi boşsa dürüst atlanır (`SMTP skipped`), nakit durmaz. |
 | `ACADEMY_EXAM_SITTING_SECRET` | sınav MAC | Üretimde ≥16 karakter. |
@@ -64,8 +64,8 @@ Kullanıcı **`postgres.<PROJECT_REF>`**. Prisma 7 adapter `$transaction` + `FOR
 1. `/register` ile hesabı aç. Confirm email açık olmalı. Kanonik adres `yapinet360@gmail.com`.
 2. Supabase Dashboard → Users → UUID kopyala.
 3. `SUPER_ADMIN_USER_ID=<uuid>`. Hazine sentinel’i yazma.
-4. Üretimde (`NODE_ENV=production`) fail-closed: `CANONICAL_SUPER_ADMIN_EMAIL` ve `SUPER_ADMIN_USER_ID` ikisi birden dolu olmalıdır. Boş e-posta env’si `yapinet360@gmail.com` varsayılanına düşmez. `yapinet360@gmail.com` ancak e-posta env’i bu adres, UUID env’i o hesabın Auth kimliği ve oturumda `email_confirmed_at` dolu iken yetkilidir. İkisi birlikte eşleşmezse admin yoktur; akademi duvarı da açılmaz. Geliştirmede e-posta env boşsa veya vatandaş test adresine çekilmişse kod `CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT` (`yapinet360@gmail.com`) kullanır; doğrulanmış kanonik e-posta veya UUID yeter.
-5. `SUPER_ADMIN_USER_ID` boş veya yalnız boşluksa UUID kolonu kimseyi admin yapmaz (`isSuperAdminUser`). Üretimde bu, e-posta kolonu dolu olsa da bütün admin kapısını kapatır. Geliştirmede doğrulanmış kanonik e-posta kolonu ayrı kalır.
+4. Üretimde (`NODE_ENV=production`) yerleşik kanonik kutu `yapinet360@gmail.com` ayrı durur: oturumda `email_confirmed_at` dolu ve `id` geçerli bir Supabase kullanıcı kimliği ise sığınak açılır. `SUPER_ADMIN_USER_ID` boş, gecikmiş veya bu kimlikle eşleşmese de bu kutu kilitlenmez. Boş e-posta env’si başka bir adresi varsayılan yapmaz. Başka bir adres ancak `CANONICAL_SUPER_ADMIN_EMAIL` ve `SUPER_ADMIN_USER_ID` ikisi birden dolu ve oturum ikisiyle de eşleşirken yetkilidir; aksi hâlde admin yoktur ve akademi duvarı da açılmaz. Geliştirmede e-posta env boşsa veya vatandaş test adresine çekilmişse kod `CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT` (`yapinet360@gmail.com`) kullanır; doğrulanmış kanonik e-posta veya UUID yeter.
+5. `SUPER_ADMIN_USER_ID` boş veya yalnız boşluksa UUID kolonu kimseyi admin yapmaz (`isSuperAdminUser`). Üretimde bu, yerleşik kanonik kutu dışındaki bütün adresleri kapatır. Geliştirmede doğrulanmış kanonik e-posta kolonu ayrı kalır.
 6. `assertSuperAdminActor` e-postayı ve kullanıcı kimliğini birlikte okur. Geçerli Supabase kullanıcı kimliği ister (`isSupabaseUserId`). E-posta eşleşse de kimlik UUID biçiminde değilse kapı kapanır. `assertSuperAdminUserId` diye bir fonksiyon yoktur.
 
 ## 6. Redirect URLs
@@ -139,6 +139,8 @@ Motor 4 / Kamu Vitrini 3 Oda. S43 çekim kapalıdır. Üretimde sandbox / boş I
 ## 18. KVKK m.11
 
 Ürün içi self-serve silme yoktur. Talepler `destek@yetkin.ai` üzerinden Super Admin tarafından manuel yürütülür. Defter satırları append-only’dir; nakit sicili silinmez.
+
+İstisna — Junior çocuk profili (5 Ekim 2026, SUPER_ADMIN imzası): hesabın sahibi, kendi `junior_profiles` alt ağacını silebilir. Silinen küme ilerleme satırları, `mode = quiz` konu denemeleri ve oyun puanıdır. Profil takma adı `Kapalı` olur, doğum yılı boşalır, seçim kapanır, rıza satırının profil bağı kopar. Rıza kanıtı (`guardian_user_id`, `notice_sha256`), `junior_subscriptions`, `user_billing_info`, `payment_orders` ve `ledger_entries` silinmez. Oda kilidi açık değilken silme rotası 503 döner. Kilitliyken talep yine `destek@yetkin.ai` üzerinden yürür.
 
 ## 19. Akademi TTS bağları
 

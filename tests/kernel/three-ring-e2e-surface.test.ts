@@ -130,7 +130,7 @@ describe("D3 operatör yüzeyi", () => {
     expect(ops).toContain("assertAcademyLessonCompletions");
     expect(ops).toContain("assertCurriculumSealColumns");
     expect(ops).toContain("assertCorporateJobOffers");
-    expect(ops).toContain("assertDirectPortReachable");
+    expect(ops).toContain("assertApplyPortReachable");
     expect(ops).toContain("DIRECT_POSTGRES_PORT");
     expect(readSrc("prisma/migrations/20260816020000_academy_lesson_completions/migration.sql")).toContain(
       "academy_lesson_completions",

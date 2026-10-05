@@ -5,8 +5,14 @@ import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
 import { JUNIOR_PRODUCTION_LOCKED } from "@/lib/kernel/compliance/circuit-breakers";
 import { isFrozenRoomApi } from "@/lib/kernel/security/edge-api-auth";
 import { RLS_FORCE_TABLES } from "@/lib/kernel/security/rls-policy-registry";
-import { juniorLessonAccess } from "@/lib/junior/catalog";
-import { JUNIOR_FREE_LESSON_KEYS, JUNIOR_FREE_LESSON_KEY } from "@/lib/junior/limits";
+import { juniorFreeLessonKeys, juniorLessonAccess } from "@/lib/junior/catalog";
+import {
+  JUNIOR_ELECTIVE_QUOTA,
+  JUNIOR_FREE_LESSON_KEY,
+  JUNIOR_PAID_ACTION_ERROR,
+  JUNIOR_YEARLY_LIST_PRICE_MINOR,
+} from "@/lib/junior/limits";
+import { JUNIOR_PLAN_CODE, JUNIOR_POS_PROVIDER, juniorPlanExpiry } from "@/lib/junior/plan";
 import { juniorAgeBand } from "@/lib/junior/persona";
 import { createMemoryJuniorStore } from "@/lib/junior/memory-port";
 import { publicJuniorPractice } from "@/lib/junior/practice";
@@ -42,11 +48,35 @@ function told(score = 80): LlmGatewayResult {
   };
 }
 
+async function seedActivePlan(
+  store: ReturnType<typeof createMemoryJuniorStore>,
+  userId = PARENT,
+) {
+  await store.saveActiveSubscription({
+    userId,
+    status: "ACTIVE",
+    planCode: JUNIOR_PLAN_CODE,
+    listPriceMinor: JUNIOR_YEARLY_LIST_PRICE_MINOR,
+    currencyCode: "TRY",
+    provider: JUNIOR_POS_PROVIDER,
+    providerRef: "JRSEEDED01",
+    cardLast4: "0000",
+    invoiceName: "Ayse Yilmaz",
+    invoiceTckn: "10000000146",
+    invoicePhone: "5551112233",
+    invoiceAddress: "Ataturk Mahallesi Deneme Sokak No 1",
+    electiveQuota: JUNIOR_ELECTIVE_QUOTA,
+    gradeSwitchRights: 1,
+    activatedAt: NOW,
+    expiresAt: juniorPlanExpiry(NOW),
+  });
+}
+
 async function openProfile(store: ReturnType<typeof createMemoryJuniorStore>, nickname = "Ege") {
   const created = await createJuniorProfile(
     store,
     PARENT,
-    { nickname, grade: 5, birthYear: 2015, consent: true },
+    { nickname, grade: 6, birthYear: 2015, consent: true },
     NOW,
   );
   if (!created.ok) {
@@ -61,7 +91,7 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     const email = await createJuniorProfile(
       store,
       PARENT,
-      { nickname: "Ege", grade: 5, birthYear: 2015, consent: true, email: "cocuk@okul.com" },
+      { nickname: "Ege", grade: 6, birthYear: 2015, consent: true, email: "cocuk@okul.com" },
       NOW,
     );
     expect(email.ok).toBe(false);
@@ -71,14 +101,14 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     const consent = await createJuniorProfile(
       store,
       PARENT,
-      { nickname: "Ege", grade: 5, birthYear: 2015, consent: false },
+      { nickname: "Ege", grade: 6, birthYear: 2015, consent: false },
       NOW,
     );
     expect(consent.ok).toBe(false);
     const year = await createJuniorProfile(
       store,
       PARENT,
-      { nickname: "Ege", grade: 5, birthYear: 1900, consent: true },
+      { nickname: "Ege", grade: 6, birthYear: 1900, consent: true },
       NOW,
     );
     expect(year.ok).toBe(false);
@@ -91,7 +121,7 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     const fifth = await createJuniorProfile(
       store,
       PARENT,
-      { nickname: "Su", grade: 5, birthYear: 2015, consent: true },
+      { nickname: "Su", grade: 6, birthYear: 2015, consent: true },
       NOW,
     );
     expect(fifth.ok).toBe(false);
@@ -102,18 +132,29 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
 
   it("her dersin ilk konusu ücretsizdir; ikinci konu kapalıdır; yetişkin defteri değişmez", () => {
     expect(JUNIOR_PRODUCTION_LOCKED).toBe(true);
-    for (const key of JUNIOR_FREE_LESSON_KEYS) {
+    const freeKeys = juniorFreeLessonKeys();
+    expect(freeKeys).toContain("jr_06_mat-1");
+    expect(freeKeys).toContain("jr_06_ing_main-1");
+    expect(freeKeys.length).toBeGreaterThan(3);
+    for (const key of freeKeys) {
       expect(juniorLessonAccess(key)).toBe("free");
       const free = readJuniorLesson(key);
       expect(free.access).toBe("free");
       if (free.access === "free") {
         expect(free.script.length).toBeGreaterThan(40);
-        expect(free.practice.length).toBe(3);
+        expect(free.mebNote.length).toBeGreaterThan(40);
+        expect(free.lifeUse.length).toBeGreaterThan(40);
+        expect(free.scene.length).toBeGreaterThan(2);
       }
       expect(JSON.stringify(publicJuniorPractice(key))).not.toContain("correctIndex");
       const lockedKey = key.replace(/-1$/, "-2");
       expect(juniorLessonAccess(lockedKey)).toBe("locked");
       expect(readJuniorLesson(lockedKey).access).toBe("locked");
+    }
+    const practiced = readJuniorLesson(JUNIOR_FREE_LESSON_KEY);
+    expect(practiced.access).toBe("free");
+    if (practiced.access === "free") {
+      expect(practiced.practice.length).toBe(3);
     }
     const registrySlugs = COURSE_REGISTRY.map((row) => row.slug as string);
     expect(registrySlugs.some((slug) => slug.startsWith("jr_"))).toBe(false);
@@ -121,12 +162,43 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     expect(isFrozenRoomApi("/api/junior")).toBe(true);
     expect(isFrozenRoomApi("/api/junior/tell")).toBe(true);
     expect(isFrozenRoomApi("/api/junior-pilot/tell")).toBe(false);
-    expect(RLS_FORCE_TABLES).toEqual(expect.arrayContaining(["junior_profiles", "junior_progress", "junior_xp"]));
+    expect(isFrozenRoomApi("/api/junior-pilot/quiz")).toBe(false);
+    expect(isFrozenRoomApi("/api/junior-pilot/checkout")).toBe(true);
+    expect(RLS_FORCE_TABLES).toEqual(
+      expect.arrayContaining([
+        "junior_guardian_consents",
+        "junior_profiles",
+        "junior_question_bank",
+        "junior_progress",
+        "junior_subscriptions",
+        "junior_xp",
+      ]),
+    );
   });
 
   it("ses değerlendirmeden sonra taşınmaz; oyun puanı cüzdan değildir", async () => {
+    const bare = createMemoryJuniorStore();
+    const bareProfile = await openProfile(bare);
+    const blockedTell = await submitJuniorTell(
+      bare,
+      {
+        userId: PARENT,
+        profileId: bareProfile.id,
+        lessonKey: JUNIOR_FREE_LESSON_KEY,
+        mode: "write",
+        text: "Kesir bir bütünün eşit parçasıdır. Pay üstte, payda altta durur.",
+        now: NOW,
+      },
+      { invoke: async () => told() },
+    );
+    expect(blockedTell.ok).toBe(false);
+    if (!blockedTell.ok) {
+      expect(blockedTell.error).toBe(JUNIOR_PAID_ACTION_ERROR);
+    }
+
     const store = createMemoryJuniorStore();
     const profile = await openProfile(store);
+    await seedActivePlan(store);
     const audio = clip(8_000);
     const payload = {
       userId: PARENT,
@@ -184,10 +256,10 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     expect(short.audioBase64).toBe("");
 
     const locked = await submitJuniorTell(
-      store,
+      bare,
       {
         userId: PARENT,
-        profileId: profile.id,
+        profileId: bareProfile.id,
         lessonKey: "jr_06_mat-2",
         mode: "write",
         text: "Dünya kendi çevresinde döner ve gece gündüz oluşur.",
@@ -230,6 +302,7 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
   it("pekiştirme sunucuda puanlanır; doğru eşleşme rozet verir", async () => {
     const store = createMemoryJuniorStore();
     const profile = await openProfile(store);
+    await seedActivePlan(store);
     const graded = await submitJuniorPractice(store, {
       userId: PARENT,
       profileId: profile.id,
@@ -270,13 +343,14 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     const lgs = await createJuniorProfile(
       store,
       PARENT,
-      { nickname: "Ege", grade: 8, birthYear: 2012, consent: true },
+      { nickname: "Ege", grade: 6, birthYear: 2012, consent: true },
       NOW,
     );
     expect(lgs.ok).toBe(true);
     if (!lgs.ok) {
       return;
     }
+    await seedActivePlan(store, PARENT);
     let lgsSystem = "";
     const lgsTell = await submitJuniorTell(
       store,
@@ -303,13 +377,14 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     const lycee = await createJuniorProfile(
       store,
       OTHER,
-      { nickname: "Ada", grade: 11, birthYear: 2009, consent: true },
+      { nickname: "Ada", grade: 6, birthYear: 2009, consent: true },
       NOW,
     );
     expect(lycee.ok).toBe(true);
     if (!lycee.ok) {
       return;
     }
+    await seedActivePlan(store, OTHER);
     let lyceeSystem = "";
     const lyceeTell = await submitJuniorTell(
       store,
@@ -347,15 +422,27 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     for (const file of files) {
       expect(readFileSync(file, "utf8"), file).not.toMatch(banned);
     }
-    expect(readFileSync(join(root, "components", "junior", "practice-board.tsx"), "utf8")).not.toContain(
+    expect(readFileSync(join(root, "components", "junior", "topic-quiz.tsx"), "utf8")).not.toContain(
       "correctIndex",
     );
+    const chain = readFileSync(join(root, "components", "junior", "lesson-chain.tsx"), "utf8");
+    expect(chain).not.toContain("PracticeBoard");
+    expect(chain).not.toContain("Pekiştir");
+    expect(chain).not.toContain("Çoktan seçmeli");
     expect(readFileSync(join(root, "components", "junior", "listen-and-tell.tsx"), "utf8")).toContain(
       "Şimdi Sen Anlat",
     );
-    expect(readFileSync(join(root, "components", "junior", "listen-and-tell.tsx"), "utf8")).toContain(
+    expect(readFileSync(join(root, "components", "junior", "listen-and-tell.tsx"), "utf8")).not.toContain(
       "Yazarak anlat",
     );
+    expect(readFileSync(join(root, "components", "junior", "listen-and-tell.tsx"), "utf8")).not.toContain(
+      "mode: \"write\"",
+    );
+    const player = readFileSync(join(root, "components", "junior", "vector-player.tsx"), "utf8");
+    expect(player).toContain("Video / Görsel Oynatıcı");
+    expect(player).toContain("Ders Notu");
+    expect(player).not.toContain("MEB Tanımı & Okul Notu");
+    expect(player).not.toContain("Hayatta Ne İşime Yarar?");
   });
 });
 

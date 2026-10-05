@@ -31,6 +31,7 @@ import {
   ACADEMY_SEALED_MEDIA_LAYERS,
   ACADEMY_TTS_VOICE_GENDERS,
   academyLessonSaturationTotalMinutes,
+  mergeAcademyProductionSealPaths,
   academyTtsVoiceGenderFromLabel,
   isAcademyAiCourseDurationMinutes,
   isAcademyAiLessonCount,
@@ -40,7 +41,11 @@ import {
   isAcademyTtsVoiceGender,
 } from "@/lib/academy/production-standard";
 import { ACADEMY_FIVE_ACT_HEADINGS } from "@/lib/academy/lesson-body";
-import { academyCourseSaleOpen, academyOff201VoiceStatus } from "@/lib/academy/pilot-sku";
+import {
+  academyCatalogPurchasable,
+  academyCourseSaleOpen,
+  academyOff201VoiceStatus,
+} from "@/lib/academy/pilot-sku";
 import { ACADEMY_COURSE_LEVELS } from "@/lib/academy/course-level";
 import { LIMITS, SEALED_AUDIO_LIMITS, COMPACT_ARTICLE_GUIDE } from "@/lib/academy/config";
 import {
@@ -270,6 +275,59 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
       env.NODE_ENV = previous;
       registerAcademyProductionDiskProbe(academyProductionFilePresent);
     }
+  });
+
+  it("üretimde disk okuyucusu false dese de mühür anlığı altı vitrini satışa açar", () => {
+    const env = process.env as { NODE_ENV?: string };
+    const previous = env.NODE_ENV;
+    const slugs = [
+      "01_office_ai",
+      "01_office_ai_ileri",
+      "02_ecommerce_ai",
+      "03_social_media_ai",
+      "04_chatbot_nocode",
+      "05_prompt_practice",
+    ] as const;
+    registerAcademyProductionDiskProbe(() => false);
+    env.NODE_ENV = "production";
+    try {
+      for (const slug of slugs) {
+        expect(academyCourseSaleOpen(slug), slug).toBe(true);
+        expect(
+          academyCatalogPurchasable({
+            courseSlug: slug,
+            catalogRowPresent: true,
+            isPublished: true,
+          }),
+          slug,
+        ).toBe(true);
+      }
+    } finally {
+      env.NODE_ENV = previous;
+      registerAcademyProductionDiskProbe(academyProductionFilePresent);
+    }
+  });
+
+  it("derleme, baytı olmayan mühürlü yolu anlıktan düşürmez", () => {
+    const voice = "public/media/academy/audio/01_office_ai/01_office_ai-1.mp3";
+    const kept = mergeAcademyProductionSealPaths({
+      onDisk: ["lib/academy/spoken-scripts/01_office_ai-1.md"],
+      previous: [voice],
+      required: [voice, "lib/academy/spoken-scripts/01_office_ai-1.md"],
+    });
+    expect(kept.paths).toEqual([
+      "lib/academy/spoken-scripts/01_office_ai-1.md",
+      voice,
+    ]);
+    expect(kept.missingRequired).toEqual([]);
+    const dropped = mergeAcademyProductionSealPaths({
+      onDisk: ["lib/academy/spoken-scripts/01_office_ai-1.md"],
+      previous: [voice],
+      required: [voice, "lib/academy/spoken-scripts/01_office_ai-1.md"],
+      dropMissing: true,
+    });
+    expect(dropped.paths).toEqual(["lib/academy/spoken-scripts/01_office_ai-1.md"]);
+    expect(dropped.missingRequired).toEqual([voice]);
   });
 
   it("ısınma MP4 veya müzik BED diskte yoksa mühür fail-closed", () => {

@@ -7,6 +7,7 @@ import {
   isAcademyStorefrontSlug,
 } from "@/lib/academy/pilot-sku";
 import { LEGAL_SITE_PATHS } from "@/lib/copy/legal-launch";
+import { readPublishedAcademySlugs } from "@/lib/kernel/catalog/published-academy-slugs";
 import {
   CANONICAL_SITE_ORIGIN,
   isRobotsDisallowedPath,
@@ -56,22 +57,6 @@ export function sitemapCourseSlugs(
     return [...candidates];
   }
   return candidates.filter((slug) => publishedSlugs.has(slug));
-}
-
-async function readPublishedAcademySlugs(): Promise<ReadonlySet<string> | null> {
-  if (process.env.VITEST === "true" || !process.env.DATABASE_URL?.trim()) {
-    return null;
-  }
-  try {
-    const { getPrisma } = await import("@/lib/kernel/db");
-    const rows = await getPrisma().academyCourse.findMany({
-      where: { isPublished: true },
-      select: { slug: true },
-    });
-    return new Set(rows.map((row) => row.slug));
-  } catch {
-    return null;
-  }
 }
 
 function publishedAcademyCourseEntries(

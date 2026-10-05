@@ -55,8 +55,9 @@ export function isZeroFeeAcademyGrantOpen(
 /**
  * Akademi ödeme duvarı muafiyeti.
  * Prisma `role` kolonu yok. Tek kapı `isSuperAdminActor`:
- * e-posta doğrulanmış olmalı; üretimde UUID ve kanonik e-posta env birlikte eşleşmeli.
- * Ayrı e-posta kümesi yoktur. Üretim env’i boşken kanonik adres duvarı açmaz.
+ * e-posta doğrulanmış olmalı. Üretimde yerleşik kanonik kutu env gecikse de açılır;
+ * başka adres UUID ve kanonik e-posta env’inin birlikte eşleşmesini ister.
+ * Ayrı e-posta kümesi yoktur.
  */
 export function hasAcademyAdminBypass(actor: AcademyActor): boolean {
   return isSuperAdminActor({
@@ -66,6 +67,11 @@ export function hasAcademyAdminBypass(actor: AcademyActor): boolean {
   });
 }
 
+/**
+ * Laboratuvar geçişi. Üretimde kapalıdır.
+ * Doğrulanmış süper yönetici (`yapinet360@gmail.com`) üretimde ders izler.
+ * Sınavı ve sertifikayı bu fonksiyonla atlamaz.
+ */
 export function hasUnlimitedAcademyAccess(actor: AcademyActor): boolean {
   if (!isZeroFeeAcademyGrantOpen()) {
     return false;
@@ -141,7 +147,10 @@ export function hasAcademyLockedLessonContentAccess(
   return licenceProbeOpens(purchase, actor ?? null, now);
 }
 
-/** Satın alma yoksa bile ADMIN / SUPER_ADMIN SETTLED sayılır — içerik kapısı. */
+/**
+ * İçerik kapısı. Süper yönetici izleme muafiyeti üretimde ders gövdesini açar.
+ * Bu dönüş sınav ve sertifika muafiyeti değildir. Onlar üretimde gerçek satır ve bitmiş müfredat ister.
+ */
 export function hasPurchased(
   purchase: AcademyPurchaseRecord | null,
   actor: AcademyActor,

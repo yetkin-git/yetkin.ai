@@ -4,13 +4,40 @@ import { startOfEuropeIstanbulDay } from "@/lib/kernel/ai/budget-shield";
 import { invokeLlm, type InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import type { InvokeLlmInput, LlmGatewayResult } from "@/lib/kernel/ai/types";
-import { juniorCourseShelves, juniorLessonAccess, juniorLessonByKey } from "@/lib/junior/catalog";
+import { juniorTellPassed, stampJuniorLessonStatus } from "@/lib/junior/chain";
+import {
+  JUNIOR_GUARDIAN_NOTICE,
+  JUNIOR_NOTICE_UNSEALED_ERROR,
+  JUNIOR_NOTICE_VERSION_ERROR,
+  JUNIOR_PROFILE_CLOSED_ERROR,
+  isJuniorNoticeUsable,
+  isJuniorProfileClosed,
+  juniorLessonConsentBlock,
+  type JuniorGuardianNotice,
+} from "@/lib/junior/guardian-notice";
+import {
+  juniorCourseShelves,
+  juniorLessonAccessForPlan,
+  juniorLessonByKey,
+  juniorShelvesForGrade,
+  stampJuniorPlanAccess,
+  type JuniorPlanAccess,
+} from "@/lib/junior/catalog";
 import {
   JUNIOR_AUDIO_MAX_BYTES,
   JUNIOR_AUDIO_MIME_TYPES,
   JUNIOR_AUDIO_MIN_BYTES,
+  JUNIOR_ELECTIVE_QUOTA,
+  JUNIOR_GRADE_SWITCH_EXHAUSTED,
+  JUNIOR_GRADE_SWITCH_RIGHTS,
+  JUNIOR_PAID_ACTION_ERROR,
+  JUNIOR_PILOT_GRADE,
+  JUNIOR_PILOT_SHELF_LINE,
   JUNIOR_PRACTICE_XP,
   JUNIOR_PROFILE_CAP,
+  JUNIOR_QUIZ_PASS_SCORE,
+  JUNIOR_QUIZ_PREPARING_LABEL,
+  JUNIOR_QUIZ_XP,
   JUNIOR_TELL_MAX_SEC,
   JUNIOR_TELL_MIN_SEC,
   JUNIOR_TELL_XP,
@@ -20,13 +47,20 @@ import {
   juniorAudioDecodedBytes,
   normalizeJuniorMime,
 } from "@/lib/junior/limits";
+import { isJuniorPlanActive } from "@/lib/junior/plan";
 import type { JuniorStore } from "@/lib/junior/ports";
 import {
+  juniorGradeSwitchSchema,
+  juniorGuardianYearError,
+  juniorProfileConsentUpdateSchema,
   juniorProfileCreateSchema,
+  juniorProfileCreateSealedSchema,
   juniorProfileFieldError,
   normalizeJuniorNickname,
 } from "@/lib/junior/profile-rules";
 import { gradeJuniorPractice, publicJuniorPractice } from "@/lib/junior/practice";
+import { buildJuniorWeeklyReport, type JuniorWeeklyReport } from "@/lib/junior/report";
+import { gradeJuniorTopicQuiz, publicJuniorTopicQuiz } from "@/lib/junior/topic-quiz";
 import {
   juniorInlineAudio,
   juniorTellModelId,
@@ -41,9 +75,12 @@ import type {
   JuniorCourseShelf,
   JuniorFeedback,
   JuniorPracticeAnswer,
+  JuniorPracticeChoice,
+  JuniorPlanView,
   JuniorPracticeItem,
   JuniorProfileView,
   JuniorTellMode,
+  JuniorVectorScene,
   JuniorXpView,
 } from "@/lib/junior/types";
 import { awardJuniorXp, juniorBadges, nextJuniorPoints, xpUsedSince } from "@/lib/junior/xp-rules";
@@ -61,6 +98,8 @@ export type JuniorHome = {
   selected: JuniorProfileView | null;
   xp: JuniorXpView;
   courses: JuniorCourseShelf[];
+  weeklyReport: JuniorWeeklyReport | null;
+  plan: JuniorPlanView;
 };
 
 type InvokeTell = (
@@ -72,8 +111,10 @@ function toProfileView(row: {
   id: string;
   nickname: string;
   grade: number;
-  birthYear: number;
+  birthYear: number | null;
   selected: boolean;
+  selectedElectives: string[];
+  gradeSwitchRights: number;
 }): JuniorProfileView {
   return {
     id: row.id,
@@ -81,19 +122,62 @@ function toProfileView(row: {
     grade: row.grade,
     birthYear: row.birthYear,
     selected: row.selected,
+    selectedElectives: [...row.selectedElectives],
+    gradeSwitchRights: row.gradeSwitchRights,
   };
 }
 
-export async function readJuniorHome(store: JuniorStore, userId: string): Promise<JuniorHome> {
+function planView(
+  subscription: {
+    status: string;
+    electiveQuota: number;
+    expiresAt: Date | null;
+    gradeSwitchRights?: number;
+  } | null,
+  now: Date,
+): JuniorPlanView {
+  const active = isJuniorPlanActive(subscription, now);
+  return {
+    status: active ? "ACTIVE" : "NONE",
+    electiveQuota: subscription?.electiveQuota ?? JUNIOR_ELECTIVE_QUOTA,
+    expiresAt: active && subscription?.expiresAt ? subscription.expiresAt.toISOString() : null,
+    gradeSwitchRights: active ? (subscription?.gradeSwitchRights ?? 0) : 0,
+  };
+}
+
+export async function readJuniorHome(
+  store: JuniorStore,
+  userId: string,
+  now = new Date(),
+): Promise<JuniorHome> {
   const profiles = await store.listProfiles(userId);
   const views = profiles.map(toProfileView);
-  const selected = views.find((row) => row.selected) ?? views[0] ?? null;
+  const open = views.filter((row) => !isJuniorProfileClosed(row));
+  const selected = open.find((row) => row.selected) ?? open[0] ?? null;
   const xpRow = selected ? await store.getXp(userId, selected.id) : null;
+  const progress = selected ? await store.listProgress(userId, selected.id) : [];
+  const subscription = await store.getSubscription(userId);
+  const plan = planView(subscription, now);
+  const electives = selected?.selectedElectives ?? [];
+  const access: JuniorPlanAccess = { active: plan.status === "ACTIVE", selectedElectives: electives };
   return {
     profiles: views,
     selected,
     xp: { points: xpRow?.points ?? 0, badges: xpRow?.badges ?? [] },
-    courses: juniorCourseShelves(),
+    courses: stampJuniorLessonStatus(
+      stampJuniorPlanAccess(
+        juniorShelvesForGrade(selected?.grade ?? JUNIOR_PILOT_GRADE, electives.length > 0 ? electives : null),
+        access,
+      ),
+      progress,
+    ),
+    weeklyReport: selected
+      ? buildJuniorWeeklyReport(progress, {
+          profileId: selected.id,
+          lessonTitle: (lessonKey) => juniorLessonByKey(lessonKey)?.title ?? "Ders",
+        })
+      : null,
+    plan,
   };
 }
 
@@ -102,12 +186,14 @@ export async function createJuniorProfile(
   userId: string,
   input: unknown,
   now = new Date(),
+  notice: JuniorGuardianNotice | null = JUNIOR_GUARDIAN_NOTICE,
 ): Promise<JuniorOk<{ profile: JuniorProfileView }> | JuniorFail> {
-  const fieldError = juniorProfileFieldError(input, now);
+  const fieldError = juniorProfileFieldError(input, now, notice);
   if (fieldError) {
     return { ok: false, status: 400, error: fieldError };
   }
-  const parsed = juniorProfileCreateSchema.parse(input);
+  const sealed = notice ? juniorProfileCreateSealedSchema.parse(input) : null;
+  const parsed = sealed ?? juniorProfileCreateSchema.parse(input);
   const nickname = normalizeJuniorNickname(parsed.nickname);
   if (!nickname) {
     return { ok: false, status: 400, error: "Takma ad iki ile yirmi harf arasında olsun." };
@@ -122,15 +208,81 @@ export async function createJuniorProfile(
   if (taken) {
     return { ok: false, status: 400, error: "Bu takma ad zaten var. Başka bir ad seç." };
   }
-  const created = await store.insertProfile({
-    userId,
-    nickname,
-    grade: parsed.grade,
-    birthYear: parsed.birthYear,
-    consentAt: now,
-    selected: existing.length === 0,
-  });
+  const created = await store.insertProfile(
+    {
+      userId,
+      nickname,
+      grade: parsed.grade,
+      birthYear: parsed.birthYear,
+      consentAt: now,
+      selected: existing.length === 0,
+      selectedElectives: [],
+      gradeSwitchRights: JUNIOR_GRADE_SWITCH_RIGHTS,
+    },
+    sealed && notice
+      ? {
+          consentVersion: notice.version,
+          noticeSha256: notice.sha256,
+          guardianBirthYear: sealed.guardianBirthYear,
+          consentAt: now,
+        }
+      : null,
+  );
   return { ok: true, data: { profile: toProfileView(created) } };
+}
+
+export async function confirmJuniorGuardianConsent(
+  store: JuniorStore,
+  userId: string,
+  input: unknown,
+  now = new Date(),
+  notice: JuniorGuardianNotice | null = JUNIOR_GUARDIAN_NOTICE,
+): Promise<JuniorOk<{ profile: JuniorProfileView }> | JuniorFail> {
+  if (!notice || !isJuniorNoticeUsable(notice)) {
+    return { ok: false, status: 400, error: notice ? JUNIOR_NOTICE_VERSION_ERROR : JUNIOR_NOTICE_UNSEALED_ERROR };
+  }
+  const parsed = juniorProfileConsentUpdateSchema.safeParse(input);
+  if (!parsed.success || parsed.data.consentVersion !== notice.version) {
+    return { ok: false, status: 400, error: JUNIOR_NOTICE_VERSION_ERROR };
+  }
+  const yearError = juniorGuardianYearError(parsed.data.guardianBirthYear, now);
+  if (yearError) {
+    return { ok: false, status: 400, error: yearError };
+  }
+  const profile = await store.getProfile(userId, parsed.data.profileId);
+  if (!profile) {
+    return { ok: false, status: 404, error: "Bu profil senin hesabında yok." };
+  }
+  if (isJuniorProfileClosed(profile)) {
+    return { ok: false, status: 403, error: JUNIOR_PROFILE_CLOSED_ERROR };
+  }
+  const linked = await store.bindGuardianConsent(userId, profile.id, {
+    consentVersion: notice.version,
+    noticeSha256: notice.sha256,
+    guardianBirthYear: parsed.data.guardianBirthYear,
+    consentAt: now,
+  });
+  if (!linked) {
+    return { ok: false, status: 404, error: "Bu profil senin hesabında yok." };
+  }
+  return { ok: true, data: { profile: toProfileView(linked) } };
+}
+
+export async function eraseJuniorChildProfile(
+  store: JuniorStore,
+  userId: string,
+  profileId: string,
+  now = new Date(),
+): Promise<JuniorOk<{ erased: true; profileId: string }> | JuniorFail> {
+  const profile = await store.getProfile(userId, profileId);
+  if (!profile) {
+    return { ok: false, status: 404, error: "Bu profil senin hesabında yok." };
+  }
+  const erased = await store.eraseChildData(userId, profile.id, now);
+  if (!erased) {
+    return { ok: false, status: 404, error: "Bu profil senin hesabında yok." };
+  }
+  return { ok: true, data: { erased: true, profileId: erased.profileId } };
 }
 
 export async function selectJuniorProfile(
@@ -145,8 +297,59 @@ export async function selectJuniorProfile(
   return { ok: true, data: { profile: toProfileView(selected) } };
 }
 
-export function readJuniorLesson(lessonKey: string):
-  | { access: "free"; title: string; courseTitle: string; script: string; practice: JuniorPracticeItem[] }
+export async function switchJuniorGrade(
+  store: JuniorStore,
+  userId: string,
+  input: unknown,
+  now = new Date(),
+): Promise<JuniorOk<{ profile: JuniorProfileView }> | JuniorFail> {
+  const parsed = juniorGradeSwitchSchema.safeParse(input);
+  if (!parsed.success) {
+    return { ok: false, status: 400, error: "Sınıf seçilemedi." };
+  }
+  if (parsed.data.grade !== JUNIOR_PILOT_GRADE) {
+    return { ok: false, status: 403, error: JUNIOR_PILOT_SHELF_LINE };
+  }
+  const profile = await store.getProfile(userId, parsed.data.profileId);
+  if (!profile) {
+    return { ok: false, status: 404, error: "Bu profil senin hesabında yok." };
+  }
+  if (isJuniorProfileClosed(profile)) {
+    return { ok: false, status: 403, error: JUNIOR_PROFILE_CLOSED_ERROR };
+  }
+  if (profile.grade === parsed.data.grade) {
+    return { ok: false, status: 400, error: "Bu sınıf zaten seçili." };
+  }
+  const subscription = await store.getSubscription(userId);
+  if (!isJuniorPlanActive(subscription, now)) {
+    return { ok: false, status: 403, error: "Sınıf değiştirmek için yıllık paket açık olsun." };
+  }
+  if (profile.gradeSwitchRights < 1 || (subscription?.gradeSwitchRights ?? 0) < 1) {
+    return { ok: false, status: 403, error: JUNIOR_GRADE_SWITCH_EXHAUSTED };
+  }
+  const applied = await store.applyGradeSwitch(userId, profile.id, parsed.data.grade);
+  if (applied === "exhausted") {
+    return { ok: false, status: 403, error: JUNIOR_GRADE_SWITCH_EXHAUSTED };
+  }
+  if (!applied) {
+    return { ok: false, status: 404, error: "Bu profil senin hesabında yok." };
+  }
+  return { ok: true, data: { profile: toProfileView(applied.profile) } };
+}
+
+export function readJuniorLesson(lessonKey: string, plan: JuniorPlanAccess | null = null):
+  | {
+      access: "free";
+      title: string;
+      courseTitle: string;
+      script: string;
+      scene: JuniorVectorScene;
+      steps?: readonly string[];
+      mebNote: string;
+      lifeUse: string;
+      practice: JuniorPracticeItem[];
+      quiz: JuniorPracticeChoice[];
+    }
   | { access: "locked"; title: string; courseTitle: string; teaser: string }
   | { access: "missing" } {
   const lesson = juniorLessonByKey(lessonKey);
@@ -156,7 +359,7 @@ export function readJuniorLesson(lessonKey: string):
   const courseTitle = juniorCourseShelves().find((course) =>
     course.lessons.some((row) => row.key === lesson.key),
   )?.title ?? "6. Sınıf";
-  if (juniorLessonAccess(lesson.key) !== "free") {
+  if (juniorLessonAccessForPlan(lesson.key, plan) !== "free") {
     return { access: "locked", title: lesson.title, courseTitle, teaser: lesson.teaser };
   }
   return {
@@ -164,7 +367,12 @@ export function readJuniorLesson(lessonKey: string):
     title: lesson.title,
     courseTitle,
     script: lesson.listenText,
+    scene: lesson.scene,
+    steps: lesson.steps ? [...lesson.steps] : undefined,
+    mebNote: lesson.mebNote,
+    lifeUse: lesson.lifeUse,
     practice: publicJuniorPractice(lesson.key),
+    quiz: publicJuniorTopicQuiz(lesson.key),
   };
 }
 
@@ -199,7 +407,7 @@ export async function submitJuniorTell(
     const prior = await store.listProgress(input.userId, input.profileId);
     const day = startOfEuropeIstanbulDay(now);
     const tellsToday = prior.filter(
-      (row) => row.mode !== "practice" && row.createdAt >= day,
+      (row) => (row.mode === "speak" || row.mode === "write") && row.createdAt >= day,
     ).length;
     if (tellsToday >= JUNIOR_TELLS_PER_DAY) {
       return { ok: false, status: 429, error: "Bugün sekiz anlatışın doldu. Yarın yine gel." };
@@ -316,6 +524,78 @@ export async function submitJuniorPractice(
   };
 }
 
+export async function submitJuniorQuiz(
+  store: JuniorStore,
+  input: {
+    userId: string;
+    profileId: string;
+    lessonKey: string;
+    answers: readonly JuniorPracticeAnswer[];
+    now?: Date;
+  },
+): Promise<
+  | JuniorOk<
+      JuniorFeedback & {
+        correct: number;
+        total: number;
+        completed: boolean;
+        notes: { id: string; ok: boolean; explanation: string }[];
+      }
+    >
+  | JuniorFail
+> {
+  const gate = await gateLesson(store, input.userId, input.profileId, input.lessonKey);
+  if (!gate.ok) {
+    return gate;
+  }
+  const now = input.now ?? new Date();
+  const prior = await store.listProgress(input.userId, input.profileId);
+  const graded = gradeJuniorTopicQuiz(input.lessonKey, input.answers);
+  if (!graded) {
+    return { ok: false, status: 403, error: JUNIOR_QUIZ_PREPARING_LABEL };
+  }
+  if (!juniorTellPassed(prior, input.lessonKey)) {
+    return {
+      ok: false,
+      status: 403,
+      error: "Konu testi kilitli. Önce dinle ve anlat. Geçer puanı alınca yeniden dene.",
+    };
+  }
+  const completed = graded.score >= JUNIOR_QUIZ_PASS_SCORE;
+  const reading = {
+    onTopic: true,
+    praised: completed ? "Tamamlandı." : "Barajın altında kaldın.",
+    missing: completed ? "Eksik kalan nokta yok." : "Eksik kalan sorunun cümlesini oku.",
+    advice: completed
+      ? "Bu ders bitti. İstersen sıradaki konuya geç."
+      : "Eksik kalan cümleyi bir kez daha oku. Sonra testi yeniden çöz.",
+    score: graded.score,
+  };
+  const saved = await commitFeedback(store, {
+    userId: input.userId,
+    profileId: input.profileId,
+    lessonKey: input.lessonKey,
+    mode: "quiz",
+    reading,
+    prior,
+    now,
+    base: JUNIOR_QUIZ_XP,
+  });
+  if (!saved.ok) {
+    return saved;
+  }
+  return {
+    ok: true,
+    data: {
+      ...saved.data,
+      correct: graded.correct,
+      total: graded.total,
+      completed,
+      notes: graded.notes,
+    },
+  };
+}
+
 async function gateLesson(
   store: JuniorStore,
   userId: string,
@@ -329,10 +609,20 @@ async function gateLesson(
   if (!profile) {
     return { ok: false, status: 404, error: "Bu profil senin hesabında yok." };
   }
-  if (!profile.consentAt) {
-    return { ok: false, status: 403, error: "Veli onayı olmadan ders açılmaz." };
+  const consentBlock = juniorLessonConsentBlock(profile, JUNIOR_GUARDIAN_NOTICE);
+  if (consentBlock) {
+    return { ok: false, status: 403, error: consentBlock };
   }
-  const access = juniorLessonAccess(lessonKey);
+  const birthYear = profile.birthYear;
+  if (birthYear == null) {
+    return { ok: false, status: 403, error: JUNIOR_PROFILE_CLOSED_ERROR };
+  }
+  const subscription = await store.getSubscription(userId);
+  const planActive = isJuniorPlanActive(subscription, new Date());
+  const access = juniorLessonAccessForPlan(lessonKey, {
+    active: planActive,
+    selectedElectives: profile.selectedElectives,
+  });
   if (access === "missing") {
     return { ok: false, status: 404, error: "Bu ders yok." };
   }
@@ -340,14 +630,19 @@ async function gateLesson(
     return {
       ok: false,
       status: 403,
-      error: "Bu konu henüz kapalı. Her dersin ilk konusu ücretsizdir.",
+      error: planActive
+        ? "Bu seçmeli ders paket kotanda yok. En fazla üç ders seçilir."
+        : "Bu konu veli girişi ve yıllık paket ister.",
     };
+  }
+  if (!planActive) {
+    return { ok: false, status: 403, error: JUNIOR_PAID_ACTION_ERROR };
   }
   const lesson = juniorLessonByKey(lessonKey);
   if (!lesson) {
     return { ok: false, status: 404, error: "Bu ders yok." };
   }
-  return { ok: true, lesson, profile };
+  return { ok: true, lesson, profile: { birthYear } };
 }
 
 function validateTellClip(input: {
@@ -392,7 +687,7 @@ async function commitFeedback(
     userId: string;
     profileId: string;
     lessonKey: string;
-    mode: "speak" | "write" | "practice";
+    mode: "speak" | "write" | "practice" | "quiz";
     reading: { praised: string; missing: string; advice: string; score: number };
     prior: { createdAt: Date; xpAwarded: number; lessonKey: string; mode: string; score: number }[];
     now: Date;

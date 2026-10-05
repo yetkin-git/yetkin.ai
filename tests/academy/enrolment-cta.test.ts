@@ -249,6 +249,29 @@ describe("vitrin kartı CTA", () => {
     expect(owned.priceLabel).toBe(ACADEMY_SEN.course.accessOpen);
     expect(owned.priceCaption).toBeNull();
     expect(owned.href).toBe("/academy/python-temel/oyna");
+    const vitrineCards = [
+      ["02_ecommerce_ai", "₺990,00", "Satın Al — ₺990"],
+      ["03_social_media_ai", "₺890,00", "Satın Al — ₺890"],
+      ["05_prompt_practice", "₺1.290,00", "Satın Al — ₺1.290"],
+      ["04_chatbot_nocode", "₺1.290,00", "Satın Al — ₺1.290"],
+      ["01_office_ai", "₺890,00", "Satın Al — ₺890"],
+      ["01_office_ai_ileri", "₺1.290,00", "Satın Al — ₺1.290"],
+    ] as const;
+    for (const [slug, priceLabel, buyLabel] of vitrineCards) {
+      const open = resolveAcademyCatalogCardCta({
+        slug,
+        owned: false,
+        priceLabel,
+        purchasable: true,
+        isPublished: true,
+      });
+      expect(open.cta, slug).toBe(ACADEMY_SEN.catalog.cardCtaFreePreview);
+      expect(open.href, slug).toBe(`/academy/${slug}/oyna`);
+      expect(open.secondaryCta, slug).toBe(buyLabel);
+      expect(open.secondaryHref, slug).toBe(`/academy/${slug}#satin-al`);
+      expect(open.cta, slug).not.toBe(ACADEMY_SEN.catalog.pricePending);
+      expect(open.ctaDisabled, slug).toBeUndefined();
+    }
     const prompt = resolveAcademyCatalogCardCta({
       slug: "05_prompt_practice",
       owned: false,

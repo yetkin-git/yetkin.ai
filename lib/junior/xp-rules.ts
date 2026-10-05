@@ -28,7 +28,9 @@ export function nextJuniorPoints(current: number, award: number): number {
 
 export function juniorBadges(rows: readonly JuniorBadgeSource[]): string[] {
   const badges: string[] = [];
-  const told = rows.filter((row) => row.mode !== "practice" && row.score >= JUNIOR_XP_SCORE_FLOOR);
+  const told = rows.filter(
+    (row) => (row.mode === "speak" || row.mode === "write") && row.score >= JUNIOR_XP_SCORE_FLOOR,
+  );
   if (told.length > 0) {
     badges.push("ilk-anlatis");
   }

@@ -54,8 +54,9 @@ describe("prebuild güvenlik kapısı ve nightly grep kovası — yazma yüzeyi"
     expect(prebuild).not.toContain("typecheck");
     expect(prebuild).not.toContain("ops:migrate");
     expect(prebuild).not.toMatch(/(?:^|[\s&;])npm test(?:$|[\s&;])/);
-    expect(pkg.scripts.test).toContain("--exclude");
-    expect(pkg.scripts.test).toContain("surface.test.ts");
+    expect(pkg.scripts.test).toBe("vitest run");
+    expect(pkg.scripts["test:all"]).toBe(pkg.scripts.test);
+    expect(pkg.scripts.test).not.toContain("--exclude");
     expect(pkg.scripts.test).not.toContain("constitution-surfaces.test.ts");
     expect(pkg.scripts.test).not.toContain("four-room-smoke.test.ts");
     expect(pkg.scripts.test).not.toContain("money-uow-rollback.test.ts");

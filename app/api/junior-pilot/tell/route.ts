@@ -13,8 +13,7 @@ const tellSchema = z
   .object({
     profileId: z.string().trim().min(1).max(40),
     lessonKey: z.string().trim().min(1).max(80),
-    mode: z.enum(["speak", "write"]),
-    text: z.string().max(600).optional(),
+    mode: z.literal("speak"),
     audioBase64: z.string().max(1_200_000).optional(),
     mimeType: z.string().max(80).optional(),
     durationSec: z.number().finite().optional(),
@@ -36,14 +35,13 @@ export async function POST(request: Request) {
     raw = await request.json().catch(() => ({}));
     const parsed = tellSchema.safeParse(raw);
     if (!parsed.success) {
-      return jsonFail("Anlatış gönderilemedi. Süreyi ve metni kontrol et.", 400, requestId, request);
+      return jsonFail("Anlatış gönderilemedi. Süreyi kontrol et.", 400, requestId, request);
     }
     const result = await submitJuniorTell(createPrismaJuniorStore(), {
       userId: user.id,
       profileId: parsed.data.profileId,
       lessonKey: parsed.data.lessonKey,
       mode: parsed.data.mode,
-      text: parsed.data.text,
       audioBase64: parsed.data.audioBase64,
       mimeType: parsed.data.mimeType,
       durationSec: parsed.data.durationSec,

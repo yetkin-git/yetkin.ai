@@ -1,8 +1,8 @@
 /**
  * K6 — `export const auth` kind'ını kenarda oku.
  * session = kenarda doğrulanmış JWT (`resolveEdgeSession`). İpucu yetmez.
- * admin = doğrulanmış JWT + SUPER_ADMIN_USER_ID veya env kanonik Super Admin e-postası.
- * Boş UUID ve boş e-posta env kimseyi admin yapmaz.
+ * admin = doğrulanmış JWT + `isSuperAdminActor`.
+ * Yerleşik kanonik kutu üretimde doğrulanmışsa açılır. Başka adres için boş UUID kimseyi admin yapmaz.
  * public / webhook imzasız geçer; webhook imzası handler'dadır.
  */
 
@@ -12,6 +12,9 @@ import {
   FREELANCER_LOCKED_API_PREFIXES,
   FROZEN_SHELL_ROOM_IDS,
   isFreelancerPublicSurfaceLocked,
+  isJuniorPaidActionApiPath,
+  isJuniorPilotApiPath,
+  isJuniorSurfaceLocked,
 } from "@/lib/kernel/compliance/circuit-breakers";
 import { canonicalApiPathname } from "@/lib/kernel/http/api-v1";
 import {
@@ -36,6 +39,13 @@ const MUTATING_HTTP_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 
 export function isFrozenRoomApi(pathname: string): boolean {
   const path = canonicalApiPathname(pathname);
+  if (
+    isJuniorPilotApiPath(path) &&
+    isJuniorSurfaceLocked() &&
+    !isJuniorPaidActionApiPath(path)
+  ) {
+    return true;
+  }
   if (
     isFreelancerPublicSurfaceLocked() &&
     FREELANCER_LOCKED_API_PREFIXES.some(

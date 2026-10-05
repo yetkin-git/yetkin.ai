@@ -61,7 +61,7 @@ describe("T4 nakit döngüsü — T2-0 katalog ve migrate kesmez", () => {
     expect(sql).not.toMatch(/INSERT INTO public\.escrow_holds/i);
   });
 
-  it("ops:migrate sırası katalogdan sonra freelancer tohumunu uygular; on dört SQL kilitlidir", () => {
+  it("ops:migrate sırası katalogdan sonra freelancer tohumunu uygular; on beş SQL kilitlidir", () => {
     const script = `${readSrc("scripts/ops-migrate.ts")}\n${readSrc("scripts/ops-migrate-lib.ts")}`;
     expect(script).toContain("20260814040000_price_catalog_definitions.sql");
     expect(script).toContain("20260814110000_freelancer_job_seed.sql");
@@ -70,7 +70,8 @@ describe("T4 nakit döngüsü — T2-0 katalog ve migrate kesmez", () => {
     );
     const dir = join(ROOT, "supabase", "migrations");
     const sqlFiles = readdirSync(dir).filter((name) => name.endsWith(".sql")).sort();
-    expect(sqlFiles).toHaveLength(14);
+    expect(sqlFiles).toContain("20261005190000_vitrine_catalog_publish.sql");
+    expect(sqlFiles).toHaveLength(16);
   });
 
   it("bellek döngüsü helper'ı Studio kataloguna bağlanmaz; clearing + vize taşır", () => {

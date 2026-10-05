@@ -2,12 +2,45 @@
 
 export const JUNIOR_PILOT_GRADE = 6;
 
-export const JUNIOR_PILOT_SLUGS = ["jr_06_mat", "jr_06_fen", "jr_06_turkce"] as const;
+/** Sınıf seçici yalnız 6. sınıf pilotunu gösterir. Başka sınıfın metni yoktur. */
+export const JUNIOR_PILOT_SHELF_LINE =
+  "Bu sınıf yakında gelecektir. Şu an sadece 6. Sınıf Pilot aktiftir.";
 
-export const JUNIOR_FREE_LESSON_KEYS = ["jr_06_mat-1", "jr_06_fen-1", "jr_06_turkce-1"] as const;
+export const JUNIOR_PILOT_SLUGS = ["jr_06_mat", "jr_06_fen", "jr_06_turkce", "jr_06_ing_main"] as const;
 
-/** Pekiştirme testinin baktığı ders. Üç dersin ilk konusu da ücretsizdir. */
-export const JUNIOR_FREE_LESSON_KEY = JUNIOR_FREE_LESSON_KEYS[0];
+export const JUNIOR_ELECTIVE_SLUGS = [
+  "jr_06_ing",
+  "jr_06_alm",
+  "jr_06_fra",
+  "jr_06_siyer",
+  "jr_06_kod",
+  "jr_06_arp",
+] as const;
+
+/** Pakete dahil seçmeli ders hakkı. Her çocuk profili en fazla bu kadar ders seçer. */
+export const JUNIOR_ELECTIVE_QUOTA = 3;
+
+/** Yıllık paket liste fiyatı, kuruş cinsinden tam sayı. 5.499 TL. */
+export const JUNIOR_YEARLY_LIST_PRICE_MINOR = 549_900;
+
+export const JUNIOR_YEARLY_LIST_PRICE_LABEL = "5.499 TL";
+
+export const JUNIOR_PLAN_CODE = "junior-yearly";
+
+export const JUNIOR_QUOTA_FULL_LABEL = "Paket Kotası Doldu / Düzenle";
+
+/**
+ * Pekiştirme örneğinin baktığı ders.
+ * Ücretsiz konu listesinin evi katalogdur: her kartın ilk konusu (`juniorFreeLessonKeys`).
+ */
+export const JUNIOR_FREE_LESSON_KEY = "jr_06_mat-1";
+
+/** Anlatış kaydı ve konu testi. İlk konunun metni bu cümleye girmez. */
+export const JUNIOR_PAID_ACTION_ERROR =
+  "Anlatış kaydı ve konu testi veli girişi ile yıllık paket ister.";
+
+/** Soru arşivi on soruya ulaşmayan konuda test adımı. */
+export const JUNIOR_QUIZ_PREPARING_LABEL = "Hazırlık Aşamasında";
 
 export const JUNIOR_GRADE_MIN = 5;
 export const JUNIOR_GRADE_MAX = 12;
@@ -25,13 +58,28 @@ export const JUNIOR_TEXT_MAX = 600;
 export const JUNIOR_TELLS_PER_DAY = 8;
 export const JUNIOR_TELL_XP = 12;
 export const JUNIOR_PRACTICE_XP = 8;
+export const JUNIOR_QUIZ_XP = 10;
 export const JUNIOR_DAILY_XP_CAP = 40;
 export const JUNIOR_XP_SCORE_FLOOR = 60;
+/** Dinle ve Anlat geçer puanı. Bunun altı konu testini açmaz. */
+export const JUNIOR_TELL_PASS_SCORE = JUNIOR_XP_SCORE_FLOOR;
+/** Konu testi barajı. On soruda en az yedi doğru. */
+export const JUNIOR_QUIZ_PASS_SCORE = 70;
+export const JUNIOR_QUIZ_MIN_ITEMS = 10;
 export const JUNIOR_POINTS_CAP = 20_000;
 
 export const JUNIOR_PROFILES_PATH = "/api/junior-pilot/profiles";
+export const JUNIOR_ELECTIVES_PATH = "/api/junior-pilot/electives";
+export const JUNIOR_CHECKOUT_PATH = "/api/junior-pilot/checkout";
 export const JUNIOR_TELL_PATH = "/api/junior-pilot/tell";
 export const JUNIOR_PRACTICE_PATH = "/api/junior-pilot/practice";
+export const JUNIOR_QUIZ_PATH = "/api/junior-pilot/quiz";
+export const JUNIOR_GRADE_PATH = "/api/junior-pilot/grade";
+
+/** Abonelik açıkken her çocuk profili ve paket bir kez sınıf değiştirir. */
+export const JUNIOR_GRADE_SWITCH_RIGHTS = 1;
+
+export const JUNIOR_GRADE_SWITCH_EXHAUSTED = "Sınıf değiştirme hakkınız tamamlanmıştır";
 
 export const JUNIOR_AUDIO_MIME_TYPES = ["audio/webm", "audio/mp4", "audio/mpeg", "audio/ogg", "audio/wav"] as const;
 

@@ -31,7 +31,7 @@ const NEXT_EXACT = new Set([
   "/register",
 ]);
 
-/** Vatandaş odaları + sığınaklar. `/admin` yok — Super Admin sığınağına dönüş yok. Donmuş oda next değil. */
+/** Vatandaş odaları + sığınaklar. `/admin` yok — Super Admin sığınağına dönüş yok. Donmuş oda next değil. Junior ders listesi dönüş yoludur. */
 const NEXT_PREFIXES = [
   "/dashboard",
   "/cuzdan",
@@ -40,6 +40,7 @@ const NEXT_PREFIXES = [
   "/academy",
   "/career",
   "/freelancer",
+  "/junior",
 ] as const;
 
 function stripTrailingSlash(origin: string): string {

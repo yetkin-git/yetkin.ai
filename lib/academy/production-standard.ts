@@ -199,12 +199,58 @@ function academyProductionManifestProbe(relativePath: string): boolean {
 }
 
 function readProductionDiskProbe(): AcademyProductionDiskProbe | null {
-  const current = productionDiskProbeBox().current;
-  if (current) return current;
-  // Kayıt yan etkisi paketleyici tarafından düşerse kart «Kayıt Kapalı» kalır.
-  // Üretimde boş yuva anlığı okur. Testte boş yuva fail-closed kalır.
-  if (process.env.NODE_ENV === "production") return academyProductionManifestProbe;
-  return null;
+  const installed = productionDiskProbeBox().current;
+  // Üretimde anlık hükmeder. Yuva boşsa da, kurulu okuyucu lambda’da bayt
+  // olmadığı için false dese de, anlık true ise katman durur.
+  // Testte boş yuva ve sahte false okuyucu fail-closed kalır.
+  if (process.env.NODE_ENV === "production") {
+    return (relativePath: string) => {
+      if (academyProductionManifestProbe(relativePath)) return true;
+      const current = productionDiskProbeBox().current;
+      if (!current) return false;
+      return current(relativePath) === true;
+    };
+  }
+  return installed;
+}
+
+/**
+ * Fırın anlığını derleme paketine taşır.
+ * Diskte duran yol yazılır. `dropMissing` yoksa, vitrin katmanı önceki anlıkta
+ * mühürlüyse bayt bu makinede olmasa da yol düşmez. Lambda ses baytını taşımaz.
+ */
+export function mergeAcademyProductionSealPaths(input: {
+  onDisk: readonly string[];
+  previous: readonly string[];
+  required: readonly string[];
+  dropMissing?: boolean;
+}): { paths: string[]; missingRequired: string[] } {
+  const present = new Set<string>();
+  for (const relative of input.onDisk) {
+    const normalized = relative.replaceAll("\\", "/").trim();
+    if (!normalized || normalized.includes("..") || normalized.startsWith("/")) continue;
+    present.add(normalized);
+  }
+  if (!input.dropMissing) {
+    const required = new Set(
+      input.required.map((relative) => relative.replaceAll("\\", "/").trim()).filter((relative) => relative.length > 0),
+    );
+    for (const relative of input.previous) {
+      const normalized = relative.replaceAll("\\", "/").trim();
+      if (required.has(normalized)) present.add(normalized);
+    }
+  }
+  const missingRequired = [
+    ...new Set(
+      input.required
+        .map((relative) => relative.replaceAll("\\", "/").trim())
+        .filter((relative) => relative.length > 0 && !present.has(relative)),
+    ),
+  ].sort();
+  return {
+    paths: [...present].sort(),
+    missingRequired,
+  };
 }
 
 /** Sunucu ve test disk okuyucusunu kaydeder. İstemci paketi `node:fs` taşımaz. */

@@ -51,6 +51,7 @@ describe("amiral performans mühürleri — Gzip / cache / istek", () => {
     expect(config).toContain("./generated/prisma/**");
     expect(config).not.toContain("publicHtmlPrismaTraceExcludes");
     expect(config).toContain("./node_modules/@prisma/adapter-pg/**");
+    expect(config).toContain("./lib/academy/production-seal-manifest.ts");
     expect(config).toContain("./public/media/**/*");
     expect(config).toContain("./public/academy/cinema/**/*");
     expect(config).toContain("./media-bake/**/*");

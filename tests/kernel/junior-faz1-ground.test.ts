@@ -43,6 +43,7 @@ describe("Junior faz 1 zemin — kayıt defteri", () => {
       "JR-06-MAT",
       "JR-06-FEN",
       "JR-06-TUR",
+      "JR-06-ING-ANA",
     ]);
     for (const slug of JUNIOR_PILOT_SLUGS) {
       expect(ACADEMY_CANON_SKU_SLUGS).not.toContain(slug);

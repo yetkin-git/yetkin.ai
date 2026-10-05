@@ -143,7 +143,7 @@ const FILE_RULES: FileRule[] = [
   {
     file: "app/api/(kernel)/wallet/top-up/route.ts",
     must: [
-      { needle: "readIdempotencyKey", label: "HTTP Idempotency-Key" },
+      { needle: "requireRailV1IdempotencyKey", label: "HTTP Idempotency-Key" },
       { needle: "buildIdempotentMerchantOid", label: "deterministik merchantOid" },
       { needle: "settleHttpIdempotency", label: "HTTP replay kapısı" },
       { needle: "failPaymentOrder", label: "checkout 503 markFailed" },
@@ -863,9 +863,12 @@ if (pkgRaw === null) {
   if (/(?:^|[\s&;])npm test(?:$|[\s&;])/.test(prebuild)) {
     issues.push("package.json verify:prebuild: tam `npm test` statik zincire girmez");
   }
-  if (!unitTest.includes("--exclude") || !unitTest.includes("surface.test.ts")) {
+  if (unitTest !== (scripts["test:all"] ?? "")) {
+    issues.push("package.json test: npm test ile test:all aynı vitest run olmalı");
+  }
+  if (unitTest.includes("--exclude") && unitTest.includes("surface.test.ts")) {
     issues.push(
-      "package.json test: *surface.test.ts çekirdek vitest'ten --exclude ile çıkar; nightly test:surface",
+      "package.json test: yüzey testleri çekirdek kapıdan --exclude ile çıkmamalı",
     );
   }
   for (const file of REQUIRED_PR_UNIT_TESTS) {

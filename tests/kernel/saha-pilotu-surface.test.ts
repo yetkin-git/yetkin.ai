@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
-  EXPECTED_PRISMA_MIGRATIONS,
+  expectedPrismaMigrations,
   listSqlSealFiles,
   assertHostedApplyTargetUrl,
   hostedApplyForbidsLabStub,
@@ -24,13 +24,18 @@ function readSrc(relative: string): string {
 }
 
 describe("saha pilotu — hosted apply disk planı", () => {
-  it("35 Prisma + on dört SQL birebir; ops:migrate lab stub basmaz", () => {
-    expect(EXPECTED_PRISMA_MIGRATIONS).toHaveLength(35);
+  it("Prisma klasörleri diskten türer; on beş SQL kilitlidir; ops:migrate lab stub basmaz", () => {
+    const sealed = expectedPrismaMigrations(ROOT);
+    expect(sealed).toContain("20261005093000_junior_paytr_grade_switch");
+    expect(sealed).toContain("20261005140000_junior_progress_quiz_mode");
+    expect(sealed).toContain("20261005160000_junior_guardian_consent");
     const sqlFiles = listSqlSealFiles(join(ROOT, "supabase", "migrations"));
-    expect(sqlFiles).toHaveLength(14);
+    expect(sqlFiles).toContain("20261005160000_junior_yearly_price_seed.sql");
+    expect(sqlFiles).toContain("20261005190000_vitrine_catalog_publish.sql");
+    expect(sqlFiles).toHaveLength(16);
     const plan = inspectHostedApplyDiskPlan(ROOT);
     expect(plan.issues).toEqual([]);
-    expect(plan.prismaFolders).toEqual([...EXPECTED_PRISMA_MIGRATIONS]);
+    expect(plan.prismaFolders).toEqual([...sealed]);
     expect(plan.sqlFiles).toEqual(sqlFiles);
     expect(
       hostedApplyForbidsLabStub(

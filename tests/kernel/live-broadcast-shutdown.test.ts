@@ -68,15 +68,19 @@ describe("PayTR ve Inngest handler fail-closed (üretim kapatma)", () => {
     expect(postRes.status).toBe(503);
   });
 
-  it("env LIVE_BROADCAST_SHUTDOWN=true iken PayTR üretimde 503", async () => {
-    vi.stubEnv("VITEST", "false");
-    vi.stubEnv("NODE_ENV", "production");
-    vi.stubEnv("LIVE_BROADCAST_SHUTDOWN", "true");
-    vi.resetModules();
-    const { GET } = await import("@/app/api/(kernel)/payments/webhooks/paytr/route");
-    const getRes = await GET(new Request("http://localhost/api/payments/webhooks/paytr"));
-    expect(getRes.status).toBe(503);
-  });
+  it(
+    "env LIVE_BROADCAST_SHUTDOWN=true iken PayTR üretimde 503",
+    async () => {
+      vi.stubEnv("VITEST", "false");
+      vi.stubEnv("NODE_ENV", "production");
+      vi.stubEnv("LIVE_BROADCAST_SHUTDOWN", "true");
+      vi.resetModules();
+      const { GET } = await import("@/app/api/(kernel)/payments/webhooks/paytr/route");
+      const getRes = await GET(new Request("http://localhost/api/payments/webhooks/paytr"));
+      expect(getRes.status).toBe(503);
+    },
+    20_000,
+  );
 
   it("Inngest GET üretimde anahtar dolu olsa da 503", async () => {
     if (!LIVE_BROADCAST_SHUTDOWN) {

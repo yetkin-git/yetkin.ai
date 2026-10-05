@@ -2,11 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { INDEPENDENT_ROOMS, type IndependentRoomId } from "@/lib/dronlar/kayit";
 import { VERTICAL_ROOMS } from "@/lib/kernel/modules";
 import { isPhase1ShellNavRoom } from "@/lib/kernel/compliance/circuit-breakers";
 import { ROOM_NAV_ACCENT } from "@/lib/ui/room-theme";
 import { cn } from "@/components/ui/cn";
 import { ROOM_ICONS } from "@/components/ui/icons";
+
+const INDEPENDENT_NAV_ACCENT: Record<IndependentRoomId, string> = {
+  junior: "bg-[#0369a1] text-white",
+};
 
 function isActive(pathname: string | null, path: string): boolean {
   if (!pathname) {
@@ -26,7 +31,16 @@ export function SidebarNav({
   onNavigate?: () => void;
 }) {
   const pathname = usePathname();
-  const rooms = VERTICAL_ROOMS.filter((room) => isPhase1ShellNavRoom(room.id));
+  const rooms = [
+    ...VERTICAL_ROOMS.filter((room) => isPhase1ShellNavRoom(room.id)).map((room) => ({
+      ...room,
+      accent: ROOM_NAV_ACCENT[room.id],
+    })),
+    ...INDEPENDENT_ROOMS.map((room) => ({
+      ...room,
+      accent: INDEPENDENT_NAV_ACCENT[room.id],
+    })),
+  ];
 
   return (
     <nav className="flex h-full min-h-0 flex-col">
@@ -60,7 +74,7 @@ export function SidebarNav({
                 <span
                   className={cn(
                     "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
-                    active ? ROOM_NAV_ACCENT[room.id] : "bg-white/5 text-white/70",
+                    active ? room.accent : "bg-white/5 text-white/70",
                   )}
                 >
                   <Icon className="h-4 w-4" />

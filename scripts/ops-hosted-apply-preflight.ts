@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 /**
  * Hosted DIRECT_URL apply ön kontrolü.
- * Lab Auth stub basmaz. 35 Prisma + on dört SQL disk mührü.
+ * Lab Auth stub basmaz. Prisma klasörleri diskten türer; SQL ad kalıbı kilitlidir.
  * Hosted URL varsa TCP :5432; apply için `npm run ops:migrate`.
  *
  *   npm run ops:hosted-apply-preflight
@@ -16,7 +16,7 @@ import { Client } from "pg";
 import {
   DIRECT_PORT_OPERATOR_PROTOCOL,
   DIRECT_POSTGRES_PORT,
-  EXPECTED_PRISMA_MIGRATIONS,
+  expectedPrismaMigrations,
   assertHostedApplyTargetUrl,
   hostedApplyForbidsLabStub,
   inspectHostedApplyDiskPlan,
@@ -71,7 +71,7 @@ async function pingHosted(url: string): Promise<void> {
 async function main(): Promise<void> {
   const plan = inspectHostedApplyDiskPlan(ROOT);
   console.log(
-    `→ Disk plan: ${plan.prismaFolders.length} Prisma / ${plan.sqlFiles.length} SQL (Prisma kilit ${EXPECTED_PRISMA_MIGRATIONS.length}, SQL ad kalıbı)`,
+    `→ Disk plan: ${plan.prismaFolders.length} Prisma / ${plan.sqlFiles.length} SQL (Prisma kilit ${expectedPrismaMigrations(ROOT).length}, SQL ad kalıbı)`,
   );
   for (const folder of plan.prismaFolders) {
     console.log(`     - ${folder}`);

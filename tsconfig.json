@@ -74,6 +74,7 @@
     "tests/arena/**",
     "tests/pazaryeri/**",
     "tests/junior/**",
+    "tests/_archived-junior/**",
     "tests/social/**",
     "tests/kernel/four-room-smoke.test.ts",
     "tests/kernel/earnings-bridge.test.ts",

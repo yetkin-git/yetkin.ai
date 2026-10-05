@@ -77,6 +77,8 @@ model User {
   juniorProfiles           JuniorProfile[]
   juniorProgress           JuniorProgress[]
   juniorXp                 JuniorXp[]
+  juniorSubscription       JuniorSubscription?
+  juniorGuardianConsents   JuniorGuardianConsent[]
 
   @@map("users")
 }

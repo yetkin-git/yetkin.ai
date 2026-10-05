@@ -19,6 +19,13 @@ export const JUNIOR_PRODUCTION_LOCKED = true;
 export const JUNIOR_PRODUCTION_LOCKED_ERROR =
   "Veli doğrulaması ve hukuki altyapı tamamlanmadan Junior para akışı ve vitrin yayını kapalıdır.";
 
+/** Tek aç/kapa bayrağı. Tanımsız, boş ve kapalı değerler yüzeyi açmaz. */
+export const DRON_JUNIOR_OPEN_ENV = "DRON_JUNIOR_OPEN" as const;
+
+export const JUNIOR_PILOT_API_PREFIX = "/api/junior-pilot" as const;
+
+const DRON_JUNIOR_OPEN_VALUES = new Set(["1", "true", "open"]);
+
 /**
  * Freelancer kamu yüzeyi — Junior üretim kilidi kalıbı.
  * `lib/freelancer` motoru, Prisma şeması ve lab testleri durur.
@@ -99,8 +106,45 @@ export function isEidsPublicListingLocked(): boolean {
   return EIDS_PUBLIC_LISTING_LOCKED;
 }
 
-export function isJuniorProductionFrozen(): boolean {
-  return JUNIOR_PRODUCTION_LOCKED;
+/**
+ * `DRON_JUNIOR_OPEN` varsayılan kapalıdır.
+ * Yalnız `1`, `true` veya `open` açar. Başka her değer kapalı kalır.
+ */
+export function isDronJuniorOpen(env: NodeJS.ProcessEnv = process.env): boolean {
+  const raw = env[DRON_JUNIOR_OPEN_ENV]?.trim().toLowerCase() ?? "";
+  return DRON_JUNIOR_OPEN_VALUES.has(raw);
+}
+
+/**
+ * Para ve profil yazma kilidi. Ders listesini ve ilk konuyu kapatmaz.
+ * Üretim kilidi dururken bayrak tek başına kasayı açmaz.
+ */
+export function isJuniorSurfaceLocked(env: NodeJS.ProcessEnv = process.env): boolean {
+  if (JUNIOR_PRODUCTION_LOCKED) {
+    return true;
+  }
+  return !isDronJuniorOpen(env);
+}
+
+export function isJuniorPilotApiPath(pathname: string): boolean {
+  const path = normalizeCircuitPathname(pathname);
+  return path === JUNIOR_PILOT_API_PREFIX || path.startsWith(`${JUNIOR_PILOT_API_PREFIX}/`);
+}
+
+/** Anlatış, pekiştirme ve konu testi. Kenar 410 basmaz; kural veli oturumu ve yıllık pakettir. */
+export const JUNIOR_PAID_ACTION_API_PATHS = [
+  "/api/junior-pilot/tell",
+  "/api/junior-pilot/quiz",
+  "/api/junior-pilot/practice",
+] as const;
+
+export function isJuniorPaidActionApiPath(pathname: string): boolean {
+  const path = normalizeCircuitPathname(pathname);
+  return (JUNIOR_PAID_ACTION_API_PATHS as readonly string[]).includes(path);
+}
+
+export function isJuniorProductionFrozen(env: NodeJS.ProcessEnv = process.env): boolean {
+  return isJuniorSurfaceLocked(env);
 }
 
 /**

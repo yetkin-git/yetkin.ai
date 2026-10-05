@@ -1,7 +1,7 @@
 import type { AmountMinor } from "@/lib/kernel/money/amount-minor";
 import type { CurrencyCode } from "@/lib/kernel/money/currency";
 
-export const ACADEMY_MODULE_KEY = "academy" as const;
+export { ACADEMY_MODULE_KEY } from "@/lib/kernel/catalog/academy-module-key";
 
 export type AcademyPurchaseStatus = "SETTLED";
 

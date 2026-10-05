@@ -24,6 +24,7 @@ const IMMUTABLE_STATIC_CACHE = {
  * Per-route exclude motoru (`generated/prisma`, `@prisma`) silmişti (boş 500).
  * Medya globs o yollara dokunmaz. Ses, ham video ve sinema JPG statik CDN’dedir;
  * `_middleware` sıkıştırılmamış tavanı 250 MB.
+ * Mühür anlığı bayt değildir; satış kapısı onu fonksiyon paketinde okur.
  */
 const MEDIA_FUNCTION_TRACE_EXCLUDES = [
   "./media-bake/**/*",
@@ -72,6 +73,7 @@ const nextConfig: NextConfig = {
       "./node_modules/@prisma/adapter-pg/**",
       "./generated/prisma/**",
       "./node_modules/@digabi/noto-sans/WOFF/NotoSans-Regular.woff",
+      "./lib/academy/production-seal-manifest.ts",
     ],
   },
   images: {

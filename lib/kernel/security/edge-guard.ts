@@ -40,6 +40,17 @@ export const PROTECTED_KERNEL_PATHS = [
 ] as const;
 
 /**
+ * Super Admin sayfa sığınağı. Kenar bu yolları müze 404 yapmaz.
+ * `/admin` öneki alt yolları da oturum ister; katalog sayfası ayrıca yazılıdır.
+ */
+export const ADMIN_SHELTER_PATHS = ["/admin", "/admin/catalog"] as const;
+
+export function isAdminShelterPath(pathname: string): boolean {
+  const path = normalizePathname(pathname);
+  return ADMIN_SHELTER_PATHS.some((prefix) => path === prefix || path.startsWith(`${prefix}/`));
+}
+
+/**
  * Dikey yazma kabukları — SEO vitrin (akademi katalog, açık ilan) açık kalır.
  * Donmuş oda yolları burada yoktur: kenar `frozen-410` auth-307'den önce basar.
  * Kenar JWT doğrular; sayfa `requirePageSession` gerçek getUser yapar.
@@ -114,11 +125,16 @@ export function isKayitPath(pathname: string): boolean {
 }
 
 /**
- * Kapalı pilot sayfası. `/juniorism` bu kapıya girmez.
- * Ziyaretçi kenarda 410 alır. Veli oturumu `decideEdgeAction` ile geçer.
+ * Junior oda yolu. `/juniorism` bu kapıya girmez.
+ * Ders listesi, ders sayfası ve kasa adresi ziyaretçiye açıktır.
+ * Eski `/junior/ebeveyn` arşivdedir; donmuş oda 410 kalır.
+ * Tahsilat, anlatış kaydı ve konu testi sayfa içinde kilitlidir. Kenar ders adresini 410 yapmaz.
  */
 export function isJuniorClosedPilotPath(pathname: string): boolean {
   const path = normalizePathname(pathname);
+  if (path === "/junior/ebeveyn" || path.startsWith("/junior/ebeveyn/")) {
+    return false;
+  }
   return path === "/junior" || path.startsWith("/junior/");
 }
 
@@ -136,6 +152,9 @@ function matchesPathPrefix(pathname: string, prefix: string): boolean {
 
 export function isProtectedKernelPath(pathname: string): boolean {
   const path = normalizePathname(pathname);
+  if (isAdminShelterPath(path)) {
+    return true;
+  }
   return PROTECTED_KERNEL_PATHS.some((prefix) => matchesPathPrefix(path, prefix));
 }
 
@@ -226,11 +245,11 @@ export function decideEdgeAction(pathname: string, sessionVerified: boolean): Ed
   if (normalizePathname(pathname) === "/") {
     return { kind: "root-308" };
   }
+  // Anayasa B6: liste ve ilk konu ziyaretçiye açık. 410 bütün adresi yutmaz.
+  if (isJuniorClosedPilotPath(pathname)) {
+    return { kind: "next" };
+  }
   if (isFrozenShellPagePath(pathname)) {
-    // Kapalı pilot: ziyaretçi 410. Oturum açmış veli sayfayı görür. Para kapısı ayrı kalır.
-    if (sessionVerified && isJuniorClosedPilotPath(pathname)) {
-      return { kind: "next" };
-    }
     return { kind: "frozen-410" };
   }
   const aliasTarget = authPathAliasTarget(pathname);

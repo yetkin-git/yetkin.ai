@@ -109,7 +109,7 @@ describe("ops migrate yüzeyi", () => {
     expect(order[3]).toBeLessThan(order[4]!);
     expect(order[4]).toBeLessThan(order[5]!);
     expect(order[5]).toBeLessThan(order[6]!);
-    expect(readSrc("scripts/ops-migrate.ts")).toContain("assertDirectPortReachable");
+    expect(readSrc("scripts/ops-migrate.ts")).toContain("assertApplyPortReachable");
     expect(readSrc("scripts/ops-migrate-lib.ts")).toContain("DIRECT_PORT_OPERATOR_PROTOCOL");
   });
 

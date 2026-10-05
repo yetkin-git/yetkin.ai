@@ -49,6 +49,7 @@ export const PRISMA_RING_MIGRATIONS = [
 export const ACADEMY_LESSON_COMPLETIONS_TABLE = "academy_lesson_completions";
 export const ACADEMY_CERTIFICATES_TABLE = "academy_certificates";
 export const ACADEMY_EXAM_SITTINGS_TABLE = "academy_exam_sittings";
+export const ACADEMY_AUDIO_CACHE_MIGRATION = "20260826100000_academy_audio_cache";
 export const ACADEMY_EXAM_SITTINGS_MIGRATION = "20260829100000_academy_exam_sittings";
 export const ACADEMY_AUDIO_MEDIA_RELEASE_SEAL_MIGRATION =
   "20260830180000_academy_audio_media_release_seal";
@@ -114,46 +115,11 @@ export const FROZEN_ROOM_TABLES = [
 ] as const;
 
 /**
- * Hosted / lab Prisma zinciri — disk klasör adları kilitli 33. Yeni klasör sessiz eklenmez.
- * `ops:hosted-apply-preflight` ve `ops:migrate` aynı listeyi okur.
+ * Prisma migrasyon klasör adı. SQL mühürleri gibi diskten türer.
+ * 14 haneli damga, alt çizgi, küçük harf / rakam / alt çizgi.
+ * Elle liste tutulmaz; yeni klasör kalıba ve `migration.sql` dosyasına uymak zorundadır.
  */
-export const EXPECTED_PRISMA_MIGRATIONS = [
-  "20260814050000_faz5_init",
-  "20260814060000_faz6_init",
-  "20260814070000_faz7_init",
-  "20260814080000_faz8_freelancer_depth",
-  "20260814120000_faz9_studio_academy_devlabs_depth",
-  "20260814140000_faz10_yetkinilan_pazaryeri",
-  "20260815160000_studio_data_base64_max_chars",
-  "20260815180000_http_idempotency_records",
-  "20260815221500_studio_generation_image_catalog",
-  "20260816010000_studio_digital_asset_object_store",
-  "20260816020000_academy_lesson_completions",
-  "20260816030000_d2_2_curriculum_seal_certificate_hash",
-  "20260816040000_d2_3_corporate_job_offers",
-  "20260817010000_devlabs_generation_code_catalog",
-  "20260819010000_payment_anomalies",
-  "20260819020000_junior_guardian_invites",
-  "20260819030000_ledger_immutability_paid_commands",
-  "20260819040000_escrow_hold_checks",
-  "20260820010000_certificate_revocation",
-  "20260822010000_drop_frozen_room_tables",
-  "20260822020000_academy_lesson_proof_hash",
-  "20260823010000_academy_trend_score",
-  "20260823220000_freelancer_job_visa_pathway",
-  "20260824030000_freelancer_direct_job_offer",
-  "20260824040000_price_catalog_decision_ledger",
-  "20260824120000_escrow_hold_psp_decouple",
-  "20260826100000_academy_audio_cache",
-  "20260829100000_academy_exam_sittings",
-  "20260830180000_academy_audio_media_release_seal",
-  "20260831140000_user_billing_info",
-  "20260831190000_user_billing_phone",
-  "20260905010000_checkout_consent_evidence",
-  "20260912010000_funnel_daily_counter",
-  "20260924100000_academy_exemption_seal",
-  "20260925120000_wallet_card_refund",
-] as const;
+export const PRISMA_MIGRATION_FOLDER_NAME = /^\d{14}_[a-z0-9_]+$/;
 
 export const LAB_RESTORE_DATABASE = "yetkin_rail_lab_restore";
 export const ESCROW_HOLDS_TABLE = "escrow_holds";
@@ -576,9 +542,11 @@ export function catalogSqlPreservesOperatorPrice(sql: string): boolean {
 
 export function inspectSqlSealPlan(sqlByFile: Record<string, string>): SqlSealPlan {
   const academy = sqlByFile["20260814090000_academy_course_seed.sql"] ?? "";
-  const freelancer = sqlByFile["20260814110000_freelancer_job_seed.sql"] ?? "";
   const catalog = sqlByFile["20260814040000_price_catalog_definitions.sql"] ?? "";
+  const freelancer = sqlByFile["20260814110000_freelancer_job_seed.sql"] ?? "";
   const siblingPublish = sqlByFile["20261003230400_sm103_bot104_pr105_publish.sql"] ?? "";
+  const juniorPrice = sqlByFile["20261005160000_junior_yearly_price_seed.sql"] ?? "";
+  const vitrinePublish = sqlByFile["20261005190000_vitrine_catalog_publish.sql"] ?? "";
   const authSync = sqlByFile["20260814010000_handle_new_user_auth_sync.sql"] ?? "";
   const email = sqlByFile["20260814100000_handle_user_email_update.sql"] ?? "";
   const rls = sqlByFile["20260814020000_enforce_rls_all_tables.sql"] ?? "";
@@ -616,7 +584,9 @@ export function inspectSqlSealPlan(sqlByFile: Record<string, string>): SqlSealPl
       catalogSqlPreservesOperatorPrice(catalog) &&
       catalogSqlPreservesOperatorPrice(academy) &&
       catalogSqlPreservesOperatorPrice(freelancer) &&
-      catalogSqlPreservesOperatorPrice(siblingPublish),
+      catalogSqlPreservesOperatorPrice(siblingPublish) &&
+      catalogSqlPreservesOperatorPrice(juniorPrice) &&
+      catalogSqlPreservesOperatorPrice(vitrinePublish),
   };
 }
 
@@ -1173,9 +1143,30 @@ export function listPrismaMigrationFolders(migrationsDir: string): string[] {
     return [];
   }
   return readdirSync(migrationsDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && /^\d{14}_/.test(entry.name))
+    .filter((entry) => entry.isDirectory() && PRISMA_MIGRATION_FOLDER_NAME.test(entry.name))
     .map((entry) => entry.name)
     .sort();
+}
+
+/** Diskteki mühürlü Prisma klasörleri. Sıra, ad damgasıdır. */
+export function expectedPrismaMigrations(root: string): readonly string[] {
+  return listPrismaMigrationFolders(join(root, "prisma", "migrations"));
+}
+
+export function inspectPrismaMigrationFolderNames(migrationsDir: string): string[] {
+  if (!existsSync(migrationsDir)) {
+    return [];
+  }
+  const issues: string[] = [];
+  for (const entry of readdirSync(migrationsDir, { withFileTypes: true })) {
+    if (!entry.isDirectory()) {
+      continue;
+    }
+    if (!PRISMA_MIGRATION_FOLDER_NAME.test(entry.name)) {
+      issues.push(`Prisma ad kalıbı bozuk: ${entry.name}`);
+    }
+  }
+  return issues;
 }
 
 export function listSqlSealFiles(sqlDir: string): string[] {
@@ -1228,16 +1219,10 @@ export function inspectHostedApplyDiskPlan(root: string): HostedApplyDiskPlan {
   if (!existsSync(sqlDir)) {
     issues.push("supabase/migrations dizini yok.");
   }
-  if (prismaFolders.length !== EXPECTED_PRISMA_MIGRATIONS.length) {
-    issues.push(
-      `Prisma klasör sayısı kilitli ${EXPECTED_PRISMA_MIGRATIONS.length} değil (${prismaFolders.length}).`,
-    );
-  }
-  for (let index = 0; index < EXPECTED_PRISMA_MIGRATIONS.length; index += 1) {
-    const expected = EXPECTED_PRISMA_MIGRATIONS[index];
-    const actual = prismaFolders[index];
-    if (actual !== expected) {
-      issues.push(`Prisma sıra ${index + 1}: beklenen ${expected} ≠ ${actual ?? "yok"}`);
+  issues.push(...inspectPrismaMigrationFolderNames(prismaDir));
+  for (const folder of prismaFolders) {
+    if (!readMigrationSql(root, folder).trim()) {
+      issues.push(`${folder}/migration.sql yok veya boş.`);
     }
   }
   issues.push(...assertSqlSealDirectory(sqlDir));
@@ -1247,6 +1232,9 @@ export function inspectHostedApplyDiskPlan(root: string): HostedApplyDiskPlan {
   issues.push(...assertEscrowHoldChecksMigrationPresent(prismaFolders));
   issues.push(...assertCertificateRevocationMigrationPresent(prismaFolders));
   issues.push(...assertFrozenRoomDropMigrationPresent(prismaFolders));
+  if (!prismaFolders.includes(ACADEMY_AUDIO_CACHE_MIGRATION)) {
+    issues.push(`Prisma ders ses önbelleği yok: ${ACADEMY_AUDIO_CACHE_MIGRATION}`);
+  }
   if (!prismaFolders.includes(ACADEMY_EXAM_SITTINGS_MIGRATION)) {
     issues.push(`Prisma sınav oturumu mührü yok: ${ACADEMY_EXAM_SITTINGS_MIGRATION}`);
   }

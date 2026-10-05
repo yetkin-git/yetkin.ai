@@ -66,7 +66,7 @@ Karaoke sahnesinde uzun paragraf gösterilmez. Sahnede yalnız o saniyeye ait k�
 
 Çalışma sekmesindeki tam metin, eğitim videosunun konuşma katmanıdır; ayrı bir makale yayını değildir (Anayasa B4). Nasıl-yapılır adım bandı overlay paragrafı değildir.
 
-**Junior oda ≠ başlangıç seviyesi.** Başlangıç seviyesi Akademi içi **Temel Paketler** ile karşılanır. 10-18 yaş okul dersi Yetkin Junior müstakil odasıdır (Anayasa B2 ve B6). Akademi kayıt defterine girmez. Kamu kapısı `JUNIOR_PRODUCTION_LOCKED` iken kapalıdır. Öğretme, yaş üslubu ve veli esasları **Ek-J** bölümündedir.
+**Junior oda ≠ başlangıç seviyesi.** Başlangıç seviyesi Akademi içi **Temel Paketler** ile karşılanır. 10-18 yaş okul dersi Yetkin Junior müstakil odasıdır (Anayasa B2 ve B6). Akademi kayıt defterine girmez. Ders listesi ve her dersin ilk konusu ziyaretçiye açıktır. İkinci konu, anlatış kaydı ve konu testi veli girişi ile yıllık paket ister. Sınıf seçici yalnız 6. sınıf pilotudur. Para kapısı `JUNIOR_PRODUCTION_LOCKED` ile kapalıdır. Öğretme, yaş üslubu ve veli esasları **Ek-J** bölümündedir.
 
 **Quiet Luxury:** sahne sakin durur. Dikkat süsle değil, o anki işle kalır.
 

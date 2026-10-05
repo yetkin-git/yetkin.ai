@@ -132,7 +132,7 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 
 ## B6. Yetkin Junior
 
-* **Yetkin Junior:** Junior modülü, 10-18 yaş grubuna veli hesabı altında müstakil bir oda olarak hizmet veren veli rızalı özel kanaldır. Sahte bakiye tutmaz. Her dersin ilk konusu ücretsizdir. Pilot sınıf 6’dır. Kartlar `jr_06_mat`, `jr_06_fen` ve `jr_06_turkce` dir. Ev `lib/junior/catalog.ts`.
-* **Kapı:** Bu oda Akademi’nin iç kanalı değildir. Panel, Akademi ve Kariyer vitrini B2’de durur. `/junior` ziyaretçi kapısı `JUNIOR_PRODUCTION_LOCKED` kapalıyken açılmaz. Açılış ayrı karardır. Yetişkin Akademi vitrini bu odadan etkilenmez.
+* **Yetkin Junior:** Junior modülü, 10-18 yaş grubuna veli hesabı altında müstakil bir oda olarak hizmet veren veli rızalı özel kanaldır. Sahte bakiye tutmaz. Her dersin ilk konusu ücretsizdir. Pilot sınıf 6’dır. Kartlar `jr_06_mat`, `jr_06_fen`, `jr_06_turkce` ve `jr_06_ing_main` dir. Ev `lib/junior/catalog.ts`.
+* **Kapı:** Bu oda Akademi’nin iç kanalı değildir. Panel, Akademi ve Kariyer vitrini B2’de durur. Sol menüde Junior herkese açıktır. `/junior` ders listesi ve her dersin ilk konusu ziyaretçiye açıktır. İkinci konu, anlatış kaydı ve konu testi veli girişi ile yıllık paket ister. Sınıf seçici yalnız 6. sınıf pilotudur. Soru arşivi olmayan konuda test adımı hazırlık aşamasındadır. Para akışı `JUNIOR_PRODUCTION_LOCKED` ile kapalıdır. Deneme mağaza anahtarı satışı açmaz. Yetişkin Akademi vitrinindeki altı kurs durur; altında Junior tanıtım şeridi vardır.
 * **Pasaport:** Junior kursu Kariyer vizesine girmez. Kayıt defterinde `passportListed` kapalıdır. Ev `packages/kernel/src/catalog-ids/course-registry.ts`.
 * **Öğretme:** Dinle ve Anlat ile veli modeli `.system_docs/PEDAGOJI.md` ve `.system_docs/MANIFESTO.md` Ek-J bölümlerindedir. Bu madde o metni ikinci kez yazmaz.

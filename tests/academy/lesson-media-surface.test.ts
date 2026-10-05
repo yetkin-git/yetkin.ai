@@ -76,7 +76,7 @@ describe("akademi mikro-video ve şema mimarisi", () => {
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("onTimeUpdate");
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain("current !== next");
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain(
-      "Math.abs(audio.currentTime - clockRef.current.lastAudioTime) < 0.04",
+      "Math.abs(current - reported) >= 0.05",
     );
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain('type="audio/mpeg"');
     expect(readSrc("components/academy/lesson-media-player.tsx")).toContain(

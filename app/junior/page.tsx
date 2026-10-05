@@ -1,49 +1,68 @@
-import { LinkButton } from "@/components/ui/link-button";
+import { JuniorRoom } from "@/components/junior/junior-room";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
-import { ProfileSwitcher } from "@/components/junior/profile-switcher";
-import { requirePageSession } from "@/lib/kernel/auth/session";
+import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
+import { getSession } from "@/lib/kernel/auth/session";
+import {
+  juniorElectivePicks,
+  juniorPersonalizedShelves,
+  juniorShelvesForGrade,
+  stampJuniorPlanAccess,
+} from "@/lib/junior/catalog";
+import { JUNIOR_PILOT_GRADE, JUNIOR_PILOT_SHELF_LINE } from "@/lib/junior/limits";
 import { loadJuniorHome } from "@/lib/junior/load";
+import { juniorSchoolWeek } from "@/lib/junior/week";
 
 export const dynamic = "force-dynamic";
 
-export default async function JuniorHomePage() {
-  const session = await requirePageSession();
-  const home = await loadJuniorHome(session.id);
+export default async function JuniorHomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ paket?: string }>;
+}) {
+  const session = await getSession();
+  const query = await searchParams;
+  const home = session ? await loadJuniorHome(session.id) : null;
+  const listed = home?.courses ?? juniorPersonalizedShelves(null);
+  const planActive = home?.plan.status === "ACTIVE";
+  const roomGrade = home?.selected?.grade ?? JUNIOR_PILOT_GRADE;
+  const selectedElectives = home?.selected?.selectedElectives ?? [];
+  const electiveCourses = stampJuniorPlanAccess(
+    juniorShelvesForGrade(roomGrade, null).filter((course) => course.track === "elective"),
+    { active: planActive, selectedElectives },
+  );
 
   return (
-    <RoomFrame className="space-y-6">
+    <RoomFrame className="space-y-4">
       <PageHeader
-        eyebrow="Junior odası"
-        title="6. Sınıf"
-        description="Matematik, Fen Bilimleri ve Türkçe. Her dersin ilk konusu ücretsizdir. Oyun puanı cüzdana yazılmaz."
+        tight
+        eyebrow="Junior"
+        title="Dersler"
+        description="Matematik, Fen Bilimleri, Türkçe ve Ana İngilizce. Her dersin ilk konusu ücretsizdir."
       />
-      {home.notice ? <p className="text-sm text-[var(--rose)]">{home.notice}</p> : null}
-      <ProfileSwitcher profiles={home.profiles} xp={home.xp} ready={home.ready} />
-      {home.courses.map((course) => (
-        <section key={course.slug} className="grid gap-3">
-          <h2 className="text-lg font-semibold">{course.title}</h2>
-          {course.lessons.map((lesson) => (
-            <article
-              key={lesson.key}
-              className="flex flex-col gap-3 rounded-[1.4rem] border border-[var(--border)] bg-white p-4 sm:flex-row sm:items-center sm:justify-between"
-            >
-              <div>
-                <h3 className="font-semibold">{lesson.title}</h3>
-                <p className="mt-1 text-sm text-[var(--muted)]">{lesson.teaser}</p>
-              </div>
-              {lesson.access === "free" ? (
-                <LinkButton href={`/junior/ders/${lesson.key}`} size="sm">
-                  Ücretsiz başla
-                </LinkButton>
-              ) : (
-                <LinkButton href={`/junior/ders/${lesson.key}`} variant="outline" size="sm">
-                  Sırada
-                </LinkButton>
-              )}
-            </article>
-          ))}
-        </section>
-      ))}
+      <p className="text-sm leading-6 text-[var(--muted)]">{JUNIOR_PILOT_SHELF_LINE}</p>
+      {query.paket === "acik" ? (
+        <p className="text-sm leading-6">Yıllık paket açıldı. Kilitli çekirdek dersler hazır.</p>
+      ) : null}
+      {home?.notice ? <p className="text-sm text-[var(--rose)]">{home.notice}</p> : null}
+      <JuniorRoom
+        courses={listed}
+        electiveCourses={electiveCourses}
+        schoolWeek={juniorSchoolWeek()}
+        loginHref={buildCitizenLoginHref("/junior")}
+        checkoutHref={session ? "/junior/checkout" : buildCitizenLoginHref("/junior/checkout")}
+        planActive={planActive}
+        profiles={home?.profiles ?? null}
+        xp={home?.xp ?? null}
+        ready={home?.ready ?? false}
+        gradeSwitchRights={
+          home?.selected
+            ? Math.min(home.selected.gradeSwitchRights, home.plan.gradeSwitchRights)
+            : 0
+        }
+        selectedElectives={selectedElectives}
+        weeklyReport={home?.weeklyReport ?? null}
+        picks={juniorElectivePicks()}
+      />
     </RoomFrame>
   );
 }

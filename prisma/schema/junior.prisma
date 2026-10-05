@@ -7,18 +7,49 @@ model JuniorProfile {
   userId     String   @map("user_id")
   nickname   String
   grade      Int
-  birthYear  Int      @map("birth_year")
-  consentAt  DateTime @map("consent_at")
-  selected   Boolean  @default(false)
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  /// Kapanışta boşalır. Dolu profilde veli izni gereken yaş aralığıdır.
+  birthYear  Int?     @map("birth_year")
+  consentAt         DateTime @map("consent_at")
+  /// Güncel aydınlatma satırı. Boşsa, mühürlü metin varken ders açılmaz.
+  activeConsentId   String?  @unique @map("active_consent_id")
+  selected          Boolean  @default(false)
+  selectedElectives String[] @default([]) @map("selected_electives")
+  /// Abonelik açıkken bir kez sınıf değişir. Harcanınca 0 kalır.
+  gradeSwitchRights Int      @default(1) @map("grade_switch_rights")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
 
-  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  progress JuniorProgress[]
-  xp       JuniorXp?
+  user          User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activeConsent JuniorGuardianConsent?  @relation("JuniorProfileActiveConsent", fields: [activeConsentId], references: [id], onDelete: SetNull)
+  consents      JuniorGuardianConsent[] @relation("JuniorConsentProfile")
+  progress      JuniorProgress[]
+  xp            JuniorXp?
 
   @@index([userId, createdAt])
   @@map("junior_profiles")
+}
+
+/// Veli aydınlatması. Her onay yeni satırdır. Metin ve hash güncellenmez.
+/// Çocuk silinince profil bağı kopar; kanıt satırı durur. updated_at yoktur.
+model JuniorGuardianConsent {
+  id                    String    @id @default(cuid())
+  guardianUserId        String    @map("guardian_user_id")
+  profileId             String?   @map("profile_id")
+  consentVersion        String    @map("consent_version")
+  noticeSha256          String    @map("notice_sha256") @db.Char(64)
+  guardianDeclaredAdult Boolean   @map("guardian_declared_adult")
+  guardianBirthYear     Int       @map("guardian_birth_year")
+  consentAt             DateTime  @map("consent_at")
+  createdAt             DateTime  @default(now()) @map("created_at")
+  erasedAt              DateTime? @map("erased_at")
+
+  guardian  User           @relation(fields: [guardianUserId], references: [id], onDelete: Restrict)
+  profile   JuniorProfile? @relation("JuniorConsentProfile", fields: [profileId], references: [id], onDelete: SetNull)
+  activeFor JuniorProfile? @relation("JuniorProfileActiveConsent")
+
+  @@index([guardianUserId, createdAt])
+  @@index([profileId])
+  @@map("junior_guardian_consents")
 }
 
 /// Kazanım notu. Ses, cüzdan ve defter satırı taşımaz.
@@ -27,6 +58,7 @@ model JuniorProgress {
   userId     String   @map("user_id")
   profileId  String   @map("profile_id")
   lessonKey  String   @map("lesson_key")
+  /// speak | write | practice | quiz — kural junior_progress_shape
   mode       String
   praised    String   @db.Text
   missing    String   @db.Text
@@ -57,4 +89,63 @@ model JuniorXp {
 
   @@index([userId])
   @@map("junior_xp")
+}
+
+/// Yerel soru arşivi. Konu testi canlı üreticiden değil bu tablonun kalıbından kurulur.
+/// Çocuk satırı değildir. user_id yoktur. Oyun puanı ve cüzdan bu tabloya bağlanmaz.
+model JuniorQuestionBank {
+  id           String   @id
+  lessonKey    String   @map("lesson_key")
+  itemId       String   @map("item_id")
+  outcomeCode  String   @map("outcome_code")
+  prompt       String   @db.Text
+  choicesJson  String   @map("choices_json") @db.Text
+  correctIndex Int      @map("correct_index")
+  explanation  String   @db.Text
+  tag          String
+  weight       Int
+  patternYear  Int      @map("pattern_year")
+  poolSlot     Int      @map("pool_slot")
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@unique([lessonKey, itemId])
+  @@index([lessonKey, active, tag])
+  @@index([outcomeCode])
+  @@map("junior_question_bank")
+}
+
+enum JuniorSubscriptionStatus {
+  PENDING
+  ACTIVE
+}
+
+/// Veli hesabının yıllık Junior paketi. Oyun puanı bu tabloya yazılmaz.
+/// Kartın tamamı durmaz. Yalnız son dört hane ve PayTR sipariş numarası durur.
+model JuniorSubscription {
+  id             String                    @id @default(cuid())
+  userId         String                    @unique @map("user_id")
+  status         JuniorSubscriptionStatus  @default(PENDING)
+  planCode       String                    @map("plan_code")
+  listPriceMinor Int                       @map("list_price_minor")
+  currencyCode   String                    @db.Char(3) @map("currency_code")
+  provider       String
+  providerRef    String                    @map("provider_ref")
+  cardLast4      String                    @map("card_last4") @db.VarChar(4)
+  invoiceName    String                    @map("invoice_name")
+  invoiceTckn    String                    @map("invoice_tckn") @db.VarChar(11)
+  invoicePhone   String                    @map("invoice_phone") @db.VarChar(16)
+  invoiceAddress String                    @map("invoice_address") @db.Text
+  electiveQuota  Int                       @default(3) @map("elective_quota")
+  /// Paket süresince bir kez sınıf değişir. Harcanınca 0 kalır.
+  gradeSwitchRights Int                    @default(1) @map("grade_switch_rights")
+  activatedAt    DateTime?                 @map("activated_at")
+  expiresAt      DateTime?                 @map("expires_at")
+  createdAt      DateTime                  @default(now()) @map("created_at")
+  updatedAt      DateTime                  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status])
+  @@map("junior_subscriptions")
 }

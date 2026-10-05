@@ -3,7 +3,7 @@
  * Tek SSOT: lib/dronlar/kayit.ts. eslint.config.mjs ve verify-boundaries onu okur, kopya dizi tutmaz.
  */
 
-export const LIB_SHARED_TOP_DIRS = ["copy", "kernel", "showcase", "ui", "dronlar"] as const;
+export const LIB_SHARED_TOP_DIRS = ["copy", "kernel", "ui", "dronlar"] as const;
 
 /**
  * Müstakil Junior odası. Dört kamu vitrinine eklenmez.

@@ -29,10 +29,11 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     ]);
   });
 
-  it("sol ray Faz 1 odalarını basar; Junior ve çekirdek sığınak yoktur", () => {
+  it("sol ray Faz 1 odalarını ve Junior'u basar; çekirdek sığınak yoktur", () => {
     expect(VERTICAL_ROOMS).toHaveLength(4);
     const nav = readSrc("components/shell/sidebar-nav.tsx");
     expect(nav).toContain("VERTICAL_ROOMS");
+    expect(nav).toContain("INDEPENDENT_ROOMS");
     expect(nav).toContain("isPhase1ShellNavRoom");
     expect(nav).not.toContain("KERNEL_SURFACES");
     expect(nav).not.toContain("Çekirdek");

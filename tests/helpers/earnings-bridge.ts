@@ -180,7 +180,17 @@ export async function runEarningsBridgeJourney() {
   });
   const holdAfterSeal = await kurumsalPorts.escrow.findById(posting.escrowHoldId);
   const ledgerAfterSeal = kurumsalPorts.ledger.snapshot(EARNINGS_CORP_OWNER_ID).amountMinor;
-  await assertAcademyCareerVisaForListing(workerCareer, EARNINGS_WORKER_ID, posting, workerProofs);
+  await assertAcademyCareerVisaForListing(
+    workerCareer,
+    EARNINGS_WORKER_ID,
+    {
+      id: posting.id,
+      title: posting.title,
+      brief: posting.brief,
+      visaPathwayId: YZ_ICERIK_LISTING_PATHWAY,
+    },
+    workerProofs,
+  );
   const offer = await submitCorporateJobOffer(kurumsalPorts, {
     postingId: posting.id,
     bidderId: EARNINGS_WORKER_ID,
