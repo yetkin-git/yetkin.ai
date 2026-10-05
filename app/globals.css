@@ -5831,6 +5831,57 @@ main:has([data-academy-catalog-colophon]) > [data-legal-colophon-strip] {
     0 14px 32px color-mix(in srgb, var(--safir) 20%, transparent);
 }
 
+.academy-player-rail-check {
+  display: inline-flex;
+  height: 1.15rem;
+  width: 1.15rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--emerald);
+  color: #fff;
+}
+
+.academy-player-rail-item--active .academy-player-rail-check {
+  box-shadow: 0 0 0 2px color-mix(in srgb, #fff 72%, transparent);
+}
+
+.academy-player-rail-done {
+  display: inline-flex;
+  margin-top: 0.15rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  color: var(--emerald);
+}
+
+.academy-player-rail-item--active .academy-player-rail-done {
+  color: #b6f3d6;
+}
+
+.academy-player-rail-meter {
+  display: block;
+  height: 3px;
+  margin-top: 0.35rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--emerald) 22%, transparent);
+}
+
+.academy-player-rail-meter > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--emerald);
+}
+
+.academy-player-rail-item--active .academy-player-rail-meter > span {
+  background: #b6f3d6;
+}
+
 .academy-player-playlist-head {
   min-width: 0;
 }

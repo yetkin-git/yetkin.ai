@@ -121,9 +121,99 @@ export function academyLessonAudioEndedIsComplete(input: {
 }
 
 /**
+ * Nefes zamanlayıcısı saati eşitledikten sonra üst kata haber.
+ *
+ * Asıl kapı hâlâ `academyLessonAudioEndedIsComplete`: `ended` ve mühüre 1,5 sn.
+ * Bu kapı, kaset `ended` demiş ve nefes saati iki tarafı da doldurmuşsa açılır.
+ * Erken saniye, `ended` yokken ve nefes zorlanmadan saat eşitliği dersi bitirmez.
+ */
+export function academyLessonSealMayNotify(input: {
+  audioEnded: boolean;
+  currentTime: number;
+  sealedDurationSec: number;
+  forceBreath: boolean;
+  clockElapsedSec: number;
+  clockDurationSec: number;
+  playbackStarted: boolean;
+}): boolean {
+  if (
+    !shouldSealProgressAfterDialogueEnded({
+      playbackStarted: input.playbackStarted,
+      reachedEnd: true,
+    })
+  ) {
+    return false;
+  }
+  if (
+    academyLessonAudioEndedIsComplete({
+      ended: input.audioEnded,
+      currentTime: input.currentTime,
+      sealedDurationSec: input.sealedDurationSec,
+    })
+  ) {
+    return true;
+  }
+  if (input.forceBreath !== true || input.audioEnded !== true) {
+    return false;
+  }
+  return hasAcademyLessonPlaybackReachedEnd({
+    currentTime: input.clockElapsedSec,
+    durationSec: input.clockDurationSec,
+  });
+}
+
+/**
+ * Erken `ended` bir kez dosyanın ulaşılabilen sonuna sarar.
+ * Tek +0,2 sn, mühür 1,5 sn gerideyse susar. Sarma kalmadıysa null —
+ * çağıran nefes zamanlayıcısını kurar.
+ */
+export function academyLessonFalseEndSeekSec(input: {
+  reportedSec: number;
+  fileDurationSec: number;
+  alreadyRetried: boolean;
+}): number | null {
+  if (input.alreadyRetried) {
+    return null;
+  }
+  const reported = Number.isFinite(input.reportedSec) ? Math.max(0, input.reportedSec) : 0;
+  const file =
+    Number.isFinite(input.fileDurationSec) && input.fileDurationSec > 0 ? input.fileDurationSec : 0;
+  if (!(file > reported + 0.25)) {
+    return null;
+  }
+  const nearEnd = Math.max(0, file - 0.05);
+  return Math.min(file, Math.max(reported + 0.2, nearEnd));
+}
+
+/**
+ * Tamamlama cevabındaki açık ders listesi, sayfadaki eski `open` bayrağının önüne geçer.
+ */
+export function mergeAcademyPlayerLessonGates<T extends { key: string; open: boolean; completed: boolean }>(
+  pageLessons: readonly T[],
+  serverLessons: readonly { key: string; open?: boolean; completed?: boolean }[] | null | undefined,
+): T[] {
+  if (!serverLessons || serverLessons.length === 0) {
+    return pageLessons.map((lesson) => ({ ...lesson }));
+  }
+  const byKey = new Map(serverLessons.map((row) => [row.key, row]));
+  return pageLessons.map((lesson) => {
+    const row = byKey.get(lesson.key);
+    if (!row) {
+      return { ...lesson };
+    }
+    return {
+      ...lesson,
+      open: typeof row.open === "boolean" ? row.open : lesson.open,
+      completed: typeof row.completed === "boolean" ? row.completed : lesson.completed,
+    };
+  });
+}
+
+/**
  * Oynatıcı saati son karede mi?
  * Ekran `mm:ss` floor saniye kullanır; 08:05 / 08:05, kaset 485,06 / 485,50 olsa da bitti sayılır.
- * Ders bitirme kapısı bu değildir — o kapı `academyLessonAudioEndedIsComplete`.
+ * Tek başına ders bitirme kapısı değildir. Nefes saati eşitleyince
+ * `academyLessonSealMayNotify` bu eşitliği üst kata haber için kullanır.
  */
 export function hasAcademyLessonPlaybackReachedEnd(input: {
   currentTime: number;

@@ -15,7 +15,10 @@ import {
   academyOutroBreathRemainMs,
   canAdvanceAcademyPlayerLesson,
   academyLessonAudioEndedIsComplete,
+  academyLessonFalseEndSeekSec,
+  academyLessonSealMayNotify,
   hasAcademyLessonPlaybackReachedEnd,
+  mergeAcademyPlayerLessonGates,
   hasAcademyOutroBreathElapsed,
   isAcademyPlayerExamReady,
   academyPlayerAutoAdvanceTargetKey,
@@ -234,6 +237,99 @@ describe("akademi ders geçiş mimarisi", () => {
         }),
       ).toBe(false);
     }
+  });
+
+  it("nefes saati eşitleyince 1,5 sn geride kalan ended üst kata haber verir", () => {
+    expect(
+      academyLessonSealMayNotify({
+        audioEnded: true,
+        currentTime: 738,
+        sealedDurationSec: 742,
+        forceBreath: true,
+        clockElapsedSec: 742,
+        clockDurationSec: 742,
+        playbackStarted: true,
+      }),
+    ).toBe(true);
+    expect(
+      academyLessonSealMayNotify({
+        audioEnded: true,
+        currentTime: 3,
+        sealedDurationSec: 742,
+        forceBreath: false,
+        clockElapsedSec: 3,
+        clockDurationSec: 742,
+        playbackStarted: true,
+      }),
+    ).toBe(false);
+    expect(
+      academyLessonSealMayNotify({
+        audioEnded: false,
+        currentTime: 742,
+        sealedDurationSec: 742,
+        forceBreath: true,
+        clockElapsedSec: 742,
+        clockDurationSec: 742,
+        playbackStarted: true,
+      }),
+    ).toBe(false);
+    expect(
+      academyLessonSealMayNotify({
+        audioEnded: true,
+        currentTime: 742,
+        sealedDurationSec: 742,
+        forceBreath: true,
+        clockElapsedSec: 742,
+        clockDurationSec: 742,
+        playbackStarted: false,
+      }),
+    ).toBe(false);
+  });
+
+  it("erken ended tek 0,2 sn ile susmaz; dosya sonuna bir kez sarar", () => {
+    const seek = academyLessonFalseEndSeekSec({
+      reportedSec: 738,
+      fileDurationSec: 742,
+      alreadyRetried: false,
+    });
+    expect(seek).not.toBeNull();
+    expect(seek!).toBeGreaterThan(738.2);
+    expect(seek!).toBeLessThanOrEqual(742);
+    expect(
+      academyLessonFalseEndSeekSec({
+        reportedSec: 741.9,
+        fileDurationSec: 742,
+        alreadyRetried: false,
+      }),
+    ).toBeNull();
+    expect(
+      academyLessonFalseEndSeekSec({
+        reportedSec: 738,
+        fileDurationSec: 742,
+        alreadyRetried: true,
+      }),
+    ).toBeNull();
+  });
+
+  it("tamamlama cevabındaki açık ders, sayfadaki kapalı bayrağın önüne geçer", () => {
+    const page = [
+      { key: "l1", open: true, completed: false, title: "Bir" },
+      { key: "l2", open: false, completed: false, title: "İki" },
+    ];
+    const merged = mergeAcademyPlayerLessonGates(page, [
+      { key: "l1", open: true, completed: true },
+      { key: "l2", open: true, completed: false },
+    ]);
+    expect(merged[0]?.completed).toBe(true);
+    expect(merged[1]?.open).toBe(true);
+    expect(merged[1]?.title).toBe("İki");
+    expect(
+      academyPlayerAutoAdvanceTargetKey({
+        autoAdvanceEnabled: true,
+        lessons: merged,
+        endedLessonKey: "l1",
+      }),
+    ).toBe("l2");
   });
 
   it("kilitli sıradaki derse otomatik geçiş null döner", () => {

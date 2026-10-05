@@ -30,9 +30,10 @@ import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timing
 import { formatAcademyCinemaClock } from "@/lib/academy/lesson-cinema";
 import {
   academyLessonAudioEndedIsComplete,
+  academyLessonFalseEndSeekSec,
+  academyLessonSealMayNotify,
   academyOutroBreathRemainMs,
   hasAcademyOutroBreathElapsed,
-  shouldSealProgressAfterDialogueEnded,
 } from "@/lib/academy/lesson-advance";
 
 export function LessonMediaPlayer({
@@ -384,19 +385,17 @@ export function LessonMediaPlayer({
     const clock = clockRef.current;
     const audio = audioRef.current;
     const waitMs = Math.max(ACADEMY_OUTRO_BREATH_MS, Math.round(outroTail * 1000));
-    const audioEnded = academyLessonAudioEndedIsComplete({
-      ended: audio?.ended === true,
-      currentTime: audio && Number.isFinite(audio.currentTime) ? audio.currentTime : nextElapsed,
+    const reportedTime = audio && Number.isFinite(audio.currentTime) ? audio.currentTime : nextElapsed;
+    const mayNotify = academyLessonSealMayNotify({
+      audioEnded: audio?.ended === true,
+      currentTime: reportedTime,
       sealedDurationSec: sealedDuration,
+      forceBreath,
+      clockElapsedSec: nextElapsed,
+      clockDurationSec: cap,
+      playbackStarted: clock.playbackStarted,
     });
-    if (
-      !audioEnded ||
-      !shouldSealProgressAfterDialogueEnded({
-        playbackStarted: clock.playbackStarted,
-        reachedEnd: true,
-      }) ||
-      (!forceBreath && !hasAcademyOutroBreathElapsed(intoOutroBreathMs(), waitMs))
-    ) {
+    if (!mayNotify || (!forceBreath && !hasAcademyOutroBreathElapsed(intoOutroBreathMs(), waitMs))) {
       return false;
     }
     if (clock.sealed) {
@@ -800,16 +799,22 @@ export function LessonMediaPlayer({
             sealedDurationSec: sealedDuration,
           });
           if (!complete) {
-            if (!falseEndRetryRef.current && audio) {
+            const fileDuration = audio && Number.isFinite(audio.duration) ? audio.duration : 0;
+            const seekSec = academyLessonFalseEndSeekSec({
+              reportedSec: reported,
+              fileDurationSec: fileDuration,
+              alreadyRetried: falseEndRetryRef.current,
+            });
+            if (seekSec != null && audio) {
               falseEndRetryRef.current = true;
               pauseLockRef.current = false;
               clockRef.current.playing = true;
               clockRef.current.sealed = false;
-              audio.currentTime = Math.min(reported + 0.2, Math.max(reported + 0.2, sealedDuration));
+              audio.currentTime = seekSec;
               void audio.play().catch(() => undefined);
               setPlaying(true);
+              return;
             }
-            return;
           }
           clockRef.current.elapsed = Math.max(clockRef.current.elapsed, reported);
           applyBedDuck(clockRef.current.elapsed, true);

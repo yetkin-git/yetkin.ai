@@ -55,7 +55,10 @@ describe("akademi ders medya hizası — videoUrl / audioUrl", () => {
     expect(src).toContain("academyPlayerClockDurationSec");
     expect(src).toContain("autoStart");
     expect(src).toContain("academyLessonAudioEndedIsComplete");
+    expect(src).toContain("academyLessonSealMayNotify");
+    expect(src).toContain("academyLessonFalseEndSeekSec");
     expect(src).not.toContain("audio.currentTime = Math.min(reported + 0.12");
+    expect(src).not.toContain("Math.min(reported + 0.2");
     expect(src).toContain("armOutroEndTimeout");
     expect(src).not.toContain("autoPlay");
     expect(src).not.toContain("buildAcademyDialogueTimeline");

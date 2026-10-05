@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import type { Route } from "next";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { IconCheck } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/link-button";
 import { LessonAssistantPanel } from "@/components/academy/lesson-assistant-panel";
 import { LessonMediaPlayer } from "@/components/academy/lesson-media-player";
@@ -46,6 +47,7 @@ import {
   canAdvanceAcademyPlayerLesson,
   isAcademyPlayerExamReady,
   academyPlayerAutoAdvanceTargetKey,
+  mergeAcademyPlayerLessonGates,
   nextAcademyPlayerLesson,
   prevAcademyPlayerLesson,
   readAcademyLessonAutoAdvanceFromStorage,
@@ -114,8 +116,9 @@ export function CurriculumPlayer({
   const idempotency = useIdempotencyKey();
   const copy = ACADEMY_SEN.player;
   const outline = ACADEMY_SEN.outline;
-  const firstOpen = lessons.find((lesson) => lesson.open && !lesson.completed) ?? lessons[0];
   const prepStrip = useMemo(() => academyPrepStripForSlug(courseSlug), [courseSlug]);
+  const [lessonRows, setLessonRows] = useState(lessons);
+  const firstOpen = lessonRows.find((lesson) => lesson.open && !lesson.completed) ?? lessonRows[0];
   const [activeKey, setActiveKey] = useState(() => {
     if (paywallLocked) {
       const preview = lessons.find((lesson) => lesson.open);
@@ -123,7 +126,8 @@ export function CurriculumPlayer({
         return preview.key;
       }
     }
-    return firstOpen?.key ?? lessons[0]?.key ?? "";
+    const opening = lessons.find((lesson) => lesson.open && !lesson.completed) ?? lessons[0];
+    return opening?.key ?? lessons[0]?.key ?? "";
   });
   const [funnelOpen, setFunnelOpen] = useState(false);
   const [prepDone, setPrepDone] = useState(false);
@@ -139,19 +143,34 @@ export function CurriculumPlayer({
   const [autoStartPlayback, setAutoStartPlayback] = useState(true);
   const autoAdvanceEnabledRef = useRef(autoAdvanceEnabled);
   const endedLessonKeyRef = useRef<string | null>(null);
+  const pendingEndRef = useRef<string | null>(null);
+  const onMediaEndedRef = useRef<(endedLessonKey?: string) => void>(() => undefined);
   const playbackStartedKeyRef = useRef<string | null>(null);
-  const lessonsRef = useRef(lessons);
+  const lessonsRef = useRef(lessonRows);
 
   useEffect(() => {
     setAutoAdvanceEnabled(readAcademyLessonAutoAdvanceFromStorage());
   }, []);
 
   autoAdvanceEnabledRef.current = autoAdvanceEnabled;
-  lessonsRef.current = lessons;
+  lessonsRef.current = lessonRows;
 
   useEffect(() => {
+    setLessonRows(lessons);
     setCompletedKeys(new Set(lessons.filter((lesson) => lesson.completed).map((lesson) => lesson.key)));
   }, [lessons]);
+
+  useEffect(() => {
+    if (pending) {
+      return;
+    }
+    const queued = pendingEndRef.current;
+    if (!queued) {
+      return;
+    }
+    pendingEndRef.current = null;
+    onMediaEndedRef.current(queued);
+  }, [pending]);
 
   useEffect(() => {
     if (!prepStrip || didInitPrepRef.current) {
@@ -171,15 +190,15 @@ export function CurriculumPlayer({
   const prepActive = Boolean(prepStrip && activeKey === prepStrip.key);
   const active = prepActive
     ? null
-    : (lessons.find((lesson) => lesson.key === activeKey) ?? firstOpen ?? null);
+    : (lessonRows.find((lesson) => lesson.key === activeKey) ?? firstOpen ?? null);
   const examOpen = isAcademyPlayerExamReady({
     curriculumComplete,
     workTasksComplete,
-    lessons,
+    lessons: lessonRows,
     completedKeys,
   });
-  const nextLesson = active ? nextAcademyPlayerLesson(lessons, active.key) : null;
-  const prevLesson = active ? prevAcademyPlayerLesson(lessons, active.key) : null;
+  const nextLesson = active ? nextAcademyPlayerLesson(lessonRows, active.key) : null;
+  const prevLesson = active ? prevAcademyPlayerLesson(lessonRows, active.key) : null;
   const activeCompleted = active ? completedKeys.has(active.key) || active.completed : false;
   const activeForAdvance = active ? { ...active, completed: activeCompleted } : null;
   const canAdvance = canAdvanceAcademyPlayerLesson(activeForAdvance, nextLesson);
@@ -292,7 +311,7 @@ export function CurriculumPlayer({
     }
     writeAcademyPrepStripDone(courseSlug, true);
     setPrepDone(true);
-    const first = lessons[0];
+    const first = lessonRows[0];
     if (!first) {
       return;
     }
@@ -328,19 +347,33 @@ export function CurriculumPlayer({
         }),
       );
       const parsed = parseRailClientJson<{
-        player?: { curriculumComplete?: boolean; nextLessonKey?: string | null };
+        player?: {
+          curriculumComplete?: boolean;
+          nextLessonKey?: string | null;
+          lessons?: { key: string; open?: boolean; completed?: boolean }[];
+        };
       }>(await response.json());
       if (!parsed.ok) {
         setError(parsed.error || copy.completeFail);
         return { ok: false, nextLessonKey: null };
       }
+      const serverLessons = parsed.data.player?.lessons ?? [];
+      const merged = mergeAcademyPlayerLessonGates(lessonsRef.current, serverLessons);
+      lessonsRef.current = merged;
+      setLessonRows(merged);
       setCompletedKeys((current) => {
         const next = new Set(current);
         next.add(lessonKey);
+        for (const row of serverLessons) {
+          if (row.completed) {
+            next.add(row.key);
+          }
+        }
         return next;
       });
       // API `player.nextLessonKey` ilk tamamlanmamış derstir (devam paneli).
       // Oynatıcı geçişi müfredat sırasındaki +1 adımdır; tamamlanmış ders atlanmaz.
+      // Cevaptaki open listesi, sayfadaki eski bayrağın önüne geçer.
       const sequential = nextAcademyPlayerLesson(lessonsRef.current, lessonKey);
       const sequentialKey = sequential?.open ? sequential.key : null;
       if ((options?.advance ?? true) && sequentialKey && !lessonPlaybackBlocked(sequentialKey)) {
@@ -388,6 +421,7 @@ export function CurriculumPlayer({
       return;
     }
     if (pending && active.open && !activeCompleted) {
+      pendingEndRef.current = key;
       return;
     }
     const shouldAdvance = shouldAutoAdvanceAfterListenEnded({
@@ -409,11 +443,13 @@ export function CurriculumPlayer({
     }
   }
 
+  onMediaEndedRef.current = onMediaEnded;
+
   function onPrevLesson() {
     if (prepActive) {
       return;
     }
-    if (prepStrip && active?.key === lessons[0]?.key) {
+    if (prepStrip && active?.key === lessonRows[0]?.key) {
       selectPrep();
       return;
     }
@@ -453,8 +489,8 @@ export function CurriculumPlayer({
   }
 
   const examLaunchLabel = copy.examLaunchCta(
-    lessons.filter((lesson) => completedKeys.has(lesson.key) || lesson.completed).length,
-    lessons.length,
+    lessonRows.filter((lesson) => completedKeys.has(lesson.key) || lesson.completed).length,
+    lessonRows.length,
     ACADEMY_EXAM_PASS_SCORE,
   );
   const primaryLabel = pending
@@ -471,7 +507,7 @@ export function CurriculumPlayer({
     (!prepActive && !examOpen && !(active?.open && !activeCompleted) && !canGoNext);
   const canGoPrev =
     !prepActive &&
-    (Boolean(prevLesson?.open) || Boolean(prepStrip && active?.key === lessons[0]?.key));
+    (Boolean(prevLesson?.open) || Boolean(prepStrip && active?.key === lessonRows[0]?.key));
   const exitKitHref =
     !paywallLocked && courseSlug === OFFICE_AI_EXIT_KIT_SLUG
       ? (`/academy/${courseSlug}/cikis-paketi` as Route)
@@ -531,29 +567,36 @@ export function CurriculumPlayer({
               data-academy-lesson-delivery={prepAudioSealed ? "karaoke" : "article"}
               data-academy-free-preview=""
             >
-              <span
-                aria-hidden
-                className={`h-1.5 w-1.5 shrink-0 rounded-full ${
-                  prepActive
-                    ? "bg-[var(--safir)] shadow-[0_0_10px_var(--safir)]"
-                    : prepDone
-                      ? "bg-[var(--muted)]"
-                      : "bg-transparent"
-                }`}
-              />
+              {prepDone ? (
+                <span className="academy-player-rail-check" data-academy-lesson-mark="done" aria-hidden>
+                  <IconCheck className="h-3 w-3" />
+                </span>
+              ) : (
+                <span
+                  aria-hidden
+                  data-academy-lesson-mark={prepActive ? "current" : "open"}
+                  className={`h-1.5 w-1.5 shrink-0 rounded-full ${
+                    prepActive ? "bg-[var(--safir)] shadow-[0_0_10px_var(--safir)]" : "bg-transparent"
+                  }`}
+                />
+              )}
               <span className="min-w-0 flex-1">
                 <span className={`block line-clamp-2 font-medium ${prepActive ? "text-white" : "text-[var(--foreground)]"}`}>
                   {prepStrip.badge} · {prepStrip.title}
                 </span>
                 <span className={`block text-[11px] ${prepActive ? "text-white/70" : "text-[var(--muted)]"}`}>
                   {outline.prepKind} · {outline.durationMin(prepDurationMin)}
-                  {prepDone ? ` · ${copy.alreadyDone}` : ""}
                 </span>
+                {prepDone ? (
+                  <span className="academy-player-rail-done" data-academy-lesson-done="">
+                    {ACADEMY_SEN.catalog.statusCompleted}
+                  </span>
+                ) : null}
               </span>
             </button>
           </li>
         ) : null}
-        {lessons.map((lesson) => {
+        {lessonRows.map((lesson) => {
           const selected = lesson.key === active?.key;
           const completed = completedKeys.has(lesson.key) || lesson.completed;
           const rowLocked = isAcademyPlayerPaywallLessonLocked(
@@ -588,19 +631,23 @@ export function CurriculumPlayer({
                 }}
                 className={`academy-player-rail-item flex w-full items-center gap-2.5 rounded-[0.9rem] text-left text-[13px] leading-snug tracking-[-0.014em] ${
                   selected ? "academy-player-rail-item--active" : "text-[var(--muted)]"
-                } disabled:cursor-not-allowed disabled:opacity-45`}
+                } ${completed ? "academy-player-rail-item--done" : ""} disabled:cursor-not-allowed disabled:opacity-45`}
                 data-academy-lesson-delivery={media.kind === "audio" ? "karaoke" : "article"}
+                data-academy-lesson-done={completed ? "true" : "false"}
               >
-                <span
-                  aria-hidden
-                  className={`h-1.5 w-1.5 shrink-0 rounded-full ${
-                    selected
-                      ? "bg-[var(--safir)] shadow-[0_0_10px_var(--safir)]"
-                      : completed
-                        ? "bg-[var(--muted)]"
-                        : "bg-transparent"
-                  }`}
-                />
+                {completed ? (
+                  <span className="academy-player-rail-check" data-academy-lesson-mark="done" aria-hidden>
+                    <IconCheck className="h-3 w-3" />
+                  </span>
+                ) : (
+                  <span
+                    aria-hidden
+                    data-academy-lesson-mark={selected ? "current" : "open"}
+                    className={`h-1.5 w-1.5 shrink-0 rounded-full ${
+                      selected ? "bg-[var(--safir)] shadow-[0_0_10px_var(--safir)]" : "bg-transparent"
+                    }`}
+                  />
+                )}
                 <span className="min-w-0 flex-1">
                   <span className={`block line-clamp-2 font-medium ${selected ? "text-white" : "text-[var(--foreground)]"}`}>
                     {lesson.order}. {normalizeAcronyms(lesson.title)}
@@ -608,8 +655,17 @@ export function CurriculumPlayer({
                   <span className={`block text-[11px] ${selected ? "text-white/70" : "text-[var(--muted)]"}`}>
                     {deliveryLabel}
                     {rowLocked ? ` · ${outline.locked}` : ""}
-                    {completed ? ` · ${copy.alreadyDone}` : ""}
                   </span>
+                  {completed ? (
+                    <>
+                      <span className="academy-player-rail-done" data-academy-lesson-done="">
+                        {ACADEMY_SEN.catalog.statusCompleted}
+                      </span>
+                      <span className="academy-player-rail-meter" aria-hidden>
+                        <span />
+                      </span>
+                    </>
+                  ) : null}
                 </span>
               </button>
             </li>
@@ -662,7 +718,7 @@ export function CurriculumPlayer({
                     active &&
                     isAcademyPlayerPaywallLessonLocked(courseSlug, active.key, paywallLocked)
                   ) {
-                    const free = lessons.find(
+                    const free = lessonRows.find(
                       (lesson) =>
                         lesson.open &&
                         !isAcademyPlayerPaywallLessonLocked(courseSlug, lesson.key, paywallLocked),
@@ -779,7 +835,7 @@ export function CurriculumPlayer({
                 courseSlug={courseSlug}
                 examOpen={examOpen}
                 lessonOrder={active.order}
-                lessonTotal={lessons.length}
+                lessonTotal={lessonRows.length}
                 nextLessonTitle={nextLesson ? normalizeAcronyms(nextLesson.title) : undefined}
               />
             ) : null}

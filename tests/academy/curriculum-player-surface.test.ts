@@ -172,6 +172,12 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(player).toContain("readAcademyLessonAutoAdvanceFromStorage");
     expect(player).toContain("writeAcademyLessonAutoAdvanceToStorage");
     expect(player).toContain("shouldAutoAdvanceAfterListenEnded");
+    expect(player).toContain("mergeAcademyPlayerLessonGates");
+    expect(player).toContain("pendingEndRef");
+    expect(player).toContain("data-academy-lesson-done");
+    expect(player).toContain("academy-player-rail-check");
+    expect(player).toContain("statusCompleted");
+    expect(player).toContain("setActiveKey");
     expect(player).toContain("copy.autoAdvance");
     expect(player).toContain("autoStart={autoStartPlayback}");
     expect(player).not.toContain("autoPlay");
@@ -205,6 +211,9 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
     expect(media).toContain("playSealedAudio");
     expect(media).toContain("onCanPlay");
     expect(media).toContain("academyLessonAudioEndedIsComplete");
+    expect(media).toContain("academyLessonSealMayNotify");
+    expect(media).toContain("academyLessonFalseEndSeekSec");
+    expect(media).not.toContain("Math.min(reported + 0.2");
     expect(media).not.toContain("hasAcademyLessonPlaybackReachedEnd");
     expect(media).toContain("armOutroEndTimeout");
     expect(media).toContain("academyOutroBreathRemainMs");
