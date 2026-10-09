@@ -1,8 +1,14 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import {
+  JUNIOR_GUARDIAN_NOTICE_HREF,
+  JUNIOR_GUARDIAN_NOTICE_TITLE,
+} from "@/lib/copy/junior-guardian-notice";
+import { JUNIOR_GUARDIAN_NOTICE, guardianBirthYearBounds } from "@/lib/junior/guardian-notice";
 import {
   JUNIOR_BADGE_LABELS,
   JUNIOR_PILOT_GRADE,
@@ -41,6 +47,15 @@ export function ProfileSwitcher({
   const [nickname, setNickname] = useState("");
   const [birthYear, setBirthYear] = useState(String(juniorDefaultBirthYear()));
   const [consent, setConsent] = useState(false);
+  const guardianYears = useMemo(() => {
+    const bounds = guardianBirthYearBounds();
+    const years: number[] = [];
+    for (let year = bounds.max; year >= bounds.min; year -= 1) {
+      years.push(year);
+    }
+    return years;
+  }, []);
+  const [guardianYear, setGuardianYear] = useState(String(new Date().getFullYear() - 30));
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
   const showForm = ready && (profiles.length === 0 || open);
@@ -64,6 +79,8 @@ export function ProfileSwitcher({
             grade: JUNIOR_PILOT_GRADE,
             birthYear: Number(birthYear),
             consent: true,
+            consentVersion: JUNIOR_GUARDIAN_NOTICE.version,
+            guardianBirthYear: Number(guardianYear),
           }),
         }),
       );
@@ -74,6 +91,39 @@ export function ProfileSwitcher({
       setNickname("");
       setConsent(false);
       setOpen(false);
+      router.refresh();
+    } finally {
+      setPending(false);
+    }
+  }
+
+  async function onRenew(event: FormEvent) {
+    event.preventDefault();
+    if (!selected || !consent || pending) {
+      setError("Veli onayı olmadan ders açılmaz.");
+      return;
+    }
+    setPending(true);
+    setError("");
+    try {
+      const response = await fetch(
+        JUNIOR_PROFILES_PATH,
+        withRailApiVersion({
+          method: "PUT",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            profileId: selected.id,
+            consent: true,
+            consentVersion: JUNIOR_GUARDIAN_NOTICE.version,
+            guardianBirthYear: Number(guardianYear),
+          }),
+        }),
+      );
+      if (!response.ok) {
+        setError(await readError(response));
+        return;
+      }
+      setConsent(false);
       router.refresh();
     } finally {
       setPending(false);
@@ -153,6 +203,20 @@ export function ProfileSwitcher({
           ))}
         </select>
       </label>
+      <label className="text-sm font-medium sm:col-span-2">
+        Veli doğum yılı
+        <select
+          value={guardianYear}
+          onChange={(event) => setGuardianYear(event.target.value)}
+          className="mt-1 w-full rounded-xl border border-[var(--border-strong)] bg-white px-3 py-2"
+        >
+          {guardianYears.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+        </select>
+      </label>
       <label className="flex items-start gap-2 text-sm sm:col-span-2">
         <input
           type="checkbox"
@@ -160,7 +224,12 @@ export function ProfileSwitcher({
           onChange={(event) => setConsent(event.target.checked)}
           className="mt-1"
         />
-        <span>Bu profili ben, veli olarak açıyorum. Çocuğun sesi saklanmaz. Ders, onay olmadan açılmaz.</span>
+        <span>
+          <Link href={JUNIOR_GUARDIAN_NOTICE_HREF} className="font-semibold text-[var(--safir-deep)] hover:underline">
+            {JUNIOR_GUARDIAN_NOTICE_TITLE}
+          </Link>
+          {" metnini okudum. Bu profili ben, veli olarak açıyorum. Çocuğun sesi saklanmaz. Ders, onay olmadan açılmaz."}
+        </span>
       </label>
       <div className="sm:col-span-2">
         <Button type="submit" disabled={pending || !consent}>
@@ -223,6 +292,16 @@ export function ProfileSwitcher({
                 ))}
               </div>
             </div>
+          ) : null}
+          {selected ? (
+            <form onSubmit={onRenew} className="grid gap-2 text-sm">
+              <p className="text-[var(--muted)]">
+                Eski profilde ders açılmazsa yürürlükteki aydınlatmayı yeniden onayla.
+              </p>
+              <Button type="submit" variant="outline" disabled={pending || !consent}>
+                Aydınlatmayı bu profile işle
+              </Button>
+            </form>
           ) : null}
           {showForm ? profileForm : null}
           {!showForm && !selected ? (

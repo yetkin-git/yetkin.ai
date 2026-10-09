@@ -7,6 +7,7 @@
  */
 
 import { SUPABASE_DASHBOARD_REDIRECT_PATHS } from "@/lib/kernel/auth/redirects";
+import { readMediaPublicBaseUrl } from "@/lib/media/public-url";
 import { readServiceEnvChecks } from "@/lib/kernel/health/probe";
 import { resolveInngestServeMode } from "@/lib/kernel/jobs/inngest-guard";
 import {
@@ -299,11 +300,30 @@ function yesNo(value: boolean): "evet" | "hayır" {
   return value ? "evet" : "hayır";
 }
 
+/**
+ * Junior medya CDN kapısı. NODE_ENV'den bağımsız çalışır: `verify:prebuild` gibi ayrı
+ * süreçlerde NODE_ENV atanmamış olabilir; Next yalnız kendi sürecinde atar.
+ * Junior ses, kapak ve ısınma yerel yedeği Vercel'e taşımaz (`.vercelignore`); Production'da
+ * CDN kökü yoksa bu medya canlıda 404 verir ve kullanıcıya hata gösterilmez.
+ */
+function mediaCdnProductionBlocks(env: Record<string, string | undefined>): string[] {
+  if (env.VERCEL_ENV?.trim() !== "production") {
+    return [];
+  }
+  const mediaBase = readMediaPublicBaseUrl(env.NEXT_PUBLIC_MEDIA_BASE_URL ?? "");
+  if (mediaBase === null || !mediaBase.startsWith("https://")) {
+    return [
+      "NEXT_PUBLIC_MEDIA_BASE_URL Vercel Production'da https CDN kökü ister (ör. https://cdn.yetkin.ai; yol, sorgu veya http yok). Boşsa junior ses, kapak ve ısınma yerel /media yoluna düşer ve canlıda 404 verir.",
+    ];
+  }
+  return [];
+}
+
 export function extraProductionBlocks(
   env: Record<string, string | undefined>,
 ): readonly string[] {
   if (env.NODE_ENV !== "production") {
-    return [];
+    return mediaCdnProductionBlocks(env);
   }
   const { database, direct } = inspectPostgresOps(env);
   const blocking: string[] = [];
@@ -358,6 +378,7 @@ export function extraProductionBlocks(
       "NEXT_PUBLIC_APP_URL üretimde https genel köken ister (localhost / http Bildirim URL'yi kırar).",
     );
   }
+  blocking.push(...mediaCdnProductionBlocks(env));
   return blocking;
 }
 

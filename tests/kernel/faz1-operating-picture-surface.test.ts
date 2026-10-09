@@ -3,14 +3,14 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   FREELANCER_PUBLIC_SURFACE_LOCKED,
-  JUNIOR_PRODUCTION_LOCKED,
   WORKING_SHELL_NAV_ROOM_IDS,
   isFrozenShellPagePath,
 } from "@/lib/kernel/compliance/circuit-breakers";
 import { buildRailV1OpenApiDocument, RAIL_V1_HOPS } from "@/lib/kernel/http/v1-contract";
 import { MARKETPLACE_SPLIT_LIVE } from "@/lib/kernel/payments/marketplace-split-live";
 import { paymentsPort } from "@/lib/kernel/payments/port";
-import { FROZEN_DISK_ROOMS, VERTICAL_ROOMS } from "@/lib/kernel/rooms.ssot";
+import { DRON_KAYIT, FROZEN_DISK_ROOMS, VERTICAL_ROOMS } from "@/lib/dronlar/kayit";
+import { isJuniorCheckoutLocked } from "@/lib/kernel/security/junior-gate";
 import { PRODUCT_ROOM_PATHS } from "@/lib/copy/seo";
 
 const ROOT = process.cwd();
@@ -57,7 +57,7 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
   it("Pedagoji Junior odayı çocuk/veli ürünü sayar; başlangıç seviyesi Akademi Temel pakettir", () => {
     const pedagoji = readSystemDoc("PEDAGOJI.md");
     expect(pedagoji).toContain("Junior oda ≠ başlangıç seviyesi");
-    expect(pedagoji).toContain("JUNIOR_PRODUCTION_LOCKED");
+    expect(pedagoji).toContain("canEnterJunior");
     expect(pedagoji).toContain("Temel Paketler");
     expect(pedagoji).toContain("Ek-J: Junior Pedagojisi ve Veli Modeli");
     expect(pedagoji).toContain("Dinle ve Anlat");
@@ -77,26 +77,27 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
     expect(runbook).not.toContain("Akademi satın alma makbuzu bu kanalda yoktur");
     expect(runbook).not.toContain("Akademi mühürlü WAV **18**");
     expect(runbook).not.toContain("Akademi mühürlü WAV **2**");
-    expect(runbook).toContain("RAIL_V1_HOPS`, **16 kayıt**");
+    expect(runbook).toContain("RAIL_V1_HOPS`, **17 kayıt**");
   });
 
   it("kamu yüzeyi: freelancer ve junior 410; vitrin 3 oda; Split kapalı; Merchant asıl nakit portu", () => {
     expect(FREELANCER_PUBLIC_SURFACE_LOCKED).toBe(true);
-    expect(JUNIOR_PRODUCTION_LOCKED).toBe(true);
+    expect(isJuniorCheckoutLocked()).toBe(true);
     expect(MARKETPLACE_SPLIT_LIVE).toBe(false);
     expect(paymentsPort.id).toBe("merchant");
     expect([...WORKING_SHELL_NAV_ROOM_IDS]).toEqual(["dashboard", "academy", "career"]);
     expect(VERTICAL_ROOMS).toHaveLength(4);
-    expect(FROZEN_DISK_ROOMS).toContain("junior");
+    expect(FROZEN_DISK_ROOMS).not.toContain("junior");
+    expect(DRON_KAYIT.map((row) => row.id)).toContain("junior");
     expect(isFrozenShellPagePath("/freelancer")).toBe(true);
-    expect(isFrozenShellPagePath("/junior")).toBe(true);
+    expect(isFrozenShellPagePath("/junior")).toBe(false);
     expect(isFrozenShellPagePath("/academy")).toBe(false);
     expect([...PRODUCT_ROOM_PATHS]).toEqual(["/academy", "/career"]);
   });
 
   it("OpenAPI kamu sözleşmesinde Marketplace tag'i ve freelancer path yoktur", () => {
     const document = buildRailV1OpenApiDocument();
-    expect(RAIL_V1_HOPS).toHaveLength(16);
+    expect(RAIL_V1_HOPS).toHaveLength(17);
     expect(document.tags.map((tag) => tag.name)).toEqual(["Kernel", "Proof", "Payments"]);
     expect(document.tags.map((tag) => tag.name)).not.toContain("Marketplace");
     expect(document.info.description).toContain("Marketplace tag'i ve freelancer path'leri yayınlanmaz");

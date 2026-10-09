@@ -11,7 +11,7 @@ import {
   JUNIOR_TELL_PASS_SCORE,
   JUNIOR_TELL_PATH,
 } from "@/lib/junior/limits";
-import { beginJuniorSpeech, endJuniorSpeech, juniorSpeechSessionCurrent } from "@/lib/junior/speech";
+import { endJuniorSpeech } from "@/lib/junior/speech";
 import type { JuniorVectorScene } from "@/lib/junior/types";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
@@ -27,6 +27,7 @@ type Feedback = {
 type ListenAndTellProps = {
   profileId: string;
   lessonKey: string;
+  nickname?: string | null;
   title: string;
   script: string;
   scene: JuniorVectorScene;
@@ -34,6 +35,8 @@ type ListenAndTellProps = {
   lifeUse: string;
   steps?: readonly string[];
   hasQuiz?: boolean;
+  /** «Hazırım, Sana Anlatayım!» yönlendirme kontrol soruları. */
+  tellGuides?: readonly string[];
   recording?: "open" | "locked";
   quizSlot?: "ready" | "preparing" | "locked";
   tellPassed?: boolean;
@@ -75,6 +78,7 @@ function blobToBase64(blob: Blob): Promise<string> {
 export function ListenAndTell({
   profileId,
   lessonKey,
+  nickname = null,
   title,
   script,
   scene,
@@ -82,6 +86,7 @@ export function ListenAndTell({
   lifeUse,
   steps,
   hasQuiz = true,
+  tellGuides = [],
   recording: recordingGate = "open",
   quizSlot = "ready",
   tellPassed = false,
@@ -96,6 +101,16 @@ export function ListenAndTell({
   const [sending, setSending] = useState(false);
   const [note, setNote] = useState("");
   const [feedback, setFeedback] = useState<Feedback | null>(null);
+  /** Pembe kontrol soruları — yalnız kaset `playback.complete === true` iken. */
+  const [cassetteComplete, setCassetteComplete] = useState(false);
+  /** «Hazırım…» sonrası tell bandı vurgusu — kaydırma hedefi + aktif halka. */
+  const [tellArmed, setTellArmed] = useState(false);
+  /**
+   * Karar CTA jesti: pembe bölüm merkeze kayar, mikrofon aynı yığında açılır.
+   * SoftStage boyutu korunur (sıkıştırılmaz). useEffect ile geciktirilmez —
+   * getUserMedia kullanıcı jestini kaybeder.
+   */
+  const [shouldStartImmediately, setShouldStartImmediately] = useState(false);
   const streamRef = useRef<MediaStream | null>(null);
   const recorderRef = useRef<MediaRecorder | null>(null);
   const contextRef = useRef<AudioContext | null>(null);
@@ -103,6 +118,9 @@ export function ListenAndTell({
   const timerRef = useRef(0);
   const startedRef = useRef(0);
   const chunksRef = useRef<Blob[]>([]);
+  /** VectorPlayer kaset stop — anlatış tıklamasında kanal çakışmasını keser. */
+  const stopPlayerRef = useRef<() => void>(() => undefined);
+  const tellBandRef = useRef<HTMLDivElement | null>(null);
 
   function stopMeters() {
     window.cancelAnimationFrame(frameRef.current);
@@ -116,6 +134,13 @@ export function ListenAndTell({
     }
   }
 
+  /** Oynatıcıyı bırak; mikrofon jesti aynı tıklama yığınında kalsın. */
+  function releasePlayerAudio() {
+    stopPlayerRef.current();
+    window.speechSynthesis?.cancel();
+    endJuniorSpeech();
+  }
+
   useEffect(() => {
     return () => {
       stopMeters();
@@ -125,40 +150,6 @@ export function ListenAndTell({
       window.speechSynthesis?.cancel();
     };
   }, []);
-
-  function speak() {
-    const playback = beginJuniorSpeech(lessonKey, script);
-    const synth = window.speechSynthesis;
-    if (!synth) {
-      setNote("Bu tarayıcı sesli okuyamıyor.");
-      return;
-    }
-    if (playback.chunks.length === 0) {
-      setNote("Okunacak metin yok.");
-      return;
-    }
-    synth.cancel();
-    const say = (index: number) => {
-      if (!juniorSpeechSessionCurrent(playback.sessionId)) {
-        return;
-      }
-      const piece = playback.chunks[index];
-      if (!piece) {
-        return;
-      }
-      const utterance = new SpeechSynthesisUtterance(piece);
-      utterance.lang = playback.lang;
-      utterance.rate = playback.rate;
-      utterance.onend = () => say(index + 1);
-      utterance.onerror = () => {
-        if (juniorSpeechSessionCurrent(playback.sessionId)) {
-          endJuniorSpeech();
-        }
-      };
-      synth.speak(utterance);
-    };
-    say(0);
-  }
 
   async function sendClip(blob: Blob, durationSec: number, mimeType: string) {
     setSending(true);
@@ -202,6 +193,8 @@ export function ListenAndTell({
   }
 
   async function startRecording() {
+    // Önce kaset/Speech kanalını bırak (oynuyor veya pause); sonra mikrofon.
+    releasePlayerAudio();
     setFeedback(null);
     setNote("");
     if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
@@ -277,71 +270,186 @@ export function ListenAndTell({
     }
   }
 
-  const showBand = recording || sending || note.length > 0 || feedback !== null || trailing != null;
+  const showBand =
+    recording ||
+    sending ||
+    note.length > 0 ||
+    feedback !== null ||
+    trailing != null ||
+    shouldStartImmediately;
+
+  function armTellFromDecision() {
+    // Overlay kapandıktan sonra pembe alan merkeze gelir; SoftStage boyutu korunur.
+    setTellArmed(true);
+    setShouldStartImmediately(true);
+    // Mikrofon aynı tıklama yığınında — rAF / useEffect jestini bozar.
+    if (recordingGate === "open" && !recording && !sending) {
+      void startRecording();
+    }
+    window.requestAnimationFrame(() => {
+      const band =
+        tellBandRef.current ?? document.getElementById("listen-and-tell-section");
+      band?.scrollIntoView({ behavior: "smooth", block: "center" });
+      tellBandRef.current?.focus({ preventScroll: true });
+    });
+  }
+
+  const showMicDeck = cassetteComplete || tellArmed || recording || sending;
+  const micLabel = recording
+    ? "Anlatmayı Bitir"
+    : sending
+      ? "Dinleniyor…"
+      : "Anlatmaya Başla / Kaydı Başlat";
 
   return (
     <section
       aria-label={title}
-      className={
-        showBand
-          ? "junior-quest flex flex-col gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-2 shadow-[var(--shadow-card)] lg:min-h-0 lg:flex-1 lg:grid lg:grid-rows-[auto_auto_minmax(0,1fr)] lg:overflow-hidden"
-          : "junior-quest flex flex-col gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-2 shadow-[var(--shadow-card)] lg:min-h-0 lg:flex-1 lg:grid lg:grid-rows-[minmax(0,1fr)_auto] lg:overflow-hidden"
-      }
+      className={`junior-quest flex h-full min-h-0 flex-1 flex-col gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-2 shadow-[var(--shadow-card)] ${
+        cassetteComplete || showBand || tellArmed ? "overflow-y-auto" : "overflow-hidden"
+      }`}
     >
-      <div className={showBand ? "shrink-0" : "min-h-0 lg:h-full"}>
-        <VectorPlayer fill={!showBand} scene={scene} mebNote={mebNote} lifeUse={lifeUse} steps={steps} />
+      {/* flex-1 min-h-0: SoftStage + Oynat/Durdur tam boy — tellArmed iken de sıkışmaz. */}
+      <div
+        className="flex min-h-0 flex-1 flex-col"
+        data-junior-stage-full={tellArmed ? "true" : undefined}
+      >
+        <VectorPlayer
+          fill
+          scene={scene}
+          mebNote={mebNote}
+          lifeUse={lifeUse}
+          steps={steps}
+          lessonKey={lessonKey}
+          nickname={nickname}
+          narration={script}
+          onPlaybackComplete={(complete) => {
+            setCassetteComplete(complete);
+            if (!complete) {
+              // Tekrar dinle: tell jesti sıfırlanır; SoftStage boyutu zaten tam.
+              setTellArmed(false);
+              setShouldStartImmediately(false);
+            }
+          }}
+          onBindStop={(stop) => {
+            stopPlayerRef.current = stop;
+          }}
+          onReadyToTell={armTellFromDecision}
+        />
       </div>
-      <div className="flex shrink-0 flex-wrap items-center gap-2 border-t border-[var(--border)] pt-2">
-        <Button type="button" size="sm" variant="outline" onClick={speak}>
-          Dinle
-        </Button>
-        {recordingGate === "open" ? (
-          recording ? (
-            <Button type="button" size="sm" onClick={finishRecording}>
-              Anlatmayı bitir
-            </Button>
-          ) : (
-            <Button type="button" size="sm" onClick={() => void startRecording()} disabled={sending}>
-              Şimdi Sen Anlat
-            </Button>
-          )
-        ) : (
-          <span className="min-w-0 text-xs text-[var(--muted)]">{JUNIOR_PAID_ACTION_ERROR}</span>
-        )}
-        {quizSlot === "ready" && hasQuiz ? (
-          <QuizGate
-            tellPassed={tellPassed}
-            quizDone={quizDone}
-            score={feedback?.score ?? null}
-            onOpenQuiz={onOpenQuiz}
-          />
-        ) : null}
-        {quizSlot === "preparing" ? (
-          <span className="text-xs font-semibold">{JUNIOR_QUIZ_PREPARING_LABEL}</span>
-        ) : null}
-        {quizSlot === "locked" && recordingGate === "open" ? (
-          <span className="min-w-0 text-xs text-[var(--muted)]">{JUNIOR_PAID_ACTION_ERROR}</span>
-        ) : null}
-      </div>
-      {showBand ? (
-        <div className="grid min-h-0 content-start gap-2 overflow-y-auto">
-          {recording ? (
-            <div aria-live="polite">
-              <p className="text-xs font-semibold">Şimdi Sen Anlat</p>
-              <div className="mt-1 flex h-8 items-end gap-1" aria-hidden>
+      <div
+        id="listen-and-tell-section"
+        ref={tellBandRef}
+        tabIndex={-1}
+        data-junior-tell-band=""
+        data-junior-tell-armed={tellArmed ? "true" : undefined}
+        data-junior-should-start={shouldStartImmediately ? "true" : undefined}
+        className={`flex shrink-0 flex-col gap-2 border-t border-[var(--border)] pt-2 outline-none transition-[box-shadow] duration-300 ${
+          tellArmed
+            ? "rounded-xl ring-2 ring-[color-mix(in_srgb,var(--rose)_55%,transparent)] ring-offset-2 ring-offset-[var(--surface)]"
+            : ""
+        }`}
+      >
+        {showMicDeck ? (
+          <div
+            data-junior-tell-guides=""
+            data-junior-mic-deck=""
+            className="rounded-xl border border-[color-mix(in_srgb,var(--rose)_35%,var(--border))] bg-[color-mix(in_srgb,var(--rose-soft)_85%,white)] px-3 py-3"
+          >
+            {cassetteComplete && tellGuides.length > 0 ? (
+              <>
+                <p className="text-xs font-semibold text-[var(--safir-deep)]">
+                  Hazırım, Sana Anlatayım! — kontrol soruları
+                </p>
+                <ol className="mt-1 list-decimal space-y-0.5 pl-4 text-xs leading-5 text-[var(--safir-deep)]">
+                  {tellGuides.map((guide) => (
+                    <li key={guide}>{guide}</li>
+                  ))}
+                </ol>
+              </>
+            ) : (
+              <p className="text-xs font-semibold text-[var(--safir-deep)]">Şimdi Sen Anlat</p>
+            )}
+            <div
+              className="mt-3 flex flex-col items-center gap-3"
+              data-junior-mic-stage=""
+              aria-live="polite"
+            >
+              <div
+                className="flex h-10 w-full max-w-xs items-end justify-center gap-1"
+                aria-hidden
+                data-junior-mic-wave=""
+              >
                 {bars.map((height, index) => (
                   <span
                     key={index}
-                    className="w-1.5 rounded-full bg-[var(--safir)]"
-                    style={{ height: `${height}%` }}
+                    className={`w-2 rounded-full transition-[height] duration-75 ${
+                      recording
+                        ? "bg-[var(--emerald)] shadow-[0_0_8px_color-mix(in_srgb,var(--emerald)_70%,transparent)]"
+                        : "bg-[color-mix(in_srgb,var(--rose)_55%,var(--safir))]"
+                    }`}
+                    style={{ height: `${recording ? height : 18 + (index % 4) * 10}%` }}
                   />
                 ))}
               </div>
-              <p className="mt-1 text-xs text-[var(--muted)]">
-                {seconds} sn · en az {JUNIOR_TELL_MIN_SEC}, en fazla {JUNIOR_TELL_MAX_SEC}
-              </p>
+              {recordingGate === "open" ? (
+                <button
+                  type="button"
+                  data-junior-mic-record=""
+                  disabled={sending}
+                  onClick={() => {
+                    if (recording) {
+                      finishRecording();
+                      return;
+                    }
+                    void startRecording();
+                  }}
+                  className={`flex h-20 w-20 cursor-pointer items-center justify-center rounded-full text-3xl text-white transition-transform duration-150 disabled:cursor-not-allowed disabled:opacity-60 ${
+                    recording
+                      ? "scale-105 bg-[var(--emerald)] shadow-[0_0_0_6px_color-mix(in_srgb,var(--emerald)_35%,transparent),0_0_28px_color-mix(in_srgb,var(--emerald)_55%,transparent)]"
+                      : "bg-[var(--rose)] shadow-[0_0_0_6px_color-mix(in_srgb,var(--rose)_35%,transparent),0_0_28px_color-mix(in_srgb,var(--rose)_55%,transparent)] hover:scale-105"
+                  }`}
+                  aria-label={micLabel}
+                >
+                  {recording ? "⏹" : "🎙️"}
+                </button>
+              ) : (
+                <span className="min-w-0 text-center text-xs text-[var(--muted)]">
+                  {JUNIOR_PAID_ACTION_ERROR}
+                </span>
+              )}
+              <p className="text-center text-sm font-bold text-[var(--safir-deep)]">{micLabel}</p>
+              {recording ? (
+                <p className="text-center text-xs text-[var(--muted)]">
+                  {seconds} sn · en az {JUNIOR_TELL_MIN_SEC}, en fazla {JUNIOR_TELL_MAX_SEC}
+                </p>
+              ) : null}
             </div>
+          </div>
+        ) : null}
+        <div className="flex flex-wrap items-center gap-2">
+          {recordingGate === "open" && !showMicDeck ? (
+            <Button type="button" size="sm" onClick={() => void startRecording()} disabled={sending}>
+              Şimdi Sen Anlat
+            </Button>
           ) : null}
+          {quizSlot === "ready" && hasQuiz ? (
+            <QuizGate
+              tellPassed={tellPassed}
+              quizDone={quizDone}
+              score={feedback?.score ?? null}
+              onOpenQuiz={onOpenQuiz}
+            />
+          ) : null}
+          {quizSlot === "preparing" ? (
+            <span className="text-xs font-semibold">{JUNIOR_QUIZ_PREPARING_LABEL}</span>
+          ) : null}
+          {quizSlot === "locked" && recordingGate === "open" ? (
+            <span className="min-w-0 text-xs text-[var(--muted)]">{JUNIOR_PAID_ACTION_ERROR}</span>
+          ) : null}
+        </div>
+      </div>
+      {showBand ? (
+        <div className="grid min-h-0 content-start gap-2 overflow-y-auto">
           {sending ? <p className="text-sm">Dinleniyor. Ses saklanmaz.</p> : null}
           {note ? <p className="text-sm text-[var(--rose)]">{note}</p> : null}
           {feedback ? (

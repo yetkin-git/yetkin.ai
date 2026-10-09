@@ -16,8 +16,8 @@ function readSrc(relative: string): string {
 
 describe("Faz 2 tamamlama — T3 yeşil halka yüzeyi", () => {
   it("protokol zinciri hop sicilinde durur; Dron Akademi UI ve yayın kilidi açıktır", () => {
-    expect(RAIL_V1_HOPS).toHaveLength(16);
-    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(16);
+    expect(RAIL_V1_HOPS).toHaveLength(17);
+    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(17);
     expect(findRailV1Hop("/api/v1/auth/session", "GET")?.id).toBe("auth-session");
     expect(findRailV1Hop("/api/v1/wallet/top-up", "POST")?.id).toBe("wallet-top-up");
     expect(findRailV1Hop("/api/v1/dashboard/wallet-strip", "GET")?.id).toBe("wallet-strip");

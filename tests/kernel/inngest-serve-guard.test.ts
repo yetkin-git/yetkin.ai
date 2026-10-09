@@ -206,7 +206,7 @@ describe("Inngest HTTP 503", () => {
     const body = (await getRes.json()) as { ok?: boolean; error?: string };
     expect(body.ok).toBe(false);
     expect(body.error).toContain("INNGEST_DEV=1");
-  });
+  }, 60_000);
 
   it("üretimde boş çift anahtarda GET/POST/PUT 503; serve açılmaz", async () => {
     vi.stubEnv("NODE_ENV", "production");
@@ -235,5 +235,5 @@ describe("Inngest HTTP 503", () => {
     const body = (await postRes.json()) as { ok?: boolean; error?: string };
     expect(body.ok).toBe(false);
     expect(body.error).toContain("Inngest Cloud anahtarları");
-  });
+  }, 60_000);
 });

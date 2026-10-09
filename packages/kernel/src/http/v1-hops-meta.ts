@@ -134,6 +134,13 @@ export const RAIL_V1_HOPS_META = [
     v1Auth: "bearer",
     cookieAuth: false,
   },
+  {
+    id: "junior-lesson-read",
+    method: "GET",
+    v1PathTemplate: "/api/v1/junior/lessons/{key}",
+    v1Auth: "none",
+    cookieAuth: false,
+  },
 ] as const satisfies readonly RailV1HopMeta[];
 
 export type RailV1HopId = (typeof RAIL_V1_HOPS_META)[number]["id"];

@@ -31,9 +31,11 @@ import {
   SITE_MAINTENANCE_RETRY_AFTER_SECONDS,
 } from "@/lib/kernel/http/site-maintenance";
 import { registerPaytrAcademyLicenseHook } from "@/lib/academy/register-paytr-license-hook";
+import { registerPaytrJuniorLicenseHook } from "@/lib/junior/register-paytr-license-hook";
 import { logEvent } from "@/lib/kernel/observability/log";
 
 registerPaytrAcademyLicenseHook();
+registerPaytrJuniorLicenseHook();
 
 export const auth = "webhook" as const;
 

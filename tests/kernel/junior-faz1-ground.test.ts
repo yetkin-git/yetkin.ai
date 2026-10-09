@@ -44,6 +44,7 @@ describe("Junior faz 1 zemin — kayıt defteri", () => {
       "JR-06-FEN",
       "JR-06-TUR",
       "JR-06-ING-ANA",
+      "JR-06-SOS",
     ]);
     for (const slug of JUNIOR_PILOT_SLUGS) {
       expect(ACADEMY_CANON_SKU_SLUGS).not.toContain(slug);
@@ -65,8 +66,8 @@ describe("Junior faz 1 zemin — takma ad", () => {
       aliases.find((row) => row.find === "@/lib/junior");
 
     expect(LIVE_VITEST_ARCHIVE_ROOMS).not.toContain("junior");
-    expect(FROZEN_VITEST_ROOMS).toContain("junior");
+    expect(FROZEN_VITEST_ROOMS).not.toContain("junior");
     expect(juniorTarget(live)).toBeUndefined();
-    expect(juniorTarget(frozen)?.replacement).toBe(path.join(root, "archived", "lib", "junior"));
+    expect(juniorTarget(frozen)).toBeUndefined();
   });
 });

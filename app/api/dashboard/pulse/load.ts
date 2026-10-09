@@ -105,7 +105,7 @@ function prunePulseMemo(now: number): void {
 }
 
 /**
- * Composition root — yalnız çalışan 4 oda + cüzdan. Donmuş 8 oda
+ * Composition root — yalnız çalışan 4 oda + cüzdan. Donmuş 7 oda
  * paralel Prisma sorgusu yapmaz; boş nabız basılır.
  * Salt okuma: cüzdan satırı yoksa INSERT yok, live:false.
  */

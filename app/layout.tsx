@@ -7,6 +7,7 @@ import { NavigationProgressBar } from "@/components/shell/navigation-progress-ba
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { siteGraphJsonLd } from "@/lib/copy/json-ld";
 import { PUBLIC_SEN } from "@/lib/copy/sen-voice/public";
+import { SEM_LANDING_KEYWORDS } from "@/lib/copy/sem-keywords";
 import { CANONICAL_SITE_ORIGIN, OG_LOCALE, PAGE_SEO, TITLE_TEMPLATE, pageMetadata } from "@/lib/copy/seo";
 import "./globals.css";
 
@@ -25,13 +26,18 @@ export const metadata: Metadata = {
     template: TITLE_TEMPLATE,
   },
   description: homeSeo.description,
+  keywords: [...SEM_LANDING_KEYWORDS],
   openGraph: {
     type: "website",
     locale: OG_LOCALE,
     siteName: YETKIN_BRAND,
+    title: PUBLIC_SEN.home.title,
+    description: PAGE_SEO.home.description,
   },
   twitter: {
     card: "summary_large_image",
+    title: PUBLIC_SEN.home.title,
+    description: PAGE_SEO.home.description,
   },
 };
 

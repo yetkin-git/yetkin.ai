@@ -137,9 +137,9 @@ describe("Staging T4 saha runner + Closed Testing paket izolasyonu", () => {
     expect(readSrc("apps/rail-is/package.json")).not.toMatch(/iap|billing|play-billing/i);
   });
 
-  it("Dron allowlist 16 B2C hop; server sicili 16 hop; freelancer Tezgâh donduruldu", () => {
-    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(16);
-    expect(RAIL_V1_HOPS).toHaveLength(16);
+  it("Dron allowlist 17 B2C hop; server sicili 17 hop; freelancer Tezgâh donduruldu", () => {
+    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(17);
+    expect(RAIL_V1_HOPS).toHaveLength(17);
     expect(() => assertRailIsDay0Path("/api/v1/freelancer/jobs/fj_1", "GET")).toThrow(
       /allowlist dışı/,
     );

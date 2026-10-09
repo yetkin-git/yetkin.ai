@@ -1,35 +1,24 @@
 import "server-only";
 
-import { createHmac } from "node:crypto";
-import { JUNIOR_PRODUCTION_LOCKED } from "@/lib/kernel/compliance/circuit-breakers";
+import { JUNIOR_GUARDIAN_NOTICE, isJuniorNoticeUsable } from "@/lib/junior/guardian-notice";
+import { isJuniorCheckoutLocked } from "@/lib/kernel/security/junior-gate";
 import {
   buildPaytrIframeUrl,
   buildPaytrTokenHash,
   encodePaytrSingleBasket,
-  formatPaytrPaymentAmount,
   getPaytrCheckoutCredentials,
+  isPaytrSandboxEnabled,
   PAYTR_IFRAME_MAX_INSTALLMENT,
   PAYTR_IFRAME_NO_INSTALLMENT,
   readPaytrRuntimeMode,
   type PaytrCheckoutCredentials,
   type PaytrRuntimeMode,
 } from "@/lib/kernel/payments/paytr/checkout";
-import { JUNIOR_YEARLY_LIST_PRICE_MINOR } from "@/lib/junior/limits";
 
 /**
- * Kapalı pilot mühürü. Canlı mağaza anahtarı değildir.
- * iFrame get-token ve Direct API aynı siparişi bu üçlüyle dener.
- */
-export const JUNIOR_PAYTR_TEST_CREDENTIALS: PaytrCheckoutCredentials = {
-  merchantId: "000000",
-  merchantKey: "junior-paytr-sandbox-key",
-  merchantSalt: "junior-paytr-sandbox-salt",
-  testMode: true,
-};
-
-/**
- * Canlı satış kapısı. Deneme mağaza numarası, deneme anahtarı ve sandbox satışı açmaz.
+ * Canlı satış kapısı. Deneme mağaza numarası ve sandbox satışı açmaz.
  * Üretim kilidi dururken canlı üçlü gelse de bu fonksiyon kapalı kalır.
+ * Kart numarası bu kapıdan geçmez. Tutar mührü kernel `buildPaytrTokenHash` ile kurulur.
  */
 export function juniorPaytrCredentialsAllowSale(input: {
   credentials: PaytrCheckoutCredentials | null;
@@ -44,12 +33,13 @@ export function juniorPaytrCredentialsAllowSale(input: {
     return false;
   }
   const merchantId = credentials.merchantId.trim();
+  const key = credentials.merchantKey.toLowerCase();
+  const salt = credentials.merchantSalt.toLowerCase();
   if (
     !merchantId ||
     merchantId === "000000" ||
-    merchantId === JUNIOR_PAYTR_TEST_CREDENTIALS.merchantId ||
-    credentials.merchantKey === JUNIOR_PAYTR_TEST_CREDENTIALS.merchantKey ||
-    credentials.merchantSalt === JUNIOR_PAYTR_TEST_CREDENTIALS.merchantSalt
+    key.includes("sandbox") ||
+    salt.includes("sandbox")
   ) {
     return false;
   }
@@ -59,9 +49,58 @@ export function juniorPaytrCredentialsAllowSale(input: {
 export function juniorPaytrLiveSaleOpen(env: NodeJS.ProcessEnv = process.env): boolean {
   return juniorPaytrCredentialsAllowSale({
     credentials: getPaytrCheckoutCredentials(),
-    productionLocked: JUNIOR_PRODUCTION_LOCKED,
+    productionLocked: isJuniorCheckoutLocked(env),
     runtimeMode: readPaytrRuntimeMode(env),
   });
+}
+
+export type JuniorPaytrSaleGate = "closed" | "sandbox" | "live" | "refused";
+
+function paytrCredentialsFromEnv(env: NodeJS.ProcessEnv): PaytrCheckoutCredentials | null {
+  const merchantId = env.PAYTR_MERCHANT_ID?.trim() ?? "";
+  const merchantKey = env.PAYTR_MERCHANT_KEY?.trim() ?? "";
+  const merchantSalt = env.PAYTR_MERCHANT_SALT?.trim() ?? "";
+  if (!merchantId || !merchantKey || !merchantSalt) {
+    return null;
+  }
+  return {
+    merchantId,
+    merchantKey,
+    merchantSalt,
+    testMode: isPaytrSandboxEnabled(env),
+  };
+}
+
+/**
+ * Kasa kapısı. Bayrak veya mühür yoksa `closed`.
+ * Üretimde deneme mağaza `refused` kalır. Üretim dışında sandbox, get-token iframe açar.
+ * Canlı üçlü `live` döner. Kart numarası bu kapıdan geçmez.
+ */
+export function juniorPaytrSaleGate(env: NodeJS.ProcessEnv = process.env): JuniorPaytrSaleGate {
+  if (isJuniorCheckoutLocked(env) || !isJuniorNoticeUsable(JUNIOR_GUARDIAN_NOTICE)) {
+    return "closed";
+  }
+  const mode = readPaytrRuntimeMode(env);
+  const credentials = paytrCredentialsFromEnv(env);
+  if (mode === "live") {
+    return juniorPaytrCredentialsAllowSale({
+      credentials,
+      productionLocked: false,
+      runtimeMode: "live",
+    })
+      ? "live"
+      : "refused";
+  }
+  if (mode === "sandbox" && env.NODE_ENV !== "production" && credentials) {
+    return juniorPaytrCredentialsAllowSale({
+      credentials: { ...credentials, testMode: false },
+      productionLocked: false,
+      runtimeMode: "live",
+    })
+      ? "sandbox"
+      : "refused";
+  }
+  return "refused";
 }
 
 export const JUNIOR_PAYTR_BASKET_NAME = "Junior yıllık paket";
@@ -70,45 +109,39 @@ export type JuniorPaytrSeal = {
   merchantOid: string;
   userBasket: string;
   paymentAmount: string;
-  directAmount: string;
   iframeToken: string;
-  directToken: string;
   iframeUrl: string;
   testMode: boolean;
   email: string;
   userIp: string;
   userName: string;
-  userPhone: string;
-  userAddress: string;
 };
 
 /** PayTR merchant_oid: yalnız harf ve rakam, en fazla 64. */
-export function juniorPaytrMerchantOid(now: Date, last4: string): string {
+export function juniorPaytrMerchantOid(now: Date, idempotencyKey: string): string {
   const stamp = now.getTime().toString(36).toUpperCase();
-  return `JR${stamp}${last4}`.replace(/[^A-Z0-9]/g, "").slice(0, 64);
+  const suffix = idempotencyKey.replace(/[^A-Za-z0-9]/g, "").toUpperCase().slice(0, 16);
+  return `JR${stamp}${suffix}`.replace(/[^A-Z0-9]/g, "").slice(0, 64);
 }
 
 /**
- * Fatura ve sepet, PayTR test hash sırasına girer.
- * iFrame: merchant_id + user_ip + merchant_oid + email + payment_amount + user_basket
- * + no_installment + max_installment + currency + test_mode, sonra tuz.
- * payment_amount kuruş tam sayı yazılır. Sepet birim fiyatı ondalık TL kalır.
- * Direct: aynı kimlik, tutar ondalık TL, payment_type card, taksit 0, non_3d 0.
+ * iFrame get-token. Hash sırası kernel `buildPaytrTokenHash` içindedir.
+ * Direct kart yolu yoktur. Kimlik bilgisi çağırandan gelir; deneme üçlüsü gömülü değildir.
  */
 export function buildJuniorPaytrSeal(input: {
   now: Date;
-  last4: string;
+  idempotencyKey: string;
   email: string;
   userIp: string;
   userName: string;
-  userPhone: string;
-  userAddress: string;
-  credentials?: PaytrCheckoutCredentials;
+  amountMinor: number;
+  credentials: PaytrCheckoutCredentials;
 }): JuniorPaytrSeal {
-  const credentials = input.credentials ?? JUNIOR_PAYTR_TEST_CREDENTIALS;
-  const merchantOid = juniorPaytrMerchantOid(input.now, input.last4);
-  const userBasket = encodePaytrSingleBasket(JUNIOR_PAYTR_BASKET_NAME, JUNIOR_YEARLY_LIST_PRICE_MINOR, 1);
-  const paymentAmount = String(JUNIOR_YEARLY_LIST_PRICE_MINOR);
+  const credentials = input.credentials;
+  const merchantOid = juniorPaytrMerchantOid(input.now, input.idempotencyKey);
+  const amountMinor = Math.trunc(input.amountMinor);
+  const userBasket = encodePaytrSingleBasket(JUNIOR_PAYTR_BASKET_NAME, amountMinor, 1);
+  const paymentAmount = String(amountMinor);
   const testMode = credentials.testMode ? "1" : "0";
   const iframeToken = buildPaytrTokenHash({
     credentials,
@@ -122,27 +155,16 @@ export function buildJuniorPaytrSeal(input: {
     currency: "TL",
     testMode,
   });
-  const directAmount = formatPaytrPaymentAmount(JUNIOR_YEARLY_LIST_PRICE_MINOR);
-  const directHashStr =
-    `${credentials.merchantId}${input.userIp}${merchantOid}${input.email}` +
-    `${directAmount}card0TL${testMode}0`;
-  const directToken = createHmac("sha256", credentials.merchantKey)
-    .update(directHashStr + credentials.merchantSalt)
-    .digest("base64");
   const iframePathToken = iframeToken.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
   return {
     merchantOid,
     userBasket,
     paymentAmount,
-    directAmount,
     iframeToken,
-    directToken,
     iframeUrl: buildPaytrIframeUrl(iframePathToken),
     testMode: credentials.testMode,
     email: input.email,
     userIp: input.userIp,
     userName: input.userName.trim(),
-    userPhone: input.userPhone,
-    userAddress: input.userAddress.trim(),
   };
 }

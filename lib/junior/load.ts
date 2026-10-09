@@ -6,6 +6,7 @@ import { juniorLessonStatus, juniorTellPassed } from "@/lib/junior/chain";
 import { juniorPersonalizedShelves } from "@/lib/junior/catalog";
 import { JUNIOR_CLOSED_PROFILE_NICKNAME } from "@/lib/junior/guardian-notice";
 import { JUNIOR_ELECTIVE_QUOTA } from "@/lib/junior/limits";
+import { juniorInvoiceOpened, juniorInvoicePersisted } from "@/lib/junior/invoice-seal";
 import { JUNIOR_POS_PROVIDER, type JuniorSubscriptionRow } from "@/lib/junior/plan";
 import type {
   JuniorActiveSubscriptionWrite,
@@ -119,6 +120,7 @@ function mapSubscription(row: {
   invoiceTckn: string;
   invoicePhone: string;
   invoiceAddress: string;
+  appliedMerchantOids?: string[];
   electiveQuota: number;
   gradeSwitchRights: number;
   activatedAt: Date | null;
@@ -127,6 +129,7 @@ function mapSubscription(row: {
   if (row.provider !== JUNIOR_POS_PROVIDER || row.currencyCode !== "TRY") {
     throw new Error("Junior paket kaydı tanınmadı.");
   }
+  const invoice = juniorInvoiceOpened(row);
   return {
     id: row.id,
     userId: row.userId,
@@ -138,9 +141,10 @@ function mapSubscription(row: {
     providerRef: row.providerRef,
     cardLast4: row.cardLast4,
     invoiceName: row.invoiceName,
-    invoiceTckn: row.invoiceTckn,
-    invoicePhone: row.invoicePhone,
-    invoiceAddress: row.invoiceAddress,
+    invoiceTckn: invoice.invoiceTckn,
+    invoicePhone: invoice.invoicePhone,
+    invoiceAddress: invoice.invoiceAddress,
+    appliedMerchantOids: row.appliedMerchantOids ?? [],
     electiveQuota: row.electiveQuota,
     gradeSwitchRights: row.gradeSwitchRights,
     activatedAt: row.activatedAt,
@@ -367,6 +371,13 @@ export function createPrismaJuniorStore(): JuniorStore {
       return row ? mapSubscription(row) : null;
     },
     async saveActiveSubscription(row: JuniorActiveSubscriptionWrite) {
+      const existing = await prisma.juniorSubscription.findUnique({ where: { userId: row.userId } });
+      const known = existing?.appliedMerchantOids ?? [];
+      if (existing && existing.status === "ACTIVE" && known.includes(row.providerRef)) {
+        return mapSubscription(existing);
+      }
+      const appliedMerchantOids = known.includes(row.providerRef) ? known : [...known, row.providerRef];
+      const invoice = juniorInvoicePersisted(row);
       const data = {
         status: row.status,
         planCode: row.planCode,
@@ -376,9 +387,10 @@ export function createPrismaJuniorStore(): JuniorStore {
         providerRef: row.providerRef,
         cardLast4: row.cardLast4,
         invoiceName: row.invoiceName,
-        invoiceTckn: row.invoiceTckn,
-        invoicePhone: row.invoicePhone,
-        invoiceAddress: row.invoiceAddress,
+        invoiceTckn: invoice.invoiceTckn,
+        invoicePhone: invoice.invoicePhone,
+        invoiceAddress: invoice.invoiceAddress,
+        appliedMerchantOids: [...appliedMerchantOids],
         electiveQuota: row.electiveQuota,
         gradeSwitchRights: row.gradeSwitchRights,
         activatedAt: row.activatedAt,
@@ -514,6 +526,8 @@ export async function loadJuniorLessonPage(userId: string, lessonKey: string) {
       ready: true,
       lesson,
       profileId,
+      nickname: home.selected?.nickname ?? null,
+      selectedElectives: home.selected?.selectedElectives ?? [],
       tellPassed: profileId ? juniorTellPassed(progress, lessonKey) : false,
       lessonDone: profileId ? juniorLessonStatus(progress, lessonKey) === "done" : false,
       planActive: home.plan.status === "ACTIVE",
@@ -528,6 +542,8 @@ export async function loadJuniorLessonPage(userId: string, lessonKey: string) {
       ready: false,
       lesson: lockedPreview,
       profileId: null,
+      nickname: null,
+      selectedElectives: [] as string[],
       tellPassed: false,
       lessonDone: false,
       planActive: false,

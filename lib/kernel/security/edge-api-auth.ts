@@ -14,8 +14,13 @@ import {
   isFreelancerPublicSurfaceLocked,
   isJuniorPaidActionApiPath,
   isJuniorPilotApiPath,
-  isJuniorSurfaceLocked,
 } from "@/lib/kernel/compliance/circuit-breakers";
+import {
+  canEnterJunior,
+  isJuniorCheckoutLocked,
+  JUNIOR_CHECKOUT_LOCKED_ERROR,
+  type JuniorActor,
+} from "@/lib/kernel/security/junior-gate";
 import { canonicalApiPathname } from "@/lib/kernel/http/api-v1";
 import {
   isApiPathname,
@@ -30,6 +35,20 @@ export const EDGE_API_FORBIDDEN_ERROR = "Bu sığınak Super Admin kilidine bağ
 export const EDGE_API_NOT_FOUND_ERROR = "API yolu bulunamadı.";
 export const EDGE_API_FROZEN_ROOM_ERROR = "Bu oda üretimde kapalı.";
 
+export const JUNIOR_CHECKOUT_LOGIN_EDGE_ERROR = "Ödeme için veli girişi gerekir.";
+
+/** Kapalı kasa ve misafir ödeme isteği. Açık kasada oturumlu veli bu dala düşmez. */
+export function frozenRoomApiDenial(pathname: string): { status: 410; error: string } {
+  const path = canonicalApiPathname(pathname);
+  if (path === "/api/junior-pilot/checkout") {
+    return {
+      status: 410,
+      error: isJuniorCheckoutLocked() ? JUNIOR_CHECKOUT_LOCKED_ERROR : JUNIOR_CHECKOUT_LOGIN_EDGE_ERROR,
+    };
+  }
+  return { status: 410, error: EDGE_API_FROZEN_ROOM_ERROR };
+}
+
 export type EdgeApiDecision =
   | { kind: "skip" }
   | { kind: "next" }
@@ -37,14 +56,13 @@ export type EdgeApiDecision =
 
 const MUTATING_HTTP_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 
-export function isFrozenRoomApi(pathname: string): boolean {
+export function isFrozenRoomApi(pathname: string, actor: JuniorActor | null = null): boolean {
   const path = canonicalApiPathname(pathname);
-  if (
-    isJuniorPilotApiPath(path) &&
-    isJuniorSurfaceLocked() &&
-    !isJuniorPaidActionApiPath(path)
-  ) {
-    return true;
+  if (isJuniorPilotApiPath(path) && !isJuniorPaidActionApiPath(path)) {
+    const intent = path === "/api/junior-pilot/checkout" ? "checkout" : "profile";
+    if (!canEnterJunior(actor, null, { intent }).allow) {
+      return true;
+    }
   }
   if (
     isFreelancerPublicSurfaceLocked() &&
@@ -96,8 +114,16 @@ export function decideEdgeApiAuth(input: {
     return { kind: "next" };
   }
 
-  if (isFrozenRoomApi(pathname)) {
-    return { kind: "deny", status: 410, error: EDGE_API_FROZEN_ROOM_ERROR };
+  const actor: JuniorActor | null = input.sessionHint
+    ? {
+        id: input.sessionUserId,
+        email: input.sessionEmail,
+        emailConfirmedAt: input.sessionEmailConfirmedAt,
+      }
+    : null;
+  if (isFrozenRoomApi(pathname, actor)) {
+    const denial = frozenRoomApiDenial(pathname);
+    return { kind: "deny", status: denial.status, error: denial.error };
   }
 
   const map = input.map ?? (ROUTE_AUTH_MAP as Record<string, string>);

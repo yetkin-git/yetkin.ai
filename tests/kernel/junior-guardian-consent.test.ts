@@ -1,14 +1,18 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { JUNIOR_PRODUCTION_LOCKED } from "@/lib/kernel/compliance/circuit-breakers";
+import { sha256Hex } from "@/lib/kernel/crypto/sha256";
+import { isJuniorCheckoutLocked } from "@/lib/kernel/security/junior-gate";
+import { juniorGuardianNoticeCanonical } from "@/lib/copy/junior-guardian-notice";
 import { RLS_FORCE_TABLES } from "@/lib/kernel/security/rls-policy-registry";
-import { JUNIOR_CHECKOUT_NOT_CONFIGURED } from "@/lib/junior/checkout";
+import { JUNIOR_CHECKOUT_CLOSED_MESSAGE, JUNIOR_CHECKOUT_NOT_CONFIGURED } from "@/lib/junior/checkout";
 import {
   JUNIOR_CLOSED_PROFILE_NICKNAME,
   JUNIOR_CONSENT_REQUIRED_ERROR,
   JUNIOR_GUARDIAN_NOTICE,
+  JUNIOR_GUARDIAN_NOTICE_SHA256,
   JUNIOR_NOTICE_UNSEALED_ERROR,
+  isJuniorNoticeUsable,
   JUNIOR_PROFILE_CLOSED_ERROR,
   juniorLessonConsentBlock,
   type JuniorGuardianNotice,
@@ -18,7 +22,6 @@ import {
   JUNIOR_FREE_LESSON_KEY,
   JUNIOR_PILOT_SHELF_LINE,
   JUNIOR_PLAN_CODE,
-  JUNIOR_YEARLY_LIST_PRICE_MINOR,
 } from "@/lib/junior/limits";
 import { createMemoryJuniorStore } from "@/lib/junior/memory-port";
 import { JUNIOR_POS_PROVIDER, juniorPlanExpiry } from "@/lib/junior/plan";
@@ -31,6 +34,7 @@ import {
 import type { LlmGatewayResult } from "@/lib/kernel/ai/types";
 import { catalogSqlPreservesOperatorPrice } from "../../scripts/ops-migrate-lib";
 
+const JUNIOR_FIXTURE_PRICE_MINOR = 549_900;
 const ROOT = process.cwd();
 const NOW = new Date("2026-10-05T16:00:00+03:00");
 const PARENT = "parent-a";
@@ -115,27 +119,31 @@ describe("Junior veli rızası ve fiyat tohumu", () => {
     expect(sql).not.toMatch(/^\s*amount_minor\s*=\s*EXCLUDED\.amount_minor\s*,?\s*$/m);
   });
 
-  it("sürümlü metin yokken consent true yeter; sürüm alanı reddedilir; ders kapısı consent_at ile durur", async () => {
-    expect(JUNIOR_GUARDIAN_NOTICE).toBeNull();
-    expect(JUNIOR_PRODUCTION_LOCKED).toBe(true);
+  it("mühürlü aydınlatma özeti metinle aynıdır; boş metin sürüm alanını reddeder", async () => {
+    expect(isJuniorNoticeUsable(JUNIOR_GUARDIAN_NOTICE)).toBe(true);
+    expect(JUNIOR_GUARDIAN_NOTICE.version).toBe("junior-notice-2026-10-09");
+    expect(sha256Hex(juniorGuardianNoticeCanonical())).toBe(JUNIOR_GUARDIAN_NOTICE_SHA256);
+    expect(isJuniorCheckoutLocked({} as NodeJS.ProcessEnv)).toBe(true);
     expect(JUNIOR_CHECKOUT_NOT_CONFIGURED).toBe("not_configured");
+    expect(JUNIOR_CHECKOUT_CLOSED_MESSAGE).not.toBe(JUNIOR_CHECKOUT_NOT_CONFIGURED);
     const store = createMemoryJuniorStore();
     const rejected = await createJuniorProfile(
       store,
       PARENT,
       { nickname: "Ege", grade: 6, birthYear: 2015, consent: true, consentVersion: NOTICE.version, guardianBirthYear: 1990 },
       NOW,
+      null,
     );
     expect(rejected.ok).toBe(false);
     if (!rejected.ok) {
       expect(rejected.error).toBe(JUNIOR_NOTICE_UNSEALED_ERROR);
     }
-    const profile = await openProfile(store);
+    const profile = await openProfile(store, JUNIOR_GUARDIAN_NOTICE);
     await store.saveActiveSubscription({
       userId: PARENT,
       status: "ACTIVE",
       planCode: JUNIOR_PLAN_CODE,
-      listPriceMinor: JUNIOR_YEARLY_LIST_PRICE_MINOR,
+      listPriceMinor: JUNIOR_FIXTURE_PRICE_MINOR,
       currencyCode: "TRY",
       provider: JUNIOR_POS_PROVIDER,
       providerRef: "JRSEEDED01",
@@ -152,8 +160,8 @@ describe("Junior veli rızası ve fiyat tohumu", () => {
     expect(profile.birthYear).toBe(2015);
     const row = await store.getProfile(PARENT, profile.id);
     expect(row?.consentAt).toEqual(NOW);
-    expect(row?.activeConsentId).toBeNull();
-    expect(await store.listGuardianConsents(PARENT)).toEqual([]);
+    expect(row?.activeConsentVersion).toBe(JUNIOR_GUARDIAN_NOTICE.version);
+    expect(await store.listGuardianConsents(PARENT)).toHaveLength(1);
     expect(
       juniorLessonConsentBlock(
         {
@@ -237,12 +245,18 @@ describe("Junior veli rızası ve fiyat tohumu", () => {
     const active = await store.getProfile(PARENT, profile.id);
     expect(active?.activeConsentId).toBe(rows[1]?.id);
 
-    const unsealed = await confirmJuniorGuardianConsent(store, PARENT, {
-      profileId: profile.id,
-      consent: true,
-      consentVersion: NOTICE.version,
-      guardianBirthYear: 1988,
-    });
+    const unsealed = await confirmJuniorGuardianConsent(
+      store,
+      PARENT,
+      {
+        profileId: profile.id,
+        consent: true,
+        consentVersion: NOTICE.version,
+        guardianBirthYear: 1988,
+      },
+      new Date("2026-10-06T10:00:00+03:00"),
+      null,
+    );
     expect(unsealed.ok).toBe(false);
     if (!unsealed.ok) {
       expect(unsealed.error).toBe(JUNIOR_NOTICE_UNSEALED_ERROR);
@@ -286,7 +300,7 @@ describe("Junior veli rızası ve fiyat tohumu", () => {
       userId: PARENT,
       status: "ACTIVE",
       planCode: JUNIOR_PLAN_CODE,
-      listPriceMinor: JUNIOR_YEARLY_LIST_PRICE_MINOR,
+      listPriceMinor: JUNIOR_FIXTURE_PRICE_MINOR,
       currencyCode: "TRY",
       provider: JUNIOR_POS_PROVIDER,
       providerRef: "JRSEEDED01",
@@ -303,7 +317,14 @@ describe("Junior veli rızası ve fiyat tohumu", () => {
     const other = await createJuniorProfile(
       store,
       OTHER,
-      { nickname: "Ada", grade: 6, birthYear: 2014, consent: true },
+      {
+        nickname: "Ada",
+        grade: 6,
+        birthYear: 2014,
+        consent: true,
+        consentVersion: JUNIOR_GUARDIAN_NOTICE.version,
+        guardianBirthYear: 1990,
+      },
       NOW,
     );
     if (!other.ok) {
@@ -376,7 +397,6 @@ describe("Junior veli rızası ve fiyat tohumu", () => {
 
   it("vitrin dayanaksız cümleyi basmaz; sınıf cümlesi pilotu söyler; silme rotası kilitten önce açılmaz", () => {
     const room = read("components/junior/junior-room.tsx");
-    const seal = read("components/junior/maarif-seal.tsx");
     const form = read("components/junior/profile-switcher.tsx");
     const route = read("app/api/junior-pilot/profiles/route.ts");
     expect(JUNIOR_PILOT_SHELF_LINE).toBe(
@@ -385,9 +405,9 @@ describe("Junior veli rızası ve fiyat tohumu", () => {
     expect(form).toContain("JUNIOR_PILOT_SHELF_LINE");
     expect(form).not.toContain("Raf, yeni sınıfa göre açılır");
     expect(room).not.toContain("MaarifSealLabel");
-    expect(seal).not.toContain("%100 Uygun");
-    expect(seal).not.toContain("Maarif Mührü");
-    expect(seal).not.toContain("5.000 TL");
+    expect(room).not.toContain("MaarifSkillTags");
+    expect(room).not.toContain("%100 Uygun");
+    expect(room).not.toContain("Maarif Mührü");
     const deletion = route.slice(route.indexOf("export async function DELETE"));
     expect(deletion.indexOf("juniorLockedResponse")).toBeGreaterThanOrEqual(0);
     expect(deletion.indexOf("juniorLockedResponse")).toBeLessThan(deletion.indexOf("eraseJuniorChildProfile"));

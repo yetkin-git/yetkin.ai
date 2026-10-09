@@ -315,6 +315,7 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
     expect(RAIL_V1_HOPS.filter((hop) => hop.v1Auth === "none").map((hop) => hop.id)).toEqual([
       "health",
       "academy-certificate",
+      "junior-lesson-read",
     ]);
     for (const hop of bearerHops) {
       const paths = resolveRailV1HopPaths(hop);

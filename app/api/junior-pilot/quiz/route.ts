@@ -37,6 +37,7 @@ export async function POST(request: Request) {
       profileId: parsed.data.profileId,
       lessonKey: parsed.data.lessonKey,
       answers: parsed.data.answers,
+      actor: user,
     });
     if (!result.ok) {
       return jsonFail(result.error, result.status, requestId, request);

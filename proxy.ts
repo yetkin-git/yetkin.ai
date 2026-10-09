@@ -16,7 +16,7 @@ import {
 import { decideRailV1HopGate } from "./lib/kernel/http/v1-hop-gate";
 import {
   decideEdgeApiAuth,
-  EDGE_API_FROZEN_ROOM_ERROR,
+  frozenRoomApiDenial,
   isFrozenRoomApi,
 } from "./lib/kernel/security/edge-api-auth";
 import {
@@ -36,6 +36,8 @@ import {
 } from "./lib/kernel/security/http-rate-limit";
 import { decideWebOriginGuard } from "./lib/kernel/security/origin-guard";
 import { renderFrozenRoomGoneHtml } from "./lib/kernel/http/frozen-410-html";
+import { renderNotFoundHtml } from "./lib/kernel/http/not-found-html";
+import { isUnknownJuniorLessonPath } from "./lib/junior/lesson-index";
 import {
   isSiteMaintenanceActive,
   readProcessSiteMaintenanceEnv,
@@ -176,10 +178,33 @@ export async function proxy(request: NextRequest) {
     );
   }
 
+  if (isUnknownJuniorLessonPath(pathname)) {
+    return seal(
+      new NextResponse(renderNotFoundHtml(), {
+        status: 404,
+        headers: {
+          "content-type": "text/html; charset=utf-8",
+          "x-robots-tag": "noindex",
+        },
+      }),
+    );
+  }
+
+  const juniorActor = session.verified
+    ? {
+        id: session.userId,
+        email: session.email,
+        emailConfirmedAt: session.emailConfirmedAt,
+      }
+    : null;
+
   // Donmuş oda API + Freelancer kamu kilidi (`FREELANCER_PUBLIC_SURFACE_LOCKED`):
   // `/api/freelancer/*`, `/api/client/jobs/*` ve soyulmuş `/api/v1/freelancer/*` 410.
-  if (isFrozenRoomApi(canonicalPath)) {
-    return seal(railEdgeFailResponse(request, EDGE_API_FROZEN_ROOM_ERROR, 410));
+  // Junior profil masası kapalı betadadır; izinli aktör 410 yemez.
+  // Kasa, bayrak kapalıyken veya oturum yokken 410. Açık kasada doğrulanmış veli 410 yemez.
+  if (isFrozenRoomApi(canonicalPath, juniorActor)) {
+    const denial = frozenRoomApiDenial(canonicalPath);
+    return seal(railEdgeFailResponse(request, denial.error, denial.status));
   }
 
   const hopGate = decideRailV1HopGate({

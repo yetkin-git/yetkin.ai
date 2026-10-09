@@ -437,6 +437,56 @@ export function educationalOccupationalProgramJsonLd(input: {
   };
 }
 
+/**
+ * Junior kamu dersi. Akademi sertifikası yazılmaz.
+ * Ücretsiz ilk konu `price: 0` teklifi taşır. Yıllık paket tutarı burada uydurulmaz.
+ */
+export function juniorOnlineCourseJsonLd(input: {
+  name: string;
+  description: string;
+  path: string;
+  subject?: string;
+  imagePath?: string | null;
+  isAccessibleForFree: boolean;
+}): JsonLdObject {
+  const url = canonicalUrl(input.path);
+  return {
+    "@type": "Course",
+    "@id": `${url}#course`,
+    name: input.name,
+    description: input.description,
+    url,
+    inLanguage: "tr",
+    educationalLevel: "6. Sınıf",
+    isAccessibleForFree: input.isAccessibleForFree,
+    ...(input.subject ? { about: input.subject } : {}),
+    ...(input.imagePath ? { image: canonicalUrl(input.imagePath) } : {}),
+    provider: {
+      "@type": "Organization",
+      "@id": ORGANIZATION_ID,
+      name: YETKIN_BRAND,
+      url: CANONICAL_SITE_ORIGIN,
+    },
+    hasCourseInstance: {
+      "@type": "CourseInstance",
+      courseMode: "Online",
+      inLanguage: "tr",
+      ...(input.isAccessibleForFree
+        ? {
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "TRY",
+              availability: "https://schema.org/InStock",
+              category: "Free",
+              url,
+            },
+          }
+        : {}),
+    },
+  };
+}
+
 export function faqPageJsonLd(faqs: readonly { question: string; answer: string }[]): JsonLdObject {
   return {
     "@type": "FAQPage",

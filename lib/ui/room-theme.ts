@@ -1,3 +1,4 @@
+import { INDEPENDENT_ROOMS, type IndependentRoomId } from "@/lib/dronlar/kayit";
 import { VERTICAL_ROOMS, type VerticalRoomId } from "@/lib/kernel/modules";
 import {
   FROZEN_DISK_ROOM_CATALOG,
@@ -5,7 +6,7 @@ import {
 } from "@/lib/kernel/compliance/circuit-breakers";
 import { isYetkinIlanPath } from "@/lib/kernel/yetkinilan";
 
-export type ThemedSurfaceId = VerticalRoomId | FrozenShellRoomId | "kernel";
+export type ThemedSurfaceId = VerticalRoomId | FrozenShellRoomId | IndependentRoomId | "kernel";
 
 export const ROOM_NAV_ACCENT: Record<VerticalRoomId, string> = {
   dashboard: "bg-[var(--safir)] text-white",
@@ -15,6 +16,7 @@ export const ROOM_NAV_ACCENT: Record<VerticalRoomId, string> = {
 };
 
 const WORKING_BY_PATH = [...VERTICAL_ROOMS].sort((a, b) => b.path.length - a.path.length);
+const INDEPENDENT_BY_PATH = [...INDEPENDENT_ROOMS].sort((a, b) => b.path.length - a.path.length);
 const FROZEN_BY_PATH = [...FROZEN_DISK_ROOM_CATALOG].sort(
   (a, b) => Math.max(b.path.length, b.diskPath.length) - Math.max(a.path.length, a.diskPath.length),
 );
@@ -27,6 +29,11 @@ export function roomIdFromPath(pathname: string | null): ThemedSurfaceId {
     return "pazaryeri";
   }
   for (const room of WORKING_BY_PATH) {
+    if (pathname === room.path || pathname.startsWith(`${room.path}/`)) {
+      return room.id;
+    }
+  }
+  for (const room of INDEPENDENT_BY_PATH) {
     if (pathname === room.path || pathname.startsWith(`${room.path}/`)) {
       return room.id;
     }
@@ -51,6 +58,10 @@ export function roomLabelFromId(id: ThemedSurfaceId): string {
   const working = VERTICAL_ROOMS.find((room) => room.id === id);
   if (working) {
     return working.label;
+  }
+  const independent = INDEPENDENT_ROOMS.find((room) => room.id === id);
+  if (independent) {
+    return independent.label;
   }
   return FROZEN_DISK_ROOM_CATALOG.find((room) => room.id === id)?.label ?? "Oda";
 }

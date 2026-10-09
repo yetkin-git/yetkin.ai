@@ -24,7 +24,8 @@ function parseSsotIds(exportName, idPattern) {
 
 const VERTICAL_ROOMS = parseSsotIds("VERTICAL_ROOMS", /\bid:\s*"([a-z0-9-]+)"/g);
 const FROZEN_DISK_ROOMS = parseSsotIds("FROZEN_DISK_ROOMS", /"([a-z0-9-]+)"/g);
-/** Canlı oda duvarı yalnız 4 çalışan oda. Donmuş 8 oda sicil/denylist; lib/ override üretmez. */
+const INDEPENDENT_ROOMS = parseSsotIds("INDEPENDENT_ROOMS", /\bid:\s*"([a-z0-9-]+)"/g);
+/** Canlı oda duvarı yalnız 4 çalışan oda. Donmuş 7 oda ve müstakil Junior sicil/denylist; lib/kernel onları import etmez. */
 const LIVE_ROOMS = VERTICAL_ROOMS;
 
 const MUSEUM_MSG =
@@ -69,7 +70,10 @@ function restrictedImports({ paths = [], patterns = [] } = {}) {
 }
 
 function kernelVerticalPatterns() {
-  return [...LIVE_ROOMS, ...FROZEN_DISK_ROOMS].flatMap((id) => [`@/lib/${id}`, `@/lib/${id}/*`]);
+  return [...LIVE_ROOMS, ...FROZEN_DISK_ROOMS, ...INDEPENDENT_ROOMS].flatMap((id) => [
+    `@/lib/${id}`,
+    `@/lib/${id}/*`,
+  ]);
 }
 
 function otherModuleEnginePatterns(self) {

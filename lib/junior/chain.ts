@@ -35,7 +35,30 @@ export function stampJuniorLessonStatus(
     ...course,
     lessons: course.lessons.map((lesson) => ({
       ...lesson,
-      status: juniorLessonStatus(rows, lesson.key),
+      status: lesson.status === "preparing" ? "preparing" : juniorLessonStatus(rows, lesson.key),
     })),
+  }));
+}
+
+/** Seçili profilin damgasını, erişimi ayrıca açılmış vitrine taşır. Eksik anahtar durduğu gibi kalır. */
+export function carryJuniorLessonStatus(
+  courses: readonly JuniorCourseShelf[],
+  stamped: readonly JuniorCourseShelf[],
+): JuniorCourseShelf[] {
+  const statusByKey = new Map<string, JuniorLessonStatus>();
+  for (const course of stamped) {
+    for (const lesson of course.lessons) {
+      statusByKey.set(lesson.key, lesson.status);
+    }
+  }
+  return courses.map((course) => ({
+    ...course,
+    lessons: course.lessons.map((lesson) => {
+      const status = statusByKey.get(lesson.key);
+      if (!status) {
+        return { ...lesson };
+      }
+      return { ...lesson, status };
+    }),
   }));
 }

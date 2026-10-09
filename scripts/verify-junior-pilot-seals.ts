@@ -32,20 +32,34 @@ function mustNot(relative: string, needle: string, label: string) {
   }
 }
 
-must("lib/kernel/compliance/circuit-breakers.ts", 'DRON_JUNIOR_OPEN_ENV = "DRON_JUNIOR_OPEN"', "bayrak adı");
-must("lib/kernel/compliance/circuit-breakers.ts", "JUNIOR_PRODUCTION_LOCKED = true", "üretim kilidi");
-must("lib/kernel/compliance/circuit-breakers.ts", "export function isDronJuniorOpen", "bayrak okuyucusu");
-must("lib/kernel/compliance/circuit-breakers.ts", "export function isJuniorSurfaceLocked", "para kilidi");
-must("lib/kernel/security/edge-guard.ts", "isJuniorClosedPilotPath(pathname)", "liste açık");
+must("lib/kernel/security/junior-gate.ts", 'DRON_JUNIOR_OPEN_ENV = "DRON_JUNIOR_OPEN"', "bayrak adı");
+must("lib/kernel/security/junior-gate.ts", "export function canEnterJunior", "tek kapı");
+must("lib/kernel/security/junior-gate.ts", "export function isJuniorCheckoutLocked", "kasa kapısı");
+must("lib/kernel/security/junior-gate.ts", "JUNIOR_BETA_ALLOWLIST_ENV", "izin listesi");
+mustNot("lib/kernel/compliance/circuit-breakers.ts", "JUNIOR_PRODUCTION_LOCKED = true", "derleme kilidi yok");
+must("lib/kernel/compliance/circuit-breakers.ts", "export function isJuniorSurfaceLocked", "profil masası");
+must("lib/kernel/security/edge-guard.ts", 'canEnterJunior(null, null, { intent: "vitrine" })', "liste açık");
 must("lib/kernel/security/edge-guard.ts", 'kind: "frozen-410"', "donmuş oda 410");
 must("lib/kernel/security/edge-api-auth.ts", "isJuniorPaidActionApiPath", "anlatış kenarı");
 must("lib/junior/paytr.ts", "juniorPaytrCredentialsAllowSale", "canlı anahtar kapısı");
 must("lib/junior/paytr.ts", 'merchantId === "000000"', "deneme mağaza");
+must("lib/junior/paytr.ts", "buildPaytrTokenHash", "kernel iFrame hash");
+mustNot("lib/junior/paytr.ts", "JUNIOR_PAYTR_TEST_CREDENTIALS", "deneme üçlüsü yok");
+mustNot("lib/junior/paytr.ts", "directToken", "Direct HMAC yok");
+must("lib/junior/paytr-license-bridge.ts", "junior-license:yearly", "lisans niyeti");
+must("app/api/(kernel)/payments/webhooks/paytr/route.ts", "registerPaytrJuniorLicenseHook", "webhook kaydı");
 must("lib/junior/limits.ts", "JUNIOR_QUIZ_PREPARING_LABEL", "hazırlık etiketi");
+mustNot("lib/junior/limits.ts", "549_900", "fiyat sabiti yok");
+mustNot("lib/junior/limits.ts", "5.499 TL", "fiyat metni yok");
+must("lib/junior/price.ts", "cat_junior_yearly", "katalog kimliği");
+must("lib/junior/price.ts", "readJuniorYearlyPrice", "katalog okuması");
 must("lib/junior/catalog.ts", "export function juniorFreeLessonKeys", "ücretsiz liste");
 must("lib/kernel/security/edge-api-auth.ts", "isJuniorPilotApiPath", "API kenarı");
-must("lib/junior/checkout.ts", 'error: JUNIOR_CHECKOUT_NOT_CONFIGURED', "kasa 503");
-must("lib/junior/checkout.ts", 'JUNIOR_CHECKOUT_NOT_CONFIGURED = "not_configured"', "not_configured");
+must("lib/junior/checkout.ts", "JUNIOR_CHECKOUT_GUARDIAN_REQUIRED", "veli tiki");
+must("lib/junior/checkout.ts", "JUNIOR_CHECKOUT_NOT_CONFIGURED = \"not_configured\"", "not_configured");
+must("lib/junior/checkout.ts", "placeOrder", "sipariş kapısı");
+must("lib/junior/checkout-paytr.ts", "JUNIOR_LICENSE_ORDER_PURPOSE", "lisans niyeti");
+must("lib/junior/checkout-paytr.ts", "beginCheckout", "get-token");
 mustNot("lib/junior/checkout.ts", "chargeJuniorTestPos", "deneme kasası çağrısı yok");
 must("lib/junior/plan.ts", 'error: "not_configured"', "üretimde deneme kartı kapalı");
 mustNot("components/junior/checkout-form.tsx", 'autoComplete="cc-number"', "PAN alanı yok");
@@ -56,12 +70,15 @@ must(
   "'quiz'",
   "quiz CHECK",
 );
-must("lib/junior/guardian-notice.ts", "JUNIOR_GUARDIAN_NOTICE: JuniorGuardianNotice | null = null", "sahte sürüm yok");
+must("lib/copy/junior-guardian-notice.ts", "junior-notice-2026-10-09", "veli aydınlatma sürümü");
+must("lib/copy/junior-guardian-notice.ts", "juniorGuardianNoticeCanonical", "kanonik metin");
+must("lib/junior/guardian-notice.ts", "JUNIOR_GUARDIAN_NOTICE_SHA256", "özet");
+must("components/junior/checkout-form.tsx", "CheckoutConsentFields", "mesafeli satış tiki");
+must("components/junior/checkout-form.tsx", "JUNIOR_GUARDIAN_NOTICE_HREF", "veli tiki");
+must("components/junior/checkout-form.tsx", "if (!consentReady || pending)", "onaysız istek yok");
 must("lib/junior/service.ts", "juniorLessonConsentBlock(profile, JUNIOR_GUARDIAN_NOTICE)", "ders kapısı");
-mustNot("components/junior/maarif-seal.tsx", "%100 Uygun", "dayanaksız uygunluk");
-mustNot("components/junior/maarif-seal.tsx", "Maarif Mührü", "dayanaksız mühür");
-mustNot("components/junior/maarif-seal.tsx", "5.000 TL", "dayanaksız bant");
 mustNot("components/junior/junior-room.tsx", "MaarifSealLabel", "mühür etiketi");
+mustNot("components/junior/junior-room.tsx", "MaarifSkillTags", "sahipsiz mühür");
 mustNot("components/junior/profile-switcher.tsx", "Raf, yeni sınıfa göre açılır", "yanıltıcı raf");
 must("components/junior/profile-switcher.tsx", "JUNIOR_PILOT_SHELF_LINE", "pilot cümlesi");
 must("lib/junior/limits.ts", "Bu sınıf yakında gelecektir. Şu an sadece 6. Sınıf Pilot aktiftir.", "pilot cümlesi");
@@ -96,9 +113,19 @@ if (!existsSync(paytr)) {
   issues.push("20261005093000_junior_paytr_grade_switch diskte yok");
 }
 
-if (issues.length > 0) {
-  console.error(["verify:junior-pilot-seals BAŞARISIZ:", ...issues.map((row) => `  ✗ ${row}`)].join("\n"));
-  process.exit(1);
+export function juniorPilotSealIssues(): readonly string[] {
+  return issues;
 }
 
-console.log("verify:junior-pilot-seals OK — Junior listesi açık, kasa not_configured, anlatış paket ister.");
+function isDirectPilotSealRun(): boolean {
+  const entry = (process.argv[1] ?? "").replace(/\\/g, "/");
+  return entry.endsWith("verify-junior-pilot-seals.ts");
+}
+
+if (isDirectPilotSealRun()) {
+  if (issues.length > 0) {
+    console.error(["verify:junior-pilot-seals BAŞARISIZ:", ...issues.map((row) => `  ✗ ${row}`)].join("\n"));
+    process.exit(1);
+  }
+  console.log("verify:junior-pilot-seals OK — Junior listesi açık, kasa onay tikinden sonra iframe, anlatış paket ister.");
+}

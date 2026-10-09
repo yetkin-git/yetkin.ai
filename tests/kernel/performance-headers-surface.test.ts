@@ -59,6 +59,10 @@ describe("amiral performans mühürleri — Gzip / cache / istek", () => {
     expect(readSrc(".vercelignore")).toContain("media-bake/");
     expect(readSrc(".vercelignore")).toContain(".tmp/");
     expect(readSrc(".vercelignore")).toContain("public/media/**/*.wav");
+    expect(readSrc(".vercelignore")).toContain("public/media/junior/audio/");
+    expect(readSrc(".vercelignore")).toContain("public/media/junior/covers/");
+    expect(readSrc(".vercelignore")).toContain("public/media/junior/warmup/");
+    expect(readSrc(".gitignore")).toContain("public/media/junior/audio/");
     expect(readSrc("lib/academy/production-seal-disk.ts")).toContain("turbopackIgnore: true");
     expect(readSrc("lib/academy/production-seal-disk.ts")).not.toContain(
       "join(process.cwd(), relativePath)",

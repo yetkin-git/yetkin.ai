@@ -31,6 +31,11 @@ export function juniorSchoolWeek(now = new Date()): number | null {
   return Math.floor(days / 7) + 1;
 }
 
+/** Raf sırası 1. haftadır. Kart başlığı, hafta numarasını konu adıyla birleştirir. */
+export function juniorShelfWeekHeading(week: number, title: string): string {
+  return `${week}. Hafta: ${title}`;
+}
+
 /** Bu haftanın konusu, raf sırasındaki derstir. Raf bitince rozet son konuda kalır. */
 export function juniorThisWeekLessonIndex(lessonCount: number, now = new Date()): number | null {
   const week = juniorSchoolWeek(now);

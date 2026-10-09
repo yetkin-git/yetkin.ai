@@ -91,37 +91,14 @@ model JuniorXp {
   @@map("junior_xp")
 }
 
-/// Yerel soru arşivi. Konu testi canlı üreticiden değil bu tablonun kalıbından kurulur.
-/// Çocuk satırı değildir. user_id yoktur. Oyun puanı ve cüzdan bu tabloya bağlanmaz.
-model JuniorQuestionBank {
-  id           String   @id
-  lessonKey    String   @map("lesson_key")
-  itemId       String   @map("item_id")
-  outcomeCode  String   @map("outcome_code")
-  prompt       String   @db.Text
-  choicesJson  String   @map("choices_json") @db.Text
-  correctIndex Int      @map("correct_index")
-  explanation  String   @db.Text
-  tag          String
-  weight       Int
-  patternYear  Int      @map("pattern_year")
-  poolSlot     Int      @map("pool_slot")
-  active       Boolean  @default(true)
-  createdAt    DateTime @default(now()) @map("created_at")
-
-  @@unique([lessonKey, itemId])
-  @@index([lessonKey, active, tag])
-  @@index([outcomeCode])
-  @@map("junior_question_bank")
-}
-
 enum JuniorSubscriptionStatus {
   PENDING
   ACTIVE
 }
 
 /// Veli hesabının yıllık Junior paketi. Oyun puanı bu tabloya yazılmaz.
-/// Kartın tamamı durmaz. Yalnız son dört hane ve PayTR sipariş numarası durur.
+/// Kartın tamamı durmaz. iFrame son dört haneyi vermezse kart alanı 0000 kalır.
+/// TCKN, telefon ve adres düz metin değildir. Kolon `jinv1:` mührü taşır.
 model JuniorSubscription {
   id             String                    @id @default(cuid())
   userId         String                    @unique @map("user_id")
@@ -133,9 +110,11 @@ model JuniorSubscription {
   providerRef    String                    @map("provider_ref")
   cardLast4      String                    @map("card_last4") @db.VarChar(4)
   invoiceName    String                    @map("invoice_name")
-  invoiceTckn    String                    @map("invoice_tckn") @db.VarChar(11)
-  invoicePhone   String                    @map("invoice_phone") @db.VarChar(16)
+  invoiceTckn    String                    @map("invoice_tckn") @db.Text
+  invoicePhone   String                    @map("invoice_phone") @db.Text
   invoiceAddress String                    @map("invoice_address") @db.Text
+  /// İşlenmiş PayTR sipariş numaraları. Aynı numara süreyi yeniden uzatmaz.
+  appliedMerchantOids String[]             @default([]) @map("applied_merchant_oids")
   electiveQuota  Int                       @default(3) @map("elective_quota")
   /// Paket süresince bir kez sınıf değişir. Harcanınca 0 kalır.
   gradeSwitchRights Int                    @default(1) @map("grade_switch_rights")

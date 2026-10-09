@@ -1,8 +1,10 @@
 /**
- * Junior ses kanalı.
+ * Junior anlatıcı ses kanalı.
  * Standart ders, metni bir kez böler ve ders anahtarıyla bellekte tutar.
  * Seçmeli ders, aynı metni yerelde böler. Dış ses servisine gitmez.
  * İki okuma aynı anda sürmez. Yeni okuma, eskisinin oturumunu düşürür.
+ * Fon müziği (BGM) ayrı kanaldır; `endJuniorSpeech` BGM’yi kapatmaz.
+ * BGM ev: `lib/junior/voice.ts` (`juniorBgmSrc`, duck/ambient hacim).
  */
 
 import { JUNIOR_ELECTIVE_SLUGS, JUNIOR_PILOT_SLUGS } from "@/lib/junior/limits";
@@ -15,6 +17,12 @@ export const JUNIOR_LOCAL_SPEECH_RATE = 0.95 as const;
 
 /** Junior ders sesi dış API kotası kullanmaz. */
 export const JUNIOR_SPEECH_USES_EXTERNAL_API = false as const;
+
+/**
+ * Anlatıcı oturumu bitince ortam sessizleşmez.
+ * BGM, oynatıcıda ambient hacimde akmaya devam eder.
+ */
+export const JUNIOR_SPEECH_LEAVES_BGM_RUNNING = true as const;
 
 export type JuniorSpeechChannel = "core-cache" | "elective-local" | "local-quota-free";
 

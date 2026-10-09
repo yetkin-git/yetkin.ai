@@ -1,13 +1,23 @@
 import {
-  isJuniorSurfaceLocked,
-  JUNIOR_PRODUCTION_LOCKED_ERROR,
-} from "@/lib/kernel/compliance/circuit-breakers";
+  canEnterJunior,
+  JUNIOR_CHECKOUT_LOCKED_ERROR,
+  JUNIOR_CLOSED_BETA_ERROR,
+  type JuniorActor,
+  type JuniorEnterIntent,
+} from "@/lib/kernel/security/junior-gate";
 import { jsonFail } from "@/lib/kernel/http/json";
 
-/** Bayrak veya üretim kilidi kapalıyken Junior API gövdesi. */
-export function juniorLockedResponse(requestId: string, request: Request) {
-  if (!isJuniorSurfaceLocked()) {
+/** Kapalı beta veya kasa kapalıyken Junior API gövdesi. İzinli aktör profil masasına girer. */
+export function juniorLockedResponse(
+  requestId: string,
+  request: Request,
+  actor: JuniorActor | null = null,
+  intent: Extract<JuniorEnterIntent, "profile" | "checkout"> = "profile",
+) {
+  const decision = canEnterJunior(actor, null, { intent });
+  if (decision.allow) {
     return null;
   }
-  return jsonFail(JUNIOR_PRODUCTION_LOCKED_ERROR, 503, requestId, request);
+  const message = intent === "checkout" ? JUNIOR_CHECKOUT_LOCKED_ERROR : JUNIOR_CLOSED_BETA_ERROR;
+  return jsonFail(message, 503, requestId, request);
 }

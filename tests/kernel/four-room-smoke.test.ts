@@ -11,7 +11,7 @@ import { LIVE_BROADCAST_SHUTDOWN } from "@/lib/kernel/http/live-broadcast-shutdo
 import { assertPaytrProductionSafety } from "@/lib/kernel/payments/paytr/checkout";
 import { academyCurriculumSealForSlug } from "@/lib/academy/curriculum";
 import { isVitrineRoomFrozen } from "@/lib/kernel/compliance/circuit-breakers";
-import { FROZEN_DISK_ROOMS, VERTICAL_ROOMS } from "@/lib/kernel/rooms.ssot";
+import { FROZEN_DISK_ROOMS, VERTICAL_ROOMS } from "@/lib/dronlar/kayit";
 import {
   E2E_ACADEMY_PLATFORM_ID,
   E2E_ACADEMY_START_MINOR,

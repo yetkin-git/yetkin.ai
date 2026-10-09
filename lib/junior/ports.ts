@@ -52,7 +52,9 @@ export type JuniorChildEraseResult = {
   consentsUnlinked: number;
 };
 
-export type JuniorActiveSubscriptionWrite = Omit<JuniorSubscriptionRow, "id">;
+export type JuniorActiveSubscriptionWrite = Omit<JuniorSubscriptionRow, "id" | "appliedMerchantOids"> & {
+  appliedMerchantOids?: readonly string[];
+};
 
 export type JuniorProgressRow = {
   id: string;

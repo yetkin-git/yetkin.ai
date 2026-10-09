@@ -7,7 +7,6 @@ import {
   FREELANCER_PUBLIC_SURFACE_LOCKED,
   FROZEN_SHELL_PAGE_ALIASES,
   FROZEN_SHELL_ROOM_IDS,
-  JUNIOR_PRODUCTION_LOCKED,
   WORKING_SHELL_NAV_ROOM_IDS,
   isFrozenShellPagePath,
   isVitrineRoomFrozen,
@@ -17,7 +16,8 @@ import {
   renderFrozenRoomGoneHtml,
 } from "@/lib/kernel/http/frozen-410-html";
 import { EDGE_API_FROZEN_ROOM_ERROR } from "@/lib/kernel/security/edge-api-auth";
-import { FROZEN_DISK_ROOMS, VERTICAL_ROOMS } from "@/lib/kernel/rooms.ssot";
+import { FROZEN_DISK_ROOMS, VERTICAL_ROOMS } from "@/lib/dronlar/kayit";
+import { isJuniorCheckoutLocked } from "@/lib/kernel/security/junior-gate";
 
 const ROOT = process.cwd();
 
@@ -28,11 +28,13 @@ function readSrc(relative: string): string {
 describe("üretim kilitleri ve donmuş oda yüzey mühürü", () => {
   it("EİDS, Junior ve Freelancer kamu yüzeyi kilitleri kapalı kalır", () => {
     expect(EIDS_PUBLIC_LISTING_LOCKED).toBe(true);
-    expect(JUNIOR_PRODUCTION_LOCKED).toBe(true);
+    expect(isJuniorCheckoutLocked()).toBe(true);
     expect(FREELANCER_PUBLIC_SURFACE_LOCKED).toBe(true);
     const src = readSrc("lib/kernel/compliance/circuit-breakers.ts");
+    const gate = readSrc("lib/kernel/security/junior-gate.ts");
     expect(src).toContain("EIDS_PUBLIC_LISTING_LOCKED_ERROR");
-    expect(src).toContain("JUNIOR_PRODUCTION_LOCKED_ERROR");
+    expect(src).not.toContain("JUNIOR_PRODUCTION_LOCKED = true");
+    expect(gate).toContain("export function canEnterJunior");
     expect(src).toContain("FREELANCER_PUBLIC_SURFACE_LOCKED_ERROR");
   });
 
@@ -44,7 +46,7 @@ describe("üretim kilitleri ve donmuş oda yüzey mühürü", () => {
 
   it("donmuş disk odaları SSOT FROZEN_DISK_ROOMS ile hizalıdır", () => {
     expect([...FROZEN_SHELL_ROOM_IDS]).toEqual([...FROZEN_DISK_ROOMS]);
-    expect(FROZEN_SHELL_ROOM_IDS).toHaveLength(8);
+    expect(FROZEN_SHELL_ROOM_IDS).toHaveLength(7);
   });
 
   it("donmuş sayfa yolları ve marka aliasları 410 yüzeyi taşır", () => {
@@ -55,14 +57,15 @@ describe("üretim kilitleri ve donmuş oda yüzey mühürü", () => {
     expect(isFrozenShellPagePath("/academy")).toBe(false);
     expect(isFrozenShellPagePath("/freelancer")).toBe(true);
     expect(isFrozenShellPagePath("/freelancer/jobs/fj_1")).toBe(true);
-    expect(isFrozenShellPagePath("/junior")).toBe(true);
+    expect(isFrozenShellPagePath("/junior")).toBe(false);
+    expect(isFrozenShellPagePath("/junior/ders/jr_06_mat-1")).toBe(false);
     expect(isFrozenShellPagePath("/junior/ebeveyn")).toBe(true);
     expect([...FROZEN_SHELL_PAGE_ALIASES]).toEqual(["/yetkinx", "/corporate", "/market"]);
   });
 
   it("vitrin donu: çalışan olmayan oda + junior + kilitli freelancer kamu yüzeyi", () => {
     expect(isVitrineRoomFrozen("studio")).toBe(true);
-    expect(isVitrineRoomFrozen("junior")).toBe(true);
+    expect(isVitrineRoomFrozen("junior")).toBe(false);
     expect(isVitrineRoomFrozen("academy")).toBe(false);
     expect(isVitrineRoomFrozen("freelancer")).toBe(true);
   });

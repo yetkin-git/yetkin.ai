@@ -11,11 +11,11 @@ export function JuniorCrossSellBanner() {
         Yetkin Junior
       </p>
       <h2 className="mt-2 text-pretty text-xl font-semibold tracking-tight sm:text-2xl">
-        Çocuğunuz İçin Okul Dersleri Yetkin Junior&apos;da!
+        Çocuğun için 6. sınıf dersleri Junior&apos;da
       </h2>
       <p className="mt-3 max-w-3xl text-sm leading-6 text-white/75">
-        5-12. Sınıf Matematik, Fen, Türkçe ve Okul Dersleri. &quot;Dinle ve Anlat&quot; Yapay Zekâ
-        Eğitimi. İlk Dersler Ücretsiz!
+        Matematik, Fen, Türkçe, Ana İngilizce ve Sosyal Bilgiler. Her dersin ilk konusu ücretsizdir. Sınıf seçici
+        yalnız 6. sınıf pilotudur.
       </p>
       <div className="mt-5">
         <LinkButton href="/junior">► Junior Derslerini İncele</LinkButton>

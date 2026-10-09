@@ -9,6 +9,8 @@
  */
 
 import { academyCourseOffersFreePreview } from "@/lib/kernel/catalog-ids/free-preview";
+import { canEnterJunior } from "@/lib/kernel/security/junior-gate";
+import { readMediaPublicBaseUrl } from "@/lib/media/public-url";
 import { isFrozenShellPagePath } from "../compliance/circuit-breakers";
 import {
   EDGE_HSTS_VALUE,
@@ -74,8 +76,29 @@ export const EDGE_CSP_FRAME_SRC_DIRECTIVE =
   "frame-src https://www.paytr.com https://*.paytr.com https://*.bkm.com.tr https:";
 export const EDGE_CSP_CONNECT_SRC_DIRECTIVE =
   "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://www.paytr.com https://*.paytr.com";
-/** Ders WAV blob URL, aynı köken dinleme ve Supabase CDN. */
+/** Ders blob URL, aynı köken, Supabase ve (tanımlıysa) kamu medya CDN kökü. */
 export const EDGE_CSP_MEDIA_SRC_DIRECTIVE = "media-src 'self' blob: https://*.supabase.co";
+
+type EdgeCspEnv = {
+  NODE_ENV?: string;
+  NEXT_PUBLIC_MEDIA_BASE_URL?: string;
+};
+
+/**
+ * Geçerli CDN kökü CSP'ye eklenir.
+ * Açık env nesnesi bu anahtarı taşımazsa süreç ortamına düşülmez; test mühürü bozulmaz.
+ */
+function mediaCdnCspOrigin(env: EdgeCspEnv): string | null {
+  if (env !== process.env && !("NEXT_PUBLIC_MEDIA_BASE_URL" in env)) {
+    return null;
+  }
+  const raw = env === process.env ? process.env.NEXT_PUBLIC_MEDIA_BASE_URL : env.NEXT_PUBLIC_MEDIA_BASE_URL;
+  const origin = readMediaPublicBaseUrl(raw);
+  if (!origin || /[\s;]/u.test(origin)) {
+    return null;
+  }
+  return origin;
+}
 /**
  * React/Next istemci stil enjeksiyonu (styleTagTransform, font-styles, CSSOM).
  * Nonce buraya yazılmaz: nonce + `'unsafe-inline'` birlikte gelince tarayıcı
@@ -130,12 +153,17 @@ export function isKayitPath(pathname: string): boolean {
  * Eski `/junior/ebeveyn` arşivdedir; donmuş oda 410 kalır.
  * Tahsilat, anlatış kaydı ve konu testi sayfa içinde kilitlidir. Kenar ders adresini 410 yapmaz.
  */
-export function isJuniorClosedPilotPath(pathname: string): boolean {
+export function isJuniorRoomPath(pathname: string): boolean {
   const path = normalizePathname(pathname);
   if (path === "/junior/ebeveyn" || path.startsWith("/junior/ebeveyn/")) {
     return false;
   }
   return path === "/junior" || path.startsWith("/junior/");
+}
+
+/** @deprecated `isJuniorRoomPath` */
+export function isJuniorClosedPilotPath(pathname: string): boolean {
+  return isJuniorRoomPath(pathname);
 }
 
 export function authPathAliasTarget(pathname: string): string | null {
@@ -246,7 +274,7 @@ export function decideEdgeAction(pathname: string, sessionVerified: boolean): Ed
     return { kind: "root-308" };
   }
   // Anayasa B6: liste ve ilk konu ziyaretçiye açık. 410 bütün adresi yutmaz.
-  if (isJuniorClosedPilotPath(pathname)) {
+  if (isJuniorRoomPath(pathname) && canEnterJunior(null, null, { intent: "vitrine" }).allow) {
     return { kind: "next" };
   }
   if (isFrozenShellPagePath(pathname)) {
@@ -269,20 +297,20 @@ export function createEdgeNonce(): string {
   return Buffer.from(crypto.randomUUID()).toString("base64");
 }
 
-export function buildEdgeCsp(
-  nonce: string,
-  env: { NODE_ENV?: string } = process.env,
-): string {
+export function buildEdgeCsp(nonce: string, env: EdgeCspEnv = process.env): string {
   const isDev = env.NODE_ENV === "development";
   const scriptEval = isDev ? " 'unsafe-eval'" : "";
   const upgrade = env.NODE_ENV === "production" ? "; upgrade-insecure-requests" : "";
+  const cdn = mediaCdnCspOrigin(env);
+  const imgSrc = cdn ? `img-src 'self' data: blob: ${cdn}` : "img-src 'self' data: blob:";
+  const mediaSrc = cdn ? `${EDGE_CSP_MEDIA_SRC_DIRECTIVE} ${cdn}` : EDGE_CSP_MEDIA_SRC_DIRECTIVE;
   return (
     "default-src 'self'; " +
     "base-uri 'self'; " +
     "form-action 'self'; " +
     "frame-ancestors 'none'; " +
     "object-src 'none'; " +
-    "img-src 'self' data: blob:; " +
+    `${imgSrc}; ` +
     `${EDGE_CSP_STYLE_SRC_DIRECTIVE}; ` +
     `${EDGE_CSP_STYLE_SRC_ATTR_DIRECTIVE}; ` +
     // Cloudflare Email Obfuscation `/cdn-cgi/scripts/.../email-decode.min.js` basar.
@@ -290,7 +318,7 @@ export function buildEdgeCsp(
     // Ham `user@host` HTML'de durmaz (JSON-LD \\u0040, mailto %40, etiket parçalı).
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${scriptEval} ${EDGE_CSP_PAYTR_SCRIPT_SRC}; ` +
     `${EDGE_CSP_CONNECT_SRC_DIRECTIVE}; ` +
-    `${EDGE_CSP_MEDIA_SRC_DIRECTIVE}; ` +
+    `${mediaSrc}; ` +
     EDGE_CSP_FRAME_SRC_DIRECTIVE +
     upgrade
   );
@@ -299,7 +327,7 @@ export function buildEdgeCsp(
 export function attachEdgeNonceRequestHeaders(
   headers: Headers,
   nonce: string,
-  env: { NODE_ENV?: string } = process.env,
+  env: EdgeCspEnv = process.env,
 ): void {
   const csp = buildEdgeCsp(nonce, env);
   headers.set(EDGE_NONCE_HEADER, nonce);
@@ -308,7 +336,7 @@ export function attachEdgeNonceRequestHeaders(
 
 export function applyEdgeSecurityHeaders(
   response: { headers: { set(name: string, value: string): void } },
-  input: { nonce: string; env?: { NODE_ENV?: string }; pathname?: string | null },
+  input: { nonce: string; env?: EdgeCspEnv; pathname?: string | null },
 ): void {
   const env = input.env ?? process.env;
   response.headers.set("Content-Security-Policy", buildEdgeCsp(input.nonce, env));

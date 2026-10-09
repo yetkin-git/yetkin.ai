@@ -52,7 +52,6 @@ export const RLS_FORCE_TABLES = [
   "junior_guardian_consents",
   "junior_profiles",
   "junior_progress",
-  "junior_question_bank",
   "junior_subscriptions",
   "junior_xp",
   "ledger_entries",

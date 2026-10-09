@@ -3873,6 +3873,193 @@
           }
         }
       }
+    },
+    "/api/v1/junior/lessons/{key}": {
+      "get": {
+        "operationId": "junior-lesson-read",
+        "tags": [
+          "Kernel"
+        ],
+        "summary": "/api/v1/junior/lessons/{key}",
+        "description": "Kanonik yol: /api/junior/lessons/{key}. Auth: public. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: card.",
+        "security": [],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "description": "Kayıt kimliği (ilan veya sözleşme).",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "card": {
+                          "type": "object",
+                          "properties": {
+                            "lessonKey": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "title": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "subject": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "access": {
+                              "type": "string",
+                              "enum": [
+                                "free",
+                                "locked"
+                              ]
+                            },
+                            "scene": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "audioPath": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "coverPath": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "lessonKey",
+                            "title",
+                            "subject",
+                            "access",
+                            "scene",
+                            "audioPath",
+                            "coverPath"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "card"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "public",
+        "x-rail-published-data-paths": [
+          "card",
+          "card.lessonKey",
+          "card.title",
+          "card.subject",
+          "card.access",
+          "card.scene",
+          "card.audioPath",
+          "card.coverPath"
+        ]
+      }
     }
   },
   "components": {

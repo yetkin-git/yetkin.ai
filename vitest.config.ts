@@ -15,7 +15,6 @@ export default defineConfig({
       "node_modules/**",
       ".next/**",
       "tests/**/*.pg.test.ts",
-      "tests/_archived-junior/**",
       ...FROZEN_TEST_GLOBS,
     ],
   },

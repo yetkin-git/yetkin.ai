@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { beforeEach, describe, expect, it } from "vitest";
 import {
   JUNIOR_SPEECH_CHUNK_CHARS,
+  JUNIOR_SPEECH_LEAVES_BGM_RUNNING,
   JUNIOR_SPEECH_USES_EXTERNAL_API,
   beginJuniorSpeech,
   chunkJuniorLocalSpeech,
@@ -15,10 +16,10 @@ import {
 } from "@/lib/junior/speech";
 
 const CORE_TEXT =
-  "Sevgili çocuklar merhaba! Bugünkü dersimizde kesri öğreneceğiz. Kesir, bütünün eşit parçasıdır. Pay üstte durur. Payda altta durur. Hadi şimdi ekrandaki çizime birlikte bakalım!";
+  "Merhaba güzel arkadaşım! Bugün seninle kesri öğreneceğiz. Kesir, bütünün eşit parçasıdır. Pay üstte durur. Payda altta durur. Hadi şimdi ekrandaki çizime birlikte bakalım!";
 
 const ELECTIVE_TEXT =
-  "Sevgili çocuklar merhaba! Bugünkü dersimizde İngilizcede selamlaşmayı öğreneceğiz. Good morning sabah selamıdır. Good night vedadır. Aferin size!";
+  "Merhaba güzel arkadaşım! Bugün seninle İngilizcede selamlaşmayı öğreneceğiz. Good morning sabah selamıdır. Good night vedadır. Aferin sana!";
 
 describe("Junior kotasız ses kanalı", () => {
   beforeEach(() => {
@@ -30,6 +31,7 @@ describe("Junior kotasız ses kanalı", () => {
     expect(juniorSpeechChannel("jr_06_mat-1")).toBe("core-cache");
     expect(juniorSpeechChannel("jr_06_fen-2")).toBe("core-cache");
     expect(juniorSpeechChannel("jr_06_turkce-1")).toBe("core-cache");
+    expect(juniorSpeechChannel("jr_06_sosyal-1")).toBe("core-cache");
     expect(juniorSpeechChannel("jr_06_ing-1")).toBe("elective-local");
     expect(juniorSpeechChannel("jr_06_alm-2")).toBe("elective-local");
     expect(juniorSpeechChannel("jr_06_fra-1")).toBe("elective-local");
@@ -84,13 +86,48 @@ describe("Junior kotasız ses kanalı", () => {
     expect(juniorSpeechSessionCurrent(elective.sessionId)).toBe(false);
   });
 
-  it("ses dosyası dış servis çağırmaz, dinle düğmesi bu kanalı kullanır", () => {
+  it("ses dosyası dış servis çağırmaz, oynatıcı bu kanalı kullanır", () => {
     const speech = readFileSync(join(process.cwd(), "lib/junior/speech.ts"), "utf8");
-    const player = readFileSync(join(process.cwd(), "components/junior/listen-and-tell.tsx"), "utf8");
+    const player = readFileSync(join(process.cwd(), "components/junior/player/use-junior-playback.ts"), "utf8");
+    expect(JUNIOR_SPEECH_LEAVES_BGM_RUNNING).toBe(true);
+    expect(speech).toContain("JUNIOR_SPEECH_LEAVES_BGM_RUNNING");
+    expect(speech).toContain("endJuniorSpeech");
+    expect(speech).toContain("BGM");
     expect(speech).not.toMatch(/\bfetch\s*\(/);
     expect(speech).not.toMatch(/gemini|openai|elevenlabs|text-to-speech/i);
     expect(player).toContain("beginJuniorSpeech");
     expect(player).toContain("juniorSpeechSessionCurrent");
+    expect(player).toContain("juniorLessonAudioSrc");
+    expect(player).toContain("juniorBgmSrc");
+    expect(player).toContain("armBgm");
+    expect(player).toContain("JUNIOR_BGM_SPEECH_VOLUME");
+    expect(player).toContain("JUNIOR_BGM_AMBIENT_VOLUME");
+    expect(player).toContain('armBgm("speech")');
+    expect(player).toContain('armBgm("ambient")');
+    expect(player).toContain("HTMLAudioElement");
+    expect(player).toContain("playCassetteFrom");
+    expect(player).toContain("playSpeechFrom");
+    expect(player).toContain("function stop()");
+    expect(player).toContain("audio.muted = false");
+    expect(player).toContain("audio.volume = 1");
+    expect(player).toContain("NotAllowedError");
     expect(player).not.toContain("new SpeechSynthesisUtterance(script)");
+    expect(player).not.toMatch(/\bfetch\s*\(/);
+    const listenTell = readFileSync(join(process.cwd(), "components/junior/listen-and-tell.tsx"), "utf8");
+    expect(listenTell).toContain("releasePlayerAudio");
+    expect(listenTell).toContain("getUserMedia");
+    expect(listenTell).toContain("MediaRecorder");
+    expect(listenTell).toContain('scrollIntoView({ behavior: "smooth", block: "center" })');
+    expect(listenTell).toContain('id="listen-and-tell-section"');
+    expect(listenTell).toContain("shouldStartImmediately");
+    expect(listenTell).toContain("void startRecording()");
+    expect(listenTell).toContain("data-junior-stage-full");
+    expect(listenTell).toContain("data-junior-mic-record");
+    expect(listenTell).not.toContain("data-junior-stage-compact");
+    expect(listenTell).not.toContain("max-h-[min(28vh,240px)]");
+    const vector = readFileSync(join(process.cwd(), "components/junior/vector-player.tsx"), "utf8");
+    expect(vector).toContain("playback.stop()");
+    expect(vector).toContain("setDecisionTaken(true)");
+    expect(vector).toContain("onReadyToTell");
   });
 });

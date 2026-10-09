@@ -28,7 +28,7 @@ export const INDEPENDENT_ROOMS = [
 
 export type IndependentRoomId = (typeof INDEPENDENT_ROOMS)[number]["id"];
 
-/** Donmuş oda yolları. Junior’un evi `lib/junior` dir. `/junior` ders listesi kenarda 410 değildir. */
+/** Donmuş oda yolları. Junior bu listede değildir; müstakil oda `DRON_KAYIT` satırıdır. */
 export const FROZEN_DISK_ROOMS = [
   "studio",
   "devlabs",
@@ -36,14 +36,15 @@ export const FROZEN_DISK_ROOMS = [
   "hibe",
   "arena",
   "pazaryeri",
-  "junior",
   "social",
 ] as const;
 
 export type FrozenDiskRoomId = (typeof FROZEN_DISK_ROOMS)[number];
 
+export type DronKayitId = VerticalRoomId | IndependentRoomId;
+
 export type DronKayitSatiri = {
-  id: VerticalRoomId;
+  id: DronKayitId;
   path: string;
   label: string;
   blurb: string;
@@ -98,6 +99,16 @@ export const DRON_KAYIT: readonly DronKayitSatiri[] = [
     sahipEkip: "pazaryeri",
     kapali: true,
     bayrakEnv: "DRON_FREELANCER_OPEN",
+  },
+  {
+    id: "junior",
+    path: "/junior",
+    label: "Junior",
+    blurb: "10-18 Yaş Okul Dersleri",
+    hops: ["junior-lesson-read"],
+    sahipEkip: "amiral",
+    kapali: false,
+    bayrakEnv: "DRON_JUNIOR_OPEN",
   },
 ];
 

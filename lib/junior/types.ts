@@ -15,17 +15,77 @@ export type JuniorPlanView = {
   gradeSwitchRights: number;
 };
 
-export type JuniorVectorScene =
-  | "fraction"
-  | "fraction-sum"
-  | "force"
-  | "friction"
-  | "main-idea"
-  | "support-idea"
-  | "elective";
+/** Çizilmiş SVG sahne kimlikleri. Mühür, atanmamış kimliği geçirmez. */
+export const JUNIOR_VECTOR_SCENES = [
+  "fraction",
+  "fraction-sum",
+  "exponent",
+  "ops-order",
+  "distribute",
+  "number-ops",
+  "sets",
+  "number-line",
+  "decimal",
+  "ratio",
+  "algebra",
+  "chart",
+  "angles",
+  "area",
+  "circle",
+  "prism",
+  "force",
+  "speed",
+  "friction",
+  "planets",
+  "eclipse",
+  "body",
+  "blood",
+  "particles",
+  "sound",
+  "circuit",
+  "meaning",
+  "word-tree",
+  "affix",
+  "book",
+  "main-idea",
+  "support-idea",
+  "place",
+  "culture",
+  "globe",
+  "grid",
+  "history",
+  "caravan",
+  "assembly",
+  "clock",
+  "tray",
+  "skyline",
+  "weather",
+  "fair",
+  "badge",
+  "shelf",
+  "holiday",
+  "recycle",
+  "ballot",
+  "elective",
+] as const;
 
-/** Vektör oynatıcının dokuz adımı. Seçmeli ders şablonu bu diziyi taşır. */
-export type JuniorNineSteps = readonly [string, string, string, string, string, string, string, string, string];
+export type JuniorVectorScene = (typeof JUNIOR_VECTOR_SCENES)[number];
+
+/** Vektör oynatıcının on iki adımı. Seçmeli ders şablonu bu diziyi taşır. */
+export type JuniorPlayerSteps = readonly [
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+];
 
 export type JuniorLessonScript = {
   key: string;
@@ -34,9 +94,11 @@ export type JuniorLessonScript = {
   listenText: string;
   outcomes: readonly string[];
   scene: JuniorVectorScene;
-  steps?: JuniorNineSteps;
+  steps?: JuniorPlayerSteps;
   mebNote: string;
   lifeUse: string;
+  /** Veliye kısa özet. Çocuk anlatımının kopyası değildir. Arşivi olan konuda durur. */
+  parentNote?: string;
 };
 
 export type JuniorCourseTrack = "core" | "elective";
@@ -46,7 +108,7 @@ export const JUNIOR_ELECTIVE_TAG = "Seçmeli Ders";
 export const JUNIOR_ELECTIVE_CATEGORY = "Seçmeli Dersler";
 
 /** Vektör oynatıcı adım sayısı. Seçmeli ders şablonu bu kadar adım taşır. */
-export const JUNIOR_VECTOR_STEP_COUNT = 9;
+export const JUNIOR_VECTOR_STEP_COUNT = 12;
 
 /** Maarif ders etiketleri. Kart ve raf aynı diziyi okur. */
 export const JUNIOR_MAARIF_SKILL_TAGS = [
@@ -55,7 +117,7 @@ export const JUNIOR_MAARIF_SKILL_TAGS = [
   "AI Destekli Birebir Dönüt",
 ] as const;
 
-export type JuniorLessonStatus = "done" | "going" | "fresh";
+export type JuniorLessonStatus = "done" | "going" | "fresh" | "preparing";
 
 export type JuniorLessonCard = {
   key: string;

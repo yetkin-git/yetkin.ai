@@ -142,7 +142,7 @@ describe("ADIM 16 — accept DEBIT projeksiyonu ve atomik mühür", () => {
   });
 
   it("PayTR B2C: freelancer-accept v1 sicilinde yok; DTO + hata metinleri kanonik handler'da durur", () => {
-    expect(RAIL_V1_HOPS).toHaveLength(16);
+    expect(RAIL_V1_HOPS).toHaveLength(17);
     expect(RAIL_V1_HOPS.some((item) => item.id === "freelancer-accept")).toBe(false);
     expect(RAIL_V1_HOPS.some((item) => item.id === "client-job-bids")).toBe(false);
     expect(() => assertRailIsDay0Path("/api/v1/freelancer/jobs/fj_1/accept", "POST")).toThrow(

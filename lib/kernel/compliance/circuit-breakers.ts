@@ -1,5 +1,20 @@
-import { DronBayrakları, DRON_KAYIT, FROZEN_DISK_ROOMS, VERTICAL_ROOMS, type VerticalRoomId } from "@/lib/dronlar/kayit";
+import {
+  DronBayrakları,
+  DRON_KAYIT,
+  FROZEN_DISK_ROOMS,
+  INDEPENDENT_ROOMS,
+  VERTICAL_ROOMS,
+  type VerticalRoomId,
+} from "@/lib/dronlar/kayit";
 import { MARKETPLACE_SPLIT_LIVE } from "@/lib/kernel/payments/marketplace-split-live";
+import {
+  canEnterJunior,
+  DRON_JUNIOR_OPEN_ENV,
+  isDronJuniorOpen,
+  type JuniorActor,
+} from "@/lib/kernel/security/junior-gate";
+
+export { DRON_JUNIOR_OPEN_ENV, isDronJuniorOpen };
 
 /**
  * Üretim kilitleri — yalnız gerçek yasal/güvenlik kapıları.
@@ -14,17 +29,7 @@ export const EIDS_PUBLIC_LISTING_LOCKED = true;
 export const EIDS_PUBLIC_LISTING_LOCKED_ERROR =
   "EİDS kimlik ve yetki doğrulaması tamamlanmadan emlak/vasıta kamu ilanı LISTED olamaz.";
 
-export const JUNIOR_PRODUCTION_LOCKED = true;
-
-export const JUNIOR_PRODUCTION_LOCKED_ERROR =
-  "Veli doğrulaması ve hukuki altyapı tamamlanmadan Junior para akışı ve vitrin yayını kapalıdır.";
-
-/** Tek aç/kapa bayrağı. Tanımsız, boş ve kapalı değerler yüzeyi açmaz. */
-export const DRON_JUNIOR_OPEN_ENV = "DRON_JUNIOR_OPEN" as const;
-
 export const JUNIOR_PILOT_API_PREFIX = "/api/junior-pilot" as const;
-
-const DRON_JUNIOR_OPEN_VALUES = new Set(["1", "true", "open"]);
 
 /**
  * Freelancer kamu yüzeyi — Junior üretim kilidi kalıbı.
@@ -79,7 +84,6 @@ export const FROZEN_DISK_ROOM_CATALOG = [
   { id: "hibe", path: "/hibe", diskPath: "/hibe", label: "Hibe" },
   { id: "arena", path: "/arena", diskPath: "/arena", label: "Arena" },
   { id: "pazaryeri", path: "/yetkinilan", diskPath: "/pazaryeri", label: "Yetkinİlan" },
-  { id: "junior", path: "/junior", diskPath: "/junior", label: "Junior" },
   { id: "social", path: "/social", diskPath: "/social", label: "YetkinX" },
 ] as const satisfies ReadonlyArray<{
   id: FrozenShellRoomId;
@@ -107,23 +111,15 @@ export function isEidsPublicListingLocked(): boolean {
 }
 
 /**
- * `DRON_JUNIOR_OPEN` varsayılan kapalıdır.
- * Yalnız `1`, `true` veya `open` açar. Başka her değer kapalı kalır.
+ * Profil masası kapalı beta. Anonim ve listedışı hesap kilitlidir.
+ * İzin listesi ve `DRON_JUNIOR_OPEN` kapıyı `canEnterJunior` üzerinden açar.
+ * Kasa bu fonksiyona girmez.
  */
-export function isDronJuniorOpen(env: NodeJS.ProcessEnv = process.env): boolean {
-  const raw = env[DRON_JUNIOR_OPEN_ENV]?.trim().toLowerCase() ?? "";
-  return DRON_JUNIOR_OPEN_VALUES.has(raw);
-}
-
-/**
- * Para ve profil yazma kilidi. Ders listesini ve ilk konuyu kapatmaz.
- * Üretim kilidi dururken bayrak tek başına kasayı açmaz.
- */
-export function isJuniorSurfaceLocked(env: NodeJS.ProcessEnv = process.env): boolean {
-  if (JUNIOR_PRODUCTION_LOCKED) {
-    return true;
-  }
-  return !isDronJuniorOpen(env);
+export function isJuniorSurfaceLocked(
+  actor: JuniorActor | null = null,
+  env: NodeJS.ProcessEnv = process.env,
+): boolean {
+  return !canEnterJunior(actor, null, { intent: "profile" }, env).allow;
 }
 
 export function isJuniorPilotApiPath(pathname: string): boolean {
@@ -143,8 +139,9 @@ export function isJuniorPaidActionApiPath(pathname: string): boolean {
   return (JUNIOR_PAID_ACTION_API_PATHS as readonly string[]).includes(path);
 }
 
+/** Anonim profil masası kapalı beta iken doğrudur. Ders listesini kapatmaz. */
 export function isJuniorProductionFrozen(env: NodeJS.ProcessEnv = process.env): boolean {
-  return isJuniorSurfaceLocked(env);
+  return isJuniorSurfaceLocked(null, env);
 }
 
 /**
@@ -179,6 +176,9 @@ export function isFrozenShellRoom(roomId: string): boolean {
 
 export function isFrozenShellPagePath(pathname: string): boolean {
   const path = normalizeCircuitPathname(pathname);
+  if (path === "/junior/ebeveyn" || path.startsWith("/junior/ebeveyn/")) {
+    return true;
+  }
   if (isFreelancerPublicSurfaceLocked() && isFreelancerPublicPagePath(path)) {
     return true;
   }
@@ -199,6 +199,7 @@ export function isFrozenShellPagePath(pathname: string): boolean {
     ) ||
     DRON_KAYIT.some(
       (row) =>
+        row.id !== "junior" &&
         DronBayrakları.isKapali(row.id) &&
         (path === row.path || path.startsWith(`${row.path}/`)),
     )
@@ -213,10 +214,13 @@ export function isPhase1PublicNavRoom(roomId: string): boolean {
   return isWorkingPublicNavRoom(roomId);
 }
 
-/** Çalışmayan 8 oda + Junior üretim donu + kilitli Freelancer kamu yüzeyi. */
+/** Donmuş disk odası veya kilitli Freelancer kamu yüzeyi. Junior müstakil odadır; 410 değildir. */
 export function isVitrineRoomFrozen(roomId: string): boolean {
+  if (INDEPENDENT_ROOMS.some((room) => room.id === roomId)) {
+    return false;
+  }
   if (!isWorkingShellNavRoom(roomId)) {
     return true;
   }
-  return roomId === "junior" && isJuniorProductionFrozen();
+  return false;
 }

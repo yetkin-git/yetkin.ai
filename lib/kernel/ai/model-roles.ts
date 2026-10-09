@@ -45,18 +45,20 @@ export class AiGatewayForbiddenError extends ForbiddenError {
 }
 
 /**
- * Fırın ve gümrük medya kimliği. İkinci sicil yoktur.
+ * Fırın ve gümrük medya kimliği. Paralel sicil dosyası yoktur.
  * Yetkili kılavuz `.system_docs/AKADEMI_URETIM_ANAYASASI.md` (eğitim hazırlama prosedürü).
- * Bu sabitler 1.1 Kilitli Model Haritasının kod karşılığıdır.
+ * Bu sabitler kilitli model haritasının kod karşılığıdır.
  * Bilgi kesim tarihi bu kimlikleri silmez ve `gemini-2.5` dahil eski sürüme düşürmez.
  * Harita değişince kod haritaya çekilir. Ters yön ve fallback yoktur.
- * Canlı sohbet `FAST_STREAM` okur. Senaryo `TEXT_GEN` okur.
+ * Canlı sohbet `FAST_STREAM` okur. Senaryo `TEXT_GEN` okur. Denetim ajanı bu nesnede değildir.
+ * Yetişkin görsel `IMAGE_GEN`. Junior kapak ayrı mühür `JUNIOR_COVER_GEN`. Biri diğerinin yedeği değildir.
  * Canlı `VIDEO_GEN` mühürlü-ölüdür. Isınma klibi yerel `-warmup.mp4` dosyasıdır.
  */
 export const ACADEMY_SEALED_MEDIA_MODEL = {
   TEXT_GEN: "gemini-3.8-flash", // Metin Üretimi
   VOICE_TTS: "gemini-3.8-flash-tts", // Ses Mührü
   IMAGE_GEN: "gemini-3.1-flash-image", // Görsel (Nano Banana 2)
+  JUNIOR_COVER_GEN: "gemini-3.1-flash-lite-image", // Junior kapak (Nano Banana 2 Lite)
   MUSIC_GEN: "lyria-3.5", // Fon Müziği
 } as const;
 

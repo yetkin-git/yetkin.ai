@@ -73,7 +73,7 @@ describe("anayasa yüzey sözleşmeleri", () => {
     );
     expect(isEidsPublicListingLocked()).toBe(true);
     expect(isJuniorProductionFrozen()).toBe(true);
-    expect(isVitrineRoomFrozen("junior")).toBe(true);
+    expect(isVitrineRoomFrozen("junior")).toBe(false);
     expect(isVitrineRoomFrozen("studio")).toBe(true);
     expect(isVitrineRoomFrozen("freelancer")).toBe(true);
   });

@@ -64,6 +64,7 @@ export const ROUTE_AUTH_MAP = {
   "/api/junior-pilot/profiles": "session",
   "/api/junior-pilot/quiz": "session",
   "/api/junior-pilot/tell": "session",
+  "/api/junior/lessons/[key]": "public",
   "/api/payments/webhooks/paytr": "webhook",
   "/api/paytr/callback": "webhook",
   "/api/profile": "session",

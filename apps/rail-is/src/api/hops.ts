@@ -60,6 +60,10 @@ export const RAIL_IS_DAY0_HOPS = {
   careerVisas: { method: "GET", path: "/api/v1/career/visas" },
   careerPortfolio: { method: "POST", path: "/api/v1/career/portfolio" },
   profilePatch: { method: "PATCH", path: "/api/v1/profile" },
+  juniorLessonRead: {
+    method: "GET",
+    pathTemplate: "/api/v1/junior/lessons/{key}",
+  },
 } as const;
 
 /**

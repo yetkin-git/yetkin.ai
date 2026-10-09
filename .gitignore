@@ -69,6 +69,12 @@ yetkin_muze/
 /media-bake/
 public/media/academy/audio/**/*.wav
 
+# Junior ağır kamu medya — Cloudflare R2. Yerel yedek diskte kalır; git ve Vercel paketine girmez.
+# Liste: lib/media/offload.ts. Yükleme: npm run ops:sync-media-r2 -- --apply
+public/media/junior/audio/
+public/media/junior/covers/
+public/media/junior/warmup/
+
 # Akademi bake kopyası — izleme okumaz; canlı SSOT lib/academy/
 docs/curriculum/
 

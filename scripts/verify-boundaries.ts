@@ -31,7 +31,11 @@ import {
   sourceDerivesRoomsSsot,
   unexpectedLibTopDirs,
 } from "./room-ceiling-lib";
-import { FROZEN_DISK_ROOMS, VERTICAL_ROOMS as VERTICAL_ROOM_RECORDS } from "../lib/dronlar/kayit";
+import {
+  FROZEN_DISK_ROOMS,
+  INDEPENDENT_ROOMS,
+  VERTICAL_ROOMS as VERTICAL_ROOM_RECORDS,
+} from "../lib/dronlar/kayit";
 
 const ROOT = process.cwd();
 const FILE_RE = /\.(ts|tsx)$/;
@@ -44,6 +48,7 @@ type VerticalRoom = (typeof LIVE_ROOMS)[number];
 
 const VERTICAL_SET = new Set<string>(LIVE_ROOMS);
 const FROZEN_SET = new Set<string>(FROZEN_DISK_ROOMS);
+const INDEPENDENT_SET = new Set<string>(INDEPENDENT_ROOMS.map((room) => room.id));
 
 /** D2.3 kazanç duvarı — string FK / HTTP; lib çapraz import yok. */
 const EARNINGS_WALL: Partial<Record<VerticalRoom, ReadonlySet<VerticalRoom>>> = {
@@ -154,6 +159,15 @@ function frozenOfLib(path: string): string | null {
   const match = stripExt(path).match(/^lib\/([^/]+)/);
   const id = match?.[1];
   if (id && FROZEN_SET.has(id)) {
+    return id;
+  }
+  return null;
+}
+
+function independentOfLib(path: string): string | null {
+  const match = stripExt(path).match(/^lib\/([^/]+)/);
+  const id = match?.[1];
+  if (id && INDEPENDENT_SET.has(id)) {
     return id;
   }
   return null;
@@ -279,7 +293,7 @@ for (const dir of SCAN_DIRS) {
       }
 
       if (zone === "kernel") {
-        if (verticalOfLib(resolved) || frozenOfLib(resolved)) {
+        if (verticalOfLib(resolved) || frozenOfLib(resolved) || independentOfLib(resolved)) {
           add(file, spec, "kernel.vertical");
         }
         continue;
@@ -404,10 +418,24 @@ for (const sqlFile of CATALOG_SQL) {
         ruleId: "room.sicil",
       });
     }
-    if (!frozenIds || frozenIds.length !== 8) {
+    if (!frozenIds || frozenIds.length !== 7) {
       violations.push({
         file: ROOMS_SSOT_REL,
-        spec: "FROZEN_DISK_ROOMS bloğu parse edilemedi veya 8 oda değil",
+        spec: "FROZEN_DISK_ROOMS bloğu parse edilemedi veya 7 oda değil",
+        ruleId: "room.sicil",
+      });
+    }
+    if (frozenIds?.includes("junior")) {
+      violations.push({
+        file: ROOMS_SSOT_REL,
+        spec: "junior donmuş disk listesinde",
+        ruleId: "room.sicil",
+      });
+    }
+    if (!ssotSource.includes('id: "junior"') || !/export const DRON_KAYIT[\s\S]*id: "junior"/.test(ssotSource)) {
+      violations.push({
+        file: ROOMS_SSOT_REL,
+        spec: "DRON_KAYIT junior satırı yok",
         ruleId: "room.sicil",
       });
     }

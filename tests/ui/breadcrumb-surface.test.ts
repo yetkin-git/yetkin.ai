@@ -108,6 +108,63 @@ describe("dinamik ekmek kırıntısı", () => {
     ]);
   });
 
+  it("junior ders kodunu sınıf ve konu başlığına çözer", () => {
+    expect(labels("/junior")).toEqual(["Anasayfa", "Junior"]);
+    expect(hrefs("/junior")).toEqual(["/dashboard", "/junior"]);
+    expect(labels("/junior/ders/jr_06_sosyal-1")).toEqual([
+      "Anasayfa",
+      "6. Sınıf Sosyal Bilgiler",
+      "Değerlerimiz ve toplumdaki roller",
+    ]);
+    expect(hrefs("/junior/ders/jr_06_sosyal-1")).toEqual([
+      "/dashboard",
+      "/junior",
+      "/junior/ders/jr_06_sosyal-1",
+    ]);
+    expect(labels("/junior/ders/jr_06_mat-2")).toEqual([
+      "Anasayfa",
+      "6. Sınıf Matematik",
+      "İşlem önceliği",
+    ]);
+    expect(labels("/junior/ders/jr_06_mat-11")).toEqual([
+      "Anasayfa",
+      "6. Sınıf Matematik",
+      "Payda aynıyken toplama",
+    ]);
+    expect(labels("/junior/ders/jr_06_fen-1")).toEqual([
+      "Anasayfa",
+      "6. Sınıf Fen Bilimleri",
+      "Güneş sistemindeki gezegenler",
+    ]);
+    expect(labels("/junior/ders/jr_06_turkce-1")).toEqual([
+      "Anasayfa",
+      "6. Sınıf Türkçe",
+      "Gerçek, mecaz ve terim anlam",
+    ]);
+    expect(labels("/junior/ders/jr_06_ing_main-1")).toEqual([
+      "Anasayfa",
+      "6. Sınıf İngilizce",
+      "Daily routines ve saati söylemek",
+    ]);
+    expect(labels("/junior/ders/jr_06_ing-1")).toEqual([
+      "Anasayfa",
+      "Seçmeli İngilizce (Pratik & Konuşma)",
+      "Saate göre selam",
+    ]);
+    for (const label of labels("/junior/ders/jr_06_sosyal-1")) {
+      expect(label).not.toMatch(/jr[_ ]/);
+    }
+    const overridden = applyBreadcrumbOverrides(breadcrumbsFromPathname("/junior/ders/jr_06_sosyal-1"), [
+      { href: "/junior", label: "6. Sınıf Sosyal Bilgiler" },
+      { href: "/junior/ders/jr_06_sosyal-1", label: "Değerlerimiz ve toplumdaki roller" },
+    ]);
+    expect(overridden.map((crumb) => crumb.label)).toEqual([
+      "Anasayfa",
+      "6. Sınıf Sosyal Bilgiler",
+      "Değerlerimiz ve toplumdaki roller",
+    ]);
+  });
+
   it("üst şerit statik yüzey metnini breadcrumb bileşeniyle değiştirir", () => {
     const header = readSrc("components/shell/header-bar.tsx");
     const trail = readSrc("components/shell/header-breadcrumb.tsx");

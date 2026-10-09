@@ -35,11 +35,12 @@ Google AI Studio üzerindeki canlı model adları Super Admin mühürüdür. Yap
 | Aşama / Katman | Yetkili Model ID | Kod Rolü | Görev ve Yetki Sınırı |
 | --- | --- | --- | --- |
 | **Aşama 0: Kod Mimarisi** | `Sıfır API / TypeScript` | - | Modüler dosya yapısı, UTF-8 kontrolü ve prebuild doğrulaması. |
-| **Aşama 1-A: Metin Senaryo** | `gemini-3.8-flash` / `Claude Sonnet 5.5` | `TEXT_GEN` | Ders akışı, örnek iş senaryoları ve fonetik metin hazırlığı. |
-| **Aşama 1-B: Metin Denetim** | `Cursor / Grok 4.7` | - | Pedagoji, jargon, aforizma, slogan temizliği ve UTF-8 süzgeci. |
+| **Aşama 1-A: Metin Senaryo** | `gemini-3.8-flash` | `TEXT_GEN` | Ders akışı, örnek iş senaryoları ve fonetik metin hazırlığı. Yetkili üretim modeli yalnız bu kimliktir. |
+| **Aşama 1-B: Metin Denetim** | `Cursor / Grok 4.7` | - | Pedagoji, jargon, aforizma, slogan temizliği ve UTF-8 süzgeci. Denetim ajanıdır. `TEXT_GEN` değildir. |
 | **Aşama 2: Ses Mührü (TTS)** | `gemini-3.8-flash-tts` | `VOICE_TTS` | Eğitim seslendirmesi. Fırın her zaman bu kilitli ses karakterini okur. |
 | **Aşama 3: Isınma Videosu** | `Super Admin (Manuel)` | `VIDEO_GEN` | Manuel üretilir, `.mp4` olarak konur. Otomatik API çağrısı yapılmaz. |
-| **Aşama 4-A: Görsel Katmanı**| `gemini-3.1-flash-image` / Nano Banana 2 | `IMAGE_GEN` | 16:9 4K uygulama ve rehber sinema kartları. |
+| **Aşama 4-A: Görsel Katmanı**| `gemini-3.1-flash-image` / Nano Banana 2 | `IMAGE_GEN` | 16:9 4K uygulama ve rehber sinema kartları. Yetişkin ders görseli. |
+| **Junior kapak** | `gemini-3.1-flash-lite-image` / Nano Banana 2 Lite | `JUNIOR_COVER_GEN` | 6. sınıf çekirdek 105 konu kapağı. Yetişkin `IMAGE_GEN` bunun yerine yazılmaz. Çıkış `public/media/junior/covers/`. |
 | **Aşama 4-B: Fon Müziği** | `lyria-3.5` | `MUSIC_GEN` | Vokalsiz, 44.1 kHz stereo ambient müzik yatağı (-22 dB ducking). |
 | **Platform Canlı Sohbet** | `gemini-3.8-live` | `FAST_STREAM` | Platform içi düşük gecikmeli canlı sohbet asistanı. |
 
@@ -54,13 +55,13 @@ Eğitim hazırlama süreci 6 sıralı aşamadan oluşur. Bir aşama bitmeden, te
 ┌───────────────────────────────────────────────────────────────────────────┐
 │ AŞAMA 0: MİMARİ KOD & SIFIR API (TypeScript, UTF-8, Dosya Yapısı)         │
 ├───────────────────────────────────────────────────────────────────────────┤
-│ AŞAMA 1: METİN SÜRECİ (1-A Üretim: Sonnet 5.5 / 1-B Denetim: Cursor)      │
+│ AŞAMA 1: METİN SÜRECİ (1-A: gemini-3.8-flash / 1-B Denetim: Cursor)     │
 ├───────────────────────────────────────────────────────────────────────────┤
 │ AŞAMA 2: SES FIRINLAMA (Model: gemini-3.8-flash-tts)                      │
 ├───────────────────────────────────────────────────────────────────────────┤
 │ AŞAMA 3: ISINMA VİDEOSU (Sözsüz Kaset - Manuel MP4)                       │
 ├───────────────────────────────────────────────────────────────────────────┤
-│ AŞAMA 4: GÖRSEL VE MÜZİK (Görsel: gemini-3.1-flash / Müzik: lyria-3.5)   │
+│ AŞAMA 4: GÖRSEL VE MÜZİK (Görsel: gemini-3.1-flash-image / lyria-3.5)    │
 ├───────────────────────────────────────────────────────────────────────────┤
 │ AŞAMA 5: FİZİKİ DİSK MÜHRÜ VE SATIŞ MANDALI (5 Katman Doğrulaması)        │
 └───────────────────────────────────────────────────────────────────────────┘
@@ -71,7 +72,7 @@ Eğitim hazırlama süreci 6 sıralı aşamadan oluşur. Bir aşama bitmeden, te
 - `npx tsc --noEmit` ve `npm run verify:prebuild` komutları çalıştırılır. SIFIR HATA alınmadan API çağrılamaz.
 
 ### 2. AŞAMA 1: METİN VE PEDAGOJİK SÜREÇ
-- **Aşama 1-A (Metin Senaryo Üretimi - TEXT_GEN):** `gemini-3.8-flash` veya `Claude Sonnet 5.5` kullanılarak ders senaryoları kaleme alınır.
+- **Aşama 1-A (Metin Senaryo Üretimi - TEXT_GEN):** Yalnız `gemini-3.8-flash` kullanılarak ders senaryoları kaleme alınır. Denetim ajanı (Cursor / Grok) bu rolün yerine geçmez.
   - **Sert Tabanlar (Fail-Closed):** Eğitimin toplam ders sayısı **EN AZ 6 BÖLÜM** (`ACADEMY_AI_LESSON_COUNT_MIN = 6`), her dersin konuşma metni (`spokenScript`) **EN AZ 600 KELİME** (`ACADEMY_AI_LESSON_SPOKEN_WORD_MIN = 600`) olmak zorundadır (Ders başı minimum 5 dakikalık anlatım).
   - **1. Ders Oryantasyon Standardı:** 1. dersin açılışı selamlamanın ardından 3 soruyla yapılır: *1. Neredeyiz? 2. Bu Seride Ne Yapacağız? 3. Bugün Elimize Ne Geçecek?*
   - **Ders Bağlantı Köprüleri:** 2. dersten itibaren robotik özetler ("Geçen derste...") yasaktır. Önceki dersin pratik kazanımı insani bir cümleyle hatırlatılarak doğrudan konuya girilir.
@@ -91,6 +92,7 @@ Eğitim hazırlama süreci 6 sıralı aşamadan oluşur. Bir aşama bitmeden, te
 
 ### 5. AŞAMA 4: GÖRSEL VE FON MÜZİĞİ (IMAGE_GEN & MUSIC_GEN)
 - **Görsel Katmanı:** `gemini-3.1-flash-image` ile 16:9 formatında uygulama kartları fırınlanır ve `public/academy/cinema/` altına yerleştirilir.
+- **Junior kapak:** Çekirdek 105 konu kapağı `JUNIOR_COVER_GEN` (`gemini-3.1-flash-lite-image`, Nano Banana 2 Lite) ile fırınlanır. Dosya `public/media/junior/covers/{ders}.jpg` olur. Yetişkin `IMAGE_GEN` bu kapağın yedeği değildir. Diskte jpg yoksa kart SVG yedeğini gösterir. Harcama onayı olmadan fırın açılmaz.
 - **Fon Müziği:** `lyria-3.5` ile vokalsiz, 44.1 kHz stereo ambient müzik yatağı (`.bed.mp3`) eklenir.
 
 ### 6. AŞAMA 5: FİZİKİ DİSK MÜHRÜ VE SATIŞ MANDALI

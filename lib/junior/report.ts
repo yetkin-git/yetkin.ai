@@ -53,7 +53,7 @@ export function juniorWeeklyWindow(now = new Date()): { from: Date; to: Date } {
   return { from, to: now };
 }
 
-/** On soruluk test puanını doğru ve yanlış sayıya çevirir. */
+/** Konu testi puanını paket boyundaki doğru ve yanlış sayıya çevirir. */
 export function juniorQuizCountsFromScore(
   score: number,
   total = JUNIOR_QUIZ_MIN_ITEMS,

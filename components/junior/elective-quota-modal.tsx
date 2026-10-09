@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { LinkButton } from "@/components/ui/link-button";
-import { JUNIOR_ELECTIVES_PATH, JUNIOR_ELECTIVE_QUOTA, JUNIOR_YEARLY_LIST_PRICE_LABEL } from "@/lib/junior/limits";
+import { JUNIOR_ELECTIVES_PATH, JUNIOR_ELECTIVE_QUOTA } from "@/lib/junior/limits";
 import { juniorElectiveCardLabel, juniorElectiveCardState } from "@/lib/junior/plan";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
@@ -22,11 +22,13 @@ export function ElectiveQuotaModal({
   selected,
   planActive,
   picks,
+  priceLabel,
 }: {
   profileId: string;
   selected: readonly string[];
   planActive: boolean;
   picks: readonly Pick[];
+  priceLabel: string | null;
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -106,7 +108,9 @@ export function ElectiveQuotaModal({
                   {draft.length} / {JUNIOR_ELECTIVE_QUOTA}. Üç ders dolunca diğerleri kota durumuna geçer.
                   {planActive
                     ? " Paket açık. Seçtiğin derslerin kilitli konuları açılır."
-                    : ` Kilit, yıllık paket (${JUNIOR_YEARLY_LIST_PRICE_LABEL}) açılınca kalkar.`}
+                    : priceLabel
+                      ? ` Kilit, yıllık paket (${priceLabel}) açılınca kalkar.`
+                      : " Kilit, yıllık paket açılınca kalkar."}
                 </p>
               </div>
               <Button type="button" variant="ghost" size="sm" onClick={() => setOpen(false)}>

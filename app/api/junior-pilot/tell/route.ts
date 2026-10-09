@@ -45,6 +45,7 @@ export async function POST(request: Request) {
       audioBase64: parsed.data.audioBase64,
       mimeType: parsed.data.mimeType,
       durationSec: parsed.data.durationSec,
+      actor: user,
     });
     if (!result.ok) {
       return jsonFail(result.error, result.status, requestId, request);

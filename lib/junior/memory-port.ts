@@ -200,11 +200,16 @@ export function createMemoryJuniorStore(): JuniorStore {
     },
     async saveActiveSubscription(row: JuniorActiveSubscriptionWrite) {
       const existing = subscriptions.find((item) => item.userId === row.userId);
-      if (existing) {
-        Object.assign(existing, row);
+      const known = existing?.appliedMerchantOids ?? [];
+      if (existing && existing.status === "ACTIVE" && known.includes(row.providerRef)) {
         return existing;
       }
-      const created: JuniorSubscriptionRow = { ...row, id: nextId("js") };
+      const appliedMerchantOids = known.includes(row.providerRef) ? known : [...known, row.providerRef];
+      if (existing) {
+        Object.assign(existing, row, { appliedMerchantOids });
+        return existing;
+      }
+      const created: JuniorSubscriptionRow = { ...row, id: nextId("js"), appliedMerchantOids };
       subscriptions.push(created);
       return created;
     },

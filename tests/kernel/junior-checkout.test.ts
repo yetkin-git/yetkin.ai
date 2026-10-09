@@ -1,5 +1,7 @@
-import { createHmac } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { CHECKOUT_BILLING_PAYLOAD } from "@/lib/kernel/identity/billing-info";
 import { CHECKOUT_LEGAL_CONSENT_PAYLOAD } from "@/lib/kernel/legal/checkout-consent";
 import {
   buildPaytrTokenHash,
@@ -9,19 +11,20 @@ import {
 import { juniorLessonAccessForPlan } from "@/lib/junior/catalog";
 import {
   completeJuniorCheckout,
-  JUNIOR_CHECKOUT_NOT_CONFIGURED,
+  JUNIOR_CHECKOUT_AUDIT_MESSAGE,
+  JUNIOR_CHECKOUT_CLOSED_MESSAGE,
+  JUNIOR_CHECKOUT_GUARDIAN_REQUIRED,
+  JUNIOR_CHECKOUT_REFUSED_MESSAGE,
   saveJuniorElectives,
+  type JuniorCheckoutOrderDraft,
 } from "@/lib/junior/checkout";
-import {
-  JUNIOR_ELECTIVE_QUOTA,
-  JUNIOR_PILOT_SHELF_LINE,
-  JUNIOR_YEARLY_LIST_PRICE_MINOR,
-} from "@/lib/junior/limits";
+import { JUNIOR_GUARDIAN_NOTICE } from "@/lib/junior/guardian-notice";
+import { fulfillJuniorLicenseFromClearedOrder, JUNIOR_LICENSE_ORDER_PURPOSE } from "@/lib/junior/paytr-license-bridge";
+import { JUNIOR_ELECTIVE_QUOTA, JUNIOR_PILOT_SHELF_LINE } from "@/lib/junior/limits";
 import { createMemoryJuniorStore } from "@/lib/junior/memory-port";
 import {
   buildJuniorPaytrSeal,
   JUNIOR_PAYTR_BASKET_NAME,
-  JUNIOR_PAYTR_TEST_CREDENTIALS,
   juniorPaytrCredentialsAllowSale,
 } from "@/lib/junior/paytr";
 import {
@@ -42,6 +45,8 @@ import {
 } from "@/lib/junior/service";
 import type { LlmGatewayResult } from "@/lib/kernel/ai/types";
 
+/** Abonelik satırı stand-in. Ürün kodu bu sayıyı taşımaz; katalog tohumu SQL'dedir. */
+const JUNIOR_FIXTURE_PRICE_MINOR = 549_900;
 const NOW = new Date("2026-10-05T12:00:00+03:00");
 const PARENT = "parent-plan";
 
@@ -78,7 +83,7 @@ async function seedActivePlan(store: ReturnType<typeof createMemoryJuniorStore>)
     userId: PARENT,
     status: "ACTIVE",
     planCode: JUNIOR_PLAN_CODE,
-    listPriceMinor: JUNIOR_YEARLY_LIST_PRICE_MINOR,
+    listPriceMinor: JUNIOR_FIXTURE_PRICE_MINOR,
     currencyCode: "TRY",
     provider: JUNIOR_POS_PROVIDER,
     providerRef: "JRSEEDED01",
@@ -98,7 +103,14 @@ async function openProfile(store: ReturnType<typeof createMemoryJuniorStore>) {
   const created = await createJuniorProfile(
     store,
     PARENT,
-    { nickname: "Ege", grade: 6, birthYear: 2015, consent: true },
+    {
+      nickname: "Ege",
+      grade: 6,
+      birthYear: 2015,
+      consent: true,
+      consentVersion: JUNIOR_GUARDIAN_NOTICE.version,
+      guardianBirthYear: 1990,
+    },
     NOW,
   );
   if (!created.ok) {
@@ -110,7 +122,9 @@ async function openProfile(store: ReturnType<typeof createMemoryJuniorStore>) {
 describe("Junior seçmeli ders kotası", () => {
   it("en fazla üç katalog dersi seçilir; dördüncü kart kota dolu der", () => {
     expect(JUNIOR_ELECTIVE_QUOTA).toBe(3);
-    expect(JUNIOR_YEARLY_LIST_PRICE_MINOR).toBe(549_900);
+    const limits = readFileSync(join(process.cwd(), "lib/junior/limits.ts"), "utf8");
+    expect(limits).not.toContain("549_900");
+    expect(limits).not.toContain("5.499 TL");
     const three = normalizeElectiveSelection(["jr_06_ing", "jr_06_alm", "jr_06_fra"]);
     expect(three.ok).toBe(true);
     expect(normalizeElectiveSelection(["jr_06_ing", "jr_06_ing"]).ok).toBe(false);
@@ -151,8 +165,8 @@ describe("Junior yıllık paket kasası", () => {
   it("mağaza hattı bağlanana kadar checkout not_configured döner; kart abonelik yazmaz", async () => {
     const store = createMemoryJuniorStore();
     await openProfile(store);
-    const paid = await completeJuniorCheckout(store, PARENT, INVOICE, NOW);
-    expect(paid).toEqual({ ok: false, status: 503, error: JUNIOR_CHECKOUT_NOT_CONFIGURED });
+    const paid = await completeJuniorCheckout(store, PARENT, INVOICE, NOW, { env: {} as NodeJS.ProcessEnv });
+    expect(paid).toEqual({ ok: false, status: 503, error: JUNIOR_CHECKOUT_CLOSED_MESSAGE });
     expect(await store.getSubscription(PARENT)).toBeNull();
   });
 
@@ -240,26 +254,202 @@ describe("Junior yıllık paket kasası", () => {
   });
 });
 
+const IFRAME_CREDENTIALS = {
+  merchantId: "111111",
+  merchantKey: "iframe-key",
+  merchantSalt: "iframe-salt",
+  testMode: true,
+} as const;
+
+const OPEN_SANDBOX_ENV = {
+  JUNIOR_CHECKOUT_OPEN: "1",
+  NODE_ENV: "test",
+  PAYTR_MERCHANT_ID: "111111",
+  PAYTR_MERCHANT_KEY: "iframe-key",
+  PAYTR_MERCHANT_SALT: "iframe-salt",
+  PAYTR_SANDBOX: "1",
+} as NodeJS.ProcessEnv;
+
+const CHECKOUT_BODY = {
+  ...CHECKOUT_LEGAL_CONSENT_PAYLOAD,
+  guardianConsentAccepted: true as const,
+  guardianNoticeVersion: JUNIOR_GUARDIAN_NOTICE.version,
+  billing: CHECKOUT_BILLING_PAYLOAD,
+};
+
+describe("Junior PayTR iframe kapısı", () => {
+  it("onay tikleri yokken sipariş kurmaz ve abonelik yazmaz", async () => {
+    const store = createMemoryJuniorStore();
+    let called = false;
+    const paid = await completeJuniorCheckout(store, PARENT, {}, NOW, {
+      env: OPEN_SANDBOX_ENV,
+      email: "veli@yetkin.ai",
+      userIp: "127.0.0.1",
+      idempotencyKey: "k1",
+      ports: {
+        readPrice: async () => ({ amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }),
+        placeOrder: async () => {
+          called = true;
+          return { ok: false, status: 503, error: "olmamalı" };
+        },
+      },
+    });
+    expect(called).toBe(false);
+    expect(paid.ok).toBe(false);
+    if (!paid.ok) {
+      expect(paid.status).toBe(400);
+      expect(paid.error).toBe(
+        "Mesafeli Satış Sözleşmesi, Ön Bilgilendirme Formu ve dijital içeriğin anında ifası için açık rıza zorunludur.",
+      );
+    }
+    expect(await store.getSubscription(PARENT)).toBeNull();
+  });
+
+  it("veli tiki yokken PayTR çağrılmaz", async () => {
+    const store = createMemoryJuniorStore();
+    let called = false;
+    const paid = await completeJuniorCheckout(
+      store,
+      PARENT,
+      { ...CHECKOUT_BODY, guardianConsentAccepted: false },
+      NOW,
+      {
+        env: OPEN_SANDBOX_ENV,
+        email: "veli@yetkin.ai",
+        userIp: "127.0.0.1",
+        idempotencyKey: "k1",
+        ports: {
+          readPrice: async () => ({ amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }),
+          placeOrder: async () => {
+            called = true;
+            return { ok: false, status: 503, error: "olmamalı" };
+          },
+        },
+      },
+    );
+    expect(called).toBe(false);
+    expect(paid).toEqual({ ok: false, status: 400, error: JUNIOR_CHECKOUT_GUARDIAN_REQUIRED });
+  });
+
+  it("onaylı istek iframe döndürür; paket CLEARED köprüsüne kadar yazılmaz", async () => {
+    const store = createMemoryJuniorStore();
+    const drafts: JuniorCheckoutOrderDraft[] = [];
+    const paid = await completeJuniorCheckout(store, PARENT, CHECKOUT_BODY, NOW, {
+      env: OPEN_SANDBOX_ENV,
+      email: "veli@yetkin.ai",
+      userIp: "127.0.0.1",
+      idempotencyKey: "k1",
+      ports: {
+        readPrice: async () => ({ amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }),
+        placeOrder: async (draft) => {
+          drafts.push(draft);
+          return {
+            ok: true,
+            kind: "iframe",
+            merchantOid: "JRCHECKOUT01",
+            iframeUrl: "https://www.paytr.com/odeme/guvenli/ornek-token",
+          };
+        },
+      },
+    });
+    expect(paid.ok).toBe(true);
+    if (!paid.ok) {
+      return;
+    }
+    expect(paid.data.embedIframe).toBe(true);
+    expect(paid.data.iframeUrl).toBe("https://www.paytr.com/odeme/guvenli/ornek-token");
+    expect(paid.data.status).toBe("PENDING");
+    expect(drafts[0]?.amountMinor).toBe(JUNIOR_FIXTURE_PRICE_MINOR);
+    expect(drafts[0]?.consent.consentVersion).toBe(CHECKOUT_LEGAL_CONSENT_PAYLOAD.consentVersion);
+    expect(await store.getSubscription(PARENT)).toBeNull();
+
+    const fulfilled = await fulfillJuniorLicenseFromClearedOrder(store, {
+      id: "order-1",
+      userId: PARENT,
+      merchantOid: "JRCHECKOUT01",
+      amountMinor: JUNIOR_FIXTURE_PRICE_MINOR,
+      currencyCode: "TRY",
+      status: "CLEARED",
+      createdAt: NOW,
+      purpose: JUNIOR_LICENSE_ORDER_PURPOSE,
+      consentVersion: CHECKOUT_LEGAL_CONSENT_PAYLOAD.consentVersion,
+      distanceContractAccepted: true,
+      digitalImmediatePerformanceAccepted: true,
+    });
+    expect(fulfilled.applied).toBe(true);
+    expect(fulfilled.reason).toBe("settled");
+    const row = await store.getSubscription(PARENT);
+    expect(row?.status).toBe("ACTIVE");
+    expect(row?.planCode).toBe(JUNIOR_PLAN_CODE);
+    expect(row?.appliedMerchantOids).toEqual(["JRCHECKOUT01"]);
+    expect(row?.invoiceTckn).toBe("withheld");
+  });
+
+  it("denetim hesabı açık kasada da nakit satırı yazmaz", async () => {
+    const store = createMemoryJuniorStore();
+    let called = false;
+    const paid = await completeJuniorCheckout(store, "11111111-1111-4111-8111-111111111111", CHECKOUT_BODY, NOW, {
+      env: OPEN_SANDBOX_ENV,
+      email: "yapinet360@gmail.com",
+      userIp: "127.0.0.1",
+      idempotencyKey: "k1",
+      actor: {
+        id: "11111111-1111-4111-8111-111111111111",
+        email: "yapinet360@gmail.com",
+        emailConfirmedAt: "2026-01-01T00:00:00.000Z",
+      },
+      ports: {
+        readPrice: async () => ({ amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }),
+        placeOrder: async () => {
+          called = true;
+          return { ok: false, status: 503, error: "olmamalı" };
+        },
+      },
+    });
+    expect(called).toBe(false);
+    expect(paid).toEqual({ ok: false, status: 403, error: JUNIOR_CHECKOUT_AUDIT_MESSAGE });
+    expect(await store.getSubscription("11111111-1111-4111-8111-111111111111")).toBeNull();
+  });
+
+  it("üretimde deneme mağaza iframe açmaz", async () => {
+    const store = createMemoryJuniorStore();
+    let called = false;
+    const paid = await completeJuniorCheckout(store, PARENT, CHECKOUT_BODY, NOW, {
+      env: { ...OPEN_SANDBOX_ENV, NODE_ENV: "production" },
+      email: "veli@yetkin.ai",
+      userIp: "127.0.0.1",
+      idempotencyKey: "k1",
+      ports: {
+        readPrice: async () => ({ amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }),
+        placeOrder: async () => {
+          called = true;
+          return { ok: false, status: 503, error: "olmamalı" };
+        },
+      },
+    });
+    expect(called).toBe(false);
+    expect(paid).toEqual({ ok: false, status: 503, error: JUNIOR_CHECKOUT_REFUSED_MESSAGE });
+  });
+});
+
 describe("Junior PayTR mühür", () => {
-  it("fatura ve sepet PayTR iFrame ve Direct hash sırasına girer", () => {
+  it("sepet kernel iFrame hash sırasına girer", () => {
     const seal = buildJuniorPaytrSeal({
       now: NOW,
-      last4: "4358",
+      idempotencyKey: "4358",
       email: "veli@yetkin.ai",
       userIp: "127.0.0.1",
       userName: INVOICE.fullName,
-      userPhone: "5551112233",
-      userAddress: INVOICE.address,
+      amountMinor: JUNIOR_FIXTURE_PRICE_MINOR,
+      credentials: IFRAME_CREDENTIALS,
     });
     const basket = JSON.parse(Buffer.from(seal.userBasket, "base64").toString("utf8")) as unknown;
     expect(basket).toEqual([[JUNIOR_PAYTR_BASKET_NAME, "5499.00", 1]]);
-    expect(seal.paymentAmount).toBe(String(JUNIOR_YEARLY_LIST_PRICE_MINOR));
-    expect(seal.directAmount).toBe("5499.00");
+    expect(seal.paymentAmount).toBe(String(JUNIOR_FIXTURE_PRICE_MINOR));
     expect(seal.userName).toBe(INVOICE.fullName);
-    expect(seal.userPhone).toBe("5551112233");
     expect(seal.iframeToken).toBe(
       buildPaytrTokenHash({
-        credentials: JUNIOR_PAYTR_TEST_CREDENTIALS,
+        credentials: IFRAME_CREDENTIALS,
         userIp: "127.0.0.1",
         merchantOid: seal.merchantOid,
         email: "veli@yetkin.ai",
@@ -271,16 +461,9 @@ describe("Junior PayTR mühür", () => {
         testMode: "1",
       }),
     );
-    const directHashStr =
-      `${JUNIOR_PAYTR_TEST_CREDENTIALS.merchantId}127.0.0.1${seal.merchantOid}veli@yetkin.ai` +
-      `${seal.directAmount}card0TL10`;
-    const directToken = createHmac("sha256", JUNIOR_PAYTR_TEST_CREDENTIALS.merchantKey)
-      .update(directHashStr + JUNIOR_PAYTR_TEST_CREDENTIALS.merchantSalt)
-      .digest("base64");
-    expect(seal.directToken).toBe(directToken);
     expect(seal.iframeUrl.startsWith("https://www.paytr.com/odeme/guvenli/")).toBe(true);
-    expect(seal.iframeUrl.includes("/")).toBe(true);
     expect(seal.merchantOid).toMatch(/^JR[A-Z0-9]+4358$/);
+    expect(JSON.stringify(seal)).not.toContain("directToken");
   });
 });
 
@@ -313,7 +496,24 @@ describe("Junior sınıf seçici", () => {
   it("deneme mağaza anahtarı satışı açmaz", () => {
     expect(
       juniorPaytrCredentialsAllowSale({
-        credentials: JUNIOR_PAYTR_TEST_CREDENTIALS,
+        credentials: {
+          merchantId: "000000",
+          merchantKey: "sandbox-key",
+          merchantSalt: "sandbox-salt",
+          testMode: true,
+        },
+        productionLocked: false,
+        runtimeMode: "live",
+      }),
+    ).toBe(false);
+    expect(
+      juniorPaytrCredentialsAllowSale({
+        credentials: {
+          merchantId: "111111",
+          merchantKey: "sandbox-key",
+          merchantSalt: "live-looking-salt",
+          testMode: false,
+        },
         productionLocked: false,
         runtimeMode: "live",
       }),

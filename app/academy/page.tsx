@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { CourseList } from "@/components/academy/course-list";
+import { JuniorCrossSellBanner } from "@/components/academy/junior-cross-sell";
 import { AcademyContinuePanel } from "@/components/academy/continue-panel";
 import { LegalColophonStrip } from "@/components/legal/legal-colophon-strip";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -74,6 +75,7 @@ export default async function AcademyPage() {
         }
         footer={<LegalColophonStrip />}
       />
+      <JuniorCrossSellBanner />
       <LandingFaq heading={copy.faqHeading} items={ACADEMY_LANDING_FAQ} />
     </RoomFrame>
   );

@@ -127,10 +127,10 @@ Cevap evet ise en yalın, test edilebilir ve güvenli şekilde hayata geçirilir
 
 # Ek-J: Junior Pedagojisi ve Veli Modeli
 
-Junior, Akademi’nin iç kanalı değildir. Kendi odasıdır. Panel, Akademi ve Kariyer vitrini durur. Kural 1 gevşemez. Ziyaretçi kapısı ayrı karardadır.
+Junior, Akademi’nin iç kanalı değildir. Kendi odasıdır. Kapı ve erişim Anayasa B6 ve `lib/kernel/security/junior-gate.ts` (`canEnterJunior`) içindedir. Bu ek o kapıyı yazmaz.
 
-Junior, 10-18 yaş grubuna veli hesabı altında müstakil bir oda olarak hizmet veren veli rızalı özel kanaldır. Alıcı velidir. Kullanan öğrencidir. Hesap veliye aittir. Çocuk profili veli rızasıyla açılır. Değerlendirme üslubu yaş grubuna göre değişir. Ayrıntı Pedagoji Ek-J’dedir.
+Alıcı velidir. Kullanan öğrencidir. Hesap veliye aittir. Çocuk profili veli rızasıyla açılır. Değerlendirme üslubu yaş grubuna göre değişir. Öğretme ayrıntısı Pedagoji Ek-J’dedir.
 
 **Dinle ve Anlat:** Çocuk dersi dinler, sonra kendi sözüyle anlatır. Anlatış seslidir. Mikrofon yoksa yazarak anlatır. Bu anlatış öğretir. Mühür ve iş vizesi üretmez.
 
-**Çocuk güvenliği:** Sahte bakiye, harçlık ve kredi yoktur. Oyun puanı para değildir. Çocuğun sesi saklanmaz. Çocuk başkasıyla yazışamaz. Reklam ve paralı ödül yoktur. Her dersin ilk konusu ücretsizdir. Ayrıntı `.system_docs/PEDAGOJI.md` Ek-J bölümündedir. Bağlayıcı kural Anayasa B6’dadır.
+**Çocuk güvenliği:** Sahte bakiye, harçlık ve kredi yoktur. Oyun puanı para değildir. Çocuğun sesi saklanmaz. Çocuk başkasıyla yazışamaz. Reklam ve paralı ödül yoktur. Ayrıntı Pedagoji Ek-J’dedir.

@@ -6,7 +6,13 @@ export const JUNIOR_PILOT_GRADE = 6;
 export const JUNIOR_PILOT_SHELF_LINE =
   "Bu sınıf yakında gelecektir. Şu an sadece 6. Sınıf Pilot aktiftir.";
 
-export const JUNIOR_PILOT_SLUGS = ["jr_06_mat", "jr_06_fen", "jr_06_turkce", "jr_06_ing_main"] as const;
+export const JUNIOR_PILOT_SLUGS = [
+  "jr_06_mat",
+  "jr_06_fen",
+  "jr_06_turkce",
+  "jr_06_ing_main",
+  "jr_06_sosyal",
+] as const;
 
 export const JUNIOR_ELECTIVE_SLUGS = [
   "jr_06_ing",
@@ -19,11 +25,6 @@ export const JUNIOR_ELECTIVE_SLUGS = [
 
 /** Pakete dahil seçmeli ders hakkı. Her çocuk profili en fazla bu kadar ders seçer. */
 export const JUNIOR_ELECTIVE_QUOTA = 3;
-
-/** Yıllık paket liste fiyatı, kuruş cinsinden tam sayı. 5.499 TL. */
-export const JUNIOR_YEARLY_LIST_PRICE_MINOR = 549_900;
-
-export const JUNIOR_YEARLY_LIST_PRICE_LABEL = "5.499 TL";
 
 export const JUNIOR_PLAN_CODE = "junior-yearly";
 
@@ -63,9 +64,10 @@ export const JUNIOR_DAILY_XP_CAP = 40;
 export const JUNIOR_XP_SCORE_FLOOR = 60;
 /** Dinle ve Anlat geçer puanı. Bunun altı konu testini açmaz. */
 export const JUNIOR_TELL_PASS_SCORE = JUNIOR_XP_SCORE_FLOOR;
-/** Konu testi barajı. On soruda en az yedi doğru. */
+/** Konu testi barajı. Yüzde yetmiş. */
 export const JUNIOR_QUIZ_PASS_SCORE = 70;
-export const JUNIOR_QUIZ_MIN_ITEMS = 10;
+/** Konu testi eşiği. Paket boyu `lib/junior/quiz` evindedir. */
+export const JUNIOR_QUIZ_MIN_ITEMS = 3;
 export const JUNIOR_POINTS_CAP = 20_000;
 
 export const JUNIOR_PROFILES_PATH = "/api/junior-pilot/profiles";

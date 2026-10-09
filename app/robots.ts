@@ -7,11 +7,13 @@ import {
 } from "@/lib/copy/seo";
 import { isLiveBroadcastShutdownEnvActive } from "@/lib/kernel/http/live-broadcast-shutdown";
 
+const CRAWL_AGENTS = ["*", "Googlebot"] as const;
+
 export default function robots(): MetadataRoute.Robots {
   if (isLiveBroadcastShutdownEnvActive()) {
     return {
       rules: {
-        userAgent: "*",
+        userAgent: [...CRAWL_AGENTS],
         allow: ["/legal", ...LEGAL_SITE_PATHS, "/iletisim", "/hakkimizda"],
         disallow: ["/"],
       },
@@ -20,7 +22,7 @@ export default function robots(): MetadataRoute.Robots {
   }
   return {
     rules: {
-      userAgent: "*",
+      userAgent: [...CRAWL_AGENTS],
       allow: [
         ...SITEMAP_STATIC_PATHS,
         "/legal",

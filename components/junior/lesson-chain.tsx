@@ -9,6 +9,7 @@ import type { JuniorPracticeChoice, JuniorVectorScene } from "@/lib/junior/types
 export function LessonChain({
   profileId,
   lessonKey,
+  nickname = null,
   title,
   script,
   scene,
@@ -18,11 +19,13 @@ export function LessonChain({
   tellPassed,
   lessonDone,
   quiz,
+  tellGuides = [],
   recording = "open",
   quizSlot = "ready",
 }: {
   profileId: string;
   lessonKey: string;
+  nickname?: string | null;
   title: string;
   script: string;
   scene: JuniorVectorScene;
@@ -32,6 +35,7 @@ export function LessonChain({
   tellPassed: boolean;
   lessonDone: boolean;
   quiz: JuniorPracticeChoice[];
+  tellGuides?: readonly string[];
   recording?: "open" | "locked";
   quizSlot?: "ready" | "preparing" | "locked";
 }) {
@@ -40,10 +44,11 @@ export function LessonChain({
   const [done, setDone] = useState(lessonDone);
 
   return (
-    <div className="flex flex-col lg:min-h-0 lg:flex-1 lg:overflow-hidden">
+    <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden">
       <ListenAndTell
         profileId={profileId}
         lessonKey={lessonKey}
+        nickname={nickname}
         title={title}
         script={script}
         scene={scene}
@@ -51,6 +56,7 @@ export function LessonChain({
         lifeUse={lifeUse}
         steps={steps}
         hasQuiz={quiz.length > 0}
+        tellGuides={tellGuides}
         recording={recording}
         quizSlot={quizSlot}
         tellPassed={passed}

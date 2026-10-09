@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { catalogSqlPreservesOperatorPrice } from "../../scripts/ops-migrate-lib";
@@ -10,7 +10,7 @@ import {
   parseVerticalRoomIdsFromModules,
   unexpectedLibTopDirs,
 } from "../../scripts/room-ceiling-lib";
-import { VERTICAL_ROOMS } from "@/lib/kernel/rooms.ssot";
+import { VERTICAL_ROOMS } from "@/lib/dronlar/kayit";
 
 const ROOT = process.cwd();
 
@@ -48,8 +48,7 @@ describe("ESLint boundary ve katalog mühür yüzeyi", () => {
     expect(modules).toContain("dronlar/kayit");
     expect(eslint).toContain("dronlar/kayit.ts");
     expect(boundaries).toContain("dronlar/kayit");
-    expect(readSrc("lib/kernel/rooms.ssot.ts")).toContain("@deprecated");
-    expect(readSrc("lib/kernel/rooms.ssot.ts")).toContain("dronlar/kayit");
+    expect(existsSync(join(ROOT, "lib/kernel/rooms.ssot.ts"))).toBe(false);
     expect(parseVerticalRoomIdsFromEslint(eslint)).toEqual([]);
     expect(parseVerticalRoomIdsFromModules(modules)).toBeNull();
     expect(parseVerticalRoomIdsFromBoundaries(boundaries)).toBeNull();

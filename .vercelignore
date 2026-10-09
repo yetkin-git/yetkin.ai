@@ -12,6 +12,10 @@ tmp/
 public/media/academy/audio/**/*.wav
 public/media/**/*.wav
 public/media/**/*.hardmix.tmp.mp3
+# Junior ses, kapak ve ısınma kaseti CDN'den okunur. Yerel kopya CLI yüklemesine girmez.
+public/media/junior/audio/
+public/media/junior/covers/
+public/media/junior/warmup/
 .cursor
 coverage
 test-results

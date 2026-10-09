@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import {
   decideEdgeApiAuth,
   EDGE_API_FORBIDDEN_ERROR,
@@ -259,7 +259,8 @@ describe("üretilen ROUTE_AUTH_MAP", () => {
     expect(ROUTE_AUTH_MAP["/api/_gone/[...path]"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/ai/chat"]).toBe("session");
     expect(Object.keys(ROUTE_AUTH_MAP).some((path) => path.includes("("))).toBe(false);
-    expect(Object.keys(ROUTE_AUTH_MAP)).toHaveLength(68);
+    expect(Object.keys(ROUTE_AUTH_MAP)).toHaveLength(69);
+    expect(ROUTE_AUTH_MAP["/api/junior/lessons/[key]"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/junior-pilot/checkout"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/junior-pilot/electives"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/junior-pilot/grade"]).toBe("session");
@@ -295,5 +296,40 @@ describe("üretilen ROUTE_AUTH_MAP", () => {
     expect(ROUTE_AUTH_MAP["/api/profile"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/profile/billing"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/profile/close"]).toBe("session");
+  });
+});
+
+describe("Junior kasa kenarı", () => {
+  const previous = process.env.JUNIOR_CHECKOUT_OPEN;
+
+  afterEach(() => {
+    if (previous === undefined) {
+      delete process.env.JUNIOR_CHECKOUT_OPEN;
+    } else {
+      process.env.JUNIOR_CHECKOUT_OPEN = previous;
+    }
+  });
+
+  it("açık kasada doğrulanmış veli 410 yemez; misafir insanî cümle görür", () => {
+    process.env.JUNIOR_CHECKOUT_OPEN = "1";
+    const map = { ...MAP, "/api/junior-pilot/checkout": "session" };
+    expect(
+      decideEdgeApiAuth({
+        pathname: "/api/junior-pilot/checkout",
+        method: "POST",
+        sessionHint: true,
+        sessionUserId: "22222222-2222-4222-8222-222222222222",
+        sessionEmail: "veli@ornek.com",
+        sessionEmailConfirmedAt: "2026-01-01T00:00:00.000Z",
+        map,
+      }),
+    ).toEqual({ kind: "next" });
+    const guest = decideEdgeApiAuth({
+      pathname: "/api/junior-pilot/checkout",
+      method: "POST",
+      sessionHint: false,
+      map,
+    });
+    expect(guest).toEqual({ kind: "deny", status: 410, error: "Ödeme için veli girişi gerekir." });
   });
 });

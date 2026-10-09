@@ -66,7 +66,7 @@ Karaoke sahnesinde uzun paragraf gösterilmez. Sahnede yalnız o saniyeye ait k�
 
 Çalışma sekmesindeki tam metin, eğitim videosunun konuşma katmanıdır; ayrı bir makale yayını değildir (Anayasa B4). Nasıl-yapılır adım bandı overlay paragrafı değildir.
 
-**Junior oda ≠ başlangıç seviyesi.** Başlangıç seviyesi Akademi içi **Temel Paketler** ile karşılanır. 10-18 yaş okul dersi Yetkin Junior müstakil odasıdır (Anayasa B2 ve B6). Akademi kayıt defterine girmez. Ders listesi ve her dersin ilk konusu ziyaretçiye açıktır. İkinci konu, anlatış kaydı ve konu testi veli girişi ile yıllık paket ister. Sınıf seçici yalnız 6. sınıf pilotudur. Para kapısı `JUNIOR_PRODUCTION_LOCKED` ile kapalıdır. Öğretme, yaş üslubu ve veli esasları **Ek-J** bölümündedir.
+**Junior oda ≠ başlangıç seviyesi.** Başlangıç seviyesi Akademi içi **Temel Paketler** ile karşılanır. 10-18 yaş okul dersi Yetkin Junior müstakil odasıdır. Kapı ve erişim Anayasa B6 ve `lib/kernel/security/junior-gate.ts` (`canEnterJunior`) içindedir. Bu madde o kapıyı ikinci kez yazmaz. Öğretme, yaş üslubu ve veli esasları **Ek-J** bölümündedir.
 
 **Quiet Luxury:** sahne sakin durur. Dikkat süsle değil, o anki işle kalır.
 
@@ -269,8 +269,34 @@ Platform çocuk adına bakiye, harçlık veya kredi tutmaz. Oyun puanı para de�
 
 Çocuğun adı ve okulu, herkese açık doğrulama sayfasında görünmez.
 
-İlk konu ücretsizdir. Sonraki konular veli lisansına bağlıdır. Ücretsiz konu tam ders kalitesindedir. Kırpılmış tanıtım değildir.
+Çekirdek dersin ilk konusu ücretsizdir ve tam ders kalitesindedir. Kırpılmış tanıtım değildir. Seçmeli hazırlık rafı bu cümlenin dışındadır. Kapı ve erişim Anayasa B6 ve `canEnterJunior` içindedir. Bu ek o kapıyı yazmaz.
 
 Okul kitabı metni kopyalanmaz. Kazanım anlatılır. Cümle özgün yazılır.
 
-Yetişkin üretim kapısı bu ekte gevşetilmez. Beş katman, süre tabanı ve «1 Eğitim Kodu = 1 Ses» yetişkin dersinde durur. Junior dersinin kendi süresi ve kendi sesi ayrı karardır. O karar yetişkin standardın yerine yazılmaz.
+### Öğretmen hitabı
+
+Öğretmen gövde cümlesinde samimi ve rehberlik eden **sen** dilini kullanır. Cümle çocuğa tek kişi olarak söylenir. «Siz» hitabı ders gövdesine girmez. Belge, sözleşme ve veli yazısı bu kuralın dışındadır; orada dil «siz» kalır (§A.2). Çerçeve `lib/junior/content-rules.ts` içindeki `JUNIOR_TEACHER_ADDRESS` ve `JUNIOR_TELL_CLOSE` dur. Yeni konu sen ile yazılır.
+
+Soğuk «Selam!» girişi yasaktır. Ders sıcak ve tek kişiye söylenen bir açılışla başlar: «Merhaba güzel arkadaşım!», «Merhaba sevgili arkadaşım!», «Selam harika arkadaşım!». Profilde rumuz varsa açılış bir kez «Merhaba {rumuz}, bugün seninle…» der. Rumuz yoksa bu liste kalır. Rumuz ders dosyasına yazılmaz. Anlatım boyunca öğretmen çocuğu odağında tutar. «Bak burası senin için çok önemli» ve «Şurası aklında kalsın tamam mı» kalıpları, hemen ardından açıklama geliyorsa cümlenin başına iki nokta ile bağlanır. Yalnız başlarına bırakılmaz. Çoğul «sevgili çocuklar» kalıbı gövdeye girmez. Mühür `JUNIOR_WARM_OPENINGS`, `JUNIOR_TEACHER_CUES`, `bindJuniorTeacherCue` ve `sealJuniorWarmWelcome` dir.
+
+### Doyurucu konu
+
+Ders kısa özet değildir. Her konu dört bölüm taşır: Kavram, Örnek, Kritik Uyarı ve Günlük Kullanım. Aynı paragraf üç alana kopyalanmaz. Ev `lib/junior/scenario.ts` ve `lib/junior/content-rules.ts` (`JUNIOR_LESSON_SECTIONS`). Ücretsiz ilk konu da bu dört bölümü tam taşır. Üçüncü bölümün çocuk yüzü aşağıdaki ipucu kutusudur.
+
+Anlatım üç aşamada yürür: Giriş (Oryantasyon), Gelişme (Tam Anlatım), Sonuç (Özetleme). Günlük sahne Giriş’te merak uyandırır; Gelişme tanımı papağan gibi tekrar etmez; Sonuç «Bugün Neler Öğrendik?» kartıyla biter ve üç nokta taşır. Ev `JUNIOR_SCENARIO_STAGES` (`lib/junior/content-rules.ts`). Konuşma süresi 5 ile 12 dakika arasındadır. Hedef 7 ile 8 dakikadır. Süre, oynatıcı saatinin karakter hesabıdır. Bant, konunun kendi cümlelerinden ve ileri adımından dolar. Aynı örnek kalıp çerçevede ikinci kez okunmaz. Son adımda öğrenci iki yoldan birini seçer: mikrofona kendi cümlesiyle anlatmak ya da anlatımı 0:00 anından yeniden dinlemek. Ev `lib/junior/player-clock.ts` içindeki `JUNIOR_NARRATION_MIN_MS`, `JUNIOR_NARRATION_AIM_MS`, `JUNIOR_NARRATION_MAX_MS` ve oynatıcı karar kartı.
+
+### Gelişimsel İpucu Kutusu
+
+**Gelişimsel İpucu Kutusu İlkesi:** Sınav ve test uyarıları asla baskıcı, korkutucu veya stres yaratıcı dille («sınavda vururlar», «şok olursun» vb.) yazılamaz. Tüm kritik uyarılar «Tuzaklara Düşme! 🕵️‍♂️» veya «Altın İpucu! 💡» başlıklarıyla sunulur. Çocuk uyarılırken cesaretlendirilir ve merakı tetiklenir.
+
+«Sakın unutma» ve «barajın altında kaldın» ders gövdesine ve konu testi cümlesine girmez. Eksik nokta bir sonraki küçük adım olarak söylenir. Başlık ya tuzak kutusudur ya altın ipucudur. İkisi birden aynı uyarıya yazılmaz. Çerçeve `JUNIOR_HINT_BOX` ve `JUNIOR_HINT_BOX_PRINCIPLE` (`lib/junior/content-rules.ts`). Anlatım köprüsü `juniorHintCue` dir.
+
+### Ses ve fon müziği
+
+Anlatışın arka planında pedagojik fon müziği katmanı vardır. Katman vokalsizdir ve stereo kanaldadır. Kimlik `ACADEMY_SEALED_MEDIA_MODEL.MUSIC_GEN` dir. Ev `lib/kernel/ai/model-roles.ts`. Bu ek o dizeyi tekrarlamaz. Örnekleme, kanal ve fırın yolu `lib/junior/voice.ts` içindeki `JUNIOR_BED_LAYER` dir. Sinüs üreticisi bu yatağı yazmaz.
+
+Öğretmen sesi ders branşına göre ayrı karakterdir. Çağrı `ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS` okur. Karakter haritası `JUNIOR_BRANCH_TEACHERS` içindedir. Yetişkin «1 Eğitim Kodu = 1 Ses» kuralı bu haritanın yerine yazılmaz. Dinleme anında dış TTS ve müzik çağrısı yoktur. Katman kimliği mühürler. Fırın, bu ek ve harcama onayı olmadan açılmaz.
+
+İpucu kutusu açılınca yerel bir chime çalar. Çocuk kritik noktayı kavrayınca yerel bir alkış çalar. İkisi de dış API çağırmaz. Harita `JUNIOR_HINT_EFFECTS` (`lib/junior/voice.ts`). Oynatıcı bu haritayı okur. Efekt, öğretmen sesinin ve fon müziğinin yerine geçmez.
+
+Yetişkin üretim kapısı bu ekte gevşetilmez. Beş katman, süre tabanı ve «1 Eğitim Kodu = 1 Ses» yetişkin dersinde durur. Junior dersinin kendi süresi ve kendi sesi ayrı karardır. O karar yetişkin standardın yerine yazılmaz. Sesin evi `lib/junior/voice.ts` dir.

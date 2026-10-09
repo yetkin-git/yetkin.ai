@@ -9,12 +9,12 @@ export const auth = "session" as const;
 
 export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
-  const locked = juniorLockedResponse(requestId, request);
-  if (locked) {
-    return locked;
-  }
   try {
     const user = await requireSession(request);
+    const locked = juniorLockedResponse(requestId, request, user);
+    if (locked) {
+      return locked;
+    }
     const result = await saveJuniorElectives(
       createPrismaJuniorStore(),
       user.id,

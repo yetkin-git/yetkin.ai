@@ -28,6 +28,8 @@ export function AppShellSwitch({
     );
   }
   const academyPlayer = ACADEMY_PLAYER_PATH.test(pathname);
+  const juniorRoom = pathname === "/junior" || pathname.startsWith("/junior/");
+  const juniorVitrine = pathname === "/junior";
   return (
     <div className="min-h-screen">
       <ShellChrome userCluster={userCluster}>
@@ -35,13 +37,15 @@ export function AppShellSwitch({
           className={
             academyPlayer
               ? "relative mt-0 px-3 pt-0 pb-3 sm:px-4 lg:px-5"
-              : "relative px-4 py-8 sm:px-6 lg:px-8"
+              : juniorVitrine
+                ? "relative px-4 pt-3 pb-6 sm:px-6 lg:px-8"
+                : "relative px-4 py-8 sm:px-6 lg:px-8"
           }
         >
           {children}
         </main>
       </ShellChrome>
-      <AiChatWidget />
+      {juniorRoom ? null : <AiChatWidget />}
     </div>
   );
 }

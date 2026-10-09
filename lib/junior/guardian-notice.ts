@@ -1,15 +1,28 @@
+import {
+  JUNIOR_GUARDIAN_NOTICE_VERSION,
+  juniorGuardianNoticeCanonical,
+} from "@/lib/copy/junior-guardian-notice";
 import { CHECKOUT_LEGAL_CONSENT_VERSION } from "@/lib/kernel/legal/checkout-consent";
 
 /**
  * Çocuk aydınlatması. 6502 kasa sürümü `2026-09-05` ile aynı dize değildir.
- * Hukuk metni `lib/copy` altında mühürlenene kadar null kalır. Sahte sürüm basılmaz.
+ * Metin `lib/copy/junior-guardian-notice.ts` içindedir. Özet o kanonik gövdenin SHA-256 değeridir.
  */
 export type JuniorGuardianNotice = {
   version: string;
   sha256: string;
 };
 
-export const JUNIOR_GUARDIAN_NOTICE: JuniorGuardianNotice | null = null;
+/** `juniorGuardianNoticeCanonical()` gövdesinin SHA-256 özeti. Metin değişince bu da değişir. */
+export const JUNIOR_GUARDIAN_NOTICE_SHA256 =
+  "b5c875b2b40e5b0e1204771b3551cc4ba43d4931a8468d294a343f71e32d88c9" as const;
+
+export const JUNIOR_GUARDIAN_NOTICE: JuniorGuardianNotice = {
+  version: JUNIOR_GUARDIAN_NOTICE_VERSION,
+  sha256: JUNIOR_GUARDIAN_NOTICE_SHA256,
+};
+
+export { juniorGuardianNoticeCanonical };
 
 /** Kapanan çocuk profilinin sabit takma adı. Doğum yılı bu adla birlikte boşalır. */
 export const JUNIOR_CLOSED_PROFILE_NICKNAME = "Kapalı";

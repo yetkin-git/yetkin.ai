@@ -1,12 +1,14 @@
 #!/usr/bin/env tsx
 /**
- * public/ klasörünün bayt toplamı.
+ * public/ klasörünün Vercel paketine giren bayt toplamı.
+ * Junior ses, kapak ve ısınma kaseti sayılmaz; onlar CDN kökündedir.
  * 850 MB üstü: sarı uyarı, exit 0. 950 MB üstü: hata, exit 1.
  * CI bu betiği `verify:prebuild` içinde koşar.
  */
 
-import { lstatSync, readdirSync } from "node:fs";
-import { join } from "node:path";
+import { lstatSync, readdirSync, type Stats } from "node:fs";
+import { join, relative } from "node:path";
+import { isOffloadedPublicPath } from "@/lib/media/offload";
 import {
   classifyPublicDirectoryBytes,
   PUBLIC_SIZE_FAIL_BYTES,
@@ -17,38 +19,68 @@ const ROOT = process.cwd();
 const PUBLIC_DIR = join(ROOT, "public");
 const MIB = 1024 * 1024;
 
-function directoryBytes(dir: string): number {
+function treeBytes(full: string, stat: Stats): number {
+  if (stat.isSymbolicLink()) {
+    return 0;
+  }
+  if (stat.isFile()) {
+    return stat.size;
+  }
+  if (!stat.isDirectory()) {
+    return 0;
+  }
   let total = 0;
+  for (const name of readdirSync(full)) {
+    const child = join(full, name);
+    total += treeBytes(child, lstatSync(child));
+  }
+  return total;
+}
+
+/** Vercel paketine giren bayt. CDN'e bırakılan Junior kökleri ayrı sayılır. */
+function directoryBytes(dir: string): { shipped: number; offloaded: number } {
+  let shipped = 0;
+  let offloaded = 0;
   for (const name of readdirSync(dir)) {
     const full = join(dir, name);
     const stat = lstatSync(full);
     if (stat.isSymbolicLink()) {
       continue;
     }
+    const rel = relative(ROOT, full).replaceAll("\\", "/");
+    if (isOffloadedPublicPath(rel)) {
+      offloaded += treeBytes(full, stat);
+      continue;
+    }
     if (stat.isDirectory()) {
-      total += directoryBytes(full);
+      const nested = directoryBytes(full);
+      shipped += nested.shipped;
+      offloaded += nested.offloaded;
     } else if (stat.isFile()) {
-      total += stat.size;
+      shipped += stat.size;
     }
   }
-  return total;
+  return { shipped, offloaded };
 }
 
 function formatMb(bytes: number): string {
   return (bytes / MIB).toFixed(1);
 }
 
-let bytes = 0;
+let shipped = 0;
+let offloaded = 0;
 try {
-  bytes = directoryBytes(PUBLIC_DIR);
+  const measured = directoryBytes(PUBLIC_DIR);
+  shipped = measured.shipped;
+  offloaded = measured.offloaded;
 } catch (error) {
   const message = error instanceof Error ? error.message : String(error);
   console.error(`HATA: public/ okunamadı. ${message}`);
   process.exit(1);
 }
 
-const verdict = classifyPublicDirectoryBytes(bytes);
-const line = `public/ boyut: ${formatMb(bytes)} MB (${bytes} bayt). Uyarı eşiği ${formatMb(PUBLIC_SIZE_WARN_BYTES)} MB. Hata eşiği ${formatMb(PUBLIC_SIZE_FAIL_BYTES)} MB.`;
+const verdict = classifyPublicDirectoryBytes(shipped);
+const line = `public/ Vercel paketi: ${formatMb(shipped)} MB (${shipped} bayt). CDN'de bırakılan: ${formatMb(offloaded)} MB. Uyarı eşiği ${formatMb(PUBLIC_SIZE_WARN_BYTES)} MB. Hata eşiği ${formatMb(PUBLIC_SIZE_FAIL_BYTES)} MB.`;
 
 if (verdict === "fail") {
   console.error(line);

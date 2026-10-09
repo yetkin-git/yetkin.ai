@@ -11,6 +11,7 @@ import {
 } from "@/lib/kernel/payments/clearing";
 import { queryPaytrOrderStatus, type PaytrOrderStatusInquiry } from "@/lib/kernel/payments/paytr/status";
 import { notifyAcademyLicenseHook } from "@/lib/kernel/payments/academy-license-hook";
+import { notifyJuniorLicenseHook } from "@/lib/kernel/payments/junior-license-hook";
 import { logEvent } from "@/lib/kernel/observability/log";
 
 /** iframe `timeout_limit` 30 dk; webhook gecikmesi için 2 saat PENDING tavanı. */
@@ -88,6 +89,7 @@ export async function reconcilePaytrPaymentOrder(
   }
   if (order.status === "CLEARED") {
     await notifyAcademyLicenseHook(order);
+    await notifyJuniorLicenseHook(order);
     return { action: "cleared", applied: false, reason: "already_cleared", orderId: order.id };
   }
 
@@ -114,6 +116,7 @@ export async function reconcilePaytrPaymentOrder(
       expectedAmountMinor: psp.amountMinor,
     });
     await notifyAcademyLicenseHook(result.order);
+    await notifyJuniorLicenseHook(result.order);
     return {
       action: "cleared",
       applied: result.applied,

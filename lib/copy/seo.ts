@@ -19,6 +19,28 @@ export function canonicalUrl(path: string): string {
 /** Çocuk segment title'ına eklenen kök şablon. Markayı title string'ine ikinci kez yazma. */
 export const TITLE_TEMPLATE = `%s · ${YETKIN_BRAND}` as const;
 
+/** Junior ders sayfası soneki. Gövde `{Ders Başlığı} - 6. Sınıf {Branş}` kalır. */
+export const JUNIOR_SEO_BRAND = `${YETKIN_BRAND} Junior` as const;
+export const JUNIOR_TITLE_TEMPLATE = `%s | ${JUNIOR_SEO_BRAND}` as const;
+
+/**
+ * 6. sınıf ders başlığı.
+ * Çıktı: `{Ders Başlığı} - 6. Sınıf {Branş} | yetkin.ai Junior`
+ */
+export function juniorLessonSeoTitle(lessonTitle: string, subject: string): string {
+  return `${lessonTitle.trim()} - 6. Sınıf ${subject.trim()} | ${JUNIOR_SEO_BRAND}`;
+}
+
+export const JUNIOR_SEO_KEYWORDS = [
+  "6. sınıf online ders",
+  "6. sınıf matematik",
+  "6. sınıf fen bilimleri",
+  "6. sınıf türkçe",
+  "6. sınıf ingilizce",
+  "6. sınıf sosyal bilgiler",
+  "yetkin.ai junior",
+] as const;
+
 export const OG_LOCALE = "tr_TR" as const;
 
 export const AUTH_ROBOTS = { index: false, follow: true } as const;
@@ -85,6 +107,14 @@ export const PAGE_SEO = {
       "KVKK aydınlatma, çerez politikası, mesafeli satış, ön bilgilendirme, iade koşulları ve platform kullanım şartları.",
     path: "/legal",
   },
+  junior: {
+    title: `6. Sınıf Online Dersler | ${JUNIOR_SEO_BRAND}`,
+    description:
+      "6. sınıf Matematik, Fen, Türkçe, İngilizce ve Sosyal Bilgiler. Her dersin ilk konusu ücretsizdir. Kilitli konular yıllık paketle açılır.",
+    path: "/junior",
+    image: DEFAULT_OG_IMAGE,
+    keywords: JUNIOR_SEO_KEYWORDS,
+  },
   login: {
     title: AUTH_SEN.login.title,
     description: AUTH_SEN.login.description,
@@ -115,11 +145,13 @@ export const PRODUCT_ROOM_PATHS = ["/academy", "/career"] as const;
  * Kök `/` kalıcı 308 ile `/academy` kataloğuna iner; site haritasında durmaz
  * (Search Console «Yönlendirmeli sayfa»).
  * `/career` herkese açık kariyer vizesi sayfasıdır; site haritasındadır.
+ * `/junior` kamu odasıdır. Ücretsiz ilk konular site haritasına ayrıca yazılır.
  * Kamuya açık vize yüzeyi `/vize`’dir.
  */
 export const SITEMAP_STATIC_PATHS = [
   "/academy",
   PAGE_SEO.career.path,
+  PAGE_SEO.junior.path,
   PAGE_SEO.academyVerify.path,
   PAGE_SEO.publicTalent.path,
 ] as const;
@@ -147,6 +179,7 @@ export const ROBOTS_DISALLOW_PATHS = [
   "/dashboard",
   "/freelancer",
   "/admin",
+  "/junior/checkout",
   "/login",
   "/register",
   "/cuzdan",
@@ -385,8 +418,11 @@ export function sitemapRoutePolicy(path: string): {
   if (path === "/" || path === "/academy") {
     return { changeFrequency: "weekly", priority: 1 };
   }
-  if (path === "/career") {
+  if (path === "/career" || path === "/junior") {
     return { changeFrequency: "weekly", priority: 0.9 };
+  }
+  if (path.startsWith("/junior/ders/")) {
+    return { changeFrequency: "weekly", priority: 0.7 };
   }
   if (path.startsWith("/academy/") && !path.startsWith("/academy/dogrula")) {
     return { changeFrequency: "weekly", priority: 0.8 };
@@ -408,8 +444,8 @@ export function pageMetadata({
 }: PageSeoInput): Metadata {
   const absolute = canonicalUrl(path);
   const images = image ? [{ url: image, alt: title }] : undefined;
-  const brandedSuffix = ` | ${YETKIN_BRAND}`;
-  const resolvedTitle: Metadata["title"] = title.endsWith(brandedSuffix)
+  const brandedSuffixes = [` | ${JUNIOR_SEO_BRAND}`, ` | ${YETKIN_BRAND}`] as const;
+  const resolvedTitle: Metadata["title"] = brandedSuffixes.some((suffix) => title.endsWith(suffix))
     ? { absolute: title }
     : title;
   return {

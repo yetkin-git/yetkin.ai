@@ -29,6 +29,7 @@ import {
   faqPageJsonLd,
   itemListJsonLd,
   jsonLdDocument,
+  juniorOnlineCourseJsonLd,
   legalSectionBreadcrumbs,
   organizationJsonLd,
   serializeJsonLd,
@@ -56,11 +57,24 @@ import {
   ROBOTS_DISALLOW_PATHS,
   SITEMAP_STATIC_PATHS,
   isRobotsDisallowedPath,
+  JUNIOR_SEO_BRAND,
+  JUNIOR_TITLE_TEMPLATE,
   TITLE_TEMPLATE,
   canonicalUrl,
+  juniorLessonSeoTitle,
   pageMetadata,
   sitemapRoutePolicy,
 } from "@/lib/copy/seo";
+import { juniorCoverAlt } from "@/lib/junior/cover-alt";
+import { juniorFreeLessonKeys } from "@/lib/junior/catalog";
+import { JUNIOR_ELECTIVE_SLUGS, JUNIOR_PILOT_SLUGS } from "@/lib/junior/limits";
+import {
+  JUNIOR_DESCRIPTION_MAX,
+  juniorLandingJsonLd,
+  juniorLessonPageMetadata,
+  juniorPublicLessonJsonLd,
+  juniorSeoDescription,
+} from "@/lib/junior/seo";
 import { PUBLIC_SEN } from "@/lib/copy/sen-voice/public";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { CAREER_SEN } from "@/lib/copy/sen-voice/career";
@@ -246,6 +260,12 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     }
     expect(byPath.has("/career")).toBe(true);
     expect(byPath.get("/career")?.priority).toBe(0.9);
+    expect(byPath.has("/junior")).toBe(true);
+    expect(byPath.get("/junior")?.priority).toBe(0.9);
+    expect(byPath.has("/junior/ders/jr_06_mat-1")).toBe(true);
+    expect(byPath.get("/junior/ders/jr_06_mat-1")?.priority).toBe(0.7);
+    expect(byPath.has("/junior/ders/jr_06_mat-2")).toBe(false);
+    expect(byPath.has("/junior/checkout")).toBe(false);
 
     const published = publishedCoursesFromSeed().filter((row) => row.isPublished);
     expect(published.length).toBe(ACADEMY_GROWTH_SKU_SLUGS.length);
@@ -302,8 +322,15 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     const { default: robots } = await import("@/app/robots");
     const rules = robots().rules;
     const rule = Array.isArray(rules) ? rules[0] : rules;
-    expect(SITEMAP_STATIC_PATHS).toEqual(["/academy", "/career", "/academy/dogrula", "/vize"]);
+    expect(SITEMAP_STATIC_PATHS).toEqual([
+      "/academy",
+      "/career",
+      "/junior",
+      "/academy/dogrula",
+      "/vize",
+    ]);
     expect(SITEMAP_STATIC_PATHS).not.toContain("/");
+    expect(rule?.userAgent).toEqual(["*", "Googlebot"]);
     expect(rule?.allow).toEqual(expect.arrayContaining([...SITEMAP_STATIC_PATHS, "/legal"]));
     expect(rule?.allow).toEqual(expect.arrayContaining(["/academy", "/career", "/vize"]));
     expect(rule?.disallow).toEqual(expect.arrayContaining([...ROBOTS_DISALLOW_PATHS]));
@@ -343,6 +370,91 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(isRobotsDisallowedPath("/academy/02_ecommerce_ai")).toBe(false);
     expect(isRobotsDisallowedPath("/academy/01_office_ai_ileri")).toBe(false);
     expect(isRobotsDisallowedPath("/academy/01_office_ai_ileri/oyna")).toBe(true);
+    expect(isRobotsDisallowedPath("/junior")).toBe(false);
+    expect(isRobotsDisallowedPath("/junior/ders/jr_06_mat-1")).toBe(false);
+    expect(isRobotsDisallowedPath("/junior/checkout")).toBe(true);
+    expect(ROBOTS_DISALLOW_PATHS).toContain("/junior/checkout");
+    expect(ROBOTS_DISALLOW_PATHS).toContain("/admin");
+    expect(ROBOTS_DISALLOW_PATHS).toContain("/dashboard");
+  });
+});
+
+describe("Junior SEO — 6. sınıf başlık, schema ve kapak", () => {
+  it("ders başlığı şablonu tam dizgiyi basar ve kanonik adres mutlaktır", () => {
+    const title = juniorLessonSeoTitle("Üslü ifadede taban ve üs", "Matematik");
+    expect(title).toBe("Üslü ifadede taban ve üs - 6. Sınıf Matematik | yetkin.ai Junior");
+    expect(JUNIOR_TITLE_TEMPLATE).toBe(`%s | ${JUNIOR_SEO_BRAND}`);
+    expect(PAGE_SEO.junior.description.length).toBeLessThanOrEqual(JUNIOR_DESCRIPTION_MAX);
+    const meta = pageMetadata({
+      title,
+      description: juniorSeoDescription(
+        "Üslü ifade, aynı doğal sayının üst üste çarpımıdır. Taban çarpılan sayıdır.",
+      ),
+      path: "/junior/ders/jr_06_mat-1",
+      keywords: [...PAGE_SEO.junior.keywords],
+      image: "/media/junior/covers/jr_06_mat-1.jpg",
+    });
+    expect(meta.title).toEqual({ absolute: title });
+    expect(meta.alternates).toMatchObject({
+      canonical: "https://yetkin.ai/junior/ders/jr_06_mat-1",
+    });
+    expect(meta.openGraph).toMatchObject({
+      locale: "tr_TR",
+      url: "https://yetkin.ai/junior/ders/jr_06_mat-1",
+      title,
+      images: [{ url: "/media/junior/covers/jr_06_mat-1.jpg", alt: title }],
+    });
+    expect(meta.keywords).toEqual([...PAGE_SEO.junior.keywords]);
+  });
+
+  it("ücretsiz ilk konu indekslenir; kilitli konu ve kasa indekslenmez", () => {
+    const free = juniorLessonPageMetadata("jr_06_mat-1");
+    expect(free.title).toEqual({
+      absolute: "Üslü ifadede taban ve üs - 6. Sınıf Matematik | yetkin.ai Junior",
+    });
+    expect(free.robots).toEqual({ index: true, follow: true });
+    const locked = juniorLessonPageMetadata("jr_06_mat-2");
+    expect(locked.robots).toEqual({ index: false, follow: false });
+    expect(locked).not.toHaveProperty("alternates");
+    const lessonLd = juniorPublicLessonJsonLd("jr_06_mat-1");
+    expect(lessonLd?.["@graph"].map((node) => node["@type"])).toEqual(["Course", "FAQPage"]);
+    expect(juniorPublicLessonJsonLd("jr_06_mat-2")).toBeNull();
+    const landing = juniorLandingJsonLd();
+    expect(landing["@graph"].map((node) => node["@type"])).toEqual(["Course", "FAQPage"]);
+    const course = juniorOnlineCourseJsonLd({
+      name: "Üslü ifadede taban ve üs",
+      description: "Üslü ifade, aynı doğal sayının üst üste çarpımıdır.",
+      path: "/junior/ders/jr_06_mat-1",
+      subject: "Matematik",
+      isAccessibleForFree: true,
+    });
+    expect(course.educationalLevel).toBe("6. Sınıf");
+    expect(course.isAccessibleForFree).toBe(true);
+    expect(course.hasCourseInstance).toMatchObject({
+      courseMode: "Online",
+      offers: { price: "0", priceCurrency: "TRY" },
+    });
+    const layout = readSrc("app/junior/layout.tsx");
+    expect(layout).toContain("JUNIOR_TITLE_TEMPLATE");
+    expect(layout).not.toContain("alternates:");
+    expect(layout).not.toContain("index: false");
+    expect(readSrc("app/junior/page.tsx")).toContain("pageMetadata");
+    expect(readSrc("app/junior/page.tsx")).toContain("juniorLandingJsonLd");
+    expect(readSrc("app/junior/ders/[lessonKey]/page.tsx")).toContain("generateMetadata");
+    expect(readSrc("app/junior/checkout/page.tsx")).toContain("index: false");
+    expect(readSrc("app/layout.tsx")).toContain("keywords");
+    expect(readSrc("components/junior/lesson-covers.tsx")).toContain("juniorCoverAlt");
+    expect(readSrc("components/junior/lesson-covers.tsx")).not.toContain('alt=""');
+    expect(juniorCoverAlt({ title: "Üslü ifadede taban ve üs", subject: "Matematik", grade: 6 })).toBe(
+      "Üslü ifadede taban ve üs - 6. Sınıf Matematik",
+    );
+    const freeKeys = juniorFreeLessonKeys();
+    expect(freeKeys).toContain("jr_06_mat-1");
+    expect(freeKeys).not.toContain("jr_06_mat-2");
+    expect([...JUNIOR_PILOT_SLUGS, ...JUNIOR_ELECTIVE_SLUGS].map((slug) => `${slug}-1`)).toEqual([
+      ...freeKeys,
+    ]);
+    expect(readSrc("app/sitemap.ts")).not.toContain("@/lib/junior/catalog");
   });
 });
 

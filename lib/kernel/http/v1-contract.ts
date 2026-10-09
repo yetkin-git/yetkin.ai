@@ -1,5 +1,5 @@
 /**
- * `/api/v1` sözleşme sicili — API-First dron sözleşmesi (16 hop).
+ * `/api/v1` sözleşme sicili — API-First dron sözleşmesi (17 hop).
  * Anayasa: yayınlanmış alan sessizce düşmez. Bu dosyadaki DTO / OpenAPI
  * kısaltması major sürüm ister. Kernel dikey oda import etmez; alanlar
  * burada dondurulur.
@@ -604,6 +604,22 @@ export const railV1CareerPortfolioDataSchema = z.strictObject({
   portfolio: z.array(railV1CareerPortfolioItemSchema),
 });
 
+export const railV1JuniorLessonCardSchema = z.strictObject({
+  lessonKey: z.string().min(1),
+  title: z.string().min(1),
+  subject: z.string().min(1),
+  access: z.enum(["free", "locked"]),
+  scene: z.string().min(1),
+  audioPath: z.string().nullable(),
+  coverPath: z.string().min(1),
+});
+
+export const railV1JuniorLessonReadDataSchema = z.strictObject({
+  card: railV1JuniorLessonCardSchema,
+});
+
+export const RAIL_V1_JUNIOR_LESSON_MISSING = "Bu ders yok.";
+
 export const railV1ProfilePatchRequestSchema = z.strictObject({
   displayName: z.string(),
 });
@@ -1088,6 +1104,34 @@ const RAIL_V1_HOP_CONTRACTS = {
     ],
     dataSchema: railV1CareerPortfolioDataSchema,
     errors: WRITE_ERRORS,
+  },
+  "junior-lesson-read": {
+    canonicalPathTemplate: "/api/junior/lessons/{key}",
+    routeAuthPattern: "/api/junior/lessons/[key]",
+    routeAuth: "public",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["card"],
+    publishedDataPaths: [
+      "card",
+      "card.lessonKey",
+      "card.title",
+      "card.subject",
+      "card.access",
+      "card.scene",
+      "card.audioPath",
+      "card.coverPath",
+    ],
+    dataSchema: railV1JuniorLessonReadDataSchema,
+    exampleParams: { key: "jr_06_mat-1" },
+    errors: [
+      RAIL_VERSION_HEADER_REQUIRED,
+      RAIL_VERSION_HEADER_INVALID,
+      RAIL_VERSION_CLIENT_STALE,
+      RAIL_VERSION_SERVER_STALE,
+      RAIL_V1_JUNIOR_LESSON_MISSING,
+    ],
   },
   "profile-patch": {
     canonicalPathTemplate: "/api/profile",

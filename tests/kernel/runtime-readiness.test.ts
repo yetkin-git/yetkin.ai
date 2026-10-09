@@ -366,4 +366,46 @@ describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
     expect(vercelBody).toContain("VERCEL algılandı");
     expect(vercelBody).not.toContain("smtp.example.test");
   });
+
+  it("Vercel Production medya CDN kökü ister; Preview ve geçerli https kök bloklamaz", () => {
+    const mediaBlocked = (env: Record<string, string | undefined>): boolean =>
+      extraProductionBlocks({ NODE_ENV: "production", ...env }).some((row) =>
+        row.includes("NEXT_PUBLIC_MEDIA_BASE_URL"),
+      );
+
+    expect(mediaBlocked({ VERCEL_ENV: "production" })).toBe(true);
+    expect(mediaBlocked({ VERCEL_ENV: "production", NEXT_PUBLIC_MEDIA_BASE_URL: "" })).toBe(true);
+    expect(
+      mediaBlocked({
+        VERCEL_ENV: "production",
+        NEXT_PUBLIC_MEDIA_BASE_URL: "https://cdn.yetkin.ai/media",
+      }),
+    ).toBe(true);
+    expect(
+      mediaBlocked({ VERCEL_ENV: "production", NEXT_PUBLIC_MEDIA_BASE_URL: "http://cdn.yetkin.ai" }),
+    ).toBe(true);
+    expect(
+      mediaBlocked({ VERCEL_ENV: "production", NEXT_PUBLIC_MEDIA_BASE_URL: "https://cdn.yetkin.ai" }),
+    ).toBe(false);
+    expect(
+      mediaBlocked({ VERCEL_ENV: "production", NEXT_PUBLIC_MEDIA_BASE_URL: "https://cdn.yetkin.ai/" }),
+    ).toBe(false);
+    expect(mediaBlocked({ VERCEL_ENV: "preview" })).toBe(false);
+    expect(mediaBlocked({})).toBe(false);
+  });
+
+  it("NODE_ENV atanmamış build alt sürecinde de Vercel Production medya kapısı çalışır", () => {
+    const mediaRows = (env: Record<string, string | undefined>): string[] =>
+      extraProductionBlocks(env).filter((row) => row.includes("NEXT_PUBLIC_MEDIA_BASE_URL"));
+
+    expect(mediaRows({ VERCEL_ENV: "production" })).toHaveLength(1);
+    expect(
+      mediaRows({ VERCEL_ENV: "production", NEXT_PUBLIC_MEDIA_BASE_URL: "http://cdn.yetkin.ai" }),
+    ).toHaveLength(1);
+    expect(
+      mediaRows({ VERCEL_ENV: "production", NEXT_PUBLIC_MEDIA_BASE_URL: "https://cdn.yetkin.ai" }),
+    ).toEqual([]);
+    expect(mediaRows({ VERCEL_ENV: "preview" })).toEqual([]);
+    expect(mediaRows({})).toEqual([]);
+  });
 });

@@ -33,12 +33,19 @@ export function juniorTellSystemPrompt(input: {
   outcomes: readonly string[];
   birthYear: number;
   now?: Date;
+  /** «Hazırım, Sana Anlatayım!» yönlendirme kontrol soruları. */
+  tellGuides?: readonly string[];
 }): string {
   const outcomes = input.outcomes.map((line) => `- ${line}`).join("\n");
+  const guides =
+    input.tellGuides && input.tellGuides.length > 0
+      ? ["Kontrol soruları (öğrenci bunlara değinmiş olmalı):", ...input.tellGuides.map((line) => `- ${line}`)]
+      : [];
   return [
     juniorPersonaLine(input.birthYear, input.now),
     "Öğrenci dersi kendi sözüyle anlattı. Sohbet etme. Sertifika verme. Puanı para sayma.",
     "Yalnız bu dersin kazanımlarına bak.",
+    "Kontrol soruları varsa anlatışın bunlara değinip değinmediğine bak.",
     "Konu dışındaysa onTopic false olsun ve score 0 olsun.",
     "Emin değilsen score 0 olsun ve advice cümlesi Emin değilim ile başlasın.",
     "Yanıt yalnız JSON olsun.",
@@ -50,6 +57,7 @@ export function juniorTellSystemPrompt(input: {
     `Ders: ${input.title}`,
     "Kazanımlar:",
     outcomes,
+    ...guides,
   ].join("\n");
 }
 

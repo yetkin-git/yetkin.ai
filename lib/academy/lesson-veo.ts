@@ -7,6 +7,7 @@
  */
 
 import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
+import { resolvePublicMediaUrl } from "@/lib/media/public-url";
 
 function warmupAssetKey(slug: string, index: number): string {
   const row = COURSE_REGISTRY.find((item) => item.slug === slug);
@@ -74,12 +75,12 @@ export function academyWarmupCassettePublicPath(assetKey: string): string {
   const path = `/media/academy/micro/${academyWarmupCassetteFileName(assetKey)}`;
   const key = assetKey.trim();
   if (key === ACADEMY_OFF201_WARMUP_VEO_ASSET_KEY) {
-    return `${path}?v=${ACADEMY_OFF201_WARMUP_CACHE_V}`;
+    return resolvePublicMediaUrl(`${path}?v=${ACADEMY_OFF201_WARMUP_CACHE_V}`);
   }
   if (key === ACADEMY_OFFICE_AI_1_VEO_ASSET_KEY) {
-    return `${path}?v=${ACADEMY_OFF101_WARMUP_CACHE_V}`;
+    return resolvePublicMediaUrl(`${path}?v=${ACADEMY_OFF101_WARMUP_CACHE_V}`);
   }
-  return path;
+  return resolvePublicMediaUrl(path);
 }
 
 export function assertAcademyVeoApiCancelled(): void {

@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
-import { JUNIOR_PRODUCTION_LOCKED } from "@/lib/kernel/compliance/circuit-breakers";
+import { isJuniorCheckoutLocked } from "@/lib/kernel/security/junior-gate";
 import { isFrozenRoomApi } from "@/lib/kernel/security/edge-api-auth";
 import { RLS_FORCE_TABLES } from "@/lib/kernel/security/rls-policy-registry";
 import { juniorFreeLessonKeys, juniorLessonAccess } from "@/lib/junior/catalog";
@@ -10,7 +10,6 @@ import {
   JUNIOR_ELECTIVE_QUOTA,
   JUNIOR_FREE_LESSON_KEY,
   JUNIOR_PAID_ACTION_ERROR,
-  JUNIOR_YEARLY_LIST_PRICE_MINOR,
 } from "@/lib/junior/limits";
 import { JUNIOR_PLAN_CODE, JUNIOR_POS_PROVIDER, juniorPlanExpiry } from "@/lib/junior/plan";
 import { juniorAgeBand } from "@/lib/junior/persona";
@@ -28,6 +27,8 @@ import type { LlmGatewayResult } from "@/lib/kernel/ai/types";
 const NOW = new Date("2026-10-04T12:00:00+03:00");
 const PARENT = "parent-a";
 const OTHER = "parent-b";
+
+const JUNIOR_FIXTURE_PRICE_MINOR = 549_900;
 
 function clip(bytes: number): string {
   return Buffer.alloc(bytes, 7).toString("base64");
@@ -56,7 +57,7 @@ async function seedActivePlan(
     userId,
     status: "ACTIVE",
     planCode: JUNIOR_PLAN_CODE,
-    listPriceMinor: JUNIOR_YEARLY_LIST_PRICE_MINOR,
+    listPriceMinor: JUNIOR_FIXTURE_PRICE_MINOR,
     currencyCode: "TRY",
     provider: JUNIOR_POS_PROVIDER,
     providerRef: "JRSEEDED01",
@@ -76,7 +77,14 @@ async function openProfile(store: ReturnType<typeof createMemoryJuniorStore>, ni
   const created = await createJuniorProfile(
     store,
     PARENT,
-    { nickname, grade: 6, birthYear: 2015, consent: true },
+    {
+      nickname,
+      grade: 6,
+      birthYear: 2015,
+      consent: true,
+      consentVersion: "junior-notice-2026-10-09",
+      guardianBirthYear: 1990,
+    },
     NOW,
   );
   if (!created.ok) {
@@ -131,7 +139,7 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
   });
 
   it("her dersin ilk konusu ücretsizdir; ikinci konu kapalıdır; yetişkin defteri değişmez", () => {
-    expect(JUNIOR_PRODUCTION_LOCKED).toBe(true);
+    expect(isJuniorCheckoutLocked()).toBe(true);
     const freeKeys = juniorFreeLessonKeys();
     expect(freeKeys).toContain("jr_06_mat-1");
     expect(freeKeys).toContain("jr_06_ing_main-1");
@@ -159,8 +167,8 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     const registrySlugs = COURSE_REGISTRY.map((row) => row.slug as string);
     expect(registrySlugs.some((slug) => slug.startsWith("jr_"))).toBe(false);
     expect(COURSE_REGISTRY.filter((row) => row.audience === "adult")).toHaveLength(14);
-    expect(isFrozenRoomApi("/api/junior")).toBe(true);
-    expect(isFrozenRoomApi("/api/junior/tell")).toBe(true);
+    expect(isFrozenRoomApi("/api/junior")).toBe(false);
+    expect(isFrozenRoomApi("/api/junior/tell")).toBe(false);
     expect(isFrozenRoomApi("/api/junior-pilot/tell")).toBe(false);
     expect(isFrozenRoomApi("/api/junior-pilot/quiz")).toBe(false);
     expect(isFrozenRoomApi("/api/junior-pilot/checkout")).toBe(true);
@@ -168,7 +176,6 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
       expect.arrayContaining([
         "junior_guardian_consents",
         "junior_profiles",
-        "junior_question_bank",
         "junior_progress",
         "junior_subscriptions",
         "junior_xp",
@@ -299,7 +306,7 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     }
   });
 
-  it("pekiştirme sunucuda puanlanır; doğru eşleşme rozet verir", async () => {
+  it("pekiştirme sunucuda puanlanır; doğru konu sonu cevapları rozet verir", async () => {
     const store = createMemoryJuniorStore();
     const profile = await openProfile(store);
     await seedActivePlan(store);
@@ -309,12 +316,9 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
       lessonKey: JUNIOR_FREE_LESSON_KEY,
       now: NOW,
       answers: [
-        { id: "payda-ne", choiceIndex: 0 },
-        { id: "pay-nerede", choiceIndex: 0 },
-        {
-          id: "esle",
-          matches: { "l-yarim": "r-yarim", "l-ceyrek": "r-ceyrek", "l-ucte": "r-ucte" },
-        },
+        { id: "q1", choiceIndex: 0 },
+        { id: "q2", choiceIndex: 1 },
+        { id: "q3", choiceIndex: 1 },
       ],
     });
     expect(graded.ok).toBe(true);
@@ -343,7 +347,14 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     const lgs = await createJuniorProfile(
       store,
       PARENT,
-      { nickname: "Ege", grade: 6, birthYear: 2012, consent: true },
+      {
+        nickname: "Ege",
+        grade: 6,
+        birthYear: 2012,
+        consent: true,
+        consentVersion: "junior-notice-2026-10-09",
+        guardianBirthYear: 1990,
+      },
       NOW,
     );
     expect(lgs.ok).toBe(true);
@@ -377,7 +388,14 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     const lycee = await createJuniorProfile(
       store,
       OTHER,
-      { nickname: "Ada", grade: 6, birthYear: 2009, consent: true },
+      {
+        nickname: "Ada",
+        grade: 6,
+        birthYear: 2009,
+        consent: true,
+        consentVersion: "junior-notice-2026-10-09",
+        guardianBirthYear: 1990,
+      },
       NOW,
     );
     expect(lycee.ok).toBe(true);
@@ -418,9 +436,20 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
       ...walk(join(root, "app", "junior")),
       join(root, "prisma", "schema", "junior.prisma"),
     ];
-    const banned = /\bWallet\b|\bLedgerEntry\b|amountMinor|audio_base64|localStorage|indexedDB/;
+    const banned = /\bWallet\b|\bLedgerEntry\b|audio_base64|localStorage|indexedDB/;
+    const catalogPriceFiles = new Set([
+      join(root, "lib", "junior", "price.ts"),
+      join(root, "lib", "junior", "paytr.ts"),
+      join(root, "lib", "junior", "paytr-license-bridge.ts"),
+      join(root, "lib", "junior", "checkout.ts"),
+      join(root, "lib", "junior", "checkout-paytr.ts"),
+    ]);
     for (const file of files) {
-      expect(readFileSync(file, "utf8"), file).not.toMatch(banned);
+      const source = readFileSync(file, "utf8");
+      expect(source, file).not.toMatch(banned);
+      if (!catalogPriceFiles.has(file)) {
+        expect(source, file).not.toMatch(/amountMinor/);
+      }
     }
     expect(readFileSync(join(root, "components", "junior", "topic-quiz.tsx"), "utf8")).not.toContain(
       "correctIndex",
@@ -439,8 +468,16 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
       "mode: \"write\"",
     );
     const player = readFileSync(join(root, "components", "junior", "vector-player.tsx"), "utf8");
+    const controls = readFileSync(join(root, "components", "junior", "player", "controls.tsx"), "utf8");
     expect(player).toContain("Video / Görsel Oynatıcı");
-    expect(player).toContain("Ders Notu");
+    expect(player).toContain("Ders Notu ve Özet");
+    expect(player).toContain("data-junior-focus-player");
+    expect(player).toContain("data-junior-live-caption");
+    expect(player).toContain("useState(false)");
+    expect(player).toContain("{captionsVisible ? (");
+    expect(controls).toContain("data-junior-captions-toggle");
+    expect(controls).toContain("CC");
+    expect(player).not.toContain("lg:grid-cols-2");
     expect(player).not.toContain("MEB Tanımı & Okul Notu");
     expect(player).not.toContain("Hayatta Ne İşime Yarar?");
   });

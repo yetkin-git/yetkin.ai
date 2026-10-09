@@ -20,7 +20,7 @@ Kenar `/api/v1` (health ve `OPTIONS` hariç) `X-Rail-Min-Version` ister. Kilit e
 
 ## V1 hop sicili
 
-SSOT: `@yetkin/kernel` `RAIL_V1_HOPS_META` + Amiral Zod. `RAIL_V1_HOPS`, **16 kayıt**. Yazma hop'ları (satın alma, kilit, müfredat, sınav, cüzdan yükleme, portföy, profil) Bearer + Idempotency-Key. Müfredat/sınav GET okuma hop'ları T3 halkası içindir. Freelancer path'leri kilitliyken kenar 410.
+SSOT: `@yetkin/kernel` `RAIL_V1_HOPS_META` + Amiral Zod. `RAIL_V1_HOPS`, **17 kayıt**. Yazma hop'ları (satın alma, kilit, müfredat, sınav, cüzdan yükleme, portföy, profil) Bearer + Idempotency-Key. Müfredat/sınav GET okuma hop'ları T3 halkası içindir. Freelancer path'leri kilitliyken kenar 410.
 
 Amiral çerezle `/api/...`, Dron Bearer ile `/api/v1/...` aynı handler'ı konuşur.
 

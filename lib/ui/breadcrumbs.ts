@@ -1,8 +1,13 @@
 import type { Route } from "next";
 import { academyCourseTitleBySlug } from "@/lib/academy/course-titles";
+import { INDEPENDENT_ROOMS } from "@/lib/dronlar/kayit";
 import { KERNEL_SURFACES, VERTICAL_ROOMS } from "@/lib/kernel/modules";
 import { FROZEN_DISK_ROOM_CATALOG } from "@/lib/kernel/compliance/circuit-breakers";
 import { PAZARYERI_DISK_PATH, YETKINILAN_PATH } from "@/lib/kernel/yetkinilan";
+import {
+  juniorCourseTitleFromLessonKey,
+  juniorLessonTitleByKey,
+} from "@/lib/junior/human-titles";
 
 export type BreadcrumbCrumb = {
   href: Route;
@@ -48,6 +53,7 @@ type SurfaceMatch = {
 
 const ROOM_SURFACES: readonly SurfaceMatch[] = [
   ...VERTICAL_ROOMS.filter((room) => room.id !== "dashboard"),
+  ...INDEPENDENT_ROOMS,
   ...FROZEN_DISK_ROOM_CATALOG,
 ].map((room) => ({
   id: room.id,
@@ -90,6 +96,11 @@ export function breadcrumbsFromPathname(pathname: string | null | undefined): Br
     return [HOME];
   }
 
+  const juniorLesson = juniorLessonBreadcrumbs(path);
+  if (juniorLesson) {
+    return juniorLesson;
+  }
+
   const surface = matchSurface(path);
   if (!surface) {
     const segs = path.split("/").filter(Boolean);
@@ -118,6 +129,26 @@ export function applyBreadcrumbOverrides(
     const label = byHref.get(normalizeHref(crumb.href));
     return label ? { ...crumb, label } : crumb;
   });
+}
+
+/** `/junior/ders/jr_06_sosyal-1` → Anasayfa / 6. Sınıf Sosyal Bilgiler / konu başlığı. */
+function juniorLessonBreadcrumbs(path: string): BreadcrumbCrumb[] | null {
+  const match = /^\/junior\/ders\/([^/]+)$/.exec(path);
+  const raw = match?.[1];
+  if (!raw) {
+    return null;
+  }
+  const lessonKey = decodeSeg(raw);
+  const courseTitle = juniorCourseTitleFromLessonKey(lessonKey);
+  if (!courseTitle) {
+    return null;
+  }
+  const lessonTitle = juniorLessonTitleByKey(lessonKey);
+  const courseCrumb: BreadcrumbCrumb = { href: "/junior" as Route, label: courseTitle };
+  if (!lessonTitle) {
+    return [HOME, { href: path as Route, label: courseTitle }];
+  }
+  return [HOME, courseCrumb, { href: path as Route, label: lessonTitle }];
 }
 
 function matchSurface(path: string): SurfaceMatch | null {
@@ -177,6 +208,12 @@ function resolveSegmentLabel(roomId: string, segment: string): string {
     const title = academyCourseTitleBySlug(segment);
     if (title) {
       return title;
+    }
+  }
+  if (roomId === "junior") {
+    const courseTitle = juniorCourseTitleFromLessonKey(segment);
+    if (courseTitle) {
+      return courseTitle;
     }
   }
   if (looksLikeOpaqueId(segment)) {

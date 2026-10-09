@@ -383,9 +383,17 @@ const FILE_RULES: FileRule[] = [
     file: "lib/kernel/compliance/circuit-breakers.ts",
     must: [
       { needle: "EIDS_PUBLIC_LISTING_LOCKED = true", label: "EİDS kilidi açık" },
-      { needle: "JUNIOR_PRODUCTION_LOCKED = true", label: "Junior kilidi açık" },
+      { needle: "isJuniorSurfaceLocked", label: "Junior profil masası" },
       { needle: "FREELANCER_PUBLIC_SURFACE_LOCKED = true", label: "Freelancer kamu yüzeyi kilitli" },
       { needle: "WORKING_SHELL_NAV_ROOM_IDS", label: "kamu vitrin oda sicili" },
+    ],
+  },
+  {
+    file: "lib/kernel/security/junior-gate.ts",
+    must: [
+      { needle: "export function canEnterJunior", label: "Junior tek kapı" },
+      { needle: "export function isJuniorCheckoutLocked", label: "Junior kasa kapalı" },
+      { needle: "JUNIOR_BETA_ALLOWLIST_ENV", label: "Junior izin listesi" },
     ],
   },
   {

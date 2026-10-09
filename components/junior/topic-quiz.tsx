@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { playJuniorHintEffect, primeJuniorHintAudio } from "@/lib/junior/hint-effect";
 import { JUNIOR_QUIZ_PATH } from "@/lib/junior/limits";
 import type { JuniorPracticeChoice } from "@/lib/junior/types";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
@@ -29,6 +30,7 @@ export function TopicQuiz({
   const [done, setDone] = useState(false);
 
   async function onSubmit() {
+    primeJuniorHintAudio();
     setPending(true);
     setError("");
     try {
@@ -57,12 +59,14 @@ export function TopicQuiz({
       if (body.data.completed) {
         setDone(true);
         setSummary(`${body.data.correct ?? 0} / ${body.data.total ?? 0} doğru. Bu ders tamamlandı.`);
+        playJuniorHintEffect("grasped");
         onCompleted?.();
         router.refresh();
         return;
       }
+      playJuniorHintEffect("box-open");
       setSummary(
-        `${body.data.correct ?? 0} / ${body.data.total ?? 0} doğru. Barajın altında kaldın. ${body.data.advice ?? "Testi yeniden çöz."}`,
+        `${body.data.correct ?? 0} / ${body.data.total ?? 0} doğru. ${body.data.advice ?? "Altın İpucu! Eksik cümleyi bir kez daha oku."}`,
       );
     } finally {
       setPending(false);
@@ -73,7 +77,7 @@ export function TopicQuiz({
     <section className="rounded-[1.6rem] border border-[var(--border)] bg-white p-4">
       <h2 className="text-lg font-semibold">Konu Testi</h2>
       <p className="mt-1 text-sm text-[var(--muted)]">
-        {items.length} soru var. Barajı geçince ders tamamlanır. Puan sunucuda hesaplanır.
+        {items.length} soru var. Doğrular birikince ders tamamlanır. Puan sunucuda hesaplanır.
       </p>
       <div className="mt-4 grid gap-4">
         {items.map((item, questionIndex) => (
@@ -104,7 +108,7 @@ export function TopicQuiz({
         <ul className="mt-2 grid gap-2">
           {notes.map((note) => (
             <li key={note.id} className="text-sm">
-              {note.ok ? "Doğru. " : "Eksik. "}
+              {note.ok ? "Doğru. " : "Tuzaklara Düşme! "}
               {note.explanation}
             </li>
           ))}

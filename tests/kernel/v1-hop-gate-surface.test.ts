@@ -64,7 +64,7 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     vi.unstubAllEnvs();
   });
 
-  it("RAIL_V1_HOP_GATES, RAIL_V1_HOPS ile 1:1 kilitlenir; 16 hop (API-First)", () => {
+  it("RAIL_V1_HOP_GATES, RAIL_V1_HOPS ile 1:1 kilitlenir; 17 hop (API-First)", () => {
     const gateSrc = readFileSync(join(process.cwd(), "lib/kernel/http/v1-hop-gate.ts"), "utf8");
     const proxySrc = readFileSync(join(process.cwd(), "proxy.ts"), "utf8");
     expect(gateSrc).not.toContain("v1-contract");
@@ -73,8 +73,8 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     expect(gateSrc).not.toContain("v1PathTemplate: \"/api/v1/health\"");
     expect(proxySrc).toContain("decideRailV1HopGate");
     expect(proxySrc).toContain("hopGate.kind === \"fail\"");
-    expect(RAIL_V1_HOPS).toHaveLength(16);
-    expect(RAIL_V1_HOP_GATES).toHaveLength(16);
+    expect(RAIL_V1_HOPS).toHaveLength(17);
+    expect(RAIL_V1_HOP_GATES).toHaveLength(17);
     expect(
       RAIL_V1_HOP_GATES.map((hop) => ({
         id: hop.id,

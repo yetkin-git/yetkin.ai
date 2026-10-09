@@ -27,13 +27,13 @@ function oneSentence(tip: string): boolean {
 }
 
 describe("Junior haftalık veli raporu", () => {
-  it("on sorunun puanını doğru ve yanlış sayıya çevirir", () => {
+  it("paket puanını doğru ve yanlış sayıya çevirir", () => {
     for (let correct = 0; correct <= JUNIOR_QUIZ_MIN_ITEMS; correct += 1) {
       const score = Math.round((correct / JUNIOR_QUIZ_MIN_ITEMS) * 100);
       const counts = juniorQuizCountsFromScore(score);
       expect(counts.correct).toBe(correct);
       expect(counts.wrong).toBe(JUNIOR_QUIZ_MIN_ITEMS - correct);
-      expect(counts.total).toBe(10);
+      expect(counts.total).toBe(JUNIOR_QUIZ_MIN_ITEMS);
     }
   });
 
@@ -66,7 +66,7 @@ describe("Junior haftalık veli raporu", () => {
         }),
         row({
           mode: "quiz",
-          score: 70,
+          score: 67,
           lessonKey: "jr_06_mat-1",
           createdAt: new Date("2026-10-04T20:00:00+03:00"),
           advice: "Eksik kalan cümleyi bir kez daha oku. Sonra testi yeniden çöz.",
@@ -97,14 +97,19 @@ describe("Junior haftalık veli raporu", () => {
       {
         lessonKey: "jr_06_mat-1",
         lessonTitle: "Bir bütünü eşit parçaya bölmek",
-        score: 70,
-        correct: 7,
-        wrong: 3,
-        total: 10,
+        score: 67,
+        correct: 2,
+        wrong: 1,
+        total: JUNIOR_QUIZ_MIN_ITEMS,
         takenAt: new Date("2026-10-04T20:00:00+03:00").toISOString(),
       },
     ]);
-    expect(report.quizTotals).toEqual({ attempts: 1, correct: 7, wrong: 3, answered: 10 });
+    expect(report.quizTotals).toEqual({
+      attempts: 1,
+      correct: 2,
+      wrong: 1,
+      answered: JUNIOR_QUIZ_MIN_ITEMS,
+    });
     expect(report.parentTip).toBe("Evde şunu pekiştirin: paydayı alta yaz.");
     expect(oneSentence(report.parentTip)).toBe(true);
   });

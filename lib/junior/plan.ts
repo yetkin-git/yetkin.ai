@@ -5,17 +5,9 @@ import {
   JUNIOR_ELECTIVE_SLUGS,
   JUNIOR_PLAN_CODE,
   JUNIOR_QUOTA_FULL_LABEL,
-  JUNIOR_YEARLY_LIST_PRICE_LABEL,
-  JUNIOR_YEARLY_LIST_PRICE_MINOR,
 } from "@/lib/junior/limits";
 
-export {
-  JUNIOR_ELECTIVE_QUOTA,
-  JUNIOR_PLAN_CODE,
-  JUNIOR_QUOTA_FULL_LABEL,
-  JUNIOR_YEARLY_LIST_PRICE_LABEL,
-  JUNIOR_YEARLY_LIST_PRICE_MINOR,
-};
+export { JUNIOR_ELECTIVE_QUOTA, JUNIOR_PLAN_CODE, JUNIOR_QUOTA_FULL_LABEL };
 
 /**
  * PayTR Direct deneme kartları. Gerçek tahsilat yoktur. Mağaza anahtarı gerekmez.
@@ -27,7 +19,8 @@ export const JUNIOR_POS_SUCCESS_PANS = [
   "9792030394440796",
 ] as const;
 
-export const JUNIOR_POS_PROVIDER = "paytr-test" as const;
+/** Kernel PayTR hattı. Deneme sağlayıcı adı değildir. */
+export const JUNIOR_POS_PROVIDER = "paytr" as const;
 
 export const JUNIOR_POS_TEST_HINT =
   "PayTR deneme kartı 4355 0843 5508 4358. Son kullanma 12/30. Güvenlik kodu 000. Bu kasa gerçek para çekmez.";
@@ -45,9 +38,14 @@ export type JuniorSubscriptionRow = {
   providerRef: string;
   cardLast4: string;
   invoiceName: string;
+  /** Düz TCKN değildir. Prisma yazımında `jinv1:` mührü durur. */
   invoiceTckn: string;
+  /** Düz telefon değildir. Prisma yazımında `jinv1:` mührü durur. */
   invoicePhone: string;
+  /** Düz adres değildir. Prisma yazımında `jinv1:` mührü durur. */
   invoiceAddress: string;
+  /** Bu pakete işlenmiş PayTR sipariş numaraları. Aynı numara süreyi yeniden uzatmaz. */
+  appliedMerchantOids: readonly string[];
   electiveQuota: number;
   gradeSwitchRights: number;
   activatedAt: Date | null;

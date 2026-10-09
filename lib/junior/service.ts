@@ -17,12 +17,16 @@ import {
 } from "@/lib/junior/guardian-notice";
 import {
   juniorCourseShelves,
+  juniorLessonAccess,
   juniorLessonAccessForPlan,
   juniorLessonByKey,
   juniorShelvesForGrade,
   stampJuniorPlanAccess,
   type JuniorPlanAccess,
 } from "@/lib/junior/catalog";
+import { juniorPlanCoversLesson } from "@/lib/junior/enter";
+import { juniorProductionSealGaps } from "@/lib/junior/production-seal";
+import { canEnterJunior, type JuniorActor } from "@/lib/kernel/security/junior-gate";
 import {
   JUNIOR_AUDIO_MAX_BYTES,
   JUNIOR_AUDIO_MIME_TYPES,
@@ -59,6 +63,7 @@ import {
   normalizeJuniorNickname,
 } from "@/lib/junior/profile-rules";
 import { gradeJuniorPractice, publicJuniorPractice } from "@/lib/junior/practice";
+import { juniorTellGuides } from "@/lib/junior/quiz";
 import { buildJuniorWeeklyReport, type JuniorWeeklyReport } from "@/lib/junior/report";
 import { gradeJuniorTopicQuiz, publicJuniorTopicQuiz } from "@/lib/junior/topic-quiz";
 import {
@@ -347,10 +352,14 @@ export function readJuniorLesson(lessonKey: string, plan: JuniorPlanAccess | nul
       steps?: readonly string[];
       mebNote: string;
       lifeUse: string;
+      parentNote?: string;
       practice: JuniorPracticeItem[];
       quiz: JuniorPracticeChoice[];
+      /** «Hazırım, Sana Anlatayım!» yönlendirme kontrol soruları. */
+      tellGuides: string[];
+      preparing: boolean;
     }
-  | { access: "locked"; title: string; courseTitle: string; teaser: string }
+  | { access: "locked"; title: string; courseTitle: string; teaser: string; preparing: boolean }
   | { access: "missing" } {
   const lesson = juniorLessonByKey(lessonKey);
   if (!lesson) {
@@ -359,8 +368,9 @@ export function readJuniorLesson(lessonKey: string, plan: JuniorPlanAccess | nul
   const courseTitle = juniorCourseShelves().find((course) =>
     course.lessons.some((row) => row.key === lesson.key),
   )?.title ?? "6. Sınıf";
+  const preparing = juniorProductionSealGaps(lesson).length > 0;
   if (juniorLessonAccessForPlan(lesson.key, plan) !== "free") {
-    return { access: "locked", title: lesson.title, courseTitle, teaser: lesson.teaser };
+    return { access: "locked", title: lesson.title, courseTitle, teaser: lesson.teaser, preparing };
   }
   return {
     access: "free",
@@ -371,8 +381,11 @@ export function readJuniorLesson(lessonKey: string, plan: JuniorPlanAccess | nul
     steps: lesson.steps ? [...lesson.steps] : undefined,
     mebNote: lesson.mebNote,
     lifeUse: lesson.lifeUse,
+    parentNote: lesson.parentNote,
     practice: publicJuniorPractice(lesson.key),
     quiz: publicJuniorTopicQuiz(lesson.key),
+    tellGuides: [...juniorTellGuides(lesson.key)],
+    preparing,
   };
 }
 
@@ -388,6 +401,7 @@ export async function submitJuniorTell(
     mimeType?: string;
     durationSec?: number;
     now?: Date;
+    actor?: JuniorActor | null;
   },
   deps: { invoke?: InvokeTell } = {},
 ): Promise<JuniorOk<JuniorFeedback> | JuniorFail> {
@@ -399,7 +413,7 @@ export async function submitJuniorTell(
       })
     : null;
   try {
-    const gate = await gateLesson(store, input.userId, input.profileId, input.lessonKey);
+    const gate = await gateLesson(store, input.userId, input.profileId, input.lessonKey, input.actor ?? null);
     if (!gate.ok) {
       return gate;
     }
@@ -427,6 +441,7 @@ export async function submitJuniorTell(
         outcomes: lesson.outcomes,
         birthYear: gate.profile.birthYear,
         now,
+        tellGuides: juniorTellGuides(lesson.key),
       }),
       user: juniorTellUserText({ mode: input.mode, text: input.text }),
       inlineMedia: inline ? [inline] : undefined,
@@ -478,9 +493,10 @@ export async function submitJuniorPractice(
     lessonKey: string;
     answers: readonly JuniorPracticeAnswer[];
     now?: Date;
+    actor?: JuniorActor | null;
   },
 ): Promise<JuniorOk<JuniorFeedback & { correct: number; total: number; notes: { id: string; ok: boolean; explanation: string }[] }> | JuniorFail> {
-  const gate = await gateLesson(store, input.userId, input.profileId, input.lessonKey);
+  const gate = await gateLesson(store, input.userId, input.profileId, input.lessonKey, input.actor ?? null);
   if (!gate.ok) {
     return gate;
   }
@@ -532,6 +548,7 @@ export async function submitJuniorQuiz(
     lessonKey: string;
     answers: readonly JuniorPracticeAnswer[];
     now?: Date;
+    actor?: JuniorActor | null;
   },
 ): Promise<
   | JuniorOk<
@@ -544,7 +561,7 @@ export async function submitJuniorQuiz(
     >
   | JuniorFail
 > {
-  const gate = await gateLesson(store, input.userId, input.profileId, input.lessonKey);
+  const gate = await gateLesson(store, input.userId, input.profileId, input.lessonKey, input.actor ?? null);
   if (!gate.ok) {
     return gate;
   }
@@ -564,11 +581,11 @@ export async function submitJuniorQuiz(
   const completed = graded.score >= JUNIOR_QUIZ_PASS_SCORE;
   const reading = {
     onTopic: true,
-    praised: completed ? "Tamamlandı." : "Barajın altında kaldın.",
-    missing: completed ? "Eksik kalan nokta yok." : "Eksik kalan sorunun cümlesini oku.",
+    praised: completed ? "Tamamlandı." : "Tuzaklara Düşme! Eksik kalan yeri birlikte görürüz.",
+    missing: completed ? "Eksik kalan nokta yok." : "Eksik sorunun cümlesi ipucunu taşıyor.",
     advice: completed
       ? "Bu ders bitti. İstersen sıradaki konuya geç."
-      : "Eksik kalan cümleyi bir kez daha oku. Sonra testi yeniden çöz.",
+      : "Altın İpucu! Eksik cümleyi bir kez daha oku. Sonra testi yeniden çöz.",
     score: graded.score,
   };
   const saved = await commitFeedback(store, {
@@ -601,6 +618,7 @@ async function gateLesson(
   userId: string,
   profileId: string,
   lessonKey: string,
+  actor: JuniorActor | null,
 ): Promise<
   | { ok: true; lesson: NonNullable<ReturnType<typeof juniorLessonByKey>>; profile: { birthYear: number } }
   | JuniorFail
@@ -619,23 +637,28 @@ async function gateLesson(
   }
   const subscription = await store.getSubscription(userId);
   const planActive = isJuniorPlanActive(subscription, new Date());
-  const access = juniorLessonAccessForPlan(lessonKey, {
-    active: planActive,
-    selectedElectives: profile.selectedElectives,
+  const access = juniorLessonAccess(lessonKey);
+  const planCovers = juniorPlanCoversLesson(lessonKey, planActive, profile.selectedElectives);
+  const sessionActor: JuniorActor = actor?.id ? actor : { id: userId };
+  const decision = canEnterJunior(sessionActor, lessonKey, {
+    intent: "paid-action",
+    lessonAccess: access,
+    planCovers,
+    id: profileId,
   });
-  if (access === "missing") {
+  if (access === "missing" || (!decision.allow && decision.reason === "missing")) {
     return { ok: false, status: 404, error: "Bu ders yok." };
   }
-  if (access === "locked") {
-    return {
-      ok: false,
-      status: 403,
-      error: planActive
-        ? "Bu seçmeli ders paket kotanda yok. En fazla üç ders seçilir."
-        : "Bu konu veli girişi ve yıllık paket ister.",
-    };
-  }
-  if (!planActive) {
+  if (!decision.allow) {
+    if (access === "locked") {
+      return {
+        ok: false,
+        status: 403,
+        error: planActive
+          ? "Bu seçmeli ders paket kotanda yok. En fazla üç ders seçilir."
+          : "Bu konu veli girişi ve yıllık paket ister.",
+      };
+    }
     return { ok: false, status: 403, error: JUNIOR_PAID_ACTION_ERROR };
   }
   const lesson = juniorLessonByKey(lessonKey);
