@@ -56,7 +56,6 @@ describe("lansman hukuk yüzeyi (O13)", () => {
       mersis: "937068336100017",
       address: "İnönü Mah. 157 Sk. No:3/C Akhisar/Manisa",
       supportEmail: "destek@yetkin.ai",
-      adminEmail: "yapinet360@gmail.com",
       whatsappDisplay: "0551 675 16 74",
       whatsappE164: "905516751674",
       iban: "TR82 0020 5000 0100 8852 4000 01",
@@ -193,7 +192,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(copy).toContain(LEGAL_ENTITY.address);
     expect(copy).toContain("Adres: ${LEGAL_ENTITY.address}");
     expect(copy).toContain(LEGAL_ENTITY.iban);
-    expect(copy).toContain(LEGAL_ENTITY.adminEmail);
+    expect(copy).not.toContain("yapinet360@gmail.com");
+    expect(copy).not.toContain("adminEmail");
     expect(copy).not.toContain("emanet zaman aşımı");
     expect(copy).not.toContain("freelancer aracılık");
     expect(copy).not.toContain("paylaştırmalı tahsilat");
@@ -218,6 +218,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(contact).toContain("LEGAL_ENTITY.mersis");
     expect(contact).toContain("LEGAL_ENTITY.address");
     expect(contact).toContain("LEGAL_ACTIVITY_SCOPE_BODY");
+    expect(contact).not.toContain("yapinet360@gmail.com");
+    expect(contact).not.toContain("LEGAL_ADMIN_EMAIL");
     expect(contact).not.toContain("PayTR");
     // Faaliyet konusu şeffaflığı — unvan/faaliyet hizası tek kaynaktan beslenir.
     expect(LEGAL_ACTIVITY_SCOPE_BODY).toContain(LEGAL_ENTITY.tradeName);

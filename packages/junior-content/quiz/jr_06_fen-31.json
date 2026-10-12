@@ -1,0 +1,52 @@
+{
+  "lessonKey": "jr_06_fen-31",
+  "title": "Soğurulma ve beyaz ışık",
+  "tellGuides": [
+    "Siyah kâğıt neden daha çok ısınır?",
+    "Prizma beyaz ışığa ne yapar?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Işığın madde tarafından alınıp ısıya dönmesine ne denir?",
+      "options": [
+        "Soğurulma",
+        "Yer değiştirme",
+        "Çimlenme",
+        "Döllenme"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Koyu yüzey ısınır.",
+      "explanation": "Adım 1: Yansıma ışığı geri gönderir. Adım 2: Soğurulma ışığı maddeye alır. Adım 3: Enerji çoğunlukla ısı olur."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "10 dakika güneşte kalan siyah ve beyaz kâğıttan hangisi daha sıcak olur?",
+      "options": [
+        "Siyah kâğıt",
+        "Beyaz kâğıt",
+        "İkisi de buz keser",
+        "İkisi de ışığı yok eder"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Koyu yüzey daha çok soğurur.",
+      "explanation": "Adım 1: Siyah daha çok ışık soğurur. Adım 2: Beyaz daha çok yansıtır. Adım 3: Siyah kâğıt daha sıcak gelir."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Deney tablosunda prizmasız duvar beyaz, prizmalı duvar renk kuşağı gösteriyor. Kuşak beyaz ışık hakkında ne söyler?",
+      "options": [
+        "Beyaz ışık birçok rengin karışımıdır",
+        "Beyaz ışık tek bir mor boyadır",
+        "Prizma ışığı yok eder",
+        "Renkler yalnız sesten gelir"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Prizma ayırır, üretmez.",
+      "explanation": "Adım 1: Prizmasız ışık beyaz görünür. Adım 2: Prizma bu ışığı ayırır. Adım 3: Kuşak, beyaz ışığın renklerden kurulduğunu gösterir."
+    }
+  ]
+}

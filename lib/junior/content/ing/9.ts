@@ -1,38 +1,37 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf İngilizce, Ünite 5 At the Fair. Oyuncaklar ve görüş. */
+/** 6. Sınıf İngilizce, ENG.6.5 Universe, 29–31. hafta. Gelecek ve will. */
 export const JUNIOR_ING_MAIN_9_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_ing_main-9",
-  title: "Lunaparkta rides ve fun",
+  title: "Universe: gelecekte will",
   teaser:
-    "Dönme dolap ferris wheel, çarpışan araba bumper cars adını alır. Görüş I think it is fun ile söylenir. Kavramsal Anlayış, oyunun adını görüşten ayırır. İfade Gücü, bir oyuncak için bence cümlesi kurmandır.",
+    "Universe temasında gelecek planı will ile söylenir. I will visit a space museum, bir uzay müzesini ziyaret edeceğim demektir. Kavramsal Anlayış, will ile her gün olan işi ayırır. İfade Gücü, geleceğe dair bir cümleyi will ile kurmandır.",
   welcome:
-    "Günün güzel geçiyordur umarım! Gel bakalım bugün İngilizcede önümüzde nasıl bir yolculuk var, çünkü rengarenk ışıklarıyla bizi çağıran lunaparka doğru neşeli bir adım atıyoruz! Dönme dolabın dev çemberi gökyüzüne uzanıyor, çarpışan arabalardan kahkahalar yükseliyor, atlı karınca ise tatlı bir melodiyle dönüyor. Bugün seninle lunaparktaki oyuncakların İngilizce isimlerini öğrenecek ve onlar hakkında 'Bence çok eğlenceli!' demenin yolunu keşfedeceğiz. Kendi düşünceni söylerken kullanacağın 'I think' kalıbı İngilizcede en güçlü yardımcın olacak.",
+    "Merhaba çocuklar, hepiniz hoş geldiniz! Gökyüzündeki yıldızlara bakıp bir gün bir uzay müzesini gezmeyi ya da bir teleskop almayı düşündün mü? Bu düşünce henüz bugünün işi değildir; geleceğe aittir. Universe konusunda geleceği will ile kuracağız. Bir hayali gözlemlemek, onu şimdiki zamandan ayırmana yardım eder.",
   concept:
-    "Lunaparktaki oyuncaklara genel olarak 'rides' deriz. Gökyüzünü ayaklarının altına seren dönme dolaba 'ferris wheel', birbirine neşeyle çarpan küçük araçlara 'bumper cars', sevimli atlarıyla dönen oyuncağa 'carousel', raylarda hızla kayan trene ise 'roller coaster' denir. Bir oyuncak hakkındaki kişisel fikrini söylerken 'I think it is fun' yani 'Bence o eğlencelidir' dersin. 'Exciting' heyecan verici, 'amazing' harika, 'boring' ise sıkıcı anlamına gelir. Şurası aklında kalsın tamam mı: 'Fun' eğlenceli demektir, 'funny' ise güldürücü ve komik demektir; hız treni seni güldürmez ama sana büyük bir eğlence sunar.",
+    "Gelecekte yapmayı düşündüğümüz iş will ve yalın fiille söylenir. I will learn about planets, gezegenleri öğreneceğim demektir. She will watch the sky, o gökyüzünü izleyecek demektir. Olumsuzda will not ya da kısa biçimi won't gelir: I won't travel to Mars. Soru Will you visit a planetarium? diye kurulur; cevap Yes, I will ya da No, I won't olur. Her gece olan alışkanlık will almaz; o iş simple present ile durur. Pratik kural: Will'den sonra fiil yalın kalır, s ya da ing eklenmez.",
   example:
-    "Lunaparkın meydanında durup etrafımıza bakalım: 'The ferris wheel is amazing and big!' Çarpışan arabalara binen arkadaşını görüp 'I think bumper cars are very exciting' dersin. Küçük kardeşin atlı karıncayı çok seviyorsa 'The carousel is fun for children' cümlesini kurarsın. Çok yavaş hareket eden bir oyuncaktan sıkıldıysan 'I think this ride is boring' diyebilirsin. Bir arkadaşına fikrini sormak için 'What do you think about the roller coaster?' dersin; o da sana 'In my opinion, it is fantastic!' diyerek kendi görüşünü söyler.",
-  hint: "gold",
+    "Ece gelecek ay bir planetaryuma gidecek: I will visit the planetarium next month. Arkadaşı da onunla gelecek: She will come with me. Uzay gemisi kullanmayı bugünden iddia etmez; I will not fly a rocket der ve hayali ölçülü tutar. Öğretmen Will you read a book about the Moon? diye sorarsa Yes, I will diye cevap verir. Her akşam yıldız bakan biri ise I watch the stars every night der; bu cümlede will yoktur çünkü iş alışkanlıktır.",
+  hint: "trap",
   warning:
-    "Bir oyuncağın eğlenceli olduğunu söylerken 'funny' yerine 'fun' sözcüğünü kullanmayı hatırla; çünkü palyaço komiktir yani 'funny'dir, lunapark oyuncağı ise eğlencelidir yani 'fun'dır. Kendi fikrini belirtirken 'I think it is fun' diyerek küçük 'it' veya 'is' sözcüklerini cümlenin içinde tutmak anlatımını tam ve kusursuz bir İngilizce seviyesine taşır.",
+    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Will'den sonra fiile s ya da ing eklemek kalıbı bozar; will visits ve will visiting yanlıştır. Olumsuzda won't ile not bir kez yeter, will not not yazılmaz. Her gün yapılan işi will ile söylemek onu geleceğe atar. Universe konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
   life:
-    "Hafta sonu lunaparka veya panayıra gittiğinde bilet alırken dönme dolabı işaret edip 'I think the ferris wheel is wonderful' de. Arkadaşlarınla hız trenine binerken 'It is very exciting!' diyerek heyecanını paylaş. Eve döndüğünde ailene o günü anlatırken 'My favourite ride is the bumper cars because it is fun' diyerek günün özetini İngilizce yap.",
+    "Bunu akşam defterine bir gelecek cümlesi yazarak deneyebilirsin. I will learn ten space words this week, bu hafta on uzay sözcüğü öğreneceğim demektir. Okul gezisi varsa I will visit the science centre dersin. Pencereden Ay'a bakıp I will watch the Moon on Saturday diye bir gün seç. Gelecek cümlesi bir sözdür; abartılı bir roket vaadi kurmana gerek yoktur.",
   recap: [
-    "Ferris wheel dönme dolap, bumper cars çarpışan araba, roller coaster hız trenidir.",
-    "Kişisel görüş I think it is fun veya I think it is exciting kalıbıyla söylenir.",
-    "Fun eğlenceli olanı, funny ise komik ve güldürücü olanı anlatır.",
+    "Gelecek iş will ve yalın fiille kurulur.",
+    "Olumsuz won't, soru Will you diye başlar.",
+    "Her gün olan alışkanlık will almaz.",
   ],
-  conceptSeal: "Oyunun adı ile görüş ayrıdır. Görüş I think ile başlar.",
-  voiceSeal: "Bir lunapark oyuncağı için bence cümlesi kurarsın.",
+  conceptSeal: "Gelecek cümlesi will ve yalın fiille kurulur.",
+  voiceSeal: "Uzayla ilgili bir gelecek planını will ile söylersin.",
   outcomes: [
-    "Ferris wheel ve bumper cars lunapark adlarıdır.",
-    "I think it is fun bir görüştür.",
-    "Fun ile funny aynı anlama gelmez.",
+    "Will gelecek zamanı kurar.",
+    "Will'den sonra fiil yalın kalır.",
+    "Alışkanlık will ile söylenmez.",
   ],
-  scene: "fair",
+  scene: "globe",
   parentNote:
-    "Çocuğunuz dönme dolabı ferris wheel, çarpışan arabayı bumper cars diye adlandırır. Görüşünü I think it is fun ile kurar. Fun eğlence, funny komik demektir.",
-
+    "Çocuğunuz gelecek planını I will ile kurar. Will'den sonra fiilin yalın kaldığını bilir. Bir müze gezisini bu kalıpla söyletmek yeter.",
 };
 
 export const JUNIOR_ING_MAIN_9 = juniorLessonFromScenario(JUNIOR_ING_MAIN_9_SCENARIO);

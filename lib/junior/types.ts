@@ -43,6 +43,7 @@ export const JUNIOR_VECTOR_SCENES = [
   "particles",
   "sound",
   "circuit",
+  "mirror",
   "meaning",
   "word-tree",
   "affix",
@@ -126,6 +127,18 @@ export type JuniorLessonCard = {
   access: "free" | "locked";
   thisWeek: boolean;
   status: JuniorLessonStatus;
+  /** MEB haftası ve çıktı adı. Takvim şeridinde olmayan konuda yoktur. */
+  weekHeading?: string;
+  /** 2018 kalıntısı. Raf rozeti MEB penceresinden almaz. */
+  archiveLabel?: string;
+  /** Ücretsiz ilk ders etiketi. Arşiv rafı başlığı üretmez. */
+  starterLabel?: string;
+  /** MEB tema kodu. Arşiv konusunda yoktur. */
+  unitCode?: string;
+  /** Katalogdaki ünite sırası. 1’den başlar. */
+  unitIndex?: number;
+  /** Vitrin ünite adı. İngilizce tema kodları Türkçe etikete çevrilir. */
+  unitTitle?: string;
 };
 
 export type JuniorCourseShelf = {
@@ -136,6 +149,9 @@ export type JuniorCourseShelf = {
   track: JuniorCourseTrack;
   labels: readonly string[];
   lessons: JuniorLessonCard[];
+  /** Saatli çıktılardan gövdesi yazılmış olanlar. Kablar bu sayıya girmez. */
+  outcomeWritten?: number;
+  outcomeTotal?: number;
 };
 
 export type JuniorXpView = {
@@ -146,6 +162,8 @@ export type JuniorXpView = {
 export type JuniorPracticeChoice = {
   id: string;
   kind: "choice";
+  /** Kavram, uygulama veya beceri. Eski kayıtlarda boş kalabilir. */
+  level?: "concept" | "apply" | "skill";
   prompt: string;
   choices: string[];
 };
@@ -164,6 +182,9 @@ export type JuniorPracticeAnswer = {
   id: string;
   choiceIndex?: number;
   matches?: Record<string, string>;
+  cloze?: string;
+  /** Sıralama etkinliğinde karo kimliklerinin öğrenci sırası. */
+  order?: string[];
 };
 
 export type JuniorTellMode = "speak" | "write";

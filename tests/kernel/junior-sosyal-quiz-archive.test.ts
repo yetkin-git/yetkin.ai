@@ -13,12 +13,12 @@ import { publicJuniorPractice } from "@/lib/junior/practice";
 import { juniorTellSystemPrompt } from "@/lib/junior/tell";
 
 describe("Junior Sosyal Bilgiler konu sonu soru arşivi", () => {
-  it("20 derste 60 çözümlü soru taşır", () => {
-    expect(JUNIOR_SOSYAL_QUIZ_PACKS).toHaveLength(20);
-    expect(juniorSosyalQuizLessonKeys()).toHaveLength(20);
-    expect(juniorSosyalQuizQuestionCount()).toBe(60);
-    for (let n = 1; n <= 20; n += 1) {
-      const key = `jr_06_sosyal-${n}`;
+  it("mühürlü sosyal bilgiler derslerinde üç çözümlü soru taşır", () => {
+    const keys = juniorSosyalQuizLessonKeys();
+    expect(JUNIOR_SOSYAL_QUIZ_PACKS).toHaveLength(keys.length);
+    expect(keys).toHaveLength(24);
+    expect(juniorSosyalQuizQuestionCount()).toBe(keys.length * 3);
+    for (const key of keys) {
       const pack = juniorQuizPack(key);
       expect(pack).not.toBeNull();
       expect(pack?.questions).toHaveLength(3);

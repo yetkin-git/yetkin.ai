@@ -534,7 +534,7 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
   });
 
   it("Gün 0 allowlist 17 B2C hop; freelancer Tezgâh donduruldu", () => {
-    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(17);
+    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(20);
     expect(assertRailIsDay0Path(RAIL_IS_DAY0_HOPS.session.path)).toBe("/api/v1/auth/session");
     expect(assertRailIsDay0Path(RAIL_IS_DAY0_HOPS.walletStrip.path)).toBe(
       "/api/v1/dashboard/wallet-strip",

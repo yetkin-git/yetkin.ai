@@ -16,6 +16,7 @@ public/media/**/*.hardmix.tmp.mp3
 public/media/junior/audio/
 public/media/junior/covers/
 public/media/junior/warmup/
+public/media/junior/scenes/
 .cursor
 coverage
 test-results

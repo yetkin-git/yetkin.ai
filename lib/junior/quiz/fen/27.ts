@@ -1,0 +1,49 @@
+import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
+
+/** 6. Sınıf Fen Bilimleri — iç salgı. */
+export const JUNIOR_FEN_QUIZ_27 = {
+  lessonKey: "jr_06_fen-27",
+  title: "İç salgı",
+  tellGuides: [
+    "Hormonun nasıl taşındığını bir cümlede söyle.",
+    "Pankreasın insülin görevini sinir haberinden ayır.",
+  ],
+  questions: [
+    {
+      id: "q1",
+      level: "concept",
+      question: "İç salgı bezi hormonunu nereye verir?",
+      options: ["Kana", "Yalnız derinin dışına", "Aynanın arkasına", "Boşluğa ses olarak"],
+      correctAnswerIndex: 0,
+      hint: "Hormon kanla gider.",
+      explanation:
+        "Adım 1: İç salgı bezinin ürünü hormondur. Adım 2: Hormon kana verilir. Adım 3: Sinir haberi ayrı bir yoldur.",
+    },
+    {
+      id: "q2",
+      level: "apply",
+      question: "Kandaki şekeri dengeleyen insülini hangi bez üretir?",
+      options: ["Pankreas", "Yumurtalık", "Göz merceği", "Akciğer"],
+      correctAnswerIndex: 0,
+      hint: "Şeker dengesi pankreasla anılır.",
+      explanation:
+        "Adım 1: İnsülin bir hormondur. Adım 2: Onu pankreas üretir. Adım 3: Göz merceği bu işi yapmaz.",
+    },
+    {
+      id: "q3",
+      level: "skill",
+      question:
+        "Vücut modelinde korku anında kalp hızlanıyor. Öğrenci bunu yalnız sinir teli sanıyor. Hormon yolu neden ayrıca yazılır?",
+      options: [
+        "Böbrek üstü bezi kana hormon verir ve vücudu hazırlar",
+        "Hormon aynadan yansıyarak kalbe gider",
+        "Hormon yer değiştirmeyi sıfırlar",
+        "İnsülin sesi boşlukta taşır",
+      ],
+      correctAnswerIndex: 0,
+      hint: "Kimyasal haberci kanla gider.",
+      explanation:
+        "Adım 1: Sinir haberi hızlı ve çizgiseldir. Adım 2: Böbrek üstü bezi hormonu kana verir. Adım 3: İki yol aynı ok değildir.",
+    },
+  ],
+} as const satisfies JuniorLessonQuizPack;

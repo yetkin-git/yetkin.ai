@@ -180,6 +180,7 @@ export const ROBOTS_DISALLOW_PATHS = [
   "/freelancer",
   "/admin",
   "/junior/checkout",
+  "/young",
   "/login",
   "/register",
   "/cuzdan",

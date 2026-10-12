@@ -1,0 +1,54 @@
+import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
+
+/** 6. Sınıf Fen Bilimleri — yakıt ve çevre problemi. */
+export const JUNIOR_FEN_QUIZ_38 = {
+  lessonKey: "jr_06_fen-38",
+  title: "Yakıt ve çevre problemi",
+  tellGuides: [
+    "Yakıtın ne işe yaradığını bir cümlede söyle.",
+    "Bir çevre problemini ve bir azaltma yolunu eşle.",
+  ],
+  questions: [
+    {
+      id: "q1",
+      level: "concept",
+      question: "Yakıt yanınca öncelikle ne sağlar?",
+      options: ["Enerji", "Biyoçeşitlilik sıfırlanması", "Normalin dikliği", "Çimlenme ışığı"],
+      correctAnswerIndex: 0,
+      hint: "Yanma iş üretir.",
+      explanation:
+        "Adım 1: Yakıtta kimyasal enerji vardır. Adım 2: Yanma bu enerjiyi dönüştürür. Adım 3: Ürün ısı ya da harekettir.",
+    },
+    {
+      id: "q2",
+      level: "apply",
+      question: "Filtresiz baca filtreliden daha çok is bırakıyorsa bu neye örnektir?",
+      options: [
+        "Yakıtın doğurabildiği bir çevre problemi",
+        "Buzun yoğunluğunun artması",
+        "Gelme açısının normale eşit olması",
+        "Eşeysiz üreme",
+      ],
+      correctAnswerIndex: 0,
+      hint: "İs havayı kirletir.",
+      explanation:
+        "Adım 1: Yanma enerji verir. Adım 2: İs çevreye karışır. Adım 3: Bu bir çevre problemidir.",
+    },
+    {
+      id: "q3",
+      level: "skill",
+      question:
+        "Ulaşım tablosunda 10 kilometre 2 litre yakıt istiyor. 1 kilometrelik kısa parça yürünebiliyor. Tartışmada hangi seçim çevre problemini azaltır?",
+      options: [
+        "Kısa parçayı yürüyüp o motoru çalıştırmamak",
+        "Kısa parçaya ayrı bir motor yakmak",
+        "Yakıtı sınırsız artırmak",
+        "Bacadaki isi görmezden gelmek",
+      ],
+      correctAnswerIndex: 0,
+      hint: "Gerekmeyen yanmayı kesmek tasarruftur.",
+      explanation:
+        "Adım 1: Yakıt enerji verir ama yanma iz bırakır. Adım 2: Kısa yol yürünebilir. Adım 3: Motoru çalıştırmamak o parçada yakıtı ve etkiyi azaltır.",
+    },
+  ],
+} as const satisfies JuniorLessonQuizPack;

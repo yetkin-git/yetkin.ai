@@ -4,9 +4,12 @@
  * Dinleme anında dış TTS veya müzik çağrısı yoktur.
  */
 
-import { startsWithJuniorWarmOpening } from "@/lib/junior/content-rules";
+import { JUNIOR_AUDIO_MANIFEST } from "@/lib/junior/audio-manifest.generated";
+import { JUNIOR_WARM_OPENINGS } from "@/lib/junior/content-rules";
 import { JUNIOR_ELECTIVE_SLUGS, JUNIOR_PILOT_SLUGS } from "@/lib/junior/limits";
+import { juniorLessonMediaIsPublicPreview } from "@/lib/junior/media-visibility";
 import { ACADEMY_SEALED_MEDIA_MODEL } from "@/lib/kernel/ai/model-roles";
+import type { GeminiTtsPrebuiltVoice } from "@/lib/kernel/ai/tts-voices";
 import { resolvePublicMediaUrl } from "@/lib/media/public-url";
 
 export const JUNIOR_TTS_MODEL_ID = ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS;
@@ -104,120 +107,21 @@ export function juniorBgmSrc(): string {
 export const JUNIOR_VOICE_PREPARING_LABEL = "Ses hazırlanıyor." as const;
 
 /**
- * Diskte fırınlanmış yayın MP3 anahtarları.
- * Oynatıcı bu listedeki derslerde HTML5 audio çalar.
+ * Fırınlanmış yayın MP3 anahtarları.
+ * Liste `audio-manifest.generated.ts` kaydından okunur; elle ikinci sicil tutulmaz.
+ * Oynatıcı bu anahtarlardaki derslerde HTML5 audio çalar.
  * Dosya yoksa veya açılmazsa robot sese düşmez; «Ses hazırlanıyor.» kalır.
  * Listede olmayan seçmeli konuda tarayıcı konuşması yedek kalır.
  */
-export const JUNIOR_BAKED_AUDIO_KEYS = [
-  "jr_06_mat-1",
-  "jr_06_mat-2",
-  "jr_06_mat-3",
-  "jr_06_mat-4",
-  "jr_06_mat-5",
-  "jr_06_mat-6",
-  "jr_06_mat-7",
-  "jr_06_mat-8",
-  "jr_06_mat-9",
-  "jr_06_mat-10",
-  "jr_06_mat-11",
-  "jr_06_mat-12",
-  "jr_06_mat-13",
-  "jr_06_mat-14",
-  "jr_06_mat-15",
-  "jr_06_mat-16",
-  "jr_06_mat-17",
-  "jr_06_mat-18",
-  "jr_06_mat-19",
-  "jr_06_mat-20",
-  "jr_06_mat-21",
-  "jr_06_mat-22",
-  "jr_06_mat-23",
-  "jr_06_mat-24",
-  "jr_06_mat-25",
-  "jr_06_fen-1",
-  "jr_06_fen-2",
-  "jr_06_fen-3",
-  "jr_06_fen-4",
-  "jr_06_fen-5",
-  "jr_06_fen-6",
-  "jr_06_fen-7",
-  "jr_06_fen-8",
-  "jr_06_fen-9",
-  "jr_06_fen-10",
-  "jr_06_fen-11",
-  "jr_06_fen-12",
-  "jr_06_fen-13",
-  "jr_06_fen-14",
-  "jr_06_fen-15",
-  "jr_06_fen-16",
-  "jr_06_fen-17",
-  "jr_06_fen-18",
-  "jr_06_fen-19",
-  "jr_06_fen-20",
-  "jr_06_turkce-1",
-  "jr_06_turkce-2",
-  "jr_06_turkce-3",
-  "jr_06_turkce-4",
-  "jr_06_turkce-5",
-  "jr_06_turkce-6",
-  "jr_06_turkce-7",
-  "jr_06_turkce-8",
-  "jr_06_turkce-9",
-  "jr_06_turkce-10",
-  "jr_06_turkce-11",
-  "jr_06_turkce-12",
-  "jr_06_turkce-13",
-  "jr_06_turkce-14",
-  "jr_06_turkce-15",
-  "jr_06_turkce-16",
-  "jr_06_turkce-17",
-  "jr_06_turkce-18",
-  "jr_06_turkce-19",
-  "jr_06_turkce-20",
-  "jr_06_sosyal-1",
-  "jr_06_sosyal-2",
-  "jr_06_sosyal-3",
-  "jr_06_sosyal-4",
-  "jr_06_sosyal-5",
-  "jr_06_sosyal-6",
-  "jr_06_sosyal-7",
-  "jr_06_sosyal-8",
-  "jr_06_sosyal-9",
-  "jr_06_sosyal-10",
-  "jr_06_sosyal-11",
-  "jr_06_sosyal-12",
-  "jr_06_sosyal-13",
-  "jr_06_sosyal-14",
-  "jr_06_sosyal-15",
-  "jr_06_sosyal-16",
-  "jr_06_sosyal-17",
-  "jr_06_sosyal-18",
-  "jr_06_sosyal-19",
-  "jr_06_sosyal-20",
-  "jr_06_ing_main-1",
-  "jr_06_ing_main-2",
-  "jr_06_ing_main-3",
-  "jr_06_ing_main-4",
-  "jr_06_ing_main-5",
-  "jr_06_ing_main-6",
-  "jr_06_ing_main-7",
-  "jr_06_ing_main-8",
-  "jr_06_ing_main-9",
-  "jr_06_ing_main-10",
-  "jr_06_ing_main-11",
-  "jr_06_ing_main-12",
-  "jr_06_ing_main-13",
-  "jr_06_ing_main-14",
-  "jr_06_ing_main-15",
-  "jr_06_ing_main-16",
-  "jr_06_ing_main-17",
-  "jr_06_ing_main-18",
-  "jr_06_ing_main-19",
-  "jr_06_ing_main-20",
-] as const;
+export const JUNIOR_BAKED_AUDIO_KEYS = Object.keys(JUNIOR_AUDIO_MANIFEST);
+
+const JUNIOR_BAKED_AUDIO_KEY_SET = new Set<string>(JUNIOR_BAKED_AUDIO_KEYS);
 
 export type JuniorBakedAudioKey = (typeof JUNIOR_BAKED_AUDIO_KEYS)[number];
+
+export function juniorLessonHasBakedAudio(lessonKey: string): boolean {
+  return JUNIOR_BAKED_AUDIO_KEY_SET.has(lessonKey.trim());
+}
 
 export function juniorLessonAudioPublicPath(lessonKey: string): string {
   const key = lessonKey.trim();
@@ -227,19 +131,50 @@ export function juniorLessonAudioPublicPath(lessonKey: string): string {
   return `${JUNIOR_AUDIO_PUBLIC_DIR}/${key}.mp3`;
 }
 
-/** Fırınlanmış kaset varsa yayın yolu; yoksa null. Mühürlü anahtar robot sese düşmez. */
-export function juniorLessonAudioSrc(lessonKey: string): string | null {
-  const key = lessonKey.trim();
-  if (!(JUNIOR_BAKED_AUDIO_KEYS as readonly string[]).includes(key)) {
-    return null;
-  }
-  return resolvePublicMediaUrl(juniorLessonAudioPublicPath(key));
+/**
+ * Değişmeyen yol `immutable` önbellekte kalır. Manifest özeti sorguyu kırar.
+ * Akademi ısınma kasetindeki `?v=` ile aynı iş.
+ */
+function juniorPublicAudioCacheQuery(lessonKey: string): string {
+  const row = JUNIOR_AUDIO_MANIFEST[lessonKey as keyof typeof JUNIOR_AUDIO_MANIFEST];
+  const sha = row?.sha256 ?? "";
+  return sha.length >= 12 ? `?v=${sha.slice(0, 12)}` : "";
 }
 
-/** Çekirdek ders branşına göre öğretmen. Yetişkin kurs sesinin yerine yazılmaz. */
+/**
+ * Kamu veya CDN adresi yalnız ücretsiz ilk konu içindir.
+ * Kilitli dersin sesi bu fonksiyondan çıkmaz; oynatıcı imzalı `private/junior/` adresini kullanır.
+ */
+export function juniorLessonAudioSrc(lessonKey: string): string | null {
+  const key = lessonKey.trim();
+  if (!juniorLessonHasBakedAudio(key) || !juniorLessonMediaIsPublicPreview(key)) {
+    return null;
+  }
+  return resolvePublicMediaUrl(`${juniorLessonAudioPublicPath(key)}${juniorPublicAudioCacheQuery(key)}`);
+}
+
+/**
+ * Geliştirme oynatıcısı. Üretimde kilitli ses için yerel kamu yolu da dönmez.
+ */
+export function juniorLessonLocalLockedAudioPath(lessonKey: string): string | null {
+  const key = lessonKey.trim();
+  if (process.env.NODE_ENV === "production") {
+    return null;
+  }
+  if (!juniorLessonHasBakedAudio(key) || juniorLessonMediaIsPublicPreview(key)) {
+    return null;
+  }
+  return juniorLessonAudioPublicPath(key);
+}
+
+/**
+ * Çekirdek ders branşına göre öğretmen. Yetişkin kurs sesinin yerine yazılmaz.
+ * Matematik ve fen ağzı `JUNIOR_CATALOG_NARRATOR_VOICE` (Fenrir) ile aynıdır.
+ * Dosya istemci oynatıcısına girer; `voice-design.ts` buradan içe alınmaz.
+ */
 export const JUNIOR_BRANCH_TEACHERS = [
-  { slug: "jr_06_mat", subject: "Matematik", name: "Selim", voice: "Charon", tone: "Erkek / Sıcak ve güven veren" },
-  { slug: "jr_06_fen", subject: "Fen Bilimleri", name: "Deniz", voice: "Leda", tone: "Kadın / Neşeli ve meraklı" },
+  { slug: "jr_06_mat", subject: "Matematik", name: "Selim", voice: "Fenrir" satisfies GeminiTtsPrebuiltVoice, tone: "Erkek / Genç, dinamik ve enerjik" },
+  { slug: "jr_06_fen", subject: "Fen Bilimleri", name: "Deniz", voice: "Fenrir" satisfies GeminiTtsPrebuiltVoice, tone: "Erkek / Genç, dinamik ve enerjik" },
   { slug: "jr_06_turkce", subject: "Türkçe", name: "Elif", voice: "Aoede", tone: "Kadın / Duru ve anlaşılır" },
   { slug: "jr_06_ing_main", subject: "İngilizce", name: "Selin", voice: "Kore", tone: "Kadın / Dinamik ve çift dilli" },
   { slug: "jr_06_sosyal", subject: "Sosyal Bilgiler", name: "Murat", voice: "Achird", tone: "Erkek / Samimi hikâye anlatıcısı" },
@@ -289,7 +224,7 @@ export function juniorTeacherForLesson(lessonKey: string): {
  */
 export function juniorTeacherSelfIntro(lessonKey: string): string {
   const teacher = juniorTeacherForLesson(lessonKey);
-  return `ben ${teacher.subject} öğretmenin ${teacher.name}.`;
+  return `Ben ${teacher.subject} öğretmenin ${teacher.name}.`;
 }
 
 /**
@@ -303,18 +238,14 @@ export function sealJuniorTeacherIntro(welcome: string, lessonKey: string): stri
   if (!trimmed || trimmed.includes(intro) || trimmed.includes(`öğretmenin ${teacher.name}`)) {
     return trimmed;
   }
-  if (!startsWithJuniorWarmOpening(trimmed)) {
+  const openings = [...JUNIOR_WARM_OPENINGS].sort((left, right) => right.length - left.length);
+  const opening = openings.find((item) => trimmed.startsWith(item));
+  if (!opening) {
     return `${intro} ${trimmed}`.replace(/\s+/g, " ").trim();
   }
-  /** İlk hitap vuruşunun (virgül veya ünlem) hemen ardına bağlanır. */
-  const beat = trimmed.match(/^(.+?[!,])\s*/u);
-  if (!beat) {
-    return `${intro} ${trimmed}`.replace(/\s+/g, " ").trim();
-  }
-  const head = beat[1]!;
-  const restRaw = trimmed.slice(beat[0].length).trim();
+  const restRaw = trimmed.slice(opening.length).trim();
   const rest = restRaw
     ? `${restRaw.charAt(0).toLocaleUpperCase("tr-TR")}${restRaw.slice(1)}`
     : "";
-  return `${head} ${intro} ${rest}`.replace(/\s+/g, " ").trim();
+  return `${opening} ${intro} ${rest}`.replace(/\s+/g, " ").trim();
 }

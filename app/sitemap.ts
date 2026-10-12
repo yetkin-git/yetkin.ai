@@ -9,7 +9,13 @@ import {
 import { LEGAL_SITE_PATHS } from "@/lib/copy/legal-launch";
 import { readPublishedAcademySlugs } from "@/lib/kernel/catalog/published-academy-slugs";
 import { juniorCoverSrc } from "@/lib/junior/covers";
-import { JUNIOR_ELECTIVE_SLUGS, JUNIOR_PILOT_SLUGS } from "@/lib/junior/limits";
+import {
+  JUNIOR_ELECTIVE_SLUGS,
+  JUNIOR_FREE_LESSON_KEY,
+  JUNIOR_FREE_OPENER_OVERRIDE,
+  JUNIOR_PILOT_SLUGS,
+} from "@/lib/junior/limits";
+import { juniorLessonMediaIsPublicPreview } from "@/lib/junior/media-visibility";
 import {
   CANONICAL_SITE_ORIGIN,
   isRobotsDisallowedPath,
@@ -83,17 +89,23 @@ function publishedAcademyCourseEntries(
 }
 
 /**
- * Ücretsiz ilk konu kartları. Katalog gövdesi burada okunmaz.
- * Anahtar `{slug}-1` ile `juniorFreeLessonKeys` aynı sıradadır; test kilitler.
- * Kilitli haftalar ve kasa yolu yazılmaz.
+ * Ücretsiz ders anahtarları: her kartın başı ve ilk ders kapısı, arşive alınmamış olanlar.
+ * Katalog gövdesi okunmaz; `media-visibility` ile aynı kümeyi verir (`tests/kernel` eşleşmeyi kilitler).
  */
-const JUNIOR_SITEMAP_FREE_LESSON_KEYS = [...JUNIOR_PILOT_SLUGS, ...JUNIOR_ELECTIVE_SLUGS].map(
-  (slug) => `${slug}-1`,
-);
+function juniorSitemapFreeLessonKeys(): string[] {
+  const openers = [...JUNIOR_PILOT_SLUGS, ...JUNIOR_ELECTIVE_SLUGS].map(
+    (slug) => JUNIOR_FREE_OPENER_OVERRIDE[slug] ?? `${slug}-1`,
+  );
+  const candidates = [...new Set([...openers, JUNIOR_FREE_LESSON_KEY])];
+  return candidates.filter((lessonKey) => juniorLessonMediaIsPublicPreview(lessonKey));
+}
 
+/**
+ * Ücretsiz ders kartları. Kilitli haftalar ve kasa yolu yazılmaz.
+ */
 function juniorFreeLessonEntries(lastModified: Date): MetadataRoute.Sitemap {
   try {
-    return JUNIOR_SITEMAP_FREE_LESSON_KEYS.map((lessonKey) => {
+    return juniorSitemapFreeLessonKeys().map((lessonKey) => {
       let images: string[] | undefined;
       try {
         images = [absoluteSiteUrl(juniorCoverSrc(lessonKey))];

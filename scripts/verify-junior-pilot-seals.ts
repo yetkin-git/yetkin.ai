@@ -32,7 +32,9 @@ function mustNot(relative: string, needle: string, label: string) {
   }
 }
 
-must("lib/kernel/security/junior-gate.ts", 'DRON_JUNIOR_OPEN_ENV = "DRON_JUNIOR_OPEN"', "bayrak adı");
+must("lib/kernel/security/junior-gate.ts", 'DRON_JUNIOR_OPEN_ENV = "DRON_JUNIOR_OPEN"', "profil bayrağı");
+must("lib/dronlar/kayit.ts", 'DRON_JUNIOR_ROOM_OPEN_ENV = "DRON_JUNIOR_ROOM_OPEN"', "oda bayrağı");
+mustNot("lib/dronlar/kayit.ts", 'bayrakEnv: "DRON_JUNIOR_OPEN"', "profil bayrağı oda kapısı değil");
 must("lib/kernel/security/junior-gate.ts", "export function canEnterJunior", "tek kapı");
 must("lib/kernel/security/junior-gate.ts", "export function isJuniorCheckoutLocked", "kasa kapısı");
 must("lib/kernel/security/junior-gate.ts", "JUNIOR_BETA_ALLOWLIST_ENV", "izin listesi");

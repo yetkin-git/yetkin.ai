@@ -1,38 +1,37 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf İngilizce, Ünite 5 At the Fair. Fuar etkinliğinde duygu. */
+/** 6. Sınıf İngilizce, ENG.6.6 World and Culture, 32–33. hafta. Ülke ve milliyet. */
 export const JUNIOR_ING_MAIN_10_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_ing_main-10",
-  title: "Fuarda duyguyu söylemek",
+  title: "World and Culture: ülke ve milliyet",
   teaser:
-    "Fuar etkinliğindeki duygu I am excited about ve I am scared of ile söylenir. Kavramsal Anlayış, heyecanı korkudan ayırır. İfade Gücü, bir oyuncak karşısındaki halini İngilizce kurmandır.",
+    "World and Culture temasında ülke from ile, milliyet is ile söylenir. She is from Turkey, o Türkiye'dendir demektir. Kavramsal Anlayış, ülke adını milliyet sıfatından ayırır. İfade Gücü, bir kişinin nereli olduğunu bir cümlede söylemektir.",
   welcome:
-    "Merhaba! İngilizce dünyasına hoş geldin, lunaparkın ve fuar alanının heyecan dolu köşelerinde gezintimize devam ediyoruz! Dev gibi dönen hız treninin kuyruğunda bekleyen çocuklara bir bak: Kimi yerinde duramıyor ve sabırsızlıkla sıranın gelmesini bekliyor, kimi ise rayların yüksekliğine bakıp biraz çekinerek geri adım atıyor. İkisi de aynı trene bakıyor ama kalplerinde bambaşka hisler çarpıyor. Bugün seninle lunapark oyuncaklarına karşı hissettiğin duyguları 'I am excited about' ve 'I am scared of' kalıplarıyla doğru edatları kullanarak İngilizce ifade etmeyi öğreneceğiz.",
+    "Merhaba sevgili çocuklar! Dünya üzerinde birçok ülke ve birçok selamlaşma biçimi vardır. Bir arkadaşın İstanbul'dan, bir başkası başka bir şehirden gelebilir. World and Culture konusunda önce ülke adını, sonra milliyeti söyleyeceğiz. Bir haritayı gözlemlemek, from ile gelen ülke adını yerinde tutar.",
   concept:
-    "Bir fuar oyuncağına karşı duyduğumuz heyecanı anlatırken 'excited' sözcüğünden sonra 'about' edatını getiririz. 'I am excited about the roller coaster' dediğinde, hız trenine bineceğin için büyük bir heyecan duyduğunu söylersin. Ancak bir oyuncak sana biraz fazla ürkütücü geliyorsa 'scared' kelimesinden sonra 'of' edatını kullanırız: 'I am scared of the ghost train' hayalet treninden korktuğunu berrakça ifade eder. Atlı karıncada huzur buluyorsan 'I feel happy on the carousel' dersin. Şurası aklında kalsın tamam mı: 'Exciting' oyuncağın heyecan verici özelliğidir; 'excited' ise senin içindeki o kıpır kıpır heyecandır.",
+    "Ülke söylerken from kullanılır: I am from Turkey. Milliyet bir sıfattır ve is ile gelir: I am Turkish. Turkey ülke, Turkish milliyettir. Japan ülke, Japanese milliyettir. England ülke, English milliyettir. Soru Where are you from? nerelisin demektir. What is your nationality? milliyetini sorar. Selam da kültürün parçasıdır: Hello ve Hi yaygındır, Türkiye'de günaydın Good morning ile karşılanır. Pratik kural: From ülke adı ister, is milliyet sıfatı ister.",
   example:
-    "Fuar alanında farklı duraklara uğrayalım: 'The roller coaster looks exciting, and I am excited about it!' Hayalet treninin karanlık kapısına geldiğinde 'I am scared of the ghost train, so I don't want to get on' diyerek dürüstçe hissini paylaşabilirsin. Arkadaşın sana dönüp 'How do you feel about the bumper cars?' diye sorduğunda 'I am excited about them, they are so much fun!' cevabını verirsin. Kazanılan bir ödül karşısında ise 'I am happy about the prize' diyerek sevincini katlarsın. Doğru edatlarla duygular tam yerine oturur.",
-  hint: "trap",
+    "Ece kendini tanıtır: I am from Turkey and I am Turkish. Japon bir konuk için She is from Japan and she is Japanese dersin. İngiliz bir öğretmen He is from England and he is English diye tanıtılır. Arkadaşın Where are you from? diye sorarsa I am from Turkey diye cevap verirsin. Haritada iki ülke yan yanaysa They are from different countries cümlesi ikisini birden anlatır. Good morning diyerek güne başlamak da bu kültürün nazik kapısıdır.",
+  hint: "gold",
   warning:
-    "Edatları kullanırken 'excited' için 'about', 'scared' için ise 'of' seçmeyi hatırla; yani 'excited of' veya 'scared about' demek yerine 'I am excited about the ride' ve 'I am scared of heights' demek kulağa çok daha doğal ve pürüzsüz gelir. Kendinden bahsederken 'I am exciting' dememeye özen göster; çünkü heyecan veren şey 'exciting', o heyecanla kalbi atan sen ise 'excited' olursun!",
+    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. I am from Turkish demek ülke ile sıfatı karıştırır; from Turkey, am Turkish diye ayrılır. She is from Japanese da aynı tuzaktır. Ülke adını milliyet gibi, milliyeti ülke gibi kullanmak cümleyi bozar. World and Culture konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
   life:
-    "Fuarda veya oyun parkında bir oyuncağın önünde durduğunda kendi kendine hissini fısılda: 'I am excited about this ride!' Eğer bir şeyden hoşlanmadıysan hiç çekinmeden 'I am scared of that high tower' diyerek hissini ifade et. Arkadaşın korktuğunda ona şefkatle destek ol ve 'You don't have to ride it' de. Günün sonunda ailene 'I was excited about the fair today' diyerek harika bir özet geç.",
+    "Bunu okulda bir dünya haritasının yanında deneyebilirsin. Kendi şehrini söylemeden önce ülkeyi kur: I am from Turkey. Televizyonda başka bir ülke görünce She is from Japan diye dene. Sabah öğretmene Good morning de. Akşam yemeğinde ailenle bir selam sözcüğü konuşmak, culture sözcüğünü somutlaştırır.",
   recap: [
-    "I am excited about, sabırsızlıkla beklenen heyecanlı etkinliği söyler.",
-    "I am scared of, ürkütücü gelen ve çekinilen etkinliği anlatır.",
-    "Oyuncağın kendisi exciting, o heyecanı yaşayan kişi ise excited olur.",
+    "From ülke adıyla, is milliyet sıfatıyla kurulur.",
+    "Turkey ülke, Turkish milliyettir.",
+    "Where are you from sorusu nereli olduğunu sorar.",
   ],
-  conceptSeal: "Heyecan about, korku of ile oyuncağa bağlanır.",
-  voiceSeal: "Bir fuar etkinliği karşısındaki halini bir cümlede söylersin.",
+  conceptSeal: "Ülke from ile, milliyet is ile kurulur.",
+  voiceSeal: "Bir kişinin ülkesini ve milliyetini iki cümlede söylersin.",
   outcomes: [
-    "Excited about heyecanı bağlar.",
-    "Scared of korkuyu bağlar.",
-    "Exciting şeyindir. Excited kişinin halidir.",
+    "From ülke adını taşır.",
+    "Milliyet sıfatı is ile söylenir.",
+    "Where are you from ülke sorusudur.",
   ],
-  scene: "fair",
+  scene: "culture",
   parentNote:
-    "Çocuğunuz fuar duygusunu I am excited about ve I am scared of ile kurar. Exciting şeyin özelliği, excited kişinin halidir. Bir etkinlikten önce bu cümleyi kurdurabilirsiniz.",
-
+    "Çocuğunuz I am from Turkey ile I am Turkish ayrımını kurar. Where are you from sorusuna ülke adıyla cevap verir. Harita başında iki cümle yeter.",
 };
 
 export const JUNIOR_ING_MAIN_10 = juniorLessonFromScenario(JUNIOR_ING_MAIN_10_SCENARIO);

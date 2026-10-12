@@ -3,7 +3,11 @@
 import { ElectiveGrid } from "@/components/junior/elective-grid";
 import { ElectiveQuotaModal } from "@/components/junior/elective-quota-modal";
 import { VisualCourseCards } from "@/components/junior/visual-course-cards";
-import { JUNIOR_QUIZ_PREPARING_LABEL } from "@/lib/junior/limits";
+import {
+  JUNIOR_ELECTIVE_DEVELOPING_LABEL,
+  JUNIOR_ELECTIVE_QUOTA,
+  JUNIOR_ELECTIVE_SOON_LABEL,
+} from "@/lib/junior/limits";
 import { JUNIOR_ELECTIVE_CATEGORY, type JuniorCourseShelf } from "@/lib/junior/types";
 
 export const JUNIOR_SHELF_TABS = [
@@ -84,8 +88,10 @@ export function CourseShelf({
         <div className="grid gap-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="text-sm leading-6 text-[var(--muted)]">
-              {JUNIOR_QUIZ_PREPARING_LABEL}. Bu altı ders henüz tam ders değildir. Ses, soru ve ısınma
-              hazır olunca çekirdek listeye katılır. Pakette en fazla üç ders durur.
+              {JUNIOR_ELECTIVE_SOON_LABEL} · {JUNIOR_ELECTIVE_DEVELOPING_LABEL}. Bu altı kartın sesi, sorusu ve
+              ısınması henüz yok; vitrine hazır ders olarak yazılmaz. Seçmeli İngilizce taslağı çekirdek
+              İngilizcenin yerine geçmez ve paket fiyatına girmez. Hazır olan kartlardan en fazla{" "}
+              {JUNIOR_ELECTIVE_QUOTA} ders pakete yazılır.
             </p>
             {quota ? (
               <ElectiveQuotaModal

@@ -119,7 +119,7 @@ describe("Junior haftalık veli raporu", () => {
     expect(report.narration.averageScore).toBeNull();
     expect(report.quizzes).toHaveLength(0);
     expect(report.parentTip).toBe(
-      "Bu yedi günde anlatış ve konu testi yok; akşam bir ders açıp ilk konuyu birlikte dinleyin.",
+      "Bu yedi günde anlatış ve hızlı konu kontrolü yok; akşam bir ders açıp ilk konuyu birlikte dinleyin.",
     );
     expect(oneSentence(report.parentTip)).toBe(true);
   });

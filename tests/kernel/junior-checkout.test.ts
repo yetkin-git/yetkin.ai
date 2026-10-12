@@ -8,7 +8,8 @@ import {
   PAYTR_IFRAME_MAX_INSTALLMENT,
   PAYTR_IFRAME_NO_INSTALLMENT,
 } from "@/lib/kernel/payments/paytr/checkout";
-import { juniorLessonAccessForPlan } from "@/lib/junior/catalog";
+import { juniorElectivePicks, juniorLessonAccessForPlan } from "@/lib/junior/catalog";
+import { juniorPlanCoversLesson } from "@/lib/junior/enter";
 import {
   completeJuniorCheckout,
   JUNIOR_CHECKOUT_AUDIT_MESSAGE,
@@ -20,7 +21,12 @@ import {
 } from "@/lib/junior/checkout";
 import { JUNIOR_GUARDIAN_NOTICE } from "@/lib/junior/guardian-notice";
 import { fulfillJuniorLicenseFromClearedOrder, JUNIOR_LICENSE_ORDER_PURPOSE } from "@/lib/junior/paytr-license-bridge";
-import { JUNIOR_ELECTIVE_QUOTA, JUNIOR_PILOT_SHELF_LINE } from "@/lib/junior/limits";
+import {
+  JUNIOR_ELECTIVE_DRAFT_PRICE_ERROR,
+  JUNIOR_ELECTIVE_QUOTA,
+  JUNIOR_ELECTIVE_SOON_ERROR,
+  JUNIOR_PILOT_SHELF_LINE,
+} from "@/lib/junior/limits";
 import { createMemoryJuniorStore } from "@/lib/junior/memory-port";
 import {
   buildJuniorPaytrSeal,
@@ -125,37 +131,46 @@ describe("Junior seçmeli ders kotası", () => {
     const limits = readFileSync(join(process.cwd(), "lib/junior/limits.ts"), "utf8");
     expect(limits).not.toContain("549_900");
     expect(limits).not.toContain("5.499 TL");
-    const three = normalizeElectiveSelection(["jr_06_ing", "jr_06_alm", "jr_06_fra"]);
+    const three = normalizeElectiveSelection(["jr_06_alm", "jr_06_fra", "jr_06_siyer"]);
     expect(three.ok).toBe(true);
-    expect(normalizeElectiveSelection(["jr_06_ing", "jr_06_ing"]).ok).toBe(false);
+    expect(normalizeElectiveSelection(["jr_06_alm", "jr_06_alm"]).ok).toBe(false);
     expect(normalizeElectiveSelection(["jr_06_mat"]).ok).toBe(false);
-    expect(normalizeElectiveSelection(["jr_06_ing", "jr_06_alm", "jr_06_fra", "jr_06_kod"]).ok).toBe(false);
-    expect(juniorElectiveCardState("jr_06_ing", ["jr_06_ing", "jr_06_alm", "jr_06_fra"])).toBe("chosen");
-    expect(juniorElectiveCardState("jr_06_kod", ["jr_06_ing", "jr_06_alm", "jr_06_fra"])).toBe("full");
+    expect(normalizeElectiveSelection(["jr_06_ing"])).toEqual({
+      ok: false,
+      error: JUNIOR_ELECTIVE_DRAFT_PRICE_ERROR,
+    });
+    expect(juniorElectivePicks().map((pick) => pick.slug)).not.toContain("jr_06_ing");
+    expect(juniorElectivePicks()).toHaveLength(5);
+    expect(normalizeElectiveSelection(["jr_06_alm", "jr_06_fra", "jr_06_siyer", "jr_06_kod"]).ok).toBe(false);
+    expect(juniorElectiveCardState("jr_06_alm", ["jr_06_alm", "jr_06_fra", "jr_06_siyer"])).toBe("chosen");
+    expect(juniorElectiveCardState("jr_06_kod", ["jr_06_alm", "jr_06_fra", "jr_06_siyer"])).toBe("full");
     expect(juniorElectiveCardLabel("full")).toBe("Paket Kotası Doldu / Düzenle");
-    expect(juniorElectiveCardState("jr_06_kod", ["jr_06_ing"])).toBe("open");
+    expect(juniorElectiveCardState("jr_06_kod", ["jr_06_alm"])).toBe("open");
   });
 
-  it("profil seçimini üçe kilitler", async () => {
+  it("profil seçimini üçe kilitler; mühürsüz seçmeli pakete eklenmez", async () => {
     const store = createMemoryJuniorStore();
     const profile = await openProfile(store);
-    const saved = await saveJuniorElectives(store, PARENT, {
+    // Mühürü tamamlanmamış dersler paket seçimine eklenemez (T-06). Kota kuralı seçim kapısından önce uygulanır.
+    const notReady = await saveJuniorElectives(store, PARENT, {
       profileId: profile.id,
-      slugs: ["jr_06_ing", "jr_06_siyer", "jr_06_kod"],
+      slugs: ["jr_06_alm", "jr_06_siyer", "jr_06_kod"],
     });
-    expect(saved.ok).toBe(true);
-    if (!saved.ok) {
-      return;
-    }
-    expect(saved.data.profile.selectedElectives).toEqual(["jr_06_ing", "jr_06_siyer", "jr_06_kod"]);
+    expect(notReady).toEqual({ ok: false, status: 400, error: JUNIOR_ELECTIVE_SOON_ERROR });
+    expect((await store.getProfile(PARENT, profile.id))?.selectedElectives).toEqual([]);
     const overflow = await saveJuniorElectives(store, PARENT, {
       profileId: profile.id,
-      slugs: ["jr_06_ing", "jr_06_alm", "jr_06_fra", "jr_06_kod"],
+      slugs: ["jr_06_alm", "jr_06_fra", "jr_06_siyer", "jr_06_kod"],
     });
     expect(overflow.ok).toBe(false);
-    const stranger = await saveJuniorElectives(store, "baska", {
+    const draft = await saveJuniorElectives(store, PARENT, {
       profileId: profile.id,
       slugs: ["jr_06_ing"],
+    });
+    expect(draft.ok).toBe(false);
+    const stranger = await saveJuniorElectives(store, "baska", {
+      profileId: profile.id,
+      slugs: ["jr_06_alm"],
     });
     expect(stranger.ok).toBe(false);
   });
@@ -170,34 +185,39 @@ describe("Junior yıllık paket kasası", () => {
     expect(await store.getSubscription(PARENT)).toBeNull();
   });
 
-  it("açık paket çekirdek dersleri ve seçilen üç seçmeli dersi açar", async () => {
+  it("açık paket çekirdek dersleri açar; mühürsüz seçmeli ücretli kapsamda açılmaz", async () => {
     const store = createMemoryJuniorStore();
     const profile = await openProfile(store);
     const picked = await saveJuniorElectives(store, PARENT, {
       profileId: profile.id,
-      slugs: ["jr_06_ing", "jr_06_alm", "jr_06_fra"],
+      slugs: ["jr_06_alm", "jr_06_fra", "jr_06_siyer"],
     });
-    expect(picked.ok).toBe(true);
-    expect(readJuniorLesson("jr_06_mat-2").access).toBe("locked");
-    expect(juniorLessonAccessForPlan("jr_06_mat-2", { active: false, selectedElectives: [] })).toBe("locked");
+    expect(picked).toEqual({ ok: false, status: 400, error: JUNIOR_ELECTIVE_SOON_ERROR });
+    expect(readJuniorLesson("jr_06_mat-6").access).toBe("locked");
+    expect(juniorLessonAccessForPlan("jr_06_mat-6", { active: false, selectedElectives: [] })).toBe("locked");
 
+    // Doğrudan yazılmış (mühürsüz) seçim ücretli pakette açılmaz (T-06).
+    await store.setSelectedElectives(PARENT, profile.id, ["jr_06_alm"]);
     await seedActivePlan(store);
     const home = await readJuniorHome(store, PARENT, NOW);
     expect(home.plan.status).toBe("ACTIVE");
-    expect(home.selected?.selectedElectives).toEqual(["jr_06_ing", "jr_06_alm", "jr_06_fra"]);
+    expect(home.selected?.selectedElectives).toEqual(["jr_06_alm"]);
     expect(home.courses.filter((course) => course.track === "elective").map((course) => course.slug)).toEqual([
-      "jr_06_ing",
       "jr_06_alm",
-      "jr_06_fra",
     ]);
     const math = home.courses.find((course) => course.slug === "jr_06_mat");
     expect(math?.lessons.every((lesson) => lesson.access === "free")).toBe(true);
-    const english = home.courses.find((course) => course.slug === "jr_06_ing");
-    expect(english?.lessons.every((lesson) => lesson.access === "free")).toBe(true);
+    const german = home.courses.find((course) => course.slug === "jr_06_alm");
+    expect(german?.lessons.slice(1).every((lesson) => lesson.access === "locked")).toBe(true);
+    expect(juniorPlanCoversLesson("jr_06_alm-2", true, ["jr_06_alm"])).toBe(false);
+    expect(juniorPlanCoversLesson("jr_06_mat-6", true, [])).toBe(true);
 
-    const plan = { active: true, selectedElectives: ["jr_06_ing", "jr_06_alm", "jr_06_fra"] };
-    expect(readJuniorLesson("jr_06_mat-2", plan).access).toBe("free");
-    expect(readJuniorLesson("jr_06_ing-2", plan).access).toBe("free");
+    const plan = { active: true, selectedElectives: ["jr_06_alm"] };
+    expect(readJuniorLesson("jr_06_mat-6", plan).access).toBe("free");
+    expect(readJuniorLesson("jr_06_ing-2", plan).access).toBe("locked");
+    expect(
+      readJuniorLesson("jr_06_ing-2", { active: true, selectedElectives: ["jr_06_ing"] }).access,
+    ).toBe("locked");
     expect(readJuniorLesson("jr_06_kod-2", plan).access).toBe("locked");
 
     const opened = await submitJuniorTell(
@@ -205,7 +225,7 @@ describe("Junior yıllık paket kasası", () => {
       {
         userId: PARENT,
         profileId: profile.id,
-        lessonKey: "jr_06_mat-2",
+        lessonKey: "jr_06_mat-6",
         mode: "write",
         text: "Kesir bir bütünün eşit parçasıdır. Pay üstte, payda altta durur.",
         now: NOW,

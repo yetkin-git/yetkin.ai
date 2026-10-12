@@ -1,0 +1,52 @@
+{
+  "lessonKey": "jr_06_fen-29",
+  "title": "Yansıma ve normal",
+  "tellGuides": [
+    "Normalin ne olduğunu bir cümlede söyle.",
+    "Gelme açısı 30 derece ise yansıma açısı nedir?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Normal nasıl bir doğrudur?",
+      "options": [
+        "Yüzeye dik çizilen referans",
+        "Gelen ışının ta kendisi",
+        "Yalnız pürüzlü kâğıdın kenarı",
+        "Sesin boşluktaki yolu"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Aynaya dik çizgi.",
+      "explanation": "Adım 1: Normal çarpma noktasından çıkar. Adım 2: Yüzeye diktir. Adım 3: Açılar bu doğruya göre okunur."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Gelme açısı 45 derece ise yansıma açısı kaç derecedir?",
+      "options": [
+        "45",
+        "90",
+        "0",
+        "135"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "İki açı eşittir.",
+      "explanation": "Adım 1: Açılar normale göre ölçülür. Adım 2: Gelme açısı yansıma açısına eşittir. Adım 3: Sonuç 45 derecedir."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Deney tablosunda gelen ışın normalle 30 derece, bir öğrenci yansıma açısını ayna yüzeyine göre 60 derece yazıyor. Doğru yansıma açısı nedir?",
+      "options": [
+        "30 derece, çünkü açı normale göre okunur",
+        "60 derece, çünkü yüzey açısı toplanır",
+        "0 derece, çünkü ayna ışığı yutar",
+        "90 derece, çünkü normal ışındır"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Referans yüzey değil normaldir.",
+      "explanation": "Adım 1: Gelme açısı 30 derecedir. Adım 2: Yansıma açısı ona eşittir. Adım 3: Yüzeye göre ölçmek kaydı bozar."
+    }
+  ]
+}

@@ -1,11 +1,17 @@
 import "server-only";
 
+import { juniorAudioManifestEntry, type JuniorAudioManifest } from "@/lib/junior/audio-manifest";
+import { JUNIOR_AUDIO_MANIFEST } from "@/lib/junior/audio-manifest.generated";
 import { JUNIOR_QUIZ_MIN_ITEMS } from "@/lib/junior/limits";
 import { JUNIOR_NARRATION_MAX_MS, JUNIOR_NARRATION_MIN_MS } from "@/lib/junior/player-clock";
-import { juniorTopicEndQuestions } from "@/lib/junior/quiz";
+import { juniorQuizDistributionOk, juniorTopicEndQuestions } from "@/lib/junior/quiz";
 import { juniorNarrationDurationMs } from "@/lib/junior/scenario";
 import { JUNIOR_VECTOR_SCENES, type JuniorLessonScript } from "@/lib/junior/types";
-import { juniorLessonAudioSrc } from "@/lib/junior/voice";
+import {
+  defaultJuniorAudioDiskRead,
+  type JuniorAudioDiskRead,
+} from "@/lib/junior/production-seal-disk";
+import { juniorLessonHasBakedAudio } from "@/lib/junior/voice";
 import { juniorWarmupSrc } from "@/lib/junior/warmup";
 
 export const JUNIOR_SEAL_GAPS = ["text", "audio", "warmup", "quiz", "scene"] as const;
@@ -13,6 +19,10 @@ export const JUNIOR_SEAL_GAPS = ["text", "audio", "warmup", "quiz", "scene"] as 
 export type JuniorSealGap = (typeof JUNIOR_SEAL_GAPS)[number];
 
 function quizVerified(lessonKey: string): boolean {
+  // Yayın dağılım kapısı (T-05): her şık en fazla %40 doğru cevap; her konuda en az iki farklı konum.
+  if (!juniorQuizDistributionOk()) {
+    return false;
+  }
   const rows = juniorTopicEndQuestions(lessonKey);
   if (rows.length < JUNIOR_QUIZ_MIN_ITEMS) {
     return false;
@@ -31,11 +41,36 @@ function quizVerified(lessonKey: string): boolean {
 }
 
 /**
+ * Ses kapısı (T-04, fail-closed). Üç koşul birlikte aranır:
+ * 1) Anahtar fırın manifestindeki `JUNIOR_BAKED_AUDIO_KEYS` içinde olmalı.
+ * 2) Manifestte geçerli SHA-256 ve bayt kaydı olmalı. Manifest build'de `--check` ile doğrulanır.
+ * 3) Ses klasörü bu süreçte duruyorsa MP3 orada ve boş değilse olmalı.
+ * Klasör yoksa (Vercel paketi, CDN) kanıt manifesttir; kayıt yoksa kapı kapalı kalır.
+ */
+export function juniorBakedAudioSealed(
+  lessonKey: string,
+  read: JuniorAudioDiskRead = defaultJuniorAudioDiskRead,
+  manifest: JuniorAudioManifest = JUNIOR_AUDIO_MANIFEST,
+): boolean {
+  if (!juniorLessonHasBakedAudio(lessonKey)) {
+    return false;
+  }
+  if (!juniorAudioManifestEntry(lessonKey, manifest)) {
+    return false;
+  }
+  if (!read.treePresent()) {
+    return true;
+  }
+  return read.filePresent(lessonKey);
+}
+
+/**
  * Konu yeşil sayılmazsa eksik kapılar.
- * Metin bandı, fırınlanmış ses anahtarı, ısınma kaseti, en az üç doğrulanmış soru, atanmış SVG sahnesi.
+ * Metin bandı, fırınlanmış ses (anahtar, manifest ve disk), ısınma kaseti, en az üç doğrulanmış soru, atanmış SVG sahnesi.
  */
 export function juniorProductionSealGaps(
   lesson: Pick<JuniorLessonScript, "key" | "listenText" | "mebNote" | "lifeUse" | "scene">,
+  read: JuniorAudioDiskRead = defaultJuniorAudioDiskRead,
 ): JuniorSealGap[] {
   const gaps: JuniorSealGap[] = [];
   const durationMs = juniorNarrationDurationMs(lesson.mebNote, lesson.lifeUse);
@@ -46,7 +81,7 @@ export function juniorProductionSealGaps(
   ) {
     gaps.push("text");
   }
-  if (!juniorLessonAudioSrc(lesson.key)) {
+  if (!juniorBakedAudioSealed(lesson.key, read)) {
     gaps.push("audio");
   }
   if (!juniorWarmupSrc(lesson.key)) {

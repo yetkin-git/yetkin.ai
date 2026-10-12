@@ -18,31 +18,11 @@ import { JUNIOR_TURKCE_QUIZ_17 } from "@/lib/junior/quiz/turkce/17";
 import { JUNIOR_TURKCE_QUIZ_18 } from "@/lib/junior/quiz/turkce/18";
 import { JUNIOR_TURKCE_QUIZ_19 } from "@/lib/junior/quiz/turkce/19";
 import { JUNIOR_TURKCE_QUIZ_20 } from "@/lib/junior/quiz/turkce/20";
+import { juniorSealedQuizPacks } from "@/lib/junior/content-source";
 import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
 
-/** 6. sınıf Türkçe konu sonu arşivi. Katalog sırası. */
-export const JUNIOR_TURKCE_QUIZ_PACKS = [
-  JUNIOR_TURKCE_QUIZ_1,
-  JUNIOR_TURKCE_QUIZ_2,
-  JUNIOR_TURKCE_QUIZ_3,
-  JUNIOR_TURKCE_QUIZ_4,
-  JUNIOR_TURKCE_QUIZ_5,
-  JUNIOR_TURKCE_QUIZ_6,
-  JUNIOR_TURKCE_QUIZ_7,
-  JUNIOR_TURKCE_QUIZ_8,
-  JUNIOR_TURKCE_QUIZ_9,
-  JUNIOR_TURKCE_QUIZ_10,
-  JUNIOR_TURKCE_QUIZ_11,
-  JUNIOR_TURKCE_QUIZ_12,
-  JUNIOR_TURKCE_QUIZ_13,
-  JUNIOR_TURKCE_QUIZ_14,
-  JUNIOR_TURKCE_QUIZ_15,
-  JUNIOR_TURKCE_QUIZ_16,
-  JUNIOR_TURKCE_QUIZ_17,
-  JUNIOR_TURKCE_QUIZ_18,
-  JUNIOR_TURKCE_QUIZ_19,
-  JUNIOR_TURKCE_QUIZ_20,
-] as const satisfies readonly JuniorLessonQuizPack[];
+/** Geriye dönük adaptör. Dizi, JuniorContentSource kapısından okunur. */
+export const JUNIOR_TURKCE_QUIZ_PACKS: readonly JuniorLessonQuizPack[] = juniorSealedQuizPacks("jr_06_turkce");
 
 export {
   JUNIOR_TURKCE_QUIZ_1,

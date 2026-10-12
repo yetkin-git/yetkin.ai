@@ -7,6 +7,7 @@ import {
   ACCOUNT_CLOSE_REFUND_OPEN,
   anonymizedCitizenEmail,
   assertAccountCloseable,
+  runAccountCloseGuards,
 } from "@/lib/kernel/identity/close-account-gate";
 import { logEvent } from "@/lib/kernel/observability/log";
 
@@ -21,10 +22,12 @@ export {
 /**
  * Bakiye ₺0 ise public.users anonimleşir, fatura künyesi silinir, auth.users kalkar.
  * Defter satırı Restrict olduğu için users satırı durur; e-posta ve ad gider.
+ * Ürün kapıları (T-02: Junior paketi, çocuk profili, ödeme) hiçbir silme başlamadan önce çalışır.
  */
 export async function closeCitizenAccount(userId: string): Promise<{ closed: true }> {
   const wallet = await readSettlementWallet(userId);
   assertAccountCloseable(wallet?.amountMinor ?? 0);
+  await runAccountCloseGuards(userId);
 
   const prisma = getPrisma();
   const openRefunds = await prisma.$queryRaw<{ n: number }[]>`

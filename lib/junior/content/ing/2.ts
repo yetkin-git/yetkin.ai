@@ -1,38 +1,37 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf İngilizce, Ünite 1 Life. He, she, it ile simple present. */
+/** 6. Sınıf İngilizce, ENG.6.2 Family Life, 6–8. hafta. Aile ve have got. */
 export const JUNIOR_ING_MAIN_2_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_ing_main-2",
-  title: "He, she ve it ile simple present",
+  title: "Family Life: ailem ve have got",
   teaser:
-    "Simple present, alışkanlığı anlatır. I ile fiil yalındır. He, she ve it ile fiile s gelir. Kavramsal Anlayış, özneye göre fiili seçer. İfade Gücü, kendi gününü ve bir başkasının gününü ayrı cümleyle kurmandır.",
+    "Family Life temasında aile bireyleri have got ve has got ile söylenir. I have got a brother erkek kardeşim var demektir. Kavramsal Anlayış, have got ile has got ayrımını kurar. İfade Gücü, bir aile üyesini İngilizce tanıtmandır.",
   welcome:
-    "Hoş geldin! Hazırsan bugün İngilizcenin ve eğlenceli kelimelerin dünyasına adım atıyoruz, çünkü kendi gününü anlatmanın ötesine geçip sevdiklerinin neler yaptığını keşfedeceğiz. Kendi sabahını anlatırken 'I wake up' diyorsun; peki ya kardeşin, annen veya en yakın arkadaşın ne yapıyor? İşte İngilizcede 'he', 'she' ve 'it' öznelerini gördüğümüzde fiiller tatlı bir değişime uğrar. Buna geniş zaman, yani 'simple present' deriz. Bu zaman kalıbı tek bir anı değil, her zaman severek yapılan alışkanlıkları anlatır.",
+    "Merhaba sevgili çocuklar! Akşam sofrada annene, babana ya da kardeşine bakınca ailenin kimlerden oluştuğunu bir çırpıda sayabilirsin. Fotoğraf çerçevesindeki nine ve dede de bu ailenin parçasıdır. Bugün bu kişileri İngilizce adlarıyla tanıyacak, have got ve has got kalıbıyla kimin kim olduğunu söyleyeceğiz. Bir aile fotoğrafını gözlemlemek, doğru özneyi seçmene yardım eder.",
   concept:
-    "'I', 'you', 'we' ve 'they' özneleriyle konuşurken fiilimiz yalın ve sade kalır; tıpkı 'I play football' dediğimiz gibi. Ancak iş üçüncü tekil şahıslara, yani 'he', 'she' ve 'it' öznelerine geldiğinde fiilin sonuna sevimli bir '-s' veya '-es' takısı eklenir. Örneğin 'He plays football', 'She walks to school' ya da 'It rains in spring' deriz. Günlük hayatta sıkça kullandığımız bazı fiiller ise tatlı birer özel değişim gösterir: 'go' fiili 'goes', 'have' fiili 'has', 'watch' fiili 'watches', 'study' fiili ise 'studies' haline gelir. Şurası aklında kalsın tamam mı: Cümleye başlarken önce özneye bak; özne 'he', 'she' ya da 'it' ise fiiline hemen o sihirli '-s' ekini hediye et.",
+    "Family Life konusunda anne mother, baba father, kız kardeş sister, erkek kardeş brother, nine grandmother ve dede grandfather diye söylenir. Sahiplik ve aile bağı için I, you, we ve they öznelerinden sonra have got gelir. He, she ve it öznelerinden sonra has got gelir. I have got a sister, bir kız kardeşim var demektir. She has got a brother, onun bir erkek kardeşi var demektir. Olumsuzda have not got ve has not got kullanılır; kısa biçimleri haven't got ve hasn't got şeklindedir. Pratik kural: Özne I, you, we, they ise have got; özne he, she, it ise has got seçilir.",
   example:
-    "Kendi gününü anlatırken fiillerin hep sade ve rahat kalır: 'I wake up at seven o'clock. I brush my teeth. I have breakfast. I go to school.' Şimdi kardeşini anlatmaya başlayalım: 'He wakes up at eight o'clock. He brushes his teeth. He has breakfast. He goes to school.' Akşamları annen için 'She watches TV in the evening' diyebilirsin. Olumsuz bir cümle kurmak istediğinde 'he' ve 'she' için 'does not', yani kısaca 'doesn't' yardımımıza koşar: 'He doesn't play tennis.' Birine soru sormak istediğinde ise 'Does she walk to school?' diye sorarsın; cevabı da 'Yes, she does' ya da 'No, she doesn't' olur.",
-  hint: "trap",
+    "Sınıfta Ece ailesini tanıtır: I have got one brother and one sister. Annesini anlatırken özne değişir: She has got two children. Babası için de aynı ayrım durur: He has got a son and a daughter. Arkadaşın sana Have you got a grandmother? diye sorarsa Yes, I have ya da No, I haven't diye cevap verirsin. Fotoğrafta üç kişi varsa This is my mother, this is my father, and this is my brother diye tek tek gösterebilirsin.",
+  hint: "gold",
   warning:
-    "Öznemiz 'he', 'she' veya 'it' olduğunda fiilin sonundaki '-s' ekini unutmamaya özen göster; 'He wakes up' ve 'She goes to school' kalıpları kulağa her zaman müzik gibi gelir. Kendinden bahsederken 'I play' demek yeterlidir, 'I' öznesine fazladan '-s' eklenmez. Olumsuz cümlelerde ise 'doesn't' geldiğinde fiilin eski sade haline döndüğünü hatırla: 'He doesn't play tennis' diyerek harika ve kusursuz bir İngilizce cümlesi kurabilirsin.",
+    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. He ve she ile have got demek kalıbı bozar; o öznelerde has got durur. I has got da aynı biçimde yanlıştır, çünkü I ile have got gelir. Aile üyesinin adını söylerken my sözcüğünü unutma: my sister benim kız kardeşim demektir. Family Life konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
   life:
-    "Sabah hazırlandığında kendi yaptığın işi 'I brush my teeth' diye söyle. Yan odadaki kardeşini anlatırken 'He brushes his teeth' diyerek aradaki o güzel farkı hisset. Akşam olunca 'He does his homework' veya 'She reads a book' diyerek evdeki herkesin gününü İngilizceye dökebilirsin. Pencereden yağmuru izlerken de 'It rains in autumn' diyerek doğanın alışkanlıklarını güvenle dile getir.",
+    "Bunu evde buzdolabındaki aile fotoğrafının yanında deneyebilirsin. Parmağınla kişiyi gösterip This is my father de. Mutfakta annene I have got a brother diyerek kardeşini tanıt. Okulda yeni bir arkadaşın Have you got a sister? diye sorarsa kısa ve net cevap ver. Akşam sofrada herkes kendini bir cümleyle anlatırsa aile sözcükleri kalıcı olur.",
   recap: [
-    "Simple present alışkanlığı anlatır. I ile fiil yalındır.",
-    "He, she ve it ile fiile s gelir. Go goes, have has olur.",
-    "He wakes up doğru kalıptır; olumsuzda doesn't gelince fiil sadeleşir.",
+    "Family Life içinde anne, baba, kardeş, nine ve dede İngilizce adlarıyla söylenir.",
+    "I, you, we ve they ile have got; he, she ve it ile has got gelir.",
+    "Soru Have you got ile kurulur; kısa cevap Yes, I have ya da No, I haven't olur.",
   ],
-  conceptSeal: "Alışkanlık cümlesinde fiil özneye göre seçilir.",
-  voiceSeal: "Kendi gününü ve bir başkasının gününü ayrı cümlelerle söylersin.",
+  conceptSeal: "Aile cümlesi özneye göre have got ya da has got ile kurulur.",
+  voiceSeal: "Bir aile üyesini my ve have got ile tanıtırısın.",
   outcomes: [
-    "I ile fiil yalın gelir.",
-    "He, she ve it ile fiile s gelir.",
-    "Go, have ve do bu özneyle goes, has ve does olur.",
+    "Aile bireyleri mother, father, sister ve brother diye adlandırılır.",
+    "Have got ve has got özneye göre ayrılır.",
+    "Have you got sorusu aile bağını sorar.",
   ],
-  scene: "clock",
+  scene: "place",
   parentNote:
-    "Çocuğunuz I ile yalın fiil, he she it ile s eki kullanır. Go goes, have has, do does olur. Evde bir aile üyesinin gününü bu kalıpla anlattırabilirsiniz.",
-
+    "Çocuğunuz aile bireylerini İngilizce adlarıyla söyler. I have got ile She has got ayrımını kurar. Evde bir fotoğrafın yanında bu cümleyi kurdurabilirsiniz.",
 };
 
 export const JUNIOR_ING_MAIN_2 = juniorLessonFromScenario(JUNIOR_ING_MAIN_2_SCENARIO);

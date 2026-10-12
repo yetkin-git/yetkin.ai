@@ -1,18 +1,15 @@
 import { jsonFail, jsonOk } from "@/lib/kernel/http/json";
 import { RAIL_V1_JUNIOR_LESSON_MISSING } from "@/lib/kernel/http/v1-contract";
-import { isJuniorCoverKey, juniorCoverSrc } from "@/lib/junior/covers";
-import {
-  juniorCourseByLessonKey,
-  juniorLessonAccess,
-  juniorLessonByKey,
-} from "@/lib/junior/catalog";
-import { juniorLessonAudioSrc } from "@/lib/junior/voice";
+import { isJuniorCoverKey } from "@/lib/junior/covers";
+import { juniorCourseByLessonKey, juniorLessonAccess, juniorLessonByKey } from "@/lib/junior/catalog";
+import { issueJuniorLessonMedia } from "@/lib/junior/media-grant";
 
 export const auth = "public" as const;
 
 /**
  * Junior tekil okuma hop'u.
- * Kart, kilit kararı, ses yolu ve sahne kimliği. Anlatış metni bu zarfta yoktur.
+ * Kart ve kilit kararı. Anlatış metni bu zarfta yoktur.
+ * Ücretsiz konuda kamu medya adresi döner. Kilitli konuda adres yoktur.
  */
 export async function GET(
   request: Request,
@@ -29,6 +26,8 @@ export async function GET(
   if (!lesson || !course || access === "missing") {
     return jsonFail(RAIL_V1_JUNIOR_LESSON_MISSING, 404, undefined, request);
   }
+  const grant = issueJuniorLessonMedia({ lessonKey, entitled: false });
+  const urls = grant.kind === "public" ? grant.urls : null;
   return jsonOk(
     {
       card: {
@@ -37,8 +36,9 @@ export async function GET(
         subject: course.subject,
         access,
         scene: lesson.scene,
-        audioPath: juniorLessonAudioSrc(lesson.key),
-        coverPath: juniorCoverSrc(lesson.key),
+        audioPath: urls?.audioUrl ?? null,
+        warmupPath: urls?.warmupUrl ?? null,
+        coverPath: urls?.coverUrl ?? null,
       },
     },
     200,

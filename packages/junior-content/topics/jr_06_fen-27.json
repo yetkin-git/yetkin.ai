@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_fen-27",
+  "title": "İç salgı",
+  "teaser": "İç salgı bezleri hormonu kana verir. Hormon, kanla taşınan kimyasal habercidir. Kavramsal Anlayış, hormonu sinir haberinden ayırır. İfade Gücü, bir bezin görevini model üzerinde söylemektir.",
+  "welcome": "Merhaba sevgili çocuklar! Koşunca kalbin hızlanır, korkunca avuçların ısınır, büyüme yıllarında boyun uzar. Bu değişimlerin bir kısmını hormonlar yönetir. Hormonlar iç salgı bezlerinde üretilir ve kana karışır. Bugün bu bezleri bir vücut modeli üzerinde gezeceğiz. Şemayı gözlemlemek, haberin kan yoluyla gittiğini gösterir.",
+  "concept": "İç salgı bezi, hormonunu bir kanala değil kana boşaltır. Hormon, hedef organa kanla ulaşan kimyasal habercidir. Hipofiz bezi birçok hormonu yönetir ve büyümeyle de ilişkilidir. Tiroid bezi metabolizma hızını etkiler. Pankreas insülin üretir ve kandaki şekeri dengeler. Böbrek üstü bezleri stres anında vücudu hazırlayan hormonlar salgılar. Sinir sistemi haberi hızlı ve belirli bir yoldan taşır; hormon daha yavaş ve kan yoluyla yayılır. Pratik kural: İç salgı bezinin ürünü kana karışan hormondur.",
+  "example": "Vücut modelinde 1 numara hipofiz, 2 numara tiroit, 3 numara pankreas olsun. Hipofiz büyüme hormonuyla boy artışına katkı verir. Tiroit düzensiz çalışırsa enerji hissi değişebilir. Pankreas yeterince insülin üretmezse kandaki şeker dengesi bozulur. Korku anında böbrek üstü bezinin hormonu kalbi hızlandırır; bu haber saniyeler içinde sinir kadar keskin değildir ama vücudu hazırlar. İki haber yolunu karıştırmamak için modelde siniri çizgi, hormonu damla diye ayır.",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Hormonu yalnız sinirden giden bir elektrik sanmak tuzaktır. Pankreası yalnız sindirim enzimiyle anıp insülini unutmak da eksiktir. İç salgı bezinin ürününü ter gibi deriye akıtmak bu sistemin tanımı değildir. İç salgı konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+  "life": "Bunu spor sonrası kalp ritmine bakarak düşünebilirsin. Okul hemşiresinin anlattığı şeker dengesi pankreasla ilgilidir. Büyüme yıllarında iştahın artması da hormonların sahada olduğunu hatırlatır. Evde bir vücut şemasının yanına bez adlarını yazmak modeli pekiştirir.",
+  "recap": [
+    "İç salgı bezleri hormonu kana verir.",
+    "Hormon kimyasal habercidir ve kanla taşınır.",
+    "Hipofiz, tiroit, pankreas ve böbrek üstü bezi bu sistemin örnekleridir."
+  ],
+  "conceptSeal": "İç salgı, kana verilen hormonla haber taşır.",
+  "voiceSeal": "Bir bezin adını ve hormonunun görevini söylersin.",
+  "outcomes": [
+    "İç salgı bezi hormonu kana verir.",
+    "Hormon kimyasal habercidir.",
+    "Sinir haberi ile hormon haberi aynı yol değildir."
+  ],
+  "scene": "body",
+  "hint": "trap",
+  "parentNote": "Çocuğunuz hormonun kana verilen kimyasal haberci olduğunu anlatır. Hipofiz, tiroit ve pankreası görevleriyle eşler. Anlatım şema düzeyindedir."
+}

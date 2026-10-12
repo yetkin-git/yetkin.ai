@@ -2,9 +2,6 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
-import { ARENA_SEN } from "@/archived/lib/copy/sen-voice/arena";
-import { HIBE_SEN } from "@/archived/lib/copy/sen-voice/hibe";
-import { KURUMSAL_SEN } from "@/archived/lib/copy/sen-voice/kurumsal";
 
 const ROOT = process.cwd();
 
@@ -75,9 +72,9 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
     expect(SEN_VOICE.public.home.description).toContain("Dersleri bitir");
     expect(SEN_VOICE.public.home.description).toContain("PayTR iFrame");
     expect(SEN_VOICE.profil.description).toContain("Görünen adını");
-    expect(ARENA_SEN.description).toContain("kazananı sen dağıt");
-    expect(KURUMSAL_SEN.description).toContain("Şirket profilini kur");
-    expect(HIBE_SEN.openGuidesTitle).toBe("Açık rehberlerin");
+    expect(readSrc("archived/lib/copy/sen-voice/arena.ts")).toContain("kazananı sen dağıt");
+    expect(readSrc("archived/lib/copy/sen-voice/kurumsal.ts")).toContain("Şirket profilini kur");
+    expect(readSrc("archived/lib/copy/sen-voice/hibe.ts")).toContain("Açık rehberlerin");
     expect(SEN_VOICE.career.title).toBe("Kariyer vizesi");
 
     for (const file of SEN_SURFACES) {

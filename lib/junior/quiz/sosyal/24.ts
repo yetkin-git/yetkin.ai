@@ -1,0 +1,60 @@
+import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
+
+/** 6. Sınıf Sosyal Bilgiler — konu sonu soru arşivi. Dijitalleşme ve vatandaşlık. */
+export const JUNIOR_SOSYAL_QUIZ_24 = {
+  lessonKey: "jr_06_sosyal-24",
+  title: "Dijitalleşme ve vatandaşlık",
+  tellGuides: [
+    "Dijitalleşme vatandaşlık hakkını neden silmez?",
+    "İzinsiz fotoğraf hangi hakkı etkiler?",
+    "Söz hakkı ile hakaret arasındaki farkı söyler misin?",
+  ],
+  questions: [
+    {
+      id: "q1",
+      level: "concept",
+      question: "Dijitalleşmenin vatandaşlık haklarına etkisi için hangisi doğrudur?",
+      options: [
+        "Hak ekranda da durur; izinsiz paylaşım hakkı etkiler",
+        "Ekrandaki her görüntü serbesttir",
+        "Hak yalnız kâğıt oy pusulasında vardır",
+        "Grupta atılan fotoğraf artık kimseye ait değildir",
+      ],
+      correctAnswerIndex: 0,
+      hint: "Çoğalan şey görüntüdür; silinen şey hak değildir.",
+      explanation:
+        "Adım 1: Dijitalleşme görüntüyü hızla çoğaltır. Adım 2: Vatandaşlık hakkı bu çoğalmada durur. Adım 3: İzinsiz paylaşım o hakkı etkiler.",
+    },
+    {
+      id: "q2",
+      level: "apply",
+      question: "Gezi fotoğrafı sorulmadan akşam grubuna gidince sınıf ne ayırmalıdır?",
+      options: [
+        "Çekimde olmak ile yayında olmak aynı hak değildir",
+        "Grupta görülen her fotoğraf serbesttir",
+        "İzin yalnız öğretmenin defterinde aranır",
+        "Hakaret de söz hakkının içindedir",
+      ],
+      correctAnswerIndex: 0,
+      hint: "İzin vermeyen arkadaşın görüntüsü geri çekilir.",
+      explanation:
+        "Adım 1: Fotoğraf çekilmiştir. Adım 2: Yayına çıkmak ayrı bir izindir. Adım 3: İzinsiz gidiş vatandaşlık hakkını etkiler.",
+    },
+    {
+      id: "q3",
+      level: "skill",
+      question:
+        "Okul grubunda bir arkadaşının görüntüsü izinsiz dolaşıyor. Başka bir öğrenci de aynı grupta hakaret yazıyor. Dijitalleşmenin etkisi için doğru tartışma hangisidir?",
+      options: [
+        "Görüntü izne bağlıdır; hakaret söz hakkının yerine geçmez",
+        "Grupta olan her şey serbesttir",
+        "Hakaret söz hakkı olduğu için kalır",
+        "Fotoğraf bir kez gidince hak biter",
+      ],
+      correctAnswerIndex: 0,
+      hint: "İki hak ayrı sorulur: izin ve söz.",
+      explanation:
+        "Adım 1: Görüntünün yayını izin ister. Adım 2: Hakaret söz hakkı değildir. Adım 3: Dijitalleşme bu iki hakkı silmez, etkisini görünür kılar.",
+    },
+  ],
+} as const satisfies JuniorLessonQuizPack;

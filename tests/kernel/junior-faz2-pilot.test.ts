@@ -6,6 +6,7 @@ import { isJuniorCheckoutLocked } from "@/lib/kernel/security/junior-gate";
 import { isFrozenRoomApi } from "@/lib/kernel/security/edge-api-auth";
 import { RLS_FORCE_TABLES } from "@/lib/kernel/security/rls-policy-registry";
 import { juniorFreeLessonKeys, juniorLessonAccess } from "@/lib/junior/catalog";
+import { juniorNextLesson, juniorPrevLesson } from "@/lib/junior/lesson-nav";
 import {
   JUNIOR_ELECTIVE_QUOTA,
   JUNIOR_FREE_LESSON_KEY,
@@ -15,6 +16,7 @@ import { JUNIOR_PLAN_CODE, JUNIOR_POS_PROVIDER, juniorPlanExpiry } from "@/lib/j
 import { juniorAgeBand } from "@/lib/junior/persona";
 import { createMemoryJuniorStore } from "@/lib/junior/memory-port";
 import { publicJuniorPractice } from "@/lib/junior/practice";
+import { juniorTopicEndQuestions } from "@/lib/junior/quiz";
 import {
   createJuniorProfile,
   readJuniorLesson,
@@ -138,11 +140,14 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     expect(foreign.ok).toBe(false);
   });
 
-  it("her dersin ilk konusu ücretsizdir; ikinci konu kapalıdır; yetişkin defteri değişmez", () => {
+  it("her dersin açılış konusu ve ilk ders kapısı ücretsizdir (arşiv hariç); sonraki konu kapalıdır; yetişkin defteri değişmez", () => {
     expect(isJuniorCheckoutLocked()).toBe(true);
     const freeKeys = juniorFreeLessonKeys();
-    expect(freeKeys).toContain("jr_06_mat-1");
-    expect(freeKeys).toContain("jr_06_ing_main-1");
+    expect(freeKeys).toContain(JUNIOR_FREE_LESSON_KEY);
+    expect(freeKeys).not.toContain("jr_06_mat-1");
+    expect(freeKeys).toContain("jr_06_ing_main-20");
+    expect(freeKeys).not.toContain("jr_06_ing_main-1");
+    expect(juniorLessonAccess("jr_06_ing_main-1")).toBe("locked");
     expect(freeKeys.length).toBeGreaterThan(3);
     for (const key of freeKeys) {
       expect(juniorLessonAccess(key)).toBe("free");
@@ -155,9 +160,21 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
         expect(free.scene.length).toBeGreaterThan(2);
       }
       expect(JSON.stringify(publicJuniorPractice(key))).not.toContain("correctIndex");
-      const lockedKey = key.replace(/-1$/, "-2");
-      expect(juniorLessonAccess(lockedKey)).toBe("locked");
-      expect(readJuniorLesson(lockedKey).access).toBe("locked");
+      const next = juniorNextLesson(key);
+      const prev = juniorPrevLesson(key);
+      if (key === "jr_06_ing_main-20") {
+        expect(next).toBeNull();
+        expect(prev).toBeNull();
+      }
+      if (next) {
+        expect(freeKeys, key).toContain(next.key);
+        expect(juniorLessonAccess(next.key), key).toBe("free");
+        expect(readJuniorLesson(next.key).access, key).toBe("free");
+      }
+      if (prev) {
+        expect(freeKeys, key).toContain(prev.key);
+        expect(juniorLessonAccess(prev.key), key).toBe("free");
+      }
     }
     const practiced = readJuniorLesson(JUNIOR_FREE_LESSON_KEY);
     expect(practiced.access).toBe("free");
@@ -267,7 +284,7 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
       {
         userId: PARENT,
         profileId: bareProfile.id,
-        lessonKey: "jr_06_mat-2",
+        lessonKey: "jr_06_mat-6",
         mode: "write",
         text: "Dünya kendi çevresinde döner ve gece gündüz oluşur.",
         now: NOW,
@@ -315,11 +332,11 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
       profileId: profile.id,
       lessonKey: JUNIOR_FREE_LESSON_KEY,
       now: NOW,
-      answers: [
-        { id: "q1", choiceIndex: 0 },
-        { id: "q2", choiceIndex: 1 },
-        { id: "q3", choiceIndex: 1 },
-      ],
+      // Doğru cevaplar ekranda gösterilen yayın sırasından alınır (T-05 şık karışımı kaynak sırayı değiştirir).
+      answers: juniorTopicEndQuestions(JUNIOR_FREE_LESSON_KEY).map((row) => ({
+        id: row.id,
+        choiceIndex: row.correctAnswerIndex,
+      })),
     });
     expect(graded.ok).toBe(true);
     if (graded.ok) {
@@ -437,6 +454,10 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
       join(root, "prisma", "schema", "junior.prisma"),
     ];
     const banned = /\bWallet\b|\bLedgerEntry\b|audio_base64|localStorage|indexedDB/;
+    // Mikro-adım izi yalnız tamamlanan adım numaralarını tarayıcıda tutar; puan, ses ya da cüzdan yazmaz.
+    // Bu tek dosyada localStorage yasağı gevşer. Puan, ses ve cüzdan yasakları bu dosyada da aynen geçerlidir.
+    const stepTraceFile = join(root, "lib", "junior", "micro-progress.ts");
+    const stepTraceBanned = /\bWallet\b|\bLedgerEntry\b|audio_base64|indexedDB|\bscore\b/;
     const catalogPriceFiles = new Set([
       join(root, "lib", "junior", "price.ts"),
       join(root, "lib", "junior", "paytr.ts"),
@@ -446,7 +467,7 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     ]);
     for (const file of files) {
       const source = readFileSync(file, "utf8");
-      expect(source, file).not.toMatch(banned);
+      expect(source, file).not.toMatch(file === stepTraceFile ? stepTraceBanned : banned);
       if (!catalogPriceFiles.has(file)) {
         expect(source, file).not.toMatch(/amountMinor/);
       }
@@ -470,7 +491,8 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     const player = readFileSync(join(root, "components", "junior", "vector-player.tsx"), "utf8");
     const controls = readFileSync(join(root, "components", "junior", "player", "controls.tsx"), "utf8");
     expect(player).toContain("Video / Görsel Oynatıcı");
-    expect(player).toContain("Ders Notu ve Özet");
+    expect(player).not.toContain("Ders Notu ve Özet");
+    expect(player).not.toContain("<details");
     expect(player).toContain("data-junior-focus-player");
     expect(player).toContain("data-junior-live-caption");
     expect(player).toContain("useState(false)");

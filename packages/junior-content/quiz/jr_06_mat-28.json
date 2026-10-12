@@ -1,0 +1,52 @@
+{
+  "lessonKey": "jr_06_mat-28",
+  "title": "Sayı ve şekil örüntüsü",
+  "tellGuides": [
+    "Toplama örüntüsü ile çarpma örüntüsünü nasıl ayırırsın?",
+    "Bir şekil modelinde sıradaki adımı nasıl bulursun?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Örüntü nedir?",
+      "options": [
+        "Aynı kuralın tekrarı",
+        "Rastgele bir yığın",
+        "Yalnızca çift sayılar",
+        "Tek bir şekil"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Kural sabit kalır. Terim değişir.",
+      "explanation": "Adım 1: Örüntü bir kuralın modelidir. Adım 2: Sayı veya şekil o kuralı tekrar eder. Adım 3: Kural yoksa dizi örüntü değildir."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "4, 7, 10, 13 dizisinin sıradaki terimi kaçtır?",
+      "options": [
+        "14",
+        "15",
+        "16",
+        "17"
+      ],
+      "correctAnswerIndex": 2,
+      "hint": "Her adım 3 artar.",
+      "explanation": "Adım 1: Fark 3'tür. Adım 2: 13 artı 3, 16 eder. Adım 3: Kural değişmeden sıradaki terim 16 olur."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "2, 4, 8 dizisinde kural neden 2 eklemek değildir?",
+      "options": [
+        "Sayılar çift olduğu için",
+        "Her terim bir öncekinin 2 katıdır",
+        "Dizi üç terimde bittiği için",
+        "İlk terim 2 olduğu için"
+      ],
+      "correctAnswerIndex": 1,
+      "hint": "4 eksi 2 ile 8 eksi 4 aynı değildir.",
+      "explanation": "Adım 1: Farklar 2 ve 4'tür, sabit değildir. Adım 2: 2 çarpı 2, 4 eder. 4 çarpı 2, 8 eder. Adım 3: Model çarpmadır."
+    }
+  ]
+}

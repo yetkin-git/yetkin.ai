@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_fen-32",
+  "title": "Renk ve güneş enerjisi",
+  "teaser": "Cismin rengi, yansıttığı ışıktır. Güneş enerjisi, ışığın ısı ve elektrik gibi işlere dönüşmesidir. Kavramsal Anlayış, rengi boyanın içinden değil yansıyan ışıktan okur. İfade Gücü, bir güneş panelinin işini söylemektir.",
+  "welcome": "Merhaba çocuklar, hepiniz hoş geldiniz! Kırmızı bir elma kırmızı görünür, çünkü o ışığı gözümüze gönderir. Çatıdaki koyu panel ise ışığı geri yollamak için değil, enerjiye çevirmek için durur. Renk ve güneş enerjisi aynı ışığın iki kullanımıdır. Bugün bir modelle rengi, bir örnekle paneli konuşacağız. Bahçedeki paneli gözlemlemek enerjiyi görünür kılar.",
+  "concept": "Beyaz ışık altındaki bir cisim, soğurmadığı rengi yansıtır ve biz o rengi görürüz. Kırmızı cisim kırmızıyı yansıtır, diğer renklerin çoğunu soğurur. Siyah cisim gelen renklerin çoğunu soğurur. Beyaz cisim gelen ışığın çoğunu yansıtır. Güneş enerjisi, Güneş'ten gelen ışık enerjisidir. Güneş paneli bu enerjiyi elektrik enerjisine, güneş kolektörü ise suyu ısıtmaya dönüştürebilir. Enerji yok olmaz; biçim değiştirir. Pratik kural: Görünen renk yansıyan ışıktır, panel ise ışığı işe yarar enerjiye çevirir.",
+  "example": "Beyaz ışıkta kırmızı bir kitap kırmızı görünür. Aynı kitabı yalnız mavi ışıkla aydınlatırsan kırmızı yansıyacak ışık bulamaz ve koyu görünür. Bu deney rengin ışığa bağlı olduğunu gösterir. Çatıda 1 panel, günde birkaç saat güneş alırsa küçük bir lambayı besleyebilir. Su ısıtıcısındaki koyu boru ise ışığı soğurup 20 litrelik depoyu ısıtır. Modelde yansıyan ok renk, soğurulan ok enerji diye ayrılır.",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Cismin rengini ışık kapalıyken de aynı gördüğünü sanmak tuzaktır; renk, yansıyan ışıkla görünür. Güneş panelinin ışığı yok ettiğini düşünmek de yanlıştır; enerji elektrik ya da ısıya dönüşür. Renk ve güneş enerjisi konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+  "life": "Bunu yazın bahçedeki su torbasının ısınmasında görürsün. Okul hesabındaki güneş paneli küçük bir deney düzeneğini çalıştırabilir. Kırmızı bir elmayı akşam lambasının altında incelerken hangi rengin yansıdığını sor. Enerjiyi boşa harcamamak da bu dersin günlük yüzüdür.",
+  "recap": [
+    "Cismin rengi, yansıttığı ışıktır.",
+    "Siyah çok soğurur, beyaz çok yansıtır.",
+    "Güneş enerjisi panelde elektriğe, kolektörde ısıya dönüşebilir."
+  ],
+  "conceptSeal": "Renk yansıyan ışık, güneş enerjisi dönüşen ışıktır.",
+  "voiceSeal": "Bir cismin rengini ve bir panelin işini ayrı cümleyle söylersin.",
+  "outcomes": [
+    "Renk, yansıyan ışıkla görülür.",
+    "Güneş enerjisi ışık enerjisidir.",
+    "Panel ve kolektör bu enerjiyi farklı işe çevirir."
+  ],
+  "scene": "mirror",
+  "hint": "trap",
+  "parentNote": "Çocuğunuz cismin rengini yansıyan ışıkla açıklar. Güneş panelinin ışığı elektriğe çevirdiğini bilir. Kırmızı kitap ve mavi ışık örneği pekiştirir."
+}

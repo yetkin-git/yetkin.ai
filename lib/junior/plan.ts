@@ -1,7 +1,10 @@
 import { z } from "zod";
 import { CHECKOUT_LEGAL_CONSENT_REQUIRED, CHECKOUT_LEGAL_CONSENT_VERSION } from "@/lib/kernel/legal/checkout-consent";
 import {
+  JUNIOR_ELECTIVE_DRAFT_PRICE_ERROR,
+  JUNIOR_ELECTIVE_PRICE_EXCLUDED,
   JUNIOR_ELECTIVE_QUOTA,
+  juniorElectiveQuotaLimitError,
   JUNIOR_ELECTIVE_SLUGS,
   JUNIOR_PLAN_CODE,
   JUNIOR_QUOTA_FULL_LABEL,
@@ -84,7 +87,7 @@ export function normalizeElectiveSelection(
   slugs: readonly string[],
 ): { ok: true; slugs: string[] } | { ok: false; error: string } {
   if (slugs.length > JUNIOR_ELECTIVE_QUOTA) {
-    return { ok: false, error: "En fazla üç seçmeli ders seçilir." };
+    return { ok: false, error: juniorElectiveQuotaLimitError() };
   }
   const unique: string[] = [];
   for (const slug of slugs) {
@@ -93,6 +96,9 @@ export function normalizeElectiveSelection(
     }
     if (!(JUNIOR_ELECTIVE_SLUGS as readonly string[]).includes(slug)) {
       return { ok: false, error: "Bu ders seçmeli katalogda yok." };
+    }
+    if ((JUNIOR_ELECTIVE_PRICE_EXCLUDED as readonly string[]).includes(slug)) {
+      return { ok: false, error: JUNIOR_ELECTIVE_DRAFT_PRICE_ERROR };
     }
     unique.push(slug);
   }

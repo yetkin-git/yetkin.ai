@@ -67,7 +67,7 @@ import {
 } from "@/lib/copy/seo";
 import { juniorCoverAlt } from "@/lib/junior/cover-alt";
 import { juniorFreeLessonKeys } from "@/lib/junior/catalog";
-import { JUNIOR_ELECTIVE_SLUGS, JUNIOR_PILOT_SLUGS } from "@/lib/junior/limits";
+import { JUNIOR_ELECTIVE_SLUGS, JUNIOR_FREE_LESSON_KEY, JUNIOR_PILOT_SLUGS } from "@/lib/junior/limits";
 import {
   JUNIOR_DESCRIPTION_MAX,
   juniorLandingJsonLd,
@@ -262,8 +262,11 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(byPath.get("/career")?.priority).toBe(0.9);
     expect(byPath.has("/junior")).toBe(true);
     expect(byPath.get("/junior")?.priority).toBe(0.9);
-    expect(byPath.has("/junior/ders/jr_06_mat-1")).toBe(true);
-    expect(byPath.get("/junior/ders/jr_06_mat-1")?.priority).toBe(0.7);
+    expect(byPath.has(`/junior/ders/${JUNIOR_FREE_LESSON_KEY}`)).toBe(true);
+    expect(byPath.get(`/junior/ders/${JUNIOR_FREE_LESSON_KEY}`)?.priority).toBe(0.7);
+    expect(byPath.has("/junior/ders/jr_06_ing_main-20")).toBe(true);
+    expect(byPath.has("/junior/ders/jr_06_ing_main-1")).toBe(false);
+    expect(byPath.has("/junior/ders/jr_06_mat-1")).toBe(false);
     expect(byPath.has("/junior/ders/jr_06_mat-2")).toBe(false);
     expect(byPath.has("/junior/checkout")).toBe(false);
 
@@ -407,16 +410,19 @@ describe("Junior SEO — 6. sınıf başlık, schema ve kapak", () => {
     expect(meta.keywords).toEqual([...PAGE_SEO.junior.keywords]);
   });
 
-  it("ücretsiz ilk konu indekslenir; kilitli konu ve kasa indekslenmez", () => {
-    const free = juniorLessonPageMetadata("jr_06_mat-1");
+  it("ücretsiz ilk ders indekslenir; arşiv, kilitli konu ve kasa indekslenmez", () => {
+    const free = juniorLessonPageMetadata(JUNIOR_FREE_LESSON_KEY);
     expect(free.title).toEqual({
-      absolute: "Üslü ifadede taban ve üs - 6. Sınıf Matematik | yetkin.ai Junior",
+      absolute: "Ondalık gösterimi okumak - 6. Sınıf Matematik | yetkin.ai Junior",
     });
     expect(free.robots).toEqual({ index: true, follow: true });
+    const archived = juniorLessonPageMetadata("jr_06_mat-1");
+    expect(archived.robots).toEqual({ index: false, follow: false });
+    expect(juniorPublicLessonJsonLd("jr_06_mat-1")).toBeNull();
     const locked = juniorLessonPageMetadata("jr_06_mat-2");
     expect(locked.robots).toEqual({ index: false, follow: false });
     expect(locked).not.toHaveProperty("alternates");
-    const lessonLd = juniorPublicLessonJsonLd("jr_06_mat-1");
+    const lessonLd = juniorPublicLessonJsonLd(JUNIOR_FREE_LESSON_KEY);
     expect(lessonLd?.["@graph"].map((node) => node["@type"])).toEqual(["Course", "FAQPage"]);
     expect(juniorPublicLessonJsonLd("jr_06_mat-2")).toBeNull();
     const landing = juniorLandingJsonLd();
@@ -444,16 +450,25 @@ describe("Junior SEO — 6. sınıf başlık, schema ve kapak", () => {
     expect(readSrc("app/junior/checkout/page.tsx")).toContain("index: false");
     expect(readSrc("app/layout.tsx")).toContain("keywords");
     expect(readSrc("components/junior/lesson-covers.tsx")).toContain("juniorCoverAlt");
+    expect(readSrc("components/junior/lesson-covers.tsx")).toContain("juniorCoverSrc");
     expect(readSrc("components/junior/lesson-covers.tsx")).not.toContain('alt=""');
+    expect(readSrc("components/junior/lesson-covers.tsx")).not.toContain("onError");
+    expect(readSrc("components/junior/lesson-covers.tsx")).not.toContain('viewBox="0 0 320 180"');
     expect(juniorCoverAlt({ title: "Üslü ifadede taban ve üs", subject: "Matematik", grade: 6 })).toBe(
       "Üslü ifadede taban ve üs - 6. Sınıf Matematik",
     );
     const freeKeys = juniorFreeLessonKeys();
-    expect(freeKeys).toContain("jr_06_mat-1");
+    expect(freeKeys).toContain(JUNIOR_FREE_LESSON_KEY);
+    expect(freeKeys).not.toContain("jr_06_mat-1");
     expect(freeKeys).not.toContain("jr_06_mat-2");
-    expect([...JUNIOR_PILOT_SLUGS, ...JUNIOR_ELECTIVE_SLUGS].map((slug) => `${slug}-1`)).toEqual([
-      ...freeKeys,
-    ]);
+    const openers = [...JUNIOR_PILOT_SLUGS, ...JUNIOR_ELECTIVE_SLUGS].map((slug) =>
+      slug === "jr_06_ing_main" ? "jr_06_ing_main-20" : `${slug}-1`,
+    );
+    expect(freeKeys).toContain("jr_06_ing_main-20");
+    expect(freeKeys).not.toContain("jr_06_ing_main-1");
+    expect([...freeKeys].sort()).toEqual(
+      [...openers.filter((key) => key !== "jr_06_mat-1"), "jr_06_mat-5", JUNIOR_FREE_LESSON_KEY].sort(),
+    );
     expect(readSrc("app/sitemap.ts")).not.toContain("@/lib/junior/catalog");
   });
 });

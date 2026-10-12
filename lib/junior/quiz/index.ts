@@ -8,6 +8,7 @@ import type {
   JuniorTopicEndPublicQuestion,
   JuniorTopicEndQuestion,
 } from "@/lib/junior/quiz/types";
+import { juniorAnswerDistributionOk, juniorServedQuestions } from "@/lib/junior/quiz/answer-shuffle";
 
 const ALL_PACKS: readonly JuniorLessonQuizPack[] = [
   ...JUNIOR_MAT_QUIZ_PACKS,
@@ -29,8 +30,27 @@ export function juniorTellGuides(lessonKey: string): readonly string[] {
   return juniorQuizPack(lessonKey)?.tellGuides ?? [];
 }
 
+/**
+ * Yayın sırası (T-05). Şıklar ders ve soru kimliğinden deterministik olarak karışır; kaynak paket değişmez.
+ * Puanlama, açık görünüm ve mühür kapısı aynı bu tek kaynağı okur. Doğru şık konumu tutarlıdır.
+ */
+const SERVED_BY_KEY: ReadonlyMap<string, readonly JuniorTopicEndQuestion[]> = new Map(
+  ALL_PACKS.map((pack) => [pack.lessonKey, juniorServedQuestions(pack.lessonKey, pack.questions)] as const),
+);
+
 export function juniorTopicEndQuestions(lessonKey: string): readonly JuniorTopicEndQuestion[] {
-  return juniorQuizPack(lessonKey)?.questions ?? [];
+  return SERVED_BY_KEY.get(lessonKey) ?? [];
+}
+
+/**
+ * Yayınlanan bütün konu soruları dağılım kapısını geçiyor mu.
+ * Her şık en fazla %40 doğru cevap alır; her konuda en az iki farklı doğru konum bulunur.
+ * Veri sabit olduğu için bir kez hesaplanır (mühür kapısı her ders için çağırır).
+ */
+const DISTRIBUTION_OK: boolean = juniorAnswerDistributionOk([...SERVED_BY_KEY.values()]);
+
+export function juniorQuizDistributionOk(): boolean {
+  return DISTRIBUTION_OK;
 }
 
 /** İstemciye cevap anahtarı gitmez. */

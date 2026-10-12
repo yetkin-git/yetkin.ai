@@ -1,0 +1,24 @@
+{
+  "name": "@yetkin/junior-content",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Junior 6. sınıf içeriği. Senaryo, quiz, MEB çıktısı ve okul takvimi JSON olarak durur. Kernel bu paketi import etmez.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema/topic": "./schema/topic.ts",
+    "./schema/meb-outcome": "./schema/meb-outcome.ts",
+    "./calendar": "./src/calendar.ts"
+  },
+  "files": [
+    "schema",
+    "src",
+    "meb",
+    "topics",
+    "quiz",
+    "calendar"
+  ],
+  "peerDependencies": {
+    "zod": "^4.0.0"
+  }
+}

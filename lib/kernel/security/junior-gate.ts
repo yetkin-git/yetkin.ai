@@ -8,8 +8,11 @@ import {
 /**
  * Junior kapısı. Kenar, sayfa ve API bu fonksiyonu okur.
  * Ders listesi ve ilk konu herkese açıktır.
- * İkinci konu, anlatış ve konu testi: yıllık paket veya kapalı beta izin listesi.
+ * İkinci konu, anlatış ve hızlı konu kontrolü: yıllık paket veya denetim aktörü.
  * Kasa ayrıdır ve varsayılan kapalıdır.
+ *
+ * `DRON_JUNIOR_OPEN` yalnız profil masasıdır. Odayı 410 yapmaz.
+ * Oda kapısı `DRON_JUNIOR_ROOM_OPEN` (`lib/dronlar/kayit.ts`).
  */
 
 export const DRON_JUNIOR_OPEN_ENV = "DRON_JUNIOR_OPEN" as const;
@@ -48,6 +51,7 @@ export const JUNIOR_CLOSED_BETA_ERROR =
 export const JUNIOR_CHECKOUT_LOCKED_ERROR =
   "Ödeme hattı henüz bağlanmadı. Hukuki altyapı tamamlanmadan kasa açılmaz.";
 
+/** Profil masası. `1|true|open` oturumlu veliyi açar. `0` odayı kapatmaz. */
 export function isDronJuniorOpen(env: NodeJS.ProcessEnv = process.env): boolean {
   const raw = env[DRON_JUNIOR_OPEN_ENV]?.trim().toLowerCase() ?? "";
   return OPEN_VALUES.has(raw);

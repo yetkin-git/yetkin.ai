@@ -1,0 +1,28 @@
+{
+  "key": "jr_06_mat-35",
+  "title": "Çember uzunluğu problemleri",
+  "teaser": "Çember problemi önce çapı ister. Kavramsal Anlayış, tekerleğin bir turunun çevre kadar yol olduğudur. İfade Gücü, çapı 2 olan tekerleğin bir turunu pi ile yazmaktır.",
+  "welcome": "Merhaba sevgili çocuklar! Bugün çember uzunluğunu bir yol problemine bağlayacağız. Okul bahçesindeki bisiklet tekerleği bir turda çevresi kadar gider. Çapı bilmeden tur sayılmaz.",
+  "concept": "Bir tam tur, çemberin çevre uzunluğu kadar yoldur. Çap verilmişse yol, çap çarpı pi kadardır. İki tur, bu yolun iki katıdır. Cetvelle çapı ölçünce model kurulur. Yarıçap verilirse önce çap bulunur, sonra çevre yazılır.",
+  "example": "Bir tekerleğin çapı 2 metredir. Bir tur yaklaşık 2 çarpı 3, 6 metre eder. Pi'yi 3,14 alırsak bir tur 6,28 metredir. İki tur yaklaşık 12,56 metre eder. Yarıçap 1 metredir. Çapı 2 diye kullanmadan yarıçapı çarpma.",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Tur sayısını çapa ekleme. İki tur, çevreyi iki ile çarpmaktır. Çapa 2 eklemek yolu uzatmaz. Birim metre ise sonucu santimetre diye okuma.",
+  "life": "Bunu okul bahçesindeki koşu halkasında görürsün. Kutunun etrafına dolanan ip bir turdur. İkinci dolanış aynı ipin bir katı daha uzamasıdır.",
+  "recap": [
+    "Bir tur, çevre uzunluğu kadar yoldur.",
+    "Çevre, çap çarpı pi ile bulunur.",
+    "İki tur, çevrenin iki katıdır."
+  ],
+  "conceptSeal": "Tekerleğin bir turu, çemberin çevresi kadar yer değiştirir.",
+  "voiceSeal": "Çapı 2 metre olan tekerleğin bir turunu 2 çarpı pi metre diye dersin.",
+  "outcomes": [
+    "Bir tur çevre kadar yoldur.",
+    "Çap bilinince çevre yazılır.",
+    "Tur sayısı çevre ile çarpılır.",
+    "Çember uzunluğu problemleri kuralı bu derste yeni bir istisna açmaz.",
+    "35 numaralı örnek, ikinci bir kurala dönüşmez.",
+    "Okul defterindeki adım, bahçedeki ölçümle aynı kuralı taşır."
+  ],
+  "scene": "circle",
+  "hint": "trap",
+  "parentNote": "Çocuğunuz çapı 2 metre olan tekerleğin bir turunu 2 çarpı pi diye yazar. İki turu iki katı sayar. Çapa tur eklemez."
+}

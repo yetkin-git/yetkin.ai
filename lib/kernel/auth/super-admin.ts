@@ -80,19 +80,40 @@ function isBuiltInCanonicalMailbox(email: string | null | undefined): boolean {
 }
 
 /**
+ * Üretim kurtarma kapısı (T-03, fail-closed).
+ * Doğrulanmamış kutu açılmaz.
+ * Üretimde `SUPER_ADMIN_USER_ID` boşsa hiçbir kutu admin olmaz; yerleşik kutu dahil.
+ * Doluysa yerleşik kutu yalnız o UUID ile birebir eşleşince açılır. Başka bir kişiye yazılmış env bu kutuyu açmaz.
+ * Geliştirmede doğrulanmış yerleşik kutu UUID beklemez.
+ */
+function builtInRecoveryOpen(actor: SuperAdminActor): boolean {
+  if (!isBuiltInCanonicalMailbox(actor.email) || !isConfirmedAccountEmail(actor.emailConfirmedAt)) {
+    return false;
+  }
+  if (process.env.NODE_ENV !== "production") {
+    return true;
+  }
+  const userId = process.env.SUPER_ADMIN_USER_ID?.trim() ?? "";
+  if (!userId) {
+    return false;
+  }
+  return userId === actor.id;
+}
+
+/**
  * Super Admin SSOT.
  * E-posta doğrulanmamışsa admin yoktur.
- * Yerleşik kutu (`yapinet360@gmail.com`) doğrulanmışsa açılır.
- * Bu kutu UUID, `SUPER_ADMIN_USER_ID` ve `CANONICAL_SUPER_ADMIN_EMAIL` yüzünden kapanmaz.
+ * Üretimde `SUPER_ADMIN_USER_ID` zorunludur; boşsa hiçbir hesap admin olmaz (T-03).
+ * Yerleşik kutu (`yapinet360@gmail.com`) üretimde yalnız doğrulanmış e-posta ve bu UUID eşleşmesiyle açılır.
  * Başka bir adres üretimde UUID ve kanonik e-posta env’inin birlikte eşleşmesini ister.
  * Geliştirmede doğrulanmış kanonik e-posta veya UUID yeter.
  */
 export function isSuperAdminActor(actor: SuperAdminActor): boolean {
-  if (
-    isBuiltInCanonicalMailbox(actor.email) &&
-    isConfirmedAccountEmail(actor.emailConfirmedAt)
-  ) {
+  if (builtInRecoveryOpen(actor)) {
     return true;
+  }
+  if (process.env.NODE_ENV === "production" && isBuiltInCanonicalMailbox(actor.email)) {
+    return false;
   }
   if (!isConfirmedAccountEmail(actor.emailConfirmedAt)) {
     return false;

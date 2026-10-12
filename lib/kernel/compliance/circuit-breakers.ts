@@ -112,7 +112,8 @@ export function isEidsPublicListingLocked(): boolean {
 
 /**
  * Profil masası kapalı beta. Anonim ve listedışı hesap kilitlidir.
- * İzin listesi ve `DRON_JUNIOR_OPEN` kapıyı `canEnterJunior` üzerinden açar.
+ * İzin listesi ve profil bayrağı `DRON_JUNIOR_OPEN` kapıyı `canEnterJunior` üzerinden açar.
+ * Bu bayrak oda 410’u değildir. Oda kapısı `DRON_JUNIOR_ROOM_OPEN`.
  * Kasa bu fonksiyona girmez.
  */
 export function isJuniorSurfaceLocked(

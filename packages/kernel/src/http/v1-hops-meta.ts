@@ -141,6 +141,27 @@ export const RAIL_V1_HOPS_META = [
     v1Auth: "none",
     cookieAuth: false,
   },
+  {
+    id: "junior-lesson-play",
+    method: "GET",
+    v1PathTemplate: "/api/v1/junior/lessons/{key}/play",
+    v1Auth: "bearer",
+    cookieAuth: false,
+  },
+  {
+    id: "junior-lesson-progress",
+    method: "POST",
+    v1PathTemplate: "/api/v1/junior/lessons/{key}/progress",
+    v1Auth: "bearer",
+    cookieAuth: false,
+  },
+  {
+    id: "junior-lesson-practice",
+    method: "POST",
+    v1PathTemplate: "/api/v1/junior/lessons/{key}/practice",
+    v1Auth: "bearer",
+    cookieAuth: false,
+  },
 ] as const satisfies readonly RailV1HopMeta[];
 
 export type RailV1HopId = (typeof RAIL_V1_HOPS_META)[number]["id"];

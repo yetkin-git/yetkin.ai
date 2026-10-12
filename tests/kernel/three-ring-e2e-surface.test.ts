@@ -147,7 +147,7 @@ describe("D3 operatör yüzeyi", () => {
   });
 
   it("Storage CORS joker yasak; Inngest boş anahtarda GET/POST/PUT 503", () => {
-    const storage = readSrc("archived/lib/studio/storage.ts");
+    const storage = readSrc("scripts/ops-storage-cors-lib.ts");
     const corsCheck = readSrc("scripts/ops-storage-cors-check.ts");
     const inngestRoute = readSrc("app/api/(kernel)/jobs/inngest/route.ts");
     const guard = readSrc("lib/kernel/jobs/inngest-guard.ts");
@@ -155,6 +155,7 @@ describe("D3 operatör yüzeyi", () => {
     expect(storage).toContain("assertStudioStorageCorsHeaders");
     expect(corsCheck).toContain("assertStudioStorageCorsHeaders");
     expect(corsCheck).toContain("assertStudioStorageCorsRejectsForeignOrigin");
+    expect(corsCheck).not.toContain("@/archived");
     expect(inngestRoute).toContain('method: "GET" | "POST" | "PUT"');
     expect(inngestRoute).toContain("shouldFailClosedInngestServe");
     expect(inngestRoute).toContain("inngestNotConfiguredResponse");

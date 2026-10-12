@@ -4,11 +4,18 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { LinkButton } from "@/components/ui/link-button";
-import { JUNIOR_ELECTIVES_PATH, JUNIOR_ELECTIVE_QUOTA } from "@/lib/junior/limits";
+import {
+  JUNIOR_ELECTIVES_PATH,
+  JUNIOR_ELECTIVE_QUOTA,
+  JUNIOR_ELECTIVE_SOON_LABEL,
+  juniorElectiveQuotaFullHint,
+  juniorElectiveQuotaTitle,
+} from "@/lib/junior/limits";
 import { juniorElectiveCardLabel, juniorElectiveCardState } from "@/lib/junior/plan";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
-type Pick = { slug: string; title: string; subject: string };
+/** `ready` yoksa ders hazır sayılmaz (fail-closed). Hazır değilse seçim "Yakında" olur (T-06). */
+type Pick = { slug: string; title: string; subject: string; ready?: boolean };
 
 type Envelope = { ok?: boolean; error?: string | null };
 
@@ -102,10 +109,10 @@ export function ElectiveQuotaModal({
             <div className="flex items-start justify-between gap-3">
               <div>
                 <h2 id="junior-quota-title" className="text-lg font-semibold">
-                  Üç seçmeli ders
+                  {juniorElectiveQuotaTitle()}
                 </h2>
                 <p className="text-sm text-[var(--muted)]">
-                  {draft.length} / {JUNIOR_ELECTIVE_QUOTA}. Üç ders dolunca diğerleri kota durumuna geçer.
+                  {draft.length} / {JUNIOR_ELECTIVE_QUOTA}. {juniorElectiveQuotaFullHint()}
                   {planActive
                     ? " Paket açık. Seçtiğin derslerin kilitli konuları açılır."
                     : priceLabel
@@ -120,7 +127,9 @@ export function ElectiveQuotaModal({
             <ul className="grid gap-2">
               {picks.map((pick) => {
                 const state = juniorElectiveCardState(pick.slug, draft);
-                const label = juniorElectiveCardLabel(state);
+                // Hazır olmayan ders yeni seçilemez; zaten seçiliyse çıkarmaya izin verilir.
+                const soon = pick.ready !== true && state !== "chosen";
+                const label = soon ? JUNIOR_ELECTIVE_SOON_LABEL : juniorElectiveCardLabel(state);
                 return (
                   <li
                     key={pick.slug}
@@ -128,12 +137,18 @@ export function ElectiveQuotaModal({
                   >
                     <div>
                       <p className="text-sm font-semibold">{pick.title}</p>
-                      <p className="text-xs text-[var(--muted)]">{pick.subject}</p>
+                      <p className="text-xs text-[var(--muted)]">
+                        {pick.subject}
+                        {soon ? " · Hazır olunca açılır" : ""}
+                      </p>
                     </div>
                     <Button
                       type="button"
                       size="sm"
-                      variant={state === "chosen" ? "secondary" : state === "full" ? "outline" : "primary"}
+                      variant={
+                        soon ? "outline" : state === "chosen" ? "secondary" : state === "full" ? "outline" : "primary"
+                      }
+                      disabled={soon}
                       onClick={() => toggle(pick.slug)}
                     >
                       {label}

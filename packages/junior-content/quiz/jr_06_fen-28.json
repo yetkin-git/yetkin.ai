@@ -1,0 +1,52 @@
+{
+  "lessonKey": "jr_06_fen-28",
+  "title": "Ergenlik",
+  "tellGuides": [
+    "Ergenlikte değişim hızının neden aynı olmadığını söyle.",
+    "Bu dönemi destekleyen iki alışkanlık say."
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Ergenlik hangi dönemdir?",
+      "options": [
+        "Bedenin olgunlaştığı sağlıklı geçiş",
+        "Yalnız bir hastalık",
+        "Işığın soğurulması",
+        "Yer değiştirmenin sıfırlanması"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Olgunlaşma, yarış değil.",
+      "explanation": "Adım 1: Ergenlik çocukluktan yetişkinliğe geçiştir. Adım 2: Hormonlar bu olgunlaşmada rol alır. Adım 3: Tempo kişiye özeldir."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Ece 6 santimetre, Ali 2 santimetre uzamışsa bu neyi gösterir?",
+      "options": [
+        "Büyüme hızı kişiden kişiye değişir",
+        "Ali'nin ergenliği yoktur",
+        "Ece'nin ölçümü yanlıştır çünkü fark yasaktır",
+        "İkisi de aynı ayda aynı sesi almalıdır"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Sayılar farklı olabilir.",
+      "explanation": "Adım 1: İki artış da büyümeyi gösterir. Adım 2: Sayılar eşit olmak zorunda değildir. Adım 3: Hız kişiye özeldir."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Sınıf tartışmasında bir öğrenci, geç uzayan arkadaşıyla alay ediyor. Bilimsel cevap hangi cümledir?",
+      "options": [
+        "Ergenlik temposu kişiye özeldir; alay bu dönemin parçası değildir",
+        "Herkes aynı ay 6 santimetre uzamak zorundadır",
+        "Geç uzamak yer değiştirmenin tersidir",
+        "Ses değişimi yalnız aynada ölçülür"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Tempo ortaktır diye bir kural yoktur.",
+      "explanation": "Adım 1: Başlangıç yaşı değişebilir. Adım 2: Alay bilimsel bir ölçüt değildir. Adım 3: Doğru cümle kişiye özel tempoyu korur."
+    }
+  ]
+}

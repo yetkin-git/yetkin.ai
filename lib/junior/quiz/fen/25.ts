@@ -1,0 +1,54 @@
+import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
+
+/** 6. Sınıf Fen Bilimleri — insan üreme organları. */
+export const JUNIOR_FEN_QUIZ_25 = {
+  lessonKey: "jr_06_fen-25",
+  title: "İnsan üreme organları",
+  tellGuides: [
+    "Yumurtalık ve testisin ürettiği hücreyi söyle.",
+    "Rahmin görevini bir cümlede ayır.",
+  ],
+  questions: [
+    {
+      id: "q1",
+      level: "concept",
+      question: "Yumurta hücresini hangi organ üretir?",
+      options: ["Yumurtalık", "Testis", "Mide", "Akciğer"],
+      correctAnswerIndex: 0,
+      hint: "Dişi sistemdeki üretim organı.",
+      explanation:
+        "Adım 1: Yumurtalık yumurta hücresi üretir. Adım 2: Testis sperm hücresi üretir. Adım 3: Mide ve akciğer bu işi yapmaz.",
+    },
+    {
+      id: "q2",
+      level: "apply",
+      question: "Çizimde 3 numara testis ise bu organın görevi nedir?",
+      options: [
+        "Sperm hücresi üretmek",
+        "Yumurta hücresi üretmek",
+        "Besini sindirmek",
+        "Işığı yansıtmak",
+      ],
+      correctAnswerIndex: 0,
+      hint: "Testis erkek üretim organıdır.",
+      explanation:
+        "Adım 1: Numara testisi gösterir. Adım 2: Testisin görevi sperm hücresi üretimidir. Adım 3: Yumurta hücresi yumurtalığın işidir.",
+    },
+    {
+      id: "q3",
+      level: "skill",
+      question:
+        "Vücut şemasında 1 yumurtalık, 2 rahim, 3 testis olarak işaretli. Bir öğrenci rahmin yumurta ürettiğini yazıyor. Hangi numaranın görevi karışmıştır?",
+      options: [
+        "2 numara; yumurta üretimini 1 numara yapar",
+        "3 numara; testis yumurta üretir",
+        "1 numara; yumurtalık sperm üretir",
+        "Hiçbiri; üç organ aynı işi yapar",
+      ],
+      correctAnswerIndex: 0,
+      hint: "Üretim ile gelişim organı ayrıdır.",
+      explanation:
+        "Adım 1: Yumurta hücresini yumurtalık üretir. Adım 2: Rahim gelişim yeridir. Adım 3: Karışan görev 2 numaradır.",
+    },
+  ],
+} as const satisfies JuniorLessonQuizPack;

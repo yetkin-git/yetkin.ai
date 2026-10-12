@@ -131,6 +131,15 @@ export function IconStore(props: IconProps) {
   );
 }
 
+export function IconYoung(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="M3 10 12 6l9 4-9 4-9-4z" />
+      <path d="M7 12v4.5c0 .8 2.2 2.5 5 2.5s5-1.7 5-2.5V12" />
+    </Svg>
+  );
+}
+
 export function IconChild(props: IconProps) {
   return (
     <Svg {...props}>
@@ -520,6 +529,7 @@ export const ROOM_ICONS = {
   hibe: IconLeaf,
   arena: IconTrophy,
   junior: IconChild,
+  young: IconYoung,
   social: IconMegaphone,
   profil: IconUser,
   cuzdan: IconWallet,

@@ -7,6 +7,7 @@ import { createPrismaHttpIdempotencyStore } from "@/lib/kernel/http/prisma-idemp
 import { BadRequestError } from "@/lib/kernel/http/errors";
 import { closeCitizenAccount } from "@/lib/kernel/identity/close-account";
 import { ACCOUNT_CLOSE_CONFIRM } from "@/lib/kernel/identity/close-account-gate";
+import { registerJuniorAccountCloseGuard } from "@/lib/junior/register-account-close-guard";
 import {
   applyHttpRateLimit,
   HTTP_RATE_LIMITS,
@@ -15,6 +16,9 @@ import {
 import { z } from "zod";
 
 export const auth = "session" as const;
+
+/** Junior kapısı (T-02) hesap silinmeden önce çalışır. Kayıt route modülü yüklenince yapılır. */
+registerJuniorAccountCloseGuard();
 
 const PROFILE_CLOSE_ROUTE = "/api/profile/close";
 

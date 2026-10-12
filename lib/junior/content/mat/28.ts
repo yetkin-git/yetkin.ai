@@ -1,0 +1,33 @@
+import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
+
+/** 6. Sınıf Matematik. Sayı ve şekil örüntüsü. */
+export const JUNIOR_MAT_28_SCENARIO: JuniorLessonScenario = {
+  key: "jr_06_mat-28",
+  title: "Sayı ve şekil örüntüsü",
+  teaser: "Örüntü, bir kuralın tekraridir. Kavramsal Anlayış, artan sayıyı veya şeklin adım adım büyüyen modelini görmektir. İfade Gücü, sıradaki terimi kuralıyla söylemektir.",
+  welcome: "Merhaba sevgili çocuklar! Bugün tekrar eden bir kuralın modelini kuracağız. Okul sırasında 2, 4, 6 diye giden adımlar bir örüntüdür. Kuralı bulunca sıradaki adım görünür.",
+  concept: "Sayı örüntüsü, her adımda aynı işlemle büyüyen dizidir. Şekil örüntüsü, aynı kuralın çizimle modelidir. Kural sabitken terim değişir. 3, 6, 9 dizisinde her adım 3 ekler. Kare, iki kare, üç kare modelinde her adım bir kare ekler.",
+  example: "4, 7, 10, 13 dizisine bakalım. Artış 3'tür. Sıradaki terim 16 olur. Şekilde ilk adımda 1 üçgen, ikinci adımda 2 üçgen, üçüncü adımda 3 üçgen varsa kural her adımda 1 üçgen eklemektir. Dördüncü adımda 4 üçgen durur.",
+  hint: "gold",
+  warning: "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. İki terim arasındaki farkı bütün diziye yaymadan kural olmaz. 2, 4, 8 dizisi 2 eklemek değildir. Orada her terim 2 ile çarpılır. Toplama modeli ile çarpma modelini karıştırma.",
+  life: "Bunu okul bahçesindeki merdiven sayısında görürsün. Kutuya her gün 2 bilye eklersen dizi toplama örüntüsüdür. Aynı kutuya her gün iki kat bilye koyarsan model çarpma olur.",
+  recap: [
+    "Örüntü, aynı kuralın tekraridir.",
+    "Sayı dizisinde artış veya çarpım aranır.",
+    "Şekil modeli, kuralın çizimidir.",
+  ],
+  conceptSeal: "Kural sabit kalır. Terim, kuralın bir sonraki adımıdır.",
+  voiceSeal: "4, 7, 10, 13 dizisinde sıradaki sayının 16 olduğunu kuralıyla dersin.",
+  outcomes: [
+    "Örüntü bir kuralın modelidir.",
+    "Sabit artış toplama örüntüsüdür.",
+    "Şekil, aynı kuralı adım adım gösterir.",
+    "Sayı ve şekil örüntüsü kuralı bu derste yeni bir istisna açmaz.",
+    "28 numaralı örnek, ikinci bir kurala dönüşmez.",
+    "Okul defterindeki adım, bahçedeki ölçümle aynı kuralı taşır.",
+  ],
+  scene: "algebra",
+  parentNote: "Çocuğunuz 4, 7, 10, 13 için sıradaki sayıyı 16 diye bulur. 2, 4, 8 dizisini toplama sanmaz; iki katını alır.",
+};
+
+export const JUNIOR_MAT_28 = juniorLessonFromScenario(JUNIOR_MAT_28_SCENARIO);

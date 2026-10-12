@@ -1,14 +1,19 @@
 import "server-only";
 
 import { JUNIOR_TELL_CLOSE, startsWithJuniorWarmOpening } from "@/lib/junior/content-rules";
-import { JUNIOR_FEN_LESSONS } from "@/lib/junior/content/fen";
-import { JUNIOR_ING_LESSONS } from "@/lib/junior/content/ing";
-import { JUNIOR_MAT_LESSONS } from "@/lib/junior/content/mat";
-import { JUNIOR_SOSYAL_LESSONS } from "@/lib/junior/content/sosyal";
-import { JUNIOR_TURKCE_LESSONS } from "@/lib/junior/content/turkce";
+import { juniorSealedCourseLessons } from "@/lib/junior/content-source";
+import { JUNIOR_FREE_STARTER_LABEL, JUNIOR_LEGACY_ARCHIVE_LABEL } from "@/lib/junior/meb";
 import { JUNIOR_ELECTIVE_COURSES, type JuniorElectiveCourse } from "@/lib/junior/elective-catalog";
 import { JUNIOR_COURSE_TITLES } from "@/lib/junior/human-titles";
-import { JUNIOR_FREE_LESSON_KEY, JUNIOR_PILOT_GRADE, JUNIOR_PILOT_SLUGS, JUNIOR_QUIZ_PREPARING_LABEL } from "@/lib/junior/limits";
+import {
+  JUNIOR_ELECTIVE_PRICE_EXCLUDED,
+  JUNIOR_ARCHIVED_OPENER_KEYS,
+  JUNIOR_FREE_LESSON_KEY,
+  JUNIOR_FREE_OPENER_OVERRIDE,
+  JUNIOR_PILOT_GRADE,
+  JUNIOR_PILOT_SLUGS,
+  JUNIOR_QUIZ_PREPARING_LABEL,
+} from "@/lib/junior/limits";
 import { juniorProductionSealGaps } from "@/lib/junior/production-seal";
 import {
   JUNIOR_ELECTIVE_CATEGORY,
@@ -20,7 +25,15 @@ import {
   type JuniorLessonCard,
   type JuniorLessonScript,
 } from "@/lib/junior/types";
-import { juniorThisWeekLessonIndex } from "@/lib/junior/week";
+import { juniorLessonUnit } from "@/lib/junior/units";
+import {
+  juniorActiveLessonKeys,
+  juniorLessonWeekHeading,
+  juniorLessonWeekSpan,
+  juniorSchoolWeek,
+} from "@/lib/junior/week";
+import { JUNIOR_CALENDAR_VERSION, juniorCalendarBundle } from "@yetkin/junior-content/calendar";
+import { JUNIOR_COURSE_SLUGS, type JuniorCourseSlug } from "@yetkin/junior-content";
 
 export { JUNIOR_ELECTIVE_CATEGORY, JUNIOR_MAARIF_SKILL_TAGS };
 
@@ -48,7 +61,7 @@ export const JUNIOR_PILOT_COURSES = [
     subject: "Matematik",
     grade: JUNIOR_PILOT_GRADE,
     track: "core",
-    lessons: JUNIOR_MAT_LESSONS,
+    lessons: juniorSealedCourseLessons("jr_06_mat"),
   },
   {
     slug: "jr_06_fen",
@@ -57,7 +70,7 @@ export const JUNIOR_PILOT_COURSES = [
     subject: "Fen Bilimleri",
     grade: JUNIOR_PILOT_GRADE,
     track: "core",
-    lessons: JUNIOR_FEN_LESSONS,
+    lessons: juniorSealedCourseLessons("jr_06_fen"),
   },
   {
     slug: "jr_06_turkce",
@@ -66,7 +79,7 @@ export const JUNIOR_PILOT_COURSES = [
     subject: "Türkçe",
     grade: JUNIOR_PILOT_GRADE,
     track: "core",
-    lessons: JUNIOR_TURKCE_LESSONS,
+    lessons: juniorSealedCourseLessons("jr_06_turkce"),
   },
   {
     slug: "jr_06_ing_main",
@@ -75,7 +88,7 @@ export const JUNIOR_PILOT_COURSES = [
     subject: "İngilizce",
     grade: JUNIOR_PILOT_GRADE,
     track: "core",
-    lessons: JUNIOR_ING_LESSONS,
+    lessons: juniorSealedCourseLessons("jr_06_ing_main"),
   },
   {
     slug: "jr_06_sosyal",
@@ -84,7 +97,7 @@ export const JUNIOR_PILOT_COURSES = [
     subject: "Sosyal Bilgiler",
     grade: JUNIOR_PILOT_GRADE,
     track: "core",
-    lessons: JUNIOR_SOSYAL_LESSONS,
+    lessons: juniorSealedCourseLessons("jr_06_sosyal"),
   },
 ] as const satisfies readonly JuniorPilotCourse[];
 
@@ -92,14 +105,30 @@ function juniorCatalogCourses(): readonly JuniorCatalogCourse[] {
   return [...JUNIOR_PILOT_COURSES, ...JUNIOR_ELECTIVE_COURSES];
 }
 
-/** Ücretsiz konu listesinin tek evi. Her kartın ilk konusu. Soru arşivi bu listeyi daraltmaz. */
+/**
+ * Ücretsiz konu listesinin tek evi.
+ * Her kartın ilk konusu, arşive alınmış olanlar hariç; artı ücretsiz ilk ders kapısı (güncel hafta).
+ * `JUNIOR_FREE_OPENER_OVERRIDE` dosya sırasındaki `-1` kapısını Maarif haftasının kartıyla değiştirir.
+ * Soru arşivi bu listeyi daraltmaz.
+ */
 export function juniorFreeLessonKeys(): readonly string[] {
-  const keys = juniorCatalogCourses().flatMap((course) => {
+  if (!juniorLessonByKey(JUNIOR_FREE_LESSON_KEY)) {
+    throw new Error("Ücretsiz ilk ders kapısı katalogda yok.");
+  }
+  const openers = juniorCatalogCourses().flatMap((course) => {
+    const override = JUNIOR_FREE_OPENER_OVERRIDE[course.slug];
+    if (override) {
+      if (!course.lessons.some((lesson) => lesson.key === override)) {
+        throw new Error(`Ücretsiz kapı katalogda yok: ${override}`);
+      }
+      return [override];
+    }
     const opener = course.lessons[0];
     return opener ? [opener.key] : [];
   });
+  const keys = openers.filter((key) => !JUNIOR_ARCHIVED_OPENER_KEYS.includes(key));
   if (!keys.includes(JUNIOR_FREE_LESSON_KEY)) {
-    throw new Error("Ücretsiz konu listesi katalogdaki ilk konulardan koptu.");
+    keys.push(JUNIOR_FREE_LESSON_KEY);
   }
   return keys;
 }
@@ -158,7 +187,7 @@ export function juniorLessonAccess(lessonKey: string): "free" | "locked" | "miss
   if (!course) {
     return "missing";
   }
-  return course.lessons[0]?.key === lessonKey ? "free" : "locked";
+  return juniorFreeLessonKeys().includes(lessonKey) ? "free" : "locked";
 }
 
 export type JuniorPlanAccess = {
@@ -179,7 +208,12 @@ export function juniorLessonAccessForPlan(
   if (!course) {
     return "missing";
   }
-  if (course.track === "core" || plan.selectedElectives.includes(course.slug)) {
+  // Girdi `juniorPaidElectives` süzgecinden geçmiş olmalıdır (mühürsüz seçmeli ücretli pakette açılmaz).
+  const priced =
+    course.track === "elective" &&
+    !(JUNIOR_ELECTIVE_PRICE_EXCLUDED as readonly string[]).includes(course.slug) &&
+    plan.selectedElectives.includes(course.slug);
+  if (course.track === "core" || priced) {
     return "free";
   }
   return "locked";
@@ -197,35 +231,210 @@ export function stampJuniorPlanAccess(
     ...course,
     lessons: course.lessons.map((lesson) => ({
       ...lesson,
-      access: course.track === "core" || chosen.has(course.slug) ? "free" : lesson.access,
+      access:
+        course.track === "core" ||
+        (chosen.has(course.slug) &&
+          !(JUNIOR_ELECTIVE_PRICE_EXCLUDED as readonly string[]).includes(course.slug))
+          ? "free"
+          : lesson.access,
     })),
   }));
 }
 
-export function juniorElectivePicks(): { slug: string; title: string; subject: string }[] {
-  return JUNIOR_ELECTIVE_COURSES.map((course) => ({
+/** Mühür kapısı: seçmeli dersin her konusu yeşil olmalı (metin, ses, ısınma, soru, sahne). */
+export function juniorCourseSealed(course: JuniorCatalogCourse): boolean {
+  return course.lessons.length > 0 && course.lessons.every((lesson) => juniorProductionSealGaps(lesson).length === 0);
+}
+
+/** Ücretli pakete girebilecek seçmeli ders: seçmeli, taslak değil ve mühürlü (T-06). */
+export function juniorElectiveOpenable(course: JuniorCatalogCourse): boolean {
+  return (
+    course.track === "elective" &&
+    !(JUNIOR_ELECTIVE_PRICE_EXCLUDED as readonly string[]).includes(course.slug) &&
+    juniorCourseSealed(course)
+  );
+}
+
+/** Slug'a göre paket uygunluğu. Bilinmeyen slug uygun değildir. */
+export function juniorElectiveOpenBySlug(slug: string): boolean {
+  const course = juniorCourseBySlug(slug);
+  return course !== null && juniorElectiveOpenable(course);
+}
+
+/**
+ * Ücretli pakette sayılan seçmeliler (T-06). Mühürsüz seçim paket erişimi üretmez.
+ * Denetim yolu bu süzgeçten geçmez; denetim sınırı bütün kilitli dersleri izlemeye açıktır.
+ */
+export function juniorPaidElectives(selected: readonly string[]): string[] {
+  return selected.filter((slug) => juniorElectiveOpenBySlug(slug));
+}
+
+export type JuniorElectivePick = { slug: string; title: string; subject: string; ready: boolean };
+
+/** Fiyat vaadi ve kota penceresi. Hazırlık taslağı (`jr_06_ing`) bu listeye girmez. `ready` mühür kapısıdır. */
+export function juniorElectivePicks(): JuniorElectivePick[] {
+  return JUNIOR_ELECTIVE_COURSES.filter(
+    (course) => !(JUNIOR_ELECTIVE_PRICE_EXCLUDED as readonly string[]).includes(course.slug),
+  ).map((course) => ({
     slug: course.slug,
     title: course.title,
     subject: course.subject,
+    ready: juniorCourseSealed(course),
   }));
 }
 
-function toShelf(course: JuniorCatalogCourse, now: Date): JuniorCourseShelf {
-  const weekIndex = juniorThisWeekLessonIndex(course.lessons.length, now);
-  const lessons = course.lessons.map((lesson, index): JuniorLessonCard => ({
-    key: lesson.key,
-    title: lesson.title,
-    teaser: lesson.teaser,
-    access: course.lessons[0]?.key === lesson.key ? "free" : "locked",
-    thisWeek: weekIndex === index,
-    status: juniorProductionSealGaps(lesson).length === 0 ? "fresh" : "preparing",
+function isPilotSlug(slug: string): slug is JuniorCourseSlug {
+  return (JUNIOR_COURSE_SLUGS as readonly string[]).includes(slug);
+}
+
+function outcomeProgress(slug: JuniorCourseSlug, lessonKeys: readonly string[]): {
+  outcomeWritten: number;
+  outcomeTotal: number;
+} {
+  const bundle = juniorCalendarBundle(slug);
+  const sealed = new Set(lessonKeys);
+  const rows = bundle.outcomes.filter((outcome) => outcome.hours > 0);
+  const outcomeWritten = rows.filter(
+    (outcome) =>
+      !outcome.processOpen &&
+      bundle.topics.some(
+        (topic) =>
+          sealed.has(topic.lessonKey) && topic.hours > 0 && topic.outcomeCodes.includes(outcome.outcomeCode),
+      ),
+  ).length;
+  return { outcomeWritten, outcomeTotal: rows.length };
+}
+
+/**
+ * Matematik ve fen kartı çıktı adını yazar.
+ * Türkçe ve İngilizce uydusu aynı tema adını paylaşır; rozet ders başlığını taşır.
+ */
+function shelfWeekHeading(slug: JuniorCourseSlug, lessonKey: string, title: string): string | null {
+  const heading = juniorLessonWeekHeading(slug, lessonKey);
+  if (!heading) {
+    return null;
+  }
+  if (slug !== "jr_06_turkce" && slug !== "jr_06_ing_main") {
+    return heading;
+  }
+  const colon = heading.indexOf(":");
+  if (colon < 0) {
+    return `${heading}: ${title}`;
+  }
+  return `${heading.slice(0, colon)}: ${title}`;
+}
+
+const WEEK_SECTION = ["", " (B Bölümü)", " (C Bölümü)", " (D Bölümü)", " (E Bölümü)"] as const;
+
+/** Aynı hafta aralığındaki ikinci kart «3. Hafta (B Bölümü)» yazar. */
+function withWeekSection(heading: string, index: number): string {
+  const mark = WEEK_SECTION[index] ?? ` (${index + 1}. Bölüm)`;
+  if (!mark) {
+    return heading;
+  }
+  const colon = heading.indexOf(":");
+  if (colon < 0) {
+    return `${heading}${mark}`;
+  }
+  return `${heading.slice(0, colon)}${mark}${heading.slice(colon)}`;
+}
+
+/**
+ * Raf sırası MEB başlangıç haftasıdır. Takvimsiz kart sonda kalır.
+ * Aynı hafta etiketini taşıyan ikinci kart basılmaz.
+ */
+function orderShelfLessons(slug: JuniorCourseSlug | null, lessons: JuniorLessonCard[]): JuniorLessonCard[] {
+  if (!slug) {
+    return lessons;
+  }
+  const ranked = lessons.map((lesson, index) => ({
+    lesson,
+    index,
+    span: juniorLessonWeekSpan(slug, lesson.key),
   }));
-  const preparingShelf = course.track === "elective" && lessons.some((lesson) => lesson.status === "preparing");
+  ranked.sort((left, right) => {
+    const leftWeek = left.span?.startWeek ?? Number.POSITIVE_INFINITY;
+    const rightWeek = right.span?.startWeek ?? Number.POSITIVE_INFINITY;
+    if (leftWeek !== rightWeek) {
+      return leftWeek - rightWeek;
+    }
+    const leftEnd = left.span?.endWeek ?? Number.POSITIVE_INFINITY;
+    const rightEnd = right.span?.endWeek ?? Number.POSITIVE_INFINITY;
+    if (leftEnd !== rightEnd) {
+      return leftEnd - rightEnd;
+    }
+    return left.index - right.index;
+  });
+  const placed = new Map<string, number>();
+  const seenHeading = new Set<string>();
+  const ordered: JuniorLessonCard[] = [];
+  for (const row of ranked) {
+    let lesson = row.lesson;
+    if (row.span && lesson.weekHeading) {
+      const key = `${row.span.startWeek}-${row.span.endWeek}`;
+      const index = placed.get(key) ?? 0;
+      placed.set(key, index + 1);
+      if (index > 0) {
+        lesson = { ...lesson, weekHeading: withWeekSection(lesson.weekHeading, index) };
+      }
+    }
+    if (lesson.weekHeading) {
+      if (seenHeading.has(lesson.weekHeading)) {
+        continue;
+      }
+      seenHeading.add(lesson.weekHeading);
+    }
+    ordered.push(lesson);
+  }
+  return ordered;
+}
+
+function toShelf(course: JuniorCatalogCourse, now: Date): JuniorCourseShelf {
+  const pilot = isPilotSlug(course.slug) ? course.slug : null;
+  const active = new Set(pilot ? juniorActiveLessonKeys(pilot, now) : []);
+  const bandByKey = new Map(pilot ? juniorCalendarBundle(pilot).topics.map((topic) => [topic.lessonKey, topic.band]) : []);
+  const freeKeys = new Set(juniorFreeLessonKeys());
+  const lessons = course.lessons.map((lesson): JuniorLessonCard => {
+    const free = freeKeys.has(lesson.key);
+    const card: JuniorLessonCard = {
+      key: lesson.key,
+      title: lesson.title,
+      teaser: lesson.teaser,
+      access: free ? "free" : "locked",
+      thisWeek: active.has(lesson.key),
+      status: juniorProductionSealGaps(lesson).length === 0 ? "fresh" : "preparing",
+    };
+    const heading = pilot ? shelfWeekHeading(pilot, lesson.key, lesson.title) : null;
+    if (heading) {
+      card.weekHeading = heading;
+    }
+    if (lesson.key === JUNIOR_FREE_LESSON_KEY) {
+      // Güncel haftanın ücretsiz ilk dersi arşiv rafına girmez; kendi etiketini taşır.
+      card.starterLabel = JUNIOR_FREE_STARTER_LABEL;
+    } else if (bandByKey.get(lesson.key) === "legacy-2018") {
+      // 2018 kaynaklı açılış ücretsizse başlangıç etiketini, değilse müfredat dışı arşiv etiketini taşır.
+      if (card.access === "free") {
+        card.starterLabel = JUNIOR_FREE_STARTER_LABEL;
+      } else {
+        card.archiveLabel = JUNIOR_LEGACY_ARCHIVE_LABEL;
+      }
+    }
+    const unit = pilot ? juniorLessonUnit(pilot, lesson.key) : null;
+    if (unit) {
+      card.unitCode = unit.code;
+      card.unitIndex = unit.index;
+      card.unitTitle = unit.title;
+    }
+    return card;
+  });
+  const orderedLessons = orderShelfLessons(pilot, lessons);
+  const preparingShelf = course.track === "elective" && orderedLessons.some((lesson) => lesson.status === "preparing");
   const labels = preparingShelf
     ? [JUNIOR_QUIZ_PREPARING_LABEL, JUNIOR_PERSONAL_CURRICULUM_TAG, JUNIOR_ELECTIVE_TAG, ...JUNIOR_MAARIF_SKILL_TAGS]
     : course.track === "elective"
       ? [JUNIOR_PERSONAL_CURRICULUM_TAG, JUNIOR_ELECTIVE_TAG, ...JUNIOR_MAARIF_SKILL_TAGS]
       : [...JUNIOR_MAARIF_SKILL_TAGS];
+  const progress = pilot ? outcomeProgress(pilot, orderedLessons.map((lesson) => lesson.key)) : {};
   return {
     slug: course.slug,
     title: course.title,
@@ -233,12 +442,40 @@ function toShelf(course: JuniorCatalogCourse, now: Date): JuniorCourseShelf {
     grade: course.grade,
     track: course.track,
     labels,
-    lessons,
+    lessons: orderedLessons,
+    ...progress,
   };
 }
 
+const shelfCache = new Map<string, JuniorCourseShelf[]>();
+
+function copyJuniorShelves(shelves: readonly JuniorCourseShelf[]): JuniorCourseShelf[] {
+  return shelves.map((course) => ({
+    ...course,
+    labels: [...course.labels],
+    lessons: course.lessons.map((lesson) => ({ ...lesson })),
+  }));
+}
+
+/** Hafta anahtarı. Aynı okul haftasında `thisWeek` değişmez. */
+function shelfCacheKey(now: Date): string {
+  const week = juniorSchoolWeek(now);
+  const stamp = week === null ? "pre" : String(week);
+  return `${JUNIOR_CALENDAR_VERSION}:${stamp}`;
+}
+
+export function clearJuniorCourseShelfCache(): void {
+  shelfCache.clear();
+}
+
 export function juniorCourseShelves(now = new Date()): JuniorCourseShelf[] {
-  return juniorCatalogCourses().map((course) => toShelf(course, now));
+  const key = shelfCacheKey(now);
+  let cached = shelfCache.get(key);
+  if (!cached) {
+    cached = juniorCatalogCourses().map((course) => toShelf(course, now));
+    shelfCache.set(key, cached);
+  }
+  return copyJuniorShelves(cached);
 }
 
 /**

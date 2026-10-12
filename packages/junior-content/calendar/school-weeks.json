@@ -1,0 +1,173 @@
+[
+  {
+    "week": 1,
+    "kind": "teach"
+  },
+  {
+    "week": 2,
+    "kind": "teach"
+  },
+  {
+    "week": 3,
+    "kind": "teach"
+  },
+  {
+    "week": 4,
+    "kind": "teach"
+  },
+  {
+    "week": 5,
+    "kind": "teach"
+  },
+  {
+    "week": 6,
+    "kind": "teach"
+  },
+  {
+    "week": 7,
+    "kind": "teach"
+  },
+  {
+    "week": 8,
+    "kind": "teach"
+  },
+  {
+    "week": 9,
+    "kind": "teach"
+  },
+  {
+    "week": 10,
+    "kind": "break",
+    "label": "1. dönem ara tatili, 16-20 Kasım 2026"
+  },
+  {
+    "week": 11,
+    "kind": "teach"
+  },
+  {
+    "week": 12,
+    "kind": "teach"
+  },
+  {
+    "week": 13,
+    "kind": "teach"
+  },
+  {
+    "week": 14,
+    "kind": "teach"
+  },
+  {
+    "week": 15,
+    "kind": "teach"
+  },
+  {
+    "week": 16,
+    "kind": "teach"
+  },
+  {
+    "week": 17,
+    "kind": "teach"
+  },
+  {
+    "week": 18,
+    "kind": "teach"
+  },
+  {
+    "week": 19,
+    "kind": "exam",
+    "label": "1. dönem sonu yazılı haftası, 18-22 Ocak 2027"
+  },
+  {
+    "week": 20,
+    "kind": "break",
+    "label": "Yarıyıl tatili, 25-31 Ocak 2027"
+  },
+  {
+    "week": 21,
+    "kind": "break",
+    "label": "Yarıyıl tatili, 1-5 Şubat 2027"
+  },
+  {
+    "week": 22,
+    "kind": "teach"
+  },
+  {
+    "week": 23,
+    "kind": "teach"
+  },
+  {
+    "week": 24,
+    "kind": "teach"
+  },
+  {
+    "week": 25,
+    "kind": "teach"
+  },
+  {
+    "week": 26,
+    "kind": "break",
+    "label": "2. dönem ara tatili, 8-12 Mart 2027"
+  },
+  {
+    "week": 27,
+    "kind": "teach"
+  },
+  {
+    "week": 28,
+    "kind": "teach"
+  },
+  {
+    "week": 29,
+    "kind": "teach"
+  },
+  {
+    "week": 30,
+    "kind": "teach"
+  },
+  {
+    "week": 31,
+    "kind": "teach"
+  },
+  {
+    "week": 32,
+    "kind": "teach"
+  },
+  {
+    "week": 33,
+    "kind": "teach"
+  },
+  {
+    "week": 34,
+    "kind": "teach"
+  },
+  {
+    "week": 35,
+    "kind": "teach"
+  },
+  {
+    "week": 36,
+    "kind": "teach"
+  },
+  {
+    "week": 37,
+    "kind": "teach"
+  },
+  {
+    "week": 38,
+    "kind": "teach"
+  },
+  {
+    "week": 39,
+    "kind": "exam",
+    "label": "6. sınıf Türkçe ortak yazılı haftası, 8 Haziran 2027"
+  },
+  {
+    "week": 40,
+    "kind": "teach"
+  },
+  {
+    "week": 41,
+    "kind": "okul-temelli",
+    "label": "Okul temelli planlama, 21-25 Haziran 2027"
+  }
+]

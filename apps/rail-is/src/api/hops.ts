@@ -64,6 +64,18 @@ export const RAIL_IS_DAY0_HOPS = {
     method: "GET",
     pathTemplate: "/api/v1/junior/lessons/{key}",
   },
+  juniorLessonPlay: {
+    method: "GET",
+    pathTemplate: "/api/v1/junior/lessons/{key}/play",
+  },
+  juniorLessonProgress: {
+    method: "POST",
+    pathTemplate: "/api/v1/junior/lessons/{key}/progress",
+  },
+  juniorLessonPractice: {
+    method: "POST",
+    pathTemplate: "/api/v1/junior/lessons/{key}/practice",
+  },
 } as const;
 
 /**
@@ -116,6 +128,27 @@ function assertSafeId(value: string, label: string): string {
   return id;
 }
 
+export function juniorLessonPath(lessonKey: string): string {
+  return `/api/v1/junior/lessons/${assertSafeId(lessonKey, "Ders")}`;
+}
+
+export function juniorLessonPlayPath(lessonKey: string, profileId?: string | null): string {
+  const path = `${juniorLessonPath(lessonKey)}/play`;
+  const id = profileId?.trim() ?? "";
+  if (!id) {
+    return path;
+  }
+  return `${path}?profileId=${encodeURIComponent(assertSafeId(id, "Profil"))}`;
+}
+
+export function juniorLessonProgressPath(lessonKey: string): string {
+  return `${juniorLessonPath(lessonKey)}/progress`;
+}
+
+export function juniorLessonPracticePath(lessonKey: string): string {
+  return `${juniorLessonPath(lessonKey)}/practice`;
+}
+
 export function academyCertificatePath(hash: string): string {
   return `/api/v1/academy/certificates/${assertSafeId(hash, "Mühür")}`;
 }
@@ -154,13 +187,32 @@ export function isRailIsDay0Path(path: string, method = "GET"): boolean {
   return DAY0_MATCHERS.some((row) => row.method === verb && row.re.test(pathname));
 }
 
+function safeProfileQuery(raw: string): string {
+  if (raw.includes("#")) {
+    throw new Error("Dron yolu parça taşımaz.");
+  }
+  const mark = raw.indexOf("?");
+  if (mark < 0) {
+    return "";
+  }
+  const query = raw.slice(mark + 1);
+  const params = new URLSearchParams(query);
+  const keys = [...params.keys()];
+  if (keys.length !== 1 || keys[0] !== "profileId") {
+    throw new Error("Dron sorgu dizisi yalnız profileId taşır.");
+  }
+  const value = params.get("profileId") ?? "";
+  return `?profileId=${encodeURIComponent(assertSafeId(value, "Profil"))}`;
+}
+
 export function assertRailIsDay0Path(path: string, method = "GET"): string {
-  const pathname = (path.split("?")[0] ?? path).trim();
+  const raw = path.trim();
+  const pathname = (raw.split("?")[0] ?? raw).trim();
   if (!pathname.startsWith("/api/v1/")) {
     throw new Error("Dron yalnız /api/v1 konuşur.");
   }
   if (!isRailIsDay0Path(pathname, method)) {
     throw new Error(`Gün 0 allowlist dışı hop: ${pathname}`);
   }
-  return pathname;
+  return `${pathname}${safeProfileQuery(raw)}`;
 }

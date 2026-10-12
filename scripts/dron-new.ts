@@ -67,7 +67,7 @@ const kayitRow = `  {
     label: "${label}",
     blurb: "Kapalı dron — bayrak ile açılır",
     hops: [],
-    sahipEkip: "amiral",
+    sahipEkip: "gövde",
     kapali: true,
     bayrakEnv: "${envName(id)}",
   },

@@ -4,22 +4,36 @@ import { useEffect, useRef, useState } from "react";
 import { JuniorHintBox } from "@/components/junior/hint-box";
 import { JuniorPlayerControls } from "@/components/junior/player/controls";
 import { JuniorLessonDecision } from "@/components/junior/player/lesson-decision";
-import { JuniorNotePanel } from "@/components/junior/player/note-panel";
+import { JuniorPauseBanner, JuniorStarAlert, JuniorStarQuestion } from "@/components/junior/player/pause-banner";
 import { JuniorStepArt } from "@/components/junior/player/step-art";
 import { useJuniorPlayback } from "@/components/junior/player/use-junior-playback";
 import { useJuniorWarmupGate } from "@/components/junior/player/use-junior-warmup-gate";
 import { JuniorWarmupCassette } from "@/components/junior/player/warmup-cassette";
 import {
+  JuniorScenePropProvider,
+  juniorSceneProps,
+} from "@/components/junior/player/scene-ui";
+import {
   applyJuniorNicknameOpening,
   juniorHintBody,
   juniorHintKindFromCaption,
-  juniorOpeningNickname,
-  juniorWarmOpening,
+  juniorLessonGreeting,
 } from "@/lib/junior/content-rules";
+import {
+  completeMicroStep,
+  holdMicroStep,
+  readMicroProgress,
+  writeMicroProgress,
+  type MicroProgressRecord,
+} from "@/lib/junior/micro-progress";
 import { playJuniorHintEffect } from "@/lib/junior/hint-effect";
 import { juniorLessonNote } from "@/lib/junior/lesson-note";
 import type { JuniorVectorScene } from "@/lib/junior/types";
-import { JUNIOR_VOICE_PREPARING_LABEL, juniorLessonAudioSrc } from "@/lib/junior/voice";
+import {
+  JUNIOR_VOICE_PREPARING_LABEL,
+  juniorLessonAudioSrc,
+  juniorLessonLocalLockedAudioPath,
+} from "@/lib/junior/voice";
 
 type Beat = { caption: string };
 
@@ -31,7 +45,7 @@ const MATH_FALLBACK: readonly Beat[] = [
   { caption: "Çizim adım adım kuruldu." },
   { caption: "Örnek sayı ile işlendi." },
   { caption: "İkinci örnek pekiştirdi." },
-  { caption: "Tuzak veya altın ipucu ayrıldı." },
+  { caption: "Dikkat noktası veya altın ipucu ayrıldı." },
   { caption: "Günlük kullanımla bağ kuruldu." },
   { caption: "Bugün Neler Öğrendik? İlk özet." },
   { caption: "Bugün Neler Öğrendik? İkinci özet." },
@@ -48,7 +62,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Pay 1 üstte durur. Payda 4 altta durur." },
     { caption: "Soru: Dört dilimden biri alındı. Kesir nedir?" },
     { caption: "Çözüm: Pay 1, payda 4. Sonuç dörtte birdir." },
-    { caption: "Tuzaklara Düşme! Eşit değilse kesir olmaz. Okunuş dörtte birdir." },
+    { caption: "Dikkat Noktası! Eşit değilse kesir olmaz. Okunuş dörtte birdir." },
   ],
   "fraction-sum": [
     { caption: "Solda dörtte bir duruyor." },
@@ -59,7 +73,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Toplam pay 1 artı 2, yani 3." },
     { caption: "Payda 4 yerinde kaldı." },
     { caption: "Sonuç dörtte üçtür." },
-    { caption: "Tuzaklara Düşme! Paydaları toplama. 3/8 bu işlemin sonucu değildir." },
+    { caption: "Dikkat Noktası! Paydaları toplama. 3/8 bu işlemin sonucu değildir." },
   ],
   exponent: MATH_FALLBACK,
   "ops-order": MATH_FALLBACK,
@@ -84,7 +98,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Cisim bu kez sola gelir." },
     { caption: "Ok, kuvvetin yönünü gösterir." },
     { caption: "Örnek: Kapı sağa itilir. Çekmece ters yöne çekilir." },
-    { caption: "Tuzaklara Düşme! Yön yazılmazsa cevap eksik kalır. Çekme de kuvvettir." },
+    { caption: "Dikkat Noktası! Yön yazılmazsa cevap eksik kalır. Çekme de kuvvettir." },
   ],
   speed: [
     { caption: "Hareket eşit adımlarla ilerler." },
@@ -95,7 +109,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Sürat zaman grafiği yatay kalır." },
     { caption: "Birimler metre ile saniyeyi eşleştirir." },
     { caption: "Örnek: Serviste sabit gösterge sabit sürattir." },
-    { caption: "Tuzaklara Düşme! Yolla zamanı çarpma; sürat bölme ile bulunur." },
+    { caption: "Dikkat Noktası! Yolla zamanı çarpma; sürat bölme ile bulunur." },
   ],
   friction: [
     { caption: "Cisim pürüzlü yerde duruyor." },
@@ -106,7 +120,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Buzda ok kısadır. Sürtünme sıfır değildir." },
     { caption: "Pürüzlü taban tutuşu artırır." },
     { caption: "Örnek: Buzda kaymak kolaydır. Sürtünme azdır." },
-    { caption: "Tuzaklara Düşme! Buzda sürtünme azdır. Yok değildir ve bir kuvvettir." },
+    { caption: "Dikkat Noktası! Buzda sürtünme azdır. Yok değildir ve bir kuvvettir." },
   ],
   planets: [
     { caption: "Güneş ortada bir yıldızdır." },
@@ -128,7 +142,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Bu olay gece olur." },
     { caption: "Her yeni ay tutulma değildir." },
     { caption: "Örnek: Fener, el ve top dizilimi." },
-    { caption: "Tuzaklara Düşme! Güneş'e çıplak gözle bakma." },
+    { caption: "Dikkat Noktası! Güneş'e çıplak gözle bakma." },
   ],
   body: [
     { caption: "Vücut sistemleri birlikte çalışır." },
@@ -139,7 +153,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Sinir haberi hızlı taşır." },
     { caption: "Duyu organı haberi alır." },
     { caption: "Kazada önce güvenlik, sonra 112." },
-    { caption: "Tuzaklara Düşme! Bilinci kapalıya su verme." },
+    { caption: "Dikkat Noktası! Bilinci kapalıya su verme." },
   ],
   blood: [
     { caption: "Kan hücreleri damarda dolaşır." },
@@ -150,7 +164,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Küçük dolaşım akciğere gider." },
     { caption: "Kan grupları A, B, AB ve 0'dır." },
     { caption: "0 eksi en genel verici sayılır." },
-    { caption: "Tuzaklara Düşme! Akciğer atardamarı oksijence fakir kan taşır." },
+    { caption: "Dikkat Noktası! Akciğer atardamarı oksijence fakir kan taşır." },
   ],
   particles: [
     { caption: "Madde taneciklerden oluşur." },
@@ -172,7 +186,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Yankı geri gelen sestir." },
     { caption: "Perde ve halı sesi soğurur." },
     { caption: "Sürat ortama bağlıdır." },
-    { caption: "Tuzaklara Düşme! Uzay boşluğunda patlama sesi duyulmaz." },
+    { caption: "Dikkat Noktası! Uzay boşluğunda patlama sesi duyulmaz." },
   ],
   circuit: [
     { caption: "Devrede pil, kablo ve lamba vardır." },
@@ -183,7 +197,18 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Kalın telin direnci küçüktür." },
     { caption: "Madde cinsi direnci değiştirir." },
     { caption: "İnsan vücudu da iletkendir." },
-    { caption: "Tuzaklara Düşme! Kalın telin direnci daha büyük değildir." },
+    { caption: "Dikkat Noktası! Kalın telin direnci daha büyük değildir." },
+  ],
+  mirror: [
+    { caption: "Işık düz bir yüzeye çarpar." },
+    { caption: "Gelen ışın, yansıyan ışın ve normal vardır." },
+    { caption: "Normal, yüzeye dik çizilir." },
+    { caption: "Gelme açısı yansıma açısına eşittir." },
+    { caption: "Düz ayna görüntüyü aynı boyda gösterir." },
+    { caption: "Çukur ayna yakınken büyütür." },
+    { caption: "Tümsek ayna geniş alan gösterir." },
+    { caption: "Beyaz ışık prizmada renklere ayrılır." },
+    { caption: "Dikkat Noktası! Normal, ışının kendisi değildir." },
   ],
   meaning: [
     { caption: "Aynı sözcük üç kutuda duruyor." },
@@ -194,7 +219,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Öznel cümle kişiye göre değişir." },
     { caption: "Neden, amaç ve koşul ayrı bağdır." },
     { caption: "Örtülü anlam sezdirilir, uydurulmaz." },
-    { caption: "Tuzaklara Düşme! Anlamı sözcük değil, cümle seçer." },
+    { caption: "Dikkat Noktası! Anlamı sözcük değil, cümle seçer." },
   ],
   "word-tree": [
     { caption: "Kökten dallar açılıyor." },
@@ -216,7 +241,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Çoğul eki ler ve lar dır." },
     { caption: "Hal, iyelik ve ilgi ekleri çekimdir." },
     { caption: "Parçalar yerine oturdu." },
-    { caption: "Tuzaklara Düşme! Gözlük bir kök değildir. Kök göz dür." },
+    { caption: "Dikkat Noktası! Gözlük bir kök değildir. Kök göz dür." },
   ],
   book: [
     { caption: "Kitap sayfası açıldı." },
@@ -238,7 +263,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Ana fikir tek cümleyle söylenir." },
     { caption: "Soru: Yazar ağaç hakkında ne demek istiyor?" },
     { caption: "Çözüm: Ağaçlar canlılara yarar sağlar." },
-    { caption: "Tuzaklara Düşme! Örnek cümle ana fikir değildir. Konu da ana fikir değildir." },
+    { caption: "Dikkat Noktası! Örnek cümle ana fikir değildir. Konu da ana fikir değildir." },
   ],
   "support-idea": [
     { caption: "Ana fikir tek cümle olarak duruyor." },
@@ -260,7 +285,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Rol değişir. Değer yanında kalır." },
     { caption: "Soru: Saygı bir rol müdür?" },
     { caption: "Çözüm: Saygı bir değerdir. Öğrenci bir roldür." },
-    { caption: "Tuzaklara Düşme! Rol bitince sen yok olmazsın." },
+    { caption: "Dikkat Noktası! Rol bitince sen yok olmazsın." },
   ],
   culture: [
     { caption: "Farklı insanlar aynı sokakta yaşar." },
@@ -293,7 +318,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "İkisi birlikte mutlak konumu kurar." },
     { caption: "Göreceli konum bir yeri başka yere göre anlatır." },
     { caption: "Soru: İki sokak kuzeyde demek hangi konumdur?" },
-    { caption: "Tuzaklara Düşme! Yakın sözünü enlem sanma." },
+    { caption: "Dikkat Noktası! Yakın sözünü enlem sanma." },
   ],
   history: [
     { caption: "Orta Asya'dan Anadolu'ya bir yol uzanıyor." },
@@ -304,7 +329,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Karahanlılar ilk Müslüman Türk devletidir." },
     { caption: "1071 Malazgirt Anadolu'nun kapısını açar." },
     { caption: "Soru: Malazgirt kabul tarihi midir?" },
-    { caption: "Tuzaklara Düşme! Malazgirt, İslamiyet'in kabul tarihi değildir." },
+    { caption: "Dikkat Noktası! Malazgirt, İslamiyet'in kabul tarihi değildir." },
   ],
   caravan: [
     { caption: "Kervan Çin'den Akdeniz'e doğru gider." },
@@ -326,7 +351,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Vergi, okul ve yol gibi ortak giderdir." },
     { caption: "Meslek seçiminde ilgi ve yetenek birlikte durur." },
     { caption: "Demokrasi, halkın yönetime katılmasıdır." },
-    { caption: "Tuzaklara Düşme! Üç organın işini tek elde toplama." },
+    { caption: "Dikkat Noktası! Üç organın işini tek elde toplama." },
   ],
   clock: [
     { caption: "Saat ve günlük sıra yan yana duruyor." },
@@ -348,7 +373,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Soru ve olumsuzda any gelir." },
     { caption: "Can I have some bread, please bir ricadır." },
     { caption: "Please sözü ricayı yumuşatır." },
-    { caption: "Tuzaklara Düşme! I don't have some bu kalıpta durmaz." },
+    { caption: "Dikkat Noktası! I don't have some bu kalıpta durmaz." },
   ],
   skyline: [
     { caption: "Şehir siluetinde insanlar hareket ediyor." },
@@ -370,7 +395,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "I am happy mutlu demektir." },
     { caption: "Anxious kaygılı, scared korkmuş demektir." },
     { caption: "How do you feel duygu sorusudur." },
-    { caption: "Tuzaklara Düşme! It is sun yazılmaz. It is sunny yazılır." },
+    { caption: "Dikkat Noktası! It is sun yazılmaz. It is sunny yazılır." },
   ],
   fair: [
     { caption: "Dönme dolap ve çarpışan arabalar duruyor." },
@@ -414,7 +439,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Played, oynadım demektir." },
     { caption: "It was sunny hava güneşliydi demektir." },
     { caption: "We had a picnic piknik yaptık demektir." },
-    { caption: "Tuzaklara Düşme! They was yazılmaz. They were yazılır." },
+    { caption: "Dikkat Noktası! They was yazılmaz. They were yazılır." },
   ],
   recycle: [
     { caption: "Kâğıt, cam ve plastik kutuları duruyor." },
@@ -436,7 +461,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Responsibility, sorumluluktur." },
     { caption: "Sınıf kuralı birlikte yaşamayı düzenler." },
     { caption: "Söz hakkı ve dinleme sorumluluğu yan yanadır." },
-    { caption: "Tuzaklara Düşme! Hak, sorumluluğu silmez." },
+    { caption: "Dikkat Noktası! Hak, sorumluluğu silmez." },
   ],
   elective: [
     { caption: "Seçmeli ders açıldı." },
@@ -447,7 +472,7 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Aynı kural bir kez daha söylendi." },
     { caption: "Soru soruldu." },
     { caption: "Çözüm söylendi." },
-    { caption: "Tuzaklara Düşme! Bu adımda tuzak ayrıca durur." },
+    { caption: "Dikkat Noktası! Bu adımda ipucu ayrıca durur." },
   ],
 };
 
@@ -459,6 +484,8 @@ type VectorPlayerProps = {
   /** Dinleme metni. Ders notu boşsa anlatım buna düşer. */
   narration?: string;
   lessonKey?: string;
+  /** Mikro-adım izi bu profile yazılır. Boşsa anonim anahtar. */
+  profileId?: string;
   /** Profil rumuzu. Yoksa sıcak açılış listesi kalır. Ders dosyasına yazılmaz. */
   nickname?: string | null;
   /** Geniş ekranda odak sahnesi kalan yüksekliği doldurur. */
@@ -469,6 +496,12 @@ type VectorPlayerProps = {
   onPlaybackComplete?: (complete: boolean) => void;
   /** Mikrofon öncesi kaset kanalını bırakmak için stop bağla. */
   onBindStop?: (stop: () => void) => void;
+  /** Kilitli dersin imzalı adresi. Boş dize kamu yolu değildir. */
+  grantedAudioUrl?: string | null;
+  grantedWarmupUrl?: string | null;
+  lockPublicMedia?: boolean;
+  /** Senaryodaki özgün mikro soru. Yıldız paneli bunu basar. */
+  microQuestion?: string;
 };
 
 export function VectorPlayer({
@@ -478,28 +511,65 @@ export function VectorPlayer({
   steps,
   narration = "",
   lessonKey = "",
+  profileId = "",
   nickname = null,
   fill = false,
   onReadyToTell,
   onPlaybackComplete,
   onBindStop,
+  grantedAudioUrl = null,
+  grantedWarmupUrl = null,
+  lockPublicMedia = false,
+  microQuestion = "",
 }: VectorPlayerProps) {
   const beats =
     steps && steps.length > 0 ? steps.map((caption) => ({ caption })) : BEATS[scene];
   const note = juniorLessonNote(mebNote, lifeUse);
   // Cue SSOT = fırınlanmış kaset metni (listenText/narration). mebNote yalnız yedek.
-  // audio.currentTime → SoftStage + (CC açıkken) liveCaption + (açıkken) Ders Notu vurgusu.
+  // audio.currentTime → SoftStage + (CC açıkken) liveCaption. Ham transkript sayfada durmaz.
   const spoken = narration.trim().length > 0 ? narration.trim() : note;
-  const greeting = juniorOpeningNickname(nickname) ? juniorWarmOpening(lessonKey, nickname) : null;
-  const sealedVoice = Boolean(juniorLessonAudioSrc(lessonKey));
+  const sealedVoice = lockPublicMedia
+    ? Boolean(grantedAudioUrl)
+    : Boolean(juniorLessonAudioSrc(lessonKey) ?? juniorLessonLocalLockedAudioPath(lessonKey));
+  // Ekran selamı sesle aynı: mühürlü kasetin açılışı sabittir; rumuz yalnız sesi olmayan yolda okunur.
+  const greeting = juniorLessonGreeting({ lessonKey, nickname, sealedVoice });
   const spokenForPlay =
     greeting && !sealedVoice ? applyJuniorNicknameOpening(spoken, nickname) : spoken;
+  const [trace, setTrace] = useState<MicroProgressRecord>({ completed: [], holding: null });
+  const [traceReady, setTraceReady] = useState(false);
+  useEffect(() => {
+    setTraceReady(false);
+    setTrace(readMicroProgress("junior", profileId, lessonKey));
+    setTraceReady(true);
+  }, [profileId, lessonKey]);
   const playback = useJuniorPlayback({
     lessonKey,
     note: spokenForPlay,
     beatCount: beats.length,
+    stepCaptions: beats.map((row) => row.caption),
+    grantedAudioUrl,
+    lockPublicMedia,
+    resumeRecord: trace,
+    resumeReady: traceReady,
+    onHardPause: (pause) => {
+      setTrace((current) => {
+        const next = holdMicroStep(current, pause.stepIndex);
+        writeMicroProgress("junior", profileId, lessonKey, next);
+        return next;
+      });
+    },
+    onHardResume: (pause) => {
+      setTrace((current) => {
+        const next = completeMicroStep(current, pause.stepIndex);
+        writeMicroProgress("junior", profileId, lessonKey, next);
+        return next;
+      });
+    },
   });
-  const warmup = useJuniorWarmupGate(lessonKey, playback.replay);
+  const thinkButtonRef = useRef<HTMLButtonElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const [fullscreen, setFullscreen] = useState(false);
+  const warmup = useJuniorWarmupGate(lessonKey, playback.replay, grantedWarmupUrl, lockPublicMedia);
   const beat = playback.beat;
   const chimeKey = useRef("");
   /** Canlı altyazı bandı varsayılan kapalı — bilişsel yük düşük; CC ile açılır. */
@@ -510,6 +580,7 @@ export function VectorPlayer({
    * tekrar dinle (`!complete`) paneli yeniden açar.
    */
   const [decisionTaken, setDecisionTaken] = useState(false);
+  const [starOpen, setStarOpen] = useState(false);
   /** SoftStage + (CC açıkken) karaoke altyazı: MP3 cümlesi; adım metni yalnız yedek. */
   const stepCaption = beats[beat]?.caption ?? beats[0]?.caption ?? "";
   const caption = playback.liveCaption.trim().length > 0 ? playback.liveCaption : stepCaption;
@@ -530,7 +601,17 @@ export function VectorPlayer({
       : playback.pieces.length > 0 && playback.activePiece >= 0
         ? playback.pieces.slice(0, playback.activePiece + 1).map((piece) => piece.text)
         : beats.slice(0, Math.max(0, beat) + 1).map((row) => row.caption);
-  const hintKind = juniorHintKindFromCaption(caption);
+  const holdingAttention = playback.thinkHold && playback.pauseKind === "attention";
+  const pauseBanner =
+    playback.thinkHold && !playback.complete && playback.pauseKind === "notebook"
+      ? playback.pauseKind
+      : null;
+  const hintSource = holdingAttention ? playback.holdCaption || caption : caption;
+  const hintKind = holdingAttention
+    ? (juniorHintKindFromCaption(hintSource) ?? "trap")
+    : playback.hintSuppressed
+      ? null
+      : juniorHintKindFromCaption(caption);
 
   useEffect(() => {
     if (warmup.orienting || !hintKind) {
@@ -550,62 +631,172 @@ export function VectorPlayer({
   }, [playback.complete, onPlaybackComplete]);
 
   useEffect(() => {
+    if (!playback.complete || !traceReady) {
+      return;
+    }
+    const last = playback.microSteps.length - 1;
+    if (last < 0) {
+      return;
+    }
+    setTrace((current) => {
+      if (current.completed.includes(last)) {
+        return current;
+      }
+      const next = completeMicroStep(current, last);
+      writeMicroProgress("junior", profileId, lessonKey, next);
+      return next;
+    });
+  }, [playback.complete, playback.microSteps.length, traceReady, profileId, lessonKey]);
+
+  useEffect(() => {
+    if (!playback.thinkHold) {
+      return;
+    }
+    thinkButtonRef.current?.focus({ preventScroll: true });
+  }, [playback.thinkHold]);
+
+  useEffect(() => {
     if (!playback.complete) {
       setDecisionTaken(false);
     }
   }, [playback.complete]);
 
   useEffect(() => {
+    setStarOpen(false);
+  }, [lessonKey]);
+
+  useEffect(() => {
     onBindStop?.(playback.stop);
   }, [onBindStop, playback.stop]);
 
+  useEffect(() => {
+    function onFullscreenChange() {
+      setFullscreen(document.fullscreenElement === stageRef.current);
+    }
+    document.addEventListener("fullscreenchange", onFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", onFullscreenChange);
+  }, []);
+
+  function toggleFullscreen() {
+    const node = stageRef.current;
+    if (!node) {
+      return;
+    }
+    if (document.fullscreenElement === node) {
+      void document.exitFullscreen();
+      return;
+    }
+    void node.requestFullscreen().catch(() => undefined);
+  }
+
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      if (event.key !== "f" && event.key !== "F") {
+        return;
+      }
+      if (event.metaKey || event.ctrlKey || event.altKey) {
+        return;
+      }
+      const target = event.target;
+      if (target instanceof HTMLElement) {
+        const tag = target.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || target.isContentEditable) {
+          return;
+        }
+      }
+      event.preventDefault();
+      toggleFullscreen();
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   /**
-   * Cinema Board: sabit px yok — kalan viewport yüksekliğini doldurur (zero-scroll).
-   * Altyazı varsayılan kapalı; SoftStage dikey alanı kaplar. İpucu / CC / kontroller shrink-0.
+   * Kadraj bandı: sahne 380px (kısa ekranda 40dvh) ile kilitli.
+   * `aspect-video` geniş kartta sahneyi uzatıp Oynat çubuğunu
+   * ilk bakışın altına itiyordu. SVG `meet` ile bandın ortasında durur.
+   * Tam ekranda board flex-1 ile ekranı doldurur. İpucu / CC / kontroller shrink-0.
    */
-  const boardClass = fill
+  const boardClass = fullscreen
     ? "min-h-0 flex-1 overflow-hidden"
-    : "aspect-[16/9] w-full max-h-[min(48dvh,420px)] overflow-hidden";
+    : "h-[min(380px,40dvh)] max-h-[380px] w-full shrink-0 overflow-hidden";
 
   return (
     <div
-      className={`flex w-full flex-col gap-2 ${fill ? "h-full min-h-0" : "h-auto"}`}
+      className={`flex w-full flex-col gap-2 ${fill ? "h-auto w-full" : "h-auto"}`}
       data-junior-focus-player=""
       data-junior-zero-scroll={fill ? "true" : undefined}
       data-junior-captions={captionsVisible ? "on" : "off"}
     >
       <div
-        className={`flex w-full max-w-none flex-col gap-2 overflow-hidden rounded-xl border border-[var(--border)] bg-white ${
-          fill ? "min-h-0 flex-1" : "h-auto"
-        }`}
+        ref={stageRef}
+        className={`flex w-full max-w-none flex-col gap-2 overflow-hidden border border-[var(--border)] bg-white ${
+          fullscreen ? "h-screen w-screen max-h-none rounded-none" : "rounded-xl"
+        } ${fullscreen ? "min-h-0 flex-1" : "h-auto w-full"}`}
         data-junior-cinema-stage=""
+        data-junior-fullscreen={fullscreen ? "true" : "false"}
       >
         <div className="flex shrink-0 items-center justify-between gap-2 border-b border-[var(--border)] px-2 py-1">
           <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--safir-deep)]">
             Video / Görsel Oynatıcı
           </p>
         </div>
+        <ol
+          data-junior-micro-steps=""
+          className="flex shrink-0 gap-1 overflow-x-auto px-2 py-1"
+        >
+          {playback.microSteps.map((step) => {
+            const done = trace.completed.includes(step.index);
+            return (
+              <li
+                key={step.id}
+                data-junior-micro-step={step.index}
+                data-junior-micro-done={done ? "true" : "false"}
+                className={`flex shrink-0 items-center gap-1 rounded-full border px-2 py-1 text-xs font-semibold ${
+                  done
+                    ? "border-emerald-600 bg-emerald-50 text-emerald-700"
+                    : "border-[var(--border)] text-[var(--safir-deep)]"
+                }`}
+              >
+                {done ? (
+                  <span aria-label="Tamamlandı" className="text-emerald-700">
+                    ✓
+                  </span>
+                ) : null}
+                {step.title}
+              </li>
+            );
+          })}
+        </ol>
 
         {/* Üst: dinamik karatahta — altyazı kapalıyken tüm dikey bütçe SoftStage’te. */}
         <div
-          className={`relative w-full bg-[linear-gradient(180deg,#fff_0%,#f8fafc_100%)] px-1 ${boardClass}`}
+          className={`relative w-full bg-[linear-gradient(180deg,#fff_0%,#f8fafc_100%)] ${boardClass}`}
           data-junior-warmup-gate={warmup.gate}
           data-junior-cinema-board=""
           data-junior-clean-stage={captionsVisible ? undefined : "true"}
         >
           <div
-            className={`relative h-full transition-opacity duration-500 ${
+            className={`absolute inset-0 h-full w-full transition-opacity duration-500 ${
               warmup.gate === "cassette" ? "pointer-events-none opacity-0" : "opacity-100"
             }`}
           >
             <div
               key={beat >= 9 ? `${scene}-recap` : scene}
-              className="pointer-events-none h-full"
+              className="pointer-events-none absolute inset-0 h-full w-full"
               data-junior-step-art={beat}
               data-junior-sticky-trail={captionTrail.length}
               data-junior-recap-stage={beat >= 9 ? "clean" : undefined}
             >
-              <Scene scene={scene} beat={beat} caption={artCaption} captionTrail={captionTrail} />
+              <JuniorScenePropProvider value={juniorSceneProps(lessonKey, scene)}>
+                <Scene
+                  scene={scene}
+                  beat={beat}
+                  caption={artCaption}
+                  captionTrail={captionTrail}
+                  lessonKey={lessonKey}
+                />
+              </JuniorScenePropProvider>
             </div>
             {/* Bitiş CTA: son adım (12/12) değil — yalnız kaset %100 (playback.complete). */}
             {playback.complete && !decisionTaken && beats.length > 1 ? (
@@ -638,8 +829,26 @@ export function VectorPlayer({
           className="flex w-full shrink-0 flex-col gap-3 border-t border-[var(--border)] px-2 py-2"
           data-junior-caption-rail=""
         >
+          {pauseBanner ? (
+            <JuniorPauseBanner
+              kind={pauseBanner}
+              buttonRef={thinkButtonRef}
+              onResume={playback.resumeThinkHold}
+            />
+          ) : null}
+          {starOpen && microQuestion ? (
+            <JuniorStarQuestion question={microQuestion} onClose={() => setStarOpen(false)} />
+          ) : playback.starGlowEndMs != null ? (
+            <JuniorStarAlert onOpen={() => setStarOpen(true)} />
+          ) : null}
           {!warmup.orienting && hintKind ? (
-            <JuniorHintBox kind={hintKind} body={juniorHintBody(caption)} />
+            <JuniorHintBox
+              kind={hintKind}
+              body={juniorHintBody(hintSource)}
+              holding={holdingAttention}
+              buttonRef={holdingAttention ? thinkButtonRef : undefined}
+              onAcknowledge={holdingAttention ? playback.resumeThinkHold : undefined}
+            />
           ) : null}
           {greeting ? (
             <p data-junior-nickname-opening="" className="text-sm font-semibold text-[var(--safir-deep)]">
@@ -671,27 +880,20 @@ export function VectorPlayer({
             captionsVisible={captionsVisible}
             onToggleCaptions={() => setCaptionsVisible((open) => !open)}
             onToggle={warmup.orienting ? () => undefined : playback.toggle}
+            bgmMuted={playback.bgmMuted}
+            onToggleBgm={playback.toggleBgm}
+            fullscreen={fullscreen}
+            onToggleFullscreen={toggleFullscreen}
             onReplay={warmup.orienting ? () => undefined : playback.replay}
             onScrubStart={warmup.orienting ? () => undefined : playback.beginScrub}
             onScrub={warmup.orienting ? () => undefined : playback.scrubTo}
             onScrubEnd={warmup.orienting ? () => undefined : playback.endScrub}
+            pauses={playback.microPauses}
+            starGlowEndMs={playback.starGlowEndMs}
+            onOpenStar={() => setStarOpen(true)}
           />
         </div>
       </div>
-
-      <details className="w-full max-w-none shrink-0 rounded-xl border border-[var(--border)] bg-white px-3 py-2">
-        <summary className="cursor-pointer select-none text-sm font-semibold text-[var(--safir-deep)]">
-          📄 Ders Notu ve Özet
-        </summary>
-        <div className="mt-2 flex h-[min(40vh,320px)] min-h-0 flex-col">
-          <JuniorNotePanel
-            note={spokenForPlay}
-            pieces={playback.pieces}
-            activeIndex={playback.activePiece}
-            armed={playback.playing || playback.elapsedMs > 40}
-          />
-        </div>
-      </details>
     </div>
   );
 }
@@ -701,11 +903,21 @@ function Scene({
   beat,
   caption,
   captionTrail,
+  lessonKey,
 }: {
   scene: JuniorVectorScene;
   beat: number;
   caption: string;
   captionTrail: readonly string[];
+  lessonKey: string;
 }) {
-  return <JuniorStepArt scene={scene} beat={beat} caption={caption} captionTrail={captionTrail} />;
+  return (
+    <JuniorStepArt
+      scene={scene}
+      beat={beat}
+      caption={caption}
+      captionTrail={captionTrail}
+      lessonKey={lessonKey}
+    />
+  );
 }

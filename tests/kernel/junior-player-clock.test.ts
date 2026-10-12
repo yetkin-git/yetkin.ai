@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { juniorLessonByKey } from "@/lib/junior/catalog";
 import { juniorLessonNote } from "@/lib/junior/lesson-note";
-import { startsWithJuniorWarmOpening } from "@/lib/junior/content-rules";
+import { assertJuniorConcreteVariety, assertJuniorImperativeVariety } from "@/lib/junior/content-rules";
 import {
   JUNIOR_NARRATION_AIM_MS,
   JUNIOR_NARRATION_MAX_MS,
@@ -11,6 +11,7 @@ import {
   JUNIOR_PLAYER_BEAT_MS,
   JUNIOR_PLAYER_MIN_WINDOW_MS,
   juniorPlayerActivePieceIndex,
+  juniorPlayerBeatFromAnchors,
   juniorPlayerBeatIndex,
   juniorPlayerClampMs,
   juniorPlayerClockLabel,
@@ -18,9 +19,12 @@ import {
   juniorPlayerHasReachedEnd,
   juniorPlayerLiveCaption,
   juniorPlayerRangeLabel,
+  juniorPlayerStepAnchors,
   juniorPlayerStepLabel,
   juniorPlayerTimeline,
   juniorPlayerWindowIndex,
+  juniorThinkHoldEndMs,
+  scaleJuniorPlayerTimeline,
 } from "@/lib/junior/player-clock";
 import { chunkJuniorLocalSpeech } from "@/lib/junior/speech";
 import { juniorTeacherSelfIntro } from "@/lib/junior/voice";
@@ -29,7 +33,6 @@ import {
   DEFAULT_MEANING_EXAMPLE,
   parseExponentParams,
   parseMeaningExample,
-  stickyExponentParams,
   stickyMeaningExample,
   stickyWordTreeExample,
   tryParseExponentParams,
@@ -130,7 +133,7 @@ describe("Junior oynatıcı saati", () => {
   });
 
   it("matematik ders notunu konuşma parçalarına yayar", () => {
-    const lesson = juniorLessonByKey("jr_06_mat-1");
+    const lesson = juniorLessonByKey("jr_06_mat-5");
     expect(lesson).not.toBeNull();
     if (!lesson) {
       return;
@@ -141,15 +144,17 @@ describe("Junior oynatıcı saati", () => {
     const collapsed = note.replace(/\s+/g, " ").trim();
     expect(chunks.join(" ")).toBe(collapsed);
     expect(timeline.pieces.length).toBeGreaterThan(4);
-    expect(startsWithJuniorWarmOpening(timeline.pieces[0]?.text ?? "")).toBe(true);
-    expect(timeline.pieces[0]?.text).toContain(juniorTeacherSelfIntro("jr_06_mat-1"));
-    expect(timeline.pieces.some((piece) => piece.text.includes("üst üste"))).toBe(true);
+    expect(timeline.pieces[0]?.text).toBe("Merhaba sevgili çocuklar!");
+    expect(timeline.pieces.some((piece) => piece.text.includes(juniorTeacherSelfIntro("jr_06_mat-5")))).toBe(
+      true,
+    );
+    expect(timeline.pieces.some((piece) => piece.text.includes("kalansız"))).toBe(true);
     for (let ms = 0; ms <= timeline.durationMs; ms += 500) {
       const cue = juniorPlayerCueAt(ms, timeline);
       expect(cue?.text).toBe(juniorPlayerLiveCaption(ms, timeline));
       expect(cue?.pieceIndex).toBe(juniorPlayerActivePieceIndex(ms, timeline));
     }
-    expect(timeline.pieces.some((piece) => piece.text.includes("Lego"))).toBe(true);
+    expect(timeline.pieces.some((piece) => piece.text.includes("bölün"))).toBe(true);
     expect(timeline.pieces.some((piece) => piece.text.includes("mutfakta"))).toBe(false);
     expect(timeline.windows[timeline.windows.length - 1]?.noteEnd).toBe(collapsed.length);
     expect(timeline.durationMs).toBeGreaterThan(9 * JUNIOR_PLAYER_MIN_WINDOW_MS);
@@ -171,10 +176,10 @@ describe("Junior oynatıcı saati", () => {
     );
     expect(cueBeat).toBe(Math.min(11, Math.floor((midPiece * 12) / timeline.pieces.length)));
     expect(juniorPlayerCueAt(midMs, timeline)?.pieceIndex).toBe(midPiece);
-    const powerPiece = timeline.pieces.find((piece) => /2 üssü 3/u.test(piece.text));
-    expect(powerPiece).toBeDefined();
-    if (powerPiece) {
-      const at = powerPiece.collapsedStart + 1;
+    const factorPiece = timeline.pieces.find((piece) => piece.text.includes("kalansız"));
+    expect(factorPiece).toBeDefined();
+    if (factorPiece) {
+      const at = factorPiece.collapsedStart + 1;
       const windows = timeline.windows;
       const window = windows.find((w) => at >= w.noteStart && at < w.noteEnd) ?? windows[0];
       expect(window).toBeDefined();
@@ -182,10 +187,7 @@ describe("Junior oynatıcı saati", () => {
         const span = window.endMs - window.startMs;
         const ratio = (at - window.noteStart) / Math.max(1, window.noteEnd - window.noteStart);
         const ms = window.startMs + ratio * span;
-        const live = juniorPlayerLiveCaption(ms, timeline);
-        expect(live).toContain("2 üssü 3");
-        const parsed = parseExponentParams(live);
-        expect(parsed).toEqual({ base: 2, exp: 3, product: 8 });
+        expect(juniorPlayerLiveCaption(ms, timeline)).toContain("kalansız");
       }
     }
     expect(JUNIOR_NARRATION_MIN_MS).toBe(300_000);
@@ -193,6 +195,118 @@ describe("Junior oynatıcı saati", () => {
     expect(JUNIOR_NARRATION_MAX_MS).toBe(720_000);
     expect(timeline.durationMs).toBeGreaterThanOrEqual(JUNIOR_NARRATION_MIN_MS);
     expect(timeline.durationMs).toBeLessThanOrEqual(JUNIOR_NARRATION_MAX_MS);
+  });
+
+  it("kaset süresi değişince jr_06_mat-5 kâğıt katlama cümlesi ve adım sırası durur", () => {
+    const lesson = juniorLessonByKey("jr_06_mat-5");
+    expect(lesson?.steps).toBeDefined();
+    if (!lesson?.steps) {
+      return;
+    }
+    const note = juniorLessonNote(lesson.mebNote, lesson.lifeUse);
+    const base = juniorPlayerTimeline(note, chunkJuniorLocalSpeech(note), lesson.steps.length);
+    const scaled = scaleJuniorPlayerTimeline(base, 510_000);
+    expect(scaled.durationMs).toBe(510_000);
+    expect(scaled.pieces).toBe(base.pieces);
+    expect(scaled.durationMs).toBeGreaterThanOrEqual(JUNIOR_NARRATION_MIN_MS);
+    expect(scaled.durationMs).toBeLessThanOrEqual(JUNIOR_NARRATION_MAX_MS);
+    const baseAnchors = juniorPlayerStepAnchors(lesson.steps, base);
+    const scaledAnchors = juniorPlayerStepAnchors(lesson.steps, scaled);
+    expect(scaledAnchors.map((anchor) => anchor.beat)).toEqual(baseAnchors.map((anchor) => anchor.beat));
+    const factor = scaled.durationMs / base.durationMs;
+    for (let index = 0; index < scaledAnchors.length; index += 1) {
+      const expected = Math.round((baseAnchors[index]?.startMs ?? 0) * factor);
+      expect(Math.abs((scaledAnchors[index]?.startMs ?? 0) - expected)).toBeLessThanOrEqual(8);
+    }
+    const fold = scaled.pieces.find((piece) => piece.text.includes("kalansız"));
+    expect(fold).toBeDefined();
+    if (!fold) {
+      return;
+    }
+    const at = fold.collapsedStart + 1;
+    const window = scaled.windows.find((row) => at >= row.noteStart && at < row.noteEnd) ?? scaled.windows[0];
+    expect(window).toBeDefined();
+    if (!window) {
+      return;
+    }
+    const span = window.endMs - window.startMs;
+    const ratio = (at - window.noteStart) / Math.max(1, window.noteEnd - window.noteStart);
+    const ms = window.startMs + ratio * span;
+    expect(juniorPlayerLiveCaption(ms, scaled)).toContain("kalansız");
+    expect(juniorPlayerCueAt(ms, scaled)?.text).toContain("kalansız");
+    const pieceIndex = juniorPlayerActivePieceIndex(ms, scaled);
+    const beat = juniorPlayerBeatIndex(
+      ms,
+      scaled.durationMs,
+      lesson.steps.length,
+      scaled.windows,
+      pieceIndex,
+      scaled.pieces.length,
+      scaledAnchors,
+    );
+    expect(beat).toBeGreaterThanOrEqual(0);
+    expect(beat).toBeLessThan(lesson.steps.length);
+    const baseWindow = base.windows.find((row) => at >= row.noteStart && at < row.noteEnd) ?? base.windows[0];
+    expect(baseWindow).toBeDefined();
+    if (baseWindow) {
+      expect(window.startMs).toBe(Math.round(baseWindow.startMs * factor));
+    }
+  });
+
+  it("çizime bak cümlesinin startMs anında adım o cümleye kilitlenir", () => {
+    const lesson = juniorLessonByKey("jr_06_mat-5");
+    expect(lesson?.steps).toBeDefined();
+    if (!lesson?.steps) {
+      return;
+    }
+    const note = juniorLessonNote(lesson.mebNote, lesson.lifeUse);
+    const timeline = juniorPlayerTimeline(note, chunkJuniorLocalSpeech(note), 12);
+    const anchors = juniorPlayerStepAnchors(lesson.steps, timeline);
+    const draw = anchors.find((anchor) => anchor.text.toLocaleLowerCase("tr-TR").includes("çizime"));
+    expect(draw).toBeDefined();
+    if (!draw) {
+      return;
+    }
+    expect(lesson.steps[draw.beat]).toContain("çizime");
+    expect(
+      juniorPlayerBeatIndex(
+        draw.startMs,
+        timeline.durationMs,
+        12,
+        timeline.windows,
+        0,
+        timeline.pieces.length,
+        anchors,
+      ),
+    ).toBe(draw.beat);
+    expect(juniorPlayerBeatFromAnchors(draw.startMs, 12, anchors)).toBe(draw.beat);
+    // Örnek bloğunun açılış cümlesi; yaşam bölümündeki "2 üssü 3, 8 eder" aynı çapayı değil ilk tabloyu gösterir.
+    const example = timeline.pieces.find((piece) => /24 sayısını/u.test(piece.text));
+    expect(example).toBeDefined();
+    const exampleAnchor = anchors.find((anchor) => /24 sayısını/u.test(anchor.text));
+    if (example && exampleAnchor) {
+      expect(exampleAnchor.beat).toBeGreaterThanOrEqual(draw.beat);
+      expect(exampleAnchor.startMs).toBeGreaterThanOrEqual(draw.startMs);
+    }
+    expect(
+      juniorPlayerBeatIndex(
+        timeline.durationMs - 1500,
+        timeline.durationMs,
+        12,
+        timeline.windows,
+        timeline.pieces.length - 1,
+        timeline.pieces.length,
+        anchors,
+      ),
+    ).toBeGreaterThanOrEqual(draw.beat);
+    expect(juniorThinkHoldEndMs(timeline)).not.toBeNull();
+  });
+
+  it("ardışık aynı emir kökünü ve yalın dolguyu reddeder", () => {
+    expect(() => assertJuniorImperativeVariety(["Bunu söyle.", "Yeniden söyle."])).toThrow(/emir kökü/);
+    expect(() => assertJuniorImperativeVariety(["Bunu söyle.", "Sonra bir kalem seç."])).not.toThrow();
+    expect(() => assertJuniorConcreteVariety("2 kalem. 3 bardak. 4 defter.")).not.toThrow();
+    expect(() => assertJuniorConcreteVariety("yine söyle")).toThrow(/çeşitliliği/);
   });
 });
 
@@ -229,51 +343,11 @@ describe("Junior yapışkan sahne (Sticky Scene)", () => {
     expect(parseExponentParams("")).toEqual(DEFAULT_EXPONENT_PARAMS);
   });
 
-  it("jr_06_mat-1 üslü örnekleri doğrusal 2³ → 10² → 5¹ tutar; arada bounce yok", () => {
-    const lesson = juniorLessonByKey("jr_06_mat-1");
-    expect(lesson).not.toBeNull();
-    if (!lesson) {
-      return;
-    }
-    const note = juniorLessonNote(lesson.mebNote, lesson.lifeUse);
-    const chunks = chunkJuniorLocalSpeech(note);
-    const timeline = juniorPlayerTimeline(note, chunks, 12);
-    const trail: string[] = [];
-    const seen: Array<{ base: number; exp: number }> = [];
-    let previousKey = "";
-    let lastHit = DEFAULT_EXPONENT_PARAMS;
-    let seenTen = false;
-    let seenFive = false;
-    for (const piece of timeline.pieces) {
-      trail.push(piece.text);
-      const params = stickyExponentParams(trail);
-      const hit = tryParseExponentParams(piece.text);
-      const key = `${params.base}^${params.exp}`;
-      if (key !== previousKey) {
-        seen.push({ base: params.base, exp: params.exp });
-        previousKey = key;
-      }
-      if (hit) {
-        lastHit = hit;
-        if (hit.base === 10 && hit.exp === 2) seenTen = true;
-        if (hit.base === 5 && hit.exp === 1) seenFive = true;
-      } else {
-        // Hit yok → son geçerli durum; varsayılana bounce yok.
-        expect(params).toEqual(lastHit);
-      }
-      // Aşama 2 (ilk geçiş): 10² ile 5¹ arası genel cümlede 2³ seed'e çakılma yok.
-      if (seenTen && !seenFive && !hit) {
-        expect(params).toEqual({ base: 10, exp: 2, product: 100 });
-        expect(params).not.toEqual(DEFAULT_EXPONENT_PARAMS);
-      }
-    }
-    // Aşama 1 → 2 → 4: ilk üç üslü örnek sırası (2³, 10², 5¹).
-    expect(seen.slice(0, 3)).toEqual([
-      { base: 2, exp: 3 },
-      { base: 10, exp: 2 },
-      { base: 5, exp: 1 },
-    ]);
-    expect(seenTen && seenFive).toBe(true);
+  it("silinen üslü ders katalogda yoktur; 1. ünite açılışı çarpan dersidir", () => {
+    expect(juniorLessonByKey("jr_06_mat-1")).toBeNull();
+    const lesson = juniorLessonByKey("jr_06_mat-5");
+    expect(lesson?.title).toContain("Çarpan");
+    expect(lesson?.listenText ?? "").not.toContain("2 üssü 3");
   });
 });
 
@@ -343,7 +417,7 @@ describe("Junior Türkçe örnek-sahne senkronu", () => {
 describe("Junior oynatıcı yüzü", () => {
   it("kontrol çubuğu, vurgu ve yinelenen uyarı aynı sözleşmede durur", () => {
     const controls = readFileSync(join(root, "components/junior/player/controls.tsx"), "utf8");
-    const panel = readFileSync(join(root, "components/junior/player/note-panel.tsx"), "utf8");
+    const progress = readFileSync(join(root, "components/junior/player/progress-bar.tsx"), "utf8");
     const player = readFileSync(join(root, "components/junior/vector-player.tsx"), "utf8");
     const page = readFileSync(join(root, "app/junior/ders/[lessonKey]/page.tsx"), "utf8");
     expect(controls).toContain("Oynat");
@@ -353,16 +427,18 @@ describe("Junior oynatıcı yüzü", () => {
     expect(controls).toContain("data-junior-captions-toggle");
     expect(controls).toContain("captionsVisible");
     expect(controls).toContain("onToggleCaptions");
-    expect(controls).toContain('aria-label="Anlatım ilerlemesi"');
-    expect(controls).toContain("data-junior-player-progress");
-    expect(panel).toContain("data-junior-note-span");
-    expect(panel).toContain("bg-[#fef3c7]");
+    expect(progress).toContain('aria-label="Anlatım ilerlemesi"');
+    expect(progress).toContain("data-junior-player-progress");
+    expect(controls).toContain("JuniorProgressBar");
     expect(player).toContain("Video / Görsel Oynatıcı");
-    expect(player).toContain("Ders Notu ve Özet");
+    expect(player).not.toContain("Ders Notu ve Özet");
+    expect(player).not.toContain("JuniorNotePanel");
     expect(player).toContain("data-junior-focus-player");
     expect(player).toContain("data-junior-cinema-stage");
-    expect(player).toContain("aspect-[16/9]");
-    expect(player).toContain("max-h-[min(48dvh,420px)]");
+    expect(player).toContain("h-[min(380px,40dvh)] max-h-[380px] w-full shrink-0 overflow-hidden");
+    expect(player).not.toContain("aspect-video w-full shrink-0 overflow-hidden");
+    expect(player).not.toContain("max-h-[min(48dvh,420px)]");
+    expect(player).not.toContain("aspect-[16/9]");
     expect(player).toContain("min-h-0 flex-1 overflow-hidden");
     expect(player).toContain("data-junior-zero-scroll");
     expect(player).not.toContain("min-h-[420px]");
@@ -379,7 +455,8 @@ describe("Junior oynatıcı yüzü", () => {
     expect(player).toContain('data-junior-clean-stage={captionsVisible ? undefined : "true"}');
     expect(player).toContain("onToggleCaptions=");
     expect(player).toContain("flex w-full flex-col gap-2");
-    expect(player).toContain("overflow-hidden rounded-xl border");
+    expect(player).toContain("overflow-hidden border border-[var(--border)]");
+    expect(player).toContain("data-junior-fullscreen");
     expect(player).toContain('className="flex w-full min-h-[2.25rem]');
     const listenLayout = readFileSync(join(root, "components/junior/listen-and-tell.tsx"), "utf8");
     expect(listenLayout).toContain("overflow-hidden");
@@ -389,13 +466,38 @@ describe("Junior oynatıcı yüzü", () => {
     expect(listenLayout).not.toContain("max-h-[min(28vh,240px)]");
     expect(listenLayout).not.toContain("data-junior-stage-compact");
     const lessonPage = readFileSync(join(root, "app/junior/ders/[lessonKey]/page.tsx"), "utf8");
-    expect(lessonPage).toContain("lg:overflow-hidden");
+    expect(lessonPage).not.toContain("juniorFreeLessonPublicLine");
+    expect(lessonPage).not.toContain("ücretsiz ilk konusudur");
+    expect(lessonPage).not.toContain("lg:overflow-hidden");
     expect(lessonPage).not.toContain("lg:overflow-y-auto");
-    expect(player).toContain("<details");
+    expect(lessonPage).toContain("outcomes={lesson.outcomes}");
+    const lessonChain = readFileSync(join(root, "components/junior/lesson-chain.tsx"), "utf8");
+    expect(lessonChain).toContain("ActivityHub");
+    expect(lessonChain).toContain("w-full min-h-[16rem]");
+    expect(lessonChain).not.toContain("h-[min(46vh,26rem)]");
+    const activityHub = readFileSync(join(root, "components/junior/activity-hub.tsx"), "utf8");
+    const booklet = readFileSync(join(root, "components/junior/lesson-booklet.tsx"), "utf8");
+    expect(activityHub).toContain("junior-activity-hub");
+    expect(activityHub).toContain("🎮 Etkinlikler ve Bulmacalar");
+    expect(activityHub).toContain("📝 Soru Bankası ve Testler");
+    expect(activityHub).toContain("📘 Ders Notu ve Zihin Haritası");
+    expect(activityHub).not.toContain("Konu Anlatımı ve Animasyon");
+    expect(activityHub).not.toContain("data-junior-narration-panel");
+    expect(activityHub).not.toContain("yukarıdaki sahnede oynar");
+    expect(activityHub).not.toContain("<ol");
+    expect(booklet).toContain("data-junior-booklet");
+    expect(booklet).toContain("bg-amber-50");
+    expect(booklet).toContain("border-l-4 border-amber-400");
+    expect(booklet).toContain("bg-sky-50");
+    expect(booklet).toContain("border-l-4 border-sky-400");
+    expect(booklet).toContain("juniorHintTitle(\"trap\")");
+    expect(booklet).not.toContain("Tuzaklara Düşme!");
+    expect(booklet).toContain("data-junior-paper-fold");
+    expect(booklet).toContain("2³ ≠ 6");
+    expect(player).not.toContain("<details");
     expect(player).not.toContain("lg:grid-cols-2");
     expect(player).not.toContain("h-[min(56vh,520px)]");
     expect(player).toContain("JuniorPlayerControls");
-    expect(player).toContain("JuniorNotePanel");
     expect(player).toContain("JuniorLessonDecision");
     expect(player).toContain("playback.complete");
     expect(player).not.toContain("beat === beats.length - 1 && beats.length > 1");
@@ -446,13 +548,19 @@ describe("Junior oynatıcı yüzü", () => {
     expect(playback).toContain("audio.currentTime = 0");
     expect(playback).toContain("complete");
     expect(playback).toContain("function stop()");
+    expect(playback).toContain("function pauseBgm()");
+    expect(playback).toContain("pauseBgm()");
     expect(playback).toContain("BGM kapanmaz");
+    expect(player).toContain("requestFullscreen");
+    expect(player).toContain('event.key !== "f"');
+    expect(controls).toContain("Tam Ekran");
+    expect(controls).toContain("Arka plan müziğini kapat");
     expect(player).toContain("playback.stop()");
     expect(player).toContain("BGM ambient");
     expect(player).toContain("setDecisionTaken(true)");
     expect(player).toContain("playback.complete && !decisionTaken && beats.length > 1");
     expect(player).toContain("onBindStop");
-    expect(player).toContain("relative h-full transition-opacity");
+    expect(player).toContain("absolute inset-0 h-full w-full transition-opacity");
     expect(listenTell).toContain("releasePlayerAudio");
     expect(listenTell).toContain("onBindStop=");
     expect(listenTell).toContain("stopPlayerRef");
@@ -502,6 +610,42 @@ describe("Junior oynatıcı yüzü", () => {
     expect(mathArt).toContain("stickyFractionParams");
     expect(mathArt).toContain("Sticky Scene");
     expect(player).toContain("captionTrail");
+    expect(player).toContain("playback.pauseKind === \"notebook\"");
+    expect(player).toContain("JuniorPauseBanner");
+    expect(player).toContain("JuniorStarQuestion");
+    expect(player).toContain("JuniorStarAlert");
+    expect(player).toContain("starGlowEndMs");
+    expect(player).toContain("pauses={playback.microPauses}");
+    expect(player).not.toContain("bg-black/35");
+    expect(player).not.toContain('role="dialog"');
+    expect(player).not.toContain("absolute inset-0 z-20");
+    expect(controls).toContain("data-junior-pause-count");
+    expect(controls).toContain("JuniorProgressBar");
+    const progressBar = readFileSync(join(root, "components/junior/player/progress-bar.tsx"), "utf8");
+    expect(progressBar).toContain("data-junior-pause-pin");
+    expect(progressBar).toContain("data-junior-star-glow");
+    expect(progressBar).toContain("junior-star-pulse");
+    expect(progressBar).toContain("💡");
+    expect(progressBar).toContain("Dikkat noktası");
+    const pauseBanner = readFileSync(join(root, "components/junior/player/pause-banner.tsx"), "utf8");
+    expect(pauseBanner).toContain("data-junior-pause-banner");
+    expect(pauseBanner).toContain("data-junior-think-hold");
+    expect(pauseBanner).toContain("data-junior-star-alert");
+    expect(pauseBanner).toContain("data-junior-micro-question");
+    expect(pauseBanner).toContain("JUNIOR_TURN_CARD_KICKER");
+    expect(pauseBanner).not.toContain("Bu parçayı kendi cümlenle söyle");
+    expect(pauseBanner).not.toContain("JUNIOR_TURN_CARD_HINT");
+    expect(pauseBanner).not.toContain("aria-modal");
+    expect(pauseBanner).not.toContain("inset-0");
+    const playbackHook = readFileSync(join(root, "components/junior/player/use-junior-playback.ts"), "utf8");
+    expect(playbackHook).toContain("pause.kind === \"turn\"");
+    expect(playbackHook).toContain("noticeStar");
+    expect(playbackHook).toContain("Yıldız ikazı kaseti durdurmaz");
+    expect(player).not.toContain("Tuzaklara Düşme!");
+    expect(player).not.toContain("Tuzak veya");
+    const hintBox = readFileSync(join(root, "components/junior/hint-box.tsx"), "utf8");
+    expect(hintBox).toContain("data-junior-attention-hold");
+    expect(hintBox).toContain("JUNIOR_ATTENTION_BUTTON");
     expect(player).toContain("data-junior-sticky-trail");
     const clock = readFileSync(join(root, "lib/junior/player-clock.ts"), "utf8");
     expect(clock).toContain("juniorPlayerLiveCaption");
@@ -510,6 +654,8 @@ describe("Junior oynatıcı yüzü", () => {
     expect(clock).toContain("pieceIndex");
     expect(clock).toContain("pieceCount");
     expect(clock).toContain("Cue SSOT");
+    expect(clock).toContain("Anladım! ➔");
+    expect(clock).not.toContain("Tuzak");
     expect(clock).not.toContain("orantılı tahminleme birincil");
     expect(art).toContain("captionTrail");
     expect(art).toContain("yapışkan görsel durum");
@@ -535,7 +681,9 @@ describe("Junior oynatıcı yüzü", () => {
     expect(sceneUi).toContain("JUNIOR_STAGE_MIN_HEIGHT_PX");
     expect(sceneUi).toContain("JUNIOR_STAGE_HEIGHT_PX");
     expect(sceneUi).toContain('data-junior-stage-fit="viewport"');
-    expect(sceneUi).toContain("block h-full w-full max-h-full");
+    expect(sceneUi).toContain("absolute inset-0 block h-full w-full");
+    expect(sceneUi).toContain("SceneReveal");
+    expect(sceneUi).not.toContain("max-h-full");
     expect(sceneUi).not.toContain("min-h-[420px]");
     expect(sceneUi).not.toContain("transition: \"opacity 400ms ease\"");
     expect(sceneUi).not.toContain("stroke 400ms ease");
@@ -641,11 +789,11 @@ describe("Junior oynatıcı yüzü", () => {
     expect(englishArt).toContain("Sınıf kuralları puan tablosu");
     expect(englishArt).toContain("#cbd5e1");
     expect(englishArt).not.toContain('stroke="#0f172a"');
-    const ing12 = readFileSync(join(root, "lib/junior/content/ing/12.ts"), "utf8");
-    expect(ing12).toContain('scene: "holiday"');
-    expect(ing12).not.toContain('scene: "badge"');
-    const ing11 = readFileSync(join(root, "lib/junior/content/ing/11.ts"), "utf8");
-    expect(ing11).toContain('scene: "badge"');
+    const ing16 = readFileSync(join(root, "lib/junior/content/ing/16.ts"), "utf8");
+    expect(ing16).toContain('scene: "shelf"');
+    expect(ing16).not.toContain('scene: "badge"');
+    const ing20 = readFileSync(join(root, "lib/junior/content/ing/20.ts"), "utf8");
+    expect(ing20).toContain('scene: "ballot"');
     expect(player).toContain("data-junior-step-art");
     expect(player).toContain("key={beat >= 9 ? `${scene}-recap` : scene}");
     expect(player).not.toContain("key={`${scene}-${beat}`}");
@@ -661,9 +809,16 @@ describe("Junior oynatıcı yüzü", () => {
     expect(decision).toContain("cursor-pointer");
     expect(player).toContain("data-junior-cinema-board");
     expect(player).toContain("<JuniorLessonDecision");
-    expect(sceneUi).toContain("pointer-events-none block h-full w-full max-h-full");
-    expect(art).toContain("pointer-events-none block h-full w-full");
-    expect(player).toContain('className="pointer-events-none h-full"');
+    expect(sceneUi).toContain("pointer-events-none absolute inset-0 block h-full w-full");
+    expect(art).toContain("pointer-events-none absolute inset-0 block h-full w-full");
+    expect(player).toContain('className="pointer-events-none absolute inset-0 h-full w-full"');
+    expect(mathArt).toContain("showExponent = beat >= 1");
+    expect(mathArt).toContain("showFactors = beat >= 2");
+    expect(mathArt).toContain("showEquality = beat >= 3");
+    expect(mathArt).toContain("showProduct = beat >= 5");
+    expect(mathArt).toContain("showTrap = beat >= 7");
+    expect(mathArt).toContain("SceneReveal");
+    expect(scienceArt).toContain('data-junior-reveal={revealed ? "on" : "off"}');
     expect(page).not.toContain(
       "İlk konu ücretsizdir. Anlatış kaydı ve konu testi veli girişi ile yıllık paket ister.",
     );

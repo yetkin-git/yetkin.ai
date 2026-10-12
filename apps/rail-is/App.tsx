@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { DRON_TEZGAH_STORE_ISOLATED } from "./src/api/hops";
 import { AcademyPlayerScreen } from "./src/screens/AcademyPlayerScreen";
+import { JuniorLessonScreen } from "./src/screens/JuniorLessonScreen";
 import { BenchScreen } from "./src/screens/BenchScreen";
 import { CertificateScreen } from "./src/screens/CertificateScreen";
 import { ExamScreen } from "./src/screens/ExamScreen";
@@ -147,6 +148,9 @@ export default function App() {
               </View>
             ) : null}
             {tezgahLocked ? <Phase2LockScreen /> : null}
+            {app.api && (screen === "academy" || screen === "player") ? (
+              <JuniorLessonScreen api={app.api} />
+            ) : null}
             {screen === "academy" || screen === "player" ? (
               <AcademyPlayerScreen
                 catalog={catalog}

@@ -9,16 +9,18 @@ import {
   publicJuniorTopicEndQuiz,
 } from "@/lib/junior/quiz";
 import { JUNIOR_MAT_QUIZ_PACKS } from "@/lib/junior/quiz/mat";
+import { gradeJuniorActivityRail, publicJuniorActivityRail } from "@/lib/junior/activity-rail";
+import { juniorCatalogLessonKeys } from "@/lib/junior/catalog";
 import { publicJuniorPractice } from "@/lib/junior/practice";
 import { juniorTellSystemPrompt } from "@/lib/junior/tell";
 
 describe("Junior matematik konu sonu soru arşivi", () => {
-  it("25 derste 75 çözümlü soru taşır", () => {
-    expect(JUNIOR_MAT_QUIZ_PACKS).toHaveLength(25);
-    expect(juniorMatQuizLessonKeys()).toHaveLength(25);
-    expect(juniorMatQuizQuestionCount()).toBe(75);
-    for (let n = 1; n <= 25; n += 1) {
-      const key = `jr_06_mat-${n}`;
+  it("mühürlü matematik derslerinde üç çözümlü soru taşır", () => {
+    const keys = juniorMatQuizLessonKeys();
+    expect(JUNIOR_MAT_QUIZ_PACKS).toHaveLength(keys.length);
+    expect(keys).toHaveLength(26);
+    expect(juniorMatQuizQuestionCount()).toBe(keys.length * 3);
+    for (const key of keys) {
       const pack = juniorQuizPack(key);
       expect(pack).not.toBeNull();
       expect(pack?.questions).toHaveLength(3);
@@ -41,11 +43,39 @@ describe("Junior matematik konu sonu soru arşivi", () => {
   });
 
   it("istemciye doğru şık sızdırmaz", () => {
-    const shown = publicJuniorTopicEndQuiz("jr_06_mat-1");
+    const shown = publicJuniorTopicEndQuiz("jr_06_mat-5");
     expect(shown).toHaveLength(3);
     expect(JSON.stringify(shown)).not.toContain("correctAnswerIndex");
     expect(JSON.stringify(shown)).not.toContain("explanation");
     expect(shown.every((row) => row.hint.length > 0)).toBe(true);
+  });
+
+  it("pilot etkinlik şeridi üç seçmeliyi bozmaz ve anahtarı sızdırmaz", () => {
+    for (const key of juniorCatalogLessonKeys()) {
+      const rail = publicJuniorActivityRail(key);
+      expect(rail.map((row) => row.kind), key).toEqual(["match", "cloze", "order"]);
+      const blob = JSON.stringify(rail);
+      expect(blob, key).not.toContain("pairs");
+      expect(blob, key).not.toContain("accepts");
+      expect(blob, key).not.toContain("sequence");
+      const order = rail.find((row) => row.kind === "order");
+      const cloze = rail.find((row) => row.kind === "cloze");
+      if (order?.kind !== "order" || cloze?.kind !== "cloze") {
+        continue;
+      }
+      const graded = gradeJuniorActivityRail(key, [
+        { id: order.id, order: order.tiles.map((tile) => tile.id) },
+        { id: cloze.id, cloze: "yokboylekelime" },
+      ]);
+      const orderNote = graded?.notes.find((note) => note.id === order.id);
+      const clozeNote = graded?.notes.find((note) => note.id === cloze.id);
+      expect(orderNote?.ok, key).toBe(false);
+      expect(orderNote?.cards.every((card) => card.answer === undefined), key).toBe(true);
+      expect(clozeNote?.ok, key).toBe(false);
+      expect(clozeNote?.cards[0]?.ok, key).toBe(false);
+      expect((clozeNote?.cards[0]?.answer ?? "").length, key).toBeGreaterThan(0);
+    }
+    expect(publicJuniorPractice("jr_06_mat-5")).toHaveLength(3);
   });
 
   it("pekiştirme matematik arşivinden kurulur", () => {
@@ -59,9 +89,9 @@ describe("Junior matematik konu sonu soru arşivi", () => {
   });
 
   it("konu sonu puanı açıklamayı döner", () => {
-    const keys = juniorTopicEndQuestions("jr_06_mat-1");
+    const keys = juniorTopicEndQuestions("jr_06_mat-5");
     const graded = gradeJuniorTopicEndQuiz(
-      "jr_06_mat-1",
+      "jr_06_mat-5",
       keys.map((row) => ({ id: row.id, choiceIndex: row.correctAnswerIndex })),
     );
     expect(graded).toEqual({
@@ -78,7 +108,7 @@ describe("Junior matematik konu sonu soru arşivi", () => {
   });
 
   it("Hazırım anlat kontrol soruları sistem istemine girer", () => {
-    const guides = juniorTellGuides("jr_06_mat-1");
+    const guides = juniorTellGuides("jr_06_mat-5");
     expect(guides.length).toBeGreaterThanOrEqual(2);
     const prompt = juniorTellSystemPrompt({
       title: "Üslü ifadede taban ve üs",

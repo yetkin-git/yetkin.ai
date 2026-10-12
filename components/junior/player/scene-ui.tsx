@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { createContext, useContext, type ReactNode } from "react";
 
 /** Soft EdTech vector tokens — no hard black frames. Shared across Junior scene engines. */
 export const Ink = {
@@ -33,8 +33,8 @@ export const JUNIOR_STAGE_ART_SCALE = Math.min(
 
 /**
  * SoftStage dikey tabanı — CSS min-height yok (zero-scroll).
- * Canlı altyazı bandı varsayılan kapalı (CC toggle); board dikey bütçeyi SoftStage alır.
- * Ebeveyn board kutusu viewport’a oranlanır; SVG h-full ile doldurur.
+ * Canlı altyazı bandı varsayılan kapalı (CC toggle).
+ * Ebeveyn board 380px bandına kilitlidir; SVG o bandı `meet` ile ortalar.
  */
 export const JUNIOR_STAGE_MIN_HEIGHT_PX = 0;
 export const JUNIOR_STAGE_HEIGHT_PX = 0;
@@ -89,6 +89,87 @@ export function SoftFocus({
   );
 }
 
+/**
+ * Kademeli açılış — eleman yerinde kalır (Zero Layout Shift).
+ * Kapalıyken opacity 0 ve visibility hidden; soluk 0.62 ile cevap sızmaz.
+ */
+export function SceneReveal({
+  show,
+  children,
+}: {
+  show: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <g
+      opacity={show ? 1 : 0}
+      visibility={show ? "visible" : "hidden"}
+      data-junior-reveal={show ? "on" : "off"}
+    >
+      {children}
+    </g>
+  );
+}
+
+/** Zengin çizim sözleşmesi: zemin, ana nesne, yardımcı detay. Konu anahtarı vurguyu değiştirir. */
+export type JuniorSceneProps = {
+  ground: string;
+  hero: string;
+  helpers: readonly string[];
+  focus: string;
+  layers: number;
+  accent: string;
+};
+
+const SCENE_ACCENTS = ["#e0f2fe", "#fef3c7", "#dcfce7", "#ffe4e6", "#ede9fe", "#ffedd5"] as const;
+const SCENE_HELPERS = [
+  ["ışık", "gölge", "iz"],
+  ["yıldız", "bulut", "çizgi"],
+  ["nokta", "ok", "halka"],
+  ["yaprak", "taş", "ip"],
+] as const;
+
+function sceneHash(seed: string): number {
+  let hash = 0;
+  for (let index = 0; index < seed.length; index += 1) {
+    hash = (Math.imul(hash, 33) + seed.charCodeAt(index)) >>> 0;
+  }
+  return hash;
+}
+
+export function juniorSceneProps(lessonKey: string, scene: string): JuniorSceneProps {
+  const hash = sceneHash(`${lessonKey}:${scene}`);
+  const helpers = SCENE_HELPERS[hash % SCENE_HELPERS.length] ?? SCENE_HELPERS[0];
+  const base: JuniorSceneProps = {
+    ground: "zemin",
+    hero: scene,
+    helpers,
+    focus: scene,
+    layers: 2 + (hash % 3),
+    accent: SCENE_ACCENTS[hash % SCENE_ACCENTS.length] ?? SCENE_ACCENTS[0],
+  };
+  if (scene === "fair") {
+    return { ...base, ground: "lunapark", hero: "dolap", helpers: ["ışık", "kabin", "araba"], focus: "dolap" };
+  }
+  return base;
+}
+
+const JuniorScenePropContext = createContext<JuniorSceneProps | null>(null);
+
+export function JuniorScenePropProvider({
+  value,
+  children,
+}: {
+  value: JuniorSceneProps;
+  children: ReactNode;
+}) {
+  return <JuniorScenePropContext.Provider value={value}>{children}</JuniorScenePropContext.Provider>;
+}
+
+export function useJuniorSceneProps(scene = "sahne"): JuniorSceneProps {
+  return useContext(JuniorScenePropContext) ?? juniorSceneProps("", scene);
+}
+
 /** Karatahta tek odak — altyazı bandı kapalıyken board’un tamamını doldurur. */
 export function SoftStage({
   scene,
@@ -99,12 +180,14 @@ export function SoftStage({
   gradientId: string;
   children: ReactNode;
 }) {
+  const props = useJuniorSceneProps(scene);
+  const shift = sceneHash(`${props.focus}:${props.layers}`) % 18;
   const ox = (JUNIOR_STAGE_VB_W - JUNIOR_STAGE_ART_W * JUNIOR_STAGE_ART_SCALE) / 2;
   const oy = (JUNIOR_STAGE_VB_H - JUNIOR_STAGE_ART_H * JUNIOR_STAGE_ART_SCALE) / 2;
   return (
     <svg
       viewBox={`0 0 ${JUNIOR_STAGE_VB_W} ${JUNIOR_STAGE_VB_H}`}
-      className="pointer-events-none block h-full w-full max-h-full"
+      className="pointer-events-none absolute inset-0 block h-full w-full"
       role="img"
       aria-hidden
       data-junior-scene={scene}
@@ -123,6 +206,18 @@ export function SoftStage({
       </defs>
       <g transform={`translate(${ox},${oy}) scale(${JUNIOR_STAGE_ART_SCALE})`}>
         <rect x="0" y="0" width={JUNIOR_STAGE_ART_W} height={JUNIOR_STAGE_ART_H} rx="18" fill={`url(#${gradientId})`} />
+        <g
+          data-junior-scene-contract="zemin-ana-yardimci"
+          data-junior-scene-ground={props.ground}
+          data-junior-scene-hero={props.hero}
+          data-junior-scene-helpers={props.helpers.join(",")}
+          data-junior-scene-focus={props.focus}
+        >
+          <rect x="0" y="168" width={JUNIOR_STAGE_ART_W} height="32" fill={props.accent} opacity="0.45" />
+          <circle cx={22 + shift} cy="180" r="4" fill="#ffffff" opacity="0.8" />
+          <circle cx={40 + shift} cy="184" r="3" fill="#ffffff" opacity="0.7" />
+          <circle cx={54 + shift} cy="178" r="2.5" fill="#ffffff" opacity="0.65" />
+        </g>
         {children}
       </g>
     </svg>

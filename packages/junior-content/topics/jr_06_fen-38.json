@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_fen-38",
+  "title": "Yakıt ve çevre problemi",
+  "teaser": "Yakıt, yandığında enerji veren maddedir. Kömür, petrol ve doğal gaz bu grubun örnekleridir. Yakıtın yanması bir çevre problemi olarak havayı kirletebilir. Kavramsal Anlayış, enerji ile kirliliği aynı anda görür. İfade Gücü, bir sorunu ve bir azaltma yolunu söylemektir.",
+  "welcome": "Merhaba çocuklar, hepiniz hoş geldiniz! Otobüs dizel yakıtla gider, evdeki ocak doğal gazla ısınır, bazı santraller kömür yakar. Yakıt işe yarar enerji verir. Aynı yanma, havaya karışan gazlar yüzünden bir çevre problemi de doğurabilir. Bugün yakıtı ve bu problemi bir model üzerinde araştıracağız. Bacadan çıkan dumanı gözlemlemek, enerjinin bedelini görünür kılar.",
+  "concept": "Yakıt, kimyasal enerjisini yanma ile ısı ve harekete dönüştüren maddedir. Kömür, petrol ürünleri ve doğal gaz fosil yakıtlardır; oluşmaları çok uzun sürer. Yanma enerji verirken karbondioksit ve başka gazlar da çıkarabilir. Bu gazlar havada birikirse solunum güçleşebilir ve iklim dengesi zorlanabilir. Çevre problemi, canlıların yaşam koşullarını bozan bu birikimdir. Azaltma yolları arasında kısa yolu yürüyerek gitmek, enerjiyi boşa yakmamak ve Güneş ile rüzgâr gibi kaynakları kullanmak vardır. Tartışma, yakıtı yasaklamak değil hangi işte ne kadar yakıt gerektiğini seçmektir. Pratik kural: Yakıt enerji verir; ölçü olmadan yakmak çevre problemini büyütür.",
+  "example": "Bir otobüs 10 kilometrelik yolu 2 litre yakıtla alır. Aynı yol yürünebilecek 1 kilometrelik kısa parça için ayrı bir motor çalıştırmak yakıtı boşa harcar. Okul modeli iki bacayı yan yana koyar: filtreli baca daha az is bırakır, filtresiz baca çevreyi daha çok kirletir. Güneş paneli aynı lambayı yakıt yakmadan besleyebilir. Araştırmada önce enerji işini, sonra çevre probleminin adını yaz. İkisini tek cümlede silmek olmaz.",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Her yakıtın havayı hiç etkilemediğini sanmak tuzaktır. Enerjiyi tamamen reddetmek de şehri durdurur. Çevre problemini yalnız başkasının bacasına yazmak eksiktir. Yakıt ve çevre problemi konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+  "life": "Bunu kısa mesafede yürüyerek kullanırsın. Evde boş odayı ısıtmamak yakıt tasarrufudur. Okul servisinde dolu koltuk, kişi başına düşen yakıtı azaltır. Ailenle hangi yolculuğun gerekli olduğunu tartışmak dersi somutlaştırır.",
+  "recap": [
+    "Yakıt, yanınca enerji veren maddedir.",
+    "Fosil yakıtın ölçüsüz yanması bir çevre problemi doğurabilir.",
+    "Yürümek, tasarruf ve Güneş gibi kaynaklar etkiyi azaltır."
+  ],
+  "conceptSeal": "Yakıt enerji verir ve ölçüsüz yanma çevre problemi doğurabilir.",
+  "voiceSeal": "Bir yakıtın işini ve bir azaltma yolunu ayrı söylersin.",
+  "outcomes": [
+    "Yakıt yanınca enerji verir.",
+    "Ölçüsüz yanma çevre problemi doğurabilir.",
+    "Tasarruf ve başka kaynaklar etkiyi azaltır."
+  ],
+  "scene": "body",
+  "hint": "trap",
+  "parentNote": "Çocuğunuz yakıtın enerji verdiğini ve ölçüsüz yanmanın havayı etkileyebileceğini anlatır. Kısa yolu yürümek gibi bir azaltma yolu söylemesi beklenir."
+}

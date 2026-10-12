@@ -1,0 +1,37 @@
+import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
+
+/** 6. Sınıf Sosyal Bilgiler. Dijitalleşmenin vatandaşlık haklarına etkisi. SB.6.4.3. */
+export const JUNIOR_SOSYAL_24_SCENARIO: JuniorLessonScenario = {
+  key: "jr_06_sosyal-24",
+  title: "Dijitalleşme ve vatandaşlık",
+  teaser:
+    "Dijitalleşme, sözün ve görüntünün ekranda dolaşmasıdır. Vatandaşlık hakkı ekranda da durur. Kavramsal Anlayış, paylaşmayı izin ile ayırır. İfade Gücü, hangi hakkın etkilendiğini söylemektir.",
+  welcome:
+    "Merhaba sevgili çocuklar! Sınıfın ortak fotoğrafı bir anda bir grupta dolaşabilir. Dijitalleşme bu hızı getirir. Vatandaşlık hakları ise ekranda da durur. Bir oyu andıran söz hakkını ve izin hakkını tartışacağız.",
+  concept:
+    "Dijitalleşme, yazının, sesin ve görüntünün ekranda hızla çoğalmasıdır. Vatandaşlık hakları bu çoğalmada silinmez. Kişinin görüntüsü ve özel sözü izinsiz paylaşılamaz; bu, hakların etkisidir. Söz hakkı da durur: düşünce söylenir, fakat hakaret hak değildir. Tartışma, bir paylaşımın hangi hakkı etkilediğini sormaktır. Pratik kural: Göndermeden önce sor, kimin hakkı etkilenecek.",
+  example:
+    "Okul sınıfı bir gezi fotoğrafını çekmiştir. Bir öğrenci fotoğrafı, sorulmadan akşam grubuna atar. Tartışmada iki hak ayrılır: çekimde olmak ile yayında olmak aynı şey değildir. İzin vermeyen arkadaşın görüntüsü geri çekilir. Söz hakkı da masadadır; «paylaşma» demek hakarete izin vermez. Dijitalleşmenin etkisi, hakkın kaybolması değil, hakkın ekranda da aranmasıdır.",
+  hint: "trap",
+  warning:
+    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Ekranda her görüntünün serbest olduğunu sanmak tuzaktır. İzinsiz fotoğraf, vatandaşlık hakkını etkiler. Hakareti söz hakkı sanmak da yanlıştır. Dijitalleşme ve vatandaşlıkta kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+  life:
+    "Bunu evde bir grup konuşmasında da görürsün. Arkadaşının defterindeki bir notu izinsiz iletmek, sınıftaki fotoğrafın izinsiz gitmesiyle aynı etkidir. Okulda bir duyuru panosu dijital olsa da izin ve saygı durur. Tartışırken hangi hakkın etkilendiğini adıyla söylersin.",
+  recap: [
+    "Dijitalleşme, sözün ve görüntünün ekranda çoğalmasıdır.",
+    "Vatandaşlık hakkı ekranda da aranır.",
+    "İzinsiz paylaşım, hakkın etkisidir.",
+  ],
+  conceptSeal: "Dijitalleşme hakkı silmez. İzin ve söz hakkı ekranda da durur.",
+  voiceSeal: "Bir paylaşımın hangi vatandaşlık hakkını etkilediğini söylersin.",
+  outcomes: [
+    "Dijitalleşme görüntüyü hızla çoğaltır.",
+    "İzinsiz paylaşım hakkı etkiler.",
+    "Söz hakkı hakarete dönüşmez.",
+  ],
+  scene: "ballot",
+  parentNote:
+    "Çocuğunuz dijitalleşmeyi görüntünün ekranda çoğalması diye tanımlar. İzinsiz fotoğrafın vatandaşlık hakkını etkilediğini bir sınıf tartışmasında ayırması beklenir.",
+};
+
+export const JUNIOR_SOSYAL_24 = juniorLessonFromScenario(JUNIOR_SOSYAL_24_SCENARIO);

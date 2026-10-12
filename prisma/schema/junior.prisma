@@ -6,6 +6,7 @@ model JuniorProfile {
   id         String   @id @default(cuid())
   userId     String   @map("user_id")
   nickname   String
+  /// Ortaokul 5–8. Lise 9–12 ve YKS Young şemasındadır; bu kolona yazılmaz.
   grade      Int
   /// Kapanışta boşalır. Dolu profilde veli izni gereken yaş aralığıdır.
   birthYear  Int?     @map("birth_year")
@@ -115,6 +116,7 @@ model JuniorSubscription {
   invoiceAddress String                    @map("invoice_address") @db.Text
   /// İşlenmiş PayTR sipariş numaraları. Aynı numara süreyi yeniden uzatmaz.
   appliedMerchantOids String[]             @default([]) @map("applied_merchant_oids")
+  /// Kota tavanı `JUNIOR_ELECTIVE_QUOTA` (`lib/junior/limits.ts`). Bu kolon ikinci tanım değildir.
   electiveQuota  Int                       @default(3) @map("elective_quota")
   /// Paket süresince bir kez sınıf değişir. Harcanınca 0 kalır.
   gradeSwitchRights Int                    @default(1) @map("grade_switch_rights")

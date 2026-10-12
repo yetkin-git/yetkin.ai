@@ -4,7 +4,7 @@
 
 | Alan | Değer |
 |------|--------|
-| Tarih | 17 Ağustos 2026 |
+| Tarih | 9 Ekim 2026 |
 | Statü | Vizyon ve Strateji Belgesi. Anayasa'nın ruhunu, iş modelini ve büyüme hedeflerini açıklar. Mimari paragraf Anayasa B1’dedir; bu belge pazar, vizyon ve gelir modelinde kalır. |
 | Yer | `/.system_docs/MANIFESTO.md` |
 | Çelişki | Bir cümle Anayasa ile çatışırsa `.system_docs/ANAYASA.md` bağlayıcıdır. |
@@ -42,6 +42,7 @@ Platformdaki her sertifika, sunucu tarafında SHA-256 içerik özetiyle sicile b
 2. **Yetkinliğini kanıtlamak isteyen öğrenenler (birincil halka, ofis dışı):** Kariyer değiştirenler, uzaktan çalışan profesyoneller.
 3. **Yazılımcı / geliştirici (ikincil katman):** Alaylı yazılımcılar ve teknik üreticiler; amiral ofis SKU’sunun ilk alıcısı değildir. Prompt ve ajan müfredatı bu kitleye ayrı pakette gider.
 4. **Riski sıfırlamak isteyen işverenler (Faz 2 alıcısı):** Kalitesiz teslimat riskini almak istemeyen KOBİ’ler. Havuz ve lisanslı Split olmadan bu kitleye satış veya nakit iddiası basılmaz.
+5. **Veli (Junior B2C):** Çocuğunun 6. sınıf pilot dersini yıllık paketle açan veli. Hesap veliye aittir. Çocuk profili veli rızasıyla açılır. Bu kitle Akademi kart sahibinin yerine geçmez. Kapı Anayasa B6 ve `lib/kernel/security/junior-gate.ts` içindedir.
 
 ## 1.4 Marka ve Tasarım Duruşu
 
@@ -64,7 +65,7 @@ Faz 1 kamu vitrini kilidi **Anayasa B2**’dedir; Manifesto o kilidi ikinci kez 
 **Oda tavanı esnektir** cümlesi Faz 2 checklist’idir, Faz 1 kilidini gevşetmez: yeni oda/dron = kayıt + sözleşme + bayrak. Kamu kanıt URL’si (`/vize`) yeni oda açmaz.
 
 ### Dron durumu
-Mimari ad, ince sözleşme paketi ve native istemci sınırı **Anayasa B1**’dedir: **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci**. Bu belge o paragrafı ikinci kez yazmaz. «Amiral Gemi + Sürü Dron» ve «Core + Micro-Apps» eski anlatım dilidir; karşılığı bu yapıdır: Amiral Gemi Pragmatik Monolit’tir, Sürü Dron monolit içindeki kayıtlı yetenek ve odadır (ayrı dağıtım değildir), Shared Kernel Anayasa B1’deki ince sözleşme paketidir. Model ve rol kimliği bu belgede durmaz; çalışma zamanı tek evi `lib/kernel/ai/model-roles.ts` dosyasıdır ve belgeler bu kodla hizalıdır. Haftalık istemci kesiti `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir.
+Mimari ad, ince sözleşme paketi ve native istemci sınırı **Anayasa B1**’dedir: **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci (`apps/rail-is`)**. Bu belge o paragrafı ikinci kez yazmaz. «Amiral Gemi + Sürü Dron» ve «Core + Micro-Apps» eski anlatım dilidir; karşılığı bu yapıdır: Amiral Gemi bu Next.js gövdesidir, Sürü Dron monolit içindeki kayıtlı yetenek ve odadır (ayrı dağıtım değildir), Shared Kernel Anayasa B1’deki ince sözleşme paketidir, tek native istemci `apps/rail-is` dir. Model ve rol kimliği bu belgede durmaz; çalışma zamanı tek evi `lib/kernel/ai/model-roles.ts` dosyasıdır ve belgeler bu kodla hizalıdır. Haftalık istemci kesiti `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir.
 
 ### Kesit kuralı
 Haftalık kesit `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir.
@@ -88,12 +89,12 @@ Sahte bakiye, uydurma onay veya hayali veri gösterilemez. Entegrasyon hazır de
 ```
        [ GELİR MOTORLARI ]
               │
-  ┌───────────┼───────────┐
-  ▼           ▼           ▼
-MOTOR 1     MOTOR 2     MOTOR 3
-Akademi     Kurumsal    Pazaryeri
-Satışları   Yetkinlik   İşlemleri
-(B2C)       (B2B keşif) (Komisyon)
+  ┌───────────┼───────────┬───────────┐
+  ▼           ▼           ▼           ▼
+MOTOR 1     MOTOR 2     MOTOR 3     MOTOR 4
+Akademi     Kurumsal    Pazaryeri   Junior
+Satışları   Yetkinlik   İşlemleri   Veli paketi
+(B2C)       (B2B keşif) (Komisyon)  (B2C veli)
 ```
 
 ### Motor 1: B2C Akademi (Gün 0 kahramanı)
@@ -104,6 +105,9 @@ Piyasada talep gören yapay zeka ve dijital beceri eğitimlerinin doğrudan sat�
 
 ### Motor 3: Freelancer aracılık (Split sonrası)
 Güvenli teslimat üzerinden platform komisyonu. Kamu yüzeyi kilitliyken nakit vaadi basılmaz. Motor ve şema silinmez.
+
+### Motor 4: Junior B2C veli paketi
+Velinin, çocuğu için aldığı yıllık okul paketi. Alıcı velidir; dersi çocuk kullanır. Tahsilat Akademi ile aynı lisanslı üye işyeri kanalındadır; ayrı cüzdan ve sahte bakiye yoktur. Kasa `isJuniorCheckoutLocked` ile kapalıyken satış vaadi basılmaz. Fiyatın tek satırı katalogdadır (`cat_junior_yearly`). Seçmeli kart mühürlenmeden paket vaadine girmez. Ayrıntı Anayasa B6 ve Pedagoji Ek-J’dedir. Bu madde o kapıyı ikinci kez yazmaz.
 
 ---
 

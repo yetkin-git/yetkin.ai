@@ -5,11 +5,11 @@ import { FROZEN_DISK_ROOMS } from "./lib/dronlar/kayit";
 export const FROZEN_VITEST_ROOMS = FROZEN_DISK_ROOMS;
 
 /**
- * Canlı Vitest takma adı. Junior donmuş oda değildir; arşive bağlanmaz.
+ * Canlı Vitest takma adı arşive düşmez.
+ * Donmuş oda takma adı yalnız `vitest.frozen.config.ts` içinde `FROZEN_VITEST_ROOMS` ile verilir.
  * `@/lib/junior` canlı klasöre düşer.
- * Donmuş envanter `vitest.frozen.config.ts` içinde `FROZEN_VITEST_ROOMS` ile arşive bağlanır.
  */
-export const LIVE_VITEST_ARCHIVE_ROOMS = FROZEN_DISK_ROOMS;
+export const LIVE_VITEST_ARCHIVE_ROOMS = [] as const;
 
 export function railVitestAliases(
   rootDir: string,
@@ -33,6 +33,18 @@ export function railVitestAliases(
     {
       find: /^@yetkin\/kernel$/,
       replacement: path.join(rootDir, "packages/kernel/src/index.ts"),
+    },
+    {
+      find: /^@yetkin\/junior-content\/schema\/(.*)$/,
+      replacement: path.join(rootDir, "packages/junior-content/schema/$1"),
+    },
+    {
+      find: /^@yetkin\/junior-content\/calendar$/,
+      replacement: path.join(rootDir, "packages/junior-content/src/calendar.ts"),
+    },
+    {
+      find: /^@yetkin\/junior-content$/,
+      replacement: path.join(rootDir, "packages/junior-content/src/index.ts"),
     },
     { find: "@", replacement: rootDir },
     {

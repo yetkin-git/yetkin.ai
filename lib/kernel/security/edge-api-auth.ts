@@ -79,11 +79,21 @@ export function isFrozenRoomApi(pathname: string, actor: JuniorActor | null = nu
   ) {
     return true;
   }
-  return DRON_KAYIT.some(
-    (row) =>
+  return DRON_KAYIT.some((row) => {
+    if (row.id === "junior" && isJuniorLessonCatalogApi(path)) {
+      // `/junior` sayfası oda bayrağıyla 410 olmaz. Ders hop'u aynı katalogu basar.
+      return false;
+    }
+    return (
       (row.id === "freelancer" ? isFreelancerPublicSurfaceLocked() : DronBayrakları.isKapali(row.id)) &&
-      (path === `/api/${row.id}` || path.startsWith(`/api/${row.id}/`)),
-  );
+      (path === `/api/${row.id}` || path.startsWith(`/api/${row.id}/`))
+    );
+  });
+}
+
+/** Kart, oyun, ilerleme ve pekiştirme. Profil masası ve kasa bu önekte değildir. */
+function isJuniorLessonCatalogApi(path: string): boolean {
+  return path === "/api/junior/lessons" || path.startsWith("/api/junior/lessons/");
 }
 
 /** @deprecated isFrozenRoomApi — okuma da 410. */

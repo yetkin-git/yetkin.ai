@@ -2,15 +2,21 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  JUNIOR_STAR_PULSE_MS,
   juniorPlayerBeatIndex,
   juniorPlayerClampMs,
   juniorPlayerCueAt,
   juniorPlayerHasReachedEnd,
+  juniorPlayerStepAnchors,
   juniorPlayerTimeline,
   juniorPlayerWindowIndex,
-  type JuniorPlayerTimeline,
+  juniorStarCrossings,
+  juniorStarShouldGlow,
+  scaleJuniorPlayerTimeline,
   type JuniorPlayerWindow,
 } from "@/lib/junior/player-clock";
+import { microLessonPlan, type MicroLessonPause } from "@/lib/junior/micro-lesson";
+import { resumeCursor, type MicroProgressRecord } from "@/lib/junior/micro-progress";
 import { primeJuniorHintAudio } from "@/lib/junior/hint-effect";
 import {
   beginJuniorSpeech,
@@ -24,34 +30,8 @@ import {
   JUNIOR_BGM_SPEECH_VOLUME,
   juniorBgmSrc,
   juniorLessonAudioSrc,
+  juniorLessonLocalLockedAudioPath,
 } from "@/lib/junior/voice";
-
-function scaleWindows(
-  windows: readonly JuniorPlayerWindow[],
-  fromMs: number,
-  toMs: number,
-): JuniorPlayerWindow[] {
-  if (fromMs <= 0 || toMs <= 0 || fromMs === toMs) {
-    return windows.map((window) => ({ ...window }));
-  }
-  const factor = toMs / fromMs;
-  return windows.map((window) => ({
-    ...window,
-    startMs: Math.round(window.startMs * factor),
-    endMs: Math.round(window.endMs * factor),
-  }));
-}
-
-function scaleTimeline(base: JuniorPlayerTimeline, realDurationMs: number): JuniorPlayerTimeline {
-  if (realDurationMs <= 0) {
-    return base;
-  }
-  return {
-    durationMs: realDurationMs,
-    pieces: base.pieces,
-    windows: scaleWindows(base.windows, base.durationMs, realDurationMs),
-  };
-}
 
 /**
  * Oynat, duraklat, baştan dinle ve sürüklenebilir saat.
@@ -63,13 +43,36 @@ export function useJuniorPlayback({
   lessonKey,
   note,
   beatCount,
+  stepCaptions = [],
+  grantedAudioUrl = null,
+  lockPublicMedia = false,
+  resumeRecord = null,
+  resumeReady = false,
+  onHardPause,
+  onHardResume,
 }: {
   lessonKey: string;
   note: string;
   beatCount: number;
+  /** `buildSteps` metinleri. Adım, bu cümlelerin startMs değerine kilitlenir. */
+  stepCaptions?: readonly string[];
+  /** Sunucunun verdiği adres. Kilitli derste kamu yolunun yerine geçer. */
+  grantedAudioUrl?: string | null;
+  /** Açıkken kamu ses yolu çağrılmaz. */
+  lockPublicMedia?: boolean;
+  /** Ertesi gün kalınan mikro-adım. Boş kayıt baştan açılır. */
+  resumeRecord?: MicroProgressRecord | null;
+  resumeReady?: boolean;
+  onHardPause?: (pause: MicroLessonPause) => void;
+  onHardResume?: (pause: MicroLessonPause) => void;
 }) {
   const speechKey = lessonKey.trim() || "junior-player";
-  const cassetteSrc = useMemo(() => juniorLessonAudioSrc(speechKey), [speechKey]);
+  const cassetteSrc = useMemo(() => {
+    if (lockPublicMedia) {
+      return grantedAudioUrl;
+    }
+    return juniorLessonAudioSrc(speechKey) ?? juniorLessonLocalLockedAudioPath(speechKey);
+  }, [grantedAudioUrl, lockPublicMedia, speechKey]);
   const baseTimeline = useMemo(() => {
     const plan = planJuniorSpeech(speechKey, note);
     return juniorPlayerTimeline(note, plan.chunks, beatCount);
@@ -85,12 +88,24 @@ export function useJuniorPlayback({
     if (!useCassette || cassetteDurationMs <= 0) {
       return baseTimeline;
     }
-    return scaleTimeline(baseTimeline, cassetteDurationMs);
+    return scaleJuniorPlayerTimeline(baseTimeline, cassetteDurationMs);
   }, [baseTimeline, useCassette, cassetteDurationMs]);
 
   const [playing, setPlaying] = useState(false);
   const [elapsedMs, setElapsedMs] = useState(0);
   const [scrubbing, setScrubbing] = useState(false);
+  const [thinkHold, setThinkHold] = useState(false);
+  const [pauseKind, setPauseKind] = useState<MicroLessonPause["kind"] | null>(null);
+  const [holdCaption, setHoldCaption] = useState("");
+  const [hintSuppressFromMs, setHintSuppressFromMs] = useState(0);
+  const [hintSuppressUntilMs, setHintSuppressUntilMs] = useState(0);
+  const [starGlowEndMs, setStarGlowEndMs] = useState<number | null>(null);
+
+  const anchors = useMemo(
+    () => (stepCaptions.length > 0 ? juniorPlayerStepAnchors(stepCaptions, timeline) : []),
+    [stepCaptions, timeline],
+  );
+  const plan = useMemo(() => microLessonPlan(speechKey, timeline), [speechKey, timeline]);
 
   const playingRef = useRef(false);
   const scrubbingRef = useRef(false);
@@ -104,9 +119,23 @@ export function useJuniorPlayback({
   const tokenRef = useRef(0);
   const frameRef = useRef(0);
   const voicedRef = useRef(false);
+  const thinkHoldRef = useRef(false);
+  const releasedThroughRef = useRef(-1);
+  const starCursorRef = useRef(0);
+  const starTimerRef = useRef(0);
+  const starTokenRef = useRef(0);
+  const pausesRef = useRef<readonly MicroLessonPause[]>(plan.pauses);
+  const activePauseRef = useRef<MicroLessonPause | null>(null);
+  const resumeAppliedRef = useRef("");
+  const onHardPauseRef = useRef(onHardPause);
+  const onHardResumeRef = useRef(onHardResume);
   const cassetteModeRef = useRef(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const bgmRef = useRef<HTMLAudioElement | null>(null);
+  const bgmTokenRef = useRef(0);
+  const bgmMutedRef = useRef(false);
+  const bgmModeRef = useRef<"speech" | "ambient" | "off">("off");
+  const [bgmMuted, setBgmMuted] = useState(false);
 
   playingRef.current = playing;
   durationRef.current = timeline.durationMs;
@@ -114,6 +143,25 @@ export function useJuniorPlayback({
   noteRef.current = note;
   lessonRef.current = speechKey;
   cassetteModeRef.current = useCassette;
+  pausesRef.current = plan.pauses;
+  onHardPauseRef.current = onHardPause;
+  onHardResumeRef.current = onHardResume;
+
+  useEffect(() => {
+    releasedThroughRef.current = -1;
+    starCursorRef.current = 0;
+    starTokenRef.current += 1;
+    window.clearTimeout(starTimerRef.current);
+    thinkHoldRef.current = false;
+    activePauseRef.current = null;
+    resumeAppliedRef.current = "";
+    setPauseKind(null);
+    setThinkHold(false);
+    setHoldCaption("");
+    setHintSuppressFromMs(0);
+    setHintSuppressUntilMs(0);
+    setStarGlowEndMs(null);
+  }, [speechKey, note]);
 
   useEffect(() => {
     setCassetteFailed(false);
@@ -196,19 +244,112 @@ export function useJuniorPlayback({
     audio.pause();
   }
 
-  /**
-   * BGM ikincil kanalı.
-   * `speech`: anlatıcı altı duck. `ambient`: karar / duraklat — tam kapanmaz.
-   */
-  function armBgm(mode: "speech" | "ambient") {
+  function silenceBgm() {
+    bgmTokenRef.current += 1;
     const bgm = bgmRef.current;
     if (!bgm) {
       return;
     }
+    bgm.pause();
+    bgm.muted = true;
+  }
+
+  /** Durdur: fon müziği anlatımla birlikte susar. */
+  function pauseBgm() {
+    bgmModeRef.current = "off";
+    silenceBgm();
+  }
+
+  useEffect(() => {
+    if (!resumeReady || !resumeRecord) {
+      return;
+    }
+    const resumeToken = `${speechKey}:boot`;
+    if (resumeAppliedRef.current === resumeToken) {
+      return;
+    }
+    if (useCassette && cassetteDurationMs <= 0 && !cassetteFailed) {
+      return;
+    }
+    const cursor = resumeCursor(resumeRecord, plan.steps.length);
+    if (cursor.done || (cursor.stepIndex <= 0 && !cursor.holding)) {
+      resumeAppliedRef.current = resumeToken;
+      return;
+    }
+    const step = plan.steps[cursor.stepIndex];
+    if (!step) {
+      resumeAppliedRef.current = resumeToken;
+      return;
+    }
+    const pause = plan.pauses.find((row) => row.stepIndex === cursor.stepIndex);
+    const at = cursor.holding && pause ? pause.endMs : step.startMs;
+    resumeAppliedRef.current = resumeToken;
+    elapsedRef.current = at;
+    setElapsedMs(at);
+    starCursorRef.current = at;
+    releasedThroughRef.current = cursor.holding && pause && pause.kind !== "turn" ? pause.endMs - 1 : at;
+    const audio = audioRef.current;
+    if (audio) {
+      try {
+        audio.currentTime = at / 1000;
+      } catch {
+        /* metadata henüz gelmemiş olabilir */
+      }
+    }
+    if (cursor.holding && pause && pause.kind !== "turn") {
+      thinkHoldRef.current = true;
+      activePauseRef.current = pause;
+      setPauseKind(pause.kind);
+      setHoldCaption(pause.attentionText ?? "");
+      setThinkHold(true);
+      stopCassette();
+      pauseBgm();
+    }
+  }, [resumeReady, resumeRecord, speechKey, useCassette, cassetteDurationMs, cassetteFailed, plan]);
+
+  /**
+   * BGM ikincil kanalı.
+   * `speech`: anlatıcı altı duck. `ambient`: karar / anlatış — tam kapanmaz.
+   * Kullanıcı müziği kapattıysa kanal suskun kalır.
+   */
+  function armBgm(mode: "speech" | "ambient") {
+    const bgm = bgmRef.current;
+    bgmModeRef.current = mode;
+    if (!bgm) {
+      return;
+    }
+    if (bgmMutedRef.current) {
+      bgm.pause();
+      bgm.muted = true;
+      return;
+    }
+    const token = (bgmTokenRef.current += 1);
     bgm.muted = false;
     bgm.volume = mode === "speech" ? JUNIOR_BGM_SPEECH_VOLUME : JUNIOR_BGM_AMBIENT_VOLUME;
     if (bgm.paused) {
-      void bgm.play().catch(() => undefined);
+      void bgm.play().then(
+        () => {
+          if (token !== bgmTokenRef.current || bgmMutedRef.current) {
+            bgm.pause();
+            bgm.muted = true;
+          }
+        },
+        () => undefined,
+      );
+    }
+  }
+
+  function toggleBgm() {
+    const next = !bgmMutedRef.current;
+    bgmMutedRef.current = next;
+    setBgmMuted(next);
+    if (next) {
+      silenceBgm();
+      return;
+    }
+    const mode = bgmModeRef.current;
+    if (mode === "speech" || mode === "ambient") {
+      armBgm(mode);
     }
   }
 
@@ -252,6 +393,121 @@ export function useJuniorPlayback({
     endJuniorSpeech();
   }
 
+  function upcomingPause(ms: number): MicroLessonPause | null {
+    let found: MicroLessonPause | null = null;
+    for (const pause of pausesRef.current) {
+      if (pause.kind === "turn") {
+        continue;
+      }
+      if (pause.endMs <= releasedThroughRef.current + 30) {
+        continue;
+      }
+      if (pause.endMs >= durationRef.current - 80) {
+        continue;
+      }
+      if (ms + 30 >= pause.endMs && (!found || pause.endMs < found.endMs)) {
+        found = pause;
+      }
+    }
+    return found;
+  }
+
+  /**
+   * Yıldız ikazı kaseti durdurmaz.
+   * Geçilen yıldız parıldar; adım izi tamamlanır. Dokunuş soru panelini açar.
+   */
+  function noticeStar(ms: number) {
+    const previous = starCursorRef.current;
+    starCursorRef.current = ms;
+    if (ms < previous) {
+      starTokenRef.current += 1;
+      window.clearTimeout(starTimerRef.current);
+      setStarGlowEndMs(null);
+      return;
+    }
+    if (thinkHoldRef.current) {
+      return;
+    }
+    const crossed = juniorStarCrossings(pausesRef.current, previous, ms, durationRef.current);
+    if (crossed.length === 0) {
+      return;
+    }
+    const latest = crossed[crossed.length - 1];
+    if (!latest) {
+      return;
+    }
+    for (const pause of crossed) {
+      onHardResumeRef.current?.(pause);
+    }
+    if (!juniorStarShouldGlow(latest.endMs, ms)) {
+      return;
+    }
+    const token = (starTokenRef.current += 1);
+    setStarGlowEndMs(latest.endMs);
+    window.clearTimeout(starTimerRef.current);
+    starTimerRef.current = window.setTimeout(() => {
+      if (starTokenRef.current !== token) {
+        return;
+      }
+      setStarGlowEndMs((current) => (current === latest.endMs ? null : current));
+    }, JUNIOR_STAR_PULSE_MS);
+  }
+
+  function enterThinkHold(pause: MicroLessonPause) {
+    if (thinkHoldRef.current) {
+      return;
+    }
+    const at = pause.endMs;
+    thinkHoldRef.current = true;
+    activePauseRef.current = pause;
+    tokenRef.current += 1;
+    playingRef.current = false;
+    window.cancelAnimationFrame(frameRef.current);
+    stopCassette();
+    const audio = audioRef.current;
+    if (audio) {
+      try {
+        audio.currentTime = at / 1000;
+      } catch {
+        /* metadata henüz gelmemiş olabilir */
+      }
+    }
+    window.speechSynthesis?.cancel();
+    endJuniorSpeech();
+    playbackRef.current = null;
+    voicedRef.current = false;
+    /** Hard pause: kaset ve fon müziği tamamen susar. Süre dolunca akış yok. */
+    pauseBgm();
+    elapsedRef.current = at;
+    setElapsedMs(at);
+    setPlaying(false);
+    setPauseKind(pause.kind);
+    setHoldCaption(pause.attentionText ?? "");
+    setThinkHold(true);
+    onHardPauseRef.current?.(pause);
+  }
+
+  function resumeThinkHold() {
+    if (!thinkHoldRef.current) {
+      return;
+    }
+    const pause = activePauseRef.current;
+    if (pause) {
+      releasedThroughRef.current = pause.endMs;
+      onHardResumeRef.current?.(pause);
+      if (pause.kind === "attention") {
+        setHintSuppressFromMs(pause.endMs);
+        setHintSuppressUntilMs(pause.attentionUntilMs ?? pause.endMs);
+      }
+    }
+    thinkHoldRef.current = false;
+    activePauseRef.current = null;
+    setPauseKind(null);
+    setHoldCaption("");
+    setThinkHold(false);
+    playFrom(elapsedRef.current);
+  }
+
   function say(index: number, token: number) {
     const playback = playbackRef.current;
     const piece = windowsRef.current[index]?.text;
@@ -260,6 +516,13 @@ export function useJuniorPlayback({
       return;
     }
     if (token !== tokenRef.current || !juniorSpeechSessionCurrent(playback.sessionId)) {
+      return;
+    }
+    const windowStart = windowsRef.current[index]?.startMs ?? 0;
+    noticeStar(windowStart);
+    const holdAt = upcomingPause(windowStart);
+    if (holdAt) {
+      enterThinkHold(holdAt);
       return;
     }
     spokenIndex.current = index;
@@ -273,6 +536,12 @@ export function useJuniorPlayback({
       const end = windowsRef.current[index]?.endMs ?? durationRef.current;
       elapsedRef.current = end;
       setElapsedMs(end);
+      noticeStar(end);
+      const holdBoundary = upcomingPause(end);
+      if (holdBoundary) {
+        enterThinkHold(holdBoundary);
+        return;
+      }
       if (index + 1 >= windowsRef.current.length) {
         finish(token);
         return;
@@ -316,6 +585,12 @@ export function useJuniorPlayback({
           const audio = audioRef.current;
           if (audio && !audio.paused) {
             const next = Math.min(durationRef.current, Math.round(audio.currentTime * 1000));
+            noticeStar(next);
+            const holdAt = upcomingPause(next);
+            if (holdAt && !scrubbingRef.current) {
+              enterThinkHold(holdAt);
+              return;
+            }
             elapsedRef.current = next;
             // Zero-delay: her RAF karesinde boya — 80ms tampon yok; cue + sahne aynı ms.
             setElapsedMs(next);
@@ -335,6 +610,7 @@ export function useJuniorPlayback({
           const hold =
             voiced && index < windows.length - 1 ? Math.max(windows[index]?.startMs ?? 0, boundary - 1) : boundary;
           const next = Math.min(hold, elapsedRef.current + delta);
+          noticeStar(next);
           elapsedRef.current = next;
           setElapsedMs(next);
           if (!voiced && next >= duration) {
@@ -368,6 +644,7 @@ export function useJuniorPlayback({
       ? (windows[index]?.startMs ?? 0)
       : juniorPlayerClampMs(ms, durationRef.current);
     elapsedRef.current = origin;
+    starCursorRef.current = origin;
     spokenIndex.current = index;
     scrubbingRef.current = false;
     playingRef.current = true;
@@ -444,6 +721,7 @@ export function useJuniorPlayback({
     const origin = juniorPlayerClampMs(ms, duration > 0 ? duration : Number.POSITIVE_INFINITY);
     const seekSec = origin / 1000;
     elapsedRef.current = origin;
+    starCursorRef.current = origin;
     spokenIndex.current = 0;
     scrubbingRef.current = false;
     playingRef.current = true;
@@ -540,12 +818,19 @@ export function useJuniorPlayback({
   }
 
   function toggle() {
+    if (thinkHoldRef.current) {
+      if (activePauseRef.current?.kind === "attention") {
+        return;
+      }
+      resumeThinkHold();
+      return;
+    }
     if (playingRef.current) {
       tokenRef.current += 1;
       playingRef.current = false;
       window.cancelAnimationFrame(frameRef.current);
       stopCassette();
-      armBgm("ambient");
+      pauseBgm();
       window.speechSynthesis?.cancel();
       setElapsedMs(elapsedRef.current);
       setPlaying(false);
@@ -556,6 +841,18 @@ export function useJuniorPlayback({
   }
 
   function replay() {
+    releasedThroughRef.current = -1;
+    starCursorRef.current = 0;
+    starTokenRef.current += 1;
+    window.clearTimeout(starTimerRef.current);
+    setStarGlowEndMs(null);
+    thinkHoldRef.current = false;
+    activePauseRef.current = null;
+    setPauseKind(null);
+    setHoldCaption("");
+    setHintSuppressFromMs(0);
+    setHintSuppressUntilMs(0);
+    setThinkHold(false);
     playFrom(0);
   }
 
@@ -577,6 +874,20 @@ export function useJuniorPlayback({
     const next = juniorPlayerClampMs(ms, durationRef.current);
     elapsedRef.current = next;
     setElapsedMs(next);
+    noticeStar(next);
+    releasedThroughRef.current = Math.min(releasedThroughRef.current, next);
+    const active = activePauseRef.current;
+    if (active && next < active.endMs - 200 && thinkHoldRef.current) {
+      thinkHoldRef.current = false;
+      activePauseRef.current = null;
+      setPauseKind(null);
+      setHoldCaption("");
+      setThinkHold(false);
+    }
+    if (next + 40 < hintSuppressFromMs) {
+      setHintSuppressFromMs(0);
+      setHintSuppressUntilMs(0);
+    }
     if (cassetteModeRef.current) {
       const audio = audioRef.current;
       if (audio) {
@@ -612,6 +923,7 @@ export function useJuniorPlayback({
     timeline.windows,
     activePiece,
     timeline.pieces.length,
+    anchors,
   );
   // Karar butonları: Adım 12/12 değil; kaset %100 (ended | currentTime ≥ duration − 1).
   const audio = audioRef.current;
@@ -634,10 +946,24 @@ export function useJuniorPlayback({
     voicePreparing,
     /** MP3/anlatım bitti — JuniorLessonDecision yalnız buna bağlıdır. */
     complete,
+    /** Defter ve dikkat durağında kaset susar. Yıldız durağı bu kilidi açmaz. */
+    thinkHold,
+    /** Parıldayan yıldız. Yoksa null. Kaset bu değerde durmaz. */
+    starGlowEndMs,
+    pauseKind,
+    /** Dikkat kartının sabit gövdesi. Canlı cümle kısa kalsa da kart bunu tutar. */
+    holdCaption,
+    /** Anladım'dan sonra aynı kart, özet cümlesine kadar yeniden açılmaz. */
+    hintSuppressed: !thinkHold && elapsedMs >= hintSuppressFromMs && elapsedMs < hintSuppressUntilMs,
+    microSteps: plan.steps,
+    microPauses: plan.pauses,
     /** Mikrofon açılmadan önce kaset/Speech kanalını bırakır. */
     stop,
     toggle,
+    bgmMuted,
+    toggleBgm,
     replay,
+    resumeThinkHold,
     beginScrub,
     scrubTo,
     endScrub,

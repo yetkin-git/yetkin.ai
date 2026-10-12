@@ -110,3 +110,11 @@ export type JuniorStore = {
   getXp(userId: string, profileId: string): Promise<JuniorXpRow | null>;
   recordOutcome(write: JuniorOutcomeWrite): Promise<{ progress: JuniorProgressRow; xp: JuniorXpRow }>;
 };
+
+export type {
+  JuniorContentSource,
+  JuniorCourseSlug,
+  MebOutcome,
+  SchoolWeek,
+  TopicCalendar,
+} from "@/lib/junior/meb";

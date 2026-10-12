@@ -147,7 +147,7 @@ describe("VIDEO_GEN mühürlü-ölü; VOICE_TTS generateSpeech factory", () => {
     expect(gateway).not.toContain("VOICE_TTS_FALLBACK");
     expect(gateway).not.toContain('input.model?.trim() || getDefaultModelId("IMAGE_GEN")');
     expect(gateway).not.toContain('input.model?.trim() || getDefaultModelId("VOICE_TTS")');
-    expect(readSrc("scripts/bake-office-ai-01-sealed-pack.ts")).not.toContain("IMAGE_FALLBACK_MODEL");
-    expect(readSrc("scripts/bake-office-ai-01-sealed-pack.ts")).not.toContain("generateImages");
+    expect(readSrc("scripts/archive/bake-office-ai-01-sealed-pack.ts")).not.toContain("IMAGE_FALLBACK_MODEL");
+    expect(readSrc("scripts/archive/bake-office-ai-01-sealed-pack.ts")).not.toContain("generateImages");
   });
 });

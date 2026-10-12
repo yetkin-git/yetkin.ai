@@ -91,8 +91,9 @@ function coreLessons(): CoverLesson[] {
     ...JUNIOR_ING_LESSONS,
     ...JUNIOR_SOSYAL_LESSONS,
   ];
-  if (rows.length !== 105) {
-    throw new Error(`Junior kapak: çekirdek konu 105 olmalı. Gelen ${rows.length}.`);
+  // İlk fırın 105 konuydu. Katalog büyüdü; altına düşmek eksik liste demektir.
+  if (rows.length < 105) {
+    throw new Error(`Junior kapak: çekirdek konu 105'in altına düştü. Gelen ${rows.length}.`);
   }
   return rows.map((lesson) => ({
     key: lesson.key,
@@ -124,7 +125,8 @@ function coverPrompt(lesson: CoverLesson): string {
     `6. sınıf ${lesson.subject} ders kapağı.`,
     `Konu: ${lesson.title}.`,
     "Sade, sıcak, çocuk kitabı illüstrasyonu. Yatay 16:9.",
-    "Görselde yazı, logo, marka ve korkutucu öğe yok.",
+    "Görselde yazı, harf, rakam, logo, marka ve korkutucu öğe yok.",
+    "İngilizce başlık, ders adı ve altyazı yasak. Sahne yalnız çizimdir.",
   ].join(" ");
 }
 

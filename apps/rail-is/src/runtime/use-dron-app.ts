@@ -930,6 +930,7 @@ export function useDronApp() {
     purchaseAcademyCourse,
     openCertificateVerify,
     boot,
+    api: runtime.api,
   };
 }
 

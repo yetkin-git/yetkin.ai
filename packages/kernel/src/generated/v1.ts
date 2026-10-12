@@ -481,6 +481,83 @@ export type RailV1ProfilePatchData = {
   };
 };
 
+export type RailV1JuniorLessonPlayData = {
+  "lesson": {
+    "lessonKey": string;
+    "title": string;
+    "courseTitle": string;
+    "access": "free" | "locked";
+    "script": string;
+    "scene": string;
+    "steps": Array<string>;
+    "preparing": boolean;
+  };
+  "media": {
+    "audioUrl": string | null;
+    "warmupUrl": string | null;
+    "coverUrl": string | null;
+    "expiresAt": string | null;
+  };
+  "practice": Array<{
+    "id": string;
+    "kind": "choice";
+    "prompt": string;
+    "choices": Array<string>;
+  } | {
+    "id": string;
+    "kind": "match";
+    "prompt": string;
+    "left": Array<{
+      "id": string;
+      "label": string;
+    }>;
+    "right": Array<{
+      "id": string;
+      "label": string;
+    }>;
+  }>;
+  "progress": {
+    "status": "fresh" | "going" | "done";
+  } | null;
+};
+
+export type RailV1JuniorLessonProgressRequest = {
+  "profileId": string;
+};
+
+export type RailV1JuniorLessonProgressData = {
+  "progress": {
+    "lessonKey": string;
+    "status": "going" | "done";
+    "score": number;
+    "xpAwarded": number;
+    "points": number;
+  };
+};
+
+export type RailV1JuniorLessonPracticeRequest = {
+  "profileId": string;
+  "answers": Array<{
+    "id": string;
+    "choiceIndex"?: number;
+    "matches"?: Record<string, unknown>;
+  }>;
+};
+
+export type RailV1JuniorLessonPracticeData = {
+  "result": {
+    "praised": string;
+    "missing": string;
+    "advice": string;
+    "score": number;
+    "xpAwarded": number;
+    "points": number;
+    "correct": number;
+    "total": number;
+    "status": "fresh" | "going" | "done";
+  };
+};
+
 export type RailV1SessionData = {
   "user": {
     "id": string;

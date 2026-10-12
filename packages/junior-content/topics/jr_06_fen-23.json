@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_fen-23",
+  "title": "Büyüme",
+  "teaser": "Büyüme, canlının boy ve kütle gibi ölçülebilir özelliklerinin artmasıdır. Gelişme ise yapının olgunlaşmasıdır. Kavramsal Anlayış, ikisini aynı saymaz. İfade Gücü, bir grafikte büyümeyi okumandır.",
+  "welcome": "Merhaba sevgili çocuklar! Kapı pervazındaki boy çizgisi her yıl biraz yukarı kayar. Bu çizgi büyümenin izidir. Yalnız uzamak yetmez; dişlerin çıkması ve kasların güçlenmesi de gelişmenin parçasıdır. Bugün büyümeyi ölçecek, gelişmeden ayıracağız. Bir boy grafiğini gözlemlemek sayıyı hikâyeye bağlar.",
+  "concept": "Büyüme, canlının boyutunun ve kütlesinin artmasıdır. Cetvelle boy, teraziyle kütle ölçülür. Gelişme, canlının yapısının ve işlerinin olgunlaşmasıdır; yalnız santimetre artışı değildir. Bir bebek yürümeyi öğrenirken boyu da artar, sinir ve kas düzeni de olgunlaşır. Bitkide büyüme gövdenin uzaması, gelişme ise çiçek ve meyve gibi yapıların ortaya çıkmasıdır. Büyüme grafiğinde yatay eksen zaman, dikey eksen boy olabilir. Pratik kural: Ölçülen artış büyüme, yeni bir işin ortaya çıkması gelişmedir.",
+  "example": "Ece eylülde 140 santimetre, haziranda 146 santimetredir. Fark 6 santimetredir; bu ölçülen büyümedir. Aynı yıl iki dişinin çıkması ise gelişmeye örnektir, çünkü yeni bir yapı işe katılır. Fasulye fidesi 1. hafta 3 santimetre, 3. hafta 12 santimetre olursa boy grafiği yükselir. Çiçek açması bu grafiğin dışında bir gelişme basamağıdır. İki canlı aynı santimetreyi alsa da gelişme hızları birebir aynı olmak zorunda değildir.",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Her değişimi büyüme sanmak tuzaktır; saçın kesilmesi boyu kısaltır ama gelişme değildir. Grafikte zamanı dikey eksene, boyu yatay eksene ters yazmak da okumayı bozar. Büyüme konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+  "life": "Bunu evde kapıdaki boy çizgisini ölçerek deneyebilirsin. Okulda sağlık taramasındaki boy ve kütle de aynı fikri taşır. Bahçedeki fidenin haftalık boyunu deftere yazarsan küçük bir grafik kurarsın. Sabah kalktığında büyümeyi bir günde görmezsin; kayıt haftalar sonra konuşur.",
+  "recap": [
+    "Büyüme, boy ve kütle gibi ölçülebilir artıştır.",
+    "Gelişme, yapının ve işlerin olgunlaşmasıdır.",
+    "Boy zaman grafiği büyümeyi görünür kılar."
+  ],
+  "conceptSeal": "Büyüme ölçülen artış, gelişme olgunlaşan yapıdır.",
+  "voiceSeal": "Bir boy farkını hesaplar ve onu gelişmeden ayırırsın.",
+  "outcomes": [
+    "Büyüme boyut ve kütle artışıdır.",
+    "Gelişme yalnız uzamak değildir.",
+    "Grafik, zamanla boyu yan yana gösterir."
+  ],
+  "scene": "body",
+  "hint": "trap",
+  "parentNote": "Çocuğunuz büyümeyi ölçülen artış, gelişmeyi olgunlaşma diye ayırır. 140 ve 146 santimetre örneğinde farkı 6 santimetre bulur. Kapı çizgisi evde pekiştirir."
+}

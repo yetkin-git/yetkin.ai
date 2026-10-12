@@ -5,6 +5,8 @@
  * İki okuma aynı anda sürmez. Yeni okuma, eskisinin oturumunu düşürür.
  * Fon müziği (BGM) ayrı kanaldır; `endJuniorSpeech` BGM’yi kapatmaz.
  * BGM ev: `lib/junior/voice.ts` (`juniorBgmSrc`, duck/ambient hacim).
+ * Kaset fırını branş katalog sesini kullanır. `voicePrompt` `lib/junior/voice-design.ts` içinde durur ve senteze gitmez.
+ * Bu dosya dinlemede dış ses servisine gitmez.
  */
 
 import { JUNIOR_ELECTIVE_SLUGS, JUNIOR_PILOT_SLUGS } from "@/lib/junior/limits";

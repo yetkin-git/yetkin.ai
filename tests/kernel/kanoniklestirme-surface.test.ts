@@ -64,9 +64,9 @@ describe("Faz 1 kanonikleştirme yüzeyi", () => {
     expect(existsSync(join(ROOT, "app/api/v1"))).toBe(false);
   });
 
-  it("v1 hop sicili 17 kayıt ve kenar kapısı 1:1 kilitler (API-First yazmalar açık)", () => {
+  it("v1 hop sicili 20 kayıt ve kenar kapısı 1:1 kilitler (API-First yazmalar açık)", () => {
     expect(RAIL_V1_HOPS.map((hop) => hop.id)).toEqual(RAIL_V1_HOP_GATES.map((hop) => hop.id));
-    expect(RAIL_V1_HOPS).toHaveLength(17);
+    expect(RAIL_V1_HOPS).toHaveLength(20);
     expect(RAIL_V1_HOPS.map((hop) => hop.id)).toEqual([
       "health",
       "academy-certificate",
@@ -85,8 +85,11 @@ describe("Faz 1 kanonikleştirme yüzeyi", () => {
       "career-portfolio",
       "profile-patch",
       "junior-lesson-read",
+      "junior-lesson-play",
+      "junior-lesson-progress",
+      "junior-lesson-practice",
     ]);
-    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(17);
+    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(20);
     expect(RAIL_V1_HOPS.some((hop) => hop.id === "freelancer-refund")).toBe(false);
     expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).not.toContain("refund");
     expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).toContain("/api/v1/academy");

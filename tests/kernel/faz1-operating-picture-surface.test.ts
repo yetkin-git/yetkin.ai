@@ -77,7 +77,7 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
     expect(runbook).not.toContain("Akademi satın alma makbuzu bu kanalda yoktur");
     expect(runbook).not.toContain("Akademi mühürlü WAV **18**");
     expect(runbook).not.toContain("Akademi mühürlü WAV **2**");
-    expect(runbook).toContain("RAIL_V1_HOPS`, **17 kayıt**");
+    expect(runbook).toContain("RAIL_V1_HOPS`, **20 kayıt**");
   });
 
   it("kamu yüzeyi: freelancer ve junior 410; vitrin 3 oda; Split kapalı; Merchant asıl nakit portu", () => {
@@ -97,7 +97,7 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
 
   it("OpenAPI kamu sözleşmesinde Marketplace tag'i ve freelancer path yoktur", () => {
     const document = buildRailV1OpenApiDocument();
-    expect(RAIL_V1_HOPS).toHaveLength(17);
+    expect(RAIL_V1_HOPS).toHaveLength(20);
     expect(document.tags.map((tag) => tag.name)).toEqual(["Kernel", "Proof", "Payments"]);
     expect(document.tags.map((tag) => tag.name)).not.toContain("Marketplace");
     expect(document.info.description).toContain("Marketplace tag'i ve freelancer path'leri yayınlanmaz");

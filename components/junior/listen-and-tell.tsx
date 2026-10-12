@@ -5,6 +5,7 @@ import { VectorPlayer } from "@/components/junior/vector-player";
 import { Button } from "@/components/ui/button";
 import {
   JUNIOR_PAID_ACTION_ERROR,
+  JUNIOR_QUIZ_CONTROL_LABEL,
   JUNIOR_QUIZ_PREPARING_LABEL,
   JUNIOR_TELL_MAX_SEC,
   JUNIOR_TELL_MIN_SEC,
@@ -44,6 +45,11 @@ type ListenAndTellProps = {
   onScored?: (feedback: Feedback) => void;
   onOpenQuiz?: () => void;
   trailing?: ReactNode;
+  grantedAudioUrl?: string | null;
+  grantedWarmupUrl?: string | null;
+  lockPublicMedia?: boolean;
+  /** Senaryodaki özgün mikro soru. Yıldız paneli bunu basar. */
+  microQuestion?: string;
 };
 
 function pickMime(): string {
@@ -94,6 +100,10 @@ export function ListenAndTell({
   onScored,
   onOpenQuiz,
   trailing,
+  grantedAudioUrl = null,
+  grantedWarmupUrl = null,
+  lockPublicMedia = false,
+  microQuestion = "",
 }: ListenAndTellProps) {
   const [bars, setBars] = useState<number[]>(() => Array.from({ length: 12 }, () => 12));
   const [seconds, setSeconds] = useState(0);
@@ -320,8 +330,13 @@ export function ListenAndTell({
           lifeUse={lifeUse}
           steps={steps}
           lessonKey={lessonKey}
+          profileId={profileId}
           nickname={nickname}
           narration={script}
+          grantedAudioUrl={grantedAudioUrl}
+          grantedWarmupUrl={grantedWarmupUrl}
+          lockPublicMedia={lockPublicMedia}
+          microQuestion={microQuestion}
           onPlaybackComplete={(complete) => {
             setCassetteComplete(complete);
             if (!complete) {
@@ -499,14 +514,14 @@ function QuizGate({
         disabled={!canOpen}
         onClick={() => onOpenQuiz?.()}
       >
-        Konu Testini Çöz
+        {JUNIOR_QUIZ_CONTROL_LABEL}
       </Button>
       {quizDone ? <span className="text-xs font-semibold">Bu ders tamamlandı.</span> : null}
       {canOpen ? null : (
         <span className="min-w-0 text-xs text-[var(--muted)]">
           {score !== null
-            ? "Konu testi kilitli. Geliştirme tavsiyesine bak ve yeniden anlat."
-            : "Konu testi kilitli. Önce dinle, sonra kendi sözünle anlat."}
+            ? "Hızlı konu kontrolü kilitli. Geliştirme tavsiyesine bak ve yeniden anlat."
+            : "Hızlı konu kontrolü kilitli. Önce dinle, sonra kendi sözünle anlat."}
         </span>
       )}
     </>

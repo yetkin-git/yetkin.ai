@@ -9,8 +9,13 @@ export type JuniorWarmupGate = "cassette" | "fade" | "scene";
  * Adım 0 kaseti biter veya atlanırsa sahne belirir ve 1. adımın anlatımı açılır.
  * Dosya hatasında geçiş beklenmez; sahne olduğu yerde, sessizce durur.
  */
-export function useJuniorWarmupGate(lessonKey: string, startNarration: () => void) {
-  const src = juniorWarmupSrc(lessonKey);
+export function useJuniorWarmupGate(
+  lessonKey: string,
+  startNarration: () => void,
+  grantedSrc: string | null = null,
+  lockPublicMedia = false,
+) {
+  const src = lockPublicMedia ? grantedSrc : juniorWarmupSrc(lessonKey);
   const startRef = useRef(startNarration);
   const settled = useRef(!src);
   const timer = useRef(0);
@@ -18,11 +23,11 @@ export function useJuniorWarmupGate(lessonKey: string, startNarration: () => voi
   startRef.current = startNarration;
 
   useEffect(() => {
-    const next = juniorWarmupSrc(lessonKey);
+    const next = lockPublicMedia ? grantedSrc : juniorWarmupSrc(lessonKey);
     settled.current = !next;
     setGate(next ? "cassette" : "scene");
     return () => window.clearTimeout(timer.current);
-  }, [lessonKey]);
+  }, [grantedSrc, lessonKey, lockPublicMedia]);
 
   function finish(mode: "play" | "still") {
     if (settled.current) {

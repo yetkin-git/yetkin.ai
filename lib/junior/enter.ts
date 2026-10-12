@@ -3,9 +3,15 @@ import {
   type JuniorActor,
   type JuniorGateDecision,
 } from "@/lib/kernel/security/junior-gate";
-import { juniorLessonAccess, juniorLessonAccessForPlan, type JuniorPlanAccess } from "@/lib/junior/catalog";
+import {
+  juniorLessonAccess,
+  juniorLessonAccessForPlan,
+  juniorPaidElectives,
+  type JuniorPlanAccess,
+} from "@/lib/junior/catalog";
 import { JUNIOR_ELECTIVE_SLUGS } from "@/lib/junior/limits";
 
+/** Ücretli paket yalnız mühürlü seçmelileri sayar (T-06). Denetim dalı bu fonksiyonu kullanmaz. */
 export function juniorPlanCoversLesson(
   lessonKey: string,
   planActive: boolean,
@@ -17,7 +23,7 @@ export function juniorPlanCoversLesson(
   return (
     juniorLessonAccessForPlan(lessonKey, {
       active: true,
-      selectedElectives,
+      selectedElectives: juniorPaidElectives(selectedElectives),
     }) === "free"
   );
 }
@@ -51,7 +57,7 @@ export function juniorLessonGate(
     lesson.allow && lesson.via === "audit"
       ? { active: true, selectedElectives: [...JUNIOR_ELECTIVE_SLUGS] }
       : planCovers
-        ? { active: true, selectedElectives: plan.selectedElectives }
+        ? { active: true, selectedElectives: juniorPaidElectives(plan.selectedElectives) }
         : null;
   return { lessonAccess, planCovers, lesson, paid, renderPlan };
 }

@@ -1,5 +1,6 @@
-import { resolvePublicMediaUrl } from "@/lib/media/public-url";
 import { juniorCourseSlugFromLessonKey } from "@/lib/junior/human-titles";
+import { JUNIOR_PILOT_SLUGS } from "@/lib/junior/limits";
+import { resolvePublicMediaUrl } from "@/lib/media/public-url";
 
 /**
  * Beş çekirdek dersin ısınma kaseti.
@@ -12,7 +13,7 @@ export const JUNIOR_CORE_WARMUP_SRC = {
   jr_06_turkce: "/media/junior/warmup/jr_06_turkce-warmup.mp4",
   jr_06_sosyal: "/media/junior/warmup/jr_06_sosyal-warmup.mp4",
   jr_06_ing_main: "/media/junior/warmup/jr_06_ing_main-warmup.mp4",
-} as const;
+} as const satisfies Record<(typeof JUNIOR_PILOT_SLUGS)[number], string>;
 
 export type JuniorWarmupSlug = keyof typeof JUNIOR_CORE_WARMUP_SRC;
 

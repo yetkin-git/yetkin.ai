@@ -1,0 +1,37 @@
+import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
+
+/** 6. Sınıf Fen Bilimleri. Canlılarda üreme ve büyüme. FB.6.3.5. */
+export const JUNIOR_FEN_26_SCENARIO: JuniorLessonScenario = {
+  key: "jr_06_fen-26",
+  title: "Canlılarda üreme ve büyüme",
+  teaser:
+    "Canlılarda üreme yeni bireyi başlatır, büyüme o bireyin ölçülen artışıdır. Kuş yumurtadan, kedi doğumla dünyaya gelir. Kavramsal Anlayış, başlangıç yolunu büyüme grafiğinden ayırır. İfade Gücü, iki canlıyı bu iki sözcükle karşılaştırmandır.",
+  welcome:
+    "Merhaba çocuklar, hepiniz hoş geldiniz! Bahçedeki kuş yuvasında yumurta, evdeki kedinin yanında yavru görebilirsin. İkisi de üreme ile başlar, sonra büyüme ile gelişir. Yollar aynı cümleye sığmaz. Bugün canlılarda üreme ve büyümeyi yan yana koyacağız. Bir yuva ile bir boy grafiğini gözlemlemek karşılaştırmayı netleştirir.",
+  concept:
+    "Üreme, yeni bireyin oluşmasıdır. Büyüme, oluşan bireyin boy ve kütle kazanmasıdır. Kuşlar yumurtlayarak ürer; yavru yumurtadan çıkar ve büyür. Kedi gibi memeliler yavrusunu doğurur; yavru sonra sütle beslenir ve büyür. Çiçekli bitki tohumla ürer; fide büyüyerek gövdesini uzatır. Kelebekte yumurta, tırtıl, krizalit ve ergin sıra izler; bu sıra büyümenin biçim değiştirdiği bir yoldur. Pratik kural: Üreme başlangıcı, büyüme başlangıçtan sonraki artışı anlatır.",
+  example:
+    "Bir kuş 4 yumurta bırakırsa üreme yumurta ile başlamıştır. Yavrular 2 haftada tüylenirse bu süre büyüme ve gelişmedir. Kedi 1 doğumda birkaç yavru dünyaya getirir; yavruların haftalık kütle artışı büyümedir. Fasulye tohumu çimlenir, 3 haftada 12 santimetreye ulaşır. Aynı tabloda üreme satırı nasıl başladığını, büyüme satırı ne kadar arttığını yazar. Boy grafiğini gözlemleyince artışı ölçersin. İki canlıyı karşılaştırırken önce yolu, sonra ölçüyü söyle.",
+  hint: "trap",
+  warning:
+    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Yumurtadan çıkmayı büyüme sanmak başlangıcı karıştırır; o olay üremenin sonucudur. Her memelinin yumurtladığını düşünmek de yanlıştır. Büyüme grafiğindeki santimetreyi üreme yolu diye okumak tabloyu ters çevirir. Canlılarda üreme ve büyüme konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+  life:
+    "Bunu bir belgeselde yuva görüntüsüyle kullanabilirsin. Evde kedinin yavru fotoğrafları büyümenin izidir. Bahçedeki fidenin boyunu haftada bir ölçmek bitki büyümesini somutlaştırır. Okulda iki canlıyı bir tabloya yazmak karşılaştırma cümlesini kolaylaştırır.",
+  recap: [
+    "Üreme yeni bireyi başlatır, büyüme artışı ölçer.",
+    "Kuş yumurtadan, birçok memeli doğumla dünyaya gelir.",
+    "Bitkide tohum üremeyi, fide boyu büyümeyi gösterir.",
+  ],
+  conceptSeal: "Üreme başlangıç, büyüme sonraki artıştır.",
+  voiceSeal: "İki canlıyı üreme yolu ve büyüme ölçüsüyle karşılaştırırsın.",
+  outcomes: [
+    "Canlılarda üreme ve büyüme ayrı olaylardır.",
+    "Yumurta ve doğum farklı başlangıç yollarıdır.",
+    "Büyüme ölçülen artıştır.",
+  ],
+  scene: "body",
+  parentNote:
+    "Çocuğunuz üremeyi başlangıç, büyümeyi ölçülen artış diye ayırır. Kuşun yumurtası ile kedinin yavrusunu karşılaştırması beklenir.",
+};
+
+export const JUNIOR_FEN_26 = juniorLessonFromScenario(JUNIOR_FEN_26_SCENARIO);

@@ -45,15 +45,16 @@ export function normalizeR2Endpoint(raw: string): string {
   return url.origin;
 }
 
-/** Yazma betiği için tam ayar. Eksik alan varsa fırlatır. Sır metnini tekrarlamaz. */
-export function readR2MediaConfig(env: R2MediaEnv): R2MediaConfig {
+export type R2SigningConfig = Omit<R2MediaConfig, "mediaBaseUrl">;
+
+/** İmza için kova ve anahtar. Kamu CDN kökü gerekmez. Eksik alanda fırlatır. Sır metnini tekrarlamaz. */
+export function readR2SigningConfig(env: R2MediaEnv): R2SigningConfig {
   const missing: string[] = [];
   const bucket = env.R2_BUCKET_NAME?.trim() ?? "";
   const accessKeyId = env.R2_ACCESS_KEY_ID?.trim() ?? "";
   const secretAccessKey = env.R2_SECRET_ACCESS_KEY?.trim() ?? "";
   const endpointRaw = env.R2_ENDPOINT?.trim() ?? "";
   const accountId = env.R2_ACCOUNT_ID?.trim() ?? "";
-  const mediaBaseUrl = readMediaPublicBaseUrl(env.NEXT_PUBLIC_MEDIA_BASE_URL);
 
   if (!bucket) {
     missing.push("R2_BUCKET_NAME");
@@ -66,9 +67,6 @@ export function readR2MediaConfig(env: R2MediaEnv): R2MediaConfig {
   }
   if (!endpointRaw && !accountId) {
     missing.push("R2_ENDPOINT veya R2_ACCOUNT_ID");
-  }
-  if (!mediaBaseUrl) {
-    missing.push("NEXT_PUBLIC_MEDIA_BASE_URL");
   }
   if (missing.length > 0) {
     throw new Error(`Eksik veya geçersiz ortam değişkeni: ${missing.join(", ")}.`);
@@ -87,11 +85,15 @@ export function readR2MediaConfig(env: R2MediaEnv): R2MediaConfig {
     endpoint = `https://${accountId}.r2.cloudflarestorage.com`;
   }
 
-  return {
-    bucket,
-    accessKeyId,
-    secretAccessKey,
-    endpoint,
-    mediaBaseUrl: mediaBaseUrl as string,
-  };
+  return { bucket, accessKeyId, secretAccessKey, endpoint };
+}
+
+/** Yazma betiği için tam ayar. Eksik alan varsa fırlatır. Sır metnini tekrarlamaz. */
+export function readR2MediaConfig(env: R2MediaEnv): R2MediaConfig {
+  const signing = readR2SigningConfig(env);
+  const mediaBaseUrl = readMediaPublicBaseUrl(env.NEXT_PUBLIC_MEDIA_BASE_URL);
+  if (!mediaBaseUrl) {
+    throw new Error("Eksik veya geçersiz ortam değişkeni: NEXT_PUBLIC_MEDIA_BASE_URL.");
+  }
+  return { ...signing, mediaBaseUrl };
 }

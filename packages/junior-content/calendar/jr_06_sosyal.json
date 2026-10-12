@@ -1,0 +1,244 @@
+[
+  {
+    "lessonKey": "jr_06_sosyal-1",
+    "outcomeCodes": [
+      "SB.6.1.1",
+      "SB.6.1.2"
+    ],
+    "band": "tymm",
+    "startWeek": 1,
+    "endWeek": 4,
+    "hours": 11
+  },
+  {
+    "lessonKey": "jr_06_sosyal-21",
+    "outcomeCodes": [
+      "SB.6.1.3"
+    ],
+    "band": "tymm",
+    "startWeek": 4,
+    "endWeek": 6,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_sosyal-9",
+    "outcomeCodes": [
+      "SB.6.2.1"
+    ],
+    "band": "tymm",
+    "startWeek": 6,
+    "endWeek": 8,
+    "hours": 6
+  },
+  {
+    "lessonKey": "jr_06_sosyal-10",
+    "outcomeCodes": [
+      "SB.6.2.2"
+    ],
+    "band": "tymm",
+    "startWeek": 8,
+    "endWeek": 9,
+    "hours": 3
+  },
+  {
+    "lessonKey": "jr_06_sosyal-11",
+    "outcomeCodes": [
+      "SB.6.2.2"
+    ],
+    "band": "tymm",
+    "startWeek": 9,
+    "endWeek": 11,
+    "hours": 3
+  },
+  {
+    "lessonKey": "jr_06_sosyal-22",
+    "outcomeCodes": [
+      "SB.6.2.3"
+    ],
+    "band": "tymm",
+    "startWeek": 11,
+    "endWeek": 13,
+    "hours": 6
+  },
+  {
+    "lessonKey": "jr_06_sosyal-5",
+    "outcomeCodes": [
+      "SB.6.3.1"
+    ],
+    "band": "tymm",
+    "startWeek": 13,
+    "endWeek": 15,
+    "hours": 6
+  },
+  {
+    "lessonKey": "jr_06_sosyal-23",
+    "outcomeCodes": [
+      "SB.6.3.2"
+    ],
+    "band": "tymm",
+    "startWeek": 15,
+    "endWeek": 17,
+    "hours": 6
+  },
+  {
+    "lessonKey": "jr_06_sosyal-7",
+    "outcomeCodes": [
+      "SB.6.3.3",
+      "SB.6.3.4"
+    ],
+    "band": "tymm",
+    "startWeek": 17,
+    "endWeek": 23,
+    "hours": 10
+  },
+  {
+    "lessonKey": "jr_06_sosyal-16",
+    "outcomeCodes": [
+      "SB.6.4.1"
+    ],
+    "band": "tymm",
+    "startWeek": 23,
+    "endWeek": 24,
+    "hours": 3
+  },
+  {
+    "lessonKey": "jr_06_sosyal-18",
+    "outcomeCodes": [
+      "SB.6.4.1"
+    ],
+    "band": "tymm",
+    "startWeek": 24,
+    "endWeek": 25,
+    "hours": 3
+  },
+  {
+    "lessonKey": "jr_06_sosyal-4",
+    "outcomeCodes": [
+      "SB.6.4.2"
+    ],
+    "band": "tymm",
+    "startWeek": 25,
+    "endWeek": 27,
+    "hours": 3
+  },
+  {
+    "lessonKey": "jr_06_sosyal-17",
+    "outcomeCodes": [
+      "SB.6.4.2"
+    ],
+    "band": "tymm",
+    "startWeek": 27,
+    "endWeek": 28,
+    "hours": 3
+  },
+  {
+    "lessonKey": "jr_06_sosyal-24",
+    "outcomeCodes": [
+      "SB.6.4.3"
+    ],
+    "band": "tymm",
+    "startWeek": 28,
+    "endWeek": 30,
+    "hours": 6
+  },
+  {
+    "lessonKey": "jr_06_sosyal-12",
+    "outcomeCodes": [
+      "SB.6.5.1"
+    ],
+    "band": "tymm",
+    "startWeek": 30,
+    "endWeek": 32,
+    "hours": 6
+  },
+  {
+    "lessonKey": "jr_06_sosyal-15",
+    "outcomeCodes": [
+      "SB.6.5.2"
+    ],
+    "band": "tymm",
+    "startWeek": 32,
+    "endWeek": 34,
+    "hours": 6
+  },
+  {
+    "lessonKey": "jr_06_sosyal-25",
+    "outcomeCodes": [
+      "SB.6.5.3"
+    ],
+    "band": "tymm",
+    "startWeek": 34,
+    "endWeek": 36,
+    "hours": 6
+  },
+  {
+    "lessonKey": "jr_06_sosyal-8",
+    "outcomeCodes": [
+      "SB.6.6.1"
+    ],
+    "band": "tymm",
+    "startWeek": 36,
+    "endWeek": 37,
+    "hours": 3
+  },
+  {
+    "lessonKey": "jr_06_sosyal-20",
+    "outcomeCodes": [
+      "SB.6.6.1"
+    ],
+    "band": "tymm",
+    "startWeek": 37,
+    "endWeek": 38,
+    "hours": 3
+  },
+  {
+    "lessonKey": "jr_06_sosyal-26",
+    "outcomeCodes": [
+      "SB.6.6.2"
+    ],
+    "band": "tymm",
+    "startWeek": 38,
+    "endWeek": 40,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_sosyal-2",
+    "outcomeCodes": [
+      "SB.6.1.1"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  },
+  {
+    "lessonKey": "jr_06_sosyal-3",
+    "outcomeCodes": [
+      "SB.6.1.1"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  },
+  {
+    "lessonKey": "jr_06_sosyal-6",
+    "outcomeCodes": [
+      "SB.6.3.2"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  },
+  {
+    "lessonKey": "jr_06_sosyal-13",
+    "outcomeCodes": [
+      "SB.6.5.1"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  }
+]

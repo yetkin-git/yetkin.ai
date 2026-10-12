@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { JUNIOR_GUARDIAN_NOTICE_HREF, JUNIOR_GUARDIAN_NOTICE_TITLE } from "@/lib/copy/junior-guardian-notice";
 import { UX_SEN } from "@/lib/copy/sen-voice/ux";
 import { JUNIOR_GUARDIAN_NOTICE } from "@/lib/junior/guardian-notice";
-import { JUNIOR_CHECKOUT_PATH } from "@/lib/junior/limits";
+import { JUNIOR_CHECKOUT_PATH, juniorElectiveQuotaOpenHint } from "@/lib/junior/limits";
 import { readCitizenEnvelope } from "@/lib/kernel/http/citizen-json";
 import { CHECKOUT_LEGAL_CONSENT_VERSION } from "@/lib/kernel/legal/checkout-consent";
 import { readPaytrIframeSrcFromCheckout } from "@/lib/kernel/payments/paytr/iframe-embed";
@@ -50,7 +50,8 @@ export function CheckoutForm({
   if (alreadyActive) {
     return (
       <p className="rounded-2xl border border-[var(--border)] bg-white px-4 py-3 text-sm leading-6">
-        Yıllık paket açık. Üç seçmeli ders hakkın duruyor. Kilitli konular, seçtiğin derslerde açılır.
+        Yıllık paket açık. {juniorElectiveQuotaOpenHint()} Kilitli konular, seçtiğin derslerde açılır. Seçmeli
+        İngilizce taslağı bu hakka girmez.
       </p>
     );
   }

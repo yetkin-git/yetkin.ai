@@ -74,6 +74,7 @@ public/media/academy/audio/**/*.wav
 public/media/junior/audio/
 public/media/junior/covers/
 public/media/junior/warmup/
+public/media/junior/scenes/
 
 # Akademi bake kopyası — izleme okumaz; canlı SSOT lib/academy/
 docs/curriculum/

@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_fen-29",
+  "title": "Yansıma ve normal",
+  "teaser": "Yansıma, ışığın bir yüzeye çarpıp geri dönmesidir. Normal, yüzeye dik çizilen referans doğrusudur. Kavramsal Anlayış, gelme açısını normale göre okur. İfade Gücü, eşit iki açıyı dereceyle söylemektir.",
+  "welcome": "Merhaba sevgili çocuklar! Sabah aynada yüzünü görürsün, çünkü ışık yüzünden aynaya çarpıp gözüne döner. Bu dönüşe yansıma denir. Açıyı rastgele kenardan değil, normal denen dik çizgiden okuruz. Bugün bir deneyle gelme ve yansıma açısını ölçeceğiz. Lazer izini gözlemlemek, normalin yerini netleştirir.",
+  "concept": "Yansıma, ışığın saydam olmayan düzgün bir yüzeye çarpıp geldiği ortama dönmesidir. Gelen ışın yüzeye çarpar, yansıyan ışın uzaklaşır. Normal, çarpma noktasından yüzeye dik çizilen doğrudur. Gelme açısı gelen ışın ile normal arasındaki açıdır. Yansıma açısı yansıyan ışın ile normal arasındaki açıdır. Düzgün yansımada bu iki açı eşittir. Pürüzlü yüzeyde ışınlar dağılır; bu da yansımadır ama görüntü net oluşmaz. Pratik kural: Açılar yüzeye göre değil, normale göre ölçülür.",
+  "example": "Düz bir ayna ve açıölçerle deney kuralım. Gelen ışın normalle 30 derece yapıyorsa yansıyan ışın da normalle 30 derece yapar. Açıyı 45 dereceye çıkarırsan yansıma açısı da 45 derece olur. İki ölçüde de bağımsız değişken gelme açısı, bağımlı değişken yansıma açısıdır. Ayna yerine buruşuk kâğıt koyarsan ışık dağılır ve net bir yüz göremezsin. Modelde normal kesik çizgi, ışınlar düz çizgidir.",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Gelme açısını ayna yüzeyine göre ölçmek tuzaktır; referans normaldir. Normali ışının kendisi sanmak da yanlıştır. 30 derecelik gelmeye 60 derecelik yansıma yazmak eşitlik kuralını bozar. Yansıma ve normal konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+  "life": "Bunu evdeki banyo aynasında kullanırsın. Bisiklet yansıtıcısı da ışığı geri gönderir. Göl kenarındaki sakin su bir ayna gibi davranabilir. Okulda el feneri ve tarak dişleriyle ince ışın demeti oluşturup açıyı ölçmek deneyi eve taşır.",
+  "recap": [
+    "Yansıma, ışığın yüzeye çarpıp geri dönmesidir.",
+    "Normal, yüzeye dik çizilen referans doğrusudur.",
+    "Gelme açısı yansıma açısına eşittir ve ikisi de normale göre ölçülür."
+  ],
+  "conceptSeal": "Yansıma açısı, normale göre gelme açısına eşittir.",
+  "voiceSeal": "Bir deneyde iki açıyı dereceyle ve normali göstererek söylersin.",
+  "outcomes": [
+    "Yansıma ışığın geri dönmesidir.",
+    "Normal yüzeye diktir.",
+    "Gelme açısı yansıma açısına eşittir."
+  ],
+  "scene": "mirror",
+  "hint": "trap",
+  "parentNote": "Çocuğunuz gelme ve yansıma açısının eşit olduğunu ve açının normale göre ölçüldüğünü anlatır. 30 derece örneği evdeki aynada pekişir."
+}

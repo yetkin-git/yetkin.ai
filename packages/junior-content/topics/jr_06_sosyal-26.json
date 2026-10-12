@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_sosyal-26",
+  "title": "Telif ve patent",
+  "teaser": "Telif, yazdığın hikâyeyi ve çizimi koruyan haktır. Patent, yeni bir buluş fikrini koruyan haktır. İkisi aynı kapı değildir. Kavramsal Anlayış, eseri buluştan ayırır. İfade Gücü, kopyanın hangi hakkı etkilediğini söylemektir.",
+  "welcome": "Merhaba sevgili çocuklar! Defterine yazdığın bir hikâye ile tasarladığın yeni bir kalemlik aynı şey değildir. Biri eserdir, öteki buluş fikridir. Telif ve patenti bir kitap sahnesinde araştıracağız.",
+  "concept": "Telif, kişinin ürettiği eseri korur: hikâye, çizim, şarkı ve kitap sayfası. Başkası bu eseri kendi adına koyamaz. Patent ise yeni bir aracın ya da yöntemin fikrini koruyan ayrı bir haktır. Eser ile buluş aynı kapıdan girmez. Araştırma, elindeki işin eser mi yoksa yeni bir araç fikri mi olduğunu sormaktır. Pratik kural: Sayfada duran anlatı teliftir; iş gören yeni araç fikri patent kapısındadır.",
+  "example": "Ece, defterine bir hikâye yazar ve yanına bir çizim ekler. Arkadaşı aynı hikâyeyi kendi kitabına geçirip adını değiştirirse telif hakkı etkilenir. Ece bir de kalemleri devrilmeden tutan yeni bir kutu çizer. Bu çizim bir eser olarak telife girer; kutunun yeni iş görme fikri ise patent kapısında araştırılır. İki iş yan yana durur, tek hakta birleşmez. Kopya, «ben de benzerini düşündüm» diyerek eser hakkını silmez.",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Telif ile patenti aynı hak sanmak tuzaktır. Hikâyeyi kopyalayıp adını değiştirmek eser hakkını etkilemez sanmak da yanlıştır. Araştırmadan her çizimi patent saymak da eksik kalır. Telif ve patentte kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+  "life": "Bunu okulda bir resim sergisinde de görürsün. Arkadaşının çizimini kendi kâğıdına geçirip adını yazmak telif sorunudur. Evde tasarladığın yeni bir kapak düzeneği ise buluş fikri olarak ayrıca sorulur. Kitaplıktaki bir sayfayı olduğu gibi kendi defterine alma. Araştır: bu bir eser mi, yeni bir araç fikri mi.",
+  "recap": [
+    "Telif, hikâye ve çizim gibi eseri korur.",
+    "Patent, yeni bir buluş fikrini koruyan ayrı haktır.",
+    "Kopya, eser hakkını silmez."
+  ],
+  "conceptSeal": "Telif eseri korur. Patent, yeni araç fikrini ayrı korur.",
+  "voiceSeal": "Bir işin eser mi yoksa buluş fikri mi olduğunu söylersin.",
+  "outcomes": [
+    "Telif hikâye ve çizimi korur.",
+    "Patent yeni buluş fikrinin ayrı kapısıdır.",
+    "Ad değiştirerek kopyalamak telifi etkilemez sanmak yanlıştır."
+  ],
+  "scene": "book",
+  "hint": "trap",
+  "parentNote": "Çocuğunuz telif ile patenti ayırır. Bir hikâyenin kopyasını eser hakkı, yeni bir araç fikrini patent kapısı olarak söylemesi beklenir. Başvuru işlemi bu derste yoktur."
+}

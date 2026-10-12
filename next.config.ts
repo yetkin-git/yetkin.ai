@@ -38,7 +38,7 @@ const MEDIA_FUNCTION_TRACE_EXCLUDES = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   typedRoutes: true,
-  transpilePackages: ["@yetkin/kernel"],
+  transpilePackages: ["@yetkin/kernel", "@yetkin/junior-content"],
   // Vercel kenarı Accept-Encoding ile Brotli (br) sonra Gzip müzakere eder.
   // `compress: true` `next start` / öz-barındırma gzip mühürüdür; kapatılmaz.
   // Content-Encoding elle basılmaz — çift sıkıştırma bozar; Pingdom yalnız gzip
@@ -74,6 +74,10 @@ const nextConfig: NextConfig = {
       "./generated/prisma/**",
       "./node_modules/@digabi/noto-sans/WOFF/NotoSans-Regular.woff",
       "./lib/academy/production-seal-manifest.ts",
+      "./packages/junior-content/topics/**",
+      "./packages/junior-content/quiz/**",
+      "./packages/junior-content/calendar/**",
+      "./packages/junior-content/meb/**",
     ],
   },
   images: {

@@ -3,7 +3,7 @@ import "server-only";
 import { getPrisma } from "@/lib/kernel/db";
 import { logEvent } from "@/lib/kernel/observability/log";
 import { juniorLessonStatus, juniorTellPassed } from "@/lib/junior/chain";
-import { juniorPersonalizedShelves } from "@/lib/junior/catalog";
+import { juniorPaidElectives, juniorPersonalizedShelves } from "@/lib/junior/catalog";
 import { JUNIOR_CLOSED_PROFILE_NICKNAME } from "@/lib/junior/guardian-notice";
 import { JUNIOR_ELECTIVE_QUOTA } from "@/lib/junior/limits";
 import { juniorInvoiceOpened, juniorInvoicePersisted } from "@/lib/junior/invoice-seal";
@@ -517,9 +517,10 @@ export async function loadJuniorLessonPage(userId: string, lessonKey: string) {
     const store = createPrismaJuniorStore();
     const home = await readJuniorHome(store, userId);
     const profileId = home.selected?.id ?? null;
+    // Ders gövdesi yalnız süzülmüş (mühürlü) seçmelilerle hesaplanır (T-06 ikinci yol).
     const lesson = readJuniorLesson(lessonKey, {
       active: home.plan.status === "ACTIVE",
-      selectedElectives: home.selected?.selectedElectives ?? [],
+      selectedElectives: juniorPaidElectives(home.selected?.selectedElectives ?? []),
     });
     const progress = profileId ? await store.listProgress(userId, profileId) : [];
     return {

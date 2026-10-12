@@ -171,7 +171,7 @@ function pickParentTip(input: {
     return fromQuiz;
   }
   if (input.narration.attempts === 0 && input.quizCorrect + input.quizWrong === 0) {
-    return "Bu yedi günde anlatış ve konu testi yok; akşam bir ders açıp ilk konuyu birlikte dinleyin.";
+    return "Bu yedi günde anlatış ve hızlı konu kontrolü yok; akşam bir ders açıp ilk konuyu birlikte dinleyin.";
   }
   if (input.narration.attempts > 0 && (input.narration.averageScore ?? 0) < JUNIOR_XP_SCORE_FLOOR) {
     return "Anlatış puanı düşük kaldı; akşam aynı konuyu bir kez kendi sözleriyle anlatsın.";

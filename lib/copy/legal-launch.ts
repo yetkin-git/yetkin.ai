@@ -15,7 +15,6 @@ export const LEGAL_ENTITY = {
   mersis: "937068336100017",
   address: "İnönü Mah. 157 Sk. No:3/C Akhisar/Manisa",
   supportEmail: "destek@yetkin.ai",
-  adminEmail: "yapinet360@gmail.com",
   whatsappDisplay: "0551 675 16 74",
   whatsappE164: "905516751674",
   iban: "TR82 0020 5000 0100 8852 4000 01",
@@ -60,8 +59,6 @@ export const LEGAL_SUPPORT_EMAIL = LEGAL_ENTITY.supportEmail;
 export const LEGAL_SUPPORT_MAILTO = `mailto:${LEGAL_SUPPORT_EMAIL}` as const;
 export const LEGAL_SUPPORT_LINE_LABEL = "Destek e-posta:" as const;
 export const LEGAL_SUPPORT_LINE = `${LEGAL_SUPPORT_LINE_LABEL} ${LEGAL_SUPPORT_EMAIL}` as const;
-export const LEGAL_ADMIN_EMAIL = LEGAL_ENTITY.adminEmail;
-export const LEGAL_ADMIN_MAILTO = `mailto:${LEGAL_ADMIN_EMAIL}` as const;
 export const LEGAL_WHATSAPP_HREF = `https://wa.me/${LEGAL_ENTITY.whatsappE164}` as const;
 
 export const LEGAL_SECTION_TITLES = {

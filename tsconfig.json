@@ -33,6 +33,15 @@
       ],
       "@yetkin/kernel/*": [
         "./packages/kernel/src/*"
+      ],
+      "@yetkin/junior-content": [
+        "./packages/junior-content/src/index.ts"
+      ],
+      "@yetkin/junior-content/schema/*": [
+        "./packages/junior-content/schema/*"
+      ],
+      "@yetkin/junior-content/calendar": [
+        "./packages/junior-content/src/calendar.ts"
       ]
     }
   },
@@ -45,6 +54,8 @@
     "lib/**/*.ts",
     "lib/**/*.tsx",
     "packages/kernel/src/**/*.ts",
+    "packages/junior-content/schema/**/*.ts",
+    "packages/junior-content/src/**/*.ts",
     "middleware/**/*.ts",
     "proxy.ts",
     "scripts/**/*.ts",
@@ -93,6 +104,7 @@
     "tests/helpers/three-ring-journey.ts",
     "tests/e2e/studio-happy-path.spec.ts",
     "tests/e2e/yetkinilan-happy-path.spec.ts",
-    "scripts/ops-storage-cors-check.ts"
+    "scripts/ops-storage-cors-check.ts",
+    "scripts/archive/repair-office-ai-05-silence-hole.ts"
   ]
 }

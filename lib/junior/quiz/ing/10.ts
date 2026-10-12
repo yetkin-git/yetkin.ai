@@ -1,55 +1,54 @@
 import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
 
-/** 6. Sınıf İngilizce — konu sonu soru arşivi (10/20). */
+/** 6. Sınıf İngilizce — World and Culture, ülke ve milliyet. */
 export const JUNIOR_ING_QUIZ_10 = {
   lessonKey: "jr_06_ing_main-10",
-  title: "Fuarda duyguyu söylemek",
+  title: "World and Culture: ülke ve milliyet",
   tellGuides: [
-    "Say how you feel about a ride using excited about or scared of.",
-    "Make a short fair dialogue with a feeling word.",
+    "Ülkeni ve milliyetini iki İngilizce cümleyle söyle.",
+    "From ile is farkını Turkey ve Turkish üzerinden kur.",
   ],
   questions: [
     {
       id: "q1",
       level: "concept",
-      question: "«excited about» hangi duyguyu bağlar?",
-      options: [
-        "Heyecanı bir şeye bağlar",
-        "Korkuyu bir yere bağlar",
-        "Saati söyler",
-        "Meslek sorar",
-      ],
+      question: "Ülke adı hangi sözcükle bağlanır?",
+      options: ["from", "is nationality", "will", "have got"],
       correctAnswerIndex: 0,
-      hint: "Excited about = … hakkında heyecanlı.",
-      explanation: "Adım 1: Excited heyecan demektir. Adım 2: About nesneyi bağlar. Adım 3: Scared of korkuyu bağlar; bu şık excited about'tır.",
+      hint: "From ülke ister.",
+      explanation:
+        "Adım 1: Ülke adı from ile gelir. Adım 2: Milliyet sıfatı is ile gelir. Adım 3: I am from Turkey doğrudur.",
     },
     {
       id: "q2",
       level: "apply",
-      question: "Hangisi doğru duygu cümlesidir?",
+      question: "«O Japonya'dan ve Japon.» cümle çifti hangisidir?",
       options: [
-        "I am scared of the ghost train",
-        "I am scared about the ghost train",
-        "I am sunny of the ghost train",
-        "I scared the ghost train am",
+        "She is from Japan and she is Japanese",
+        "She is from Japanese and she is Japan",
+        "She is Japan from Japanese",
+        "She has got from Japan",
       ],
       correctAnswerIndex: 0,
-      hint: "Korku of ile bağlanır.",
-      explanation: "Adım 1: Scared of kalıbı vardır. Adım 2: Ghost train korku nesnesidir. Adım 3: About burada yanlış edattır.",
+      hint: "Japan ülke, Japanese milliyettir.",
+      explanation:
+        "Adım 1: From ülke adı Japan ile kurulur. Adım 2: Is milliyet sıfatı Japanese ile kurulur. Adım 3: İki cümle bu sırayla doğrudur.",
     },
     {
       id: "q3",
       level: "skill",
-      question: "Fuarda Ece roller coaster görünce gülümsüyor: «I am excited about this ride!» Hangisi doğru yorumdur?",
+      question:
+        "Sınıf tablosunda Ece «I am from Turkish» yazmış, yanında «I am Turkey» yazmış. İki satır da yanlışsa doğru çift hangisidir?",
       options: [
-        "Ece oyuncaktan heyecan duyuyor",
-        "Ece oyuncaktan korkuyor",
-        "Ece hava soruyor",
-        "Ece meslek seçiyor",
+        "I am from Turkey ve I am Turkish",
+        "I am from Turkish ve I am Turkey",
+        "I am from Japanese ve I am Japan",
+        "I will from Turkey ve I are Turkish",
       ],
       correctAnswerIndex: 0,
-      hint: "Excited about heyecan bağlar.",
-      explanation: "Adım 1: Excited about heyecanı bağlar. Adım 2: This ride oyuncağı gösterir. Adım 3: Korku scared of olurdu.",
+      hint: "From ülke, is milliyet.",
+      explanation:
+        "Adım 1: Turkish bir milliyet sıfatıdır, ülke adı değildir. Adım 2: Turkey ülke adıdır. Adım 3: Doğru çift from Turkey ve am Turkish olur.",
     },
   ],
 } as const satisfies JuniorLessonQuizPack;

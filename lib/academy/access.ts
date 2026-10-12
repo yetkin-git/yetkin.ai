@@ -55,8 +55,8 @@ export function isZeroFeeAcademyGrantOpen(
 /**
  * Akademi ödeme duvarı muafiyeti.
  * Prisma `role` kolonu yok. Tek kapı `isSuperAdminActor`:
- * e-posta doğrulanmış olmalı. Üretimde yerleşik kanonik kutu env gecikse de açılır;
- * başka adres UUID ve kanonik e-posta env’inin birlikte eşleşmesini ister.
+ * e-posta doğrulanmış olmalı. Üretimde `SUPER_ADMIN_USER_ID` boşsa yerleşik kutu dahil kimse admin olmaz (T-03, fail-closed);
+ * env doluysa kutu o UUID ile birebir eşleşmelidir. Başka adres de aynı çifti ister.
  * Ayrı e-posta kümesi yoktur.
  */
 export function hasAcademyAdminBypass(actor: AcademyActor): boolean {

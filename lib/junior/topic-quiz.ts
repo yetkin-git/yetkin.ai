@@ -15,17 +15,26 @@ export function isJuniorTopicQuizReady(lessonKey: string): boolean {
 export function publicJuniorTopicQuiz(lessonKey: string): JuniorPracticeChoice[] {
   return publicJuniorTopicEndQuiz(lessonKey).map((row) => ({
     id: row.id,
-    kind: "choice",
+    kind: "choice" as const,
+    level: row.level,
     prompt: row.question,
     choices: [...row.options],
   }));
 }
 
+export type JuniorTopicQuizNote = {
+  id: string;
+  ok: boolean;
+  explanation: string;
+  /** Puanlandıktan sonra, yalnız yanlış soruda. Yayın yüküne girmez. */
+  answer?: string;
+};
+
 export type JuniorTopicQuizGrade = {
   score: number;
   correct: number;
   total: number;
-  notes: { id: string; ok: boolean; explanation: string }[];
+  notes: JuniorTopicQuizNote[];
 };
 
 export function gradeJuniorTopicQuiz(
@@ -36,11 +45,19 @@ export function gradeJuniorTopicQuiz(
   if (!graded || graded.total < JUNIOR_QUIZ_MIN_ITEMS) {
     return null;
   }
+  const keys = new Map(juniorTopicEndQuestions(lessonKey).map((row) => [row.id, row]));
   return {
     score: graded.score,
     correct: graded.correct,
     total: graded.total,
-    notes: graded.notes.map(({ id, ok, explanation }) => ({ id, ok, explanation })),
+    notes: graded.notes.map(({ id, ok, explanation }) => {
+      if (ok) {
+        return { id, ok, explanation };
+      }
+      const key = keys.get(id);
+      const spoken = key ? key.options[key.correctAnswerIndex] : "";
+      return spoken ? { id, ok, explanation, answer: spoken } : { id, ok, explanation };
+    }),
   };
 }
 

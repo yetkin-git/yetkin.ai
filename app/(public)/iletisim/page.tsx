@@ -5,8 +5,6 @@ import { LinkButton } from "@/components/ui/link-button";
 import { LegalEntityColophon, LegalHonestyCard, LegalSupportEmailLine } from "@/components/legal/legal-section-articles";
 import {
   LEGAL_ACTIVITY_SCOPE_BODY,
-  LEGAL_ADMIN_EMAIL,
-  LEGAL_ADMIN_MAILTO,
   LEGAL_ENTITY,
   LEGAL_ENTITY_VKN,
   LEGAL_UPDATED_LABEL,
@@ -78,15 +76,6 @@ export default function ContactPage() {
                 className="font-semibold text-[var(--safir-deep)] hover:underline"
               >
                 {LEGAL_ENTITY.whatsappDisplay}
-              </a>
-            </p>
-            <p className="text-sm text-[var(--foreground)]">
-              İdari e-posta:{" "}
-              <a
-                href={LEGAL_ADMIN_MAILTO}
-                className="font-semibold text-[var(--safir-deep)] hover:underline"
-              >
-                {LEGAL_ADMIN_EMAIL}
               </a>
             </p>
           </div>

@@ -7,14 +7,14 @@ export const JUNIOR_MAT_17_SCENARIO: JuniorLessonScenario = {
   teaser:
     "Cebirsel ifade, sayılar ile harflerin işlemli yazılışıdır. Harf, değişebilen bir niceliği tutar. Kavramsal Anlayış, benzer terimi sabit sayıdan ayırmandır. İfade Gücü, 3x artı 2x ifadesini 5x diye kısaltmandır.",
   welcome:
-    "Hoş geldin! Hazırsan bugün zihnimizi harika bir matematik yolculuğuna çıkarıyoruz, çünkü bugün sayılarla harfleri bir araya getirip cebir dilini konuşacağız. Hiç bir kutunun içindeki bilye sayısını bilmeden ona bir sembol verip işlem yaptın mı? Harf, o bilinmeyen sayının güvenli bir yer tutucusudur. Bugün seninle cebirsel ifadeleri okuyup benzer terimleri toplamayı öğreneceğiz.",
+    "Merhaba sevgili çocuklar! Bugün sayılarla harfleri bir araya getirip cebir dilini konuşacağız. Hiç bir kutunun içindeki bilye sayısını bilmeden ona bir sembol verip işlem yaptın mı? Harf, o bilinmeyen sayının güvenli bir yer tutucusudur. Cebirsel ifadeleri okuyup benzer terimleri toplamayı öğreneceğiz.",
   concept:
-    "Cebirsel ifadede x veya a gibi harfler değişkeni temsil eder. Örneğin 3x demek, x sayısının 3 katı demektir ve buradaki 3 katsayıdır. Eğer harfin önünde sayı yazmıyorsa katsayısı 1'dir. Benzer terimler ise aynı harfi taşıyan terimlerdir; örneğin 3x ile 2x benzer terimdir. 3x ile 5 ise benzer terim değildir, çünkü 5'in yanında harf yoktur. Şurası aklında kalsın tamam mı: Yalnızca benzer terimler birbiriyle toplanabilir; harfli terim ile yalın sayı birbirine asla katılmaz.",
+    "Cebirsel ifadede x veya a gibi harfler değişkeni temsil eder. Örneğin 3x demek, x sayısının 3 katı demektir ve buradaki 3 katsayıdır. Eğer harfin önünde sayı yazmıyorsa katsayısı 1'dir. Benzer terimler ise aynı harfi taşıyan terimlerdir; örneğin 3x ile 2x benzer terimdir. 3x ile 5 ise benzer terim değildir, çünkü 5'in yanında harf yoktur. Pratik kural: Yalnızca benzer terimler birbiriyle toplanabilir; harfli terim ile yalın sayı birbirine asla katılmaz.",
   example:
     "Bir kalemin fiyatı x lira olsun. 3 kalem alırsan 3x lira tutar. 2 kalem daha alırsan 3x artı 2x olur; katsayıları toplarsak 3 artı 2'den sonuç 5x lira yapar. Yanına bir de 4 liralık silgi eklersen toplam tutar 5x artı 4 olur; bu iki ifade birbiriyle toplanıp 9x yapılamaz! x yerine 6 koyarsan: 5 çarpı 6 artı 4'ten sonuç 34 lira çıkar. 2x artı 3x artı 1 ifadesi de 5x artı 1 şeklinde sadeleşir.",
   hint: "trap",
   warning:
-    "Tuzaklara Düşme! 3x artı 4 ifadesini toplayıp 7x sanmak en sık düşülen tuzaktır. 4 sayısının yanında x harfi yoktur, bu yüzden katsayıya eklenemez. 3x artı 2x ise 5x olur çünkü ikisi de x harfi taşır. Harfi olmayan sayılar sabit terimdir ve yalnızca diğer sabit terimlerle toplanır.",
+    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Tuzaklara Düşme! 3x artı 4 ifadesini toplayıp 7x sanmak en sık düşülen tuzaktır. 4 sayısının yanında x harfi yoktur, bu yüzden katsayıya eklenemez. 3x artı 2x ise 5x olur çünkü ikisi de x harfi taşır. Harfi olmayan sayılar sabit terimdir ve yalnızca diğer sabit terimlerle toplanır.",
   life:
     "Bunu otobüs biletinde de kullanırsın. Bilet x lira ise 4 bilet 4x liradır. Üstüne 10 lira su alırsan ödeme 4x artı 10 olur. Bilet 15 liraysa 4 çarpı 15 artı 10, 70 lira eder. Suyu bilet sayısına katmazsın. Su sabit bir tutardır.",
   recap: [

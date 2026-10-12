@@ -204,7 +204,7 @@ describe("/api/v1 sözleşme mührü", () => {
   });
 
   it("yayınlanmış data alanları sessizce düşmez; hop sicili ROUTE_AUTH_MAP ve handler ile örtüşür", () => {
-    expect(RAIL_V1_HOPS).toHaveLength(17);
+    expect(RAIL_V1_HOPS).toHaveLength(20);
     expect(RAIL_V1_HOPS.map((hop) => hop.id)).toEqual([
       "health",
       "academy-certificate",
@@ -223,6 +223,9 @@ describe("/api/v1 sözleşme mührü", () => {
       "career-portfolio",
       "profile-patch",
       "junior-lesson-read",
+      "junior-lesson-play",
+      "junior-lesson-progress",
+      "junior-lesson-practice",
     ]);
     expect(RAIL_V1_PUBLISHED_FIELD_PATHS.length).toBeGreaterThan(40);
     expect(new Set(RAIL_V1_PUBLISHED_FIELD_PATHS).size).toBe(RAIL_V1_PUBLISHED_FIELD_PATHS.length);
@@ -396,7 +399,10 @@ describe("/api/v1 sözleşme mührü", () => {
     expect(failSchema.required).toEqual([...RAIL_V1_ENVELOPE_KEYS]);
 
     // PayTR B2C: freelancer path'leri OpenAPI'de yok, Marketplace tag'i yok.
-    expect(Object.keys(document.paths)).toHaveLength(15);
+    expect(Object.keys(document.paths)).toHaveLength(18);
+    expect(document.paths["/api/v1/junior/lessons/{key}/play"]).toBeDefined();
+    expect(document.paths["/api/v1/junior/lessons/{key}/progress"]).toBeDefined();
+    expect(document.paths["/api/v1/junior/lessons/{key}/practice"]).toBeDefined();
     expect(
       Object.keys(document.paths).filter(
         (path) => path.includes("/freelancer/") || path.includes("/client/"),

@@ -182,6 +182,8 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
       "wallet-top-up",
       "career-portfolio",
       "profile-patch",
+      "junior-lesson-progress",
+      "junior-lesson-practice",
     ]);
     for (const hop of RAIL_V1_HOPS) {
       if (hop.method === "GET") {

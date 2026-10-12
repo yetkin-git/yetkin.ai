@@ -1,0 +1,52 @@
+{
+  "lessonKey": "jr_06_mat-33",
+  "title": "Üçgen ve dörtgenlerin açı problemleri",
+  "tellGuides": [
+    "Üçgen ile dörtgenin açı toplamını nasıl ayırırsın?",
+    "İki açı verilince üçüncüyü hangi işlemle bulursun?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Bir üçgenin iç açıları toplamı kaç derecedir?",
+      "options": [
+        "90",
+        "180",
+        "360",
+        "100"
+      ],
+      "correctAnswerIndex": 1,
+      "hint": "Dörtgen 360, üçgen 180 kullanır.",
+      "explanation": "Adım 1: Üçgenin iç açıları 180 derece eder. Adım 2: Dörtgen 360 derece eder. Adım 3: Köşe sayısı toplamı değiştirir."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Üçgende 50 ve 60 derece varsa üçüncü açı kaçtır?",
+      "options": [
+        "70",
+        "110",
+        "90",
+        "130"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "180 eksi 110.",
+      "explanation": "Adım 1: 50 artı 60, 110 eder. Adım 2: 180 eksi 110, 70 eder. Adım 3: Üçüncü açı 70 derecedir."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Dörtgende 80, 90 ve 100 derece varken dördüncü açı neden 90 derecedir?",
+      "options": [
+        "Çünkü 360 eksi 270, 90 eder",
+        "Çünkü üçgen toplamı 180'dir",
+        "Çünkü bütün açılar eşittir",
+        "Çünkü 80 artı 90, 90 eder"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Önce üç açıyı topla. Sonra 360'tan çıkar.",
+      "explanation": "Adım 1: 80 artı 90 artı 100, 270 eder. Adım 2: Dörtgen toplamı 360 derecedir. Adım 3: 360 eksi 270, 90 eder."
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+[
+  {
+    "lessonKey": "jr_06_ing_main-21",
+    "outcomeCodes": [
+      "ENG.6.1"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  },
+  {
+    "lessonKey": "jr_06_ing_main-22",
+    "outcomeCodes": [
+      "ENG.6.2"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  },
+  {
+    "lessonKey": "jr_06_ing_main-23",
+    "outcomeCodes": [
+      "ENG.6.3"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  },
+  {
+    "lessonKey": "jr_06_ing_main-24",
+    "outcomeCodes": [
+      "ENG.6.4"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  },
+  {
+    "lessonKey": "jr_06_ing_main-25",
+    "outcomeCodes": [
+      "ENG.6.5"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  },
+  {
+    "lessonKey": "jr_06_ing_main-26",
+    "outcomeCodes": [
+      "ENG.6.6"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  },
+  {
+    "lessonKey": "jr_06_ing_main-27",
+    "outcomeCodes": [
+      "ENG.6.7"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  },
+  {
+    "lessonKey": "jr_06_ing_main-1",
+    "outcomeCodes": [
+      "ENG.6.7",
+      "ENG.6.7.G1"
+    ],
+    "band": "tymm",
+    "startWeek": 35,
+    "endWeek": 36,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_ing_main-2",
+    "outcomeCodes": [
+      "ENG.6.2",
+      "ENG.6.2.G1"
+    ],
+    "band": "tymm",
+    "startWeek": 6,
+    "endWeek": 8,
+    "hours": 8
+  },
+  {
+    "lessonKey": "jr_06_ing_main-3",
+    "outcomeCodes": [
+      "ENG.6.7",
+      "ENG.6.7.G1"
+    ],
+    "band": "tymm",
+    "startWeek": 37,
+    "endWeek": 38,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_ing_main-4",
+    "outcomeCodes": [
+      "ENG.6.2",
+      "ENG.6.2.G1"
+    ],
+    "band": "tymm",
+    "startWeek": 9,
+    "endWeek": 11,
+    "hours": 7
+  },
+  {
+    "lessonKey": "jr_06_ing_main-5",
+    "outcomeCodes": [
+      "ENG.6.4",
+      "ENG.6.4.G1"
+    ],
+    "band": "tymm",
+    "startWeek": 17,
+    "endWeek": 18,
+    "hours": 8
+  },
+  {
+    "lessonKey": "jr_06_ing_main-6",
+    "outcomeCodes": [
+      "ENG.6.5",
+      "ENG.6.5.G1"
+    ],
+    "band": "tymm",
+    "startWeek": 25,
+    "endWeek": 28,
+    "hours": 7
+  },
+  {
+    "lessonKey": "jr_06_ing_main-7",
+    "outcomeCodes": [
+      "ENG.6.3",
+      "ENG.6.3.G1"
+    ],
+    "band": "tymm",
+    "startWeek": 12,
+    "endWeek": 14,
+    "hours": 8
+  },
+  {
+    "lessonKey": "jr_06_ing_main-8",
+    "outcomeCodes": [
+      "ENG.6.7",
+      "ENG.6.7.G1"
+    ],
+    "band": "tymm",
+    "startWeek": 40,
+    "endWeek": 40,
+    "hours": 4
+  },
+  {
+    "lessonKey": "jr_06_ing_main-9",
+    "outcomeCodes": [
+      "ENG.6.5",
+      "ENG.6.5.G1"
+    ],
+    "band": "tymm",
+    "startWeek": 29,
+    "endWeek": 31,
+    "hours": 7
+  },
+  {
+    "lessonKey": "jr_06_ing_main-10",
+    "outcomeCodes": [
+      "ENG.6.6",
+      "ENG.6.6.G1"
+    ],
+    "band": "tymm",
+    "startWeek": 32,
+    "endWeek": 33,
+    "hours": 7
+  },
+  {
+    "lessonKey": "jr_06_ing_main-11",
+    "outcomeCodes": [
+      "ENG.6.6",
+      "ENG.6.6.G1"
+    ],
+    "band": "tymm",
+    "startWeek": 34,
+    "endWeek": 34,
+    "hours": 7
+  },
+  {
+    "lessonKey": "jr_06_ing_main-16",
+    "outcomeCodes": [
+      "ENG.6.4",
+      "ENG.6.4.G1"
+    ],
+    "band": "tymm",
+    "startWeek": 22,
+    "endWeek": 24,
+    "hours": 7
+  },
+  {
+    "lessonKey": "jr_06_ing_main-17",
+    "outcomeCodes": [
+      "ENG.6.3",
+      "ENG.6.3.G1"
+    ],
+    "band": "tymm",
+    "startWeek": 15,
+    "endWeek": 16,
+    "hours": 7
+  },
+  {
+    "lessonKey": "jr_06_ing_main-20",
+    "outcomeCodes": [
+      "ENG.6.1",
+      "ENG.6.1.G1"
+    ],
+    "band": "tymm",
+    "startWeek": 1,
+    "endWeek": 5,
+    "hours": 15
+  }
+]

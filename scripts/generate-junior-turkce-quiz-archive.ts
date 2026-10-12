@@ -1,9 +1,7 @@
 /**
- * Bir kerelik üretim: lib/junior/quiz/turkce/{1..20}.ts
- * Çalıştır: npx tsx scripts/generate-junior-turkce-quiz-archive.ts
+ * Pasif arşiv. Canlı quiz adaptörünü ve kadro dışı numarayı yazamaz.
  */
-import { mkdirSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { writeJuniorQuizArchive } from "./junior-quiz-archive-write";
 
 type Q = {
   id: string;
@@ -1088,70 +1086,13 @@ const PACKS: Pack[] = [
   },
 ];
 
-function renderPack(pack: Pack): string {
-  const guides = pack.tellGuides.map((g) => `    ${JSON.stringify(g)},`).join("\n");
-  const questions = pack.questions
-    .map((q) => {
-      const opts = q.options.map((o) => `      ${JSON.stringify(o)},`).join("\n");
-      return `    {
-      id: ${JSON.stringify(q.id)},
-      level: ${JSON.stringify(q.level)},
-      question: ${JSON.stringify(q.question)},
-      options: [
-${opts}
-      ],
-      correctAnswerIndex: ${q.correctAnswerIndex},
-      hint: ${JSON.stringify(q.hint)},
-      explanation: ${JSON.stringify(q.explanation)},
-    },`;
-    })
-    .join("\n");
 
-  return `import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
-
-/** 6. Sınıf Türkçe — konu sonu soru arşivi (${pack.n}/20). */
-export const JUNIOR_TURKCE_QUIZ_${pack.n} = {
-  lessonKey: "jr_06_turkce-${pack.n}",
-  title: ${JSON.stringify(pack.title)},
-  tellGuides: [
-${guides}
-  ],
-  questions: [
-${questions}
-  ],
-} as const satisfies JuniorLessonQuizPack;
-`;
-}
-
-const outDir = join(process.cwd(), "lib", "junior", "quiz", "turkce");
-mkdirSync(outDir, { recursive: true });
-
-for (const pack of PACKS) {
-  const file = join(outDir, `${pack.n}.ts`);
-  writeFileSync(file, renderPack(pack), "utf8");
-  console.log("wrote", file);
-}
-
-const imports = Array.from({ length: 20 }, (_, i) => {
-  const n = i + 1;
-  return `import { JUNIOR_TURKCE_QUIZ_${n} } from "@/lib/junior/quiz/turkce/${n}";`;
-}).join("\n");
-
-const packList = Array.from({ length: 20 }, (_, i) => `  JUNIOR_TURKCE_QUIZ_${i + 1},`).join("\n");
-const exportList = Array.from({ length: 20 }, (_, i) => `  JUNIOR_TURKCE_QUIZ_${i + 1},`).join("\n");
-
-const index = `${imports}
-import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
-
-/** 6. sınıf Türkçe konu sonu arşivi. Katalog sırası. */
-export const JUNIOR_TURKCE_QUIZ_PACKS = [
-${packList}
-] as const satisfies readonly JuniorLessonQuizPack[];
-
-export {
-${exportList}
-};
-`;
-
-writeFileSync(join(outDir, "index.ts"), index, "utf8");
-console.log("wrote index.ts", PACKS.length, "packs,", PACKS.length * 3, "questions");
+writeJuniorQuizArchive({
+  folder: "turkce",
+  lessonKeyPrefix: "jr_06_turkce",
+  constPrefix: "JUNIOR_TURKCE_QUIZ",
+  subjectPackComment: (packNumber, total) =>
+    `6. Sınıf Türkçe — konu sonu soru arşivi (${packNumber}/${total}).`,
+  indexComment: "6. sınıf Türkçe konu sonu arşivi. Katalog sırası.",
+  packs: PACKS,
+});

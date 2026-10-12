@@ -1,38 +1,102 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { playJuniorHintEffect, primeJuniorHintAudio } from "@/lib/junior/hint-effect";
-import { JUNIOR_QUIZ_PATH } from "@/lib/junior/limits";
+import { burstJuniorActivityConfetti } from "@/lib/junior/activity-confetti";
+import { playJuniorActivityMiss, playJuniorHintEffect, primeJuniorHintAudio } from "@/lib/junior/hint-effect";
+import { juniorNextLesson } from "@/lib/junior/lesson-nav";
+import { JUNIOR_QUIZ_CONTROL_LABEL, JUNIOR_QUIZ_PATH } from "@/lib/junior/limits";
 import type { JuniorPracticeChoice } from "@/lib/junior/types";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
-type Note = { id: string; ok: boolean; explanation: string };
+type Note = { id: string; ok: boolean; explanation: string; answer?: string };
+
+type Report = {
+  correct: number;
+  total: number;
+  percent: number;
+  notes: Note[];
+};
+
+const QUIZ_LEVELS = [
+  { id: "concept", title: "Kavram Testi" },
+  { id: "apply", title: "Uygulama Testi" },
+  { id: "skill", title: "Beceri / Yeni Nesil Testi" },
+] as const;
+
+const OPTION_FACE = [
+  "border-sky-300 bg-sky-100 text-sky-950",
+  "border-amber-300 bg-amber-100 text-amber-950",
+  "border-fuchsia-300 bg-fuchsia-100 text-fuchsia-950",
+  "border-emerald-300 bg-emerald-100 text-emerald-950",
+] as const;
+
+const FINISH_BUTTON =
+  "inline-flex cursor-pointer items-center justify-center bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg h-12 px-8 rounded-xl font-bold transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-100";
+
+function quizGroups(items: JuniorPracticeChoice[]): { title: string | null; items: JuniorPracticeChoice[] }[] {
+  if (!items.some((item) => item.level)) {
+    return [{ title: null, items }];
+  }
+  return QUIZ_LEVELS.map((level) => ({
+    title: level.title,
+    items: items.filter((item) => item.level === level.id),
+  })).filter((group) => group.items.length > 0);
+}
+
+function optionLetter(index: number): string {
+  return String.fromCharCode(65 + index);
+}
+
+function optionClass(index: number, selected: boolean): string {
+  const face = OPTION_FACE[index % OPTION_FACE.length];
+  const picked = selected ? "scale-[1.02] ring-2 ring-violet-500 shadow-md" : "shadow-sm hover:-translate-y-0.5";
+  return `flex w-full items-center gap-3 rounded-2xl border-2 px-4 py-3 text-left text-base font-semibold transition ${face} ${picked}`;
+}
 
 export function TopicQuiz({
   profileId,
   lessonKey,
   items,
   onCompleted,
+  submitLocked = null,
 }: {
   profileId: string;
   lessonKey: string;
   items: JuniorPracticeChoice[];
   onCompleted?: () => void;
+  /** Puan kapısı. Sorular görünür kalır; gönderim bu cümle varken kapalıdır. */
+  submitLocked?: string | null;
 }) {
   const router = useRouter();
   const [choices, setChoices] = useState<Record<string, number>>({});
-  const [notes, setNotes] = useState<Note[]>([]);
-  const [summary, setSummary] = useState("");
+  const [report, setReport] = useState<Report | null>(null);
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
-  const [done, setDone] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const nextLesson = juniorNextLesson(lessonKey);
+  const blocked = pending || Boolean(submitLocked) || !profileId;
+
+  useEffect(() => {
+    if (!report) {
+      return;
+    }
+    dialogRef.current?.focus();
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setReport(null);
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [report]);
 
   async function onSubmit() {
     primeJuniorHintAudio();
     setPending(true);
     setError("");
+    setReport(null);
     try {
       const answers = items.map((item) => {
         const choiceIndex = choices[item.id];
@@ -49,72 +113,232 @@ export function TopicQuiz({
       const body = (await response.json().catch(() => null)) as {
         ok?: boolean;
         error?: string | null;
-        data?: { correct?: number; total?: number; notes?: Note[]; completed?: boolean; advice?: string };
+        data?: { correct?: number; total?: number; score?: number; notes?: Note[]; completed?: boolean };
       } | null;
       if (!response.ok || !body?.data) {
         setError(body?.error || "Cevaplar puanlanamadı.");
         return;
       }
-      setNotes(body.data.notes ?? []);
-      if (body.data.completed) {
-        setDone(true);
-        setSummary(`${body.data.correct ?? 0} / ${body.data.total ?? 0} doğru. Bu ders tamamlandı.`);
+      const correct = body.data.correct ?? 0;
+      const total = body.data.total ?? items.length;
+      const percent = typeof body.data.score === "number" ? body.data.score : total > 0 ? Math.round((correct / total) * 100) : 0;
+      const notes = body.data.notes ?? [];
+      setReport({ correct, total, percent, notes });
+      if (percent >= 50) {
+        burstJuniorActivityConfetti();
         playJuniorHintEffect("grasped");
+      } else {
+        playJuniorActivityMiss();
+      }
+      if (body.data.completed) {
         onCompleted?.();
         router.refresh();
-        return;
       }
-      playJuniorHintEffect("box-open");
-      setSummary(
-        `${body.data.correct ?? 0} / ${body.data.total ?? 0} doğru. ${body.data.advice ?? "Altın İpucu! Eksik cümleyi bir kez daha oku."}`,
-      );
     } finally {
       setPending(false);
     }
   }
 
+  function retry() {
+    setChoices({});
+    setReport(null);
+    setError("");
+  }
+
+  const groups = quizGroups(items);
+  const numberById = new Map(
+    groups.flatMap((group) => group.items).map((item, index) => [item.id, index + 1] as const),
+  );
+  const noteById = new Map((report?.notes ?? []).map((note) => [note.id, note]));
+
   return (
-    <section className="rounded-[1.6rem] border border-[var(--border)] bg-white p-4">
-      <h2 className="text-lg font-semibold">Konu Testi</h2>
+    <section className="rounded-[1.6rem] border border-fuchsia-200 bg-gradient-to-b from-fuchsia-50 via-white to-sky-50 p-4 shadow-sm">
+      <h3 className="text-lg font-semibold">{JUNIOR_QUIZ_CONTROL_LABEL}</h3>
       <p className="mt-1 text-sm text-[var(--muted)]">
-        {items.length} soru var. Doğrular birikince ders tamamlanır. Puan sunucuda hesaplanır.
+        Kavram, uygulama ve beceri testleri ayrı durur. Doğrular birikince ders tamamlanır. Puan sunucuda hesaplanır.
       </p>
-      <div className="mt-4 grid gap-4">
-        {items.map((item, questionIndex) => (
-          <fieldset key={item.id} className="grid gap-2">
-            <legend className="text-sm font-semibold">
-              {questionIndex + 1}. {item.prompt}
-            </legend>
-            {item.choices.map((choice, index) => (
-              <label key={choice} className="flex items-center gap-2 text-sm">
-                <input
-                  type="radio"
-                  name={item.id}
-                  checked={choices[item.id] === index}
-                  onChange={() => setChoices((current) => ({ ...current, [item.id]: index }))}
-                />
-                {choice}
-              </label>
-            ))}
-          </fieldset>
+      <div className="mt-4 grid gap-5">
+        {groups.map((group) => (
+          <div key={group.title ?? "bank"} className="grid gap-4">
+            {group.title ? <h4 className="text-sm font-semibold text-[var(--safir-deep)]">{group.title}</h4> : null}
+            {group.items.map((item) => {
+              const number = numberById.get(item.id) ?? 0;
+              const picked = choices[item.id];
+              return (
+                <article
+                  key={item.id}
+                  data-junior-quiz-card=""
+                  className="rounded-2xl border-2 border-violet-200 bg-white p-4 shadow-sm"
+                >
+                  <p id={`junior-quiz-${item.id}`} className="text-base font-extrabold leading-6 text-slate-900">
+                    <span className="mr-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-violet-500 text-sm text-white">
+                      {number}
+                    </span>
+                    {item.prompt}
+                  </p>
+                  <div role="radiogroup" aria-labelledby={`junior-quiz-${item.id}`} className="mt-3 grid gap-2">
+                    {item.choices.map((choice, index) => {
+                      const selected = picked === index;
+                      return (
+                        <button
+                          key={`${item.id}-${index}`}
+                          type="button"
+                          role="radio"
+                          aria-checked={selected}
+                          data-junior-quiz-choice=""
+                          className={optionClass(index, selected)}
+                          onClick={() => setChoices((current) => ({ ...current, [item.id]: index }))}
+                        >
+                          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/80 text-sm font-extrabold">
+                            {optionLetter(index)}
+                          </span>
+                          {choice}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
         ))}
       </div>
-      <Button type="button" className="mt-4" onClick={() => void onSubmit()} disabled={pending}>
-        Testi bitir
-      </Button>
-      {done ? <p className="mt-3 text-sm font-semibold">Tamamlandı</p> : null}
-      {summary ? <p className="mt-3 text-sm font-medium">{summary}</p> : null}
-      {notes.length > 0 ? (
-        <ul className="mt-2 grid gap-2">
-          {notes.map((note) => (
-            <li key={note.id} className="text-sm">
-              {note.ok ? "Doğru. " : "Tuzaklara Düşme! "}
-              {note.explanation}
-            </li>
-          ))}
-        </ul>
+      {submitLocked ? <p className="mt-4 text-sm text-[var(--muted)]">{submitLocked}</p> : null}
+      <div className="mt-5 flex justify-center">
+        <button
+          type="button"
+          data-junior-quiz-finish=""
+          className={FINISH_BUTTON}
+          onClick={() => void onSubmit()}
+          disabled={blocked}
+        >
+          {pending ? "Puanlanıyor…" : "Testi bitir"}
+        </button>
+      </div>
+      {error ? <p className="mt-3 text-center text-sm font-semibold text-[var(--rose)]">{error}</p> : null}
+      {report ? (
+        <QuizReport
+          dialogRef={dialogRef}
+          report={report}
+          items={items}
+          choices={choices}
+          noteById={noteById}
+          nextLesson={nextLesson}
+          onRetry={retry}
+        />
       ) : null}
-      {error ? <p className="mt-3 text-sm text-[var(--rose)]">{error}</p> : null}
     </section>
+  );
+}
+
+function QuizReport({
+  dialogRef,
+  report,
+  items,
+  choices,
+  noteById,
+  nextLesson,
+  onRetry,
+}: {
+  dialogRef: RefObject<HTMLDivElement | null>;
+  report: Report;
+  items: JuniorPracticeChoice[];
+  choices: Record<string, number>;
+  noteById: Map<string, Note>;
+  nextLesson: { key: string; title: string } | null;
+  onRetry: () => void;
+}) {
+  const wrong = Math.max(report.total - report.correct, 0);
+  const cheer = report.percent >= 50;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-violet-950/40 p-4">
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="junior-quiz-report-title"
+        tabIndex={-1}
+        data-junior-quiz-report=""
+        className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-[2rem] border-4 border-amber-200 bg-gradient-to-b from-amber-50 via-white to-rose-50 px-5 py-6 shadow-2xl outline-none"
+      >
+        <p className="text-center text-4xl" aria-hidden="true">
+          {cheer ? "🏆" : "📘"}
+        </p>
+        <h2 id="junior-quiz-report-title" className="mt-2 text-center text-2xl font-extrabold text-fuchsia-700">
+          Test Sonuç Karnesi
+        </h2>
+        <p className="mt-3 text-center text-lg font-extrabold text-slate-900" data-junior-quiz-score="">
+          {report.correct} / {report.total} Doğru - %{report.percent} Başarı
+        </p>
+        <p className="mt-1 text-center text-sm font-semibold text-slate-600">
+          {report.correct} doğru, {wrong} yanlış
+          {cheer ? " 🎉" : ""}
+        </p>
+        <h3 className="mt-5 text-sm font-extrabold tracking-wide text-slate-800">Soru Analizi</h3>
+        <ol className="mt-2 grid gap-3">
+          {items.map((item, index) => {
+            const note = noteById.get(item.id);
+            const picked = choices[item.id];
+            return (
+              <li key={item.id} className="rounded-2xl border border-white/80 bg-white/80 p-3">
+                <p className="text-sm font-extrabold text-slate-900">
+                  <span className={note?.ok ? "text-emerald-700" : "text-rose-700"}>
+                    {note?.ok ? "✓ Doğru" : "✗ Yanlış"}
+                  </span>
+                  <span className="mx-1 text-slate-400">{index + 1}.</span>
+                  {item.prompt}
+                </p>
+                <ul className="mt-2 grid gap-2">
+                  {item.choices.map((choice, choiceIndex) => {
+                    const isPick = picked === choiceIndex;
+                    const showRight = Boolean(note && !note.ok && note.answer === choice);
+                    const face = showRight
+                      ? "border-emerald-500 bg-emerald-100 text-emerald-950 ring-2 ring-emerald-400"
+                      : isPick && note && !note.ok
+                        ? "border-rose-400 bg-rose-50 text-rose-950"
+                        : isPick && note?.ok
+                          ? "border-emerald-500 bg-emerald-50 text-emerald-950"
+                          : "border-slate-200 bg-white text-slate-700";
+                    return (
+                      <li
+                        key={`${item.id}-${choiceIndex}`}
+                        data-junior-quiz-right={showRight ? "" : undefined}
+                        className={`flex items-center gap-2 rounded-2xl border-2 px-3 py-2 text-sm font-semibold ${face}`}
+                      >
+                        <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-xs font-extrabold">
+                          {optionLetter(choiceIndex)}
+                        </span>
+                        <span className="flex-1">{choice}</span>
+                        {showRight ? <span className="text-xs font-extrabold text-emerald-700">Doğru seçenek</span> : null}
+                      </li>
+                    );
+                  })}
+                </ul>
+                {note?.explanation ? <p className="mt-2 text-sm leading-6 text-slate-700">{note.explanation}</p> : null}
+              </li>
+            );
+          })}
+        </ol>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <button
+            type="button"
+            data-junior-quiz-retry=""
+            className="inline-flex h-12 items-center justify-center rounded-xl bg-white px-6 font-bold text-rose-600 shadow ring-2 ring-rose-200"
+            onClick={onRetry}
+          >
+            Yeniden Çöz
+          </button>
+          {nextLesson ? (
+            <Link
+              href={`/junior/ders/${nextLesson.key}`}
+              data-junior-quiz-next=""
+              className="inline-flex h-12 items-center justify-center rounded-xl bg-gradient-to-r from-sky-500 to-indigo-500 px-6 font-bold text-white shadow-lg"
+            >
+              Sonraki Konu
+            </Link>
+          ) : null}
+        </div>
+      </div>
+    </div>
   );
 }

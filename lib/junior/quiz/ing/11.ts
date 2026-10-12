@@ -1,55 +1,54 @@
 import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
 
-/** 6. Sınıf İngilizce — konu sonu soru arşivi (11/20). */
+/** 6. Sınıf İngilizce — World and Culture, kutlama ve yemek. */
 export const JUNIOR_ING_QUIZ_11 = {
   lessonKey: "jr_06_ing_main-11",
-  title: "Doctor, architect ve vet",
+  title: "World and Culture: kutlama ve yemek",
   tellGuides: [
-    "Name three jobs and say what each person does.",
-    "Explain when we use a and when we use an before a job.",
+    "Kendi bayram yemeğini we eat ile anlat.",
+    "Başka bir kültür için they celebrate cümlesi kur.",
   ],
   questions: [
     {
       id: "q1",
       level: "concept",
-      question: "«a» ve «an» neye göre seçilir?",
-      options: [
-        "Sonraki sözcüğün ilk sesine göre",
-        "Yalnızca mesleğin zorluğuna göre",
-        "Yalnızca hava durumuna göre",
-        "Hiçbir kurala göre değil",
-      ],
+      question: "Başka bir grubun yemeği hangi özneyle söylenir?",
+      options: ["they", "we", "am", "is"],
       correctAnswerIndex: 0,
-      hint: "Ünlü sesle başlayanlarda an.",
-      explanation: "Adım 1: A/an belirsiz artikellerdir. Adım 2: İlk ses ünlüyse an, değilse a gelir. Adım 3: An architect, a doctor böyledir.",
+      hint: "They karşı grubu anlatır.",
+      explanation:
+        "Adım 1: We kendi grubumuzu söyler. Adım 2: They başka grubu söyler. Adım 3: They eat rice doğru öznedir.",
     },
     {
       id: "q2",
       level: "apply",
-      question: "Hangisi doğru meslektir?",
+      question: "«Türkiye'de ailemizle kutlarız.» cümlesi hangisidir?",
       options: [
-        "She is a vet. She helps animals",
-        "She is an vet. She builds houses",
-        "She is a architect. She cooks food",
-        "She is doctor. She flies planes",
+        "In Turkey we celebrate with our family",
+        "In Turkey they am celebrate family",
+        "In Turkey we celebrates with our family",
+        "In Turkey from celebrate we",
       ],
       correctAnswerIndex: 0,
-      hint: "Vet hayvanlara yardım eder; a vet doğrudur.",
-      explanation: "Adım 1: Vet ünsüzle başlar → a vet. Adım 2: İş hayvanlara yardımdır. Adım 3: Diğer şıklarda hem artikel hem iş yanlışır.",
+      hint: "We celebrate yalın fiil ister.",
+      explanation:
+        "Adım 1: Kendi grubumuz we ile kurulur. Adım 2: Celebrate yalın kalır. Adım 3: In Turkey we celebrate with our family doğrudur.",
     },
     {
       id: "q3",
       level: "skill",
-      question: "Kartlar: doctor → helps sick people · architect → designs buildings · vet → helps animals. Hangisi doğrudur?",
+      question:
+        "Sofra tablosunda birinci satır «In Turkey we eat baklava», ikinci satır «In Japan they eat rice dishes» diyor. İkinci satır neden they kullanır?",
       options: [
-        "Architect binaları tasarlar",
-        "Doctor hayvanları tedavi eder",
-        "Vet binaları tasarlar",
-        "Üç meslek de aynı işi yapar",
+        "Çünkü Japonya'daki grup konuşanın kendi grubu değildir",
+        "Çünkü baklava Japon yemeğidir",
+        "Çünkü they tek bir kişiyi anlatır",
+        "Çünkü we yalnız ülke adı ister",
       ],
       correctAnswerIndex: 0,
-      hint: "Designs buildings satırına bak.",
-      explanation: "Adım 1: Architect = designs buildings. Adım 2: Doctor insanlara, vet hayvanlara bakar. Adım 3: Doğru eşleşme mimardır.",
+      hint: "They gözlenen diğer gruptur.",
+      explanation:
+        "Adım 1: Birinci satır konuşanın kendi sofrasıdır. Adım 2: İkinci satır başka bir ülkedir. Adım 3: O grup they ile anlatılır.",
     },
   ],
 } as const satisfies JuniorLessonQuizPack;

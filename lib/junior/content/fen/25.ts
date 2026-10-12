@@ -1,0 +1,37 @@
+import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
+
+/** 6. Sınıf Fen Bilimleri. İnsan üreme organları. FB.6.3.4. Yaş düzeyinde organ adı. */
+export const JUNIOR_FEN_25_SCENARIO: JuniorLessonScenario = {
+  key: "jr_06_fen-25",
+  title: "İnsan üreme organları",
+  teaser:
+    "İnsan üreme organları, yumurta hücresi ve sperm hücresini üretir. Yumurtalık ve rahim dişi sistemde, testis erkek sistemde yer alır. Kavramsal Anlayış, organın görevini adıyla eşler. İfade Gücü, bir çizim üzerinde organı göstermendir.",
+  welcome:
+    "Merhaba sevgili çocuklar! Vücudumuzun sistemleri gibi üreme sistemi de bir görevi olan organlardan kuruludur. Bu ders organların adını ve görevini bilimsel bir dille anlatır. Çizim bir modeldir; utanç konusu değildir. Bugün dişi ve erkek üreme organlarını görevleriyle eşleyeceğiz. Şemayı gözlemlemek, adı doğru yere koymanı sağlar.",
+  concept:
+    "Dişi üreme sisteminde yumurtalık, yumurta hücresini üretir. Rahim, döllenmiş yumurtanın gelişebileceği organdır. Erkek üreme sisteminde testis, sperm hücresini üretir. Yeni bir insanın başlaması, yumurta hücresi ile sperm hücresinin birleşmesi olan döllenme ile anlatılır. Bu organlar ergenlikte olgunlaşır. Üreme organı, sindirim ya da solunum organının yerine geçmez. Pratik kural: Yumurtalık yumurta hücresi, testis sperm hücresi üretir; rahim gelişimin gerçekleşebileceği yerdir.",
+  example:
+    "Sınıf çiziminde 1 numara yumurtalığı, 2 numara rahmi gösterir. Yumurtalığın görevi yumurta hücresi üretmektir. Rahmin görevi, birleşmiş hücrenin gelişebileceği ortamı taşımaktır. Erkek şemada 3 numara testisi gösterir; görevi sperm hücresi üretmektir. İki hücrenin birleşmesi döllenme diye adlandırılır. Bu model organın yerini anlatır, başka bir sistemin işini ona yüklemez.",
+  hint: "gold",
+  warning:
+    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Yumurtalık ile rahmin görevini bir saymak tuzaktır. Testisin yumurta hücresi ürettiğini sanmak da yanlıştır. Üreme organlarını sindirim organı gibi düşünmek görevleri karıştırır. İnsan üreme organları konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+  life:
+    "Bunu sağlık dersindeki vücut şemasına bakarak kullanırsın. Evde ansiklopedideki sakin bir çizimi ailenle inceleyebilirsin. Merak ettiğin bir adı güvenilen bir yetişkine sormak bilimsel yoldur. Okul hemşiresi ya da öğretmen de bu organ adlarını doğru çerçevede anlatır.",
+  recap: [
+    "Yumurtalık yumurta hücresi, testis sperm hücresi üretir.",
+    "Rahim, gelişimin gerçekleşebileceği organdır.",
+    "Döllenme, yumurta hücresi ile sperm hücresinin birleşmesidir.",
+  ],
+  conceptSeal: "Üreme organı, ürettiği hücreyle adlandırılır.",
+  voiceSeal: "Çizimde yumurtalık, rahim ve testisin görevini ayrı söylersin.",
+  outcomes: [
+    "Yumurtalık yumurta hücresi üretir.",
+    "Testis sperm hücresi üretir.",
+    "Rahim gelişim organıdır.",
+  ],
+  scene: "body",
+  parentNote:
+    "Çocuğunuz yumurtalık, rahim ve testis adlarını görevleriyle eşler. Anlatım şema düzeyindedir ve bilimsel dildedir. Merakı güvenilen bir yetişkinle karşılamak yeter.",
+};
+
+export const JUNIOR_FEN_25 = juniorLessonFromScenario(JUNIOR_FEN_25_SCENARIO);

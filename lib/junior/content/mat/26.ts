@@ -1,0 +1,33 @@
+import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
+
+/** 6. Sınıf Matematik. Kesir ile bölme, sonlu ve devirli ondalık. */
+export const JUNIOR_MAT_26_SCENARIO: JuniorLessonScenario = {
+  key: "jr_06_mat-26",
+  title: "Kesir ile bölme, sonlu ve devirli ondalık",
+  teaser: "Kesri ondalığa çevirmek, payı paydaya bölmektir. Kavramsal Anlayış, kalan 0 olunca sonlu, aynı kalan dönünce devirli demektir. İfade Gücü, 1/2 ile 1/3 için hangi ondalığın bittiğini ayırmaktır.",
+  welcome: "Merhaba sevgili çocuklar! Bugün bir kesri bölüp ondalık yazacağız. Okul kantininde yarım dilim 0,5 diye durur. Pay paydaya bölününce sayı ya biter ya da bir rakam halkası yeniden başlar.",
+  concept: "Kesrin ondalık karşılığı, payın paydaya bölünmesidir. Bölüm bir yerde kalansız biterse ondalık sonludur. Kalan hiç sıfırlanmaz ve aynı halka dönerse ondalık devirlidir. Cetvelle ölçtüğün bir bölü iki metre 0,5 metredir. Bir bölü üç metre ise 0,333 diye uzar ve 3 devreder.",
+  example: "1 bölü 2 işleminde 10'un içine 2 tam 5 kez girer ve kalan 0 olur. Sonuç 0,5'tir. 1 bölü 4 ise 0,25 eder; iki basamakta biter. 1 bölü 3'te kalan 0 olmaz. 0'dan sonra 3 rakamı tekrar eder. Bunu 0,3'ün üzerine bir çizgiyle gösteririz.",
+  hint: "trap",
+  warning: "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Birkaç basamak yazıp kesmek, devirli kesrin kendisi değildir. 0,33 sayısı bir bölü üçten biraz küçüktür. Sonlu ondalıkta kalan 0'dır. Devirli ondalıkta aynı kalan döner.",
+  life: "Bunu okul bahçesindeki sulama işinde de görürsün. Kutuyu iki eşit paya bölersen her pay 0,5 olur ve su biter. Aynı kutuyu üç eşit paya bölersen her payda 3 rakamı devreder.",
+  recap: [
+    "Kesir, payın paydaya bölünmesiyle ondalık olur.",
+    "Kalan 0 ise ondalık sonludur.",
+    "Aynı kalan dönerse ondalık devirlidir.",
+  ],
+  conceptSeal: "Sonlu ondalık biter. Devirli ondalık bir rakam halkasını sürdürür.",
+  voiceSeal: "Bir bölü iki için 0,5 dersin. Bir bölü üç için devreden 3 dersin.",
+  outcomes: [
+    "Pay paydaya bölününce ondalık çıkar.",
+    "Kalan 0 olan ondalık sonludur.",
+    "Aynı kalanı süren ondalık devirlidir.",
+    "Kesir ile bölme, sonlu ve devirli ondalık kuralı bu derste yeni bir istisna açmaz.",
+    "26 numaralı örnek, ikinci bir kurala dönüşmez.",
+    "Okul defterindeki adım, bahçedeki ölçümle aynı kuralı taşır.",
+  ],
+  scene: "decimal",
+  parentNote: "Çocuğunuz 1/2 için 0,5 ve 1/4 için 0,25 der. 1/3 için devreden 3 der. 0,33 ile 1/3'ü aynı saymayın.",
+};
+
+export const JUNIOR_MAT_26 = juniorLessonFromScenario(JUNIOR_MAT_26_SCENARIO);

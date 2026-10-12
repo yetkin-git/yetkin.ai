@@ -18,6 +18,8 @@ const practiceSchema = z
             id: z.string().trim().min(1).max(40),
             choiceIndex: z.number().int().min(0).max(8).optional(),
             matches: z.record(z.string().max(40), z.string().max(40)).optional(),
+            cloze: z.string().trim().max(40).optional(),
+            order: z.array(z.string().trim().min(1).max(40)).max(8).optional(),
           })
           .strict(),
       )

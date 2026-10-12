@@ -1,5 +1,6 @@
 -- Junior yıllık lisans tohumu. Satış fiyatının evi PriceCatalogEntry olur.
 -- Super Admin PATCH tutarı (updated_by dolu) yeniden tohumla ezilmez.
+-- Operatörün kapattığı satır (is_active = false) yeniden tohumla açılmaz (T-11).
 -- Yeni tablo yok. junior_subscriptions CHECK bu dosyada kalkmaz.
 
 INSERT INTO public.price_catalog_entries (
@@ -40,7 +41,8 @@ SET
   END,
   updated_by = price_catalog_entries.updated_by,
   currency_code = EXCLUDED.currency_code,
-  is_active = true,
+  -- Operatör kapattıysa (is_active = false) yeniden tohum fiyatı yeniden etkinleştirmez (T-11).
+  is_active = price_catalog_entries.is_active,
   min_minor = EXCLUDED.min_minor,
   max_minor = EXCLUDED.max_minor,
   description = EXCLUDED.description,

@@ -88,6 +88,9 @@ describe("üst şerit geçmiş okları", () => {
     expect(header.indexOf("<HeaderBreadcrumb")).toBeGreaterThan(-1);
     expect(header.indexOf("<NavHistoryControls")).toBeGreaterThan(header.indexOf("<HeaderBreadcrumb"));
     expect(header.indexOf("<NavHistoryControls")).toBeLessThan(header.indexOf("{userCluster}"));
+    expect(header).toContain("juniorLessonKeyFromPath");
+    expect(header).toContain("<JuniorLessonHeaderNav");
+    expect(header).toContain("lessonKey ? <JuniorLessonHeaderNav lessonKey={lessonKey} /> : <NavHistoryControls />");
     expect(header).toContain("data-shell-header-actions");
     expect(header).toContain("isAcademyPlayPath");
     expect(header).toContain('data-academy-play-chrome={playPath ? "true" : undefined}');

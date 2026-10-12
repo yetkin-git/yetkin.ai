@@ -121,10 +121,10 @@ describe("dinamik ekmek kırıntısı", () => {
       "/junior",
       "/junior/ders/jr_06_sosyal-1",
     ]);
-    expect(labels("/junior/ders/jr_06_mat-2")).toEqual([
+    expect(labels("/junior/ders/jr_06_mat-6")).toEqual([
       "Anasayfa",
       "6. Sınıf Matematik",
-      "İşlem önceliği",
+      "Asal sayılar ve asal çarpanlar",
     ]);
     expect(labels("/junior/ders/jr_06_mat-11")).toEqual([
       "Anasayfa",

@@ -1,0 +1,33 @@
+import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
+
+/** 6. Sınıf Matematik. Gözleme dayalı olasılık. */
+export const JUNIOR_MAT_38_SCENARIO: JuniorLessonScenario = {
+  key: "jr_06_mat-38",
+  title: "Gözleme dayalı olasılık",
+  teaser: "Gözleme dayalı olasılık, denemede görülen sıklıktır. Kavramsal Anlayış, istenen sonucu deneme sayısına bölmektir. İfade Gücü, 20 atışta 5 kez gelen sonucu 5/20 diye yazmaktır.",
+  welcome: "Merhaba sevgili çocuklar! Bugün olasılığı tahminle değil gözlemle kuracağız. Okul bahçesinde 20 kez atılan bir pul, her seferinde aynı yüzü getirmek zorunda değildir. Saydığımız sonuç, gördüğümüz sıklıktır.",
+  concept: "Gözleme dayalı olasılık, deneyde sayılan sonucun deneme sayısına bölümüdür. İstenen sonuç pay, bütün denemeler paydadır. 20 atışta 5 kez tura geldiyse gözlem oranı yirmide beş eder. Bu, sıklığı sadeleştirince dörtte bir olur. Cetvelle değil, çeteleyle ölçülür. Az deneme, oranı oynatır.",
+  example: "Bir kutudan 20 kez çekiliş yapalım. Kırmızı 5 kez gelsin. Gözlem oranı yirmide beştir. 5 ve 20'yi 5'e bölersek dörtte bir elde ederiz. Mavi 15 kez geldiyse mavi oranı yirmide on beş eder. 15 artı 5, 20 eder. İki oran denemelerin tamamını paylaşır.",
+  hint: "gold",
+  warning: "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. 5 kez gelmek, olasılığın 5 olması demek değildir. Payda deneme sayısıdır. yirmide beş ile 5 aynı şey değildir. Az atışta oran bir sonraki avuçta değişebilir. Gözlem, kesin gelecek diye söz vermez.",
+  life: "Bunu okul bahçesindeki taş-kâğıt oyununda görürsün. Yirmi elde beş kez aynı işareti saydıysan oran yirmide beştir. Kutuyu bir kez daha sallamak yeni bir gözlemdir, eski oranı silmez ama yeni çetele ekler.",
+  recap: [
+    "Gözlem olasılığı, sıklığın denemeye bölümüdür.",
+    "Pay istenen sonuç, payda bütün denemedir.",
+    "Az deneme oranı oynatır ve kesinlik vermez.",
+  ],
+  conceptSeal: "Gözleme dayalı olasılık, sayılan sonucun deneme sayısına oranıdır.",
+  voiceSeal: "20 atışta 5 tura için yirmide beş dersin.",
+  outcomes: [
+    "Olasılık gözlemde sıklıktır.",
+    "Payda deneme sayısıdır.",
+    "Az deneme kesin sonuç değildir.",
+    "Gözleme dayalı olasılık kuralı bu derste yeni bir istisna açmaz.",
+    "38 numaralı örnek, ikinci bir kurala dönüşmez.",
+    "Okul defterindeki adım, bahçedeki ölçümle aynı kuralı taşır.",
+  ],
+  scene: "chart",
+  parentNote: "Çocuğunuz 20 atışta 5 tura için 5/20 der. Bunu 5 diye kısaltmaz. Az denemeyi kesinlik sanmaz.",
+};
+
+export const JUNIOR_MAT_38 = juniorLessonFromScenario(JUNIOR_MAT_38_SCENARIO);

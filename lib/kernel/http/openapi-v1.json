@@ -3980,9 +3980,13 @@
                               "nullable": true,
                               "type": "string"
                             },
+                            "warmupPath": {
+                              "nullable": true,
+                              "type": "string"
+                            },
                             "coverPath": {
-                              "type": "string",
-                              "minLength": 1
+                              "nullable": true,
+                              "type": "string"
                             }
                           },
                           "required": [
@@ -3992,6 +3996,7 @@
                             "access",
                             "scene",
                             "audioPath",
+                            "warmupPath",
                             "coverPath"
                           ],
                           "additionalProperties": false
@@ -4057,8 +4062,915 @@
           "card.access",
           "card.scene",
           "card.audioPath",
+          "card.warmupPath",
           "card.coverPath"
         ]
+      }
+    },
+    "/api/v1/junior/lessons/{key}/play": {
+      "get": {
+        "operationId": "junior-lesson-play",
+        "tags": [
+          "Kernel"
+        ],
+        "summary": "/api/v1/junior/lessons/{key}/play",
+        "description": "Kanonik yol: /api/junior/lessons/{key}/play. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: lesson, media, practice, progress.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "description": "Kayıt kimliği (ilan veya sözleşme).",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "lesson": {
+                          "type": "object",
+                          "properties": {
+                            "lessonKey": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "title": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "courseTitle": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "access": {
+                              "type": "string",
+                              "enum": [
+                                "free",
+                                "locked"
+                              ]
+                            },
+                            "script": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "scene": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "steps": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "preparing": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "lessonKey",
+                            "title",
+                            "courseTitle",
+                            "access",
+                            "script",
+                            "scene",
+                            "steps",
+                            "preparing"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "media": {
+                          "type": "object",
+                          "properties": {
+                            "audioUrl": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "warmupUrl": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "coverUrl": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "expiresAt": {
+                              "nullable": true,
+                              "type": "string",
+                              "format": "date-time",
+                              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                            }
+                          },
+                          "required": [
+                            "audioUrl",
+                            "warmupUrl",
+                            "coverUrl",
+                            "expiresAt"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "practice": {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "kind": {
+                                    "type": "string",
+                                    "enum": [
+                                      "choice"
+                                    ]
+                                  },
+                                  "prompt": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "choices": {
+                                    "minItems": 2,
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "kind",
+                                  "prompt",
+                                  "choices"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "kind": {
+                                    "type": "string",
+                                    "enum": [
+                                      "match"
+                                    ]
+                                  },
+                                  "prompt": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "left": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string",
+                                          "minLength": 1
+                                        },
+                                        "label": {
+                                          "type": "string",
+                                          "minLength": 1
+                                        }
+                                      },
+                                      "required": [
+                                        "id",
+                                        "label"
+                                      ],
+                                      "additionalProperties": false
+                                    }
+                                  },
+                                  "right": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string",
+                                          "minLength": 1
+                                        },
+                                        "label": {
+                                          "type": "string",
+                                          "minLength": 1
+                                        }
+                                      },
+                                      "required": [
+                                        "id",
+                                        "label"
+                                      ],
+                                      "additionalProperties": false
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "kind",
+                                  "prompt",
+                                  "left",
+                                  "right"
+                                ],
+                                "additionalProperties": false
+                              }
+                            ]
+                          }
+                        },
+                        "progress": {
+                          "nullable": true,
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "type": "string",
+                              "enum": [
+                                "fresh",
+                                "going",
+                                "done"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "status"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "lesson",
+                        "media",
+                        "practice",
+                        "progress"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "lesson",
+          "lesson.lessonKey",
+          "lesson.title",
+          "lesson.courseTitle",
+          "lesson.access",
+          "lesson.script",
+          "lesson.scene",
+          "lesson.steps",
+          "lesson.preparing",
+          "media",
+          "media.audioUrl",
+          "media.warmupUrl",
+          "media.coverUrl",
+          "media.expiresAt",
+          "practice",
+          "practice[].id",
+          "practice[].kind",
+          "practice[].prompt",
+          "progress",
+          "progress.status"
+        ]
+      }
+    },
+    "/api/v1/junior/lessons/{key}/progress": {
+      "post": {
+        "operationId": "junior-lesson-progress",
+        "tags": [
+          "Kernel"
+        ],
+        "summary": "/api/v1/junior/lessons/{key}/progress",
+        "description": "Kanonik yol: /api/junior/lessons/{key}/progress. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key UUID zorunlu (Idempotency-Key). Yayınlanmış data kökleri: progress.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "description": "Kayıt kimliği (ilan veya sözleşme).",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "UUID. Aynı anahtar ikinci debit doğurmaz.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "progress": {
+                          "type": "object",
+                          "properties": {
+                            "lessonKey": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "status": {
+                              "type": "string",
+                              "enum": [
+                                "going",
+                                "done"
+                              ]
+                            },
+                            "score": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 100
+                            },
+                            "xpAwarded": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 100
+                            },
+                            "points": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "lessonKey",
+                            "status",
+                            "score",
+                            "xpAwarded",
+                            "points"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "progress"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency-Key aynı anahtarla farklı gövde kullanılamaz.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": true,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "progress",
+          "progress.lessonKey",
+          "progress.status",
+          "progress.score",
+          "progress.xpAwarded",
+          "progress.points"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profileId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  }
+                },
+                "required": [
+                  "profileId"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/junior/lessons/{key}/practice": {
+      "post": {
+        "operationId": "junior-lesson-practice",
+        "tags": [
+          "Kernel"
+        ],
+        "summary": "/api/v1/junior/lessons/{key}/practice",
+        "description": "Kanonik yol: /api/junior/lessons/{key}/practice. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key UUID zorunlu (Idempotency-Key). Yayınlanmış data kökleri: result.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "description": "Kayıt kimliği (ilan veya sözleşme).",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "UUID. Aynı anahtar ikinci debit doğurmaz.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "object",
+                          "properties": {
+                            "praised": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "missing": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "advice": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "score": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 100
+                            },
+                            "xpAwarded": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 100
+                            },
+                            "points": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "correct": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "total": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "exclusiveMinimum": true,
+                              "maximum": 9007199254740991
+                            },
+                            "status": {
+                              "type": "string",
+                              "enum": [
+                                "fresh",
+                                "going",
+                                "done"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "praised",
+                            "missing",
+                            "advice",
+                            "score",
+                            "xpAwarded",
+                            "points",
+                            "correct",
+                            "total",
+                            "status"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "result"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency-Key aynı anahtarla farklı gövde kullanılamaz.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": true,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "result",
+          "result.praised",
+          "result.missing",
+          "result.advice",
+          "result.score",
+          "result.xpAwarded",
+          "result.points",
+          "result.correct",
+          "result.total",
+          "result.status"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profileId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  "answers": {
+                    "maxItems": 12,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 40
+                        },
+                        "choiceIndex": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 8
+                        },
+                        "matches": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string",
+                            "maxLength": 40
+                          }
+                        }
+                      },
+                      "required": [
+                        "id"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "profileId",
+                  "answers"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -6348,6 +7260,408 @@
         },
         "required": [
           "profile"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorLessonPlayData": {
+        "type": "object",
+        "properties": {
+          "lesson": {
+            "type": "object",
+            "properties": {
+              "lessonKey": {
+                "type": "string",
+                "minLength": 1
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "courseTitle": {
+                "type": "string",
+                "minLength": 1
+              },
+              "access": {
+                "type": "string",
+                "enum": [
+                  "free",
+                  "locked"
+                ]
+              },
+              "script": {
+                "type": "string",
+                "minLength": 1
+              },
+              "scene": {
+                "type": "string",
+                "minLength": 1
+              },
+              "steps": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "preparing": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "lessonKey",
+              "title",
+              "courseTitle",
+              "access",
+              "script",
+              "scene",
+              "steps",
+              "preparing"
+            ],
+            "additionalProperties": false
+          },
+          "media": {
+            "type": "object",
+            "properties": {
+              "audioUrl": {
+                "nullable": true,
+                "type": "string"
+              },
+              "warmupUrl": {
+                "nullable": true,
+                "type": "string"
+              },
+              "coverUrl": {
+                "nullable": true,
+                "type": "string"
+              },
+              "expiresAt": {
+                "nullable": true,
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+              }
+            },
+            "required": [
+              "audioUrl",
+              "warmupUrl",
+              "coverUrl",
+              "expiresAt"
+            ],
+            "additionalProperties": false
+          },
+          "practice": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "choice"
+                      ]
+                    },
+                    "prompt": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "choices": {
+                      "minItems": 2,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "kind",
+                    "prompt",
+                    "choices"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "match"
+                      ]
+                    },
+                    "prompt": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "left": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "label": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "label"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "right": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "label": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "label"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "kind",
+                    "prompt",
+                    "left",
+                    "right"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "progress": {
+            "nullable": true,
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "fresh",
+                  "going",
+                  "done"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "lesson",
+          "media",
+          "practice",
+          "progress"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorLessonProgressRequest": {
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          }
+        },
+        "required": [
+          "profileId"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorLessonProgressData": {
+        "type": "object",
+        "properties": {
+          "progress": {
+            "type": "object",
+            "properties": {
+              "lessonKey": {
+                "type": "string",
+                "minLength": 1
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "going",
+                  "done"
+                ]
+              },
+              "score": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "xpAwarded": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "points": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "lessonKey",
+              "status",
+              "score",
+              "xpAwarded",
+              "points"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "progress"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorLessonPracticeRequest": {
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "answers": {
+            "maxItems": 12,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "choiceIndex": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 8
+                },
+                "matches": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string",
+                    "maxLength": 40
+                  }
+                }
+              },
+              "required": [
+                "id"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "profileId",
+          "answers"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorLessonPracticeData": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "object",
+            "properties": {
+              "praised": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing": {
+                "type": "string",
+                "minLength": 1
+              },
+              "advice": {
+                "type": "string",
+                "minLength": 1
+              },
+              "score": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "xpAwarded": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "points": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "correct": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "total": {
+                "type": "integer",
+                "minimum": 0,
+                "exclusiveMinimum": true,
+                "maximum": 9007199254740991
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "fresh",
+                  "going",
+                  "done"
+                ]
+              }
+            },
+            "required": [
+              "praised",
+              "missing",
+              "advice",
+              "score",
+              "xpAwarded",
+              "points",
+              "correct",
+              "total",
+              "status"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "result"
         ],
         "additionalProperties": false
       },

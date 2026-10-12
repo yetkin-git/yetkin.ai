@@ -1,0 +1,52 @@
+{
+  "lessonKey": "jr_06_fen-30",
+  "title": "Ayna çeşitleri",
+  "tellGuides": [
+    "Düz, çukur ve tümsek aynayı birer görevle eşle.",
+    "Market köşesinde neden tümsek ayna vardır?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Tümsek ayna görüntüyü nasıl değiştirir?",
+      "options": [
+        "Küçültür ve görüş alanını genişletir",
+        "Her zaman aynı boyda bırakır",
+        "Işığı hiç yansıtmaz",
+        "Sesi ısıya çevirir"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Alan geniş, boy küçük.",
+      "explanation": "Adım 1: Tümsek yüzey dışarı bombedir. Adım 2: Görüntü küçülür. Adım 3: Görüş alanı genişler."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Diş hekiminin yakından büyüten aynası hangisidir?",
+      "options": [
+        "Çukur ayna",
+        "Tümsek ayna",
+        "Düz cam kapı",
+        "Prizma"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Yakın cisim büyük görünür.",
+      "explanation": "Adım 1: Yakını büyütmek çukur yüzeye uyar. Adım 2: Tümsek ayna küçültür. Adım 3: Diş aynası çukur seçilir."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Koridor tablosunda düz ayna kalemi aynı boyda, tümsek ayna 2 kapıyı birden gösteriyor. Güvenlik köşesi için hangi ayna seçilir ve neden?",
+      "options": [
+        "Tümsek ayna, çünkü görüş alanı geniştir",
+        "Düz ayna, çünkü kapıyı büyütür",
+        "Çukur ayna, çünkü her şeyi küçültür",
+        "Hiçbiri, çünkü ayna ışığı soğurur"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Köşe geniş bakış ister.",
+      "explanation": "Adım 1: Düz ayna boyu korur ama alanı açmaz. Adım 2: Tümsek ayna daha geniş kadraj verir. Adım 3: Köşe için tümsek ayna seçilir."
+    }
+  ]
+}

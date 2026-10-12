@@ -35,6 +35,8 @@ const envSchema = z.object({
   SUPER_ADMIN_USER_ID: z.string().optional(),
   CANONICAL_SUPER_ADMIN_EMAIL: z.string().optional(),
   DRON_JUNIOR_OPEN: z.string().optional(),
+  DRON_JUNIOR_ROOM_OPEN: z.string().optional(),
+  DRON_YOUNG_OPEN: z.string().optional(),
   JUNIOR_BETA_ALLOWLIST: z.string().optional(),
   JUNIOR_CHECKOUT_OPEN: z.string().optional(),
   JUNIOR_INVOICE_SEAL_KEY: z.string().optional(),

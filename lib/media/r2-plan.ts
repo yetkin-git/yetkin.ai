@@ -4,12 +4,17 @@
  * Akademi mühürlü MP3 bu listeye girmez; o dosya imzalı kovadadır.
  */
 
-import { lstatSync, readdirSync } from "node:fs";
+import { lstatSync, readdirSync, statSync } from "node:fs";
 import { isAbsolute, join, relative, resolve } from "node:path";
+import {
+  JUNIOR_LOCKED_MEDIA_PREFIX,
+  juniorLessonMediaIsPublicPreview,
+} from "@/lib/junior/media-visibility";
+import { JUNIOR_SCENE_PLATES, juniorScenePublicPath } from "@/lib/junior/scene-media";
 import { PUBLIC_MEDIA_VERCEL_OFFLOAD_DIRS } from "@/lib/media/offload";
 
 export type R2SyncCategory = {
-  id: "junior-audio" | "junior-covers" | "junior-warmup" | "academy-warmup";
+  id: "junior-audio" | "junior-covers" | "junior-warmup" | "academy-warmup" | "junior-scenes";
   /** Depo köküne göre. `public/` ile başlar. */
   dir: string;
   extensions: readonly string[];
@@ -44,6 +49,39 @@ export function contentTypeForObjectKey(objectKey: string): string {
     throw new Error(`İçerik türü yok: ${objectKey}`);
   }
   return type;
+}
+
+/**
+ * Disk yolu → kova anahtarları.
+ * Ücretsiz ilk konu ve fon yatağı kamu `media/junior/` altında kalır.
+ * Kilitli ses ve kapak yalnız `private/junior/` önekine yazılır.
+ * Isınma kaseti ücretsiz konuda kamu, kilitli konuda imzalı kopya olarak iki anahtar taşır.
+ */
+export function storageObjectKeysFromDiskRelative(diskRelative: string): string[] {
+  const publicKey = objectKeyFromDiskRelative(diskRelative);
+  const audio = /^media\/junior\/audio\/(.+)\.mp3$/u.exec(publicKey);
+  if (audio) {
+    const name = audio[1] ?? "";
+    if (name === "bgm-light-learning" || juniorLessonMediaIsPublicPreview(name)) {
+      return [publicKey];
+    }
+    return [`${JUNIOR_LOCKED_MEDIA_PREFIX}/audio/${name}.mp3`];
+  }
+  const cover = /^media\/junior\/covers\/(.+)\.(jpe?g)$/u.exec(publicKey);
+  if (cover) {
+    const name = cover[1] ?? "";
+    const ext = cover[2] ?? "jpg";
+    if (juniorLessonMediaIsPublicPreview(name)) {
+      return [publicKey];
+    }
+    return [`${JUNIOR_LOCKED_MEDIA_PREFIX}/covers/${name}.${ext}`];
+  }
+  const warmup = /^media\/junior\/warmup\/(.+)$/u.exec(publicKey);
+  if (warmup) {
+    const fileName = warmup[1] ?? "";
+    return [publicKey, `${JUNIOR_LOCKED_MEDIA_PREFIX}/warmup/${fileName}`];
+  }
+  return [publicKey];
 }
 
 /** `public/media/...` göreli yol → kova anahtarı `media/...`. */
@@ -101,13 +139,14 @@ function walkCategory(repoRoot: string, category: R2SyncCategory, items: R2SyncI
         continue;
       }
       const diskRelative = relative(repoRoot, absolute).replaceAll("\\", "/");
-      const objectKey = objectKeyFromDiskRelative(diskRelative);
-      items.push({
-        category: category.id,
-        diskRelative,
-        objectKey,
-        bytes: stat.size,
-      });
+      for (const objectKey of storageObjectKeysFromDiskRelative(diskRelative)) {
+        items.push({
+          category: category.id,
+          diskRelative,
+          objectKey,
+          bytes: stat.size,
+        });
+      }
     }
   };
   visit(dir);
@@ -129,4 +168,124 @@ export function listR2PublicMedia(repoRoot: string): R2SyncItem[] {
   }
   items.sort((a, b) => a.objectKey.localeCompare(b.objectKey));
   return items;
+}
+
+const BGM_OBJECT_NAME = "bgm-light-learning";
+
+function pushSealedFile(
+  root: string,
+  category: R2SyncItem["category"],
+  diskRelative: string,
+  items: R2SyncItem[],
+): void {
+  const stat = statSync(resolve(root, diskRelative), { throwIfNoEntry: false });
+  if (!stat || !stat.isFile() || stat.size <= 0) {
+    throw new Error(`Mühürlü dosya yok veya boş: ${diskRelative}`);
+  }
+  for (const objectKey of storageObjectKeysFromDiskRelative(diskRelative)) {
+    items.push({ category, diskRelative, objectKey, bytes: stat.size });
+  }
+}
+
+/**
+ * Mühürlü kümenin kesin yükleme listesi: her dersin MP3'ü ve kapağı, bir de kamu fon müziği.
+ * Dizin taraması yapmaz. Anahtarın dosyası yoksa fırlatır.
+ */
+export function listR2SealedJuniorMedia(repoRoot: string, sealedLessonKeys: readonly string[]): R2SyncItem[] {
+  const root = resolve(repoRoot);
+  const [audioDir, coverDir] = PUBLIC_MEDIA_VERCEL_OFFLOAD_DIRS;
+  const items: R2SyncItem[] = [];
+  pushSealedFile(root, "junior-audio", `${audioDir}/${BGM_OBJECT_NAME}.mp3`, items);
+  for (const key of sealedLessonKeys) {
+    pushSealedFile(root, "junior-audio", `${audioDir}/${key}.mp3`, items);
+    pushSealedFile(root, "junior-covers", `${coverDir}/${key}.jpg`, items);
+  }
+  const keys = new Set<string>();
+  for (const item of items) {
+    if (keys.has(item.objectKey)) {
+      throw new Error(`Aynı nesne iki kez listelendi: ${item.objectKey}`);
+    }
+    keys.add(item.objectKey);
+  }
+  items.sort((a, b) => a.objectKey.localeCompare(b.objectKey));
+  return items;
+}
+
+/**
+ * Yalnız ücretsiz önizleme derslerinin sahne görselleri (JPG). Plaka listesinden okunur.
+ * Kilitli dersin sahnesi ve sahne üretim notu (`*.txt`) asla bu listeye girmez.
+ */
+export function listR2FreeSceneMedia(repoRoot: string): R2SyncItem[] {
+  const root = resolve(repoRoot);
+  const items: R2SyncItem[] = [];
+  for (const plate of JUNIOR_SCENE_PLATES) {
+    if (!juniorLessonMediaIsPublicPreview(plate.lessonKey)) {
+      continue;
+    }
+    const diskRelative = `public${juniorScenePublicPath(plate.lessonKey, plate.step, "jpg")}`;
+    const stat = statSync(resolve(root, diskRelative), { throwIfNoEntry: false });
+    if (!stat || !stat.isFile() || stat.size <= 0) {
+      throw new Error(`Ücretsiz sahne görseli yok veya boş: ${diskRelative}`);
+    }
+    items.push({
+      category: "junior-scenes",
+      diskRelative,
+      objectKey: objectKeyFromDiskRelative(diskRelative),
+      bytes: stat.size,
+    });
+  }
+  const keys = new Set<string>();
+  for (const item of items) {
+    if (keys.has(item.objectKey)) {
+      throw new Error(`Aynı sahne nesnesi iki kez listelendi: ${item.objectKey}`);
+    }
+    keys.add(item.objectKey);
+  }
+  items.sort((a, b) => a.objectKey.localeCompare(b.objectKey));
+  return items;
+}
+
+function diskLessonNames(root: string, dir: string, ext: string): string[] {
+  try {
+    return readdirSync(resolve(root, dir))
+      .filter((name) => name.endsWith(ext))
+      .map((name) => name.slice(0, -ext.length));
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+      return [];
+    }
+    throw error;
+  }
+}
+
+/**
+ * Mühürlü kümede olmayan ders anahtarları (emekli). Kaynak: verilen bilinen anahtarlar ile diskteki ses ve kapak adları.
+ * Fon müziği ve mühürlü anahtarlar asla girmez.
+ */
+export function retiredJuniorLessonKeys(input: {
+  repoRoot: string;
+  sealedLessonKeys: readonly string[];
+  knownLessonKeys: readonly string[];
+}): string[] {
+  const root = resolve(input.repoRoot);
+  const [audioDir, coverDir] = PUBLIC_MEDIA_VERCEL_OFFLOAD_DIRS;
+  const sealed = new Set(input.sealedLessonKeys);
+  const names = new Set<string>([
+    ...input.knownLessonKeys,
+    ...diskLessonNames(root, audioDir, ".mp3"),
+    ...diskLessonNames(root, coverDir, ".jpg"),
+  ]);
+  return [...names]
+    .filter((name) => /^[a-z0-9_-]+$/u.test(name) && name !== BGM_OBJECT_NAME && !sealed.has(name))
+    .sort();
+}
+
+/** Emekli dersin kova adayları: her iki önekte ses ve kapak. Silmeden önce tek tek bulunur. */
+export function retiredR2ObjectKeys(lessonKey: string): string[] {
+  return [
+    `media/junior/audio/${lessonKey}.mp3`,
+    `${JUNIOR_LOCKED_MEDIA_PREFIX}/audio/${lessonKey}.mp3`,
+    `media/junior/covers/${lessonKey}.jpg`,
+    `${JUNIOR_LOCKED_MEDIA_PREFIX}/covers/${lessonKey}.jpg`,
+  ];
 }

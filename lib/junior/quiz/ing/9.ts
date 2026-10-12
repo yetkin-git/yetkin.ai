@@ -1,55 +1,54 @@
 import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
 
-/** 6. Sınıf İngilizce — konu sonu soru arşivi (9/20). */
+/** 6. Sınıf İngilizce — Universe, will. */
 export const JUNIOR_ING_QUIZ_9 = {
   lessonKey: "jr_06_ing_main-9",
-  title: "Lunaparkta rides ve fun",
+  title: "Universe: gelecekte will",
   tellGuides: [
-    "Talk about a fun ride and say I think it is…",
-    "Can you invite a friend to a fair in two English sentences?",
+    "Uzayla ilgili bir gelecek cümlesini will ile kur.",
+    "Will ile every night alışkanlığını ayır.",
   ],
   questions: [
     {
       id: "q1",
       level: "concept",
-      question: "«I think the roller coaster is fun.» cümlesinde I think ne yapar?",
-      options: [
-        "Görüş bildirir",
-        "Saati söyler",
-        "Meslek adlandırır",
-        "Geçmiş zaman kurar",
-      ],
+      question: "Will'den sonra fiil nasıl durur?",
+      options: ["Yalın fiil", "Fiile s eklenmiş hali", "Fiile ing eklenmiş hali", "Am is are ile birlikte"],
       correctAnswerIndex: 0,
-      hint: "I think = bence.",
-      explanation: "Adım 1: I think görüş başlatır. Adım 2: Fun eğlenceli demektir. Adım 3: Bu cümle bir oyuncak hakkındaki görüştür.",
+      hint: "Will fiili yalın bırakır.",
+      explanation:
+        "Adım 1: Will gelecek yardımcısıdır. Adım 2: Ardından yalın fiil gelir. Adım 3: I will visit doğru, I will visiting yanlıştır.",
     },
     {
       id: "q2",
       level: "apply",
-      question: "Hangisi lunaparkta doğal bir cümledir?",
+      question: "«Gelecek ay planetaryuma gideceğim.» cümlesi hangisidir?",
       options: [
-        "The Ferris wheel is exciting",
-        "The Ferris wheel is recycling",
-        "The Ferris wheel was born in 2014",
-        "The Ferris wheel shouldn't water",
+        "I will visit the planetarium next month",
+        "I visit the planetarium next month",
+        "I will visits the planetarium",
+        "I am visit the planetarium yesterday",
       ],
       correctAnswerIndex: 0,
-      hint: "Exciting heyecan verici demektir.",
-      explanation: "Adım 1: Ferris wheel bir oyuncaktır. Adım 2: Exciting duygu/görüş sıfatıdır. Adım 3: Diğer şıklar konu dışı kalır.",
+      hint: "Next month gelecek işaretidir.",
+      explanation:
+        "Adım 1: Next month geleceği gösterir. Adım 2: Kalıp will ve yalın fiildir. Adım 3: I will visit the planetarium doğrudur.",
     },
     {
       id: "q3",
       level: "skill",
-      question: "Ali: «I like the carousel. I think it is safe.» Ece: «I don't like it. I think it is boring.» Hangisi doğrudur?",
+      question:
+        "Ece'nin defterinde iki satır var. Birinci satır «I watch the stars every night», ikinci satır «I will visit the planetarium next month». Hangi satır geleceği anlatır ve neden?",
       options: [
-        "İki kişi aynı oyuncak hakkında farklı görüş söyler",
-        "İkisi de aynı cümleyi tekrarlar",
-        "Kimse görüş bildirmez",
-        "Bu bir hava tahmini diyalogudur",
+        "İkinci satır, çünkü will ve next month gelecektir",
+        "Birinci satır, çünkü every night gelecektir",
+        "İkisi de will taşıdığı için gelecektir",
+        "İkisi de simple present olduğu için gelecektir",
       ],
       correctAnswerIndex: 0,
-      hint: "Safe ve boring farklı sıfatlardır.",
-      explanation: "Adım 1: Ali safe diyor. Adım 2: Ece boring diyor. Adım 3: Aynı konu, iki farklı görüştür.",
+      hint: "Every night alışkanlıktır.",
+      explanation:
+        "Adım 1: Every night tekrar eden bir alışkanlıktır. Adım 2: Will ve next month geleceği kurar. Adım 3: Gelecek satır planetaryum cümlesidir.",
     },
   ],
 } as const satisfies JuniorLessonQuizPack;

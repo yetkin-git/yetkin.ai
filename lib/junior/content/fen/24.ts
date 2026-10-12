@@ -1,0 +1,37 @@
+import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
+
+/** 6. Sınıf Fen Bilimleri. Çimlenme. FB.6.3.3. */
+export const JUNIOR_FEN_24_SCENARIO: JuniorLessonScenario = {
+  key: "jr_06_fen-24",
+  title: "Çimlenme",
+  teaser:
+    "Çimlenme, tohumun uygun koşullarda yeni bitkiyi başlatmasıdır. Su, oksijen ve uygun sıcaklık temel koşullardır. Kavramsal Anlayış, ışığı bu üçlünün yerine koymaz. İfade Gücü, bir deneyde değişeni söylemektir.",
+  welcome:
+    "Merhaba çocuklar, hepiniz hoş geldiniz! Mutfakta ıslak pamuğun üstündeki mercimek bir gün kabuğunu çatlatır. Kuru kavanozdaki tohum ise bekler. Bu fark çimlenmenin koşullarını gösterir. Bugün bir deney kurup değişkeni tek tek seçeceğiz. Gözlem, hangi kavanozun uyandığını söyler.",
+  concept:
+    "Çimlenme, tohum içindeki embriyonun büyümesi ve genç bitkinin belirmesidir. Tohum canlı ve olgun olmalıdır. Su tohumu şişirir, oksijen solunumu besler, uygun sıcaklık olayın yürümesini sağlar. Işık çimlenme için zorunlu değildir; genç bitki yaprak açtıktan sonra ışığa ihtiyaç duyar. Kontrollü deneyde bir değişken değişir. Kuru ve ıslak iki kapta sıcaklık aynıysa değişen değişken sudur. Pratik kural: Çimlenme su, oksijen ve uygun sıcaklık ister; karanlık tek başına engel değildir.",
+  example:
+    "İki tabakta 10'ar fasulye olsun. 1. tabak nemli pamukta ve oda sıcaklığında durur. 2. tabak kuru pamukta, aynı sıcaklıkta durur. Üç gün sonra nemli tabakta kökleşme başlar, kuru tabak susuz kalır. Burada bağımsız değişken su, bağımlı değişken çimlenmedir. Buzdolabındaki 4 dereceye bırakılan ıslak tohum, oda sıcaklığındaki ikizine göre uyanmayabilir; o deneyde değişen sıcaklıktır. Işıksız bir kutu da nemliyse çimlenme sürebilir.",
+  hint: "trap",
+  warning:
+    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Tohumun çimlenmesi için mutlaka güneş ışığı gerektiğini sanmak tuzaktır. Işık, fide yeşerdikten sonra besin üretimi için önem kazanır. Hem suyu hem sıcaklığı aynı anda değiştirirsen hangi değişkenin sonucu değiştirdiğini ayıramazsın. Çimlenme konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+  life:
+    "Bunu evde pamuk ve birkaç tohumla deneyebilirsin. Bir kabı ıslak, diğerini kuru bırak. Mutfak tezgâhı oda sıcaklığında kalsın. Bahçeye ekilen tohum da aynı üç koşulu arar. Deftere her gün bir gözlem cümlesi yazmak değişkeni unutturmaz.",
+  recap: [
+    "Çimlenme, tohumun genç bitkiyi başlatmasıdır.",
+    "Su, oksijen ve uygun sıcaklık temel koşullardır.",
+    "Deneyde bir değişken değişir; ışık çimlenme için şart değildir.",
+  ],
+  conceptSeal: "Çimlenme su, oksijen ve uygun sıcaklıkla başlar.",
+  voiceSeal: "Bir deneyde hangi değişkeni değiştirdiğini ve sonucu söylersin.",
+  outcomes: [
+    "Çimlenme tohumun uyanmasıdır.",
+    "Su, oksijen ve sıcaklık temel koşullardır.",
+    "Işık çimlenmenin zorunlu değişkeni değildir.",
+  ],
+  scene: "body",
+  parentNote:
+    "Çocuğunuz çimlenme için su, oksijen ve uygun sıcaklığı sayar. Işığın bu aşamada şart olmadığını bilir. İki tabaklı deney evde kurulabilir.",
+};
+
+export const JUNIOR_FEN_24 = juniorLessonFromScenario(JUNIOR_FEN_24_SCENARIO);

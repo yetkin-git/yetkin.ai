@@ -249,6 +249,7 @@ describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
     expect(
       extraProductionBlocks({
         NODE_ENV: "production",
+        SUPER_ADMIN_USER_ID: "11111111-1111-4111-8111-111111111111",
         DATABASE_URL:
           "postgresql://postgres.abcdefgh:x@aws-0-eu-central-1.pooler.supabase.com:6543/postgres",
       }),
@@ -326,6 +327,7 @@ describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
 
     const ready = formatFullRuntimeReadiness({
       NODE_ENV: "production",
+      SUPER_ADMIN_USER_ID: "11111111-1111-4111-8111-111111111111",
       DATABASE_URL: "postgresql://postgres:x@db.abcdefgh.supabase.co:5432/postgres",
       DIRECT_URL: "postgresql://postgres:x@db.abcdefgh.supabase.co:5432/postgres",
       INNGEST_EVENT_KEY: "evt",
@@ -407,5 +409,26 @@ describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
     ).toEqual([]);
     expect(mediaRows({ VERCEL_ENV: "preview" })).toEqual([]);
     expect(mediaRows({})).toEqual([]);
+  });
+
+  it("T-03: üretimde SUPER_ADMIN_USER_ID boşsa engelleyici; Vercel Production da üretim sayılır", () => {
+    const superAdminRows = (env: Record<string, string | undefined>): string[] =>
+      extraProductionBlocks(env).filter((row) => row.includes("SUPER_ADMIN_USER_ID"));
+
+    expect(superAdminRows({ NODE_ENV: "production" })).toHaveLength(1);
+    expect(superAdminRows({ NODE_ENV: "production", SUPER_ADMIN_USER_ID: "  " })).toHaveLength(1);
+    expect(superAdminRows({ VERCEL_ENV: "production" })).toHaveLength(1);
+    expect(
+      superAdminRows({
+        NODE_ENV: "production",
+        SUPER_ADMIN_USER_ID: "11111111-1111-4111-8111-111111111111",
+      }),
+    ).toEqual([]);
+    expect(superAdminRows({ NODE_ENV: "development" })).toEqual([]);
+    expect(superAdminRows({ VERCEL_ENV: "preview" })).toEqual([]);
+
+    const body = formatFullRuntimeReadiness({ NODE_ENV: "production" }).body;
+    expect(body).toContain("uuid-unset");
+    expect(body).not.toContain("kanonik e-posta varsayılanı ayrı kapıdır");
   });
 });

@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_fen-33",
+  "title": "Genleşme",
+  "teaser": "Genleşme, maddenin ısınınca hacminin artmasıdır. Soğuyunca çoğu madde büzülür. Kavramsal Anlayış, tanecik hareketini boy değişimine bağlar. İfade Gücü, bir deneyde ısınan bilyenin neden geçmediğini söylemektir.",
+  "welcome": "Merhaba sevgili çocuklar! Yazın elektrik telleri biraz sarkar, kışın daha gergin durur. Köprülerde bırakılan boşluk da aynı fikrin büyüğüdür. Madde ısınınca tanecikleri daha hareketli olur ve daha çok yer kaplar. Bugün genleşmeyi bir halka ve bilye deneyiyle ölçeceğiz. Teli gözlemlemek, boşluğun neden bırakıldığını anlatır.",
+  "concept": "Genleşme, sıcaklık artınca maddenin boyutunun ve hacminin artmasıdır. Tanecikler daha hızlı titreşir ve birbirinden biraz uzaklaşır. Soğuma ise çoğu maddede büzülme yapar. Katı, sıvı ve gaz genleşebilir; gazlar daha belirgin genleşir. Farklı maddeler aynı sıcaklık artışında aynı miktarda genleşmez. Köprü ve ray boşlukları, yazın uzayan metalin sıkışıp eğilmemesi için bırakılır. Pratik kural: Isınan madde yer kazanır, soğuyan madde yer bırakır.",
+  "example": "Oda sıcaklığında metal bilye halkadan geçer. Bilyeyi ısıtınca çapı artar ve aynı halkadan geçmez. Soğuyunca yeniden geçer. Burada bağımsız değişken sıcaklık, bağımlı değişken boyuttaki değişmedir. Termometredeki sıvı 20 dereceden 37 dereceye çıkınca cam boruda yükselir; sıvı genleşmiştir. İki metal aynı derecede ısıtılsa da uzama miktarları eşit olmayabilir. Ölçmek için başlangıç ve son boyu yan yana yaz.",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Isınan maddenin küçüldüğünü sanmak tuzaktır. Genleşmeyi yalnız katıya ait saymak da eksiktir; sıvı ve gaz da genleşir. Boşluğu gereksiz sanıp köprü aralığını yok saymak mühendisliğin nedenini kaçırır. Genleşme konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+  "life": "Bunu sıkışan kavanoz kapağında kullanabilirsin. Kapak ılık suda biraz genleşince açılması kolaylaşır. Yazın rayların arasındaki boşluk aynı dersin sokak halidir. Okulda halka ve bilye deneyi sonucu deftere iki ölçüyle yazılır.",
+  "recap": [
+    "Genleşme, ısınınca hacmin artmasıdır.",
+    "Soğuyunca çoğu madde büzülür.",
+    "Köprü boşluğu, metalin genleşmesi için yer bırakır."
+  ],
+  "conceptSeal": "Genleşme, sıcaklık artınca maddenin yer kazanmasıdır.",
+  "voiceSeal": "Isınan bilyenin neden halkadan geçmediğini söylersin.",
+  "outcomes": [
+    "Genleşme sıcaklık artınca olur.",
+    "Tanecikler ısınınca daha hareketlidir.",
+    "Katı, sıvı ve gaz genleşebilir."
+  ],
+  "scene": "particles",
+  "hint": "trap",
+  "parentNote": "Çocuğunuz genleşmeyi ısınınca hacmin artması diye tanımlar. Halka ve bilye deneyini anlatır. Kavanoz kapağı evde güvenli bir örnektir."
+}

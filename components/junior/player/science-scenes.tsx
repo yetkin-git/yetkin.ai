@@ -20,7 +20,8 @@ export type ScienceJuniorScene =
   | "blood"
   | "particles"
   | "sound"
-  | "circuit";
+  | "circuit"
+  | "mirror";
 
 export function isScienceJuniorScene(scene: JuniorVectorScene): scene is ScienceJuniorScene {
   return (
@@ -33,7 +34,8 @@ export function isScienceJuniorScene(scene: JuniorVectorScene): scene is Science
     scene === "blood" ||
     scene === "particles" ||
     scene === "sound" ||
-    scene === "circuit"
+    scene === "circuit" ||
+    scene === "mirror"
   );
 }
 
@@ -48,6 +50,7 @@ export function scienceRecapName(scene: JuniorVectorScene): string | null {
   if (scene === "particles") return "Madde";
   if (scene === "sound") return "Ses";
   if (scene === "circuit") return "Devre";
+  if (scene === "mirror") return "Ayna";
   return null;
 }
 
@@ -264,11 +267,14 @@ export function PlanetScene({ beat }: { beat: number }) {
       {names.map((name, index) => {
         const cx = 78 + index * 34;
         const active = index === focus;
+        const revealed = index <= beat;
         return (
           <g
             key={name}
-            opacity={active ? 1 : 0.55}
+            opacity={revealed ? (active ? 1 : 0.72) : 0}
+            visibility={revealed ? "visible" : "hidden"}
             data-junior-focus={active ? "on" : "off"}
+            data-junior-reveal={revealed ? "on" : "off"}
           >
             <circle
               cx={cx}
@@ -289,7 +295,8 @@ export function PlanetScene({ beat }: { beat: number }) {
                 fill="#cbd5e1"
                 stroke="#cbd5e1"
                 strokeWidth="1"
-                opacity={beat >= 6 ? 1 : 0.2}
+                opacity={beat >= 6 ? 1 : 0}
+                visibility={beat >= 6 ? "visible" : "hidden"}
               />
             ) : null}
             <text x={cx} y={172} textAnchor="middle" fill="#0f172a" fontSize="9" fontFamily="inherit" fontWeight={active ? "700" : "500"}>
@@ -883,5 +890,34 @@ export function ScienceSceneArt({
   if (scene === "body") return <BodyScene beat={beat} caption={caption} />;
   if (scene === "particles") return <ParticleScene beat={beat} caption={caption} />;
   if (scene === "sound") return <SoundScene beat={beat} caption={caption} />;
+  if (scene === "mirror") return <MirrorScene beat={beat} />;
   return <CircuitScene beat={beat} caption={caption} />;
+}
+
+/** Yansıma: gelen ışın, normal ve yansıyan ışın. Ayna türü vuruşla değişir. */
+function MirrorScene({ beat }: { beat: number }) {
+  const concave = beat >= 5 && beat < 7;
+  const convex = beat >= 7;
+  const title = convex ? "Tümsek ayna geniş gösterir" : concave ? "Çukur ayna yakını büyütür" : "Gelme açısı yansıma açısına eşittir";
+  return (
+    <Stage scene="mirror">
+      <SceneTitle>{title}</SceneTitle>
+      <line x1="40" y1="150" x2="320" y2="150" stroke={Ink.stroke} strokeWidth="4" />
+      <line x1="180" y1="150" x2="180" y2="48" stroke="#94a3b8" strokeWidth="2" strokeDasharray="6 4" />
+      <line x1="70" y1="70" x2="180" y2="150" stroke="#f59e0b" strokeWidth="3" />
+      <line x1="180" y1="150" x2="290" y2="70" stroke="#0284c7" strokeWidth="3" />
+      <text x="48" y="64" fill="#b45309" fontSize="12" fontFamily="inherit" fontWeight="700">
+        Gelen
+      </text>
+      <text x="250" y="64" fill="#0369a1" fontSize="12" fontFamily="inherit" fontWeight="700">
+        Yansıyan
+      </text>
+      <text x="186" y="44" fill="#64748b" fontSize="12" fontFamily="inherit">
+        Normal
+      </text>
+      <SceneFoot>
+        {convex ? "Tümsek ayna görüş alanını genişletir." : concave ? "Çukur ayna yakındaki görüntüyü büyütebilir." : "Normal yüzeye diktir."}
+      </SceneFoot>
+    </Stage>
+  );
 }

@@ -181,9 +181,296 @@ export function juniorPlayerHasReachedEnd(input: {
   return currentTimeSec >= durationSec - 1;
 }
 
+export type JuniorStepAnchor = {
+  beat: number;
+  startMs: number;
+  text: string;
+};
+
+/** Defter / cümle durağı. Kendiliğinden akış yok. */
+export const JUNIOR_THINK_HOLD_HINT =
+  "Notunu al / Cümleni kur. Hazır olduğunda 'Devam Et' düğmesine bas";
+
+export const JUNIOR_HARD_PAUSE_BUTTON = "Devam Et";
+
+export type JuniorPauseKind = "notebook" | "turn" | "attention";
+
+/** Anlatım içi dikkat kartı. Yıldız kaseti durdurmaz; metin senaryodan gelir. */
+export const JUNIOR_TURN_CARD_TITLE = "Sıra Sende";
+export const JUNIOR_TURN_CARD_KICKER = "Küçük Soru";
+
+/** Yıldız simgesi bu kadar parıldar. 3 ile 5 saniye arasındadır. */
+export const JUNIOR_STAR_PULSE_MS = 4_000;
+
+/**
+ * Oynatma kafası bir yıldız durağını yeni geçtiyse o duraklar döner.
+ * Geri sarma ve defter / dikkat durakları bu listeye girmez.
+ */
+export function juniorStarCrossings<T extends { endMs: number; kind: JuniorPauseKind }>(
+  pauses: readonly T[],
+  previousMs: number,
+  ms: number,
+  durationMs: number,
+): T[] {
+  if (durationMs <= 0 || ms < previousMs) {
+    return [];
+  }
+  return pauses.filter(
+    (pause) =>
+      pause.kind === "turn" &&
+      pause.endMs < durationMs - 80 &&
+      previousMs < pause.endMs &&
+      ms + 30 >= pause.endMs,
+  );
+}
+
+/** Parıldama, durağı geçtikten sonra kısa bir pencerede kalır. */
+export function juniorStarShouldGlow(endMs: number, ms: number): boolean {
+  return ms >= endMs && ms - endMs <= JUNIOR_STAR_PULSE_MS;
+}
+
+/** Dikkat kartının düğmesi. Kaset, bu düğmeye kadar akmaz. */
+export const JUNIOR_ATTENTION_BUTTON = "Anladım! ➔";
+
+/**
+ * Yönlendirme eylemi.
+ * Deftere yaz, cümle kur ve «Söz sende» defter kartıdır.
+ * «Sıra sende» ve «Küçük soru» dikkat kartıdır.
+ * Öğretim gövdesindeki «cümle kurmak» pay açmaz.
+ */
+export function juniorPauseKind(text: string): JuniorPauseKind | null {
+  const folded = normalizeCue(text);
+  if (folded.includes("kendi cümlenle tek bir cümleyle söyle")) {
+    return "notebook";
+  }
+  if (/^(?:şimdi\s+)?(?:sen\s+)?bir cümle kur\b/u.test(folded)) {
+    return "notebook";
+  }
+  if (/^söz sende\b/u.test(folded)) {
+    return "notebook";
+  }
+  if (/(?<![\p{L}])defter(?:in)?e yaz\b/u.test(folded)) {
+    return "notebook";
+  }
+  if (/(?<![\p{L}])notunu al\b/u.test(folded)) {
+    return "notebook";
+  }
+  if (/^(?:şimdi\s+)?sıra sende\b/u.test(folded) || folded.startsWith("küçük soru")) {
+    return "turn";
+  }
+  return null;
+}
+
+function normalizeCue(text: string): string {
+  return text.replace(/\s+/g, " ").trim().toLocaleLowerCase("tr-TR");
+}
+
+function pieceStartMs(piece: JuniorPlayerPiece, windows: readonly JuniorPlayerWindow[]): number {
+  const window =
+    windows.find((row) => piece.collapsedStart >= row.noteStart && piece.collapsedStart < row.noteEnd) ??
+    windows[0];
+  if (!window) {
+    return 0;
+  }
+  const noteSpan = window.noteEnd - window.noteStart;
+  const span = window.endMs - window.startMs;
+  const ratio = noteSpan <= 0 ? 0 : (piece.collapsedStart - window.noteStart) / noteSpan;
+  const raw = window.startMs + Math.min(1, Math.max(0, ratio)) * span;
+  let ms = Math.round(raw);
+  if (span > 0 && noteSpan > 0) {
+    const cursor = window.noteStart + ((ms - window.startMs) / span) * noteSpan;
+    if (cursor < piece.collapsedStart) {
+      ms += 1;
+    }
+  }
+  return Math.max(window.startMs, ms);
+}
+
+const STEP_CLOSER = "tebrikler çocuklar! harika bir iş çıkardık.";
+
+function distinctiveStep(step: string): string {
+  return normalizeCue(step).replace(STEP_CLOSER, "").trim();
+}
+
+function isSharedCloser(text: string): boolean {
+  const folded = normalizeCue(text).replace(/[.!]+$/u, "").trim();
+  return (
+    folded === "tebrikler çocuklar" ||
+    folded === "harika bir iş çıkardık" ||
+    folded === "tebrikler çocuklar harika bir iş çıkardık"
+  );
+}
+
+/**
+ * `buildSteps` maddesini kaset sırasında, kendi cümlesinin `startMs` değerine kilitler.
+ * Ortak kapanış («Tebrikler çocuklar») adım sayılmaz. Eşleşme ileriye bakar; geri sarmaz.
+ * Eşleşme yoksa o adım çapası boş kalır.
+ */
+export function juniorPlayerStepAnchors(
+  steps: readonly string[],
+  timeline: JuniorPlayerTimeline,
+): JuniorStepAnchor[] {
+  let cursor = 0;
+  const anchors: JuniorStepAnchor[] = [];
+  for (let beat = 0; beat < steps.length; beat += 1) {
+    const body = distinctiveStep(steps[beat] ?? "");
+    if (body.length < 8) {
+      continue;
+    }
+    const sentence = body.split(/(?<=\p{L}[.!?…])\s+/u)[0] ?? body;
+    const needle = sentence.slice(0, Math.min(36, sentence.length));
+    const head = needle.slice(0, Math.min(16, needle.length));
+    if (head.length < 8) {
+      continue;
+    }
+    let found = -1;
+    for (let index = cursor; index < timeline.pieces.length; index += 1) {
+      const text = normalizeCue(timeline.pieces[index]?.text ?? "");
+      if (text.length < 8 || isSharedCloser(text)) {
+        continue;
+      }
+      const hit = text.includes(head) || (text.length >= 12 && head.startsWith(text.slice(0, 12)));
+      if (hit) {
+        found = index;
+        break;
+      }
+    }
+    const piece = found >= 0 ? timeline.pieces[found] : undefined;
+    if (!piece || found < 0) {
+      continue;
+    }
+    cursor = found + 1;
+    const previous = anchors[anchors.length - 1];
+    let startMs = pieceStartMs(piece, timeline.windows);
+    if (previous && startMs <= previous.startMs) {
+      startMs = previous.startMs + 1;
+    }
+    anchors.push({ beat, startMs, text: piece.text });
+  }
+  return anchors;
+}
+
+/** Başlamış adımlar içinde en yüksek adım. Sahne geri sarılmaz. */
+export function juniorPlayerBeatFromAnchors(
+  elapsedMs: number,
+  beatCount: number,
+  anchors: readonly JuniorStepAnchor[],
+): number {
+  if (beatCount <= 1 || anchors.length === 0 || elapsedMs <= 0) {
+    return 0;
+  }
+  let beat = 0;
+  for (const anchor of anchors) {
+    if (elapsedMs >= anchor.startMs && anchor.beat >= beat && anchor.beat < beatCount) {
+      beat = anchor.beat;
+    }
+  }
+  return beat;
+}
+
+export type JuniorCuePause = {
+  endMs: number;
+  kind: JuniorPauseKind;
+  /** Dikkat kartının okunacak gövdesi. Diğer duraklarda boş. */
+  attentionText?: string;
+  /** Bu ana kadar aynı kart yeniden açılmaz. */
+  attentionUntilMs?: number;
+};
+
+export type JuniorCuePauseOptions = {
+  /** Dikkat kartını açan cümle. Kaset bu cümlenin başında durur. */
+  attention?: (text: string) => boolean;
+  /** Dikkat gövdesi bu cümlede biter. */
+  attentionStop?: (text: string) => boolean;
+};
+
+function cleanPiece(text: string): string {
+  return text.replace(/\s+/g, " ").trim();
+}
+
+/**
+ * Her yönlendirme cümlesinin bitişi.
+ * Dikkat kartı cümlenin başında açılır ve düğmeye kadar kalır.
+ * Sonraki cümle, düğmeye kadar akmaz. Dersin son milisaniyesi kart açmaz.
+ */
+export function juniorCuePauses(
+  timeline: JuniorPlayerTimeline,
+  options?: JuniorCuePauseOptions,
+): JuniorCuePause[] {
+  const pauses: JuniorCuePause[] = [];
+  for (let index = 0; index < timeline.pieces.length; index += 1) {
+    const piece = timeline.pieces[index];
+    const text = piece?.text ?? "";
+    if (piece && options?.attention?.(text)) {
+      const startMs = pieceStartMs(piece, timeline.windows);
+      const parts = [cleanPiece(text)];
+      let untilMs = timeline.durationMs;
+      const following = timeline.pieces[index + 1];
+      untilMs = following ? pieceStartMs(following, timeline.windows) : timeline.durationMs;
+      for (let cursor = index + 1; cursor < timeline.pieces.length; cursor += 1) {
+        const nextPiece = timeline.pieces[cursor];
+        if (!nextPiece) {
+          break;
+        }
+        const nextText = cleanPiece(nextPiece.text);
+        if (!nextText || options?.attentionStop?.(nextText) || juniorPauseKind(nextText)) {
+          untilMs = pieceStartMs(nextPiece, timeline.windows);
+          break;
+        }
+        parts.push(nextText);
+        const after = timeline.pieces[cursor + 1];
+        untilMs = after ? pieceStartMs(after, timeline.windows) : timeline.durationMs;
+      }
+      if (startMs >= timeline.durationMs - 80) {
+        continue;
+      }
+      const card: JuniorCuePause = {
+        endMs: startMs,
+        kind: "attention",
+        attentionText: parts.join(" "),
+        attentionUntilMs: Math.max(startMs, untilMs),
+      };
+      const previous = pauses[pauses.length - 1];
+      if (previous && Math.abs(previous.endMs - startMs) < 80) {
+        previous.kind = "attention";
+        previous.attentionText = card.attentionText;
+        previous.attentionUntilMs = card.attentionUntilMs;
+        continue;
+      }
+      pauses.push(card);
+      continue;
+    }
+    const kind = juniorPauseKind(text);
+    if (!kind) {
+      continue;
+    }
+    const next = timeline.pieces[index + 1];
+    const endMs = next ? pieceStartMs(next, timeline.windows) : timeline.durationMs;
+    const previous = pauses[pauses.length - 1];
+    if (previous && Math.abs(previous.endMs - endMs) < 80) {
+      if (kind === "notebook" && previous.kind !== "attention") {
+        previous.kind = "notebook";
+      }
+      continue;
+    }
+    pauses.push({ endMs, kind });
+  }
+  return pauses;
+}
+
+/**
+ * İlk yönlendirme cümlesinin bitişi.
+ * Cümle okunur, sonraki cümle düğmeye kadar akmaz.
+ */
+export function juniorThinkHoldEndMs(timeline: JuniorPlayerTimeline): number | null {
+  const first = juniorCuePauses(timeline)[0];
+  return first ? first.endMs : null;
+}
+
 /**
  * Görsel adımı cümle/zaman pencerelerine kilitler.
- * `pieceIndex` verilirse beat, liveCaption ile AYNI cue’dan türetilir (zero-delay; pencere tamponu yok).
+ * Adım çapası varsa beat, o cümlenin `startMs` değeridir. `cümleSayısı / 12` formülü yalnız çapa yokken yedektir.
+ * `pieceIndex` verilirse ve çapa yoksa beat, liveCaption ile AYNI cue’dan türetilir (zero-delay; pencere tamponu yok).
  * Orantılı `elapsed/duration` tahmini yalnız pencere/parça yokken yedektir.
  */
 export function juniorPlayerBeatIndex(
@@ -193,6 +480,7 @@ export function juniorPlayerBeatIndex(
   windows: readonly { endMs: number }[] = [],
   pieceIndex: number = -1,
   pieceCount: number = 0,
+  anchors: readonly JuniorStepAnchor[] = [],
 ): number {
   if (beatCount <= 1) {
     return 0;
@@ -202,6 +490,9 @@ export function juniorPlayerBeatIndex(
   }
   if (elapsedMs >= durationMs) {
     return beatCount - 1;
+  }
+  if (anchors.length > 0) {
+    return juniorPlayerBeatFromAnchors(elapsedMs, beatCount, anchors);
   }
   // Cue SSOT: altyazı cümlesi değiştiği an beat de aynı milisaniyede kayar.
   if (pieceCount > 0 && pieceIndex >= 0) {
@@ -321,4 +612,38 @@ export function juniorPlayerActivePieceIndex(elapsedMs: number, timeline: Junior
   const raw = window.noteStart + ratio * noteSpan;
   const cursor = noteSpan > 0 ? Math.min(window.noteEnd - 1e-6, Math.max(window.noteStart, raw)) : window.noteStart;
   return pieceIndexAtCollapsedCursor(cursor, pieces);
+}
+
+/**
+ * Karakter saati, kasetin gerçek süresine ölçeklenir.
+ * Parça metni yerinde kalır. Adım çapası aynı cümlededir; milisaniye katsayıyla kayar.
+ */
+export function scaleJuniorPlayerWindows(
+  windows: readonly JuniorPlayerWindow[],
+  fromMs: number,
+  toMs: number,
+): JuniorPlayerWindow[] {
+  if (fromMs <= 0 || toMs <= 0 || fromMs === toMs) {
+    return windows.map((window) => ({ ...window }));
+  }
+  const factor = toMs / fromMs;
+  return windows.map((window) => ({
+    ...window,
+    startMs: Math.round(window.startMs * factor),
+    endMs: Math.round(window.endMs * factor),
+  }));
+}
+
+export function scaleJuniorPlayerTimeline(
+  base: JuniorPlayerTimeline,
+  realDurationMs: number,
+): JuniorPlayerTimeline {
+  if (realDurationMs <= 0) {
+    return base;
+  }
+  return {
+    durationMs: realDurationMs,
+    pieces: base.pieces,
+    windows: scaleJuniorPlayerWindows(base.windows, base.durationMs, realDurationMs),
+  };
 }

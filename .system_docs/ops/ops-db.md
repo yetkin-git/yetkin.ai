@@ -16,7 +16,7 @@ Müze dizini (`yetkin_muze/`) OPS yasağıdır: `.env` kopyalanmaz; git, indeks,
 | `SITE_MAINTENANCE_FREEZE` | isteğe bağlı | `"true"` / `"1"` = ürün 503. **Canlı yayın:** `LIVE_BROADCAST_SHUTDOWN` env (13 Eylül 2026 itibarıyla varsayılan kapalı). Acil kapatma: env `true` + deploy. |
 | `NEXT_PUBLIC_SUPABASE_URL` / `_ANON_KEY` | auth | `service_role` yazılmaz. |
 | `SUPABASE_JWT_SECRET` | kenar HS256 yedek | Boşsa ES256 JWKS. |
-| `SUPER_ADMIN_USER_ID` | admin | Auth UUID. Üretimde `yapinet360@gmail.com` hesabının id’si yazılır. Bu kutu e-postası doğrulanmışsa env boş veya eski olsa da sığınak açılır. Başka bir adres için `CANONICAL_SUPER_ADMIN_EMAIL` ile birlikte dolu olmalıdır. |
+| `SUPER_ADMIN_USER_ID` | admin | Auth UUID. Üretimde `yapinet360@gmail.com` hesabının id’si yazılır. Üretimde boşsa hiçbir hesap (yerleşik kutu dahil) Super Admin olmaz (T-03, fail-closed). Doluysa yerleşik kutu yalnız bu UUID ile eşleşen oturumda açılır. Başka bir adres için `CANONICAL_SUPER_ADMIN_EMAIL` ile birlikte dolu olmalıdır. |
 | `PLATFORM_TREASURY_USER_ID` | hazine sentinel | Super Admin olarak **yazılmaz**. |
 | `NOTICE_SMTP_HOST` / `NOTICE_MAIL_FROM` | bildirim | İkisi boşsa dürüst atlanır (`SMTP skipped`), nakit durmaz. |
 | `ACADEMY_EXAM_SITTING_SECRET` | sınav MAC | Üretimde ≥16 karakter. |
@@ -63,9 +63,9 @@ Kullanıcı **`postgres.<PROJECT_REF>`**. Prisma 7 adapter `$transaction` + `FOR
 
 1. `/register` ile hesabı aç. Confirm email açık olmalı. Kanonik adres `yapinet360@gmail.com`.
 2. Supabase Dashboard → Users → UUID kopyala.
-3. `SUPER_ADMIN_USER_ID=<uuid>`. Hazine sentinel’i yazma.
-4. Üretimde (`NODE_ENV=production`) yerleşik kanonik kutu `yapinet360@gmail.com` ayrı durur: oturumda `email_confirmed_at` dolu ve `id` geçerli bir Supabase kullanıcı kimliği ise sığınak açılır. `SUPER_ADMIN_USER_ID` boş, gecikmiş veya bu kimlikle eşleşmese de bu kutu kilitlenmez. Boş e-posta env’si başka bir adresi varsayılan yapmaz. Başka bir adres ancak `CANONICAL_SUPER_ADMIN_EMAIL` ve `SUPER_ADMIN_USER_ID` ikisi birden dolu ve oturum ikisiyle de eşleşirken yetkilidir; aksi hâlde admin yoktur ve akademi duvarı da açılmaz. Geliştirmede e-posta env boşsa veya vatandaş test adresine çekilmişse kod `CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT` (`yapinet360@gmail.com`) kullanır; doğrulanmış kanonik e-posta veya UUID yeter.
-5. `SUPER_ADMIN_USER_ID` boş veya yalnız boşluksa UUID kolonu kimseyi admin yapmaz (`isSuperAdminUser`). Üretimde bu, yerleşik kanonik kutu dışındaki bütün adresleri kapatır. Geliştirmede doğrulanmış kanonik e-posta kolonu ayrı kalır.
+3. `SUPER_ADMIN_USER_ID=<uuid>` üretimde zorunludur (T-03). Hazine sentinel’i yazma.
+4. Üretimde (`NODE_ENV=production`) yerleşik kanonik kutu `yapinet360@gmail.com` ayrı durur. Sığınak yalnız oturumda `email_confirmed_at` dolu, `id` geçerli bir Supabase kullanıcı kimliği ve `SUPER_ADMIN_USER_ID` ile birebir eşleşiyorsa açılır. `SUPER_ADMIN_USER_ID` boşsa bu kutu da kapalıdır (T-03). Boş e-posta env’si başka bir adresi varsayılan yapmaz. Başka bir adres ancak `CANONICAL_SUPER_ADMIN_EMAIL` ve `SUPER_ADMIN_USER_ID` ikisi birden dolu ve oturum ikisiyle de eşleşirken yetkilidir; aksi hâlde admin yoktur ve akademi duvarı da açılmaz. Geliştirmede e-posta env boşsa veya vatandaş test adresine çekilmişse kod `CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT` (`yapinet360@gmail.com`) kullanır; doğrulanmış kanonik e-posta veya UUID yeter.
+5. `SUPER_ADMIN_USER_ID` boş veya yalnız boşluksa UUID kolonu kimseyi admin yapmaz (`isSuperAdminUser`). Üretimde bu, yerleşik kanonik kutu dahil bütün adresleri kapatır (T-03). Üretim derlemesindeki `ops:runtime-readiness` kapısı boş bırakılmasını engeller. Geliştirmede doğrulanmış kanonik e-posta kolonu ayrı kalır.
 6. `assertSuperAdminActor` e-postayı ve kullanıcı kimliğini birlikte okur. Geçerli Supabase kullanıcı kimliği ister (`isSupabaseUserId`). E-posta eşleşse de kimlik UUID biçiminde değilse kapı kapanır. `assertSuperAdminUserId` diye bir fonksiyon yoktur.
 
 ## 6. Redirect URLs

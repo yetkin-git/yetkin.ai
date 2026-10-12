@@ -1,0 +1,282 @@
+[
+  {
+    "lessonKey": "jr_06_turkce-21",
+    "outcomeCodes": [
+      "T.6.1"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  },
+  {
+    "lessonKey": "jr_06_turkce-22",
+    "outcomeCodes": [
+      "T.6.2"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  },
+  {
+    "lessonKey": "jr_06_turkce-23",
+    "outcomeCodes": [
+      "T.6.3"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  },
+  {
+    "lessonKey": "jr_06_turkce-24",
+    "outcomeCodes": [
+      "T.6.4"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  },
+  {
+    "lessonKey": "jr_06_turkce-25",
+    "outcomeCodes": [
+      "T.6.5"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  },
+  {
+    "lessonKey": "jr_06_turkce-26",
+    "outcomeCodes": [
+      "T.6.6"
+    ],
+    "band": "tymm",
+    "startWeek": 0,
+    "endWeek": 0,
+    "hours": 0
+  },
+  {
+    "lessonKey": "jr_06_turkce-1",
+    "outcomeCodes": [
+      "T.6.1",
+      "T.6.1.O"
+    ],
+    "band": "tymm",
+    "startWeek": 1,
+    "endWeek": 3,
+    "hours": 7
+  },
+  {
+    "lessonKey": "jr_06_turkce-2",
+    "outcomeCodes": [
+      "T.6.1",
+      "T.6.1.O"
+    ],
+    "band": "tymm",
+    "startWeek": 1,
+    "endWeek": 3,
+    "hours": 7
+  },
+  {
+    "lessonKey": "jr_06_turkce-3",
+    "outcomeCodes": [
+      "T.6.1",
+      "T.6.1.O"
+    ],
+    "band": "tymm",
+    "startWeek": 4,
+    "endWeek": 6,
+    "hours": 7
+  },
+  {
+    "lessonKey": "jr_06_turkce-4",
+    "outcomeCodes": [
+      "T.6.1",
+      "T.6.1.O"
+    ],
+    "band": "tymm",
+    "startWeek": 4,
+    "endWeek": 6,
+    "hours": 7
+  },
+  {
+    "lessonKey": "jr_06_turkce-5",
+    "outcomeCodes": [
+      "T.6.3",
+      "T.6.3.O"
+    ],
+    "band": "tymm",
+    "startWeek": 13,
+    "endWeek": 14,
+    "hours": 12
+  },
+  {
+    "lessonKey": "jr_06_turkce-6",
+    "outcomeCodes": [
+      "T.6.4",
+      "T.6.4.C"
+    ],
+    "band": "tymm",
+    "startWeek": 22,
+    "endWeek": 24,
+    "hours": 9
+  },
+  {
+    "lessonKey": "jr_06_turkce-7",
+    "outcomeCodes": [
+      "T.6.3",
+      "T.6.3.O"
+    ],
+    "band": "tymm",
+    "startWeek": 15,
+    "endWeek": 16,
+    "hours": 11
+  },
+  {
+    "lessonKey": "jr_06_turkce-8",
+    "outcomeCodes": [
+      "T.6.2",
+      "T.6.2.O"
+    ],
+    "band": "tymm",
+    "startWeek": 7,
+    "endWeek": 8,
+    "hours": 9
+  },
+  {
+    "lessonKey": "jr_06_turkce-9",
+    "outcomeCodes": [
+      "T.6.2",
+      "T.6.2.O"
+    ],
+    "band": "tymm",
+    "startWeek": 8,
+    "endWeek": 9,
+    "hours": 9
+  },
+  {
+    "lessonKey": "jr_06_turkce-10",
+    "outcomeCodes": [
+      "T.6.2",
+      "T.6.2.O"
+    ],
+    "band": "tymm",
+    "startWeek": 11,
+    "endWeek": 12,
+    "hours": 8
+  },
+  {
+    "lessonKey": "jr_06_turkce-11",
+    "outcomeCodes": [
+      "T.6.3",
+      "T.6.3.O"
+    ],
+    "band": "tymm",
+    "startWeek": 17,
+    "endWeek": 18,
+    "hours": 11
+  },
+  {
+    "lessonKey": "jr_06_turkce-12",
+    "outcomeCodes": [
+      "T.6.2",
+      "T.6.2.O"
+    ],
+    "band": "tymm",
+    "startWeek": 12,
+    "endWeek": 13,
+    "hours": 8
+  },
+  {
+    "lessonKey": "jr_06_turkce-13",
+    "outcomeCodes": [
+      "T.6.1",
+      "T.6.1.O"
+    ],
+    "band": "tymm",
+    "startWeek": 4,
+    "endWeek": 6,
+    "hours": 6
+  },
+  {
+    "lessonKey": "jr_06_turkce-14",
+    "outcomeCodes": [
+      "T.6.4",
+      "T.6.4.C"
+    ],
+    "band": "tymm",
+    "startWeek": 23,
+    "endWeek": 25,
+    "hours": 9
+  },
+  {
+    "lessonKey": "jr_06_turkce-15",
+    "outcomeCodes": [
+      "T.6.4",
+      "T.6.4.C"
+    ],
+    "band": "tymm",
+    "startWeek": 24,
+    "endWeek": 25,
+    "hours": 8
+  },
+  {
+    "lessonKey": "jr_06_turkce-16",
+    "outcomeCodes": [
+      "T.6.4",
+      "T.6.4.C"
+    ],
+    "band": "tymm",
+    "startWeek": 25,
+    "endWeek": 27,
+    "hours": 8
+  },
+  {
+    "lessonKey": "jr_06_turkce-17",
+    "outcomeCodes": [
+      "T.6.5",
+      "T.6.5.Y"
+    ],
+    "band": "tymm",
+    "startWeek": 28,
+    "endWeek": 30,
+    "hours": 17
+  },
+  {
+    "lessonKey": "jr_06_turkce-18",
+    "outcomeCodes": [
+      "T.6.5",
+      "T.6.5.Y"
+    ],
+    "band": "tymm",
+    "startWeek": 31,
+    "endWeek": 33,
+    "hours": 17
+  },
+  {
+    "lessonKey": "jr_06_turkce-19",
+    "outcomeCodes": [
+      "T.6.6",
+      "T.6.6.Y"
+    ],
+    "band": "tymm",
+    "startWeek": 34,
+    "endWeek": 36,
+    "hours": 17
+  },
+  {
+    "lessonKey": "jr_06_turkce-20",
+    "outcomeCodes": [
+      "T.6.6",
+      "T.6.6.Y"
+    ],
+    "band": "tymm",
+    "startWeek": 37,
+    "endWeek": 40,
+    "hours": 17
+  }
+]

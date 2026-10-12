@@ -8,10 +8,10 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-## Akademi üretim standardı
+## Akademi ve Junior mühür
 
-Hiçbir eğitim videosu Metin, Ses, Video, Görsel ve Müzik katmanlarından biri eksikken fırınlanamaz ve mühürlenemez.
+Beş medya katmanı, tempo, model kimliği ve Junior mühür sırası bu dosyada tekrarlanmaz.
 
-Zorunlu sıra: (1) Metin — vatandaş dili, tek iş tek cümle, (2) Ses — `ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS`, (3) Video — yerel `public/media/academy/micro/*-warmup.mp4`, (4) Görsel — `ACADEMY_SEALED_MEDIA_MODEL.IMAGE_GEN`, (5) Müzik — `ACADEMY_SEALED_MEDIA_MODEL.MUSIC_GEN`. Model kimliği, tempo ve ducking bu dosyada tekrarlanmaz. Ev `lib/kernel/ai/model-roles.ts` ve `lib/academy/production-standard.ts`.
-
-3 aşamalı kontrol kapısı: taslak metin, gözden geçirme, son kontrol. Beş katman teyit edilmeden `--seal` basılamaz. Kapı `assertAcademyProductionSeal` (`lib/academy/production-standard.ts`). Ayrıntı `.system_docs/PEDAGOJI.md` ve `.system_docs/ANAYASA.md` B4. Kimlik dizesi `lib/kernel/ai/model-roles.ts` içindedir.
+- Yetişkin Akademi: `assertAcademyProductionSeal` — `lib/academy/production-standard.ts`. Ayrıntı `.system_docs/ANAYASA.md` B4 ve `.system_docs/PEDAGOJI.md`.
+- Junior: `assertJuniorProductionSeal` — `lib/junior/production-seal.ts`. Ayrıntı `.system_docs/PEDAGOJI.md` Ek-J ve `.system_docs/ANAYASA.md` B6.
+- Model kimliği: `lib/kernel/ai/model-roles.ts`. Kilitli harita `.system_docs/AKADEMI_URETIM_ANAYASASI.md` içindedir; bu dosya o tabloyu yazmaz.

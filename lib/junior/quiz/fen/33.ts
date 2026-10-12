@@ -1,0 +1,54 @@
+import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
+
+/** 6. Sınıf Fen Bilimleri — genleşme. */
+export const JUNIOR_FEN_QUIZ_33 = {
+  lessonKey: "jr_06_fen-33",
+  title: "Genleşme",
+  tellGuides: [
+    "Genleşmeyi tanecik hareketiyle açıkla.",
+    "Köprüde neden boşluk bırakılır?",
+  ],
+  questions: [
+    {
+      id: "q1",
+      level: "concept",
+      question: "Sıcaklık artınca çoğu maddenin hacmi ne olur?",
+      options: ["Artar", "Her zaman sıfırlanır", "Yok olur", "Sese dönüşür"],
+      correctAnswerIndex: 0,
+      hint: "Isınmak yer kazandırır.",
+      explanation:
+        "Adım 1: Tanecikler daha hızlı titreşir. Adım 2: Madde daha çok yer kaplar. Adım 3: Bu olaya genleşme denir.",
+    },
+    {
+      id: "q2",
+      level: "apply",
+      question: "Isınan bilye halkadan geçmiyorsa neden?",
+      options: [
+        "Çapı genleşerek artmıştır",
+        "Çapı büzülerek küçülmüştür",
+        "Bilye ışığı soğurduğu için yok olmuştur",
+        "Halka yer değiştirme sıfırdır",
+      ],
+      correctAnswerIndex: 0,
+      hint: "Isı boyutu büyütür.",
+      explanation:
+        "Adım 1: Bilye ısınınca genleşir. Adım 2: Çap halkadan büyük olur. Adım 3: Soğuyunca yeniden geçer.",
+    },
+    {
+      id: "q3",
+      level: "skill",
+      question:
+        "Termometre sıvısı 20 dereceden 37 dereceye çıkınca boruda yükseliyor. Bu gözlem hangi hâl için genleşmeyi kanıtlar?",
+      options: [
+        "Sıvı için, çünkü sıvı hacmi artıp yükselir",
+        "Yalnız katı için, çünkü sıvı genleşmez",
+        "Yalnız ses için, çünkü derece sestir",
+        "Hiçbiri, çünkü sıcaklık hacmi küçültür",
+      ],
+      correctAnswerIndex: 0,
+      hint: "Yükselen şey sıvıdır.",
+      explanation:
+        "Adım 1: Sıcaklık 17 derece artmıştır. Adım 2: Sıvı boruda yükselir. Adım 3: Yükselme sıvının genleşmesidir.",
+    },
+  ],
+} as const satisfies JuniorLessonQuizPack;

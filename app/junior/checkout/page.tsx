@@ -6,7 +6,7 @@ import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 import { getSession } from "@/lib/kernel/auth/session";
 import { juniorElectivePicks } from "@/lib/junior/catalog";
-import { JUNIOR_ELECTIVE_QUOTA } from "@/lib/junior/limits";
+import { JUNIOR_ELECTIVE_QUOTA, juniorElectiveQuotaRightsHint } from "@/lib/junior/limits";
 import { loadJuniorHome } from "@/lib/junior/load";
 import { readJuniorYearlyPrice } from "@/lib/junior/price";
 import { isJuniorCheckoutLocked } from "@/lib/kernel/security/junior-gate";
@@ -25,7 +25,9 @@ export default async function JuniorCheckoutPage() {
   const home = session ? await loadJuniorHome(session.id) : null;
   const picks = juniorElectivePicks();
   const selected = home?.selected?.selectedElectives ?? [];
-  const titles = picks.filter((pick) => selected.includes(pick.slug)).map((pick) => pick.title);
+  const titles = picks
+    .filter((pick) => selected.includes(pick.slug))
+    .map((pick) => (pick.ready ? pick.title : `${pick.title} (Yakında, pakette açılmaz)`));
   const active = home?.plan.status === "ACTIVE";
   const priceLabel = await readJuniorYearlyPrice()
     .then((price) => price?.label ?? null)
@@ -57,7 +59,12 @@ export default async function JuniorCheckoutPage() {
         <p className="text-[var(--muted)]">
           {titles.length > 0
             ? `Seçili dersler: ${titles.join(", ")}.`
-            : "Henüz seçmeli ders seçilmedi. Paket açılınca üç ders hakkı durur. Seçimi odadan yapabilirsin."}
+            : `Henüz seçmeli ders seçilmedi. ${juniorElectiveQuotaRightsHint()} Seçimi odadan yapabilirsin.`}
+        </p>
+        <p className="text-[var(--muted)]">
+          Çekirdek İngilizce, 6. Sınıf İngilizce kartıdır. Seçmeli İngilizce taslağı hazırlık aşamasındadır ve bu
+          paketin fiyat vaadine girmez. Mühürü tamamlanmamış seçmeli dersler Yakında olarak görünür ve paket içinde
+          açılmaz.
         </p>
       </section>
       {session && home ? (

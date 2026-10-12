@@ -1,38 +1,37 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf İngilizce, Ünite 6 Occupations. Meslekler. */
+/** 6. Sınıf İngilizce, ENG.6.6 World and Culture, 34. hafta. Kutlama ve yemek. */
 export const JUNIOR_ING_MAIN_11_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_ing_main-11",
-  title: "Doctor, architect ve vet",
+  title: "World and Culture: kutlama ve yemek",
   teaser:
-    "A doctor hastalara yardım eder. An architect bina tasarlar. A vet hayvanlara bakar. Kavramsal Anlayış, meslek adını yaptığı işle bağlar. İfade Gücü, bir kişinin işini What does she do ile anlatmandır.",
+    "World and Culture temasında kutlama celebrate, yemek eat ile söylenir. We celebrate with our family, ailemizle kutlarız demektir. Kavramsal Anlayış, kendi kültürü ile başka kültürü karşılaştırır. İfade Gücü, bir bayram yemeğini bir cümlede anlatmandır.",
   welcome:
-    "Merhaba güzel arkadaşım, mahallemizde veya şehrimizde her gün çevremize değer katan harika insanları hayal et: Beyaz önlüğüyle şifa dağıtan bir doktor, gökyüzüne uzanan sağlam ve güzel binalar çizen bir mimar ya da sevimli pati dostlarımızı iyileştiren bir veteriner! Her birinin yaptığı iş apayrı bir emek ve sevgi barındırır. Bugün seninle bu kıymetli meslekleri ve yaptıkları işleri İngilizce anlatmayı öğreneceğiz. Bir meslekten bahsederken önüne koyduğumuz 'a' ve 'an' sözcüklerini doğru seslerle buluşturacak, 'What does she do?' sorusuyla insanların mesleklerini merakla keşfedeceğiz.",
+    "Merhaba çocuklar, hepiniz hoş geldiniz! Bayram sofrasında pilav, börek ya da tatlı görünce o günün özel olduğunu anlarsın. Başka ülkelerde de insanlar bir araya gelir, farklı yemekler yer ve birbirini selamlar. World and Culture konusunda kutlamayı ve yemeği İngilizce söyleyeceğiz. Bir sofra fotoğrafını gözlemlemek, we eat ile they eat ayrımını kolaylaştırır.",
   concept:
-    "İngilizcede tekil bir meslek ismini söylerken kelimenin okunuşuna göre önüne 'a' veya 'an' getiririz. Eğer meslek ismi ünsüz bir sesle başlıyorsa 'a' deriz: 'A doctor' bir doktor, 'a vet' bir veteriner, 'a teacher' ise bir öğretmendir. Ancak meslek ismi sesli bir harfle başlıyorsa telaffuzun pürüzsüz akması için 'an' sözcüğünü kullanırız: 'An architect' bir mimardır. Her mesleğin topluma sunduğu harika bir görev vardır: 'A doctor helps sick people' doktor hastalara yardım eder, 'An architect designs buildings' mimar binaları tasarlar, 'A vet looks after animals' veteriner sevimli hayvanların bakımını yapar demektir. Birinin ne iş yaptığını sormak için 'What does she do?' veya 'What does he do?' kalıbını kullanırız. Şurası aklında kalsın tamam mı: 'Architect' sesli başladığı için 'an' alır; 'doctor' ve 'vet' ünsüz harfle başladığı için 'a' ile söylenir.",
+    "Celebrate kutlamak, festival bayram ya da şenlik, traditional geleneksel demektir. We celebrate with our family, ailemizle kutlarız demektir. They eat special food, onlar özel yemek yer demektir. We kendi grubunu, they başka bir grubu anlatır. In Turkey we eat baklava on special days cümlesi bir geleneği söyler. In Japan they eat rice at many meals cümlesi başka bir sofrayı anlatır. Soru What do you eat at the festival? bayramda ne yersiniz diye sorar. Pratik kural: We kendi kültürün, they gözlemlediğin başka kültürün öznesidir.",
   example:
-    "Çevremizdeki çalışanları cümlelerle tanıyalım: 'My aunt is a doctor, and she works at a big hospital.' Dayını anlatırken 'He is an architect; he designs modern houses' dersin. Mahallemizdeki kliniği gösterip 'She is a vet; she looks after sick puppies and cats' diyebilirsin. Diğer meslekleri de hatırlayalım: 'A teacher teaches students', 'A pilot flies planes', 'A chef cooks delicious meals.' Bir arkadaşın sana 'What does an architect do?' diye sorduğunda 'An architect designs safe and beautiful buildings' cevabını verirsin. Çoğul olarak meslek gruplarından bahsettiğimizde ise 'a' veya 'an' kullanmayız; 'They are architects' diyerek cümlemizi tamamlarız.",
-  hint: "gold",
+    "Ece kendi bayramını anlatır: In Turkey we celebrate with our family and we eat sweet food. Bir Japon festivalini kitaptan okuyunca özne değişir: In Japan they celebrate in the spring and they eat rice dishes. İki sofrayı karşılaştırmak için We eat baklava, they eat sushi dersin; bu cümle üstünlük kurmaz, farkı söyler. Arkadaşın What do you do at a festival? diye sorarsa We visit our relatives and we eat together diye cevap verirsin. Bayramda Good morning yerine mutlu bir kutlama dili kullanmak da kültürün parçasıdır.",
+  hint: "trap",
   warning:
-    "Meslek isimlerinin önüne 'a' veya 'an' eklemeyi hatırla. Örneğin 'He is doctor' demek yerine 'He is a doctor' demek cümleni tam bir İngilizce kalıbına dönüştürür. Kelimenin ilk sesine dikkat ederek 'a architect' yerine 'an architect' demeyi tercih edebilirsin; çünkü sesli harften önce gelen 'an' sözcüğü konuşmana harika bir melodi ve ritim katar.",
+    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Başka ülkenin yemeğini we ile söylemek grubu karıştırır; onlar için they eat durur. Bir yemeği daha iyi ya da daha kötü diye sıralamak bu dersin işi değildir. Celebrate fiilini eats gibi çekmek de özneyi şaşırtır; we celebrate yalın kalır, she celebrates s alır. World and Culture konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
   life:
-    "Sağlık ocağına veya hastaneye gittiğinde doktoru görünce içinden gülümseyerek 'The doctor helps sick people' de. Parkta köpeğini gezdiren birini veya kliniği gördüğünde 'A vet looks after animals' cümlesini kur. Biri sana 'What do you want to be in the future?' diye sorduğunda heyecanla 'I want to be an architect!' veya 'I want to be a teacher!' diyerek hayallerini İngilizceyle seslendir.",
+    "Bunu bayram sabahı sofrada deneyebilirsin. Kendi tabağını gösterip We eat this food today de. Kitapta başka bir ülke görürsen They celebrate this festival diye ayır. Okulda bir dünya yemeği günü varsa iki cümle yeter. Akşam aile büyüklerine bugün öğrendiğin bir selamı söylemek, culture sözcüğünü eve taşır.",
   recap: [
-    "A doctor hastalara şifa verir; an architect binaları tasarlar; a vet hayvanlara bakar.",
-    "Sesli harfle başlayan mesleklerin önüne an gelir; an architect böyledir.",
-    "Meslek tekil söylendiğinde he is a doctor şeklinde a veya an unutulmaz.",
+    "Kutlama celebrate, yemek eat ile söylenir.",
+    "We kendi grubunu, they başka grubu anlatır.",
+    "Kültür karşılaştırması üstünlük kurmaz, farkı söyler.",
   ],
-  conceptSeal: "Meslek adı ile yaptığı iş ayrı söylenir. A ve an ilk sese bakar.",
-  voiceSeal: "Bir kişinin mesleğini ve işini İngilizce söylersin.",
+  conceptSeal: "Kutlama ve yemek we ya da they ile kurulur.",
+  voiceSeal: "Bir bayram yemeğini kendi kültürün ve bir başka kültür için ayrı cümleyle söylersin.",
   outcomes: [
-    "Doctor, architect ve vet meslek adlarıdır.",
-    "What does a doctor do işi sorar.",
-    "Architect önüne an, doctor önüne a gelir.",
+    "Celebrate kutlamayı, eat yemeği söyler.",
+    "We ve they farklı grupları anlatır.",
+    "Kültür cümlesi karşılaştırır, sıralamaz.",
   ],
-  scene: "badge",
+  scene: "holiday",
   parentNote:
-    "Çocuğunuz doktor, mimar ve veterineri a doctor, an architect ve a vet ile söyler. What does a doctor do sorusuna iş cümlesiyle cevap verir.",
-
+    "Çocuğunuz bir bayram yemeğini We eat ile anlatır. Başka bir kültür için They eat diye ayırır. Sofrada iki kısa cümle pekiştirir.",
 };
 
 export const JUNIOR_ING_MAIN_11 = juniorLessonFromScenario(JUNIOR_ING_MAIN_11_SCENARIO);

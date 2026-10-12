@@ -11,6 +11,7 @@ import { isJuniorAuditActor } from "@/lib/kernel/security/junior-gate";
 import { carryJuniorLessonStatus } from "@/lib/junior/chain";
 import {
   juniorElectivePicks,
+  juniorPaidElectives,
   juniorPersonalizedShelves,
   juniorShelvesForGrade,
   stampJuniorPlanAccess,
@@ -44,9 +45,10 @@ export default async function JuniorHomePage({
   const planActive = home?.plan.status === "ACTIVE";
   const roomGrade = home?.selected?.grade ?? JUNIOR_PILOT_GRADE;
   const selectedElectives = home?.selected?.selectedElectives ?? [];
+  // Ücretli raf yalnız mühürlü seçmelileri açar (T-06). Denetim bütün seçmelileri görür.
   const shelfPlan = audit
     ? { active: true, selectedElectives: [...JUNIOR_ELECTIVE_SLUGS] }
-    : { active: planActive, selectedElectives };
+    : { active: planActive, selectedElectives: juniorPaidElectives(selectedElectives) };
   const stamped = home?.courses ?? [];
   const listedBase = audit
     ? stampJuniorPlanAccess(juniorShelvesForGrade(roomGrade, null), shelfPlan)

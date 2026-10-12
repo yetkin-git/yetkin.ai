@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_ing_main-9",
+  "title": "Universe: gelecekte will",
+  "teaser": "Universe temasında gelecek planı will ile söylenir. I will visit a space museum, bir uzay müzesini ziyaret edeceğim demektir. Kavramsal Anlayış, will ile her gün olan işi ayırır. İfade Gücü, geleceğe dair bir cümleyi will ile kurmandır.",
+  "welcome": "Merhaba çocuklar, hepiniz hoş geldiniz! Gökyüzündeki yıldızlara bakıp bir gün bir uzay müzesini gezmeyi ya da bir teleskop almayı düşündün mü? Bu düşünce henüz bugünün işi değildir; geleceğe aittir. Universe konusunda geleceği will ile kuracağız. Bir hayali gözlemlemek, onu şimdiki zamandan ayırmana yardım eder.",
+  "concept": "Gelecekte yapmayı düşündüğümüz iş will ve yalın fiille söylenir. I will learn about planets, gezegenleri öğreneceğim demektir. She will watch the sky, o gökyüzünü izleyecek demektir. Olumsuzda will not ya da kısa biçimi won't gelir: I won't travel to Mars. Soru Will you visit a planetarium? diye kurulur; cevap Yes, I will ya da No, I won't olur. Her gece olan alışkanlık will almaz; o iş simple present ile durur. Pratik kural: Will'den sonra fiil yalın kalır, s ya da ing eklenmez.",
+  "example": "Ece gelecek ay bir planetaryuma gidecek: I will visit the planetarium next month. Arkadaşı da onunla gelecek: She will come with me. Uzay gemisi kullanmayı bugünden iddia etmez; I will not fly a rocket der ve hayali ölçülü tutar. Öğretmen Will you read a book about the Moon? diye sorarsa Yes, I will diye cevap verir. Her akşam yıldız bakan biri ise I watch the stars every night der; bu cümlede will yoktur çünkü iş alışkanlıktır.",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Will'den sonra fiile s ya da ing eklemek kalıbı bozar; will visits ve will visiting yanlıştır. Olumsuzda won't ile not bir kez yeter, will not not yazılmaz. Her gün yapılan işi will ile söylemek onu geleceğe atar. Universe konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+  "life": "Bunu akşam defterine bir gelecek cümlesi yazarak deneyebilirsin. I will learn ten space words this week, bu hafta on uzay sözcüğü öğreneceğim demektir. Okul gezisi varsa I will visit the science centre dersin. Pencereden Ay'a bakıp I will watch the Moon on Saturday diye bir gün seç. Gelecek cümlesi bir sözdür; abartılı bir roket vaadi kurmana gerek yoktur.",
+  "recap": [
+    "Gelecek iş will ve yalın fiille kurulur.",
+    "Olumsuz won't, soru Will you diye başlar.",
+    "Her gün olan alışkanlık will almaz."
+  ],
+  "conceptSeal": "Gelecek cümlesi will ve yalın fiille kurulur.",
+  "voiceSeal": "Uzayla ilgili bir gelecek planını will ile söylersin.",
+  "outcomes": [
+    "Will gelecek zamanı kurar.",
+    "Will'den sonra fiil yalın kalır.",
+    "Alışkanlık will ile söylenmez."
+  ],
+  "scene": "globe",
+  "hint": "trap",
+  "parentNote": "Çocuğunuz gelecek planını I will ile kurar. Will'den sonra fiilin yalın kaldığını bilir. Bir müze gezisini bu kalıpla söyletmek yeter."
+}

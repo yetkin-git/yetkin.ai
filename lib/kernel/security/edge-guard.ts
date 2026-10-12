@@ -76,8 +76,9 @@ export const EDGE_CSP_FRAME_SRC_DIRECTIVE =
   "frame-src https://www.paytr.com https://*.paytr.com https://*.bkm.com.tr https:";
 export const EDGE_CSP_CONNECT_SRC_DIRECTIVE =
   "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://www.paytr.com https://*.paytr.com";
-/** Ders blob URL, aynı köken, Supabase ve (tanımlıysa) kamu medya CDN kökü. */
-export const EDGE_CSP_MEDIA_SRC_DIRECTIVE = "media-src 'self' blob: https://*.supabase.co";
+/** Ders blob URL, aynı köken, Supabase, R2 imzalı okuma ve (tanımlıysa) kamu medya CDN kökü. */
+export const EDGE_CSP_R2_MEDIA_ORIGIN = "https://*.r2.cloudflarestorage.com";
+export const EDGE_CSP_MEDIA_SRC_DIRECTIVE = `media-src 'self' blob: https://*.supabase.co ${EDGE_CSP_R2_MEDIA_ORIGIN}`;
 
 type EdgeCspEnv = {
   NODE_ENV?: string;
@@ -302,7 +303,9 @@ export function buildEdgeCsp(nonce: string, env: EdgeCspEnv = process.env): stri
   const scriptEval = isDev ? " 'unsafe-eval'" : "";
   const upgrade = env.NODE_ENV === "production" ? "; upgrade-insecure-requests" : "";
   const cdn = mediaCdnCspOrigin(env);
-  const imgSrc = cdn ? `img-src 'self' data: blob: ${cdn}` : "img-src 'self' data: blob:";
+  const imgSrc = cdn
+    ? `img-src 'self' data: blob: ${cdn} ${EDGE_CSP_R2_MEDIA_ORIGIN}`
+    : `img-src 'self' data: blob: ${EDGE_CSP_R2_MEDIA_ORIGIN}`;
   const mediaSrc = cdn ? `${EDGE_CSP_MEDIA_SRC_DIRECTIVE} ${cdn}` : EDGE_CSP_MEDIA_SRC_DIRECTIVE;
   return (
     "default-src 'self'; " +

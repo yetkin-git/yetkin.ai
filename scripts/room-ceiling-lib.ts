@@ -9,7 +9,8 @@ export const LIB_SHARED_TOP_DIRS = ["copy", "kernel", "ui", "dronlar", "media"] 
  * Müstakil Junior odası. Dört kamu vitrinine eklenmez.
  * Akademi kayıt defterinde kartı yoktur. Eski harçlık odası arşivde kalır.
  */
-export const CLOSED_PILOT_LIB_DIRS = ["junior"] as const;
+// young: lib/dronlar/kayit.ts INDEPENDENT_ROOMS; varsayılan kapalı (DRON_YOUNG_OPEN), vitrine girmez.
+export const CLOSED_PILOT_LIB_DIRS = ["junior", "young"] as const;
 
 export const ROOMS_SSOT_REL = "lib/dronlar/kayit.ts";
 

@@ -13,12 +13,12 @@ import { publicJuniorPractice } from "@/lib/junior/practice";
 import { juniorTellSystemPrompt } from "@/lib/junior/tell";
 
 describe("Junior fen bilimleri konu sonu soru arşivi", () => {
-  it("20 derste 60 çözümlü soru taşır", () => {
-    expect(JUNIOR_FEN_QUIZ_PACKS).toHaveLength(20);
-    expect(juniorFenQuizLessonKeys()).toHaveLength(20);
-    expect(juniorFenQuizQuestionCount()).toBe(60);
-    for (let n = 1; n <= 20; n += 1) {
-      const key = `jr_06_fen-${n}`;
+  it("mühürlü fen derslerinde üç çözümlü soru taşır", () => {
+    const keys = juniorFenQuizLessonKeys();
+    expect(JUNIOR_FEN_QUIZ_PACKS).toHaveLength(keys.length);
+    expect(keys).toHaveLength(27);
+    expect(juniorFenQuizQuestionCount()).toBe(keys.length * 3);
+    for (const key of keys) {
       const pack = juniorQuizPack(key);
       expect(pack).not.toBeNull();
       expect(pack?.questions).toHaveLength(3);

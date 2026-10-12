@@ -1,7 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { JuniorProgressBar, type JuniorProgressPause } from "@/components/junior/player/progress-bar";
 import { juniorPlayerRangeLabel, juniorPlayerStepLabel } from "@/lib/junior/player-clock";
+
+export type { JuniorProgressPause };
 
 export function JuniorPlayerControls({
   playing,
@@ -18,6 +21,13 @@ export function JuniorPlayerControls({
   orientation = false,
   captionsVisible = false,
   onToggleCaptions,
+  bgmMuted = false,
+  onToggleBgm,
+  fullscreen = false,
+  onToggleFullscreen,
+  pauses = [],
+  starGlowEndMs = null,
+  onOpenStar,
 }: {
   playing: boolean;
   scrubbing: boolean;
@@ -35,11 +45,20 @@ export function JuniorPlayerControls({
   /** Canlı altyazı bandı — varsayılan kapalı; CC ile açılır. */
   captionsVisible?: boolean;
   onToggleCaptions?: () => void;
+  /** Fon müziği kapalıyken doğru. */
+  bgmMuted?: boolean;
+  onToggleBgm?: () => void;
+  fullscreen?: boolean;
+  onToggleFullscreen?: () => void;
+  /** Zaman çubuğundaki duraklar. Çocuk noktaya gelmeden yıldız veya pini görür. */
+  pauses?: readonly JuniorProgressPause[];
+  /** Parıldayan yıldız. */
+  starGlowEndMs?: number | null;
+  onOpenStar?: (endMs: number) => void;
 }) {
-  const max = Math.max(1, Math.round(durationMs));
-  const value = Math.min(max, Math.round(elapsedMs));
   const stepLabel = orientation ? "Adım 0" : juniorPlayerStepLabel(beat, beatCount);
   const rangeLabel = orientation ? "Isınma" : juniorPlayerRangeLabel(elapsedMs, durationMs);
+  const showPins = !orientation && durationMs > 0 && pauses.length > 0;
 
   return (
     <div
@@ -48,6 +67,7 @@ export function JuniorPlayerControls({
       data-junior-orientation={orientation ? "true" : undefined}
       data-scrubbing={scrubbing ? "true" : undefined}
       data-junior-captions={captionsVisible ? "on" : "off"}
+      data-junior-pause-count={showPins ? pauses.length : 0}
     >
       <div className="flex flex-wrap items-center gap-1.5">
         <Button
@@ -78,34 +98,49 @@ export function JuniorPlayerControls({
             CC
           </Button>
         ) : null}
+        {onToggleBgm ? (
+          <Button
+            type="button"
+            size="sm"
+            variant={bgmMuted ? "outline" : "primary"}
+            aria-pressed={!bgmMuted}
+            aria-label={bgmMuted ? "Arka plan müziğini aç" : "Arka plan müziğini kapat"}
+            data-junior-bgm-toggle=""
+            data-bgm={bgmMuted ? "muted" : "on"}
+            onClick={onToggleBgm}
+          >
+            {bgmMuted ? "Müzik kapalı" : "Müzik açık"}
+          </Button>
+        ) : null}
+        {onToggleFullscreen ? (
+          <Button
+            type="button"
+            size="sm"
+            variant={fullscreen ? "primary" : "outline"}
+            aria-pressed={fullscreen}
+            aria-label={fullscreen ? "Tam ekrandan çık" : "Tam ekran"}
+            title="Tam ekran (F)"
+            data-junior-fullscreen-toggle=""
+            onClick={onToggleFullscreen}
+          >
+            {fullscreen ? "Tam ekrandan çık" : "Tam Ekran"}
+          </Button>
+        ) : null}
         <span className="ml-auto text-xs font-semibold text-[var(--safir-deep)]">{stepLabel}</span>
       </div>
-      <div className="flex items-center gap-2">
-        <input
-          type="range"
-          className="h-6 min-w-0 flex-1 cursor-pointer accent-[var(--safir)]"
-          data-junior-player-progress=""
-          min={0}
-          max={max}
-          step={1}
-          value={value}
-          aria-label="Anlatım ilerlemesi"
-          aria-valuemin={0}
-          aria-valuemax={max}
-          aria-valuenow={value}
-          aria-valuetext={`${rangeLabel}, ${stepLabel}`}
-          disabled={orientation}
-          onPointerDown={onScrubStart}
-          onChange={(event) => {
-            onScrubStart();
-            onScrub(Number(event.target.value));
-          }}
-          onPointerUp={onScrubEnd}
-          onKeyUp={onScrubEnd}
-          onBlur={onScrubEnd}
-        />
-        <span className="shrink-0 text-[11px] tabular-nums text-[var(--muted)]">{rangeLabel}</span>
-      </div>
+      <JuniorProgressBar
+        elapsedMs={elapsedMs}
+        durationMs={durationMs}
+        orientation={orientation}
+        pauses={pauses}
+        glowEndMs={starGlowEndMs}
+        rangeLabel={rangeLabel}
+        stepLabel={stepLabel}
+        onScrubStart={onScrubStart}
+        onScrub={onScrub}
+        onScrubEnd={onScrubEnd}
+        onOpenStar={onOpenStar}
+      />
     </div>
   );
 }

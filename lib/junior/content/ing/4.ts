@@ -1,38 +1,37 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf İngilizce, Ünite 2 Yummy Breakfast. Rica ve some, any. */
+/** 6. Sınıf İngilizce, ENG.6.2 Family Life, 9–11. hafta. Aile rutini. */
 export const JUNIOR_ING_MAIN_4_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_ing_main-4",
-  title: "Rica etmek ve some, any",
+  title: "Family Life: evde rutin işler",
   teaser:
-    "Rica, Can I have some bread, please diye kurulur. Some olumlu cümlededir. Any soru ve olumsuzdadır. Kavramsal Anlayış, bu iki sözü cümlenin türüne göre seçer. İfade Gücü, sofrada kibar bir istek kurmandır.",
+    "Family Life temasında ev işleri simple present ile söylenir. I help my mother anneme yardım ederim demektir. Kavramsal Anlayış, her gün olan işi şu andan ayırır. İfade Gücü, evdeki bir rutini sıklık zarfıyla anlatmandır.",
   welcome:
-    "Günün güzel geçiyordur umarım! Gel bakalım bugün İngilizcede önümüzde nasıl bir yolculuk var, çünkü sofrada kibar bir dil kullanmanın ve miktarları doğru ifade etmenin inceliklerini öğreneceğiz. Masada ekmek sepeti senden biraz uzakta kaldığında uzanmak yerine nazikçe istemek harika bir davranıştır. Bugün seninle 'Can I have some bread, please?' diyerek kibarca rica etmeyi keşfedeceğiz. Cümlemizin sonundaki sihirli 'please' sözcüğü her kapıyı açar. Masadaki yiyeceklerin miktarını anlatırken de 'some' ve 'any' sözcüklerini dostça yanımıza alacağız.",
+    "Merhaba çocuklar, hepiniz hoş geldiniz! Sabah mutfakta kahvaltı hazırlanır, akşam sofrada tabaklar toplanır, hafta sonu salonda birlikte film izlenir. Bu işler bir kez olup bitmez; ailede tekrar eden rutinlerdir. Bugün bu rutinleri İngilizce simple present ile anlatacağız. Evin bir akşamını gözlemlemek, kimin hangi işi yaptığını netleştirir.",
   concept:
-    "'Can I have some bread, please?' cümlesi 'Biraz ekmek alabilir miyim lütfen?' anlamına gelen çok kibar bir ricadır. Aynı şekilde susadığında 'Can I have some water, please?' diyerek su isteyebilirsin. Masada bulunan şeyleri anlatırken olumlu cümlelerde 'some', yani biraz veya birkaç anlamına gelen sözcüğü kullanırız: 'There is some milk' masada biraz süt olduğunu, 'There are some olives' ise birkaç zeytin olduğunu söyler. Ancak soru sorarken ve bir şeyin olmadığını söylerken 'any' sözcüğüne başvururuz: 'Is there any cheese?' hiç peynir var mı demektir; 'There isn't any honey' ise hiç bal kalmadığını belirtir. Şurası aklında kalsın tamam mı: Olumlu cümlelerde 'some', soru ve olumsuz cümlelerde ise 'any' kalıbını güvenle seçebilirsin.",
+    "Family Life içinde her gün ya da sık sık olan iş simple present ile kurulur. I help, she helps, they watch kalıpları bu zamanın örnekleridir. He ve she ile fiile çoğunlukla s eklenir: cook fiili she cooks olur. Sıklık zarfları always her zaman, usually genellikle, sometimes bazen ve never hiçbir zaman anlamındadır. Zarflar özne ile fiil arasına yerleşir: She usually cooks dinner. Şu anda olan iş ise am, is, are ve ing ister; her akşam olan iş bu kalıba girmez. Pratik kural: Alışkanlık yalın fiille, tam şu an ing ile söylenir.",
   example:
-    "Sofraya birlikte göz atalım. Masada biraz süt var: 'There is some milk.' Bal tükenmiş: 'There isn't any honey.' Arkadaşına peynir olup olmadığını soralım: 'Is there any cheese?' Eğer varsa 'Yes, there is', kalmamışsa 'No, there isn't' cevabını alırsın. Ekmek isterken her zaman 'Can I have some bread, please?' diyerek ricada bulunursun. Misafire çay ikram etmek istediğinde ise 'Would you like some tea?' dersin. Karşı taraf da gülümseyerek 'Yes, please' ya da kibarca 'No, thank you' der. Zeytin gibi sayılabilenlerde 'There are some olives', süt gibi sayılamayanlarda ise 'There is some milk' kalıbı kullanılır.",
+    "Ece her akşam sofrayı kurar: I always set the table. Annesi yemeği genellikle pişirir: She usually cooks dinner. Babası bazen bulaşık yıkar: He sometimes washes the dishes. Kardeşi hiç çöp çıkarmıyorsa He never takes out the rubbish dersin. Arkadaşın What do you do at home? diye sorarsa I help my family and I sometimes water the plants diye cevap verirsin. Look, she is cooking now cümlesi ise alışkanlığı değil, tam o anı anlatır.",
   hint: "trap",
   warning:
-    "Olumsuz cümlelerde ve sorularda 'some' yerine 'any' kullanmaya dikkat edebilirsin. Örneğin 'There isn't any milk' ve 'Do you have any bread?' demek cümleni kusursuz hale getirir. Birinden bir şey rica ederken de cümlenin sonuna o tatlı 'please' kelimesini eklemeyi hatırla; çünkü 'Can I have some water, please?' demek hem çok kibar hem de pırıl pırıl bir İngilizce örneğidir.",
+    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. She cook dinner demek fiil ekini düşürür; she cooks dinner doğru durur. Always sözcüğünü cümlenin en sonuna atmak da sırayı bozar; usually ve always fiilden önce gelir. Her akşam olan işe ing eklemek onu şu an oluyormuş gibi gösterir. Family Life konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
   life:
-    "Akşam ailenle sofraya oturduğunda sürahiye doğru bakıp 'Can I have some water, please?' diyerek su iste. Masada ekmek bittiyse 'There isn't any bread' diyerek durumu fark et. Peynir tabağını gösterip 'There is some cheese' cümlesini kur. Biri sana fazladan bir şey ikram ettiğinde nazikçe 'No, thank you' veya 'Yes, please' diyerek nezaketini İngilizceyle taçlandır.",
+    "Bunu evde akşam yemeğinden önce deneyebilirsin. Kendi işini I set the table diye fısılda. Mutfakta annen yemek pişiriyorsa hem alışkanlığı hem anı ayır: She usually cooks, and she is cooking now. Okulda arkadaşınla ev işlerini karşılaştır. Bahçedeki bitkiyi sulamak da bir aile işi olabilir: I sometimes water the flowers.",
   recap: [
-    "Rica, Can I have some bread, please diye kibarca kurulur.",
-    "Some olumlu cümlededir; any soru ve olumsuz cümlelerde yer alır.",
-    "Olumsuzda any kullanılır; there isn't any milk doğru biçimdir.",
+    "Evdeki tekrar eden iş simple present ile söylenir.",
+    "He ve she ile fiile genellikle s gelir; she cooks buna örnektir.",
+    "Always, usually, sometimes ve never sıklığı söyler ve fiilden önce durur.",
   ],
-  conceptSeal: "Some olumlu cümlededir. Any soru ve olumsuzdadır.",
-  voiceSeal: "Sofrada kibar bir istek kurar ve some ile any seçersin.",
+  conceptSeal: "Aile rutini simple present ve bir sıklık zarfıyla kurulur.",
+  voiceSeal: "Evdeki bir işi kim yapıyor, ne sıklıkla, diye anlatırsın.",
   outcomes: [
-    "Can I have some, please bir ricadır.",
-    "Some olumlu cümlede kullanılır.",
-    "Any soru ve olumsuz cümlede kullanılır.",
+    "Aile rutinleri simple present ile anlatılır.",
+    "He ve she fiile s ister.",
+    "Sıklık zarfı fiilden önce gelir.",
   ],
-  scene: "tray",
+  scene: "clock",
   parentNote:
-    "Çocuğunuz ricayı Can I have some bread, please ile kurar. Some olumlu cümlede, any soru ve olumsuzda durur. Sofrada su isterken bu kalıbı kullanabilirsiniz.",
-
+    "Çocuğunuz ev işlerini simple present ile anlatır. She cooks ile I help ayrımını kurar. Akşam sofrada bir rutini bu kalıpla söyletmek pekiştirir.",
 };
 
 export const JUNIOR_ING_MAIN_4 = juniorLessonFromScenario(JUNIOR_ING_MAIN_4_SCENARIO);

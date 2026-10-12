@@ -1,0 +1,52 @@
+{
+  "lessonKey": "jr_06_fen-21",
+  "title": "Alınan yol ve yer değiştirme",
+  "tellGuides": [
+    "Alınan yol ile yer değiştirmeyi birer cümlede ayır.",
+    "Başa dönen bir turda yer değiştirme neden sıfırdır?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Yer değiştirme hangi uzaklığı söyler?",
+      "options": [
+        "Başlangıçtan bitişe yönlü en kısa uzaklık",
+        "Gidilen bütün izlerin toplamı",
+        "Yalnız hızın birimi",
+        "Sürtünmenin yönü"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Yönü olan net sonuç.",
+      "explanation": "Adım 1: Alınan yol izlerin toplamıdır. Adım 2: Yer değiştirme başlangıç ile bitiş arasındadır. Adım 3: Bu uzaklığın yönü de söylenir."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "400 metre park turu aynı bankta biterse yer değiştirme kaç metredir?",
+      "options": [
+        "0",
+        "400",
+        "800",
+        "200"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Başlangıç ve bitiş aynı nokta.",
+      "explanation": "Adım 1: Tur 400 metre alınan yol verir. Adım 2: Bitiş başlangıçla aynıdır. Adım 3: Yer değiştirme 0 metredir."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Okul yolunun grafiğinde Ali 80 metre doğu, sonra 30 metre batı yürüyor. Alınan yol 110 metre ise yer değiştirme hangi değer ve yöndedir?",
+      "options": [
+        "50 metre doğu",
+        "110 metre batı",
+        "0 metre",
+        "30 metre doğu"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Zıt yönler fark alınarak birleşir.",
+      "explanation": "Adım 1: Alınan yol 80 artı 30, yani 110 metredir. Adım 2: Yer değiştirme 80 eksi 30 olur. Adım 3: Sonuç 50 metre doğudur."
+    }
+  ]
+}

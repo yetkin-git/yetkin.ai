@@ -2,10 +2,12 @@
 
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
+import { JuniorLessonHeaderNav } from "@/components/junior/lesson-header-nav";
 import { HeaderBreadcrumb } from "@/components/shell/header-breadcrumb";
 import { NavHistoryControls } from "@/components/shell/nav-history-controls";
 import { IconMenu } from "@/components/ui/icons";
 import { cn } from "@/components/ui/cn";
+import { juniorLessonKeyFromPath } from "@/lib/junior/lesson-index";
 import { isAcademyPlayPath } from "@/lib/ui/sidebar-layout";
 
 export function HeaderBar({
@@ -17,6 +19,7 @@ export function HeaderBar({
 }) {
   const pathname = usePathname();
   const playPath = isAcademyPlayPath(pathname);
+  const lessonKey = juniorLessonKeyFromPath(pathname);
 
   return (
     <header className="sticky top-0 z-20 mt-0 border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--surface)_78%,transparent)] pt-0 backdrop-blur-xl">
@@ -25,7 +28,9 @@ export function HeaderBar({
           "flex items-center",
           playPath
             ? "h-12 w-full justify-between gap-2 px-3 pt-0 sm:px-4 lg:justify-end"
-            : "h-16 justify-between gap-4 px-4 sm:px-6",
+            : lessonKey
+              ? "min-h-16 flex-wrap justify-between gap-2 px-4 py-2 sm:px-6"
+              : "h-16 justify-between gap-4 px-4 sm:px-6",
         )}
         data-academy-play-chrome={playPath ? "true" : undefined}
       >
@@ -45,8 +50,11 @@ export function HeaderBar({
           </button>
           <HeaderBreadcrumb />
         </div>
-        <div className="ml-0 flex shrink-0 items-center gap-1 sm:gap-1.5 lg:ml-0" data-shell-header-actions="">
-          <NavHistoryControls />
+        <div
+          className="ml-0 flex shrink-0 flex-wrap items-center justify-end gap-1 sm:gap-1.5 lg:ml-0"
+          data-shell-header-actions=""
+        >
+          {lessonKey ? <JuniorLessonHeaderNav lessonKey={lessonKey} /> : <NavHistoryControls />}
           {userCluster}
         </div>
       </div>

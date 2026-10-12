@@ -4,11 +4,13 @@ import {
   pieSlicePath,
   SceneFoot as Foot,
   SceneTitle as Title,
+  SceneReveal,
   SoftCard,
   SoftFocus,
   SoftStage,
   stickyExponentParams,
   stickyFractionParams,
+  useJuniorSceneProps,
 } from "@/components/junior/player/scene-ui";
 import type { JuniorVectorScene } from "@/lib/junior/types";
 
@@ -93,13 +95,35 @@ function Stage({ scene, children }: { scene: MathJuniorScene; children: ReactNod
 }
 
 /**
+ * Kâğıt katları. Adım 1 (beat 0) düz bir yaprak: 2³ = 8 yok.
+ * 2 / 4 / 8 kat, cümle izinde sırayla açılır.
+ */
+function paperFoldLayers(beat: number, heard: string): number {
+  if (beat <= 0) return 1;
+  const text = heard.toLocaleLowerCase("tr-TR");
+  if (/8 kat|2³|2\^3/u.test(text)) return 8;
+  if (/4 kat/u.test(text)) return 4;
+  if (/2 kat|2'ye katlı/u.test(text)) return 2;
+  return 1;
+}
+
+/**
  * Canlı karatahta — sabit üslü ifade sahnesi (Zero Layout Shift + Sticky Scene).
  * Yeni üslü örnek (10², 5¹) gelene kadar son geçerli çizim ekranda kalır;
  * genel konuşmada 2³ varsayılanına geri sıçramaz.
+ * Adım 1’de sonuç (2³ = 8) çizilmez; kat ve çarpım kutuları adımla açılır.
  */
 export function ExponentScene({ beat, caption = "", captionTrail }: SceneCaptionProps) {
+  const sceneProps = useJuniorSceneProps("exponent");
+  const heard = captionTrailOrLive(caption, captionTrail).join(" ");
   const lower = caption.toLocaleLowerCase("tr-TR");
   const { base, exp, product } = stickyExponentParams(captionTrailOrLive(caption, captionTrail));
+  const paperLayers = paperFoldLayers(beat, heard);
+  const paperLabel =
+    paperLayers >= 8 ? "8 kat" : paperLayers >= 4 ? "4 kat" : paperLayers >= 2 ? "2 kat" : "Kâğıt";
+  /** Sonuç yazısı Adım 1’de kapalı. «2³ = 8» cümlesi gelince, sonraki üs örneğine geçilene kadar durur. */
+  const showFoldEquation =
+    beat > 0 && base === 2 && exp === 3 && /2³\s*=\s*8|2\^3\s*=\s*8/u.test(heard);
   const talkBase = /taban/u.test(lower);
   const talkExp = /(?:\büs\b|üstü|üstte\s+küçük|üss[uü])/u.test(lower);
   const talkExpand = /çarpı|yan yana|kez çarp|tekrarlı çarp|üst üste/u.test(lower);
@@ -111,10 +135,23 @@ export function ExponentScene({ beat, caption = "", captionTrail }: SceneCaption
   const hotExp = talkExp && !trap;
   const hotFactors = (talkExpand || beat >= 3) && !trap && !talkResult;
   const hotProduct = (talkResult || beat >= 5) && !trap;
-  const hotTrap = trap || beat >= 8;
+  const hotTrap = trap || beat >= 7;
+  /** Adım 1 taban; 2 üs; 3 çarpımlar; sonra eşitlik, sonuç, tuzak. Konum sabit. */
+  const showBase = true;
+  const showExponent = beat >= 1;
+  const showFactors = beat >= 2;
+  const showEquality = beat >= 3;
+  const showProduct = beat >= 5;
+  const showTrap = beat >= 7;
+  /** Çarpım kutuları teker teker. Adım 1–2’de hiçbiri yok; sonra 1, 2 ve üs kadar. */
+  const factorLimit = beat >= 4 ? exp : beat >= 3 ? Math.min(2, exp) : beat >= 2 ? 1 : 0;
 
   const factors = Array.from({ length: exp }, () => String(base)).join(" × ");
-  const formula = `${base} üssü ${exp} = ${factors} = ${product}`;
+  const formula = !showEquality
+    ? ""
+    : showProduct
+      ? `${base} üssü ${exp} = ${factors} = ${product}`
+      : `${base} üssü ${exp} = ${factors}`;
   const gap = exp <= 3 ? 52 : exp === 4 ? 44 : 38;
   const box = exp <= 3 ? 42 : 34;
   const startX = 128;
@@ -122,34 +159,92 @@ export function ExponentScene({ beat, caption = "", captionTrail }: SceneCaption
 
   return (
     <Stage scene="exponent">
-      <SoftCard x={12} y={10} w={336} h={28} fill={Ink.panel} rx={12} hot={hasPower || beat >= 2} />
-      <text x="180" y="29" textAnchor="middle" fill={Ink.text} fontSize="13" fontFamily="inherit" fontWeight="700">
-        {formula}
-      </text>
+      <SceneReveal show={showEquality}>
+        <SoftCard x={12} y={10} w={336} h={28} fill={Ink.panel} rx={12} hot={hasPower || beat >= 2} />
+        <text x="180" y="29" textAnchor="middle" fill={Ink.text} fontSize="13" fontFamily="inherit" fontWeight="700">
+          {formula}
+        </text>
+      </SceneReveal>
 
-      <SoftFocus active={hotBase}>
-        <SoftCard x={20} y={52} w={58} h={58} fill={Ink.amber} hot={hotBase} />
-        <text x="49" y={90} textAnchor="middle" fill={Ink.text} fontSize="30" fontFamily="inherit" fontWeight="700">
-          {base}
-        </text>
-        <text x="49" y={128} textAnchor="middle" fill={Ink.accent} fontSize="12" fontFamily="inherit" fontWeight="700">
-          Taban
-        </text>
-      </SoftFocus>
+      <SceneReveal show={showBase}>
+        <SoftFocus active={hotBase}>
+          <SoftCard x={20} y={52} w={58} h={58} fill={Ink.amber} hot={hotBase} />
+          <text x="49" y={90} textAnchor="middle" fill={Ink.text} fontSize="30" fontFamily="inherit" fontWeight="700">
+            {base}
+          </text>
+          <text x="49" y={128} textAnchor="middle" fill={Ink.accent} fontSize="12" fontFamily="inherit" fontWeight="700">
+            Taban
+          </text>
+        </SoftFocus>
+      </SceneReveal>
 
-      <SoftFocus active={hotExp}>
-        <SoftCard x={78} y={44} w={28} h={28} fill={Ink.amberFill} rx={10} hot={hotExp} />
-        <text x="92" y={64} textAnchor="middle" fill={Ink.amberInk} fontSize="16" fontFamily="inherit" fontWeight="700">
-          {exp}
-        </text>
-        <text x="92" y={88} textAnchor="middle" fill={Ink.amberInk} fontSize="11" fontFamily="inherit" fontWeight="700">
-          Üs
-        </text>
-      </SoftFocus>
+      <SceneReveal show={showExponent}>
+        <SoftFocus active={hotExp}>
+          <SoftCard x={78} y={44} w={28} h={28} fill={Ink.amberFill} rx={10} hot={hotExp} />
+          <text x="92" y={64} textAnchor="middle" fill={Ink.amberInk} fontSize="16" fontFamily="inherit" fontWeight="700">
+            {exp}
+          </text>
+          <text x="92" y={88} textAnchor="middle" fill={Ink.amberInk} fontSize="11" fontFamily="inherit" fontWeight="700">
+            Üs
+          </text>
+        </SoftFocus>
+      </SceneReveal>
 
+      <g
+        data-junior-hero={sceneProps.hero}
+        data-junior-layers={paperLayers}
+        data-junior-paper-fold={paperLayers}
+        data-junior-fold-equation={showFoldEquation ? "on" : "off"}
+      >
+        {Array.from({ length: 8 }, (_, index) => (
+          <SceneReveal key={`sheet-${index}`} show={index < paperLayers}>
+            <rect
+              x={128 + (index % 4) * 5}
+              y={112 - Math.floor(index / 4) * 4}
+              width={34}
+              height={24}
+              rx={3}
+              fill={index % 2 === 0 ? "#fff7ed" : "#ffedd5"}
+              stroke="#d6d3d1"
+              strokeWidth="1.25"
+            />
+            {paperLayers > 1 ? (
+              <line
+                x1={128 + (index % 4) * 5 + 17}
+                y1={114 - Math.floor(index / 4) * 4}
+                x2={128 + (index % 4) * 5 + 17}
+                y2={134 - Math.floor(index / 4) * 4}
+                stroke="#fdba74"
+                strokeWidth="1"
+              />
+            ) : null}
+          </SceneReveal>
+        ))}
+        <text x="186" y="128" fill={Ink.text} fontSize="13" fontFamily="inherit" fontWeight="700">
+          {paperLabel}
+        </text>
+        <SceneReveal show={showFoldEquation}>
+          <text x="248" y="128" fill={Ink.greenInk} fontSize="13" fontFamily="inherit" fontWeight="700">
+            2³ = 8
+          </text>
+        </SceneReveal>
+      </g>
+
+      <SceneReveal show={showFactors}>
+      <g data-junior-factors={factorLimit}>
       {Array.from({ length: exp }, (_, index) => (
-        <SoftFocus key={index} active={hotFactors}>
+        <SceneReveal key={index} show={index < factorLimit}>
+        <SoftFocus active={hotFactors}>
           <SoftCard x={startX + index * gap} y={58} w={box} h={box} fill={Ink.sky} rx={12} hot={hotFactors} />
+          <line
+            x1={startX + index * gap + box / 2}
+            y1={62}
+            x2={startX + index * gap + box / 2}
+            y2={58 + box - 6}
+            stroke="#fdba74"
+            strokeWidth="1.25"
+            data-junior-fold="kat"
+          />
           <text
             x={startX + index * gap + box / 2}
             y={58 + box / 2 + 7}
@@ -161,7 +256,7 @@ export function ExponentScene({ beat, caption = "", captionTrail }: SceneCaption
           >
             {base}
           </text>
-          {index < exp - 1 ? (
+          {index < exp - 1 && index + 1 < factorLimit ? (
             <text
               x={startX + index * gap + box + (gap - box) / 2}
               y={58 + box / 2 + 7}
@@ -175,15 +270,21 @@ export function ExponentScene({ beat, caption = "", captionTrail }: SceneCaption
             </text>
           ) : null}
         </SoftFocus>
+        </SceneReveal>
       ))}
+      </g>
+      </SceneReveal>
 
-      <SoftFocus active={hotProduct}>
-        <SoftCard x={resultX} y={58} w={56} h={42} fill={Ink.green} rx={12} hot={hotProduct} />
-        <text x={resultX + 28} y={86} textAnchor="middle" fill={Ink.greenInk} fontSize="18" fontFamily="inherit" fontWeight="700">
-          = {product}
-        </text>
-      </SoftFocus>
+      <SceneReveal show={showProduct}>
+        <SoftFocus active={hotProduct}>
+          <SoftCard x={resultX} y={58} w={56} h={42} fill={Ink.green} rx={12} hot={hotProduct} />
+          <text x={resultX + 28} y={86} textAnchor="middle" fill={Ink.greenInk} fontSize="18" fontFamily="inherit" fontWeight="700">
+            = {product}
+          </text>
+        </SoftFocus>
+      </SceneReveal>
 
+      <SceneReveal show={showTrap}>
       <g
         opacity={hotTrap ? 1 : 0.16}
         data-junior-focus={hotTrap ? "on" : "off"}
@@ -198,18 +299,21 @@ export function ExponentScene({ beat, caption = "", captionTrail }: SceneCaption
           {`Doğru: ${base}^${exp} = ${product}`}
         </text>
       </g>
+      </SceneReveal>
 
-      <text
-        x="18"
-        y="192"
-        fill={Ink.muted}
-        fontSize="11"
-        fontFamily="inherit"
-        fontWeight="500"
-        opacity={hotTrap ? 0.2 : 1}
-      >
-        Üs, tabanı kaç kez çarpacağını söyler.
-      </text>
+      <SceneReveal show={showFactors}>
+        <text
+          x="18"
+          y="192"
+          fill={Ink.muted}
+          fontSize="11"
+          fontFamily="inherit"
+          fontWeight="500"
+          opacity={hotTrap ? 0.2 : 1}
+        >
+          Üs, tabanı kaç kez çarpacağını söyler.
+        </text>
+      </SceneReveal>
     </Stage>
   );
 }

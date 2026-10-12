@@ -80,7 +80,7 @@ describe("requireSuperAdmin tek merkez", () => {
     ).toBe(true);
   });
 
-  it("üretimde env boşsa yalnız doğrulanmış yerleşik kutu açılır; başka adres UUID ister", () => {
+  it("üretimde SUPER_ADMIN_USER_ID boşsa yerleşik kutu dahil kimse admin olmaz (T-03 fail-closed); başka adres UUID ister", () => {
     const previousNode = process.env.NODE_ENV;
     (process.env as { NODE_ENV?: string }).NODE_ENV = "production";
     delete process.env.CANONICAL_SUPER_ADMIN_EMAIL;
@@ -93,14 +93,14 @@ describe("requireSuperAdmin tek merkez", () => {
           email: "yapinet360@gmail.com",
           emailConfirmedAt: CONFIRMED,
         }),
-      ).toBe(true);
+      ).toBe(false);
       expect(
         hasAcademyAdminBypass({
           userId: ADMIN_ID,
           email: "yapinet360@gmail.com",
           emailConfirmedAt: CONFIRMED,
         }),
-      ).toBe(true);
+      ).toBe(false);
       expect(
         isSuperAdminActor({
           id: ADMIN_ID,
@@ -113,7 +113,7 @@ describe("requireSuperAdmin tek merkez", () => {
           email: "yapinet360@gmail.com",
           emailConfirmedAt: CONFIRMED,
         }),
-      ).toBe(true);
+      ).toBe(false);
       process.env.CANONICAL_SUPER_ADMIN_EMAIL = ADMIN_EMAIL;
       expect(
         isSuperAdminActor({ id: ADMIN_ID, email: ADMIN_EMAIL, emailConfirmedAt: CONFIRMED }),
@@ -140,14 +140,30 @@ describe("requireSuperAdmin tek merkez", () => {
       expect(
         isSuperAdminActor({ id: CITIZEN_ID, email: ADMIN_EMAIL, emailConfirmedAt: CONFIRMED }),
       ).toBe(false);
+      // Yerleşik kutu üretimde UUID ile birebir eşleşince açılır; başka UUID kapalı kalır.
+      expect(
+        isSuperAdminActor({
+          id: ADMIN_ID,
+          email: "yapinet360@gmail.com",
+          emailConfirmedAt: CONFIRMED,
+        }),
+      ).toBe(true);
+      expect(
+        isSuperAdminActor({
+          id: CITIZEN_ID,
+          email: "yapinet360@gmail.com",
+          emailConfirmedAt: CONFIRMED,
+        }),
+      ).toBe(false);
     } finally {
       (process.env as { NODE_ENV?: string }).NODE_ENV = previousNode;
     }
   });
 
-  it("yapinet360@gmail.com geliştirmede ve üretimde doğrulanmış e-posta ile açılır", () => {
+  it("yapinet360@gmail.com üretimde doğrulanmış e-posta ve SUPER_ADMIN_USER_ID eşleşmesi ister", () => {
     const previousNode = process.env.NODE_ENV;
     const adminId = "11111111-1111-4111-8111-111111111111";
+    const otherId = "33333333-3333-4333-8333-333333333333";
     try {
       (process.env as { NODE_ENV?: string }).NODE_ENV = "development";
       delete process.env.CANONICAL_SUPER_ADMIN_EMAIL;
@@ -170,15 +186,31 @@ describe("requireSuperAdmin tek merkez", () => {
       (process.env as { NODE_ENV?: string }).NODE_ENV = "production";
       delete process.env.CANONICAL_SUPER_ADMIN_EMAIL;
       delete process.env.SUPER_ADMIN_USER_ID;
+      // T-03: üretimde UUID boşken yerleşik kutu bile admin değildir.
       expect(
         isSuperAdminActor({
           id: adminId,
           email: "yapinet360@gmail.com",
           emailConfirmedAt: CONFIRMED,
         }),
-      ).toBe(true);
+      ).toBe(false);
       process.env.CANONICAL_SUPER_ADMIN_EMAIL = "yapinet360@gmail.com";
-      process.env.SUPER_ADMIN_USER_ID = "33333333-3333-4333-8333-333333333333";
+      process.env.SUPER_ADMIN_USER_ID = otherId;
+      expect(
+        isSuperAdminActor({
+          id: adminId,
+          email: "yapinet360@gmail.com",
+          emailConfirmedAt: CONFIRMED,
+        }),
+      ).toBe(false);
+      expect(
+        isSuperAdminActor({
+          id: CITIZEN_ID,
+          email: "yapinet360@gmail.com",
+          emailConfirmedAt: CONFIRMED,
+        }),
+      ).toBe(false);
+      process.env.SUPER_ADMIN_USER_ID = adminId;
       expect(
         isSuperAdminActor({
           id: adminId,
@@ -192,7 +224,7 @@ describe("requireSuperAdmin tek merkez", () => {
           email: "yapinet360@gmail.com",
           emailConfirmedAt: CONFIRMED,
         }),
-      ).toBe(true);
+      ).toBe(false);
       expect(
         isSuperAdminActor({
           id: CITIZEN_ID,

@@ -419,21 +419,35 @@ function fairMode(caption: string): "rides" | "emotion" {
 
 export function FairScene({ beat, caption }: { beat: number; caption: string }) {
   const mode = fairMode(caption);
+  const lights = [0, 45, 90, 135, 180, 225, 270, 315];
   return (
     <Stage scene="fair">
       <text x="16" y="24" fill="#0f172a" fontSize="15" fontFamily="inherit" fontWeight="700">
         {mode === "emotion" ? "I am excited about / scared of" : "The ferris wheel is fun"}
       </text>
-      <line x1="110" y1="168" x2="110" y2="96" stroke="#cbd5e1" strokeWidth="4" />
-      <circle cx="110" cy="88" r="46" fill="none" stroke="#cbd5e1" strokeWidth="1.5" />
+      <ellipse cx="180" cy="176" rx="150" ry="14" fill="#bbf7d0" opacity="0.9" data-junior-scene-ground="lunapark" />
+      <rect x="24" y="150" width="10" height="22" fill="#94a3b8" />
+      <polygon points="24,150 46,142 24,136" fill="#f97316" />
+      <line x1="110" y1="168" x2="110" y2="96" stroke="#94a3b8" strokeWidth="5" />
+      <circle cx="110" cy="88" r="46" fill="#e0f2fe" stroke="#94a3b8" strokeWidth="3" data-junior-hero="dolap" />
+      <circle cx="110" cy="88" r="8" fill="#fde68a" stroke="#b45309" strokeWidth="2" />
       <line x1="110" y1="42" x2="110" y2="134" stroke="#b45309" strokeWidth="2" />
       <line x1="64" y1="88" x2="156" y2="88" stroke="#b45309" strokeWidth="2" />
-      <circle cx="110" cy="46" r="7" fill="#fde68a" stroke="#cbd5e1" strokeWidth="2" />
-      <circle cx="152" cy="88" r="7" fill="#e0f2fe" stroke="#cbd5e1" strokeWidth="2" />
-      <circle cx="110" cy="130" r="7" fill="#fb923c" stroke="#cbd5e1" strokeWidth="2" />
-      <rect x="200" y="118" width="64" height="28" rx="8" fill="#ef4444" stroke="#cbd5e1" strokeWidth="2" />
-      <circle cx="216" cy="152" r="8" fill="#0f172a" />
-      <circle cx="248" cy="152" r="8" fill="#0f172a" />
+      <line x1="78" y1="56" x2="142" y2="120" stroke="#b45309" strokeWidth="2" />
+      <line x1="78" y1="120" x2="142" y2="56" stroke="#b45309" strokeWidth="2" />
+      {lights.map((deg) => {
+        const rad = (deg * Math.PI) / 180;
+        const cx = 110 + Math.cos(rad) * 46;
+        const cy = 88 + Math.sin(rad) * 46;
+        return <circle key={deg} cx={cx} cy={cy} r="3.2" fill={deg % 90 === 0 ? "#fde68a" : "#fb7185"} data-junior-helper="ışık" />;
+      })}
+      <rect x="100" y="36" width="20" height="12" rx="3" fill="#fde68a" stroke="#94a3b8" strokeWidth="1.5" data-junior-helper="kabin" />
+      <rect x="146" y="80" width="18" height="12" rx="3" fill="#bae6fd" stroke="#94a3b8" strokeWidth="1.5" />
+      <rect x="101" y="124" width="18" height="12" rx="3" fill="#fb923c" stroke="#94a3b8" strokeWidth="1.5" />
+      <rect x="198" y="118" width="78" height="30" rx="10" fill="#ef4444" stroke="#94a3b8" strokeWidth="2" data-junior-helper="araba" />
+      <rect x="214" y="124" width="22" height="10" rx="2" fill="#fee2e2" />
+      <circle cx="216" cy="152" r="8" fill="#334155" />
+      <circle cx="258" cy="152" r="8" fill="#334155" />
       <text x="204" y="108" fill="#0f172a" fontSize="11" fontFamily="inherit">
         bumper cars
       </text>

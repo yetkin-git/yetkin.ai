@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { IconClose } from "@/components/ui/icons";
+import { JUNIOR_QUIZ_CONTROL_LABEL } from "@/lib/junior/limits";
 import type { JuniorWeeklyReport } from "@/lib/junior/report";
 
 function formatDay(iso: string): string {
@@ -143,12 +144,12 @@ export function WeeklyReport({
               </section>
 
               <section className="rounded-2xl border border-[var(--border)] bg-white p-4">
-                <h3 className="text-sm font-semibold">10 Soruluk Test Başarı Grafiği</h3>
+                <h3 className="text-sm font-semibold">{JUNIOR_QUIZ_CONTROL_LABEL}</h3>
                 <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
-                  Konu testlerindeki doğru ve yanlış sayısı.
+                  Hızlı konu kontrolündeki doğru ve yanlış sayısı.
                 </p>
                 {report.quizzes.length === 0 ? (
-                  <p className="mt-3 text-sm leading-6">Bu yedi günde konu testi yok.</p>
+                  <p className="mt-3 text-sm leading-6">Bu yedi günde hızlı konu kontrolü yok.</p>
                 ) : (
                   <div className="mt-3 grid gap-3">
                     <p className="text-sm">

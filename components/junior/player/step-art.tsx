@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { EnglishSceneArt, isEnglishJuniorScene } from "@/components/junior/player/english-scenes";
+import { JuniorScenePlate } from "@/components/junior/player/scene-plate";
 import { isMathJuniorScene, MathSceneArt } from "@/components/junior/player/math-scenes";
 import {
   JUNIOR_STAGE_ART_H,
@@ -11,6 +12,7 @@ import {
 import { isScienceJuniorScene, ScienceSceneArt } from "@/components/junior/player/science-scenes";
 import { isSocialJuniorScene, SocialSceneArt } from "@/components/junior/player/social-scenes";
 import { isTurkishJuniorScene, TurkishSceneArt } from "@/components/junior/player/turkish-scenes";
+import { juniorSceneMediaForBeat } from "@/lib/junior/scene-media";
 import type { JuniorVectorScene } from "@/lib/junior/types";
 
 type ArtProps = {
@@ -19,6 +21,8 @@ type ArtProps = {
   caption: string;
   /** 0..aktif cümle izi — Sticky Scene State (fallback bounce yasağı). */
   captionTrail?: readonly string[];
+  /** Plaka ve sözsüz kaset bu ders anahtarına yazılır. */
+  lessonKey?: string;
 };
 
 function Frame({
@@ -34,7 +38,7 @@ function Frame({
   return (
     <svg
       viewBox={`0 0 ${JUNIOR_STAGE_VB_W} ${JUNIOR_STAGE_VB_H}`}
-      className="pointer-events-none block h-full w-full"
+      className="pointer-events-none absolute inset-0 block h-full w-full"
       role="img"
       aria-hidden
       preserveAspectRatio="xMidYMid meet"
@@ -64,6 +68,7 @@ function motif(scene: JuniorVectorScene, caption: string): "pie" | "bars" | "blo
   if (scene === "particles") return "dots";
   if (scene === "sound") return "wave";
   if (scene === "circuit") return "wire";
+  if (scene === "mirror") return "wave";
   if (scene === "meaning") return "schema";
   if (scene === "word-tree") return "tree";
   if (scene === "affix") return "puzzle";
@@ -125,11 +130,25 @@ export function recapLineForActive(caption: string, active: number): string {
  * «Hazırım…» / «Bir Kez Daha…» burada yok — vector-player `playback.complete`
  * (audio.ended | currentTime ≥ duration − 1) kilidine bağlıdır; Adım 12/12 yetmez.
  */
-export function JuniorStepArt({ scene, beat, caption, captionTrail }: ArtProps) {
+export function JuniorStepArt({ scene, beat, caption, captionTrail, lessonKey = "" }: ArtProps) {
   /** Clean Stage Unmount: özet modunda branş SoftStage / ExponentScene ağacı DOM'da kalmaz. */
   if (beat >= 9) {
     return <RecapArt key="junior-recap-stage" beat={beat} caption={caption} scene={scene} />;
   }
+  const media = juniorSceneMediaForBeat(lessonKey, beat);
+  if (media.videoSrc || media.imageSrc) {
+    return (
+      <JuniorScenePlate videoSrc={media.videoSrc} imageSrc={media.imageSrc}>
+        <JuniorVectorStepArt scene={scene} beat={beat} caption={caption} captionTrail={captionTrail} />
+      </JuniorScenePlate>
+    );
+  }
+  return (
+    <JuniorVectorStepArt scene={scene} beat={beat} caption={caption} captionTrail={captionTrail} />
+  );
+}
+
+function JuniorVectorStepArt({ scene, beat, caption, captionTrail }: ArtProps) {
   if (isEnglishJuniorScene(scene)) {
     return <EnglishSceneArt scene={scene} beat={beat} caption={caption} />;
   }
@@ -189,60 +208,120 @@ function WelcomeArt({ scene, beat, caption }: ArtProps) {
   );
 }
 
+/**
+ * Özet kartları viewBox uzayında (640×360). İç `scale()` grubuna girmez:
+ * foreignObject puntoyu ikinci kez büyütüp satırı kartın sağından kesiyordu.
+ * Aktif kart uzun cümleyi alır; boş kartlar ince kalır.
+ */
+const RECAP_ROW_TOP = 44;
+const RECAP_GAP = 8;
+const RECAP_IDLE_H = 32;
+const RECAP_ACTIVE_H = JUNIOR_STAGE_VB_H - RECAP_ROW_TOP - RECAP_IDLE_H * 2 - RECAP_GAP * 2 - 12;
+const RECAP_CARD_X = 28;
+const RECAP_CARD_W = 584;
+
+/**
+ * leading-snug = 1.375. Punto, satır bloğu kutuya sığacak en büyük değerdir.
+ * innerW / innerH dolgu ve indeks payı düşülmüş alandır.
+ */
+function recapFontPx(line: string, innerW: number, innerH: number): number {
+  const text = line.trim();
+  const width = Math.max(40, innerW);
+  const height = Math.max(16, innerH);
+  for (const size of [26, 24, 22, 20, 18, 16, 14]) {
+    const chars = Math.max(6, Math.floor(width / (size * 0.58)));
+    const lines = Math.max(1, Math.ceil(Math.max(1, text.length) / chars));
+    if (lines * size * 1.375 <= height) return size;
+  }
+  return 14;
+}
+
+function recapSlots(active: number): Array<{ index: number; y: number; h: number }> {
+  let y = RECAP_ROW_TOP;
+  return [0, 1, 2].map((index) => {
+    const h = index === active ? RECAP_ACTIVE_H : RECAP_IDLE_H;
+    const slot = { index, y, h };
+    y += h + RECAP_GAP;
+    return slot;
+  });
+}
+
 function RecapArt({ beat, caption }: ArtProps) {
   const active = Math.min(2, Math.max(0, beat - 9));
   /**
    * Tek adım metni (steps[9|10|11]) veya çok maddeli kaset bloğu.
    * `1.`/`2.`/`3.` bloğu varsa aktif madde; yoksa tüm satır (çift indeks yok).
    * Vurgu beat/caption ile aynı ms — geçiş tamponu yok.
-   * Metin: foreignObject + break-words — slice(0,42) kesmesi yok.
+   * Metin: foreignObject + min-h-fit — slice(0,42) kesmesi yok.
    */
   const line = recapLineForActive(caption, active);
-  /** 360×200 art: başlık + 3 kart; aktif madde wrap ile tam görünür (slice yok). */
-  const rowH = 52;
-  const rowGap = 3;
-  const rowTop = 32;
+  const slots = recapSlots(active);
   return (
-    <Frame recapClean>
-      <text x="20" y="24" fill="#0f172a" fontSize="15" fontFamily="inherit" fontWeight="700">
+    <svg
+      viewBox={`0 0 ${JUNIOR_STAGE_VB_W} ${JUNIOR_STAGE_VB_H}`}
+      className="pointer-events-none absolute inset-0 block h-full w-full"
+      role="img"
+      aria-hidden
+      preserveAspectRatio="xMidYMid meet"
+      data-junior-stage="cinema-16x9"
+      data-junior-recap="clean"
+    >
+      <text x="36" y="30" fill="#0f172a" fontSize="22" fontFamily="inherit" fontWeight="700">
         Bugün Neler Öğrendik?
       </text>
-      {[0, 1, 2].map((index) => {
-        const y = rowTop + index * (rowH + rowGap);
+      {slots.map(({ index, y, h }) => {
         const isActive = index === active;
+        const textX = 44;
+        const textW = RECAP_CARD_X + RECAP_CARD_W - 20 - textX;
+        const textH = h - 16;
+        const fontPx = recapFontPx(line, textW - 56, textH - 20);
         return (
-          <g key={index} opacity={isActive ? 1 : 0.55}>
+          <g key={index} opacity={isActive ? 1 : 0.55} data-junior-recap-card={index} data-junior-recap-active={isActive ? "true" : "false"}>
             <rect
-              x="14"
+              x={RECAP_CARD_X}
               y={y}
-              width="332"
-              height={rowH}
-              rx="8"
+              width={RECAP_CARD_W}
+              height={h}
+              rx="14"
               fill={isActive ? "#fde68a" : "#f8fafc"}
               stroke={isActive ? "#0284c7" : "#cbd5e1"}
               strokeWidth={isActive ? 3 : 1.75}
             />
-            <text x="26" y={y + 30} fill="#0f172a" fontSize="13" fontFamily="inherit" fontWeight="700">
-              {index + 1}.
-            </text>
             {isActive ? (
-              <foreignObject x="46" y={y + 4} width="292" height={rowH - 8}>
+              <foreignObject x={textX} y={y + 8} width={textW} height={textH}>
                 <div
-                  className="box-border flex h-full w-full items-center break-words text-sm leading-snug text-slate-900 md:text-base"
-                  style={{ overflowWrap: "break-word", wordBreak: "normal", hyphens: "none" }}
+                  className="box-border flex min-h-fit items-center justify-center gap-3 break-words px-3 py-2 text-center leading-snug text-slate-900"
+                  data-junior-recap-line=""
+                  data-junior-recap-font={fontPx}
+                  style={{
+                    width: `${textW}px`,
+                    height: `${textH}px`,
+                    fontSize: `${fontPx}px`,
+                    overflowWrap: "break-word",
+                    wordBreak: "normal",
+                    hyphens: "none",
+                  }}
                 >
-                  {line}
+                  <span className="shrink-0 font-bold">{index + 1}.</span>
+                  <span className="min-h-fit min-w-0 flex-1">{line}</span>
                 </div>
               </foreignObject>
             ) : (
-              <text x="50" y={y + 30} fill="#0f172a" fontSize="13" fontFamily="inherit">
-                ·
+              <text
+                x="48"
+                y={y + h / 2 + 6}
+                fill="#0f172a"
+                fontSize="18"
+                fontFamily="inherit"
+                fontWeight="700"
+              >
+                {index + 1}.
               </text>
             )}
           </g>
         );
       })}
-    </Frame>
+    </svg>
   );
 }
 

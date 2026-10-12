@@ -31,6 +31,9 @@ import {
   academyCourseWritePath,
   assertRailIsDay0Path,
   DRON_FAZ2_FROZEN,
+  juniorLessonPlayPath,
+  juniorLessonPracticePath,
+  juniorLessonProgressPath,
 } from "./hops";
 
 const WRITE_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
@@ -101,6 +104,20 @@ export type V1HttpClient = {
   syncCareerPortfolio(options?: { idempotencyKey?: string }): Promise<RailV1OkBody<Record<string, unknown>>>;
   patchProfile(
     body: unknown,
+    options?: { idempotencyKey?: string },
+  ): Promise<RailV1OkBody<Record<string, unknown>>>;
+  getJuniorLessonPlay(
+    lessonKey: string,
+    profileId?: string | null,
+  ): Promise<RailV1OkBody<Record<string, unknown>>>;
+  saveJuniorLessonProgress(
+    lessonKey: string,
+    body: { profileId: string },
+    options?: { idempotencyKey?: string },
+  ): Promise<RailV1OkBody<Record<string, unknown>>>;
+  submitJuniorLessonPractice(
+    lessonKey: string,
+    body: { profileId: string; answers: ReadonlyArray<{ id: string; choiceIndex?: number }> },
     options?: { idempotencyKey?: string },
   ): Promise<RailV1OkBody<Record<string, unknown>>>;
   /** Faz 2 — HTTP atmaz; `DRON_FAZ2_FROZEN`. */
@@ -396,6 +413,28 @@ export function createV1HttpClient(options: V1HttpClientOptions): V1HttpClient {
       return request<Record<string, unknown>>({
         path: "/api/v1/profile",
         method: "PATCH",
+        body,
+        idempotencyKey: options?.idempotencyKey,
+      });
+    },
+    async getJuniorLessonPlay(lessonKey, profileId) {
+      return request<Record<string, unknown>>({
+        path: juniorLessonPlayPath(lessonKey, profileId),
+        method: "GET",
+      });
+    },
+    async saveJuniorLessonProgress(lessonKey, body, options) {
+      return request<Record<string, unknown>>({
+        path: juniorLessonProgressPath(lessonKey),
+        method: "POST",
+        body,
+        idempotencyKey: options?.idempotencyKey,
+      });
+    },
+    async submitJuniorLessonPractice(lessonKey, body, options) {
+      return request<Record<string, unknown>>({
+        path: juniorLessonPracticePath(lessonKey),
+        method: "POST",
         body,
         idempotencyKey: options?.idempotencyKey,
       });

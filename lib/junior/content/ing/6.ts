@@ -1,38 +1,37 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf İngilizce, Ünite 3 Downtown. Karşılaştırma. */
+/** 6. Sınıf İngilizce, ENG.6.5 Universe, 25–28. hafta. Gök cisimleri ve there is. */
 export const JUNIOR_ING_MAIN_6_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_ing_main-6",
-  title: "Bigger ve cheaper ile karşılaştırma",
+  title: "Universe: gökyüzü ve there is",
   teaser:
-    "Kısa sıfat karşılaştırmada er alır. Big, bigger olur. Cheap, cheaper olur. Than, kıyaslananı bağlar. Kavramsal Anlayış, kısa sıfat ile uzun sıfatı ayırır. İfade Gücü, iki dükkânı bir cümlede kıyaslamandır.",
+    "Universe temasında Güneş, Ay ve gezegenler there is ve there are ile söylenir. The Sun is a star, Güneş bir yıldızdır demektir. Kavramsal Anlayış, tekil ile çoğulu ayırır. İfade Gücü, gökyüzündeki bir cismi bir cümlede tanıtmandır.",
   welcome:
-    "Merhaba güzel arkadaşım, çarşıda veya bir alışveriş merkezinde yan yana duran iki dükkânı hayal et. Biri diğerinden daha büyük, öbürü ise belki çok daha uygun fiyatlı! Hayatın içinde her an iki nesneyi, iki yeri veya iki kıyafeti birbiriyle kıyaslarız. Bugün seninle İngilizcede karşılaştırma yapmayı, yani 'comparative' kalıplarını keşfedeceğiz. Kısa kelimelere eklenen küçük bir sesle 'bigger' veya 'cheaper' demeyi, kıyasladığımız şeyleri ise sihirli 'than' köprüsüyle birbirine bağlamayı öğreneceğiz.",
+    "Merhaba sevgili çocuklar! Gece gökyüzüne bakınca yıldızlar, bazen de Ay karşına çıkar. Gündüz ise Güneş her şeyi aydınlatır. Bu cisimler Universe konusunun ilk sözcükleridir. Bugün Güneş, Ay, yıldız ve gezegeni İngilizce tanıyacak, there is ve there are ile sayılarını söyleyeceğiz. Gökyüzünü gözlemlemek, tek olanla çok olanı ayırmana yardım eder.",
   concept:
-    "İngilizcede tek heceli veya kısa sıfatları birbiriyle kıyaslarken sıfatın sonuna '-er' eki getiririz. Örneğin büyük anlamına gelen 'big' sözcüğü 'bigger', ucuz anlamına gelen 'cheap' sözcüğü ise 'cheaper' olur. Benzer şekilde 'small' daha küçük anlamında 'smaller', 'tall' daha uzun anlamında 'taller' halini alır. Tek ünlü ve tek ünsüz harfle biten kısa sıfatlarda sondaki ünsüz harf ikizleşir; tıpkı 'big' kelimesinin 'bigger', 'hot' kelimesinin 'hotter' oluşu gibi. Ancak 'expensive' gibi uzun ve gösterişli sıfatların sonuna '-er' eklenmez; onun yerine sıfatın önüne zarif bir 'more' sözcüğü gelir ve 'more expensive', yani daha pahalı deriz. Şurası aklında kalsın tamam mı: Kıyaslama yaparken iki varlığın arasına mutlaka -den veya -dan anlamına gelen 'than' sözcüğünü yerleştiririz.",
+    "Universe içinde Sun Güneş, Moon Ay, star yıldız ve planet gezegen demektir. The Sun is a star cümlesi Güneş'in bir yıldız olduğunu söyler. The Moon is a satellite cümlesi Ay'ın bir uydu olduğunu söyler. Tek bir şeyden söz ederken There is gelir: There is a bright star. Birden çok şey için There are gelir: There are eight planets. Soru Is there a moon? ve Are there stars? diye kurulur. Pratik kural: There is tekili, there are çoğulu taşır.",
   example:
-    "Vitrinlerdeki iki çantayı birlikte inceleyelim: 'The blue bag is bigger than the red bag', yani mavi çanta kırmızı olandan daha büyüktür. Şimdi de fiyatlarına bakalım: 'The red bag is cheaper than the blue bag', yani kırmızı çanta mavi olandan daha ucuzdur. Masadaki iki kitaptan biri çok değerliyse 'This book is more expensive than that one' diyebilirsin. İngilizcede bazı özel sıfatlar da vardır: Örneğin 'good' yani iyi sözcüğü kıyaslamada tamamen değişir ve 'better', yani daha iyi olur. Tıpkı 'This pencil is better than that pencil' dediğimiz gibi!",
-  hint: "trap",
+    "Pencereden gece gökyüzüne bakalım. There is a full moon tonight, bu gece dolunay var demektir. There are many stars in the sky, gökyüzünde birçok yıldız var demektir. Güneş'i tanıtırken The Sun is the star at the centre of our system dersin. Arkadaşın What is the Moon? diye sorarsa The Moon is Earth's satellite diye cevap verirsin. Sekiz gezegeni saymak için There are eight planets around the Sun cümlesi yeter.",
+  hint: "gold",
   warning:
-    "Kısa sıfatlarda '-er' takısı varken önüne bir de fazladan 'more' eklememeye özen göster; örneğin 'more bigger' demek yerine sadece 'bigger than' demek cümleni çok daha akıcı ve doğru yapar. Uzun sıfatlarda ise 'expensiver' gibi eklemeler yapmak yerine 'more expensive than' kalıbını tercih edebilirsin. Ayrıca iki varlığı kıyaslarken aradaki 'than' köprüsünü kurmayı her zaman hatırla; çünkü 'than' sözcüğü karşılaştırmanın en sadık pusulasıdır.",
+    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Çoğul sözcükle there is demek sayıyı bozar; stars için there are gerekir. Güneş'i bir planet sanmak da yanlıştır; Güneş bir star olarak durur. Ay'ı gezegen listesine eklemek aynı tuzaktır. Universe konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
   life:
-    "Kırtasiyeye gittiğinde iki defteri yan yana koyup 'This notebook is bigger than that notebook' de. Kardeşinin boyu ile kendi boyunu kıyaslarken 'I am taller than my brother' diyerek gülümse. Okul bahçesindeki iki ağaca bakıp 'The oak tree is older' cümlesini kur. Bir eşyayı satın almadan önce de 'This one is cheaper' diyerek tercihini İngilizceyle seslendir.",
+    "Bunu akşam pencereden deneyebilirsin. Gördüğün Ay için There is the Moon de. Yıldızlar çoksa There are stars diye fısılda. Okulda bir gezegen posteri varsa There are planets on the poster dersin. Sabah Güneş'i görünce The Sun is a star cümlesini hatırla. Gelecekte uzaya gitmeyi düşünmek ayrı bir derstir; bugün cisimlerin adını sağlam kur.",
   recap: [
-    "Kısa sıfatlar karşılaştırmada er alır; big bigger, cheap cheaper olur.",
-    "Uzun sıfatların önüne more gelir; more expensive kalıbı böyle kurulur.",
-    "Kıyaslanan iki varlığın arasına than köprüsü yerleştirilir.",
+    "Universe konusunda Sun bir yıldız, Moon bir uydudur.",
+    "There is tekil, there are çoğul varlık söyler.",
+    "There are eight planets cümlesi sekiz gezegeni anlatır.",
   ],
-  conceptSeal: "Kısa sıfat er alır. Uzun sıfat more alır. Than kıyaslar.",
-  voiceSeal: "İki dükkânı bigger ve cheaper ile bir cümlede söylersin.",
+  conceptSeal: "Gök cismi there is ya da there are ile ve doğru adıyla kurulur.",
+  voiceSeal: "Gökyüzünde gördüğün bir cismi bir İngilizce cümleyle tanıtırısın.",
   outcomes: [
-    "Kısa sıfat karşılaştırmada er alır.",
-    "Than kıyaslananı bağlar.",
-    "Uzun sıfatın önüne more gelir.",
+    "Sun, Moon, star ve planet gökyüzü sözcükleridir.",
+    "There is tekili, there are çoğulu söyler.",
+    "Güneş yıldızdır, gezegen değildir.",
   ],
-  scene: "skyline",
+  scene: "globe",
   parentNote:
-    "Çocuğunuz kısa sıfata er, uzun sıfata more getirir. Bigger than ve cheaper than sırasını evde iki eşyayla deneyebilirsiniz.",
-
+    "Çocuğunuz Güneş'in yıldız, Ay'ın uydu olduğunu İngilizce söyler. There is ile there are ayrımını kurar. Akşam pencereden bir cümle yeter.",
 };
 
 export const JUNIOR_ING_MAIN_6 = juniorLessonFromScenario(JUNIOR_ING_MAIN_6_SCENARIO);

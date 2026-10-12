@@ -1,0 +1,28 @@
+{
+  "key": "jr_06_mat-27",
+  "title": "Standart uzunluk ölçü birimleri",
+  "teaser": "Uzunluk metreyle ölçülür. Kavramsal Anlayış, milimetre, santimetre, metre ve kilometre arasındaki 10'luk geçiştir. İfade Gücü, 250 santimetreyi metreye çevirmektir.",
+  "welcome": "Merhaba sevgili çocuklar! Bugün uzunluğu ortak birimlerle ölçeceğiz. Okul koridoru adımla değil metreyle konuşulur. Küçük birimden büyüğe geçince sayı küçülür.",
+  "concept": "Standart uzunluk birimleri milimetre, santimetre, metre ve kilometredir. 1 santimetre 10 milimetredir. 1 metre 100 santimetredir. 1 kilometre 1000 metredir. Cetvelle ölçerken birimi yazmadan sayı tek başına uzunluk değildir.",
+  "example": "250 santimetreyi metreye çevirelim. 100 santimetre 1 metre olduğuna göre 250 santimetre 2 metre 50 santimetredir. Ondalık yazılırsa 2,5 metre eder. 3 kilometre ise 3000 metredir. 40 milimetre 4 santimetredir çünkü 10 milimetre 1 santimetredir.",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Büyük birime geçerken sayıyı 10, 100 veya 1000 ile çarpmak uzatır. Bölmen gerekir. 250 santimetre 250 metre değildir. Birimi silersen 2,5 ile 250 aynı şey gibi görünür.",
+  "life": "Bunu okul bahçesindeki koşu şeridinde kullanırsın. Kutunun kısa kenarı santimetre, sahanın çevresi metredir. Şehirler arası yol ise kilometreyle söylenir.",
+  "recap": [
+    "Uzunluk milimetre, santimetre, metre ve kilometreyle ölçülür.",
+    "1 metre 100 santimetredir. 1 kilometre 1000 metredir.",
+    "Büyük birime geçerken sayı bölünür."
+  ],
+  "conceptSeal": "Birim değişince sayı da değişir. Uzunluk aynı kalır.",
+  "voiceSeal": "250 santimetreyi 2,5 metre diye adlandırırsın.",
+  "outcomes": [
+    "Uzunluk birimleri 10'luk basamakla bağlıdır.",
+    "1 metre 100 santimetredir.",
+    "Büyük birime geçiş bölmeyle olur.",
+    "Standart uzunluk ölçü birimleri kuralı bu derste yeni bir istisna açmaz.",
+    "27 numaralı örnek, ikinci bir kurala dönüşmez.",
+    "Okul defterindeki adım, bahçedeki ölçümle aynı kuralı taşır."
+  ],
+  "scene": "number-line",
+  "hint": "gold",
+  "parentNote": "Çocuğunuz 250 santimetreyi 2,5 metre diye çevirir. 3 kilometreyi 3000 metre diye açar. Birimi silmeyin."
+}

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { INDEPENDENT_ROOMS, type IndependentRoomId } from "@/lib/dronlar/kayit";
+import { DronBayrakları, INDEPENDENT_ROOMS, type IndependentRoomId } from "@/lib/dronlar/kayit";
 import { VERTICAL_ROOMS } from "@/lib/kernel/modules";
 import { isPhase1ShellNavRoom } from "@/lib/kernel/compliance/circuit-breakers";
 import { ROOM_NAV_ACCENT } from "@/lib/ui/room-theme";
@@ -11,6 +11,7 @@ import { ROOM_ICONS } from "@/components/ui/icons";
 
 const INDEPENDENT_NAV_ACCENT: Record<IndependentRoomId, string> = {
   junior: "bg-[#0369a1] text-white",
+  young: "bg-[#4338ca] text-white",
 };
 
 function isActive(pathname: string | null, path: string): boolean {
@@ -36,7 +37,7 @@ export function SidebarNav({
       ...room,
       accent: ROOM_NAV_ACCENT[room.id],
     })),
-    ...INDEPENDENT_ROOMS.map((room) => ({
+    ...INDEPENDENT_ROOMS.filter((room) => !DronBayrakları.isKapali(room.id)).map((room) => ({
       ...room,
       accent: INDEPENDENT_NAV_ACCENT[room.id],
     })),

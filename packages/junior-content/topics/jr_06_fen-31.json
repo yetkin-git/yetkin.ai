@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_fen-31",
+  "title": "Soğurulma ve beyaz ışık",
+  "teaser": "Soğurulma, ışığın madde tarafından alınıp enerjiye dönüşmesidir. Beyaz ışık, birçok rengin karışımıdır. Kavramsal Anlayış, koyu yüzeyin daha çok soğurduğunu bilir. İfade Gücü, prizma deneyinin sonucunu söylemektir.",
+  "welcome": "Merhaba sevgili çocuklar! Yazın koyu renk tişört güneşte daha çabuk ısınır, açık renk tişört daha serin kalır. Bu fark ışığın soğurulmasıyla ilgilidir. Güneş ışığı beyaz görünür ama içinde birçok renk gizlidir. Bugün bir deneyle soğurmayı ve beyaz ışığın ayrılmasını göreceğiz. İki kumaşı gözlemlemek ısı farkını somutlaştırır.",
+  "concept": "Soğurulma, ışık enerjisinin madde tarafından alınıp çoğunlukla ısıya dönüşmesidir. Koyu ve mat yüzeyler ışığın daha çoğunu soğurur. Açık ve parlak yüzeyler ışığın daha çoğunu yansıtır. Beyaz ışık tek bir renk değildir; kırmızıdan mora birçok rengin birleşimidir. Prizma, beyaz ışığı bu renklere ayırır. Gökkuşağı da beyaz ışığın damlalarda ayrılmasıyla görünür. Pratik kural: Soğuran yüzey ısınır, prizma beyaz ışığı bileşenlerine ayırır.",
+  "example": "Güneşli bir günde 1 siyah ve 1 beyaz kâğıdı 10 dakika dışarıda bırak. Siyah kâğıt elle yoklandığında daha sıcak gelir; daha çok ışık soğurmuştur. Beyaz kâğıt daha çok ışık yansıttığı için daha serin kalır. Aynı ışığı üçgen prizmadan geçirirsen duvarda renk kuşağı belirir. Bu kuşak beyaz ışığın tek renk olmadığını gösterir. Deneyde değişen değişken yüzey rengi ya da prizmanın varlığıdır.",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Siyahın ışığı yok ettiğini sanmak tuzaktır; siyah ışığı soğurur ve enerji ısıya döner. Beyaz ışığı boyasız boşluk sanmak da yanlıştır. Prizmanın renk ürettiğini, ışığın içindeki renkleri ayırdığını unutarak söylemek deneyi eksik bırakır. Soğurulma ve beyaz ışık konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+  "life": "Bunu yaz günü kıyafet seçerken kullanırsın. Açık renk bir şapka başını daha serin tutabilir. Yağmur sonrası gökyüzündeki kuşak beyaz ışığın ayrıldığını hatırlatır. Okulda el feneri ve prizma ile sınıf duvarında küçük bir renk deneyi kurabilirsin.",
+  "recap": [
+    "Soğurulma, ışığın madde tarafından alınıp ısıya dönüşmesidir.",
+    "Koyu yüzey daha çok soğurur, açık yüzey daha çok yansıtır.",
+    "Beyaz ışık birçok rengin karışımıdır ve prizmada ayrılır."
+  ],
+  "conceptSeal": "Soğurma ısıyı, prizma beyaz ışığın renklerini gösterir.",
+  "voiceSeal": "Siyah ve beyaz kâğıt deneyinin sonucunu kendi cümlenle söylersin.",
+  "outcomes": [
+    "Soğurulma ışığı ısıya çevirebilir.",
+    "Koyu yüzey daha çok soğurur.",
+    "Beyaz ışık prizmada renklere ayrılır."
+  ],
+  "scene": "mirror",
+  "hint": "trap",
+  "parentNote": "Çocuğunuz koyu yüzeyin daha çok ısındığını soğurma ile açıklar. Beyaz ışığın prizmada ayrıldığını bilir. Güneş altında iki kâğıt deneyi evde yapılabilir."
+}

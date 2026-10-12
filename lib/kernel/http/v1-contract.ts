@@ -1,5 +1,5 @@
 /**
- * `/api/v1` sözleşme sicili — API-First dron sözleşmesi (17 hop).
+ * `/api/v1` sözleşme sicili — API-First dron sözleşmesi (20 hop).
  * Anayasa: yayınlanmış alan sessizce düşmez. Bu dosyadaki DTO / OpenAPI
  * kısaltması major sürüm ister. Kernel dikey oda import etmez; alanlar
  * burada dondurulur.
@@ -611,14 +611,99 @@ export const railV1JuniorLessonCardSchema = z.strictObject({
   access: z.enum(["free", "locked"]),
   scene: z.string().min(1),
   audioPath: z.string().nullable(),
-  coverPath: z.string().min(1),
+  warmupPath: z.string().nullable(),
+  coverPath: z.string().nullable(),
 });
 
 export const railV1JuniorLessonReadDataSchema = z.strictObject({
   card: railV1JuniorLessonCardSchema,
 });
 
+const railV1JuniorPracticeChoiceSchema = z.strictObject({
+  id: z.string().min(1),
+  kind: z.literal("choice"),
+  prompt: z.string().min(1),
+  choices: z.array(z.string().min(1)).min(2),
+});
+
+const railV1JuniorPracticeMatchSchema = z.strictObject({
+  id: z.string().min(1),
+  kind: z.literal("match"),
+  prompt: z.string().min(1),
+  left: z.array(z.strictObject({ id: z.string().min(1), label: z.string().min(1) })),
+  right: z.array(z.strictObject({ id: z.string().min(1), label: z.string().min(1) })),
+});
+
+export const railV1JuniorLessonPlayDataSchema = z.strictObject({
+  lesson: z.strictObject({
+    lessonKey: z.string().min(1),
+    title: z.string().min(1),
+    courseTitle: z.string().min(1),
+    access: z.enum(["free", "locked"]),
+    script: z.string().min(1),
+    scene: z.string().min(1),
+    steps: z.array(z.string().min(1)),
+    preparing: z.boolean(),
+  }),
+  media: z.strictObject({
+    audioUrl: z.string().nullable(),
+    warmupUrl: z.string().nullable(),
+    coverUrl: z.string().nullable(),
+    expiresAt: railV1IsoDateTimeSchema.nullable(),
+  }),
+  practice: z.array(z.union([railV1JuniorPracticeChoiceSchema, railV1JuniorPracticeMatchSchema])),
+  progress: z
+    .strictObject({
+      status: z.enum(["fresh", "going", "done"]),
+    })
+    .nullable(),
+});
+
+export const railV1JuniorLessonProgressRequestSchema = z.strictObject({
+  profileId: z.string().trim().min(1).max(40),
+});
+
+export const railV1JuniorLessonProgressDataSchema = z.strictObject({
+  progress: z.strictObject({
+    lessonKey: z.string().min(1),
+    status: z.enum(["going", "done"]),
+    score: z.int().min(0).max(100),
+    xpAwarded: z.int().min(0).max(100),
+    points: z.int().nonnegative(),
+  }),
+});
+
+export const railV1JuniorLessonPracticeRequestSchema = z.strictObject({
+  profileId: z.string().trim().min(1).max(40),
+  answers: z
+    .array(
+      z.strictObject({
+        id: z.string().trim().min(1).max(40),
+        choiceIndex: z.int().min(0).max(8).optional(),
+        matches: z.record(z.string().max(40), z.string().max(40)).optional(),
+      }),
+    )
+    .max(12),
+});
+
+export const railV1JuniorLessonPracticeDataSchema = z.strictObject({
+  result: z.strictObject({
+    praised: z.string().min(1),
+    missing: z.string().min(1),
+    advice: z.string().min(1),
+    score: z.int().min(0).max(100),
+    xpAwarded: z.int().min(0).max(100),
+    points: z.int().nonnegative(),
+    correct: z.int().nonnegative(),
+    total: z.int().positive(),
+    status: z.enum(["fresh", "going", "done"]),
+  }),
+});
+
 export const RAIL_V1_JUNIOR_LESSON_MISSING = "Bu ders yok.";
+export const RAIL_V1_JUNIOR_MEDIA_UNAVAILABLE = "Bu dersin medyası şu an açılamıyor.";
+export const RAIL_V1_JUNIOR_PROGRESS_INVALID = "İlerleme kaydı okunamadı.";
+export const RAIL_V1_JUNIOR_PRACTICE_INVALID = "Cevaplar okunamadı.";
 
 export const railV1ProfilePatchRequestSchema = z.strictObject({
   displayName: z.string(),
@@ -1121,10 +1206,11 @@ const RAIL_V1_HOP_CONTRACTS = {
       "card.access",
       "card.scene",
       "card.audioPath",
+      "card.warmupPath",
       "card.coverPath",
     ],
     dataSchema: railV1JuniorLessonReadDataSchema,
-    exampleParams: { key: "jr_06_mat-1" },
+    exampleParams: { key: "jr_06_mat-5" },
     errors: [
       RAIL_VERSION_HEADER_REQUIRED,
       RAIL_VERSION_HEADER_INVALID,
@@ -1132,6 +1218,86 @@ const RAIL_V1_HOP_CONTRACTS = {
       RAIL_VERSION_SERVER_STALE,
       RAIL_V1_JUNIOR_LESSON_MISSING,
     ],
+  },
+  "junior-lesson-play": {
+    canonicalPathTemplate: "/api/junior/lessons/{key}/play",
+    routeAuthPattern: "/api/junior/lessons/[key]/play",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["lesson", "media", "practice", "progress"],
+    publishedDataPaths: [
+      "lesson",
+      "lesson.lessonKey",
+      "lesson.title",
+      "lesson.courseTitle",
+      "lesson.access",
+      "lesson.script",
+      "lesson.scene",
+      "lesson.steps",
+      "lesson.preparing",
+      "media",
+      "media.audioUrl",
+      "media.warmupUrl",
+      "media.coverUrl",
+      "media.expiresAt",
+      "practice",
+      "practice[].id",
+      "practice[].kind",
+      "practice[].prompt",
+      "progress",
+      "progress.status",
+    ],
+    dataSchema: railV1JuniorLessonPlayDataSchema,
+    exampleParams: { key: "jr_06_mat-5" },
+    errors: [...SESSION_ERRORS, RAIL_V1_JUNIOR_LESSON_MISSING, RAIL_V1_JUNIOR_MEDIA_UNAVAILABLE],
+  },
+  "junior-lesson-progress": {
+    canonicalPathTemplate: "/api/junior/lessons/{key}/progress",
+    routeAuthPattern: "/api/junior/lessons/[key]/progress",
+    routeAuth: "session",
+    idempotency: true,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["progress"],
+    publishedDataPaths: [
+      "progress",
+      "progress.lessonKey",
+      "progress.status",
+      "progress.score",
+      "progress.xpAwarded",
+      "progress.points",
+    ],
+    dataSchema: railV1JuniorLessonProgressDataSchema,
+    requestSchema: railV1JuniorLessonProgressRequestSchema,
+    exampleParams: { key: "jr_06_mat-5" },
+    errors: [...WRITE_ERRORS, RAIL_V1_JUNIOR_PROGRESS_INVALID, RAIL_V1_JUNIOR_LESSON_MISSING],
+  },
+  "junior-lesson-practice": {
+    canonicalPathTemplate: "/api/junior/lessons/{key}/practice",
+    routeAuthPattern: "/api/junior/lessons/[key]/practice",
+    routeAuth: "session",
+    idempotency: true,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["result"],
+    publishedDataPaths: [
+      "result",
+      "result.praised",
+      "result.missing",
+      "result.advice",
+      "result.score",
+      "result.xpAwarded",
+      "result.points",
+      "result.correct",
+      "result.total",
+      "result.status",
+    ],
+    dataSchema: railV1JuniorLessonPracticeDataSchema,
+    requestSchema: railV1JuniorLessonPracticeRequestSchema,
+    exampleParams: { key: "jr_06_mat-5" },
+    errors: [...WRITE_ERRORS, RAIL_V1_JUNIOR_PRACTICE_INVALID, RAIL_V1_JUNIOR_LESSON_MISSING],
   },
   "profile-patch": {
     canonicalPathTemplate: "/api/profile",
@@ -1456,6 +1622,11 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
         RailV1CareerPortfolioData: toOpenApiSchema(railV1CareerPortfolioDataSchema),
         RailV1ProfilePatchRequest: toOpenApiSchema(railV1ProfilePatchRequestSchema),
         RailV1ProfilePatchData: toOpenApiSchema(railV1ProfilePatchDataSchema),
+        RailV1JuniorLessonPlayData: toOpenApiSchema(railV1JuniorLessonPlayDataSchema),
+        RailV1JuniorLessonProgressRequest: toOpenApiSchema(railV1JuniorLessonProgressRequestSchema),
+        RailV1JuniorLessonProgressData: toOpenApiSchema(railV1JuniorLessonProgressDataSchema),
+        RailV1JuniorLessonPracticeRequest: toOpenApiSchema(railV1JuniorLessonPracticeRequestSchema),
+        RailV1JuniorLessonPracticeData: toOpenApiSchema(railV1JuniorLessonPracticeDataSchema),
         RailV1SessionData: toOpenApiSchema(railV1SessionDataSchema),
         RailV1WalletStripData: toOpenApiSchema(railV1WalletStripDataSchema),
         RailV1JobsData: toOpenApiSchema(railV1JobsDataSchema),

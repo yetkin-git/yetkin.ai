@@ -1,0 +1,265 @@
+[
+  {
+    "lessonKey": "jr_06_mat-5",
+    "outcomeCodes": [
+      "MAT.6.1.1",
+      "MAT.6.1.2"
+    ],
+    "band": "tymm",
+    "startWeek": 1,
+    "endWeek": 2,
+    "hours": 10
+  },
+  {
+    "lessonKey": "jr_06_mat-6",
+    "outcomeCodes": [
+      "MAT.6.1.3"
+    ],
+    "band": "tymm",
+    "startWeek": 3,
+    "endWeek": 3,
+    "hours": 2
+  },
+  {
+    "lessonKey": "jr_06_mat-7",
+    "outcomeCodes": [
+      "MAT.6.1.4"
+    ],
+    "band": "tymm",
+    "startWeek": 3,
+    "endWeek": 3,
+    "hours": 3
+  },
+  {
+    "lessonKey": "jr_06_mat-14",
+    "outcomeCodes": [
+      "MAT.6.1.5"
+    ],
+    "band": "tymm",
+    "startWeek": 4,
+    "endWeek": 4,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_mat-26",
+    "outcomeCodes": [
+      "MAT.6.1.6"
+    ],
+    "band": "tymm",
+    "startWeek": 5,
+    "endWeek": 5,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_mat-27",
+    "outcomeCodes": [
+      "MAT.6.1.7"
+    ],
+    "band": "tymm",
+    "startWeek": 6,
+    "endWeek": 6,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_mat-11",
+    "outcomeCodes": [
+      "MAT.6.1.8"
+    ],
+    "band": "tymm",
+    "startWeek": 7,
+    "endWeek": 7,
+    "hours": 2
+  },
+  {
+    "lessonKey": "jr_06_mat-12",
+    "outcomeCodes": [
+      "MAT.6.1.8"
+    ],
+    "band": "tymm",
+    "startWeek": 7,
+    "endWeek": 7,
+    "hours": 2
+  },
+  {
+    "lessonKey": "jr_06_mat-13",
+    "outcomeCodes": [
+      "MAT.6.1.8"
+    ],
+    "band": "tymm",
+    "startWeek": 7,
+    "endWeek": 8,
+    "hours": 2
+  },
+  {
+    "lessonKey": "jr_06_mat-15",
+    "outcomeCodes": [
+      "MAT.6.1.8"
+    ],
+    "band": "tymm",
+    "startWeek": 8,
+    "endWeek": 8,
+    "hours": 2
+  },
+  {
+    "lessonKey": "jr_06_mat-17",
+    "outcomeCodes": [
+      "MAT.6.2.1"
+    ],
+    "band": "tymm",
+    "startWeek": 8,
+    "endWeek": 9,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_mat-28",
+    "outcomeCodes": [
+      "MAT.6.2.2"
+    ],
+    "band": "tymm",
+    "startWeek": 9,
+    "endWeek": 11,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_mat-29",
+    "outcomeCodes": [
+      "MAT.6.2.3"
+    ],
+    "band": "tymm",
+    "startWeek": 11,
+    "endWeek": 12,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_mat-30",
+    "outcomeCodes": [
+      "MAT.6.3.1"
+    ],
+    "band": "tymm",
+    "startWeek": 12,
+    "endWeek": 13,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_mat-31",
+    "outcomeCodes": [
+      "MAT.6.3.2"
+    ],
+    "band": "tymm",
+    "startWeek": 13,
+    "endWeek": 14,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_mat-32",
+    "outcomeCodes": [
+      "MAT.6.3.3"
+    ],
+    "band": "tymm",
+    "startWeek": 14,
+    "endWeek": 15,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_mat-33",
+    "outcomeCodes": [
+      "MAT.6.3.4"
+    ],
+    "band": "tymm",
+    "startWeek": 15,
+    "endWeek": 16,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_mat-22",
+    "outcomeCodes": [
+      "MAT.6.4.1",
+      "MAT.6.4.3"
+    ],
+    "band": "tymm",
+    "startWeek": 16,
+    "endWeek": 17,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_mat-21",
+    "outcomeCodes": [
+      "MAT.6.4.2",
+      "MAT.6.4.3"
+    ],
+    "band": "tymm",
+    "startWeek": 17,
+    "endWeek": 18,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_mat-34",
+    "outcomeCodes": [
+      "MAT.6.4.4"
+    ],
+    "band": "tymm",
+    "startWeek": 18,
+    "endWeek": 22,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_mat-35",
+    "outcomeCodes": [
+      "MAT.6.4.5"
+    ],
+    "band": "tymm",
+    "startWeek": 22,
+    "endWeek": 23,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_mat-36",
+    "outcomeCodes": [
+      "MAT.6.4.6"
+    ],
+    "band": "tymm",
+    "startWeek": 23,
+    "endWeek": 24,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_mat-18",
+    "outcomeCodes": [
+      "MAT.6.5.1"
+    ],
+    "band": "tymm",
+    "startWeek": 24,
+    "endWeek": 25,
+    "hours": 4
+  },
+  {
+    "lessonKey": "jr_06_mat-19",
+    "outcomeCodes": [
+      "MAT.6.5.1"
+    ],
+    "band": "tymm",
+    "startWeek": 25,
+    "endWeek": 27,
+    "hours": 4
+  },
+  {
+    "lessonKey": "jr_06_mat-37",
+    "outcomeCodes": [
+      "MAT.6.5.2"
+    ],
+    "band": "tymm",
+    "startWeek": 27,
+    "endWeek": 28,
+    "hours": 5
+  },
+  {
+    "lessonKey": "jr_06_mat-38",
+    "outcomeCodes": [
+      "MAT.6.6.1"
+    ],
+    "band": "tymm",
+    "startWeek": 28,
+    "endWeek": 29,
+    "hours": 5
+  }
+]

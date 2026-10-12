@@ -1,4 +1,6 @@
-/** Üslup cümleleri Pedagoji Ek-J ile aynıdır. Çalışma zamanı evi bu dosyadır. */
+import { YOUNG_REGISTER_LINE } from "@/lib/kernel/catalog-ids/school-segments";
+
+/** Üslup cümleleri Pedagoji Ek-J ile aynıdır. 15–18 satırının evi Young şemasıdır. */
 
 export const JUNIOR_AGE_BANDS = ["10-12", "13-14", "15-18"] as const;
 
@@ -9,8 +11,7 @@ export const JUNIOR_PERSONA_LINES: Record<JuniorAgeBand, string> = {
     "Yaş grubu 10-12. Üslup merak uyandıran, sıcak, oyunlaştırması yüksek ve cesaretlendiricidir. Kısa cümle kur. Önce doğru söylenen parçayı gör. Eksik noktayı azar gibi söyleme.",
   "13-14":
     "Yaş grubu 13-14. Üslup hedef odaklı, sınav stresini yöneten, stratejik ve ritmiktir. Adımı sırayla söyle. Acele ettirme. Sınav kaygısını bilgi cümlesinin yerine koyma.",
-  "15-18":
-    "Yaş grubu 15-18. Üslup analitik, genç yetişkin saygısında, akran rehberliğinde net ve doğrudandır. Süslü övgü kurma. Doğru, eksik ve sonraki adım ayrı cümle olsun.",
+  "15-18": YOUNG_REGISTER_LINE,
 };
 
 export function juniorAgeYears(birthYear: number, now = new Date()): number {

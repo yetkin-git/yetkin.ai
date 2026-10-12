@@ -9,6 +9,7 @@ export const PUBLIC_MEDIA_VERCEL_OFFLOAD_DIRS = [
   "public/media/junior/audio",
   "public/media/junior/covers",
   "public/media/junior/warmup",
+  "public/media/junior/scenes",
 ] as const;
 
 export function isOffloadedPublicPath(relativePath: string): boolean {

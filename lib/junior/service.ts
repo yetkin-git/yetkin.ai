@@ -4,7 +4,7 @@ import { startOfEuropeIstanbulDay } from "@/lib/kernel/ai/budget-shield";
 import { invokeLlm, type InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import type { InvokeLlmInput, LlmGatewayResult } from "@/lib/kernel/ai/types";
-import { juniorTellPassed, stampJuniorLessonStatus } from "@/lib/junior/chain";
+import { juniorLessonStatus, juniorTellPassed, stampJuniorLessonStatus } from "@/lib/junior/chain";
 import {
   JUNIOR_GUARDIAN_NOTICE,
   JUNIOR_NOTICE_UNSEALED_ERROR,
@@ -19,19 +19,25 @@ import {
   juniorCourseShelves,
   juniorLessonAccess,
   juniorLessonAccessForPlan,
+  juniorCourseByLessonKey,
+  juniorElectiveOpenable,
   juniorLessonByKey,
+  juniorPaidElectives,
   juniorShelvesForGrade,
   stampJuniorPlanAccess,
   type JuniorPlanAccess,
 } from "@/lib/junior/catalog";
 import { juniorPlanCoversLesson } from "@/lib/junior/enter";
 import { juniorProductionSealGaps } from "@/lib/junior/production-seal";
-import { canEnterJunior, type JuniorActor } from "@/lib/kernel/security/junior-gate";
+import { canEnterJunior, isJuniorAuditActor, type JuniorActor } from "@/lib/kernel/security/junior-gate";
 import {
   JUNIOR_AUDIO_MAX_BYTES,
   JUNIOR_AUDIO_MIME_TYPES,
   JUNIOR_AUDIO_MIN_BYTES,
   JUNIOR_ELECTIVE_QUOTA,
+  JUNIOR_ELECTIVE_SLUGS,
+  JUNIOR_ELECTIVE_SOON_LESSON_ERROR,
+  juniorElectiveNotInQuotaError,
   JUNIOR_GRADE_SWITCH_EXHAUSTED,
   JUNIOR_GRADE_SWITCH_RIGHTS,
   JUNIOR_PAID_ACTION_ERROR,
@@ -62,10 +68,17 @@ import {
   juniorProfileFieldError,
   normalizeJuniorNickname,
 } from "@/lib/junior/profile-rules";
+import type { JuniorActivityPublic } from "@/lib/junior/activity-public";
+import {
+  gradeJuniorActivityRail,
+  isJuniorActivityRailAnswer,
+  publicJuniorActivityRail,
+  type JuniorActivityCardMark,
+} from "@/lib/junior/activity-rail";
 import { gradeJuniorPractice, publicJuniorPractice } from "@/lib/junior/practice";
 import { juniorTellGuides } from "@/lib/junior/quiz";
 import { buildJuniorWeeklyReport, type JuniorWeeklyReport } from "@/lib/junior/report";
-import { gradeJuniorTopicQuiz, publicJuniorTopicQuiz } from "@/lib/junior/topic-quiz";
+import { gradeJuniorTopicQuiz, publicJuniorTopicQuiz, type JuniorTopicQuizNote } from "@/lib/junior/topic-quiz";
 import {
   juniorInlineAudio,
   juniorTellModelId,
@@ -144,7 +157,7 @@ function planView(
   const active = isJuniorPlanActive(subscription, now);
   return {
     status: active ? "ACTIVE" : "NONE",
-    electiveQuota: subscription?.electiveQuota ?? JUNIOR_ELECTIVE_QUOTA,
+    electiveQuota: JUNIOR_ELECTIVE_QUOTA,
     expiresAt: active && subscription?.expiresAt ? subscription.expiresAt.toISOString() : null,
     gradeSwitchRights: active ? (subscription?.gradeSwitchRights ?? 0) : 0,
   };
@@ -164,7 +177,11 @@ export async function readJuniorHome(
   const subscription = await store.getSubscription(userId);
   const plan = planView(subscription, now);
   const electives = selected?.selectedElectives ?? [];
-  const access: JuniorPlanAccess = { active: plan.status === "ACTIVE", selectedElectives: electives };
+  // Ücretli erişim yalnız mühürlü seçmelileri sayar (T-06). Raf görünümü seçimi değiştirmez.
+  const access: JuniorPlanAccess = {
+    active: plan.status === "ACTIVE",
+    selectedElectives: juniorPaidElectives(electives),
+  };
   return {
     profiles: views,
     selected,
@@ -355,6 +372,8 @@ export function readJuniorLesson(lessonKey: string, plan: JuniorPlanAccess | nul
       parentNote?: string;
       practice: JuniorPracticeItem[];
       quiz: JuniorPracticeChoice[];
+      activities: JuniorActivityPublic[];
+      outcomes: string[];
       /** «Hazırım, Sana Anlatayım!» yönlendirme kontrol soruları. */
       tellGuides: string[];
       preparing: boolean;
@@ -384,9 +403,157 @@ export function readJuniorLesson(lessonKey: string, plan: JuniorPlanAccess | nul
     parentNote: lesson.parentNote,
     practice: publicJuniorPractice(lesson.key),
     quiz: publicJuniorTopicQuiz(lesson.key),
+    activities: publicJuniorActivityRail(lesson.key),
+    outcomes: [...lesson.outcomes],
     tellGuides: [...juniorTellGuides(lesson.key)],
     preparing,
   };
+}
+
+const LISTEN_PROGRESS = {
+  praised: "Ders dinlendi.",
+  missing: "Eksik kalan nokta yok.",
+  advice: "İstersen pekiştirme sorusunu çöz.",
+  score: 0,
+} as const;
+
+/**
+ * Dinleme kaydı. İlerleme tablosunda ayrı bir biçim yok; skor 0 pekiştirme satırı
+ * dersi «sürüyor» yapar, puan vermez ve dersi bitirmez.
+ */
+export async function recordJuniorListenProgress(
+  store: JuniorStore,
+  input: {
+    userId: string;
+    profileId: string;
+    lessonKey: string;
+    now?: Date;
+    actor?: JuniorActor | null;
+  },
+): Promise<JuniorOk<{ lessonKey: string; status: "going" | "done"; score: number; xpAwarded: number; points: number }> | JuniorFail> {
+  const profile = await store.getProfile(input.userId, input.profileId);
+  if (!profile) {
+    return { ok: false, status: 404, error: "Bu profil senin hesabında yok." };
+  }
+  const consentBlock = juniorLessonConsentBlock(profile, JUNIOR_GUARDIAN_NOTICE);
+  if (consentBlock) {
+    return { ok: false, status: 403, error: consentBlock };
+  }
+  if (profile.birthYear == null) {
+    return { ok: false, status: 403, error: JUNIOR_PROFILE_CLOSED_ERROR };
+  }
+  const access = juniorLessonAccess(input.lessonKey);
+  if (access === "missing") {
+    return { ok: false, status: 404, error: "Bu ders yok." };
+  }
+  if (access === "locked") {
+    const gate = await gateLesson(store, input.userId, input.profileId, input.lessonKey, input.actor ?? null);
+    if (!gate.ok) {
+      return gate;
+    }
+  }
+  const now = input.now ?? new Date();
+  const prior = await store.listProgress(input.userId, input.profileId);
+  const saved = await commitFeedback(store, {
+    userId: input.userId,
+    profileId: input.profileId,
+    lessonKey: input.lessonKey,
+    mode: "practice",
+    reading: LISTEN_PROGRESS,
+    prior,
+    now,
+    base: 0,
+  });
+  if (!saved.ok) {
+    return saved;
+  }
+  const status = juniorLessonStatus(
+    [...prior, { lessonKey: input.lessonKey, mode: "practice", score: LISTEN_PROGRESS.score }],
+    input.lessonKey,
+  );
+  return {
+    ok: true,
+    data: {
+      lessonKey: input.lessonKey,
+      status: status === "done" ? "done" : "going",
+      score: saved.data.score,
+      xpAwarded: saved.data.xpAwarded,
+      points: saved.data.points,
+    },
+  };
+}
+
+export async function openJuniorLessonPlay(
+  store: JuniorStore,
+  input: {
+    userId: string;
+    profileId?: string | null;
+    lessonKey: string;
+    actor?: JuniorActor | null;
+  },
+): Promise<
+  | {
+      ok: true;
+      catalogAccess: "free" | "locked";
+      lesson: Extract<ReturnType<typeof readJuniorLesson>, { access: "free" }>;
+      progress: { status: "fresh" | "going" | "done" } | null;
+    }
+  | JuniorFail
+> {
+  const lessonKey = input.lessonKey.trim();
+  const catalogAccess = juniorLessonAccess(lessonKey);
+  if (catalogAccess === "missing" || !juniorLessonByKey(lessonKey)) {
+    return { ok: false, status: 404, error: "Bu ders yok." };
+  }
+  const profiles = await store.listProfiles(input.userId);
+  const profileId =
+    input.profileId?.trim() ||
+    profiles.find((row) => row.selected)?.id ||
+    null;
+  if (catalogAccess === "free") {
+    const lesson = readJuniorLesson(lessonKey, null);
+    if (lesson.access !== "free") {
+      return { ok: false, status: 404, error: "Bu ders yok." };
+    }
+    const progress = await playProgress(store, input.userId, profileId, lessonKey);
+    return { ok: true, catalogAccess, lesson, progress };
+  }
+  if (!profileId) {
+    return { ok: false, status: 403, error: "Bu konu veli girişi ve yıllık paket ister." };
+  }
+  const actor = input.actor ?? null;
+  const gate = await gateLesson(store, input.userId, profileId, lessonKey, actor);
+  if (!gate.ok) {
+    return gate;
+  }
+  const profile = await store.getProfile(input.userId, profileId);
+  const selected = juniorPaidElectives(profile?.selectedElectives ?? []);
+  let lesson = readJuniorLesson(lessonKey, { active: true, selectedElectives: selected });
+  if (lesson.access !== "free" && isJuniorAuditActor(actor)) {
+    lesson = readJuniorLesson(lessonKey, { active: true, selectedElectives: [...JUNIOR_ELECTIVE_SLUGS] });
+  }
+  if (lesson.access !== "free") {
+    return { ok: false, status: 403, error: "Bu konu veli girişi ve yıllık paket ister." };
+  }
+  const progress = await playProgress(store, input.userId, profileId, lessonKey);
+  return { ok: true, catalogAccess, lesson, progress };
+}
+
+async function playProgress(
+  store: JuniorStore,
+  userId: string,
+  profileId: string | null,
+  lessonKey: string,
+): Promise<{ status: "fresh" | "going" | "done" } | null> {
+  if (!profileId) {
+    return null;
+  }
+  const rows = await store.listProgress(userId, profileId);
+  const status = juniorLessonStatus(rows, lessonKey);
+  if (status === "preparing") {
+    return { status: "fresh" };
+  }
+  return { status };
 }
 
 export async function submitJuniorTell(
@@ -495,10 +662,43 @@ export async function submitJuniorPractice(
     now?: Date;
     actor?: JuniorActor | null;
   },
-): Promise<JuniorOk<JuniorFeedback & { correct: number; total: number; notes: { id: string; ok: boolean; explanation: string }[] }> | JuniorFail> {
+): Promise<
+    | JuniorOk<
+        JuniorFeedback & {
+          correct: number;
+          total: number;
+          notes: { id: string; ok: boolean; explanation: string; cards?: JuniorActivityCardMark[] }[];
+        }
+      >
+    | JuniorFail
+  > {
   const gate = await gateLesson(store, input.userId, input.profileId, input.lessonKey, input.actor ?? null);
   if (!gate.ok) {
     return gate;
+  }
+  if (
+    input.answers.length > 0 &&
+    input.answers.every((answer) => isJuniorActivityRailAnswer(input.lessonKey, answer.id))
+  ) {
+    const rail = gradeJuniorActivityRail(input.lessonKey, input.answers);
+    if (!rail) {
+      return { ok: false, status: 404, error: "Bu derste etkinlik yok." };
+    }
+    return {
+      ok: true,
+      data: {
+        praised: rail.correct === rail.total ? "Etkinliği tamamladın." : "Bir kısmını bağladın.",
+        missing: rail.correct === rail.total ? "Eksik kalan nokta yok." : "Eksik kalan bağı bir kez daha dene.",
+        advice: "Doğru bağı kendi cümlenle bir kez söyle.",
+        score: rail.score,
+        xpAwarded: 0,
+        points: 0,
+        badges: [],
+        correct: rail.correct,
+        total: rail.total,
+        notes: rail.notes,
+      },
+    };
   }
   const graded = gradeJuniorPractice(input.lessonKey, input.answers);
   if (!graded) {
@@ -556,7 +756,7 @@ export async function submitJuniorQuiz(
         correct: number;
         total: number;
         completed: boolean;
-        notes: { id: string; ok: boolean; explanation: string }[];
+        notes: JuniorTopicQuizNote[];
       }
     >
   | JuniorFail
@@ -581,7 +781,7 @@ export async function submitJuniorQuiz(
   const completed = graded.score >= JUNIOR_QUIZ_PASS_SCORE;
   const reading = {
     onTopic: true,
-    praised: completed ? "Tamamlandı." : "Tuzaklara Düşme! Eksik kalan yeri birlikte görürüz.",
+    praised: completed ? "Tamamlandı." : "Dikkat Noktası! Eksik kalan yeri birlikte görürüz.",
     missing: completed ? "Eksik kalan nokta yok." : "Eksik sorunun cümlesi ipucunu taşıyor.",
     advice: completed
       ? "Bu ders bitti. İstersen sıradaki konuya geç."
@@ -651,11 +851,16 @@ async function gateLesson(
   }
   if (!decision.allow) {
     if (access === "locked") {
+      // Mühürü tamamlanmamış seçmeli paket kapsamında açılmaz (T-06 / T-15).
+      const course = juniorCourseByLessonKey(lessonKey);
+      if (course?.track === "elective" && !juniorElectiveOpenable(course)) {
+        return { ok: false, status: 403, error: JUNIOR_ELECTIVE_SOON_LESSON_ERROR };
+      }
       return {
         ok: false,
         status: 403,
         error: planActive
-          ? "Bu seçmeli ders paket kotanda yok. En fazla üç ders seçilir."
+          ? juniorElectiveNotInQuotaError()
           : "Bu konu veli girişi ve yıllık paket ister.",
       };
     }

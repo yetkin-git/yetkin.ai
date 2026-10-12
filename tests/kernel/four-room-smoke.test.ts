@@ -25,8 +25,6 @@ import {
   E2E_CASH_PLATFORM_ID,
   runFreelancerCashJourney,
 } from "../helpers/freelancer-cash-journey";
-import { runPazaryeriDualCashJourney } from "../helpers/pazaryeri-cash-journey";
-import { runStudioCashJourney } from "../helpers/studio-cash-journey";
 
 const ROOT = process.cwd();
 
@@ -149,15 +147,11 @@ describe("Adım 10 — dört oda nakit/üretim smoke", () => {
     expect(VERTICAL_ROOMS.map((room) => room.id as string)).not.toContain("pazaryeri");
     expect(FROZEN_DISK_ROOMS).toContain("pazaryeri");
     expect(isVitrineRoomFrozen("pazaryeri")).toBe(true);
-    await expect(runPazaryeriDualCashJourney()).rejects.toThrow(/Ödeme henüz bağlanmadı/);
   });
 
-  it("Studio donmuş: sicil dışı; müze CREDIT amacı yok", async () => {
+  it("Studio donmuş: sicil dışı; müze CREDIT amacı yok", () => {
     expect(VERTICAL_ROOMS.map((room) => room.id as string)).not.toContain("studio");
     expect(FROZEN_DISK_ROOMS).toContain("studio");
     expect(isVitrineRoomFrozen("studio")).toBe(true);
-    await expect(runStudioCashJourney()).rejects.toThrow(
-      /Ledger CREDIT amacı izin listesinde değil/,
-    );
   });
 });

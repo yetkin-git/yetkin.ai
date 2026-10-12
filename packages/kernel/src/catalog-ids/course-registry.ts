@@ -6,6 +6,7 @@
  * 13 kanon yetişkin kart (`01_` … `13_`) ve kanon dışı OFF-201 (`01_office_ai_ileri`).
  * `06_`–`13_` vitrin sırası yoktur; ders yolu boştur. Kabuk «hazırlanıyor» halidir.
  * Junior bu deftere girmez. Kendi odası `lib/junior` içindedir. `audience: "junior"` kartı yasaktır.
+ * Young bu deftere girmez. Şema `lib/kernel/catalog-ids/school-segments.ts` içindedir.
  */
 
 const SHELL_SUMMARY =

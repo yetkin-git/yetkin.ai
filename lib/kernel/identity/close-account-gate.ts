@@ -18,3 +18,25 @@ export function assertAccountCloseable(balanceMinor: number): void {
     throw new ConflictError(ACCOUNT_CLOSE_BALANCE_BLOCK);
   }
 }
+
+/**
+ * Ürün kapıları (T-02). Hesap silinmeden önce çalışır ve yalnız okur; reddetmek için hata fırlatır.
+ * Kernel ürün adı bilmez: ürün modülü kendi kapısını `registerAccountCloseGuard` ile kaydeder.
+ */
+export type AccountCloseGuard = (userId: string) => Promise<void>;
+
+const accountCloseGuards = new Set<AccountCloseGuard>();
+
+/** Kaydı geri alan fonksiyon döner; testler ve yeniden yükleme için. */
+export function registerAccountCloseGuard(guard: AccountCloseGuard): () => void {
+  accountCloseGuards.add(guard);
+  return () => {
+    accountCloseGuards.delete(guard);
+  };
+}
+
+export async function runAccountCloseGuards(userId: string): Promise<void> {
+  for (const guard of accountCloseGuards) {
+    await guard(userId);
+  }
+}

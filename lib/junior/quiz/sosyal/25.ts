@@ -1,0 +1,60 @@
+import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
+
+/** 6. Sınıf Sosyal Bilgiler — konu sonu soru arşivi. Yatırım ve pazarlama proje önerisi. */
+export const JUNIOR_SOSYAL_QUIZ_25 = {
+  lessonKey: "jr_06_sosyal-25",
+  title: "Yatırım ve pazarlama proje önerisi",
+  tellGuides: [
+    "Yatırım ile pazarlamayı nasıl ayırırsın?",
+    "Bir proje önerisinde üç kutu nedir?",
+    "Alıcıyı araştırmadan stant açmak neden eksik kalır?",
+  ],
+  questions: [
+    {
+      id: "q1",
+      level: "concept",
+      question: "Proje önerisinde yatırım ne demektir?",
+      options: [
+        "Satıştan önce konan kaynak ve emek",
+        "Alıcıya söylenen tanıtım cümlesi",
+        "Panayırdaki afişin rengi",
+        "Satış bittikten sonra sayılan kâr",
+      ],
+      correctAnswerIndex: 0,
+      hint: "Kâğıt ve zaman bu taraftadır.",
+      explanation:
+        "Adım 1: Yatırım, ürün çıkmadan konan kaynaktır. Adım 2: Kâğıt, zaman ve emek buradadır. Adım 3: Alıcıya söylenen cümle pazarlamadır, yatırım değildir.",
+    },
+    {
+      id: "q2",
+      level: "apply",
+      question: "Ayraç standında «sayfa kaybetme» cümlesi hangi kutuya girer?",
+      options: [
+        "Pazarlama, çünkü alıcıya ne söyleneceğini seçer",
+        "Yatırım, çünkü kâğıdın kendisidir",
+        "Araştırma değil, çünkü market hiç bakılmaz",
+        "Model dışı, çünkü öneride cümle durmaz",
+      ],
+      correctAnswerIndex: 0,
+      hint: "Cümle alıcıya gider; kâğıt kaynağa gider.",
+      explanation:
+        "Adım 1: Kâğıt ve emek yatırım kutusudur. Adım 2: «Sayfa kaybetme» alıcıya söylenir. Adım 3: Bu cümle pazarlama kutusudur.",
+    },
+    {
+      id: "q3",
+      level: "skill",
+      question:
+        "Okul panayırında sınıf kurabiye satmak istiyor. Un ve süre yazılmamış, alıcı da araştırılmamış. Arkadaşın «herkes alır» diyor. Proje önerisi için doğru model hangisidir?",
+      options: [
+        "Önce un ve süreyi, sonra alıcıyı, en sonda cümleyi yazmak",
+        "Yalnızca afiş cümlesini büyük yazmak",
+        "Market reyonuna bakmadan standı açmak",
+        "Herkes alır dediği için kaynağı boş bırakmak",
+      ],
+      correctAnswerIndex: 0,
+      hint: "Üç kutu: kaynak, alıcı, cümle.",
+      explanation:
+        "Adım 1: Un ve süre yatırım olarak yazılır. Adım 2: Alıcı okulda mı marketten mi araştırılır. Adım 3: Tanıtım cümlesi en sonda denenir.",
+    },
+  ],
+} as const satisfies JuniorLessonQuizPack;

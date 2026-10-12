@@ -1,7 +1,12 @@
 import "server-only";
 
 import { JUNIOR_GUARDIAN_NOTICE, JUNIOR_NOTICE_VERSION_ERROR } from "@/lib/junior/guardian-notice";
-import { JUNIOR_ELECTIVE_QUOTA } from "@/lib/junior/limits";
+import { juniorElectiveOpenBySlug } from "@/lib/junior/catalog";
+import {
+  JUNIOR_ELECTIVE_QUOTA,
+  JUNIOR_ELECTIVE_SOON_ERROR,
+  juniorElectiveQuotaLimitError,
+} from "@/lib/junior/limits";
 import { juniorPaytrSaleGate } from "@/lib/junior/paytr";
 import {
   juniorElectiveSaveSchema,
@@ -63,11 +68,20 @@ export async function saveJuniorElectives(
 ): Promise<JuniorOk<{ profile: JuniorProfileView }> | JuniorFail> {
   const parsed = juniorElectiveSaveSchema.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, status: 400, error: "En fazla üç seçmeli ders seçilir." };
+    return { ok: false, status: 400, error: juniorElectiveQuotaLimitError() };
   }
   const normalized = normalizeElectiveSelection(parsed.data.slugs);
   if (!normalized.ok) {
     return { ok: false, status: 400, error: normalized.error };
+  }
+  const current = await store.getProfile(userId, parsed.data.profileId);
+  if (!current) {
+    return { ok: false, status: 404, error: "Bu profil senin hesabında yok." };
+  }
+  // Yeni eklenen seçmeli mühürlü olmalı (T-06). Mevcut seçimi çıkarmak her zaman mümkündür.
+  const added = normalized.slugs.filter((slug) => !current.selectedElectives.includes(slug));
+  if (added.some((slug) => !juniorElectiveOpenBySlug(slug))) {
+    return { ok: false, status: 400, error: JUNIOR_ELECTIVE_SOON_ERROR };
   }
   const saved = await store.setSelectedElectives(userId, parsed.data.profileId, normalized.slugs);
   if (!saved) {

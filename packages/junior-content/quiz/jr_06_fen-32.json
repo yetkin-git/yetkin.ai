@@ -1,0 +1,52 @@
+{
+  "lessonKey": "jr_06_fen-32",
+  "title": "Renk ve güneş enerjisi",
+  "tellGuides": [
+    "Kırmızı cisim beyaz ışıkta neden kırmızı görünür?",
+    "Güneş paneli ışık enerjisini neye çevirir?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Cismin görünen rengi neye bağlıdır?",
+      "options": [
+        "Yansıttığı ışığa",
+        "Yalnız kütlesine",
+        "Yer değiştirme yönüne",
+        "İçindeki sese"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Gözümüze dönen ışık.",
+      "explanation": "Adım 1: Cisim bazı renkleri soğurur. Adım 2: Yansıttığı renk görünür. Adım 3: Kırmızı cisim kırmızıyı yansıtır."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Güneş paneli ışık enerjisini öncelikle neye dönüştürür?",
+      "options": [
+        "Elektrik enerjisine",
+        "Sese",
+        "Kütleye",
+        "Yer değiştirmeye"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Panel elektrik üretir.",
+      "explanation": "Adım 1: Güneş ışık enerjisi gönderir. Adım 2: Panel bu enerjiyi dönüştürür. Adım 3: Ürün elektrik enerjisidir."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Deneyde kırmızı kitap beyaz ışıkta kırmızı, yalnız mavi ışıkta koyu görünüyor. Mavi ışıkta neden kırmızı görünmez?",
+      "options": [
+        "Yansıtacağı kırmızı ışık yoktur",
+        "Kitap maviye dönüşüp ses çıkarır",
+        "Mavi ışık kütleyi sıfırlar",
+        "Kitap her ışıkta aynı kırmızıyı üretir"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Renk, gelen ışığın içinden yansır.",
+      "explanation": "Adım 1: Kırmızı görünüm kırmızı ışığın yansımasıdır. Adım 2: Mavi ışıkta bu bileşen yoktur. Adım 3: Kitap koyu görünür."
+    }
+  ]
+}

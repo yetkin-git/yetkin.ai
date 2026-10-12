@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_ing_main-2",
+  "title": "Family Life: ailem ve have got",
+  "teaser": "Family Life temasında aile bireyleri have got ve has got ile söylenir. I have got a brother erkek kardeşim var demektir. Kavramsal Anlayış, have got ile has got ayrımını kurar. İfade Gücü, bir aile üyesini İngilizce tanıtmandır.",
+  "welcome": "Merhaba sevgili çocuklar! Akşam sofrada annene, babana ya da kardeşine bakınca ailenin kimlerden oluştuğunu bir çırpıda sayabilirsin. Fotoğraf çerçevesindeki nine ve dede de bu ailenin parçasıdır. Bugün bu kişileri İngilizce adlarıyla tanıyacak, have got ve has got kalıbıyla kimin kim olduğunu söyleyeceğiz. Bir aile fotoğrafını gözlemlemek, doğru özneyi seçmene yardım eder.",
+  "concept": "Family Life konusunda anne mother, baba father, kız kardeş sister, erkek kardeş brother, nine grandmother ve dede grandfather diye söylenir. Sahiplik ve aile bağı için I, you, we ve they öznelerinden sonra have got gelir. He, she ve it öznelerinden sonra has got gelir. I have got a sister, bir kız kardeşim var demektir. She has got a brother, onun bir erkek kardeşi var demektir. Olumsuzda have not got ve has not got kullanılır; kısa biçimleri haven't got ve hasn't got şeklindedir. Pratik kural: Özne I, you, we, they ise have got; özne he, she, it ise has got seçilir.",
+  "example": "Sınıfta Ece ailesini tanıtır: I have got one brother and one sister. Annesini anlatırken özne değişir: She has got two children. Babası için de aynı ayrım durur: He has got a son and a daughter. Arkadaşın sana Have you got a grandmother? diye sorarsa Yes, I have ya da No, I haven't diye cevap verirsin. Fotoğrafta üç kişi varsa This is my mother, this is my father, and this is my brother diye tek tek gösterebilirsin.",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. He ve she ile have got demek kalıbı bozar; o öznelerde has got durur. I has got da aynı biçimde yanlıştır, çünkü I ile have got gelir. Aile üyesinin adını söylerken my sözcüğünü unutma: my sister benim kız kardeşim demektir. Family Life konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+  "life": "Bunu evde buzdolabındaki aile fotoğrafının yanında deneyebilirsin. Parmağınla kişiyi gösterip This is my father de. Mutfakta annene I have got a brother diyerek kardeşini tanıt. Okulda yeni bir arkadaşın Have you got a sister? diye sorarsa kısa ve net cevap ver. Akşam sofrada herkes kendini bir cümleyle anlatırsa aile sözcükleri kalıcı olur.",
+  "recap": [
+    "Family Life içinde anne, baba, kardeş, nine ve dede İngilizce adlarıyla söylenir.",
+    "I, you, we ve they ile have got; he, she ve it ile has got gelir.",
+    "Soru Have you got ile kurulur; kısa cevap Yes, I have ya da No, I haven't olur."
+  ],
+  "conceptSeal": "Aile cümlesi özneye göre have got ya da has got ile kurulur.",
+  "voiceSeal": "Bir aile üyesini my ve have got ile tanıtırısın.",
+  "outcomes": [
+    "Aile bireyleri mother, father, sister ve brother diye adlandırılır.",
+    "Have got ve has got özneye göre ayrılır.",
+    "Have you got sorusu aile bağını sorar."
+  ],
+  "scene": "place",
+  "hint": "gold",
+  "parentNote": "Çocuğunuz aile bireylerini İngilizce adlarıyla söyler. I have got ile She has got ayrımını kurar. Evde bir fotoğrafın yanında bu cümleyi kurdurabilirsiniz."
+}

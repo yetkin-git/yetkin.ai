@@ -1,0 +1,52 @@
+{
+  "lessonKey": "jr_06_fen-24",
+  "title": "Çimlenme",
+  "tellGuides": [
+    "Çimlenme için üç koşulu say.",
+    "Işık neden çimlenmenin zorunlu değişkeni değildir?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Çimlenme için temel koşullar hangileridir?",
+      "options": [
+        "Su, oksijen ve uygun sıcaklık",
+        "Yalnız parlak lamba",
+        "Yalnız tuz ve metal",
+        "Yer değiştirme ve sürtünme"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Işık bu üçlünün yerine geçmez.",
+      "explanation": "Adım 1: Su tohumu şişirir. Adım 2: Oksijen ve uygun sıcaklık da gerekir. Adım 3: Işık çimlenme için şart değildir."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Aynı sıcaklıkta kuru tabak uyanmaz, nemli tabak kökleşirse değişen değişken nedir?",
+      "options": [
+        "Su",
+        "Gezegen sayısı",
+        "Aynanın türü",
+        "Direnç birimi"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Tek fark nemdir.",
+      "explanation": "Adım 1: Sıcaklık iki tabakta aynıdır. Adım 2: Değişen şey sudur. Adım 3: Bağımsız değişken su olarak kalır."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Deney tablosunda 10 tohum karanlık ve nemli kutuda çimlenmiş, 10 tohum aydınlık ama kuru tabakta uyanmamış. Bu sonuç ışık hakkında ne söyler?",
+      "options": [
+        "Işık şart değildir; kuru tabakta eksik olan sudur",
+        "Işık olmadan hiç tohum uyanmaz",
+        "Karanlık alınan yolu sıfırlar",
+        "Kuru tabak daha çok oksijen aldığı için uyanır"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Nemli karanlık kap uyanmış.",
+      "explanation": "Adım 1: Karanlık nemli kapta çimlenme olmuştur. Adım 2: Aydınlık kuru kap uyanmamıştır. Adım 3: Sonucu değiştiren değişken sudur, ışık değildir."
+    }
+  ]
+}

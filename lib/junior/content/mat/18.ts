@@ -7,14 +7,14 @@ export const JUNIOR_MAT_18_SCENARIO: JuniorLessonScenario = {
   teaser:
     "Veri, bir soruya verilen cevapların toplanmış hâlidir. Sıklık, bir seçeneğin kaç kez çıktığını söyler. Kavramsal Anlayış, çetele ile sıklık tablosunu aynı sayının iki yazılışı diye görmendir. İfade Gücü, en çok seçileni tablodan okumandır.",
   welcome:
-    "Selamlar! Bugün seninle çok keyifli bir konuyu keşfedeceğiz, çünkü araştırma yapıp topladığımız bilgileri düzenli bir tabloya dönüştüreceğiz. Hiç arkadaşlarına en sevdikleri rengi ya da meyveyi sorup yanıtları bir köşeye not ettin mi? Alınan her bir yanıt bir veridir. Bugün seninle veri toplamayı, çetele tutmayı ve sıklık tablosu oluşturmayı öğreneceğiz.",
+    "Merhaba çocuklar, hepiniz hoş geldiniz! Araştırma yapıp topladığımız bilgileri düzenli bir tabloya dönüştüreceğiz. Hiç arkadaşlarına en sevdikleri rengi ya da meyveyi sorup yanıtları bir köşeye not ettin mi? Alınan her bir yanıt bir veridir. Veri toplamayı, çetele tutmayı ve sıklık tablosu oluşturmayı öğreneceğiz.",
   concept:
-    "Veri toplamak için önce herkesin net anlayacağı tek bir araştırma sorusu sorulur. Seçenekler açık ve belirgin olmalıdır. Çetele tutarken her cevap için dik bir çizgi çizilir; beşinci cevapta ise dört çizginin üstünden yatay bir çizgi çekilerek beşli bir demet yapılır. Sıklık ise bir seçeneğe ait toplam çizgi sayısıdır. Şurası aklında kalsın tamam mı: Sıklık tablosundaki sayıların toplamı, ankete katılan toplam kişi sayısına daima eşittir.",
+    "Veri toplamak için önce herkesin net anlayacağı tek bir araştırma sorusu sorulur. Seçenekler açık ve belirgin olmalıdır. Çetele tutarken her cevap için dik bir çizgi çizilir; beşinci cevapta ise dört çizginin üstünden yatay bir çizgi çekilerek beşli bir demet yapılır. Sıklık ise bir seçeneğe ait toplam çizgi sayısıdır. Pratik kural: Sıklık tablosundaki sayıların toplamı, ankete katılan toplam kişi sayısına daima eşittir.",
   example:
     "12 arkadaşına en sevdiği meyveyi sordun. Elmayı 5, muzu 4, üzümü ise 3 kişi seçti. Çetele tablosunda elmanın beşli bir demeti, muzun 4 çizgisi, üzümün 3 çizgisi olur. Sıklık tablosunda ise bu sayılar doğrudan rakamla yazılır. 5 artı 4 artı 3, toplam 12 eder. En yüksek sıklık 5 ile elmadır; en düşük sıklık 3 ile üzümdür. Tablo sayesinde en çok ve en az tercih edilenleri bir bakışta görürsün.",
   hint: "gold",
   warning:
-    "Altın İpucu! Çetelede üstten çizgi çekilmiş beşli demeti 4 sanma yanılgısına sakın düşme. O üstteki bağlayıcı çizgi de beşinci kişiyi temsil eder. Sayıları topladığında kişi sayısına eşit çıkmıyorsa bir çizgiyi atlamış olabilirsin. Toplamı kişi sayısıyla her zaman doğrula.",
+    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Altın İpucu! Çetelede üstten çizgi çekilmiş beşli demeti 4 sanma yanılgısına sakın düşme. O üstteki bağlayıcı çizgi de beşinci kişiyi temsil eder. Sayıları topladığında kişi sayısına eşit çıkmıyorsa bir çizgiyi atlamış olabilirsin. Toplamı kişi sayısıyla her zaman doğrula.",
   life:
     "Bunu sınıf oylamasında da kullanırsın. Teneffüste bahçe, kütüphane ve koridor seçenek olsun. Her arkadaş bir yere bir çizgi koyar. En uzun çetele, en çok istenen yerdir. Çizgileri saymadan karar vermek, veriyi atlamak olur.",
   recap: [

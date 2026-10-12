@@ -4,7 +4,7 @@ Bu belge platformun **kalıcı eğitim felsefesini**, Google AI Studio medya fab
 
 Çelişkide `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır. Hedef yayın Anayasa B4 karar tablosudur. Beş medya katmanının bu belgedeki tek tanımı §B «Zorunlu üretim sırası» altındadır. Üç kontrol kapısının tek tanımı aynı bölümdeki «3 aşamalı kontrol kapısı» altındadır. Süre ve sayısal sınırın tek evi koddur.
 
-Mimari ad Anayasa B1’dir: **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci**. «Amiral Gemi + Sürü Dron» eski anlatım dilidir; karşılığı bu yapıdır (Amiral Gemi Pragmatik Monolit, Sürü Dron monolit içindeki kayıtlı yetenek ve oda, Shared Kernel `@yetkin/kernel`). Bu belge öğretme kuralını ve yayın formatını tutar. İkinci bir ürün mimarisi, sürü veya ayrı servis hikâyesi açmaz.
+Mimari ad Anayasa B1’dir: **Pragmatik Monolit + `@yetkin/kernel` + Tek Native İstemci (`apps/rail-is`)**. «Amiral Gemi + Sürü Dron» eski anlatım dilidir; karşılığı bu yapıdır (Amiral Gemi bu Next.js gövdesi, Sürü Dron monolit içindeki kayıtlı oda, Shared Kernel `@yetkin/kernel`, tek native istemci `apps/rail-is`). Bu belge öğretme kuralını ve yayın formatını tutar. İkinci bir ürün mimarisi, sürü veya ayrı servis hikâyesi açmaz.
 
 ---
 
@@ -84,11 +84,11 @@ Her eğitimin ilk dersi, varsa hazırlık şeridiyle birlikte, herkese açık ve
 
 Üretken yapay zekâ müfredat senaryosunu, fırınlamayı ve montajı meşru olarak yürütür. Vatandaş yüzeyi mühürlü eğitim videosunu oynatır. İzlemede model çağrılmaz. Taslak ses ve taslak görüntü yüzeye basılmaz.
 
-### Zorunlu üretim sırası — 5 medya katmanı
+### Zorunlu üretim sırası — yetişkin Akademi, 5 medya katmanı
 
-Bu alt başlık, beş medya katmanının bu belgedeki tek tanımıdır. Anayasa B4 karar tablosu aynı kurala işaret eder. Diğer bölümler katman listesini yeniden yazmaz; buraya döner.
+Bu alt başlık, yetişkin Akademi videosunun beş medya katmanının bu belgedeki tek tanımıdır. Anayasa B4 karar tablosu aynı kurala işaret eder. Diğer bölümler katman listesini yeniden yazmaz; buraya döner. Junior okul dersi bu sıraya girmez. Junior mührü Ek-J ve `assertJuniorProductionSeal` (`lib/junior/production-seal.ts`) dir.
 
-Hiçbir eğitim videosu Metin, Ses, Video, Görsel ve Müzik katmanlarından biri eksikken fırınlanamaz ve mühürlenemez. Sıra sabittir:
+Hiçbir yetişkin eğitim videosu Metin, Ses, Video, Görsel ve Müzik katmanlarından biri eksikken fırınlanamaz ve mühürlenemez. Sıra sabittir:
 
 1. **Metin** — vatandaş dili, tek iş tek cümle.
 2. **Ses** — Fırın ve gümrük `ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS` okur. Ev `lib/kernel/ai/model-roles.ts`. Tempo `lib/academy/tts-loudnorm.ts` (`ACADEMY_BAKE_ATEMPO`). Seviye EBU R128 `loudnorm`.
@@ -275,9 +275,9 @@ Okul kitabı metni kopyalanmaz. Kazanım anlatılır. Cümle özgün yazılır.
 
 ### Öğretmen hitabı
 
-Öğretmen gövde cümlesinde samimi ve rehberlik eden **sen** dilini kullanır. Cümle çocuğa tek kişi olarak söylenir. «Siz» hitabı ders gövdesine girmez. Belge, sözleşme ve veli yazısı bu kuralın dışındadır; orada dil «siz» kalır (§A.2). Çerçeve `lib/junior/content-rules.ts` içindeki `JUNIOR_TEACHER_ADDRESS` ve `JUNIOR_TELL_CLOSE` dur. Yeni konu sen ile yazılır.
+Öğretmen hibrit hitap kullanır. Kaset açılışı topluluğa söylenir: «Merhaba sevgili çocuklar!» veya «Merhaba çocuklar, hepiniz hoş geldiniz!». Konunun ayrıntısı, ipucu ve kilit nokta tek çocuğa söylenir: «Şimdi sevgili arkadaşım...», «İşte tam bu noktada dikkat etmen gereken kilit nokta...». Adım sonu birlikte kapanır: «Tebrikler çocuklar! Harika bir iş çıkardık.» Gövde ve mikrofon cümlesi sen dilinde kalır. Belge, sözleşme ve veli yazısı bu kuralın dışındadır; orada dil «siz» kalır (§A.2). Çerçeve `lib/junior/content-rules.ts` içindeki `JUNIOR_HYBRID_OPENINGS`, `JUNIOR_HYBRID_HINT_LEAD`, `JUNIOR_HYBRID_STEP_CLOSE`, `JUNIOR_TEACHER_ADDRESS` ve `JUNIOR_TELL_CLOSE` dur.
 
-Soğuk «Selam!» girişi yasaktır. Ders sıcak ve tek kişiye söylenen bir açılışla başlar: «Merhaba güzel arkadaşım!», «Merhaba sevgili arkadaşım!», «Selam harika arkadaşım!». Profilde rumuz varsa açılış bir kez «Merhaba {rumuz}, bugün seninle…» der. Rumuz yoksa bu liste kalır. Rumuz ders dosyasına yazılmaz. Anlatım boyunca öğretmen çocuğu odağında tutar. «Bak burası senin için çok önemli» ve «Şurası aklında kalsın tamam mı» kalıpları, hemen ardından açıklama geliyorsa cümlenin başına iki nokta ile bağlanır. Yalnız başlarına bırakılmaz. Çoğul «sevgili çocuklar» kalıbı gövdeye girmez. Mühür `JUNIOR_WARM_OPENINGS`, `JUNIOR_TEACHER_CUES`, `bindJuniorTeacherCue` ve `sealJuniorWarmWelcome` dir.
+Soğuk «Selam!» girişi yasaktır. Profilde rumuz varsa açılış bir kez «Merhaba {rumuz}, bu konuya birlikte bakacağız.» der. Rumuz ders dosyasına yazılmaz. «Bak burası senin için çok önemli», «Şurası aklında kalsın» ve «Bugün seninle» koç dolgusudur; ders gövdesine yazılmaz. Yazılıda kullanılacak cümle «Pratik kural:» ile bağlanır. Mühür `JUNIOR_WARM_OPENINGS`, `JUNIOR_TEACHER_CUES`, `bindJuniorTeacherCue` ve `sealJuniorWarmWelcome` dir.
 
 ### Doyurucu konu
 
@@ -287,9 +287,9 @@ Anlatım üç aşamada yürür: Giriş (Oryantasyon), Gelişme (Tam Anlatım), S
 
 ### Gelişimsel İpucu Kutusu
 
-**Gelişimsel İpucu Kutusu İlkesi:** Sınav ve test uyarıları asla baskıcı, korkutucu veya stres yaratıcı dille («sınavda vururlar», «şok olursun» vb.) yazılamaz. Tüm kritik uyarılar «Tuzaklara Düşme! 🕵️‍♂️» veya «Altın İpucu! 💡» başlıklarıyla sunulur. Çocuk uyarılırken cesaretlendirilir ve merakı tetiklenir.
+**Gelişimsel İpucu Kutusu İlkesi:** Sınav ve test uyarıları asla baskıcı, korkutucu veya stres yaratıcı dille («sınavda vururlar», «şok olursun» vb.) yazılamaz. Tüm kritik uyarılar «💡 Dikkat Noktası» veya «⭐ Altın İpucu» başlıklarıyla sunulur. İpucu ekrandayken kaset durur; çocuk «Anladım!» deyene kadar kart kalkmaz. Çocuk uyarılırken cesaretlendirilir ve merakı tetiklenir.
 
-«Sakın unutma» ve «barajın altında kaldın» ders gövdesine ve konu testi cümlesine girmez. Eksik nokta bir sonraki küçük adım olarak söylenir. Başlık ya tuzak kutusudur ya altın ipucudur. İkisi birden aynı uyarıya yazılmaz. Çerçeve `JUNIOR_HINT_BOX` ve `JUNIOR_HINT_BOX_PRINCIPLE` (`lib/junior/content-rules.ts`). Anlatım köprüsü `juniorHintCue` dir.
+«Sakın unutma» ve «barajın altında kaldın» ders gövdesine ve konu testi cümlesine girmez. Eksik nokta bir sonraki küçük adım olarak söylenir. Başlık ya dikkat noktasıdır ya altın ipucudur. İkisi birden aynı uyarıya yazılmaz. Çerçeve `JUNIOR_HINT_BOX` ve `JUNIOR_HINT_BOX_PRINCIPLE` (`lib/junior/content-rules.ts`). Anlatım köprüsü `juniorHintCue` dir.
 
 ### Ses ve fon müziği
 
@@ -299,4 +299,13 @@ Anlatışın arka planında pedagojik fon müziği katmanı vardır. Katman voka
 
 İpucu kutusu açılınca yerel bir chime çalar. Çocuk kritik noktayı kavrayınca yerel bir alkış çalar. İkisi de dış API çağırmaz. Harita `JUNIOR_HINT_EFFECTS` (`lib/junior/voice.ts`). Oynatıcı bu haritayı okur. Efekt, öğretmen sesinin ve fon müziğinin yerine geçmez.
 
-Yetişkin üretim kapısı bu ekte gevşetilmez. Beş katman, süre tabanı ve «1 Eğitim Kodu = 1 Ses» yetişkin dersinde durur. Junior dersinin kendi süresi ve kendi sesi ayrı karardır. O karar yetişkin standardın yerine yazılmaz. Sesin evi `lib/junior/voice.ts` dir.
+### Junior mühür
+
+Yetişkin beş katman bu ekte gevşetilmez ve Junior’a taşınmaz. İki kapı aynı cümlede erimez.
+
+| Kapı | Oda | Ne aranır |
+|------|-----|-----------|
+| `assertAcademyProductionSeal` | Yetişkin Akademi videosu | Metin, ses, yerel ısınma videosu, `IMAGE_GEN` görseli, dersin müzik yatağı |
+| `assertJuniorProductionSeal` | Junior okul dersi | Metin bandı, fırınlanmış ses, kart başına ısınma, en az üç doğrulanmış soru, atanmış SVG sahne |
+
+Junior görseli vektör sahnedir. `IMAGE_GEN` karesi bu mührün parçası değildir. Müzik tek paylaşılan yataktır; ders başına müzik dosyası aranmaz. Ses anahtarı listede durup ses klasörü makinede varken MP3 yoksa veya boşsa konu taze sayılmaz. Klasör dağıtımda yoksa (CDN) yokluk uydurulmaz. Süre tabanı ve «1 Eğitim Kodu = 1 Ses» yetişkin dersinde durur. Junior öğretmeni branş haritasındadır. O harita yetişkin standardın yerine yazılmaz. Sesin evi `lib/junior/voice.ts` dir. Mührün evi `lib/junior/production-seal.ts` dir.

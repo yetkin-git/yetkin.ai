@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_fen-34",
+  "title": "Erime, donma ve kaynama",
+  "teaser": "Erime katıdan sıvıya, donma sıvıdan katıya, kaynama sıvıdan gaza geçiştir. Saf suyun erime ve donma noktası 0, kaynama noktası deniz seviyesinde 100 derecedir. Kavramsal Anlayış, hal değişirken sıcaklığın bir süre sabit kalabildiğini bilir. İfade Gücü, bir sıcaklık zaman grafiğini okumandır.",
+  "welcome": "Merhaba çocuklar, hepiniz hoş geldiniz! Buzdolabından çıkan buz erir, su soğukta yeniden donar, çaydanlıkta ise fokurdayarak buharlaşır. Bu üç olay maddenin hâlini değiştirir. Hâl değişirken termometre bir süre aynı sayıyı gösterebilir. Bugün erime, donma ve kaynamayı bir grafikle ölçeceğiz. Tencereyi gözlemlemek, kaynamanın her sıcaklıkta olmadığını gösterir.",
+  "concept": "Erime, katının ısı alarak sıvıya geçmesidir. Donma, sıvının ısı vererek katıya geçmesidir. Kaynama, sıvının her yerinden gaz kabarcıkları çıkararak gaza geçmesidir. Saf su deniz seviyesinde 0 derecede erir ve donar, 100 derecede kaynar. Erime ve kaynama sürerken verilen ısı sıcaklığı yükseltmek yerine hâl değişimine harcanır; grafikte sıcaklık bir süre yatay kalır. Buharlaşma yüzeyden ve her sıcaklıkta olabilir, kaynama ise belirli sıcaklıkta ve sıvının içinden olur. Pratik kural: Hâl değişiminin düz grafiği, ısının yalnız sıcaklığa gitmediğini söyler.",
+  "example": "Buzlu su kabında termometre 0 dereceyi gösterirken buz erimeye devam eder. Isı gelir ama sıcaklık 0 derecede kalır; bu erime ısısıdır. Aynı su tamamen donarken de sıcaklık 0 derecede bekleyebilir. Çaydanlıkta su 100 dereceye gelince kabarcıklar her yerden yükselir ve sıcaklık bir süre 100 derecede kalır. Grafikte zaman yatay, sıcaklık dikey eksendedir. 20 derecede tabağın kenarındaki suyun azalması kaynama değil, yüzeyden buharlaşmadır.",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Erirken sıcaklığın sürekli yükselmesi gerektiğini sanmak tuzaktır. Kaynamayı her sıcaklıktaki buharlaşma sanmak da yanlıştır. Donma noktasını 100 derece yazmak suyun iki eşiğini karıştırır. Erime, donma ve kaynama konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+  "life": "Bunu mutfakta buzlu su bardağında görebilirsin. Çaydanlık kaynarken kapağın altındaki buğu gazın soğuyup sıvılaşmasıdır. Kışın yoldaki suyun donması aynı eşiğin dışarıdaki hâlidir. Okul grafiğinde yatay parçayı göstermek hâl değişimini kanıtlar.",
+  "recap": [
+    "Erime katıdan sıvıya, donma sıvıdan katıya geçiştir.",
+    "Kaynama, belirli sıcaklıkta sıvının içinden gaza geçiştir.",
+    "Saf suda bu eşikler 0 ve 100 derecedir; hâl değişirken sıcaklık bir süre sabit kalabilir."
+  ],
+  "conceptSeal": "Hâl değişimi belirli sıcaklıkta olur ve o sırada sıcaklık bekleyebilir.",
+  "voiceSeal": "Bir grafikte erime ve kaynama yataylarını ayırırsın.",
+  "outcomes": [
+    "Erime, donma ve kaynama hâl değiştirir.",
+    "Saf su 0 derecede erir ve donar.",
+    "Kaynama deniz seviyesinde 100 derecedir."
+  ],
+  "scene": "particles",
+  "hint": "trap",
+  "parentNote": "Çocuğunuz erime, donma ve kaynamayı ayırır. Saf suda 0 ve 100 derece eşiklerini söyler. Grafikte sıcaklığın bir süre sabit kalabileceğini bilir."
+}

@@ -319,11 +319,25 @@ function mediaCdnProductionBlocks(env: Record<string, string | undefined>): stri
   return [];
 }
 
+/**
+ * T-03: üretimde `SUPER_ADMIN_USER_ID` zorunlu. Boşsa süper admin kurtarma kapısı kapalıdır ve build engellenir.
+ * `NODE_ENV=production` veya Vercel Production ortamı üretim sayılır.
+ */
+function superAdminUuidProductionBlocks(env: Record<string, string | undefined>): string[] {
+  const production = env.NODE_ENV === "production" || env.VERCEL_ENV?.trim() === "production";
+  if (!production || filled(env, "SUPER_ADMIN_USER_ID")) {
+    return [];
+  }
+  return [
+    "SUPER_ADMIN_USER_ID üretimde zorunlu (T-03). Boşsa hiçbir hesap Super Admin olmaz; yerleşik kanonik e-posta tek başına yetki vermez.",
+  ];
+}
+
 export function extraProductionBlocks(
   env: Record<string, string | undefined>,
 ): readonly string[] {
   if (env.NODE_ENV !== "production") {
-    return mediaCdnProductionBlocks(env);
+    return [...superAdminUuidProductionBlocks(env), ...mediaCdnProductionBlocks(env)];
   }
   const { database, direct } = inspectPostgresOps(env);
   const blocking: string[] = [];
@@ -378,6 +392,7 @@ export function extraProductionBlocks(
       "NEXT_PUBLIC_APP_URL üretimde https genel köken ister (localhost / http Bildirim URL'yi kırar).",
     );
   }
+  blocking.push(...superAdminUuidProductionBlocks(env));
   blocking.push(...mediaCdnProductionBlocks(env));
   return blocking;
 }
@@ -438,7 +453,7 @@ export function formatSafeDefaultLines(ops: SafeDefaultOps): string[] {
     `  noticeSmtp=${smtp.mode} host=${yesNo(smtp.host)} port=${yesNo(smtp.port)} user=${yesNo(smtp.user)} pass=${yesNo(smtp.pass)} from=${yesNo(smtp.mailFrom)} (gün 0 dolu olmalı; boşsa nakit durmaz)`,
     `  trustedProxyHops=${ops.trustedProxyHops} (CF+Vercel=2)`,
     `  railDronOrigins=${ops.railDronOrigins} (üretim doğru varsayılan: native-no-cors)`,
-    `  superAdmin=${ops.superAdmin} (uuid-unset = SUPER_ADMIN_USER_ID boş; kanonik e-posta varsayılanı ayrı kapıdır)`,
+    `  superAdmin=${ops.superAdmin} (uuid-unset = SUPER_ADMIN_USER_ID boş; üretimde engelleyici, T-03 fail-closed)`,
     `  authRedirects=${ops.authRedirectPaths.join(" ")} originClass=${ops.appUrlClass} (Dashboard Redirect URLs; origin basılmaz)`,
     `  llm gemini=${yesNo(llm.gemini)} openai=${yesNo(llm.openai)} anthropic=${yesNo(llm.anthropic)}`,
     "OPS-5 Hız tavanı (lansman kararı 19 Ağustos 2026):",
