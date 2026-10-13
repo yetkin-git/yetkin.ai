@@ -54,7 +54,9 @@ export function contentTypeForObjectKey(objectKey: string): string {
 /**
  * Disk yolu → kova anahtarları.
  * Ücretsiz ilk konu ve fon yatağı kamu `media/junior/` altında kalır.
- * Kilitli ses ve kapak yalnız `private/junior/` önekine yazılır.
+ * Kilitli ses yalnız `private/junior/` önekine yazılır.
+ * Kapak her ders için kamu `media/junior/covers/{ders}.jpg` adresine yazılır.
+ * Kilitli dersin imzalı oynatıcı kopyası ayrıca `private/junior/covers/` taşır.
  * Isınma kaseti ücretsiz konuda kamu, kilitli konuda imzalı kopya olarak iki anahtar taşır.
  */
 export function storageObjectKeysFromDiskRelative(diskRelative: string): string[] {
@@ -74,7 +76,7 @@ export function storageObjectKeysFromDiskRelative(diskRelative: string): string[
     if (juniorLessonMediaIsPublicPreview(name)) {
       return [publicKey];
     }
-    return [`${JUNIOR_LOCKED_MEDIA_PREFIX}/covers/${name}.${ext}`];
+    return [publicKey, `${JUNIOR_LOCKED_MEDIA_PREFIX}/covers/${name}.${ext}`];
   }
   const warmup = /^media\/junior\/warmup\/(.+)$/u.exec(publicKey);
   if (warmup) {

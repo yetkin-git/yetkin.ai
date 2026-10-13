@@ -5,7 +5,12 @@ import { afterEach, describe, expect, it } from "vitest";
 import { isOffloadedPublicPath } from "@/lib/media/offload";
 import { readMediaPublicBaseUrl, resolvePublicMediaUrl } from "@/lib/media/public-url";
 import { readR2MediaConfig } from "@/lib/media/r2-config";
-import { contentTypeForObjectKey, listR2PublicMedia, objectKeyFromDiskRelative } from "@/lib/media/r2-plan";
+import {
+  contentTypeForObjectKey,
+  listR2PublicMedia,
+  objectKeyFromDiskRelative,
+  storageObjectKeysFromDiskRelative,
+} from "@/lib/media/r2-plan";
 import { R2_EMPTY_PAYLOAD_HASH, signR2Request } from "@/lib/media/r2-s3";
 import { buildEdgeCsp } from "@/lib/kernel/security/edge-guard";
 import { JUNIOR_COVER_MANIFEST } from "@/lib/junior/cover-manifest.generated";
@@ -111,6 +116,20 @@ describe("R2 ayarı ve sayım", () => {
         NEXT_PUBLIC_MEDIA_BASE_URL: "https://cdn.yetkin.ai",
       }),
     ).not.toThrow();
+  });
+
+  it("kilitli kapak katalog CDN anahtarına da yazılır", () => {
+    expect(storageObjectKeysFromDiskRelative("public/media/junior/covers/jr_06_mat-14.jpg")).toEqual([
+      "media/junior/covers/jr_06_mat-14.jpg",
+    ]);
+    expect(storageObjectKeysFromDiskRelative("public/media/junior/covers/jr_06_sosyal-21.jpg")).toEqual([
+      "media/junior/covers/jr_06_sosyal-21.jpg",
+      "private/junior/covers/jr_06_sosyal-21.jpg",
+    ]);
+    expect(storageObjectKeysFromDiskRelative("public/media/junior/covers/jr_06_fen-38.jpg")).toEqual([
+      "media/junior/covers/jr_06_fen-38.jpg",
+      "private/junior/covers/jr_06_fen-38.jpg",
+    ]);
   });
 
   it("nesne anahtarı public/ önekini düşer", () => {

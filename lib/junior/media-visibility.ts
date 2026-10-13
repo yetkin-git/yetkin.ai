@@ -1,7 +1,8 @@
 /**
  * Junior medya görünürlüğü.
  * Ücretsiz ilk ders kapısı ve her kartın arşive alınmamış ilk konusu kamu `/media/junior/...` yolunda kalır.
- * Kilitli ses ve kapak `private/junior/` önekine gider; tahmin edilebilir CDN adresi üretilmez.
+ * Kilitli ses `private/junior/` önekine gider; tahmin edilebilir ses adresi üretilmez.
+ * Katalog kapağı her ders için `media/junior/covers/{ders}.jpg` adresindedir.
  */
 
 import {
