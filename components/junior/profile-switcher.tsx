@@ -166,8 +166,8 @@ export function ProfileSwitcher({
   }, [open]);
 
   const profileForm = (
-    <form onSubmit={onCreate} className="mt-4 grid gap-3 sm:grid-cols-2">
-      <label className="text-sm font-medium">
+    <form onSubmit={onCreate} className="mt-4 grid min-w-0 gap-3 sm:grid-cols-2">
+      <label className="min-w-0 text-sm font-medium">
         Takma ad
         <input
           value={nickname}
@@ -178,7 +178,7 @@ export function ProfileSwitcher({
           required
         />
       </label>
-      <label className="text-sm font-medium">
+      <label className="min-w-0 text-sm font-medium">
         Sınıf
         <select
           value={String(JUNIOR_PILOT_GRADE)}
@@ -188,8 +188,12 @@ export function ProfileSwitcher({
           <option value={String(JUNIOR_PILOT_GRADE)}>6. sınıf</option>
         </select>
       </label>
-      <p className="text-sm text-[var(--muted)] sm:col-span-2">{JUNIOR_PILOT_SHELF_LINE}</p>
-      <label className="text-sm font-medium">
+      <p className="flex min-w-0 sm:col-span-2">
+        <span className="min-w-0 flex-1 whitespace-normal break-words text-sm leading-6 text-[var(--muted)]">
+          {JUNIOR_PILOT_SHELF_LINE}
+        </span>
+      </p>
+      <label className="min-w-0 text-sm font-medium">
         Doğum yılı
         <select
           value={birthYear}
@@ -203,7 +207,7 @@ export function ProfileSwitcher({
           ))}
         </select>
       </label>
-      <label className="text-sm font-medium sm:col-span-2">
+      <label className="min-w-0 text-sm font-medium sm:col-span-2">
         Veli doğum yılı
         <select
           value={guardianYear}
@@ -217,14 +221,14 @@ export function ProfileSwitcher({
           ))}
         </select>
       </label>
-      <label className="flex items-start gap-2 text-sm sm:col-span-2">
+      <label className="flex min-w-0 items-start gap-2 text-sm leading-6 sm:col-span-2">
         <input
           type="checkbox"
           checked={consent}
           onChange={(event) => setConsent(event.target.checked)}
-          className="mt-1"
+          className="mt-1 shrink-0"
         />
-        <span>
+        <span className="min-w-0 flex-1 whitespace-normal break-words">
           <Link href={JUNIOR_GUARDIAN_NOTICE_HREF} className="font-semibold text-[var(--safir-deep)] hover:underline">
             {JUNIOR_GUARDIAN_NOTICE_TITLE}
           </Link>
@@ -240,7 +244,7 @@ export function ProfileSwitcher({
   );
 
   return (
-    <div className="relative">
+    <div>
       <button
         type="button"
         aria-label={selected ? `${selected.nickname} - ${selected.grade}. Sınıf` : "Profil ekle"}
@@ -257,20 +261,26 @@ export function ProfileSwitcher({
         <div
           role="dialog"
           aria-label="Öğrenci profili"
-          className="absolute left-0 top-[calc(100%+0.5rem)] z-30 grid w-[min(36rem,calc(100vw-2rem))] gap-4 rounded-2xl border border-[var(--border)] bg-white p-4 shadow-[var(--shadow-card)]"
+          className="absolute right-0 left-auto top-[calc(100%+0.5rem)] z-30 grid w-full min-w-0 max-w-[42rem] gap-4 overflow-visible rounded-2xl border border-[var(--border)] bg-white p-5 shadow-[var(--shadow-card)] sm:p-6"
         >
-          <p className="text-sm">
-            Oyun Puanı: <strong>{xp.points}</strong>
-            {badgeLine ? <span className="text-[var(--muted)]"> · {badgeLine}</span> : null}
+          <p className="flex min-w-0 text-sm leading-6">
+            <span className="min-w-0 flex-1 whitespace-normal break-words">
+              Oyun Puanı: <strong>{xp.points}</strong>
+              {badgeLine ? <span className="text-[var(--muted)]"> · {badgeLine}</span> : null}
+            </span>
           </p>
-          <p className="text-sm text-[var(--muted)]">
-            Hesap senindir. Çocuğun ayrı e-postası yok. Buradaki puan cüzdan değildir.
+          <p className="flex min-w-0 text-sm leading-6 text-[var(--muted)]">
+            <span className="min-w-0 flex-1 whitespace-normal break-words">
+              Hesap senindir. Çocuğun ayrı e-postası yok. Buradaki puan cüzdan değildir.
+            </span>
           </p>
-          <p className="text-sm text-[var(--muted)]">
-            {JUNIOR_PILOT_SHELF_LINE}
-            {planActive || gradeSwitchRights >= 0
-              ? " Paket ve sınıf hakkı, raftaki metni başka sınıfa çevirmez."
-              : ""}
+          <p className="flex min-w-0 text-sm leading-6 text-[var(--muted)]">
+            <span className="min-w-0 flex-1 whitespace-normal break-words">
+              {JUNIOR_PILOT_SHELF_LINE}
+              {planActive || gradeSwitchRights >= 0
+                ? " Paket ve sınıf hakkı, raftaki metni başka sınıfa çevirmez."
+                : ""}
+            </span>
           </p>
           {selected ? (
             <div>
@@ -294,9 +304,11 @@ export function ProfileSwitcher({
             </div>
           ) : null}
           {selected ? (
-            <form onSubmit={onRenew} className="grid gap-2 text-sm">
-              <p className="text-[var(--muted)]">
-                Eski profilde ders açılmazsa yürürlükteki aydınlatmayı yeniden onayla.
+            <form onSubmit={onRenew} className="grid min-w-0 gap-2 text-sm">
+              <p className="flex min-w-0 text-[var(--muted)]">
+                <span className="min-w-0 flex-1 whitespace-normal break-words leading-6">
+                  Eski profilde ders açılmazsa yürürlükteki aydınlatmayı yeniden onayla.
+                </span>
               </p>
               <Button type="submit" variant="outline" disabled={pending || !consent}>
                 Aydınlatmayı bu profile işle
