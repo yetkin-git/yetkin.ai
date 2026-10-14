@@ -9,7 +9,8 @@ import {
  * Junior kapısı. Kenar, sayfa ve API bu fonksiyonu okur.
  * Ders listesi ve ilk konu herkese açıktır.
  * İkinci konu, anlatış ve hızlı konu kontrolü: yıllık paket veya denetim aktörü.
- * Kasa ayrıdır ve varsayılan kapalıdır.
+ * Profil masası: denetim, `DRON_JUNIOR_OPEN` veya geçerli yıllık paket (`planCovers`).
+ * Yazılan sınıf 6. sınıf pilotudur. Kasa ayrıdır ve varsayılan kapalıdır.
  *
  * `DRON_JUNIOR_OPEN` yalnız profil masasıdır. Odayı 410 yapmaz.
  * Oda kapısı `DRON_JUNIOR_ROOM_OPEN` (`lib/dronlar/kayit.ts`).
@@ -47,6 +48,10 @@ export type JuniorGateDecision =
 
 export const JUNIOR_CLOSED_BETA_ERROR =
   "Bu masa kapalı betada. İzin listesindeki veli hesabı gerekir.";
+
+/** Oturumlu veli, paketi yokken profil masasına yazamaz. Sınıf 6. sınıf pilotudur. */
+export const JUNIOR_PROFILE_PLAN_ERROR =
+  "Profil açmak için geçerli yıllık paket gerekir. Şu an yalnız 6. sınıf pilotu yazılır.";
 
 export const JUNIOR_CHECKOUT_LOCKED_ERROR =
   "Ödeme hattı henüz bağlanmadı. Hukuki altyapı tamamlanmadan kasa açılmaz.";
@@ -119,6 +124,9 @@ export function canEnterJunior(
   if (intent === "profile") {
     if (isJuniorAuditActor(actor, env)) {
       return { allow: true, via: "audit" };
+    }
+    if (actor?.id && profile?.planCovers === true) {
+      return { allow: true, via: "plan" };
     }
     if (isDronJuniorOpen(env) && actor?.id) {
       return { allow: true, via: "beta" };

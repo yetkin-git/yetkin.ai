@@ -408,8 +408,10 @@ describe("Junior veli rızası ve fiyat tohumu", () => {
     expect(room).not.toContain("MaarifSkillTags");
     expect(room).not.toContain("%100 Uygun");
     expect(room).not.toContain("Maarif Mührü");
+    const helper = route.slice(route.indexOf("async function openJuniorProfileDesk"));
     const deletion = route.slice(route.indexOf("export async function DELETE"));
-    expect(deletion.indexOf("juniorLockedResponse")).toBeGreaterThanOrEqual(0);
-    expect(deletion.indexOf("juniorLockedResponse")).toBeLessThan(deletion.indexOf("eraseJuniorChildProfile"));
+    expect(helper.indexOf("juniorLockedResponse")).toBeGreaterThan(0);
+    expect(deletion.indexOf("openJuniorProfileDesk")).toBeGreaterThanOrEqual(0);
+    expect(deletion.indexOf("openJuniorProfileDesk")).toBeLessThan(deletion.indexOf("eraseJuniorChildProfile"));
   });
 });

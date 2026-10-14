@@ -4,14 +4,16 @@ import { describe, expect, it } from "vitest";
 import { CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT } from "@/lib/kernel/auth/super-admin";
 import { formatMinorCompact } from "@/lib/kernel/money/format";
 import { DronBayrakları } from "@/lib/dronlar/kayit";
-import { isFrozenRoomApi } from "@/lib/kernel/security/edge-api-auth";
+import { decideEdgeApiAuth, EDGE_API_FROZEN_ROOM_ERROR, isFrozenRoomApi } from "@/lib/kernel/security/edge-api-auth";
 import {
   canEnterJunior,
   isDronJuniorOpen,
   isJuniorAuditActor,
   isJuniorCheckoutLocked,
+  JUNIOR_PROFILE_PLAN_ERROR,
   type JuniorActor,
 } from "@/lib/kernel/security/junior-gate";
+import { juniorLockedResponse } from "@/lib/junior/surface-lock";
 import { juniorCatalogLessonKeys, juniorLessonAccess } from "@/lib/junior/catalog";
 import { juniorCourseSlugFromLessonKey } from "@/lib/junior/human-titles";
 import { JUNIOR_LESSON_FACE } from "@/lib/junior/lesson-face";
@@ -155,6 +157,53 @@ describe("Junior kapalı beta kapısı", () => {
       intent: "lesson",
       lessonAccess: "locked",
     }).allow).toBe(false);
+  });
+
+  it("geçerli yıllık paket 6. sınıf profil masasını açar; paketsiz veli ve misafir kapalı kalır", async () => {
+    expect(canEnterJunior(PARENT, null, { intent: "profile", planCovers: true })).toEqual({
+      allow: true,
+      via: "plan",
+    });
+    expect(canEnterJunior(PARENT, null, { intent: "profile", planCovers: false }).allow).toBe(false);
+    expect(canEnterJunior(null, null, { intent: "profile", planCovers: true }).allow).toBe(false);
+    expect(canEnterJunior(PARENT, null, { intent: "checkout", planCovers: true }).allow).toBe(false);
+    expect(canEnterJunior(PARENT, "jr_06_mat-6", { intent: "lesson", lessonAccess: "locked", planCovers: false }).allow).toBe(
+      false,
+    );
+
+    expect(isFrozenRoomApi("/api/junior-pilot/profiles")).toBe(true);
+    expect(isFrozenRoomApi("/api/junior-pilot/profiles", PARENT)).toBe(false);
+    expect(isFrozenRoomApi("/api/v1/junior-pilot/profiles", PARENT)).toBe(false);
+    expect(isFrozenRoomApi("/api/junior-pilot/electives", PARENT)).toBe(true);
+    expect(isFrozenRoomApi("/api/junior-pilot/grade", PARENT)).toBe(true);
+    expect(isFrozenRoomApi("/api/junior-pilot/checkout", PARENT)).toBe(true);
+
+    const map = { "/api/junior-pilot/profiles": "session" };
+    expect(
+      decideEdgeApiAuth({
+        pathname: "/api/junior-pilot/profiles",
+        method: "POST",
+        sessionHint: true,
+        sessionUserId: PARENT.id,
+        sessionEmail: PARENT.email,
+        sessionEmailConfirmedAt: PARENT.emailConfirmedAt,
+        map,
+      }),
+    ).toEqual({ kind: "next" });
+    expect(
+      decideEdgeApiAuth({
+        pathname: "/api/junior-pilot/profiles",
+        method: "POST",
+        sessionHint: false,
+        map,
+      }),
+    ).toEqual({ kind: "deny", status: 410, error: EDGE_API_FROZEN_ROOM_ERROR });
+
+    const request = new Request("https://yetkin.ai/api/junior-pilot/profiles", { method: "POST" });
+    expect(juniorLockedResponse("r1", request, PARENT, "profile", { planCovers: true })).toBeNull();
+    const denied = juniorLockedResponse("r1", request, PARENT, "profile", { planCovers: false });
+    expect(denied?.status).toBe(403);
+    expect(await denied?.json()).toMatchObject({ ok: false, error: JUNIOR_PROFILE_PLAN_ERROR });
   });
 
   it("DRON_JUNIOR_OPEN profil masasını oturumlu veliye açar; kasayı açmaz", () => {

@@ -200,7 +200,8 @@ export async function proxy(request: NextRequest) {
 
   // Donmuş oda API + Freelancer kamu kilidi (`FREELANCER_PUBLIC_SURFACE_LOCKED`):
   // `/api/freelancer/*`, `/api/client/jobs/*` ve soyulmuş `/api/v1/freelancer/*` 410.
-  // Junior profil masası kapalı betadadır; izinli aktör 410 yemez.
+  // Junior profil masası: misafir 410. Oturumlu veli handler'a düşer;
+  // geçerli yıllık paket veya denetim profili açar. Kasa bu koldan açılmaz.
   // Kasa, bayrak kapalıyken veya oturum yokken 410. Açık kasada doğrulanmış veli 410 yemez.
   if (isFrozenRoomApi(canonicalPath, juniorActor)) {
     const denial = frozenRoomApiDenial(canonicalPath);

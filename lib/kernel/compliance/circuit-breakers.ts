@@ -111,8 +111,9 @@ export function isEidsPublicListingLocked(): boolean {
 }
 
 /**
- * Profil masası kapalı beta. Anonim ve listedışı hesap kilitlidir.
- * İzin listesi ve profil bayrağı `DRON_JUNIOR_OPEN` kapıyı `canEnterJunior` üzerinden açar.
+ * Profil masası. Anonim hesap kilitlidir.
+ * Geçerli yıllık paket `canEnterJunior` profil kolunda `planCovers` ile açılır.
+ * Yazılan sınıf 6. sınıf pilotudur. İzin listesi ve `DRON_JUNIOR_OPEN` aynı kapıyı açar.
  * Bu bayrak oda 410’u değildir. Oda kapısı `DRON_JUNIOR_ROOM_OPEN`.
  * Kasa bu fonksiyona girmez.
  */

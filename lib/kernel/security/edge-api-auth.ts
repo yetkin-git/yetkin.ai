@@ -59,9 +59,14 @@ const MUTATING_HTTP_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 export function isFrozenRoomApi(pathname: string, actor: JuniorActor | null = null): boolean {
   const path = canonicalApiPathname(pathname);
   if (isJuniorPilotApiPath(path) && !isJuniorPaidActionApiPath(path)) {
-    const intent = path === "/api/junior-pilot/checkout" ? "checkout" : "profile";
-    if (!canEnterJunior(actor, null, { intent }).allow) {
-      return true;
+    // Profil masası: oturumlu veli kenarda 410 yemez. Geçerli paket ve 6. sınıf
+    // kuralı handler'da `canEnterJunior` ile okunur. Misafir bu dalda kalır.
+    const profileDeskSession = isJuniorProfileDeskApi(path) && Boolean(actor?.id);
+    if (!profileDeskSession) {
+      const intent = path === "/api/junior-pilot/checkout" ? "checkout" : "profile";
+      if (!canEnterJunior(actor, null, { intent }).allow) {
+        return true;
+      }
     }
   }
   if (
@@ -89,6 +94,11 @@ export function isFrozenRoomApi(pathname: string, actor: JuniorActor | null = nu
       (path === `/api/${row.id}` || path.startsWith(`/api/${row.id}/`))
     );
   });
+}
+
+/** Profil oluşturma, seçme ve silme. Seçmeli ve sınıf değiştirme bu yolda değildir. */
+function isJuniorProfileDeskApi(path: string): boolean {
+  return path === "/api/junior-pilot/profiles" || path.startsWith("/api/junior-pilot/profiles/");
 }
 
 /** Kart, oyun, ilerleme ve pekiştirme. Profil masası ve kasa bu önekte değildir. */

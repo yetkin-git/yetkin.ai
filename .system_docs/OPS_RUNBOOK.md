@@ -16,13 +16,13 @@ Kapı `canEnterJunior` (`lib/kernel/security/junior-gate.ts`). Kenar, sayfa ve A
 |----|------------|--------|
 | Ders listesi ve ilk konu | Açık | `/junior` sayfası ve `/api/junior/lessons` hop'u oda bayrağıyla 410 olmaz. Boş bayrakta kart `jr_06_mat-5` döner. `DRON_JUNIOR_OPEN` bu adresi kapatmaz. |
 | İkinci konu, anlatış, hızlı konu kontrolü | Yıllık paket veya denetim | Doğrulanmış süper yönetici (`yapinet360@gmail.com`) denetim yoluyla girer. Ek test postaları `JUNIOR_BETA_ALLOWLIST` (virgül veya boşluk). Posta doğrulanmış olmalıdır. `yetkin.vision@gmail.com` listeye yazılsa da girmez. İkinci konu paketle de açılır. |
-| Her oturumlu veliye profil masası | Kapalı | `DRON_JUNIOR_OPEN=1`. Bu bayrak yalnız profildir. İkinci konu yine yıllık paket ister. Kasa açılmaz. Oda açık kalır. |
+| 6. sınıf profili, geçerli yıllık paket | Açık | Oturumlu veli ve `planCovers` (ACTIVE, süresi dolmamış) profil masasını açar. Sınıf 6. sınıf pilotudur. Paketi olmayan veli ve misafir kapalıdır. `DRON_JUNIOR_OPEN=1` paketsiz oturumlu veliyi de açar. İkinci konu yine yıllık paket ister. Kasa açılmaz. Oda açık kalır. |
 | Oda bayrağı | Kayıt açık | `DRON_JUNIOR_ROOM_OPEN=0` `isKapali("junior")` değerini kapatır. Ders hop'u ve `/junior` sayfası bu bayrakla 410 olmaz; ikisi aynı katalogdadır. Profil masasına dokunmaz. |
 | Kasa | Bayrak boşken kapalı | `JUNIOR_CHECKOUT_OPEN=1` ödeme kapısını açar. Üç tik (mesafeli satış, anında ifa, veli aydınlatması) yoksa PayTR çağrılmaz. Üretimde `PAYTR_SANDBOX` satışı açmaz; canlı üçlü gerekir. Köprü durur: CLEARED `junior-license:yearly` yıllık paketi yazar. Denetim hesabı nakit satırı yazmaz. |
 
 Denetim nakit satırı yazmaz. Süper yönetici kendi test profilini açar; ikinci konuyu, anlatışı ve testi o profilde görür. Başka velinin çocuğuna yazamaz. Super Admin (yapinet360@gmail.com) platformdaki tüm kilitli dersleri, anlatışları ve testleri denetim amacıyla izleyebilir; fakat ders metinlerini paneller üzerinden doğrudan yazamaz (metinler kod dosyasıdır) ve kapalı kasayı açamaz.
 
-Geri alma: `JUNIOR_BETA_ALLOWLIST` ve `DRON_JUNIOR_OPEN` değerlerini sil veya boşalt. `DRON_JUNIOR_ROOM_OPEN=0` ders listesini ve ders hop'unu kapatmaz. Profil masası yine yalnız süper yöneticiye kalır. Kasaya dokunulmaz.
+Geri alma: `JUNIOR_BETA_ALLOWLIST` ve `DRON_JUNIOR_OPEN` değerlerini sil veya boşalt. Paket kapısı koddur; ACTIVE olmayan veya süresi dolmuş abonelik profil yazamaz. `DRON_JUNIOR_ROOM_OPEN=0` ders listesini ve ders hop'unu kapatmaz. Kasaya dokunulmaz.
 
 Sohbet widget'ı `/junior` ve alt yollarda basılmaz.
 
