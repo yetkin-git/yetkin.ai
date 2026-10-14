@@ -716,14 +716,14 @@ export function VectorPlayer({
   }, []);
 
   /**
-   * Kadraj bandı: sahne 380px (kısa ekranda 40dvh) ile kilitli.
-   * `aspect-video` geniş kartta sahneyi uzatıp Oynat çubuğunu
-   * ilk bakışın altına itiyordu. SVG `meet` ile bandın ortasında durur.
-   * Tam ekranda board flex-1 ile ekranı doldurur. İpucu / CC / kontroller shrink-0.
+   * Normal mod: 16:9 kadraj. Video ve SVG mutlak konumlu olduğu için
+   * ebeveyne yükseklik vermez; `aspect-video` + `min-h-[300px]` kutuyu
+   * ayakta tutar. `40dvh` bandı geniş kartta sahneyi ezip görüntüyü
+   * kaybediyordu. Tam ekranda board flex-1 ile ekranı doldurur.
    */
   const boardClass = fullscreen
     ? "min-h-0 flex-1 overflow-hidden"
-    : "h-[min(380px,40dvh)] max-h-[380px] w-full shrink-0 overflow-hidden";
+    : "aspect-video w-full min-h-[300px] shrink-0";
 
   return (
     <div
@@ -781,13 +781,13 @@ export function VectorPlayer({
           data-junior-clean-stage={captionsVisible ? undefined : "true"}
         >
           <div
-            className={`absolute inset-0 h-full w-full transition-opacity duration-500 ${
+            className={`absolute inset-0 h-full min-h-[300px] w-full transition-opacity duration-500 ${
               warmup.gate === "cassette" ? "pointer-events-none opacity-0" : "opacity-100"
             }`}
           >
             <div
               key={beat >= 9 ? `${scene}-recap` : scene}
-              className="pointer-events-none absolute inset-0 h-full w-full"
+              className="pointer-events-none absolute inset-0 h-full min-h-[300px] w-full"
               data-junior-step-art={beat}
               data-junior-sticky-trail={captionTrail.length}
               data-junior-recap-stage={beat >= 9 ? "clean" : undefined}

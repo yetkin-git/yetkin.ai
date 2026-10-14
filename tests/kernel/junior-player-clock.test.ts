@@ -482,8 +482,9 @@ describe("Junior oynatıcı yüzü", () => {
     expect(player).not.toContain("JuniorNotePanel");
     expect(player).toContain("data-junior-focus-player");
     expect(player).toContain("data-junior-cinema-stage");
-    expect(player).toContain("h-[min(380px,40dvh)] max-h-[380px] w-full shrink-0 overflow-hidden");
-    expect(player).not.toContain("aspect-video w-full shrink-0 overflow-hidden");
+    expect(player).toContain("aspect-video w-full min-h-[300px] shrink-0");
+    expect(player).not.toContain("h-[min(380px,40dvh)]");
+    expect(player).not.toContain("max-h-[380px]");
     expect(player).not.toContain("max-h-[min(48dvh,420px)]");
     expect(player).not.toContain("aspect-[16/9]");
     expect(player).toContain("min-h-0 flex-1 overflow-hidden");
@@ -506,9 +507,10 @@ describe("Junior oynatıcı yüzü", () => {
     expect(player).toContain("data-junior-fullscreen");
     expect(player).toContain('className="flex w-full min-h-[2.25rem]');
     const listenLayout = readFileSync(join(root, "components/junior/listen-and-tell.tsx"), "utf8");
-    expect(listenLayout).toContain("overflow-hidden");
+    expect(listenLayout).toContain("overflow-visible");
+    expect(listenLayout).not.toContain("min-h-0 flex-1");
     expect(listenLayout).toContain("fill");
-    expect(listenLayout).toContain('"flex min-h-0 flex-1 flex-col"');
+    expect(listenLayout).toContain('"flex w-full min-h-[300px] shrink-0 flex-col"');
     expect(listenLayout).toContain("data-junior-stage-full");
     expect(listenLayout).not.toContain("max-h-[min(28vh,240px)]");
     expect(listenLayout).not.toContain("data-junior-stage-compact");
@@ -610,7 +612,7 @@ describe("Junior oynatıcı yüzü", () => {
     expect(player).toContain("setDecisionTaken(true)");
     expect(player).toContain("playback.complete && !decisionTaken && beats.length > 1");
     expect(player).toContain("onBindStop");
-    expect(player).toContain("absolute inset-0 h-full w-full transition-opacity");
+    expect(player).toContain("absolute inset-0 h-full min-h-[300px] w-full transition-opacity");
     expect(listenTell).toContain("releasePlayerAudio");
     expect(listenTell).toContain("onBindStop=");
     expect(listenTell).toContain("stopPlayerRef");
@@ -731,7 +733,7 @@ describe("Junior oynatıcı yüzü", () => {
     expect(sceneUi).toContain("JUNIOR_STAGE_MIN_HEIGHT_PX");
     expect(sceneUi).toContain("JUNIOR_STAGE_HEIGHT_PX");
     expect(sceneUi).toContain('data-junior-stage-fit="viewport"');
-    expect(sceneUi).toContain("absolute inset-0 block h-full w-full");
+    expect(sceneUi).toContain("absolute inset-0 block h-full min-h-[300px] w-full");
     expect(sceneUi).toContain("SceneReveal");
     expect(sceneUi).not.toContain("max-h-full");
     expect(sceneUi).not.toContain("min-h-[420px]");
@@ -859,9 +861,9 @@ describe("Junior oynatıcı yüzü", () => {
     expect(decision).toContain("cursor-pointer");
     expect(player).toContain("data-junior-cinema-board");
     expect(player).toContain("<JuniorLessonDecision");
-    expect(sceneUi).toContain("pointer-events-none absolute inset-0 block h-full w-full");
-    expect(art).toContain("pointer-events-none absolute inset-0 block h-full w-full");
-    expect(player).toContain('className="pointer-events-none absolute inset-0 h-full w-full"');
+    expect(sceneUi).toContain("pointer-events-none absolute inset-0 block h-full min-h-[300px] w-full");
+    expect(art).toContain("pointer-events-none absolute inset-0 block h-full min-h-[300px] w-full");
+    expect(player).toContain('className="pointer-events-none absolute inset-0 h-full min-h-[300px] w-full"');
     expect(mathArt).toContain("showExponent = beat >= 1");
     expect(mathArt).toContain("showFactors = beat >= 2");
     expect(mathArt).toContain("showEquality = beat >= 3");

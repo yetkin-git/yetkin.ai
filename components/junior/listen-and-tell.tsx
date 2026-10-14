@@ -314,13 +314,13 @@ export function ListenAndTell({
   return (
     <section
       aria-label={title}
-      className={`junior-quest flex h-full min-h-0 flex-1 flex-col gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-2 shadow-[var(--shadow-card)] ${
-        cassetteComplete || showBand || tellArmed ? "overflow-y-auto" : "overflow-hidden"
+      className={`junior-quest flex w-full min-h-[300px] flex-col gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-2 shadow-[var(--shadow-card)] ${
+        cassetteComplete || showBand || tellArmed ? "overflow-y-auto" : "overflow-visible"
       }`}
     >
-      {/* flex-1 min-h-0: SoftStage + Oynat/Durdur tam boy — tellArmed iken de sıkışmaz. */}
+      {/* Sahne kendi 16:9 yüksekliğini taşır. Esnek taban sıfır, normal modda bandı eziyordu. */}
       <div
-        className="flex min-h-0 flex-1 flex-col"
+        className="flex w-full min-h-[300px] shrink-0 flex-col"
         data-junior-stage-full={tellArmed ? "true" : undefined}
       >
         <VectorPlayer

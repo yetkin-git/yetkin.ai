@@ -38,7 +38,7 @@ function Frame({
   return (
     <svg
       viewBox={`0 0 ${JUNIOR_STAGE_VB_W} ${JUNIOR_STAGE_VB_H}`}
-      className="pointer-events-none absolute inset-0 block h-full w-full"
+      className="pointer-events-none absolute inset-0 block h-full min-h-[300px] w-full"
       role="img"
       aria-hidden
       preserveAspectRatio="xMidYMid meet"
@@ -259,7 +259,7 @@ function RecapArt({ beat, caption }: ArtProps) {
   return (
     <svg
       viewBox={`0 0 ${JUNIOR_STAGE_VB_W} ${JUNIOR_STAGE_VB_H}`}
-      className="pointer-events-none absolute inset-0 block h-full w-full"
+      className="pointer-events-none absolute inset-0 block h-full min-h-[300px] w-full"
       role="img"
       aria-hidden
       preserveAspectRatio="xMidYMid meet"
