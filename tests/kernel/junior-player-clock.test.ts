@@ -18,6 +18,7 @@ import {
   juniorPlayerCueAt,
   juniorPlayerHasReachedEnd,
   juniorPlayerLiveCaption,
+  juniorPlayerNeighborStepMs,
   juniorPlayerRangeLabel,
   juniorPlayerStepAnchors,
   juniorPlayerStepLabel,
@@ -61,6 +62,25 @@ describe("Junior oynatıcı saati", () => {
     expect(juniorPlayerRangeLabel(4_000, 65_000)).toBe("0:04 / 1:05");
     expect(juniorPlayerStepLabel(0, 9)).toBe("Adım 1 / 9");
     expect(juniorPlayerStepLabel(8, 9)).toBe("Adım 9 / 9");
+    expect(
+      juniorPlayerNeighborStepMs({ beat: 0, beatCount: 12, delta: -1, anchors: [] }),
+    ).toBeNull();
+    expect(
+      juniorPlayerNeighborStepMs({
+        beat: 0,
+        beatCount: 12,
+        delta: 1,
+        anchors: [{ beat: 1, startMs: 4_000, text: "sonraki" }],
+      }),
+    ).toBe(4_000);
+    expect(
+      juniorPlayerNeighborStepMs({
+        beat: 11,
+        beatCount: 12,
+        delta: 1,
+        anchors: [{ beat: 11, startMs: 90_000, text: "son" }],
+      }),
+    ).toBeNull();
     expect(juniorPlayerClampMs(-20, 10_000)).toBe(0);
     expect(juniorPlayerClampMs(10_500, 10_000)).toBe(10_000);
     expect(juniorPlayerClampMs(Number.NaN, 10_000)).toBe(0);
@@ -280,6 +300,29 @@ describe("Junior oynatıcı saati", () => {
       ),
     ).toBe(draw.beat);
     expect(juniorPlayerBeatFromAnchors(draw.startMs, 12, anchors)).toBe(draw.beat);
+    const forwardMs = juniorPlayerNeighborStepMs({
+      beat: 0,
+      beatCount: 12,
+      delta: 1,
+      anchors,
+    });
+    expect(forwardMs).not.toBeNull();
+    if (forwardMs != null) {
+      const nextBeat = juniorPlayerBeatIndex(
+        forwardMs,
+        timeline.durationMs,
+        12,
+        timeline.windows,
+        0,
+        timeline.pieces.length,
+        anchors,
+      );
+      expect(nextBeat).toBeGreaterThan(0);
+      expect(juniorPlayerStepLabel(nextBeat, 12)).not.toBe("Adım 1 / 12");
+    }
+    expect(
+      juniorPlayerNeighborStepMs({ beat: 0, beatCount: 12, delta: -1, anchors }),
+    ).toBeNull();
     // Örnek bloğunun açılış cümlesi; yaşam bölümündeki "2 üssü 3, 8 eder" aynı çapayı değil ilk tabloyu gösterir.
     const example = timeline.pieces.find((piece) => /24 sayısını/u.test(piece.text));
     expect(example).toBeDefined();
@@ -423,6 +466,10 @@ describe("Junior oynatıcı yüzü", () => {
     expect(controls).toContain("Oynat");
     expect(controls).toContain("Durdur");
     expect(controls).toContain("Baştan Dinle");
+    expect(controls).toContain("Önceki adım");
+    expect(controls).toContain("Sonraki adım");
+    expect(controls).toContain("data-junior-step-prev");
+    expect(controls).toContain("data-junior-step-next");
     expect(controls).toContain("CC");
     expect(controls).toContain("data-junior-captions-toggle");
     expect(controls).toContain("captionsVisible");
@@ -505,6 +552,9 @@ describe("Junior oynatıcı yüzü", () => {
     expect(player).toContain("JuniorWarmupCassette");
     expect(player).toContain("data-junior-warmup-gate");
     expect(player).toContain("onError={warmup.onError}");
+    expect(player).toContain("onStep={warmup.orienting ? undefined : playback.stepBy}");
+    expect(player).toContain("data-junior-profile-missing");
+    expect(player).toContain("Profil seçilmedi. Ders kilitlenmeden oynar.");
     const listenTell = readFileSync(join(root, "components/junior/listen-and-tell.tsx"), "utf8");
     expect(listenTell).toContain("cassetteComplete && tellGuides.length > 0");
     expect(listenTell).toContain("onPlaybackComplete={(complete) => {");

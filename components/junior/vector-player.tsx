@@ -476,6 +476,8 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
   ],
 };
 
+const ANON_RESUME: MicroProgressRecord = { completed: [], holding: null };
+
 type VectorPlayerProps = {
   scene: JuniorVectorScene;
   mebNote: string;
@@ -542,6 +544,7 @@ export function VectorPlayer({
     setTrace(readMicroProgress("junior", profileId, lessonKey));
     setTraceReady(true);
   }, [profileId, lessonKey]);
+  const namedProfile = profileId.trim().length > 0;
   const playback = useJuniorPlayback({
     lessonKey,
     note: spokenForPlay,
@@ -549,8 +552,9 @@ export function VectorPlayer({
     stepCaptions: beats.map((row) => row.caption),
     grantedAudioUrl,
     lockPublicMedia,
-    resumeRecord: trace,
-    resumeReady: traceReady,
+    // Profil yokken anonim iz bir dikkat durağında oynatıcıyı kilitlemesin.
+    resumeRecord: namedProfile ? trace : ANON_RESUME,
+    resumeReady: namedProfile ? traceReady : true,
     onHardPause: (pause) => {
       setTrace((current) => {
         const next = holdMicroStep(current, pause.stepIndex);
@@ -860,6 +864,11 @@ export function VectorPlayer({
               {JUNIOR_VOICE_PREPARING_LABEL}
             </p>
           ) : null}
+          {!namedProfile ? (
+            <p role="status" data-junior-profile-missing="" className="text-sm font-semibold text-[var(--muted)]">
+              Profil seçilmedi. Ders kilitlenmeden oynar. Puan ve anlatış için profil gerekir.
+            </p>
+          ) : null}
           {captionsVisible ? (
             <p
               data-junior-live-caption=""
@@ -885,6 +894,7 @@ export function VectorPlayer({
             fullscreen={fullscreen}
             onToggleFullscreen={toggleFullscreen}
             onReplay={warmup.orienting ? () => undefined : playback.replay}
+            onStep={warmup.orienting ? undefined : playback.stepBy}
             onScrubStart={warmup.orienting ? () => undefined : playback.beginScrub}
             onScrub={warmup.orienting ? () => undefined : playback.scrubTo}
             onScrubEnd={warmup.orienting ? () => undefined : playback.endScrub}

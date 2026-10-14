@@ -7,6 +7,7 @@ import {
   juniorPlayerClampMs,
   juniorPlayerCueAt,
   juniorPlayerHasReachedEnd,
+  juniorPlayerNeighborStepMs,
   juniorPlayerStepAnchors,
   juniorPlayerTimeline,
   juniorPlayerWindowIndex,
@@ -105,6 +106,9 @@ export function useJuniorPlayback({
     () => (stepCaptions.length > 0 ? juniorPlayerStepAnchors(stepCaptions, timeline) : []),
     [stepCaptions, timeline],
   );
+  const anchorsRef = useRef(anchors);
+  const beatRef = useRef(0);
+  anchorsRef.current = anchors;
   const plan = useMemo(() => microLessonPlan(speechKey, timeline), [speechKey, timeline]);
 
   const playingRef = useRef(false);
@@ -900,6 +904,40 @@ export function useJuniorPlayback({
     }
   }
 
+  function stepBy(delta: -1 | 1) {
+    const ms = juniorPlayerNeighborStepMs({
+      beat: beatRef.current,
+      beatCount,
+      delta,
+      anchors: anchorsRef.current,
+    });
+    if (ms == null) {
+      return;
+    }
+    thinkHoldRef.current = false;
+    activePauseRef.current = null;
+    setPauseKind(null);
+    setHoldCaption("");
+    setThinkHold(false);
+    releasedThroughRef.current = Math.min(releasedThroughRef.current, ms);
+    if (playingRef.current) {
+      playFrom(ms);
+      return;
+    }
+    const next = juniorPlayerClampMs(ms, durationRef.current > 0 ? durationRef.current : ms);
+    elapsedRef.current = next;
+    setElapsedMs(next);
+    noticeStar(next);
+    const audio = audioRef.current;
+    if (audio && cassetteModeRef.current) {
+      try {
+        audio.currentTime = next / 1000;
+      } catch {
+        /* metadata henüz gelmemiş olabilir */
+      }
+    }
+  }
+
   function endScrub() {
     if (!scrubbingRef.current) {
       return;
@@ -925,6 +963,7 @@ export function useJuniorPlayback({
     timeline.pieces.length,
     anchors,
   );
+  beatRef.current = beat;
   // Karar butonları: Adım 12/12 değil; kaset %100 (ended | currentTime ≥ duration − 1).
   const audio = audioRef.current;
   const complete = juniorPlayerHasReachedEnd({
@@ -963,6 +1002,7 @@ export function useJuniorPlayback({
     bgmMuted,
     toggleBgm,
     replay,
+    stepBy,
     resumeThinkHold,
     beginScrub,
     scrubTo,

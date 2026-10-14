@@ -15,6 +15,7 @@ export function JuniorPlayerControls({
   beatCount,
   onToggle,
   onReplay,
+  onStep,
   onScrubStart,
   onScrub,
   onScrubEnd,
@@ -37,6 +38,8 @@ export function JuniorPlayerControls({
   beatCount: number;
   onToggle: () => void;
   onReplay: () => void;
+  /** −1 önceki adım, +1 sonraki adım. Çapa yoksa etiket yerinde kalır. */
+  onStep?: (delta: -1 | 1) => void;
   onScrubStart: () => void;
   onScrub: (ms: number) => void;
   onScrubEnd: () => void;
@@ -80,6 +83,28 @@ export function JuniorPlayerControls({
           onClick={onToggle}
         >
           {playing ? "Durdur" : "Oynat"}
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          aria-label="Önceki adım"
+          data-junior-step-prev=""
+          disabled={orientation || !onStep || beat <= 0}
+          onClick={() => onStep?.(-1)}
+        >
+          Önceki adım
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          aria-label="Sonraki adım"
+          data-junior-step-next=""
+          disabled={orientation || !onStep || beat >= beatCount - 1}
+          onClick={() => onStep?.(1)}
+        >
+          Sonraki adım
         </Button>
         <Button type="button" size="sm" variant="outline" aria-label="Baştan dinle" disabled={orientation} onClick={onReplay}>
           Baştan Dinle

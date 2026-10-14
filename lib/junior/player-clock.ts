@@ -368,6 +368,52 @@ export function juniorPlayerBeatFromAnchors(
   return beat;
 }
 
+/**
+ * İleri / geri adım. Hedef, ekranda görünen adımdan sonraki veya önceki çapadır.
+ * Çapası olmayan ara adım atlanır; uçta `null` döner ve etiket yerinde kalır.
+ */
+export function juniorPlayerNeighborStepMs(input: {
+  beat: number;
+  beatCount: number;
+  delta: -1 | 1;
+  anchors: readonly JuniorStepAnchor[];
+}): number | null {
+  const count = Math.max(1, Math.floor(input.beatCount));
+  if (!Number.isFinite(input.beat) || (input.delta !== -1 && input.delta !== 1)) {
+    return null;
+  }
+  const byBeat = new Map<number, number>();
+  byBeat.set(0, 0);
+  for (const anchor of input.anchors) {
+    if (!Number.isInteger(anchor.beat) || anchor.beat <= 0 || anchor.beat >= count) {
+      continue;
+    }
+    if (!Number.isFinite(anchor.startMs)) {
+      continue;
+    }
+    const startMs = Math.max(0, Math.round(anchor.startMs));
+    const previous = byBeat.get(anchor.beat);
+    if (previous === undefined || startMs < previous) {
+      byBeat.set(anchor.beat, startMs);
+    }
+  }
+  const marks = [...byBeat.entries()]
+    .map(([beat, startMs]) => ({ beat, startMs }))
+    .sort((left, right) => left.beat - right.beat);
+  const current = Math.min(count - 1, Math.max(0, Math.floor(input.beat)));
+  let index = 0;
+  for (let cursor = 0; cursor < marks.length; cursor += 1) {
+    if ((marks[cursor]?.beat ?? 0) <= current) {
+      index = cursor;
+    }
+  }
+  const next = marks[index + input.delta];
+  if (!next || next.beat === marks[index]?.beat) {
+    return null;
+  }
+  return next.startMs;
+}
+
 export type JuniorCuePause = {
   endMs: number;
   kind: JuniorPauseKind;

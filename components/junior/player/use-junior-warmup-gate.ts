@@ -6,8 +6,8 @@ import { JUNIOR_WARMUP_FADE_MS, juniorWarmupSrc } from "@/lib/junior/warmup";
 export type JuniorWarmupGate = "cassette" | "fade" | "scene";
 
 /**
- * Adım 0 kaseti biter veya atlanırsa sahne belirir ve 1. adımın anlatımı açılır.
- * Dosya hatasında geçiş beklenmez; sahne olduğu yerde, sessizce durur.
+ * Adım 0 kaseti biter, atlanır veya dosya gelmezse sahne belirir ve 1. adımın anlatımı açılır.
+ * Eksik ısınma videosu anlatımı kilitlemez.
  */
 export function useJuniorWarmupGate(
   lessonKey: string,
@@ -29,16 +29,12 @@ export function useJuniorWarmupGate(
     return () => window.clearTimeout(timer.current);
   }, [grantedSrc, lessonKey, lockPublicMedia]);
 
-  function finish(mode: "play" | "still") {
+  function finish() {
     if (settled.current) {
       return;
     }
     settled.current = true;
     window.clearTimeout(timer.current);
-    if (mode === "still") {
-      setGate("scene");
-      return;
-    }
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       setGate("scene");
@@ -54,8 +50,8 @@ export function useJuniorWarmupGate(
     src,
     gate,
     orienting: gate !== "scene",
-    onEnded: () => finish("play"),
-    onSkip: () => finish("play"),
-    onError: () => finish("still"),
+    onEnded: () => finish(),
+    onSkip: () => finish(),
+    onError: () => finish(),
   };
 }

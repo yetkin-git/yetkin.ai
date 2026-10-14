@@ -22,7 +22,7 @@ export const JUNIOR_WARMUP_MAX_SEC = 10;
 
 /**
  * Kaset bitmez, takılır veya hiç gelmezse sahneye düşme tavanı.
- * Öğrenci bu süreden sonra hata yazısı görmeden 1. adımda kalır.
+ * Bu süreden sonra hata yazısı görünmez; anlatım 1. adımda açılır.
  */
 export const JUNIOR_WARMUP_FAILSAFE_MS = 12_000;
 
