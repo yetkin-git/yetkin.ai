@@ -172,7 +172,7 @@ export const JUNIOR_HINT_BOX = {
 export type JuniorHintKind = keyof typeof JUNIOR_HINT_BOX;
 
 export const JUNIOR_HINT_BOX_PRINCIPLE =
-  'Sınav ve test uyarıları asla baskıcı, korkutucu veya stres yaratıcı dille ("sınavda vururlar", "şok olursun" vb.) yazılamaz. Tüm kritik uyarılar "💡 Dikkat Noktası" veya "⭐ Altın İpucu" başlıklarıyla sunulur. İpucu ekrandayken kaset durur; çocuk "Anladım!" deyene kadar kart kalkmaz. Çocuk uyarılırken cesaretlendirilir ve merakı tetiklenir.';
+  'Sınav ve test uyarıları asla baskıcı, korkutucu veya stres yaratıcı dille ("sınavda vururlar", "şok olursun" vb.) yazılamaz. Tüm kritik uyarılar "💡 Dikkat Noktası" veya "⭐ Altın İpucu" başlıklarıyla sunulur. Yıldız ve ipucu zaman çubuğunda işaret olarak kalır; kaset bu işaretlerde kendiliğinden durmaz. Kart, çocuk işarete dokununca veya anlatımı kendisi durdurunca açılır. Kart "Anladım!" ile kapanır. Çocuk uyarılırken cesaretlendirilir ve merakı tetiklenir.';
 
 /** Ders ve test gövdesinde yasak kalıplar. İlke metni bu listeyi örnek diye anabilir; ders metni taşımaz. */
 export const JUNIOR_HARSH_WARNING_PHRASES = [

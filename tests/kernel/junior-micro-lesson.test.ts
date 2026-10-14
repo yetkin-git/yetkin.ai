@@ -22,6 +22,8 @@ import {
   juniorCuePauses,
   juniorPauseKind,
   juniorPlayerTimeline,
+  juniorMarkerAt,
+  juniorMarkerCrossings,
   juniorStarCrossings,
   juniorStarShouldGlow,
   type JuniorPlayerTimeline,
@@ -112,6 +114,13 @@ describe("mikro-ders ve sert durak", () => {
     expect(JUNIOR_STAR_PULSE_MS).toBeLessThanOrEqual(5_000);
     expect(juniorStarShouldGlow(4_000, 4_000 + JUNIOR_STAR_PULSE_MS)).toBe(true);
     expect(juniorStarShouldGlow(4_000, 4_000 + JUNIOR_STAR_PULSE_MS + 1)).toBe(false);
+    expect(juniorMarkerCrossings(pauses, 3_500, 4_100, 20_000).map((pause) => pause.endMs)).toEqual([4_000]);
+    expect(juniorMarkerCrossings(pauses, 500, 9_100, 20_000).map((pause) => pause.endMs)).toEqual([
+      1_000, 4_000, 9_000,
+    ]);
+    expect(juniorMarkerAt(pauses, 3_900)).toEqual(pauses[0]);
+    expect(juniorMarkerAt(pauses, 4_000)?.kind).toBe("turn");
+    expect(juniorMarkerAt(pauses, 500)).toBeNull();
   });
 
   it("jr_06_fen-1 yıldız sorusu senaryodan gelir ve kaset cümlesine yazılmaz", () => {

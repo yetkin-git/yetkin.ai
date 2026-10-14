@@ -9,8 +9,8 @@ export type JuniorProgressPause = {
 
 /**
  * Anlatım zaman çubuğu.
- * Yıldız durağı kaseti kesmez. Çocuk yıldıza dokunursa soru paneli açılır.
- * 📌 not ve 💡 dikkat durakları yalnız konum işaretidir; tıklanmaz ve panel açmaz.
+ * Yıldız, dikkat ve not işaretleri kaseti kesmez.
+ * Çocuk işarete dokunursa bilgi veya soru kutusu açılır.
  */
 export function JuniorProgressBar({
   elapsedMs,
@@ -50,38 +50,30 @@ export function JuniorProgressBar({
               const ratio = Math.min(0.98, Math.max(0.02, pause.endMs / durationMs));
               const star = pause.kind === "turn";
               const glow = star && glowEndMs != null && Math.abs(glowEndMs - pause.endMs) < 80;
-              if (!star) {
-                return (
-                  <span
-                    key={`${pause.kind}:${pause.endMs}`}
-                    data-junior-pause-pin=""
-                    data-junior-pause-kind={pause.kind}
-                    className="pointer-events-none absolute top-1/2 z-[1] -translate-x-1/2 -translate-y-1/2 select-none text-[13px] leading-none"
-                    style={{ left: `${ratio * 100}%` }}
-                    title={pause.kind === "attention" ? "Dikkat noktası" : "Burada not durağı var"}
-                    aria-hidden="true"
-                  >
-                    {pause.kind === "attention" ? "💡" : "📌"}
-                  </span>
-                );
-              }
+              const glyph = pause.kind === "attention" ? "💡" : pause.kind === "notebook" ? "📌" : "⭐";
+              const label =
+                pause.kind === "attention"
+                  ? "Dikkat noktasını aç"
+                  : pause.kind === "notebook"
+                    ? "Not durağını aç"
+                    : "Küçük soruyu aç";
               return (
                 <button
                   key={`${pause.kind}:${pause.endMs}`}
                   type="button"
                   data-junior-pause-pin=""
                   data-junior-pause-kind={pause.kind}
-                  data-junior-star-glow={glow ? "true" : "false"}
-                  className={`absolute top-1/2 z-[2] flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent p-0 text-[15px] leading-none ${
-                    glow ? "junior-star-pulse" : ""
-                  }`}
+                  data-junior-star-glow={star ? (glow ? "true" : "false") : undefined}
+                  className={`absolute top-1/2 z-[2] flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent p-0 leading-none ${
+                    star ? "text-[15px]" : "text-[13px]"
+                  } ${glow ? "junior-star-pulse" : ""}`}
                   style={{ left: `${ratio * 100}%` }}
-                  title="Küçük soruyu aç"
-                  aria-label="Küçük soruyu aç"
+                  title={pause.kind === "attention" ? "Dikkat noktası" : label}
+                  aria-label={label}
                   onPointerDown={(event) => event.stopPropagation()}
                   onClick={() => onOpenStar?.(pause.endMs)}
                 >
-                  ⭐
+                  {glyph}
                 </button>
               );
             })

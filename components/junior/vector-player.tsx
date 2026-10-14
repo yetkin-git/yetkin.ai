@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { JuniorHintBox } from "@/components/junior/hint-box";
 import { JuniorPlayerControls } from "@/components/junior/player/controls";
 import { JuniorLessonDecision } from "@/components/junior/player/lesson-decision";
-import { JuniorPauseBanner, JuniorStarAlert, JuniorStarQuestion } from "@/components/junior/player/pause-banner";
+import { JuniorPauseBanner, JuniorStarQuestion } from "@/components/junior/player/pause-banner";
 import { JuniorStepArt } from "@/components/junior/player/step-art";
 import { useJuniorPlayback } from "@/components/junior/player/use-junior-playback";
 import { useJuniorWarmupGate } from "@/components/junior/player/use-junior-warmup-gate";
@@ -21,13 +21,14 @@ import {
 } from "@/lib/junior/content-rules";
 import {
   completeMicroStep,
-  holdMicroStep,
   readMicroProgress,
   writeMicroProgress,
   type MicroProgressRecord,
 } from "@/lib/junior/micro-progress";
 import { playJuniorHintEffect } from "@/lib/junior/hint-effect";
 import { juniorLessonNote } from "@/lib/junior/lesson-note";
+import type { MicroLessonPause } from "@/lib/junior/micro-lesson";
+import { juniorMarkerAt } from "@/lib/junior/player-clock";
 import type { JuniorVectorScene } from "@/lib/junior/types";
 import {
   JUNIOR_VOICE_PREPARING_LABEL,
@@ -555,13 +556,6 @@ export function VectorPlayer({
     // Profil yokken anonim iz bir dikkat durağında oynatıcıyı kilitlemesin.
     resumeRecord: namedProfile ? trace : ANON_RESUME,
     resumeReady: namedProfile ? traceReady : true,
-    onHardPause: (pause) => {
-      setTrace((current) => {
-        const next = holdMicroStep(current, pause.stepIndex);
-        writeMicroProgress("junior", profileId, lessonKey, next);
-        return next;
-      });
-    },
     onHardResume: (pause) => {
       setTrace((current) => {
         const next = completeMicroStep(current, pause.stepIndex);
@@ -584,7 +578,8 @@ export function VectorPlayer({
    * tekrar dinle (`!complete`) paneli yeniden açar.
    */
   const [decisionTaken, setDecisionTaken] = useState(false);
-  const [starOpen, setStarOpen] = useState(false);
+  /** Yıldız, dikkat veya not kartı. Yalnız dokunuşta veya kullanıcının durdurmasında açılır. */
+  const [openedMarker, setOpenedMarker] = useState<MicroLessonPause | null>(null);
   /** SoftStage + (CC açıkken) karaoke altyazı: MP3 cümlesi; adım metni yalnız yedek. */
   const stepCaption = beats[beat]?.caption ?? beats[0]?.caption ?? "";
   const caption = playback.liveCaption.trim().length > 0 ? playback.liveCaption : stepCaption;
@@ -605,30 +600,23 @@ export function VectorPlayer({
       : playback.pieces.length > 0 && playback.activePiece >= 0
         ? playback.pieces.slice(0, playback.activePiece + 1).map((piece) => piece.text)
         : beats.slice(0, Math.max(0, beat) + 1).map((row) => row.caption);
-  const holdingAttention = playback.thinkHold && playback.pauseKind === "attention";
-  const pauseBanner =
-    playback.thinkHold && !playback.complete && playback.pauseKind === "notebook"
-      ? playback.pauseKind
-      : null;
-  const hintSource = holdingAttention ? playback.holdCaption || caption : caption;
-  const hintKind = holdingAttention
-    ? (juniorHintKindFromCaption(hintSource) ?? "trap")
-    : playback.hintSuppressed
-      ? null
-      : juniorHintKindFromCaption(caption);
+  const markerBody =
+    openedMarker?.kind === "attention" ? openedMarker.attentionText || caption : caption;
+  const markerHintKind =
+    openedMarker?.kind === "attention" ? (juniorHintKindFromCaption(markerBody) ?? "trap") : null;
 
   useEffect(() => {
-    if (warmup.orienting || !hintKind) {
+    if (warmup.orienting || !markerHintKind || openedMarker?.kind !== "attention") {
       chimeKey.current = "";
       return;
     }
-    const token = `${scene}:${beat}:${hintKind}`;
+    const token = `${scene}:${openedMarker.endMs}:${markerHintKind}`;
     if (chimeKey.current === token) {
       return;
     }
     chimeKey.current = token;
     playJuniorHintEffect("box-open");
-  }, [scene, beat, hintKind, warmup.orienting]);
+  }, [scene, markerHintKind, openedMarker, warmup.orienting]);
 
   useEffect(() => {
     onPlaybackComplete?.(playback.complete);
@@ -653,11 +641,11 @@ export function VectorPlayer({
   }, [playback.complete, playback.microSteps.length, traceReady, profileId, lessonKey]);
 
   useEffect(() => {
-    if (!playback.thinkHold) {
+    if (openedMarker?.kind !== "notebook" && openedMarker?.kind !== "attention") {
       return;
     }
     thinkButtonRef.current?.focus({ preventScroll: true });
-  }, [playback.thinkHold]);
+  }, [openedMarker]);
 
   useEffect(() => {
     if (!playback.complete) {
@@ -666,7 +654,7 @@ export function VectorPlayer({
   }, [playback.complete]);
 
   useEffect(() => {
-    setStarOpen(false);
+    setOpenedMarker(null);
   }, [lessonKey]);
 
   useEffect(() => {
@@ -680,6 +668,26 @@ export function VectorPlayer({
     document.addEventListener("fullscreenchange", onFullscreenChange);
     return () => document.removeEventListener("fullscreenchange", onFullscreenChange);
   }, []);
+
+  function openMarker(endMs: number) {
+    const pause = playback.microPauses.find((row) => Math.abs(row.endMs - endMs) < 80) ?? null;
+    setOpenedMarker(pause);
+  }
+
+  function togglePlayback() {
+    if (warmup.orienting) {
+      return;
+    }
+    const pausing = playback.playing;
+    playback.toggle();
+    if (!pausing) {
+      return;
+    }
+    const marker = juniorMarkerAt(playback.microPauses, playback.elapsedMs);
+    if (marker) {
+      setOpenedMarker(marker);
+    }
+  }
 
   function toggleFullscreen() {
     const node = stageRef.current;
@@ -833,25 +841,24 @@ export function VectorPlayer({
           className="flex w-full shrink-0 flex-col gap-3 border-t border-[var(--border)] px-2 py-2"
           data-junior-caption-rail=""
         >
-          {pauseBanner ? (
+          {openedMarker?.kind === "notebook" ? (
             <JuniorPauseBanner
-              kind={pauseBanner}
+              kind="notebook"
               buttonRef={thinkButtonRef}
-              onResume={playback.resumeThinkHold}
+              actionLabel="Kapat"
+              onResume={() => setOpenedMarker(null)}
             />
           ) : null}
-          {starOpen && microQuestion ? (
-            <JuniorStarQuestion question={microQuestion} onClose={() => setStarOpen(false)} />
-          ) : playback.starGlowEndMs != null ? (
-            <JuniorStarAlert onOpen={() => setStarOpen(true)} />
+          {openedMarker?.kind === "turn" && microQuestion ? (
+            <JuniorStarQuestion question={microQuestion} onClose={() => setOpenedMarker(null)} />
           ) : null}
-          {!warmup.orienting && hintKind ? (
+          {!warmup.orienting && openedMarker?.kind === "attention" && markerHintKind ? (
             <JuniorHintBox
-              kind={hintKind}
-              body={juniorHintBody(hintSource)}
-              holding={holdingAttention}
-              buttonRef={holdingAttention ? thinkButtonRef : undefined}
-              onAcknowledge={holdingAttention ? playback.resumeThinkHold : undefined}
+              kind={markerHintKind}
+              body={juniorHintBody(markerBody)}
+              holding={false}
+              buttonRef={thinkButtonRef}
+              onAcknowledge={() => setOpenedMarker(null)}
             />
           ) : null}
           {greeting ? (
@@ -888,7 +895,7 @@ export function VectorPlayer({
             orientation={warmup.orienting}
             captionsVisible={captionsVisible}
             onToggleCaptions={() => setCaptionsVisible((open) => !open)}
-            onToggle={warmup.orienting ? () => undefined : playback.toggle}
+            onToggle={togglePlayback}
             bgmMuted={playback.bgmMuted}
             onToggleBgm={playback.toggleBgm}
             fullscreen={fullscreen}
@@ -900,7 +907,7 @@ export function VectorPlayer({
             onScrubEnd={warmup.orienting ? () => undefined : playback.endScrub}
             pauses={playback.microPauses}
             starGlowEndMs={playback.starGlowEndMs}
-            onOpenStar={() => setStarOpen(true)}
+            onOpenStar={openMarker}
           />
         </div>
       </div>

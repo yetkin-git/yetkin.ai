@@ -187,7 +187,7 @@ export type JuniorStepAnchor = {
   text: string;
 };
 
-/** Defter / cümle durağı. Kendiliğinden akış yok. */
+/** Defter / cümle işareti. Kaset bu damgada kendiliğinden durmaz. */
 export const JUNIOR_THINK_HOLD_HINT =
   "Notunu al / Cümleni kur. Hazır olduğunda 'Devam Et' düğmesine bas";
 
@@ -203,10 +203,10 @@ export const JUNIOR_TURN_CARD_KICKER = "Küçük Soru";
 export const JUNIOR_STAR_PULSE_MS = 4_000;
 
 /**
- * Oynatma kafası bir yıldız durağını yeni geçtiyse o duraklar döner.
- * Geri sarma ve defter / dikkat durakları bu listeye girmez.
+ * Oynatma kafası bir zaman çubuğu işaretini yeni geçtiyse o işaretler döner.
+ * Geri sarma bu listeye girmez. İşaret kaseti durdurmaz.
  */
-export function juniorStarCrossings<T extends { endMs: number; kind: JuniorPauseKind }>(
+export function juniorMarkerCrossings<T extends { endMs: number }>(
   pauses: readonly T[],
   previousMs: number,
   ms: number,
@@ -217,11 +217,39 @@ export function juniorStarCrossings<T extends { endMs: number; kind: JuniorPause
   }
   return pauses.filter(
     (pause) =>
-      pause.kind === "turn" &&
       pause.endMs < durationMs - 80 &&
       previousMs < pause.endMs &&
       ms + 30 >= pause.endMs,
   );
+}
+
+/**
+ * Oynatma kafası bir yıldız durağını yeni geçtiyse o duraklar döner.
+ * Geri sarma ve defter / dikkat durakları bu listeye girmez.
+ */
+export function juniorStarCrossings<T extends { endMs: number; kind: JuniorPauseKind }>(
+  pauses: readonly T[],
+  previousMs: number,
+  ms: number,
+  durationMs: number,
+): T[] {
+  return juniorMarkerCrossings(pauses, previousMs, ms, durationMs).filter(
+    (pause) => pause.kind === "turn",
+  );
+}
+
+/** Oynatma kafasının gerisinde kalan son işaret. Henüz geçilmemiş işaret dönmez. */
+export function juniorMarkerAt<T extends { endMs: number }>(
+  pauses: readonly T[],
+  ms: number,
+): T | null {
+  let found: T | null = null;
+  for (const pause of pauses) {
+    if (pause.endMs <= ms + 80 && (!found || pause.endMs > found.endMs)) {
+      found = pause;
+    }
+  }
+  return found;
 }
 
 /** Parıldama, durağı geçtikten sonra kısa bir pencerede kalır. */
@@ -229,7 +257,7 @@ export function juniorStarShouldGlow(endMs: number, ms: number): boolean {
   return ms >= endMs && ms - endMs <= JUNIOR_STAR_PULSE_MS;
 }
 
-/** Dikkat kartının düğmesi. Kaset, bu düğmeye kadar akmaz. */
+/** Dikkat kartının düğmesi. Kart açıkken kaset akmaya devam eder. */
 export const JUNIOR_ATTENTION_BUTTON = "Anladım! ➔";
 
 /**
@@ -424,7 +452,7 @@ export type JuniorCuePause = {
 };
 
 export type JuniorCuePauseOptions = {
-  /** Dikkat kartını açan cümle. Kaset bu cümlenin başında durur. */
+  /** Dikkat kartının cümlesi. Damga zaman çubuğunda durur; kaset kendiliğinden durmaz. */
   attention?: (text: string) => boolean;
   /** Dikkat gövdesi bu cümlede biter. */
   attentionStop?: (text: string) => boolean;
@@ -435,9 +463,9 @@ function cleanPiece(text: string): string {
 }
 
 /**
- * Her yönlendirme cümlesinin bitişi.
- * Dikkat kartı cümlenin başında açılır ve düğmeye kadar kalır.
- * Sonraki cümle, düğmeye kadar akmaz. Dersin son milisaniyesi kart açmaz.
+ * Her yönlendirme cümlesinin zaman damgası.
+ * İşaret zaman çubuğunda durur. Kaset bu damgada kendiliğinden durmaz.
+ * Dersin son milisaniyesi kart açmaz.
  */
 export function juniorCuePauses(
   timeline: JuniorPlayerTimeline,
@@ -506,7 +534,7 @@ export function juniorCuePauses(
 
 /**
  * İlk yönlendirme cümlesinin bitişi.
- * Cümle okunur, sonraki cümle düğmeye kadar akmaz.
+ * İşaret görseldir; sonraki cümle kendiliğinden kesilmez.
  */
 export function juniorThinkHoldEndMs(timeline: JuniorPlayerTimeline): number | null {
   const first = juniorCuePauses(timeline)[0];

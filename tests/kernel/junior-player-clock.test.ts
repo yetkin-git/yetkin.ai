@@ -662,10 +662,10 @@ describe("Junior oynatıcı yüzü", () => {
     expect(mathArt).toContain("stickyFractionParams");
     expect(mathArt).toContain("Sticky Scene");
     expect(player).toContain("captionTrail");
-    expect(player).toContain("playback.pauseKind === \"notebook\"");
+    expect(player).toContain("openedMarker?.kind === \"notebook\"");
     expect(player).toContain("JuniorPauseBanner");
     expect(player).toContain("JuniorStarQuestion");
-    expect(player).toContain("JuniorStarAlert");
+    expect(player).not.toContain("JuniorStarAlert");
     expect(player).toContain("starGlowEndMs");
     expect(player).toContain("pauses={playback.microPauses}");
     expect(player).not.toContain("bg-black/35");
@@ -693,6 +693,8 @@ describe("Junior oynatıcı yüzü", () => {
     expect(playbackHook).toContain("pause.kind === \"turn\"");
     expect(playbackHook).toContain("noticeStar");
     expect(playbackHook).toContain("Yıldız ikazı kaseti durdurmaz");
+    expect(playbackHook).not.toContain("enterThinkHold");
+    expect(playbackHook).not.toContain("upcomingPause");
     expect(player).not.toContain("Tuzaklara Düşme!");
     expect(player).not.toContain("Tuzak veya");
     const hintBox = readFileSync(join(root, "components/junior/hint-box.tsx"), "utf8");

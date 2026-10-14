@@ -11,15 +11,17 @@ import {
 
 /**
  * Sert durak alt şeridi.
- * Defter ve not durağında kaset bekler. Yıldız sorusu bu şeritte durmaz.
+ * Defter notu. Kaset bu kart yüzünden durmaz; kartı kullanıcı açar.
  */
 export function JuniorPauseBanner({
   kind,
   buttonRef,
+  actionLabel = JUNIOR_HARD_PAUSE_BUTTON,
   onResume,
 }: {
   kind: Exclude<JuniorPauseKind, "attention" | "turn">;
   buttonRef?: Ref<HTMLButtonElement>;
+  actionLabel?: string;
   onResume: () => void;
 }) {
   return (
@@ -43,7 +45,7 @@ export function JuniorPauseBanner({
         className="shrink-0 cursor-pointer rounded-full bg-[var(--safir)] px-3 py-1.5 text-xs font-semibold text-white"
         onClick={onResume}
       >
-        {JUNIOR_HARD_PAUSE_BUTTON}
+        {actionLabel}
       </button>
     </div>
   );

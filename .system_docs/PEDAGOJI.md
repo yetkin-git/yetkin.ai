@@ -287,7 +287,7 @@ Anlatım üç aşamada yürür: Giriş (Oryantasyon), Gelişme (Tam Anlatım), S
 
 ### Gelişimsel İpucu Kutusu
 
-**Gelişimsel İpucu Kutusu İlkesi:** Sınav ve test uyarıları asla baskıcı, korkutucu veya stres yaratıcı dille («sınavda vururlar», «şok olursun» vb.) yazılamaz. Tüm kritik uyarılar «💡 Dikkat Noktası» veya «⭐ Altın İpucu» başlıklarıyla sunulur. İpucu ekrandayken kaset durur; çocuk «Anladım!» deyene kadar kart kalkmaz. Çocuk uyarılırken cesaretlendirilir ve merakı tetiklenir.
+**Gelişimsel İpucu Kutusu İlkesi:** Sınav ve test uyarıları asla baskıcı, korkutucu veya stres yaratıcı dille («sınavda vururlar», «şok olursun» vb.) yazılamaz. Tüm kritik uyarılar «💡 Dikkat Noktası» veya «⭐ Altın İpucu» başlıklarıyla sunulur. Yıldız ve ipucu zaman çubuğunda işaret olarak kalır; kaset bu işaretlerde kendiliğinden durmaz. Kart, çocuk işarete dokununca veya anlatımı kendisi durdurunca açılır. Kart «Anladım!» ile kapanır. Çocuk uyarılırken cesaretlendirilir ve merakı tetiklenir.
 
 «Sakın unutma» ve «barajın altında kaldın» ders gövdesine ve konu testi cümlesine girmez. Eksik nokta bir sonraki küçük adım olarak söylenir. Başlık ya dikkat noktasıdır ya altın ipucudur. İkisi birden aynı uyarıya yazılmaz. Çerçeve `JUNIOR_HINT_BOX` ve `JUNIOR_HINT_BOX_PRINCIPLE` (`lib/junior/content-rules.ts`). Anlatım köprüsü `juniorHintCue` dir.
 

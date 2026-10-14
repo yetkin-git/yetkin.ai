@@ -121,10 +121,10 @@ function stepIndexAt(steps: readonly MicroLessonStep[], ms: number): number {
 }
 
 /**
- * Defter durakları cümlenin bittiği yerde açılır.
- * Dikkat kartı cümlenin başında açılır ve «Anladım!» düğmesine kadar kalır.
- * Ara mikro-adımın sonunda defter durağı yoksa yıldız ikazı konur.
- * Yıldız kaseti durdurmaz; çocuk dokunursa küçük soru paneli açılır.
+ * Defter, dikkat ve yıldız damgaları zaman çubuğunda işaret olarak durur.
+ * Kaset bu damgalarda kendiliğinden durmaz.
+ * Ara mikro-adımın sonunda defter durağı yoksa yıldız işareti konur.
+ * Çocuk işarete dokunursa veya anlatımı kendisi durdurursa kart açılır.
  * Dersin son milisaniyesi karar ekranına bırakılır.
  */
 export function microLessonPlan(lessonKey: string, timeline: JuniorPlayerTimeline): MicroLessonPlan {
