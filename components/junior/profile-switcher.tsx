@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { IconClose } from "@/components/ui/icons";
 import {
   JUNIOR_GUARDIAN_NOTICE_HREF,
   JUNIOR_GUARDIAN_NOTICE_TITLE,
@@ -261,8 +262,16 @@ export function ProfileSwitcher({
         <div
           role="dialog"
           aria-label="Öğrenci profili"
-          className="absolute right-0 left-auto top-[calc(100%+0.5rem)] z-30 grid w-full min-w-0 max-w-[42rem] gap-4 overflow-visible rounded-2xl border border-[var(--border)] bg-white p-5 shadow-[var(--shadow-card)] sm:p-6"
+          className="absolute right-0 left-auto top-[calc(100%+0.5rem)] z-30 grid w-full min-w-0 max-w-[42rem] gap-4 overflow-visible rounded-2xl border border-[var(--border)] bg-white pb-5 pl-5 pr-16 pt-5 shadow-[var(--shadow-card)] sm:pb-6 sm:pl-6 sm:pr-16 sm:pt-6"
         >
+          <button
+            type="button"
+            aria-label="Kapat"
+            onClick={() => setOpen(false)}
+            className="absolute top-4 right-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-strong)] bg-white text-[var(--foreground)] shadow-sm hover:bg-[var(--safir-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--safir)]"
+          >
+            <IconClose className="h-4 w-4" />
+          </button>
           <p className="flex min-w-0 text-sm leading-6">
             <span className="min-w-0 flex-1 whitespace-normal break-words">
               Oyun Puanı: <strong>{xp.points}</strong>
