@@ -782,7 +782,7 @@ export function VectorPlayer({
 
         {/* Üst: dinamik karatahta — altyazı kapalıyken tüm dikey bütçe SoftStage’te. */}
         <div
-          className={`relative w-full bg-[linear-gradient(180deg,#fff_0%,#f8fafc_100%)] ${boardClass}`}
+          className={`relative w-full bg-white ${boardClass}`}
           data-junior-warmup-gate={warmup.gate}
           data-junior-cinema-board=""
           data-junior-clean-stage={captionsVisible ? undefined : "true"}

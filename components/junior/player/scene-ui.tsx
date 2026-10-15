@@ -196,16 +196,10 @@ export function SoftStage({
       data-junior-stage-h={JUNIOR_STAGE_HEIGHT_PX}
       data-junior-stage-fit="viewport"
       data-junior-stage-focus="blackboard"
+      data-junior-stage-gradient={gradientId}
       preserveAspectRatio="xMidYMid meet"
     >
-      <defs>
-        <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#f8fafc" />
-          <stop offset="100%" stopColor="#f0f9ff" />
-        </linearGradient>
-      </defs>
       <g transform={`translate(${ox},${oy}) scale(${JUNIOR_STAGE_ART_SCALE})`}>
-        <rect x="0" y="0" width={JUNIOR_STAGE_ART_W} height={JUNIOR_STAGE_ART_H} rx="18" fill={`url(#${gradientId})`} />
         <g
           data-junior-scene-contract="zemin-ana-yardimci"
           data-junior-scene-ground={props.ground}

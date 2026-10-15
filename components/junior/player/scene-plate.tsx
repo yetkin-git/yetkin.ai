@@ -41,24 +41,26 @@ export function JuniorScenePlate({
     setMode(initialMode(videoSrc, imageSrc));
   }, [videoSrc, imageSrc]);
 
+  const showVector = mode === "vector";
+
   return (
     <div
-      className="pointer-events-none absolute inset-0 h-full min-h-[300px] w-full"
+      className="pointer-events-none absolute inset-0 h-full min-h-[300px] w-full bg-transparent"
       data-junior-scene-media={mode}
       data-junior-scene-video={videoSrc ?? undefined}
       data-junior-scene-image={imageSrc ?? undefined}
     >
-      {children}
+      {showVector ? children : null}
       {mode === "video" && videoSrc ? (
         <video
           key={videoSrc}
           src={videoSrc}
-          className="absolute inset-0 h-full min-h-[300px] w-full object-cover"
+          className="absolute inset-0 z-[1] h-full min-h-[300px] w-full bg-transparent object-cover"
           muted
           playsInline
           autoPlay
           loop
-          preload="metadata"
+          preload="auto"
           aria-hidden
           data-junior-scene-video-src={videoSrc}
           onError={() => setMode(imageSrc ? "image" : "vector")}
@@ -69,7 +71,7 @@ export function JuniorScenePlate({
           key={imageSrc}
           src={imageSrc}
           alt=""
-          className="absolute inset-0 h-full min-h-[300px] w-full object-cover"
+          className="absolute inset-0 z-[1] h-full min-h-[300px] w-full bg-transparent object-cover"
           data-junior-scene-image-src={imageSrc}
           onError={() => setMode("vector")}
         />
