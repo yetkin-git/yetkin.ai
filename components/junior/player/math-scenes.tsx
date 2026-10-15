@@ -12,6 +12,12 @@ import {
   stickyFractionParams,
   useJuniorSceneProps,
 } from "@/components/junior/player/scene-ui";
+import {
+  numberOpsFactorSubject,
+  positiveFactors,
+  spokenFactorProduct,
+  stickyNumberOpsMode,
+} from "@/lib/junior/scene-sync";
 import type { JuniorVectorScene } from "@/lib/junior/types";
 
 /** Canlı cümle + önceki cümle izi — yapışkan sahne parametresi için. */
@@ -390,15 +396,53 @@ export function DistributeScene({ beat }: { beat: number }) {
   );
 }
 
-export function NumberOpsScene({ beat, caption }: { beat: number; caption: string }) {
-  const text = caption.toLocaleLowerCase("tr-TR");
-  const mode = /asal/.test(text)
-    ? "prime"
-    : /ortak bölen|ortak kat|ebob|ekok/.test(text)
-      ? "gcd"
-      : /çarpan|kat|bölün/.test(text)
-        ? "factor"
-        : "problem";
+function FactorChips({ beat, factors, subject }: { beat: number; factors: readonly number[]; subject: number }) {
+  const twoRows = factors.length > 6;
+  const columns = twoRows ? Math.ceil(factors.length / 2) : factors.length;
+  const pitch = twoRows ? 70 : 52;
+  const radius = twoRows ? 16 : 20;
+  const origin = 180 - ((columns - 1) * pitch) / 2;
+  return (
+    <>
+      {factors.map((n, index) => {
+        const column = twoRows ? index % columns : index;
+        const row = twoRows ? Math.floor(index / columns) : 0;
+        const cx = origin + column * pitch;
+        const cy = twoRows ? 74 + row * 46 : 96;
+        return (
+          <g key={`${n}-${index}`}>
+            <circle
+              cx={cx}
+              cy={cy}
+              r={radius}
+              fill={n === subject || beat >= index ? Ink.amber : Ink.white}
+              stroke={Ink.stroke}
+              strokeWidth="1.5"
+            />
+            <text
+              x={cx}
+              y={cy + 5}
+              textAnchor="middle"
+              fill={Ink.text}
+              fontSize={twoRows ? "13" : "14"}
+              fontFamily="inherit"
+              fontWeight="700"
+            >
+              {n}
+            </text>
+          </g>
+        );
+      })}
+    </>
+  );
+}
+
+export function NumberOpsScene({ beat, caption = "", captionTrail }: SceneCaptionProps) {
+  const trail = captionTrailOrLive(caption, captionTrail);
+  const mode = stickyNumberOpsMode(trail);
+  const subject = numberOpsFactorSubject(trail);
+  const factors = positiveFactors(subject);
+  const product = spokenFactorProduct(caption);
   const title =
     mode === "prime" ? "Asal sayılar" : mode === "gcd" ? "Ortak bölen ve kat" : mode === "factor" ? "Çarpan ve kat" : "Doğal sayı problemi";
   return (
@@ -430,23 +474,11 @@ export function NumberOpsScene({ beat, caption }: { beat: number; caption: strin
       ) : null}
       {mode === "factor" ? (
         <>
-          {[1, 2, 3, 4, 6, 12].map((n, index) => (
-            <g key={n}>
-              <circle
-                cx={48 + index * 52}
-                cy="96"
-                r="20"
-                fill={n === 12 || beat >= index ? Ink.amber : Ink.white}
-                stroke={Ink.stroke}
-                strokeWidth="1.5"
-              />
-              <text x={48 + index * 52} y={102} textAnchor="middle" fill={Ink.text} fontSize="14" fontFamily="inherit" fontWeight="700">
-                {n}
-              </text>
-            </g>
-          ))}
-          <Foot y={160} fill={Ink.accent}>
-            12&apos;nin çarpanları kalansız böler.
+          <FactorChips beat={beat} factors={factors} subject={subject} />
+          <Foot y={156} fill={Ink.accent}>
+            {product
+              ? `${product.left} × ${product.right} = ${product.product}`
+              : `${subject} sayısının çarpanları kalansız böler.`}
           </Foot>
         </>
       ) : null}
@@ -938,7 +970,9 @@ export function MathSceneArt({
   if (scene === "exponent") return <ExponentScene beat={beat} caption={caption} captionTrail={captionTrail} />;
   if (scene === "ops-order") return <OpsOrderScene beat={beat} />;
   if (scene === "distribute") return <DistributeScene beat={beat} />;
-  if (scene === "number-ops") return <NumberOpsScene beat={beat} caption={caption} />;
+  if (scene === "number-ops") {
+    return <NumberOpsScene beat={beat} caption={caption} captionTrail={captionTrail} />;
+  }
   if (scene === "sets") return <SetsScene beat={beat} />;
   if (scene === "number-line") return <NumberLineScene beat={beat} />;
   if (scene === "fraction") return <FractionPieScene beat={beat} caption={caption} captionTrail={captionTrail} />;

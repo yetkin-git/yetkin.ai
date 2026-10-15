@@ -71,7 +71,8 @@ export function numberOpsFactorSubject(trail: readonly string[]): number {
     const text = caption.toLocaleLowerCase("tr-TR");
     const named = text.match(/(\d+)\s*['’]?(?:ün|un|ın|in|nın|nin|nün|nun)\s*çarpan/u);
     const ele = text.match(/(\d+)\s+sayısını/u);
-    const raw = named?.[1] ?? ele?.[1];
+    const crowd = text.match(/(\d+)\s+kişi/u);
+    const raw = named?.[1] ?? ele?.[1] ?? crowd?.[1];
     if (!raw) {
       continue;
     }
@@ -81,6 +82,24 @@ export function numberOpsFactorSubject(trail: readonly string[]): number {
     }
   }
   return subject >= 2 ? subject : 12;
+}
+
+/** «2 çarpı 12, 24 eder» — konuşulan çarpım. Eşleşme yoksa null. */
+export function spokenFactorProduct(
+  caption: string,
+): { left: number; right: number; product: number } | null {
+  const text = caption.toLocaleLowerCase("tr-TR");
+  const hit = text.match(/(\d+)\s*çarpı\s*(\d+)\s*,\s*(\d+)/u);
+  if (!hit) {
+    return null;
+  }
+  const left = Number(hit[1]);
+  const right = Number(hit[2]);
+  const product = Number(hit[3]);
+  if (![left, right, product].every((value) => value >= 1 && value <= 200)) {
+    return null;
+  }
+  return { left, right, product };
 }
 
 export function positiveFactors(value: number): number[] {
