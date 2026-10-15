@@ -314,15 +314,10 @@ export function ListenAndTell({
   return (
     <section
       aria-label={title}
-      className={`junior-quest flex w-full min-h-[300px] flex-col gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-2 shadow-[var(--shadow-card)] ${
-        cassetteComplete || showBand || tellArmed ? "overflow-y-auto" : "overflow-visible"
-      }`}
+      className="junior-quest flex h-full min-h-0 w-full flex-1 flex-col gap-1 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-1.5 shadow-[var(--shadow-card)]"
     >
-      {/* Sahne kendi 16:9 yüksekliğini taşır. Esnek taban sıfır, normal modda bandı eziyordu. */}
-      <div
-        className="flex w-full min-h-[300px] shrink-0 flex-col"
-        data-junior-stage-full={tellArmed ? "true" : undefined}
-      >
+      {/* Sahne kalan viewport yüksekliğini alır; kontrol çubuğu kartın altında kalır. */}
+      <div className="flex min-h-0 w-full flex-1 flex-col" data-junior-stage-full={tellArmed ? "true" : undefined}>
         <VectorPlayer
           fill
           scene={scene}
@@ -358,7 +353,7 @@ export function ListenAndTell({
         data-junior-tell-band=""
         data-junior-tell-armed={tellArmed ? "true" : undefined}
         data-junior-should-start={shouldStartImmediately ? "true" : undefined}
-        className={`flex shrink-0 flex-col gap-2 border-t border-[var(--border)] pt-2 outline-none transition-[box-shadow] duration-300 ${
+        className={`flex shrink-0 flex-col gap-1 border-t border-[var(--border)] pt-1 outline-none transition-[box-shadow] duration-300 ${
           tellArmed
             ? "rounded-xl ring-2 ring-[color-mix(in_srgb,var(--rose)_55%,transparent)] ring-offset-2 ring-offset-[var(--surface)]"
             : ""

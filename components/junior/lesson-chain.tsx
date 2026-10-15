@@ -68,8 +68,8 @@ export function LessonChain({
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex w-full min-h-[16rem] flex-col sm:min-h-[20rem]">
+    <div className="grid min-h-0 flex-1 grid-cols-1 grid-rows-[minmax(0,1fr)_9rem] gap-2 overflow-hidden lg:grid-cols-[minmax(0,1fr)_minmax(16rem,22rem)] lg:grid-rows-1">
+      <div className="flex min-h-0 flex-col overflow-hidden">
         <ListenAndTell
           profileId={profileId}
           lessonKey={lessonKey}
@@ -98,22 +98,24 @@ export function LessonChain({
           onOpenQuiz={openTests}
         />
       </div>
-      <ActivityHub
-        module={module}
-        onModule={setModule}
-        profileId={profileId}
-        lessonKey={lessonKey}
-        title={title}
-        scene={scene}
-        outcomes={outcomes}
-        lifeUse={lifeUse}
-        booklet={booklet}
-        activities={activities}
-        quiz={quiz}
-        quizSlot={quizSlot}
-        tellPassed={passed}
-        onQuizCompleted={() => setDone(true)}
-      />
+      <div className="min-h-0 overflow-y-auto overscroll-contain">
+        <ActivityHub
+          module={module}
+          onModule={setModule}
+          profileId={profileId}
+          lessonKey={lessonKey}
+          title={title}
+          scene={scene}
+          outcomes={outcomes}
+          lifeUse={lifeUse}
+          booklet={booklet}
+          activities={activities}
+          quiz={quiz}
+          quizSlot={quizSlot}
+          tellPassed={passed}
+          onQuizCompleted={() => setDone(true)}
+        />
+      </div>
     </div>
   );
 }

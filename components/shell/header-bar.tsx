@@ -22,14 +22,19 @@ export function HeaderBar({
   const lessonKey = juniorLessonKeyFromPath(pathname);
 
   return (
-    <header className="sticky top-0 z-20 mt-0 border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--surface)_78%,transparent)] pt-0 backdrop-blur-xl">
+    <header
+      className={cn(
+        "sticky top-0 z-20 mt-0 border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--surface)_78%,transparent)] pt-0 backdrop-blur-xl",
+        lessonKey && "h-12",
+      )}
+    >
       <div
         className={cn(
           "flex items-center",
           playPath
             ? "h-12 w-full justify-between gap-2 px-3 pt-0 sm:px-4 lg:justify-end"
             : lessonKey
-              ? "min-h-16 flex-wrap justify-between gap-2 px-4 py-2 sm:px-6"
+              ? "h-full flex-nowrap justify-between gap-2 px-3 sm:px-4"
               : "h-16 justify-between gap-4 px-4 sm:px-6",
         )}
         data-academy-play-chrome={playPath ? "true" : undefined}

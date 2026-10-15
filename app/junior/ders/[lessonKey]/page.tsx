@@ -78,13 +78,14 @@ export default async function JuniorLessonPage({
   });
 
   return (
-    <RoomFrame className="space-y-3 pb-12">
+    <RoomFrame cinema className="flex h-full min-h-0 w-full flex-1 flex-col gap-1.5 space-y-0 overflow-hidden pb-0">
       {structured ? <JsonLd data={structured} /> : null}
       <BreadcrumbPageLabel href="/junior" label={courseLabel} />
       <BreadcrumbPageLabel href={`/junior/ders/${lessonKey}`} label={lesson.title} />
       <PageHeader
         tight
         className="shrink-0"
+        titleClassName="text-lg leading-tight sm:text-xl"
         title={lesson.title}
         description={
           auditOpen

@@ -63,8 +63,7 @@ export function PageHeader({
             <h1
               className={cn(
                 "font-semibold tracking-tight text-[var(--foreground)]",
-                tight ? "text-2xl" : "text-3xl",
-                titleClassName,
+                titleClassName ?? (tight ? "text-2xl" : "text-3xl"),
               )}
             >
               {title}

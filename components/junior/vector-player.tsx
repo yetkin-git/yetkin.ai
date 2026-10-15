@@ -724,27 +724,26 @@ export function VectorPlayer({
   }, []);
 
   /**
-   * Normal mod: 16:9 kadraj. Video ve SVG mutlak konumlu olduğu için
-   * ebeveyne yükseklik vermez; `aspect-video` + `min-h-[300px]` kutuyu
-   * ayakta tutar. `40dvh` bandı geniş kartta sahneyi ezip görüntüyü
-   * kaybediyordu. Tam ekranda board flex-1 ile ekranı doldurur.
+   * Normal mod: tuval kalan viewport yüksekliğini doldurur (`flex-1`).
+   * Video ve SVG mutlak konumludur; yükseklik ebeveynden gelir.
+   * Tam ekranda board aynı esnek sütunu ekrana yayar.
    */
   const boardClass = fullscreen
     ? "min-h-0 flex-1 overflow-hidden"
-    : "aspect-video w-full min-h-[300px] shrink-0";
+    : "min-h-0 w-full flex-1 overflow-hidden";
 
   return (
     <div
-      className={`flex w-full flex-col gap-2 ${fill ? "h-auto w-full" : "h-auto"}`}
+      className={`flex min-h-0 w-full flex-1 flex-col gap-1 ${fill ? "h-full" : "h-auto"}`}
       data-junior-focus-player=""
       data-junior-zero-scroll={fill ? "true" : undefined}
       data-junior-captions={captionsVisible ? "on" : "off"}
     >
       <div
         ref={stageRef}
-        className={`flex w-full max-w-none flex-col gap-2 overflow-hidden border border-[var(--border)] bg-white ${
-          fullscreen ? "h-screen w-screen max-h-none rounded-none" : "rounded-xl"
-        } ${fullscreen ? "min-h-0 flex-1" : "h-auto w-full"}`}
+        className={`flex w-full max-w-none flex-col gap-1 overflow-hidden border border-[var(--border)] bg-white ${
+          fullscreen ? "h-screen w-screen max-h-none rounded-none" : "h-full min-h-0 flex-1 rounded-xl"
+        } ${fullscreen ? "min-h-0 flex-1" : ""}`}
         data-junior-cinema-stage=""
         data-junior-fullscreen={fullscreen ? "true" : "false"}
       >
@@ -838,7 +837,7 @@ export function VectorPlayer({
 
         {/* Alt şerit: ipucu (varsa) + isteğe bağlı CC altyazı + kontroller — board altında. */}
         <div
-          className="flex w-full shrink-0 flex-col gap-3 border-t border-[var(--border)] px-2 py-2"
+          className="flex w-full shrink-0 flex-col gap-1 border-t border-[var(--border)] px-2 py-1.5"
           data-junior-caption-rail=""
         >
           {openedMarker?.kind === "notebook" ? (

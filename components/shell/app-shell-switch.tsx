@@ -7,6 +7,7 @@ import { ShellChrome } from "@/components/shell/shell-chrome";
 
 const DOCUMENT_PREFIX = "/academy/dogrula";
 const ACADEMY_PLAYER_PATH = /\/academy\/[^/]+\/oyna\/?$/;
+const JUNIOR_LESSON_PATH = /^\/junior\/ders\/[^/]+\/?$/;
 
 export function AppShellSwitch({
   children,
@@ -28,6 +29,7 @@ export function AppShellSwitch({
     );
   }
   const academyPlayer = ACADEMY_PLAYER_PATH.test(pathname);
+  const juniorLesson = JUNIOR_LESSON_PATH.test(pathname);
   const juniorRoom = pathname === "/junior" || pathname.startsWith("/junior/");
   const juniorVitrine = pathname === "/junior";
   return (
@@ -37,9 +39,11 @@ export function AppShellSwitch({
           className={
             academyPlayer
               ? "relative mt-0 px-3 pt-0 pb-3 sm:px-4 lg:px-5"
-              : juniorVitrine
-                ? "relative px-4 pt-3 pb-6 sm:px-6 lg:px-8"
-                : "relative px-4 py-8 sm:px-6 lg:px-8"
+              : juniorLesson
+                ? "relative flex h-[calc(100dvh-3rem)] max-h-[calc(100dvh-3rem)] min-h-0 flex-col overflow-hidden px-3 pt-1 pb-1 sm:px-4"
+                : juniorVitrine
+                  ? "relative px-4 pt-3 pb-6 sm:px-6 lg:px-8"
+                  : "relative px-4 py-8 sm:px-6 lg:px-8"
           }
         >
           {children}
